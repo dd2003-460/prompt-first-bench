@@ -33,6 +33,10 @@ V0 Q4 × claude 47 分（Direct 通道）：**主因 = 裸 prompt 未声明工�
 - bench/config/fault-evidence-20261023-round4-v2q4.md（arena 封禁证据 + 降级决定）
 - 截图：/Users/a1-6/Desktop/workspace/loop-artifacts/arena-launch/round4-v2-q4/probe-direct.png
 
+## git push 状态
+
+commit `7140107` 已在本地落盘；**push 未成功**（2026-10-23 07:0x，3 次尝试均 `Connection reset by peer` / HTTP2 framing layer，github.com 网络断）——按任务书规则记入报告，待网络恢复后补 push。
+
 ## 限制
 
 n=1/格；qwen 卷评审 = 执行者单评（同模型自评，探索性）；V2 定义按 scoring.md（01+02），未含 02.5 的"≥2 独立 LLM 服务"强条款（按 FINAL-VERIFY.md 该要求属 V3 臂）——本卷 02.5 节为 prompt 内的来源级交叉核对，强度低于 V3 的跨 LLM 核对，读增益时须注意。
