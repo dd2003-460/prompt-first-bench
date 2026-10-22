@@ -26,7 +26,7 @@ function getFfmpegPath() {
   if (process.env.FFMPEG_BIN && fs.existsSync(process.env.FFMPEG_BIN)) return process.env.FFMPEG_BIN;
   // 优先 ffmpeg 7.x (amix 支持 normalize=0); @ffmpeg-installer 自带的是 2018 旧版, 无此选项
   const python = path.join(ROOT, '.venv/bin/python');
-  const pyFfmpeg = fs.existsSync(python) ? execFileSync(python, ['-c', 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())'], {encoding:'utf8'}).trim() : ''; 
+  const pyFfmpeg = fs.existsSync(python) ? execFileSync(python, ['-c', 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())'], {encoding:'utf8'}).trim() : '';
   if (fs.existsSync(pyFfmpeg)) return pyFfmpeg;
   try {
     return require('@ffmpeg-installer/ffmpeg').path;
