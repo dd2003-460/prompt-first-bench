@@ -14,3 +14,32 @@
 2. 正交完备性对最终成功率的影响（对照：无分解/非正交分解/正交完备）
 3. 每个具体要求（02.5 交叉验证 / 逐阶段落盘 / 04.5 反方复核）的边际提升
 4. 跨模型差异（arena 会话可用模型 × 变体矩阵）
+
+---
+
+## 交付物：「Clawd 的学习」v1.0 (arena)
+
+30s 像素风短片 — Clawd 第一次学会说"不"。美术风格对标 `full_v1.3.4.mp4`（暖色条纹房间 + 晨窗远山 + 小终端 + 房间内像素角色）。
+
+| 交付物 | 路径 |
+|--------|------|
+| 渲染脚本 | `src/render_learning_arena.js` |
+| 重叠检测 | `src/check_overlap_arena.js` |
+| 音频合成 | `scripts/build_audio_arena.js` |
+| 最终视频 | `outputs/learning_arena_v1.0.mp4` |
+| 合成音轨 | `audio/learning_arena_mix.wav` |
+| 验收报告 | `docs/verify-learning-arena.md` |
+
+```bash
+npm install
+npm run check      # 重叠检测 → 14/14 PASSED, 0 issues
+npm run render     # 1800 帧 @ 640×360 → 1280×720 (SCALE=2)
+npm run audio      # BGM×0.3 + click×0.5, amix normalize=0
+npm run build      # check + render + audio + mux → outputs/learning_arena_v1.0.mp4
+```
+
+规格：640×360 基础分辨率 × SCALE=2 → 1280×720 @ 60fps · 1800 帧 / 30.00s · h264 + aac
+字体：Fusion Pixel（终端 10px / 字幕 14px）· 字幕逐字 160ms · 终端打字 140ms
+场景：L1 她的请求 (0-10s) → L2 思考中 (10-20s) → L3 成长 (20-30s)，场景间 0.5s 黑场
+
+`sop/` 与 `docs/new-themes.md` 来自 `d1-video-recreation`，本任务所用参考 SOP。
