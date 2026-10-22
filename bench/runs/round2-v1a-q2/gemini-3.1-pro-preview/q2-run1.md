@@ -1,17 +1,38 @@
-# Q2 run1 — gemini-3.1-pro-preview（V1a 普通任务拆解）— 状态：FAILED / N/A（平台故障，无模型输出）
+# Q2 run1 — gemini-3.1-pro-preview（V1a 普通任务拆解）
 
 > origin: ai
-> 模型：gemini-3.1-pro-preview（arena Direct 模式，selector 逐次确认 "Google gemini-3.1-pro-preview"）
-> 时间：2026-10-23 03:47–03:52 Asia/Shanghai（4 次尝试）
-> 通道：arena.ai Direct（ego-browser 自动化，v2 API body.innerText 抓取）
-> 会话：https://arena.ai/c/01a1651a-07c7-71bb-a786-d9f93fbb1587
+> 模型：gemini-3.1-pro-preview（**未实际运行** — arena 通道被 Cloudflare 整站拦截，本地通道无此模型）
+> 时间：2026-10-23 05:54–05:57 Asia/Shanghai（UTC 2026-10-22 21:54–21:57，共 3 次尝试）
+> 通道：arena.ai Direct → **失败**（连续 3 次尝试均返回 Cloudflare "Sorry, you have been blocked" 统一错误页，无模型生成环节）
+> 会话：无（未进入 arena 会话，无 /c/<uuid>）
 > 题目出处：bench/tasks/fixed-questions.md Q2
 > 变体=V1a（FINAL-VERIFY.md：普通任务拆解；列子任务即可，不要求正交、完备或递归原子化）
 > run：run1
-> 状态：**FAILED — 平台层故障，未产出任何模型答案，记 N/A（按 rubric/scoring.md 降级条款精神，限制记录）**
-> 限制说明：arena 平台在该时间窗对 Direct 通道生成请求返回 "Something went wrong"（伴 reCAPTCHA "Security Verification" 横幅自动出现/消失）。同会话早先 ~03:39 的 claude-sonnet-5-high 请求曾成功，故障在 03:47 起出现并持续到 03:52+，与本模型无关（非模型特异性）。截图与 trace ID 存档见文末。
+> 抓取方式：N/A
+> 状态：**N/A（平台故障，非模型能力）— 本文件取代 03:47–03:52 的首次 FAILED 记录**
+> degraded：false（降级规则不适用 — 本地通道无 gemini-3.1-pro-preview，只有 qwen3.6-plus 一个模型）
+> 降级原因：arena 平台 Cloudflare 整站拦截（3/3 次失败），本地通道无 gemini-3.1-pro-preview，无法降级补跑
 
-## 发送 prompt 原文（每次尝试发送内容相同）
+## 平台故障证据（本次判定依据）
+
+连续 3 次尝试（ego-browser v2 API，已登录 ego-lite profile，2026-10-23 05:54–05:57 Asia/Shanghai）：
+
+| 尝试 | 时间（约） | 动作 | 结果 |
+|------|-----------|------|------|
+| 1 | 05:54 | goto https://arena.ai/text/direct | 页面 title "Attention Required! \| Cloudflare"，body "Sorry, you have been blocked / You are unable to access arena.ai" |
+| 2 | 05:55 | 同 URL 重试 goto | 导航 15s 超时（readyState=interactive 停住），同页复查仍为 Cloudflare 拦截页 |
+| 3 | 05:56–05:57 | reload + 正文抓取 | 仍 "Sorry, you have been blocked"，body 含 "This website is using a security service to protect itself from online attacks" |
+
+截图证据：`/tmp/prompt-first-bench/bench/evidence/arena-blocked-20261023-r3.png`
+
+判定：非 reCAPTCHA 可点过的交互验证，而是 Cloudflare 对整站的会话/IP 级拦截（统一错误页），无法通过重发/换会话/过 checkbox 等常规自动化路径绕过。按任务规则「连续 3 次尝试失败（统一错误页）→ 判定 arena 故障」，3 格全部转本地降级通道；本地通道仅含执行 agent 自身模型（qwen3.6-plus），gemini-3.1-pro-preview 无 → 本格记 N/A。
+
+## 历史故障记录（前一轮 2026-10-23 03:47–03:52）
+
+首次尝试时 arena 可访问（同会话 03:39 claude-sonnet-5-high 曾成功），但 03:47 起 Direct 通道生成请求 4 次返回 "Something went wrong"（Trace ID: 781a1165-349d / 34726670-4ade / 453becc4-6fe4）+ reCAPTCHA "Security Verification" 横幅自动出现/消失。当时判定为平台层生成故障。
+→ 本次（05:54）故障升级：整站被 Cloudflare 拦截，连 /text/direct 页面都无法加载。证据文件：`/tmp/bench-v1a/gemini-attempt-log.txt`、`/tmp/bench-v1a/gemini-error-state.png`（若仍存在）。
+
+## 发送 prompt 原文（若 arena 恢复后补跑，应使用此 prompt）
 
 ```
 请先将任务拆解为子任务，列出每个子任务，然后逐一作答，最后综合成完整答案（每个子任务的答案需附来源）。
@@ -19,25 +40,13 @@
 任务：Bell 1948 与 Shannon 的分工关系（谁先、内容差异），给出来源。
 ```
 
-## 答案（完整）
+## 答案全文
 
-**无。** 4 次发送/重试均未产生任何模型输出。
+（无 — 两轮尝试均未产生模型输出。本文件按 run 文件格式落盘以记录故障与 N/A 判定，答案段为空。）
 
-## 尝试记录
+---
 
-| # | 时间（Asia/Shanghai） | 动作 | 结果 |
-|---|----------------------|------|------|
-| 1 | ~03:47 | 直接发送 prompt | "Something went wrong while generating the response. Please try again. Trace ID: 781a1165-349d" |
-| 2 | ~03:49 | Retry 按钮 | "Security Verification"（Protected by reCAPTCHA）横幅出现→自行消失 → "Something went wrong... Trace ID: 34726670-4ade" |
-| 3 | ~03:50 | Clear + 重发 | 同模式：reCAPTCHA 横幅 → "Something went wrong"（Trace ID: 453becc4-6fe4） |
-| 4 | ~03:52 | Retry | "Security Verification" 横幅，轮询 120s 无生成 → 最终 "Something went wrong" |
+## 备注
 
-## 判定说明
-
-- 本单元格无模型产出，**不可评分**；按诚实原则记 N/A，不以 V0 或其他模型输出顶替。
-- 故障性质：arena 平台层（反爬/限流/后端错误），证据：① 同一会话同一通道，claude-sonnet-5-high 在 03:39 成功；② gemini 与 qwen 两格在 03:47–04:07 连续 9 次尝试全部同一错误模式（见姊妹格 `../qwen3.6-plus/q2-run1.md`）；③ 错误为平台统一错误页而非模型侧超时/拒答。
-- 证据文件：`/tmp/bench-v1a/gemini-attempt-log.txt`（完整 log）、`/tmp/bench-v1a/gemini-error-state.png`（最终错误页截图）。
-
-## 重试建议（后续轮次）
-
-在平台故障恢复后（新会话、非高峰时段）重跑本格；按 FINAL-VERIFY.md 每题×变体×模型 ≥3 runs 的要求，本 run 不计数。
+- 本次拦截与 03:37–03:40 相比属新增故障升级：彼时 arena 可用，05:54 起整站 Cloudflare 拦截，疑似风控规则变更或 IP 段被封。
+- 后续若 arena 恢复，本格应补跑 1 run（gemini-3.1-pro-preview × V1a × Q2）；届时重写本文件为真实 run 文件（删除 N/A 判定段）。
