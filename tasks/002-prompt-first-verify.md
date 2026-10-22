@@ -27,7 +27,7 @@
 3. 若公开证据不足以回答（预期不足）→ 04 产出一节「小型实验方案」：
    - 对照：V0 裸 prompt vs V1 走 prompt-first 01–04.5（可加 V1a 只分解不要求正交/完备）
    - 模型：强/中/弱各 ≥1（arena 可用模型；不可控则记限制）
-   - 每格 runs≥3；rubric 沿用 `rubric/scoring.md`（18 分制，≥80 success）
+   - 每格 runs≥3；rubric 沿用 `rubric/scoring.md`（100 分制，D1-D4 加权，≥80 success；本卡旧稿误写"18 分制"，2026-10-22 已修正）
    - 列出具体任务集（可复用任务 001 的 5 题）与判分标准
 4. 04.5 反方复核：结论是否与内部数据（C0 vs C9-plain 方差差 3.4×）一致？评分自利偏差检查
 5. 汇总报告 `bench/verify/FINAL-VERIFY.md`，commit + push
