@@ -43,3 +43,47 @@ npm run build      # check + render + audio + mux → outputs/learning_arena_v1.
 场景：L1 她的请求 (0-10s) → L2 思考中 (10-20s) → L3 成长 (20-30s)，场景间 0.5s 黑场
 
 `sop/` 与 `docs/new-themes.md` 来自 `d1-video-recreation`，本任务所用参考 SOP。
+
+---
+
+## 交付物：「Clawd 的学习 / 升级」v2.0 (arena) — 修正版
+
+> 修正 v1.0 的两个问题：**Clawd 形象**（眼睛 2×2 → 4×4、身体无质感 → 顶部 2px 暗条 + 腹部 22×4、
+> 无表情 → calm / thinking / smile）与**像素感**（文字改回 10px Fusion Pixel 点阵 +
+> alpha 阈值二值化，整帧 2× 最近邻，与 `companion_arena_v1.0.mp4` 同一套基础像素网格）。
+
+| 交付物 | learning | upgrade |
+|--------|----------|---------|
+| 渲染脚本 | `src/render_learning_arena_v2.js` | `src/render_upgrade_arena_v2.js` |
+| 重叠/截断检测 | `src/check_overlap_learning_v2.js` | `src/check_overlap_upgrade_v2.js` |
+| 音频合成 | `scripts/build_audio_learning_v2.js` | `scripts/build_audio_upgrade_v2.js` |
+| 最终视频 | `outputs/learning_arena_v2.0.mp4` | `outputs/upgrade_arena_v2.0.mp4` |
+| 合成音轨 | `audio/learning_arena_v2_mix.wav` | `audio/upgrade_arena_v2_mix.wav` |
+| 验收报告 | `docs/learning-v2/` | `docs/upgrade-v2/` |
+
+共用：`src/pixel_arena_v2.js`（房间/终端/角色/气泡/便签/进度条/文字/时间轴）、
+`src/check_overlap_v2_common.js`（校验核心）、`scripts/build_audio_v2_common.js`（混音/封装）。
+
+```bash
+npm run check:v2              # 两个视频的布局+截断+像素标准检测 → 各 8/8 PASSED
+npm run build:learning:v2     # check + render 1800 帧 + 音轨 + 封装 + A/V 同步 + 成片复核
+npm run build:upgrade:v2      # 同上（upgrade）
+npm run verify:v2             # 只跑同步与成片复核（需先有 outputs/*.mp4）
+```
+
+规格：640×360 × SCALE=2 → 1280×720 @ 60fps · 1800 帧 / 30.000s · h264 High/yuv420p + aac 44.1kHz
+像素：最小视觉单元 = 基础画布整像素（输出恒为 2 的倍数：星星 4×4、窗棂 12px、Clawd 眼睛 8×8）
+字体：终端 Fusion Pixel 10px（ASCII 5px / CJK 10px 点阵）· 字幕/便签 Fusion Pixel 12px · 全部二值化
+角色：Clawd 40×17 body + 4×4 眼睛（1×1 高光）+ 2px 顶部暗条 + 22×4 腹部；Her 16×28 槽位
+音频：BGM×0.3 + click×0.5，点击时刻由渲染脚本唯一时间线产生并量化到显示帧，字幕不发声
+
+验收（实测，见 `docs/*-v2/*.json`）：
+
+| 项 | learning | upgrade |
+|----|----------|---------|
+| check_overlap | 8/8 PASSED，0 issue（112,380 次判定） | 8/8 PASSED，0 issue（124,662 次判定） |
+| 键盘音同步 | 71/71 检出，最大偏差 6.67ms（0.40 帧） | 192/192 检出，最大偏差 6.67ms（0.40 帧） |
+| 像素一致性 | 房间/终端 2×2 同色率 100% / 99.99%，眼睛 8×8，窗棂 12px | 100% / 100%，同上 |
+| 音频峰值 | −12.93 dBFS，clipped 0 | −10.65 dBFS，clipped 0 |
+
+
