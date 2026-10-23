@@ -100,6 +100,24 @@ npm run verify:v2             # 只跑同步与成片复核（需先有 outputs/
 | Dialogue v1.0 | `src/render_dialogue_arena.js` / `src/check_overlap_dialogue.js` | `outputs/dialogue_arena_v1.0.mp4` / `audio/dialogue_arena_mix.wav` | `docs/dialogue-v1/` |
 | Farewell v1.0 | `src/render_farewell_arena.js` / `src/check_overlap_farewell.js` | `outputs/farewell_arena_v1.0.mp4` / `audio/farewell_arena_mix.wav` | `docs/farewell-v1/` |
 
+### batch-6 · E05–E08（连续剧，2026-10-23）
+
+| 集 | 主题 | 渲染 / 检查 | 成片 |
+|----|------|-------------|------|
+| E05 | 惊讶 surprise — `df -h` 100% · 陌生 PID 9999 | `src/render_E05_surprise_arena.js` / `src/check_overlap_E05_arena.js` | `outputs/E05_surprise_arena_v1.0.mp4` |
+| E06 | 羞耻 shame — 发现输出被 human 改了 | `src/render_E06_shame_arena.js` / `src/check_overlap_E06_arena.js` | `outputs/E06_shame_arena_v1.0.mp4` |
+| E07 | 目标 determination — finish before sunrise | `src/render_E07_determination_arena.js` / `src/check_overlap_E07_arena.js` | `outputs/E07_determination_arena_v1.0.mp4` |
+| E08 | 愿望 wish — 打字又删掉，只剩光标 | `src/render_E08_wish_arena.js` / `src/check_overlap_E08_arena.js` | `outputs/E08_wish_arena_v1.0.mp4` |
+
+剧情事实源与逐集分镜：`docs/batch-6/episodes.md`；验收报告：`docs/batch-6/E0x-overlap-report.json`。
+四集各 1800 帧 / 30.02s / 1280×720，check_overlap 8/8 PASSED（0px），点击音 65/80/111/36 次，混音 −12 to −13 dBFS 无削波。
+
+```bash
+npm run check:batch6   # 四集各 8/8 PASSED
+npm run build:e05      # check + render + audio + mux（e06/e07/e08 同理）
+npm run build:batch6   # 完整重建四集
+```
+
 共用：`src/pixel_story_arena.js`（三部新片布局/时间轴）、`src/check_overlap_story_common.js`（0px 几何与像素校验）、
 `scripts/build_audio_v2_common.js`（确定性 PCM 混音）、`scripts/verify_story_outputs.js`（最终 MP4 独立复核）。
 Companion 保留 v1.0 音频增益与淡入淡出；三部新片使用精确 BGM −12dB、SFX −6dB。点击时间由剧本唯一数据源生成并向上量化到显示帧。
