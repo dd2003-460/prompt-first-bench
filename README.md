@@ -87,3 +87,44 @@ npm run verify:v2             # 只跑同步与成片复核（需先有 outputs/
 | 音频峰值 | −12.93 dBFS，clipped 0 | −10.65 dBFS，clipped 0 |
 
 
+---
+
+## 交付物：companion v1.1 / reboot / dialogue / farewell (arena)
+
+> 四支 30s 像素短片共用一套 **440×200 终端** 规格（标题栏 20 + 内容区 180 = 7 行 ×20px + 状态行），
+> 修正 companion v1.0 终端过小（360×160、内容区 140）的问题；像素标准仍是 SOP 05 §5。
+
+| 交付物 | companion v1.1 | reboot v1.0 | dialogue v1.0 | farewell v1.0 |
+|--------|----------------|-------------|---------------|---------------|
+| 渲染脚本 | `src/render_companion_arena_v11.js` | `src/render_reboot_arena.js` | `src/render_dialogue_arena.js` | `src/render_farewell_arena.js` |
+| 重叠/截断检测 | `src/check_overlap_companion_v11.js` | `src/check_overlap_reboot.js` | `src/check_overlap_dialogue.js` | `src/check_overlap_farewell.js` |
+| 音频合成 | `scripts/build_audio_companion_v11.js` | `scripts/build_audio_reboot.js` | `scripts/build_audio_dialogue.js` | `scripts/build_audio_farewell.js` |
+| 最终视频 | `outputs/companion_arena_v1.1.mp4` | `outputs/reboot_arena_v1.0.mp4` | `outputs/dialogue_arena_v1.0.mp4` | `outputs/farewell_arena_v1.0.mp4` |
+| 合成音轨 | `audio/companion_arena_v11_mix.wav` | `audio/reboot_arena_mix.wav` | `audio/dialogue_arena_mix.wav` | `audio/farewell_arena_mix.wav` |
+| 验收报告 | `docs/companion-v11/` | `docs/reboot-v1/` | `docs/dialogue-v1/` | `docs/farewell-v1/` |
+
+共用（v3 一套）：`src/pixel_arena_v3.js`（房间/终端 440×200/Clawd/Her/浮层/字幕）、
+`src/story_arena_v3.js`（声明式剧本 → 绘制 + 布局模型 + 点击时间轴，含「行时间必须落在场景区间」自检）、
+`src/check_overlap_v3_common.js`（9 项 0px 容差检查）、`scripts/build_audio_v3_common.js`（混音/封装）、
+`scripts/verify_av_sync_v3.js`（成片反解音频验证同步）、`scripts/verify_media_v3.js`（成片规格/像素/音频/亮度复核）、
+`scripts/gen_sfx_power_v3.js`（关机/开机电源音效）、`scripts/export_previews_v3.js`（关键帧导出）。
+
+```bash
+npm run check:v3              # 四支片的布局+截断+像素+规格检测 → 各 9/9 PASSED
+npm run build:v3              # check + render 1800 帧 + 音轨 + 封装 + A/V 同步 + 成片复核（逐支）
+npm run verify:v3             # 只跑同步与成片复核（需先有 outputs/*.mp4）
+npm run preview:v3            # 重新导出 docs/*-v1*/ 关键帧
+```
+
+验收（实测，见 `docs/*-v1*/` 下的 `overlap-report.json` / `sync-report.json` / `media-report.json`）：
+
+| 项 | companion v1.1 | reboot v1.0 | dialogue v1.0 | farewell v1.0 |
+|----|----------------|-------------|---------------|---------------|
+| check_overlap | 9/9 PASSED，0 issue（96,455 次判定） | 9/9，0 issue（63,140） | 9/9，0 issue（95,400） | 9/9，0 issue（83,994） |
+| 终端（帧内实测） | 880×400 输出像素 = 440×200 | 同 | 同 | 同 |
+| 键盘音同步 | 43/43，最大偏差 6.67ms | 39/39，6.67ms（另含 3 处电源音） | 92/92，6.67ms | 56/56，6.67ms |
+| 像素一致性 | 房间 100.00% / 终端 99.99%，眼睛 8×8，窗棂 12px | 100% / 99.99% | 100% / 99.99% | 100% / 99.99% |
+| 音频峰值 / 削波 | −12.61 dBFS / 0 | −11.91 dBFS / 0 | −11.99 dBFS / 0 | −13.25 dBFS / 0 |
+
+四支片规格一致：1280×720 @60fps、1800 帧、30.000s、h264 High/yuv420p + aac 44.1kHz mono；
+字幕条为底部 20px（y=340..360），与终端底边严格相接、0 重叠。

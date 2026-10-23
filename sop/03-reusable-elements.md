@@ -104,3 +104,23 @@
 2. 在本文件中记录: 函数签名 + 参数 + 用途 + 复用场景
 3. 在 check_overlap.js 中注册边界 (如果是布局元素)
 4. 提交 commit
+
+## 八、v3 组件库（440×200 终端体系 · 2026-10-23）
+
+> 适用：`companion_arena_v1.1` / `reboot_arena_v1.0` / `dialogue_arena_v1.0` / `farewell_arena_v1.0`
+> 文件：`src/pixel_arena_v3.js`（组件）+ `src/story_arena_v3.js`（剧本引擎）
+
+| 组件 | 签名 | 说明 |
+|------|------|------|
+| 终端 | `drawTerminal(ctx, title, accent, led)` | 440×200 @(100,140)；标题栏 20px + 红黄绿 6×6 圆点 + 电源灯；CRT 扫描线 |
+| 状态行 | `drawStatusDivider(ctx)` / `drawStatusLine(ctx, text, color)` | 内容区底部一条 1px 分隔线 + 10px 状态文本（y=322） |
+| Clawd | `drawClawd(ctx, x, y, t, mood, blend, opts)` | 40×17 body / 4×4 眼睛 + 1×1 高光 / 顶部 2px 暗条 / 腹部 22×4 / 4×6×7 腿；mood = calm·warm·thinking·smile·curious；`opts.palette` = coral（companion 珊瑚）或 sage（v2 绿） |
+| Her | `drawHer(ctx, x, y, t, pose)` | 16×28 槽位；pose = stand·smile·wave |
+| 气泡 / 思考 / 便签 / 独白卡 | `drawMessageBubble` `drawThoughtBubble` `drawStickyNote` `drawMonologueCard` | 浮层统一「出现 1 次 click」，尾巴/胶带尺寸固定，供布局模型复用 |
+| 咖啡杯 | `drawCoffeeMug(ctx, box, t, appear)` | 28×36 盒 + 3 缕蒸汽（2×3 像素块） |
+| 光标 / 电源灯 / 星尘 | `drawCursor` `drawPowerLed` `sparkleList+drawSparkles` | 光标 6×10（2.5Hz 闪烁）；电源灯 6×6 + 两级光晕；星尘 2×2 |
+| 字幕条 | `drawSubtitle(ctx, lines, windows, t)` | 640×20 @y=340，12px 点阵，160ms/字 |
+| 剧本引擎 | `buildStory(cfg)` | 声明式场景（bg / terminal / lines / clawd / her / overlays / extra）→ `drawSceneAt` `layoutAt` `getClickTimestamps` `renderFrameToCanvas` `renderAllFrames` |
+
+行类型（`line.kind`）：`prompt`（提示符整段 + 消息逐字）、`typed`（整行逐字）、`line`（整行一次出现）。
+点击时间轴规则：提示符/整行 → 1 次；逐字 → 每字 1 次；浮层 → 出现时 1 次；字幕 → 不发声；全部量化到显示帧并去重（<35ms）。
