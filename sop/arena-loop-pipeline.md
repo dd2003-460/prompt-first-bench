@@ -89,15 +89,15 @@
 ```bash
 # 本地浅克隆目标仓库（已存在则 git -C <dir> pull）
 git clone --depth 1 https://github.com/dd2003-460/<repo>.git /tmp/<repo>
-# 同步 workspace 的 loop + SOP（路径按实际仓库目录名调整）
-rsync -av --delete /Users/a1-6/Desktop/workspace/loop/ /tmp/<repo>/loop/
+# 同步 workspace 的 1-loop 阶段文件 + SOP（只同步 prompt-first/，workspace loop/ 其他子目录不属于仓库）
+rsync -av --delete /Users/a1-6/Desktop/workspace/loop/prompt-first/ /tmp/<repo>/loop/prompt-first/
 cp /Users/a1-6/Desktop/workspace/agents/arena-loop-pipeline.md /tmp/<repo>/sop/
 # 记录验证证据 + commit + push
-git -C /tmp/<repo> add -A && git -C /tmp/<repo> commit -m "sync: loop + sop (workspace $(date +%Y%m%d))"
+git -C /tmp/<repo> add -A && git -C /tmp/<repo> commit -m "sync: loop/prompt-first + sop (workspace $(date +%Y%m%d))"
 git -C /tmp/<repo> push && git ls-remote https://github.com/dd2003-460/<repo>.git HEAD
 ```
 
-说明：rsync `--delete` 保证仓库 loop/ 与 workspace 完全一致（含删掉的旧文件）；sop 只复制本文件。push 后把 commit hash + ls-remote 输出写进 tasks/ 验证文件（§1 断点 A 硬门禁）。
+说明：rsync `--delete` 保证仓库 `loop/prompt-first/` 与 workspace 完全一致（7 个阶段文件）；**不要 rsync 整个 workspace `loop/`**（含 ralph_runtime/、archived 等与 arena 无关的内容）。sop 只复制本文件。push 后把 commit hash + ls-remote 输出写进 tasks/ 验证文件（§1 断点 A 硬门禁）。
 
 ## 5. goal 模板引用
 
