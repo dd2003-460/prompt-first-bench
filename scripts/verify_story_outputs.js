@@ -28,6 +28,30 @@ const JOBS = {
     script: '../src/render_farewell_arena', audio: './build_audio_farewell',
     mp4: 'outputs/farewell_arena_v1.0.mp4', mix: 'audio/farewell_arena_mix.wav', doc: 'docs/farewell-v1', eyeH: 4,
   },
+  // batch-6 (E05–E08): 30s 连续剧单集, 复用同一 440×200 终端与 Clawd 40×17 造型
+  e05: {
+    script: '../src/render_E05_surprise_arena', audio: './build_audio_E05',
+    mp4: 'outputs/E05_surprise_arena_v1.0.mp4', mix: 'audio/E05_surprise_arena_mix.wav',
+    doc: 'docs/E05-surprise-v1', eyeH: 8,
+    // 10.0s 是 0.5s 纯白闪 (df 突然 100%), 15.0s 才是黑场转 S3
+    transitions: [{ frame: 600, kind: 'white' }, { frame: 900, kind: 'black' }],
+    flashRecoveryFrame: 700,
+  },
+  e06: {
+    script: '../src/render_E06_shame_arena', audio: './build_audio_E06',
+    mp4: 'outputs/E06_shame_arena_v1.0.mp4', mix: 'audio/E06_shame_arena_mix.wav',
+    doc: 'docs/E06-shame-v1', eyeH: 8,
+  },
+  e07: {
+    script: '../src/render_E07_determination_arena', audio: './build_audio_E07',
+    mp4: 'outputs/E07_determination_arena_v1.0.mp4', mix: 'audio/E07_determination_arena_mix.wav',
+    doc: 'docs/E07-determination-v1', eyeH: null, // 专注眉压住眼睛, 只校验存在
+  },
+  e08: {
+    script: '../src/render_E08_wish_arena', audio: './build_audio_E08',
+    mp4: 'outputs/E08_wish_arena_v1.0.mp4', mix: 'audio/E08_wish_arena_mix.wav',
+    doc: 'docs/E08-wish-v1', eyeH: 6, // 深夜半垂眼 (4×3 合并块)
+  },
 };
 
 function ffprobe(file) {
@@ -203,7 +227,8 @@ async function verify(name) {
   }
   const pixelIssues = [];
   if (room.ratio < 0.995 || term.ratio < 0.995) pixelIssues.push(`2× sameness room=${room.ratio}, term=${term.ratio}`);
-  if (!eye || eye.w !== 8 || eye.h !== job.eyeH) pixelIssues.push(`eye ${eye ? `${eye.w}×${eye.h}` : 'missing'} ≠ 8×${job.eyeH}`);
+  const eyeOk = job.eyeH === null ? !!eye : (!!eye && eye.w === 8 && eye.h === job.eyeH);
+  if (!eyeOk) pixelIssues.push(`eye ${eye ? `${eye.w}×${eye.h}` : 'missing'} ≠ ${job.eyeH === null ? 'present' : `8×${job.eyeH}`}`);
   if (mullion !== 12) pixelIssues.push(`window mullion ${mullion}px ≠ 12px`);
   issues.push(...pixelIssues);
   checks.push({ name: '成片像素网格 / Clawd 眼睛 / 12px 窗棂', ok: !pixelIssues.length, detail: { room2x: room.ratio, terminal2x: term.ratio, eye, mullion } });
@@ -222,8 +247,12 @@ async function verify(name) {
     clippedSamples: au.clipped, correlationWithMix: corr, bgmGain: audioCfg.BGM_GAIN, sfxGain: audioCfg.SFX_GAIN,
   } });
 
+  const tr = job.transitions || [{ frame: 600, kind: 'black' }, { frame: 1200, kind: 'black' }];
+  const lumFrames = new Set([0, 24, 585, 615, 1190, 1210, 1230, 1799]);
+  for (const x of tr) lumFrames.add(x.frame);
+  if (job.flashRecoveryFrame !== undefined) lumFrames.add(job.flashRecoveryFrame);
   const lum = [];
-  for (const n of [0, 24, 585, 600, 615, 1190, 1200, 1210, 1230, 1799]) {
+  for (const n of [...lumFrames].sort((a, b) => a - b)) {
     lum.push({ frame: n, luma: await meanLuma(mp4, n, name) });
   }
   const L = (n) => lum.find((x) => x.frame === n).luma;
@@ -235,7 +264,16 @@ async function verify(name) {
   } else if (L(24) <= 20 || L(615) <= 20 || L(1210) <= 20) {
     fadeIssues.push('fade-in recovery missing');
   }
-  if (L(600) >= 2 || L(1200) >= 2) fadeIssues.push(`transition black ${L(600)}/${L(1200)}`);
+  // 转场: 黑场 (≤2) 或白闪 (≥200), 按 job.transitions 判定
+  for (const x of tr) {
+    const v = L(x.frame);
+    if (x.kind === 'white' && v < 200) fadeIssues.push(`white flash frame ${x.frame} luma ${v.toFixed(1)} < 200`);
+    if (x.kind === 'black' && v >= 2) fadeIssues.push(`black transition frame ${x.frame} luma ${v.toFixed(1)} ≥ 2`);
+  }
+  // 白闪之后画面必须立刻回来
+  if (job.flashRecoveryFrame !== undefined && L(job.flashRecoveryFrame) <= 20) {
+    fadeIssues.push(`white flash did not recover by frame ${job.flashRecoveryFrame}: ${L(job.flashRecoveryFrame).toFixed(1)}`);
+  }
   issues.push(...fadeIssues); checks.push({ name: '片头片尾与场景黑场', ok: !fadeIssues.length, detail: lum });
 
   const expected = R.getClickTimestamps();
