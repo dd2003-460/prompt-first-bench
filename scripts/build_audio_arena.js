@@ -1,23 +1,23 @@
 #!/usr/bin/env node
-// scripts/build_audio_arena.js — 「Clawd 的梦境」30s 音轨合成器
+// scripts/build_audio_arena.js — 「Clawd 的升级」30s 音轨合成器
 // 1. 背景: audio/emotional_bgm.wav 截取前 30s, volume=0.3
 // 2. 点击音: audio/sfx_click.wav (30ms 短促机械点击), 按 getClickTimestamps() 铺设, volume=0.5
-// 3. ffmpeg amix=inputs=2:duration=first:dropout_transition=0:normalize=0 → audio/dream_arena_mix.wav
+// 3. ffmpeg amix=inputs=2:duration=first:dropout_transition=0:normalize=0 → audio/upgrade_arena_mix.wav
 
 const fs = require('fs');
 const path = require('path');
 const { execFileSync } = require('child_process');
-const dream = require('../src/render_dream_arena');
+const upgrade = require('../src/render_upgrade_arena');
 
 const SR = 44100;
-const DURATION = dream.DURATION; // 30s
+const DURATION = upgrade.DURATION; // 30s
 const TOTAL_SAMPLES = SR * DURATION;
 
 const ROOT = path.join(__dirname, '..');
 const BGM_SRC = path.join(ROOT, 'audio', 'emotional_bgm.wav');
 const CLICK_SRC = path.join(ROOT, 'audio', 'sfx_click.wav');
-const MIX_OUT = path.join(ROOT, 'audio', 'dream_arena_mix.wav');
-const AUDIO_TMP = process.env.AUDIO_TMP || '/tmp/audio_dream';
+const MIX_OUT = path.join(ROOT, 'audio', 'upgrade_arena_mix.wav');
+const AUDIO_TMP = process.env.AUDIO_TMP || '/tmp/audio_upgrade';
 
 const BGM_VOLUME = 0.3;
 const CLICK_VOLUME = 0.5;
@@ -25,7 +25,8 @@ const CLICK_VOLUME = 0.5;
 function getFfmpegPath() {
   if (process.env.FFMPEG_BIN && fs.existsSync(process.env.FFMPEG_BIN)) return process.env.FFMPEG_BIN;
   // 优先 ffmpeg 7.x (amix 支持 normalize=0); @ffmpeg-installer 自带的是 2018 旧版, 无此选项
-  const pyFfmpeg = '/home/user/.local/lib/python3.11/site-packages/imageio_ffmpeg/binaries/ffmpeg-linux-x86_64-v7.0.2';
+  const python = path.join(ROOT, '.venv/bin/python');
+  const pyFfmpeg = fs.existsSync(python) ? execFileSync(python, ['-c', 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())'], {encoding:'utf8'}).trim() : '';
   if (fs.existsSync(pyFfmpeg)) return pyFfmpeg;
   try {
     return require('@ffmpeg-installer/ffmpeg').path;
@@ -104,7 +105,8 @@ function writeWavMono16(filePath, samples) {
   buf.write('data', 36);
   buf.writeUInt32LE(n * 2, 40);
   for (let i = 0; i < n; i++) {
-    const v = Math.max(-1, Math.min(1, samples[i]));
+    if(Math.abs(samples[i])>=1) throw new Error(`Clipping at sample ${i}`);
+    const v = samples[i];
     buf.writeInt16LE(Math.round(v * 32767), 44 + i * 2);
   }
   fs.writeFileSync(filePath, buf);
@@ -131,7 +133,7 @@ function buildClickTrack(outPath) {
   if (sampleRate !== SR) throw new Error(`click sampleRate ${sampleRate} != ${SR}`);
   const kernel = Float64Array.from(samples, (v) => v * CLICK_VOLUME);
   const out = new Float64Array(TOTAL_SAMPLES);
-  const timestamps = dream.getClickTimestamps();
+  const timestamps = upgrade.getClickTimestamps();
   for (const tSec of timestamps) {
     const start = Math.round(tSec * SR);
     for (let i = 0; i < kernel.length; i++) {
@@ -145,8 +147,8 @@ function buildClickTrack(outPath) {
 
 function buildFinalAudio() {
   if (!fs.existsSync(AUDIO_TMP)) fs.mkdirSync(AUDIO_TMP, { recursive: true });
-  const bgmPath = path.join(AUDIO_TMP, 'dream_bgm_30s.wav');
-  const clicksPath = path.join(AUDIO_TMP, 'dream_clicks_30s.wav');
+  const bgmPath = path.join(AUDIO_TMP, 'upgrade_bgm_30s.wav');
+  const clicksPath = path.join(AUDIO_TMP, 'upgrade_clicks_30s.wav');
 
   buildBgmTrack(bgmPath);
   const { timestamps, clickMs } = buildClickTrack(clicksPath);
@@ -178,17 +180,19 @@ function composeVideo(framesDir, outPath) {
   const ffmpeg = getFfmpegPath();
   execFileSync(ffmpeg, [
     '-y',
-    '-framerate', String(dream.FPS),
+    '-framerate', String(upgrade.FPS),
     '-i', path.join(framesDir, 'f_%05d.png'),
     '-i', MIX_OUT,
     '-c:v', 'libx264',
     '-pix_fmt', 'yuv420p',
     '-preset', 'medium',
     '-crf', '18',
-    '-r', String(dream.FPS),
+    '-r', String(upgrade.FPS),
     '-c:a', 'aac',
     '-b:a', '192k',
-    '-shortest',
+    '-frames:v', String(upgrade.NFRAMES),
+    '-t', String(upgrade.DURATION),
+    '-movflags', '+faststart',
     outPath,
   ], { stdio: 'inherit' });
   console.log(`Composed ${outPath}`);
@@ -197,8 +201,8 @@ function composeVideo(framesDir, outPath) {
 if (require.main === module) {
   buildFinalAudio();
   if (process.argv.includes('--mux')) {
-    const framesDir = process.env.FRAMES_DIR || '/tmp/frames_dream';
-    const outPath = path.join(ROOT, 'outputs', 'dream_arena_v1.0.mp4');
+    const framesDir = process.env.FRAMES_DIR || '/tmp/frames_upgrade';
+    const outPath = path.join(ROOT, 'outputs', 'upgrade_arena_v1.0.mp4');
     fs.mkdirSync(path.dirname(outPath), { recursive: true });
     composeVideo(framesDir, outPath);
   }
