@@ -86,4 +86,35 @@ npm run verify:v2             # 只跑同步与成片复核（需先有 outputs/
 | 像素一致性 | 房间/终端 2×2 同色率 100% / 99.99%，眼睛 8×8，窗棂 12px | 100% / 100%，同上 |
 | 音频峰值 | −12.93 dBFS，clipped 0 | −10.65 dBFS，clipped 0 |
 
+---
+
+## 交付物：Companion v1.1 + Reboot / Dialogue / Farewell v1.0
+
+四部 30s 像素短片共用 companion 原始角色与房间美术，以及 640×360 → 2× 最近邻 → 1280×720@60fps 网格。
+终端统一为 **440×200 @ (100,140)**（20px 标题栏 + 180px 内容区）。为避免与放大后的终端重叠，字幕使用底部 20px 条带与 Fusion Pixel 10px 字体。
+
+| 版本 | 渲染 / 检查 | 成片 / 混音 | 验收报告 |
+|------|-------------|-------------|----------|
+| Companion v1.1 | `src/render_companion_arena_v11.js` / `src/check_overlap_companion_v11.js` | `outputs/companion_arena_v1.1.mp4` / `audio/companion_arena_v11_mix.wav` | `docs/companion-v1.1/` |
+| Reboot v1.0 | `src/render_reboot_arena.js` / `src/check_overlap_reboot.js` | `outputs/reboot_arena_v1.0.mp4` / `audio/reboot_arena_mix.wav` | `docs/reboot-v1/` |
+| Dialogue v1.0 | `src/render_dialogue_arena.js` / `src/check_overlap_dialogue.js` | `outputs/dialogue_arena_v1.0.mp4` / `audio/dialogue_arena_mix.wav` | `docs/dialogue-v1/` |
+| Farewell v1.0 | `src/render_farewell_arena.js` / `src/check_overlap_farewell.js` | `outputs/farewell_arena_v1.0.mp4` / `audio/farewell_arena_mix.wav` | `docs/farewell-v1/` |
+
+共用：`src/pixel_story_arena.js`（三部新片布局/时间轴）、`src/check_overlap_story_common.js`（0px 几何与像素校验）、
+`scripts/build_audio_v2_common.js`（确定性 PCM 混音）、`scripts/verify_story_outputs.js`（最终 MP4 独立复核）。
+Companion 保留 v1.0 音频增益与淡入淡出；三部新片使用精确 BGM −12dB、SFX −6dB。点击时间由剧本唯一数据源生成并向上量化到显示帧。
+
+```bash
+npm run check:story          # 四部各 8/8 PASSED，0px tolerance
+npm run build:companion:v11  # 单部：check + render + audio + mux
+npm run build:reboot
+npm run build:dialogue
+npm run build:farewell
+npm run verify:story         # 直接解码四个 MP4：规格 / 像素 / 音频 / 黑场 / A-V 同步
+npm run build:story          # 完整重建四部并复核
+```
+
+最终实测：四部均为 **1800 帧 / 30.000s / h264 High / yuv420p / AAC 44.1kHz mono**；
+键盘点击依次匹配 **70/70、152/152、217/217、232/232**，最大偏差均 **6.7ms（0.40 帧）**；
+解码音频峰值依次 **−12.39、−13.09、−11.09、−12.03 dBFS**，全部 **0 削波样本**。
 

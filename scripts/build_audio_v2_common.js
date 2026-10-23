@@ -2,8 +2,8 @@
 'use strict';
 // scripts/build_audio_v2_common.js — learning / upgrade v2.0 共用音频合成与封装
 //
-//   BGM : audio/emotional_bgm.wav  ×0.3，1s 淡入 / 2s 淡出，截取 30s
-//   SFX : audio/sfx_click.wav      ×0.5，时间点来自渲染脚本 getClickTimestamps()
+//   BGM : audio/emotional_bgm.wav，默认 ×0.3，1s 淡入 / 2s 淡出（增益与淡变可配置）
+//   SFX : audio/sfx_click.wav，默认 ×0.5，时间点来自渲染脚本 getClickTimestamps()
 //         （逐字打字每字一次、整行出现一次、字幕切换不发声；已量化到显示帧、同帧合并）
 //   混合: 在 JS 内做确定性浮点混音（等价 amix=normalize=0），再一次性量化到 PCM16；
 //         峰值超 -0.5 dBFS 时整体等比缩放并打印 [clip-guard]
@@ -137,9 +137,16 @@ function inspectMixNoClipping(file) {
  * @param {string} opts.clicksPath 中间点击轨
  * @param {string} opts.mixPath 输出混音轨
  * @param {string} opts.label 日志标签
+ * @param {number} [opts.bgmGain=0.3] BGM 线性增益（-12dB ≈ 0.2511886）
+ * @param {number} [opts.sfxGain=0.5] SFX 线性增益（-6dB ≈ 0.5011872）
+ * @param {number} [opts.fadeIn=1] BGM 淡入秒数
+ * @param {number} [opts.fadeOut=2] BGM 淡出秒数
  */
 function buildAudio(opts) {
-  const { clickTimestamps, duration, clicksPath, mixPath, label } = opts;
+  const {
+    clickTimestamps, duration, clicksPath, mixPath, label,
+    bgmGain = 0.3, sfxGain = 0.5, fadeIn = 1.0, fadeOut = 2.0,
+  } = opts;
   if (!fs.existsSync(AUDIO)) fs.mkdirSync(AUDIO, { recursive: true });
 
   const sfx = readWav16(SFX);
@@ -176,10 +183,10 @@ function buildAudio(opts) {
     throw new Error(`BGM 规格不符: ${bgm.sampleRate}Hz / ${bgm.bits}bit`);
   }
   const bgmMono = bgm.ch[0];
-  const BGM_GAIN = 0.3;
-  const SFX_GAIN = 0.5;
-  const FADE_IN_S = 1.0;
-  const FADE_OUT_S = 2.0;
+  const BGM_GAIN = bgmGain;
+  const SFX_GAIN = sfxGain;
+  const FADE_IN_S = fadeIn;
+  const FADE_OUT_S = fadeOut;
 
   const mix = new Float64Array(totalSamples);
   for (let i = 0; i < totalSamples; i++) {
