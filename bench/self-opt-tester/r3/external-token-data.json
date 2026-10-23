@@ -1,0 +1,41 @@
+{
+  "created_at": "2026-10-24T00:48:00+08:00",
+  "purpose": "M1 token 效率绝对口径的外部对照数据点（R3.5 · goal-0bc2d9c2 验收 4）",
+  "retrieval_method": "ego-browser ChatGPT（chatgpt.com，账号高殷巷免费版）搜索 + 出处精确追问（2 轮），来源可点击核实",
+  "datapoints": [
+    {
+      "id": "DP1",
+      "source": "HuggingFace dataset: Exgentic/agent-llm-traces",
+      "url": "https://huggingface.co/datasets/Exgentic/agent-llm-traces",
+      "system": "SWE-bench traces（数据集聚合口径，跨 harness）",
+      "value": "Avg. Total Tokens/Trace = 1,183,537；Avg. Request Tokens/Span = 24,732；Avg. Response Tokens/Span = 202",
+      "granularity": "trace=每任务总量（所有成功 API 调用之和）；span=单次 API 调用均值（非每任务）",
+      "caveat": "只统计成功的 LLM API 调用；跨 harness 聚合，模型/任务组合不完全同质",
+      "conf": 0.9,
+      "conf_basis": "数字直接列于 dataset card 的 Token Usage by Benchmark 表（ChatGPT 第 2 轮确认非其聚合计算）"
+    },
+    {
+      "id": "DP2",
+      "source": "OSWorld 相关论文（OpenReview PDF 812f5922df82a400dbf9b9bf09c76714304e8963，Figure 6）",
+      "url": "https://openreview.net/pdf/812f5922df82a400dbf9b9bf09c76714304e8963.pdf",
+      "system": "多模块 GUI agent + GPT-5（100-step limit）",
+      "value": "平均 598.7K tokens/task；Prompt 93.7% / Completion 6.3%",
+      "granularity": "每任务总量",
+      "caveat": "论文标题/正式 submission ID 未核实（ChatGPT 拒绝猜测）；引用前需查原文首页",
+      "conf": 0.6,
+      "conf_basis": "PDF URL 可访问 + Figure 6 数字有截图级引用，但元数据不全"
+    },
+    {
+      "id": "DP3",
+      "source": "HuggingFace Exgentic/agent-llm-traces 按 harness 汇总",
+      "url": "https://huggingface.co/datasets/Exgentic/agent-llm-traces",
+      "system": "smolagents_code / claude_code / openai_solo（跨 benchmark 聚合）",
+      "value": "smolagents_code 521,204；claude_code 974,096；openai_solo 347,897 total tokens/trace",
+      "granularity": "每 trace 总量（跨 benchmark 聚合，非 SWE-bench 单独）",
+      "caveat": "输入/输出分开值未在该汇总表给出；模型和任务组合不同，非公平对比",
+      "conf": 0.8,
+      "conf_basis": "dataset card 汇总表直接列出"
+    }
+  ],
+  "strict_limitation": "ChatGPT 原话：没有核实到 3-5 个同时满足「开源 agent 系统、明确每任务实测 token、输入/输出分开、可直接定位原始论文表格」的独立数据点。上表是可引用真实数字，跨系统比较必须标注统计口径，不得当同质基线。",
+  "comparison_note": "本 bench run 级 token 消耗（Lead 会话累计 input 5,108,882 tok / 116 requests，含 r1-r3 全历史，run1

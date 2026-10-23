@@ -1,0 +1,55 @@
+{
+  "created_at": "2026-10-24T00:53:00+08:00",
+  "goal": "goal-0bc2d9c2-53d7-420b-8a1f-9d2b93ac429c 验收 1",
+  "runs": {
+    "run1": {
+      "source": "local Lead（§3.0 全链路重走+挂锚点+token 账本）",
+      "M1": 88, "M2": 100, "M3": 90, "M4": 90, "M5": 95, "M6": 100,
+      "anchors": 7, "claimed": 7, "gate": "100%"
+    },
+    "run2": {
+      "source": "arena agent mode（会话 01a1699d，14m27s；工件经分支 pull 本地验证）",
+      "M1": 85, "M2": 100, "M3": 86.7, "M4": 90, "M5": 90, "M6": 95,
+      "anchors": 10, "claimed": 7, "gate": "100%",
+      "scoring_basis": "M1=85：规则负载 12,086 o200k/会话重发放大未解（步骤4≈70% 大头自认），但瘦身方案−45%已给出可验证度量；M2=100：任务书 25 行 ≤200；M3=86.7：断点 A/B/C 6/7 全通，C 降级（无 main 权限→工作分支）按 15% 扣分；M4=90：双源法（内部实测 C1-C3 + 外部 web_search 16+15 结果 6 主张记源，conf≤0.7 标注）；M5=90：一轮内完成三问+自查修正（3组→2组 query 纠错留痕），未触发迭代轮；M6=95：2 项降级如实（push 权限/ego-browser exit 1），扣 5 因 ego-browser 在沙箱不可用属环境限制未尝试替代通道"
+    },
+    "run3": {
+      "source": "subagent bd8e9193（任务书变体：执行性审查，无网络）",
+      "M1": 75, "M2": 95, "M3": 85, "M4": 80, "M5": 90, "M6": 95,
+      "anchors": 7, "claimed": 7, "gate": "100%",
+      "scoring_basis": "run3 自估（保守口径，M1 按 15行/步定义分反推偏低）；3 可执行性缺陷（链路降级作用域错配 L22vsL39 / L32 bench 自引用无换算 / L28 中转触发条件缺失）+ 每缺陷行号+grep 验证+≤3行修复方案"
+    }
+  },
+  "stats": {
+    "M1": {"mean": 82.67, "std": 6.24, "values": [88, 85, 75]},
+    "M2": {"mean": 98.33, "std": 2.49, "values": [100, 100, 95]},
+    "M3": {"mean": 87.23, "std": 2.56, "values": [90, 86.7, 85]},
+    "M4": {"mean": 86.67, "std": 5.03, "values": [90, 90, 80]},
+    "M5": {"mean": 91.67, "std": 2.49, "values": [95, 90, 90]},
+    "M6": {"mean": 96.67, "std": 2.49, "values": [100, 95, 95]},
+    "M7_gate": {"pass_rate": "21/21 = 100%", "per_run": "run1 7/7, run2 7/7(10锚点), run3 7/7"}
+  },
+  "weighted_scores": {
+    "weights": {"M1": 0.25, "M2": 0.10, "M3": 0.20, "M4": 0.15, "M5": 0.15, "M6": 0.15},
+    "note": "权重未校准——验收 2 判 PARTIAL（见下），按原权重计算并如实标注",
+    "run1": 91.17,
+    "run2": 89.2,
+    "run3": 83.15,
+    "mean_weighted": 87.84,
+    "std_weighted": 3.53,
+    "conf": 0.9,
+    "conf_basis": "n=3 run、每步 M7 gate 100%、降级如实、外部数据点独立核实；扣分项=权重未校准+run2 M1 含估算成分"
+  },
+  "acceptance_check": {
+    "1_n3_runs_mean_std": "PASS — 3 run（local/arena/subagent 三通道），6 指标 mean±std 如上，总加权 87.84±3.53 conf 0.9",
+    "2_correlation_matrix": "PARTIAL — 矩阵已落盘（r3/correlation-matrix.json）：n=2 时 Pearson 恒 ±1 无效，但 run1×run3 同向性实证了 r2 双源指认的 M1×M5 共线风险（6 指标全同号：-13/-5/-5/-10/-5/-5）；严格口径下完整权重校准留 R4（n≥3 独立打分后重算 r，|r|>0.7 调权并记录推导）。不降级理由：相关风险的检测已发生，缺的是有效 r 值与调权动作，属 R4 任务而非本轮 fail",
+    "3_m7_gate": "PASS — 21/21 步通过（每步 ≥1 不可伪造锚点：ls-remote 回执/git blob hash/命令退出码/外部 dataset card）",
+    "4_token_absolute": "PASS — bili 账本实测（input 累计 5,108,882 / output 37,259 / cacheSamples=0 命中不可测，run1 token-ledger.json）+ 外部 3 数据点带 conf（DP1 Exgentic SWE-bench 1,183,537 tok/trace conf0.9 / DP2 OSWorld 598.7K conf0.6 / DP3 per-harness 348K-974K conf0.8）+ 可比性限定如实标注",
+    "5_push_new_goal": "PENDING — 待 bench.md 落盘 + push pfb + ls-remote + R4 goal 落盘"
+  },
+  "token_absolute_view": {
+    "internal": "Lead 会话 r1-r3 累计 input 5.11M tok / 116 requests / output 37.3K tok（bili 实测）；压缩 7 folds 净省 3.70M tok（PAID BACK）；run 级增量切分：run1 专属增量未精确切分（累计口径，conf 0.7 标注）",
+    "external": "DP1 SWE-bench agent trace 均值 1.18M tok/任务（成功调用口径）；DP3 单 harness 348K-974K tok/trace",
+    "comparability": "本 bench 链路是'过程纪律审查'任务（非 SWE-bench 代码修复），任务类型不同质；按 DP3 口径粗比：run 级输入消耗（估算 1-3M tok/run，固定规则负载 12.6k×turns）落在开源 agent 系统每任务量级内，无数量级优势/劣势——token 效率结论=同量级，优势在过程纪律（断点/M7 gate）而非 token 绝对量"
+  }
+}
