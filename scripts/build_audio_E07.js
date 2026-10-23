@@ -1,0 +1,40 @@
+#!/usr/bin/env node
+'use strict';
+// E07 目标 (determination) — BGM -12dB + 键盘音 -6dB（S2 密集打字 = 密集 click）。
+const path = require('path');
+const R = require('../src/render_E07_determination_arena');
+const { buildAudio, muxVideo } = require('./build_audio_v2_common');
+
+const ROOT = path.resolve(__dirname, '..');
+const BGM_GAIN = Math.pow(10, -12 / 20);
+const SFX_GAIN = Math.pow(10, -6 / 20);
+const CLICKS_WAV = process.env.CLICKS_WAV || '/tmp/E07_clicks.wav';
+const MIX_WAV = path.join(ROOT, 'audio', 'E07_mix.wav');
+const MP4_OUT = path.join(ROOT, 'outputs', 'E07_determination_arena_v1.0.mp4');
+
+if (require.main === module) {
+  const clicks = R.getClickTimestamps();
+  const { stats } = buildAudio({
+    clickTimestamps: clicks,
+    duration: R.DURATION,
+    clicksPath: CLICKS_WAV,
+    mixPath: MIX_WAV,
+    label: 'E07-determination',
+    bgmGain: BGM_GAIN,
+    sfxGain: SFX_GAIN,
+    fadeIn: 1,
+    fadeOut: 2,
+  });
+  const s2 = clicks.filter((t) => t >= 10 && t < 20).length;
+  console.log(`Clicks: ${clicks.length} (S2 密集段 ${s2}); BGM=-12dB SFX=-6dB; peak=${stats.peakDb.toFixed(2)} dBFS; clipped=${stats.clipped}`);
+  if (process.argv.includes('--mux')) {
+    muxVideo({
+      framesDir: process.env.FRAMES_DIR || path.join(ROOT, 'src', 'frames_E07_determination_arena'),
+      mixPath: MIX_WAV,
+      outMp4: MP4_OUT,
+      fps: R.FPS,
+    });
+  }
+}
+
+module.exports = { CLICKS_WAV, MIX_WAV, MP4_OUT, BGM_GAIN, SFX_GAIN, FADE_IN: 1, FADE_OUT: 2 };
