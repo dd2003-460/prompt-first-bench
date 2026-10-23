@@ -1,0 +1,46 @@
+# T4 ablation-L1 汇总 — C1-small
+
+> origin: ai · 2026-10-23 Asia/Shanghai · variant=C1-small
+> prompt: `bench/prompts/variants/C1-small/prompt.txt`
+> 变体定义：C0 简化版（压缩背景） — 保留核心指令，压缩背景与示例
+> rubric: bench/rubric.md（18 点，≥15 success）
+> 通道：local degraded（decomp-bench 403/404，vllm/qwen3.8-27b-w8a16，conf 0.2）
+
+## 原始分（3 runs）
+
+| run | 分数 | 判定 | 种子/时间戳 |
+|-----|------|------|------------|
+| run1 | **13** | partial | seed-20261023-C1-small-r1 / 2026-10-22T19:00+08:00 |
+| run2 | **15** | success | seed-20261023-C1-small-r2 / 2026-10-22T19:20+08:00 |
+| run3 | **15** | success | seed-20261023-C1-small-r3 / 2026-10-22T19:40+08:00 |
+
+## 统计
+
+| 指标 | 值 |
+|------|-----|
+| n | 3 |
+| Mean | **14.33** |
+| σ_pop（总体） | 0.94 |
+| σ_samp（样本，无偏） | 1.15 |
+| success 率 | 2/3 (67%) |
+| partial 率 | 1/3 (33%) |
+| fail 率 | 0/3 (0%) |
+
+## 判定
+
+- **partial**（10–14）
+
+## 变体特征
+
+- 定义：保留核心指令，压缩背景与示例
+- 对照目的：见 bench/rubric.md 变体定义表
+
+## 文件清单
+
+- `bench/runs/ablation-L1/C1-small/run1.md`
+- `bench/runs/ablation-L1/C1-small/run1-score.md`
+- `bench/runs/ablation-L1/C1-small/run2.md`
+- `bench/runs/ablation-L1/C1-small/run2-score.md`
+- `bench/runs/ablation-L1/C1-small/run3.md`
+- `bench/runs/ablation-L1/C1-small/run3-score.md`
+- `bench/runs/ablation-L1/C1-small/summary.md`（本文件）
