@@ -1,0 +1,64 @@
+{
+ "source": "bili.log per-request [acp-usage] input=NNNNN 行（/Users/a1-6/.local/state/billion-context/bili.log, 88315 行）+ /__bili/stats session 级累计",
+ "method": "session 前缀 startswith 匹配 + 时间窗切分；窗口锚点：run1 末请求 input=53,364 = run1/token-ledger.json contextTokens；run3 = subagent bd8e9193 独立 session 全量",
+ "runs": {
+  "run1": {
+   "window_utc": "2026-10-23T16:21:51.875Z – 16:25:26.363Z",
+   "requests": 10,
+   "input_total": 500972,
+   "output_total": "不可测（bili per-request 只记 input，session 级 output 累计 123,324 含 R1-R4 全时代，不可按 run 切分）",
+   "cache": "0（cacheSamples=0，provider 未上报）",
+   "note": "窗口含 R3 kickoff turn + run1 执行（7 步 S0-S6）+ run3 派发请求"
+  },
+  "run2": {
+   "window_utc": "Lead 侧派发编排 2026-10-23T16:26:13.946Z – 16:34:47.439Z",
+   "requests": 19,
+   "input_total": 1127157,
+   "output_total": "不可测（同 run1）",
+   "cache": "0",
+   "arena_side": "外部——arena 会话 01a1699d（14m27s）token 本地无账本；仅规则负载 12,086 o200k/会话、每轮重发（实测）",
+   "note": "Lead 侧=任务书撰写/push/arena 监控；arena 侧总量 unverified"
+  },
+  "run3": {
+   "window_utc": "2026-10-23T16:25:23.178Z – 16:35:20.658Z（sub session bd8e9193 全量）",
+   "requests": 20,
+   "input_total": 621696,
+   "output_total": "不可测（同 run1）",
+   "cache": "0",
+   "final_context": 37939,
+   "note": "subagent 独立 session，无网络"
+  }
+ },
+ "session_totals_main": {
+  "requests_log": 211,
+  "input_log": 10260474,
+  "stats_endpoint_snapshot": {
+   "requests": 215,
+   "input": 10538776,
+   "output": 123324,
+   "cached": 0,
+   "cacheSamples": 0,
+   "note": "快照时点晚于日志窗口，非同一口径"
+  },
+  "epoch_split": {
+   "R1_R2_era_13:00:25Z_to_16:21:50Z": {
+    "requests": 105,
+    "input": 4554546
+   },
+   "run1": {
+    "requests": 10,
+    "input": 500972
+   },
+   "dispatch_orchestration": {
+    "requests": 19,
+    "input": 1127157
+   },
+   "R3_summary_R4_16:34:48Z_onward": {
+    "requests": 72,
+    "input": 3748186
+   }
+  }
+ },
+ "compression_net_savings": "不可测——需要「不压缩反事实」基线，账本无此字段；只能证明压缩后 context 稳定在 ≤63K（末请求 input 序列见 bili.log）未爆窗",
+ "conclusion": "token 绝对口径 run 级 input：run1 500,972 / run2 Lead 侧 1,127,157（arena 侧 external）/ run3 621,696；量级与 R2 外部数据点（SWE-bench trace 1.18M、OSWorld 598.7K/task）同档；cacheSamples=0 全程，压缩净省不可测——如实标注，不虚构"
+}

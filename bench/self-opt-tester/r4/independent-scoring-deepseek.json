@@ -1,0 +1,35 @@
+{
+  "kind": "ralph_web_llm_cross_check",
+  "subtype": "independent_scoring_r4",
+  "provider": "deepseek-chat-web (chat.deepseek.com, account 已登录)",
+  "browser_space": 533,
+  "page": "p3",
+  "observed_at": "2026-10-24T12:45:00+08:00",
+  "task": "独立打分 3 run × M1-M6 = 18 分（步骤1/3；步骤2 裁决 |Δ|>15 + 步骤3 最大残留偏差 追问已发，待收）",
+  "evidence_packet": "M1-M6 定义 + 3 run 证据（run1 7锚点/5.11M累计未切分/无降级；run2 14m27s/10锚点/12,086 o200k重发/2降级；run3 7锚点/无网络/3模板缺陷/任务书25行）",
+  "independent_scores": {
+    "run1": { "M1": 55, "M2": 50, "M3": 100, "M4": 50, "M5": 60, "M6": 100 },
+    "run2": { "M1": 25, "M2": 50, "M3": 85, "M4": 45, "M5": 100, "M6": 100 },
+    "run3": { "M1": 60, "M2": 100, "M3": 70, "M4": 35, "M5": 60, "M6": 100 }
+  },
+  "self_scores_for_comparison": {
+    "run1": { "M1": 88, "M2": 100, "M3": 90, "M4": 90, "M5": 95, "M6": 100 },
+    "run2": { "M1": 85, "M2": 100, "M3": 86.7, "M4": 90, "M5": 90, "M6": 95 },
+    "run3": { "M1": 75, "M2": 95, "M3": 85, "M4": 80, "M5": 90, "M6": 95 }
+  },
+  "delta_gt_15_items": [
+    "run1 M1 88vs55", "run1 M2 100vs50", "run1 M4 90vs50", "run1 M5 95vs60",
+    "run2 M1 85vs25", "run2 M2 100vs50", "run2 M4 90vs45",
+    "run3 M4 80vs35", "run3 M5 90vs60"
+  ],
+  "key_reasons": {
+    "run1 M1=55": "仅有会话累计 5.11M 未切分到 run 级，数值偏大，中性偏低",
+    "run1/2 M2=50": "证据包未提供任务书行数，无法判断 ≤200",
+    "run1 M4=50 / run2 M4=45 / run3 M4=35": "锚点≠独立源；web_search 单通道非≥2独立源；run3 无外部交叉",
+    "run2 M5=100": "明确一轮内完成+自查留痕",
+    "run1/3 M5=60": "未提供达 conf≥0.7 所需轮数",
+    "run3 M3=70": "断点 C push 未验证（无网络），保守扣分"
+  },
+  "status": "step1_done_step2_pending",
+  "note": "独立分系统性偏低集中于 M2/M5（证据包缺行数/轮数）与 M4（定义严格解读）；M1 run2=25 与自估 85 分歧最大（重发放大 12,086 o200k/轮 vs 自估只计规则负载）"
+}
