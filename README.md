@@ -1,4 +1,6 @@
-# prompt-first-bench
+# pfb (prompt-first-bench) — prompt-first 流程 bench（独立仓）
+
+> **独立 git 仓**：origin `github.com/dd2003-460/prompt-first-bench`（外层 workspace 仓经 `.gitignore` 排除，只在仓内 commit/push）。
 
 调研目标：**prompt-first 流程（1-loop）究竟有没有提升？对不同 AI 模型提升如何？**
 
