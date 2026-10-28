@@ -74,12 +74,18 @@ decomp bench（ablation-L1）测的是**单 prompt 组件级**消融，对象是
 | **attention rollout** | token 级注意力归因 | 弱 | 0.4 |
 | **integrated gradients** | 输入 token 积分梯度贡献 | 中 | 0.5 |
 
-双实例执行方案：
+双实例执行方案（r38 三机分工定稿）：
+| 机器 | 配置 | 角色 | 能拿什么 |
+|------|------|------|---------|
+| **远程 vLLM** | qwen3.8-27b-w8a16 @ 100.112.53.47:8000（已验证在线） | 主算力：C1 内部状态实验 + C3 paired runs 生成 | hidden states / logits / 完整 transcript |
+| **Mac (M1 Max, 64GB)** | MLX 已装 + mlx-abliteration 框架（~/D1-automation/mlx-abliteration，已有 abliteration 管线+数据集生成器） | ①消融/abliteration 交叉验证（独立于 vLLM 的第二实现）②3B 小模型快速探针 ③数据中转 | 本地激活、abliteration 效应量 |
+| **Win 5060 (8GB)** | 待部署 | 行为层双实例之一（7-14B 量化跑 pipeline 行为对照）；8GB 上限 ~14B-Q4 | 完整 transcript + 最终 logits（行为层够用） |
+
 - 实例 A = V-full，实例 B = 待测变体（V-noralph 等），同域同题，seed 集 ≥3（同温度不同 seed）
 - 比较 Δ(层 l, 位置 p)：激活差 / 注意力差 / 探针得分差 / patch 效应量
-- 环境：本地 vLLM（qwen3.8-27b @ 100.112.53.47）快速筛选；**精确实验用用户提供的 API key 双实例**（隔离单实例噪声）
+- 数据流：Win/Mac 产出统一 push 到 decomp 仓 `experiments/T8-matrix/runs/`（git 中转，不搭额外同步服务）
 - 产出：per-segment × per-layer 效应量矩阵；效应量≈0 的段 = 内部状态无痕迹 = 强删除候选
-- 降级：vLLM 不可用且 key 未到位 → 纯 C2 行为代理，标 conf 降档，不阻塞 C3
+- 降级：Win 未部署 → Mac MLX 3B 顶行为层（conf 降档标注）；vLLM 不可用 → 全部降级 C2 行为代理
 
 ### C2 行为代理指标（零成本）
 每段 prompt 签名行为出现率（对已有工件直接算）：候选集冻结声明出现率+漂移次数 / 主张带 URL 比例 / owner 标注比例 / reviewer 逐条打勾率 / ralph web-llm 调用记录（预期≈0）。
