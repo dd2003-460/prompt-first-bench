@@ -57,11 +57,37 @@ decomp bench（ablation-L1）测的是**单 prompt 组件级**消融，对象是
 4. L1 组件级结论映射到 pipeline 阶段级的合理性
 产出：`experiments/T8-lit/lit-survey-pipeline-prompts.md`
 
-## Part C: 可解释性加速（C1 归因 + C2 行为代理 → 缩 top-k）
+## Part C: 可解释性加速（r34 新增 r37 升级，核心加速器）
 
-- C1: attention rollout / integrated gradients（vLLM 环境，conf≤0.5 只排序）
-- C2: 每段 prompt 签名行为出现率（零成本，对已有工件直接算）
-- 顺序门禁：C1+C2 定完 top-k 嫌疑段后才开定向 paired runs
+**原理**：全 paired runs 贵且慢。先用内部状态归因把 7 段 prompt 缩到 top-k 嫌疑段，再只对 top-k 跑 paired runs 确认。
+**r37 升级（成璐指令）**：单实例跑一次拿向量不可信（单次前向噪声+任务混杂）→ 必须**双实例对照**：同变体 vs 基线，各 ≥3 seed，比较内部状态分布差异而非绝对值。用户将提供 API key 支持双实例精确实验。
+
+### C1 内部状态归因（双实例对照协议）
+
+工具栈（按因果强度排序）：
+| 工具 | 测什么 | 因果性 | conf |
+|------|--------|--------|------|
+| **activation patching** | A 实例某层某位置激活 patch 到 B 实例→输出变化量 = 该位置承载的功能量 | 强（干预性） | 0.7 |
+| **probing classifier** | 线性探针分类"是否发现真矛盾"(对接 M8)，看哪些层/位置可分 | 中 | 0.6 |
+| **representation engineering** | 找"核验真实性""候选集冻结"概念方向向量，测 prompt 段是否激活该方向 | 中（依赖标定） | 0.6 |
+| **logits lens** | 每层隐状态解码的 token 概率轨迹——prompt 段在哪层被理解 | 弱（观测性） | 0.4 |
+| **attention rollout** | token 级注意力归因 | 弱 | 0.4 |
+| **integrated gradients** | 输入 token 积分梯度贡献 | 中 | 0.5 |
+
+双实例执行方案：
+- 实例 A = V-full，实例 B = 待测变体（V-noralph 等），同域同题，seed 集 ≥3（同温度不同 seed）
+- 比较 Δ(层 l, 位置 p)：激活差 / 注意力差 / 探针得分差 / patch 效应量
+- 环境：本地 vLLM（qwen3.8-27b @ 100.112.53.47）快速筛选；**精确实验用用户提供的 API key 双实例**（隔离单实例噪声）
+- 产出：per-segment × per-layer 效应量矩阵；效应量≈0 的段 = 内部状态无痕迹 = 强删除候选
+- 降级：vLLM 不可用且 key 未到位 → 纯 C2 行为代理，标 conf 降档，不阻塞 C3
+
+### C2 行为代理指标（零成本）
+每段 prompt 签名行为出现率（对已有工件直接算）：候选集冻结声明出现率+漂移次数 / 主张带 URL 比例 / owner 标注比例 / reviewer 逐条打勾率 / ralph web-llm 调用记录（预期≈0）。
+
+### C3 定向 paired runs（只对 top-k≤3 嫌疑段）
+- 顺序门禁：C1+C2 定完 top-k 才开 C3；C3 方案先过对抗核验（r29）
+- 配置：A 全量 / B 删 top-k（一次一个）/ 阳性对照（删候选集冻结，预期 M8 降）
+- 样本：≥2 域 × 2 run/配置；度量 M8 + M9
 
 ## Part D: arena 内部流程对比（r36 新增，核心新维度）
 
