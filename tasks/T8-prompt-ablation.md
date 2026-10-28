@@ -32,7 +32,7 @@ decomp bench（ablation-L1）测的是**单 prompt 组件级**消融，对象是
 ### 轴 3: 模型（后续扩展，当前先固定）
 - 当前：arena 默认模型（不指定）
 - 后续：若 arena 支持选模型 → qwen/gpt/claude 各跑一遍
-- 注：decomp L1 已用 qwen3.8-27b 本地 vLLM，可复用环境做对照
+- 注：decomp L1 已用 qwen3.8-27b 本地 ninfer（@100.112.53.47:8000），可复用环境做行为层对照
 
 ### 矩阵规模控制
 - 起步：T-select × {V-full, V-noralph, V-arena-native} × 2 域 = 6 runs
@@ -97,7 +97,7 @@ decomp bench（ablation-L1）测的是**单 prompt 组件级**消融，对象是
 | /v1/embeddings | ❌ 404 | 端点未暴露 |
 
 **含义**：通过 HTTP API 只能拿最终文本 + usage，**拿不到任何内部状态**（logits/hidden states/attention 全无）。C1 的 activation patching / probing / rep-engine / logits lens 在这台远程机上做不了。两条路：
-1. **重启 vLLM 加参数**：`--enable-chunked-prefill` 无关，关键是 vLLM 本身 OpenAI 兼容层就不返回 hidden states（需走其 Python API `LLM.generate(..., return_hidden_states=True)` 或自定义 server）→ 需要控制那台机器的话，改起 **Python API 直连模式**（同机跑脚本 import vllm），HTTP 端点只留给行为层生成
+1. **ninfer 网关无探针端点**（r43 实测确认）：它是独立 C++ 推理引擎（非 vLLM 封装），OpenAI 兼容层只吐最终文本+usage，logprobs/hidden states 静默忽略，无 /probe /activations 扩展路径。要拿内部状态只能：(a) 临时停掉单实例后同机加载模型跑 forward hook（会失联一段时间），或 (b) Mac MLX 上跑（推荐，不动服务器）
 2. **内部状态实验搬到 Mac MLX**：MLX 可以 hook 任意层的 activation（mlx-lm / 自写 forward hook），3B 模型先跑通管线，27B 若显存够（M1 Max 统一内存 64GB，27B-Q8 ≈27GB 可行）再上
 - 修订分工：**ninfer HTTP = 行为层 paired runs 生成器**（transcript + 最终文本）；**Mac MLX = 内部状态实验主阵地**（activation hook 全套）；Win 5060 = 第二行为实例
 
