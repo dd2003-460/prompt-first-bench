@@ -60,11 +60,16 @@
 - ②可证伪：检索结果可重放验证（query 可复现）✓
 - **判定：非表演**。
 
-### W2 (02-research.md) — 来源完备性
+### W2 (02-research.md) — 来源完备性 + URL 抽验（2026-10-29 执行）
 
 - S1-S15 均带 URL+时间戳 ✓；无来源主张显式降级"存在性断言-未核验" ✓
-- 抽查 3 条 URL 可达性：本轮未做网络核验（留 T7.1 跑完后统一抽验，避免重复劳动）→ ②暂标 pending
-- **判定：形式合规，实质抽验 pending**
+- URL 抽验 3 条（curl HEAD 级，UA 伪装浏览器）：
+  | 来源 | URL | 结果 | 判定 |
+  |------|-----|------|------|
+  | S1 Keychron 官方 | keychron-store.com/keychron-q1-pro/ | 403 + Cloudflare "Just a moment..." JS 质询 | 域名存活、内容被 bot-wall 拦截 → **可达性存疑标注**（页面存在但需浏览器过质询；W2 标 🟢 官方源合理，但 Lead 侧无法独立复验其字段值） |
+  | S2 PCWorld 评测 | pcworld.com/article/1502685/... | 200 | ✓ 可达可复验 |
+  | S8 NuPhy 官方 | pay.nuphy.com/products/air75-v2 | 200 | ✓ 可达可复验 |
+- **判定：形式合规；抽验 2/3 完全通过，1/3（S1）因 bot-wall 只能确认域名存活**。M8 口径下 S1 的字段值（81 键/4000mAh/$189）Lead 侧不可独立复核——这本身是 M8 的一个真实边界，登记为审计发现 F1。
 
 ## 初步结论（本轮）
 
@@ -76,6 +81,6 @@
 ## 待办（下一步）
 
 - [x] W3 明细行补全（9+3 条全部过三测，见上表）
-- [ ] W2 URL 抽验 3 条（web 可达性）
+- [x] W2 URL 抽验 3 条（2/3 通过，S1 bot-wall 登记为发现 F1）
 - [ ] decomp-bench 分卷：bench/runs/ablation-L1/cross-validation-r4.md + memory/2026-10-21-arena-adversarial-review.md 过三测
 - [ ] N1 命名规范修订提案（进 Part E）
