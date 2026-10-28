@@ -87,6 +87,20 @@ decomp bench（ablation-L1）测的是**单 prompt 组件级**消融，对象是
 - 产出：per-segment × per-layer 效应量矩阵；效应量≈0 的段 = 内部状态无痕迹 = 强删除候选
 - 降级：Win 未部署 → Mac MLX 3B 顶行为层（conf 降档标注）；vLLM 不可用 → 全部降级 C2 行为代理
 
+**r41 实测结论（2026-10-29，对 100.112.53.47:8000 端点逐项验证）**：
+| 能力 | 状态 | 证据 |
+|------|------|------|
+| chat completions 推理 | ✅ 200 | 正常出 token（注意：该模型是 reasoning 模型，短 max_tokens 会全烧在 reasoning_content 上） |
+| logprobs / top_logprobs | ❌ 静默忽略 | 请求带 logprobs:true 返回 200 但响应无 logprobs 字段——服务端没开 `--served-model-name`/logprobs 支持或版本裁剪 |
+| return_hidden_states | ❌ 静默忽略 | 同上，响应无 hidden states |
+| /v1/completions (legacy) | ❌ 404 | 端点未暴露 |
+| /v1/embeddings | ❌ 404 | 端点未暴露 |
+
+**含义**：通过 HTTP API 只能拿最终文本 + usage，**拿不到任何内部状态**（logits/hidden states/attention 全无）。C1 的 activation patching / probing / rep-engine / logits lens 在这台远程机上做不了。两条路：
+1. **重启 vLLM 加参数**：`--enable-chunked-prefill` 无关，关键是 vLLM 本身 OpenAI 兼容层就不返回 hidden states（需走其 Python API `LLM.generate(..., return_hidden_states=True)` 或自定义 server）→ 需要控制那台机器的话，改起 **Python API 直连模式**（同机跑脚本 import vllm），HTTP 端点只留给行为层生成
+2. **内部状态实验搬到 Mac MLX**：MLX 可以 hook 任意层的 activation（mlx-lm / 自写 forward hook），3B 模型先跑通管线，27B 若显存够（M1 Max 统一内存 64GB，27B-Q8 ≈27GB 可行）再上
+- 修订分工：**vLLM HTTP = 行为层 paired runs 生成器**（transcript + 最终文本）；**Mac MLX = 内部状态实验主阵地**（activation hook 全套）；Win 5060 = 第二行为实例
+
 ### C2 行为代理指标（零成本）
 每段 prompt 签名行为出现率（对已有工件直接算）：候选集冻结声明出现率+漂移次数 / 主张带 URL 比例 / owner 标注比例 / reviewer 逐条打勾率 / ralph web-llm 调用记录（预期≈0）。
 
