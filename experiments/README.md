@@ -3,6 +3,7 @@
 | 目录 | 内容 | 状态 |
 |------|------|------|
 | T8-audit/ | Part A: 中间轮次真实性审计（三测协议：具体性/可证伪/反事实） | in-progress |
+| T8-audit/decomp-bench-volume-B.md | Part A 分卷 B: decomp-bench ablation-L1 review 记录（r4 报告 + arena Q1-Q5），含 F2 复算（C2 数据勘误+正式检验） | done（待回写 r4 原文） |
 | T8-lit/ | Part B: 文献调研（multi-stage pipeline prompt 贡献度等 ≥4 问） | pending |
 | T8-matrix/ | 矩阵实验 (任务类型 × prompt 变体)：design.md + runs/ + report.md | pending |
 | T8-arena-compare/ | Part D: arena-native vs pfb 流程对比（7 维度） | pending |
