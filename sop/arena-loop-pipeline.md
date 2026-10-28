@@ -100,7 +100,7 @@ git -C /tmp/<repo> add -A && git -C /tmp/<repo> commit -m "sync: loop/prompt-fir
 git -C /tmp/<repo> push && git ls-remote https://github.com/dd2003-460/<repo>.git HEAD
 ```
 
-说明：rsync `--delete` 保证仓库 `loop/prompt-first/` 与 workspace 完全一致（6 个阶段文件 + examples/ 示例子目录，2026-10-26 外移）；**不要 rsync 整个 workspace `loop/`**（含 ralph_runtime/、archived 等与 arena 无关的内容）。sop 只复制本文件。push 后把 commit hash + ls-remote 输出写进 tasks/ 验证文件（§1 断点 A 硬门禁）。
+说明：rsync `--delete` 保证仓库 `loop/prompt-first/` 与 workspace 完全一致（6 个阶段文件 + examples/ 示例子目录，2026-10-26 外移）；**不要 rsync 整个 workspace `loop/`**（含 archived 等与 arena 无关的内容）。sop 只复制本文件。push 后把 commit hash + ls-remote 输出写进 tasks/ 验证文件（§1 断点 A 硬门禁）。
 
 ## 5. goal 模板引用
 
