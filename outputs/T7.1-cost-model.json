@@ -1,0 +1,850 @@
+{
+  "task": "T7.1 30人团队会议室预约系统选型",
+  "generated_at": "2026-10-28T16:15:37Z",
+  "observed_at": "2026-10-28",
+  "budget": {
+    "cny_year": 20000.0,
+    "cny_month": 1666.67,
+    "usd_year_at_base": 2994.01,
+    "usd_month_at_base": 249.5,
+    "usd_year_at_sensitivity": 2962.96,
+    "fx": {
+      "pair": "USD->CNY",
+      "base": 6.68,
+      "observed_low": 6.6679,
+      "observed_high": 6.6781,
+      "sensitivity_high": 6.75,
+      "sources": [
+        "S53",
+        "S54"
+      ],
+      "note": "EUR->CNY 未核验（U9），欧元标价不换算"
+    }
+  },
+  "assumptions": {
+    "DA-1": "会议室数 n 默认 3，另算 5 / 10",
+    "DA-4": "口径=含税年度现金支出（订阅+硬件+服务器），内部运维工时单列不计入预算",
+    "DA-6": "Skedda 适用 EMEA/APAC 价目（U8 未核验），美加价目作上界敏感性"
+  },
+  "candidates": [
+    {
+      "rooms_n": 3,
+      "rows": [
+        {
+          "id": "C2-Skedda-APAC-Starter",
+          "category": "C2 海外专用 SaaS",
+          "pricing_model": "按档位含空间额度（$99/月含 15 空间，不限用户，年付）",
+          "source": [
+            "S1"
+          ],
+          "annual_usd": 1188,
+          "annual_cny": 7936.0,
+          "budget_pct": 39.7,
+          "fits_n": true,
+          "unverified": [
+            "U7 Integrations Pack 是否额外收费",
+            "U8 中国大陆适用哪一区定价"
+          ]
+        },
+        {
+          "id": "C2-Skedda-US-Plus（DA-6 被证伪时的上界）",
+          "category": "C2 海外专用 SaaS",
+          "pricing_model": "$249/月含 35 空间，年付",
+          "source": [
+            "S1"
+          ],
+          "annual_usd": 2988,
+          "annual_cny": 19960.0,
+          "budget_pct": 99.8,
+          "fits_n": true,
+          "unverified": [
+            "U7",
+            "U8"
+          ]
+        },
+        {
+          "id": "C2-Envoy-Reservations",
+          "category": "C2 海外专用 SaaS",
+          "pricing_model": "$5/可预订资源/月（年付）+ 未公开 platform fee",
+          "source": [
+            "S9",
+            "S21",
+            "S22",
+            "S23",
+            "S26",
+            "S34"
+          ],
+          "annual_usd": 180,
+          "annual_cny": 1202.0,
+          "budget_pct": 6.0,
+          "total_cost_known": false,
+          "unverified": [
+            "U6 platform fee 金额未公开 → 总价不可核验"
+          ]
+        },
+        {
+          "id": "C2-Whatspot-Premium",
+          "category": "C2 海外专用 SaaS",
+          "pricing_model": "按 spot 档位；日历同步需 Premium（单源 S19）",
+          "source": [
+            "S18",
+            "S19",
+            "S35",
+            "S36"
+          ],
+          "annual_usd_low": 300,
+          "annual_usd_high": 360,
+          "annual_cny_low": 2004.0,
+          "annual_cny_high": 2405.0,
+          "budget_pct_high": 12.0,
+          "unverified": [
+            "U4 官方页未抓取，4 个二手价格互相矛盾（X5）"
+          ]
+        },
+        {
+          "id": "C5-Joan-软件部分",
+          "category": "C5 门牌硬件+平台",
+          "pricing_model": "$51/月起（含一定用户与设备额度）；额外用户 $1.09/月、额外设备 $10.99/月；经 Outlook/Google 预订的员工不计费",
+          "source": [
+            "S4"
+          ],
+          "annual_usd": 612,
+          "annual_cny": 4088.0,
+          "budget_pct": 20.4,
+          "hardware_capex_cny": null,
+          "unverified": [
+            "U10 面板硬件单价（竞品页单源 $399/台，未核验）",
+            "起价所含用户/设备额度数量未在定价页写明"
+          ]
+        },
+        {
+          "id": "C1-M365-房间邮箱/Places",
+          "category": "C1 套件原生",
+          "pricing_model": "预订会议室零许可证成本（S2 官方）；autorelease/占用分析需 space license",
+          "source": [
+            "S2",
+            "S45"
+          ],
+          "annual_cny": 0,
+          "budget_pct": 0.0,
+          "precondition": "组织已持有 Microsoft 365（G2 未确认）",
+          "unverified": [
+            "U11 Teams Shared Space License 价格（S43 称 $8.55/月，非官方价格页）"
+          ]
+        },
+        {
+          "id": "C1-Google-Workspace-资源日历",
+          "category": "C1 套件原生",
+          "pricing_model": "Admin console 创建楼宇/会议室资源供日历预订（S3 官方）",
+          "source": [
+            "S3"
+          ],
+          "annual_cny": 0,
+          "budget_pct": 0.0,
+          "precondition": "组织已持有 Google Workspace（G2 未确认）",
+          "unverified": [
+            "U1 版本门槛与是否零增量成本未在官方页核验"
+          ]
+        },
+        {
+          "id": "C3-飞书会议室",
+          "category": "C3 国内协同套件",
+          "pricing_model": "会议室预定管理功能在基础版（免费）亦标注适用（S6 官方）；套餐价格未核验",
+          "source": [
+            "S6",
+            "S7",
+            "S8"
+          ],
+          "annual_cny": null,
+          "unverified": [
+            "U3 套餐价格五源矛盾（X10）",
+            "U2 会议室资源能否被外部 Google 日历用户预订（关键）"
+          ]
+        },
+        {
+          "id": "C3-钉钉智能会议室",
+          "category": "C3 国内协同套件",
+          "pricing_model": "基础版疑似免费 / 高级版疑似 ¥498/间/年（两源矛盾，均非官网）",
+          "source": [
+            "S51",
+            "S52"
+          ],
+          "annual_cny": null,
+          "annual_cny_if_advanced": 1494,
+          "unverified": [
+            "U12 收费口径矛盾（X9）",
+            "无任何 Google Calendar 集成证据"
+          ]
+        },
+        {
+          "id": "C3-企业微信+腾讯会议",
+          "category": "C3 国内协同套件",
+          "pricing_model": "未取得可核验的内置会议室预定能力与定价",
+          "source": [],
+          "annual_cny": null,
+          "unverified": [
+            "U13 2 次检索无官方来源"
+          ]
+        },
+        {
+          "id": "C2-Robin",
+          "category": "C2 海外专用 SaaS",
+          "pricing_model": "仅定制报价；二手价格 $4–35 互相矛盾",
+          "source": [
+            "S29",
+            "S30",
+            "S31",
+            "S32",
+            "S33"
+          ],
+          "annual_cny": null,
+          "unverified": [
+            "U5 命中阶段 01 排除规则 X4（价格不可核验）"
+          ]
+        },
+        {
+          "id": "C4-MRBS",
+          "category": "C4 开源自托管",
+          "pricing_model": "软件零许可费（GPL）+ 服务器 + 运维工时",
+          "source": [
+            "S11",
+            "S12",
+            "S13",
+            "S14",
+            "S15",
+            "S16",
+            "S17"
+          ],
+          "license_fee_cny": 0,
+          "server_cny_year_range": [
+            300,
+            1200
+          ],
+          "ops_cny_year_range": [
+            1800,
+            3600
+          ],
+          "in_budget_cash_cny_range": [
+            300,
+            1200
+          ],
+          "release_evidence": "v1.12.2 @2026-05-26 (S11)",
+          "calendar_capability": "仅 iCal 导出，caldav 代码 0 命中 (S14/S15)",
+          "unverified": [
+            "U18 服务器年费与运维工时均为估算-未核验（R7 未执行）"
+          ]
+        },
+        {
+          "id": "C4-LibreBooking",
+          "category": "C4 开源自托管",
+          "pricing_model": "软件零许可费（GPL）+ 服务器 + 运维工时",
+          "source": [
+            "S11",
+            "S12",
+            "S13",
+            "S14",
+            "S15",
+            "S16",
+            "S17"
+          ],
+          "license_fee_cny": 0,
+          "server_cny_year_range": [
+            300,
+            1200
+          ],
+          "ops_cny_year_range": [
+            1800,
+            3600
+          ],
+          "in_budget_cash_cny_range": [
+            300,
+            1200
+          ],
+          "release_evidence": "v7.1.0 @2026-10-13 (S12)",
+          "calendar_capability": "iCal 导入+导出 (S16)",
+          "unverified": [
+            "U18 服务器年费与运维工时均为估算-未核验（R7 未执行）"
+          ]
+        },
+        {
+          "id": "C4-Seatsurfing",
+          "category": "C4 开源自托管",
+          "pricing_model": "软件零许可费（GPL）+ 服务器 + 运维工时",
+          "source": [
+            "S11",
+            "S12",
+            "S13",
+            "S14",
+            "S15",
+            "S16",
+            "S17"
+          ],
+          "license_fee_cny": 0,
+          "server_cny_year_range": [
+            300,
+            1200
+          ],
+          "ops_cny_year_range": [
+            1800,
+            3600
+          ],
+          "in_budget_cash_cny_range": [
+            300,
+            1200
+          ],
+          "release_evidence": "v1.138.2 @2026-10-28 (S13)",
+          "calendar_capability": "内建 CalDAV 客户端 (S13/S17)",
+          "unverified": [
+            "U18 服务器年费与运维工时均为估算-未核验（R7 未执行）"
+          ]
+        }
+      ]
+    },
+    {
+      "rooms_n": 5,
+      "rows": [
+        {
+          "id": "C2-Skedda-APAC-Starter",
+          "category": "C2 海外专用 SaaS",
+          "pricing_model": "按档位含空间额度（$99/月含 15 空间，不限用户，年付）",
+          "source": [
+            "S1"
+          ],
+          "annual_usd": 1188,
+          "annual_cny": 7936.0,
+          "budget_pct": 39.7,
+          "fits_n": true,
+          "unverified": [
+            "U7 Integrations Pack 是否额外收费",
+            "U8 中国大陆适用哪一区定价"
+          ]
+        },
+        {
+          "id": "C2-Skedda-US-Plus（DA-6 被证伪时的上界）",
+          "category": "C2 海外专用 SaaS",
+          "pricing_model": "$249/月含 35 空间，年付",
+          "source": [
+            "S1"
+          ],
+          "annual_usd": 2988,
+          "annual_cny": 19960.0,
+          "budget_pct": 99.8,
+          "fits_n": true,
+          "unverified": [
+            "U7",
+            "U8"
+          ]
+        },
+        {
+          "id": "C2-Envoy-Reservations",
+          "category": "C2 海外专用 SaaS",
+          "pricing_model": "$5/可预订资源/月（年付）+ 未公开 platform fee",
+          "source": [
+            "S9",
+            "S21",
+            "S22",
+            "S23",
+            "S26",
+            "S34"
+          ],
+          "annual_usd": 300,
+          "annual_cny": 2004.0,
+          "budget_pct": 10.0,
+          "total_cost_known": false,
+          "unverified": [
+            "U6 platform fee 金额未公开 → 总价不可核验"
+          ]
+        },
+        {
+          "id": "C2-Whatspot-Premium",
+          "category": "C2 海外专用 SaaS",
+          "pricing_model": "按 spot 档位；日历同步需 Premium（单源 S19）",
+          "source": [
+            "S18",
+            "S19",
+            "S35",
+            "S36"
+          ],
+          "annual_usd_low": 300,
+          "annual_usd_high": 360,
+          "annual_cny_low": 2004.0,
+          "annual_cny_high": 2405.0,
+          "budget_pct_high": 12.0,
+          "unverified": [
+            "U4 官方页未抓取，4 个二手价格互相矛盾（X5）"
+          ]
+        },
+        {
+          "id": "C5-Joan-软件部分",
+          "category": "C5 门牌硬件+平台",
+          "pricing_model": "$51/月起（含一定用户与设备额度）；额外用户 $1.09/月、额外设备 $10.99/月；经 Outlook/Google 预订的员工不计费",
+          "source": [
+            "S4"
+          ],
+          "annual_usd": 612,
+          "annual_cny": 4088.0,
+          "budget_pct": 20.4,
+          "hardware_capex_cny": null,
+          "unverified": [
+            "U10 面板硬件单价（竞品页单源 $399/台，未核验）",
+            "起价所含用户/设备额度数量未在定价页写明"
+          ]
+        },
+        {
+          "id": "C1-M365-房间邮箱/Places",
+          "category": "C1 套件原生",
+          "pricing_model": "预订会议室零许可证成本（S2 官方）；autorelease/占用分析需 space license",
+          "source": [
+            "S2",
+            "S45"
+          ],
+          "annual_cny": 0,
+          "budget_pct": 0.0,
+          "precondition": "组织已持有 Microsoft 365（G2 未确认）",
+          "unverified": [
+            "U11 Teams Shared Space License 价格（S43 称 $8.55/月，非官方价格页）"
+          ]
+        },
+        {
+          "id": "C1-Google-Workspace-资源日历",
+          "category": "C1 套件原生",
+          "pricing_model": "Admin console 创建楼宇/会议室资源供日历预订（S3 官方）",
+          "source": [
+            "S3"
+          ],
+          "annual_cny": 0,
+          "budget_pct": 0.0,
+          "precondition": "组织已持有 Google Workspace（G2 未确认）",
+          "unverified": [
+            "U1 版本门槛与是否零增量成本未在官方页核验"
+          ]
+        },
+        {
+          "id": "C3-飞书会议室",
+          "category": "C3 国内协同套件",
+          "pricing_model": "会议室预定管理功能在基础版（免费）亦标注适用（S6 官方）；套餐价格未核验",
+          "source": [
+            "S6",
+            "S7",
+            "S8"
+          ],
+          "annual_cny": null,
+          "unverified": [
+            "U3 套餐价格五源矛盾（X10）",
+            "U2 会议室资源能否被外部 Google 日历用户预订（关键）"
+          ]
+        },
+        {
+          "id": "C3-钉钉智能会议室",
+          "category": "C3 国内协同套件",
+          "pricing_model": "基础版疑似免费 / 高级版疑似 ¥498/间/年（两源矛盾，均非官网）",
+          "source": [
+            "S51",
+            "S52"
+          ],
+          "annual_cny": null,
+          "annual_cny_if_advanced": 2490,
+          "unverified": [
+            "U12 收费口径矛盾（X9）",
+            "无任何 Google Calendar 集成证据"
+          ]
+        },
+        {
+          "id": "C3-企业微信+腾讯会议",
+          "category": "C3 国内协同套件",
+          "pricing_model": "未取得可核验的内置会议室预定能力与定价",
+          "source": [],
+          "annual_cny": null,
+          "unverified": [
+            "U13 2 次检索无官方来源"
+          ]
+        },
+        {
+          "id": "C2-Robin",
+          "category": "C2 海外专用 SaaS",
+          "pricing_model": "仅定制报价；二手价格 $4–35 互相矛盾",
+          "source": [
+            "S29",
+            "S30",
+            "S31",
+            "S32",
+            "S33"
+          ],
+          "annual_cny": null,
+          "unverified": [
+            "U5 命中阶段 01 排除规则 X4（价格不可核验）"
+          ]
+        },
+        {
+          "id": "C4-MRBS",
+          "category": "C4 开源自托管",
+          "pricing_model": "软件零许可费（GPL）+ 服务器 + 运维工时",
+          "source": [
+            "S11",
+            "S12",
+            "S13",
+            "S14",
+            "S15",
+            "S16",
+            "S17"
+          ],
+          "license_fee_cny": 0,
+          "server_cny_year_range": [
+            300,
+            1200
+          ],
+          "ops_cny_year_range": [
+            1800,
+            3600
+          ],
+          "in_budget_cash_cny_range": [
+            300,
+            1200
+          ],
+          "release_evidence": "v1.12.2 @2026-05-26 (S11)",
+          "calendar_capability": "仅 iCal 导出，caldav 代码 0 命中 (S14/S15)",
+          "unverified": [
+            "U18 服务器年费与运维工时均为估算-未核验（R7 未执行）"
+          ]
+        },
+        {
+          "id": "C4-LibreBooking",
+          "category": "C4 开源自托管",
+          "pricing_model": "软件零许可费（GPL）+ 服务器 + 运维工时",
+          "source": [
+            "S11",
+            "S12",
+            "S13",
+            "S14",
+            "S15",
+            "S16",
+            "S17"
+          ],
+          "license_fee_cny": 0,
+          "server_cny_year_range": [
+            300,
+            1200
+          ],
+          "ops_cny_year_range": [
+            1800,
+            3600
+          ],
+          "in_budget_cash_cny_range": [
+            300,
+            1200
+          ],
+          "release_evidence": "v7.1.0 @2026-10-13 (S12)",
+          "calendar_capability": "iCal 导入+导出 (S16)",
+          "unverified": [
+            "U18 服务器年费与运维工时均为估算-未核验（R7 未执行）"
+          ]
+        },
+        {
+          "id": "C4-Seatsurfing",
+          "category": "C4 开源自托管",
+          "pricing_model": "软件零许可费（GPL）+ 服务器 + 运维工时",
+          "source": [
+            "S11",
+            "S12",
+            "S13",
+            "S14",
+            "S15",
+            "S16",
+            "S17"
+          ],
+          "license_fee_cny": 0,
+          "server_cny_year_range": [
+            300,
+            1200
+          ],
+          "ops_cny_year_range": [
+            1800,
+            3600
+          ],
+          "in_budget_cash_cny_range": [
+            300,
+            1200
+          ],
+          "release_evidence": "v1.138.2 @2026-10-28 (S13)",
+          "calendar_capability": "内建 CalDAV 客户端 (S13/S17)",
+          "unverified": [
+            "U18 服务器年费与运维工时均为估算-未核验（R7 未执行）"
+          ]
+        }
+      ]
+    },
+    {
+      "rooms_n": 10,
+      "rows": [
+        {
+          "id": "C2-Skedda-APAC-Starter",
+          "category": "C2 海外专用 SaaS",
+          "pricing_model": "按档位含空间额度（$99/月含 15 空间，不限用户，年付）",
+          "source": [
+            "S1"
+          ],
+          "annual_usd": 1188,
+          "annual_cny": 7936.0,
+          "budget_pct": 39.7,
+          "fits_n": true,
+          "unverified": [
+            "U7 Integrations Pack 是否额外收费",
+            "U8 中国大陆适用哪一区定价"
+          ]
+        },
+        {
+          "id": "C2-Skedda-US-Plus（DA-6 被证伪时的上界）",
+          "category": "C2 海外专用 SaaS",
+          "pricing_model": "$249/月含 35 空间，年付",
+          "source": [
+            "S1"
+          ],
+          "annual_usd": 2988,
+          "annual_cny": 19960.0,
+          "budget_pct": 99.8,
+          "fits_n": true,
+          "unverified": [
+            "U7",
+            "U8"
+          ]
+        },
+        {
+          "id": "C2-Envoy-Reservations",
+          "category": "C2 海外专用 SaaS",
+          "pricing_model": "$5/可预订资源/月（年付）+ 未公开 platform fee",
+          "source": [
+            "S9",
+            "S21",
+            "S22",
+            "S23",
+            "S26",
+            "S34"
+          ],
+          "annual_usd": 600,
+          "annual_cny": 4008.0,
+          "budget_pct": 20.0,
+          "total_cost_known": false,
+          "unverified": [
+            "U6 platform fee 金额未公开 → 总价不可核验"
+          ]
+        },
+        {
+          "id": "C2-Whatspot-Premium",
+          "category": "C2 海外专用 SaaS",
+          "pricing_model": "按 spot 档位；日历同步需 Premium（单源 S19）",
+          "source": [
+            "S18",
+            "S19",
+            "S35",
+            "S36"
+          ],
+          "annual_usd_low": 300,
+          "annual_usd_high": 360,
+          "annual_cny_low": 2004.0,
+          "annual_cny_high": 2405.0,
+          "budget_pct_high": 12.0,
+          "unverified": [
+            "U4 官方页未抓取，4 个二手价格互相矛盾（X5）"
+          ]
+        },
+        {
+          "id": "C5-Joan-软件部分",
+          "category": "C5 门牌硬件+平台",
+          "pricing_model": "$51/月起（含一定用户与设备额度）；额外用户 $1.09/月、额外设备 $10.99/月；经 Outlook/Google 预订的员工不计费",
+          "source": [
+            "S4"
+          ],
+          "annual_usd": 612,
+          "annual_cny": 4088.0,
+          "budget_pct": 20.4,
+          "hardware_capex_cny": null,
+          "unverified": [
+            "U10 面板硬件单价（竞品页单源 $399/台，未核验）",
+            "起价所含用户/设备额度数量未在定价页写明"
+          ]
+        },
+        {
+          "id": "C1-M365-房间邮箱/Places",
+          "category": "C1 套件原生",
+          "pricing_model": "预订会议室零许可证成本（S2 官方）；autorelease/占用分析需 space license",
+          "source": [
+            "S2",
+            "S45"
+          ],
+          "annual_cny": 0,
+          "budget_pct": 0.0,
+          "precondition": "组织已持有 Microsoft 365（G2 未确认）",
+          "unverified": [
+            "U11 Teams Shared Space License 价格（S43 称 $8.55/月，非官方价格页）"
+          ]
+        },
+        {
+          "id": "C1-Google-Workspace-资源日历",
+          "category": "C1 套件原生",
+          "pricing_model": "Admin console 创建楼宇/会议室资源供日历预订（S3 官方）",
+          "source": [
+            "S3"
+          ],
+          "annual_cny": 0,
+          "budget_pct": 0.0,
+          "precondition": "组织已持有 Google Workspace（G2 未确认）",
+          "unverified": [
+            "U1 版本门槛与是否零增量成本未在官方页核验"
+          ]
+        },
+        {
+          "id": "C3-飞书会议室",
+          "category": "C3 国内协同套件",
+          "pricing_model": "会议室预定管理功能在基础版（免费）亦标注适用（S6 官方）；套餐价格未核验",
+          "source": [
+            "S6",
+            "S7",
+            "S8"
+          ],
+          "annual_cny": null,
+          "unverified": [
+            "U3 套餐价格五源矛盾（X10）",
+            "U2 会议室资源能否被外部 Google 日历用户预订（关键）"
+          ]
+        },
+        {
+          "id": "C3-钉钉智能会议室",
+          "category": "C3 国内协同套件",
+          "pricing_model": "基础版疑似免费 / 高级版疑似 ¥498/间/年（两源矛盾，均非官网）",
+          "source": [
+            "S51",
+            "S52"
+          ],
+          "annual_cny": null,
+          "annual_cny_if_advanced": 4980,
+          "unverified": [
+            "U12 收费口径矛盾（X9）",
+            "无任何 Google Calendar 集成证据"
+          ]
+        },
+        {
+          "id": "C3-企业微信+腾讯会议",
+          "category": "C3 国内协同套件",
+          "pricing_model": "未取得可核验的内置会议室预定能力与定价",
+          "source": [],
+          "annual_cny": null,
+          "unverified": [
+            "U13 2 次检索无官方来源"
+          ]
+        },
+        {
+          "id": "C2-Robin",
+          "category": "C2 海外专用 SaaS",
+          "pricing_model": "仅定制报价；二手价格 $4–35 互相矛盾",
+          "source": [
+            "S29",
+            "S30",
+            "S31",
+            "S32",
+            "S33"
+          ],
+          "annual_cny": null,
+          "unverified": [
+            "U5 命中阶段 01 排除规则 X4（价格不可核验）"
+          ]
+        },
+        {
+          "id": "C4-MRBS",
+          "category": "C4 开源自托管",
+          "pricing_model": "软件零许可费（GPL）+ 服务器 + 运维工时",
+          "source": [
+            "S11",
+            "S12",
+            "S13",
+            "S14",
+            "S15",
+            "S16",
+            "S17"
+          ],
+          "license_fee_cny": 0,
+          "server_cny_year_range": [
+            300,
+            1200
+          ],
+          "ops_cny_year_range": [
+            1800,
+            3600
+          ],
+          "in_budget_cash_cny_range": [
+            300,
+            1200
+          ],
+          "release_evidence": "v1.12.2 @2026-05-26 (S11)",
+          "calendar_capability": "仅 iCal 导出，caldav 代码 0 命中 (S14/S15)",
+          "unverified": [
+            "U18 服务器年费与运维工时均为估算-未核验（R7 未执行）"
+          ]
+        },
+        {
+          "id": "C4-LibreBooking",
+          "category": "C4 开源自托管",
+          "pricing_model": "软件零许可费（GPL）+ 服务器 + 运维工时",
+          "source": [
+            "S11",
+            "S12",
+            "S13",
+            "S14",
+            "S15",
+            "S16",
+            "S17"
+          ],
+          "license_fee_cny": 0,
+          "server_cny_year_range": [
+            300,
+            1200
+          ],
+          "ops_cny_year_range": [
+            1800,
+            3600
+          ],
+          "in_budget_cash_cny_range": [
+            300,
+            1200
+          ],
+          "release_evidence": "v7.1.0 @2026-10-13 (S12)",
+          "calendar_capability": "iCal 导入+导出 (S16)",
+          "unverified": [
+            "U18 服务器年费与运维工时均为估算-未核验（R7 未执行）"
+          ]
+        },
+        {
+          "id": "C4-Seatsurfing",
+          "category": "C4 开源自托管",
+          "pricing_model": "软件零许可费（GPL）+ 服务器 + 运维工时",
+          "source": [
+            "S11",
+            "S12",
+            "S13",
+            "S14",
+            "S15",
+            "S16",
+            "S17"
+          ],
+          "license_fee_cny": 0,
+          "server_cny_year_range": [
+            300,
+            1200
+          ],
+          "ops_cny_year_range": [
+            1800,
+            3600
+          ],
+          "in_budget_cash_cny_range": [
+            300,
+            1200
+          ],
+          "release_evidence": "v1.138.2 @2026-10-28 (S13)",
+          "calendar_capability": "内建 CalDAV 客户端 (S13/S17)",
+          "unverified": [
+            "U18 服务器年费与运维工时均为估算-未核验（R7 未执行）"
+          ]
+        }
+      ]
+    }
+  ]
+}
