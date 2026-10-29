@@ -1,36 +1,36 @@
-# Goal: R5.2-sourcepath-hardening — assert-packet-symmetry.py source_path 强制完整相对路径
+# Goal: R5.2audit-C12-mechanize — C12 形式性检查纳入机判
 
-> 创建：2026-10-30 · ralph loop runner（goal-queue 新导出候选，R5.2 04.5 W1 登记）
-> 依据：`loop-artifacts/stages/04.5/R5.2-review.md` W1 + `tasks/goal-queue.md` 候选行
+> 创建：2026-10-30 · ralph loop runner（goal-queue 新导出候选，R5.2-audit 04.5 W1）
+> 依据：`loop-artifacts/stages/04.5/R5.2audit-review.md` W1 + `tasks/goal-queue.md` 候选行
 
 ## 【目标】
-`r5/assert-packet-symmetry.py` 的 `file_reachable()` 现有 basename glob 兜底（L92-96）：当 source_path 中的路径 token 在已知 base 下 join 不到时，退化为"该文件名出现在 WS/PFB 任意目录即算可达"——run1/run2/run3 各有同名 execution-log.md / loop-state.json，兜底可能把指向 run1 的路径误判为 run2 的文件满足。本 goal 交付：
-1. **去掉 basename glob 兜底**：source_path 必须给出可在已知 base（WS / PFB / workspace 根）下直接 join 命中的完整相对路径；命中不了 = FAIL（不再静默降级到 glob）。
-2. **packet v2 的 source_path 字段规范化**（若存在触发兜底的条目）：改成完整相对路径形式，使脚本在严格模式下全绿。
-3. 重跑脚本 → exit 0，PASS 数不降（67 或等量），FAIL=0。
+`r5/assert-packet-audit.py` 当前把 C12（v1 packet "M1-M6 定义 +" 声称 vs 正文缺失）标为 SKIP(manual)。其数据提取部分实为字符串检查，可机判化：
+1. **脚本加 C12 机判项**：(a) 声称检测 = packet 含 "M1-M6 定义"；(b) 正文检测 = packet 中是否存在指标名+解释模式（`M[1-6]\s*[:：=（(]`）或定义性词汇；两者组合 → 输出机判信号（claimed & no body = mismatch 信号）。
+2. **verdict 归类仍留人工**：脚本只打印机判信号（如 `SIGNAL C12: claimed=yes body=no → 建议 verdict=mismatch(形式性)`），不自动写 verdict——与 04.5 R6 裁决一致（数据提取机判、归类人判）。
+3. 审计表 C12 行的证据定位补上该命令输出引用。
+4. 重跑 exit 0 且原 16 PASS / 0 FAIL 不变（C12 从 SKIP 变为 SIGNAL 报告项，不影响 exit code 语义）。
 
 ## 【阶段】
-bench 度量基础设施加固（R5.2 的 W1 收口）。前置事实已定：packet v2 已交付且对称性断言 67/0 通过（r102, baff4b3）；本 goal 只改断言脚本的可达性判定逻辑 + 必要的 source_path 文本规范化，不改任何字段值与分数。
+bench 度量基础设施微加固（R5.2-audit 的 W1 收口）。前置事实已定：r103 审计结论 8 confirmed / 3 mismatch / 1 unverified 冻结；本 goal 只增强机判覆盖，不改任何 verdict 结论与分数。
 
 ## 【SOP 索引】
 - `sop/arena-loop-pipeline.md`（唯一 SOP 入口）
 - `loop/prompt-first/00-common-review.md` + `01..04.5`（阶段定义）
-- `bench/self-opt-tester/r5/assert-packet-symmetry.py`（**改造对象**，尤其 file_reachable L72-97）
-- `bench/self-opt-tester/r5/evidence-packet-r4-v2.json`（source_path 字段承载面）
-- `bench/self-opt-tester/bench.md`（R5.2 节，追加 hardening 结果）
+- `bench/self-opt-tester/r5/assert-packet-audit.py`（**改造对象**，SKIP 段 L~110）
+- `bench/self-opt-tester/r5/packet-audit-r4-v1.md`（C12 行更新）
+- `bench/self-opt-tester/bench.md`（R5.2-audit 节微调一句）
 
 ## 【验收标准】
-1. 六阶段工件齐全于 `loop-artifacts/stages/<N>/`，文件名带前缀 `R5.2hard-*`
-2. 01：定位所有当前依赖 glob 兜底才通过的 source_path 条目（先跑一个诊断版列出哪些 check 走了兜底分支）
+1. 六阶段工件齐全于 `loop-artifacts/stages/<N>/`，文件名带前缀 `R5.2c12-*`
+2. 01：C12 机判逻辑设计（声称检测 + 正文检测的正则/关键词方案 + 假阳性边界分析）
 3. 02：web-llm 强制步骤执行并留回执（预期三 provider 仍 error → 记录失败继续）
-4. 02.5：矛盾/风险登记（如某 source_path 确实无法规范化为完整路径 → 处置方式裁决）+ 对抗核验停止理由
+4. 02.5：风险登记（如正文检测正则对合法定义形式的漏报面）+ 对抗核验停止理由
 5. 03：每步标 owner=user/agent
-6. 04：脚本改造落盘 + packet v2 source_path 规范化（如需）+ 重跑 exit 0 且 PASS 数 ≥ 原 67（严格化不应减少有效检查）
+6. 04：脚本改造落盘 + 审计表 C12 行更新 + 重跑 exit 0 且 16 PASS / 0 FAIL 维持 + C12 由 SKIP 变 SIGNAL 输出
 7. 04.5：反方复核 verdict + repair_stage
-8. bench.md R5.2 节追加 hardening 一句话结果
-9. commit + push 分支 `ralph/r5.2-sourcepath-hardening` + ls-remote 验证
+8. bench.md R5.2-audit 节补一句（C12 已机判化）
+9. commit + push 分支 `ralph/r5.2audit-c12-mechanize` + ls-remote 验证
 
 ## 【失败降级】
-- web-llm 三 provider 均不可用 → 记录失败回执后继续本地证据提取，不阻塞
-- 某 source_path 无法规范化（原始证据只在 git 对象库、无工作树路径）→ 保留其 "commit <hash>:<path>" 形式（git show 可达性检查本就独立于 glob），不算违规；仅禁止"裸 basename 靠 glob 命中"的路径
-- 严格化导致某条原本 PASS 的检查 FAIL 且无法规范化 → 回退该条为显式豁免清单（脚本内 EXEMPT 列表 + 注释原因），不得静默恢复 glob 兜底
+- web-llm 三 provider 均不可用 → 记录失败回执后继续，不阻塞
+- 正文检测正则出现假阳性/假阴性争议 → 机判信号措辞降为"线索"（stdout 明示 signal-only），verdict 仍完全留人工；不得因正则不完美而跳过机判化

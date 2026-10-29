@@ -6,7 +6,9 @@
 
 exit 0 语义 = 所有 confirmed 断言复核通过 **且** 所有已知 mismatch 断言按预期复现
 （即"该错配确实存在于 v1 packet"也被机判确认）。
-SKIP 项：C4 (unverified，本地无计时源) / C12 (形式性文本判断，人工裁决) —— 不参与 exit code。
+SKIP 项：C4 (unverified，本地无计时源) —— 不参与 exit code。
+SIGNAL 项：C12 ("M1-M6 定义+" 声称 vs 正文缺失) —— r105 起机判信号（signal-only，
+verdict 归类仍留人工，见 packet-audit-r4-v1.md C12 行），不参与 exit code。
 
 本脚本不产出任何 0-100 分数（分数冻结纪律）。
 """
@@ -110,10 +112,25 @@ check("X6c step2 run1_M2 裁决理由引用了 49", "49 行" in step2["adjudicat
 
 # ---------- SKIP 项（不参与 exit code） ----------
 skip("C4 run2 '14m27s'", "unverified——原始计时源为 arena 网页会话（外部），本地无账本可重建（X5）")
-skip("C12 'M1-M6 定义+' 句", "形式性 mismatch（声称-内容不符），人工裁决见审计表（X7）")
+
+# ---------- SIGNAL 项：C12 机判信号（signal-only，verdict 归类留人工；不参与 exit code） ----------
+# F1 声称检测：v1 原文首句精确子串（审计对象不可变，无需泛化）
+claims_def = "M1-M6 定义" in packet_v1
+# F2 正文检测：指标名紧邻解释性分隔符（只扫 evidence_packet 字段，不扫 key_reasons → 无误报源）
+def_markers = re.findall(r"M[1-6]\s*[:：=（(]", packet_v1)
+has_body = bool(def_markers)
+if claims_def and not has_body:
+    print(f"SIGNAL C12 'M1-M6 定义+' 句 — claimed=yes body=no (markers={def_markers}) "
+          f"→ 建议 verdict=mismatch(形式性) [人工确认，见审计表 X7]")
+elif claims_def and has_body:
+    print(f"SIGNAL C12 'M1-M6 定义+' 句 — claimed=yes body=yes (markers={def_markers}) "
+          f"→ 建议 verdict=confirmed [人工确认，见审计表 X7]")
+else:
+    print(f"SIGNAL C12 'M1-M6 定义+' 句 — claimed=no (markers={def_markers}) "
+          f"→ 断言不适用 [人工确认，见审计表 X7]")
 
 # ---------- 汇总 ----------
-print(f"\n=== {len(passes)} PASS / {len(failures)} FAIL / {len(skips)} SKIP ===")
+print(f"\n=== {len(passes)} PASS / {len(failures)} FAIL / {len(skips)} SKIP + 1 SIGNAL(C12) ===")
 if failures:
     print("FAILURES:")
     for f in failures:
@@ -121,6 +138,7 @@ if failures:
     sys.exit(1)
 print("VERDICT: 原 v1 packet 单行摘要机判审计通过——8 条 confirmed 断言全部复核成立；"
       "3 条 mismatch（C3/X4、C11/X2、X6）按预期复现（错配确实存在，已登记）；"
-      "1 条 unverified（C4/X5）+ 1 条形式性（C12/X7）SKIP 留人工结论。"
+      "1 条 unverified（C4/X5）SKIP 留人工结论；"
+      "1 条形式性（C12/X7）输出机判信号（signal-only，verdict 归类留人工）。"
       "本脚本不改任何分数值（分数冻结纪律）。")
 sys.exit(0)
