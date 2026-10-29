@@ -10,8 +10,9 @@
 ## 已完成
 
 - [x] R5.2-evidence-packet (2026-10-30, r102: baff4b3) — 模板 v2 + packet v2（run1 M2=24/run2 M2=25/run3 null~45；M5 轮数 1/1/2 全带 basis）+ 对称性断言 67/0 exit 0；X2 错配登记（原 packet "run3 任务书25行"张冠李戴）
+- [x] R5.2-packet-audit (2026-10-30, r103) — 原 v1 packet 单行摘要 12+1 原子断言全字段审计：8 confirmed / 3 mismatch / 1 unverified；新登记 X4(run1"无降级"vs degraded[3])/X5(14m27s unverified)/X6(step2"49/25/25"双错配，分值结论不变仅理由文本错→APPROVALS 条目 3)/X7("M1-M6定义+"空承诺)；机判脚本 assert-packet-audit.py 16/0/2 exit 0；未改任何冻结分
 
 ## 新导出候选
 
-- [ ] R5.2-packet-audit | 原 r4 packet 单行摘要全字段审计——逐项核对每个数字与原始证据（R5.2 只修了 4 项分歧点字段，其余摘要值如 "14m27s/10锚点/12,086 o200k" 未复核，虽未产生 |Δ|>15 分歧但可能有隐性错配） | 04.5 反方攻击 R6 导出，工作量小，收益=排除残余错配风险
 - [ ] R5.2-sourcepath-hardening | assert-packet-symmetry.py 去掉 basename glob 兜底——source_path 强制完整相对路径，消除同名文件误判局限（W1） | 04.5 W1 登记，工作量极小
+- [ ] R5.2audit-C12-mechanize | assert-packet-audit.py 把 C12 形式性检查（"M1-M6 定义+"声称 vs 正文缺失的字符串比对）纳入机判，verdict 归类仍留人工 | R5.2-audit 04.5 W1 导出，工作量极小

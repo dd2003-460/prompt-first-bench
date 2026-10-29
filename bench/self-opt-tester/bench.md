@@ -149,3 +149,19 @@
 **对第三打分器的使用说明**（下一 goal 直接引用）：送分时用 `r5/evidence-packet-r4-v2.json` 替代原单行摘要；打分回执格式沿用 r4/r5 已有 JSON schema（模板 v2 只管输入包，不动回执）；打完后可重算 Cohen's κ（vs DeepSeek/Claude Code 两基线）并升级为 Fleiss'κ（3 raters）。
 
 **边界声明**：对称性断言只证明**输入面对称**（4 个分歧点的字段现在两边都能看到同源证据），不预测新 κ 值——判断尺度差异（若有）只有第三打分器能分离。
+
+## R5.2-audit 原 packet 单行摘要全字段审计（r103 · Claude Code ralph loop 通道）
+
+**一句话结果**：原 v1 packet（`r4/independent-scoring-deepseek.json` evidence_packet 单行摘要）拆成 12+1 条原子断言逐条对照原始证据 → **8 confirmed / 3 mismatch / 1 unverified**；机判脚本 `r5/assert-packet-audit.py` 16 PASS / 0 FAIL / 2 SKIP（exit 0）。
+
+| verdict | 断言 | 说明 |
+|---------|------|------|
+| confirmed ×8 | run1 7锚点 / 5.11M未切分；run2 10锚点 / 12,086 o200k重发 / 2降级；run3 7锚点 / 无网络 / 3模板缺陷 | 全部有本地一手/准一手证据正向证实 |
+| mismatch ×3 | **X4** run1 "无降级"（实际 degraded[3]，措辞歧义，M6 诚实性不受损）/ **X2**（已知）run3 "任务书25行"张冠李戴 / **X7** "M1-M6 定义+" 声称但未提供正文（形式性） | X4/X7 新登记于 `stages/02.5/R5.2audit-cross-check.md` |
+| unverified ×1 | **X5** run2 "14m27s"（arena 外部会话时长，本地无计时账本可重建） | 非矛盾，禁升级为 confirmed |
+
+**关联错配 X6**（packet 外同链路）：`r4/adjudication-step2.json` inputs "任务书 49/25/25 行" 中 run1=49 与实测 24 矛盾（49 全仓无第二出处）；该 49 被 step2 裁决理由引用（run1_M2 "49 行 ≤200 行满分" → final=100 进入冻结分）。**关键事实：24 行同样 ≤200，分值结论不变，仅理由文本错** → 分数冻结纪律下不动分值，caveat 注记方式已提请成璐裁决（`个人/APPROVALS.md` 条目 3）。
+
+**对第三打分器的影响**：v1 packet 不应再作为 third-scorer 输入（缺失+错配+不可核验三类问题并存）；packet v2 已覆盖全部 mismatch 面（C11→P1 null/~45、C3→P5 完整降级列表、C12→P1-P6 必填 schema、C4→caveats unverified），third-scorer goal **直接用 v2 即可**。R5.1 的 4 项分歧归因于缺失字段的结论维持——审计未发现第 5+ 项来自错配的隐性分歧源（X4 未被任何 key_reason 引用为打分依据）。
+
+**交付物**：`r5/packet-audit-r4-v1.md`（审计表）+ `r5/assert-packet-audit.py`（机判，可重放）+ `stages/01..04.5/R5.2audit-*`（六阶段工件）。
