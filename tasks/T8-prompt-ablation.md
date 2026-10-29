@@ -111,17 +111,32 @@ decomp bench（ablation-L1）测的是**单 prompt 组件级**消融，对象是
 每段 prompt 签名行为出现率（对已有工件直接算）：候选集冻结声明出现率+漂移次数 / 主张带 URL 比例 / owner 标注比例 / reviewer 逐条打勾率 / ralph web-llm 调用记录（预期≈0）。
 
 ### C3 定向 paired runs（只对 top-k≤3 嫌疑段）
-- 顺序门禁：C1+C2 定完 top-k 才开 C3；C3 方案先过对抗核验（r29）- **r47 C1 探针实测（真实组件）**：用 probe server 对 4 个关键组件做 hidden-state 偏离度（vs baseline, 1-cos）：
-  | 组件 | 表征偏离 (1-cos) | 对接 L1 行为层结论 |
-  |---|---|---|
-  | C-candidate-freeze（候选集冻结） | **0.454**（最大） | contract rules 最关键（C6-nocontract 4.00 vs C0 14.63）✓ 印证 |
-  | C-owner-tag | 0.428 | — |
-  | C-evidence-url | 0.421 | 证据缺来源盲点 ✓ |
-  | C-negative-example | 0.325（最小） | negative examples harmful（≈5.67）✓ 印证 |
-  → **top-k for C3 = {candidate-freeze, owner-tag, evidence-url}**（按偏离度降序）；negative-example 排除出 C3（表征影响最小，与 L1 一致）。
-  → 双证据链（行为 L1 + 内部状态 C1）独立收敛到同一 top-k，C3 paired runs 目标锁定。
-- 配置：A 全量 / B 删 top-k（一次一个）/ 阳性对照（删候选集冻结，预期 M8 降）
-- 样本：≥2 域 × 2 run/配置；度量 M8 + M9
+- 顺序门禁：C1+C2 定完 top-k 才开 C3；C3 方案先过对抗核验（r29）。
+
+**r47 C1 探针实测（真实组件）**——用 probe server 对 4 个关键组件做 hidden-state 偏离度（vs baseline, 1-cos）：
+
+| 组件 | 表征偏离 (1-cos) | 对接 L1 行为层结论 |
+|---|---|---|
+| C-candidate-freeze（候选集冻结） | **0.454**（最大） | contract rules 最关键（C6-nocontract 4.00 vs C0 14.63）✓ 印证 |
+| C-owner-tag | 0.428 | — |
+| C-evidence-url | 0.421 | 证据缺来源盲点 ✓ |
+| C-negative-example | 0.325（最小） | negative examples harmful（≈5.67）✓ 印证 |
+
+→ **top-k for C3 = {candidate-freeze, owner-tag, evidence-url}**（按偏离度降序）；negative-example 排除出 C3（表征影响最小，与 L1 一致）。
+→ 双证据链（行为 L1 + 内部状态 C1）独立收敛到同一 top-k，C3 paired runs 目标锁定。
+
+**C3 可执行方案（r48 细化）**：
+- **配置矩阵**（每域跑 4 配置 × 2 run = 8 runs/域）：
+  - A-full：七阶段 prompt 全量（基线）
+  - B-nofreeze：删 candidate-freeze 组件（预期 M8 降幅最大，因 C1 偏离度最高）
+  - B-noowner：删 owner-tag 组件
+  - B-noevidence：删 evidence-url 组件
+  - 阳性对照 sanity：A-full 重复 2 run（测 run-to-run 方差，确认信号 > 噪声）
+- **样本**：2 域（decomp 目标分解 + pfb 一个 pipeline 阶段）× 上述配置；每配置 ≥2 run 取均值。
+- **度量**：M8（形式真实性，独立 AI 裁决防自估偏差）+ M9（成本/轮次）+ C2 行为代理指标（候选集漂移次数 / 主张带 URL 比例 / owner 标注比例）。
+- **判读**：B-noX 相对 A-full 的 ΔM8，若 |Δ| > 阳性对照方差 → 该组件有显著因果效应；结合 C1 偏离度排序验证因果方向是否一致。
+- **算力**：paired runs 走 ninfer HTTP :8000（行为层，快）；hidden-state 复核走 llama.cpp :8099（慢，只对关键 run 抽验）。
+- **前置**：本方案需先过对抗核验（r29，arena 反方找漏洞：如"删组件后模型可能补偿性强化其他行为""2 run 统计功效不足"）。
 
 ## Part D: arena 内部流程对比（r36 新增，核心新维度）
 
