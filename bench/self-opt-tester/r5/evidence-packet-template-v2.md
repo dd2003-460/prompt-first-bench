@@ -8,6 +8,7 @@
 
 1. **机械可测指标给原始值 + 来源路径，不给摘要**。原 packet 单行摘要既缺字段（M2/M5 全缺）又错配字段（X2："run3 任务书25行"实为 run2 的 25 行）——双重失败。
 2. **每字段三件套**：值 + source_path + source_quote（原文摘录或命令输出）。缺任一件 = 不得入包。
+   - **source_path 填写规范**（R5.2-sourcepath-hardening · W1 收口）：必须为 base 可解析的完整相对路径（`WS <workspace-relative>` / `pfb <repo-relative>` / git 对象 `commit <hash>:<path>` 形式）；**禁 `...` 缩写与裸 basename**——断言脚本已删 glob 兜底，缩写路径会直接 FAIL。多文件引用用 ` + ` 分隔，每个文件独立给出完整路径。
 3. **缺口显式 null + reason**，禁止用"合理估计"填充。DeepSeek 对缺字段的反应是系统性扣 50 分（M2=50 ×2），说明"没给"会被读成"差"；null+reason 让打分器能区分"证据缺失"与"表现差"。
    - 两类 null 政策：**证据缺口型**（原始证据确无数值记录，grep 全目录无果）= 允许，必填 `reason`/`conf_note`；**未提取型**（懒得提取）= 禁止。
 4. **降级/unverified 状态随字段走**（如 run2 arena 侧 token unverified、run3 无网络）——否则打分器自行脑补。
