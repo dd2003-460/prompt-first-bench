@@ -75,7 +75,7 @@
 2. M4「独立源」口径仍依赖裁决者主观——需操作化定义（如：不同 provider 且不同 prompt 模板的回执对）
 3. output token 与压缩净省不可测（bili 账本字段缺失）——需 provider 侧 cache 上报或换账本口径
 4. run2 arena 侧 token 总量 unverified（外部系统无账本）
-5. 独立打分器仍只 1 个（DeepSeek）——R5 加第二独立打分器做打分器间一致性（Fleiss'κ，R2 建议）
+5. ~~独立打分器仍只 1 个~~ **已解决（R5.1, r75-r77）**：Claude Code 盲打 18 数值分 + 3 gate 判定；Cohen's κ(3bin)=0.55 moderate agreement；分歧根源定位 = r4 evidence packet 缺 M2 行数/M5 轮数字段（结构性偏低，非尺度差异）→ 见下「R5.1 打分器间一致性」节
 6. 权重向量实质未变（退化的副产品）——bench 分数目前=「过程纪律审计分」，不是通用 agent 能力分
 
 ## O3 权重消融实验（r70 · rubric-v3 surprisal 条件概率权重）
@@ -104,6 +104,21 @@
 **独立 judge 盲测 r1（r73 · Claude Code ralph loop 通道）**：换 fresh-context subagent 盲估 p̃（物理隔离 prior-estimates.json，grep 验证无泄漏）。结果：**W3 top-5 构念效度 1/5 → pass=false**（原 judge 自评 3/5 是自我偏袒产物）；跨 judge Spearman ρ=0.688（≥0.6 门槛，方向稳定但弱一致，新 judge p̃ 分布整体右移、w2 动态范围被压缩）。04.5 反方复核确认 pass 判定对 tie-break 稳健。**最终裁定：surprisal 权重方案（含 W3 乘法组合）在独立验证下不成立，不进正式 rubric**；保留为负结果记录。
 
 **与 Pearson 折权的关系**：正交。Pearson 相关矩阵折权（|r|>0.7 → w×(1−|r|/2)）处理指标间冗余去重；本节 surprisal 权重处理节点级信息量/发现难度。前者管"哪些指标重复"，后者管"哪个发现更值钱"。
+
+
+## R5.1 打分器间一致性（r75-r77 · Claude Code 第二独立打分器）
+
+**方法**：Claude Code 盲打（时序屏障：打完才读 DeepSeek 分数值，04-execution-log 留痕）→ per-metric Spearman ρ (n=3 纯描述) + Cohen's κ（2 raters，3 档离散化 low<40/mid 40-70/high>70）。工件：`r5/scoring-claude-r1.json` + `r5/scorer-agreement-r1.json`。
+
+**结果**：
+- **κ=0.55（moderate agreement，Landis-Koch 0.41-0.60 档）**，po=0.7222/pe=0.3827。高基率效应已校正（high 档 12/18 点）。
+- per-metric ρ：M1=1.0 / M3=M4=M5=0.5 / M2=M6=−0.5（n=3 只有 6 种秩置换，ρ∈{−1,−0.5,0,+0.5,+1}，不支持推断，仅描述）
+- **|Δ|>15 分歧 4 项全在 M2（run1/run2，各 −50）与 M5（run1 −30、run3 −35）**，逐项对照后裁定倾向均指向 Claude Code 侧——但根因不是打分能力分歧：**r4 给 DeepSeek 的 evidence packet 缺「任务书行数」和「达 conf≥0.7 所需轮数」两个字段**，DeepSeek 自认因此系统性偏低。这是输入证据包不完整导致的结构性偏差，补齐字段后预期分歧消失。
+- 两打分器收敛点：M4 三项全 low/mid 边界（交叉验证确实是弱项）、M1 run2 低分（重发放大）——**核心结论（M4 是最大高估源）跨打分器稳健**。
+
+**残余风险**（04.5 自查登记）：盲打前读过 bench.md r4 数据表（含混合分），存在锚定残余；M7 按 gate 口径记 pass/fail 不产生连续分（避免给门禁指标虚构分数）。
+
+**R5.2 建议**（由本次分析导出）：evidence packet 模板固化 M2 行数 + M5 轮数字段 → 消除结构性分歧源；第三打分器（不同模型家族）把 κ 从 2-rater 升到 Fleiss'κ。
 
 ## 外部 baseline 对比（r2/r3 结论维持）
 
