@@ -1,0 +1,440 @@
+{
+ "judge": "qwen3.8-27b (Claude Code ralph loop channel, fresh-context subagent)",
+ "date": "2026-10-30",
+ "protocol": {
+  "source_task": "tasks/R5-judge-blindtest-task-brief.md @ main d22b5fb",
+  "blindness": "estimation executed by fresh-context subagent that never read prior-estimates.json; main session only supplied node text + parent context + gold-mark presence + 8-run hit counts (see loop-artifacts/stages/02.5 C4)",
+  "epsilon": 0.01,
+  "weight_formula": "w2 = 1 + min(-log2(p_tilde), log2(1/0.01)); p_tilde=null -> w2=1.0 (root policy inherited from original judge for cross-judge comparability)",
+  "w1_source": "rule-derived parent-SHARE mapping reused from prior-estimates.json w1 column (deterministic rule output, not a subjective estimate)"
+ },
+ "nodes": {
+  "N-0": {
+   "p_tilde": null,
+   "w2": 1.0,
+   "rationale": "根节点，无父上下文，按特殊政策不估子拆分概率，取中性值。"
+  },
+  "N-1": {
+   "p_tilde": 0.5,
+   "w2": 2.0,
+   "rationale": "LLM分解每任务成本时第一反应就是拆成每小时持有成本除以吞吐，c_hour是必经的中间量；但8个真实run全未实质覆盖说明该层常被跳过或隐含，故取中偏上。"
+  },
+  "N-1.1": {
+   "p_tilde": 0.6,
+   "w2": 1.737,
+   "rationale": "一旦承认有每小时持有成本，摊销（卡价+主机价折旧）是最先想到的大头项，属第一反应集合。"
+  },
+  "N-1.1.1": {
+   "p_tilde": 0.7,
+   "w2": 1.5146,
+   "rationale": "写摊销公式时GPU卡价是最显眼的输入参数，几乎必然被单列出来。"
+  },
+  "N-1.1.2": {
+   "p_tilde": 0.3,
+   "w2": 2.737,
+   "rationale": "主机价（服务器/机箱部分）相对卡价容易被忽略或合并进卡价，属边缘切法，8run零命中印证。"
+  },
+  "N-1.1.3": {
+   "p_tilde": 0.1,
+   "w2": 4.3219,
+   "rationale": "残值率（折旧期末价值折扣）需要财务领域洞察才会想到，通用LLM默认直线折旧不留残值，需反直觉才提出。"
+  },
+  "N-1.1.4": {
+   "p_tilde": 0.6,
+   "w2": 1.737,
+   "rationale": "摊销必须除以折旧年限换算成小时数，这是摊销公式的自然组成部分，7/8命中印证常见。"
+  },
+  "N-1.2": {
+   "p_tilde": 0.55,
+   "w2": 1.8625,
+   "rationale": "持有成本的三分法里电费是标准第二项，多数LLM会列出，但比摊销优先级略低。"
+  },
+  "N-1.2.1": {
+   "p_tilde": 0.6,
+   "w2": 1.737,
+   "rationale": "电费=功耗×电价，整机功耗是第一反应就写的因子，7/8命中印证。"
+  },
+  "N-1.2.2": {
+   "p_tilde": 0.35,
+   "w2": 2.5146,
+   "rationale": "电价作为外部常数通常被一笔带过而不单独展开，属边缘但常见的切法。"
+  },
+  "N-1.3": {
+   "p_tilde": 0.1,
+   "w2": 4.3219,
+   "rationale": "故障损耗（MTBF导致的停机/换卡成本）需要运维领域洞察才纳入持有成本，通用LLM默认忽略，8run零命中印证。"
+  },
+  "N-1.3.1": {
+   "p_tilde": 0.3,
+   "w2": 2.737,
+   "rationale": "在已接受故障损耗分支的前提下，三年故障概率是该公式的直接输入，条件概率中等。"
+  },
+  "N-1.3.2": {
+   "p_tilde": 0.2,
+   "w2": 3.3219,
+   "rationale": "这是共享引用而非新参数，LLM不会把同一卡价再当独立一刀来切，仅在被要求展开故障项时才顺带提及。"
+  },
+  "N-2": {
+   "p_tilde": 0.5,
+   "w2": 2.0,
+   "rationale": "c_pass公式里有利用率u，LLM会意识到硬件并非满载运转而引入有效利用率，但8run零命中说明常被当作1处理。"
+  },
+  "N-2.1": {
+   "p_tilde": 0.3,
+   "w2": 2.737,
+   "rationale": "利用率拆成需求占空比与调度效率两因子需要排队/容量规划视角，属边缘切法，且瓶颈弹性8x提示其重要性超出盲想预期。"
+  },
+  "N-2.2": {
+   "p_tilde": 0.15,
+   "w2": 3.737,
+   "rationale": "调度效率（批处理、抢占、碎片等系统因素）需要推理服务系统经验才会从利用率中单列，多数LLM只给一个笼统u。"
+  },
+  "N-3": {
+   "p_tilde": 0.6,
+   "w2": 1.737,
+   "rationale": "吞吐λ_raw=3600/t_task是成本分解的另一半主路径，LLM第一反应就会算单任务耗时，属核心切法。"
+  },
+  "N-3.1": {
+   "p_tilde": 0.55,
+   "w2": 1.8625,
+   "rationale": "单任务耗时分prefill与decode两段是LLM推理领域的常识性二分，题面90:9:1 token画像直接暗示输入段主导，易想到。"
+  },
+  "N-3.1.1": {
+   "p_tilde": 0.5,
+   "w2": 2.0,
+   "rationale": "prefill时间=计算量/算力，分子prefill FLOPs是该公式的直接输入，条件概率中等。"
+  },
+  "N-3.1.2": {
+   "p_tilde": 0.45,
+   "w2": 2.152,
+   "rationale": "峰值TFLOPS是硬件规格表上的显眼数字，写prefill公式时会自然引用，但未必单列为独立节点。"
+  },
+  "N-3.1.3": {
+   "p_tilde": 0.2,
+   "w2": 3.3219,
+   "rationale": "MFU（模型浮点利用率，实际算力/峰值）需要benchmark经验才知道典型值远低于峰值，属领域洞察级切法，8run零命中印证。"
+  },
+  "N-3.2": {
+   "p_tilde": 0.55,
+   "w2": 1.8625,
+   "rationale": "decode段耗时是prefill/decode二分的另一半，必然伴随出现，4/8命中。"
+  },
+  "N-3.2.1": {
+   "p_tilde": 0.55,
+   "w2": 1.8625,
+   "rationale": "decode受内存带宽限制，权重字节数（W4/W8/W16量化后大小）是首要读取量，量化选项在题面给出使其更易想到。"
+  },
+  "N-3.2.2": {
+   "p_tilde": 0.4,
+   "w2": 2.3219,
+   "rationale": "KV cache每流字节数是decode带宽分析的关键项，熟悉长上下文的LLM会想到，但精确到per-stream粒度属中等难度切法。"
+  },
+  "N-3.2.3": {
+   "p_tilde": 0.6,
+   "w2": 1.737,
+   "rationale": "峰值显存带宽GB/s是GPU规格表核心指标，写decode带宽公式时几乎必引，8/8命中印证极常见。"
+  },
+  "N-3.2.4": {
+   "p_tilde": 0.25,
+   "w2": 3.0,
+   "rationale": "有效带宽系数η_bw（实际/峰值带宽折扣）需要实测经验才会引入，通用LLM常直接用峰值带宽，属边缘切法。"
+  },
+  "N-4": {
+   "p_tilde": 0.25,
+   "w2": 3.0,
+   "rationale": "任务通过率G_pass作为nuisance参数出现在分母，LLM可能意识到验收门槛过滤掉部分任务，但常默认G=1省略，4/8命中。"
+  },
+  "N-5": {
+   "p_tilde": 0.45,
+   "w2": 2.152,
+   "rationale": "面对8×3候选配置，LLM第一反应会检查哪些配置根本放不下模型从而划掉不可行项，约束筛选是常见思路。"
+  },
+  "N-5.1": {
+   "p_tilde": 0.55,
+   "w2": 1.8625,
+   "rationale": "显存容量门槛（权重+KV≤可用显存）是最基本可行性检查，5/8命中印证常见。"
+  },
+  "N-5.2": {
+   "p_tilde": 0.08,
+   "w2": 4.6439,
+   "rationale": "按最低带宽准入值淘汰候选需要知道各量化档位的带宽下限并做准入比较，属精细领域操作，8run零命中印证极少盲想到。"
+  },
+  "N-5.3": {
+   "p_tilde": 0.3,
+   "w2": 2.737,
+   "rationale": "缓存命中率（prefix caching等）作为nuisance参数影响有效成本，熟悉serving优化的LLM会提到，但精确建模属边缘，8/8命中偏高故取中值。"
+  }
+ },
+ "w3_top5": [
+  "N-4",
+  "N-1.1.3",
+  "N-5",
+  "N-3.2.4",
+  "N-1"
+ ],
+ "construct_validity_pass": false,
+ "construct_validity_detail": {
+  "criterion": "top-5 W3 nodes with gold marks (■瓶颈/★订正) >= 3 of 5",
+  "gold_marked_set_strict": [
+   "N-2.1(■瓶颈#1)",
+   "N-3.2.2(★2倍分歧)",
+   "N-2(★F-B)",
+   "N-4(■瓶颈#2)",
+   "N-1.3(★F-C)"
+  ],
+  "gold_marked_set_narrow": [
+   "N-2.1",
+   "N-3.2.2",
+   "N-2"
+  ],
+  "fa_correction_marks_not_counted": [
+   "N-3.1(★F-A)",
+   "N-3.2(★F-A)"
+  ],
+  "marked_count_strict": 1,
+  "marked_count_narrow": 0,
+  "note": "strict criterion is primary (r71b frozen); F-A numeric-correction marks excluded per r71b baseline, sensitivity: 0 F-A nodes in top-5 so exclusion does not change the count"
+ },
+ "cross_judge_spearman": {
+  "p_tilde_rho_n30_excl_root": 0.688,
+  "p_tilde_rho_n31_neutral_root": 0.7175,
+  "threshold": 0.6,
+  "stable": true,
+  "verdict": "rho >= 0.6 on both calibers -> prior directionally stable across judges (descriptive, n=30, no inference)",
+  "run_ranking_rho_w3": 0.9762,
+  "run_ranking_note": "W3 O3-score run ranking new vs old judge: ranks identical except run2/run8 swap (4th/5th); rho=0.9762 — the ordering effect of W3 weights survives judge change even though the node-level top-5 does not"
+ },
+ "w3_full_ranking": [
+  {
+   "node": "N-4",
+   "p_tilde": 0.25,
+   "w1": 5.0,
+   "w2": 3.0,
+   "w3": 15.0
+  },
+  {
+   "node": "N-1.1.3",
+   "p_tilde": 0.1,
+   "w1": 2.712,
+   "w2": 4.3219,
+   "w3": 11.7211
+  },
+  {
+   "node": "N-5",
+   "p_tilde": 0.45,
+   "w1": 5.0,
+   "w2": 2.152,
+   "w3": 10.76
+  },
+  {
+   "node": "N-3.2.4",
+   "p_tilde": 0.25,
+   "w1": 3.396,
+   "w2": 3.0,
+   "w3": 10.188
+  },
+  {
+   "node": "N-1",
+   "p_tilde": 0.5,
+   "w1": 5.0,
+   "w2": 2.0,
+   "w3": 10.0
+  },
+  {
+   "node": "N-2",
+   "p_tilde": 0.5,
+   "w1": 5.0,
+   "w2": 2.0,
+   "w3": 10.0
+  },
+  {
+   "node": "N-3",
+   "p_tilde": 0.6,
+   "w1": 5.0,
+   "w2": 1.737,
+   "w3": 8.6848
+  },
+  {
+   "node": "N-3.1.3",
+   "p_tilde": 0.2,
+   "w1": 2.604,
+   "w2": 3.3219,
+   "w3": 8.6503
+  },
+  {
+   "node": "N-1.3",
+   "p_tilde": 0.1,
+   "w1": 2.0,
+   "w2": 4.3219,
+   "w3": 8.6439
+  },
+  {
+   "node": "N-3.2.2",
+   "p_tilde": 0.4,
+   "w1": 3.396,
+   "w2": 2.3219,
+   "w3": 7.8853
+  },
+  {
+   "node": "N-2.2",
+   "p_tilde": 0.15,
+   "w1": 2.0,
+   "w2": 3.737,
+   "w3": 7.4739
+  },
+  {
+   "node": "N-1.2.2",
+   "p_tilde": 0.35,
+   "w1": 2.972,
+   "w2": 2.5146,
+   "w3": 7.4733
+  },
+  {
+   "node": "N-1.1.2",
+   "p_tilde": 0.3,
+   "w1": 2.712,
+   "w2": 2.737,
+   "w3": 7.4227
+  },
+  {
+   "node": "N-3.2.1",
+   "p_tilde": 0.55,
+   "w1": 3.396,
+   "w2": 1.8625,
+   "w3": 6.325
+  },
+  {
+   "node": "N-3.2.3",
+   "p_tilde": 0.6,
+   "w1": 3.396,
+   "w2": 1.737,
+   "w3": 5.8987
+  },
+  {
+   "node": "N-3.1.2",
+   "p_tilde": 0.45,
+   "w1": 2.604,
+   "w2": 2.152,
+   "w3": 5.6038
+  },
+  {
+   "node": "N-2.1",
+   "p_tilde": 0.3,
+   "w1": 2.0,
+   "w2": 2.737,
+   "w3": 5.4739
+  },
+  {
+   "node": "N-3.1.1",
+   "p_tilde": 0.5,
+   "w1": 2.604,
+   "w2": 2.0,
+   "w3": 5.208
+  },
+  {
+   "node": "N-1.2.1",
+   "p_tilde": 0.6,
+   "w1": 2.972,
+   "w2": 1.737,
+   "w3": 5.1623
+  },
+  {
+   "node": "N-1.1.4",
+   "p_tilde": 0.6,
+   "w1": 2.712,
+   "w2": 1.737,
+   "w3": 4.7107
+  },
+  {
+   "node": "N-5.2",
+   "p_tilde": 0.08,
+   "w1": 1.0,
+   "w2": 4.6439,
+   "w3": 4.6439
+  },
+  {
+   "node": "N-1.3.2",
+   "p_tilde": 0.2,
+   "w1": 1.32,
+   "w2": 3.3219,
+   "w3": 4.3849
+  },
+  {
+   "node": "N-1.1.1",
+   "p_tilde": 0.7,
+   "w1": 2.712,
+   "w2": 1.5146,
+   "w3": 4.1075
+  },
+  {
+   "node": "N-1.2",
+   "p_tilde": 0.55,
+   "w1": 2.0,
+   "w2": 1.8625,
+   "w3": 3.725
+  },
+  {
+   "node": "N-3.1",
+   "p_tilde": 0.55,
+   "w1": 2.0,
+   "w2": 1.8625,
+   "w3": 3.725
+  },
+  {
+   "node": "N-3.2",
+   "p_tilde": 0.55,
+   "w1": 2.0,
+   "w2": 1.8625,
+   "w3": 3.725
+  },
+  {
+   "node": "N-1.3.1",
+   "p_tilde": 0.3,
+   "w1": 1.32,
+   "w2": 2.737,
+   "w3": 3.6128
+  },
+  {
+   "node": "N-1.1",
+   "p_tilde": 0.6,
+   "w1": 2.0,
+   "w2": 1.737,
+   "w3": 3.4739
+  },
+  {
+   "node": "N-5.3",
+   "p_tilde": 0.3,
+   "w1": 1.0,
+   "w2": 2.737,
+   "w3": 2.737
+  },
+  {
+   "node": "N-5.1",
+   "p_tilde": 0.55,
+   "w1": 1.0,
+   "w2": 1.8625,
+   "w3": 1.8625
+  },
+  {
+   "node": "N-0",
+   "p_tilde": null,
+   "w1": 1.0,
+   "w2": 1.0,
+   "w3": 1.0
+  }
+ ],
+ "original_judge_reference": {
+  "w3_top5": [
+   "N-3.2.2",
+   "N-3.2.4",
+   "N-2.1",
+   "N-2",
+   "N-1.1.3"
+  ],
+  "marked_count_strict": 3,
+  "overlap_with_new_top5": [
+   "N-3.2.4",
+   "N-1.1.3"
+  ]
+ }
+}
