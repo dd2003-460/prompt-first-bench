@@ -9,7 +9,6 @@
 
 ## 已完成
 
-- [x] T8-matrix-run-r1 (2026-10-30, r101) — M8 三点趋势: 0.93/1.00/1.00
 - [x] R5.2-evidence-packet (2026-10-30, r102: baff4b3) — 模板 v2 + packet v2（run1 M2=24/run2 M2=25/run3 null~45；M5 轮数 1/1/2 全带 basis）+ 对称性断言 67/0 exit 0；X2 错配登记（原 packet "run3 任务书25行"张冠李戴）
 
 ## 新导出候选
