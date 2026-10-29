@@ -1,42 +1,41 @@
-# Goal: RUBRIC-V3-FULL-AUDIT / G5 优化清单（机判化候选 + 并行化候选 + 成本估算）
+# Goal: RUBRIC-V3-FULL-AUDIT / G6 综合报告 + rubric-v3 定稿建议
 
-> 创建：2026-10-30 · ralph loop runner（队首大 goal RUBRIC-V3-FULL-AUDIT 的子 goal G5）
-> 依据：`tasks/RUBRIC-V3-FULL-AUDIT-task-brief.md` G5 节 + G4 g4-vulnerability-crosscheck.md「给 G5 的导出」+ R5.2 系列 assert-* 脚本模式
+> 创建：2026-10-30 · ralph loop runner（队首大 goal RUBRIC-V3-FULL-AUDIT 的最后一个子 goal G6）
+> 依据：`tasks/RUBRIC-V3-FULL-AUDIT-task-brief.md` G6 节 + G4「给 G6 的定稿约束」+ G5「给 G6 的导出」
 
 ## 【目标】
-任务书 G5 = 「机判化候选（哪些判定能写成 assert 脚本）+ 并行化候选 + 成本估算」。交付：
-1. **机判化候选表**（C1-C6）：p̃ 多源断言 / κ 回执断言 / W3W4 复算断言 / w2 公式断言 / spearman 一致性断言 / gold 单源检测（登记不实施）。合计 ~9 回合（合并后 ~7）。
-2. **并行化候选表**（P1-P5）：p̃ 多 LLM 盲生成 / κ 换位双判 / 第二格实验 / 8 run 重跑 / arena 语义重判。P1/P2/P3 信息边界；P4 BLOCKED by finding #17；P5 风险最低。
-3. **成本估算总表**：12 blocker 三级分类（L1×5 ≈ 10 回合 + L2×7 ≈ 22 回合 = ~32 回合）+ 16 major/4 minor 处置建议 + 机判/并行成本汇总。
-4. **负面结果声明六条**：W0 退化 / W1 tie-sensitive / new W3 top5_gold tie-sensitive / per-run 无 run 过线 / 语义级重判不可机判 / κ 值计算不可机判。
-5. **给 G6 的导出**：建议 G6 前落地 5 项（B10/B3+B11/B6/C4/C3）+ 留给后续 5 项 + 硬约束提醒 3 条。
-6. **交付物** `bench/rubric-v3/ablation/g5-optimization-list.md`。
+任务书 G6 = 「综合报告 `bench/rubric-v3/AUDIT-report.md` — 汇总 G1-G5，给出 rubric-v3 定稿建议（哪些维度保留/修改/废弃 + 理由），对标顶刊标准自评」。交付物必含五要素：
+1. **G1-G5 发现汇总**（矛盾清单 C1-C4 / 根因 F1-F4 / 决策矩阵 O1-O3 / 漏洞判定 S1-S5 / 优化清单 C1-C6+P1-P5）。
+2. **rubric-v3 定稿建议**：O1-O4/P1-P4 逐维 保留/修改/废弃 + 理由；主判据与权重方案推荐路径。
+3. **(a) 与 ResearcherBench/RACE 差异表**（消费 gap-analysis Q1/Q2/Q3 坐标系）。
+4. **(b) 负面结果声明**：合并 G1(3)+G3(3)+G4(3)+G5(6)，去重后逐条标注来源 goal，被证伪假设显式列出。
+5. **(c) S2 限定语**：所有 O3 构念效度数字带「相对 Lead-gold + 同族双 judge」双重限定（G4 硬约束）。
+6. **(d) 32 findings 处置表**：12 blocker 逐条 采纳/拒绝/延后 + 理由 + 修复路径确认（消费 G5 3b 成本分级）；16 major/4 minor 按类处置。
+7. **(e) tie-sensitivity 限定语**：new W3 top5_gold ∈ [1,2] 依赖 tie-break；W1 goldmeanrank ∈ [9.60,13.40]；gold mean rank 为 tie-robust 指标（推荐主判据）。
 
 ## 【阶段】
-rubric-v3 研究级审计链（G1-G6）的第五环。消费 G4 三类「部分规避」结构（降档→强制机械化 / 覆盖缺失→补覆盖 / 强度不足→加固阈值）+ adversarial-check 32 findings（12 blocker）+ R5.2 assert-* 脚本先例，回答「哪些判定可以机械化防住、哪些步骤可以并行加速、各需多少成本」。本 goal 只做设计+成本估算，不实现任何脚本、不执行任何并行步骤（B3 边界）。
+rubric-v3 研究级审计链（G1-G6）的收口环。消费全部前序产出 + adversarial-check 32 findings + gap-analysis 坐标系，回答「rubric-v3 能否定稿、以什么形态定稿、哪些数字可以对外宣称」。本 goal 只写报告与定稿建议，不实施任何 DRAFT 修订、不改冻结数据、不执行外部通道（B3 边界——DRAFT 修订作为定稿建议输出，落地留后续 goal）。
 
 ## 【SOP 索引】
 - `sop/arena-loop-pipeline.md`（唯一 SOP 入口）
 - `loop/prompt-first/00-common-review.md` + `01..04.5`（阶段定义）
-- `receipts/adversarial-check-rubric-v3.json`（32 findings，本地路径）
-- `bench/self-opt-tester/r5/assert-packet-symmetry.py` + `bench/rubric-v3/ablation/scripts/assert-g1-audit.py`（assert 脚本模式参考）
-- `bench/rubric-v3/ablation/{prior-estimates,judge-blindtest-r1,hit-matrix,stats-w3w4}.json`（冻结只读）
-- `bench/rubric-v3/ablation/g4-vulnerability-crosscheck.md`（G4 导出，上游输入）
+- `bench/rubric-v3/ablation/{G1-contradiction-audit,g2-rootcause,g3-w3w4-completion,g4-vulnerability-crosscheck,g5-optimization-list}.md`（G1-G5 交付物，上游输入）
+- `receipts/adversarial-check-rubric-v3.json`（32 findings，verdict=revise）
+- `git show aea3d6b:receipts/rubric-v3-gap-analysis.md`（Q1-Q3 坐标系，ResearcherBench/RACE 细节）
+- `git show origin/rubric-v3:bench/rubric-v3/DRAFT-rubric-v3.md`（§0-§6 待评对象）
+- `bench/rubric-v3/ablation/{prior-estimates,judge-blindtest-r1,hit-matrix,stats-w3w4,stats-recomputed}.json` + `gold-tree.md`（冻结只读）
 
 ## 【验收标准】
-1. 六阶段工件齐全于 `loop-artifacts/stages/<N>/`，文件名带前缀 `RV3G5-`
-2. 01：四因素分解（F1 交付结构 / F2 机判化来源盘点 / F3 并行化盘点 / F4 成本口径）+ 空缺 G1-G3
-3. 02：web-llm 强制步骤执行并留回执（三 provider error → 记录失败继续）+ F1-F5 证据固化 + C1-C5 可行性 + P1-P5 可行性 + 负面结果四条
-4. 02.5：反方质询 Q1-Q6（验证范围限定 / tie-sensitivity 削弱 / W1 表述修正 / per-run 一致性 / 成本估算依据 / 保真度风险区分）+ 风险登记 R1-R6 + 对抗核验停止理由
-5. 03：行动 DAG（A1-A3）+ 关键判读分支预注册 + 不做的事边界（不实现脚本 / 不替 G6 定稿 / 不改冻结数据 / 不执行并行步骤）
-6. 04：交付物落盘（五节结构完整）+ 诚实保留（schema 未定稿 / B2 信息边界 / 16 major 未逐条分级 / web-llm 失效 / 成本单位标注）
-7. 04.5：反方检查六条 + verdict pass + repair_stage 无 + 给 G6 的下一步建议（12 blocker 分类表 / tie-sensitivity 限定语 / 5 项 L1 修订可并入 G6）
-8. 冻结数据零修改（git status 可查）
-9. commit + push 分支 `ralph/rubric-v3-audit-g5` + ls-remote 验证 + merge main + queue 注记
+1. 六阶段工件齐全于 `loop-artifacts/stages/<N>/`，文件名带前缀 `RV3G6-`
+2. AUDIT-report.md 落盘且七要素齐全（上【目标】1-7）
+3. G4 硬约束三条全部满足：S2 双重限定语 / 32 findings 处置表（12 blocker 逐条）/ tie-sensitivity 限定语
+4. 定稿建议给出明确推荐路径（消费 G3 决策矩阵：O1 gold-mean-rank 主判据 + O3 式 experimental 声明 + O2 挂起），并说明为何不是其他选项
+5. 维度级建议表覆盖 O1-O4/P1-P4 全 8 维，每维 保留/修改/废弃 + 理由 + 关联 finding 编号
+6. 冻结数据零修改（git status 可查）
+7. commit + push 分支 `ralph/rubric-v3-audit-g6` + ls-remote 验证 + merge main + queue 标记主 goal 完成 + 追加 ≥1 新候选
 
 ## 【失败降级】
-- web-llm 三 provider 均不可用 → 记录失败回执后继续，不阻塞
-- 12 blocker 中某条无法分级 → 标"待 G6 判定"而非强行归类
-- 机判化候选中有实际不可机判的项 → 移入负面结果声明节
-- 并行化候选成本超出本轮可估范围 → 标"信息边界"并说明缺什么信息
+- web-llm 三 provider 全失效 → 外部文献交叉验证不可用，按任务书降级条款以仓库内证据为准并在报告中标注 unverified
+- 某 blocker 修复路径无法在现有信息下确认 → 标「延后 + 缺什么信息」而非强行裁定
+- 04.5 对抗审查 verdict=fail → 回 04 修复后重审，不跳过
 - merge 冲突 → 停手登记 APPROVALS，不 force
