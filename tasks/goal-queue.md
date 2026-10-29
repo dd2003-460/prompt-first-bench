@@ -4,7 +4,7 @@
 
 ## 待办
 
-- [ ] RUBRIC-V3-FULL-AUDIT | rubric-v3 完整消融推进+矛盾/漏洞/优化审计（G1-G6 六子goal，研究级长任务）| 任务书 tasks/RUBRIC-V3-FULL-AUDIT-task-brief.md；队首优先——决定 rubric-v3 能否定稿，含真正的方法论判断（构念效度根因），非 trivial 修补。runner 按 G1→G6 顺序拆子 goal 逐个走 1-loop，每个子 goal 独立收口 merge main 后取下一个
+- [ ] RUBRIC-V3-FULL-AUDIT | rubric-v3 完整消融推进+矛盾/漏洞/优化审计（G1-G6 六子goal，研究级长任务）| 任务书 tasks/RUBRIC-V3-FULL-AUDIT-task-brief.md；队首优先——决定 rubric-v3 能否定稿，含真正的方法论判断（构念效度根因），非 trivial 修补。runner 按 G1→G6 顺序拆子 goal 逐个走 1-loop，每个子 goal 独立收口 merge main 后取下一个。**进度：G2 完成 (2026-10-30, ralph/rubric-v3-audit-g2) — 根因=双源 p̃ 偏差(共同零命中高估+新 judge 保守下界)+判据极严(P≥3 基线 1.99%)；公式层排除；三选项 O1/O2/O3 落盘 bench/rubric-v3/ablation/g2-rootcause.md。G1 机判脚本已跑通(exit 0)但 loop 工件待补**
 - [ ] R5.2-third-scorer | 第三打分器（不同模型家族）用 packet v2 盲打 r4 三 run，κ 从 2-rater 升到 Fleiss'κ | R5.2 已交付 packet v2（输入对称断言通过），本 goal 直接消费；需 arena 通道或第三个本地模型，产投比中但依赖外部
 - [x] T8-matrix-run-r1 (2026-10-30, r101: M8=1.00 团队文件协作/网盘选型域) | 按 tasks/T8-matrix-run-r1.md 任务书执行矩阵 run | 任务书已 push，产投比中
 
