@@ -4,14 +4,15 @@
 
 ## 待办
 
-- [ ] R5.2-evidence-packet | evidence packet 模板固化 M2 行数 + M5 轮数字段，消除打分器结构性分歧源 | R5.1 分析直接导出，工作量小（写模板+补 r4 三 run 的字段），收益=κ 提升可验证
+- [ ] R5.2-third-scorer | 第三打分器（不同模型家族）用 packet v2 盲打 r4 三 run，κ 从 2-rater 升到 Fleiss'κ | R5.2 已交付 packet v2（输入对称断言通过），本 goal 直接消费；需 arena 通道或第三个本地模型，产投比中但依赖外部
 - [x] T8-matrix-run-r1 (2026-10-30, r101: M8=1.00 团队文件协作/网盘选型域) | 按 tasks/T8-matrix-run-r1.md 任务书执行矩阵 run | 任务书已 push，产投比中
-- [ ] R5.2-third-scorer | 第三打分器（不同模型家族）把 κ 从 2-rater 升到 Fleiss'κ | 需 arena 通道或第三个本地模型，产投比中但依赖外部
 
 ## 已完成
 
 - [x] T8-matrix-run-r1 (2026-10-30, r101) — M8 三点趋势: 0.93/1.00/1.00
+- [x] R5.2-evidence-packet (2026-10-30, r102: baff4b3) — 模板 v2 + packet v2（run1 M2=24/run2 M2=25/run3 null~45；M5 轮数 1/1/2 全带 basis）+ 对称性断言 67/0 exit 0；X2 错配登记（原 packet "run3 任务书25行"张冠李戴）
 
 ## 新导出候选
 
-- [ ] R5.2-evidence-packet-v2 | 把 r4 evidence packet 补 M2 行数+M5 轮数字段后重跑 DeepSeek 打分，验证 κ 提升 | r101 后 queue 队首，产投比高（直接消除已定位的结构性分歧源）
+- [ ] R5.2-packet-audit | 原 r4 packet 单行摘要全字段审计——逐项核对每个数字与原始证据（R5.2 只修了 4 项分歧点字段，其余摘要值如 "14m27s/10锚点/12,086 o200k" 未复核，虽未产生 |Δ|>15 分歧但可能有隐性错配） | 04.5 反方攻击 R6 导出，工作量小，收益=排除残余错配风险
+- [ ] R5.2-sourcepath-hardening | assert-packet-symmetry.py 去掉 basename glob 兜底——source_path 强制完整相对路径，消除同名文件误判局限（W1） | 04.5 W1 登记，工作量极小
