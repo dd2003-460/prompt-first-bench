@@ -16,6 +16,6 @@
 
 ## 新导出候选
 
-- [ ] R5.2hard-EXEMPT-sentinel | assert-packet-symmetry.py 加 EXEMPT 非空哨兵（stdout 警告，防豁免被悄悄累积） | R5.2-hardening 04.5 W1 导出，工作量极小
+- [x] R5.2hard-EXEMPT-sentinel (2026-10-30, r106: 6fbd47b) — EXEMPT 非空哨兵警告落地, SELF-TEST 假豁免验证触发, 67/0 exit 0 基线维持
 - [ ] R5.2audit-C4-timing-reconstruct | C4 "14m27s" 数值化机判：解析 $WS/run2/loop-state.json channel 时间戳做差值重建耗时区间，与 14m27s 比对输出 SIGNAL（若转录件无逐事件时间戳则降级为"不可重建"信号并登记 X5 状态更新） | R5.2-audit 02.5 A4 导出：C4 属数值计算而非字符串比对，超出 C12 goal 边界；工作量小
 - [ ] R5.2audit-signal-counter | assert-packet-audit.py 汇总行 "+ 1 SIGNAL(C12)" 硬编码改为 signal 计数变量（防未来加第二个 signal 时汇总行撒谎） | R5.2c12 04.5 R6/W1 登记，工作量极小
