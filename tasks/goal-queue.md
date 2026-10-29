@@ -4,7 +4,7 @@
 
 ## 待办
 
-- [ ] RUBRIC-V3-FULL-AUDIT | rubric-v3 完整消融推进+矛盾/漏洞/优化审计（G1-G6 六子goal，研究级长任务）| 任务书 tasks/RUBRIC-V3-FULL-AUDIT-task-brief.md；队首优先——决定 rubric-v3 能否定稿，含真正的方法论判断（构念效度根因），非 trivial 修补。runner 按 G1→G6 顺序拆子 goal 逐个走 1-loop，每个子 goal 独立收口 merge main 后取下一个。**进度：G2 完成 (2026-10-30, ralph/rubric-v3-audit-g2) — 根因=双源 p̃ 偏差(共同零命中高估+新 judge 保守下界)+判据极严(P≥3 基线 1.99%)；公式层排除；三选项 O1/O2/O3 落盘 bench/rubric-v3/ablation/g2-rootcause.md。G1 机判脚本已跑通(exit 0)但 loop 工件待补**
+- [ ] RUBRIC-V3-FULL-AUDIT | rubric-v3 完整消融推进+矛盾/漏洞/优化审计（G1-G6 六子goal，研究级长任务）| 任务书 tasks/RUBRIC-V3-FULL-AUDIT-task-brief.md；队首优先——决定 rubric-v3 能否定稿，含真正的方法论判断（构念效度根因），非 trivial 修补。runner 按 G1→G6 顺序拆子 goal 逐个走 1-loop，每个子 goal 独立收口 merge main 后取下一个。**进度：G1 完成 (2026-10-30, ralph/rubric-v3-audit-g1) — loop 工件补齐 + 矛盾清单 C1-C4 落盘 bench/rubric-v3/ablation/G1-contradiction-audit.md（C1 ρ_orig=0.456 弱相关 / C2 三二项式红旗 N-1,N-1.1,N-5.3 / C3 零命中高p̃清单 / C4 W3结论对p̃来源敏感 3/5↔1/5）；形式一致率 35/35=100%（h=1方向），语义级独立重判 unverified（禁subagent，arena 通道可复用已落盘 75 样本清单补数）。G2 完成 (2026-10-30, ralph/rubric-v3-audit-g2) — 根因=双源 p̃ 偏差(共同零命中高估+新 judge 保守下界)+判据极严(P≥3 基线 1.99%)；公式层排除；三选项 O1/O2/O3 落盘 bench/rubric-v3/ablation/g2-rootcause.md。下一步 G3（W3/W4 收尾，启动前先查 R5.2-third-scorer 状态决定 O2 路径）**
 - [ ] R5.2-third-scorer | 第三打分器（不同模型家族）用 packet v2 盲打 r4 三 run，κ 从 2-rater 升到 Fleiss'κ | R5.2 已交付 packet v2（输入对称断言通过），本 goal 直接消费；需 arena 通道或第三个本地模型，产投比中但依赖外部
 - [x] T8-matrix-run-r1 (2026-10-30, r101: M8=1.00 团队文件协作/网盘选型域) | 按 tasks/T8-matrix-run-r1.md 任务书执行矩阵 run | 任务书已 push，产投比中
 
@@ -20,3 +20,4 @@
 - [x] R5.2hard-EXEMPT-sentinel (2026-10-30, r106: 6fbd47b) — EXEMPT 非空哨兵警告落地, SELF-TEST 假豁免验证触发, 67/0 exit 0 基线维持
 - [ ] R5.2audit-C4-timing-reconstruct | C4 "14m27s" 数值化机判：解析 $WS/run2/loop-state.json channel 时间戳做差值重建耗时区间，与 14m27s 比对输出 SIGNAL（若转录件无逐事件时间戳则降级为"不可重建"信号并登记 X5 状态更新） | R5.2-audit 02.5 A4 导出：C4 属数值计算而非字符串比对，超出 C12 goal 边界；工作量小
 - [ ] R5.2audit-signal-counter | assert-packet-audit.py 汇总行 "+ 1 SIGNAL(C12)" 硬编码改为 signal 计数变量（防未来加第二个 signal 时汇总行撒谎） | R5.2c12 04.5 R6/W1 登记，工作量极小
+- [ ] RV3G1-semantic-rejudge | G1 语义级独立重判补数：用 arena 通道对已落盘 75 样本 cell（bench/rubric-v3/ablation/scripts/g1-sample-cells.json）做 fresh-context 盲重判 h，报语义一致率（覆盖 S1 未覆盖的 h=0 漏判方向），回填 G1-contradiction-audit.md §1 | G1 04.5 W1/R4 导出：工具纪律禁 subagent 导致降级交付，样本清单已就绪可直接复用；需 arena 会话通道
