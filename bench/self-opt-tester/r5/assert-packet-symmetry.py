@@ -9,9 +9,13 @@
 exit 0 = pass（结构性分歧源已消除：两打分器将看到同一证据面）。
 本脚本不产出任何 0-100 分数（分数冻结纪律）。
 
-已知局限（04.5 W1）：file_reachable 的 basename glob 兜底可能误判同名文件
-（run1/run2/run3 各有 execution-log.md / loop-state.json）；触发兜底的条目
-已人工核对路径真实存在。后续版本应让 source_path 强制完整相对路径。
+source_path 可达性判定（R5.2-sourcepath-hardening · W1 收口，严格模式）：
+- git 对象形式（"commit <hash>" + tasks/*.md）→ git show 可达即过；
+- 本地文件：提取的全部路径 token 必须在某 base（WS/PFB/workspace 根）下
+  join 命中——**全部命中才 PASS**（多文件 source_path 逐 token 独立判定）。
+- 已删除 basename glob 兜底（原 W1 局限：同名文件跨 run 误判）。
+  EXEMPT 豁免清单预留（预期永不使用）：条目必须带原因注释并在 stdout 明示。
+- source_path 填写规范见 evidence-packet-template-v2.md（禁 `...` 缩写与裸 basename）。
 """
 import json, os, re, subprocess, sys
 
@@ -69,8 +73,13 @@ for run, data in runs.items():
     check(f"{run}/P5 降级条目全带 anchor", all_anchored, f"n={len(items)}")
 
 # ---------- (b) 4 个 R5.1 分歧点字段存在且来源可达 ----------
+# EXEMPT 豁免清单（R5.2-sourcepath-hardening A4 裁决：预期永不使用）。
+# 条目格式 = (source_path 前缀, 原因)。命中豁免的 token 在 stdout 明示，不静默。
+EXEMPT = []
+
 def file_reachable(path_field):
-    """source_path 可达性：本地文件路径存在，或 git 对象（commit:path）可达。"""
+    """source_path 严格可达性（W1 收口）：git 对象可达，或全部路径 token 在 base 下 join 命中。
+    无 basename glob 兜底——同名文件跨 run 误判已消除。"""
     s = path_field
     m = re.search(r"commit ([0-9a-f]{7,})", s)
     if m:
@@ -80,21 +89,23 @@ def file_reachable(path_field):
             r = subprocess.run(["git", "-C", PFB, "show", f"{cm}:{fm.group(1)}"],
                                capture_output=True)
             return r.returncode == 0
-    # 本地文件：提取路径 token（容忍 'WS .../' 缩写前缀 → 映射到真实 WS 目录；
-    # 容忍 token 后跟非路径尾注如 " bench-row 节"——findall 只取 .ext 前的部分）
-    for tok in re.findall(r"[\w./\-]+\.(?:md|json|txt)", s):
-        for base in (WS, PFB, "/Users/a1-6/Desktop/workspace"):
-            cand = os.path.join(base, tok)
-            if os.path.exists(cand):
-                return True
-            # 相对 base 的深层路径（tok 含多段时 join 已覆盖；此处兜底 substring 匹配）
-        # 兜底：tok 作为子串出现在某已知目录下
-    import glob as _g
-    leaf = os.path.basename(tok)
-    for pat in (os.path.join(WS, "**", leaf), os.path.join(PFB, "**", leaf)):
-        if _g.glob(pat, recursive=True):
-            return True
-    return False
+    # 本地文件：提取全部路径 token（容忍 'WS .../' / 'pfb ...' 前缀；
+    # 尾注如 " bench-row 节" 因无扩展名结尾不会被提取）
+    toks = re.findall(r"[\w./\-]+\.(?:md|json|txt)", s)
+    if not toks:
+        return False
+    for tok in toks:
+        hit = any(os.path.exists(os.path.join(base, tok))
+                  for base in (WS, PFB, "/Users/a1-6/Desktop/workspace"))
+        if hit:
+            continue
+        # 查显式豁免（非 glob 兜底）
+        exempted = next((reason for prefix, reason in EXEMPT if tok.startswith(prefix)), None)
+        if exempted is None:
+            print(f"  [EXEMPT-MISS] {tok} — 无 base join 命中且不在 EXEMPT 清单")
+            return False
+        print(f"  [EXEMPT] {tok} — {exempted}")
+    return True
 
 disagreement_points = [
     ("run1", "P1_brief_lines", "R5.1 分歧 #1: run1 M2 (DeepSeek 50 vs Claude 100)"),

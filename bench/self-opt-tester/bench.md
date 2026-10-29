@@ -150,6 +150,8 @@
 
 **边界声明**：对称性断言只证明**输入面对称**（4 个分歧点的字段现在两边都能看到同源证据），不预测新 κ 值——判断尺度差异（若有）只有第三打分器能分离。
 
+**W1 收口（R5.2-sourcepath-hardening · r104）**：`assert-packet-symmetry.py` 已删 basename glob 兜底——source_path 严格模式（git 对象可达，或全部路径 token 在 base 下 join 命中才 PASS；多文件逐 token 独立判定）；packet v2 的 10 条含 `...` 缩写/裸相对段的 source_path 规范化为完整相对路径（字段值零改动，diff 仅 10 行）；重跑 **67 PASS / 0 FAIL exit 0**（PASS 数与 r102 基线一致）。模板 v2 补填写规则（禁缩写/裸 basename）。同名文件跨 run 误判局限消除。
+
 ## R5.2-audit 原 packet 单行摘要全字段审计（r103 · Claude Code ralph loop 通道）
 
 **一句话结果**：原 v1 packet（`r4/independent-scoring-deepseek.json` evidence_packet 单行摘要）拆成 12+1 条原子断言逐条对照原始证据 → **8 confirmed / 3 mismatch / 1 unverified**；机判脚本 `r5/assert-packet-audit.py` 16 PASS / 0 FAIL / 2 SKIP（exit 0）。
