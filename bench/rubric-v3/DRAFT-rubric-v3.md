@@ -58,6 +58,12 @@
 - **命中判据不变**：judge 拿产出逐节点对照 gold tree.md，节点 ID 对得上且通过正确性/相关性/必要关系核验才算 h_v=1
 - **黑盒标注是能力不是缺陷**：显式标"我不知道+区间+怎么测"的叶子正常计分，漏标才是错
 
+**消融证据（r71/r71b · `ablation/ablation-result.md`）**：8 个真实 C0 run × 31 节点上对比 W0 flat / W1 importance / W2 surprisal（+W3=w1×w2、W4=w1+w2 组合探索）：
+- 排序影响成立：三套权重 Spearman ρ 0.81–0.97，W0–W2 分歧最大（ρ=0.8102）；W0 下打平的 run 对在 W1/W2 下全部拉开差距
+- 构念效度未过线：W2 top-5 与 gold 专家标记重合仅 2/5（门槛 ≥3），surprisal≠importance 迹象明确
+- W3（乘法组合）唯一过线（3/5，严格/窄两口径一致），但刚过线且 p̃ 由同一 judge 估计（自我偏袒）未除 → **候选改进方向，独立 judge 盲测确认前不写入正式公式**
+- 当前定稿维持纯 surprisal 公式（§O3 权重公式行）；若独立 judge 盲测支持，再升级为 w = w_importance × w_surprisal 混合式
+
 ### O4 条件化结论质量
 
 | 档 | 判据 |
