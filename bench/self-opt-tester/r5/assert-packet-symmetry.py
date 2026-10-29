@@ -14,7 +14,8 @@ source_path 可达性判定（R5.2-sourcepath-hardening · W1 收口，严格模
 - 本地文件：提取的全部路径 token 必须在某 base（WS/PFB/workspace 根）下
   join 命中——**全部命中才 PASS**（多文件 source_path 逐 token 独立判定）。
 - 已删除 basename glob 兜底（原 W1 局限：同名文件跨 run 误判）。
-  EXEMPT 豁免清单预留（预期永不使用）：条目必须带原因注释并在 stdout 明示。
+  EXEMPT 豁免清单预留（预期永不使用）：条目必须带原因注释并在 stdout 明示；
+  清单非空时另有 [EXEMPT-NONEMPTY] 哨兵警告（r106，防零命中注入被静默稀释）。
 - source_path 填写规范见 evidence-packet-template-v2.md（禁 `...` 缩写与裸 basename）。
 """
 import json, os, re, subprocess, sys
@@ -75,7 +76,15 @@ for run, data in runs.items():
 # ---------- (b) 4 个 R5.1 分歧点字段存在且来源可达 ----------
 # EXEMPT 豁免清单（R5.2-sourcepath-hardening A4 裁决：预期永不使用）。
 # 条目格式 = (source_path 前缀, 原因)。命中豁免的 token 在 stdout 明示，不静默。
-EXEMPT = []
+EXEMPT = [("definitely-not-a-real-path-prefix", "SELF-TEST 假豁免")]
+
+# 非空哨兵（R5.2hard-EXEMPT-sentinel · r106）：清单本身非空即警告——
+# 防"注入豁免但零命中"时 stdout 零痕迹、严格模式被静默稀释。仅可见性加固，不影响 exit code。
+if EXEMPT:
+    print(f"WARNING [EXEMPT-NONEMPTY] {len(EXEMPT)} 条豁免生效中——严格模式已被部分放宽，"
+          f"请人工确认每条 reason 合理性：")
+    for _prefix, _reason in EXEMPT:
+        print(f"  - {_prefix} → {_reason}")
 
 def file_reachable(path_field):
     """source_path 严格可达性（W1 收口）：git 对象可达，或全部路径 token 在 base 下 join 命中。
