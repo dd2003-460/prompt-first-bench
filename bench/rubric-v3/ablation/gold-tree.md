@@ -1,6 +1,6 @@
 # 全树一页
 
-35 个节点，主干深度 4，叶子 13 个。所有数字来自 [`../tasks/T0-local-27b/reference/calc.py`](../tasks/T0-local-27b/reference/calc.py)，赢家配置 3090×4 / W4 / n=2。
+31 个节点，主干深度 4，叶子 13 个。所有数字来自 [`../tasks/T0-local-27b/reference/calc.py`](../tasks/T0-local-27b/reference/calc.py)，赢家配置 3090×4 / W4 / n=2。
 
 长出这棵树的过程见 [`L0`](L0-root.md) → [`L1`](L1.md) → [`L2`](L2.md) → [`L3`](L3.md) → [`L4`](L4.md) → [`L5`](L5-blackbox.md)。
 

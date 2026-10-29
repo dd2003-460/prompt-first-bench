@@ -8,7 +8,7 @@ gap analysis（`receipts/rubric-v3-gap-analysis.md`，在 research/deepresearch-
 本任务做第 1 条（第 2 条需要新域盲测，另开任务）。
 
 ## 输入材料（都在本目录 bench/rubric-v3/ablation/）
-- `gold-tree.md` — decomp 硬件域 gold 树，35 节点带 ID（N-0, N-1, N-1.1, ...），含 SHARE 份额标注
+- `gold-tree.md` — decomp 硬件域 gold 树，31 节点带 ID（N-0, N-1, N-1.1, ...），含 SHARE 份额标注
 - `prompt-V0.txt` — baseline 题面（C9-plain 档，无引导）
 - `runs-C0-run1.md` ~ `runs-C0-run8.md` — 8 个已有模型产出（同一 prompt 的 8 次独立 run，真实数据不是编的）
 
@@ -26,7 +26,7 @@ gap analysis（`receipts/rubric-v3-gap-analysis.md`，在 research/deepresearch-
 - **W1 importance**：用 gold-tree.md 里的 SHARE 份额映射——w = 1 + 4×SHARE_parent_of_node（父节点 SHARE≥0.25 → w≈2；SHARE 0.1-0.25 → w≈1.5；<0.1 → w≈1.2）。这是 ResearcherBench 式的"专家觉得重要"权重
 - **W2 surprisal**：按 rubric-v3 协议模拟 p̃——你（作为 judge LLM）对每个节点回答："一个没见过 gold 的 LLM，在这个父节点上下文下盲生成分解时，提出这个子拆分的概率大概是多少？"给 p̃ 估计（0-1），然后 w = 1 + min(−log₂ p̃, log₂(1/0.01)) ≈ 封顶 8。p̃ 估计要写理由（为什么模型容易/不容易想到这一刀），存 `prior-estimates.json`
 
-O3_score(run, W) = Σ w_v·h_v / Σ w_v（只对 h 有定义的节点求和，即全部 35 节点）
+O3_score(run, W) = Σ w_v·h_v / Σ w_v（只对 h 有定义的节点求和，即全部 31 节点）
 
 ### Step 3: 对比分析
 输出 `ablation-result.md`：
