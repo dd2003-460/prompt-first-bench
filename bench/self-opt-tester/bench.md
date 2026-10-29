@@ -101,6 +101,8 @@
 
 **局限**：n=8 描述性统计；单域（硬件部署）；单 judge。结论边界 = "小样本支持权重影响排序，不支持 surprisal 单独作为重要性代理"。
 
+**独立 judge 盲测 r1（r73 · Claude Code ralph loop 通道）**：换 fresh-context subagent 盲估 p̃（物理隔离 prior-estimates.json，grep 验证无泄漏）。结果：**W3 top-5 构念效度 1/5 → pass=false**（原 judge 自评 3/5 是自我偏袒产物）；跨 judge Spearman ρ=0.688（≥0.6 门槛，方向稳定但弱一致，新 judge p̃ 分布整体右移、w2 动态范围被压缩）。04.5 反方复核确认 pass 判定对 tie-break 稳健。**最终裁定：surprisal 权重方案（含 W3 乘法组合）在独立验证下不成立，不进正式 rubric**；保留为负结果记录。
+
 **与 Pearson 折权的关系**：正交。Pearson 相关矩阵折权（|r|>0.7 → w×(1−|r|/2)）处理指标间冗余去重；本节 surprisal 权重处理节点级信息量/发现难度。前者管"哪些指标重复"，后者管"哪个发现更值钱"。
 
 ## 外部 baseline 对比（r2/r3 结论维持）
