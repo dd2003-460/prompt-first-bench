@@ -31,7 +31,7 @@
 | C9 | run3 | "无网络" | **confirmed** | `$WS/run3/execution-log.md` M6 行 "无网络/无 arena 全程如实标注 unverified"；`r4/token-split.json` run3.note "subagent 独立 session，无网络" | — | — |
 | C10 | run3 | "3模板缺陷" | **confirmed** | `$WS/run3/03-review.md` `^## 缺陷` 标题恰好 3 个（L8/L18/L29）；归属核对：packet 将其挂在 run3 名下，与文件位置一致 | — | — |
 | C11 | run3 | "任务书25行" | **mismatch（已知）** | 即 R5.2 登记的 **X2**：25 = run2 task-brief 实测（`bench/self-opt-tester/run2-arena/task-brief.md` wc -l = 25）；run3 任务书为 Lead 派发消息文本，无落盘文件，唯一记载 = execution-log bench-row 自估 "~45 行"。packet v2 已修正（run3 P1=null/~45） | 高 | X2（引用） |
-| C12 | 跨 run | "M1-M6 定义 +" | **mismatch（形式性）** | packet 字段全文不含任何 M1-M6 定义正文——"M1-M6" 仅出现在该自我声称处；指标含义靠缩写术语隐含传递。声称-内容不符 | 低 | **X7** |
+| C12 | 跨 run | "M1-M6 定义 +" | **mismatch（形式性）** | packet 字段全文不含任何 M1-M6 定义正文——"M1-M6" 仅出现在该自我声称处；指标含义靠缩写术语隐含传递。声称-内容不符。**机判信号（r105）**：`python3 bench/self-opt-tester/r5/assert-packet-audit.py` → `SIGNAL C12 'M1-M6 定义+' 句 — claimed=yes body=no (markers=[]) → 建议 verdict=mismatch(形式性) [人工确认]`（signal-only，verdict 归类留人工） | 低 | **X7** |
 
 ## 关联错配面（packet 外、同一输入链路）
 

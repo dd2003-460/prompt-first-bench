@@ -167,3 +167,5 @@
 **对第三打分器的影响**：v1 packet 不应再作为 third-scorer 输入（缺失+错配+不可核验三类问题并存）；packet v2 已覆盖全部 mismatch 面（C11→P1 null/~45、C3→P5 完整降级列表、C12→P1-P6 必填 schema、C4→caveats unverified），third-scorer goal **直接用 v2 即可**。R5.1 的 4 项分歧归因于缺失字段的结论维持——审计未发现第 5+ 项来自错配的隐性分歧源（X4 未被任何 key_reason 引用为打分依据）。
 
 **交付物**：`r5/packet-audit-r4-v1.md`（审计表）+ `r5/assert-packet-audit.py`（机判，可重放）+ `stages/01..04.5/R5.2audit-*`（六阶段工件）。
+
+**C12 机判化（R5.2audit-C12-mechanize · r105）**：C12 "M1-M6 定义+" 声称-内容比对由 SKIP(manual) 改为机判信号输出（claimed=yes body=no → 建议 mismatch(形式性)，signal-only、verdict 归类仍留人工）；重跑 16 PASS / 0 FAIL / 1 SKIP + 1 SIGNAL，exit 0 语义不变。
