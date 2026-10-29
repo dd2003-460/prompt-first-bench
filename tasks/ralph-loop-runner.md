@@ -6,6 +6,15 @@
 
 ### 阶段 A：取 goal
 0. **先 `git checkout main`**（防分支漂移），确认在 main 上再动作
+   **runner 桥接规则（Hermes stop-hook 驱动模式）**：当本会话由 Hermes stop-hook 唤醒且消息含「ralph loop runner」或指向本协议时，执行者 = Hermes agent 本人（不是 claude CLI）：
+   - 从 `tasks/goal-queue.md` 取队首未完成 goal → 写 `tasks/current-goal.md`
+   - 用 terminal 工具派发 claude 执行该 goal：
+     `claude -p "git checkout main。读 tasks/ralph-loop-runner.md 和 <goal任务书路径>，执行 <goal短名>，走完整 1-loop 六阶段，commit+push 到你的新分支 ralph/<goal短名>。" --dangerously-skip-permissions --max-turns 200`
+     （background=true, notify=true；prompt 保持单段、无角色前缀、≤3 个文件引用——复杂多段 prompt 会触发 API 400 tool_reference）
+   - 轮询验证（每 5-8 min 一次）：`git log --oneline main..HEAD` + `find loop-artifacts/stages/ -name "*<goal前缀>*"` + `ps aux | grep "[c]laude -p" | wc -l`
+   - claude 收口后（进程退出或 max-turns 耗尽）：我验证产出（跑断言脚本/grep 关键数字）→ merge 回 main → push → 更新 queue（划掉+结果注记+追加新候选）
+   - **同一回合内立即取下一个 goal 重复上述流程**——stop-hook 会在每次我想停时把我拽回来，所以「回合结束」不是终点
+   - 若 claude 进程死亡（API error/卡死）：检查 /tmp/ralph-loop-r*.log 定位原因，简化 prompt 重试一次；仍失败则登记边界后跳过该 goal 取下一个
 1. 读 `tasks/goal-queue.md` → 取队首未完成的 goal；若队列空则自找：
    - 扫 `bench/self-opt-tester/bench.md` 已知缺陷清单 → 选产投比最高的未解决项
    - 扫 `tasks/*.md` 未完成的任务书回执
