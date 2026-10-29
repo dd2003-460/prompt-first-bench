@@ -1,32 +1,31 @@
 # CONTINUE_MSG — pfb 工作区
 
-## 当前状态 @ 2026-10-30 05:30 +0800
+## 当前状态 @ 2026-10-30 06:40 +0800
 
-**T8-matrix-run-r1 goal 完成（六阶段全过 + M8 计分 + design.md 回填）**：
-- 域：团队文件协作/网盘选型（30 人研发团队，预算 ≤¥30,000/年）
-- 推荐方案：坚果云 Team Standard（¥10,800/年，预算余量 64%）
-- 备选：飞书标准版（能力优先）/ Nextcloud 自托管（自主可控）/ Seafile Pro（细粒度权限）
-- M8 = **1.00**（形式真实性满分；核验强度受 web-llm 缺失压在 0.2 档）
-- 三域趋势：0.93 → 1.00 → 1.00（平坦，无退化）
-- 工件：stages/T8r1-{00,01,02,02.5,03,04,04.5} + runs/tselect-vfull-filecollab/{cost-model.json, m8-scorecard.md} + design.md 第 3 行回填
+**RUBRIC-V3-FULL-AUDIT / G2 构念效度根因 goal 收口（六阶段全过，merge main @ 7d17452）**：
+- F1 公式层排除：双 judge 62/62 w2 按公式精确复算一致
+- F2 主根因（双源）：(a) 双 judge 共同零命中高估——N-1/N-2（hr=0）占 new top-5 两席；(b) 新 judge 保守下界效应——5 节点 p̃≤0.1→≥0.3，gold N-3.2.2 被挤出 top-5（w3 20.58→7.89）
+- F3/F4 判据层：gold set 维持冻结（r71b）；top-5≥3/5 超几何基线 P(X≥3)=1.99% 极严，单 judge 通过与否均不构成强证据
+- R4 边界：双 judge 同族（qwen3.8-27b），结论限同族范围
+- 工件：bench/rubric-v3/ablation/g2-rootcause.md（含 31 节点附录表 + 三修复选项 O1/O2/O3）+ stages/01-04.5 RV3G2-* + G1 机判脚本 assert-g1-audit.py 入库
+- goal-queue 已注记 G2 完成
 
 ## 下一步（按优先级）
 
-1. **P0 · commit + push T8 r1 全部工件**（本轮 A7 未执行——需 git add + commit + push + ls-remote 验证）
-   - 新文件：loop-artifacts/stages/0{0,1,2,2.5,3,4}/T8r1-*.md + stages/04.5/T8r1-04.5-review.md + experiments/T8-matrix/runs/tselect-vfull-filecollab/ + experiments/T8-matrix/design.md（修改）
-   - 分支：ralph/t8-matrix-run-r1（当前 HEAD = 026f868）
-2. **P1 · C3 v3 paired runs**（WORK_QUEUE 最高优先未完成项）：前置 G1 subagent 盲标+仲裁 → G2 judge 实测 → G3-G5 门禁；ninfer HTTP :8000 直跑。G2 仍阻塞（judge 家族隔离），G3-G5 方案层可继续
-3. **P2 · 回 arena 会话 01a18567 取 307 行 survey 原文回填 research/interpretability/literature-survey.md**
-4. **P2 · 评估 :8787 node 网关容量竞争根因**（cron 400 too large 元凶），决定是否切直连 :8000
-5. **新发现**：rubric-v3 遗留工作 #1「独立 judge 盲测 p̃」是决定性检验——若要做，另开 goal（≥3 个独立 LLM 服务盲估 31 节点 p̃）
+1. **P0 · RUBRIC-V3-FULL-AUDIT / G1 loop 工件补齐**：机判脚本已跑通（exit 0，S1-S4 信号产出）但六阶段 loop-artifacts 缺失。开子 goal ralph/rubric-v3-audit-g1：01 分解（抽检协议/p̃ 分布检查设计）→ 02 web-llm（预期失败回执）→ 02.5 → 03 → 04（跑脚本落数字：A1-A4 PASS + S2 ρ_orig=0.456 LOW-CORR / S3 三红旗 N-1,N-1.1,N-5.3 / S4 w2 gap top3）→ 04.5 → commit merge。注意任务书要求「随机 30% 节点独立重判报一致率」——脚本目前做的是 evidence 逐字核验（S1），语义级独立重判需 subagent 盲重判 75 样本 cell，若本轮做不完就登记降级（evidence 逐字核验作为形式一致率交付，语义重判标 unverified）
+2. **P1 · G3 W3/W4 收尾**：消费 g2-rootcause.md 三选项；启动前先查 R5.2-third-scorer 状态决定路径（O2 依赖它）
+3. **P2 · C3 v3 paired runs**（WORK_QUEUE 项）：前置 G1 盲标+仲裁 → G2 judge 实测（仍阻塞于 judge 家族隔离，等用户决策）→ G3-G5 门禁
+4. **P2 · 回 arena 会话 01a18567 取 307 行 survey 原文回填 research/interpretability/literature-survey.md**
+5. **P2 · 评估 :8787 node 网关容量竞争根因**（cron 400 too large 元凶），决定是否切直连 :8000
 
 ## 阻塞项
 
-- **G2 judge 家族隔离**：ninfer 只有 qwen3.8-27b（Qwen 家族），需异源 judge → **等待用户决策**（选项见 receipts/g2-judge-status-update.json）
-- **web-llm 三 provider 登录态失效**：perplexity/chatgpt/gemini 全部 error → 需人工浏览器登录（一次性 web-llm-authorize）
+- **judge 家族隔离**：ninfer 只有 qwen3.8-27b（Qwen 家族），C3 v3 的 G2 judge 实测需异源 → 等待用户决策
+- **web-llm 三 provider 登录态失效**：perplexity/chatgpt/gemini 全部 error → 需人工浏览器登录（一次性 web-llm-authorize）；各 goal 按失败降级继续
+- **R5.2-third-scorer 外部依赖**：需 arena 通道或第三本地模型（不同家族）
 - **σ_d 无先验数据**：MDE/n_task 反推待 pilot 数据
 
 ## 分支状态
 
-- 本地：ralph/t8-matrix-run-r1 @ 026f868（+ 未 commit 的 T8 r1 工件）
-- 远程：origin/main @ 026f868（已同步到 r78c）
+- main @ 7d17452（= origin/main，G2 已 merge + push 验证）
+- ralph/rubric-v3-audit-g2 @ 7d17452（收口分支，可删）
