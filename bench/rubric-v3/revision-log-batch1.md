@@ -79,7 +79,7 @@ R-04（pilot 两步走）/ R-05（维度合并规则）/ R-07（gold 新发现�
 | V-sham 替换文本 | 无 | §4.3 全文给出（纯格式规范模板，等长中性，M2 修正：无时间/停止语义） |
 | 开跑门禁 | 无 | 「无 diff 记录的变体不得开跑」 |
 
-**回填状态（C-01 裁定后终态）**：D1/D2/sham 行号已回填并逐行 sed 核验（v2 当前版本：D1=L219-L236 含围栏，D2=L154-L161 含围栏，sham=L258-L269）。**冻结 commit hash 不写入 v2 表格**——自指问题（hash 指向包含本表的 commit 本身）无法在表内解决。裁定：**冻结语义 = 收口 commit 的 `DRAFT-rubric-v3-v2.md` 文件快照**；具体 hash 在本节登记 → **冻结版本 = ralph/rv3g6-batch1 分支收口 commit `<待收口后在此登记完整 hash>`**。该登记动作发生在收口 commit 之后的 fixup commit（fixup 只改本 revision-log 本节，零触碰 v2 冻结段落区域，无行号漂移风险）。
+**回填状态（C-01 裁定后终态）**：D1/D2/sham 行号已回填并逐行 sed 核验（v2 当前版本：D1=L219-L236 含围栏，D2=L154-L161 含围栏，sham=L258-L269）。**冻结 commit hash 不写入 v2 表格**——自指问题（hash 指向包含本表的 commit 本身）无法在表内解决。裁定：**冻结语义 = 收口 commit 的 `DRAFT-rubric-v3-v2.md` 文件快照**；具体 hash 在本节登记 → **冻结版本 = ralph/rv3g6-batch1 分支收口 commit `61416b43f80e28d9785137f320003bf8e121d306`（r116，2026-10-30，main 与 origin 双端 ls-remote 已验证同 hash）**。取回方式：`git show 61416b4:bench/rubric-v3/DRAFT-rubric-v3-v2.md`。本登记由后续 fixup commit 写入（只改本 revision-log 本节，零触碰 v2 冻结段落区域，无行号漂移风险）。
 
 ---
 
