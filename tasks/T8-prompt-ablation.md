@@ -96,10 +96,16 @@ decomp bench（ablation-L1）测的是**单 prompt 组件级**消融，对象是
 | /v1/completions (legacy) | ❌ 404 | 端点未暴露 |
 | /v1/embeddings | ❌ 404 | 端点未暴露 |
 
-**含义**：通过 HTTP API 只能拿最终文本 + usage，**拿不到任何内部状态**（logits/hidden states/attention 全无）。C1 的 activation patching / probing / rep-engine / logits lens 在这台远程机上做不了。两条路：
-1. **ninfer 网关无探针端点**（r43 实测确认）：它是独立 C++ 推理引擎（非 vLLM 封装），OpenAI 兼容层只吐最终文本+usage，logprobs/hidden states 静默忽略，无 /probe /activations 扩展路径。要拿内部状态只能：(a) 临时停掉单实例后同机加载模型跑 forward hook（会失联一段时间），或 (b) Mac MLX 上跑（推荐，不动服务器）
-2. **内部状态实验搬到 Mac MLX**：MLX 可以 hook 任意层的 activation（mlx-lm / 自写 forward hook），3B 模型先跑通管线，27B 若显存够（M1 Max 统一内存 64GB，27B-Q8 ≈27GB 可行）再上
-- 修订分工：**ninfer HTTP = 行为层 paired runs 生成器**（transcript + 最终文本）；**Mac MLX = 内部状态实验主阵地**（activation hook 全套）；Win 5060 = 第二行为实例
+**含义**：通过 HTTP API 只能拿最终文本 + usage，**拿不到任何内部状态**（logits/hidden states/attention 全无）。C1 的 activation patching / probing / rep-engine / logits lens 走 ninfer 网关做不了。
+
+### r46 实测突破（2026-10-29）：第三条路——llama.cpp+GGUF 与 ninfer 共存
+- **已跑通**：在 ninfer 服务器上编译 llama.cpp（CUDA sm_70），用 `Qwen3.8-27B-GGUF-Q8_0.gguf`（28G）起 `llama-server --pooling last --embeddings`，`/embedding` 端点返回 **dim=5120 归一化向量**（= Qwen3.8-27B 隐藏维度）= 模型最后一层 hidden state。**不必停 ninfer 主实例、不必用 Mac MLX**。
+- **语义区分度验证成功**（核心假设成立）：cos(好天气,差天气)=**0.78**（同域）≫ cos(好天气,量子纠缠)=**0.24**（跨域）→ 最后一层表征编码了 prompt 语义，可用作探针缩窄"哪个组件导致效果差异"的可疑范围。
+- **限制**：①公开 API 只暴露**最后一层**，中间层需改 llama.cpp 源码加 forward hook（后续）；②与 ninfer 共存时 4×V100 各只剩 ~4GB 空闲（共 ~16GB），塞不下 28G 全模型，最多 offload ~30/65 层，其余走 CPU（被 ninfer MTP 占着）→ 单条 embedding ~60-80s，吞吐低。
+- **提速选项**：临时停 ninfer 独占 64GB 全 offload（秒级，能跑完整矩阵）——需停机窗口，暂不启用。
+- **现状**：probe server 保留 @127.0.0.1:8099（`-ngl 30 --device CUDA0,CUDA1,CUDA2,CUDA3` 避开 GT1010）。
+
+- **修订分工（r46）**：**ninfer 服务器 = 双角色**（HTTP :8000 = 行为层 paired runs 生成器；llama.cpp :8099 = 最后一层 hidden-state 探针，慢速少量样本）；**Mac MLX = 中间层/全套 activation hook 主阵地**（要任意层时上）；Win 5060 = 第二行为实例（deprioritized）。
 
 ### C2 行为代理指标（零成本）
 每段 prompt 签名行为出现率（对已有工件直接算）：候选集冻结声明出现率+漂移次数 / 主张带 URL 比例 / owner 标注比例 / reviewer 逐条打勾率 / ralph web-llm 调用记录（预期≈0）。
