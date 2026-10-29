@@ -14,7 +14,7 @@
 | S4 可比性 vs 版本依赖 | **部分规避** | 子项分裂（版本依赖已管控 / 跨域可比性无机制） |
 | S5 surprisal 风险 | **部分规避** | 强度不足（三重事前防护被实证穿透） |
 
-每条判定 evidence 全部实际读取验证：gap-analysis 原文（git show aea3d6b）、DRAFT-rubric-v3.md 全文（origin/rubric-v3）、TASK-ablation.md Step 2、prior-estimates.json 元数据字段、adversarial-check-rubric-v3.json 28 findings 全量、G1/G2/G3 工件引用。S2 的硬证据 (a)(b)(c) 不依赖外部评审会话意见（02.5 Q2 吸收）。
+每条判定 evidence 全部实际读取验证：gap-analysis 原文（git show aea3d6b）、DRAFT-rubric-v3.md 全文（origin/rubric-v3）、TASK-ablation.md Step 2、prior-estimates.json 元数据字段、adversarial-check-rubric-v3.json 32 findings 全量、G1/G2/G3 工件引用。S2 的硬证据 (a)(b)(c) 不依赖外部评审会话意见（02.5 Q2 吸收）。
 
 ## A2 ✅ loop 工件五件齐全
 
@@ -29,7 +29,7 @@ stages/01 RV3G4-goal-decomposition.md（F1-F4 + 判定三值规则 + 空缺 G1-G
 ## 未完成项与诚实保留
 
 - **κ 门禁执行状态 unverified**（R3）：未见回执文件，S3 措辞限定为「未见执行回执」，不断言门禁失败——也可能门禁从未被触发（消融规模小），两种可能都登记。
-- **adversarial-check 28 findings 未逐条闭环**（R2）：属 G6 定稿范围；本 goal 只引用了 Q1-blocker-2/3、Q6-minor 三条作佐证，其余 25 条原样留给 G6。
+- **adversarial-check 32 findings（12 blocker）未逐条闭环**（R2）：属 G6 定稿范围；本 goal 只引用了 Q1-blocker-2/3、Q6-minor 三条作佐证，其余 29 条原样留给 G6。
 - **S2 修复不可本轮闭环**：双 gold / 异源 judge 依赖 R5.2-third-scorer（外部阻塞）+ 用户决策，只能登记为 G6 硬约束。
 - **gap-analysis 对照基线 = aea3d6b 快照**（R6）：已确认该 commit 后文件无修订（仅同内容存在于 origin/rubric-v3 等分支）。
 - **T17 第二格不存在于本仓**：S1/S4 判定基于草案设计而非实测，已带「仅硬件域实测」限定。

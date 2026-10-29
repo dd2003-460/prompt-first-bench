@@ -11,13 +11,13 @@
   - **S5 surprisal = 部分规避（强度不足）**：三重事前防护（ε 截顶+命名纪律+消融前置）被实证穿透（ρ=0.688、|Δw2|≥2 共 7 节点、top-5 翻转）
 - 负面结果声明三条：「S1 已规避」「paper 协议完整 = 风险受控」「blindtest = 独立校验」均推翻或限定为同族
 - 核心模式：三种「部分规避」结构不同（降档/覆盖缺失/强度不足）→ 对应 G5 三类优化动作（强制机械化/补覆盖/加固阈值）
-- G6 硬约束导出：S2 未闭环前定稿文档必须声明 O3 数字「相对 Lead-gold」；adversarial-check 28 findings（verdict=revise，9 blocker）需处置表；前序 loop 引用带「单源 gold + 同族双 judge」双重限定
+- G6 硬约束导出：S2 未闭环前定稿文档必须声明 O3 数字「相对 Lead-gold」；adversarial-check 32 findings（verdict=revise，12 blocker）需处置表；前序 loop 引用带「单源 gold + 同族双 judge」双重限定
 - 交付物 `bench/rubric-v3/ablation/g4-vulnerability-crosscheck.md`（四列汇总表 + 五节 + 负面结果 + G5/G6 导出）；冻结数据零修改；新候选 RV3G4-prior-source-assert / RV3G4-kappa-receipt-assert 入队
 
 ## 下一步（按优先级）
 
-1. **P0 · RUBRIC-V3-FULL-AUDIT / G5 优化清单**：机械化候选（优先消费 G4 三类输入：p̃ 来源断言脚本 + κ 门禁回执断言，参考 R5.2 assert-* 模式；成本估算须含 adversarial-check 9 blocker 修复成本供 G6 取舍）+ 并行化候选（验收项 = 「有没有人真的跑过」而非「协议里写了没有」，S3 教训）+ 成本估算。交叉引用 g4-vulnerability-crosscheck.md「给 G5 的导出」节
-2. **P1 · G6 综合报告**：`bench/rubric-v3/AUDIT-report.md` — G1-G5 综合 + rubric-v3 定稿建议（维度保留/修改/废弃 + 理由）+ ResearcherBench/RACE 差异表 + 负面结果声明；G6 拥有 O1/O2/O3 终裁权（消费 RV3G3-goldrank-threshold-proof 若届时已完成；应用 S2 硬约束 + 28 findings 处置表至少 9 blocker）
+1. **P0 · RUBRIC-V3-FULL-AUDIT / G5 优化清单**：机械化候选（优先消费 G4 三类输入：p̃ 来源断言脚本 + κ 门禁回执断言，参考 R5.2 assert-* 模式；成本估算须含 adversarial-check 12 blocker 修复成本供 G6 取舍）+ 并行化候选（验收项 = 「有没有人真的跑过」而非「协议里写了没有」，S3 教训）+ 成本估算。交叉引用 g4-vulnerability-crosscheck.md「给 G5 的导出」节
+2. **P1 · G6 综合报告**：`bench/rubric-v3/AUDIT-report.md` — G1-G5 综合 + rubric-v3 定稿建议（维度保留/修改/废弃 + 理由）+ ResearcherBench/RACE 差异表 + 负面结果声明；G6 拥有 O1/O2/O3 终裁权（消费 RV3G3-goldrank-threshold-proof 若届时已完成；应用 S2 硬约束 + 32 findings 处置表至少 12 blocker）
 3. **P2 · RV3G1-semantic-rejudge**：arena 通道补 G1 语义一致率（样本清单已就绪）
 4. **P2 · RV3G3-goldrank-threshold-proof**：gold 平均排名过线阈值正式论证，纯仓库内推导
 5. **P2 · RV3G4-prior-source-assert / RV3G4-kappa-receipt-assert**（新入队）：G4 强制机械化候选落地，工作量小，纯仓库内

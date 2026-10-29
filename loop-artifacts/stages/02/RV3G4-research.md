@@ -9,7 +9,7 @@
 - gap-analysis Q2 原文：`git show aea3d6b:receipts/rubric-v3-gap-analysis.md` §Q2（五条 S1-S5 + ResearcherBench/RACE 补充段）
 - 草案协议：`git show origin/rubric-v3:bench/rubric-v3/DRAFT-rubric-v3.md`（§0 原则 / §1 O1-O4 / §3 实验设计 / §4 候选集补丁 / §6 开放问题）
 - 消融实现：`git show origin/rubric-v3:bench/rubric-v3/ablation/TASK-ablation.md` + main 冻结数据 `{hit-matrix.json, prior-estimates.json, judge-blindtest-r1.json, gold-tree.md, stats-recomputed.json, stats-w3w4.json}`
-- 外部对抗核验：`git show origin/rubric-v3:receipts/adversarial-check-rubric-v3.json`（arena-agent-mode 会话，verdict=revise，28 findings：9 blocker / 14 major / 5 minor）
+- 外部对抗核验：`git show origin/rubric-v3:receipts/adversarial-check-rubric-v3.json`（arena-agent-mode 会话，verdict=revise，32 findings：12 blocker / 16 major / 4 minor）
 - 前序 loop：G1-contradiction-audit.md / g2-rootcause.md / g3-w3w4-completion.md（main）
 
 ### F1 · 口径界定落地
@@ -67,7 +67,7 @@
 | 「需验证稀有节点质量相关性」 | 已闭环（负面）：top-5 gold 3/5↔1/5 翻转 | G1 C4 + G2 + G3 |
 | 「与无权重/importance-only 做冻结数据消融」 | 已闭环：W0-W4 五方案消融完成 | ablation-result.md + stats-recomputed.json + stats-w3w4.json |
 | 「p̃ 受模型池/prompt/语义归并影响」 | 部分闭环：模型池维度实测（同族两 judge）；prompt/语义归并维度未测（单 judge 自评无归并步骤） | G2 R4 + 本阶段 F2-S3(a) |
-| adversarial-check 28 findings（同源/泄漏/机械可判/统计功效） | 未闭环：DRAFT 未修订，verdict=revise 维持 | origin/rubric-v3 receipt（G6 定稿输入） |
+| adversarial-check 32 findings（同源/泄漏/机械可判/统计功效） | 未闭环：DRAFT 未修订，verdict=revise 维持 | origin/rubric-v3 receipt（G6 定稿输入） |
 
 ## 暂定结论（供 02.5 对抗核验）
 
@@ -80,4 +80,4 @@
 
 - S2 的修复（双 gold / 异源 judge）依赖 R5.2-third-scorer + 用户决策，本轮只能登记不能闭环。
 - κ 门禁执行回执缺失（空缺 G3）——无法确认评分一致性是否达标，只能标 unverified。
-- adversarial-check 28 findings 的逐条处置属 G6 定稿范围，本 goal 只做 S2/S3 相关的证据引用。
+- adversarial-check 32 findings 的逐条处置属 G6 定稿范围，本 goal 只做 S2/S3 相关的证据引用。
