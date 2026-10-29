@@ -1,7 +1,7 @@
 # Arena Loop 外包链路（SOP · 唯一入口）
 
 > origin: ai · 2026-10-22 · 成璐指令"链路核查 + arena 首选 + loop 双场景必需 + 精简 SOP + 新 SOP 复制到仓库给 arena 读"
-> 本文件是外包 arena 任务的**唯一 SOP 入口**（goal 只索引这一个）。仓库/降级/loop 阶段细节已并入本文件，旧 `agents/arena-outsource.md` 与 `agents/loop-executor.md` 仅作存档指针，不再单独注入 goal。
+> 本文件是外包 arena 任务的**唯一 SOP 入口**（goal 只索引这一个）。仓库/降级/loop 阶段细节已并入本文件，旧 `sop/arena-outsource.md` 与 `sop/loop-executor.md` 仅作存档指针，不再单独注入 goal。
 > **部署**：创建目标仓库后，本文件必须复制进仓库 `sop/arena-loop-pipeline.md` 并 commit+push（与 loop/ 同次 push），arena agent 读仓库内的这份。
 
 ## 0. 优先级（硬规则 · 成璐指令）
@@ -16,7 +16,7 @@
 
 | # | 步骤 | 断点 | 门禁（不过不进下一步） |
 |---|------|------|----------------------|
-| 1 | AI 启动 | — | goal 按 `agents/goal-template.md` §3 模板创建：含 SOP 索引（**只引用本文件**）+ 验收标准 |
+| 1 | AI 启动 | — | goal 按 `sop/goal-template.md` §3 模板创建：含 SOP 索引（**只引用本文件**）+ 验收标准 |
 | 2 | 注入 agents 原则 | — | 会话已加载 AGENTS.md/CLAUDE.md；goal 描述引用 goal-template §1 质量原则 |
 | 3 | 阅读 arena 外包 SOP | — | 已读本文件；能说出当前任务对应仓库 |
 | 4 | 复制 loop + 本 SOP 到目标仓库 + push | **断点 A**：workspace 未 commit/push 时，arena 拉到旧版/缺文件 | push 后在目标仓库验证：`ls loop/prompt-first/*.md` 7 个文件 + `sop/arena-loop-pipeline.md` 存在。**硬门禁：push 后必须在 workspace `projects/AI-计算科学/D1-persona-align/tasks/` 记录 commit hash + `git ls-remote` 输出到验证文件，否则断点 A 未过** |
@@ -94,7 +94,7 @@
 git clone --depth 1 https://github.com/dd2003-460/<repo>.git /tmp/<repo>
 # 同步 workspace 的 1-loop 阶段文件 + SOP（只同步 prompt-first/，workspace loop/ 其他子目录不属于仓库）
 rsync -av --delete /Users/a1-6/Desktop/workspace/loop/prompt-first/ /tmp/<repo>/loop/prompt-first/
-cp /Users/a1-6/Desktop/workspace/agents/arena-loop-pipeline.md /tmp/<repo>/sop/
+cp /Users/a1-6/Desktop/workspace/sop/arena-loop-pipeline.md /tmp/<repo>/sop/
 # 记录验证证据 + commit + push
 git -C /tmp/<repo> add -A && git -C /tmp/<repo> commit -m "sync: loop/prompt-first + sop (workspace $(date +%Y%m%d))"
 git -C /tmp/<repo> push && git ls-remote https://github.com/dd2003-460/<repo>.git HEAD
@@ -106,7 +106,7 @@ git -C /tmp/<repo> push && git ls-remote https://github.com/dd2003-460/<repo>.gi
 
 所有外包 arena 的 goal，目标描述包含：
 ```
-按 `sop/arena-loop-pipeline.md`（仓库内）/ `agents/arena-loop-pipeline.md`（workspace）流程执行：
+按 `sop/arena-loop-pipeline.md`（仓库内）/ `sop/arena-loop-pipeline.md`（workspace）流程执行：
 1. 选仓库：<repo>
 2. 复制 loop/ + 本 SOP 到仓库 + push（断点 A 门禁）
 3. 发任务书（含强制段）+ push（断点 B/C 门禁）

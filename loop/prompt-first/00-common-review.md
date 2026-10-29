@@ -1,6 +1,6 @@
 # Prompt-first 通用 Reviewer 规则
 
-> **适用声明（通道无关 · 2026-10-22 成璐 m00201 批准）**：本 1-loop（01→04.5）是流程骨架，与 arena 通道是否可用**无关**：arena agent 在仓库里执行、或 arena 故障回退本地自答，loop 6 阶段一个不少，回退只降执行通道、不降流程。arena 外包 = 必须首选执行通道；降级规则见 `agents/arena-loop-pipeline.md` §0/§3。
+> **适用声明（通道无关 · 2026-10-22 成璐 m00201 批准）**：本 1-loop（01→04.5）是流程骨架，与 arena 通道是否可用**无关**：arena agent 在仓库里执行、或 arena 故障回退本地自答，loop 6 阶段一个不少，回退只降执行通道、不降流程。arena 外包 = 必须首选执行通道；降级规则见 `sop/arena-loop-pipeline.md` §0/§3。
 
 ## 所有阶段的工作协议
 
