@@ -79,9 +79,20 @@
 | 跨 judge Spearman ρ；ρ<0.6 → "prior 不稳定" | ρ(n=30)=0.6880 ≥0.6（n=31 备查 0.7175）→ prior 方向稳定声明成立 | ✅（但见 §5 解读） |
 | commit + push + ls-remote | 见 §4 | 待执行 |
 
-## 4. S6 执行（commit + push + ls-remote）
+## 4. S6 执行（commit + push + ls-remote）✅
 
-（命令与输出在下方补记）
+```
+$ git add loop-artifacts/stages/{00,01,02,02.5,03,04}/R5-*.md bench/rubric-v3/ablation/judge-blindtest-r1.json
+$ git commit -m "r73: R5 独立 judge 盲测 r1 — W3 构念效度跨 judge 验证 (pass=false, ρ=0.688)"
+[r73-judge-blindtest-r1 c7623bf] 7 files changed, 813 insertions(+)
+$ git push origin r73-judge-blindtest-r1
+ * [new branch]      r73-judge-blindtest-r1 -> r73-judge-blindtest-r1
+$ git ls-remote origin r73-judge-blindtest-r1 HEAD
+c7623bfd5066f20c63f964153ba7bebb7aae65f6  refs/heads/r73-judge-blindtest-r1
+d22b5fb11c361a96f8525cf3b6751ce20efc8186  HEAD
+```
+
+落点验证：远端分支 hash = 本地 HEAD = c7623bf ✓。注：本 commit 不含 04.5 工件（04.5 在其完成后随收口 commit 一并推送）。
 
 ## 5. 结果观察（供 04.5 复核，不下最终结论）
 
