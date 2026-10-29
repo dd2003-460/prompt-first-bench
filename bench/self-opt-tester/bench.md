@@ -78,6 +78,31 @@
 5. 独立打分器仍只 1 个（DeepSeek）——R5 加第二独立打分器做打分器间一致性（Fleiss'κ，R2 建议）
 6. 权重向量实质未变（退化的副产品）——bench 分数目前=「过程纪律审计分」，不是通用 agent 能力分
 
+## O3 权重消融实验（r70 · rubric-v3 surprisal 条件概率权重）
+
+> 任务书：`bench/rubric-v3/ablation/TASK-ablation.md`（r69）· 结果：`ablation-result.md` + `stats-recomputed.json`（r70/r70b, 85908e8）
+
+**公式**：w_v = 1 + min(−log₂ p̃_v, log₂(1/ε))，ε=0.01（封顶 ≈8）。p̃ = judge 估计"无 gold 的 LLM 在父节点上下文下盲生成该子拆分的先验概率"——即你说的"更深的矛盾更难发掘 → 概率小 → 信息量大 → 赋权高"。
+
+**设计**：W0 flat / W1 importance（SHARE 份额）/ W2 surprisal × 8 个真实 C0 run（同一 prompt 独立产出），31 个 gold 节点逐节点命中判定（h∈{0,1}，每个 h=1 附原文证据）。
+
+**核心结果**：
+
+| 对比 | Spearman ρ | 含义 |
+|---|---:|---|
+| W0 vs W1 | 0.9698 | importance 权重几乎不改排序 |
+| **W0 vs W2** | **0.8102** | **surprisal 权重分歧最大——它确实在重新排序** |
+| W1 vs W2 | 0.9048 | 两套加权方向部分一致 |
+
+- 权重确实改变排序：run2/run6、run3/run7 在 W0 下打平，W2 下因高权重节点覆盖差异拉开（如 N-4 w1=5、N-3.2.4 w2=4.84）
+- **构念效度初检未过线**：W2 top-5 权重节点仅 2/5 带 gold 专家标记（■瓶颈/★订正），低于预设门槛 3/5 → **surprisal 高 ≠ 重要性高**，纯意外性会 overweight "罕见但无用"的节点
+- **W3 = w1×w2（乘法组合）唯一过线**（3/5），但刚过线且根因未除：p̃ 来自同一 judge 模型（自我偏袒），需独立 judge 盲测才能写入正式 rubric
+- judge 稳定性自检 10/10 = 100%（同 judge 复判，非跨 judge 可靠性）
+
+**局限**：n=8 描述性统计；单域（硬件部署）；单 judge。结论边界 = "小样本支持权重影响排序，不支持 surprisal 单独作为重要性代理"。
+
+**与 Pearson 折权的关系**：正交。Pearson 相关矩阵折权（|r|>0.7 → w×(1−|r|/2)）处理指标间冗余去重；本节 surprisal 权重处理节点级信息量/发现难度。前者管"哪些指标重复"，后者管"哪个发现更值钱"。
+
 ## 外部 baseline 对比（r2/r3 结论维持）
 
 - 实锤：lm-eval-harness（accuracy 层）/ HELM（结果层）/ promptfoo（LLM 评测）——「过程纪律」维度在开源方案中**缺位**（URL 见 r2 bench）
