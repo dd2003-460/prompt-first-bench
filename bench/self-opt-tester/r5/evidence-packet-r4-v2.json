@@ -1,0 +1,288 @@
+{
+  "assembled_at": "2026-10-30",
+  "assembled_by": "ralph loop runner (R5.2-evidence-packet goal)",
+  "packet_version": "v2",
+  "purpose": "R5.1 定位的结构性分歧源修复：原 r4 packet（independent-scoring-deepseek.json evidence_packet 字段，单行摘要）缺 M2 行数 + M5 轮数且错配 run3 行数（X2）。本包按模板 v2 补齐 P1-P6 × 3 run，全部字段三件套（值+source_path+source_quote），null 带 reason。",
+  "template": "bench/self-opt-tester/r5/evidence-packet-template-v2.md",
+  "runs": {
+    "run1": {
+      "channel": "subagent（无 ego-browser，全链路降级本地自答 conf-0.2；bili.log session 窗口 16:21:51–16:25:26 UTC 10-23）",
+      "P1_brief_lines": {
+        "file_path": "tasks/003-self-optimization-tester.md",
+        "wc_l_output": 24,
+        "approx_lines": null,
+        "measured_at": "2026-10-30 (git show d96f5db:tasks/003-self-optimization-tester.md | wc -l, exit 0)",
+        "source_path": "pfb git object @ commit d96f5db (blob of tasks/003-self-optimization-tester.md)",
+        "source_quote": "git show d96f5db:tasks/003-self-optimization-tester.md | wc -l → 24; 交叉印证: gate-evidence-breakpoint-ABC.md 断点C '行数 24（≤50 约束满足）' + run1/loop-state-r1.json completed[2] 'step2-3: tasks/003 任务书 24 行'"
+      },
+      "P2_conf_rounds": {
+        "rounds": 1,
+        "rounds_basis": "firsthand",
+        "conf_at_completion": 0.75,
+        "conf_note": null,
+        "source_path": "WS projects/AI-计算科学/D1-efficiency-optimization/tasks/self-optimization-tester/loop-artifacts/stages/04.5/r3/run1/loop-state-r1.json",
+        "source_quote": "loop-state-r1.json chain_steps.6_vuln_iteration = 'done (V1-V5, conf 0.75)'"
+      },
+      "P3_token_split": {
+        "input_tokens": 500972,
+        "requests": 10,
+        "window_utc": "2026-10-23T16:21:51.875Z – 16:25:26.363Z",
+        "caveats": [
+          "窗口含 R3 kickoff turn + run1 执行（7 步 S0-S6）+ run3 派发请求（边界混入，token-split.json note 原文）",
+          "output_total 不可测（bili per-request 只记 input；session 级 output 累计 123,324 含 R1-R4 全时代，不可按 run 切分）",
+          "cacheSamples=0（provider 未上报）"
+        ],
+        "source_path": "pfb bench/self-opt-tester/r4/token-split.json runs.run1",
+        "source_quote": "\"run1\": {\"window_utc\": \"2026-10-23T16:21:51.875Z – 16:25:26.363Z\", \"requests\": 10, \"input_total\": 500972}"
+      },
+      "P4_breakpoints": {
+        "A": {
+          "status": "pass",
+          "evidence": "gate-evidence-breakpoint-ABC.md 断点A: push e92421a..8d7487e main->main; ls-remote HEAD = 8d7487e6a36bfbe3d5c02c7047f6a1e273a1f2f4 ✅"
+        },
+        "B": {
+          "status": "pass",
+          "evidence": "gate-evidence 断点B: tasks/003 在 commit 8d7487e 内（arena 会话 cat 实测不可用——无浏览器控制权，由 push 成功 + ls-remote 同 hash 推定）"
+        },
+        "C": {
+          "status": "pass",
+          "evidence": "gate-evidence 断点C: 003 顶部【执行前必读】4 条存在，行数 24（≤50 约束满足）"
+        },
+        "degraded_notes": [
+          "B/C 为 push 证据推定 pass，arena 会话内实测受环境限制降级（gate-evidence 结论段原文：'断点 A pass（实测）；B/C pass（push 证据推定…降级）'）",
+          "commit 8d7487e 当前不在 pfb 本地对象库（cat-file fatal，fetch 后仍无）——不影响 B/C 判定（判定依据是当时 ls-remote 回执），但复核时无法再对该 hash 做 git show"
+        ],
+        "source_path": "WS projects/AI-计算科学/D1-efficiency-optimization/tasks/self-optimization-tester/loop-artifacts/stages/04.5/r3/run1/loop-state-r1.json + WS .../self-optimization-tester/loop-artifacts/gate-evidence-breakpoint-ABC.md"
+      },
+      "P5_degradations": {
+        "degraded_items": [
+          {
+            "item": "create_goal 工具 subagent 环境不可用（requires direct human turn on top-level agent）",
+            "anchor": "loop-state-r1.json degraded[0]"
+          },
+          {
+            "item": "report_step 工具无 plan 编排，改用 loop-state.json 记录",
+            "anchor": "loop-state-r1.json degraded[1]"
+          },
+          {
+            "item": "arena 通道无 ego-browser 会话控制权，全链路降级本地自答 conf-0.2",
+            "anchor": "loop-state-r1.json degraded[2] / chain_steps.2_find_arena_channel 'degraded (no ego-browser in subagent, conf-0.2)'"
+          }
+        ],
+        "source_path": "WS .../r3/run1/loop-state-r1.json"
+      },
+      "P6_cross_validation": {
+        "channel_status": "degraded-partial：本地双源可用，外部 LLM 不可达（ego-browser 缺失）",
+        "independent_sources": [
+          {
+            "claim": "M4 双源回执直接引用（不重查，引用即 conf 保持 0.85）",
+            "source": "r2 双源回执（run1 execution-log bench-row 引用）",
+            "conf": 0.85,
+            "nature": "transcription"
+          },
+          {
+            "claim": "外部 LLM 交叉通道不可达",
+            "source": "loop-state-r1.json chain_steps.5_cross_validate 'degraded-partial (local dual-source; external LLM unreachable)'",
+            "conf": null,
+            "nature": "local-measured"
+          }
+        ],
+        "source_path": "WS projects/AI-计算科学/D1-efficiency-optimization/tasks/self-optimization-tester/loop-artifacts/stages/04.5/r3/run1/execution-log.md bench-row M4/M6 节 + run1/loop-state-r1.json chain_steps.5_cross_validate"
+      }
+    },
+    "run2": {
+      "channel": "arena agent mode（arena.ai/agent/01a1699d-0679-7cfa-ac09-ad527c416e56，14m27s）+ Lead 侧派发编排",
+      "P1_brief_lines": {
+        "file_path": "bench/self-opt-tester/run2-arena/task-brief.md",
+        "wc_l_output": 25,
+        "approx_lines": null,
+        "measured_at": "2026-10-24 (R5.1 锚点#6 实测) / 2026-10-30 (本 run 复测 wc -l = 25)",
+        "source_path": "pfb bench/self-opt-tester/run2-arena/task-brief.md",
+        "source_quote": "wc -l bench/self-opt-tester/run2-arena/task-brief.md → 25; 交叉印证: run2/loop-state.json A2 anchor 'git blob 52d1e2ba85d4… (25行/1602B, 4节 grep exit 0)'"
+      },
+      "P2_conf_rounds": {
+        "rounds": 1,
+        "rounds_basis": "inferred",
+        "conf_at_completion": null,
+        "conf_note": "终态 conf 数值未在原始证据中显式记录（grep run2 四文件无终态 conf 数值；仅有分主张 conf 0.5/0.8）。达成替代证据 = 04.5-review.md verdict pass（一轮内完成，A1-A7 单序列无 revise 重发记录）。",
+        "source_path": "WS .../r3/run2/04.5-review.md + WS .../r3/run2/loop-state.json",
+        "source_quote": "04.5-review.md 判定：'pass（三问逐答 + 锚点齐全 + 薄弱点如实；结论不超出证据支持范围…−30% 为带 conf 的估算待 Q3 实测闭环）'; loop-state.json steps A1-A7 status ok/degraded, failed_steps=[]"
+      },
+      "P3_token_split": {
+        "input_tokens": 1127157,
+        "requests": 19,
+        "window_utc": "Lead 侧派发编排 2026-10-23T16:26:13.946Z – 16:34:47.439Z",
+        "caveats": [
+          "此值为 Lead 侧切分（任务书撰写/push/arena 监控）；arena 侧总量 unverified——arena 会话 01a1699d（14m27s）token 本地无账本，仅规则负载 12,086 o200k/会话、每轮重发（实测）",
+          "output_total 不可测（同 run1）",
+          "cache=0"
+        ],
+        "source_path": "pfb bench/self-opt-tester/r4/token-split.json runs.run2",
+        "source_quote": "\"run2\": {..., \"requests\": 19, \"input_total\": 1127157, \"arena_side\": \"外部——arena 会话 01a1699d（14m27s）token 本地无账本…\", \"note\": \"Lead 侧=任务书撰写/push/arena 监控；arena 侧总量 unverified\"}"
+      },
+      "P4_breakpoints": {
+        "A": {
+          "status": "pass",
+          "evidence": "run2/loop-state.json A1 anchor: 'ls-remote main=d96f5dbe99ef…; git fetch exit 0'"
+        },
+        "B": {
+          "status": "pass",
+          "evidence": "A2 anchor: 'git blob 52d1e2ba85d4… (25行/1602B, 4节 grep exit 0)'"
+        },
+        "C": {
+          "status": "degraded",
+          "evidence": "A7 anchor: 'commit e35648458491…; push exit 0; 分支 arena/7c416e56-prompt-first-bench' —— arena 无 main push 权限，推到工作分支"
+        },
+        "degraded_notes": [
+          "断点 C 降级：arena 无 main push 权限 → 推到工作分支 arena/7c416e56-prompt-first-bench（Lead 侧已 pull 该分支验证）——loop-state.json degraded[0] 原文"
+        ],
+        "source_path": "WS projects/AI-计算科学/D1-efficiency-optimization/tasks/self-optimization-tester/loop-artifacts/stages/04.5/r3/run2/loop-state.json (A1/A2/A7 anchors)"
+      },
+      "P5_degradations": {
+        "degraded_items": [
+          {
+            "item": "arena 无 main push 权限 → 推到工作分支 arena/7c416e56-prompt-first-bench（断点C 降级：Lead 侧已 pull 该分支验证）",
+            "anchor": "run2/loop-state.json degraded[0]"
+          },
+          {
+            "item": "ego-browser 在 arena 沙箱不可用（exit 1）→ 外部交叉用 arena 自带 web_search（2组 16+15 结果）",
+            "anchor": "run2/loop-state.json degraded[1] / A5 anchor 'web_search 2组 16+15 结果; ralph exit 127 + ego-browser exit 1 如实记录'"
+          }
+        ],
+        "source_path": "WS .../r3/run2/loop-state.json"
+      },
+      "P6_cross_validation": {
+        "channel_status": "无 ≥2 LLM 交叉通道（ralph exit 127 / ego-browser exit 1 如实记录）→ 按'内部实测 × 外部独立来源'双源法替代，M4 顶格 conf 0.8，模型推估 conf 0.5（02-research.md 02.5 节降级记录原文）",
+        "independent_sources": [
+          {
+            "claim": "E1 agent 循环每 turn 重发全部上下文，输入成本 O(N²) 增长",
+            "source": "augmentcode.com guide (2026-06-18); neelmishra.github.io; ai-tldr.dev (2026-06-13)",
+            "conf": 0.8,
+            "nature": "external"
+          },
+          {
+            "claim": "E2 re-sent context 占 agent 账单大头（一次审计 62%，system prompt 8%；另一拆解 35%）",
+            "source": "leanopstech.com 审计 (2026-05-14); aipromptshub.co (2026-06-20)",
+            "conf": 0.6,
+            "nature": "external"
+          },
+          {
+            "claim": "E3 Anthropic: agent ≈4× chat token, multi-agent ≈15×; token 用量解释 80% 性能方差",
+            "source": "'How we built our multi-agent research system'（经 theaiengineer.substack / valdemird.com / perform.digital 多源转引）",
+            "conf": 0.7,
+            "nature": "external"
+          },
+          {
+            "claim": "E4 AGENTS.md 类仓库上下文文件可使每会话推理成本 +20% 以上且收益甚微",
+            "source": "augmentcode.com guide（同 E1 页）",
+            "conf": 0.5,
+            "nature": "external"
+          },
+          {
+            "claim": "E5 工具输出截断可省 60-90%",
+            "source": "'Engineering Best Practices: Building Production Agents'（经 arihantdeva blog 转引）",
+            "conf": 0.5,
+            "nature": "external"
+          },
+          {
+            "claim": "E6 Anthropic context editing 在 100-turn 评测省 84%",
+            "source": "parallel.ai (2026-10-11，转引 Anthropic context engineering)",
+            "conf": 0.5,
+            "nature": "external"
+          },
+          {
+            "claim": "内部实测：M5+M8 pilot V0/V4 对照 6.44×; 内嵌规则卡 997-1,324 o200k",
+            "source": "run2 count-tokens.js → token-counts.txt (A3/A4 anchor)",
+            "conf": 0.8,
+            "nature": "local-measured"
+          }
+        ],
+        "source_path": "WS projects/AI-计算科学/D1-efficiency-optimization/tasks/self-optimization-tester/loop-artifacts/stages/04.5/r3/run2/02-research.md §外部来源表(E1-E6) + §02.5 降级记录 + run2/loop-state.json A5 anchor"
+      }
+    },
+    "run3": {
+      "channel": "subagent bd8e9193 独立 session（无网络）",
+      "P1_brief_lines": {
+        "file_path": null,
+        "wc_l_output": null,
+        "approx_lines": "~45（执行者自估，无落盘文件可 wc -l——任务书为 Lead 派发消息文本）",
+        "measured_at": "2026-10-23 (执行者自估时刻) / 2026-10-30 (本 run 复核：workspace 内无 run3 任务书落盘文件)",
+        "source_path": "WS .../r3/run3/execution-log.md bench-row 节",
+        "source_quote": "execution-log.md bench-row: 'M2_brief_lines=95（任务书 ~45 行 ≤50 行约束，接近上限）'；注意：原 r4 packet 所记 'run3 任务书25行' 为错配（25 行实为 run2 task-brief.md 实测值，见 X2 登记）"
+      },
+      "P2_conf_rounds": {
+        "rounds": 2,
+        "rounds_basis": "self-reported",
+        "conf_at_completion": null,
+        "conf_note": "run3 原始证据无 conf 数值记录。达成替代证据 = loop-state.json failed_steps=[] + 03-review.md 3 缺陷全落盘（S2/S3 anchor）。轮数为执行者自述，无独立轮次计数；自纠 1 次有独立锚点（S4 'initial file missing hypothesis corrected on the spot'）。",
+        "source_path": "WS .../r3/run3/execution-log.md bench-row 节",
+        "source_quote": "execution-log.md bench-row: 'M5_iteration=90（2 轮内完成 3 缺陷定位 + 落盘，1 次自纠（S4 实证修正），无空转）'"
+      },
+      "P3_token_split": {
+        "input_tokens": 621696,
+        "requests": 20,
+        "window_utc": "2026-10-23T16:25:23.178Z – 16:35:20.658Z（sub session bd8e9193 全量）",
+        "caveats": [
+          "subagent 独立 session，无网络（token-split.json note 原文）",
+          "final_context=37939",
+          "output_total 不可测（同 run1）"
+        ],
+        "source_path": "pfb bench/self-opt-tester/r4/token-split.json runs.run3",
+        "source_quote": "\"run3\": {\"window_utc\": \"2026-10-23T16:25:23.178Z – 16:35:20.658Z（sub session bd8e9193 全量）\", \"requests\": 20, \"input_total\": 621696, \"final_context\": 37939}"
+      },
+      "P4_breakpoints": {
+        "A": {
+          "status": "n/a",
+          "evidence": "run3 无 arena/仓库通道——断点 A/B/C 不适用，降级为本地落盘门禁 3/3 过（execution-log bench-row M3 basis 原文）"
+        },
+        "B": {
+          "status": "n/a",
+          "evidence": "同上"
+        },
+        "C": {
+          "status": "n/a",
+          "evidence": "同上；本地落盘门禁 = 03-review.md / execution-log.md / loop-state.json 三件齐备（S6 anchor 'ls run3/ shows 03-review.md execution-log.md loop-state.json'）"
+        },
+        "degraded_notes": [
+          "断点 A/B/C 整体降级为本地落盘门禁（无仓库通道），推定 M3=0.85（execution-log bench-row: 'M3_breakpoint_pass=85（A/B/C 门禁：本 run 无 arena/仓库通道，断点 A/B/C 不适用，降级为本地落盘门禁 3/3 过，推定 0.85）'）"
+        ],
+        "source_path": "WS projects/AI-计算科学/D1-efficiency-optimization/tasks/self-optimization-tester/loop-artifacts/stages/04.5/r3/run3/execution-log.md bench-row M3 basis + WS projects/AI-计算科学/D1-efficiency-optimization/tasks/self-optimization-tester/loop-artifacts/stages/04.5/r3/run3/loop-state.json S6 anchor"
+      },
+      "P5_degradations": {
+        "degraded_items": [
+          {
+            "item": "无网络/无 arena 全程如实标注 unverified",
+            "anchor": "execution-log.md bench-row M6 basis: '无网络/无 arena 全程如实标注 unverified'"
+          },
+          {
+            "item": "S4 初判错误（'file missing' 假设）当场修正并留痕",
+            "anchor": "loop-state.json S4 anchor: 'initial file missing hypothesis corrected on the spot' / execution-log L16 'S4 发现初判错误已当场修正，计为诚实降级点'"
+          },
+          {
+            "item": "M1 自估口径依赖反推（唯一折损项）",
+            "anchor": "execution-log.md bench-row M6 basis: '唯一折损：M1 自估口径依赖反推'"
+          }
+        ],
+        "source_path": "WS .../r3/run3/execution-log.md + WS .../r3/run3/loop-state.json"
+      },
+      "P6_cross_validation": {
+        "channel_status": "无网络（subagent 独立 session）——交叉验证仅限本地双源（sed 逐行 + read 全文），外部源 unverified",
+        "independent_sources": [
+          {
+            "claim": "3 缺陷全部双源验证：模板原文 sed 逐行复验 + read 全文对照一致",
+            "source": "run3/03-review.md defect 1/2/3 cite L22+L39 / L32 / L27+L28; S2 anchor 'sed per-line re-verification exit 0'",
+            "conf": 0.8,
+            "nature": "local-measured"
+          },
+          {
+            "claim": "无外部 LLM 源",
+            "source": "execution-log.md bench-row M4 basis: '无外部 LLM 源，unverified'",
+            "conf": null,
+            "nature": "local-measured"
+          }
+        ],
+        "source_path": "WS projects/AI-计算科学/D1-efficiency-optimization/tasks/self-optimization-tester/loop-artifacts/stages/04.5/r3/run3/execution-log.md bench-row M4 basis + run3/03-review.md defect cites"
+      }
+    }
+  }
+}

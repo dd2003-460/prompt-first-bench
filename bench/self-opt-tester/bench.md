@@ -113,7 +113,7 @@
 **结果**：
 - **κ=0.55（moderate agreement，Landis-Koch 0.41-0.60 档）**，po=0.7222/pe=0.3827。高基率效应已校正（high 档 12/18 点）。
 - per-metric ρ：M1=1.0 / M3=M4=M5=0.5 / M2=M6=−0.5（n=3 只有 6 种秩置换，ρ∈{−1,−0.5,0,+0.5,+1}，不支持推断，仅描述）
-- **|Δ|>15 分歧 4 项全在 M2（run1/run2，各 −50）与 M5（run1 −30、run3 −35）**，逐项对照后裁定倾向均指向 Claude Code 侧——但根因不是打分能力分歧：**r4 给 DeepSeek 的 evidence packet 缺「任务书行数」和「达 conf≥0.7 所需轮数」两个字段**，DeepSeek 自认因此系统性偏低。这是输入证据包不完整导致的结构性偏差，补齐字段后预期分歧消失。
+- **|Δ|>15 分歧 4 项全在 M2（run1/run2，各 −50）与 M5（run1 −30、run3 −35）**，逐项对照后裁定倾向均指向 Claude Code 侧——但根因不是打分能力分歧：**r4 给 DeepSeek 的 evidence packet 缺「任务书行数」和「达 conf≥0.7 所需轮数」两个字段**，DeepSeek 自认因此系统性偏低。这是输入证据包不完整导致的结构性偏差，补齐字段后预期分歧消失（→ 实际落地见 R5.2 节：输入对称已断言通过；κ 变化待第三打分器实测）。
 - 两打分器收敛点：M4 三项全 low/mid 边界（交叉验证确实是弱项）、M1 run2 低分（重发放大）——**核心结论（M4 是最大高估源）跨打分器稳健**。
 
 **残余风险**（04.5 自查登记）：盲打前读过 bench.md r4 数据表（含混合分），存在锚定残余；M7 按 gate 口径记 pass/fail 不产生连续分（避免给门禁指标虚构分数）。
@@ -125,3 +125,27 @@
 - 实锤：lm-eval-harness（accuracy 层）/ HELM（结果层）/ promptfoo（LLM 评测）——「过程纪律」维度在开源方案中**缺位**（URL 见 r2 bench）
 - token 量级与开源 agent 系统同档（r3 三数据点），不可作同质基线直接比较
 - 结论维持：本 bench 在「过程纪律」维度无可比开源 baseline；0.9 比例口径下高于「缺位基线」（无可比分=无对手），该声明的边界=同任务类型
+
+## R5.2 evidence packet 模板固化（r102 · Claude Code ralph loop 通道）
+
+**目标**：消除 R5.1 定位的结构性分歧源——原 r4 packet（`r4/independent-scoring-deepseek.json` evidence_packet 字段，单行摘要）缺 M2 行数 + M5 轮数字段。本 goal 不改任何已有分数值，只修输入面。
+
+**交付物**：
+1. **模板 v2**：`r5/evidence-packet-template-v2.md` —— P1-P6 必填 schema（P1 任务书行数 / P2 达 conf≥0.7 轮数 / P3 per-run token 切分 / P4 断点 A/B/C 状态 / P5 降级条目 / P6 交叉验证源清单），每字段三件套（值+source_path+source_quote），null 政策区分"证据缺口型（允许+必填 reason）"与"未提取型（禁止）"
+2. **packet v2**：`r5/evidence-packet-r4-v2.json` —— r4 三 run 按模板补齐，全部字段从原始证据一手/准一手提取
+3. **对称性断言**：`r5/assert-packet-symmetry.py` —— 67 PASS / 0 FAIL（exit 0）：P1-P6×3run 全非空或 null+reason；R5.1 的 4 项 |Δ|>15 分歧点对应字段存在、承载值非空、source_path 可达
+
+**补齐结果表**（关键值，完整三件套见 packet v2）：
+
+| 字段 | run1 | run2 | run3 |
+|------|------|------|------|
+| P1 M2 行数 | **24**（一手：git show d96f5db:tasks/003… \| wc -l） | **25**（一手：wc -l run2-arena/task-brief.md） | null/~45 自估（任务书为派发消息文本，无落盘文件） |
+| P2 M5 轮数 | **1 轮，conf 0.75**（loop-state-r1.json 原文 "done (V1-V5, conf 0.75)"） | **1 轮**（inferred：A1-A7 单序列无 revise；终态 conf 无数值记录 → null+conf_note） | **2 轮**（self-reported：bench-row "2 轮内完成"；自纠 1 次有 S4 独立锚点） |
+
+**矛盾登记（02.5）**：
+- X1：commit 8d7487e（gate-evidence 记的断点 A push hash）不在 pfb 本地对象库（cat-file fatal，fetch 后仍无）→ 不影响取值（改以 d96f5db git 对象为一手来源，三源一致）
+- X2：**原 packet "run3 任务书25行" 张冠李戴**——25 行实为 run2 task-brief.md 实测值。摘要式 packet 双重失败（缺失+错配）的实例化证据
+
+**对第三打分器的使用说明**（下一 goal 直接引用）：送分时用 `r5/evidence-packet-r4-v2.json` 替代原单行摘要；打分回执格式沿用 r4/r5 已有 JSON schema（模板 v2 只管输入包，不动回执）；打完后可重算 Cohen's κ（vs DeepSeek/Claude Code 两基线）并升级为 Fleiss'κ（3 raters）。
+
+**边界声明**：对称性断言只证明**输入面对称**（4 个分歧点的字段现在两边都能看到同源证据），不预测新 κ 值——判断尺度差异（若有）只有第三打分器能分离。
