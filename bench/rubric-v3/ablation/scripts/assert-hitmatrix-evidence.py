@@ -23,10 +23,10 @@ exit code：0 = 无 FAIL（含 SIGNAL）/ 1 = 存在 FAIL。stdout `[SIGNAL]` �
 结构损坏（hit-matrix.json 不可解析 / cell 缺字段）→ fail-loud SystemExit（无 exit 2 分支——
 本脚本消费的是仓库内冻结数据而非外部投递 schema）。
 
-附加产出（A4）：§3.2 口径声明 4「98 个 h=1 cell 中 27 个 evidence 含 gold-tree 数值 token」
+附加产出（A4）：§3.2 口径声明 4「98 个 h=1 cell 中 13 个 evidence 含 gold-tree 数值 token」
 独立复算——只报 V1 口径（gold_numbers_per_node per-line − _noise_exempt，与
-assert-o3-claim-list.py 同函数逻辑同源引用，防第三个口径引入双源漂移），并与声明值 27
-对照注记 mismatch（02 F3：V1=13 / V2=34 / V3=35 均 ≠ 27，数字失实登记见 04 日志）。
+assert-o3-claim-list.py 同函数逻辑同源引用，防第三个口径引入双源漂移），并与声明值 13
+对照注记 mismatch（r142 勘误溯源：原值 27 不可复现，三口径 V1=13/V2=34/V3=35 均≠27，已按方案 A 改 13）。
 
 路径解析用 Path(__file__).resolve().parents[4]（任意 cwd 可跑；不继承既有三脚本的
 repo-root-only 相对路径限制）。
@@ -148,10 +148,10 @@ def main():
                 toks = set(re.findall(r"\d+(?:\.\d+)?", cell["evidence"]))
                 if toks & blacklist:
                     v1_hits += 1
-    declared = 27
+    declared = 13
     print(f"# §3.2 声明 4 复算（V1 口径 = assert-o3-claim-list.py 同源 per-line − 噪声豁免）")
     print(f"  V1 计数 = {v1_hits}/98 vs o3-claim-list §3.2 声明值 = {declared}"
-          + ("（一致）" if v1_hits == declared else "（MISMATCH——02 F3：三口径 V1=13/V2=34/V3=35 均≠27，数字失实，勘误候选已导出）"))
+          + ("（一致）" if v1_hits == declared else "（MISMATCH——r142 勘误后声明值已改 13，若此处仍 mismatch 说明 hit-matrix/gold-tree 数据漂移，需重核）"))
 
     for s in signals:
         print(f"[SIGNAL] {s}")

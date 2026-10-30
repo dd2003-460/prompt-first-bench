@@ -134,7 +134,7 @@ per-run hit 向量完全一致的 run 比例（比 M1 严：一个 cell 翻转�
 1. M1/M2 在 claim 判据首次独立执行（fresh-context judge 盲读 run 原文）之前**恒等于 1.0**——当前值不是有效性证据，只是分母定义与未来偏离锚点。
 2. M1 对 h=0 方向**无判别力**：两判据同判 0 可能都是漏判（FM-2 方向），召回检验依赖独立重判补数（queue: RV3G6-o3-claim-rejudge，arena 通道，样本 = 31×8 全 cell，优先 h=0 的 150 cell）。
 3. 未来独立重判落盘后，M1/M2 的实际读数 = 与 1.0 锚点的偏离量；偏离集中在哪些 (node, 方向) 切片须逐格报告。
-4. **evidence 文本本身含 gold 数值不构成泄漏通道**（已核：98 个 h=1 cell 中 27 个 evidence 含 gold-tree 数值 token，如「27B」「3 年」——这些是 run 自产文本被冻结进 hit-matrix，属 #13 假命中的证据而非答案注入；§2 claim 文本的防泄漏由 assert 脚本检查②独立保证，两者不混用）。
+4. **evidence 文本本身含 gold 数值不构成泄漏通道**（已核：98 个 h=1 cell 中 13 个 evidence 含 gold-tree 数值 token，如「27B」「3 年」——这些是 run 自产文本被冻结进 hit-matrix，属 #13 假命中的证据而非答案注入；§2 claim 文本的防泄漏由 assert 脚本检查②独立保证，两者不混用）。（V1 口径，assert-hitmatrix-evidence.py 机判；原值 27 见 r142 勘误）
 
 复算脚本：`ablation/scripts/assert-o3-claim-list.py`（检查③：从 hit-matrix.json 独立复算上述基线值并与本表比对）。
 

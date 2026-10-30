@@ -71,3 +71,17 @@
 **回退方式**：`git revert <收口 commit>` 单步还原（删 2 新增文件 + 撤销本条目）。
 
 **状态**：待成璐裁定（不阻塞——备料性质，同 RV3B1-jaccard-adjudicate / kappa-u1k1 备料模式）。裁定后按 materials §5 D1-D6 清单开执行 goal。
+
+## 2026-10-31 · RV3G6-o3-claim-list-erratum-27（r29）— 冻结件修改登记（方案 A 已执行）
+
+**操作**：`o3-claim-list.md` L137「27 个」→「13 个」+ 短注记；`assert-hitmatrix-evidence.py` 三处同步（docstring/declared=13/mismatch 文案）。
+
+**裁定依据**：成璐选方案 A（材料 §4 推荐项）。r142 三口径独立复算 V1=13/V2=34/V3=35 均≠27，27 不可复现。
+
+**验证**：`python3 assert-hitmatrix-evidence.py` → 「V1 计数 = 13/98 vs 声明值 = 13（一致）」VERDICT: PASS exit 0。
+
+**revision-log**：R-16 条目已落盘 `bench/rubric-v3/revision-log-batch1.md`。
+
+**回退方式**：`git revert <收口 commit>` 单步还原（3 文件）。
+
+**状态**：已执行完毕（备料模式解除——本条从"待裁定"转为"已裁定已执行"记录）。

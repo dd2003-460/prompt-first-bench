@@ -124,6 +124,20 @@ R-04（pilot 两步走）/ R-05（维度合并规则）/ R-07（gold 新发现�
 
 ---
 
+## R-16 · o3-claim-list §3.2 声明 4「27」数字勘误（方案 A，r142 导出 / r29 执行）
+
+| 项 | 内容 |
+|---|---|
+| 触发 | r142 (RV3G6-o3-claim-rejudge-evidence-audit) A4：三口径独立复算 V1=13/V2=34/V3=35 均≠27，27 为起草期不可复现人工计数 |
+| 裁定 | 成璐选方案 A（直接改 13 + 短注记），材料 = `bench/rubric-v3/o3-claim-list-erratum-27-materials.md` §3/§4 |
+| 改动 1 | `o3-claim-list.md` L137：「27 个」→「13 个」+ 尾注「（V1 口径，assert-hitmatrix-evidence.py 机判；原值 27 见 r142 勘误）」 |
+| 改动 2 | `ablation/scripts/assert-hitmatrix-evidence.py` 三处同步：docstring L26-28 / `declared = 13`（L151）/ mismatch 文案（L154） |
+| 验证 | `python3 assert-hitmatrix-evidence.py` → 「V1 计数 = 13/98 vs 声明值 = 13（一致）」VERDICT: PASS exit 0 |
+| APPROVALS | 本条目即冻结件修改登记（§6 红线通道）；回退 = `git revert <收口 commit>` |
+| 日期 | 2026-10-31 |
+
+---
+
 ## 诚实保留（负面结果与弱点，不掩盖）
 
 1. **R-06 逐字一致性已 diff 验证**（04 执行后更新）：AUDIT-report.md L186 与 v2 L77 字节级相等（python `a == b → True`，413 字符），非手工重打。
