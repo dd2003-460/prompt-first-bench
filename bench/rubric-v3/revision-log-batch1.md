@@ -99,8 +99,28 @@ R-04（pilot 两步走）/ R-05（维度合并规则）/ R-07（gold 新发现�
 |------|----------|--------------------------|
 | `ablation/scripts/assert-w2-formula.py` | 双 judge 逐节点 w2 = 1+min(−log₂p̃, log₂(1/ε)) 复算（orig tol 5e-5 / new tol 5e-4，M3 分侧容差） | **exit 0**：orig 31/31 + new 31/31 = 62/62 节点一致，0 mismatch |
 | `ablation/scripts/assert-w3w4-recompute.py` | hit-matrix + prior-estimates 独立复算 W0-W4 × 8 run vs stats-w3w4.json | **exit 0**：5 方案 × 8 run = 40/40 分数一致，0 mismatch |
+| `ablation/scripts/assert-psf-freeze.py`（RV3B1-prompt-side-freeze 新增） | ① 02.5 附录 D2 副本 byte-exact ② §3.2 V3-sham 行存在且六变体行不变 ③ §4.4 行数=6+字符偏差≤10%+黑名单零命中 | **exit 0**：10/10 PASS（r129 实际运行） |
 
 防护意义（G4 S3 降档教训）：纸面协议（「w2 按公式计算」「分数可复算」）在执行前零防护力——现在任何对冻结 JSON 的单点篡改都会让对应脚本 FAIL。
+
+---
+
+## R-09 部分落地追加条目（RV3B1-prompt-side-freeze · r129 · 2026-10-30）
+
+**范围**：R-09 的「D2 写入 prompt + V3 sham 联动」流程动作已落地；「可观测三问细化」仍待 batch2。
+
+| 项 | 落点 | 验证 |
+|----|------|------|
+| A1 · D2 正文 6 行执行侧副本 | `loop/prompt-first/02.5-cross-check.md` 文末附录区（标题显式声明「非本 loop 规则」防误读） | assert-psf-freeze.py 检查① byte-exact PASS |
+| A2 · §4.4 V3-sham 替换段 | v2 §4.3 之后新建：引用/脚注格式规范主题，代码块内 6 行，与 D2 正文等长（偏差 ≤10%），不含边界类型三类语义 token | 检查③ PASS |
+| A3 · §3.2 变体矩阵 V3-sham 行 | V-sham 行后插入；既有六行零改动（对照冻结 commit 61416b4 快照） | 检查② PASS |
+| A4 · L164 `[batch2: R-09]` 占位符 | 更新为「部分落地」状态注记 | grep 定点 |
+| A5 · 机判脚本 | `ablation/scripts/assert-psf-freeze.py` exit 0 + 变异测试（逐项破坏必须 FAIL） | 04 日志 |
+| A6 · 本登记 | 本节 | — |
+
+**§4.4 回填行号**：见上表 A2（v2 当前版本行号以文件实际为准，assert 脚本按内容定位不依赖行号）。
+
+**诚实保留**：web-llm 三 provider 登录态失效 → 本 goal 证据链仓库内闭合（DRAFT v2 冻结快照 + 02.5 目标文件 + revision-log），外部第二意见边际贡献 ≈ 0，unverified 降级沿用（per-goal 回执 `loop-artifacts/prompt-first/02-web-llm-cross-check-RV3B1psf.md`）。
 
 ---
 
