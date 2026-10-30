@@ -28,3 +28,21 @@
 注：T4-SIGNAL 分支（绑定清单 ≠ GOLD_DOMAIN1 且 G 缺省）与 T6（表缺失 INFO 降级）、
 T7（表损坏/schema 违例 exit 2）未固化为样例目录——T6/T7 依赖临时改动映射表文件，
 固化会污染权威源；其出口已在 04 工件中留档实跑输出。
+
+## r154 新增：--check-goldmap lint 开关（双步自验合一）
+
+r154 (b) 给 `--lint-only` 增独立 `--check-goldmap` 开关（默认关闭，既有调用方输出零变化）。
+开启后 C-对照检查并入 lint 报告——数据提供方落盘前一步完成「schema + gold-map 对照」双步自验：
+
+```
+python3 scripts/assert-goldrank-crossdomain.py --lint-only --check-goldmap --dir <sample-dir>
+```
+
+| 样例 | 开启时出口 | 语义 |
+|------|-----------|------|
+| neg-goldmap-mismatch | **exit 2**，`[ERROR] lint FAIL (...): gold-map mismatch: ...` | T2 错配 fail-loud |
+| pos-goldmap-explicit-match | exit 0，含 `[PASS] gold-map: ...` 行 | T1 一致 |
+| pos-goldmap-default | exit 0，无 gold-map 行（静默） | T4-缺省==绑定清单 |
+| neg-goldmap-unknown-version | exit 0，含 `[SIGNAL] gold-map: ...未在映射表登记` 行 | T3 不代裁 |
+
+开关关闭时（默认）上述四样例的 `--lint-only --dir` 输出与 r153 基线逐字节一致（A4(ii) byte-exact 实证）。
