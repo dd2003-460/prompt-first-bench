@@ -88,6 +88,19 @@ if os.path.isfile(ledger_path):
 check("对照系 run1/token-ledger.json per_turn_deltas[].at ≥2 时刻（口径有效性锚）",
       len(set(run1_events)) >= 2, f"run1 moments={sorted(set(run1_events))}")
 
+# ---------- 外部回执通道（r33 · R5.2audit-C4-arena-export）----------
+# arena 会话页 RSC payload 提取的 metadata.timing（ego-browser，非截图）→ 正向比对
+RECEIPT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "arena-session-timing-receipt.json")
+if os.path.isfile(RECEIPT):
+    with open(RECEIPT) as f:
+        rcpt = json.load(f)
+    t = rcpt.get("timing", {})
+    dur_s = t.get("duration_s")
+    if dur_s is not None and claimed:
+        d = abs(dur_s - claimed)
+        print(f"SIGNAL C4 external-receipt — arena session timing {dur_s}s (startedAt={t.get('startedAt_iso_utc')} → completedAt={t.get('completedAt_iso_utc')}) vs 声称 {claimed}s，|Δ|={d:.3f}s "
+              f"({'正向吻合' if d <= 1 else '不吻合 → 人工复核'}); 限定：timing 挂在单条 assistant message metadata，等价于 run2 wall-clock 依赖 run2=单次任务执行（见 receipt boundary_note）; verdict 升级仍需人工裁决")
+
 # ---------- SIGNAL 判定 ----------
 print()
 if len(distinct) >= 2:
