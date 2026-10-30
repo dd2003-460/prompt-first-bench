@@ -160,7 +160,7 @@
 |---------|------|------|
 | confirmed ×8 | run1 7锚点 / 5.11M未切分；run2 10锚点 / 12,086 o200k重发 / 2降级；run3 7锚点 / 无网络 / 3模板缺陷 | 全部有本地一手/准一手证据正向证实 |
 | mismatch ×3 | **X4** run1 "无降级"（实际 degraded[3]，措辞歧义，M6 诚实性不受损）/ **X2**（已知）run3 "任务书25行"张冠李戴 / **X7** "M1-M6 定义+" 声称但未提供正文（形式性） | X4/X7 新登记于 `stages/02.5/R5.2audit-cross-check.md` |
-| unverified ×1 | **X5** run2 "14m27s"（arena 外部会话时长，本地无计时账本可重建） | 非矛盾，禁升级为 confirmed |
+| unverified ×1 | **X5** run2 "14m27s"（arena 外部会话时长，本地无计时账本可重建）｜**状态更新 r130**：机判实证不可重建——`r5/assert-c4-timing.py` SIGNAL not-reconstructable（7 文件 ISO 枚举仅 executed_at 单点；缺整个逐事件时间戳载体，run1 有 per_turn_deltas[].at 而 run2 无）；verdict 维持 unverified 禁升级 confirmed | 非矛盾，禁升级为 confirmed |
 
 **关联错配 X6**（packet 外同链路）：`r4/adjudication-step2.json` inputs "任务书 49/25/25 行" 中 run1=49 与实测 24 矛盾（49 全仓无第二出处）；该 49 被 step2 裁决理由引用（run1_M2 "49 行 ≤200 行满分" → final=100 进入冻结分）。**关键事实：24 行同样 ≤200，分值结论不变，仅理由文本错** → 分数冻结纪律下不动分值，caveat 注记方式已提请成璐裁决（`个人/APPROVALS.md` 条目 3）。
 
