@@ -14,7 +14,7 @@ review_return_code:
 
 ## 原始任务（请勿改写）
 
-RV3B1-webllm-tool-fix（状态文件入库）
+RV3G4-prior-source-assert — G4 强制机械化候选落地：assert 脚本校验 prior-estimates.json 必须记录 ≥N 个独立 p̃ 生成源（source 字段缺失/单源 = FAIL），参考 R5.2 系列 assert-* 模式
 
 ## 机械说明
 
