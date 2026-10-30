@@ -1,24 +1,25 @@
-# Goal: RV3G4-kappa-receipt-assert — κ 门禁执行回执断言脚本
+# Goal: R5.2assert-suite-docsync — docstring 文档-实现同步（核销轮）
 
-> 创建：2026-10-30 · ralph loop runner（`tasks/goal-queue.md` 候选「RV3G4-kappa-receipt-assert」）
-> 依据：G4 交付物「给 G5 的导出」第一类 + g5-optimization-list.md C2 行（含最小 schema 提案义务）；消除 R3「κ 门禁 unverified」状态
+> 创建：2026-10-30 · ralph loop runner（`tasks/goal-queue.md` 候选「R5.2assert-suite-docsync」）
+> 依据：r132 04.5 导出；工作量极小
 
 ## 【目标】
-评分文件缺 κ 门禁执行回执 = FAIL 的断言脚本：**回执格式定义**（最小 schema，g5 C2 明示「schema 不存在（G1 gap），需最小 schema 提案」）+ **存在性/schema 检查**。参考 assert-prior-source.py 模式（r130/r135 刚验证过的同族结构）。
+assert-c4-timing.py docstring 判定口径段补 r132 fail-loud/WS 拦截行为说明（文档-实现同步）。
+
+**范围发现（阶段 A 实证）**：该 goal 已由 **r133 (c55848f)** 完成——docstring L13-15 已含「r132 健壮性行为：WS_RUN2 目录缺失 → 显式 FAIL + exit 1…epoch() 先剥离时区段再按主体位数分派…fail-loud ValueError」，与 r132 实现逐条对应。但 `goal-queue.md` 中本候选**未被划掉**（r133 收口漏更新 queue——对比 r132b/r134b/r135b/r136b 均有独立收口 commit，r133 没有）。→ 本 goal 收口为**核销+队列卫生修复**：(a) 验证 r133 改动与实现的对应关系；(b) 脚本实跑确认行为与 docstring 一致；(c) 划掉 queue 条目并注记 r133 已完成 + 本次核销增量。
 
 ## 【阶段】
-纯仓库内机判工作。schema 提案 + 脚本落地 + 变异测试 + 当前数据状态处置。
+零代码改动的核销轮（若验证发现 docstring 与实现有真实偏差则例外修复）。
 
 ## 【SOP 索引】
-- `loop/prompt-first/01..04.5`；对象 `bench/rubric-v3/ablation/scripts/assert-kappa-receipt.py`（新建）+ DRAFT v2 §R5 门禁条款（只读参照）
+- `loop/prompt-first/01..04.5`；对象 `bench/self-opt-tester/r5/assert-c4-timing.py`（只读验证）
 
 ## 【验收标准】
-- [ ] 最小 schema 提案落盘（字段集 + 类型 + 语义，依据 g5 C2 四字段 gate_passed/kappa_value/method/judges + DRAFT v2 R5 条款对齐）
-- [ ] assert-kappa-receipt.py 落盘：回执缺失 → FAIL exit 1；schema 违例 → FAIL；κ<0.6 → SIGNAL（g5 C2 原文三分支）
-- [ ] 变异测试：空目录/缺字段/κ 低值三场景行为实证
-- [ ] **当前数据状态如实处置**：消融评分实际未执行换位双判门禁（g4 S3 实证）→ 脚本对当前 ablation 数据的真实输出是什么必须跑出来并如实记录（预期 = FAIL，这恰是脚本要暴露的事实——「κ 门禁无回执」从人工判断变机判事实）；不得为让脚本绿而伪造回执
-- [ ] 冻结面零触碰（不新建 kappa-receipt.json 假数据；hit-matrix/prior-estimates 等只读）
+- [ ] docstring r132 行为段三条声明（WS 缺失 FAIL+exit1 / epoch 时区剥离+位数分派 / 未知格式 fail-loud）与代码实现逐条对照表
+- [ ] 脚本实跑 exit 0 + SIGNAL not-reconstructable（与 r130 基线语义一致，无行为漂移）
+- [ ] WS 缺失场景复验（/tmp 假路径沙盒）→ 显式 FAIL + exit 1 非 traceback（docstring 声明的行为实证）
+- [ ] queue 条目划掉 + 结果注记（含「r133 已完成、r133 漏更新 queue、本轮 = 核销+队列卫生」事实链）
 
 ## 【失败降级】
-- 「FAIL 即收口还是登记已知缺口」的判定在 01 定：预注册 = 脚本正确性以变异测试为准，对真实数据的 FAIL 输出是**预期行为**而非脚本缺陷（与 assert-c4-timing 的 not-reconstructable SIGNAL 同构——机判工具的职责是让缺口可见）
-- web-llm 不可用 → unverified 降级（机械改动边际贡献 ≈ 0，同族判据）
+- 对照发现 docstring 与实现真实偏差 → 修复 docstring 或代码（以实现为准，除非实现本身违反 r132 预注册口径）
+- web-llm 不可用 → unverified 降级（纯文档核销边际贡献 ≈ 0，同族判据）
