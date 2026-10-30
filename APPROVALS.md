@@ -43,3 +43,15 @@
 - D-b：bound 类型违例分支引用已删除变量 `ver`（NameError 潜伏）⇒ 改 `pv`，T7b 实跑实证闭合。
 - D-c：N6 样例初版 gold 成员 N-5.3 不在样例 nodes 键集被 Y1 先行拦截 ⇒ 改 N-5 并同步 nodes/hit-matrix，断言语义未变。
 - D-d：主模式原无 --dir 参数 ⇒ main() 增 --dir 解析（无参行为 byte-exact 不变，A4(i) 实证）。
+
+## 2026-10-30 · RV3G3cdx-goldmap-multidomain-upgrade（r154）— r153 test-diff-bound 漏还原备案
+
+**操作**：`bench/rubric-v3/ablation/prompt-version-gold-map.json` 移除 `v3/test-diff-bound` 条目（basis="temp test"，gold_nodes=["N-9.9"]）。
+
+**理由**：该条目是 r153 阶段 04 T4-SIGNAL 验证时的临时注入——04 工件 L64-68 记录「测后还原」，实际漏还原一条，随 r153 收口 commit 042bb83 提交进权威源。本轮 A3 完成补还原，恢复权威源到 r153 A1 设计意图状态（8 正式条目）。性质 = 临时测试残留清理，非正式口径变更（该条目机判零消费，grep 全仓无脚本逻辑引用）。
+
+**影响面声明**：纯删除 1 个明确标记 temp 的条目；8 正式条目（pre-v3/C9-plain + v3/V0..V3-sham ×6）零触碰；消费方 assert-goldrank-crossdomain.py 的 gold_map_check 对该条目零引用。
+
+**回退方式**：`git revert <收口 commit>` 单步还原（重新引入该临时条目）。
+
+**状态**：已执行（事后备案）。供成璐知悉 r153 收口遗漏，不阻塞。
