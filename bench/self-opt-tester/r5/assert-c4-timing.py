@@ -10,6 +10,10 @@
 - 文件 mtime 排除出重建面（文件系统元数据非转录件内容；且 7 文件同秒 = 批量落盘特征）。
 - SIGNAL 二态：reconstructable（≥2 时刻 → 差值区间 vs 867s 报偏差）/ not-reconstructable（列证据清单）。
 
+r132 健壮性行为：WS_RUN2 目录缺失 → 显式 FAIL + exit 1（非 traceback，blocked-on-external
+降级声明）；epoch() 先剥离时区段再按主体位数分派分钟级(12位)/秒级(14位)，未知格式
+fail-loud ValueError（不静默截断）。
+
 SIGNAL-only：不参与 exit code（沿用 assert-packet-audit.py 模式）；不翻转 verdict——
 not-reconstructable → C4 维持 unverified (X5)；即便 reconstructable 且吻合，
 升级 confirmed 仍需人工裁决（转录链末端 arena 网页不可复访问题独立存在）。
