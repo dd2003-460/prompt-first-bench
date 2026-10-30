@@ -20,7 +20,7 @@
 
 ## 新导出候选
 - [ ] R5.2assert-suite-docsync | assert-c4-timing.py docstring 判定口径段补 r132 fail-loud/WS 拦截行为说明（文档-实现同步，一行追加） | r132 04.5 导出；工作量极小
-- [ ] R5.2audit-verdict-text-templatize | assert-packet-audit.py VERDICT 段（L140-143）'8 confirmed / 3 mismatch / 1 unverified / 1 形式性' 硬编码事实快照同构缺陷处置：动态生成或注释标记'新增断言须同步' | r131 04.5 W2 导出；工作量小，纯仓库内
+- [x] R5.2audit-verdict-text-templatize (2026-10-30, r134: 6c18bc2, ralph/r52audit-verdict-templatize) — assert-packet-audit.py VERDICT 段（L140-143）'8 confirmed / 3 mismatch / 1 unverified / 1 形式性' 硬编码事实快照同构缺陷处置：动态生成或注释标记'新增断言须同步' | **结果**：选动态生成——AUDIT_CLS 显式审计断言分类表（confirmed/mismatch/unverified/formal 四类，N:1 子项映射 C2a→C2 等）+ VERDICT 段四数字改 len() 推导；关键发现 = check 调用粒度（16 PASS）≠ 审计断言粒度（8+3+1+1），动态化对象是审计清单非计数器；一致性守卫 exit 2（漏登记 label → 显式崩溃 fail-loud，成功路径零输出保零漂移）；零漂移 diff 空 + M1-M4 四变异实证（未登记 exit 2 / confirmed 8→9 / mismatch 3→4 / unverified 1→2 双联动）；04.5 verdict pass（8 攻击 3 驳 3 部分处置 2 成立已修/登记，W5 X 编号边界如实登记）。
 
 - [ ] R5.2audit-C4-arena-export | X5 终态闭环唯一路径：arena.ai 会话 01a1699d 导出带逐事件时间戳的 transcript（或成璐手动截图会话计时器）回填 $WS/run2/ 后重跑 assert-c4-timing.py，自动走 reconstructable 分支完成 867s 正向比对 | r130 04.5 导出；需外部通道（arena 网页），blocked-on-external 候选——本地已无机判空间
 - [x] R5.2audit-C4-assert-hardening (2026-10-30, r132: 8b2cc11, ralph/r52audit-c4-hardening) — assert-c4-timing.py W2/W3 健壮性落地 | **结果**：WS 缺失显式 FAIL + exit 1（无 traceback）+ epoch() 时区剥离后分钟级/秒级分派 + 未知格式 fail-loud；零漂移（基线 diff 空）+ 三场景实证（正常/缺失/秒级 840s 精确）；04.5 verdict pass（导出 docsync 候选）。
