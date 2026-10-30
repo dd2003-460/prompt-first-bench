@@ -183,16 +183,20 @@ def brute_force_top10_gold_counts(ws, gold):
     return sorted(out)
 
 
-def load_batch2():
-    """加载第二域三文件；返回 (ok, data_dict_or_error_msg)。"""
-    if not BATCH2.is_dir():
+def load_batch2(base_dir=None):
+    """加载第二域三文件；返回 (ok, data_dict_or_error_msg)。
+
+    base_dir：lint 自验入口（--lint-only --dir）参数化目录，默认约定目录 BATCH2。
+    """
+    batch2 = Path(base_dir) if base_dir else BATCH2
+    if not batch2.is_dir():
         return False, "batch2/ directory absent"
     errs = []
     data = {}
     for fname, key in [("hit-matrix-batch2.json", "hit_matrix"),
                        ("prior-estimates-batch2.json", "prior"),
                        ("judge-blindtest-batch2.json", "blindtest")]:
-        p = BATCH2 / fname
+        p = batch2 / fname
         if not p.exists():
             if key != "blindtest":      # blindtest 可缺（D5 降级）
                 errs.append(f"{fname} missing")
@@ -232,7 +236,45 @@ def load_batch2():
     return True, data
 
 
+def lint_main(base_dir=None):
+    """--lint-only 入口：纯 schema 校验（不跑 (a)/(b) 判定），供数据提供方落盘前自验。
+
+    exit：0 = 全通过（含目录不存在 = 「还没写数据」信号 / blindtest 缺失 = D5 降级提示）
+          2 = schema 违例或输入不可读
+    """
+    ok, payload = load_batch2(base_dir)
+    target = base_dir if base_dir else str(BATCH2)
+    if not ok:
+        if payload == "batch2/ directory absent":
+            print(f"[SIGNAL] lint: {target} absent — 数据未落盘，无对象可校验（非错误）")
+            sys.exit(0)
+        print(f"[ERROR] lint FAIL ({target}): {payload}")
+        sys.exit(2)
+    for fname in ("hit-matrix-batch2.json", "prior-estimates-batch2.json"):
+        print(f"[PASS] {fname}: schema OK")
+    if "blindtest" in payload:
+        print("[PASS] judge-blindtest-batch2.json: schema OK")
+    else:
+        print("[INFO] judge-blindtest-batch2.json absent → D5 降级（new 侧不参与对照，合法形态）")
+    gold = payload["gold"]
+    default_note = "（缺省沿用第一域 GOLD_DOMAIN1）" if gold == GOLD_DOMAIN1 else ""
+    print(f"[INFO] gold_nodes={gold}{default_note}, runs={len(payload.get('hit_matrix', {}))}")
+    print("SUMMARY: lint PASS (3-file schema)")
+    sys.exit(0)
+
+
 def main():
+    args = sys.argv[1:]
+    if "--lint-only" in args:
+        i = args.index("--lint-only")
+        base_dir = None
+        if i + 2 < len(args) and args[i + 1] == "--dir":
+            base_dir = args[i + 2]
+        elif i + 1 < len(args) and not args[i + 1].startswith("--"):
+            base_dir = args[i + 1]
+        lint_main(base_dir)
+        return
+
     ok, payload = load_batch2()
     if not ok:
         if payload == "batch2/ directory absent":
