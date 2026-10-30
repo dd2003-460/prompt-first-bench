@@ -93,10 +93,10 @@ queue 恒为三区，顺序固定：`## 待办` → `## 已完成` → `## 新�
 
 ## §4 存量状态（备料不改写——需成璐裁定）
 
-截至 r151 落盘，queue 48 goal 行中与契约推荐形态有差的两类存量（行号 = f7d3674 基准）：
+截至 r151 落盘，queue 48 goal 行中与契约推荐形态有差的两类存量（**行号基准 = f7d3674；下表以短名锚定为主、行号带基准后缀——04.5 W4 成立已修：初版误用 A2 后工作区版本行号（系统性 +1），修复时首改又错置 R5.2hard-EXEMPT-sentinel 分型，经 f7d3674 逐短名实证二次修正。教训登记：行号抄录必须逐短名对目标基准版本实证，禁止从工作区文件直接搬运）**：
 
-1. **15 行低 pipe 简写行**（C4 豁免范围内，合法但非推荐形态）：严格 em-dash 零 pipe ×8（L18/L19/L20/L21/L44/L51/L53/L54）+ 单 pipe 混合 ×7（L40/L43/L45/L46/L49/L50/L52）。其中 L51/L52/L53/L54 四行为吸收登记行（C6 声明在内），改写触碰声明位置 = 高风险项。
-2. **4 处早期结果注记变体** `**结果：`（C5 禁止新增但存量合法）：L8/L9/L10/L11。
+1. **15 行低 pipe 简写行**（C4 豁免范围内，合法但非推荐形态）：严格 em-dash 零 pipe ×8（R5.2-evidence-packet / R5.2-packet-audit / R5.2-sourcepath-hardening / R5.2audit-C12-mechanize / R5.2hard-EXEMPT-sentinel / RV3G5-blocker-disposition-table / RV3G6-gmr-tiebreak-prereg / RV3G6-o3-claim-list）+ 单 pipe 混合 ×7（R5.2audit-verdict-text-templatize / R5.2audit-C4-assert-hardening / R5.2audit-C4-timing-reconstruct / R5.2audit-signal-counter / RV3G4-prior-source-assert / RV3G4-kappa-receipt-assert / RV3G6-draft-revision-batch1）。其中 RV3G5-blocker-disposition-table / RV3G6-draft-revision-batch1 / RV3G6-gmr-tiebreak-prereg / RV3G6-o3-claim-list 四行为吸收登记行（C6 声明在内），改写触碰声明位置 = 高风险项。f7d3674 基准行号 = L17/L18/L19/L20/L43（B 型前段）+ L50/L52/L53（B 型吸收登记三行）+ L39/L42/L44/L45/L48/L49/L51（C 型）。
+2. **4 处早期结果注记变体** `**结果：`（C5 禁止新增但存量合法）：RUBRIC-V3-FULL-AUDIT / RV3G6-draft-revision-batch1 / RV3G6-gmr-tiebreak-prereg / RV3G6-o3-claim-list（待办区收口行，f7d3674 基准 L7-L10）。
 
 两类合计 19 行触碰，交集为空（L8-L11 均为 ≥2 pipe 行，不在 15 之列）。
 **数字勘误登记**：current-goal 引「r149 记录 19 行 em-dash 简写行」——r149 工件内部 15（02.5 X2 修正值）与 19（04.5 复核值）两数并存；r151 双正则互验实跑 = **15 行低 pipe（≤1）/ 8 行严格 em-dash（零 pipe）**。「19」作为「em-dash 简写行数」在任何时点都不等于实数；本轮「15+4=19」是格式维与标记维两个集合的并集大小，数值巧合非同源统计量。
