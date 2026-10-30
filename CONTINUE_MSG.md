@@ -32,6 +32,6 @@
 
 ## 分支状态
 
-- main @ efbbca7（r124 gmr-caliber-u3 merge）；注意 r143 (44b31f0) 在 ralph/rv3g6-kappa-formula-adjudicate 分支上未 merge，等 r18 收口验证后 merge
+- main @ 036e17d（keepalive r26 queue L30 merge 状态澄清）；r143 (c0eba3b) 经 r26 验证已含于 main——CONTINUE_MSG 旧注记「未 merge」为过期信息，goal kappa-u1k1-execution 本身仍 blocked-on-human
 - ralph/rv3g6-gmr-caliber-u3 @ 0ca6d30（收口分支，可删）
 - 历史收口分支（r112-r123 系列，均可删）：ralph/rubric-v3-audit-g1..g5 / ralph/rv3g6-* 等
