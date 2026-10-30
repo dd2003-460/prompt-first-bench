@@ -6,6 +6,7 @@
   ② 旧错误 token 黑名单全文扫描零命中（含「可优于 W3-orig」语义句）
   ③ gmr-criterion-freeze.md §4 byte-exact 块 == AUDIT §8 实际文本（diff 空）
   ④ 定性关键词仍在（勘误不得误伤定性结论）
+  ⑤ U3 口径注记落地（RV3G6-gmr-caliber-u3：L103/L166 加 1-based 口径注记，不再裸写「gmr 6.4→8.6」歧义形式；U3 段转「已裁定」）
 exit 0 = 全部 PASS, exit 1 = 存在 FAIL
 """
 import re, sys
@@ -80,6 +81,30 @@ qualitative = [
 ]
 for kw in qualitative:
     check(f"④ 定性关键词 {kw!r}", kw in audit)
+
+# ⑤ U3 口径注记落地（RV3G6-gmr-caliber-u3）
+lines = audit.split("\n")
+def find_line(needle):
+    return [i for i, l in enumerate(lines) if needle in l]
+
+l103 = find_line("扰动幅度最小")
+l166 = find_line("「W4 因加法混合而抗噪声")
+check("⑤a L103/L166 行可定位", len(l103) == 1 and len(l166) == 1,
+      f"L103={l103} L166={l166}")
+if l103 and l166:
+    line_103, line_166 = lines[l103[0]], lines[l166[0]]
+    # 两行均含 1-based 口径注记 + 冻结 0-based 等价值
+    for tag, line in (("L103", line_103), ("L166", line_166)):
+        check(f"⑤b {tag} 含 1-based 注记", "1-based" in line and "gold 平均排名 6.4→8.6" in line)
+        check(f"⑤c {tag} 含冻结等价值 5.40→7.60", "5.40→7.60" in line)
+        # 不再裸写歧义形式「gmr 6.4→8.6」（允许带引号的历史引用，但 L103/L166 本身不允许）
+        check(f"⑤d {tag} 无裸写 'gmr 6.4→8.6'", "gmr 6.4→8.6" not in line)
+    # 定性句保留
+    check("⑤e L103 定性句保留", "连续移动，方案间排序不变" in line_103 and "不反转结论" in line_103)
+    check("⑤f L166 定性句保留", "与 W3 同幅恶化" in line_166)
+u3_hits = find_line("已裁定项（U3，RV3G6-gmr-caliber-u3")
+check("⑤g U3 段转已裁定", len(u3_hits) == 1)
+check("⑤h 旧 U3 登记形式清除", "未并入项（U3，导出 queue）" not in audit)
 
 print(f"\n=== {passed} PASS / {failed} FAIL ===")
 sys.exit(1 if failed else 0)
