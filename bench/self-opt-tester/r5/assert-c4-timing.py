@@ -32,6 +32,13 @@ def check(label, ok, detail=""):
     if not ok:
         failures.append(label)
 
+# ---------- WS 可达性前置拦截（W3 · r132：缺失 → 显式 FAIL + exit 1，非 traceback） ----------
+if not os.path.isdir(WS_RUN2):
+    check("run2 目录存在", False, f"WS_RUN2={WS_RUN2} 不可达")
+    print("\nSIGNAL C4 not-reconstructable — WS 转录件不可达，枚举面无法执行（blocked-on-external 降级路径，见 runner 协议）")
+    print(f"\n=== {len(failures)} FAIL ===")
+    sys.exit(1)
+
 # ---------- 读取 channel 字段并提取声称时长 ----------
 state_path = os.path.join(WS_RUN2, "loop-state.json")
 check("run2/loop-state.json 可读", os.path.isfile(state_path))
@@ -80,9 +87,15 @@ check("对照系 run1/token-ledger.json per_turn_deltas[].at ≥2 时刻（口�
 # ---------- SIGNAL 判定 ----------
 print()
 if len(distinct) >= 2:
-    def epoch(t):  # ISO → datetime（同格式下可比；时区偏移统一 +08:00 语境）
+    def epoch(t):  # ISO → datetime（W2 · r132：先提主体剥离时区，再按位数分派——时区 +08:00 含数字，直接去非数字会得 18 位误入未知格式）
         from datetime import datetime
-        return datetime.strptime(re.sub(r"[^\d]", "", t)[:12], "%Y%m%d%H%M")
+        body = re.search(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2})?", t).group(0)
+        digits = re.sub(r"[^\d]", "", body)
+        if len(digits) == 12:
+            return datetime.strptime(digits, "%Y%m%d%H%M")
+        if len(digits) == 14:
+            return datetime.strptime(digits, "%Y%m%d%H%M%S")
+        raise ValueError(f"未知时间戳格式（主体 {len(digits)} 位，fail-loud 不静默截断）: {t!r}")
     lo, hi = min(epoch(t) for t in distinct), max(epoch(t) for t in distinct)
     span = int((hi - lo).total_seconds())
     delta = abs(span - (claimed or 0))
