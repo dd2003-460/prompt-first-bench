@@ -6,9 +6,13 @@
 
 **r27 收口验证完成（上轮 P0）**：claude (PID 22038) 已跑完 r155 全部阶段并退出——产物 commit f6be883+B063043+0ecb926 落于 main（环境漂移，HEAD 启动时已在 main，claude 按 CONTINUE_MSG 指令未 push 未宣告收口）；ralph/closure-gate-integration-r27 分支指向同一 tip，`git log main..branch` = 0 → **merge 幂等无需操作**。终态 blocked-on-human：closure-gate-integration 备料件齐（materials 六节 + 未激活 hook 原型 + 三出口沙盒实跑），待成璐对 K4 O1-O4 + 方案选择裁定（APPROVALS 条目 2026-10-31 已登记，queue L27 保持 `[ ]` blocked-on-human 不动）。
 
+**r45 R4 主分析重启完成（上轮 P0）**：J1v11 口径 scorecard 重算落盘（judge-scorecard-v11.json，36 run 零解析错误）+ receipt-r4-mainanalysis.json——R1 gate PASS 推断层解除阻断。F1 方向仍负：B-nofreeze 配对差 -0.35（4 pair 中 3 负）是唯一稳定低于 A-full 的配置，与「freeze 贡献最大」假设一致；B-noevidence +0.156 删组件反高（该组件对 M8 判分无正向贡献）。F4：v11 vs 原 J1 平均位移 -0.358、12/36 run 位移 ≥0.5——rubric 换版是系统性重打分，跨版本分数不可直接比较。功效声明：n=4/cell、pstdev 0.10~0.37，只报描述统计不做显著性宣称。main @ a0a096c。
+
+**r46 v11 阈值敏感性扫描完成（上轮 P0）**：0.1/0.15/0.2/0.25/0.3 五档重判（不调 judge，读已落盘 specificity_ratio）——sham 排名 [2,2,2,2,3]，thr≤0.25 稳定第 2 低组；judge 输出的 ratio 呈离散分布（0.14/0.23/0.27/0.33…），0.2 落在空档内非脆弱单点，稳健区间 [0.15, 0.23) → **0.2 冻结升格正式 rubric**。回执 runs-r4/rubric-v11-threshold-sensitivity.json。main @ 84b3c86。
+
 ## 下一步（按优先级）
 
-0. **P0 · R4 主分析重启（推断层解阻断）**：rubric v11 地板恢复后，R4 的 gate_order R1 floor 已过——用 J1v11 口径重算 m8-scorecard（36 run 分数已落盘 *-J1v11.json，聚合脚本直接读）→ 解除 PARTIAL-PASS 的推断层阻断 → F1 主效应可重新做 cell 级统计（注意 F4 judge 单 run 波动大，必须 cell 聚合）→ 产出 receipt-r4-mainanalysis.json。遗留风险如实登记：v11 specificity_ratio 阈值 0.2 是单点选定未做敏感性扫描（建议补 0.1/0.15/0.25/0.3 四档重算看 sham 排名是否稳定）
+0. **P0 · R4 收口 + C3 v3 结论定稿**：v11 地板恢复 + 主分析重启 + 阈值敏感性全过后，R4 从 PARTIAL-PASS 升级为完整 verdict——更新 receipt-r4-execution.json 的 gate_order（R1 PASS / R4 UNBLOCKED）+ 写 C3 v3 阶段性结论（描述层：freeze 是唯一有负向主效应的组件、evidence 组件对 M8 判分无正向贡献、sham 可被 v11 捕获；推断层上限不变——同族 judge + n=4/cell，G1b 异源仍是 conf 升档唯一路径）→ queue L28 行补「后续建议」核销注记
 1. **P1 · C3 v3 G1b 异源 judge**（WORK_QUEUE 最高优先未完成项）：blocked-on-human/external——需 arena 会话通道或第二 LLM 服务凭证（非 Qwen 家族）。协议与切分已冻结于 loop-artifacts/stages/01/C3v3-G1-blind-label-design.md §2，届时换 judge 重打即可 ~2 回合
 2. **P2 · closure-gate-integration 裁定跟进**：等成璐 K4 O1-O4 裁定（APPROVALS 已登记备料模式，不阻塞其他工作）
 3. **P2 · 回 arena 会话 01a18567 取 307 行 survey 原文回填 research/interpretability/literature-survey.md**
