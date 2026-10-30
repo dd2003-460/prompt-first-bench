@@ -21,6 +21,7 @@ PACKET_V1 = os.path.join(PFB, "bench/self-opt-tester/r4/independent-scoring-deep
 failures = []
 passes = []
 skips = []
+signals = []  # (label, detail) — signal-only 项计数载体（R5.2audit-signal-counter · r131：防汇总行硬编码撒谎）
 
 def check(label, ok, detail=""):
     (passes if ok else failures).append(f"{label} {detail}")
@@ -120,17 +121,21 @@ claims_def = "M1-M6 定义" in packet_v1
 def_markers = re.findall(r"M[1-6]\s*[:：=（(]", packet_v1)
 has_body = bool(def_markers)
 if claims_def and not has_body:
+    signals.append(("C12", "claimed=yes body=no"))
     print(f"SIGNAL C12 'M1-M6 定义+' 句 — claimed=yes body=no (markers={def_markers}) "
           f"→ 建议 verdict=mismatch(形式性) [人工确认，见审计表 X7]")
 elif claims_def and has_body:
+    signals.append(("C12", "claimed=yes body=yes"))
     print(f"SIGNAL C12 'M1-M6 定义+' 句 — claimed=yes body=yes (markers={def_markers}) "
           f"→ 建议 verdict=confirmed [人工确认，见审计表 X7]")
 else:
+    signals.append(("C12", "claimed=no"))
     print(f"SIGNAL C12 'M1-M6 定义+' 句 — claimed=no (markers={def_markers}) "
           f"→ 断言不适用 [人工确认，见审计表 X7]")
 
 # ---------- 汇总 ----------
-print(f"\n=== {len(passes)} PASS / {len(failures)} FAIL / {len(skips)} SKIP + 1 SIGNAL(C12) ===")
+signal_names = ",".join(sorted({s[0] for s in signals})) if signals else "(none)"
+print(f"\n=== {len(passes)} PASS / {len(failures)} FAIL / {len(skips)} SKIP + {len(signals)} SIGNAL({signal_names}) ===")
 if failures:
     print("FAILURES:")
     for f in failures:
