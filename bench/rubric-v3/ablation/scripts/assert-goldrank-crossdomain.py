@@ -219,7 +219,8 @@ def gold_map_check(pe, batch2_dir):
 
     返回 (verdict, msg)：
       verdict ∈ {"PASS", "SIGNAL", "FAIL", "INFO"}；msg = 打印文案（PASS/INFO 时由调用方决定静默或打印）。
-    仅主模式消费（--lint-only 不触发——X4 byte-exact 约束）。
+    消费方：主模式 load_batch2 必触发；--lint-only 默认不触发（X4 byte-exact 约束），
+    显式 --check-goldmap 开启时触发且输出并入 lint 报告（r154 (b)，开关关闭时零行为变化）。
     """
     pv = pe["prompt_version"]                       # Y2 已保证非空 str
     if not GOLD_MAP.exists():                        # T6：表缺失 = 对照能力不可用，降级跳过
@@ -233,9 +234,25 @@ def gold_map_check(pe, batch2_dir):
             or not isinstance(m.get("domains"), dict):   # T7
         return "FAIL", "[ERROR] gold-map schema violation: _schema/domains missing or wrong type"
     # domain 解析：P 形如 "<family>/<variant>"（family ∈ pre-v3 | v3）；
-    # 单域期（当前映射表仅 decomp-hw-27b）取唯一 domain——第二域条目到来后由
-    # batch2-arrival-closure goal 升级为本函数内显式 domain 字段路由（挂 queue 联动条款）。
-    if len(m["domains"]) == 1:
+    # 单域期（当前映射表仅 decomp-hw-27b）取唯一 domain。多域期路由优先级
+    # （r154 RV3G3cdx-goldmap-multidomain-upgrade (a) 预注册协议，batch2 数据到来时
+    # 由 RV3G3-batch2-arrival-closure goal 同批激活验证）：
+    #   ① prior.domain 显式字段存在且 ∈ domains 键集 → 直接采用（权威路由）；
+    #   ② prior.domain 存在但 ∉ domains 键集 → SIGNAL exit 0（不代裁新域建表）；
+    #   ③ prior.domain 缺省 + 单域期 → 取唯一 domain（兼容态，零行为变化）；
+    #   ④ prior.domain 缺省 + 多域期 → 按 P 的 family 前缀匹配 domain 键，
+    #      唯一命中才采用；0 个或多个命中 → SIGNAL exit 0（歧义不代裁）。
+    dom_field = pe.get("domain")
+    if dom_field is not None:
+        if not isinstance(dom_field, str) or not dom_field.strip():
+            return "FAIL", ("[ERROR] gold-map schema violation: prior.domain must be a "
+                            "non-empty str when present (or absent for single-domain default)")
+        if dom_field in m["domains"]:
+            dom_id = dom_field
+        else:
+            return "SIGNAL", (f"[SIGNAL] gold-map: prior.domain={dom_field} 未在映射表登记"
+                              f"（纯新域）——建表后重跑；本轮不做清单对照（不代裁）")
+    elif len(m["domains"]) == 1:
         dom_id = next(iter(m["domains"]))
     else:
         prefix = pv.split("/", 1)[0] if "/" in pv else None
@@ -335,11 +352,15 @@ def load_batch2(base_dir=None):
     return True, data
 
 
-def lint_main(base_dir=None):
+def lint_main(base_dir=None, check_goldmap=False):
     """--lint-only 入口：纯 schema 校验（不跑 (a)/(b) 判定），供数据提供方落盘前自验。
 
     exit：0 = 全通过（含目录不存在 = 「还没写数据」信号 / blindtest 缺失 = D5 降级提示）
           2 = schema 违例或输入不可读
+    --check-goldmap（r154 (b)）：开启后 C-对照检查并入 lint 报告——数据提供方落盘前
+          一步完成「schema + gold-map 对照」双步自验。默认关闭，既有调用方输出零变化
+          （X4 byte-exact）。开启时 T2/T7 FAIL 走 exit 2；T3/T4 SIGNAL 打印但 exit 0
+          （新域/未声明属待裁态非错误，与主模式语义一致）。
     """
     ok, payload = load_batch2(base_dir)
     target = base_dir if base_dir else str(BATCH2)
@@ -358,6 +379,13 @@ def lint_main(base_dir=None):
     gold = payload["gold"]
     default_note = "（缺省沿用第一域 GOLD_DOMAIN1）" if gold == GOLD_DOMAIN1 else ""
     print(f"[INFO] gold_nodes={gold}{default_note}, runs={len(payload.get('hit_matrix', {}))}")
+    if check_goldmap:                                # r154 (b)：C-对照检查并入 lint 报告
+        gm_verdict, gm_msg = payload["goldmap"]
+        if gm_verdict == "FAIL":
+            print(f"[ERROR] lint FAIL ({target}): {gm_msg[len('[ERROR] '):]}")
+            sys.exit(2)
+        if gm_msg:                                   # PASS 且静默态 msg 为空 → 不打印
+            print(gm_msg)
     print("SUMMARY: lint PASS (3-file schema)")
     sys.exit(0)
 
@@ -367,11 +395,17 @@ def main():
     if "--lint-only" in args:
         i = args.index("--lint-only")
         base_dir = None
-        if i + 2 < len(args) and args[i + 1] == "--dir":
-            base_dir = args[i + 2]
-        elif i + 1 < len(args) and not args[i + 1].startswith("--"):
-            base_dir = args[i + 1]
-        lint_main(base_dir)
+        check_goldmap = "--check-goldmap" in args   # r154 (b)：双步自验开关（默认关闭）
+        j = i + 1
+        while j < len(args):                        # 跳过 --check-goldmap 等旗标再找 --dir
+            if args[j] == "--dir":
+                base_dir = args[j + 1] if j + 1 < len(args) else None
+                break
+            elif not args[j].startswith("--"):
+                base_dir = args[j]                  # 位置参数形态
+                break
+            j += 1
+        lint_main(base_dir, check_goldmap)
         return
 
     # r153：主模式 --dir 参数化（gold-map 样例矩阵消费入口；无参行为零变化）
