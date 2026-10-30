@@ -127,7 +127,7 @@ L307（§6 开放问题 2，起草者自认疑虑）：
 设裁定结果 = 公式 ∈ {F2, F3} × 阈值语义 ∈ {硬门禁, SIGNAL} × 阈值处置 ∈ {α, β, γ}。基础 diff 面（所有组合共有）：
 
 - [ ] **D1 · judge-protocol-batch1.md L71**：删「**U-K1（UNRESOLVED）**：…本协议不发明；裁定候选已导出 queue」段，替换为裁定结果一句话（公式名 + 粒度 + 阈值 + 语义）+ 指向本材料的引用。L46-L47 schema 注释同步（「公式 UNRESOLVED U-K1」→「公式已裁定，见 kappa-u1k1-adjudication-materials.md」）。diff 面 ≈ 4 行。
-- [ ] **D2 · assert-kappa-receipt.py**：(a) docstring L19「条目层二值 Cohen's κ」→ 裁定后口径；(b) L95-L96 `method` 检查从「非空 str」收紧为**取值域约束**（F2: 匹配 fleiss 签名 + n_items 字段；F3: 匹配 pairwise-cohen 签名 + 聚合方式字段）；(c) **L99-L101 `judges` 约束从「恰两个」放宽为「≥2 个」**（F-D 既成矛盾的处置——r136 时声明过的扩展路径，此处兑现）。diff 面 ≈ 10 行 + 变异测试补 2 场景（3-judge 合法 / method 域外 FAIL）。
+- [ ] **D2 · assert-kappa-receipt.py**：(a) docstring L19「条目层二值 Cohen's κ」→ 裁定后口径；(b) L95-L96 `method` 检查从「非空 str」收紧为**取值域约束**。建议格式（04.5 攻击 6 处置补充，执行 goal 可按 assert 实现微调）：F2 → `"fleiss_kappa, n_items=<int>, judges=<N>"`；F3 → `"pairwise_cohen_mean, n_items=<int>, pairs=<C(N,2)>"` 或 `"pairwise_cohen_median, ..."`（mean/median 由预注册决定，直接编码进 method 字符串，不另设字段）；(c) **L99-L101 `judges` 约束从「恰两个」放宽为「≥2 个」**（F-D 既成矛盾的处置——r136 时声明过的扩展路径，此处兑现）。diff 面 ≈ 10 行 + 变异测试补 2 场景（3-judge 合法 / method 域外 FAIL）。
 - [ ] **D3 · DRAFT v2 L16/L208**：追加口径绑定注记一行（「κ 公式 = <裁定值>，见 kappa-u1k1-adjudication-materials.md §4；0.6 状态 = <β 沿用声明 / α 已重标定 / γ 降级为报告线>」）。若选 γ，L208「不过不开评」措辞需同步软化。diff 面 ≈ 2-3 行。
 - [ ] **D4 · o3-claim-list.md §4.3 L164**：「κ 低于预注册下限」→ 写入具体数字与公式（「κ_fleiss < 0.6（C3 v3 沿用值，未重标定）」之类）。**冻结件修改 → APPROVALS.md 登记**（§6 红线）。diff 面 ≈ 1 行。
 - [ ] **D5 · revision-log-batch1.md**：追加 U-K1 销账条目（裁定日期 + 选项 + 本材料引用）。diff 面 ≈ 3 行。
