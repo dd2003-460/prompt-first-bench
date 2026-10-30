@@ -68,5 +68,5 @@ print()
 if failures:
     print(f"RESULT: FAIL ({len(failures)} checks failed)")
     sys.exit(1)
-print("RESULT: PASS (all checks green; signal-only — see header)")
+print("RESULT: PASS (all checks green; metadata gate — NOT a family-independence verdict, see header)")
 sys.exit(0)
