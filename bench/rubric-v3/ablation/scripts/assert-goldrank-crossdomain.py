@@ -38,6 +38,13 @@
                                               "w1": number, "w2": number, "w3": number},
                                             ... ] }
 
+  prompt-version-gold-map.json    # 「题面版本↔gold_nodes」权威源（r153，本目录根下，
+                                  #   非 batch2/ 内）。schema：_schema="prompt-version-gold-map/v1"
+                                  #   + domains.<domain_id>.versions.<prompt_version>.gold_nodes。
+                                  #   消费方 = load_batch2 C-对照检查（主模式；--lint-only 不触发——
+                                  #   lint 是纯 schema 校验且须对既有样例 byte-exact）。
+                                  #   文件缺失 = 对照能力不可用 → INFO 降级跳过（T6，不误杀存量调用方）
+
 方案权重合成（与第一域权威实现逐字同协议，assert-goldrank-threshold.py L90-99）：
   W1      = w1                    W2-orig = w2_exact(p_tilde)
   W3-orig = w1 × w2_exact         W4-orig = w1 + w2_exact
@@ -58,11 +65,25 @@ S2 = 第二域各方案 top-10 gold 计数 ≥4 的方案集合（仅含两域�
     所有过线方案可达计数恒 ≥4 → PASS；任一过线方案存在 <4 可达值 → FAIL
     （tie-sensitive 方案的 t=4 读数须带限定语引用——freeze §4 规则 1 类推）
 
-exit code：0 = 无 FAIL（含 SIGNAL blocked-on-external / (a)(b) verdict 输出）
+C-对照检查（r153「换题面未声明/错配」fail-loud 承接，权威源 = prompt-version-gold-map.json）：
+    P = prior.prompt_version，G = prior.gold_nodes（可缺省），M[P] = 映射表绑定清单
+    T1 P∈表 ∧ G 声明 ∧ sorted(G)==sorted(M[P])      → PASS（[PASS] 行）
+    T2 P∈表 ∧ G 声明 ∧ 集合不等                      → FAIL exit 2（指名道姓双向列出）
+    T3 P∉表（含所属 domain 无条目）                   → SIGNAL exit 0（新域/新版本，不代裁）
+    T4 P∈表 ∧ G 缺省 ∧ M[P]≠GOLD_DOMAIN1（排序后）   → SIGNAL exit 0（缺省沿用第一域清单，提示显式声明）
+       P∈表 ∧ G 缺省 ∧ M[P]==GOLD_DOMAIN1            → 静默 PASS（缺省值==绑定值，报 SIGNAL 是噪音）
+    T6 映射表文件缺失                                → INFO exit 0（对照能力不可用，降级跳过）
+    T7 映射表 schema 违例                            → ERROR exit 2（fail-loud）
+    注：P 缺失/空串/非 str 由 Y2 先行拦截（本检查不重复该职责）；比较用排序后集合相等
+    （gold_nodes 顺序下游零消费，顺序敏感会误判等价声明）。
+
+exit code：0 = 无 FAIL（含 SIGNAL blocked-on-external / (a)(b) verdict 输出 / C-对照 T3/T4 SIGNAL）
            1 = (a) 或 (b) FAIL
            2 = schema 违例 / gold_nodes 键集缺失 / prompt_version 缺失或非空 str 违例
-               / 输入不可读（ERROR fail-loud）
---lint-only 模式（r147 入口，r150 docstring 补齐）：纯 schema 校验，不跑 (a)/(b) 判定——
+               / C-对照 T2 错配或 T7 映射表 schema 违例 / 输入不可读（ERROR fail-loud）
+--lint-only 模式（r147 入口，r150 docstring 补齐）：纯 schema 校验，不跑 (a)/(b) 判定、
+           也不触发 C-对照检查（r153 X4 约束：既有 lint 样例的 prompt_version 值不在映射表，
+           且 lint 输出须 byte-exact）——
            0 = 全通过（含目录不存在 = 「数据未落盘」SIGNAL / blindtest 缺失 = D5 降级提示）
            2 = schema 违例或输入不可读；lint 模式永不 exit 1
 """
@@ -75,6 +96,7 @@ from pathlib import Path
 
 BASE = Path(__file__).resolve().parents[1]          # bench/rubric-v3/ablation
 BATCH2 = BASE / "batch2"
+GOLD_MAP = BASE / "prompt-version-gold-map.json"    # r153：题面版本↔gold_nodes 权威源
 GOLD_DOMAIN1 = ["N-2.1", "N-3.2.2", "N-2", "N-4", "N-1.3"]
 S1 = {"W3-orig", "W4-orig", "W3-new"}               # 第一域 t=4 过线集合（proof L57）
 T_PASS = 4                                          # t=4 严判据（proof L55 推荐）
@@ -191,10 +213,66 @@ def brute_force_top10_gold_counts(ws, gold):
     return sorted(out)
 
 
+def gold_map_check(pe, batch2_dir):
+    """C-对照检查（r153）：prompt_version 声明的题面版本 → 映射表查得 gold 清单 →
+    与显式 gold_nodes 一致性机判。真值表 T1-T7 见 docstring「C-对照检查」节。
+
+    返回 (verdict, msg)：
+      verdict ∈ {"PASS", "SIGNAL", "FAIL", "INFO"}；msg = 打印文案（PASS/INFO 时由调用方决定静默或打印）。
+    仅主模式消费（--lint-only 不触发——X4 byte-exact 约束）。
+    """
+    pv = pe["prompt_version"]                       # Y2 已保证非空 str
+    if not GOLD_MAP.exists():                        # T6：表缺失 = 对照能力不可用，降级跳过
+        return "INFO", ("[INFO] gold-map: prompt-version-gold-map.json absent → "
+                        "对照检查跳过（r153 前行为兼容态）")
+    try:
+        m = json.load(open(GOLD_MAP))
+    except (json.JSONDecodeError, OSError) as e:     # T7：表损坏 fail-loud
+        return "FAIL", f"[ERROR] gold-map unreadable: {e}"
+    if not isinstance(m, dict) or m.get("_schema") != "prompt-version-gold-map/v1" \
+            or not isinstance(m.get("domains"), dict):   # T7
+        return "FAIL", "[ERROR] gold-map schema violation: _schema/domains missing or wrong type"
+    # domain 解析：P 形如 "<family>/<variant>"（family ∈ pre-v3 | v3）；
+    # 单域期（当前映射表仅 decomp-hw-27b）取唯一 domain——第二域条目到来后由
+    # batch2-arrival-closure goal 升级为本函数内显式 domain 字段路由（挂 queue 联动条款）。
+    if len(m["domains"]) == 1:
+        dom_id = next(iter(m["domains"]))
+    else:
+        prefix = pv.split("/", 1)[0] if "/" in pv else None
+        candidates = [k for k in m["domains"] if prefix is not None and k.startswith(prefix)]
+        if len(candidates) != 1:
+            return "SIGNAL", (f"[SIGNAL] gold-map: prompt_version={pv} 所属 domain 无法唯一确定"
+                              f"（多域期，待 domain 字段路由协议）——本轮不做清单对照（不代裁）")
+        dom_id = candidates[0]
+    versions = m["domains"][dom_id].get("versions", {})
+    entry = versions.get(pv)                        # 版本键 = 完整 prompt_version 字符串
+    if entry is None:                                # T3/T5：未登记版本或纯新域——不代裁
+        why = (f"prompt_version={pv} 未在映射表登记（新域/新版本）"
+               if dom_id in m["domains"]
+               else f"prompt_version={pv} 所属 domain 未在映射表登记（纯新域）")
+        return "SIGNAL", (f"[SIGNAL] gold-map: {why}——建表后重跑；本轮不做清单对照（不代裁）")
+    bound = entry.get("gold_nodes")
+    if not (isinstance(bound, list) and all(isinstance(x, str) for x in bound)):
+        return "FAIL", (f"[ERROR] gold-map schema violation: domains.{dom_id}.versions.{pv}"
+                        f".gold_nodes must be a list of node-id strings")
+    declared = pe.get("gold_nodes")                  # load_batch2 上游已校验类型（list[str] 或 None）
+    if declared is not None:                         # T1/T2：显式声明 → 集合相等机判
+        if sorted(declared) == sorted(bound):
+            return "PASS", (f"[PASS] gold-map: prompt_version={pv} 与 gold_nodes 一致"
+                            f"（{len(bound)} 节点）")
+        return "FAIL", (f"[ERROR] gold-map mismatch: prompt_version={pv} 期望 gold_nodes="
+                        f"{bound}，实得 {declared}")
+    if sorted(bound) != sorted(GOLD_DOMAIN1):        # T4：缺省沿用第一域清单且 ≠ 绑定清单
+        return "SIGNAL", (f"[SIGNAL] gold-map: prompt_version={pv} 已登记但 gold_nodes 未显式声明"
+                          f"——缺省沿用 GOLD_DOMAIN1，若 P 绑定清单 ≠ GOLD_DOMAIN1 请显式声明")
+    return "PASS", ""                                # 缺省 == 绑定清单：静默 PASS
+
+
 def load_batch2(base_dir=None):
     """加载第二域三文件；返回 (ok, data_dict_or_error_msg)。
 
-    base_dir：lint 自验入口（--lint-only --dir）参数化目录，默认约定目录 BATCH2。
+    base_dir：lint 自验入口（--lint-only --dir）与主模式样例矩阵入口（--dir，r153）
+    参数化目录，默认约定目录 BATCH2。
     """
     batch2 = Path(base_dir) if base_dir else BATCH2
     if not batch2.is_dir():
@@ -233,6 +311,10 @@ def load_batch2(base_dir=None):
     pv = pe.get("prompt_version")               # r150 Y2：M2 C-最小消费（存在性+非空 str）
     if pv is None or not isinstance(pv, str) or not pv.strip():
         return False, "prior-estimates-batch2.json: 'prompt_version' required (non-empty str)"
+    verdict, msg = gold_map_check(pe, batch2)   # r153 C-对照检查（主模式；lint 路径不打印）
+    if verdict == "FAIL":
+        return False, msg[len("[ERROR] "):]     # 走既有 error 通道 → [ERROR] schema violation + exit 2
+    data["goldmap"] = (verdict, msg)            # PASS/SIGNAL/INFO 由 main() 打印（lint 模式忽略）
     for nid, d in pe["nodes"].items():
         for f in ("w1",):
             if f not in d:
@@ -292,7 +374,14 @@ def main():
         lint_main(base_dir)
         return
 
-    ok, payload = load_batch2()
+    # r153：主模式 --dir 参数化（gold-map 样例矩阵消费入口；无参行为零变化）
+    main_dir = None
+    if "--dir" in args:
+        i = args.index("--dir")
+        if i + 1 < len(args):
+            main_dir = args[i + 1]
+
+    ok, payload = load_batch2(main_dir)
     if not ok:
         if payload == "batch2/ directory absent":
             print("[SIGNAL] blocked-on-external: batch2 data absent "
@@ -304,6 +393,10 @@ def main():
         sys.exit(2)
 
     pe, gold = payload["prior"], payload["gold"]
+    if "goldmap" in payload:                       # r153：C-对照检查 verdict 打印（主模式专属）
+        gm_verdict, gm_msg = payload["goldmap"]
+        if gm_msg:                                 # PASS 且缺省==绑定清单时 msg 为空 → 静默
+            print(gm_msg)
     bt = payload.get("blindtest")
     schemes = build_schemes(pe["nodes"], bt)
     if bt is None:
