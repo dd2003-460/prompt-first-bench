@@ -4,7 +4,9 @@
 
 **r151-r154 收口链完成**：r151 queue-format-contract / r152 crossdomain-promptversion-mapping / r153 goldmap-multidomain-upgrade 三个 goal 全部收口 merge main，main @ ebd7a92（r154 收口行 hash 回填，assert-queue-lint 53 行 / 0 FAIL / 3 SIGNAL exit 0）。
 
-**r26 claude (PID 15806, 23:33 启动) 在跑 r155 RV3G3cdx-closure-gate-integration**：分支 ralph/closure-gate-integration tip d3e1089 = 阶段 A+01 已落盘（K1-K5 空缺分析，K1 pre-commit hash 不存在 = hook 变体签名核心缺口），工作区干净。本轮不重复派发（runner 桥接规则：claude 进程活着不抢活），等其推进到 02+ 或收口后验证 merge。
+**r26 claude (PID 15806) 卡死已处置**：启动后 ~18min 零 commit、零文件写、日志 0 字节 → kill。阶段 02 六行动实证由 Hermes 代跑落盘（commit 9d79815，分支 ralph/closure-gate-integration 已 push）：A1 hook 零安装 / A2 本仓零 CI 且直推 main ⇒ 方案 B 拦截力零 / A3 21 commit 关键词命中 flip19-append14 / A4 tmp 负样例缺失 / A5 断言锚点抄录 / A6 K1 沙盒实验（write-tree 拿不到 commit 前驱 ⇒ 推荐 staged-diff 变体，裁定权在成璐）。
+
+**r27 claude (PID 22038, proc_542961de8574) 已派发**：从阶段 03 续跑 r155（动作分解 → 04 执行 → 04.5 → 收口 commit+push，不 merge main——Hermes 验证后 merge）。
 
 **RV3G6-gmr-caliber-u3 goal 收口（六阶段全过，merge main @ efbbca7 = r124）**：
 - U3 口径裁定落地：AUDIT §3.2 L103 / §5 L166「gmr 6.4→8.6」独立复算（冻结 JSON，0-based 协议）显示 G3 F3b L48 全部 7 列 = 冻结 gmr 复算值 +1.0（rank 起点差）→ 判定为 G3「gold 平均排名」口径（1-based rank 记法）被 AUDIT 误标为 gmr，**非 global gmr 数值错误**（6.4/8.6 在其自身口径下数值正确，不触发二次勘误）
@@ -14,7 +16,7 @@
 
 ## 下一步（按优先级）
 
-0. **P0 · r26 收口验证**：claude (PID 15806) 跑完 r155 (closure-gate-integration，备料不代裁 goal——预期产出 closure-gate-integration-materials.md 六节 + 未激活 hook 原型 .githooks/pre-commit.closure-checklist + 三出口实跑验证) 或 max-turns 耗尽退出后——查 `git log main..HEAD` + 六阶段工件齐不齐 → 验证 merge main + push → queue L27 划掉+结果注记 → 取下一个可做 goal。若进程死亡且未收口 → 读 /tmp/ralph-loop-r26.log 定位，简化 prompt 重试一次
+0. **P0 · r27 收口验证**：claude (PID 22038, proc_542961de8574) 跑完 r155 (closure-gate-integration，从阶段 03 起——预期产出 stages/03 动作分解 + closure-gate-integration-materials.md 六节 + 未激活 hook 原型 .githooks/pre-commit.closure-checklist + 三出口实跑 + 04.5 verdict) 或 max-turns 耗尽退出后——查 `git log main..ralph/closure-gate-integration` + 工件齐不齐 → 验证 merge main + push → queue L27 划掉+结果注记 → 取下一个可做 goal。若进程死亡且未收口 → 读 /tmp/ralph-loop-r27.log 定位，简化 prompt 重试一次（注意 r26 卡死先例：启动 18min 零 commit 即判卡死）
 1. **P1 · C3 v3 paired runs**（WORK_QUEUE 最高优先未完成项）：前置 G1 subagent 盲标+仲裁 → G2 judge 实测 → G3-G5 门禁；ninfer HTTP :8000 直跑（不走 arena）。阻塞：judge 家族隔离（ninfer 只有 qwen3.8-27b）等用户决策
 3. **P2 · 回 arena 会话 01a18567 取 307 行 survey 原文回填 research/interpretability/literature-survey.md**
 4. **P2 · 评估 :8787 node 网关容量竞争根因**（cron 400 too large 元凶），决定是否切直连 :8000
