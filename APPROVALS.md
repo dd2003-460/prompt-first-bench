@@ -55,3 +55,19 @@
 **回退方式**：`git revert <收口 commit>` 单步还原（重新引入该临时条目）。
 
 **状态**：已执行（事后备案）。供成璐知悉 r153 收口遗漏，不阻塞。
+
+## 2026-10-31 · RV3G3cdx-closure-gate-integration（r155/r27）— 门禁激活待裁定登记
+
+**操作**：无已执行操作。本条目为**备料完成 + 裁定请求**登记：closure-checklist 门禁接入的全部备料件已落盘——`bench/rubric-v3/closure-gate-integration-materials.md`（六节裁定材料）+ `.githooks/pre-commit.closure-checklist`（未激活 hook 原型，core.hooksPath 零设置 = 对现有提交流程零行为变化）+ 三出口沙盒实跑记录（stages/04/RV3G3cdx-cgi-execution-log.md）。
+
+**待成璐裁定项**（materials §2/§3/§4.3）：
+1. **是否接入门禁**：否 ⇒ queue L27 转 `[~]` 设计内终态（K4 选项 O4），材料归档；是 ⇒ 进入方案选择。
+2. **方案选择**：本仓约束下方案 B（CI check）实际拦截力 = 零（直推 main 无 PR 时点可挂，A2 实证）；方案 A（pre-commit hook）是唯一有实际拦截力的选项，但强制力弱（`--no-verify` 可绕过）。
+3. **K4 语义漂移接受度（四选项）**：O1 完全接受 staged-diff 变体双轨并存【备料倾向】/ O2 有条件接受（hook 输出显式标注 staged 时点判定）/ O3 不接受退回 commit-hash 签名（需解冻 assert-closure-checklist.py 接口 = 新 goal + 本队列再登记）/ O4 不接入门禁。
+4. **exit 1 硬拦可达性边界知悉**：pre-commit 时点 commit message 不可得（比 K1 hash 更根本的缺口）⇒ staged 原型漏翻检测降为 [SIGNAL] 提示形态（指名道姓保留），硬拦截能力在 r148 手动工具轨（commit 后消费真实 hash+message）。若要求 hook 硬拦，需引入 message 捕获约定（强制 `git commit -m` + 暂存 message 文件协议），属裁定后执行 goal 范围。
+
+**影响面声明**：本轮全部产出 = 纯新增 2 文件（materials + hook 原型）+ stages/04 执行记录 + 本条目；冻结面零触碰；assert-closure-checklist.py 本体零改动；queue L27 状态位保持 `[ ]` blocked-on-human 零改动。
+
+**回退方式**：`git revert <收口 commit>` 单步还原（删 2 新增文件 + 撤销本条目）。
+
+**状态**：待成璐裁定（不阻塞——备料性质，同 RV3B1-jaccard-adjudicate / kappa-u1k1 备料模式）。裁定后按 materials §5 D1-D6 清单开执行 goal。
