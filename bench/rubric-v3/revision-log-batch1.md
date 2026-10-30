@@ -16,7 +16,7 @@
 - [x] C3 W3W4 复算断言脚本（`ablation/scripts/assert-w3w4-recompute.py`，运行 exit 0，40/40 分数）
 
 **本版不包含**（留 batch2，v2 文件内以 `[batch2: R-xx]` 醒目标记占位）：
-R-04（pilot 两步走）/ R-05（维度合并规则）/ R-07（gold 新发现计分项 + 冻结纪律）/ R-08（P1/P3 代理量）/ R-09（边界声明段落写入 prompt 流程 + V3 sham 联动——注意：D2 段落文本本版已给出作为冻结对象，但「写入 loop/prompt-first 并 commit 冻结」的流程动作属 R-09）/ R-11（统计设计包）/ R-12（O2 层级机械化）/ R-13（O3 claim 清单化）/ R-14（O4 拆项）/ R-15（单域限定语）。
+R-04（pilot 两步走）/ R-05（维度合并规则）/ R-07（gold 新发现计分项 + 冻结纪律）/ R-08（P1/P3 代理量）/ R-09（边界声明段落写入 prompt 流程 + V3 sham 联动——注意：D2 段落文本本版已给出作为冻结对象，但「写入 loop/prompt-first 并 commit 冻结」的流程动作属 R-09）/ R-11（统计设计包）/ R-12（O2 层级机械化）/ ~~R-13（O3 claim 清单化）~~ **→ 已提前落地（RV3G6-o3-claim-list，见下方追加条目）** / R-14（O4 拆项）/ R-15（单域限定语）。
 
 **使用门禁**：本版不可用于正式实验计分（batch2 未完成）；可用于 pilot 设计与题面冻结。
 
@@ -80,6 +80,16 @@ R-04（pilot 两步走）/ R-05（维度合并规则）/ R-07（gold 新发现�
 | 开跑门禁 | 无 | 「无 diff 记录的变体不得开跑」 |
 
 **回填状态（C-01 裁定后终态）**：D1/D2/sham 行号已回填并逐行 sed 核验（v2 当前版本：D1=L219-L236 含围栏，D2=L154-L161 含围栏，sham=L258-L269）。**冻结 commit hash 不写入 v2 表格**——自指问题（hash 指向包含本表的 commit 本身）无法在表内解决。裁定：**冻结语义 = 收口 commit 的 `DRAFT-rubric-v3-v2.md` 文件快照**；具体 hash 在本节登记 → **冻结版本 = ralph/rv3g6-batch1 分支收口 commit `61416b43f80e28d9785137f320003bf8e121d306`（r116，2026-10-30，main 与 origin 双端 ls-remote 已验证同 hash）**。取回方式：`git show 61416b4:bench/rubric-v3/DRAFT-rubric-v3-v2.md`。本登记由后续 fixup commit 写入（只改本 revision-log 本节，零触碰 v2 冻结段落区域，无行号漂移风险）。
+
+### R-13 · O3 claim 清单化 + 映射一致性指标（AUDIT-report §2-O3 L79 / §9.1 L293）【提前落地 · RV3G6-o3-claim-list】
+
+| 要素 | 原计划（batch2） | 实际落地（本 goal，2026-10-30） |
+|------|------------------|--------------------------------|
+| 交付物 | O3 命中判据替换为原子 claim 清单 | `bench/rubric-v3/o3-claim-list.md`（六节：§1 三失败模式 FM-1/2/3 带 run 原文 evidence / §2 31 节点 claim 全覆盖零 NA / §3 映射一致性指标 M1/M2 + identity-baseline / §4 多判者协议 N=3 ≥2/3 / §5 S2 限定语 byte-exact + 未决项 / §6 冻结声明） |
+| DRAFT v2 改动 | — | O3 节「命中判据」行替换为 claim 级判据引用（保留 h_v 符号）+ 新增 `[batch2: R-13]` 已提前落地状态行；其余行零改动（J4 最小 diff） |
+| 机判防护 | — | `ablation/scripts/assert-o3-claim-list.py` exit 0（4 检查组：31 节点覆盖 / 零 gold 专有数值泄漏 / M1-M2 基线复算一致 / DRAFT 旧措辞消失） |
+
+**范围切割说明**：R-13 原属 batch2（~2 回合估算），本 goal 提前交付其**核心件**（判据件 + 指标定义 + 多判者协议文字化）。**不含**：claim 级独立重判执行（需 fresh-context judge，工具纪律禁 subagent → unverified，导出 queue `RV3G6-o3-claim-rejudge`，arena 通道，样本 31×8 全 cell 优先 h=0 的 150 cell）+ 31 条 claim 措辞人工审定（APPROVALS.md 条目 4 登记，不阻塞）。batch2 开跑时 R-13 按「已完成核心件」处理，剩余部分以 queue 项跟踪。
 
 ---
 
