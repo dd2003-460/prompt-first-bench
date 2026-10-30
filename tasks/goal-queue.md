@@ -20,8 +20,10 @@
 
 ## 新导出候选
 
+- [ ] R5.2audit-C4-arena-export | X5 终态闭环唯一路径：arena.ai 会话 01a1699d 导出带逐事件时间戳的 transcript（或成璐手动截图会话计时器）回填 $WS/run2/ 后重跑 assert-c4-timing.py，自动走 reconstructable 分支完成 867s 正向比对 | r130 04.5 导出；需外部通道（arena 网页），blocked-on-external 候选——本地已无机判空间
+- [ ] R5.2audit-C4-assert-hardening | assert-c4-timing.py 健壮性小修：W3 WS 缺失显式 FAIL 路径（当前 FileNotFoundError 崩溃≈FAIL 但非显式）+ W2 秒级/毫秒级时间戳解析支持（当前 strptime 截前 12 位数字） | r130 04.5 W2/W3 登记；工作量极小，纯仓库内
 - [x] R5.2hard-EXEMPT-sentinel (2026-10-30, r106: 6fbd47b) — EXEMPT 非空哨兵警告落地, SELF-TEST 假豁免验证触发, 67/0 exit 0 基线维持
-- [ ] R5.2audit-C4-timing-reconstruct | C4 "14m27s" 数值化机判：解析 $WS/run2/loop-state.json channel 时间戳做差值重建耗时区间，与 14m27s 比对输出 SIGNAL（若转录件无逐事件时间戳则降级为"不可重建"信号并登记 X5 状态更新） | R5.2-audit 02.5 A4 导出：C4 属数值计算而非字符串比对，超出 C12 goal 边界；工作量小
+- [x] R5.2audit-C4-timing-reconstruct (2026-10-30, r130: dcdd7d8, ralph/r52audit-c4-timing) — C4 "14m27s" 数值化机判：解析 $WS/run2/loop-state.json channel 时间戳做差值重建耗时区间，与 14m27s 比对输出 SIGNAL（若转录件无逐事件时间戳则降级为"不可重建"信号并登记 X5 状态更新） | **结果**：assert-c4-timing.py 落盘（signal-only exit 0）——run2 转录件 7 文件 × ISO 正则全量枚举 = 1 时刻锚（executed_at 单点）→ **SIGNAL not-reconstructable**（与 867s 无法差值比对；缺整个逐事件时间戳载体，run1 有 per_turn_deltas[].at 而 run2 无）；变异测试实证 reconstructable 分支可达（期间修复 epoch 跨日进位 bug）；X5 由人工预判升级为机判实证（bench.md L163 + packet-audit C4 行注记，verdict 维持 unverified 禁升级 confirmed）；冻结面零触碰（既有基线 16/0/1+1SIGNAL、67/0 回归一致）；04.5 verdict pass（数字层零 mismatch，8 攻击 3 驳 5 登记）。导出 R5.2audit-C4-arena-export + 脚本健壮性小修（见下）。
 - [ ] R5.2audit-signal-counter | assert-packet-audit.py 汇总行 "+ 1 SIGNAL(C12)" 硬编码改为 signal 计数变量（防未来加第二个 signal 时汇总行撒谎） | R5.2c12 04.5 R6/W1 登记，工作量极小
 - [ ] RV3G1-semantic-rejudge | G1 语义级独立重判补数：用 arena 通道对已落盘 75 样本 cell（bench/rubric-v3/ablation/scripts/g1-sample-cells.json）做 fresh-context 盲重判 h，报语义一致率（覆盖 S1 未覆盖的 h=0 漏判方向），回填 G1-contradiction-audit.md §1 | G1 04.5 W1/R4 导出：工具纪律禁 subagent 导致降级交付，样本清单已就绪可直接复用；需 arena 会话通道
 - [ ] RV3G3-goldrank-threshold-proof | G3 遗留：gold 平均排名口径的过线阈值正式论证（超几何 n=31,k=5 参考值 E[X]≈1.61 / P(≥4)≈2.7% 只是锚点）+ top-10 口径同级备选地位的终裁材料，供 G6 定稿 O1 时消费 | G3 04.5 W6 导出：本 goal 只给参考值不定稿论证；工作量小，纯仓库内推导
