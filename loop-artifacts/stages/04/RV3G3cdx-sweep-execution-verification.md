@@ -33,7 +33,7 @@ exit codes 序列 = [0, 0, 0, 1, 0, 0, 0]，与 r145 04.5 前置节独立重跑�
 
 ### A3 新导出候选（2 条）
 
-1. `RV3G3cdx-closure-checklist-assert` —— 收口 commit 的 queue diff 机判门禁：写轻量 assert 脚本消费「收口 commit hash + 目标 goal 短名」，机判三项——(a) message 含「划掉/标记完成」⇒ diff 必含对应行 `[ ]`→`[x]` 翻转；(b) message 声称「追加候选 X」⇒ diff 必含 X 完整条目插入；(c) diff 中每个 checkbox 位翻转在 message 中有对应声称（双向闭合）。97d2adf 型漏翻（message 说划掉、diff 无翻转）将被 (a) 直接拦截。纯仓库内 ~5 回合（规则 = 本 sweep 02 表的机械化，零新增设计）。产投比依据：本 goal 实证了人工抽查的滞后性（D1 跨四轮无人发现），机判门禁把检测时点从「事后 sweep」前移到「收口 commit 当下」。
+1. `RV3G3cdx-closure-checklist-assert` —— 收口 commit 的 queue diff 机判门禁：写轻量 assert 脚本消费「收口 commit hash + 目标 goal 短名」，机判三项——(a) message 含「划掉/标记完成」⇒ diff 必含对应行 `[ ]`→`[x]` 翻转；(b) message 声称「追加候选 X」⇒ diff 必含 X 完整条目插入；(c) diff 中每个 checkbox 位翻转在 message 中有对应声称（双向闭合）。97d2adf 型漏翻（message 说划掉、diff 无翻转）将被 (a) 直接拦截。**规则细化（r146 04.5 攻击 5 处置）**：(a) 须含豁免子句——目标行在该 commit 之前不存在于 queue（`git show <h>~1:tasks/goal-queue.md | grep -c <短名>` = 0，A13/404ba7e 实证此检测可用）⇒ 「首建即 [x]」为合法形态，跳过 (a)。纯仓库内 ~5 回合（规则 = 本 sweep 02 表的机械化，零新增设计）。产投比依据：本 goal 实证了人工抽查的滞后性（D1 跨四轮无人发现），机判门禁把检测时点从「事后 sweep」前移到「收口 commit 当下」。
 2. `RV3G3cdx-queue-dedup-lint` —— queue 结构 lint：机判检查 goal-queue.md 的 (a) 同一 goal 短名重复行（历史先例 r105c/r102c 两次人工去重）；(b) 「已完成」区出现 `[ ]` 行或「待办」区出现带完整结果注记却仍 `[ ]` 的行（97d2adf 型的静态形态）；(c) 行格式五段完整性（短名/一句话/产投比依据分隔符）。纯仓库内 ~3 回合。产投比依据：r105c/r102c 证明重复行会自然发生，且当前仅靠人工发现；与本 sweep 的时序抽查互补（本 sweep 查 message↔状态动态一致性，lint 查静态结构）。
 
 ## A4 — 04.5 反方复核
