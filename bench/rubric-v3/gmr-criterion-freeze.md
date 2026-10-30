@@ -48,10 +48,10 @@
 pass/fail 过线功能由 **top-10 辅助口径**承担。其阈值：
 
 ```
-threshold_top10 := RV3G3-goldrank-threshold-proof 产出值
+threshold_top10 := 双轨：t=4（严判据，基线 P(X≥4)=74/2697≈2.7%，独立可机判）+ t=3（宽判据，基线 ≈17.6%，须叠加 gmr 佐证）——论证见 goldrank-threshold-proof.md（RV3G3-goldrank-threshold-proof, 2026-10-30）；最终裁定权在 G6/成璐
 ```
 
-在 RV3G3-goldrank-threshold-proof 完成并 merge 之前，**本仓库内任何文档/脚本不得将 top-10 过线阈值写为具体数值**。引用时只能写「阈值待 RV3G3 正式论证」。
+回填状态：**已回填**（2026-10-30, RV3G3-goldrank-threshold-proof merge）。本文件 §2.1 占位符为 r118 预注册的回填授权通道，本次改动面限本节两行 + §2.3 门禁行，其余零触碰。
 
 ### 2.2 当前锚点（超几何参考值，非定论）
 
@@ -71,7 +71,7 @@ threshold_top10 := RV3G3-goldrank-threshold-proof 产出值
 
 | 条件 | 状态 | 效果 |
 |------|------|------|
-| RV3G3-goldrank-threshold-proof 完成 | ❌ 未完成（queue 中） | top-10 计数**不得**用于正式 pass/fail 判定 |
+| RV3G3-goldrank-threshold-proof 完成 | ✅ 完成（2026-10-30, goldrank-threshold-proof.md） | top-10 计数可用于 pass/fail 判定，须带 L3 边界声明 + tie-sensitivity 限定语（见论证文档 L2/L3） |
 | gmr 用于方案间排序比较 | ✅ 可用 | 带 §4 限定语即可 |
 | gmr 用于单方案绝对过线 | ❌ 禁止 | gmr 是相对量，无绝对过线语义 |
 

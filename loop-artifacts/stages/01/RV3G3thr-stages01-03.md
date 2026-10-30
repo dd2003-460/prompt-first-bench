@@ -67,4 +67,61 @@ n=31, k=5, r=10：
 
 ## 04 执行验证
 
-（J1-J4 执行结果见下节续写——本文件在 04 完成后补全判定段。）
+### J1 论证文档落盘 ✅
+
+`bench/rubric-v3/goldrank-threshold-proof.md`（新建）：L1 超几何精确基线表（Fraction 值 + 与 freeze §2.2/G3 F3b L51 锚点对比，三既有锚点零漂移，补齐 t=1/2/5）→ L2 候选阈值评估（2.1 实测表 + 交叉核验声明；2.2 双轨判读规则 t=4/t=3 + t=5/t=2 登记不推荐 + tie-sensitivity 强制限定段）→ L3 四条边界声明 → L4 互补性证据表 + 改分工条件登记。全文统一 0-based 口径（文首声明）。
+
+**内部勘误处置**：本工件 §2.2 曾以 W3/W4-orig gmr=8.20、top-10=3/3 试算——该行为误用 w2 单维权重表（W3/W4 的定义公式是 w1×w2 / w1+w2，非 w2 本身）。论证文档按各方案定义公式复算得 gmr=5.40、top-10=4/4，与 freeze §5 + G3 F3b L47/L48 一致。本工件 §2.2 原表保留不动（历史工件），勘误记录于论证文档 L2.1 注记行。
+
+### J2 freeze doc 回填 ✅（diff 面 = 3 行，≤3 达标）
+
+```diff
+-threshold_top10 := RV3G3-goldrank-threshold-proof 产出值
++threshold_top10 := 双轨：t=4（严判据，基线 P(X≥4)=74/2697≈2.7%，独立可机判）+ t=3（宽判据，基线 ≈17.6%，须叠加 gmr 佐证）——论证见 goldrank-threshold-proof.md（RV3G3-goldrank-threshold-proof, 2026-10-30）；最终裁定权在 G6/成璐
+
+-在 RV3G3-goldrank-threshold-proof 完成并 merge 之前，**本仓库内任何文档/脚本不得将 top-10 过线阈值写为具体数值**。引用时只能写「阈值待 RV3G3 正式论证」。
++回填状态：**已回填**（2026-10-30, RV3G3-goldrank-threshold-proof merge）。本文件 §2.1 占位符为 r118 预注册的回填授权通道，本次改动面限本节两行 + §2.3 门禁行，其余零触碰。
+
+-| RV3G3-goldrank-threshold-proof 完成 | ❌ 未完成（queue 中） | top-10 计数**不得**用于正式 pass/fail 判定 |
++| RV3G3-goldrank-threshold-proof 完成 | ✅ 完成（2026-10-30, goldrank-threshold-proof.md） | top-10 计数可用于 pass/fail 判定，须带 L3 边界声明 + tie-sensitivity 限定语（见论证文档 L2/L3） |
+```
+
+机制内通道依据 = 02.5 A4 裁决（§2.1 占位符即 r118 预注册回填授权；§2.3 状态列为状态同步非语义修改）。若 04.5 认为仍需 APPROVALS 登记，补登记不阻塞。
+
+### J3 防漂移断言脚本 ✅（exit 0 + 变异测试 4/4 FAIL）
+
+`bench/rubric-v3/ablation/scripts/assert-goldrank-threshold.py`（新建）：五组校验共 35 项——① 文档含 5 个精确基线 token；② freeze 无未回填占位符 + 指向论证文档；③ freeze 门禁行 ✅ 翻转；④ 超几何现场 Fraction 复算 == 文档值 + **L1 表 6 行逐格存在**；⑤ top-10 计数现场复算 == 硬编码期望 + **L2 实测表 5 行逐格存在**。
+
+**变异测试设计迭代记录**（首轮设计缺陷 → 修复）：初版检查④仅校验 `F(doc_str) == calc`（常数 vs 计算恒等式），篡改文档文本不触发 FAIL；追加 `doc_str in proof` 后仍漏——因 "74/2697" 同时出现在 L1 与 L2 两处，仅篡改 L2 单元格时 token 仍在 L1 存活。终版增加 L1/L2 表行整行字符串存在性检查，逃逸路径封死。
+
+| 变异 | 篡改内容 | 结果 |
+|------|----------|------|
+| A | L1 表单元格 `74/2697` → `74/2698` | exit 1（FAIL: ④ L1 表行存在 74/2697）✅ |
+| B | 全文 `0.027438` → `0.027439` | exit 1（FAIL: ① token + ④ L1 表行）✅ |
+| C | L2 实测表 W3-new 计数 `4 / 3` → `5 / 3` | exit 1（FAIL: ⑤ L2 表行存在）✅ |
+| D | freeze 门禁行 ✅ 完成 → ❌ 未完成（queue 中） | exit 1（FAIL: ③ 两项）✅ |
+
+基线恢复后 exit 0（35 PASS / 0 FAIL）。
+
+### J4 冻结面 git status ✅
+
+```
+M bench/rubric-v3/gmr-criterion-freeze.md          （J2 回填，3 行）
+?? bench/rubric-v3/ablation/scripts/assert-goldrank-threshold.py   （J3 新建）
+?? bench/rubric-v3/goldrank-threshold-proof.md     （J1 新建）
+```
+
+冻结数据（hit-matrix.json / prior-estimates.json / judge-blindtest-r1.json / gold-tree.md / runs-C0-*）**零触碰**。
+
+### 验收标准逐条对照
+
+| # | 验收标准 | 状态 |
+|---|----------|------|
+| 1 | 论证文档 L1-L4 四层齐 + 0-based 统一 | ✅ J1 |
+| 2 | 超几何精确值与 freeze §2.2 锚点 byte 级一致 + 补齐 t=1/2/5 | ✅ J1（L1 表对比列） |
+| 3 | 实测表与 G3 F3b L47/L48 + freeze §5 交叉核验零 mismatch | ✅ J1（L2.1 交叉核验段） |
+| 4 | freeze §2.1 回填 + §2.3 ❌→✅，diff ≤3 行 | ✅ J2（恰好 3 行） |
+| 5 | assert 脚本 exit 0 + 变异测试（篡改基线值 → FAIL） | ✅ J3（4/4 变异 FAIL） |
+| 6 | queue 条目划掉 + 结果注记 | ⏳ 合入 main 后执行（见 04.5 之后收口步骤） |
+
+**web-llm 交叉核验**：unverified 降级（工具登录态过期，同族先例）；本 goal 为纯仓库内推导（冻结 JSON 复算 + 分布函数计算），边际贡献 ≈ 0，不阻塞。
