@@ -24,9 +24,13 @@
                                  "w1": <number>, "w2": <number>|null,
                                  "parent_share": <number>|null}, ... },
         "gold_nodes": [<node_id> x5],   # D1：换题面时必须显式声明；缺省 = 沿用第一域
-                                        #   GOLD 清单且题面必须同题面（变体矩阵冻结），
-                                        #   换题面而未声明 = ERROR fail-loud
-        "prompt_version": <str> }       # 题面版本标识（与 DRAFT v2 冻结快照对照用）
+                                        #   GOLD 清单且题面必须同题面（变体矩阵冻结）。
+                                        #   r150：显式声明时成员须 ⊆ nodes 键集（缺失 = exit 2，
+                                        #   防判定层静默漏计）；完整「换题面未声明」fail-loud
+                                        #   对照协议 = 导出候选（权威源映射表待第二域题面落盘）
+        "prompt_version": <str> }       # 题面版本标识。r150 M2 C-最小消费：存在性 + 非空 str
+                                        #   机判（缺失/空串/非 str = exit 2）；与 DRAFT v2 冻结
+                                        #   快照的内容级对照 = 导出候选（同上）
 
   judge-blindtest-batch2.json    # 第二域 new-judge 侧（镜像 judge-blindtest-r1.json
                                   #   w3_full_ranking 结构；可整体缺失 = D5 降级）
@@ -56,7 +60,11 @@ S2 = 第二域各方案 top-10 gold 计数 ≥4 的方案集合（仅含两域�
 
 exit code：0 = 无 FAIL（含 SIGNAL blocked-on-external / (a)(b) verdict 输出）
            1 = (a) 或 (b) FAIL
-           2 = schema 违例 / 换题面无 gold_nodes 声明 / 输入不可读（ERROR fail-loud）
+           2 = schema 违例 / gold_nodes 键集缺失 / prompt_version 缺失或非空 str 违例
+               / 输入不可读（ERROR fail-loud）
+--lint-only 模式（r147 入口，r150 docstring 补齐）：纯 schema 校验，不跑 (a)/(b) 判定——
+           0 = 全通过（含目录不存在 = 「数据未落盘」SIGNAL / blindtest 缺失 = D5 降级提示）
+           2 = schema 违例或输入不可读；lint 模式永不 exit 1
 """
 import json
 import math
@@ -216,6 +224,15 @@ def load_batch2(base_dir=None):
         gold = GOLD_DOMAIN1              # D1 默认沿用（同题面冻结）
     elif not (isinstance(gold, list) and all(isinstance(x, str) for x in gold)):
         return False, "gold_nodes must be a list of node-id strings"
+    declared = pe.get("gold_nodes")
+    if declared is not None:                    # r150 Y1：仅显式声明时查键集（缺省路径零变化）
+        missing = [g for g in declared if g not in pe["nodes"]]
+        if missing:
+            return False, (f"prior-estimates-batch2.json: gold_nodes members absent "
+                           f"from nodes key set: {missing}")
+    pv = pe.get("prompt_version")               # r150 Y2：M2 C-最小消费（存在性+非空 str）
+    if pv is None or not isinstance(pv, str) or not pv.strip():
+        return False, "prior-estimates-batch2.json: 'prompt_version' required (non-empty str)"
     for nid, d in pe["nodes"].items():
         for f in ("w1",):
             if f not in d:
