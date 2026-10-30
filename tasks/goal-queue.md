@@ -19,10 +19,11 @@
 - [x] R5.2audit-C12-mechanize (2026-10-30, r105) — C12 "M1-M6 定义+" 形式性检查由 SKIP(manual) 改机判信号输出（声称子串 + 正文正则，只扫 evidence_packet 字段；signal-only、verdict 归类留人工）；重跑 16 PASS / 0 FAIL / 1 SKIP + 1 SIGNAL exit 0；审计表 C12 行补机判引用；未改任何 verdict 与冻结分
 
 ## 新导出候选
+- [ ] R5.2assert-suite-docsync | assert-c4-timing.py docstring 判定口径段补 r132 fail-loud/WS 拦截行为说明（文档-实现同步，一行追加） | r132 04.5 导出；工作量极小
 - [ ] R5.2audit-verdict-text-templatize | assert-packet-audit.py VERDICT 段（L140-143）'8 confirmed / 3 mismatch / 1 unverified / 1 形式性' 硬编码事实快照同构缺陷处置：动态生成或注释标记'新增断言须同步' | r131 04.5 W2 导出；工作量小，纯仓库内
 
 - [ ] R5.2audit-C4-arena-export | X5 终态闭环唯一路径：arena.ai 会话 01a1699d 导出带逐事件时间戳的 transcript（或成璐手动截图会话计时器）回填 $WS/run2/ 后重跑 assert-c4-timing.py，自动走 reconstructable 分支完成 867s 正向比对 | r130 04.5 导出；需外部通道（arena 网页），blocked-on-external 候选——本地已无机判空间
-- [ ] R5.2audit-C4-assert-hardening | assert-c4-timing.py 健壮性小修：W3 WS 缺失显式 FAIL 路径（当前 FileNotFoundError 崩溃≈FAIL 但非显式）+ W2 秒级/毫秒级时间戳解析支持（当前 strptime 截前 12 位数字） | r130 04.5 W2/W3 登记；工作量极小，纯仓库内
+- [x] R5.2audit-C4-assert-hardening (2026-10-30, r132: 8b2cc11, ralph/r52audit-c4-hardening) — assert-c4-timing.py W2/W3 健壮性落地 | **结果**：WS 缺失显式 FAIL + exit 1（无 traceback）+ epoch() 时区剥离后分钟级/秒级分派 + 未知格式 fail-loud；零漂移（基线 diff 空）+ 三场景实证（正常/缺失/秒级 840s 精确）；04.5 verdict pass（导出 docsync 候选）。
 - [x] R5.2hard-EXEMPT-sentinel (2026-10-30, r106: 6fbd47b) — EXEMPT 非空哨兵警告落地, SELF-TEST 假豁免验证触发, 67/0 exit 0 基线维持
 - [x] R5.2audit-C4-timing-reconstruct (2026-10-30, r130: dcdd7d8, ralph/r52audit-c4-timing) — C4 "14m27s" 数值化机判：解析 $WS/run2/loop-state.json channel 时间戳做差值重建耗时区间，与 14m27s 比对输出 SIGNAL（若转录件无逐事件时间戳则降级为"不可重建"信号并登记 X5 状态更新） | **结果**：assert-c4-timing.py 落盘（signal-only exit 0）——run2 转录件 7 文件 × ISO 正则全量枚举 = 1 时刻锚（executed_at 单点）→ **SIGNAL not-reconstructable**（与 867s 无法差值比对；缺整个逐事件时间戳载体，run1 有 per_turn_deltas[].at 而 run2 无）；变异测试实证 reconstructable 分支可达（期间修复 epoch 跨日进位 bug）；X5 由人工预判升级为机判实证（bench.md L163 + packet-audit C4 行注记，verdict 维持 unverified 禁升级 confirmed）；冻结面零触碰（既有基线 16/0/1+1SIGNAL、67/0 回归一致）；04.5 verdict pass（数字层零 mismatch，8 攻击 3 驳 5 登记）。导出 R5.2audit-C4-arena-export + 脚本健壮性小修（见下）。
 - [x] R5.2audit-signal-counter (2026-10-30, r131: af8e15d, ralph/r52audit-signal-counter) — assert-packet-audit.py 汇总行 SIGNAL 计数变量化 | **结果**：signals 列表 + C12 三分支 append + 汇总行动态输出；零漂移（实跑与基线逐字一致 exit 0）+ 变异测试计数联动实证（注入 C99 → '+ 2 SIGNAL(C12,C99)'）；exit code 语义不变；04.5 verdict pass（W2 VERDICT 段硬编码事实陈述为残余耦合）。导出 R5.2audit-verdict-text-templatize（见下）。
