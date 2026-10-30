@@ -1,25 +1,29 @@
-# Goal: R5.2assert-suite-docsync — docstring 文档-实现同步（核销轮）
+# Goal: RV3G3-goldrank-threshold-proof — gold 平均排名口径过线阈值正式论证
 
-> 创建：2026-10-30 · ralph loop runner（`tasks/goal-queue.md` 候选「R5.2assert-suite-docsync」）
-> 依据：r132 04.5 导出；工作量极小
+> 创建：2026-10-30 · ralph loop runner（`tasks/goal-queue.md` 候选「RV3G3-goldrank-threshold-proof」）
+> 依据：G3 04.5 W6 导出；freeze doc §2.1 引用占位符 `threshold_top10 := RV3G3-goldrank-threshold-proof 产出值` + §2.3 门禁行 ❌
 
 ## 【目标】
-assert-c4-timing.py docstring 判定口径段补 r132 fail-loud/WS 拦截行为说明（文档-实现同步）。
+top-10 辅助口径过线阈值的正式论证（超几何 n=31,k=5,r=10 精确基线升级 + 候选阈值评估 + 适用性边界声明）+ gmr vs top-10 同级备选地位的终裁材料，供 G6 定稿 O1 时消费。回填 `gmr-criterion-freeze.md` §2.1/§2.3（引用机制预留通道）。
 
-**范围发现（阶段 A 实证）**：该 goal 已由 **r133 (c55848f)** 完成——docstring L13-15 已含「r132 健壮性行为：WS_RUN2 目录缺失 → 显式 FAIL + exit 1…epoch() 先剥离时区段再按主体位数分派…fail-loud ValueError」，与 r132 实现逐条对应。但 `goal-queue.md` 中本候选**未被划掉**（r133 收口漏更新 queue——对比 r132b/r134b/r135b/r136b 均有独立收口 commit，r133 没有）。→ 本 goal 收口为**核销+队列卫生修复**：(a) 验证 r133 改动与实现的对应关系；(b) 脚本实跑确认行为与 docstring 一致；(c) 划掉 queue 条目并注记 r133 已完成 + 本次核销增量。
+**范围定位**：本 goal 给**材料与推荐**，最终阈值裁定权在成璐/G6（同 G3「推荐路径供 G6 非决策」惯例；双轨呈现 t=3/t=4 不代选）。
 
 ## 【阶段】
-零代码改动的核销轮（若验证发现 docstring 与实现有真实偏差则例外修复）。
+纯仓库内推导（冻结数据复算 + 文档落盘），零外部依赖。
 
 ## 【SOP 索引】
-- `loop/prompt-first/01..04.5`；对象 `bench/self-opt-tester/r5/assert-c4-timing.py`（只读验证）
+- `loop/prompt-first/01..04.5`；对象 `bench/rubric-v3/goldrank-threshold-proof.md`（新建）+ `gmr-criterion-freeze.md` §2（两行回填）+ `ablation/scripts/assert-goldrank-threshold.py`（新建防漂移断言）
+- 数据源（只读冻结）：`prior-estimates.json` / `judge-blindtest-r1.json` / `assert-gmr-recompute.py` GOLD 清单
 
 ## 【验收标准】
-- [ ] docstring r132 行为段三条声明（WS 缺失 FAIL+exit1 / epoch 时区剥离+位数分派 / 未知格式 fail-loud）与代码实现逐条对照表
-- [ ] 脚本实跑 exit 0 + SIGNAL not-reconstructable（与 r130 基线语义一致，无行为漂移）
-- [ ] WS 缺失场景复验（/tmp 假路径沙盒）→ 显式 FAIL + exit 1 非 traceback（docstring 声明的行为实证）
-- [ ] queue 条目划掉 + 结果注记（含「r133 已完成、r133 漏更新 queue、本轮 = 核销+队列卫生」事实链）
+- [ ] 论证文档 L1-L4 四层齐（精确基线 Fraction 值 / 候选阈值评估 / 适用性边界声明 / 同级备选终裁材料），全文统一 0-based 口径
+- [ ] 超几何精确值与 freeze §2.2 锚点 byte 级一致（50/31、0.027438、0.175751）且补齐 t=1/2/5
+- [ ] 当前数据实测表（8 方案×judge 的 top-10 计数 + gmr）与 G3 F3b L47/L48 + freeze §5 交叉核验零 mismatch
+- [ ] freeze doc §2.1 回填（不再含未回填占位语）+ §2.3 门禁行 ❌→✅，diff 面 ≤3 行
+- [ ] assert-goldrank-threshold.py exit 0 + 变异测试（篡改基线值 → FAIL）
+- [ ] queue 条目划掉 + 结果注记
 
 ## 【失败降级】
-- 对照发现 docstring 与实现真实偏差 → 修复 docstring 或代码（以实现为准，除非实现本身违反 r132 预注册口径）
-- web-llm 不可用 → unverified 降级（纯文档核销边际贡献 ≈ 0，同族判据）
+- 复算发现与既有锚点 mismatch → 以现场 Fraction 复算为准，登记偏差来源（同 U3 口径裁定先例）
+- freeze doc 回填被 04.5 判为需 APPROVALS → 补登记不阻塞（机制内通道论证见 stages01-03 A4）
+- web-llm 不可用 → unverified 降级（纯推导边际贡献 ≈ 0，同族判据）
