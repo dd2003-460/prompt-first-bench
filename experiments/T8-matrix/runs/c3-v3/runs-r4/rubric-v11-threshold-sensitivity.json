@@ -1,0 +1,134 @@
+{
+  "kind": "c3v3-v11-threshold-sensitivity",
+  "date": "2026-10-31",
+  "method": "从已落盘 J1v11 raw 读 specificity_ratio，按阈值重判 low_specificity_fail（不调 judge）；其他 floor 条件保持原判定不变",
+  "thresholds": {
+    "0.1": {
+      "config_means": {
+        "A-full": 0.75,
+        "B-2del-eo": 0.606,
+        "B-2del-fe": 0.627,
+        "B-2del-fo": 0.523,
+        "B-noevidence": 0.906,
+        "B-nofreeze": 0.494,
+        "B-none": 0.678,
+        "B-noowner": 0.767,
+        "B-sham": 0.517
+      },
+      "sham_rank": 2,
+      "ranked_asc": [
+        "B-nofreeze",
+        "B-sham",
+        "B-2del-fo",
+        "B-2del-eo",
+        "B-2del-fe",
+        "B-none",
+        "A-full",
+        "B-noowner",
+        "B-noevidence"
+      ]
+    },
+    "0.15": {
+      "config_means": {
+        "A-full": 0.75,
+        "B-2del-eo": 0.606,
+        "B-2del-fe": 0.568,
+        "B-2del-fo": 0.523,
+        "B-noevidence": 0.906,
+        "B-nofreeze": 0.4,
+        "B-none": 0.678,
+        "B-noowner": 0.767,
+        "B-sham": 0.517
+      },
+      "sham_rank": 2,
+      "ranked_asc": [
+        "B-nofreeze",
+        "B-sham",
+        "B-2del-fo",
+        "B-2del-fe",
+        "B-2del-eo",
+        "B-none",
+        "A-full",
+        "B-noowner",
+        "B-noevidence"
+      ]
+    },
+    "0.2": {
+      "config_means": {
+        "A-full": 0.75,
+        "B-2del-eo": 0.606,
+        "B-2del-fe": 0.568,
+        "B-2del-fo": 0.523,
+        "B-noevidence": 0.906,
+        "B-nofreeze": 0.4,
+        "B-none": 0.678,
+        "B-noowner": 0.767,
+        "B-sham": 0.517
+      },
+      "sham_rank": 2,
+      "ranked_asc": [
+        "B-nofreeze",
+        "B-sham",
+        "B-2del-fo",
+        "B-2del-fe",
+        "B-2del-eo",
+        "B-none",
+        "A-full",
+        "B-noowner",
+        "B-noevidence"
+      ]
+    },
+    "0.25": {
+      "config_means": {
+        "A-full": 0.675,
+        "B-2del-eo": 0.606,
+        "B-2del-fe": 0.568,
+        "B-2del-fo": 0.523,
+        "B-noevidence": 0.906,
+        "B-nofreeze": 0.4,
+        "B-none": 0.678,
+        "B-noowner": 0.767,
+        "B-sham": 0.517
+      },
+      "sham_rank": 2,
+      "ranked_asc": [
+        "B-nofreeze",
+        "B-sham",
+        "B-2del-fo",
+        "B-2del-fe",
+        "B-2del-eo",
+        "A-full",
+        "B-none",
+        "B-noowner",
+        "B-noevidence"
+      ]
+    },
+    "0.3": {
+      "config_means": {
+        "A-full": 0.675,
+        "B-2del-eo": 0.606,
+        "B-2del-fe": 0.568,
+        "B-2del-fo": 0.448,
+        "B-noevidence": 0.906,
+        "B-nofreeze": 0.275,
+        "B-none": 0.678,
+        "B-noowner": 0.767,
+        "B-sham": 0.517
+      },
+      "sham_rank": 3,
+      "ranked_asc": [
+        "B-nofreeze",
+        "B-2del-fo",
+        "B-sham",
+        "B-2del-fe",
+        "B-2del-eo",
+        "A-full",
+        "B-none",
+        "B-noowner",
+        "B-noevidence"
+      ]
+    }
+  },
+  "verdict": "PASS-with-caveat",
+  "notes": "五档结果：thr≤0.25 时 sham 稳定第 2 低组（仅高于 B-nofreeze），A-full 不受影响（其最低 run ratio=0.23 > 0.25）；thr=0.3 时 B-nofreeze D1/seeda(0.12)+D2/seeda(0.27) 双双触发 → nofreeze 跌至 0.275 反超 sham，排名漂移。关键事实：judge 实际输出的 specificity_ratio 呈离散分布（0.12/0.14/0.23/0.27/0.33/0.333/0.38/0.41+/0.49），0.2 阈值落在 0.14 与 0.23 之间的空档——因此 0.1~0.23 之间任意取值效果完全相同，0.2 并非脆弱单点，而是『0.14 触发 / 0.23 不触发』这个二元决策的自然代表值。上界约束：0.25 起开始误伤真实 run（B-2del-fe D2/seeda 0.14 已在 0.2 触发是合理命中，0.25 新增的是 A-full D1/seedb 0.23 型边界件）。结论：0.2 冻结可升格正式 rubric，稳健区间 [0.15, 0.23)；若未来 judge 输出更细粒度 ratio，需重跑本扫描。"
+}
