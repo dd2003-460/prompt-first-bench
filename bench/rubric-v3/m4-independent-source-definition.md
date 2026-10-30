@@ -19,6 +19,7 @@
 
 - 证据：E4 run3 basis「同一文件的两种读取方式（同源双读），非独立源」（维度 iii 全同实例，`r5/scoring-claude-r1.json` scores.run3.M4.basis）；E4 run1 basis「本地双源是同一环境内的两个文件源」（维度 ii+iii 全同实例，同文件 scores.run1.M4.basis）。
 - **澄清**（r152 回测 M2 处置）：同一文件的多种读取方式（sed / read / grep…）不构成维度 (ii)/(iii) 差异——读取方式是通道 (ii) 内的子行为，不是独立维度。即 D2(δ) 在 D1 侧的锚定：单文件多读 = 至多 1 个独立源。
+- **降级运行态归簇规则**（04.5 W1 补）：U2 schema v3 落地前维度 (i) 不可机判——条目归簇按可判维度 (ii)/(iii) 执行：同采集通道 + 同信息路径的条目组 = 1 簇（至多计 1 个独立源），即使 source 字符串中的主体名互异。人工判定可用维度 (i) 拆簇，机判不得。
 
 ### D2 — 反例五类（强制排除，不计入独立源总数）
 
@@ -31,6 +32,8 @@
 | ε 训练知识单源 | 无 source_path 可锚定的模型内部知识（常标 unverified/conf≤0.3） | E4 run1 basis「仅训练知识单源、标 unverified conf 0.3」 |
 
 ### D3 — 转引链折减（强制机制，数值参数暂定）
+
+> ⚠ **数值未裁定**：本条机制（转引折减）已定并生效；conf 上限数值 **0.7 为暂定值，待成璐确认**——消费方在数值裁定前只执行机制（标记折减），不得把 0.7 当硬阈值写入判分。
 
 nature=external 且 source 含转引标记（「转引」「经 <X> blog」「二手」）⇒：
 - 与转引上游可溯且同路径 ⇒ 按 D1(iii) 判同源，归入上游条目计数；
@@ -46,17 +49,18 @@ run 达标 ⇔ D2 排除后计入口中存在 **≥2 条 D1 判独立**的条目
 
 ### D5 — 降级态上限（强制）
 
-channel_status 声明外部通道不可达（degraded-partial / 无网络 / 无 ≥2 LLM 通道）⇒ 该 run 不得以本地双源顶格：本地源仅当满足 D1 维度 (ii)/(iii) 差异时按 1 个独立源计，run 级结论上限 = mid 档（现有 0-100 尺度 ≈ ≤60）。
+channel_status 声明外部通道不可达（degraded-partial / 无网络 / 无 ≥2 LLM 通道）⇒ 该 run 不得以本地双源顶格：本地源仅当满足 D1 维度 (ii)/(iii) 差异时按 1 个独立源计，run 级结论上限 = low-mid 区间（实跑参照 30-50——三 run 历史判分除 X1 登记的过渡期人工居中 70 外全部 ≤50，本条是该既成事实的形式化，非新造阈值）。
 - 证据：E4 run1/run2 basis 均因 channel_status 降级判 low/mid；E3 run3_M4 reason「无网络无外部交叉=无验证低分」。
 
 ## §2 回测基线（packet v2 既有数据，实跑值）
 
 11 条 independent_sources（run1×2 / run2×7 / run3×2）逐条分类 + 每 run 计数 + 两打分器方向对账 = `loop-artifacts/stages/04/RV3G3cdx-m4-ops-backtest.md`。
+**性质声明**（04.5 W4）：该回测是**完备性验证**（历史判分理由是否被 D 条款覆盖——缺陷 #2 的直接消解检验），不是预测验证；规则的外推效力须待 U3 激活轮对新 run 新 packet 的首次盲判才能检验。
 **预期方向**（回测须复现，否则如实登记 mismatch）：三 run 全部不达 D4 达标线 ⇒ 与「两打分器收敛点：M4 三项全 low/mid」（bench.md L117）一致。
 
 ## §3 机判升级路径（预注册规格，本轮零脚本改动）
 
-- **U1 — assert-m4-sources.py 规格**（未落盘）：(a) nature 枚举校验 ∈ {external, local-measured, transcription}；(b) 同 run 内 source 归一（小写 + 去日期括号）重复 = SIGNAL（疑似同源拆条）；(c) D2/D3 关键词扫描：transcription 自动排除、「转引|经.*blog|二手」命中 = D3 折减标记输出。
+- **U1 — assert-m4-sources.py 规格**（未落盘）：(a) nature 枚举校验 ∈ {external, local-measured, transcription}；(b) 同 run 内 source 归一（小写 + 去日期括号）重复 = SIGNAL（疑似同源拆条）；(c) D2/D3 关键词扫描：transcription 自动排除、「转引|经.*blog|二手」命中 = D3 折减标记输出。**X3 负向通道陈述排除 = 双条件并联**（04.5 W2）：conf=null **且** 关键词命中才自动排除，单独任一 = SIGNAL 人工复核。
 - **U2 — schema v3 扩展需求**（阻塞项）：template v2 → v3 增加 `provider`（必填 str）+ `channel`（枚举 web-search / llm-receipt / local-measured / file-read）两字段——D1(i) 与 D4「不同 provider 回执对」在此之前不可机判。改 template 属判定语义级变更，走独立候选，本轮不动。
 - **U3 — 激活条件**：新 run 产出含 U2 字段的 packet 后 U1 方可完整实跑；此前 U1 仅降级运行（跳过 provider 维度，D2/D3 部分可机判）。
 - **否决项登记**：「按 URL 数计源」= 否决（D2(γ) 直接冲突）；「transcription 折半计入」= 否决（D2(β)：引用不产生新验证，折半仍是奖励复读）。
