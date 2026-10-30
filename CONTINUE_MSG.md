@@ -1,23 +1,16 @@
 # CONTINUE_MSG — pfb 工作区
 
-## 当前状态 @ 2026-10-30 23:40 +0800（keepalive r26 唤醒）
+## 当前状态 @ 2026-10-31 07:45 +0800（keepalive r44 唤醒）
 
-**r151-r154 收口链完成**：r151 queue-format-contract / r152 crossdomain-promptversion-mapping / r153 goldmap-multidomain-upgrade 三个 goal 全部收口 merge main，main @ ebd7a92（r154 收口行 hash 回填，assert-queue-lint 53 行 / 0 FAIL / 3 SIGNAL exit 0）。
+**r44 rubric v11 validation PASS，T8-C3-v3-rubric-density-test 收口**：v2→v11 共 10 轮迭代——前 9 版全部 FAIL（v2 密度审计零触发 / v3 anti-template 误杀真实核验 A-full 归零 / v4 anti-spin 太弱 sham 编造数字绕过 / v5 计划发现二分过度修正全场归零 / v6 prepared-plan 例外救回 A-full / v7-v10 回声率·冻结痕迹·方法回声·指令依赖度均失效），**v11 特异性指纹测试**首次命中：查「量」不查「有无」——带具体数字/型号/字段/日期/阈值的句子占比 <0.2 判 low_specificity_fail。验收三项全过：sham 0.517 跌至第 2 低组 ✓ / freeze 方向保持（B-nofreeze 0.400 < A-full 0.750）✓ / 无过度修正（A-full > 0.4）✓。J2 lenient 同批重打 36 run 天花板复现（9/9 配置 mean=1.0）→ 佐证 G1a「M8 绑定 J1 strict」裁定。负面 ×1：B-2del-fo/D1/seeda 首判 max_tokens=4096 截断，输出纪律后缀+8192 重判落盘。回执 runs-r4/rubric-v11-validation.json + j2lenient-v11-validation.json；queue L28 划掉（3e9aa9b，assert-queue-lint 59 行 / 0 FAIL exit 0）。main @ 3e9aa9b。
 
-**r26 claude (PID 15806) 卡死已处置**：启动后 ~18min 零 commit、零文件写、日志 0 字节 → kill。阶段 02 六行动实证由 Hermes 代跑落盘（commit 9d79815，分支 ralph/closure-gate-integration 已 push）：A1 hook 零安装 / A2 本仓零 CI 且直推 main ⇒ 方案 B 拦截力零 / A3 21 commit 关键词命中 flip19-append14 / A4 tmp 负样例缺失 / A5 断言锚点抄录 / A6 K1 沙盒实验（write-tree 拿不到 commit 前驱 ⇒ 推荐 staged-diff 变体，裁定权在成璐）。
-
-**r27 claude (PID 22038, proc_542961de8574) 已派发**：从阶段 03 续跑 r155（动作分解 → 04 执行 → 04.5 → 收口 commit+push，不 merge main——Hermes 验证后 merge）。
-
-**RV3G6-gmr-caliber-u3 goal 收口（六阶段全过，merge main @ efbbca7 = r124）**：
-- U3 口径裁定落地：AUDIT §3.2 L103 / §5 L166「gmr 6.4→8.6」独立复算（冻结 JSON，0-based 协议）显示 G3 F3b L48 全部 7 列 = 冻结 gmr 复算值 +1.0（rank 起点差）→ 判定为 G3「gold 平均排名」口径（1-based rank 记法）被 AUDIT 误标为 gmr，**非 global gmr 数值错误**（6.4/8.6 在其自身口径下数值正确，不触发二次勘误）
-- 走加注路径（二选一之「其他口径」）：L103/L166 保留原值 + 就地加 1-based 口径注记与冻结 0-based 等价值 5.40→7.60；U3 段转「已裁定项」
-- 定性结论零改动且序关系更清晰（7.60 < 9.80 < 10.20 逐对不变）；assert-audit8-erratum.py 扩展检查组⑤（11 断言）32 PASS/0 FAIL + 变异测试确认实义；冻结数据零修改
-- web-llm unverified：`ralph prompt-first web-llm` 报 `[Errno 2] .../pfb/ralph-loop.md` 缺失（连 provider 调用都未发生）→ 导出 RV3B1-webllm-tool-fix 候选（优先级高于 receipt-per-goal）
+**r27 收口验证完成（上轮 P0）**：claude (PID 22038) 已跑完 r155 全部阶段并退出——产物 commit f6be883+B063043+0ecb926 落于 main（环境漂移，HEAD 启动时已在 main，claude 按 CONTINUE_MSG 指令未 push 未宣告收口）；ralph/closure-gate-integration-r27 分支指向同一 tip，`git log main..branch` = 0 → **merge 幂等无需操作**。终态 blocked-on-human：closure-gate-integration 备料件齐（materials 六节 + 未激活 hook 原型 + 三出口沙盒实跑），待成璐对 K4 O1-O4 + 方案选择裁定（APPROVALS 条目 2026-10-31 已登记，queue L27 保持 `[ ]` blocked-on-human 不动）。
 
 ## 下一步（按优先级）
 
-0. **P0 · r27 收口验证**：claude (PID 22038, proc_542961de8574) 跑完 r155 (closure-gate-integration，从阶段 03 起——预期产出 stages/03 动作分解 + closure-gate-integration-materials.md 六节 + 未激活 hook 原型 .githooks/pre-commit.closure-checklist + 三出口实跑 + 04.5 verdict) 或 max-turns 耗尽退出后——查 `git log main..ralph/closure-gate-integration` + 工件齐不齐 → 验证 merge main + push → queue L27 划掉+结果注记 → 取下一个可做 goal。若进程死亡且未收口 → 读 /tmp/ralph-loop-r27.log 定位，简化 prompt 重试一次（注意 r26 卡死先例：启动 18min 零 commit 即判卡死）
-1. **P1 · C3 v3 paired runs**（WORK_QUEUE 最高优先未完成项）：前置 G1 subagent 盲标+仲裁 → G2 judge 实测 → G3-G5 门禁；ninfer HTTP :8000 直跑（不走 arena）。阻塞：judge 家族隔离（ninfer 只有 qwen3.8-27b）等用户决策
+0. **P0 · R4 主分析重启（推断层解阻断）**：rubric v11 地板恢复后，R4 的 gate_order R1 floor 已过——用 J1v11 口径重算 m8-scorecard（36 run 分数已落盘 *-J1v11.json，聚合脚本直接读）→ 解除 PARTIAL-PASS 的推断层阻断 → F1 主效应可重新做 cell 级统计（注意 F4 judge 单 run 波动大，必须 cell 聚合）→ 产出 receipt-r4-mainanalysis.json。遗留风险如实登记：v11 specificity_ratio 阈值 0.2 是单点选定未做敏感性扫描（建议补 0.1/0.15/0.25/0.3 四档重算看 sham 排名是否稳定）
+1. **P1 · C3 v3 G1b 异源 judge**（WORK_QUEUE 最高优先未完成项）：blocked-on-human/external——需 arena 会话通道或第二 LLM 服务凭证（非 Qwen 家族）。协议与切分已冻结于 loop-artifacts/stages/01/C3v3-G1-blind-label-design.md §2，届时换 judge 重打即可 ~2 回合
+2. **P2 · closure-gate-integration 裁定跟进**：等成璐 K4 O1-O4 裁定（APPROVALS 已登记备料模式，不阻塞其他工作）
 3. **P2 · 回 arena 会话 01a18567 取 307 行 survey 原文回填 research/interpretability/literature-survey.md**
 4. **P2 · 评估 :8787 node 网关容量竞争根因**（cron 400 too large 元凶），决定是否切直连 :8000
 5. **P2 · rubric-v3 遗留 #1「独立 judge 盲测 p̃」**：决定性检验，需 ≥3 个独立 LLM 服务盲估 31 节点 p̃ 对照 prior-estimates.json 算一致性——另开 goal
