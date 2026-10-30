@@ -47,4 +47,4 @@
 
 ## 导出（收口时并入 goal-queue）
 
-- **RV3B1-webllm-tool-fix**（新候选，优先级高于 RV3B1-webllm-receipt-per-goal）：`ralph prompt-first web-llm` 因项目入口文件 `ralph-loop.md` 缺失而完全不可用（Errno 2，工作树与 git 历史均无此文件）。影响所有后续 goal 的强制 web-llm 步骤。需排查 ralph CLI 版本变更 / 文件迁移 / 是否需重新生成入口文件。
+- **RV3B1-webllm-tool-fix**（新候选，r124 已部分闭环）：`ralph prompt-first web-llm` 原因项目状态文件 `ralph-loop.md` 缺失完全不可用（Errno 2）→ **本 goal 收口前已修复**：`ralph prompt-first init . "<task>"` 重建状态文件后工具链可正常启动。残余子项：(a) 三 provider（perplexity/chatgpt/gemini）playwright 登录态失效需人类一次性 `ralph web-llm-login`（runner 无权代执行）；(b) web-llm 默认覆写共享回执路径 `02-web-llm-cross-check.md`——与 RV3B1-webllm-receipt-per-goal 合并跟踪（per-goal 分文件约定自 r124 起前置执行）。
