@@ -1,36 +1,30 @@
-# Goal: RV3G3cdx-crossdomain-lint-coverage-expand — crossdomain lint 覆盖扩展（r150）
+# Goal: RV3G3cdx-queue-format-contract — queue 书写契约模板化（r151）
 
-> 创建：2026-10-30 · ralph loop runner（queue L23 消费——r147 04.5 登记项合并处置，纯仓库内脚本工作）
-> 依据：`assert-goldrank-crossdomain.py --lint-only`（r147 交付）当前样例矩阵只覆盖 8 个失败出口中的 5 个；lint 不查「gold_nodes ⊆ prior.nodes 键集」（hit-matrix 侧有、prior 侧缺——违例会在 (a)/(b) 判定阶段 KeyError crash 而非 lint 拦截）；M1/M2 mismatch（换题面 fail-loud 未实现 / prompt_version 零消费）自 r147 起登记未承接；主 docstring exit code 节无 lint 模式说明（文档漂移）。本 goal = 四项合并处置。
+> 创建：2026-10-30 · ralph loop runner（queue L28 消费——r149 04.5 W3/W7 合并承接，纯仓库内 ~3 回合）
+> 依据：goal-queue.md 的书写规范目前全靠惯例——结果注记用 `**结果**：` 加粗标记、未完成行五段式（短名 | 一句话 | 产投比依据）、完成行允许 em-dash 简写，这些规则散落在 r146/r149 各轮工件里从未成文。assert-queue-lint.py (c) 检查因此只能停在「可解析即过」最小规则（X2 裁定），收紧无据可依。本 goal = 把惯例升级为显式契约文本。
 
 ## 【目标】
-对 `bench/rubric-v3/ablation/scripts/assert-goldrank-crossdomain.py` 做四件事：
-- **(a) 样例矩阵扩到 8 出口全覆盖**：补三组负样例——nodes 非 dict / gold_nodes 类型错 / JSON 不可读（落盘 `batch2-lint-samples/`，命名沿用 neg-* 前缀先例）；
-- **(b) lint 增加「gold_nodes ⊆ prior.nodes 键集」检查**：显式声明的 gold_nodes 成员必须全部出现在 prior.nodes 键集（hit-matrix 侧已有同款检查，prior 侧补齐——把 (a)/(b) 阶段的 KeyError crash 提前到 lint exit 2 拦截）；
-- **(c) M1/M2 裁定承接**：prompt_version 字段消费规则定稿并落地（权威源 = DRAFT-rubric-v3-v2.md §3.2 变体矩阵冻结快照 + ablation/prompt-V0.txt 第一域题面实证），换题面 fail-loud 按可机判边界实现或降级登记（见失败降级）；
-- **(d) 主 docstring exit code 节补 lint 模式说明**（--lint-only 的 exit 0/2 语义 + 「目录不存在 = SIGNAL exit 0」特例）。
-
-改动纪律：(a)(b)(d) 不得触碰 (a)/(b) 判定逻辑与 w2_exact/build_schemes 协议（byte-stable 面）；(c) 若需新增检查逻辑，仅限 load_batch2 schema 层，且须 byte-exact 回归证明无参调用行为不变。
+三件事，范围边界明确（(b) 存量改写需成璐裁定，本轮不代裁）：
+- **(a) 契约文本落盘**：`tasks/queue-format-contract.md`——从既有先例（r146 sweep / r149 lint 工件 / queue 头部格式说明行）提取并成文化全部书写规则：三区结构 + checkbox 语义（`[ ]`/`[x]`/`[~]`）+ 行格式（未完成五段式 / 完成行简写豁免）+ 结果注记标记契约（`**结果**：` 统一形态，含半角/全角冒号变体处置）+ 吸收登记行合法形态（跨区重复须含「吸收」声明）+ 新候选追加位置（新导出候选区底部）。每条规则标注证据来源（file:line 或先例 commit）；
+- **(b) 存量 19 行 em-dash 简写行处置**：**只备料不执行**——枚举清单落盘（行号 + 当前形态 + 五段式改写预览），改写动作本身需成璐裁定范围（固化契约不动存量 vs 顺手统一排版），导出为独立执行候选；
+- **(c) assert-queue-lint.py 收紧升级路径**：在契约文档中写明 (c) 检查的未来收紧规格（五段式 pipe 计数下限等），但**本轮不改脚本**（收紧 = 会让存量 19 行 FAIL，须待 (b) 裁定后另轮执行——防红屏）。
 
 ## 【阶段】
-00 预检 → 01 分解（本文件）→ 02 现状扫描（8 失败出口逐一实跑取证 + prompt_version 消费面盘点 + 变体矩阵冻结快照结构提取）→ 02.5 交叉核对（M1/M2 裁定方案对照 + 新检查规则边界裁定）→ 03 动作分解 → 04 执行验证（实现 + 8 出口样例矩阵实跑 + byte-exact 回归 + 基线）→ 04.5 反方复核 → 收口（queue 更新 + merge main）
+00 预检 → 01 分解（本文件）→ 02 现状扫描（queue 全部行格式形态实证枚举 + 既有规则散点取证）→ 02.5 交叉核对（契约条款逐条与先例互验 + 收紧规格可行性裁定）→ 03 动作分解 → 04 执行验证（契约文本落盘 + 存量枚举 + lint 零改动回归）→ 04.5 反方复核 → 收口（queue 更新 + merge main）
 
 ## 【SOP 索引】
 - `tasks/ralph-loop-runner.md` 阶段 B/C
-- 被改对象：`bench/rubric-v3/ablation/scripts/assert-goldrank-crossdomain.py`（唯一代码改动面）
-- 参照先例：r147 batch2-lint-samples/ 七样例 + neg-*/pos-* 命名；r149 assert-queue-lint.py exit 三分支 + docstring 预注册模式
-- 权威源（只读）：`bench/rubric-v3/DRAFT-rubric-v3-v2.md` §3.2（变体矩阵冻结 R-10）、`bench/rubric-v3/ablation/prompt-V0.txt`（第一域题面）、`revision-log-batch1.md`（回填状态节）
+- 被规范对象：`tasks/goal-queue.md`（本轮只读——(b) 改写不执行）
+- 参照先例：r146 queue-hygiene-sweep 工件（动态一致性口径）/ r149 assert-queue-lint.py docstring（静态判定语义权威源）/ gmr-criterion-freeze.md（冻结件七节结构参照）
 
 ## 【验收标准】
-- [ ] 样例矩阵 8/8 失败出口全覆盖实跑（含既有 5 个零漂移 + 新增 3 个 exit 2）
-- [ ] gold_nodes ⊆ prior.nodes 键集检查落地：构造违例样例触发 lint exit 2 指名道姓；正样例零误伤
-- [ ] M1/M2 处置有明确裁决（实现 or 降级登记），docstring 同步更新，不留「登记了但没人接」状态
-- [ ] 主 docstring exit code 节含 lint 模式说明
-- [ ] byte-exact 回归：无参调用（默认 dir，batch2/ 不存在态）stdout+exit 与改动前逐字一致
-- [ ] 八脚本回归基线 spot check 零漂移（[0,0,0,1,0,0,0] + queue-lint exit 0）；冻结面零修改
-- [ ] 04.5 verdict pass；queue 更新（本 goal `[x]` + 结果注记 + 新候选 ≥1）
+- [ ] `tasks/queue-format-contract.md` 落盘，每条规则带证据来源（file:line / 先例 commit），覆盖上述六类规则
+- [ ] 存量 em-dash 简写行枚举清单落盘（行号 + 形态 + 改写预览），数量与 r149 记录（19 行）对账一致或给出勘误
+- [ ] 契约含 (c) 收紧升级路径章节（规格写明，脚本本轮零改动）
+- [ ] assert-queue-lint.py 实跑零漂移（48 行 / 0 FAIL / 3 SIGNAL exit 0）；八脚本基线零漂移；冻结面零修改
+- [ ] 04.5 verdict pass；queue 更新（本 goal `[x]` + 结果注记 + 新候选 ≥1【(b) 存量改写执行候选】）
 
 ## 【失败降级】
-- 若 (c) 换题面 fail-loud 的「题面版本↔gold_nodes 映射」权威源无法从现有冻结件推导（变体矩阵冻结的是 diff 不是 gold 清单）→ 降级为：prompt_version 存在性 + 字符串非空检查落地（M2 最小消费）+ 完整 fail-loud 协议材料落盘导出候选，不代裁
-- 若 (b) 键集检查与 D1 缺省语义冲突（gold_nodes 缺省沿用 GOLD_DOMAIN1 时是否也查键集）→ 以「仅显式声明时检查」最小规则收口，缺省路径行为不变
-- 若 byte-exact 回归出现任何 stdout 漂移 → 回 02.5 查改动越界，不带病进 04
+- 若规则散点取证发现同一规则存在两个互相矛盾的既实行法（如不同轮次结果注记写法不一）→ 契约按「多数派 + 最新轮次」裁定并如实登记矛盾项，不强行统一历史
+- 若 19 行枚举与实数不符 → 以实跑 grep 为准出勘误，契约引用实数
+- 若 (c) 收紧规格设计后发现会误伤合法行（如吸收登记行的非标准分隔）→ 收紧规格降级为「仅新增行适用」双轨制，存量豁免条款写入契约
