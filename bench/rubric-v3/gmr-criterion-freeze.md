@@ -101,14 +101,14 @@ threshold_top10 := RV3G3-goldrank-threshold-proof 产出值
 
 ## 4. §8 引用规则（byte-exact 抄录）
 
-以下段落从 `AUDIT-report.md` L248-272 逐字抄录，作为判据冻结件的强制条款：
+以下段落从 `AUDIT-report.md` §8 逐字抄录，作为判据冻结件的强制条款。**版本：erratum 后文本**（AUDIT-report.md 2026-10-30 Erratum 节修正绝对值后的 §8；初版抄录的 pre-erratum 文本见 git 历史 r118）。机判校验：`ablation/scripts/assert-audit8-erratum.py` 检查③（本块 == AUDIT §8 实际文本，diff 空）。
 
-<!-- BEGIN BYTE-EXACT QUOTE: AUDIT-report.md §8 -->
+<!-- BEGIN BYTE-EXACT QUOTE: AUDIT-report.md §8 (post-erratum 2026-10-30) -->
 ## §8 (e) Tie-sensitivity 引用规则
 
 **规则 1（强制限定）**：引用以下数值时，同句必须带 tie-break 限定，否则不得使用：
 - new W3 top5_gold：写作「**1/5（在 id 字典序 tie-break 下；N-1/N-2 精确并列于 w3=10.0，取 N-2 则为 2/5）**」；
-- W1 gmr：写作「**9.8（0-based，落盘顺序 tie-break；精确范围 [2.60, 6.40]，对 tie-break 规则敏感）**」；
+- W1 gmr：写作「**10.2（0-based，落盘顺序 tie-break；精确范围 [8.60, 12.40]，对 tie-break 规则敏感）**」；
 - 任何「X 方案构念效度最差/最好」的比较句：必须先声明所用 tie-break 规则。
 
 **规则 2（tie-robust 优先）**：当存在 tie-robust 表述时优先使用：
@@ -117,15 +117,15 @@ threshold_top10 := RV3G3-goldrank-threshold-proof 产出值
 
 **规则 3（禁止操作）**：禁止各方案取各自最优 tie-break 后再比较（post-hoc 选择）；跨方案比较一律在预注册 tie-break（节点 ID 字典序）下进行。
 
-**精确参考值表**（0-based，本 G6 阶段 Fraction 精确复算，非沿用 G5 舍入值）：
+**精确参考值表**（0-based，本 G6 阶段 Fraction 精确复算，非沿用 G5 舍入值；绝对值 2026-10-30 erratum 修正——见文末 Erratum 节）：
 
 | 方案-judge | gmr 精确范围 | tie-robust? | 含 gold 的并列组 |
 |-----------|-------------|-------------|------------------|
-| W1-orig / W1-new | [2.60, 6.40] | ❌（跨度 3.8） | {5.0: N-2,N-4} {2.0: N-2.1,N-1.3} {3.396: N-3.2.2} |
-| W2-orig | [7.80, 8.00] | ≈（跨度 0.2） | {4.6439: N-1.3} |
+| W1-orig / W1-new | [8.60, 12.40] | ❌（跨度 3.8） | {5.0: N-2,N-4} {2.0: N-2.1,N-1.3} {3.396: N-3.2.2} |
+| W2-orig | [8.20, 8.40] | ≈（跨度 0.2） | {4.6439: N-1.3} |
 | W3-orig / W4-orig | 5.40 | ✅ 单值 | 无 |
-| W2-new | [5.20, 6.60] | ❌（跨度 1.4） | 4 个含 gold 并列组 |
-| W3-new / W4-new | [6.80, 7.00] | ≈（跨度 0.2） | {10.0: N-2} / {7.0: N-2} |
+| W2-new | [8.80, 10.20] | ❌（跨度 1.4） | 4 个含 gold 并列组 |
+| W3-new / W4-new | [7.40, 7.60] | ≈（跨度 0.2） | {10.0: N-2} / {7.0: N-2} |
 
 **勘误声明**：G5 负面结果第 2 条的 [9.60, 13.40] 与 G3 F3b 的 8.6（W3/W4-new）来自 4 位小数舍入后的宽并列分组，数值区间作废；定性结论（W1 敏感 / W3-W4 稳健）在精确值下维持且更强。
 <!-- END BYTE-EXACT QUOTE -->
@@ -147,7 +147,7 @@ threshold_top10 := RV3G3-goldrank-threshold-proof 产出值
 - span（极差）完全一致 → 公式理解无误。
 - 绝对值有系统性偏移（W1 偏 +6.0，W2-orig 偏 +0.4，W2-new 偏 +3.6，W3-new 偏 +0.6）→ AUDIT §8 表的绝对值列疑似存在算术错误（LLM 生成报告的已知风险）。
 - **定性结论不受影响**：W3/W4-orig 最优且 tie-robust、W1 最差且 tie-sensitive、跨方案排序方向一致。
-- **处置**：本冻结件以本 goal 复算值为权威参考值（§5）；AUDIT §8 表保留原文不动（byte-exact 要求），但在本表旁标注「绝对值待修正，span 与结构可信」。后续 goal 可发 AUDIT-report erratum。
+- **处置**：本冻结件以本 goal 复算值为权威参考值（§5）；AUDIT §8 表保留原文不动（byte-exact 要求），但在本表旁标注「绝对值待修正，span 与结构可信」。后续 goal 可发 AUDIT-report erratum。**[2026-10-30 更新] erratum 已发（RV3G6-audit8-erratum，见 AUDIT-report.md 文末 Erratum 节）：AUDIT §8 绝对值已就地修正为本 §5 值，双源消除；上方 §4 byte-exact 块已同步重抄录为 erratum 后文本。**
 
 ---
 
