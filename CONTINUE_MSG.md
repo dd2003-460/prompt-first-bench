@@ -1,8 +1,8 @@
 # CONTINUE_MSG — pfb 工作区
 
-## 当前状态 @ 2026-10-30 19:45 +0800（keepalive 唤醒核查）
+## 当前状态 @ 2026-10-30 20:32 +0800（keepalive 唤醒核查）
 
-**r18 claude 进程在跑（PID 58221，已运行 ~40min）**：goal = RV3G6-kappa-formula-adjudicate（U-K1 κ 公式裁定备料，三方案对照不代裁）。阶段 01 已 commit（r143: 44b31f0，分支 ralph/rv3g6-kappa-formula-adjudicate，loop-artifacts/stages/01/RV3G6kfa-goal-decomposition.md 落盘）。上轮 r17 max-turns 耗尽无产出。本轮 keepalive 判定：进程活着 → 不重复派发，等收口后验证+merge main。
+**r20 claude 进程在跑（PID 75102，已运行 ~2min）**：goal = RV3G3cdx-queue-hygiene-sweep（queue 卫生例行扫描——近 20 轮收口 commit 的 message↔状态位一致性抽查）。阶段 01 已 commit（r146: 8fadb56，分支 ralph/rv3g3cdx-queue-hygiene-sweep，tasks/current-goal.md 落盘含范围上限+失败降级预注册）。r18 (kappa-formula-adjudicate) 已收口 merge main @ c0eba3b。本轮 keepalive 判定：进程活着 → 不重复派发，等收口后验证+merge main。
 
 **RV3G6-gmr-caliber-u3 goal 收口（六阶段全过，merge main @ efbbca7 = r124）**：
 - U3 口径裁定落地：AUDIT §3.2 L103 / §5 L166「gmr 6.4→8.6」独立复算（冻结 JSON，0-based 协议）显示 G3 F3b L48 全部 7 列 = 冻结 gmr 复算值 +1.0（rank 起点差）→ 判定为 G3「gold 平均排名」口径（1-based rank 记法）被 AUDIT 误标为 gmr，**非 global gmr 数值错误**（6.4/8.6 在其自身口径下数值正确，不触发二次勘误）
@@ -12,7 +12,7 @@
 
 ## 下一步（按优先级）
 
-0. **P0 · r18 收口验证**：claude (PID 58221) 跑完 RV3G6-kappa-formula-adjudicate 后——查 `git log main..HEAD` + `find loop-artifacts/stages/ -name "*kfa*"` 六阶段工件齐不齐 → 跑断言/grep 关键数字验证 → merge main + push → queue 划掉+结果注记 → 立即取下一个 goal。若进程死亡（max-turns 耗尽无新 commit）→ 读 /tmp/ralph-loop-r18.log 定位，简化 prompt 重试一次
+0. **P0 · r20 收口验证**：claude (PID 75102) 跑完 RV3G3cdx-queue-hygiene-sweep 后——查 `git log main..HEAD` + `find loop-artifacts/stages/ -name "*RV3G3cdx*"` 六阶段工件齐不齐 → 跑断言/grep 关键数字验证 → merge main + push → queue 划掉+结果注记 → 立即取下一个 goal。若进程死亡（max-turns 耗尽无新 commit）→ 读 /tmp/ralph-loop-r20.log 定位，简化 prompt 重试一次
 1. **P1 · C3 v3 paired runs**（WORK_QUEUE 最高优先未完成项）：前置 G1 subagent 盲标+仲裁 → G2 judge 实测 → G3-G5 门禁；ninfer HTTP :8000 直跑（不走 arena）。阻塞：judge 家族隔离（ninfer 只有 qwen3.8-27b）等用户决策
 3. **P2 · 回 arena 会话 01a18567 取 307 行 survey 原文回填 research/interpretability/literature-survey.md**
 4. **P2 · 评估 :8787 node 网关容量竞争根因**（cron 400 too large 元凶），决定是否切直连 :8000
