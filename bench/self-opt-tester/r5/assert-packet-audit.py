@@ -10,6 +10,11 @@ SKIP 项：C4 (unverified，本地无计时源) —— 不参与 exit code。
 SIGNAL 项：C12 ("M1-M6 定义+" 声称 vs 正文缺失) —— r105 起机判信号（signal-only，
 verdict 归类仍留人工，见 packet-audit-r4-v1.md C12 行），不参与 exit code。
 
+exit 2 语义 = AUDIT_CLS 一致性守卫触发：存在未登记进 AUDIT_CLS（且非 EXEMPT）的
+check/skip/signal label——新增审计断言忘同步分类表时显式崩溃（fail-loud），
+防止 VERDICT 段数字与真实断言集脱节（R5.2audit-verdict-text-templatize · r134）。
+成功路径上该守卫无输出（零漂移约束），仅以 exit code + ERROR 行呈现。
+
 本脚本不产出任何 0-100 分数（分数冻结纪律）。
 """
 import json, os, re, subprocess, sys
@@ -22,6 +27,33 @@ failures = []
 passes = []
 skips = []
 signals = []  # (label, detail) — signal-only 项计数载体（R5.2audit-signal-counter · r131：防汇总行硬编码撒谎）
+
+# ---------- 审计断言分类表（R5.2audit-verdict-text-templatize · r134） ----------
+# VERDICT 段引用的数字是**审计表原子断言粒度**（C1-C12/X 编号），不是 check() 调用粒度
+# （C2→C2a/C2b、C9→C9/C9b、X6→X6a/b/c 是 N:1 拆分）。故动态化对象是本显式清单，
+# 不是 len(passes)。新增审计断言必须同步登记到对应类别——漏登记由下方一致性断言
+# fail-loud 拦截（J4），不再静默撒谎。
+AUDIT_CLS = {
+    "confirmed": ["C1", "C2", "C5", "C6", "C7", "C8", "C9", "C10"],   # C2/C9 各含 a/b 子项
+    "mismatch":  ["C3/X4", "C11/X2", "X6"],                            # X6 含 a/b/c 子项
+    "unverified": ["C4"],                                              # SKIP 留人工
+    "formal":    ["C12"],                                              # SIGNAL 形式性，verdict 归类留人工
+}
+# label 首 token → 审计 ID 的归属映射规则：首 token 精确等于某类成员，或为其子项
+# （成员 + 小写字母后缀，如 C2a∈C2、X6b∈X6）。v1 packet 可读性检查为脚本自举项，
+# 非审计断言，EXEMPT 豁免。
+AUDIT_EXEMPT = {"v1"}
+
+def audit_id(label):
+    """label 首 token 归约到审计 ID（C2a→C2, X6b→X6, C3/X4→C3/X4）。"""
+    tok = label.split()[0]
+    for cls in AUDIT_CLS.values():
+        if tok in cls:
+            return tok
+        for m in cls:
+            if tok.startswith(m) and tok[len(m):].isalpha() and len(tok) > len(m):
+                return m
+    return None
 
 def check(label, ok, detail=""):
     (passes if ok else failures).append(f"{label} {detail}")
@@ -133,6 +165,17 @@ else:
     print(f"SIGNAL C12 'M1-M6 定义+' 句 — claimed=no (markers={def_markers}) "
           f"→ 断言不适用 [人工确认，见审计表 X7]")
 
+# ---------- 一致性检查（J4，静默守卫）：每个 check/skip/signal 的 label 必须可归属到 AUDIT_CLS ----------
+# 设计取舍（02.5 A1/A3 + 04 实证）：本检查自身若产出输出行/计数，正常路径基线必然漂移，
+# 与「零行为漂移」硬验收冲突；故采用**静默守卫**——漏登记不打印、不计入 signals，
+# 而是直接 sys.exit(2)（区别于断言失败的 exit 1）。漏登记 = 进程以未定义语义退出，
+# 调用方（ralph loop 收口验证）见非零 exit 即会排查，缺陷不再静默存活于成功路径。
+_all_labels = [p.split()[0] for p in passes + failures] + skips + [s[0] for s in signals]
+_unregistered = [l for l in _all_labels if l not in AUDIT_EXEMPT and audit_id(l) is None]
+if _unregistered:
+    print(f"ERROR AUDIT-CLS 一致性 — 未登记 label={_unregistered} → 新增审计断言须同步登记 AUDIT_CLS")
+    sys.exit(2)
+
 # ---------- 汇总 ----------
 signal_names = ",".join(sorted({s[0] for s in signals})) if signals else "(none)"
 print(f"\n=== {len(passes)} PASS / {len(failures)} FAIL / {len(skips)} SKIP + {len(signals)} SIGNAL({signal_names}) ===")
@@ -141,9 +184,10 @@ if failures:
     for f in failures:
         print("  -", f)
     sys.exit(1)
-print("VERDICT: 原 v1 packet 单行摘要机判审计通过——8 条 confirmed 断言全部复核成立；"
-      "3 条 mismatch（C3/X4、C11/X2、X6）按预期复现（错配确实存在，已登记）；"
-      "1 条 unverified（C4/X5）SKIP 留人工结论；"
-      "1 条形式性（C12/X7）输出机判信号（signal-only，verdict 归类留人工）。"
+_mm = "、".join(AUDIT_CLS["mismatch"])
+print(f"VERDICT: 原 v1 packet 单行摘要机判审计通过——{len(AUDIT_CLS['confirmed'])} 条 confirmed 断言全部复核成立；"
+      f"{len(AUDIT_CLS['mismatch'])} 条 mismatch（{_mm}）按预期复现（错配确实存在，已登记）；"
+      f"{len(AUDIT_CLS['unverified'])} 条 unverified（{'/'.join(AUDIT_CLS['unverified'])}/X5）SKIP 留人工结论；"
+      f"{len(AUDIT_CLS['formal'])} 条形式性（{'/'.join(AUDIT_CLS['formal'])}/X7）输出机判信号（signal-only，verdict 归类留人工）。"
       "本脚本不改任何分数值（分数冻结纪律）。")
 sys.exit(0)
