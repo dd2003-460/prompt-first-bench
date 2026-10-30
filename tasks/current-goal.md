@@ -1,29 +1,27 @@
-# Goal: RV3G6-o3-claim-list-erratum-27 — §3.2 声明 4「27/98」数字勘误备料（三口径对照，不代裁）
+# Goal: RV3G3-threshold-crossdomain-reverify 核销轮（r145）
 
-> 创建：2026-10-30 · ralph loop runner（queue 消费——r142 导出项，纯仓库内备料型工作）
-> 依据：r142 (RV3G6-o3-claim-rejudge-evidence-audit) A4 节独立复算发现 o3-claim-list.md §3.2 口径声明 4「已核：98 个 h=1 cell 中 **27** 个 evidence 含 gold-tree 数值 token」三口径均 ≠ 27（V1 per-line−豁免=13 / V2 全文件−同豁免=34 / V3 per-line 无豁免=35）。27 为起草期不可复现人工计数，结论方向不受影响（机制论证对任一计数成立），仅数字失实。
-> 边界：同 RV3B1-jaccard-adjudicate / RV3G6-kappa-formula-adjudicate 先例——**runner 只备三方案对照材料 + 裁定后执行清单，最终裁定权在成璐，不代裁**。冻结件 o3-claim-list.md 零触碰（§6 红线：修改需 APPROVALS 登记 + 成璐裁定改法）。
+> 创建：2026-10-30 · ralph loop runner（queue 消费——队列卫生修复 + 核销验证，纯仓库内工作）
+> 依据：`RV3G3-threshold-crossdomain-reverify` 的全部交付物已在 r140（f8c096b，经 96a89e7 合入 main）完成——assert-goldrank-crossdomain.py 骨架落盘（schema 预注册 + DP tie 可达枚举器）+ A3 第一域回归锚点 18/18 + M0 fuzz 50/50 + M1-M4 变异全过 + 冻结面零修改 + 04.5 verdict pass。r140 收口 commit 97d2adf 的 message 声称「queue 划掉 + 结果注记」且确实写入了完整 **结果** 注记，但 checkbox 仍为 `[ ]`（未划掉）。本轮 = 补核销（`[ ]`→`[x]`）+ 验证增量。
+> 先例：r137 R5.2assert-suite-docsync 核销轮（r133/c55848f 已交付未收口 → r137 补收口 + 行为实证，零代码改动）、r135 RV3G4-prior-source-assert 核销轮。
 
 ## 【目标】
-落盘 `bench/rubric-v3/o3-claim-list-erratum-27-materials.md`：(a) 事实链溯源（r142 A4 三口径表 byte-exact 引用 + assert-hitmatrix-evidence.py V1 口径实现锚点）；(b) 三方案对照表——A 直接改 13（V1 口径，与 assert 脚本同源最可复现）/ B 三口径并列呈现（13/34/35 + 各口径定义，信息最全但改动面大）/ C 删具体数字只留机制表述（「部分 evidence 含 gold-tree 数值 token」+ 指向 assert 脚本机判路径，最保守）；(c) 推荐排序 + 理由（产投比/可复现性/改动面三维）；(d) 裁定后执行清单（每方案的精确 diff 位置：o3-claim-list.md §3.2 L? 行号 + revision-log 条目模板 + APPROVALS 登记模板）。
+queue L28 `- [ ]` → `- [x]` + 日期 + 核销注记（事实链一句话：r140 已交付、97d2adf 漏翻 checkbox），附 ≥3 项实跑验证增量；追加新导出候选 ≥1。
 
 ## 【阶段】
-01 分解 → 02 研究（o3-claim-list.md §3.2 原文精读 + r142 A4 材料复核 + assert-hitmatrix-evidence.py V1 口径代码锚点）→ 02.5 交叉核对（三口径数字独立复算验证 + 与 assert-o3-claim-list.py 黑名单 38 token 一致性）→ 03 行动分解 → 04 执行验证（材料文档落盘 + 数字复算断言）→ 04.5 反方复核
+01（本文件）→ 02 事实链核验（git 证据：f8c096b 交付清单 / 97d2adf queue diff / 当前 checkbox 状态）→ 02.5 交叉核对（基线对照表 + 输出 byte-exact 捕获）→ 03 动作分解 → 04 执行验证（checkbox 翻转 + 回归实跑留痕）→ 04.5 反方复核 → 收口（queue 更新 + merge main）
 
 ## 【SOP 索引】
-- `loop/prompt-first/01..04.5` + `sop/arena-loop-pipeline.md`
-- 事实源（只读冻结）：`ablation/o3-claim-list.md` §3.2 口径声明 4 / `ablation/hit-matrix.json` / `ablation/runs-C0-run1..8.md`
-- 前序工件（只读）：`loop-artifacts/stages/04/RV3G6o3ea-execution-verification.md` A4 节（三口径表 + V1 全 13 例清单）
-- 同源脚本（只读）：`ablation/scripts/assert-hitmatrix-evidence.py`（V1 口径实现）/ `ablation/scripts/assert-o3-claim-list.py`（gold-token 黑名单 38 token 同源）
-- 备料模式先例：`bench/rubric-v3/jaccard-m5-adjudication-materials.md`（格式参照）
+- `tasks/ralph-loop-runner.md` 阶段 B/C（六阶段不可跳过；核销轮的 02/02.5 = 事实链与基线对照，非信息研究）
+- 先例工件：r137 docsync / r135 prior-source 核销轮（loop-artifacts/stages/*）
+- 被核销对象（只读）：`bench/rubric-v3/ablation/scripts/assert-goldrank-crossdomain.py`（r140 落盘）/ `loop-artifacts/stages/04/RV3G3cd-execution-log.md` / `loop-artifacts/stages/04.5/RV3G3cd-review.md`
 
 ## 【验收标准】
-- [ ] o3-claim-list-erratum-27-materials.md 落盘（六节：事实链/三方案对照/推荐+理由/裁定后执行清单/边界声明/冻结声明）
-- [ ] 三口径数字独立复算（13/34/35 或发现新 mismatch 如实登记）——用 assert-hitmatrix-evidence.py 既有 V1 口径 + 自写临时脚本算 V2/V3，不落盘临时脚本到 bench/
-- [ ] 三方案各自给出 o3-claim-list.md 的精确行号定位 + diff 预览
-- [ ] 冻结件零修改（git status 验证）
-- [ ] 04.5 verdict pass；queue 更新（本 goal 标 `[~]` 待成璐裁定，同 jaccard-adjudicate 惯例——不划掉）
+- [ ] queue L28 `- [ ]` → `- [x]` + 日期 + 核销注记
+- [ ] 验证增量 ≥3 项全部实跑留痕：(a) assert-goldrank-crossdomain.py 从仓库根实跑 = SIGNAL blocked-on-external exit 0（byte-exact 输出捕获）；(b) 冻结面（hit-matrix.json / prior-estimates.json / gold-tree.md / runs-C0-*）git diff main = 0 行；(c) 回归基线对照（assert-o3-claim-list 4/4 · assert-gmr-recompute 11 PASS · assert-kappa-receipt FAIL exit 1 常态 · assert-o3-claim-rejudge SIGNAL exit 0 · assert-goldrank-threshold 31 PASS · assert-w3w4-recompute SIGNAL exit 0）
+- [ ] 新导出候选 ≥1（追加到 queue 底部）
+- [ ] 冻结件零修改（git status 仅 loop-artifacts + tasks/goal-queue.md + 本文件）
+- [ ] 04.5 verdict pass
 
 ## 【失败降级】
-- 若独立复算与 r142 A4 数字不一致 → 以本次复算为准并登记差异来源（不静默采用 r142 数字）
-- 若 o3-claim-list.md §3.2 行号定位困难（多版本并存）→ 以 git HEAD main 版本为准，标注 commit hash
+- 若实跑输出与 r140 预注册语义（SIGNAL blocked-on-external exit 0）不一致 → 停止核销，如实登记为基线漂移，不翻 checkbox，导出排查候选
+- 若发现 r140 交付物有缺失（脚本不存在 / docstring 缺 D1-D5 判定语义段）→ 同上，降级为「交付物完整性审计」goal
