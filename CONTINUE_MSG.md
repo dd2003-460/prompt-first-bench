@@ -8,12 +8,11 @@
 
 **r45 R4 主分析重启完成（上轮 P0）**：J1v11 口径 scorecard 重算落盘（judge-scorecard-v11.json，36 run 零解析错误）+ receipt-r4-mainanalysis.json——R1 gate PASS 推断层解除阻断。F1 方向仍负：B-nofreeze 配对差 -0.35（4 pair 中 3 负）是唯一稳定低于 A-full 的配置，与「freeze 贡献最大」假设一致；B-noevidence +0.156 删组件反高（该组件对 M8 判分无正向贡献）。F4：v11 vs 原 J1 平均位移 -0.358、12/36 run 位移 ≥0.5——rubric 换版是系统性重打分，跨版本分数不可直接比较。功效声明：n=4/cell、pstdev 0.10~0.37，只报描述统计不做显著性宣称。main @ a0a096c。
 
-**r46 v11 阈值敏感性扫描完成（上轮 P0）**：0.1/0.15/0.2/0.25/0.3 五档重判（不调 judge，读已落盘 specificity_ratio）——sham 排名 [2,2,2,2,3]，thr≤0.25 稳定第 2 低组；judge 输出的 ratio 呈离散分布（0.14/0.23/0.27/0.33…），0.2 落在空档内非脆弱单点，稳健区间 [0.15, 0.23) → **0.2 冻结升格正式 rubric**。回执 runs-r4/rubric-v11-threshold-sensitivity.json。main @ 84b3c86。
+**r47 R4 收口 + C3 v3 结论定稿（上轮 P0）**：receipt-r4-execution.json gate_order 更新（R1 FAIL→PASS via v11 / R4 UNBLOCKED / M8 待 Lead 盲法）+ verdict 升级 PASS-with-caveat + next_actions 三条核销；queue L28 补核销注记（assert-queue-lint 59 行 / 0 FAIL）。C3 v3 阶段性结论：**描述层**——freeze 是唯一有负向主效应的组件（B-nofreeze 配对差 -0.35）、evidence 组件对 M8 判分无正向贡献（删了反而 +0.156）、sham 空转工件可被 v11 特异性指纹捕获；**推断层上限不变**——同族 judge（qwen3.8-27b）+ n=4/cell，conf 封顶在方向性证据，G1b 异源仍是升档唯一路径。main @ c379668。
 
 ## 下一步（按优先级）
 
-0. **P0 · R4 收口 + C3 v3 结论定稿**：v11 地板恢复 + 主分析重启 + 阈值敏感性全过后，R4 从 PARTIAL-PASS 升级为完整 verdict——更新 receipt-r4-execution.json 的 gate_order（R1 PASS / R4 UNBLOCKED）+ 写 C3 v3 阶段性结论（描述层：freeze 是唯一有负向主效应的组件、evidence 组件对 M8 判分无正向贡献、sham 可被 v11 捕获；推断层上限不变——同族 judge + n=4/cell，G1b 异源仍是 conf 升档唯一路径）→ queue L28 行补「后续建议」核销注记
-1. **P1 · C3 v3 G1b 异源 judge**（WORK_QUEUE 最高优先未完成项）：blocked-on-human/external——需 arena 会话通道或第二 LLM 服务凭证（非 Qwen 家族）。协议与切分已冻结于 loop-artifacts/stages/01/C3v3-G1-blind-label-design.md §2，届时换 judge 重打即可 ~2 回合
+0. **P0 · 无本地可做项——队首全部 blocked-on-human/external**。本轮 r44-r47 把 rubric-density-test → R4 主分析 → 阈值敏感性 → R4 收口整条链干完，WORK_QUEUE 剩余未决项全部卡外部依赖：① G1b 异源 judge（需 arena 通道或第二 LLM 凭证，非 Qwen 家族）② closure-gate-integration K4 O1-O4 裁定（APPROVALS 已登记备料）③ web-llm 三 provider 人工登录 ④ M8 Lead 盲法判读。下次唤醒先复查这四项是否有变化（arena 会话可用性 / APPROVALS 新裁定），无变化则 [SILENT]
 2. **P2 · closure-gate-integration 裁定跟进**：等成璐 K4 O1-O4 裁定（APPROVALS 已登记备料模式，不阻塞其他工作）
 3. **P2 · 回 arena 会话 01a18567 取 307 行 survey 原文回填 research/interpretability/literature-survey.md**
 4. **P2 · 评估 :8787 node 网关容量竞争根因**（cron 400 too large 元凶），决定是否切直连 :8000
