@@ -45,6 +45,8 @@
 
 **r77 续推（stop-hook 驱动，T5 线三连）**：⑤ T5-R2 Lead 04.5 审核回执 pass 落盘（decisions/20261101-t5-r2-stage045-review.md，六标准逐项 + 实质风险 6 项），main `e87d41f`，台账 T5-R2 改完成；⑥ 三项派发前裁定落盘（decisions/20261101-t5-r3-pre-dispatch-rulings.md：S 类降可选腿不进主家族 / E2.1 独立复算=冻结门禁 G1 / 两 bull 合并标签+W5 degraded 注记）；⑦ T5 第 3 轮预注册设计全链本地自答（01→04.5 四工件），主交付物 `tasks/regime-game-strategies/preregistration-m3-t3.md` 草稿（F1–F7 全字段 + 冻结门禁状态栏 G1/G2/G3 pending），02.5 抓出 3 处修订闭环，commit `d6f3b53` push main，台账加 T5-R3 行。**下轮唤醒起点**：a) market-alpha T5-R3 草稿等 Lead 04.5 回执（G2）——pass 后先办 G1（E2.1 震荡市动量独立复算：文献第二来源 or 自建 IC 复核落盘 stages/02.5/），G1+G2 全过后走 G3 冻结声明（先固定内容取 commit hash → 写声明引用内容 hash → 单独提交 push，沿 T3-R3 A7 先例）；回测执行另立任务需 Lead 另轮授权；b) pfb 五项卡人项继续核对有无解锁。
 
+**r77 再续推（G1 销账）**：⑧ **G1 门禁独立复核落盘 = PARTIAL-PASS**（`stages/02.5/t5-r3-g1-e21-independence-check.md`，commit `9ed2dab`）：三轮检索命中五个独立候选，排除 CSDN 同源转述后有效来源 S-A《金融经济学研究》2025「市场状态-动态β暴露」机制论文（conf 0.80，理论模型+全球实证）/ S-B Cooper-Gutierrez-Hameed JF 2004（0.85）/ S-C 高秋明等《财经研究》2014 周度动量（0.85）/ S-D 苏大硕士论文（0.60）/ S-E 被引 20 的维普收录文（0.70）。关键发现：**E2.1 承载两个命题要拆开判**——(a) 动量有效性随市场状态翻转：三源确认过线 ✓；(b) 「震荡市是动量最强状态」的具体排序：仍单源（BigQuant conf 0.60），且 S-A 明确说震荡市场无明显动量回报、趋势市场更强（反向证据在案）。处置：M-range 族保留主检验家族不触发全额降级，但附结果解读义务（M-range 显著而 M-bull 不显著 → 与 S-A 矛盾升级须报告计 trial）；「不整体降级」是 Lead 自裁项，显式留给 G2 Reviewer 推翻权。**当前状态：G1 部分销账（裁量待 G2 背书），G2 等 Lead 04.5 回执，G3 冻结声明流程待 G2 过后走**。
+
 **r62g2 v9 重跑确认**：v9 重新 sweep（36/36，0 failed），数值不变，sham gap +0.007 FAILED。至此 v7/v8/v9 三个 judge 都做了独立重跑验证，全部与 r62p 面板值一致。main @ 11a14c9。
 
 **r62d2/r62e v7+v8 重跑确认**：v7 和 v8 各重新 sweep 一遍（36/36，0 failed）。v7 数值与 r62y 修正后完全一致（sham gap -0.250）；v8 数值不变（sham gap +0.099 FAILED）。两个 judge 的 receipt 都加了 rerun_confirmation 字段。main @ 249d14b。
