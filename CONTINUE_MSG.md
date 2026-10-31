@@ -108,3 +108,17 @@
 - main @ 036e17d（keepalive r26 queue L30 merge 状态澄清）；r143 (c0eba3b) 经 r26 验证已含于 main——CONTINUE_MSG 旧注记「未 merge」为过期信息，goal kappa-u1k1-execution 本身仍 blocked-on-human
 - ralph/rv3g6-gmr-caliber-u3 @ 0ca6d30（收口分支，可删）
 - 历史收口分支（r112-r123 系列，均可删）：ralph/rubric-v3-audit-g1..g5 / ralph/rv3g6-* 等
+## r65 — 无条件停止门 + 压缩策略调整（2026-10-31）
+
+成璐指令：① hook 改无条件——任何 stop 都唤醒，去掉"动过文件才触发"条件；② 会话绑定靠缓存复用，压缩本身当临时状态落盘。
+
+已落地（可回滚，均有 CHENG-LU PATCH 注释标记）：
+1. `~/.hermes/hermes-agent/agent/turn_stop_gates.py` `_pre_verify_nudge`：删掉 `_edited and` 前置条件 → pre_verify hook 现在对**所有回合结束**触发（纯聊天、无文件变更的回合也过门）。stop_hook.py 本来就是无条件 continue 逻辑，无需改。
+2. `~/.hermes/config.yaml`：
+   - `compression.threshold: 0.78125 → 0.90`（qwen3.8-27b 131K 窗口下触发点 ~104K→~118K tokens，尽量晚压保 prompt-cache 前缀命中）
+   - `agent.max_turns: 60 → 150`（单 turn 内 API 调用上限，原来 60 次就强制收尾，现在允许长推）
+3. 生效方式：gateway 下次重启加载新 config + 新源码。**当前正在跑的 gateway 进程还是旧代码**——重启会中断本会话，未获批准前不执行（红线：stop/restart hermes gateway 在 command_allowlist 里）。你回复"重启"我就干，或者等它自然重启。
+
+机制说明（为什么这样就够）：
+- 回合内：模型想停 → apply_stop_gates → pre_verify 无条件 fire → stop_hook 返回 continue + 注入消息 → 必须继续。唯一真停 = max_verify_nudges(999999) 耗尽或进程被杀。
+- 跨回合/跨会话：keepalive cron 每 30min 唤醒新 session，读 CONTINUE_MSG.md + stage-gate 状态接力。压缩 = 把长上下文压成摘要留在同一 session（session_id 不变），不是开新会话；工作区落盘保证即使压缩丢了细节也能从文件重建。
