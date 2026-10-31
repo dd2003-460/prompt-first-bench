@@ -4,7 +4,7 @@
 
 **r73 M8 联合判读 Lead 盲法核验收口（上轮 P1「M8 Lead 盲法判读」项，已核销）**：R4 receipt next_actions 里最后一个非 blocked 可执行项。做法：判读前冻结判定规则 v1（精确匹配 + 注册语义等价表三组：备选/淘汰理由/预算表述变体），然后对 9 config × 4 run = 36 个工件独立重算冻结机会集覆盖（只看 run_key 编号不见配置名，聚合到配置层才揭名）。结果：36/36 run cover=1.000，与 r60 事后诊断回执交叉一致；语义等价救援 45 处命中全量留痕审计，跨配置均匀分布无独占；纯精确匹配敏感性检查下各配置差异 ≤0.05 排序不变。联合判读（M8-frozen-v1 口径首次正式产出）：B-nofreeze FAIL Δtruth=-0.350 全场最低（freeze 负效应最稳健）/ B-noevidence PASS +0.156 / B-noowner PASS +0.017 边际 / 其余单删双删 FAIL。盲法强度降级如实登记（本会话见过 r60 结论，价值在规则先行+全量重算+逐条留痕，严格盲法需第二人）。落盘 runs-r4/receipt-r4-lead-blind-joint-readout.json + goal-queue L78 补记。main @ r73 两 commit pushed。
 
-**opportunity-set-freeze goal 至此机械层+判读层全闭环**，剩余未决仅 G1b 异源 judge（blocked-on-human，另立 goal T8-C3-v3-G1b-hetero-judge）。
+**opportunity-set-freeze goal 至此机械层+判读层全闭环**。G1b 异源 judge 已于 r74 派发回收（arena 01a19104，PR #36 merge eb2a9a7，回执 g1b/receipt-g1b-hetero-judge-r74.md）：X5 阳性对照被异源 judge 独立抓到，κ=0.0 系天花板效应；残留 family_check=unknown（arena 不披露底层模型名），家族隔离 PARTIAL-CLOSED，升级需用户给明确非 Qwen API key（~5 次调用），非硬阻塞。
 
 ## 历史状态 @ 2026-10-31（r63）
 
