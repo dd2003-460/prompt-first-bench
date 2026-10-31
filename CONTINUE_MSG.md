@@ -1,6 +1,15 @@
 # CONTINUE_MSG — pfb 工作区
 
-## 当前状态 @ 2026-10-31（r73）
+## 当前状态 @ 2026-10-31（r75）
+
+**r75 G1b merge + R4 仲裁收口 + market 双线续推**：① pfb：ralph/g1b-hetero-judge-dispatch 分支（G1b 异源 judge 回收 + R4 双口径分歧核查，main..branch 7 commit）merge 回 main——上轮 merge 动作实际未落盘（本地 main 停在 d2af5b4），本轮补做；R4 人工仲裁回执 receipt-r4-adjudication-r74.json 入库（7 cell/30 flip 逐条 Lead 裁定：25 ID_SPACE_DRIFT 两 judge 条目切分空间不同不可比 + 5 UPHOLD_J1 维持严格版，主判读绑定 J1v11 不变）；goal-queue G1b 划掉 + family-upgrade 候选导出。main @ eef3477 pushed。② market-alpha：验收 arena 两会话产出——T4-R1 完成 A1-A7 落 04 执行记录后停等 Reviewer（ralph runtime 缺失），Lead 阶段 04 审核回执 pass 落盘（A1-A7 逐项+反方风险）；T3-R3 F1-F7 草稿填完但 B1/B4/B5 未闭合（P4 七窗长度不足 2000 日数值功效无法算 + F5「35 占位」非完整 Holm 家族），Lead 书面裁定落盘（P4 硬长度门槛预筛全窗不可检验不报数值功效 / F5 每窗 5 原始 p × 7 窗 = 35 计划、28 实际入 Holm、0 已执行）。两份裁定 push main @ 3511e29。③ arena 续推注入：T4 一次成功（agent 开始执行 A8 生成中）；T3 首次撞 reCAPTCHA 未送达，重发成功（页面确认指令在案 + agent 生成中）。
+
+**下一步验收点**（下轮唤醒先查这两个远端分支 tip 是否前进）：
+- T4-R1：`git -C market-alpha fetch && git log origin/main..origin/arena/e174c209-market-alpha`——预期新增 04.5 反方复核工件（stages/04.5/t4-r1-review.md）+ push；若 agent 又报 blocker 按内容出对应回执。
+- T3-R3：`git log origin/main..origin/arena/a8c1fe6b-market-alpha`——预期 F3/F5 按裁定改写 + B1-B6 重跑 + 04.5 + **冻结声明**（引用裁定 commit hash + P4 区间 blob 3599224…）→ 冻结声明落地即 T3 设计冻结收口（execution 仍 blocked，回测启动需另轮授权）。
+- 若两会话都卡住无新 commit：检查是否 reCAPTCHA/登录失效（SOP：先 curl -I arena.ai + 查 ego-lite 进程，别直接找用户扫码），必要时再注入一轮。
+
+## 历史状态 @ 2026-10-31（r73）
 
 **r73 M8 联合判读 Lead 盲法核验收口（上轮 P1「M8 Lead 盲法判读」项，已核销）**：R4 receipt next_actions 里最后一个非 blocked 可执行项。做法：判读前冻结判定规则 v1（精确匹配 + 注册语义等价表三组：备选/淘汰理由/预算表述变体），然后对 9 config × 4 run = 36 个工件独立重算冻结机会集覆盖（只看 run_key 编号不见配置名，聚合到配置层才揭名）。结果：36/36 run cover=1.000，与 r60 事后诊断回执交叉一致；语义等价救援 45 处命中全量留痕审计，跨配置均匀分布无独占；纯精确匹配敏感性检查下各配置差异 ≤0.05 排序不变。联合判读（M8-frozen-v1 口径首次正式产出）：B-nofreeze FAIL Δtruth=-0.350 全场最低（freeze 负效应最稳健）/ B-noevidence PASS +0.156 / B-noowner PASS +0.017 边际 / 其余单删双删 FAIL。盲法强度降级如实登记（本会话见过 r60 结论，价值在规则先行+全量重算+逐条留痕，严格盲法需第二人）。落盘 runs-r4/receipt-r4-lead-blind-joint-readout.json + goal-queue L78 补记。main @ r73 两 commit pushed。
 
@@ -22,8 +31,8 @@
 
 ## 下一步（按优先级）
 
-0. ~~P0 · opportunity-set-freeze 定稿~~ → **已关闭（r62z 裁定 + r64 成璐二次确认 + r73 判读层收口）**：协议定稿、机械层+Lead 盲法联合判读全部落盘，无剩余动作
-1. ~~P1 · C3 v3 R4 全因子 runs 补跑~~ → **r74c 核查完毕，无缺口**：runs-r4/ 36 cell（9 config × 2 domain × 2 seed）raw + J1v11 + J2v11 全覆盖，无需补跑。新增双口径分歧核查回执 `runs-r4/receipt-r4-dual-caliber-divergence-r74.json`：7/36 cell 有 J1v11 vs J2v11 条目级翻转（共 30 条），方向全部是 J2 宽松多放行（与 G1a F1「宽松口径无敏感度」一致），5/7 集中在 D1-meeting-room。**残留动作**：这 7 个 cell 按解锁规则进人工仲裁队列（Lead 逐条裁定 flip_ids，可批量做，~1 轮）；主判读维持绑定 J1v11 严格版 + J2v11 并报不变
+0. **P1 · market-alpha 双线验收**（r75 已注入续推，下轮先查远端分支 tip）：T4-R1 预期 04.5 反方复核工件落地；T3-R3 预期 F3/F5 按裁定改写 + B1-B6 重跑 + 04.5 + 冻结声明（引用 main 3511e29 裁定 hash + P4 区间 blob 3599224…）。无新 commit 则按 arena SOP 排查（curl -I / ego-lite 进程 / reCAPTCHA），必要时再注入。T3 冻结声明落地 = 设计冻结收口（execution 仍 blocked）。
+1. ~~P1 · C3 v3 R4 全因子 runs 补跑~~ → **r74c 核查完毕，无缺口**：runs-r4/ 36 cell（9 config × 2 domain × 2 seed）raw + J1v11 + J2v11 全覆盖，无需补跑。**双口径仲裁已完成（r75）**：receipt-r4-adjudication-r74.json——7 cell/30 flip 逐条 Lead 裁定（25 ID_SPACE_DRIFT + 5 UPHOLD_J1），主判读维持绑定 J1v11 严格版 + J2v11 并报不变
 2. **P1 · G1b family_check 升级**（低成本可补项，非硬阻塞）：r74 已派发回收——arena 会话 01a19104 完成 5 份 blind 工件盲评，PR #36 merge 入 ralph/g1b-hetero-judge-dispatch（eb2a9a7），回执 `experiments/T8-matrix/runs/c3-v3/calibration/g1b/receipt-g1b-hetero-judge-r74.md`。阳性对照 X5 被异源 judge 独立抓到（qwen J1/J2 均漏检）；κ 机械值 0.0 系天花板效应（pe→1）非分歧。**残留**：family_check=unknown（arena 不披露底层模型名）→ 家族隔离 PARTIAL-CLOSED；用户给一个明确非 Qwen 的 API key 重打 5 份工件（~5 次调用，任务书模板 g1b/G1b-hetero-judge-task-brief.md 现成）即可 CLOSED
 3. **P1 · closure-gate-integration K4 O1-O4 裁定**（APPROVALS 卡人项）：等成璐裁定，无变化则跳过
 4. **P2 · web-llm 三 provider 人工登录**（D1-gpu cross_validation_out 门禁依赖）：需用户在浏览器一次性登录，无变化则跳过
