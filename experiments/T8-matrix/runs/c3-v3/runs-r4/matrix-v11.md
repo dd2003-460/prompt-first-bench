@@ -17,7 +17,13 @@
 
 ## 观察
 
-1. **B-noevidence=0.906 异常 — 已定位机制（2026-10-31 二次分析）**：人工过 4 个原始输出确认证据并未缺失（具体数值/厂商/正交分解都在，模型自发写出）。对比 density/echo 字段后发现真正原因：A-full 的 D1/seedb 单点塌方（pass 3/10, echo_ratio=0.3, method_echo=0.19, density=0.28 均为四 cell 最差），把 A-full 均值从 ~0.9 拖到 0.75；B-noevidence 四 cell echo 全部 ≤0.16 无塌方。**结论：非组件优劣，是 A-full 单点方差**。置信度中（仅 1 cell 异常，未排除随机波动）。
+1. **B-noevidence=0.906 异常 — 已定位机制（2026-10-31 二次分析 + recheck 三轮验证）**：人工过 4 个原始输出确认证据并未缺失（具体数值/厂商/正交分解都在，模型自发写出）。对比 density/echo 字段后发现真正原因：A-full 的 D1/seedb 单点塌方（pass 3/10, echo_ratio=0.3, method_echo=0.19, density=0.28 均为四 cell 最差），把 A-full 均值从 ~0.9 拖到 0.75；B-noevidence 四 cell echo 全部 ≤0.16 无塌方。**recheck 升级结论（r49）**：对 A-full/D1/seeda 同 prompt 复跑 3 次（seeda-recheck-{1,2,3}，判官 J1v11 同口径 temperature=0），echo_ratio = 0.35 / 0.18 / 0.27，pass = 2/8 / 14/19 / 4/7 —— 非系统性塌方也非单次噪声，是**cell 级高方差**（同一 prompt 输出质量在 11%~74% pass 间摆动）。推论：n=2/cell 的矩阵均值受方差主导，配置间差异（如 B-noevidence vs A-full 的 15pt）部分可能是采样噪声而非组件效应；置信度从"中"降为"低-中"，升档需 n≥4/cell 重跑或固定种子复现。
 2. **B-none(0.678) > B-sham(0.542)**：v11 能区分真空组件与假消融；sham 触发 floor+evidence_floor（识别出引用不存在的冻结记录）。完整矩阵复现 v11 关键改进。
 3. **B-noowner≈A-full**（0.767 vs 0.750）：owner 组件在两个任务域无可测贡献，或 rubric 10 项无直接考 owner 行为的题项。
 4. B-nofreeze=0.494 最低：冻结件仍是最大单组件贡献（-35%），与 v11 部分验证一致。
+
+## 04.5 反方复核（r49）
+
+- prompt sha 三源一致（recheck×3 = 原 seeda = 37297a537f9c9022），复跑口径无漂移。
+- 判官 3/3 输出成功解析为合法 JSON，temperature=0 格式稳定。
+- **登记边界**：判官 items 总数跨 run 不稳定（8/19/7），pass_rate 分母漂移 → 本矩阵跨配置比较应以 echo_ratio / floor 触发为主指标，pass_rate 仅参考；此弱点影响全部 36 cell 而非 recheck 独有，升档前需判官条目数锚定（rubric 显式列 10 题项编号）。
