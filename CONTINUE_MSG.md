@@ -1,18 +1,18 @@
 # CONTINUE_MSG — pfb 工作区
 
-## 当前状态 @ 2026-10-31（keepalive r57 唤醒）
+## 当前状态 @ 2026-10-31（r60）
 
-**r57 P0 收口：T8-C3-v3-opportunity-set-freeze 草案落地**（r59 导出的唯一真缺口，本轮啃下大半）：① arena blocking fix #3 四要素协议草案落盘 `experiments/T8-matrix/runs/c3-v3/design/opportunity-set-freeze-protocol-draft-r57.md`——定义主体=Lead 盲法前置（只看题面不看 run 输出，run 启动前 commit 冻结）/ 空分母保守口径默认（未提及=没通过，计入分母）/ truth-cover 联合门槛（配置比较必须双维报告，禁止单报 truth）/ 新旧 M8 口径版本化（M8-r4-variable 只可描述性引用，M8-frozen-v1 从下一 run 生效）。② R4 事后重建评估完成（m8-denominator-analysis-r57.json）：题面机械提取可行但只给下界——judge 实际分母 6-30 条/run vs 题面显式机会 5-8 个/seed，三层口径不一致坐实；**分母收缩量化：B-noevidence 8.38 条 vs A-full 11.25 条（-25.5%），arena 假设方向成立**。③ matrix-v11.md r57 节限定语回填生效：evidence/owner 方向 M8 比较降档「未分离的方向性证据」；freeze 负效应稳健不受影响（B-nofreeze 分母居中 9.00 + M8 全场最低 0.469）。main @ 15d94a6 pushed。queue 标 `[~]` 不划掉——待成璐裁定两项后定稿（见 P0）。
+**r60 P0 推进：opportunity-set-freeze 机械层落地 + J1v2 第二口径交叉验证收口**。① opportunity-sets-v1.json 落盘冻结（4 seed × 9-10 项/seed，机械规则 v0.3 + 人工补全层）+ receipt-r4-cover-analysis.json——cover 检查发现：**分母收缩假设被否定**（B-noevidence cover=1.000 与 A-full 持平，Δtruth=+0.156 不是分母 artifact），全部 36 run cover≥0.975 → 冻结集对当前两域任务过宽松、区分度不足；原处置表「evidence/owner 方向置信度下调」的限定语可部分收回。注意：本轮是事后诊断非正式冻结流程（Lead 盲法前置未执行，limitations 已登记）。② J1v2 density-audit rubric 全量 R4 sweep 完成（36 judged, 0 failed，后台进程）+ receipt-j1v2-sweep-analysis.json——四个结论：freeze 负效应跨 rubric 稳健（B-nofreeze 两版都是 rank 1/9，v2 下 gap 更大 0.475 vs 0.054）；B-noevidence 最高分跨 rubric 复现（非 v11 artifact）；J1v2 floor 机制零触发（空转工件条目本身不 pass，不满足联合条件）；**J1v2 对 sham 失守**（sham 编造数字喂饱 density 指标，sham 0.823 ≈ A-full 0.868，v11 特异性指纹查『数字是否对应真实核验对象』才是本质优势）。跨版本一致性 r≈0.02——同族 judge 换 rubric 文本判分近乎独立，再次坐实跨版本分数不可比。main pushed。
 
-**r57c-e 三项复核补强（本轮续跑）**：① KeyError 'J1' 误报定位——旧 one-shot 脚本用错键名层级（台账是 {工件: {J1/J2}} 两级结构，prompt 键名又是 J1-strict），与用户改动的三个文件无关；G1a raw 10/10 机械复现对账通过，数据无缺口。② F4 补测：同一套机械规则跑在 A-full 8 个 run output 上，judge 条目数 8/8 ≤ run 输出显式断言数（12-20 条）——judge 是从 run 输出挑子集非自造项，三层口径关系修正为题面(5-8) ⊂ run输出(12-20) ⊇ judge 条目，冻结锚点确认为题面机会集。③ 判官区分度复核：R4 全部 52 run 的 J1v11 pass_rate stdev=0.229 / range=0.9，有真实区分度——G1a 双判官零分歧归因从"判官偏软嫌疑"修正为"校准集工件恰好都好"（集合属性）；同族偏软的残余边界仍需 G1b 异源定案（既有阻塞不动）。main @ a494277 pushed。
+**P0 剩余（卡人项，等成璐一句话）**：裁定两项——① 空分母口径：模型完全没提到的核验点算不算进分母（我默认保守=算，激进=不算，建议保守）② cover 门槛数值：质量提升允许覆盖率下降多少还认账（我暂写 -5%，无文献依据纯建议值）。裁定后协议定稿，下一 run 起 M8 双报 (truth, cover) + 正式 Lead 盲法冻结流程生效。
 
-**上轮 r59 消费 arena C3 v3 对抗核验回执**：PASS-with-fixes，六漏洞处置表 stages/04.5/C3v3-adversarial-disposition.md——R1/R4 文书/R5/G1b 四项已被后续执行自然覆盖或属既有阻塞；唯一真缺口=机会集冻结（本轮 r57 已处理至草案态）。
+**r57c-e 三项复核补强（已收口）**：① KeyError 'J1' 误报定位——旧 one-shot 脚本用错键名层级，与用户改动无关；G1a raw 10/10 机械复现对账通过。② F4 补测：judge 条目 8/8 ≤ run 输出显式断言（12-20 条），三层口径关系修正为题面(5-8) ⊂ run输出(12-20) ⊇ judge 条目。③ 判官区分度复核：R4 全部 52 run J1v11 stdev=0.229/range=0.9，有真实区分度——G1a 零分歧归因修正为校准集工件质量好（集合属性）；同族偏软残余边界仍需 G1b 异源定案。main @ a494277 pushed。
 
-**更早遗留核查（r59 复查无变化）**：G1b 异源 judge / closure-gate K4 裁定 / web-llm 登录 / M8 Lead 盲法均 blocked-on-human/external。:8787 网关容量评估核实无需动作（proxy 多通路健康，cron 400 too large = 本会话上下文膨胀非网关容量）。
+**r57 opportunity-set-freeze 草案落地（已收口）**：arena blocking fix #3 四要素协议草案 + R4 分母收缩量化（B-noevidence 8.38 vs A-full 11.25 条，-25.5%）+ matrix-v11 限定语回填。注：r60 cover 分析已否定分母收缩假设（见上）。main @ 15d94a6 pushed。
 
 ## 下一步（按优先级）
 
-0. **P0 · opportunity-set-freeze 定稿**（卡人项，等成璐一句话）：裁定两项——① 空分母口径：模型完全没提到的核验点算不算进分母（我默认保守=算，激进=不算，建议保守）② cover 门槛数值：质量提升允许覆盖率下降多少还认账（我暂写 -5%，无文献依据纯建议值）。裁定后定稿协议 + 对 4 seed 产出正式 opportunity-set 文件冻结，下一 run 起 M8 双报 (truth, cover)。
+0. **P0 · opportunity-set-freeze 定稿**（卡人项，等成璐一句话）：裁定两项——① 空分母口径：模型完全没提到的核验点算不算进分母（我默认保守=算，激进=不算，建议保守）② cover 门槛数值：质量提升允许覆盖率下降多少还认账（我暂写 -5%，无文献依据纯建议值）。机械层已落地（opportunity-sets-v1.json + cover 分析回执 r60），裁定后协议定稿 + 正式 Lead 盲法冻结流程生效，下一 run 起 M8 双报 (truth, cover)
 1. **P1 · 复查四外部阻塞项是否有变化**：① G1b 异源 judge（arena 通道/第二 LLM 凭证）② closure-gate-integration K4 O1-O4 裁定（APPROVALS）③ web-llm 三 provider 人工登录 ④ M8 Lead 盲法判读。无变化则跳过
 
 **r44 rubric v11 validation PASS，T8-C3-v3-rubric-density-test 收口**：v2→v11 共 10 轮迭代——前 9 版全部 FAIL（v2 密度审计零触发 / v3 anti-template 误杀真实核验 A-full 归零 / v4 anti-spin 太弱 sham 编造数字绕过 / v5 计划发现二分过度修正全场归零 / v6 prepared-plan 例外救回 A-full / v7-v10 回声率·冻结痕迹·方法回声·指令依赖度均失效），**v11 特异性指纹测试**首次命中：查「量」不查「有无」——带具体数字/型号/字段/日期/阈值的句子占比 <0.2 判 low_specificity_fail。验收三项全过：sham 0.517 跌至第 2 低组 ✓ / freeze 方向保持（B-nofreeze 0.400 < A-full 0.750）✓ / 无过度修正（A-full > 0.4）✓。J2 lenient 同批重打 36 run 天花板复现（9/9 配置 mean=1.0）→ 佐证 G1a「M8 绑定 J1 strict」裁定。负面 ×1：B-2del-fo/D1/seeda 首判 max_tokens=4096 截断，输出纪律后缀+8192 重判落盘。回执 runs-r4/rubric-v11-validation.json + j2lenient-v11-validation.json；queue L28 划掉（3e9aa9b，assert-queue-lint 59 行 / 0 FAIL exit 0）。main @ 3e9aa9b。
@@ -23,13 +23,15 @@
 
 **r47 R4 收口 + C3 v3 结论定稿（上轮 P0）**：receipt-r4-execution.json gate_order 更新（R1 FAIL→PASS via v11 / R4 UNBLOCKED / M8 待 Lead 盲法）+ verdict 升级 PASS-with-caveat + next_actions 三条核销；queue L28 补核销注记（assert-queue-lint 59 行 / 0 FAIL）。C3 v3 阶段性结论：**描述层**——freeze 是唯一有负向主效应的组件（B-nofreeze 配对差 -0.35）、evidence 组件对 M8 判分无正向贡献（删了反而 +0.156）、sham 空转工件可被 v11 特异性指纹捕获；**推断层上限不变**——同族 judge（qwen3.8-27b）+ n=4/cell，conf 封顶在方向性证据，G1b 异源仍是升档唯一路径。main @ c379668。
 
-## 下一步（按优先级）
+## 历史收口记录
 
-0. **P0 · opportunity-set-freeze 定稿**（卡人项，等成璐一句话）：裁定两项——① 空分母口径：模型完全没提到的核验点算不算进分母（我默认保守=算，激进=不算，建议保守）② cover 门槛数值：质量提升允许覆盖率下降多少还认账（我暂写 -5%，无文献依据纯建议值）。裁定后定稿协议 + 对 4 seed 产出正式 opportunity-set 文件冻结，下一 run 起 M8 双报 (truth, cover)。
-1. **P1 · 复查四外部阻塞项是否有变化**：① G1b 异源 judge（arena 通道/第二 LLM 凭证）② closure-gate-integration K4 O1-O4 裁定（APPROVALS）③ web-llm 三 provider 人工登录 ④ M8 Lead 盲法判读。无变化则跳过
+**r44 rubric v11 validation PASS**：v2→v11 共 10 轮迭代，前 9 版全部 FAIL，v11 特异性指纹测试首次命中（查「量」不查「有无」）。回执 runs-r4/rubric-v11-validation.json + j2lenient-v11-validation.json。main @ 3e9aa9b。
 
-2. **P2 · closure-gate-integration 裁定跟进**：等成璐 K4 O1-O4 裁定（APPROVALS 已登记备料模式，不阻塞其他工作）
-3. **P2 · rubric-v3 遗留 #1「独立 judge 盲测 p̃」**：决定性检验，需 ≥3 个独立 LLM 服务盲估 31 节点 p̃ 对照 prior-estimates.json 算一致性——另开 goal（注：旧 P2 #3 survey 回填已于 r48 完成 DONE；旧 P2 #4 :8787 容量评估 r59 核实无需动作）
+**r27 closure-gate-integration 收口验证**：claude r155 产物已含于 main（merge 幂等），终态 blocked-on-human 待 K4 O1-O4 裁定（APPROVALS 已登记）。
+
+**r45 R4 主分析重启**：J1v11 scorecard 重算 + receipt-r4-mainanalysis.json；F4 坐实跨版本分数不可比。main @ a0a096c。
+
+**r47 R4 收口 + C3 v3 结论定稿**：verdict PASS-with-caveat；freeze 唯一负向主效应、evidence 无正向贡献、sham 可被 v11 捕获；推断层上限不变（同族 judge + n=4/cell）。main @ c379668。
 
 ## 阻塞项
 
