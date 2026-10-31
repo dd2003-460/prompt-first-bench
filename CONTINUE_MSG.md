@@ -2,6 +2,8 @@
 
 ## 当前状态 @ 2026-10-31（r60c）
 
+**r61 cover 独立复算通过**：纯 Python 关键词匹配（无 LLM）重算 36 run cover，与原回执一致——全 config avg=1.0，唯一 miss=B-sham/D1/seedb O07（该 run 输出确实零次出现「淘汰」「理由」）。分母收缩否定结论经独立方法确认。main pushed。
+
 **r60k-l 分母收缩结论撤回 + 限定语收回**：r57 的「B-noevidence 分母收缩 -25.5%」结论被 r60 cover 分析否定——根因是范畴错误（judge 条目数 ≠ 模型覆盖机会数；冻结集口径下分母固定，不存在收缩）。已同步修正四处：① m8-denominator-analysis-r57.json 补 r60_correction 节 ② 冻结协议草案 L38 标注否定 ③ queue L78 标注 ④ matrix-v11.md r57 节限定语部分收回（evidence/owner 方向恢复为「方向性证据」，不再带「未分离」限定语；freeze 负效应三 judge 下均 rank 1/9 最稳健）。main pushed。
 
 **r60e 联合读数收口**：9 config × 4 口径（truth-v11 / cover / J1v2 / J1v3）全表落盘。关键发现：cover 在所有 9 个 config 下恒为 1.000（零方差）——冻结机会集对当前 D1/D2 域过宽松，每个 run 都覆盖了全部核验点，cover 维度没有区分力。含义：M8 双报 (truth, cover) 协议机械层就绪但经验上 vacuous，cover 门槛只在 cover<1.0 时激活，需要比当前 D1/D2 更难的任务才能触发。回执已更新。
