@@ -28,8 +28,8 @@
 
 ## 下一步（按优先级）
 
-0. **P0 · T5-R1 Lead 04.5 审核回执**（market-alpha 仓，main `6baf574`）：T5 第 1 轮本地自答全链已落盘（六工件 01/02/02.5/03/04/04.5，主交付物 `loop-artifacts/stages/02/t5-regime-interface.md` = regime 日历锁定引用 + M1/M2 五接口字段定义 + PIT 判据），conf-0.2，等 Lead 出 04.5 回执解除 ralph 缺失阻塞 → 台账 T5-R1 改完成。回执模板沿 `loop-artifacts/decisions/20261031-t4-r1-stage045-review.md` 口径。**r76 已完成的前置**：T3-R3/T4-R1 两分支收口工件合并回 main（a52c2d7+367391b），prereg 冻结声明/closure 三文件在 main 可查；台账 T3-R3/T4-R1 已改完成。
-1. ~~P1 · market-alpha 双线验收~~ → **r76 收口**：T4-R1 closure bbe2770 + T3-R3 冻结声明 b82d9da/核验 38424b9 均已合并 main 367391b 并 push，ls-remote 确认。下轮若开 T5-R2（博弈矩阵）派发前，先捎带解决 C2（m_market 口径 M1 侧确认）。
+0. **P1 · C3 v3 paired runs**（WORK_QUEUE 最高优先未完成项）：前置 G1 subagent 盲标+仲裁 → G2 judge 实测 → G3-G5 门禁；ninfer HTTP :8000 直跑（不走 arena）。先查 tasks/T8-C3-v3-adversarial-check.md 回执状态和 G1 是否已启动。
+1. ~~P1 · market-alpha 双线验收~~ → **r76 收口**：T4-R1 closure bbe2770 + T3-R3 冻结声明 b82d9da/核验 38424b9 均已合并 main 367391b 并 push，ls-remote 确认。**T5-R1 也已收口（r76）**：Lead 04.5 回执 pass（decisions/20261101-t5-r1-stage045-review.md），台账改完成，market-alpha main=`918d1b0`。下轮若开 T5-R2（博弈矩阵）派发前，先捎带解决 C2（m_market 口径 M1 侧书面确认）。
 1. ~~P1 · C3 v3 R4 全因子 runs 补跑~~ → **r74c 核查完毕，无缺口**：runs-r4/ 36 cell（9 config × 2 domain × 2 seed）raw + J1v11 + J2v11 全覆盖，无需补跑。**双口径仲裁已完成（r75）**：receipt-r4-adjudication-r74.json——7 cell/30 flip 逐条 Lead 裁定（25 ID_SPACE_DRIFT + 5 UPHOLD_J1），主判读维持绑定 J1v11 严格版 + J2v11 并报不变
 2. **P1 · G1b family_check 升级**（低成本可补项，非硬阻塞）：r74 已派发回收——arena 会话 01a19104 完成 5 份 blind 工件盲评，PR #36 merge 入 ralph/g1b-hetero-judge-dispatch（eb2a9a7），回执 `experiments/T8-matrix/runs/c3-v3/calibration/g1b/receipt-g1b-hetero-judge-r74.md`。阳性对照 X5 被异源 judge 独立抓到（qwen J1/J2 均漏检）；κ 机械值 0.0 系天花板效应（pe→1）非分歧。**残留**：family_check=unknown（arena 不披露底层模型名）→ 家族隔离 PARTIAL-CLOSED；用户给一个明确非 Qwen 的 API key 重打 5 份工件（~5 次调用，任务书模板 g1b/G1b-hetero-judge-task-brief.md 现成）即可 CLOSED
 3. **P1 · closure-gate-integration K4 O1-O4 裁定**（APPROVALS 卡人项）：等成璐裁定，无变化则跳过
