@@ -54,10 +54,10 @@ time_range:         \d{4}\s*(/\s*\d{4})?
 
 ## 四、执行计划（定稿后）
 
-1. 成璐裁定：保守/激进空分母口径 + 联合门槛数值（-0.05 是否合适）。
-2. Lead 对 4 seed 产出正式 opportunity-set 文件（机械 + 人工补全），commit 冻结。
-3. 下一个 run 按新口径执行；M8 双报 (truth, cover)。~~R5 已跑完但用的是旧口径~~ → r60e 注记：当前域 cover 恒 1.0，双报机制就绪但 vacuous，需 harder task 激活。
-4. matrix 模板加口径列；assert 脚本加"无后缀 M8 引用"检查。
+1. 成璐裁定：保守/激进空分母口径 + 联合门槛数值（-0.05 是否合适）。**状态：BLOCKED ON USER（r62h 仍未裁定）**
+2. Lead 对 4 seed 产出正式 opportunity-set 文件（机械 + 人工补全），commit 冻结。**状态：DONE（r60 — opportunity-sets-v1.json 落盘，4 seed × 9-10 项，D1+D2 双域）**
+3. 下一个 run 按新口径执行；M8 双报 (truth, cover)。~~R5 已跑完但用的是旧口径~~ → r60e 注记：当前域 cover 恒 1.0，双报机制就绪但 vacuous，需 harder task 激活。**状态：BLOCKED ON USER（依赖 item 1 裁定）**
+4. matrix 模板加口径列；assert 脚本加"无后缀 M8 引用"检查。**状态：DONE（r62g — matrix-v11.md 口径列 + assert-m8-no-suffix.py PASS）**
 
 ## 边界登记
 
