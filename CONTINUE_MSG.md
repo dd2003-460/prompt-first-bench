@@ -37,6 +37,8 @@
 5. **P2 · R5.2-third-scorer 前置盘点**：packet v2 输入面已对称（assert-packet-symmetry 67 PASS），缺第三打分器（不同家族）——与 G1b family_check 同族依赖，合并等待即可
 6. ~~P2 · survey 原文回填~~ → **r48+r76 收口**：308 行原文 c241a8f 已回填；r76 来源链接审计 34/34 全有效零失效（`tasks/receipts/lit-survey-url-audit-r76.md`，main `69a14dd`），交付路径对齐裁定 = literature-survey.md 为权威。
 
+**r76 本轮全部动作汇总**（pfb main `db77081`）：① market-alpha T3-R3/T4-R1 合并回 main + T5-R1 本地自答全链落盘 + Lead 04.5 回执 pass 收口（market-alpha main `918d1b0`）；② C3 v3 全链核查确认八环闭环 + 汇总回执落盘；③ lit-survey 来源链接审计 34/34 PASS；④ queue kappa-u1k1-execution 状态澄清标 [~]；⑤ APPROVALS 卡人项 5 项状态快照；⑥ assert 脚本基线审计 21 个全跑无静默漂移（kappa 目录偏差登记维护债）。**下轮唤醒起点**：核对 APPROVALS 五项卡人项是否有解锁（G1b key / κ 勾选 / K4 裁定 / web-llm 登录 / queue 归一范围），有变化执行对应动作，无变化做可逆维护。
+
 **r62g2 v9 重跑确认**：v9 重新 sweep（36/36，0 failed），数值不变，sham gap +0.007 FAILED。至此 v7/v8/v9 三个 judge 都做了独立重跑验证，全部与 r62p 面板值一致。main @ 11a14c9。
 
 **r62d2/r62e v7+v8 重跑确认**：v7 和 v8 各重新 sweep 一遍（36/36，0 failed）。v7 数值与 r62y 修正后完全一致（sham gap -0.250）；v8 数值不变（sham gap +0.099 FAILED）。两个 judge 的 receipt 都加了 rerun_confirmation 字段。main @ 249d14b。
