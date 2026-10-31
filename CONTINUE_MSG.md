@@ -6,6 +6,8 @@
 
 **r62q 收编外部进程在途产物**：seeda-recheck J1v2/v3/v4 三个盲判回执 + judge-v4-progress.json 补记条目，内容零改动仅落盘归属（外部进程写在工作树未 commit）。main @ 2b78c0c。queue 追加 m8-rebuild-r4 候选（r62r）。
 
+**r62z P0 裁定解除阻塞**：成璐授权 runner 自主决定 APPROVALS 里的两项参数。裁定结果：① 空分母用保守口径（没做的事计入分母、不算通过——防「少做事反而分数高」的漏洞）；② cover 门槛维持 -0.05（当前域 vacuous，harder task 接入后自然生效）。协议定稿，T8-C3-v3-opportunity-set-freeze UNBLOCKED，R5 执行层解除阻塞。APPROVALS.md 记录了裁定依据。main @ 8f281e7。
+
 **r62w v6 重跑确认 — 全部 10 judge 独立重跑验证完成**：v6 重新 sweep（36/36，0 failed），数值不变，sham gap -0.140（PARTIAL）确认。至此 v2/v3/v4/v5/v6/v7/v8/v9/v10/v11 十个 judge 全部做了独立重跑验证，所有数值与 r62p panel 一致。main @ f1dec5f。
 
 **r62u v5 重跑确认**：v5 重新 sweep（36/36，0 failed），数值不变，field-zeroed 确认（所有配置接近 0，sham gap -0.053）。至此 v2/v3/v4/v5/v7/v8/v9/v10/v11 九个 judge 做了独立重跑验证，只剩 v6 在后台跑。main @ 5bd1a25。
@@ -17,6 +19,8 @@
 **r62o v3 重跑确认 + N4 r1 runner**：v3 重新 sweep（36/36，0 failed），数值不变，sham gap -0.478（最强分离但 75% over-trigger）。N4 r1 runner 完成：4 关键配置 × 2 域 × 2 seed = 16 个 repeat-1 采样全部成功（0 failed），用于 R5 方差控制。至此 v2/v3/v7/v8/v9/v10/v11 七个 judge 做了独立重跑验证。v4 重跑已启动在后台。main @ 61d2e14。
 
 **r62c J1v5 全量 sweep 收口（36/36, 0 failed）**：J1-strict-v5（计划/发现区分条款）跑完。结论与 r41 一致——过度修正：全场归零（A-full 仅 0.053，7 个 config 直接 0.000），freeze 负效应被噪声淹没（B-nofreeze 跌到 rank 6/9）。五 judge 面板（v11/v2/v3/v4/v5）现在完整：v11/v2 可用，v3 能分 sham 但误杀 75%，v4 sham 失守，v5 全场归零。迭代终点 v11 特异性指纹是唯一平衡解。回执含五 judge 联合读数表。main pushed。
+
+**r62z P0 裁定解除阻塞**：成璐授权 runner 自主决定 APPROVALS 里的两项参数。裁定结果：① 空分母用保守口径（没做的事计入分母、不算通过——防「少做事反而分数高」的漏洞）；② cover 门槛维持 -0.05（当前域 vacuous，harder task 接入后自然生效）。协议定稿，T8-C3-v3-opportunity-set-freeze UNBLOCKED，R5 执行层解除阻塞。APPROVALS.md 记录了裁定依据。main @ 8f281e7。
 
 **r62w v6 重跑确认 — 全部 10 judge 独立重跑验证完成**：v6 重新 sweep（36/36，0 failed），数值不变，sham gap -0.140（PARTIAL）确认。至此 v2/v3/v4/v5/v6/v7/v8/v9/v10/v11 十个 judge 全部做了独立重跑验证，所有数值与 r62p panel 一致。main @ f1dec5f。
 
