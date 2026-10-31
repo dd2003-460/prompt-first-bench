@@ -3,7 +3,9 @@
 > origin: ai · 2026-10-31 · runner r45 后解析 runs-r4/*-J1v11.json (36/36)
 > 判官: J1-strict-v11 (design/rubric-v2-density-test.json) · 模型: qwen3.8-27b @ :8787
 
-| config | mean_pass_rate | D1/a | D1/b | D2/a | D2/b | floors触发 |
+| config | mean_pass_rate | D1/a | D1/b | D2/a | D2/b | floors触发 | 口径 |
+|---|---|---|---|---|---|---|---|
+<!-- r62g: 口径列待下一 run 填充（opportunity-set-freeze 协议定稿后生效）。当前 R4 数据口径 = judge-item-count（旧），cover 恒 1.0。 -->
 |---|---|---|---|---|---|---|
 | A-full | 0.750 | 10/10 | 3/10 | 9/10 | 8/10 | — |
 | B-nofreeze | 0.494 | 3/8|low_specificity | 8/10 | 4/8 | 3/10 | low_specificity |
