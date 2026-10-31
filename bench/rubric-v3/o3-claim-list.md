@@ -4,6 +4,7 @@
 > 上游：`AUDIT-report.md` §2-O3 L79（finding #13 处置「采纳」）/ §9.1 R-13 L293 / §9.3 L312
 > 源数据（只读）：`ablation/gold-tree.md`（31 节点）/ `ablation/hit-matrix.json`（8×31 h+evidence）/ `ablation/prior-estimates.json`（reason 字段）
 > 状态：**判据件冻结** — DRAFT v2 O3 命中判据自本文件起以 §2 claim 清单为准；修改 = 新 goal + APPROVALS.md 登记。
+> **审定状态（2026-10-31，成璐授权自主裁决 · APPROVALS r3 条目 4 批准 4.2）**：认可 runner 起草版为正式判据件，无人工逐条批注修改。§5.1 S2 限定语约束继续适用。
 
 ---
 
