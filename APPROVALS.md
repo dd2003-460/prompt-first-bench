@@ -101,3 +101,19 @@
 **回退方式**：若成璐事后认为应选激进口径或不同门槛值，改协议草案 §二.2/§三 两行即可，已落盘数据不受影响（R4/R5 用的是旧口径 M8-r4-variable，历史数字保持原样）。
 
 **状态**：已裁定已记录。
+
+## 2026-11-01 · r76 keepalive — 卡人项状态汇总（无新裁定请求，纯状态登记）
+
+**背景**：r76 唤醒时把 C3 v3 全链核查收口 + market-alpha T5-R1 收口 + lit-survey 来源审计做完后，盘点全部未决项，确认 agent 侧无可推进空间。本条为状态快照，供成璐下次看微信播报时快速定位要做什么。
+
+**当前卡人项清单（按解锁成本排序）**：
+
+| # | 项 | 等什么 | 解锁后动作 | 成本 |
+|---|---|---|---|---|
+| 1 | G1b family_check unknown→CLOSED（queue L25） | 一个明确非 Qwen 的 API key，或 arena 平台披露底层模型身份 | 用 key 对 G1a 冻结的 5 份 blind 工件重打 judge（任务书模板 `experiments/T8-matrix/runs/c3-v3/calibration/g1b/G1b-hetero-judge-task-brief.md` 现成） | ~5 次 LLM 调用 |
+| 2 | κ 门禁阈值标定（queue L36 [~]） | 对 `bench/rubric-v3/kappa-u1k1-adjudication-materials.md` §4 勾选：公式 ∈ {F2,F3} × 阈值语义 ∈ {硬门禁,SIGNAL} × 阈值处置 ∈ {α,β,γ} | 按材料 §5 D1-D6 清单落地（protocol L71 UNRESOLVED 销账等 6 步机械操作） | 勾选后 ~6 步 |
+| 3 | closure-gate-integration K4 O1-O4 裁定（APPROVALS 2026-10-31 条目） | 四选一：O1 完全接受 staged-diff 双轨【备料倾向】/ O2 有条件接受 / O3 退回 commit-hash 签名 / O4 不接入门禁 | 按 materials §5 D1-D6 开执行 goal 或归档 | 选 O4 则零成本关闭 |
+| 4 | web-llm 三 provider 人工登录（D1-gpu cross_validation_out 门禁） | 浏览器一次性登录 Perplexity/ChatGPT/Gemini | 重跑 ralph web-llm-check → re-apply → advance | 一次登录 |
+| 5 | queue 存量排版归一范围裁定（queue L68） | 选项 (i) 全量归一 / (ii) 仅活跃区归一 | 按 tasks/queue-format-contract.md §4 执行 | 小 |
+
+**说明**：#1/#2/#3 互相独立可任意顺序解锁；#4 属 D1-gpu 项目线（非 pfb）；#5 是队列卫生小事。agent 侧在以上任一项解锁前不会重复推进——下轮 keepalive 唤醒会直接核对这五项是否有变化，有变化就执行对应动作，没变化就继续做可逆维护工作（如 queue 卫生扫描、回执补全）。
