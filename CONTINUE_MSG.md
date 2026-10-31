@@ -18,7 +18,7 @@
 
 ## 下一步（按优先级）
 
-0. **P0 · opportunity-set-freeze 定稿**（卡人项，等成璐一句话）：裁定两项——① 空分母口径：模型完全没提到的核验点算不算进分母（我默认保守=算，激进=不算，建议保守）② cover 门槛数值：质量提升允许覆盖率下降多少还认账（我暂写 -5%，无文献依据纯建议值）。机械层已落地（opportunity-sets-v1.json + cover 分析回执 r60），裁定后协议定稿 + 正式 Lead 盲法冻结流程生效，下一 run 起 M8 双报 (truth, cover)
+0. **P0 · opportunity-set-freeze 定稿**（卡人项，等成璐一句话）：裁定两项——① 空分母口径：模型完全没提到的核验点算不算进分母（我默认保守=算，激进=不算，建议保守）② cover 门槛数值：质量提升允许覆盖率下降多少还认账（我暂写 -5%，无文献依据纯建议值；r60e 补充：当前域 cover 恒 1.0，门槛实际不会触发，需 harder task 才有意义）。机械层已落地（opportunity-sets-v1.json + cover 分析回执 r60 + J1v3 全量 sweep r60c），裁定后协议定稿 + 正式 Lead 盲法冻结流程生效，下一 run 起 M8 双报 (truth, cover)
 1. **P1 · 复查四外部阻塞项是否有变化**：① G1b 异源 judge（arena 通道/第二 LLM 凭证）② closure-gate-integration K4 O1-O4 裁定（APPROVALS）③ web-llm 三 provider 人工登录 ④ M8 Lead 盲法判读。无变化则跳过
 
 **r44 rubric v11 validation PASS，T8-C3-v3-rubric-density-test 收口**：v2→v11 共 10 轮迭代——前 9 版全部 FAIL（v2 密度审计零触发 / v3 anti-template 误杀真实核验 A-full 归零 / v4 anti-spin 太弱 sham 编造数字绕过 / v5 计划发现二分过度修正全场归零 / v6 prepared-plan 例外救回 A-full / v7-v10 回声率·冻结痕迹·方法回声·指令依赖度均失效），**v11 特异性指纹测试**首次命中：查「量」不查「有无」——带具体数字/型号/字段/日期/阈值的句子占比 <0.2 判 low_specificity_fail。验收三项全过：sham 0.517 跌至第 2 低组 ✓ / freeze 方向保持（B-nofreeze 0.400 < A-full 0.750）✓ / 无过度修正（A-full > 0.4）✓。J2 lenient 同批重打 36 run 天花板复现（9/9 配置 mean=1.0）→ 佐证 G1a「M8 绑定 J1 strict」裁定。负面 ×1：B-2del-fo/D1/seeda 首判 max_tokens=4096 截断，输出纪律后缀+8192 重判落盘。回执 runs-r4/rubric-v11-validation.json + j2lenient-v11-validation.json；queue L28 划掉（3e9aa9b，assert-queue-lint 59 行 / 0 FAIL exit 0）。main @ 3e9aa9b。
