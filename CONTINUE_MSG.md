@@ -6,11 +6,15 @@
 
 **r62q 收编外部进程在途产物**：seeda-recheck J1v2/v3/v4 三个盲判回执 + judge-v4-progress.json 补记条目，内容零改动仅落盘归属（外部进程写在工作树未 commit）。main @ 2b78c0c。queue 追加 m8-rebuild-r4 候选（r62r）。
 
+**r62s N4 repeat-sampling 分析完成**：16 对（原始 vs r1）输出长度对比，std Δ = 13.4%，max |Δ| = 27.9%。temp=0.7 下同一 prompt 重复采样，模型输出长度波动 ~13%（标准差）。这是 R5 方差控制的噪声底——judge 分数差异低于这个幅度不能归因于配置差异，是模型自身非确定性。receipt-n4-repeat-sampling.json 已落盘。main @ 1d3d1b8。
+
 **r62q v4 重跑确认**：v4 重新 sweep（36/36，0 failed），数值不变，sham gap +0.087（FAILED）确认。recheck backfill 完成（6 judges：J1/J2 × recheck-1/2/3）。至此 v2/v3/v4/v7/v8/v9/v10/v11 八个 judge 做了独立重跑验证。v5 重跑已启动在后台。main @ 27f10ff。
 
 **r62o v3 重跑确认 + N4 r1 runner**：v3 重新 sweep（36/36，0 failed），数值不变，sham gap -0.478（最强分离但 75% over-trigger）。N4 r1 runner 完成：4 关键配置 × 2 域 × 2 seed = 16 个 repeat-1 采样全部成功（0 failed），用于 R5 方差控制。至此 v2/v3/v7/v8/v9/v10/v11 七个 judge 做了独立重跑验证。v4 重跑已启动在后台。main @ 61d2e14。
 
 **r62c J1v5 全量 sweep 收口（36/36, 0 failed）**：J1-strict-v5（计划/发现区分条款）跑完。结论与 r41 一致——过度修正：全场归零（A-full 仅 0.053，7 个 config 直接 0.000），freeze 负效应被噪声淹没（B-nofreeze 跌到 rank 6/9）。五 judge 面板（v11/v2/v3/v4/v5）现在完整：v11/v2 可用，v3 能分 sham 但误杀 75%，v4 sham 失守，v5 全场归零。迭代终点 v11 特异性指纹是唯一平衡解。回执含五 judge 联合读数表。main pushed。
+
+**r62s N4 repeat-sampling 分析完成**：16 对（原始 vs r1）输出长度对比，std Δ = 13.4%，max |Δ| = 27.9%。temp=0.7 下同一 prompt 重复采样，模型输出长度波动 ~13%（标准差）。这是 R5 方差控制的噪声底——judge 分数差异低于这个幅度不能归因于配置差异，是模型自身非确定性。receipt-n4-repeat-sampling.json 已落盘。main @ 1d3d1b8。
 
 **r62q v4 重跑确认**：v4 重新 sweep（36/36，0 failed），数值不变，sham gap +0.087（FAILED）确认。recheck backfill 完成（6 judges：J1/J2 × recheck-1/2/3）。至此 v2/v3/v4/v7/v8/v9/v10/v11 八个 judge 做了独立重跑验证。v5 重跑已启动在后台。main @ 27f10ff。
 
