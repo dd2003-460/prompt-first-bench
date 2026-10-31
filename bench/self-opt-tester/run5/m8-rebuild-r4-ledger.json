@@ -1,0 +1,232 @@
+{
+  "kind": "m8-per-step-ledger-rebuild",
+  "goal": "RV3G3cdx-m8-rebuild-r4",
+  "round": "r63",
+  "date": "2026-10-31",
+  "purpose": "从 r4 三 run 的原始账本（execution-log / loop-state / gate-evidence）机械重建 per-step「一次通过」账本，补全 (M3, M8) n=4 配对。run5 值引 m8-m3-correlation-r62m.md §1（receipt-r52-local.json 机判提取）。",
+  "method": {
+    "unit": "验证点 = 该 run 账本中声称完成的步骤（每步挂 ≥1 不可伪造锚点，即 M7 gate 单元）",
+    "first_pass_rule": "首次执行即达 status=done/success/ok/pass 且无修改重跑记录 → pass；degraded/partial/n-a 或存在修正后重做痕迹 → fail（严格口径，与 r62m run5 同口径）",
+    "evidence_sources": [
+      "WS projects/AI-计算科学/D1-efficiency-optimization/tasks/self-optimization-tester/loop-artifacts/stages/04.5/r3/run1/{execution-log.md,loop-state-r1.json}",
+      "WS .../r3/run2/loop-state.json (steps A1-A7)",
+      "WS .../r3/run3/loop-state.json (steps S1-S7) + execution-log.md",
+      "pfb bench/self-opt-tester/r5/evidence-packet-r4-v2.json (P4_breakpoints 状态复核)",
+      "pfb bench/self-opt-tester/run5/receipt-r52-local.json (run5, 经 m8-m3-correlation-r62m.md §1)"
+    ],
+    "caveat": "r4 三 run 账本非结构化 per-step 一次通过账本，本文件为机械重建值，标 unverified-inferred（队列登记边界）；run5 为 receipt 结构化一手提取"
+  },
+  "runs": {
+    "run1": {
+      "channel": "local Lead 全链路重走+锚点+账本",
+      "source": "loop-state-r1.json chain_steps（9 步 S0-S8）+ execution-log.md 降级记录",
+      "steps": [
+        {
+          "step": "S1_find_target",
+          "status": "done",
+          "first_pass": true,
+          "note": "create_goal 回执原文"
+        },
+        {
+          "step": "S2_find_arena_channel",
+          "status": "degraded",
+          "first_pass": false,
+          "note": "subagent 无 ego-browser，conf-0.2 降级——首次即降级，非改后过，严格口径计未通过"
+        },
+        {
+          "step": "S3_connect_repo",
+          "status": "done",
+          "first_pass": true,
+          "note": "ls-remote verified"
+        },
+        {
+          "step": "S4_run_loop_01_04_5",
+          "status": "done",
+          "first_pass": true,
+          "note": "degraded channel 但工件完整，判定一次做出"
+        },
+        {
+          "step": "S5_cross_validate",
+          "status": "degraded-partial",
+          "first_pass": false,
+          "note": "外部 LLM 不可达，本地双源替代"
+        },
+        {
+          "step": "S6_vuln_iteration",
+          "status": "done",
+          "first_pass": true,
+          "note": "V1-V5 conf 0.75 一轮完成"
+        },
+        {
+          "step": "S7_bench",
+          "status": "done",
+          "first_pass": true,
+          "note": "M1-M6 分行落盘"
+        },
+        {
+          "step": "S8_publish",
+          "status": "done",
+          "first_pass": true,
+          "note": "push 52f7f5b ls-remote verified"
+        },
+        {
+          "step": "S9_new_goal",
+          "status": "degraded",
+          "first_pass": false,
+          "note": "create_goal subagent 环境不可用，规则文本存盘移交 Lead"
+        }
+      ],
+      "pass_strict": 6,
+      "total": 9,
+      "m8_strict_pct": 66.7,
+      "m3_score_r4_final": 90,
+      "m3_basis": "bench-r4.json final_scores（裁决后冻结分）"
+    },
+    "run2": {
+      "channel": "arena agent mode（会话 01a1699d，14m27s）+ Lead 侧编排",
+      "source": "run2/loop-state.json steps A1-A7（arena 侧逐步锚点账本）",
+      "steps": [
+        {
+          "step": "A1_断点A仓库可拉取",
+          "status": "ok",
+          "first_pass": true,
+          "note": "ls-remote main=d96f5dbe99ef; git fetch exit 0"
+        },
+        {
+          "step": "A2_断点B任务书完整",
+          "status": "ok",
+          "first_pass": true,
+          "note": "git blob 52d1e2ba85d4 (25行/1602B, 4节 grep exit 0)"
+        },
+        {
+          "step": "A3_规则负载工件实测",
+          "status": "ok",
+          "first_pass": true,
+          "note": "node count-tokens.js exit 0 → token-counts.txt"
+        },
+        {
+          "step": "A4_pilot_V0_V4对照",
+          "status": "ok",
+          "first_pass": true,
+          "note": "同上 (6.44×; 内嵌规则卡 997-1,324 o200k)"
+        },
+        {
+          "step": "A5_外部来源交叉",
+          "status": "degraded",
+          "first_pass": false,
+          "note": "ralph exit 127 + ego-browser exit 1 → arena 自带 web_search 替代（16+15 结果），如实记录"
+        },
+        {
+          "step": "A6_三文件落盘",
+          "status": "ok",
+          "first_pass": true,
+          "note": "01-decomp blob 372d8a55363c / 02-research blob c2a6e952bdab"
+        },
+        {
+          "step": "A7_断点C_commit_push",
+          "status": "ok",
+          "first_pass": true,
+          "note": "commit e35648458491; push exit 0 → 工作分支（arena 无 main 权限，断点 C 在 P4 记 degraded，属权限约束非重跑失败；严格口径对 A7 本身计 pass，权限降级已反映在 M3=86.7 的 -15% 扣分里，不重复计罚）"
+        }
+      ],
+      "pass_strict": 6,
+      "total": 7,
+      "m8_strict_pct": 85.7,
+      "m3_score_r4_final": 86.7,
+      "m3_basis": "bench-r4.json final_scores（断点 C 降级扣 15% 已含）"
+    },
+    "run3": {
+      "channel": "subagent bd8e9193 独立 session（无网络）",
+      "source": "run3/loop-state.json steps S1-S7 + execution-log.md",
+      "steps": [
+        {
+          "step": "S1_read_locate_lines",
+          "status": "success",
+          "first_pass": true,
+          "note": "sed -n '23,42p' exit 0; git HEAD 4ff2b1e"
+        },
+        {
+          "step": "S2_three_defects",
+          "status": "success",
+          "first_pass": true,
+          "note": "缺陷 1/2/3 锚定 L22+L39/L32/L27+L28，逐行 sed 复验 exit 0"
+        },
+        {
+          "step": "S3_write_review",
+          "status": "success",
+          "first_pass": true,
+          "note": "wc -c 5884→6338 bytes（S4 修正后追加，初稿一次落盘成功）"
+        },
+        {
+          "step": "S4_bench_md_check",
+          "status": "success",
+          "first_pass": false,
+          "note": "initial file missing hypothesis corrected on the spot——锚点原文自证首判错误当场修正，严格口径计未一次通过（诚实降级点，M6 记全标注）"
+        },
+        {
+          "step": "S5_verify_template_unmodified",
+          "status": "success",
+          "first_pass": true,
+          "note": "git status --short 空输出 exit 0"
+        },
+        {
+          "step": "S6_write_ledgers",
+          "status": "success",
+          "first_pass": true,
+          "note": "ls run3/ 三件齐备"
+        },
+        {
+          "step": "S7_bench_row_report",
+          "status": "success",
+          "first_pass": true,
+          "note": "send_message → session-1c44f689"
+        }
+      ],
+      "pass_strict": 6,
+      "total": 7,
+      "m8_strict_pct": 85.7,
+      "m3_score_r4_final": 85,
+      "m3_basis": "bench-r4.json final_scores（断点 A/B/C 不适用→本地落盘门禁 3/3 推定 0.85）"
+    },
+    "run5": {
+      "channel": "本地 :8787 qwen3.8-27b 单源（arena 不可用降级）",
+      "source": "receipt-r52-local.json 9 步清单，经 m8-m3-correlation-r62m.md §1 机械提取（机判命令见该文件 §1）",
+      "steps_note": "9 步：读 task-brief done / 确认 arena done-degraded / 分解 done / 文献调研 partial-unverified / 对照标准 partial-unverified / M8 打分表 done / M1-M8 自评 done / 回执 done / commit+push pending-this-commit",
+      "pass_strict": 5,
+      "total": 9,
+      "m8_strict_pct": 55.6,
+      "m3_score_inferred": 85,
+      "m3_basis": "inferred——按 r4 先例类比赋值（A pass + B 降级 + C 补收 pass，参照 r4 run2 同型 86.7），run5 任务书未要求打 M3 分，标 inferred 非一手实测"
+    }
+  },
+  "pairs": [
+    {
+      "run": "run1",
+      "m3": 90,
+      "m8": 66.7,
+      "m3_status": "measured-r4-final",
+      "m8_status": "unverified-inferred(rebuilt)"
+    },
+    {
+      "run": "run2",
+      "m3": 86.7,
+      "m8": 85.7,
+      "m3_status": "measured-r4-final",
+      "m8_status": "unverified-inferred(rebuilt)"
+    },
+    {
+      "run": "run3",
+      "m3": 85,
+      "m8": 85.7,
+      "m3_status": "measured-r4-final",
+      "m8_status": "unverified-inferred(rebuilt)"
+    },
+    {
+      "run": "run5",
+      "m3": 85,
+      "m8": 55.6,
+      "m3_status": "inferred(r4先例类比)",
+      "m8_status": "measured-receipt(严格口径)"
+    }
+  ]
+}
