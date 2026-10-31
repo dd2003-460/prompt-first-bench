@@ -23,7 +23,7 @@
 ## 下一步（按优先级）
 
 0. ~~P0 · opportunity-set-freeze 定稿~~ → **已关闭（r62z 裁定 + r64 成璐二次确认 + r73 判读层收口）**：协议定稿、机械层+Lead 盲法联合判读全部落盘，无剩余动作
-1. **P1 · C3 v3 R4 全因子 runs 补跑**（G1a/G1b 校准双 PARTIAL-PASS，开跑许可条件性授予中）：判读绑定 J1 严格版 + J1/J2 双口径并报 + 分歧工件自动进人工仲裁队列。先查 runs-r4/ 各 config×seed×domain 进度（matrix-v11-n4.md 为最新矩阵），按序补缺（生成走 ninfer :8000/:8787 qwen3.8-27b）
+1. ~~P1 · C3 v3 R4 全因子 runs 补跑~~ → **r74c 核查完毕，无缺口**：runs-r4/ 36 cell（9 config × 2 domain × 2 seed）raw + J1v11 + J2v11 全覆盖，无需补跑。新增双口径分歧核查回执 `runs-r4/receipt-r4-dual-caliber-divergence-r74.json`：7/36 cell 有 J1v11 vs J2v11 条目级翻转（共 30 条），方向全部是 J2 宽松多放行（与 G1a F1「宽松口径无敏感度」一致），5/7 集中在 D1-meeting-room。**残留动作**：这 7 个 cell 按解锁规则进人工仲裁队列（Lead 逐条裁定 flip_ids，可批量做，~1 轮）；主判读维持绑定 J1v11 严格版 + J2v11 并报不变
 2. **P1 · G1b family_check 升级**（低成本可补项，非硬阻塞）：r74 已派发回收——arena 会话 01a19104 完成 5 份 blind 工件盲评，PR #36 merge 入 ralph/g1b-hetero-judge-dispatch（eb2a9a7），回执 `experiments/T8-matrix/runs/c3-v3/calibration/g1b/receipt-g1b-hetero-judge-r74.md`。阳性对照 X5 被异源 judge 独立抓到（qwen J1/J2 均漏检）；κ 机械值 0.0 系天花板效应（pe→1）非分歧。**残留**：family_check=unknown（arena 不披露底层模型名）→ 家族隔离 PARTIAL-CLOSED；用户给一个明确非 Qwen 的 API key 重打 5 份工件（~5 次调用，任务书模板 g1b/G1b-hetero-judge-task-brief.md 现成）即可 CLOSED
 3. **P1 · closure-gate-integration K4 O1-O4 裁定**（APPROVALS 卡人项）：等成璐裁定，无变化则跳过
 4. **P2 · web-llm 三 provider 人工登录**（D1-gpu cross_validation_out 门禁依赖）：需用户在浏览器一次性登录，无变化则跳过
