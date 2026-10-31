@@ -6,6 +6,14 @@
 
 **r62z2 rare-token-scan 消歧补记**：8×3 是矩阵维度不是硬件数（成璐发现）。main @ 0d8a985。
 
+## r64 播报回执（2026-10-31，成璐微信 5 问 + P0 二次确认）
+
+① **泄题检测**：你的「主数字+罕见随机 token」思路已落地为 `bench/rubric-v3/ablation/scripts/rare-token-scan.json`——从 gold-tree 抽具体数值 token（8.00x、594、1034 这类），排除题面已有的，扫全部 8 run 的 evidence。结果：唯一命中是 "3090"（RTX 3090 卡名，公开信息白名单），零真泄题。你发现的 8.00x vs 8×3 混淆已消歧落盘（r62z2/z3）：8×3 = hit-matrix 矩阵维度（8 run × 31 节点），不是硬件数；8.00x = N-2.1 duty_demand 弹性倍数（占空比变 1% → 总成本变 ~0.125%）。模型自搜的硬件集各 run 不同（7/6/2 种配置），无一致「8 种」。
+② **隔离**：查了 Hermes cron 源码——job 有 `workdir` 字段（只设 cwd，软约束非沙箱），现有 14 个 job 全是 None。没有原生沙箱。建议先 workdir 软约束，需要硬隔离再上 macOS sandbox-exec profile（没动，等你一句话）。
+③ **物理论文 subagent**：已派过 bh-mass-spectrum 任务 C（remnant_mf_pisn.py），跑了 2.5 小时耗尽迭代预算，只完成数据探索（每快照子晕行数验证），未写代码未提交。你随后说 pisn 取消了 → 核查全仓无书面取消记录，但旁证显示整条出图线 A/B/C 都卡在任务 D 后面从未启动。**不重派**，待你定：作废归档 or 维持现状。
+④ **cron/stophook 同会话**：Hermes cron 无原生 session-reuse 字段（每次 fire 新会话）。最接近的是 `context_from`（注入另一 job 的上次输出）和 `attach_to_session`（投递镜像进会话 transcript，默认关）。实用等价方案 = CONTINUE_MSG.md 外部记忆（cron 读→干→写回），已在用，零风险不动框架。stophook 天然共享 gateway 会话上下文。
+⑤ **P0 opportunity-set-freeze**：你「当然算分母了，考试不就是这样吗」= 保守空分母口径获直接背书。协议已补记（main @ 19f10fd），P0 彻底关闭。R5 执行 unblocked。
+
 ## 下一步（按优先级）
 
 0. **P0 · opportunity-set-freeze 定稿**（卡人项，等成璐一句话）：裁定两项——① 空分母口径：模型完全没提到的核验点算不算进分母（我默认保守=算，激进=不算，建议保守）② cover 门槛数值：质量提升允许覆盖率下降多少还认账（我暂写 -5%，无文献依据纯建议值；r60e 补充：当前域 cover 恒 1.0，门槛实际不会触发，需 harder task 才有意义）。机械层已落地（opportunity-sets-v1.json + cover 分析回执 r60 + J1v3 全量 sweep r60c），裁定后协议定稿 + 正式 Lead 盲法冻结流程生效，下一 run 起 M8 双报 (truth, cover)
