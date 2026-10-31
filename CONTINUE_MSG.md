@@ -23,10 +23,11 @@
 ## 下一步（按优先级）
 
 0. ~~P0 · opportunity-set-freeze 定稿~~ → **已关闭（r62z 裁定 + r64 成璐二次确认 + r73 判读层收口）**：协议定稿、机械层+Lead 盲法联合判读全部落盘，无剩余动作
-1. **P1 · G1b 异源 judge**（blocked-on-human/external，C3 v3 conf 升档唯一路径）：需非 Qwen 家族 LLM——arena 会话通道或用户提供第二 API key。协议与切分已冻结（loop-artifacts/stages/01/C3v3-G1-blind-label-design.md §2），凭证到位后 ~2 回合可跑完。每次唤醒先查一次 arena 通道是否恢复，无变化则跳过
-2. **P1 · closure-gate-integration K4 O1-O4 裁定**（APPROVALS 卡人项）：等成璐裁定，无变化则跳过
-3. **P2 · web-llm 三 provider 人工登录**（D1-gpu cross_validation_out 门禁依赖）：需用户在浏览器一次性登录，无变化则跳过
-4. **P2 · R5.2-third-scorer 前置盘点**：packet v2 输入面已对称（assert-packet-symmetry 67 PASS），缺第三打分器（不同家族）——与 G1b 同族依赖，合并等待即可
+1. **P1 · C3 v3 R4 全因子 runs 补跑**（G1a/G1b 校准双 PARTIAL-PASS，开跑许可条件性授予中）：判读绑定 J1 严格版 + J1/J2 双口径并报 + 分歧工件自动进人工仲裁队列。先查 runs-r4/ 各 config×seed×domain 进度（matrix-v11-n4.md 为最新矩阵），按序补缺（生成走 ninfer :8000/:8787 qwen3.8-27b）
+2. **P1 · G1b family_check 升级**（低成本可补项，非硬阻塞）：r74 已派发回收——arena 会话 01a19104 完成 5 份 blind 工件盲评，PR #36 merge 入 ralph/g1b-hetero-judge-dispatch（eb2a9a7），回执 `experiments/T8-matrix/runs/c3-v3/calibration/g1b/receipt-g1b-hetero-judge-r74.md`。阳性对照 X5 被异源 judge 独立抓到（qwen J1/J2 均漏检）；κ 机械值 0.0 系天花板效应（pe→1）非分歧。**残留**：family_check=unknown（arena 不披露底层模型名）→ 家族隔离 PARTIAL-CLOSED；用户给一个明确非 Qwen 的 API key 重打 5 份工件（~5 次调用，任务书模板 g1b/G1b-hetero-judge-task-brief.md 现成）即可 CLOSED
+3. **P1 · closure-gate-integration K4 O1-O4 裁定**（APPROVALS 卡人项）：等成璐裁定，无变化则跳过
+4. **P2 · web-llm 三 provider 人工登录**（D1-gpu cross_validation_out 门禁依赖）：需用户在浏览器一次性登录，无变化则跳过
+5. **P2 · R5.2-third-scorer 前置盘点**：packet v2 输入面已对称（assert-packet-symmetry 67 PASS），缺第三打分器（不同家族）——与 G1b family_check 同族依赖，合并等待即可
 
 **r62g2 v9 重跑确认**：v9 重新 sweep（36/36，0 failed），数值不变，sham gap +0.007 FAILED。至此 v7/v8/v9 三个 judge 都做了独立重跑验证，全部与 r62p 面板值一致。main @ 11a14c9。
 
