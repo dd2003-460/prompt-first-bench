@@ -2,6 +2,8 @@
 
 ## 当前状态 @ 2026-10-31（r60c）
 
+**r60k-l 分母收缩结论撤回 + 限定语收回**：r57 的「B-noevidence 分母收缩 -25.5%」结论被 r60 cover 分析否定——根因是范畴错误（judge 条目数 ≠ 模型覆盖机会数；冻结集口径下分母固定，不存在收缩）。已同步修正四处：① m8-denominator-analysis-r57.json 补 r60_correction 节 ② 冻结协议草案 L38 标注否定 ③ queue L78 标注 ④ matrix-v11.md r57 节限定语部分收回（evidence/owner 方向恢复为「方向性证据」，不再带「未分离」限定语；freeze 负效应三 judge 下均 rank 1/9 最稳健）。main pushed。
+
 **r60e 联合读数收口**：9 config × 4 口径（truth-v11 / cover / J1v2 / J1v3）全表落盘。关键发现：cover 在所有 9 个 config 下恒为 1.000（零方差）——冻结机会集对当前 D1/D2 域过宽松，每个 run 都覆盖了全部核验点，cover 维度没有区分力。含义：M8 双报 (truth, cover) 协议机械层就绪但经验上 vacuous，cover 门槛只在 cover<1.0 时激活，需要比当前 D1/D2 更难的任务才能触发。回执已更新。
 
 **r60c J1v3 全量 sweep 收口（36/36, 0 failed）**：后台进程跑完 J1-strict-v3（anti-template rule）对 R4 全部 9 config × 2 domain × 2 seed 的判分。结论与 r41 单点验证一致并量化坐实：① anti-template rule 成功把 sham 从 A-full 附近拉开（v3 gap -0.477 vs v2 gap +0.045），核心验证目标达成；② 但对 local-reasoning 域过度触发——75% run 被标 template_suspect（含 1/4 A-full），3 个非 sham config 归零，区分度退化（v2 有 9 级 → v3 只有 5 级且 0.000 三方并列）；③ 根因确认：本实验模型无联网工具，「零外部证据」条件对所有工件恒真，judge 把结构差异当模板信号——这正是 r41 诊断、v4 起改 anti-spin 的原因；④ B-nofreeze 在三个 judge（v11/v2/v3）下都是 rank 1/9 或并列最低——freeze 负效应是整个 C3 v3 矩阵里最稳健的发现；⑤ B-noevidence 反转是 judge-dependent 的（v11 最高 0.906 → v3 跌到 0.219 rank 6），不是 config 的稳定属性。回执 receipt-j1v3-sweep-analysis.json。main pushed。
