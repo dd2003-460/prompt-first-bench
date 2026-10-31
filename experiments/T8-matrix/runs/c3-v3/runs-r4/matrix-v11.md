@@ -33,6 +33,13 @@
 - 4 关键配置 × n=4 重采样：**配置间排序单调保持**（A-full > B-noevidence > B-none > B-sham，echo 与 pass 双口径同序），r49 "方差主导一切"修正为"方差大但均值差仍可测"。
 - **B-noevidence 反超 A-full 坐实为 n=2 采样噪声**（n=4 下 0.744 < 0.795）。观察 1 的置信度从"低-中"回升至"中"，结论方向不变（非组件效应）。
 
+## r57 机会集冻结协议消费（T8-C3-v3-opportunity-set-freeze）
+
+- arena 对抗回执 blocking fix #3 落地为草案：`design/opportunity-set-freeze-protocol-draft-r57.md`（定义主体=Lead 盲法前置 / 空分母保守口径默认 / truth-cover 联合门槛 / 新旧 M8 口径版本化）。
+- **R4 限定语回填（本轮生效）**：evidence/owner 方向的 M8 比较（B-noevidence 0.744、B-noowner 0.767 vs A-full 0.813，M8-r4-variable 口径）——在分母收缩 -25.5%（B-noevidence 8.38 条 vs A-full 11.25 条核验条目）下**无法分离质量效应与数量效应**，置信度降档为"未分离的方向性证据"。freeze 负效应（B-nofreeze 0.469 全场最低 + 分母居中 9.00）**不受影响，结论稳健**。
+- 三层口径不一致坐实：judge 条目（6-30/run）≠ 题面机械可提取机会（5-8/seed）≠ 成文冻结集（无）。事后重建只能给下界 → R4 不复算，新口径从下一 run 起生效。
+- 待裁定：空分母保守/激进口径 + cover 门槛 -0.05 数值（草案 §四，不代裁）。
+
 ## r55 数据完整性修订
 
 - **发现**：一个旧 rerun 进程（runner v1 bug：首次 pass 丢失 output 字段）覆盖了 A-full/D1 的 seeda/seedb 原始 run，且覆盖后未重新判官——旧判官分（seeda 10/10 echo 0.125 / seedb 3/10 echo 0.30）对应的是已不存在的旧 output。
