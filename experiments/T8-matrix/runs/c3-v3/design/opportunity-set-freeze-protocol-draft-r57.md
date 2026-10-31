@@ -56,7 +56,7 @@ time_range:         \d{4}\s*(/\s*\d{4})?
 
 1. 成璐裁定：保守/激进空分母口径 + 联合门槛数值（-0.05 是否合适）。
 2. Lead 对 4 seed 产出正式 opportunity-set 文件（机械 + 人工补全），commit 冻结。
-3. 下一个 run（C3 v3 确认性轮或 R5）按新口径执行；M8 双报 (truth, cover)。
+3. 下一个 run 按新口径执行；M8 双报 (truth, cover)。~~R5 已跑完但用的是旧口径~~ → r60e 注记：当前域 cover 恒 1.0，双报机制就绪但 vacuous，需 harder task 激活。
 4. matrix 模板加口径列；assert 脚本加"无后缀 M8 引用"检查。
 
 ## 边界登记
