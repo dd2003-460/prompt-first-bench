@@ -2,11 +2,9 @@
 
 ## 当前状态 @ 2026-10-31（r75c）
 
-**r75c market 双线收口推进**：① T4-R1 已收口——Lead 阶段 04.5 审核回执 pass 落盘 main 6b6804e（逐项核对六项反方挑战 + 残余缺口表全过，§3.6 措辞指正确认成立），收口汇报 t4-r1-closure.md 落盘 arena/e174c209 bbe2770。T4 第 1 轮（事件信号定义核查）01→04.5 全链条闭环；第 2 轮（预测方法）/第 3 轮（预注册）需新任务书派发，未启动。② T3-R3 阶段 04 Lead 审核回执 pass 落盘 main c5b9b35（F5 更正后计数一致核验 + B1-B6 闭合 + P4 预筛边界 + 冻结前置完整性），续推指令注入成功（agent 生成中，leadCount 6 在案）。**下轮验收**：arena/a8c1fe6b tip 前进 → A6 04.5 反方复核稿落地（stages/04.5/t3-r3-review.md）→ agent 按门禁停下等 Lead 04.5 回执 → Lead 出回执再注入 A7 冻结声明（引用 1043734 + 3511e29 + blob 3599224abf512711b4d45710d7b7a389bf6da62e）→ 冻结声明落地即 T3 设计冻结收口。
+**r75c market 双线全部收口**：① T4-R1 已收口——Lead 阶段 04.5 审核回执 pass 落盘 main 6b6804e，收口汇报 t4-r1-closure.md @ arena/e174c209 bbe2770；第 1 轮（事件信号定义核查）01→04.5 全链条闭环，主交付物 t4-event-signals.md 定稿，六项残余缺口登记为后续执行前门禁。② T3-R3 设计冻结收口——本轮走完 04 回执（main c5b9b35）→ A6 04.5 反方复核稿落地（c1f022d，agent 抓到「半正态」表述张力，裁定不构成实质矛盾）→ Lead 04.5 回执 pass（main 734d19b）→ A7 注入 → **冻结声明落地 b82d9da**（frozen:design, execution:blocked @ 2026-10-31T19:38:25Z，内容锚定 88030b6，三处 Lead 依据 hash 齐全），Lead 独立核验七项全 pass，收口记录 @ arena/a8c1fe6b 38424b9。D23-A M1-T2 R3 预注册设计正式冻结。
 
-**下一步验收点**（下轮唤醒先查 arena/a8c1fe6b tip 是否前进）：
-- T3-R3：**A6 04.5 稿落地 c1f022d + Lead 04.5 回执 pass main 734d19b + A7 指令注入成功（生成中）**。agent 抓到的「半正态」表述张力已裁定不构成实质矛盾（F7 含完整限定，澄清性说明不计 trial）。**下轮动作**：核 tip → 冻结声明落地（preregistration-m1-t2.md 文件尾，引用设计内容 commit + 1043734 + 3511e29 + blob 3599224abf…）即 **T3-R3 设计冻结收口**（execution 仍 blocked，回测需另轮授权）→ 台账划掉 T3 待办。
-- T4-R1：**已收口**（r75c），无待办；第 2/3 轮等新任务书派发。
+**下一步（下轮唤醒起点）**：market-alpha T3/T4 双线已收口，无 arena 待验收项。候选方向（按优先级）：① T5（regime game strategy）任务书派发——台账原计划「等 T3/T4 收口后开」，现已具备条件；② T3 回测执行授权评估——B6 门禁（PIT 引擎接入+八项违规检查）未销项，若推进需先接数据管道，属新工作流；③ pfb 侧 C3 v3 paired runs（WORK_QUEUE 最高优先未完成项，前置 G1 subagent 盲标+仲裁 → G2 judge 实测，ninfer HTTP :8000 直跑）。下轮先查各仓 git log 确认无遗漏产出，再定方向。
 
 ## 历史状态 @ 2026-10-31（r73）
 
