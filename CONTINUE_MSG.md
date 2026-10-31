@@ -6,6 +6,8 @@
 
 **r62c J1v5 全量 sweep 收口（36/36, 0 failed）**：J1-strict-v5（计划/发现区分条款）跑完。结论与 r41 一致——过度修正：全场归零（A-full 仅 0.053，7 个 config 直接 0.000），freeze 负效应被噪声淹没（B-nofreeze 跌到 rank 6/9）。五 judge 面板（v11/v2/v3/v4/v5）现在完整：v11/v2 可用，v3 能分 sham 但误杀 75%，v4 sham 失守，v5 全场归零。迭代终点 v11 特异性指纹是唯一平衡解。回执含五 judge 联合读数表。main pushed。
 
+**r62p 十 judge 面板完整分析**：从磁盘解析全部 10 个 judge 版本（v2-v11）× 36 run = 360 判分。Sham 分离 5/10 成功（v3/v7/v11/v10/v6），freeze 负效应 7/10 确认。v11 仍是推荐主判，v7 是候选副判（sham gap -0.250 更强但需查误杀率）。matrix-10judge.md + receipt-10judge-panel-consolidated.json 落盘。main @ 197cb89。
+
 **r62n J1v6 sweep + 六 judge 面板**：J1v6 (prepared-plan exception) 36/36 判完。A-full 0.810（修复 v5 过度修正），B-nofreeze rank 1/9（freeze 负效应 5/5 judges 确认），sham 分离 PARTIAL（mean gap -0.141 但 cell 级不一致）。六 judge 面板合并回执 receipt-6judge-panel-consolidated.json + matrix-6judge.md 落盘。v11 仍是唯一干净 sham 分离方案。main @ 57fd652。
 
 **r62k 协议执行计划状态标注**：opportunity-set-freeze-protocol-draft-r57.md §四 四项逐条标状态——item2（opportunity-sets-v1.json）DONE r60；item4（matrix 口径列 + assert-m8-no-suffix.py）DONE r62g；item1（成璐裁定空分母口径 + cover 门槛）BLOCKED ON USER；item3（下一 run 新口径）BLOCKED ON USER（依赖 item1）。main @ 4211ab6。
