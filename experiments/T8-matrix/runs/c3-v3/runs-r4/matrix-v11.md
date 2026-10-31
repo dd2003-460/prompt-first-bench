@@ -17,7 +17,7 @@
 
 ## 观察
 
-1. **B-noevidence=0.906 异常**：删证据组件反升 15pt。人工过 4 个原始输出：证据并未缺失（具体数值/厂商/正交分解都在），模型自发写出。假设：判官 specificity/echo 审计对'自然具体'比对'被逼具体'更宽容（待 A-full vs B-noevidence 的 density/echo_ratio 对比坐实）。
+1. **B-noevidence=0.906 异常 — 已定位机制（2026-10-31 二次分析）**：人工过 4 个原始输出确认证据并未缺失（具体数值/厂商/正交分解都在，模型自发写出）。对比 density/echo 字段后发现真正原因：A-full 的 D1/seedb 单点塌方（pass 3/10, echo_ratio=0.3, method_echo=0.19, density=0.28 均为四 cell 最差），把 A-full 均值从 ~0.9 拖到 0.75；B-noevidence 四 cell echo 全部 ≤0.16 无塌方。**结论：非组件优劣，是 A-full 单点方差**。置信度中（仅 1 cell 异常，未排除随机波动）。
 2. **B-none(0.678) > B-sham(0.542)**：v11 能区分真空组件与假消融；sham 触发 floor+evidence_floor（识别出引用不存在的冻结记录）。完整矩阵复现 v11 关键改进。
 3. **B-noowner≈A-full**（0.767 vs 0.750）：owner 组件在两个任务域无可测贡献，或 rubric 10 项无直接考 owner 行为的题项。
 4. B-nofreeze=0.494 最低：冻结件仍是最大单组件贡献（-35%），与 v11 部分验证一致。
