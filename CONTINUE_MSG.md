@@ -1,6 +1,12 @@
 # CONTINUE_MSG — pfb 工作区
 
-## 当前状态 @ 2026-10-31（r63）
+## 当前状态 @ 2026-10-31（r73）
+
+**r73 M8 联合判读 Lead 盲法核验收口（上轮 P1「M8 Lead 盲法判读」项，已核销）**：R4 receipt next_actions 里最后一个非 blocked 可执行项。做法：判读前冻结判定规则 v1（精确匹配 + 注册语义等价表三组：备选/淘汰理由/预算表述变体），然后对 9 config × 4 run = 36 个工件独立重算冻结机会集覆盖（只看 run_key 编号不见配置名，聚合到配置层才揭名）。结果：36/36 run cover=1.000，与 r60 事后诊断回执交叉一致；语义等价救援 45 处命中全量留痕审计，跨配置均匀分布无独占；纯精确匹配敏感性检查下各配置差异 ≤0.05 排序不变。联合判读（M8-frozen-v1 口径首次正式产出）：B-nofreeze FAIL Δtruth=-0.350 全场最低（freeze 负效应最稳健）/ B-noevidence PASS +0.156 / B-noowner PASS +0.017 边际 / 其余单删双删 FAIL。盲法强度降级如实登记（本会话见过 r60 结论，价值在规则先行+全量重算+逐条留痕，严格盲法需第二人）。落盘 runs-r4/receipt-r4-lead-blind-joint-readout.json + goal-queue L78 补记。main @ r73 两 commit pushed。
+
+**opportunity-set-freeze goal 至此机械层+判读层全闭环**，剩余未决仅 G1b 异源 judge（blocked-on-human，另立 goal T8-C3-v3-G1b-hetero-judge）。
+
+## 历史状态 @ 2026-10-31（r63）
 
 **r63 m8-rebuild-r4 收口（上轮 P0 唯一不 blocked 可执行项，已核销）**：从 r4 三 run 的原始账本（run1 loop-state-r1.json chain_steps 9 步 / run2 A1-A7 / run3 S1-S7）机械重建 per-step「一次通过」严格口径账本——run1 6/9=66.7、run2 6/7=85.7、run3 6/7=85.7（unverified-inferred，队列登记边界兑现），加 run5 5/9=55.6（receipt 一手）成 n=4 配对。**Pearson r(M3,M8)=−0.121 / Spearman ρ=+0.150**——m8-proposal 预判 |r|∈[0.7,0.9] 未证实。比数值更有信息量的是负相关驱动机制：M8 把环境/通道降级（arena 不可用、外部 LLM 不可达）计进分母而 M3 不计，两个低 M8 的 run（run1/run5）全部由环境降级贡献、无一是生成质量失败 → 维持「并入 M3 作诊断子维度」结论，论点从『强共线稀释权重』修正为『口径不对称导致的环境噪声污染』；|r|=0.12<0.7 不触发调权压缩。落盘 m8-rebuild-r4-ledger.json + m8-m3-correlation-n4-r63.json + m8-proposal.md 回填段。main @ 39775e3 pushed。
 
@@ -16,9 +22,11 @@
 
 ## 下一步（按优先级）
 
-0. **P0 · opportunity-set-freeze 定稿**（卡人项，等成璐一句话）：裁定两项——① 空分母口径：模型完全没提到的核验点算不算进分母（我默认保守=算，激进=不算，建议保守）② cover 门槛数值：质量提升允许覆盖率下降多少还认账（我暂写 -5%，无文献依据纯建议值；r60e 补充：当前域 cover 恒 1.0，门槛实际不会触发，需 harder task 才有意义）。机械层已落地（opportunity-sets-v1.json + cover 分析回执 r60 + J1v3 全量 sweep r60c），裁定后协议定稿 + 正式 Lead 盲法冻结流程生效，下一 run 起 M8 双报 (truth, cover)
-1. **P1 · 复查四外部阻塞项是否有变化**：① G1b 异源 judge（arena 通道/第二 LLM 凭证）② closure-gate-integration K4 O1-O4 裁定（APPROVALS）③ web-llm 三 provider 人工登录 ④ M8 Lead 盲法判读。无变化则跳过
-2. **P2 · R5.2-third-scorer 前置盘点**：packet v2 输入面已对称（assert-packet-symmetry 67 PASS），缺第三打分器（不同家族）——与 G1b 同族依赖，合并等待即可
+0. ~~P0 · opportunity-set-freeze 定稿~~ → **已关闭（r62z 裁定 + r64 成璐二次确认 + r73 判读层收口）**：协议定稿、机械层+Lead 盲法联合判读全部落盘，无剩余动作
+1. **P1 · G1b 异源 judge**（blocked-on-human/external，C3 v3 conf 升档唯一路径）：需非 Qwen 家族 LLM——arena 会话通道或用户提供第二 API key。协议与切分已冻结（loop-artifacts/stages/01/C3v3-G1-blind-label-design.md §2），凭证到位后 ~2 回合可跑完。每次唤醒先查一次 arena 通道是否恢复，无变化则跳过
+2. **P1 · closure-gate-integration K4 O1-O4 裁定**（APPROVALS 卡人项）：等成璐裁定，无变化则跳过
+3. **P2 · web-llm 三 provider 人工登录**（D1-gpu cross_validation_out 门禁依赖）：需用户在浏览器一次性登录，无变化则跳过
+4. **P2 · R5.2-third-scorer 前置盘点**：packet v2 输入面已对称（assert-packet-symmetry 67 PASS），缺第三打分器（不同家族）——与 G1b 同族依赖，合并等待即可
 
 **r62g2 v9 重跑确认**：v9 重新 sweep（36/36，0 failed），数值不变，sham gap +0.007 FAILED。至此 v7/v8/v9 三个 judge 都做了独立重跑验证，全部与 r62p 面板值一致。main @ 11a14c9。
 
