@@ -35,6 +35,7 @@
 3. **P1 · closure-gate-integration K4 O1-O4 裁定**（APPROVALS 卡人项）：等成璐裁定，无变化则跳过
 4. **P2 · web-llm 三 provider 人工登录**（D1-gpu cross_validation_out 门禁依赖）：需用户在浏览器一次性登录，无变化则跳过
 5. **P2 · R5.2-third-scorer 前置盘点**：packet v2 输入面已对称（assert-packet-symmetry 67 PASS），缺第三打分器（不同家族）——与 G1b family_check 同族依赖，合并等待即可
+6. ~~P2 · survey 原文回填~~ → **r48+r76 收口**：308 行原文 c241a8f 已回填；r76 来源链接审计 34/34 全有效零失效（`tasks/receipts/lit-survey-url-audit-r76.md`，main `69a14dd`），交付路径对齐裁定 = literature-survey.md 为权威。
 
 **r62g2 v9 重跑确认**：v9 重新 sweep（36/36，0 failed），数值不变，sham gap +0.007 FAILED。至此 v7/v8/v9 三个 judge 都做了独立重跑验证，全部与 r62p 面板值一致。main @ 11a14c9。
 
