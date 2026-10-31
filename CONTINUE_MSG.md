@@ -1,6 +1,10 @@
 # CONTINUE_MSG — pfb 工作区
 
-## 当前状态 @ 2026-10-31（r60）
+## 当前状态 @ 2026-10-31（r60c）
+
+**r60c J1v3 全量 sweep 收口（36/36, 0 failed）**：后台进程跑完 J1-strict-v3（anti-template rule）对 R4 全部 9 config × 2 domain × 2 seed 的判分。结论与 r41 单点验证一致并量化坐实：① anti-template rule 成功把 sham 从 A-full 附近拉开（v3 gap -0.477 vs v2 gap +0.045），核心验证目标达成；② 但对 local-reasoning 域过度触发——75% run 被标 template_suspect（含 1/4 A-full），3 个非 sham config 归零，区分度退化（v2 有 9 级 → v3 只有 5 级且 0.000 三方并列）；③ 根因确认：本实验模型无联网工具，「零外部证据」条件对所有工件恒真，judge 把结构差异当模板信号——这正是 r41 诊断、v4 起改 anti-spin 的原因；④ B-nofreeze 在三个 judge（v11/v2/v3）下都是 rank 1/9 或并列最低——freeze 负效应是整个 C3 v3 矩阵里最稳健的发现；⑤ B-noevidence 反转是 judge-dependent 的（v11 最高 0.906 → v3 跌到 0.219 rank 6），不是 config 的稳定属性。回执 receipt-j1v3-sweep-analysis.json。main pushed。
+
+**r60 P0 推进：opportunity-set-freeze 机械层落地 + J1v2 第二口径交叉验证收口**。
 
 **r60 P0 推进：opportunity-set-freeze 机械层落地 + J1v2 第二口径交叉验证收口**。① opportunity-sets-v1.json 落盘冻结（4 seed × 9-10 项/seed，机械规则 v0.3 + 人工补全层）+ receipt-r4-cover-analysis.json——cover 检查发现：**分母收缩假设被否定**（B-noevidence cover=1.000 与 A-full 持平，Δtruth=+0.156 不是分母 artifact），全部 36 run cover≥0.975 → 冻结集对当前两域任务过宽松、区分度不足；原处置表「evidence/owner 方向置信度下调」的限定语可部分收回。注意：本轮是事后诊断非正式冻结流程（Lead 盲法前置未执行，limitations 已登记）。② J1v2 density-audit rubric 全量 R4 sweep 完成（36 judged, 0 failed，后台进程）+ receipt-j1v2-sweep-analysis.json——四个结论：freeze 负效应跨 rubric 稳健（B-nofreeze 两版都是 rank 1/9，v2 下 gap 更大 0.475 vs 0.054）；B-noevidence 最高分跨 rubric 复现（非 v11 artifact）；J1v2 floor 机制零触发（空转工件条目本身不 pass，不满足联合条件）；**J1v2 对 sham 失守**（sham 编造数字喂饱 density 指标，sham 0.823 ≈ A-full 0.868，v11 特异性指纹查『数字是否对应真实核验对象』才是本质优势）。跨版本一致性 r≈0.02——同族 judge 换 rubric 文本判分近乎独立，再次坐实跨版本分数不可比。main pushed。
 

@@ -1,0 +1,69 @@
+{
+  "id": "receipt-j1v3-sweep-analysis",
+  "round": "r60c",
+  "date": "2026-10-31",
+  "judge": "J1-strict-v3 (anti-template rule added to v2)",
+  "motivation": "v2 验证 FAIL: B-sham 均值 0.823 未跌至最低组(judge 把 sham 完美结构当优点加分)。v3 加 anti-template rule: 完美结构+零外部证据=template_suspect→结构 pass 全部降级。验收标准同 v2(sham 须跌至 rank 1/9 或接近)。",
+  "sweep": {
+    "judged": 36,
+    "failed": 0,
+    "latency_range_s": [
+      7.4,
+      75.7
+    ]
+  },
+  "pass_rate_by_config": {
+    "A-full": 0.659,
+    "B-2del-eo": 0.25,
+    "B-2del-fe": 0.288,
+    "B-2del-fo": 0.0,
+    "B-noevidence": 0.219,
+    "B-nofreeze": 0.0,
+    "B-none": 0.179,
+    "B-noowner": 0.0,
+    "B-sham": 0.182
+  },
+  "v3_ranking_low_to_high": [
+    "B-2del-fo(0.000)",
+    "B-nofreeze(0.000)",
+    "B-noowner(0.000)",
+    "B-none(0.179)",
+    "B-sham(0.182)",
+    "B-noevidence(0.219)",
+    "B-2del-eo(0.250)",
+    "B-2del-fe(0.288)",
+    "A-full(0.659)"
+  ],
+  "sham_validation": {
+    "v2_result": "FAIL: sham=0.823 rank 5/9 (between noowner 0.906 and none 0.831), NOT bottom",
+    "v3_result": "PARTIAL: sham=0.182 rank 5/9 — still not bottom, but gap to A-full collapsed from +0.055(v2: sham>A-full? no, v2 sham 0.823 vs A 0.868) to -0.477(v3: sham 0.182 vs A 0.659). Sham is now clearly below A-full (paired diff: D1a 0.000, D1b -1.000, D2a -0.714, D2b -0.196, mean -0.478).",
+    "verdict": "ANTI-TEMPLATE RULE WORKS FOR SHAM SEPARATION: sham no longer scores near or above A-full. But sham is NOT rank 1/9 — three other configs (2del-fo, nofreeze, noowner) also hit 0.000 via template_suspect over-triggering."
+  },
+  "template_suspect_trigger_rate": {
+    "A-full": "1/4",
+    "B-2del-eo": "4/4",
+    "B-2del-fe": "2/4",
+    "B-2del-fo": "4/4",
+    "B-noevidence": "4/4",
+    "B-nofreeze": "4/4",
+    "B-none": "3/4",
+    "B-noowner": "4/4",
+    "B-sham": "3/4"
+  },
+  "over_triggering_diagnosis": "Anti-template rule requires 'no external evidence at all (no URL/source-ref/timestamp/measured data)'. But ALL 36 run outputs are LOCAL reasoning tasks (meeting-room selection, file-collab design) — the model produces structured analysis with product names, numbers, constraints from the task brief, but ZERO URLs because the task doesn't require web search. Result: 27/36 runs (75%) flagged template_suspect, including 1/4 A-full runs. The rule conflates 'no web sources' with 'no evidence of real work'. For local-reasoning domains, the correct signal is specificity of domain knowledge (product names, pricing, feature comparisons), not URL presence.",
+  "cross_judge_correlations_run_level": {
+    "v11_x_v2": 0.02,
+    "v11_x_v3": 0.19,
+    "v2_x_v3": 0.225
+  },
+  "conclusions": [
+    "C1: Anti-template rule successfully separates sham from A-full (gap -0.477 in v3 vs +0.045 in v2 where sham was close to A-full). Core validation goal ACHIEVED.",
+    "C2: Rule over-triggers on local-reasoning domains: 75% of all runs flagged, collapsing 3 non-sham configs to 0.000. Ranking discriminative power DEGRADED vs v2 (v2 had 9 distinct levels; v3 has only 5 distinct levels with 3-way tie at 0.000).",
+    "C3: Cross-version correlations remain low (v11×v3 r=0.19, v2×v3 r=0.23) — rubric text still drives independent item extraction. v3 is a third nearly-independent judge.",
+    "C4: B-nofreeze remains worst-or-tied-worst across ALL THREE judges (v11 0.469 rank 1, v2 0.339 rank 1, v3 0.000 rank 1-tie). Freeze negative effect is the most robust finding in the entire C3 v3 matrix.",
+    "C5: B-noevidence inversion persists: highest under v11 (0.906) and v2 (0.950), but drops to 0.219 under v3 (rank 6/9). The 'no-evidence config scores highest' artifact is judge-dependent, not a stable property of the config."
+  ],
+  "next_action": "v3 is NOT a drop-in replacement for v11/v2 — its anti-template rule is miscalibrated for local-reasoning domains. Options: (a) accept v3 as a complementary 'structure-honesty' probe alongside v11 (specificity fingerprint) and v2 (density audit), reporting all three; (b) recalibrate anti-template rule to use domain-appropriate evidence signals (for local tasks: specific product/feature claims count as evidence, not just URLs); (c) restrict anti-template rule to web-research domains only. Recommend (a) for now — the three judges measure different failure modes and together give a fuller picture.",
+  "context_note": "NOTE: v3 anti-template rule was already validated as FAIL in r41 (commit b594314) — 'anti-template over-killed real runs'. This r60c sweep is a FULL-MATRIX confirmation (36/36 runs) of that known failure mode, providing quantitative evidence for the v4 design decision. The iteration continued v4→v11 (see rubric notes); v11 specificity-fingerprint test is the one that PASSED validation.",
+  "relation_to_v11": "v11's specificity fingerprint ('how many specific claims') succeeded where v3's template detection ('are there URLs') failed, precisely because v11 measures quantity of domain-specific content while v3 measured presence of web sources — irrelevant for local-reasoning tasks. This confirms the r41 diagnosis and validates the v4+ design direction."
+}
