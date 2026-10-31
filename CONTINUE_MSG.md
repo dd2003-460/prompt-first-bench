@@ -5,8 +5,8 @@
 **r75 G1b merge + R4 仲裁收口 + market 双线续推**：① pfb：ralph/g1b-hetero-judge-dispatch 分支（G1b 异源 judge 回收 + R4 双口径分歧核查，main..branch 7 commit）merge 回 main——上轮 merge 动作实际未落盘（本地 main 停在 d2af5b4），本轮补做；R4 人工仲裁回执 receipt-r4-adjudication-r74.json 入库（7 cell/30 flip 逐条 Lead 裁定：25 ID_SPACE_DRIFT 两 judge 条目切分空间不同不可比 + 5 UPHOLD_J1 维持严格版，主判读绑定 J1v11 不变）；goal-queue G1b 划掉 + family-upgrade 候选导出。main @ eef3477 pushed。② market-alpha：验收 arena 两会话产出——T4-R1 完成 A1-A7 落 04 执行记录后停等 Reviewer（ralph runtime 缺失），Lead 阶段 04 审核回执 pass 落盘（A1-A7 逐项+反方风险）；T3-R3 F1-F7 草稿填完但 B1/B4/B5 未闭合（P4 七窗长度不足 2000 日数值功效无法算 + F5「35 占位」非完整 Holm 家族），Lead 书面裁定落盘（P4 硬长度门槛预筛全窗不可检验不报数值功效 / F5 每窗 5 原始 p × 7 窗 = 35 计划、28 实际入 Holm、0 已执行）。两份裁定 push main @ 3511e29。③ arena 续推注入：T4 一次成功（agent 开始执行 A8 生成中）；T3 首次撞 reCAPTCHA 未送达，重发成功（页面确认指令在案 + agent 生成中）。
 
 **下一步验收点**（下轮唤醒先查这两个远端分支 tip 是否前进）：
-- T4-R1：`git -C market-alpha fetch && git log origin/main..origin/arena/e174c209-market-alpha`——预期新增 04.5 反方复核工件（stages/04.5/t4-r1-review.md）+ push；若 agent 又报 blocker 按内容出对应回执。
-- T3-R3：`git log origin/main..origin/arena/a8c1fe6b-market-alpha`——预期 F3/F5 按裁定改写 + B1-B6 重跑 + 04.5 + **冻结声明**（引用裁定 commit hash + P4 区间 blob 3599224…）→ 冻结声明落地即 T3 设计冻结收口（execution 仍 blocked，回测启动需另轮授权）。
+- T4-R1：**04.5 反方复核稿已落地**（commit c8ec72e，r75b 核查）。agent 在 §3.6 指出 Lead 04 回执 A2 措辞有误（实测词是招标/预中标非核准），核对原始测量文件后确认指正成立，已在合并裁定 main 1043734 中更正关闭。**下轮动作**：Lead 对 04.5 版本出具审核回执（逐项核对六项反方挑战 + 残余缺口表）→ 注入 → agent 收口第 1 轮。
+- T3-R3：agent 推进时自抓 F5 去重依据矛盾（上轮裁定「不同 K 构造」与 02.5 §2「同一 K」冲突）停下上报（commit 0090008，行为正确）；Lead 澄清裁定 @ main 1043734（P5 因代理角色排除、计数不变）+ 续推注入成功（生成中）。**下轮验收**：F5/B5 按更正依据改写 + B1-B6 重跑 + 04.5 + **冻结声明**（引用 1043734 + 3511e29 + blob 3599224…）→ 冻结声明落地即 T3 设计冻结收口（execution 仍 blocked，回测启动需另轮授权）。
 - 若两会话都卡住无新 commit：检查是否 reCAPTCHA/登录失效（SOP：先 curl -I arena.ai + 查 ego-lite 进程，别直接找用户扫码），必要时再注入一轮。
 
 ## 历史状态 @ 2026-10-31（r73）
