@@ -20,6 +20,7 @@
 - **truth**（旧 M8）：已覆盖机会中通过 judge 的比例。
 - **cover**（新指标）：被 run 实际覆盖的机会占冻结集的比例。
 - **联合判读**：配置比较必须 (truth, cover) 双维报告，禁止单报 truth。升档条件：Δtruth > 0 且 Δcover ≥ -0.05（质量提升不以牺牲覆盖为代价）。
+- **r60e 经验注记**：R4 全量实测 cover 在 9 config × 4 run 下恒为 1.000（零方差）——当前 D1/D2 域任务难度不足以让任何 config 漏掉冻结集里的核验点。cover 门槛机械层就绪但经验上 vacuous，需 harder task（模型确实会漏项的题面）才能激活区分力。协议保留不动，待 harder domain 接入后自然生效。
 - 空分母（cover=0）→ 该 cell M8 记 NA，不入均值。
 
 ### 4. 新旧 M8 口径版本化
