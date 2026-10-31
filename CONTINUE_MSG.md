@@ -6,6 +6,8 @@
 
 **r62c J1v5 全量 sweep 收口（36/36, 0 failed）**：J1-strict-v5（计划/发现区分条款）跑完。结论与 r41 一致——过度修正：全场归零（A-full 仅 0.053，7 个 config 直接 0.000），freeze 负效应被噪声淹没（B-nofreeze 跌到 rank 6/9）。五 judge 面板（v11/v2/v3/v4/v5）现在完整：v11/v2 可用，v3 能分 sham 但误杀 75%，v4 sham 失守，v5 全场归零。迭代终点 v11 特异性指纹是唯一平衡解。回执含五 judge 联合读数表。main pushed。
 
+**r62k v11 重跑确认 + 独立 receipt**：v11（主判）重新 sweep（36/36，0 failed），数值与 r62p 面板一致，sham gap -0.195 SEPARATED。创建了 receipt-j1v11-sweep-analysis.json（之前缺这个）。至此 v7/v8/v9/v10/v11 五个 judge 全部做了独立重跑验证 + 独立 receipt，十 judge 面板数据完整稳定。main @ f2b01de。
+
 **r62i v10 重跑确认**：v10 重新 sweep（36/36，0 failed），数值与 r62y 修正后一致，sham gap +0.065 FAILED。至此 v7/v8/v9/v10 四个 judge 全部做了独立重跑验证，十 judge 面板数据完整稳定。main @ 2aae8e2。
 
 **r62g2 v9 重跑确认**：v9 重新 sweep（36/36，0 failed），数值不变，sham gap +0.007 FAILED。至此 v7/v8/v9 三个 judge 都做了独立重跑验证，全部与 r62p 面板值一致。main @ 11a14c9。
