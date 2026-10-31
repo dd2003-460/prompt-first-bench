@@ -2,6 +2,8 @@
 
 ## 当前状态 @ 2026-10-31（r60c）
 
+**r62c J1v5 全量 sweep 收口（36/36, 0 failed）**：J1-strict-v5（计划/发现区分条款）跑完。结论与 r41 一致——过度修正：全场归零（A-full 仅 0.053，7 个 config 直接 0.000），freeze 负效应被噪声淹没（B-nofreeze 跌到 rank 6/9）。五 judge 面板（v11/v2/v3/v4/v5）现在完整：v11/v2 可用，v3 能分 sham 但误杀 75%，v4 sham 失守，v5 全场归零。迭代终点 v11 特异性指纹是唯一平衡解。回执含五 judge 联合读数表。main pushed。
+
 **r62 J1v4 全量 sweep 收口（36/36, 0 failed）**：J1-strict-v4（anti-spin rule）跑完 R4 全部 9 config。结论与 r41 校准集验证一致：① anti-spin rule 对 sham 失守——sham 0.699 rank 5/9，反而高于 A-full 0.613（rank 3），配对差 D1 持平 0.0、D2 sham 反超 +0.17；根因是 sham 工件里编造的具体数字（Zapier $30/mo 之类）让「零数值断言」条件失效。② B-nofreeze 在第四个 judge 下仍 rank 1/9（0.393）——freeze 负效应现在被四个独立 rubric（v11/v2/v3/v4）全部确认，是整个 C3 v3 矩阵最稳健的发现。③ 四 judge 联合读数表落盘回执：sham 分离只有 v3（anti-template）成功但误杀 75%，v11 特异性指纹是唯一无副作用的解法（迭代终点）。main pushed。
 
 **r61 cover 独立复算通过**：纯 Python 关键词匹配（无 LLM）重算 36 run cover，与原回执一致——全 config avg=1.0，唯一 miss=B-sham/D1/seedb O07（该 run 输出确实零次出现「淘汰」「理由」）。分母收缩否定结论经独立方法确认。main pushed。
