@@ -1,6 +1,15 @@
 # CONTINUE_MSG — pfb 工作区
 
-## 当前状态 @ 2026-10-31 07:45 +0800（keepalive r44 唤醒）
+## 当前状态 @ 2026-10-31 09:40 +0800（keepalive r59 唤醒）
+
+**r59 消费 arena C3 v3 对抗核验回执（本轮 P0 新发现）**：arena 分支 tip 5a525c7 的 `receipts/c3-v3-adversarial-check.json`（PASS-with-fixes，142 行）此前从未被消费——R4/rubric-v11 都是在它之前跑的。本轮落盘 byte-exact（sha 对账）+ 六漏洞处置表（stages/04.5/C3v3-adversarial-disposition.md）：R1/R4 文书/R5/G1b 四项已被后续执行自然覆盖或属既有阻塞；**唯一真缺口 = 核验机会集冻结协议未落地**——R4 实际用的分母是各 run 自身产出的条目数（即可变分母），导致「B-noevidence 0.954 > A-full 0.781」混淆了质量效应与分母收缩效应 → evidence/owner 方向结论需限定语，freeze 负效应影响较小（全场最低组，分母收缩只会抬分）。导出候选 `T8-C3-v3-opportunity-set-freeze`（纯仓库内 ~5 回合）。main @ 4268ef7 pushed。
+
+**上轮遗留核查**：r54d G1a backfill 收口后 queue 队首仍全 blocked-on-human/external（G1b 异源 judge / closure-gate K4 裁定 / web-llm 登录 / M8 Lead 盲法）——本轮复查无变化（ls-remote 无新 arena 分支、APPROVALS 无新裁定）。:8787 网关容量评估（旧 P2 #4）已核实无需动作：proxy 多通路健康（relay :8010 + 直连 :8000 双 OK，HEALTH 自动切换在跑），cron 400 too large 根因 = 本会话上下文膨胀非网关容量，按失败自愈协议处理即可。
+
+## 下一步（按优先级）
+
+0. **P0 · T8-C3-v3-opportunity-set-freeze**（queue 新导出，r59 产出）：机会集冻结协议设计 + R4 36 run 事后机会集重建可行性评估 + R4 结论限定语回填候选。纯仓库内可执行 ~5 回合，无外部依赖——这是当前唯一不卡人的活
+1. **P1 · 复查四外部阻塞项是否有变化**：① G1b 异源 judge（arena 通道/第二 LLM 凭证）② closure-gate-integration K4 O1-O4 裁定（APPROVALS）③ web-llm 三 provider 人工登录 ④ M8 Lead 盲法判读。无变化则跳过
 
 **r44 rubric v11 validation PASS，T8-C3-v3-rubric-density-test 收口**：v2→v11 共 10 轮迭代——前 9 版全部 FAIL（v2 密度审计零触发 / v3 anti-template 误杀真实核验 A-full 归零 / v4 anti-spin 太弱 sham 编造数字绕过 / v5 计划发现二分过度修正全场归零 / v6 prepared-plan 例外救回 A-full / v7-v10 回声率·冻结痕迹·方法回声·指令依赖度均失效），**v11 特异性指纹测试**首次命中：查「量」不查「有无」——带具体数字/型号/字段/日期/阈值的句子占比 <0.2 判 low_specificity_fail。验收三项全过：sham 0.517 跌至第 2 低组 ✓ / freeze 方向保持（B-nofreeze 0.400 < A-full 0.750）✓ / 无过度修正（A-full > 0.4）✓。J2 lenient 同批重打 36 run 天花板复现（9/9 配置 mean=1.0）→ 佐证 G1a「M8 绑定 J1 strict」裁定。负面 ×1：B-2del-fo/D1/seeda 首判 max_tokens=4096 截断，输出纪律后缀+8192 重判落盘。回执 runs-r4/rubric-v11-validation.json + j2lenient-v11-validation.json；queue L28 划掉（3e9aa9b，assert-queue-lint 59 行 / 0 FAIL exit 0）。main @ 3e9aa9b。
 
@@ -12,11 +21,13 @@
 
 ## 下一步（按优先级）
 
-0. **P0 · 无本地可做项——队首全部 blocked-on-human/external**。本轮 r44-r47 把 rubric-density-test → R4 主分析 → 阈值敏感性 → R4 收口整条链干完，WORK_QUEUE 剩余未决项全部卡外部依赖：① G1b 异源 judge（需 arena 通道或第二 LLM 凭证，非 Qwen 家族）② closure-gate-integration K4 O1-O4 裁定（APPROVALS 已登记备料）③ web-llm 三 provider 人工登录 ④ M8 Lead 盲法判读。下次唤醒先复查这四项是否有变化（arena 会话可用性 / APPROVALS 新裁定），无变化则 [SILENT]
+0. **P0 · T8-C3-v3-opportunity-set-freeze**（queue 新导出，r59 产出）：机会集冻结协议设计 + R4 36 run 事后机会集重建可行性评估 + R4 结论限定语回填候选。纯仓库内可执行 ~5 回合，无外部依赖——这是当前唯一不卡人的活
+1. **P1 · 复查四外部阻塞项是否有变化**：① G1b 异源 judge（arena 通道/第二 LLM 凭证）② closure-gate-integration K4 O1-O4 裁定（APPROVALS）③ web-llm 三 provider 人工登录 ④ M8 Lead 盲法判读。无变化则跳过
+
+**历史注记（r44-r47 轮）**：rubric v11 validation PASS + R4 主分析收口——当时队首全部 blocked-on-human/external，该状态 r59 复查仍成立，但 P0 已被本轮 opportunity-set-freeze 取代（见上方新「下一步」）。
+
 2. **P2 · closure-gate-integration 裁定跟进**：等成璐 K4 O1-O4 裁定（APPROVALS 已登记备料模式，不阻塞其他工作）
-3. **P2 · 回 arena 会话 01a18567 取 307 行 survey 原文回填 research/interpretability/literature-survey.md**
-4. **P2 · 评估 :8787 node 网关容量竞争根因**（cron 400 too large 元凶），决定是否切直连 :8000
-5. **P2 · rubric-v3 遗留 #1「独立 judge 盲测 p̃」**：决定性检验，需 ≥3 个独立 LLM 服务盲估 31 节点 p̃ 对照 prior-estimates.json 算一致性——另开 goal
+3. **P2 · rubric-v3 遗留 #1「独立 judge 盲测 p̃」**：决定性检验，需 ≥3 个独立 LLM 服务盲估 31 节点 p̃ 对照 prior-estimates.json 算一致性——另开 goal（注：旧 P2 #3 survey 回填已于 r48 完成 DONE；旧 P2 #4 :8787 容量评估 r59 核实无需动作）
 
 ## 阻塞项
 
