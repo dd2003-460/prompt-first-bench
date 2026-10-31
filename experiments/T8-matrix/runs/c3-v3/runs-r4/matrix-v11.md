@@ -27,3 +27,8 @@
 - prompt sha 三源一致（recheck×3 = 原 seeda = 37297a537f9c9022），复跑口径无漂移。
 - 判官 3/3 输出成功解析为合法 JSON，temperature=0 格式稳定。
 - **登记边界**：判官 items 总数跨 run 不稳定（8/19/7），pass_rate 分母漂移 → 本矩阵跨配置比较应以 echo_ratio / floor 触发为主指标，pass_rate 仅参考；此弱点影响全部 36 cell 而非 recheck 独有，升档前需判官条目数锚定（rubric 显式列 10 题项编号）。
+
+## n=4 方差控制复核（r51，见 matrix-v11-n4.md）
+
+- 4 关键配置 × n=4 重采样：**配置间排序单调保持**（A-full > B-noevidence > B-none > B-sham，echo 与 pass 双口径同序），r49 "方差主导一切"修正为"方差大但均值差仍可测"。
+- **B-noevidence 反超 A-full 坐实为 n=2 采样噪声**（n=4 下 0.744 < 0.795）。观察 1 的置信度从"低-中"回升至"中"，结论方向不变（非组件效应）。
