@@ -32,3 +32,10 @@
 
 - 4 关键配置 × n=4 重采样：**配置间排序单调保持**（A-full > B-noevidence > B-none > B-sham，echo 与 pass 双口径同序），r49 "方差主导一切"修正为"方差大但均值差仍可测"。
 - **B-noevidence 反超 A-full 坐实为 n=2 采样噪声**（n=4 下 0.744 < 0.795）。观察 1 的置信度从"低-中"回升至"中"，结论方向不变（非组件效应）。
+
+## r55 数据完整性修订
+
+- **发现**：一个旧 rerun 进程（runner v1 bug：首次 pass 丢失 output 字段）覆盖了 A-full/D1 的 seeda/seedb 原始 run，且覆盖后未重新判官——旧判官分（seeda 10/10 echo 0.125 / seedb 3/10 echo 0.30）对应的是已不存在的旧 output。
+- **处置**：用完整 v11 rubric 对两个新 output 重判（seeda 9/10 echo 0.13 / seedb 4/8 echo 0.35），matrix-v11-n4.md 全部 n=4 均值重算。
+- **影响评估**：4 关键配置排序与 r51 版完全一致（A-full 0.807 > B-noevidence 0.744 > B-none 0.608 > B-sham 0.543），核心结论不受影响；仅 A-full/D1 内部数值不可与 r44 纵向比较（新采样 + 1 天时间跨度）。
+- **教训登记**：runner 的 SKIP/覆盖逻辑必须校验 output 字段存在性 + SHA，不能只查 key 是否存在；任何 output 覆盖操作必须触发下游判官重跑。
