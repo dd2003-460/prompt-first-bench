@@ -4,6 +4,8 @@
 
 **r57 P0 收口：T8-C3-v3-opportunity-set-freeze 草案落地**（r59 导出的唯一真缺口，本轮啃下大半）：① arena blocking fix #3 四要素协议草案落盘 `experiments/T8-matrix/runs/c3-v3/design/opportunity-set-freeze-protocol-draft-r57.md`——定义主体=Lead 盲法前置（只看题面不看 run 输出，run 启动前 commit 冻结）/ 空分母保守口径默认（未提及=没通过，计入分母）/ truth-cover 联合门槛（配置比较必须双维报告，禁止单报 truth）/ 新旧 M8 口径版本化（M8-r4-variable 只可描述性引用，M8-frozen-v1 从下一 run 生效）。② R4 事后重建评估完成（m8-denominator-analysis-r57.json）：题面机械提取可行但只给下界——judge 实际分母 6-30 条/run vs 题面显式机会 5-8 个/seed，三层口径不一致坐实；**分母收缩量化：B-noevidence 8.38 条 vs A-full 11.25 条（-25.5%），arena 假设方向成立**。③ matrix-v11.md r57 节限定语回填生效：evidence/owner 方向 M8 比较降档「未分离的方向性证据」；freeze 负效应稳健不受影响（B-nofreeze 分母居中 9.00 + M8 全场最低 0.469）。main @ 15d94a6 pushed。queue 标 `[~]` 不划掉——待成璐裁定两项后定稿（见 P0）。
 
+**r57c-e 三项复核补强（本轮续跑）**：① KeyError 'J1' 误报定位——旧 one-shot 脚本用错键名层级（台账是 {工件: {J1/J2}} 两级结构，prompt 键名又是 J1-strict），与用户改动的三个文件无关；G1a raw 10/10 机械复现对账通过，数据无缺口。② F4 补测：同一套机械规则跑在 A-full 8 个 run output 上，judge 条目数 8/8 ≤ run 输出显式断言数（12-20 条）——judge 是从 run 输出挑子集非自造项，三层口径关系修正为题面(5-8) ⊂ run输出(12-20) ⊇ judge 条目，冻结锚点确认为题面机会集。③ 判官区分度复核：R4 全部 52 run 的 J1v11 pass_rate stdev=0.229 / range=0.9，有真实区分度——G1a 双判官零分歧归因从"判官偏软嫌疑"修正为"校准集工件恰好都好"（集合属性）；同族偏软的残余边界仍需 G1b 异源定案（既有阻塞不动）。main @ a494277 pushed。
+
 **上轮 r59 消费 arena C3 v3 对抗核验回执**：PASS-with-fixes，六漏洞处置表 stages/04.5/C3v3-adversarial-disposition.md——R1/R4 文书/R5/G1b 四项已被后续执行自然覆盖或属既有阻塞；唯一真缺口=机会集冻结（本轮 r57 已处理至草案态）。
 
 **更早遗留核查（r59 复查无变化）**：G1b 异源 judge / closure-gate K4 裁定 / web-llm 登录 / M8 Lead 盲法均 blocked-on-human/external。:8787 网关容量评估核实无需动作（proxy 多通路健康，cron 400 too large = 本会话上下文膨胀非网关容量）。
