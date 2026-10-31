@@ -6,6 +6,8 @@
 
 **r62c J1v5 全量 sweep 收口（36/36, 0 failed）**：J1-strict-v5（计划/发现区分条款）跑完。结论与 r41 一致——过度修正：全场归零（A-full 仅 0.053，7 个 config 直接 0.000），freeze 负效应被噪声淹没（B-nofreeze 跌到 rank 6/9）。五 judge 面板（v11/v2/v3/v4/v5）现在完整：v11/v2 可用，v3 能分 sham 但误杀 75%，v4 sham 失守，v5 全场归零。迭代终点 v11 特异性指纹是唯一平衡解。回执含五 judge 联合读数表。main pushed。
 
+**r62k 协议执行计划状态标注**：opportunity-set-freeze-protocol-draft-r57.md §四 四项逐条标状态——item2（opportunity-sets-v1.json）DONE r60；item4（matrix 口径列 + assert-m8-no-suffix.py）DONE r62g；item1（成璐裁定空分母口径 + cover 门槛）BLOCKED ON USER；item3（下一 run 新口径）BLOCKED ON USER（依赖 item1）。main @ 4211ab6。
+
 **r62i v4 回执标注被取代**：receipt-j1v4-sweep-analysis.json 加 superseded_note，指向 r62d 五 judge 合并回执。避免后续读者误用 4-judge 子集当完整面板。main @ 76210c8。
 
 **r62g 协议§四.4 机械层落地**：matrix-v11.md 加口径列（待下一 run 填充）+ assert-m8-no-suffix.py 创建并 PASS（M8 引用无版本后缀检查）。协议执行计划 4 项中第 4 项完成，剩余 1-3 项卡 P0 裁定。main @ 5dfb08e。
