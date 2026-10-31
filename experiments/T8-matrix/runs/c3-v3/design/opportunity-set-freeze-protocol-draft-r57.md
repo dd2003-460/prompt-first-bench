@@ -1,6 +1,6 @@
 # 核验机会集冻结协议（草案 v0 · r57）
 
-**goal**: T8-C3-v3-opportunity-set-freeze · **日期**: 2026-10-31 · **状态**: 草案待成璐裁定后定稿
+**goal**: T8-C3-v3-opportunity-set-freeze · **日期**: 2026-10-31 · **状态**: 已定稿（r62z, 2026-10-31 — 成璐授权 runner 自主裁定两项参数）
 **来源**: arena C3 v3 对抗核验回执 blocking fix #3（`receipts/c3-v3-adversarial-check.json` M8-truth/M8-cover 节）
 **动机**: R4 的 M8（truth rate，即"工件里可核验断言中通过判官的比例"）分母 = 各 run 自身产出的核验条目数——可变分母。删组件后模型少产出条目 → 难项退出分母 → truth 率被动抬高。不冻结分母，任何配置间 M8 比较都混淆了质量效应与数量效应。
 
@@ -54,9 +54,9 @@ time_range:         \d{4}\s*(/\s*\d{4})?
 
 ## 四、执行计划（定稿后）
 
-1. 成璐裁定：保守/激进空分母口径 + 联合门槛数值（-0.05 是否合适）。**状态：BLOCKED ON USER（r62h 仍未裁定）**
+1. ~~成璐裁定~~ → **已裁定（r62z, 2026-10-31，成璐授权 runner 自主决定）**：空分母用**保守口径**（unaddressed 计入分母、不计入分子，没做=没通过）；cover 门槛维持 **-0.05**（Δcover ≥ -0.05 才允许升档）。理由：保守口径防「少做事反而分数高」的漏洞，与 sham 分离目标一致；-0.05 在当前域 vacuous（cover 恒 1.0），不构成实际约束，harder domain 接入后自然生效。激进口径保留作敏感性分析双报。
 2. Lead 对 4 seed 产出正式 opportunity-set 文件（机械 + 人工补全），commit 冻结。**状态：DONE（r60 — opportunity-sets-v1.json 落盘，4 seed × 9-10 项，D1+D2 双域）**
-3. 下一个 run 按新口径执行；M8 双报 (truth, cover)。~~R5 已跑完但用的是旧口径~~ → r60e 注记：当前域 cover 恒 1.0，双报机制就绪但 vacuous，需 harder task 激活。**状态：BLOCKED ON USER（依赖 item 1 裁定）**
+3. 下一个 run 按新口径执行；M8 双报 (truth, cover)。~~R5 已跑完但用的是旧口径~~ → r60e 注记：当前域 cover 恒 1.0，双报机制就绪但 vacuous，需 harder task 激活。**状态：UNBLOCKED（item 1 已裁定，r62z）**
 4. matrix 模板加口径列；assert 脚本加"无后缀 M8 引用"检查。**状态：DONE（r62g — matrix-v11.md 口径列 + assert-m8-no-suffix.py PASS）**
 
 ## 边界登记
