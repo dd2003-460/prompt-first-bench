@@ -1,42 +1,16 @@
 # CONTINUE_MSG — pfb 工作区
 
-## 当前状态 @ 2026-10-31（r62s）
+## 当前状态 @ 2026-10-31（r63）
 
-**r62m M8×M3 共线性首个实测点**：run5 的 M8 从 receipt-r52-local.json 的 9 步锚点机械提取——严格口径 5/9=0.556（仅 status=done 计一次通过）/ 宽松口径 7/9=0.778。单点 (M3≈85 inferred, M8=0.556) 未证伪也未证实 r52 预判 |r|∈[0.7,0.9]（n=1 无统计力），但新增证据支持「M8 并入 M3 作诊断子维度」：拖累项全是环境/流程性失败（步骤 4/5 外部通道不可用、步骤 9 收口时序），不是生成质量——独立计分会把环境限制误记为能力差。落盘 run5/m8-m3-correlation-r62m.md（含机判复核命令 + 负面结果声明：没算 n=4 的 r，拒绝虚构）。main @ 1cd513d。
+**r63 m8-rebuild-r4 收口（上轮 P0 唯一不 blocked 可执行项，已核销）**：从 r4 三 run 的原始账本（run1 loop-state-r1.json chain_steps 9 步 / run2 A1-A7 / run3 S1-S7）机械重建 per-step「一次通过」严格口径账本——run1 6/9=66.7、run2 6/7=85.7、run3 6/7=85.7（unverified-inferred，队列登记边界兑现），加 run5 5/9=55.6（receipt 一手）成 n=4 配对。**Pearson r(M3,M8)=−0.121 / Spearman ρ=+0.150**——m8-proposal 预判 |r|∈[0.7,0.9] 未证实。比数值更有信息量的是负相关驱动机制：M8 把环境/通道降级（arena 不可用、外部 LLM 不可达）计进分母而 M3 不计，两个低 M8 的 run（run1/run5）全部由环境降级贡献、无一是生成质量失败 → 维持「并入 M3 作诊断子维度」结论，论点从『强共线稀释权重』修正为『口径不对称导致的环境噪声污染』；|r|=0.12<0.7 不触发调权压缩。落盘 m8-rebuild-r4-ledger.json + m8-m3-correlation-n4-r63.json + m8-proposal.md 回填段。main @ 39775e3 pushed。
 
-**r62q 收编外部进程在途产物**：seeda-recheck J1v2/v3/v4 三个盲判回执 + judge-v4-progress.json 补记条目，内容零改动仅落盘归属（外部进程写在工作树未 commit）。main @ 2b78c0c。queue 追加 m8-rebuild-r4 候选（r62r）。
+**r62z2 rare-token-scan 消歧补记**：8×3 是矩阵维度不是硬件数（成璐发现）。main @ 0d8a985。
 
-**r62z P0 裁定解除阻塞**：成璐授权 runner 自主决定 APPROVALS 里的两项参数。裁定结果：① 空分母用保守口径（没做的事计入分母、不算通过——防「少做事反而分数高」的漏洞）；② cover 门槛维持 -0.05（当前域 vacuous，harder task 接入后自然生效）。协议定稿，T8-C3-v3-opportunity-set-freeze UNBLOCKED，R5 执行层解除阻塞。APPROVALS.md 记录了裁定依据。main @ 8f281e7。
+## 下一步（按优先级）
 
-**r62w v6 重跑确认 — 全部 10 judge 独立重跑验证完成**：v6 重新 sweep（36/36，0 failed），数值不变，sham gap -0.140（PARTIAL）确认。至此 v2/v3/v4/v5/v6/v7/v8/v9/v10/v11 十个 judge 全部做了独立重跑验证，所有数值与 r62p panel 一致。main @ f1dec5f。
-
-**r62u v5 重跑确认**：v5 重新 sweep（36/36，0 failed），数值不变，field-zeroed 确认（所有配置接近 0，sham gap -0.053）。至此 v2/v3/v4/v5/v7/v8/v9/v10/v11 九个 judge 做了独立重跑验证，只剩 v6 在后台跑。main @ 5bd1a25。
-
-**r62s N4 repeat-sampling 分析完成**：16 对（原始 vs r1）输出长度对比，std Δ = 13.4%，max |Δ| = 27.9%。temp=0.7 下同一 prompt 重复采样，模型输出长度波动 ~13%（标准差）。这是 R5 方差控制的噪声底——judge 分数差异低于这个幅度不能归因于配置差异，是模型自身非确定性。receipt-n4-repeat-sampling.json 已落盘。main @ 1d3d1b8。
-
-**r62q v4 重跑确认**：v4 重新 sweep（36/36，0 failed），数值不变，sham gap +0.087（FAILED）确认。recheck backfill 完成（6 judges：J1/J2 × recheck-1/2/3）。至此 v2/v3/v4/v7/v8/v9/v10/v11 八个 judge 做了独立重跑验证。v5 重跑已启动在后台。main @ 27f10ff。
-
-**r62o v3 重跑确认 + N4 r1 runner**：v3 重新 sweep（36/36，0 failed），数值不变，sham gap -0.478（最强分离但 75% over-trigger）。N4 r1 runner 完成：4 关键配置 × 2 域 × 2 seed = 16 个 repeat-1 采样全部成功（0 failed），用于 R5 方差控制。至此 v2/v3/v7/v8/v9/v10/v11 七个 judge 做了独立重跑验证。v4 重跑已启动在后台。main @ 61d2e14。
-
-**r62c J1v5 全量 sweep 收口（36/36, 0 failed）**：J1-strict-v5（计划/发现区分条款）跑完。结论与 r41 一致——过度修正：全场归零（A-full 仅 0.053，7 个 config 直接 0.000），freeze 负效应被噪声淹没（B-nofreeze 跌到 rank 6/9）。五 judge 面板（v11/v2/v3/v4/v5）现在完整：v11/v2 可用，v3 能分 sham 但误杀 75%，v4 sham 失守，v5 全场归零。迭代终点 v11 特异性指纹是唯一平衡解。回执含五 judge 联合读数表。main pushed。
-
-**r62z P0 裁定解除阻塞**：成璐授权 runner 自主决定 APPROVALS 里的两项参数。裁定结果：① 空分母用保守口径（没做的事计入分母、不算通过——防「少做事反而分数高」的漏洞）；② cover 门槛维持 -0.05（当前域 vacuous，harder task 接入后自然生效）。协议定稿，T8-C3-v3-opportunity-set-freeze UNBLOCKED，R5 执行层解除阻塞。APPROVALS.md 记录了裁定依据。main @ 8f281e7。
-
-**r62w v6 重跑确认 — 全部 10 judge 独立重跑验证完成**：v6 重新 sweep（36/36，0 failed），数值不变，sham gap -0.140（PARTIAL）确认。至此 v2/v3/v4/v5/v6/v7/v8/v9/v10/v11 十个 judge 全部做了独立重跑验证，所有数值与 r62p panel 一致。main @ f1dec5f。
-
-**r62u v5 重跑确认**：v5 重新 sweep（36/36，0 failed），数值不变，field-zeroed 确认（所有配置接近 0，sham gap -0.053）。至此 v2/v3/v4/v5/v7/v8/v9/v10/v11 九个 judge 做了独立重跑验证，只剩 v6 在后台跑。main @ 5bd1a25。
-
-**r62s N4 repeat-sampling 分析完成**：16 对（原始 vs r1）输出长度对比，std Δ = 13.4%，max |Δ| = 27.9%。temp=0.7 下同一 prompt 重复采样，模型输出长度波动 ~13%（标准差）。这是 R5 方差控制的噪声底——judge 分数差异低于这个幅度不能归因于配置差异，是模型自身非确定性。receipt-n4-repeat-sampling.json 已落盘。main @ 1d3d1b8。
-
-**r62q v4 重跑确认**：v4 重新 sweep（36/36，0 failed），数值不变，sham gap +0.087（FAILED）确认。recheck backfill 完成（6 judges：J1/J2 × recheck-1/2/3）。至此 v2/v3/v4/v7/v8/v9/v10/v11 八个 judge 做了独立重跑验证。v5 重跑已启动在后台。main @ 27f10ff。
-
-**r62o v3 重跑确认 + N4 r1 runner**：v3 重新 sweep（36/36，0 failed），数值不变，sham gap -0.478（最强分离但 75% over-trigger）。N4 r1 runner 完成：4 关键配置 × 2 域 × 2 seed = 16 个 repeat-1 采样全部成功（0 failed），用于 R5 方差控制。至此 v2/v3/v7/v8/v9/v10/v11 七个 judge 做了独立重跑验证。v4 重跑已启动在后台。main @ 61d2e14。
-
-**r62m v2 重跑确认**：v2 重新 sweep（36/36 standard，0 failed），数值与 r62p 面板一致，sham gap -0.045。至此 v2/v7/v8/v9/v10/v11 六个 judge 做了独立重跑验证。v3 重跑已启动在后台。main @ 59f3114。
-
-**r62k v11 重跑确认 + 独立 receipt**：v11（主判）重新 sweep（36/36，0 failed），数值与 r62p 面板一致，sham gap -0.195 SEPARATED。创建了 receipt-j1v11-sweep-analysis.json（之前缺这个）。至此 v7/v8/v9/v10/v11 五个 judge 全部做了独立重跑验证 + 独立 receipt，十 judge 面板数据完整稳定。main @ f2b01de。
-
-**r62i v10 重跑确认**：v10 重新 sweep（36/36，0 failed），数值与 r62y 修正后一致，sham gap +0.065 FAILED。至此 v7/v8/v9/v10 四个 judge 全部做了独立重跑验证，十 judge 面板数据完整稳定。main @ 2aae8e2。
+0. **P0 · opportunity-set-freeze 定稿**（卡人项，等成璐一句话）：裁定两项——① 空分母口径：模型完全没提到的核验点算不算进分母（我默认保守=算，激进=不算，建议保守）② cover 门槛数值：质量提升允许覆盖率下降多少还认账（我暂写 -5%，无文献依据纯建议值；r60e 补充：当前域 cover 恒 1.0，门槛实际不会触发，需 harder task 才有意义）。机械层已落地（opportunity-sets-v1.json + cover 分析回执 r60 + J1v3 全量 sweep r60c），裁定后协议定稿 + 正式 Lead 盲法冻结流程生效，下一 run 起 M8 双报 (truth, cover)
+1. **P1 · 复查四外部阻塞项是否有变化**：① G1b 异源 judge（arena 通道/第二 LLM 凭证）② closure-gate-integration K4 O1-O4 裁定（APPROVALS）③ web-llm 三 provider 人工登录 ④ M8 Lead 盲法判读。无变化则跳过
+2. **P2 · R5.2-third-scorer 前置盘点**：packet v2 输入面已对称（assert-packet-symmetry 67 PASS），缺第三打分器（不同家族）——与 G1b 同族依赖，合并等待即可
 
 **r62g2 v9 重跑确认**：v9 重新 sweep（36/36，0 failed），数值不变，sham gap +0.007 FAILED。至此 v7/v8/v9 三个 judge 都做了独立重跑验证，全部与 r62p 面板值一致。main @ 11a14c9。
 
@@ -85,11 +59,7 @@
 
 **r57 opportunity-set-freeze 草案落地（已收口）**：arena blocking fix #3 四要素协议草案 + R4 分母收缩量化（B-noevidence 8.38 vs A-full 11.25 条，-25.5%）+ matrix-v11 限定语回填。注：r60 cover 分析已否定分母收缩假设（见上）。main @ 15d94a6 pushed。
 
-## 下一步（按优先级）
-
-0. **P0 · RV3G3cdx-m8-rebuild-r4**（queue 新增，r62m/r62q 导出，唯一不 blocked 可执行项）：从 r4 三 run 的 execution-log/gate-evidence-breakpoint-ABC 机械重建 per-step 一次通过账本 → 4 个 (M3,M8) 配对 → Spearman/Pearson 双报（n=4 方向性口径）→ 回填 m8-proposal.md 预判区间检验段。纯仓库内 ~3 回合。背景：r62m 已把 run5 的 M8 从 receipt 锚点机械提取（严格 5/9 / 宽松 7/9），首个实测点显示 M8 对流程性失败敏感（步骤 4/5 外部通道不可用 + 步骤 9 收口时序拖累），支持「并入 M3 作诊断子维度」；但 n=1 无统计力，需 r4 三 run 补数。
-1. **P0 · opportunity-set-freeze 定稿**（卡人项，等成璐一句话）：裁定两项——① 空分母口径：模型完全没提到的核验点算不算进分母（我默认保守=算，激进=不算，建议保守）② cover 门槛数值：质量提升允许覆盖率下降多少还认账（我暂写 -5%，无文献依据纯建议值；r60e 补充：当前域 cover 恒 1.0，门槛实际不会触发，需 harder task 才有意义）。机械层已落地（opportunity-sets-v1.json + cover 分析回执 r60 + J1v3 全量 sweep r60c），裁定后协议定稿 + 正式 Lead 盲法冻结流程生效，下一 run 起 M8 双报 (truth, cover)
-2. **P1 · 复查四外部阻塞项是否有变化**：① G1b 异源 judge（arena 通道/第二 LLM 凭证）② closure-gate-integration K4 O1-O4 裁定（APPROVALS）③ web-llm 三 provider 人工登录 ④ M8 Lead 盲法判读。无变化则跳过
+## 历史收口记录（旧「下一步」段归档 · r63 前快照）
 
 **r44 rubric v11 validation PASS，T8-C3-v3-rubric-density-test 收口**：v2→v11 共 10 轮迭代——前 9 版全部 FAIL（v2 密度审计零触发 / v3 anti-template 误杀真实核验 A-full 归零 / v4 anti-spin 太弱 sham 编造数字绕过 / v5 计划发现二分过度修正全场归零 / v6 prepared-plan 例外救回 A-full / v7-v10 回声率·冻结痕迹·方法回声·指令依赖度均失效），**v11 特异性指纹测试**首次命中：查「量」不查「有无」——带具体数字/型号/字段/日期/阈值的句子占比 <0.2 判 low_specificity_fail。验收三项全过：sham 0.517 跌至第 2 低组 ✓ / freeze 方向保持（B-nofreeze 0.400 < A-full 0.750）✓ / 无过度修正（A-full > 0.4）✓。J2 lenient 同批重打 36 run 天花板复现（9/9 配置 mean=1.0）→ 佐证 G1a「M8 绑定 J1 strict」裁定。负面 ×1：B-2del-fo/D1/seeda 首判 max_tokens=4096 截断，输出纪律后缀+8192 重判落盘。回执 runs-r4/rubric-v11-validation.json + j2lenient-v11-validation.json；queue L28 划掉（3e9aa9b，assert-queue-lint 59 行 / 0 FAIL exit 0）。main @ 3e9aa9b。
 
