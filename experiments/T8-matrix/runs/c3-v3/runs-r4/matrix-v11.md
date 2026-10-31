@@ -36,7 +36,7 @@
 ## r57 机会集冻结协议消费（T8-C3-v3-opportunity-set-freeze）
 
 - arena 对抗回执 blocking fix #3 落地为草案：`design/opportunity-set-freeze-protocol-draft-r57.md`（定义主体=Lead 盲法前置 / 空分母保守口径默认 / truth-cover 联合门槛 / 新旧 M8 口径版本化）。
-- **R4 限定语回填（本轮生效）**：evidence/owner 方向的 M8 比较（B-noevidence 0.744、B-noowner 0.767 vs A-full 0.813，M8-r4-variable 口径）——在分母收缩 -25.5%（B-noevidence 8.38 条 vs A-full 11.25 条核验条目）下**无法分离质量效应与数量效应**，置信度降档为"未分离的方向性证据"。freeze 负效应（B-nofreeze 0.469 全场最低 + 分母居中 9.00）**不受影响，结论稳健**。
+- **R4 限定语回填（r57 生效 → r60 部分收回）**：~~evidence/owner 方向的 M8 比较在分母收缩 -25.5% 下无法分离质量效应与数量效应，降档为"未分离的方向性证据"~~ → **r60 cover 分析否定分母收缩假设**（B-noevidence cover=1.000 与 A-full 持平，冻结集口径下分母固定不存在收缩）。evidence/owner 方向 M8 比较恢复为「方向性证据」（同族 judge + n=4/cell 的上限不变），不再带「未分离」限定语。freeze 负效应（B-nofreeze 0.469 全场最低）**三 judge 下均 rank 1/9，结论最稳健**。
 - 三层口径不一致坐实：judge 条目（6-30/run）≠ 题面机械可提取机会（5-8/seed）≠ 成文冻结集（无）。事后重建只能给下界 → R4 不复算，新口径从下一 run 起生效。
 - 待裁定：空分母保守/激进口径 + cover 门槛 -0.05 数值（草案 §四，不代裁）。
 
