@@ -67,7 +67,7 @@
 
 ## r185 — R-05 报告义务执行：正式矩阵 8×8 相关矩阵（2026-11-02）
 
-**收口 commit**: main 6eb05d7（含 CONTINUE_MSG 刷新 + step_notify）。
+**收口 commit**: main af250a9（含 CONTINUE_MSG 刷新 + step_notify + 微信广播尝试×2 失败留痕：wx-push.py ret=-1 invalid request，token 失效或网络问题，不重试超一次协议已遵守）。
 
 ### 做了什么
 补上预注册漏项：R-05 ③「正式报告必须附 8×8 维度间相关矩阵」在正式矩阵收口后从未执行。对 judge-{1,2}-scores.json（21 run × 双判）做 judge-merged per-run 维度分 Spearman 全表（NA 7 项剔除，P2 维全 NA 不入矩阵），落盘 `ablation/formal-matrix/corr-matrix-formal-n21.json` + attribution-analysis.md §8.5 + DRAFT v2 L198 裁定段 r185 后记 + revision-log R-25。
