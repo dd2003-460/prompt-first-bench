@@ -117,3 +117,9 @@
 | 5 | queue 存量排版归一范围裁定（queue L68） | 选项 (i) 全量归一 / (ii) 仅活跃区归一 | 按 tasks/queue-format-contract.md §4 执行 | 小 |
 
 **说明**：#1/#2/#3 互相独立可任意顺序解锁；#4 属 D1-gpu 项目线（非 pfb）；#5 是队列卫生小事。agent 侧在以上任一项解锁前不会重复推进——下轮 keepalive 唤醒会直接核对这五项是否有变化，有变化就执行对应动作，没变化就继续做可逆维护工作（如 queue 卫生扫描、回执补全）。
+
+## 2026-11-01 · r157 keepalive — 维护债销账（无新裁定请求）
+
+**操作**：assert-kappa-receipt.py DEFAULT_DIR 一层偏差修复（b9402ce）。原值指向 ablation/ 子目录（脚本自身所在目录），但 kappa-receipt.json 实际落盘于 bench/rubric-v3/（r29 erratum 收口写入）→ 无参调用恒 FAIL ①。修正后无参调用 = PASS + κ=0.0 SIGNAL（阈值未达，U-K1 人工裁决项不变）。materials §5 D2 回归义务行补过时注记。十五脚本回归基线维持（kappa-receipt 从 FAIL→PASS，其余零漂移）。
+
+**状态**：已执行完毕。上表 #1-#5 卡人项状态不变。

@@ -39,9 +39,9 @@
 0. **P1 · C3 v3 主分析残留卡人项**（不变）：#1 G1b family-upgrade（等成璐给非 Qwen API key，~5 次调用模板现成）/ #2 κ 阈值标定（等 kappa-u1k1 §4 勾选裁定）/ #3 严格盲法第二人 / #4 ~~harder domain~~ → **r79 DONE**（D3-hardware-purchase 落地，cover 门槛激活）。剩余三项仍卡人，agent 侧无可推进空间。
 1. ~~P1 · r79 新发现待消费~~ → **r79b DONE（31aa8b5）**：matrix-v11.md 限定语已回填（freeze 效应 task-type-dependent，R4 结论适用范围收窄为开放选型类任务）。F4 B-none 悖论（cover=1.0 但 truth=0.125）证实 cover/truth 双维度独立，联合判读设计成立——已登记于 receipt-r5-mainanalysis.json findings。
 2. **P2 · :8787 node 网关容量竞争根因评估**（cron 400 too large 元凶候选；本轮上下文正常未触发，继续观察）。
-3. **维护债备忘**（不变）：assert-kappa-receipt.py DEFAULT_DIR 一层偏差——下次动 rubric-v3 面时顺手修。
+3. ~~维护债备忘~~ → **r157 DONE（b9402ce）**：assert-kappa-receipt.py DEFAULT_DIR 一层偏差已修——原值指向 ablation/ 子目录，kappa-receipt.json 实际在 bench/rubric-v3/ → 无参调用恒 FAIL ①。修正后 PASS + κ=0.0 SIGNAL（阈值未达，U-K1 人工裁决项不变）。materials §5 D2 补过时注记。APPROVALS.md 登记。十五脚本回归基线维持。
 
-**下轮唤醒协议**：先核对 APPROVALS.md「r76 卡人项状态汇总」有无解锁（G1b 非 Qwen key / κ 门禁勾选 / closure-gate K4 O1-O4 / web-llm 登录），有变化执行对应动作；无变化则做 P1 第 1 条（matrix-v11 限定语回填）或 [SILENT]。
+**下轮唤醒协议**：先核对 APPROVALS.md「r76 卡人项状态汇总」有无解锁（G1b 非 Qwen key / κ 门禁勾选 / closure-gate K4 O1-O4 / web-llm 登录），有变化执行对应动作；无变化则 [SILENT]。
 
 ## 历史收口记录（旧「下一步」段归档 · r63 前快照）
 
