@@ -1,0 +1,40 @@
+{
+  "receipt_id": "rejudge-heuristic-leak-analysis-r157",
+  "date": "2026-11-01",
+  "purpose": "启发式基线 FM-1/FM-2 根因分析 — 解释为什么关键词匹配无法替代 LLM judge",
+  "method": "对每个节点的 claim 提取技术术语，统计该术语在 8 个 run 中的出现频率；再对照冻结 hit-matrix 的 h 值均值，识别'术语普遍存在但冻结判 no'的节点（= 结构性要求被关键词匹配忽略）",
+  "leaky_terms": [
+    {
+      "node": "N-1",
+      "term": "电费",
+      "present_in_runs": "8/8",
+      "frozen_h_mean": 0.0,
+      "root_cause": "claim 要求三项之和（购置摊销+电费+故障损耗），但'电费'单独出现不构成三项分解结构。8 个 run 都提了电费，但只有部分 run 做了完整三项分解"
+    },
+    {
+      "node": "N-1.2.2",
+      "term": "电价",
+      "present_in_runs": "7/8",
+      "frozen_h_mean": 0.38,
+      "root_cause": "claim 要求显式设定电价取值（含货币/单位），但多数 run 只隐含电价在最终数字里，未单独列出 $/kWh 取值"
+    },
+    {
+      "node": "N-4",
+      "term": "通过率",
+      "present_in_runs": "7/8",
+      "frozen_h_mean": 0.5,
+      "root_cause": "claim 要求通过率作为成本放大因子进入公式（÷ 通过率），但多数 run 只提及概念未实际参与计算"
+    },
+    {
+      "node": "N-3.2.1",
+      "term": "GB/4bit/8bit",
+      "present_in_runs": "8/8",
+      "frozen_h_mean": 0.75,
+      "root_cause": "claim 要求按精度位宽给出权重字节数换算关系，但多数 run 只列了 bit 档位未做 GB 换算"
+    }
+  ],
+  "structural_blindness_summary": "FM-1 的 28 个分歧中，约 20 个可归因于'术语存在但结构缺失'——关键词匹配只能验证'提到了什么'，无法验证'怎么建模的'。这正是协议 §6 要求 fresh-context LLM judge 的核心原因：judge 需要理解 claim 的结构性要求（乘积/分解/阈值/换算），而非只做子串搜索。",
+  "fm2_root_cause": "FM-2 的 26 个分歧集中在 N-5.3（前缀缓存命中率敏感性讨论）和 N-1.2（功耗×时长×电价乘积结构）——这些 claim 要求特定的分析动作（敏感性讨论/乘积展开），关键词匹配完全无法捕捉'是否做了这个分析'。",
+  "conclusion": "启发式基线的 78.2% 一致率 + 21.8% 结构性盲区，定量说明了机械匹配的天花板。真实 rejudge 必须用 LLM judge 读全文判断实质内容包含，不能退化为关键词搜索。",
+  "verdict": "ANALYSIS-COMPLETE (explains heuristic limitations; does not change any gate status)"
+}
