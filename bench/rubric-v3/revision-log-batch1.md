@@ -179,6 +179,14 @@ R-04（pilot 两步走）/ R-05（维度合并规则）/ R-07（gold 新发现�
 
 ---
 
+| 触发 | queue KAPPA-U1K1-DISPOSITION（成璐裁定：F2 Fleiss'κ + β 维持 0.6 + γ 降 SIGNAL+人工裁决；P1 双判者对照 κ=0.537 实证分歧 19 cell 后激活） |
+| 改动 | U-K1 销账落地 D1-D6：judge-protocol-batch1.md L71 U-K1 段替换为裁定结果（F2+β+γ）；assert-kappa-receipt.py docstring 口径更新 + method 收紧为取值域约束（fleiss/pairwise/cohen）+ judges 从「恰两个」放宽「≥2」；DRAFT v2 L16/L208 追加口径绑定注记（L208「不过不开评」措辞按 γ 软化）；o3-claim-list §4.3 写入具体公式与数字（κ_fleiss < 0.6, β 沿用声明, γ 语义）；queue RV3G4-kappa-gate-execution 联动注记 |
+| 性质 | 冻结件修改（o3-claim-list §4.3）→ APPROVALS.md 登记；其余为非冻结文档修订。U-K1 是发散型缺口（§4.3 原文从未写公式），本条落地的是裁定结果而非还原本意 |
+| 验证 | assert-kappa-receipt.py 实跑基线回归（既有 kappa-receipt.json 应仍 PASS——method 含 'cohen' 历史兼容）+ 新增 3-judge 合成回执正变异（judges=3 → PASS）+ method 域外反变异（method="unknown" → FAIL） |
+| 日期 | 2026-11-01 |
+
+---
+
 ## 诚实保留（负面结果与弱点，不掩盖）
 
 1. **R-06 逐字一致性已 diff 验证**（04 执行后更新）：AUDIT-report.md L186 与 v2 L77 字节级相等（python `a == b → True`，413 字符），非手工重打。

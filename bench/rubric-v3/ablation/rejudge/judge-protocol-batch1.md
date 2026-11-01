@@ -44,7 +44,7 @@
   "judge_family": "<str>",             // 底座家族声明（S2 限定语消费用；同族 = 不消除 S2）
   "blind_protocol_ref": "rejudge/judge-protocol-batch1.md",
   "kappa_receipt_ref": null,           // 可选：指向 kappa-receipt.json 相对路径（§4.3 顺序：κ 门禁先于聚合；
-                                        //   公式 UNRESOLVED U-K1，本 schema 只留存在性引用，不复核数值）
+                                        //   公式已裁定 F2 Fleiss'κ + γ SIGNAL（见 kappa-u1k1-adjudication-materials.md），本 schema 只留存在性引用，不复核数值）
   "cells": [
     {
       "run": "run1",                   // ∈ sample-plan runs（8 个）
@@ -68,7 +68,7 @@
 ## 4. 聚合与质检引用（只引用，不改写）
 
 - **聚合规则**：o3-claim-list §4.2（N=3，≥2/3 yes → h_v=1；无平票态）。本协议 batch1 定义的是**单判者**结果格式；多判者聚合在 ≥2 个 judge 批次落盘后按 §4.2 执行，聚合产物另开文件（不覆写单判者原始结果）。
-- **κ 门禁顺序**：o3-claim-list §4.3——条目层 κ 质检在聚合之前；低于预注册下限则本轮判定作废重判。**U-K1（UNRESOLVED）**：κ 具体计算公式（Cohen's/Fleiss'、条目粒度）未在冻结件中文字化，本协议不发明；裁定候选已导出 queue。`kappa_receipt_ref` 字段的存在性可机判、数值不复核。
+- **κ 门禁顺序**：o3-claim-list §4.3——条目层 κ 质检在聚合之前；低于预注册下限则输出 SIGNAL + 人工裁决（γ 处置）。**U-K1 已裁定（2026-11-01, KAPPA-U1K1-DISPOSITION 执行）**：公式 = Fleiss'κ（F2，条目级计数矩阵，N≥2 原生多判者）；阈值 = 0.6（C3 v3 沿用值，β 未对新公式重标定，显式声明）；语义 = SIGNAL + 人工裁决（γ，非硬门禁作废）。详见 `../../kappa-u1k1-adjudication-materials.md` §4/§5。`kappa_receipt_ref` 字段的存在性可机判、数值不复核。
 - **M1/M2 口径**：o3-claim-list §3.1 定义式（M1 = cell 级一致率，全量 248 + gold strict 40 两切片强制并报；M2 = run 级 per-run 向量完全一致率）。实际读数 = 与 1.0 identity 锚点的偏离量，偏离按 (node, 方向) 切片逐格报告（§3.2 口径声明 3）——复算由 assert-o3-claim-rejudge.py 承担，judge 不自报 M1/M2（防双源漂移）。
 
 ## 5. S2 同源偏置限定（byte-exact 引用 o3-claim-list §5.1，叠加生效）
