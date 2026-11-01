@@ -2,9 +2,9 @@
 
 ## 当前状态 @ 2026-11-01（r158）
 
-**r158 双收口**：① prompt-V0 B10 缺口登记——r157 会话的 b92a70c/a6145b6 在 v3 批次开跑前给 baseline 题面加了「找矛盾预算」指令段但没进 §3.2 冻结 diff 表，本轮核实泄漏扫描 token 集不变 + L1 计分链锚定 aad07bd 版 + O2 判据与该段正交后，把该段显式登记为 D3 行（未注册/待冻结），v3 共用题面口径定为「不含 D3 段」，消融归因链恢复干净（main 17c78ad）。② R-12 落地——O2 从「通过条目数/4」直译态升级为层级必要条件机械化（L1/L2/L3 各给产出内可定位判据）+ 层级主导计分 min(1, 0.1·n_L1+0.25·n_L2+0.5·n_L3+0.25·E4) + gold 命中正交化（G-hit 标签化、G-new 计分项），batch2 首项销账（main 4bad6ee→261fde9）。七脚本回归全绿，冻结件零触碰。
+**r158 三连收口**：① prompt-V0 B10 缺口登记（D3 表行，v3 共用题面口径 = 不含该段，main 17c78ad）。② R-12 落地——O2 层级必要条件机械化 + 层级主导计分 min(1, 0.1·n_L1+0.25·n_L2+0.5·n_L3+0.25·E4) + gold 命中正交化（G-hit 标签化/G-new 计分项），batch2 首项销账（main 4bad6ee）。③ RV3G1-semantic-rejudge 收口——75 cell 语义级独立重判补数（arena 不可用降级本地自答 conf −0.2，三层协议 A盲判/B锚点复核/C逐字仲裁）：**h=0 漏判方向 40/40 零翻转（S1 未覆盖方向首次有数字）**、h=1 复验 35/35、confirmed flip=0、歧义 cell×10 挂人工队列；负面发现：无锚点盲判对证据型节点系统性偏严（6/35），单通道不可用作结论（main 08df836）。七脚本回归全绿，冻结件零触碰。
 
-**下一步（下轮唤醒起点）**：pfb 自主可推进项再次清空，剩余全部 blocked-on-human/external：① G1b family_check 升级（等成璐给非 Qwen API key，~5 次调用；本地 qwen 重打已做 r2 核实但仍同族）② κ 阈值标定（等 kappa-u1k1 §4 勾选裁定）③ K4 O1-O4 closure-gate 裁定 ④ web-llm 三 provider 人工登录 ⑤ R5.2-third-scorer（与①合并等待）。新挂候选×1：若测「矛盾挖掘」组件效应，需新开 goal 把 D3 段移出 prompt-V0.txt 并补冻结 commit（B10/#27 规则）。**下轮先核对五项卡人项有无解锁，无变化则 [SILENT]。**
+**下一步（下轮唤醒起点）**：pfb 自主可推进项再次清空，剩余全部 blocked-on-human/external：① G1b family_check 升级（等成璐给非 Qwen API key；本轮新增消费方 = RV3G1 的 75 cell 跨家族补打，judge-input.json 可直接复用 ~11 次调用，并入此项等待）② κ 阈值标定（等 kappa-u1k1 §4 勾选裁定）③ K4 O1-O4 closure-gate 裁定 ④ web-llm 三 provider 人工登录 ⑤ R5.2-third-scorer（与①合并）⑥ **新卡人项**：RV3G1 歧义 cell ×10 的标注口径裁定（run 内结构化账本行的短片段算不算对节点的实质覆盖——如 run3/N-3.2.2 evidence「KV cache 8GB」是账本 NOW 行里的半句；裁定后改 hit-matrix 须开新文件+APPROVALS 登记）。arena 通道本轮实证不可用（ego lite 无 CDP 端口 + curl arena.ai 403），下轮若仍不可用别重试直接走降级阶梯。**下轮先核对六项卡人项有无解锁，无变化则 [SILENT]。**
 
 ## 历史状态 @ 2026-10-31（r75c）
 
