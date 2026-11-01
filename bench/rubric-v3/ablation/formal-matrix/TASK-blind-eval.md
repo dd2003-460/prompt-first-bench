@@ -7,16 +7,9 @@
 - `blind-eval/doc-*.md` — 21 份匿名答卷（A1-A3, B1-B3, C1-C3, D1-D3, E1-E3, F1-F3, G1-G3）
 - `judge-packet-template.json` — 评分标准（rubric_items + O3 claim 清单）
 
-## 匿名映射（仅 Lead 持有，裁判不可见）
-| 匿名前缀 | 实际变体 |
-|---------|---------|
-| A | V0-baseline（无候选集规则、无边界声明）|
-| B | V1-full（完整候选集规则 + 完整边界声明）|
-| C | V1-align（结构改写版候选集规则 + 完整边界声明）|
-| D | V2-nocoverage（无候选集规则、有边界声明）|
-| E | V3-noboundary（有候选集规则、无边界声明）|
-| F | V-sham（候选集规则位置放等长中性占位块、有边界声明）|
-| G | V3-sham（有候选集规则、边界声明位置放等长中性占位块）|
+## 匿名映射
+
+> **2026-11-02 r180 泄漏修复**：映射表原内嵌于此（裁判读任务书即失去盲态，JUDGE-PROTOCOL.md §5 登记）。现移至 `blind-eval/anon-mapping.json`（仅 Lead 持有），本处不再保留任何映射内容。历史溯源见 git log。
 
 ## 评分要求
 1. **盲评**：裁判只看 doc-*.md 的内容和 rubric 标准，不知道哪份是哪个变体。

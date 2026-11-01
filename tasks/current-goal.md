@@ -1,16 +1,11 @@
-# 当前 goal @ r161 (2026-11-01)
+# 当前 Goal：RV3G8-ablation-attribution
 
-## 【目标】
-G1b family_check 升级 + RV3G1 dual-rater 复核：Part A 模型自报+5 工件 J1-strict 重打（family_check unknown→CLOSED/PARTIAL/CONFLICT）；Part B 75 cell 异族第二裁判盲判 8 批，量化分歧方向。
+【目标】正式矩阵消融归因分析——用双裁判盲评的变体总分+维度均值矩阵，拆解 D1（候选集构造规则）与 D2（边界类型声明）各自的贡献，对照 pilot 9-run 排序，产出归因小节草稿供 DRAFT v2 §3.1 第二步并入。
 
-## 【阶段】
-A 取 goal ✅ → B 执行（任务书备料 ✅ 140ce26 @ arena 分支 / arena 派发 ✅ 会话 01a195cb 运行中 ⏳ / 产出核验 ⏳）→ C 收口找下一个
+【阶段】rubric-v3 正式实验（7 变体 × 3 run = 21 答卷 + 双裁判盲评已完成收口 @ r180），进入归因分析阶段。
 
-## 【SOP 索引】
-tasks/G1B-FAMILY-UPGRADE-DUAL-RATER-task-brief.md + .claude/skills/arena-outsource/SKILL.md（门禁已过：台账✅/分支✅/会话绑定✅/prompt 仓库声明✅/回执指纹✅）
+【SOP 索引】tasks/ralph-loop-runner.md（runner 循环协议）；DRAFT-rubric-v3-v2.md §3.1（pilot→定维度流程）；bench/rubric-v3/ablation/formal-matrix/blind-eval/BLIND-EVAL-REPORT.md（输入数据）。
 
-## 【验收标准】
-Part A: hetero-judge-results-r2.json(5 工件) + family-upgrade-analysis.json(family_check_upgrade 结论 + X5 对比)。Part B: dr-b1..b8.json(75 条 h 判定) + dr-summary.json(flip 清单)。全部落 arena/4a614e63-prompt-first-bench + Lead 独立复算 agree_rate + merge main + queue 回填。
+【验收标准】① 归因矩阵落盘 formal-matrix/attribution-analysis.md（D1/D2 主效应 + 交互，每变体对 V0-baseline 的 Δ 分按维度拆解）；② sham 对照检验通过（V-sham/V3-sham 与对应真实变体的差 ≤ 噪声带，否则触发占位块长度/位置混杂讨论）；③ 结论带同判官限定语（非独立 IRR）+ O3 结构性缺口单列；④ 数字全部可从 judge-{1,2}-scores.json 复算（附复算脚本或命令）。
 
-## 【失败降级】
-arena 中途断线 → 已落盘批次保留，续派"从 dr-bN 继续"；全断 → 本地 qwen 自答 conf−0.2（但同族无升级价值，只补 Part B 不补 Part A）。
+【失败降级】数据不足以支撑某项归因 → 如实标注 unverified 并说明缺什么，不硬凑结论。
