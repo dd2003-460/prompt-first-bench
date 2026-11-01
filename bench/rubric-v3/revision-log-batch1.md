@@ -247,3 +247,14 @@ R-04（pilot 两步走）/ R-05（维度合并规则）/ R-07（gold 新发现�
 | 性质 | AUDIT-report 是活文档（非冻结件），修正属勘误回填；冻结数据（hit-matrix/prior-estimates/stats/gold-tree）零触碰 |
 | 验证 | 回执每条证据句均可在 arXiv HTML 原文定位（§号/表格号齐全）；表内新增数字（65 题/35 子域/12-20-33 分布/PAR 71.33/OPC 99.54/+0.45）与回执原文一致 |
 | 日期 | 2026-11-02 |
+
+## R-24 · RV3G8 消融归因并入 DRAFT v2 §3.1（keepalive r182）
+
+| 项 | 内容 |
+|---|---|
+| 触发 | RV3G8-ablation-attribution 收口 @ ed6c2f5（attribution-analysis.md 落盘 + 04.5 PASS），queue 行声明「产出归因小节草稿供 DRAFT v2 并入」——并入动作未执行，DRAFT v2 §3.1 仍停在第二步（r164 pilot-post-analysis），正式矩阵 21 run 结果在 DRAFT 内无登记 |
+| 改动 | DRAFT v2 §3.1 第二步行后新增「第三步 正式矩阵执行 + 消融归因」段：RV3G7 21 run 收口事实 + 双裁判盲评限定语（同 agent 双口径，非独立 IRR）+ 归因四要点（D1 净效应≈+0.12 sham 打掉 / D2 边际 +5.06 稳健但 sham 污染偏保守 / 增益集中 O1+P4 两通道 / O3 结构性缺口 5 claim 单列）+ 预注册预言 Pr1/Pr2 核对结论。数字全部引自 attribution-analysis.md §1-§6（已 04.5 复算零 mismatch），不引入新计算 |
+| 性质 | 冻结文档修订（DRAFT 状态，非已冻结件）；只追加段落，预注册数值（权重表/δ_min/n_pairs 公式/检验族/§3.2 变体冻结表）零触碰；与既有 R-21/R-22 注记同型（实测输入回代模式） |
+| 验证 | ① grep 确认权重表（outcome 0.4/0.25/0.2/0.15、process 四等分）与 δ_min 行零 diff；② 新增段内数字逐项对 attribution-analysis.md 原文核对（+0.12/+5.06/O1 +2.0~+4.33/P4 +2.67~+4.67/P4-E2 6.0 vs 3.11/5 claim 0 命中）；③ 回归 assert-kappa-receipt.py exit 0（消费面不受影响） |
+| 遗留边界 | ① 本段结论继承同判官限定语——真实 IRR 待 G1b family_check 解锁后须复核 D1/D2 效应方向是否翻转（sham 锚点质量是净效应估计的单点依赖）；② n_pairs 反推（r164：总分对比 n≥8）与本轮 21 run 实际规模一致，无需重算；③ O3 gold 树 prefill 路径分歧（FLOPs 建模 vs 实测 tok/s）若成璐裁定修订 gold，O3 维度全量重算 + 本段 ④ 需同步更新 |
+| 日期 | 2026-11-02 |
