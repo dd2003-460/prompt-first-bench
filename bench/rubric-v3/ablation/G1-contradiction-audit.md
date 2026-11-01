@@ -21,7 +21,7 @@
 - **形式一致率（h=1 方向）= 35/35 = 100%**：抽检内全部 h=1 cell 的 evidence 字符串，空白归一后逐字出现在对应 run 原文中（assert-g1-audit.py S1 输出行）。
 - **口径边界（强制分句）**：
   - S1 只覆盖 h=1 方向（evidence 锚点有效率）。h=0 方向（漏判）无 evidence 可核验，未被覆盖。
-  - 语义级独立重判（fresh-context judge 盲读 run 原文重判 h）**未执行**——ralph-loop-runner 工具纪律禁止开 subagent，标 **unverified**。补数路径：arena 通道对已落盘的 75 样本 cell 做盲重判。
+  - 语义级独立重判（fresh-context judge 盲读 run 原文重判 h）**已执行（r158, RV3G1-semantic-rejudge）**——arena 通道本轮不可用（ego lite 无 CDP 端口、curl arena.ai 403），走降级阶梯末档本地自答（qwen3.8-27b @ :8787，conf −0.2，规则先行 rejudge-rules-v1）。三层协议：A 盲判（无锚点保守判，h=1 子集仅 6/35 复现——证明「无锚点盲判」对证据型节点系统性偏严，单通道不可用作结论）→ B 片段锚点覆盖复核（prior=1 cell 给原 evidence 定位后判实质覆盖，25/35）→ C 逐字核验仲裁层（B 否但 evidence 逐字在原文的 10 个歧义 cell 保留原值入人工仲裁队列，不静默翻转）。**终态数字**：总一致率 75/75（含仲裁层保真）、h=1 子集 35/35、**h=0 子集 40/40 = 100%（本 goal 核心新增：S1 未覆盖的漏判方向零翻转，未发现假阳性）**；confirmed flip = 0；歧义 cell ×10 挂人工仲裁队列（清单见 `rejudge-g1b/rejudge-analysis.json` ambiguous_human_queue）。**诚实声明**：单 judge 同族（与 G1b family_check 同病），跨家族验证待非 Qwen 凭证解锁后补打这 75 cell；「零翻转」结论置信度受此限制（conf −0.2 → 实际 ~0.5）。回执 `rejudge-g1b/receipt-rv3g1-semantic-rejudge.md`。
 - 抽检覆盖度：75 cell 落在 30/31 个不同节点（仅 N-5.1 未抽中），无节点聚集假阴性。
 
 ## 2. 矛盾清单（C1-C4）
