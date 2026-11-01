@@ -61,3 +61,25 @@
 
 ### 下一步
 补 run 至 n≥8（MDE 要求）才能出正式显著性结论；当前证据级别 = 方向性 + 效应量 + sham 对照结构。
+
+## r184 — V0.1 hit-matrix 重算收口（2026-11-02）
+
+**分支**: `ralph/v0.1-hit-matrix-recompute` → main `fd07453`
+
+### 做了什么
+发现旧 hit-matrix 的 98 条 evidence quote 有 97 条在 V0.1 文本中不存在（V0.1 移除了题面中的 cache-ratio，run 措辞全变）。按 o3-claim-list 盲判协议重判 248 cell。
+
+### 结果
+- 总分 98→77（-21），加权分 260→181（-79）
+- 分解：题面效应（N-5.3/N-3.1 结构性归零）占 64%，判据收紧占 36%
+- O3 mean: 0.312→0.229；Spearman ρ=0.619（top-1 翻转 run6→run8，bottom-2 不变）
+- Jaccard mean: 0.572→0.477（区分度提升）
+- 有效对比维度 31→29（N-5.3/N-3.1 在 V0.1 下无区分力）
+
+### 产出文件
+- `hit-matrix.json`（V0.1 版）+ `hit-matrix-v0-pre.json`（旧版保留）
+- `receipt-v0.1-hit-matrix-r184.md`（完整回执：flip 明细 + prior 交叉核对 + 加权分 + O3 + Jaccard）
+
+### 下游影响
+- formal-stats-results.json / blind-eval judge scores：不受影响（独立评分通道）
+- coverage-rescan-h1.json：需在新文本上重跑（pending，不阻塞）
