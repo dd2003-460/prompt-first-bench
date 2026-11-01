@@ -77,9 +77,34 @@ run5 跌幅最大（-6）：它的 N-5.3/N-5.1 旧 evidence 依赖 cache-ratio �
 - 旧 evidence 失效验证：97/98 条不在 V0.1 文本中（substring 机判）
 - flip 明细：本回执 §3.4 + `rejudge/rejudge-results.json` 逐 cell 可查
 
-## 6. 状态
+## 6. Prior vs Quality 交叉核对（新矩阵）
+
+prior-estimates.json 的 prior_h_avg 是"专家预判该节点被命中的先验概率"。新矩阵下：
+
+**高先验（≥0.8）但新 h sum 大幅下降的节点**（判据收紧 or 题面效应）：
+- N-5.3: prior=1.0, 8→0（-8）— 纯题面效应（cache-ratio 移除）
+- N-3.1: prior=1.0, 4→0（-4）— 同上，prefill 建模依赖 cache-ratio 语境
+- N-1.1: prior=1.0, 8→3（-5）— 判据收紧（要求 $/hr 折算而非仅提折旧）
+- N-1.2.1: prior=1.0, 7→4（-3）— 判据收紧（要求 W/kW 数值）
+- N-0: prior=1.0, 6→4（-2）— 轻微收紧
+
+**低先验（≤0.2）但新 h sum 反升的节点**（旧判过严）：
+- N-1.1.1: prior=0.0, 4→8（+4）— 新判接受"标为待取数黑盒+获取路径"，旧判只认具体数值
+
+**结论**：prior 估计在 V0.1 下对 N-5.3/N-3.1 失效（结构性归零），其余节点方向一致。做 prior-vs-quality 回归时建议剔除 N-5.3/N-3.1（n=29→27）。
+
+## 7. Coverage-rescan 一致性检查
+
+`coverage-rescan-h1.json`（35 cell，基于旧矩阵生成）与新矩阵对比：
+- 与旧矩阵一致率：25/35 = 71%
+- 与新矩阵一致率：19/35 = 54%
+
+不一致主因：rescan 是在旧 run 文本上跑的，V0.1 文本措辞变化导致部分 covered 判定翻转。**该文件需在新 run 文本上重跑才能用于 V0.1 分析**——标记为 pending，不阻塞当前收口。
+
+## 8. 状态
 
 - [x] 重算完成（248 cell）
 - [x] 新旧对比 + flip 分析
-- [ ] 更新 `hit-matrix.json` 为 V0.1 版本（保留旧版为 `hit-matrix-v0-pre.json`）
-- [ ] 下游脚本（prior-vs-quality、coverage-rescan）适配新矩阵
+- [x] 更新 `hit-matrix.json` 为 V0.1 版本（保留旧版为 `hit-matrix-v0-pre.json`）
+- [x] prior-vs-quality 交叉核对（§6）
+- [ ] coverage-rescan 在新 run 文本上重跑（pending，不阻塞）
