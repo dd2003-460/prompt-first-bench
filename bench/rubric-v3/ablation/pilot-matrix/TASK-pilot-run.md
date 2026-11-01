@@ -52,3 +52,6 @@ DRAFT-rubric-v3-v2.md 已完成 batch1+batch2 全部修订（main @ r162），�
 - 不修改 prompt 文件、manifest.json、DRAFT 文档
 - 单次 run 内可以多次搜索，但跨 run 禁止共享搜索结果（独立性）
 - 某个 run 确实搜不到关键数据时，按题面要求标黑盒给区间，不许编数字
+
+## 回执（Lead 核验门禁 · 必须）
+完成后回执必须含：repo URL（https://github.com/dd2003-460/prompt-first-bench.git）+ branch（你当时 checkout 的分支全名）+ commit_sha（push 后的 tip）。回执没指纹 = Lead 不验收。
