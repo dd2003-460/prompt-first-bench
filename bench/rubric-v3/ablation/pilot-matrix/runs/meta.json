@@ -29,6 +29,36 @@
    "output_file": "runs/V0-baseline/run3.md",
    "output_sha256_16": "c50a0364d722b917",
    "notes": "先验证批处理增益前提（实测21.3x@64并发），S改由显存闸主导；引入保守G(S)敏感性，A100与4x3090并列"
+  },
+  {
+   "variant": "V1-full",
+   "run_id": "V1-full/run1",
+   "started_at": "2026-11-01T20:05+08:00",
+   "ended_at": "2026-11-01T20:55+08:00",
+   "search_count": 6,
+   "output_file": "runs/V1-full/run1.md",
+   "output_sha256_16": "237fc719c6ea3f76",
+   "notes": "D1 按显存来源分区（消费级4/专业卡4/统一内存3/非GPU2），非默认5>=默认8的一半；采信 RTX PRO 6000 $8,565 并给 $13,250 敏感性（价格四档 4,599/8,565/13,250/16,000 未收敛，属源间口径分歧）；S 取 min(显存闸,速度闸)，c/d 三类统一内存机因 roofline 上限 <20 tok/s 全部出局"
+  },
+  {
+   "variant": "V1-full",
+   "run_id": "V1-full/run2",
+   "started_at": "2026-11-01T21:05+08:00",
+   "ended_at": "2026-11-01T21:55+08:00",
+   "search_count": 4,
+   "output_file": "runs/V1-full/run2.md",
+   "output_sha256_16": "b5e27c1df4042ce2",
+   "notes": "D1 按采购口径/风险结构分区（零售新卡3/二手4/改装件2/非买断2），非默认4>=默认7的一半；新增风险项 r_risk 与受支持期限约束的摊销期 H（P40 按驱动 mid-2028 只摊1.7年）；口径要点：r_risk 必须写成 capex*r_annual/8760 得 $/h，写成 capex*r/H 会放大到 $4.3/h 的错误量级；结论与 run1 一致（A100 0.370m）但第二名换成改装 4090-48GB，唯一翻转源是 r 从2%/年升到8%/年"
+  },
+  {
+   "variant": "V1-full",
+   "run_id": "V1-full/run3",
+   "started_at": "2026-11-01T22:20+08:00",
+   "ended_at": "2026-11-01T23:10+08:00",
+   "search_count": 4,
+   "output_file": "runs/V1-full/run3.md",
+   "output_sha256_16": "60b95f93881a3c16",
+   "notes": "D1 按『容量从哪来』分区（高带宽单卡3/高容量低带宽3/统一内存5/多节点池化3），非默认7>=默认6的一半；核心判据 S=floor(单流/20) 的整数阶梯（跨档需20/40/60/80/100）；与前两 run 的分歧点：Arc Pro B70 的悲观实测仅 ~12 t/s（bentech），正文表给的是乐观 roofline 20.5 并标为擦线候选，若采悲观值则应为不合格；Mac M5 Max 128G 因 19.8 t/s 差 0.2 出局"
   }
  ]
 }
