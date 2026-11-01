@@ -40,6 +40,7 @@
 1. ~~P1 · r79 新发现待消费~~ → **r79b DONE（31aa8b5）**：matrix-v11.md 限定语已回填（freeze 效应 task-type-dependent，R4 结论适用范围收窄为开放选型类任务）。F4 B-none 悖论（cover=1.0 但 truth=0.125）证实 cover/truth 双维度独立，联合判读设计成立——已登记于 receipt-r5-mainanalysis.json findings。
 2. **P2 · :8787 node 网关容量竞争根因评估**（cron 400 too large 元凶候选；本轮上下文正常未触发，继续观察）。
 3. ~~维护债备忘~~ → **r157 DONE（b9402ce）**：assert-kappa-receipt.py DEFAULT_DIR 一层偏差已修——原值指向 ablation/ 子目录，kappa-receipt.json 实际在 bench/rubric-v3/ → 无参调用恒 FAIL ①。修正后 PASS + κ=0.0 SIGNAL（阈值未达，U-K1 人工裁决项不变）。materials §5 D2 补过时注记。APPROVALS.md 登记。十五脚本回归基线维持。
+4. **r157 附加**（f9442eb）：G1a 盲标数据完整性回执落盘 `calibration/receipt-g1a-integrity-r157.json`——raw↔summary 10/10 对账 0 mismatch + 6 份工件 sha 锚点。G1b family_check 升级仍需外部输入（非 Qwen key / arena 模型身份），本回执不改变该阻塞状态。
 
 **下轮唤醒协议**：先核对 APPROVALS.md「r76 卡人项状态汇总」有无解锁（G1b 非 Qwen key / κ 门禁勾选 / closure-gate K4 O1-O4 / web-llm 登录），有变化执行对应动作；无变化则 [SILENT]。
 
