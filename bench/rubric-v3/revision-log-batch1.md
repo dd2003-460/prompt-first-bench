@@ -258,3 +258,17 @@ R-04（pilot 两步走）/ R-05（维度合并规则）/ R-07（gold 新发现�
 | 验证 | ① grep 确认权重表（outcome 0.4/0.25/0.2/0.15、process 四等分）与 δ_min 行零 diff；② 新增段内数字逐项对 attribution-analysis.md 原文核对（+0.12/+5.06/O1 +2.0~+4.33/P4 +2.67~+4.67/P4-E2 6.0 vs 3.11/5 claim 0 命中）；③ 回归 assert-kappa-receipt.py exit 0（消费面不受影响） |
 | 遗留边界 | ① 本段结论继承同判官限定语——真实 IRR 待 G1b family_check 解锁后须复核 D1/D2 效应方向是否翻转（sham 锚点质量是净效应估计的单点依赖）；② n_pairs 反推（r164：总分对比 n≥8）与本轮 21 run 实际规模一致，无需重算；③ O3 gold 树 prefill 路径分歧（FLOPs 建模 vs 实测 tok/s）若成璐裁定修订 gold，O3 维度全量重算 + 本段 ④ 需同步更新 |
 | 日期 | 2026-11-02 |
+
+## R-25 · R-05 报告义务执行：正式矩阵 8×8 相关矩阵 + pilot 簇复现检验（keepalive r185）
+
+| 项 | 内容 |
+|---|---|
+| 触发 | R-05 ③「正式报告必须附 8×8 维度间相关矩阵」——pilot 版矩阵已落盘（pilot-post-analysis.json），但正式矩阵收口后（RV3G7/G8/G9）该报告义务在正式数据上从未执行，属预注册义务漏项 |
+| 改动 | ① `ablation/formal-matrix/corr-matrix-formal-n21.json` 落盘（judge-merged per-run 维度分，NA 7 项剔除，n=21 pooled runs A1-G3，P2 维全 NA 不入矩阵）；② attribution-analysis.md 新增 §8.5 附全表；③ DRAFT v2 L198 R-22 裁定段追加 r185 后记（不改动裁定原文与预注册数值） |
+| 结果 | **无任何 \|ρ\|>0.8 对**——pilot（n=9）实测簇 {O1,O2,P4}（ρ(O2,P4)=1.0、ρ(O1,O2)=ρ(O1,P4)=0.854）在 n=21 下未复现，最大 ρ(O2,P4)=0.608/0.617（J1/J2）。pilot 小样本 rank 相关被噪声放大。次级观察 ρ(P3,P4)=0.68 未过阈值 |
+| 含义 | ① R-22 选项 c 的共线风险标注在正式数据下无触发条件，保留为预注册形式合规义务；② 维度结构按分开报执行不受影响，确认性主维 O3+O1 不变；③ 权重表/n_pairs 公式/检验族定义零 diff（R-22 裁定边界维持） |
+| 性质 | 冻结文档修订（DRAFT 状态，非已冻结件）；只追加段落与新文件，预注册数值零触碰；与 R-21/R-22/R-24 注记同型（实测输入回代模式） |
+| 验证 | 矩阵数字由 judge-{1,2}-scores.json 独立复算（Spearman on merged per-run dim sums，NA 剔除口径与 §8 统计脚本一致）；§8.5 表内 21 个 off-diagonal 值逐项对 JSON 核对 |
+| 遗留边界 | ① 若后续扩样本（n≥8 pairs/变体）重跑，本矩阵需同步刷新；② pilot 簇未复现本身是信息量（n=9 的 rank 相关不稳定），不修改 pilot 原始记录 |
+| 日期 | 2026-11-02 |
+

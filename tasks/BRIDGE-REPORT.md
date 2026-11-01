@@ -62,6 +62,20 @@
 ### 下一步
 补 run 至 n≥8（MDE 要求）才能出正式显著性结论；当前证据级别 = 方向性 + 效应量 + sham 对照结构。
 
+## r185 — R-05 报告义务执行：正式矩阵 8×8 相关矩阵（2026-11-02）
+
+### 做了什么
+补上预注册漏项：R-05 ③「正式报告必须附 8×8 维度间相关矩阵」在正式矩阵收口后从未执行。对 judge-{1,2}-scores.json（21 run × 双判）做 judge-merged per-run 维度分 Spearman 全表（NA 7 项剔除，P2 维全 NA 不入矩阵），落盘 `ablation/formal-matrix/corr-matrix-formal-n21.json` + attribution-analysis.md §8.5 + DRAFT v2 L198 裁定段 r185 后记 + revision-log R-25。
+
+### 结果
+**无任何 |ρ|>0.8 对。** pilot（n=9）实测簇 {O1,O2,P4}（ρ(O2,P4)=1.0、ρ(O1,O2)=ρ(O1,P4)=0.854）在 n=21 下未复现——最大 ρ(O2,P4)=0.608/0.617（J1/J2）。pilot 小样本 rank 相关被噪声放大；次级观察 ρ(P3,P4)=0.68 未过阈值。
+
+### 含义
+① R-22 选项 c（分开报+共线风险标注）的标注在正式数据下无触发条件，保留为预注册形式合规义务；② 维度结构按分开报执行不受影响，确认性主维 O3+O1 不变；③ 权重表/n_pairs 公式/检验族零 diff。
+
+### 下一步
+卡人项不变：G1b family_check（真实 IRR，需非 Qwen 凭证或 arena 模型身份披露）/ erratum 类候裁项。下一可自主推进项见 goal-queue 队首扫描。
+
 ## r184 — V0.1 hit-matrix 重算收口（2026-11-02）
 
 **分支**: `ralph/v0.1-hit-matrix-recompute` → main `fd07453`
