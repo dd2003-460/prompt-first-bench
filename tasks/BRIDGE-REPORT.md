@@ -79,8 +79,14 @@
 
 ## 当前状态
 
-- goal: 无活跃 stage-gate goal；r186 补完 RV3G9 勘误回填（P4-E2 口径澄清），rubric-v3 正式实验链文档一致性全收口。剩余卡人项不变：G1b family_check / O3 gold 树 prefill 路径分歧裁定 / APPROVALS 条目 1
-- commit: main 20b861d（r186：attribution L47 注记 + DRAFT 第三步段修正 + revision-log R-26 + BRIDGE r186 段）
+- goal: 无活跃 stage-gate goal；r187 完成 queue-lint 卫生修复（4 FAIL→0）。剩余卡人项不变：G1b family_check / O3 gold 树 prefill 路径分歧裁定 / APPROVALS 条目 1
+- commit: main f812129（r187：queue 3 处吸收声明 + L110 em-dash）
+- 验收自检: assert-queue-lint.py 0 FAIL / 7 SIGNAL（全部合法跨区重复）exit 0
+- 结论：**queue 排版归一选项 (ii) 的 lint 可执行部分已落地**——4 个 FAIL 全部修复，7 个 SIGNAL 为合法吸收登记形态。queue L93 候选行（RV3G3cdx-qfc-stock-normalize）的激活前置「成璐裁定 (i)/(ii)」仍待裁，但 lint 层面的硬伤已清。下一可自主推进项见 goal-queue 队首扫描。
+
+---
+
+## r186 — RV3G9 统计检验勘误回填 + P4-E2 口径澄清（2026-11-02）
 - 验收自检: P4-E2 per-run 分数从 judge-{1,2}-scores.json 独立复算（B/C/D/F 全 2/2，A/E/G 全 0/2）；P4 整维均值复算（6.00 vs 3.11）与原文一致；assert-kappa-receipt.py PASS exit 0
 - 结论：**DISC-1~4 全部销账**——formal-stats-results.json 的 4 项 discrepancies 在 attribution/DRAFT/revision-log 三处全部对齐。rubric-v3 正式实验链（RV3G6→G7→G8→G9→r185→r186）文档层面无残留勘误。下一可自主推进项见 goal-queue 队首扫描。
 
