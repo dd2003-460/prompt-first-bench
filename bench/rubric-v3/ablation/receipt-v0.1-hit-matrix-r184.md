@@ -157,4 +157,5 @@ O3 排序与加权分排序完全一致（Spearman ρ=0.619）。run8 是唯一 
 - [x] 更新 `hit-matrix.json` 为 V0.1 版本（保留旧版为 `hit-matrix-v0-pre.json`）
 - [x] prior-vs-quality 交叉核对（§6）
 - [x] V0.1 加权分重算 + 排序变化分析（§8）
+- [x] prior-estimates-v0.1.json 落盘（N-5.3/N-3.1 → null，其余不变）
 - [ ] coverage-rescan 在新 run 文本上重跑（pending，不阻塞）
