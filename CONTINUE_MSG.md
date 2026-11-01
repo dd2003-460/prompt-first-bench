@@ -1,6 +1,12 @@
 # CONTINUE_MSG — pfb 工作区
 
-## 当前状态 @ 2026-11-02（keepalive r165 · pilot 后分析收口）
+## 当前状态 @ 2026-11-02（keepalive r177 · 盲评对账：agent 在跑，未重复派发）
+
+**r176 派发实际已执行（修正上轮误判）**：ego-browser 打开固定会话 01a195cb（taskSpace 904）核验——r176 那条「双裁判盲评」消息 agent 已接收并在跑：13 次思考 + 12 次命令、已写 /tmp/feat.py 特征提取脚本（按 31 claim 的判别特征 grep 全 21 份答卷）、读完 A-C 九份、正读 D-G 十二份；composer 显示 **Stop generating 按钮 = 仍在生成中**。远端各分支暂无 `blind-eval/judge-{1,2}-scores.json`（arena 分支 tip 仍 fa59371）。**本轮动作 = 零派发**（最小执行：agent 在跑时重复发消息会污染上下文并浪费额度），只留观察。注意 agent 自述口径选择：按 TASK-blind-eval.md §评分要求 3 用 0/1/2 三档（judge-packet-template instructions 声称二值 0/1，两处冲突以任务书为准；NA 项不入分母，非 NA 19 项 → max_score=38；O3 item 分按覆盖率阈值 ≥2/3→2 / ≥1/3→1 / 否则 0）——Lead 收口核验时按此口径复算，κ 计算若需二值化再统一降档。
+
+**下一步（下轮唤醒起点）**：① `git fetch origin && git ls-tree -r --name-only origin/arena/4a614e63-prompt-first-bench | grep -E "blind-eval/judge-[12]-scores"` 查两文件是否落盘 arena 分支；② 落盘 → cherry-pick 到 main → Lead 独立核验（JSON 合法 + 21 run_id 全覆盖无重复 + 非 NA 条目均有 evidence 定位 + O3 per-claim 数组长度=31）→ merge main push → **κ 计算**（条目层 Cohen's κ per-dimension + overall，0/1/2 口径先报原值，必要时二值化降档复算）+ 变体均值排序对照 pilot（DRAFT §3.1 第二步输入）→ BRIDGE-REPORT + queue RV3G7 行回填；③ 未落盘且 composer 仍是 Stop generating → 继续等（长任务 21 份 × 双裁判可能数小时），不重复派发；若 composer 恢复 Send message 但无产出 → 读会话最后输出判断截断/报错，按 SOP 补派或降级本地自答（conf−0.2）。其他卡人项不变：erratum-27 / G1b family_check / R121 / web-llm 登录。
+
+## 历史状态 @ 2026-11-02（keepalive r165 · pilot 后分析收口）
 
 **RV3G6-pilot-post-analysis 收口（main @ 831174c pushed）**：pilot-run 的全部剩余尾巴（MDE 反推 + R-05 合并规则输入）已兑现——① `ablation/pilot-matrix/pilot-post-analysis.json` 落盘：双判均值维度分重算（DRAFT 预注册公式，条目级二值分→维度分→总分全链路脚本可复现）+ 三组主对比配对 sd_d + n_pairs 反推（δ_min=0.1）+ 7×7 Spearman 矩阵 + |ρ|>0.8 簇候选；② DRAFT v2 §3.1「第二步 正式实验」行追加 r164 实测输入四注记（κ 处置/簇裁定挂起/n_pairs 方向性/天花板效应），预注册数值与权重表零触碰；③ revision-log R-21 登记。**关键数字**：变体均值 outcome V0 0.634 / V1-full 0.841 / V1-align 0.823（process 0.722/0.944/0.944）——候选集规则（D1/D2 段）信号在总分层成立且 V1-full≈V1-align（结构贡献与暗示贡献未分离，符合 B3 设计预期需更多样本）。主对比 V1full−V0：outcome Δ=+0.208(sd 0.094)、process Δ=+0.222(sd 0.096) → δ_min=0.1 下总分层 n≥8；最敏感维 O1 Δ=+0.556(sd 0.419) → **n≥139**（若 O1 保留为确认性维度，样本量由它决定）。|ρ|>0.8 实测簇 = {O1, O2, P4}（ρ(O2,P4)=1.0, ρ(O1,O2)=ρ(O1,P4)=0.854）——与预注册候选「O2+P4」部分重合但多出 O1，而 O1 是 R-05 指定的确认性主维度之一。
 
