@@ -11,6 +11,7 @@
    - 用 terminal 工具派发 claude 执行该 goal：
      `claude -p "git checkout main。读 tasks/ralph-loop-runner.md 和 <goal任务书路径>，执行 <goal短名>，走完整 1-loop 六阶段，commit+push 到你的新分支 ralph/<goal短名>。" --dangerously-skip-permissions --max-turns 200`
      （background=true, notify=true；prompt 保持单段、无角色前缀、≤3 个文件引用——复杂多段 prompt 会触发 API 400 tool_reference）
+   - **通知通道（2026-11-01 修订）**：claude 进程退出时 terminal notify 只在本会话存活期间送达。为防漏收，keepalive cron（loop-keepalive-30m）每 30min 唤醒时会执行「bridge 对账」：`pgrep -f "claude -p"` 为空但 `tasks/current-goal.md` 存在且 queue 未划掉 → 说明 claude 已收口而通知丢失，立即走下面的验证→merge 流程。即：notify 是快路径，keepalive 对账是兜底，两者都通。
    - 轮询验证（每 5-8 min 一次）：`git log --oneline main..HEAD` + `find loop-artifacts/stages/ -name "*<goal前缀>*"` + `ps aux | grep "[c]laude -p" | wc -l`
    - claude 收口后（进程退出或 max-turns 耗尽）：我验证产出（跑断言脚本/grep 关键数字）→ merge 回 main → push → 更新 queue（划掉+结果注记+追加新候选）
    - **同一回合内立即取下一个 goal 重复上述流程**——stop-hook 会在每次我想停时把我拽回来，所以「回合结束」不是终点
