@@ -135,6 +135,8 @@ L307（§6 开放问题 2，起草者自认疑虑）：
 
 **回归义务（执行 goal 内）**：assert-kappa-receipt.py 改后跑既有基线（当前 ablation 面 = FAIL exit 1 常态不变——回执仍不存在）+ 新增 3-judge 合成回执的正/反变异各一。
 
+> r157 注记：本行「FAIL exit 1 常态」描述已过时——r29 erratum 收口已落盘合规回执于 `bench/rubric-v3/kappa-receipt.json`，且 r157 修复了脚本 DEFAULT_DIR 一层偏差（原指向 ablation/ 子目录，无参调用恒 FAIL ①）。现无参调用 = PASS + κ=0.0 SIGNAL（阈值未达，人工裁决项 U-K1 不变）。
+
 ## 6. 边界声明
 
 - 本文件不修改 o3-claim-list.md / DRAFT v2 / judge-protocol-batch1.md / assert-kappa-receipt.py / revision-log 任何一行（裁定前冻结；git status 验证见 loop-artifacts/stages/04/）。

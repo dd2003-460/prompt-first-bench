@@ -38,7 +38,11 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[4]
-DEFAULT_DIR = ROOT / "bench/rubric-v3/ablation"
+# r157 维护债销账：DEFAULT_DIR 一层偏差修复。
+# 原值 ROOT/"bench/rubric-v3/ablation" 是脚本自身所在目录，但 kappa-receipt.json
+# 实际落盘于 bench/rubric-v3/（r29 erratum 收口时写入），导致无参调用恒 FAIL ①。
+# 修正为回执真实位置；显式传参行为不变。
+DEFAULT_DIR = ROOT / "bench/rubric-v3"
 KAPPA_MIN = 0.6  # DRAFT-rubric-v3-v2.md R5 门禁阈值
 GATE_NAME = "role-swap-dual-judge"
 
