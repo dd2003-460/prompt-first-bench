@@ -1,10 +1,16 @@
 # CONTINUE_MSG — pfb 工作区
 
-## 当前状态 @ 2026-11-01（r158）
+## 当前状态 @ 2026-11-01（keepalive r160）
+
+**RV3G6-o3-claim-rejudge P1 执行 + 248 全量合并收口（main 9514a95 pushed）**：P1 98 cell（h_id_frozen=1，FM-1 假命中方向）四批 blind-packet 本地降级自答完成（arena 不可用 conf−0.2，单 judge 同族 S2 限定叠加生效）；P0(150)+P1(98) 按冻结 schema 合并 `rejudge/rejudge-results.json`（sha256_16=ba492a85856bac91），**assert-o3-claim-rejudge.py 从 SIGNAL blocked-on-external 转 PASS exit 0**——M1_full=197/248=0.7944 / M1_gold_strict=38/40=0.95 / M2_run_level=0/8，flip 51 逐格留痕（0→1 FM-2 漏判证据 ×15 / 1→0 FM-1 假命中证据 ×36）。关键发现：**N-5.3 cache_hit_rate 1→0 ×8 全 run 翻转**——与 V0.1-cache-ratio-removal 的 N-5.3 自发拆解验证方向一致，送分效应污染定量证据。queue L10/L78 回填（L78 补吸收声明，queue-lint FAIL 4→3，余下为 r159 前存量）。回执 receipt-rejudge-full-merge.json（sha256_16=8678d06c02168232）。诚实声明：单 judge 同族不构成 S2 闭环证据，跨家族重判待非 Qwen 凭证解锁（并入 G1b family-upgrade 等待项）。run4/N-1.2 evidence 逐字修复（markdown 加粗标记丢失，判定值未变）。
+
+**下一步（下轮唤醒起点）**：pfb 自主可推进项再次清空（本轮 P1+合并是唯一剩余自主项，已收口），剩余全部 blocked-on-human/external：① G1b family_check 升级（等成璐给非 Qwen API key；消费方 = RV3G1 75 cell + 本批 248 cell 跨家族补打）② κ 门禁标定（等 kappa-u1k1 §4 勾选裁定；本批单判者 κ 不适用，多判者阶段激活后执行）③ K4 O1-O4 closure-gate 裁定 ④ web-llm 三 provider 人工登录 ⑤ R5.2-third-scorer（与①合并）⑥ RV3G1 歧义 cell ×10 标注口径裁定。**下轮先核对六项卡人项有无解锁，无变化则 [SILENT]。**
+
+## 历史状态 @ 2026-11-01（r158）
 
 **r158 三连收口**：① prompt-V0 B10 缺口登记（D3 表行，v3 共用题面口径 = 不含该段，main 17c78ad）。② R-12 落地——O2 层级必要条件机械化 + 层级主导计分 min(1, 0.1·n_L1+0.25·n_L2+0.5·n_L3+0.25·E4) + gold 命中正交化（G-hit 标签化/G-new 计分项），batch2 首项销账（main 4bad6ee）。③ RV3G1-semantic-rejudge 收口——75 cell 语义级独立重判补数（arena 不可用降级本地自答 conf −0.2，三层协议 A盲判/B锚点复核/C逐字仲裁）：**h=0 漏判方向 40/40 零翻转（S1 未覆盖方向首次有数字）**、h=1 复验 35/35、confirmed flip=0、歧义 cell×10 挂人工队列；负面发现：无锚点盲判对证据型节点系统性偏严（6/35），单通道不可用作结论（main 08df836）。七脚本回归全绿，冻结件零触碰。
 
-**下一步（下轮唤醒起点）**：pfb 自主可推进项再次清空，剩余全部 blocked-on-human/external：① G1b family_check 升级（等成璐给非 Qwen API key；本轮新增消费方 = RV3G1 的 75 cell 跨家族补打，judge-input.json 可直接复用 ~11 次调用，并入此项等待）② κ 阈值标定（等 kappa-u1k1 §4 勾选裁定）③ K4 O1-O4 closure-gate 裁定 ④ web-llm 三 provider 人工登录 ⑤ R5.2-third-scorer（与①合并）⑥ **新卡人项**：RV3G1 歧义 cell ×10 的标注口径裁定（run 内结构化账本行的短片段算不算对节点的实质覆盖——如 run3/N-3.2.2 evidence「KV cache 8GB」是账本 NOW 行里的半句；裁定后改 hit-matrix 须开新文件+APPROVALS 登记）。arena 通道本轮实证不可用（ego lite 无 CDP 端口 + curl arena.ai 403），下轮若仍不可用别重试直接走降级阶梯。**下轮先核对六项卡人项有无解锁，无变化则 [SILENT]。**
+**下一步（已被 r160 覆盖，见顶部）**：pfb 自主可推进项再次清空，剩余全部 blocked-on-human/external：① G1b family_check 升级（等成璐给非 Qwen API key；本轮新增消费方 = RV3G1 的 75 cell 跨家族补打，judge-input.json 可直接复用 ~11 次调用，并入此项等待）② κ 阈值标定（等 kappa-u1k1 §4 勾选裁定）③ K4 O1-O4 closure-gate 裁定 ④ web-llm 三 provider 人工登录 ⑤ R5.2-third-scorer（与①合并）⑥ **新卡人项**：RV3G1 歧义 cell ×10 的标注口径裁定（run 内结构化账本行的短片段算不算对节点的实质覆盖——如 run3/N-3.2.2 evidence「KV cache 8GB」是账本 NOW 行里的半句；裁定后改 hit-matrix 须开新文件+APPROVALS 登记）。arena 通道本轮实证不可用（ego lite 无 CDP 端口 + curl arena.ai 403），下轮若仍不可用别重试直接走降级阶梯。**下轮先核对六项卡人项有无解锁，无变化则 [SILENT]。**
 
 ## 历史状态 @ 2026-10-31（r75c）
 
