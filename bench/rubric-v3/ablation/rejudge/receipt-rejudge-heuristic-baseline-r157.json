@@ -1,0 +1,104 @@
+{
+  "receipt_id": "rejudge-heuristic-baseline-r157",
+  "date": "2026-11-01",
+  "purpose": "关键词匹配启发式基线 — 非有效 rejudge，仅供真实 judge 通道到来后对比参照",
+  "method": "对 248 cell 逐节点提取 claim 中的技术术语（如 'MFU'/'KV cache'/'GB/s'），在 run 全文中做子串匹配；≥1 命中判 yes，0 命中判 no。这是机械基线，不是独立 LLM 盲判。",
+  "source_files": {
+    "heuristic_results": "bench/rubric-v3/ablation/rejudge/rejudge-results-heuristic-r157.json",
+    "frozen_hit_matrix": "bench/rubric-v3/ablation/hit-matrix.json"
+  },
+  "comparison_vs_frozen": {
+    "total_cells": 248,
+    "agree": 194,
+    "agree_pct": 78.2,
+    "disagree": 54,
+    "fm1_false_hits": 28,
+    "fm2_false_misses": 26,
+    "note": "FM-1 集中在 N-1/N-3/N-4（claim 术语宽泛，run 文本天然含这些词）；FM-2 集中在 N-5.3/N-1.2（claim 要求特定结构如 '命中率敏感性讨论'/'功耗×时长×电价乘积'，关键词匹配无法捕捉结构性要求）"
+  },
+  "per_node_disagreement": {
+    "N-1": {
+      "fm1": 8,
+      "fm2": 0,
+      "total": 8
+    },
+    "N-5.3": {
+      "fm1": 0,
+      "fm2": 8,
+      "total": 8
+    },
+    "N-1.2": {
+      "fm1": 0,
+      "fm2": 7,
+      "total": 8
+    },
+    "N-1.2.2": {
+      "fm1": 4,
+      "fm2": 0,
+      "total": 8
+    },
+    "N-5": {
+      "fm1": 0,
+      "fm2": 4,
+      "total": 8
+    },
+    "N-3": {
+      "fm1": 3,
+      "fm2": 0,
+      "total": 8
+    },
+    "N-3.2.4": {
+      "fm1": 2,
+      "fm2": 1,
+      "total": 8
+    },
+    "N-4": {
+      "fm1": 3,
+      "fm2": 0,
+      "total": 8
+    },
+    "N-3.2.2": {
+      "fm1": 2,
+      "fm2": 1,
+      "total": 8
+    },
+    "N-5.1": {
+      "fm1": 0,
+      "fm2": 3,
+      "total": 8
+    },
+    "N-3.1.1": {
+      "fm1": 2,
+      "fm2": 0,
+      "total": 8
+    },
+    "N-3.2.1": {
+      "fm1": 2,
+      "fm2": 0,
+      "total": 8
+    },
+    "N-1.1.4": {
+      "fm1": 1,
+      "fm2": 0,
+      "total": 8
+    },
+    "N-5.2": {
+      "fm1": 1,
+      "fm2": 0,
+      "total": 8
+    },
+    "N-3.1": {
+      "fm1": 0,
+      "fm2": 1,
+      "total": 8
+    },
+    "N-3.2": {
+      "fm1": 0,
+      "fm2": 1,
+      "total": 8
+    }
+  },
+  "interpretation": "78.2% 一致率说明启发式基线与冻结 hit-matrix 大方向吻合，但 21.8% 分歧暴露了关键词匹配的局限：(1) 无法判断结构性要求（如 '呈 A×B×C 乘积结构'）；(2) 无法区分 '提及概念' vs '实际建模'；(3) 无法处理边界态裁量。这恰好说明了为什么协议要求 fresh-context LLM judge 而非机械匹配。",
+  "validity": "INVALID as rejudge per protocol §6 (requires fresh-context LLM judge). Valid only as mechanical baseline for future comparison.",
+  "verdict": "BASELINE-ONLY (not a gate pass/fail)"
+}
