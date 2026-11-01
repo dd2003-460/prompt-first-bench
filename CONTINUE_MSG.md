@@ -41,7 +41,8 @@
 2. **P2 · :8787 node 网关容量竞争根因评估**（cron 400 too large 元凶候选；本轮上下文正常未触发，继续观察）。
 3. ~~维护债备忘~~ → **r157 DONE（b9402ce）**：assert-kappa-receipt.py DEFAULT_DIR 一层偏差已修——原值指向 ablation/ 子目录，kappa-receipt.json 实际在 bench/rubric-v3/ → 无参调用恒 FAIL ①。修正后 PASS + κ=0.0 SIGNAL（阈值未达，U-K1 人工裁决项不变）。materials §5 D2 补过时注记。APPROVALS.md 登记。十五脚本回归基线维持。
 4. **r157 附加**（f9442eb + 3ece757）：G1a 完整性回执（raw↔summary 10/10 对账 + sha 锚点）+ G1b 三判器一致性矩阵（93/95 一致，X5 检测方向性确认）。G1b family_check 升级仍需外部输入（非 Qwen key / arena 模型身份），本回执不改变该阻塞状态。
-5. **r157 附加**（rejudge 启发式基线）：248 cell 关键词匹配 vs 冻结 hit-matrix 78.2% 一致（FM-1=28, FM-2=26）。非有效 rejudge（协议 §6 要求 fresh-context LLM judge），仅供真实通道到来后对比参照。落盘 `rejudge/rejudge-results-heuristic-r157.json` + `receipt-rejudge-heuristic-baseline-r157.json`。
+5. **r157 附加**（rejudge 启发式基线）：248 cell 关键词匹配 vs 冻结 hit-matrix 78.2% 一致（FM-1=28, FM-2=26）。非有效 rejudge（协议 §6 要求 fresh-context LLM judge），仅供真实通道到来后对比参照。落盘 `rejudge/rejudge-results-heuristic-r157.json` + `receipt-rejudge-heuristic-baseline-r157.json` + `receipt-rejudge-leak-analysis-r157.json`（FM-1/FM-2 根因分析：结构性盲区定量说明）。
+6. **r157 附加**（869f7e7）：三判器条目级一致性矩阵——G1a-J1 (qwen :8787) vs G1b-r1 (arena) vs G1b-r2 (本地 qwen)，95 shared items / 93 unanimous (97.9%)，2 分歧全在 X5（植入退化检测）：A1/X5 G1a=pass r1=pass r2=fail，P1/X5 G1a=pass r1=fail r2=fail。方向性确认：异源 judge 对植入退化更敏感，同源偏软。family_check 状态不变（r1 provider 身份未确认）。落盘 `calibration/receipt-crossjudge-consistency-r157.json`。
 
 **下轮唤醒协议**：先核对 APPROVALS.md「r76 卡人项状态汇总」有无解锁（G1b 非 Qwen key / κ 门禁勾选 / closure-gate K4 O1-O4 / web-llm 登录），有变化执行对应动作；无变化则 [SILENT]。
 
