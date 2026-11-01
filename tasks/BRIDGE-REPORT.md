@@ -29,3 +29,35 @@
 - 远端各分支暂无 `blind-eval/judge-{1,2}-scores.json`（arena 分支 tip 仍 fa59371）
 - **Lead 决策：零派发**——agent 在跑时重复发消息会污染上下文；composer 显示 Stop generating = 仍在生成
 - **下轮核验起点**：`git fetch origin && git ls-tree -r --name-only origin/arena/4a614e63-prompt-first-bench | grep -E "blind-eval/judge-[12]-scores"` → 落盘则 cherry-pick main + 独立核验（JSON 合法 / 21 run_id 全覆盖无重复 / 非 NA 条目有 evidence / O3 per-claim 数组长度=31）→ κ 计算（per-dimension + overall，0/1/2 原值先报）→ BRIDGE-REPORT 收口
+
+## r183 — RV3G9 预注册统计检验执行 + attribution 勘误（2026-11-02）
+
+**分支**: `ralph/rv3g9-formal-stats-execution` → main `0481ed4`
+
+### 做了什么
+按 DRAFT v2 §3.3 (R-11) 预注册方案，对盲评双裁判数据跑完整统计检验：
+- **28 项配对置换检验**（4 主对比 × 7 维度，10⁴ sign-flips）+ Holm-Bonferroni 全族校正
+- 敏感性：Wilcoxon（多组 |d|=0 不适用，已记录）
+- 效应量 dz、MDE 反推样本量
+
+### 结果
+- **0/28 维度检验、0/4 复合总分检验 Holm 后显著**（最小原始 p=0.2528）
+- n=3 下置换检验分辨率上限 ~p≈0.25——结构性 underpowered，非效应不存在
+- MDE 反推：总分对比需 n≥8，O1 单维需 n≥139
+- 方向性结论全部复算确认：V1-full > V1-align > V0 排序、D2 边际 +5.06 超噪声带、P4-E2 二分机制、O1 主通道
+
+### 发现并修正的归因报告错误（4 处）
+| # | 位置 | 原值 | 实际值 | 影响 |
+|---|------|------|--------|------|
+| DISC-1 | §3 D1 净效应 | ≈+0.12（组均值口径） | B−F=+2.67（干净配对） | 中——定性不变，数值差 22× |
+| DISC-2 | §4 V0 O1 | 1.67/6 | 1.67/6 ✓ 无误 | 无 |
+| DISC-3 | §4 O1 区间 | 3.67–6.0 | 4.0–6.0（下界=C 组均值） | 低 |
+| DISC-4 | §3 F 组 SD | 2.88 | pool 6 值=2.88 / merged 3 值=3.21 | 低——口径差异 |
+
+### 产出文件
+- `bench/rubric-v3/ablation/formal-matrix/formal-stats-results.json`（完整统计回执）
+- `attribution-analysis.md` 勘误 4 处 + 新增 §8 统计检验段
+- `DRAFT-rubric-v3-v2.md` §3.1 第三步同步勘误
+
+### 下一步
+补 run 至 n≥8（MDE 要求）才能出正式显著性结论；当前证据级别 = 方向性 + 效应量 + sham 对照结构。
