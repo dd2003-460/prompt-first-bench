@@ -6,16 +6,16 @@
 
 ### 阶段 A：取 goal
 0. **先 `git checkout main`**（防分支漂移），确认在 main 上再动作
-   **runner 桥接规则（Hermes stop-hook 驱动模式）**：当本会话由 Hermes stop-hook 唤醒且消息含「ralph loop runner」或指向本协议时，执行者 = Hermes agent 本人（不是 claude CLI）：
+   **runner 外包规则（2026-11-01 v3 · arena agent mode 执行层，替代本地 claude CLI）**：
+   背景：claude CLI 背后也是本地 27b（经 ~/.claude-vllm-proxy → ninfer），跟 subagent 卡死同根——能力天花板不在壳。按 AGENTS.md 红线 1「外包核验与调研」+ skill `arena-outsource`，执行层一律走 LMArena agent mode（免费、多模型对战、可代干活）。
    - 从 `tasks/goal-queue.md` 取队首未完成 goal → 写 `tasks/current-goal.md`
-   - 用 terminal 工具派发 claude 执行该 goal：
-     `claude -p "git checkout main。读 tasks/ralph-loop-runner.md 和 <goal任务书路径>，执行 <goal短名>，走完整 1-loop 六阶段，commit+push 到你的新分支 ralph/<goal短名>。收口前必须把完成状态写入 tasks/BRIDGE-REPORT.md（goal短名+commit hash+验收自检+一句话结论），写完再退出——这是你唯一的通知通道，不写等于白干。" --dangerously-skip-permissions --max-turns 200`
-     （background=true, notify=true；prompt 保持单段、无角色前缀、≤3 个文件引用——复杂多段 prompt 会触发 API 400 tool_reference）
-   - **汇报通道（2026-11-01 v2 · 不用 keepalive cron）**：不依赖任何定时任务。claude 的 prompt 里必须带一条硬指令——「收口前把完成状态写入 `tasks/BRIDGE-REPORT.md`（goal 短名 + commit hash + 验收自检结果 + 一句话结论），写完再退出」。我这边两条路都能收到信号：① terminal notify=true，claude 进程退出时若本会话活着直接唤醒我；② 我每次被唤醒（stop-hook、用户消息、任何事件）先花 5 秒跑一次 bridge 对账：`cat tasks/BRIDGE-REPORT.md 2>/dev/null` + `pgrep -f "claude -p" | wc -l`——有报告且进程不在 = 它干完了，走验证→merge；没报告且进程在 = 还在干，不打扰；没报告且进程不在 = 它死了，查 /tmp/ralph-loop-r*.log 定位后简化 prompt 重试一次。即：汇报靠 claude 自己写文件，发现靠我对账，cron 不参与。
-   - 轮询验证（每 5-8 min 一次）：`git log --oneline main..HEAD` + `find loop-artifacts/stages/ -name "*<goal前缀>*"` + `ps aux | grep "[c]laude -p" | wc -l`
-   - claude 收口后（进程退出或 max-turns 耗尽）：我验证产出（跑断言脚本/grep 关键数字）→ merge 回 main → push → 更新 queue（划掉+结果注记+追加新候选）
-   - **同一回合内立即取下一个 goal 重复上述流程**——stop-hook 会在每次我想停时把我拽回来，所以「回合结束」不是终点
-   - 若 claude 进程死亡（API error/卡死）：检查 /tmp/ralph-loop-r*.log 定位原因，简化 prompt 重试一次；仍失败则登记边界后跳过该 goal 取下一个
+   - **任务书先 push**：goal 任务书 commit+push 到本仓 `tasks/<T-id>.md`，派发 prompt 只写「读 tasks/<T-id>.md 按其中步骤执行」（不贴内容、不贴 clone 命令）
+   - **ego-browser 提交 arena**（唯一通道，SOP 见 `.claude/skills/arena-outsource/SKILL.md`）：taskSpace 命名 `pfb-ralph-<goal短名>`，goto https://arena.ai/agent，填任务卡（自包含：目标一句话+约束+交付格式模板+长度≤50行+落盘硬约束「文件不存在=任务未完成」），waitForFunction 等回复落页（三档超时 30s/1min/3min，超 3min 进降级阶梯）
+   - **大 goal 拆分优先**（m00656）：子领域正交拆 3-7 个，每个 ≤30min，并行 ≤3；arena 失败率高，调研类每子领域拆 2 个（主调研+交叉验证）
+   - **汇报通道不变**：arena 产出由我（Lead）读取 snapshot 后写入 `tasks/BRIDGE-REPORT.md`（goal 短名+交付物路径+验收自检+一句话结论）——claude 时代它是工人自己写，现在是我收到 arena 结果后代写。我对账方式相同：cat 报告 + 查 ego-browser taskSpace 状态
+   - **交叉验证门禁**（02.5/04.5）：同一 claim ≥2 独立回答（arena 内不同对战轮次各答一遍），回执 JSON 满足最低字段；矛盾点记录+核实
+   - **降级阶梯**（逐级降，记录原因）：arena agent mode → arena Battle → ego-browser 直抓 → 本地自答（conf −0.2，标「arena 不可用 <日期> <原因>」）
+   - 收口：我验证产出（跑断言/grep 关键数字）→ merge ralph/<goal短名> → push → 更新 queue → 同一回合取下一个 goal
 1. 读 `tasks/goal-queue.md` → 取队首未完成的 goal；若队列空则自找：
    - 扫 `bench/self-opt-tester/bench.md` 已知缺陷清单 → 选产投比最高的未解决项
    - 扫 `tasks/*.md` 未完成的任务书回执
