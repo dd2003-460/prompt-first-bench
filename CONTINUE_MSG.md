@@ -1,6 +1,10 @@
 # CONTINUE_MSG — pfb 工作区
 
-## 当前状态 @ 2026-11-01（keepalive r160）
+## 当前状态 @ 2026-11-01（keepalive r164 · pilot-run 批次1 派发中）
+
+**RV3G6-pilot-run 批次1（V0-baseline ×3 run）已派发 arena 会话 01a195cb，agent 运行中**：r163 备料（pilot-matrix/ 5 文件 + queue [~]）基础上完成派发前检查清单——① 任务书补「回执必须含 repo+branch+commit_sha」门禁段（main 55b80f0 pushed，经 ralph/rubric-v3-pilot-run merge）；② 分支绑定核验通过（snapshot 显示 "repository and branch: arena/4a614e63-prompt-first-bench"，prompt 内已显式声明切换目标 = ralph/rubric-v3-pilot-run 并标注"这是本任务要求的分支切换"防 agent 误判违规）；③ 派发 prompt 走 ProseMirror execCommand insertText（editor_len=995 验证后 Send），分 3 批策略写入 prompt（第 1 批只做 V0-baseline 3 run，完成后停下等 Lead 发第 2/3 批）。**轮询要点**：批次1 产出应落在 `bench/rubric-v3/ablation/pilot-matrix/runs/V0-baseline/run{1,2,3}.md`，每 run 独立 commit+push（任务书硬约束）→ 下轮唤醒先 `git fetch && git log origin/ralph/rubric-v3-pilot-run --oneline -10` 看是否有 runs/ 新 commit + snapshot 看回执指纹。注意：该会话历史跑过 rejudge-g1b（gold-tree 记忆残留风险，V0.1 批次同款污染披露项，回收时按 conf−0.2 口径标注）。
+
+**下一步（下轮唤醒起点）**：① 查批次1 是否落盘（远端分支 log + ego-browser taskSpace pfb-pilot-run-dispatch-20261101 snapshot 回执）；② 落盘且 selfcheck 通过 → 派批次2（V1-full ×3，同会话同模板，只需换变体名）；未落盘但 agent 仍在跑 → 继续等（30min/run 量级，不催）；③ 批次全齐（9 run）→ judge 双判（Qwen 系内两模型，family_check 解锁前口径）→ κ 回执 + MDE + 8×8 相关矩阵 → BRIDGE-REPORT + queue 收口。其他卡人项不变：erratum-27 / G1b family_check / R121。
 
 **RV3G6-o3-claim-rejudge P1 执行 + 248 全量合并收口（main 9514a95 pushed）**：P1 98 cell（h_id_frozen=1，FM-1 假命中方向）四批 blind-packet 本地降级自答完成（arena 不可用 conf−0.2，单 judge 同族 S2 限定叠加生效）；P0(150)+P1(98) 按冻结 schema 合并 `rejudge/rejudge-results.json`（sha256_16=ba492a85856bac91），**assert-o3-claim-rejudge.py 从 SIGNAL blocked-on-external 转 PASS exit 0**——M1_full=197/248=0.7944 / M1_gold_strict=38/40=0.95 / M2_run_level=0/8，flip 51 逐格留痕（0→1 FM-2 漏判证据 ×15 / 1→0 FM-1 假命中证据 ×36）。关键发现：**N-5.3 cache_hit_rate 1→0 ×8 全 run 翻转**——与 V0.1-cache-ratio-removal 的 N-5.3 自发拆解验证方向一致，送分效应污染定量证据。queue L10/L78 回填（L78 补吸收声明，queue-lint FAIL 4→3，余下为 r159 前存量）。回执 receipt-rejudge-full-merge.json（sha256_16=8678d06c02168232）。诚实声明：单 judge 同族不构成 S2 闭环证据，跨家族重判待非 Qwen 凭证解锁（并入 G1b family-upgrade 等待项）。run4/N-1.2 evidence 逐字修复（markdown 加粗标记丢失，判定值未变）。
 
