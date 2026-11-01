@@ -34,15 +34,14 @@
 
 ## 下一步（按优先级）
 
-> r78（2026-11-01 keepalive 轮）更新。上步核实：r74 G1b arena 通道已收口（PARTIAL-PASS，family_check unknown），queue L25 family-upgrade 未推进且 agent 侧不可解锁——本轮做了本地低成本补数据点（g1b-r2，commits 5d8f571+6cf6627）。
+> r79（2026-11-01 keepalive 轮）更新。本轮完成 D3 harder domain 全链：设计冻结(4a364d3) → 18 run 执行 → J1 sweep + M8 cover 分析 → 主分析回执(0265cc3)。opportunity-set-freeze goal 销账。
 
-0. **P1 · C3 v3 paired runs** → 全链八环回执完整（receipt-c3v3-final-consolidation-r76.md），最终结论 freeze 负效应最稳健（Δtruth −0.350）/ evidence 正向（+0.156）/ owner 中性，四条硬限定语不变。**r78 新增数据点**：本地 qwen 实例盲评同批 5 工件（hetero-judge-results-r2.json + receipt-g1b-r2-local-judge.md）——X5 敏感度三判器交叉验证成立（A1/X5 仅 r2 抓到、P1/X5 三方全抓），但 judge 自报同族 ⇒ family_check 仍 unknown，R5 维持 PARTIAL-CLOSED。剩余卡人项不变：**#1 G1b family-upgrade（等成璐给非 Qwen API key 或 arena 披露模型身份，~5 次调用，重打模板现成）/ #2 κ 阈值标定（等 kappa-u1k1 §4 勾选裁定）/ #3 严格盲法第二人 / #4 harder domain**。agent 侧无可推进空间，下轮唤醒直接跳到 P2。
-1. ~~P1 · market-alpha 双线验收~~ → r76/r77 收口（T4-R1/T3-R3/T5-R1/R2 全 pass，T5-R3 预注册冻结 5facff2）。回测执行需 Lead 另轮授权。
-2. ~~P2 · 回 arena 会话 01a18567 取 307 行 survey 原文~~ → **r78 核实为误报已销账**：r48 (c241a8f) 已从 origin/arena/78602cd5 tip 5a525c7 取回 308 行全文回填 main，回执 tasks/receipts/arena-lit-survey-r51-failed.md L10 已标 DONE——本条是 r76 盘点时的陈旧残留。
-3. **P2 · :8787 node 网关容量竞争根因评估**（cron 400 too large 元凶候选；本轮上下文正常未触发，继续观察）。
-4. **维护债备忘**（assert-baseline-audit-r76 登记，未动）：assert-kappa-receipt.py DEFAULT_DIR=ablation/ 与回执实际位置 bench/rubric-v3/ 一层偏差——下次动 rubric-v3 面时顺手二选一修复（挪文件 or 改默认目录），勿单独开 commit。
+0. **P1 · C3 v3 主分析残留卡人项**（不变）：#1 G1b family-upgrade（等成璐给非 Qwen API key，~5 次调用模板现成）/ #2 κ 阈值标定（等 kappa-u1k1 §4 勾选裁定）/ #3 严格盲法第二人 / #4 ~~harder domain~~ → **r79 DONE**（D3-hardware-purchase 落地，cover 门槛激活）。剩余三项仍卡人，agent 侧无可推进空间。
+1. **P1 · r79 新发现待消费**（0265cc3, receipt-r5-mainanalysis.json）：F2 freeze 主效应 task-type-dependent——D1/D2 开放选型域 freeze 负效应(Δtruth −0.350)，D3 规格密集域 freeze 正效应(+0.779)。建议写入 matrix-v11.md 限定语更新（下轮可做，纯仓库内 ~1 回合）。F4 B-none 悖论（cover=1.0 但 truth=0.125）证实 cover/truth 双维度独立，联合判读设计成立。
+2. **P2 · :8787 node 网关容量竞争根因评估**（cron 400 too large 元凶候选；本轮上下文正常未触发，继续观察）。
+3. **维护债备忘**（不变）：assert-kappa-receipt.py DEFAULT_DIR 一层偏差——下次动 rubric-v3 面时顺手修。
 
-**下轮唤醒协议**：先核对 APPROVALS.md「r76 卡人项状态汇总」五项有无解锁（G1b 非 Qwen key / κ 门禁勾选 / closure-gate K4 O1-O4 / web-llm 登录 / queue 排版归一），有变化执行对应动作；无变化则做可逆维护或 [SILENT]。
+**下轮唤醒协议**：先核对 APPROVALS.md「r76 卡人项状态汇总」有无解锁（G1b 非 Qwen key / κ 门禁勾选 / closure-gate K4 O1-O4 / web-llm 登录），有变化执行对应动作；无变化则做 P1 第 1 条（matrix-v11 限定语回填）或 [SILENT]。
 
 ## 历史收口记录（旧「下一步」段归档 · r63 前快照）
 
