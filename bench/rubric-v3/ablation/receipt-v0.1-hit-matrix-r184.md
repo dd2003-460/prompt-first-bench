@@ -91,7 +91,7 @@ prior-estimates.json 的 prior_h_avg 是"专家预判该节点被命中的先验
 **低先验（≤0.2）但新 h sum 反升的节点**（旧判过严）：
 - N-1.1.1: prior=0.0, 4→8（+4）— 新判接受"标为待取数黑盒+获取路径"，旧判只认具体数值
 
-**结论**：prior 估计在 V0.1 下对 N-5.3/N-3.1 失效（结构性归零），其余节点方向一致。做 prior-vs-quality 回归时建议剔除 N-5.3/N-3.1（n=29→27）。
+**结论**：prior 估计在 V0.1 下对 N-5.3/N-3.1 失效（结构性归零），其余节点方向一致。prior-vs-quality 回归已执行（n=27，排除 N-5.3/N-3.1）：**Spearman ρ=0.633, Pearson r=0.548**。唯一 outlier：N-1.1（prior=1.0 但 quality=0.50）——"摊销 $/hr"人人觉得该提但实际很少算对，是 prior 高估的典型。
 
 ## 7. Coverage-rescan 一致性检查
 
