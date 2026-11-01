@@ -6,15 +6,17 @@
 
 ### 阶段 A：取 goal
 0. **先 `git checkout main`**（防分支漂移），确认在 main 上再动作
-   **runner 桥接规则（Hermes stop-hook 驱动模式）**：当本会话由 Hermes stop-hook 唤醒且消息含「ralph loop runner」或指向本协议时，执行者 = Hermes agent 本人（不是 claude CLI）：
+   **runner 外包规则（2026-11-01 v3 · arena agent mode 执行层，替代本地 claude CLI）**：
+   背景：claude CLI 背后也是本地 27b（经 ~/.claude-vllm-proxy → ninfer），跟 subagent 卡死同根——能力天花板不在壳。按 AGENTS.md 红线 1「外包核验与调研」+ skill `arena-outsource`，执行层一律走 LMArena agent mode（免费、多模型对战、可代干活）。
    - 从 `tasks/goal-queue.md` 取队首未完成 goal → 写 `tasks/current-goal.md`
-   - 用 terminal 工具派发 claude 执行该 goal：
-     `claude -p "git checkout main。读 tasks/ralph-loop-runner.md 和 <goal任务书路径>，执行 <goal短名>，走完整 1-loop 六阶段，commit+push 到你的新分支 ralph/<goal短名>。" --dangerously-skip-permissions --max-turns 200`
-     （background=true, notify=true；prompt 保持单段、无角色前缀、≤3 个文件引用——复杂多段 prompt 会触发 API 400 tool_reference）
-   - 轮询验证（每 5-8 min 一次）：`git log --oneline main..HEAD` + `find loop-artifacts/stages/ -name "*<goal前缀>*"` + `ps aux | grep "[c]laude -p" | wc -l`
-   - claude 收口后（进程退出或 max-turns 耗尽）：我验证产出（跑断言脚本/grep 关键数字）→ merge 回 main → push → 更新 queue（划掉+结果注记+追加新候选）
-   - **同一回合内立即取下一个 goal 重复上述流程**——stop-hook 会在每次我想停时把我拽回来，所以「回合结束」不是终点
-   - 若 claude 进程死亡（API error/卡死）：检查 /tmp/ralph-loop-r*.log 定位原因，简化 prompt 重试一次；仍失败则登记边界后跳过该 goal 取下一个
+   - **任务书先 push**：goal 任务书 commit+push 到本仓 `tasks/<T-id>.md`，派发 prompt 只写「读 tasks/<T-id>.md 按其中步骤执行」（不贴内容、不贴 clone 命令）
+   - **ego-browser 提交 arena**（唯一通道，SOP 见 `.claude/skills/arena-outsource/SKILL.md`）：taskSpace 命名 `pfb-ralph-<goal短名>`，goto https://arena.ai/agent，填任务卡（自包含：目标一句话+约束+交付格式模板+长度≤50行+落盘硬约束「文件不存在=任务未完成」），waitForFunction 等回复落页（三档超时 30s/1min/3min，超 3min 进降级阶梯）
+   - **大 goal 拆分优先**（m00656）：子领域正交拆 3-7 个，每个 ≤30min，并行 ≤3；arena 失败率高，调研类每子领域拆 2 个（主调研+交叉验证）
+   - **汇报通道不变**：arena 产出由我（Lead）读取 snapshot 后写入 `tasks/BRIDGE-REPORT.md`（goal 短名+交付物路径+验收自检+一句话结论）——claude 时代它是工人自己写，现在是我收到 arena 结果后代写。我对账方式相同：cat 报告 + 查 ego-browser taskSpace 状态
+   - **交叉验证门禁**（02.5/04.5）：同一 claim ≥2 独立回答（arena 内不同对战轮次各答一遍），回执 JSON 满足最低字段；矛盾点记录+核实
+   - **judge 外包 arena Battle（2026-11-01 v3.1 · 成璐指令）**：评分/judge 环节同样走 arena，不自己 AI 当裁判。流程：① 把待评材料（evidence packet / 产出 diff / 任务书）整理成自包含评分 prompt——给 rubric + 材料 + 要求输出固定格式（per-metric 分数表 + 每条扣分理由，≤50 行）；② ego-browser 提交 arena.ai（Battle 模式即可，匿名双模型对战 = 免费双裁判）；③ snapshot 读两个模型的判分；④ 一致性判定：两裁判 per-metric 差 ≤10 分 = 通过取均值；差 >10 分 = 该 metric 升级 Lead 仲裁（我读双方理由后裁定，裁定结果写回执）；⑤ 回执 JSON 落 `bench/self-opt-tester/r<N>/judge-arena-r<N>.json`，字段含 kind:"judge_arena_battle" / two_raters[]（各自分数+理由摘要）/ agreement{}（per-metric 差值）/ adjudications[]（升级条目+我的裁定+理由）。先例参照 r5/scorer-agreement-r1.json（claude vs deepseek 双盲打口径），arena Battle 是它的自动化版本。注意：judge prompt 里不得泄露正确答案或 gold tree（同 prompt-V0 去泄露原则），只给 rubric 和材料。
+   - **降级阶梯**（逐级降，记录原因）：arena agent mode → arena Battle → ego-browser 直抓 → 本地自答（conf −0.2，标「arena 不可用 <日期> <原因>」）
+   - 收口：我验证产出（跑断言/grep 关键数字）→ merge ralph/<goal短名> → push → 更新 queue → 同一回合取下一个 goal
 1. 读 `tasks/goal-queue.md` → 取队首未完成的 goal；若队列空则自找：
    - 扫 `bench/self-opt-tester/bench.md` 已知缺陷清单 → 选产投比最高的未解决项
    - 扫 `tasks/*.md` 未完成的任务书回执

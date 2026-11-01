@@ -16,11 +16,14 @@ loop-artifacts/stages/01/RV3G4kra-stages01-03.md F1）：
 
   kappa-receipt.json = {
     "gate": "role-swap-dual-judge",   # str，固定值（防其他方法名混用）
-    "kappa_value": <float -1..1>,      # 条目层二值 Cohen's κ（DRAFT v2 R-02 口径；
+    "kappa_value": <float -1..1>,      # 条目层二值 κ（U-K1 已裁定 2026-11-01：F2 Fleiss'κ，
+                                       #   条目级计数矩阵，N≥2 原生多判者；
                                        #   理论界 [-1,1]，负值 = 一致性差于随机，合法记录值）
-    "method": <str 非空>,             # κ 计算说明（含 n_items）
-    "judges": [<str>, <str>],         # 恰两个非空 ID（换位双判 = 两 judge；
-                                      #   ≥3 judge Fleiss'κ 属 R5.2-third-scorer 范围）
+    "method": <str 非空>,             # κ 计算说明；U-K1 裁定后取值域约束：
+                                      #   F2 → "fleiss_kappa, n_items=<int>, judges=<N>"
+                                      #   （历史兼容值 Cohen's κ 2-judge 仍接受，标注 unverified 口径）
+    "judges": [<str>, ...],           # ≥2 个非空 ID（U-K1 裁定放宽：原「恰两个」→「≥2」；
+                                      #   2 judge = 换位双判 Cohen's κ，≥3 judge = Fleiss'κ 原生场景）
     "length_debias_check": "pass" | "na",  # R5 第三要件；"na" 必须配 note
     "length_debias_note": <str>,       # length_debias_check="na" 时必填（如实登记缺口）
     "scored_artifact": <str 相对 ROOT 可解析>  # 被门禁保护的评分文件（防张冠李戴）
@@ -38,7 +41,11 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[4]
-DEFAULT_DIR = ROOT / "bench/rubric-v3/ablation"
+# r157 维护债销账：DEFAULT_DIR 一层偏差修复。
+# 原值 ROOT/"bench/rubric-v3/ablation" 是脚本自身所在目录，但 kappa-receipt.json
+# 实际落盘于 bench/rubric-v3/（r29 erratum 收口时写入），导致无参调用恒 FAIL ①。
+# 修正为回执真实位置；显式传参行为不变。
+DEFAULT_DIR = ROOT / "bench/rubric-v3"
 KAPPA_MIN = 0.6  # DRAFT-rubric-v3-v2.md R5 门禁阈值
 GATE_NAME = "role-swap-dual-judge"
 
@@ -92,12 +99,14 @@ check("② kappa_value is number in [-1,1]",
       isinstance(kv, (int, float)) and not isinstance(kv, bool) and -1.0 <= kv <= 1.0,
       f"got {kv!r}")
 
-check("② method non-empty str", isinstance(r.get("method"), str) and len(r["method"].strip()) > 0,
+check("② method non-empty str (U-K1: fleiss_kappa / pairwise_cohen / cohen legacy)",
+      isinstance(r.get("method"), str) and len(r["method"].strip()) > 0
+      and any(k in r["method"] for k in ("fleiss", "pairwise", "cohen")),
       f"got {r.get('method')!r}")
 
 jd = r.get("judges")
-check("② judges is list of exactly 2 non-empty str",
-      isinstance(jd, list) and len(jd) == 2 and all(isinstance(j, str) and j.strip() for j in jd),
+check("② judges is list of >=2 non-empty str (U-K1: relaxed from exactly-2)",
+      isinstance(jd, list) and len(jd) >= 2 and all(isinstance(j, str) and j.strip() for j in jd),
       f"got {jd!r}")
 
 ldc = r.get("length_debias_check")

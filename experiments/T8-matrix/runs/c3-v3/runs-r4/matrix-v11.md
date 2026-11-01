@@ -38,7 +38,7 @@
 ## r57 机会集冻结协议消费（T8-C3-v3-opportunity-set-freeze）
 
 - arena 对抗回执 blocking fix #3 落地为草案：`design/opportunity-set-freeze-protocol-draft-r57.md`（定义主体=Lead 盲法前置 / 空分母保守口径默认 / truth-cover 联合门槛 / 新旧 M8 口径版本化）。
-- **R4 限定语回填（r57 生效 → r60 部分收回）**：~~evidence/owner 方向的 M8 比较在分母收缩 -25.5% 下无法分离质量效应与数量效应，降档为"未分离的方向性证据"~~ → **r60 cover 分析否定分母收缩假设**（B-noevidence cover=1.000 与 A-full 持平，冻结集口径下分母固定不存在收缩）。evidence/owner 方向 M8 比较恢复为「方向性证据」（同族 judge + n=4/cell 的上限不变），不再带「未分离」限定语。freeze 负效应（B-nofreeze 0.469 全场最低）**三 judge 下均 rank 1/9，结论最稳健**。
+- **R4 限定语回填（r57 生效 → r60 部分收回）**：~~evidence/owner 方向的 M8 比较在分母收缩 -25.5% 下无法分离质量效应与数量效应，降档为"未分离的方向性证据"~~ → **r60 cover 分析否定分母收缩假设**（B-noevidence cover=1.000 与 A-full 持平，冻结集口径下分母固定不存在收缩）。evidence/owner 方向 M8 比较恢复为「方向性证据」（同族 judge + n=4/cell 的上限不变），不再带「未分离」限定语。freeze 负效应（B-nofreeze 0.469 全场最低）**三 judge 下均 rank 1/9，结论最稳健**。**r79 限定语追加（D3 harder domain, runs-r5/）**：该负效应是 **task-type-dependent**——D3-hardware-purchase（规格密集型，6 项数值阈值）上 freeze 主效应反转为正（Δtruth A-full−B-nofreeze = +0.779，n=2 seed 仅报方向），且 cover 门槛首次非 vacuous（3/18 run cover<1.0，全在删 freeze config）。解读：开放选型域（D1/D2）中 freeze 约束探索致负效应；规格密集域（D3）中 freeze 的候选集冻结+递归分解恰好防漏项致正效应。R4「freeze 负效应最稳健」结论适用范围收窄为「开放选型类任务」。
 - 三层口径不一致坐实：judge 条目（6-30/run）≠ 题面机械可提取机会（5-8/seed）≠ 成文冻结集（无）。事后重建只能给下界 → R4 不复算，新口径从下一 run 起生效。
 - 待裁定：空分母保守/激进口径 + cover 门槛 -0.05 数值（草案 §四，不代裁）。
 

@@ -56,7 +56,7 @@ time_range:         \d{4}\s*(/\s*\d{4})?
 
 1. ~~成璐裁定~~ → **已裁定（r62z, 2026-10-31，成璐授权 runner 自主决定）**：空分母用**保守口径**（unaddressed 计入分母、不计入分子，没做=没通过）；cover 门槛维持 **-0.05**（Δcover ≥ -0.05 才允许升档）。理由：保守口径防「少做事反而分数高」的漏洞，与 sham 分离目标一致；-0.05 在当前域 vacuous（cover 恒 1.0），不构成实际约束，harder domain 接入后自然生效。激进口径保留作敏感性分析双报。
 2. Lead 对 4 seed 产出正式 opportunity-set 文件（机械 + 人工补全），commit 冻结。**状态：DONE（r60 — opportunity-sets-v1.json 落盘，4 seed × 9-10 项，D1+D2 双域）**
-3. 下一个 run 按新口径执行；M8 双报 (truth, cover)。~~R5 已跑完但用的是旧口径~~ → r60e 注记：当前域 cover 恒 1.0，双报机制就绪但 vacuous，需 harder task 激活。**状态：UNBLOCKED（item 1 已裁定，r62z）**
+3. 下一个 run 按新口径执行；M8 双报 (truth, cover)。~~R5 已跑完但用的是旧口径~~ → ~~r60e 注记：当前域 cover 恒 1.0，双报机制就绪但 vacuous，需 harder task 激活~~ → **r79 DONE：D3-hardware-purchase harder domain 落地（runs-r5/，18 run），cover 门槛首次非 vacuous（3/18 run cover<1.0），M8 双报联合判读生效。状态：DONE（r79, 2026-11-01）**
 4. matrix 模板加口径列；assert 脚本加"无后缀 M8 引用"检查。**状态：DONE（r62g — matrix-v11.md 口径列 + assert-m8-no-suffix.py PASS）**
 
 ## 边界登记

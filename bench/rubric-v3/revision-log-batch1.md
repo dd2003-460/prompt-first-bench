@@ -140,6 +140,53 @@ R-04（pilot 两步走）/ R-05（维度合并规则）/ R-07（gold 新发现�
 
 ---
 
+## R-17 · O3 消融证据段补记独立 judge 盲测 r1 结果（r73 产出回填）
+
+| 项 | 内容 |
+|---|---|
+| 触发 | keepalive 快照 P2「新发现：rubric-v3 遗留工作 #1 独立 judge 盲测 p̃」——核实后发现该盲测 r73 已执行且裁定已落 bench.md L104，但 DRAFT v2 O3 消融证据段未同步（v1 时代旧句「若独立 judge 盲测支持再升级」已被 R-06 experimental 声明取代但未注明依据实测） |
+| 改动 | `DRAFT-rubric-v3-v2.md` O3 消融证据段新增一条 bullet：r73 盲测 W3 top-5 构念效度 1/5 → pass=false + ρ=0.688 + 最终裁定（surprisal 权重方案不进正式 rubric，负结果记录），显式挂接 R-06 experimental 状态声明 |
+| 性质 | 文档同步（非冻结数据修改）：judge-blindtest-r1.json / stats-w3w4.json 等冻结件零触碰；与 AUDIT-report G2 F2 双源根因结论一致，无新事实引入 |
+| 验证 | grep 确认新 bullet 存在 + 既有 bullet 零改动（diff 面仅 +1 行） |
+| 日期 | 2026-11-01 |
+
+---
+
+## R-18 · prompt-V0 矛盾预算段 B10 缺口登记（r158 · ralph/v0-conflict-budget-close）
+
+| 项 | 内容 |
+|---|---|
+| 触发 | keepalive bridge 对账发现 b92a70c/a6145b6 两个 commit 在 v3 批次开跑前修改了 `ablation/prompt-V0.txt`（新增「找矛盾预算」指令段），但该段未登记进 DRAFT v2 §3.2 冻结 diff 表——B10 规则「无 diff 记录的变体不得开跑」的机械前提被破坏：若 v3 批次直接以现版 prompt-V0.txt 为共用题面，所有变体都携带未注册的 V1 侧组件，消融归因链断裂 |
+| 核实事实 | ① 泄漏扫描不受影响：assert-leak-triage.py 旧/新版 token 集完全相同（均 {0.25,0.30,0.45,1,2,9,10,20,90,100,200}），rare-token 白名单口径不变；② L1 计分链锚定 aad07bd (r69) 落盘版（TASK-ablation 输入材料节 + #27 裁定 C9-plain 只作外部参照），hit-matrix/prior-estimates 等冻结件零触碰；③ gold-tree.md 无「矛盾」标记节点，O2 E1-E4 判据与 D3 段正交（E2/E3 判的是产出内矛盾层级，不依赖题面是否要求找矛盾）；④ 该段语义上属 V1 侧组件预研（矛盾挖掘深度是 O2 维度测的对象，放进 baseline 会污染 V0/V2 对照） |
+| 改动 | `DRAFT-rubric-v3-v2.md` §3.2 冻结 diff 表追加 D3 行（状态 = 未注册/B10 缺口，任何变体要测其效应须先补 diff+冻结 commit 再开跑；在此之前共用题面按「不含 D3 段」口径执行）+ `TASK-ablation.md` 输入材料节加版本注记（L1 数据锚定 aad07bd 版） |
+| 性质 | 文档同步 + 缺口显式化（非冻结数据修改、非行为变更）：prompt-V0.txt 本体零改动（保持 r157 会话工作成果原样），冻结 JSON/矩阵零触碰 |
+| 待办导出 | 若 v3 批次决定测「矛盾挖掘」组件效应：新开 goal 把 D3 段从 prompt-V0.txt 移出（或单列 prompt-V1-conflict 文件）+ 补 §3.2 D3 行冻结 commit + 同批次重跑受影响变体（B10/#27）。当前不代裁，挂候选 |
+| 日期 | 2026-11-01 |
+
+---
+
+## R-19 · O2 层级必要条件机械化 + 层级主导计分 + gold 命中正交化（R-12 落地 · ralph/rv3g6-o2-mechanize-r12）
+
+| 项 | 内容 |
+|---|---|
+| 触发 | queue 候选 RV3G6-o2-mechanize-r12：AUDIT-report #5/#11/#12 + B2 fix(2) 的 O2 侧落地——batch1 直译态「O2 = 通过条目数/4」把 L1×4 与 L3×1 等权，且 E1-E4 判据仍用层级语义词（judge 无法机械执行） |
+| 改动 | `DRAFT-rubric-v3-v2.md` §2-O2 整节替换为 R-12 终态：① L1/L2/L3 各给「产出内可定位的必要条件」（L1=两具名对象+同维度反向取值+片段可定位；L2=L1 基础上双变量数值锚点+显式不相容断言+来源/推算依据；L3=L2 基础上外部可查数字或可复算公式+具体机制链路解释）；② 计分改层级主导 `O2 = min(1, 0.1·n_L1 + 0.25·n_L2 + 0.5·n_L3 + 0.25·E4)`——取消旧 min(2,Σ) 封顶下「深度>广度」被广度淹没的问题，单 L3 贡献 0.5、L1×10 才到 1.0；③ gold 命中正交化：G-hit 降级为附加诊断标签不计分，G-new（gold 未覆盖的新深层发现，须附可验证路径）改正式计分项 `O2_final = min(1, O2 + 0.25·G_new)`，盲评确认前按 0.5 条保守计 |
+| 权重依据 | 0.1/0.25/0.5 沿用 v1 相对比例（0.5/1/2 归一化后近似 0.2/0.4/0.8，此处取更保守的 0.1/0.25/0.5 使单 L3=0.5 即半满、E4 质量门 0.25 封顶闭环价值）；min(1,·) 保持维度分 0-1 连续口径与 W 组合层兼容。pilot 双判数据出来后如 κ 不达标或区分度异常，按 batch2 规则回修并记 revision-log |
+| 性质 | 冻结文档修订（DRAFT 状态，非已冻结件）；O2 之外零触碰（diff 面仅 §2-O2 一节）；C0 历史 run 的 O2 分数不受影响（v2 从未对 C0 出过正式分，L1 链锚定 aad07bd 不变） |
+| 遗留边界 | ① G-new 独立盲评确认通道复用 C3 v3 G1b 异源 judge 资产，family_check 解锁前按 0.5 条计；② 层级必要条件 judge 间一致性待 pilot 双判首验（κ 回执走 assert-kappa-receipt.py 既有 schema） |
+| 验证 | grep 确认「[batch2: R-12]」占位改为已落地注记 + 旧「通过条目数 / 4」计分句零残留（全文唯一匹配 = 新计分公式行）；七脚本回归全绿（O2 无既有断言脚本，回归面 = 防误伤） |
+| 日期 | 2026-11-01 |
+
+---
+
+| 触发 | queue KAPPA-U1K1-DISPOSITION（成璐裁定：F2 Fleiss'κ + β 维持 0.6 + γ 降 SIGNAL+人工裁决；P1 双判者对照 κ=0.537 实证分歧 19 cell 后激活） |
+| 改动 | U-K1 销账落地 D1-D6：judge-protocol-batch1.md L71 U-K1 段替换为裁定结果（F2+β+γ）；assert-kappa-receipt.py docstring 口径更新 + method 收紧为取值域约束（fleiss/pairwise/cohen）+ judges 从「恰两个」放宽「≥2」；DRAFT v2 L16/L208 追加口径绑定注记（L208「不过不开评」措辞按 γ 软化）；o3-claim-list §4.3 写入具体公式与数字（κ_fleiss < 0.6, β 沿用声明, γ 语义）；queue RV3G4-kappa-gate-execution 联动注记 |
+| 性质 | 冻结件修改（o3-claim-list §4.3）→ APPROVALS.md 登记；其余为非冻结文档修订。U-K1 是发散型缺口（§4.3 原文从未写公式），本条落地的是裁定结果而非还原本意 |
+| 验证 | assert-kappa-receipt.py 实跑基线回归（既有 kappa-receipt.json 应仍 PASS——method 含 'cohen' 历史兼容）+ 新增 3-judge 合成回执正变异（judges=3 → PASS）+ method 域外反变异（method="unknown" → FAIL） |
+| 日期 | 2026-11-01 |
+
+---
+
 ## 诚实保留（负面结果与弱点，不掩盖）
 
 1. **R-06 逐字一致性已 diff 验证**（04 执行后更新）：AUDIT-report.md L186 与 v2 L77 字节级相等（python `a == b → True`，413 字符），非手工重打。

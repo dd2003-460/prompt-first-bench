@@ -21,7 +21,7 @@
 - **形式一致率（h=1 方向）= 35/35 = 100%**：抽检内全部 h=1 cell 的 evidence 字符串，空白归一后逐字出现在对应 run 原文中（assert-g1-audit.py S1 输出行）。
 - **口径边界（强制分句）**：
   - S1 只覆盖 h=1 方向（evidence 锚点有效率）。h=0 方向（漏判）无 evidence 可核验，未被覆盖。
-  - 语义级独立重判（fresh-context judge 盲读 run 原文重判 h）**未执行**——ralph-loop-runner 工具纪律禁止开 subagent，标 **unverified**。补数路径：arena 通道对已落盘的 75 样本 cell 做盲重判。
+  - 语义级独立重判（fresh-context judge 盲读 run 原文重判 h）**已执行（r158, RV3G1-semantic-rejudge）**——arena 通道本轮不可用（ego lite 无 CDP 端口、curl arena.ai 403），走降级阶梯末档本地自答（qwen3.8-27b @ :8787，conf −0.2，规则先行 rejudge-rules-v1）。三层协议：A 盲判（无锚点保守判，h=1 子集仅 6/35 复现——证明「无锚点盲判」对证据型节点系统性偏严，单通道不可用作结论）→ B 片段锚点覆盖复核（prior=1 cell 给原 evidence 定位后判实质覆盖，25/35）→ C 逐字核验仲裁层（B 否但 evidence 逐字在原文的 10 个歧义 cell 保留原值入人工仲裁队列，不静默翻转）。**终态数字**：总一致率 75/75（含仲裁层保真）、h=1 子集 35/35、**h=0 子集 40/40 = 100%（本 goal 核心新增：S1 未覆盖的漏判方向零翻转，未发现假阳性）**；confirmed flip = 0；歧义 cell ×10 挂人工仲裁队列（清单见 `rejudge-g1b/rejudge-analysis.json` ambiguous_human_queue）。**诚实声明**：单 judge 同族（与 G1b family_check 同病），跨家族验证待非 Qwen 凭证解锁后补打这 75 cell；「零翻转」结论置信度受此限制（conf −0.2 → 实际 ~0.5）。回执 `rejudge-g1b/receipt-rv3g1-semantic-rejudge.md`。
 - 抽检覆盖度：75 cell 落在 30/31 个不同节点（仅 N-5.1 未抽中），无节点聚集假阴性。
 
 ## 2. 矛盾清单（C1-C4）
@@ -40,6 +40,14 @@
 | N-1 | 0/8 | 0.45 | P(全miss)=(0.55)⁸ = 0.0084 | 先验近半概率出现却 8 次全 miss → 先验偏高或 run 系统性漏判该节点 |
 | N-1.1 | 8/8 | 0.35 | P(全hit)=0.35⁸ = 0.000225 | 先验偏低概率却 8 次全 hit → 先验偏低 |
 | N-5.3 | 8/8 | 0.05 | P(全hit)=0.05⁸ ≈ 5e-11 | 同上，幅度极端（两个数量级以上） |
+
+**成璐指令（2026-11-01）：任务画像里的缓存比要删掉**。prompt-V0.txt 的「任务画像」段把 `缓存命中:新输入:输出 ≈ 90:9:1` 直接写死在题面里——这等于替模型做掉了 N-5.3 cache_hit_rate 这道拆解。gold tree 里 N-5.3 是 nuisance 节点（弹性 B8 7.6x，全树最敏感），正确姿势是让模型自己发现"前缀可缓存 → 命中率决定 decode 占比 → 必须拆出来量化"，而不是喂答案。修正动作：① prompt-V0 改写成不含具体比值的版本（只保留"有长期不变的可缓存前缀"这个事实）② 重跑 8 run ③ 看模型能否自发产出 N-5.3 拆解。这是 G1 审计之后对 benchmark 本身的效度修复——当前 8 run 的 hit-matrix 是在"送分题"上测出来的。
+
+**rejudge-g1b 回灌（2026-11-01, arena 盲判 75 cell, results/b1-b7.json）**：三红旗全部获独立证据支持，且偏差方向得到细化——
+- N-1 高估 ✓：quality 盲判确认 run 对 c_hour 拆解不完整（prior_h=1 的 cell 中 4/30 quality=0）。
+- N-1.1 低估 ✓：prior_h=0 的 cell 中 8/30 quality=1、2/30 quality=2（先验说"没拆到"实际拆到了），N-1.3 TCO 跨 run 全满分。
+- N-5.3 方向勘误：G1 原写"极端低估"（p̃=0.05 vs hr=1.0），但 rejudge 揭示 hr=1 本身是假阳性——8 个 run 里 cache_hit_rate 均只以输入参数（90:9:1）出现，从未被实质拆解，quality 全 0。**真实矛盾是双向的：p̃ 过低 + hr 虚高**，根因是 judge 把输入数字误判为拆解。修正后 N-5.3 的"矛盾幅度"应从 5e-11 降级为"标注口径问题"而非"先验失准"。
+- 新增发现：偏差不是单向校准问题，prior_h 在两个方向上都不可靠（高估 13% + 低估 33%），量化明细见 `rejudge-g1b/g1-prior-vs-quality.json`。
 
 - evidence：assert-g1-audit.py S3 输出行；JSON path prior-estimates.json:nodes.N-1.p_tilde 等；命中计数 hit-matrix.json:run{1..8}.N-1.h 等。
 - 注意：三红旗双向分布（1 高估 + 2 低估）→ 不是单向校准问题，是逐节点估计质量问题。

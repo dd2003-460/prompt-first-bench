@@ -1,6 +1,24 @@
 # CONTINUE_MSG — pfb 工作区
 
-## 当前状态 @ 2026-10-31（r73）
+## 当前状态 @ 2026-11-01（keepalive r160）
+
+**RV3G6-o3-claim-rejudge P1 执行 + 248 全量合并收口（main 9514a95 pushed）**：P1 98 cell（h_id_frozen=1，FM-1 假命中方向）四批 blind-packet 本地降级自答完成（arena 不可用 conf−0.2，单 judge 同族 S2 限定叠加生效）；P0(150)+P1(98) 按冻结 schema 合并 `rejudge/rejudge-results.json`（sha256_16=ba492a85856bac91），**assert-o3-claim-rejudge.py 从 SIGNAL blocked-on-external 转 PASS exit 0**——M1_full=197/248=0.7944 / M1_gold_strict=38/40=0.95 / M2_run_level=0/8，flip 51 逐格留痕（0→1 FM-2 漏判证据 ×15 / 1→0 FM-1 假命中证据 ×36）。关键发现：**N-5.3 cache_hit_rate 1→0 ×8 全 run 翻转**——与 V0.1-cache-ratio-removal 的 N-5.3 自发拆解验证方向一致，送分效应污染定量证据。queue L10/L78 回填（L78 补吸收声明，queue-lint FAIL 4→3，余下为 r159 前存量）。回执 receipt-rejudge-full-merge.json（sha256_16=8678d06c02168232）。诚实声明：单 judge 同族不构成 S2 闭环证据，跨家族重判待非 Qwen 凭证解锁（并入 G1b family-upgrade 等待项）。run4/N-1.2 evidence 逐字修复（markdown 加粗标记丢失，判定值未变）。
+
+**下一步（下轮唤醒起点）**：pfb 自主可推进项再次清空（本轮 P1+合并是唯一剩余自主项，已收口），剩余全部 blocked-on-human/external：① G1b family_check 升级（等成璐给非 Qwen API key；消费方 = RV3G1 75 cell + 本批 248 cell 跨家族补打）② κ 门禁标定（等 kappa-u1k1 §4 勾选裁定；本批单判者 κ 不适用，多判者阶段激活后执行）③ K4 O1-O4 closure-gate 裁定 ④ web-llm 三 provider 人工登录 ⑤ R5.2-third-scorer（与①合并）⑥ RV3G1 歧义 cell ×10 标注口径裁定。**下轮先核对六项卡人项有无解锁，无变化则 [SILENT]。**
+
+## 历史状态 @ 2026-11-01（r158）
+
+**r158 三连收口**：① prompt-V0 B10 缺口登记（D3 表行，v3 共用题面口径 = 不含该段，main 17c78ad）。② R-12 落地——O2 层级必要条件机械化 + 层级主导计分 min(1, 0.1·n_L1+0.25·n_L2+0.5·n_L3+0.25·E4) + gold 命中正交化（G-hit 标签化/G-new 计分项），batch2 首项销账（main 4bad6ee）。③ RV3G1-semantic-rejudge 收口——75 cell 语义级独立重判补数（arena 不可用降级本地自答 conf −0.2，三层协议 A盲判/B锚点复核/C逐字仲裁）：**h=0 漏判方向 40/40 零翻转（S1 未覆盖方向首次有数字）**、h=1 复验 35/35、confirmed flip=0、歧义 cell×10 挂人工队列；负面发现：无锚点盲判对证据型节点系统性偏严（6/35），单通道不可用作结论（main 08df836）。七脚本回归全绿，冻结件零触碰。
+
+**下一步（已被 r160 覆盖，见顶部）**：pfb 自主可推进项再次清空，剩余全部 blocked-on-human/external：① G1b family_check 升级（等成璐给非 Qwen API key；本轮新增消费方 = RV3G1 的 75 cell 跨家族补打，judge-input.json 可直接复用 ~11 次调用，并入此项等待）② κ 阈值标定（等 kappa-u1k1 §4 勾选裁定）③ K4 O1-O4 closure-gate 裁定 ④ web-llm 三 provider 人工登录 ⑤ R5.2-third-scorer（与①合并）⑥ **新卡人项**：RV3G1 歧义 cell ×10 的标注口径裁定（run 内结构化账本行的短片段算不算对节点的实质覆盖——如 run3/N-3.2.2 evidence「KV cache 8GB」是账本 NOW 行里的半句；裁定后改 hit-matrix 须开新文件+APPROVALS 登记）。arena 通道本轮实证不可用（ego lite 无 CDP 端口 + curl arena.ai 403），下轮若仍不可用别重试直接走降级阶梯。**下轮先核对六项卡人项有无解锁，无变化则 [SILENT]。**
+
+## 历史状态 @ 2026-10-31（r75c）
+
+**r75c market 双线全部收口**：① T4-R1 已收口——Lead 阶段 04.5 审核回执 pass 落盘 main 6b6804e，收口汇报 t4-r1-closure.md @ arena/e174c209 bbe2770；第 1 轮（事件信号定义核查）01→04.5 全链条闭环，主交付物 t4-event-signals.md 定稿，六项残余缺口登记为后续执行前门禁。② T3-R3 设计冻结收口——本轮走完 04 回执（main c5b9b35）→ A6 04.5 反方复核稿落地（c1f022d，agent 抓到「半正态」表述张力，裁定不构成实质矛盾）→ Lead 04.5 回执 pass（main 734d19b）→ A7 注入 → **冻结声明落地 b82d9da**（frozen:design, execution:blocked @ 2026-10-31T19:38:25Z，内容锚定 88030b6，三处 Lead 依据 hash 齐全），Lead 独立核验七项全 pass，收口记录 @ arena/a8c1fe6b 38424b9。D23-A M1-T2 R3 预注册设计正式冻结。
+
+**下一步（下轮唤醒起点）**：market-alpha T3/T4 双线已收口，无 arena 待验收项。候选方向（按优先级）：① T5（regime game strategy）任务书派发——台账原计划「等 T3/T4 收口后开」，现已具备条件；② T3 回测执行授权评估——B6 门禁（PIT 引擎接入+八项违规检查）未销项，若推进需先接数据管道，属新工作流；③ pfb 侧 C3 v3 paired runs（WORK_QUEUE 最高优先未完成项，前置 G1 subagent 盲标+仲裁 → G2 judge 实测，ninfer HTTP :8000 直跑）。下轮先查各仓 git log 确认无遗漏产出，再定方向。
+
+## 历史状态 @ 2026-10-31（r73）
 
 **r73 M8 联合判读 Lead 盲法核验收口（上轮 P1「M8 Lead 盲法判读」项，已核销）**：R4 receipt next_actions 里最后一个非 blocked 可执行项。做法：判读前冻结判定规则 v1（精确匹配 + 注册语义等价表三组：备选/淘汰理由/预算表述变体），然后对 9 config × 4 run = 36 个工件独立重算冻结机会集覆盖（只看 run_key 编号不见配置名，聚合到配置层才揭名）。结果：36/36 run cover=1.000，与 r60 事后诊断回执交叉一致；语义等价救援 45 处命中全量留痕审计，跨配置均匀分布无独占；纯精确匹配敏感性检查下各配置差异 ≤0.05 排序不变。联合判读（M8-frozen-v1 口径首次正式产出）：B-nofreeze FAIL Δtruth=-0.350 全场最低（freeze 负效应最稳健）/ B-noevidence PASS +0.156 / B-noowner PASS +0.017 边际 / 其余单删双删 FAIL。盲法强度降级如实登记（本会话见过 r60 结论，价值在规则先行+全量重算+逐条留痕，严格盲法需第二人）。落盘 runs-r4/receipt-r4-lead-blind-joint-readout.json + goal-queue L78 补记。main @ r73 两 commit pushed。
 
@@ -22,59 +40,19 @@
 
 ## 下一步（按优先级）
 
-0. ~~P0 · opportunity-set-freeze 定稿~~ → **已关闭（r62z 裁定 + r64 成璐二次确认 + r73 判读层收口）**：协议定稿、机械层+Lead 盲法联合判读全部落盘，无剩余动作
-1. ~~P1 · C3 v3 R4 全因子 runs 补跑~~ → **r74c 核查完毕，无缺口**：runs-r4/ 36 cell（9 config × 2 domain × 2 seed）raw + J1v11 + J2v11 全覆盖，无需补跑。新增双口径分歧核查回执 `runs-r4/receipt-r4-dual-caliber-divergence-r74.json`：7/36 cell 有 J1v11 vs J2v11 条目级翻转（共 30 条），方向全部是 J2 宽松多放行（与 G1a F1「宽松口径无敏感度」一致），5/7 集中在 D1-meeting-room。**残留动作**：这 7 个 cell 按解锁规则进人工仲裁队列（Lead 逐条裁定 flip_ids，可批量做，~1 轮）；主判读维持绑定 J1v11 严格版 + J2v11 并报不变
-2. **P1 · G1b family_check 升级**（低成本可补项，非硬阻塞）：r74 已派发回收——arena 会话 01a19104 完成 5 份 blind 工件盲评，PR #36 merge 入 ralph/g1b-hetero-judge-dispatch（eb2a9a7），回执 `experiments/T8-matrix/runs/c3-v3/calibration/g1b/receipt-g1b-hetero-judge-r74.md`。阳性对照 X5 被异源 judge 独立抓到（qwen J1/J2 均漏检）；κ 机械值 0.0 系天花板效应（pe→1）非分歧。**残留**：family_check=unknown（arena 不披露底层模型名）→ 家族隔离 PARTIAL-CLOSED；用户给一个明确非 Qwen 的 API key 重打 5 份工件（~5 次调用，任务书模板 g1b/G1b-hetero-judge-task-brief.md 现成）即可 CLOSED
-3. **P1 · closure-gate-integration K4 O1-O4 裁定**（APPROVALS 卡人项）：等成璐裁定，无变化则跳过
-4. **P2 · web-llm 三 provider 人工登录**（D1-gpu cross_validation_out 门禁依赖）：需用户在浏览器一次性登录，无变化则跳过
-5. **P2 · R5.2-third-scorer 前置盘点**：packet v2 输入面已对称（assert-packet-symmetry 67 PASS），缺第三打分器（不同家族）——与 G1b family_check 同族依赖，合并等待即可
+> r79（2026-11-01 keepalive 轮）更新。本轮完成 D3 harder domain 全链：设计冻结(4a364d3) → 18 run 执行 → J1 sweep + M8 cover 分析 → 主分析回执(0265cc3)。opportunity-set-freeze goal 销账。
 
-**r62g2 v9 重跑确认**：v9 重新 sweep（36/36，0 failed），数值不变，sham gap +0.007 FAILED。至此 v7/v8/v9 三个 judge 都做了独立重跑验证，全部与 r62p 面板值一致。main @ 11a14c9。
+0. **P1 · C3 v3 主分析残留卡人项**（不变）：#1 G1b family-upgrade（等成璐给非 Qwen API key，~5 次调用模板现成）/ #2 κ 阈值标定（等 kappa-u1k1 §4 勾选裁定）/ #3 严格盲法第二人 / #4 ~~harder domain~~ → **r79 DONE**（D3-hardware-purchase 落地，cover 门槛激活）。剩余三项仍卡人，agent 侧无可推进空间。
+1. ~~P1 · r79 新发现待消费~~ → **r79b DONE（31aa8b5）**：matrix-v11.md 限定语已回填（freeze 效应 task-type-dependent，R4 结论适用范围收窄为开放选型类任务）。F4 B-none 悖论（cover=1.0 但 truth=0.125）证实 cover/truth 双维度独立，联合判读设计成立——已登记于 receipt-r5-mainanalysis.json findings。
+2. **P2 · :8787 node 网关容量竞争根因评估**（cron 400 too large 元凶候选；本轮上下文正常未触发，继续观察）。
+3. ~~维护债备忘~~ → **r157 DONE（b9402ce）**：assert-kappa-receipt.py DEFAULT_DIR 一层偏差已修——原值指向 ablation/ 子目录，kappa-receipt.json 实际在 bench/rubric-v3/ → 无参调用恒 FAIL ①。修正后 PASS + κ=0.0 SIGNAL（阈值未达，U-K1 人工裁决项不变）。materials §5 D2 补过时注记。APPROVALS.md 登记。十五脚本回归基线维持。
+4. **r157 附加**（f9442eb + 3ece757）：G1a 完整性回执（raw↔summary 10/10 对账 + sha 锚点）+ G1b 三判器一致性矩阵（93/95 一致，X5 检测方向性确认）。G1b family_check 升级仍需外部输入（非 Qwen key / arena 模型身份），本回执不改变该阻塞状态。
+5. **r157 附加**（rejudge 启发式基线）：248 cell 关键词匹配 vs 冻结 hit-matrix 78.2% 一致（FM-1=28, FM-2=26）。非有效 rejudge（协议 §6 要求 fresh-context LLM judge），仅供真实通道到来后对比参照。落盘 `rejudge/rejudge-results-heuristic-r157.json` + `receipt-rejudge-heuristic-baseline-r157.json` + `receipt-rejudge-leak-analysis-r157.json`（FM-1/FM-2 根因分析：结构性盲区定量说明）。
+6. **r157 附加**（869f7e7）：三判器条目级一致性矩阵——G1a-J1 (qwen :8787) vs G1b-r1 (arena) vs G1b-r2 (本地 qwen)，95 shared items / 93 unanimous (97.9%)，2 分歧全在 X5（植入退化检测）：A1/X5 G1a=pass r1=pass r2=fail，P1/X5 G1a=pass r1=fail r2=fail。方向性确认：异源 judge 对植入退化更敏感，同源偏软。family_check 状态不变（r1 provider 身份未确认）。落盘 `calibration/receipt-crossjudge-consistency-r157.json`。
+7. **r157 附加**（2e4a66e）：冻结 hit-matrix 共识结构分析——3 unanimous-yes (N-1.1/N-3.2.3/N-5.3)、12 unanimous-no（prompt 真正瓶颈：三项分解/故障建模/利用率因子/FLOP/MFU/带宽阈值）、16 split（rejudge 核心战场）。run 聚类：run2/run3 J=0.93、run6/run7 J=0.93 两紧密簇，run4/run8 J=0.29 离群。为真实 rejudge 通道到来后提供参照基线。落盘 `rejudge/receipt-hit-matrix-consensus-r157.json`。
+8. **r157 附加**（a4a1f8e）：C3 v3 G1 门禁状态汇总——G1a COMPLETE（5 artifacts × 2 judges, integrity ALL OK）、G1b BLOCKED-ON-HUMAN（r1 arena provider unconfirmed, r2 local same-family）、κ=0.0 SIGNAL（threshold 0.6 not met, awaiting U-K1）、CALM NOT YET EXECUTED、G2-G5 NOT STARTED。落盘 `calibration/receipt-g1-gate-status-r157.json`。
 
-**r62d2/r62e v7+v8 重跑确认**：v7 和 v8 各重新 sweep 一遍（36/36，0 failed）。v7 数值与 r62y 修正后完全一致（sham gap -0.250）；v8 数值不变（sham gap +0.099 FAILED）。两个 judge 的 receipt 都加了 rerun_confirmation 字段。main @ 249d14b。
-
-**r62b 截断审计**：360 个判分输出中 4 个被模型截断（JSON 不完整），全部通过 regex fallback 纳入。v7/v8 的 B-2del-eo/D2/seedb + v10 的 A-full/D1/seedb + B-nofreeze/D2/seedb。无遗漏，十 judge 面板数据完整。main @ d4f1993。
-
-**r62y 解析修正**：v7/B-2del-eo/D2/seedb 输出被截断（9032 chars，JSON 不完整），之前 parse fail 被排除。regex fallback 纳入后 B-2del-eo v7 mean 0.625→0.476。v10/A-full 从 1.000 修正为 0.758——sham gap 从 -0.177 变 +0.065，v10 实际 FAILS sham separation。干净分离 5→4 个（v3/v7/v11/v6）。freeze 负效应不变 7/10。main @ 77b3884。
-
-**r62w rubric 设计迭代史**：design/rubric-design-history.md 落盘——v2→v11 十轮迭代的完整分析（核心机制/sham gap/freeze rank/判定 + 四阶段设计轨迹 + 为什么 v11 赢）。以后新 judge 版本可以直接对照这个文档定位自己在迭代链上的位置。main @ 65cc07e。
-
-**r62u v7-v10 单独回执落盘**：从 r62p 十 judge 面板提取四个独立 receipt（v7/v8/v9/v10），每个版本一个文件方便按版本引用。现在 v2-v11 全部十个 judge 都有独立回执 + 合并面板。main @ ab93326。
-
-**r62s v7 误杀率分析**：v7 echo-rate floor 在非 sham run 触发 2/32 (6.25%)，sham 零触发。floor 抓的是真实质量问题不是 sham——v7 的 sham 分离靠 item 级打分不靠 floor。v7 可作副判但需理解其机制。main @ edfc68f。
-
-**r62p 十 judge 面板完整分析**：从磁盘解析全部 10 个 judge 版本（v2-v11）× 36 run = 360 判分。Sham 分离 5/10 成功（v3/v7/v11/v10/v6），freeze 负效应 7/10 确认。v11 仍是推荐主判，v7 是候选副判（sham gap -0.250 更强但需查误杀率）。matrix-10judge.md + receipt-10judge-panel-consolidated.json 落盘。main @ 197cb89。
-
-**r62n J1v6 sweep + 六 judge 面板**：J1v6 (prepared-plan exception) 36/36 判完。A-full 0.810（修复 v5 过度修正），B-nofreeze rank 1/9（freeze 负效应 5/5 judges 确认），sham 分离 PARTIAL（mean gap -0.141 但 cell 级不一致）。六 judge 面板合并回执 receipt-6judge-panel-consolidated.json + matrix-6judge.md 落盘。v11 仍是唯一干净 sham 分离方案。main @ 57fd652。
-
-**r62k 协议执行计划状态标注**：opportunity-set-freeze-protocol-draft-r57.md §四 四项逐条标状态——item2（opportunity-sets-v1.json）DONE r60；item4（matrix 口径列 + assert-m8-no-suffix.py）DONE r62g；item1（成璐裁定空分母口径 + cover 门槛）BLOCKED ON USER；item3（下一 run 新口径）BLOCKED ON USER（依赖 item1）。main @ 4211ab6。
-
-**r62i v4 回执标注被取代**：receipt-j1v4-sweep-analysis.json 加 superseded_note，指向 r62d 五 judge 合并回执。避免后续读者误用 4-judge 子集当完整面板。main @ 76210c8。
-
-**r62g 协议§四.4 机械层落地**：matrix-v11.md 加口径列（待下一 run 填充）+ assert-m8-no-suffix.py 创建并 PASS（M8 引用无版本后缀检查）。协议执行计划 4 项中第 4 项完成，剩余 1-3 项卡 P0 裁定。main @ 5dfb08e。
-
-**r62d-e 五 judge 面板合并 + queue 收口**：receipt-5judge-panel-consolidated.json 落盘（9 config × 5 judge 完整矩阵）。后续报告口径确定：v11 主判 + v2 密度参照。queue L78 更新为五 judge 状态。当前自主工作全部收口，剩余 P0 卡人项不变（空分母口径 + cover 门槛数值）。bh-mass-spectrum subagent 仍在跑。main @ c5536ca。
-
-
-**r62 J1v4 全量 sweep 收口（36/36, 0 failed）**：J1-strict-v4（anti-spin rule）跑完 R4 全部 9 config。结论与 r41 校准集验证一致：① anti-spin rule 对 sham 失守——sham 0.699 rank 5/9，反而高于 A-full 0.613（rank 3），配对差 D1 持平 0.0、D2 sham 反超 +0.17；根因是 sham 工件里编造的具体数字（Zapier $30/mo 之类）让「零数值断言」条件失效。② B-nofreeze 在第四个 judge 下仍 rank 1/9（0.393）——freeze 负效应现在被四个独立 rubric（v11/v2/v3/v4）全部确认，是整个 C3 v3 矩阵最稳健的发现。③ 四 judge 联合读数表落盘回执：sham 分离只有 v3（anti-template）成功但误杀 75%，v11 特异性指纹是唯一无副作用的解法（迭代终点）。main pushed。
-
-**r61 cover 独立复算通过**：纯 Python 关键词匹配（无 LLM）重算 36 run cover，与原回执一致——全 config avg=1.0，唯一 miss=B-sham/D1/seedb O07（该 run 输出确实零次出现「淘汰」「理由」）。分母收缩否定结论经独立方法确认。main pushed。
-
-**r60k-l 分母收缩结论撤回 + 限定语收回**：r57 的「B-noevidence 分母收缩 -25.5%」结论被 r60 cover 分析否定——根因是范畴错误（judge 条目数 ≠ 模型覆盖机会数；冻结集口径下分母固定，不存在收缩）。已同步修正四处：① m8-denominator-analysis-r57.json 补 r60_correction 节 ② 冻结协议草案 L38 标注否定 ③ queue L78 标注 ④ matrix-v11.md r57 节限定语部分收回（evidence/owner 方向恢复为「方向性证据」，不再带「未分离」限定语；freeze 负效应三 judge 下均 rank 1/9 最稳健）。main pushed。
-
-**r60e 联合读数收口**：9 config × 4 口径（truth-v11 / cover / J1v2 / J1v3）全表落盘。关键发现：cover 在所有 9 个 config 下恒为 1.000（零方差）——冻结机会集对当前 D1/D2 域过宽松，每个 run 都覆盖了全部核验点，cover 维度没有区分力。含义：M8 双报 (truth, cover) 协议机械层就绪但经验上 vacuous，cover 门槛只在 cover<1.0 时激活，需要比当前 D1/D2 更难的任务才能触发。回执已更新。
-
-**r60c J1v3 全量 sweep 收口（36/36, 0 failed）**：后台进程跑完 J1-strict-v3（anti-template rule）对 R4 全部 9 config × 2 domain × 2 seed 的判分。结论与 r41 单点验证一致并量化坐实：① anti-template rule 成功把 sham 从 A-full 附近拉开（v3 gap -0.477 vs v2 gap +0.045），核心验证目标达成；② 但对 local-reasoning 域过度触发——75% run 被标 template_suspect（含 1/4 A-full），3 个非 sham config 归零，区分度退化（v2 有 9 级 → v3 只有 5 级且 0.000 三方并列）；③ 根因确认：本实验模型无联网工具，「零外部证据」条件对所有工件恒真，judge 把结构差异当模板信号——这正是 r41 诊断、v4 起改 anti-spin 的原因；④ B-nofreeze 在三个 judge（v11/v2/v3）下都是 rank 1/9 或并列最低——freeze 负效应是整个 C3 v3 矩阵里最稳健的发现；⑤ B-noevidence 反转是 judge-dependent 的（v11 最高 0.906 → v3 跌到 0.219 rank 6），不是 config 的稳定属性。回执 receipt-j1v3-sweep-analysis.json。main pushed。
-
-**r60 P0 推进：opportunity-set-freeze 机械层落地 + J1v2 第二口径交叉验证收口**。
-
-**r60 P0 推进：opportunity-set-freeze 机械层落地 + J1v2 第二口径交叉验证收口**。① opportunity-sets-v1.json 落盘冻结（4 seed × 9-10 项/seed，机械规则 v0.3 + 人工补全层）+ receipt-r4-cover-analysis.json——cover 检查发现：**分母收缩假设被否定**（B-noevidence cover=1.000 与 A-full 持平，Δtruth=+0.156 不是分母 artifact），全部 36 run cover≥0.975 → 冻结集对当前两域任务过宽松、区分度不足；原处置表「evidence/owner 方向置信度下调」的限定语可部分收回。注意：本轮是事后诊断非正式冻结流程（Lead 盲法前置未执行，limitations 已登记）。② J1v2 density-audit rubric 全量 R4 sweep 完成（36 judged, 0 failed，后台进程）+ receipt-j1v2-sweep-analysis.json——四个结论：freeze 负效应跨 rubric 稳健（B-nofreeze 两版都是 rank 1/9，v2 下 gap 更大 0.475 vs 0.054）；B-noevidence 最高分跨 rubric 复现（非 v11 artifact）；J1v2 floor 机制零触发（空转工件条目本身不 pass，不满足联合条件）；**J1v2 对 sham 失守**（sham 编造数字喂饱 density 指标，sham 0.823 ≈ A-full 0.868，v11 特异性指纹查『数字是否对应真实核验对象』才是本质优势）。跨版本一致性 r≈0.02——同族 judge 换 rubric 文本判分近乎独立，再次坐实跨版本分数不可比。main pushed。
-
-**P0 剩余（卡人项，等成璐一句话）**：裁定两项——① 空分母口径：模型完全没提到的核验点算不算进分母（我默认保守=算，激进=不算，建议保守）② cover 门槛数值：质量提升允许覆盖率下降多少还认账（我暂写 -5%，无文献依据纯建议值）。裁定后协议定稿，下一 run 起 M8 双报 (truth, cover) + 正式 Lead 盲法冻结流程生效。
-
-**r57c-e 三项复核补强（已收口）**：① KeyError 'J1' 误报定位——旧 one-shot 脚本用错键名层级，与用户改动无关；G1a raw 10/10 机械复现对账通过。② F4 补测：judge 条目 8/8 ≤ run 输出显式断言（12-20 条），三层口径关系修正为题面(5-8) ⊂ run输出(12-20) ⊇ judge 条目。③ 判官区分度复核：R4 全部 52 run J1v11 stdev=0.229/range=0.9，有真实区分度——G1a 零分歧归因修正为校准集工件质量好（集合属性）；同族偏软残余边界仍需 G1b 异源定案。main @ a494277 pushed。
-
-**r57 opportunity-set-freeze 草案落地（已收口）**：arena blocking fix #3 四要素协议草案 + R4 分母收缩量化（B-noevidence 8.38 vs A-full 11.25 条，-25.5%）+ matrix-v11 限定语回填。注：r60 cover 分析已否定分母收缩假设（见上）。main @ 15d94a6 pushed。
+**下轮唤醒协议**：先核对 APPROVALS.md「r76 卡人项状态汇总」有无解锁（G1b 非 Qwen key / κ 门禁勾选 / closure-gate K4 O1-O4 / web-llm 登录），有变化执行对应动作；无变化则 [SILENT]。
 
 ## 历史收口记录（旧「下一步」段归档 · r63 前快照）
 
