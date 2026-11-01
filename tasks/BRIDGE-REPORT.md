@@ -77,6 +77,15 @@
 
 ---
 
+## 当前状态
+
+- goal: 无活跃 stage-gate goal；r186 补完 RV3G9 勘误回填（P4-E2 口径澄清），rubric-v3 正式实验链文档一致性全收口。剩余卡人项不变：G1b family_check / O3 gold 树 prefill 路径分歧裁定 / APPROVALS 条目 1
+- commit: main 20b861d（r186：attribution L47 注记 + DRAFT 第三步段修正 + revision-log R-26 + BRIDGE r186 段）
+- 验收自检: P4-E2 per-run 分数从 judge-{1,2}-scores.json 独立复算（B/C/D/F 全 2/2，A/E/G 全 0/2）；P4 整维均值复算（6.00 vs 3.11）与原文一致；assert-kappa-receipt.py PASS exit 0
+- 结论：**DISC-1~4 全部销账**——formal-stats-results.json 的 4 项 discrepancies 在 attribution/DRAFT/revision-log 三处全部对齐。rubric-v3 正式实验链（RV3G6→G7→G8→G9→r185→r186）文档层面无残留勘误。下一可自主推进项见 goal-queue 队首扫描。
+
+---
+
 ## r185 — R-05 报告义务执行：正式矩阵 8×8 相关矩阵（2026-11-02）
 
 **收口 commit**: main af250a9（含 CONTINUE_MSG 刷新 + step_notify + 微信广播尝试×2 失败留痕：wx-push.py ret=-1 invalid request，token 失效或网络问题，不重试超一次协议已遵守）。
