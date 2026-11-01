@@ -1,12 +1,12 @@
 # CONTINUE_MSG — pfb 工作区
 
-## 当前状态 @ 2026-11-02（keepalive r185 · R-05 报告义务补完）
+## 当前状态 @ 2026-11-02（keepalive r186 · RV3G9 勘误回填补完）
 
-**R-05 ③ 预注册报告义务在正式数据上执行完毕**（main @ afdf08c pushed，7 commits）：pilot 版 8×8 相关矩阵早已落盘（n=9），但正式矩阵收口后该义务从未执行——本轮补齐。`ablation/formal-matrix/corr-matrix-formal-n21.json` 落盘（judge-merged per-run 维度分，NA 7 项剔除，n=21 pooled runs A1-G3；P2 维全 NA 不入矩阵）。**核心结果：无任何 |ρ|>0.8 对**——pilot 实测簇 {O1,O2,P4}（ρ(O2,P4)=1.0、ρ(O1,O2)=ρ(O1,P4)=0.854）在 n=21 下未复现，最大 ρ(O2,P4)=0.608/0.617（J1/J2），pilot 小样本 rank 相关被噪声放大；次级观察 ρ(P3,P4)=0.68 未过阈值。含义：R-22 选项 c（分开报+共线风险标注）的标注在正式数据下无触发条件，保留为预注册形式合规义务；维度结构按分开报执行不受影响，确认性主维 O3+O1 不变；权重表/n_pairs 公式/检验族零 diff。attribution §8.5 + DRAFT L198 r185 后记（非新裁定）+ revision-log R-25 + queue RV3G7 行补记 + BRIDGE r185 段 + current-goal 刷新。回归 assert-kappa-receipt.py PASS exit 0（SIGNAL kappa=0.0 为已知边际退化假象，人工裁决不阻断）。
+**RV3G9 统计检验勘误回填义务补完**（main @ f06f4e9 pushed，2 commits）：RV3G9 @ 0481ed4 产出 `formal-stats-results.json` 含 4 项 discrepancies（DISC-1~4），r183 收口时只回填了 DISC-1（D1 净效应 +0.12→B−F=+2.67）和 DISC-3/4（O1 下界 + SD 口径），漏了 P4-E2 条目值 vs 维度均值口径混淆——本轮补齐。attribution §3 D2 小节 L47 追加澄清注记（3.11/6 是 P4 整维均值含 E1/E3 部分分，非 P4-E2 条目值；P4-E2 本身严格二分 12/12 vs 0/12）+ DRAFT 第三步段同步修正 + revision-log R-26。**DISC-1~4 全部销账**。定性结论不变（P4-E2 双判一致二分成立，D2 机制定位有效），预注册数值零触碰。回归 assert-kappa-receipt.py PASS exit 0。
 
-**rubric-v3 正式实验链全闭环**：RV3G6 pilot → RV3G7 21 run → RV3G8 归因 → RV3G9 统计检验 → r185 报告义务。无活跃 stage-gate goal。
+**rubric-v3 正式实验链文档一致性全收口**：RV3G6 pilot → RV3G7 21 run → RV3G8 归因 → RV3G9 统计检验 → r185 报告义务 → r186 勘误回填。无活跃 stage-gate goal。
 
-**下一步（下轮唤醒起点）**：① **队首扫描立项下一 goal**（find-goal SOP）——候选 C3v3-G1b-hetero-judge（queue L24，arena battle 通道，slim 2.5KB packet 经验已有：full 16KB 会触发服务端报错的坑已踩过）；② G1b family_check 仍卡人：等成璐提供非 Qwen API key 或确认走 arena 会话问底层模型身份（解锁后真实 IRR 复核 RV3G8 归因方向是否翻转——sham 锚点是净效应单点依赖）；③ O3 gold 树 prefill 路径分歧裁定（r182 登记的新卡人项：N-3.1 系 5 claim + N-2.2 全 21 份 0 命中，所有 run 统一改用实测 tok/s 路径，三选一：gold 改实测口径 / 维持 FLOPs 口径加题面提示 / 双路径都认）；④ APPROVALS 条目 1（stop-hook stale-index 修复）r182 已代执行 a+b 双修待确认，可 revert；⑤ RUBRIC-V3-FULL-AUDIT-B2-FULL-FIX 剩协议级重设计 ~22 回合，待成璐确认启动。
+**下一步（下轮唤醒起点）**：① **队首扫描立项下一 goal**（find-goal SOP）——候选 C3v3-G1b-hetero-judge（queue L24，arena battle 通道，slim 2.5KB packet 经验已有）；② G1b family_check 仍卡人：等成璐提供非 Qwen API key 或确认走 arena 会话问底层模型身份；③ O3 gold 树 prefill 路径分歧裁定（r182 登记：N-3.1 系 5 claim + N-2.2 全 21 份 0 命中，三选一待裁）；④ APPROVALS 条目 1（stop-hook stale-index 修复）r182 已代执行 a+b 双修待确认；⑤ RUBRIC-V3-FULL-AUDIT-B2-FULL-FIX 剩协议级重设计 ~22 回合，待成璐确认启动。
 
 ## 历史状态 @ 2026-11-02（keepalive r182 · RV3G8 归因并入 DRAFT v2）
 
