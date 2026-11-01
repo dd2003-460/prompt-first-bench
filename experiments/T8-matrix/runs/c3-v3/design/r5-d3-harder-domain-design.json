@@ -1,0 +1,92 @@
+{
+ "frozen_at": "2026-11-01",
+ "goal": "T8-C3-v3-opportunity-set-freeze · item 3 — D3 harder domain 激活 cover 门槛（r78）",
+ "supersedes_note": "不修改 r4-execution-design.json（R4 冻结面）。本文件是 R5 增量设计：同通道、同 9 configs、同双 seed 协议，仅新增 D3-hardware-purchase 域。",
+ "motivation": "opportunity-set-freeze-protocol-draft-r57.md L23 (r60e)：R4 全量 cover 恒 1.000 零方差——当前 D1/D2 域任务难度不足以让任何 config 漏掉冻结集核验点，cover 门槛机械层就绪但经验上 vacuous，需 harder task 激活区分力。D3 = 硬件采购域：6 项数值规格阈值（预算/内存/存储/CPU/OS/质保），模型可合理漏项 → cover 有望 <1.0。",
+ "channel": {
+  "url": "http://localhost:8787/v1/chat/completions",
+  "model": "qwen3.8-27b",
+  "gen_params": {
+   "temperature": 0.7,
+   "max_tokens": 4096
+  },
+  "judge_params": {
+   "temperature": 0,
+   "max_tokens": 4096
+  }
+ },
+ "matrix": {
+  "configs": [
+   "A-full",
+   "B-nofreeze",
+   "B-noevidence",
+   "B-noowner",
+   "B-2del-fe",
+   "B-2del-fo",
+   "B-2del-eo",
+   "B-none",
+   "B-sham"
+  ],
+  "domains": [
+   {
+    "name": "D3-hardware-purchase",
+    "brief_source": "design/seeds/seeds.json D3-hardware-purchase (r78 冻结)"
+   }
+  ],
+  "runs_per_cell": 2,
+  "total_runs": "9 configs × 1 domain × 2 seeds = 18"
+ },
+ "prompt_protocol": "组件拼接 byte-exact 复刻 R4 builder（对 R4 A-full/D1-meeting-room/seeda-prompt.txt 验证 len 6063 逐字节一致后使用）；18 prompt 落盘 runs-r5/<config>/D3-hardware-purchase/seed{a,b}-prompt.txt，sha256_16 锚定如下",
+ "prompt_sha256_16": {
+  "A-full": {
+   "seeda": "314d2fae5e5f61b8",
+   "seedb": "53aef74e7a75a25e"
+  },
+  "B-nofreeze": {
+   "seeda": "2bc91dbb2bdb1bd9",
+   "seedb": "e202358b2653900b"
+  },
+  "B-noevidence": {
+   "seeda": "f1836613472fc9e0",
+   "seedb": "8d85a3cab0819f1f"
+  },
+  "B-noowner": {
+   "seeda": "a5397f3b767e8ff2",
+   "seedb": "6d6a1626f4ec0e51"
+  },
+  "B-2del-fe": {
+   "seeda": "422e77ff2186305f",
+   "seedb": "4cd1e539b837286c"
+  },
+  "B-2del-fo": {
+   "seeda": "70a9cd6a9944717f",
+   "seedb": "4d5cdb3e054d0a8a"
+  },
+  "B-2del-eo": {
+   "seeda": "1dddaf4b689d2027",
+   "seedb": "1e8e921dbf8e844d"
+  },
+  "B-none": {
+   "seeda": "abd803716b71026b",
+   "seedb": "018216358bba8eed"
+  },
+  "B-sham": {
+   "seeda": "2bc91dbb2bdb1bd9",
+   "seedb": "e202358b2653900b"
+  }
+ },
+ "consistency_check": "B-sham 与 B-nofreeze 的 MANIFEST ops 相同（均 del freeze）→ prompt 逐字节一致，sha 相同为构造预期，与 R4 实证一致（R4 中两 config 工件分开判分，sham 效应由 judge 对内容判定而非 prompt 差异产生）",
+ "judge_binding": "J1 strict / J2 lenient 双判（judge-prompts.json 冻结 sha 锚定，同 R4）；另加 M8-cover 判读：对照 opportunity-sets-v1.json D3 冻结集（brief_a 9 项 / brief_b 9 项），unaddressed 计入分母不计入分子（保守口径，r62z 裁定）",
+ "gate_order": [
+  "执行 18 run（断点续传：每 run 完成即落盘）",
+  "J1/J2 双判 36 judge 调用",
+  "M8-truth/M8-cover 双报（Lead 盲法前置：判读前只见编号不见配置名）",
+  "cover 分布分析：若全 config cover 仍恒 1.0 → D3 不够 hard，如实登记并升级 harder domain 需求；若出现 cover<1.0 → 门槛激活，按 Δcover≥-0.05 联合判读"
+ ],
+ "forbidden_zone": "hit-matrix.json / prior-estimates.json / gold-tree.md / DRAFT-rubric-v3*.md / c3-diffs.md / prompts/MANIFEST.json / runs-r4/** / r4-execution-design.json 零改动；本 R5 纯新增",
+ "stop_rules": [
+  "任一 config 连续 2 run HTTP 失败 → 停该 config 登记算力故障，不重试伪造",
+  "J1/J2 分歧率 >30% → 暂停主分析回 G1 修 rubric",
+  "总时长超 3h → 分批续跑"
+ ]
+}
