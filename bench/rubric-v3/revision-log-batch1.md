@@ -236,3 +236,14 @@ R-04（pilot 两步走）/ R-05（维度合并规则）/ R-07（gold 新发现�
 | 性质 | 冻结文档修订（DRAFT 状态）；裁定本身是人工决策登记，非数据变更 |
 | 验证 | grep 确认 DRAFT 权重表（outcome 0.4/0.25/0.2/0.15 行、process 四等分行）与 δ_min 行零触碰 |
 | 日期 | 2026-11-02 |
+
+## R-23 · R121 外部文献核验回执落地 + §4(a) 差异表修正（keepalive r181）
+
+| 项 | 内容 |
+|---|---|
+| 触发 | RUBRIC-V3-R121-PAPER-COMPARE：AUDIT §4(a) 差异表 8 条声明 unverified；arena 固定会话 01a195cb 直读 arXiv v1 原文 + GitHub 仓库完成核验，回执 receipts/r121-paper-compare-verification.md @ main e71df31（替代 survey-based 版） |
+| verdict 汇总 | confirmed 4（A1/A2/B1/B2）/ partial 3（A4 适用域过宽、B3「双人」应为三专家、B4 原文未自认且主张相反）/ refuted 1（**A3：2,500+ rubrics ≈ 2,800+ 人时属 ResearchRubrics arXiv 2511.07685，非 ResearcherBench**——张冠李戴，ResearcherBench 实为 65 题 × 平均 14 条 ≈ 910 条）/ unverifiable 0 |
+| 改动 | §4(a) 表按回执建议 diff 逐行修正：校准机制行（双人→3 专家/任务）、重要性信号行（无显式→有显式权重但消融不显著 +0.45）、已知代价行（成本数字迁移 + B4 推断标注）、适用域行（开放研究问答→AI 领域 65 题细分）；§4(a) 事实源注记更新为「复核已完成 + 版本状态（三篇 arXiv 均仅 v1；DRB judge 2026-05-11 换代 GPT-5.5；DRB II 已发布）」；附录 B web-llm 限制声明加解除注记。全部改动带〔R121〕溯源标记 |
+| 性质 | AUDIT-report 是活文档（非冻结件），修正属勘误回填；冻结数据（hit-matrix/prior-estimates/stats/gold-tree）零触碰 |
+| 验证 | 回执每条证据句均可在 arXiv HTML 原文定位（§号/表格号齐全）；表内新增数字（65 题/35 子域/12-20-33 分布/PAR 71.33/OPC 99.54/+0.45）与回执原文一致 |
+| 日期 | 2026-11-02 |

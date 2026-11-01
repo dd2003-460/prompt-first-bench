@@ -135,17 +135,17 @@
 
 ## §4 (a) 与 ResearcherBench / RACE 差异表
 
-> 事实源 = `git show aea3d6b:receipts/rubric-v3-gap-analysis.md`（Q1-Q3）。**外部在线复核 unverified**（web-llm 三 provider 登录过期，本轮未重试）；表中 bench 细节属结构性特征，短期漂移概率低，刷新列入 §9 低优先级。
+> 事实源 = `git show aea3d6b:receipts/rubric-v3-gap-analysis.md`（Q1-Q3）。**外部在线复核已完成**：见 `receipts/r121-paper-compare-verification.md`（2026-11-01，arXiv v1 原文直读 + GitHub 仓库核验）——8 条声明 verdict：confirmed 4 / partial 3 / refuted 1（A3 成本数字归属错误，属 ResearchRubrics），上表已按回执建议 diff 修正。版本状态：三篇 arXiv（2507.16280 / 2506.11763 / 2511.07685）均仅 v1；DRB 官方评测器 2026-05-11 起由 Gemini-2.5-Pro 换为 GPT-5.5（FACT: GPT-5.4-mini），继任 bench DRB II（arXiv 2601.08536）已发布。本表 B1–B4 为结构性特征不随 judge 换代失效；分数级对比须声明 evaluator 版本（双 leaderboard 不可混比）。
 
 | 轴 | rubric-v3 | ResearcherBench | RACE / FACT |
 |----|-----------|-----------------|-------------|
 | 评分粒度 | 31 节点推理树 × 8 维度（survey 最细，5/5 rank 3） | 逐 claim grounding + 专家 insight criteria（重要性 1-3） | 动态 task-specific criteria（claim-source 对） |
 | 部分分机制 | 0/1/2 三档 + 层级倍率（5/5 rank 1；定稿后改为条目通过率 0-1 连续） | 部分支持（claim 级） | reference-relative 打分 |
-| 校准机制 | κ≥0.6 **前置**门禁 + 换位双判（survey 29 bench 中 rank 1 of 2 的前置校准） | judge-human F1 **事后**报告 | 双人评分 |
-| 重要性信号 | **surprisal（盲生成频率 p̃）**——survey 确认空白 | 专家重要性 1-3（人工） | 无显式重要性（criteria 本身即筛选） |
+| 校准机制 | κ≥0.6 **前置**门禁 + 换位双判（survey 29 bench 中 rank 1 of 2 的前置校准） | judge-human F1 **事后**报告 | 3 专家/任务人工评分 + 事后一致性报告（50 题 × 4 agent = 600 报告；PAR 71.33 / OPC 99.54）〔R121 原文核验修正：原「双人评分」为 survey 误记〕 |
+| 重要性信号 | **surprisal（盲生成频率 p̃）**——survey 确认空白 | 专家重要性 1-3（人工） | 有显式 criterion/维度级权重，但消融显示贡献不显著（+0.45）〔R121 附注修正：原「无显式重要性」与原文不符〕 |
 | gold 结构 | 单一 Lead 构建推理树（**S2 暴露面**） | 专家逐题设计 | 动态生成，无固定树 |
-| 已知代价 | 同源偏置未闭环 + p̃ 估计不稳定（本审计实证） | 极高标注成本（2,500+ rubrics ≈ 2,800+ 人时） | 跨题可比性弱（criteria 每题不同） |
-| 适用域 | 长程研究任务（有可构建 gold 树的域；单域验证，S1 未到期） | 开放研究问答 | 事实核查型研究 |
+| 已知代价 | 同源偏置未闭环 + p̃ 估计不稳定（本审计实证） | 专家逐题人工设计 rubric（65 题 / 35 个 AI 子域；无公开人时数据）〔R121 勘误：原「2,500+ rubrics ≈ 2,800+ 人时」错误归属，该数字属 ResearchRubrics（arXiv 2511.07685），见回执〕 | 跨题可比性弱（criteria 每题不同）〔本项目推断；原文未自认且主张相反，见 R121 B4〕 |
+| 适用域 | 长程研究任务（有可构建 gold 树的域；单域验证，S1 未到期） | AI 领域前沿科研问题（65 题：技术细节 12 / 文献综述 20 / 开放咨询 33；35 个子域）〔R121 修正：原「开放研究问答」过宽〕 | 事实核查型研究 |
 
 **rubric-v3 的两个真实差异化贡献**（定稿后应保留的卖点）：
 1. **前置校准门禁**（κ≥0.6 不过不开评）——survey 中绝大多数 bench 只有事后 agreement 报告；
@@ -334,7 +334,7 @@
 
 ## 附录 B · 工具与环境限制声明
 
-- web-llm 三 provider 登录过期 → 外部在线复核 unverified（§4 已标注）；未尝试重新登录（沿用 G5 回执）。
+- web-llm 三 provider 登录过期 → 外部在线复核 unverified（§4 已标注）；未尝试重新登录（沿用 G5 回执）。**〔2026-11-01 更新：R121 已由 arena 固定会话直读 arXiv 原文完成复核，§4(a) 表按 receipts/r121-paper-compare-verification.md 修正，unverified 状态解除〕**。
 - ralph-loop-runner 工具纪律禁 subagent → 语义级独立重判 unverified（G1 遗留，RV3G1-semantic-rejudge 已入队）。
 - 冻结数据零修改：本报告全程只读 hit-matrix.json / prior-estimates.json / judge-blindtest-r1.json / stats-*.json / gold-tree.md / runs-C0-*（git status 可查）。
 
