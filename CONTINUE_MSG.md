@@ -37,7 +37,7 @@
 > r79（2026-11-01 keepalive 轮）更新。本轮完成 D3 harder domain 全链：设计冻结(4a364d3) → 18 run 执行 → J1 sweep + M8 cover 分析 → 主分析回执(0265cc3)。opportunity-set-freeze goal 销账。
 
 0. **P1 · C3 v3 主分析残留卡人项**（不变）：#1 G1b family-upgrade（等成璐给非 Qwen API key，~5 次调用模板现成）/ #2 κ 阈值标定（等 kappa-u1k1 §4 勾选裁定）/ #3 严格盲法第二人 / #4 ~~harder domain~~ → **r79 DONE**（D3-hardware-purchase 落地，cover 门槛激活）。剩余三项仍卡人，agent 侧无可推进空间。
-1. **P1 · r79 新发现待消费**（0265cc3, receipt-r5-mainanalysis.json）：F2 freeze 主效应 task-type-dependent——D1/D2 开放选型域 freeze 负效应(Δtruth −0.350)，D3 规格密集域 freeze 正效应(+0.779)。建议写入 matrix-v11.md 限定语更新（下轮可做，纯仓库内 ~1 回合）。F4 B-none 悖论（cover=1.0 但 truth=0.125）证实 cover/truth 双维度独立，联合判读设计成立。
+1. ~~P1 · r79 新发现待消费~~ → **r79b DONE（31aa8b5）**：matrix-v11.md 限定语已回填（freeze 效应 task-type-dependent，R4 结论适用范围收窄为开放选型类任务）。F4 B-none 悖论（cover=1.0 但 truth=0.125）证实 cover/truth 双维度独立，联合判读设计成立——已登记于 receipt-r5-mainanalysis.json findings。
 2. **P2 · :8787 node 网关容量竞争根因评估**（cron 400 too large 元凶候选；本轮上下文正常未触发，继续观察）。
 3. **维护债备忘**（不变）：assert-kappa-receipt.py DEFAULT_DIR 一层偏差——下次动 rubric-v3 面时顺手修。
 
