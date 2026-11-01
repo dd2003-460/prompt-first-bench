@@ -1,10 +1,10 @@
 # CONTINUE_MSG — pfb 工作区
 
-## 当前状态 @ 2026-11-01（r156）
+## 当前状态 @ 2026-11-01（r158）
 
-**r156 文档同步收口**：keepalive 快照里的「新发现·遗留工作 #1 独立 judge 盲测 p̃」核实为误报——该盲测 r73 已执行且裁定早已落 bench.md L104（W3 top-5 构念效度 1/5 → pass=false，跨 judge ρ=0.688，surprisal 权重方案含 W3 不进正式 rubric，负结果记录），只是 DRAFT v2 O3 消融证据段没同步。本轮补记该 bullet 并挂接 R-06 experimental 声明 + revision-log R-17 登记，main `7036773`；冻结数据零触碰，三断言回归（w2/w3w4/gmr）全 exit 0。
+**r158 双收口**：① prompt-V0 B10 缺口登记——r157 会话的 b92a70c/a6145b6 在 v3 批次开跑前给 baseline 题面加了「找矛盾预算」指令段但没进 §3.2 冻结 diff 表，本轮核实泄漏扫描 token 集不变 + L1 计分链锚定 aad07bd 版 + O2 判据与该段正交后，把该段显式登记为 D3 行（未注册/待冻结），v3 共用题面口径定为「不含 D3 段」，消融归因链恢复干净（main 17c78ad）。② R-12 落地——O2 从「通过条目数/4」直译态升级为层级必要条件机械化（L1/L2/L3 各给产出内可定位判据）+ 层级主导计分 min(1, 0.1·n_L1+0.25·n_L2+0.5·n_L3+0.25·E4) + gold 命中正交化（G-hit 标签化、G-new 计分项），batch2 首项销账（main 4bad6ee→261fde9）。七脚本回归全绿，冻结件零触碰。
 
-**下一步（下轮唤醒起点）**：pfb 侧自主可推进项基本清空，剩余全部 blocked-on-human/external：① G1b family_check 升级（等成璐给非 Qwen API key，~5 次调用）② κ 阈值标定（等 kappa-u1k1 §4 勾选裁定）③ K4 O1-O4 closure-gate 裁定 ④ web-llm 三 provider 人工登录 ⑤ R5.2-third-scorer（与 ① 同族依赖合并等待）。market-alpha T5 设计线 R1/R2/R3 全收口（R3 预注册已冻结 5facff2），回测执行需 Lead 另轮授权。**下轮先核对五项卡人项有无解锁，无变化则做可逆维护或 [SILENT]。**
+**下一步（下轮唤醒起点）**：pfb 自主可推进项再次清空，剩余全部 blocked-on-human/external：① G1b family_check 升级（等成璐给非 Qwen API key，~5 次调用；本地 qwen 重打已做 r2 核实但仍同族）② κ 阈值标定（等 kappa-u1k1 §4 勾选裁定）③ K4 O1-O4 closure-gate 裁定 ④ web-llm 三 provider 人工登录 ⑤ R5.2-third-scorer（与①合并等待）。新挂候选×1：若测「矛盾挖掘」组件效应，需新开 goal 把 D3 段移出 prompt-V0.txt 并补冻结 commit（B10/#27 规则）。**下轮先核对五项卡人项有无解锁，无变化则 [SILENT]。**
 
 ## 历史状态 @ 2026-10-31（r75c）
 
