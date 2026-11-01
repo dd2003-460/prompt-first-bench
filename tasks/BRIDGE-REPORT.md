@@ -65,6 +65,18 @@
 ### 下一步
 补 run 至 n≥8（MDE 要求）才能出正式显著性结论；当前证据级别 = 方向性 + 效应量 + sham 对照结构。
 
+## r186 — RV3G9 统计检验勘误回填 + P4-E2 口径澄清（2026-11-02）
+
+**做了什么**：RV3G9 @ 0481ed4 产出 `formal-stats-results.json` 含 4 项 discrepancies，r183 收口时只回填了 DISC-1（D1 净效应口径），漏了 P4-E2 条目值 vs 维度均值口径混淆——本轮补齐。attribution §3 D2 小节 L47 追加澄清注记（3.11/6 是 P4 整维均值含 E1/E3 部分分，非 P4-E2 条目值；P4-E2 本身严格二分 12/12 vs 0/12）+ DRAFT 第三步段同步修正 + revision-log R-26。
+
+**结果**：DISC-1~4 全部销账。定性结论不变（P4-E2 双判一致二分成立，D2 机制定位有效），数值引用规范统一。预注册数值零触碰。
+
+**含义**：rubric-v3 正式实验链文档一致性收口——attribution/DRAFT/revision-log 三处数字口径对齐 formal-stats-results.json 的 mechanism_verification 字段。
+
+**下一步**：无新卡人项产生。剩余待办同 r185（G1b family_check 卡人 / O3 gold 树 prefill 路径分歧裁定 / APPROVALS 条目 1 待确认）。
+
+---
+
 ## r185 — R-05 报告义务执行：正式矩阵 8×8 相关矩阵（2026-11-02）
 
 **收口 commit**: main af250a9（含 CONTINUE_MSG 刷新 + step_notify + 微信广播尝试×2 失败留痕：wx-push.py ret=-1 invalid request，token 失效或网络问题，不重试超一次协议已遵守）。

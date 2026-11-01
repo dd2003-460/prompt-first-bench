@@ -272,3 +272,17 @@ R-04（pilot 两步走）/ R-05（维度合并规则）/ R-07（gold 新发现�
 | 遗留边界 | ① 若后续扩样本（n≥8 pairs/变体）重跑，本矩阵需同步刷新；② pilot 簇未复现本身是信息量（n=9 的 rank 相关不稳定），不修改 pilot 原始记录 |
 | 日期 | 2026-11-02 |
 
+## R-26 · RV3G9 统计检验勘误回填 + P4-E2 口径澄清（keepalive r186）
+
+| 项 | 内容 |
+|---|---|
+| 触发 | RV3G9-formal-stats-execution @ 0481ed4 产出 `formal-stats-results.json` 含 4 项 discrepancies（DISC-1~4），其中 DISC-1（D1 净效应口径）已在 r183 收口时回填 attribution §3 + DRAFT §3.1，但 DISC-3（O1 下界 3.67→4.0）、DISC-4（F 组 SD 口径标注）、P4-E2 条目值 vs 维度均值口径混淆在 attribution §3 D2 小节与 DRAFT 第三步段仍残留旧表述——属 RV3G9 声明的「attribution 勘误」义务未完全执行 |
+| 改动 | ① attribution-analysis.md L47：P4 整维均值 3.11/6 处追加 r183 澄清注记（区分条目值 vs 维度均值两种口径）；② DRAFT v2 第三步段：P4-E2 机制定位句从「有 D2 组 6/6 满分 vs 无 D2 组 3.11/6」改为「有 D2 组 12/12 满分 vs 无 D2 组 0/12，严格二分；P4 整维均值 6.0 vs 3.11——后者含 E1/E3 部分分，非条目值」+ r183 标记。预注册数值（权重表/δ_min/n_pairs 公式/检验族/§3.2 变体冻结表）零触碰 |
+| 结果 | DISC-1~4 全部销账：DISC-1（r183 已回填）/ DISC-2（无误，无需改）/ DISC-3（r183 已回填 L55）/ DISC-4（r183 已回填 L43）。本轮补的是 P4-E2 口径澄清这一处漏网——formal-stats-results.json `mechanism_verification.P4-E2_binary_split.correction` 字段明确写了「数字口径需澄清」，但 r183 只改了 D1 净效应句没改 D2 机制句 |
+| 含义 | ① 定性结论不变：P4-E2 双判一致二分成立，D2 机制定位有效；② 数值引用规范统一：后续引用 P4-E2 效应时用条目值（12/12 vs 0/12），引用 P4 维度贡献时用整维均值（6.0 vs 3.11）并注明含部分分；③ 与 R-24/R-25 同型（实测输入回代模式），不引入新计算 |
+| 性质 | 冻结文档修订（DRAFT 状态，非已冻结件）；只追加注记/修正表述，预注册数值零 diff |
+| 验证 | ① P4-E2 per-run 分数从 judge-{1,2}-scores.json 独立复算（B/C/D/F 全 2/2，A/E/G 全 0/2，双判一致）；② P4 整维均值复算（有 D2 组 6.00/6 n=12，无 D2 组 3.11/6 n=9）与原文一致；③ grep 确认 DRAFT 内无其他「3.11」裸引用未加口径标注 |
+| 遗留边界 | ① G1b family_check 解锁后真实 IRR 可能改变 P4-E2 二分判定（当前双判为同 agent 双口径），届时本条需复核；② 若扩样本重跑，P4-E2 条目值与整维均值需同步刷新 |
+| 日期 | 2026-11-02 |
+
+
