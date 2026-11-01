@@ -1,12 +1,12 @@
 # CONTINUE_MSG — pfb 工作区
 
-## 当前状态 @ 2026-11-02（keepalive r186 · RV3G9 勘误回填补完）
+## 当前状态 @ 2026-11-02（keepalive r187 · queue-lint 卫生修复）
 
-**RV3G9 统计检验勘误回填义务补完**（main @ f06f4e9 pushed，2 commits）：RV3G9 @ 0481ed4 产出 `formal-stats-results.json` 含 4 项 discrepancies（DISC-1~4），r183 收口时只回填了 DISC-1（D1 净效应 +0.12→B−F=+2.67）和 DISC-3/4（O1 下界 + SD 口径），漏了 P4-E2 条目值 vs 维度均值口径混淆——本轮补齐。attribution §3 D2 小节 L47 追加澄清注记（3.11/6 是 P4 整维均值含 E1/E3 部分分，非 P4-E2 条目值；P4-E2 本身严格二分 12/12 vs 0/12）+ DRAFT 第三步段同步修正 + revision-log R-26。**DISC-1~4 全部销账**。定性结论不变（P4-E2 双判一致二分成立，D2 机制定位有效），预注册数值零触碰。回归 assert-kappa-receipt.py PASS exit 0。
+**queue-lint 4 FAIL→0**（main @ 0cbff3e pushed，2 commits）：assert-queue-lint.py 报 4 个 FAIL——3 处跨区重复短名无「吸收」声明（V0.1-cache-ratio-removal L8↔L75、RV3G1-rejudge-quality-scores L9↔L77、RV3G6-o3-claim-list-erratum-27 L21↔L59）+ L110 RV3G9 行无可识别分隔符。本轮补齐：3 处 meta 括号内加「被 Lxx 同名行吸收」声明 + L110 补 em-dash 摘要段。修复后 0 FAIL / 7 SIGNAL（全部为合法吸收登记形态）。这是 queue L93 候选行（RV3G3cdx-qfc-stock-normalize）选项 (ii)「顺手统一排版」中 lint 可执行部分的落地——完整的五段式归一仍需成璐裁定激活。
 
-**rubric-v3 正式实验链文档一致性全收口**：RV3G6 pilot → RV3G7 21 run → RV3G8 归因 → RV3G9 统计检验 → r185 报告义务 → r186 勘误回填。无活跃 stage-gate goal。
+**rubric-v3 正式实验链文档一致性全收口 + queue 排版硬伤清零**：RV3G6→G7→G8→G9→r185→r186→r187。无活跃 stage-gate goal。
 
-**下一步（下轮唤醒起点）**：① **队首扫描立项下一 goal**（find-goal SOP）——候选 C3v3-G1b-hetero-judge（queue L24，arena battle 通道，slim 2.5KB packet 经验已有）；② G1b family_check 仍卡人：等成璐提供非 Qwen API key 或确认走 arena 会话问底层模型身份；③ O3 gold 树 prefill 路径分歧裁定（r182 登记：N-3.1 系 5 claim + N-2.2 全 21 份 0 命中，三选一待裁）；④ APPROVALS 条目 1（stop-hook stale-index 修复）r182 已代执行 a+b 双修待确认；⑤ RUBRIC-V3-FULL-AUDIT-B2-FULL-FIX 剩协议级重设计 ~22 回合，待成璐确认启动。
+**下一步（下轮唤醒起点）**：① **队首扫描立项下一 goal**（find-goal SOP）——候选 C3v3-G1b-hetero-judge（queue L24，arena battle 通道）；② G1b family_check 仍卡人：等成璐提供非 Qwen API key 或确认走 arena 会话问底层模型身份；③ O3 gold 树 prefill 路径分歧裁定（r182 登记：三选一待裁）；④ APPROVALS 条目 1（stop-hook stale-index 修复）r182 已代执行 a+b 双修待确认；⑤ RUBRIC-V3-FULL-AUDIT-B2-FULL-FIX 剩协议级重设计 ~22 回合，待成璐确认启动；⑥ queue L93 候选行完整五段式归一待成璐裁定 (i)/(ii)。
 
 ## 历史状态 @ 2026-11-02（keepalive r182 · RV3G8 归因并入 DRAFT v2）
 
