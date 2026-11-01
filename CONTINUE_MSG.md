@@ -1,6 +1,12 @@
 # CONTINUE_MSG — pfb 工作区
 
-## 当前状态 @ 2026-10-31（r75c）
+## 当前状态 @ 2026-11-01（r156）
+
+**r156 文档同步收口**：keepalive 快照里的「新发现·遗留工作 #1 独立 judge 盲测 p̃」核实为误报——该盲测 r73 已执行且裁定早已落 bench.md L104（W3 top-5 构念效度 1/5 → pass=false，跨 judge ρ=0.688，surprisal 权重方案含 W3 不进正式 rubric，负结果记录），只是 DRAFT v2 O3 消融证据段没同步。本轮补记该 bullet 并挂接 R-06 experimental 声明 + revision-log R-17 登记，main `7036773`；冻结数据零触碰，三断言回归（w2/w3w4/gmr）全 exit 0。
+
+**下一步（下轮唤醒起点）**：pfb 侧自主可推进项基本清空，剩余全部 blocked-on-human/external：① G1b family_check 升级（等成璐给非 Qwen API key，~5 次调用）② κ 阈值标定（等 kappa-u1k1 §4 勾选裁定）③ K4 O1-O4 closure-gate 裁定 ④ web-llm 三 provider 人工登录 ⑤ R5.2-third-scorer（与 ① 同族依赖合并等待）。market-alpha T5 设计线 R1/R2/R3 全收口（R3 预注册已冻结 5facff2），回测执行需 Lead 另轮授权。**下轮先核对五项卡人项有无解锁，无变化则做可逆维护或 [SILENT]。**
+
+## 历史状态 @ 2026-10-31（r75c）
 
 **r75c market 双线全部收口**：① T4-R1 已收口——Lead 阶段 04.5 审核回执 pass 落盘 main 6b6804e，收口汇报 t4-r1-closure.md @ arena/e174c209 bbe2770；第 1 轮（事件信号定义核查）01→04.5 全链条闭环，主交付物 t4-event-signals.md 定稿，六项残余缺口登记为后续执行前门禁。② T3-R3 设计冻结收口——本轮走完 04 回执（main c5b9b35）→ A6 04.5 反方复核稿落地（c1f022d，agent 抓到「半正态」表述张力，裁定不构成实质矛盾）→ Lead 04.5 回执 pass（main 734d19b）→ A7 注入 → **冻结声明落地 b82d9da**（frozen:design, execution:blocked @ 2026-10-31T19:38:25Z，内容锚定 88030b6，三处 Lead 依据 hash 齐全），Lead 独立核验七项全 pass，收口记录 @ arena/a8c1fe6b 38424b9。D23-A M1-T2 R3 预注册设计正式冻结。
 
