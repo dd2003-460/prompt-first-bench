@@ -8,4 +8,4 @@
 - goal: rejudge-g1b 盲判 75 cell（arena judge 外包首跑）
 - commit: b7+summary 已 push ralph/rv3g1-semantic-rejudge
 - 验收自检: 75/75 cell 全量判定落盘 results/b1-b7.json + rejudge-g1b-summary.json；每批回执含 per-cell score+reason
-- 结论: **单裁判 arena pass 完成**。分布 0x32/1x26/2x19；run 排名 run7(1.09)>run2(0.89)>run6(0.88)>run1(0.86)>run8(0.82)>run3(0.78)>run5(0.58)>run4(0.50)。系统性缺口（跨 run 全 0）：duty_demand(N-2.1)/util(N-2,N-2.2)/MFU(N-3.1.3)/prefill_flops(N-3.1.1)/cache_hit(N-5.3)/带宽准入(N-5.2)。**G1 审计的 3 个 flag 方向获支持**：judge 先验 p̃ 对"结构性缺失节点"确实高估了命中率。下一步：① dual-rater Battle 复核分歧大的 cell（runner v3.1 协议）；② 把 rejudge 结果回灌 G1 修正表。
+- 结论: **arena judge 外包全流程跑通**（单裁判 75/75 + 分歧复核 4/4）。分布 0x32/1x26/2x19；run 排名 run7(1.09)>run2(0.89)>run6(0.88)>run1(0.86)>run8(0.82)>run3(0.78)>run5(0.58)>run4(0.50)。6 类节点跨 run 全 0（结构性缺失）：duty_demand/util/MFU/prefill_flops/cache_hit/带宽准入。分歧复核：4 个 prior_h=1 且 quality=0 的 cell 全部确认 miss——**prior_h=1 是假阳性（输入参数里的数字被误判为拆解）**，G1 flag 方向再获支持。剩余：① 真·dual-rater（两个不同模型各判一遍，本次是同模型二判 conf~0.7）② 回灌 G1 修正表 ③ 与 r158 h 重判交叉分析。
