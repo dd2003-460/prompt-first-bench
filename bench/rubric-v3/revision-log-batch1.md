@@ -140,6 +140,18 @@ R-04（pilot 两步走）/ R-05（维度合并规则）/ R-07（gold 新发现�
 
 ---
 
+## R-17 · O3 消融证据段补记独立 judge 盲测 r1 结果（r73 产出回填）
+
+| 项 | 内容 |
+|---|---|
+| 触发 | keepalive 快照 P2「新发现：rubric-v3 遗留工作 #1 独立 judge 盲测 p̃」——核实后发现该盲测 r73 已执行且裁定已落 bench.md L104，但 DRAFT v2 O3 消融证据段未同步（v1 时代旧句「若独立 judge 盲测支持再升级」已被 R-06 experimental 声明取代但未注明依据实测） |
+| 改动 | `DRAFT-rubric-v3-v2.md` O3 消融证据段新增一条 bullet：r73 盲测 W3 top-5 构念效度 1/5 → pass=false + ρ=0.688 + 最终裁定（surprisal 权重方案不进正式 rubric，负结果记录），显式挂接 R-06 experimental 状态声明 |
+| 性质 | 文档同步（非冻结数据修改）：judge-blindtest-r1.json / stats-w3w4.json 等冻结件零触碰；与 AUDIT-report G2 F2 双源根因结论一致，无新事实引入 |
+| 验证 | grep 确认新 bullet 存在 + 既有 bullet 零改动（diff 面仅 +1 行） |
+| 日期 | 2026-11-01 |
+
+---
+
 ## 诚实保留（负面结果与弱点，不掩盖）
 
 1. **R-06 逐字一致性已 diff 验证**（04 执行后更新）：AUDIT-report.md L186 与 v2 L77 字节级相等（python `a == b → True`，413 字符），非手工重打。

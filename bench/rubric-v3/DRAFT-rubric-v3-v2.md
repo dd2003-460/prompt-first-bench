@@ -80,6 +80,7 @@
 **消融证据（r71/r71b · `ablation/ablation-result.md`）**：8 个真实 C0 run × 31 节点上对比 W0 flat / W1 importance / W2 surprisal（+W3=w1×w2、W4=w1+w2 组合探索）：
 - 排序影响成立：三套权重 Spearman ρ 0.81–0.97，W0–W2 分歧最大（ρ=0.8102）；W0 下打平的 run 对在 W1/W2 下全部拉开差距
 - 构念效度：top-5 gold 计数 ≥3/5 判据已废弃（对 p̃ 来源二元翻转 3/5↔1/5 + per-run 口径无 run 过线 max=2 + 超几何基线 P(X≥3)=1.99% 极严判据，AUDIT-report §3.1）；改用 gmr（连续量，扰动最小）
+- **独立 judge 盲测 r1 已执行（r73 · `ablation/judge-blindtest-r1.json`，fresh-context subagent 物理隔离 prior-estimates.json）**：W3 top-5 构念效度 1/5 → pass=false（原 judge 自评 3/5 为自我偏袒产物）；跨 judge p̃ Spearman ρ=0.688（方向稳定但弱一致，新 judge 分布右移压缩 w2 动态范围）。**裁定：surprisal 权重方案（含 W3 乘法组合）在独立验证下不成立，不进正式 rubric，保留为负结果记录**——与上方 R-06 experimental 状态声明一致，此处补记该声明所依据的实测证据
 - 机判防护：w2 公式逐节点断言 `ablation/scripts/assert-w2-formula.py`（C4）+ W0-W4 分数复算断言 `ablation/scripts/assert-w3w4-recompute.py`（C3），冻结数据篡改即 FAIL
 
 ### O4 条件化结论质量【v2 框架化 · R-02 横切；条目内容待 batch2 R-14】
