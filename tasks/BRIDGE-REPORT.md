@@ -5,7 +5,7 @@
 
 ## 当前状态
 
-- goal: （未派发）
+- goal: RV3G6-o2-mechanize-r12（队首，待派发 arena）
 - commit: —
 - 验收自检: —
-- 结论: 尚无 claude 进程在跑。下次派发时由 claude 覆盖本段。
+- 结论: runner 协议已切 v3（arena agent mode 执行层）。下一轮唤醒时按 SOP 派发：任务书 push → ego-browser 提交 arena.ai/agent → snapshot 读结果 → Lead 代写本报告 → 验证 merge。
