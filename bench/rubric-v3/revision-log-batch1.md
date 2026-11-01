@@ -152,6 +152,20 @@ R-04（pilot 两步走）/ R-05（维度合并规则）/ R-07（gold 新发现�
 
 ---
 
+## R-18 · prompt-V0 矛盾预算段 B10 缺口登记（r158 · ralph/v0-conflict-budget-close）
+
+| 项 | 内容 |
+|---|---|
+| 触发 | keepalive bridge 对账发现 b92a70c/a6145b6 两个 commit 在 v3 批次开跑前修改了 `ablation/prompt-V0.txt`（新增「找矛盾预算」指令段），但该段未登记进 DRAFT v2 §3.2 冻结 diff 表——B10 规则「无 diff 记录的变体不得开跑」的机械前提被破坏：若 v3 批次直接以现版 prompt-V0.txt 为共用题面，所有变体都携带未注册的 V1 侧组件，消融归因链断裂 |
+| 核实事实 | ① 泄漏扫描不受影响：assert-leak-triage.py 旧/新版 token 集完全相同（均 {0.25,0.30,0.45,1,2,9,10,20,90,100,200}），rare-token 白名单口径不变；② L1 计分链锚定 aad07bd (r69) 落盘版（TASK-ablation 输入材料节 + #27 裁定 C9-plain 只作外部参照），hit-matrix/prior-estimates 等冻结件零触碰；③ gold-tree.md 无「矛盾」标记节点，O2 E1-E4 判据与 D3 段正交（E2/E3 判的是产出内矛盾层级，不依赖题面是否要求找矛盾）；④ 该段语义上属 V1 侧组件预研（矛盾挖掘深度是 O2 维度测的对象，放进 baseline 会污染 V0/V2 对照） |
+| 改动 | `DRAFT-rubric-v3-v2.md` §3.2 冻结 diff 表追加 D3 行（状态 = 未注册/B10 缺口，任何变体要测其效应须先补 diff+冻结 commit 再开跑；在此之前共用题面按「不含 D3 段」口径执行）+ `TASK-ablation.md` 输入材料节加版本注记（L1 数据锚定 aad07bd 版） |
+| 性质 | 文档同步 + 缺口显式化（非冻结数据修改、非行为变更）：prompt-V0.txt 本体零改动（保持 r157 会话工作成果原样），冻结 JSON/矩阵零触碰 |
+| 待办导出 | 若 v3 批次决定测「矛盾挖掘」组件效应：新开 goal 把 D3 段从 prompt-V0.txt 移出（或单列 prompt-V1-conflict 文件）+ 补 §3.2 D3 行冻结 commit + 同批次重跑受影响变体（B10/#27）。当前不代裁，挂候选 |
+| 验证 | git diff 面 = DRAFT v2 +1 行（D3 表行）+ TASK-ablation +1 行（版本注记）；prompt-V0.txt / hit-matrix.json / prior-estimates.json / gold-tree.md 零 diff |
+| 日期 | 2026-11-01 |
+
+---
+
 ## 诚实保留（负面结果与弱点，不掩盖）
 
 1. **R-06 逐字一致性已 diff 验证**（04 执行后更新）：AUDIT-report.md L186 与 v2 L77 字节级相等（python `a == b → True`，413 字符），非手工重打。

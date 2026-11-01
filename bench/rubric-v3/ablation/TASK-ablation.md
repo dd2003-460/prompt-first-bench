@@ -9,7 +9,7 @@ gap analysis（`receipts/rubric-v3-gap-analysis.md`，在 research/deepresearch-
 
 ## 输入材料（都在本目录 bench/rubric-v3/ablation/）
 - `gold-tree.md` — decomp 硬件域 gold 树，31 节点带 ID（N-0, N-1, N-1.1, ...），含 SHARE 份额标注
-- `prompt-V0.txt` — baseline 题面（C9-plain 档，无引导）
+- `prompt-V0.txt` — baseline 题面（C9-plain 档，无引导）。**版本注记（r158, 2026-11-01）**：L1 原始 run 数据 = aad07bd (r69) 落盘版；b92a70c/a6145b6 在矛盾预算段加入「找矛盾」指令（V1 侧组件预研），该增量不进 L1 计分链——L1 C9-plain 按 #27 只作外部参照，hit-matrix/prior-estimates 等冻结件均锚定旧版。若后续 v3 批次要测「矛盾挖掘」组件效应，须单列变体并同批次重跑（B10 规则），不得混入 C9-plain 基线。
 - `runs-C0-run1.md` ~ `runs-C0-run8.md` — 8 个已有模型产出（同一 prompt 的 8 次独立 run，真实数据不是编的）
 
 ## 你要做的三步
