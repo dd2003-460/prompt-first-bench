@@ -9,9 +9,9 @@
    **runner 桥接规则（Hermes stop-hook 驱动模式）**：当本会话由 Hermes stop-hook 唤醒且消息含「ralph loop runner」或指向本协议时，执行者 = Hermes agent 本人（不是 claude CLI）：
    - 从 `tasks/goal-queue.md` 取队首未完成 goal → 写 `tasks/current-goal.md`
    - 用 terminal 工具派发 claude 执行该 goal：
-     `claude -p "git checkout main。读 tasks/ralph-loop-runner.md 和 <goal任务书路径>，执行 <goal短名>，走完整 1-loop 六阶段，commit+push 到你的新分支 ralph/<goal短名>。" --dangerously-skip-permissions --max-turns 200`
+     `claude -p "git checkout main。读 tasks/ralph-loop-runner.md 和 <goal任务书路径>，执行 <goal短名>，走完整 1-loop 六阶段，commit+push 到你的新分支 ralph/<goal短名>。收口前必须把完成状态写入 tasks/BRIDGE-REPORT.md（goal短名+commit hash+验收自检+一句话结论），写完再退出——这是你唯一的通知通道，不写等于白干。" --dangerously-skip-permissions --max-turns 200`
      （background=true, notify=true；prompt 保持单段、无角色前缀、≤3 个文件引用——复杂多段 prompt 会触发 API 400 tool_reference）
-   - **通知通道（2026-11-01 修订）**：claude 进程退出时 terminal notify 只在本会话存活期间送达。为防漏收，keepalive cron（loop-keepalive-30m）每 30min 唤醒时会执行「bridge 对账」：`pgrep -f "claude -p"` 为空但 `tasks/current-goal.md` 存在且 queue 未划掉 → 说明 claude 已收口而通知丢失，立即走下面的验证→merge 流程。即：notify 是快路径，keepalive 对账是兜底，两者都通。
+   - **汇报通道（2026-11-01 v2 · 不用 keepalive cron）**：不依赖任何定时任务。claude 的 prompt 里必须带一条硬指令——「收口前把完成状态写入 `tasks/BRIDGE-REPORT.md`（goal 短名 + commit hash + 验收自检结果 + 一句话结论），写完再退出」。我这边两条路都能收到信号：① terminal notify=true，claude 进程退出时若本会话活着直接唤醒我；② 我每次被唤醒（stop-hook、用户消息、任何事件）先花 5 秒跑一次 bridge 对账：`cat tasks/BRIDGE-REPORT.md 2>/dev/null` + `pgrep -f "claude -p" | wc -l`——有报告且进程不在 = 它干完了，走验证→merge；没报告且进程在 = 还在干，不打扰；没报告且进程不在 = 它死了，查 /tmp/ralph-loop-r*.log 定位后简化 prompt 重试一次。即：汇报靠 claude 自己写文件，发现靠我对账，cron 不参与。
    - 轮询验证（每 5-8 min 一次）：`git log --oneline main..HEAD` + `find loop-artifacts/stages/ -name "*<goal前缀>*"` + `ps aux | grep "[c]laude -p" | wc -l`
    - claude 收口后（进程退出或 max-turns 耗尽）：我验证产出（跑断言脚本/grep 关键数字）→ merge 回 main → push → 更新 queue（划掉+结果注记+追加新候选）
    - **同一回合内立即取下一个 goal 重复上述流程**——stop-hook 会在每次我想停时把我拽回来，所以「回合结束」不是终点
