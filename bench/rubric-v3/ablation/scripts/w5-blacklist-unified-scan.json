@@ -1,0 +1,57 @@
+{
+ "created_at": "2026-11-02T02:10+08:00",
+ "kind": "w5-blacklist-unified-scan",
+ "goal": "W5-blacklist-extraction-fix 尾巴：同类脚本 token 提取逻辑统一排查",
+ "scope": {
+  "pattern_a_gold_tree_blacklist": [
+   {
+    "file": "bench/rubric-v3/ablation/scripts/assert-o3-claim-list.py",
+    "func": "gold_numbers_per_node + _noise_exempt",
+    "style": "open(GOLD_TREE).read(), 无显式 encoding"
+   },
+   {
+    "file": "bench/rubric-v3/ablation/scripts/assert-hitmatrix-evidence.py",
+    "func": "gold_numbers_per_node + noise_exempt(node_id_set)",
+    "style": "GOLD_TREE.read_text(encoding='utf-8')"
+   }
+  ],
+  "pattern_b_static_token_blacklist": [
+   {
+    "file": "bench/rubric-v3/ablation/scripts/assert-audit8-erratum.py",
+    "check": "② 旧错误 token 黑名单（6 个固定 token，re.finditer 全文零命中，排除 Erratum 节）——静态清单非提取逻辑，不在 W5 bug 同类范围"
+   },
+   {
+    "file": "bench/rubric-v3/ablation/scripts/assert-psf-freeze.py",
+    "check": "③ §4.4 blacklist tokens zero hit——同上，静态清单"
+   }
+  ]
+ },
+ "equivalence_check": {
+  "method": "文本级比对（剥 docstring/注释后）+ 行为级比对（真实 gold-tree 输出）+ 合成数据变异测试（box-drawing 缩进树体，节点 ID 不在行首——正是 W5 bug 的触发形态）",
+  "gold_numbers_per_node": {
+   "text_identical_after_strip": false,
+   "differences": [
+    "docstring 详略不同",
+    "open() vs Path.read_text(encoding)（语义等价，UTF-8 环境）",
+    "o3 版保留 W5 修复历史注记"
+   ],
+   "behavior_real_data_equal": true,
+   "behavior_synthetic_box_drawing_equal": true
+  },
+  "noise_exempt": {
+   "output_real_data_equal": true,
+   "seed_equal": "两者基础集均为 {'0','1'}（o3=GOLD_NUM_EXEMPT 常量，hm=字面量）",
+   "signature_diff": "o3=_noise_exempt() 内部调 node_ids()；hm=noise_exempt(node_id_set) 参数化（可注入任意节点集，设计更优）"
+  }
+ },
+ "mutation_test": {
+  "input": "合成 box-drawing 树体（├─/│ 前缀，ID 从不在行首）含 N-0/N-1.1/N-1.1.1/N-2.1 四节点",
+  "result": "两版本输出逐节点一致：N-0={0,42.8} N-1.1={1.1,774} N-1.1.1={1,1.1,14} N-2.1={2.1,27}——W5 修复后的 findall 口径在两份拷贝中均正确工作，无回归"
+ },
+ "regression": {
+  "assert-o3-claim-list.py": "exit 0 · 4/4 检查组 PASS",
+  "assert-hitmatrix-evidence.py": "exit 0 · VERDICT: PASS（FAIL 0 / SIGNAL 0 / 审计 98 h=1 cell）"
+ },
+ "leftover": "双份函数拷贝漂移风险登记：若未来 gold-tree 结构再变（如新增 OC 卡片区数字格式），需同步改两处。建议项不阻塞。",
+ "verdict": "统一排查完成：模式 A（gold-tree 数值黑名单提取）仅两处实现，逻辑等价、行为等价、合成数据变异测试一致，无需代码修改；模式 B（静态 token 清单）两处为设计使然（勘误溯源用固定错误值），与 W5 提取 bug 不同类。唯一遗留是双份拷贝的长期漂移风险——建议后续抽公共模块（新文件，需 APPROVALS 登记或开小 goal），本轮不做（最小执行原则）。"
+}
