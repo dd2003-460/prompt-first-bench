@@ -41,6 +41,12 @@
 | N-1.1 | 8/8 | 0.35 | P(全hit)=0.35⁸ = 0.000225 | 先验偏低概率却 8 次全 hit → 先验偏低 |
 | N-5.3 | 8/8 | 0.05 | P(全hit)=0.05⁸ ≈ 5e-11 | 同上，幅度极端（两个数量级以上） |
 
+**rejudge-g1b 回灌（2026-11-01, arena 盲判 75 cell, results/b1-b7.json）**：三红旗全部获独立证据支持，且偏差方向得到细化——
+- N-1 高估 ✓：quality 盲判确认 run 对 c_hour 拆解不完整（prior_h=1 的 cell 中 4/30 quality=0）。
+- N-1.1 低估 ✓：prior_h=0 的 cell 中 8/30 quality=1、2/30 quality=2（先验说"没拆到"实际拆到了），N-1.3 TCO 跨 run 全满分。
+- N-5.3 方向勘误：G1 原写"极端低估"（p̃=0.05 vs hr=1.0），但 rejudge 揭示 hr=1 本身是假阳性——8 个 run 里 cache_hit_rate 均只以输入参数（90:9:1）出现，从未被实质拆解，quality 全 0。**真实矛盾是双向的：p̃ 过低 + hr 虚高**，根因是 judge 把输入数字误判为拆解。修正后 N-5.3 的"矛盾幅度"应从 5e-11 降级为"标注口径问题"而非"先验失准"。
+- 新增发现：偏差不是单向校准问题，prior_h 在两个方向上都不可靠（高估 13% + 低估 33%），量化明细见 `rejudge-g1b/g1-prior-vs-quality.json`。
+
 - evidence：assert-g1-audit.py S3 输出行；JSON path prior-estimates.json:nodes.N-1.p_tilde 等；命中计数 hit-matrix.json:run{1..8}.N-1.h 等。
 - 注意：三红旗双向分布（1 高估 + 2 低估）→ 不是单向校准问题，是逐节点估计质量问题。
 
