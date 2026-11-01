@@ -38,7 +38,7 @@
 
 0. **P1 · C3 v3 paired runs** → 全链八环回执完整（receipt-c3v3-final-consolidation-r76.md），最终结论 freeze 负效应最稳健（Δtruth −0.350）/ evidence 正向（+0.156）/ owner 中性，四条硬限定语不变。**r78 新增数据点**：本地 qwen 实例盲评同批 5 工件（hetero-judge-results-r2.json + receipt-g1b-r2-local-judge.md）——X5 敏感度三判器交叉验证成立（A1/X5 仅 r2 抓到、P1/X5 三方全抓），但 judge 自报同族 ⇒ family_check 仍 unknown，R5 维持 PARTIAL-CLOSED。剩余卡人项不变：**#1 G1b family-upgrade（等成璐给非 Qwen API key 或 arena 披露模型身份，~5 次调用，重打模板现成）/ #2 κ 阈值标定（等 kappa-u1k1 §4 勾选裁定）/ #3 严格盲法第二人 / #4 harder domain**。agent 侧无可推进空间，下轮唤醒直接跳到 P2。
 1. ~~P1 · market-alpha 双线验收~~ → r76/r77 收口（T4-R1/T3-R3/T5-R1/R2 全 pass，T5-R3 预注册冻结 5facff2）。回测执行需 Lead 另轮授权。
-2. **P2 · 回 arena 会话 01a18567 取 307 行 survey 原文回填 research/interpretability/literature-survey.md**（继承，未动）。
+2. ~~P2 · 回 arena 会话 01a18567 取 307 行 survey 原文~~ → **r78 核实为误报已销账**：r48 (c241a8f) 已从 origin/arena/78602cd5 tip 5a525c7 取回 308 行全文回填 main，回执 tasks/receipts/arena-lit-survey-r51-failed.md L10 已标 DONE——本条是 r76 盘点时的陈旧残留。
 3. **P2 · :8787 node 网关容量竞争根因评估**（cron 400 too large 元凶候选；本轮上下文正常未触发，继续观察）。
 4. **维护债备忘**（assert-baseline-audit-r76 登记，未动）：assert-kappa-receipt.py DEFAULT_DIR=ablation/ 与回执实际位置 bench/rubric-v3/ 一层偏差——下次动 rubric-v3 面时顺手二选一修复（挪文件 or 改默认目录），勿单独开 commit。
 
