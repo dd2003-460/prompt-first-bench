@@ -14,6 +14,7 @@
    - **大 goal 拆分优先**（m00656）：子领域正交拆 3-7 个，每个 ≤30min，并行 ≤3；arena 失败率高，调研类每子领域拆 2 个（主调研+交叉验证）
    - **汇报通道不变**：arena 产出由我（Lead）读取 snapshot 后写入 `tasks/BRIDGE-REPORT.md`（goal 短名+交付物路径+验收自检+一句话结论）——claude 时代它是工人自己写，现在是我收到 arena 结果后代写。我对账方式相同：cat 报告 + 查 ego-browser taskSpace 状态
    - **交叉验证门禁**（02.5/04.5）：同一 claim ≥2 独立回答（arena 内不同对战轮次各答一遍），回执 JSON 满足最低字段；矛盾点记录+核实
+   - **judge 外包 arena Battle（2026-11-01 v3.1 · 成璐指令）**：评分/judge 环节同样走 arena，不自己 AI 当裁判。流程：① 把待评材料（evidence packet / 产出 diff / 任务书）整理成自包含评分 prompt——给 rubric + 材料 + 要求输出固定格式（per-metric 分数表 + 每条扣分理由，≤50 行）；② ego-browser 提交 arena.ai（Battle 模式即可，匿名双模型对战 = 免费双裁判）；③ snapshot 读两个模型的判分；④ 一致性判定：两裁判 per-metric 差 ≤10 分 = 通过取均值；差 >10 分 = 该 metric 升级 Lead 仲裁（我读双方理由后裁定，裁定结果写回执）；⑤ 回执 JSON 落 `bench/self-opt-tester/r<N>/judge-arena-r<N>.json`，字段含 kind:"judge_arena_battle" / two_raters[]（各自分数+理由摘要）/ agreement{}（per-metric 差值）/ adjudications[]（升级条目+我的裁定+理由）。先例参照 r5/scorer-agreement-r1.json（claude vs deepseek 双盲打口径），arena Battle 是它的自动化版本。注意：judge prompt 里不得泄露正确答案或 gold tree（同 prompt-V0 去泄露原则），只给 rubric 和材料。
    - **降级阶梯**（逐级降，记录原因）：arena agent mode → arena Battle → ego-browser 直抓 → 本地自答（conf −0.2，标「arena 不可用 <日期> <原因>」）
    - 收口：我验证产出（跑断言/grep 关键数字）→ merge ralph/<goal短名> → push → 更新 queue → 同一回合取下一个 goal
 1. 读 `tasks/goal-queue.md` → 取队首未完成的 goal；若队列空则自找：
