@@ -5,7 +5,7 @@
 
 ## 当前状态
 
-- goal: RV3G6-o2-mechanize-r12（队首，待派发 arena）
-- commit: —
-- 验收自检: —
-- 结论: runner 协议已切 v3（arena agent mode 执行层）。下一轮唤醒时按 SOP 派发：任务书 push → ego-browser 提交 arena.ai/agent → snapshot 读结果 → Lead 代写本报告 → 验证 merge。
+- goal: （R-12 已由 r158 收口 @ 4bad6ee；下一目标待从 queue 取队首）
+- commit: 4bad6ee (r158)
+- 验收自检: queue 双收口 + CONTINUE_MSG 刷新（见 r158 播报）
+- 结论: runner 协议已切 v3.1——执行层 = arena agent mode，judge 层 = arena Battle（双匿名裁判，差≤10 取均值，>10 升级 Lead 仲裁）。本地 claude CLI 全弃用。
