@@ -211,3 +211,16 @@ R-04（pilot 两步走）/ R-05（维度合并规则）/ R-07（gold 新发现�
 5. **D2 段落是本 goal 新写的 prompt 侧文本**——AUDIT-report B9 要求「先把边界类型声明段落写进 loop/prompt-first/02.5（或 03）并 commit 冻结」，本 goal 只在 DRAFT v2 内给出 D2 文本作为冻结对象（R-10 范围），写入 prompt 文件的流程动作属 R-09（batch2）。这是范围切割，不是遗漏。
 6. **权重数值（0.4/0.25/0.2/0.15 与四等分）是本 goal 的预注册选择**——AUDIT-report 只要求「权重预注册写死」未给具体值；取值依据（O3 主分占大头 / process 四维无主次）写在 v2 对应位置，供人工审。
 7. **「≥5 年」元文本保留（C-02 裁定）**：v2 §4 设计变更声明中引用 v1 锚点原文（「发布 ≥5 年」）属审计可追溯性需要（说明删了什么），不是题面指令，不计为 A5 验收残留；冻结块（D1/D2/sham）内方向暗示词 grep = 0 命中才是硬标准。
+---
+
+## R-21 · pilot 后分析落盘 + DRAFT 正式实验段更新（RV3G6-pilot-post-analysis · ralph/rv3g6-pilot-post-analysis）
+
+| 项 | 内容 |
+|---|---|
+| 触发 | RV3G6-pilot-run 收口（main @ 43e38ec，κ 修正回执 kappa-results-corrected.json）后的 §3.1 第二步前置：pilot 数据须回代 R-05/R-11——DRAFT L206「pilot 用途限定为两件事」的兑现动作 |
+| 改动 | ① 新增 `ablation/pilot-matrix/pilot-post-analysis.json`：双判均值维度分重算（DRAFT 预注册公式）+ 三组主对比配对 sd_d + n_pairs 反推（δ_min=0.1）+ 7×7 Spearman 矩阵 + |ρ|>0.8 簇候选 + 变体总分（outcome/process 预注册权重）；② DRAFT v2 §3.1 第二步行追加 r164 实测输入四注记（κ 处置/簇裁定挂起/n_pairs 方向性/天花板效应），不改任何预注册数值与权重表 |
+| 关键数字 | κ overall 0.857(n=162) / O3 claim 1.0(n=279) / O1 0.506(SIGNAL)；簇 {O1,O2,P4} ρ(O2,P4)=1.0；V1full−V0 outcome Δ=+0.208(sd 0.094, n≥8)、process Δ=+0.222(sd 0.096, n≥8)；O1 Δ=+0.556(sd 0.419, n≥139)；变体均值 outcome V0 0.634 / V1-full 0.841 / V1-align 0.823 |
+| 性质 | 冻结文档修订（DRAFT 状态，非已冻结件）；只加注记不动预注册值（权重表/δ_min/阈值零触碰）；kappa-results-corrected.json 等既有回执零触碰 |
+| 遗留边界 | ① O1 入簇但属确认性主维度 → R-05 合并处置需成璐裁定（JSON r05_decision_input 已备料），裁定前正式实验维度结构未最终确认；② P2 全 NA（无 run-log）→ 矩阵 7×7 非预注册 8×8，正式实验须补 run-log 采集否则 P2 永久缺列；③ 同序号配对为约定非随机化，n=3 每对 → n_pairs 只作方向性输入；④ V1 侧 O2/P4 天花板效应未解决，区分度问题进正式实验设计清单 |
+| 验证 | python 独立重算（条目级二值分 → 维度分 → 总分/sd/ρ 全链路脚本可复现，源 = judge-A.json + judge1/2.json）；grep 确认 DRAFT 预注册权重表（L124/L194）与 δ_min 行零 diff |
+| 日期 | 2026-11-02 |
