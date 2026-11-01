@@ -4,7 +4,7 @@
 
 **盲评双裁判评分已落盘并收口**：arena agent 完成 21 份 × 双裁判打分，cherry-pick 到 main（judge-{1,2}-scores.json + JUDGE-PROTOCOL.md + BLIND-EVAL-REPORT.md）。Lead 独立核验全过：JSON 合法、21 run_id 全覆盖无重复、O3 per-claim 数组长度=31 ×42 份、total_score 复算零 mismatch、max_score=38、值域 0/1/2。一致性：条目完全一致 389/399=97.5%、差≤1 100%、Cohen's κ（衡量去掉瞎蒙成分后两裁判真实一致程度，三档原值 pooled）=0.916。**关键限定**：两判由同一 agent 以预注册不同口径执行（J2 开判前声明更严字面判据、未回看 J1），一致率与 κ 不是独立评分者间信度，只能作判据严格度敏感性证据——真实 IRR 需第二独立 agent 重跑（并入 G1b family_check 卡人项）。变体序两判一致：V1-full(37.3) > V2-nocoverage(36.3/36.0) > V1-align(35.3/35.0) > V-sham/V3-sham(~34) > V3-noboundary(~33.5) > V0-baseline 垫底(26.0/25.3)，差距集中在 O1/O3/P4 三支。O3 结构性缺口：N-3.1 系 prefill FLOPs 建模 + N-2.2 调度子因子 21 份全 0 命中（系统性分歧，归因单列）。新发现：任务书内嵌匿名映射表 = 盲评泄漏，建议移入 anon-mapping.json。
 
-**下一步（下轮唤醒起点）**：① queue 队首检查——RV3G7 已全链闭环、RV3G8 消融归因已完成 @ ed6c2f5，取下一个可推进 goal（候选按 queue 顺序：erratum-27 / G1b family_check 等凭证 / R121；若成璐要 DRAFT v2 并稿，attribution-analysis.md §1-4 可直接作为 §3.1 第二步素材）；② 盲评泄漏修复已落地（r180b）。其他卡人项不变：erratum-27 / G1b family_check / R121 / web-llm 登录。
+**下一步（下轮唤醒起点）**：① 状态机越界异常已修复（r180c+：completed goal 索引回落，非真实故障）；② queue hygiene 完成 @ 2b561b0（三条已完成行漏翻修复）；③ 真实队首两个跨轮长活：**RUBRIC-V3-R121-PAPER-COMPARE**（对标 ResearcherBench/RACE 差异表的外部文献核验——调研/核验类，按外包规则派 arena 固定会话 01a195cb 查 arXiv 原文，优先级低但可启动）/ **C3v3-G1a-ninfer-execution**（需 :8000 本地 vLLM 通道在线，先探活再定）。两者均不在 keepalive 回合内启动执行，下轮按 runner 协议取其一推进。其他卡人项不变：G1b family_check / R121 / web-llm 登录。
 
 ## 历史状态 @ 2026-11-02（keepalive r177 · 盲评对账：agent 在跑，未重复派发）
 
