@@ -5,7 +5,10 @@
 
 ## 当前状态
 
-- goal: RV3G8-ablation-attribution（下一 goal，待立项）；上一 goal RV3G7 盲评收口 @ r181
+- goal: 无活跃 stage-gate goal；r185 补完 R-05 预注册报告义务（8×8 相关矩阵正式版），rubric-v3 正式实验链（RV3G6→G9）全闭环。剩余卡人项：G1b family_check（真实 IRR，需非 Qwen 凭证或 arena 模型身份披露）
+- commit: main 13ac7bd（r185 收口：corr-matrix-formal-n21.json + attribution §8.5 + DRAFT 后记 + revision-log R-25 + queue 补记）
+- 验收自检: 矩阵 21 个 off-diagonal 值由 judge-{1,2}-scores.json 独立复算；assert-kappa-receipt.py PASS exit 0（SIGNAL kappa=0.0 为已知边际退化假象，人工裁决不阻断）
+- 结论: **R-05 ③ 报告义务在正式数据上执行完毕**——n=21 pooled 无任何 |ρ|>0.8 对，pilot {O1,O2,P4} 簇未复现（最大 ρ(O2,P4)=0.61）。R-22 选项 c 标注保留为形式合规，维度结构不变。下一可自主推进项见 goal-queue 队首扫描（C3v3-G1b-hetero-judge 可走 arena battle 通道，slim 2.5KB packet 经验已有）。
 - commit: main 0aa2bf4（盲评分数+回执）/ 4fd2ef3（queue 更新）
 - 验收自检: 双裁判 21 docs × 19 items 独立复算全过；Krippendorff α=0.9642
 - 结论: **盲评双裁判评分核验收口完成**。agreement 0.975，α=0.9642（高一致）。弱项 O3(0.880)/O4-E2(0.523) 登记不阻塞。排名 B2>B1/B3/D3/F2>D2/F1>C2。**注意**：双判仍为同一 agent 双口径（严格度敏感性证据，非独立 IRR）。剩余：① RV3G8 归因分析立项 ② 真·异源 dual-rater（需非 Qwen API key，blocked）
