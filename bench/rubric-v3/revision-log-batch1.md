@@ -187,6 +187,21 @@ R-04（pilot 两步走）/ R-05（维度合并规则）/ R-07（gold 新发现�
 
 ---
 
+
+---
+
+## R-20 · batch2 修订全落地（R-04/R-05/R-07/R-08/R-09/R-11/R-14/R-15 · ralph/rv3g6-draft-revision-batch2）
+
+| 项 | 内容 |
+|---|---|
+| 触发 | queue RV3G6-draft-revision-batch2 [~] 可启动（U-K1 前置已闭合）：AUDIT-report §9.1 第二批 ~24 回合修订，DRAFT v2 状态行声明「不可用于正式实验计分」的解除条件 |
+| 改动 | `DRAFT-rubric-v3-v2.md` 八处：① §3.1 R-04 pilot→定维度两步走（删 L1 预检，pilot 矩阵定义域写死）；② Process 总分节 R-05 维度合并规则预注册（\|ρ\|>0.8 簇报 + 确认性 2 维/探索性 6 维分层 + 8×8 相关矩阵强制附报）；③ §1-O3 R-07 G-new 正式计分项 O3_final=min(1, O3+0.25·n_Gnew) + gold 冻结纪律（sha256 登记 run 元数据，rubric 后于 gold 冻结才可改）；④ §2-P1/P3 R-08 判据替换为工件机械提取代理量（P1-E3 关键事实外部来源比例≥50% + P1-E4 独立域名≥2 + P3-E1 独立来源数≥2 比例≥50%）+ 开跑前通道探测写入 run 元数据 + NA 档机制；⑤ §2-P4 R-09 可观测三问细化（E1-E3 即三问可执行形态，抽样核验一致率项挂 pilot 后——pilot 前无定义域）；⑥ §3.3 R-11 统计设计修订包（δ_min=0.1 预注册 + MDE≈2.802·sd_d/√n_pairs 反推 + 配对置换检验主/Wilcoxon 敏 + Holm 全族 28 项作用域明确 + judge 盲化匿名变体标签 + κ 条目层 U-K1 γ 语义）；⑦ §1-O4 R-14 结构/正确性拆 E4/E5 独立二值条目（±10% 容差预注册初值，β 沿用声明同 U-K1 阈值口径；E5 独立核对复用 G1b 异源 judge 资产，family_check 解锁前 NA 归一化）；⑧ §6 R-15 结论适用范围写死「单域，不外推」（跨域/跨题面版本/跨模型规模引用违规条款）。状态行同步更新为「batch1+batch2 全部落地，可用于 pilot 开跑」 |
+| 权重依据 | R-14 ±10% 容差 = 预注册初值非标定值（显式 β 沿用声明，pilot 双判后回修须记 log）；R-11 δ_min=0.1 = v1 20 分制 2 档等比换算到 0-1 连续口径；R-07 单条封顶 0.25 防刷分（与 O2 G-new 0.25 同量级不同维）；R-05 候选簇（P1+P3/O2+P4）标「基于 B5 分析非断言」，成簇与否以 pilot 实测为准 |
+| 性质 | 冻结文档修订（DRAFT 状态，非已冻结件）；§4 冻结块（D1/D2/sham）零触碰——B10 消融 diff 链不受影响；hit-matrix/prior-estimates/gold-tree 等冻结数据零触碰 |
+| 遗留边界 | ① R-08「关键事实」句子级判定需 judge 执行，pilot 双判首验 κ（走 assert-kappa-receipt.py 既有 schema）；② R-14 E5 / R-07 G-new 的独立核对通道均复用 C3 v3 G1b 异源 judge 资产，family_check 解锁前按保守口径（NA / 0.5 条）；③ R-11 sd_d 先验用 L1 配对差值样本标准差（外部参照不进检验），pilot 首跑后实测重算 n_pairs；④ R-09 抽样核验一致率项 pilot 前无定义域，不假装可执行 |
+| 验证 | grep 确认「待 batch2 / 留 batch2 / 占位防误用」全文零残留（residual 无匹配）+ 16 断言脚本回归 15 PASS（assert-closure-checklist 需 commit-hash+goal 参数，非回归失败）+ 状态行与 §6 销账注记一致 |
+| 日期 | 2026-11-01 |
+
 ## 诚实保留（负面结果与弱点，不掩盖）
 
 1. **R-06 逐字一致性已 diff 验证**（04 执行后更新）：AUDIT-report.md L186 与 v2 L77 字节级相等（python `a == b → True`，413 字符），非手工重打。
