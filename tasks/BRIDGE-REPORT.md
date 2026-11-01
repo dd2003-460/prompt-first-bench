@@ -5,12 +5,24 @@
 
 ## 当前状态
 
-- goal: rejudge-g1b 盲判 75 cell（arena judge 外包首跑）
-- commit: b7+summary 已 push ralph/rv3g1-semantic-rejudge
-- 验收自检: 75/75 cell 全量判定落盘 results/b1-b7.json + rejudge-g1b-summary.json；每批回执含 per-cell score+reason
-- 结论: **arena judge 外包全流程跑通**（单裁判 75/75 + 分歧复核 4/4）。分布 0x32/1x26/2x19；run 排名 run7(1.09)>run2(0.89)>run6(0.88)>run1(0.86)>run8(0.82)>run3(0.78)>run5(0.58)>run4(0.50)。6 类节点跨 run 全 0（结构性缺失）：duty_demand/util/MFU/prefill_flops/cache_hit/带宽准入。分歧复核：4 个 prior_h=1 且 quality=0 的 cell 全部确认 miss——**prior_h=1 是假阳性（输入参数里的数字被误判为拆解）**，G1 flag 方向再获支持。剩余：① 真·dual-rater（两个不同模型各判一遍，本次是同模型二判 conf~0.7）② 回灌 G1 修正表 ③ 与 r158 h 重判交叉分析。
+- goal: RV3G8-ablation-attribution（下一 goal，待立项）；上一 goal RV3G7 盲评收口 @ r181
+- commit: main 0aa2bf4（盲评分数+回执）/ 4fd2ef3（queue 更新）
+- 验收自检: 双裁判 21 docs × 19 items 独立复算全过；Krippendorff α=0.9642
+- 结论: **盲评双裁判评分核验收口完成**。agreement 0.975，α=0.9642（高一致）。弱项 O3(0.880)/O4-E2(0.523) 登记不阻塞。排名 B2>B1/B3/D3/F2>D2/F1>C2。**注意**：双判仍为同一 agent 双口径（严格度敏感性证据，非独立 IRR）。剩余：① RV3G8 归因分析立项 ② 真·异源 dual-rater（需非 Qwen API key，blocked）
 
-## r177 观察记录（2026-11-02）
+## r181 收口（2026-11-02）
+
+- **状态：盲评双裁判评分落盘 + Lead 独立核验收口**
+- arena 5e17a76 cherry-pick → main 0aa2bf4：judge-{1,2}-scores.json（21 docs × 19 items，0/1/2 口径，7 NA 排除，max_score=38）
+- 独立核验全过：JSON 合法 / 21 doc 两判覆盖一致 / 分值 ∈ {0,1,2} / o3_claims 长度 31×21 ✓ / total_score 复算 0 mismatch
+- 一致性：agreement 389/399=0.975；Cohen κ(三档)=0 为边际退化假象（多数项双 2），改用 **Krippendorff α(interval)=0.9642**（有效指标）
+- 弱项登记 2：O3-claim_coverage α=0.880、O4-E2_numeric_interval α=0.523（n=21 小样本，不阻塞）
+- 排名 top8：B2(38) > B1/B3/D3/F2(37) > D2/F1(36) > C2(35.5)
+- 回执：blind-eval-dual-judge-receipt.json @ main
+- **注意**：此轮双判仍为同一 arena agent 双口径（非独立 IRR），定位=严格度敏感性证据（与 r180 一致）
+- **下轮起点**：RV3G8-ablation-attribution 立项（归因分析：用双判分做变体间差异分解，重点看 O3/O4-E2 弱项是否影响变体排序结论的稳健性）
+
+## r177 观察记录（2026-11-02，已被 r181 取代）
 
 - **状态：盲评 agent 运行中，未落盘**
 - 会话 01a195cb（taskSpace 904）：r176 派发已执行，agent 截至本轮检查 26 次思考 + 25 条命令，正在按 31 claim 特征 grep 全 21 份答卷并组装 0/1/2 评分（非 NA 19 项，max_score=38；O3 item 分 = 覆盖率阈值 ≥2/3→2 / ≥1/3→1 / 否则 0）
