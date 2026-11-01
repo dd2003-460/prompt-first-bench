@@ -44,6 +44,7 @@
 5. **r157 附加**（rejudge 启发式基线）：248 cell 关键词匹配 vs 冻结 hit-matrix 78.2% 一致（FM-1=28, FM-2=26）。非有效 rejudge（协议 §6 要求 fresh-context LLM judge），仅供真实通道到来后对比参照。落盘 `rejudge/rejudge-results-heuristic-r157.json` + `receipt-rejudge-heuristic-baseline-r157.json` + `receipt-rejudge-leak-analysis-r157.json`（FM-1/FM-2 根因分析：结构性盲区定量说明）。
 6. **r157 附加**（869f7e7）：三判器条目级一致性矩阵——G1a-J1 (qwen :8787) vs G1b-r1 (arena) vs G1b-r2 (本地 qwen)，95 shared items / 93 unanimous (97.9%)，2 分歧全在 X5（植入退化检测）：A1/X5 G1a=pass r1=pass r2=fail，P1/X5 G1a=pass r1=fail r2=fail。方向性确认：异源 judge 对植入退化更敏感，同源偏软。family_check 状态不变（r1 provider 身份未确认）。落盘 `calibration/receipt-crossjudge-consistency-r157.json`。
 7. **r157 附加**（2e4a66e）：冻结 hit-matrix 共识结构分析——3 unanimous-yes (N-1.1/N-3.2.3/N-5.3)、12 unanimous-no（prompt 真正瓶颈：三项分解/故障建模/利用率因子/FLOP/MFU/带宽阈值）、16 split（rejudge 核心战场）。run 聚类：run2/run3 J=0.93、run6/run7 J=0.93 两紧密簇，run4/run8 J=0.29 离群。为真实 rejudge 通道到来后提供参照基线。落盘 `rejudge/receipt-hit-matrix-consensus-r157.json`。
+8. **r157 附加**（a4a1f8e）：C3 v3 G1 门禁状态汇总——G1a COMPLETE（5 artifacts × 2 judges, integrity ALL OK）、G1b BLOCKED-ON-HUMAN（r1 arena provider unconfirmed, r2 local same-family）、κ=0.0 SIGNAL（threshold 0.6 not met, awaiting U-K1）、CALM NOT YET EXECUTED、G2-G5 NOT STARTED。落盘 `calibration/receipt-g1-gate-status-r157.json`。
 
 **下轮唤醒协议**：先核对 APPROVALS.md「r76 卡人项状态汇总」有无解锁（G1b 非 Qwen key / κ 门禁勾选 / closure-gate K4 O1-O4 / web-llm 登录），有变化执行对应动作；无变化则 [SILENT]。
 
