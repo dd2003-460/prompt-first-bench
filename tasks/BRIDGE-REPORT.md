@@ -65,6 +65,16 @@
 ### 下一步
 补 run 至 n≥8（MDE 要求）才能出正式显著性结论；当前证据级别 = 方向性 + 效应量 + sham 对照结构。
 
+## r187 — queue-lint 卫生修复（2026-11-02）
+
+**做了什么**：assert-queue-lint.py 报 4 FAIL——3 处跨区重复短名缺「吸收」声明 + L110 RV3G9 行无分隔符。补齐后 0 FAIL / 7 SIGNAL（全部合法）。这是 queue L93 候选行选项 (ii) 的 lint 可执行部分落地。
+
+**结果**：main 16e4ec3 pushed。回归 assert-queue-lint.py exit 0。
+
+**下一步**：完整五段式归一待成璐裁定 (i)/(ii)；其余卡人项不变。
+
+---
+
 ## r186 — RV3G9 统计检验勘误回填 + P4-E2 口径澄清（2026-11-02）
 
 **做了什么**：RV3G9 @ 0481ed4 产出 `formal-stats-results.json` 含 4 项 discrepancies，r183 收口时只回填了 DISC-1（D1 净效应口径），漏了 P4-E2 条目值 vs 维度均值口径混淆——本轮补齐。attribution §3 D2 小节 L47 追加澄清注记（3.11/6 是 P4 整维均值含 E1/E3 部分分，非 P4-E2 条目值；P4-E2 本身严格二分 12/12 vs 0/12）+ DRAFT 第三步段同步修正 + revision-log R-26。
@@ -83,6 +93,16 @@
 - commit: main f812129（r187：queue 3 处吸收声明 + L110 em-dash）
 - 验收自检: assert-queue-lint.py 0 FAIL / 7 SIGNAL（全部合法跨区重复）exit 0
 - 结论：**queue 排版归一选项 (ii) 的 lint 可执行部分已落地**——4 个 FAIL 全部修复，7 个 SIGNAL 为合法吸收登记形态。queue L93 候选行（RV3G3cdx-qfc-stock-normalize）的激活前置「成璐裁定 (i)/(ii)」仍待裁，但 lint 层面的硬伤已清。下一可自主推进项见 goal-queue 队首扫描。
+
+---
+
+## r187 — queue-lint 卫生修复（2026-11-02）
+
+**做了什么**：assert-queue-lint.py 报 4 FAIL——3 处跨区重复短名缺「吸收」声明 + L110 RV3G9 行无分隔符。补齐后 0 FAIL / 7 SIGNAL（全部合法）。这是 queue L93 候选行选项 (ii) 的 lint 可执行部分落地。
+
+**结果**：main 16e4ec3 pushed。回归 assert-queue-lint.py exit 0。
+
+**下一步**：完整五段式归一待成璐裁定 (i)/(ii)；其余卡人项不变。
 
 ---
 
