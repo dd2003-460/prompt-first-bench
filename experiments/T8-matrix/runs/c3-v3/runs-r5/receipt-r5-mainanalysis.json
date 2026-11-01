@@ -1,0 +1,71 @@
+{
+ "kind": "c3v3-r5-d3-harder-domain-analysis",
+ "goal": "T8-C3-v3-opportunity-set-freeze · item 3 — D3 harder domain cover 门槛激活检验（r79）",
+ "date": "2026-11-01",
+ "design_ref": "experiments/T8-matrix/runs/c3-v3/design/r5-d3-harder-domain-design.json (r79 冻结)",
+ "matrix_executed": "9 configs × 1 domain (D3-hardware-purchase) × 2 seeds = 18 runs, 0 failed (B-2del-fo/seedb 两次重跑后按如实记录原则保留 442-char 阶段 02 开头输出——模型跟随 freeze 组件 web-llm 指令未产出报告，属行为捕获而非故障)",
+ "channel": {
+  "url": "http://localhost:8787/v1/chat/completions",
+  "model": "qwen3.8-27b"
+ },
+ "judge_binding": "J1 strict 单判（judge-prompts.json 冻结 sha 锚定；R4 双判 J1+J2 在 R5 降为 J1 单判以控算力，J2 补判列为后续可选项）+ M8-cover 对照 opportunity-sets-v1.json D3 冻结集（brief_a/b 各 9 项）",
+ "adjudication": "B-none/seeda X2/X3：模型 fail 依据外部世界知识（Dell 5860 实际平台代际），但 J1 三测定义针对工件内部证据链（具体性/可证伪/反事实），工件内自洽 → Lead 人工仲裁改判 pass（R4 B-nofreeze 截断修复同款先例）。模型自动复核维持 fail 系越权引入外部知识，不予采纳。",
+ "results_table": {
+  "A-full": {
+   "truth": 1.0,
+   "cover": 1.0
+  },
+  "B-nofreeze": {
+   "truth": 0.221,
+   "cover": 0.944
+  },
+  "B-noevidence": {
+   "truth": 0.929,
+   "cover": 1.0
+  },
+  "B-noowner": {
+   "truth": 1.0,
+   "cover": 1.0
+  },
+  "B-2del-fe": {
+   "truth": 0.0,
+   "cover": 0.944
+  },
+  "B-2del-fo": {
+   "truth": 0.071,
+   "cover": 0.889
+  },
+  "B-2del-eo": {
+   "truth": 0.791,
+   "cover": 1.0
+  },
+  "B-none": {
+   "truth": 0.125,
+   "cover": 1.0
+  },
+  "B-sham": {
+   "truth": 0.25,
+   "cover": 1.0
+  }
+ },
+ "findings": [
+  "F1 · cover 门槛首次非 vacuous：18 run 中 3 个 cover<1.0（B-nofreeze/seeda 0.889、B-2del-fe/seedb 0.889、B-2del-fo/seedb 0.778），全部落在删 freeze 的 config 上——freeze 组件确实约束了核验点覆盖，r60e『当前域 vacuous』结论被 D3 推翻，门槛机制从纸面就绪变为经验激活",
+  "F2 · freeze 主效应方向反转（相对 R4）：R4 两域 Δtruth(A-full−B-nofreeze)=−0.350（freeze 负效应）；R5 D3 Δtruth=+0.779（freeze 正效应）。解读：D3 是规格密集型任务（6 项数值阈值），freeze 的候选集冻结+递归分解恰好约束模型不跳步漏项；D1/D2 是开放选型任务，freeze 反而限制了探索。效应方向是 task-type-dependent，不是 rubric 全局属性",
+  "F3 · sham 分离失败（n=2 seed，仅报方向不推断）：Δtruth(B-nofreeze−B-sham)=−0.029≈0，sham 组(0.250)与 nofreeze 组(0.221)无分离。R4 中 v11 judge 下 sham 分离成功——judge 口径敏感 + n 太小，不下结论",
+  "F4 · B-none 悖论：无任何组件的 B-none truth=0.125 低于多数消融组，但其 cover=1.0——模型自发覆盖了全部 9 个核验点，J1 扣分全在主张质量（来源编号缺失等），不在覆盖。说明 cover 与 truth 是两个独立维度，联合判读设计成立"
+ ],
+ "limitations": [
+  "n=2 seed/config（R4 同款），统计功效低，所有 Δ 只报方向",
+  "J1 单判（无 J2 对照），judge 敏感性未交叉验证",
+  "D3 题面由 runner 自主设计（非成璐指定），hardness 校准未经独立评审——若 D3 仍不够 hard 需再升级",
+  "B-2del-fo/seedb 输出仅 442 chars（模型跟随 freeze 组件指令走 web-llm 流程），其 cover/truth 分数代表『未完成报告』而非完整行为",
+  "M8-cover 判定用关键词匹配（本模型 temp=0），非 LLM judge——对语义等价表述可能误判 unaddressed，保守方向（低估 cover）"
+ ],
+ "protocol_closure": "opportunity-set-freeze-protocol-draft-r57.md item 3（下一 run 按新口径执行 M8 双报）→ DONE：R5 即首个按新口径执行的 run，M8 (truth, cover) 双报完成，cover 门槛 -0.05 联合判读生效（3 config FAIL gate）。协议四要素全部经验落地。",
+ "next_actions": [
+  "可选：J2 lenient 补判 18 run（~1min 算力）做 judge 交叉",
+  "可选：D3 加到第 3 seed 提升功效（需成璐确认算力预算）",
+  "建议：F2 效应方向反转写入 matrix-v11.md 限定语更新（freeze 效应 task-type-dependent）",
+  "queue 销账：T8-C3-v3-opportunity-set-freeze 剩余未决清零（G1b 异源 judge 已另立 goal）"
+ ]
+}
