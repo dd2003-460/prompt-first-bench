@@ -1,6 +1,12 @@
 # CONTINUE_MSG — pfb 工作区
 
-## 当前状态 @ 2026-11-01（keepalive r164 · pilot-run 批次1 派发中）
+## 当前状态 @ 2026-11-02（keepalive r165 · pilot 后分析收口）
+
+**RV3G6-pilot-post-analysis 收口（main @ 831174c pushed）**：pilot-run 的全部剩余尾巴（MDE 反推 + R-05 合并规则输入）已兑现——① `ablation/pilot-matrix/pilot-post-analysis.json` 落盘：双判均值维度分重算（DRAFT 预注册公式，条目级二值分→维度分→总分全链路脚本可复现）+ 三组主对比配对 sd_d + n_pairs 反推（δ_min=0.1）+ 7×7 Spearman 矩阵 + |ρ|>0.8 簇候选；② DRAFT v2 §3.1「第二步 正式实验」行追加 r164 实测输入四注记（κ 处置/簇裁定挂起/n_pairs 方向性/天花板效应），预注册数值与权重表零触碰；③ revision-log R-21 登记。**关键数字**：变体均值 outcome V0 0.634 / V1-full 0.841 / V1-align 0.823（process 0.722/0.944/0.944）——候选集规则（D1/D2 段）信号在总分层成立且 V1-full≈V1-align（结构贡献与暗示贡献未分离，符合 B3 设计预期需更多样本）。主对比 V1full−V0：outcome Δ=+0.208(sd 0.094)、process Δ=+0.222(sd 0.096) → δ_min=0.1 下总分层 n≥8；最敏感维 O1 Δ=+0.556(sd 0.419) → **n≥139**（若 O1 保留为确认性维度，样本量由它决定）。|ρ|>0.8 实测簇 = {O1, O2, P4}（ρ(O2,P4)=1.0, ρ(O1,O2)=ρ(O1,P4)=0.854）——与预注册候选「O2+P4」部分重合但多出 O1，而 O1 是 R-05 指定的确认性主维度之一。
+
+**下一步（下轮唤醒起点）**：① **新卡人项（本轮新增，最高优先）**：R-05 合并处置裁定——实测簇含确认性主维 O1，选项大致是 (a) O1 出簇降诊断（牺牲消融最敏感维的确认地位）/ (b) 簇整体探索化、确认性改选 O3+其他 / (c) 维持分开报只标共线风险——备料在 pilot-post-analysis.json `r05_decision_input`，等成璐一句话；裁定前正式实验维度结构视为未最终确认，不派 arena 跑正式矩阵。② 既有卡人项不变：erratum-27（APPROVALS 候裁）/ G1b family_check（等非 Qwen key）/ R121（低优先 unverified）/ web-llm 登录。③ 若上述全无解锁且无新 arena 产出 → [SILENT]。
+
+## 历史状态 @ 2026-11-01（keepalive r164 · pilot-run 批次1 派发中）
 
 **RV3G6-pilot-run 双判推进（judge A 落 main + 双判已派发）**：judge A（9 run 单判）产出已落 main——结构完整核验通过：9 run × 9 维（O1-O4 + O3_claims + P1-P4）× 29 条目/run，NA 项 7/run 正确（E5 + P1-E1/E2 + P2×3 + P3-E3），O3 claim 覆盖逐 run 13-23/31（A-r3 最低 13，B-r2 最高 23）。judge 双判任务书（tasks/TASK-judge-dual-pilot.md）+ 两包 packet（judge1 5 run / judge2 4 run，O3 claim 清单内嵌无需读仓库其他文件）已 push main @ 2e8f737。**judge 双判已派发 arena 同会话**（editor_len=614 验证后 Send，agent 运行中）——agent 先切分支到 main 最新内容，再逐包打分，产出 judge-results/judge1.json + judge2.json，每批 commit+push。
 **下一步（下轮唤醒起点）**：① `git fetch && for b in $(git ls-remote origin 'refs/heads/*' | awk '{print $2}' | sed 's|refs/heads/||'); do git ls-tree -r --name-only "origin/$b" 2>/dev/null | grep -cE "judge-results/judge[12]"; done` 查 judge1.json + judge2.json 是否落盘 arena 分支；② 落盘 → cherry-pick 到 main → Lead 独立核验（两文件 JSON 合法 + 9 run_id 全覆盖无重复 + 非 NA 条目均有 evidence 定位）→ merge main → **κ 计算**（条目层二值，per-dimension Cohen's κ + overall）→ MDE 反推 n_pairs → 8×8 Spearman 相关矩阵 → BRIDGE-REPORT + queue 收口 [x]；③ **若 agent 已停但 judge-results 未落盘**（上次唤醒发现此状态）→ ego-browser 检查会话最后输出，判断是截断/报错/还在跑；若截断则补派剩余 run；若报错则读错误信息调整任务书重派。其他卡人项不变：erratum-27 / G1b family_check / R121。
