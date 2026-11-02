@@ -94,8 +94,16 @@ def weighted_total(score_obj):
 
 
 def fleiss_kappa(matrix):
-    """matrix: dict[item_id] -> list[int 0/1]（每个 scorer 一列）。返回 (kappa, n_items, n_raters)。"""
-    items = {k: v for k, v in matrix.items() if all(x is not None for x in v)}
+    """matrix: dict[item_id] -> list[int 0/1]（每个 scorer 一列）。返回 (kappa, n_items, n_raters)。
+
+    r239 修复：main() 实际传入的是 dict[item_id] -> {scorer_name: int}，旧版直接迭代
+    dict 拿到的是 key（字符串），与 0/1 比较全 False → n_mat 全零、κ 恒等于 -1/(r-1)
+    （4 raters 时即 -0.3333，与真实数据无关；历史落盘的 κ=-1.5 是更早版本的同类 bug）。
+    现兼容两种形态：dict 值按插入序取 values（与 main 构造顺序一致），list 值原样用。
+    """
+    def as_list(v):
+        return list(v.values()) if isinstance(v, dict) else list(v)
+    items = {k: as_list(v) for k, v in matrix.items() if all(x is not None for x in as_list(v))}
     if not items:
         return None, 0, 0
     ids = sorted(items)
