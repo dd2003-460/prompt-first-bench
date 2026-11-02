@@ -1,24 +1,23 @@
-# CONTINUE_MSG — 2026-11-02 r202
+# CONTINUE_MSG — 2026-11-02 r203
 
 ## 本轮完成
-**E30「记忆」本地降级执行**（arena 会话 7h 无产出，远端仅 main+旧分支）：
-- render_E30_memory_arena.js：参数化卡片墙密度叙事（mulberry32 种子 32 卡确定性布局）
-  - S1 (0-10s)：左侧 20% 区域 6 张稀疏卡 + 叙中档站立 + HUD CONTEXT 18%
-  - S2 (10-20s)：32 卡逐步铺满全画面 + 叙穿行 + HUD 45%→97%
-  - S3 (20-30s)：边缘向中心变灰 → 非幸存卡消失 → 3 张幸存卡恢复浅珊瑚+文字标签
-- check_overlap_E30_arena.js：9 项校验全 PASSED exit 0
-- build_audio_E30.js：18 卡落点音 + 消散 + 恢复提示 + emotional_bgm -14dB, amix=normalize=0
-- outputs/E30_memory_arena_v1.0.mp4：1280×720 60fps 30s h264+aac 915K
-- episodes.md E29+E30 ✅, status-table 42→43 (43/43 PASSED)
-- d1 @ 77a1cda pushed
+**E31「阅读」本地降级执行**（米纸书页+墨线线稿, 无 HUD）：
+- render_E31_reading_arena.js：三幕书页模式（E28 同族, 全画幅无 HUD 黑条）
+  - S1 (0-10s)：《背影》月台斜线+父亲背影轮廓 + 页脚「1917 年冬·浦口车站」+ 叙右下角
+  - S2 (10-20s)：硬切翻页(2px 位移) → 《呼兰河传》河波浪线+树×3+小房子 + 页脚「1940 年·呼兰河」+ 叙翻转
+  - S3 (20-30s)：空白页(只有米纸底) + 页脚淡入「读到尽头。」+ 叙移到中央坐下 + ♥ + ^^弯月眼
+- check_overlap_E31_arena.js：9 项校验全 PASSED exit 0
+- build_audio_E31.js：4 SFX 事件 (翻页×3 + 坐下) + emotional_bgm -16dB
+- outputs/E31_reading_arena_v1.0.mp4：1280×720 60fps 30s h264+aac 712K
+- episodes.md E31 ✅, status-table 43→44 (44/44 PASSED)
+- d1 @ f531d04 pushed
 
 ## 当前状态
-- **batch-12**：E29 ✅ (d1 cc195f4) / E30 ✅ (d1 77a1cda) / E31 pending / E32 pending
+- **batch-12**：E29 ✅ / E30 ✅ / E31 ✅ / E32 pending
 - **decomp T7.2**：BLOCKED（arena 会话绑错仓库，需成璐授权 decomp-bench）
-- pfb @ 2a4c3d3, d1 @ 77a1cda, decomp @ a9c500a（均 pushed）
+- pfb @ 114c6e7, d1 @ f531d04, decomp @ a9c500a（均 pushed）
 
 ## 下一步
-1. **E31「阅读」**：任务卡已在 d1 arena-prompts/batch12/E31_reading.md。arena 直连 d1 模式已验证（batch-12 规划时成功），可派发；或继续本地降级（米纸书页+墨线线稿，无 HUD，参照 E26 便签展开模式）
-2. **E32「对话」**：同 batch-12，气泡系统+表情
-3. **T7.2**：等成璐授权 decomp-bench 后重派；或降级本地执行
-4. ORF：成璐过目 abstract + 给作者信息
+1. **E32「对话」**：任务卡已在 d1 arena-prompts/batch12/E32_dialogue.md。气泡系统+表情，参照 E29 陪伴的气泡模式或 E26 便签展开模式
+2. **T7.2**：等成璐授权 decomp-bench 后重派；或降级本地执行
+3. ORF：成璐过目 abstract + 给作者信息
