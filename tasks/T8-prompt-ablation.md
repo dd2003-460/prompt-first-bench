@@ -56,6 +56,7 @@ decomp bench（ablation-L1）测的是**单 prompt 组件级**消融，对象是
 3. staged revision vs one-shot 效果对比
 4. L1 组件级结论映射到 pipeline 阶段级的合理性
 产出：`experiments/T8-lit/lit-survey-pipeline-prompts.md`
+**状态**: ✅ DONE（2026-11-02 r238 收口）— arena @ decomp-bench ce20b23 → main 8ce82bf；7 来源（NeurIPS×3/ICLR×2/arXiv×2），逐条 conf 0.85-0.97，Q1 诚实登记「未找到直接证据」；Lead 验收 PASS（receipts/t8-partb-acceptance-r238.md）。Part C 前置文献支撑到位。
 
 ## Part C: 可解释性加速（r34 新增 r37 升级，核心加速器）
 
