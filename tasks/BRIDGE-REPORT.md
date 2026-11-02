@@ -6,7 +6,14 @@
 - r196 二次观察（+2min）：npm install 已过，agent 进入设计阶段——正在逐像素规划「叙」蹲姿 silhouette（58×26 box，珊瑚块 7+眼 2=9 块，符合风格锚 8-9 块规则），写 render_E29 脚本中
 - r197 三次观察：agent 仍在写 render_E29 脚本（逐像素设计台灯 drawLamp：灯罩/灯杆/灯泡 #F5D9A8 实心圆 r=6 + 地面光晕椭圆；卡片翻转动画 drawCard；check_overlap 采样点规划中）——设计细致但还没到渲染阶段，分支未 push
 - 耗时评估：E29 比 E28 复杂（夜景+翻转动画+光晕），可能超 batch-10 先例上限（14m8s）；若下次唤醒仍无分支且 agent 还在写代码 → 发一条催促消息让它先出 v1 再精修
-- **下轮核验起点同 r195**：`git fetch origin && git ls-remote origin | grep -i "4a5725f7\|E29"` → 有分支则提取 4 文件 → 本地 check_overlap（E28_SANS_FONT=Hiragino Sans GB.ttc）→ ffprobe → episodes/status-table 41→42 → push
+- r197 重大进展：agent 已完成 E29 全部工作（本地 commit 1b1e03f，分支 arena/4a5725f7-d1-video-recreation）：
+  - render_E29_companionship_arena.js (23,704B) + check_overlap_E29_arena.js (24,724B) + build_audio_E29.js (6,599B) + mp4 (824KB, ffprobe 1280×720/60fps/1800帧/30.000s/AAC44.1k)
+  - **check_overlap 9/9 PASSED**（0px 容差，1800 帧 21516 组几何比对；中途 1 FAIL「压暗后灯晕不是最亮处」已自愈修复）
+  - 音频峰值 -13.01 dBFS（E27/E28 为 -13.6/-12.2，无削波）
+  - **卡点：push 403** — arena GitHub 集成令牌对 d1-video-recreation 只读（只对 from-motivation-to-society 有写权限），API 建 ref 也 403
+- 回收尝试：base64 分片方案受阻（单条消息输出上限 ~8.8KB，tar 包 base64 需 25,964 字符 ≈ 3 条消息量，agent 贴出的块不完整已声明作废；页面 DOM 里 pre 块也是同一份 8800 字符截断版）
+- **待成璐决策（已写 APPROVALS）**：① Arena 给 d1 仓库加写权限（重授权 GitHub integration）→ agent 一条 push 收口；或 ② 接受源码经多轮 next 逐片传输（~3 轮）后本地复现 mp4（95s 渲染）
+- **下轮核验起点**：先查 APPROVALS 是否已有成璐指示 → 有则按指示执行；无则检查 arena 会话是否有新状态（可能成璐手动在 Arena 操作过授权）：`git fetch origin && git ls-remote origin | grep -i "4a5725f7\|E29"` → 有分支则提取 4 文件 → 本地 check_overlap（E28_SANS_FONT=Hiragino Sans GB.ttc）→ ffprobe → episodes/status-table 41→42 → push
 - 风险登记：npm install 若持续失败（@napi-rs/canvas 原生依赖），agent 可能超时会话挂掉 → 届时重派 E29（任务书不变，新会话）
 
 ## r195 — batch-12 E29 派发（arena 直连 d1）
