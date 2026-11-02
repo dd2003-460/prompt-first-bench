@@ -1,4 +1,4 @@
-# CONTINUE_MSG — 2026-11-02 r195 收口
+# CONTINUE_MSG — 2026-11-02 r196 收口
 
 ## 本轮完成
 **batch-12 E29 派发 arena**（pfb a8ad0d4 pushed）：
@@ -11,7 +11,7 @@
 ## 当前状态
 - pfb 仓 @ a8ad0d4 pushed
 - 时钟与引力波响应仓 @ edcee04（abstract-en.md 待成璐过目 + 作者信息）
-- **在途 arena 任务 1 个**：E29 渲染（预计 6-15 分钟，batch-10 先例 5m40s~14m8s）
+- **在途 arena 任务 1 个**：E29 渲染 — r196 观察：clone/读文件已完成，npm install 卡 npmmirror registry（sandbox 屏蔽），agent 已自行切 npmjs.org 重试中；远端无新分支
 - pfb APPROVALS 5 项卡人不变
 
 ## 下一步
