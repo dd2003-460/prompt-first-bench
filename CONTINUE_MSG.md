@@ -1,4 +1,4 @@
-# CONTINUE_MSG — 2026-11-03 r254c
+# CONTINUE_MSG — 2026-11-03 r256
 
 ## 本轮完成
 **M8-cover 口径对齐（pfb @ main a4fb25d，ralph/m8-cover-caliber-reconcile）**：
@@ -9,8 +9,9 @@
 
 ## 当前状态
 - pfb @ main a4fb25d pushed；rubric v3 冻结版 = r249f，R5 门禁 4/6 PASS（AC4 移出验收后实际阻塞项仅家族隔离）
-- **T8 Part C 派发门禁条件仍满足**（AC1≥0.85 + AC3 双侧达标），纯等通道：arena binding 需 UI 重绑 + ninfer :8000/:8099 人工查（本轮复查 :8000 仍 down，:8787 proxy 可用）
+- **T8 Part C 派发门禁条件仍满足**（AC1≥0.85 + AC3 双侧达标），纯等通道：arena binding 需 UI 重绑 + ninfer :8000/:8099 人工查（r255 复查 :8000 仍 down，:8787 proxy 可用）
 - BRIDGE-REPORT.md 无新报告；arena 侧无可对账产出
+- decomp 侧联动（r256, d1edf93）：T21 收口完成——flagship-eval S3 按 T21-RR 实测锚定重算 + 主报告并入，GPU 选型主线 T19→T20→T21 闭环，decomp 本地可执行项清零
 
 ## 下一步
 1. **T8 Part C 派发**（P1，纯等通道）：ninfer 恢复或 arena UI 重绑后，按 TASK-pilot-run.md 派发 9 run（复用 01a195cb 会话先例）。r255 复查：:8000/:8099 仍 down，:8787 proxy up。
