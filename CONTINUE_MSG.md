@@ -1,19 +1,25 @@
-# CONTINUE_MSG — 2026-11-02 r205
+# CONTINUE_MSG — 2026-11-02 r209
 
 ## 本轮完成
-**T7.2 盲评收口 + T7 四域全 PASS 闭环**（decomp 仓 @ 42b1f0b pushed）：
-- 子代理隔离跑完 T7.2 完整 1-loop（9 工件，此前 untracked，r216 已补提交 @ 0a0df04）
-- Lead 盲评 final-minutes.md vs gold-list.json：R1 0.875 (7/8, D5 为评分启发式误判——语义实际齐全) / R2 0.90 (9/10, 1 FP=A8 风险登记项) / R3 1.0 (117 引用 0 缺失) / R4 1.0 (缓冲期取修正值三个月、季度分区取 QA 修正粒度) / R5 1.0 → **M8=0.9375 ≥ 0.85 PASS**
-- receipt: tasks/receipts/t72-blind-score-r205.json；loop-state T7 → completed
-- 执行者额外抓到 gold 外信号：Auth0 成本算术矛盾（口述 5.4 万 vs 复算 ~4.3 万 USD）、任务书 45min vs 转写 12:48 口径差
-- 根仓指针同步时误加 projects/decomp gitlink（该目录在 .gitignore L76），下一 commit 已撤销（1bacf3ef）
+**T8-C3-v3 G2 全量矩阵收口**（pfb @ b589fcf pushed）：
+- R6 = 9 configs × D1/D2 × 2 seeds = 36 run 本地 qwen3.8-27b 跑完（:8787，prompt 对 R4 D1 全部 18 prompt byte-exact 复刻验证通过；B-none/seeda 首跑漏尾换行 quirk 已重跑修正）
+- J1/J2 双判 72/72 落盘（1 个 items 空回执为重判确认——B-2del-fo/D2/seedb 工件是 web-llm 行为捕获 301ch，无可审条目）
+- M8-cover 关键词法分析 + 主分析回执 `runs-r6/receipt-r6-mainanalysis.json`：
+  - F1 freeze 效应三域方向一致为负：R6 Δtruth(A-full−B-nofreeze)=+0.82 / R5 D3 +0.78 / R4 +0.35（n=6/cell，只报方向不做显著性宣称）
+  - F2 B-none J1 地板 0.0（4/4 run 全 fail），sham 0.875≈A-full 0.929 → 评分差异来自功能性内容非 token 长度
+  - F3 cover 门槛在 D1/D2 激活（R4 曾 vacuous）：低 cover 集中在 B-nofreeze/B-2del-fo，漏项全是交付物结构件 O04-O07
+  - F4 J1/J2 平均差 0.248（n=35, max 1.0），分歧集中在 J1=0∧J2≥0.5 → 6 run 入人工仲裁队列
+  - F5 B-2del-fo 3/4 run <400ch 行为捕获复现（模型跟随残留 web-llm 指令），分数作下界参照
+- conf −0.1 登记（G1b family_check BLOCKED-ON-HUMAN 未解，judge 同族）
+- queue L49/L104 补记 r209；step_notify 已发
 
 ## 当前状态
-- **T7 四类真任务全 PASS**：T7.1 选型 pass · T7.2 文档处理 M8 0.9375 · T7.3 时序预测 M8 0.965 · T7.4 对齐审计 M8 0.925 → prompt-first 跨 4 正交域初步稳定（conf 受 arena 403 本地降级 −0.2 限制）
-- d1 batch-12 全收官 45/45（eccff00）；ORF LaTeX 86→0 编译错误清零（44820cb0）
-- arena 通道仍 403（decomp-bench 未授权），所有执行走本地降级
+- **C3 v3 描述层闭环**：G1a CONDITIONAL-PASS（κ=0.6624, CALM RR=0.983）→ G2 54-run 三域矩阵（R6 36 + R5 D3 18）全量产出+双判+主分析
+- 推断上限：同族 judge + n=6/cell → 方向性证据，conf 降档
+- arena 通道仍 403（decomp-bench 未授权），执行走本地降级
 
 ## 下一步
-1. **T8 C3 ablation 开跑**（产投比最高，P1 因果效应验证）：前置门禁 = judge 校准 κ≥0.6（换位双判+家族隔离+CALM 扰动+长度去偏），过了才进 8 配置×3 域矩阵；方案 v3 已过对抗核验
-2. T7 v2 bench 数据修复（维护性质）：T7.3 gold 速率失配（2.7x）+ T7.4 R2 拆分粒度失配，修复建议已写在两个 receipt 里
-3. arena 恢复后真通道复验（提 conf）——需成璐在 Arena Connectors 授权 decomp-bench
+1. **人工仲裁 sign-off**（P1，~30min）：receipt-r6-adjudication-queue.json 的 6 run（B-nofreeze×3 / B-noevidence-D2-seeda / B-2del-fe-D1-seedb / B-none-D1-seedb）逐条读工件原文裁定 J1 fail 是否成立，更新 mainanalysis
+2. G1b family_check 升级（卡成璐）：arena 底层模型身份或非 Qwen API key 重打 5 份冻结工件 → conf 升档唯一路径
+3. 可选第三 seed 提升功效（~2h 算力，需确认预算）
+4. T7 v2 bench 数据修复（维护性质，见上轮）
