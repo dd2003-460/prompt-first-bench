@@ -1,4 +1,4 @@
-# CONTINUE_MSG — 2026-11-02 r196 收口
+# CONTINUE_MSG — 2026-11-02 r197 收口
 
 ## 本轮完成
 **batch-12 E29 派发 arena**（pfb a8ad0d4 pushed）：
@@ -11,7 +11,11 @@
 ## 当前状态
 - pfb 仓 @ a8ad0d4 pushed
 - 时钟与引力波响应仓 @ edcee04（abstract-en.md 待成璐过目 + 作者信息）
-- **在途 arena 任务 1 个**：E29 渲染 — r196 观察：clone/读文件已完成，npm install 卡 npmmirror registry（sandbox 屏蔽），agent 已自行切 npmjs.org 重试中；远端无新分支
+- **E29 状态：沙箱内完成，push 403 卡住，等成璐决策**（APPROVALS 已登记）
+- agent 本地 commit 1b1e03f（分支 arena/4a5725f7-d1-video-recreation）：render/check/build_audio 3 源码 + mp4 824KB
+- check_overlap **9/9 PASSED**（0px 容差，1800 帧逐帧比对）；mp4 ffprobe 1280×720/60fps/30.000s/AAC；音频峰值 -13.01 dBFS 无削波
+- 卡点：arena GitHub 令牌对 d1 只读（只对 from-motivation-to-society 可写）；base64 聊天传输走不通（消息上限 ~8.8KB < 25,964 字符）
+- **下轮动作**：查 APPROVALS 有成璐指示则按指示执行（A=Arena 重授权后让 agent push / B=逐片传源码本地复现）；无指示则查 arena 会话有无新状态
 - pfb APPROVALS 5 项卡人不变
 
 ## 下一步
