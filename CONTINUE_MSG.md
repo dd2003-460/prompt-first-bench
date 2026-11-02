@@ -1,6 +1,14 @@
-# CONTINUE_MSG — 2026-11-03 r257
+# CONTINUE_MSG — 2026-11-03 r258
 
-## 本轮完成 (r257)
+## 本轮完成 (r258)
+**research-prompt retest-32k 对照实验（@ f45911b pushed）**：
+- 动机：R0.5 ×3 (max_tokens=16000) 全崩被初判为模型随机崩塌，但 R0.3 run 输出 30-36K chars 却完整收尾——参数语义存疑
+- 固定 prompt/temp 只改 max_tokens=32000 重跑 3 次：runA 完整收尾（五节 5/5 + SELF-CHECK 覆盖全部 4 叶子节点），runB/runC 仍停草稿
+- **修正归因**：崩塌率 3/3→2/3，与 max_tokens 配置交互而非纯模型随机；后续消融轮次 run 脚本须统一 max_tokens=32000（服务器上限 32768，40000 实测 HTTP 400）
+- COMPARISON.md 关键发现 #2 加修正注记 + retest-32k/ 目录落盘（README + runA/B/C）+ loop-state 更新
+- 注意：runA 研究路径退化为 4 个平铺一级节点（无 R0.3 的三级树深度），S3 满分靠 SELF-CHECK 全覆盖不是拆解深度——lead 复核 S1/S2 大概率降档
+
+## 上轮完成 (r257)
 **research-prompt R0.4 中期评分（@ f58e3ee pushed）**：
 - score-v2.py 机械评分器落盘（S3/C2 自动定档 + 8 维信号供 lead 复核，判据与 R0~R0.3 对齐）
 - run1 **FAIL**：草稿区写到一半截断（23K chars），五节结构 0/5 —— max_tokens=16000 对 R0.4 的草稿+五节双段结构不够用
@@ -25,7 +33,7 @@
 - decomp 侧联动（r256, d1edf93）：T21 收口完成——flagship-eval S3 按 T21-RR 实测锚定重算 + 主报告并入，GPU 选型主线 T19→T20→T21 闭环，decomp 本地可执行项清零
 
 ## 下一步
-1. **T8 Part C 派发**（P1，纯等通道）：ninfer 恢复或 arena UI 重绑后，按 TASK-pilot-run.md 派发 9 run（复用 01a195cb 会话先例）。r255 复查：:8000/:8099 仍 down，:8787 proxy up。
+1. **T8 Part C 派发**（P1，纯等通道）：ninfer 恢复或 arena UI 重绑后，按 TASK-pilot-run.md 派发 9 run（复用 01a195cb 会话先例）。r258 复查：:8000/:8099 仍 down，:8787 up（retest-32k 实调验证可用）。pilot-matrix 的 run 脚本 max_tokens 建议提到 32000（retest-32k 教训）。
 2. **第三 seed 功效提升 run**（P1，卡预算审批 APPROVALS；AC4 收口后不再是前置条件）。
 3. G1b family_check 模型身份披露（blocked-on-human：非 Qwen API key / arena 人工过 Cloudflare / 平台披露三选一）。
 4. ACTIVE-candidates #4 ORF arXiv 手动上传 / #3 健康 strand 镜像源（需人工）。
