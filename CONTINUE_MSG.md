@@ -1,18 +1,16 @@
-# CONTINUE_MSG — 2026-11-03 r268 同源降级重放完成
+# CONTINUE_MSG — 2026-11-03 r268c 状态收口完成
 
-## 本轮完成（r268）
-**T8-C3-v3-fullloop · 阶段 02.5 降级通道（r266 回执 §4(c)）**：
-- 按 conf-0.2 降级用 qwen3.8-27b 对 pilot 18 份阶段工件做 J1/J2 双判重放（`replay-r268-same-source.py`，条目抽取与 replay-rubric-v3.py 同版正则；judge prompt sha 未变）
-- **κ 读数**（两个裁判去掉瞎蒙后的真实一致度）：mean 0.441（17 个可算 cell×stage），8/17 ≥0.6、10/17 <0.4。分歧集中在 S02 的 J2-lenient——A-full|D1 0/45、B-none|D1 0/22、B-none|D2 0/9 三个 cell J2 近全零而 J1 正常 → 同一 judge 两次判定不一致，属同源 judge 系统性噪声源之一（非 rubric 改动引入，J2 prompt 与 r265 相同）
-- **G2 复算**（同 domain 内跨 3 config 的分数差；全量条目口径 9–45 条/stage，与 r265 冻结 opportunity set 口径不可直接比）：10/12 PASS，但两个警示——D1_S02_J2 的 0.931 spread 由 J2 崩塌贡献（噪声非信号）；J1 侧 B-none 几乎总是最高分（方向与预期相反，更像条目集大小差异）
-- **结论维持 r265**：qwen3.8-27b + ≤3 structural contracts 下消融效应未被可靠测出；S02 长工件上双判不可靠，修 rubric 或换 judge 前不作决策依据
-- 回执落盘：`receipt-r268-same-source-replay.json`（全量 verdicts+κ rows+G2 表）+ `.md`（人读版）
+## 本轮完成（r268c）
+**T8-C3-v3-fullloop · 状态文件收口**：
+- 发现工作区有 4 个未提交文件（loop-state.json / snapshot.02.5.json / loop-events.md / state.bak）——上一轮 commit 漏 add，ralph hook 后续写入的 blocked_human 状态和事件日志没落盘
+- 补提交 push main@bbabd25，git status 干净
 - wx-push 失败留痕（invalid request ret=-1），不重试超一次
+- goal 维持 **blocked_human**（与 r268 一致）
 
 ## 当前状态
-- main @ 6d0cbdf pushed（r268 工件待 commit）
-- 阶段 02.5 实质内容已三通道覆盖：本地双端口探测 + web-llm 失败回执 + 同源降级重放，仍被 runtime 门禁卡住（cross_validation 字段需 ≥2 successful_provider_ids 成功回执才能 field-apply）
-- goal 保持 **blocked_human**
+- main @ bbabd25 pushed，工作区干净
+- 阶段 02.5 实质内容已三通道覆盖：本地双端口探测 + web-llm 失败回执 + 同源降级重放（κ mean 0.441, S02 J2崩塌, G2全量口径10/12噪声驱动, 结论维持r265）
+- 仍被 runtime 门禁卡住（cross_validation 字段需 ≥2 successful_provider_ids 成功回执才能 field-apply）
 
 ## 下一步（按优先级）
 1. **等成璐回复**（两个阻塞点合并处理，不变）：
