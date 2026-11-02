@@ -153,3 +153,15 @@
 **留痕**：wx-push 两次均失败（retry-without-token invalid request），按协议不重试。
 
 **状态**：已执行完毕并 push。
+
+## 2026-11-03 · r262 keepalive — M8-fixed 协议收口 + T8 实验线结论更新（状态登记）
+
+**操作**：T8-C3-v3-m8fixed-opportunity-table 降级通道实跑收口（@ 12f752f pushed）。m8fixed-protocol-v1.json 冻结（sha ecdfb59edfdca704）+ G1/G2/G3 验证。
+
+**结果**：G1 PASS（per-item 一致率 1.0）；G2 FAIL——全表 spread 0.044，constraint-only spread 0.0。**根因确认**：R4 全部 54 工件均为阶段 01+02 产出（prompt freeze 组件限定「本阶段是因素分解，不是资料搜集」），消融信号在阶段 01/02 层面极弱。之前所有 per-config Δ 测的是弱信号被测量噪声淹没，不能升级 confirmatory 声明。
+
+**新决策点（需成璐拍板）**：是否补跑完整 loop（01→04）到最终报告再评分？成本 ≈ 9-13h 本地 LLM（:8787 qwen3.8-27b），收益 = 第一次真正测到消融对最终报告质量的影响。如果 T8 exploratory 结论够用则关闭实验线。
+
+**留痕**：wx-push 失败（retry-without-token invalid request），按协议不重试。
+
+**状态**：已执行完毕并 push。
