@@ -1,3 +1,18 @@
+## r200 — T7.2 派发 BLOCKED + E30 在途
+
+**T7.2 通道阻塞**（arena 会话 `01a19a08`）：
+- 新开会话后 arena 自动绑定 from-motivation-to-society（上次活跃仓库），非 decomp-bench
+- agent 正确识别仓库不匹配 + git ls-remote decomp-bench 403 → 报告 BLOCKED，未执行任何阶段
+- **根因**：arena GitHub integration 对 decomp-bench 无访问权限（或会话未正确绑定）
+- **需成璐操作**：Arena → Connectors → GitHub → 确认 dd2003-460/decomp-bench 在已授权仓库列表中；或在会话内手动切换仓库
+- 降级条款：按任务书规则可降级 Lead 本地执行（conf−0.2，gold 盲评隔离失效）
+
+**E30 在途**（arena 会话 `01a19a03`）：
+- agent 正在 npm install（package-lock.json 指向 npmmirror 被沙箱拦截，已切 registry.npmjs.org 重试）
+- 尚未开始写代码，预计还需 15-30 分钟
+
+**d1 仓维护**：e75e1f9 pushed（gitignore E29 frames 103MB）
+
 ## r199 — E30 派发 ✅
 
 **状态：E30 已派发到 arena，等待执行**
