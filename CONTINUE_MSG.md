@@ -1,22 +1,19 @@
-# CONTINUE_MSG — 2026-11-02 r218
+# CONTINUE_MSG — 2026-11-02 r237
 
 ## 本轮完成
-**G1b dual-rater γ 人工裁决线执行 + bridge 对账收口**（pfb @ main 7648860 pushed）：
-- **bridge 对账**：两 arena 分支收口——`ralph/g1b-battle-r3-receipt`（r211 Cloudflare 拦截回执 + battle-packet-r3.md slim packet）merge main；`arena/4a614e63`（r121 A3 归属证据锐化 2,593 criteria/101 prompts）merge main，冲突 TASK-blind-eval.md 取 main 侧（r180b 泄漏修复版，arena 分支基于旧基线）。assert 回归 3 脚本全绿。
-- **G1b κ=0.135 的 γ 裁决线执行**（queue L10 挂起的「人工裁决」项，U-K1 γ 语义 = SIGNAL+人工裁决非硬门禁）：写确定性规则第三判 adjudicate-r218.py（无 LLM，冻结 rejudge-rules.json 口径机判化）——
-  - arena 第二判 41 条 h=1 引用 **41/41 逐字校验 PASS**（whitespace-normalized 子串匹配 run 原文，零编造）
-  - 29 cell 机判确认引用携带节点定义量词/机制对应；6 cell 中文定义/公式节点（电费/购置摊销/c_hour/可行域/eta_bw）机判代理漏配 → 人工审计逐条确认等价推导后 override（理由落盘）
-  - 结果 h_adjud=41/75（本地口径 6/75），**与 arena 75/75 完全一致 κ=1.0**、与本地 κ=0.135 不变
-  - **诊断定案：两判者分歧是口径差非事实差**——本地判官只认节点标题词逐字命中，未执行冻结规则要求的「数值/机制等价推导」匹配；arena 判官无放水
-- queue L10 注记更新（r218 段）；S2 跨家族限定不变（arena 底层模型仍未披露），异族补打仍待 G1b family-upgrade。
+**T7.3 v2 完整重跑闭环 + T8 Part B 派发阻塞登记**（decomp-bench @ main f293270 pushed）：
+- **T7.3 v2 完整重跑 PASS**（r237 receipt @ tasks/receipts/t73-v2-interval-hit-r237.json）：隔离 subagent 本地降级执行完整 1-loop（00→04，九工件落盘 loop-artifacts/stages/t73-growth-prediction-v2/），M4 = EWMA α=0.02 水平 + 周形状分解 + bootstrap 区间（种子可复算）。点估计 60,219，interval_80 [60,129, 61,227]，gold 终值 61,014 → **interval_hit HIT**（point err -1.3%，隐含速率 34.66 vs gold 38.77/天 = 0.889，方向量级双对；day-90 中段也贴住非终点偶然）。R1-R5 全 1.0，M8=1.0 PASS。**v1 miss 定案为 Lead 侧数据缺陷（cutoff 处 2.7× 速率失配），v2 修复后诚实模型自然命中——bench 闭环验证有效**。
+- 执行侧纪律核验全过：gold-list.json 零接触、全文无 cutoff 后数字、v1 产物零参考、冻结基线原样入表。
+- **T8 Part B arena 派发 blocked-on-human 登记**：decomp-bench 的 GitHub binding 失效（agent 侧 403 "Write access to repository not granted"，T7.2 会话 01a19a08 卡死于此）；ego-browser 探明 UI 输入框存在但仓库未绑定时不可用。任务书已就绪（tasks/T8-partB-lit-survey-task.md @ c358b48，含回执指纹要求），台账 sop/arena-loop-pipeline.md §3.1 已注记。**解锁 = 成璐在 arena UI 重绑 decomp-bench（一次性）**。
+- step_notify ×3（开跑/验收/收口）。
 
 ## 当前状态
-- pfb @ main 7648860 pushed；decomp-bench @ main 9046610 pushed（T7 v2 修复收口 r217 不变）
-- G1b family_check 仍 unknown，R5 PARTIAL-CLOSED 不变（卡成璐三选一：①浏览器过 arena.ai 人机验证→CDP attach 跑 Direct 评分揭名 ②给任一非 Qwen API key ③arena UI 看到模型全名直接登记）
-- C3 v3 描述层证据链闭合不变（G1a→G2→仲裁→独立复算五环齐）
+- decomp-bench @ main f293270 pushed；T7 四域验收项全部清零（T7.1 pass / T7.2 M8 0.9375 / T7.3 v2 M8 1.0 / T7.4 M8 0.925）
+- pfb @ main 5d3b664 不变（G1b family_check 仍卡模型身份披露三选一）
+- T8: Part A done · Part B 任务书就绪待重绑 · Part C 矩阵设计 v1 在案
 
 ## 下一步
-1. **G1b 升级（P1 唯一解锁项，卡成璐三选一）**：同 r217 三条路径不变。注意 r218 已证明「异源 judge 打分质量」本身不是问题（arena 判 41/41 引用全部真实），缺的只是**模型身份披露**——所以路径③（UI 看全名）成本最低
-2. **T7 v2 完整重跑**（bench 闭环验证，~1h 本地降级通道）：执行侧用 v2 输入重跑 T7.3/T7.4，验收 interval_hit 恢复 + R2 新规则生效
-3. **T8 C3 ablation 开跑**（产投比排序第一：P1 因果效应验证最强，方案已过 v3 对抗核验）
-4. ACTIVE-candidates #4 ORF arXiv 手动上传 / #3 健康 strand 镜像源（均需人工或外部资源）
+1. **T8 Part B 派发（P1，卡成璐一次性操作）**：arena UI 重绑 decomp-bench → 向该仓会话发 tasks/T8-partB-lit-survey-task.md（文献调研，4 问题，产出 experiments/T8-lit/lit-survey-pipeline-prompts.md）
+2. **T8 Part C ablation 开跑**（产投比排序第一）：C3 paired runs 方案已过 v3 对抗核验，前置 Part B 文献支撑到位后启动
+3. G1b 升级三选一不变（pfb 侧 P1 卡人项）
+4. ACTIVE-candidates #4 ORF arXiv 手动上传 / #3 健康 strand 镜像源（需人工）
