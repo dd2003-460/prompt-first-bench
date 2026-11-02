@@ -107,3 +107,13 @@ cfg_means：A-full J1=0.93/J2=0.96 vs **B-2del-eo J1=1.0/J2=1.0**。删掉 evide
 1. 换一批干净工件（evidence 段是真实可验证的）重跑 → 测 AC4 是否恢复区分度。需要重新生成或找历史批次。
 2. 接受 AC4 在当前数据上的不可判定，把 rubric v3 标记为"3/4 AC 通过 + AC4 数据受限"，等异源 judge 一起验证。
 3. 修 AC4 判据本身（比如改成 A-full − B-nofreeze ≥0.3，用 freeze 消融做区分度锚点，因为 T8 Part C 已证明 freeze 有稳健负效应）。
+
+### r247 补充：AC4-alt（freeze 消融锚点）也部分失败
+
+用已有 receipt 数据计算 A-full − B-nofreeze：J1=0.180 <0.3 FAIL，J2=0.421 ≥0.3 PASS。
+J1-strict 对 freeze 消融的区分度不够——它把 A-full 和 B-nofreeze 都打高分（0.93 vs 0.75），差距只有 0.18。
+J2-lenient 能分开（0.96 vs 0.54），但 J2 在 v2 对账里被诊断为"恒高分分不开配置"。
+
+**综合判断**：rubric v3 修好了 id 对齐和来源判据两个真 bug，但当前工件集 + 双判官组合下，**没有任何一对 config 能在两个判官上同时产生 ≥0.3 的区分度**。这不是 rubric 文本的问题，是测量系统（同族判官 + 这批特定工件）的天花板。
+
+**最终建议**：rubric v3 标记为 "3/4 AC pass + AC4 受限于同族判官天花板"。要真正解决 AC4 需要异源 judge（不同模型家族的评分器），这与 T8 Part C confirmatory 的阻塞是同一个 key。在拿到异源 judge 之前，rubric 侧的工作已到头——继续改 rubric 文本不会改变测量系统的天花板。
