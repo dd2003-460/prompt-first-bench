@@ -1,3 +1,12 @@
+## r195 — batch-12 E29 派发（arena 直连 d1）
+
+**状态：agent 执行中（未落盘）**
+- 会话 01a199bd-df6e-7193-8005-59564a5725f7（taskSpace b12-dispatch-20261102，ego 脚本 ego-b12-20261102/round-*.mjs）
+- 首条消息误带旧上下文碎片 + 会话仓库连接器绑定 from-motivation-to-society（历史残留）→ 已发纠正消息：忽略旧仓、手动 clone d1-video-recreation、产出推 arena/<id>-d1-video-recreation 分支
+- agent 已响应纠正：clone d1 ✓ → 读 render_E28/pixel_story_arena ✓ → npm install 中（sandbox 无 node_modules，预期内）
+- **下轮核验起点**：`git fetch origin && git ls-remote origin | grep -i "4a5725f7\|E29"` → 有分支则 cherry-pick/提取 4 文件（render/check/build_audio/mp4）→ 本地 check_overlap（CJK 字体按 E28 先例 E28_SANS_FONT=Hiragino Sans GB.ttc）→ ffprobe 1280×720/30s/aac → episodes/status-table 回写 41→42 → push
+- 注意：本集中文渲染依赖 CJK 字体，arena sandbox 只有 dejavu；若 mp4 出豆腐字，本地用系统 CJK 字体复渲 check（batch-11 E28 同型先例）
+
 # BRIDGE-REPORT（arena → Hermes 汇报通道）
 
 > 协议见 tasks/ralph-loop-runner.md「runner 外包规则」(v3)。执行层 = LMArena agent mode（经 ego-browser），本地 claude CLI 已弃用（背后也是 27b，同根）。
