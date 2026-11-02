@@ -1,21 +1,18 @@
-# CONTINUE_MSG — 2026-11-02 r242
+# CONTINUE_MSG — 2026-11-02 r243
 
 ## 本轮完成
-**C2 行为代理回执（pfb @ main b1cb74f pushed）**：Part C 派发仍卡双阻塞（arena decomp-bench binding 403 + ninfer :8000/:8099 connection reset），但 Part C 里唯一不依赖服务器的部分——C2 行为代理指标——本轮干完了。对全部 53 个可判 run（r5 D3 + r6 D1/D2）算三个组件签名出现率：
-- **操纵检查通过**：B-nofreeze 组输出里"冻结/锁定候选"声明平均 0.0 次，其他 8 个配置平均 1.0 次——删除操作在行为层确实生效，排除"删了但模型换方式补回冻结"作为 M8 下降的唯一解释（修正 1 要求的配套证据）。
-- **run 级相关**：truth×freeze-decl r=0.522 > truth×cover r=0.383 > truth×chars 0.425；urls/owners 与 truth 负相关或近零。freeze 声明是比 cover 更强的单维预测子，但两者各管一块（config 级 r241: truth×cover 0.634），联合判读不可省。
-- 回执 `experiments/T8-matrix/runs/c3-v3/receipt-r7-c2-behavior-proxy.json`（53 run 逐条 truth/cover/三签名/字数 + 相关矩阵 + 操纵检查）。
+**T8 Part C 派发任务书落盘（decomp @ main ff4bb61 pushed，任务书 fd813d7）**：Part C 双阻塞不变（arena decomp-bench binding 403 + ninfer :8000/:8099 connection reset，r243 复测仍 down），但可自主部分干完了——`tasks/T8-partC-dispatch-task.md` 写好落仓。核心是给 arena 的 6 条质询清单：①分母漏洞（B-none truth 0.042 vs cover 0.913，固定分母没堵死遗漏规避，必须给具体机制）②cover 口径 gap（receipt 法 vs 宽松复算 0.90-0.975，seedc 前是否必须先统一）③C1 三道地板在 llama.cpp ~60-80s/条吞吐下现实吗 ④n=9/cell 后 power 够不够检测 δ ⑤现有 positive-control-x5-mutated.md 合不合格 ⑥hold-out 域从哪来（D1/D2/D3 都参与了 top-k 选择）。验收 = 逐条 PASS/FAIL/partial + conf 标注，全过才进开跑准备（seedc 批次规划 + 口径对齐脚本 + 预注册落盘）。
 
 ## 当前状态
-- pfb @ main b1cb74f pushed（r241 95b17c3 cover 复算 + r242 b1cb74f C2 代理，两份回执齐）
-- decomp-bench @ main 767291a（T8 loop-state 已对账，Part B done ce20b23）
+- pfb @ main 2bea086 pushed（r241 cover 复算 95b17c3 + r242 C2 代理 b1cb74f + 两份回执齐）
+- decomp-bench @ main ff4bb61（Part C 任务书就绪，等通道）
 - 第三 seed 功效 run（~2h ninfer 算力）仍在 APPROVALS #2 等成璐放行
 - G1b family_check 仍卡模型身份披露（不变）
-- ninfer :8000/:8099 均不可达（r240 超时 → r241/r242 connection reset）——Part C 双实例通道暂不可用
+- ninfer :8000/:8099 均不可达（r240 超时 → r241-r243 connection reset，连续第 4 轮）
 
 ## 下一步
-1. **T8 Part C 派发（P1，双阻塞待解，任务书可先写）**：①arena decomp-bench binding 403（需成璐 arena UI 重绑仓库）②ninfer 服务器掉线（C1 探针层 + C3 paired runs 都依赖 :8000）。可自主：Part C 任务书落 decomp 仓 tasks/（纯文档不依赖通道），下轮通道恢复直接派。注意 r54 定稿要求 C3 v3 方案先过 arena 对抗核验再开跑——任务书里要带上这步。
+1. **T8 Part C 派发（P1，纯等通道）**：任务书已就绪 @ fd813d7，双通道任一恢复即可派 Step 1 对抗核验。①arena binding 需成璐 UI 重绑仓库 ②ninfer 服务器需人工查（连续 4 轮 down，可能整机掉电/断网）。下轮 keepalive 先 curl 复测 :8000，通了就派。
 2. **第三 seed 功效提升 run（P1，卡预算审批）**：APPROVALS #2 待批——9 configs × D1/D2 加 seedc 共 18 run + J1/J2 双判 36 调用，n 6→9/cell。放行即派（走 localhost:8787 proxy 不依赖 ninfer :8000）。seedc 补完复跑 receipt-r7-cover-recompute + c2-behavior-proxy 两脚本验证联合判读稳定性。
-3. **M8-cover 口径对齐（P2）**：receipt 方法 vs 宽松关键词法命中规则差异需 Lead 裁定统一口径（建议冻结集每项定义 2-3 个等价命中 pattern 机判），否则跨轮 cover 不可比。可与 seedc 同批。
+3. **M8-cover 口径对齐（P2）**：冻结集每项定义 2-3 个等价命中 pattern 机判，与宽松法并跑对比。可与 seedc 同批。
 4. G1b family_check 仍卡模型身份披露（不变）
 5. ACTIVE-candidates #4 ORF arXiv 手动上传 / #3 健康 strand 镜像源（需人工）
