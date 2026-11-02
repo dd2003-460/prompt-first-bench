@@ -60,22 +60,22 @@
     }
   ],
   "last_action": {
-    "type": "blocked_human",
-    "round": "r267",
-    "timestamp": "2026-11-03T07:15+08:00",
-    "stage": "02.5",
-    "reason": "阶段 02.5 交叉验证被双重阻塞：(1) web-llm 外源核验通道不可用（perplexity/chatgpt/gemini 3 providers 全部登录失败，回执 a72d1ae0e2f789eb.json）；(2) ralph runtime 门禁要求 cross_validation 字段必须引用 ≥2 successful_provider_ids 的成功回执，否则 field-apply 直接拒绝——即使 disposition=research_required 也拒。本地双通道实证已完成且一致（TCP 端口探测 + 进程/env 枚举），但无法通过 runtime 校验落盘。",
-    "unblock_options": [
-      "(a) 成璐一次性人工登录 web-llm（ralph web-llm-login 打开持久 profile → 登录 perplexity + chatgpt 或 gemini 中至少 2 个）→ 重跑 ralph web-llm-check . loop-artifacts/stages/02.5/r1/webllm-request.json → 产生成功回执 → 回填 cross_validation 字段 → advance 02.5→03",
-      "(b) 修复 ralph runtime 门禁逻辑（cross_validation 字段在 research_required + 失败回执时不应被 field-apply 拒绝）→ 重跑 field-apply → advance",
-      "(c) 确认接受降级：跳过 web-llm 外源核验，以本地双通道实证为最终交叉验证结论（conf-0.2 标注）→ 需修改 runtime 门禁配置或手动推进"
-    ],
     "artifacts": [
       "loop-artifacts/stages/02.5/r1/fields.json (local_dual_channel_verification confirmed, total:14)",
       "loop-artifacts/stages/02.5/r1/web-llm/a72d1ae0e2f789eb.json (failure receipt, 3/3 login failed)",
       "loop-artifacts/stages/02.5/r1/advance.json (status:passed, payload.cross_validation 含完整 validation_records)"
     ],
-    "recovery_after_unblock": "cd pfb && ralph web-llm-check . loop-artifacts/stages/02.5/r1/webllm-request.json → 成功回执 → 回填 cross_validation 字段 → ralph field-apply → ralph apply advance.json → 推进 03"
+    "reason": "阶段 02.5 交叉验证被双重阻塞：(1) web-llm 外源核验通道不可用（perplexity/chatgpt/gemini 3 providers 全部登录失败，回执 a72d1ae0e2f789eb.json）；(2) ralph runtime 门禁要求 cross_validation 字段必须引用 ≥2 successful_provider_ids 的成功回执，否则 field-apply 直接拒绝——即使 disposition=research_required 也拒。本地双通道实证已完成且一致（TCP 端口探测 + 进程/env 枚举），但无法通过 runtime 校验落盘。",
+    "recovery_after_unblock": "cd pfb && ralph web-llm-check . loop-artifacts/stages/02.5/r1/webllm-request.json → 成功回执 → 回填 cross_validation 字段 → ralph field-apply → ralph apply advance.json → 推进 03",
+    "round": "r267",
+    "stage": "02.5",
+    "timestamp": "2026-11-03T07:15+08:00",
+    "type": "blocked_human",
+    "unblock_options": [
+      "(a) 成璐一次性人工登录 web-llm（ralph web-llm-login 打开持久 profile → 登录 perplexity + chatgpt 或 gemini 中至少 2 个）→ 重跑 ralph web-llm-check . loop-artifacts/stages/02.5/r1/webllm-request.json → 产生成功回执 → 回填 cross_validation 字段 → advance 02.5→03",
+      "(b) 修复 ralph runtime 门禁逻辑（cross_validation 字段在 research_required + 失败回执时不应被 field-apply 拒绝）→ 重跑 field-apply → advance",
+      "(c) 确认接受降级：跳过 web-llm 外源核验，以本地双通道实证为最终交叉验证结论（conf-0.2 标注）→ 需修改 runtime 门禁配置或手动推进"
+    ]
   },
   "last_event_id": "7f9fd156-f9ba-490e-a2e6-caec7c1228b4",
   "last_exploration": null,
