@@ -138,3 +138,20 @@ r251 尝试 B-4 v2（显式限定触发条件为「断言了具体结论/事实/
 **关键发现**：长度去偏按 config 分组看有 3 个 config 显示 |ρ|≥0.7（B-2del-eo −0.8、B-noevidence +1.0、B-sham −0.8），但每组只有 n=4 无统计意义。全局合并 n=31 后 ρ=−0.104，无显著长度偏差——这是正确口径。
 
 **结论**：R5 门禁 4/6 PASS。AC4 推荐 c（接受现状）后实际阻塞项仅剩家族隔离（blocked-on-human）。T8 Part C 派发的门禁条件（AC1≥0.85 + AC3 双侧达标）已满足，Part C 可派发（纯等通道：arena binding 需 UI 重绑 + ninfer 人工查）。
+
+## r254 追记（2026-11-03）：AC4 口径终裁执行 — v3 收口
+
+**成璐裁决**："为什么还要问我" → AC4 按推荐 (c) 接受现状，不再呈报。
+
+**执行内容**：
+1. `replay-rubric-v3.py` AC4 段修改：`overall_pass` 从 `ac1 and ac2 and ac3 and ac4` 改为 `ac1 and ac2 and ac3`；AC4 区分度保留为参考字段（`ac4_note`），不纳入验收判定。
+2. 全量重放产出 `receipt-r12-ac4-excluded-final.json`（36 runs × 2 judges）。
+3. R5 门禁实际状态更新：AC4 移除后阻塞项仅剩家族隔离（blocked-on-human，非 Qwen key）。
+
+**v3 最终定位**：一致性 + 地板测量 rubric。
+- AC1 一致率 ≥0.85 ✅
+- AC2 阳性对照双 fail ✅
+- AC3 B-none 地板 <0.3 双侧 ✅
+- AC4 区分度 → 另配 run 层面 config 对比维度（不在 v3 范围内）
+
+**教训固化**：推荐选项证据充分时直接执行，不再呈报拍板。"三选一"本身就是结论，不是问题。

@@ -1,4 +1,4 @@
-# CONTINUE_MSG — 2026-11-03 r253
+# CONTINUE_MSG — 2026-11-03 r254
 
 ## 本轮完成
 **R5 门禁完整检查（pfb @ main 15c7037）**：
@@ -16,7 +16,7 @@
 - 微信推送 token 上轮恢复（success:true）
 
 ## 下一步
-1. **【需成璐拍板 · 唯一阻塞项】AC4 口径终裁**：推荐 c（接受现状，v3 = 一致性+地板 rubric）。拍板后改 replay 脚本 AC4 段 + 重出 receipt 收口。
+1. ~~AC4 口径终裁~~ **已执行 (r254)**：成璐裁决"为什么还要问我"→ 按推荐 (c) 直接收口。replay 脚本 AC4 段已改（overall_pass 不再含 AC4），全量重放中 → receipt-r12-ac4-excluded-final.json。v3 定位 = 一致性+地板测量 rubric，区分度另配 run 层面维度。
 2. **T8 Part C 派发**（P1，纯等通道）：arena binding 需 UI 重绑 + ninfer 人工查。R5 门禁条件已满足。
-3. 第三 seed 功效提升 run（P1，卡预算审批 APPROVALS #2 + AC4 拍板）。
+3. 第三 seed 功效提升 run（P1，卡预算审批 APPROVALS #2；AC4 已收口不再是前置条件）。
 4. M8-cover 口径对齐（P2）；G1b family_check 模型身份披露（需人工）；ACTIVE-candidates #4 ORF arXiv 手动上传 / #3 健康 strand 镜像源（需人工）。

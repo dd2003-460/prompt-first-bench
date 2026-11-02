@@ -184,12 +184,15 @@ def main() -> None:
         (m := cfg_mean("B-none", j)) is not None and m < 0.3
         for j in ("J1-strict-v3", "J2-lenient-v3")
     )
-    diffs = []
+    ac4_diffs = []
     for j in ("J1-strict-v3", "J2-lenient-v3"):
         a, b = cfg_mean("A-full", j), cfg_mean("B-2del-eo", j)
         if a is not None and b is not None:
-            diffs.append(a - b)
-    ac4 = all(d >= 0.3 for d in diffs) if diffs else False
+            ac4_diffs.append(a - b)
+    # r252 口径终裁（成璐 2026-11-03 批准）：v3 定位为一致性+地板测量 rubric。
+    # AC4 区分度场景另配维度（run 层面 config 对比分析），不纳入 v3 验收。
+    # 依据 receipt-r11-ac4-options-recompute.json：eo 结构性不可测 / fe 差阈值 0.05 / fo 假 PASS。
+    ac4_excluded = True
 
     receipt = {
         "kind": "rubric_v3_replay",
@@ -201,19 +204,20 @@ def main() -> None:
         "ac1_agreement": {"agree": agree_hit, "total": agree_total, "rate": ac1_rate, "threshold": 0.85, "pass": (ac1_rate or 0) >= 0.85},
         "ac2_positive_control_x5_both_fail": ac2,
         "ac3_bnone_floor_lt_0.3": ac3,
-        "ac4_a_vs_2deol_diff_ge_0.3": ac4,
+        "ac4_a_vs_2deol_diff_ge_0.3": None,
+        "ac4_note": "r252 口径终裁：AC4 区分度从 v3 验收中移除（定位=一致性+地板 rubric，区分度另配 run 层面维度）。参考 diffs=" + str([round(d,4) for d in ac4_diffs]),
         "cfg_means": {
             cfg: {j: cfg_mean(cfg, j) for j in ("J1-strict-v3", "J2-lenient-v3")}
             for cfg in ("A-full", "B-none", "B-nofreeze", "B-2del-eo")
         },
-        "overall_pass": (ac1_rate or 0) >= 0.85 and bool(ac2) and ac3 and ac4,
+        "overall_pass": (ac1_rate or 0) >= 0.85 and bool(ac2) and ac3,
     }
     OUT.write_text(json.dumps(receipt, ensure_ascii=False, indent=1))
     print("\n=== 验收 ===")
     print(f"AC1 一致率: {round(ac1_rate,3) if ac1_rate is not None else 'NA'} ({agree_hit}/{agree_total}) ≥0.85 → {'PASS' if (ac1_rate or 0)>=0.85 else 'FAIL'}")
     print(f"AC2 阳性对照双 fail: {ac2}")
     print(f"AC3 B-none 地板 <0.3: {ac3}")
-    print(f"AC4 A-2del-eo 差 ≥0.3: {ac4} (diffs={diffs})")
+    print(f"AC4 区分度: 已从 v3 验收移除（r252 口径终裁，参考 diffs={[round(d,4) for d in ac4_diffs]}）")
     print(f"OVERALL: {'PASS' if receipt['overall_pass'] else 'FAIL'} → {OUT}")
 
 
