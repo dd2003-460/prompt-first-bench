@@ -14,7 +14,7 @@
 - G1b family_check 仍卡模型身份披露（不变）
 
 ## 下一步
-1. **第三 seed 功效提升 run（P1，卡预算审批）**：APPROVALS #2 待批——9 configs × D1/D2 各加 seedc 共 18 run + J1/J2 双判 36 调用，n 从 6/cell 提到 9/cell。放行即派（派发前读 .claude/skills/arena-outsource/SKILL.md §3.1 台账确认 repo→session 映射；decomp GitHub binding 曾失效，先 ls-remote 探活）。
-2. decomp-bench loop-state T8 字段修正（todo.T8 仍为过期值 partBD_pending…blocked_ui_no_input，实际已 done_ce20b23；next_action 仍写 "blocked on arena 通道" 亦过期——T8 Part B 已收口、Part C 前置已齐）：需 decomp-bench 仓本地 clone 或走 arena 会话改，~1 回合，随 Part C 派发同批做。
-3. G1b 升级三选一不变（卡成璐）
+1. **T8 Part C 派发（P1，可自主）**：decomp-bench loop-state 已对账（767291a pushed，T8=completed_partA_done_ce20b23）。Part C = 可解释性加速（C1 双实例对照协议：V-full vs 变体各 ≥3 seed，内部状态归因缩 top-k 嫌疑段再 paired runs 确认；r46 修订分工 ninfer :8000 行为层 + llama.cpp :8099 最后一层探针）。待办：①写 Part C 任务书落 decomp 仓 tasks/ ②arena 固定会话派发（decomp binding 曾 403，先 ls-remote 探活）③ninfer 本轮 ping 超时（curl 5s 无响应），派发前复测。
+2. **第三 seed 功效提升 run（P1，卡预算审批）**：APPROVALS #2 待批——9 configs × D1/D2 各加 seedc 共 18 run + J1/J2 双判 36 调用，n 从 6/cell 提到 9/cell。放行即派。
+3. G1b family_check 仍卡模型身份披露（不变）
 4. ACTIVE-candidates #4 ORF arXiv 手动上传 / #3 健康 strand 镜像源（需人工）
