@@ -19,7 +19,8 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 RUNS_R6 = HERE.parent / "runs-r6"
 PROMPTS = json.loads((HERE / "judge-prompts-rubric-v3.json").read_text())["prompts"]
-OUT = HERE / "receipt-r8-rubric-v3-replay.json"
+OUT_DEFAULT = HERE / "receipt-r8-rubric-v3-replay.json"
+OUT = OUT_DEFAULT
 
 NINFER_URL = "http://localhost:8787/v1/chat/completions"
 MODEL = "qwen3.8-27b"
@@ -98,7 +99,11 @@ def parse_verdicts(raw: str) -> dict | None:
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--limit", type=int, default=0, help="只跑前 N 个 run（冒烟用）")
+    ap.add_argument("--out", type=str, default="", help="回执输出路径（默认覆盖 receipt-r8-rubric-v3-replay.json）")
     args = ap.parse_args()
+    global OUT
+    if args.out:
+        OUT = Path(args.out)
 
     runs = sorted(
         rf
