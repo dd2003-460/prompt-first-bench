@@ -106,10 +106,10 @@ def fleiss_kappa(matrix):
     # p_i: item i 的一致性比例
     p_i = [(n_mat[i][0] ** 2 + n_mat[i][1] ** 2 - r) / (r * (r - 1)) for i in range(N)]
     P = sum(p_i) / N
-    # p_j..: 全局比例
+    # p_j..: 全局比例（Fleiss 1973 原式：P_e = Σ_j p̄_j(1−p̄_j)，j ∈ {0,1}；旧版误用 Σp̄² 已修 r239）
     tot = [sum(n_mat[i][j] for i in range(N)) for j in (0, 1)]
     p_bar = [t / (N * r) for t in tot]
-    P_e = sum(p ** 2 for p in p_bar)
+    P_e = sum(p * (1 - p) for p in p_bar)
     if abs(1 - P_e) < 1e-12:
         return 0.0, N, r
     return (P - P_e) / (1 - P_e), N, r
