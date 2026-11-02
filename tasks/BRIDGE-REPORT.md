@@ -4,6 +4,8 @@
 - 会话 01a199bd 进度：clone d1 ✓ → 读 render_E28/pixel_story_arena ✓ → npm install 卡住（package.json 默认 registry 指向 npmmirror，sandbox 网络屏蔽；agent 已自行切换 registry.npmjs.org 重试中）
 - 远端无新分支（git ls-remote 仅 main + arena/5630f950 旧分支）
 - r196 二次观察（+2min）：npm install 已过，agent 进入设计阶段——正在逐像素规划「叙」蹲姿 silhouette（58×26 box，珊瑚块 7+眼 2=9 块，符合风格锚 8-9 块规则），写 render_E29 脚本中
+- r197 三次观察：agent 仍在写 render_E29 脚本（逐像素设计台灯 drawLamp：灯罩/灯杆/灯泡 #F5D9A8 实心圆 r=6 + 地面光晕椭圆；卡片翻转动画 drawCard；check_overlap 采样点规划中）——设计细致但还没到渲染阶段，分支未 push
+- 耗时评估：E29 比 E28 复杂（夜景+翻转动画+光晕），可能超 batch-10 先例上限（14m8s）；若下次唤醒仍无分支且 agent 还在写代码 → 发一条催促消息让它先出 v1 再精修
 - **下轮核验起点同 r195**：`git fetch origin && git ls-remote origin | grep -i "4a5725f7\|E29"` → 有分支则提取 4 文件 → 本地 check_overlap（E28_SANS_FONT=Hiragino Sans GB.ttc）→ ffprobe → episodes/status-table 41→42 → push
 - 风险登记：npm install 若持续失败（@napi-rs/canvas 原生依赖），agent 可能超时会话挂掉 → 届时重派 E29（任务书不变，新会话）
 
