@@ -86,3 +86,24 @@ rubric v2 的"双判官硬判据对齐"思路没错，但两个执行层缺陷�
 
 本文件全部由已落盘数据复算得出（receipt-r7-rubric-v2-replay.json + runs-r4/*-J*.json raw），
 零模型调用。
+## r247 · rubric v3 全量重放结果（36 run × 2 judge）
+
+**AC1-AC3 全 PASS，AC4 FAIL → overall FAIL。**
+
+| AC | 判据 | 结果 | 值 |
+|----|------|------|-----|
+| AC1 | 双判官一致率 ≥0.85 | **PASS** | 0.979 (739/755) |
+| AC2 | 阳性对照双 fail | **PASS** | True |
+| AC3 | B-none 地板 <0.3 | **PASS** | 0.0 |
+| AC4 | A-full − B-2del-eo ≥0.3 | **FAIL** | -0.07/-0.04（反向） |
+
+### AC4 根因：B-2del-eo 工件质量本身太高
+
+cfg_means：A-full J1=0.93/J2=0.96 vs **B-2del-eo J1=1.0/J2=1.0**。删掉 evidence+owner 两段后，剩余条目反而全部满分——说明这批工件里 evidence/owner 段不是"加分项"而是"噪声项"（v2 对账已发现它们普遍带"假设性链接/待验证"标记，J1-v2 的来源硬判据把它们打成 fail；v3 三级化后不再惩罚，但它们也不贡献分数）。
+
+**结论**：rubric v3 修好了 v2 的两个真 bug（id 不对齐 → AC1 从 0.661→0.979；来源一刀切 → AC3 恢复区分度），但暴露了第三个问题：**当前工件集上 A-full 和 B-2del-eo 实质等价**，AC4 的区分度要求在这个数据集上不成立。这不是 rubric 的错，是实验设计的盲区——evidence/owner 段的消融效应被"假设性标记"污染了（web-llm 通道 down 的产物）。
+
+**下一步选项**：
+1. 换一批干净工件（evidence 段是真实可验证的）重跑 → 测 AC4 是否恢复区分度。需要重新生成或找历史批次。
+2. 接受 AC4 在当前数据上的不可判定，把 rubric v3 标记为"3/4 AC 通过 + AC4 数据受限"，等异源 judge 一起验证。
+3. 修 AC4 判据本身（比如改成 A-full − B-nofreeze ≥0.3，用 freeze 消融做区分度锚点，因为 T8 Part C 已证明 freeze 有稳健负效应）。
