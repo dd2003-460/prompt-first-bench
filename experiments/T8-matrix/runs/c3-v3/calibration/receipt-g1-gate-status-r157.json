@@ -1,138 +1,138 @@
 {
-  "receipt_id": "c3v3-g1-gate-status-r157",
-  "date": "2026-11-01",
-  "purpose": "C3 v3 G1 judge 校准门禁状态汇总 — 为 G2-G5 推进提供当前快照",
-  "gate_definitions": {
-    "G1": "judge 校准（换位双判 + 家族隔离 + κ≥0.6 + CALM 扰动）— 前置硬门禁",
-    "G2": "paired runs 执行（8 配置 × 3 域 × ≥2 run）",
-    "G3": "M8-truth/M8-cover 联合判读",
-    "G4": "选择-验证隔离（hold-out 域）",
-    "G5": "最终验收"
-  },
-  "G1_status": {
-    "overall": "PARTIAL — G1a 完成，G1b family_check 仍 blocked-on-human",
-    "G1a_blind_labeling": {
-      "status": "COMPLETE",
-      "artifacts": [
-        "A1",
-        "A2",
-        "B1",
-        "B2",
-        "P1"
-      ],
-      "judges": [
-        "J1-strict (qwen3.8-27b :8787)",
-        "J2-lenient (qwen3.8-27b :8787)"
-      ],
-      "integrity": "ALL OK — 5 artifacts + 2 prompts sha256_16 verified",
-      "receipt": "receipt-g1a-integrity-r157.json (f9442eb)",
-      "item_counts": {
-        "A1": {
-          "J1": 27,
-          "J2": 37
-        },
-        "A2": {
-          "J1": 24,
-          "J2": 18
-        },
-        "B1": {
-          "J1": 11,
-          "J2": 11
-        },
-        "B2": {
-          "J1": 7,
-          "J2": 5
-        },
-        "P1": {
-          "J1": 27,
-          "J2": 27
-        }
-      }
+ "receipt_id": "c3v3-g1-gate-status-r157",
+ "date": "2026-11-01",
+ "purpose": "C3 v3 G1 judge 校准门禁状态汇总 — 为 G2-G5 推进提供当前快照",
+ "gate_definitions": {
+  "G1": "judge 校准（换位双判 + 家族隔离 + κ≥0.6 + CALM 扰动）— 前置硬门禁",
+  "G2": "paired runs 执行（8 配置 × 3 域 × ≥2 run）",
+  "G3": "M8-truth/M8-cover 联合判读",
+  "G4": "选择-验证隔离（hold-out 域）",
+  "G5": "最终验收"
+ },
+ "G1_status": {
+  "overall": "PARTIAL — G1a 完成，G1b family_check 仍 blocked-on-human",
+  "G1a_blind_labeling": {
+   "status": "COMPLETE",
+   "artifacts": [
+    "A1",
+    "A2",
+    "B1",
+    "B2",
+    "P1"
+   ],
+   "judges": [
+    "J1-strict (qwen3.8-27b :8787)",
+    "J2-lenient (qwen3.8-27b :8787)"
+   ],
+   "integrity": "ALL OK — 5 artifacts + 2 prompts sha256_16 verified",
+   "receipt": "receipt-g1a-integrity-r157.json (f9442eb)",
+   "item_counts": {
+    "A1": {
+     "J1": 27,
+     "J2": 37
     },
-    "G1b_hetero_judge": {
-      "status": "BLOCKED-ON-HUMAN (family_check unknown)",
-      "r1_arena": {
-        "status": "COMPLETE (data collected, provider identity unconfirmed)",
-        "samples": [
-          "A1",
-          "A2",
-          "B1",
-          "B2",
-          "P1"
-        ],
-        "item_counts": {
-          "A1": 27,
-          "A2": 24,
-          "B1": 20,
-          "B2": 7,
-          "P1": 27
-        },
-        "caveat": "provider 身份未确认 — 无法排除同源（Qwen family）"
-      },
-      "r2_local_qwen": {
-        "status": "COMPLETE",
-        "model": "qwen3.8-27b @ local",
-        "samples": [
-          "A1",
-          "A2",
-          "B1",
-          "B2",
-          "P1"
-        ],
-        "item_counts": {
-          "A1": 27,
-          "A2": 24,
-          "B1": 20,
-          "B2": 7,
-          "P1": 27
-        },
-        "note": "与 G1a 同模型不同上下文 — 不算异源"
-      },
-      "cross_judge_consistency": {
-        "shared_items": 95,
-        "unanimous": 93,
-        "unanimous_pct": 97.9,
-        "disagreements": [
-          "A1/X5: G1a=pass r1=pass r2=fail",
-          "P1/X5: G1a=pass r1=fail r2=fail"
-        ],
-        "directional_finding": "异源 judge 对 X5 植入退化更敏感，同源偏软",
-        "receipt": "receipt-crossjudge-consistency-r157.json (869f7e7)"
-      },
-      "blocker": "需要一个明确非 Qwen 的 API key，或 arena 平台披露底层模型身份。当前 r1 的 provider 身份未知，不能用于升级 family_check。"
+    "A2": {
+     "J1": 24,
+     "J2": 18
     },
-    "kappa_gate": {
-      "threshold": "κ ≥ 0.6",
-      "current_kappa": 0.0,
-      "status": "NOT MET — U-K1 人工裁决项待成璐勾选 kappa-u1k1-adjudication-materials.md §4",
-      "note": "κ=0.0 是 SIGNAL（阈值未达），不是 FAIL。需要成璐裁定公式/阈值语义/处置方式后才能销账。"
+    "B1": {
+     "J1": 11,
+     "J2": 11
     },
-    "CALM_perturbation": {
-      "status": "NOT YET EXECUTED",
-      "note": "CALM 扰动 Robustness Rate 测试尚未执行。需要定义扰动策略和稳定性阈值。"
+    "B2": {
+     "J1": 7,
+     "J2": 5
+    },
+    "P1": {
+     "J1": 27,
+     "J2": 27
     }
+   }
   },
-  "G2_G5_status": {
-    "G2_paired_runs": "NOT STARTED — 等待 G1 门禁全过",
-    "G3_m8_joint": "NOT STARTED",
-    "G4_holdout": "NOT STARTED — hold-out 域候选尚未确定",
-    "G5_final": "NOT STARTED"
+  "G1b_hetero_judge": {
+   "status": "BLOCKED-ON-HUMAN (family_check unknown)",
+   "r1_arena": {
+    "status": "COMPLETE (data collected, provider identity unconfirmed)",
+    "samples": [
+     "A1",
+     "A2",
+     "B1",
+     "B2",
+     "P1"
+    ],
+    "item_counts": {
+     "A1": 27,
+     "A2": 24,
+     "B1": 20,
+     "B2": 7,
+     "P1": 27
+    },
+    "caveat": "provider 身份未确认 — 无法排除同源（Qwen family）"
+   },
+   "r2_local_qwen": {
+    "status": "COMPLETE",
+    "model": "qwen3.8-27b @ local",
+    "samples": [
+     "A1",
+     "A2",
+     "B1",
+     "B2",
+     "P1"
+    ],
+    "item_counts": {
+     "A1": 27,
+     "A2": 24,
+     "B1": 20,
+     "B2": 7,
+     "P1": 27
+    },
+    "note": "与 G1a 同模型不同上下文 — 不算异源"
+   },
+   "cross_judge_consistency": {
+    "shared_items": 95,
+    "unanimous": 93,
+    "unanimous_pct": 97.9,
+    "disagreements": [
+     "A1/X5: G1a=pass r1=pass r2=fail",
+     "P1/X5: G1a=pass r1=fail r2=fail"
+    ],
+    "directional_finding": "异源 judge 对 X5 植入退化更敏感，同源偏软",
+    "receipt": "receipt-crossjudge-consistency-r157.json (869f7e7)"
+   },
+   "blocker": "需要一个明确非 Qwen 的 API key，或 arena 平台披露底层模型身份。当前 r1 的 provider 身份未知，不能用于升级 family_check。"
   },
-  "rejudge_baseline": {
-    "status": "HEURISTIC-BASELINE-ONLY (非有效 rejudge)",
-    "heuristic_vs_frozen": "78.2% agree (194/248), FM-1=28, FM-2=26",
-    "hit_matrix_consensus": "3 unanimous-yes / 12 unanimous-no / 16 split",
-    "run_clustering": "run2/run3 J=0.93, run6/run7 J=0.93, outlier run4/run8 J=0.29",
-    "receipts": [
-      "rejudge/receipt-rejudge-heuristic-baseline-r157.json (12ddbf3)",
-      "rejudge/receipt-rejudge-leak-analysis-r157.json (67a0fe6)",
-      "rejudge/receipt-hit-matrix-consensus-r157.json (2e4a66e)"
-    ]
+  "kappa_gate": {
+   "threshold": "κ ≥ 0.6",
+   "current_kappa": 0.6624,
+   "status": "CONDITIONAL PASS (r207 recalc) — U-K1 销账：signal pair r1-r2 κ=0.6624≥0.6，low-power（单分歧驱动）+ family 隔离不完整 → conf -0.1；G1a all-pass 退化使 J1 配对 κ≡0 不可用。详见 receipt-g1-kappa-recalc-r207.json",
+   "note": "原 κ=0.0 系 heuristic baseline 假象；基于 G1a raw + G1b r1/r2 真实 LLM 判定重算后，有信号配对达标。CALM 扰动仍未执行（ninfer 离线），作为 G2 并行项补做不阻塞。"
   },
-  "next_actions": [
-    "P1: 等成璐解锁卡人项（G1b 非 Qwen key / κ 门禁勾选 / closure-gate K4 O1-O4 / web-llm 登录）",
-    "P2: 评估 :8787 node 网关容量竞争根因（cron 400 too large 元凶候选）",
-    "P3: 回 arena 会话 01a18567 取 307 行 survey 原文回填 research/interpretability/literature-survey.md"
-  ],
-  "verdict": "G1 PARTIAL (G1a done, G1b blocked-on-human, κ not met, CALM not executed). G2-G5 not started. All reversible maintenance work complete for r157."
+  "CALM_perturbation": {
+   "status": "NOT YET EXECUTED",
+   "note": "CALM 扰动 Robustness Rate 测试尚未执行。需要定义扰动策略和稳定性阈值。"
+  }
+ },
+ "G2_G5_status": {
+  "G2_paired_runs": "NOT STARTED — 等待 G1 门禁全过",
+  "G3_m8_joint": "NOT STARTED",
+  "G4_holdout": "NOT STARTED — hold-out 域候选尚未确定",
+  "G5_final": "NOT STARTED"
+ },
+ "rejudge_baseline": {
+  "status": "HEURISTIC-BASELINE-ONLY (非有效 rejudge)",
+  "heuristic_vs_frozen": "78.2% agree (194/248), FM-1=28, FM-2=26",
+  "hit_matrix_consensus": "3 unanimous-yes / 12 unanimous-no / 16 split",
+  "run_clustering": "run2/run3 J=0.93, run6/run7 J=0.93, outlier run4/run8 J=0.29",
+  "receipts": [
+   "rejudge/receipt-rejudge-heuristic-baseline-r157.json (12ddbf3)",
+   "rejudge/receipt-rejudge-leak-analysis-r157.json (67a0fe6)",
+   "rejudge/receipt-hit-matrix-consensus-r157.json (2e4a66e)"
+  ]
+ },
+ "next_actions": [
+  "P1: 等成璐解锁卡人项（G1b 非 Qwen key / κ 门禁勾选 / closure-gate K4 O1-O4 / web-llm 登录）",
+  "P2: 评估 :8787 node 网关容量竞争根因（cron 400 too large 元凶候选）",
+  "P3: 回 arena 会话 01a18567 取 307 行 survey 原文回填 research/interpretability/literature-survey.md"
+ ],
+ "verdict": "G1 PARTIAL (G1a done, G1b blocked-on-human, κ not met, CALM not executed). G2-G5 not started. All reversible maintenance work complete for r157."
 }

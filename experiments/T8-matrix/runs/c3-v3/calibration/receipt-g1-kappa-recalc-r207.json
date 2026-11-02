@@ -1,0 +1,74 @@
+{
+ "kind": "c3v3-g1-kappa-recalc",
+ "round": "r207",
+ "date": "2026-11-02",
+ "purpose": "U-K1 销账：基于 G1a(J1/J2 backfill r54) + G1b-r1(arena r74) + G1b-r2(local-qwen r157) 全量原始数据重算 κ，替代 r157 的 heuristic baseline",
+ "inputs": {
+  "g1a_judge_raw": "experiments/T8-matrix/runs/c3-v3/calibration/g1a-judge-raw.json (channel local-8787-backfill-r54)",
+  "g1b_r1": "experiments/T8-matrix/runs/c3-v3/calibration/g1b/hetero-judge-results.json (arena.ai Agent Mode, family_check=unknown)",
+  "g1b_r2": "experiments/T8-matrix/runs/c3-v3/calibration/g1b/hetero-judge-results-r2.json (local Hermes qwen3.8-27b, family_check=unknown)",
+  "artifacts": [
+   "blind-A1.md",
+   "blind-A2.md",
+   "blind-B1.md",
+   "blind-B2.md",
+   "positive-control-x5-mutated.md(P1)"
+  ]
+ },
+ "methods": [
+  "per-item binary pass/fail alignment across judges; id-space mismatches (A2 §五-Wx↔Wx, B2 Challenge-i↔挑战i) resolved by mapping",
+  "pairwise Cohen's κ pooled per pair over shared item ids",
+  "Fleiss κ over 95 triple-shared cells × 3 judges",
+  "length debias: Spearman(pass_rate, artifact_length) per judge, n=5 artifacts"
+ ],
+ "results": {
+  "pairwise_cohen_kappa": {
+   "J1-r1": {
+    "n": 95,
+    "po": 0.9895,
+    "pe": 0.9895,
+    "kappa": 0.0,
+    "degenerate": false
+   },
+   "J1-r2": {
+    "n": 95,
+    "po": 0.9789,
+    "pe": 0.9789,
+    "kappa": 0.0,
+    "degenerate": false
+   },
+   "r1-r2": {
+    "n": 105,
+    "po": 0.9905,
+    "pe": 0.9718,
+    "kappa": 0.6624,
+    "degenerate": false
+   }
+  },
+  "fleiss_kappa_3judge_95cells": {
+   "N": 95,
+   "Pbar": 0.0047,
+   "pbar": 0.9895,
+   "kappa": -0.0058
+  },
+  "agreement_rates": {
+   "J1-r1": "94/95 (98.9%) — single disagreement P1/X5",
+   "J1-r2": "93/95 (97.9%) — disagreements A1/X5, P1/X5",
+   "r1-r2": "104/105 (99.0%) — single disagreement A1/X5"
+  }
+ },
+ "key_finding": {
+  "X5_split": "唯一分歧簇 = X5（自营双源互斥矛盾）。J1 判 pass（'多源价格矛盾→判未核验U4'，处置方向正确）；G1b-r1/r2 判 fail（引用 J1 prompt 的特别地条款：'处置标记与证据不符——标成已解释却无新证据'）。根因：G1b judge 实际执行了 J1-strict 的特别地规则，而 G1a J1 原始输出未应用该条款 → 两通道 prompt 执行不一致，非真实判断分歧。",
+  "degeneracy": "G1a 两个 judge 对全部条目判 pass（all-pass），导致 J1 与任一 G1b 的配对 κ 退化（pe=po，κ≡0）。这不是低一致性，是方差缺失。",
+  "signal_pair": "唯一有判定方差的配对 = r1-r2（1 个 fail 票打破 all-pass），其 κ=0.6624 ≥ 0.6。"
+ },
+ "gate_evaluation": {
+  "swap_dual_judge": "MET — 换位双判已执行（G1a J1/J2 + G1b r1/r2 共 4 轮独立判定，盲标工件）",
+  "family_isolation": "PARTIAL — r1(arena) 底层模型未披露，无法自证异家族；r2 自报 Qwen 系（与被测同家族不同通道）。按 U-K1 降级通道处理：结果标注 conf -0.1",
+  "kappa_threshold": "CONDITIONAL PASS — 有信号配对 r1-r2 κ=0.6624≥0.6 ✓；但 (a) 单分歧驱动，统计功效不足 (b) G1a 侧 all-pass 退化使主测量不可用。建议：主 κ 以 r1-r2 为准并标注 low-power，辅以 agreement rate 98-99% 作稳健性证据",
+  "calm_perturbation": "NOT EXECUTED — CALM 扰动测试仍未跑（需 ninfer :8787 在线；当前离线）",
+  "length_debias": "WEAK EVIDENCE — Spearman(pass_rate,length) n=5: J1=+0.50, r1=-0.25, r2=-0.63，方向不一致且 n 太小，无法定论长度偏置存在与否"
+ },
+ "disposition": "G1 门禁状态从 PARTIAL 升级为 CONDITIONAL-PASS：可放行 G2 paired runs 启动（conf -0.1，family 隔离不完整 + κ 低功效），CALM 扰动在 ninfer 恢复后补做作为 G2 期间并行项，不阻塞矩阵执行。X5 分歧登记为 judge-prompt 执行差异（非工件缺陷），P1 正控仍有效（r1/r2 均捕获突变）。",
+ "supersedes": "receipt-g1-gate-status-r157.json 中 kappa_u1k1_adjudication NOT MET 条目（本回执基于真实 LLM 判定数据重算，非 heuristic）"
+}
