@@ -1,6 +1,15 @@
-# CONTINUE_MSG — 2026-11-03 r258
+# CONTINUE_MSG — 2026-11-03 r259
 
-## 本轮完成 (r258)
+## 本轮完成 (r259)
+**keepalive 状态核实（零 LLM 调用，纯核查）**：
+- research-prompt @ bd022cd 收口确认：retest-32k 完结——R0.3 在 max_tokens=32000 下 18/18/18 σ=0 完美稳定，R0.5 仍 3/3 崩塌（6/0/0），「截断导致崩塌」假说推翻，崩塌定案为模型能力边界；R0.3 定版，七版消融正式完结
+- pfb @ main ae0a96f = origin/main（零 diff）；pilot-matrix 双判 κ 回执 kappa-results-corrected.json 已在 main（overall κ=0.857 n=162 strict 口径过门禁，O1 κ=0.506 唯一弱项）
+- BRIDGE-REPORT.md 无新报告；arena 侧无可对账产出
+- 通道复查：:8000 down / :8099 down / :8787 up（与 r258 一致）
+- goal-queue 待办仅剩 blocked-on-human 项（family-upgrade / B2 协议重设计候裁 / ORF arXiv 手动上传）
+- wx-push 两次均失败（retry-without-token invalid request），留痕不重试
+
+## 上轮完成 (r258)
 **research-prompt retest-32k 对照实验（@ f45911b pushed）**：
 - 动机：R0.5 ×3 (max_tokens=16000) 全崩被初判为模型随机崩塌，但 R0.3 run 输出 30-36K chars 却完整收尾——参数语义存疑
 - 固定 prompt/temp 只改 max_tokens=32000 重跑 3 次：runA 完整收尾（五节 5/5 + SELF-CHECK 覆盖全部 4 叶子节点），runB/runC 仍停草稿
@@ -33,7 +42,7 @@
 - decomp 侧联动（r256, d1edf93）：T21 收口完成——flagship-eval S3 按 T21-RR 实测锚定重算 + 主报告并入，GPU 选型主线 T19→T20→T21 闭环，decomp 本地可执行项清零
 
 ## 下一步
-1. **T8 Part C 派发**（P1，纯等通道）：ninfer 恢复或 arena UI 重绑后，按 TASK-pilot-run.md 派发 9 run（复用 01a195cb 会话先例）。r258 复查：:8000/:8099 仍 down，:8787 up（retest-32k 实调验证可用）。pilot-matrix 的 run 脚本 max_tokens 建议提到 32000（retest-32k 教训）。
+1. **T8 Part C 派发**（P1，纯等通道）：ninfer 恢复或 arena UI 重绑后，按 TASK-pilot-run.md 派发 9 run（复用 01a195cb 会话先例）。r259 复查：:8000/:8099 仍 down，:8787 up。pilot-matrix 的 run 脚本 max_tokens 建议提到 32000（retest-32k 教训已定案：截断假说推翻但统一上限防噪声仍是正确做法）。
 2. **第三 seed 功效提升 run**（P1，卡预算审批 APPROVALS；AC4 收口后不再是前置条件）。
 3. G1b family_check 模型身份披露（blocked-on-human：非 Qwen API key / arena 人工过 Cloudflare / 平台披露三选一）。
 4. ACTIVE-candidates #4 ORF arXiv 手动上传 / #3 健康 strand 镜像源（需人工）。
