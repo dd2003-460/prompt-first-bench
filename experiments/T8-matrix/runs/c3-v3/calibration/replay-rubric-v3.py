@@ -38,8 +38,11 @@ def extract_items(art: str) -> list[str]:
         ids.add(m.group(0))
     for m in re.finditer(r"\bGap[- ]?[\w-]+\b", art):
         ids.add(m.group(0).replace(" ", "-"))
-    for m in re.finditer(r"(?:主张|候选|方案|来源)\s*(\d+)", art):
+    for m in re.finditer(r"(?:主张|来源)\s*(\d+)", art):
         ids.add(f"Z{m.group(1)}")
+    # 增强锚点（r247）：「方案A」「候选 A: Nextcloud」类中文条目头
+    for m in re.finditer(r"(?:方案|候选)\s*([A-Z])(?=[\s：:、，])", art):
+        ids.add(f"P-{m.group(1)}")
     return sorted(ids)
 
 
