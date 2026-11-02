@@ -1,49 +1,31 @@
-# CONTINUE_MSG — 2026-11-03 r259
+# CONTINUE_MSG — 2026-11-03 r260
 
-## 本轮完成 (r259)
-**keepalive 状态核实（零 LLM 调用，纯核查）**：
-- research-prompt @ bd022cd 收口确认：retest-32k 完结——R0.3 在 max_tokens=32000 下 18/18/18 σ=0 完美稳定，R0.5 仍 3/3 崩塌（6/0/0），「截断导致崩塌」假说推翻，崩塌定案为模型能力边界；R0.3 定版，七版消融正式完结
-- pfb @ main ae0a96f = origin/main（零 diff）；pilot-matrix 双判 κ 回执 kappa-results-corrected.json 已在 main（overall κ=0.857 n=162 strict 口径过门禁，O1 κ=0.506 唯一弱项）
-- BRIDGE-REPORT.md 无新报告；arena 侧无可对账产出
-- 通道复查：:8000 down / :8099 down / :8787 up（与 r258 一致）
-- goal-queue 待办仅剩 blocked-on-human 项（family-upgrade / B2 协议重设计候裁 / ORF arXiv 手动上传）
-- wx-push 两次均失败（retry-without-token invalid request），留痕不重试
+## 本轮完成 (r260)
+**T8-C3-v3-seedc-powerup（第三 seed 功效提升 run · CONTINUE_MSG 上轮下一步 #2）— 降级通道实跑收口，待 commit**：
+- 动机：R6 主分析 n=4/cell 功效不足（所有 Δ 只报方向），加 seedc 把 D1/D2 每 cell 提到 n=3 seeds，看 F1（freeze 主效应三域一致为负）能否过「三 seed 同向」检查升级声明
+- 通道：arena :8000/:8099 down → 按 runner 外包规则降级本地 ninfer :8787 qwen3.8-27b（conf−0.2 标注），全程零人工介入
+- 冻结面（开跑前落盘并验证）：design/r6-seedc-powerup-design.json（seedc brief 文本 + 18 prompt sha256_16）；prompt builder 对 R4 全部 32 份 stored prompt 逐字节复刻验证通过后才使用；opportunity-sets-v1.json 扩展 brief_c 机会集（D1 9 项 / D2 10 项，_meta.r260_extension 登记）
+- 执行：18/18 run 落盘 runs-seedc/runs/<config>/<domain>/seedc-r1.json（output_chars 4174-9242，零 HTTP 失败，gen max_tokens=32000 temp=0.7）+ J1v11/J2v11 双判 36/36 成功 + cover brief_c 判读 18/18
+- **G3 = SIGNAL（重要发现，比预期更有价值）**：
+  - F1 三 seed 同向性检查 FAIL：freeze 主效应 A-full−B-nofreeze，seedc D1 = 0.0（vs R4 +0.391 反向）、D2 = +0.75（同向）。F1 维持「只报方向」不升级
+  - 根因不在工件在测量系统：J1v11 条目抽取跨 run 漂移——同一 A-full/D1 cell，R4 两 run 抽 7/10 条 numeric id 得 0.857/1.0，seedc 抽 3 条 X-prefix 得 0.0。per-config 分数方差里相当部分是「judge 抽了哪些条目」的方差 → **R4/R5/R6 所有 per-config Δ 的功效被系统性高估**
+  - 推论：对抗核验 FAIL 1（M8-fixed 独立标注员预建冻结机会表 + 逐机会判定）从「seedc 前置条件」升级为**一切后续消融分析的前置条件**；在此之前新 run 分数只能作单 run 快照
+  - 副产物复现：cover「高 cover ≠ 真核验」警示再次命中（B-none cover 1.0/1.0 而 J1 truth 0.0/0.0）；J2v11 15/18 run 恒 1.0（R4 同样），宽松版无区分力再确认；J1/J2 item-level 分歧 28/107=0.262 < 0.30 stop_rule 未触发
+- 回执：receipt-r8-seedc.json（run/judge 全指纹）；queue 已划掉 seedc 项并登记结果
+- wx-push 首次失败（retry-without-token invalid request），留痕继续干活（协议内不重试）
 
-## 上轮完成 (r258)
-**research-prompt retest-32k 对照实验（@ f45911b pushed）**：
-- 动机：R0.5 ×3 (max_tokens=16000) 全崩被初判为模型随机崩塌，但 R0.3 run 输出 30-36K chars 却完整收尾——参数语义存疑
-- 固定 prompt/temp 只改 max_tokens=32000 重跑 3 次：runA 完整收尾（五节 5/5 + SELF-CHECK 覆盖全部 4 叶子节点），runB/runC 仍停草稿
-- **修正归因**：崩塌率 3/3→2/3，与 max_tokens 配置交互而非纯模型随机；后续消融轮次 run 脚本须统一 max_tokens=32000（服务器上限 32768，40000 实测 HTTP 400）
-- COMPARISON.md 关键发现 #2 加修正注记 + retest-32k/ 目录落盘（README + runA/B/C）+ loop-state 更新
-- 注意：runA 研究路径退化为 4 个平铺一级节点（无 R0.3 的三级树深度），S3 满分靠 SELF-CHECK 全覆盖不是拆解深度——lead 复核 S1/S2 大概率降档
-
-## 上轮完成 (r257)
-**research-prompt R0.4 中期评分（@ f58e3ee pushed）**：
-- score-v2.py 机械评分器落盘（S3/C2 自动定档 + 8 维信号供 lead 复核，判据与 R0~R0.3 对齐）
-- run1 **FAIL**：草稿区写到一半截断（23K chars），五节结构 0/5 —— max_tokens=16000 对 R0.4 的草稿+五节双段结构不够用
-- run2：S3=2（新契约生效——5 个叶子节点全带 SELF-CHECK 行，前四版都停在 1 分档）；C2=1（TCO 对比表有数值但缺 Prefill(s)/Decode(s) 独立两列，按 R0.4 契约不得满分）
-- run3 进行中（run-r04.py 串行循环 @ :8787，每 run ~76s+）
-- 中期结论：S3 短板修复确认；C2 短板未修复（强制语写在第 3 节格式说明里离填表位置太远，TCO 表先满足了「有数值表」的心理预期）
-
-## 上轮完成 (r256)
-**decomp T21 收口联动**：flagship-eval S3 按 T21-RR 实测锚定重算（混合 [26.8,32.5] tok/s，云租优势修正），主报告 §9.2 发现 5 并入，decomp @ d1edf93，GPU 选型主线闭环。
-
-## 历史完成
-**M8-cover 口径对齐（pfb @ main a4fb25d，ralph/m8-cover-caliber-reconcile）**：
-- 上轮 r254/r254b 已收口 v3 rubric（AC4 移出验收，overall_pass=True），但「下一步 #4 M8-cover 口径对齐（P2）」未动。
-- 本轮执行：把 receipt-r7-cover-recompute.json（r241, 95b17c3）的 loose-keyword 独立复算数字回填 matrix-v11.md——新增 r254c 节（9 config × R5 D3 / R6 D1D2 双轮均值 cover 对照表 + gap 定性 + 方法后缀口径声明）。
-- 顺销 matrix-v11.md L43 过期「待裁定」行（空分母口径 + cover 门槛 -0.05 早在 r62z 已裁定保守口径，该行一直没更新）。
-- 零 LLM 调用纯复算；核心结论不受影响（freeze task-type-dependent 反转、truth+cover 联合判读要求均不变）。
+## 上轮完成 (r259)
+**keepalive 状态核实（零 LLM 调用，纯核查）**：research-prompt retest-32k 定案收口（R0.3 定版七版消融完结）；pfb @ ae0a96f 与 origin/main 零 diff；pilot-matrix κ 回执已在 main（overall κ=0.857 过门禁）；BRIDGE-REPORT 无新报告；通道 :8000/:8099 down / :8787 up。
 
 ## 当前状态
-- pfb @ main a4fb25d pushed；rubric v3 冻结版 = r249f，R5 门禁 4/6 PASS（AC4 移出验收后实际阻塞项仅家族隔离）
-- **T8 Part C 派发门禁条件仍满足**（AC1≥0.85 + AC3 双侧达标），纯等通道：arena binding 需 UI 重绑 + ninfer :8000/:8099 人工查（r255 复查 :8000 仍 down，:8787 proxy 可用）
-- BRIDGE-REPORT.md 无新报告；arena 侧无可对账产出
-- decomp 侧联动（r256, d1edf93）：T21 收口完成——flagship-eval S3 按 T21-RR 实测锚定重算 + 主报告并入，GPU 选型主线 T19→T20→T21 闭环，decomp 本地可执行项清零
+- pfb @ main e92a0e4 pushed（origin/main 同步）；**r260 产出待 commit**（runs-seedc/ 全套 + design + opportunity-sets 扩展 + receipt-r8 + queue + 本文件）
+- T8 Part C exploratory 已收口（r245s, T8-partC-exploratory.md exploratory-closed）；其 confirmatory 四条解锁条件中第 1 条（异源判官）仍 blocked-on-human，第 2 条（M8-fixed 逐机会标注）现在被 r260 证据升级为最高优先
+- decomp 侧可执行项清零（r259 确认）；research-prompt 七版消融完结
+- 卡人项不变：G1b family_check（非 Qwen key）/ B2 协议重设计候裁 / ORF arXiv 手动上传 / web-llm 三 provider 登录
 
 ## 下一步
-1. **T8 Part C 派发**（P1，纯等通道）：ninfer 恢复或 arena UI 重绑后，按 TASK-pilot-run.md 派发 9 run（复用 01a195cb 会话先例）。r259 复查：:8000/:8099 仍 down，:8787 up。pilot-matrix 的 run 脚本 max_tokens 建议提到 32000（retest-32k 教训已定案：截断假说推翻但统一上限防噪声仍是正确做法）。
-2. **第三 seed 功效提升 run**（P1，卡预算审批 APPROVALS；AC4 收口后不再是前置条件）。
-3. G1b family_check 模型身份披露（blocked-on-human：非 Qwen API key / arena 人工过 Cloudflare / 平台披露三选一）。
-4. ACTIVE-candidates #4 ORF arXiv 手动上传 / #3 健康 strand 镜像源（需人工）。
-5. ~~M8-cover 口径对齐~~ **已完成 (r254c)**。
+1. **commit + push r260 产出**（P0，下轮第一件事或本轮收尾做）：`git add experiments/T8-matrix/runs/c3-v3/{runs-seedc,design/r6-seedc-powerup-design.json,design/opportunity-sets/opportunity-sets-v1.json,receipt-r8-seedc.json} tasks/goal-queue.md CONTINUE_MSG.md` → commit "r260: seedc powerup run 收口 — F1 未复现于 D1, 根因定位 J1v11 条目抽取漂移, M8-fixed 升级为前置条件" → push origin main
+2. **T8-C3-v3-m8fixed-opportunity-table**（P1，新导出）：独立标注员（lead/成璐）预建 D1/D2/D3 × brief_a/b/c 冻结机会表 + 等价 pattern 机判 assert + 盲双判复核模板——这是 FAIL 1 修复，做完之前不再开任何新消融 run（避免再攒不可比数据）
+3. G1b family_check 模型身份披露（blocked-on-human：非 Qwen API key / arena 人工过 Cloudflare / 平台披露三选一）
+4. ACTIVE-candidates #4 ORF arXiv 手动上传 / #3 健康 strand 镜像源（需人工）
+5. ~~T8 Part C 派发~~ **已完成 (r245s exploratory-closed)**；~~第三 seed 功效提升 run~~ **已完成 (r260)**
