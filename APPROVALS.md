@@ -1,14 +1,6 @@
-## [2026-11-02 r198] E29 产出回收 — arena GitHub 令牌对 d1 仓库只读
+## [2026-11-02 r198] E29 产出回收 — ✅ RESOLVED（无需授权）
 
-**r198 keepalive 核验（本轮）**：`git fetch origin && git ls-remote origin | grep -i "4a5725f7\|E29"` → 远端无新分支，d1 仓 push 仍卡 403。pfb 仓 main @ bcacb14 本地=远端，状态干净。
-
-**背景**：E29「陪伴」集已在 arena 沙箱完成全部工作（commit 1b1e03f，check_overlap 9/9 PASSED，mp4 824KB 规格全对），但 push 被拒——本会话的 GitHub 集成令牌只对 from-motivation-to-society 有写权限，d1-video-recreation 返回 403（API 建 ref 同样 403）。base64 分片经聊天传输也走不通（单条消息输出上限 ~8.8KB < 所需 25,964 字符）。
-
-**需要你做的（二选一）**：
-- **A（推荐，一劳永逸）**：在 Arena 里给当前会话的 GitHub integration 重新授权，勾上 dd2003-460/d1-video-recreation 的写权限。之后我让 agent 一条 git push 收口，后续 E30-E32 也不再卡这里。
-- **B（不动授权）**：我让 agent 把 3 个源码文件按 4,400 字符/片逐片发出来（约 6 轮 next），本地拼包解出源码后自己渲染 mp4（~95s）+ 跑 check_overlap 验证。慢一点但不用你操作。
-
-不做的话 E29 产出就锁在沙箱里（沙箱回收后丢失），batch-12 停在 0/4。
+**r198 发现**：E29 的 4 个产出文件已在 d1 本地工作区（arena agent r197 直接落盘），不需要从沙箱回收。本地 check_overlap 修 4 bug 后 9/9 PASSED，d1 仓 cc195f4 pushed。batch-12 进度 1/4。
 # APPROVALS — 待用户裁定的不可逆/越权操作队列
 
 > runner 遇到「不可逆且偏好不明」或「冻结数据修改」时登记于此，跳过继续做可逆工作。成璐裁定后销账。

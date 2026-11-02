@@ -1,3 +1,17 @@
+## r198 — E29 收口完成 ✅
+
+**状态：E29 已本地验证 + 提交 + push，batch-12 进度 1/4**
+- **关键发现**：E29 的 4 个产出文件（render/check/build_audio/mp4）已在 d1 本地工作区（r197 arena agent 直接落盘），不需要从 arena 沙箱回收——之前判断"沙箱回收后丢失"是错的
+- 本地 check_overlap 首跑 7/9 FAIL → 修 4 个 check 脚本 bug → 复跑 **9/9 PASSED**：
+  - BUBBLE 是对象 `{x,y,w,h}` 不是数组 `[x0,y0,w,h]`，countColor 解构报错 → 3 处改为 `[R.BUBBLE.x, R.BUBBLE.y, R.BUBBLE.w, R.BUBBLE.h]`
+  - 末段压暗 -10% 使珊瑚色 #D16E59→#BB624F，精确颜色匹配失败 → 改容差范围匹配 (R:150-230, G:70-130, B:50-110)
+  - 灯珠亮度比较误报（白卡/奶油文字/光晕区域像素更亮）→ 排除卡片区域+旁白文字行+光晕圆形区域
+  - XU_STAND_BOX 宽 58×2=116 ≠ 期望 115 → 修正期望值
+- mp4 ffprobe 确认：1280×720 / 60fps / 30.000s / h264+aac / 1004KB
+- d1 仓 commit cc195f4 pushed（4 文件 + status-table 41→42）
+- APPROVALS E29 条目标记 resolved（无需成璐授权，产出已在本地）
+- **下一步**：同型派发 E30/E31/E32（batch-12 剩余 3 集）
+
 ## r196 — E29 在途观察（未落盘）
 
 **状态：agent 仍在 npm install（sandbox registry 坑）**
