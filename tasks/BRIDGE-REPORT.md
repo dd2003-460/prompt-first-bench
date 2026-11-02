@@ -1,3 +1,11 @@
+## r196 — E29 在途观察（未落盘）
+
+**状态：agent 仍在 npm install（sandbox registry 坑）**
+- 会话 01a199bd 进度：clone d1 ✓ → 读 render_E28/pixel_story_arena ✓ → npm install 卡住（package.json 默认 registry 指向 npmmirror，sandbox 网络屏蔽；agent 已自行切换 registry.npmjs.org 重试中）
+- 远端无新分支（git ls-remote 仅 main + arena/5630f950 旧分支）
+- **下轮核验起点同 r195**：`git fetch origin && git ls-remote origin | grep -i "4a5725f7\|E29"` → 有分支则提取 4 文件 → 本地 check_overlap（E28_SANS_FONT=Hiragino Sans GB.ttc）→ ffprobe → episodes/status-table 41→42 → push
+- 风险登记：npm install 若持续失败（@napi-rs/canvas 原生依赖），agent 可能超时会话挂掉 → 届时重派 E29（任务书不变，新会话）
+
 ## r195 — batch-12 E29 派发（arena 直连 d1）
 
 **状态：agent 执行中（未落盘）**
