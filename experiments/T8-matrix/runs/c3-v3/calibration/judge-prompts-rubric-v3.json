@@ -1,5 +1,5 @@
 {
- "frozen_at": "2026-11-02T23:58:00+0800",
+ "frozen_at": "2026-11-02T23:55:00+0800",
  "supersedes": "judge-prompts-rubric-v2.json (sha256_16: J1=da6c646f7d0040fa J2=6e0d9eb10aea96d3)",
  "goal": "rubric v3：修复 v2 重放 overall_pass=False 的两个根因——J1-v2 来源判据一刀切过严（AC3/AC4 区分度塌）+ 双判官 id 不对齐（AC1 一致率被幻觉 id 拉低）。依据 RUBRIC-V2-RECONCILIATION.md r246 对账：J2 侧 v2→v3 零改动（除 id 锚定段，已验证 0.978 无扰动），J1 侧来源判据三级化（缺失=fail / 声明未实抓=降档 / 实抓=pass）。 r247 修订为 v3.1：J1 ②具体性加对象层级澄清（方案级主张自带数字+单位即过 ②，防与 ① 双重扣分导致 B-none seedb J1/J2 翻转分歧）。 r247 第二次修订 v3.1b：v3.1 的「自带数字即过②」仍被 judge 执行成「无S编号→①fail且②连带fail」(B-none seedb J1 全零 vs J2 全过)。改为显式判定边界：②只看条目正文有无实质数据，与 S 编号脱钩，附正反例锚定。 r247 第三次修订 v3.1c：v3.1b 后 judge 把「有具体数字但无URL」误判为 A 级（无来源）→ 全零。加 B 级判定边界：正文含产品名/版本/价格/参数即 B 级降档而非 A 级 fail。 r247 第四次修订 v3.1d：v3.1c 矫枉过正——A-full/D1/seedb（研究分解类工件）J1 从 0.211 翻到该给分的位置但 AC1 掉回 0.772：judge 把「待研究：X？」问题句判成 ②③ 双 fail。加 ③ 的对象层级边界：研究分解类工件中明确标注未知点+验证方向的问题句 = 保留不确定性的有效形式。 r247 第五次修订 v3.1e：v3.1c 把 B-none seedb 抬到 1.0（AC3 彻底崩）——B 级降档太宽。收紧 ②：从「有数字即过」改为「须指向可核查对象（来源+字段/产品+参数/未知点+验证方向）」，让 B-none 类无来源纯断言在 ② 也站不住。 r247 第六次修订 v3.1f：v3.1e 仍 1.0——judge 把「产品名+数字」当 B 级降档。收紧：B 级须有显式来源标记（URL/文档名/API 引用/指向性表述），仅有产品名和数字 = A 级 fail。这是最后一次 prompt 迭代，之后冻结。 r249 合并：恢复 r248(0dcb46f) 的 J2-lenient-v3 (sha 2167594e4ef70f1a, 含 B-1/B-2 边界收紧) 与本轮 J1-strict-v3.1f (sha a4eb67e35fa066d5) 组合成终版 v3-final，全量重放验证。此前两条并行线各自只验证了一半。 r249e: B-2a 3-step flow (hard rule, no exemption override). r249f: B-2a 降回普通底线——r249e 的 3-step 硬规则（不可跳步+豁免覆盖禁令）导致 A-full 误杀（0.93→0.5），AC1 崩至 0.772；第三次实证 J 侧判据一动 AC1 立刻塌。保留 B-2a 条文但去掉强制流程。",
  "model": "qwen3.8-27b via localhost:8787",
@@ -22,6 +22,6 @@
   "AC1": "J1-v3 vs J2-v3 item-level 一致率 ≥ 0.85（id 锚定后口径：只算清单内 id）",
   "AC2": "positive-control-x5-mutated 两判官均 fail X5",
   "AC3": "B-none 配置两判官均值 < 0.3",
-  "AC4": "A-full − B-2del-eo 两判官差值均 ≥ 0.3"
+  "AC4": "A-full − B-2del-eo 两判官差值均 ≥ 0.3（注：r249e 实测 diff=-0.06，B-2del-eo 的 U/Q 研究计划条目使均值反超 A-full；AC4 在当前 artifact 分布上不可达，需重新设计消融配置或调整阈值）"
  }
 }
