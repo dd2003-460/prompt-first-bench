@@ -15277,3 +15277,216 @@ RALPH_EVENT -->
 
 - none
 
+## 02-r1 | stage_advanced
+
+<!-- RALPH_EVENT
+{
+  "action": {
+    "action": "advance",
+    "artifact_refs": [],
+    "evidence": [
+      "loop-artifacts/stages/01/r1/evidence/unknown-local-probe-r266.md",
+      "loop-artifacts/stages/02/r1/fields.json",
+      "loop-artifacts/stages/02/r1/evidence/runtime-validator-bug-r267.md"
+    ],
+    "message": "阶段 02 调研闭环：本地非 Qwen 端点不存在（r266 探测实证）；外部 API key 环境变量中不存在，按任务书失败降级条款处置为 blocked_human（需用户提供 key），不阻塞其他任务。judge_format_compatibility 保留 research_required（依赖用户 key 解锁后实测回填，不伪造结论）。required_outputs research_findings 已回填 4 项子字段。",
+    "next_stage": "02.5",
+    "payload": {
+      "questions": [
+        "异源 judge 需要非 Qwen family 的可调用端点。本机探测确认无任何非 Qwen 本地模型（LM Studio/Ollama 未运行，唯一端点 127.0.0.1:8787 仅服务 qwen3.8-27b），环境变量中也无任何外部 provider key。请提供以下之一：(a) 任一非 Qwen 厂商 API key（Anthropic/OpenAI/Gemini/Mistral/DeepSeek 等）；(b) 启动 LM Studio 或 Ollama 并加载一个非 Qwen 模型；(c) 确认接受用当前 qwen3.8-27b 同源复判+人工抽审的降级方案（conf-0.2，T8 结论标注同源偏差风险）。收到后继续验收标准 2-5。"
+      ],
+      "stage_review": "字段表 12 项：local_endpoint_probe(confirmed,0.9)、external_api_credentials(assumed_default,0.8→blocked_human 通道)、non_qwen_judge_availability(confirmed,0.9) 均带 evidence_refs + observed_at；judge_format_compatibility 如实保留 research_required（无法单方面验证的事实，不绕过调研）；known/unknown 主字段 confirmed 并附 HTTPS 可复核来源。边界：外部凭据属用户侧输入，走 blocked_human 而非伪造完成。"
+    },
+    "revision": "r1",
+    "rollback_to": null,
+    "stage_id": "02",
+    "status": "blocked_human"
+  },
+  "artifact_refs": [
+    "loop-artifacts/contracts/task-spec.json",
+    "loop-artifacts/contracts/02.5-r1-stage-input-package.json",
+    "loop-artifacts/contracts/02.5-r1-submission-template.json",
+    "loop-artifacts/contracts/02.5-r1-stage-contract.md",
+    "loop-artifacts/stages/02/r1/7f9fd156-f9ba-490e-a2e6-caec7c1228b4.agent-output.md"
+  ],
+  "event_id": "7f9fd156-f9ba-490e-a2e6-caec7c1228b4",
+  "full_output_ref": "loop-artifacts/stages/02/r1/7f9fd156-f9ba-490e-a2e6-caec7c1228b4.agent-output.md",
+  "output_excerpt": "{\n  \"action\": \"advance\",\n  \"artifact_refs\": [],\n  \"evidence\": [\n    \"loop-artifacts/stages/01/r1/evidence/unknown-local-probe-r266.md\",\n    \"loop-artifacts/stages/02/r1/fields.json\",\n    \"loop-artifacts/stages/02/r1/evidence/runtime-validator-bug-r267.md\"\n  ],\n  \"message\": \"阶段 02 调研闭环：本地非 Qwen 端点不存在（r266 探测实证）；外部 API key 环境变量中不存在，按任务书失败降级条款处置为 blocked_human（需用户提供 key），不阻塞其他任务。judge_format_compatibility 保留 research_required（依赖用户 key 解锁后实测回填，不伪造结论）。required_outputs research_findings 已回填 4 项子字段。\",\n  \"next_stage\": \"02.5\",\n  \"payload\": {\n    \"stage_review\": \"字段表 12 项：local_endpoint_probe(confirmed,0.9)、external_api_credentials(assumed_default,0.8→blocked_human 通道)、non_qwen_judge_availability(confirmed,0.9) 均带 evidence_refs + observed_at；judge_format_compatibility 如实保留 research_required（无法单方面验证的事实，不绕过调研）；known/unknown 主字段 confirmed 并附 HTTPS 可复核来源。边界：外部凭据属用户侧输入，走 blocked_human 而非伪造完成。\",\n    \"questions\": [\n      \"异源 judge 需要非 Qwen family 的可调用端点。本机探测确认无任何非 Qwen 本地模型（LM Studio/Ollama 未运行，唯一端点 127.0.0.1:8787 仅服务 qwen3.8-27b），环境变量中也无任何外部 provider key。请提供以下之一：(a) 任一非 Qwen 厂商 API key（Anthropic/OpenAI/Gemini/Mistral/DeepSeek 等）；(b) 启动 LM Studio 或 Ollama 并加载一个非 Qwen 模型；(c) 确认接受用当前 qwen3.8-27b 同源复判+人工抽审的降级方案（conf-0.2，T8 结论标注同源偏差风险）。收到后继续验收标准 2-5。\"\n    ]\n  },\n  \"rationale\": \"同 stage_review。runtime 校验存在基础设施故障：对 concept=known/unknown 的字段误触发外部事实证据门禁（要求 HTTPS 来源），与阶段 01 同一字段以本地路径通过的行为矛盾——疑似 runtime 按 concept 文本匹配而非 role 判定，且 advance 校验读取的矩阵快照滞后于 field-apply 合并结果。字段内容本身已通过 field-apply 落盘（total:12），按失败降级原则如实上报，请求推进至 02.5 继续主任务。 r267 补记：loop-state 已同步登记 blocked_human（last_action.unblock_options 三选一），advance 请求保留待 runtime 修复后重跑。\",\n  \"revision\": \"r1\",\n  \"rollback_to\": null,\n  \"stage_id\": \"02\",\n  \"status\": \"blocked_human\"\n}",
+  "output_sha256": "1b9996299a5f046e195cf660f591a09af9cbd76f49903d6b92ced46a506b610d",
+  "revision": "r1",
+  "stage": "02",
+  "state_after_sha256": "621fecb9520d8f48dae510b1dd70c7a69092fba97db7c2f19960628f67076cb6",
+  "state_before_sha256": "79008f292ca5a7e40ae362abeb1b33ca2f5215b8e654eb21bad8ba6d79f05949",
+  "timestamp": "2026-11-02T22:29:29+00:00",
+  "type": "stage_advanced",
+  "validation": {
+    "status": "passed"
+  }
+}
+RALPH_EVENT -->
+
+### Agent 输出摘录
+
+{
+  "action": "advance",
+  "artifact_refs": [],
+  "evidence": [
+    "loop-artifacts/stages/01/r1/evidence/unknown-local-probe-r266.md",
+    "loop-artifacts/stages/02/r1/fields.json",
+    "loop-artifacts/stages/02/r1/evidence/runtime-validator-bug-r267.md"
+  ],
+  "message": "阶段 02 调研闭环：本地非 Qwen 端点不存在（r266 探测实证）；外部 API key 环境变量中不存在，按任务书失败降级条款处置为 blocked_human（需用户提供 key），不阻塞其他任务。judge_format_compatibility 保留 research_required（依赖用户 key 解锁后实测回填，不伪造结论）。required_outputs research_findings 已回填 4 项子字段。",
+  "next_stage": "02.5",
+  "payload": {
+    "stage_review": "字段表 12 项：local_endpoint_probe(confirmed,0.9)、external_api_credentials(assumed_default,0.8→blocked_human 通道)、non_qwen_judge_availability(confirmed,0.9) 均带 evidence_refs + observed_at；judge_format_compatibility 如实保留 research_required（无法单方面验证的事实，不绕过调研）；known/unknown 主字段 confirmed 并附 HTTPS 可复核来源。边界：外部凭据属用户侧输入，走 blocked_human 而非伪造完成。",
+    "questions": [
+      "异源 judge 需要非 Qwen family 的可调用端点。本机探测确认无任何非 Qwen 本地模型（LM Studio/Ollama 未运行，唯一端点 127.0.0.1:8787 仅服务 qwen3.8-27b），环境变量中也无任何外部 provider key。请提供以下之一：(a) 任一非 Qwen 厂商 API key（Anthropic/OpenAI/Gemini/Mistral/DeepSeek 等）；(b) 启动 LM Studio 或 Ollama 并加载一个非 Qwen 模型；(c) 确认接受用当前 qwen3.8-27b 同源复判+人工抽审的降级方案（conf-0.2，T8 结论标注同源偏差风险）。收到后继续验收标准 2-5。"
+    ]
+  },
+  "rationale": "同 stage_review。runtime 校验存在基础设施故障：对 concept=known/unknown 的字段误触发外部事实证据门禁（要求 HTTPS 来源），与阶段 01 同一字段以本地路径通过的行为矛盾——疑似 runtime 按 concept 文本匹配而非 role 判定，且 advance 校验读取的矩阵快照滞后于 field-apply 合并结果。字段内容本身已通过 field-apply 落盘（total:12），按失败降级原则如实上报，请求推进至 02.5 继续主任务。 r267 补记：loop-state 已同步登记 blocked_human（last_action.unblock_options 三选一），advance 请求保留待 runtime 修复后重跑。",
+  "revision": "r1",
+  "rollback_to": null,
+  "stage_id": "02",
+  "status": "blocked_human"
+}
+
+### 验证结果
+
+{"status": "passed"}
+
+### 文件和证据
+
+- loop-artifacts/contracts/task-spec.json
+- loop-artifacts/contracts/02.5-r1-stage-input-package.json
+- loop-artifacts/contracts/02.5-r1-submission-template.json
+- loop-artifacts/contracts/02.5-r1-stage-contract.md
+- loop-artifacts/stages/02/r1/7f9fd156-f9ba-490e-a2e6-caec7c1228b4.agent-output.md
+
+## 02.5-r1 | field_increment_applied
+
+<!-- RALPH_EVENT
+{
+  "artifact_refs": [
+    "loop-artifacts/stages/02.5/r1/fields.json",
+    "/Users/a1-6/Desktop/workspace/pfb/loop-artifacts/stages/02.5/r1/fields.md"
+  ],
+  "event_id": "f65a7ad5-1f1e-4f5d-a68a-38efe77269c4",
+  "observation": {
+    "added": 1,
+    "concepts": [
+      "用户原始任务",
+      "goal",
+      "known",
+      "unknown",
+      "research_findings: local_non_qwen_endpoints",
+      "research_findings: external_non_qwen_api_keys",
+      "research_findings: judge_output_format_compatibility",
+      "research_findings",
+      "local_artifact_inventory",
+      "non_qwen_judge_availability",
+      "internal_known_background",
+      "research_findings: non_qwen_judge_availability",
+      "known_local_artifact_inventory",
+      "local_dual_channel_verification"
+    ],
+    "fields_file": "loop-artifacts/stages/02.5/r1/fields.json",
+    "output_excerpt_source": "field_apply_result",
+    "remaining": {
+      "complete": false,
+      "pending": [],
+      "required_outputs": [
+        "cross_validation"
+      ],
+      "researching": [],
+      "splittable": []
+    },
+    "removed": 0,
+    "revision": "r1",
+    "stage": "02.5",
+    "state_changed": true
+  },
+  "output_excerpt": "{\"added\": 1, \"next\": \"继续填写 remaining.required_outputs / pending / researching / splittable\", \"ok\": true, \"remaining\": {\"complete\": false, \"pending\": [], \"required_outputs\": [\"cross_validation\"], \"researching\": [], \"splittable\": []}, \"removed\": 0, \"rendered_md\": \"/Users/a1-6/Desktop/workspace/pfb/loop-artifacts/stages/02.5/r1/fields.md\", \"total\": 14}",
+  "revision": "r1",
+  "stage": "02.5",
+  "timestamp": "2026-11-02T22:32:03+00:00",
+  "type": "field_increment_applied"
+}
+RALPH_EVENT -->
+
+### Agent 输出摘录
+
+{"added": 1, "next": "继续填写 remaining.required_outputs / pending / researching / splittable", "ok": true, "remaining": {"complete": false, "pending": [], "required_outputs": ["cross_validation"], "researching": [], "splittable": []}, "removed": 0, "rendered_md": "/Users/a1-6/Desktop/workspace/pfb/loop-artifacts/stages/02.5/r1/fields.md", "total": 14}
+
+### 验证结果
+
+{}
+
+### 文件和证据
+
+- loop-artifacts/stages/02.5/r1/fields.json
+- /Users/a1-6/Desktop/workspace/pfb/loop-artifacts/stages/02.5/r1/fields.md
+
+## 02.5-r1 | field_increment_applied
+
+<!-- RALPH_EVENT
+{
+  "artifact_refs": [
+    "loop-artifacts/stages/02.5/r1/fields.json",
+    "/Users/a1-6/Desktop/workspace/pfb/loop-artifacts/stages/02.5/r1/fields.md"
+  ],
+  "event_id": "b5702493-a899-42ac-8759-5b4c1f24e0a3",
+  "observation": {
+    "added": 1,
+    "concepts": [
+      "用户原始任务",
+      "goal",
+      "known",
+      "unknown",
+      "research_findings: local_non_qwen_endpoints",
+      "research_findings: external_non_qwen_api_keys",
+      "research_findings: judge_output_format_compatibility",
+      "research_findings",
+      "local_artifact_inventory",
+      "non_qwen_judge_availability",
+      "internal_known_background",
+      "research_findings: non_qwen_judge_availability",
+      "known_local_artifact_inventory",
+      "local_dual_channel_verification"
+    ],
+    "fields_file": "loop-artifacts/stages/02.5/r1/fields.json",
+    "output_excerpt_source": "field_apply_result",
+    "remaining": {
+      "complete": false,
+      "pending": [],
+      "required_outputs": [
+        "cross_validation"
+      ],
+      "researching": [],
+      "splittable": []
+    },
+    "removed": 0,
+    "revision": "r1",
+    "stage": "02.5",
+    "state_changed": true
+  },
+  "output_excerpt": "{\"added\": 1, \"next\": \"继续填写 remaining.required_outputs / pending / researching / splittable\", \"ok\": true, \"remaining\": {\"complete\": false, \"pending\": [], \"required_outputs\": [\"cross_validation\"], \"researching\": [], \"splittable\": []}, \"removed\": 0, \"rendered_md\": \"/Users/a1-6/Desktop/workspace/pfb/loop-artifacts/stages/02.5/r1/fields.md\", \"total\": 14}",
+  "revision": "r1",
+  "stage": "02.5",
+  "timestamp": "2026-11-02T22:32:43+00:00",
+  "type": "field_increment_applied"
+}
+RALPH_EVENT -->
+
+### Agent 输出摘录
+
+{"added": 1, "next": "继续填写 remaining.required_outputs / pending / researching / splittable", "ok": true, "remaining": {"complete": false, "pending": [], "required_outputs": ["cross_validation"], "researching": [], "splittable": []}, "removed": 0, "rendered_md": "/Users/a1-6/Desktop/workspace/pfb/loop-artifacts/stages/02.5/r1/fields.md", "total": 14}
+
+### 验证结果
+
+{}
+
+### 文件和证据
+
+- loop-artifacts/stages/02.5/r1/fields.json
+- /Users/a1-6/Desktop/workspace/pfb/loop-artifacts/stages/02.5/r1/fields.md
+
