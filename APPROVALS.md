@@ -1,4 +1,6 @@
-## [2026-11-02 r197] E29 产出回收 — arena GitHub 令牌对 d1 仓库只读
+## [2026-11-02 r198] E29 产出回收 — arena GitHub 令牌对 d1 仓库只读
+
+**r198 keepalive 核验（本轮）**：`git fetch origin && git ls-remote origin | grep -i "4a5725f7\|E29"` → 远端无新分支，d1 仓 push 仍卡 403。pfb 仓 main @ bcacb14 本地=远端，状态干净。
 
 **背景**：E29「陪伴」集已在 arena 沙箱完成全部工作（commit 1b1e03f，check_overlap 9/9 PASSED，mp4 824KB 规格全对），但 push 被拒——本会话的 GitHub 集成令牌只对 from-motivation-to-society 有写权限，d1-video-recreation 返回 403（API 建 ref 同样 403）。base64 分片经聊天传输也走不通（单条消息输出上限 ~8.8KB < 所需 25,964 字符）。
 
