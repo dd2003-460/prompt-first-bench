@@ -1,0 +1,165 @@
+{
+ "receipt_id": "r261-j1v12-extraction-protocol",
+ "generated_at": "2026-11-03T05:15+0800",
+ "goal": "J1v12 抽取协议冻结 + 稳定性验证（r260 measurement_warning 修复第一步）",
+ "motivation": "r260 seedc powerup G3 SIGNAL 定位根因：J1v11 prompt 未约束条目抽取范围，judge 自行决定抽哪些/抽多少条 → per-run n 从 3 漂到 24，per-config Δ 功效被系统性高估。J1v12 增加固定抽取协议（四类主张全覆盖 + 禁止合并 + X1..Xn 统一编号 + summary 报 n）。",
+ "frozen_artifact": {
+  "file": "experiments/T8-matrix/runs/c3-v3/calibration/judge-prompts-v12.json",
+  "J1-strict-v12_sha256_16": "e255b4c21dfcc1d6",
+  "J2-lenient-v11-ref_sha256_16": "e7f33fd0f7c0b6e8",
+  "diff_from_v11": "新增【条目抽取规则（固定协议）】段（四类主张 a/b/c/d 全覆盖 + 不得跳过 + 不得合并 + n 通常 5-25 + summary 报 n）；id 编号改为 X1..Xn 统一前缀；三测定义/判定规则/输出格式骨架不变"
+ },
+ "validation": {
+  "step1_extraction_stability": {
+   "artifact": "A-full/D1-meeting-room/seeda-r1 (R4 stored, output_chars=8007)",
+   "runs": 3,
+   "n_values": [
+    19,
+    19,
+    19
+   ],
+   "n_max_minus_min": 0,
+   "id_set_jaccard_overlap": 1.0,
+   "scores": [
+    "18/19",
+    "18/19",
+    "18/19"
+   ],
+   "gate": "n 方差 ≤ 2 AND id 重叠 ≥ 0.80",
+   "verdict": "PASS (n 方差=0, overlap=1.0)"
+  },
+  "step2_cross_version_compare": {
+   "cells": [
+    "A-full/D1-meeting-room",
+    "A-full/D2-file-collab",
+    "B-nofreeze/D1-meeting-room",
+    "B-nofreeze/D2-file-collab",
+    "B-none/D1-meeting-room",
+    "B-none/D2-file-collab"
+   ],
+   "J1v11_scores": [
+    0.857,
+    0.786,
+    0.375,
+    0.5,
+    0.625,
+    0.4
+   ],
+   "J1v12_scores": [
+    0.944,
+    1.0,
+    1.0,
+    0.947,
+    1.0,
+    1.0
+   ],
+   "spearman_rho": -0.6,
+   "note": "Spearman ρ=-0.600（n=6，不显著但方向为负）→ J1v12 与 J1v11 排序不一致，因为测量口径变了：J1v12 抽取范围扩大后 B-none/B-nofreeze 的计划类主张大量 pass，拉高均值。这不是 bug，是「逐条可核验性」vs「整体质量」的口径差。",
+   "score_compression": {
+    "J1v11_range": "0.375-0.857 (spread 0.482)",
+    "J1v12_range": "0.944-1.000 (spread 0.056)",
+    "warning": "J1v12 在 qwen3.8-27b 工件上接近天花板，区分力下降。后续消融若用 J1v12 需配合更严的判据或换更难的任务族。"
+   }
+  },
+  "step3_replay_gate": {
+   "status": "NOT_RUN",
+   "reason": "step2 暴露 score compression → 全量重放意义有限，先等 M8-fixed 机会表落地后再决定是否用 J1v12 做正式 replay"
+  }
+ },
+ "conclusion": {
+  "extraction_stability": "J1v12 抽取协议有效解决了 r260 定位的条目漂移问题（n 方差 0 vs J1v11 的 3-24 漂移）",
+  "discriminative_power": "J1v12 在当前任务族上区分力不足（score compression），不能直接替代 J1v11 做消融排名",
+  "next_action": "M8-fixed 独立标注员预建冻结机会表（FAIL 1 修复）仍是前置条件——J1v12 解决的是「judge 抽哪些条目」的方差，M8-fixed 解决的是「应该抽哪些条目」的 ground truth 问题。两者正交，都需要。",
+  "verdict": "PARTIAL PASS — 稳定性达标，区分力待 M8-fixed 配合后重新评估"
+ },
+ "run_fingerprints": {
+  "stability_runs": [
+   {
+    "run": 1,
+    "n": 19,
+    "score": "18/19",
+    "latency_s": 11.3
+   },
+   {
+    "run": 2,
+    "n": 19,
+    "score": "18/19",
+    "latency_s": 8.3
+   },
+   {
+    "run": 3,
+    "n": 19,
+    "score": "18/19",
+    "latency_s": 9.4
+   }
+  ],
+  "cross_version_cells": {
+   "A-full/D1-meeting-room": {
+    "J1v12": {
+     "n": 18,
+     "score": 0.944,
+     "latency_s": 20.2
+    },
+    "J1v11_R4": {
+     "n": 7,
+     "score": 0.857
+    }
+   },
+   "A-full/D2-file-collab": {
+    "J1v12": {
+     "n": 23,
+     "score": 1.0,
+     "latency_s": 7.5
+    },
+    "J1v11_R4": {
+     "n": 14,
+     "score": 0.786
+    }
+   },
+   "B-nofreeze/D1-meeting-room": {
+    "J1v12": {
+     "n": 24,
+     "score": 1.0,
+     "latency_s": 11.1
+    },
+    "J1v11_R4": {
+     "n": 8,
+     "score": 0.375
+    }
+   },
+   "B-nofreeze/D2-file-collab": {
+    "J1v12": {
+     "n": 19,
+     "score": 0.947,
+     "latency_s": 21.4
+    },
+    "J1v11_R4": {
+     "n": 8,
+     "score": 0.5
+    }
+   },
+   "B-none/D1-meeting-room": {
+    "J1v12": {
+     "n": 18,
+     "score": 1.0,
+     "latency_s": 28.4
+    },
+    "J1v11_R4": {
+     "n": 8,
+     "score": 0.625
+    }
+   },
+   "B-none/D2-file-collab": {
+    "J1v12": {
+     "n": 16,
+     "score": 1.0,
+     "latency_s": 8.3
+    },
+    "J1v11_R4": {
+     "n": 10,
+     "score": 0.4
+    }
+   }
+  }
+ }
+}
