@@ -1,6 +1,17 @@
-# CONTINUE_MSG — 2026-11-03 r256
+# CONTINUE_MSG — 2026-11-03 r257
 
-## 本轮完成
+## 本轮完成 (r257)
+**research-prompt R0.4 中期评分（@ f58e3ee pushed）**：
+- score-v2.py 机械评分器落盘（S3/C2 自动定档 + 8 维信号供 lead 复核，判据与 R0~R0.3 对齐）
+- run1 **FAIL**：草稿区写到一半截断（23K chars），五节结构 0/5 —— max_tokens=16000 对 R0.4 的草稿+五节双段结构不够用
+- run2：S3=2（新契约生效——5 个叶子节点全带 SELF-CHECK 行，前四版都停在 1 分档）；C2=1（TCO 对比表有数值但缺 Prefill(s)/Decode(s) 独立两列，按 R0.4 契约不得满分）
+- run3 进行中（run-r04.py 串行循环 @ :8787，每 run ~76s+）
+- 中期结论：S3 短板修复确认；C2 短板未修复（强制语写在第 3 节格式说明里离填表位置太远，TCO 表先满足了「有数值表」的心理预期）
+
+## 上轮完成 (r256)
+**decomp T21 收口联动**：flagship-eval S3 按 T21-RR 实测锚定重算（混合 [26.8,32.5] tok/s，云租优势修正），主报告 §9.2 发现 5 并入，decomp @ d1edf93，GPU 选型主线闭环。
+
+## 历史完成
 **M8-cover 口径对齐（pfb @ main a4fb25d，ralph/m8-cover-caliber-reconcile）**：
 - 上轮 r254/r254b 已收口 v3 rubric（AC4 移出验收，overall_pass=True），但「下一步 #4 M8-cover 口径对齐（P2）」未动。
 - 本轮执行：把 receipt-r7-cover-recompute.json（r241, 95b17c3）的 loose-keyword 独立复算数字回填 matrix-v11.md——新增 r254c 节（9 config × R5 D3 / R6 D1D2 双轮均值 cover 对照表 + gap 定性 + 方法后缀口径声明）。
