@@ -189,7 +189,7 @@ def aggregate(runs_dir, questions):
     # 收集所有要评分的 (fn, path, arm, qid, gold_md)
     tasks = []
     for fn in sorted(os.listdir(runs_dir)):
-        if not fn.endswith(".json"):
+        if not fn.endswith(".json") or "-old" in fn:
             continue
         path = os.path.join(runs_dir, fn)
         with open(path) as f:
