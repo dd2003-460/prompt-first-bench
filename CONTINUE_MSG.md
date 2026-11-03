@@ -1,24 +1,18 @@
-# CONTINUE_MSG — 2026-11-03 r272 batch-13 arena 派发受阻（沙箱故障）
+# CONTINUE_MSG — 2026-11-03 r273 keepalive 对账收口
 
-## 本轮完成（r272）
-**d1-video-recreation · batch-13 E33-E36 arena 派发尝试 → 平台故障确认**：
-- ego-browser 开 Arena Agent Mode，选 d1-video-recreation 仓 + 4 条 arena/batch13-E* 分支，派 4 张任务卡（旧会话 01a19ede/ee0/ee1/ee2）
-- 4 个 agent 全部卡在 `Failed to initialize E2B workspace`（bash/write_file/read_file/start_process 全挂，fetch_page/web_search 正常）——agent 行为正常（读规格、列计划、报故障），纯沙箱不可用
-- 发"继续工作"重试 → 仍报沙箱不可用；再开 4 个全新会话（01a19ef1 E33 / 01a19efa E34 / 01a19efb+01a19f03 E35 / 01a19efc E36）→ 新会话同样沙箱不可用，E35 两个会话甚至创建后加载失败（Something went wrong）
-- 判定：Arena E2B 沙箱平台级故障（8 会话全挂，新旧一致），非任务/登录问题
-- loop-state.json 更新：batch-13-arena-故障记录 + 下一步转本地降级（按 batch-12 先例 E30-E32 arena 7h 无产出转本地 + 执行策略 >2h 无分支活动转本地）
-- d1 push a19ab95
-- wx-push.py 连续第 5 轮失败（invalid request），不再重试
+## 本轮完成（r273）
+**keepalive 对账 + batch-13 收官确认**：
+- d1-video-recreation main @ a615c4f pushed（batch-13 E33-E36 4/4 本地降级执行完成，fca6e22 合并），goal d1-batch13-local-E33 completed (6/6 stages)
+- BRIDGE-REPORT.md 核实为旧内容（r200 T8-C3-v3-paired-runs-R4），无待收口 arena 产出——arena 沙箱故障后未再派发
+- goal-queue 队首核查：RV3G6-pilot-run 已收口（r163→κ 修正 2026-11-02 overall κ=0.857 n=162）；WORK_QUEUE C3 v3 ninfer :8000 直跑前置门禁 G1-G5 全闭合（G1a/G1b 已销账）
+- workspace 指针同步 commit+push @ 2332c12a（d1 a615c4f + pfb e7efa15）
 
 ## 当前状态
-- d1 main @ a19ab95 pushed，clean；4 条目标分支仍 @ 52a5711（干净基线，无半成品）
-- pfb main @ 21f8e59（T8-C3 blocked_human 不变）
-- LoCoMo full01 后台跑中（上轮 conv1 78/81）
-- Arena 8 个 batch-13 会话全部停摆（沙箱故障），留作平台恢复后复用（agent 已记住规格，恢复后发"继续工作"即可）
+- d1 main @ a615c4f pushed clean；batch-13 全部完成
+- pfb main @ e7efa15 pushed clean
+- Arena E2B 沙箱故障会话 8 个留作恢复后复用（ls-remote 4 分支 HEAD 仍 @ 52a5711 基线）
 
 ## 下一步（按优先级）
-1. **batch-13 本地降级执行**（下轮直接干）：按 E33→E34→E35→E36 顺序本地做 4 集。每集流程：写 src/render_E*_arena.js + src/check_overlap_E*_arena.js + scripts/build_audio_E*.js（参照 batch12 分支预置的 E29/E30/E31/E32 render 基准）→ node 渲染 1800 帧 → scripts/build_audio --mux ffmpeg 合成 outputs/E*_arena_v1.0.mp4 → check_overlap 全 PASSED → commit + push 对应 arena/batch13-E* 分支。E36 依赖 E35 归档盒装置（fallback render_E30）。本地 CJK 字体注意 E28 先例（E28_SANS_FONT=Hiragino Sans GB.ttc）。做完提取回 main + episodes.md/status-table 回写（45→49）
-2. 顺带查 Arena 沙箱是否恢复（ls-remote 看 4 分支 HEAD 是否离开 52a5711；或 ego-browser 开一个 probe 会话试 bash echo）——恢复了就把本地活停了直接用 arena 产出
-3. LoCoMo conv1 完成后看 conv2 起步速度再决定是否调参
-4. 等成璐回复（T8-C3 两个阻塞点，不变）：① web-llm 一次性登录 ② 异源 judge 端点
-5. 其他卡人项不变：erratum-27 / G1b family_check / R121 / ORF arXiv 手动上传
+1. **T8-C3-v3-fullloop-execution 决策点**（queue [~] 行）：pilot 6/6 显示消融信号 < 测量噪声，不投 54-cell 全量；转向异源 judge（非 Qwen）或更强生成模型——blocked-on-human（等成璐选路径：异源端点 or 升级生成模型）
+2. 其他卡人项不变：erratum-27 口径裁定 / G1b family_check 三选一解锁 / R121 版本漂移声明 / ORF arXiv 手动上传
+3. Arena 沙箱恢复探测（下轮 ls-remote 看 4 分支是否离开 52a5711）
