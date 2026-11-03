@@ -12,8 +12,8 @@
 
 | # | 依赖 | 状态 | 影响 |
 |---|------|------|------|
-| D-a | **T22 三道闸单点验证结果**（另一 subagent 手上跑中） | **部分交付**：gates.py 已落盘（见 D-b），但 r2 实验 0/12 runs（endpoint 当时不可达，降级回执在 decomp-bench `experiments/autoresearch-r2/scoring.md`）。endpoint 现已恢复 → 需补跑 A/B/C 三臂才能判闸有效性。补跑前 S5 按「闸保留」配置执行，结论标注「闸有效性未验证」限定 | T22 判闸有效 → S5 保留 04+04.5+三道闸（gates-postcheck.md）；判闸无效 → S5 降级为 04+04.5 无闸版，矩阵表 S5 行同步改。**本设计不等 T22 落盘，先按「闸保留」写满，降级路径已预留** |
-| D-b | `loop/modules/gates-postcheck.md` 的机器实现（gates.py） | **已回填**：decomp-bench main 8d933b2 → `experiments/stage-ablation/gates.py`（4 单测通过）。注意 T22 r2 实验本身 0/12 runs（endpoint 当时不可达，现已恢复），补跑前闸有效性未验证，S5 结论需标注此限定 | S5 的闸校验自动化依赖它；若补跑证明闸无效 → S5 降级为 04+04.5 无闸版，矩阵表 S5 行同步改 |
+| D-a | **T22 三道闸单点验证结果** | **已出（12/12 runs，2026-11-03 补跑）**：B_conflicts_zero=True（窄检测下），B_unanchored<half_A=False——闸是隔离器不是验证器，post 无锚点率≈raw 属预期。结论：**S5 保留三道闸**（价值 = 逐行 quarantine 审计链，独立于准确率维度）。完整证据：`experiments/stage-ablation/T22-r2-result.md` + decomp-bench `experiments/autoresearch-r2/scoring-r2-final.md`（main 21160ed）。限定：n=2/臂、矛盾检测为窄模式、accuracy 待人工原子标签 | S5 配置定案：04+04.5+三道闸（gates-postcheck.md），不再走降级路径 |
+| D-b | `loop/modules/gates-postcheck.md` 的机器实现（gates.py） | **已回填且已验证**：decomp-bench main 21160ed → `experiments/stage-ablation/gates.py`（4 单测通过 + r2 全量 12 runs 实战跑通，含 rag-B max_tokens 截断修复）。唯一遗留：judge/正则 precision-recall 未在标注集校准 | S5 闸校验自动化就绪；r2 证明闸行为符合设计（隔离不删除），无需降级路径 |
 | D-c | ego-browser 通道可用性（联网走 ego-lite 持久会话，deepseek/chatgpt 已登录） | 假设可用 | 02 阶段的真调研动作依赖它；不可用则 02 臂全部退化为「prompt 说查但不真查」，与 r1 同构，实验失去意义 → 触发降级方案 §7 |
 | D-d | 本地 27b endpoint `http://127.0.0.1:8787/v1/chat/completions` | 假设可用 | 所有 S 臂的执行引擎；不可用 → 整体降级为只交付设计（conf-0.2） |
 
