@@ -177,10 +177,35 @@ def call_llm(prompt, max_tokens=LLM_MAX_TOKENS, timeout=LLM_TIMEOUT, retries=1):
 
 # ── 联网钩子（S2+ 用）────────────────────────────────────────────────
 def research_hook(qid, question):
-    """预留接口: ego-browser 检索。当前返回空（降级模式）。
-    未来实现: 调 ego-browser nodejs heredoc，返回 sources_json。
+    """ego-browser 真联网检索，返回 sources 列表。
+    失败时返回空列表（降级模式，harness 记录降级）。
     """
-    return []
+    try:
+        from research_hook import research_hook as _hook
+        return _hook(qid, question)
+    except Exception as e:
+        print(f"  [research_hook] {qid}: unavailable ({e}), degrading to empty", file=sys.stderr)
+        return []
+
+
+def inject_sources_into_prompt(prompt, sources):
+    """把来源包注入 S2+ 的 02 阶段说明里。"""
+    if not sources:
+        return prompt
+    src_lines = ["\n【已检索到的来源（来自 ego-browser 真实网页检索）】"]
+    for i, s in enumerate(sources, 1):
+        src_lines.append(f"{i}. {s['title']}\n   URL: {s['url']}\n   摘要: {s['snippet'][:200]}\n   观察时间: {s['observed_at']}")
+    src_block = "\n".join(src_lines) + "\n\n请基于以上来源回答，引用时标注来源编号。\n\n"
+    # 插在"工具说明"段之后
+    marker = "【工具说明】"
+    idx = prompt.find(marker)
+    if idx >= 0:
+        end_idx = prompt.find("\n\n", idx)
+        if end_idx < 0:
+            end_idx = len(prompt)
+        return prompt[:end_idx] + src_block + prompt[end_idx:]
+    # fallback: 追加到末尾
+    return prompt + src_block
 
 
 # ── 主 runner ───────────────────────────────────────────────────────
@@ -188,6 +213,21 @@ def run_arm(arm, qid, rep, dry_run=False):
     prompt = build_prompt(arm, qid)
     tag = f"{arm}-{qid}-r{rep}"
     out_path = os.path.join(RUNS_DIR, f"{tag}.json")
+
+    # S2+ 臂: 先跑真实联网检索，把来源包注入 prompt
+    sources = []
+    if arm in ("S2", "S3", "S4", "S5") and not dry_run:
+        q = QUESTIONS[qid]
+        question = extract_question(read_file(q["prompt_file"]))
+        print(f"  [{tag}] running research_hook (ego-browser)...", flush=True)
+        t_research = time.time()
+        sources = research_hook(qid, question)
+        wall_research = round(time.time() - t_research, 1)
+        print(f"  [{tag}] research done in {wall_research}s, {len(sources)} sources", flush=True)
+        if sources:
+            prompt = inject_sources_into_prompt(prompt, sources)
+        else:
+            print(f"  [{tag}] WARNING: no sources (degraded mode)", file=sys.stderr)
 
     if dry_run:
         print(f"\n{'='*60}\nDRY-RUN {tag}\nprompt length: {len(prompt)} chars\n{'='*60}")
@@ -218,7 +258,7 @@ def run_arm(arm, qid, rep, dry_run=False):
     record = {
         "arm": arm, "qid": qid, "rep": rep,
         "model": LLM_MODEL, "params": {"temp": 0, "max_tokens": LLM_MAX_TOKENS},
-        "output_text": output, "sources": [], "wall_s": wall,
+        "output_text": output, "sources": sources, "wall_s": wall,
         "tokens": tokens,
         "timestamp": datetime.now(timezone.utc).isoformat(),
     }
