@@ -45,6 +45,8 @@
 
 ## 4. 对标承诺（成璐 2026-11-03）
 
+> 注意：这不是 pfb 独有的新标准。「对标领域顶刊/高 star 开源，先复刻再创新」是 `sop/goal-template.md` §3 对所有 goal 的硬规则；「纸面协议防护力为零」「统计量引用强制带口径限定」是 pfb AUDIT 于 2026-11-02 升格进 goal-template §4 的全局规则。本文件做的是把这条通用原则**实例化**到 deep research 这个具体领域——明确对手是谁、用哪把尺子、差异化在哪。
+
 以后所有实验对标最高水平：
 - 端到端对手 = GPT Researcher（开源最强工程基线）+ 公开榜 SOTA 数字（Gemini/Perplexity，只引不跑）。
 - 评分器标准 = DREAM/RACE 的 claim-grounding 维度 + 自家 M1-M6（信息型分歧机判优先，主观维度多裁判+conf）。
