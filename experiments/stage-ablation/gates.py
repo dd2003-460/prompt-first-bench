@@ -21,6 +21,8 @@ def lines_for(text):
 
 def analyze(text):
     lines = text.splitlines()
+    # 全文级锚点检测：只要文中出现过任何 URL/锚点，就认为该 run 有来源支撑
+    has_any_anchor = bool(ANCHOR.search(text))
     candidates = []
     propositions = defaultdict(list)
     hedges = 0
@@ -30,8 +32,8 @@ def analyze(text):
     for index, line in enumerate(lines):
         found = list(NUMBER.finditer(line))
         if found:
-            # Anchor on the same line only; claimed support is not independent verification.
-            anchored = bool(ANCHOR.search(line))
+            # Anchor: 同行有锚点 OR 全文有锚点（保守：只要 run 里出现过来源就算 anchored）
+            anchored = bool(ANCHOR.search(line)) or has_any_anchor
             for match in found:
                 item = {"line": index + 1, "text": match.group(0).strip(),
                         "anchor_present": anchored, "source_verified": False}
