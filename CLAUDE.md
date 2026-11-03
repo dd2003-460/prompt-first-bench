@@ -51,6 +51,17 @@ Loop 阶段文件：
 
 <!-- 在此填写项目方向、优先级、研究问题 -->
 
+## 模块清单（loop/modules/）
+
+阶段增强件与通用 post-check，按需挂载到 `loop/prompt-first/` 对应阶段，不替换主流程：
+
+| 模块 | 挂载点 | 职责边界 |
+|------|--------|----------|
+| `loop/modules/decomp-01.md` | 01-goal-decomposition（可选增强） | 正交拆解五步法（根标量/正交切分/黑盒收口表/口径声明/瓶颈识别）。**decomp 已并入 pfb**：职责 = 分解 + 标注缺口 + 留空，不做调研不填数；原 `projects/decomp/` 降级为历史实验存档 + 指针 |
+| `loop/modules/gates-postcheck.md` | 04 / 04.5（输出后校验） | 三道闸：数字必溯源 / 矛盾必对质 / 实事求是 checklist。机器实现待 T22 产出回填 |
+
+实验设计：`experiments/stage-ablation/DESIGN.md`（逐阶段子模块消融 S0–S5 × D1 deepsearch baseline）。
+
 ## 状态文件
 
 当前迭代和状态记录在：
