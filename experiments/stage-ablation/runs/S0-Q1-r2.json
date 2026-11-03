@@ -1,0 +1,18 @@
+{
+  "arm": "S0",
+  "qid": "Q1",
+  "rep": 2,
+  "model": "qwen3.8-27b",
+  "params": {
+    "temp": 0,
+    "max_tokens": 8000
+  },
+  "output_text": "# H100 PCIe vs SXM 在 LLM 推理中的实际吞吐差异\n\n## 直接回答\n\n**SXM 版通常比 PCIe 版快 10%–25% 左右（在典型 LLM 推理场景下），但并非\"快很多\"到数量级差异。** 具体差距取决于模型大小、batch size、是否使用 NVLink 多卡互联、以及推理框架的优化程度。\n\n## 为什么 SXM 更快？核心原因\n\n### 1. 互联带宽（最关键因素）\n- **PCIe 版**：通过 PCIe Gen5 x16 连接，单向带宽约 64 GB/s（双向 128 GB/s）。多卡之间通信走 PCIe switch 或 CPU 转发，延迟高、带宽低。\n- **SXM 版**：通过 NVLink 4.0 互联，单卡有 18 条 NVLink 链路，总带宽 **900 GB/s**（双向）。多卡组成 NVSwitch 域后，卡间通信带宽是 PCIe 的 **7 倍以上**。\n\n在 LLM 推理中，尤其是 **多卡张量并行（Tensor Parallelism）** 时，每层 Transformer 都需要 all-reduce 通信。NVLink 的高带宽和低延迟直接决定了多卡扩展效率。\n\n### 2. 功耗与散热\n- SXM 版 TDP 可达 **700W**（H100 SXM5），PCIe 版通常 **350W**（H100 PCIe）。\n- 更高的功耗意味着更高的 boost clock 和更长的持续性能。PCIe 版受限于插槽供电和散热，往往跑不到峰值频率。\n\n### 3. 内存带宽\n- 两者 HBM3 容量相同（80GB），但 SXM 版的 HBM 带宽略高（SXM: 3.35 TB/s vs PCIe: 3.35 TB/s，实际上 H100 两者 HBM 带宽相同，差异主要在互联和功耗）。\n- 等等，让我确认一下：H100 SXM 和 PCIe 的 HBM 带宽都是 **3.35 TB/s**，这点相同。差异主要在 NVLink 和功耗。\n\n### 4. 实际推理场景的影响\n- **单卡推理**（模型能放进一张卡）：差距较小，约 **5%–15%**，主要来自功耗/频率差异。\n- **多卡张量并行**（如 8 卡跑 70B 模型）：差距显著，可达 **20%–40%**，因为 NVLink 通信开销远小于 PCIe。\n- **Prefill 阶段**（compute-bound）：差距较小。\n- **Decode 阶段**（memory-bound + 通信）：多卡时差距更大。\n\n## 具体数字参考（基于公开 benchmark 和厂商数据）\n\n| 场景 | PCIe 版 | SXM 版 | 差距 |\n|------|---------|--------|------|\n| 单卡 LLaMA-70B 推理（FP16） | ~X tokens/s | ~1.1–1.2X tokens/s | ~10–20% |\n| 8 卡张量并行 LLaMA-70B | 受 PCIe 瓶颈 | 接近线性扩展 | ~20–40% |\n| 单卡 LLaMA-13B 推理 | ~Y tokens/s | ~1.05–1.15Y tokens/s | ~5–15% |\n\n> 注意：以上为量级估计，具体数字因框架（vLLM、TensorRT-LLM、TGI）、量化方式（FP16/INT8/INT4）、batch size 而异。\n\n## 总结\n\n- **SXM 不是\"快很多\"（不是 2x 或 3x），而是\"明显更快\"（10%–40%）**。\n- 单卡场景差距小，多卡场景差距大。\n- 核心优势是 **NVLink 互联带宽** 和 **更高功耗/频率**。\n- 如果预算有限且模型能单卡放下，PCIe 版性价比更高；如果做多卡并行推理，SXM 版的扩展效率优势明显。\n\n---\n\n## 我不确定 / 需要进一步查证的点\n\n1. **H100 PCIe 版的精确 TDP**：我记得是 350W，但 NVIDIA 官方 datasheet 上 PCIe 版有 350W 和 400W 两个版本（取决于具体 SKU），需要确认当前主流 PCIe H100 的功耗规格。\n\n2. **H100 SXM 和 PCIe 的 HBM 带宽是否完全相同**：我记忆中两者都是 3.35 TB/s，但 PCIe 版因为功耗限制，实际持续带宽可能略低。需要查 NVIDIA 官方 spec sheet 确认。\n\n3. **具体 benchmark 数字**：上面表格中的百分比是基于多个来源（NVIDIA 白皮书、vLLM 社区报告、云厂商对比测试）的综合估计，但**我没有一个统一的、可引用的单一 benchmark 来源**。如果你需要精确数字，建议查：\n   - NVIDIA H100 datasheet\n   - vLLM 官方 benchmark 页面\n   - 云厂商（AWS、GCP、Azure）的 H100 实例对比文档\n\n4. **NVLink 在 PCIe 版上是否完全不可用**：H100 PCIe 版**没有 NVLink**，多卡通信只能走 PCIe。但有些 PCIe 服务器支持 PCIe switch 或 CXL，实际延迟和带宽与纯 PCIe 直连不同。这个细节需要查具体服务器架构。\n\n5. **FP8 推理下的差异**：H100 支持 FP8，在 FP8 推理下 compute-bound 程度更高，PCIe 和 SXM 的差距是否会缩小？这个我不确定，需要查实际测试数据。",
+  "sources": [],
+  "wall_s": 10.5,
+  "tokens": {
+    "in": 153,
+    "out": 1315
+  },
+  "timestamp": "2026-11-03T19:13:49.941410+00:00"
+}
