@@ -1,0 +1,18 @@
+{
+  "arm": "S0",
+  "qid": "Q1",
+  "rep": 3,
+  "model": "qwen3.8-27b",
+  "params": {
+    "temp": 0,
+    "max_tokens": 8000
+  },
+  "output_text": "# H100 PCIe vs SXM 在 LLM 推理中的实际吞吐差异\n\n## 直接回答\n\n**SXM 版通常比 PCIe 版快 10%–25% 左右（在典型 LLM 推理场景下），但并非\"快很多\"到数量级差异。** 具体差距取决于模型大小、batch size、是否使用 NVLink 多卡互联、以及推理框架的优化程度。\n\n## 为什么 SXM 更快？核心原因\n\n### 1. 互联带宽（最关键因素）\n- **PCIe 版**：卡间通信走 PCIe 总线（Gen5 x16 ≈ 64 GB/s 双向），多卡推理时 all-reduce / tensor parallel 通信是瓶颈。\n- **SXM 版**：通过 NVSwitch 实现全互联 NVLink（H100 SXM 每卡 900 GB/s NVLink 带宽，8 卡全互联）。多卡推理时通信开销大幅降低。\n\n> 对于 LLM 推理，尤其是 **tensor parallelism**（把模型切到多卡），通信占比很高。SXM 的 NVLink 带宽是 PCIe 的 ~14 倍，这是最大优势。\n\n### 2. 功耗与散热\n- SXM 版 TDP 700W，PCIe 版 TDP 350W（H100 PCIe 实际是 350W，有些资料写 300W）。\n- 更高功耗意味着更高的 boost clock 和更少的 thermal throttling，单卡计算性能略高。\n\n### 3. 内存带宽\n- 两者都是 HBM3，80GB，带宽 3.35 TB/s。\n- **这一点两者相同**，所以单卡、单模型、不需要多卡通信的场景下，差距很小。\n\n### 4. 实际推理场景的影响\n- **单卡推理**（模型能放进一张卡）：差距很小，可能只有 5%–10%（主要来自功耗/频率差异）。\n- **多卡推理**（tensor parallel / pipeline parallel）：SXM 优势明显，可达 15%–30%+，因为通信不再是瓶颈。\n- **Prefill 阶段**（compute-bound）：差距较小。\n- **Decode 阶段**（memory-bound + 通信）：多卡时 SXM 优势更明显。\n\n## 具体数字参考（我记忆中的大致范围，非精确基准）\n\n| 场景 | PCIe 相对 SXM 的吞吐 |\n|------|---------------------|\n| 单卡，7B 模型 | ~95%–98%（几乎无差） |\n| 单卡，70B 模型（需 offload 或量化） | ~90%–95% |\n| 8 卡 tensor parallel，70B 模型 | ~75%–85%（SXM 快 15%–30%） |\n| 8 卡，超大模型（如 400B+） | 差距可能更大，PCIe 通信瓶颈严重 |\n\n> ⚠️ 这些数字是我基于公开 benchmark 和工程经验的**大致估计**，不是精确测量值。不同框架（vLLM、TensorRT-LLM、SGLang）优化程度不同，结果会有差异。\n\n## 总结\n\n- **SXM 不是\"快很多\"，而是\"快一些\"，且优势随多卡规模增大而放大。**\n- 单卡场景下差距很小，PCIe 版性价比更高。\n- 多卡（≥4 卡）场景下，SXM 的 NVLink 互联是决定性优势。\n- 如果预算有限且模型能单卡放下，PCIe 版完全够用。\n\n---\n\n## 我不确定 / 需要进一步查证的点\n\n1. **H100 PCIe 的精确 TDP**：我记的是 350W，但有些来源写 300W 或 350W，需要确认 NVIDIA 官方 spec sheet。\n2. **具体 benchmark 数字**：上面表格中的百分比是我基于经验的估计，没有引用具体论文或 benchmark 报告。如果你需要精确数字，建议查：\n   - NVIDIA 官方 H100 datasheet\n   - vLLM / TensorRT-LLM 的官方 benchmark\n   - 第三方评测（如 SemiAnalysis、HuggingFace 的推理 benchmark）\n3. **NVLink 带宽精确值**：我记的是 H100 SXM 每卡 900 GB/s（12 条 NVLink 4.0，每条 50 GB/s），但需要确认是单向还是双向，以及实际 all-reduce 有效带宽。\n4. **PCIe Gen5 x16 的实际有效带宽**：理论 64 GB/s 双向，但实际受协议开销影响，有效带宽可能只有 50–55 GB/s。\n5. **不同推理框架下的具体差距**：vLLM 对 PCIe 多卡的优化（如使用 P2P 或 shared memory）可能缩小差距，我没有最新数据。\n\n如果你需要，我可以去查 NVIDIA 官方 datasheet 或最新 benchmark 来补充精确数字。",
+  "sources": [],
+  "wall_s": 9.8,
+  "tokens": {
+    "in": 153,
+    "out": 1155
+  },
+  "timestamp": "2026-11-03T23:08:20.108092+00:00"
+}
