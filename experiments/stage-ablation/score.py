@@ -24,7 +24,7 @@ def llm_judge(prompt, max_tokens=4000):
         "max_tokens": max_tokens,
     }).encode()
     req = urllib.request.Request(LLM_URL, data=payload, headers={"Content-Type": "application/json"})
-    with urllib.request.urlopen(req, timeout=300) as resp:
+    with urllib.request.urlopen(req, timeout=120) as resp:
         data = json.loads(resp.read())
     return data["choices"][0]["message"]["content"]
 
@@ -81,8 +81,10 @@ def judge_m4(output_text, gold_text):
 
 
 # ── M6 URL 存活 ─────────────────────────────────────────────────────
+_URL_CACHE = {}
+
 def check_urls(sources, sample_n=3):
-    """M6 调研真实性: 抽样 ≥3 条 URL 检查存活。"""
+    """M6 调研真实性: 抽样 ≥3 条 URL 检查存活（带缓存）。"""
     if not sources:
         return 0, 0, "no sources provided"
     urls = [s.get("url", "") for s in sources if s.get("url")]
@@ -91,19 +93,25 @@ def check_urls(sources, sample_n=3):
     sample = urls[:sample_n]
     alive = 0
     for url in sample:
+        if url in _URL_CACHE:
+            if _URL_CACHE[url]:
+                alive += 1
+            continue
+        ok = False
         try:
             req = urllib.request.Request(url, method="HEAD")
-            with urllib.request.urlopen(req, timeout=10) as resp:
-                if resp.status < 400:
-                    alive += 1
+            with urllib.request.urlopen(req, timeout=5) as resp:
+                ok = resp.status < 400
         except Exception:
             try:
                 req2 = urllib.request.Request(url)
-                with urllib.request.urlopen(req2, timeout=10) as resp2:
-                    if resp2.status < 400:
-                        alive += 1
+                with urllib.request.urlopen(req2, timeout=5) as resp2:
+                    ok = resp2.status < 400
             except Exception:
                 pass
+        _URL_CACHE[url] = ok
+        if ok:
+            alive += 1
     return alive, len(sample), f"checked {len(sample)} URLs, {alive} alive"
 
 
@@ -175,8 +183,11 @@ def score_run(run_json_path, gold_md, arm, qid):
 
 # ── 聚合 ────────────────────────────────────────────────────────────
 def aggregate(runs_dir, questions):
-    """读 runs/*.json，按臂聚合，产出 scoring.md。"""
-    all_scores = []
+    """读 runs/*.json，按臂聚合，产出 scoring.md（4 并发）。"""
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+
+    # 收集所有要评分的 (fn, path, arm, qid, gold_md)
+    tasks = []
     for fn in sorted(os.listdir(runs_dir)):
         if not fn.endswith(".json"):
             continue
@@ -193,11 +204,23 @@ def aggregate(runs_dir, questions):
             print(f"  skip {fn}: gold not found at {gold_path}", file=sys.stderr)
             continue
         gold_md = open(gold_path).read()
+        tasks.append((fn, path, arm, qid, gold_md))
+
+    all_scores = []
+    def _score_one(task):
+        fn, path, arm, qid, gold_md = task
         try:
-            sc = score_run(path, gold_md, arm, qid)
-            all_scores.append(sc)
+            return score_run(path, gold_md, arm, qid)
         except Exception as e:
             print(f"  score error {fn}: {e}", file=sys.stderr)
+            return None
+
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        futures = {pool.submit(_score_one, t): t[0] for t in tasks}
+        for fut in as_completed(futures):
+            sc = fut.result()
+            if sc:
+                all_scores.append(sc)
 
     if not all_scores:
         print("No scored runs found.", file=sys.stderr)
