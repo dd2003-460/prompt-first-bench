@@ -27,26 +27,31 @@ QUESTIONS = {
         "domain": "GPU硬件规格",
         "prompt_file": os.path.join(WORKSPACE, "projects/decomp/experiments/autoresearch-r1/run/prompt-minimal.txt"),
         "gold_file": os.path.join(WORKSPACE, "projects/decomp/experiments/autoresearch-r1/run/gold-facts.md"),
+        "search_query": "NVIDIA H100 PCIe vs SXM LLM inference throughput benchmark",
     },
     "Q2": {
         "domain": "模型选型",
         "prompt_file": os.path.join(WORKSPACE, "projects/decomp/bench/runs/t17-generalization/task-model-selection.txt"),
         "gold_file": os.path.join(WORKSPACE, "projects/decomp/bench/gold-model-selection/tree.md"),
+        "search_query": "LLM model selection criteria cost latency accuracy tradeoff",
     },
     "Q3": {
         "domain": "推理基础设施",
         "prompt_file": os.path.join(WORKSPACE, "projects/decomp/bench/runs/t17-generalization/task-inference-infra.txt"),
         "gold_file": os.path.join(WORKSPACE, "projects/decomp/bench/gold-inference-infra/tree.md"),
+        "search_query": "LLM inference infrastructure GPU serving vLLM TGI comparison",
     },
     "Q4": {
         "domain": "数据处理架构",
         "prompt_file": os.path.join(WORKSPACE, "projects/decomp/bench/runs/t17-generalization/task-rag-vs-longctx.txt"),
         "gold_file": os.path.join(WORKSPACE, "projects/decomp/bench/gold-rag-vs-longctx/tree.md"),
+        "search_query": "RAG vs long context window LLM retrieval augmented generation comparison",
     },
     "Q5": {
         "domain": "科研方法论",
         "prompt_file": os.path.join(WORKSPACE, "projects/decomp/bench/runs/t17-generalization/task-methodology.txt"),
         "gold_file": os.path.join(WORKSPACE, "projects/decomp/bench/gold-methodology/tree.md"),
+        "search_query": "scientific research methodology hypothesis validation peer review best practices",
     },
 }
 
@@ -218,7 +223,8 @@ def run_arm(arm, qid, rep, dry_run=False):
     sources = []
     if arm in ("S2", "S3", "S4", "S5") and not dry_run:
         q = QUESTIONS[qid]
-        question = extract_question(read_file(q["prompt_file"]))
+        # 优先用预设英文搜索词（Bing locale 更稳定），fallback 到 prompt 提取
+        question = q.get("search_query") or extract_question(read_file(q["prompt_file"]))
         print(f"  [{tag}] running research_hook (ego-browser)...", flush=True)
         t_research = time.time()
         sources = research_hook(qid, question)
