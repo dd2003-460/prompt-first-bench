@@ -1,6 +1,8 @@
-# CONTINUE_MSG — 2026-11-03 r274f keepalive 对账
+# CONTINUE_MSG — 2026-11-03 r275b keepalive 对账
 
-## 本轮完成（r274b-g）
+## 本轮完成（r275b）
+- T17-full 进度对账：conv0-2 done (385), conv3 53/199 @ ~2.5min/q；top_10 口径 438 题判完 overall 0.395 (sh .400/temp .390/mh .411/od .320)——temporal 从 0.342 涨到 0.390，方向持续向好
+- workspace 漏推修复：INDEX.md 两行（r275 归档区 + cron-adaptive-poll）@ 3ab794a2 pushed
 **工作区维护 + 工具链 bug 修复**：
 - dashboards 5 个 2026-05 死文件归档（DASHBOARD.md 早已声明迁移 INDEX.md，留着误导对账）@ b1d02c09
 - ONBOARDING.md（5月陈旧统计+过期项目指向）移入 notes/archive/ @ 8be8382b
@@ -16,12 +18,12 @@ conv0 152✅ · conv1 81✅ · conv2 152✅ · conv3 42/199 · 累计 427 题已
 剩余 ~1500 题 ≈ 22-30h，checkpoint 可续传，不动它
 
 ## 当前状态
-- workspace main @ 28e2e1ed clean；d1 @ 204abaa pushed；pfb @ fc3305dd clean；decomp @ 08ca46a clean
+- workspace main @ 3ab794a2 pushed；d1 @ 204abaa pushed；pfb @ fc3305dd clean；decomp @ 08ca46a clean
 - memory-benchmarks 本地 5 commit 未 push（403 已知阻塞）
 - stage-gate 全 completed，无活跃 goal
 
 ## 下一步（按优先级）
-1. **T17-full 继续跑**：下轮只查 conv3 进度 + 重算分类均值；跑完出最终报告（vs smoke01 基线 + noise_floor ±1.5 判定）
+1. **T17-full 继续跑**：下轮只查 conv3 进度 + 重算 top_10 口径全量均值（本轮基线 438 题 0.395）；跑完出最终报告（vs smoke01 基线 + noise_floor ±1.5 判定）。预计还需 ~24h（conv3-9 约 1500 题 @ 2.5min/q）
 2. **T8-C3-v3 决策点** blocked-on-human（异源 judge vs 升级生成模型）——等成璐拍板
 3. 其他卡人项不变：erratum-27 / G1b family_check / R121 / ORF arXiv 上传
 4. Arena 沙箱恢复探测（ls-remote 4 分支 HEAD 是否变化）
