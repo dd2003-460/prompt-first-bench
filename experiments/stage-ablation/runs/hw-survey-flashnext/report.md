@@ -21,13 +21,15 @@
 | 平台 | 内存 | 带宽 | decode t/s | 价格 (USD) | 功耗 | 来源/conf |
 |------|------|------|------------|------------|------|-----------|
 | Mac Studio M5 Ultra 512GB | 512GB unified | 1.2 TB/s | ~400 [理论] | $5,499+ (512GB 配置 ~1月) | ~200W | Apple spec + 公式推导 / 0.7 |
-| Mac Studio M5 Max 128GB | 128GB unified | 614 GB/s | 119-126 [实测] | $2,499+ | ~150W | 社区 benchmark / 0.8 |
+| Mac Studio M5 Ultra 256GB | 256GB unified | 1.2 TB/s | ~400 [理论，KV余量紧] | ~$11-12.5k | ~200W | Apple spec + 交叉拆解B / 0.7 |
+| Mac Studio M5 Max 128GB | 128GB unified | 614 GB/s | 119-126 [实测，≤32K ctx] | $2,499+ | ~150W | 社区 benchmark / 0.8（262K满载需KV量化） |
 | 2× R9700 32GB + 64GB DDR5 | 96GB (64+32×2 VRAM) | 644 GB/s (P2P) | 147 [radiance 实测] | ~$6,200 (溢价后) | ~600W | Codeberg + HF / 0.8 |
 | 1× R9700 32GB + 128GB RAM | 160GB | 322 GB/s | 95-100 [Strata 0.2.10 估] | ~$3,800 (溢价后) | ~350W | Strata release notes / 0.7 |
 | 2× 5070 Ti 16GB + 96GB RAM | 128GB | ~500 GB/s (DDR5) | 195 [Strata] / 374 [spec⚠️] | ~$2,500-3,000 | ~450W | capy-flash / 0.5 (374 标红) |
 | 1× RTX 5090 32GB + 64GB RAM | 96GB | 313 GB/s (GDDR7) | ~150-200 [估] | ~$2,500-3,000 | ~350W | 裸 BW 推导 / 0.5 |
 | 1× 3090 24GB + 64GB RAM (used) | 88GB | ~50 GB/s (DDR4) | 25-35 [保守] / 47-50 [原报⚠️] | ~$1,500-2,000 | ~300W | 社区 / 0.5 (标红) |
 | DGX Spark GB10 128GB | 128GB LPDDR5x | 273 GB/s | 60 [实测] | $4,699+ | ~200W | NVIDIA / 0.9 |
+| Intel Arc Pro B70 32GB (观察) | 32GB GDDR6 | n/a | 未测 | US $2,399 / JP ¥274,980 | n/a | web调研 / 0.4（软件生态未验证） |
 
 **标注说明**：[理论]= 公式推导无实测；[spec⚠️]= 物理矛盾待验；[保守]= 交叉核对后下调值。
 
@@ -55,7 +57,17 @@ MSRP $1,299 → 实际 $1,700-2,730（全球短缺）：
 - 如果 R9700 回落到 MSRP，双卡方案重新成为性价比之王
 - **采购建议**：不急用 → 等 Q1 2027 供给恢复；急用 → 直接 M5 Ultra 更省心（Apple 渠道稳定无溢价）
 
-### 3.4 Strata 0.2.10 DFlash2 的变量
+### 3.4 KV cache 容量压力（262K ctx）
+
+FP16 KV @262K 单序列 ≈ 204GB（hidden_dim=4096 假设，待 model card 确认）。这意味着：
+- M5 Ultra 512GB：75GB 权重 + 204GB KV + OS/裁判 → 刚好够，余量有限
+- M5 Ultra 256GB：75GB + 204GB > 256GB → **必须 KV 量化或限制并发**
+- M5 Max 128GB：75GB + 204GB >> 128GB → 262K 满载不可行，≤32K ctx 场景 OK
+- 离散 GPU 方案：KV 在 host RAM，容量取决于系统内存（≥128GB 才考虑 262K）
+
+→ 这是交叉拆解 B 贡献的关键视角：decode 速度公式只看 weights/BW，但 KV 读写吃二次带宽且占容量。
+
+### 3.5 Strata 0.2.10 DFlash2 的变量
 
 spec decoding 理论上 1.3-1.7x 加速，但 acceptance rate 取决于 drafter 与 target 的分布匹配度。Flash-Next 的 512-expert top-10 路由是否让 DFlash2 的 draft 命中率下降？未知。
 → 所有基于 Strata 的速度数字标注"待 DFlash2 实测"，不进入决策矩阵主表。
@@ -123,9 +135,9 @@ ELIF 不想买硬件 AND 偶发需求:
 - [x] §1 本地背景 4 项全查
 - [x] §2 候选全集 11 项（6 纳入 5 排除有理由）
 - [x] §3 维度 6 个正交+完备，分解树 16 叶子全原子
-- [ ] §4 arena 交叉拆解 → 降级跳过（缺口已记录）
+- [x] §4 arena 交叉拆解 → 降级完成（27b 独立拆解 + decompcmp.md 仲裁，conf 0.5）
 - [x] §5 回退机制 4 种触发
 - [x] §6 5 指标全有公式
 - [x] §7 任务书含失败降级
 
-**判定**：6/7 通过，§4 降级（conf 上限 0.7）。报告可交付，标注限制。
+**判定**：7/7 通过。报告可交付。限制标注：§4 降级通道（conf 0.5）；M5 Ultra 速度为理论值无实测；R9700 价格波动大。
