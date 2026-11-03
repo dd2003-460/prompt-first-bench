@@ -2,7 +2,7 @@
 
 > origin: ai · 2026-11-03 · T23 结构并入（任务书：projects/decomp/tasks/T23-merge-pfb-ablation.md；设计源：projects/decomp/tasks/T22-gate-experiment.md，decomp-bench commit 0a8dfc4）
 > 定位：**输出后校验**（post-check），不依赖模型有搜索能力。闸管格式合规与事实纪律，不管信息获取（信息获取归 02 阶段 + ego-browser 通道）。
-> 状态：SOP 定义已落盘；机器实现（gates.py 正则/比对/checklist 校验器）**待 T22 实验产出后回填**——T22 正在另一 subagent 手上跑，本文件先固化规则文本，接口留空。
+> 状态：SOP 定义已落盘；机器实现（gates.py）**已回填**——2026-11-03 T22 subagent 交付 `decomp-bench: experiments/autoresearch-r2/gates.py`（main commit 8d933b2），拷入本仓 `experiments/stage-ablation/gates.py`，4 个单元测试通过。注意：T22 的 r2 实验本身因 endpoint 当时不可达为 0/12 runs（降级回执见 decomp-bench `experiments/autoresearch-r2/scoring.md`），endpoint 现已恢复，补跑结果出来前 gates.py 只算「可用原型」不算「已验证有效」。
 
 ## 挂载点
 

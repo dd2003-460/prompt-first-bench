@@ -12,8 +12,8 @@
 
 | # | 依赖 | 状态 | 影响 |
 |---|------|------|------|
-| D-a | **T22 三道闸单点验证结果**（另一 subagent 手上跑中） | 未出 | T22 判闸有效 → S5 保留 04+04.5+三道闸（gates-postcheck.md）；判闸无效 → S5 降级为 04+04.5 无闸版，矩阵表 S5 行同步改。**本设计不等 T22 落盘，先按「闸保留」写满，降级路径已预留** |
-| D-b | `loop/modules/gates-postcheck.md` 的机器实现（gates.py） | 待 T22 产出回填 | S5 的闸校验自动化依赖它；若 T22 只交规则文本没交脚本，S5 的闸维度退化为人工评分并标 conf-0.3 |
+| D-a | **T22 三道闸单点验证结果**（另一 subagent 手上跑中） | **部分交付**：gates.py 已落盘（见 D-b），但 r2 实验 0/12 runs（endpoint 当时不可达，降级回执在 decomp-bench `experiments/autoresearch-r2/scoring.md`）。endpoint 现已恢复 → 需补跑 A/B/C 三臂才能判闸有效性。补跑前 S5 按「闸保留」配置执行，结论标注「闸有效性未验证」限定 | T22 判闸有效 → S5 保留 04+04.5+三道闸（gates-postcheck.md）；判闸无效 → S5 降级为 04+04.5 无闸版，矩阵表 S5 行同步改。**本设计不等 T22 落盘，先按「闸保留」写满，降级路径已预留** |
+| D-b | `loop/modules/gates-postcheck.md` 的机器实现（gates.py） | **已回填**：decomp-bench main 8d933b2 → `experiments/stage-ablation/gates.py`（4 单测通过）。注意 T22 r2 实验本身 0/12 runs（endpoint 当时不可达，现已恢复），补跑前闸有效性未验证，S5 结论需标注此限定 | S5 的闸校验自动化依赖它；若补跑证明闸无效 → S5 降级为 04+04.5 无闸版，矩阵表 S5 行同步改 |
 | D-c | ego-browser 通道可用性（联网走 ego-lite 持久会话，deepseek/chatgpt 已登录） | 假设可用 | 02 阶段的真调研动作依赖它；不可用则 02 臂全部退化为「prompt 说查但不真查」，与 r1 同构，实验失去意义 → 触发降级方案 §7 |
 | D-d | 本地 27b endpoint `http://127.0.0.1:8787/v1/chat/completions` | 假设可用 | 所有 S 臂的执行引擎；不可用 → 整体降级为只交付设计（conf-0.2） |
 
