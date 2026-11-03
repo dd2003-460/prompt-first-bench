@@ -72,23 +72,45 @@
 
 ## Per-Level Delta (Δ_k = avg(S_k) - avg(S_{k-1}))
 
-| Transition | Mean Prev | Mean Cur | Δ | Sign |
-|------------|-----------|----------|---|------|
-| S0→S1 | 0.346 | 0.424 | +0.077 | + |
-| S1→S2 | 0.424 | 0.400 | -0.024 | - |
-| S2→S3 | 0.400 | 0.394 | -0.005 | - |
-| S3→S4 | 0.394 | 0.497 | +0.103 | + |
-| S4→S5 | 0.497 | 0.434 | -0.063 | - |
+| Transition | Mean Prev | Mean Cur | Δ | Sign | Note |
+|------------|-----------|----------|---|------|------|
+| S0→S1 | 0.347 | 0.424 | +0.077 | + | 目标分解正贡献 |
+| S1→S2 | 0.424 | 0.400 | -0.024 | - | 调研指令无真实工具 → 轻微负效应 |
+| S2→S3 | 0.400 | 0.394 | -0.005 | - | 行动分解 ≈ 中性 |
+| **S3→S4** | **0.394** | **0.497** | **+0.103** | **+** | **执行验证 = 最大增益点**（M1 +0.285, M6 +0.600） |
+| S4→S5 | 0.497 | 0.434 | -0.063 | - | ⚠️ S5 research_hook 未生效（0 sources），不可比；终审本身可能过度约束 |
+
+### S3→S4 增益来源（per-dimension）
+
+| Dim | S3 | S4 | Δ | 解读 |
+|-----|----|----|---|------|
+| M1 (anchor hit) | 0.420 | 0.705 | +0.285 | 执行验证让答案更精准命中 gold anchor |
+| M3 (hedge rate) | 0.967 | 0.700 | -0.267 | 有 sources 后不再大量 hedging |
+| M6 (source liveness) | 0.100 | 0.700 | +0.600 | research_hook 注入真实来源 |
+| M4 (completeness) | 0.578 | 0.675 | +0.097 | 覆盖度小幅提升 |
+
+### S3→S4 per-question delta
+
+| Q | S3 | S4 | Δ |
+|---|----|----|---|
+| Q1 | 0.350 | 0.440 | +0.091 |
+| Q2 | 0.453 | 0.557 | +0.104 |
+| Q3 | 0.396 | 0.419 | +0.023 |
+| Q4 | 0.251 | 0.473 | +0.222 |
+| Q5 | 0.522 | 0.596 | +0.074 |
+
+5/5 questions 全部正增益，Q4 最大（+0.222）。
 
 ## DESIGN §8 Criteria Check
 
-1. **每级增量符号**: ⚠️ some negative — see Δ table above
+1. **每级增量符号**: ⚠️ some negative — S1→S2 和 S2→S3 为负/中性；核心增益集中在 S3→S4（+0.103）
 2. **S5 vs D1 总分序**: N/A — D1 baseline unavailable (Python 3.9 vs GPT Researcher 3.10+ requirement, see runs/d1-choice.md)
 
 ## Honesty Clause
 
 - Judge is the same model being evaluated (self-bias risk); conf capped at 0.7
 - n=2 per arm×question → directional only, not statistically significant
-- S2+ arms: web research hook implemented (ego-browser + Bing); early S3/S4 runs (pre-fix) have 0 sources, later runs have 5
+- **S5 数据不可信**：S5 runs（11-03 18:51 UTC）早于 research_hook search_query fix（~20:17 UTC），所有 S5 runs 0 sources。S4→S5 的 -0.063 是"有 sources vs 无 sources"的混杂效应，不是终审阶段的真实效果。需重跑 S5 才能评估 04.5 终审的真实贡献
+- S2/S3 大部分 runs 也是 pre-fix（0 sources），仅 S2-Q1-r1 和 S3-Q5-r1 有 5 sources
 - D1 comparison: N/A (environment incompatibility, documented in d1-choice.md)
 - M1/M4 depend on gold anchor quality; Q5 gold is opinion-survey type (lower confidence)
