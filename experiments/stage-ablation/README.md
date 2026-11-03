@@ -9,6 +9,7 @@
 | 路径 | 说明 |
 |------|------|
 | `DESIGN.md` | 实验设计：S0–S5 × D1 矩阵、5 题跨域题目集、机器可检评分维度、60 runs 预算（含缩略版降级）、发布判据 |
+| `competitor-survey.md` | 竞品/基准/代码解剖调研（2026-11-03）：开源 DRA 格局、bench 榜单现状、GPT Researcher 源码分析、对标最高水平承诺——D1 判据与论文 related work 的事实基础 |
 | `questions/` | 5 道题面 + gold 锚点索引（Q1 GPU 规格沿用 r1 gold-facts；Q2–Q5 从 t17-generalization 四域各取一题，题面原样摘录） |
 | `runs/` | 执行后落盘：每 run 一个 JSON（原始输出 + 评分），命名 `<arm>-<qid>-r<n>.json`；D1 选型理由进 `runs/d1-choice.md`，arena 外包回执进 `runs/receipts/` |
 | `score.py` | 执行时写：评分器（M1–M6 接口见 DESIGN §6），框架参考 t17 score.py + r1 run_local.py |
