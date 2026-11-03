@@ -276,6 +276,7 @@ def main():
     run_p.add_argument("--arms", default="S0", help="comma-separated: S0,S1,S2,S3,S4,S5")
     run_p.add_argument("--qs", default="Q1", help="comma-separated: Q1,Q2,Q3,Q4,Q5")
     run_p.add_argument("--n", type=int, default=2, help="reps per arm×q (default 2)")
+    run_p.add_argument("--rep", type=int, default=None, help="run only this specific rep (overrides --n)")
     run_p.add_argument("--dry-run", action="store_true", help="print prompts, no LLM calls")
 
     args = ap.parse_args()
@@ -291,7 +292,8 @@ def main():
         print()
         for arm in arms:
             for qid in qs:
-                for rep in range(1, args.n + 1):
+                reps = [args.rep] if args.rep else range(1, args.n + 1)
+                for rep in reps:
                     run_arm(arm, qid, rep, dry_run=args.dry_run)
         print(f"\nDone. Run `python score.py aggregate` to score.")
     else:
