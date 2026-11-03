@@ -20,14 +20,22 @@ Qwen3.8-Flash-Next (176B MoE / 6B active) 在 2026-11 的最优部署硬件系�
 |------|------|------|
 | 00-decomp | loop-artifacts/stages/00-decomp/decomposition.md | ✅ |
 | 02-setup-repo | （pfb 仓库同步 @ 235965d，验证见 decomp tasks/） | ✅ |
-| 01 目标分解 | loop-artifacts/stages/01-goal-decomposition/ | ⬜ |
-| 02 信息调研 | loop-artifacts/stages/02-information-research/ | ⬜ |
-| 02.5 交叉核对 | loop-artifacts/stages/02.5-cross-check/ | ⬜ |
-| 03 行动分解 | loop-artifacts/stages/03-action-decomposition/ | ⬜ |
-| 04 执行验证 | loop-artifacts/stages/04-execution-verification/ | ⬜ |
-| 04.5 终审 | loop-artifacts/stages/04.5-final-review/ | ⬜ |
+| 02 信息调研 | loop-artifacts/stages/02-information-research/research.md | ✅ |
+| 02.5 交叉核对 | loop-artifacts/stages/02.5-cross-check/crosscheck.md | ✅ |
+| 03 行动分解 | loop-artifacts/stages/03-action-decomposition/actions.md | ✅ |
+| 04 执行验证 | loop-artifacts/stages/04-execution-verification/execution-log.md | ✅ |
+| 04.5 终审 | loop-artifacts/stages/04.5-final-review/review.md | ✅ |
+| **最终报告** | **report.md** | **✅ 交付** |
 
-## 评分（复用 stage-ablation M1-M6）
+## 核心结论
 
-跑完后过一遍 score.py 的 6 维评分，作为「全流程单 run」的参考分，
-与 S5 臂在 Q1-Q5 上的分数横向可比（不同题，只比维度画像不比绝对值）。
+MoE 瓶颈 = 内存容量 + swap 效率（不是显存容量）。统一内存架构（Mac）天然消除 PCIe offload。
+M5 Ultra 512GB = 当前最快消费级推理平台（~400 t/s 理论，$5,499+，200W 静音）。
+R9700 全球溢价 31-110%，不急用等 Q1 2027 供给恢复。
+
+## 限制声明
+
+- conf 整体 0.7（arena 交叉拆解缺失 + 多个速度数字无实测）
+- M5 Ultra 400 t/s 是理论值，512GB 配置延期至 ~1 月底
+- 2× 5070 Ti "374 t/s" 已标红（物理矛盾），主表只列 195
+- 本机 27B "200 t/s" baseline 物理不可能（M1 Max 400GB/s → 上限 28 t/s），待成璐确认
