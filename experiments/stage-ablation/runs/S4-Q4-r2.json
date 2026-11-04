@@ -1,0 +1,49 @@
+{
+  "arm": "S4",
+  "qid": "Q4",
+  "rep": 2,
+  "model": "qwen3.8-27b",
+  "params": {
+    "temp": 0,
+    "max_tokens": 8000
+  },
+  "output_text": "# 阶段 01 — 目标分解\n\n## 1. 根节点定义\n\n**根节点**：`每千次正确回答的成本`（Cost per 1,000 Correct Answers, CPCA）\n\n$$\n\\text{CPCA} = \\frac{\\text{总系统成本（固定 + 可变）}}{\\text{正确回答次数}} = \\frac{\\text{总系统成本}}{\\text{总请求次数} \\times \\text{正确率}}\n$$\n\n因此，CPCA 由两个正交且乘性耦合的顶层因素决定：\n1. **总系统成本**（分子）：随架构选择、流量规模、基础设施配置变化。\n2. **正确率**（分母）：随架构选择、文档质量、问题分布变化。\n\n> **关键洞察**：架构选择（纯 RAG / 纯长上下文 / 混合）同时影响分子和分母。不能只看成本，也不能只看准确率，必须看比值。\n\n---\n\n## 2. 顶层因素分解（第一层）\n\n```\nCPCA/\n├── A. 总系统成本/          〔可调〕随架构、流量、基础设施变化\n│   ├── A1. 固定成本（CapEx/OpEx 摊销）\n│   ├── A2. 可变成本（每请求推理成本）\n│   └── A3. 数据管道成本（索引/更新/维护）\n│\n└── B. 正确率/              〔只能测〕随架构、文档质量、问题分布变化\n    ├── B1. 检索/召回正确率\n    ├── B2. 生成忠实度（不编造）\n    └── B3. 答案完整性与相关性\n```\n\n**正交性检查**：\n- A 和 B 正交：成本是钱，正确率是质量。\n- A1/A2/A3 正交：固定 vs 可变 vs 数据管道，不重叠。\n- B1/B2/B3 正交：召回（找对文档）vs 忠实（不编造）vs 完整（答全），是三个独立的质量维度。\n\n**完整性检查**：\n- 成本 = 固定 + 可变 + 数据管道？是的，覆盖了所有支出类别。\n- 正确率 = 召回 × 忠实 × 完整？是的，覆盖了从检索到生成的全链路质量。\n\n---\n\n## 3. 递归分解：A. 总系统成本\n\n### A1. 固定成本（摊销到每千次回答）\n\n```\nA1. 固定成本/\n├── A1a. 向量数据库/索引存储成本    〔可调〕随文档量、向量维度、副本数\n├── A1b. 长上下文模型部署成本       〔可调〕随模型大小、GPU 数量、并发数\n├── A1c. 应用服务器/编排层成本      〔可调〕随并发、负载均衡\n└── A1d. 监控/日志/安全基础设施     〔可调〕随合规要求\n```\n\n**关键区分**：\n- **纯 RAG**：A1a 高（50 万页向量存储），A1b 低（用小模型生成）。\n- **纯长上下文**：A1a 低（无需向量库），A1b 极高（128K 上下文 GPU 成本高）。\n- **混合**：A1a 中，A1b 中。\n\n### A2. 可变成本（每请求推理成本）\n\n```\nA2. 可变成本/\n├── A2a. 检索成本（每请求）         〔可调〕向量搜索延迟、QPS\n├── A2b. 生成成本（每请求）         〔可调〕token 数 × 单价\n│   ├── A2b1. 输入 token 成本       〔可调〕上下文长度\n│   └── A2b2. 输出 token 成本       〔可调〕答案长度\n└── A2c. 重排序/后处理成本          〔可调〕reranker 调用\n```\n\n**关键区分**：\n- **纯 RAG**：A2a 低（向量搜索便宜），A2b1 低（只塞 top-k 块），A2b2 中。\n- **纯长上下文**：A2a 无，A2b1 极高（128K token 输入），A2b2 中。\n- **混合**：A2a 中，A2b1 中（动态决定塞多少）。\n\n### A3. 数据管道成本\n\n```\nA3. 数据管道成本/\n├── A3a. 文档解析/清洗成本          〔可调〕PDF/Word/HTML 解析\n├── A3b. 分块/嵌入生成成本          〔可调〕嵌入模型调用\n├── A3c. 索引更新/增量同步成本      〔可调〕文档变更频率\n└── A3d. 元数据管理/权限控制成本    〔可调〕RBAC、审计日志\n```\n\n**关键区分**：\n- **纯 RAG**：A3a-A3c 高（需要完整管道）。\n- **纯长上下文**：A3a 中（仍需解析），A3b-A3c 低（无需嵌入/索引）。\n- **混合**：A3a-A3c 中。\n\n---\n\n## 4. 递归分解：B. 正确率\n\n### B1. 检索/召回正确率\n\n```\nB1. 检索/召回正确率/\n├── B1a. 分块策略质量               〔可调〕块大小、重叠、语义边界\n├── B1b. 嵌入模型质量               〔可调〕模型选择、维度\n├── B1c. 检索策略质量               〔可调〕top-k、混合检索、重排序\n└── B1d. 文档覆盖率                 〔只能测〕50 万页中相关文档占比\n```\n\n**关键区分**：\n- **纯 RAG**：B1a-B1c 直接决定正确率。\n- **纯长上下文**：B1 不适用（无检索），但受限于上下文窗口能否装下所有相关文档。\n- **混合**：B1a-B1c 部分适用。\n\n### B2. 生成忠实度（不编造）\n\n```\nB2. 生成忠实度/\n├── B2a. 模型幻觉率                 〔只能测〕随模型大小、温度\n├── B2b. 上下文忠实度               〔只能测〕模型是否严格基于给定上下文\n└── B2c. 拒答能力                   〔可调〕当上下文不足时是否拒答\n```\n\n**关键区分**：\n- **纯 RAG**：B2a 低（小模型幻觉少），B2b 高（上下文短，易忠实）。\n- **纯长上下文**：B2a 中（大模型幻觉可能少），B2b 低（128K 上下文中模型可能\"迷失\"，引用错误段落）。\n- **混合**：B2a 中，B2b 中。\n\n### B3. 答案完整性与相关性\n\n```\nB3. 答案完整性与相关性/\n├── B3a. 多跳推理能力               〔只能测〕需要跨文档综合\n├── B3b. 长文档理解能力             〔只能测〕128K 上下文中信息定位\n└── B3c. 问题理解/改写能力          〔可调〕query expansion、改写\n```\n\n**关键区分**：\n- **纯 RAG**：B3a 低（top-k 块可能不够），B3b 不适用。\n- **纯长上下文**：B3a 高（所有文档在上下文中），B3b 高（但受限于模型注意力）。\n- **混合**：B3a 中，B3b 中。\n\n---\n\n## 5. 已知条件 vs 空缺条件\n\n### 已知条件（用户已提供）\n| 条件 | 值 |\n|------|-----|\n| 文档总量 | 50 万页 |\n| 约束 | 必须引用文档，不能编造 |\n| 候选架构 | 纯 RAG / 纯长上下文 / 混合 |\n| 目标指标 | 每千次正确回答的成本 |\n\n### 可从项目推导的条件\n| 条件 | 推导 |\n|------|------|\n| 50 万页 ≈ 500,000 × 500 tokens/页 = 2.5 亿 tokens | 假设每页 500 tokens（待验证） |\n| 128K 上下文 ≈ 128,000 tokens | 模型规格 |\n| 纯长上下文无法装下 50 万页 | 2.5 亿 >> 128K，必须筛选 |\n\n### 空缺条件（需阶段 02 研究）\n| 空缺 | 影响 | 优先级 |\n|------|------|--------|\n| 每页平均 token 数 | 影响总 token 量、成本估算 | 高 |\n| 用户问题分布（单跳/多跳/长文档） | 影响正确率、架构选择 | 高 |\n| 各架构的正确率实测数据 | 影响分母 | 高 |\n| 各架构的每请求成本 | 影响分子 | 高 |\n| 向量数据库存储成本（50 万页） | 影响 A1a | 中 |\n| 128K 上下文模型推理成本 | 影响 A2b1 | 高 |\n| 混合架构的动态策略 | 影响 A2、B1 | 中 |\n| 文档更新频率 | 影响 A3c | 低 |\n| 并发量/流量模式 | 影响 A1、A2 摊销 | 中 |\n\n---\n\n## 6. 阶段 02 研究路径\n\n### 第一批行动（高优先级）\n1. **调研 50 万页文档的典型 token 分布**\n   - 来源：企业文档样本、行业基准（如 arXiv 论文、企业案例）\n   - 搜索词：`\"average tokens per page\" enterprise documents`, `\"document length distribution\" RAG`\n   - 备用：假设 300-800 tokens/页，做敏感性分析\n\n2. **调研各架构的正确率基准**\n   - 来源：arXiv 论文（如 RAG vs Long Context 对比）、企业案例\n   - 搜索词：`\"RAG vs long context\" accuracy benchmark`, `\"retrieval augmented generation\" vs \"long context\" comparison`\n   - 备用：设计小规模 A/B 测试方案\n\n3. **调研各架构的每请求成本**\n   - 来源：云厂商定价（AWS/Azure/GCP）、模型 API 定价（OpenAI/Anthropic/本地部署）\n   - 搜索词：`\"128K context\" inference cost per token`, `\"vector database\" storage cost per million vectors`\n   - 备用：用公开定价做估算\n\n### 第二批行动（中优先级）\n4. 调研混合架构的动态策略（何时用 RAG，何时用长上下文）\n5. 调研文档更新频率对索引维护成本的影响\n6. 调研并发量对固定成本摊销的影响\n\n---\n\n## 7. 瓶颈预判（待阶段 02 验证）\n\n**预判瓶颈**：`A2b1. 输入 token 成本`（纯长上下文）和 `B1. 检索/召回正确率`（纯 RAG）\n\n**理由**：\n- 纯长上下文的输入 token 成本极高（128K token/请求），即使正确率高，成本可能远超 RAG。\n- 纯 RAG 的检索正确率是正确率的主要瓶颈，如果 top-k 块不够，正确率会大幅下降。\n- 混合架构可能在两者之间取得平衡，但策略复杂度高。\n\n**待验证**：需要阶段 02 的实际成本数据和正确率数据来确认。\n\n---\n\n## 8. 未解开的矛盾\n\n1. **正确率 vs 成本的权衡**：纯长上下文正确率可能更高，但成本也更高；纯 RAG 成本低，但正确率可能更低。哪个更划算取决于具体数值。\n2. **混合架构的最优策略**：何时用 RAG，何时用长上下文？没有现成答案，需要实验。\n3. **50 万页文档的 token 分布**：如果文档长度分布极不均匀（如 90% 文档 < 100 tokens，10% 文档 > 10K tokens），架构选择会不同。\n\n---\n\n## 9. 阶段 01 判定\n\n- **因素正交**：A/B 正交，A1/A2/A3 正交，B1/B2/B3 正交。✅\n- **覆盖目标**：CPCA = 成本/正确率，A 覆盖成本，B 覆盖正确率。✅\n- **边界清晰**：每个因素有明确定义。✅\n- **优先级合理**：高优先级因素直接影响 CPCA。✅\n- **空缺完整**：所有未验证条件已列入空缺清单。✅\n- **研究路径具体**：阶段 02 的第一批行动已明确。✅\n\n**判定**：`pass`，允许进入阶段 02。",
+  "sources": [
+    {
+      "title": "Retrieval augmented generation (RAG) for projects | Claude ...",
+      "url": "https://www.bing.com/ck/a?!&&p=e8090958986f250d5cc7e22c39d67c078f3bbe081188b16a7a8be45252aaa2a8JmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly9zdXBwb3J0LmNsYXVkZS5jb20vZW4vYXJ0aWNsZXMvMTE0NzMwMTUtcmV0cmlldmFsLWF1Z21lbnRlZC1nZW5lcmF0aW9uLXJhZy1mb3ItcHJvamVjdHM&ntb=1",
+      "snippet": "4 days ago · RAG for projects is available on paid plans (Pro, Max, Ultra, Team, and Enterprise). Projects can now handle much …",
+      "observed_at": "2026-11-03T20:24:47.795750+00:00"
+    },
+    {
+      "title": "RAG GitHub Repos Gaining Traction — 2026 | GitTrend",
+      "url": "https://www.bing.com/ck/a?!&&p=af6c942bb4b6646fdfc380caa37b305dc3f3b2256ed9c23964ed883e703c3bbcJmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly9naXR0cmVuZC5pby90cmVuZGluZy9yYWc&ntb=1",
+      "snippet": "2 days ago · What is Retrieval-Augmented Generation (RAG) used for in AI development? RAG is used to combine external …",
+      "observed_at": "2026-11-03T20:24:47.795750+00:00"
+    },
+    {
+      "title": "RAG in the Wild: On the (In)effectiveness of LLMs with ...",
+      "url": "https://www.bing.com/ck/a?!&&p=7c53b4faf6a73e5a4fcbd53cd8d5fb6204305aa75e9271572bdbf4f5940c2cefJmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly9hY2xhbnRob2xvZ3kub3JnLzIwMjYuZmluZGluZ3MtYWNsLjg0OS8&ntb=1",
+      "snippet": "4 days ago · While RAG demonstrates strong performance on benchmarks largely derived from general-domain corpora like …",
+      "observed_at": "2026-11-03T20:24:47.795750+00:00"
+    },
+    {
+      "title": "RAG Explained: How to Give Your AI Your Own Data",
+      "url": "https://www.bing.com/ck/a?!&&p=453a4323d9f5bc16384b8e113859a811adb14a52afbe2c4aac7192dca4e0a72eJmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly90ZWNoaWV0b3J5LmNvbS9yZXRyaWV2YWwtYXVnbWVudGVkLWdlbmVyYXRpb24tcmFnLWV4cGxhaW5lZC8&ntb=1",
+      "snippet": "3 days ago · Learn how Retrieval-Augmented Generation (RAG) works, from chunking to embeddings, with copy-paste Python code. …",
+      "observed_at": "2026-11-03T20:24:47.795750+00:00"
+    },
+    {
+      "title": "[2610.41335] Pix2Evidence: A Multimodal RAG System for Text ...",
+      "url": "https://www.bing.com/ck/a?!&&p=8494f85ea095cc439fa423bb3489cba192872a8c0fb44579009a8c8a4c335f31JmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly9hcnhpdi5vcmcvYWJzLzI2MTAuNDEzMzU&ntb=1",
+      "snippet": "4 days ago · Retrieval-augmented generation (RAG) over visually rich documents must find both relevant content and the evidence …",
+      "observed_at": "2026-11-03T20:24:47.795750+00:00"
+    }
+  ],
+  "wall_s": 192.6,
+  "tokens": {
+    "in": 5999,
+    "out": 3028
+  },
+  "timestamp": "2026-11-03T20:28:00.408596+00:00"
+}

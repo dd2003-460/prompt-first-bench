@@ -236,3 +236,53 @@ R-04（pilot 两步走）/ R-05（维度合并规则）/ R-07（gold 新发现�
 | 性质 | 冻结文档修订（DRAFT 状态）；裁定本身是人工决策登记，非数据变更 |
 | 验证 | grep 确认 DRAFT 权重表（outcome 0.4/0.25/0.2/0.15 行、process 四等分行）与 δ_min 行零触碰 |
 | 日期 | 2026-11-02 |
+
+## R-23 · R121 外部文献核验回执落地 + §4(a) 差异表修正（keepalive r181）
+
+| 项 | 内容 |
+|---|---|
+| 触发 | RUBRIC-V3-R121-PAPER-COMPARE：AUDIT §4(a) 差异表 8 条声明 unverified；arena 固定会话 01a195cb 直读 arXiv v1 原文 + GitHub 仓库完成核验，回执 receipts/r121-paper-compare-verification.md @ main e71df31（替代 survey-based 版） |
+| verdict 汇总 | confirmed 4（A1/A2/B1/B2）/ partial 3（A4 适用域过宽、B3「双人」应为三专家、B4 原文未自认且主张相反）/ refuted 1（**A3：2,500+ rubrics ≈ 2,800+ 人时属 ResearchRubrics arXiv 2511.07685，非 ResearcherBench**——张冠李戴，ResearcherBench 实为 65 题 × 平均 14 条 ≈ 910 条）/ unverifiable 0 |
+| 改动 | §4(a) 表按回执建议 diff 逐行修正：校准机制行（双人→3 专家/任务）、重要性信号行（无显式→有显式权重但消融不显著 +0.45）、已知代价行（成本数字迁移 + B4 推断标注）、适用域行（开放研究问答→AI 领域 65 题细分）；§4(a) 事实源注记更新为「复核已完成 + 版本状态（三篇 arXiv 均仅 v1；DRB judge 2026-05-11 换代 GPT-5.5；DRB II 已发布）」；附录 B web-llm 限制声明加解除注记。全部改动带〔R121〕溯源标记 |
+| 性质 | AUDIT-report 是活文档（非冻结件），修正属勘误回填；冻结数据（hit-matrix/prior-estimates/stats/gold-tree）零触碰 |
+| 验证 | 回执每条证据句均可在 arXiv HTML 原文定位（§号/表格号齐全）；表内新增数字（65 题/35 子域/12-20-33 分布/PAR 71.33/OPC 99.54/+0.45）与回执原文一致 |
+| 日期 | 2026-11-02 |
+
+## R-24 · RV3G8 消融归因并入 DRAFT v2 §3.1（keepalive r182）
+
+| 项 | 内容 |
+|---|---|
+| 触发 | RV3G8-ablation-attribution 收口 @ ed6c2f5（attribution-analysis.md 落盘 + 04.5 PASS），queue 行声明「产出归因小节草稿供 DRAFT v2 并入」——并入动作未执行，DRAFT v2 §3.1 仍停在第二步（r164 pilot-post-analysis），正式矩阵 21 run 结果在 DRAFT 内无登记 |
+| 改动 | DRAFT v2 §3.1 第二步行后新增「第三步 正式矩阵执行 + 消融归因」段：RV3G7 21 run 收口事实 + 双裁判盲评限定语（同 agent 双口径，非独立 IRR）+ 归因四要点（D1 净效应≈+0.12 sham 打掉 / D2 边际 +5.06 稳健但 sham 污染偏保守 / 增益集中 O1+P4 两通道 / O3 结构性缺口 5 claim 单列）+ 预注册预言 Pr1/Pr2 核对结论。数字全部引自 attribution-analysis.md §1-§6（已 04.5 复算零 mismatch），不引入新计算 |
+| 性质 | 冻结文档修订（DRAFT 状态，非已冻结件）；只追加段落，预注册数值（权重表/δ_min/n_pairs 公式/检验族/§3.2 变体冻结表）零触碰；与既有 R-21/R-22 注记同型（实测输入回代模式） |
+| 验证 | ① grep 确认权重表（outcome 0.4/0.25/0.2/0.15、process 四等分）与 δ_min 行零 diff；② 新增段内数字逐项对 attribution-analysis.md 原文核对（+0.12/+5.06/O1 +2.0~+4.33/P4 +2.67~+4.67/P4-E2 6.0 vs 3.11/5 claim 0 命中）；③ 回归 assert-kappa-receipt.py exit 0（消费面不受影响） |
+| 遗留边界 | ① 本段结论继承同判官限定语——真实 IRR 待 G1b family_check 解锁后须复核 D1/D2 效应方向是否翻转（sham 锚点质量是净效应估计的单点依赖）；② n_pairs 反推（r164：总分对比 n≥8）与本轮 21 run 实际规模一致，无需重算；③ O3 gold 树 prefill 路径分歧（FLOPs 建模 vs 实测 tok/s）若成璐裁定修订 gold，O3 维度全量重算 + 本段 ④ 需同步更新 |
+| 日期 | 2026-11-02 |
+
+## R-25 · R-05 报告义务执行：正式矩阵 8×8 相关矩阵 + pilot 簇复现检验（keepalive r185）
+
+| 项 | 内容 |
+|---|---|
+| 触发 | R-05 ③「正式报告必须附 8×8 维度间相关矩阵」——pilot 版矩阵已落盘（pilot-post-analysis.json），但正式矩阵收口后（RV3G7/G8/G9）该报告义务在正式数据上从未执行，属预注册义务漏项 |
+| 改动 | ① `ablation/formal-matrix/corr-matrix-formal-n21.json` 落盘（judge-merged per-run 维度分，NA 7 项剔除，n=21 pooled runs A1-G3，P2 维全 NA 不入矩阵）；② attribution-analysis.md 新增 §8.5 附全表；③ DRAFT v2 L198 R-22 裁定段追加 r185 后记（不改动裁定原文与预注册数值） |
+| 结果 | **无任何 \|ρ\|>0.8 对**——pilot（n=9）实测簇 {O1,O2,P4}（ρ(O2,P4)=1.0、ρ(O1,O2)=ρ(O1,P4)=0.854）在 n=21 下未复现，最大 ρ(O2,P4)=0.608/0.617（J1/J2）。pilot 小样本 rank 相关被噪声放大。次级观察 ρ(P3,P4)=0.68 未过阈值 |
+| 含义 | ① R-22 选项 c 的共线风险标注在正式数据下无触发条件，保留为预注册形式合规义务；② 维度结构按分开报执行不受影响，确认性主维 O3+O1 不变；③ 权重表/n_pairs 公式/检验族定义零 diff（R-22 裁定边界维持） |
+| 性质 | 冻结文档修订（DRAFT 状态，非已冻结件）；只追加段落与新文件，预注册数值零触碰；与 R-21/R-22/R-24 注记同型（实测输入回代模式） |
+| 验证 | 矩阵数字由 judge-{1,2}-scores.json 独立复算（Spearman on merged per-run dim sums，NA 剔除口径与 §8 统计脚本一致）；§8.5 表内 21 个 off-diagonal 值逐项对 JSON 核对 |
+| 遗留边界 | ① 若后续扩样本（n≥8 pairs/变体）重跑，本矩阵需同步刷新；② pilot 簇未复现本身是信息量（n=9 的 rank 相关不稳定），不修改 pilot 原始记录 |
+| 日期 | 2026-11-02 |
+
+## R-26 · RV3G9 统计检验勘误回填 + P4-E2 口径澄清（keepalive r186）
+
+| 项 | 内容 |
+|---|---|
+| 触发 | RV3G9-formal-stats-execution @ 0481ed4 产出 `formal-stats-results.json` 含 4 项 discrepancies（DISC-1~4），其中 DISC-1（D1 净效应口径）已在 r183 收口时回填 attribution §3 + DRAFT §3.1，但 DISC-3（O1 下界 3.67→4.0）、DISC-4（F 组 SD 口径标注）、P4-E2 条目值 vs 维度均值口径混淆在 attribution §3 D2 小节与 DRAFT 第三步段仍残留旧表述——属 RV3G9 声明的「attribution 勘误」义务未完全执行 |
+| 改动 | ① attribution-analysis.md L47：P4 整维均值 3.11/6 处追加 r183 澄清注记（区分条目值 vs 维度均值两种口径）；② DRAFT v2 第三步段：P4-E2 机制定位句从「有 D2 组 6/6 满分 vs 无 D2 组 3.11/6」改为「有 D2 组 12/12 满分 vs 无 D2 组 0/12，严格二分；P4 整维均值 6.0 vs 3.11——后者含 E1/E3 部分分，非条目值」+ r183 标记。预注册数值（权重表/δ_min/n_pairs 公式/检验族/§3.2 变体冻结表）零触碰 |
+| 结果 | DISC-1~4 全部销账：DISC-1（r183 已回填）/ DISC-2（无误，无需改）/ DISC-3（r183 已回填 L55）/ DISC-4（r183 已回填 L43）。本轮补的是 P4-E2 口径澄清这一处漏网——formal-stats-results.json `mechanism_verification.P4-E2_binary_split.correction` 字段明确写了「数字口径需澄清」，但 r183 只改了 D1 净效应句没改 D2 机制句 |
+| 含义 | ① 定性结论不变：P4-E2 双判一致二分成立，D2 机制定位有效；② 数值引用规范统一：后续引用 P4-E2 效应时用条目值（12/12 vs 0/12），引用 P4 维度贡献时用整维均值（6.0 vs 3.11）并注明含部分分；③ 与 R-24/R-25 同型（实测输入回代模式），不引入新计算 |
+| 性质 | 冻结文档修订（DRAFT 状态，非已冻结件）；只追加注记/修正表述，预注册数值零 diff |
+| 验证 | ① P4-E2 per-run 分数从 judge-{1,2}-scores.json 独立复算（B/C/D/F 全 2/2，A/E/G 全 0/2，双判一致）；② P4 整维均值复算（有 D2 组 6.00/6 n=12，无 D2 组 3.11/6 n=9）与原文一致；③ grep 确认 DRAFT 内无其他「3.11」裸引用未加口径标注 |
+| 遗留边界 | ① G1b family_check 解锁后真实 IRR 可能改变 P4-E2 二分判定（当前双判为同 agent 双口径），届时本条需复核；② 若扩样本重跑，P4-E2 条目值与整维均值需同步刷新 |
+| 日期 | 2026-11-02 |
+
+

@@ -1,0 +1,98 @@
+{
+  "kind": "formal-matrix-statistical-analysis",
+  "goal": "RV3G9-formal-stats-execution",
+  "observed_at": "2026-11-02T04:00:00+08:00",
+  "inputs": {
+    "judge_files": [
+      "blind-eval/judge-1-scores.json",
+      "blind-eval/judge-2-scores.json"
+    ],
+    "lead_receipt": "blind-eval-dual-judge-receipt.json @ main 0aa2bf4 (r181 独立核验)",
+    "design": "7 variants × 3 runs; paired by (variant, run-index); judge-merged = mean(J1,J2)",
+    "pre_registered": "DRAFT-rubric-v3-v2.md §3.3 (R-11): 4 contrasts × 7 dims = 28 tests, Holm full family; δ_min=0.1; n≥(2.802·sd_d/δ)²"
+  },
+  "statistical_tests": {
+    "method": "配对置换检验 (10⁴ sign-flips) + Wilcoxon 敏感性；Holm-Bonferroni 全族 28 项",
+    "n_pairs_per_contrast": 3,
+    "result": "0/28 维度检验 Holm 后显著；0/4 复合总分检验显著（最小原始 p=0.2528）",
+    "interpretation": "n=3 下置换检验分辨率上限 ~p≈0.25，全部 underpowered——预注册 MDE 反推要求 n≥8~139，本轮规模只够方向性证据。统计检验按预注册执行并如实报告不显著，效应判断以 Δ 方向 + 效应量(dz) + sham 对照结构为准（与 attribution-analysis.md 同口径）。",
+    "wilcoxon_note": "多组 |d|=0 → Wilcoxon 不适用（返回 p=1.0），已记录"
+  },
+  "effect_sizes_dz": {
+    "note": "judge-merged pairs, n=3; dz = mean(diff)/sd(diff)",
+    "V1-full_vs_V0-baseline": {
+      "outcome": "+0.360 dz=1.55",
+      "process": "+0.343 dz=10.68",
+      "total38": "+11.67 dz=2.86"
+    },
+    "V1-full_vs_V1-align": {
+      "outcome": "+0.136 dz=3.47",
+      "process": "+0.000 (identical)",
+      "total38": "+2.17 dz=7.51"
+    },
+    "V1-align_vs_V0-baseline": {
+      "outcome": "+0.224 dz=1.14",
+      "process": "+0.343 dz=10.68",
+      "total38": "+9.50 dz=2.43"
+    },
+    "V1-full_vs_V-sham": {
+      "outcome": "+0.189 dz=1.03",
+      "process": "+0.000 (identical)",
+      "total38": "+2.67 dz=0.92"
+    }
+  },
+  "mechanism_verification": {
+    "P4-E2_binary_split": {
+      "claim": "attribution §3: P4-E2 在有 D2 组 6/6 满分 vs 无 D2 组 3.11/6",
+      "verified": true,
+      "data": "P4-E2 双判一致二分：有 D2 组 (B,C,D,F) 全 2.0/2（J1=J2 逐 run 相同）；无 D2 组 (A,E,G) 全 0.0/2",
+      "correction": "attribution 的『3.11/6』是 P4 整维均值（含 E1/E3 部分分），非 P4-E2 条目值——机制定位本身成立，数字口径需澄清"
+    },
+    "O1_channel": {
+      "claim": "attribution §4: 增益经 O1 行为通道传导",
+      "verified": true,
+      "data": "O1 变体均值 (0-1): B=1.000 C=0.778 D=E=0.944 F=0.611 G=0.889 A=0.278；Δ(B-A)=+4.33/6 为全矩阵最大单维增益"
+    }
+  },
+  "discrepancies_found_in_attribution": [
+    {
+      "id": "DISC-1",
+      "location": "attribution-analysis.md §3 D1 小节『净 D1 效应 ≈ +0.12』",
+      "analysis": "+0.12 = 有规则组均值(B,C,E,G)=34.79 − F=34.67，即『含 B 的整组减 F』——但 B 本身是组内成员，用含被试组的均值做锚点差会系统性压扁净效应。干净的配对净效应 = B−F = +2.67（仍在 pooled SD ±3.96 噪声带内，『不显著』结论不变）。",
+      "verdict": "口径歧义而非算术错误：两种算法都不显著，但 +0.12 这个数字不应作为净效应引用；建议改为『净 D1 效应 B−F=+2.67（噪声带内）；组均值口径 +0.12 仅示方向』",
+      "impact": "中——定性结论（规则文字本身无可测增益）不受影响，数值需勘误"
+    },
+    {
+      "id": "DISC-2",
+      "location": "attribution-analysis.md §4『V0 组 O1 仅 1.67/6』",
+      "analysis": "复算确认正确：V0 per-run O1 (0-6) = 0/0/5，双判一致，均值 1.67/6。（Lead 首轮复算脚本有 double-scale bug 曾误报 3.33，已修正。）",
+      "verdict": "无误",
+      "impact": "无"
+    },
+    {
+      "id": "DISC-3",
+      "location": "attribution-analysis.md §4『所有含 D1 或含 D2 的变体 O1 跳到 3.67–6.0/6』",
+      "analysis": "各变体 O1 均值 (0-6): C=4.0, F=5.0, G=5.67, B/D/E=6.0 —— 区间 [4.0, 6.0] 成立但下界不是 3.67；3.67 疑似取自旧版数据或 V3-sham 单 run 值。另 F 组 per-run 含 0/6 outlier（run3），『跳到』表述掩盖了占位块条件的高方差。",
+      "verdict": "小偏差 + 表述问题",
+      "impact": "低"
+    },
+    {
+      "id": "DISC-4",
+      "location": "attribution-analysis.md §3『F 组 SD=2.88』",
+      "analysis": "merged totals (36,37,31) 样本 SD=3.21；attribution 的 2.88 = 双判 pool 6 值（J1+J2 各 3 个）的样本 SD——口径差异非错误，但建议统一用 merged 3 值口径并注明。",
+      "verdict": "口径差异（pooled 6 values vs merged 3 values），非错误",
+      "impact": "低"
+    }
+  ],
+  "conclusions": {
+    "direction_robust": "V1-full > V1-align > V0 排序、D2 边际效应 (+5.06) 超噪声带、P4-E2 二分机制、O1 主通道——全部复算确认，与 attribution 定性结论一致",
+    "underpowered": "28 项预注册检验无一 Holm 后显著（n=3 结构性限制，非效应不存在）；正式结论须待补 run 至 n≥8（MDE 反推）或跨批次合并",
+    "action_required": "DISC-1 须勘误（净 D1 效应改引 B−F=+2.67 并注明组均值口径 +0.12 仅作参考）；DISC-3/4 小偏差顺手修；DISC-2 确认无误。回写 attribution-analysis.md + DRAFT v2 §3.1 第三步引用段（若引用 +0.12 则同步改）。"
+  },
+  "limitations_inherited": [
+    "双判为同一 arena agent 双口径（非独立 IRR）",
+    "同序号配对为约定非随机化",
+    "sham 锚点质量是净效应估计的单点依赖",
+    "O3 gold 树 prefill 路径分歧未裁定（5 claim 0 命中）"
+  ]
+}

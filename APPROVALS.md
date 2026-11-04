@@ -1,3 +1,6 @@
+## [2026-11-02 r198] E29 产出回收 — ✅ RESOLVED（无需授权）
+
+**r198 发现**：E29 的 4 个产出文件已在 d1 本地工作区（arena agent r197 直接落盘），不需要从沙箱回收。本地 check_overlap 修 4 bug 后 9/9 PASSED，d1 仓 cc195f4 pushed。batch-12 进度 1/4。
 # APPROVALS — 待用户裁定的不可逆/越权操作队列
 
 > runner 遇到「不可逆且偏好不明」或「冻结数据修改」时登记于此，跳过继续做可逆工作。成璐裁定后销账。
@@ -123,3 +126,42 @@
 **操作**：assert-kappa-receipt.py DEFAULT_DIR 一层偏差修复（b9402ce）。原值指向 ablation/ 子目录（脚本自身所在目录），但 kappa-receipt.json 实际落盘于 bench/rubric-v3/（r29 erratum 收口写入）→ 无参调用恒 FAIL ①。修正后无参调用 = PASS + κ=0.0 SIGNAL（阈值未达，U-K1 人工裁决项不变）。materials §5 D2 回归义务行补过时注记。十五脚本回归基线维持（kappa-receipt 从 FAIL→PASS，其余零漂移）。
 
 **状态**：已执行完毕。上表 #1-#5 卡人项状态不变。
+
+## 2026-11-02 · C3v3-R4-MDE-prereg（r189）— 合规性文书缺口裁定
+
+**操作**：补一份 R4/R5 任务块模型 + MDE 预注册件（arena adversarial-check blocking fix #1 的净缺口）。
+
+**背景**：arena 对抗回执要求「任务块聚类模型 + MDE 反推题数预注册」，R4/R5 实跑从未落盘此件。处置表 r59 判定为「合规性文书欠一份」——结论未被污染（r47/r5 receipt 均已声明「描述层/方向性证据」上限），但缺书面预注册件意味着未来若有人把 R4 数字当推断层证据引用，无预注册文档可援引。
+
+**选项**：
+- (a) 补文书：写一份 ~2KB 预注册件（分析单元=(题,条目) / 任务块=seed 固定效应 / MDE 按 n=4 run/cell 反推 / 声明 R4+R5 全部 Δ 限方向性），落盘 design/ 目录 + receipt 引用。成本 ~2 回合，纯仓库内。
+- (b) 接受现状：在 T8-prompt-ablation.md C3 v3 节加一行限定语「MDE 预注册未落地，R4/R5 数字永久限方向性证据（r189 登记）」，不再补件。成本 ~5 分钟。
+- (c) 不处理：维持现有 limitations 声明（receipt 里已有「统计功效低，所有 Δ 只报方向」），不加新文字。
+
+**影响面**：(a) 新增文件；(b)/(c) 改一行或零改动。均不影响已落盘数据。
+
+**状态**：待成璐裁定。runner 倾向 (b)——最小动作堵住引用风险，不造文书。
+
+## 2026-11-03 · r260 keepalive — seedc powerup 收口（无新裁定请求，状态登记）
+
+**操作**：T8-C3-v3-seedc-powerup 降级通道实跑收口（@ f0cb47e pushed）。arena :8000/:8099 down → 按 runner 外包规则降级 ninfer :8787 qwen3.8-27b（conf−0.2）。18/18 run + J1v11/J2v11 双判 36/36 + cover brief_c 判读 18/18，零失败。回执 receipt-r8-seedc.json。
+
+**结果（G3 = SIGNAL）**：F1 freeze 主效应三 seed 同向性检查 FAIL——seedc D1 = 0.0（vs R4 +0.391 反向）、D2 = +0.75（同向）。根因定位到测量系统而非工件：J1v11 条目抽取跨 run 漂移（A-full/D1 R4 抽 7/10 条 numeric id 得 0.857/1.0，seedc 抽 3 条 X-prefix 得 0.0；per-run n 从 3 漂到 24）→ per-config Δ 功效被系统性高估。cover 复现「高 cover ≠ 真核验」（B-none cover 1.0/1.0 而 truth 0.0/0.0）。
+
+**推论（对既有卡人项的影响）**：对抗核验 FAIL 1（M8-fixed 独立标注员预建冻结机会表 + 逐机会判定）从「seedc 前置条件」升级为**一切后续消融分析的前置条件**——在此之前任何新 run 的 per-config 分数只能作单 run 快照。新导出 goal：T8-C3-v3-m8fixed-opportunity-table（P1，queue 已登记）。上表 #1-#5 卡人项状态不变（#1 G1b family_check 仍 blocked-on-human）。
+
+**留痕**：wx-push 两次均失败（retry-without-token invalid request），按协议不重试。
+
+**状态**：已执行完毕并 push。
+
+## 2026-11-03 · r262 keepalive — M8-fixed 协议收口 + T8 实验线结论更新（状态登记）
+
+**操作**：T8-C3-v3-m8fixed-opportunity-table 降级通道实跑收口（@ 12f752f pushed）。m8fixed-protocol-v1.json 冻结（sha ecdfb59edfdca704）+ G1/G2/G3 验证。
+
+**结果**：G1 PASS（per-item 一致率 1.0）；G2 FAIL——全表 spread 0.044，constraint-only spread 0.0。**根因确认**：R4 全部 54 工件均为阶段 01+02 产出（prompt freeze 组件限定「本阶段是因素分解，不是资料搜集」），消融信号在阶段 01/02 层面极弱。之前所有 per-config Δ 测的是弱信号被测量噪声淹没，不能升级 confirmatory 声明。
+
+**新决策点（需成璐拍板）**：是否补跑完整 loop（01→04）到最终报告再评分？成本 ≈ 9-13h 本地 LLM（:8787 qwen3.8-27b），收益 = 第一次真正测到消融对最终报告质量的影响。如果 T8 exploratory 结论够用则关闭实验线。
+
+**留痕**：wx-push 失败（retry-without-token invalid request），按协议不重试。
+
+**状态**：已执行完毕并 push。

@@ -1,0 +1,92 @@
+{
+ "kind": "c3v3-g1-calm-perturbation-r208",
+ "date": "2026-11-02",
+ "purpose": "G1 门禁 CALM 扰动项补做（r157/r207 遗留 NOT EXECUTED）：J1-strict prompt 中『特别地』句改写为同义表述后重打同一批工件，统计 verdict 翻转数，测评分标准对措辞的鲁棒性",
+ "protocol_ref": "judge-prompts.json calm_variant_note（协议 §6.3）+ receipt-g1-gate-status-r157.json CALM_perturbation 条目",
+ "channel": {
+  "url": "http://localhost:8787/v1/chat/completions",
+  "model": "qwen3.8-27b"
+ },
+ "params": {
+  "temperature": 0,
+  "max_tokens": 4096
+ },
+ "sha_anchors": {
+  "j1_strict": "15086eb4166b1884",
+  "j1_calm": "344154f3eba0a228"
+ },
+ "perturbation": {
+  "removed": "特别地：若发现「处置标记与证据不符」（例如把未解释/不可解释的矛盾标成\"已解释\"且没有新证据支撑），该条必须 fail 并在 note 中点名指出。",
+  "inserted": "另需注意：凡「处置标记与证据不符」之处——比如将未解释或不可解释的矛盾标注为\"已解释\"而缺乏新增证据——该条一律判 fail，并在 note 中明确指出。"
+ },
+ "artifacts_scored": [
+  "blind-A1.md",
+  "blind-B1.md",
+  "blind-P1.md"
+ ],
+ "selection_note": "选 A1/B1/P1（P1 含 X5 阳性对照突变；A2/B2 条目少且 G1a 全 pass 无方差信息量，未纳入本轮——登记边界）",
+ "results": {
+  "A1": {
+   "n_common": 27,
+   "flips": [],
+   "orig_only_ids": [],
+   "calm_only_ids": [],
+   "orig_fails": [],
+   "calm_fails": []
+  },
+  "B1": {
+   "n_common": 4,
+   "flips": [],
+   "orig_only_ids": [
+    "A1-A10",
+    "U1",
+    "攻击轮1",
+    "攻击轮2",
+    "攻击轮3",
+    "攻击轮4",
+    "攻击轮5"
+   ],
+   "calm_only_ids": [
+    "A1",
+    "A10",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8",
+    "A9"
+   ],
+   "orig_fails": [],
+   "calm_fails": []
+  },
+  "P1": {
+   "n_common": 27,
+   "flips": [
+    "X5"
+   ],
+   "orig_only_ids": [],
+   "calm_only_ids": [],
+   "orig_fails": [],
+   "calm_fails": [
+    "X5"
+   ]
+  }
+ },
+ "robustness_rate": {
+  "flipped": 1,
+  "compared": 58,
+  "RR": 0.9828
+ },
+ "interpretation": {
+  "finding_1": "A1（27 条目全 pass 件）：同义改写后 0/27 翻转——主判定面稳定",
+  "finding_2": "B1（共同集 4 条目 X1-X4 全 pass）：0 翻转。注意 CALM 轮 B1 只打了 14 条（漏打 U1/攻击轮），属输出完整性问题非判定漂移",
+  "finding_3": "P1 阳性对照 X5：唯一真实翻转 pass→fail。CALM 版措辞更直白命中植入退化（note：\"处置标记已解释与证据不可解释矛盾\"）——扰动后对正控更敏感而非更钝",
+  "direction": "唯一翻转向 fail 方向（更严），无放松方向翻转。按任意翻转计 RR=0.983；若只计放松方向翻转则 RR=1.0",
+  "gate_call": "CALM 扰动项 PASS（带限定语）：无系统性措辞敏感导致的判定漂移；X5 翻转属正控敏感度变化且方向偏严，不损害 G1a 结论（J1 严格版绑定因果判读不受影响）。限定语：n=3 工件、单点扰动，功效低，只报方向",
+  "boundary": "A2/B2 未纳入本轮（G1a 侧全 pass 无方差信息量）；B1 CALM 轮条目漏打（14 vs 19）+ 两轮 id 空间不一致，均登记为 judge 输出格式弱点（与 r157 κ 重算 id 映射问题同源）"
+ },
+ "supersedes": "receipt-g1-gate-status-r157.json CALM_perturbation.NOT YET EXECUTED 条目",
+ "id_space_note": "B1 两次判分 id 空间不同（G1a 用聚合 id \"A1-A10\" + 攻击轮1-5 + U1，CALM 轮只拆出 A1..A10）——归一化展开后共同集 4 条目零翻转；未对齐 id（B1 的 U1/攻击轮×5）不计入翻转统计，登记为 judge 输出格式弱点"
+}

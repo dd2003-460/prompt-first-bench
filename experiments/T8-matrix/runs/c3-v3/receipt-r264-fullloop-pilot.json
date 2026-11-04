@@ -1,0 +1,117 @@
+{
+ "receipt_id": "r264-fullloop-pilot-A-full-D2",
+ "generated_at": "2026-11-03T05:30+0800",
+ "goal": "T8-C3-v3-fullloop-execution (pilot cell 1/3)",
+ "cell": {
+  "config": "A-full",
+  "domain": "D2-file-collab",
+  "seed": "a"
+ },
+ "channel": {
+  "url": "http://localhost:8787/v1/chat/completions",
+  "model": "qwen3.8-27b",
+  "temperature": 0.7,
+  "max_tokens": 4096,
+  "conf_note": "降级通道 conf-0.2（arena down）"
+ },
+ "pipeline": {
+  "stage01": {
+   "latency_s": 100.6,
+   "output_chars": 6661,
+   "prompt_sha256_16": "2bb6224fb23546c3",
+   "note": "复用 R4 seeda 冻结 prompt（byte-exact）"
+  },
+  "stage02": {
+   "latency_s": 84.1,
+   "output_chars": 7879,
+   "component": "evidence.md",
+   "note": "ralph web-llm 不可用 → 按组件规则如实记录后走公开知识，数字标待核验假设"
+  },
+  "stage03": {
+   "latency_s": 91.9,
+   "output_chars": 7628,
+   "component": "owner.md"
+  },
+  "stage04": {
+   "latency_s": 65.1,
+   "output_chars": 7645,
+   "component": "自建 stage-04 指令（无现成组件文件），产出最终选型报告：推荐飞书商业版 TCO ¥9,960/年 + 备选 M365 BB + 淘汰 Dropbox/M365 BS"
+  }
+ },
+ "total_latency_s": 341.7,
+ "judge_m8fixed": {
+  "protocol": "m8fixed-protocol-v1.json (ecdfb59edfdca704) + 阶段分层规则",
+  "opportunity_set": "opportunity-sets-v1.json D2-file-collab/brief_a (10 items)",
+  "runs_per_config": 3,
+  "results": {
+   "stage01_constraint_subset": {
+    "scores": [
+     0.6,
+     0.6,
+     0.6
+    ],
+    "per_item_agreement": "9/9 constraint 条目 3run 一致（O01 fail ×3, O02-O03 pass ×3, O08-O10 pass ×3, O04-O07 N-A）",
+    "G1_stability": "PASS"
+   },
+   "stage04_full_table_default_protocol": {
+    "scores": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "verdict": "天花板——默认协议下 judge 全 pass，无区分力"
+   },
+   "stage04_strict_variants_v1_to_v4": {
+    "variants_tried": [
+     "strict-evidence-citation",
+     "strict-plus-rule5-per-number-label",
+     "adversarial-skeptic",
+     "mechanical-price-audit-in-judge"
+    ],
+    "scores_all": "1.0 x3 runs x4 variants",
+    "verdict": "全部失效——judge 在 4 种加严 prompt 下仍判 10/10 pass；mechanical variant 里它把 6 个 U 数字全标成 V"
+   },
+   "stage04_precomputed_audit_injection": {
+    "method": "独立 python 脚本机械扫描工件中所有 CNY 价格行，标注 V/U（相邻两行内有无 待核验/假设/估算/需询价/来源 字样），审计结果注入 judge prompt 作判定依据",
+    "u_count": 6,
+    "u_examples": [
+     "M365 Standard 单价 ¥130-150/人/月 仅标官网指导价",
+     "M365 BB 单价 ¥60-70/人/月 无标注",
+     "Dropbox TCO>¥30k 淘汰断言无来源",
+     "¥20,000 缓冲规划数字无标注"
+    ],
+    "scores": [
+     0.7,
+     0.7,
+     0.7
+    ],
+    "fails": [
+     "O01",
+     "O06",
+     "O07"
+    ],
+    "per_item_agreement": "10/10 条目 3run 一致",
+    "G1_stability": "PASS"
+   }
+  }
+ },
+ "key_findings": [
+  "F1 链路可行：4 阶段串行 341.7s（约 5.7 min/cell），远低于立项估的 10-15 min；54 cells 批量约 5-6h 本地 LLM 时间，可执行",
+  "F2 工件质量真实存在缺陷：stage4 最终报告的 22 处具体价格中 6 处（27%）无任何核验/假设标注（U 类），违反 evidence.md 组件自身标准——消融实验的对象确实有可测信号",
+  "F3 judge 侧天花板确认且更严重：M8-fixed 默认协议 + 4 种加严变体（引用原文/逐数字标注/对抗怀疑论/judge 自做机械审计）全部判 10/10 pass，零区分力。根因 = qwen3.8-27b 作为 judge 无法自主执行细粒度逐数字核查任务。judge 能力边界：能做粗粒度条目判定（constraint 子集稳定），不能做细粒度证据审计",
+  "F4 解法验证成功：机械审计外置——python 脚本做确定性扫描（正则找价格行 + 邻行标签检查），judge 只消费审计结果做条目映射。precomputed variant 3/3 run 一致判 O01/O06/O07 fail，score 0.7 vs 默认 1.0，区分力恢复。该模式应固化为 fullloop 批量的标准 judge 管线"
+ ],
+ "gates": {
+  "pilot_chain_feasibility": "PASS（341.7s/cell < 预算）",
+  "judge_distinguishability": "FAIL on default protocol; PASS via precomputed mechanical audit injection（新管线，批量前再验 1 cell）",
+  "cross_config_signal": "UNKNOWN——单 cell 无法测 config 间 spread，等 pilot cell 2/3（B-nofreeze/B-none）"
+ },
+ "next": "pilot cell 2 = B-nofreeze × D2（同 seed a），验证 nofreeze 配置在完整 loop 下是否产生 score spread（fullloop 实验核心假设）",
+ "artifacts": [
+  "experiments/T8-matrix/runs/c3-v3/runs-fullloop/pilot/A-full/D2-file-collab/stage01.json ... stage4.json",
+  ".../judge-m8fixed-stage4.json (default x3)",
+  ".../judge-m8fixed-strict-stage1.json / -stage4.json (strict v1 x3 each)",
+  ".../judge-m8fixed-strictv2-stage4.json / -adversarial-stage4.json / -mechanical-stage4.json (variants x3 each)",
+  ".../judge-m8fixed-precomputed-stage4.json / -stage1.json (final pipeline x3 each)"
+ ]
+}

@@ -7,11 +7,11 @@
 1. 先读取当前阶段规则、任务和当前 Markdown 工件。
 2. 只处理当前阶段；不要提前完成后续阶段的工作。
 3. 实际完成的工作、来源、观察、产出和不确定性必须写入当前工件。
-4. 当前工件完成后停止；Stop Hook 会自动运行 `ralph prompt-first review .`，Commander 不必主动启动 Reviewer。
+4. 当前工件完成后停止；审阅流程（独立审阅者，如 subagent 按本文件通用审阅标准执行）会自动审阅当前工件，Commander 不必主动启动 Reviewer。
 5. Reviewer 的回执是阶段推进的唯一质量判断输入。Commander 不得用自己的判断覆盖 Reviewer 的 revise。
 6. Reviewer revise 时，继续修复当前阶段或回退到 reviewer 指定的更早阶段；修复后重新运行 review。
-7. 只有 Reviewer 对当前工件版本返回 pass，才可以写入完成标记；revise 后修复并停止，等待 Stop Hook 再审阅。
-8. 主阶段 Markdown 不得手写 `ralph-review` 路由块、`verdict: pass/revise` 或伪造 Reviewer 回执；这些内容只由 runtime 写入 `latest-review.md` 和 review history。阶段工件只记录工作、来源、证据和不确定性。
+7. 只有 Reviewer 对当前工件版本返回 pass，才可以写入完成标记；revise 后修复并停止，等待审阅流程再审阅。
+8. 主阶段 Markdown 不得手写 `stage-review` 路由块、`verdict: pass/revise` 或伪造 Reviewer 回执；这些内容只由审阅流程写入 `latest-review.md` 和 review history。阶段工件只记录工作、来源、证据和不确定性。
 
 ## 通用循环防护规则（环境无关）
 
@@ -55,7 +55,7 @@
 
 审阅报告最后必须包含唯一的路由块：
 
-<!-- ralph-review
+<!-- stage-review
 verdict: pass
 或
 verdict: revise

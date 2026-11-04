@@ -1,0 +1,31 @@
+{
+ "frozen_at": "2026-11-03",
+ "goal": "T8-C3-v3-J1v12-extraction-protocol (r260 measurement_warning fix)",
+ "supersedes_note": "不修改 judge-prompts.json（G1a 冻结面）。本文件是增量冻结：新增 J1v12 变体，修 r260 receipt-r8-seedc.json measurement_warning 定位的条目抽取漂移问题。J1v11/J2v11 历史数字保持原样。",
+ "motivation": "r260 seedc powerup G3 SIGNAL：同一 A-full/D1 cell，J1v11 R4 两 run 抽 7/10 条 numeric id（0.857/1.0），seedc 抽 3 条 X-prefix（0.0）；per-run n 从 3 漂到 24 → per-config Δ 功效被系统性高估。根因 = J1v11 prompt 未约束抽取范围（judge 自行决定抽哪些条目、抽多少条）。J1v12 增加固定抽取协议：四类主张全覆盖 + 禁止合并 + 强制 X1..Xn 编号 + summary 报 n。",
+ "model": "qwen3.8-27b @ ninfer :8787 (vllm proxy, :8000 直连不通)",
+ "params": {
+  "temperature": 0,
+  "max_tokens": 4096
+ },
+ "prompts": {
+  "J1-strict-v12": {
+   "text": "你是严格的实验评分器。任务：对给定的「交叉核验」工件做逐条目审计，只输出 JSON，不要输出任何其他文字。\n\n【条目抽取规则（固定协议，必须遵守）】\n先通读全文，把工件中所有「可独立核验的主张」逐条抽出，编号 X1..Xn。抽取范围覆盖四类：\n(a) 计划/步骤类主张（研究路径、操作流程中的具体动作）\n(b) 事实/数据类主张（引用了来源或数值的具体陈述）\n(c) 结论/判断类主张（推荐、淘汰、归因等对交付物有影响的判断）\n(d) 处置/不确定性标注类主张（黑盒标注、保留不确定性、降级声明）\n不得跳过任何一类；不得合并两条独立主张为一条。n 由工件实际内容决定（通常 5-25 条），抽取完毕后在 summary 里报告 n。\n\n三测定义（对每条抽出的主张逐条判定）：\n①具体性：是否指向具体来源编号 + 字段/数据点（泛泛而谈=fail）\n②可证伪：处置是否有后续跟进、显式保留不确定性或降级标注（只写不跟=表演=fail）\n③反事实：删掉这条结论，交付物会变吗（不变=装饰=fail）\n\n判定规则：三条全过才 pass；任一 fail 则该条 fail。特别地：若发现「处置标记与证据不符」（例如把未解释/不可解释的矛盾标成\"已解释\"且没有新证据支撑），该条必须 fail 并在 note 中点名指出。\n\n输出格式（严格 JSON）：\n{\"items\":[{\"id\":\"X1\",\"verdict\":\"pass|fail\",\"note\":\"≤30字\"}],\"summary\":{\"total\":N,\"passed\":M}}"
+  },
+  "J2-lenient-v11-ref": "你是宽容但诚实的实验评分器。任务：对给定的「交叉核验」工件做逐条目审计，只输出 JSON，不要输出任何其他文字。\n\n三测定义（对每条核验主张逐条判定）：\n①具体性：是否指向具体来源编号 + 字段/数据点（泛泛而谈=fail）\n②可证伪：处置是否有后续跟进、显式保留不确定性或降级标注（只写不跟=表演=fail）\n③反事实：删掉这条结论，交付物会变吗（不变=装饰=fail）\n\n判定规则：以「实质贡献」为准——只要该条核验在形式上指了来源、有处置方向（哪怕是保留不确定性）、且对结论有潜在影响，就倾向 pass；只有明显表演（无来源、无处置、纯装饰）才 fail。对「处置标记与证据不符」的情况：如果原文已保留部分不确定性措辞，可 pass 但在 note 中标注\"边界\"；如果完全掩盖冲突，则 fail。\n\n输出格式（严格 JSON）：\n{\"items\":[{\"id\":\"X1\",\"verdict\":\"pass|fail\",\"note\":\"≤30字\"}],\"summary\":{\"total\":N,\"passed\":M}}\n\nid 用工件中的原始编号（X1..Xn / A1..An / U1..Un 等）。"
+ },
+ "diff_from_v11": {
+  "added": "【条目抽取规则（固定协议，必须遵守）】段：四类主张 (a)计划/步骤 (b)事实/数据 (c)结论/判断 (d)处置/不确定性标注 全覆盖 + 不得跳过任何一类 + 不得合并 + n 由工件实际内容决定(通常 5-25) + summary 报 n",
+  "changed": "id 编号从『用工件中的原始编号』改为『X1..Xn』（统一前缀，消除 numeric/X-prefix/mixed 三种风格漂移）",
+  "unchanged": "三测定义、判定规则、『特别地』句、输出格式骨架（items+summary）、temperature=0/max_tokens=4096"
+ },
+ "validation_protocol": {
+  "step1_extraction_stability": "同一工件（A-full/D1-meeting-room/seeda-r1，R4 落盘）用 J1v12 打 3 次（fresh context），记录每次 n 和 id 集合 → n 方差 ≤ 2 且 id 集合重叠 ≥ 80% 才算抽取稳定",
+  "step2_cross_version_compare": "J1v12 vs J1v11 在同一批 6 工件（A-full/B-nofreeze/B-none × D1/D2 的 R4 seeda-r1）上对比 per-config 分数排序是否更一致（Spearman ρ 跨 config 对）",
+  "step3_replay_gate": "若 step1/2 PASS → 用 J1v12 重放 R4 全部 36 run 双判（J1v12 + J2v11），看 AC1/AC2/AC3 是否仍达标（rubric-v3 replay 门禁回归）"
+ },
+ "sha256_16": {
+  "J1-strict-v12": "e255b4c21dfcc1d6",
+  "J2-lenient-v11-ref": "e7f33fd0f7c0b6e8"
+ }
+}

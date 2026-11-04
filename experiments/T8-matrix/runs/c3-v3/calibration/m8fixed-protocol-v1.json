@@ -1,0 +1,6 @@
+{
+ "protocol_text": "【M8-fixed 逐机会判定协议（冻结 v1.0）】\n\n前置条件：存在由独立标注员（非 judge 模型）预建的冻结机会表（opportunity set），每个 domain × brief 组合一份，条目含 id/rule/text/basis。\n\n判定流程：\n1. 将冻结机会表全文注入 judge prompt 的 user message（格式：Oxx [rule] text，每行一条）。\n2. Judge 只能判定表中列出的条目，不得自行增删。\n3. 每条判定标准：工件中是否有具体内容实质性回应了该机会。三测（具体性/可证伪/反事实）作为判 fail 依据。\n4. 输出严格 JSON：items 数量必须等于机会表条数，summary 报 total/passed。\n\n阶段分层规则（r262 新增）：\n- 机会表条目按 rule 分为两类：constraint（budget/scale/platform_enumeration/calendar_integration/optional_feature 等输入约束）和 deliverable（推荐方案/备选/淘汰理由/成本明细等最终交付物）。\n- 对阶段 01（目标分解）工件：只用 constraint 子集判定（deliverable 条目在阶段 01 不可达，全 fail 会压缩分数范围且无区分力）。\n- 对阶段 03+（行动分解/执行验证）工件：用完整机会表。\n- 跨阶段对比时必须声明所用子集，不得混用。\n\n验收门禁：\n- G1: 同一工件打 3 次，per-item verdict 一致率 ≥ 90%（即 ≤1 条翻转/3 run）。\n- G2: 不同 config 在同一 domain 上的分数 spread > 0（至少有一对 config 分数不同）。\n- G3: 与 J1v11 自由抽取版的 Spearman ρ > 0（方向一致性，不要求强度）。",
+ "frozen_at": "2026-11-03",
+ "version": "1.0",
+ "sha256_16": "ecdfb59edfdca704"
+}

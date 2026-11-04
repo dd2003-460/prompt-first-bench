@@ -1,0 +1,49 @@
+{
+  "arm": "S5",
+  "qid": "Q5",
+  "rep": 3,
+  "model": "qwen3.8-27b",
+  "params": {
+    "temp": 0,
+    "max_tokens": 8000
+  },
+  "output_text": "# 阶段 01 — 目标分解\n\n## 1. 根标量定义\n\n**目标**：最小化每个统计决策的期望决策损失。\n\n**根标量公式**：\n\n$$\n\\mathcal{L}^* = \\min_{\\pi \\in \\{\\text{Frequentist}, \\text{Bayesian}, \\text{Hybrid}\\}} \\; \\mathbb{E}_{\\theta, X \\sim P(\\theta, X)} \\left[ \\ell(\\delta(X), \\theta) \\right]\n$$\n\n其中：\n- $\\pi$：学派选择策略（频率/贝叶斯/混合）\n- $\\delta(X)$：基于数据 $X$ 的决策函数（如\"拒绝/不拒绝 H₀\"、\"发布/不发布\"、\"剂量调整\"）\n- $\\theta$：真实参数\n- $\\ell(\\delta, \\theta)$：决策损失函数（0-1 损失、平方误差、或制度规定的损失）\n- 期望对参数先验/真实分布和数据生成过程联合取\n\n**单位**：无量纲（若 $\\ell$ 为 0-1 损失，则 $\\mathcal{L}^*$ 为\"平均每次决策的错误率\"；若 $\\ell$ 为货币损失，则为\"每次决策的期望货币损失\"）。\n\n**关键澄清**：此标量**不是** p 值、**不是** 后验概率、**不是** 置信区间覆盖率。它是**决策后果的期望代价**。\n\n---\n\n## 2. 正交维度切分（第一层）\n\n| 维度编号 | 维度名称 | 独占参数 | 类型 |\n|---------|---------|---------|------|\n| D1 | **决策损失结构** | $\\ell(\\delta, \\theta)$ 的具体形式（0-1、平方、不对称、制度惩罚） | 成本类 |\n| D2 | **参数不确定性表征** | 先验 $P(\\theta)$ 或频率派参数空间 $\\Theta$ 的界定方式 | 成本类 |\n| D3 | **数据生成与样本量** | $n$、$P(X \\mid \\theta)$、是否固定样本/顺序检验 | 成本类 |\n| D4 | **制度约束** | 期刊 α 要求、监管可审计性、预注册要求 | **约束类**（不满足直接划掉候选） |\n| D5 | **计算与实施成本** | MCMC 收敛时间、频率派解析解可用性、人力/时间成本 | 成本类 |\n| D6 | **可重复性与审计轨迹** | 结果是否可被第三方独立复现、决策链是否透明 | **约束类** |\n\n**正交性验证**：\n- D1 独占 $\\ell$ 的形式；D2 独占 $\\theta$ 的不确定性建模；D3 独占 $n$ 和 $P(X|\\theta)$；D4 独占外部制度规则；D5 独占计算资源；D6 独占审计可追溯性。\n- 无两个维度共享同一独占参数。\n\n**SHARED 耦合记录**：\n- **耦合 C1**：D2（先验）与 D4（制度约束）耦合。某些监管机构（如 FDA）要求\"客观\"分析，可能禁止主观先验，从而将贝叶斯候选划掉。→ 走路径：D4 → 约束 D2 的可行先验集合。\n- **耦合 C2**：D3（样本量）与 D5（计算成本）耦合。小样本下贝叶斯 MCMC 可能不稳定，增加计算成本；大样本下频率派渐近近似可用，降低计算成本。→ 走路径：D3 → 影响 D5 的实际值。\n- **耦合 C3**：D1（损失结构）与 D4（制度约束）耦合。期刊要求 p < 0.05 实际上隐含了 0-1 损失结构（Type I/II 错误）。→ 走路径：D4 → 约束 D1 的可行损失函数集合。\n\n---\n\n## 3. 递归分解（第二层）\n\n### D1 决策损失结构\n- D1.1 损失函数形式：0-1（错误/正确）、平方误差、绝对误差、不对称（Type I vs Type II 代价不同）\n- D1.2 损失是否包含制度惩罚（如被期刊拒稿的代价、监管罚款）\n- D1.3 损失是否随时间衰减（如早期决策错误代价更高）\n\n### D2 参数不确定性表征\n- D2.1 先验类型：共轭、非信息、主观、经验贝叶斯\n- D2.2 先验的敏感性：结论是否随先验选择显著变化\n- D2.3 频率派对应物：参数空间 $\\Theta$ 的界定、是否允许复合假设\n\n### D3 数据生成与样本量\n- D3.1 样本量 $n$：小样本（n < 30）、中等、大样本\n- D3.2 数据生成过程：独立同分布、时间序列、空间相关、缺失数据\n- D3.3 检验类型：固定样本、顺序检验、自适应设计\n\n### D4 制度约束\n- D4.1 期刊要求：是否强制 p 值、是否接受贝叶斯因子\n- D4.2 监管要求：FDA/EMA 是否接受贝叶斯方法、是否要求可审计\n- D4.3 预注册要求：是否要求预先指定分析计划\n\n### D5 计算与实施成本\n- D5.1 计算时间：MCMC 收敛 vs 解析解\n- D5.2 人力成本：贝叶斯先验指定需要领域专家\n- D5.3 软件可用性：R/Python 中频率派 vs 贝叶斯包的成熟度\n\n### D6 可重复性与审计轨迹\n- D6.1 随机种子可复现性：MCMC 随机性 vs 频率派确定性\n- D6.2 决策链透明度：p 值 vs 后验分布的可解释性\n- D6.3 第三方审计可行性：监管机构能否独立验证\n\n---\n\n## 4. 已知条件 vs 空缺条件\n\n### 已知条件（人类提供或可从项目推导）\n- 目标是最小化期望决策损失\n- 候选学派：频率、贝叶斯、混合\n- 存在制度约束（期刊 α、监管可审计）\n- 频率派工具：固定样本检验、置信区间、p 值\n- 贝叶斯工具：后验推断、决策论、MCMC\n\n### 空缺条件（需阶段 02 研究）\n| 编号 | 空缺 | 阻塞的判断 | 优先级 |\n|------|------|-----------|--------|\n| G1 | 具体决策场景的损失函数 $\\ell$ 形式 | 无法计算 $\\mathcal{L}^*$ | 高 |\n| G2 | 具体制度约束的严格程度（哪些期刊/监管接受贝叶斯） | 无法确定候选集是否被划掉 | 高 |\n| G3 | 典型样本量范围 | 无法判断渐近近似是否可用 | 中 |\n| G4 | MCMC 计算成本的实际量级 | 无法量化 D5 | 中 |\n| G5 | 先验敏感性在典型场景中的实际影响 | 无法判断 D2.2 | 中 |\n| G6 | 混合 workflow 的实际决策损失 vs 纯频率/纯贝叶斯 | 无法比较三候选 | 高 |\n\n---\n\n## 5. 黑盒收口表\n\n| 编号 | 黑盒 | 为什么没有闭式 | 估计区间 | 一天内能做完的测法 | 弹性 |\n|------|------|---------------|---------|-------------------|------|\n| B1 | 具体场景的期望决策损失 $\\mathcal{L}^*$ | 依赖 $\\ell$、$P(\\theta)$、$P(X|\\theta)$ 的具体形式，无通用闭式 | 无法估计，需具体场景 | 对 3 个典型场景（小样本二分类、大样本回归、序贯试验）用模拟计算 $\\mathcal{L}^*$ | 高（直接决定结论） |\n| B2 | 制度约束对候选集的划除效果 | 依赖具体期刊/监管政策，无统一标准 | 估计 30-70% 的期刊仍要求 p 值 | 检索 10 个目标期刊的作者指南，统计接受贝叶斯方法的比例 | 高（可能直接划掉贝叶斯候选） |\n| B3 | MCMC 计算成本 vs 频率派解析解 | 依赖模型复杂度、维度、收敛诊断 | 估计 MCMC 慢 10-1000 倍 | 对 3 个典型模型（线性回归、混合效应、贝叶斯网络）计时 | 中（影响 D5，但不改变 D1-D4） |\n| B4 | 先验敏感性 | 依赖先验选择和数据信息量 | 估计小样本下结论可翻转，大样本下不敏感 | 对 3 个先验（均匀、弱信息、强信息）跑同一数据集，比较后验 | 中（影响 D2，但可通过敏感性分析缓解） |\n| B5 | 混合 workflow 的决策损失 | 依赖两阶段衔接规则，无标准定义 | 估计介于纯频率和纯贝叶斯之间 | 定义 2 种混合规则（频率筛查 + 贝叶斯量化；频率 CI + 贝叶斯决策），模拟比较 | 高（决定混合是否最优） |\n\n---\n\n## 6. 口径声明\n\n**约束类维度**（不满足直接划掉候选）：\n- D4 制度约束：若期刊/监管**强制**要求 p 值且**禁止**贝叶斯方法，则贝叶斯候选被划掉。\n- D6 可审计性：若监管要求**完全确定性**的审计轨迹，则 MCMC 的随机性可能使贝叶斯候选被划掉（除非使用固定种子和完整记录）。\n\n**成本类维度**（进公式）：\n- D1 决策损失结构：$\\ell$ 的形式直接影响 $\\mathcal{L}^*$ 的计算。\n- D2 参数不确定性表征：先验/参数空间影响后验/置信区间的精度。\n- D3 数据生成与样本量：$n$ 和 $P(X|\\theta)$ 影响估计精度。\n- D5 计算与实施成本：若将计算时间折算为货币损失，则进入 $\\ell$。\n\n**禁止混用**：约束类维度**不**与成本类维度比权重。约束类是\"硬门槛\"，成本类是\"软优化\"。\n\n---\n\n## 7. 瓶颈识别\n\n**主导项**：**D1 决策损失结构** 和 **D4 制度约束**。\n\n**论证**：\n- D1 是根标量 $\\mathcal{L}^*$ 的直接组成部分。若 $\\ell$ 为 0-1 损失且 Type I 错误代价极高（如医疗诊断），则频率派的 α 控制可能更优；若 $\\ell$ 为平方误差且先验信息丰富，则贝叶斯可能更优。**D1 的形式直接决定哪个学派在数学上更优**。\n- D4 是硬约束。若制度强制要求 p 值，则贝叶斯候选被划掉，无论其 $\\mathcal{L}^*$ 多低。**D4 可能直接决定候选集**。\n- 其他维度（D2-D3, D5-D6）在 D1 和 D4 确定后，才影响具体实现和成本。\n\n**弹性论证**：\n- 若 D1 从 0-1 损失变为平方误差，结论可能从\"频率派优\"翻转为\"贝叶斯优\"（弹性：高）。\n- 若 D4 从\"强制 p 值\"变为\"接受贝叶斯因子\"，候选集从 {频率, 混合} 变为 {频率, 贝叶斯, 混合}（弹性：高）。\n- 若 D5 从\"MCMC 慢 10 倍\"变为\"慢 1000 倍\"，结论不变（弹性：低，除非计算成本进入 $\\ell$）。\n\n---\n\n## 8. 阶段 02 研究入口\n\n| 优先级 | 研究问题 | 目标来源 | 搜索词 | 字段 | 备用来源 |\n|--------|---------|---------|--------|------|---------|\n| 1 | 哪些期刊/监管接受贝叶斯方法 | 期刊作者指南、FDA/EMA 指南 | \"Bayesian methods accepted journal\" \"FDA Bayesian analysis guidance\" | 接受/拒绝、具体要求 | 统计学期刊编辑委员会声明 |\n| 2 | 典型决策场景的损失函数形式 | 决策论教材、应用领域论文 | \"decision loss function statistical inference\" \"Bayesian decision theory\" | $\\ell$ 的形式、应用场景 | 教科书（Robert, Berger） |\n| 3 | MCMC 计算成本 vs 频率派 | 计算统计学论文、软件文档 | \"MCMC computational cost vs frequentist\" \"Bayesian vs frequentist computation\" | 时间比、模型复杂度 | R/Python 包文档 |\n| 4 | 先验敏感性 | 贝叶斯统计论文 | \"prior sensitivity analysis Bayesian\" \"robustness to prior\" | 敏感性指标、样本量阈值 | 教科书（Gelman et al.） |\n| 5 | 混合 workflow 的决策损失 | 方法学论文 | \"hybrid Bayesian frequentist workflow\" \"two-stage analysis\" | 决策损失比较、衔接规则 | 统计学期刊方法学部分 |\n\n**失败备用路径**：\n- 若期刊指南不可得，检索统计学期刊的\"Editorial Policy\"页面。\n- 若 FDA 指南不可得，检索 EMA 或 NMPA 的贝叶斯方法指南。\n- 若 MCMC 成本数据不可得，用 R 的 `rstan` 和 `lm` 包对同一数据集计时。\n\n---\n\n## 9. 候选对象处理\n\n| 候选 | 属性 | 状态 |\n|------|------|------|\n| 频率学派 | 固定样本检验、置信区间、p 值 | 待验证：在 D1-D6 下的 $\\mathcal{L}^*$ |\n| 贝叶斯学派 | 后验推断、决策论、MCMC | 待验证：在 D1-D6 下的 $\\mathcal{L}^*$，受 D4 约束 |\n| 混合 workflow | 频率筛查 + 贝叶斯量化 | 待验证：衔接规则、$\\mathcal{L}^*$ |\n\n**排除理由**：暂无候选被排除，所有候选保留至阶段 02 核验。\n\n---\n\n## 10. 阶段 01 判定\n\n- 目标交付物：最小化期望决策损失的学派选择\n- 主要因素：D1-D6 已正交分解\n- 已知条件：目标、候选、制度约束存在\n- 关键空缺：G1-G6 已列出\n- 阻塞影响：G1 和 G2 阻塞最终结论\n- 阶段 02 第一批行动：检索期刊/监管政策、确定典型损失函数\n\n**判定**：`pass`。阶段 02 可据此开始研究。",
+  "sources": [
+    {
+      "title": "Qmayb – Una Cunumi (Remix) Lyrics - Genius",
+      "url": "https://www.bing.com/ck/a?!&&p=93b17f40f4156606fa3b3dcb5952057b271359e2d6d2c60663bf1c9dddca369aJmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly9nZW5pdXMuY29tL1FtYXliLXVuYS1jdW51bWktcmVtaXgtbHlyaWNz&ntb=1",
+      "snippet": "Jun 15, 2020 · [Letra de \"Una Cunumi (Remix)\" ft. Xvideo Token, Faraón Love Shady & J.Gonzo] [Coro: Qmayb] (d.a.) Una cunumi, …",
+      "observed_at": "2026-11-03T23:19:54.706298+00:00"
+    },
+    {
+      "title": "XVIDEO Lyrics, Songs, and Albums | Genius",
+      "url": "https://www.bing.com/ck/a?!&&p=5ee6b62933af59f2c20df16f0a5f94fbdd92b575817f4de4da85bd9de274790cJmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly9nZW5pdXMuY29tL2FydGlzdHMvWHZpZGVv&ntb=1",
+      "snippet": "Get all the lyrics to songs by XVIDEO and join the Genius community of music scholars to learn the meaning behind the lyrics.",
+      "observed_at": "2026-11-03T23:19:54.706298+00:00"
+    },
+    {
+      "title": "Kendrick Lamar – XXX. Lyrics - Genius",
+      "url": "https://www.bing.com/ck/a?!&&p=3938e3e240cc69ffca99fb72077654f5319f97540d72ca42eecaba160270b102JmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly9nZW5pdXMuY29tL0tlbmRyaWNrLWxhbWFyLXh4eC1seXJpY3M&ntb=1",
+      "snippet": "Apr 14, 2017 · Kendrick teams up with rock legends U2 on “XXX.,” which delves deeper into the political and religious themes heard …",
+      "observed_at": "2026-11-03T23:19:54.706298+00:00"
+    },
+    {
+      "title": "Nfasis, Atomic Otro Way & El Experimento - Genius",
+      "url": "https://www.bing.com/ck/a?!&&p=ce1e6800b32124fbeb6be520948b645e88e0ae0ee93d277efb42f943246b85e8JmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly9nZW5pdXMuY29tL05mYXNpcy1hdG9taWMtb3Ryby13YXktYW5kLWVsLWV4cGVyaW1lbnRvLTEyLW1hbmRhbWllbnRvcy0yMDIwLWx5cmljcw&ntb=1",
+      "snippet": "Jun 27, 2020 · \"Ostia, tío\", me dicen las española' Mi DM parece' Xvideo', lleno de popola' Siempre estoy rascándome la sien con la …",
+      "observed_at": "2026-11-03T23:19:54.706298+00:00"
+    },
+    {
+      "title": "iLOVEFRiDAY – Mia Khalifa Lyrics - Genius",
+      "url": "https://www.bing.com/ck/a?!&&p=cbea4002d87d0224577dcffebee10252280a59f4e35ac67bb10043dd49b96a1eJmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly9nZW5pdXMuY29tL0lsb3ZlZnJpZGF5LW1pYS1raGFsaWZhLWx5cmljcw&ntb=1",
+      "snippet": "Feb 13, 2018 · This song was made when Smoke Hijabi misread a fake tweet as a real one from retired adult film star Mia Khalifa …",
+      "observed_at": "2026-11-03T23:19:54.706298+00:00"
+    }
+  ],
+  "wall_s": 18.4,
+  "tokens": {
+    "in": 6816,
+    "out": 3446
+  },
+  "timestamp": "2026-11-03T23:20:13.124122+00:00"
+}

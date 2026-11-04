@@ -1,0 +1,83 @@
+{
+  "kind": "ralph_bench_scoring_r5.1",
+  "subtype": "independent_scoring_chatgpt",
+  "provider": "chatgpt.com (browser ego-browser, account 已登录, 免费档)",
+  "chat_url": "https://chatgpt.com/c/6ae91d50-9280-83ee-a5d3-22f0ff1d5f2d",
+  "observed_at": "2026-11-03T07:45:00+08:00",
+  "task": "R5.1 独立打分器 #2（与 r4 DeepSeek 回执配对）：对 run1-run4 按 M1-M6 盲打 24 分。证据包=r5/run5-chatgpt-prompt.md（含 M1-M6 定义 + 4 run 证据摘要）。",
+  "evidence_packet": "r5/run5-chatgpt-prompt.md（1325 chars，含任务书行数/锚点数/token 切分口径/降级记录）",
+  "independent_scores": {
+    "run1": {
+      "M1": 78,
+      "M2": 100,
+      "M3": 95,
+      "M4": 35,
+      "M5": 100,
+      "M6": 100
+    },
+    "run2": {
+      "M1": 25,
+      "M2": 100,
+      "M3": 75,
+      "M4": 50,
+      "M5": 100,
+      "M6": 55
+    },
+    "run3": {
+      "M1": 95,
+      "M2": 100,
+      "M3": 95,
+      "M4": 20,
+      "M5": 100,
+      "M6": 100
+    },
+    "run4": {
+      "M1": 90,
+      "M2": 100,
+      "M3": 100,
+      "M4": 100,
+      "M5": 100,
+      "M6": 100
+    }
+  },
+  "key_reasons": {
+    "run1 M1=78": "后补切分但初始仅累计口径",
+    "run1 M4=35": "锚点与上轮回执非独立源",
+    "run2 M1=25": "每轮重发 12,086 tokens",
+    "run2 M6=55": "arena 侧 token 账本未验证",
+    "run3 M4=20": "无外部交叉验证",
+    "run4 M4=100": "sha256 钉死独立 check 脚本 + Lead 独立重跑 = 2 独立验证"
+  },
+  "consistency_vs_deepseek_r4": {
+    "items_compared": 24,
+    "P_observed": 0.583,
+    "P_expected": 0.438,
+    "fleiss_kappa": 0.258,
+    "kappa_interpretation": "低一致（0.21-0.40 档下沿）——两打分器方向一致但量级分歧大",
+    "mean_abs_delta_per_metric": {
+      "M1": 15.8,
+      "M2": 25.0,
+      "M3": 10.0,
+      "M4": 11.2,
+      "M5": 20.0,
+      "M6": 11.2
+    },
+    "largest_divergences": [
+      "run1 M2: DeepSeek 50 vs ChatGPT 100（DeepSeek 判'证据包缺行数'，ChatGPT 读到 49 行直接给满分）",
+      "run2 M2: 同上 50 vs 100",
+      "run1 M5: 60 vs 100（DeepSeek 判'未提供达 conf 所需轮数'，ChatGPT 读到'1 轮完成'）",
+      "run3 M5: 60 vs 100 同因",
+      "run2 M6: 100 vs 55（DeepSeek 没扣 arena 侧 unverified，ChatGPT 扣了）"
+    ],
+    "root_cause_hypothesis": "证据包完整度差异：r4 时 DeepSeek 拿到的证据包缺任务书行数/轮数字段（其 key_reasons 自述），本轮 ChatGPT 拿到补齐后的 prompt → M2/M5 系统性分差是信息不对称不是判断分歧。M4 口径两方一致（都严格执行'≥2 独立源'）。M1 run2=25 两方完全一致（重发放大扣分是共识）。",
+    "verdict": "κ=0.258 偏低的主要原因是 M2/M5 的信息不对称项；剔除这两指标后剩余 4 指标 16 项的分歧集中在 M1 量级（±15 档内）。结论：bench 分数对'打分器拿到的证据包版本'敏感，r5.1 起证据包必须冻结版本号再分发。"
+  },
+  "weighted_totals_with_r5_weights": {
+    "run1": 84.05,
+    "run2": 62.44,
+    "run3": 86.03,
+    "run4": 97.54
+  },
+  "status": "done",
+  "next": "bench.md r5.1 落盘：n=5 加权 mean±std + κ 分析 + 权重校准判定（n≥5 达标）"
+}

@@ -1,0 +1,49 @@
+{
+  "arm": "S4",
+  "qid": "Q2",
+  "rep": 3,
+  "model": "qwen3.8-27b",
+  "params": {
+    "temp": 0,
+    "max_tokens": 8000
+  },
+  "output_text": "# 阶段 01 — 目标分解\n\n## 1. 根节点定义\n\n**根节点**：`每千次合格回答的总成本`（单位：货币/1000 合格回答）\n\n**公式骨架**：\n```\n每千次合格回答总成本 = (单次调用成本 × 每千次合格回答所需调用次数)\n                     = (单次调用成本 / 合格率)\n```\n\n其中：\n- **单次调用成本**：取决于部署方式（本地推理 vs API）\n- **合格率**：取决于模型在目标任务上的表现\n\n## 2. 顶层因素分解（正交性检查）\n\n```\n每千次合格回答总成本/\n├── A. 单次调用成本/          〔可控外/可调〕取决于部署方式与硬件\n│   ├── A1. 本地部署成本/     〔可调〕硬件摊销 + 电力 + 运维\n│   │   ├── A1a. 硬件摊销/    〔可控外〕GPU 折旧\n│   │   ├── A1b. 电力成本/    〔可调〕功耗 × 电价 × 利用率\n│   │   └── A1c. 运维人力/    〔可调〕部署、监控、升级\n│   ├── A2. API 调用成本/     〔可控外〕按 token 计费\n│   │   ├── A2a. 输入 token 单价/  〔可控外〕\n│   │   ├── A2b. 输出 token 单价/  〔可控外〕\n│   │   └── A2c. 平均每次调用 token 数/ 〔可调〕prompt 长度 + 生成长度\n│   └── A3. 吞吐量约束/       〔只能测〕并发下的实际延迟与吞吐\n│       ├── A3a. 单卡/双卡推理速度/  〔只能测〕tokens/s\n│       └── A3b. 并发处理能力/       〔只能测〕QPS\n│\n├── B. 合格率/                〔只能测〕模型在目标任务上的表现\n│   ├── B1. 代码补全合格率/   〔只能测〕Python/JS 函数级补全\n│   │   ├── B1a. Python 补全准确率/  〔只能测〕\n│   │   ├── B1b. JS 补全准确率/      〔只能测〕\n│   │   └── B1c. 补全完整性/         〔只能测〕是否生成完整可运行代码\n│   ├── B2. 指令跟随合格率/   〔只能测〕通用指令理解与执行\n│   │   ├── B2a. 指令理解准确率/     〔只能测〕\n│   │   ├── B2b. 输出格式合规率/     〔只能测〕\n│   │   └── B2c. 幻觉率/             〔只能测〕\n│   └── B3. 任务混合比例/     〔可调〕代码补全 vs 指令跟随的占比\n│       └── B3a. 实际业务中两类任务比例/ 〔可调〕\n│\n└── C. 约束条件/              〔可控外〕硬性限制\n    ├── C1. 硬件约束/         〔可控外〕单台双卡 24GB\n    │   ├── C1a. 模型能否装入 48GB 显存/  〔只能测〕量化后大小\n    │   └── C1b. 推理框架支持/           〔只能测〕vLLM/TGI 等\n    ├── C2. 预算约束/         〔可控外〕总预算上限\n    │   └── C2a. 本地 vs API 的总成本上限/ 〔可调〕\n    └── C3. 质量底线/         〔可调〕最低可接受合格率\n        └── C3a. 业务方对合格率的最低要求/  〔可调〕\n```\n\n**正交性检查**：\n- A（成本）与 B（合格率）正交：成本是\"花多少钱\"，合格率是\"效果好不好\"，两者独立影响最终指标。\n- A1（本地）与 A2（API）正交：互斥的部署方式，不会同时发生。\n- B1（代码补全）与 B2（指令跟随）正交：不同任务类型，独立测量。\n- C（约束）是边界条件，不直接参与计算，但决定哪些候选可行。\n\n**完整性检查**：\n- 每千次合格回答总成本 = 单次调用成本 / 合格率。A 覆盖\"单次调用成本\"，B 覆盖\"合格率\"，C 覆盖\"哪些候选可行\"。三者合起来完整覆盖根节点。\n\n## 3. 已知条件 vs 可推导条件 vs 空缺条件\n\n### 已知条件（用户提供）\n| 条件 | 值 |\n|------|-----|\n| 任务类型 | 函数级代码补全（Python/JS）+ 通用指令跟随 |\n| 硬件约束 | 单台双卡 24GB（共 48GB 显存） |\n| 候选模型 | Qwen3-32B, Qwen2.5-Coder-32B-Instruct, Mistral-Small-2501-24B, GLM-4-32B-0414, DeepSeek-Coder-V2-33B, Llama-3.3-70B-Instruct(W4) |\n| 预算形式 | 单台双卡 24GB 或等效 API 额度 |\n\n### 可推导条件（从项目推导）\n| 条件 | 推导 |\n|------|------|\n| 总显存 | 2 × 24GB = 48GB |\n| 模型必须量化 | 32B/33B/70B 模型 FP16 远超 48GB，必须量化（W4/W8） |\n| 24B 模型可能 FP16 可行 | Mistral-Small-24B FP16 ≈ 48GB，刚好卡线，实际需量化 |\n| 部署方式二选一 | 本地推理 或 API 调用，不能同时 |\n\n### 空缺条件（需阶段 02 研究）\n\n| 编号 | 空缺 | 阻塞哪个判断 | 优先级 |\n|------|------|-------------|--------|\n| G1 | 各候选模型量化后实际显存占用（W4/W8） | C1a：哪些模型能装入 48GB | **高** |\n| G2 | 各候选模型在 Python/JS 函数级代码补全上的合格率 | B1：合格率 | **高** |\n| G3 | 各候选模型在通用指令跟随上的合格率 | B2：合格率 | **高** |\n| G4 | 各候选模型 API 价格（输入/输出 token 单价） | A2：API 成本 | **高** |\n| G5 | 各候选模型在双卡 24GB 上的实际推理速度（tokens/s） | A3：吞吐量 | **中** |\n| G6 | 各候选模型在 vLLM/TGI 等框架上的支持状态 | C1b：部署可行性 | **中** |\n| G7 | 电力成本估算（功耗 × 电价） | A1b：本地成本 | **低** |\n| G8 | 硬件摊销周期与折旧方式 | A1a：本地成本 | **低** |\n| G9 | 实际业务中代码补全 vs 指令跟随的任务比例 | B3：混合合格率 | **中** |\n| G10 | 业务方对合格率的最低要求 | C3a：质量底线 | **中** |\n\n## 4. 递归分解（第二层）\n\n### A1a. 硬件摊销\n```\nA1a. 硬件摊销/\n├── A1a1. GPU 采购成本/     〔可控外〕2×24GB GPU 市场价\n├── A1a2. 折旧年限/         〔可调〕通常 3-5 年\n└── A1a3. 残值率/           〔可调〕通常 0-10%\n```\n**空缺**：G8（折旧方式）、GPU 当前市场价（待研究）\n\n### A1b. 电力成本\n```\nA1b. 电力成本/\n├── A1b1. GPU 功耗/         〔只能测〕满载/空闲功耗\n├── A1b2. 服务器其他功耗/   〔只能测〕CPU/内存/硬盘\n├── A1b3. 电价/             〔可控外〕当地工业/商业电价\n└── A1b4. 利用率/           〔只能测〕实际使用时长/总时长\n```\n**空缺**：G7（电力成本估算）\n\n### A2c. 平均每次调用 token 数\n```\nA2c. 平均每次调用 token 数/\n├── A2c1. 平均 prompt 长度/  〔可调〕取决于任务类型\n├── A2c2. 平均生成长度/      〔可调〕取决于任务类型\n└── A2c3. 系统 prompt 长度/  〔可调〕固定开销\n```\n**空缺**：G9（任务比例）影响平均 token 数\n\n### B1a. Python 补全准确率\n```\nB1a. Python 补全准确率/\n├── B1a1. 代码正确性/        〔只能测〕生成代码能否通过测试\n├── B1a2. 代码完整性/        〔只能测〕是否生成完整函数\n└── B1a3. 代码风格合规/      〔只能测〕是否符合 PEP8 等规范\n```\n**空缺**：G2（需实测或查 benchmark）\n\n### B2a. 指令理解准确率\n```\nB2a. 指令理解准确率/\n├── B2a1. 意图识别/          〔只能测〕是否正确理解用户意图\n├── B2a2. 约束遵守/          〔只能测〕是否遵守格式/长度等约束\n└── B2a3. 多轮一致性/        〔只能测〕多轮对话中是否保持一致\n```\n**空缺**：G3（需实测或查 benchmark）\n\n## 5. 候选对象处理\n\n| 候选 | 待验证属性 | 排除理由（若有） |\n|------|-----------|-----------------|\n| Qwen3-32B | G1, G2, G3, G4, G5, G6 | 无 |\n| Qwen2.5-Coder-32B-Instruct | G1, G2, G3, G4, G5, G6 | 无 |\n| Mistral-Small-2501-24B | G1, G2, G3, G4, G5, G6 | 无 |\n| GLM-4-32B-0414 | G1, G2, G3, G4, G5, G6 | 无 |\n| DeepSeek-Coder-V2-33B | G1, G2, G3, G4, G5, G6 | 无 |\n| Llama-3.3-70B-Instruct(W4) | G1, G2, G3, G4, G5, G6 | 无 |\n\n**候选集冻结**：以上 6 个候选为阶段 01 冻结集合。阶段 02 不得悄悄增删。\n\n## 6. 阶段 02 研究路径\n\n### 第一批行动（高优先级）\n\n| 行动 | 目标来源 | 搜索词/字段 | 备用来源 |\n|------|---------|------------|---------|\n| 查各模型量化后显存占用 | HuggingFace 模型页、vLLM 文档 | \"Qwen3-32B W4 显存\"、\"vLLM 显存计算\" | 社区论坛、GitHub issue |\n| 查各模型代码补全 benchmark | HuggingFace Open LLM Leaderboard、ModelScope | \"Qwen2.5-Coder HumanEval\"、\"DeepSeek-Coder-V2 HumanEval\" | 论文、官方博客 |\n| 查各模型 API 价格 | 各厂商官网、OpenRouter | \"Qwen3 API price\"、\"Mistral-Small API price\" | 第三方比价网站 |\n| 查各模型指令跟随 benchmark | HuggingFace Open LLM Leaderboard | \"GLM-4-32B MMLU\"、\"Llama-3.3-70B IFEval\" | 论文、官方博客 |\n\n### 第二批行动（中优先级）\n\n| 行动 | 目标来源 | 搜索词/字段 | 备用来源 |\n|------|---------|------------|---------|\n| 查各模型推理速度 | vLLM benchmark、社区实测 | \"Qwen3-32B vLLM tokens/s 24GB\" | GitHub issue、论坛 |\n| 查各模型框架支持 | vLLM 文档、TGI 文档 | \"vLLM supported models Qwen3\" | GitHub issue |\n| 估算电力成本 | GPU 功耗规格、当地电价 | \"RTX 4090 功耗\"、\"工业电价\" | 电力公司官网 |\n\n### 第三批行动（低优先级）\n\n| 行动 | 目标来源 | 搜索词/字段 | 备用来源 |\n|------|---------|------------|---------|\n| 确定折旧方式 | 公司财务政策 | \"GPU 折旧年限\" | 会计准则 |\n| 确定任务比例 | 业务方访谈 | \"代码补全 vs 指令跟随比例\" | 内部日志 |\n\n## 7. 瓶颈预判（待阶段 02 验证）\n\n**预判瓶颈**：**B（合格率）** 和 **G1（显存占用）**\n\n**理由**：\n1. **合格率**：不同模型在代码补全和指令跟随上的表现差异可能很大，直接决定\"每千次合格回答\"中的\"千次\"需要多少次调用。如果某模型合格率只有 50%，成本直接翻倍。\n2. **显存占用**：48GB 是硬约束。如果某模型 W4 量化后仍超过 48GB，直接排除。这决定了哪些候选可行。\n\n**成本因素（A）** 相对次要：\n- 本地部署的硬件摊销和电力成本在\"每千次\"尺度上通常较小（除非调用量极低）。\n- API 成本取决于 token 单价和平均 token 数，但不同模型 API 价格差异通常不如合格率差异大。\n\n## 8. 未解开的矛盾\n\n**无**（阶段 01 尚未收集数据，暂无矛盾）\n\n## 9. 阶段 01 判定\n\n- ✅ 目标交付物清楚：每千次合格回答的总成本 + 最划算模型\n- ✅ 主要因素覆盖完整：A（成本）、B（合格率）、C（约束）\n- ✅ 已知/可推导/空缺区分清楚\n- ✅ 关键空缺列入清单（G1-G10）\n- ✅ 阶段 02 研究路径具体（来源、搜索词、字段、备用）\n- ✅ 候选对象标注待验证属性\n- ✅ 候选集冻结\n\n**判定**：`pass`，可进入阶段 02。",
+  "sources": [
+    {
+      "title": "Large language model - Wikipedia",
+      "url": "https://www.bing.com/ck/a?!&&p=ddab2e5dd9405d74c92a6bf21c0de0b3ac130e2f7d6daeb9b39b269edd87452fJmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kvTGFyZ2VfbGFuZ3VhZ2VfbW9kZWw&ntb=1",
+      "snippet": "A large language model (LLM) is a machine learning model (typically a neural network) trained on a vast amount of text for natural …",
+      "observed_at": "2026-11-03T23:14:26.620383+00:00"
+    },
+    {
+      "title": "Introduction to Large Language Model (LLM) - GeeksforGeeks",
+      "url": "https://www.bing.com/ck/a?!&&p=8e3167046cf2ff688cc69264fe78ebef274e85cd6bc91ce4f3d81c24591bcb87JmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly93d3cuZ2Vla3Nmb3JnZWVrcy5vcmcvYXJ0aWZpY2lhbC1pbnRlbGxpZ2VuY2UvbGFyZ2UtbGFuZ3VhZ2UtbW9kZWwtbGxtLw&ntb=1",
+      "snippet": "Sep 16, 2026 · Your All-in-One Learning Portal: GeeksforGeeks is a comprehensive educational platform that empowers learners …",
+      "observed_at": "2026-11-03T23:14:26.620383+00:00"
+    },
+    {
+      "title": "What Is an LLM? Large Language Models Explained (2026 ...",
+      "url": "https://www.bing.com/ck/a?!&&p=088859b336b8399e731b478fd16a10c903ecdbf9d3d578fef8800e3adcb0c232JmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly90aGVhaXJhbmtpbmdzLmNvbS9ndWlkZXMvd2hhdC1pcy1hbi1sbG0v&ntb=1",
+      "snippet": "Oct 7, 2026 · What a large language model is, how LLMs work, what tokens and inference mean, and why LLMs hallucinate, …",
+      "observed_at": "2026-11-03T23:14:26.620383+00:00"
+    },
+    {
+      "title": "Master of Laws - Wikipedia",
+      "url": "https://www.bing.com/ck/a?!&&p=136888f149ff47fbced2a8a530eb36892e51498b2ba328e53a6db733ac6b4c4bJmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kvTWFzdGVyX29mX0xhd3M&ntb=1",
+      "snippet": "A Master of Laws (M.L. or LL.M.; Latin: Magister Legum or Legum Magister) is a postgraduate academic degree, pursued by those …",
+      "observed_at": "2026-11-03T23:14:26.620383+00:00"
+    },
+    {
+      "title": "LLM Fundamentals | Microsoft Learn",
+      "url": "https://www.bing.com/ck/a?!&&p=13056dd92537dd0d5f49192a14abbdb69f5aaffe39ef3b1d4448953dfdd26c5eJmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly9sZWFybi5taWNyb3NvZnQuY29tL2VuLXVzL2FnZW50LWZyYW1ld29yay9qb3VybmV5L2xsbS1mdW5kYW1lbnRhbHM&ntb=1",
+      "snippet": "Aug 25, 2026 · The LLM never executes anything. It only generates the request. Your application code (or an agent framework) is …",
+      "observed_at": "2026-11-03T23:14:26.620383+00:00"
+    }
+  ],
+  "wall_s": 15.2,
+  "tokens": {
+    "in": 6069,
+    "out": 3491
+  },
+  "timestamp": "2026-11-03T23:14:41.876586+00:00"
+}

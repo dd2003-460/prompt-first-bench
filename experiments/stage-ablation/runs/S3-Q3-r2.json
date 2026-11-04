@@ -1,0 +1,49 @@
+{
+  "arm": "S3",
+  "qid": "Q3",
+  "rep": 2,
+  "model": "qwen3.8-27b",
+  "params": {
+    "temp": 0,
+    "max_tokens": 8000
+  },
+  "output_text": "# 阶段 01 — 目标分解\n\n## 1. 根节点定义\n\n**根节点：每千输出 token 的服务成本（Cost per 1K output tokens）**\n\n公式骨架：\n```\nCost_per_1K_output_tokens = (Fixed_Cost + Variable_Cost) / Total_Output_Tokens\n```\n其中：\n- `Fixed_Cost`：服务器折旧/租金摊销（硬件已买，视为沉没成本或按剩余寿命摊销）\n- `Variable_Cost`：电力、带宽、运维人力、软件许可（开源模型无许可费）\n- `Total_Output_Tokens`：单位时间内的总输出 token 数（吞吐量）\n\n**关键洞察**：由于硬件固定，`Fixed_Cost` 是常数。因此，**决定成本差异的核心变量是吞吐量（Throughput）**。吞吐量越高，单位 token 成本越低。\n\n## 2. 顶层因素分解（正交性检查）\n\n将根节点分解为以下正交因素：\n\n```\n每千输出token成本/\n├── A. 吞吐量（Throughput）          〔核心瓶颈〕决定分母大小\n│   ├── A1. 推理引擎效率\n│   ├── A2. 批处理策略（Batching）\n│   └── A3. 内存带宽利用率\n├── B. 硬件利用率（Hardware Utilization）\n│   ├── B1. GPU 显存占用\n│   ├── B2. GPU 计算利用率\n│   └── B3. 内存带宽瓶颈\n├── C. 运维与部署成本（Ops Cost）\n│   ├── C1. 部署复杂度\n│   ├── C2. 监控与故障恢复\n│   └── C3. 升级与维护\n└── D. 服务质量约束（SLO Constraints）\n    ├── D1. 首 token 延迟（TTFT）\n    ├── D2. 每 token 生成延迟（TPOT）\n    └── D3. 并发用户数上限\n```\n\n**正交性验证**：\n- A（吞吐量）与 B（硬件利用率）：A 是结果，B 是原因。但 B 中的显存占用会影响 A 中的批处理大小。需进一步分解。\n- C（运维）与 A/B：独立，不影响单位 token 的计算成本，但影响总成本。\n- D（SLO）：约束条件，影响 A 和 B 的可行域。\n\n**修正**：将 B 合并入 A，因为硬件利用率是吞吐量的直接决定因素。\n\n```\n每千输出token成本/\n├── A. 吞吐量（Throughput）          〔核心瓶颈〕\n│   ├── A1. 推理引擎效率（框架差异）\n│   ├── A2. 批处理策略（Batching）\n│   ├── A3. 内存带宽利用率\n│   └── A4. 计算利用率\n├── B. 运维与部署成本（Ops Cost）\n│   ├── B1. 部署复杂度\n│   ├── B2. 监控与故障恢复\n│   └── B3. 升级与维护\n└── C. 服务质量约束（SLO Constraints）\n    ├── C1. 首 token 延迟（TTFT）\n    ├── C2. 每 token 生成延迟（TPOT）\n    └── C3. 并发用户数上限\n```\n\n## 3. 递归分解\n\n### A. 吞吐量（Throughput）\n\n#### A1. 推理引擎效率（框架差异）\n- **A1.1. 内核优化（Kernels）**\n  - A1.1.1. Attention 实现（FlashAttention, PagedAttention）\n  - A1.1.2. GEMM 实现（cuBLAS, Triton, CUTLASS）\n  - A1.1.3. 量化支持（GPTQ, AWQ, FP8）\n- **A1.2. 调度策略（Scheduling）**\n  - A1.2.1. 连续批处理（Continuous Batching）\n  - A1.2.2. 优先级调度\n  - A1.2.3. 抢占与恢复\n- **A1.3. 内存管理（Memory Management）**\n  - A1.3.1. KV Cache 管理（PagedAttention）\n  - A1.3.2. 显存碎片化\n  - A1.3.3. 前缀缓存（Prefix Caching）\n\n#### A2. 批处理策略（Batching）\n- **A2.1. 批大小（Batch Size）**\n  - A2.1.1. 最大批大小（受显存限制）\n  - A2.1.2. 动态批大小调整\n- **A2.2. 批处理粒度**\n  - A2.2.1. 静态批处理\n  - A2.2.2. 连续批处理\n  - A2.2.3. 分块批处理\n\n#### A3. 内存带宽利用率\n- **A3.1. KV Cache 大小**\n  - A3.1.1. 序列长度\n  - A3.1.2. 批大小\n  - A3.1.3. 量化精度\n- **A3.2. 权重加载**\n  - A3.2.1. 模型大小\n  - A3.2.2. 量化精度\n  - A3.2.3. 内存带宽\n\n#### A4. 计算利用率\n- **A4.1. 计算强度（Compute Intensity）**\n  - A4.1.1. 批大小\n  - A4.1.2. 序列长度\n- **A4.2. 算子融合（Operator Fusion）**\n  - A4.2.1. 算子融合程度\n  - A4.2.2. 内存访问模式\n\n### B. 运维与部署成本（Ops Cost）\n\n#### B1. 部署复杂度\n- **B1.1. 配置复杂度**\n  - B1.1.1. 参数数量\n  - B1.1.2. 文档质量\n- **B1.2. 依赖管理**\n  - B1.2.1. 依赖数量\n  - B1.2.2. 版本兼容性\n\n#### B2. 监控与故障恢复\n- **B2.1. 监控指标**\n  - B2.1.1. 指标丰富度\n  - B2.1.2. 可视化支持\n- **B2.2. 故障恢复**\n  - B2.2.1. 自动重启\n  - B2.2.2. 日志记录\n\n#### B3. 升级与维护\n- **B3.1. 社区活跃度**\n  - B3.1.1. 更新频率\n  - B3.1.2. Issue 响应速度\n- **B3.2. 长期支持**\n  - B3.2.1. 版本支持周期\n  - B3.2.2. 安全更新\n\n### C. 服务质量约束（SLO Constraints）\n\n#### C1. 首 token 延迟（TTFT）\n- **C1.1. 预填充阶段（Prefill）**\n  - C1.1.1. 输入长度\n  - C1.1.2. 批处理策略\n- **C1.2. 调度延迟**\n  - C1.2.1. 队列等待时间\n  - C1.2.2. 调度算法\n\n#### C2. 每 token 生成延迟（TPOT）\n- **C2.1. 解码阶段（Decode）**\n  - C2.1.1. 批大小\n  - C2.1.2. 内存带宽\n- **C2.2. 计算延迟**\n  - C2.2.1. 算子效率\n  - C2.2.2. 并行策略\n\n#### C3. 并发用户数上限\n- **C3.1. 显存限制**\n  - C3.1.1. KV Cache 大小\n  - C3.1.2. 模型大小\n- **C3.2. 计算限制**\n  - C3.2.1. GPU 利用率\n  - C3.2.2. 内存带宽\n\n## 4. 已知条件与空缺条件\n\n### 已知条件\n1. **模型规模**：27B 参数\n2. **硬件**：固定服务器（具体型号未知，需假设或调研）\n3. **候选框架**：vLLM, TGI, 原生 transformers, SGLang\n4. **目标**：最小化每千输出 token 成本\n\n### 空缺条件（需阶段 02 研究）\n1. **服务器硬件规格**：\n   - GPU 型号（如 A100, H100, L40S）\n   - GPU 数量\n   - 显存大小\n   - 内存带宽\n   - CPU 型号\n   - 内存大小\n   - 网络带宽\n2. **模型具体信息**：\n   - 模型名称（如 Llama-3-70B, Qwen-2-72B, 或其他 27B 模型）\n   - 量化精度（FP16, INT8, INT4）\n   - 上下文长度\n3. **工作负载特征**：\n   - 平均输入长度\n   - 平均输出长度\n   - 并发用户数\n   - 请求到达率\n4. **SLO 要求**：\n   - 最大 TTFT\n   - 最大 TPOT\n   - 最大并发数\n5. **框架性能数据**：\n   - 各框架在 27B 模型上的吞吐量\n   - 各框架的显存占用\n   - 各框架的延迟特性\n   - 各框架的运维成本\n\n## 5. 阶段 02 研究路径\n\n### 第一批行动\n1. **确定服务器硬件规格**：\n   - 来源：用户提供的服务器配置单、云服务商文档、硬件厂商规格\n   - 搜索词：`\"27B model deployment server requirements\"`, `\"vLLM TGI SGLang hardware requirements\"`\n   - 字段：GPU 型号、显存大小、内存带宽\n   - 备用来源：如果用户未提供，假设典型配置（如 1x A100 80GB 或 2x A100 80GB）\n\n2. **确定模型具体信息**：\n   - 来源：Hugging Face 模型卡片、模型发布博客\n   - 搜索词：`\"27B open source model\"`, `\"Llama 3 70B\"`, `\"Qwen 2 72B\"`\n   - 字段：模型名称、参数数量、量化精度、上下文长度\n   - 备用来源：如果用户未指定，假设典型 27B 模型（如 Llama-3-70B 的 27B 变体，或 Qwen-2-72B 的 27B 变体）\n\n3. **收集框架性能数据**：\n   - 来源：vLLM 官方基准测试、TGI 官方基准测试、SGLang 官方基准测试、独立评测\n   - 搜索词：`\"vLLM vs TGI vs SGLang benchmark 27B\"`, `\"vLLM throughput 27B model\"`, `\"SGLang performance 27B\"`\n   - 字段：吞吐量（tokens/s）、显存占用、TTFT、TPOT\n   - 备用来源：如果官方数据不足，使用社区评测或自行设计基准测试\n\n4. **确定工作负载特征**：\n   - 来源：用户提供的业务需求、行业典型工作负载\n   - 搜索词：`\"LLM serving workload characteristics\"`, `\"typical LLM request length\"`\n   - 字段：平均输入长度、平均输出长度、并发用户数\n   - 备用来源：如果用户未提供，假设典型工作负载（如输入 512 tokens，输出 256 tokens，并发 100）\n\n5. **确定 SLO 要求**：\n   - 来源：用户提供的业务需求、行业最佳实践\n   - 搜索词：`\"LLM serving SLO best practices\"`, `\"TTFT TPOT requirements\"`\n   - 字段：最大 TTFT、最大 TPOT、最大并发数\n   - 备用来源：如果用户未提供，假设典型 SLO（如 TTFT < 1s, TPOT < 50ms）\n\n## 6. 瓶颈判断\n\n**瓶颈：A1. 推理引擎效率（框架差异）**\n\n**原因**：\n1. 硬件固定，因此硬件利用率（A3, A4）是固定的。\n2. 工作负载特征（C）和 SLO 要求（C）是约束条件，不影响框架选择。\n3. 运维成本（B）是次要因素，通常占总成本的 10-20%。\n4. **推理引擎效率（A1）直接决定吞吐量（A），而吞吐量是决定每千输出 token 成本的核心变量。**\n\n**具体瓶颈**：\n- **A1.1. 内核优化**：不同框架使用不同的 Attention 和 GEMM 实现，直接影响计算效率。\n- **A1.2. 调度策略**：连续批处理 vs 静态批处理，直接影响吞吐量。\n- **A1.3. 内存管理**：PagedAttention vs 传统 KV Cache 管理，直接影响显存利用率和批大小。\n\n## 7. 未解开的矛盾\n\n1. **硬件规格未知**：不同 GPU 型号（如 A100 vs H100）会导致框架性能差异显著。\n2. **模型具体信息未知**：不同 27B 模型（如 Llama-3-70B vs Qwen-2-72B）的架构差异会影响框架性能。\n3. **工作负载特征未知**：不同输入/输出长度和并发数会导致框架性能差异显著。\n4. **SLO 要求未知**：不同 SLO 要求会导致框架选择不同（如高并发 vs 低延迟）。\n\n## 8. 阶段 02 研究入口\n\n**第一批行动**：\n1. 确定服务器硬件规格（GPU 型号、显存大小、内存带宽）。\n2. 确定模型具体信息（模型名称、量化精度、上下文长度）。\n3. 收集 vLLM、TGI、SGLang 在 27B 模型上的性能数据（吞吐量、显存占用、TTFT、TPOT）。\n4. 确定工作负载特征（平均输入/输出长度、并发用户数）。\n5. 确定 SLO 要求（最大 TTFT、最大 TPOT、最大并发数）。\n\n**来源类型**：\n- 官方文档：vLLM、TGI、SGLang 官方文档\n- 基准测试：官方基准测试、独立评测\n- 社区评测：GitHub Issues、Reddit、Hugging Face 社区\n- 硬件规格：GPU 厂商官网、云服务商文档\n\n**失败备用路径**：\n- 如果官方数据不足，使用社区评测或自行设计基准测试。\n- 如果硬件规格未知，假设典型配置（如 1x A100 80GB 或 2x A100 80GB）。\n- 如果模型具体信息未知，假设典型 27B 模型（如 Llama-3-70B 的 27B 变体，或 Qwen-2-72B 的 27B 变体）。",
+  "sources": [
+    {
+      "title": "Large language model - Wikipedia",
+      "url": "https://www.bing.com/ck/a?!&&p=ddab2e5dd9405d74c92a6bf21c0de0b3ac130e2f7d6daeb9b39b269edd87452fJmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kvTGFyZ2VfbGFuZ3VhZ2VfbW9kZWw&ntb=1",
+      "snippet": "A large language model (LLM) is a machine learning model (typically a neural network) trained on a vast amount of text for natural …",
+      "observed_at": "2026-11-03T22:34:09.372769+00:00"
+    },
+    {
+      "title": "Introduction to Large Language Model (LLM) - GeeksforGeeks",
+      "url": "https://www.bing.com/ck/a?!&&p=8e3167046cf2ff688cc69264fe78ebef274e85cd6bc91ce4f3d81c24591bcb87JmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly93d3cuZ2Vla3Nmb3JnZWVrcy5vcmcvYXJ0aWZpY2lhbC1pbnRlbGxpZ2VuY2UvbGFyZ2UtbGFuZ3VhZ2UtbW9kZWwtbGxtLw&ntb=1",
+      "snippet": "Sep 16, 2026 · Your All-in-One Learning Portal: GeeksforGeeks is a comprehensive educational platform that empowers learners …",
+      "observed_at": "2026-11-03T22:34:09.372769+00:00"
+    },
+    {
+      "title": "What Is an LLM? Large Language Models Explained (2026 ...",
+      "url": "https://www.bing.com/ck/a?!&&p=088859b336b8399e731b478fd16a10c903ecdbf9d3d578fef8800e3adcb0c232JmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly90aGVhaXJhbmtpbmdzLmNvbS9ndWlkZXMvd2hhdC1pcy1hbi1sbG0v&ntb=1",
+      "snippet": "Oct 7, 2026 · What a large language model is, how LLMs work, what tokens and inference mean, and why LLMs hallucinate, …",
+      "observed_at": "2026-11-03T22:34:09.372769+00:00"
+    },
+    {
+      "title": "Master of Laws - Wikipedia",
+      "url": "https://www.bing.com/ck/a?!&&p=136888f149ff47fbced2a8a530eb36892e51498b2ba328e53a6db733ac6b4c4bJmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kvTWFzdGVyX29mX0xhd3M&ntb=1",
+      "snippet": "A Master of Laws (M.L. or LL.M.; Latin: Magister Legum or Legum Magister) is a postgraduate academic degree, pursued by those …",
+      "observed_at": "2026-11-03T22:34:09.372769+00:00"
+    },
+    {
+      "title": "LLM Fundamentals | Microsoft Learn",
+      "url": "https://www.bing.com/ck/a?!&&p=13056dd92537dd0d5f49192a14abbdb69f5aaffe39ef3b1d4448953dfdd26c5eJmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly9sZWFybi5taWNyb3NvZnQuY29tL2VuLXVzL2FnZW50LWZyYW1ld29yay9qb3VybmV5L2xsbS1mdW5kYW1lbnRhbHM&ntb=1",
+      "snippet": "Aug 25, 2026 · The LLM never executes anything. It only generates the request. Your application code (or an agent framework) is …",
+      "observed_at": "2026-11-03T22:34:09.372769+00:00"
+    }
+  ],
+  "wall_s": 14.1,
+  "tokens": {
+    "in": 5462,
+    "out": 3529
+  },
+  "timestamp": "2026-11-03T22:34:23.470742+00:00"
+}

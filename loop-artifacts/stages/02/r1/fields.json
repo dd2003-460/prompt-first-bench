@@ -1,0 +1,109 @@
+{
+  "fields": [
+    {
+      "attribute": "background_facts",
+      "concept": "known",
+      "confidence": 0.9,
+      "disposition": "confirmed",
+      "evidence_refs": [
+        "https://github.com/dd2003-460/prompt-first-bench/blob/main/experiments/T8-matrix/runs/c3-v3/calibration/judge-prompts-rubric-v3.json",
+        "https://github.com/dd2003-460/prompt-first-bench/blob/main/experiments/T8-matrix/runs/c3-v3/calibration/m8fixed-protocol-v1.json",
+        "https://github.com/dd2003-460/prompt-first-bench/blob/main/experiments/T8-matrix/runs/c3-v3/runs-fullloop/receipt-r265-pilot-v2.json"
+      ],
+      "observed_at": "2026-11-03T06:25+08:00",
+      "rationale": "已知因素（全部为本地仓库工件事实，非外部 web 事实；Commander 于 2026-11-03 直接 Read 核验）：(1) pilot 6 cells（A-full/B-nofreeze/B-none × D2-file-collab）stage01/02/03 工件共 18 份已存在且完整——receipt-r265-pilot-v2.json cells_completed 列出 6 个 cell 均 status:complete，cells_pending 为空；(2) r265 同源 judge（qwen3.8-27b，与生成器同 family）已完成 J1+J2 双判并产出 receipt-r265-pilot-v2.json；(3) G2 区分力（同 domain 跨 config spread）r265 结果为 1/12 PASS，结论为消融信号 < 测量噪声；(4) 评分协议固定为 J1-strict-v3 + J2-lenient-v3（judge-prompts-rubric-v3.json），计分规则为 m8fixed-protocol-v1.json；(5) 本会话模型 qwen3.8-27b 属 Qwen family，不可作为异源 judge 使用。",
+      "impact": "material",
+      "reversible": true,
+      "role": "input"
+    },
+    {
+      "attribute": "open_questions",
+      "concept": "unknown",
+      "confidence": 0.85,
+      "disposition": "confirmed",
+      "evidence_refs": [
+        "https://github.com/dd2003-460/prompt-first-bench/blob/main/experiments/T8-matrix/runs/c3-v3/runs-fullloop/receipt-r265-pilot-v2.json",
+        "https://github.com/dd2003-460/prompt-first-bench/blob/main/experiments/T8-matrix/runs/c3-v3/calibration/judge-prompts-rubric-v3.json"
+      ],
+      "observed_at": "2026-11-03T06:25+08:00",
+      "rationale": "阶段 02 调研闭环（r266）：三项未知因素全部带回证据。(1) local_non_qwen_endpoints——实际探测完成，确认本机不存在非 Qwen 可调用端点（evidence: loop-artifacts/stages/01/r1/evidence/unknown-local-probe-r266.md；LM Studio :1234 / Ollama :11434 CLOSED，唯一 LLM 端点 127.0.0.1:8787 仅服务 qwen3.8-27b）。(2) external_non_qwen_api_keys——环境变量与 shell rc 中无任何非 Qwen provider 凭据，免费额度渠道在无凭据下不可验证；按任务书失败降级条款处置为 blocked_human（需用户提供 key 或确认替代方案），不阻塞其他任务。(3) judge_output_format_compatibility——无可用异源端点则无法实测，属依赖项(2)解锁后的后续验证，不构成阶段 02 的独立未闭环缺口。结论：所有可由 Commander 单方面调研的字段均已带回 evidence_refs；剩余唯一缺口为外部凭据，走 blocked_human 通道。（本地探测完整命令与输出见仓库内 loop-artifacts/stages/01/r1/evidence/unknown-local-probe-r266.md）",
+      "role": "input"
+    },
+    {
+      "attribute": "research_findings",
+      "concept": "non_qwen_judge_availability",
+      "role": "output",
+      "disposition": "confirmed",
+      "confidence": 0.9,
+      "impact": "material",
+      "reversible": true,
+      "observed_at": "2026-11-03T06:25+08:00",
+      "rationale": "调研结论汇总：本机不存在可用的非 Qwen family 可调用模型端点（本地探测 r266 实证）；外部环境变量中不存在任何非 Qwen provider API key；因此异源 judge 验证在现有资源下不可执行，按任务书【失败降级】条款标记 blocked_human（需要用户提供非 Qwen key 或确认使用其他本地模型），不阻塞其他任务。若用户提供 key，验收标准 1-5 可按原协议继续执行。",
+      "evidence_refs": [
+        "https://github.com/dd2003-460/prompt-first-bench/blob/main/experiments/T8-matrix/runs/c3-v3/runs-fullloop/receipt-r265-pilot-v2.json",
+        "loop-artifacts/stages/01/r1/evidence/unknown-local-probe-r266.md",
+        "loop-state.json"
+      ]
+    },
+    {
+      "attribute": "local_endpoint_probe",
+      "concept": "research_findings: local_non_qwen_endpoints",
+      "role": "input",
+      "disposition": "confirmed",
+      "confidence": 0.9,
+      "impact": "material",
+      "reversible": true,
+      "observed_at": "2026-11-03T06:25+08:00",
+      "rationale": "本地非 Qwen 端点探测（r266 实证）：LM Studio :1234 与 Ollama :11434 端口均 CLOSED；全量 LISTEN 端口枚举后唯一 LLM 推理端点 127.0.0.1:8787（node/ninfer）仅服务 qwen3.8-27b（Qwen family）。结论：本机不存在可用的非 Qwen family 可调用端点。完整命令与输出见 evidence/unknown-local-probe-r266.md。",
+      "evidence_refs": [
+        "https://github.com/dd2003-460/prompt-first-bench/blob/main/experiments/T8-matrix/runs/c3-v3/runs-fullloop/receipt-r265-pilot-v2.json",
+        "loop-artifacts/stages/01/r1/evidence/unknown-local-probe-r266.md"
+      ]
+    },
+    {
+      "attribute": "external_api_credentials",
+      "concept": "research_findings: external_non_qwen_api_keys",
+      "role": "input",
+      "disposition": "assumed_default",
+      "confidence": 0.8,
+      "impact": "material",
+      "reversible": true,
+      "observed_at": "2026-11-03T06:25+08:00",
+      "rationale": "外部非 Qwen API key 调研结论：环境变量与 shell rc 中不存在 OpenAI/OpenRouter/Gemini/Mistral/Cohere/DeepSeek 等任何指向其他 provider 的凭据（r266 探测确认）；免费额度渠道在无凭据情况下无法验证。默认假设：无可用外部 key → 按任务书失败降级条款标记 blocked_human（需用户提供 key 或确认替代方案），不阻塞其他任务。",
+      "evidence_refs": [
+        "https://github.com/dd2003-460/prompt-first-bench/blob/main/experiments/T8-matrix/runs/c3-v3/runs-fullloop/receipt-r265-pilot-v2.json",
+        "loop-artifacts/stages/01/r1/evidence/unknown-local-probe-r266.md"
+      ]
+    },
+    {
+      "attribute": "judge_format_compatibility",
+      "concept": "research_findings: judge_output_format_compatibility",
+      "role": "input",
+      "disposition": "research_required",
+      "confidence": 0.4,
+      "impact": "material",
+      "reversible": true,
+      "observed_at": "2026-11-03T06:25+08:00",
+      "rationale": "所选异源 judge 对 J1/J2 prompt 的输出格式兼容性与解析失败率：属未验证事实，保留 research_required。当前无法闭环的原因：依赖外部非 Qwen 端点（external_api_credentials 已按任务书降级条款走 blocked_human 通道）。处置：不伪造结论；该字段随用户 key 到位后由阶段 02.5/04 实测回填（J1-strict-v3/J2-lenient-v3 要求 JSON 输出，主流模型预期可满足，实际解析失败率以实测为准，若 >20% 按任务书条款记录为技术故障）。",
+      "evidence_refs": [
+        "https://github.com/dd2003-460/prompt-first-bench/blob/main/experiments/T8-matrix/runs/c3-v3/runs-fullloop/receipt-r265-pilot-v2.json",
+        "loop-artifacts/stages/01/r1/evidence/unknown-local-probe-r266.md"
+      ]
+    },
+    {
+      "attribute": "non_qwen_judge_availability",
+      "concept": "research_findings",
+      "role": "output",
+      "disposition": "confirmed",
+      "confidence": 0.9,
+      "impact": "material",
+      "reversible": true,
+      "observed_at": "2026-11-03T06:25+08:00",
+      "rationale": "阶段 02 required_output 汇总：本机不存在可用的非 Qwen family 可调用模型端点（本地探测 r266 实证）；外部环境变量中不存在任何非 Qwen provider API key；因此异源 judge 验证在现有资源下不可执行，按任务书【失败降级】条款标记 blocked_human（需要用户提供非 Qwen key 或确认使用其他本地模型），不阻塞其他任务。若用户提供 key，验收标准 1-5 可按原协议继续执行。",
+      "evidence_refs": [
+        "https://github.com/dd2003-460/prompt-first-bench/blob/main/experiments/T8-matrix/runs/c3-v3/runs-fullloop/receipt-r265-pilot-v2.json",
+        "loop-artifacts/stages/01/r1/evidence/unknown-local-probe-r266.md"
+      ]
+    }
+  ]
+}
