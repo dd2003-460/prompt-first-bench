@@ -45,6 +45,10 @@ JUDGE_PROMPT = """你是一个严格的事实核查员。请对照【标准答�
 """
 
 
+class QuotaExhausted(Exception):
+    pass
+
+
 def _run_perplexity(prompt_text):
     """通过 ego-browser 调 Perplexity，返回回复文本。"""
     # 把 prompt 写入临时文件，避免 JS 字符串转义问题
@@ -74,6 +78,12 @@ if (quota.includes("免费搜索次数上限") || /free (search )?(limit|allowan
   return;
 }}
 
+// 若输入框已有残留文本（页面复用/重定向后未清空），先全选删除
+await page.keyboard.press("Meta+a");
+await page.waitForTimeout(200);
+await page.keyboard.press("Backspace");
+await page.waitForTimeout(300);
+
 // 输入 prompt（分块，每块 200 字符）
 const chunks = prompt.match(/./g) || [];
 let i = 0;
@@ -88,10 +98,19 @@ await page.keyboard.press("Enter");
 
 // 等待响应（最多 120s）：轮询检测 "已完成" 标记，出现即停
 let respText = "";
+// 额度耗尽检测（发送后页面会显示中文提示）
+const checkQuota = async () => {{
+  const b = await page.evaluate(() => document.body.innerText || "");
+  return b.includes("您已达到免费搜索次数上限") || b.includes("免费搜索次数上限");
+}};
+if (await checkQuota()) {{ console.log(JSON.stringify({{ text: "QUOTA_EXHAUSTED", quota: true }})); return; }}
+
 for (let w = 0; w < 24; w++) {{
   await page.waitForTimeout(5000);
   const body = await page.evaluate(() => document.body.innerText || "");
-  if (body.includes("已完成") && body.length > 800) {{ respText = body; break; }}
+  if (body.includes("免费搜索次数上限")) {{ console.log(JSON.stringify({{ text: "QUOTA_EXHAUSTED", quota: true }})); return; }}
+  // 回复里出现 JSON 评分标记即视为完成（"已完成"标记可能因 UI 版本不出现）
+  if (/"m1"|\\"m1\\"/.test(body)) {{ respText = body; break; }}
 }}
 if (!respText) respText = await page.evaluate(() => document.body.innerText || "");
 
@@ -109,8 +128,10 @@ console.log(JSON.stringify({{text: text}}));
     try:
         result = subprocess.run(
             [EGO_BROWSER, "nodejs", "-e", js],
-            capture_output=True, text=True, timeout=180,
+            capture_output=True, text=True, timeout=300,
         )
+    except subprocess.TimeoutExpired:
+        raise RuntimeError("ego-browser call timed out (300s)")
     finally:
         os.unlink(prompt_file)
 
@@ -119,29 +140,44 @@ console.log(JSON.stringify({{text: text}}));
         line = line.strip()
         if line.startswith("{"):
             try:
-                return json.loads(line)
+                d = json.loads(line)
+                if d.get("quota"):
+                    raise QuotaExhausted("Perplexity free tier exhausted")
+                return d
             except json.JSONDecodeError:
                 continue
     raise RuntimeError(f"Perplexity judge failed: {out[-300:]}")
 
 
 def judge_m1(gold_md, answer_text):
-    """调 Perplexity 做异源 M1 判定，返回 dict。"""
+    """调 Perplexity 做异源 M1 判定，返回 dict。带重试（瞬时失败不烧 tag）。"""
     prompt = JUDGE_PROMPT.format(gold=gold_md[:4000], answer=answer_text[:6000])
-    raw = _run_perplexity(prompt)
-    text = raw.get("text", "")
-    # 从 Perplexity 回复里提取 JSON
-    match = re.search(r'\{[^{}]*"m1"[^{}]*\}', text)
-    if match:
+    last_err = None
+    for attempt in range(3):
         try:
-            return json.loads(match.group(0))
+            raw = _run_perplexity(prompt)
+        except QuotaExhausted:
+            raise
+        except Exception as e:
+            last_err = e
+            time.sleep(5 * (attempt + 1))
+            continue
+        text = raw.get("text", "")
+        # 从 Perplexity 回复里提取 JSON
+        match = re.search(r'\{[^{}]*"m1"[^{}]*\}', text)
+        if match:
+            try:
+                return json.loads(match.group(0))
+            except json.JSONDecodeError:
+                pass
+        try:
+            return json.loads(text)
         except json.JSONDecodeError:
-            pass
-    try:
-        return json.loads(text)
-    except json.JSONDecodeError:
-        return {"m1": None, "claims_checked": 0, "claims_correct": 0,
-                "notes": f"parse_failed: {text[:200]}"}
+            # 回复被截断/未含 JSON → 视为瞬时失败，resume 会重跑该 tag
+            return {"m1": None, "claims_checked": 0, "claims_correct": 0,
+                    "notes": f"transient_error: incomplete_response: {text[:200]}"}
+    return {"m1": None, "claims_checked": 0, "claims_correct": 0,
+            "notes": f"transient_error_after_3_retries: {str(last_err)[:150]}"}
 
 
 def _load_local_scores():
@@ -176,15 +212,20 @@ def main():
     local_scores = _load_local_scores()
     print(f"Loaded {len(local_scores)} local scores from scoring.md")
 
-    # 断点续跑：加载已有结果，跳过已完成的 tag
+    # 断点续跑：加载已有结果，跳过已完成的 tag（perplexity_m1 非 None）
     out_path = os.path.join(RUNS_DIR, "cross-judge-results.json")
     results = []
     done_tags = set()
     if os.path.exists(out_path):
         try:
-            results = json.load(open(out_path))
+            raw_results = json.load(open(out_path))
+            # 失败记录（m1=None 且 notes 含 transient/parse_failed/Command）重跑，不占位
+            results = [r for r in raw_results
+                       if r.get("perplexity_m1") is not None
+                       or "transient" not in str(r.get("notes", ""))]
             done_tags = {r["tag"] for r in results if r.get("perplexity_m1") is not None}
-            print(f"Resuming: {len(done_tags)} already judged, will skip")
+            dropped = len(raw_results) - len(results)
+            print(f"Resuming: {len(done_tags)} already judged, will skip; {dropped} failed entries re-queued")
         except (json.JSONDecodeError, KeyError):
             results = []
     for qid in qs:
@@ -209,6 +250,9 @@ def main():
                 print(f"[judge] {tag}... ({count+1}/{limit})", flush=True)
                 try:
                     verdict = judge_m1(gold, d["output_text"])
+                    if verdict.get("quota"):
+                        print("  QUOTA_EXHAUSTED — stopping (will resume next round)")
+                        break
                     local_s = local_scores.get(tag, {})
                     local_m1 = local_s.get("M1")
                     results.append({
@@ -221,11 +265,14 @@ def main():
                     })
                     print(f"  local={local_m1} perplexity={verdict.get('m1')} ({verdict.get('notes','')[:60]})")
                     count += 1
+                except QuotaExhausted:
+                    print("  QUOTA_EXHAUSTED — stopping (resumes after tier reset)")
+                    break
                 except Exception as e:
                     print(f"  ERROR: {str(e)[:150]}")
                     results.append({"tag": tag, "arm": arm, "qid": qid, "rep": rep,
                                      "local_m1": local_scores.get(tag, {}).get("M1"),
-                                     "perplexity_m1": None, "notes": str(e)[:200]})
+                                     "perplexity_m1": None, "notes": f"transient_error: {str(e)[:200]}"})
                 time.sleep(3)  # rate limit
                 # 增量保存（每完成一个 run 就写盘，防崩）
                 with open(out_path, "w") as f:

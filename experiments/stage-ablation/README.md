@@ -36,4 +36,4 @@
 
 **下一步**：异源 judge（Perplexity via ego-browser，72 runs 运行中）→ 论文初稿（`paper-draft.md` 已写）。
 
-**异源 judge 状态**（2026-11-04）：Gemini 网页版在 ego-lite 会话中不可用（/app 被重定向回 landing page），改用 Perplexity。流程已验证（click [role=textbox] → keyboard.type → Enter → 提取"已完成"后文本）。全量 Q1-Q4 × S0-S5 × r1-r3 = 72 runs。**D1 开源基线完成（2026-11-04）**：GPT Researcher（Python 3.12 venv + duckduckgo + 本地 qwen3.8-27b）5 题全跑通，mean=0.402，落在 S0(0.374) 与 S5(0.548) 之间——"S5 能赢开源系统"结论成立。最大短板 M4（缺口识别）：D1 多数题 0 分，pfb 阶段 01 强制列空缺条件是差异化价值点。详见 scoring.md「D1」节。**异源 judge**：Perplexity resume 运行中，已评 4/24，系统性更严（Δ≈-0.14）。
+**异源 judge 状态**（2026-11-04）：Gemini 网页版在 ego-lite 会话中不可用（/app 被重定向回 landing page），改用 Perplexity。流程已验证（click [role=textbox] → keyboard.type → Enter → 提取"已完成"后文本）。全量 Q1-Q4 × S0-S5 × r1-r3 = 72 runs。**D1 开源基线完成（2026-11-04）**：GPT Researcher（Python 3.12 venv + duckduckgo + 本地 qwen3.8-27b）5 题全跑通，mean=0.402，落在 S0(0.374) 与 S5(0.548) 之间——"S5 能赢开源系统"结论成立。最大短板 M4（缺口识别）：D1 多数题 0 分，pfb 阶段 01 强制列空缺条件是差异化价值点。详见 scoring.md「D1」节。**异源 judge**：Perplexity 已评 5/72（S0-Q1×3, S1-Q1×2），系统性更严 Δ≈-0.10。当前免费额度耗尽（页面提示"几小时后重置"），cross_judge.py 已加额度检测+断点续跑，恢复后直接 `python3 cross_judge.py` 继续。
