@@ -30,3 +30,11 @@ r269(v3, κ=0.48 同源) → r270(arena v3, κ≈0 异源崩溃) → r271-r277(S
 ## 待成璐 sign-off
 
 rubric v3.1 方向确认后即可冻结为 T8 正式评分标准。sign-off 前所有历史 baseline（r269/r270）标注为「旧 rubric 参考值」。
+
+
+## 勘误与终态确认（11-05）
+
+- Arena 分支 canonical commit 为 `9807268`（含 summary 修正），数据文件 36/36 行完整。
+- **Arena 那轮实际使用的是 r277 前的 rubric**（inputs 副本 J1 sha `8811ae28`，"只看第一行"），因此 code-fence 2 cell 的 0/N 是旧规则下的预期行为，非 agent 错误。
+- inputs 副本已于今日同步至 r278（J1 sha `7518ce5c`），下一轮 arena 复跑将自动消除这 2 个 cell。
+- 最终指标不变：mean κ=+0.307, G2 29/36, arena 内部 κ=+0.696。
