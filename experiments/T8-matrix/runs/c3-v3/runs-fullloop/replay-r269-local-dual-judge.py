@@ -222,7 +222,7 @@ def main() -> None:
             for judge in ("J1-strict-v3", "J2-lenient-v3"):
                 vals = {}
                 for cfg in CONFIGS:
-                    cell = f"{cfg}/{dom}/stage{sn.lower()[2:]}"
+                    cell = f"{cfg}/{dom}/s{sn[1:].lower()}"
                     s = pass_rate(cell, judge)
                     if s is not None:
                         vals[cfg] = round(s, 4)
