@@ -3,7 +3,8 @@
 > 用法：复制本文件为 `tasks/<id>.md`，替换 `{{...}}` 占位符。
 > **只内联当前阶段**（`{{STAGE}}`）的规则包，其余阶段由 agent 到阶段时按 INDEX 自取。
 > 旧模板（R5 及以前）把 SOP + 00-common + 01..04.5 全量贴进任务书 = 12,086 o200k/turn，
-> 本模板实测 2,119–4,549 o200k/turn（均值 3,012），见 `run6-token-analysis.md`。
+> 本模板实测 2,983–5,443 o200k/turn（均值 3,913，−67.6%），见 `run6-token-analysis.md` §2。
+> 其中 `examples/` 为 tier-3（按需），不含示例时 2,143–4,573（均值 3,036）。
 > 校验：`node bench/self-opt-tester/runs/r6/count-rule-tokens.js --stage {{STAGE}}`
 
 ---

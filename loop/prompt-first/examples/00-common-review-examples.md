@@ -14,15 +14,6 @@
 [执行工具调用]
 ```
 
-## 环境自适应示例
+---
 
-```
-✅ 正确做法：
-[检测到输出被截断]
-→ 降低输出长度，直接给出最简答案
-→ 记录：当前模型输出被截断，已降低输出长度
-
-❌ 错误做法：
-→ 硬编码：设置 enable_thinking=false
-→ 硬编码：设置 reasoning-budget=1000
-```
+其余 1 个示例（负案例/边界案例）已移到 `examples/archive/00-common-review-examples-extras.md`，需要时再读。

@@ -14,7 +14,7 @@
 
 | 项 | 内容 |
 |---|---|
-| 路由表 | `loop/prompt-first/INDEX.md`（必读，458 o200k） |
+| 路由表 | `loop/prompt-first/INDEX.md`（必读，482 o200k） |
 | 当前阶段 | `01-goal-decomposition` |
 | 本阶段规则包 | `00-common-review.md` + `01-goal-decomposition.md` + `02-information-research.md` = 4,091 o200k |
 | 后续阶段 | 进入时**重读 INDEX.md**，只读该阶段的 2–3 个文件；已读文件不重读 |

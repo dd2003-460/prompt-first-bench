@@ -39,6 +39,21 @@ const ROUTES = {
   "04.5": ["00", "04.5"],
 };
 
+// 示例（tier-3，按需）：INDEX v1.1 第三列；阶段包默认计入，可用 --core-only 排除
+const EXAMPLES = {
+  "00": "examples/00-common-review-examples.md",
+  "01": "examples/01-examples.md",
+  "02": "examples/02-examples.md",
+  "02.5": "examples/02.5-examples.md",
+  "03": "examples/03-examples.md",
+  "04": "examples/04-examples.md",
+  "04.5": "examples/04.5-examples.md",
+};
+const EX_ROUTES = {
+  "01": ["00", "01"], "02": ["00", "02"], "02.5": ["00", "02.5"],
+  "03": ["00", "03"], "04": ["00", "04"], "04.5": ["00", "04.5"],
+};
+
 let enc = null;
 let method = "o200k_js_tiktoken";
 try {
@@ -52,7 +67,7 @@ function count(text) {
   return Math.round(Buffer.byteLength(text, "utf8") / 3.32);
 }
 
-const out = { tokenizer: method, files: {}, bundles: {}, all_loop_files: 0 };
+const out = { tokenizer: method, files: {}, examples: {}, bundles: {}, all_loop_files: 0, all_examples: 0 };
 
 for (const [k, f] of Object.entries(FILES)) {
   const p = path.join(LOOP, f);
@@ -60,11 +75,26 @@ for (const [k, f] of Object.entries(FILES)) {
   out.files[k] = { name: f, tokens: count(text), bytes: Buffer.byteLength(text, "utf8") };
 }
 
+for (const [k, f] of Object.entries(EXAMPLES)) {
+  const p = path.join(LOOP, f);
+  if (!fs.existsSync(p)) continue;
+  const text = fs.readFileSync(p, "utf8");
+  out.examples[k] = { name: f, tokens: count(text), bytes: Buffer.byteLength(text, "utf8") };
+}
+out.all_examples = Object.values(out.examples).reduce((a, v) => a + v.tokens, 0);
+
 out.all_loop_files = ["00", "01", "02", "02.5", "03", "04", "04.5"].reduce((a, k) => a + out.files[k].tokens, 0);
 
 for (const [stage, members] of Object.entries(ROUTES)) {
   const body = members.reduce((a, k) => a + out.files[k].tokens, 0);
-  out.bundles[stage] = { files: members, body_tokens: body, with_index: body + out.files.INDEX.tokens };
+  const ex = (EX_ROUTES[stage] || []).reduce((a, k) => a + (out.examples[k] ? out.examples[k].tokens : 0), 0);
+  out.bundles[stage] = {
+    files: members,
+    body_tokens: body,
+    body_with_index: body + out.files.INDEX.tokens,
+    example_tokens: ex,
+    with_index_and_examples: body + ex + out.files.INDEX.tokens,
+  };
 }
 
 const argv = process.argv.slice(2);
@@ -90,9 +120,13 @@ for (const [k, v] of Object.entries(out.files)) {
   console.log(`${String(v.tokens).padStart(6)} tok  ${String(v.bytes).padStart(6)} B  ${k.padEnd(6)} ${v.name}`);
 }
 console.log(`\n## all 7 loop files: ${out.all_loop_files} tok`);
-console.log("## stage bundles (with INDEX)");
+if (out.all_examples) console.log(`## all 7 examples:   ${out.all_examples} tok (tier-3)`);
+console.log("## stage bundles");
 for (const [s, v] of Object.entries(out.bundles)) {
-  console.log(`  ${s.padEnd(5)} ${String(v.body_tokens).padStart(5)} tok (${v.files.join("+")})  +INDEX = ${v.with_index}`);
+  console.log(`  ${s.padEnd(5)} core ${String(v.body_tokens).padStart(5)} +INDEX ${String(v.body_with_index).padStart(5)} ` +
+              `+ex ${String(v.example_tokens).padStart(4)} => ${String(v.with_index_and_examples).padStart(5)}`);
 }
-const mean = Object.values(out.bundles).reduce((a, v) => a + v.with_index, 0) / Object.keys(out.bundles).length;
-console.log(`  mean  ${Math.round(mean)} tok`);
+const vals = Object.values(out.bundles);
+const m1 = vals.reduce((a, v) => a + v.body_with_index, 0) / vals.length;
+const m2 = vals.reduce((a, v) => a + v.with_index_and_examples, 0) / vals.length;
+console.log(`  mean  core+INDEX ${Math.round(m1)} tok  |  core+INDEX+ex ${Math.round(m2)} tok  (n=${vals.length})`);
