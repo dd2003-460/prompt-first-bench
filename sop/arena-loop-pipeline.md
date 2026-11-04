@@ -27,13 +27,26 @@
 
 ## 2. 任务书强制段（防断点 C · 必须写入 tasks/<id>.md 顶部）
 
+> **R6 变更（2026-11-04 · 阶段门控）**：本节从「全量注入」改为「按阶段注入」。
+> 旧版要求 agent 一次性读 SOP + 00-common + 01..04.5 = 7 份规则（实测 12,086 o200k/turn，
+> 每轮重发）。新版任务书**只内联 `loop/prompt-first/INDEX.md` + 当前阶段的 2–3 个文件**，
+> 其余阶段进入时再按 INDEX 读取。规则正文零改动，只改「读什么、什么时候读」。
+> 计量与验收见 `bench/self-opt-tester/runs/r6/run6-token-analysis.md`。
+
 ```markdown
-【执行前必读】
-1. 本任务必须走 1-loop：先读 sop/arena-loop-pipeline.md + loop/prompt-first/00-common-review.md + 01..04.5（仓库内）。
-2. 每阶段产出落盘 loop-artifacts/stages/<N>/，阶段判定 pass 才进下一阶段。
-3. 完成后 commit + push（含全部 loop-artifacts/）。
-4. 通道故障（403/沙箱）→ 报告 Lead，由 Lead 降级本地执行，不得静默跳过 loop。
+【执行前必读 · 阶段门控】
+1. 本任务必须走 1-loop。**先读 `loop/prompt-first/INDEX.md`（约 460 tok），按路由表确定当前阶段
+   需要的 2–3 个文件，只读这些文件。不要一次性读全部 7 个。**
+2. 每阶段产出落盘 `loop-artifacts/stages/<N>/`，阶段判定 pass 才进下一阶段；
+   进入下一阶段前**重新读 INDEX.md** 确认该阶段需要哪些文件（已读过的文件不必重读）。
+3. 本任务书已内联当前阶段（<STAGE>）的规则包：<FILES>。**其余阶段的规则不在本文内联**，
+   到该阶段时按 INDEX 自行读取。
+4. 完成后 commit + push（含全部 loop-artifacts/）。
+5. 通道故障（403/沙箱）→ 报告 Lead，由 Lead 降级本地执行，不得静默跳过 loop。
 ```
+
+**注入量对照**（o200k 实测，见 `run6-token-analysis.md` §2）：
+全量 7 文件 + SOP = 12,086 tok/turn；阶段包 + INDEX = 2,119–4,549 tok/turn（均值 3,012）。
 
 ## 3. 仓库映射 + 连接 + 失败降级（自 arena-outsource.md 并入）
 
