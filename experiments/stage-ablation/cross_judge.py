@@ -98,17 +98,17 @@ await page.keyboard.press("Enter");
 
 // 等待响应（最多 120s）：轮询检测 "已完成" 标记，出现即停
 let respText = "";
-// 额度耗尽检测（发送后页面会显示中文提示）
+// 额度耗尽检测（要求完整句式，避免首页残留旧文案误判）
 const checkQuota = async () => {{
   const b = await page.evaluate(() => document.body.innerText || "");
-  return b.includes("您已达到免费搜索次数上限") || b.includes("免费搜索次数上限");
+  return b.includes("您已达到免费搜索次数上限") || (b.includes("免费搜索次数上限") && b.includes("重置"));
 }};
 if (await checkQuota()) {{ console.log(JSON.stringify({{ text: "QUOTA_EXHAUSTED", quota: true }})); return; }}
 
 for (let w = 0; w < 24; w++) {{
   await page.waitForTimeout(5000);
   const body = await page.evaluate(() => document.body.innerText || "");
-  if (body.includes("免费搜索次数上限")) {{ console.log(JSON.stringify({{ text: "QUOTA_EXHAUSTED", quota: true }})); return; }}
+  if (body.includes("您已达到免费搜索次数上限") || (body.includes("免费搜索次数上限") && body.includes("重置"))) {{ console.log(JSON.stringify({{ text: "QUOTA_EXHAUSTED", quota: true }})); return; }}
   // 回复里出现 JSON 评分标记即视为完成（"已完成"标记可能因 UI 版本不出现）
   if (/"m1"|\\"m1\\"/.test(body)) {{ respText = body; break; }}
 }}
