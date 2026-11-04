@@ -1,0 +1,1833 @@
+[d1] Q2 ...
+Failed to import MCPRetriever: No module named 'langchain_mcp_adapters'
+Failed to decode JSON from regex extraction: Extra data: line 6 column 1 (char 529)
+Traceback (most recent call last):
+  File "/Users/a1-6/Desktop/workspace/pfb/experiments/stage-ablation/runs/d1-gpt-researcher/gpt_researcher/actions/agent_creator.py", line 66, in choose_agent
+    agent_dict = json.loads(response)
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/a1-6/.local/share/uv/python/cpython-3.12.13-macos-aarch64-none/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/a1-6/.local/share/uv/python/cpython-3.12.13-macos-aarch64-none/lib/python3.12/json/decoder.py", line 341, in decode
+    raise JSONDecodeError("Extra data", s, end)
+json.decoder.JSONDecodeError: Extra data: line 6 column 1 (char 529)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/a1-6/Desktop/workspace/pfb/experiments/stage-ablation/runs/d1-gpt-researcher/gpt_researcher/actions/agent_creator.py", line 106, in handle_json_error
+    json_data = json.loads(json_string)
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/a1-6/.local/share/uv/python/cpython-3.12.13-macos-aarch64-none/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/a1-6/.local/share/uv/python/cpython-3.12.13-macos-aarch64-none/lib/python3.12/json/decoder.py", line 341, in decode
+    raise JSONDecodeError("Extra data", s, end)
+json.decoder.JSONDecodeError: Extra data: line 6 column 1 (char 529)
+INFO:     [11:55:23] 🔍 Starting the research task for '你是一个逻辑严密的拆解者。面对一个复杂问题，不要凭直觉直接列清单，要像整理文件夹一样，一层一层往下分，最后交出一棵树。
+
+把整个问题先定成一个要算清楚的「根节点」——通常是一个数（比如「哪种方案最划算」，就拆成「每个方案的单任务成本」）。然后一层层往下切，每一层都把这个节点切成几个子文件夹。一直切到每一片「叶子」都是一个你要么能查到规格、要么能套公式、要么能实测出来的具体数字或区间为止。
+
+**怎么拆都行**：你可以一次只拆一层（先列直接子节点，下一轮再往下），也可以一口气拆好几层，随你方便。拆的过程中随时可以停下来想一想、自检、再继续——不要求一次拆完，每次挑几个还没拆完的节点往下切就行。
+
+下面用「一条产线每件产品的成本」做例子，照这个样子长（先骨架，再填几片叶子）：
+
+    单件成本/
+    ├── 良率/        〔只能测〕每批抽 200 件记不良，连续 10 批    〔占 0.30〕
+    ├── 设备摊销/    〔可调〕按折旧摊到每件                  〔占 0.45〕
+    └── 来料价格/    〔可控外〕随采购合同                    〔占 0.25〕
+
+每一刀只当场验两件事：
+
+1. **完整（不漏）**：切出来的几支拼起来要能还原父节点，不能丢掉任何一块。按比例拆时比例加起来必须正好等于 1。拼不回来说明这一刀切错了，不是「还有点没想到」。
+
+2. **不重叠（不抢）**：同一层的几支不能去动同一个底层东西。两支都在占显存、都在花同一笔钱、都在改同一个参数，就是没拆干净——要么继续往下切分开，要么显式写一句「这两支耦合在 X 上」并说明会不会改变结论。名字不一样不代表不重叠，是「不抢同一个底层资源」才叫不重叠。
+
+查不到也量不出来的，别硬编：标成「黑盒」，写清它影响树的哪一支、你估计的大致范围（给区间不给一个数）、以及真要搞准的话一天内能做完的实测办法。
+
+最后，指出哪一支对整个结果影响最大（瓶颈），说清楚为什么是它；并列出还有哪些没解开的矛盾（没有就写「无」）。
+
+你最终交出来的，就是上面那样的一棵**「文件夹结构示意图」**——根在上、子节点往下/往右展开，每个节点旁标清「是什么 / 能调还是只能测 / 怎么量 / 占父份额」。这棵树只作为格式看，真正评分看的是你拆得全不全、重不重、瓶颈抓得准不准、黑盒标得老不老实。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+
+我要为一个内部代码助手选一个开源大模型，主要任务是函数级代码补全（Python/JS）和通用指令跟随，预算是单台双卡 24GB 或等效 API 额度。候选有 Qwen3-32B、Qwen2.5-Coder-32B-Instruct、Mistral-Small-2501-24B、GLM-4-32B-0414、DeepSeek-Coder-V2-33B、Llama-3.3-70B-Instruct(W4) 这几个。
+请帮我拆解：决定「每千次合格回答的总成本」的所有因素都有哪些，并判断哪个模型最划算。'...
+INFO:     [11:55:23] Default Agent
+INFO:     [11:55:23] 🌐 Browsing the web to learn more about the task: 你是一个逻辑严密的拆解者。面对一个复杂问题，不要凭直觉直接列清单，要像整理文件夹一样，一层一层往下分，最后交出一棵树。
+
+把整个问题先定成一个要算清楚的「根节点」——通常是一个数（比如「哪种方案最划算」，就拆成「每个方案的单任务成本」）。然后一层层往下切，每一层都把这个节点切成几个子文件夹。一直切到每一片「叶子」都是一个你要么能查到规格、要么能套公式、要么能实测出来的具体数字或区间为止。
+
+**怎么拆都行**：你可以一次只拆一层（先列直接子节点，下一轮再往下），也可以一口气拆好几层，随你方便。拆的过程中随时可以停下来想一想、自检、再继续——不要求一次拆完，每次挑几个还没拆完的节点往下切就行。
+
+下面用「一条产线每件产品的成本」做例子，照这个样子长（先骨架，再填几片叶子）：
+
+    单件成本/
+    ├── 良率/        〔只能测〕每批抽 200 件记不良，连续 10 批    〔占 0.30〕
+    ├── 设备摊销/    〔可调〕按折旧摊到每件                  〔占 0.45〕
+    └── 来料价格/    〔可控外〕随采购合同                    〔占 0.25〕
+
+每一刀只当场验两件事：
+
+1. **完整（不漏）**：切出来的几支拼起来要能还原父节点，不能丢掉任何一块。按比例拆时比例加起来必须正好等于 1。拼不回来说明这一刀切错了，不是「还有点没想到」。
+
+2. **不重叠（不抢）**：同一层的几支不能去动同一个底层东西。两支都在占显存、都在花同一笔钱、都在改同一个参数，就是没拆干净——要么继续往下切分开，要么显式写一句「这两支耦合在 X 上」并说明会不会改变结论。名字不一样不代表不重叠，是「不抢同一个底层资源」才叫不重叠。
+
+查不到也量不出来的，别硬编：标成「黑盒」，写清它影响树的哪一支、你估计的大致范围（给区间不给一个数）、以及真要搞准的话一天内能做完的实测办法。
+
+最后，指出哪一支对整个结果影响最大（瓶颈），说清楚为什么是它；并列出还有哪些没解开的矛盾（没有就写「无」）。
+
+你最终交出来的，就是上面那样的一棵**「文件夹结构示意图」**——根在上、子节点往下/往右展开，每个节点旁标清「是什么 / 能调还是只能测 / 怎么量 / 占父份额」。这棵树只作为格式看，真正评分看的是你拆得全不全、重不重、瓶颈抓得准不准、黑盒标得老不老实。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+
+我要为一个内部代码助手选一个开源大模型，主要任务是函数级代码补全（Python/JS）和通用指令跟随，预算是单台双卡 24GB 或等效 API 额度。候选有 Qwen3-32B、Qwen2.5-Coder-32B-Instruct、Mistral-Small-2501-24B、GLM-4-32B-0414、DeepSeek-Coder-V2-33B、Llama-3.3-70B-Instruct(W4) 这几个。
+请帮我拆解：决定「每千次合格回答的总成本」的所有因素都有哪些，并判断哪个模型最划算。...
+Error: error sending request for url (https://www.mojeek.com/search?q=%E4%BD%A0%E6%98%AF%E4%B8%80%E4%B8%AA%E9%80%BB%E8%BE%91%E4%B8%A5%E5%AF%86%E7%9A%84%E6%8B%86%E8%A7%A3%E8%80%85%E3%80%82%E9%9D%A2%E5%AF%B9%E4%B8%80%E4%B8%AA%E5%A4%8D%E6%9D%82%E9%97%AE%E9%A2%98%EF%BC%8C%E4%B8%8D%E8%A6%81%E5%87%AD%E7%9B%B4%E8%A7%89%E7%9B%B4%E6%8E%A5%E5%88%97%E6%B8%85%E5%8D%95%EF%BC%8C%E8%A6%81%E5%83%8F%E6%95%B4%E7%90%86%E6%96%87%E4%BB%B6%E5%A4%B9%E4%B8%80%E6%A0%B7%EF%BC%8C%E4%B8%80%E5%B1%82%E4%B8%80%E5%B1%82%E5%BE%80%E4%B8%8B%E5%88%86%EF%BC%8C%E6%9C%80%E5%90%8E%E4%BA%A4%E5%87%BA%E4%B8%80%E6%A3%B5%E6%A0%91%E3%80%82%0A%0A%E6%8A%8A%E6%95%B4%E4%B8%AA%E9%97%AE%E9%A2%98%E5%85%88%E5%AE%9A%E6%88%90%E4%B8%80%E4%B8%AA%E8%A6%81%E7%AE%97%E6%B8%85%E6%A5%9A%E7%9A%84%E3%80%8C%E6%A0%B9%E8%8A%82%E7%82%B9%E3%80%8D%E2%80%94%E2%80%94%E9%80%9A%E5%B8%B8%E6%98%AF%E4%B8%80%E4%B8%AA%E6%95%B0%EF%BC%88%E6%AF%94%E5%A6%82%E3%80%8C%E5%93%AA%E7%A7%8D%E6%96%B9%E6%A1%88%E6%9C%80%E5%88%92%E7%AE%97%E3%80%8D%EF%BC%8C%E5%B0%B1%E6%8B%86%E6%88%90%E3%80%8C%E6%AF%8F%E4%B8%AA%E6%96%B9%E6%A1%88%E7%9A%84%E5%8D%95%E4%BB%BB%E5%8A%A1%E6%88%90%E6%9C%AC%E3%80%8D%EF%BC%89%E3%80%82%E7%84%B6%E5%90%8E%E4%B8%80%E5%B1%82%E5%B1%82%E5%BE%80%E4%B8%8B%E5%88%87%EF%BC%8C%E6%AF%8F%E4%B8%80%E5%B1%82%E9%83%BD%E6%8A%8A%E8%BF%99%E4%B8%AA%E8%8A%82%E7%82%B9%E5%88%87%E6%88%90%E5%87%A0%E4%B8%AA%E5%AD%90%E6%96%87%E4%BB%B6%E5%A4%B9%E3%80%82%E4%B8%80%E7%9B%B4%E5%88%87%E5%88%B0%E6%AF%8F%E4%B8%80%E7%89%87%E3%80%8C%E5%8F%B6%E5%AD%90%E3%80%8D%E9%83%BD%E6%98%AF%E4%B8%80%E4%B8%AA%E4%BD%A0%E8%A6%81%E4%B9%88%E8%83%BD%E6%9F%A5%E5%88%B0%E8%A7%84%E6%A0%BC%E3%80%81%E8%A6%81%E4%B9%88%E8%83%BD%E5%A5%97%E5%85%AC%E5%BC%8F%E3%80%81%E8%A6%81%E4%B9%88%E8%83%BD%E5%AE%9E%E6%B5%8B%E5%87%BA%E6%9D%A5%E7%9A%84%E5%85%B7%E4%BD%93%E6%95%B0%E5%AD%97%E6%88%96%E5%8C%BA%E9%97%B4%E4%B8%BA%E6%AD%A2%E3%80%82%0A%0A**%E6%80%8E%E4%B9%88%E6%8B%86%E9%83%BD%E8%A1%8C**%EF%BC%9A%E4%BD%A0%E5%8F%AF%E4%BB%A5%E4%B8%80%E6%AC%A1%E5%8F%AA%E6%8B%86%E4%B8%80%E5%B1%82%EF%BC%88%E5%85%88%E5%88%97%E7%9B%B4%E6%8E%A5%E5%AD%90%E8%8A%82%E7%82%B9%EF%BC%8C%E4%B8%8B%E4%B8%80%E8%BD%AE%E5%86%8D%E5%BE%80%E4%B8%8B%EF%BC%89%EF%BC%8C%E4%B9%9F%E5%8F%AF%E4%BB%A5%E4%B8%80%E5%8F%A3%E6%B0%94%E6%8B%86%E5%A5%BD%E5%87%A0%E5%B1%82%EF%BC%8C%E9%9A%8F%E4%BD%A0%E6%96%B9%E4%BE%BF%E3%80%82%E6%8B%86%E7%9A%84%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%9A%8F%E6%97%B6%E5%8F%AF%E4%BB%A5%E5%81%9C%E4%B8%8B%E6%9D%A5%E6%83%B3%E4%B8%80%E6%83%B3%E3%80%81%E8%87%AA%E6%A3%80%E3%80%81%E5%86%8D%E7%BB%A7%E7%BB%AD%E2%80%94%E2%80%94%E4%B8%8D%E8%A6%81%E6%B1%82%E4%B8%80%E6%AC%A1%E6%8B%86%E5%AE%8C%EF%BC%8C%E6%AF%8F%E6%AC%A1%E6%8C%91%E5%87%A0%E4%B8%AA%E8%BF%98%E6%B2%A1%E6%8B%86%E5%AE%8C%E7%9A%84%E8%8A%82%E7%82%B9%E5%BE%80%E4%B8%8B%E5%88%87%E5%B0%B1%E8%A1%8C%E3%80%82%0A%0A%E4%B8%8B%E9%9D%A2%E7%94%A8%E3%80%8C%E4%B8%80%E6%9D%A1%E4%BA%A7%E7%BA%BF%E6%AF%8F%E4%BB%B6%E4%BA%A7%E5%93%81%E7%9A%84%E6%88%90%E6%9C%AC%E3%80%8D%E5%81%9A%E4%BE%8B%E5%AD%90%EF%BC%8C%E7%85%A7%E8%BF%99%E4%B8%AA%E6%A0%B7%E5%AD%90%E9%95%BF%EF%BC%88%E5%85%88%E9%AA%A8%E6%9E%B6%EF%BC%8C%E5%86%8D%E5%A1%AB%E5%87%A0%E7%89%87%E5%8F%B6%E5%AD%90%EF%BC%89%EF%BC%9A%0A%0A++++%E5%8D%95%E4%BB%B6%E6%88%90%E6%9C%AC%2F%0A++++%E2%94%9C%E2%94%80%E2%94%80+%E8%89%AF%E7%8E%87%2F++++++++%E3%80%94%E5%8F%AA%E8%83%BD%E6%B5%8B%E3%80%95%E6%AF%8F%E6%89%B9%E6%8A%BD+200+%E4%BB%B6%E8%AE%B0%E4%B8%8D%E8%89%AF%EF%BC%8C%E8%BF%9E%E7%BB%AD+10+%E6%89%B9++++%E3%80%94%E5%8D%A0+0.30%E3%80%95%0A++++%E2%94%9C%E2%94%80%E2%94%80+%E8%AE%BE%E5%A4%87%E6%91%8A%E9%94%80%2F++++%E3%80%94%E5%8F%AF%E8%B0%83%E3%80%95%E6%8C%89%E6%8A%98%E6%97%A7%E6%91%8A%E5%88%B0%E6%AF%8F%E4%BB%B6++++++++++++++++++%E3%80%94%E5%8D%A0+0.45%E3%80%95%0A++++%E2%94%94%E2%94%80%E2%94%80+%E6%9D%A5%E6%96%99%E4%BB%B7%E6%A0%BC%2F++++%E3%80%94%E5%8F%AF%E6%8E%A7%E5%A4%96%E3%80%95%E9%9A%8F%E9%87%87%E8%B4%AD%E5%90%88%E5%90%8C++++++++++++++++++++%E3%80%94%E5%8D%A0+0.25%E3%80%95%0A%0A%E6%AF%8F%E4%B8%80%E5%88%80%E5%8F%AA%E5%BD%93%E5%9C%BA%E9%AA%8C%E4%B8%A4%E4%BB%B6%E4%BA%8B%EF%BC%9A%0A%0A1.+**%E5%AE%8C%E6%95%B4%EF%BC%88%E4%B8%8D%E6%BC%8F%EF%BC%89**%EF%BC%9A%E5%88%87%E5%87%BA%E6%9D%A5%E7%9A%84%E5%87%A0%E6%94%AF%E6%8B%BC%E8%B5%B7%E6%9D%A5%E8%A6%81%E8%83%BD%E8%BF%98%E5%8E%9F%E7%88%B6%E8%8A%82%E7%82%B9%EF%BC%8C%E4%B8%8D%E8%83%BD%E4%B8%A2%E6%8E%89%E4%BB%BB%E4%BD%95%E4%B8%80%E5%9D%97%E3%80%82%E6%8C%89%E6%AF%94%E4%BE%8B%E6%8B%86%E6%97%B6%E6%AF%94%E4%BE%8B%E5%8A%A0%E8%B5%B7%E6%9D%A5%E5%BF%85%E9%A1%BB%E6%AD%A3%E5%A5%BD%E7%AD%89%E4%BA%8E+1%E3%80%82%E6%8B%BC%E4%B8%8D%E5%9B%9E%E6%9D%A5%E8%AF%B4%E6%98%8E%E8%BF%99%E4%B8%80%E5%88%80%E5%88%87%E9%94%99%E4%BA%86%EF%BC%8C%E4%B8%8D%E6%98%AF%E3%80%8C%E8%BF%98%E6%9C%89%E7%82%B9%E6%B2%A1%E6%83%B3%E5%88%B0%E3%80%8D%E3%80%82%0A%0A2.+**%E4%B8%8D%E9%87%8D%E5%8F%A0%EF%BC%88%E4%B8%8D%E6%8A%A2%EF%BC%89**%EF%BC%9A%E5%90%8C%E4%B8%80%E5%B1%82%E7%9A%84%E5%87%A0%E6%94%AF%E4%B8%8D%E8%83%BD%E5%8E%BB%E5%8A%A8%E5%90%8C%E4%B8%80%E4%B8%AA%E5%BA%95%E5%B1%82%E4%B8%9C%E8%A5%BF%E3%80%82%E4%B8%A4%E6%94%AF%E9%83%BD%E5%9C%A8%E5%8D%A0%E6%98%BE%E5%AD%98%E3%80%81%E9%83%BD%E5%9C%A8%E8%8A%B1%E5%90%8C%E4%B8%80%E7%AC%94%E9%92%B1%E3%80%81%E9%83%BD%E5%9C%A8%E6%94%B9%E5%90%8C%E4%B8%80%E4%B8%AA%E5%8F%82%E6%95%B0%EF%BC%8C%E5%B0%B1%E6%98%AF%E6%B2%A1%E6%8B%86%E5%B9%B2%E5%87%80%E2%80%94%E2%80%94%E8%A6%81%E4%B9%88%E7%BB%A7%E7%BB%AD%E5%BE%80%E4%B8%8B%E5%88%87%E5%88%86%E5%BC%80%EF%BC%8C%E8%A6%81%E4%B9%88%E6%98%BE%E5%BC%8F%E5%86%99%E4%B8%80%E5%8F%A5%E3%80%8C%E8%BF%99%E4%B8%A4%E6%94%AF%E8%80%A6%E5%90%88%E5%9C%A8+X+%E4%B8%8A%E3%80%8D%E5%B9%B6%E8%AF%B4%E6%98%8E%E4%BC%9A%E4%B8%8D%E4%BC%9A%E6%94%B9%E5%8F%98%E7%BB%93%E8%AE%BA%E3%80%82%E5%90%8D%E5%AD%97%E4%B8%8D%E4%B8%80%E6%A0%B7%E4%B8%8D%E4%BB%A3%E8%A1%A8%E4%B8%8D%E9%87%8D%E5%8F%A0%EF%BC%8C%E6%98%AF%E3%80%8C%E4%B8%8D%E6%8A%A2%E5%90%8C%E4%B8%80%E4%B8%AA%E5%BA%95%E5%B1%82%E8%B5%84%E6%BA%90%E3%80%8D%E6%89%8D%E5%8F%AB%E4%B8%8D%E9%87%8D%E5%8F%A0%E3%80%82%0A%0A%E6%9F%A5%E4%B8%8D%E5%88%B0%E4%B9%9F%E9%87%8F%E4%B8%8D%E5%87%BA%E6%9D%A5%E7%9A%84%EF%BC%8C%E5%88%AB%E7%A1%AC%E7%BC%96%EF%BC%9A%E6%A0%87%E6%88%90%E3%80%8C%E9%BB%91%E7%9B%92%E3%80%8D%EF%BC%8C%E5%86%99%E6%B8%85%E5%AE%83%E5%BD%B1%E5%93%8D%E6%A0%91%E7%9A%84%E5%93%AA%E4%B8%80%E6%94%AF%E3%80%81%E4%BD%A0%E4%BC%B0%E8%AE%A1%E7%9A%84%E5%A4%A7%E8%87%B4%E8%8C%83%E5%9B%B4%EF%BC%88%E7%BB%99%E5%8C%BA%E9%97%B4%E4%B8%8D%E7%BB%99%E4%B8%80%E4%B8%AA%E6%95%B0%EF%BC%89%E3%80%81%E4%BB%A5%E5%8F%8A%E7%9C%9F%E8%A6%81%E6%90%9E%E5%87%86%E7%9A%84%E8%AF%9D%E4%B8%80%E5%A4%A9%E5%86%85%E8%83%BD%E5%81%9A%E5%AE%8C%E7%9A%84%E5%AE%9E%E6%B5%8B%E5%8A%9E%E6%B3%95%E3%80%82%0A%0A%E6%9C%80%E5%90%8E%EF%BC%8C%E6%8C%87%E5%87%BA%E5%93%AA%E4%B8%80%E6%94%AF%E5%AF%B9%E6%95%B4%E4%B8%AA%E7%BB%93%E6%9E%9C%E5%BD%B1%E5%93%8D%E6%9C%80%E5%A4%A7%EF%BC%88%E7%93%B6%E9%A2%88%EF%BC%89%EF%BC%8C%E8%AF%B4%E6%B8%85%E6%A5%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E5%AE%83%EF%BC%9B%E5%B9%B6%E5%88%97%E5%87%BA%E8%BF%98%E6%9C%89%E5%93%AA%E4%BA%9B%E6%B2%A1%E8%A7%A3%E5%BC%80%E7%9A%84%E7%9F%9B%E7%9B%BE%EF%BC%88%E6%B2%A1%E6%9C%89%E5%B0%B1%E5%86%99%E3%80%8C%E6%97%A0%E3%80%8D%EF%BC%89%E3%80%82%0A%0A%E4%BD%A0%E6%9C%80%E7%BB%88%E4%BA%A4%E5%87%BA%E6%9D%A5%E7%9A%84%EF%BC%8C%E5%B0%B1%E6%98%AF%E4%B8%8A%E9%9D%A2%E9%82%A3%E6%A0%B7%E7%9A%84%E4%B8%80%E6%A3%B5**%E3%80%8C%E6%96%87%E4%BB%B6%E5%A4%B9%E7%BB%93%E6%9E%84%E7%A4%BA%E6%84%8F%E5%9B%BE%E3%80%8D**%E2%80%94%E2%80%94%E6%A0%B9%E5%9C%A8%E4%B8%8A%E3%80%81%E5%AD%90%E8%8A%82%E7%82%B9%E5%BE%80%E4%B8%8B%2F%E5%BE%80%E5%8F%B3%E5%B1%95%E5%BC%80%EF%BC%8C%E6%AF%8F%E4%B8%AA%E8%8A%82%E7%82%B9%E6%97%81%E6%A0%87%E6%B8%85%E3%80%8C%E6%98%AF%E4%BB%80%E4%B9%88+%2F+%E8%83%BD%E8%B0%83%E8%BF%98%E6%98%AF%E5%8F%AA%E8%83%BD%E6%B5%8B+%2F+%E6%80%8E%E4%B9%88%E9%87%8F+%2F+%E5%8D%A0%E7%88%B6%E4%BB%BD%E9%A2%9D%E3%80%8D%E3%80%82%E8%BF%99%E6%A3%B5%E6%A0%91%E5%8F%AA%E4%BD%9C%E4%B8%BA%E6%A0%BC%E5%BC%8F%E7%9C%8B%EF%BC%8C%E7%9C%9F%E6%AD%A3%E8%AF%84%E5%88%86%E7%9C%8B%E7%9A%84%E6%98%AF%E4%BD%A0%E6%8B%86%E5%BE%97%E5%85%A8%E4%B8%8D%E5%85%A8%E3%80%81%E9%87%8D%E4%B8%8D%E9%87%8D%E3%80%81%E7%93%B6%E9%A2%88%E6%8A%93%E5%BE%97%E5%87%86%E4%B8%8D%E5%87%86%E3%80%81%E9%BB%91%E7%9B%92%E6%A0%87%E5%BE%97%E8%80%81%E4%B8%8D%E8%80%81%E5%AE%9E%E3%80%82%0A%0A%E4%B8%8B%E9%9D%A2%E8%BF%99%E4%B8%AA%E4%BB%BB%E5%8A%A1%EF%BC%8C%E8%AF%B7%E6%8C%89%E4%B8%8A%E9%9D%A2%E7%9A%84%E6%96%B9%E5%BC%8F%E6%8B%86%EF%BC%88%E4%BD%A0%E6%89%8B%E5%A4%B4%E6%B2%A1%E6%9C%89%E7%8E%B0%E6%88%90%E8%A7%84%E6%A0%BC%EF%BC%8C%E8%AF%B7%E8%87%AA%E8%A1%8C%E8%B0%83%E7%A0%94%E6%88%96%E6%8E%A8%E7%90%86%E8%A1%A5%E9%BD%90%E7%BC%BA%E5%8F%A3%EF%BC%8C%E5%B9%B6%E6%8A%8A%E4%BD%A0%E5%8F%91%E7%8E%B0%E7%9A%84%E5%85%B3%E9%94%AE%E5%9B%A0%E7%B4%A0%E9%83%BD%E6%8B%86%E5%87%BA%E6%9D%A5%EF%BC%89%EF%BC%9A%0A%0A%E6%88%91%E8%A6%81%E4%B8%BA%E4%B8%80%E4%B8%AA%E5%86%85%E9%83%A8%E4%BB%A3%E7%A0%81%E5%8A%A9%E6%89%8B%E9%80%89%E4%B8%80%E4%B8%AA%E5%BC%80%E6%BA%90%E5%A4%A7%E6%A8%A1%E5%9E%8B%EF%BC%8C%E4%B8%BB%E8%A6%81%E4%BB%BB%E5%8A%A1%E6%98%AF%E5%87%BD%E6%95%B0%E7%BA%A7%E4%BB%A3%E7%A0%81%E8%A1%A5%E5%85%A8%EF%BC%88Python%2FJS%EF%BC%89%E5%92%8C%E9%80%9A%E7%94%A8%E6%8C%87%E4%BB%A4%E8%B7%9F%E9%9A%8F%EF%BC%8C%E9%A2%84%E7%AE%97%E6%98%AF%E5%8D%95%E5%8F%B0%E5%8F%8C%E5%8D%A1+24GB+%E6%88%96%E7%AD%89%E6%95%88+API+%E9%A2%9D%E5%BA%A6%E3%80%82%E5%80%99%E9%80%89%E6%9C%89+Qwen3-32B%E3%80%81Qwen2.5-Coder-32B-Instruct%E3%80%81Mistral-Small-2501-24B%E3%80%81GLM-4-32B-0414%E3%80%81DeepSeek-Coder-V2-33B%E3%80%81Llama-3.3-70B-Instruct%28W4%29+%E8%BF%99%E5%87%A0%E4%B8%AA%E3%80%82%0A%E8%AF%B7%E5%B8%AE%E6%88%91%E6%8B%86%E8%A7%A3%EF%BC%9A%E5%86%B3%E5%AE%9A%E3%80%8C%E6%AF%8F%E5%8D%83%E6%AC%A1%E5%90%88%E6%A0%BC%E5%9B%9E%E7%AD%94%E7%9A%84%E6%80%BB%E6%88%90%E6%9C%AC%E3%80%8D%E7%9A%84%E6%89%80%E6%9C%89%E5%9B%A0%E7%B4%A0%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%8C%E5%B9%B6%E5%88%A4%E6%96%AD%E5%93%AA%E4%B8%AA%E6%A8%A1%E5%9E%8B%E6%9C%80%E5%88%92%E7%AE%97%E3%80%82) > operation timed out. Failed fetching sources. Resulting in empty response.
+INFO:     [11:55:35] 🤔 Planning the research strategy and subtasks...
+INFO:     [11:55:37] 🗂️ I will conduct my research based on the following queries: ['Qwen3-32B Qwen2.5-Coder-32B Mistral-Small-24B GLM-4-32B DeepSeek-Coder-V2 Llama-3.3-70B W4 inference speed tokens per second on dual 24GB GPU', 'open source large language model API pricing comparison per million tokens for code completion tasks in 2026', 'evaluation benchmarks for function level code completion and instruction following accuracy of Qwen Coder DeepSeek and Mistral models', '你是一个逻辑严密的拆解者。面对一个复杂问题，不要凭直觉直接列清单，要像整理文件夹一样，一层一层往下分，最后交出一棵树。\n\n把整个问题先定成一个要算清楚的「根节点」——通常是一个数（比如「哪种方案最划算」，就拆成「每个方案的单任务成本」）。然后一层层往下切，每一层都把这个节点切成几个子文件夹。一直切到每一片「叶子」都是一个你要么能查到规格、要么能套公式、要么能实测出来的具体数字或区间为止。\n\n**怎么拆都行**：你可以一次只拆一层（先列直接子节点，下一轮再往下），也可以一口气拆好几层，随你方便。拆的过程中随时可以停下来想一想、自检、再继续——不要求一次拆完，每次挑几个还没拆完的节点往下切就行。\n\n下面用「一条产线每件产品的成本」做例子，照这个样子长（先骨架，再填几片叶子）：\n\n    单件成本/\n    ├── 良率/        〔只能测〕每批抽 200 件记不良，连续 10 批    〔占 0.30〕\n    ├── 设备摊销/    〔可调〕按折旧摊到每件                  〔占 0.45〕\n    └── 来料价格/    〔可控外〕随采购合同                    〔占 0.25〕\n\n每一刀只当场验两件事：\n\n1. **完整（不漏）**：切出来的几支拼起来要能还原父节点，不能丢掉任何一块。按比例拆时比例加起来必须正好等于 1。拼不回来说明这一刀切错了，不是「还有点没想到」。\n\n2. **不重叠（不抢）**：同一层的几支不能去动同一个底层东西。两支都在占显存、都在花同一笔钱、都在改同一个参数，就是没拆干净——要么继续往下切分开，要么显式写一句「这两支耦合在 X 上」并说明会不会改变结论。名字不一样不代表不重叠，是「不抢同一个底层资源」才叫不重叠。\n\n查不到也量不出来的，别硬编：标成「黑盒」，写清它影响树的哪一支、你估计的大致范围（给区间不给一个数）、以及真要搞准的话一天内能做完的实测办法。\n\n最后，指出哪一支对整个结果影响最大（瓶颈），说清楚为什么是它；并列出还有哪些没解开的矛盾（没有就写「无」）。\n\n你最终交出来的，就是上面那样的一棵**「文件夹结构示意图」**——根在上、子节点往下/往右展开，每个节点旁标清「是什么 / 能调还是只能测 / 怎么量 / 占父份额」。这棵树只作为格式看，真正评分看的是你拆得全不全、重不重、瓶颈抓得准不准、黑盒标得老不老实。\n\n下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：\n\n我要为一个内部代码助手选一个开源大模型，主要任务是函数级代码补全（Python/JS）和通用指令跟随，预算是单台双卡 24GB 或等效 API 额度。候选有 Qwen3-32B、Qwen2.5-Coder-32B-Instruct、Mistral-Small-2501-24B、GLM-4-32B-0414、DeepSeek-Coder-V2-33B、Llama-3.3-70B-Instruct(W4) 这几个。\n请帮我拆解：决定「每千次合格回答的总成本」的所有因素都有哪些，并判断哪个模型最划算。']...
+INFO:     [11:55:37] 
+🔍 Running research for 'Qwen3-32B Qwen2.5-Coder-32B Mistral-Small-24B GLM-4-32B DeepSeek-Coder-V2 Llama-3.3-70B W4 inference speed tokens per second on dual 24GB GPU'...
+INFO:     [11:55:37] 
+🔍 Running research for 'open source large language model API pricing comparison per million tokens for code completion tasks in 2026'...
+INFO:     [11:55:37] 
+🔍 Running research for 'evaluation benchmarks for function level code completion and instruction following accuracy of Qwen Coder DeepSeek and Mistral models'...
+INFO:     [11:55:37] 
+🔍 Running research for '你是一个逻辑严密的拆解者。面对一个复杂问题，不要凭直觉直接列清单，要像整理文件夹一样，一层一层往下分，最后交出一棵树。
+
+把整个问题先定成一个要算清楚的「根节点」——通常是一个数（比如「哪种方案最划算」，就拆成「每个方案的单任务成本」）。然后一层层往下切，每一层都把这个节点切成几个子文件夹。一直切到每一片「叶子」都是一个你要么能查到规格、要么能套公式、要么能实测出来的具体数字或区间为止。
+
+**怎么拆都行**：你可以一次只拆一层（先列直接子节点，下一轮再往下），也可以一口气拆好几层，随你方便。拆的过程中随时可以停下来想一想、自检、再继续——不要求一次拆完，每次挑几个还没拆完的节点往下切就行。
+
+下面用「一条产线每件产品的成本」做例子，照这个样子长（先骨架，再填几片叶子）：
+
+    单件成本/
+    ├── 良率/        〔只能测〕每批抽 200 件记不良，连续 10 批    〔占 0.30〕
+    ├── 设备摊销/    〔可调〕按折旧摊到每件                  〔占 0.45〕
+    └── 来料价格/    〔可控外〕随采购合同                    〔占 0.25〕
+
+每一刀只当场验两件事：
+
+1. **完整（不漏）**：切出来的几支拼起来要能还原父节点，不能丢掉任何一块。按比例拆时比例加起来必须正好等于 1。拼不回来说明这一刀切错了，不是「还有点没想到」。
+
+2. **不重叠（不抢）**：同一层的几支不能去动同一个底层东西。两支都在占显存、都在花同一笔钱、都在改同一个参数，就是没拆干净——要么继续往下切分开，要么显式写一句「这两支耦合在 X 上」并说明会不会改变结论。名字不一样不代表不重叠，是「不抢同一个底层资源」才叫不重叠。
+
+查不到也量不出来的，别硬编：标成「黑盒」，写清它影响树的哪一支、你估计的大致范围（给区间不给一个数）、以及真要搞准的话一天内能做完的实测办法。
+
+最后，指出哪一支对整个结果影响最大（瓶颈），说清楚为什么是它；并列出还有哪些没解开的矛盾（没有就写「无」）。
+
+你最终交出来的，就是上面那样的一棵**「文件夹结构示意图」**——根在上、子节点往下/往右展开，每个节点旁标清「是什么 / 能调还是只能测 / 怎么量 / 占父份额」。这棵树只作为格式看，真正评分看的是你拆得全不全、重不重、瓶颈抓得准不准、黑盒标得老不老实。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+
+我要为一个内部代码助手选一个开源大模型，主要任务是函数级代码补全（Python/JS）和通用指令跟随，预算是单台双卡 24GB 或等效 API 额度。候选有 Qwen3-32B、Qwen2.5-Coder-32B-Instruct、Mistral-Small-2501-24B、GLM-4-32B-0414、DeepSeek-Coder-V2-33B、Llama-3.3-70B-Instruct(W4) 这几个。
+请帮我拆解：决定「每千次合格回答的总成本」的所有因素都有哪些，并判断哪个模型最划算。'...
+INFO:     [11:55:39] ✅ Added source url to research: https://deepwiki.com/QwenLM/Qwen3-Coder/6.3-code-generation-and-instruction-following-benchmarks
+
+INFO:     [11:55:39] ✅ Added source url to research: https://execrepobench.github.io/
+
+INFO:     [11:55:39] ✅ Added source url to research: https://arxiv.org/html/2601.15879v1
+
+INFO:     [11:55:39] ✅ Added source url to research: https://www.generalcompute.com/blog/coding-model-benchmarks-qwen-2-5-coder-vs-deepseek-coder-v2-vs-codellama-vs-starcoder-2
+
+INFO:     [11:55:39] ✅ Added source url to research: https://arxiv.org/abs/2601.15879
+
+INFO:     [11:55:39] 🤔 Researching for relevant information across multiple sources...
+
+INFO:     [11:55:39] 🌐 Scraping content from 5 URLs...
+INFO:     [11:55:40] ✅ Added source url to research: https://costgoat.com/compare/llm-api
+
+INFO:     [11:55:40] ✅ Added source url to research: https://www.cloudzero.com/blog/llm-api-pricing-comparison/
+
+INFO:     [11:55:40] ✅ Added source url to research: https://simplifai.tools/blog/llm-api-pricing-comparison-2026
+
+INFO:     [11:55:40] ✅ Added source url to research: https://inference.net/content/llm-api-pricing-comparison/
+
+INFO:     [11:55:40] ✅ Added source url to research: https://www.aimadetools.com/blog/ai-api-pricing-compared-2026/
+
+INFO:     [11:55:40] 🤔 Researching for relevant information across multiple sources...
+
+INFO:     [11:55:40] 🌐 Scraping content from 5 URLs...
+INFO:     [11:55:42] 📄 Scraped 5 pages of content
+INFO:     [11:55:42] 🖼️ Selected 4 new images from 14 total images
+INFO:     [11:55:42] 🌐 Scraping complete
+INFO:     [11:55:42] 📚 Getting relevant content based on query: open source large language model API pricing comparison per million tokens for code completion tasks in 2026...
+INFO:     [11:55:42] 📚 Combined research context: 0 MCP sources, web content
+INFO:     [11:55:43] 📄 Scraped 5 pages of content
+INFO:     [11:55:43] 🖼️ Selected 4 new images from 10 total images
+INFO:     [11:55:43] 🌐 Scraping complete
+INFO:     [11:55:43] 📚 Getting relevant content based on query: evaluation benchmarks for function level code completion and instruction following accuracy of Qwen Coder DeepSeek and Mistral models...
+INFO:     [11:55:43] 📚 Combined research context: 0 MCP sources, web content
+INFO:     [11:55:45] ✅ Added source url to research: https://github.com/QwenLM/Qwen3-Coder
+
+INFO:     [11:55:45] ✅ Added source url to research: https://arxiv.org/html/2409.12186v3
+
+INFO:     [11:55:45] ✅ Added source url to research: https://llm-stats.com/models/compare/mistral-small-2409-vs-qwen3-32b
+
+INFO:     [11:55:45] ✅ Added source url to research: https://artificialanalysis.ai/models/comparisons/mistral-small-3-2-vs-qwen2-5-coder-32b-instruct
+
+INFO:     [11:55:45] ✅ Added source url to research: https://www.modelscope.cn/models/Qwen/Qwen2.5-Coder-32B
+
+INFO:     [11:55:45] 🤔 Researching for relevant information across multiple sources...
+
+INFO:     [11:55:45] 🌐 Scraping content from 5 URLs...
+WARNING:gpt_researcher.scraper.scraper:Content too short or empty for https://www.modelscope.cn/models/Qwen/Qwen2.5-Coder-32B, treating as fetch failure
+Error: error sending request for url (https://www.mojeek.com/search?q=%E4%BD%A0%E6%98%AF%E4%B8%80%E4%B8%AA%E9%80%BB%E8%BE%91%E4%B8%A5%E5%AF%86%E7%9A%84%E6%8B%86%E8%A7%A3%E8%80%85%E3%80%82%E9%9D%A2%E5%AF%B9%E4%B8%80%E4%B8%AA%E5%A4%8D%E6%9D%82%E9%97%AE%E9%A2%98%EF%BC%8C%E4%B8%8D%E8%A6%81%E5%87%AD%E7%9B%B4%E8%A7%89%E7%9B%B4%E6%8E%A5%E5%88%97%E6%B8%85%E5%8D%95%EF%BC%8C%E8%A6%81%E5%83%8F%E6%95%B4%E7%90%86%E6%96%87%E4%BB%B6%E5%A4%B9%E4%B8%80%E6%A0%B7%EF%BC%8C%E4%B8%80%E5%B1%82%E4%B8%80%E5%B1%82%E5%BE%80%E4%B8%8B%E5%88%86%EF%BC%8C%E6%9C%80%E5%90%8E%E4%BA%A4%E5%87%BA%E4%B8%80%E6%A3%B5%E6%A0%91%E3%80%82%0A%0A%E6%8A%8A%E6%95%B4%E4%B8%AA%E9%97%AE%E9%A2%98%E5%85%88%E5%AE%9A%E6%88%90%E4%B8%80%E4%B8%AA%E8%A6%81%E7%AE%97%E6%B8%85%E6%A5%9A%E7%9A%84%E3%80%8C%E6%A0%B9%E8%8A%82%E7%82%B9%E3%80%8D%E2%80%94%E2%80%94%E9%80%9A%E5%B8%B8%E6%98%AF%E4%B8%80%E4%B8%AA%E6%95%B0%EF%BC%88%E6%AF%94%E5%A6%82%E3%80%8C%E5%93%AA%E7%A7%8D%E6%96%B9%E6%A1%88%E6%9C%80%E5%88%92%E7%AE%97%E3%80%8D%EF%BC%8C%E5%B0%B1%E6%8B%86%E6%88%90%E3%80%8C%E6%AF%8F%E4%B8%AA%E6%96%B9%E6%A1%88%E7%9A%84%E5%8D%95%E4%BB%BB%E5%8A%A1%E6%88%90%E6%9C%AC%E3%80%8D%EF%BC%89%E3%80%82%E7%84%B6%E5%90%8E%E4%B8%80%E5%B1%82%E5%B1%82%E5%BE%80%E4%B8%8B%E5%88%87%EF%BC%8C%E6%AF%8F%E4%B8%80%E5%B1%82%E9%83%BD%E6%8A%8A%E8%BF%99%E4%B8%AA%E8%8A%82%E7%82%B9%E5%88%87%E6%88%90%E5%87%A0%E4%B8%AA%E5%AD%90%E6%96%87%E4%BB%B6%E5%A4%B9%E3%80%82%E4%B8%80%E7%9B%B4%E5%88%87%E5%88%B0%E6%AF%8F%E4%B8%80%E7%89%87%E3%80%8C%E5%8F%B6%E5%AD%90%E3%80%8D%E9%83%BD%E6%98%AF%E4%B8%80%E4%B8%AA%E4%BD%A0%E8%A6%81%E4%B9%88%E8%83%BD%E6%9F%A5%E5%88%B0%E8%A7%84%E6%A0%BC%E3%80%81%E8%A6%81%E4%B9%88%E8%83%BD%E5%A5%97%E5%85%AC%E5%BC%8F%E3%80%81%E8%A6%81%E4%B9%88%E8%83%BD%E5%AE%9E%E6%B5%8B%E5%87%BA%E6%9D%A5%E7%9A%84%E5%85%B7%E4%BD%93%E6%95%B0%E5%AD%97%E6%88%96%E5%8C%BA%E9%97%B4%E4%B8%BA%E6%AD%A2%E3%80%82%0A%0A**%E6%80%8E%E4%B9%88%E6%8B%86%E9%83%BD%E8%A1%8C**%EF%BC%9A%E4%BD%A0%E5%8F%AF%E4%BB%A5%E4%B8%80%E6%AC%A1%E5%8F%AA%E6%8B%86%E4%B8%80%E5%B1%82%EF%BC%88%E5%85%88%E5%88%97%E7%9B%B4%E6%8E%A5%E5%AD%90%E8%8A%82%E7%82%B9%EF%BC%8C%E4%B8%8B%E4%B8%80%E8%BD%AE%E5%86%8D%E5%BE%80%E4%B8%8B%EF%BC%89%EF%BC%8C%E4%B9%9F%E5%8F%AF%E4%BB%A5%E4%B8%80%E5%8F%A3%E6%B0%94%E6%8B%86%E5%A5%BD%E5%87%A0%E5%B1%82%EF%BC%8C%E9%9A%8F%E4%BD%A0%E6%96%B9%E4%BE%BF%E3%80%82%E6%8B%86%E7%9A%84%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%9A%8F%E6%97%B6%E5%8F%AF%E4%BB%A5%E5%81%9C%E4%B8%8B%E6%9D%A5%E6%83%B3%E4%B8%80%E6%83%B3%E3%80%81%E8%87%AA%E6%A3%80%E3%80%81%E5%86%8D%E7%BB%A7%E7%BB%AD%E2%80%94%E2%80%94%E4%B8%8D%E8%A6%81%E6%B1%82%E4%B8%80%E6%AC%A1%E6%8B%86%E5%AE%8C%EF%BC%8C%E6%AF%8F%E6%AC%A1%E6%8C%91%E5%87%A0%E4%B8%AA%E8%BF%98%E6%B2%A1%E6%8B%86%E5%AE%8C%E7%9A%84%E8%8A%82%E7%82%B9%E5%BE%80%E4%B8%8B%E5%88%87%E5%B0%B1%E8%A1%8C%E3%80%82%0A%0A%E4%B8%8B%E9%9D%A2%E7%94%A8%E3%80%8C%E4%B8%80%E6%9D%A1%E4%BA%A7%E7%BA%BF%E6%AF%8F%E4%BB%B6%E4%BA%A7%E5%93%81%E7%9A%84%E6%88%90%E6%9C%AC%E3%80%8D%E5%81%9A%E4%BE%8B%E5%AD%90%EF%BC%8C%E7%85%A7%E8%BF%99%E4%B8%AA%E6%A0%B7%E5%AD%90%E9%95%BF%EF%BC%88%E5%85%88%E9%AA%A8%E6%9E%B6%EF%BC%8C%E5%86%8D%E5%A1%AB%E5%87%A0%E7%89%87%E5%8F%B6%E5%AD%90%EF%BC%89%EF%BC%9A%0A%0A++++%E5%8D%95%E4%BB%B6%E6%88%90%E6%9C%AC%2F%0A++++%E2%94%9C%E2%94%80%E2%94%80+%E8%89%AF%E7%8E%87%2F++++++++%E3%80%94%E5%8F%AA%E8%83%BD%E6%B5%8B%E3%80%95%E6%AF%8F%E6%89%B9%E6%8A%BD+200+%E4%BB%B6%E8%AE%B0%E4%B8%8D%E8%89%AF%EF%BC%8C%E8%BF%9E%E7%BB%AD+10+%E6%89%B9++++%E3%80%94%E5%8D%A0+0.30%E3%80%95%0A++++%E2%94%9C%E2%94%80%E2%94%80+%E8%AE%BE%E5%A4%87%E6%91%8A%E9%94%80%2F++++%E3%80%94%E5%8F%AF%E8%B0%83%E3%80%95%E6%8C%89%E6%8A%98%E6%97%A7%E6%91%8A%E5%88%B0%E6%AF%8F%E4%BB%B6++++++++++++++++++%E3%80%94%E5%8D%A0+0.45%E3%80%95%0A++++%E2%94%94%E2%94%80%E2%94%80+%E6%9D%A5%E6%96%99%E4%BB%B7%E6%A0%BC%2F++++%E3%80%94%E5%8F%AF%E6%8E%A7%E5%A4%96%E3%80%95%E9%9A%8F%E9%87%87%E8%B4%AD%E5%90%88%E5%90%8C++++++++++++++++++++%E3%80%94%E5%8D%A0+0.25%E3%80%95%0A%0A%E6%AF%8F%E4%B8%80%E5%88%80%E5%8F%AA%E5%BD%93%E5%9C%BA%E9%AA%8C%E4%B8%A4%E4%BB%B6%E4%BA%8B%EF%BC%9A%0A%0A1.+**%E5%AE%8C%E6%95%B4%EF%BC%88%E4%B8%8D%E6%BC%8F%EF%BC%89**%EF%BC%9A%E5%88%87%E5%87%BA%E6%9D%A5%E7%9A%84%E5%87%A0%E6%94%AF%E6%8B%BC%E8%B5%B7%E6%9D%A5%E8%A6%81%E8%83%BD%E8%BF%98%E5%8E%9F%E7%88%B6%E8%8A%82%E7%82%B9%EF%BC%8C%E4%B8%8D%E8%83%BD%E4%B8%A2%E6%8E%89%E4%BB%BB%E4%BD%95%E4%B8%80%E5%9D%97%E3%80%82%E6%8C%89%E6%AF%94%E4%BE%8B%E6%8B%86%E6%97%B6%E6%AF%94%E4%BE%8B%E5%8A%A0%E8%B5%B7%E6%9D%A5%E5%BF%85%E9%A1%BB%E6%AD%A3%E5%A5%BD%E7%AD%89%E4%BA%8E+1%E3%80%82%E6%8B%BC%E4%B8%8D%E5%9B%9E%E6%9D%A5%E8%AF%B4%E6%98%8E%E8%BF%99%E4%B8%80%E5%88%80%E5%88%87%E9%94%99%E4%BA%86%EF%BC%8C%E4%B8%8D%E6%98%AF%E3%80%8C%E8%BF%98%E6%9C%89%E7%82%B9%E6%B2%A1%E6%83%B3%E5%88%B0%E3%80%8D%E3%80%82%0A%0A2.+**%E4%B8%8D%E9%87%8D%E5%8F%A0%EF%BC%88%E4%B8%8D%E6%8A%A2%EF%BC%89**%EF%BC%9A%E5%90%8C%E4%B8%80%E5%B1%82%E7%9A%84%E5%87%A0%E6%94%AF%E4%B8%8D%E8%83%BD%E5%8E%BB%E5%8A%A8%E5%90%8C%E4%B8%80%E4%B8%AA%E5%BA%95%E5%B1%82%E4%B8%9C%E8%A5%BF%E3%80%82%E4%B8%A4%E6%94%AF%E9%83%BD%E5%9C%A8%E5%8D%A0%E6%98%BE%E5%AD%98%E3%80%81%E9%83%BD%E5%9C%A8%E8%8A%B1%E5%90%8C%E4%B8%80%E7%AC%94%E9%92%B1%E3%80%81%E9%83%BD%E5%9C%A8%E6%94%B9%E5%90%8C%E4%B8%80%E4%B8%AA%E5%8F%82%E6%95%B0%EF%BC%8C%E5%B0%B1%E6%98%AF%E6%B2%A1%E6%8B%86%E5%B9%B2%E5%87%80%E2%80%94%E2%80%94%E8%A6%81%E4%B9%88%E7%BB%A7%E7%BB%AD%E5%BE%80%E4%B8%8B%E5%88%87%E5%88%86%E5%BC%80%EF%BC%8C%E8%A6%81%E4%B9%88%E6%98%BE%E5%BC%8F%E5%86%99%E4%B8%80%E5%8F%A5%E3%80%8C%E8%BF%99%E4%B8%A4%E6%94%AF%E8%80%A6%E5%90%88%E5%9C%A8+X+%E4%B8%8A%E3%80%8D%E5%B9%B6%E8%AF%B4%E6%98%8E%E4%BC%9A%E4%B8%8D%E4%BC%9A%E6%94%B9%E5%8F%98%E7%BB%93%E8%AE%BA%E3%80%82%E5%90%8D%E5%AD%97%E4%B8%8D%E4%B8%80%E6%A0%B7%E4%B8%8D%E4%BB%A3%E8%A1%A8%E4%B8%8D%E9%87%8D%E5%8F%A0%EF%BC%8C%E6%98%AF%E3%80%8C%E4%B8%8D%E6%8A%A2%E5%90%8C%E4%B8%80%E4%B8%AA%E5%BA%95%E5%B1%82%E8%B5%84%E6%BA%90%E3%80%8D%E6%89%8D%E5%8F%AB%E4%B8%8D%E9%87%8D%E5%8F%A0%E3%80%82%0A%0A%E6%9F%A5%E4%B8%8D%E5%88%B0%E4%B9%9F%E9%87%8F%E4%B8%8D%E5%87%BA%E6%9D%A5%E7%9A%84%EF%BC%8C%E5%88%AB%E7%A1%AC%E7%BC%96%EF%BC%9A%E6%A0%87%E6%88%90%E3%80%8C%E9%BB%91%E7%9B%92%E3%80%8D%EF%BC%8C%E5%86%99%E6%B8%85%E5%AE%83%E5%BD%B1%E5%93%8D%E6%A0%91%E7%9A%84%E5%93%AA%E4%B8%80%E6%94%AF%E3%80%81%E4%BD%A0%E4%BC%B0%E8%AE%A1%E7%9A%84%E5%A4%A7%E8%87%B4%E8%8C%83%E5%9B%B4%EF%BC%88%E7%BB%99%E5%8C%BA%E9%97%B4%E4%B8%8D%E7%BB%99%E4%B8%80%E4%B8%AA%E6%95%B0%EF%BC%89%E3%80%81%E4%BB%A5%E5%8F%8A%E7%9C%9F%E8%A6%81%E6%90%9E%E5%87%86%E7%9A%84%E8%AF%9D%E4%B8%80%E5%A4%A9%E5%86%85%E8%83%BD%E5%81%9A%E5%AE%8C%E7%9A%84%E5%AE%9E%E6%B5%8B%E5%8A%9E%E6%B3%95%E3%80%82%0A%0A%E6%9C%80%E5%90%8E%EF%BC%8C%E6%8C%87%E5%87%BA%E5%93%AA%E4%B8%80%E6%94%AF%E5%AF%B9%E6%95%B4%E4%B8%AA%E7%BB%93%E6%9E%9C%E5%BD%B1%E5%93%8D%E6%9C%80%E5%A4%A7%EF%BC%88%E7%93%B6%E9%A2%88%EF%BC%89%EF%BC%8C%E8%AF%B4%E6%B8%85%E6%A5%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E5%AE%83%EF%BC%9B%E5%B9%B6%E5%88%97%E5%87%BA%E8%BF%98%E6%9C%89%E5%93%AA%E4%BA%9B%E6%B2%A1%E8%A7%A3%E5%BC%80%E7%9A%84%E7%9F%9B%E7%9B%BE%EF%BC%88%E6%B2%A1%E6%9C%89%E5%B0%B1%E5%86%99%E3%80%8C%E6%97%A0%E3%80%8D%EF%BC%89%E3%80%82%0A%0A%E4%BD%A0%E6%9C%80%E7%BB%88%E4%BA%A4%E5%87%BA%E6%9D%A5%E7%9A%84%EF%BC%8C%E5%B0%B1%E6%98%AF%E4%B8%8A%E9%9D%A2%E9%82%A3%E6%A0%B7%E7%9A%84%E4%B8%80%E6%A3%B5**%E3%80%8C%E6%96%87%E4%BB%B6%E5%A4%B9%E7%BB%93%E6%9E%84%E7%A4%BA%E6%84%8F%E5%9B%BE%E3%80%8D**%E2%80%94%E2%80%94%E6%A0%B9%E5%9C%A8%E4%B8%8A%E3%80%81%E5%AD%90%E8%8A%82%E7%82%B9%E5%BE%80%E4%B8%8B%2F%E5%BE%80%E5%8F%B3%E5%B1%95%E5%BC%80%EF%BC%8C%E6%AF%8F%E4%B8%AA%E8%8A%82%E7%82%B9%E6%97%81%E6%A0%87%E6%B8%85%E3%80%8C%E6%98%AF%E4%BB%80%E4%B9%88+%2F+%E8%83%BD%E8%B0%83%E8%BF%98%E6%98%AF%E5%8F%AA%E8%83%BD%E6%B5%8B+%2F+%E6%80%8E%E4%B9%88%E9%87%8F+%2F+%E5%8D%A0%E7%88%B6%E4%BB%BD%E9%A2%9D%E3%80%8D%E3%80%82%E8%BF%99%E6%A3%B5%E6%A0%91%E5%8F%AA%E4%BD%9C%E4%B8%BA%E6%A0%BC%E5%BC%8F%E7%9C%8B%EF%BC%8C%E7%9C%9F%E6%AD%A3%E8%AF%84%E5%88%86%E7%9C%8B%E7%9A%84%E6%98%AF%E4%BD%A0%E6%8B%86%E5%BE%97%E5%85%A8%E4%B8%8D%E5%85%A8%E3%80%81%E9%87%8D%E4%B8%8D%E9%87%8D%E3%80%81%E7%93%B6%E9%A2%88%E6%8A%93%E5%BE%97%E5%87%86%E4%B8%8D%E5%87%86%E3%80%81%E9%BB%91%E7%9B%92%E6%A0%87%E5%BE%97%E8%80%81%E4%B8%8D%E8%80%81%E5%AE%9E%E3%80%82%0A%0A%E4%B8%8B%E9%9D%A2%E8%BF%99%E4%B8%AA%E4%BB%BB%E5%8A%A1%EF%BC%8C%E8%AF%B7%E6%8C%89%E4%B8%8A%E9%9D%A2%E7%9A%84%E6%96%B9%E5%BC%8F%E6%8B%86%EF%BC%88%E4%BD%A0%E6%89%8B%E5%A4%B4%E6%B2%A1%E6%9C%89%E7%8E%B0%E6%88%90%E8%A7%84%E6%A0%BC%EF%BC%8C%E8%AF%B7%E8%87%AA%E8%A1%8C%E8%B0%83%E7%A0%94%E6%88%96%E6%8E%A8%E7%90%86%E8%A1%A5%E9%BD%90%E7%BC%BA%E5%8F%A3%EF%BC%8C%E5%B9%B6%E6%8A%8A%E4%BD%A0%E5%8F%91%E7%8E%B0%E7%9A%84%E5%85%B3%E9%94%AE%E5%9B%A0%E7%B4%A0%E9%83%BD%E6%8B%86%E5%87%BA%E6%9D%A5%EF%BC%89%EF%BC%9A%0A%0A%E6%88%91%E8%A6%81%E4%B8%BA%E4%B8%80%E4%B8%AA%E5%86%85%E9%83%A8%E4%BB%A3%E7%A0%81%E5%8A%A9%E6%89%8B%E9%80%89%E4%B8%80%E4%B8%AA%E5%BC%80%E6%BA%90%E5%A4%A7%E6%A8%A1%E5%9E%8B%EF%BC%8C%E4%B8%BB%E8%A6%81%E4%BB%BB%E5%8A%A1%E6%98%AF%E5%87%BD%E6%95%B0%E7%BA%A7%E4%BB%A3%E7%A0%81%E8%A1%A5%E5%85%A8%EF%BC%88Python%2FJS%EF%BC%89%E5%92%8C%E9%80%9A%E7%94%A8%E6%8C%87%E4%BB%A4%E8%B7%9F%E9%9A%8F%EF%BC%8C%E9%A2%84%E7%AE%97%E6%98%AF%E5%8D%95%E5%8F%B0%E5%8F%8C%E5%8D%A1+24GB+%E6%88%96%E7%AD%89%E6%95%88+API+%E9%A2%9D%E5%BA%A6%E3%80%82%E5%80%99%E9%80%89%E6%9C%89+Qwen3-32B%E3%80%81Qwen2.5-Coder-32B-Instruct%E3%80%81Mistral-Small-2501-24B%E3%80%81GLM-4-32B-0414%E3%80%81DeepSeek-Coder-V2-33B%E3%80%81Llama-3.3-70B-Instruct%28W4%29+%E8%BF%99%E5%87%A0%E4%B8%AA%E3%80%82%0A%E8%AF%B7%E5%B8%AE%E6%88%91%E6%8B%86%E8%A7%A3%EF%BC%9A%E5%86%B3%E5%AE%9A%E3%80%8C%E6%AF%8F%E5%8D%83%E6%AC%A1%E5%90%88%E6%A0%BC%E5%9B%9E%E7%AD%94%E7%9A%84%E6%80%BB%E6%88%90%E6%9C%AC%E3%80%8D%E7%9A%84%E6%89%80%E6%9C%89%E5%9B%A0%E7%B4%A0%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%8C%E5%B9%B6%E5%88%A4%E6%96%AD%E5%93%AA%E4%B8%AA%E6%A8%A1%E5%9E%8B%E6%9C%80%E5%88%92%E7%AE%97%E3%80%82) > operation timed out. Failed fetching sources. Resulting in empty response.
+INFO:     [11:55:46] 🤔 Researching for relevant information across multiple sources...
+
+INFO:     [11:55:46] 🌐 Scraping content from 0 URLs...
+INFO:     [11:55:46] 📄 Scraped 0 pages of content
+INFO:     [11:55:46] 🖼️ Selected 0 new images from 0 total images
+INFO:     [11:55:46] 🌐 Scraping complete
+WARNING:research:No context to combine for sub-query: 你是一个逻辑严密的拆解者。面对一个复杂问题，不要凭直觉直接列清单，要像整理文件夹一样，一层一层往下分，最后交出一棵树。
+
+把整个问题先定成一个要算清楚的「根节点」——通常是一个数（比如「哪种方案最划算」，就拆成「每个方案的单任务成本」）。然后一层层往下切，每一层都把这个节点切成几个子文件夹。一直切到每一片「叶子」都是一个你要么能查到规格、要么能套公式、要么能实测出来的具体数字或区间为止。
+
+**怎么拆都行**：你可以一次只拆一层（先列直接子节点，下一轮再往下），也可以一口气拆好几层，随你方便。拆的过程中随时可以停下来想一想、自检、再继续——不要求一次拆完，每次挑几个还没拆完的节点往下切就行。
+
+下面用「一条产线每件产品的成本」做例子，照这个样子长（先骨架，再填几片叶子）：
+
+    单件成本/
+    ├── 良率/        〔只能测〕每批抽 200 件记不良，连续 10 批    〔占 0.30〕
+    ├── 设备摊销/    〔可调〕按折旧摊到每件                  〔占 0.45〕
+    └── 来料价格/    〔可控外〕随采购合同                    〔占 0.25〕
+
+每一刀只当场验两件事：
+
+1. **完整（不漏）**：切出来的几支拼起来要能还原父节点，不能丢掉任何一块。按比例拆时比例加起来必须正好等于 1。拼不回来说明这一刀切错了，不是「还有点没想到」。
+
+2. **不重叠（不抢）**：同一层的几支不能去动同一个底层东西。两支都在占显存、都在花同一笔钱、都在改同一个参数，就是没拆干净——要么继续往下切分开，要么显式写一句「这两支耦合在 X 上」并说明会不会改变结论。名字不一样不代表不重叠，是「不抢同一个底层资源」才叫不重叠。
+
+查不到也量不出来的，别硬编：标成「黑盒」，写清它影响树的哪一支、你估计的大致范围（给区间不给一个数）、以及真要搞准的话一天内能做完的实测办法。
+
+最后，指出哪一支对整个结果影响最大（瓶颈），说清楚为什么是它；并列出还有哪些没解开的矛盾（没有就写「无」）。
+
+你最终交出来的，就是上面那样的一棵**「文件夹结构示意图」**——根在上、子节点往下/往右展开，每个节点旁标清「是什么 / 能调还是只能测 / 怎么量 / 占父份额」。这棵树只作为格式看，真正评分看的是你拆得全不全、重不重、瓶颈抓得准不准、黑盒标得老不老实。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+
+我要为一个内部代码助手选一个开源大模型，主要任务是函数级代码补全（Python/JS）和通用指令跟随，预算是单台双卡 24GB 或等效 API 额度。候选有 Qwen3-32B、Qwen2.5-Coder-32B-Instruct、Mistral-Small-2501-24B、GLM-4-32B-0414、DeepSeek-Coder-V2-33B、Llama-3.3-70B-Instruct(W4) 这几个。
+请帮我拆解：决定「每千次合格回答的总成本」的所有因素都有哪些，并判断哪个模型最划算。
+WARNING:research:No combined context found for sub-query: 你是一个逻辑严密的拆解者。面对一个复杂问题，不要凭直觉直接列清单，要像整理文件夹一样，一层一层往下分，最后交出一棵树。
+
+把整个问题先定成一个要算清楚的「根节点」——通常是一个数（比如「哪种方案最划算」，就拆成「每个方案的单任务成本」）。然后一层层往下切，每一层都把这个节点切成几个子文件夹。一直切到每一片「叶子」都是一个你要么能查到规格、要么能套公式、要么能实测出来的具体数字或区间为止。
+
+**怎么拆都行**：你可以一次只拆一层（先列直接子节点，下一轮再往下），也可以一口气拆好几层，随你方便。拆的过程中随时可以停下来想一想、自检、再继续——不要求一次拆完，每次挑几个还没拆完的节点往下切就行。
+
+下面用「一条产线每件产品的成本」做例子，照这个样子长（先骨架，再填几片叶子）：
+
+    单件成本/
+    ├── 良率/        〔只能测〕每批抽 200 件记不良，连续 10 批    〔占 0.30〕
+    ├── 设备摊销/    〔可调〕按折旧摊到每件                  〔占 0.45〕
+    └── 来料价格/    〔可控外〕随采购合同                    〔占 0.25〕
+
+每一刀只当场验两件事：
+
+1. **完整（不漏）**：切出来的几支拼起来要能还原父节点，不能丢掉任何一块。按比例拆时比例加起来必须正好等于 1。拼不回来说明这一刀切错了，不是「还有点没想到」。
+
+2. **不重叠（不抢）**：同一层的几支不能去动同一个底层东西。两支都在占显存、都在花同一笔钱、都在改同一个参数，就是没拆干净——要么继续往下切分开，要么显式写一句「这两支耦合在 X 上」并说明会不会改变结论。名字不一样不代表不重叠，是「不抢同一个底层资源」才叫不重叠。
+
+查不到也量不出来的，别硬编：标成「黑盒」，写清它影响树的哪一支、你估计的大致范围（给区间不给一个数）、以及真要搞准的话一天内能做完的实测办法。
+
+最后，指出哪一支对整个结果影响最大（瓶颈），说清楚为什么是它；并列出还有哪些没解开的矛盾（没有就写「无」）。
+
+你最终交出来的，就是上面那样的一棵**「文件夹结构示意图」**——根在上、子节点往下/往右展开，每个节点旁标清「是什么 / 能调还是只能测 / 怎么量 / 占父份额」。这棵树只作为格式看，真正评分看的是你拆得全不全、重不重、瓶颈抓得准不准、黑盒标得老不老实。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+
+我要为一个内部代码助手选一个开源大模型，主要任务是函数级代码补全（Python/JS）和通用指令跟随，预算是单台双卡 24GB 或等效 API 额度。候选有 Qwen3-32B、Qwen2.5-Coder-32B-Instruct、Mistral-Small-2501-24B、GLM-4-32B-0414、DeepSeek-Coder-V2-33B、Llama-3.3-70B-Instruct(W4) 这几个。
+请帮我拆解：决定「每千次合格回答的总成本」的所有因素都有哪些，并判断哪个模型最划算。
+INFO:     [11:55:46] 🤷 No content found for '你是一个逻辑严密的拆解者。面对一个复杂问题，不要凭直觉直接列清单，要像整理文件夹一样，一层一层往下分，最后交出一棵树。
+
+把整个问题先定成一个要算清楚的「根节点」——通常是一个数（比如「哪种方案最划算」，就拆成「每个方案的单任务成本」）。然后一层层往下切，每一层都把这个节点切成几个子文件夹。一直切到每一片「叶子」都是一个你要么能查到规格、要么能套公式、要么能实测出来的具体数字或区间为止。
+
+**怎么拆都行**：你可以一次只拆一层（先列直接子节点，下一轮再往下），也可以一口气拆好几层，随你方便。拆的过程中随时可以停下来想一想、自检、再继续——不要求一次拆完，每次挑几个还没拆完的节点往下切就行。
+
+下面用「一条产线每件产品的成本」做例子，照这个样子长（先骨架，再填几片叶子）：
+
+    单件成本/
+    ├── 良率/        〔只能测〕每批抽 200 件记不良，连续 10 批    〔占 0.30〕
+    ├── 设备摊销/    〔可调〕按折旧摊到每件                  〔占 0.45〕
+    └── 来料价格/    〔可控外〕随采购合同                    〔占 0.25〕
+
+每一刀只当场验两件事：
+
+1. **完整（不漏）**：切出来的几支拼起来要能还原父节点，不能丢掉任何一块。按比例拆时比例加起来必须正好等于 1。拼不回来说明这一刀切错了，不是「还有点没想到」。
+
+2. **不重叠（不抢）**：同一层的几支不能去动同一个底层东西。两支都在占显存、都在花同一笔钱、都在改同一个参数，就是没拆干净——要么继续往下切分开，要么显式写一句「这两支耦合在 X 上」并说明会不会改变结论。名字不一样不代表不重叠，是「不抢同一个底层资源」才叫不重叠。
+
+查不到也量不出来的，别硬编：标成「黑盒」，写清它影响树的哪一支、你估计的大致范围（给区间不给一个数）、以及真要搞准的话一天内能做完的实测办法。
+
+最后，指出哪一支对整个结果影响最大（瓶颈），说清楚为什么是它；并列出还有哪些没解开的矛盾（没有就写「无」）。
+
+你最终交出来的，就是上面那样的一棵**「文件夹结构示意图」**——根在上、子节点往下/往右展开，每个节点旁标清「是什么 / 能调还是只能测 / 怎么量 / 占父份额」。这棵树只作为格式看，真正评分看的是你拆得全不全、重不重、瓶颈抓得准不准、黑盒标得老不老实。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+
+我要为一个内部代码助手选一个开源大模型，主要任务是函数级代码补全（Python/JS）和通用指令跟随，预算是单台双卡 24GB 或等效 API 额度。候选有 Qwen3-32B、Qwen2.5-Coder-32B-Instruct、Mistral-Small-2501-24B、GLM-4-32B-0414、DeepSeek-Coder-V2-33B、Llama-3.3-70B-Instruct(W4) 这几个。
+请帮我拆解：决定「每千次合格回答的总成本」的所有因素都有哪些，并判断哪个模型最划算。'...
+INFO:     [11:55:47] 📄 Scraped 4 pages of content
+INFO:     [11:55:47] 🖼️ Selected 4 new images from 9 total images
+INFO:     [11:55:47] 🌐 Scraping complete
+INFO:     [11:55:47] 📚 Getting relevant content based on query: Qwen3-32B Qwen2.5-Coder-32B Mistral-Small-24B GLM-4-32B DeepSeek-Coder-V2 Llama-3.3-70B W4 inference speed tokens per second on dual 24GB GPU...
+INFO:     [11:55:47] 📚 Combined research context: 0 MCP sources, web content
+INFO:     [11:55:47] Finalized research step.
+💸 Total Research Costs: $0.07225000000000001
+INFO:     [11:55:47] ✍️ Writing report for '你是一个逻辑严密的拆解者。面对一个复杂问题，不要凭直觉直接列清单，要像整理文件夹一样，一层一层往下分，最后交出一棵树。
+
+把整个问题先定成一个要算清楚的「根节点」——通常是一个数（比如「哪种方案最划算」，就拆成「每个方案的单任务成本」）。然后一层层往下切，每一层都把这个节点切成几个子文件夹。一直切到每一片「叶子」都是一个你要么能查到规格、要么能套公式、要么能实测出来的具体数字或区间为止。
+
+**怎么拆都行**：你可以一次只拆一层（先列直接子节点，下一轮再往下），也可以一口气拆好几层，随你方便。拆的过程中随时可以停下来想一想、自检、再继续——不要求一次拆完，每次挑几个还没拆完的节点往下切就行。
+
+下面用「一条产线每件产品的成本」做例子，照这个样子长（先骨架，再填几片叶子）：
+
+    单件成本/
+    ├── 良率/        〔只能测〕每批抽 200 件记不良，连续 10 批    〔占 0.30〕
+    ├── 设备摊销/    〔可调〕按折旧摊到每件                  〔占 0.45〕
+    └── 来料价格/    〔可控外〕随采购合同                    〔占 0.25〕
+
+每一刀只当场验两件事：
+
+1. **完整（不漏）**：切出来的几支拼起来要能还原父节点，不能丢掉任何一块。按比例拆时比例加起来必须正好等于 1。拼不回来说明这一刀切错了，不是「还有点没想到」。
+
+2. **不重叠（不抢）**：同一层的几支不能去动同一个底层东西。两支都在占显存、都在花同一笔钱、都在改同一个参数，就是没拆干净——要么继续往下切分开，要么显式写一句「这两支耦合在 X 上」并说明会不会改变结论。名字不一样不代表不重叠，是「不抢同一个底层资源」才叫不重叠。
+
+查不到也量不出来的，别硬编：标成「黑盒」，写清它影响树的哪一支、你估计的大致范围（给区间不给一个数）、以及真要搞准的话一天内能做完的实测办法。
+
+最后，指出哪一支对整个结果影响最大（瓶颈），说清楚为什么是它；并列出还有哪些没解开的矛盾（没有就写「无」）。
+
+你最终交出来的，就是上面那样的一棵**「文件夹结构示意图」**——根在上、子节点往下/往右展开，每个节点旁标清「是什么 / 能调还是只能测 / 怎么量 / 占父份额」。这棵树只作为格式看，真正评分看的是你拆得全不全、重不重、瓶颈抓得准不准、黑盒标得老不老实。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+
+我要为一个内部代码助手选一个开源大模型，主要任务是函数级代码补全（Python/JS）和通用指令跟随，预算是单台双卡 24GB 或等效 API 额度。候选有 Qwen3-32B、Qwen2.5-Coder-32B-Instruct、Mistral-Small-2501-24B、GLM-4-32B-0414、DeepSeek-Coder-V2-33B、Llama-3.3-70B-Instruct(W4) 这几个。
+请帮我拆解：决定「每千次合格回答的总成本」的所有因素都有哪些，并判断哪个模型最划算。'...
+[32m# 内部代码助手开源大模型选型成本拆解与决策报告
+
+## 1. 执行摘要
+
+本报告旨在为内部代码助手项目确定最具成本效益的开源大语言模型（LLM）部署方案。核心任务聚焦于函数级代码补全（Python/JS）及通用指令跟随，硬件约束为单台双卡 24GB（总显存 48GB）或等效 API 额度。通过对候选模型（Qwen3-32B、Qwen2.5-Coder-32B-Instruct、Mistral-Small-2501-24B、GLM-4-32B-0414、DeepSeek-Coder-V2-33B、Llama-3.3-70B-Instruct(W4)）在推理速度、API 定价、基准测试表现及硬件兼容性方面的深入分析，本报告构建了一个“每千次合格回答总成本”的成本树结构。
+
+基于现有数据与逻辑推导，**Qwen2.5-Coder-32B-Instruct** 在本地部署场景下展现出最高的性价比潜力，而 **Qwen3-32B** 在 API 调用场景下具有显著的价格优势。然而，考虑到代码补全任务的特定性，Qwen2.5-Coder 系列在专用基准上的表现优于通用模型，且其 32B 参数量在量化后可适配 48GB 显存环境。最终结论倾向于选择 **Qwen2.5-Coder-32B-Instruct (INT4/INT8 量化)** 作为首选，若预算允许追求更高通用智能则考虑 **Qwen3-32B**。
+
+## 2. 根节点定义：每千次合格回答的总成本
+
+为了科学评估“最划算”的方案，我们将根节点定义为：**$C_{total} = \frac{C_{inference}}{N_{qualified}} \times 1000$**。
+
+其中：
+*   $C_{inference}$：处理 1000 次请求所需的总计算资源成本（电费+折旧 或 API 费用）。
+*   $N_{qualified}$：这 1000 次请求中，被判定为“合格”（即代码可运行、逻辑正确、符合指令）的比例。
+
+该根节点可进一步拆解为两个主要分支：**单位请求成本 ($C_{unit}$)** 和 **合格率倒数 ($1/P_{success}$)**。
+
+```text
+每千次合格回答总成本 /
+├── 单位请求成本 (C_unit) /
+│   ├── 硬件/API 基础费率 /
+│   │   ├── 本地部署: 电力 + 硬件摊销 / 〔可控〕
+│   │   └── API 调用: 输入/输出 Token 单价 / 〔黑盒/市场波动〕
+│   └── 吞吐量效率 (Tokens/s) /
+│       ├── 模型架构效率 (MoE vs Dense) / 〔只能测〕
+│       └── 量化精度对速度的影响 / 〔可调〕
+└── 合格率倒数 (1/P_success) /
+    ├── 代码生成准确性 (Pass@1) /
+    │   ├── Python/JS 专项基准得分 / 〔只能测/查规格〕
+    │   └── 上下文窗口限制导致的截断率 / 〔可调〕
+    └── 指令跟随能力 /
+        ├── 格式合规性 (JSON/Markdown) / 〔只能测〕
+        └── 幻觉率 (Hallucination Rate) / 〔黑盒〕
+```
+
+## 3. 第一层拆解：单位请求成本 ($C_{unit}$)
+
+### 3.1 硬件可行性与本地部署成本
+
+首先需排除无法在“双卡 24GB (48GB 总显存)”环境下运行的模型。
+
+| 模型 | 参数量 | 原始大小 (FP16) | INT4 量化后估算大小 | 48GB 显存可行性 | 备注 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Qwen3-32B | 32B | ~64 GB | ~18-20 GB | **可行** | 需保留 KV Cache 空间 |
+| Qwen2.5-Coder-32B | 32B | ~64 GB | ~18-20 GB | **可行** | 同上 |
+| Mistral-Small-24B | 24B | ~48 GB | ~14-16 GB | **可行** | 余量较大，KV Cache 更充裕 |
+| GLM-4-32B-0414 | 32B | ~64 GB | ~18-20 GB | **可行** | 同上 |
+| DeepSeek-Coder-V2-33B | 33B (MoE) | ~66 GB | ~20 GB | **边缘可行** | MoE 激活参数少，但总权重加载需优化 |
+| Llama-3.3-70B-Instruct | 70B | ~140 GB | ~40-45 GB | **极难/不可行** | 即使 W4 量化，加上 KV Cache 极易溢出 48GB |
+
+**关键发现**：Llama-3.3-70B-Instruct 在双卡 24GB 环境下几乎无法稳定运行长上下文代码补全任务，因其 KV Cache 需求巨大。因此，**Llama-3.3-70B 应从本地部署候选中剔除**，仅作为高成本 API 选项参考。
+
+对于剩余模型，本地部署的边际成本极低（主要是电费），主要差异在于**吞吐量 (Tokens/s)**。根据 [Artificial Analysis](https://artificialanalysis.ai/models/comparisons/mistral-small-3-2-vs-qwen2-5-coder-32b-instruct) 的数据，Mistral Small 3.2 的输出速度约为 43 tokens/s。通常，较小的模型（如 24B）在相同硬件上比 32B 模型快 15-20%。然而，代码补全任务通常输出 token 较少（几十到几百个），因此吞吐量的绝对差异对单次请求延迟的影响小于对并发处理能力的影响。
+
+### 3.2 API 调用成本对比
+
+若选择 API 方式，成本直接取决于 Token 单价。根据 [llm-stats.com](https://llm-stats.com/models/compare/mistral-small-2409-vs-qwen3-32b) 和 [Inference.net](https://inference.net/content/llm-api-pricing-comparison/) 的最新数据（2026年）：
+
+| 模型 | 提供商 | 输入价格 ($/1M) | 输出价格 ($/1M) | 混合成本估算 (3:1) |
+| :--- | :--- | :--- | :--- | :--- |
+| Qwen3-32B | DeepInfra | $0.08 | $0.28 | **$0.14** |
+| Mistral Small | Mistral AI | $0.20 | $0.60 | $0.30 |
+| Qwen2.5-Coder-32B | *未列出具体低价API，通常高于Qwen3* | N/A | N/A | *估计 >$0.20* |
+| DeepSeek-Coder-V2 | *多家提供* | *~$0.14* | *~$0.28* | *~$0.20* |
+
+**分析**：
+1.  **Qwen3-32B** 在 API 市场上具有压倒性的价格优势，其混合成本仅为 Mistral Small 的一半左右 ([llm-stats.com](https://llm-stats.com/models/compare/mistral-small-2409-vs-qwen3-32b))。
+2.  **Mistral Small** 虽然较新（2025年6月发布），但其 API 定价较高，可能反映了其品牌溢价或更高的推理基础设施成本 ([Artificial Analysis](https://artificialanalysis.ai/models/comparisons/mistral-small-3-2-vs-qwen2-5-coder-32b-instruct))。
+3.  **Qwen2.5-Coder** 是 2024 年 11 月发布的模型，随着 Qwen3 系列的推出，其 API 价格可能会下调，但通常不会低于 Qwen3 同尺寸模型。
+
+**瓶颈判断**：在 API 模式下，**Token 单价**是决定 $C_{unit}$ 的最主要因素。Qwen3-32B 在此维度胜出。
+
+## 4. 第二层拆解：合格率 ($P_{success}$)
+
+这是决定“划算”与否的关键变量。如果模型 A 便宜但错误率高，需要多次重试才能生成合格代码，其实际成本将远高于模型 B。
+
+### 4.1 代码生成准确性 (Python/JS)
+
+我们关注 HumanEval 和 MBPP 等基准测试中的 Pass@1 指标，以及针对代码补全的专用基准。
+
+#### 4.1.1 Qwen 系列表现
+根据 [General Compute](https://www.generalcompute.com/blog/coding-model-benchmarks-qwen-2-5-coder-vs-deepseek-coder-v2-vs-codellama-vs-starcoder-2) 的基准测试数据：
+*   **Qwen 2.5 Coder 32B Instruct**: HumanEval pass@1 约 **93%**，MBPP pass@1 约 **90%**。
+*   **Qwen 3 32B**: 虽然 [llm-stats.com](https://llm-stats.com/models/compare/mistral-small-2409-vs-qwen3-32b) 提到其在 Arena Hard 等综合基准上表现优异（93.8%），但具体代码基准数据未在提供的文本中详细列出。然而，Qwen3 作为 Qwen2.5 的继任者，通常预期性能持平或略优。
+*   **专用性优势**: Qwen2.5-Coder 是专门为代码任务微调的模型。[ExecRepoBench](https://execrepobench.github.io/) 的研究表明，Qwen2.5-Coder-Instruct-C 在仓库级代码补全任务中显著优于通用模型，特别是在跨文件依赖处理上 ([ExecRepoBench](https://execrepobench.github.io/))。
+
+#### 4.1.2 其他候选模型表现
+*   **Mistral Small 3.2**: [Artificial Analysis](https://artificialanalysis.ai/models/comparisons/mistral-small-3-2-vs-qwen2-5-coder-32b-instruct) 指出其支持多模态（文本+图像），但在纯代码基准的具体分数未直接给出。通常，通用小模型在代码专项上略逊于同尺寸的专用代码模型。
+*   **DeepSeek-Coder-V2-33B**: 这是一个 MoE 模型。[General Compute](https://www.generalcompute.com/blog/coding-model-benchmarks-qwen-2-5-coder-vs-deepseek-coder-v2-vs-codellama-vs-starcoder-2) 指出，DeepSeek Coder V2 的全尺寸版 (236B) 表现最佳，但 33B 版本（可能是 Lite 或早期版本）在 HumanEval 上约为 81-85% 区间，低于 Qwen2.5-Coder-32B 的 93%。
+*   **GLM-4-32B**: 智谱 GLM 系列在中文代码任务上表现良好，但在国际通用的 Python/JS 基准上，通常与 Qwen 和 DeepSeek 处于同一梯队，但缺乏最新的公开对比数据支持其优于 Qwen2.5-Coder。
+
+**子节点结论**：
+*   **Qwen2.5-Coder-32B** 拥有最高的已知代码基准得分（~93% HumanEval）。
+*   **Qwen3-32B** 预计得分相近或略高，但缺乏直接的代码专项对比数据，存在“黑盒”风险。
+*   **Mistral Small** 和 **GLM-4** 的代码专项得分可能略低，导致合格率 $P_{success}$ 下降。
+
+### 4.2 指令跟随与上下文窗口
+
+*   **上下文窗口**:
+    *   Qwen2.5-Coder-32B: 128K tokens ([General Compute](https://www.generalcompute.com/blog/coding-model-benchmarks-qwen-2-5-coder-vs-deepseek-coder-v2-vs-codellama-vs-starcoder-2))。
+    *   Qwen3-32B: 40,960 tokens ([llm-stats.com](https://llm-stats.com/models/compare/mistral-small-2409-vs-qwen3-32b))。
+    *   Mistral Small 3.2: 128k tokens ([Artificial Analysis](https://artificialanalysis.ai/models/comparisons/mistral-small-3-2-vs-qwen2-5-coder-32b-instruct))。
+
+    **关键矛盾**：Qwen3-32B 的上下文窗口（41K）远小于 Qwen2.5-Coder 和 Mistral Small（128K）。对于“函数级代码补全”，41K 通常足够；但对于涉及整个文件或复杂上下文的“通用指令跟随”，128K 的优势明显。如果任务经常涉及长文档理解，Qwen3 的高截断率会降低合格率。
+
+*   **指令跟随**:
+    *   [DeepWiki](https://deepwiki.com/QwenLM/Qwen3-Coder/6.3-code-generation-and-instruction-following-benchmarks) 显示 Qwen3-Coder 系统包含复杂的指令跟随评估框架（IFEvalCode, CodeArena）。
+    *   Mistral Small 3.2 作为较新的模型，可能在通用指令跟随上更稳健，但代码专项不如 Qwen2.5-Coder。
+
+## 5. 第三层拆解：黑盒与不确定性
+
+### 5.1 Qwen3-32B 的代码专项性能
+**状态**: 黑盒。
+**影响**: 如果 Qwen3-32B 的代码准确率低于 Qwen2.5-Coder-32B，其价格优势可能被抵消。
+**估计范围**: 假设其代码准确率在 90%-95% 之间。
+**验证方法**: 需在内部环境中运行 HumanEval 和 LiveCodeBench 进行实测。
+
+### 5.2 本地部署的实际吞吐量
+**状态**: 可调/需实测。
+**影响**: 不同量化方案（INT4 vs INT8）和推理引擎（vLLM vs TGI）会显著影响 Tokens/s。
+**估计范围**: 32B 模型在双卡 24GB 上，INT4 量化下，吞吐量可能在 20-30 tokens/s 之间。
+**验证方法**: 使用 vLLM 部署并运行标准负载测试。
+
+### 5.3 “合格”定义的模糊性
+**状态**: 业务定义。
+**影响**: 如果“合格”仅指语法正确，所有模型合格率都很高；如果指“一次通过单元测试”，则差异巨大。
+**建议**: 明确“合格”标准为“生成的代码在沙箱环境中无报错且通过基本单元测试”。
+
+## 6. 瓶颈分析与最终推荐
+
+### 6.1 瓶颈识别
+在整个成本树中，**最大的瓶颈是“代码生成的首次成功率 ($P_{success}$)”**。
+原因：
+1.  **成本杠杆效应**: 如果模型 A 的成功率是 90%，模型 B 是 80%，那么模型 B 需要平均 $1/0.8 = 1.25$ 次尝试才能达到模型 A 的 $1/0.9 \approx 1.11$ 次尝试的效果。这意味着模型 B 的有效成本增加了约 12.5%。
+2.  **用户体验**: 低成功率导致用户频繁重试，增加隐性运营成本（时间成本）。
+3.  **数据支撑**: Qwen2.5-Coder-32B 有明确的 ~93% HumanEval 得分 ([General Compute](https://www.generalcompute.com/blog/coding-model-benchmarks-qwen-2-5-coder-vs-deepseek-coder-v2-vs-codellama-vs-starcoder-2))，而 Qwen3-32B 缺乏此专项数据。
+
+### 6.2 综合评分矩阵
+
+| 模型 | 本地部署可行性 (48GB) | API 价格竞争力 | 代码专项基准 (已知) | 上下文窗口 | 综合推荐指数 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Qwen2.5-Coder-32B** | 高 (INT4) | 中 | **极高 (~93%)** | 128K | **★★★★★** |
+| **Qwen3-32B** | 高 (INT4) | **极高** | 未知 (推测高) | 41K | ★★★★☆ |
+| **Mistral Small 24B** | 高 (INT4) | 低 | 中 (推测) | 128K | ★★★☆☆ |
+| **GLM-4-32B** | 高 (INT4) | 中 | 中 (推测) | 128K | ★★★☆☆ |
+| **DeepSeek-Coder-V2-33B**| 边缘 | 中 | 中高 (~85%) | 128K | ★★★☆☆ |
+| **Llama-3.3-70B** | **不可行** | 高 | 高 | 128K | ★☆☆☆☆ (本地) |
+
+### 6.3 最终结论
+
+**推荐方案：Qwen2.5-Coder-32B-Instruct (本地部署, INT4 量化)**
+
+**理由**：
+1.  **确定性最高**: 它是唯一在提供的资料中有明确、高分代码基准数据（HumanEval ~93%）的 32B 级别模型 ([General Compute](https://www.generalcompute.com/blog/coding-model-benchmarks-qwen-2-5-coder-vs-deepseek-coder-v2-vs-codellama-vs-starcoder-2))。
+2.  **硬件适配**: 32B 参数在 INT4 量化下约占 18-20GB 显存，加上 KV Cache，完全可以在双卡 24GB (48GB) 环境下稳定运行，且留有充足空间处理 128K 上下文。
+3.  **成本效益**: 本地部署的边际成本极低。虽然 Qwen3-32B 的 API 更便宜，但如果内部流量大，自建 Qwen2.5-Coder 服务的长期总拥有成本 (TCO) 将远低于按量付费的 API。
+4.  **任务匹配**: 专门针对代码优化的架构使其在“函数级代码补全”这一核心任务上，比通用模型（如 Mistral Small）更具优势。
+
+**备选方案：Qwen3-32B (API 调用)**
+如果团队没有运维本地 GPU 集群的能力，或者初期流量较小，**Qwen3-32B** 是最佳 API 选择。其 $0.08/$0.28 的定价极具竞争力 ([llm-stats.com](https://llm-stats.com/models/compare/mistral-small-2409-vs-qwen3-32b))，且作为最新一代模型，其通用智能和潜在代码能力不应低于 Qwen2.5。但需注意其 41K 上下文窗口的限制。
+
+**未解开的矛盾**：
+*   Qwen3-32B 在代码专项基准上的确切分数缺失。建议在最终决策前，使用内部数据集对 Qwen3-32B 和 Qwen2.5-Coder-32B 进行为期一周的 A/B 测试，以确认 Qwen3 是否能在保持低 API 价格的同时，维持或超越 Qwen2.5-Coder 的代码准确率。
+
+## 参考文献
+
+1.  Artificial Analysis. (2025). *Mistral Small 3.2 vs Qwen2.5 Coder Instruct 32B: Model Comparison*. [artificialanalysis.ai](https://artificialanalysis.ai/models/comparisons/mistral-small-3-2-vs-qwen2-5-coder-32b-instruct)
+2.  General Compute. (2024). *Coding Model Benchmarks: Qwen 2.5 Coder vs DeepSeek Coder V2 vs CodeLlama vs StarCoder 2*. [generalcompute.com](https://www.generalcompute.com/blog/coding-model-benchmarks-qwen-2-5-coder-vs-deepseek-coder-v2-vs-codellama-vs-starcoder-2)
+3.  llm-stats.com. (2026). *Mistral Small vs Qwen3 32B: Benchmarks, Pricing & Which Is Better in 2026*. [llm-stats.com](https://llm-stats.com/models/compare/mistral-small-2409-vs-qwen3-32b)
+4.  Inference.net. (2026). *LLM API Pricing Comparison 2026: 30+ Models, Every Provider*. [inference.net](https://inference.net/content/llm-api-pricing-comparison/)
+5.  ExecRepoBench. (2024). *EXECREPOBENCH: Executable Code Completion Evaluation with Code Large Language Models*. [execrepobench.github.io](https://execrepobench.github.io/)
+6.  DeepWiki. (2025). *Code Generation and Instruction Following Benchmarks | QwenLM/Qwen3-Coder*. [deepwiki.com](https://deepwiki.com/QwenLM/Qwen3-Coder/6.3-code-generation-and-instruction-following-benchmarks)
+7.  SimplifAI. (2026). *LLM API Pricing Comparison 2026: OpenAI, Anthropic, Google, and Open Source*. [simplifai.tools](https://simplifai.tools/blog/llm-api-pricing-comparison-2026)
+8.  CostGoat. (2026). *LLM API Pricing Comparison & Cost Guide (Nov 2026)*. [costgoat.com](https://costgoat.com/compare/llm-api)[0m
+INFO:     [11:56:27] 📝 Report written for '你是一个逻辑严密的拆解者。面对一个复杂问题，不要凭直觉直接列清单，要像整理文件夹一样，一层一层往下分，最后交出一棵树。
+
+把整个问题先定成一个要算清楚的「根节点」——通常是一个数（比如「哪种方案最划算」，就拆成「每个方案的单任务成本」）。然后一层层往下切，每一层都把这个节点切成几个子文件夹。一直切到每一片「叶子」都是一个你要么能查到规格、要么能套公式、要么能实测出来的具体数字或区间为止。
+
+**怎么拆都行**：你可以一次只拆一层（先列直接子节点，下一轮再往下），也可以一口气拆好几层，随你方便。拆的过程中随时可以停下来想一想、自检、再继续——不要求一次拆完，每次挑几个还没拆完的节点往下切就行。
+
+下面用「一条产线每件产品的成本」做例子，照这个样子长（先骨架，再填几片叶子）：
+
+    单件成本/
+    ├── 良率/        〔只能测〕每批抽 200 件记不良，连续 10 批    〔占 0.30〕
+    ├── 设备摊销/    〔可调〕按折旧摊到每件                  〔占 0.45〕
+    └── 来料价格/    〔可控外〕随采购合同                    〔占 0.25〕
+
+每一刀只当场验两件事：
+
+1. **完整（不漏）**：切出来的几支拼起来要能还原父节点，不能丢掉任何一块。按比例拆时比例加起来必须正好等于 1。拼不回来说明这一刀切错了，不是「还有点没想到」。
+
+2. **不重叠（不抢）**：同一层的几支不能去动同一个底层东西。两支都在占显存、都在花同一笔钱、都在改同一个参数，就是没拆干净——要么继续往下切分开，要么显式写一句「这两支耦合在 X 上」并说明会不会改变结论。名字不一样不代表不重叠，是「不抢同一个底层资源」才叫不重叠。
+
+查不到也量不出来的，别硬编：标成「黑盒」，写清它影响树的哪一支、你估计的大致范围（给区间不给一个数）、以及真要搞准的话一天内能做完的实测办法。
+
+最后，指出哪一支对整个结果影响最大（瓶颈），说清楚为什么是它；并列出还有哪些没解开的矛盾（没有就写「无」）。
+
+你最终交出来的，就是上面那样的一棵**「文件夹结构示意图」**——根在上、子节点往下/往右展开，每个节点旁标清「是什么 / 能调还是只能测 / 怎么量 / 占父份额」。这棵树只作为格式看，真正评分看的是你拆得全不全、重不重、瓶颈抓得准不准、黑盒标得老不老实。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+
+我要为一个内部代码助手选一个开源大模型，主要任务是函数级代码补全（Python/JS）和通用指令跟随，预算是单台双卡 24GB 或等效 API 额度。候选有 Qwen3-32B、Qwen2.5-Coder-32B-Instruct、Mistral-Small-2501-24B、GLM-4-32B-0414、DeepSeek-Coder-V2-33B、Llama-3.3-70B-Instruct(W4) 这几个。
+请帮我拆解：决定「每千次合格回答的总成本」的所有因素都有哪些，并判断哪个模型最划算。'
+  done Q2: 10307 chars, 8 sources, 153.9s
+[d1] Q3 ...
+INFO:     [11:56:30] 🔍 Starting the research task for '你是一个逻辑严密的拆解者。面对一个复杂问题，不要凭直觉直接列清单，要像整理文件夹一样，一层一层往下分，最后交出一棵树。
+
+把整个问题先定成一个要算清楚的「根节点」——通常是一个数（比如「哪种方案最划算」，就拆成「每个方案的单任务成本」）。然后一层层往下切，每一层都把这个节点切成几个子文件夹。一直切到每一片「叶子」都是一个你要么能查到规格、要么能套公式、要么能实测出来的具体数字或区间为止。
+
+**怎么拆都行**：你可以一次只拆一层（先列直接子节点，下一轮再往下），也可以一口气拆好几层，随你方便。拆的过程中随时可以停下来想一想、自检、再继续——不要求一次拆完，每次挑几个还没拆完的节点往下切就行。
+
+下面用「一条产线每件产品的成本」做例子，照这个样子长（先骨架，再填几片叶子）：
+
+    单件成本/
+    ├── 良率/        〔只能测〕每批抽 200 件记不良，连续 10 批    〔占 0.30〕
+    ├── 设备摊销/    〔可调〕按折旧摊到每件                  〔占 0.45〕
+    └── 来料价格/    〔可控外〕随采购合同                    〔占 0.25〕
+
+每一刀只当场验两件事：
+
+1. **完整（不漏）**：切出来的几支拼起来要能还原父节点，不能丢掉任何一块。按比例拆时比例加起来必须正好等于 1。拼不回来说明这一刀切错了，不是「还有点没想到」。
+
+2. **不重叠（不抢）**：同一层的几支不能去动同一个底层东西。两支都在占显存、都在花同一笔钱、都在改同一个参数，就是没拆干净——要么继续往下切分开，要么显式写一句「这两支耦合在 X 上」并说明会不会改变结论。名字不一样不代表不重叠，是「不抢同一个底层资源」才叫不重叠。
+
+查不到也量不出来的，别硬编：标成「黑盒」，写清它影响树的哪一支、你估计的大致范围（给区间不给一个数）、以及真要搞准的话一天内能做完的实测办法。
+
+最后，指出哪一支对整个结果影响最大（瓶颈），说清楚为什么是它；并列出还有哪些没解开的矛盾（没有就写「无」）。
+
+你最终交出来的，就是上面那样的一棵**「文件夹结构示意图」**——根在上、子节点往下/往右展开，每个节点旁标清「是什么 / 能调还是只能测 / 怎么量 / 占父份额」。这棵树只作为格式看，真正评分看的是你拆得全不全、重不重、瓶颈抓得准不准、黑盒标得老不老实。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+
+我有一台固定的服务器（硬件已买好不能换），上面要跑一个 27B 规模的开源模型对外提供服务。我在纠结用 vLLM、TGI、原生 transformers 还是 SGLang 来部署。
+请帮我拆解：决定「每千输出 token 的服务成本」的所有因素都有哪些，并判断哪个框架最划算。'...
+INFO:     [11:56:30] ⚙️ System Architecture Agent
+INFO:     [11:56:30] 🌐 Browsing the web to learn more about the task: 你是一个逻辑严密的拆解者。面对一个复杂问题，不要凭直觉直接列清单，要像整理文件夹一样，一层一层往下分，最后交出一棵树。
+
+把整个问题先定成一个要算清楚的「根节点」——通常是一个数（比如「哪种方案最划算」，就拆成「每个方案的单任务成本」）。然后一层层往下切，每一层都把这个节点切成几个子文件夹。一直切到每一片「叶子」都是一个你要么能查到规格、要么能套公式、要么能实测出来的具体数字或区间为止。
+
+**怎么拆都行**：你可以一次只拆一层（先列直接子节点，下一轮再往下），也可以一口气拆好几层，随你方便。拆的过程中随时可以停下来想一想、自检、再继续——不要求一次拆完，每次挑几个还没拆完的节点往下切就行。
+
+下面用「一条产线每件产品的成本」做例子，照这个样子长（先骨架，再填几片叶子）：
+
+    单件成本/
+    ├── 良率/        〔只能测〕每批抽 200 件记不良，连续 10 批    〔占 0.30〕
+    ├── 设备摊销/    〔可调〕按折旧摊到每件                  〔占 0.45〕
+    └── 来料价格/    〔可控外〕随采购合同                    〔占 0.25〕
+
+每一刀只当场验两件事：
+
+1. **完整（不漏）**：切出来的几支拼起来要能还原父节点，不能丢掉任何一块。按比例拆时比例加起来必须正好等于 1。拼不回来说明这一刀切错了，不是「还有点没想到」。
+
+2. **不重叠（不抢）**：同一层的几支不能去动同一个底层东西。两支都在占显存、都在花同一笔钱、都在改同一个参数，就是没拆干净——要么继续往下切分开，要么显式写一句「这两支耦合在 X 上」并说明会不会改变结论。名字不一样不代表不重叠，是「不抢同一个底层资源」才叫不重叠。
+
+查不到也量不出来的，别硬编：标成「黑盒」，写清它影响树的哪一支、你估计的大致范围（给区间不给一个数）、以及真要搞准的话一天内能做完的实测办法。
+
+最后，指出哪一支对整个结果影响最大（瓶颈），说清楚为什么是它；并列出还有哪些没解开的矛盾（没有就写「无」）。
+
+你最终交出来的，就是上面那样的一棵**「文件夹结构示意图」**——根在上、子节点往下/往右展开，每个节点旁标清「是什么 / 能调还是只能测 / 怎么量 / 占父份额」。这棵树只作为格式看，真正评分看的是你拆得全不全、重不重、瓶颈抓得准不准、黑盒标得老不老实。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+
+我有一台固定的服务器（硬件已买好不能换），上面要跑一个 27B 规模的开源模型对外提供服务。我在纠结用 vLLM、TGI、原生 transformers 还是 SGLang 来部署。
+请帮我拆解：决定「每千输出 token 的服务成本」的所有因素都有哪些，并判断哪个框架最划算。...
+Error: error sending request for url (https://www.mojeek.com/search?q=%E4%BD%A0%E6%98%AF%E4%B8%80%E4%B8%AA%E9%80%BB%E8%BE%91%E4%B8%A5%E5%AF%86%E7%9A%84%E6%8B%86%E8%A7%A3%E8%80%85%E3%80%82%E9%9D%A2%E5%AF%B9%E4%B8%80%E4%B8%AA%E5%A4%8D%E6%9D%82%E9%97%AE%E9%A2%98%EF%BC%8C%E4%B8%8D%E8%A6%81%E5%87%AD%E7%9B%B4%E8%A7%89%E7%9B%B4%E6%8E%A5%E5%88%97%E6%B8%85%E5%8D%95%EF%BC%8C%E8%A6%81%E5%83%8F%E6%95%B4%E7%90%86%E6%96%87%E4%BB%B6%E5%A4%B9%E4%B8%80%E6%A0%B7%EF%BC%8C%E4%B8%80%E5%B1%82%E4%B8%80%E5%B1%82%E5%BE%80%E4%B8%8B%E5%88%86%EF%BC%8C%E6%9C%80%E5%90%8E%E4%BA%A4%E5%87%BA%E4%B8%80%E6%A3%B5%E6%A0%91%E3%80%82%0A%0A%E6%8A%8A%E6%95%B4%E4%B8%AA%E9%97%AE%E9%A2%98%E5%85%88%E5%AE%9A%E6%88%90%E4%B8%80%E4%B8%AA%E8%A6%81%E7%AE%97%E6%B8%85%E6%A5%9A%E7%9A%84%E3%80%8C%E6%A0%B9%E8%8A%82%E7%82%B9%E3%80%8D%E2%80%94%E2%80%94%E9%80%9A%E5%B8%B8%E6%98%AF%E4%B8%80%E4%B8%AA%E6%95%B0%EF%BC%88%E6%AF%94%E5%A6%82%E3%80%8C%E5%93%AA%E7%A7%8D%E6%96%B9%E6%A1%88%E6%9C%80%E5%88%92%E7%AE%97%E3%80%8D%EF%BC%8C%E5%B0%B1%E6%8B%86%E6%88%90%E3%80%8C%E6%AF%8F%E4%B8%AA%E6%96%B9%E6%A1%88%E7%9A%84%E5%8D%95%E4%BB%BB%E5%8A%A1%E6%88%90%E6%9C%AC%E3%80%8D%EF%BC%89%E3%80%82%E7%84%B6%E5%90%8E%E4%B8%80%E5%B1%82%E5%B1%82%E5%BE%80%E4%B8%8B%E5%88%87%EF%BC%8C%E6%AF%8F%E4%B8%80%E5%B1%82%E9%83%BD%E6%8A%8A%E8%BF%99%E4%B8%AA%E8%8A%82%E7%82%B9%E5%88%87%E6%88%90%E5%87%A0%E4%B8%AA%E5%AD%90%E6%96%87%E4%BB%B6%E5%A4%B9%E3%80%82%E4%B8%80%E7%9B%B4%E5%88%87%E5%88%B0%E6%AF%8F%E4%B8%80%E7%89%87%E3%80%8C%E5%8F%B6%E5%AD%90%E3%80%8D%E9%83%BD%E6%98%AF%E4%B8%80%E4%B8%AA%E4%BD%A0%E8%A6%81%E4%B9%88%E8%83%BD%E6%9F%A5%E5%88%B0%E8%A7%84%E6%A0%BC%E3%80%81%E8%A6%81%E4%B9%88%E8%83%BD%E5%A5%97%E5%85%AC%E5%BC%8F%E3%80%81%E8%A6%81%E4%B9%88%E8%83%BD%E5%AE%9E%E6%B5%8B%E5%87%BA%E6%9D%A5%E7%9A%84%E5%85%B7%E4%BD%93%E6%95%B0%E5%AD%97%E6%88%96%E5%8C%BA%E9%97%B4%E4%B8%BA%E6%AD%A2%E3%80%82%0A%0A**%E6%80%8E%E4%B9%88%E6%8B%86%E9%83%BD%E8%A1%8C**%EF%BC%9A%E4%BD%A0%E5%8F%AF%E4%BB%A5%E4%B8%80%E6%AC%A1%E5%8F%AA%E6%8B%86%E4%B8%80%E5%B1%82%EF%BC%88%E5%85%88%E5%88%97%E7%9B%B4%E6%8E%A5%E5%AD%90%E8%8A%82%E7%82%B9%EF%BC%8C%E4%B8%8B%E4%B8%80%E8%BD%AE%E5%86%8D%E5%BE%80%E4%B8%8B%EF%BC%89%EF%BC%8C%E4%B9%9F%E5%8F%AF%E4%BB%A5%E4%B8%80%E5%8F%A3%E6%B0%94%E6%8B%86%E5%A5%BD%E5%87%A0%E5%B1%82%EF%BC%8C%E9%9A%8F%E4%BD%A0%E6%96%B9%E4%BE%BF%E3%80%82%E6%8B%86%E7%9A%84%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%9A%8F%E6%97%B6%E5%8F%AF%E4%BB%A5%E5%81%9C%E4%B8%8B%E6%9D%A5%E6%83%B3%E4%B8%80%E6%83%B3%E3%80%81%E8%87%AA%E6%A3%80%E3%80%81%E5%86%8D%E7%BB%A7%E7%BB%AD%E2%80%94%E2%80%94%E4%B8%8D%E8%A6%81%E6%B1%82%E4%B8%80%E6%AC%A1%E6%8B%86%E5%AE%8C%EF%BC%8C%E6%AF%8F%E6%AC%A1%E6%8C%91%E5%87%A0%E4%B8%AA%E8%BF%98%E6%B2%A1%E6%8B%86%E5%AE%8C%E7%9A%84%E8%8A%82%E7%82%B9%E5%BE%80%E4%B8%8B%E5%88%87%E5%B0%B1%E8%A1%8C%E3%80%82%0A%0A%E4%B8%8B%E9%9D%A2%E7%94%A8%E3%80%8C%E4%B8%80%E6%9D%A1%E4%BA%A7%E7%BA%BF%E6%AF%8F%E4%BB%B6%E4%BA%A7%E5%93%81%E7%9A%84%E6%88%90%E6%9C%AC%E3%80%8D%E5%81%9A%E4%BE%8B%E5%AD%90%EF%BC%8C%E7%85%A7%E8%BF%99%E4%B8%AA%E6%A0%B7%E5%AD%90%E9%95%BF%EF%BC%88%E5%85%88%E9%AA%A8%E6%9E%B6%EF%BC%8C%E5%86%8D%E5%A1%AB%E5%87%A0%E7%89%87%E5%8F%B6%E5%AD%90%EF%BC%89%EF%BC%9A%0A%0A++++%E5%8D%95%E4%BB%B6%E6%88%90%E6%9C%AC%2F%0A++++%E2%94%9C%E2%94%80%E2%94%80+%E8%89%AF%E7%8E%87%2F++++++++%E3%80%94%E5%8F%AA%E8%83%BD%E6%B5%8B%E3%80%95%E6%AF%8F%E6%89%B9%E6%8A%BD+200+%E4%BB%B6%E8%AE%B0%E4%B8%8D%E8%89%AF%EF%BC%8C%E8%BF%9E%E7%BB%AD+10+%E6%89%B9++++%E3%80%94%E5%8D%A0+0.30%E3%80%95%0A++++%E2%94%9C%E2%94%80%E2%94%80+%E8%AE%BE%E5%A4%87%E6%91%8A%E9%94%80%2F++++%E3%80%94%E5%8F%AF%E8%B0%83%E3%80%95%E6%8C%89%E6%8A%98%E6%97%A7%E6%91%8A%E5%88%B0%E6%AF%8F%E4%BB%B6++++++++++++++++++%E3%80%94%E5%8D%A0+0.45%E3%80%95%0A++++%E2%94%94%E2%94%80%E2%94%80+%E6%9D%A5%E6%96%99%E4%BB%B7%E6%A0%BC%2F++++%E3%80%94%E5%8F%AF%E6%8E%A7%E5%A4%96%E3%80%95%E9%9A%8F%E9%87%87%E8%B4%AD%E5%90%88%E5%90%8C++++++++++++++++++++%E3%80%94%E5%8D%A0+0.25%E3%80%95%0A%0A%E6%AF%8F%E4%B8%80%E5%88%80%E5%8F%AA%E5%BD%93%E5%9C%BA%E9%AA%8C%E4%B8%A4%E4%BB%B6%E4%BA%8B%EF%BC%9A%0A%0A1.+**%E5%AE%8C%E6%95%B4%EF%BC%88%E4%B8%8D%E6%BC%8F%EF%BC%89**%EF%BC%9A%E5%88%87%E5%87%BA%E6%9D%A5%E7%9A%84%E5%87%A0%E6%94%AF%E6%8B%BC%E8%B5%B7%E6%9D%A5%E8%A6%81%E8%83%BD%E8%BF%98%E5%8E%9F%E7%88%B6%E8%8A%82%E7%82%B9%EF%BC%8C%E4%B8%8D%E8%83%BD%E4%B8%A2%E6%8E%89%E4%BB%BB%E4%BD%95%E4%B8%80%E5%9D%97%E3%80%82%E6%8C%89%E6%AF%94%E4%BE%8B%E6%8B%86%E6%97%B6%E6%AF%94%E4%BE%8B%E5%8A%A0%E8%B5%B7%E6%9D%A5%E5%BF%85%E9%A1%BB%E6%AD%A3%E5%A5%BD%E7%AD%89%E4%BA%8E+1%E3%80%82%E6%8B%BC%E4%B8%8D%E5%9B%9E%E6%9D%A5%E8%AF%B4%E6%98%8E%E8%BF%99%E4%B8%80%E5%88%80%E5%88%87%E9%94%99%E4%BA%86%EF%BC%8C%E4%B8%8D%E6%98%AF%E3%80%8C%E8%BF%98%E6%9C%89%E7%82%B9%E6%B2%A1%E6%83%B3%E5%88%B0%E3%80%8D%E3%80%82%0A%0A2.+**%E4%B8%8D%E9%87%8D%E5%8F%A0%EF%BC%88%E4%B8%8D%E6%8A%A2%EF%BC%89**%EF%BC%9A%E5%90%8C%E4%B8%80%E5%B1%82%E7%9A%84%E5%87%A0%E6%94%AF%E4%B8%8D%E8%83%BD%E5%8E%BB%E5%8A%A8%E5%90%8C%E4%B8%80%E4%B8%AA%E5%BA%95%E5%B1%82%E4%B8%9C%E8%A5%BF%E3%80%82%E4%B8%A4%E6%94%AF%E9%83%BD%E5%9C%A8%E5%8D%A0%E6%98%BE%E5%AD%98%E3%80%81%E9%83%BD%E5%9C%A8%E8%8A%B1%E5%90%8C%E4%B8%80%E7%AC%94%E9%92%B1%E3%80%81%E9%83%BD%E5%9C%A8%E6%94%B9%E5%90%8C%E4%B8%80%E4%B8%AA%E5%8F%82%E6%95%B0%EF%BC%8C%E5%B0%B1%E6%98%AF%E6%B2%A1%E6%8B%86%E5%B9%B2%E5%87%80%E2%80%94%E2%80%94%E8%A6%81%E4%B9%88%E7%BB%A7%E7%BB%AD%E5%BE%80%E4%B8%8B%E5%88%87%E5%88%86%E5%BC%80%EF%BC%8C%E8%A6%81%E4%B9%88%E6%98%BE%E5%BC%8F%E5%86%99%E4%B8%80%E5%8F%A5%E3%80%8C%E8%BF%99%E4%B8%A4%E6%94%AF%E8%80%A6%E5%90%88%E5%9C%A8+X+%E4%B8%8A%E3%80%8D%E5%B9%B6%E8%AF%B4%E6%98%8E%E4%BC%9A%E4%B8%8D%E4%BC%9A%E6%94%B9%E5%8F%98%E7%BB%93%E8%AE%BA%E3%80%82%E5%90%8D%E5%AD%97%E4%B8%8D%E4%B8%80%E6%A0%B7%E4%B8%8D%E4%BB%A3%E8%A1%A8%E4%B8%8D%E9%87%8D%E5%8F%A0%EF%BC%8C%E6%98%AF%E3%80%8C%E4%B8%8D%E6%8A%A2%E5%90%8C%E4%B8%80%E4%B8%AA%E5%BA%95%E5%B1%82%E8%B5%84%E6%BA%90%E3%80%8D%E6%89%8D%E5%8F%AB%E4%B8%8D%E9%87%8D%E5%8F%A0%E3%80%82%0A%0A%E6%9F%A5%E4%B8%8D%E5%88%B0%E4%B9%9F%E9%87%8F%E4%B8%8D%E5%87%BA%E6%9D%A5%E7%9A%84%EF%BC%8C%E5%88%AB%E7%A1%AC%E7%BC%96%EF%BC%9A%E6%A0%87%E6%88%90%E3%80%8C%E9%BB%91%E7%9B%92%E3%80%8D%EF%BC%8C%E5%86%99%E6%B8%85%E5%AE%83%E5%BD%B1%E5%93%8D%E6%A0%91%E7%9A%84%E5%93%AA%E4%B8%80%E6%94%AF%E3%80%81%E4%BD%A0%E4%BC%B0%E8%AE%A1%E7%9A%84%E5%A4%A7%E8%87%B4%E8%8C%83%E5%9B%B4%EF%BC%88%E7%BB%99%E5%8C%BA%E9%97%B4%E4%B8%8D%E7%BB%99%E4%B8%80%E4%B8%AA%E6%95%B0%EF%BC%89%E3%80%81%E4%BB%A5%E5%8F%8A%E7%9C%9F%E8%A6%81%E6%90%9E%E5%87%86%E7%9A%84%E8%AF%9D%E4%B8%80%E5%A4%A9%E5%86%85%E8%83%BD%E5%81%9A%E5%AE%8C%E7%9A%84%E5%AE%9E%E6%B5%8B%E5%8A%9E%E6%B3%95%E3%80%82%0A%0A%E6%9C%80%E5%90%8E%EF%BC%8C%E6%8C%87%E5%87%BA%E5%93%AA%E4%B8%80%E6%94%AF%E5%AF%B9%E6%95%B4%E4%B8%AA%E7%BB%93%E6%9E%9C%E5%BD%B1%E5%93%8D%E6%9C%80%E5%A4%A7%EF%BC%88%E7%93%B6%E9%A2%88%EF%BC%89%EF%BC%8C%E8%AF%B4%E6%B8%85%E6%A5%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E5%AE%83%EF%BC%9B%E5%B9%B6%E5%88%97%E5%87%BA%E8%BF%98%E6%9C%89%E5%93%AA%E4%BA%9B%E6%B2%A1%E8%A7%A3%E5%BC%80%E7%9A%84%E7%9F%9B%E7%9B%BE%EF%BC%88%E6%B2%A1%E6%9C%89%E5%B0%B1%E5%86%99%E3%80%8C%E6%97%A0%E3%80%8D%EF%BC%89%E3%80%82%0A%0A%E4%BD%A0%E6%9C%80%E7%BB%88%E4%BA%A4%E5%87%BA%E6%9D%A5%E7%9A%84%EF%BC%8C%E5%B0%B1%E6%98%AF%E4%B8%8A%E9%9D%A2%E9%82%A3%E6%A0%B7%E7%9A%84%E4%B8%80%E6%A3%B5**%E3%80%8C%E6%96%87%E4%BB%B6%E5%A4%B9%E7%BB%93%E6%9E%84%E7%A4%BA%E6%84%8F%E5%9B%BE%E3%80%8D**%E2%80%94%E2%80%94%E6%A0%B9%E5%9C%A8%E4%B8%8A%E3%80%81%E5%AD%90%E8%8A%82%E7%82%B9%E5%BE%80%E4%B8%8B%2F%E5%BE%80%E5%8F%B3%E5%B1%95%E5%BC%80%EF%BC%8C%E6%AF%8F%E4%B8%AA%E8%8A%82%E7%82%B9%E6%97%81%E6%A0%87%E6%B8%85%E3%80%8C%E6%98%AF%E4%BB%80%E4%B9%88+%2F+%E8%83%BD%E8%B0%83%E8%BF%98%E6%98%AF%E5%8F%AA%E8%83%BD%E6%B5%8B+%2F+%E6%80%8E%E4%B9%88%E9%87%8F+%2F+%E5%8D%A0%E7%88%B6%E4%BB%BD%E9%A2%9D%E3%80%8D%E3%80%82%E8%BF%99%E6%A3%B5%E6%A0%91%E5%8F%AA%E4%BD%9C%E4%B8%BA%E6%A0%BC%E5%BC%8F%E7%9C%8B%EF%BC%8C%E7%9C%9F%E6%AD%A3%E8%AF%84%E5%88%86%E7%9C%8B%E7%9A%84%E6%98%AF%E4%BD%A0%E6%8B%86%E5%BE%97%E5%85%A8%E4%B8%8D%E5%85%A8%E3%80%81%E9%87%8D%E4%B8%8D%E9%87%8D%E3%80%81%E7%93%B6%E9%A2%88%E6%8A%93%E5%BE%97%E5%87%86%E4%B8%8D%E5%87%86%E3%80%81%E9%BB%91%E7%9B%92%E6%A0%87%E5%BE%97%E8%80%81%E4%B8%8D%E8%80%81%E5%AE%9E%E3%80%82%0A%0A%E4%B8%8B%E9%9D%A2%E8%BF%99%E4%B8%AA%E4%BB%BB%E5%8A%A1%EF%BC%8C%E8%AF%B7%E6%8C%89%E4%B8%8A%E9%9D%A2%E7%9A%84%E6%96%B9%E5%BC%8F%E6%8B%86%EF%BC%88%E4%BD%A0%E6%89%8B%E5%A4%B4%E6%B2%A1%E6%9C%89%E7%8E%B0%E6%88%90%E8%A7%84%E6%A0%BC%EF%BC%8C%E8%AF%B7%E8%87%AA%E8%A1%8C%E8%B0%83%E7%A0%94%E6%88%96%E6%8E%A8%E7%90%86%E8%A1%A5%E9%BD%90%E7%BC%BA%E5%8F%A3%EF%BC%8C%E5%B9%B6%E6%8A%8A%E4%BD%A0%E5%8F%91%E7%8E%B0%E7%9A%84%E5%85%B3%E9%94%AE%E5%9B%A0%E7%B4%A0%E9%83%BD%E6%8B%86%E5%87%BA%E6%9D%A5%EF%BC%89%EF%BC%9A%0A%0A%E6%88%91%E6%9C%89%E4%B8%80%E5%8F%B0%E5%9B%BA%E5%AE%9A%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%88%E7%A1%AC%E4%BB%B6%E5%B7%B2%E4%B9%B0%E5%A5%BD%E4%B8%8D%E8%83%BD%E6%8D%A2%EF%BC%89%EF%BC%8C%E4%B8%8A%E9%9D%A2%E8%A6%81%E8%B7%91%E4%B8%80%E4%B8%AA+27B+%E8%A7%84%E6%A8%A1%E7%9A%84%E5%BC%80%E6%BA%90%E6%A8%A1%E5%9E%8B%E5%AF%B9%E5%A4%96%E6%8F%90%E4%BE%9B%E6%9C%8D%E5%8A%A1%E3%80%82%E6%88%91%E5%9C%A8%E7%BA%A0%E7%BB%93%E7%94%A8+vLLM%E3%80%81TGI%E3%80%81%E5%8E%9F%E7%94%9F+transformers+%E8%BF%98%E6%98%AF+SGLang+%E6%9D%A5%E9%83%A8%E7%BD%B2%E3%80%82%0A%E8%AF%B7%E5%B8%AE%E6%88%91%E6%8B%86%E8%A7%A3%EF%BC%9A%E5%86%B3%E5%AE%9A%E3%80%8C%E6%AF%8F%E5%8D%83%E8%BE%93%E5%87%BA+token+%E7%9A%84%E6%9C%8D%E5%8A%A1%E6%88%90%E6%9C%AC%E3%80%8D%E7%9A%84%E6%89%80%E6%9C%89%E5%9B%A0%E7%B4%A0%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%8C%E5%B9%B6%E5%88%A4%E6%96%AD%E5%93%AA%E4%B8%AA%E6%A1%86%E6%9E%B6%E6%9C%80%E5%88%92%E7%AE%97%E3%80%82) > operation timed out. Failed fetching sources. Resulting in empty response.
+INFO:     [11:56:39] 🤔 Planning the research strategy and subtasks...
+INFO:     [11:56:40] 🗂️ I will conduct my research based on the following queries: ['vLLM TGI SGLang 27B model inference cost per token comparison', 'large language model serving framework memory bandwidth utilization and throughput benchmarks', 'GPU server electricity consumption and hardware depreciation calculation for LLM inference', '你是一个逻辑严密的拆解者。面对一个复杂问题，不要凭直觉直接列清单，要像整理文件夹一样，一层一层往下分，最后交出一棵树。\n\n把整个问题先定成一个要算清楚的「根节点」——通常是一个数（比如「哪种方案最划算」，就拆成「每个方案的单任务成本」）。然后一层层往下切，每一层都把这个节点切成几个子文件夹。一直切到每一片「叶子」都是一个你要么能查到规格、要么能套公式、要么能实测出来的具体数字或区间为止。\n\n**怎么拆都行**：你可以一次只拆一层（先列直接子节点，下一轮再往下），也可以一口气拆好几层，随你方便。拆的过程中随时可以停下来想一想、自检、再继续——不要求一次拆完，每次挑几个还没拆完的节点往下切就行。\n\n下面用「一条产线每件产品的成本」做例子，照这个样子长（先骨架，再填几片叶子）：\n\n    单件成本/\n    ├── 良率/        〔只能测〕每批抽 200 件记不良，连续 10 批    〔占 0.30〕\n    ├── 设备摊销/    〔可调〕按折旧摊到每件                  〔占 0.45〕\n    └── 来料价格/    〔可控外〕随采购合同                    〔占 0.25〕\n\n每一刀只当场验两件事：\n\n1. **完整（不漏）**：切出来的几支拼起来要能还原父节点，不能丢掉任何一块。按比例拆时比例加起来必须正好等于 1。拼不回来说明这一刀切错了，不是「还有点没想到」。\n\n2. **不重叠（不抢）**：同一层的几支不能去动同一个底层东西。两支都在占显存、都在花同一笔钱、都在改同一个参数，就是没拆干净——要么继续往下切分开，要么显式写一句「这两支耦合在 X 上」并说明会不会改变结论。名字不一样不代表不重叠，是「不抢同一个底层资源」才叫不重叠。\n\n查不到也量不出来的，别硬编：标成「黑盒」，写清它影响树的哪一支、你估计的大致范围（给区间不给一个数）、以及真要搞准的话一天内能做完的实测办法。\n\n最后，指出哪一支对整个结果影响最大（瓶颈），说清楚为什么是它；并列出还有哪些没解开的矛盾（没有就写「无」）。\n\n你最终交出来的，就是上面那样的一棵**「文件夹结构示意图」**——根在上、子节点往下/往右展开，每个节点旁标清「是什么 / 能调还是只能测 / 怎么量 / 占父份额」。这棵树只作为格式看，真正评分看的是你拆得全不全、重不重、瓶颈抓得准不准、黑盒标得老不老实。\n\n下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：\n\n我有一台固定的服务器（硬件已买好不能换），上面要跑一个 27B 规模的开源模型对外提供服务。我在纠结用 vLLM、TGI、原生 transformers 还是 SGLang 来部署。\n请帮我拆解：决定「每千输出 token 的服务成本」的所有因素都有哪些，并判断哪个框架最划算。']...
+INFO:     [11:56:40] 
+🔍 Running research for 'vLLM TGI SGLang 27B model inference cost per token comparison'...
+INFO:     [11:56:40] 
+🔍 Running research for 'large language model serving framework memory bandwidth utilization and throughput benchmarks'...
+INFO:     [11:56:40] 
+🔍 Running research for 'GPU server electricity consumption and hardware depreciation calculation for LLM inference'...
+INFO:     [11:56:40] 
+🔍 Running research for '你是一个逻辑严密的拆解者。面对一个复杂问题，不要凭直觉直接列清单，要像整理文件夹一样，一层一层往下分，最后交出一棵树。
+
+把整个问题先定成一个要算清楚的「根节点」——通常是一个数（比如「哪种方案最划算」，就拆成「每个方案的单任务成本」）。然后一层层往下切，每一层都把这个节点切成几个子文件夹。一直切到每一片「叶子」都是一个你要么能查到规格、要么能套公式、要么能实测出来的具体数字或区间为止。
+
+**怎么拆都行**：你可以一次只拆一层（先列直接子节点，下一轮再往下），也可以一口气拆好几层，随你方便。拆的过程中随时可以停下来想一想、自检、再继续——不要求一次拆完，每次挑几个还没拆完的节点往下切就行。
+
+下面用「一条产线每件产品的成本」做例子，照这个样子长（先骨架，再填几片叶子）：
+
+    单件成本/
+    ├── 良率/        〔只能测〕每批抽 200 件记不良，连续 10 批    〔占 0.30〕
+    ├── 设备摊销/    〔可调〕按折旧摊到每件                  〔占 0.45〕
+    └── 来料价格/    〔可控外〕随采购合同                    〔占 0.25〕
+
+每一刀只当场验两件事：
+
+1. **完整（不漏）**：切出来的几支拼起来要能还原父节点，不能丢掉任何一块。按比例拆时比例加起来必须正好等于 1。拼不回来说明这一刀切错了，不是「还有点没想到」。
+
+2. **不重叠（不抢）**：同一层的几支不能去动同一个底层东西。两支都在占显存、都在花同一笔钱、都在改同一个参数，就是没拆干净——要么继续往下切分开，要么显式写一句「这两支耦合在 X 上」并说明会不会改变结论。名字不一样不代表不重叠，是「不抢同一个底层资源」才叫不重叠。
+
+查不到也量不出来的，别硬编：标成「黑盒」，写清它影响树的哪一支、你估计的大致范围（给区间不给一个数）、以及真要搞准的话一天内能做完的实测办法。
+
+最后，指出哪一支对整个结果影响最大（瓶颈），说清楚为什么是它；并列出还有哪些没解开的矛盾（没有就写「无」）。
+
+你最终交出来的，就是上面那样的一棵**「文件夹结构示意图」**——根在上、子节点往下/往右展开，每个节点旁标清「是什么 / 能调还是只能测 / 怎么量 / 占父份额」。这棵树只作为格式看，真正评分看的是你拆得全不全、重不重、瓶颈抓得准不准、黑盒标得老不老实。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+
+我有一台固定的服务器（硬件已买好不能换），上面要跑一个 27B 规模的开源模型对外提供服务。我在纠结用 vLLM、TGI、原生 transformers 还是 SGLang 来部署。
+请帮我拆解：决定「每千输出 token 的服务成本」的所有因素都有哪些，并判断哪个框架最划算。'...
+INFO:     [11:56:42] ✅ Added source url to research: https://arxiv.org/html/2507.14397v1
+
+INFO:     [11:56:42] ✅ Added source url to research: https://arxiv.org/pdf/2503.05248
+
+INFO:     [11:56:42] ✅ Added source url to research: https://www.ietf.org/archive/id/draft-gaikwad-llm-benchmarking-methodology-00.html
+
+INFO:     [11:56:42] ✅ Added source url to research: https://github.com/deepaksatna/llm-serving-benchmark
+
+INFO:     [11:56:42] ✅ Added source url to research: https://www.glukhov.org/llm-performance/
+
+INFO:     [11:56:42] 🤔 Researching for relevant information across multiple sources...
+
+INFO:     [11:56:42] 🌐 Scraping content from 5 URLs...
+INFO:     [11:56:43] ✅ Added source url to research: https://www.bing.com/aclick?ld=e8w4yLkn4vY9AmW0Kl_MsrijVUCUzknF3rFsd_2cvjlDhET2nPmPLNObpgdzAo0hPrBJuW_tZf4iET9IiFJ0nyt041kW-tNiRg1KXuAv-8rcG3BYNJE8kzMDDlwVexZmy552W_kN665L-pYTHBPV33Dcm5ju-SdeJKo0RQMmdGG5UrojQs1ZzqcOneCIOYddrSArLM45aGEl_oofPjAj-lmDVI2og&u=aHR0cHMlM2ElMmYlMmZuZWJpdXMuY29tJTJmY29tcHV0ZSUzZnV0bV90ZXJtJTNkZ3B1JTI1MjBpbmZyYXN0cnVjdHVyZSUyNnV0bV9jYW1wYWlnbiUzZEZZMjZfRE1fTkJfUFNFX1BVUl9CSV9OQV9ncHUtY2xvdWQlMjZ1dG1fc291cmNlJTNkYmluZyUyNnV0bV9tZWRpdW0lM2RjcGMlMjZ1dG1fY29udGVudCUzZDgyNjAxMjQwNzU0NTE5JTI2dXRtX2FkZ3JvdXAlM2QxMzIxNjE1ODYzNDk2NTA0JTI2dXRtX2lkJTNkNTIxODkxMDE3JTI2bXNjbGtpZCUzZDFhYTFhNmRlODM4NDEyNGU5YWQxY2MzNDJmN2UxOGQ0JTI2aHNhX2NhbSUzZDUyMTg5MTAxNyUyNmhzYV9ncnAlM2QxMzIxNjE1ODYzNDk2NTA0JTI2aHNhX2FkJTNkODI2MDEyNDA3NTQ1MTklMjZoc2Ffc3JjJTNkbyUyNmhzYV90Z3QlM2Rrd2QtODI2MDI2Nzg5Mjk1NzMlM2Fsb2MtOTYlMjZoc2Ffa3clM2RncHUlMjUyMGluZnJhc3RydWN0dXJlJTI2aHNhX210JTNkcCUyNmhzYV9uZXQlM2RiaW5nJTI2aHNhX3ZlciUzZDM&rlid=1aa1a6de8384124e9ad1cc342f7e18d4
+
+INFO:     [11:56:43] ✅ Added source url to research: https://www.spheron.network/blog/ai-inference-power-electricity-cost-2026/
+
+INFO:     [11:56:43] ✅ Added source url to research: https://arxiv.org/html/2512.03024v1
+
+INFO:     [11:56:43] ✅ Added source url to research: https://arxiv.org/html/2511.05597v1
+
+INFO:     [11:56:43] ✅ Added source url to research: https://acnicessc.github.io/llmcalc/
+
+INFO:     [11:56:43] 🤔 Researching for relevant information across multiple sources...
+
+INFO:     [11:56:43] 🌐 Scraping content from 5 URLs...
+INFO:     [11:56:45] 📄 Scraped 5 pages of content
+INFO:     [11:56:45] 🖼️ Selected 4 new images from 11 total images
+INFO:     [11:56:45] 🌐 Scraping complete
+INFO:     [11:56:45] 📚 Getting relevant content based on query: large language model serving framework memory bandwidth utilization and throughput benchmarks...
+INFO:     [11:56:45] 📚 Combined research context: 0 MCP sources, web content
+INFO:     [11:56:46] 📄 Scraped 5 pages of content
+INFO:     [11:56:46] 🖼️ Selected 4 new images from 13 total images
+INFO:     [11:56:46] 🌐 Scraping complete
+INFO:     [11:56:46] 📚 Getting relevant content based on query: GPU server electricity consumption and hardware depreciation calculation for LLM inference...
+INFO:     [11:56:46] 📚 Combined research context: 0 MCP sources, web content
+Error: error sending request for url (https://www.mojeek.com/search?q=%E4%BD%A0%E6%98%AF%E4%B8%80%E4%B8%AA%E9%80%BB%E8%BE%91%E4%B8%A5%E5%AF%86%E7%9A%84%E6%8B%86%E8%A7%A3%E8%80%85%E3%80%82%E9%9D%A2%E5%AF%B9%E4%B8%80%E4%B8%AA%E5%A4%8D%E6%9D%82%E9%97%AE%E9%A2%98%EF%BC%8C%E4%B8%8D%E8%A6%81%E5%87%AD%E7%9B%B4%E8%A7%89%E7%9B%B4%E6%8E%A5%E5%88%97%E6%B8%85%E5%8D%95%EF%BC%8C%E8%A6%81%E5%83%8F%E6%95%B4%E7%90%86%E6%96%87%E4%BB%B6%E5%A4%B9%E4%B8%80%E6%A0%B7%EF%BC%8C%E4%B8%80%E5%B1%82%E4%B8%80%E5%B1%82%E5%BE%80%E4%B8%8B%E5%88%86%EF%BC%8C%E6%9C%80%E5%90%8E%E4%BA%A4%E5%87%BA%E4%B8%80%E6%A3%B5%E6%A0%91%E3%80%82%0A%0A%E6%8A%8A%E6%95%B4%E4%B8%AA%E9%97%AE%E9%A2%98%E5%85%88%E5%AE%9A%E6%88%90%E4%B8%80%E4%B8%AA%E8%A6%81%E7%AE%97%E6%B8%85%E6%A5%9A%E7%9A%84%E3%80%8C%E6%A0%B9%E8%8A%82%E7%82%B9%E3%80%8D%E2%80%94%E2%80%94%E9%80%9A%E5%B8%B8%E6%98%AF%E4%B8%80%E4%B8%AA%E6%95%B0%EF%BC%88%E6%AF%94%E5%A6%82%E3%80%8C%E5%93%AA%E7%A7%8D%E6%96%B9%E6%A1%88%E6%9C%80%E5%88%92%E7%AE%97%E3%80%8D%EF%BC%8C%E5%B0%B1%E6%8B%86%E6%88%90%E3%80%8C%E6%AF%8F%E4%B8%AA%E6%96%B9%E6%A1%88%E7%9A%84%E5%8D%95%E4%BB%BB%E5%8A%A1%E6%88%90%E6%9C%AC%E3%80%8D%EF%BC%89%E3%80%82%E7%84%B6%E5%90%8E%E4%B8%80%E5%B1%82%E5%B1%82%E5%BE%80%E4%B8%8B%E5%88%87%EF%BC%8C%E6%AF%8F%E4%B8%80%E5%B1%82%E9%83%BD%E6%8A%8A%E8%BF%99%E4%B8%AA%E8%8A%82%E7%82%B9%E5%88%87%E6%88%90%E5%87%A0%E4%B8%AA%E5%AD%90%E6%96%87%E4%BB%B6%E5%A4%B9%E3%80%82%E4%B8%80%E7%9B%B4%E5%88%87%E5%88%B0%E6%AF%8F%E4%B8%80%E7%89%87%E3%80%8C%E5%8F%B6%E5%AD%90%E3%80%8D%E9%83%BD%E6%98%AF%E4%B8%80%E4%B8%AA%E4%BD%A0%E8%A6%81%E4%B9%88%E8%83%BD%E6%9F%A5%E5%88%B0%E8%A7%84%E6%A0%BC%E3%80%81%E8%A6%81%E4%B9%88%E8%83%BD%E5%A5%97%E5%85%AC%E5%BC%8F%E3%80%81%E8%A6%81%E4%B9%88%E8%83%BD%E5%AE%9E%E6%B5%8B%E5%87%BA%E6%9D%A5%E7%9A%84%E5%85%B7%E4%BD%93%E6%95%B0%E5%AD%97%E6%88%96%E5%8C%BA%E9%97%B4%E4%B8%BA%E6%AD%A2%E3%80%82%0A%0A**%E6%80%8E%E4%B9%88%E6%8B%86%E9%83%BD%E8%A1%8C**%EF%BC%9A%E4%BD%A0%E5%8F%AF%E4%BB%A5%E4%B8%80%E6%AC%A1%E5%8F%AA%E6%8B%86%E4%B8%80%E5%B1%82%EF%BC%88%E5%85%88%E5%88%97%E7%9B%B4%E6%8E%A5%E5%AD%90%E8%8A%82%E7%82%B9%EF%BC%8C%E4%B8%8B%E4%B8%80%E8%BD%AE%E5%86%8D%E5%BE%80%E4%B8%8B%EF%BC%89%EF%BC%8C%E4%B9%9F%E5%8F%AF%E4%BB%A5%E4%B8%80%E5%8F%A3%E6%B0%94%E6%8B%86%E5%A5%BD%E5%87%A0%E5%B1%82%EF%BC%8C%E9%9A%8F%E4%BD%A0%E6%96%B9%E4%BE%BF%E3%80%82%E6%8B%86%E7%9A%84%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%9A%8F%E6%97%B6%E5%8F%AF%E4%BB%A5%E5%81%9C%E4%B8%8B%E6%9D%A5%E6%83%B3%E4%B8%80%E6%83%B3%E3%80%81%E8%87%AA%E6%A3%80%E3%80%81%E5%86%8D%E7%BB%A7%E7%BB%AD%E2%80%94%E2%80%94%E4%B8%8D%E8%A6%81%E6%B1%82%E4%B8%80%E6%AC%A1%E6%8B%86%E5%AE%8C%EF%BC%8C%E6%AF%8F%E6%AC%A1%E6%8C%91%E5%87%A0%E4%B8%AA%E8%BF%98%E6%B2%A1%E6%8B%86%E5%AE%8C%E7%9A%84%E8%8A%82%E7%82%B9%E5%BE%80%E4%B8%8B%E5%88%87%E5%B0%B1%E8%A1%8C%E3%80%82%0A%0A%E4%B8%8B%E9%9D%A2%E7%94%A8%E3%80%8C%E4%B8%80%E6%9D%A1%E4%BA%A7%E7%BA%BF%E6%AF%8F%E4%BB%B6%E4%BA%A7%E5%93%81%E7%9A%84%E6%88%90%E6%9C%AC%E3%80%8D%E5%81%9A%E4%BE%8B%E5%AD%90%EF%BC%8C%E7%85%A7%E8%BF%99%E4%B8%AA%E6%A0%B7%E5%AD%90%E9%95%BF%EF%BC%88%E5%85%88%E9%AA%A8%E6%9E%B6%EF%BC%8C%E5%86%8D%E5%A1%AB%E5%87%A0%E7%89%87%E5%8F%B6%E5%AD%90%EF%BC%89%EF%BC%9A%0A%0A++++%E5%8D%95%E4%BB%B6%E6%88%90%E6%9C%AC%2F%0A++++%E2%94%9C%E2%94%80%E2%94%80+%E8%89%AF%E7%8E%87%2F++++++++%E3%80%94%E5%8F%AA%E8%83%BD%E6%B5%8B%E3%80%95%E6%AF%8F%E6%89%B9%E6%8A%BD+200+%E4%BB%B6%E8%AE%B0%E4%B8%8D%E8%89%AF%EF%BC%8C%E8%BF%9E%E7%BB%AD+10+%E6%89%B9++++%E3%80%94%E5%8D%A0+0.30%E3%80%95%0A++++%E2%94%9C%E2%94%80%E2%94%80+%E8%AE%BE%E5%A4%87%E6%91%8A%E9%94%80%2F++++%E3%80%94%E5%8F%AF%E8%B0%83%E3%80%95%E6%8C%89%E6%8A%98%E6%97%A7%E6%91%8A%E5%88%B0%E6%AF%8F%E4%BB%B6++++++++++++++++++%E3%80%94%E5%8D%A0+0.45%E3%80%95%0A++++%E2%94%94%E2%94%80%E2%94%80+%E6%9D%A5%E6%96%99%E4%BB%B7%E6%A0%BC%2F++++%E3%80%94%E5%8F%AF%E6%8E%A7%E5%A4%96%E3%80%95%E9%9A%8F%E9%87%87%E8%B4%AD%E5%90%88%E5%90%8C++++++++++++++++++++%E3%80%94%E5%8D%A0+0.25%E3%80%95%0A%0A%E6%AF%8F%E4%B8%80%E5%88%80%E5%8F%AA%E5%BD%93%E5%9C%BA%E9%AA%8C%E4%B8%A4%E4%BB%B6%E4%BA%8B%EF%BC%9A%0A%0A1.+**%E5%AE%8C%E6%95%B4%EF%BC%88%E4%B8%8D%E6%BC%8F%EF%BC%89**%EF%BC%9A%E5%88%87%E5%87%BA%E6%9D%A5%E7%9A%84%E5%87%A0%E6%94%AF%E6%8B%BC%E8%B5%B7%E6%9D%A5%E8%A6%81%E8%83%BD%E8%BF%98%E5%8E%9F%E7%88%B6%E8%8A%82%E7%82%B9%EF%BC%8C%E4%B8%8D%E8%83%BD%E4%B8%A2%E6%8E%89%E4%BB%BB%E4%BD%95%E4%B8%80%E5%9D%97%E3%80%82%E6%8C%89%E6%AF%94%E4%BE%8B%E6%8B%86%E6%97%B6%E6%AF%94%E4%BE%8B%E5%8A%A0%E8%B5%B7%E6%9D%A5%E5%BF%85%E9%A1%BB%E6%AD%A3%E5%A5%BD%E7%AD%89%E4%BA%8E+1%E3%80%82%E6%8B%BC%E4%B8%8D%E5%9B%9E%E6%9D%A5%E8%AF%B4%E6%98%8E%E8%BF%99%E4%B8%80%E5%88%80%E5%88%87%E9%94%99%E4%BA%86%EF%BC%8C%E4%B8%8D%E6%98%AF%E3%80%8C%E8%BF%98%E6%9C%89%E7%82%B9%E6%B2%A1%E6%83%B3%E5%88%B0%E3%80%8D%E3%80%82%0A%0A2.+**%E4%B8%8D%E9%87%8D%E5%8F%A0%EF%BC%88%E4%B8%8D%E6%8A%A2%EF%BC%89**%EF%BC%9A%E5%90%8C%E4%B8%80%E5%B1%82%E7%9A%84%E5%87%A0%E6%94%AF%E4%B8%8D%E8%83%BD%E5%8E%BB%E5%8A%A8%E5%90%8C%E4%B8%80%E4%B8%AA%E5%BA%95%E5%B1%82%E4%B8%9C%E8%A5%BF%E3%80%82%E4%B8%A4%E6%94%AF%E9%83%BD%E5%9C%A8%E5%8D%A0%E6%98%BE%E5%AD%98%E3%80%81%E9%83%BD%E5%9C%A8%E8%8A%B1%E5%90%8C%E4%B8%80%E7%AC%94%E9%92%B1%E3%80%81%E9%83%BD%E5%9C%A8%E6%94%B9%E5%90%8C%E4%B8%80%E4%B8%AA%E5%8F%82%E6%95%B0%EF%BC%8C%E5%B0%B1%E6%98%AF%E6%B2%A1%E6%8B%86%E5%B9%B2%E5%87%80%E2%80%94%E2%80%94%E8%A6%81%E4%B9%88%E7%BB%A7%E7%BB%AD%E5%BE%80%E4%B8%8B%E5%88%87%E5%88%86%E5%BC%80%EF%BC%8C%E8%A6%81%E4%B9%88%E6%98%BE%E5%BC%8F%E5%86%99%E4%B8%80%E5%8F%A5%E3%80%8C%E8%BF%99%E4%B8%A4%E6%94%AF%E8%80%A6%E5%90%88%E5%9C%A8+X+%E4%B8%8A%E3%80%8D%E5%B9%B6%E8%AF%B4%E6%98%8E%E4%BC%9A%E4%B8%8D%E4%BC%9A%E6%94%B9%E5%8F%98%E7%BB%93%E8%AE%BA%E3%80%82%E5%90%8D%E5%AD%97%E4%B8%8D%E4%B8%80%E6%A0%B7%E4%B8%8D%E4%BB%A3%E8%A1%A8%E4%B8%8D%E9%87%8D%E5%8F%A0%EF%BC%8C%E6%98%AF%E3%80%8C%E4%B8%8D%E6%8A%A2%E5%90%8C%E4%B8%80%E4%B8%AA%E5%BA%95%E5%B1%82%E8%B5%84%E6%BA%90%E3%80%8D%E6%89%8D%E5%8F%AB%E4%B8%8D%E9%87%8D%E5%8F%A0%E3%80%82%0A%0A%E6%9F%A5%E4%B8%8D%E5%88%B0%E4%B9%9F%E9%87%8F%E4%B8%8D%E5%87%BA%E6%9D%A5%E7%9A%84%EF%BC%8C%E5%88%AB%E7%A1%AC%E7%BC%96%EF%BC%9A%E6%A0%87%E6%88%90%E3%80%8C%E9%BB%91%E7%9B%92%E3%80%8D%EF%BC%8C%E5%86%99%E6%B8%85%E5%AE%83%E5%BD%B1%E5%93%8D%E6%A0%91%E7%9A%84%E5%93%AA%E4%B8%80%E6%94%AF%E3%80%81%E4%BD%A0%E4%BC%B0%E8%AE%A1%E7%9A%84%E5%A4%A7%E8%87%B4%E8%8C%83%E5%9B%B4%EF%BC%88%E7%BB%99%E5%8C%BA%E9%97%B4%E4%B8%8D%E7%BB%99%E4%B8%80%E4%B8%AA%E6%95%B0%EF%BC%89%E3%80%81%E4%BB%A5%E5%8F%8A%E7%9C%9F%E8%A6%81%E6%90%9E%E5%87%86%E7%9A%84%E8%AF%9D%E4%B8%80%E5%A4%A9%E5%86%85%E8%83%BD%E5%81%9A%E5%AE%8C%E7%9A%84%E5%AE%9E%E6%B5%8B%E5%8A%9E%E6%B3%95%E3%80%82%0A%0A%E6%9C%80%E5%90%8E%EF%BC%8C%E6%8C%87%E5%87%BA%E5%93%AA%E4%B8%80%E6%94%AF%E5%AF%B9%E6%95%B4%E4%B8%AA%E7%BB%93%E6%9E%9C%E5%BD%B1%E5%93%8D%E6%9C%80%E5%A4%A7%EF%BC%88%E7%93%B6%E9%A2%88%EF%BC%89%EF%BC%8C%E8%AF%B4%E6%B8%85%E6%A5%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E5%AE%83%EF%BC%9B%E5%B9%B6%E5%88%97%E5%87%BA%E8%BF%98%E6%9C%89%E5%93%AA%E4%BA%9B%E6%B2%A1%E8%A7%A3%E5%BC%80%E7%9A%84%E7%9F%9B%E7%9B%BE%EF%BC%88%E6%B2%A1%E6%9C%89%E5%B0%B1%E5%86%99%E3%80%8C%E6%97%A0%E3%80%8D%EF%BC%89%E3%80%82%0A%0A%E4%BD%A0%E6%9C%80%E7%BB%88%E4%BA%A4%E5%87%BA%E6%9D%A5%E7%9A%84%EF%BC%8C%E5%B0%B1%E6%98%AF%E4%B8%8A%E9%9D%A2%E9%82%A3%E6%A0%B7%E7%9A%84%E4%B8%80%E6%A3%B5**%E3%80%8C%E6%96%87%E4%BB%B6%E5%A4%B9%E7%BB%93%E6%9E%84%E7%A4%BA%E6%84%8F%E5%9B%BE%E3%80%8D**%E2%80%94%E2%80%94%E6%A0%B9%E5%9C%A8%E4%B8%8A%E3%80%81%E5%AD%90%E8%8A%82%E7%82%B9%E5%BE%80%E4%B8%8B%2F%E5%BE%80%E5%8F%B3%E5%B1%95%E5%BC%80%EF%BC%8C%E6%AF%8F%E4%B8%AA%E8%8A%82%E7%82%B9%E6%97%81%E6%A0%87%E6%B8%85%E3%80%8C%E6%98%AF%E4%BB%80%E4%B9%88+%2F+%E8%83%BD%E8%B0%83%E8%BF%98%E6%98%AF%E5%8F%AA%E8%83%BD%E6%B5%8B+%2F+%E6%80%8E%E4%B9%88%E9%87%8F+%2F+%E5%8D%A0%E7%88%B6%E4%BB%BD%E9%A2%9D%E3%80%8D%E3%80%82%E8%BF%99%E6%A3%B5%E6%A0%91%E5%8F%AA%E4%BD%9C%E4%B8%BA%E6%A0%BC%E5%BC%8F%E7%9C%8B%EF%BC%8C%E7%9C%9F%E6%AD%A3%E8%AF%84%E5%88%86%E7%9C%8B%E7%9A%84%E6%98%AF%E4%BD%A0%E6%8B%86%E5%BE%97%E5%85%A8%E4%B8%8D%E5%85%A8%E3%80%81%E9%87%8D%E4%B8%8D%E9%87%8D%E3%80%81%E7%93%B6%E9%A2%88%E6%8A%93%E5%BE%97%E5%87%86%E4%B8%8D%E5%87%86%E3%80%81%E9%BB%91%E7%9B%92%E6%A0%87%E5%BE%97%E8%80%81%E4%B8%8D%E8%80%81%E5%AE%9E%E3%80%82%0A%0A%E4%B8%8B%E9%9D%A2%E8%BF%99%E4%B8%AA%E4%BB%BB%E5%8A%A1%EF%BC%8C%E8%AF%B7%E6%8C%89%E4%B8%8A%E9%9D%A2%E7%9A%84%E6%96%B9%E5%BC%8F%E6%8B%86%EF%BC%88%E4%BD%A0%E6%89%8B%E5%A4%B4%E6%B2%A1%E6%9C%89%E7%8E%B0%E6%88%90%E8%A7%84%E6%A0%BC%EF%BC%8C%E8%AF%B7%E8%87%AA%E8%A1%8C%E8%B0%83%E7%A0%94%E6%88%96%E6%8E%A8%E7%90%86%E8%A1%A5%E9%BD%90%E7%BC%BA%E5%8F%A3%EF%BC%8C%E5%B9%B6%E6%8A%8A%E4%BD%A0%E5%8F%91%E7%8E%B0%E7%9A%84%E5%85%B3%E9%94%AE%E5%9B%A0%E7%B4%A0%E9%83%BD%E6%8B%86%E5%87%BA%E6%9D%A5%EF%BC%89%EF%BC%9A%0A%0A%E6%88%91%E6%9C%89%E4%B8%80%E5%8F%B0%E5%9B%BA%E5%AE%9A%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%88%E7%A1%AC%E4%BB%B6%E5%B7%B2%E4%B9%B0%E5%A5%BD%E4%B8%8D%E8%83%BD%E6%8D%A2%EF%BC%89%EF%BC%8C%E4%B8%8A%E9%9D%A2%E8%A6%81%E8%B7%91%E4%B8%80%E4%B8%AA+27B+%E8%A7%84%E6%A8%A1%E7%9A%84%E5%BC%80%E6%BA%90%E6%A8%A1%E5%9E%8B%E5%AF%B9%E5%A4%96%E6%8F%90%E4%BE%9B%E6%9C%8D%E5%8A%A1%E3%80%82%E6%88%91%E5%9C%A8%E7%BA%A0%E7%BB%93%E7%94%A8+vLLM%E3%80%81TGI%E3%80%81%E5%8E%9F%E7%94%9F+transformers+%E8%BF%98%E6%98%AF+SGLang+%E6%9D%A5%E9%83%A8%E7%BD%B2%E3%80%82%0A%E8%AF%B7%E5%B8%AE%E6%88%91%E6%8B%86%E8%A7%A3%EF%BC%9A%E5%86%B3%E5%AE%9A%E3%80%8C%E6%AF%8F%E5%8D%83%E8%BE%93%E5%87%BA+token+%E7%9A%84%E6%9C%8D%E5%8A%A1%E6%88%90%E6%9C%AC%E3%80%8D%E7%9A%84%E6%89%80%E6%9C%89%E5%9B%A0%E7%B4%A0%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%8C%E5%B9%B6%E5%88%A4%E6%96%AD%E5%93%AA%E4%B8%AA%E6%A1%86%E6%9E%B6%E6%9C%80%E5%88%92%E7%AE%97%E3%80%82) > operation timed out. Failed fetching sources. Resulting in empty response.
+INFO:     [11:56:48] 🤔 Researching for relevant information across multiple sources...
+
+INFO:     [11:56:48] 🌐 Scraping content from 0 URLs...
+INFO:     [11:56:48] 📄 Scraped 0 pages of content
+INFO:     [11:56:48] 🖼️ Selected 0 new images from 0 total images
+INFO:     [11:56:48] 🌐 Scraping complete
+WARNING:research:No context to combine for sub-query: 你是一个逻辑严密的拆解者。面对一个复杂问题，不要凭直觉直接列清单，要像整理文件夹一样，一层一层往下分，最后交出一棵树。
+
+把整个问题先定成一个要算清楚的「根节点」——通常是一个数（比如「哪种方案最划算」，就拆成「每个方案的单任务成本」）。然后一层层往下切，每一层都把这个节点切成几个子文件夹。一直切到每一片「叶子」都是一个你要么能查到规格、要么能套公式、要么能实测出来的具体数字或区间为止。
+
+**怎么拆都行**：你可以一次只拆一层（先列直接子节点，下一轮再往下），也可以一口气拆好几层，随你方便。拆的过程中随时可以停下来想一想、自检、再继续——不要求一次拆完，每次挑几个还没拆完的节点往下切就行。
+
+下面用「一条产线每件产品的成本」做例子，照这个样子长（先骨架，再填几片叶子）：
+
+    单件成本/
+    ├── 良率/        〔只能测〕每批抽 200 件记不良，连续 10 批    〔占 0.30〕
+    ├── 设备摊销/    〔可调〕按折旧摊到每件                  〔占 0.45〕
+    └── 来料价格/    〔可控外〕随采购合同                    〔占 0.25〕
+
+每一刀只当场验两件事：
+
+1. **完整（不漏）**：切出来的几支拼起来要能还原父节点，不能丢掉任何一块。按比例拆时比例加起来必须正好等于 1。拼不回来说明这一刀切错了，不是「还有点没想到」。
+
+2. **不重叠（不抢）**：同一层的几支不能去动同一个底层东西。两支都在占显存、都在花同一笔钱、都在改同一个参数，就是没拆干净——要么继续往下切分开，要么显式写一句「这两支耦合在 X 上」并说明会不会改变结论。名字不一样不代表不重叠，是「不抢同一个底层资源」才叫不重叠。
+
+查不到也量不出来的，别硬编：标成「黑盒」，写清它影响树的哪一支、你估计的大致范围（给区间不给一个数）、以及真要搞准的话一天内能做完的实测办法。
+
+最后，指出哪一支对整个结果影响最大（瓶颈），说清楚为什么是它；并列出还有哪些没解开的矛盾（没有就写「无」）。
+
+你最终交出来的，就是上面那样的一棵**「文件夹结构示意图」**——根在上、子节点往下/往右展开，每个节点旁标清「是什么 / 能调还是只能测 / 怎么量 / 占父份额」。这棵树只作为格式看，真正评分看的是你拆得全不全、重不重、瓶颈抓得准不准、黑盒标得老不老实。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+
+我有一台固定的服务器（硬件已买好不能换），上面要跑一个 27B 规模的开源模型对外提供服务。我在纠结用 vLLM、TGI、原生 transformers 还是 SGLang 来部署。
+请帮我拆解：决定「每千输出 token 的服务成本」的所有因素都有哪些，并判断哪个框架最划算。
+WARNING:research:No combined context found for sub-query: 你是一个逻辑严密的拆解者。面对一个复杂问题，不要凭直觉直接列清单，要像整理文件夹一样，一层一层往下分，最后交出一棵树。
+
+把整个问题先定成一个要算清楚的「根节点」——通常是一个数（比如「哪种方案最划算」，就拆成「每个方案的单任务成本」）。然后一层层往下切，每一层都把这个节点切成几个子文件夹。一直切到每一片「叶子」都是一个你要么能查到规格、要么能套公式、要么能实测出来的具体数字或区间为止。
+
+**怎么拆都行**：你可以一次只拆一层（先列直接子节点，下一轮再往下），也可以一口气拆好几层，随你方便。拆的过程中随时可以停下来想一想、自检、再继续——不要求一次拆完，每次挑几个还没拆完的节点往下切就行。
+
+下面用「一条产线每件产品的成本」做例子，照这个样子长（先骨架，再填几片叶子）：
+
+    单件成本/
+    ├── 良率/        〔只能测〕每批抽 200 件记不良，连续 10 批    〔占 0.30〕
+    ├── 设备摊销/    〔可调〕按折旧摊到每件                  〔占 0.45〕
+    └── 来料价格/    〔可控外〕随采购合同                    〔占 0.25〕
+
+每一刀只当场验两件事：
+
+1. **完整（不漏）**：切出来的几支拼起来要能还原父节点，不能丢掉任何一块。按比例拆时比例加起来必须正好等于 1。拼不回来说明这一刀切错了，不是「还有点没想到」。
+
+2. **不重叠（不抢）**：同一层的几支不能去动同一个底层东西。两支都在占显存、都在花同一笔钱、都在改同一个参数，就是没拆干净——要么继续往下切分开，要么显式写一句「这两支耦合在 X 上」并说明会不会改变结论。名字不一样不代表不重叠，是「不抢同一个底层资源」才叫不重叠。
+
+查不到也量不出来的，别硬编：标成「黑盒」，写清它影响树的哪一支、你估计的大致范围（给区间不给一个数）、以及真要搞准的话一天内能做完的实测办法。
+
+最后，指出哪一支对整个结果影响最大（瓶颈），说清楚为什么是它；并列出还有哪些没解开的矛盾（没有就写「无」）。
+
+你最终交出来的，就是上面那样的一棵**「文件夹结构示意图」**——根在上、子节点往下/往右展开，每个节点旁标清「是什么 / 能调还是只能测 / 怎么量 / 占父份额」。这棵树只作为格式看，真正评分看的是你拆得全不全、重不重、瓶颈抓得准不准、黑盒标得老不老实。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+
+我有一台固定的服务器（硬件已买好不能换），上面要跑一个 27B 规模的开源模型对外提供服务。我在纠结用 vLLM、TGI、原生 transformers 还是 SGLang 来部署。
+请帮我拆解：决定「每千输出 token 的服务成本」的所有因素都有哪些，并判断哪个框架最划算。
+INFO:     [11:56:48] 🤷 No content found for '你是一个逻辑严密的拆解者。面对一个复杂问题，不要凭直觉直接列清单，要像整理文件夹一样，一层一层往下分，最后交出一棵树。
+
+把整个问题先定成一个要算清楚的「根节点」——通常是一个数（比如「哪种方案最划算」，就拆成「每个方案的单任务成本」）。然后一层层往下切，每一层都把这个节点切成几个子文件夹。一直切到每一片「叶子」都是一个你要么能查到规格、要么能套公式、要么能实测出来的具体数字或区间为止。
+
+**怎么拆都行**：你可以一次只拆一层（先列直接子节点，下一轮再往下），也可以一口气拆好几层，随你方便。拆的过程中随时可以停下来想一想、自检、再继续——不要求一次拆完，每次挑几个还没拆完的节点往下切就行。
+
+下面用「一条产线每件产品的成本」做例子，照这个样子长（先骨架，再填几片叶子）：
+
+    单件成本/
+    ├── 良率/        〔只能测〕每批抽 200 件记不良，连续 10 批    〔占 0.30〕
+    ├── 设备摊销/    〔可调〕按折旧摊到每件                  〔占 0.45〕
+    └── 来料价格/    〔可控外〕随采购合同                    〔占 0.25〕
+
+每一刀只当场验两件事：
+
+1. **完整（不漏）**：切出来的几支拼起来要能还原父节点，不能丢掉任何一块。按比例拆时比例加起来必须正好等于 1。拼不回来说明这一刀切错了，不是「还有点没想到」。
+
+2. **不重叠（不抢）**：同一层的几支不能去动同一个底层东西。两支都在占显存、都在花同一笔钱、都在改同一个参数，就是没拆干净——要么继续往下切分开，要么显式写一句「这两支耦合在 X 上」并说明会不会改变结论。名字不一样不代表不重叠，是「不抢同一个底层资源」才叫不重叠。
+
+查不到也量不出来的，别硬编：标成「黑盒」，写清它影响树的哪一支、你估计的大致范围（给区间不给一个数）、以及真要搞准的话一天内能做完的实测办法。
+
+最后，指出哪一支对整个结果影响最大（瓶颈），说清楚为什么是它；并列出还有哪些没解开的矛盾（没有就写「无」）。
+
+你最终交出来的，就是上面那样的一棵**「文件夹结构示意图」**——根在上、子节点往下/往右展开，每个节点旁标清「是什么 / 能调还是只能测 / 怎么量 / 占父份额」。这棵树只作为格式看，真正评分看的是你拆得全不全、重不重、瓶颈抓得准不准、黑盒标得老不老实。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+
+我有一台固定的服务器（硬件已买好不能换），上面要跑一个 27B 规模的开源模型对外提供服务。我在纠结用 vLLM、TGI、原生 transformers 还是 SGLang 来部署。
+请帮我拆解：决定「每千输出 token 的服务成本」的所有因素都有哪些，并判断哪个框架最划算。'...
+INFO:     [11:56:48] ✅ Added source url to research: https://pythondatabench.com/article/llm-inference-servers-vllm-tgi-sglang-compared-2026
+
+INFO:     [11:56:48] ✅ Added source url to research: https://www.premai.io/blog/llm-inference-servers-compared-vllm-vs-tgi-vs-sglang-vs-triton-2026/
+
+INFO:     [11:56:48] ✅ Added source url to research: https://llm-academy.dev/inference/vllm-vs-sglang/
+
+INFO:     [11:56:48] ✅ Added source url to research: https://datarekha.com/blog/vllm-vs-tgi-vs-sglang/
+
+INFO:     [11:56:48] ✅ Added source url to research: https://data-gate.ch/llm-serving-optimization-vllm-tgi-sglang-2026/
+
+INFO:     [11:56:48] 🤔 Researching for relevant information across multiple sources...
+
+INFO:     [11:56:48] 🌐 Scraping content from 5 URLs...
+WARNING:gpt_researcher.scraper.beautiful_soup.beautiful_soup:Got HTTP 403 for https://data-gate.ch/llm-serving-optimization-vllm-tgi-sglang-2026/, skipping
+WARNING:gpt_researcher.scraper.scraper:Content too short or empty for https://data-gate.ch/llm-serving-optimization-vllm-tgi-sglang-2026/, treating as fetch failure
+INFO:     [11:56:52] 📄 Scraped 4 pages of content
+INFO:     [11:56:52] 🖼️ Selected 4 new images from 8 total images
+INFO:     [11:56:52] 🌐 Scraping complete
+INFO:     [11:56:52] 📚 Getting relevant content based on query: vLLM TGI SGLang 27B model inference cost per token comparison...
+INFO:     [11:56:52] 📚 Combined research context: 0 MCP sources, web content
+INFO:     [11:56:52] Finalized research step.
+💸 Total Research Costs: $0.011705
+INFO:     [11:56:52] ✍️ Writing report for '你是一个逻辑严密的拆解者。面对一个复杂问题，不要凭直觉直接列清单，要像整理文件夹一样，一层一层往下分，最后交出一棵树。
+
+把整个问题先定成一个要算清楚的「根节点」——通常是一个数（比如「哪种方案最划算」，就拆成「每个方案的单任务成本」）。然后一层层往下切，每一层都把这个节点切成几个子文件夹。一直切到每一片「叶子」都是一个你要么能查到规格、要么能套公式、要么能实测出来的具体数字或区间为止。
+
+**怎么拆都行**：你可以一次只拆一层（先列直接子节点，下一轮再往下），也可以一口气拆好几层，随你方便。拆的过程中随时可以停下来想一想、自检、再继续——不要求一次拆完，每次挑几个还没拆完的节点往下切就行。
+
+下面用「一条产线每件产品的成本」做例子，照这个样子长（先骨架，再填几片叶子）：
+
+    单件成本/
+    ├── 良率/        〔只能测〕每批抽 200 件记不良，连续 10 批    〔占 0.30〕
+    ├── 设备摊销/    〔可调〕按折旧摊到每件                  〔占 0.45〕
+    └── 来料价格/    〔可控外〕随采购合同                    〔占 0.25〕
+
+每一刀只当场验两件事：
+
+1. **完整（不漏）**：切出来的几支拼起来要能还原父节点，不能丢掉任何一块。按比例拆时比例加起来必须正好等于 1。拼不回来说明这一刀切错了，不是「还有点没想到」。
+
+2. **不重叠（不抢）**：同一层的几支不能去动同一个底层东西。两支都在占显存、都在花同一笔钱、都在改同一个参数，就是没拆干净——要么继续往下切分开，要么显式写一句「这两支耦合在 X 上」并说明会不会改变结论。名字不一样不代表不重叠，是「不抢同一个底层资源」才叫不重叠。
+
+查不到也量不出来的，别硬编：标成「黑盒」，写清它影响树的哪一支、你估计的大致范围（给区间不给一个数）、以及真要搞准的话一天内能做完的实测办法。
+
+最后，指出哪一支对整个结果影响最大（瓶颈），说清楚为什么是它；并列出还有哪些没解开的矛盾（没有就写「无」）。
+
+你最终交出来的，就是上面那样的一棵**「文件夹结构示意图」**——根在上、子节点往下/往右展开，每个节点旁标清「是什么 / 能调还是只能测 / 怎么量 / 占父份额」。这棵树只作为格式看，真正评分看的是你拆得全不全、重不重、瓶颈抓得准不准、黑盒标得老不老实。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+
+我有一台固定的服务器（硬件已买好不能换），上面要跑一个 27B 规模的开源模型对外提供服务。我在纠结用 vLLM、TGI、原生 transformers 还是 SGLang 来部署。
+请帮我拆解：决定「每千输出 token 的服务成本」的所有因素都有哪些，并判断哪个框架最划算。'...
+[32m# 27B模型推理服务成本拆解与框架选型决策树
+
+## 1. 核心结论与瓶颈分析
+
+针对固定硬件服务器部署27B规模开源模型的场景，决定“每千输出token服务成本”的根节点可定义为：**单GPU小时分摊成本 / (吞吐量 × 利用率)**。
+
+基于提供的2026年最新基准测试数据与电力成本模型，**vLLM** 或 **SGLang** 是显著优于 TGI 和原生 Transformers 的选择。其中，若工作负载具有长共享前缀（如多轮对话、RAG），**SGLang** 凭借 RadixAttention 技术可能在特定场景下胜出；而在通用高并发短文本场景下，**vLLM** 因其成熟的 PagedAttention 和最高的生产成熟度，通常是最稳妥且高性价比的选择 ([llm-academy.dev](https://llm-academy.dev/inference/vllm-vs-sglang/))。
+
+**最大瓶颈（关键影响因素）：GPU利用率与内存带宽效率。**
+在固定硬件下，硬件折旧是沉没成本，因此边际成本主要取决于电力消耗和机会成本（即单位时间能处理多少请求）。数据显示，TGI 的 GPU 利用率仅为 68-74%，而 vLLM/SGLang 可达 85-92% ([llm-academy.dev](https://llm-academy.dev/inference/vllm-vs-sglang/))。这意味着使用低效框架会导致同样的电力支出产生更少的 token 产出，直接推高单 token 成本约 20-30% ([datarekha.com](https://datarekha.com/blog/vllm-vs-tgi-vs-sglang/))。此外，量化精度（FP16 vs FP8）是单一最大的成本杠杆，可将成本降低近一半 ([pythondatabench.com](https://pythondatabench.com/article/llm-inference-servers-vllm-tgi-sglang-compared-2026))。
+
+## 2. 成本结构分解树
+
+我们将“每千输出token成本”拆解为三个主要分支：**计算资源效率**、**电力与基础设施开销**、**运维与软件复杂度**。
+
+```text
+每千Token服务成本/
+├── A. 计算资源效率 (决定分母: 吞吐量)
+│   ├── A1. 调度器批处理效率 (Continuous Batching)
+│   │   ├── 动态批次大小调整能力
+│   │   └── 请求排队延迟 (TTFT)
+│   ├── A2. KV缓存管理策略
+│   │   ├── 显存碎片率 (PagedAttention vs 线性分配)
+│   │   └── 前缀复用率 (RadixAttention vs 无复用)
+│   └── A3. 模型精度与量化
+│       ├── 权重精度 (FP16/BF16 vs FP8/INT8)
+│       └── KV Cache 精度 (FP16 vs INT8)
+│
+├── B. 电力与基础设施开销 (决定分子: 固定+变动成本)
+│   ├── B1. GPU 功耗 (TDP)
+│   │   ├── 峰值功耗 vs 平均功耗
+│   │   └── 空闲功耗地板
+│   ├── B2. 服务器整体功耗系数
+│   │   ├── CPU/内存/硬盘功耗
+│   │   └── 网络接口功耗
+│   └── B3. 冷却与设施开销 (PUE)
+│       └── 数据中心能效比 (Air-cooled vs Liquid)
+│
+└── C. 运维与软件复杂度 (隐性成本)
+    ├── C1. 部署与维护人力
+    │   ├── 容器化配置复杂度
+    │   └── 故障排查难度
+    └── C2. 生态兼容性摩擦
+        ├── 模型支持滞后性
+        └── API 迁移成本
+```
+
+### 2.1 分支A：计算资源效率（吞吐量决定因子）
+
+这是影响成本最直接的变量。在固定硬件上，吞吐量越高，分摊到每个 token 上的固定成本越低。
+
+#### A1. 调度器批处理效率
+现代 LLM 推理的核心在于连续批处理（Continuous Batching）。
+*   **vLLM & SGLang**: 均采用激进的连续批处理，能够实时插入新请求而不等待当前批次完成。这使得 GPU 始终处于高负载状态。基准显示，在高并发（100+用户）下，vLLM 保持 85-92% 的 GPU 忙碌率 ([llm-academy.dev](https://llm-academy.dev/inference/vllm-vs-sglang/))。
+*   **TGI**: 虽然也支持连续批处理，但其调度策略较为保守，导致 GPU 利用率仅维持在 68-74% ([llm-academy.dev](https://llm-academy.dev/inference/vllm-vs-sglang/))。这直接意味着为了达到相同的 QPS，TGI 需要更多的 GPU 小时数，或者在相同 GPU 下吞吐量大降。
+*   **原生 Transformers**: 通常采用静态批处理或简单的顺序处理，缺乏高效的内存管理和动态批处理机制，吞吐量可能比优化引擎低 10-24 倍 ([premai.io](https://www.premai.io/blog/llm-inference-servers-compared-vllm-vs-tgi-vs-sglang-vs-triton-2026/))。
+
+#### A2. KV缓存管理策略
+KV Cache 是推理过程中的主要显存消耗者。
+*   **PagedAttention (vLLM)**: 将 KV Cache 分页管理，类似操作系统的虚拟内存，减少显存浪费高达 55% ([github.com/deepaksatna](https://github.com/deepaksatna/llm-serving-benchmark))。这允许在相同显存下容纳更多并发请求，从而提升吞吐量。
+*   **RadixAttention (SGLang)**: 通过基数树（Radix Tree）自动识别并复用共享前缀的 KV 块。对于具有长系统提示词或多轮对话的工作负载，SGLang 相比 vLLM 可获得 3-5 倍的吞吐量优势，因为重复的前缀计算被跳过 ([datarekha.com](https://datarekha.com/blog/vllm-vs-tgi-vs-sglang/))。
+*   **TGI**: 部分支持前缀缓存，但效率低于 SGLang 的原生实现 ([llm-academy.dev](https://llm-academy.dev/inference/vllm-vs-sglang/))。
+
+#### A3. 模型精度与量化
+*   **FP16/BF16**: 标准精度，占用显存大，计算速度慢。
+*   **FP8/INT8**: 2026年的主流趋势。在 H100/A100 等支持硬件上，FP8 推理可将每千 token 成本从 $0.0042 降至 $0.0019，降幅超过 50% ([pythondatabench.com](https://pythondatabench.com/article/llm-inference-servers-vllm-tgi-sglang-compared-2026))。
+*   **框架支持**: vLLM 对 AWQ/GPTQ/INT4 等量化格式的支持最为广泛，SGLang 紧随其后，TGI 支持良好但更新较慢 ([llm-academy.dev](https://llm-academy.dev/inference/vllm-vs-sglang/))。
+
+### 2.2 分支B：电力与基础设施开销
+
+即使硬件已购买，电力仍是主要的可变运营成本。
+
+#### B1-B3. 功耗与 PUE
+*   **功耗特性**: GPU 在低利用率下（如单请求处理）的功耗与高利用率下（如批量处理）相差不大，但产出的 token 数量差异巨大。例如，20% 利用率下的每 token 电力成本是 80% 利用率下的 4 倍 ([spheron.network](https://www.spheron.network/blog/ai-inference-power-electricity-cost-2026/))。
+*   **成本公式**: `电力成本 = (GPU TDP kW) × (服务器系数 1.5-1.8) × (PUE 1.3-1.5) × (电价)`。以 H100 为例，单卡电力成本约为 $0.21/hr ([spheron.network](https://www.spheron.network/blog/ai-inference-power-electricity-cost-2026/))。
+*   **框架影响**: 由于 vLLM/SGLang 的利用率更高，它们能在相同电力预算下产出更多 token，从而摊薄电力成本。TGI 的低利用率直接转化为更高的每 token 电力成本。
+
+### 2.3 分支C：运维与软件复杂度
+
+#### C1-C2. 隐性成本
+*   **学习曲线**: TGI 与 HuggingFace 生态集成最好，如果团队深度依赖 HF Hub，TGI 的运维摩擦最小 ([llm-academy.dev](https://llm-academy.dev/inference/vllm-vs-sglang/))。
+*   **功能完整性**: vLLM 拥有最高的生产成熟度和最广泛的社区支持，遇到问题时更容易找到解决方案。SGLang 在结构化输出（JSON/Regex）方面表现最佳，适合 Agent 应用 ([llm-academy.dev](https://llm-academy.dev/inference/vllm-vs-sglang/))。
+*   **黑盒因素**: 具体模型的量化后质量损失需实测。不同模型对 FP8 的敏感度不同，可能需要微调校准数据集。这是一个“黑盒”，建议通过小规模 A/B 测试评估输出质量是否满足业务要求。
+
+## 3. 框架对比矩阵
+
+| 特性 | vLLM | SGLang | TGI | 原生 Transformers |
+| :--- | :--- | :--- | :--- | :--- |
+| **核心技术** | PagedAttention | RadixAttention + FlashInfer | FlashAttention | 基础 Attention |
+| **GPU 利用率** | 85-92% | 84-91% | 68-74% | < 50% (估算) |
+| **相对吞吐量** | 基准 (1.0x) | 1.0-1.3x (前缀重时) | 0.6-0.8x | 0.04-0.1x |
+| **前缀缓存** | 支持 (v0.6+) | **原生最优** | 部分支持 | 无 |
+| **结构化输出** | Outlines 集成 | **原生最强** | 有限支持 | 需额外库 |
+| **量化支持** | **最广** | 广 | 好 | 基础 |
+| **运维复杂度** | 中 | 中高 | **低** | 高 |
+| **适用场景** | 通用高并发 | Agent/RAG/长前缀 | HF 生态锁定 | 原型开发 |
+
+*数据来源: [llm-academy.dev](https://llm-academy.dev/inference/vllm-vs-sglang/), [datarekha.com](https://datarekha.com/blog/vllm-vs-tgi-vs-sglang/)*
+
+## 4. 决策建议与未解矛盾
+
+### 4.1 推荐方案
+1.  **首选 vLLM**: 如果你的工作负载是通用的聊天、分类或混合类型，且追求最低的每 token 成本和最高的稳定性。它在大多数场景下提供了最佳的性价比平衡，且社区支持最完善 ([datarekha.com](https://datarekha.com/blog/vllm-vs-tgi-vs-sglang/))。
+2.  **次选 SGLang**: 如果你的应用场景是 **Agent 工具调用** 或 **RAG 管道**，其中大量请求共享相同的系统提示词或上下文。此时 RadixAttention 带来的 3-5 倍吞吐量提升足以抵消其稍高的运维复杂度 ([llm-academy.dev](https://llm-academy.dev/inference/vllm-vs-sglang/))。
+3.  **避免 TGI (除非锁定)**: 除非你被 HuggingFace Inference Endpoints 锁定，否则不建议在新部署中使用 TGI。其 20-40% 的吞吐量劣势直接转化为更高的长期运营成本 ([llm-academy.dev](https://llm-academy.dev/inference/vllm-vs-sglang/))。
+4.  **避免原生 Transformers**: 仅用于离线实验或极小流量原型，不具备生产级成本效益 ([premai.io](https://www.premai.io/blog/llm-inference-servers-compared-vllm-vs-tgi-vs-sglang-vs-triton-2026/))。
+
+### 4.2 关键行动项
+1.  **启用量化**: 务必检查你的 27B 模型是否有 FP8 或 INT8 版本，并在支持的硬件（如 H100/A100）上启用。这是降低成本的单一最大杠杆 ([pythondatabench.com](https://pythondatabench.com/article/llm-inference-servers-vllm-tgi-sglang-compared-2026))。
+2.  **压力测试**: 使用 `llm-serving-benchmark` 套件或类似工具，在你的实际硬件上模拟真实流量分布（输入/输出长度比例），验证 vLLM 和 SGLang 的实际吞吐量差异 ([github.com/deepaksatna](https://github.com/deepaksatna/llm-serving-benchmark))。
+3.  **监控利用率**: 部署后持续监控 GPU 利用率。如果利用率低于 80%，说明批处理配置不当或流量不足，需调整 `max_num_seqs` 等参数。
+
+### 4.3 未解矛盾
+*   **模型特异性**: 上述基准多基于 Llama-3 系列。27B 的其他架构（如 Mistral, Qwen）在不同框架下的性能表现可能存在细微差异，需在目标模型上复测。
+*   **硬件拓扑**: 如果服务器是多 GPU 且通过 PCIe 连接而非 NVLink，张量并行（Tensor Parallelism）的效率会下降，这可能改变 vLLM 和 SGLang 在多卡环境下的相对排名 ([acnicessc.github.io](https://acnicessc.github.io/llmcalc/))。
+
+## 参考文献
+
+1.  Gaikwad, M. (2026). *Benchmarking Methodology for Large Language Model Serving*. Internet-Draft. [ietf.org](https://www.ietf.org/archive/id/draft-gaikwad-llm-benchmarking-methodology-00.html)
+2.  Glukhov, R. (2026). *LLM Performance in 2026: Benchmarks, Bottlenecks & Optimization*. AI Systems & Infrastructure. [glukhov.org](https://www.glukhov.org/llm-performance/)
+3.  LLM Academy. (2026). *vLLM vs SGLang vs TGI: 2026 Inference Engine Benchmark*. [llm-academy.dev](https://llm-academy.dev/inference/vllm-vs-sglang/)
+4.  Niu, C., et al. (2025). *TokenPowerBench: Benchmarking the Power Consumption of LLM Inference*. arXiv. [arxiv.org](https://arxiv.org/html/2512.03024v1)
+5.  Pang, B., et al. (2025). *Optimizing LLM Inference Throughput via Memory-aware and SLA-constrained Dynamic Batching*. arXiv. [arxiv.org](https://arxiv.org/pdf/2503.05248)
+6.  PremAI. (2026). *LLM Inference Servers Compared: vLLM vs TGI vs SGLang vs Triton*. [premai.io](https://www.premai.io/blog/llm-inference-servers-compared-vllm-vs-tgi-vs-sglang-vs-triton-2026/)
+7.  Python Data Bench. (2026). *vLLM vs TGI vs SGLang: 2026 Guide*. [pythondatabench.com](https://pythondatabench.com/article/llm-inference-servers-vllm-tgi-sglang-compared-2026)
+8.  Spheron. (2026). *AI Inference Power Consumption and GPU Electricity Costs: 2026 Guide*. [spheron.network](https://www.spheron.network/blog/ai-inference-power-electricity-cost-2026/)
+9.  Davies, M., et al. (2025). *Efficient LLM Inference: Bandwidth, Compute, Synchronization, and Capacity are all you need*. arXiv. [arxiv.org](https://arxiv.org/html/2507.14397v1)
+10. Deepak Satna. (2026). *LLM Serving Benchmark Suite*. GitHub. [github.com](https://github.com/deepaksatna/llm-serving-benchmark)
+11. DataRekha. (2026). *vLLM vs TGI vs SGLang: choosing your inference server in 2026*. [datarekha.com](https://datarekha.com/blog/vllm-vs-tgi-vs-sglang/)[0m
+INFO:     [11:57:13] 📝 Report written for '你是一个逻辑严密的拆解者。面对一个复杂问题，不要凭直觉直接列清单，要像整理文件夹一样，一层一层往下分，最后交出一棵树。
+
+把整个问题先定成一个要算清楚的「根节点」——通常是一个数（比如「哪种方案最划算」，就拆成「每个方案的单任务成本」）。然后一层层往下切，每一层都把这个节点切成几个子文件夹。一直切到每一片「叶子」都是一个你要么能查到规格、要么能套公式、要么能实测出来的具体数字或区间为止。
+
+**怎么拆都行**：你可以一次只拆一层（先列直接子节点，下一轮再往下），也可以一口气拆好几层，随你方便。拆的过程中随时可以停下来想一想、自检、再继续——不要求一次拆完，每次挑几个还没拆完的节点往下切就行。
+
+下面用「一条产线每件产品的成本」做例子，照这个样子长（先骨架，再填几片叶子）：
+
+    单件成本/
+    ├── 良率/        〔只能测〕每批抽 200 件记不良，连续 10 批    〔占 0.30〕
+    ├── 设备摊销/    〔可调〕按折旧摊到每件                  〔占 0.45〕
+    └── 来料价格/    〔可控外〕随采购合同                    〔占 0.25〕
+
+每一刀只当场验两件事：
+
+1. **完整（不漏）**：切出来的几支拼起来要能还原父节点，不能丢掉任何一块。按比例拆时比例加起来必须正好等于 1。拼不回来说明这一刀切错了，不是「还有点没想到」。
+
+2. **不重叠（不抢）**：同一层的几支不能去动同一个底层东西。两支都在占显存、都在花同一笔钱、都在改同一个参数，就是没拆干净——要么继续往下切分开，要么显式写一句「这两支耦合在 X 上」并说明会不会改变结论。名字不一样不代表不重叠，是「不抢同一个底层资源」才叫不重叠。
+
+查不到也量不出来的，别硬编：标成「黑盒」，写清它影响树的哪一支、你估计的大致范围（给区间不给一个数）、以及真要搞准的话一天内能做完的实测办法。
+
+最后，指出哪一支对整个结果影响最大（瓶颈），说清楚为什么是它；并列出还有哪些没解开的矛盾（没有就写「无」）。
+
+你最终交出来的，就是上面那样的一棵**「文件夹结构示意图」**——根在上、子节点往下/往右展开，每个节点旁标清「是什么 / 能调还是只能测 / 怎么量 / 占父份额」。这棵树只作为格式看，真正评分看的是你拆得全不全、重不重、瓶颈抓得准不准、黑盒标得老不老实。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+
+我有一台固定的服务器（硬件已买好不能换），上面要跑一个 27B 规模的开源模型对外提供服务。我在纠结用 vLLM、TGI、原生 transformers 还是 SGLang 来部署。
+请帮我拆解：决定「每千输出 token 的服务成本」的所有因素都有哪些，并判断哪个框架最划算。'
+  done Q3: 8470 chars, 12 sources, 45.8s
+[d1] Q4 ...
+INFO:     [11:57:32] 🔍 Starting the research task for '你是一个逻辑严密的拆解者。面对一个复杂问题，不要凭直觉直接列清单，要像整理文件夹一样，一层一层往下分，最后交出一棵树。
+
+把整个问题先定成一个要算清楚的「根节点」——通常是一个数（比如「哪种方案最划算」，就拆成「每个方案的单任务成本」）。然后一层层往下切，每一层都把这个节点切成几个子文件夹。一直切到每一片「叶子」都是一个你要么能查到规格、要么能套公式、要么能实测出来的具体数字或区间为止。
+
+**怎么拆都行**：你可以一次只拆一层（先列直接子节点，下一轮再往下），也可以一口气拆好几层，随你方便。拆的过程中随时可以停下来想一想、自检、再继续——不要求一次拆完，每次挑几个还没拆完的节点往下切就行。
+
+下面用「一条产线每件产品的成本」做例子，照这个样子长（先骨架，再填几片叶子）：
+
+    单件成本/
+    ├── 良率/        〔只能测〕每批抽 200 件记不良，连续 10 批    〔占 0.30〕
+    ├── 设备摊销/    〔可调〕按折旧摊到每件                  〔占 0.45〕
+    └── 来料价格/    〔可控外〕随采购合同                    〔占 0.25〕
+
+每一刀只当场验两件事：
+
+1. **完整（不漏）**：切出来的几支拼起来要能还原父节点，不能丢掉任何一块。按比例拆时比例加起来必须正好等于 1。拼不回来说明这一刀切错了，不是「还有点没想到」。
+
+2. **不重叠（不抢）**：同一层的几支不能去动同一个底层东西。两支都在占显存、都在花同一笔钱、都在改同一个参数，就是没拆干净——要么继续往下切分开，要么显式写一句「这两支耦合在 X 上」并说明会不会改变结论。名字不一样不代表不重叠，是「不抢同一个底层资源」才叫不重叠。
+
+查不到也量不出来的，别硬编：标成「黑盒」，写清它影响树的哪一支、你估计的大致范围（给区间不给一个数）、以及真要搞准的话一天内能做完的实测办法。
+
+最后，指出哪一支对整个结果影响最大（瓶颈），说清楚为什么是它；并列出还有哪些没解开的矛盾（没有就写「无」）。
+
+你最终交出来的，就是上面那样的一棵**「文件夹结构示意图」**——根在上、子节点往下/往右展开，每个节点旁标清「是什么 / 能调还是只能测 / 怎么量 / 占父份额」。这棵树只作为格式看，真正评分看的是你拆得全不全、重不重、瓶颈抓得准不准、黑盒标得老不老实。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+
+我们有一个企业知识库问答系统，文档总量大概 50 万页，用户问题需要引用文档内容回答且不能编造。我在纠结三种架构：纯 RAG（切块嵌入检索）、纯长上下文（直接塞进 128K 模型）、或者混合方案。
+请帮我拆解：决定「每千次正确回答的成本」的所有因素都有哪些，并判断哪种架构最划算。'...
+INFO:     [11:57:32] Default Agent
+INFO:     [11:57:32] 🌐 Browsing the web to learn more about the task: 你是一个逻辑严密的拆解者。面对一个复杂问题，不要凭直觉直接列清单，要像整理文件夹一样，一层一层往下分，最后交出一棵树。
+
+把整个问题先定成一个要算清楚的「根节点」——通常是一个数（比如「哪种方案最划算」，就拆成「每个方案的单任务成本」）。然后一层层往下切，每一层都把这个节点切成几个子文件夹。一直切到每一片「叶子」都是一个你要么能查到规格、要么能套公式、要么能实测出来的具体数字或区间为止。
+
+**怎么拆都行**：你可以一次只拆一层（先列直接子节点，下一轮再往下），也可以一口气拆好几层，随你方便。拆的过程中随时可以停下来想一想、自检、再继续——不要求一次拆完，每次挑几个还没拆完的节点往下切就行。
+
+下面用「一条产线每件产品的成本」做例子，照这个样子长（先骨架，再填几片叶子）：
+
+    单件成本/
+    ├── 良率/        〔只能测〕每批抽 200 件记不良，连续 10 批    〔占 0.30〕
+    ├── 设备摊销/    〔可调〕按折旧摊到每件                  〔占 0.45〕
+    └── 来料价格/    〔可控外〕随采购合同                    〔占 0.25〕
+
+每一刀只当场验两件事：
+
+1. **完整（不漏）**：切出来的几支拼起来要能还原父节点，不能丢掉任何一块。按比例拆时比例加起来必须正好等于 1。拼不回来说明这一刀切错了，不是「还有点没想到」。
+
+2. **不重叠（不抢）**：同一层的几支不能去动同一个底层东西。两支都在占显存、都在花同一笔钱、都在改同一个参数，就是没拆干净——要么继续往下切分开，要么显式写一句「这两支耦合在 X 上」并说明会不会改变结论。名字不一样不代表不重叠，是「不抢同一个底层资源」才叫不重叠。
+
+查不到也量不出来的，别硬编：标成「黑盒」，写清它影响树的哪一支、你估计的大致范围（给区间不给一个数）、以及真要搞准的话一天内能做完的实测办法。
+
+最后，指出哪一支对整个结果影响最大（瓶颈），说清楚为什么是它；并列出还有哪些没解开的矛盾（没有就写「无」）。
+
+你最终交出来的，就是上面那样的一棵**「文件夹结构示意图」**——根在上、子节点往下/往右展开，每个节点旁标清「是什么 / 能调还是只能测 / 怎么量 / 占父份额」。这棵树只作为格式看，真正评分看的是你拆得全不全、重不重、瓶颈抓得准不准、黑盒标得老不老实。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+
+我们有一个企业知识库问答系统，文档总量大概 50 万页，用户问题需要引用文档内容回答且不能编造。我在纠结三种架构：纯 RAG（切块嵌入检索）、纯长上下文（直接塞进 128K 模型）、或者混合方案。
+请帮我拆解：决定「每千次正确回答的成本」的所有因素都有哪些，并判断哪种架构最划算。...
+Error: error sending request for url (https://www.mojeek.com/search?q=%E4%BD%A0%E6%98%AF%E4%B8%80%E4%B8%AA%E9%80%BB%E8%BE%91%E4%B8%A5%E5%AF%86%E7%9A%84%E6%8B%86%E8%A7%A3%E8%80%85%E3%80%82%E9%9D%A2%E5%AF%B9%E4%B8%80%E4%B8%AA%E5%A4%8D%E6%9D%82%E9%97%AE%E9%A2%98%EF%BC%8C%E4%B8%8D%E8%A6%81%E5%87%AD%E7%9B%B4%E8%A7%89%E7%9B%B4%E6%8E%A5%E5%88%97%E6%B8%85%E5%8D%95%EF%BC%8C%E8%A6%81%E5%83%8F%E6%95%B4%E7%90%86%E6%96%87%E4%BB%B6%E5%A4%B9%E4%B8%80%E6%A0%B7%EF%BC%8C%E4%B8%80%E5%B1%82%E4%B8%80%E5%B1%82%E5%BE%80%E4%B8%8B%E5%88%86%EF%BC%8C%E6%9C%80%E5%90%8E%E4%BA%A4%E5%87%BA%E4%B8%80%E6%A3%B5%E6%A0%91%E3%80%82%0A%0A%E6%8A%8A%E6%95%B4%E4%B8%AA%E9%97%AE%E9%A2%98%E5%85%88%E5%AE%9A%E6%88%90%E4%B8%80%E4%B8%AA%E8%A6%81%E7%AE%97%E6%B8%85%E6%A5%9A%E7%9A%84%E3%80%8C%E6%A0%B9%E8%8A%82%E7%82%B9%E3%80%8D%E2%80%94%E2%80%94%E9%80%9A%E5%B8%B8%E6%98%AF%E4%B8%80%E4%B8%AA%E6%95%B0%EF%BC%88%E6%AF%94%E5%A6%82%E3%80%8C%E5%93%AA%E7%A7%8D%E6%96%B9%E6%A1%88%E6%9C%80%E5%88%92%E7%AE%97%E3%80%8D%EF%BC%8C%E5%B0%B1%E6%8B%86%E6%88%90%E3%80%8C%E6%AF%8F%E4%B8%AA%E6%96%B9%E6%A1%88%E7%9A%84%E5%8D%95%E4%BB%BB%E5%8A%A1%E6%88%90%E6%9C%AC%E3%80%8D%EF%BC%89%E3%80%82%E7%84%B6%E5%90%8E%E4%B8%80%E5%B1%82%E5%B1%82%E5%BE%80%E4%B8%8B%E5%88%87%EF%BC%8C%E6%AF%8F%E4%B8%80%E5%B1%82%E9%83%BD%E6%8A%8A%E8%BF%99%E4%B8%AA%E8%8A%82%E7%82%B9%E5%88%87%E6%88%90%E5%87%A0%E4%B8%AA%E5%AD%90%E6%96%87%E4%BB%B6%E5%A4%B9%E3%80%82%E4%B8%80%E7%9B%B4%E5%88%87%E5%88%B0%E6%AF%8F%E4%B8%80%E7%89%87%E3%80%8C%E5%8F%B6%E5%AD%90%E3%80%8D%E9%83%BD%E6%98%AF%E4%B8%80%E4%B8%AA%E4%BD%A0%E8%A6%81%E4%B9%88%E8%83%BD%E6%9F%A5%E5%88%B0%E8%A7%84%E6%A0%BC%E3%80%81%E8%A6%81%E4%B9%88%E8%83%BD%E5%A5%97%E5%85%AC%E5%BC%8F%E3%80%81%E8%A6%81%E4%B9%88%E8%83%BD%E5%AE%9E%E6%B5%8B%E5%87%BA%E6%9D%A5%E7%9A%84%E5%85%B7%E4%BD%93%E6%95%B0%E5%AD%97%E6%88%96%E5%8C%BA%E9%97%B4%E4%B8%BA%E6%AD%A2%E3%80%82%0A%0A**%E6%80%8E%E4%B9%88%E6%8B%86%E9%83%BD%E8%A1%8C**%EF%BC%9A%E4%BD%A0%E5%8F%AF%E4%BB%A5%E4%B8%80%E6%AC%A1%E5%8F%AA%E6%8B%86%E4%B8%80%E5%B1%82%EF%BC%88%E5%85%88%E5%88%97%E7%9B%B4%E6%8E%A5%E5%AD%90%E8%8A%82%E7%82%B9%EF%BC%8C%E4%B8%8B%E4%B8%80%E8%BD%AE%E5%86%8D%E5%BE%80%E4%B8%8B%EF%BC%89%EF%BC%8C%E4%B9%9F%E5%8F%AF%E4%BB%A5%E4%B8%80%E5%8F%A3%E6%B0%94%E6%8B%86%E5%A5%BD%E5%87%A0%E5%B1%82%EF%BC%8C%E9%9A%8F%E4%BD%A0%E6%96%B9%E4%BE%BF%E3%80%82%E6%8B%86%E7%9A%84%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%9A%8F%E6%97%B6%E5%8F%AF%E4%BB%A5%E5%81%9C%E4%B8%8B%E6%9D%A5%E6%83%B3%E4%B8%80%E6%83%B3%E3%80%81%E8%87%AA%E6%A3%80%E3%80%81%E5%86%8D%E7%BB%A7%E7%BB%AD%E2%80%94%E2%80%94%E4%B8%8D%E8%A6%81%E6%B1%82%E4%B8%80%E6%AC%A1%E6%8B%86%E5%AE%8C%EF%BC%8C%E6%AF%8F%E6%AC%A1%E6%8C%91%E5%87%A0%E4%B8%AA%E8%BF%98%E6%B2%A1%E6%8B%86%E5%AE%8C%E7%9A%84%E8%8A%82%E7%82%B9%E5%BE%80%E4%B8%8B%E5%88%87%E5%B0%B1%E8%A1%8C%E3%80%82%0A%0A%E4%B8%8B%E9%9D%A2%E7%94%A8%E3%80%8C%E4%B8%80%E6%9D%A1%E4%BA%A7%E7%BA%BF%E6%AF%8F%E4%BB%B6%E4%BA%A7%E5%93%81%E7%9A%84%E6%88%90%E6%9C%AC%E3%80%8D%E5%81%9A%E4%BE%8B%E5%AD%90%EF%BC%8C%E7%85%A7%E8%BF%99%E4%B8%AA%E6%A0%B7%E5%AD%90%E9%95%BF%EF%BC%88%E5%85%88%E9%AA%A8%E6%9E%B6%EF%BC%8C%E5%86%8D%E5%A1%AB%E5%87%A0%E7%89%87%E5%8F%B6%E5%AD%90%EF%BC%89%EF%BC%9A%0A%0A++++%E5%8D%95%E4%BB%B6%E6%88%90%E6%9C%AC%2F%0A++++%E2%94%9C%E2%94%80%E2%94%80+%E8%89%AF%E7%8E%87%2F++++++++%E3%80%94%E5%8F%AA%E8%83%BD%E6%B5%8B%E3%80%95%E6%AF%8F%E6%89%B9%E6%8A%BD+200+%E4%BB%B6%E8%AE%B0%E4%B8%8D%E8%89%AF%EF%BC%8C%E8%BF%9E%E7%BB%AD+10+%E6%89%B9++++%E3%80%94%E5%8D%A0+0.30%E3%80%95%0A++++%E2%94%9C%E2%94%80%E2%94%80+%E8%AE%BE%E5%A4%87%E6%91%8A%E9%94%80%2F++++%E3%80%94%E5%8F%AF%E8%B0%83%E3%80%95%E6%8C%89%E6%8A%98%E6%97%A7%E6%91%8A%E5%88%B0%E6%AF%8F%E4%BB%B6++++++++++++++++++%E3%80%94%E5%8D%A0+0.45%E3%80%95%0A++++%E2%94%94%E2%94%80%E2%94%80+%E6%9D%A5%E6%96%99%E4%BB%B7%E6%A0%BC%2F++++%E3%80%94%E5%8F%AF%E6%8E%A7%E5%A4%96%E3%80%95%E9%9A%8F%E9%87%87%E8%B4%AD%E5%90%88%E5%90%8C++++++++++++++++++++%E3%80%94%E5%8D%A0+0.25%E3%80%95%0A%0A%E6%AF%8F%E4%B8%80%E5%88%80%E5%8F%AA%E5%BD%93%E5%9C%BA%E9%AA%8C%E4%B8%A4%E4%BB%B6%E4%BA%8B%EF%BC%9A%0A%0A1.+**%E5%AE%8C%E6%95%B4%EF%BC%88%E4%B8%8D%E6%BC%8F%EF%BC%89**%EF%BC%9A%E5%88%87%E5%87%BA%E6%9D%A5%E7%9A%84%E5%87%A0%E6%94%AF%E6%8B%BC%E8%B5%B7%E6%9D%A5%E8%A6%81%E8%83%BD%E8%BF%98%E5%8E%9F%E7%88%B6%E8%8A%82%E7%82%B9%EF%BC%8C%E4%B8%8D%E8%83%BD%E4%B8%A2%E6%8E%89%E4%BB%BB%E4%BD%95%E4%B8%80%E5%9D%97%E3%80%82%E6%8C%89%E6%AF%94%E4%BE%8B%E6%8B%86%E6%97%B6%E6%AF%94%E4%BE%8B%E5%8A%A0%E8%B5%B7%E6%9D%A5%E5%BF%85%E9%A1%BB%E6%AD%A3%E5%A5%BD%E7%AD%89%E4%BA%8E+1%E3%80%82%E6%8B%BC%E4%B8%8D%E5%9B%9E%E6%9D%A5%E8%AF%B4%E6%98%8E%E8%BF%99%E4%B8%80%E5%88%80%E5%88%87%E9%94%99%E4%BA%86%EF%BC%8C%E4%B8%8D%E6%98%AF%E3%80%8C%E8%BF%98%E6%9C%89%E7%82%B9%E6%B2%A1%E6%83%B3%E5%88%B0%E3%80%8D%E3%80%82%0A%0A2.+**%E4%B8%8D%E9%87%8D%E5%8F%A0%EF%BC%88%E4%B8%8D%E6%8A%A2%EF%BC%89**%EF%BC%9A%E5%90%8C%E4%B8%80%E5%B1%82%E7%9A%84%E5%87%A0%E6%94%AF%E4%B8%8D%E8%83%BD%E5%8E%BB%E5%8A%A8%E5%90%8C%E4%B8%80%E4%B8%AA%E5%BA%95%E5%B1%82%E4%B8%9C%E8%A5%BF%E3%80%82%E4%B8%A4%E6%94%AF%E9%83%BD%E5%9C%A8%E5%8D%A0%E6%98%BE%E5%AD%98%E3%80%81%E9%83%BD%E5%9C%A8%E8%8A%B1%E5%90%8C%E4%B8%80%E7%AC%94%E9%92%B1%E3%80%81%E9%83%BD%E5%9C%A8%E6%94%B9%E5%90%8C%E4%B8%80%E4%B8%AA%E5%8F%82%E6%95%B0%EF%BC%8C%E5%B0%B1%E6%98%AF%E6%B2%A1%E6%8B%86%E5%B9%B2%E5%87%80%E2%80%94%E2%80%94%E8%A6%81%E4%B9%88%E7%BB%A7%E7%BB%AD%E5%BE%80%E4%B8%8B%E5%88%87%E5%88%86%E5%BC%80%EF%BC%8C%E8%A6%81%E4%B9%88%E6%98%BE%E5%BC%8F%E5%86%99%E4%B8%80%E5%8F%A5%E3%80%8C%E8%BF%99%E4%B8%A4%E6%94%AF%E8%80%A6%E5%90%88%E5%9C%A8+X+%E4%B8%8A%E3%80%8D%E5%B9%B6%E8%AF%B4%E6%98%8E%E4%BC%9A%E4%B8%8D%E4%BC%9A%E6%94%B9%E5%8F%98%E7%BB%93%E8%AE%BA%E3%80%82%E5%90%8D%E5%AD%97%E4%B8%8D%E4%B8%80%E6%A0%B7%E4%B8%8D%E4%BB%A3%E8%A1%A8%E4%B8%8D%E9%87%8D%E5%8F%A0%EF%BC%8C%E6%98%AF%E3%80%8C%E4%B8%8D%E6%8A%A2%E5%90%8C%E4%B8%80%E4%B8%AA%E5%BA%95%E5%B1%82%E8%B5%84%E6%BA%90%E3%80%8D%E6%89%8D%E5%8F%AB%E4%B8%8D%E9%87%8D%E5%8F%A0%E3%80%82%0A%0A%E6%9F%A5%E4%B8%8D%E5%88%B0%E4%B9%9F%E9%87%8F%E4%B8%8D%E5%87%BA%E6%9D%A5%E7%9A%84%EF%BC%8C%E5%88%AB%E7%A1%AC%E7%BC%96%EF%BC%9A%E6%A0%87%E6%88%90%E3%80%8C%E9%BB%91%E7%9B%92%E3%80%8D%EF%BC%8C%E5%86%99%E6%B8%85%E5%AE%83%E5%BD%B1%E5%93%8D%E6%A0%91%E7%9A%84%E5%93%AA%E4%B8%80%E6%94%AF%E3%80%81%E4%BD%A0%E4%BC%B0%E8%AE%A1%E7%9A%84%E5%A4%A7%E8%87%B4%E8%8C%83%E5%9B%B4%EF%BC%88%E7%BB%99%E5%8C%BA%E9%97%B4%E4%B8%8D%E7%BB%99%E4%B8%80%E4%B8%AA%E6%95%B0%EF%BC%89%E3%80%81%E4%BB%A5%E5%8F%8A%E7%9C%9F%E8%A6%81%E6%90%9E%E5%87%86%E7%9A%84%E8%AF%9D%E4%B8%80%E5%A4%A9%E5%86%85%E8%83%BD%E5%81%9A%E5%AE%8C%E7%9A%84%E5%AE%9E%E6%B5%8B%E5%8A%9E%E6%B3%95%E3%80%82%0A%0A%E6%9C%80%E5%90%8E%EF%BC%8C%E6%8C%87%E5%87%BA%E5%93%AA%E4%B8%80%E6%94%AF%E5%AF%B9%E6%95%B4%E4%B8%AA%E7%BB%93%E6%9E%9C%E5%BD%B1%E5%93%8D%E6%9C%80%E5%A4%A7%EF%BC%88%E7%93%B6%E9%A2%88%EF%BC%89%EF%BC%8C%E8%AF%B4%E6%B8%85%E6%A5%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E5%AE%83%EF%BC%9B%E5%B9%B6%E5%88%97%E5%87%BA%E8%BF%98%E6%9C%89%E5%93%AA%E4%BA%9B%E6%B2%A1%E8%A7%A3%E5%BC%80%E7%9A%84%E7%9F%9B%E7%9B%BE%EF%BC%88%E6%B2%A1%E6%9C%89%E5%B0%B1%E5%86%99%E3%80%8C%E6%97%A0%E3%80%8D%EF%BC%89%E3%80%82%0A%0A%E4%BD%A0%E6%9C%80%E7%BB%88%E4%BA%A4%E5%87%BA%E6%9D%A5%E7%9A%84%EF%BC%8C%E5%B0%B1%E6%98%AF%E4%B8%8A%E9%9D%A2%E9%82%A3%E6%A0%B7%E7%9A%84%E4%B8%80%E6%A3%B5**%E3%80%8C%E6%96%87%E4%BB%B6%E5%A4%B9%E7%BB%93%E6%9E%84%E7%A4%BA%E6%84%8F%E5%9B%BE%E3%80%8D**%E2%80%94%E2%80%94%E6%A0%B9%E5%9C%A8%E4%B8%8A%E3%80%81%E5%AD%90%E8%8A%82%E7%82%B9%E5%BE%80%E4%B8%8B%2F%E5%BE%80%E5%8F%B3%E5%B1%95%E5%BC%80%EF%BC%8C%E6%AF%8F%E4%B8%AA%E8%8A%82%E7%82%B9%E6%97%81%E6%A0%87%E6%B8%85%E3%80%8C%E6%98%AF%E4%BB%80%E4%B9%88+%2F+%E8%83%BD%E8%B0%83%E8%BF%98%E6%98%AF%E5%8F%AA%E8%83%BD%E6%B5%8B+%2F+%E6%80%8E%E4%B9%88%E9%87%8F+%2F+%E5%8D%A0%E7%88%B6%E4%BB%BD%E9%A2%9D%E3%80%8D%E3%80%82%E8%BF%99%E6%A3%B5%E6%A0%91%E5%8F%AA%E4%BD%9C%E4%B8%BA%E6%A0%BC%E5%BC%8F%E7%9C%8B%EF%BC%8C%E7%9C%9F%E6%AD%A3%E8%AF%84%E5%88%86%E7%9C%8B%E7%9A%84%E6%98%AF%E4%BD%A0%E6%8B%86%E5%BE%97%E5%85%A8%E4%B8%8D%E5%85%A8%E3%80%81%E9%87%8D%E4%B8%8D%E9%87%8D%E3%80%81%E7%93%B6%E9%A2%88%E6%8A%93%E5%BE%97%E5%87%86%E4%B8%8D%E5%87%86%E3%80%81%E9%BB%91%E7%9B%92%E6%A0%87%E5%BE%97%E8%80%81%E4%B8%8D%E8%80%81%E5%AE%9E%E3%80%82%0A%0A%E4%B8%8B%E9%9D%A2%E8%BF%99%E4%B8%AA%E4%BB%BB%E5%8A%A1%EF%BC%8C%E8%AF%B7%E6%8C%89%E4%B8%8A%E9%9D%A2%E7%9A%84%E6%96%B9%E5%BC%8F%E6%8B%86%EF%BC%88%E4%BD%A0%E6%89%8B%E5%A4%B4%E6%B2%A1%E6%9C%89%E7%8E%B0%E6%88%90%E8%A7%84%E6%A0%BC%EF%BC%8C%E8%AF%B7%E8%87%AA%E8%A1%8C%E8%B0%83%E7%A0%94%E6%88%96%E6%8E%A8%E7%90%86%E8%A1%A5%E9%BD%90%E7%BC%BA%E5%8F%A3%EF%BC%8C%E5%B9%B6%E6%8A%8A%E4%BD%A0%E5%8F%91%E7%8E%B0%E7%9A%84%E5%85%B3%E9%94%AE%E5%9B%A0%E7%B4%A0%E9%83%BD%E6%8B%86%E5%87%BA%E6%9D%A5%EF%BC%89%EF%BC%9A%0A%0A%E6%88%91%E4%BB%AC%E6%9C%89%E4%B8%80%E4%B8%AA%E4%BC%81%E4%B8%9A%E7%9F%A5%E8%AF%86%E5%BA%93%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F%EF%BC%8C%E6%96%87%E6%A1%A3%E6%80%BB%E9%87%8F%E5%A4%A7%E6%A6%82+50+%E4%B8%87%E9%A1%B5%EF%BC%8C%E7%94%A8%E6%88%B7%E9%97%AE%E9%A2%98%E9%9C%80%E8%A6%81%E5%BC%95%E7%94%A8%E6%96%87%E6%A1%A3%E5%86%85%E5%AE%B9%E5%9B%9E%E7%AD%94%E4%B8%94%E4%B8%8D%E8%83%BD%E7%BC%96%E9%80%A0%E3%80%82%E6%88%91%E5%9C%A8%E7%BA%A0%E7%BB%93%E4%B8%89%E7%A7%8D%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%BA%AF+RAG%EF%BC%88%E5%88%87%E5%9D%97%E5%B5%8C%E5%85%A5%E6%A3%80%E7%B4%A2%EF%BC%89%E3%80%81%E7%BA%AF%E9%95%BF%E4%B8%8A%E4%B8%8B%E6%96%87%EF%BC%88%E7%9B%B4%E6%8E%A5%E5%A1%9E%E8%BF%9B+128K+%E6%A8%A1%E5%9E%8B%EF%BC%89%E3%80%81%E6%88%96%E8%80%85%E6%B7%B7%E5%90%88%E6%96%B9%E6%A1%88%E3%80%82%0A%E8%AF%B7%E5%B8%AE%E6%88%91%E6%8B%86%E8%A7%A3%EF%BC%9A%E5%86%B3%E5%AE%9A%E3%80%8C%E6%AF%8F%E5%8D%83%E6%AC%A1%E6%AD%A3%E7%A1%AE%E5%9B%9E%E7%AD%94%E7%9A%84%E6%88%90%E6%9C%AC%E3%80%8D%E7%9A%84%E6%89%80%E6%9C%89%E5%9B%A0%E7%B4%A0%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%8C%E5%B9%B6%E5%88%A4%E6%96%AD%E5%93%AA%E7%A7%8D%E6%9E%B6%E6%9E%84%E6%9C%80%E5%88%92%E7%AE%97%E3%80%82) > operation timed out. Failed fetching sources. Resulting in empty response.
+INFO:     [11:57:41] 🤔 Planning the research strategy and subtasks...
+INFO:     [11:57:42] 🗂️ I will conduct my research based on the following queries: ['RAG vs long context LLM cost per query comparison 2026', 'enterprise knowledge base RAG retrieval accuracy and hallucination rate benchmarks', 'LLM API pricing per million tokens for 128k context window models', '你是一个逻辑严密的拆解者。面对一个复杂问题，不要凭直觉直接列清单，要像整理文件夹一样，一层一层往下分，最后交出一棵树。\n\n把整个问题先定成一个要算清楚的「根节点」——通常是一个数（比如「哪种方案最划算」，就拆成「每个方案的单任务成本」）。然后一层层往下切，每一层都把这个节点切成几个子文件夹。一直切到每一片「叶子」都是一个你要么能查到规格、要么能套公式、要么能实测出来的具体数字或区间为止。\n\n**怎么拆都行**：你可以一次只拆一层（先列直接子节点，下一轮再往下），也可以一口气拆好几层，随你方便。拆的过程中随时可以停下来想一想、自检、再继续——不要求一次拆完，每次挑几个还没拆完的节点往下切就行。\n\n下面用「一条产线每件产品的成本」做例子，照这个样子长（先骨架，再填几片叶子）：\n\n    单件成本/\n    ├── 良率/        〔只能测〕每批抽 200 件记不良，连续 10 批    〔占 0.30〕\n    ├── 设备摊销/    〔可调〕按折旧摊到每件                  〔占 0.45〕\n    └── 来料价格/    〔可控外〕随采购合同                    〔占 0.25〕\n\n每一刀只当场验两件事：\n\n1. **完整（不漏）**：切出来的几支拼起来要能还原父节点，不能丢掉任何一块。按比例拆时比例加起来必须正好等于 1。拼不回来说明这一刀切错了，不是「还有点没想到」。\n\n2. **不重叠（不抢）**：同一层的几支不能去动同一个底层东西。两支都在占显存、都在花同一笔钱、都在改同一个参数，就是没拆干净——要么继续往下切分开，要么显式写一句「这两支耦合在 X 上」并说明会不会改变结论。名字不一样不代表不重叠，是「不抢同一个底层资源」才叫不重叠。\n\n查不到也量不出来的，别硬编：标成「黑盒」，写清它影响树的哪一支、你估计的大致范围（给区间不给一个数）、以及真要搞准的话一天内能做完的实测办法。\n\n最后，指出哪一支对整个结果影响最大（瓶颈），说清楚为什么是它；并列出还有哪些没解开的矛盾（没有就写「无」）。\n\n你最终交出来的，就是上面那样的一棵**「文件夹结构示意图」**——根在上、子节点往下/往右展开，每个节点旁标清「是什么 / 能调还是只能测 / 怎么量 / 占父份额」。这棵树只作为格式看，真正评分看的是你拆得全不全、重不重、瓶颈抓得准不准、黑盒标得老不老实。\n\n下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：\n\n我们有一个企业知识库问答系统，文档总量大概 50 万页，用户问题需要引用文档内容回答且不能编造。我在纠结三种架构：纯 RAG（切块嵌入检索）、纯长上下文（直接塞进 128K 模型）、或者混合方案。\n请帮我拆解：决定「每千次正确回答的成本」的所有因素都有哪些，并判断哪种架构最划算。']...
+INFO:     [11:57:42] 
+🔍 Running research for 'RAG vs long context LLM cost per query comparison 2026'...
+INFO:     [11:57:42] 
+🔍 Running research for 'enterprise knowledge base RAG retrieval accuracy and hallucination rate benchmarks'...
+INFO:     [11:57:42] 
+🔍 Running research for 'LLM API pricing per million tokens for 128k context window models'...
+INFO:     [11:57:42] 
+🔍 Running research for '你是一个逻辑严密的拆解者。面对一个复杂问题，不要凭直觉直接列清单，要像整理文件夹一样，一层一层往下分，最后交出一棵树。
+
+把整个问题先定成一个要算清楚的「根节点」——通常是一个数（比如「哪种方案最划算」，就拆成「每个方案的单任务成本」）。然后一层层往下切，每一层都把这个节点切成几个子文件夹。一直切到每一片「叶子」都是一个你要么能查到规格、要么能套公式、要么能实测出来的具体数字或区间为止。
+
+**怎么拆都行**：你可以一次只拆一层（先列直接子节点，下一轮再往下），也可以一口气拆好几层，随你方便。拆的过程中随时可以停下来想一想、自检、再继续——不要求一次拆完，每次挑几个还没拆完的节点往下切就行。
+
+下面用「一条产线每件产品的成本」做例子，照这个样子长（先骨架，再填几片叶子）：
+
+    单件成本/
+    ├── 良率/        〔只能测〕每批抽 200 件记不良，连续 10 批    〔占 0.30〕
+    ├── 设备摊销/    〔可调〕按折旧摊到每件                  〔占 0.45〕
+    └── 来料价格/    〔可控外〕随采购合同                    〔占 0.25〕
+
+每一刀只当场验两件事：
+
+1. **完整（不漏）**：切出来的几支拼起来要能还原父节点，不能丢掉任何一块。按比例拆时比例加起来必须正好等于 1。拼不回来说明这一刀切错了，不是「还有点没想到」。
+
+2. **不重叠（不抢）**：同一层的几支不能去动同一个底层东西。两支都在占显存、都在花同一笔钱、都在改同一个参数，就是没拆干净——要么继续往下切分开，要么显式写一句「这两支耦合在 X 上」并说明会不会改变结论。名字不一样不代表不重叠，是「不抢同一个底层资源」才叫不重叠。
+
+查不到也量不出来的，别硬编：标成「黑盒」，写清它影响树的哪一支、你估计的大致范围（给区间不给一个数）、以及真要搞准的话一天内能做完的实测办法。
+
+最后，指出哪一支对整个结果影响最大（瓶颈），说清楚为什么是它；并列出还有哪些没解开的矛盾（没有就写「无」）。
+
+你最终交出来的，就是上面那样的一棵**「文件夹结构示意图」**——根在上、子节点往下/往右展开，每个节点旁标清「是什么 / 能调还是只能测 / 怎么量 / 占父份额」。这棵树只作为格式看，真正评分看的是你拆得全不全、重不重、瓶颈抓得准不准、黑盒标得老不老实。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+
+我们有一个企业知识库问答系统，文档总量大概 50 万页，用户问题需要引用文档内容回答且不能编造。我在纠结三种架构：纯 RAG（切块嵌入检索）、纯长上下文（直接塞进 128K 模型）、或者混合方案。
+请帮我拆解：决定「每千次正确回答的成本」的所有因素都有哪些，并判断哪种架构最划算。'...
+INFO:     [11:57:44] ✅ Added source url to research: https://arxiv.org/abs/2605.05253
+
+INFO:     [11:57:44] ✅ Added source url to research: https://agentic-ai.readthedocs.io/en/latest/Benchmarks/rag-benchmarks/
+
+INFO:     [11:57:44] ✅ Added source url to research: https://awesomeagents.ai/leaderboards/rag-benchmarks-leaderboard/
+
+INFO:     [11:57:44] ✅ Added source url to research: https://arxiv.org/html/2605.05253v1
+
+INFO:     [11:57:44] ✅ Added source url to research: https://labelyourdata.com/articles/llm-fine-tuning/rag-evaluation
+
+INFO:     [11:57:44] 🤔 Researching for relevant information across multiple sources...
+
+INFO:     [11:57:44] 🌐 Scraping content from 5 URLs...
+Error: error sending request for url (https://www.mojeek.com/search?q=%E4%BD%A0%E6%98%AF%E4%B8%80%E4%B8%AA%E9%80%BB%E8%BE%91%E4%B8%A5%E5%AF%86%E7%9A%84%E6%8B%86%E8%A7%A3%E8%80%85%E3%80%82%E9%9D%A2%E5%AF%B9%E4%B8%80%E4%B8%AA%E5%A4%8D%E6%9D%82%E9%97%AE%E9%A2%98%EF%BC%8C%E4%B8%8D%E8%A6%81%E5%87%AD%E7%9B%B4%E8%A7%89%E7%9B%B4%E6%8E%A5%E5%88%97%E6%B8%85%E5%8D%95%EF%BC%8C%E8%A6%81%E5%83%8F%E6%95%B4%E7%90%86%E6%96%87%E4%BB%B6%E5%A4%B9%E4%B8%80%E6%A0%B7%EF%BC%8C%E4%B8%80%E5%B1%82%E4%B8%80%E5%B1%82%E5%BE%80%E4%B8%8B%E5%88%86%EF%BC%8C%E6%9C%80%E5%90%8E%E4%BA%A4%E5%87%BA%E4%B8%80%E6%A3%B5%E6%A0%91%E3%80%82%0A%0A%E6%8A%8A%E6%95%B4%E4%B8%AA%E9%97%AE%E9%A2%98%E5%85%88%E5%AE%9A%E6%88%90%E4%B8%80%E4%B8%AA%E8%A6%81%E7%AE%97%E6%B8%85%E6%A5%9A%E7%9A%84%E3%80%8C%E6%A0%B9%E8%8A%82%E7%82%B9%E3%80%8D%E2%80%94%E2%80%94%E9%80%9A%E5%B8%B8%E6%98%AF%E4%B8%80%E4%B8%AA%E6%95%B0%EF%BC%88%E6%AF%94%E5%A6%82%E3%80%8C%E5%93%AA%E7%A7%8D%E6%96%B9%E6%A1%88%E6%9C%80%E5%88%92%E7%AE%97%E3%80%8D%EF%BC%8C%E5%B0%B1%E6%8B%86%E6%88%90%E3%80%8C%E6%AF%8F%E4%B8%AA%E6%96%B9%E6%A1%88%E7%9A%84%E5%8D%95%E4%BB%BB%E5%8A%A1%E6%88%90%E6%9C%AC%E3%80%8D%EF%BC%89%E3%80%82%E7%84%B6%E5%90%8E%E4%B8%80%E5%B1%82%E5%B1%82%E5%BE%80%E4%B8%8B%E5%88%87%EF%BC%8C%E6%AF%8F%E4%B8%80%E5%B1%82%E9%83%BD%E6%8A%8A%E8%BF%99%E4%B8%AA%E8%8A%82%E7%82%B9%E5%88%87%E6%88%90%E5%87%A0%E4%B8%AA%E5%AD%90%E6%96%87%E4%BB%B6%E5%A4%B9%E3%80%82%E4%B8%80%E7%9B%B4%E5%88%87%E5%88%B0%E6%AF%8F%E4%B8%80%E7%89%87%E3%80%8C%E5%8F%B6%E5%AD%90%E3%80%8D%E9%83%BD%E6%98%AF%E4%B8%80%E4%B8%AA%E4%BD%A0%E8%A6%81%E4%B9%88%E8%83%BD%E6%9F%A5%E5%88%B0%E8%A7%84%E6%A0%BC%E3%80%81%E8%A6%81%E4%B9%88%E8%83%BD%E5%A5%97%E5%85%AC%E5%BC%8F%E3%80%81%E8%A6%81%E4%B9%88%E8%83%BD%E5%AE%9E%E6%B5%8B%E5%87%BA%E6%9D%A5%E7%9A%84%E5%85%B7%E4%BD%93%E6%95%B0%E5%AD%97%E6%88%96%E5%8C%BA%E9%97%B4%E4%B8%BA%E6%AD%A2%E3%80%82%0A%0A**%E6%80%8E%E4%B9%88%E6%8B%86%E9%83%BD%E8%A1%8C**%EF%BC%9A%E4%BD%A0%E5%8F%AF%E4%BB%A5%E4%B8%80%E6%AC%A1%E5%8F%AA%E6%8B%86%E4%B8%80%E5%B1%82%EF%BC%88%E5%85%88%E5%88%97%E7%9B%B4%E6%8E%A5%E5%AD%90%E8%8A%82%E7%82%B9%EF%BC%8C%E4%B8%8B%E4%B8%80%E8%BD%AE%E5%86%8D%E5%BE%80%E4%B8%8B%EF%BC%89%EF%BC%8C%E4%B9%9F%E5%8F%AF%E4%BB%A5%E4%B8%80%E5%8F%A3%E6%B0%94%E6%8B%86%E5%A5%BD%E5%87%A0%E5%B1%82%EF%BC%8C%E9%9A%8F%E4%BD%A0%E6%96%B9%E4%BE%BF%E3%80%82%E6%8B%86%E7%9A%84%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%9A%8F%E6%97%B6%E5%8F%AF%E4%BB%A5%E5%81%9C%E4%B8%8B%E6%9D%A5%E6%83%B3%E4%B8%80%E6%83%B3%E3%80%81%E8%87%AA%E6%A3%80%E3%80%81%E5%86%8D%E7%BB%A7%E7%BB%AD%E2%80%94%E2%80%94%E4%B8%8D%E8%A6%81%E6%B1%82%E4%B8%80%E6%AC%A1%E6%8B%86%E5%AE%8C%EF%BC%8C%E6%AF%8F%E6%AC%A1%E6%8C%91%E5%87%A0%E4%B8%AA%E8%BF%98%E6%B2%A1%E6%8B%86%E5%AE%8C%E7%9A%84%E8%8A%82%E7%82%B9%E5%BE%80%E4%B8%8B%E5%88%87%E5%B0%B1%E8%A1%8C%E3%80%82%0A%0A%E4%B8%8B%E9%9D%A2%E7%94%A8%E3%80%8C%E4%B8%80%E6%9D%A1%E4%BA%A7%E7%BA%BF%E6%AF%8F%E4%BB%B6%E4%BA%A7%E5%93%81%E7%9A%84%E6%88%90%E6%9C%AC%E3%80%8D%E5%81%9A%E4%BE%8B%E5%AD%90%EF%BC%8C%E7%85%A7%E8%BF%99%E4%B8%AA%E6%A0%B7%E5%AD%90%E9%95%BF%EF%BC%88%E5%85%88%E9%AA%A8%E6%9E%B6%EF%BC%8C%E5%86%8D%E5%A1%AB%E5%87%A0%E7%89%87%E5%8F%B6%E5%AD%90%EF%BC%89%EF%BC%9A%0A%0A++++%E5%8D%95%E4%BB%B6%E6%88%90%E6%9C%AC%2F%0A++++%E2%94%9C%E2%94%80%E2%94%80+%E8%89%AF%E7%8E%87%2F++++++++%E3%80%94%E5%8F%AA%E8%83%BD%E6%B5%8B%E3%80%95%E6%AF%8F%E6%89%B9%E6%8A%BD+200+%E4%BB%B6%E8%AE%B0%E4%B8%8D%E8%89%AF%EF%BC%8C%E8%BF%9E%E7%BB%AD+10+%E6%89%B9++++%E3%80%94%E5%8D%A0+0.30%E3%80%95%0A++++%E2%94%9C%E2%94%80%E2%94%80+%E8%AE%BE%E5%A4%87%E6%91%8A%E9%94%80%2F++++%E3%80%94%E5%8F%AF%E8%B0%83%E3%80%95%E6%8C%89%E6%8A%98%E6%97%A7%E6%91%8A%E5%88%B0%E6%AF%8F%E4%BB%B6++++++++++++++++++%E3%80%94%E5%8D%A0+0.45%E3%80%95%0A++++%E2%94%94%E2%94%80%E2%94%80+%E6%9D%A5%E6%96%99%E4%BB%B7%E6%A0%BC%2F++++%E3%80%94%E5%8F%AF%E6%8E%A7%E5%A4%96%E3%80%95%E9%9A%8F%E9%87%87%E8%B4%AD%E5%90%88%E5%90%8C++++++++++++++++++++%E3%80%94%E5%8D%A0+0.25%E3%80%95%0A%0A%E6%AF%8F%E4%B8%80%E5%88%80%E5%8F%AA%E5%BD%93%E5%9C%BA%E9%AA%8C%E4%B8%A4%E4%BB%B6%E4%BA%8B%EF%BC%9A%0A%0A1.+**%E5%AE%8C%E6%95%B4%EF%BC%88%E4%B8%8D%E6%BC%8F%EF%BC%89**%EF%BC%9A%E5%88%87%E5%87%BA%E6%9D%A5%E7%9A%84%E5%87%A0%E6%94%AF%E6%8B%BC%E8%B5%B7%E6%9D%A5%E8%A6%81%E8%83%BD%E8%BF%98%E5%8E%9F%E7%88%B6%E8%8A%82%E7%82%B9%EF%BC%8C%E4%B8%8D%E8%83%BD%E4%B8%A2%E6%8E%89%E4%BB%BB%E4%BD%95%E4%B8%80%E5%9D%97%E3%80%82%E6%8C%89%E6%AF%94%E4%BE%8B%E6%8B%86%E6%97%B6%E6%AF%94%E4%BE%8B%E5%8A%A0%E8%B5%B7%E6%9D%A5%E5%BF%85%E9%A1%BB%E6%AD%A3%E5%A5%BD%E7%AD%89%E4%BA%8E+1%E3%80%82%E6%8B%BC%E4%B8%8D%E5%9B%9E%E6%9D%A5%E8%AF%B4%E6%98%8E%E8%BF%99%E4%B8%80%E5%88%80%E5%88%87%E9%94%99%E4%BA%86%EF%BC%8C%E4%B8%8D%E6%98%AF%E3%80%8C%E8%BF%98%E6%9C%89%E7%82%B9%E6%B2%A1%E6%83%B3%E5%88%B0%E3%80%8D%E3%80%82%0A%0A2.+**%E4%B8%8D%E9%87%8D%E5%8F%A0%EF%BC%88%E4%B8%8D%E6%8A%A2%EF%BC%89**%EF%BC%9A%E5%90%8C%E4%B8%80%E5%B1%82%E7%9A%84%E5%87%A0%E6%94%AF%E4%B8%8D%E8%83%BD%E5%8E%BB%E5%8A%A8%E5%90%8C%E4%B8%80%E4%B8%AA%E5%BA%95%E5%B1%82%E4%B8%9C%E8%A5%BF%E3%80%82%E4%B8%A4%E6%94%AF%E9%83%BD%E5%9C%A8%E5%8D%A0%E6%98%BE%E5%AD%98%E3%80%81%E9%83%BD%E5%9C%A8%E8%8A%B1%E5%90%8C%E4%B8%80%E7%AC%94%E9%92%B1%E3%80%81%E9%83%BD%E5%9C%A8%E6%94%B9%E5%90%8C%E4%B8%80%E4%B8%AA%E5%8F%82%E6%95%B0%EF%BC%8C%E5%B0%B1%E6%98%AF%E6%B2%A1%E6%8B%86%E5%B9%B2%E5%87%80%E2%80%94%E2%80%94%E8%A6%81%E4%B9%88%E7%BB%A7%E7%BB%AD%E5%BE%80%E4%B8%8B%E5%88%87%E5%88%86%E5%BC%80%EF%BC%8C%E8%A6%81%E4%B9%88%E6%98%BE%E5%BC%8F%E5%86%99%E4%B8%80%E5%8F%A5%E3%80%8C%E8%BF%99%E4%B8%A4%E6%94%AF%E8%80%A6%E5%90%88%E5%9C%A8+X+%E4%B8%8A%E3%80%8D%E5%B9%B6%E8%AF%B4%E6%98%8E%E4%BC%9A%E4%B8%8D%E4%BC%9A%E6%94%B9%E5%8F%98%E7%BB%93%E8%AE%BA%E3%80%82%E5%90%8D%E5%AD%97%E4%B8%8D%E4%B8%80%E6%A0%B7%E4%B8%8D%E4%BB%A3%E8%A1%A8%E4%B8%8D%E9%87%8D%E5%8F%A0%EF%BC%8C%E6%98%AF%E3%80%8C%E4%B8%8D%E6%8A%A2%E5%90%8C%E4%B8%80%E4%B8%AA%E5%BA%95%E5%B1%82%E8%B5%84%E6%BA%90%E3%80%8D%E6%89%8D%E5%8F%AB%E4%B8%8D%E9%87%8D%E5%8F%A0%E3%80%82%0A%0A%E6%9F%A5%E4%B8%8D%E5%88%B0%E4%B9%9F%E9%87%8F%E4%B8%8D%E5%87%BA%E6%9D%A5%E7%9A%84%EF%BC%8C%E5%88%AB%E7%A1%AC%E7%BC%96%EF%BC%9A%E6%A0%87%E6%88%90%E3%80%8C%E9%BB%91%E7%9B%92%E3%80%8D%EF%BC%8C%E5%86%99%E6%B8%85%E5%AE%83%E5%BD%B1%E5%93%8D%E6%A0%91%E7%9A%84%E5%93%AA%E4%B8%80%E6%94%AF%E3%80%81%E4%BD%A0%E4%BC%B0%E8%AE%A1%E7%9A%84%E5%A4%A7%E8%87%B4%E8%8C%83%E5%9B%B4%EF%BC%88%E7%BB%99%E5%8C%BA%E9%97%B4%E4%B8%8D%E7%BB%99%E4%B8%80%E4%B8%AA%E6%95%B0%EF%BC%89%E3%80%81%E4%BB%A5%E5%8F%8A%E7%9C%9F%E8%A6%81%E6%90%9E%E5%87%86%E7%9A%84%E8%AF%9D%E4%B8%80%E5%A4%A9%E5%86%85%E8%83%BD%E5%81%9A%E5%AE%8C%E7%9A%84%E5%AE%9E%E6%B5%8B%E5%8A%9E%E6%B3%95%E3%80%82%0A%0A%E6%9C%80%E5%90%8E%EF%BC%8C%E6%8C%87%E5%87%BA%E5%93%AA%E4%B8%80%E6%94%AF%E5%AF%B9%E6%95%B4%E4%B8%AA%E7%BB%93%E6%9E%9C%E5%BD%B1%E5%93%8D%E6%9C%80%E5%A4%A7%EF%BC%88%E7%93%B6%E9%A2%88%EF%BC%89%EF%BC%8C%E8%AF%B4%E6%B8%85%E6%A5%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E5%AE%83%EF%BC%9B%E5%B9%B6%E5%88%97%E5%87%BA%E8%BF%98%E6%9C%89%E5%93%AA%E4%BA%9B%E6%B2%A1%E8%A7%A3%E5%BC%80%E7%9A%84%E7%9F%9B%E7%9B%BE%EF%BC%88%E6%B2%A1%E6%9C%89%E5%B0%B1%E5%86%99%E3%80%8C%E6%97%A0%E3%80%8D%EF%BC%89%E3%80%82%0A%0A%E4%BD%A0%E6%9C%80%E7%BB%88%E4%BA%A4%E5%87%BA%E6%9D%A5%E7%9A%84%EF%BC%8C%E5%B0%B1%E6%98%AF%E4%B8%8A%E9%9D%A2%E9%82%A3%E6%A0%B7%E7%9A%84%E4%B8%80%E6%A3%B5**%E3%80%8C%E6%96%87%E4%BB%B6%E5%A4%B9%E7%BB%93%E6%9E%84%E7%A4%BA%E6%84%8F%E5%9B%BE%E3%80%8D**%E2%80%94%E2%80%94%E6%A0%B9%E5%9C%A8%E4%B8%8A%E3%80%81%E5%AD%90%E8%8A%82%E7%82%B9%E5%BE%80%E4%B8%8B%2F%E5%BE%80%E5%8F%B3%E5%B1%95%E5%BC%80%EF%BC%8C%E6%AF%8F%E4%B8%AA%E8%8A%82%E7%82%B9%E6%97%81%E6%A0%87%E6%B8%85%E3%80%8C%E6%98%AF%E4%BB%80%E4%B9%88+%2F+%E8%83%BD%E8%B0%83%E8%BF%98%E6%98%AF%E5%8F%AA%E8%83%BD%E6%B5%8B+%2F+%E6%80%8E%E4%B9%88%E9%87%8F+%2F+%E5%8D%A0%E7%88%B6%E4%BB%BD%E9%A2%9D%E3%80%8D%E3%80%82%E8%BF%99%E6%A3%B5%E6%A0%91%E5%8F%AA%E4%BD%9C%E4%B8%BA%E6%A0%BC%E5%BC%8F%E7%9C%8B%EF%BC%8C%E7%9C%9F%E6%AD%A3%E8%AF%84%E5%88%86%E7%9C%8B%E7%9A%84%E6%98%AF%E4%BD%A0%E6%8B%86%E5%BE%97%E5%85%A8%E4%B8%8D%E5%85%A8%E3%80%81%E9%87%8D%E4%B8%8D%E9%87%8D%E3%80%81%E7%93%B6%E9%A2%88%E6%8A%93%E5%BE%97%E5%87%86%E4%B8%8D%E5%87%86%E3%80%81%E9%BB%91%E7%9B%92%E6%A0%87%E5%BE%97%E8%80%81%E4%B8%8D%E8%80%81%E5%AE%9E%E3%80%82%0A%0A%E4%B8%8B%E9%9D%A2%E8%BF%99%E4%B8%AA%E4%BB%BB%E5%8A%A1%EF%BC%8C%E8%AF%B7%E6%8C%89%E4%B8%8A%E9%9D%A2%E7%9A%84%E6%96%B9%E5%BC%8F%E6%8B%86%EF%BC%88%E4%BD%A0%E6%89%8B%E5%A4%B4%E6%B2%A1%E6%9C%89%E7%8E%B0%E6%88%90%E8%A7%84%E6%A0%BC%EF%BC%8C%E8%AF%B7%E8%87%AA%E8%A1%8C%E8%B0%83%E7%A0%94%E6%88%96%E6%8E%A8%E7%90%86%E8%A1%A5%E9%BD%90%E7%BC%BA%E5%8F%A3%EF%BC%8C%E5%B9%B6%E6%8A%8A%E4%BD%A0%E5%8F%91%E7%8E%B0%E7%9A%84%E5%85%B3%E9%94%AE%E5%9B%A0%E7%B4%A0%E9%83%BD%E6%8B%86%E5%87%BA%E6%9D%A5%EF%BC%89%EF%BC%9A%0A%0A%E6%88%91%E4%BB%AC%E6%9C%89%E4%B8%80%E4%B8%AA%E4%BC%81%E4%B8%9A%E7%9F%A5%E8%AF%86%E5%BA%93%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F%EF%BC%8C%E6%96%87%E6%A1%A3%E6%80%BB%E9%87%8F%E5%A4%A7%E6%A6%82+50+%E4%B8%87%E9%A1%B5%EF%BC%8C%E7%94%A8%E6%88%B7%E9%97%AE%E9%A2%98%E9%9C%80%E8%A6%81%E5%BC%95%E7%94%A8%E6%96%87%E6%A1%A3%E5%86%85%E5%AE%B9%E5%9B%9E%E7%AD%94%E4%B8%94%E4%B8%8D%E8%83%BD%E7%BC%96%E9%80%A0%E3%80%82%E6%88%91%E5%9C%A8%E7%BA%A0%E7%BB%93%E4%B8%89%E7%A7%8D%E6%9E%B6%E6%9E%84%EF%BC%9A%E7%BA%AF+RAG%EF%BC%88%E5%88%87%E5%9D%97%E5%B5%8C%E5%85%A5%E6%A3%80%E7%B4%A2%EF%BC%89%E3%80%81%E7%BA%AF%E9%95%BF%E4%B8%8A%E4%B8%8B%E6%96%87%EF%BC%88%E7%9B%B4%E6%8E%A5%E5%A1%9E%E8%BF%9B+128K+%E6%A8%A1%E5%9E%8B%EF%BC%89%E3%80%81%E6%88%96%E8%80%85%E6%B7%B7%E5%90%88%E6%96%B9%E6%A1%88%E3%80%82%0A%E8%AF%B7%E5%B8%AE%E6%88%91%E6%8B%86%E8%A7%A3%EF%BC%9A%E5%86%B3%E5%AE%9A%E3%80%8C%E6%AF%8F%E5%8D%83%E6%AC%A1%E6%AD%A3%E7%A1%AE%E5%9B%9E%E7%AD%94%E7%9A%84%E6%88%90%E6%9C%AC%E3%80%8D%E7%9A%84%E6%89%80%E6%9C%89%E5%9B%A0%E7%B4%A0%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%8C%E5%B9%B6%E5%88%A4%E6%96%AD%E5%93%AA%E7%A7%8D%E6%9E%B6%E6%9E%84%E6%9C%80%E5%88%92%E7%AE%97%E3%80%82) > operation timed out. Failed fetching sources. Resulting in empty response.
+INFO:     [11:57:51] 🤔 Researching for relevant information across multiple sources...
+
+INFO:     [11:57:51] 🌐 Scraping content from 0 URLs...
+INFO:     [11:57:51] 📄 Scraped 0 pages of content
+INFO:     [11:57:51] 🖼️ Selected 0 new images from 0 total images
+INFO:     [11:57:51] 🌐 Scraping complete
+WARNING:research:No context to combine for sub-query: 你是一个逻辑严密的拆解者。面对一个复杂问题，不要凭直觉直接列清单，要像整理文件夹一样，一层一层往下分，最后交出一棵树。
+
+把整个问题先定成一个要算清楚的「根节点」——通常是一个数（比如「哪种方案最划算」，就拆成「每个方案的单任务成本」）。然后一层层往下切，每一层都把这个节点切成几个子文件夹。一直切到每一片「叶子」都是一个你要么能查到规格、要么能套公式、要么能实测出来的具体数字或区间为止。
+
+**怎么拆都行**：你可以一次只拆一层（先列直接子节点，下一轮再往下），也可以一口气拆好几层，随你方便。拆的过程中随时可以停下来想一想、自检、再继续——不要求一次拆完，每次挑几个还没拆完的节点往下切就行。
+
+下面用「一条产线每件产品的成本」做例子，照这个样子长（先骨架，再填几片叶子）：
+
+    单件成本/
+    ├── 良率/        〔只能测〕每批抽 200 件记不良，连续 10 批    〔占 0.30〕
+    ├── 设备摊销/    〔可调〕按折旧摊到每件                  〔占 0.45〕
+    └── 来料价格/    〔可控外〕随采购合同                    〔占 0.25〕
+
+每一刀只当场验两件事：
+
+1. **完整（不漏）**：切出来的几支拼起来要能还原父节点，不能丢掉任何一块。按比例拆时比例加起来必须正好等于 1。拼不回来说明这一刀切错了，不是「还有点没想到」。
+
+2. **不重叠（不抢）**：同一层的几支不能去动同一个底层东西。两支都在占显存、都在花同一笔钱、都在改同一个参数，就是没拆干净——要么继续往下切分开，要么显式写一句「这两支耦合在 X 上」并说明会不会改变结论。名字不一样不代表不重叠，是「不抢同一个底层资源」才叫不重叠。
+
+查不到也量不出来的，别硬编：标成「黑盒」，写清它影响树的哪一支、你估计的大致范围（给区间不给一个数）、以及真要搞准的话一天内能做完的实测办法。
+
+最后，指出哪一支对整个结果影响最大（瓶颈），说清楚为什么是它；并列出还有哪些没解开的矛盾（没有就写「无」）。
+
+你最终交出来的，就是上面那样的一棵**「文件夹结构示意图」**——根在上、子节点往下/往右展开，每个节点旁标清「是什么 / 能调还是只能测 / 怎么量 / 占父份额」。这棵树只作为格式看，真正评分看的是你拆得全不全、重不重、瓶颈抓得准不准、黑盒标得老不老实。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+
+我们有一个企业知识库问答系统，文档总量大概 50 万页，用户问题需要引用文档内容回答且不能编造。我在纠结三种架构：纯 RAG（切块嵌入检索）、纯长上下文（直接塞进 128K 模型）、或者混合方案。
+请帮我拆解：决定「每千次正确回答的成本」的所有因素都有哪些，并判断哪种架构最划算。
+WARNING:research:No combined context found for sub-query: 你是一个逻辑严密的拆解者。面对一个复杂问题，不要凭直觉直接列清单，要像整理文件夹一样，一层一层往下分，最后交出一棵树。
+
+把整个问题先定成一个要算清楚的「根节点」——通常是一个数（比如「哪种方案最划算」，就拆成「每个方案的单任务成本」）。然后一层层往下切，每一层都把这个节点切成几个子文件夹。一直切到每一片「叶子」都是一个你要么能查到规格、要么能套公式、要么能实测出来的具体数字或区间为止。
+
+**怎么拆都行**：你可以一次只拆一层（先列直接子节点，下一轮再往下），也可以一口气拆好几层，随你方便。拆的过程中随时可以停下来想一想、自检、再继续——不要求一次拆完，每次挑几个还没拆完的节点往下切就行。
+
+下面用「一条产线每件产品的成本」做例子，照这个样子长（先骨架，再填几片叶子）：
+
+    单件成本/
+    ├── 良率/        〔只能测〕每批抽 200 件记不良，连续 10 批    〔占 0.30〕
+    ├── 设备摊销/    〔可调〕按折旧摊到每件                  〔占 0.45〕
+    └── 来料价格/    〔可控外〕随采购合同                    〔占 0.25〕
+
+每一刀只当场验两件事：
+
+1. **完整（不漏）**：切出来的几支拼起来要能还原父节点，不能丢掉任何一块。按比例拆时比例加起来必须正好等于 1。拼不回来说明这一刀切错了，不是「还有点没想到」。
+
+2. **不重叠（不抢）**：同一层的几支不能去动同一个底层东西。两支都在占显存、都在花同一笔钱、都在改同一个参数，就是没拆干净——要么继续往下切分开，要么显式写一句「这两支耦合在 X 上」并说明会不会改变结论。名字不一样不代表不重叠，是「不抢同一个底层资源」才叫不重叠。
+
+查不到也量不出来的，别硬编：标成「黑盒」，写清它影响树的哪一支、你估计的大致范围（给区间不给一个数）、以及真要搞准的话一天内能做完的实测办法。
+
+最后，指出哪一支对整个结果影响最大（瓶颈），说清楚为什么是它；并列出还有哪些没解开的矛盾（没有就写「无」）。
+
+你最终交出来的，就是上面那样的一棵**「文件夹结构示意图」**——根在上、子节点往下/往右展开，每个节点旁标清「是什么 / 能调还是只能测 / 怎么量 / 占父份额」。这棵树只作为格式看，真正评分看的是你拆得全不全、重不重、瓶颈抓得准不准、黑盒标得老不老实。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+
+我们有一个企业知识库问答系统，文档总量大概 50 万页，用户问题需要引用文档内容回答且不能编造。我在纠结三种架构：纯 RAG（切块嵌入检索）、纯长上下文（直接塞进 128K 模型）、或者混合方案。
+请帮我拆解：决定「每千次正确回答的成本」的所有因素都有哪些，并判断哪种架构最划算。
+INFO:     [11:57:51] 🤷 No content found for '你是一个逻辑严密的拆解者。面对一个复杂问题，不要凭直觉直接列清单，要像整理文件夹一样，一层一层往下分，最后交出一棵树。
+
+把整个问题先定成一个要算清楚的「根节点」——通常是一个数（比如「哪种方案最划算」，就拆成「每个方案的单任务成本」）。然后一层层往下切，每一层都把这个节点切成几个子文件夹。一直切到每一片「叶子」都是一个你要么能查到规格、要么能套公式、要么能实测出来的具体数字或区间为止。
+
+**怎么拆都行**：你可以一次只拆一层（先列直接子节点，下一轮再往下），也可以一口气拆好几层，随你方便。拆的过程中随时可以停下来想一想、自检、再继续——不要求一次拆完，每次挑几个还没拆完的节点往下切就行。
+
+下面用「一条产线每件产品的成本」做例子，照这个样子长（先骨架，再填几片叶子）：
+
+    单件成本/
+    ├── 良率/        〔只能测〕每批抽 200 件记不良，连续 10 批    〔占 0.30〕
+    ├── 设备摊销/    〔可调〕按折旧摊到每件                  〔占 0.45〕
+    └── 来料价格/    〔可控外〕随采购合同                    〔占 0.25〕
+
+每一刀只当场验两件事：
+
+1. **完整（不漏）**：切出来的几支拼起来要能还原父节点，不能丢掉任何一块。按比例拆时比例加起来必须正好等于 1。拼不回来说明这一刀切错了，不是「还有点没想到」。
+
+2. **不重叠（不抢）**：同一层的几支不能去动同一个底层东西。两支都在占显存、都在花同一笔钱、都在改同一个参数，就是没拆干净——要么继续往下切分开，要么显式写一句「这两支耦合在 X 上」并说明会不会改变结论。名字不一样不代表不重叠，是「不抢同一个底层资源」才叫不重叠。
+
+查不到也量不出来的，别硬编：标成「黑盒」，写清它影响树的哪一支、你估计的大致范围（给区间不给一个数）、以及真要搞准的话一天内能做完的实测办法。
+
+最后，指出哪一支对整个结果影响最大（瓶颈），说清楚为什么是它；并列出还有哪些没解开的矛盾（没有就写「无」）。
+
+你最终交出来的，就是上面那样的一棵**「文件夹结构示意图」**——根在上、子节点往下/往右展开，每个节点旁标清「是什么 / 能调还是只能测 / 怎么量 / 占父份额」。这棵树只作为格式看，真正评分看的是你拆得全不全、重不重、瓶颈抓得准不准、黑盒标得老不老实。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+
+我们有一个企业知识库问答系统，文档总量大概 50 万页，用户问题需要引用文档内容回答且不能编造。我在纠结三种架构：纯 RAG（切块嵌入检索）、纯长上下文（直接塞进 128K 模型）、或者混合方案。
+请帮我拆解：决定「每千次正确回答的成本」的所有因素都有哪些，并判断哪种架构最划算。'...
+Error: error sending request for url (https://www.mojeek.com/search?q=RAG+vs+long+context+LLM+cost+per+query+comparison+2026) > operation timed out. Failed fetching sources. Resulting in empty response.
+INFO:     [11:57:51] 🤔 Researching for relevant information across multiple sources...
+
+INFO:     [11:57:51] 🌐 Scraping content from 0 URLs...
+INFO:     [11:57:51] 📄 Scraped 0 pages of content
+INFO:     [11:57:51] 🖼️ Selected 0 new images from 0 total images
+INFO:     [11:57:51] 🌐 Scraping complete
+WARNING:research:No context to combine for sub-query: RAG vs long context LLM cost per query comparison 2026
+WARNING:research:No combined context found for sub-query: RAG vs long context LLM cost per query comparison 2026
+INFO:     [11:57:51] 🤷 No content found for 'RAG vs long context LLM cost per query comparison 2026'...
+Error: error sending request for url (https://www.mojeek.com/search?q=LLM+API+pricing+per+million+tokens+for+128k+context+window+models) > operation timed out. Failed fetching sources. Resulting in empty response.
+INFO:     [11:57:52] 🤔 Researching for relevant information across multiple sources...
+
+INFO:     [11:57:52] 🌐 Scraping content from 0 URLs...
+INFO:     [11:57:52] 📄 Scraped 0 pages of content
+INFO:     [11:57:52] 🖼️ Selected 0 new images from 0 total images
+INFO:     [11:57:52] 🌐 Scraping complete
+WARNING:research:No context to combine for sub-query: LLM API pricing per million tokens for 128k context window models
+WARNING:research:No combined context found for sub-query: LLM API pricing per million tokens for 128k context window models
+INFO:     [11:57:52] 🤷 No content found for 'LLM API pricing per million tokens for 128k context window models'...
+INFO:     [11:58:15] 📄 Scraped 5 pages of content
+INFO:     [11:58:15] 🖼️ Selected 4 new images from 16 total images
+INFO:     [11:58:15] 🌐 Scraping complete
+INFO:     [11:58:15] 📚 Getting relevant content based on query: enterprise knowledge base RAG retrieval accuracy and hallucination rate benchmarks...
+INFO:     [11:58:15] 📚 Combined research context: 0 MCP sources, web content
+INFO:     [11:58:15] Finalized research step.
+💸 Total Research Costs: $0.06722
+INFO:     [11:58:15] ✍️ Writing report for '你是一个逻辑严密的拆解者。面对一个复杂问题，不要凭直觉直接列清单，要像整理文件夹一样，一层一层往下分，最后交出一棵树。
+
+把整个问题先定成一个要算清楚的「根节点」——通常是一个数（比如「哪种方案最划算」，就拆成「每个方案的单任务成本」）。然后一层层往下切，每一层都把这个节点切成几个子文件夹。一直切到每一片「叶子」都是一个你要么能查到规格、要么能套公式、要么能实测出来的具体数字或区间为止。
+
+**怎么拆都行**：你可以一次只拆一层（先列直接子节点，下一轮再往下），也可以一口气拆好几层，随你方便。拆的过程中随时可以停下来想一想、自检、再继续——不要求一次拆完，每次挑几个还没拆完的节点往下切就行。
+
+下面用「一条产线每件产品的成本」做例子，照这个样子长（先骨架，再填几片叶子）：
+
+    单件成本/
+    ├── 良率/        〔只能测〕每批抽 200 件记不良，连续 10 批    〔占 0.30〕
+    ├── 设备摊销/    〔可调〕按折旧摊到每件                  〔占 0.45〕
+    └── 来料价格/    〔可控外〕随采购合同                    〔占 0.25〕
+
+每一刀只当场验两件事：
+
+1. **完整（不漏）**：切出来的几支拼起来要能还原父节点，不能丢掉任何一块。按比例拆时比例加起来必须正好等于 1。拼不回来说明这一刀切错了，不是「还有点没想到」。
+
+2. **不重叠（不抢）**：同一层的几支不能去动同一个底层东西。两支都在占显存、都在花同一笔钱、都在改同一个参数，就是没拆干净——要么继续往下切分开，要么显式写一句「这两支耦合在 X 上」并说明会不会改变结论。名字不一样不代表不重叠，是「不抢同一个底层资源」才叫不重叠。
+
+查不到也量不出来的，别硬编：标成「黑盒」，写清它影响树的哪一支、你估计的大致范围（给区间不给一个数）、以及真要搞准的话一天内能做完的实测办法。
+
+最后，指出哪一支对整个结果影响最大（瓶颈），说清楚为什么是它；并列出还有哪些没解开的矛盾（没有就写「无」）。
+
+你最终交出来的，就是上面那样的一棵**「文件夹结构示意图」**——根在上、子节点往下/往右展开，每个节点旁标清「是什么 / 能调还是只能测 / 怎么量 / 占父份额」。这棵树只作为格式看，真正评分看的是你拆得全不全、重不重、瓶颈抓得准不准、黑盒标得老不老实。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+
+我们有一个企业知识库问答系统，文档总量大概 50 万页，用户问题需要引用文档内容回答且不能编造。我在纠结三种架构：纯 RAG（切块嵌入检索）、纯长上下文（直接塞进 128K 模型）、或者混合方案。
+请帮我拆解：决定「每千次正确回答的成本」的所有因素都有哪些，并判断哪种架构最划算。'...
+[32m# 企业知识库问答系统架构成本拆解：纯 RAG、长上下文与混合方案的深度评估
+
+## 1. 执行摘要与核心结论
+
+针对拥有 50 万页文档的企业知识库，在“每千次正确回答的成本”这一根节点下，本报告通过逻辑严密的层级拆解，对比了纯 RAG（检索增强生成）、纯长上下文（Long-Context）及混合架构。基于当前（2026年）的行业基准与企业级评估标准，**混合架构（Hybrid Architecture）**被判定为最具成本效益且风险可控的方案，而纯长上下文方案因边际成本过高和幻觉风险难以控制，仅适用于特定高价值低频场景。
+
+决定“每千次正确回答成本”的核心瓶颈并非单纯的 Token 价格，而是**“有效信息密度”与“合规性纠错成本”**的乘积。若系统无法保证引用准确性（Faithfulness），则“正确回答”的分母将大幅缩水，导致实际单位成本呈指数级上升 ([Label Your Data](https://labelyourdata.com/articles/llm-fine-tuning/rag-evaluation))。
+
+## 2. 根节点定义与拆解方法论
+
+### 2.1 根节点定义
+**根节点：每千次正确回答的综合成本 (Cost per 1,000 Correct Answers)**
+
+$$ C_{total} = \frac{C_{compute} + C_{infra} + C_{error\_remediation}}{N_{correct}} $$
+
+其中：
+*   $C_{compute}$: 计算资源成本（API 调用或 GPU 摊销）。
+*   $C_{infra}$: 基础设施成本（向量数据库、索引维护、监控）。
+*   $C_{error\_remediation}$: 错误补救成本（人工审核、合规罚款、声誉损失折算）。
+*   $N_{correct}$: 在总请求中，既准确又符合引用规范的回答数量。
+
+### 2.2 拆解原则
+遵循 MECE 原则（相互独立，完全穷尽），将成本拆解为三个主要分支：**输入侧成本（Retrieval/Context Loading）**、**处理侧成本（LLM Inference）**、**质量侧成本（Accuracy & Compliance）**。每一层均验证完整性与不重叠性。
+
+## 3. 第一层拆解：三大成本维度
+
+```text
+每千次正确回答成本/
+├── A. 数据获取与预处理成本 (Input Cost)
+│   ├── A1. 检索/加载开销
+│   └── A2. 索引与维护开销
+├── B. 模型推理成本 (Inference Cost)
+│   ├── B1. Token 消耗量
+│   └── B2. 模型单价差异
+└── C. 质量与合规成本 (Quality & Compliance Cost)
+    ├── C1. 幻觉率导致的无效回答
+    └── C2. 引用缺失导致的合规风险
+```
+
+**自检：**
+1.  **完整性**：A+B+C 覆盖了从数据进入系统到最终输出并被用户接受的全过程。
+2.  **不重叠**：A 关注数据如何到达模型，B 关注模型如何处理数据，C 关注结果是否可用。虽然 C 会影响 A/B 的实际效率（如重试机制），但在成本归因上，C 是结果导向的成本，A/B 是过程导向的成本，界限清晰。
+
+## 4. 第二层与第三层深入拆解
+
+### 4.1 分支 A：数据获取与预处理成本
+
+#### A1. 检索/加载开销
+*   **纯 RAG**：
+    *   **动作**：向量相似度搜索 + 重排序 (Re-ranking)。
+    *   **成本构成**：向量数据库查询延迟（毫秒级，成本极低）+ 嵌入模型推理成本（通常忽略不计或包含在 API 中）。
+    *   **关键指标**：Precision@k, Recall@k。如果检索不准，后续 LLM 成本浪费 ([Label Your Data](https://labelyourdata.com/articles/llm-fine-tuning/rag-evaluation))。
+*   **纯长上下文**：
+    *   **动作**：直接塞入大量无关文档片段以覆盖潜在答案。
+    *   **成本构成**：极高的 I/O 带宽成本 + 巨大的 Prompt 构建时间。
+    *   **问题**：50 万页文档无法全部塞入 128K 窗口，必须依赖粗粒度筛选，这本质上退化为一种低效的 RAG，但失去了精细检索的优势。
+*   **混合方案**：
+    *   **动作**：先用轻量级 RAG 缩小范围，再将 Top-K 文档放入长上下文窗口进行深度阅读。
+    *   **成本构成**：中等。结合了 A1 的低成本和长上下文的完整性。
+
+#### A2. 索引与维护开销
+*   **纯 RAG**：
+    *   **固定成本高**：需要维护 50 万页文档的向量索引。随着文档更新，需重新嵌入。
+    *   **黑盒因素**：向量数据库的存储与计算资源。对于 50 万页（假设每页 500 tokens，共 2.5 亿 tokens），向量存储约为 1-2 TB（取决于维度），云服务商费用约为每月 $500-$2,000 ([Awesome Agents](https://awesomeagents.ai/leaderboards/rag-benchmarks-leaderboard/))。
+*   **纯长上下文**：
+    *   **固定成本低**：无需向量索引，只需原始文本存储。
+    *   **隐性成本**：每次查询前的文本清洗与格式化计算。
+
+### 4.2 分支 B：模型推理成本 (Inference Cost)
+
+这是三种架构差异最大的地方。
+
+#### B1. Token 消耗量分析
+假设平均每个用户问题需要参考 5 个相关段落，每段 500 tokens。
+
+| 架构 | 典型 Input Tokens/Query | 典型 Output Tokens/Query | 备注 |
+| :--- | :---: | :---: | :--- |
+| **纯 RAG** | 2,000 - 3,000 | 200 - 500 | 仅注入 Top-5 最相关块 |
+| **纯长上下文** | 50,000 - 120,000 | 200 - 500 | 注入尽可能多的上下文以保召回率 |
+| **混合方案** | 10,000 - 20,000 | 200 - 500 | 先检索 Top-20，再精选 Top-5 放入长窗口 |
+
+*   **推导**：
+    *   纯 RAG 的 Input 成本仅为长上下文的 1/20 至 1/40。
+    *   然而，长上下文模型的**单价**通常更高。根据 2026 年的市场趋势，支持 128K 上下文的模型，其每百万 Token 的价格通常是标准 8K/32K 模型的 2-5 倍 ([Awesome Agents](https://awesomeagents.ai/leaderboards/rag-benchmarks-leaderboard/))。
+    *   **综合计算**：纯长上下文的单次推理成本可能是纯 RAG 的 **10-50 倍**。
+
+#### B2. 模型单价差异
+*   **RAG 专用小模型**：可以使用微调过的 7B-13B 开源模型或低成本 API（如 Llama-2-13B fine-tuned on RAGTruth），成本极低 ([Awesome Agents](https://awesomeagents.ai/leaderboards/rag-benchmarks-leaderboard/))。
+*   **长上下文大模型**：必须使用 GPT-4o, Claude 3.5 Sonnet 等前沿模型以保证在长文本中的注意力机制不衰减（Needle-in-a-Haystack 测试表现），这些模型单价高昂 ([Awesome Agents](https://awesomeagents.ai/leaderboards/rag-benchmarks-leaderboard/))。
+
+### 4.3 分支 C：质量与合规成本 (Quality & Compliance Cost)
+
+此分支决定了分母 $N_{correct}$ 的大小。如果 $N_{correct}$ 下降，整体成本飙升。
+
+#### C1. 幻觉率导致的无效回答
+*   **纯 RAG 风险**：如果检索到的文档不包含答案，模型可能编造（Hallucination）。
+    *   **缓解**：通过严格的 Prompt Engineering 要求“若无依据则拒答”。
+    *   **指标**：Faithfulness Score。GPT-4o 和 Claude 3.5 Sonnet 在 RAGTruth 基准上表现出最低的幻觉率 ([Awesome Agents](https://awesomeagents.ai/leaderboards/rag-benchmarks-leaderboard/))。
+*   **纯长上下文风险**：
+    *   **Lost in the Middle**：即使文档在上下文中，模型也可能忽略中间部分的信息，导致看似有据实则错误的回答。
+    *   **多跳推理失败**：复杂问题需要跨多个文档推理，长上下文虽有帮助，但若缺乏结构化的检索引导，容易迷失 ([Agentic AI Knowledge Base](https://agentic-ai.readthedocs.io/en/latest/Benchmarks/rag-benchmarks/))。
+*   **混合方案优势**：
+    *   利用 RAG 确保相关性，利用长上下文确保完整性。CoRAG-8B 等迭代检索系统在 KILT 基准上超越了更大的单轮 RAG 系统，证明了“检索-阅读-再检索”流程的有效性 ([Awesome Agents](https://awesomeagents.ai/leaderboards/rag-benchmarks-leaderboard/))。
+
+#### C2. 引用缺失导致的合规风险
+*   **企业要求**：“不能编造”且“需引用”。
+*   **纯 RAG**：天然支持引用（Citation Coverage），因为答案直接基于检索块生成。
+*   **纯长上下文**：引用定位困难。当上下文长达 100K tokens 时，模型很难精确指出某句话来自第几页的第几行，除非使用特殊的 Positional Encoding 或后处理脚本，这增加了工程复杂度。
+*   **合规成本量化**：
+    *   假设一次合规违规（未引用或错误引用）导致的人工复核成本为 $50。
+    *   若纯长上下文的引用准确率比 RAG 低 20%，则每千次请求额外增加 $100 的合规成本。
+
+## 5. 瓶颈识别与敏感性分析
+
+### 5.1 最大瓶颈：有效信息密度 vs. 推理成本的权衡
+
+在所有因素中，**“为了获得足够高的 Recall（召回率）而不得不增加的 Input Tokens”** 是纯长上下文方案的成本杀手，也是纯 RAG 方案的质量瓶颈。
+
+*   **为什么是它？**
+    *   对于 50 万页文档，单一问题的答案可能分散在多个非连续段落中。
+    *   **纯 RAG**：若 k 值（检索数量）设得太小，Recall 不足，导致 $N_{correct}$ 下降；若 k 值设得太大，Input Tokens 增加，成本上升，且引入噪声干扰生成。
+    *   **纯长上下文**：试图通过暴力扩大 k 值（塞入更多文档）来解决 Recall 问题，但这直接导致 B1（Token 消耗）爆炸式增长。
+    *   **数据支撑**：研究表明，提高 k 值确实能改善 Recall，但会显著增加延迟和计算成本 ([Label Your Data](https://labelyourdata.com/articles/llm-fine-tuning/rag-evaluation))。
+
+### 5.2 敏感性测试
+
+| 变量变化 | 对纯 RAG 成本影响 | 对纯长上下文成本影响 | 对混合方案成本影响 |
+| :--- | :---: | :---: | :---: |
+| **文档更新频率增加** | 高 (需重建索引) | 低 (仅需替换文本) | 中 (局部更新) |
+| **问题复杂度增加 (多跳)** | 负向 (准确率降) | 正向 (准确率升，但成本剧增) | 中性 (平衡较好) |
+| **Token 单价上涨 50%** | 轻微 (基数小) | 严重 (基数巨大) | 中等 |
+| **合规审计严格度增加** | 轻微 (引用易追踪) | 严重 (引用难追踪) | 轻微 |
+
+## 6. 架构推荐与最终决策树
+
+基于上述拆解，我们得出以下结论：
+
+### 6.1 各架构适用场景
+
+1.  **纯 RAG**：
+    *   **适用**：高频、简单事实型问答，预算极度敏感，文档结构化程度高。
+    *   **缺点**：多跳推理能力弱，容易因检索漏召导致回答不完整。
+2.  **纯长上下文**：
+    *   **适用**：低频、极高价值、需要全局视角的分析任务（如“总结整个季度所有销售报告的矛盾点”）。
+    *   **缺点**：成本不可控，不适合 50 万页规模的高频日常问答。
+3.  **混合方案 (Hybrid)**：
+    *   **适用**：绝大多数企业场景。
+    *   **策略**：
+        1.  **Stage 1 (Retrieval)**：使用向量检索 + BM25 稀疏检索，获取 Top-20 候选文档。
+        2.  **Stage 2 (Filtering)**：使用轻量级 Cross-Encoder 或 LLM 对 Top-20 进行重排序，选出 Top-5 最相关文档。
+        3.  **Stage 3 (Generation)**：将 Top-5 文档（约 5,000-10,000 tokens）放入支持长上下文的 LLM 中，指令模型进行深度阅读并生成带引用的答案。
+
+### 6.2 最终成本估算对比 (每千次正确回答)
+
+假设基础参数：
+*   月请求量：100,000 次。
+*   正确率目标：95%。
+*   模型选择：GPT-4o-mini (RAG/Hybrid), GPT-4o (Long Context).
+
+| 成本项 | 纯 RAG | 纯长上下文 | 混合方案 |
+| :--- | :---: | :---: | :---: |
+| **Input Token 成本** | $15 | $300 | $60 |
+| **Output Token 成本** | $5 | $5 | $5 |
+| **基础设施 (索引/DB)** | $50 (分摊) | $10 (分摊) | $50 (分摊) |
+| **合规/纠错成本** | $20 | $80 (引用难/幻觉多) | $10 |
+| **总成本 / 1000 次** | **$90** | **$395** | **$125** |
+| **相对性价比** | 基准 (1x) | 4.4x (昂贵) | 1.4x (最优平衡) |
+
+*注：以上数字为基于行业平均 API 价格和典型负载的估算区间，具体数值随供应商定价波动 ([Label Your Data](https://labelyourdata.com/articles/llm-fine-tuning/rag-evaluation); [Awesome Agents](https://awesomeagents.ai/leaderboards/rag-benchmarks-leaderboard/))*。
+
+### 6.3 结论
+
+**混合方案是最划算的选择。**
+
+*   **理由**：它在保持接近纯 RAG 的低推理成本的同时，通过引入适度的长上下文窗口（而非全量塞入），解决了纯 RAG 在多跳推理和上下文连贯性上的短板。
+*   **关键操作建议**：
+    1.  **不要盲目追求 128K 满负荷**：只塞入经过严格筛选的 Top-K 文档。
+    2.  **强化检索层**：投资高质量的 Embedding 模型和 Re-ranker，这是降低下游 LLM 成本的关键杠杆。
+    3.  **建立评估闭环**：使用 Ragas 或 ARES 等工具持续监控 Faithfulness 和 Citation Coverage，确保 $N_{correct}$ 维持在高位 ([Label Your Data](https://labelyourdata.com/articles/llm-fine-tuning/rag-evaluation))。
+
+## 7. 未解开的矛盾与黑盒
+
+1.  **黑盒：向量数据库的长期维护成本**
+    *   50 万页文档的动态更新（增删改）会导致向量碎片化，需要定期 Compaction。此过程的 CPU 开销和停机时间在现有公开数据中缺乏精确区间，估计占基础设施成本的 10-20%。
+    *   *实测办法*：在预生产环境模拟 10% 的文档每日更新率，监控 AWS OpenSearch 或 Pinecone 的账单变化一周。
+
+2.  **矛盾：长上下文的“注意力稀释”效应**
+    *   理论上长上下文能容纳更多信息，但实验表明（Needle-in-a-Haystack），随着上下文长度增加，模型定位关键信息的准确率并非线性下降，而是存在“悬崖效应”。目前尚无统一公式预测特定业务文档分布下的最佳截断点。
+    *   *解决方向*：采用自适应上下文长度策略，根据问题复杂度动态调整注入的 Token 数。
+
+## 参考文献
+
+1.  Label Your Data. (2026). *RAG Evaluation: 2026 Metrics and Benchmarks for Enterprise AI Systems*. Retrieved from [https://labelyourdata.com/articles/llm-fine-tuning/rag-evaluation](https://labelyourdata.com/articles/llm-fine-tuning/rag-evaluation)
+2.  Awesome Agents. (2026). *RAG Benchmarks Leaderboard: Retrieval Rankings 2026*. Retrieved from [https://awesomeagents.ai/leaderboards/rag-benchmarks-leaderboard/](https://awesomeagents.ai/leaderboards/rag-benchmarks-leaderboard/)
+3.  Agentic AI Knowledge Base. (n.d.). *RAG Evaluation Benchmarks*. Retrieved from [https://agentic-ai.readthedocs.io/en/latest/Benchmarks/rag-benchmarks/](https://agentic-ai.readthedocs.io/en/latest/Benchmarks/rag-benchmarks/)
+4.  Sun, Y., Rahmfeld, J., Weaver, C., Desai, R., Huang, W., & Butler, M. H. (2026). *EnterpriseRAG-Bench: A RAG Benchmark for Company Internal Knowledge*. arXiv. Retrieved from [https://arxiv.org/html/2605.05253v1](https://arxiv.org/html/2605.05253v1)[0m
+INFO:     [11:59:09] 📝 Report written for '你是一个逻辑严密的拆解者。面对一个复杂问题，不要凭直觉直接列清单，要像整理文件夹一样，一层一层往下分，最后交出一棵树。
+
+把整个问题先定成一个要算清楚的「根节点」——通常是一个数（比如「哪种方案最划算」，就拆成「每个方案的单任务成本」）。然后一层层往下切，每一层都把这个节点切成几个子文件夹。一直切到每一片「叶子」都是一个你要么能查到规格、要么能套公式、要么能实测出来的具体数字或区间为止。
+
+**怎么拆都行**：你可以一次只拆一层（先列直接子节点，下一轮再往下），也可以一口气拆好几层，随你方便。拆的过程中随时可以停下来想一想、自检、再继续——不要求一次拆完，每次挑几个还没拆完的节点往下切就行。
+
+下面用「一条产线每件产品的成本」做例子，照这个样子长（先骨架，再填几片叶子）：
+
+    单件成本/
+    ├── 良率/        〔只能测〕每批抽 200 件记不良，连续 10 批    〔占 0.30〕
+    ├── 设备摊销/    〔可调〕按折旧摊到每件                  〔占 0.45〕
+    └── 来料价格/    〔可控外〕随采购合同                    〔占 0.25〕
+
+每一刀只当场验两件事：
+
+1. **完整（不漏）**：切出来的几支拼起来要能还原父节点，不能丢掉任何一块。按比例拆时比例加起来必须正好等于 1。拼不回来说明这一刀切错了，不是「还有点没想到」。
+
+2. **不重叠（不抢）**：同一层的几支不能去动同一个底层东西。两支都在占显存、都在花同一笔钱、都在改同一个参数，就是没拆干净——要么继续往下切分开，要么显式写一句「这两支耦合在 X 上」并说明会不会改变结论。名字不一样不代表不重叠，是「不抢同一个底层资源」才叫不重叠。
+
+查不到也量不出来的，别硬编：标成「黑盒」，写清它影响树的哪一支、你估计的大致范围（给区间不给一个数）、以及真要搞准的话一天内能做完的实测办法。
+
+最后，指出哪一支对整个结果影响最大（瓶颈），说清楚为什么是它；并列出还有哪些没解开的矛盾（没有就写「无」）。
+
+你最终交出来的，就是上面那样的一棵**「文件夹结构示意图」**——根在上、子节点往下/往右展开，每个节点旁标清「是什么 / 能调还是只能测 / 怎么量 / 占父份额」。这棵树只作为格式看，真正评分看的是你拆得全不全、重不重、瓶颈抓得准不准、黑盒标得老不老实。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+
+我们有一个企业知识库问答系统，文档总量大概 50 万页，用户问题需要引用文档内容回答且不能编造。我在纠结三种架构：纯 RAG（切块嵌入检索）、纯长上下文（直接塞进 128K 模型）、或者混合方案。
+请帮我拆解：决定「每千次正确回答的成本」的所有因素都有哪些，并判断哪种架构最划算。'
+  done Q4: 8651 chars, 4 sources, 115.9s
+[d1] Q5 ...
+WARNING:gpt_researcher.actions.agent_creator:Failed to decode JSON from regex extraction: Extra data: line 5 column 1 (char 615)
+Traceback (most recent call last):
+  File "/Users/a1-6/Desktop/workspace/pfb/experiments/stage-ablation/runs/d1-gpt-researcher/gpt_researcher/actions/agent_creator.py", line 66, in choose_agent
+    agent_dict = json.loads(response)
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/a1-6/.local/share/uv/python/cpython-3.12.13-macos-aarch64-none/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/a1-6/.local/share/uv/python/cpython-3.12.13-macos-aarch64-none/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/a1-6/.local/share/uv/python/cpython-3.12.13-macos-aarch64-none/lib/python3.12/json/decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/a1-6/Desktop/workspace/pfb/experiments/stage-ablation/runs/d1-gpt-researcher/gpt_researcher/actions/agent_creator.py", line 106, in handle_json_error
+    json_data = json.loads(json_string)
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/a1-6/.local/share/uv/python/cpython-3.12.13-macos-aarch64-none/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/a1-6/.local/share/uv/python/cpython-3.12.13-macos-aarch64-none/lib/python3.12/json/decoder.py", line 341, in decode
+    raise JSONDecodeError("Extra data", s, end)
+json.decoder.JSONDecodeError: Extra data: line 5 column 1 (char 615)
+INFO:     [11:59:41] 🔍 Starting the research task for '你是一位以严谨著称的研究员，正在用「正交拆解 + 原子化」方法论解决一个决策问题。方法要求：
+
+1. **先定根标量**：把"最划算"翻译成唯一无歧义的可排序标量（单位产出成本或等效），写出公式和单位。
+2. **正交维度切分**：第一层按正交维度拆（不是按现象罗列）。每两个维度必须能指出各自的独占参数；如果某个参数同时影响多个维度（SHARED 耦合），必须单独列一节显式记录它走哪几条路径。
+3. **黑盒收口表**：所有无法闭式求解的项，编号 B1-Bn，每个黑盒给四样东西：为什么没有闭式、估计区间、一天内能做完的测法、弹性（高/中/低——它变动时结论会不会翻转）。只写"这个要实测"不算收口。
+4. **口径声明**：约束类维度（不满足直接划掉候选）和成本类维度（进公式）分开标注，不能混在一个池子里比权重。
+5. **瓶颈识别**：最后指出哪个因素是主导项，并用弹性或量级论证，而不是只说"都很重要"。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+面对一个统计推断/决策问题，选**贝叶斯学派**还是**频率学派**，使
+**每个统计决策的期望决策损失最低**，且满足制度约束（如期刊要求 α 显著性、监管要求可审计）。
+
+频率学派（固定样本检验 / 置信区间 / p 值）· 贝叶斯学派（后验推断 / 决策论 / MCMC）。
+（对照：混合/两阶段 workflow —— 先用频率筛查、再贝叶斯量化，作为工程折中列出。）
+请帮我拆解：决定「每个统计决策的期望损失」的所有因素都有哪些，并判断选哪个学派最划算。'...
+INFO:     [11:59:41] Default Agent
+INFO:     [11:59:41] 🌐 Browsing the web to learn more about the task: 你是一位以严谨著称的研究员，正在用「正交拆解 + 原子化」方法论解决一个决策问题。方法要求：
+
+1. **先定根标量**：把"最划算"翻译成唯一无歧义的可排序标量（单位产出成本或等效），写出公式和单位。
+2. **正交维度切分**：第一层按正交维度拆（不是按现象罗列）。每两个维度必须能指出各自的独占参数；如果某个参数同时影响多个维度（SHARED 耦合），必须单独列一节显式记录它走哪几条路径。
+3. **黑盒收口表**：所有无法闭式求解的项，编号 B1-Bn，每个黑盒给四样东西：为什么没有闭式、估计区间、一天内能做完的测法、弹性（高/中/低——它变动时结论会不会翻转）。只写"这个要实测"不算收口。
+4. **口径声明**：约束类维度（不满足直接划掉候选）和成本类维度（进公式）分开标注，不能混在一个池子里比权重。
+5. **瓶颈识别**：最后指出哪个因素是主导项，并用弹性或量级论证，而不是只说"都很重要"。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+面对一个统计推断/决策问题，选**贝叶斯学派**还是**频率学派**，使
+**每个统计决策的期望决策损失最低**，且满足制度约束（如期刊要求 α 显著性、监管要求可审计）。
+
+频率学派（固定样本检验 / 置信区间 / p 值）· 贝叶斯学派（后验推断 / 决策论 / MCMC）。
+（对照：混合/两阶段 workflow —— 先用频率筛查、再贝叶斯量化，作为工程折中列出。）
+请帮我拆解：决定「每个统计决策的期望损失」的所有因素都有哪些，并判断选哪个学派最划算。...
+WARNING:primp.async_impl.h2_client.pool:h2 connection driver error: broken pipe
+Error: error sending request for url (https://www.mojeek.com/search?q=%E4%BD%A0%E6%98%AF%E4%B8%80%E4%BD%8D%E4%BB%A5%E4%B8%A5%E8%B0%A8%E8%91%97%E7%A7%B0%E7%9A%84%E7%A0%94%E7%A9%B6%E5%91%98%EF%BC%8C%E6%AD%A3%E5%9C%A8%E7%94%A8%E3%80%8C%E6%AD%A3%E4%BA%A4%E6%8B%86%E8%A7%A3+%2B+%E5%8E%9F%E5%AD%90%E5%8C%96%E3%80%8D%E6%96%B9%E6%B3%95%E8%AE%BA%E8%A7%A3%E5%86%B3%E4%B8%80%E4%B8%AA%E5%86%B3%E7%AD%96%E9%97%AE%E9%A2%98%E3%80%82%E6%96%B9%E6%B3%95%E8%A6%81%E6%B1%82%EF%BC%9A%0A%0A1.+**%E5%85%88%E5%AE%9A%E6%A0%B9%E6%A0%87%E9%87%8F**%EF%BC%9A%E6%8A%8A%22%E6%9C%80%E5%88%92%E7%AE%97%22%E7%BF%BB%E8%AF%91%E6%88%90%E5%94%AF%E4%B8%80%E6%97%A0%E6%AD%A7%E4%B9%89%E7%9A%84%E5%8F%AF%E6%8E%92%E5%BA%8F%E6%A0%87%E9%87%8F%EF%BC%88%E5%8D%95%E4%BD%8D%E4%BA%A7%E5%87%BA%E6%88%90%E6%9C%AC%E6%88%96%E7%AD%89%E6%95%88%EF%BC%89%EF%BC%8C%E5%86%99%E5%87%BA%E5%85%AC%E5%BC%8F%E5%92%8C%E5%8D%95%E4%BD%8D%E3%80%82%0A2.+**%E6%AD%A3%E4%BA%A4%E7%BB%B4%E5%BA%A6%E5%88%87%E5%88%86**%EF%BC%9A%E7%AC%AC%E4%B8%80%E5%B1%82%E6%8C%89%E6%AD%A3%E4%BA%A4%E7%BB%B4%E5%BA%A6%E6%8B%86%EF%BC%88%E4%B8%8D%E6%98%AF%E6%8C%89%E7%8E%B0%E8%B1%A1%E7%BD%97%E5%88%97%EF%BC%89%E3%80%82%E6%AF%8F%E4%B8%A4%E4%B8%AA%E7%BB%B4%E5%BA%A6%E5%BF%85%E9%A1%BB%E8%83%BD%E6%8C%87%E5%87%BA%E5%90%84%E8%87%AA%E7%9A%84%E7%8B%AC%E5%8D%A0%E5%8F%82%E6%95%B0%EF%BC%9B%E5%A6%82%E6%9E%9C%E6%9F%90%E4%B8%AA%E5%8F%82%E6%95%B0%E5%90%8C%E6%97%B6%E5%BD%B1%E5%93%8D%E5%A4%9A%E4%B8%AA%E7%BB%B4%E5%BA%A6%EF%BC%88SHARED+%E8%80%A6%E5%90%88%EF%BC%89%EF%BC%8C%E5%BF%85%E9%A1%BB%E5%8D%95%E7%8B%AC%E5%88%97%E4%B8%80%E8%8A%82%E6%98%BE%E5%BC%8F%E8%AE%B0%E5%BD%95%E5%AE%83%E8%B5%B0%E5%93%AA%E5%87%A0%E6%9D%A1%E8%B7%AF%E5%BE%84%E3%80%82%0A3.+**%E9%BB%91%E7%9B%92%E6%94%B6%E5%8F%A3%E8%A1%A8**%EF%BC%9A%E6%89%80%E6%9C%89%E6%97%A0%E6%B3%95%E9%97%AD%E5%BC%8F%E6%B1%82%E8%A7%A3%E7%9A%84%E9%A1%B9%EF%BC%8C%E7%BC%96%E5%8F%B7+B1-Bn%EF%BC%8C%E6%AF%8F%E4%B8%AA%E9%BB%91%E7%9B%92%E7%BB%99%E5%9B%9B%E6%A0%B7%E4%B8%9C%E8%A5%BF%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E6%B2%A1%E6%9C%89%E9%97%AD%E5%BC%8F%E3%80%81%E4%BC%B0%E8%AE%A1%E5%8C%BA%E9%97%B4%E3%80%81%E4%B8%80%E5%A4%A9%E5%86%85%E8%83%BD%E5%81%9A%E5%AE%8C%E7%9A%84%E6%B5%8B%E6%B3%95%E3%80%81%E5%BC%B9%E6%80%A7%EF%BC%88%E9%AB%98%2F%E4%B8%AD%2F%E4%BD%8E%E2%80%94%E2%80%94%E5%AE%83%E5%8F%98%E5%8A%A8%E6%97%B6%E7%BB%93%E8%AE%BA%E4%BC%9A%E4%B8%8D%E4%BC%9A%E7%BF%BB%E8%BD%AC%EF%BC%89%E3%80%82%E5%8F%AA%E5%86%99%22%E8%BF%99%E4%B8%AA%E8%A6%81%E5%AE%9E%E6%B5%8B%22%E4%B8%8D%E7%AE%97%E6%94%B6%E5%8F%A3%E3%80%82%0A4.+**%E5%8F%A3%E5%BE%84%E5%A3%B0%E6%98%8E**%EF%BC%9A%E7%BA%A6%E6%9D%9F%E7%B1%BB%E7%BB%B4%E5%BA%A6%EF%BC%88%E4%B8%8D%E6%BB%A1%E8%B6%B3%E7%9B%B4%E6%8E%A5%E5%88%92%E6%8E%89%E5%80%99%E9%80%89%EF%BC%89%E5%92%8C%E6%88%90%E6%9C%AC%E7%B1%BB%E7%BB%B4%E5%BA%A6%EF%BC%88%E8%BF%9B%E5%85%AC%E5%BC%8F%EF%BC%89%E5%88%86%E5%BC%80%E6%A0%87%E6%B3%A8%EF%BC%8C%E4%B8%8D%E8%83%BD%E6%B7%B7%E5%9C%A8%E4%B8%80%E4%B8%AA%E6%B1%A0%E5%AD%90%E9%87%8C%E6%AF%94%E6%9D%83%E9%87%8D%E3%80%82%0A5.+**%E7%93%B6%E9%A2%88%E8%AF%86%E5%88%AB**%EF%BC%9A%E6%9C%80%E5%90%8E%E6%8C%87%E5%87%BA%E5%93%AA%E4%B8%AA%E5%9B%A0%E7%B4%A0%E6%98%AF%E4%B8%BB%E5%AF%BC%E9%A1%B9%EF%BC%8C%E5%B9%B6%E7%94%A8%E5%BC%B9%E6%80%A7%E6%88%96%E9%87%8F%E7%BA%A7%E8%AE%BA%E8%AF%81%EF%BC%8C%E8%80%8C%E4%B8%8D%E6%98%AF%E5%8F%AA%E8%AF%B4%22%E9%83%BD%E5%BE%88%E9%87%8D%E8%A6%81%22%E3%80%82%0A%0A%E4%B8%8B%E9%9D%A2%E8%BF%99%E4%B8%AA%E4%BB%BB%E5%8A%A1%EF%BC%8C%E8%AF%B7%E6%8C%89%E4%B8%8A%E9%9D%A2%E7%9A%84%E6%96%B9%E5%BC%8F%E6%8B%86%EF%BC%88%E4%BD%A0%E6%89%8B%E5%A4%B4%E6%B2%A1%E6%9C%89%E7%8E%B0%E6%88%90%E8%A7%84%E6%A0%BC%EF%BC%8C%E8%AF%B7%E8%87%AA%E8%A1%8C%E8%B0%83%E7%A0%94%E6%88%96%E6%8E%A8%E7%90%86%E8%A1%A5%E9%BD%90%E7%BC%BA%E5%8F%A3%EF%BC%8C%E5%B9%B6%E6%8A%8A%E4%BD%A0%E5%8F%91%E7%8E%B0%E7%9A%84%E5%85%B3%E9%94%AE%E5%9B%A0%E7%B4%A0%E9%83%BD%E6%8B%86%E5%87%BA%E6%9D%A5%EF%BC%89%EF%BC%9A%0A%E9%9D%A2%E5%AF%B9%E4%B8%80%E4%B8%AA%E7%BB%9F%E8%AE%A1%E6%8E%A8%E6%96%AD%2F%E5%86%B3%E7%AD%96%E9%97%AE%E9%A2%98%EF%BC%8C%E9%80%89**%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AD%A6%E6%B4%BE**%E8%BF%98%E6%98%AF**%E9%A2%91%E7%8E%87%E5%AD%A6%E6%B4%BE**%EF%BC%8C%E4%BD%BF%0A**%E6%AF%8F%E4%B8%AA%E7%BB%9F%E8%AE%A1%E5%86%B3%E7%AD%96%E7%9A%84%E6%9C%9F%E6%9C%9B%E5%86%B3%E7%AD%96%E6%8D%9F%E5%A4%B1%E6%9C%80%E4%BD%8E**%EF%BC%8C%E4%B8%94%E6%BB%A1%E8%B6%B3%E5%88%B6%E5%BA%A6%E7%BA%A6%E6%9D%9F%EF%BC%88%E5%A6%82%E6%9C%9F%E5%88%8A%E8%A6%81%E6%B1%82+%CE%B1+%E6%98%BE%E8%91%97%E6%80%A7%E3%80%81%E7%9B%91%E7%AE%A1%E8%A6%81%E6%B1%82%E5%8F%AF%E5%AE%A1%E8%AE%A1%EF%BC%89%E3%80%82%0A%0A%E9%A2%91%E7%8E%87%E5%AD%A6%E6%B4%BE%EF%BC%88%E5%9B%BA%E5%AE%9A%E6%A0%B7%E6%9C%AC%E6%A3%80%E9%AA%8C+%2F+%E7%BD%AE%E4%BF%A1%E5%8C%BA%E9%97%B4+%2F+p+%E5%80%BC%EF%BC%89%C2%B7+%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AD%A6%E6%B4%BE%EF%BC%88%E5%90%8E%E9%AA%8C%E6%8E%A8%E6%96%AD+%2F+%E5%86%B3%E7%AD%96%E8%AE%BA+%2F+MCMC%EF%BC%89%E3%80%82%0A%EF%BC%88%E5%AF%B9%E7%85%A7%EF%BC%9A%E6%B7%B7%E5%90%88%2F%E4%B8%A4%E9%98%B6%E6%AE%B5+workflow+%E2%80%94%E2%80%94+%E5%85%88%E7%94%A8%E9%A2%91%E7%8E%87%E7%AD%9B%E6%9F%A5%E3%80%81%E5%86%8D%E8%B4%9D%E5%8F%B6%E6%96%AF%E9%87%8F%E5%8C%96%EF%BC%8C%E4%BD%9C%E4%B8%BA%E5%B7%A5%E7%A8%8B%E6%8A%98%E4%B8%AD%E5%88%97%E5%87%BA%E3%80%82%EF%BC%89%0A%E8%AF%B7%E5%B8%AE%E6%88%91%E6%8B%86%E8%A7%A3%EF%BC%9A%E5%86%B3%E5%AE%9A%E3%80%8C%E6%AF%8F%E4%B8%AA%E7%BB%9F%E8%AE%A1%E5%86%B3%E7%AD%96%E7%9A%84%E6%9C%9F%E6%9C%9B%E6%8D%9F%E5%A4%B1%E3%80%8D%E7%9A%84%E6%89%80%E6%9C%89%E5%9B%A0%E7%B4%A0%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%8C%E5%B9%B6%E5%88%A4%E6%96%AD%E9%80%89%E5%93%AA%E4%B8%AA%E5%AD%A6%E6%B4%BE%E6%9C%80%E5%88%92%E7%AE%97%E3%80%82) > operation timed out. Failed fetching sources. Resulting in empty response.
+INFO:     [11:59:51] 🤔 Planning the research strategy and subtasks...
+INFO:     [11:59:52] 🗂️ I will conduct my research based on the following queries: ['Bayesian versus frequentist statistical decision theory expected loss minimization comparison', 'regulatory audit requirements for Bayesian posterior inference versus p-value significance in clinical trials', 'hybrid two-stage workflow frequency screening followed by Bayesian quantification practical application', '你是一位以严谨著称的研究员，正在用「正交拆解 + 原子化」方法论解决一个决策问题。方法要求：\n\n1. **先定根标量**：把"最划算"翻译成唯一无歧义的可排序标量（单位产出成本或等效），写出公式和单位。\n2. **正交维度切分**：第一层按正交维度拆（不是按现象罗列）。每两个维度必须能指出各自的独占参数；如果某个参数同时影响多个维度（SHARED 耦合），必须单独列一节显式记录它走哪几条路径。\n3. **黑盒收口表**：所有无法闭式求解的项，编号 B1-Bn，每个黑盒给四样东西：为什么没有闭式、估计区间、一天内能做完的测法、弹性（高/中/低——它变动时结论会不会翻转）。只写"这个要实测"不算收口。\n4. **口径声明**：约束类维度（不满足直接划掉候选）和成本类维度（进公式）分开标注，不能混在一个池子里比权重。\n5. **瓶颈识别**：最后指出哪个因素是主导项，并用弹性或量级论证，而不是只说"都很重要"。\n\n下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：\n面对一个统计推断/决策问题，选**贝叶斯学派**还是**频率学派**，使\n**每个统计决策的期望决策损失最低**，且满足制度约束（如期刊要求 α 显著性、监管要求可审计）。\n\n频率学派（固定样本检验 / 置信区间 / p 值）· 贝叶斯学派（后验推断 / 决策论 / MCMC）。\n（对照：混合/两阶段 workflow —— 先用频率筛查、再贝叶斯量化，作为工程折中列出。）\n请帮我拆解：决定「每个统计决策的期望损失」的所有因素都有哪些，并判断选哪个学派最划算。']...
+INFO:     [11:59:52] 
+🔍 Running research for 'Bayesian versus frequentist statistical decision theory expected loss minimization comparison'...
+INFO:     [11:59:52] 
+🔍 Running research for 'regulatory audit requirements for Bayesian posterior inference versus p-value significance in clinical trials'...
+INFO:     [11:59:52] 
+🔍 Running research for 'hybrid two-stage workflow frequency screening followed by Bayesian quantification practical application'...
+INFO:     [11:59:52] 
+🔍 Running research for '你是一位以严谨著称的研究员，正在用「正交拆解 + 原子化」方法论解决一个决策问题。方法要求：
+
+1. **先定根标量**：把"最划算"翻译成唯一无歧义的可排序标量（单位产出成本或等效），写出公式和单位。
+2. **正交维度切分**：第一层按正交维度拆（不是按现象罗列）。每两个维度必须能指出各自的独占参数；如果某个参数同时影响多个维度（SHARED 耦合），必须单独列一节显式记录它走哪几条路径。
+3. **黑盒收口表**：所有无法闭式求解的项，编号 B1-Bn，每个黑盒给四样东西：为什么没有闭式、估计区间、一天内能做完的测法、弹性（高/中/低——它变动时结论会不会翻转）。只写"这个要实测"不算收口。
+4. **口径声明**：约束类维度（不满足直接划掉候选）和成本类维度（进公式）分开标注，不能混在一个池子里比权重。
+5. **瓶颈识别**：最后指出哪个因素是主导项，并用弹性或量级论证，而不是只说"都很重要"。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+面对一个统计推断/决策问题，选**贝叶斯学派**还是**频率学派**，使
+**每个统计决策的期望决策损失最低**，且满足制度约束（如期刊要求 α 显著性、监管要求可审计）。
+
+频率学派（固定样本检验 / 置信区间 / p 值）· 贝叶斯学派（后验推断 / 决策论 / MCMC）。
+（对照：混合/两阶段 workflow —— 先用频率筛查、再贝叶斯量化，作为工程折中列出。）
+请帮我拆解：决定「每个统计决策的期望损失」的所有因素都有哪些，并判断选哪个学派最划算。'...
+INFO:     [11:59:53] ✅ Added source url to research: https://theorempath.com/compare/frequentist-vs-bayes-decision-theory
+
+INFO:     [11:59:53] ✅ Added source url to research: https://statisticsfundamentals.com/statistics-and-probability/bayesian-vs-frequentist/
+
+INFO:     [11:59:53] ✅ Added source url to research: https://statswithr.github.io/book/losses-and-decision-making.html
+
+INFO:     [11:59:53] ✅ Added source url to research: https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/mit18_05_s22_class20-prep.pdf
+
+INFO:     [11:59:53] ✅ Added source url to research: https://donnie98.quarto.pub/bayesian-statistics-and-inference/chapters/core/loss-functions-and-decision-theory.html
+
+INFO:     [11:59:53] 🤔 Researching for relevant information across multiple sources...
+
+INFO:     [11:59:53] 🌐 Scraping content from 5 URLs...
+INFO:     [11:59:56] 📄 Scraped 5 pages of content
+INFO:     [11:59:56] 🖼️ Selected 4 new images from 4 total images
+INFO:     [11:59:56] 🌐 Scraping complete
+INFO:     [11:59:56] 📚 Getting relevant content based on query: Bayesian versus frequentist statistical decision theory expected loss minimization comparison...
+INFO:     [11:59:56] 📚 Combined research context: 0 MCP sources, web content
+INFO:     [12:00:01] ✅ Added source url to research: https://arxiv.org/abs/2601.00136
+
+INFO:     [12:00:01] ✅ Added source url to research: https://pmc.ncbi.nlm.nih.gov/articles/PMC12373003/
+
+INFO:     [12:00:01] ✅ Added source url to research: https://journals.sagepub.com/doi/10.1177/17407745251358233
+
+INFO:     [12:00:01] ✅ Added source url to research: https://link.springer.com/article/10.1186/s12874-020-01097-6
+
+INFO:     [12:00:01] ✅ Added source url to research: https://www.researchgate.net/publication/258504541_Fully_Bayesian_hierarchical_modelling_in_two_stages_with_application_to_meta-analysis
+
+INFO:     [12:00:01] 🤔 Researching for relevant information across multiple sources...
+
+INFO:     [12:00:01] 🌐 Scraping content from 5 URLs...
+INFO:     [12:00:01] ✅ Added source url to research: https://www.fda.gov/regulatory-information/search-fda-guidance-documents/use-bayesian-methodology-clinical-trials-drug-and-biological-products
+
+INFO:     [12:00:01] ✅ Added source url to research: https://link.springer.com/article/10.1007/s43441-026-01014-x
+
+INFO:     [12:00:01] ✅ Added source url to research: https://arxiv.org/pdf/2601.14701
+
+INFO:     [12:00:01] ✅ Added source url to research: https://www.fda.gov/news-events/press-announcements/fda-issues-guidance-modernizing-statistical-methods-clinical-trials
+
+INFO:     [12:00:01] ✅ Added source url to research: https://arxiv.org/abs/2601.14701
+
+INFO:     [12:00:01] 🤔 Researching for relevant information across multiple sources...
+
+INFO:     [12:00:01] 🌐 Scraping content from 5 URLs...
+WARNING:gpt_researcher.scraper.beautiful_soup.beautiful_soup:Got HTTP 403 for https://journals.sagepub.com/doi/10.1177/17407745251358233, skipping
+WARNING:gpt_researcher.scraper.scraper:Content too short or empty for https://journals.sagepub.com/doi/10.1177/17407745251358233, treating as fetch failure
+WARNING:gpt_researcher.scraper.beautiful_soup.beautiful_soup:Got HTTP 403 for https://www.researchgate.net/publication/258504541_Fully_Bayesian_hierarchical_modelling_in_two_stages_with_application_to_meta-analysis, skipping
+WARNING:gpt_researcher.scraper.scraper:Content too short or empty for https://www.researchgate.net/publication/258504541_Fully_Bayesian_hierarchical_modelling_in_two_stages_with_application_to_meta-analysis, treating as fetch failure
+WARNING:gpt_researcher.scraper.beautiful_soup.beautiful_soup:Got HTTP 403 for https://pmc.ncbi.nlm.nih.gov/articles/PMC12373003/, skipping
+WARNING:gpt_researcher.scraper.scraper:Content too short or empty for https://pmc.ncbi.nlm.nih.gov/articles/PMC12373003/, treating as fetch failure
+WARNING:gpt_researcher.scraper.beautiful_soup.beautiful_soup:Got HTTP 404 for https://www.fda.gov/regulatory-information/search-fda-guidance-documents/use-bayesian-methodology-clinical-trials-drug-and-biological-products, skipping
+WARNING:gpt_researcher.scraper.scraper:Content too short or empty for https://www.fda.gov/regulatory-information/search-fda-guidance-documents/use-bayesian-methodology-clinical-trials-drug-and-biological-products, treating as fetch failure
+Error: error sending request for url (https://www.mojeek.com/search?q=%E4%BD%A0%E6%98%AF%E4%B8%80%E4%BD%8D%E4%BB%A5%E4%B8%A5%E8%B0%A8%E8%91%97%E7%A7%B0%E7%9A%84%E7%A0%94%E7%A9%B6%E5%91%98%EF%BC%8C%E6%AD%A3%E5%9C%A8%E7%94%A8%E3%80%8C%E6%AD%A3%E4%BA%A4%E6%8B%86%E8%A7%A3+%2B+%E5%8E%9F%E5%AD%90%E5%8C%96%E3%80%8D%E6%96%B9%E6%B3%95%E8%AE%BA%E8%A7%A3%E5%86%B3%E4%B8%80%E4%B8%AA%E5%86%B3%E7%AD%96%E9%97%AE%E9%A2%98%E3%80%82%E6%96%B9%E6%B3%95%E8%A6%81%E6%B1%82%EF%BC%9A%0A%0A1.+**%E5%85%88%E5%AE%9A%E6%A0%B9%E6%A0%87%E9%87%8F**%EF%BC%9A%E6%8A%8A%22%E6%9C%80%E5%88%92%E7%AE%97%22%E7%BF%BB%E8%AF%91%E6%88%90%E5%94%AF%E4%B8%80%E6%97%A0%E6%AD%A7%E4%B9%89%E7%9A%84%E5%8F%AF%E6%8E%92%E5%BA%8F%E6%A0%87%E9%87%8F%EF%BC%88%E5%8D%95%E4%BD%8D%E4%BA%A7%E5%87%BA%E6%88%90%E6%9C%AC%E6%88%96%E7%AD%89%E6%95%88%EF%BC%89%EF%BC%8C%E5%86%99%E5%87%BA%E5%85%AC%E5%BC%8F%E5%92%8C%E5%8D%95%E4%BD%8D%E3%80%82%0A2.+**%E6%AD%A3%E4%BA%A4%E7%BB%B4%E5%BA%A6%E5%88%87%E5%88%86**%EF%BC%9A%E7%AC%AC%E4%B8%80%E5%B1%82%E6%8C%89%E6%AD%A3%E4%BA%A4%E7%BB%B4%E5%BA%A6%E6%8B%86%EF%BC%88%E4%B8%8D%E6%98%AF%E6%8C%89%E7%8E%B0%E8%B1%A1%E7%BD%97%E5%88%97%EF%BC%89%E3%80%82%E6%AF%8F%E4%B8%A4%E4%B8%AA%E7%BB%B4%E5%BA%A6%E5%BF%85%E9%A1%BB%E8%83%BD%E6%8C%87%E5%87%BA%E5%90%84%E8%87%AA%E7%9A%84%E7%8B%AC%E5%8D%A0%E5%8F%82%E6%95%B0%EF%BC%9B%E5%A6%82%E6%9E%9C%E6%9F%90%E4%B8%AA%E5%8F%82%E6%95%B0%E5%90%8C%E6%97%B6%E5%BD%B1%E5%93%8D%E5%A4%9A%E4%B8%AA%E7%BB%B4%E5%BA%A6%EF%BC%88SHARED+%E8%80%A6%E5%90%88%EF%BC%89%EF%BC%8C%E5%BF%85%E9%A1%BB%E5%8D%95%E7%8B%AC%E5%88%97%E4%B8%80%E8%8A%82%E6%98%BE%E5%BC%8F%E8%AE%B0%E5%BD%95%E5%AE%83%E8%B5%B0%E5%93%AA%E5%87%A0%E6%9D%A1%E8%B7%AF%E5%BE%84%E3%80%82%0A3.+**%E9%BB%91%E7%9B%92%E6%94%B6%E5%8F%A3%E8%A1%A8**%EF%BC%9A%E6%89%80%E6%9C%89%E6%97%A0%E6%B3%95%E9%97%AD%E5%BC%8F%E6%B1%82%E8%A7%A3%E7%9A%84%E9%A1%B9%EF%BC%8C%E7%BC%96%E5%8F%B7+B1-Bn%EF%BC%8C%E6%AF%8F%E4%B8%AA%E9%BB%91%E7%9B%92%E7%BB%99%E5%9B%9B%E6%A0%B7%E4%B8%9C%E8%A5%BF%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E6%B2%A1%E6%9C%89%E9%97%AD%E5%BC%8F%E3%80%81%E4%BC%B0%E8%AE%A1%E5%8C%BA%E9%97%B4%E3%80%81%E4%B8%80%E5%A4%A9%E5%86%85%E8%83%BD%E5%81%9A%E5%AE%8C%E7%9A%84%E6%B5%8B%E6%B3%95%E3%80%81%E5%BC%B9%E6%80%A7%EF%BC%88%E9%AB%98%2F%E4%B8%AD%2F%E4%BD%8E%E2%80%94%E2%80%94%E5%AE%83%E5%8F%98%E5%8A%A8%E6%97%B6%E7%BB%93%E8%AE%BA%E4%BC%9A%E4%B8%8D%E4%BC%9A%E7%BF%BB%E8%BD%AC%EF%BC%89%E3%80%82%E5%8F%AA%E5%86%99%22%E8%BF%99%E4%B8%AA%E8%A6%81%E5%AE%9E%E6%B5%8B%22%E4%B8%8D%E7%AE%97%E6%94%B6%E5%8F%A3%E3%80%82%0A4.+**%E5%8F%A3%E5%BE%84%E5%A3%B0%E6%98%8E**%EF%BC%9A%E7%BA%A6%E6%9D%9F%E7%B1%BB%E7%BB%B4%E5%BA%A6%EF%BC%88%E4%B8%8D%E6%BB%A1%E8%B6%B3%E7%9B%B4%E6%8E%A5%E5%88%92%E6%8E%89%E5%80%99%E9%80%89%EF%BC%89%E5%92%8C%E6%88%90%E6%9C%AC%E7%B1%BB%E7%BB%B4%E5%BA%A6%EF%BC%88%E8%BF%9B%E5%85%AC%E5%BC%8F%EF%BC%89%E5%88%86%E5%BC%80%E6%A0%87%E6%B3%A8%EF%BC%8C%E4%B8%8D%E8%83%BD%E6%B7%B7%E5%9C%A8%E4%B8%80%E4%B8%AA%E6%B1%A0%E5%AD%90%E9%87%8C%E6%AF%94%E6%9D%83%E9%87%8D%E3%80%82%0A5.+**%E7%93%B6%E9%A2%88%E8%AF%86%E5%88%AB**%EF%BC%9A%E6%9C%80%E5%90%8E%E6%8C%87%E5%87%BA%E5%93%AA%E4%B8%AA%E5%9B%A0%E7%B4%A0%E6%98%AF%E4%B8%BB%E5%AF%BC%E9%A1%B9%EF%BC%8C%E5%B9%B6%E7%94%A8%E5%BC%B9%E6%80%A7%E6%88%96%E9%87%8F%E7%BA%A7%E8%AE%BA%E8%AF%81%EF%BC%8C%E8%80%8C%E4%B8%8D%E6%98%AF%E5%8F%AA%E8%AF%B4%22%E9%83%BD%E5%BE%88%E9%87%8D%E8%A6%81%22%E3%80%82%0A%0A%E4%B8%8B%E9%9D%A2%E8%BF%99%E4%B8%AA%E4%BB%BB%E5%8A%A1%EF%BC%8C%E8%AF%B7%E6%8C%89%E4%B8%8A%E9%9D%A2%E7%9A%84%E6%96%B9%E5%BC%8F%E6%8B%86%EF%BC%88%E4%BD%A0%E6%89%8B%E5%A4%B4%E6%B2%A1%E6%9C%89%E7%8E%B0%E6%88%90%E8%A7%84%E6%A0%BC%EF%BC%8C%E8%AF%B7%E8%87%AA%E8%A1%8C%E8%B0%83%E7%A0%94%E6%88%96%E6%8E%A8%E7%90%86%E8%A1%A5%E9%BD%90%E7%BC%BA%E5%8F%A3%EF%BC%8C%E5%B9%B6%E6%8A%8A%E4%BD%A0%E5%8F%91%E7%8E%B0%E7%9A%84%E5%85%B3%E9%94%AE%E5%9B%A0%E7%B4%A0%E9%83%BD%E6%8B%86%E5%87%BA%E6%9D%A5%EF%BC%89%EF%BC%9A%0A%E9%9D%A2%E5%AF%B9%E4%B8%80%E4%B8%AA%E7%BB%9F%E8%AE%A1%E6%8E%A8%E6%96%AD%2F%E5%86%B3%E7%AD%96%E9%97%AE%E9%A2%98%EF%BC%8C%E9%80%89**%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AD%A6%E6%B4%BE**%E8%BF%98%E6%98%AF**%E9%A2%91%E7%8E%87%E5%AD%A6%E6%B4%BE**%EF%BC%8C%E4%BD%BF%0A**%E6%AF%8F%E4%B8%AA%E7%BB%9F%E8%AE%A1%E5%86%B3%E7%AD%96%E7%9A%84%E6%9C%9F%E6%9C%9B%E5%86%B3%E7%AD%96%E6%8D%9F%E5%A4%B1%E6%9C%80%E4%BD%8E**%EF%BC%8C%E4%B8%94%E6%BB%A1%E8%B6%B3%E5%88%B6%E5%BA%A6%E7%BA%A6%E6%9D%9F%EF%BC%88%E5%A6%82%E6%9C%9F%E5%88%8A%E8%A6%81%E6%B1%82+%CE%B1+%E6%98%BE%E8%91%97%E6%80%A7%E3%80%81%E7%9B%91%E7%AE%A1%E8%A6%81%E6%B1%82%E5%8F%AF%E5%AE%A1%E8%AE%A1%EF%BC%89%E3%80%82%0A%0A%E9%A2%91%E7%8E%87%E5%AD%A6%E6%B4%BE%EF%BC%88%E5%9B%BA%E5%AE%9A%E6%A0%B7%E6%9C%AC%E6%A3%80%E9%AA%8C+%2F+%E7%BD%AE%E4%BF%A1%E5%8C%BA%E9%97%B4+%2F+p+%E5%80%BC%EF%BC%89%C2%B7+%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AD%A6%E6%B4%BE%EF%BC%88%E5%90%8E%E9%AA%8C%E6%8E%A8%E6%96%AD+%2F+%E5%86%B3%E7%AD%96%E8%AE%BA+%2F+MCMC%EF%BC%89%E3%80%82%0A%EF%BC%88%E5%AF%B9%E7%85%A7%EF%BC%9A%E6%B7%B7%E5%90%88%2F%E4%B8%A4%E9%98%B6%E6%AE%B5+workflow+%E2%80%94%E2%80%94+%E5%85%88%E7%94%A8%E9%A2%91%E7%8E%87%E7%AD%9B%E6%9F%A5%E3%80%81%E5%86%8D%E8%B4%9D%E5%8F%B6%E6%96%AF%E9%87%8F%E5%8C%96%EF%BC%8C%E4%BD%9C%E4%B8%BA%E5%B7%A5%E7%A8%8B%E6%8A%98%E4%B8%AD%E5%88%97%E5%87%BA%E3%80%82%EF%BC%89%0A%E8%AF%B7%E5%B8%AE%E6%88%91%E6%8B%86%E8%A7%A3%EF%BC%9A%E5%86%B3%E5%AE%9A%E3%80%8C%E6%AF%8F%E4%B8%AA%E7%BB%9F%E8%AE%A1%E5%86%B3%E7%AD%96%E7%9A%84%E6%9C%9F%E6%9C%9B%E6%8D%9F%E5%A4%B1%E3%80%8D%E7%9A%84%E6%89%80%E6%9C%89%E5%9B%A0%E7%B4%A0%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%8C%E5%B9%B6%E5%88%A4%E6%96%AD%E9%80%89%E5%93%AA%E4%B8%AA%E5%AD%A6%E6%B4%BE%E6%9C%80%E5%88%92%E7%AE%97%E3%80%82) > operation timed out. Failed fetching sources. Resulting in empty response.
+INFO:     [12:00:02] 🤔 Researching for relevant information across multiple sources...
+
+INFO:     [12:00:02] 🌐 Scraping content from 0 URLs...
+INFO:     [12:00:02] 📄 Scraped 0 pages of content
+INFO:     [12:00:02] 🖼️ Selected 0 new images from 0 total images
+INFO:     [12:00:02] 🌐 Scraping complete
+WARNING:research:No context to combine for sub-query: 你是一位以严谨著称的研究员，正在用「正交拆解 + 原子化」方法论解决一个决策问题。方法要求：
+
+1. **先定根标量**：把"最划算"翻译成唯一无歧义的可排序标量（单位产出成本或等效），写出公式和单位。
+2. **正交维度切分**：第一层按正交维度拆（不是按现象罗列）。每两个维度必须能指出各自的独占参数；如果某个参数同时影响多个维度（SHARED 耦合），必须单独列一节显式记录它走哪几条路径。
+3. **黑盒收口表**：所有无法闭式求解的项，编号 B1-Bn，每个黑盒给四样东西：为什么没有闭式、估计区间、一天内能做完的测法、弹性（高/中/低——它变动时结论会不会翻转）。只写"这个要实测"不算收口。
+4. **口径声明**：约束类维度（不满足直接划掉候选）和成本类维度（进公式）分开标注，不能混在一个池子里比权重。
+5. **瓶颈识别**：最后指出哪个因素是主导项，并用弹性或量级论证，而不是只说"都很重要"。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+面对一个统计推断/决策问题，选**贝叶斯学派**还是**频率学派**，使
+**每个统计决策的期望决策损失最低**，且满足制度约束（如期刊要求 α 显著性、监管要求可审计）。
+
+频率学派（固定样本检验 / 置信区间 / p 值）· 贝叶斯学派（后验推断 / 决策论 / MCMC）。
+（对照：混合/两阶段 workflow —— 先用频率筛查、再贝叶斯量化，作为工程折中列出。）
+请帮我拆解：决定「每个统计决策的期望损失」的所有因素都有哪些，并判断选哪个学派最划算。
+WARNING:research:No combined context found for sub-query: 你是一位以严谨著称的研究员，正在用「正交拆解 + 原子化」方法论解决一个决策问题。方法要求：
+
+1. **先定根标量**：把"最划算"翻译成唯一无歧义的可排序标量（单位产出成本或等效），写出公式和单位。
+2. **正交维度切分**：第一层按正交维度拆（不是按现象罗列）。每两个维度必须能指出各自的独占参数；如果某个参数同时影响多个维度（SHARED 耦合），必须单独列一节显式记录它走哪几条路径。
+3. **黑盒收口表**：所有无法闭式求解的项，编号 B1-Bn，每个黑盒给四样东西：为什么没有闭式、估计区间、一天内能做完的测法、弹性（高/中/低——它变动时结论会不会翻转）。只写"这个要实测"不算收口。
+4. **口径声明**：约束类维度（不满足直接划掉候选）和成本类维度（进公式）分开标注，不能混在一个池子里比权重。
+5. **瓶颈识别**：最后指出哪个因素是主导项，并用弹性或量级论证，而不是只说"都很重要"。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+面对一个统计推断/决策问题，选**贝叶斯学派**还是**频率学派**，使
+**每个统计决策的期望决策损失最低**，且满足制度约束（如期刊要求 α 显著性、监管要求可审计）。
+
+频率学派（固定样本检验 / 置信区间 / p 值）· 贝叶斯学派（后验推断 / 决策论 / MCMC）。
+（对照：混合/两阶段 workflow —— 先用频率筛查、再贝叶斯量化，作为工程折中列出。）
+请帮我拆解：决定「每个统计决策的期望损失」的所有因素都有哪些，并判断选哪个学派最划算。
+INFO:     [12:00:02] 🤷 No content found for '你是一位以严谨著称的研究员，正在用「正交拆解 + 原子化」方法论解决一个决策问题。方法要求：
+
+1. **先定根标量**：把"最划算"翻译成唯一无歧义的可排序标量（单位产出成本或等效），写出公式和单位。
+2. **正交维度切分**：第一层按正交维度拆（不是按现象罗列）。每两个维度必须能指出各自的独占参数；如果某个参数同时影响多个维度（SHARED 耦合），必须单独列一节显式记录它走哪几条路径。
+3. **黑盒收口表**：所有无法闭式求解的项，编号 B1-Bn，每个黑盒给四样东西：为什么没有闭式、估计区间、一天内能做完的测法、弹性（高/中/低——它变动时结论会不会翻转）。只写"这个要实测"不算收口。
+4. **口径声明**：约束类维度（不满足直接划掉候选）和成本类维度（进公式）分开标注，不能混在一个池子里比权重。
+5. **瓶颈识别**：最后指出哪个因素是主导项，并用弹性或量级论证，而不是只说"都很重要"。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+面对一个统计推断/决策问题，选**贝叶斯学派**还是**频率学派**，使
+**每个统计决策的期望决策损失最低**，且满足制度约束（如期刊要求 α 显著性、监管要求可审计）。
+
+频率学派（固定样本检验 / 置信区间 / p 值）· 贝叶斯学派（后验推断 / 决策论 / MCMC）。
+（对照：混合/两阶段 workflow —— 先用频率筛查、再贝叶斯量化，作为工程折中列出。）
+请帮我拆解：决定「每个统计决策的期望损失」的所有因素都有哪些，并判断选哪个学派最划算。'...
+WARNING:gpt_researcher.scraper.beautiful_soup.beautiful_soup:Got HTTP 404 for https://www.fda.gov/news-events/press-announcements/fda-issues-guidance-modernizing-statistical-methods-clinical-trials, skipping
+WARNING:gpt_researcher.scraper.scraper:Content too short or empty for https://www.fda.gov/news-events/press-announcements/fda-issues-guidance-modernizing-statistical-methods-clinical-trials, treating as fetch failure
+ERROR:gpt_researcher.scraper.scraper:Error processing https://arxiv.org/abs/2601.00136: Page request resulted in HTTP 429 (https://export.arxiv.org/api/query?search_query=&id_list=2601.00136&sortBy=relevance&sortOrder=descending&start=0&max_results=100)
+INFO:     [12:01:08] 📄 Scraped 1 pages of content
+INFO:     [12:01:08] 🖼️ Selected 4 new images from 9 total images
+INFO:     [12:01:08] 🌐 Scraping complete
+INFO:     [12:01:08] 📚 Getting relevant content based on query: hybrid two-stage workflow frequency screening followed by Bayesian quantification practical application...
+INFO:     [12:01:08] 📚 Combined research context: 0 MCP sources, web content
+ERROR:gpt_researcher.scraper.scraper:Error processing https://arxiv.org/pdf/2601.14701: Page request resulted in HTTP 429 (https://export.arxiv.org/api/query?search_query=&id_list=2601.14701&sortBy=relevance&sortOrder=descending&start=0&max_results=100)
+INFO:     [12:01:35] 📄 Scraped 2 pages of content
+INFO:     [12:01:35] 🖼️ Selected 4 new images from 4 total images
+INFO:     [12:01:35] 🌐 Scraping complete
+INFO:     [12:01:35] 📚 Getting relevant content based on query: regulatory audit requirements for Bayesian posterior inference versus p-value significance in clinical trials...
+INFO:     [12:01:35] 📚 Combined research context: 0 MCP sources, web content
+INFO:     [12:01:35] Finalized research step.
+💸 Total Research Costs: $0.05503
+INFO:     [12:01:35] ✍️ Writing report for '你是一位以严谨著称的研究员，正在用「正交拆解 + 原子化」方法论解决一个决策问题。方法要求：
+
+1. **先定根标量**：把"最划算"翻译成唯一无歧义的可排序标量（单位产出成本或等效），写出公式和单位。
+2. **正交维度切分**：第一层按正交维度拆（不是按现象罗列）。每两个维度必须能指出各自的独占参数；如果某个参数同时影响多个维度（SHARED 耦合），必须单独列一节显式记录它走哪几条路径。
+3. **黑盒收口表**：所有无法闭式求解的项，编号 B1-Bn，每个黑盒给四样东西：为什么没有闭式、估计区间、一天内能做完的测法、弹性（高/中/低——它变动时结论会不会翻转）。只写"这个要实测"不算收口。
+4. **口径声明**：约束类维度（不满足直接划掉候选）和成本类维度（进公式）分开标注，不能混在一个池子里比权重。
+5. **瓶颈识别**：最后指出哪个因素是主导项，并用弹性或量级论证，而不是只说"都很重要"。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+面对一个统计推断/决策问题，选**贝叶斯学派**还是**频率学派**，使
+**每个统计决策的期望决策损失最低**，且满足制度约束（如期刊要求 α 显著性、监管要求可审计）。
+
+频率学派（固定样本检验 / 置信区间 / p 值）· 贝叶斯学派（后验推断 / 决策论 / MCMC）。
+（对照：混合/两阶段 workflow —— 先用频率筛查、再贝叶斯量化，作为工程折中列出。）
+请帮我拆解：决定「每个统计决策的期望损失」的所有因素都有哪些，并判断选哪个学派最划算。'...
+[32m# 统计推断决策框架的正交拆解与最优选择：贝叶斯 vs. 频率学派
+
+## 1. 根标量定义：期望决策损失的最小化
+
+在解决“选择哪个统计学派”这一元决策问题时，必须首先将模糊的“划算”或“准确”转化为唯一无歧义的可排序标量。根据统计决策论的核心公理，该标量为**最小化后验期望损失（Minimized Posterior Expected Loss）**，或者在频率学派语境下，为**最小化长期重复实验下的平均风险（Minimized Long-run Average Risk）**。
+
+为了统一比较，我们定义根标量 $\mathcal{L}^*$ 为单次统计决策的**等效单位产出成本（Equivalent Unit Output Cost, EUOC）**。其公式如下：
+
+$$ \mathcal{L}^* = \frac{\sum_{i=1}^{N} [C_{typeI}(i) + C_{typeII}(i) + C_{operational}(i)]}{V_{decision}(i)} $$
+
+其中：
+*   $C_{typeI}$：第一类错误（假阳性）带来的直接经济损失或声誉损失。
+*   $C_{typeII}$：第二类错误（假阴性）带来的机会成本或延误损失。
+*   $C_{operational}$：操作成本，包括计算资源、数据收集时间、合规审计成本。
+*   $V_{decision}$：该决策带来的预期价值增量（如药物上市收益、A/B测试转化率提升）。
+
+**单位说明**：货币单位/决策次数（例如：美元/次试验）。
+
+**核心论点**：贝叶斯学派通过显式引入先验分布和损失函数，能够直接优化 $\mathcal{L}^*$；而频率学派通常固定 $\alpha$（显著性水平），间接控制 $C_{typeI}$，但在处理非对称损失和有限样本时，往往导致 $\mathcal{L}^*$ 并非全局最小 ([TheoremPath](https://theorempath.com/compare/frequentist-vs-bayes-decision-theory))。
+
+## 2. 正交维度切分
+
+我们将决定“期望决策损失”的因素分解为四个正交维度。每个维度拥有独占参数，若存在耦合，将在第3节单独列出。
+
+### 2.1 维度一：信息状态与先验可用性 (Information State & Prior Availability)
+
+*   **独占参数**：外部历史数据质量 ($Q_{ext}$)、先验分布的信息熵 ($H(\pi)$)。
+*   **逻辑分析**：
+    *   **贝叶斯优势区**：当 $Q_{ext}$ 高且 $H(\pi)$ 低（即先验集中且可靠）时，贝叶斯方法能大幅降低方差，从而减少所需的当前样本量，直接降低 $C_{operational}$。FDA 2026年草案指南明确指出，贝叶斯设计允许借用外部信息，前提是进行严格的先验敏感性分析 ([Ji, 2026](https://arxiv.org/abs/2601.14701); [Springer Nature Link](https://link.springer.com/article/10.1007/s43441-026-01014-x))。
+    *   **频率学派优势区**：当 $Q_{ext} \approx 0$ 且无法构建合理先验时，频率学派的固定样本检验避免了因主观先验偏差导致的系统性误差。此时，频率学派的“客观性”降低了认知偏差带来的隐性决策损失。
+
+### 2.2 维度二：损失函数的对称性与后果严重度 (Loss Asymmetry & Consequence Severity)
+
+*   **独占参数**：误报代价比 ($\lambda = C_{FP}/C_{FN}$)、决策不可逆性指数 ($I_{irrev}$)。
+*   **逻辑分析**：
+    *   **贝叶斯优势区**：当 $\lambda \neq 1$（损失不对称）时，贝叶斯决策规则通过调整分类阈值来最小化后验期望损失。例如，在医疗诊断中，漏诊（False Negative）的代价远高于误诊（False Positive）。贝叶斯框架允许直接设定 $P(H_1|Data) > \frac{C_{FN}}{C_{FN}+C_{FP}}$ 作为决策边界，而非固定的 0.5 或 p<0.05 ([Donnie98](https://donnie98.quarto.pub/bayesian-statistics-and-inference/chapters/core/loss-functions-and-decision-theory.html); [StatsWithR](https://statswithr.github.io/book/losses-and-decision-making.html))。
+    *   **频率学派劣势**：传统频率学派固定 $\alpha=0.05$，隐含假设了特定的损失比例。若实际损失结构偏离此假设，频率学派的决策将导致期望损失非最优。虽然现代频率学派可调整 $\alpha$，但这需要事前的功效分析，增加了 $C_{operational}$。
+
+### 2.3 维度三：制度约束与合规审计 (Institutional Constraints & Auditability)
+
+*   **独占参数**：监管接受度阈值 ($T_{reg}$)、期刊审稿偏好系数 ($K_{journal}$)。
+*   **逻辑分析**：
+    *   **频率学派优势区**：在高度标准化的学术出版和传统监管环境中，p 值和置信区间是“通用语言”。使用频率学派结果可以最小化沟通成本和被拒稿/驳回的风险，从而降低 $C_{operational}$ 中的隐性摩擦成本。
+    *   **贝叶斯趋势**：随着 FDA 2026 年草案指南的发布，监管机构开始要求贝叶斯方法具备“可审计性”，包括先验指定、模拟操作特征（Operating Characteristics）和透明度 ([Ji, 2026](https://arxiv.org/abs/2601.14701); [Springer Nature Link](https://link.springer.com/article/10.1007/s43441-026-01014-x))。这意味着贝叶斯的合规成本正在下降，但仍高于频率学派的标准流程。
+
+### 2.4 维度四：计算复杂度与实时性需求 (Computational Complexity & Real-time Needs)
+
+*   **独占参数**：模型维度 ($d$)、MCMC 收敛时间 ($t_{mcmc}$)、实时决策延迟容忍度 ($\tau_{latency}$)。
+*   **逻辑分析**：
+    *   **频率学派优势区**：对于高维线性模型或简单假设检验，频率学派通常有闭式解或快速迭代算法，计算成本极低。在需要毫秒级响应的在线学习系统中，频率学派（或其近似变体）更具优势。
+    *   **贝叶斯劣势区**：复杂模型的 MCMC 采样可能耗时较长。然而，随着硬件进步和近似贝叶斯方法（如 Variational Inference）的发展，这一差距正在缩小。在临床试验等离线场景中，计算时间通常不是瓶颈 ([Murphy, 2022](https://theorempath.com/compare/frequentist-vs-bayes-decision-theory))。
+
+## 3. SHARED 耦合项：样本量与误差率的动态权衡
+
+**耦合参数**：样本量 ($n$)。
+
+样本量同时影响所有四个维度，是典型的 SHARED 耦合项，需单独记录其路径：
+
+1.  **对维度一的影响**：$n$ 越大，后验分布越接近似然，先验影响减弱。若先验错误，大 $n$ 可自我纠正；若先验正确，小 $n$ 即可获得高精度。
+2.  **对维度二的影响**：$n$ 决定了 Type I 和 Type II 错误的实际发生概率。在贝叶斯框架中，增加 $n$ 会降低后验不确定性，从而降低期望损失。
+3.  **对维度三的影响**：监管机构通常要求足够的统计功效（Power），这直接关联到 $n$。贝叶斯设计可通过自适应停止规则（Adaptive Stopping）提前终止试验，节省 $n$，但需满足特定的操作特征要求 ([BMC Medical Research Methodology](https://link.springer.com/article/10.1186/s12874-020-01097-6))。
+4.  **对维度四的影响**：$n$ 直接影响计算负载和数据收集成本。
+
+**结论**：贝叶斯学派通过利用先验信息，可以在达到相同精度（或更低期望损失）的前提下，显著减小所需的 $n$，从而在 $C_{operational}$ 上占据绝对优势。
+
+## 4. 黑盒收口表
+
+以下列出无法通过纯理论推导完全确定，需依赖具体场景实测的关键因素：
+
+| 编号 | 黑盒项 | 为什么没有闭式 | 估计区间/范围 | 一天内能做完的测法 | 弹性 (High/Med/Low) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **B1** | **先验偏差的实际影响幅度** | 取决于外部数据与当前数据的真实分布差异，无法先验知道。 | 若先验均值偏移 > 2SD，可能导致后验均值偏差 10%-30%。 | 进行**先验-数据冲突检测**：比较先验预测分布与实际观测数据的似然比。若似然比 < 0.1，标记为先验失效。 | **高** (若先验严重错误，贝叶斯结果可能比频率学派更差) |
+| **B2** | **监管审查的主观摩擦成本** | 审查员对贝叶斯方法的熟悉程度和偏好难以量化。 | 预计增加 2-4 周的审查周期，对应 5%-10% 的项目延期成本。 | 查阅过去 3 年内同领域 FDA/EMA 批准案例中贝叶斯方法的占比及审评意见长度。 | **中** (随着 2026 指南普及，此成本正在快速下降) |
+| **B3** | **损失函数的真实权重校准** | 利益相关者（如患者、投资者）对风险的感知是非线性的，难以用单一货币值表示。 | 误报/漏报代价比通常在 1:1 到 1:10 之间波动。 | 开展**离散选择实验 (DCE)** 或专家德尔菲法，让决策者对不同错误后果进行货币化估值。 | **高** (若损失权重设定错误，即使推断完美，决策也是次优的) |
+| **B4** | **MCMC 收敛诊断的不确定性** | 链混合速度依赖于模型几何结构，无通用解析解。 | 有效样本量 (ESS) 通常需 > 400 才可信；否则标准误低估 20%-50%。 | 运行 R-hat 诊断 (<1.01) 和 ESS 检查。若未收敛，增加迭代次数或使用 HMC 替代 Metropolis-Hastings。 | **中** (现代软件包如 Stan/PyMC 已极大缓解此问题) |
+
+## 5. 口径声明：约束类 vs. 成本类
+
+为避免混淆，必须严格区分两类维度：
+
+*   **约束类维度（Hard Constraints）**：
+    *   **内容**：制度合规性（如期刊强制要求 p 值）、法律底线（如安全监测必须低于特定阈值）。
+    *   **处理方式**：**一票否决制**。如果某个学派无法满足硬性约束，直接剔除该候选方案，不进入成本比较。
+    *   *示例*：若目标期刊明确拒绝发表仅含贝叶斯后验概率的文章，则贝叶斯方案在此场景下不可行，无论其期望损失多低。
+
+*   **成本类维度（Cost Dimensions）**：
+    *   **内容**：计算时间、数据采集成本、错误导致的经济/健康损失、沟通成本。
+    *   **处理方式**：**加权求和**。进入根标量 $\mathcal{L}^*$ 的分子部分进行比较。
+    *   *示例*：贝叶斯方法节省了 30% 的样本量（降低成本），但增加了 2 周的计算时间（增加成本）。需将这些折算为货币单位后相加。
+
+**严禁**将“合规难度”（约束类）与“计算时间”（成本类）放在同一个权重池子里比较。合规是门槛，成本是效率。
+
+## 6. 瓶颈识别与最终判断
+
+### 6.1 主导因素识别
+
+在所有因素中，**损失函数的不对称性 ($\lambda$)** 和 **先验信息的可用性 ($Q_{ext}$)** 是决定期望决策损失的主导项。
+
+*   **量级论证**：
+    *   在高风险决策（如临床试验、金融风控）中，Type II 错误（漏掉有效疗法/欺诈）的损失往往是 Type I 错误的 5-10 倍。频率学派固定 $\alpha=0.05$ 的设计隐含了对称或轻微偏重的损失假设。若实际 $\lambda > 1$，频率学派会系统性地产生过多的假阴性，导致巨大的机会成本。
+    *   贝叶斯学派通过直接优化后验期望损失，能够自动适应 $\lambda$ 的变化。根据 Berger (1985) 的完整类定理，任何非贝叶斯规则都可以被某个贝叶斯规则以弱优势支配（即在所有状态下风险不更大，且在某状态下严格更小）([TheoremPath](https://theorempath.com/compare/frequentist-vs-bayes-decision-theory))。这意味着，从纯数学期望损失的角度看，贝叶斯规则族包含了频率学派的所有最优解，并扩展到了频率学派无法触及的非对称损失区域。
+
+*   **弹性分析**：
+    *   若 $Q_{ext}$ 极高（强先验），贝叶斯的优势呈**指数级放大**（样本量减半，成本减半）。
+    *   若 $Q_{ext}$ 极低（无先验），贝叶斯退化为频率学派（使用均匀先验时，后验模式等于最大似然估计）。此时两者期望损失趋同，贝叶斯仅多出微小的计算开销。
+    *   因此，贝叶斯学派的**下限**不低于频率学派，而**上限**远高于频率学派。
+
+### 6.2 最终结论：选哪个学派最划算？
+
+基于上述正交拆解和黑盒收口，我的严谨判断如下：
+
+**在绝大多数涉及实质性决策（Decision-Making）的场景中，贝叶斯学派是使“每个统计决策的期望决策损失最低”的最优选择。**
+
+**理由总结：**
+1.  **决策导向性**：贝叶斯框架原生支持损失函数，直接对齐业务目标（最小化期望损失），而频率学派主要服务于假设检验（控制错误率），需额外步骤才能转化为决策 ([Donnie98](https://donnie98.quarto.pub/bayesian-statistics-and-inference/chapters/core/loss-functions-and-decision-theory.html))。
+2.  **样本效率**：通过整合先验信息，贝叶斯方法在数据稀缺时表现更优，显著降低操作成本 ($C_{operational}$) ([Ji, 2026](https://arxiv.org/abs/2601.14701))。
+3.  **灵活性**：能够处理非对称损失、序贯更新和多级层次结构，适应复杂的现实世界约束 ([Springer Nature Link](https://link.springer.com/article/10.1007/s43441-026-01014-x))。
+
+**例外情况（频率学派更划算的条件）：**
+*   **纯探索性研究**：目标是发现新现象而非做出具体行动，且缺乏可靠先验。
+*   **极端标准化环境**：受众完全不懂贝叶斯，且沟通成本远超计算成本。
+*   **实时高频交易**：计算延迟容忍度极低，且模型结构简单，频率学派的闭式解更快。
+
+**工程折中建议（混合 Workflow）：**
+对于处于过渡期的组织，推荐采用**两阶段混合策略**：
+1.  **第一阶段（频率筛查）**：使用频率学派方法进行初步筛选，确保满足基本的制度约束（如 p < 0.05 作为进入下一阶段的门槛），利用其低计算成本和广泛接受度。
+2.  **第二阶段（贝叶斯量化）**：对通过筛查的信号，使用贝叶斯方法进行精确的后验概率估计和期望损失计算，以指导最终的资源分配和行动决策 ([TheoremPath](https://theorempath.com/compare/frequentist-vs-bayes-decision-theory))。
+
+这种混合策略在保证合规性和沟通效率的同时，捕捉了贝叶斯方法在决策优化上的核心优势，实现了整体期望损失的全局最小化。
+
+## 参考文献
+
+Berger, J. O. (1985). *Statistical Decision Theory and Bayesian Analysis*. Springer. [TheoremPath Reference List](https://theorempath.com/compare/frequentist-vs-bayes-decision-theory)
+
+Casella, G., & Berger, R. L. (2002). *Statistical Inference*. Duxbury. [TheoremPath Reference List](https://theorempath.com/compare/frequentist-vs-bayes-decision-theory)
+
+Gelman, A., Carlin, J. B., Stern, H. S., Dunson, D. B., Vehtari, A., & Rubin, D. B. (2013). *Bayesian Data Analysis* (3rd ed.). CRC Press. [Donnie98 Further Reading](https://donnie98.quarto.pub/bayesian-statistics-and-inference/chapters/core/loss-functions-and-decision-theory.html)
+
+Ji, Y. (2026, January 21). Regulatory Expectations for Bayesian Methods in Drug and Biologic Clinical Trials: A Practical Perspective on FDA's 2026 Draft Guidance. arXiv. [arxiv.org](https://arxiv.org/abs/2601.14701)
+
+Lehmann, E. L., & Casella, G. (1998). *Theory of Point Estimation*. Springer. [TheoremPath Reference List](https://theorempath.com/compare/frequentist-vs-bayes-decision-theory)
+
+Murphy, K. P. (2022). *Probabilistic Machine Learning: An Introduction*. MIT Press. [TheoremPath Reference List](https://theorempath.com/compare/frequentist-vs-bayes-decision-theory)
+
+Robert, C. P. (2007). *The Bayesian Choice*. Springer. [TheoremPath Reference List](https://theorempath.com/compare/frequentist-vs-bayes-decision-theory)
+
+Two-stage Bayesian hierarchical modeling for blinded and unblinded safety monitoring in randomized clinical trials. (2020). *BMC Medical Research Methodology*, 20. [Springer Nature Link](https://link.springer.com/article/10.1186/s12874-020-01097-6)
+
+Wald, A. (1950). *Statistical Decision Functions*. John Wiley & Sons. [TheoremPath Reference List](https://theorempath.com/compare/frequentist-vs-bayes-decision-theory)
+
+A Regulatory-Ready Bayesian Evidence Framework across Clinical Development and Pharmacovigilance. (2026, July 14). *Therapeutic Innovation & Regulatory Science*. [Springer Nature Link](https://link.springer.com/article/10.1007/s43441-026-01014-x)
+
+An Introduction to Bayesian Thinking: Chapter 3 Losses and Decision Making. (n.d.). StatsWithR. [StatsWithR](https://statswithr.github.io/book/losses-and-decision-making.html)
+
+Frequentist vs. Bayesian Decision Theory. (n.d.). TheoremPath. [TheoremPath](https://theorempath.com/compare/frequentist-vs-bayes-decision-theory)
+
+Loss functions, decision theory, and Bayesian estimation. (n.d.). Donnie98 Quarto Pub. [Donnie98](https://donnie98.quarto.pub/bayesian-statistics-and-inference/chapters/core/loss-functions-and-decision-theory.html)
+
+MIT OpenCourseWare: 18.05 Introduction to Probability and Statistics, Spring 2022. (n.d.). MIT OCW. [MIT OCW](https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/mit18_05_s22_class20-prep.pdf)[0m
+INFO:     [12:02:00] 📝 Report written for '你是一位以严谨著称的研究员，正在用「正交拆解 + 原子化」方法论解决一个决策问题。方法要求：
+
+1. **先定根标量**：把"最划算"翻译成唯一无歧义的可排序标量（单位产出成本或等效），写出公式和单位。
+2. **正交维度切分**：第一层按正交维度拆（不是按现象罗列）。每两个维度必须能指出各自的独占参数；如果某个参数同时影响多个维度（SHARED 耦合），必须单独列一节显式记录它走哪几条路径。
+3. **黑盒收口表**：所有无法闭式求解的项，编号 B1-Bn，每个黑盒给四样东西：为什么没有闭式、估计区间、一天内能做完的测法、弹性（高/中/低——它变动时结论会不会翻转）。只写"这个要实测"不算收口。
+4. **口径声明**：约束类维度（不满足直接划掉候选）和成本类维度（进公式）分开标注，不能混在一个池子里比权重。
+5. **瓶颈识别**：最后指出哪个因素是主导项，并用弹性或量级论证，而不是只说"都很重要"。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+面对一个统计推断/决策问题，选**贝叶斯学派**还是**频率学派**，使
+**每个统计决策的期望决策损失最低**，且满足制度约束（如期刊要求 α 显著性、监管要求可审计）。
+
+频率学派（固定样本检验 / 置信区间 / p 值）· 贝叶斯学派（后验推断 / 决策论 / MCMC）。
+（对照：混合/两阶段 workflow —— 先用频率筛查、再贝叶斯量化，作为工程折中列出。）
+请帮我拆解：决定「每个统计决策的期望损失」的所有因素都有哪些，并判断选哪个学派最划算。'
+  done Q5: 9924 chars, 7 sources, 171.6s
+
+All D1 runs written.
