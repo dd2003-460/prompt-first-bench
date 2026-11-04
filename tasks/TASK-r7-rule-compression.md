@@ -21,8 +21,9 @@
   - 核心 7 文件合计 ~6,342 tok
   - examples 7 文件合计 ~4,211 tok
   - INDEX.md 458 tok
-  - SOP (arena-loop-pipeline.md) ~2,541 tok（R6 计量）
-  - 总计 ~13,552 tok（全量注入时）
+  - SOP (arena-loop-pipeline.md) 6,826 tok（arena agent 实测修正）
+  - 全量注入 = 17,861 tok（核心 6,342 + examples 4,211 + INDEX 482 + SOP 6,826）
+- 不含 SOP 末态 = 13,379 tok
 - 压缩目标：保持 hard constraints 完整，删除冗余解释/重复示例/过时内容
 - 验收：压缩后跑 check-route-coverage.py 必须 exit 0（无漏载）
 
@@ -39,7 +40,7 @@
 
 ### Step 2: 执行压缩（~60 min）
 按审计结果修改文件：
-- 优先压缩最大文件：SOP (2,541) > 01-goal-decomposition (1,755) > 02-information-research (1,237)
+- 优先压缩最大文件：SOP (6,826 → ≤3,000) > 01-goal-decomposition (1,755) > 02-information-research (1,237)
 - examples 层：每个文件保留 top-1 最典型示例，其余移到 `loop/prompt-first/examples/archive/`
 - 目标：核心文件总量 ≤ 4,000 tok，examples 总量 ≤ 2,000 tok
 - **纪律**：每改一个文件，跑 `python3 bench/self-opt-tester/runs/r6/check-route-coverage.py` 确认 exit 0

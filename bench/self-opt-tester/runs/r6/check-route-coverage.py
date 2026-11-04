@@ -96,6 +96,12 @@ def main() -> int:
             for ref in REF_PAT.findall(line):
                 if ref in {name, "INDEX.md"}:
                     continue
+                # R8: examples/ 是 tier-3 按需加载，不进路由表，不算 X-miss
+                if ref.startswith("examples/"):
+                    target = LOOP / ref
+                    if not target.exists():
+                        dangling.append({"src": name, "line": lineno, "ref": ref})
+                    continue
                 target = (LOOP / ref) if not ref.startswith("examples/") else (LOOP / ref)
                 if not target.exists():
                     dangling.append({"src": name, "line": lineno, "ref": ref})
