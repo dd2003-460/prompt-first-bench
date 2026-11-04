@@ -6,7 +6,7 @@
 - 预期：S01 J1 通过率从 ~0% 回到 60-90%；S02/S03 与 r269/r270 基本一致
 - 对照基线：r269（v3 同源）+ r270（arena 异源，外部参考）
 
-用法：python replay-r271-rubric-v31.py [--limit N]
+用法：python replay-r272-rubric-v31-tight.py [--limit N]
 产出：runs-fullloop/receipt-r272-rubric-v31.jsonl + receipt-r272-rubric-v31-summary.md
 """
 from __future__ import annotations
@@ -389,7 +389,7 @@ def main() -> None:
                 delta = f"{p272-p269:+.4f}"
             except Exception:
                 pass
-            lines.append(f"| {c['cell']} | {c['judge']} | {c['r271']} | {c['r269']} | {delta} |")
+            lines.append(f"| {c['cell']} | {c['judge']} | {c['r272']} | {c['r269']} | {delta} |")
 
     if r270_compare:
         lines += ["", "## 与 r270 (arena 异源) 逐格对照（外部参考）", ""]
