@@ -84,3 +84,17 @@ JSONL 格式（每行一个 JSON）：
 - 边界：本任务只做 18 工件 × 2 判官的逐条目审计，不做 54-run 中间工件（R4/R5/R6）的复判（量太大，先验 fullloop 信号）
 - 下一步归属：Lead 收到 jsonl 后本地复算 κ + G2 对比 + 与 r268 逐格对照 → 更新 T8-C3v3-final-conclusion 报告的 conf 层级
 - 污染披露：本会话历史跑过 cross-judge 90/90 盲判（stage-ablation），定位 = 可复算样本，非完全 blind
+
+## r269 本地降级复判（2026-11-04）
+
+**Arena 通道故障**：ego-browser 打开 arena.ai/agent，登录态在（auth cookie），但会话列表为空（"No recent chats"）。之前的 pfb 仓库会话不在这个浏览器 profile 里，消息发不到 agent。根因：arena 会话与浏览器 profile 绑定，profile 切换/重置后会话丢失。
+
+**降级方案**：qwen3.8-27b @ :8787 做 J1/J2 双判官，独立上下文 + temp=0。
+
+**结果**（commit 7dd12cf）：
+- κ mean = 0.4777（短工件 1.0，长工件 0~0.44）
+- G2 = 10/12 PASS
+- J2-lenient 在 S02 长工件上系统性崩塌（3 cell → 0），与 r268 一致
+- J1-strict 更稳定（所有 18 cell ≥ 0.52）
+
+**产出**：`runs-fullloop/receipt-r269-local-dual-judge.{jsonl,summary.md}`
