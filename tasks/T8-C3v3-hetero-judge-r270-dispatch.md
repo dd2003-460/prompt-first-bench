@@ -32,3 +32,9 @@ RUNNING（23:35 开始执行，agent 正在跑判分）
 1. 轮询 github dd2003-460/d1-video-recreation 分支 `arena/500a5339-d1-video-recreation` 的 `outputs/hetero-judge-r270/`
 2. 完成后拷贝回 pfb runs-fullloop/，commit pfb
 3. 更新 T8 task brief 状态
+
+## 完成（2026-11-04 ~23:47 CST）
+- commit: `T8 C3v3 heterogeneous dual-judge r270` @ d1-video-recreation `arena/500a5339-d1-video-recreation`
+- 已拷回 pfb `experiments/T8-matrix/runs/c3-v3/runs-fullloop/hetero-judge-r270/`（36 行回执 + summary + work/）
+- **核心结果**：异源 judge 与本地 qwen 基本不一致（J1 κ=−0.030，J2 κ=0.185）；异源明显更严（J1 总通过 30.7% vs 同源 89.7%）；S01 分解类工件 J1 通过率 0.6% = rubric 效度问题非质量差；G2 同口径 11/12 PASS 但口径本身无信号力；r268 的 0.931 spread 被证明是同源 judge 不稳定性。**不建议据此升档 T8 conf。**
+- 披露：agent 盲判前读了 arena-hetero-judge-summary.md 头部 ~1500 字符（含部分本地分数）；事后修正 1 条判定（A-full/D2/S02 G1 pass→fail）；手工逐条判定非程序化调用，不可脚本重放。
