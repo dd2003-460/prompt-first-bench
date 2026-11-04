@@ -218,3 +218,10 @@ B-2a 从硬底线降级为 note 警告："外部数字无来源→pass，note注
 3. **G2 11/12**：唯一 ✗ 是 B-none/D1/s02（P(obs)=0.600），根因是上述提取波动。
 
 **结论**：rubric v3.1 达到设计目标——S01 效度修复（0%→99.4%）、S02/S03 无回归（±5pp）、J1/J2 一致性大幅提升（κ 0.48→0.69）。残留的 2 个问题均为 27B 模型的指令遵循/提取稳定性极限，不是规则缺陷。建议接受 r277 为 v3.1 终版，不再继续迭代 prompt。
+
+## 下一步：arena 异源复判（v3.1 rubric）
+
+r277 收口后，用 v3.1 prompts 重新派发 arena 异源 judge（会话 01a195cb，pfb 仓库）。
+任务书：`tasks/T8-C3v3-hetero-judge-task-brief.md`（已更新到 main + arena 分支 @ 4452071）。
+产出：`arena-hetero-judge-results-v31.jsonl`（36 行）+ summary。
+预期：若 rubric 修复在异源条件下成立，κ 应显著高于 r270 的 ~0，G2 应接近本地 r277 的 11/12。
