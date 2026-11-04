@@ -17,4 +17,6 @@
 - 02.5 取 01 的分解产出；04 取 03 的步骤表；04.5 取 01–04 全部产出。
 - 这些是 `loop-artifacts/stages/` 下的产物，不并入阶段包，也不触发规则重载。
 
+示例层已于 R7 压缩为「每阶段 top-1」，其余移入 `examples/archive/<同名>-extras.md`（原文保留，按需取）。
+
 校验：`python3 bench/self-opt-tester/runs/r6/check-route-coverage.py`（须 exit 0）。
