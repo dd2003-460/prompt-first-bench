@@ -98,3 +98,5 @@ JSONL 格式（每行一个 JSON）：
 - J1-strict 更稳定（所有 18 cell ≥ 0.52）
 
 **产出**：`runs-fullloop/receipt-r269-local-dual-judge.{jsonl,summary.md}`
+
+**故障根因修正（2026-11-04 深夜复核）**：不是"会话列表为空"，而是 **ego-browser profile 里 arena.ai 无登录态**（9 个 cookie 全为匿名类，无 auth token；点 GitHub connector 弹登录框证实）。之前 r268 派发用的登录会话已失效。**解锁方式唯一**：成璐在 ego-browser 里过一次 Google/email 登录（AI 不碰凭证），登录后重建会话绑定 pfb 仓库即可恢复 arena 通道。
