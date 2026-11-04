@@ -1,3 +1,18 @@
+{"tag": "S0-Q1-r1", "m1": 0.65, "claims_checked": 10, "claims_correct": 6.5, "notes": "NVLink 900GB/s、TDP 700/350W、80GB 容量、prefill compute-bound 均对；但把 PCIe HBM 带宽写成 3.35TB/s（gold 为 2.0TB/s，本题核心矛盾点），单卡差距低估为 5-15%（gold 1.3-1.7x），70B 单卡 15tok/s 与 140GB 权重自相矛盾"}
+{"tag": "S0-Q1-r2", "m1": 0.70, "claims_checked": 10, "claims_correct": 7.0, "notes": "结构同 r1 但表格改用 X/Y 占位、未编造 tok/s，故略高；仍是 PCIe HBM 带宽误报为 3.35TB/s 并与 SXM 相同，漏掉带宽比 1.68x 这一 decode 主导项"}
+{"tag": "S0-Q1-r3", "m1": 0.68, "claims_checked": 11, "claims_correct": 7.5, "notes": "唯一正确点出 NVLink/PCIe≈14x 属互联带宽比而非吞吐比（与 gold 一致）；但仍断言两者 HBM 均为 3.35TB/s（gold: PCIe 2.0），单卡差距仍低估"}
+{"tag": "S0-Q2-r1", "m1": 0.88, "claims_checked": 12, "claims_correct": 10.5, "notes": "32B/24B/33B/70B 的 FP16/INT8/INT4 权重换算全部正确（64/32/16GB、70B W4≈35GB），双卡 24GB=48GB 口径正确；仅 2x4090 标 165 TFLOPS FP16 偏高（实际 dense 约 83）"}
+{"tag": "S0-Q2-r2", "m1": 0.86, "claims_checked": 11, "claims_correct": 9.5, "notes": "量化显存表全对并显式澄清双卡 24GB 歧义；扣分项为电价假设 0.1 元/kWh（实际居民约 0.5）、未给出可复算的 c_acc 数值"}
+{"tag": "S0-Q2-r3", "m1": 0.63, "claims_checked": 4, "claims_correct": 2.5, "notes": "答案在 tool_call 处截断，只有根式与 48GB 口径可核；叶子未填、无任何量化数字，属 truncated 而非完整作答"}
+{"tag": "S0-Q3-r1", "m1": 0.72, "claims_checked": 9, "claims_correct": 6.5, "notes": "c_serve 结构、沉没成本口径、27B 三档显存算术、TGI PagedAttention 均对；但忽略题给 RTX3090x4/96GB 改按 A100-80G 估算，且全程未处理 SLO 约束（gold 的 constraint 维度）"}
+{"tag": "S0-Q3-r2", "m1": 0.65, "claims_checked": 10, "claims_correct": 6.5, "notes": "电价 0.6-1.2、PUE 1.2-1.5、27B 显存换算均对；但同时把 27B 误猜成 Llama-3-70B/Qwen-2.5-72B、改用 A100-80G，且漏 SLO 约束，硬件前提整体错位"}
+{"tag": "S0-Q3-r3", "m1": 0.72, "claims_checked": 9, "claims_correct": 6.5, "notes": "与 S0-Q3-r1 逐字重复（temp=0 复现），评分同 r1；同样未用题给 3090x4 且漏 SLO"}
+{"tag": "S0-Q4-r1", "m1": 0.81, "claims_checked": 8, "claims_correct": 6.5, "notes": "embedding 成本链完全可复算（2.5亿token x $0.02/1M = $5、100万x512x4B≈2GB）；根式用 C_retrieval+C_gen+C_infra+C_failure 却缺 gold 强调的'建设成本摊销'项"}
+{"tag": "S0-Q4-r2", "m1": 0.83, "claims_checked": 9, "claims_correct": 7.5, "notes": "三档 chunk(256/512/1024)、HNSW<10ms、100万x1536x4B≈6GB 均合理；同样缺建设摊销；'输入 token 为长上下文 1/5' 属未给依据的估计"}
+{"tag": "S0-Q4-r3", "m1": 0.83, "claims_checked": 9, "claims_correct": 7.5, "notes": "与 S0-Q4-r2 逐字重复（temp=0 复现），评分同 r2"}
+{"tag": "S0-Q5-r1", "m1": 0.69, "claims_checked": 8, "claims_correct": 5.5, "notes": "EDL 根标量、弱先验下两派渐近等价、频率闭式 C_comp≈0、'没有永远最划算的学派' 均对；Type I 膨胀 2-3x 与 EDL 差 20-50% 为无依据估计，且缺 gold 的沟通误读维度"}
+{"tag": "S0-Q5-r2", "m1": 0.83, "claims_checked": 9, "claims_correct": 7.5, "notes": "显式把制度约束设为硬约束（与 gold 一致）、正确引用 Bernstein-von Mises 渐近等价与小 n 时频率 CI 覆盖率失真；仍缺 L_comm 维度且表内 D6 与所列 D1-D4 编号不一致"}
+{"tag": "S0-Q5-r3", "m1": 0.83, "claims_checked": 9, "claims_correct": 7.5, "notes": "与 S0-Q5-r2 逐字重复（temp=0 复现），评分同 r2"}
 {"tag": "S1-Q1-r1", "m1": 0.773, "claims_checked": 11, "claims_correct": 8.5, "notes": "正确取用 PCIe 2.0 vs SXM 3.35 TB/s 并推出 1.675x（与 gold 的 1.68x 一致），compute-bound 时差距缩小也对；错在称两版 SM/FLOPS/时钟'完全一致'（gold: 989 vs 756，差约 23%），且称 H100 PCIe 有 900GB/s NVLink（实际无 NVLink）"}
 {"tag": "S1-Q1-r2", "m1": 0.818, "claims_checked": 11, "claims_correct": 9.0, "notes": "带宽比 1.675、单卡 1.5-1.7x、batch 增大转 compute-bound 均正确，且不再误称 PCIe 有 NVLink；扣分在仍称两版算力/频率完全一致、多卡 1.8-2.0x 与绝对 tok/s 表为无依据外推"}
 {"tag": "S1-Q1-r3", "m1": 0.818, "claims_checked": 11, "claims_correct": 9.0, "notes": "与 S1-Q1-r2 逐字重复（temp=0 复现），评分同 r2"}
