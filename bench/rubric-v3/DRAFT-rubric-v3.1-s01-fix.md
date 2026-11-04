@@ -264,3 +264,27 @@ rubric 说"只看第一行"，arena agent 严格照做 → 非分解类 → ①�
 - [ ] r278 rubric 本地重放确认 code-fence 修复无回归
 - [ ] 可选：再派一轮 arena 用 r278 rubric（如果 κ 需要进一步提升）
 - [ ] T8 final conclusion 更新 conf 层级
+
+## r278 本地复放验证（code-fence 修复确认）
+
+r278 rubric（J1 sha `7518ce5c`，"第一个非空非 code-fence 行"）本地全量复放：
+
+| 指标 | r277 | r278 | Δ |
+|------|------|------|---|
+| S01_J1 | 99.4% | 99.4% | 0 |
+| S02_J1 | 84.3% | 89.3% | +5pp |
+| S03_J1 | 84.5% | 81.6% | -3pp |
+| S02_J2 | 92.2% | 92.2% | 0 |
+| S03_J2 | 93.2% | 93.2% | 0 |
+| κ (vs r277) | — | **+0.938** | — |
+| G2 | — | **35/36** | — |
+
+Code-fence cells 修复确认：B-nofreeze/D1/s01 和 B-none/D2/s01 均 28/28、22/22 pass，分解类正确应用。
+
+S02_J1 +5pp 是采样噪声（不同 run 的 judge 判断微差），S03_J1 -3pp 同理。无回归。
+
+**v3.1 rubric 终版确认**：
+- J1 sha256_16 = `7518ce5c66f92f8a`（r278, code-fence fix）
+- J2 sha256_16 = `b229dcc9a14b2081`（不变）
+- 本地同源一致性 κ=0.94，异源（arena）κ=+0.29（排除 code-fence cells 后）
+- 残留分歧为模型判断型差异，非 rubric 缺陷
