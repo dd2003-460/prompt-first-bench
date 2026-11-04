@@ -20,22 +20,23 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 RUNS_DIR = os.path.join(HERE, "runs")
 WORKSPACE = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 GOLD_FILES = {
-    "Q1": os.path.join(WORKSPACE, "projects/decomp/experiments/autoresearch-r1/run/gold-facts.md"),
-    "Q2": os.path.join(WORKSPACE, "projects/decomp/bench/gold-model-selection/tree.md"),
-    "Q3": os.path.join(WORKSPACE, "projects/decomp/bench/gold-inference-infra/tree.md"),
-    "Q4": os.path.join(WORKSPACE, "projects/decomp/bench/gold-rag-vs-longctx/tree.md"),
+    "Q1": os.path.join(HERE, "gold", "Q1.md"),
+    "Q2": os.path.join(HERE, "gold", "Q2.md"),
+    "Q3": os.path.join(HERE, "gold", "Q3.md"),
+    "Q4": os.path.join(HERE, "gold", "Q4.md"),
+    "Q5": os.path.join(HERE, "gold", "Q5.md"),
 }
 
-JUDGE_PROMPT = """你是一个严格的事实核查员。请对照【标准答案】评估【模型回答】的事实准确率。
+JUDGE_PROMPT = """你是一个严格的事实核查员。请对照【标准答案】评估【模型回答】的事实准确率（M1）。
 
 评分规则：
-- 逐条检查模型回答中的关键事实断言（数字、规格、结论）
-- 每条断言与标准答案对比：正确=1，部分正确=0.5，错误/无依据=0
-- M1 = 正确断言数 / 总断言数
-- 如果模型回答中没有可验证的事实断言（纯方法论/空话），M1=0 并标注 no_factual_claims
+1. 计数单位 = 关键断言（一个完整逻辑结论/判断 = 一条）。同一结论的多个数值支撑算一条；独立的可证伪命题各算一条。典型：硬件题 5-15 条/答案；方法论题 4-10 条/答案。
+2. 每条关键断言与标准答案对比：正确=1，部分正确=0.5，错误/无依据=0。
+3. M1 范围 = 原始事实断言 + 可复算推导（给定前提可验证的计算链）。纯主观判断/偏好表达不计入 M1。
+4. 若答案以方法论/推导为主（无外部可查事实），则评估其内部逻辑一致性与推导正确性（与 gold 结构对齐度）。仅当答案为空、拒答或完全无关时 M1=0。
 
 输出 JSON（不要其他文字）：
-{{"m1": <0-1 float>, "claims_checked": <int>, "claims_correct": <int>, "notes": "<一句话说明>"}}
+{{"m1": <0-1 float>, "claims_checked": <int>, "claims_correct": <float>, "notes": "<一句话说明>"}}
 
 【标准答案】
 {gold}
