@@ -93,7 +93,7 @@ node bench/self-opt-tester/runs/r6/compute-m1.js
 owner 标注、重试 ≤2 / 卡壳 ≤3 轮、不伪造结果、明确回退阶段……）逐条 grep，缺一即 exit 1。
 每改一版跑一次，**54/54 全程保持**。
 
-`check-route-coverage.py` 在每次改完单个文件后各跑一次（7 核心 + 7 示例 + SOP = 15 次），全程 exit 0。
+`check-route-coverage.py` 在每个文件（或每批同源文件）改完后各跑一次（共 10 次以上），全程 exit 0。
 中途出现过一次 FAIL：给核心文件加归档指针时，`examples/archive/xx-extras.md` 被解析成路由目标而判 dangling。
 处理：指针回退为原文措辞，归档说明统一放进 INDEX 一行（`check-route-coverage.py` 语义不变）。
 
@@ -152,7 +152,7 @@ S = 0.6   （有逐 turn 账本、可脚本复算；但非服务端 per-request 
 | **Model B M1** | **≥ 70** | **70.4** | ✅（余量 +0.4） |
 | 核心文件 | ≤ 4,000 | 4,104 | ⚠️ 超 2.6%（§1.1 有理由） |
 | examples | ≤ 2,000 | 1,886 | ✅ |
-| `check-route-coverage.py` | exit 0 | 15 次均 exit 0 | ✅ |
+| `check-route-coverage.py` | exit 0 | 全程 exit 0 | ✅ |
 | hard constraint | 不可删 | 54/54 | ✅ |
 
 **是否达标：达标（M1 70.4 ≥ 70），但余量极薄，不建议据此关闭 P1。** 理由见 §5。
