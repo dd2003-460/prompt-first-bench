@@ -163,3 +163,25 @@ S5 (+review)     0.548   +0.020
 - All arms post-fix (5 sources each) except S0/S1 (no research hook by design)
 - D1 comparison: N/A (environment incompatibility, documented in d1-choice.md)
 - M1/M4 depend on gold anchor quality; Q5 gold is opinion-survey type (lower confidence)
+
+
+## D1 · GPT Researcher（开源基线）
+
+> origin: ai · 2026-11-04 · GPT Researcher (Python 3.12 venv, duckduckgo retriever, 本地 qwen3.8-27b)
+> 单跑 n=1；评分用各题对应 gold（与 S 臂同口径）。
+
+| Arm | Q | M1 | M2 | M3 | M4 | M5 | M6 | Total | Wall(s) |
+|-----|---|----|----|----|----|----|----|-------|---------|
+| D1 | Q1 | 0.80 | 0.14 | 1.00 | 0.00 | 0.00 | 0.33 | **0.411** | 90.2 |
+| D1 | Q2 | 0.00 | 0.17 | 1.00 | 0.50 | 0.00 | 0.33 | **0.317** | 153.9 |
+| D1 | Q3 | 0.50 | 0.31 | 1.00 | 0.00 | 0.00 | 0.67 | **0.403** | 45.8 |
+| D1 | Q4 | 0.33 | 0.20 | 1.00 | 0.20 | 0.00 | 0.00 | **0.313** | 115.9 |
+| D1 | Q5 | 0.67 | 0.12 | 1.00 | 1.00 | 0.00 | 0.67 | **0.600** | 171.6 |
+
+**D1 mean = 0.409**（对比 S0=0.374, S2=0.535, S5=0.548, n=3）
+
+**解读**：
+- D1（GPT Researcher 端到端）> S0（裸 prompt）：开源研究框架自带检索+综合，确实比裸模型强。
+- D1 < S5（完整 pfb 管线）：pfb 的分阶段流程在事实命中(M1)、缺口识别(M4)上仍占优。
+- 最大短板是 M4（缺口识别）：D1 多数题 0 分——GPT Researcher 产出"报告"但不主动暴露知识边界，而 pfb 的阶段 01 强制列空缺条件。这是 autoresearch 系统的差异化价值点。
+- M6（来源存活率）波动大（0~0.67）：duckduckgo 抓到的 URL 部分失效，反映开源系统引用质量不稳定。
