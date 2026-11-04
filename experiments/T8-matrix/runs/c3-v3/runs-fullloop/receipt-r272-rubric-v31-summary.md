@@ -1,6 +1,6 @@
 # r272 rubric-v3.1 收紧版重放验证 summary
 
-- 生成时间: 2026-11-05T00:11:49+0800
+- 生成时间: 2026-11-05T04:20:59+0800
 - 模型: qwen3.8-27b @ http://localhost:8787/v1/chat/completions
 - 通道: 本地 vLLM（rubric-v3.1 S01 效度修复验证）
 - prompt: judge-prompts-rubric-v3.1.json (J1 sha256_16=fe1b1a1a41121b61, J2 同 v3) 收紧触发条件
@@ -63,44 +63,44 @@ G2: 9/12 PASS
 
 ## 与 r269 (v3 同源) 逐格对照
 
-| Cell | Judge | r272 (v3.1 收紧) | r269 (v3) | Δ |
-|------|-------|-------------|-----------|---|
-| A-full/D1-meeting-room/s01 | J1 | 31/31 | 31/31 | +0.0000 |
-| A-full/D1-meeting-room/s01 | J2 | 31/31 | 31/31 | +0.0000 |
-| A-full/D1-meeting-room/s02 | J1 | 36/45 | 37/45 | -0.0222 |
-| A-full/D1-meeting-room/s02 | J2 | 0/45 | 0/45 | +0.0000 |
-| A-full/D1-meeting-room/s03 | J1 | 15/20 | 15/18 | -0.0833 |
-| A-full/D1-meeting-room/s03 | J2 | 15/18 | 15/18 | +0.0000 |
-| A-full/D2-file-collab/s01 | J1 | 14/15 | 14/15 | +0.0000 |
-| A-full/D2-file-collab/s01 | J2 | 14/15 | 14/15 | +0.0000 |
-| A-full/D2-file-collab/s02 | J1 | 17/17 | 13/17 | +0.2353 |
-| A-full/D2-file-collab/s02 | J2 | 5/17 | 5/17 | +0.0000 |
-| A-full/D2-file-collab/s03 | J1 | 17/18 | 17/18 | +0.0000 |
-| A-full/D2-file-collab/s03 | J2 | 18/18 | 18/18 | +0.0000 |
-| B-nofreeze/D1-meeting-room/s01 | J1 | 28/28 | 24/28 | +0.1429 |
-| B-nofreeze/D1-meeting-room/s01 | J2 | 28/28 | 28/28 | +0.0000 |
-| B-nofreeze/D1-meeting-room/s02 | J1 | 26/29 | 27/29 | -0.0345 |
-| B-nofreeze/D1-meeting-room/s02 | J2 | 26/29 | 23/29 | +0.1034 |
-| B-nofreeze/D1-meeting-room/s03 | J1 | 11/21 | 11/21 | +0.0000 |
-| B-nofreeze/D1-meeting-room/s03 | J2 | 11/21 | 11/21 | +0.0000 |
-| B-nofreeze/D2-file-collab/s01 | J1 | 22/26 | 26/26 | -0.1538 |
-| B-nofreeze/D2-file-collab/s01 | J2 | 26/26 | 26/26 | +0.0000 |
-| B-nofreeze/D2-file-collab/s02 | J1 | 18/18 | 18/18 | +0.0000 |
-| B-nofreeze/D2-file-collab/s02 | J2 | 2/18 | 2/18 | +0.0000 |
-| B-nofreeze/D2-file-collab/s03 | J1 | 12/12 | 12/12 | +0.0000 |
-| B-nofreeze/D2-file-collab/s03 | J2 | 12/12 | 12/12 | +0.0000 |
-| B-none/D1-meeting-room/s01 | J1 | 33/33 | 33/33 | +0.0000 |
-| B-none/D1-meeting-room/s01 | J2 | 33/33 | 33/33 | +0.0000 |
-| B-none/D1-meeting-room/s02 | J1 | 22/22 | 22/22 | +0.0000 |
-| B-none/D1-meeting-room/s02 | J2 | 0/22 | 0/22 | +0.0000 |
-| B-none/D1-meeting-room/s03 | J1 | 17/17 | 17/17 | +0.0000 |
-| B-none/D1-meeting-room/s03 | J2 | 17/17 | 17/17 | +0.0000 |
-| B-none/D2-file-collab/s01 | J1 | 22/22 | 22/22 | +0.0000 |
-| B-none/D2-file-collab/s01 | J2 | 22/22 | 22/22 | +0.0000 |
-| B-none/D2-file-collab/s02 | J1 | 5/9 | 9/9 | -0.4444 |
-| B-none/D2-file-collab/s02 | J2 | 0/9 | 0/9 | +0.0000 |
-| B-none/D2-file-collab/s03 | J1 | 14/17 | 14/17 | +0.0000 |
-| B-none/D2-file-collab/s03 | J2 | 17/17 | 17/17 | +0.0000 |
+| Cell | Judge | r272 (v3.1 收紧) | r271 (v3.1 初版) | r269 (v3) | Δ vs r269 |
+|------|-------|-------------|-------------|-----------|---|
+| A-full/D1-meeting-room/s01 | J1 | 31/31 | 31/31 | 31/31 | +0.0000 |
+| A-full/D1-meeting-room/s01 | J2 | 31/31 | 31/31 | 31/31 | +0.0000 |
+| A-full/D1-meeting-room/s02 | J1 | 36/45 | 0/45 | 37/45 | -0.0222 |
+| A-full/D1-meeting-room/s02 | J2 | 0/45 | 0/45 | 0/45 | +0.0000 |
+| A-full/D1-meeting-room/s03 | J1 | 15/20 | 15/21 | 15/18 | -0.0833 |
+| A-full/D1-meeting-room/s03 | J2 | 15/18 | 15/18 | 15/18 | +0.0000 |
+| A-full/D2-file-collab/s01 | J1 | 14/15 | 15/15 | 14/15 | +0.0000 |
+| A-full/D2-file-collab/s01 | J2 | 14/15 | 14/15 | 14/15 | +0.0000 |
+| A-full/D2-file-collab/s02 | J1 | 17/17 | 13/17 | 13/17 | +0.2353 |
+| A-full/D2-file-collab/s02 | J2 | 5/17 | 5/17 | 5/17 | +0.0000 |
+| A-full/D2-file-collab/s03 | J1 | 17/18 | 14/18 | 17/18 | +0.0000 |
+| A-full/D2-file-collab/s03 | J2 | 18/18 | 18/18 | 18/18 | +0.0000 |
+| B-nofreeze/D1-meeting-room/s01 | J1 | 28/28 | 28/28 | 24/28 | +0.1429 |
+| B-nofreeze/D1-meeting-room/s01 | J2 | 28/28 | 28/28 | 28/28 | +0.0000 |
+| B-nofreeze/D1-meeting-room/s02 | J1 | 26/29 | 22/29 | 27/29 | -0.0345 |
+| B-nofreeze/D1-meeting-room/s02 | J2 | 26/29 | 26/29 | 23/29 | +0.1034 |
+| B-nofreeze/D1-meeting-room/s03 | J1 | 11/21 | 11/21 | 11/21 | +0.0000 |
+| B-nofreeze/D1-meeting-room/s03 | J2 | 11/21 | 11/21 | 11/21 | +0.0000 |
+| B-nofreeze/D2-file-collab/s01 | J1 | 22/26 | 26/26 | 26/26 | -0.1538 |
+| B-nofreeze/D2-file-collab/s01 | J2 | 26/26 | 26/26 | 26/26 | +0.0000 |
+| B-nofreeze/D2-file-collab/s02 | J1 | 18/18 | 18/18 | 18/18 | +0.0000 |
+| B-nofreeze/D2-file-collab/s02 | J2 | 2/18 | 0/18 | 2/18 | +0.0000 |
+| B-nofreeze/D2-file-collab/s03 | J1 | 12/12 | 12/12 | 12/12 | +0.0000 |
+| B-nofreeze/D2-file-collab/s03 | J2 | 12/12 | 12/12 | 12/12 | +0.0000 |
+| B-none/D1-meeting-room/s01 | J1 | 33/33 | 33/33 | 33/33 | +0.0000 |
+| B-none/D1-meeting-room/s01 | J2 | 33/33 | 33/33 | 33/33 | +0.0000 |
+| B-none/D1-meeting-room/s02 | J1 | 22/22 | 14/22 | 22/22 | +0.0000 |
+| B-none/D1-meeting-room/s02 | J2 | 0/22 | 0/22 | 0/22 | +0.0000 |
+| B-none/D1-meeting-room/s03 | J1 | 17/17 | 17/17 | 17/17 | +0.0000 |
+| B-none/D1-meeting-room/s03 | J2 | 17/17 | 17/17 | 17/17 | +0.0000 |
+| B-none/D2-file-collab/s01 | J1 | 22/22 | 22/22 | 22/22 | +0.0000 |
+| B-none/D2-file-collab/s01 | J2 | 22/22 | 22/22 | 22/22 | +0.0000 |
+| B-none/D2-file-collab/s02 | J1 | 5/9 | 5/9 | 9/9 | -0.4444 |
+| B-none/D2-file-collab/s02 | J2 | 0/9 | 0/9 | 0/9 | +0.0000 |
+| B-none/D2-file-collab/s03 | J1 | 14/17 | 17/17 | 14/17 | +0.0000 |
+| B-none/D2-file-collab/s03 | J2 | 17/17 | 17/17 | 17/17 | +0.0000 |
 
 ## 与 r270 (arena 异源) 逐格对照（外部参考）
 

@@ -128,67 +128,81 @@ def compute_kappa(v1: dict, v2: dict) -> dict | None:
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--limit", type=int, default=0, help="冒烟：只跑前 N 个 cell")
+    ap.add_argument("--skip-judge", action="store_true", help="跳过模型调用，用已有 JSONL 重新汇总")
     args = ap.parse_args()
 
     jobs = [(cfg, dom, st) for cfg in CONFIGS for dom in DOMAINS for st in STAGES]
     if args.limit:
         jobs = jobs[: args.limit]
-    print(f"r272 rubric-v3.1 收紧版重放：{len(jobs)} 工件 × 2 判官 ...")
+
+    results = []
+    errors = []
+
+    if args.skip_judge and OUT_JSONL.exists():
+        print(f"r272 --skip-judge：从 {OUT_JSONL.name} 读取 {sum(1 for _ in open(OUT_JSONL))} 行重新汇总 ...")
+        for line in OUT_JSONL.read_text().splitlines():
+            if line.strip():
+                e = json.loads(line)
+                results.append(e)
+                if "error" in e:
+                    errors.append(e.get("error", "?"))
+    else:
+        print(f"r272 rubric-v3.1 收紧版重放：{len(jobs)} 工件 × 2 判官 ...")
 
     r268_data = None
     if R268.exists():
         r268_data = json.loads(R268.read_text())
         print(f"r268 baseline loaded: {len(r268_data.get('scores', {}))} cells")
 
-    results = []
-    errors = []
-    for i, (cfg, dom, st) in enumerate(jobs, 1):
-        art_path = HERE / "pilot" / cfg / dom / st
-        if not art_path.exists():
-            errors.append(f"{cfg}/{dom}/{st}: artifact_missing")
-            continue
-        art = art_path.read_text()
-        items = extract_items(art)
-        if not items:
-            errors.append(f"{cfg}/{dom}/{st}: no_items_extracted")
-            continue
+    if not args.skip_judge or not OUT_JSONL.exists():
+        for i, (cfg, dom, st) in enumerate(jobs, 1):
+            art_path = HERE / "pilot" / cfg / dom / st
+            if not art_path.exists():
+                errors.append(f"{cfg}/{dom}/{st}: artifact_missing")
+                continue
+            art = art_path.read_text()
+            items = extract_items(art)
+            if not items:
+                errors.append(f"{cfg}/{dom}/{st}: no_items_extracted")
+                continue
 
-        stage_num = st.replace("stage", "S").replace(".md", "")
-        cell_key = f"{cfg}/{dom}/{stage_num.lower()}"
+            stage_num = st.replace("stage", "S").replace(".md", "")
+            cell_key = f"{cfg}/{dom}/{stage_num.lower()}"
 
-        for judge_name in ("J1", "J2"):
-            prompt_key = "J1-strict-v3" if judge_name == "J1" else "J2-lenient-v3"
-            r = call_ninfer(PROMPTS[prompt_key]["text"], art, items)
-            verdicts = parse_verdicts(r["raw"]) if r.get("raw") else None
+            for judge_name in ("J1", "J2"):
+                prompt_key = "J1-strict-v3" if judge_name == "J1" else "J2-lenient-v3"
+                r = call_ninfer(PROMPTS[prompt_key]["text"], art, items)
+                verdicts = parse_verdicts(r["raw"]) if r.get("raw") else None
 
-            entry = {
-                "cell": cell_key,
-                "judge": prompt_key,
-                "rubric": "v3.1",
-                "items": [],
-                "summary": {},
-                "model_identity": MODEL,
-            }
+                entry = {
+                    "cell": cell_key,
+                    "judge": prompt_key,
+                    "rubric": "v3.1",
+                    "items": [],
+                    "summary": {},
+                    "model_identity": MODEL,
+                }
 
-            if verdicts is None:
-                entry["error"] = r.get("error") or "parse_fail"
-                entry["raw_head"] = (r.get("raw") or "")[:300]
-                errors.append(f"{cell_key}/{judge_name}: {entry['error']}")
-            else:
-                entry["items"] = [
-                    {"id": k, **v} for k, v in sorted(verdicts.items())
-                ]
-                passed = sum(1 for v in verdicts.values() if v["verdict"] == "pass")
-                entry["summary"] = {"total": len(verdicts), "passed": passed}
+                if verdicts is None:
+                    entry["error"] = r.get("error") or "parse_fail"
+                    entry["raw_head"] = (r.get("raw") or "")[:300]
+                    errors.append(f"{cell_key}/{judge_name}: {entry['error']}")
+                else:
+                    entry["items"] = [
+                        {"id": k, **v} for k, v in sorted(verdicts.items())
+                    ]
+                    passed = sum(1 for v in verdicts.values() if v["verdict"] == "pass")
+                    entry["summary"] = {"total": len(verdicts), "passed": passed}
 
-            results.append(entry)
-            status = f"{entry['summary'].get('passed','?')}/{entry['summary'].get('total','?')}" if "error" not in entry else f"ERR:{entry['error'][:30]}"
-            print(f"  [{i}/{len(jobs)}] {cell_key} {judge_name}: {status} ({r.get('latency_s','?')}s)")
+                results.append(entry)
+                status = f"{entry['summary'].get('passed','?')}/{entry['summary'].get('total','?')}" if "error" not in entry else f"ERR:{entry['error'][:30]}"
+                print(f"  [{i}/{len(jobs)}] {cell_key} {judge_name}: {status} ({r.get('latency_s','?')}s)")
 
-    with open(OUT_JSONL, "w") as f:
-        for entry in results:
-            f.write(json.dumps(entry, ensure_ascii=False) + "\n")
-    print(f"\nJSONL: {len(results)} rows → {OUT_JSONL}")
+    if not (args.skip_judge and OUT_JSONL.exists()):
+        with open(OUT_JSONL, "w") as f:
+            for entry in results:
+                f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+        print(f"\nJSONL: {len(results)} rows → {OUT_JSONL}")
 
     # ---- κ (J1 vs J2 per cell) ----
     kappa_rows = []
@@ -254,6 +268,21 @@ def main() -> None:
                 "r272": my_str, "r268": r268_val,
             })
 
+    # ---- Compare with r271 (v3.1 pre-tight, same-source) ----
+    R271 = HERE / "receipt-r271-rubric-v31.jsonl"
+    r271_map = {}
+    if R271.exists():
+        for line in R271.read_text().splitlines():
+            if not line.strip():
+                continue
+            e = json.loads(line)
+            if "error" in e:
+                continue
+            ck = e["cell"]
+            jk = e["judge"].split("-")[0]
+            s = e["summary"]
+            r271_map[f"{ck}|{jk}"] = f"{s.get('passed','?')}/{s.get('total','?')}"
+
     # ---- Compare with r269 (v3 same-source) ----
     r269_map = {}
     if R269.exists():
@@ -279,6 +308,7 @@ def main() -> None:
             r269_compare.append({
                 "cell": ck, "judge": jk,
                 "r272": f"{s.get('passed','?')}/{s.get('total','?')}",
+                "r271": r271_map.get(key, "?"),
                 "r269": r269_map[key],
             })
 
@@ -379,8 +409,8 @@ def main() -> None:
 
     if r269_compare:
         lines += ["", "## 与 r269 (v3 同源) 逐格对照", ""]
-        lines.append("| Cell | Judge | r272 (v3.1 收紧) | r269 (v3) | Δ |")
-        lines.append("|------|-------|-------------|-----------|---|")
+        lines.append("| Cell | Judge | r272 (v3.1 收紧) | r271 (v3.1 初版) | r269 (v3) | Δ vs r269 |")
+        lines.append("|------|-------|-------------|-------------|-----------|---|")
         for c in r269_compare:
             delta = ""
             try:
@@ -389,7 +419,7 @@ def main() -> None:
                 delta = f"{p272-p269:+.4f}"
             except Exception:
                 pass
-            lines.append(f"| {c['cell']} | {c['judge']} | {c['r272']} | {c['r269']} | {delta} |")
+            lines.append(f"| {c['cell']} | {c['judge']} | {c['r272']} | {c.get('r271','?')} | {c['r269']} | {delta} |")
 
     if r270_compare:
         lines += ["", "## 与 r270 (arena 异源) 逐格对照（外部参考）", ""]
