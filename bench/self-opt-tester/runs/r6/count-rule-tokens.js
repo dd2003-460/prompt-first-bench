@@ -39,7 +39,8 @@ const ROUTES = {
   "04.5": ["00", "04.5"],
 };
 
-// 示例（tier-3，按需）：INDEX v1.1 第三列；阶段包默认计入，可用 --core-only 排除
+// 示例（tier-3，真正按需）：R8 起不在路由表中，不默认读取。
+// 保留 EX_ROUTES 为空对象以兼容 --stage 输出；实际加载由 agent 遇到卡点时触发。
 const EXAMPLES = {
   "00": "examples/00-common-review-examples.md",
   "01": "examples/01-examples.md",
@@ -49,10 +50,7 @@ const EXAMPLES = {
   "04": "examples/04-examples.md",
   "04.5": "examples/04.5-examples.md",
 };
-const EX_ROUTES = {
-  "01": ["00", "01"], "02": ["00", "02"], "02.5": ["00", "02.5"],
-  "03": ["00", "03"], "04": ["00", "04"], "04.5": ["00", "04.5"],
-};
+const EX_ROUTES = {};
 
 let enc = null;
 let method = "o200k_js_tiktoken";
