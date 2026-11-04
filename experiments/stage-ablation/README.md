@@ -36,4 +36,4 @@
 
 **下一步**：异源 judge（Perplexity via ego-browser，72 runs 运行中）→ 论文初稿（`paper-draft.md` 已写）。
 
-**异源 judge 状态**（2026-11-04）：Gemini 网页版在 ego-lite 会话中不可用（/app 被重定向回 landing page），改用 Perplexity。流程已验证（click [role=textbox] → keyboard.type → Enter → 提取"已完成"后文本）。全量 Q1-Q4 × S0-S5 × r1-r3 = 72 runs 后台运行中（~2.5h）。
+**异源 judge 状态**（2026-11-04）：Gemini 网页版在 ego-lite 会话中不可用（/app 被重定向回 landing page），改用 Perplexity。流程已验证（click [role=textbox] → keyboard.type → Enter → 提取"已完成"后文本）。全量 Q1-Q4 × S0-S5 × r1-r3 = 72 runs。**⚠️ 当前阻塞（11-04 10:10）**：Perplexity 免费额度耗尽（"您已达到免费搜索次数上限，几小时后重置"），且凌晨的"运行中"实际只落了 4 条就随会话断开——之前日志无逐条进度是假象。cross_judge.py 已加 QUOTA_EXHAUSTED 快速失败（commit 0880086），等额度重置后 `python3 cross_judge.py` resume 即可（自动跳过已判）。
