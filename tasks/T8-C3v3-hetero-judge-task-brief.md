@@ -2,9 +2,9 @@
 
 > 派发目标：LMArena agent（pfb 仓库，复用既有会话）
 > 本任务只涉及 prompt-first-bench/main，忽略历史中其他仓库的消息。
-> 背景：r277 收口报告确认同源 judge（qwen3.8-27b 既生成又裁判）是 conf 升档的唯一瓶颈。
-> r268 同源重放显示 S02 长工件 J2 判分崩塌（κ<0.4），G2 spread 由噪声贡献。
-> 异源 judge 对同一 18 工件复判 = 唯一解锁路径。
+> 背景：rubric v3.1 迭代完成（r271→r277），S01 效度修复（0%→99.4%）、J1/J2 一致性 κ 0.48→0.69、G2 11/12。
+> 但同源 judge（qwen3.8-27b 既生成又裁判）仍是 conf 升档瓶颈——r270 arena 异源 vs 本地同源 κ≈0。
+> 本任务：用 v3.1 rubric 做 arena 异源复判，验证 rubric 修复在异源条件下是否成立。
 
 ## 【强制段】
 你是 LMArena agent，工作仓库 = dd2003-460/prompt-first-bench，分支 main。先 `git pull` 到最新。
@@ -18,10 +18,10 @@
 ## 【背景】≤10行
 - 实验：3 配置（A-full 完整 / B-nofreeze 删 freeze / B-none 全删）× 2 域（D1-meeting-room / D2-file-collab）× 3 阶段（stage01/02/03）= 18 工件。
 - 工件路径：`experiments/T8-matrix/runs/c3-v3/runs-fullloop/pilot/{config}/{domain}/stage{NN}.md`
-- Judge prompts（冻结版 v3-final）：`experiments/T8-matrix/runs/c3-v3/calibration/judge-prompts-rubric-v3.json` 的 `prompts.J1-strict-v3.text` 和 `prompts.J2-lenient-v3.text`
+- Judge prompts（终版 v3.1，r277 收口）：`experiments/T8-matrix/runs/c3-v3/calibration/judge-prompts-rubric-v3.1.json` 的 `prompts.J1-strict-v3.text`（sha256_16: 8811ae284ab280bb）和 `prompts.J2-lenient-v3.text`（sha256_16: b229dcc9a14b2081）。**注意用 v3.1 不是 v3**——v3.1 含 S01 分解类自洽性特例 + J2 来源宽容条款 + B-2a 降级。
 - 条目清单由你从工件正文提取（规则见下方【条目提取规则】），注入 prompt 末尾「条目清单：...」段
 - 本地同源基线（r268）：`experiments/T8-matrix/runs/c3-v3/runs-fullloop/receipt-r268-same-source-replay.json`——你的任务不是复算它，而是独立重打
-- **盲判纪律**：不要先看 r268 里的本地分数再打分。打完全部 36 cell（18 工件 × 2 判官）后再对照
+- **盲判纪律**：不要先看任何本地 receipt（r268/r277 等）里的分数再打分。打完全部 36 cell（18 工件 × 2 判官）后再对照
 
 ## 【条目提取规则】（与 r268 replay 脚本同版正则策略）
 从工件正文提取以下模式的 id：
