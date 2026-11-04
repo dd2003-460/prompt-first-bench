@@ -34,4 +34,6 @@
 
 **限制**：n=3 方向性、统计功效低但符号稳定；judge=被评模型自身 (conf≤0.7)；D1=N/A（Python 3.9 vs GPT Researcher 3.10+）。
 
-**下一步**：异源 judge（Gemini via ego-browser，需重新登录）→ 论文初稿。
+**下一步**：异源 judge（Perplexity via ego-browser，72 runs 运行中）→ 论文初稿（`paper-draft.md` 已写）。
+
+**异源 judge 状态**（2026-11-04）：Gemini 网页版在 ego-lite 会话中不可用（/app 被重定向回 landing page），改用 Perplexity。流程已验证（click [role=textbox] → keyboard.type → Enter → 提取"已完成"后文本）。全量 Q1-Q4 × S0-S5 × r1-r3 = 72 runs 后台运行中（~2.5h）。
