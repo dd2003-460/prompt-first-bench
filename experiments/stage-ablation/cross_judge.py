@@ -163,7 +163,18 @@ def main():
     qs = args or ["Q1", "Q2", "Q3", "Q4", "Q5"]
     local_scores = _load_local_scores()
     print(f"Loaded {len(local_scores)} local scores from scoring.md")
+
+    # 断点续跑：加载已有结果，跳过已完成的 tag
+    out_path = os.path.join(RUNS_DIR, "cross-judge-results.json")
     results = []
+    done_tags = set()
+    if os.path.exists(out_path):
+        try:
+            results = json.load(open(out_path))
+            done_tags = {r["tag"] for r in results if r.get("perplexity_m1") is not None}
+            print(f"Resuming: {len(done_tags)} already judged, will skip")
+        except (json.JSONDecodeError, KeyError):
+            results = []
     for qid in qs:
         gold_path = GOLD_FILES.get(qid)
         if not gold_path or not os.path.exists(gold_path):
@@ -180,6 +191,9 @@ def main():
                     continue
                 d = json.load(open(run_path))
                 tag = f"{arm}-{qid}-r{rep}"
+                if tag in done_tags:
+                    print(f"[skip] {tag} (already judged)", flush=True)
+                    continue
                 print(f"[judge] {tag}... ({count+1}/{limit})", flush=True)
                 try:
                     verdict = judge_m1(gold, d["output_text"])
@@ -201,6 +215,9 @@ def main():
                                      "local_m1": local_scores.get(tag, {}).get("M1"),
                                      "perplexity_m1": None, "notes": str(e)[:200]})
                 time.sleep(3)  # rate limit
+                # 增量保存（每完成一个 run 就写盘，防崩）
+                with open(out_path, "w") as f:
+                    json.dump(results, f, ensure_ascii=False, indent=2)
             if count >= limit:
                 break
 
