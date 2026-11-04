@@ -63,9 +63,16 @@ await page.waitForTimeout(8000);
 const fs = require('fs');
 const prompt = fs.readFileSync({json.dumps(prompt_file)}, 'utf-8');
 
-// 点击输入框 [role="textbox"]
-await page.click('[role="textbox"]');
+// 点击主输入框（Perplexity 首页，role=textbox 即"问任何事情..."输入区）
+await page.click('[role="textbox"]', {{ label: "主输入框" }});
 await page.waitForTimeout(500);
+
+// 检测免费额度耗尽（中文/英文两种文案），提前失败不空等
+const quota = await page.evaluate(() => {{ const b = document.body ? document.body.innerText : ""; return b || ""; }});
+if (quota.includes("免费搜索次数上限") || /free (search )?(limit|allowance)/i.test(quota)) {{
+  console.log(JSON.stringify({{ text: "QUOTA_EXHAUSTED", quota: true }}));
+  return;
+}}
 
 // 输入 prompt（分块，每块 200 字符）
 const chunks = prompt.match(/./g) || [];
@@ -79,17 +86,22 @@ await page.waitForTimeout(500);
 // 按 Enter 发送
 await page.keyboard.press("Enter");
 
-// 等待响应（最多 90s）
-await page.waitForTimeout(90000);
+// 等待响应（最多 120s）：轮询检测 "已完成" 标记，出现即停
+let respText = "";
+for (let w = 0; w < 24; w++) {{
+  await page.waitForTimeout(5000);
+  const body = await page.evaluate(() => document.body.innerText || "");
+  if (body.includes("已完成") && body.length > 800) {{ respText = body; break; }}
+}}
+if (!respText) respText = await page.evaluate(() => document.body.innerText || "");
 
 // 提取回复（找 "已完成" 标记后的文本）
-const text = await page.evaluate(() => {{
-  const body = document.body.innerText;
-  const idx = body.lastIndexOf('已完成');
-  if (idx > -1) return body.slice(idx, idx + 2000);
-  const lines = body.split('\\n').filter(l => l.trim());
-  return lines.slice(-30).join('\\n');
-}});
+const text = await page.evaluate((fullBody) => {{
+  const idx = fullBody.lastIndexOf('已完成');
+  if (idx > -1) return fullBody.slice(idx, idx + 3000);
+  const lines = fullBody.split('\\n').filter(l => l.trim());
+  return lines.slice(-40).join('\\n');
+}}, respText);
 
 console.log(JSON.stringify({{text: text}}));
 }})();
