@@ -4,7 +4,7 @@
 |---|---|
 | Repo | https://github.com/dd2003-460/prompt-first-bench |
 | Branch | `arena/4a614e63-prompt-first-bench`（`main` 未改动、未推送） |
-| Commit | `__COMMIT_SHA__`（本回执所在 commit；批次链 `9e747b9`→`280295f`→`fadd354`→`d9438fd`→`9f32e1e`→`75814ce`） |
+| Commit | `7227c32`（本回执所在 commit；批次链 `9e747b9`→`280295f`→`fadd354`→`d9438fd`→`9f32e1e`→`75814ce`） |
 | 完成 batch | **6 / 6**，36 / 36 cell，无 error |
 | Rubric | v3.1，J1 sha256_16 `8811ae284ab280bb` / J2 `b229dcc9a14b2081`（与任务书逐字一致） |
 | 结果文件 | `experiments/T8-matrix/runs/c3-v3/runs-fullloop/arena-hetero-judge-results-v31.jsonl`（36 行） |
