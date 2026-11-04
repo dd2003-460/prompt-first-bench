@@ -35,7 +35,7 @@
 
 ```markdown
 【执行前必读 · 阶段门控】
-1. 本任务必须走 1-loop。**先读 `loop/prompt-first/INDEX.md`（约 460 tok），按路由表确定当前阶段
+1. 本任务必须走 1-loop。**先读 `loop/prompt-first/INDEX.md`（482 tok），按路由表确定当前阶段
    需要的 2–3 个文件，只读这些文件。不要一次性读全部 7 个。**
 2. 每阶段产出落盘 `loop-artifacts/stages/<N>/`，阶段判定 pass 才进下一阶段；
    进入下一阶段前**重新读 INDEX.md** 确认该阶段需要哪些文件（已读过的文件不必重读）。
@@ -46,7 +46,8 @@
 ```
 
 **注入量对照**（o200k 实测，见 `run6-token-analysis.md` §2）：
-全量 7 文件 + SOP = 12,086 tok/turn；阶段包 + INDEX = 2,119–4,549 tok/turn（均值 3,012）。
+全量 7 文件 + SOP = 12,086 tok/turn；阶段包 + INDEX = **2,983–5,443** tok/turn（均值 **3,913**，−67.6%）。
+其中示例（`examples/`，4,211 tok）列为 tier-3，规则文件指到才读；不读示例时阶段包为 2,143–4,573（均值 3,036）。
 
 ## 3. 仓库映射 + 连接 + 失败降级（自 arena-outsource.md 并入）
 
