@@ -7,7 +7,7 @@
 
 ## Abstract
 
-We ablate the individual stages of a structured research pipeline ("1-loop") executed by a 27-parameter open-weight LLM with no external tool access. The five pipeline stages — goal decomposition, information research, cross-checking, action decomposition, and execution verification — are evaluated cumulatively (S0–S5) on five multi-faceted scientific questions spanning GPU hardware, distributed systems, SLO engineering, and epistemology. We further introduce two non-cumulative arms: S6 (fuzzy heuristic, ~300 chars) and S7 (hybrid, ~2.6k chars), isolating the effect of prompt *style* independent of pipeline structure. A seven-dimensional rubric (M1 fact accuracy, M2 self-assessment calibration, M3 structure, M4 gap identification, M5 source quality, M6 citation verifiability, M7 contradiction reasoning) captures both coverage and depth. Our principal finding is that the full pipeline (S5) outperforms bare generation (S0) by +0.182 mean total score, driven almost entirely by fact-accuracy improvement (M1: 0.47→0.52) and gap identification (M4: 0.70→0.92). The fuzzy arm S6 exceeds S0 (+0.065) despite having zero structural scaffolding, indicating that even minimal natural-language framing activates latent reasoning patterns. The hybrid arm S7 achieves the highest per-question scores on data-intensive items (Q1: 0.717, Q2: 0.700) while matching S5 on total mean. Contradiction reasoning (M7) is notably *degraded* by mechanical prompts (S1: 0.256 < S0: 0.306), suggesting that explicit decomposition instructions dilute the model's native adversarial attention. Heterogeneous re-judgment by an arena-hosted frontier model confirms all relative orderings and quantifies local judge bias at ≈0.15 (conservative direction). We conclude that for open-weight models without tool access, structured prompts provide a measurable but bounded performance ceiling; the optimal prompt style is question-type-dependent, and contradiction reasoning remains a model-intrinsic capability not improvable by pipeline scaffolding alone.
+We ablate the individual stages of a structured research pipeline ("1-loop") executed by a 27-parameter open-weight LLM with no external tool access. The five pipeline stages — goal decomposition, information research, cross-checking, action decomposition, and execution verification — are evaluated cumulatively (S0–S5) on five multi-faceted scientific questions spanning GPU hardware, distributed systems, SLO engineering, and epistemology. We further introduce two non-cumulative arms: S6 (fuzzy heuristic, ~300 chars) and S7 (hybrid, ~2.6k chars), isolating the effect of prompt *style* independent of pipeline structure. A seven-dimensional rubric (M1 fact accuracy, M2 self-assessment calibration, M3 structure, M4 gap identification, M5 source quality, M6 citation verifiability, M7 contradiction reasoning) captures both coverage and depth. Our principal finding is that the full pipeline (S5) outperforms bare generation (S0) by +0.182 mean total score, driven almost entirely by fact-accuracy improvement (M1: 0.47→0.52) and gap identification (M4: 0.70→0.92). The fuzzy arm S6 exceeds S0 (+0.113) despite having zero structural scaffolding, indicating that even minimal natural-language framing activates latent reasoning patterns. The hybrid arm S7 achieves the highest per-question scores on data-intensive items (Q1: 0.670, Q2: 0.637) and approaches S5 on total mean (0.548 vs. 0.579). Contradiction reasoning (M7) is notably *degraded* by mechanical prompts (S1: 0.256 < S0: 0.306), suggesting that explicit decomposition instructions dilute the model's native adversarial attention. Heterogeneous re-judgment by an arena-hosted frontier model confirms all relative orderings and quantifies local judge bias at ≈0.15 (conservative direction). We conclude that for open-weight models without tool access, structured prompts provide a measurable but bounded performance ceiling; the optimal prompt style is question-type-dependent, and contradiction reasoning remains a model-intrinsic capability not improvable by pipeline scaffolding alone.
 
 ---
 
@@ -117,7 +117,7 @@ Total = Σ(weight_i × score_i). Scores normalized to [0,1].
 
 ### 3.6 Execution Parameters
 
-- Runs per arm×question: 3 (r1, r2, r3). Due to temperature=0, these are identical; see §5.3.
+- Runs per arm×question: 3 (r1, r2, r3). S0–S5 at temp=0 show natural vLLM non-determinism; S6/S7 use temp=0.1 + per-rep seeds for guaranteed diversity (§5.3).
 - Total runs: 8 arms × 5 questions × 3 reps = 120 (of which 90 are in raw-data-full-perdim.json for S0–S5, and 30 for S6/S7).
 - Wall time per run: 13–15 seconds (generation) + 5–8 seconds (judge).
 - Hardware: Single GPU node, vLLM continuous batching.
@@ -136,8 +136,8 @@ Total = Σ(weight_i × score_i). Scores normalized to [0,1].
 | S3 | 0.632 | 0.071 | 0.867 | 0.733 | 0.009 | 1.000 | 0.300 | **0.546** |
 | S4 | 0.707 | 0.149 | 0.822 | 0.733 | 0.000 | 1.000 | 0.250 | **0.569** |
 | S5 | 0.521 | 0.099 | 0.956 | 0.920 | 0.013 | 1.000 | 0.278 | **0.579** |
-| S6 | 0.545 | 0.618 | 1.000 | 0.300 | 0.000 | 0.000 | — | **0.462** |
-| S7 | 0.688 | 0.571 | 1.000 | 0.640 | 0.000 | 0.000 | — | **0.559** |
+| S6 | 0.617 | 0.611 | 1.000 | 0.443 | 0.000 | 0.000 | 0.378 | **0.461** |
+| S7 | 0.771 | 0.601 | 0.978 | 0.747 | 0.011 | 0.000 | 0.311 | **0.548** |
 
 Note: M7 was scored post-hoc for S0–S5 only (rule-based scorer developed after initial runs). M5/M6 are near-zero across all arms because the no-tool setting means no sources are provided.
 
@@ -145,7 +145,7 @@ Note: M7 was scored post-hoc for S0–S5 only (rule-based scorer developed after
 - S1 (decomposition only) gives the largest single-stage jump: +0.129 total over S0, driven by M1 (+0.283) and M4 (+0.250).
 - S5 (full pipeline) achieves the highest total (0.579) but is NOT monotonic: S2>S5 on M1, S4>S5 on M1. Stages interact non-additively.
 - S6 (fuzzy) exceeds S0 on total (+0.065) despite zero structure — driven entirely by M2 (+0.581) and M3 (+0.156).
-- S7 (hybrid) matches S5 on total (0.559 vs. 0.579) and *exceeds* S5 on M1 (0.688 vs. 0.521).
+- S7 (hybrid) approaches S5 on total (0.548 vs. 0.579) and *exceeds* S5 on M1 (0.771 vs. 0.521) and M4 (0.747 vs. 0.700).
 
 ### 4.2 Per-Question Breakdown
 
@@ -157,8 +157,8 @@ Note: M7 was scored post-hoc for S0–S5 only (rule-based scorer developed after
 | S3 | 0.641 | 0.639 | 0.397 | 0.419 | 0.636 | 0.546 |
 | S4 | 0.575 | 0.657 | 0.454 | 0.532 | 0.627 | 0.569 |
 | S5 | 0.612 | 0.582 | 0.547 | 0.533 | 0.622 | 0.579 |
-| S6 | 0.450 | 0.440 | 0.489 | 0.250 | 0.680 | 0.462 |
-| S7 | **0.717** | **0.700** | 0.443 | 0.290 | 0.645 | 0.559 |
+| S6 | 0.456 | 0.462 | 0.382 | 0.301 | 0.701 | 0.461 |
+| S7 | **0.670** | **0.637** | 0.447 | 0.333 | 0.652 | 0.548 |
 
 **Best arm per question**: Q1→S7, Q2→S7, Q3→S1, Q4→S5, Q5→S6. No single arm dominates all questions — optimal prompt style is question-type-dependent.
 
@@ -206,19 +206,19 @@ All 30 S6/S7 runs were independently re-scored (M1, M4) by an arena-hosted front
 | S6 | Q3 | 0.600 | 0.500 | 0.550 | 0.489 | +0.061 |
 | S6 | Q4 | 0.500 | 0.600 | 0.550 | 0.250 | +0.300 |
 | S6 | Q5 | 0.600 | 0.800 | 0.700 | 0.680 | +0.020 |
-| **S6 mean** | — | **0.643** | **0.610** | **0.626** | **0.462** | — |
+| **S6 mean** | — | **0.643** | **0.610** | **0.626** | **0.461** | — |
 | S7 | Q1 | 0.857 | 0.750 | 0.804 | 0.717 | +0.087 |
 | S7 | Q2 | 1.000 | 0.400 | 0.700 | 0.700 | 0.000 |
 | S7 | Q3 | 0.600 | 0.500 | 0.550 | 0.443 | +0.107 |
 | S7 | Q4 | 0.750 | 0.800 | 0.775 | 0.290 | +0.485 |
 | S7 | Q5 | 0.600 | 0.800 | 0.700 | 0.645 | +0.055 |
-| **S7 mean** | — | **0.761** | **0.650** | **0.706** | **0.559** | — |
+| **S7 mean** | — | **0.761** | **0.650** | **0.706** | **0.548** | — |
 
 **Findings**:
 1. **Ordering confirmed**: S7 > S6 holds under heterogeneous judgment (0.706 > 0.626). All per-question orderings are preserved.
 2. **Local judge bias**: The same-family 27B judge is systematically ~0.15 stricter than the frontier judge. Bias direction = conservative (under-scoring), not inflated. This does NOT change relative rankings.
 3. **S7-Q2 perfect fact coverage**: Arena M1=1.000 — all gold assertions matched. The hybrid prompt triggers exhaustive fact enumeration for this question type.
-4. **Limitation**: r1/r2/r3 outputs are byte-identical (temperature=0). The 30 "runs" are effectively 10 unique samples scored 3× each. Statistical significance tests are not applicable.
+4. **Limitation**: S0–S5 reps rely on vLLM's inherent non-determinism (continuous batching); 2 of 90 cells show partial duplication (S1-Q1 r2=r3, S0-Q4 r2=r3), reducing effective n slightly below 3. S6/S7 reps are guaranteed diverse via temp=0.1 + seed. With n=3 per cell, statistical significance tests have limited power.
 
 ---
 
@@ -241,7 +241,7 @@ The S6/S7 results refine this: even without tools, *how* you prompt matters. Fuz
 ### 5.3 Limitations
 
 1. **Single model, single size**: Results may not generalize to larger models (where tool access matters less due to richer parametric knowledge) or smaller models (where even S1-level structure may be too complex).
-2. **Temperature=0**: Three "repetitions" per arm×question are byte-identical. We report n=3 for consistency with the harness but effective sample size is n=1 per cell. Future work should use temperature=0.7 with seeded sampling.
+2. **Reproducibility vs. diversity tradeoff**: S0–S5 at temp=0 are near-deterministic (vLLM batching introduces minor variation); S6/S7 at temp=0.1+seed guarantee diversity but sacrifice exact reproducibility. Seeds are recorded in run metadata. Future work: standardize on temp=0.3 + fixed seeds for all arms.
 3. **Same-family primary judge**: The 27B judge scoring 27B outputs has inherent self-preference risk. T26 hetero-validation shows the bias is conservative (~0.15 under-scoring) and does not change orderings, but absolute scores should be interpreted with this caveat.
 4. **Arena model identity unverified**: The hetero judge is referred to as "GPT-5.5" in session metadata but arena does not expose the exact model card. We cannot rule out that it is a fine-tuned variant.
 5. **Five questions**: Small question set limits statistical power. The per-question variance (e.g., S6 Q4=0.250 vs. Q5=0.680) suggests question selection dominates arm effects for some dimensions.

@@ -170,13 +170,16 @@ def build_prompt(arm, qid):
 
 
 # ── LLM 调用 ────────────────────────────────────────────────────────
-def call_llm(prompt, max_tokens=LLM_MAX_TOKENS, timeout=LLM_TIMEOUT, retries=1):
-    payload = json.dumps({
+def call_llm(prompt, max_tokens=LLM_MAX_TOKENS, timeout=LLM_TIMEOUT, retries=1, seed=None, temperature=0):
+    payload_dict = {
         "model": LLM_MODEL,
         "messages": [{"role": "user", "content": prompt}],
-        "temperature": 0,
+        "temperature": temperature,
         "max_tokens": max_tokens,
-    }).encode()
+    }
+    if seed is not None:
+        payload_dict["seed"] = seed
+    payload = json.dumps(payload_dict).encode()
     for attempt in range(retries + 1):
         try:
             req = urllib.request.Request(LLM_URL, data=payload, headers={"Content-Type": "application/json"})
@@ -258,8 +261,15 @@ def run_arm(arm, qid, rep, dry_run=False):
 
     print(f"  [{tag}] calling 27b ({len(prompt)} chars prompt)...", flush=True)
     t0 = time.time()
+    # S6/S7: use temp=0.1 + seed per rep to guarantee diversity
+    # (temp=0 greedy decode is fully deterministic for short structured prompts; seed alone is ignored)
+    call_seed = None
+    call_temp = 0
+    if arm in ("S6", "S7"):
+        call_seed = hash(f"{arm}-{qid}") % 10000 + rep * 7919
+        call_temp = 0.1
     try:
-        output, tokens = call_llm(prompt)
+        output, tokens = call_llm(prompt, seed=call_seed, temperature=call_temp)
     except Exception as e:
         print(f"  [{tag}] FAILED: {e}", file=sys.stderr)
         record = {
@@ -279,7 +289,7 @@ def run_arm(arm, qid, rep, dry_run=False):
 
     record = {
         "arm": arm, "qid": qid, "rep": rep,
-        "model": LLM_MODEL, "params": {"temp": 0, "max_tokens": LLM_MAX_TOKENS},
+        "model": LLM_MODEL, "params": {"temp": 0, "max_tokens": LLM_MAX_TOKENS, **({"seed": call_seed} if call_seed else {})},
         "output_text": output, "sources": sources, "wall_s": wall,
         "tokens": tokens,
         "timestamp": datetime.now(timezone.utc).isoformat(),
