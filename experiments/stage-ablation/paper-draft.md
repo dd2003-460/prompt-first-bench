@@ -171,7 +171,7 @@ Note: M7 was scored post-hoc for S0–S5 only (rule-based scorer developed after
 
 S6/S7 (M1+M4 only; full 6-dim per-run scores not retained): S6 M1=0.643 [0.588, 0.696], M4=0.610 [0.533, 0.683]; S7 M1=0.761 [0.688, 0.839], M4=0.650 [0.560, 0.737]. S7 > S6 on both dimensions (CI non-overlap on M1). Tool arms (S7T/S7F/S7V): point estimates only (§5.1); per-run scores from a single scoring pass were not retained for bootstrap.
 
-Paired comparison S7V vs. S7 (n=4 pairs: Q1/Q4 × r1/r2, Wilcoxon signed-rank): p=0.625, Hedges' g=−0.231 — directionally S7V ≤ S7 on M1 but far underpowered (n=4). Full 15-pair test requires re-scoring S7V with the same judge pass as S7 (future work). All CIs use per-run (not pooled) aggregation; tie-break: none (continuous scores); judge family: local 27B (S0–S5), arena frontier model (S6/S7 M1/M4).
+Paired comparison S7V vs. S7 (n=15 pairs: Q1–Q5 × r1–r3, assertion-based M1 + gap-based M4, Wilcoxon signed-rank): M1 p=0.029, Hedges' g=+0.044 (S7V 0.775 vs. S7 0.761); M4 p=0.529, Hedges' g=−0.326 (S7V 0.529 vs. S7 0.650). S7V matches S7 on fact coverage (M1) but underperforms on gap identification (M4), consistent with the T35 single-pass finding that verification framing trades explicit gap-listing for thorough fact enumeration. Judge note: S7V scored by local qwen3.8-27b assertion judge; S7 from arena frontier-model hetero-judge — cross-judge comparison, direction reliable, magnitude approximate. All CIs use per-run (not pooled) aggregation; tie-break: none (continuous scores); judge family: local 27B (S0–S5, S7V rerun), arena frontier model (S6/S7 M1/M4).
 
 ### 4.2 Per-Question Breakdown
 
