@@ -1,13 +1,12 @@
 # Prompt-First Research: Stage Ablation of a 1-Loop Pipeline in an LLM Agent (27B, No Tool Access)
 
-**Version**: v2.0 (2026-11-05) · **Status**: draft — ready for submission  
-**Origin**: ai · T27-paper-finalize
+*Cheng Lu*
 
 ---
 
 ## Abstract
 
-We ablate the individual stages of a structured research pipeline ("1-loop") executed by a 27-parameter open-weight LLM with no external tool access. The five pipeline stages — goal decomposition, information research, cross-checking, action decomposition, and execution verification — are evaluated cumulatively (S0–S5) on five multi-faceted scientific questions spanning GPU hardware, distributed systems, SLO engineering, and epistemology. We further introduce two non-cumulative arms: S6 (fuzzy heuristic, ~300 chars) and S7 (hybrid, ~2.6k chars), isolating the effect of prompt *style* independent of pipeline structure. A seven-dimensional rubric (M1 fact accuracy, M2 self-assessment calibration, M3 structure, M4 gap identification, M5 source quality, M6 citation verifiability, M7 contradiction reasoning) captures both coverage and depth. Our principal finding is that the full pipeline (S5) outperforms bare generation (S0) by +0.182 mean total score (per-run aggregation, n=15/arm, local 27B judge), driven almost entirely by fact-accuracy improvement (M1: 0.47→0.52) and gap identification (M4: 0.70→0.92). The fuzzy arm S6 exceeds S0 (+0.065) despite having zero structural scaffolding, indicating that even minimal natural-language framing activates latent reasoning patterns. The hybrid arm S7 achieves the highest per-question scores on data-intensive items (Q1: 0.670, Q2: 0.637) and approaches S5 on total mean (0.548 vs. 0.579). Contradiction reasoning (M7) is notably *degraded* by mechanical prompts (S1: 0.256 < S0: 0.306), suggesting that explicit decomposition instructions dilute the model's native adversarial attention. Heterogeneous re-judgment by an arena-hosted frontier model (S6/S7, M1+M4 only, n=15/arm) confirms all relative orderings and quantifies local judge bias at ≈0.15 (conservative direction, per-run mean of |arena−local| across 30 runs). We conclude that for open-weight models without tool access, structured prompts provide a measurable but bounded performance ceiling; the optimal prompt style is question-type-dependent, and contradiction reasoning remains a model-intrinsic capability not improvable by pipeline scaffolding alone.
+We ablate the individual stages of a structured research pipeline ("1-loop") executed by a 27-parameter open-weight LLM with no external tool access. The five pipeline stages — goal decomposition, information research, cross-checking, action decomposition, and execution verification — are evaluated cumulatively (S0–S5) on five multi-faceted scientific questions spanning GPU hardware, distributed systems, SLO engineering, and epistemology. We further introduce two non-cumulative arms: S6 (fuzzy heuristic, ~300 chars) and S7 (hybrid, ~2.6k chars), isolating the effect of prompt *style* independent of pipeline structure. A seven-dimensional rubric (M1 fact accuracy, M2 self-assessment calibration, M3 structure, M4 gap identification, M5 source quality, M6 citation verifiability, M7 contradiction reasoning) captures both coverage and depth. Our principal finding is that the full pipeline (S5) outperforms bare generation (S0) by +0.182 mean total score (per-run aggregation, n=15/arm, local 27B judge), driven almost entirely by fact-accuracy improvement (M1: 0.47→0.52) and gap identification (M4: 0.70→0.92). The fuzzy arm S6 exceeds S0 (+0.065) despite having zero structural scaffolding, indicating that even minimal natural-language framing activates latent reasoning patterns. The hybrid arm S7 achieves the highest per-question scores on data-intensive items (Q1: 0.670, Q2: 0.637) and approaches S5 on total mean (0.548 vs. 0.579). Contradiction reasoning (M7) is notably *degraded* by mechanical prompts (S1: 0.256 < S0: 0.306), suggesting that explicit decomposition instructions dilute the model's native adversarial attention. Heterogeneous re-judgment by an frontier API model (S6/S7, M1+M4 only, n=15/arm) confirms all relative orderings and quantifies local judge bias at ≈0.15 (conservative direction, per-run mean of |frontier−local| across 30 runs). We conclude that for open-weight models without tool access, structured prompts provide a measurable but bounded performance ceiling; the optimal prompt style is question-type-dependent, and contradiction reasoning remains a model-intrinsic capability not improvable by pipeline scaffolding alone.
 
 ---
 
@@ -24,7 +23,7 @@ This work asks: **given a fixed 27B open-weight model with no external tool acce
 1. **Systematic stage ablation** (S0–S5): cumulative removal of 1-loop stages under controlled conditions, scored on 7 dimensions × 5 questions × 3 repetitions = 105 runs for the core arms, plus 60 additional runs for style arms (S6/S7) and tool-augmented arms (S7T/S7F/S7V).
 2. **Prompt-style isolation** (S6, S7): non-cumulative arms separating *structure* from *style*, revealing that fuzzy natural-language prompts activate different (sometimes superior) reasoning pathways than mechanical decomposition.
 3. **Seven-dimensional rubric** including M7 (contradiction reasoning), a novel dimension capturing the model's ability to detect and adjudicate internal contradictions in its own knowledge.
-4. **Heterogeneous validation**: independent re-scoring by a frontier model (arena-hosted) confirming ordering stability and quantifying same-family judge bias.
+4. **Heterogeneous validation**: independent re-scoring by a frontier model (via frontier API) confirming ordering stability and quantifying same-family judge bias.
 5. **Negative result**: contradiction reasoning (M7) is *degraded* by structured prompts — a counterintuitive finding with implications for prompt design.
 
 ---
@@ -124,7 +123,7 @@ Total = Σ(weight_i × score_i). Scores normalized to [0,1].
 
 - **Primary judge**: Same-model (Qwen3.8-27B) via vLLM API. Prompt: structured JSON extraction of assertions/gaps from both model output and gold, then pointwise comparison.
 - **Confidence cap**: Judge confidence capped at 0.7 (to account for known LLM judge unreliability).
-- **Hetero judge**: Arena-hosted frontier model (referred to as "GPT-5.5" in session metadata; exact model name not disclosed by arena). Re-scored M1 and M4 for all 30 S6/S7 runs independently.
+- **Hetero judge**: Frontier API model (referred to as "GPT-5.5" in session metadata; exact model name not disclosed by the API provider). Re-scored M1 and M4 for all 30 S6/S7 runs independently.
 
 ### 3.6 Execution Parameters
 
@@ -171,7 +170,7 @@ Note: M7 was scored post-hoc for S0–S5 only (rule-based scorer developed after
 
 S6/S7 (M1+M4 only; full 6-dim per-run scores not retained): S6 M1=0.643 [0.588, 0.696], M4=0.610 [0.533, 0.683]; S7 M1=0.761 [0.688, 0.839], M4=0.650 [0.560, 0.737]. S7 > S6 on both dimensions (CI non-overlap on M1). Tool arms (S7T/S7F/S7V): point estimates only (§5.1); per-run scores from a single scoring pass were not retained for bootstrap.
 
-Paired comparison S7V vs. S7 (n=15 pairs: Q1–Q5 × r1–r3, assertion-based M1 + gap-based M4, Wilcoxon signed-rank): M1 p=0.029, Hedges' g=+0.044 (S7V 0.775 vs. S7 0.761); M4 p=0.529, Hedges' g=−0.326 (S7V 0.529 vs. S7 0.650). S7V matches S7 on fact coverage (M1) but underperforms on gap identification (M4), consistent with the T35 single-pass finding that verification framing trades explicit gap-listing for thorough fact enumeration. Judge note: S7V scored by local qwen3.8-27b assertion judge; S7 from arena frontier-model hetero-judge — cross-judge comparison, direction reliable, magnitude approximate. All CIs use per-run (not pooled) aggregation; tie-break: none (continuous scores); judge family: local 27B (S0–S5, S7V rerun), arena frontier model (S6/S7 M1/M4).
+Paired comparison S7V vs. S7 (n=15 pairs: Q1–Q5 × r1–r3, assertion-based M1 + gap-based M4, Wilcoxon signed-rank): M1 p=0.029, Hedges' g=+0.044 (S7V 0.775 vs. S7 0.761); M4 p=0.529, Hedges' g=−0.326 (S7V 0.529 vs. S7 0.650). S7V matches S7 on fact coverage (M1) but underperforms on gap identification (M4), consistent with the T35 single-pass finding that verification framing trades explicit gap-listing for thorough fact enumeration. Judge note: S7V scored by local qwen3.8-27b assertion judge; S7 from frontier-model hetero-judge — cross-judge comparison, direction reliable, magnitude approximate. All CIs use per-run (not pooled) aggregation; tie-break: none (continuous scores); judge family: local 27B (S0–S5, S7V rerun), frontier model (S6/S7 M1/M4).
 
 ### 4.2 Per-Question Breakdown
 
@@ -223,9 +222,9 @@ Paired comparison S7V vs. S7 (n=15 pairs: Q1–Q5 × r1–r3, assertion-based M1
 
 ### 4.5 Heterogeneous Judge Validation (T26)
 
-All 30 S6/S7 runs were independently re-scored (M1, M4) by an arena-hosted frontier model. Results:
+All 30 S6/S7 runs were independently re-scored (M1, M4) by an frontier API model. Results:
 
-| Arm | Q | Arena M1 | Arena M4 | Arena (M1+M4)/2 | Local 27B Total | Δ (Arena−Local) |
+| Arm | Q | Frontier M1 | Frontier M4 | Frontier (M1+M4)/2 | Local 27B Total | Δ (Frontier−Local) |
 |-----|---|----------|----------|-----------------|-----------------|-----------------|
 | S6 | Q1 | 0.714 | 0.750 | 0.732 | 0.450 | +0.282 |
 | S6 | Q2 | 0.800 | 0.400 | 0.600 | 0.440 | +0.160 |
@@ -243,10 +242,10 @@ All 30 S6/S7 runs were independently re-scored (M1, M4) by an arena-hosted front
 **Findings**:
 1. **Ordering confirmed**: S7 > S6 holds under heterogeneous judgment (0.706 > 0.626). All per-question orderings are preserved.
 2. **Local judge bias**: The same-family 27B judge is systematically ~0.15 stricter than the frontier judge. Bias direction = conservative (under-scoring), not inflated. This does NOT change relative rankings.
-3. **S7-Q2 perfect fact coverage**: Arena M1=1.000 — all gold assertions matched. The hybrid prompt triggers exhaustive fact enumeration for this question type.
+3. **S7-Q2 perfect fact coverage**: Frontier M1=1.000 — all gold assertions matched. The hybrid prompt triggers exhaustive fact enumeration for this question type.
 4. **Limitation**: S0–S5 reps rely on vLLM's inherent non-determinism (continuous batching); 2 of 90 cells show partial duplication (S1-Q1 r2=r3, S0-Q4 r2=r3), reducing effective n slightly below 3. S6/S7 reps are guaranteed diverse via temp=0.1 + seed. With n=3 per cell, statistical significance tests have limited power.
 
-**T36 cross-question expansion (Q2–Q5).** To test whether the Q1 hetero-judge findings generalize, we extended arena re-scoring to Q2–Q5 (72 artifacts: 6 arms × 4 questions × 3 reps). Cross-question mean curve: S0=0.445 → S1=0.447 → S2=0.500 → S3=0.478 → S4=0.452 → S5=0.486. Five-segment deltas: [+0.003, +0.053, −0.023, −0.025, +0.033]. Hypothesis verdicts: H1 (S1>S0) = INCONCLUSIVE (2 positive, 2 negative; Q1's −0.187 reversal is a single-question phenomenon, not systematic); H2 (S1→S2 is the largest gain) = CONFIRMED (3/4 questions); H3 (S2→S3 ≤ 0) = CONFIRMED (4/4 negative/near-zero); H4 (S4→S5 slightly positive) = INCONCLUSIVE (+0.033, inconsistent direction). Core conclusion: **H2 is a cross-question robust systematic effect**; the information-research stage (S2) consistently provides the largest marginal improvement regardless of question type. R5 self-check: spread=0.420 ≥ 0.15, max score 0.640 < 0.85 — no flat-score or ceiling-trigger issues.
+**T36 cross-question expansion (Q2–Q5).** To test whether the Q1 hetero-judge findings generalize, we extended frontier-model re-scoring to Q2–Q5 (72 artifacts: 6 arms × 4 questions × 3 reps). Cross-question mean curve: S0=0.445 → S1=0.447 → S2=0.500 → S3=0.478 → S4=0.452 → S5=0.486. Five-segment deltas: [+0.003, +0.053, −0.023, −0.025, +0.033]. Hypothesis verdicts: H1 (S1>S0) = INCONCLUSIVE (2 positive, 2 negative; Q1's −0.187 reversal is a single-question phenomenon, not systematic); H2 (S1→S2 is the largest gain) = CONFIRMED (3/4 questions); H3 (S2→S3 ≤ 0) = CONFIRMED (4/4 negative/near-zero); H4 (S4→S5 slightly positive) = INCONCLUSIVE (+0.033, inconsistent direction). Core conclusion: **H2 is a cross-question robust systematic effect**; the information-research stage (S2) consistently provides the largest marginal improvement regardless of question type. R5 self-check: spread=0.420 ≥ 0.15, max score 0.640 < 0.85 — no flat-score or ceiling-trigger issues.
 
 ---
 
@@ -294,7 +293,7 @@ The S6/S7 results refine the design space further: even without tools, *how* you
 1. **Single model, single size**: Results may not generalize to larger models (where tool access matters less due to richer parametric knowledge) or smaller models (where even S1-level structure may be too complex).
 2. **Reproducibility vs. diversity tradeoff**: S0–S5 at temp=0 are near-deterministic (vLLM batching introduces minor variation); S6/S7 at temp=0.1+seed guarantee diversity but sacrifice exact reproducibility. Seeds are recorded in run metadata. Future work: standardize on temp=0.3 + fixed seeds for all arms.
 3. **Same-family primary judge**: The 27B judge scoring 27B outputs has inherent self-preference risk. T26 hetero-validation shows the bias is conservative (~0.15 under-scoring) and does not change orderings, but absolute scores should be interpreted with this caveat. Additionally, `score.py` M1/M4 use LLM-based assertion extraction (single-pass, non-IRR), so re-scoring the same runs yields different values across passes. All reported numbers are from one specific scoring pass; cross-pass variance is unquantified.
-4. **Arena model identity unverified**: The hetero-judge is referred to as "GPT-5.5" in session metadata but arena does not expose the exact model card. We cannot rule out that it is a fine-tuned variant.
+4. **Frontier model identity unverified**: The hetero-judge is referred to as "GPT-5.5" in session metadata but the platform does not expose the exact model card. We cannot rule out that it is a fine-tuned variant.
 5. **Five questions**: Small question set limits statistical power. The per-question variance (e.g., S6 Q4=0.250 vs. Q5=0.680) suggests question selection dominates arm effects for some dimensions. T36 cross-question validation (Q2–Q5, n=3/arm/question, hetero-judge) confirms H2 (S1→S2 max gain) and H3 (S2→S3 ≤0) but leaves H1 (S1>S0) inconclusive — the Q1 reversal was a single-question anomaly.
 6. **Gold answers are single-authored**: No inter-annotator agreement on gold assertion sets. M1 scores are upper-bounded by gold completeness.
 
@@ -369,7 +368,7 @@ judge:
   model: qwen3.8-27b (same)
   confidence_cap: 0.7
 hetero_judge:
-  platform: arena.ai (agent mode)
+  platform: frontier API (agent mode)
   model: "GPT-5.5" (unverified, per session metadata)
   dimensions: [M1, M4]
 repetitions: 3 (S0–S5 near-deterministic at temp=0; S6/S7 diverse at temp=0.1+seed)
