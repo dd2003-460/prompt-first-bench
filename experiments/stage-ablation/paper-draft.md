@@ -193,7 +193,7 @@ Note: M7 was scored post-hoc for S0–S5 only (rule-based scorer developed after
 | S5 | 0.278 | 0.83 | 0.11 | 0.00 | 0.00 | 0.44 |
 
 **Core findings**:
-1. **Q3/Q4 near-zero across all arms**: The 27B model lacks reliable contradiction-detection for domain-specific tensions (SLO constraint reasoning, page-size nominal vs. effective). It identifies gaps but does not *adjudicate* contradictions.
+1. **Q2/Q3/Q4 low across all arms (≤0.33)**: The 27B model lacks reliable contradiction-detection for domain-specific tensions (SLO constraint reasoning, page-size nominal vs. effective). Q2 peaks at S1=0.333 but drops to 0.0–0.11 in later stages. It identifies gaps but does not *adjudicate* contradictions.
 2. **Q1 paradox: S0 (0.75) > S1 (0.50)**: Decomposition *dilutes* contradiction attention. In bare mode, the model's H100 spec knowledge surfaces naturally with embedded caveats ("PCIe version differs from SXM"). Under decomposition, attention shifts to tree-structure compliance and the caveats are dropped.
 3. **Full pipeline adds nothing**: S5−S1 = +0.022 on M7. Research/cross-check stages do not improve contradiction reasoning — this is a model-intrinsic capability, not a pipeline function.
 4. **Q5 is the sole generalization success**: Bayesian/frequentist tensions are so prevalent in training data that the model adjudicates them without prompting (S0=0.56, S2=0.56).
@@ -250,7 +250,7 @@ Four findings emerge:
 
 **(3) Claim-level verification nearly fully recovers M1.** S7V's two-pass approach (generate → verify each numeric assertion against source text → remove unsupported claims) achieves M1=0.762, within 0.009 of the no-tools baseline (S7: 0.771). Per-run: 10/15 runs improve over S7F, only 3 degrade. Critically, S7V also *exceeds* S7 on total score (0.670 vs 0.605) because it retains the M6 citation gain (+0.933) while recovering factual accuracy. This is the first arm that simultaneously achieves both goals: accurate facts AND verifiable citations.
 
-**(4) The recovery is question-type-dependent.** S7V fully recovers or exceeds S7 on Q3/Q4/Q5 (M1: 0.85/0.67/0.97 vs S7's 0.87/0.33/0.86 — note Q4 *improves* beyond no-tools). Q1 remains degraded (M1: 0.55 vs 0.80) because the sources genuinely lack PCIe-vs-SXM throughput data; verification correctly removes unsupported numbers but cannot fabricate missing data. Q2 is intermediate (0.77 vs 1.00) — the model's parametric knowledge about model benchmarks was already strong, and sources add marginal noise even after verification.
+**(4) The recovery is question-type-dependent.** S7V fully recovers or exceeds S7 on Q3/Q4/Q5 (M1: 0.85/0.67/0.97 vs S7's 0.78/0.33/0.85 — note Q4 *improves* beyond no-tools). Q1 remains degraded (M1: 0.55 vs 0.80) because the sources genuinely lack PCIe-vs-SXM throughput data; verification correctly removes unsupported numbers but cannot fabricate missing data. Q2 is intermediate (0.77 vs 1.00) — the model's parametric knowledge about model benchmarks was already strong, and sources add marginal noise even after verification.
 
 The net effect: S7V is the **Pareto-optimal arm** — highest total score (0.670), near-baseline factual accuracy (M1: 0.762 ≈ 0.771), and full citation capability (M6: 0.933). This confirms that effective tool use requires generation-level claim verification, not just retrieval-level filtering. The practical implication for research agent design: a two-pass "draft then verify" loop is sufficient to neutralize the source-anchoring failure mode at the 27B scale.
 
