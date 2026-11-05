@@ -21,7 +21,7 @@ This work asks: **given a fixed 27B open-weight model with no external tool acce
 
 ### 1.2 Contributions
 
-1. **Systematic stage ablation** (S0–S5): cumulative removal of 1-loop stages under controlled conditions, scored on 7 dimensions × 5 questions × 3 repetitions = 105 runs.
+1. **Systematic stage ablation** (S0–S5): cumulative removal of 1-loop stages under controlled conditions, scored on 7 dimensions × 5 questions × 3 repetitions = 105 runs for the core arms, plus 60 additional runs for style arms (S6/S7) and tool-augmented arms (S7T/S7F/S7V).
 2. **Prompt-style isolation** (S6, S7): non-cumulative arms separating *structure* from *style*, revealing that fuzzy natural-language prompts activate different (sometimes superior) reasoning pathways than mechanical decomposition.
 3. **Seven-dimensional rubric** including M7 (contradiction reasoning), a novel dimension capturing the model's ability to detect and adjudicate internal contradictions in its own knowledge.
 4. **Heterogeneous validation**: independent re-scoring by a frontier model (arena-hosted) confirming ordering stability and quantifying same-family judge bias.
@@ -121,7 +121,7 @@ Total = Σ(weight_i × score_i). Scores normalized to [0,1].
 ### 3.6 Execution Parameters
 
 - Runs per arm×question: 3 (r1, r2, r3). S0–S5 at temp=0 show natural vLLM non-determinism; S6/S7 use temp=0.1 + per-rep seeds for guaranteed diversity (§5.3).
-- Total runs: 8 arms × 5 questions × 3 reps = 120 (of which 90 are in raw-data-full-perdim.json for S0–S5, and 30 for S6/S7).
+- Total runs: 8 arms × 5 questions × 3 reps = 120 (of which 90 are in raw-data-full-perdim.json for S0–S5, and 30 for S6/S7). Three additional tool-augmented arms (S7T/S7F/S7V) contribute 45 more runs (§5.1), bringing the full experiment to 165 runs across 11 arms.
 - Wall time per run: 13–15 seconds (generation) + 5–8 seconds (judge).
 - Hardware: Single GPU node, vLLM continuous batching.
 
