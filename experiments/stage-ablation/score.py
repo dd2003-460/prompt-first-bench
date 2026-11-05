@@ -125,17 +125,19 @@ def score_run(run_json_path, gold_md, arm, qid):
     with open(run_json_path) as f:
         run = json.load(f)
     output = run.get("output_text", "")
+    sources = run.get("sources", [])  # M5 兜底：产物声明的来源列表
     notes = []
 
     # M2/M3/M5 from gates.py (map actual keys)
-    ga = gate_analyze(output)
-    # M2 结构完整度: fact_label_coverage (0-1) + limit_first_third_rate (0-1) → avg
-    m2_norm = ((ga.get("fact_label_coverage") or 0) + (ga.get("limit_first_third_rate") or 0)) / 2.0
+    ga = gate_analyze(output, sources=sources if sources else None)
+    # M2 结构完整度: limit_first_third_rate (限制声明前置) + 结构化标记（有表格/列表/分节）
+    has_structure = bool(re.search(r'\|.*\|', output)) or bool(re.search(r'^\s*[-*]\s+\S', output, re.M)) or output.count('#') >= 3
+    m2_norm = ((ga.get("limit_first_third_rate") or 0) * 0.5 + (1.0 if has_structure else 0.0) * 0.5)
     # M3 缺口/不确定性标注: hedge_count (有 hedge = 识别了不确定性)
     m3_raw = ga.get("hedge_count", 0)
     m3_norm = min(m3_raw / 3.0, 1.0)  # 3+ hedges = full credit
-    # M5 诚实度: 1 - unanchored_rate (数字都有锚点 = 诚实)
-    m5_norm = max(0.0, 1.0 - (ga.get("unanchored_rate") or 1.0))
+    # M5 诚实度: 加权锚点率（行内强锚点=1.0, 弱锚点=0.5, sources兜底=0.3, 无=0）
+    m5_norm = ga.get("anchored_rate_weighted") or 0.0
 
     # M1 事实准确率 (judge)
     m1_matched, m1_total, m1_note = judge_m1(output, gold_md)
