@@ -15,9 +15,13 @@ S8E = S7F prompt + 内嵌 claim-verification 指令（单 pass，一次 LLM 调�
 
 | Arm | Q1 M1 (mean) | Q4 M1 (mean) | Q1 M4 | Q4 M4 | 总 wall_s |
 |-----|-------------|-------------|-------|-------|-----------|
-| S7 (n=15) | 0.67 | 0.53 | 0.83 | 0.83 | — |
-| S7V (n=15) | **0.79** | **0.75** | 0.50 | 0.50 | ~45s/run |
+| S7 (n=2, pilot scorer temp=1) | 0.67 | 0.53 | 0.83 | 0.83 | — |
+| S7V (n=2, pilot scorer temp=1) | **0.79** | **0.75** | 0.50 | 0.50 | ~45s/run |
 | **S8E (n=2)** | 0.67 | 0.38 | 0.50 | 0.50 | ~15-20s/run |
+
+> ⚠️ 本表 S7/S7V 列是 pilot 自定义 scorer（temp=1）的 n=2 结果，不是 `score.py` 6-dim 主评分。
+> 用 `score.py` 重跑同 run：S7-Q1-r1/r2 M1=0.867/0.875；S7V-Q1-r1/r2 M1=0.563/0.400。
+> 两套 scorer 绝对值不可直接比较；方向性结论（S8E ≤ baselines on M1）在两套下一致。
 
 ### 逐 run 明细
 | Run | M1 (hit/total) | M4 (hit/total) | URL valid |
