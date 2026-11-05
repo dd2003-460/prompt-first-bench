@@ -77,8 +77,9 @@ The competitive landscape (as of November 2026) includes GPT Researcher (30k sta
 | S6 | Fuzzy heuristic: "Think carefully, consider tradeoffs, be honest about uncertainty" | ~300 chars | Non-cumulative |
 | S7 | Hybrid: light structure + natural uncertainty language | ~2,600 chars | Non-cumulative |
 | S7T | S7 + 5 real web sources (arXiv + direct sites) | ~3,400 chars | Non-cumulative + tools |
+| S7F | S7 + keyword-filtered sources (relevance-gated) | ~2,900 chars | Non-cumulative + filtered tools |
 
-S6 and S7 are non-cumulative: they do NOT build on S1–S5 scaffolding. They isolate the effect of *prompt style* (fuzzy vs. mechanical) independent of pipeline *structure*. S7T adds tool access (research_hook: arXiv API multi-query + ego-browser direct site fetch) to test whether external information breaks the parametric-knowledge ceiling (§5.1).
+S6 and S7 are non-cumulative: they do NOT build on S1–S5 scaffolding. They isolate the effect of *prompt style* (fuzzy vs. mechanical) independent of pipeline *structure*. S7T adds unfiltered tool access (research_hook: arXiv API multi-query + ego-browser direct site fetch) to test whether external information breaks the parametric-knowledge ceiling (§5.1). S7F adds a retrieval-level filter: only sources whose title/snippet matches question-relevant keywords are injected, testing whether topical relevance gating mitigates source anchoring.
 
 ### 3.3 Questions
 
@@ -229,17 +230,23 @@ All 30 S6/S7 runs were independently re-scored (M1, M4) by an arena-hosted front
 
 Our no-tool results support a strong tool-access hypothesis for open-weight models: without external information retrieval, the 27B model's performance is bounded by its parametric knowledge. The full pipeline (S5) improves over bare generation primarily by *organizing* existing knowledge (better structure, more complete gap lists) rather than *acquiring* new information. The M6 (citation verifiability) dimension is structurally zero in this setting — no URLs can be generated and verified without web access.
 
-**T30 empirical test.** To directly test whether adding tool access breaks this ceiling, we introduce S7T: the S7 hybrid prompt augmented with 5 real web sources per question (arXiv API + direct site fetch via ego-browser). Results (n=15, same judge):
+**T30/T31 empirical test.** To directly test whether adding tool access breaks this ceiling, we introduce two arms: S7T (S7 hybrid + 5 unfiltered web sources) and S7F (S7 hybrid + keyword-filtered sources, injecting only those whose title/snippet matches question-relevant terms). Results (n=15 each, same judge):
 
 | Arm | Mean Total | M1 (Fact Acc.) | M4 (Gap ID) | M6 (Citation) |
 |-----|-----------|----------------|-------------|---------------|
-| S7  | 0.605     | 0.56           | 0.48        | 0.00          |
-| S7T | 0.622     | 0.28           | 0.42        | 1.00          |
-| Δ   | +0.017    | **−0.28**      | −0.06       | +1.00         |
+| S7  | 0.605     | 0.771          | 0.747       | 0.000         |
+| S7T | 0.622     | 0.480          | 0.460       | 1.000         |
+| S7F | 0.611     | 0.605          | 0.360       | 0.933         |
 
-The net effect is near-neutral (+0.017), but the composition reveals a critical finding: **naive source injection degrades factual accuracy** (M1 drops 10/15 runs by >0.1). The mechanism is *source anchoring*: when injected sources are topically related but do not directly answer the specific sub-question (e.g., arXiv papers about H100 that don't contain PCIe-vs-SXM throughput comparisons), the model anchors on partial information and produces confident but incorrect numeric claims. Meanwhile, M6 gains +1.00 structurally (sources exist to cite), masking the quality regression in the total score.
+Three findings emerge:
 
-This rejects the simple "more tools = better answers" assumption. Effective tool use requires either (a) **source filtering** (inject only sources whose content directly addresses the question), or (b) **claim-level verification** (check each numeric assertion against the source text before output). Both are non-trivial engineering additions that go beyond simple RAG-style retrieval.
+**(1) Naive source injection degrades factual accuracy.** S7T's M1 drops from 0.771 to 0.480 (−0.29). The mechanism is *source anchoring*: when injected sources are topically related but do not directly answer the specific sub-question (e.g., arXiv papers about H100 that don't contain PCIe-vs-SXM throughput comparisons), the model anchors on partial information and produces confident but incorrect numeric claims. Per-run: 10/15 runs show M1 drop >0.1.
+
+**(2) Keyword filtering partially recovers M1 but does not fully close the gap.** S7F recovers +0.124 of the −0.29 loss (M1: 0.480→0.605), with 8/15 runs showing M1 improvement over S7T. However, the residual gap to S7 (−0.167) persists because filtering by title/snippet keywords cannot verify whether the source *content* actually supports the specific claim being made. Q3 (inference frameworks) and Q4 (RAG vs long-context) recover well; Q1 (PCIe vs SXM) and Q2 (model selection) remain degraded — precisely the questions where the model's parametric knowledge was already strong and sources introduced noise.
+
+**(3) M6 gain is preserved under filtering.** S7F maintains M6=0.933 (vs S7T's 1.000), confirming that filtered sources still provide citable references. The small loss (one run had all sources filtered out → no citations possible) is a boundary artifact.
+
+The net effect across both tool arms is near-neutral on total score (S7T: +0.017, S7F: +0.006), masking a quality regression in M1/M4 behind a structural M6 gain. This rejects the simple "more tools = better answers" assumption. Effective tool use requires **claim-level verification** (checking each numeric assertion against the source text before output), not just topical relevance filtering. Both filtering strategies tested here operate at the retrieval level; neither addresses the generation-level failure mode where the model selectively attends to supporting fragments while ignoring contradicting content within the same source.
 
 The S6/S7 results refine the design space further: even without tools, *how* you prompt matters. Fuzzy prompts unlock latent reasoning chains that mechanical prompts suppress. This suggests a two-axis design space: (x) tool access (none → filtered → full) and (y) prompt style (mechanical → fuzzy → hybrid), with optimal (x,y) depending on question type.
 
@@ -264,7 +271,7 @@ The S6/S7 results refine the design space further: even without tools, *how* you
 
 - **Construct validity of M7**: The rule-based scorer may miss valid contradiction reasoning that doesn't use the expected linguistic markers. We validated against 3 manually-adjudicated examples (all correctly scored) but did not compute precision/recall on a larger set.
 - **Judge prompt sensitivity**: M1 scoring depends on the judge's assertion-extraction prompt. Different extraction granularities would yield different M1 values. We used a fixed prompt across all runs.
-- **Ecological validity**: Real research agents have tool access, multi-turn interaction, and iterative refinement. Our single-shot, no-tool setting is a lower bound on achievable performance. T30 (S7T) partially addresses this by adding real web sources, revealing that naive retrieval degrades accuracy — the full ecological gap (multi-turn, filtered retrieval, claim verification) remains untested.
+- **Ecological validity**: Real research agents have tool access, multi-turn interaction, and iterative refinement. Our single-shot setting is a lower bound on achievable performance. T30/T31 (S7T/S7F) partially address this by adding real web sources with and without keyword filtering, revealing that retrieval-level tool access degrades accuracy — the full ecological gap (multi-turn, claim-level verification, iterative source checking) remains untested.
 
 ---
 
@@ -278,7 +285,7 @@ We presented a systematic stage ablation of a structured research pipeline execu
 
 **Third**, contradiction reasoning (M7) is a model-intrinsic capability at the 27B scale that no amount of pipeline scaffolding improves. Mechanical prompts actually *degrade* it (S1: 0.256 < S0: 0.306), consistent with an attention-allocation mechanism where explicit structure crowds out implicit adversarial checking. Improving M7 requires either scaling up model capacity or injecting question-specific "find and adjudicate the contradiction" instructions.
 
-**Fourth**, naive tool access (S7T: hybrid prompt + 5 injected web sources) does NOT break the parametric-knowledge ceiling. The net score gain is negligible (+0.017), and factual accuracy *degrades* (M1: −0.28) due to source anchoring on topically-related but insufficiently-specific sources. Effective tool use requires source filtering or claim-level verification — non-trivial engineering that goes beyond simple RAG retrieval.
+**Fourth**, tool access at the retrieval level (S7T: unfiltered sources; S7F: keyword-filtered sources) does NOT break the parametric-knowledge ceiling. Naive injection degrades factual accuracy (M1: −0.29); keyword filtering partially recovers it (+0.124 of 0.29) but leaves a residual gap (−0.167 vs no-tools). The failure mode is generation-level, not retrieval-level: the model selectively attends to source fragments that support its prior while ignoring contradicting content within the same source. Effective tool use requires **claim-level verification** — checking each numeric assertion against the source text before output — which neither arm implements.
 
 Together, these findings suggest that for open-weight research agents, the highest-leverage investments are: (1) **filtered** tool access with claim verification (to break the parametric-knowledge ceiling without introducing source-anchoring errors), (2) adapting prompt style to question type (cheap, immediate), and (3) reserving contradiction-reasoning evaluation for model selection rather than prompt optimization.
 

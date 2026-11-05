@@ -136,6 +136,28 @@ ARXIV_QUERIES = {
     "Q5": ["Bayesian decision theory expected loss minimization frequentist", "statistical hypothesis testing decision rules risk"],
 }
 
+# T31: 来源过滤关键词（只注入 title/snippet 含这些词的结果）
+FILTER_KEYWORDS = {
+    "Q1": ["PCIe", "SXM", "throughput", "bandwidth", "NVLink", "memory bus"],
+    "Q2": ["Qwen", "Mistral", "GLM", "DeepSeek", "Llama", "HumanEval", "code generation", "model selection", "cost"],
+    "Q3": ["vLLM", "TGI", "SGLang", "serving", "inference engine", "PagedAttention", "throughput", "latency"],
+    "Q4": ["retrieval", "RAG", "context window", "long context", "faithfulness", "Lost in the Middle"],
+    "Q5": ["Bayesian", "frequentist", "hypothesis testing", "decision theory", "expected loss", "risk"],
+}
+
+
+def filter_sources(sources, qid):
+    """T31: 只保留 title+snippet 含 FILTER_KEYWORDS[qid] 中至少一个词的来源。"""
+    kws = FILTER_KEYWORDS.get(qid, [])
+    if not kws:
+        return sources  # 无关键词定义 → 不过滤
+    passed = []
+    for s in sources:
+        text = (s.get('title', '') + ' ' + s.get('snippet', '')).lower()
+        if any(kw.lower() in text for kw in kws):
+            passed.append(s)
+    return passed
+
 
 def _fetch_page(url, title_hint, timeout=30):
     """直接访问 URL，确认存活并提取标题。"""

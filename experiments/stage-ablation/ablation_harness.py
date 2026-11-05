@@ -151,6 +151,26 @@ def build_prompt(arm, qid):
             "给出你的最终回答，把你「不确定、需要进一步查证」的点单独列出来。"
         )
 
+    if arm == "S7F":
+        # S7F: S7 hybrid + FILTERED tool access (T31)
+        # = S7T but only sources matching answer-relevant keywords are injected
+        # Tests: does filtering eliminate source anchoring while keeping M6 gain?
+        return (
+            "你是一名资深研究员，以严谨和洞察力著称。\n\n"
+            f"问题：{question}\n\n"
+            "思考方式建议（不是固定流程，按你的判断用）：\n"
+            "- 先回到第一性原理：这个问题的底层物理/经济/数学约束是什么？\n"
+            "- 把影响因素分解开，哪些是主导项、哪些可以忽略？\n"
+            "- 特别注意表面合理但实际有问题的说法——找到矛盾点，重点查证和推理。\n"
+            "- 对关键数字，区分「官方标称值」和「实际表现」，合理推测偏差方向和幅度。\n"
+            "- 查不到的就明说是缺口，不要编。\n\n"
+            "【工具说明】以下是经过筛选的、与问题直接相关的参考来源。"
+            "仅当来源内容明确支持你的某个具体断言时才引用它；"
+            "如果来源没有直接回答你的子问题，不要强行关联。\n\n"
+            "请基于以上来源回答，引用时标注来源编号并写明该来源具体支持了哪个断言。"
+            "给出你的最终回答，把你「不确定、需要进一步查证」的点单独列出来。"
+        )
+
     parts = [f"[阶段 01 — 目标分解]\n"]
     if arm in ("S1",):
         # S1: 01 + decomp 五步法
@@ -259,7 +279,7 @@ def run_arm(arm, qid, rep, dry_run=False):
 
     # S2+ 臂: 先跑真实联网检索，把来源包注入 prompt
     sources = []
-    if arm in ("S2", "S3", "S4", "S5", "S7T") and not dry_run:
+    if arm in ("S2", "S3", "S4", "S5", "S7T", "S7F") and not dry_run:
         q = QUESTIONS[qid]
         # 优先用预设英文搜索词（Bing locale 更稳定），fallback 到 prompt 提取
         question = q.get("search_query") or extract_question(read_file(q["prompt_file"]))
@@ -268,6 +288,12 @@ def run_arm(arm, qid, rep, dry_run=False):
         sources = research_hook(qid, question)
         wall_research = round(time.time() - t_research, 1)
         print(f"  [{tag}] research done in {wall_research}s, {len(sources)} sources", flush=True)
+        # T31: S7F applies keyword filtering before injection
+        if arm == "S7F" and sources:
+            from research_hook import filter_sources
+            filtered = filter_sources(sources, qid)
+            print(f"  [{tag}] filter: {len(sources)} → {len(filtered)} sources", flush=True)
+            sources = filtered
         if sources:
             prompt = inject_sources_into_prompt(prompt, sources)
         else:
