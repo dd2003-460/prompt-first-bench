@@ -61,7 +61,7 @@ The competitive landscape (as of November 2026) includes GPT Researcher (30k sta
 
 - **Model**: Qwen3.8-27B (open-weight, 27 parameters), served via vLLM at localhost:8787.
 - **Tool access**: None. The model generates from parametric knowledge only. No web search, no file access, no calculator.
-- **Temperature**: 0 (deterministic). Note: this causes r1=r2=r3 outputs to be byte-identical per arm×question (see §5.3 Limitations).
+- **Temperature**: 0 for S0–S5; 0.1 + per-rep seed for S6/S7/S7T/S7F/S7V (see §3.6). Note: the run JSON `params` field records `temp: 0` for all arms due to a harness logging bug (`ablation_harness.py` writes the default, not the actual call temperature); the code path confirms temp=0.1 for style/tool arms.
 - **Max tokens**: 8000 per response.
 
 ### 3.2 Arms
@@ -91,7 +91,7 @@ Five multi-faceted scientific questions selected to stress-test different cognit
 | Q1 | GPU hardware (H100 specs, PCIe vs. SXM) | Fact retrieval + spec comparison | 1,200 words |
 | Q2 | Distributed systems (consensus, fault tolerance) | Conceptual reasoning + tradeoff analysis | 900 words |
 | Q3 | SLO engineering (latency budgets, error budgets) | Constraint reasoning + numerical estimation | 1,100 words |
-| Q4 | Memory hierarchy (page size, TLB, cache) | Contradiction detection (nominal vs. effective) | 800 words |
+| Q4 | RAG vs long-context (128K window, retrieval tradeoffs) | Contradiction detection (nominal ≠ effective context) | 800 words |
 | Q5 | Epistemology (Bayesian vs. frequentist) | Framework comparison + meta-reasoning | 1,000 words |
 
 Gold answers were authored by the lead researcher and contain 15–25 discrete factual assertions per question, plus 4–6 identified gaps/uncertainties. Gold anchors are used exclusively for scoring, never injected into prompts (leakage prevention). Q5 receives half weight on factual accuracy due to its viewpoint-oriented nature.
@@ -193,7 +193,7 @@ Note: M7 was scored post-hoc for S0–S5 only (rule-based scorer developed after
 | S5 | 0.278 | 0.83 | 0.11 | 0.00 | 0.00 | 0.44 |
 
 **Core findings**:
-1. **Q2/Q3/Q4 low across all arms (≤0.33)**: The 27B model lacks reliable contradiction-detection for domain-specific tensions (SLO constraint reasoning, page-size nominal vs. effective). Q2 peaks at S1=0.333 but drops to 0.0–0.11 in later stages. It identifies gaps but does not *adjudicate* contradictions.
+1. **Q2/Q3/Q4 low across all arms (≤0.33)**: The 27B model lacks reliable contradiction-detection for domain-specific tensions (SLO constraint reasoning, nominal 128K context ≠ effective retrieval span). Q2 peaks at S1=0.333 but drops to 0.0–0.11 in later stages. It identifies gaps but does not *adjudicate* contradictions.
 2. **Q1 paradox: S0 (0.75) > S1 (0.50)**: Decomposition *dilutes* contradiction attention. In bare mode, the model's H100 spec knowledge surfaces naturally with embedded caveats ("PCIe version differs from SXM"). Under decomposition, attention shifts to tree-structure compliance and the caveats are dropped.
 3. **Full pipeline adds nothing**: S5−S1 = +0.022 on M7. Research/cross-check stages do not improve contradiction reasoning — this is a model-intrinsic capability, not a pipeline function.
 4. **Q5 is the sole generalization success**: Bayesian/frequentist tensions are so prevalent in training data that the model adjudicates them without prompting (S0=0.56, S2=0.56).
@@ -328,7 +328,7 @@ hetero_judge:
   platform: arena.ai (agent mode)
   model: "GPT-5.5" (unverified, per session metadata)
   dimensions: [M1, M4]
-repetitions: 3 (byte-identical due to temp=0)
+repetitions: 3 (S0–S5 near-deterministic at temp=0; S6/S7 diverse at temp=0.1+seed)
 ```
 
 ## Appendix B: M7 Scorer Specification
@@ -347,5 +347,5 @@ Known limitation: the scorer cannot verify that the identified "contradiction" i
 - **Q1**: "Compare NVIDIA H100 SXM vs. PCIe variants for LLM inference. Cover: memory bandwidth, compute (FP16/BF16 dense/sparse), interconnect (NVLink vs. PCIe gen), TDP, and practical throughput implications for batch serving."
 - **Q2**: "Explain the tradeoffs between Raft, Paxos, and HotStuff consensus protocols for a distributed key-value store. When would you choose each? What failure modes are specific to each?"
 - **Q3**: "Design an SLO system for a public API with 99.9% availability target. Define: error budget calculation, latency percentile targets (p50/p95/p99), alerting thresholds, and how to handle budget burn rate. Include concrete numbers."
-- **Q4**: "A system uses 4KB pages but the CPU supports 2MB huge pages. The TLB has 64 entries. Analyze: (a) TLB pressure for a 128GB working set, (b) why '128K pages' in documentation may be misleading, (c) the actual effective page size under mixed allocation patterns."
+- **Q4**: "Enterprise knowledge-base QA system (500K pages, citation-required, no fabrication). Compare three architectures: pure RAG (chunked embedding retrieval), pure long-context (stuff into 128K model), and hybrid. Decompose all factors determining cost-per-1K-correct-answers and judge which architecture is most economical."
 - **Q5**: "Compare Bayesian and frequentist approaches to hypothesis testing. Where do they genuinely disagree (not just notation)? How does the choice affect decision-making under sequential monitoring? Address the p-value abuse debate."
