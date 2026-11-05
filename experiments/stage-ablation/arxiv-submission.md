@@ -4,7 +4,7 @@
 
 | Field | Value |
 |-------|-------|
-| **Title** | Structured Prompts for Research Agents: A Stage Ablation Study on a 27B Open-Weight LLM |
+| **Title** | Prompt-First Research: Stage Ablation of a 1-Loop Pipeline in an LLM Agent (27B, No Tool Access) |
 | **Authors** | [成璐 — fill in] |
 | **Abstract** | (copy from paper-draft.md, ~250 words) |
 | **Comments** | 11 arms × 5 questions × 3 reps = 165 runs. Code and data available at github.com/dd2003-460/prompt-first-bench |
@@ -16,7 +16,7 @@
 
 ## File Checklist
 
-- [ ] `paper-draft.md` → convert to LaTeX (.tex) or submit as PDF
+- [x] `paper-draft.md` — cleaned, all internal refs removed, citations verified
 - [ ] Figures: none required (all results are tables)
 - [ ] Supplementary: `repro/` directory (prompts + gold answers + README)
 - [ ] Data: `raw-data-full-perdim.json`, `hetero-judge-s6s7-results.json`, `bootstrap-cis.json`
@@ -30,7 +30,7 @@
 - [x] Word count: ~6,874 (within 4k–8k range)
 - [x] Paired test updated to n=15 (S7V vs S7)
 - [x] Language pass: no double words, consistent terminology
-- [ ] LaTeX compilation (if converting from markdown)
+- [ ] LaTeX compilation (pandoc not installed locally — use arXiv's own converter or online)
 - [ ] Author affiliations filled in
 - [ ] ORCID iDs added
 
