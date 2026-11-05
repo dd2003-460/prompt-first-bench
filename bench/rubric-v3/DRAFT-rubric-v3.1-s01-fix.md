@@ -1,4 +1,6 @@
-# rubric-v3.1 修订方案（S01 效度修复）
+# rubric-v3.1 修订方案（S01 效度修复）— FINAL（2026-11-05 r289 自主 sign-off 冻结）
+
+> **状态**：v3.1 已冻结为 T8 正式评分标准。历史 baseline（r269/r270, v3 rubric）全部标注「旧 rubric 参考值」，不再作为质量声明依据。终版指纹：J1 sha256_16=`7518ce5c66f92f8a`，J2 sha256_16=`b229dcc9a14b2081`。
 
 # origin: ai
 # 触发：r270 arena 异源 judge 结果——J1-strict 对 S01 分解类工件通过率 0.6%（1/159），

@@ -1,5 +1,7 @@
 # r269 本地降级双判官复判 summary
 
+> ⚠️ **旧 rubric 参考值**（r289 sign-off 后标注）：本 receipt 使用 v3 rubric，非终版 v3.1。数字仅供迭代历史对照，不作为质量声明依据。
+
 - 生成时间: 2026-11-04T21:55:36+0800
 - 模型: qwen3.8-27b @ http://localhost:8787/v1/chat/completions
 - 通道: 本地 vLLM（arena 故障降级）
