@@ -5,6 +5,8 @@ from collections import defaultdict
 # Numbers with explicit quantitative units only: conservative high precision, incomplete recall.
 NUMBER = re.compile(r'(?<![\w.])(?:[<>≤≥~≈约]?\s*)?(\d{1,3}(?:,\d{3})+|\d+(?:\.\d+)?)(?:\s*[-–—至~]\s*(\d+(?:\.\d+)?))?\s*(TFLOPS|TOPS|TB/s|GB/s|tok(?:ens)?/s|tokens?|GB|TB|ms|秒|毫秒|瓦|W|%|％|元|美元|倍|x|X|万|亿)(?![a-zA-Z])', re.I)
 ANCHOR = re.compile(r'https?://[^\s)）\]】>]+|\[[^\]]+\]\(https?://[^)]+\)|datasheet|数据手册|规格书|核验日期\s*[:：]?\s*\d{4}[-/]\d{1,2}[-/]\d{1,2}', re.I)
+# 不可定位来源：跳转链接/聚合页，不算有效锚点（T23 gold-gap-diagnosis 行动项）
+BAD_ANCHOR = re.compile(r'bing\.com/ck/a|google\.com/url\?|bit\.ly/|t\.co/', re.I)
 HEDGE = re.compile(r'可能|大概|或许')
 BOUND = re.compile(r'如果|若|条件|场景|情况下|前提|当.{0,20}时|未验证|不确定|需要.{0,8}(?:验证|实测|核验)|取决于')
 LABEL = re.compile(r'\b(?:fact|inference)\b|事实\s*[:：]|推断\s*[:：]', re.I)
@@ -22,7 +24,7 @@ def lines_for(text):
 def analyze(text):
     lines = text.splitlines()
     # 全文级锚点检测：只要文中出现过任何 URL/锚点，就认为该 run 有来源支撑
-    has_any_anchor = bool(ANCHOR.search(text))
+    has_any_anchor = bool(ANCHOR.search(text)) and not (BAD_ANCHOR.search(text) and len(ANCHOR.findall(text)) <= len(BAD_ANCHOR.findall(text)))
     candidates = []
     propositions = defaultdict(list)
     hedges = 0

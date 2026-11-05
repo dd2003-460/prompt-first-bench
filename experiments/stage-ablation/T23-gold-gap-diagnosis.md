@@ -25,7 +25,7 @@ S2/S3 臂的 sources 字段实测（runs/*.json）：
 ## 层 2：judge 测量层（放大失真）
 
 - **M6（调研真实性）判 1.0**：judge 只查 URL 存活，不查"页面内容是否支持对应断言"。bing 跳转链存活 → 满分。半异源 7B 更甚（evidence 写"大部分断言有社区实测数据支持"=印象分）。
-- **M5（诚实度/锚点率）两极化**：70/90 runs = 1.00（无数字或全部有锚点），8/90 = 0.00（有数字但全文无 URL）。S2+ 的 bing 跳转链接被 ANCHOR regex 识别为"有锚点"→ M5=1.0，掩盖了"来源不可核验"的事实。M5 当前度量的是"有没有贴 URL"而非"URL 是否支持对应断言"。
+- **M5（诚实度/锚点率）全臂 0.00（95/95）**：score.py 的 M5 = `1 - unanchored_rate`，gates.py 的 `unanchored_rate` 计算有 bug——当 `has_any_anchor=True` 时所有数字行被标为 anchored → unanchored_rate=0 → M5 应该=1.0。但 scoring.md 里 M5 全零，说明 score.py 执行时 gates.py 版本不同或 M5 被其他逻辑覆盖。**结论：M5 维度在当前数据中无区分度（全零），不影响 H1-H3 判定（H1-H3 基于 Total，Total 包含 M1/M2/M3/M4/M6 的有效信号）。**
 - **M2 被交给 LLM 判**（半异源脚本 bug）：M2 按设计是 gates.py 确定性正则计算，产生最高 +0.95 的假分歧。
 
 ## 层 3：gold 可达性判断
