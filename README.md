@@ -1,122 +1,113 @@
-# pfb (prompt-first-bench) — prompt-first 流程 bench（独立仓）
+# pfb (prompt-first-bench)
 
-> **独立 git 仓**：origin `github.com/dd2003-460/prompt-first-bench`（外层 workspace 仓经 `.gitignore` 排除，只在仓内 commit/push）。
+**Research question**: Does a structured 1-loop research pipeline (decompose → research → cross-check → plan → verify → review) improve LLM answer quality, and by how much per stage?
 
-调研目标：**prompt-first 流程（1-loop）究竟有没有提升？对不同 AI 模型提升如何？**
+This repo contains the full experimental apparatus, raw data, scoring harness, and paper draft for a systematic stage-ablation study on a 27B open-weight model (Qwen3.8-27B) with no tool access.
 
-- 执行通道：LMArena agent mode（arena 读本仓库 `tasks/` 任务书 + `loop/` 阶段定义 + `sop/` 链路 SOP）
-- 流程权威源：`loop/prompt-first/00..04.5`
-- 链路 SOP：`sop/arena-loop-pipeline.md`
-- 评分：`rubric/`（任务内引用）
-- 产出：`bench/runs/<task>/<variant>/`（run 输出 + score + summary）
+## Key Results (TL;DR)
 
-## 研究问题（任务书 001）
+| Finding | Evidence |
+|---------|----------|
+| Full pipeline (S5) > bare (S0): +0.182 mean total | §4.1 of paper |
+| Largest single-stage gain: decomposition (S1): +0.129 | §4.1 |
+| Fuzzy prompt (S6) > bare (S0) with zero structure: +0.065 | §4.3 |
+| Hybrid prompt (S7) best on data-intensive Qs: Q1=0.717, Q2=0.700 | §4.2 |
+| Contradiction reasoning (M7) *degraded* by mechanical prompts | §4.4 |
+| Hetero-judge confirms all orderings; local bias ≈0.15 conservative | §4.5 |
 
-1. 拆解任务（01 目标分解的正交+完备+递归原子）对最终成功率的影响
-2. 正交完备性对最终成功率的影响（对照：无分解/非正交分解/正交完备）
-3. 每个具体要求（02.5 交叉验证 / 逐阶段落盘 / 04.5 反方复核）的边际提升
-4. 跨模型差异（arena 会话可用模型 × 变体矩阵）
+## Directory Structure
 
----
-
-## 交付物：「Clawd 的学习」v1.0 (arena)
-
-30s 像素风短片 — Clawd 第一次学会说"不"。美术风格对标原 `full_v1.3.4.mp4`（暖色条纹房间 + 晨窗远山 + 小终端 + 房间内像素角色；视频文件 2026-11-03 已从仓库删除，见 git history fe83de8^）。
-
-| 交付物 | 路径 |
-|--------|------|
-| 渲染脚本 | `src/render_learning_arena.js` |
-| 重叠检测 | `src/check_overlap_arena.js` |
-| 音频合成 | `scripts/build_audio_arena.js` |
-| 最终视频 | `outputs/learning_arena_v1.0.mp4` |
-| 合成音轨 | `audio/learning_arena_mix.wav` |
-| 验收报告 | `docs/verify-learning-arena.md` |
-
-```bash
-npm install
-npm run check      # 重叠检测 → 14/14 PASSED, 0 issues
-npm run render     # 1800 帧 @ 640×360 → 1280×720 (SCALE=2)
-npm run audio      # BGM×0.3 + click×0.5, amix normalize=0
-npm run build      # check + render + audio + mux → outputs/learning_arena_v1.0.mp4
+```
+pfb/
+├── README.md                    ← you are here
+├── CLAUDE.md                    ← agent instructions (for arena/Claude sessions)
+├── APPROVALS.md                 ← pending human decisions
+├── BRIDGE-REPORT.md             ← cross-project status bridge
+├── experiments/
+│   └── stage-ablation/          ← ★ MAIN EXPERIMENT (T17)
+│       ├── paper-draft.md       ← paper v2.0 (submission-ready draft)
+│       ├── T17-stage-ablation-final-report.md  ← full internal report (341 lines)
+│       ├── ablation_harness.py  ← experiment runner (S0-S7 arms × Q1-Q5 × r1-r3)
+│       ├── score.py             ← M1-M6 LLM judge scorer
+│       ├── score_m7.py          ← M7 rule-based contradiction-reasoning scorer
+│       ├── scoring-v4-m7.md     ← M7 methodology + full per-arm table
+│       ├── scientisttwo-comparison.md  ← positioning vs. ScientistTwo
+│       ├── competitor-survey.md ← DREAM/GPT-Researcher/STORM comparison
+│       ├── gold/                ← gold answers (Q1-Q5, assertion-annotated)
+│       ├── runs/                ← raw run artifacts (JSON per arm×Q×rep)
+│       │   ├── S{0-7}-Q{1-5}-r{1-3}.json
+│       │   ├── hetero-judge-s6s7-results.json  ← T26 arena GPT-5.5 scores
+│       │   └── receipt-t26-hetero-judge.md
+│       ├── raw-data-full-perdim.json  ← consolidated 90-run dataset (S0-S5)
+│       └── tasks/               ← task books (T26, T27 decompositions)
+├── bench/
+│   └── rubric-v3/               ← rubric v3.1 (frozen @ a843890)
+│       ├── DRAFT-rubric-v3.1-s01-fix.md
+│       └── ablation/            ← rubric ablation experiments
+├── loop/                        ← 1-loop stage definitions (00..04.5)
+├── sop/                         ← operational SOPs (arena pipeline, etc.)
+├── arena-prompts/               ← arena task cards (batches 9-11)
+├── src/                         ← pixel video rendering (legacy deliverables)
+├── scripts/                     ← build/render/audio scripts
+└── outputs/                     ← rendered videos (legacy)
 ```
 
-规格：640×360 基础分辨率 × SCALE=2 → 1280×720 @ 60fps · 1800 帧 / 30.00s · h264 + aac
-字体：Fusion Pixel（终端 10px / 字幕 14px）· 字幕逐字 160ms · 终端打字 140ms
-场景：L1 她的请求 (0-10s) → L2 思考中 (10-20s) → L3 成长 (20-30s)，场景间 0.5s 黑场
+## Quick Start: Reproduce Core Experiment
 
-`sop/` 与 `docs/new-themes.md` 来自 `d1-video-recreation`，本任务所用参考 SOP。
+### Prerequisites
 
----
+- Python 3.10+
+- A 27B model served via vLLM at `localhost:8787` (or modify endpoint in harness)
+- ~10 GB VRAM minimum for inference
 
-## 交付物：「Clawd 的学习 / 升级」v2.0 (arena) — 修正版
-
-> 修正 v1.0 的两个问题：**Clawd 形象**（眼睛 2×2 → 4×4、身体无质感 → 顶部 2px 暗条 + 腹部 22×4、
-> 无表情 → calm / thinking / smile）与**像素感**（文字改回 10px Fusion Pixel 点阵 +
-> alpha 阈值二值化，整帧 2× 最近邻，与 `companion_arena_v1.0.mp4` 同一套基础像素网格）。
-
-| 交付物 | learning | upgrade |
-|--------|----------|---------|
-| 渲染脚本 | `src/render_learning_arena_v2.js` | `src/render_upgrade_arena_v2.js` |
-| 重叠/截断检测 | `src/check_overlap_learning_v2.js` | `src/check_overlap_upgrade_v2.js` |
-| 音频合成 | `scripts/build_audio_learning_v2.js` | `scripts/build_audio_upgrade_v2.js` |
-| 最终视频 | `outputs/learning_arena_v2.0.mp4` | `outputs/upgrade_arena_v2.0.mp4` |
-| 合成音轨 | `audio/learning_arena_v2_mix.wav` | `audio/upgrade_arena_v2_mix.wav` |
-| 验收报告 | `docs/learning-v2/` | `docs/upgrade-v2/` |
-
-共用：`src/pixel_arena_v2.js`（房间/终端/角色/气泡/便签/进度条/文字/时间轴）、
-`src/check_overlap_v2_common.js`（校验核心）、`scripts/build_audio_v2_common.js`（混音/封装）。
+### Run the Ablation
 
 ```bash
-npm run check:v2              # 两个视频的布局+截断+像素标准检测 → 各 8/8 PASSED
-npm run build:learning:v2     # check + render 1800 帧 + 音轨 + 封装 + A/V 同步 + 成片复核
-npm run build:upgrade:v2      # 同上（upgrade）
-npm run verify:v2             # 只跑同步与成片复核（需先有 outputs/*.mp4）
+cd experiments/stage-ablation
+
+# Run all arms (S0-S7) × 5 questions × 3 reps = 120 runs (~45 min)
+python ablation_harness.py --all
+
+# Or run a single arm
+python ablation_harness.py --arm S7 --questions Q1,Q2
+
+# Score results (requires judge endpoint)
+python score.py --input runs/ --output /tmp/scores.json
+
+# Score M7 (rule-based, no API needed)
+python score_m7.py --input runs/
 ```
 
-规格：640×360 × SCALE=2 → 1280×720 @ 60fps · 1800 帧 / 30.000s · h264 High/yuv420p + aac 44.1kHz
-像素：最小视觉单元 = 基础画布整像素（输出恒为 2 的倍数：星星 4×4、窗棂 12px、Clawd 眼睛 8×8）
-字体：终端 Fusion Pixel 10px（ASCII 5px / CJK 10px 点阵）· 字幕/便签 Fusion Pixel 12px · 全部二值化
-角色：Clawd 40×17 body + 4×4 眼睛（1×1 高光）+ 2px 顶部暗条 + 22×4 腹部；Her 16×28 槽位
-音频：BGM×0.3 + click×0.5，点击时刻由渲染脚本唯一时间线产生并量化到显示帧，字幕不发声
+### Read the Results
 
-验收（实测，见 `docs/*-v2/*.json`）：
+- **Paper**: `experiments/stage-ablation/paper-draft.md` (v2.0, 28KB)
+- **Internal report**: `experiments/stage-ablation/T17-stage-ablation-final-report.md` (341 lines, includes all intermediate findings)
+- **Raw data**: `experiments/stage-ablation/raw-data-full-perdim.json` (90 runs, per-dimension scores)
 
-| 项 | learning | upgrade |
-|----|----------|---------|
-| check_overlap | 8/8 PASSED，0 issue（112,380 次判定） | 8/8 PASSED，0 issue（124,662 次判定） |
-| 键盘音同步 | 71/71 检出，最大偏差 6.67ms（0.40 帧） | 192/192 检出，最大偏差 6.67ms（0.40 帧） |
-| 像素一致性 | 房间/终端 2×2 同色率 100% / 99.99%，眼睛 8×8，窗棂 12px | 100% / 100%，同上 |
-| 音频峰值 | −12.93 dBFS，clipped 0 | −10.65 dBFS，clipped 0 |
+## Experimental Design Summary
 
----
+**8 arms** (cumulative S0-S5 + non-cumulative S6/S7) × **5 questions** (GPU, distributed systems, SLO, memory hierarchy, epistemology) × **3 reps** = 120 runs.
 
-## 交付物：Companion v1.1 + Reboot / Dialogue / Farewell v1.0
+**7 scoring dimensions**: M1 fact accuracy (0.25), M2 self-assessment calibration (0.10), M3 structure (0.10), M4 gap identification (0.20), M5 source quality (0.10), M6 citation verifiability (0.10), M7 contradiction reasoning (0.15).
 
-四部 30s 像素短片共用 companion 原始角色与房间美术，以及 640×360 → 2× 最近邻 → 1280×720@60fps 网格。
-终端统一为 **440×200 @ (100,140)**（20px 标题栏 + 180px 内容区）。为避免与放大后的终端重叠，字幕使用底部 20px 条带与 Fusion Pixel 10px 字体。
+**Judges**: Primary = same-model (27B, confidence-capped 0.7). Hetero = arena-hosted frontier model (T26 validation).
 
-| 版本 | 渲染 / 检查 | 成片 / 混音 | 验收报告 |
-|------|-------------|-------------|----------|
-| Companion v1.1 | `src/render_companion_arena_v11.js` / `src/check_overlap_companion_v11.js` | `outputs/companion_arena_v1.1.mp4` / `audio/companion_arena_v11_mix.wav` | `docs/companion-v1.1/` |
-| Reboot v1.0 | `src/render_reboot_arena.js` / `src/check_overlap_reboot.js` | `outputs/reboot_arena_v1.0.mp4` / `audio/reboot_arena_mix.wav` | `docs/reboot-v1/` |
-| Dialogue v1.0 | `src/render_dialogue_arena.js` / `src/check_overlap_dialogue.js` | `outputs/dialogue_arena_v1.0.mp4` / `audio/dialogue_arena_mix.wav` | `docs/dialogue-v1/` |
-| Farewell v1.0 | `src/render_farewell_arena.js` / `src/check_overlap_farewell.js` | `outputs/farewell_arena_v1.0.mp4` / `audio/farewell_arena_mix.wav` | `docs/farewell-v1/` |
+## Status
 
-共用：`src/pixel_story_arena.js`（三部新片布局/时间轴）、`src/check_overlap_story_common.js`（0px 几何与像素校验）、
-`scripts/build_audio_v2_common.js`（确定性 PCM 混音）、`scripts/verify_story_outputs.js`（最终 MP4 独立复核）。
-Companion 保留 v1.0 音频增益与淡入淡出；三部新片使用精确 BGM −12dB、SFX −6dB。点击时间由剧本唯一数据源生成并向上量化到显示帧。
+| Component | State |
+|-----------|-------|
+| Paper draft | ✅ v2.0 ready (needs submission) |
+| Rubric | ✅ v3.1 frozen |
+| S0-S5 data | ✅ 90 runs complete |
+| S6-S7 data | ✅ 30 runs complete |
+| M7 scoring | ✅ rule-based, validated |
+| Hetero validation | ✅ T26 complete (arena GPT-5.5) |
+| arXiv upload | ⏳ pending manual login |
 
-```bash
-npm run check:story          # 四部各 8/8 PASSED，0px tolerance
-npm run build:companion:v11  # 单部：check + render + audio + mux
-npm run build:reboot
-npm run build:dialogue
-npm run build:farewell
-npm run verify:story         # 直接解码四个 MP4：规格 / 像素 / 音频 / 黑场 / A-V 同步
-npm run build:story          # 完整重建四部并复核
-```
+## Legacy Content
 
-最终实测：四部均为 **1800 帧 / 30.000s / h264 High / yuv420p / AAC 44.1kHz mono**；
-键盘点击依次匹配 **70/70、152/152、217/217、232/232**，最大偏差均 **6.7ms（0.40 帧）**；
-解码音频峰值依次 **−12.39、−13.09、−11.09、−12.03 dBFS**，全部 **0 削波样本**。
+The `src/`, `scripts/`, `outputs/` directories contain pixel-art video rendering code (Clawd story series, 2026-10). These are completed deliverables preserved for reference; they are not part of the current research line. The `arena-prompts/batch{9,10,11}/` directories contain episode task cards from the same period.
 
+## License
+
+MIT (research use). Data and code released for reproducibility.
