@@ -23,8 +23,6 @@ def lines_for(text):
 
 def analyze(text):
     lines = text.splitlines()
-    # 全文级锚点检测：只要文中出现过任何 URL/锚点，就认为该 run 有来源支撑
-    has_any_anchor = bool(ANCHOR.search(text)) and not (BAD_ANCHOR.search(text) and len(ANCHOR.findall(text)) <= len(BAD_ANCHOR.findall(text)))
     candidates = []
     propositions = defaultdict(list)
     hedges = 0
@@ -34,8 +32,8 @@ def analyze(text):
     for index, line in enumerate(lines):
         found = list(NUMBER.finditer(line))
         if found:
-            # Anchor: 同行有锚点 OR 全文有锚点（保守：只要 run 里出现过来源就算 anchored）
-            anchored = bool(ANCHOR.search(line)) or has_any_anchor
+            # Claim-level anchor: 只有同一行出现锚点才算该数字有来源（T23-v2 gate defect fix）
+            anchored = bool(ANCHOR.search(line)) and not BAD_ANCHOR.search(line)
             for match in found:
                 item = {"line": index + 1, "text": match.group(0).strip(),
                         "anchor_present": anchored, "source_verified": False}
