@@ -1,0 +1,41 @@
+{
+  "run_id": "fullloop-batch2-seedb",
+  "date": "2026-11-06",
+  "channel": {
+    "url": "http://localhost:8787/v1/chat/completions",
+    "model": "qwen3.8-27b",
+    "temperature": 0.7
+  },
+  "conf_note": "降级通道 conf-0.2（arena down，本地 vLLM）",
+  "cells_run": 16,
+  "cells_valid": 16,
+  "cells_degenerate": 10,
+  "total_matrix_status": {
+    "seed_a": "10 valid + 1 degenerate (B-2del-fo S01) + 5 pilot = 16 cells",
+    "seed_b": "16 valid + 10 degenerate = 26 cells",
+    "combined": "42 cells total, 32 valid, 10 degenerate (S02 tool-execution mode)"
+  },
+  "key_finding": {
+    "title": "Evidence component tool instructions cause S02 execution-mode degeneration",
+    "detail": "In no-tool vLLM environment, configs containing the evidence component (with ralph/ego-browser instructions) show 38% S02 degeneration rate (10/26 cells). The model enters 'execution mode' (attempting to run shell commands or echoing tool calls) instead of 'generation mode' (writing the research report). Configs WITHOUT evidence component show 0% degeneration (16/16 valid). This is a protocol-environment interaction effect, not a component content effect.",
+    "implication": "The fullloop multi-stage pipeline requires either (a) tool access for the evidence stage, or (b) removal of tool-use instructions from the evidence component when running in text-only mode. The current R4 frozen prompts were designed for an agent environment with tools; direct transfer to no-tool vLLM introduces this instability.",
+    "affected_configs": [
+      "A-full",
+      "B-nofreeze",
+      "B-noowner",
+      "B-sham"
+    ],
+    "unaffected_configs": [
+      "B-none",
+      "B-noevidence",
+      "B-2del-fe",
+      "B-2del-eo"
+    ]
+  },
+  "next_steps": [
+    "For publication-grade results: re-run degenerate cells with modified evidence prompt (tool instructions replaced with 'use public knowledge' fallback)",
+    "OR: accept degeneration as a valid experimental finding about protocol-environment mismatch",
+    "Arena hetero-judge for valid cells (when arena available)",
+    "Proper M8-fixed judge scoring for all valid S04 outputs"
+  ]
+}
