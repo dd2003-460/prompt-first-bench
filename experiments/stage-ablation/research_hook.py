@@ -34,35 +34,71 @@ def _run_ego_browser(js_code, timeout=120):
 
 
 def _arxiv_search(query, max_results=5):
-    """通过 ego-browser 访问 arXiv API，返回 [{title, url, snippet}, ...]"""
-    # 用完整 query（URL-encode），sortBy=relevance
-    encoded = quote_plus(query)
+    """通过 ego-browser 访问 arXiv API，返回 [{title, url, snippet}, ...]
+
+    v2.2: 多策略查询提升精度——
+    1. 完整 query（all:）
+    2. 标题限定（ti:）—— 只匹配标题含关键词的论文，大幅减少噪声
+    3. 取前 N 篇去重合并
+    """
+    encoded_full = quote_plus(query)
+    # 标题限定：提取核心词（去掉 "vs"、"LLM inference throughput" 这类通用后缀）
+    core_words = re.findall(r'[A-Za-z0-9]{3,}', query)
+    # 过滤掉太通用的词
+    STOP = {'the', 'and', 'for', 'with', 'from', 'this', 'that', 'what', 'how',
+            'llm', 'inference', 'throughput', 'performance', 'benchmark', 'gpu'}
+    specific = [w for w in core_words if w.lower() not in STOP]
+    ti_query = ' AND '.join(f'ti:{w}' for w in specific[:4]) if specific else f'ti:{core_words[0]}'
+    encoded_ti = quote_plus(ti_query)
+
     space_name = f"arxiv-{int(time.time())}"
     js = (
         "(async () => {\n"
         f'const task = await taskSpace("{space_name}");\n'
         'const page = task.page("p1");\n'
-        f'await page.goto("http://export.arxiv.org/api/query?search_query=all:{encoded}&start=0&max_results={max_results}&sortBy=relevance", {{waitUntil: "domcontentloaded"}});\n'
+        # 第一路：完整 query
+        f'await page.goto("http://export.arxiv.org/api/query?search_query=all:{encoded_full}&start=0&max_results={max_results}&sortBy=relevance", {{waitUntil: "domcontentloaded"}});\n'
         'await new Promise(r => setTimeout(r, 3000));\n'
-        'const xml = await page.evaluate(() => document.body.innerText);\n'
-        'console.log(xml);\n'
+        'let xml1 = await page.evaluate(() => document.body.innerText);\n'
+        'console.log("===FULL===" + xml1);\n'
+        # 第二路：标题限定
+        f'await page.goto("http://export.arxiv.org/api/query?search_query={encoded_ti}&start=0&max_results={max_results}&sortBy=relevance", {{waitUntil: "domcontentloaded"}});\n'
+        'await new Promise(r => setTimeout(r, 3000));\n'
+        'let xml2 = await page.evaluate(() => document.body.innerText);\n'
+        'console.log("===TITLE===" + xml2);\n'
         '})();'
     )
-    stdout = _run_ego_browser(js, timeout=60)
-    # 解析 Atom XML（简单正则提取 entry）
-    entries = []
-    for match in re.finditer(r'<entry>(.*?)</entry>', stdout, re.DOTALL):
-        block = match.group(1)
-        title_m = re.search(r'<title>(.*?)</title>', block, re.DOTALL)
-        link_m = re.search(r'<id>(.*?)</id>', block)
-        summary_m = re.search(r'<summary>(.*?)</summary>', block, re.DOTALL)
-        if title_m and link_m:
-            entries.append({
-                "title": re.sub(r'\s+', ' ', title_m.group(1)).strip()[:200],
-                "url": link_m.group(1).strip(),
-                "snippet": re.sub(r'\s+', ' ', summary_m.group(1)).strip()[:500] if summary_m else "",
-            })
-    return entries[:max_results]
+    stdout = _run_ego_browser(js, timeout=90)
+
+    def parse_entries(xml_block):
+        entries = []
+        for match in re.finditer(r'<entry>(.*?)</entry>', xml_block, re.DOTALL):
+            block = match.group(1)
+            title_m = re.search(r'<title>(.*?)</title>', block, re.DOTALL)
+            link_m = re.search(r'<id>(.*?)</id>', block)
+            summary_m = re.search(r'<summary>(.*?)</summary>', block, re.DOTALL)
+            if title_m and link_m:
+                entries.append({
+                    "title": re.sub(r'\s+', ' ', title_m.group(1)).strip()[:200],
+                    "url": link_m.group(1).strip(),
+                    "snippet": re.sub(r'\s+', ' ', summary_m.group(1)).strip()[:500] if summary_m else "",
+                })
+        return entries
+
+    # 解析两路结果
+    full_block = stdout.split("===FULL===")[1].split("===TITLE===")[0] if "===FULL===" in stdout else ""
+    title_block = stdout.split("===TITLE===")[1] if "===TITLE===" in stdout else ""
+    full_entries = parse_entries(full_block)
+    title_entries = parse_entries(title_block)
+
+    # 合并去重（标题限定优先——更精准）
+    seen_urls = set()
+    merged = []
+    for e in title_entries + full_entries:
+        if e["url"] not in seen_urls:
+            seen_urls.add(e["url"])
+            merged.append(e)
+    return merged[:max_results]
 
 
 # 已知站点（GPU 调研域）—— 按 Q 映射
