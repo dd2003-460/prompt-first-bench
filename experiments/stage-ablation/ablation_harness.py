@@ -132,6 +132,25 @@ def build_prompt(arm, qid):
             "你能用搜索和工具查资料。给出你的最终回答，把你「不确定、需要进一步查证」的点单独列出来。"
         )
 
+    if arm == "S7T":
+        # S7T: S7 hybrid + tool access (T30)
+        # = S6-style fuzzy heuristic prompt + research_hook sources injection
+        # Tests the §5.1 "tool-access hypothesis": does web evidence improve M1/M4?
+        return (
+            "你是一名资深研究员，以严谨和洞察力著称。\n\n"
+            f"问题：{question}\n\n"
+            "思考方式建议（不是固定流程，按你的判断用）：\n"
+            "- 先回到第一性原理：这个问题的底层物理/经济/数学约束是什么？\n"
+            "- 把影响因素分解开，哪些是主导项、哪些可以忽略？\n"
+            "- 特别注意表面合理但实际有问题的说法——找到矛盾点，重点查证和推理。\n"
+            "- 对关键数字，区分「官方标称值」和「实际表现」，合理推测偏差方向和幅度。\n"
+            "- 查不到的就明说是缺口，不要编。\n\n"
+            "【工具说明】你可以使用 web_search 工具检索信息。"
+            "对每个关键主张，把来源标题、URL、观察时间写进你的输出。\n\n"
+            "请基于以上来源和工具检索结果回答，引用时标注来源编号。"
+            "给出你的最终回答，把你「不确定、需要进一步查证」的点单独列出来。"
+        )
+
     parts = [f"[阶段 01 — 目标分解]\n"]
     if arm in ("S1",):
         # S1: 01 + decomp 五步法
@@ -240,7 +259,7 @@ def run_arm(arm, qid, rep, dry_run=False):
 
     # S2+ 臂: 先跑真实联网检索，把来源包注入 prompt
     sources = []
-    if arm in ("S2", "S3", "S4", "S5") and not dry_run:
+    if arm in ("S2", "S3", "S4", "S5", "S7T") and not dry_run:
         q = QUESTIONS[qid]
         # 优先用预设英文搜索词（Bing locale 更稳定），fallback 到 prompt 提取
         question = q.get("search_query") or extract_question(read_file(q["prompt_file"]))
@@ -261,11 +280,11 @@ def run_arm(arm, qid, rep, dry_run=False):
 
     print(f"  [{tag}] calling 27b ({len(prompt)} chars prompt)...", flush=True)
     t0 = time.time()
-    # S6/S7: use temp=0.1 + seed per rep to guarantee diversity
+    # S6/S7/S7T: use temp=0.1 + seed per rep to guarantee diversity
     # (temp=0 greedy decode is fully deterministic for short structured prompts; seed alone is ignored)
     call_seed = None
     call_temp = 0
-    if arm in ("S6", "S7"):
+    if arm in ("S6", "S7", "S7T"):
         call_seed = hash(f"{arm}-{qid}") % 10000 + rep * 7919
         call_temp = 0.1
     try:

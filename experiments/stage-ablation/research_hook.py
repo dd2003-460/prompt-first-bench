@@ -101,31 +101,39 @@ def _arxiv_search(query, max_results=5):
     return merged[:max_results]
 
 
-# 已知站点（GPU 调研域）—— 按 Q 映射
+# 已知站点（T17 通用化域）—— 按 Q 映射 (T30-fix: 修正 Q2/Q4 错误指向)
 KNOWN_SITES = {
-    "Q1": [  # H100 PCIe vs SXM
+    "Q1": [  # H100 PCIe vs SXM inference
         ("https://www.nvidia.com/en-us/data-center/h100/", "NVIDIA H100 Official"),
         ("https://www.thundercompute.com/blog/nvidia-h100-specs-full-guide", "ThunderCompute H100 Specs"),
         ("https://cloudgputracker.com/compare/nvidia-h100-vs-nvidia-h100-pcie/", "CloudGPUTracker H100 Compare"),
-        ("https://www.runpod.io/guides/nvidia-h100-gpu", "RunPod H100 Guide"),
     ],
-    "Q2": [  # A100 specs
-        ("https://www.nvidia.com/en-us/data-center/a100/", "NVIDIA A100 Official"),
-        ("https://www.thundercompute.com/blog/nvidia-a100-specs", "ThunderCompute A100 Specs"),
+    "Q2": [  # LLM model selection (Qwen/Mistral/GLM/DeepSeek/Llama)
+        ("https://huggingface.co/spaces/open-llm-leaderboard/open_llm_leaderboard", "HF Open LLM Leaderboard"),
+        ("https://artificialanalysis.ai/models", "Artificial Analysis Model Rankings"),
     ],
-    "Q3": [  # LLM inference cost
-        ("https://www.together.ai/pricing", "Together AI Pricing"),
-        ("https://replicate.com/pricing", "Replicate Pricing"),
-        ("https://cloudgputracker.com/", "CloudGPUTracker"),
+    "Q3": [  # Inference serving frameworks (vLLM/TGI/SGLang)
+        ("https://docs.vllm.ai/en/latest/getting_started/installation/index.html", "vLLM Documentation"),
+        ("https://github.com/sgl-project/sglang", "SGLang GitHub"),
+        ("https://huggingface.co/docs/text-generation-inference/index", "TGI Documentation"),
     ],
-    "Q4": [  # GPU cluster networking
-        ("https://www.nvidia.com/en-us/networking/infiniband/", "NVIDIA InfiniBand"),
-        ("https://www.mellanox.com/products/infinibad-networking", "Mellanox Networking"),
+    "Q4": [  # RAG vs long context window
+        ("https://arxiv.org/abs/2307.03172", "Lost in the Middle (arXiv)"),
+        ("https://arxiv.org/abs/2312.10997", "RAG vs Long Context Survey (arXiv)"),
     ],
-    "Q5": [  # Training vs inference workload
+    "Q5": [  # Bayesian vs frequentist decision theory
         ("https://arxiv.org/abs/2305.06980", "LLM Training Efficiency (arXiv)"),
-        ("https://arxiv.org/abs/2211.05102", "Efficient LLM Inference (arXiv)"),
+        ("https://en.wikipedia.org/wiki/Bayesian_inference", "Bayesian Inference (Wikipedia)"),
     ],
+}
+
+# arXiv 精准查询（T30: 每 Q 多路 query，取并集提升召回）
+ARXIV_QUERIES = {
+    "Q1": ["H100 PCIe SXM inference throughput benchmark", "GPU memory bandwidth LLM serving"],
+    "Q2": ["Qwen2.5-Coder HumanEval code generation benchmark", "LLM model selection cost accuracy tradeoff open source"],
+    "Q3": ["vLLM TGI SGLang inference serving comparison throughput", "LLM inference engine PagedAttention continuous batching"],
+    "Q4": ["retrieval augmented generation vs long context window comparison", "RAG faithfulness evaluation lost in the middle"],
+    "Q5": ["Bayesian decision theory expected loss minimization frequentist", "statistical hypothesis testing decision rules risk"],
 }
 
 
@@ -164,21 +172,32 @@ def _fetch_page(url, title_hint, timeout=30):
 
 
 def research_hook(qid, question, max_results=5):
-    """主接口：arXiv API + 已知站点直访，返回 sources 列表。
+    """主接口：arXiv API（多查询）+ 已知站点直访，返回 sources 列表。
 
+    T30: 使用 ARXIV_QUERIES[qid] 的多路精准 query 替代单一宽泛 query。
     返回格式: [{"title": str, "url": str, "snippet": str, "observed_at": ISO, "source_type": str}, ...]
     失败: 抛 ResearchHookUnavailable
     """
     observed = datetime.now(timezone.utc).isoformat()
     sources = []
 
-    # 1. arXiv API 检索
-    try:
-        arxiv_results = _arxiv_search(question, max_results=max_results)
-        for r in arxiv_results:
-            sources.append({**r, "observed_at": observed, "source_type": "arxiv"})
-    except ResearchHookUnavailable:
-        pass  # arXiv 失败不阻塞，继续已知站点
+    # 1. arXiv API 检索（多查询取并集，限 3 条给直访留位）
+    queries = ARXIV_QUERIES.get(qid, [question])
+    seen_urls = set()
+    arxiv_cap = max(3, max_results - len(KNOWN_SITES.get(qid, [])))
+    for q in queries:
+        if len(sources) >= arxiv_cap:
+            break
+        try:
+            arxiv_results = _arxiv_search(q, max_results=max_results)
+            for r in arxiv_results:
+                if len(sources) >= arxiv_cap:
+                    break
+                if r["url"] not in seen_urls:
+                    seen_urls.add(r["url"])
+                    sources.append({**r, "observed_at": observed, "source_type": "arxiv"})
+        except ResearchHookUnavailable:
+            continue  # 单路失败不阻塞，继续下一路
 
     # 2. 已知站点直访
     sites = KNOWN_SITES.get(qid, [])
