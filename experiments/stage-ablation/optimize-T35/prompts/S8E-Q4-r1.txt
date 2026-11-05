@@ -1,0 +1,81 @@
+你是一名资深研究员，以严谨和洞察力著称。
+
+问题：你是一个逻辑严密的拆解者。面对一个复杂问题，不要凭直觉直接列清单，要像整理文件夹一样，一层一层往下分，最后交出一棵树。
+
+把整个问题先定成一个要算清楚的「根节点」——通常是一个数（比如「哪种方案最划算」，就拆成「每个方案的单任务成本」）。然后一层层往下切，每一层都把这个节点切成几个子文件夹。一直切到每一片「叶子」都是一个你要么能查到规格、要么能套公式、要么能实测出来的具体数字或区间为止。
+
+**怎么拆都行**：你可以一次只拆一层（先列直接子节点，下一轮再往下），也可以一口气拆好几层，随你方便。拆的过程中随时可以停下来想一想、自检、再继续——不要求一次拆完，每次挑几个还没拆完的节点往下切就行。
+
+下面用「一条产线每件产品的成本」做例子，照这个样子长（先骨架，再填几片叶子）：
+
+    单件成本/
+    ├── 良率/        〔只能测〕每批抽 200 件记不良，连续 10 批    〔占 0.30〕
+    ├── 设备摊销/    〔可调〕按折旧摊到每件                  〔占 0.45〕
+    └── 来料价格/    〔可控外〕随采购合同                    〔占 0.25〕
+
+每一刀只当场验两件事：
+
+1. **完整（不漏）**：切出来的几支拼起来要能还原父节点，不能丢掉任何一块。按比例拆时比例加起来必须正好等于 1。拼不回来说明这一刀切错了，不是「还有点没想到」。
+
+2. **不重叠（不抢）**：同一层的几支不能去动同一个底层东西。两支都在占显存、都在花同一笔钱、都在改同一个参数，就是没拆干净——要么继续往下切分开，要么显式写一句「这两支耦合在 X 上」并说明会不会改变结论。名字不一样不代表不重叠，是「不抢同一个底层资源」才叫不重叠。
+
+查不到也量不出来的，别硬编：标成「黑盒」，写清它影响树的哪一支、你估计的大致范围（给区间不给一个数）、以及真要搞准的话一天内能做完的实测办法。
+
+最后，指出哪一支对整个结果影响最大（瓶颈），说清楚为什么是它；并列出还有哪些没解开的矛盾（没有就写「无」）。
+
+你最终交出来的，就是上面那样的一棵**「文件夹结构示意图」**——根在上、子节点往下/往右展开，每个节点旁标清「是什么 / 能调还是只能测 / 怎么量 / 占父份额」。这棵树只作为格式看，真正评分看的是你拆得全不全、重不重、瓶颈抓得准不准、黑盒标得老不老实。
+
+下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：
+
+我们有一个企业知识库问答系统，文档总量大概 50 万页，用户问题需要引用文档内容回答且不能编造。我在纠结三种架构：纯 RAG（切块嵌入检索）、纯长上下文（直接塞进 128K 模型）、或者混合方案。
+请帮我拆解：决定「每千次正确回答的成本」的所有因素都有哪些，并判断哪种架构最划算。
+
+思考方式建议（不是固定流程，按你的判断用）：
+- 先回到第一性原理：这个问题的底层物理/经济/数学约束是什么？
+- 把影响因素分解开，哪些是主导项、哪些可以忽略？
+- 特别注意表面合理但实际有问题的说法——找到矛盾点，重点查证和推理。
+- 对关键数字，区分「官方标称值」和「实际表现」，合理推测偏差方向和幅度；写下的每个数字都要能在下面来源里找到支持它的原句，找不到就只做定性描述、不写这个数字。
+- 查不到的就明说是缺口，不要编；凡是写下数字断言，必须紧跟其后标注它所依据的来源原句（形如「[来源N] 原句…」），来源里没有对应原句的数字一律不写。
+
+【工具说明】以下是经过筛选的、与问题直接相关的参考来源。仅当来源内容明确支持你的某个具体断言时才引用它；如果来源没有直接回答你的子问题，不要强行关联；每条含数字的断言都要能指回这里的某条来源原句。
+【已检索到的来源（来自 ego-browser 真实网页检索）】
+1. Inference Scaling for Long-Context Retrieval Augmented Generation
+   URL: http://arxiv.org/abs/2410.04343v2
+   摘要: The scaling of inference computation has unlocked the potential of long-context large language models (LLMs) across diverse settings. For knowledge-intensive tasks, the increased compute is often allo
+   观察时间: 2026-11-05T16:54:32.289568+00:00
+2. LongRAG: Enhancing Retrieval-Augmented Generation with Long-context LLMs
+   URL: http://arxiv.org/abs/2406.15319v3
+   摘要: In traditional RAG framework, the basic retrieval units are normally short. The common retrievers like DPR normally work with 100-word Wikipedia paragraphs. Such a design forces the retriever to searc
+   观察时间: 2026-11-05T16:54:32.289568+00:00
+3. LongLive-RAG: A General Retrieval-Augmented Framework for Long Video Generation
+   URL: http://arxiv.org/abs/2606.02553v1
+   摘要: Autoregressive (AR) video diffusion enables variable-length synthesis, but long-horizon generation often suffers from accumulated errors and identity drift. For efficiency, existing methods commonly a
+   观察时间: 2026-11-05T16:54:32.289568+00:00
+4. [2307.03172] Lost in the Middle: How Language Models Use Long Contexts
+   URL: https://arxiv.org/abs/2307.03172
+   摘要: Skip to main content
+Search
+Submit
+Donate
+Log in
+Computer Science > Computation and Language
+[Submitted on 6 Jul 2023 (v1), last revised 20 Nov 2023 (this version, v3)]
+Lost in the Middle: How Languag
+   观察时间: 2026-11-05T16:54:32.289568+00:00
+5. [2312.10997] Retrieval-Augmented Generation for Large Language Models: A Survey
+   URL: https://arxiv.org/abs/2312.10997
+   摘要: Skip to main content
+Search
+Submit
+Donate
+Log in
+Computer Science > Computation and Language
+[Submitted on 18 Dec 2023 (v1), last revised 27 Mar 2024 (this version, v5)]
+Retrieval-Augmented Generation
+   观察时间: 2026-11-05T16:54:32.289568+00:00
+
+请基于以上来源回答，引用时标注来源编号。
+
+
+
+请基于以上来源回答，引用时标注来源编号并写明该来源具体支持了哪个断言；每条数字断言后面紧跟其来源原句，无来源原句支撑的数字改为定性描述或不写。给出你的最终回答，把你「不确定、需要进一步查证」的点单独列出来。
