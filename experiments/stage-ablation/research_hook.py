@@ -35,20 +35,18 @@ def _run_ego_browser(js_code, timeout=120):
 
 def _arxiv_search(query, max_results=5):
     """通过 ego-browser 访问 arXiv API，返回 [{title, url, snippet}, ...]"""
-    # 取 query 的首尾关键词构造 arXiv 搜索
-    words = query.split()
-    kw1 = words[0] if words else "GPU"
-    kw2 = words[-1] if len(words) > 1 else "performance"
+    # 用完整 query（URL-encode），sortBy=relevance
+    encoded = quote_plus(query)
     space_name = f"arxiv-{int(time.time())}"
     js = (
         "(async () => {\n"
-        f"const task = await taskSpace(\"{space_name}\");\n"
-        "const page = task.page(\"p1\");\n"
-        f"await page.goto(\"http://export.arxiv.org/api/query?search_query=all:%22{kw1}%22+AND+all:%22{kw2}%22&start=0&max_results={max_results}\", {{waitUntil: \"domcontentloaded\"}});\n"
-        "await new Promise(r => setTimeout(r, 3000));\n"
-        "const xml = await page.evaluate(() => document.body.innerText);\n"
-        "console.log(xml);\n"
-        "})();"
+        f'const task = await taskSpace("{space_name}");\n'
+        'const page = task.page("p1");\n'
+        f'await page.goto("http://export.arxiv.org/api/query?search_query=all:{encoded}&start=0&max_results={max_results}&sortBy=relevance", {{waitUntil: "domcontentloaded"}});\n'
+        'await new Promise(r => setTimeout(r, 3000));\n'
+        'const xml = await page.evaluate(() => document.body.innerText);\n'
+        'console.log(xml);\n'
+        '})();'
     )
     stdout = _run_ego_browser(js, timeout=60)
     # 解析 Atom XML（简单正则提取 entry）
