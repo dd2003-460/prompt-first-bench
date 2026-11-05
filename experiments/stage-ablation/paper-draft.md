@@ -150,6 +150,21 @@ Note: M7 was scored post-hoc for S0–S5 only (rule-based scorer developed after
 - S6 (fuzzy) exceeds S0 on total (+0.065) despite zero structure — driven entirely by M2 (+0.581) and M3 (+0.156).
 - S7 (hybrid) approaches S5 on total (0.548 vs. 0.579) and *exceeds* S5 on M1 (0.771 vs. 0.521) and M4 (0.747 vs. 0.700).
 
+**Statistical significance.** Bootstrap 95% CIs (percentile method, B=1000, per-run aggregation, seed=42) for the Total column:
+
+| Arm | Total | 95% CI | n |
+|-----|-------|--------|---|
+| S0 | 0.397 | [0.330, 0.462] | 15 |
+| S1 | 0.526 | [0.489, 0.564] | 15 |
+| S2 | 0.552 | [0.478, 0.612] | 15 |
+| S3 | 0.546 | [0.482, 0.609] | 15 |
+| S4 | 0.569 | [0.518, 0.620] | 15 |
+| S5 | 0.579 | [0.533, 0.625] | 15 |
+
+S6/S7 (M1+M4 only; full 6-dim per-run scores not retained): S6 M1=0.643 [0.588, 0.696], M4=0.610 [0.533, 0.683]; S7 M1=0.761 [0.688, 0.839], M4=0.650 [0.560, 0.737]. S7 > S6 on both dimensions (CI non-overlap on M1). Tool arms (S7T/S7F/S7V): point estimates only (§5.1); per-run scores from a single scoring pass were not retained for bootstrap.
+
+Paired comparison S7V vs. S7 (n=4 pairs: Q1/Q4 × r1/r2, Wilcoxon signed-rank): p=0.625, Hedges' g=−0.231 — directionally S7V ≤ S7 on M1 but far underpowered (n=4). Full 15-pair test requires re-scoring S7V with the same judge pass as S7 (future work). All CIs use per-run (not pooled) aggregation; tie-break: none (continuous scores); judge family: local 27B (S0–S5), arena frontier model (S6/S7 M1/M4).
+
 ### 4.2 Per-Question Breakdown
 
 | Arm | Q1 | Q2 | Q3 | Q4 | Q5 | Mean |
