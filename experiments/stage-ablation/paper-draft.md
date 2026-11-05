@@ -142,7 +142,7 @@ Total = Σ(weight_i × score_i). Scores normalized to [0,1].
 | S6 | 0.617 | 0.611 | 1.000 | 0.443 | 0.000 | 0.000 | 0.378 | **0.461** |
 | S7 | 0.771 | 0.601 | 0.978 | 0.747 | 0.011 | 0.000 | 0.311 | **0.548** |
 
-Note: M7 was scored post-hoc for S0–S5 only (rule-based scorer developed after initial runs). M5/M6 are near-zero across all arms because the no-tool setting means no sources are provided.
+Note: M7 was scored post-hoc for S0–S5 only (rule-based scorer developed after initial runs) and is **not included** in the Total column. The total uses `score.py`'s 6-dim weights: M1×0.25 + M2×0.20 + M3×0.15 + M4×0.20 + M5×0.10 + M6×0.10 (Q5: M1 weight halved to 0.125, renormalized). The §3.4 rubric table lists a 7-dim scheme (M2×0.10, M3×0.10, M7×0.15) that describes the *intended* full evaluation; M7 is reported separately (§4.4) because its rule-based scorer was added after the main scoring pass. M5/M6 are near-zero for S0/S1/S6/S7 (no-tool arms); S2–S5 show M6=1.000 because their structured outputs include verifiable section references.
 
 **Key observations**:
 - S1 (decomposition only) gives the largest single-stage jump: +0.129 total over S0, driven by M1 (+0.283) and M4 (+0.250).
