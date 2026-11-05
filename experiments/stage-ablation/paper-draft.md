@@ -33,25 +33,33 @@ This work asks: **given a fixed 27B open-weight model with no external tool acce
 
 ### 2.1 LLM Agent Evaluation
 
-Recent work evaluates LLM agents on task completion (GAIA, AgentBench, τ-bench) or conversational memory (LoCoMo, LongMemEval). These benchmarks measure *whether* the agent succeeds, not *which component* of its pipeline drives success. Our ablation approach is orthogonal: we hold the model constant and vary only the prompt structure, attributing score deltas to specific stages.
+Recent work evaluates LLM agents on task completion (GAIA, Mialon et al., 2023; AgentBench, Liu et al., 2024; τ-bench, Yoran et al., 2024) or conversational memory (LoCoMo, Maharana et al., 2024). These benchmarks measure *whether* the agent succeeds, not *which component* of its pipeline drives success. WebArena (Zhou et al., 2024) and SWE-bench (Jimenez et al., 2024) compress capability into a single scalar (task success rate); MLE-bench (Chan et al., 2025) calibrates agent upper bounds against expert-level competitions but still reports one aggregate number. Our ablation approach is orthogonal: we hold the model constant and vary only the prompt structure, attributing score deltas to specific stages via a 7-dimension rubric.
 
-The DREAM framework (ACL 2026) evaluates deep-research agents on search efficiency and citation quality, but assumes tool access (web search, API calls). Our setting — no tools, pure parametric knowledge — isolates the effect of *prompt structure* from *information access*, a confound present in most prior work.
+The DREAM framework (Avraham et al., 2026) evaluates deep-research agents on search efficiency and citation quality, but assumes tool access (web search, API calls). DeepResearch Bench (Du et al., 2026) extends this with reference-based adaptive scoring and citation accuracy metrics. Our setting — no tools, pure parametric knowledge — isolates the effect of *prompt structure* from *information access*, a confound present in most prior work. BrowseComp (Wei et al., 2025) further delineates our boundary: its difficulty lies in persistent retrieval, which is entirely unmeasurable under our no-tool constraint (M6 structurally zero).
 
 ### 2.2 Structured Prompting and Chain-of-Thought
 
-Chain-of-thought prompting (Wei et al., 2022) and tree-of-thought (Yao et al., 2023) demonstrate that explicit reasoning scaffolds improve performance on multi-step tasks. Our S1 (goal decomposition) arm operationalizes a domain-specific version of CoT. However, our M7 results show that this improvement is *dimension-selective*: structure helps fact recall (M1) and gap identification (M4) but hurts contradiction detection (M7), consistent with a resource-allocation interpretation where explicit structure directs attention away from implicit adversarial checks.
+Chain-of-thought prompting (Wei et al., 2022) and tree-of-thought (Yao et al., 2023) demonstrate that explicit reasoning scaffolds improve performance on multi-step tasks. Self-consistency (Wang et al., 2023) shows that multi-path sampling plus marginalization outperforms greedy decoding, but varies the *sampling* strategy rather than the prompt itself. Least-to-most prompting (Zhou et al., 2023) — decompose sub-problems first, then solve sequentially — is the closest literature ancestor of our S1 arm (goal decomposition), with SCAN length-split gains of 99% vs. CoT's 16% providing an external effect-size anchor. Plan-and-solve prompting (Wang et al., 2023, ACL) identifies three failure modes of zero-shot CoT (arithmetic errors, skipped steps, semantic misinterpretation) and repairs them via "plan first, execute second," mirroring our observation that M1 fluctuates with structural changes while M4 rises with explicit checklists. The Prompt Report (Schulhoff et al., 2024) catalogues 58 prompting techniques and provides the external terminological coordinate for our "structure vs. style" distinction, preventing us from claiming originality for a binary that already exists in the literature.
+
+Our M7 results show that the improvement is *dimension-selective*: structure helps fact recall (M1) and gap identification (M4) but hurts contradiction detection (M7), consistent with a resource-allocation interpretation where explicit structure directs attention away from implicit adversarial checks.
 
 ### 2.3 Self-Assessment and Calibration
 
-LLMs are known to be overconfident (Xiong et al., 2023; Kadavath et al., 2022). Our M2 dimension measures whether the model's stated confidence matches actual correctness. Across all arms, M2 means range 0.037–0.618, indicating systematic overconfidence in mechanical-prompt arms. The S6 fuzzy arm achieves M2=0.618 (vs. S0: 0.037), suggesting that natural-language uncertainty markers in the prompt calibrate the model's self-report more effectively than mechanical checklists.
+LLMs are known to be overconfident (Xiong et al., 2024; Kadavath et al., 2022). Three calibration routes have been identified in the literature: **verbalized** confidence (model states uncertainty in natural language; Lin et al., 2022), **logprob-based** (extracting P(True) from token probabilities; Tian et al., 2023 showed verbalized often outperforms conditional probability on RLHF models, with ~50% relative ECE reduction), and **multi-sample** (semantic entropy over paraphrased outputs; Kuhn et al., 2023). Our M2 dimension operationalizes the verbalized route: it parses confidence statements from the model's output text.
 
-### 2.4 Positioning vs. ScientistTwo
+Across all arms, M2 means range 0.037–0.618, indicating systematic overconfidence in mechanical-prompt arms. The S6 fuzzy arm achieves M2=0.618 (vs. S0: 0.037), suggesting that natural-language uncertainty markers in the prompt calibrate the model's self-report more effectively than mechanical checklists — consistent with Tian et al.'s finding that prompting alone can shift calibration. Two 2026 results sharpen this picture: Meyer et al. (2026) directly compare verbalized / P(True) / 3-sample agreement on TriviaQA and find verbalized strongest (AUROC 0.956/0.937) while 3-sample agreement is markedly weaker (0.765/0.790) and *amplifies shared misconceptions* — a direct warning that our 3-rep design cannot serve as "multi-source corroboration." Xu et al. (2026) provide counter-evidence: built-in confidence estimators can significantly outperform verbalized confidence, reminding us that our M2 gain is a *prompt-layer effect*, not evidence that internal confidence has been correctly read out.
 
-ScientistTwo (arXiv:2609.19644) proposes a *judge* architecture for evaluating scientific claims. Our work is complementary: we evaluate the *contestant* (the generating agent) rather than the judge. The ScientistTwo framework could serve as an external validator for our M1/M7 dimensions; we note this as future work.
+### 2.4 RAG Evaluation and Retrieval Quality
 
-### 2.5 Open-Source Deep Research Agents
+Our M5 (source quality) and M6 (citation verifiability) dimensions are manual approximations of the reference-free RAG metric family introduced by RAGAs (Es et al., 2024): faithfulness, answer relevance, and context relevance. ARES (Saad-Falcon et al., 2024) addresses the "LLM-as-judge needs debiasing" problem via synthetic-data fine-tuning plus PPI correction — our §3.5 judge confidence cap (0.7) and T26 heterogeneous re-judgment are crude versions of the same idea, and we acknowledge this debt. RAGChecker (Ru et al., 2024) separates retrieval from generation diagnosis at claim level (precision/recall per claim), structurally isomorphic to our S7V claim-level verification and serving as a coordinate system for §5.1.
 
-The competitive landscape (as of November 2026) includes GPT Researcher (30k stars, MIT), STORM/Co-STORM (Stanford OVAL), Open Deep Research (LangChain), OpenResearcher (OPPO, EMNLP 2026), and Tongyi DeepResearch (Alibaba). A recurring gap across all systems: none implement an explicit "decompose + mark gaps + leave blank" pre-research quality module, nor a mature cross-validation confidence mechanism where two independent sources must corroborate before upgrading confidence. Our S1/S5 arms operationalize precisely this missing module, and our results quantify its contribution in the absence of tool access.
+### 2.5 Positioning vs. ScientistTwo and Deep Research Agents
+
+ScientistTwo (Nam et al., 2026) is an autonomous multi-agent scientific discovery framework (baseline → hypothesis → experiment → automatic ablation → simulated peer review), *not* a judge architecture as previously stated. Our work is complementary in a different sense: we evaluate the *contestant* (the generating agent's prompt structure) rather than building an evaluation system. STORM (Shao et al., 2024) explicitly models the pre-writing stage (multi-perspective questioning → outline) and reports the only peer-reviewed pre-writing-stage gain numbers (+25% absolute organization, +10% coverage), which our S1/S5 structural gains can be contrasted against (though effect sizes are not directly comparable due to different tasks and baselines). DeepResearcher (Zheng et al., 2025) trains research agents end-to-end via RL in real web environments (+28.9 over prompt-engineering baseline); its emergent cross-source cross-validation and self-reflection are precisely the capabilities our prompt-only approach attempts to induce but fails to (M7 = 0 across all arms).
+
+### 2.6 Ablation Methodology
+
+Ablation studies in artificial neural networks (Meyes et al., 2019) trace the methodology back to neuroscience lesion traditions and provide the methodological justification for our cumulative-arm design (S0→S5, adding one component at a time). We note two limitations this lineage exposes: (a) we perform only unidirectional cumulative addition, not full 2⁵ combinatorial ablation; (b) no 2024–2026 paper specifically addresses *ablation methodology for LLM evaluations* — the domain lacks a dedicated methods paper, so we borrow from ANN ablation tradition plus evaluation statistics (Miller, 2024), who formalizes superpopulation sampling, difference-variance, and experimental planning formulas for LLM evals. Miller's work directly targets our weakest statistical point (3 reps, per-cell n=3, no CIs in the original runs) and is cited in §5.3 to honestly flag statistical power.
 
 ---
 
@@ -318,14 +326,35 @@ Together, these findings suggest that for open-weight research agents, the highe
 
 1. Wei, J., Wang, X., Schuurmans, D., et al. (2022). Chain-of-Thought Prompting Elicits Reasoning in Large Language Models. *NeurIPS 2022*. arXiv:2201.11903.
 2. Yao, S., Yu, D., Zhao, J., et al. (2023). Tree of Thoughts: Deliberate Problem Solving with Large Language Models. *NeurIPS 2023*. arXiv:2305.10601.
-3. Xiong, M., Hu, Z., He, X., et al. (2023). Can LLMs Express Their Uncertainty? An Empirical Evaluation of Confidence Elicitation in LLMs. *ICLR 2024*. arXiv:2305.14975.
-4. Kadavath, S., Conerly, T., Askell, A., et al. (2022). Language Models (Mostly) Know What They Know. arXiv:2107.03258.
-5. DREAM: Deep Research Agent Evaluation and Measurement. *ACL 2026*. (In press.)
-6. ScientistTwo: A Judge Architecture for Scientific Claim Evaluation. arXiv:2609.19644.
-7. Huang, W., et al. (2023). GAIA: A Benchmark for General AI Assistants. arXiv:2311.12983.
-8. Liu, X., et al. (2023). AgentBench: Evaluating LLMs as Agents. *ICLR 2024*. arXiv:2308.03688.
-9. Yoran, O., et al. (2024). τ-bench: A Benchmark for Tool-Using AI Agents. arXiv:2410.02509.
-10. Maharana, A., et al. (2024). LoCoMo: Long Context Conversational Memory Benchmark. *NAACL 2024*. arXiv:2402.17753.
+3. Xiong, M., Hu, Z., He, X., et al. (2024). Can LLMs Express Their Uncertainty? An Empirical Evaluation of Confidence Elicitation in LLMs. *ICLR 2024*. arXiv:2306.13063.
+4. Kadavath, S., Conerly, T., Askell, A., et al. (2022). Language Models (Mostly) Know What They Know. arXiv:2207.05221.
+5. Avraham, E.B., et al. (2026). DREAM: Deep Research Evaluation with Agentic Metrics. *ACL 2026*, pp. 9879–9904. DOI: 10.18653/v1/2026.acl-long.448.
+6. Nam, J., et al. (2026). ScientistTwo: An Autonomous Multi-Agent Framework for Scientific Discovery. arXiv:2609.19644.
+7. Mialon, G., Fourrier, C., Swift, C., Wolf, T., LeCun, Y., Scialom, T. (2023). GAIA: A Benchmark for General AI Assistants. arXiv:2311.12983.
+8. Liu, X., et al. (2024). AgentBench: Evaluating LLMs as Agents. *ICLR 2024*. arXiv:2308.03688.
+9. Yoran, O., et al. (2024). τ-bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains. arXiv:2406.12045.
+10. Maharana, A., et al. (2024). LoCoMo: Long Context Conversational Memory Benchmark. *ACL 2024*, pp. 13851–13870. arXiv:2402.17753.
+11. Zhou, S., Xu, F.F., Zhu, H., et al. (2024). WebArena: A Realistic Web Environment for Building Autonomous Agents. *ICLR 2024*. arXiv:2307.13854.
+12. Jimenez, C.E., Yang, J., Wettig, A., et al. (2024). SWE-bench: Can Language Models Resolve Real-World GitHub Issues? *ICLR 2024*. arXiv:2310.06770.
+13. Chan, J.S., Chowdhury, N., Jaffe, O., et al. (2025). MLE-bench: Evaluating Machine Learning Agents on Machine Learning Engineering. *ICLR 2025*. arXiv:2410.07095.
+14. Wei, J., Sun, Z., Papay, S., et al. (2025). BrowseComp: A Simple Yet Challenging Benchmark for Browsing Agents. arXiv preprint 2025. arXiv:2504.12516.
+15. Wang, X., Wei, J., Schuurmans, D., et al. (2023). Self-Consistency Improves Chain of Thought Reasoning in Language Models. *ICLR 2023*. arXiv:2203.11171.
+16. Zhou, D., Schärli, N., Hou, L., et al. (2023). Least-to-Most Prompting Enables Complex Reasoning in Large Language Models. *ICLR 2023*. arXiv:2205.10625.
+17. Wang, L., Xu, W., Lan, Y., et al. (2023). Plan-and-Solve Prompting: Improving Zero-Shot Chain-of-Thought Reasoning by Large Language Models. *ACL 2023*, pp. 2609–2634. arXiv:2305.04091.
+18. Schulhoff, S., Ilie, M., Balepur, N., et al. (2024). The Prompt Report: A Systematic Survey of Prompt Engineering Techniques. arXiv preprint 2024. arXiv:2406.06608.
+19. Lin, S., Hilton, J., Evans, O. (2022). Teaching Models to Express Their Uncertainty in Words. *TMLR 2022*. arXiv:2205.14334.
+20. Tian, K., Mitchell, E., Zhou, A., et al. (2023). Just Ask for Calibration: Strategies for Eliciting Calibrated Confidence Scores from LMs Fine-Tuned with Human Feedback. *EMNLP 2023*, pp. 5433–5442. arXiv:2305.14975.
+21. Kuhn, L., Gal, Y., Farquhar, S. (2023). Semantic Uncertainty: Linguistic Invariances for Uncertainty Estimation in Natural Language Generation. *ICLR 2023* (Spotlight). arXiv:2302.09664.
+22. Meyer, L., Rossi, S., Chen, W., Laurent, T., Li, Y. (2026). An Analysis of Training-Free Self-Reported Confidence in Language Models. arXiv preprint 2026. arXiv:2609.20541.
+23. Xu, Y., Wang, A., Ren, J., et al. (2026). When Words Fall Short: Iterative Synergy Between Verbalized Reasoning and Hidden Features for LLM Confidence Estimation. arXiv preprint 2026. arXiv:2609.34454.
+24. Es, S., James, J., Espinosa-Anke, L., Schockaert, S. (2024). RAGAs: Automated Evaluation of Retrieval Augmented Generation. *EACL 2024 Demo*, pp. 150–158. arXiv:2309.15217.
+25. Saad-Falcon, J., Khattab, O., Potts, C., Zaharia, M. (2024). ARES: An Automated Evaluation Framework for Retrieval-Augmented Generation Systems. *NAACL 2024*, pp. 338–354. arXiv:2311.09476.
+26. Ru, D., Qiu, L., Hu, X., et al. (2024). RAGChecker: A Fine-grained Framework for Diagnosing Retrieval-Augmented Generation. *NeurIPS 2024* (Datasets & Benchmarks). arXiv:2408.08067.
+27. Shao, Y., Jiang, Y., Kanell, T.A., et al. (2024). Assisting in Writing Wikipedia-like Articles From Scratch with Large Language Models (STORM). *NAACL 2024*, pp. 6252–6278. arXiv:2402.14207.
+28. Du, M., Xu, B., Zhu, C., et al. (2026). DeepResearch Bench: A Comprehensive Benchmark for Deep Research Agents. *ICLR 2026*. arXiv:2506.11763.
+29. Zheng, Y., Fu, D., Hu, X., et al. (2025). DeepResearcher: Scaling Deep Research via Reinforcement Learning in Real-world Environments. *EMNLP 2025*, pp. 414–431. arXiv:2504.03160.
+30. Meyes, R., Lu, M., Waubert de Puiseau, C., Meisen, T. (2019). Ablation Studies in Artificial Neural Networks. arXiv preprint 2019. arXiv:1901.08644.
+31. Miller, E. (2024). Adding Error Bars to Evals: A Statistical Approach to Language Model Evaluations. arXiv preprint 2024. arXiv:2411.00640.
 
 ---
 
