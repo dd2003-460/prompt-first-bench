@@ -60,21 +60,16 @@
     }
   ],
   "last_action": {
+    "type": "advance",
+    "stage": "06-find-next-goal",
+    "round": "T37-complete",
+    "timestamp": "2026-11-06T22:00+08:00",
+    "reason": "T37-paper-submission-ready 全部验收标准通过 (a-e)。产出: bootstrap-cis.json + paper §4.1 + repro/ package + 31 refs (arena dual-source verified) + §2 rewrite (6 subsections).",
     "artifacts": [
-      "loop-artifacts/stages/02.5/r1/fields.json (local_dual_channel_verification confirmed, total:14)",
-      "loop-artifacts/stages/02.5/r1/web-llm/a72d1ae0e2f789eb.json (failure receipt, 3/3 login failed)",
-      "loop-artifacts/stages/02.5/r1/advance.json (status:passed, payload.cross_validation 含完整 validation_records)"
-    ],
-    "reason": "阶段 02.5 交叉验证被双重阻塞：(1) web-llm 外源核验通道不可用（perplexity/chatgpt/gemini 3 providers 全部登录失败，回执 a72d1ae0e2f789eb.json）；(2) ralph runtime 门禁要求 cross_validation 字段必须引用 ≥2 successful_provider_ids 的成功回执，否则 field-apply 直接拒绝——即使 disposition=research_required 也拒。本地双通道实证已完成且一致（TCP 端口探测 + 进程/env 枚举），但无法通过 runtime 校验落盘。",
-    "recovery_after_unblock": "cd pfb && ralph web-llm-check . loop-artifacts/stages/02.5/r1/webllm-request.json → 成功回执 → 回填 cross_validation 字段 → ralph field-apply → ralph apply advance.json → 推进 03",
-    "round": "r267",
-    "stage": "02.5",
-    "timestamp": "2026-11-03T07:15+08:00",
-    "type": "blocked_human",
-    "unblock_options": [
-      "(a) 成璐一次性人工登录 web-llm（ralph web-llm-login 打开持久 profile → 登录 perplexity + chatgpt 或 gemini 中至少 2 个）→ 重跑 ralph web-llm-check . loop-artifacts/stages/02.5/r1/webllm-request.json → 产生成功回执 → 回填 cross_validation 字段 → advance 02.5→03",
-      "(b) 修复 ralph runtime 门禁逻辑（cross_validation 字段在 research_required + 失败回执时不应被 field-apply 拒绝）→ 重跑 field-apply → advance",
-      "(c) 确认接受降级：跳过 web-llm 外源核验，以本地双通道实证为最终交叉验证结论（conf-0.2 标注）→ 需修改 runtime 门禁配置或手动推进"
+      "experiments/stage-ablation/bootstrap-cis.json",
+      "experiments/stage-ablation/paper-draft.md (§4.1 + §2 rewrite + 31 refs)",
+      "experiments/stage-ablation/repro/ (40 prompts + 5 gold + README)",
+      "experiments/stage-ablation/loop-artifacts/stages/02/research.md (arena, 162 lines)"
     ]
   },
   "last_event_id": "7f9fd156-f9ba-490e-a2e6-caec7c1228b4",
@@ -128,10 +123,10 @@
     "revision": "r1",
     "success_condition": "每个关键调研字段有逐 claim validation_records（≥2 独立具体来源、日期、裁决），矛盾已记录并更新 confidence"
   },
-  "status": "blocked_human",
+  "status": "active",
   "task": {
-    "description": "【目标】T8-C3-v3-fullloop 异源 judge 验证：用非 Qwen family 的 LLM 作为 judge，重新评分 pilot 6 cells 的 stage01/02/03 工件，检验消融信号是否被同源偏差（qwen3.8-27b 既当生成器又当裁判）淹没。\n\n【阶段】pfb 项目，T8 实验线。pilot 6/6 已完成（r265），G2 区分力 1/12 PASS，结论是消融信号 < 测量噪声。下一步需要异源 judge 交叉验证。当前卡在：没有非 Qwen API key。\n\n【SOP 索引】\n- 执行通道：本地 ralph loop（arena 不可用降级通道，conf-0.2）\n- 评分协议：experiments/T8-matrix/runs/c3-v3/calibration/judge-prompts-rubric-v3.json（J1-strict-v3 + J2-lenient-v3）\n- 计分规则：experiments/T8-matrix/runs/c3-v3/calibration/m8fixed-protocol-v1.json\n- Pilot 产出：experiments/T8-matrix/runs/c3-v3/runs-fullloop/pilot/{config}/{domain}/stage{NN}.md\n- 回执：experiments/T8-matrix/runs/c3-v3/runs-fullloop/receipt-r265-pilot-v2.json\n\n【验收标准】\n1. 找到至少 1 个可用非 Qwen judge 端点（免费额度/本地模型/用户提供的 key 均可）\n2. 用异源 judge 对 6 cells × 3 stages = 18 份工件完成 J1+J2 双判\n3. 计算 G2 区分力（同 domain 跨 config spread），与 r265 同源结果对比\n4. 输出 receipt-r266-hetero-judge.json，含完整评分矩阵 + G2 对比表 + 结论\n5. 如果异源 judge 确认信号仍弱 → T8 实验线正式收口；如果信号出现 → 启动 54-cell 全量\n\n【失败降级】\n- 无可用非 Qwen 端点 → 标记 blocked_human（需要用户提供 key 或确认用其他本地模型），不阻塞其他任务\n- 本地有其他非 Qwen 模型（如 LM Studio 上的其他 family）→ 直接用，conf-0.3\n- judge 输出解析失败率 > 20% → 记录为技术故障，不影响已解析部分的结论",
-    "source": "ralph run"
+    "description": "【目标】T37 已完成。下一步：(1) arXiv 手动上传（需成璐登录）；(2) S7V full re-score (~15min vLLM) 补全 paired test n=15；(3) 投稿格式适配（目标期刊待定）。当前可推进：S7V re-score + 论文终稿 polish。",
+    "source": "T37 complete → next goal"
   },
   "task_intake": null,
   "task_intake_history": []
