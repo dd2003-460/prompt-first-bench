@@ -45,5 +45,5 @@
 
 ## Git
 
-- commit SHA：待提交后填写。
-- push：待推送后填写。
+- 结果文件提交 SHA：`ab47696bd9dc6e2db24d1ee7d602d7c088ebf823`（本次评分 JSON 与回执首次提交）。
+- 目标分支：`arena/78602cd5-prompt-first-bench`；推送目标：`origin/arena/78602cd5-prompt-first-bench`。
