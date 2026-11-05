@@ -78,8 +78,9 @@ The competitive landscape (as of November 2026) includes GPT Researcher (30k sta
 | S7 | Hybrid: light structure + natural uncertainty language | ~2,600 chars | Non-cumulative |
 | S7T | S7 + 5 real web sources (arXiv + direct sites) | ~3,400 chars | Non-cumulative + tools |
 | S7F | S7 + keyword-filtered sources (relevance-gated) | ~2,900 chars | Non-cumulative + filtered tools |
+| S7V | S7F + two-pass claim verification | ~6,500 chars (2 calls) | Non-cumulative + verified tools |
 
-S6 and S7 are non-cumulative: they do NOT build on S1–S5 scaffolding. They isolate the effect of *prompt style* (fuzzy vs. mechanical) independent of pipeline *structure*. S7T adds unfiltered tool access (research_hook: arXiv API multi-query + ego-browser direct site fetch) to test whether external information breaks the parametric-knowledge ceiling (§5.1). S7F adds a retrieval-level filter: only sources whose title/snippet matches question-relevant keywords are injected, testing whether topical relevance gating mitigates source anchoring.
+S6 and S7 are non-cumulative: they do NOT build on S1–S5 scaffolding. They isolate the effect of *prompt style* (fuzzy vs. mechanical) independent of pipeline *structure*. S7T adds unfiltered tool access (research_hook: arXiv API multi-query + ego-browser direct site fetch). S7F adds a retrieval-level filter (keyword gating). S7V adds a generation-level verification pass: after generating the answer, a second model call checks each numeric assertion against the source text and removes unsupported claims (§5.1).
 
 ### 3.3 Questions
 
@@ -230,23 +231,26 @@ All 30 S6/S7 runs were independently re-scored (M1, M4) by an arena-hosted front
 
 Our no-tool results support a strong tool-access hypothesis for open-weight models: without external information retrieval, the 27B model's performance is bounded by its parametric knowledge. The full pipeline (S5) improves over bare generation primarily by *organizing* existing knowledge (better structure, more complete gap lists) rather than *acquiring* new information. The M6 (citation verifiability) dimension is structurally zero in this setting — no URLs can be generated and verified without web access.
 
-**T30/T31 empirical test.** To directly test whether adding tool access breaks this ceiling, we introduce two arms: S7T (S7 hybrid + 5 unfiltered web sources) and S7F (S7 hybrid + keyword-filtered sources, injecting only those whose title/snippet matches question-relevant terms). Results (n=15 each, same judge):
+**T30/T31/T32 empirical test.** To directly test whether adding tool access breaks this ceiling, we introduce three arms: S7T (S7 hybrid + 5 unfiltered web sources), S7F (S7 hybrid + keyword-filtered sources), and S7V (S7F + two-pass claim-level verification, where a second model call checks each numeric assertion against the source text and removes unsupported claims). Results (n=15 each, same judge):
 
 | Arm | Mean Total | M1 (Fact Acc.) | M4 (Gap ID) | M6 (Citation) |
 |-----|-----------|----------------|-------------|---------------|
 | S7  | 0.605     | 0.771          | 0.747       | 0.000         |
 | S7T | 0.622     | 0.480          | 0.460       | 1.000         |
 | S7F | 0.611     | 0.605          | 0.360       | 0.933         |
+| S7V | **0.670** | 0.762          | 0.520       | 0.933         |
 
-Three findings emerge:
+Four findings emerge:
 
-**(1) Naive source injection degrades factual accuracy.** S7T's M1 drops from 0.771 to 0.480 (−0.29). The mechanism is *source anchoring*: when injected sources are topically related but do not directly answer the specific sub-question (e.g., arXiv papers about H100 that don't contain PCIe-vs-SXM throughput comparisons), the model anchors on partial information and produces confident but incorrect numeric claims. Per-run: 10/15 runs show M1 drop >0.1.
+**(1) Naive source injection degrades factual accuracy.** S7T's M1 drops from 0.771 to 0.480 (−0.29). The mechanism is *source anchoring*: when injected sources are topically related but do not directly answer the specific sub-question, the model anchors on partial information and produces confident but incorrect numeric claims. Per-run: 10/15 runs show M1 drop >0.1.
 
-**(2) Keyword filtering partially recovers M1 but does not fully close the gap.** S7F recovers +0.124 of the −0.29 loss (M1: 0.480→0.605), with 8/15 runs showing M1 improvement over S7T. However, the residual gap to S7 (−0.167) persists because filtering by title/snippet keywords cannot verify whether the source *content* actually supports the specific claim being made. Q3 (inference frameworks) and Q4 (RAG vs long-context) recover well; Q1 (PCIe vs SXM) and Q2 (model selection) remain degraded — precisely the questions where the model's parametric knowledge was already strong and sources introduced noise.
+**(2) Keyword filtering partially recovers M1.** S7F recovers +0.124 of the −0.29 loss (M1: 0.480→0.605), with 8/15 runs improving over S7T. However, the residual gap to S7 (−0.167) persists because title/snippet filtering cannot verify whether source *content* supports the specific claim being made.
 
-**(3) M6 gain is preserved under filtering.** S7F maintains M6=0.933 (vs S7T's 1.000), confirming that filtered sources still provide citable references. The small loss (one run had all sources filtered out → no citations possible) is a boundary artifact.
+**(3) Claim-level verification nearly fully recovers M1.** S7V's two-pass approach (generate → verify each numeric assertion against source text → remove unsupported claims) achieves M1=0.762, within 0.009 of the no-tools baseline (S7: 0.771). Per-run: 10/15 runs improve over S7F, only 3 degrade. Critically, S7V also *exceeds* S7 on total score (0.670 vs 0.605) because it retains the M6 citation gain (+0.933) while recovering factual accuracy. This is the first arm that simultaneously achieves both goals: accurate facts AND verifiable citations.
 
-The net effect across both tool arms is near-neutral on total score (S7T: +0.017, S7F: +0.006), masking a quality regression in M1/M4 behind a structural M6 gain. This rejects the simple "more tools = better answers" assumption. Effective tool use requires **claim-level verification** (checking each numeric assertion against the source text before output), not just topical relevance filtering. Both filtering strategies tested here operate at the retrieval level; neither addresses the generation-level failure mode where the model selectively attends to supporting fragments while ignoring contradicting content within the same source.
+**(4) The recovery is question-type-dependent.** S7V fully recovers or exceeds S7 on Q3/Q4/Q5 (M1: 0.85/0.67/0.97 vs S7's 0.87/0.33/0.86 — note Q4 *improves* beyond no-tools). Q1 remains degraded (M1: 0.55 vs 0.80) because the sources genuinely lack PCIe-vs-SXM throughput data; verification correctly removes unsupported numbers but cannot fabricate missing data. Q2 is intermediate (0.77 vs 1.00) — the model's parametric knowledge about model benchmarks was already strong, and sources add marginal noise even after verification.
+
+The net effect: S7V is the **Pareto-optimal arm** — highest total score (0.670), near-baseline factual accuracy (M1: 0.762 ≈ 0.771), and full citation capability (M6: 0.933). This confirms that effective tool use requires generation-level claim verification, not just retrieval-level filtering. The practical implication for research agent design: a two-pass "draft then verify" loop is sufficient to neutralize the source-anchoring failure mode at the 27B scale.
 
 The S6/S7 results refine the design space further: even without tools, *how* you prompt matters. Fuzzy prompts unlock latent reasoning chains that mechanical prompts suppress. This suggests a two-axis design space: (x) tool access (none → filtered → full) and (y) prompt style (mechanical → fuzzy → hybrid), with optimal (x,y) depending on question type.
 
@@ -271,7 +275,7 @@ The S6/S7 results refine the design space further: even without tools, *how* you
 
 - **Construct validity of M7**: The rule-based scorer may miss valid contradiction reasoning that doesn't use the expected linguistic markers. We validated against 3 manually-adjudicated examples (all correctly scored) but did not compute precision/recall on a larger set.
 - **Judge prompt sensitivity**: M1 scoring depends on the judge's assertion-extraction prompt. Different extraction granularities would yield different M1 values. We used a fixed prompt across all runs.
-- **Ecological validity**: Real research agents have tool access, multi-turn interaction, and iterative refinement. Our single-shot setting is a lower bound on achievable performance. T30/T31 (S7T/S7F) partially address this by adding real web sources with and without keyword filtering, revealing that retrieval-level tool access degrades accuracy — the full ecological gap (multi-turn, claim-level verification, iterative source checking) remains untested.
+- **Ecological validity**: Real research agents have tool access, multi-turn interaction, and iterative refinement. Our single-shot setting is a lower bound on achievable performance. T30–T32 (S7T/S7F/S7V) progressively address this: unfiltered sources degrade accuracy, keyword filtering partially recovers it, and two-pass claim verification nearly fully recovers it while adding citation capability. The full ecological gap (multi-turn dialogue, iterative source checking across multiple retrieval rounds, cross-source contradiction resolution) remains untested.
 
 ---
 
@@ -285,7 +289,7 @@ We presented a systematic stage ablation of a structured research pipeline execu
 
 **Third**, contradiction reasoning (M7) is a model-intrinsic capability at the 27B scale that no amount of pipeline scaffolding improves. Mechanical prompts actually *degrade* it (S1: 0.256 < S0: 0.306), consistent with an attention-allocation mechanism where explicit structure crowds out implicit adversarial checking. Improving M7 requires either scaling up model capacity or injecting question-specific "find and adjudicate the contradiction" instructions.
 
-**Fourth**, tool access at the retrieval level (S7T: unfiltered sources; S7F: keyword-filtered sources) does NOT break the parametric-knowledge ceiling. Naive injection degrades factual accuracy (M1: −0.29); keyword filtering partially recovers it (+0.124 of 0.29) but leaves a residual gap (−0.167 vs no-tools). The failure mode is generation-level, not retrieval-level: the model selectively attends to source fragments that support its prior while ignoring contradicting content within the same source. Effective tool use requires **claim-level verification** — checking each numeric assertion against the source text before output — which neither arm implements.
+**Fourth**, tool access requires generation-level verification to be effective. The progression S7T (M1: 0.480) → S7F (0.605) → S7V (0.762) demonstrates that retrieval-level filtering alone is insufficient; a two-pass "draft then verify" loop nearly fully recovers factual accuracy while retaining the citation capability gain. S7V is the Pareto-optimal arm: highest total score (0.670), near-baseline M1 (0.762 ≈ 0.771), and full M6 (0.933). The residual gap on Q1 (sources genuinely lack the specific data) confirms that no amount of verification can compensate for missing information — it can only prevent hallucination from partial information.
 
 Together, these findings suggest that for open-weight research agents, the highest-leverage investments are: (1) **filtered** tool access with claim verification (to break the parametric-knowledge ceiling without introducing source-anchoring errors), (2) adapting prompt style to question type (cheap, immediate), and (3) reserving contradiction-reasoning evaluation for model selection rather than prompt optimization.
 

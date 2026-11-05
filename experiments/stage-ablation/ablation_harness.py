@@ -151,10 +151,9 @@ def build_prompt(arm, qid):
             "给出你的最终回答，把你「不确定、需要进一步查证」的点单独列出来。"
         )
 
-    if arm == "S7F":
+    if arm in ("S7F", "S7V"):
         # S7F: S7 hybrid + FILTERED tool access (T31)
-        # = S7T but only sources matching answer-relevant keywords are injected
-        # Tests: does filtering eliminate source anchoring while keeping M6 gain?
+        # S7V: same as S7F but with two-pass claim verification (T32)
         return (
             "你是一名资深研究员，以严谨和洞察力著称。\n\n"
             f"问题：{question}\n\n"
@@ -279,7 +278,7 @@ def run_arm(arm, qid, rep, dry_run=False):
 
     # S2+ 臂: 先跑真实联网检索，把来源包注入 prompt
     sources = []
-    if arm in ("S2", "S3", "S4", "S5", "S7T", "S7F") and not dry_run:
+    if arm in ("S2", "S3", "S4", "S5", "S7T", "S7F", "S7V") and not dry_run:
         q = QUESTIONS[qid]
         # 优先用预设英文搜索词（Bing locale 更稳定），fallback 到 prompt 提取
         question = q.get("search_query") or extract_question(read_file(q["prompt_file"]))
@@ -289,7 +288,7 @@ def run_arm(arm, qid, rep, dry_run=False):
         wall_research = round(time.time() - t_research, 1)
         print(f"  [{tag}] research done in {wall_research}s, {len(sources)} sources", flush=True)
         # T31: S7F applies keyword filtering before injection
-        if arm == "S7F" and sources:
+        if arm in ("S7F", "S7V") and sources:
             from research_hook import filter_sources
             filtered = filter_sources(sources, qid)
             print(f"  [{tag}] filter: {len(sources)} → {len(filtered)} sources", flush=True)
@@ -310,7 +309,7 @@ def run_arm(arm, qid, rep, dry_run=False):
     # (temp=0 greedy decode is fully deterministic for short structured prompts; seed alone is ignored)
     call_seed = None
     call_temp = 0
-    if arm in ("S6", "S7", "S7T"):
+    if arm in ("S6", "S7", "S7T", "S7F", "S7V"):
         call_seed = hash(f"{arm}-{qid}") % 10000 + rep * 7919
         call_temp = 0.1
     try:
@@ -331,6 +330,47 @@ def run_arm(arm, qid, rep, dry_run=False):
 
     wall = round(time.time() - t0, 1)
     print(f"  [{tag}] done in {wall}s, {tokens['out']} tokens out", flush=True)
+
+    # T32: S7V two-pass — second call verifies claims against sources
+    pass1_text = output
+    if arm == "S7V" and sources:
+        verify_prompt = (
+            "你刚才回答了一个问题，引用了以下参考来源。现在请逐条核验你的数字断言：\n\n"
+            f"【你的初稿答案】\n{output}\n\n"
+            f"【参考来源】\n{inject_sources_into_prompt('', sources)}\n\n"
+            "核验规则：\n"
+            "1. 找出初稿中所有具体数字断言（带宽、吞吐量、百分比、价格等）\n"
+            "2. 对每个数字，检查参考来源中是否有明确支持该数字的原文\n"
+            "3. 有支持的 → 保留，标注「✓ 来源[N]支持」\n"
+            "4. 无支持的 → 删除该数字或改为定性描述，标注「✗ 无来源支持，已删除」\n"
+            "5. 不要重新生成整个答案，只修正数字断言部分\n\n"
+            "输出格式：先列出核验表（断言 | 来源支持? | 处理），然后给出修正后的完整答案。"
+        )
+        print(f"  [{tag}] PASS 2: verifying claims ({len(verify_prompt)} chars)...", flush=True)
+        t1 = time.time()
+        try:
+            verified_output, v_tokens = call_llm(verify_prompt, seed=call_seed, temperature=0)
+            wall_v = round(time.time() - t1, 1)
+            print(f"  [{tag}] PASS 2 done in {wall_v}s, {v_tokens['out']} tokens", flush=True)
+            # Extract the corrected answer (after the verification table)
+            # The model outputs: [verification table]\n\n[corrected answer]
+            # Take everything after the last occurrence of a separator or the final answer section
+            lines = verified_output.split('\n')
+            # Find where the corrected answer starts (look for markers)
+            answer_start = 0
+            for i, line in enumerate(lines):
+                if any(m in line for m in ['修正后', '最终答案', 'Corrected', 'Final']):
+                    answer_start = i + 1
+                    break
+            corrected = '\n'.join(lines[answer_start:]).strip()
+            if len(corrected) < 100:
+                # Fallback: use full verified output
+                corrected = verified_output
+            output = corrected
+            tokens = {"in": tokens["in"] + v_tokens["in"], "out": tokens["out"] + v_tokens["out"]}
+            wall += wall_v
+        except Exception as e:
+            print(f"  [{tag}] PASS 2 FAILED (keeping pass 1): {e}", file=sys.stderr)
 
     record = {
         "arm": arm, "qid": qid, "rep": rep,
