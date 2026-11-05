@@ -1,0 +1,60 @@
+{
+  "frozen_at": "2026-11-02",
+  "goal": "T8-C3-v3 G2 paired runs — 9 configs × 3 domains × 2 seeds = 54 run（G1 门禁 CONDITIONAL-PASS 后开跑）",
+  "motivation": "r4-execution-design.json 原定矩阵 = 9 configs × 2 domains(D1,D2) × 2 seeds；R5 已补 D3-hardware-purchase（18 run 完成）。G2 要求三域全量配对 → 本轮只跑 D1+D2 各 18 run = 36 run，与 R5 D3 的 18 run 合并成完整 54-run 矩阵。",
+  "supersedes_note": "不修改 r4-execution-design.json / r5-d3-harder-domain-design.json（冻结面）。本文件是 R6 增量设计：同通道、同 9 configs、同双 seed 协议，域集合并为 D1+D2+D3 全量。",
+  "gate_status_ref": "receipt-g1-gate-status-r157.json (r207/r208 更新): G1a COMPLETE + kappa κ=0.6624≥0.6 CONDITIONAL PASS + CALM RR=0.983 PASS; G1b family_check BLOCKED-ON-HUMAN（非 Qwen 异源 judge 缺位）→ conf -0.1 登记",
+  "channel": {
+    "url": "http://localhost:8787/v1/chat/completions",
+    "model": "qwen3.8-27b",
+    "gen_params": {
+      "temperature": 0.7,
+      "max_tokens": 4096
+    },
+    "judge_params": {
+      "temperature": 0,
+      "max_tokens": 4096
+    },
+    "probe": "2026-11-02 在线探针 OK（'收到' 2 tokens 返回）"
+  },
+  "matrix": {
+    "configs": [
+      "A-full",
+      "B-nofreeze",
+      "B-noevidence",
+      "B-noowner",
+      "B-2del-fe",
+      "B-2del-fo",
+      "B-2del-eo",
+      "B-none",
+      "B-sham"
+    ],
+    "domains": [
+      {
+        "name": "D1-meeting-room",
+        "brief_source": "design/seeds/seeds.json D1-meeting-room (2026-10-31 冻结)"
+      },
+      {
+        "name": "D2-file-collab",
+        "brief_source": "design/seeds/seeds.json D2-file-collab (2026-10-31 冻结)"
+      }
+    ],
+    "runs_per_cell": 2,
+    "total_runs": "9 configs × 2 domains × 2 seeds = 36"
+  },
+  "prompt_protocol": "组件拼接复刻 R4 builder（本轮已对 R4 D1 全部 18 prompt byte-exact 验证通过，含 B-sham『组件』标题变体与单段尾换行 quirk）；36 prompt 落盘 runs-r6/<config>/<domain>/seed{a,b}-prompt.txt，sha256_16 锚定见 execution receipt。",
+  "sham_note": "R4 B-sham 含 sham-freeze 段（『组件』标题，会议记录规范填充文本）；R5 B-sham 无 freeze 段（builder 漂移，已在 R5 receipt 登记）。R6 按 R4 形态执行（sham = sham-freeze 段存在），保持与 R4 主分析可比；R5 D3 数据沿用其实际执行形态，跨轮 sham 对比时以 R4/R6 为准并在分析中如实标注。",
+  "judge_binding": "J1-strict + J2-lenient 双判（calibration/judge-prompts.json 冻结 sha 锚定：J1=15086eb4166b1884 / J2=e7f33fd0f7c0b6e8）；另加 M8-cover 对照 opportunity-sets-v1.json D1/D2 冻结集（保守口径：unaddressed 计入分母不计入分子）",
+  "gate_order": [
+    "执行 36 run（断点续传：每 run 完成即落盘 runs-r6/<config>/<domain>/seedX.json）",
+    "J1/J2 双判 72 judge 调用（每 run 两判官）",
+    "M8-truth/M8-cover 双报（Lead 盲法前置：判读前只见编号不见配置名）",
+    "主分析：9 config × 3 domain 合并矩阵（R6 36 + R5 D3 18），F1 主效应 + 域交互方向报告（n=6/cell，仍只报方向不做显著性宣称）"
+  ],
+  "stop_rules": [
+    "任一 config 连续 2 run HTTP 失败 → 停该 config 登记算力故障，不重试伪造",
+    "J1/J2 分歧率 >30% → 暂停主分析回 G1 修 rubric",
+    "总时长超 2h → 分批续跑"
+  ],
+  "forbidden_zone": "hit-matrix.json / prior-estimates.json / gold-tree.md / c3-diffs.md / prompts/MANIFEST.json / runs-r4/** / runs-r5/** / r4-execution-design.json / r5-d3-harder-domain-design.json 零改动；本 R6 纯新增"
+}

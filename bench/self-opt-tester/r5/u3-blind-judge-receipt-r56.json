@@ -1,0 +1,33 @@
+{
+  "kind": "m4-u3-first-blind-judge-receipt",
+  "goal": "RV3G3cdx-m4-u3-first-blind-judge",
+  "round": "r56",
+  "date": "2026-10-31",
+  "precondition_check": {
+    "template_v3": "满足（本轮从 arena/r32-c4-timing-export 取回 evidence-packet-template-v3.md 落 main @ 0791e16——此前 r32 收口行声称『已随 a4986d1 落 main』与 git 事实不符，文件实际只存在于 arena 分支，本轮 merge --no-ff 修复）",
+    "w6_timing": "满足：run5 arena 侧未开跑（bench/self-opt-tester/r5/run5/ 仅 task-brief.md），本地降级 run 已按 v2 口径收口（r52）",
+    "d3_0.7_adjudication": "未裁定（成璐未勾选）→ 脚本折减标记维持暂定值注记，不代裁"
+  },
+  "execution": {
+    "packet_assembled": "bench/self-opt-tester/r5/evidence-packet-r56-u3-v3.json（由 evidence-packet-r4-v2.json 机械迁移，P6 零注入）",
+    "assert_run": "python3 assert-m4-sources.py evidence-packet-r56-u3-v3.json → exit 0, 0 FAIL / 7 SIGNAL",
+    "signals": [
+      "schema-version: packet 无 provider/channel 字段 ⇒ v2 降级运行，D1(i) provider 维度不可机判",
+      "D2-beta-exclude ×1 (run1[0] transcription)",
+      "X3-exclude ×2 (run1[1], run3[1] conf=null+负向关键词)",
+      "D3-transit-mark ×3 (run2[2]/[4]/[5] 转引折减标记)"
+    ],
+    "regression_check": "对原 evidence-packet-r4-v2.json 复跑：0 FAIL / 7 SIGNAL，与 r32 基线逐条一致（SIGNAL 集合相同）"
+  },
+  "negative_test": {
+    "method": "构造 P6 条目注入 provider=null + channel=null 的变体 packet 实跑",
+    "result": "22 FAIL（11 条 × provider 必填非空 str + channel ∈ enum）——证实 null 注入会触发 v3 完整实跑分支的硬校验",
+    "finding": "W4『完备性验证非预测验证』外推效力**部分成立**：脚本对 v3 schema 的机械校验路径真实存在且按设计拦截坏数据；但 U3 定义的『完整实跑模式』（provider 维度可判 + D4 不同 provider 回执对可判）在本数据集**不可达**——v2 存量记录无 provider 信息，任何诚实迁移都无法补齐（补 = 虚构，违反降级条款）。首个真正完整的 v3 实跑必须等下一个新 run 按 template-v3 原生组装。"
+  },
+  "verdict": "PARTIAL-PASS — 断言链路端到端跑通（dry-run + 回归 + 负样例三态全验），U3 完整实跑本体仍 blocked-on-future-run（非外部阻塞，是时序条件：需一个按 v3 原生组装的新 packet）",
+  "boundary_register": [
+    "r32 收口行的『template-v3 已落 main』声明与 git 事实矛盾（文件只在 arena 分支）——queue 历史声明需以 git 为准复核，本轮已修复落盘",
+    "D3 折减数值 0.7 仍为暂定值待成璐裁定，本回执不代裁",
+    "null 注入 vs 零注入的迁移语义差异已实测固化：v3 完整性校验不容忍 null 占位，时序性缺口只能走降级分支如实声明"
+  ]
+}

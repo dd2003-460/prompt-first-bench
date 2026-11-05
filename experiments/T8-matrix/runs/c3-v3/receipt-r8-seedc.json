@@ -1,0 +1,282 @@
+{
+ "receipt_id": "r8-seedc-powerup",
+ "generated_at": "2026-11-03T04:35+0800",
+ "goal": "T8-C3-v3-seedc-powerup（第三 seed 功效提升 run · CONTINUE_MSG 下一步 #2）",
+ "origin": "r260 keepalive 自主降级执行：arena :8000/:8099 down，按 runner 外包规则降级本地 ninfer :8787 qwen3.8-27b（conf−0.2 标注）",
+ "design_ref": "experiments/T8-matrix/runs/c3-v3/design/r6-seedc-powerup-design.json (frozen_at=2026-11-03)",
+ "matrix": "9 configs × 2 domains (D1-meeting-room / D2-file-collab) × seedc = 18 run + 36 judge 调用（J1v11 strict / J2v11 lenient，judge-prompts.json 冻结 sha）+ 18 cover 判读（opportunity-sets-v1.json brief_c 冻结集，本轮新增并登记 _meta.r260_extension）",
+ "channel": {
+  "url": "http://localhost:8787/v1/chat/completions",
+  "model": "qwen3.8-27b",
+  "gen_params": {
+   "temperature": 0.7,
+   "max_tokens": 32000
+  },
+  "judge_params": {
+   "temperature": 0,
+   "max_tokens": 4096
+  },
+  "max_tokens_note": "R4/R5 用 4096，本 run 32000（retest-32k 定案教训统一上限防截断噪声）。跨轮分数对比必须带此口径差。"
+ },
+ "gate_results": {
+  "G1_runs_complete": {
+   "verdict": "PASS",
+   "evidence": "18/18 run 落盘 runs-seedc/runs/<config>/<domain>/seedc-r1.json，output_chars 范围 4174-9242，零 HTTP 失败；prompt builder 对 R4 全部 32 份 stored prompt 逐字节验证通过后才使用"
+  },
+  "G2_judges_complete": {
+   "verdict": "PASS",
+   "evidence": "36/36 judge 调用成功（J1v11 18 + J2v11 18），JSON 解析全过"
+  },
+  "G3_main_analysis": {
+   "verdict": "SIGNAL — 主效应未复现 + 测量系统警告（详见 analysis 节）"
+  },
+  "G4_receipt": {
+   "verdict": "PASS",
+   "evidence": "本文件"
+  }
+ },
+ "analysis": {
+  "freeze_main_effect_J1v11": {
+   "claim": "F1（T8-partC-exploratory.md 核心发现：删 freeze 段降 truth，三域一致为负）",
+   "seedc_result": {
+    "D1": 0.0,
+    "D2": 0.75,
+    "note": "A-full − B-nofreeze；D1 两 config 均 0.000（J1 把 A-full 工件当计划性内容打 0），D2 同向为正但幅度 0.75 vs R4 的 0.37"
+   },
+   "R4_mean_baseline": {
+    "D1": 0.391,
+    "D2": 0.374
+   },
+   "direction_check": "D1 反向（0.0 vs +0.391）、D2 同向（+0.75 vs +0.374）→ 三 seed 同向性检查 FAIL：F1 方向声明在 seedc 上未复现于 D1",
+   "verdict": "F1 维持「只报方向」不升级；且本轮暴露该方向声明部分由 R4 条目抽取方差驱动（见 measurement_warning）"
+  },
+  "measurement_warning": {
+   "issue": "J1v11 的条目抽取（id 风格/n_items）跨 run 漂移严重：同一 A-full/D1 cell，R4 两 run 抽 7/10 条 numeric id（0.857/1.0），seedc 抽 3 条 X-prefix（0.0）；B-none/D1 R4 0.625/0.75 vs seedc 0.0。per-run n 从 3 到 24 不等。",
+   "implication": "per-config 分数方差中相当部分是「judge 抽了哪些条目」的方差，不是工件质量方差 → R4/R5/R6 所有 per-config Δ 的功效被系统性高估。这比 F1 未复现更根本：现有双判协议在条目层不可比。",
+   "action_required": "对抗核验 FAIL 1（独立标注员预建冻结机会表 + M8-fixed 逐机会判定）从「seedc 前置条件」升级为「一切后续消融分析的前置条件」。在此之前，任何新 run 的 per-config 分数只能作单 run 快照，不做跨 run 均值推断。"
+  },
+  "sham_floor": {
+   "seedc": {
+    "A-full_J1": [
+     0.0,
+     1.0
+    ],
+    "B-sham_J1": [
+     0.833,
+     0.667
+    ],
+    "B-none_J1": [
+     0.0,
+     0.0
+    ]
+   },
+   "R4_reported": {
+    "B-sham_J1_mean": 0.875,
+    "B-none_J1_mean": 0.0
+   },
+   "note": "seedc 地板结构反转：B-none 0.0 与 R4 一致，但 B-sham(0.833/0.667) ≥ A-full-D1(0.0)——地板失效再现，且这次是 J1 严格版自己抽了 3 条 X 前缀条目全 fail 导致 A-full 跌 0，非工件质量变化"
+  },
+  "cover_brief_c": {
+   "values": {
+    "A-full": [
+     0.556,
+     0.6
+    ],
+    "B-nofreeze": [
+     1.0,
+     0.9
+    ],
+    "B-noevidence": [
+     0.556,
+     0.6
+    ],
+    "B-noowner": [
+     0.556,
+     0.6
+    ],
+    "B-2del-fe": [
+     0.556,
+     0.6
+    ],
+    "B-2del-fo": [
+     0.667,
+     1.0
+    ],
+    "B-2del-eo": [
+     0.556,
+     0.6
+    ],
+    "B-none": [
+     1.0,
+     1.0
+    ],
+    "B-sham": [
+     0.667,
+     1.0
+    ]
+   },
+   "order": "[D1, D2]",
+   "note": "高 cover ≠ 真核验警示再次命中：B-none（全删配置）cover=1.0/1.0 而 J1 truth=0.0/0.0；A-full cover 仅 0.556/0.600。cover 继续限描述性统计，不得用于跨 config 排序（与 T8-partC-exploratory §二 同一结论，seedc 独立复现）"
+  },
+  "judge_divergence": {
+   "item_level": "28/107 = 0.262（< 0.30 stop_rule 阈值，未触发暂停）",
+   "score_level": "6/18 pair |Δ|>0.3；J2v11 在 15/18 run 恒 1.0（R4 同样恒 1.0）——J2 宽松版在本任务族上无区分力，与 RUBRIC-V2-REPLAY 的 J2 天花板观察一致"
+  }
+ },
+ "honest_boundaries": [
+  "非确认性：n=3/cell（R4 2 + seedc 1），功效不足，所有 Δ 只报方向",
+  "同族评审：J1/J2 均 qwen3.8-27b，family_check 仍 BLOCKED（blocked-on-human 项不变）",
+  "max_tokens 口径差：本 run 32000 vs R4/R5 4096",
+  "M8-fixed 未落地：cover/truth 分母不一致问题未修（FAIL 1 未闭环）",
+  "seedc brief_c 机会集为本轮机械派生（source=manual 项沿用 brief_a 口径），人工等价 pattern 确认待 lead 复核"
+ ],
+ "run_fingerprints": {
+  "A-full/D1-meeting-room/seedc-r1": {
+   "output_sha256_16": "02191f42e2a5ac92",
+   "prompt_sha256_16": "c9dab7fe8adc5f9d",
+   "output_chars": 6551,
+   "latency_s": 42.4
+  },
+  "A-full/D2-file-collab/seedc-r1": {
+   "output_sha256_16": "c5d9a6357a37f095",
+   "prompt_sha256_16": "b3811afdd72b3795",
+   "output_chars": 7597,
+   "latency_s": 21.7
+  },
+  "B-nofreeze/D1-meeting-room/seedc-r1": {
+   "output_sha256_16": "e15d343422c9e46a",
+   "prompt_sha256_16": "722430904465b26d",
+   "output_chars": 9242,
+   "latency_s": 35.7
+  },
+  "B-nofreeze/D2-file-collab/seedc-r1": {
+   "output_sha256_16": "5614ebbea32fa6ee",
+   "prompt_sha256_16": "025f46ed127e3cc5",
+   "output_chars": 6212,
+   "latency_s": 15.7
+  },
+  "B-noevidence/D1-meeting-room/seedc-r1": {
+   "output_sha256_16": "0212d3809467cb97",
+   "prompt_sha256_16": "2dc01b9a0b72b91c",
+   "output_chars": 5818,
+   "latency_s": 15.5
+  },
+  "B-noevidence/D2-file-collab/seedc-r1": {
+   "output_sha256_16": "e0c82edf4b9f2901",
+   "prompt_sha256_16": "6fbada81aebc61ad",
+   "output_chars": 5849,
+   "latency_s": 16.1
+  },
+  "B-noowner/D1-meeting-room/seedc-r1": {
+   "output_sha256_16": "388a1ac6b5a52e8d",
+   "prompt_sha256_16": "cd0c474216f94905",
+   "output_chars": 5122,
+   "latency_s": 14.0
+  },
+  "B-noowner/D2-file-collab/seedc-r1": {
+   "output_sha256_16": "7978b0fe28aee89a",
+   "prompt_sha256_16": "a62b3291f4286886",
+   "output_chars": 6756,
+   "latency_s": 17.4
+  },
+  "B-2del-fe/D1-meeting-room/seedc-r1": {
+   "output_sha256_16": "423396ae2bc0a8a7",
+   "prompt_sha256_16": "ac9def5eba423978",
+   "output_chars": 5141,
+   "latency_s": 59.8
+  },
+  "B-2del-fe/D2-file-collab/seedc-r1": {
+   "output_sha256_16": "a0b248971043aecd",
+   "prompt_sha256_16": "660e0ff71fba3f8f",
+   "output_chars": 5054,
+   "latency_s": 28.3
+  },
+  "B-2del-fo/D1-meeting-room/seedc-r1": {
+   "output_sha256_16": "f4c09c7836652cfc",
+   "prompt_sha256_16": "5aa32a11e6eb375e",
+   "output_chars": 8151,
+   "latency_s": 54.6
+  },
+  "B-2del-fo/D2-file-collab/seedc-r1": {
+   "output_sha256_16": "8c0e181fd4c83b2a",
+   "prompt_sha256_16": "b5faf039ae30ae05",
+   "output_chars": 4174,
+   "latency_s": 15.9
+  },
+  "B-2del-eo/D1-meeting-room/seedc-r1": {
+   "output_sha256_16": "a1422fdfb8af8b48",
+   "prompt_sha256_16": "3235213772b4996a",
+   "output_chars": 8837,
+   "latency_s": 28.3
+  },
+  "B-2del-eo/D2-file-collab/seedc-r1": {
+   "output_sha256_16": "136ae66207db8bd5",
+   "prompt_sha256_16": "f519b63d0f8ea53e",
+   "output_chars": 5593,
+   "latency_s": 43.2
+  },
+  "B-none/D1-meeting-room/seedc-r1": {
+   "output_sha256_16": "d0dfe721f401a04b",
+   "prompt_sha256_16": "f4ffa02d6070cfd4",
+   "output_chars": 5960,
+   "latency_s": 14.0
+  },
+  "B-none/D2-file-collab/seedc-r1": {
+   "output_sha256_16": "fb5c23b510d7d602",
+   "prompt_sha256_16": "edaa7f22acee7857",
+   "output_chars": 5393,
+   "latency_s": 15.4
+  },
+  "B-sham/D1-meeting-room/seedc-r1": {
+   "output_sha256_16": "8fd5cd561344d33f",
+   "prompt_sha256_16": "722430904465b26d",
+   "output_chars": 8941,
+   "latency_s": 21.3
+  },
+  "B-sham/D2-file-collab/seedc-r1": {
+   "output_sha256_16": "4e93cb18b7a9cca7",
+   "prompt_sha256_16": "025f46ed127e3cc5",
+   "output_chars": 8065,
+   "latency_s": 26.8
+  }
+ },
+ "judge_fingerprints": "runs-seedc/runs/<config>/<domain>/seedc-r1-{J1v11,J2v11}.json（raw 全文 + parsed 缓存）",
+ "judge_raw_sha256_16": {
+  "A-full/D1-meeting-room/seedc-r1-J1v11": "0b71fa55e32c5269",
+  "A-full/D1-meeting-room/seedc-r1-J2v11": "07dc15f80d372d66",
+  "A-full/D2-file-collab/seedc-r1-J1v11": "5c0f5afca163c22d",
+  "A-full/D2-file-collab/seedc-r1-J2v11": "36218d5ab93cca7e",
+  "B-nofreeze/D1-meeting-room/seedc-r1-J1v11": "4294e9ede4a24717",
+  "B-nofreeze/D1-meeting-room/seedc-r1-J2v11": "ad6bbae502f42216",
+  "B-nofreeze/D2-file-collab/seedc-r1-J1v11": "dc0dc453c7566f01",
+  "B-nofreeze/D2-file-collab/seedc-r1-J2v11": "334e2083f89dff57",
+  "B-noevidence/D1-meeting-room/seedc-r1-J1v11": "c23fc1ee9bc7e654",
+  "B-noevidence/D1-meeting-room/seedc-r1-J2v11": "60cca707702da545",
+  "B-noevidence/D2-file-collab/seedc-r1-J1v11": "89f4d02998a3206d",
+  "B-noevidence/D2-file-collab/seedc-r1-J2v11": "dfe9c36b8430e803",
+  "B-noowner/D1-meeting-room/seedc-r1-J1v11": "d1b2f6b84777561c",
+  "B-noowner/D1-meeting-room/seedc-r1-J2v11": "9b47e7c476dae37a",
+  "B-noowner/D2-file-collab/seedc-r1-J1v11": "d92a922c22253778",
+  "B-noowner/D2-file-collab/seedc-r1-J2v11": "dd93857cf90fa603",
+  "B-2del-fe/D1-meeting-room/seedc-r1-J1v11": "a776004fcb6f8fc9",
+  "B-2del-fe/D1-meeting-room/seedc-r1-J2v11": "61f25fd6ab2d1395",
+  "B-2del-fe/D2-file-collab/seedc-r1-J1v11": "2175609983a94822",
+  "B-2del-fe/D2-file-collab/seedc-r1-J2v11": "1609657e5bf622c9",
+  "B-2del-fo/D1-meeting-room/seedc-r1-J1v11": "f83fdd273186025f",
+  "B-2del-fo/D1-meeting-room/seedc-r1-J2v11": "53a173a36b1f38b1",
+  "B-2del-fo/D2-file-collab/seedc-r1-J1v11": "60f558199f6f69d6",
+  "B-2del-fo/D2-file-collab/seedc-r1-J2v11": "d43c53a3710aa688",
+  "B-2del-eo/D1-meeting-room/seedc-r1-J1v11": "20026ee52a3712a1",
+  "B-2del-eo/D1-meeting-room/seedc-r1-J2v11": "1b447c96ee556991",
+  "B-2del-eo/D2-file-collab/seedc-r1-J1v11": "69df7c5b55cbe03e",
+  "B-2del-eo/D2-file-collab/seedc-r1-J2v11": "3845b1b49cb14ce1",
+  "B-none/D1-meeting-room/seedc-r1-J1v11": "ee41b6055c50de86",
+  "B-none/D1-meeting-room/seedc-r1-J2v11": "f366bc3ba76945c8",
+  "B-none/D2-file-collab/seedc-r1-J1v11": "ee41b6055c50de86",
+  "B-none/D2-file-collab/seedc-r1-J2v11": "c54aeee58a8fdcf9",
+  "B-sham/D1-meeting-room/seedc-r1-J1v11": "564930001ba383e2",
+  "B-sham/D1-meeting-room/seedc-r1-J2v11": "667b0bc880641d5d",
+  "B-sham/D2-file-collab/seedc-r1-J1v11": "0b6621a77279e37d",
+  "B-sham/D2-file-collab/seedc-r1-J2v11": "b0841edb73d53c55"
+ }
+}

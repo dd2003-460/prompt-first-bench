@@ -1,0 +1,54 @@
+{
+  "arm": "S3",
+  "qid": "Q2",
+  "rep": 2,
+  "model": "qwen3.8-27b",
+  "params": {
+    "temp": 0,
+    "max_tokens": 8000
+  },
+  "output_text": "# 阶段 01：目标分解、已知与空缺条件\n\n## 1. 目标定义与根节点\n\n**根节点**：每千次合格回答的总成本（Cost per 1000 Qualified Responses, C1000）\n\n**公式骨架**：\n$$C_{1000} = \\frac{\\text{总拥有成本 (TCO)}}{\\text{合格回答数}} = \\frac{\\text{硬件摊销} + \\text{电力} + \\text{运维} + \\text{API费用(若用)}}{\\text{请求总数} \\times \\text{合格率}}$$\n\n**关键约束**：\n- 硬件：单台双卡 24GB（共 48GB 显存）或等效 API 额度\n- 任务：函数级代码补全（Python/JS）+ 通用指令跟随\n- 候选模型：Qwen3-32B, Qwen2.5-Coder-32B-Instruct, Mistral-Small-2501-24B, GLM-4-32B-0414, DeepSeek-Coder-V2-33B, Llama-3.3-70B-Instruct(W4)\n\n## 2. 递归分解树\n\n```\nC1000 (每千次合格回答总成本)/\n├── A. 分母：合格回答数/\n│   ├── A1. 请求总数/\n│   │   └── [固定] 由业务量决定，假设 1000 次请求\n│   └── A2. 合格率 (Pass Rate)/\n│       ├── A2a. 代码补全准确率 (Python/JS)/\n│       │   ├── [待验证] HumanEval/MBPP 分数\n│       │   ├── [待验证] 函数级补全特定基准 (如 Codeforces, LiveCodeBench)\n│       │   └── [待验证] 实际业务场景下的通过率 (需 A/B 测试)\n│       └── A2b. 指令跟随合格率/\n│           ├── [待验证] IFEval/MT-Bench 分数\n│           └── [待验证] 内部业务指令集通过率\n│\n├── B. 分子：总拥有成本 (TCO)/\n│   ├── B1. 硬件摊销成本/\n│   │   ├── B1a. 显卡价格/\n│   │   │   ├── [已知] 双卡 24GB 配置\n│   │   │   ├── [待验证] 具体显卡型号 (RTX 4090? A5000? L40?)\n│   │   │   └── [待验证] 当前市场价格 (2026-11)\n│   │   ├── B1b. 服务器其他组件/\n│   │   │   ├── [待验证] CPU/RAM/存储/主板/电源\n│   │   │   └── [假设] 固定成本，与模型选择弱相关\n│   │   └── B1c. 折旧年限/\n│   │       └── [假设] 3 年直线折旧 (待确认财务政策)\n│   │\n│   ├── B2. 电力成本/\n│   │   ├── B2a. 推理功耗/\n│   │   │   ├── [待验证] 各模型在 48GB 显存下的实际功耗 (W)\n│   │   │   ├── [待验证] 量化方式对功耗的影响 (FP16 vs INT8 vs W4)\n│   │   │   └── [待验证] 并发度对功耗的影响\n│   │   └── B2b. 电价/\n│   │       └── [待验证] 内部数据中心电价 (元/kWh)\n│   │\n│   ├── B3. 运维与人力成本/\n│   │   ├── B3a. 部署复杂度/\n│   │   │   ├── [待验证] 各模型对推理框架的支持 (vLLM, TGI, SGLang)\n│   │   │   ├── [待验证] 量化部署难度 (GPTQ, AWQ, GGUF)\n│   │   │   └── [待验证] 是否需要特殊硬件 (如 Hopper 架构支持 FP8)\n│   │   └── B3b. 故障率与 SLA/\n│   │       └── [待验证] 各模型在 48GB 显存下的稳定性\n│   │\n│   └── B4. API 成本 (若选择 API 路线)/\n│       ├── B4a. 输入 Token 价格/\n│       │   └── [待验证] 各模型 API 定价 (元/1K tokens)\n│       ├── B4b. 输出 Token 价格/\n│       │   └── [待验证] 各模型 API 定价 (元/1K tokens)\n│       └── B4c. 免费额度/\n│           └── [待验证] 是否有免费层或折扣\n│\n└── C. 隐性成本与风险/\n    ├── C1. 模型更新频率/\n    │   └── [待验证] 各模型维护状态 (是否 EOL)\n    ├── C2. 许可证合规/\n    │   └── [待验证] 各模型许可证 (Apache 2.0, MIT, 自定义)\n    └── C3. 数据隐私/\n        └── [已知] 内部部署无数据外泄风险，API 有\n```\n\n## 3. 已知条件 vs 空缺清单\n\n### 已知条件（人类提供）\n1. 硬件约束：单台双卡 24GB（共 48GB 显存）\n2. 任务类型：函数级代码补全（Python/JS）+ 通用指令跟随\n3. 候选模型列表：6 个具体模型\n4. 成本指标：每千次合格回答的总成本\n\n### 空缺清单（需阶段 02 研究）\n\n| 编号 | 空缺项 | 影响分支 | 优先级 | 研究路径 |\n|------|--------|----------|--------|----------|\n| G1 | 各模型在 48GB 显存下的实际部署可行性（量化方式、显存占用） | B1, B3 | 高 | 搜索 vLLM/TGI 部署文档、GitHub issues、HuggingFace 模型卡 |\n| G2 | 各模型代码补全基准分数（HumanEval, MBPP, LiveCodeBench） | A2a | 高 | 搜索 arXiv 论文、HuggingFace Open LLM Leaderboard、模型官方技术报告 |\n| G3 | 各模型指令跟随基准分数（IFEval, MT-Bench, AlpacaEval） | A2b | 中 | 同上 |\n| G4 | 各模型 API 定价（若存在） | B4 | 中 | 搜索各模型提供商官网（阿里云、智谱、DeepSeek 等） |\n| G5 | 双卡 24GB 显卡当前市场价格（2026-11） | B1a | 中 | 搜索京东/淘宝/亚马逊价格、历史价格追踪网站 |\n| G6 | 各模型推理功耗（W） | B2a | 低 | 搜索硬件评测、服务器功耗测试报告 |\n| G7 | 各模型许可证类型 | C2 | 低 | 搜索 HuggingFace 模型卡、GitHub 仓库 LICENSE 文件 |\n| G8 | 各模型维护状态（是否 EOL、更新频率） | C1 | 低 | 搜索 GitHub 最近 commit、官方公告 |\n| G9 | 内部电价 | B2b | 低 | 需内部数据，假设 0.5-1.0 元/kWh |\n| G10 | 折旧年限 | B1c | 低 | 需财务政策，假设 3 年 |\n\n## 4. 候选模型初步分析（待验证假设）\n\n| 模型 | 参数量 | 显存需求 (FP16) | 48GB 可行性 | 代码能力 | 指令跟随 | 备注 |\n|------|--------|-----------------|-------------|----------|----------|------|\n| Qwen3-32B | 32B | ~64GB | ❌ 需量化 | 待验证 | 待验证 | 需 INT8/W4 量化 |\n| Qwen2.5-Coder-32B-Instruct | 32B | ~64GB | ❌ 需量化 | 待验证 | 待验证 | 代码专用，需量化 |\n| Mistral-Small-2501-24B | 24B | ~48GB | ⚠️ 边缘 | 待验证 | 待验证 | 可能需 INT8 |\n| GLM-4-32B-0414 | 32B | ~64GB | ❌ 需量化 | 待验证 | 待验证 | 需量化 |\n| DeepSeek-Coder-V2-33B | 33B | ~66GB | ❌ 需量化 | 待验证 | 待验证 | MoE 架构，激活参数少 |\n| Llama-3.3-70B-Instruct(W4) | 70B | ~35GB (W4) | ✅ 可行 | 待验证 | 待验证 | 已量化，显存占用低 |\n\n**关键洞察**：\n- 32B/33B 模型在 FP16 下需要 64-66GB 显存，超出 48GB 限制，必须量化\n- Llama-3.3-70B-Instruct(W4) 在 W4 量化下约 35GB，可在 48GB 内运行\n- DeepSeek-Coder-V2-33B 是 MoE 架构，激活参数可能较少，显存需求可能低于稠密 33B 模型\n\n## 5. 02 阶段首批行动\n\n1. **验证 G1**：搜索各模型在 vLLM/TGI 中的部署文档，确认 48GB 显存下的可行量化方式\n2. **验证 G2**：搜索各模型在 HumanEval/MBPP/LiveCodeBench 上的分数\n3. **验证 G3**：搜索各模型在 IFEval/MT-Bench 上的分数\n4. **验证 G4**：搜索各模型 API 定价（阿里云、智谱、DeepSeek 官网）\n5. **验证 G5**：搜索双卡 24GB 显卡（RTX 4090/A5000/L40）当前市场价格\n\n## 6. 放行判定\n\n**判定**：`pass`\n\n**理由**：\n- 因素分解完整，覆盖成本（B）、合格率（A）、隐性成本（C）三大维度\n- 正交性良好：硬件摊销、电力、运维、API 成本互不重叠\n- 空缺清单明确，每项都有研究路径\n- 候选模型初步分析指出关键约束（48GB 显存限制），为 02 阶段提供方向\n- 02 阶段可据此立即开始研究\n\n**未解决的关键问题**：\n- 各模型在 48GB 显存下的实际部署可行性（G1）\n- 各模型代码补全和指令跟随的实际性能（G2, G3）\n- 各模型 API 定价（G4）\n\n这些问题将直接影响 C1000 的计算，但属于 02 阶段的研究范围，不构成 01 阶段的阻塞。",
+  "sources": [
+    {
+      "title": "Cost-Aware Model Selection for Text Classification: Multi-Objective Trade-offs Between Fine-Tuned Encoders and LLM Prompting in Production",
+      "url": "http://arxiv.org/abs/2602.06370v1",
+      "snippet": "Large language models (LLMs) such as GPT-4o and Claude Sonnet 4.5 have demonstrated strong capabilities in open-ended reasoning and generative language tasks, leading to their widespread adoption across a broad range of NLP applications. However, for structured text classification problems with fixed label spaces, model selection is often driven by predictive performance alone, overlooking operational constraints encountered in production systems. In this work, we present a systematic comparison",
+      "observed_at": "2026-11-05T11:16:18.862094+00:00",
+      "source_type": "arxiv"
+    },
+    {
+      "title": "YouZhi: Towards High-Concurrency Financial LLMs via Adaptive GQA-to-MLA Transition",
+      "url": "http://arxiv.org/abs/2606.05868v1",
+      "snippet": "Large language models (LLMs) drive significant financial innovations, yet their high-concurrency deployment is severely bottlenecked by KV cache memory overhead, which inflates infrastructure costs and throttles scalability. To address this, we propose YouZhi-LLM, a highly efficient financial LLM empowered by a comprehensive structural transition and training pipeline natively built on the Huawei Ascend ecosystem. At its algorithmic core, YouZhi-LLM features a layer-adaptive GQA-to-MLA transitio",
+      "observed_at": "2026-11-05T11:16:18.862094+00:00",
+      "source_type": "arxiv"
+    },
+    {
+      "title": "Incremental Blockwise Beam Search for Simultaneous Speech Translation with Controllable Quality-Latency Tradeoff",
+      "url": "http://arxiv.org/abs/2309.11379v1",
+      "snippet": "Blockwise self-attentional encoder models have recently emerged as one promising end-to-end approach to simultaneous speech translation. These models employ a blockwise beam search with hypothesis reliability scoring to determine when to wait for more input speech before translating further. However, this method maintains multiple hypotheses until the entire speech input is consumed -- this scheme cannot directly show a single \\textit{incremental} translation to users. Further, this method lacks",
+      "observed_at": "2026-11-05T11:16:18.862094+00:00",
+      "source_type": "arxiv"
+    },
+    {
+      "title": "Tiered-Latency DRAM (TL-DRAM)",
+      "url": "http://arxiv.org/abs/1601.06903v1",
+      "snippet": "This paper summarizes the idea of Tiered-Latency DRAM, which was published in HPCA 2013. The key goal of TL-DRAM is to provide low DRAM latency at low cost, a critical problem in modern memory systems. To this end, TL-DRAM introduces heterogeneity into the design of a DRAM subarray by segmenting the bitlines, thereby creating a low-latency, low-energy, low-capacity portion in the subarray (called the near segment), which is close to the sense amplifiers, and a high-latency, high-energy, high-cap",
+      "observed_at": "2026-11-05T11:16:18.862094+00:00",
+      "source_type": "arxiv"
+    },
+    {
+      "title": "Toward Reliable Design of LLM-Enabled Agentic Workflows: Optimizing Latency-Reliability-Cost Tradeoffs",
+      "url": "http://arxiv.org/abs/2605.23929v1",
+      "snippet": "Modern AI systems increasingly rely on workflows composed of multiple interacting agents, some powered by large language models (LLMs) and others by conventional computational modules. This paper analyzes the fundamental tradeoffs between latency, reliability, and cost in LLM-enabled agentic workflows. We introduce performance models for both LLM and non-LLM agents that capture the relationship between computational effort and output quality, incorporating the impact of reasoning and output toke",
+      "observed_at": "2026-11-05T11:16:18.862094+00:00",
+      "source_type": "arxiv"
+    }
+  ],
+  "wall_s": 11.2,
+  "tokens": {
+    "in": 3457,
+    "out": 2649
+  },
+  "timestamp": "2026-11-05T11:16:33.606653+00:00"
+}

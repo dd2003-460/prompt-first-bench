@@ -1,0 +1,134 @@
+{
+  "score_id": "r6-m1-score",
+  "generated_at": "2026-11-04 (Asia/Shanghai)",
+  "formula": "M1 = 100 x (0.4*S + 0.35*R + 0.25*G)",
+  "baseline_run2": {
+    "M1_human": 25,
+    "M1_quant": 14.3,
+    "S": 0.0,
+    "R": 0.0,
+    "G": 0.57,
+    "note": "任务书给出：S=0.0, R=0.0, G=0.57 -> M1=14.3（量化值）/ 25（人工）"
+  },
+  "components": {
+    "S": {
+      "value": 0.6,
+      "definition": "切分完整率：有 per-request 日志且可切分到 run 窗口 -> 1.0",
+      "basis": "本 run 有逐 turn 账本（9/9 行，可复算、可切分到 run 窗口），但为执行侧自产、非服务端日志；阶段->文件映射来自任务书设计而非抓包",
+      "why_not_1.0": "无服务端 per-request 日志，无法第三方对账",
+      "why_not_0.0": "run2 是完全无账本（0），本 run 有完整可复算账本",
+      "sensitivity": {
+        "server_side_log": 1.0,
+        "this_run": 0.6,
+        "no_ledger": 0.0
+      }
+    },
+    "R": {
+      "definition": "规则重发惩罚：x = 每 turn 规则负载均值 / 基线 12,086；R = clamp((1-x)/0.9, 0, 1)（x<=0.10 -> 1.0；x=1.0 -> 0.0）",
+      "model_A": {
+        "x": 0.2521,
+        "R": 0.831,
+        "mean_tokens": 3047.2
+      },
+      "model_B": {
+        "x": 0.5711,
+        "R": 0.4766,
+        "mean_tokens": 6902.0
+      }
+    },
+    "G": {
+      "definition": "膨胀比：g = 末 turn / 首个带完整阶段包的 turn；g<=1.5 -> 1.0；g>=5 -> 0.0；G=clamp((5-g)/3.5,0,1)",
+      "model_A": {
+        "g": 0.548,
+        "G": 1.0
+      },
+      "model_B": {
+        "g": 2.0274,
+        "G": 0.8493
+      },
+      "note": "分母取 S3（首个完整阶段包）而非 S1（仅 INDEX），否则分母=458 会使比值退化"
+    }
+  },
+  "M1": {
+    "model_A_stage_scoped_brief": 78.1,
+    "model_B_prime_symmetric": 72.5,
+    "model_B_single_session": 61.9,
+    "headline": "model_A_stage_scoped_brief",
+    "headline_reason": "任务书的目标量（单 turn 规则负载 12,086 -> ~3,900）本身就是 Model A 口径；同口径对比才可比。Model B 回答的是另一个问题：一次走完 6 阶段的会话末态是否更省（答案：仅 -8.7%）",
+    "delta_vs_run2_quant": {
+      "model_A": 63.8,
+      "model_Bprime": 58.2,
+      "model_B": 47.6
+    },
+    "delta_vs_run2_human": {
+      "model_A": 53.1,
+      "model_Bprime": 47.5,
+      "model_B": 36.9
+    }
+  },
+  "sensitivity_table": {
+    "rows": [
+      {
+        "model": "A (stage-scoped brief)",
+        "S=0.5": 74.1,
+        "S=0.6": 78.1,
+        "S=0.7": 82.1,
+        "S=1.0": 94.1
+      },
+      {
+        "model": "B' (symmetric)",
+        "S=0.5": 68.5,
+        "S=0.6": 72.5,
+        "S=0.7": 76.5,
+        "S=1.0": 88.5
+      },
+      {
+        "model": "B (actual)",
+        "S=0.5": 57.9,
+        "S=0.6": 61.9,
+        "S=0.7": 65.9,
+        "S=1.0": 77.9
+      }
+    ]
+  },
+  "acceptance": {
+    "criterion": "M1 >= 70",
+    "verdict": "CONDITIONAL-PASS",
+    "model_A": {
+      "value": 78.1,
+      "verdict": "PASS"
+    },
+    "model_B": {
+      "value": 61.9,
+      "verdict": "FAIL"
+    },
+    "note": "三口径如实并列，不择优。任务书目标量属 lens 1；lens 3 是本轮实际加载行为，未达 70。缺口 8.1 分拆解：约 6 分来自 examples 4,211 tok（v1.1 为保证不漏读而主动加，属质量取舍），约 2 分来自单会话不卸载已读规则（harness 行为，需 P1 或阶段重置）"
+  },
+  "confidence": {
+    "token_counts": "high（o200k 实测，可复算）",
+    "turn_to_file_mapping": "medium（按任务书设计，非抓包，conf 0.6）",
+    "S_component": "medium-low（自产账本）",
+    "self_reported": true
+  },
+  "three_lens": {
+    "lens_1_stage_scoped_ModelA": {
+      "assumption": "harness 每 turn 只注入当前阶段包",
+      "stage_bundle_mean": 3913,
+      "turn_mean": 3047.2,
+      "M1": 78.1,
+      "verdict": "PASS"
+    },
+    "lens_2_symmetric_ModelBprime": {
+      "assumption": "单会话累积，且 run6 也只读核心 7 文件（与基线组成对称）",
+      "mean_tokens": 4769.3,
+      "M1": 72.5,
+      "verdict": "PASS（但前提是示例从不被读，与 v1.1 路由表冲突）"
+    },
+    "lens_3_actual_ModelB": {
+      "assumption": "单会话累积 + 按 v1.1 读了 7 个 examples（本轮实际行为）",
+      "mean_tokens": 6902.0,
+      "M1": 61.9,
+      "verdict": "FAIL"
+    }
+  }
+}

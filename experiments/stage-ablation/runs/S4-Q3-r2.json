@@ -1,0 +1,49 @@
+{
+  "arm": "S4",
+  "qid": "Q3",
+  "rep": 2,
+  "model": "qwen3.8-27b",
+  "params": {
+    "temp": 0,
+    "max_tokens": 8000
+  },
+  "output_text": "# 阶段 01 — 目标分解\n\n## 根节点定义\n\n**根节点**：每千输出 token 的服务成本（Cost per 1K output tokens, C/1K）\n\n**公式骨架**：\n```\nC/1K = (固定成本摊销 + 可变成本) / 每小时输出 token 数 × 1000\n     = (P_server × t + C_energy × t) / (Throughput_tokens_per_hour) × 1000\n```\n\n由于硬件已固定（服务器不可换），**固定成本摊销**在比较框架时是常数，可约去。因此核心变量是：\n\n```\nC/1K ∝ 1 / Throughput_tokens_per_hour  （在相同硬件、相同模型、相同负载下）\n```\n\n但\"最划算\"不能只看吞吐，还需考虑：\n- 不同框架在相同硬件上的**实际吞吐差异**\n- 不同框架的**显存占用**（影响能否跑 27B、能否跑多副本）\n- 不同框架的**运维复杂度**（影响人力成本）\n- 不同框架的**功能完备性**（影响是否满足业务需求）\n\n## 顶层因素分解（正交）\n\n```\n每千输出token成本/\n├── A. 推理吞吐（tokens/s）          〔只能测〕  占主导 〔~70-80%〕\n├── B. 显存占用与副本数              〔可调〕    〔~10-15%〕\n├── C. 运维与人力成本                〔可控外〕  〔~5-10%〕\n├── D. 功能完备性与业务适配          〔只能测〕  〔~5%〕\n└── E. 硬件利用率与能耗              〔只能测〕  〔~2-5%〕\n```\n\n**正交性检查**：\n- A 是纯计算效率（单位时间产出多少 token）\n- B 是资源约束（能跑几个副本、是否 OOM）\n- C 是人的成本（部署、监控、升级）\n- D 是功能匹配（是否支持所需特性）\n- E 是物理层（GPU 利用率、功耗）\n\nA 和 B 有耦合：显存占用影响能否跑多副本，多副本影响总吞吐。但这是**跨层耦合**，不是同层重叠。A 是单副本效率，B 是副本数约束。\n\n## 递归分解\n\n### A. 推理吞吐（tokens/s）\n\n```\nA. 推理吞吐/\n├── A1. 模型加载与初始化时间         〔只能测〕  一次性成本，摊薄后占比小\n├── A2. 单请求延迟（TTFT + TPOT）   〔只能测〕  影响并发能力\n├── A3. 批处理效率（batch size 利用率）〔只能测〕  核心吞吐决定因素\n├── A4. 量化支持（FP16/INT8/INT4）  〔可调〕    影响显存和速度\n├── A5. KV Cache 管理效率           〔只能测〕  长上下文场景关键\n└── A6. 多 GPU 并行策略             〔可调〕    27B 可能需要多卡\n```\n\n**A3 进一步分解**：\n```\nA3. 批处理效率/\n├── A3a. 动态批处理（continuous batching）  〔只能测〕\n├── A3b. 最大 batch size 限制              〔可调〕\n└── A3c. 请求调度策略（FIFO/priority）     〔可调〕\n```\n\n**A5 进一步分解**：\n```\nA5. KV Cache 管理/\n├── A5a. PagedAttention 支持               〔只能测〕  vLLM/SGLang 核心优势\n├── A5b. KV Cache 压缩/量化                〔可调〕\n└── A5c. 前缀缓存（prefix caching）        〔只能测〕  多轮对话场景关键\n```\n\n### B. 显存占用与副本数\n\n```\nB. 显存占用/\n├── B1. 模型权重显存                   〔只能测〕  27B × 2 bytes (FP16) ≈ 54GB\n├── B2. KV Cache 显存                  〔只能测〕  随 batch size 和序列长度增长\n├── B3. 激活值显存                     〔只能测〕  随 batch size 增长\n├── B4. 框架开销（CUDA context 等）     〔只能测〕  通常 1-2GB\n└── B5. 可部署副本数                   〔可调〕    总显存 / 单副本显存\n```\n\n**B1 计算**（待验证）：\n- 27B 参数，FP16：27 × 10⁹ × 2 bytes ≈ 54 GB\n- 27B 参数，INT8：≈ 27 GB\n- 27B 参数，INT4：≈ 13.5 GB\n- 具体取决于模型架构（是否 MoE、是否有 embedding 层等）\n\n### C. 运维与人力成本\n\n```\nC. 运维成本/\n├── C1. 部署复杂度                     〔可控外〕  首次部署时间\n├── C2. 监控与告警                     〔可控外〕  日常运维\n├── C3. 升级与兼容性                   〔可控外〕  模型/框架更新\n├── C4. 故障排查难度                   〔可控外〕  出问题时的时间成本\n└── C5. 文档与社区支持                 〔可控外〕  遇到问题时的解决效率\n```\n\n### D. 功能完备性与业务适配\n\n```\nD. 功能完备性/\n├── D1. 流式输出（streaming）          〔只能测〕\n├── D2. 多轮对话（multi-turn）         〔只能测〕\n├── D3. 工具调用（function calling）   〔只能测〕\n├── D4. 结构化输出（JSON mode）        〔只能测〕\n├── D5. 长上下文支持                   〔只能测〕\n└── D6. API 兼容性（OpenAI 兼容）      〔只能测〕\n```\n\n### E. 硬件利用率与能耗\n\n```\nE. 硬件利用率/\n├── E1. GPU 利用率（MFU/MBU）          〔只能测〕\n├── E2. 功耗                           〔只能测〕  通常与利用率正相关\n└── E3. 散热与稳定性                   〔只能测〕  长期运行是否降频\n```\n\n## 已知条件\n\n| 条件 | 值 | 来源 |\n|------|-----|------|\n| 模型规模 | 27B 参数 | 用户提供 |\n| 硬件 | 固定服务器，不可更换 | 用户提供 |\n| 候选框架 | vLLM, TGI, 原生 transformers, SGLang | 用户提供 |\n| 目标 | 对外提供服务 | 用户提供 |\n\n## 空缺条件（待阶段 02 研究）\n\n| 编号 | 空缺 | 阻塞影响 | 优先级 |\n|------|------|----------|--------|\n| G1 | 服务器具体硬件配置（GPU 型号、数量、显存、CPU、内存） | 无法判断 27B 能否跑、能跑几个副本 | **P0** |\n| G2 | 27B 模型具体架构（是否 MoE、上下文长度、是否支持量化） | 影响显存计算和量化选择 | **P0** |\n| G3 | 各框架在相同硬件上的实际吞吐（tokens/s） | 核心成本决定因素 | **P0** |\n| G4 | 各框架的显存占用（模型权重 + KV Cache + 激活值） | 影响副本数和 batch size | **P0** |\n| G5 | 各框架的量化支持（FP16/INT8/INT4）及精度损失 | 影响显存和速度 | **P1** |\n| G6 | 各框架的 KV Cache 管理效率（PagedAttention 等） | 影响长上下文和 batch size | **P1** |\n| G7 | 各框架的运维复杂度（部署、监控、升级） | 影响人力成本 | **P2** |\n| G8 | 各框架的功能完备性（streaming、function calling 等） | 影响业务适配 | **P1** |\n| G9 | 各框架的 GPU 利用率和功耗 | 影响能耗成本 | **P2** |\n| G10 | 业务负载特征（平均输入/输出长度、并发数、峰值） | 影响实际吞吐和成本 | **P1** |\n\n## 阶段 02 研究路径\n\n### 第一批行动（P0）\n\n1. **确认硬件配置**（G1）\n   - 来源：用户提供的服务器配置单 / `nvidia-smi` 输出\n   - 搜索词：`nvidia-smi output`, `GPU memory size`\n   - 字段：GPU 型号、数量、显存大小、CPU 型号、内存大小\n\n2. **确认模型架构**（G2）\n   - 来源：HuggingFace 模型卡片 / 模型配置文件\n   - 搜索词：`27B model architecture`, `27B parameters context length`\n   - 字段：参数量、层数、隐藏维度、上下文长度、是否 MoE\n\n3. **各框架吞吐基准**（G3）\n   - 来源：vLLM/TGI/SGLang 官方 benchmark / 第三方评测\n   - 搜索词：`vLLM vs TGI vs SGLang benchmark 27B`, `LLM inference throughput comparison`\n   - 字段：tokens/s、TTFT、TPOT、batch size\n\n4. **各框架显存占用**（G4）\n   - 来源：官方文档 / 用户实测报告\n   - 搜索词：`vLLM memory usage 27B`, `TGI GPU memory 27B`\n   - 字段：模型权重显存、KV Cache 显存、总显存\n\n### 第二批行动（P1）\n\n5. **量化支持**（G5）\n   - 来源：各框架官方文档\n   - 搜索词：`vLLM INT8 quantization`, `SGLang FP8 support`\n\n6. **KV Cache 管理**（G6）\n   - 来源：各框架技术博客 / 论文\n   - 搜索词：`vLLM PagedAttention`, `SGLang RadixAttention`\n\n7. **功能完备性**（G8）\n   - 来源：各框架 GitHub README / 文档\n   - 搜索词：`vLLM function calling`, `TGI streaming support`\n\n8. **业务负载特征**（G10）\n   - 来源：用户提供的业务需求 / 历史日志\n   - 字段：平均输入长度、平均输出长度、并发数、峰值 QPS\n\n### 第三批行动（P2）\n\n9. **运维复杂度**（G7）\n   - 来源：各框架 GitHub issues / 用户社区反馈\n   - 搜索词：`vLLM deployment complexity`, `TGI monitoring`\n\n10. **GPU 利用率和功耗**（G9）\n    - 来源：`nvidia-smi` 实测 / 各框架 benchmark\n    - 字段：GPU 利用率、功耗、温度\n\n## 候选对象处理\n\n| 候选 | 待验证属性 | 排除理由（如有） |\n|------|-----------|-----------------|\n| vLLM | 吞吐、显存、量化、KV Cache、功能 | 无 |\n| TGI | 吞吐、显存、量化、KV Cache、功能 | 无 |\n| 原生 transformers | 吞吐、显存、量化、KV Cache、功能 | 可能排除：吞吐通常最低，但需验证 |\n| SGLang | 吞吐、显存、量化、KV Cache、功能 | 无 |\n\n**候选集冻结**：以上 4 个框架为本任务的冻结集合。后续阶段不得悄悄增删。\n\n## 瓶颈预判（待验证）\n\n**预判瓶颈**：A3（批处理效率）和 B5（可部署副本数）\n\n**理由**：\n- 在相同硬件上，框架的核心差异在于**批处理效率**（continuous batching、PagedAttention 等）\n- 27B 模型在 FP16 下需要 ~54GB 显存，如果服务器只有 1 张 48GB GPU，则无法跑 FP16，必须量化或换架构\n- 如果服务器有多张 GPU，副本数直接影响总吞吐\n\n**待验证**：需要 G1（硬件配置）和 G3（实际吞吐）才能确认。\n\n## 未解开的矛盾\n\n1. **吞吐 vs 显存**：高吞吐通常需要大 batch size，但大 batch size 需要更多显存。不同框架在这一点上的权衡不同。\n2. **量化 vs 精度**：量化可以节省显存、提高吞吐，但可能损失精度。不同框架的量化实现质量不同。\n3. **功能 vs 性能**：功能完备的框架（如支持 function calling）可能引入额外开销，影响吞吐。\n\n## 阶段 01 判定\n\n- **因素正交**：A/B/C/D/E 五个顶层因素正交，无重叠。\n- **覆盖目标**：所有关键目标（成本、吞吐、显存、运维、功能）均有因素覆盖。\n- **边界清晰**：每个因素的边界条件明确。\n- **优先级合理**：P0 因素直接影响成本，P1 影响体验，P2 仅参考。\n- **空缺完整**：所有未验证条件已列入空缺清单。\n- **研究路径具体**：阶段 02 的研究路径已写明目标来源、搜索词和字段。\n- **候选对象处理**：4 个候选框架已标明待验证属性，无排除理由。\n- **候选集冻结**：候选集已冻结，后续阶段不得悄悄增删。\n\n**判定**：`pass`，允许直接进入阶段 02。",
+  "sources": [
+    {
+      "title": "Large language model - Wikipedia",
+      "url": "https://www.bing.com/ck/a?!&&p=ddab2e5dd9405d74c92a6bf21c0de0b3ac130e2f7d6daeb9b39b269edd87452fJmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kvTGFyZ2VfbGFuZ3VhZ2VfbW9kZWw&ntb=1",
+      "snippet": "A large language model (LLM) is a machine learning model (typically a neural network) trained on a vast amount of text for natural …",
+      "observed_at": "2026-11-03T20:20:16.564772+00:00"
+    },
+    {
+      "title": "Introduction to Large Language Model (LLM) - GeeksforGeeks",
+      "url": "https://www.bing.com/ck/a?!&&p=8e3167046cf2ff688cc69264fe78ebef274e85cd6bc91ce4f3d81c24591bcb87JmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly93d3cuZ2Vla3Nmb3JnZWVrcy5vcmcvYXJ0aWZpY2lhbC1pbnRlbGxpZ2VuY2UvbGFyZ2UtbGFuZ3VhZ2UtbW9kZWwtbGxtLw&ntb=1",
+      "snippet": "Sep 16, 2026 · Your All-in-One Learning Portal: GeeksforGeeks is a comprehensive educational platform that empowers learners …",
+      "observed_at": "2026-11-03T20:20:16.564772+00:00"
+    },
+    {
+      "title": "What Is an LLM? Large Language Models Explained (2026 ...",
+      "url": "https://www.bing.com/ck/a?!&&p=088859b336b8399e731b478fd16a10c903ecdbf9d3d578fef8800e3adcb0c232JmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly90aGVhaXJhbmtpbmdzLmNvbS9ndWlkZXMvd2hhdC1pcy1hbi1sbG0v&ntb=1",
+      "snippet": "Oct 7, 2026 · What a large language model is, how LLMs work, what tokens and inference mean, and why LLMs hallucinate, …",
+      "observed_at": "2026-11-03T20:20:16.564772+00:00"
+    },
+    {
+      "title": "Master of Laws - Wikipedia",
+      "url": "https://www.bing.com/ck/a?!&&p=136888f149ff47fbced2a8a530eb36892e51498b2ba328e53a6db733ac6b4c4bJmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kvTWFzdGVyX29mX0xhd3M&ntb=1",
+      "snippet": "A Master of Laws (M.L. or LL.M.; Latin: Magister Legum or Legum Magister) is a postgraduate academic degree, pursued by those …",
+      "observed_at": "2026-11-03T20:20:16.564772+00:00"
+    },
+    {
+      "title": "LLM Fundamentals | Microsoft Learn",
+      "url": "https://www.bing.com/ck/a?!&&p=13056dd92537dd0d5f49192a14abbdb69f5aaffe39ef3b1d4448953dfdd26c5eJmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly9sZWFybi5taWNyb3NvZnQuY29tL2VuLXVzL2FnZW50LWZyYW1ld29yay9qb3VybmV5L2xsbS1mdW5kYW1lbnRhbHM&ntb=1",
+      "snippet": "Aug 25, 2026 · The LLM never executes anything. It only generates the request. Your application code (or an agent framework) is …",
+      "observed_at": "2026-11-03T20:20:16.564772+00:00"
+    }
+  ],
+  "wall_s": 82.3,
+  "tokens": {
+    "in": 5990,
+    "out": 3256
+  },
+  "timestamp": "2026-11-03T20:21:38.838384+00:00"
+}

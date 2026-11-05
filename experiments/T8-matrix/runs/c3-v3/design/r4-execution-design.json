@@ -1,0 +1,58 @@
+{
+ "frozen_at": "2026-10-31",
+ "goal": "T8-C3-v3-paired-runs (R4 全因子)",
+ "supersedes_note": "c3-diffs.md 运行参数节写 ninfer :8000 —— 实测 :8000 无监听，本设计修正为 :8787 vllm proxy（同 qwen3.8-27b 模型），其余参数照抄",
+ "channel": {
+  "url": "http://localhost:8787/v1/chat/completions",
+  "model": "qwen3.8-27b",
+  "gen_params": {
+   "temperature": 0.7,
+   "max_tokens": 4096
+  },
+  "judge_params": {
+   "temperature": 0,
+   "max_tokens": 4096
+  },
+  "latency_probe": "B-none 最小任务 4.5s/153chars（探针已落盘 /tmp 本轮记录；正式 run 预期 30-120s/run）"
+ },
+ "matrix": {
+  "configs": [
+   "A-full",
+   "B-nofreeze",
+   "B-noevidence",
+   "B-noowner",
+   "B-2del-fe",
+   "B-2del-fo",
+   "B-2del-eo",
+   "B-none",
+   "B-sham"
+  ],
+  "domains": [
+   {
+    "name": "D1-meeting-room",
+    "brief": "tasks/T7.1-meeting-system-r1.md",
+    "prompt_source": "loop-artifacts/stages/ + experiments/T8-matrix/runs/c3-v3/prompts/<config>/（byte-exact 锚 MANIFEST.json sha256_16）"
+   },
+   {
+    "name": "D2-file-collab",
+    "brief": "T8-matrix-run-r1 网盘选型域（题面从 loop-artifacts/stages/0*/T8r1-* 反推冻结）",
+    "prompt_source": "同上，组件定位按 T8r1 工件实际形态"
+   }
+  ],
+  "runs_per_cell": 2,
+  "total_runs": "9 configs × 2 domains × 2 seeds = 36（c3-diffs 原计划 48 含 hold-out 第三域——第三域资产不存在【G1 设计 §2 已盘点】，降级为两域并如实登记，外推性声明相应收窄）"
+ },
+ "seed_protocol": "每 cell 2 run：run-a 原 prompt；run-b = 任务描述句序打乱的同义改写（防单 seed 噪声），改写文本冻结于本文件 seeds/ 子段",
+ "judge_binding": "每条 run 产出工件 → J1 严格版 + J2 宽松版双判（judge-prompts.json 冻结 sha 锚定）→ m8-scorecard 双口径并报；verdict 分歧条目自动入人工仲裁队列（G1a 回执 F1 裁定）",
+ "gate_order": [
+  "R1 三道地板（sham 地板值 + Spearman(偏离度,被删token) n=9 配置点 + z-score CI≥2 seed）",
+  "R4 主分析（3 主效应+3 两两交互；三阶交互 n 不足只报方向不推断）",
+  "M8-truth/M8-cover 联合判读（核验机会集 = 开跑前冻结的 c3-diffs 阳性对照同款清单，Lead 盲法：判读时只见编号不见配置名）"
+ ],
+ "forbidden_zone": "hit-matrix.json / prior-estimates.json / gold-tree.md / DRAFT-rubric-v3-v2.md / c3-diffs.md / MANIFEST.json 零改动；本设计纯新增",
+ "stop_rules": [
+  "任一 config 连续 2 run HTTP 失败 → 停该 config 登记算力故障，不重试伪造",
+  "J1/J2 分歧率 >30% → 暂停主分析回 G1 修 rubric",
+  "总时长超 6h → 分批续跑（断点续传协议：每 run 完成即落盘 runs/<config>/<domain>/seed<n>.json）"
+ ]
+}

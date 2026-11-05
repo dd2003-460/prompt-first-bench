@@ -1,0 +1,102 @@
+{
+ "frozen_at": "2026-11-03",
+ "goal": "T8-C3-v3-seedc-powerup (第三 seed 功效提升 run)",
+ "origin": "r260 keepalive 自主降级执行（arena :8000/:8099 down，按 runner 外包规则降级本地 ninfer :8787 qwen3.8-27b，conf−0.2 标注）",
+ "supersedes_note": "不修改 r4-execution-design.json / r5-d3-harder-domain-design.json 冻结面。本文件是增量设计：同通道、同 9 configs、新增 seedc 第三 seed × D1/D2 两域 = 18 run。",
+ "motivation": "CONTINUE_MSG 下一步 #2「第三 seed 功效提升 run」。R6 主分析 n=4/cell 功效不足（所有 Δ 只报方向）；加 seedc 后 D1/D2 每 cell n=3 seeds×... 实际 R4(2)+R6(2)? —— 如实登记：D1/D2 现有 R4 2 run/cell（seeda/seedb），本 run 加 seedc 1 run/cell → n=3/cell/config/domain。仍非确认性，但把单 seed 噪声与真实效应分离的分辨力提高（三 seed 同向才升级方向声明）。",
+ "channel": {
+  "url": "http://localhost:8787/v1/chat/completions",
+  "model": "qwen3.8-27b",
+  "gen_params": {
+   "temperature": 0.7,
+   "max_tokens": 32000
+  },
+  "judge_params": {
+   "temperature": 0,
+   "max_tokens": 4096
+  },
+  "max_tokens_note": "retest-32k 定案教训（research-prompt r258）：统一 max_tokens=32000 防截断噪声（服务器上限 32768，40000 实测 HTTP 400）。R4/R5 用 4096 的历史数字保持原样，跨轮对比时注明口径差。"
+ },
+ "matrix": {
+  "configs": [
+   "A-full",
+   "B-nofreeze",
+   "B-noevidence",
+   "B-noowner",
+   "B-2del-fe",
+   "B-2del-fo",
+   "B-2del-eo",
+   "B-none",
+   "B-sham"
+  ],
+  "domains": [
+   "D1-meeting-room",
+   "D2-file-collab"
+  ],
+  "seeds": [
+   "seedc"
+  ],
+  "total_runs": "9 configs × 2 domains × 1 seed = 18"
+ },
+ "seed_protocol": "seedc = brief_a 的同义改写（句序打乱+措辞等价，任务语义不变），文本冻结于本文件 seeds 段；替换位置 = 任务书【任务书】段（同 R4 builder 拼接点）。",
+ "seeds": {
+  "D1-meeting-room": "会议室预约系统选型需求：团队规模 30 人（研发），年度预算上限 2 万元人民币。功能硬性要求——macOS、Windows、Web 三端全覆盖，日历需同时集成 Google Calendar 与 Outlook；门禁联动不强制，具备则优先。最终交付一份可落地的选型报告，内容含推荐方案、备选方案、各淘汰方案的淘汰理由以及逐项成本明细。",
+  "D2-file-collab": "团队文件协作/网盘选型需求：服务对象为 30 人研发团队，年花费不超过 3 万元人民币。客户端必须覆盖 Web、macOS、Windows 三平台；核心能力两项——文档版本管理、细粒度权限控制；离线使用能力作为加分项考量。交付物为完整选型报告：推荐方案、备选方案、淘汰理由、成本明细齐备。"
+ },
+ "prompt_protocol": "组件拼接 byte-exact 复刻 R4 builder（对 R4 全部 32 份 stored prompt 逐字节验证通过后才使用）；18 prompt 落盘 runs-seedc/prompts/<config>/<domain>/seedc-prompt.txt，sha256_16 锚定如下",
+ "prompt_sha256_16": {
+  "A-full": {
+   "D1-meeting-room/seedc": "c9dab7fe8adc5f9d",
+   "D2-file-collab/seedc": "b3811afdd72b3795"
+  },
+  "B-nofreeze": {
+   "D1-meeting-room/seedc": "722430904465b26d",
+   "D2-file-collab/seedc": "025f46ed127e3cc5"
+  },
+  "B-noevidence": {
+   "D1-meeting-room/seedc": "2dc01b9a0b72b91c",
+   "D2-file-collab/seedc": "6fbada81aebc61ad"
+  },
+  "B-noowner": {
+   "D1-meeting-room/seedc": "cd0c474216f94905",
+   "D2-file-collab/seedc": "a62b3291f4286886"
+  },
+  "B-2del-fe": {
+   "D1-meeting-room/seedc": "ac9def5eba423978",
+   "D2-file-collab/seedc": "660e0ff71fba3f8f"
+  },
+  "B-2del-fo": {
+   "D1-meeting-room/seedc": "5aa32a11e6eb375e",
+   "D2-file-collab/seedc": "b5faf039ae30ae05"
+  },
+  "B-2del-eo": {
+   "D1-meeting-room/seedc": "3235213772b4996a",
+   "D2-file-collab/seedc": "f519b63d0f8ea53e"
+  },
+  "B-none": {
+   "D1-meeting-room/seedc": "f4ffa02d6070cfd4",
+   "D2-file-collab/seedc": "edaa7f22acee7857"
+  },
+  "B-sham": {
+   "D1-meeting-room/seedc": "722430904465b26d",
+   "D2-file-collab/seedc": "025f46ed127e3cc5"
+  }
+ },
+ "judge_binding": "J1 strict / J2 lenient 双判（calibration/judge-prompts.json 冻结 sha 锚定，同 R4）；另加 M8-cover 判读：对照 opportunity-sets-v1.json brief_c 冻结集（D1 9 项 / D2 10 项），unaddressed 计入分母不计入分子（保守口径，r62z 裁定）",
+ "gate_order": [
+  "G1 产出完整性：18/18 run 落盘且 output_chars ≥ 500（<500 记 FAIL-run 不重试伪造，参照 R4 stop_rules）",
+  "G2 双判完成：36 judge 调用（18 run × J1/J2）零失败",
+  "G3 主分析：per-config truth(J1v11 口径)/cover 均分 vs R4 同 config 基线；三 seed 同向性检查（seedc 方向与 R4/R6 seeda+seedb 均值方向一致才维持方向声明）",
+  "G4 回执：receipt-r8-seedc.json（run 指纹 + judge 指纹 + 分析数字 + 诚实边界）"
+ ],
+ "honest_boundaries": [
+  "非确认性：n=3/cell（含 R4 历史 2 run），功效仍不足以做推断层声明，Δ 继续只报方向",
+  "同族评审：J1/J2 均 qwen3.8-27b，family_check 仍 BLOCKED（blocked-on-human 项不变）",
+  "max_tokens 口径差：本 run 32000 vs R4/R5 4096，跨轮分数对比需注明",
+  "M8-fixed 逐机会标注仍未落地（对抗核验 FAIL 1 未修），cover 仍是描述性统计"
+ ],
+ "stop_rules": [
+  "任一 config 连续 2 run HTTP 失败 → 停该 config 登记算力故障，不重试伪造",
+  "总时长超 4h → 分批续跑（断点续传：每 run 完成即落盘 runs-seedc/<config>/<domain>/seedc-r1.json）"
+ ]
+}

@@ -1,0 +1,598 @@
+{
+ "protocol": "blind §2.2",
+ "judge": "qwen3.8-27b@:8787 (local arena degradation, conf-0.2)",
+ "layer": "P1 (h_id_frozen=1, false-positive check)",
+ "cells": 98,
+ "h_claim_1": 62,
+ "h_claim_0": 36,
+ "results": [
+  {
+   "cell_id": "run1/N-0",
+   "h_claim": 1,
+   "evidence_quote": "C = (E_per_task + Cap_per_task) / p\n- E_per_task = 单任务耗时 T × 整机功率 P / p（重做也耗电）。\n- Cap_per_task = 摊销的卡钱 / 总验收任务数。买：价格×卡数 / 任务总数（按使用寿命 N 年摊）。租：时费×卡数×T / p。",
+   "reasoning": "The run explicitly defines the objective as cost per accepted task and decomposes it into capital amortization, energy cost (time × power), and a division by pass rate, matching the required multiplicative/divisive structure."
+  },
+  {
+   "cell_id": "run1/N-1.1",
+   "h_claim": 0,
+   "evidence_quote": "Cap_per_task = 摊销的卡钱 / 总验收任务数。买：价格×卡数 / 任务总数（按使用寿命 N 年摊）。",
+   "reasoning": "The run amortizes hardware cost over the total number of tasks (¥/task), not over time to produce an hourly holding cost ($/hr or equivalent) as required by the claim."
+  },
+  {
+   "cell_id": "run1/N-1.1.1",
+   "h_claim": 1,
+   "evidence_quote": "3090×2：卡便宜(二手 ~¥8k/张 [E 2026 行情])",
+   "reasoning": "The run provides a specific estimated purchase price for the 3090 card (¥8k) and identifies other prices as nuisance variables to be fetched, satisfying the requirement for specific values or explicit blackbox paths."
+  },
+  {
+   "cell_id": "run1/N-1.2.1",
+   "h_claim": 1,
+   "evidence_quote": "3090×2：卡便宜(二手 ~¥8k/张 [E 2026 行情])、电低(350W×2 [S])",
+   "reasoning": "The run provides specific power consumption values (350W per card, 700W total for the pair) in the draft section, satisfying the requirement for numerical values or intervals in W."
+  },
+  {
+   "cell_id": "run1/N-3.1",
+   "h_claim": 0,
+   "evidence_quote": "### N-3.3  prefill 算力支\nPARENT:  N-3\nNOW:     未测，ms\nGOAL:    9K 新输入 token 的 prefill 耗时，ms",
+   "reasoning": "The run models prefill time as a blackbox to be measured (ms) or as a share of total time, but does not present a 'compute / FLOPs' structural formula (e.g., FLOPs / peak FLOPS) as required."
+  },
+  {
+   "cell_id": "run1/N-3.2",
+   "h_claim": 1,
+   "evidence_quote": "解码速度直觉：decode 是 memory-bound，吞吐 ∝ 带宽 / 每 token 读量（≈ 权重字节）。\n- 4bit 下每 token 读 ≈13.5 GB：\n  - 3090×2 带宽 2×936=1872 GB/s [S] → 理论 ~139 tok/s（单流上限，实际并发会摊）。",
+   "reasoning": "The run explicitly models decode speed as memory-bound, calculating tokens per second by dividing bandwidth (GB/s) by the bytes read per token (weight size), which matches the 'output bytes / effective bandwidth' structure."
+  },
+  {
+   "cell_id": "run1/N-3.2.1",
+   "h_claim": 1,
+   "evidence_quote": "4bit ≈ 27e9×0.5 byte ≈ 13.5 GB [F: 27e9×4/8]。8bit ≈ 27 GB。16bit ≈ 54 GB。",
+   "reasoning": "The run provides the specific conversion from parameter count and bit-width to weight size in GB for 4, 8, and 16-bit precisions."
+  },
+  {
+   "cell_id": "run1/N-3.2.2",
+   "h_claim": 1,
+   "evidence_quote": "KV cache（64K 上下文，单流，GQA 假设）：粗估 1.5–6 GB [E]（取决于层数/头数/GQA 比，27B 常见 GQA 让 KV 小）。留 8 GB 余量算。",
+   "reasoning": "The run estimates the KV cache size specifically for a single stream (单流) at 64K context, providing a range and a conservative value for calculation."
+  },
+  {
+   "cell_id": "run1/N-3.2.3",
+   "h_claim": 1,
+   "evidence_quote": "3090×2 带宽 2×936=1872 GB/s [S] → 理论 ~139 tok/s（单流上限，实际并发会摊）。\n  - A100×1 2039 GB/s → ~150。",
+   "reasoning": "The run uses specific peak memory bandwidth specifications (GB/s) for various candidate cards to estimate decode speed."
+  },
+  {
+   "cell_id": "run1/N-3.2.4",
+   "h_claim": 1,
+   "evidence_quote": "V100×8 7200 GB/s → 但 4bit 无高效 kernel，实际打 3–5 折。",
+   "reasoning": "The run explicitly applies a discount factor (3-5 fold reduction) to the theoretical bandwidth/speed for V100 due to lack of efficient kernels, distinguishing effective performance from peak specs."
+  },
+  {
+   "cell_id": "run1/N-4",
+   "h_claim": 1,
+   "evidence_quote": "C = (E_per_task + Cap_per_task) / p",
+   "reasoning": "The run includes the pass rate 'p' in the denominator of the cost formula, effectively treating it as a cost amplification factor for retries."
+  },
+  {
+   "cell_id": "run1/N-5",
+   "h_claim": 1,
+   "evidence_quote": "能不能跑：27B 权重在 4/8/16bit 下占多少 GB → 卡总容量必须装下 权重+KV cache+激活。这是准入（constraint），不满足直接淘汰，不进 OBJ。",
+   "reasoning": "The run explicitly states that candidates failing the capacity constraint are 'directly eliminated' (直接淘汰) and do not enter the objective function, demonstrating a feasibility filtering action."
+  },
+  {
+   "cell_id": "run1/N-5.1",
+   "h_claim": 0,
+   "evidence_quote": "### N-3.2  并发吞吐支\nPARENT:  N-3\nNOW:     未测，流\nGOAL:    在 ≥20 tok/s/流 约束下可跑的最大并发流数",
+   "reasoning": "The run models concurrency limits primarily based on the speed constraint (≥20 tok/s/stream) and notes that KV cache grows with streams, but it does not explicitly derive a hard capacity limit (n_cap) where Weight + n*KV ≤ Total VRAM is the defining constraint for the maximum number of streams."
+  },
+  {
+   "cell_id": "run1/N-5.3",
+   "h_claim": 0,
+   "evidence_quote": "前缀缓存 90:9:1、64K 上下文：影响单任务耗时（prefill 9K + decode 1K，90% 命中省掉 57.6K 的 prefill）。这是单任务耗时的主要决定因素之一。",
+   "reasoning": "The run treats the prefix cache hit rate as a fixed input parameter (90:9:1) that determines the prefill length, but it does not list it as a variable parameter with a sensitivity analysis or nuisance label discussing the impact of its variation on cost."
+  },
+  {
+   "cell_id": "run2/N-0",
+   "h_claim": 0,
+   "evidence_quote": "OBJ: 最小化 总成本 = (硬件折旧/寿命 + 电费/任务 + 运维) / 任务数",
+   "reasoning": "The run defines the objective as total cost per task but does not provide the specific multiplicative/divisive decomposition structure of 'hourly holding cost × task duration ÷ utilization ÷ pass rate' required by the claim."
+  },
+  {
+   "cell_id": "run2/N-1.1",
+   "h_claim": 0,
+   "evidence_quote": "折旧=(价格/寿命)",
+   "reasoning": "The run calculates depreciation as price divided by lifespan (years), resulting in annual cost, but does not convert this into an hourly cost ($/hr) as required by the claim."
+  },
+  {
+   "cell_id": "run2/N-1.1.1",
+   "h_claim": 1,
+   "evidence_quote": "3090：~$1500/卡，保值\n- A100：~$8000/卡，保值\n- L40S：~$8000/卡，新代掉价\n- M2 Ultra：~$4000（整机），转卖难\n- V100：~$500/卡，旧代掉价",
+   "reasoning": "The run explicitly lists specific purchase prices for each candidate hardware option."
+  },
+  {
+   "cell_id": "run2/N-1.1.4",
+   "h_claim": 0,
+   "evidence_quote": "GAP: 需定寿命（假设 3 年）",
+   "reasoning": "The run mentions a 3-year lifespan assumption in the GAP field of the depreciation node, but does not explicitly state the amortization period as a concrete value in the main text or calculation logic, only as a gap to be filled."
+  },
+  {
+   "cell_id": "run2/N-1.2",
+   "h_claim": 1,
+   "evidence_quote": "TEST: 公式 电费=功耗×任务时长×电价",
+   "reasoning": "The run explicitly models electricity cost as the product of power consumption, task duration, and electricity price."
+  },
+  {
+   "cell_id": "run2/N-1.2.1",
+   "h_claim": 1,
+   "evidence_quote": "3090=350W / A100=400W / L40S=350W / M2=200W / V100=250W [S]",
+   "reasoning": "The run provides specific power consumption values in Watts for each candidate hardware."
+  },
+  {
+   "cell_id": "run2/N-1.2.2",
+   "h_claim": 1,
+   "evidence_quote": "NOW: 电价 $0.1/kWh [E]",
+   "reasoning": "The run explicitly sets the electricity price to $0.1/kWh."
+  },
+  {
+   "cell_id": "run2/N-3.1.2",
+   "h_claim": 1,
+   "evidence_quote": "3090：算力 35.6 TFLOPS（FP16）/ 带宽 936 GB/s\n- A100：算力 312 TFLOPS（FP16）/ 带宽 1555 GB/s",
+   "reasoning": "The run lists peak compute capabilities in TFLOPS for the candidates, which are relevant to prefill time estimation."
+  },
+  {
+   "cell_id": "run2/N-3.2.1",
+   "h_claim": 1,
+   "evidence_quote": "27B 4bit ≈ 14GB（含 overhead ~18GB）\n- 27B 8bit ≈ 28GB（~32GB）\n- 27B 16bit ≈ 56GB（~64GB）",
+   "reasoning": "The run provides the weight size in GB for each precision level (4bit, 8bit, 16bit)."
+  },
+  {
+   "cell_id": "run2/N-3.2.2",
+   "h_claim": 0,
+   "evidence_quote": "cache_hit=57.6K token：KV cache 读取（带宽）",
+   "reasoning": "The run mentions KV cache size in terms of tokens (57.6K) but does not provide a byte-level estimation for the KV cache per concurrent stream."
+  },
+  {
+   "cell_id": "run2/N-3.2.3",
+   "h_claim": 1,
+   "evidence_quote": "3090：算力 35.6 TFLOPS（FP16）/ 带宽 936 GB/s",
+   "reasoning": "The run lists memory bandwidth in GB/s for the candidates, which is used for decode time estimation."
+  },
+  {
+   "cell_id": "run2/N-5",
+   "h_claim": 1,
+   "evidence_quote": "显存约束：27B 16bit 需 64GB → 3090×2（48GB）不够，3090×4（96GB）够",
+   "reasoning": "The run explicitly excludes candidates that do not meet the hard constraint of sufficient VRAM (e.g., 3090x2 for 16bit)."
+  },
+  {
+   "cell_id": "run2/N-5.1",
+   "h_claim": 0,
+   "evidence_quote": "显存约束：27B 16bit 需 64GB → 3090×2（48GB）不够，3090×4（96GB）够",
+   "reasoning": "The run uses VRAM constraints to filter hardware configurations, but does not explicitly use it to determine a concurrency limit (n_cap) or equivalent quantity."
+  },
+  {
+   "cell_id": "run2/N-5.3",
+   "h_claim": 0,
+   "evidence_quote": "90:9:1 比例 → cache 读取占大头，但一次性读；decode 占 1/100，但逐 token",
+   "reasoning": "The run mentions the cache hit ratio (90:9:1) but does not single it out as a parameter affecting speed with sensitivity analysis or nuisance labeling."
+  },
+  {
+   "cell_id": "run3/N-0",
+   "h_claim": 0,
+   "evidence_quote": "OBJ: min(折旧/年 + 电费/年 + 运维/年) / 任务数",
+   "reasoning": "The run defines the objective as total cost per task but does not provide the specific multiplicative/divisive decomposition structure of 'hourly holding cost × task duration ÷ utilization ÷ pass rate' required by the claim."
+  },
+  {
+   "cell_id": "run3/N-1.1",
+   "h_claim": 0,
+   "evidence_quote": "折旧 $1000/年",
+   "reasoning": "The run calculates depreciation as an annual cost, not an hourly cost ($/hr) as required by the claim."
+  },
+  {
+   "cell_id": "run3/N-1.1.1",
+   "h_claim": 1,
+   "evidence_quote": "3090=$1500, A100=$8000, L40S=$8000, M2=$4000, V100=$500 [E]",
+   "reasoning": "The run explicitly lists specific purchase prices for each candidate hardware option."
+  },
+  {
+   "cell_id": "run3/N-1.1.4",
+   "h_claim": 1,
+   "evidence_quote": "GAP: 定寿命（3 年）",
+   "reasoning": "The run explicitly states a 3-year lifespan assumption for depreciation calculations."
+  },
+  {
+   "cell_id": "run3/N-1.2",
+   "h_claim": 1,
+   "evidence_quote": "TEST: 功耗×时长×电价",
+   "reasoning": "The run explicitly models electricity cost as the product of power consumption, duration, and electricity price."
+  },
+  {
+   "cell_id": "run3/N-1.2.1",
+   "h_claim": 1,
+   "evidence_quote": "3090=350W, A100=400W, L40S=350W, M2=200W, V100=250W [S]",
+   "reasoning": "The run provides specific power consumption values in Watts for each candidate hardware."
+  },
+  {
+   "cell_id": "run3/N-1.2.2",
+   "h_claim": 1,
+   "evidence_quote": "NOW: $0.1/kWh [E]",
+   "reasoning": "The run explicitly sets the electricity price to $0.1/kWh."
+  },
+  {
+   "cell_id": "run3/N-3.2.1",
+   "h_claim": 1,
+   "evidence_quote": "4bit=18GB, 8bit=32GB, 16bit=64GB",
+   "reasoning": "The run provides the weight size in GB for each precision level (4bit, 8bit, 16bit)."
+  },
+  {
+   "cell_id": "run3/N-3.2.2",
+   "h_claim": 0,
+   "evidence_quote": "KV cache 8GB",
+   "reasoning": "The run mentions a total KV cache size of 8GB but does not provide a per-concurrent-stream byte estimation."
+  },
+  {
+   "cell_id": "run3/N-3.2.3",
+   "h_claim": 1,
+   "evidence_quote": "3090=936, A100=1555, L40S=864, M2=800, V100=900 GB/s [E]",
+   "reasoning": "The run lists memory bandwidth in GB/s for the candidates, which is used for decode time estimation."
+  },
+  {
+   "cell_id": "run3/N-5",
+   "h_claim": 1,
+   "evidence_quote": "L40S×1 4bit：$8000 总成本，带宽 864 GB/s，decode 估算 ~15 tok/s（不满足）",
+   "reasoning": "The run explicitly excludes candidates that do not meet the hard constraint of decode speed >= 20 tok/s."
+  },
+  {
+   "cell_id": "run3/N-5.1",
+   "h_claim": 0,
+   "evidence_quote": "GOAL: 过滤显存不足组合",
+   "reasoning": "The run uses VRAM constraints to filter hardware configurations, but does not explicitly use it to determine a concurrency limit (n_cap) or equivalent quantity."
+  },
+  {
+   "cell_id": "run3/N-5.3",
+   "h_claim": 0,
+   "evidence_quote": "90:9:1 → cache=57.6K, new=5.76K, out=0.64K",
+   "reasoning": "The run mentions the cache hit ratio (90:9:1) but does not single it out as a parameter affecting speed with sensitivity analysis or nuisance labeling."
+  },
+  {
+   "cell_id": "run4/N-1.1",
+   "h_claim": 0,
+   "evidence_quote": "3090=$1500/3=$500/年",
+   "reasoning": "The run calculates depreciation as an annual cost, not an hourly cost ($/hr) as required by the claim."
+  },
+  {
+   "cell_id": "run4/N-1.1.1",
+   "h_claim": 1,
+   "evidence_quote": "3090=$1500/3=$500/年 / A100=$8000/3=$2667/年",
+   "reasoning": "The run explicitly lists specific purchase prices for the candidate hardware options."
+  },
+  {
+   "cell_id": "run4/N-1.1.4",
+   "h_claim": 1,
+   "evidence_quote": "3 年折旧寿命",
+   "reasoning": "The run explicitly states a 3-year depreciation lifespan."
+  },
+  {
+   "cell_id": "run4/N-1.2",
+   "h_claim": 1,
+   "evidence_quote": "TEST: 功耗 × 时间 × 电价",
+   "reasoning": "The run explicitly models electricity cost as the product of power consumption, time, and electricity price."
+  },
+  {
+   "cell_id": "run4/N-1.2.1",
+   "h_claim": 1,
+   "evidence_quote": "3090=350W / A100=400W",
+   "reasoning": "The run provides specific power consumption values in Watts for the candidate hardware."
+  },
+  {
+   "cell_id": "run4/N-1.2.2",
+   "h_claim": 1,
+   "evidence_quote": "电价（$0.1/kWh）",
+   "reasoning": "The run explicitly sets the electricity price to $0.1/kWh."
+  },
+  {
+   "cell_id": "run4/N-3.2.3",
+   "h_claim": 1,
+   "evidence_quote": "3090=936 GB/s → ~35 tok/s（4bit）",
+   "reasoning": "The run lists memory bandwidth in GB/s and uses it to estimate decode speed."
+  },
+  {
+   "cell_id": "run4/N-5",
+   "h_claim": 0,
+   "evidence_quote": "STATUS: OPEN（需逐卡估算）",
+   "reasoning": "The run defines the constraints and tests but does not explicitly perform the elimination action or exclude any specific candidate from the cost optimization in the provided text."
+  },
+  {
+   "cell_id": "run4/N-5.1",
+   "h_claim": 0,
+   "evidence_quote": "TEST: 模型大小 + KV cache 大小 ≤ 显存",
+   "reasoning": "The run defines the VRAM constraint test but does not explicitly use it to determine a concurrency limit (n_cap) or equivalent quantity."
+  },
+  {
+   "cell_id": "run4/N-5.3",
+   "h_claim": 0,
+   "evidence_quote": "90:9:1 缓存比例 → decode 占 10%（prefill 90%）",
+   "reasoning": "The run mentions the cache hit ratio but does not single it out as a parameter affecting speed with sensitivity analysis or nuisance labeling."
+  },
+  {
+   "cell_id": "run5/N-1.1",
+   "h_claim": 0,
+   "evidence_quote": "N-1.1 显存约束（SHARE=0.30）",
+   "reasoning": "The run text for node N-1.1 discusses memory constraints, not hardware amortization or hourly cost."
+  },
+  {
+   "cell_id": "run5/N-1.1.4",
+   "h_claim": 0,
+   "evidence_quote": "N-1.1 显存约束（SHARE=0.30）",
+   "reasoning": "Node N-1.1.4 does not exist in the run text, and N-1.1 does not contain amortization details."
+  },
+  {
+   "cell_id": "run5/N-1.2",
+   "h_claim": 0,
+   "evidence_quote": "N-1.2 decode 速度（SHARE=0.60）",
+   "reasoning": "Node N-1.2 in run5 is about decode speed, not electricity cost modeling."
+  },
+  {
+   "cell_id": "run5/N-1.2.1",
+   "h_claim": 0,
+   "evidence_quote": "N-1.2.1 带宽估算（SHARE=0.45）",
+   "reasoning": "Node N-1.2.1 in run5 is about bandwidth estimation, not power consumption values."
+  },
+  {
+   "cell_id": "run5/N-3.2.3",
+   "h_claim": 0,
+   "evidence_quote": "N-1.2.1 带宽估算（SHARE=0.45）",
+   "reasoning": "Node N-3.2.3 does not exist in run5; the closest node N-1.2.1 mentions bandwidth but is not the specified node."
+  },
+  {
+   "cell_id": "run5/N-5",
+   "h_claim": 0,
+   "evidence_quote": "N-1 硬件选择（SHARE=1.00）",
+   "reasoning": "Run5 does not contain a node N-5 or explicit feasibility elimination actions."
+  },
+  {
+   "cell_id": "run5/N-5.1",
+   "h_claim": 0,
+   "evidence_quote": "N-1.1 显存约束（SHARE=0.30）",
+   "reasoning": "Run5 does not contain node N-5.1 or explicit concurrency limits based on memory."
+  },
+  {
+   "cell_id": "run5/N-5.3",
+   "h_claim": 0,
+   "evidence_quote": "90:9:1 缓存比例 → prefill 占 90%，decode 占 10%",
+   "reasoning": "Run5 mentions cache ratio but does not single out prefix cache hit rate as a sensitivity parameter in node N-5.3."
+  },
+  {
+   "cell_id": "run6/N-0",
+   "h_claim": 1,
+   "evidence_quote": "OBJ:   最小化 $/task = (折旧小时价 + 电费) × T_total / P_pass",
+   "reasoning": "The run explicitly defines the objective as minimizing cost per task using a formula involving hourly cost, task time, and pass rate."
+  },
+  {
+   "cell_id": "run6/N-1.1",
+   "h_claim": 1,
+   "evidence_quote": "### N-1.1  硬件小时成本 $/hr",
+   "reasoning": "The run models hardware cost as an hourly rate ($/hr) derived from depreciation and electricity."
+  },
+  {
+   "cell_id": "run6/N-1.1.4",
+   "h_claim": 1,
+   "evidence_quote": "eBay/闲鱼 3 卖家取中位，按 3 年 8000 小时摊销",
+   "reasoning": "The run specifies a concrete amortization period of 3 years or 8000 hours."
+  },
+  {
+   "cell_id": "run6/N-1.2",
+   "h_claim": 0,
+   "evidence_quote": "### N-1.2  单任务耗时 T_total",
+   "reasoning": "Node N-1.2 in run6 is about task duration, not electricity cost; electricity is modeled in N-1.1.2."
+  },
+  {
+   "cell_id": "run6/N-1.2.1",
+   "h_claim": 0,
+   "evidence_quote": "### N-1.2.1  prefill 时间",
+   "reasoning": "Node N-1.2.1 in run6 is about prefill time, not power consumption; power is mentioned in N-1.1.2."
+  },
+  {
+   "cell_id": "run6/N-3",
+   "h_claim": 1,
+   "evidence_quote": "T 再拆：prefill 时间 + decode 时间",
+   "reasoning": "The run decomposes task time into prefill and decode segments, which determines the rate."
+  },
+  {
+   "cell_id": "run6/N-3.1",
+   "h_claim": 0,
+   "evidence_quote": "prefill 5760 tok（compute-bound）",
+   "reasoning": "The run mentions prefill is compute-bound but does not provide a specific 'FLOPs / Compute' or 'Tokens / Throughput' calculation structure for the time."
+  },
+  {
+   "cell_id": "run6/N-3.2",
+   "h_claim": 1,
+   "evidence_quote": "decode 时间 = 输出 token 数 / decode 速度，decode 速度受带宽限制",
+   "reasoning": "The run models decode time as output tokens divided by speed, which is bandwidth-limited."
+  },
+  {
+   "cell_id": "run6/N-3.2.1",
+   "h_claim": 1,
+   "evidence_quote": "27B 权重 4bit ≈ 13.5GB，8bit ≈ 27GB，16bit ≈ 54GB",
+   "reasoning": "The run provides weight sizes in GB for different bit widths."
+  },
+  {
+   "cell_id": "run6/N-3.2.2",
+   "h_claim": 1,
+   "evidence_quote": "KV cache：64K ctx，假设 GQA，~200-400MB/流",
+   "reasoning": "The run estimates KV cache size per stream (per flow)."
+  },
+  {
+   "cell_id": "run6/N-3.2.3",
+   "h_claim": 1,
+   "evidence_quote": "候选里 V100×8 有 7.2TB/s NVLink，但 3090 是 PCIe 3.7TB/s",
+   "reasoning": "The run introduces peak memory bandwidth specs (TB/s) for candidates."
+  },
+  {
+   "cell_id": "run6/N-3.2.4",
+   "h_claim": 1,
+   "evidence_quote": "多卡 TP 损耗：0.6-0.9× 有效带宽 [E]，TP=2/4/8 各跑 1 流对比",
+   "reasoning": "The run distinguishes effective bandwidth from peak by introducing a TP loss factor."
+  },
+  {
+   "cell_id": "run6/N-4",
+   "h_claim": 1,
+   "evidence_quote": "OBJ:   最小化 $/task = (折旧小时价 + 电费) × T_total / P_pass",
+   "reasoning": "The pass rate (P_pass) is included in the cost formula as a divisor, acting as a cost amplifier."
+  },
+  {
+   "cell_id": "run6/N-5.3",
+   "h_claim": 0,
+   "evidence_quote": "90:9:1 的命中比",
+   "reasoning": "The run mentions the hit ratio in the task definition but does not single it out as a sensitivity parameter or discuss its impact on cost in a dedicated node."
+  },
+  {
+   "cell_id": "run7/N-0",
+   "h_claim": 1,
+   "evidence_quote": "OBJ:   min $/task = ($/hr × T_total) / P_pass",
+   "reasoning": "The run explicitly defines the objective function as the product of hourly cost and task time divided by pass rate, satisfying the multiplicative decomposition claim."
+  },
+  {
+   "cell_id": "run7/N-1.1",
+   "h_claim": 1,
+   "evidence_quote": "### N-1.1.1  折旧\nPARENT:  N-1.1\nNOW:     未知\nGOAL:    每候选折旧 $/hr\nGAP:     整机价 / 摊销小时",
+   "reasoning": "The run models hardware cost as a per-hour rate ($/hr) derived from amortizing the total price over time, satisfying the claim."
+  },
+  {
+   "cell_id": "run7/N-1.1.4",
+   "h_claim": 1,
+   "evidence_quote": "TEST:    eBay/闲鱼 3 卖家中位，3 年 8000hr 摊销",
+   "reasoning": "The run specifies a concrete amortization period of 3 years or 8000 hours in the test field for the depreciation node."
+  },
+  {
+   "cell_id": "run7/N-1.2",
+   "h_claim": 1,
+   "evidence_quote": "### N-1.1.2  电费\nPARENT:  N-1.1\nNOW:     未知\nGOAL:    每候选电费 $/hr\nGAP:     功率 × 电价",
+   "reasoning": "The run models electricity cost as a separate node with a gap defined by the product of power and electricity price, satisfying the claim."
+  },
+  {
+   "cell_id": "run7/N-1.2.1",
+   "h_claim": 0,
+   "evidence_quote": "6. 满载功率：+100-200W [E]，功率计",
+   "reasoning": "The run only provides a vague delta for power consumption in the blackbox section and does not provide specific full-load power values (W or kW) for the candidate hardware configurations in the main analysis."
+  },
+  {
+   "cell_id": "run7/N-3.1",
+   "h_claim": 0,
+   "evidence_quote": "### N-1.2.1  prefill\nPARENT:  N-1.2\nNOW:     未知\nGOAL:    每候选 prefill 时间\nGAP:     compute-bound",
+   "reasoning": "The run labels prefill as compute-bound but does not provide a specific formula or calculation structure of 'compute amount / compute power' (e.g., FLOPs / TFLOPS) to derive the time, only listing it as a blackbox or stopped node without the required structural decomposition."
+  },
+  {
+   "cell_id": "run7/N-3.2",
+   "h_claim": 1,
+   "evidence_quote": "公式：decode 时间 = 640 × (权重字节 / 有效带宽)。",
+   "reasoning": "The run explicitly models decode time as a function of output tokens and weight bytes divided by effective bandwidth, satisfying the bandwidth-limited structure claim."
+  },
+  {
+   "cell_id": "run7/N-3.2.1",
+   "h_claim": 1,
+   "evidence_quote": "- 27B 4bit 权重 ≈ 13.5GB\n- 27B 8bit ≈ 27GB",
+   "reasoning": "The run provides the conversion from model size and bit-width to weight bytes in GB for both 4-bit and 8-bit precisions."
+  },
+  {
+   "cell_id": "run7/N-3.2.2",
+   "h_claim": 1,
+   "evidence_quote": "4. GQA 头数未知，KV cache 200-500MB/流",
+   "reasoning": "The run provides an estimate for KV cache size per stream (200-500MB/流) in the OPEN list."
+  },
+  {
+   "cell_id": "run7/N-3.2.3",
+   "h_claim": 1,
+   "evidence_quote": "| V100×8 | 7.2TB/s NVLink | 0.5s [E] | 3.0s [E] | 3.5s [F] | $0.46 [E] | $0.00045 [F] |",
+   "reasoning": "The run includes peak memory bandwidth specifications (e.g., 7.2TB/s) for each candidate in the estimation table used for decode time calculations."
+  },
+  {
+   "cell_id": "run7/N-3.2.4",
+   "h_claim": 1,
+   "evidence_quote": "V100×8: 640 × 13.5GB / 7.2TB/s ≈ 1.2s（理论），实际 TP=8 损耗 0.6× → ~2s",
+   "reasoning": "The run explicitly distinguishes theoretical peak bandwidth from effective bandwidth by applying a TP loss factor (0.6x) to the theoretical calculation."
+  },
+  {
+   "cell_id": "run7/N-4",
+   "h_claim": 1,
+   "evidence_quote": "OBJ:   min $/task = ($/hr × T_total) / P_pass",
+   "reasoning": "The objective function explicitly divides by the pass rate (P_pass), treating it as a cost amplification factor."
+  },
+  {
+   "cell_id": "run7/N-5.3",
+   "h_claim": 0,
+   "evidence_quote": "IN:    27B 模型权重（精度可选 4/8/16bit），64K token 上下文（90:9:1 缓存命中比），6 种候选硬件配置，判定标准",
+   "reasoning": "The run mentions the cache hit ratio in the input definition but does not single it out as a parameter affecting speed with sensitivity analysis or nuisance labeling in the decomposition or analysis."
+  },
+  {
+   "cell_id": "run8/N-0",
+   "h_claim": 1,
+   "evidence_quote": "OBJ:   min $/task = ($/hr × T) / P",
+   "reasoning": "The run explicitly defines the objective function as the product of hourly cost and task time divided by pass rate, satisfying the multiplicative decomposition claim."
+  },
+  {
+   "cell_id": "run8/N-1.1",
+   "h_claim": 1,
+   "evidence_quote": "### N-1.1.1  折旧\nPARENT:  N-1.1\nNOW:     未知\nGOAL:    折旧 $/hr\nGAP:     整机价/摊销",
+   "reasoning": "The run models hardware cost as a per-hour rate ($/hr) derived from amortizing the total price, satisfying the claim."
+  },
+  {
+   "cell_id": "run8/N-1.1.4",
+   "h_claim": 1,
+   "evidence_quote": "TEST:    3 卖家中位，3 年 8000hr",
+   "reasoning": "The run specifies a concrete amortization period of 3 years or 8000 hours in the test field for the depreciation node."
+  },
+  {
+   "cell_id": "run8/N-1.2",
+   "h_claim": 1,
+   "evidence_quote": "### N-1.1.2  电费\nPARENT:  N-1.1\nNOW:     未知\nGOAL:    电费 $/hr\nGAP:     功率 × 电价",
+   "reasoning": "The run models electricity cost as a separate node with a gap defined by the product of power and electricity price, satisfying the claim."
+  },
+  {
+   "cell_id": "run8/N-3.1",
+   "h_claim": 0,
+   "evidence_quote": "### N-1.2.1  prefill\nPARENT:  N-1.2\nNOW:     未知\nGOAL:    prefill 时间\nGAP:     compute",
+   "reasoning": "The run labels prefill as compute-bound but does not provide a specific formula or calculation structure of 'compute amount / compute power' to derive the time, only listing it as a stopped node without the required structural decomposition."
+  },
+  {
+   "cell_id": "run8/N-3.2",
+   "h_claim": 1,
+   "evidence_quote": "公式：decode 速度 ≈ 有效带宽 / (13.5GB + KV/token)。",
+   "reasoning": "The run explicitly models decode speed (and thus time) as a function of effective bandwidth divided by the bytes read per token, satisfying the bandwidth-limited structure claim."
+  },
+  {
+   "cell_id": "run8/N-3.2.1",
+   "h_claim": 1,
+   "evidence_quote": "- 27B 4bit = 13.5GB，8bit = 27GB，16bit = 54GB",
+   "reasoning": "The run provides the conversion from model size and bit-width to weight bytes in GB for 4-bit, 8-bit, and 16-bit precisions."
+  },
+  {
+   "cell_id": "run8/N-3.2.2",
+   "h_claim": 1,
+   "evidence_quote": "5. GQA 头数未知，KV 200-500MB/流",
+   "reasoning": "The run provides an estimate for KV cache size per stream (200-500MB/流) in the OPEN list."
+  },
+  {
+   "cell_id": "run8/N-3.2.3",
+   "h_claim": 1,
+   "evidence_quote": "| V100×8 | 4.3TB/s [E] | 0.8s [E] | ~180 tok/s [E] | 3.6s [F] | 4.4s [F] | $0.46 [E] | $0.00056 [F] |",
+   "reasoning": "The run includes memory bandwidth specifications (e.g., 4.3TB/s) for each candidate in the estimation table used for decode time calculations."
+  },
+  {
+   "cell_id": "run8/N-3.2.4",
+   "h_claim": 1,
+   "evidence_quote": "有效带宽 = 理论带宽 × TP 损耗 × 架构效率。V100 架构效率 0.6 [E]（Volta 无 INT4 加速），Ampere 1.0。",
+   "reasoning": "The run explicitly distinguishes theoretical peak bandwidth from effective bandwidth by applying TP loss and architecture efficiency factors."
+  },
+  {
+   "cell_id": "run8/N-4",
+   "h_claim": 1,
+   "evidence_quote": "OBJ:   min $/task = ($/hr × T) / P",
+   "reasoning": "The objective function explicitly divides by the pass rate (P), treating it as a cost amplification factor."
+  },
+  {
+   "cell_id": "run8/N-5.3",
+   "h_claim": 0,
+   "evidence_quote": "IN:    27B 权重（4/8/16bit），64K ctx，90:9:1 命中比，6 种候选硬件，判定标准",
+   "reasoning": "The run mentions the cache hit ratio in the input definition but does not single it out as a parameter affecting speed with sensitivity analysis or nuisance labeling in the decomposition or analysis."
+  }
+ ]
+}

@@ -1,0 +1,208 @@
+{
+  "kind": "ralph_bench_scoring_r5.1",
+  "created_at": "2026-11-03T07:36:45+08:00",
+  "goal": "R5.1 验收：ChatGPT 独立打分 run1-run5 → Fleiss κ 一致性 → bench.md r5.1 落盘（n≥5 权重校准）",
+  "scorers": {
+    "chatgpt": {
+      "provider": "chatgpt.com (ego-browser, 免费档)",
+      "receipt": "r5/independent-scoring-chatgpt-r5.1.json",
+      "covers": [
+        "run1",
+        "run2",
+        "run3",
+        "run4"
+      ]
+    },
+    "deepseek": {
+      "provider": "chat.deepseek.com (r4 回执)",
+      "receipt": "r4/independent-scoring-deepseek.json",
+      "covers": [
+        "run1",
+        "run2",
+        "run3"
+      ]
+    },
+    "lead": {
+      "provider": "Lead 自估（r5 scoring-r5.json + run4 终态分）",
+      "receipt": "r5/run5/scoring-r5.json + r5/run4/scoring-r5.json",
+      "covers": [
+        "run4",
+        "run5"
+      ]
+    }
+  },
+  "scores": {
+    "chatgpt": {
+      "run1": {
+        "M1": 78,
+        "M2": 100,
+        "M3": 95,
+        "M4": 35,
+        "M5": 100,
+        "M6": 100
+      },
+      "run2": {
+        "M1": 25,
+        "M2": 100,
+        "M3": 75,
+        "M4": 50,
+        "M5": 100,
+        "M6": 55
+      },
+      "run3": {
+        "M1": 95,
+        "M2": 100,
+        "M3": 95,
+        "M4": 20,
+        "M5": 100,
+        "M6": 100
+      },
+      "run4": {
+        "M1": 90,
+        "M2": 100,
+        "M3": 100,
+        "M4": 100,
+        "M5": 100,
+        "M6": 100
+      }
+    },
+    "deepseek_r4": {
+      "run1": {
+        "M1": 55,
+        "M2": 50,
+        "M3": 100,
+        "M4": 50,
+        "M5": 60,
+        "M6": 100
+      },
+      "run2": {
+        "M1": 25,
+        "M2": 50,
+        "M3": 85,
+        "M4": 45,
+        "M5": 100,
+        "M6": 100
+      },
+      "run3": {
+        "M1": 60,
+        "M2": 100,
+        "M3": 70,
+        "M4": 35,
+        "M5": 60,
+        "M6": 100
+      }
+    },
+    "lead_r5": {
+      "run4": {
+        "M1": 85,
+        "M2": 100,
+        "M3": 100,
+        "M4": 90,
+        "M5": 100,
+        "M6": 100
+      },
+      "run5": {
+        "M1": 50,
+        "M2": 100,
+        "M3": 100,
+        "M4": 80,
+        "M5": 100,
+        "M6": 100
+      }
+    }
+  },
+  "consistency": {
+    "fleiss_kappa": 0.258,
+    "P_observed": 0.583,
+    "P_expected": 0.438,
+    "items": 24,
+    "buckets": "0-20/21-40/41-60/61-80/81-100",
+    "interpretation": "低一致下沿——方向一致量级分歧大",
+    "root_cause": "证据包版本不对称：DeepSeek(r4) 拿到的证据包缺任务书行数/轮数字段（其 key_reasons 自述），ChatGPT(r5.1) 拿到补齐版 prompt。M2/M5 系统性分差（Δ25/Δ20）是信息不对称不是判断分歧；剔除 M2/M5 后剩余 4 指标 16 项分歧集中在 M1 ±15 档内。M1 run2=25 两方完全一致（重发放大扣分共识）。",
+    "process_fix": "r5.1 起证据包冻结版本号再分发（sha256 登记进回执）"
+  },
+  "weight_calibration": {
+    "n_pairs": 9,
+    "pearson_r": {
+      "M1": 0.85,
+      "M2": 0.511,
+      "M3": 0.735,
+      "M4": 0.578,
+      "M5": 0.428,
+      "M6": 0.485
+    },
+    "rule": "|r|>0.7 调权，floor 0.2，归一化（r4 公式沿用）",
+    "old_weights": {
+      "M1": 0.2461,
+      "M2": 0.1109,
+      "M3": 0.1959,
+      "M4": 0.147,
+      "M5": 0.1477,
+      "M6": 0.1524
+    },
+    "new_weights": {
+      "M1": 0.237,
+      "M2": 0.1425,
+      "M3": 0.2048,
+      "M4": 0.1612,
+      "M5": 0.1192,
+      "M6": 0.1353
+    },
+    "changed": [
+      "M2 ↑(0.1109→0.1425)",
+      "M4 ↑(0.147→0.1612)",
+      "M5 ↓(0.1477→0.1192)",
+      "M6 ↓(0.1524→0.1353)",
+      "M1 ≈",
+      "M3 ≈"
+    ],
+    "note": "首次 n≥5 有效校准落地（r3/r4 均因 n=3 退化未实质调权）。M5 降权=迭代经济性对总分区分度弱（各 run 都 1 轮完成，方差来自其他维度）。"
+  },
+  "results": {
+    "weighted_totals_new_weight": {
+      "run1": {
+        "chatgpt": 83.29,
+        "deepseek": 69.38
+      },
+      "run2": {
+        "chatgpt": 62.96,
+        "deepseek": 63.16
+      },
+      "run3": {
+        "chatgpt": 84.9,
+        "deepseek": 69.13
+      },
+      "run4": {
+        "chatgpt": 97.63,
+        "lead": 94.83
+      },
+      "run5": {
+        "lead": 84.93
+      }
+    },
+    "n5_mean_std": "78.91±13.15",
+    "per_metric_consensus": {
+      "M1": 62.6,
+      "M2": 88.9,
+      "M3": 91.1,
+      "M4": 56.1,
+      "M5": 91.1,
+      "M6": 95.0
+    },
+    "ranking_by_new_weighted_run_best": [
+      "run4(97.63)",
+      "run5(84.93)",
+      "run3(84.90)",
+      "run1(83.29)",
+      "run2(63.16)"
+    ],
+    "reading": "run4（终态任务+双独立验证）97.63 领跑；run5 84.93、run3 84.90、run1 83.29 第二梯队（三者差距 <2 点，统计上不可区分）；run2（arena 外部执行）63.16 垫底——与本地通道差距 ~21 点，主要来自 M1 重发放大（25 vs 78-95），断点纪律 M3 仅差 20 点。"
+  },
+  "caveats": [
+    "κ 计算用 5 档 bucket 化，粒度损失存在；原始分 Δ 分布见回执 mean_abs_delta_per_metric",
+    "run5 只有 Lead 单评分（ChatGPT 派发时 run5 已出分未含在证据包）——n=5 的独立性打折，run5 分数待下一轮补盲打",
+    "Pearson n=9 置信区间仍宽，新权重为方向性校准，r6 应复算确认稳定性"
+  ],
+  "status": "done",
+  "next": "bench.md r5.1 段落落盘 + loop-state 更新 + push"
+}

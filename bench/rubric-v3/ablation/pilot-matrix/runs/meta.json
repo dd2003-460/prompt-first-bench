@@ -1,0 +1,94 @@
+{
+ "runs": [
+  {
+   "variant": "V0-baseline",
+   "run_id": "V0-baseline/run1",
+   "started_at": "2026-11-01T17:40+08:00",
+   "ended_at": "2026-11-01T18:20+08:00",
+   "search_count": 6,
+   "output_file": "runs/V0-baseline/run1.md",
+   "output_sha256_16": "fbc7cc7196947e78",
+   "notes": "电价按东京第3档40.49円/kWh折0.270USD/kWh；KV取实测峰值反推5.8GB；S按单流口径 min(带宽闸,显存闸) 估，偏保守"
+  },
+  {
+   "variant": "V0-baseline",
+   "run_id": "V0-baseline/run2",
+   "started_at": "2026-11-01T18:25+08:00",
+   "ended_at": "2026-11-01T19:05+08:00",
+   "search_count": 4,
+   "output_file": "runs/V0-baseline/run2.md",
+   "output_sha256_16": "350d62e62daf010e",
+   "notes": "计价全程日元末步折美元；KV改用官方config计算4.0GB@64K；候选集聚焦48GB档与统一内存机"
+  },
+  {
+   "variant": "V0-baseline",
+   "run_id": "V0-baseline/run3",
+   "started_at": "2026-11-01T19:10+08:00",
+   "ended_at": "2026-11-01T19:55+08:00",
+   "search_count": 4,
+   "output_file": "runs/V0-baseline/run3.md",
+   "output_sha256_16": "c50a0364d722b917",
+   "notes": "先验证批处理增益前提（实测21.3x@64并发），S改由显存闸主导；引入保守G(S)敏感性，A100与4x3090并列"
+  },
+  {
+   "variant": "V1-full",
+   "run_id": "V1-full/run1",
+   "started_at": "2026-11-01T20:05+08:00",
+   "ended_at": "2026-11-01T20:55+08:00",
+   "search_count": 6,
+   "output_file": "runs/V1-full/run1.md",
+   "output_sha256_16": "237fc719c6ea3f76",
+   "notes": "D1 按显存来源分区（消费级4/专业卡4/统一内存3/非GPU2），非默认5>=默认8的一半；采信 RTX PRO 6000 $8,565 并给 $13,250 敏感性（价格四档 4,599/8,565/13,250/16,000 未收敛，属源间口径分歧）；S 取 min(显存闸,速度闸)，c/d 三类统一内存机因 roofline 上限 <20 tok/s 全部出局"
+  },
+  {
+   "variant": "V1-full",
+   "run_id": "V1-full/run2",
+   "started_at": "2026-11-01T21:05+08:00",
+   "ended_at": "2026-11-01T21:55+08:00",
+   "search_count": 4,
+   "output_file": "runs/V1-full/run2.md",
+   "output_sha256_16": "b5e27c1df4042ce2",
+   "notes": "D1 按采购口径/风险结构分区（零售新卡3/二手4/改装件2/非买断2），非默认4>=默认7的一半；新增风险项 r_risk 与受支持期限约束的摊销期 H（P40 按驱动 mid-2028 只摊1.7年）；口径要点：r_risk 必须写成 capex*r_annual/8760 得 $/h，写成 capex*r/H 会放大到 $4.3/h 的错误量级；结论与 run1 一致（A100 0.370m）但第二名换成改装 4090-48GB，唯一翻转源是 r 从2%/年升到8%/年"
+  },
+  {
+   "variant": "V1-full",
+   "run_id": "V1-full/run3",
+   "started_at": "2026-11-01T22:20+08:00",
+   "ended_at": "2026-11-01T23:10+08:00",
+   "search_count": 4,
+   "output_file": "runs/V1-full/run3.md",
+   "output_sha256_16": "60b95f93881a3c16",
+   "notes": "D1 按『容量从哪来』分区（高带宽单卡3/高容量低带宽3/统一内存5/多节点池化3），非默认7>=默认6的一半；核心判据 S=floor(单流/20) 的整数阶梯（跨档需20/40/60/80/100）；与前两 run 的分歧点：Arc Pro B70 的悲观实测仅 ~12 t/s（bentech），正文表给的是乐观 roofline 20.5 并标为擦线候选，若采悲观值则应为不合格；Mac M5 Max 128G 因 19.8 t/s 差 0.2 出局"
+  },
+  {
+   "variant": "V1-align",
+   "run_id": "V1-align/run1",
+   "started_at": "2026-11-01T23:20+08:00",
+   "ended_at": "2026-11-02T00:05+08:00",
+   "search_count": 6,
+   "output_file": "runs/V1-align/run1.md",
+   "output_sha256_16": "e43bcee322dc861b",
+   "notes": "D1 按『前缀 KV 常驻在哪一级存储』分区（全显存5/显存+主机内存3/统一内存4/跨卡池化2）；V1-align 的 D1 无默认先验字样，故三问对全部 14 个候选逐条作答。口径分歧：① KV 取 80 KB/token 中值（区间 68-128，两端进敏感性，128 时 24GB 卡全部出局）；② 5090 单流采信知乎 64K 实测 45.4 而非 contextstudios 的 26.2（后者 prefill 718 与算力不符）；③ 前缀常驻 4.72GiB 是本题的隐性显存成本。A100 0.370m 第一。"
+  },
+  {
+   "variant": "V1-align",
+   "run_id": "V1-align/run2",
+   "started_at": "2026-11-01T23:55+08:00",
+   "ended_at": "2026-11-02T00:40+08:00",
+   "search_count": 6,
+   "output_file": "runs/V1-align/run2.md",
+   "output_sha256_16": "3bd1fe640964c54d",
+   "notes": "D1 按『单机可容纳的完整 64K 会话数』分区（0槽2/1-2槽6/3-15槽5/>=16槽4），三问对全部 17 个候选。核心判据 S=min(slots, floor(单流/20))，slots=(VRAM-18.6)/5；提出『过供系数』并量化（M5U 96G->256G 多花 $4000 产能不变，成本 +45%）。口径分歧：MacStories 的 48 t/s 为短上下文实测，对 64K 做 -25% 敏感性（0.773m -> 0.971m）；RTX PRO 6000 采信官方 $16,000（另有三档价进矛盾清单）；P40 的 27B 吞吐为推算非实测（已标 B2）。A100 0.370m 第一。"
+  },
+  {
+   "variant": "V1-align",
+   "run_id": "V1-align/run3",
+   "started_at": "2026-11-02T00:45+08:00",
+   "ended_at": "2026-11-02T01:30+08:00",
+   "search_count": 5,
+   "output_file": "runs/V1-align/run3.md",
+   "output_sha256_16": "dd79f2bf850fa827",
+   "notes": "D1 按『显存介质代际』分区（GDDR5/6/6X 5、GDDR7 2、HBM 3、LPDDR5X 4），三问对全部 14 个候选。核心判据 S=min(slots, floor(带宽/442))，台阶由介质决定；主要观察是每美元带宽的排序与可用性几乎相反（P40 1367 -> H100 73）。口径分歧：H100 PCIe 采信 2039 GB/s（HBM2e），拒用 compute-market 的 3350（那是 SXM5 的数，误用会让 H100 从第4跃到第3）；A100 40G 取 $2,900（alibaba 区间）而非 pcserverandparts 的 $4,000-7,800。A100 80G 0.307m 第一，A100 40G 0.320m 第二。"
+  }
+ ]
+}

@@ -1,0 +1,117 @@
+{
+  "kind": "c3v3-r4-fullfactorial-execution",
+  "goal": "T8-C3-v3-paired-runs (R4 全因子)",
+  "date": "2026-10-31",
+  "design_ref": "experiments/T8-matrix/runs/c3-v3/design/r4-execution-design.json (r37 冻结) + design/seeds/seeds.json (r38 冻结)",
+  "channel": {
+    "url": "http://localhost:8787/v1/chat/completions",
+    "model": "qwen3.8-27b",
+    "gen_params": {
+      "temperature": 0.7,
+      "max_tokens": 4096
+    },
+    "judge_params": {
+      "temperature": 0,
+      "max_tokens": 4096
+    }
+  },
+  "matrix_executed": "9 configs × 2 domains × 2 seeds = 36 runs（第三 hold-out 域资产不存在，降级两域如实登记于 r37）",
+  "runs_done": 36,
+  "runs_failed": 0,
+  "rerun_note": "A-full/D1-meeting-room/{seeda,seedb} 首跑落盘丢 output 字段（runner v1 bug），已按同 prompt sha 重跑覆盖并注记",
+  "judge_binding": "J1 strict / J2 lenient 双判（judge-prompts.json 冻结 sha 锚定，G1a F1 裁定口径）；72 judge 调用全落盘，71 直接解析 + 1 截断修复（B-nofreeze/D2/seedb J1，repaired=true）",
+  "metrics": {
+    "config_means_J1": {
+      "A-full": {
+        "J1_mean": 0.781,
+        "J1_n": 4,
+        "J2_mean": 0.969,
+        "J2_n": 4
+      },
+      "B-nofreeze": {
+        "J1_mean": 0.58,
+        "J1_n": 4,
+        "J2_mean": 1.0,
+        "J2_n": 4
+      },
+      "B-noevidence": {
+        "J1_mean": 0.954,
+        "J1_n": 4,
+        "J2_mean": 1.0,
+        "J2_n": 4
+      },
+      "B-noowner": {
+        "J1_mean": 0.972,
+        "J1_n": 4,
+        "J2_mean": 1.0,
+        "J2_n": 4
+      },
+      "B-2del-fe": {
+        "J1_mean": 0.659,
+        "J1_n": 4,
+        "J2_mean": 1.0,
+        "J2_n": 4
+      },
+      "B-2del-fo": {
+        "J1_mean": 0.986,
+        "J1_n": 4,
+        "J2_mean": 1.0,
+        "J2_n": 4
+      },
+      "B-2del-eo": {
+        "J1_mean": 0.975,
+        "J1_n": 4,
+        "J2_mean": 0.972,
+        "J2_n": 4
+      },
+      "B-none": {
+        "J1_mean": 0.852,
+        "J1_n": 4,
+        "J2_mean": 1.0,
+        "J2_n": 4
+      },
+      "B-sham": {
+        "J1_mean": 1.0,
+        "J1_n": 4,
+        "J2_mean": 1.0,
+        "J2_n": 4
+      }
+    },
+    "length_correlation": {
+      "n": 36,
+      "pearson_r_prompt_vs_output_chars": 0.104,
+      "note": "弱相关，不触发长度偏置否决"
+    },
+    "j1_j2_divergence": {
+      "threshold": 0.2,
+      "count": 7,
+      "total": 36,
+      "rate": 0.194,
+      "stop_rule_30pct": "NOT triggered"
+    },
+    "floor_check_sham": {
+      "B-sham_J1_mean": 1.0,
+      "A-full_J1_mean": 0.781,
+      "verdict": "FAIL — sham 地板未低于 A-full"
+    }
+  },
+  "findings": [
+    "F1 主效应方向【负结果】：严格版 J1 下删组件配置均值普遍 ≥ A-full（B-noevidence 0.954 / B-noowner 0.972 / B-none 0.852 vs A-full 0.781），唯一显著低于 A-full 的是 B-nofreeze 0.580——与 c3-diffs 原假设『freeze 组件贡献最大』方向一致但幅度仅单配置，且 A-full 自身 run 间方差极大（0.5~1.0）",
+    "F2 天花板效应【确认】：J2 宽松版 8/9 配置 mean≥0.97，区分度坍缩，G1a F2 预判在 R4 复现——宽松口径不可用于因果判读，M8 绑定 J1 的裁定得到数据支持",
+    "F3 地板失效【新发现】：B-sham（112-token 等长填充）J1 mean=1.0 为全场最高——sham 产出短小、条目少、无实质主张可 fail，三测审计对『空转工件』天然失明。R1 三道地板的第一道（sham 地板值）在当前 rubric 下不成立",
+    "F4 噪声结构：J1 逐 run pass rate 分布显示 ~1/4 run 出现 <0.65 低分（跨所有 config 散布），非配置特异性——judge 对同一模型产出的评分波动大，单 run 判读不可靠，必须 cell 级聚合"
+  ],
+  "gate_order_status": {
+    "R1_floor": "FAIL→PASS（r44 rubric v11 特异性指纹测试修复：sham 0.517 跌至第2低组，验收三项全过；阈值敏感性 r46 确认稳健区间 [0.15,0.23)）",
+    "R4_main_analysis": "UNBLOCKED（r45 receipt-r4-mainanalysis.json：J1v11 口径描述层主分析完成，F1 方向仍负、n=4/cell 功效不足只报描述统计）",
+    "M8_joint_reading": "待 Lead 盲法判读（核验机会集 = c3-diffs 阳性对照同款清单）——不变"
+  },
+  "verdict": "PARTIAL-PASS→PASS-with-caveat（执行完整 36/36 + 双判 72/72 落盘；R1 地板经 rubric v11 修复后恢复，推断层解除阻断但结论上限不变——同族 judge qwen3.8-27b + n=4/cell，描述层证据 conf 封顶，G1b 异源仍是升档唯一路径）",
+  "next_actions": [
+    "【已核销 r44】rubric 修订轮：第④测『密度/空转检测』落地为 v11 特异性指纹测试，sham 地板恢复（receipt: rubric-v11-validation.json）",
+    "【已核销 r45】R4 主分析重启：J1v11 scorecard + 描述层主效应（receipt: receipt-r4-mainanalysis.json）",
+    "【已核销 r46】v11 阈值敏感性扫描：稳健区间 [0.15,0.23)，0.2 冻结升格正式 rubric（receipt: rubric-v11-threshold-sensitivity.json）",
+    "【未决·blocked-on-human】G1b 异源 judge：非 Qwen 家族 LLM 对同一批工件重打 M8 二值分算跨家族 κ——conf 升档唯一路径，需 arena 通道或第二 LLM 凭证",
+    "【未决·可选】M8 联合判读：Lead 盲法核验（机会集 = c3-diffs 阳性对照同款清单）"
+  ]
+}

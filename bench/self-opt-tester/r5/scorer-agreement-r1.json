@@ -1,0 +1,204 @@
+{
+ "date": "2026-10-30",
+ "scorers": {
+  "A": "claude-code（本回执，r5/scoring-claude-r1.json，盲打 commit 13838a9）",
+  "B": "deepseek-chat-web（r4/independent-scoring-deepseek.json，observed_at 2026-10-24）"
+ },
+ "method_note": "一致性分析在盲打 commit 之后才读取 DeepSeek 分数值（时序屏障见 04-execution-log.md）。n=3 per-metric ρ 为纯描述性指标：3 个秩对只有 6 种置换，ρ∈{−1,−0.5,0,+0.5,+1}，置信区间覆盖全空间，不支持任何显著性或泛化推断（与 bench.md O3 节 r73 先例同口径）。κ 采用 Cohen's κ（2 raters；Fleiss'κ 需 ≥3 raters 不适用）+ 3 档离散化（low<40 / mid 40-70 / high>70），切点为中位取法，换切点 κ 会变——报告的是该切点下的值。",
+ "per_metric_spearman_n3": {
+  "M1": {
+   "claude": [
+    55,
+    30,
+    70
+   ],
+   "deepseek": [
+    55,
+    25,
+    60
+   ],
+   "spearman_rho_n3": 1.0
+  },
+  "M2": {
+   "claude": [
+    100,
+    100,
+    90
+   ],
+   "deepseek": [
+    50,
+    50,
+    100
+   ],
+   "spearman_rho_n3": -0.5
+  },
+  "M3": {
+   "claude": [
+    85,
+    85,
+    80
+   ],
+   "deepseek": [
+    100,
+    85,
+    70
+   ],
+   "spearman_rho_n3": 0.5
+  },
+  "M4": {
+   "claude": [
+    45,
+    50,
+    30
+   ],
+   "deepseek": [
+    50,
+    45,
+    35
+   ],
+   "spearman_rho_n3": 0.5
+  },
+  "M5": {
+   "claude": [
+    90,
+    90,
+    95
+   ],
+   "deepseek": [
+    60,
+    100,
+    60
+   ],
+   "spearman_rho_n3": 0.5
+  },
+  "M6": {
+   "claude": [
+    100,
+    95,
+    95
+   ],
+   "deepseek": [
+    100,
+    100,
+    100
+   ],
+   "spearman_rho_n3": -0.5
+  }
+ },
+ "full_18_point_continuous": {
+  "pearson_r": 0.6788,
+  "spearman_rho": 0.5418
+ },
+ "cohens_kappa_3bin": {
+  "bins": [
+   "low(<40)",
+   "mid(40-70)",
+   "high(>70)"
+  ],
+  "contingency": {
+   "rows": "claude",
+   "cols": "deepseek",
+   "table": [
+    [
+     2,
+     0,
+     0
+    ],
+    [
+     0,
+     4,
+     0
+    ],
+    [
+     0,
+     5,
+     7
+    ]
+   ],
+   "row_sums": [
+    2,
+    4,
+    12
+   ],
+   "col_sums": [
+    2,
+    9,
+    7
+   ]
+  },
+  "po": 0.7222,
+  "pe": 0.3827,
+  "kappa": 0.55
+ },
+ "kappa_interpretation": "κ=0.55 = moderate agreement（Landis-Koch 标尺 0.41-0.60 档）。注意高基率效应：high 档占 12/18 点，chance-corrected 后仍剩 0.55，说明两打分器在『哪些项低分』（M4 三项全 low/mid 边界、M1 run2 低分）上判断收敛，分歧集中在 M2/M5 的证据可得性处理。",
+ "disagreements_abs_delta_gt_15": [
+  {
+   "run": "run1",
+   "metric": "M2",
+   "claude_code": {
+    "score": 100,
+    "basis": "gate-evidence-breakpoint-ABC.md 断点 C 节：tasks/003-self-optimization-tester.md 行数 24（≤50 约束满足），远 ≤200 行口径；new-goal-20261023.md 实测 wc -l=21 行。"
+   },
+   "deepseek": {
+    "score": 50,
+    "stated_reason": "(见 independent_scores 无单独 key_reasons)"
+   },
+   "delta_claude_minus_deepseek": 50,
+   "adjudication_tendency": "倾向 Claude Code。DeepSeek 自述理由='证据包未提供任务书行数，无法判断 ≤200'——属证据包缺口而非口径判定；仓库内 gate-evidence-breakpoint-ABC.md 明确记载 tasks/003 任务书 24 行（≤50 约束满足），new-goal-20261023.md 实测 21 行。按 bench.md 可验证口径（wc -l）证据充分且达标，50 分是『信息缺失』惩罚而非质量扣分。注：该分歧根源在 r4 给 DeepSeek 的 evidence packet 未含行数（其 note 自认 M2 系统性偏低源于此），非打分能力分歧。"
+  },
+  {
+   "run": "run1",
+   "metric": "M5",
+   "claude_code": {
+    "score": 90,
+    "basis": "loop-state-r1.json step6_vuln_iteration='done (V1-V5, conf 0.75)'——一轮内达 conf≥0.7；execution-log.md 显示 3-run 并行设计（run3 已派发 subagent bd8e9193）。扣 10：run1 定位是『重走链路+挂锚点』引用 r1 既有 01-04 工件（防复读），迭代深度依赖前轮而非本轮新验证。"
+   },
+   "deepseek": {
+    "score": 60,
+    "stated_reason": "(见 independent_scores 无单独 key_reasons)"
+   },
+   "delta_claude_minus_deepseek": 30,
+   "adjudication_tendency": "倾向 Claude Code（差距小于 M2 两项）。DeepSeek 理由='未提供达 conf≥0.7 所需轮数'；但 loop-state-r1.json step6 明确记录 'done (V1-V5, conf 0.75)'——conf 数值与完成状态都在证据里，轮数=1（一轮内 done）。DeepSeek 可能把『轮数字段未显式命名』当成缺失；Claude 侧另扣 10 分（迭代深度依赖前轮工件引用），故 90 而非满分。"
+  },
+  {
+   "run": "run2",
+   "metric": "M2",
+   "claude_code": {
+    "score": 100,
+    "basis": "wc -l bench/self-opt-tester/run2-arena/task-brief.md = 25 行（本次盲打一手实测），≤200 行口径远超上限；04.5-review.md 锚点 #2 同记 25 行/1,602B。"
+   },
+   "deepseek": {
+    "score": 50,
+    "stated_reason": "(见 independent_scores 无单独 key_reasons)"
+   },
+   "delta_claude_minus_deepseek": 50,
+   "adjudication_tendency": "倾向 Claude Code。同 run1 M2：task-brief.md 一手 wc -l=25 行（本次盲打实测）+ 04.5-review.md 锚点 #2 同记 25 行/1,602B，双源一致且 ≤200 远超上限。DeepSeek 同样因证据包缺行数给 50。"
+  },
+  {
+   "run": "run3",
+   "metric": "M5",
+   "claude_code": {
+    "score": 95,
+    "basis": "execution-log.md：2 轮内完成 3 缺陷定位+落盘，1 次自纠（S4 发现初判『bench.md 缺失』错误→ls 实证文件存在→当场修正缺陷 2 表述并改 03-review.md，留痕完整）；loop-state.json failed_steps=[]。扣 5：自纠本身说明首轮判断有误，迭代质量高但非零瑕疵。"
+   },
+   "deepseek": {
+    "score": 60,
+    "stated_reason": "(见 independent_scores 无单独 key_reasons)"
+   },
+   "delta_claude_minus_deepseek": 35,
+   "adjudication_tendency": "倾向 Claude Code（同上逻辑）。execution-log.md 明示 '2 轮内完成 3 缺陷定位+落盘，1 次自纠' + loop-state.json failed_steps=[]——轮数信息存在（≤2 轮含 1 次自纠）。DeepSeek 给 60 的理由同样是轮数字段缺失；但其对 run2 M5 给 100（'明确一轮内完成+自查留痕'）说明当轮数表述明显时它能识别——run3 的 '2 轮内完成' 表述同样明显，此处 DeepSeek 前后处理不一致。"
+  }
+ ],
+ "non_disagreement_notes": [
+  "M1 三项 |Δ|≤15 且排序完全一致（ρ=1.0）：两打分器对『run2 重发放大最伤 token 效率』的核心判断收敛（25 vs 30 仅差 5 分）。",
+  "M4 三项 |Δ|≤5：两打分器独立得出同一结论——三 run 无一满足『≥2 独立源』收紧口径（锚点≠独立源、单通道 web_search 不算、同源双读不算）。这是本轮最有价值的跨打分器收敛点，直接支持 bench.md 已知缺陷 #2 的口径操作化需求。",
+  "M6 三项 Δ∈[0,5]：降级诚实度两打分器几乎无分歧（run1/run3 均 100 vs 95-100 档）。"
+ ],
+ "systematic_pattern": "DeepSeek 偏低集中在 M2（−50/−50/0）与 M5（−30/+10/−35）——其 note 自认源于 evidence packet 缺『任务书行数』与『达 conf 所需轮数』两个字段。这不是评分尺度差异（scale bias），而是**输入证据包不完整导致的结构性偏低**：若 r4 的 evidence packet 补齐这两个字段，预期 M2/M5 分歧消失。建议 R5.2 起 evidence packet 模板固化包含：任务书 wc -l 输出 + review/loop-state 中 conf 与轮数原文。",
+ "caveats": [
+  "n=3 run，所有统计量描述性",
+  "两打分器看到的证据集不完全相同：DeepSeek 用 Lead 组装的 evidence packet（摘要），Claude Code 直接读原始文件——M2/M5 分歧大概率源于此不对称，而非判断力差异",
+  "Claude Code 侧残余锚定风险：打分前读过 bench.md r4 数据表（裁决后混合分），04.5 已做同向性自查（见 review 工件）",
+  "κ 切点主观（40/70），敏感性未穷举"
+ ]
+}

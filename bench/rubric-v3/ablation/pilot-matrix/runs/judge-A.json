@@ -1,0 +1,668 @@
+[
+ {
+  "run_id": "A-r1",
+  "scores": {
+   "O1": {
+    "E1_included": 0,
+    "E2_evidence": 0,
+    "E3_depth_eligible": 0
+   },
+   "O2": {
+    "E1_L1": 1,
+    "E2_L2": 1,
+    "E3_L3": 1,
+    "E4_closure": 0
+   },
+   "O3": {
+    "claim_coverage": 19
+   },
+   "O3_claims": {
+    "vector": "1,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,0,0,0,0,1,1,1,1,1,1,1,1,0,1",
+    "claim_order": "N-0;N-1;N-1.1;N-1.1.1;N-1.1.2;N-1.1.3;N-1.1.4;N-1.2;N-1.2.1;N-1.2.2;N-1.3;N-1.3.1;N-1.3.2;N-2;N-2.1;N-2.2;N-3;N-3.1;N-3.1.1;N-3.1.2;N-3.1.3;N-3.2;N-3.2.1;N-3.2.2;N-3.2.3;N-3.2.4;N-4;N-5;N-5.1;N-5.2;N-5.3",
+    "total": "19/31"
+   },
+   "O4": {
+    "E1_parameterized": 1,
+    "E2_numeric_interval": 1,
+    "E3_flip_target": 1,
+    "E4_structural": 1,
+    "E5_correctness": "NA"
+   },
+   "P1": {
+    "E1_dispatch": "NA",
+    "E2_timing": "NA",
+    "E3_source_ratio": 1,
+    "E4_domain_count": 1
+   },
+   "P2": {
+    "E1": "NA",
+    "E2": "NA",
+    "E3": "NA"
+   },
+   "P3": {
+    "E1_independent_sources": 1,
+    "E2_contradiction_record": 1,
+    "E3_provider_receipt": "NA"
+   },
+   "P4": {
+    "E1_termination_note": 1,
+    "E2_boundary_type": 0,
+    "E3_actionable_path": 1
+   }
+  },
+  "evidence": {
+   "O1.E1_included": "L118–125 成本表仅 3090/2×3090/4090/5090/A100，均为 9 run 中 ≥6 次共现的默认型号，无低先验候选",
+   "O1.E2_evidence": "同上：低先验候选数=0，无可评对象",
+   "O1.E3_depth_eligible": "深度计入的低先验候选数=0，但『该候选是低先验候选』前提不成立 → 0",
+   "O2.E1_L1": "L160–184 X1–X5：具名对象（3090/5090/A100）+ 同维度反向取值 + 行可定位",
+   "O2.E2_L2": "L160–163 X1：3090 $700–900 vs $1,300–1,804，两源 + 显式『差 2.0×』",
+   "O2.E3_L3": "L165–169 X2：5090 26.2 vs ~38 t/s + kernel/FP4 路径机制 + 768/1,792 GB/s 可复算",
+   "O2.E4_closure": "X1/X3/X4/X5 仅『采信』，未给逐条验证路径；黑盒 B1–B8 不含这些矛盾的复验路径",
+   "O3.claim_coverage": "19/31；vector 见 scores.O3_claims.vector",
+   "O4.E1_parameterized": "L131 若 A100 η 0.55→0.45（S 3→2）则排名掉到 4090 之后",
+   "O4.E2_numeric_interval": "L205 结论『砍到 0.89–0.94m』显式区间",
+   "O4.E3_flip_target": "L146–147 敏感性：A100 η / 2×3090 TP 效率扰动 → 翻排序且给出新领先者",
+   "O4.E4_structural": "L131 若…则…，前提与结论分离可定位",
+   "P1.E3_source_ratio": "L69–84 叶子表 10 行逐行带出处；X 段每条两源",
+   "P1.E4_domain_count": "gpuhunter/gpudojo/openclawdc/jarvislabs/akash/contextstudios ≥2 域",
+   "P3.E1_independent_sources": "12 项排名驱动输入中 7 项 ≥2 独立源（3090/A100/5090 价、W、电价、5090 单流、prefill）",
+   "P3.E2_contradiction_record": "L156–184 X1–X5 每条两源 + 采信/未解决说明",
+   "P4.E1_termination_note": "X1–X5 均给采信或『判为未解决』；黑盒 B1–B8 逐条有实测办法",
+   "P4.E2_boundary_type": "全文无『数学/理论·实操·信息』三类标注（仅可查/可测/黑盒的混合分类）",
+   "P4.E3_actionable_path": "L190–199 黑盒表『一天内能做完的实测办法』逐行给出"
+  },
+  "notes": "口径（跨 run 一致）：O1 低先验=在 9 个 run 成本表候选集中出现 ≤2 次的型号；E1/E2 判该 run 是否含 ≥1 低先验候选且该候选名下有『来源+数值+约束判断』三件套；E3 判其深度计入的低先验候选数 ≤3。O3 逐条按 claim 实质内容判 yes/no（术语不同不扣，方向错/仅名词不算）；N-3.1.x 要求 prefill 以『计算量/算力』（FLOPs、TFLOPS、MFU）建模，全 9 run 用实测 prefill t/s，故该 4 条全 0。N-2/2.1/2.2 要求『有效利用率 u』作为独立因子（需求占空比、调度效率），全 9 run 只用并发流数 S，故全 0。P1-E3 以叶子取值表/候选表逐行外部来源计数；P3-E1 只数排名驱动输入（前 3 名价格+单流、p、电价、W、KV）。 本 run：O3 失分集中于 故障项 3 条、利用率 3 条、prefill 算力化 4 条、带宽准入淘汰 1 条（带宽闸只定 S 不淘汰）。"
+ },
+ {
+  "run_id": "A-r2",
+  "scores": {
+   "O1": {
+    "E1_included": 0,
+    "E2_evidence": 0,
+    "E3_depth_eligible": 0
+   },
+   "O2": {
+    "E1_L1": 1,
+    "E2_L2": 1,
+    "E3_L3": 1,
+    "E4_closure": 0
+   },
+   "O3": {
+    "claim_coverage": 18
+   },
+   "O3_claims": {
+    "vector": "1,0,1,1,0,1,1,1,1,1,0,0,0,0,0,0,1,0,0,0,0,1,1,1,1,1,1,1,1,0,1",
+    "claim_order": "N-0;N-1;N-1.1;N-1.1.1;N-1.1.2;N-1.1.3;N-1.1.4;N-1.2;N-1.2.1;N-1.2.2;N-1.3;N-1.3.1;N-1.3.2;N-2;N-2.1;N-2.2;N-3;N-3.1;N-3.1.1;N-3.1.2;N-3.1.3;N-3.2;N-3.2.1;N-3.2.2;N-3.2.3;N-3.2.4;N-4;N-5;N-5.1;N-5.2;N-5.3",
+    "total": "18/31"
+   },
+   "O4": {
+    "E1_parameterized": 1,
+    "E2_numeric_interval": 0,
+    "E3_flip_target": 1,
+    "E4_structural": 1,
+    "E5_correctness": "NA"
+   },
+   "P1": {
+    "E1_dispatch": "NA",
+    "E2_timing": "NA",
+    "E3_source_ratio": 1,
+    "E4_domain_count": 1
+   },
+   "P2": {
+    "E1": "NA",
+    "E2": "NA",
+    "E3": "NA"
+   },
+   "P3": {
+    "E1_independent_sources": 0,
+    "E2_contradiction_record": 1,
+    "E3_provider_receipt": "NA"
+   },
+   "P4": {
+    "E1_termination_note": 1,
+    "E2_boundary_type": 0,
+    "E3_actionable_path": 1
+   }
+  },
+  "evidence": {
+   "O1.E1_included": "L96–101 成本表 3090/2×3090/A6000/L40S/5090/M3U，均 ≥3/9 run 共现，无 ≤2/9 的低先验候选",
+   "O1.E2_evidence": "同上：低先验候选数=0",
+   "O1.E3_depth_eligible": "低先验深度候选数=0，前提不成立 → 0",
+   "O2.E1_L1": "L151–169 X1–X4：具名对象 + 同维度反向取值",
+   "O2.E2_L2": "L151–154 X1：3090 $1,201–1,299 vs $1,699–1,996（差 50%）",
+   "O2.E3_L3": "L156–159 X2：KV 4.0 vs 5.8 GB，config 公式 2×4×256×16×2 可复算 + 实测含 buffer 的口径机制",
+   "O2.E4_closure": "X1–X4 仅采信，无逐条验证路径；黑盒 B1–B7 未覆盖 3090 价与 KV 口径",
+   "O3.claim_coverage": "18/31；vector 见 scores.O3_claims.vector",
+   "O4.E1_parameterized": "L193 若 Mac prefill >900 t/s 则 1.35m 压过单卡 3090",
+   "O4.E2_numeric_interval": "L187–193 交付为点值（1.06/1.18/1.89m），无显式 [a,b] 区间",
+   "O4.E3_flip_target": "L193 翻转目标 1×3090 具名",
+   "O4.E4_structural": "L193 完整条件句，前提与结论分离",
+   "P1.E3_source_ratio": "L59–70 叶子表 8 行逐行带依据；X 段两源",
+   "P1.E4_domain_count": "runaihome/openclawdc/pcserverandparts/bestllmfor ≥2 域",
+   "P3.E1_independent_sources": "11 项中仅 4 项 ≥2 独立源（3090/A6000/M3U 价、KV）<50%",
+   "P3.E2_contradiction_record": "L149–169 X1–X4 两源 + 处理说明",
+   "P4.E1_termination_note": "X1–X4 采信 + B1–B7 逐条测法",
+   "P4.E2_boundary_type": "无三类边界标注",
+   "P4.E3_actionable_path": "L173–183 黑盒『一天内的实测法』"
+  },
+  "notes": "口径（跨 run 一致）：O1 低先验=在 9 个 run 成本表候选集中出现 ≤2 次的型号；E1/E2 判该 run 是否含 ≥1 低先验候选且该候选名下有『来源+数值+约束判断』三件套；E3 判其深度计入的低先验候选数 ≤3。O3 逐条按 claim 实质内容判 yes/no（术语不同不扣，方向错/仅名词不算）；N-3.1.x 要求 prefill 以『计算量/算力』（FLOPs、TFLOPS、MFU）建模，全 9 run 用实测 prefill t/s，故该 4 条全 0。N-2/2.1/2.2 要求『有效利用率 u』作为独立因子（需求占空比、调度效率），全 9 run 只用并发流数 S，故全 0。P1-E3 以叶子取值表/候选表逐行外部来源计数；P3-E1 只数排名驱动输入（前 3 名价格+单流、p、电价、W、KV）。 本 run：N-1.1.2=0（capex 为『卡+平台』合并口径，无独立主机价）；交付缺显式数值区间故 O4-E2=0。"
+ },
+ {
+  "run_id": "A-r3",
+  "scores": {
+   "O1": {
+    "E1_included": 1,
+    "E2_evidence": 0,
+    "E3_depth_eligible": 1
+   },
+   "O2": {
+    "E1_L1": 1,
+    "E2_L2": 1,
+    "E3_L3": 1,
+    "E4_closure": 0
+   },
+   "O3": {
+    "claim_coverage": 13
+   },
+   "O3_claims": {
+    "vector": "1,0,1,1,1,0,1,1,1,1,0,0,0,0,0,0,1,0,0,0,0,0,1,1,0,0,1,0,1,0,0",
+    "claim_order": "N-0;N-1;N-1.1;N-1.1.1;N-1.1.2;N-1.1.3;N-1.1.4;N-1.2;N-1.2.1;N-1.2.2;N-1.3;N-1.3.1;N-1.3.2;N-2;N-2.1;N-2.2;N-3;N-3.1;N-3.1.1;N-3.1.2;N-3.1.3;N-3.2;N-3.2.1;N-3.2.2;N-3.2.3;N-3.2.4;N-4;N-5;N-5.1;N-5.2;N-5.3",
+    "total": "13/31"
+   },
+   "O4": {
+    "E1_parameterized": 1,
+    "E2_numeric_interval": 1,
+    "E3_flip_target": 1,
+    "E4_structural": 1,
+    "E5_correctness": "NA"
+   },
+   "P1": {
+    "E1_dispatch": "NA",
+    "E2_timing": "NA",
+    "E3_source_ratio": 0,
+    "E4_domain_count": 1
+   },
+   "P2": {
+    "E1": "NA",
+    "E2": "NA",
+    "E3": "NA"
+   },
+   "P3": {
+    "E1_independent_sources": 0,
+    "E2_contradiction_record": 1,
+    "E3_provider_receipt": "NA"
+   },
+   "P4": {
+    "E1_termination_note": 1,
+    "E2_boundary_type": 0,
+    "E3_actionable_path": 1
+   }
+  },
+  "evidence": {
+   "O1.E1_included": "L118 4×3090 96G（9 run 中仅本 run 深度计入）",
+   "O1.E2_evidence": "L118 该行只有 capex/kW/单流/S 数值，候选名下无来源引用（3090 价见 X3，非该候选名下）",
+   "O1.E3_depth_eligible": "深度计入的低先验候选=1（4×3090）≤3",
+   "O2.E1_L1": "L155–176 X1–X4：具名对象 + 同维度反向取值",
+   "O2.E2_L2": "L155–159 X1：21.8/26.2/34.0/38.4 t/s，三源 + 显式差 1.8×",
+   "O2.E3_L3": "L161–165 X2：21.3× vs 3.05× 增益差 → 负载形状（prefill 占比 87%）机制",
+   "O2.E4_closure": "X1/X3 仅采信无复验路径；黑盒 B1–B6 未覆盖解码值与 3090 价",
+   "O3.claim_coverage": "13/31；vector 见 scores.O3_claims.vector",
+   "O4.E1_parameterized": "L197 若采保守 G(S) 则 A100 反超（G(S) 为符号化前提）",
+   "O4.E2_numeric_interval": "L198 『0.56–0.64m』显式区间",
+   "O4.E3_flip_target": "L197 保守情形翻转目标 A100 80G 具名",
+   "O4.E4_structural": "L197 若…则…完整",
+   "P1.E3_source_ratio": "L20–36 统一口径/capex/kW/单流多处无出处，仅 9 行含来源 → 关键事实来源比 <50%",
+   "P1.E4_domain_count": "specpicks/gpudojo/runaihome/openclawdc/contextstudios ≥2 域",
+   "P3.E1_independent_sources": "10 项中 4 项 ≥2 独立源（3090 价、decode 三源、G(S) 两源、回路功率）<50%",
+   "P3.E2_contradiction_record": "L153–176 X1–X4",
+   "P4.E1_termination_note": "X1–X4 采信/判为 + B1–B6 测法",
+   "P4.E2_boundary_type": "无三类边界标注",
+   "P4.E3_actionable_path": "L180–189 黑盒表逐条实测法"
+  },
+  "notes": "口径（跨 run 一致）：O1 低先验=在 9 个 run 成本表候选集中出现 ≤2 次的型号；E1/E2 判该 run 是否含 ≥1 低先验候选且该候选名下有『来源+数值+约束判断』三件套；E3 判其深度计入的低先验候选数 ≤3。O3 逐条按 claim 实质内容判 yes/no（术语不同不扣，方向错/仅名词不算）；N-3.1.x 要求 prefill 以『计算量/算力』（FLOPs、TFLOPS、MFU）建模，全 9 run 用实测 prefill t/s，故该 4 条全 0。N-2/2.1/2.2 要求『有效利用率 u』作为独立因子（需求占空比、调度效率），全 9 run 只用并发流数 S，故全 0。P1-E3 以叶子取值表/候选表逐行外部来源计数；P3-E1 只数排名驱动输入（前 3 名价格+单流、p、电价、W、KV）。 本 run：无残值、无带宽规格（GB/s 全缺）、无淘汰动作 → N-1.1.3/N-3.2/N-3.2.3/N-3.2.4/N-5/N-5.2/N-5.3 均 0；P1-E3=0 因关键输入（capex/整机功率/单流）多处无出处，仅 9 行带来源。"
+ },
+ {
+  "run_id": "B-r1",
+  "scores": {
+   "O1": {
+    "E1_included": 1,
+    "E2_evidence": 1,
+    "E3_depth_eligible": 1
+   },
+   "O2": {
+    "E1_L1": 1,
+    "E2_L2": 1,
+    "E3_L3": 1,
+    "E4_closure": 1
+   },
+   "O3": {
+    "claim_coverage": 18
+   },
+   "O3_claims": {
+    "vector": "1,0,1,1,0,1,1,1,1,1,0,0,0,0,0,0,1,0,0,0,0,1,1,1,1,1,1,1,1,1,0",
+    "claim_order": "N-0;N-1;N-1.1;N-1.1.1;N-1.1.2;N-1.1.3;N-1.1.4;N-1.2;N-1.2.1;N-1.2.2;N-1.3;N-1.3.1;N-1.3.2;N-2;N-2.1;N-2.2;N-3;N-3.1;N-3.1.1;N-3.1.2;N-3.1.3;N-3.2;N-3.2.1;N-3.2.2;N-3.2.3;N-3.2.4;N-4;N-5;N-5.1;N-5.2;N-5.3",
+    "total": "18/31"
+   },
+   "O4": {
+    "E1_parameterized": 1,
+    "E2_numeric_interval": 1,
+    "E3_flip_target": 1,
+    "E4_structural": 1,
+    "E5_correctness": "NA"
+   },
+   "P1": {
+    "E1_dispatch": "NA",
+    "E2_timing": "NA",
+    "E3_source_ratio": 1,
+    "E4_domain_count": 1
+   },
+   "P2": {
+    "E1": "NA",
+    "E2": "NA",
+    "E3": "NA"
+   },
+   "P3": {
+    "E1_independent_sources": 1,
+    "E2_contradiction_record": 1,
+    "E3_provider_receipt": "NA"
+   },
+   "P4": {
+    "E1_termination_note": 1,
+    "E2_boundary_type": 1,
+    "E3_actionable_path": 1
+   }
+  },
+  "evidence": {
+   "O1.E1_included": "L90–92 d1 Tenstorrent Blackhole p150（9 run 中仅本 run 计入）",
+   "O1.E2_evidence": "L70 来源 spheron/bestofai + L177 10–20 t/s + L185 约束判断『不可判定（无公开实测）』",
+   "O1.E3_depth_eligible": "深度计入的低先验候选=1（Tenstorrent）≤3",
+   "O2.E1_L1": "L207–241 X1–X6：具名对象 + 反向取值",
+   "O2.E2_L2": "L213–217 X2：DGX Spark $3,999/$4,699/$6,950 三值 + 两源",
+   "O2.E3_L3": "L225–229 X4：roofline 215÷17.1=12.6 t/s 不等式机制",
+   "O2.E4_closure": "X1–X6 各带①/②/③ 边界类型 + research_required 或 Z；B1–B8、O1–O3 均带终止理由",
+   "O3.claim_coverage": "18/31；vector 见 scores.O3_claims.vector",
+   "O4.E1_parameterized": "L183 『把 S 强行限到 2』→ 0.55m（符号化前提 S）",
+   "O4.E2_numeric_interval": "L267 『二手 $5,000–6,500』显式区间",
+   "O4.E3_flip_target": "L197 S 上限放宽 → 1×3090 从第 4 升到第 3",
+   "O4.E4_structural": "L183 若…则…完整",
+   "P1.E3_source_ratio": "L44–56/L68–72 候选表逐行『证据』列；L106–117 单流表带来源",
+   "P1.E4_domain_count": "specpicks/everylocalai/jarvislabs/runaihome/spheron ≥2 域",
+   "P3.E1_independent_sources": "12 项中 7 项 ≥2 独立源（3090/PRO/Spark/M3U 价、单流横评、Tenstorrent 等）",
+   "P3.E2_contradiction_record": "L205–241 X1–X6",
+   "P4.E1_termination_note": "X/B/O 条目全带终止注记（L207–261）",
+   "P4.E2_boundary_type": "每条标 ①数学/理论 ②实操 ③信息",
+   "P4.E3_actionable_path": "research_required 路径 + Z = 渠道/电工/库存 说明"
+  },
+  "notes": "口径（跨 run 一致）：O1 低先验=在 9 个 run 成本表候选集中出现 ≤2 次的型号；E1/E2 判该 run 是否含 ≥1 低先验候选且该候选名下有『来源+数值+约束判断』三件套；E3 判其深度计入的低先验候选数 ≤3。O3 逐条按 claim 实质内容判 yes/no（术语不同不扣，方向错/仅名词不算）；N-3.1.x 要求 prefill 以『计算量/算力』（FLOPs、TFLOPS、MFU）建模，全 9 run 用实测 prefill t/s，故该 4 条全 0。N-2/2.1/2.2 要求『有效利用率 u』作为独立因子（需求占空比、调度效率），全 9 run 只用并发流数 S，故全 0。P1-E3 以叶子取值表/候选表逐行外部来源计数；P3-E1 只数排名驱动输入（前 3 名价格+单流、p、电价、W、KV）。 本 run：N-1.1.2=0（设备价为合并口径，仅出现『+ 平台』无独立数值）；其余失分为故障项 3 条、利用率 3 条、算力化 prefill 4 条、命中率 1 条。"
+ },
+ {
+  "run_id": "B-r2",
+  "scores": {
+   "O1": {
+    "E1_included": 1,
+    "E2_evidence": 1,
+    "E3_depth_eligible": 1
+   },
+   "O2": {
+    "E1_L1": 1,
+    "E2_L2": 1,
+    "E3_L3": 1,
+    "E4_closure": 1
+   },
+   "O3": {
+    "claim_coverage": 23
+   },
+   "O3_claims": {
+    "vector": "1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,0,0,0,0,1,1,1,1,1,1,1,1,1,0",
+    "claim_order": "N-0;N-1;N-1.1;N-1.1.1;N-1.1.2;N-1.1.3;N-1.1.4;N-1.2;N-1.2.1;N-1.2.2;N-1.3;N-1.3.1;N-1.3.2;N-2;N-2.1;N-2.2;N-3;N-3.1;N-3.1.1;N-3.1.2;N-3.1.3;N-3.2;N-3.2.1;N-3.2.2;N-3.2.3;N-3.2.4;N-4;N-5;N-5.1;N-5.2;N-5.3",
+    "total": "23/31"
+   },
+   "O4": {
+    "E1_parameterized": 1,
+    "E2_numeric_interval": 1,
+    "E3_flip_target": 1,
+    "E4_structural": 1,
+    "E5_correctness": "NA"
+   },
+   "P1": {
+    "E1_dispatch": "NA",
+    "E2_timing": "NA",
+    "E3_source_ratio": 1,
+    "E4_domain_count": 1
+   },
+   "P2": {
+    "E1": "NA",
+    "E2": "NA",
+    "E3": "NA"
+   },
+   "P3": {
+    "E1_independent_sources": 1,
+    "E2_contradiction_record": 1,
+    "E3_provider_receipt": "NA"
+   },
+   "P4": {
+    "E1_termination_note": 1,
+    "E2_boundary_type": 1,
+    "E3_actionable_path": 1
+   }
+  },
+  "evidence": {
+   "O1.E1_included": "L77/L157 改装 4090 48GB（含 1×/2× 两个配置，9 run 中仅本 run 计入）",
+   "O1.E2_evidence": "L206–210 X2：millionminer/tweaktown 来源 + $3,400–4,100 + 2% 失效率与稳定性判断",
+   "O1.E3_depth_eligible": "深度计入的低先验候选=1（改装 4090，P40 主型号为 3/9 不计）≤3",
+   "O2.E1_L1": "L200–228 X1–X5：具名对象 + 反向取值",
+   "O2.E2_L2": "L212–216 X3：PRO 6000 $4,599/$8,565/$13,250/$16,000 四值 + 两源",
+   "O2.E3_L3": "L200–204 X1：roofline 347÷17.1=20.3 t/s 不等式机制",
+   "O2.E4_closure": "X1–X5 + B1–B8 + O1–O3 全带边界类型与终止理由/获取路径",
+   "O3.claim_coverage": "23/31；vector 见 scores.O3_claims.vector",
+   "O4.E1_parameterized": "L256 r_risk 2%→8% 冠军易主（r_risk 为符号化前提）",
+   "O4.E2_numeric_interval": "L254 『二手 $5,000–6,500』",
+   "O4.E3_flip_target": "L256 翻转目标 RTX PRO 6000 具名",
+   "O4.E4_structural": "L175 r=2%/5%/8% 三档各自给出结论，前提与结论分离",
+   "P1.E3_source_ratio": "候选表逐行证据列 + X 段两源（L200–228）",
+   "P1.E4_domain_count": "millionminer/gpudojo/runaihome/insiderllm/jarvislabs ≥2 域",
+   "P3.E1_independent_sources": "9 项中 6 项 ≥2 独立源（改装/PRO/3090/P40 价、r_risk、P40 驱动）",
+   "P3.E2_contradiction_record": "L198–228 X1–X5",
+   "P4.E1_termination_note": "X/B/O 全带终止注记（L198–248）",
+   "P4.E2_boundary_type": "每条标 ①/②/③",
+   "P4.E3_actionable_path": "research_required + Z = 报价/烤机/RMA 统计"
+  },
+  "notes": "口径（跨 run 一致）：O1 低先验=在 9 个 run 成本表候选集中出现 ≤2 次的型号；E1/E2 判该 run 是否含 ≥1 低先验候选且该候选名下有『来源+数值+约束判断』三件套；E3 判其深度计入的低先验候选数 ≤3。O3 逐条按 claim 实质内容判 yes/no（术语不同不扣，方向错/仅名词不算）；N-3.1.x 要求 prefill 以『计算量/算力』（FLOPs、TFLOPS、MFU）建模，全 9 run 用实测 prefill t/s，故该 4 条全 0。N-2/2.1/2.2 要求『有效利用率 u』作为独立因子（需求占空比、调度效率），全 9 run 只用并发流数 S，故全 0。P1-E3 以叶子取值表/候选表逐行外部来源计数；P3-E1 只数排名驱动输入（前 3 名价格+单流、p、电价、W、KV）。 本 run 唯一含故障项（r_risk 进 c_hour）→ N-1/N-1.3/1.3.1/1.3.2 全 1；剩余失分为利用率 3 条、算力化 prefill 4 条、命中率 1 条。"
+ },
+ {
+  "run_id": "B-r3",
+  "scores": {
+   "O1": {
+    "E1_included": 1,
+    "E2_evidence": 1,
+    "E3_depth_eligible": 1
+   },
+   "O2": {
+    "E1_L1": 1,
+    "E2_L2": 1,
+    "E3_L3": 1,
+    "E4_closure": 1
+   },
+   "O3": {
+    "claim_coverage": 18
+   },
+   "O3_claims": {
+    "vector": "1,0,1,1,0,1,1,1,1,1,0,0,0,0,0,0,1,0,0,0,0,1,1,1,1,1,1,1,1,1,0",
+    "claim_order": "N-0;N-1;N-1.1;N-1.1.1;N-1.1.2;N-1.1.3;N-1.1.4;N-1.2;N-1.2.1;N-1.2.2;N-1.3;N-1.3.1;N-1.3.2;N-2;N-2.1;N-2.2;N-3;N-3.1;N-3.1.1;N-3.1.2;N-3.1.3;N-3.2;N-3.2.1;N-3.2.2;N-3.2.3;N-3.2.4;N-4;N-5;N-5.1;N-5.2;N-5.3",
+    "total": "18/31"
+   },
+   "O4": {
+    "E1_parameterized": 1,
+    "E2_numeric_interval": 0,
+    "E3_flip_target": 1,
+    "E4_structural": 1,
+    "E5_correctness": "NA"
+   },
+   "P1": {
+    "E1_dispatch": "NA",
+    "E2_timing": "NA",
+    "E3_source_ratio": 1,
+    "E4_domain_count": 1
+   },
+   "P2": {
+    "E1": "NA",
+    "E2": "NA",
+    "E3": "NA"
+   },
+   "P3": {
+    "E1_independent_sources": 0,
+    "E2_contradiction_record": 1,
+    "E3_provider_receipt": "NA"
+   },
+   "P4": {
+    "E1_termination_note": 1,
+    "E2_boundary_type": 1,
+    "E3_actionable_path": 1
+   }
+  },
+  "evidence": {
+   "O1.E1_included": "L61 Intel Arc Pro B70（9 run 中仅本 run 计入）",
+   "O1.E2_evidence": "L61 来源 edagher92 arc-llm-lab + 20.5 t/s/$1,100 + L196 约束判断『擦线候选』",
+   "O1.E3_depth_eligible": "深度计入的低先验候选=1（Arc B70）≤3",
+   "O2.E1_L1": "L220–248 X1–X5：具名对象 + 反向取值",
+   "O2.E2_L2": "L226–229 X2：DGX Spark $3,999/$4,699/$6,950",
+   "O2.E3_L3": "L242 X4 roofline 不等式 + L236 X3 互联 Amdahl 上限",
+   "O2.E4_closure": "X1–X5 各带边界类型与 research_required/Z（B1–B7、O1–O3 同）",
+   "O3.claim_coverage": "18/31；vector 见 scores.O3_claims.vector",
+   "O4.E1_parameterized": "L24–26 S=⌊单流/20⌋ 与『跨过第 40/60 个 tok/s』的前提化表述",
+   "O4.E2_numeric_interval": "L271–278 交付为点值（0.370/0.717/0.874m），无显式 [a,b] 区间",
+   "O4.E3_flip_target": "L206 M5U 单流 40 → 跃到第 4",
+   "O4.E4_structural": "L166 单流 19.8→20.0 使 S 0→1 的完整条件句",
+   "P1.E3_source_ratio": "L49–79 候选表逐行『证据』列",
+   "P1.E4_domain_count": "jarvislabs/popularai/runaihome/spheron/presenc ≥2 域",
+   "P3.E1_independent_sources": "前 3 名（A100/2×3090/PRO）价格与单流多为单一来源，仅 PRO 价两源 → <50%",
+   "P3.E2_contradiction_record": "L218–248 X1–X5",
+   "P4.E1_termination_note": "X/B/O 全带终止注记",
+   "P4.E2_boundary_type": "每条标 ①/②/③",
+   "P4.E3_actionable_path": "research_required 路径 + Z 说明"
+  },
+  "notes": "口径（跨 run 一致）：O1 低先验=在 9 个 run 成本表候选集中出现 ≤2 次的型号；E1/E2 判该 run 是否含 ≥1 低先验候选且该候选名下有『来源+数值+约束判断』三件套；E3 判其深度计入的低先验候选数 ≤3。O3 逐条按 claim 实质内容判 yes/no（术语不同不扣，方向错/仅名词不算）；N-3.1.x 要求 prefill 以『计算量/算力』（FLOPs、TFLOPS、MFU）建模，全 9 run 用实测 prefill t/s，故该 4 条全 0。N-2/2.1/2.2 要求『有效利用率 u』作为独立因子（需求占空比、调度效率），全 9 run 只用并发流数 S，故全 0。P1-E3 以叶子取值表/候选表逐行外部来源计数；P3-E1 只数排名驱动输入（前 3 名价格+单流、p、电价、W、KV）。 本 run：N-1.1.2=0（capex『含平台』合并）；交付段无显式数值区间 → O4-E2=0；P3-E1=0 因前三名的价格/单流多为单源。"
+ },
+ {
+  "run_id": "C-r1",
+  "scores": {
+   "O1": {
+    "E1_included": 1,
+    "E2_evidence": 1,
+    "E3_depth_eligible": 1
+   },
+   "O2": {
+    "E1_L1": 1,
+    "E2_L2": 1,
+    "E3_L3": 1,
+    "E4_closure": 1
+   },
+   "O3": {
+    "claim_coverage": 18
+   },
+   "O3_claims": {
+    "vector": "1,0,1,1,0,0,1,1,1,1,0,0,0,0,0,0,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1",
+    "claim_order": "N-0;N-1;N-1.1;N-1.1.1;N-1.1.2;N-1.1.3;N-1.1.4;N-1.2;N-1.2.1;N-1.2.2;N-1.3;N-1.3.1;N-1.3.2;N-2;N-2.1;N-2.2;N-3;N-3.1;N-3.1.1;N-3.1.2;N-3.1.3;N-3.2;N-3.2.1;N-3.2.2;N-3.2.3;N-3.2.4;N-4;N-5;N-5.1;N-5.2;N-5.3",
+    "total": "18/31"
+   },
+   "O4": {
+    "E1_parameterized": 1,
+    "E2_numeric_interval": 1,
+    "E3_flip_target": 1,
+    "E4_structural": 1,
+    "E5_correctness": "NA"
+   },
+   "P1": {
+    "E1_dispatch": "NA",
+    "E2_timing": "NA",
+    "E3_source_ratio": 1,
+    "E4_domain_count": 1
+   },
+   "P2": {
+    "E1": "NA",
+    "E2": "NA",
+    "E3": "NA"
+   },
+   "P3": {
+    "E1_independent_sources": 1,
+    "E2_contradiction_record": 1,
+    "E3_provider_receipt": "NA"
+   },
+   "P4": {
+    "E1_termination_note": 1,
+    "E2_boundary_type": 1,
+    "E3_actionable_path": 1
+   }
+  },
+  "evidence": {
+   "O1.E1_included": "L243 2×RTX 5090 TP2（9 run 中 2 次计入）",
+   "O1.E2_evidence": "L89–90 知乎 8×5090 压测来源 + ~70 t/s/$5,200 + L259『单卡跃到第 4』的约束判断",
+   "O1.E3_depth_eligible": "深度计入的低先验候选=1（2×5090）≤3",
+   "O2.E1_L1": "L284–313 X1–X5",
+   "O2.E2_L2": "L284–288 X1：5090 45.4 vs 26.2 t/s，两源 + prefill 自洽断言",
+   "O2.E3_L3": "L234 带宽÷22.1 GiB 可复算 + L287 prefill 718 与算力不符的 kernel 机制",
+   "O2.E4_closure": "X1–X5 各带边界类型与 research_required 路径；O1–O4 同",
+   "O3.claim_coverage": "18/31；vector 见 scores.O3_claims.vector",
+   "O4.E1_parameterized": "L30 S=min(显存闸, ⌊单流/20⌋) 的符号化前提",
+   "O4.E2_numeric_interval": "L339 『全显存 21–135 t/s、统一内存 10–54』区间",
+   "O4.E3_flip_target": "L272 KV 取 128KB → 24GB 卡全部出局、2×3090 成最便宜合格方案",
+   "O4.E4_structural": "L272 若…则…完整，前提（KV/token）与结论分离",
+   "P1.E3_source_ratio": "L60–90 各分区候选表逐行『证据』列",
+   "P1.E4_domain_count": "知乎/contextstudios/compute-market/runaihome/grigio ≥2 域",
+   "P3.E1_independent_sources": "9 项中 6 项 ≥2 独立源（A100/5090/PRO/2×3090 价、5090 单流、KV、W）",
+   "P3.E2_contradiction_record": "L282–313 X1–X5",
+   "P4.E1_termination_note": "X/B/O 全带终止注记",
+   "P4.E2_boundary_type": "每条标 ①/②/③",
+   "P4.E3_actionable_path": "research_required 路径 + B 表『一天内实测办法』"
+  },
+  "notes": "口径（跨 run 一致）：O1 低先验=在 9 个 run 成本表候选集中出现 ≤2 次的型号；E1/E2 判该 run 是否含 ≥1 低先验候选且该候选名下有『来源+数值+约束判断』三件套；E3 判其深度计入的低先验候选数 ≤3。O3 逐条按 claim 实质内容判 yes/no（术语不同不扣，方向错/仅名词不算）；N-3.1.x 要求 prefill 以『计算量/算力』（FLOPs、TFLOPS、MFU）建模，全 9 run 用实测 prefill t/s，故该 4 条全 0。N-2/2.1/2.2 要求『有效利用率 u』作为独立因子（需求占空比、调度效率），全 9 run 只用并发流数 S，故全 0。P1-E3 以叶子取值表/候选表逐行外部来源计数；P3-E1 只数排名驱动输入（前 3 名价格+单流、p、电价、W、KV）。 本 run：N-1.1.2=0（capex『含平台』合并）、N-1.1.3=0（无残值）；N-5.3=1 依 B5『前缀命中率 0.7–1.0』nuisance 标注。"
+ },
+ {
+  "run_id": "C-r2",
+  "scores": {
+   "O1": {
+    "E1_included": 1,
+    "E2_evidence": 1,
+    "E3_depth_eligible": 0
+   },
+   "O2": {
+    "E1_L1": 1,
+    "E2_L2": 1,
+    "E3_L3": 1,
+    "E4_closure": 1
+   },
+   "O3": {
+    "claim_coverage": 18
+   },
+   "O3_claims": {
+    "vector": "1,0,1,1,0,0,1,1,1,1,0,0,0,0,0,0,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1",
+    "claim_order": "N-0;N-1;N-1.1;N-1.1.1;N-1.1.2;N-1.1.3;N-1.1.4;N-1.2;N-1.2.1;N-1.2.2;N-1.3;N-1.3.1;N-1.3.2;N-2;N-2.1;N-2.2;N-3;N-3.1;N-3.1.1;N-3.1.2;N-3.1.3;N-3.2;N-3.2.1;N-3.2.2;N-3.2.3;N-3.2.4;N-4;N-5;N-5.1;N-5.2;N-5.3",
+    "total": "18/31"
+   },
+   "O4": {
+    "E1_parameterized": 1,
+    "E2_numeric_interval": 1,
+    "E3_flip_target": 1,
+    "E4_structural": 1,
+    "E5_correctness": "NA"
+   },
+   "P1": {
+    "E1_dispatch": "NA",
+    "E2_timing": "NA",
+    "E3_source_ratio": 1,
+    "E4_domain_count": 1
+   },
+   "P2": {
+    "E1": "NA",
+    "E2": "NA",
+    "E3": "NA"
+   },
+   "P3": {
+    "E1_independent_sources": 0,
+    "E2_contradiction_record": 1,
+    "E3_provider_receipt": "NA"
+   },
+   "P4": {
+    "E1_termination_note": 1,
+    "E2_boundary_type": 1,
+    "E3_actionable_path": 1
+   }
+  },
+  "evidence": {
+   "O1.E1_included": "L58–59 RTX 4060 Ti 16G / Tesla T4 16G（各 1/9 run）",
+   "O1.E2_evidence": "L58 whatllmcanirun 来源 + $459 + L24『16 GB 卡连一个完整 64K 会话都挂不起来』",
+   "O1.E3_depth_eligible": "深度计入的低先验候选=4（4060Ti、T4、M5U 256G、2×5090）>3 → 0",
+   "O2.E1_L1": "L290–318 X1–X5",
+   "O2.E2_L2": "L290–294 X1：PRO 6000 四档价格 + 两源",
+   "O2.E3_L3": "L302–306 X3：TP 加速上限 1/(1/n+ε) Amdahl + 1.54× 实测",
+   "O2.E4_closure": "X1–X5 各带边界类型与路径/Z；O1–O4 同",
+   "O3.claim_coverage": "18/31；vector 见 scores.O3_claims.vector",
+   "O4.E1_parameterized": "L30 S=min(slots, ⌊单流/20⌋)",
+   "O4.E2_numeric_interval": "L345 『过供 4–23.5×』",
+   "O4.E3_flip_target": "L279 KV 128KB → 5090 从第 3 掉到第 7",
+   "O4.E4_structural": "L279 若…则…完整",
+   "P1.E3_source_ratio": "L57–89 各分区候选表逐行『证据』列",
+   "P1.E4_domain_count": "runpod/igorslab/presenc/spheron/gpudojo ≥2 域",
+   "P3.E1_independent_sources": "前 3 名 A100/5090/2×5090 的价格与单流均单一来源（runpod/知乎同上文）→ <50%",
+   "P3.E2_contradiction_record": "L288–318 X1–X5",
+   "P4.E1_termination_note": "X/B/O 全带终止注记",
+   "P4.E2_boundary_type": "每条标 ①/②/③",
+   "P4.E3_actionable_path": "research_required 路径 + B 表实测办法"
+  },
+  "notes": "口径（跨 run 一致）：O1 低先验=在 9 个 run 成本表候选集中出现 ≤2 次的型号；E1/E2 判该 run 是否含 ≥1 低先验候选且该候选名下有『来源+数值+约束判断』三件套；E3 判其深度计入的低先验候选数 ≤3。O3 逐条按 claim 实质内容判 yes/no（术语不同不扣，方向错/仅名词不算）；N-3.1.x 要求 prefill 以『计算量/算力』（FLOPs、TFLOPS、MFU）建模，全 9 run 用实测 prefill t/s，故该 4 条全 0。N-2/2.1/2.2 要求『有效利用率 u』作为独立因子（需求占空比、调度效率），全 9 run 只用并发流数 S，故全 0。P1-E3 以叶子取值表/候选表逐行外部来源计数；P3-E1 只数排名驱动输入（前 3 名价格+单流、p、电价、W、KV）。 本 run：低先验候选 4 个超过 O1-E3 阈值（≤3）；N-1.1.2/1.1.3=0（整机合并口径、无残值）；P3-E1=0 因前三名的价格与单流均为单源。"
+ },
+ {
+  "run_id": "C-r3",
+  "scores": {
+   "O1": {
+    "E1_included": 1,
+    "E2_evidence": 1,
+    "E3_depth_eligible": 1
+   },
+   "O2": {
+    "E1_L1": 1,
+    "E2_L2": 1,
+    "E3_L3": 1,
+    "E4_closure": 1
+   },
+   "O3": {
+    "claim_coverage": 19
+   },
+   "O3_claims": {
+    "vector": "1,0,1,1,1,0,1,1,1,1,0,0,0,0,0,0,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1",
+    "claim_order": "N-0;N-1;N-1.1;N-1.1.1;N-1.1.2;N-1.1.3;N-1.1.4;N-1.2;N-1.2.1;N-1.2.2;N-1.3;N-1.3.1;N-1.3.2;N-2;N-2.1;N-2.2;N-3;N-3.1;N-3.1.1;N-3.1.2;N-3.1.3;N-3.2;N-3.2.1;N-3.2.2;N-3.2.3;N-3.2.4;N-4;N-5;N-5.1;N-5.2;N-5.3",
+    "total": "19/31"
+   },
+   "O4": {
+    "E1_parameterized": 1,
+    "E2_numeric_interval": 1,
+    "E3_flip_target": 1,
+    "E4_structural": 1,
+    "E5_correctness": "NA"
+   },
+   "P1": {
+    "E1_dispatch": "NA",
+    "E2_timing": "NA",
+    "E3_source_ratio": 1,
+    "E4_domain_count": 1
+   },
+   "P2": {
+    "E1": "NA",
+    "E2": "NA",
+    "E3": "NA"
+   },
+   "P3": {
+    "E1_independent_sources": 1,
+    "E2_contradiction_record": 1,
+    "E3_provider_receipt": "NA"
+   },
+   "P4": {
+    "E1_termination_note": 1,
+    "E2_boundary_type": 1,
+    "E3_actionable_path": 1
+   }
+  },
+  "evidence": {
+   "O1.E1_included": "L80–82 A100 40GB PCIe、H100 PCIe 80GB（各 1/9 run）",
+   "O1.E2_evidence": "L80 akash/alibaba 来源 + $2,900/1,555 GB/s + L249/L331『A100 40G 是甜点』的判断",
+   "O1.E3_depth_eligible": "深度计入的低先验候选=2（A100 40G、H100）≤3",
+   "O2.E1_L1": "L275–303 X1–X5",
+   "O2.E2_L2": "L275–279 X1：H100 2,039（HBM2e）vs 3,350（HBM3）",
+   "O2.E3_L3": "L278 若误用 3,350 → S 4→5、成本 0.426m 可复算 + PCIe/SXM 规格错配机制",
+   "O2.E4_closure": "X1–X5 各带边界类型与路径/Z；O1–O4 同",
+   "O3.claim_coverage": "19/31；vector 见 scores.O3_claims.vector",
+   "O4.E1_parameterized": "L205 S=min(slots, ⌊带宽/442⌋)",
+   "O4.E2_numeric_interval": "L332 『统一内存带宽跨度 215–1,200』区间",
+   "O4.E3_flip_target": "L261 FP8 → 5090 出局、A100 40G 升到第 1",
+   "O4.E4_structural": "L261 若…则…完整",
+   "P1.E3_source_ratio": "L61–91 各分区候选表逐行『证据』列",
+   "P1.E4_domain_count": "akash/alibaba/aitooldiscovery/igorslab/presenc ≥2 域",
+   "P3.E1_independent_sources": "9 项中 5 项 ≥2 独立源（A100 40/80 价、H100 价、量化证据等）",
+   "P3.E2_contradiction_record": "L273–303 X1–X5",
+   "P4.E1_termination_note": "X/B/O 全带终止注记",
+   "P4.E2_boundary_type": "每条标 ①/②/③",
+   "P4.E3_actionable_path": "research_required 路径 + B 表实测办法"
+  },
+  "notes": "口径（跨 run 一致）：O1 低先验=在 9 个 run 成本表候选集中出现 ≤2 次的型号；E1/E2 判该 run 是否含 ≥1 低先验候选且该候选名下有『来源+数值+约束判断』三件套；E3 判其深度计入的低先验候选数 ≤3。O3 逐条按 claim 实质内容判 yes/no（术语不同不扣，方向错/仅名词不算）；N-3.1.x 要求 prefill 以『计算量/算力』（FLOPs、TFLOPS、MFU）建模，全 9 run 用实测 prefill t/s，故该 4 条全 0。N-2/2.1/2.2 要求『有效利用率 u』作为独立因子（需求占空比、调度效率），全 9 run 只用并发流数 S，故全 0。P1-E3 以叶子取值表/候选表逐行外部来源计数；P3-E1 只数排名驱动输入（前 3 名价格+单流、p、电价、W、KV）。 本 run：N-1.1.3=0（无残值）；N-1.1.2=1 依 B4『平台/服务器整机 +$800–2,500』单列。"
+ }
+]

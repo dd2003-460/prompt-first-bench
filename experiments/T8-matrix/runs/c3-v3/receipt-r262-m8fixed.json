@@ -1,0 +1,73 @@
+{
+ "receipt_id": "r262-m8fixed-opportunity-table",
+ "generated_at": "2026-11-03T05:30+0800",
+ "goal": "M8-fixed 逐机会判定协议设计 + 验证（FAIL 1 修复 · r260/r261 导出）",
+ "motivation": "r260 定位 J1v11 条目抽取漂移 → r261 J1v12 修了 judge 侧方差但区分力不够（score compression）。根因是「应该抽哪些条目」没有 ground truth。M8-fixed = 独立标注员预建冻结机会表 + judge 只判表内条目 → 消除 judge 侧抽取方差 + 建立可复现的判定基准。",
+ "protocol": {
+  "file": "experiments/T8-matrix/runs/c3-v3/calibration/m8fixed-protocol-v1.json",
+  "sha256_16": "ecdfb59edfdca704",
+  "key_rules": [
+   "judge 只能判表内条目",
+   "三测作 fail 依据",
+   "阶段分层（phase 01 用 constraint 子集）",
+   "G1/G2/G3 门禁"
+  ]
+ },
+ "validation": {
+  "G1_stability": {
+   "test": "A-full/D1/seeda-r1 用 M8-fixed(brief_a 全表 9 项) 打 2 次（本次 + r261 test）",
+   "run1_score": "5/9",
+   "run2_score": "5/9",
+   "per_item_agreement": "9/9 = 1.0 (≥0.90 threshold)",
+   "verdict": "PASS"
+  },
+  "G2_discrimination": {
+   "full_table": {
+    "scores": {
+     "A-full/D1": 0.556,
+     "A-full/D2": 0.6,
+     "B-nofreeze/D1": 0.556,
+     "B-nofreeze/D2": 0.6,
+     "B-none/D1": 0.556,
+     "B-none/D2": 0.6
+    },
+    "spread": 0.044,
+    "note": "O04-O07 deliverable 项全 config 全 fail（阶段 01 不可达）→ 分数被压到 0.556-0.600，无区分力"
+   },
+   "constraint_only": {
+    "scores": {
+     "A-full/D1": 1.0,
+     "A-full/D2": 1.0,
+     "B-nofreeze/D1": 1.0,
+     "B-nofreeze/D2": 1.0,
+     "B-none/D1": 1.0,
+     "B-none/D2": 1.0
+    },
+    "spread": 0.0,
+    "note": "constraint 项（budget/scale/platform）在所有 config 上都 pass → qwen3.8-27b 在阶段 01 对输入约束的覆盖是无差别的，M8-fixed 在此粒度上无法区分 config"
+   },
+   "verdict": "FAIL — 当前任务族（选型调研）+ 当前模型（qwen3.8-27b）+ 阶段 01 工件的组合下，M8-fixed 无论用全表还是 constraint 子集都无法产生 config 间分数差异。这不是协议 bug，是测量天花板：阶段 01 的产出本质上是「把输入约束重述一遍 + 规划研究路径」，不同消融配置（freeze/evidence/owner 段的有无）在这个阶段的影响尚未显化。",
+   "root_cause_confirmed": {
+    "finding": "R4 全部 54 个工件（9 configs × 2 domains × 3 seeds）均为阶段 01+02 产出（目标分解 + 信息调研规划），无一到达阶段 03/04。Prompt 中 freeze 组件明确写了「本阶段是因素分解，不是资料搜集」「不要求在本阶段给出阶段 02 才能取得的价格、性能或网页 AI 证据」。",
+    "implication": "消融实验测的是 prompt 结构变化对阶段 01/02 产出的影响——即「删掉 freeze/evidence/owner 段后，目标分解和信息调研规划的质量是否下降」。这个信号是存在的但很弱（因为阶段 01/02 的核心内容是重述约束 + 列研究计划，不同 config 的产出差异主要在措辞和细节组织上，不在实质内容上）。",
+    "consequence": "之前所有 per-config Δ（包括 F1 freeze 主效应 A-full−B-nofreeze = +0.37~+0.39）测的是「阶段 01/02 产出中 judge 能识别到的差异」，而非「最终报告质量差异」。这个差异可能真实存在但幅度远小于最终报告层面的差异。r260 seedc 的 D1 反向（0.0 vs +0.391）更可能是 judge 抽取方差（已定位）叠加了阶段 01/02 层面消融信号本身就很弱的事实。",
+    "recommendation": "如果要测消融对最终报告质量的影响，需要跑完整 loop（01→02→03→04）到最终报告再评分。当前 R4/R5/R6/seedc 的数据只能支撑「阶段 01/02 层面消融效果方向性存在但幅度小且被测量噪声淹没」的结论，不能升级任何 confirmatory 声明。"
+   }
+  },
+  "G3_direction": {
+   "spearman_m8full_vs_j11": -0.371,
+   "note": "负相关（n=6 不显著）→ M8-fixed 全表版与 J1v11 排序不一致，因为 M8 的 deliverable 项系统性压低所有 config 分数",
+   "verdict": "NOT_MEANINGFUL（被 G2 FAIL 吸收）"
+  }
+ },
+ "diagnosis": {
+  "root_cause": "R4/R5/R6 的消融实验测的是「prompt 结构变化（freeze/evidence/owner 段）对最终报告质量的影响」，但 R4 落盘的工件是阶段 01（目标分解）——这个阶段的产出对所有 config 几乎相同（都是重述约束 + 列研究计划）。消融效果要到阶段 03/04（实际调研 + 写报告）才显化。",
+  "implication": "之前所有 per-config Δ（包括 F1 freeze 主效应）如果基于阶段 01 工件计算，测的不是消融效果而是噪声。需要确认 R4 的 36 个 run 落盘的是哪个阶段的产出。",
+  "action": "检查 R4 runs-r4 工件的实际内容阶段（是否全部是 phase 01），如果是 → 之前所有分析的有效性存疑，需要跑完整 loop（01→04）才能测消融效果。"
+ },
+ "conclusion": "M8-fixed 协议本身有效（G1 PASS，消除了 judge 侧抽取方差），但在当前实验设置下无法产生区分力（G2 FAIL）。瓶颈不在测量协议，在实验设计：阶段 01 工件不承载消融信号。下一步需确认 R4 工件阶段 + 决定是否补跑完整 loop。",
+ "artifacts": {
+  "protocol_file": "experiments/T8-matrix/runs/c3-v3/calibration/m8fixed-protocol-v1.json",
+  "validation_data": "/tmp/M8fixed-cross-version-compare.json + /tmp/M8fixed-constraints-only.json"
+ }
+}

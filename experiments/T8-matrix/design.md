@@ -10,7 +10,7 @@ M8 = Σ(核验条目通过三测的权重) / Σ(全部核验条目权重)；权�
 |---|-----|----|----|---------|------|
 | 1 | T6 r1 | 机械键盘选购 | 0.93 | pass | loop-artifacts/stages/（无域后缀，N1 前）+ T8-audit/intermediate-rounds-audit.md |
 | 2 | T7.1 | 会议室预约系统 | 1.00 | pass (conf-0.2 自复核) | loop-artifacts/stages/T7.1-* + T8-audit/t71-meeting-volume-C.md |
-| 3 | T8-matrix-run-r1 | 待定（任务书 tasks/T8-matrix-run-r1.md 已 push） | pending | — | runs/tselect-vfull-r1/ |
+| 3 | T8-matrix-run-r1 | 团队文件协作/网盘选型 | **1.00** | pass (conf-0.2) | runs/tselect-vfull-filecollab/ + stages/T8r1-* |
 
 ## 待开跑（顺序门禁：r1 完成 + top-k 嫌疑段由 C2 行为代理指标定出后才开 C3 paired runs）
 - C2 行为代理指标计算（零成本，对已有工件直接算）→ 定 top-k≤3 嫌疑段

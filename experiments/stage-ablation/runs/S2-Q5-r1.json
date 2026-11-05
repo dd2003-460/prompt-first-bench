@@ -1,0 +1,54 @@
+{
+  "arm": "S2",
+  "qid": "Q5",
+  "rep": 1,
+  "model": "qwen3.8-27b",
+  "params": {
+    "temp": 0,
+    "max_tokens": 8000
+  },
+  "output_text": "# 阶段 01：目标分解、已知与空缺条件\n\n## 1. 根标量定义（Root Scalar）\n\n**目标**：最小化每个统计决策的期望决策损失（Expected Decision Loss, EDL）。\n\n**公式**：\n$$ \\text{EDL} = \\mathbb{E}_{\\theta, D} \\left[ L(\\delta(D), \\theta) \\right] $$\n其中：\n- $\\theta$：真实参数（未知，服从先验 $\\pi(\\theta)$ 或视为固定）。\n- $D$：观测数据。\n- $\\delta(D)$：基于数据 $D$ 做出的决策（如：接受/拒绝假设、估计值、行动）。\n- $L(\\cdot, \\cdot)$：损失函数（Loss Function），由具体决策问题定义（如 0-1 损失、平方误差损失、误报/漏报成本比）。\n\n**单位**：损失单位（取决于 $L$ 的定义，如货币、效用单位、错误次数）。\n\n**约束**：\n- **制度约束（Hard Constraints）**：必须满足期刊/监管要求（如 $p < 0.05$，可审计性）。不满足则候选方案直接排除（EDL = $\\infty$）。\n- **资源约束（Soft Constraints）**：计算时间、人力成本、数据获取成本。这些进入总成本或作为次级优化目标。\n\n**“最划算”的标量**：\n$$ \\text{Total Cost} = \\text{EDL} + \\lambda \\cdot \\text{Implementation Cost} $$\n其中 $\\lambda$ 是资源成本的权重（需根据具体场景确定，若资源无限则 $\\lambda=0$，仅看 EDL）。\n\n---\n\n## 2. 正交维度切分（Orthogonal Decomposition）\n\n我们将决定 EDL 的因素分解为以下 **5 个正交维度**。每个维度有独占参数，互不重叠。\n\n| 维度 | 名称 | 独占参数（Exclusive Parameters） | 说明 |\n|------|------|----------------------------------|------|\n| **D1** | **先验信息结构** | 先验分布 $\\pi(\\theta)$ 的可用性、精度、主观性 | 频率学派假设先验均匀或无信息；贝叶斯学派显式建模先验。若先验强且准确，贝叶斯优势大；若先验弱或错误，频率学派更稳健。 |\n| **D2** | **样本量与数据质量** | 样本量 $n$、缺失数据比例、测量误差分布 | 小样本下贝叶斯后验更稳定（受先验正则化）；大样本下两者渐近等价。数据噪声大时，贝叶斯可通过先验抑制过拟合。 |\n| **D3** | **决策损失函数结构** | 损失函数 $L$ 的对称性、误报/漏报成本比、决策类型（点估计 vs 区间 vs 行动） | 若损失不对称（如漏报代价远高于误报），贝叶斯决策论可直接优化 EDL；频率学派 p 值仅优化 Type I 错误率，不直接优化总损失。 |\n| **D4** | **模型复杂度与可解释性** | 模型参数维度 $p$、模型嵌套结构、可解释性要求 | 高维模型中，贝叶斯模型选择（如 BIC 近似、后验概率）更自然；频率学派需依赖 AIC/BIC 或交叉验证，且 p 值在多假设检验中需校正（Bonferroni 等），增加复杂性。 |\n| **D5** | **制度与审计约束** | 期刊/监管对 p 值、置信区间的强制要求、可审计性标准 | 若制度强制要求 p 值，频率学派是“原生”选择；贝叶斯需额外转换（如 p 值从后验计算），可能引入额外误差或不被接受。 |\n\n### SHARED 耦合项（显式记录）\n\n以下参数同时影响多个维度，需单独记录其路径：\n\n1. **计算资源（Compute Cost）**：\n   - 影响 **D2**（MCMC 收敛时间 vs 解析解速度）\n   - 影响 **D4**（复杂模型的可计算性）\n   - 影响 **D5**（审计时复现计算的成本）\n   - **路径**：计算资源不足 → 贝叶斯 MCMC 可能不收敛或耗时过长 → 实际 EDL 增加（因无法获得可靠后验）或实施成本增加。\n\n2. **专家知识（Expert Knowledge）**：\n   - 影响 **D1**（先验的构建）\n   - 影响 **D3**（损失函数的定义，如专家对误报/漏报成本的判断）\n   - **路径**：专家知识缺失 → 先验主观性强 → 贝叶斯结果敏感度高 → EDL 不确定性增加；同时损失函数定义模糊 → 决策目标不明确。\n\n---\n\n## 3. 递归分解与已知/空缺条件\n\n### D1: 先验信息结构\n- **已知**：\n  - 频率学派：通常假设无信息先验（如均匀分布）或忽略先验。\n  - 贝叶斯学派：需显式指定先验 $\\pi(\\theta)$。\n- **空缺**：\n  - **Q1.1**：当前问题中是否存在可靠的领域先验？（需调研：领域文献、专家访谈）\n  - **Q1.2**：先验的敏感性如何？（需研究：先验对后验的影响程度，可通过敏感性分析评估）\n  - **Q1.3**：若先验错误，贝叶斯 EDL 是否显著高于频率学派？（需研究：模拟实验）\n\n### D2: 样本量与数据质量\n- **已知**：\n  - 大样本下，频率学派和贝叶斯学派渐近等价（Bernstein-von Mises 定理）。\n  - 小样本下，贝叶斯后验更稳定。\n- **空缺**：\n  - **Q2.1**：当前问题的样本量 $n$ 是多少？（需调研：数据可用性）\n  - **Q2.2**：数据缺失比例和测量误差分布？（需调研：数据质量报告）\n  - **Q2.3**：小样本下，贝叶斯后验的覆盖率是否优于频率学派置信区间？（需研究：模拟实验）\n\n### D3: 决策损失函数结构\n- **已知**：\n  - 频率学派 p 值优化 Type I 错误率（$\\alpha$），不直接优化总损失。\n  - 贝叶斯决策论可直接最小化 EDL。\n- **空缺**：\n  - **Q3.1**：当前决策的损失函数 $L$ 是什么？（需调研：业务/科学目标）\n  - **Q3.2**：误报和漏报的成本比是多少？（需调研：专家判断、历史数据）\n  - **Q3.3**：若损失函数不对称，频率学派 p 值是否导致次优决策？（需研究：理论分析）\n\n### D4: 模型复杂度与可解释性\n- **已知**：\n  - 高维模型中，贝叶斯模型选择更自然。\n  - 频率学派需多重检验校正。\n- **空缺**：\n  - **Q4.1**：当前模型的参数维度 $p$ 是多少？（需调研：模型规格）\n  - **Q4.2**：是否需要模型选择？（需调研：研究设计）\n  - **Q4.3**：贝叶斯模型选择（如后验概率）是否比频率学派 BIC 更准确？（需研究：模拟实验）\n\n### D5: 制度与审计约束\n- **已知**：\n  - 许多期刊/监管要求 p 值或置信区间。\n  - 贝叶斯结果需转换为 p 值或置信区间以满足要求。\n- **空缺**：\n  - **Q5.1**：目标期刊/监管的具体要求是什么？（需调研：投稿指南、监管文件）\n  - **Q5.2**：贝叶斯后验转换为 p 值是否被接受？（需调研：期刊政策、文献）\n  - **Q5.3**：审计时，贝叶斯 MCMC 结果的可复现性是否满足要求？（需调研：审计标准）\n\n---\n\n## 4. 黑盒收口表（Black Box Closure Table）\n\n| 编号 | 黑盒项 | 为什么没有闭式 | 估计区间 | 一天内能做完的测法 | 弹性 |\n|------|--------|----------------|----------|---------------------|------|\n| **B1** | 先验敏感性 | 先验分布未知，且对后验的影响取决于数据量 | 低（大样本）到高（小样本） | 运行 3 种不同先验（均匀、弱信息、强信息），比较后验差异 | 高 |\n| **B2** | 小样本下后验覆盖率 | 频率学派置信区间覆盖率在小样本下可能偏离名义水平 | 90%-95%（名义 95%） | 模拟 1000 次小样本数据，计算后验区间覆盖率 | 中 |\n| **B3** | 损失函数不对称性影响 | 损失函数具体形式未知 | 未知 | 定义 3 种损失函数（对称、漏报代价高、误报代价高），比较 EDL | 高 |\n| **B4** | 高维模型选择准确性 | 模型选择方法（BIC vs 后验概率）的准确性取决于数据生成过程 | 未知 | 模拟高维数据，比较 BIC 和后验概率的模型选择准确率 | 中 |\n| **B5** | 制度约束的严格程度 | 期刊/监管对贝叶斯结果的接受度未知 | 低（宽松）到高（严格） | 查阅目标期刊最近 5 年发表的贝叶斯论文比例 | 高 |\n\n---\n\n## 5. 口径声明（Constraint vs Cost）\n\n- **约束类维度（Hard Constraints）**：\n  - **D5（制度与审计约束）**：不满足则候选方案直接排除。例如，若期刊强制要求 p 值，且贝叶斯 p 值不被接受，则贝叶斯方案 EDL = $\\infty$。\n  - **D1（先验信息结构）**：若先验完全不可用且无法构建，贝叶斯方案可能无法实施（EDL = $\\infty$）。\n\n- **成本类维度（Soft Constraints）**：\n  - **D2（样本量与数据质量）**：影响 EDL 的大小，但不直接排除候选。\n  - **D3（决策损失函数结构）**：影响 EDL 的大小。\n  - **D4（模型复杂度与可解释性）**：影响实施成本和 EDL。\n  - **计算资源**：影响实施成本。\n\n---\n\n## 6. 瓶颈识别（Bottleneck Identification）\n\n**主导项**：**D5（制度与审计约束）** 和 **D1（先验信息结构）**。\n\n**论证**：\n1. **D5（制度约束）**：若制度强制要求频率学派方法（如 p 值），贝叶斯方案可能无法被接受，导致 EDL = $\\infty$。这是“一票否决”项，弹性最高。\n2. **D1（先验信息结构）**：若先验不可用或错误，贝叶斯方案的优势消失，甚至可能因先验偏差导致 EDL 高于频率学派。先验的敏感性在小样本下极高，弹性高。\n3. **D3（损失函数结构）**：若损失函数对称且样本量大，频率学派和贝叶斯学派 EDL 接近，此时 D3 不是瓶颈。但若损失函数不对称，贝叶斯学派优势显著，D3 成为关键。\n\n**结论**：\n- **若制度约束严格（D5 高）**：频率学派更划算（避免 EDL = $\\infty$）。\n- **若先验可靠且样本量小（D1 高，D2 低）**：贝叶斯学派更划算（后验更稳定，EDL 更低）。\n- **若损失函数不对称（D3 高）**：贝叶斯学派更划算（直接优化 EDL）。\n- **若样本量大且制度宽松（D2 高，D5 低）**：两者 EDL 接近，选择取决于实施成本（频率学派通常更简单）。\n\n---\n\n## 7. 02 阶段研究路径\n\n### 首批行动：\n1. **调研 D5（制度约束）**：\n   - 目标网站：目标期刊官网、监管机构指南。\n   - 搜索词：“journal policy Bayesian p-value”、“regulatory audit Bayesian statistics”。\n   - 字段：是否接受贝叶斯结果、是否要求 p 值、审计标准。\n   - 备用来源：文献综述（如 [1] 中提到的最佳实践）。\n\n2. **调研 D1（先验信息结构）**：\n   - 目标网站：领域文献数据库（如 PubMed、arXiv）。\n   - 搜索词：“prior distribution [domain]”、“sensitivity analysis Bayesian prior”。\n   - 字段：领域内常用先验、先验敏感性分析结果。\n   - 备用来源：专家访谈（若可能）。\n\n3. **调研 D3（损失函数结构）**：\n   - 目标网站：业务/科学目标文档。\n   - 搜索词：“decision loss function [problem]”、“cost of false positive/negative [domain]”。\n   - 字段：误报/漏报成本比、决策类型。\n   - 备用来源：历史数据（若可用）。\n\n4. **模拟实验（B1, B2, B3, B4）**：\n   - 工具：R/Python（Stan, PyMC, scipy）。\n   - 动作：运行模拟实验，比较频率学派和贝叶斯学派在不同场景下的 EDL。\n   - 输出：EDL 对比表、敏感性分析结果。\n\n### 失败备用路径：\n- 若制度约束调研失败：假设制度宽松，仅考虑 EDL 和实施成本。\n- 若先验信息调研失败：使用弱信息先验，进行敏感性分析。\n- 若损失函数调研失败：使用对称损失函数，仅比较 Type I/II 错误率。\n\n---\n\n## 8. 最终回答（基于当前信息）\n\n**决定「每个统计决策的期望损失」的所有因素**：\n1. **先验信息结构**（D1）：先验的可用性、精度、主观性。\n2. **样本量与数据质量**（D2）：样本量、缺失数据、测量误差。\n3. **决策损失函数结构**（D3）：损失函数的对称性、误报/漏报成本比。\n4. **模型复杂度与可解释性**（D4）：模型参数维度、模型选择需求。\n5. **制度与审计约束**（D5）：期刊/监管要求、可审计性。\n\n**判断选哪个学派最划算**：\n- **频率学派更划算**：若制度约束严格（D5 高）、样本量大（D2 高）、先验不可用（D1 低）、损失函数对称（D3 低）。\n- **贝叶斯学派更划算**：若先验可靠（D1 高）、样本量小（D2 低）、损失函数不对称（D3 高）、制度宽松（D5 低）。\n- **混合/两阶段 workflow**：若制度约束严格但希望利用贝叶斯优势，可先用频率筛查（满足 D5），再贝叶斯量化（优化 D3）。\n\n**关键空缺**：\n- 制度约束的具体要求（D5）。\n- 先验信息的可用性（D1）。\n- 损失函数的具体形式（D3）。\n\n**下一步**：\n- 调研 D5、D1、D3 的具体信息。\n- 运行模拟实验，比较不同场景下的 EDL。",
+  "sources": [
+    {
+      "title": "Nine Best Practices for Research Software Registries and Repositories: A Concise Guide",
+      "url": "http://arxiv.org/abs/2012.13117v1",
+      "snippet": "Scientific software registries and repositories serve various roles in their respective disciplines. These resources improve software discoverability and research transparency, provide information for software citations, and foster preservation of computational methods that might otherwise be lost over time, thereby supporting research reproducibility and replicability. However, developing these resources takes effort, and few guidelines are available to help prospective creators of registries a",
+      "observed_at": "2026-11-05T12:12:53.485226+00:00",
+      "source_type": "arxiv"
+    },
+    {
+      "title": "IPPOG : Bridging the gap between science education at school and modern scientific research",
+      "url": "http://arxiv.org/abs/2011.14743v1",
+      "snippet": "The International Particle Physics Outreach Group (IPPOG) has been making concerted and systematic efforts to present and popularise particle physics across all audiences and age groups since 1997. Today the scientific community has in IPPOG a strategic pillar in fostering long-term, sustainable support for fundamental research around the world. One of the main tools IPPOG has been offering to the scientific community, teachers and educators for almost 10 years is the Resource Database (RDB), an",
+      "observed_at": "2026-11-05T12:12:53.485226+00:00",
+      "source_type": "arxiv"
+    },
+    {
+      "title": "ACM COMPUTE 2025 Best Practices Track Proceedings",
+      "url": "http://arxiv.org/abs/2512.02349v2",
+      "snippet": "COMPUTE is an annual Indian conference supported by ACM India and iSIGCSE. The focus of COMPUTE is to improve the quality of computing education in the country by providing a platform for academicians and researchers to interact and share best practices in teaching, learning, and education in general. The Best Practices Track of COMPUTE 2025 invited Computer Science Educators across the country to submit an experience report for the best practices under multiple categories: 1) Novel classroom ac",
+      "observed_at": "2026-11-05T12:12:53.485226+00:00",
+      "source_type": "arxiv"
+    },
+    {
+      "title": "AI-Assisted Peer Review Across Research Communities: From Reviewer AI Policies to LLM Review Quality",
+      "url": "http://arxiv.org/abs/2608.03581v1",
+      "snippet": "AI-assisted peer review is increasingly discussed and adopted as a tool to support the scientific publishing process, yet there is little systematic understanding of how publication venues regulate its use or of how capable current AI review systems are. We address these questions by first surveying reviewer-facing AI policies across 111 leading AI/NLP conferences and medical journals, revealing substantial regulation differences between the two communities. Second, we evaluate AI-generated peer",
+      "observed_at": "2026-11-05T12:12:53.485226+00:00",
+      "source_type": "arxiv"
+    },
+    {
+      "title": "Peer-to-Peer Secure Multi-Party Numerical Computation",
+      "url": "http://arxiv.org/abs/0810.1624v1",
+      "snippet": "We propose an efficient framework for enabling secure multi-party numerical computations in a Peer-to-Peer network. This problem arises in a range of applications such as collaborative filtering, distributed computation of trust and reputation, monitoring and numerous other tasks, where the computing nodes would like to preserve the privacy of their inputs while performing a joint computation of a certain function. Although there is a rich literature in the field of distributed systems security ",
+      "observed_at": "2026-11-05T12:12:53.485226+00:00",
+      "source_type": "arxiv"
+    }
+  ],
+  "wall_s": 15.4,
+  "tokens": {
+    "in": 2637,
+    "out": 3578
+  },
+  "timestamp": "2026-11-05T12:13:15.675303+00:00"
+}

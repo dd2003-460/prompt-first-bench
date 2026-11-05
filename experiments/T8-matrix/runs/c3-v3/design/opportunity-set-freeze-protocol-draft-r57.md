@@ -1,0 +1,66 @@
+# 核验机会集冻结协议（草案 v0 · r57）
+
+**goal**: T8-C3-v3-opportunity-set-freeze · **日期**: 2026-10-31 · **状态**: 已定稿（r62z, 2026-10-31 — 成璐授权 runner 自主裁定两项参数；r64 成璐二次确认：「当然算分母了，考试不就是这样吗，看答题完整然后看质量」— 保守空分母口径获用户直接背书）
+**来源**: arena C3 v3 对抗核验回执 blocking fix #3（`receipts/c3-v3-adversarial-check.json` M8-truth/M8-cover 节）
+**动机**: R4 的 M8（truth rate，即"工件里可核验断言中通过判官的比例"）分母 = 各 run 自身产出的核验条目数——可变分母。删组件后模型少产出条目 → 难项退出分母 → truth 率被动抬高。不冻结分母，任何配置间 M8 比较都混淆了质量效应与数量效应。
+
+## 一、协议四要素（arena 要求逐条落地）
+
+### 1. 定义主体：Lead 盲法前置
+- **谁定义**：Lead（本会话）在 run 启动前，从题面机械提取 + 人工补全隐式机会，产出 `opportunity-set-{domain}-{seed}.json`。
+- **盲法**：定义时只看题面（seeds.json），不看任何 run 输出；提取规则版本化（本文件 §三 即 v0 规则）。
+- **落盘时机**：run 启动前 commit 进 git（SHA 进 run manifest），事后不可改。
+
+### 2. 空分母规则
+- 某 run 对机会集中第 i 项**完全未提及**（judge 无法定位对应文本）→ 记 `unaddressed`，计入分母、不计入分子（保守口径：没做 = 没通过）。
+- 若整 seed 的 unaddressed > 50% → 该 run 标 `opportunity_coverage_fail`，M8 不参与配置均值，单独报告覆盖率。
+- 备选口径（激进）：unaddressed 不进分母。**默认用保守口径**，激进口径作敏感性分析双报。
+
+### 3. truth-cover 联合门槛
+- **truth**（旧 M8）：已覆盖机会中通过 judge 的比例。
+- **cover**（新指标）：被 run 实际覆盖的机会占冻结集的比例。
+- **联合判读**：配置比较必须 (truth, cover) 双维报告，禁止单报 truth。升档条件：Δtruth > 0 且 Δcover ≥ -0.05（质量提升不以牺牲覆盖为代价）。
+- **r60e 经验注记**：R4 全量实测 cover 在 9 config × 4 run 下恒为 1.000（零方差）——当前 D1/D2 域任务难度不足以让任何 config 漏掉冻结集里的核验点。cover 门槛机械层就绪但经验上 vacuous，需 harder task（模型确实会漏项的题面）才能激活区分力。协议保留不动，待 harder domain 接入后自然生效。
+- 空分母（cover=0）→ 该 cell M8 记 NA，不入均值。
+
+### 4. 新旧 M8 口径版本化
+- `M8-r4-variable`：R4 历史数字（judge 自由粒度分母），保留但**只可作描述性引用**，不可参与跨配置因果判读。
+- `M8-frozen-v1`：本协议下的新口径，从下一个 run 起生效。
+- 所有 receipt/矩阵引用 M8 时必须带口径后缀；无后缀 = 违规（assert 脚本可机判）。
+
+## 二、R4 事后重建可行性评估结论（r57 实测）
+
+| 维度 | 结果 |
+|---|---|
+| 题面机械提取 | ✅ 可行（原型 v0 跑通：D1 brief_a 7 项 / brief_b 8 项 / D2 brief_a 5 项 / brief_b 7 项） |
+| 覆盖完整性 | ⚠️ 只能给**下界**——judge 实际核验的推导链/厂商名/时间范围等隐式机会无法从题面机械还原（A-full judge 分母均值 11.25 vs 题面固定集 7-8，超出 20-61%） |
+| 三层口径一致性 | ❌ 坐实不一致：judge 条目 ≠ 题面机会 ≠ 任何成文冻结集 |
+| 分母收缩量化 | ~~B-noevidence 8.38 条 vs A-full 11.25 条（-25.5%）~~ → **r60 cover 分析否定**：B-noevidence cover=1.000 与 A-full 持平，Δtruth=+0.156 不是分母 artifact。原「arena 假设方向成立」结论撤回 |
+| freeze 负效应 | 稳健（B-nofreeze 分母 9.00 居中 + M8 全场最低 0.469，不受分母混淆影响） |
+
+**净结论**：R4 已有数据无法真正"重建"冻结机会集（只能下界近似），所以限定语回填是正确处置而非复算替代。真正的冻结从下一个 run 开始。
+
+## 三、提取规则 v0（机械部分，可 assert）
+
+```
+numeric_constraint: (≤|≥|不超过|上限|至少)\s*[\d.]+\s*[万亿%]?[^\s，。、；]*
+scale:              \d+\s*人
+enumeration:        (macOS|Windows|Web|Google Calendar|Outlook)[^，。、；]*?(三端|两套|三个平台)
+deliverable:        推荐方案|备选|淘汰理由|成本明细
+time_range:         \d{4}\s*(/\s*\d{4})?
+```
+
+已知盲区（v0 不覆盖，需人工补全层）：推导参数（如 1:5-1:10）、可选加分项（门禁联动/离线使用）、功能枚举（版本管理/权限控制）。人工补全层同样在 run 前冻结并记录补全依据。
+
+## 四、执行计划（定稿后）
+
+1. ~~成璐裁定~~ → **已裁定（r62z, 2026-10-31，成璐授权 runner 自主决定）**：空分母用**保守口径**（unaddressed 计入分母、不计入分子，没做=没通过）；cover 门槛维持 **-0.05**（Δcover ≥ -0.05 才允许升档）。理由：保守口径防「少做事反而分数高」的漏洞，与 sham 分离目标一致；-0.05 在当前域 vacuous（cover 恒 1.0），不构成实际约束，harder domain 接入后自然生效。激进口径保留作敏感性分析双报。
+2. Lead 对 4 seed 产出正式 opportunity-set 文件（机械 + 人工补全），commit 冻结。**状态：DONE（r60 — opportunity-sets-v1.json 落盘，4 seed × 9-10 项，D1+D2 双域）**
+3. 下一个 run 按新口径执行；M8 双报 (truth, cover)。~~R5 已跑完但用的是旧口径~~ → ~~r60e 注记：当前域 cover 恒 1.0，双报机制就绪但 vacuous，需 harder task 激活~~ → **r79 DONE：D3-hardware-purchase harder domain 落地（runs-r5/，18 run），cover 门槛首次非 vacuous（3/18 run cover<1.0），M8 双报联合判读生效。状态：DONE（r79, 2026-11-01）**
+4. matrix 模板加口径列；assert 脚本加"无后缀 M8 引用"检查。**状态：DONE（r62g — matrix-v11.md 口径列 + assert-m8-no-suffix.py PASS）**
+
+## 边界登记
+
+- 本协议是 arena 回执的消费产物，不是新研究主张；数值门槛（-0.05）是建议值非文献值，置信度低-中，待成璐裁定。
+- R4 数字本身不改（诚实原则：历史口径的历史数字保持原样，只加限定语）。
+- **r57c 补充实测**：同一套机械规则跑在 A-full 8 个 run output 上，judge 条目数 8/8 ≤ run 输出显式断言数（12-20 条）——judge 是从 run 输出挑子集，不是自造项。三层口径实际关系：题面机会(5-8) ⊂ run 输出显式断言(12-20) ⊇ judge 条目。冻结分母锚点 = 题面机会集（事前可定）；run 输出显式断言集作 cover 补充诊断维度，不改主口径。

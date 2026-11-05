@@ -1,0 +1,102 @@
+#!/usr/bin/env bash
+# pre-commit.closure-checklist — RV3G3cdx-closure-gate-integration · 未激活 hook 原型（B7）
+#
+# 【状态】未激活：本文件仅存在于 .githooks/，core.hooksPath 未设置、未 cp 进 .git/hooks/。
+#   对现有提交流程零行为变化。激活 = 成璐裁定后执行 goal 的 D3 步骤（见
+#   bench/rubric-v3/closure-gate-integration-materials.md §5），非本 goal 动作。
+#
+# 【分流语义预注册（byte-stable，与 materials §3.1 逐字一致）】
+#   exit 0 = staged queue diff 合规收口 ⇒ 放行（可附 [SIGNAL] 提示行——提示不改变出口）
+#   exit 1 = 任一检查 FAIL ⇒ 拦截（stdout 透传指名道姓 [FAIL] 行 + 修复提示）
+#   exit 2（断言层输入不可解析）⇒ hook 层 fail-open 不适用放行（[SKIP] 一行提示）——
+#     「不该检查 vs 检查失败」区分机制：staged 无 tasks/goal-queue.md diff 时由触发条件
+#     在调用前消化（直接放行，不消耗断言 exit 2 通道）；断言 exit 2 保留原义「异常」。
+#   【K1 固有缺口下的出口降级声明（B8 实跑定稿，materials §3.1 同步修订）】pre-commit 时点
+#   commit message 不可得（比 hash 更根本的缺口——(a)/(b) 依赖 message 声称）⇒ 本原型
+#   可达检查面 = (a) 漏翻检测 + (c) diff 侧枚举，均降为 [SIGNAL] 提示形态（fail-safe 方向 =
+#   少拦不误拦），**exit 1 硬拦截路径在本原型中不可达**（fails 数组恒空）。硬拦截能力保留在
+#   r148 手动工具（commit 后消费真实 hash+message）——双轨并存即 K4 选项 O1 形态。
+#   若成璐裁定要求 hook 硬拦（O2 变体），需引入 message 捕获约定（如强制 `git commit -m`
+#   + 暂存 message 文件协议），属执行 goal 范围，非备料代裁。
+#
+# 【K1 解法】(ii)+(iii) 合并（materials §3.2 推荐，K4 裁定输入 O1-O4 待成璐勾选）：
+#   staged-diff 变体（消费 git diff --cached，零接口改动——冻结脚本 assert-closure-checklist.py
+#   本体零触碰，判定逻辑在此内置 staged 版副本）+ 触发条件收窄（仅 queue.md 有 staged diff 时运行）。
+#   豁免子句 staged 对应式：git show HEAD:tasks/goal-queue.md | grep -c <短名> = 0 且 staged + 行
+#   含 `- [x] <短名>` ⇒ 首建即 [x] 合法形态，跳过 (a)（HEAD 取代 <h>~1，非语义变更）。
+#
+# 【关键词集同源义务（W2 维护登记，materials §4.1）】FLIP_KW/APPEND_KW 必须与
+#   assert-closure-checklist.py L29-30 byte-exact 同源；任一侧修改须同 commit 同步另一侧。
+set -u
+
+QUEUE="tasks/goal-queue.md"
+# byte-exact 同源锚点（assert-closure-checklist.py L29-30）：
+FLIP_KW=("划掉" "标记完成" "核销" "[ ]→[x]")          # (a) 触发词（r148 02 S1 并集）
+APPEND_KW=("新导出候选" "追加候选" "导出候选")            # (b) 触发词
+
+# ---- 触发条件收窄（iii）：staged 无 queue diff ⇒ 纯工件提交，正常态，直接放行 ----
+if ! git diff --cached --name-only | grep -qx "$QUEUE"; then
+  echo "[closure-checklist] [SKIP] staged 无 $QUEUE diff（纯工件提交）— 不适用，放行"
+  exit 0
+fi
+
+# ---- 拟提交 message 捕获（staged 时点 commit hash 不存在 = K1，A6 沙盒实证）----
+# 约定：hook 无法预知最终 message 全文（GIT_EDITOR 场景）。两种捕获路径：
+#   (1) GIT_EDITOR=true 批处理 / `git commit -m` 场景下 message 尚不可得 ⇒ 降级弱检查模式：
+#       只跑 (c) 双向闭合（diff 侧 checkbox 行变更须被 message 提及——message 缺省时反向：
+#       要求所有 checkbox 行变更在暂存 message 文件中可查，否则 SIGNAL 提示而非硬拦）。
+#   (2) 交互式提交：git 在 pre-commit 之后才起编辑器 ⇒ hook 时点 message 恒不可得。
+# 结论（备料如实标注）：**pre-commit 时点 message 不可得是方案 A 的固有缺口**（比 K1 hash
+# 更根本）——(a)/(b) 依赖 message 声称，hook 时点只能以「暂存 message 文件」为输入：
+#   若 .git/COMMIT_EDITMSG 存在且非空（`git commit` 无 -m 时 git 先写模板再起编辑器，
+#   模板含上次 message 非本次意图）⇒ 不可信，不用。
+# 故 staged 变体的可达检查面 = (c) 双向闭合的 diff 侧 + (a) 的翻转检测（diff 侧独立可判：
+#   staged 含 `[ ]`→`[x]` 翻转行 = 收口形态成立；无翻转且非首建豁免 = 疑似漏翻，但缺 message
+#   无法确认「声称划掉」⇒ 降为 [SIGNAL] 提示人工确认，不硬拦——fail-safe 方向 = 少拦不误拦）。
+STAGED_DIFF="$(git diff --cached -- "$QUEUE")"
+PLUS_LINES="$(printf '%s\n' "$STAGED_DIFF" | grep '^+' | grep -v '^+++' | sed 's/^+//' || true)"
+MINUS_LINES="$(printf '%s\n' "$STAGED_DIFF" | grep '^-' | grep -v '^---' | sed 's/^-'// || true)"
+
+fails=()
+signals=()
+
+# ---- (a) staged 侧漏翻检测（diff 侧独立可判部分）----
+# 翻转 = minus 含 `- [ ] NAME` 且 plus 含 `- [x] NAME`（NAME 提取自该行）
+flipped_names=()
+while IFS= read -r mline; do
+  [[ "$mline" =~ ^\-\ \[\ \]\ ([^[:space:]]+) ]] || continue
+  name="${BASH_REMATCH[1]}"
+  if printf '%s\n' "$PLUS_LINES" | grep -qF -- "- [x] ${name} "; then
+    flipped_names+=("$name")
+  else
+    # 首建豁免 staged 对应式：HEAD 中该行不存在 且 plus 含 - [x] NAME ⇒ 合法首建
+    prev_cnt="$(git show "HEAD:$QUEUE" 2>/dev/null | grep -cF -- "$name" || true)"
+    if [[ "${prev_cnt:-0}" == "0" ]] && printf '%s\n' "$PLUS_LINES" | grep -qF -- "- [x] ${name} "; then
+      echo "[closure-checklist] [PASS] (a) 豁免子句命中：$name 在 HEAD 不存在于 queue → 首建即 [x] 合法形态"
+    else
+      signals+=("(a) staged 含 $name 行 [ ] 移除但无 [x] 写入且非首建豁免——疑似 97d2adf 型漏翻（message 不可得，SIGNAL 不硬拦，请人工确认或补翻转）")
+    fi
+  fi
+done <<< "$MINUS_LINES"
+
+# ---- (c) 双向闭合 diff 侧：每个 checkbox 行变更的短名须在 message 有声称 ----
+# message 不可得（K1 固有缺口）⇒ (c) 完整机判在 hook 时点不可达；此处做 diff 侧枚举提示：
+for line in $PLUS_LINES $MINUS_LINES; do
+  [[ "$line" =~ ^\-?\ \[[\ x~]\]\ ([^[:space:]]+)\  ]] || continue
+  dname="${BASH_REMATCH[1]}"
+  # 去重提示（同一短名多行变更只报一次）
+  case " ${signals[*]:-} " in *" $dname "*) continue ;; esac
+  signals+=("(c) staged 动了 $dname 行——pre-commit 时点 message 不可得（K1 固有缺口），双向闭合完整机判请 commit 后用手动工具复检：python3 bench/rubric-v3/ablation/scripts/assert-closure-checklist.py <commit-hash> <goal-short-name>")
+done
+
+# ---- 出口分流 ----
+if ((${#fails[@]} > 0)); then
+  for f in "${fails[@]}"; do echo "[closure-checklist] [FAIL] $f"; done
+  echo "[closure-checklist] SUMMARY: FAIL — 修复路径：改 message / 补翻转；显式绕过 = git commit --no-verify（自担责）"
+  exit 1
+fi
+if ((${#signals[@]} > 0)); then
+  for s in "${signals[@]}"; do echo "[closure-checklist] [SIGNAL] $s"; done
+fi
+echo "[closure-checklist] [PASS] staged queue diff 收口形态检查通过（${#flipped_names[@]} 行翻转识别）"
+exit 0

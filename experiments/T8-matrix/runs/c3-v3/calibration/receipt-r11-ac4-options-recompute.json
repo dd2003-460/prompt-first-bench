@@ -1,0 +1,58 @@
+{
+ "kind": "rubric_v3_ac4_option_recompute",
+ "run_at": "2026-11-02T23:45:52+0800",
+ "source_receipt": "receipt-r9-rubric-v3-b2a-normal.json",
+ "frozen_prompts_sha256_16": {
+  "J1-strict-v3": "a4eb67e35fa066d5",
+  "J2-lenient-v3": "0b8e837239da3fd5"
+ },
+ "a_full_mean": {
+  "J1-strict-v3": 0.923,
+  "J2-lenient-v3": 0.9674
+ },
+ "ac4_threshold": 0.3,
+ "options": {
+  "B-2del-eo": {
+   "neg_mean": {
+    "J1": 0.9841,
+    "J2": 1.0
+   },
+   "diff": {
+    "J1": -0.0612,
+    "J2": -0.0326
+   },
+   "ac4_pass": false,
+   "n_valid_runs": "4/4"
+  },
+  "B-2del-fe": {
+   "neg_mean": {
+    "J1": 0.7222,
+    "J2": 0.7222
+   },
+   "diff": {
+    "J1": 0.2007,
+    "J2": 0.2452
+   },
+   "ac4_pass": false,
+   "n_valid_runs": "3/4"
+  },
+  "B-2del-fo": {
+   "neg_mean": {
+    "J1": 0.1111,
+    "J2": 0.0
+   },
+   "diff": {
+    "J1": 0.8119,
+    "J2": 0.9674
+   },
+   "ac4_pass": true,
+   "n_valid_runs": "1/4"
+  }
+ },
+ "diagnosis": {
+  "B-2del-eo": "结构性不可测：删的是 prompt 组件（evidence/owner 指令段），judge 只审计工件正文，看不到 prompt 侧消融。负例均值反而高于 A-full（分母效应：64/39/25/35 条 vs 26/38/33/32 条）。",
+  "B-2del-fe": "区分度存在但不足：diff +0.20/+0.25 < 0.3。3/4 run 有效（D2/seeda parse 失败）。fe 删功能证据导致产出条目数锐减（13/6/0/12）但质量未崩，判官仍给高分。",
+  "B-2del-fo": "区分度充足：diff +0.81/+0.97 PASS。但仅 1/4 run 有效——D1/seedb(246c)、D2/seeda(365c)、D2/seedb(301c) 均为模型执行失败（tool-call 文本被截断，非 rubric 问题）。唯一有效 run (D1/seeda, 8741c) 中 Z1-Z5 主张编号条目全 fail（无来源支撑），E3/E5/G2 亦 fail。"
+ },
+ "conclusion": "三个选项均不能干净收口 AC4：eo 结构性不可测；fe 差 0.05-0.09 到阈值；fo 通过但 3/4 run 是模型执行崩溃而非 rubric 区分。建议维持现状（c）：v3 定位为一致性+地板测量 rubric（AC1/AC2/AC3 全过），区分度场景另配维度。若坚持要 AC4 PASS，最接近的是 fe（需把阈值从 0.3 降到 0.2，或补跑 fo 的 3 个崩溃 run 看是否恢复区分度）。"
+}

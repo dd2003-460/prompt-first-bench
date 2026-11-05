@@ -75,11 +75,97 @@
 2. M4「独立源」口径仍依赖裁决者主观——需操作化定义（如：不同 provider 且不同 prompt 模板的回执对）
 3. output token 与压缩净省不可测（bili 账本字段缺失）——需 provider 侧 cache 上报或换账本口径
 4. run2 arena 侧 token 总量 unverified（外部系统无账本）
-5. 独立打分器仍只 1 个（DeepSeek）——R5 加第二独立打分器做打分器间一致性（Fleiss'κ，R2 建议）
+5. ~~独立打分器仍只 1 个~~ **已解决（R5.1, r75-r77）**：Claude Code 盲打 18 数值分 + 3 gate 判定；Cohen's κ(3bin)=0.55 moderate agreement；分歧根源定位 = r4 evidence packet 缺 M2 行数/M5 轮数字段（结构性偏低，非尺度差异）→ 见下「R5.1 打分器间一致性」节
 6. 权重向量实质未变（退化的副产品）——bench 分数目前=「过程纪律审计分」，不是通用 agent 能力分
+
+## O3 权重消融实验（r70 · rubric-v3 surprisal 条件概率权重）
+
+> 任务书：`bench/rubric-v3/ablation/TASK-ablation.md`（r69）· 结果：`ablation-result.md` + `stats-recomputed.json`（r70/r70b, 85908e8）
+
+**公式**：w_v = 1 + min(−log₂ p̃_v, log₂(1/ε))，ε=0.01（封顶 ≈8）。p̃ = judge 估计"无 gold 的 LLM 在父节点上下文下盲生成该子拆分的先验概率"——即你说的"更深的矛盾更难发掘 → 概率小 → 信息量大 → 赋权高"。
+
+**设计**：W0 flat / W1 importance（SHARE 份额）/ W2 surprisal × 8 个真实 C0 run（同一 prompt 独立产出），31 个 gold 节点逐节点命中判定（h∈{0,1}，每个 h=1 附原文证据）。
+
+**核心结果**：
+
+| 对比 | Spearman ρ | 含义 |
+|---|---:|---|
+| W0 vs W1 | 0.9698 | importance 权重几乎不改排序 |
+| **W0 vs W2** | **0.8102** | **surprisal 权重分歧最大——它确实在重新排序** |
+| W1 vs W2 | 0.9048 | 两套加权方向部分一致 |
+
+- 权重确实改变排序：run2/run6、run3/run7 在 W0 下打平，W2 下因高权重节点覆盖差异拉开（如 N-4 w1=5、N-3.2.4 w2=4.84）
+- **构念效度初检未过线**：W2 top-5 权重节点仅 2/5 带 gold 专家标记（■瓶颈/★订正），低于预设门槛 3/5 → **surprisal 高 ≠ 重要性高**，纯意外性会 overweight "罕见但无用"的节点
+- **W3 = w1×w2（乘法组合）唯一过线**（3/5），但刚过线且根因未除：p̃ 来自同一 judge 模型（自我偏袒），需独立 judge 盲测才能写入正式 rubric
+- judge 稳定性自检 10/10 = 100%（同 judge 复判，非跨 judge 可靠性）
+
+**局限**：n=8 描述性统计；单域（硬件部署）；单 judge。结论边界 = "小样本支持权重影响排序，不支持 surprisal 单独作为重要性代理"。
+
+**独立 judge 盲测 r1（r73 · Claude Code ralph loop 通道）**：换 fresh-context subagent 盲估 p̃（物理隔离 prior-estimates.json，grep 验证无泄漏）。结果：**W3 top-5 构念效度 1/5 → pass=false**（原 judge 自评 3/5 是自我偏袒产物）；跨 judge Spearman ρ=0.688（≥0.6 门槛，方向稳定但弱一致，新 judge p̃ 分布整体右移、w2 动态范围被压缩）。04.5 反方复核确认 pass 判定对 tie-break 稳健。**最终裁定：surprisal 权重方案（含 W3 乘法组合）在独立验证下不成立，不进正式 rubric**；保留为负结果记录。
+
+**与 Pearson 折权的关系**：正交。Pearson 相关矩阵折权（|r|>0.7 → w×(1−|r|/2)）处理指标间冗余去重；本节 surprisal 权重处理节点级信息量/发现难度。前者管"哪些指标重复"，后者管"哪个发现更值钱"。
+
+
+## R5.1 打分器间一致性（r75-r77 · Claude Code 第二独立打分器）
+
+**方法**：Claude Code 盲打（时序屏障：打完才读 DeepSeek 分数值，04-execution-log 留痕）→ per-metric Spearman ρ (n=3 纯描述) + Cohen's κ（2 raters，3 档离散化 low<40/mid 40-70/high>70）。工件：`r5/scoring-claude-r1.json` + `r5/scorer-agreement-r1.json`。
+
+**结果**：
+- **κ=0.55（moderate agreement，Landis-Koch 0.41-0.60 档）**，po=0.7222/pe=0.3827。高基率效应已校正（high 档 12/18 点）。
+- per-metric ρ：M1=1.0 / M3=M4=M5=0.5 / M2=M6=−0.5（n=3 只有 6 种秩置换，ρ∈{−1,−0.5,0,+0.5,+1}，不支持推断，仅描述）
+- **|Δ|>15 分歧 4 项全在 M2（run1/run2，各 −50）与 M5（run1 −30、run3 −35）**，逐项对照后裁定倾向均指向 Claude Code 侧——但根因不是打分能力分歧：**r4 给 DeepSeek 的 evidence packet 缺「任务书行数」和「达 conf≥0.7 所需轮数」两个字段**，DeepSeek 自认因此系统性偏低。这是输入证据包不完整导致的结构性偏差，补齐字段后预期分歧消失（→ 实际落地见 R5.2 节：输入对称已断言通过；κ 变化待第三打分器实测）。
+- 两打分器收敛点：M4 三项全 low/mid 边界（交叉验证确实是弱项）、M1 run2 低分（重发放大）——**核心结论（M4 是最大高估源）跨打分器稳健**。
+
+**残余风险**（04.5 自查登记）：盲打前读过 bench.md r4 数据表（含混合分），存在锚定残余；M7 按 gate 口径记 pass/fail 不产生连续分（避免给门禁指标虚构分数）。
+
+**R5.2 建议**（由本次分析导出）：evidence packet 模板固化 M2 行数 + M5 轮数字段 → 消除结构性分歧源；第三打分器（不同模型家族）把 κ 从 2-rater 升到 Fleiss'κ。
 
 ## 外部 baseline 对比（r2/r3 结论维持）
 
 - 实锤：lm-eval-harness（accuracy 层）/ HELM（结果层）/ promptfoo（LLM 评测）——「过程纪律」维度在开源方案中**缺位**（URL 见 r2 bench）
 - token 量级与开源 agent 系统同档（r3 三数据点），不可作同质基线直接比较
 - 结论维持：本 bench 在「过程纪律」维度无可比开源 baseline；0.9 比例口径下高于「缺位基线」（无可比分=无对手），该声明的边界=同任务类型
+
+## R5.2 evidence packet 模板固化（r102 · Claude Code ralph loop 通道）
+
+**目标**：消除 R5.1 定位的结构性分歧源——原 r4 packet（`r4/independent-scoring-deepseek.json` evidence_packet 字段，单行摘要）缺 M2 行数 + M5 轮数字段。本 goal 不改任何已有分数值，只修输入面。
+
+**交付物**：
+1. **模板 v2**：`r5/evidence-packet-template-v2.md` —— P1-P6 必填 schema（P1 任务书行数 / P2 达 conf≥0.7 轮数 / P3 per-run token 切分 / P4 断点 A/B/C 状态 / P5 降级条目 / P6 交叉验证源清单），每字段三件套（值+source_path+source_quote），null 政策区分"证据缺口型（允许+必填 reason）"与"未提取型（禁止）"
+2. **packet v2**：`r5/evidence-packet-r4-v2.json` —— r4 三 run 按模板补齐，全部字段从原始证据一手/准一手提取
+3. **对称性断言**：`r5/assert-packet-symmetry.py` —— 67 PASS / 0 FAIL（exit 0）：P1-P6×3run 全非空或 null+reason；R5.1 的 4 项 |Δ|>15 分歧点对应字段存在、承载值非空、source_path 可达
+
+**补齐结果表**（关键值，完整三件套见 packet v2）：
+
+| 字段 | run1 | run2 | run3 |
+|------|------|------|------|
+| P1 M2 行数 | **24**（一手：git show d96f5db:tasks/003… \| wc -l） | **25**（一手：wc -l run2-arena/task-brief.md） | null/~45 自估（任务书为派发消息文本，无落盘文件） |
+| P2 M5 轮数 | **1 轮，conf 0.75**（loop-state-r1.json 原文 "done (V1-V5, conf 0.75)"） | **1 轮**（inferred：A1-A7 单序列无 revise；终态 conf 无数值记录 → null+conf_note） | **2 轮**（self-reported：bench-row "2 轮内完成"；自纠 1 次有 S4 独立锚点） |
+
+**矛盾登记（02.5）**：
+- X1：commit 8d7487e（gate-evidence 记的断点 A push hash）不在 pfb 本地对象库（cat-file fatal，fetch 后仍无）→ 不影响取值（改以 d96f5db git 对象为一手来源，三源一致）
+- X2：**原 packet "run3 任务书25行" 张冠李戴**——25 行实为 run2 task-brief.md 实测值。摘要式 packet 双重失败（缺失+错配）的实例化证据
+
+**对第三打分器的使用说明**（下一 goal 直接引用）：送分时用 `r5/evidence-packet-r4-v2.json` 替代原单行摘要；打分回执格式沿用 r4/r5 已有 JSON schema（模板 v2 只管输入包，不动回执）；打完后可重算 Cohen's κ（vs DeepSeek/Claude Code 两基线）并升级为 Fleiss'κ（3 raters）。
+
+**边界声明**：对称性断言只证明**输入面对称**（4 个分歧点的字段现在两边都能看到同源证据），不预测新 κ 值——判断尺度差异（若有）只有第三打分器能分离。
+
+**W1 收口（R5.2-sourcepath-hardening · r104）**：`assert-packet-symmetry.py` 已删 basename glob 兜底——source_path 严格模式（git 对象可达，或全部路径 token 在 base 下 join 命中才 PASS；多文件逐 token 独立判定）；packet v2 的 10 条含 `...` 缩写/裸相对段的 source_path 规范化为完整相对路径（字段值零改动，diff 仅 10 行）；重跑 **67 PASS / 0 FAIL exit 0**（PASS 数与 r102 基线一致）。模板 v2 补填写规则（禁缩写/裸 basename）。同名文件跨 run 误判局限消除。
+
+## R5.2-audit 原 packet 单行摘要全字段审计（r103 · Claude Code ralph loop 通道）
+
+**一句话结果**：原 v1 packet（`r4/independent-scoring-deepseek.json` evidence_packet 单行摘要）拆成 12+1 条原子断言逐条对照原始证据 → **8 confirmed / 3 mismatch / 1 unverified**；机判脚本 `r5/assert-packet-audit.py` 16 PASS / 0 FAIL / 2 SKIP（exit 0）。
+
+| verdict | 断言 | 说明 |
+|---------|------|------|
+| confirmed ×8 | run1 7锚点 / 5.11M未切分；run2 10锚点 / 12,086 o200k重发 / 2降级；run3 7锚点 / 无网络 / 3模板缺陷 | 全部有本地一手/准一手证据正向证实 |
+| mismatch ×3 | **X4** run1 "无降级"（实际 degraded[3]，措辞歧义，M6 诚实性不受损）/ **X2**（已知）run3 "任务书25行"张冠李戴 / **X7** "M1-M6 定义+" 声称但未提供正文（形式性） | X4/X7 新登记于 `stages/02.5/R5.2audit-cross-check.md` |
+| unverified ×1 | **X5** run2 "14m27s"（arena 外部会话时长，本地无计时账本可重建）｜**状态更新 r130**：机判实证不可重建——`r5/assert-c4-timing.py` SIGNAL not-reconstructable（7 文件 ISO 枚举仅 executed_at 单点；缺整个逐事件时间戳载体，run1 有 per_turn_deltas[].at 而 run2 无）；verdict 维持 unverified 禁升级 confirmed｜**状态更新 r33（2026-10-31）**：arena 会话页 RSC payload 提取 metadata.timing 正向吻合——startedAt 1792773268638 → completedAt 1792774136135 = **867.497s vs 声称 867s，Δ=0.497s < 1s**（receipt: `r5/arena-session-timing-receipt.json`；assert-c4-timing.py external-receipt 通道实跑 PASS）。限定：timing 挂在单条 assistant message（01a1699d-34cb…）metadata，等价于 run2 wall-clock 依赖 run2=单次任务执行；**数值层已证实，verdict 是否升 confirmed 留人工裁决** | 非矛盾，禁升级为 confirmed（数值吻合≠流程合规确认） |
+
+**关联错配 X6**（packet 外同链路）：`r4/adjudication-step2.json` inputs "任务书 49/25/25 行" 中 run1=49 与实测 24 矛盾（49 全仓无第二出处）；该 49 被 step2 裁决理由引用（run1_M2 "49 行 ≤200 行满分" → final=100 进入冻结分）。**关键事实：24 行同样 ≤200，分值结论不变，仅理由文本错** → 分数冻结纪律下不动分值，caveat 注记方式已提请成璐裁决（`个人/APPROVALS.md` 条目 3）。
+
+**对第三打分器的影响**：v1 packet 不应再作为 third-scorer 输入（缺失+错配+不可核验三类问题并存）；packet v2 已覆盖全部 mismatch 面（C11→P1 null/~45、C3→P5 完整降级列表、C12→P1-P6 必填 schema、C4→caveats unverified），third-scorer goal **直接用 v2 即可**。R5.1 的 4 项分歧归因于缺失字段的结论维持——审计未发现第 5+ 项来自错配的隐性分歧源（X4 未被任何 key_reason 引用为打分依据）。
+
+**交付物**：`r5/packet-audit-r4-v1.md`（审计表）+ `r5/assert-packet-audit.py`（机判，可重放）+ `stages/01..04.5/R5.2audit-*`（六阶段工件）。
+
+**C12 机判化（R5.2audit-C12-mechanize · r105）**：C12 "M1-M6 定义+" 声称-内容比对由 SKIP(manual) 改为机判信号输出（claimed=yes body=no → 建议 mismatch(形式性)，signal-only、verdict 归类仍留人工）；重跑 16 PASS / 0 FAIL / 1 SKIP + 1 SIGNAL，exit 0 语义不变。

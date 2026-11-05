@@ -1,0 +1,38 @@
+{
+  "goal": "W5-blacklist-extraction-fix — 统一排查同类脚本 token 提取逻辑",
+  "bug_pattern": "行首锚定正则 ^... 只匹配行首 → 漏检非行首出现的泄漏 token（o3-claim-list.py 已修 c7a6000）",
+  "scripts_audited": [
+    {
+      "script": "assert-audit8-erratum.py",
+      "method": "re.finditer(re.escape(token), body) 全文扫描",
+      "verdict": "OK — 无行首锚定，token 是完整字符串精确匹配"
+    },
+    {
+      "script": "assert-hitmatrix-evidence.py",
+      "method": "gold_numbers_per_node(): 按行遍历 gold-tree，re.findall(r'\\bN-\\d+...') + re.findall(r'\\d+(?:\\.\\d+)?') per line",
+      "verdict": "OK — per-line findall 覆盖行内所有位置；与 o3-claim-list.py V1 口径同源（docstring 声明），噪声豁免集同步"
+    },
+    {
+      "script": "assert-leak-triage.py",
+      "method": "findall×2",
+      "verdict": "OK — 未检出行首锚定模式"
+    },
+    {
+      "script": "assert-o3-claim-list.py",
+      "method": "findall×4 (c7a6000 修复后)",
+      "verdict": "OK — 主修复已落地，黑名单 38 token 全文件 findall"
+    },
+    {
+      "script": "assert-psf-freeze.py",
+      "method": "BLACKLIST if t in m44.group(1) — 子串包含检查，限定 §4.4 代码块正文",
+      "verdict": "OK — 子串匹配天然覆盖任意位置；范围限定是有意的（§4.4 冻结块边界检查）"
+    },
+    {
+      "script": "assert-closure-checklist.py",
+      "method": "findall×2 + search/match×4",
+      "verdict": "OK — 未检出行首锚定模式"
+    }
+  ],
+  "conclusion": "零残留 — 6 个含黑名单/token 提取的脚本全部使用 findall/子串包含/per-line 遍历，无行首锚定 bug 残留。W5 统一排查完成，无需新修复。",
+  "residual_note": "hitmatrix-evidence 与 o3-claim-list 的 gold_numbers_per_node/noise_exempt 是同逻辑双份实现（docstring 声明同源）——若未来改口径需两处同步，属维护债不属 bug。"
+}

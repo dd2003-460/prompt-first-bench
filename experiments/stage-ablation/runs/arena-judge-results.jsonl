@@ -1,0 +1,90 @@
+{"tag": "S0-Q1-r1", "m1": 0.65, "claims_checked": 10, "claims_correct": 6.5, "notes": "NVLink 900GB/s、TDP 700/350W、80GB 容量、prefill compute-bound 均对；但把 PCIe HBM 带宽写成 3.35TB/s（gold 为 2.0TB/s，本题核心矛盾点），单卡差距低估为 5-15%（gold 1.3-1.7x），70B 单卡 15tok/s 与 140GB 权重自相矛盾"}
+{"tag": "S0-Q1-r2", "m1": 0.70, "claims_checked": 10, "claims_correct": 7.0, "notes": "结构同 r1 但表格改用 X/Y 占位、未编造 tok/s，故略高；仍是 PCIe HBM 带宽误报为 3.35TB/s 并与 SXM 相同，漏掉带宽比 1.68x 这一 decode 主导项"}
+{"tag": "S0-Q1-r3", "m1": 0.68, "claims_checked": 11, "claims_correct": 7.5, "notes": "唯一正确点出 NVLink/PCIe≈14x 属互联带宽比而非吞吐比（与 gold 一致）；但仍断言两者 HBM 均为 3.35TB/s（gold: PCIe 2.0），单卡差距仍低估"}
+{"tag": "S0-Q2-r1", "m1": 0.88, "claims_checked": 12, "claims_correct": 10.5, "notes": "32B/24B/33B/70B 的 FP16/INT8/INT4 权重换算全部正确（64/32/16GB、70B W4≈35GB），双卡 24GB=48GB 口径正确；仅 2x4090 标 165 TFLOPS FP16 偏高（实际 dense 约 83）"}
+{"tag": "S0-Q2-r2", "m1": 0.86, "claims_checked": 11, "claims_correct": 9.5, "notes": "量化显存表全对并显式澄清双卡 24GB 歧义；扣分项为电价假设 0.1 元/kWh（实际居民约 0.5）、未给出可复算的 c_acc 数值"}
+{"tag": "S0-Q2-r3", "m1": 0.63, "claims_checked": 4, "claims_correct": 2.5, "notes": "答案在 tool_call 处截断，只有根式与 48GB 口径可核；叶子未填、无任何量化数字，属 truncated 而非完整作答"}
+{"tag": "S0-Q3-r1", "m1": 0.72, "claims_checked": 9, "claims_correct": 6.5, "notes": "c_serve 结构、沉没成本口径、27B 三档显存算术、TGI PagedAttention 均对；但忽略题给 RTX3090x4/96GB 改按 A100-80G 估算，且全程未处理 SLO 约束（gold 的 constraint 维度）"}
+{"tag": "S0-Q3-r2", "m1": 0.65, "claims_checked": 10, "claims_correct": 6.5, "notes": "电价 0.6-1.2、PUE 1.2-1.5、27B 显存换算均对；但同时把 27B 误猜成 Llama-3-70B/Qwen-2.5-72B、改用 A100-80G，且漏 SLO 约束，硬件前提整体错位"}
+{"tag": "S0-Q3-r3", "m1": 0.72, "claims_checked": 9, "claims_correct": 6.5, "notes": "与 S0-Q3-r1 逐字重复（temp=0 复现），评分同 r1；同样未用题给 3090x4 且漏 SLO"}
+{"tag": "S0-Q4-r1", "m1": 0.81, "claims_checked": 8, "claims_correct": 6.5, "notes": "embedding 成本链完全可复算（2.5亿token x $0.02/1M = $5、100万x512x4B≈2GB）；根式用 C_retrieval+C_gen+C_infra+C_failure 却缺 gold 强调的'建设成本摊销'项"}
+{"tag": "S0-Q4-r2", "m1": 0.83, "claims_checked": 9, "claims_correct": 7.5, "notes": "三档 chunk(256/512/1024)、HNSW<10ms、100万x1536x4B≈6GB 均合理；同样缺建设摊销；'输入 token 为长上下文 1/5' 属未给依据的估计"}
+{"tag": "S0-Q4-r3", "m1": 0.83, "claims_checked": 9, "claims_correct": 7.5, "notes": "与 S0-Q4-r2 逐字重复（temp=0 复现），评分同 r2"}
+{"tag": "S0-Q5-r1", "m1": 0.69, "claims_checked": 8, "claims_correct": 5.5, "notes": "EDL 根标量、弱先验下两派渐近等价、频率闭式 C_comp≈0、'没有永远最划算的学派' 均对；Type I 膨胀 2-3x 与 EDL 差 20-50% 为无依据估计，且缺 gold 的沟通误读维度"}
+{"tag": "S0-Q5-r2", "m1": 0.83, "claims_checked": 9, "claims_correct": 7.5, "notes": "显式把制度约束设为硬约束（与 gold 一致）、正确引用 Bernstein-von Mises 渐近等价与小 n 时频率 CI 覆盖率失真；仍缺 L_comm 维度且表内 D6 与所列 D1-D4 编号不一致"}
+{"tag": "S0-Q5-r3", "m1": 0.83, "claims_checked": 9, "claims_correct": 7.5, "notes": "与 S0-Q5-r2 逐字重复（temp=0 复现），评分同 r2"}
+{"tag": "S1-Q1-r1", "m1": 0.773, "claims_checked": 11, "claims_correct": 8.5, "notes": "正确取用 PCIe 2.0 vs SXM 3.35 TB/s 并推出 1.675x（与 gold 的 1.68x 一致），compute-bound 时差距缩小也对；错在称两版 SM/FLOPS/时钟'完全一致'（gold: 989 vs 756，差约 23%），且称 H100 PCIe 有 900GB/s NVLink（实际无 NVLink）"}
+{"tag": "S1-Q1-r2", "m1": 0.818, "claims_checked": 11, "claims_correct": 9.0, "notes": "带宽比 1.675、单卡 1.5-1.7x、batch 增大转 compute-bound 均正确，且不再误称 PCIe 有 NVLink；扣分在仍称两版算力/频率完全一致、多卡 1.8-2.0x 与绝对 tok/s 表为无依据外推"}
+{"tag": "S1-Q1-r3", "m1": 0.818, "claims_checked": 11, "claims_correct": 9.0, "notes": "与 S1-Q1-r2 逐字重复（temp=0 复现），评分同 r2"}
+{"tag": "S1-Q2-r1", "m1": 0.900, "claims_checked": 10, "claims_correct": 9.0, "notes": "六候选的 FP16/INT4 显存估算全部落在合理区间，2x17500/36≈972 元/月 可复算，且正确指出合格率是最高弹性项；仅把 L40S 误列为 24GB 卡（实为 48GB）"}
+{"tag": "S1-Q2-r2", "m1": 0.833, "claims_checked": 9, "claims_correct": 7.5, "notes": "70B W4≈35GB+KV 后临界、32B W8≈32GB 可行、32B W4≈16GB 宽裕均正确，合格率 0.6→0.8 使 CPQR 降 25% 也算对；但'吞吐 2x 而合格率减半 → CPQR 4x'算错（应为持平）"}
+{"tag": "S1-Q2-r3", "m1": 0.833, "claims_checked": 9, "claims_correct": 7.5, "notes": "与 S1-Q2-r2 逐字重复（temp=0 复现），评分同 r2"}
+{"tag": "S1-Q3-r1", "m1": 0.813, "claims_checked": 8, "claims_correct": 6.5, "notes": "硬件固定下 C_1k ∝ 1/T 的化简正确、27B FP16≈54GB/INT4≈14GB 换算正确、vLLM 首选/SGLang 多轮优的排序合理；但全程未把题给 SLO（TTFT<2s、TPOT<60ms、并发≥8）作为约束，结论缺可行性门槛"}
+{"tag": "S1-Q3-r2", "m1": 0.833, "claims_checked": 9, "claims_correct": 7.5, "notes": "功耗 250-400W、TTFT 100-500ms、vLLM 150/TGI 80 tok/s → 成本 53% 的换算均正确；扣分于把 Tokens/s/W 当作排序主标量（硬件固定时功耗差异 10-20% 远不及吞吐 2-5x），并称'未解开的矛盾：无'（过自信），同样漏 SLO"}
+{"tag": "S1-Q3-r3", "m1": 0.833, "claims_checked": 9, "claims_correct": 7.5, "notes": "与 S1-Q3-r2 逐字重复（temp=0 复现），评分同 r2"}
+{"tag": "S1-Q4-r1", "m1": 0.786, "claims_checked": 7, "claims_correct": 5.5, "notes": "50万页x500token≈2.5亿token、长上下文输入为 RAG 的 10-50x、混合方案幻觉率最低均与 gold 一致；但根式缺'建设成本摊销'项，且把题给 p95<15s 改成 3s"}
+{"tag": "S1-Q4-r2", "m1": 0.786, "claims_checked": 7, "claims_correct": 5.5, "notes": "token 规模与输入分布估计正确；同样缺建设摊销、把 p95<15s 写成 3s，且幻觉率区间未给依据"}
+{"tag": "S1-Q4-r3", "m1": 0.786, "claims_checked": 7, "claims_correct": 5.5, "notes": "结构同 r2 并加了份额占比表（0.05-0.30 各级），占比数字无依据；同样缺建设摊销、p95 口径错为 3s"}
+{"tag": "S1-Q5-r1", "m1": 0.719, "claims_checked": 8, "claims_correct": 5.75, "notes": "EDL 根标量与'没有绝对最划算的学派'结论正确，三场景条件化建议与 gold 方向一致；但 TDC 未覆盖 gold 的 L_tail（模式误设/p-hacking），且 C_stat 10^1-10^2 人天、C_error 10^5-10^7 等量级全为无依据估计"}
+{"tag": "S1-Q5-r2", "m1": 0.700, "claims_checked": 8, "claims_correct": 5.6, "notes": "显式写出 C_FP/C_FN 型损失（与 gold 的 L_err=P(FP)C_FP+P(FN)C_FN 同构），并正确把先验合理性设为约束；扣分于'先验失配时 EDL 高 500%'等百分比无依据，且缺 L_comm/L_tail"}
+{"tag": "S1-Q5-r3", "m1": 0.700, "claims_checked": 8, "claims_correct": 5.6, "notes": "与 S1-Q5-r2 逐字重复（temp=0 复现），评分同 r2"}
+{"tag": "S2-Q1-r1", "m1": 0.95, "claims_checked": 10, "claims_correct": 9.5, "notes": "唯一同时写全 3.35/2.0 TB/s、700/350W、NVLink 900、PCIe x16 ~64GB/s 并算出 8 卡总带宽 16 vs 26.8 TB/s 与互连 14x 的回答；单卡 decode +67%、多卡 30-50% 均落在 gold 区间；仅'PCIe Gen5'与 gold 的 Gen4 口径略差"}
+{"tag": "S2-Q1-r2", "m1": 0.8, "claims_checked": 10, "claims_correct": 8.0, "notes": "自行纠正了'H100 PCIe 是 GDDR6X'的误解并给出 2.0 TB/s，PCIe5.0 x16 双向 128GB/s 亦正确；但因素表仍写 GDDR6X、以 128GB/s 算出 7x 互连比（gold 取 900/64=14x），单卡差异 10-30% 偏低"}
+{"tag": "S2-Q1-r3", "m1": 0.833, "claims_checked": 9, "claims_correct": 7.5, "notes": "3.35/2.0、700/350W、PCIe4.0 x16~64GB/s、互连 10x+ 均正确，且诚实标注证据仅来自官网首页/Wikipedia；错在称'单卡时两者计算能力相同'（gold: 989 vs 756 TFLOPS），多卡 2-4x 无依据"}
+{"tag": "S2-Q2-r1", "m1": 0.938, "claims_checked": 8, "claims_correct": 7.5, "notes": "48GB 口径、32B FP16~64GB 放不下、32B INT4 16-20GB、70B W4 35-40GB 临界、三年折旧公式全部正确；其余数值一律标'待研究'未编造，仅 batch 1-4/1-2 为未验证估计"}
+{"tag": "S2-Q2-r2", "m1": 0.938, "claims_checked": 8, "claims_correct": 7.5, "notes": "同 r1 的显存换算全对（Mistral-24B FP16~48GB/INT4 12-15GB、Llama-70B W4~40GB 亦正确），同样把未验证项显式列入空缺清单"}
+{"tag": "S2-Q2-r3", "m1": 0.929, "claims_checked": 7, "claims_correct": 6.5, "notes": "FP16/INT8/INT4 = 2/1/0.5 bytes per param 的换算正确、代码补全 500-2000 token 的上下文估计合理；通篇以'待验证'标注型号参数，未出现与 gold 冲突的硬数字"}
+{"tag": "S2-Q3-r1", "m1": 0.813, "claims_checked": 8, "claims_correct": 6.5, "notes": "27B FP16/INT8/INT4 = 54/27/13.5GB 换算正确、A-E 五维分解与'B 单流速度 vs C 并发容量'的区分合理；但把题给 RTX3090x4/96GB 换成'假设 1xA100 80GB 或 2xA100 40GB'，硬件前提错位"}
+{"tag": "S2-Q3-r2", "m1": 0.786, "claims_checked": 7, "claims_correct": 5.5, "notes": "固定硬件下硬件采购为沉没成本的口径正确、FP16→INT4 省约 75% 显存正确、batch 1→32 吞吐 10-30x 合理；A100 带宽记为 1555 GB/s（80GB 版实为 2039）、且同样改用 A100 假设而非题给 3090x4"}
+{"tag": "S2-Q3-r3", "m1": 0.8, "claims_checked": 6, "claims_correct": 4.8, "notes": "27B 三档显存、GPU 服务器满载 500-1500W、L40S 48GB 均正确；但同样以 A100/H100/L40S 替代题给 3090x4，且框架排序依据多为'待实测'未落地"}
+{"tag": "S2-Q4-r1", "m1": 0.917, "claims_checked": 6, "claims_correct": 5.5, "notes": "CPCA=总成本/正确回答数×1000 与 gold 的 c_correct 同构，50万页→50-100万 chunk、RAG 2K-8K vs 长上下文 50K-128K token 均合理，并识别 128K 窗口内的 lost-in-middle 风险；仅 chunk/页估计为范围值"}
+{"tag": "S2-Q4-r2", "m1": 0.917, "claims_checked": 6, "claims_correct": 5.5, "notes": "CPCA 代数化简为 (FC/N+VCQ)/AR 正确，明确 50万页远超 128K 因而'纯长上下文需澄清含义/可能不可行'，与 gold 的规模约束一致"}
+{"tag": "S2-Q4-r3", "m1": 0.929, "claims_checked": 7, "claims_correct": 6.5, "notes": "在 r2 基础上给出可复算推导：50万页x500token≈2.5亿token 远超 128K，判定纯长上下文物理不可行并提出用 BM25/元数据预筛的替代定义；与 gold 的 doc_scale 约束吻合"}
+{"tag": "S2-Q5-r1", "m1": 0.833, "claims_checked": 6, "claims_correct": 5.0, "notes": "EDL 根标量、大样本 n>1000 时两派统计精度差异≈0、期刊 p 值要求作为一票否决项均与 gold 一致；但给出'频率学派是更划算的默认选择'这一默认结论，与 gold 的'条件化、无默认最优'相左"}
+{"tag": "S2-Q5-r2", "m1": 0.883, "claims_checked": 6, "claims_correct": 5.3, "notes": "EDL 公式、硬约束/软成本口径分离、小样本频率 CI 实际覆盖率 90-95% 的偏差区间均合理，结论为条件化三选（贝叶斯/频率/混合）与 gold 同向；无 quant 错误"}
+{"tag": "S2-Q5-r3", "m1": 0.85, "claims_checked": 6, "claims_correct": 5.1, "notes": "开头因检索源污染（色情站点）触发拒绝声明后再作答，属流程污染而非事实错误；正文 p 值定义（H0 下观察到当前或更极端数据的概率）准确、小样本贝叶斯更稳健、大样本收敛均对；最终推荐混合 workflow 偏强"}
+{"tag": "S3-Q1-r1", "m1": 0.688, "claims_checked": 8, "claims_correct": 5.5, "notes": "700/350W、NVLink 900GB/s、PCIe 无 NVLink、互连 ~14x 均正确；错在称两版 HBM 带宽均为 3.35 TB/s（gold: PCIe 2.0），并据此外推'单卡差异 <5%'（gold 1.3-1.7x），方向性误判"}
+{"tag": "S3-Q1-r2", "m1": 0.643, "claims_checked": 7, "claims_correct": 4.5, "notes": "NVLink 900GB/s、PCIe 无 NVLink、700/350W、Gen5 x16~64GB/s 正确；两处硬错：称两版 FP16 峰值算力同为 ~989 TFLOPS（gold: PCIe 756），且称 ~14x 带宽差异'直接转化为吞吐差异'——正是 gold 明确点破的误读"}
+{"tag": "S3-Q1-r3", "m1": 0.714, "claims_checked": 7, "claims_correct": 5.0, "notes": "80GB 容量、NVLink 900、无 NVLink、700/350W 正确，并诚实标注'待核验/未解决'；错在默认两版显存带宽同为 3.35 TB/s（gold: PCIe 2.0），并把 2-5x 多卡差距列为待验证假设却未给依据"}
+{"tag": "S3-Q2-r1", "m1": 0.929, "claims_checked": 7, "claims_correct": 6.5, "notes": "48GB=2x24GB 口径、32B FP16 64-66GB 超预算必须量化、70B W4 ~35GB+KV 后可行但紧张、3 年直线折旧均正确；仅 Mistral-24B 的 HumanEval 65-70% 为未核验估值"}
+{"tag": "S3-Q2-r2", "m1": 0.929, "claims_checked": 7, "claims_correct": 6.5, "notes": "32B(64GB)/33B(66GB)/24B(48GB)/70B-W4(35GB) 的显存账全部算对，24GB 卡 TDP 250-350W 合理；未出现与 gold 冲突的硬数字"}
+{"tag": "S3-Q2-r3", "m1": 0.917, "claims_checked": 6, "claims_correct": 5.5, "notes": "同 r2 的量化显存换算与'单次调用成本/合格率'的根式化简均正确；略短，未给候选模型的具体能力分"}
+{"tag": "S3-Q3-r1", "m1": 0.75, "claims_checked": 7, "claims_correct": 5.25, "notes": "27B 54/27/13.5GB 换算正确、固定硬件下只看可变成本与吞吐的化简正确、0.5 元/kWh 合理；但把题给 SLO（TTFT<2s/TPOT<60ms/并发≥8）改写成'TTFT<2s, TPOT<50ms, 并发 50'，且以 A100/H100 替代题给 3090x4"}
+{"tag": "S3-Q3-r2", "m1": 0.75, "claims_checked": 6, "claims_correct": 4.5, "notes": "沉没成本口径与'吞吐是核心变量'正确；但凭空造出'Llama-3-70B 的 27B 变体/Qwen-2-72B 的 27B 变体'这一不存在的型号，且同样以 A100 假设替代题给 3090x4"}
+{"tag": "S3-Q3-r3", "m1": 0.833, "claims_checked": 6, "claims_correct": 5.0, "notes": "27B 三档权重显存全部算对、$0.1/kWh 与'可变成本差异<5%'合理、明确'框架对功耗影响小'与 gold 的 c_hour 常数口径一致；唯一硬伤是仍用 A100 80GB 基准而非题给 3090x4"}
+{"tag": "S3-Q4-r1", "m1": 0.9, "claims_checked": 6, "claims_correct": 5.4, "notes": "CPCA=单次成本/正确率 的代数拆分正确、50万页→100-250万向量、每页 500-1000 token、128K≈128k tokens 均合理；未像 r2/r3 那样明确点出'纯长上下文 50万页物理不可行'"}
+{"tag": "S3-Q4-r2", "m1": 0.95, "claims_checked": 6, "claims_correct": 5.7, "notes": "CPCA 分解正确，并给出可复算推导：50万页x500token≈2.5亿token、128K≈256 页，据此判定纯长上下文必须依赖预筛选——与 gold 的 doc_scale 约束完全一致"}
+{"tag": "S3-Q4-r3", "m1": 0.95, "claims_checked": 6, "claims_correct": 5.7, "notes": "同 r2 且把 250M>>128K 写成显式可复核算术，另覆盖嵌入/向量存储/索引覆盖度的成本叶子；数字均可复算"}
+{"tag": "S3-Q5-r1", "m1": 0.9, "claims_checked": 5, "claims_correct": 4.5, "notes": "根标量取 min over {FREQ,BAYES,HYBRID} E[L] 与 gold 的期望决策损失同构，制度约束按最严格假设处理的口径正确；篇幅最短，未展开 L_comm/L_tail"}
+{"tag": "S3-Q5-r2", "m1": 0.917, "claims_checked": 6, "claims_correct": 5.5, "notes": "开头指出检索源为成人站点并与问题无关后忽略之（流程污染，已登记），正文统计陈述准确：制度要求 p<0.05 时后验概率无法无额外假设地转为 p 值、小样本频率 CI 覆盖率偏离名义水平均正确"}
+{"tag": "S3-Q5-r3", "m1": 0.9, "claims_checked": 5, "claims_correct": 4.5, "notes": "L_expected 根标量、期刊 p<0.05 作为必须产出 p 值的制度约束、贝叶斯决策规则 P(theta>0|D)>0.95 均表述正确；缺 gold 的沟通误读与范式尾部风险两项"}
+{"tag": "S4-Q1-r1", "m1": 0.607, "claims_checked": 7, "claims_correct": 4.25, "notes": "互连 900 vs 64GB/s、700/350W、NVSwitch 全互联正确；但称两版 FP16 算力相同（gold: 756 vs 989）且全程未提 PCIe HBM 2.0 TB/s，反而推'单卡差异仅来自功耗'，与 gold 的带宽瓶颈结论相反"}
+{"tag": "S4-Q1-r2", "m1": 0.5, "claims_checked": 7, "claims_correct": 3.5, "notes": "PCIe 无 NVLink、900/64≈14x 正确；三处硬错：称两版 HBM 均 3.35 TB/s、称两版 TDP 都接近 700W（gold: 350W）、断言单卡差异 <5%（gold 1.3-1.7x），把本题核心矛盾全部答反"}
+{"tag": "S4-Q1-r3", "m1": 0.625, "claims_checked": 6, "claims_correct": 3.75, "notes": "PCIe5.0 x16~64GB/s、NVLink 900GB/s、无 NVLink 正确，并诚实标注检索未取得 benchmark；但称两版 FP16 算力同为 ~989 TFLOPS、单卡差异 <10%，与 gold 的 989/756 与 1.3-1.7x 均不符"}
+{"tag": "S4-Q2-r1", "m1": 0.929, "claims_checked": 7, "claims_correct": 6.5, "notes": "32B 64/32/16GB、24B 48GB 卡线、70B W4 35GB 余量极小、48GB 硬约束表均正确；单次调用成本/合格率的根式与 gold 的 c_acc 同构"}
+{"tag": "S4-Q2-r2", "m1": 0.929, "claims_checked": 7, "claims_correct": 6.5, "notes": "32B INT4 16-20GB、24B INT8 24GB、33B INT8 33GB、70B W4 35-40GB 全部算对，并明确'所有候选经量化均在 48GB 内、无候选被排除'"}
+{"tag": "S4-Q2-r3", "m1": 0.917, "claims_checked": 6, "claims_correct": 5.5, "notes": "48GB=2x24GB、32B/33B/70B FP16 必须量化、24B FP16≈48GB 卡线均正确；合格率减半使成本翻倍的表述与 gold 分母口径一致"}
+{"tag": "S4-Q3-r1", "m1": 0.813, "claims_checked": 8, "claims_correct": 6.5, "notes": "27B 54/27/13.5GB、框架吞吐差 2-5x 而功耗差 <20%、利用率 0.99→0.80 使成本升 24% 的算术均正确；但以 1xA100-80GB 做敏感性分析而非题给 3090x4，且未把 SLO 作为约束处理"}
+{"tag": "S4-Q3-r2", "m1": 0.833, "claims_checked": 6, "claims_correct": 5.0, "notes": "54/27/13.5GB 换算、A 支占 70-80%、框架额外开销 1-2GB 均合理；'若服务器只有 1 张 48GB 卡则跑不了 FP16'与题给的 4x3090=96GB 不符，属前提错位"}
+{"tag": "S4-Q3-r3", "m1": 0.75, "claims_checked": 6, "claims_correct": 4.5, "notes": "27B 三档权重显存、残值 0-10%、INT4 可提 2-4x 吞吐均合理；但据'FP16 需 ≥80GB 单卡或 2x48GB'判定硬件不足，而题给 4x3090=96GB 足够跑 FP16，结论前提错误"}
+{"tag": "S4-Q4-r1", "m1": 0.917, "claims_checked": 6, "claims_correct": 5.5, "notes": "CPCA=总成本/(总请求x正确率) 拆分正确、chunk 256/512/1024 与解析/嵌入/切块三类建设成本齐全，并显式把'50万页远超 128K'列为待解矛盾"}
+{"tag": "S4-Q4-r2", "m1": 0.917, "claims_checked": 6, "claims_correct": 5.5, "notes": "CPCA 乘性耦合口径正确，纯长上下文'128K token 输入成本极高 + 迷失在中间导致引用错段'的判断与 gold 一致"}
+{"tag": "S4-Q4-r3", "m1": 0.917, "claims_checked": 6, "claims_correct": 5.5, "notes": "给出可复算账：50万页x500字=2.5亿字、text-embedding-3-small $0.02/1M → 一次性约 $3000，与 gold 的数量级一致；长上下文输入为 RAG 的 5-10x 亦合理"}
+{"tag": "S4-Q5-r1", "m1": 0.9, "claims_checked": 5, "claims_correct": 4.5, "notes": "开头指出检索源为无关成人/新闻链接后忽略（流程污染已登记），正文 EDL 根标量正确、'n>10,000 时两派结果几乎一致、混合的额外成本可能超过收益'与渐近等价一致"}
+{"tag": "S4-Q5-r2", "m1": 0.917, "claims_checked": 6, "claims_correct": 5.5, "notes": "L* 根标量、制度约束作为硬约束先排除、n>1000 时两派损失差 <5%、强制 p 值时频率优先均正确；仅'先验敏感性导致 0-50% 损失波动'为无依据区间"}
+{"tag": "S4-Q5-r3", "m1": 0.9, "claims_checked": 5, "claims_correct": 4.5, "notes": "把制度违反写成 lambda x 示性函数加入目标（等价于 gold 的可行域约束）表述正确，EDL 累加式 T 期决策的口径合理；未展开 L_comm/L_tail"}
+{"tag": "S5-Q1-r1", "m1": 0.571, "claims_checked": 7, "claims_correct": 4.0, "notes": "NVLink 900GB/s、无 NVLink、700/350W、14x 互连比正确；但称两版 HBM 带宽均 3.35 TB/s、FP16 算力同为 989 TFLOPS，均与 gold 相反（PCIe 为 2.0 TB/s、756 TFLOPS）"}
+{"tag": "S5-Q1-r2", "m1": 0.5, "claims_checked": 7, "claims_correct": 3.5, "notes": "PCIe Gen5 x16 ~64GB/s 单向与非全互联拓扑正确；但称 HBM 带宽'标称相同 3.35'、TDP'两者均 700W'、单卡吞吐接近，三处与 gold 冲突，其中 TDP 350W 是明确规格错误"}
+{"tag": "S5-Q1-r3", "m1": 0.643, "claims_checked": 7, "claims_correct": 4.5, "notes": "唯一正确写出 HBM 3.35 vs 2.0 TB/s 的 S5 答案，NVLink 900、PCIe x16 64 也对；但 FP16 算力仍记 989/989、TDP 记 PCIe 700W（gold 350W），两处规格硬错"}
+{"tag": "S5-Q2-r1", "m1": 0.929, "claims_checked": 7, "claims_correct": 6.5, "notes": "32B 64GB 超预算→INT8 32/INT4 16GB、24B 48GB 卡线、33B 66GB、70B W4 35GB 全部正确，代码补全 500-2000 token 与 50-200 输出的估计合理"}
+{"tag": "S5-Q2-r2", "m1": 0.929, "claims_checked": 7, "claims_correct": 6.5, "notes": "同上显存账全对，且明确'48GB 约束下排除 FP16 的 32B，其余经量化均可部署'，无与 gold 冲突的硬数字"}
+{"tag": "S5-Q2-r3", "m1": 0.917, "claims_checked": 6, "claims_correct": 5.5, "notes": "70B W4 35-40GB、32B/33B W8 32-35GB、24B W8 24-26GB 均合理（略高估 W8，实际 32B W8≈32GB），成本占比 60-80/20-40/5-10 为待验证标注"}
+{"tag": "S5-Q3-r1", "m1": 0.875, "claims_checked": 6, "claims_correct": 5.25, "notes": "27B 54/27/13.5GB、电力差异 <5%、吞吐差 2-5x、KV cache 10-50GB 均正确，vLLM 1.5-2.5x TGI 属合理区间；仍以 A100-80GB 为基准而非题给 3090x4"}
+{"tag": "S5-Q3-r2", "m1": 0.929, "claims_checked": 7, "claims_correct": 6.5, "notes": "decode 占 80-90% 且 memory-bound、vLLM 比 transformers 快 2-4x、TGI 约为 vLLM 的 70-90%、transformers 为 25-50% —— 框架相对量级与 gold 的吞吐主导结论一致"}
+{"tag": "S5-Q3-r3", "m1": 0.85, "claims_checked": 5, "claims_correct": 4.25, "notes": "27B 54/27/14GB 权重换算正确、四支权重 70/15/10/5 的占比假设明确标注；但以 2xA100-80GB 或 4xA100-40GB 为基准，与题给 3090x4/96GB 不符"}
+{"tag": "S5-Q4-r1", "m1": 0.917, "claims_checked": 6, "claims_correct": 5.5, "notes": "根节点定义与 A-E 五支分解合理，并正确把'50万页总 token 是否超 128K'列为阻塞纯长上下文可行性的 G1 空缺；未编造来源"}
+{"tag": "S5-Q4-r2", "m1": 0.714, "claims_checked": 7, "claims_correct": 5.0, "notes": "2.5亿 token、128K≈256 页、'无文档选择时长上下文仅覆盖 0.05% 文档故正确率低'的推导正确；但引用'RAG in the Wild (ACL 2026)''Pix2Evidence (arXiv 2026)'两条文献无法核实、疑为杜撰，按无依据计"}
+{"tag": "S5-Q4-r3", "m1": 0.917, "claims_checked": 6, "claims_correct": 5.5, "notes": "嵌入存储算账可复算：1536 维 float32 ≈ 6KB/chunk、50万页x10 chunks ≈ 30GB，模型单价区间 $0.10-$15/M tokens 合理；RAG 2K-8K vs 长上下文 50K-120K token 与 gold 一致"}
+{"tag": "S5-Q5-r1", "m1": 0.9, "claims_checked": 5, "claims_correct": 4.5, "notes": "L*=E[ell(delta(D),theta)] 根标量、单位与'需先指定损失函数否则最划算无定义'的前提均正确；未展开 L_comm/L_tail 两支"}
+{"tag": "S5-Q5-r2", "m1": 0.875, "claims_checked": 6, "claims_correct": 5.25, "notes": "根标量与'损失函数须事先指定'正确，结论明确限定在'0-1 损失+先验可得'假设下推荐贝叶斯，属条件化表述与 gold 同向；但先验偏差 10-100%、期刊要求 p 值占 30-70% 为无依据区间"}
+{"tag": "S5-Q5-r3", "m1": 0.9, "claims_checked": 5, "claims_correct": 4.5, "notes": "L* 取三候选最小、制度约束作为划除候选的硬约束、MCMC 比解析解慢 10-1000x 的量级判断均合理；'30-70% 期刊要求 p 值'为待验证估计"}

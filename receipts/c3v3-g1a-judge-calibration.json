@@ -1,0 +1,165 @@
+{
+ "kind": "ralph_web_llm_cross_check",
+ "goal": "T8-C3-v3-G1a-ninfer-calibration",
+ "date": "2026-10-31",
+ "channel": "ninfer local HTTP (qwen3.8-27b @ vllm proxy :8787; :8000 直连不通，走 :8787 同模型)",
+ "scope": "G1a 同族内部一致性校准（协议 loop-artifacts/stages/01/C3v3-G1-blind-label-design.md §6）",
+ "params": {
+  "model": "qwen3.8-27b",
+  "temperature": 0,
+  "max_tokens": 4096
+ },
+ "judge_prompts_frozen": "experiments/T8-matrix/runs/c3-v3/calibration/judge-prompts.json (J1 sha256_16 / J2 sha256_16 见该文件)",
+ "calibration_set_v1": [
+  {
+   "doc": "T7.1-02.5-crosscheck",
+   "path": "loop-artifacts/stages/02.5/T7.1-02.5-crosscheck.md",
+   "role": "A-full 域1 真实工件"
+  },
+  {
+   "doc": "T8r1-02.5-crosscheck",
+   "path": "loop-artifacts/stages/02.5/T8r1-02.5-crosscheck.md",
+   "role": "A-full 域2 真实工件"
+  },
+  {
+   "doc": "positive-control-x5-mutated",
+   "path": "experiments/T8-matrix/runs/c3-v3/calibration/positive-control-x5-mutated.md",
+   "role": "阳性对照件（X5 处置标记突变，sha 对账已冻结）"
+  }
+ ],
+ "runs": [
+  {
+   "doc": "T7.1-02.5-crosscheck",
+   "judge": "J1",
+   "seconds": 11.1,
+   "n_items": 27,
+   "pass": 27,
+   "fail_ids": [],
+   "raw_sha256_16": "976fcbc4a50ec076"
+  },
+  {
+   "doc": "T8r1-02.5-crosscheck",
+   "judge": "J1",
+   "seconds": 4.7,
+   "n_items": 14,
+   "pass": 14,
+   "fail_ids": [],
+   "raw_sha256_16": "057c4708992af405"
+  },
+  {
+   "doc": "positive-control-x5-mutated",
+   "judge": "J1",
+   "seconds": 7.6,
+   "n_items": 27,
+   "pass": 26,
+   "fail_ids": [
+    "X5"
+   ],
+   "raw_sha256_16": "6ac74854bfba4c91"
+  },
+  {
+   "doc": "T7.1-02.5-crosscheck",
+   "judge": "J2",
+   "seconds": 7.7,
+   "n_items": 27,
+   "pass": 27,
+   "fail_ids": [],
+   "raw_sha256_16": "c9a0c894aa2069e7"
+  },
+  {
+   "doc": "T8r1-02.5-crosscheck",
+   "judge": "J2",
+   "seconds": 5.0,
+   "n_items": 14,
+   "pass": 14,
+   "fail_ids": [],
+   "raw_sha256_16": "42f97c3add589cec"
+  },
+  {
+   "doc": "positive-control-x5-mutated",
+   "judge": "J2",
+   "seconds": 7.0,
+   "n_items": 27,
+   "pass": 27,
+   "fail_ids": [],
+   "raw_sha256_16": "7ce3f1751119bf94"
+  },
+  {
+   "doc": "T7.1-02.5-crosscheck",
+   "judge": "J1-CALM",
+   "seconds": 7.3,
+   "n_items": 27,
+   "pass": 27,
+   "fail_ids": [],
+   "raw_sha256_16": "f68c438f0db1ff11"
+  }
+ ],
+ "metrics": {
+  "item_level_kappa": {
+   "T7.1-02.5-crosscheck|J1-J2": {
+    "n_common": 27,
+    "po": 1.0,
+    "kappa": NaN,
+    "icc21": NaN
+   },
+   "T7.1-02.5-crosscheck|J1-J1-CALM": {
+    "n_common": 27,
+    "po": 1.0,
+    "kappa": NaN,
+    "icc21": NaN
+   },
+   "T7.1-02.5-crosscheck|J2-J1-CALM": {
+    "n_common": 27,
+    "po": 1.0,
+    "kappa": NaN,
+    "icc21": NaN
+   },
+   "T8r1-02.5-crosscheck|J1-J2": {
+    "n_common": 14,
+    "po": 1.0,
+    "kappa": NaN,
+    "icc21": NaN
+   },
+   "positive-control-x5-mutated|J1-J2": {
+    "n_common": 27,
+    "po": 0.963,
+    "kappa": 0.0,
+    "icc21": 0.0
+   }
+  },
+  "artifact_m8_binary": {
+   "T7.1-02.5-crosscheck": {
+    "J1": 1.0,
+    "J2": 1.0,
+    "J1-CALM": 1.0
+   },
+   "T8r1-02.5-crosscheck": {
+    "J1": 1.0,
+    "J2": 1.0
+   },
+   "positive-control-x5-mutated": {
+    "J1": 0.963,
+    "J2": 1.0
+   }
+  },
+  "spearman_m8_vs_doclen": {
+   "J1": -1.0,
+   "J2": 0.5
+  },
+  "note": "κ/ICC 在双评全一致时数学上未定义（pe=1 分母为 0），记 NaN——这是完美一致的边界情形而非计算失败；实质信息 = po（观察一致率）"
+ },
+ "findings": [
+  "F1 阳性对照敏感度【部分通过】：J1 严格版正确 fail X5（note 点名『处置标已解释但证据称不可解释』）→ 评分器能识别植入退化；J2 宽松版漏检 X5（27/27 pass）→ 宽松口径无敏感度。裁定：M8 因果判读必须用 J1 严格版，J2 仅作交叉参照不得单独放行。",
+  "F2 同族双判一致性【天花板效应】：两份真实 A-full 工件（T7.1 27 条 / T8r1 14 条）J1/J2 逐条 verdict 完全一致（po=1.0）→ κ 未定义（pe=1）。原因可预期：两份工件都是高质量 conf-0.2 自检产物，条目全部过三测，verdict 分布 100% pass → 无变异可分离。这不是 judge 失效，是校准集区分度不足。",
+  "F3 CALM 扰动稳定性【通过】：J1 措辞同义改写（J1-CALM）后 T7.1 verdict 零翻转（27/27 仍全 pass，po(J1,J1-CALM)=1.0）→ 严格版对措辞扰动稳定。",
+  "F4 长度相关性【无法否决，样本不足】：Spearman(M8, 文档字符数) 仅 3 点（J1=-1.0 / J2=0.5），统计上无意义；R1 长度否决线需 ≥4 配置点，留待 R4 全因子 runs 阶段补算，本轮不触发否决。",
+  "F5 通道事实修正：设计文档 §8 记录 ninfer :8000 本机无响应——本轮实测 :8000 仍无监听，:8787（vllm proxy，同 qwen3.8-27b 模型）可用且延迟 5-11s/次 → G1a 实际执行通道 = :8787，回执如实登记。"
+ ],
+ "verdict": "PARTIAL-PASS",
+ "verdict_detail": "G1a 三项中两项达标（CALM 稳定 + 阳性对照 J1 敏感），一项降级（κ 因天花板效应不可估，非 judge 缺陷）。解锁状态：R4 全因子 runs 开跑许可【条件性授予】——判读必须绑定 J1 严格版 + 每条 run 的 m8-scorecard 同时报 J1/J2 双口径；J2 漏检阳性对照的事实已登记，若 R4 中出现 J1/J2 verdict 分歧 >0 的工件，该工件自动进入人工仲裁队列。最终 R5 门禁仍缺 G1b 异源 judge（blocked-on-human），C3 v3 结论上限 = 同族 judge 方向性证据（conf 降档标注），不得写『judge 校准全过』。",
+ "blockers": [
+  "G1b 异源 judge 仍 blocked-on-human（arena 通道或用户 API key）",
+  "校准集区分度不足：需 R4 产出 B 组工件（含 sham/单删）后扩集重算 κ——预计 B-none/B-sham 会拉低 M8 产生 verdict 变异"
+ ],
+ "forbidden_zone_check": "冻结面零触碰：hit-matrix.json / prior-estimates.json / gold-tree.md / c3-diffs.md / MANIFEST.json 均只读消费；本回执纯新增 receipts/ + calibration/judge-prompts.json"
+}

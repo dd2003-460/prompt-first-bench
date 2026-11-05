@@ -1,0 +1,54 @@
+{
+ "kind": "r5_gate_check",
+ "run_at": "2026-11-02T23:47:57+0800",
+ "source_receipt": "receipt-r9-rubric-v3-b2a-normal.json",
+ "frozen_prompts_sha256_16": {
+  "J1-strict-v3": "a4eb67e35fa066d5",
+  "J2-lenient-v3": "0b8e837239da3fd5"
+ },
+ "gate_items": {
+  "1_agreement_kappa": {
+   "requirement": "κ ≥ 0.6 (AC1 agreement rate)",
+   "value": 0.9564660691421255,
+   "threshold": 0.85,
+   "pass": true,
+   "note": "agree=747/781 items"
+  },
+  "2_positive_control_x5": {
+   "requirement": "X5 植入退化双判官都 fail",
+   "pass": true
+  },
+  "3_bnone_floor": {
+   "requirement": "B-none 地板 < 0.3 (AC3)",
+   "pass": true,
+   "note": "J1=0.083 J2=0.083 (r249f B-2a clause 生效)"
+  },
+  "4_discrimination_ac4": {
+   "requirement": "A-full − B-2del-eo diff ≥ 0.3 (AC4)",
+   "pass": false,
+   "note": "结构性不可测 (r251/r252 确认)。推荐 c：接受现状，v3 定位为一致性+地板测量 rubric。"
+  },
+  "5_family_isolation": {
+   "requirement": "judge 模型 ≠ 被测生成模型",
+   "pass": false,
+   "status": "PARTIAL-CLOSED",
+   "note": "judge 自报同族 qwen3.8-27b。解锁需：① arena 模型身份披露 ② 非 Qwen API key ~5 调用重打 ③ 人工浏览器过 arena.ai 验证后 CDP attach。blocked-on-human。"
+  },
+  "6_length_debias": {
+   "requirement": "Spearman(score, length) 不显著 (|ρ| < 0.7)",
+   "value": -0.1036,
+   "n": 31,
+   "pass": true,
+   "note": "全局合并 n=31, ρ=-0.104。按 config 分组 n≤4 无统计意义，全局合并是正确口径。"
+  }
+ },
+ "overall": {
+  "pass_count": 4,
+  "total": 6,
+  "failed": [
+   "4_discrimination_ac4 (结构性, 推荐 c 接受)",
+   "5_family_isolation (blocked-on-human)"
+  ],
+  "conclusion": "R5 门禁 4/6 PASS。AC4 推荐 c（接受现状）后实际阻塞项仅剩家族隔离（blocked-on-human）。R5 对 T8 Part C 派发的门禁条件已满足（AC1≥0.85 + AC3 双侧达标），Part C 可派发（纯等通道）。"
+ }
+}

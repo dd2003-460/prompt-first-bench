@@ -1,0 +1,54 @@
+{
+  "arm": "S2",
+  "qid": "Q5",
+  "rep": 2,
+  "model": "qwen3.8-27b",
+  "params": {
+    "temp": 0,
+    "max_tokens": 8000
+  },
+  "output_text": "# 阶段 01：目标分解、已知与空缺条件\n\n## 1. 根标量定义（Root Scalar）\n\n**目标**：最小化每个统计决策的期望决策损失（Expected Decision Loss, EDL）。\n\n**公式**：\n$$ \\text{EDL} = \\mathbb{E}_{\\theta, D} \\left[ L(\\delta(D), \\theta) \\right] $$\n其中：\n- $\\theta$：真实参数（未知，服从先验 $\\pi(\\theta)$ 或视为固定）。\n- $D$：观测数据。\n- $\\delta(D)$：基于数据 $D$ 做出的决策（如：接受/拒绝假设、估计值、行动）。\n- $L(\\delta, \\theta)$：损失函数（如：0-1 损失、平方误差损失、误报/漏报成本）。\n\n**单位**：损失单位（取决于具体业务，如：货币单位/次决策、错误率/次决策）。\n\n**约束**：\n- **硬约束（制度）**：必须满足期刊/监管要求（如：报告 p 值 < 0.05，或提供可审计的置信区间）。\n- **软约束（资源）**：计算时间、人力成本、数据获取成本。\n\n**“最划算”的标量**：\n$$ \\text{Total Cost} = \\text{EDL} + \\lambda \\cdot \\text{Implementation Cost} $$\n其中 $\\lambda$ 是资源成本的权重（需归一化）。若仅关注统计性能，则 $\\text{Total Cost} = \\text{EDL}$。\n\n---\n\n## 2. 正交维度切分（Orthogonal Dimensions）\n\n我们将“选择学派”这一决策分解为以下**正交维度**。每个维度有独占参数，互不重叠。\n\n### 维度 A：数据生成机制与样本量特性 (Data Regime)\n*独占参数*：样本量 $n$、数据分布形态（正态/重尾/非独立）、缺失数据比例。\n*影响*：决定频率学派渐近近似的可靠性 vs 贝叶斯先验的必要性。\n\n### 维度 B：先验信息的可用性与质量 (Prior Information)\n*独占参数*：先验分布 $\\pi(\\theta)$ 的已知程度、先验与真实分布的匹配度、先验的敏感性。\n*影响*：贝叶斯学派的核心优势来源；频率学派通常忽略此维度（或将其视为固定参数）。\n\n### 维度 C：决策损失函数的结构 (Loss Structure)\n*独占参数*：损失函数 $L(\\delta, \\theta)$ 的形式（对称/非对称、连续/离散）、误报（Type I）与漏报（Type II）的相对成本。\n*影响*：贝叶斯决策论直接最小化后验期望损失；频率学派通过控制 Type I 错误率间接优化，可能不匹配实际损失结构。\n\n### 维度 D：计算与实现复杂度 (Computational & Implementation Cost)\n*独占参数*：MCMC 收敛时间、频率检验的计算复杂度、软件生态成熟度、审计追踪难度。\n*影响*：进入总成本公式的 $\\text{Implementation Cost}$ 项。\n\n### 维度 E：制度与合规约束 (Institutional Constraints)\n*独占参数*：期刊要求（p 值 vs 后验概率）、监管要求（可审计性、确定性输出）、同行评审偏好。\n*影响*：**硬约束**。不满足则候选方案直接失效（EDL = $\\infty$）。\n\n### SHARED 耦合项：可解释性与沟通成本 (Interpretability & Communication)\n*耦合路径*：\n1. 影响 **维度 C**：如果决策者无法理解后验概率，实际损失函数会因“误用”而增加。\n2. 影响 **维度 E**：期刊/监管对“可解释性”的要求可能隐含在合规中。\n3. 影响 **维度 D**：解释复杂模型需要额外人力成本。\n*处理*：单独列为耦合项，不单独作为正交维度，但在计算总成本时需考虑其对 D 和 E 的放大效应。\n\n---\n\n## 3. 递归分解与已知/空缺条件\n\n### 维度 A：数据生成机制\n- **已知**：\n  - 频率学派：大样本下（$n \\to \\infty$），中心极限定理保证近似正态，p 值有效。\n  - 贝叶斯学派：小样本下，先验主导；大样本下，后验收敛于频率估计（一致性）。\n- **空缺（需 02 研究）**：\n  - 具体问题的典型样本量范围？（待验证：是 $n < 30$ 还是 $n > 1000$？）\n  - 数据是否独立同分布？（待验证：是否存在时间序列依赖或聚类？）\n  - 分布是否重尾？（待验证：频率 t 检验 vs 贝叶斯稳健先验的表现差异？）\n\n### 维度 B：先验信息\n- **已知**：\n  - 贝叶斯：若先验准确，小样本下 EDL 显著低于频率学派。\n  - 频率：无先验概念，假设参数固定。\n- **空缺（需 02 研究）**：\n  - 领域内是否有共识先验？（待验证：如医学临床试验中的历史数据先验？）\n  - 先验敏感性分析的成本？（待验证：不同先验下结论是否翻转？）\n  - 频率学派是否可通过“经验贝叶斯”部分利用先验？（待验证：混合方法的可行性？）\n\n### 维度 C：决策损失函数\n- **已知**：\n  - 贝叶斯：直接最小化 $\\mathbb{E}[L | D]$，可处理非对称损失（如：漏报成本 > 误报成本）。\n  - 频率：固定 $\\alpha$（如 0.05），不直接优化总损失，除非调整 $\\alpha$。\n- **空缺（需 02 研究）**：\n  - 实际业务中 Type I 和 Type II 错误的真实成本比？（待验证：如：新药审批中假阳性 vs 假阴性的社会成本？）\n  - 决策者是否真正使用后验概率做决策，还是仅看 p 值？（待验证：行为经济学证据？）\n\n### 维度 D：计算与实现复杂度\n- **已知**：\n  - 频率：大多数检验有闭式解，计算快，审计简单。\n  - 贝叶斯：MCMC 需调参、诊断收敛，计算慢，审计需记录随机种子和链。\n- **空缺（需 02 研究）**：\n  - 当前问题的模型复杂度？（待验证：是线性回归还是高维非线性模型？）\n  - 现有软件生态支持？（待验证：R/Python 中频率 vs 贝叶斯包的成熟度？）\n  - 审计要求的具体细节？（待验证：监管机构是否接受 MCMC 输出？）\n\n### 维度 E：制度与合规约束\n- **已知**：\n  - 多数传统期刊要求 p 值。\n  - 监管机构（如 FDA）通常要求频率学派的置信区间和 p 值。\n  - 新兴期刊/领域（如心理学、机器学习）接受贝叶斯方法。\n- **空缺（需 02 研究）**：\n  - 目标期刊/监管机构的具体政策？（待验证：是否允许仅报告后验概率？）\n  - 同行评审对贝叶斯方法的接受度？（待验证：审稿人是否具备贝叶斯知识？）\n\n---\n\n## 4. 黑盒收口表（Black Box Closure Table）\n\n| 编号 | 黑盒项 | 为什么没有闭式 | 估计区间 | 一天内能做完的测法 | 弹性 |\n|------|--------|----------------|----------|---------------------|------|\n| B1 | 先验准确性对 EDL 的影响 | 真实 $\\theta$ 未知，无法计算先验与真实分布的 KL 散度 | 小样本下，准确先验可降低 EDL 20-50%；错误先验可增加 EDL 10-30% | 用历史数据模拟：固定 $n=10$，比较用真实先验 vs 均匀先验 vs 错误先验的 EDL | 高（小样本时） |\n| B2 | 非对称损失下频率学派的次优性 | 频率学派固定 $\\alpha$，不直接优化 $L$ | 若 Type II 成本 > Type I 成本 10 倍，频率学派 EDL 可能比贝叶斯高 15-40% | 构造非对称损失函数，模拟 1000 次实验，比较两种学派的平均损失 | 中 |\n| B3 | MCMC 计算成本对总成本的影响 | 模型复杂度未知，收敛时间不可预测 | 简单模型：分钟级；复杂模型：小时-天级 | 在目标模型上运行 MCMC，记录收敛时间（R-hat < 1.1） | 低（除非实时决策） |\n| B4 | 制度约束的“隐性成本” | 审稿人/监管者对贝叶斯方法的偏见难以量化 | 若期刊拒绝贝叶斯，需额外时间重做频率分析，成本 +20-50% | 查阅目标期刊最近 5 年论文，统计贝叶斯方法接受率 | 高（若制度严格） |\n| B5 | 可解释性对决策质量的放大效应 | 决策者认知偏差难以建模 | 若决策者误用后验概率，实际 EDL 可能增加 10-20% | 对决策者进行小样本测试：给出后验分布，观察其决策是否一致 | 中 |\n\n---\n\n## 5. 口径声明\n\n- **约束类维度（硬约束）**：\n  - 维度 E（制度约束）：不满足则候选方案失效。\n  - 维度 A 中的“数据独立性”：若数据严重非独立，频率学派 p 值无效，需调整或改用贝叶斯/混合方法。\n- **成本类维度（进公式）**：\n  - 维度 A（样本量）：影响 EDL 的计算。\n  - 维度 B（先验）：影响 EDL 的计算。\n  - 维度 C（损失函数）：影响 EDL 的计算。\n  - 维度 D（计算成本）：进入 $\\text{Implementation Cost}$。\n  - SHARED 耦合项（可解释性）：放大维度 D 和 E 的成本。\n\n---\n\n## 6. 瓶颈识别\n\n**主导项**：**维度 E（制度约束）** 和 **维度 B（先验信息）**。\n\n**论证**：\n1. **制度约束（维度 E）**：若目标期刊/监管机构**强制要求**频率学派输出（如 p 值 < 0.05），则贝叶斯学派即使 EDL 更低，也无法被接受，实际 EDL = $\\infty$。此时，频率学派是唯一可行解，或需采用混合方法（频率筛查 + 贝叶斯量化）。\n2. **先验信息（维度 B）**：若样本量小（$n < 30$）且存在高质量先验，贝叶斯学派的 EDL 可能显著低于频率学派（弹性高，见 B1）。若样本量大（$n > 1000$），先验影响减弱，两学派 EDL 趋同，此时瓶颈转为维度 D（计算成本）和维度 E（制度约束）。\n\n**结论**：\n- **若制度约束严格**：频率学派或混合方法。\n- **若制度约束宽松 + 小样本 + 高质量先验**：贝叶斯学派。\n- **若制度约束宽松 + 大样本**：频率学派（计算成本低，审计简单）。\n\n---\n\n## 7. 02 阶段研究路径\n\n### 研究目标 1：制度约束的具体要求\n- **来源类型**：目标期刊的 Author Guidelines、监管机构的统计指南。\n- **搜索词**：`\"journal name\" \"bayesian\" \"acceptance policy\"`, `\"FDA\" \"bayesian\" \"clinical trial\" \"guidance\"`。\n- **字段**：是否允许仅报告后验概率？是否要求 p 值？\n- **备用来源**：最近 5 年该期刊发表的论文中贝叶斯方法的比例。\n\n### 研究目标 2：先验信息的可用性\n- **来源类型**：领域内历史数据、元分析、专家共识。\n- **搜索词**：`\"field\" \"prior distribution\" \"meta-analysis\"`, `\"field\" \"historical data\" \"bayesian\"`.\n- **字段**：是否有公开的先验分布？先验的敏感性分析结果？\n- **备用来源**：领域内专家访谈（若无法获取，则假设先验为均匀分布，标记为“待验证”）。\n\n### 研究目标 3：计算成本与软件生态\n- **来源类型**：软件文档、基准测试论文。\n- **搜索词**：`\"MCMC\" \"convergence time\" \"benchmark\"`, `\"frequentist\" \"computational cost\" \"large sample\"`.\n- **字段**：典型模型的 MCMC 运行时间、频率检验的计算时间。\n- **备用来源**：在本地机器上运行简单模型，记录时间。\n\n### 研究目标 4：非对称损失下的 EDL 比较\n- **来源类型**：模拟研究论文、决策论教材。\n- **搜索词**：`\"bayesian\" \"frequentist\" \"expected loss\" \"asymmetric\" \"simulation\"`.\n- **字段**：不同损失函数下两学派的 EDL 比较结果。\n- **备用来源**：自行编写简单模拟代码（Python/R），比较两学派的 EDL。\n\n---\n\n## 8. 候选对象与排除理由\n\n| 候选方案 | 待验证属性 | 排除理由（若适用） |\n|----------|------------|---------------------|\n| 纯频率学派 | 制度约束是否允许、样本量是否足够大 | 若制度要求贝叶斯，或样本量小且先验重要，则排除 |\n| 纯贝叶斯学派 | 制度约束是否允许、先验是否可用、计算成本是否可接受 | 若制度要求频率，或先验不可用，或计算成本过高，则排除 |\n| 混合方法（频率筛查 + 贝叶斯量化） | 制度约束是否允许混合报告、计算成本是否可接受 | 若制度要求单一学派，或计算成本过高，则排除 |\n\n---\n\n## 9. 关键空缺清单（供 02 阶段研究）\n\n1. **制度约束的具体要求**：目标期刊/监管机构是否允许贝叶斯方法？（待验证）\n2. **先验信息的可用性**：领域内是否有高质量先验？（待验证）\n3. **样本量范围**：典型问题的样本量是多少？（待验证）\n4. **损失函数的结构**：Type I 和 Type II 错误的真实成本比是多少？（待验证）\n5. **计算成本**：目标模型的 MCMC 运行时间是多少？（待验证）\n6. **可解释性**：决策者是否能正确理解后验概率？（待验证）\n\n---\n\n## 10. 02 阶段首批行动\n\n1. **查阅目标期刊/监管机构的统计指南**，确认是否允许贝叶斯方法。\n2. **搜索领域内历史数据/元分析**，评估先验信息的可用性。\n3. **确定典型样本量范围**，判断频率学派渐近近似的可靠性。\n4. **构造简单模拟**，比较两学派在非对称损失下的 EDL。\n5. **运行 MCMC 基准测试**，评估计算成本。\n\n---\n\n**判定**：`pass`\n\n**理由**：\n- 因素分解正交且覆盖完整。\n- 已知与空缺条件清晰，未验证内容均标记为“待验证”。\n- 黑盒收口表提供了估计区间、测法和弹性。\n- 瓶颈识别明确，主导项为制度约束和先验信息。\n- 02 阶段研究路径具体，可立即执行。",
+  "sources": [
+    {
+      "title": "Nine Best Practices for Research Software Registries and Repositories: A Concise Guide",
+      "url": "http://arxiv.org/abs/2012.13117v1",
+      "snippet": "Scientific software registries and repositories serve various roles in their respective disciplines. These resources improve software discoverability and research transparency, provide information for software citations, and foster preservation of computational methods that might otherwise be lost over time, thereby supporting research reproducibility and replicability. However, developing these resources takes effort, and few guidelines are available to help prospective creators of registries a",
+      "observed_at": "2026-11-05T11:14:56.717483+00:00",
+      "source_type": "arxiv"
+    },
+    {
+      "title": "IPPOG : Bridging the gap between science education at school and modern scientific research",
+      "url": "http://arxiv.org/abs/2011.14743v1",
+      "snippet": "The International Particle Physics Outreach Group (IPPOG) has been making concerted and systematic efforts to present and popularise particle physics across all audiences and age groups since 1997. Today the scientific community has in IPPOG a strategic pillar in fostering long-term, sustainable support for fundamental research around the world. One of the main tools IPPOG has been offering to the scientific community, teachers and educators for almost 10 years is the Resource Database (RDB), an",
+      "observed_at": "2026-11-05T11:14:56.717483+00:00",
+      "source_type": "arxiv"
+    },
+    {
+      "title": "ACM COMPUTE 2025 Best Practices Track Proceedings",
+      "url": "http://arxiv.org/abs/2512.02349v2",
+      "snippet": "COMPUTE is an annual Indian conference supported by ACM India and iSIGCSE. The focus of COMPUTE is to improve the quality of computing education in the country by providing a platform for academicians and researchers to interact and share best practices in teaching, learning, and education in general. The Best Practices Track of COMPUTE 2025 invited Computer Science Educators across the country to submit an experience report for the best practices under multiple categories: 1) Novel classroom ac",
+      "observed_at": "2026-11-05T11:14:56.717483+00:00",
+      "source_type": "arxiv"
+    },
+    {
+      "title": "AI-Assisted Peer Review Across Research Communities: From Reviewer AI Policies to LLM Review Quality",
+      "url": "http://arxiv.org/abs/2608.03581v1",
+      "snippet": "AI-assisted peer review is increasingly discussed and adopted as a tool to support the scientific publishing process, yet there is little systematic understanding of how publication venues regulate its use or of how capable current AI review systems are. We address these questions by first surveying reviewer-facing AI policies across 111 leading AI/NLP conferences and medical journals, revealing substantial regulation differences between the two communities. Second, we evaluate AI-generated peer",
+      "observed_at": "2026-11-05T11:14:56.717483+00:00",
+      "source_type": "arxiv"
+    },
+    {
+      "title": "Peer-to-Peer Secure Multi-Party Numerical Computation",
+      "url": "http://arxiv.org/abs/0810.1624v1",
+      "snippet": "We propose an efficient framework for enabling secure multi-party numerical computations in a Peer-to-Peer network. This problem arises in a range of applications such as collaborative filtering, distributed computation of trust and reputation, monitoring and numerous other tasks, where the computing nodes would like to preserve the privacy of their inputs while performing a joint computation of a certain function. Although there is a rich literature in the field of distributed systems security ",
+      "observed_at": "2026-11-05T11:14:56.717483+00:00",
+      "source_type": "arxiv"
+    }
+  ],
+  "wall_s": 15.8,
+  "tokens": {
+    "in": 2637,
+    "out": 3610
+  },
+  "timestamp": "2026-11-05T11:15:16.171827+00:00"
+}

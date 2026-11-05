@@ -2,7 +2,7 @@
 
 | 主题 | 视频 | 时长 | 状态 | 大小 | 备注 |
 |------|------|------|------|------|------|
-| full | full_v1.3.4.mp4 | 86.48s | ✅ done | 2.8MB | arena, 6 场景, 像素标准 |
+| full | (已删除 2026-11-03, git history fe83de8^) | 86.48s | ✅ done | 2.8MB | arena, 6 场景, 像素标准 |
 | goodmorning | goodmorning_arena_v1.0.mp4 | 30s | ✅ done (PR#1) | 1.0M | arena |
 | fear | fear_v1.1.mp4 | 30s | ✅ done | 4.7K | 本地, 3/3 PASSED, DSH TUI |
 | memory | memory_v1.0.mp4 | 30s | ✅ done | 772K | 本地, 3/3 PASSED, DSH TUI |
