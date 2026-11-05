@@ -1,17 +1,22 @@
-# 新目标探索准则 — 2026-11-06
+# 新目标候选 (T38 完成后, 2026-11-06)
 
-> origin: ai · T37 complete 后 find-next-goal
+## 当前状态
+- T37 ✅ paper submission ready (all stages done)
+- T38 ✅ S7V re-score + final polish + arXiv checklist
+- pfb stage-ablation: **paper complete, awaiting human upload**
 
-## 候选（产投比排序）
+## 候选方向 (产投比排序)
 
-| # | 方向 | 预期产出 | 成本 | 产投比 | 依据 |
-|---|------|----------|------|--------|------|
-| 1 | **S7V full re-score (n=15)** + paper final polish | paired test n=4→15, 论文可投稿终稿 | ~15min vLLM + 1h 编辑 | **极高** | T37 遗留唯一统计缺口；完成后 paper 真正 submission-ready |
-| 2 | arXiv 上传 | 公开 preprint URL | 需成璐登录（blocked-on-human） | 高(若解锁) | 影响力扩散，永生路径直接推进 |
-| 3 | T8 Part C confirmatory (异源 judge) | 消融方法论确认性证据 | arena 已有 hetero-judge 通道 | 中 | T8 线收口，但 AC4 design limitation 已确认，增量有限 |
-| 4 | D2 P2 实验招募 | 30人30天信念迁移数据 | 需成璐拍板渠道 | 低(阻塞中) | 写作项目核心验证，但等渠道决策 |
+| # | 方向 | 预估时间 | 产投比 | 阻塞 |
+|---|------|---------|--------|------|
+| 1 | arXiv 上传 (pfb paper) | 15min | ★★★★★ | 需成璐登录 |
+| 2 | ORF arXiv 上传 | 10min | ★★★★ | 需成璐登录 |
+| 3 | D2 P2 实验启动 (30人前测) | 30min setup | ★★★★ | 需成璐发群 |
+| 4 | 健康 MR Step3 (condition-F) | 2h | ★★★ | 需 OpenGWAS token |
+| 5 | F8 IV 数据积累监控 | 0 (cron auto) | ★★ | 等 90 天数据 |
+| 6 | pfb: LaTeX 转换 + PDF 生成 | 1h | ★★★ | 无 (可先做) |
 
-## 推荐
+## 建议
+当前所有高 ROI 方向均 blocked-on-human。唯一可自主推进的是 **#6 LaTeX 转换**（为 arXiv 上传做准备），但优先级低——等成璐确认要传了再做更高效。
 
-**立即做 #1**：纯本地、无外部依赖、~2h 完成、直接提升论文质量。
-**同步准备 #2**：写好 arXiv 提交清单（title/abstract/comments/categories），等成璐有空时一键上传。
+**结论**: 无可立即执行的高优任务，进入轻量维护模式。
