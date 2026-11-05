@@ -67,3 +67,15 @@ T38-s7v-full-rescore-final-polish
 | (e) commit+push | ✅ | 3 commits pushed to main (36333f4, c415148) |
 
 **Paper final stats**: 6,874 words, 395 lines, 31 refs, 35 sections, 0 orphans, 0 placeholders.
+
+## T38 完成证据 (2026-11-06)
+
+| 验收项 | 状态 | 证据 |
+|--------|------|------|
+| (a) S7V 15 runs 评分 | ✅ | `runs/s7v-rerun/scores-m1m4.json` (assertion-based M1+M4, 15/15) |
+| (b) Paired test n=15 | ✅ | `runs/s7v-rerun/paired-test-n15.json` → paper §4.1 (M1 p=0.029 g=+0.044; M4 p=0.529 g=-0.326) |
+| (c) Language pass | ✅ | 术语统一 (hetero-judge/per-run), 无孤立引用, 无 stale numbers, 31/31 refs cited |
+| (d) arXiv checklist | ✅ | `arxiv-submission.md` (metadata + file checklist + verification) |
+| (e) commit+push | ✅ | 3 commits pushed to main (36333f4, c415148) |
+
+**Paper final stats**: 6,874 words, 395 lines, 31 refs, 35 sections, 0 orphans, 0 placeholders.
