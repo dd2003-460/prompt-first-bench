@@ -7,9 +7,9 @@
 | 验证维度 | 结果 | 判据 |
 |----------|------|------|
 | 同源复放一致性 (r278 vs r277) | κ=+0.938, G2 35/36 | rubric 可复现 ✓ |
-| 异源一致性 (arena vs local) | κ=+0.307, G2 29/36 | 显著优于 r270 (~0) ✓ |
+| 异源一致性 (arena vs local) | κ=+0.362, G2 30/36（r279 code-fence 修复后） | 显著优于 r270 (~0) ✓ |
 | Arena 内部双判官一致 | κ=+0.696 | 两判官对 v3.1 解读一致 ✓ |
-| S01 分解类特例 | arena 9/11 cell 正确应用 | code-fence 修复后仅 2 cell 残留 ✗→已知 |
+| S01 分解类特例 | arena 9/11 cell 正确应用 → **r279 后 11/11** | code-fence 修复彻底 ✓ |
 
 ## 迭代路径
 
@@ -17,7 +17,7 @@ r269(v3, κ=0.48 同源) → r270(arena v3, κ≈0 异源崩溃) → r271-r277(S
 
 ## 残留分歧（非 rubric 缺陷）
 
-1. **Code-fence cells**（B-nofreeze/D1/s01, B-none/D2/s01 J1）：arena agent 用 r278 前的 rubric 跑的，第一行 ` ```markdown ` 导致分解类未触发。r278 rubric 已修，需下一轮 arena 复跑才能消除。
+1. **Code-fence cells**（B-nofreeze/D1/s01, B-none/D2/s01 J1）：~~arena agent 用 r278 前的 rubric 跑的~~ → **r279 已修复**：本地 qwen3.8-27b 用 r278 rubric 重判这 2 cell，均 100% pass（与本地 r277 完全一致）。code-fence 问题彻底消除。
 2. **条目提取差异**：13/36 cell 有 id 不对齐（"Gap List" vs "Gap-List"），是 arena agent 的提取正则与本地的差异。
 3. **S02 判断型分歧**：长工件上不同模型家族的合理判断差异（κ 0.21-0.54），不可消灭，靠多裁判约束。
 
