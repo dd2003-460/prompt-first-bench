@@ -29,6 +29,16 @@ pfb stage-ablation 实验（`experiments/stage-ablation/DESIGN.md`）测了 S0�
 
 ## 【调研设计】
 
+## 【检索通道（强制）】
+
+本任务**必须**使用以下通道组合，不得只靠模型内部知识：
+
+1. **arXiv API**（主通道）：`http://export.arxiv.org/api/query?search_query=all:<query>&max_results=10&sortBy=relevance` — 直接访问 URL 获取 Atom XML，解析 title/id/summary。每个域至少跑 3 组不同关键词变体。
+2. **已知站点直访**（补充）：GitHub repo 页、ACL Anthology (aclanthology.org)、NeurIPS proceedings (proceedings.neurips.cc)、ICLR openreview (openreview.net) — 直接 goto URL 确认存活并提取内容。
+3. **arena agent 自身搜索能力**（如有）：agent 模式若内置 web search 工具则优先用；若无，走上述 1+2。
+
+**禁止**：仅凭模型记忆列出文献（无 URL 验证的条目不计入验收）。每条必须有可打开的 URL + 标题匹配确认。
+
 ### 检索范围（必须覆盖，按此清单逐域搜）
 
 | # | 域 | 关键词组合（至少各跑 3 组变体） | 渠道 |
