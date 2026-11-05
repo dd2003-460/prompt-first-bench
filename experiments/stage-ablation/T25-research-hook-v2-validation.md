@@ -89,10 +89,15 @@ ego-browser 环境下搜索引擎全部不可用：
 2. `ti:<specific_words>`（标题限定，只匹配标题含核心词的论文）
 合并去重，标题限定优先。
 
-验证（S2-Q1 + S2-Q2 各 3 reps）：
+验证（S2 全 5 题，各 3 reps）：
 | 题 | v2.1 avg | v2.2 avg | Δ |
 |----|----------|----------|---|
 | Q1 (H100 PCIe vs SXM) | 0.566 | 0.652 | +0.086 |
 | Q2 (A100 specs) | 0.644 | 0.712 | +0.068 |
+| Q3 (LLM inference cost) | 0.541 | 0.396 | **-0.144** |
+| Q4 (GPU cluster networking) | 0.457 | 0.458 | +0.001 |
+| Q5 (Training vs inference) | 0.642 | 0.663 | +0.021 |
 
-精度修复在两个不同题目上均有效，非 Q1 特例。
+**结论：v2.2 双策略不是普适提升。** Q1/Q2 涨（arXiv 标题限定命中了精准论文），Q3 跌（"LLM inference cost" 的 ti: 查询可能过滤掉了真正相关的 pricing/cost 论文——这类内容不在 arXiv 标题里）。Q4/Q5 基本持平。
+
+下一步：对 Q3 类问题（非纯学术、偏 vendor/pricing）应优先走 KNOWN_SITES 直访通道，而非 arXiv。
