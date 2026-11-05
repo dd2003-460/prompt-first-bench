@@ -18,7 +18,7 @@
 ## 【背景】≤10行
 - 实验：3 配置（A-full 完整 / B-nofreeze 删 freeze / B-none 全删）× 2 域（D1-meeting-room / D2-file-collab）× 3 阶段（stage01/02/03）= 18 工件。
 - 工件路径：`experiments/T8-matrix/runs/c3-v3/runs-fullloop/pilot/{config}/{domain}/stage{NN}.md`
-- Judge prompts（终版 v3.1，r277 收口）：`experiments/T8-matrix/runs/c3-v3/calibration/judge-prompts-rubric-v3.1.json` 的 `prompts.J1-strict-v3.text`（sha256_16: 8811ae284ab280bb）和 `prompts.J2-lenient-v3.text`（sha256_16: b229dcc9a14b2081）。**注意用 v3.1 不是 v3**——v3.1 含 S01 分解类自洽性特例 + J2 来源宽容条款 + B-2a 降级。
+- Judge prompts（终版 v3.1，r278 code-fence 修复）：`experiments/T8-matrix/runs/c3-v3/calibration/judge-prompts-rubric-v3.1.json` 的 `prompts.J1-strict-v3.text`（sha256_16: 7518ce5c66f92f8a）和 `prompts.J2-lenient-v3.text`（sha256_16: b229dcc9a14b2081）。**注意用 v3.1 不是 v3**——v3.1 含 S01 分解类自洽性特例 + J2 来源宽容条款 + B-2a 降级。
 - 条目清单由你从工件正文提取（规则见下方【条目提取规则】），注入 prompt 末尾「条目清单：...」段
 - 本地同源基线（r268）：`experiments/T8-matrix/runs/c3-v3/runs-fullloop/receipt-r268-same-source-replay.json`——你的任务不是复算它，而是独立重打
 - **盲判纪律**：不要先看任何本地 receipt（r268/r277 等）里的分数再打分。打完全部 36 cell（18 工件 × 2 判官）后再对照
@@ -110,7 +110,7 @@ Arena 通道恢复后派发，agent 完成 36 cell（18 工件 × 2 判官）。
 | r276 | J2 来源宽容条款 | 99.4% | 84.3% | 78.0% | 0.5569 | 9/12 |
 | **r277** | **B-2a 降级为 note** | **99.4%** | **84.3%** | **92.2%** | **0.6940** | **11/12** |
 
-**v3.1 终版 sha256_16**：J1 = `8811ae284ab280bb`，J2 = `b229dcc9a14b2081`
+**v3.1 终版 sha256_16**：J1 = `7518ce5c66f92f8a`，J2 = `b229dcc9a14b2081`
 **frozen_at**：2026-11-05T01:25:00+0800
 **残留**（非 rubric bug，27B 指令遵循极限）：B-none/D1/s02 提取波动 + B-nofreeze/D1/s02 16 项分解类泄漏（cell 总通过率不变）
 
