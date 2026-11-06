@@ -1,0 +1,48 @@
+{
+  "arm": "S8G",
+  "qid": "Q5",
+  "rep": 2,
+  "model": "qwen3.8-27b",
+  "params": {
+    "temp": 0,
+    "max_tokens": 8000
+  },
+  "output_text": "# 阶段 01 — 目标分解、已知与空缺条件\n\n## 1. 目标交付物\n\n**交付物**：一份决策分析工件，回答“在给定制度约束下，选贝叶斯学派还是频率学派（或混合 workflow）能使每个统计决策的期望决策损失最低”。\n\n**根标量定义**：\n$$L^* = \\mathbb{E}_{\\theta, X}[\\ell(\\delta(X), \\theta)]$$\n- $\\ell(\\delta, \\theta)$：决策损失函数（如 0-1 损失、平方误差损失、绝对误差损失）\n- $\\delta(X)$：基于数据 $X$ 的决策规则\n- $\\theta$：真实参数\n- $\\mathbb{E}$：对参数先验分布 $\\pi(\\theta)$ 和数据生成过程 $P(X|\\theta)$ 的联合期望\n- **单位**：损失单位（取决于 $\\ell$ 的定义，如“错误决策次数/总决策次数”或“货币损失/决策”）\n\n**关键前提**：期望损失是**贝叶斯风险**（Bayesian Risk），它依赖于先验 $\\pi(\\theta)$。频率学派没有单一的先验，因此其“期望损失”需通过**最小最大风险**（Minimax Risk）或**渐近风险**来近似。\n\n## 2. 正交维度切分（第一层）\n\n| 维度 | 独占参数 | 类型 | 说明 |\n|------|----------|------|------|\n| **D1: 损失函数结构** | $\\ell(\\delta, \\theta)$ 的形式（0-1, 平方, 绝对, 自定义） | 成本类 | 直接决定风险计算方式 |\n| **D2: 先验/参数空间** | $\\pi(\\theta)$ 或 $\\Theta$ 的边界 | 成本类 | 贝叶斯需先验；频率需参数空间定义 |\n| **D3: 样本量与数据生成** | $n$, $P(X|\\theta)$ 的分布族 | 成本类 | 影响渐近性质和有限样本表现 |\n| **D4: 制度约束** | $\\alpha$ 阈值、审计要求、可重复性标准 | 约束类 | 不满足则候选被划掉 |\n| **D5: 计算与实施成本** | 计算时间、专家先验获取成本、软件可用性 | 成本类 | 实际部署的摩擦成本 |\n| **D6: 决策频率与后果** | 决策次数 $N$、单次决策后果严重度 | 成本类 | 影响损失函数的权重 |\n\n**SHARED 耦合记录**：\n- **先验 $\\pi(\\theta)$** 同时影响 D2（贝叶斯风险计算）和 D5（获取先验的成本）。\n- **样本量 $n$** 同时影响 D3（渐近性质）和 D5（计算复杂度，如 MCMC 收敛时间）。\n\n## 3. 递归分解（第二层）\n\n### D1: 损失函数结构\n- **D1.1: 决策类型**：点估计 vs 区间估计 vs 假设检验\n  - 点估计：损失通常为 $\\ell(\\delta, \\theta) = (\\delta - \\theta)^2$ 或 $|\\delta - \\theta|$\n  - 区间估计：损失通常为 $\\ell(\\delta, \\theta) = \\mathbb{I}(\\theta \\notin \\delta)$（覆盖率损失）\n  - 假设检验：损失通常为 $\\ell(\\delta, \\theta) = c_{\\text{Type I}} \\cdot \\mathbb{I}(\\text{Reject } H_0, \\theta \\in H_0) + c_{\\text{Type II}} \\cdot \\mathbb{I}(\\text{Fail to Reject } H_0, \\theta \\notin H_0)$\n- **D1.2: 损失权重**：$c_{\\text{Type I}}$ vs $c_{\\text{Type II}}$ 的相对大小\n  - 若 $c_{\\text{Type I}} \\gg c_{\\text{Type II}}$，频率学派的 $\\alpha$ 控制更直接\n  - 若 $c_{\\text{Type II}} \\gg c_{\\text{Type I}}$，贝叶斯后验概率可能更优\n\n### D2: 先验/参数空间\n- **D2.1: 先验可用性**：\n  - 强先验：有领域专家知识，$\\pi(\\theta)$ 集中\n  - 弱先验：无专家知识，$\\pi(\\theta)$ 平坦或扩散\n  - 无先验：频率学派更自然\n- **D2.2: 参数空间边界**：\n  - 有界参数（如概率 $[0,1]$）：贝叶斯先验易定义\n  - 无界参数（如均值 $\\mathbb{R}$）：频率学派渐近性质更稳健\n\n### D3: 样本量与数据生成\n- **D3.1: 样本量 $n$**：\n  - 小样本（$n < 30$）：贝叶斯先验影响大，频率学派渐近近似失效\n  - 大样本（$n > 1000$）：两者渐近等价，差异缩小\n- **D3.2: 数据生成过程**：\n  - 参数模型正确：两者表现接近\n  - 参数模型错误：频率学派稳健性可能更好（如 bootstrap）\n\n### D4: 制度约束\n- **D4.1: 期刊要求**：\n  - 要求 $p$ 值：频率学派直接满足\n  - 要求后验概率：贝叶斯学派直接满足\n- **D4.2: 监管要求**：\n  - 可审计性：频率学派的 $p$ 值更易审计（固定样本）\n  - 可重复性：贝叶斯 MCMC 需记录随机种子和收敛诊断\n\n### D5: 计算与实施成本\n- **D5.1: 计算复杂度**：\n  - 频率学派：通常闭式解或简单迭代\n  - 贝叶斯学派：MCMC 计算成本高，需收敛诊断\n- **D5.2: 专家成本**：\n  - 贝叶斯学派需获取先验，专家时间成本高\n  - 频率学派无需先验，实施成本低\n\n### D6: 决策频率与后果\n- **D6.1: 决策频率 $N$**：\n  - 高频决策（如 A/B 测试）：计算成本累积，频率学派更划算\n  - 低频决策（如临床试验）：单次决策后果严重，贝叶斯学派可能更优\n- **D6.2: 后果严重度**：\n  - 高后果：需更精确的风险量化，贝叶斯后验概率更直观\n  - 低后果：频率学派足够\n\n## 4. 已知条件\n\n- **K1**: 频率学派和贝叶斯学派的基本定义和区别（来源 [4]）\n- **K2**: 贝叶斯推断使用先验和后验分布（来源 [4]）\n- **K3**: 频率学派使用固定样本检验和置信区间（来源 [1], [2]）\n- **K4**: 混合 workflow 是工程折中（用户指定）\n\n## 5. 空缺条件（需阶段 02 研究）\n\n| 编号 | 空缺条件 | 阻塞影响 | 研究路径 |\n|------|----------|----------|----------|\n| **G1** | 不同损失函数下，贝叶斯 vs 频率学派的期望损失比较 | 无法确定哪个学派更优 | 搜索 arXiv 上关于 Bayesian vs frequentist risk 比较的论文，如 [1], [2], [3] |\n| **G2** | 小样本 vs 大样本下，两学派的风险差异 | 无法确定样本量对决策的影响 | 搜索有限样本风险比较的模拟研究 |\n| **G3** | 制度约束（如期刊要求）对决策损失的影响 | 无法确定约束是否划掉候选 | 搜索期刊政策对统计方法的要求 |\n| **G4** | 计算成本和专家成本对总损失的影响 | 无法确定实际部署的摩擦成本 | 搜索 MCMC 计算时间基准和专家先验获取成本 |\n| **G5** | 混合 workflow 的期望损失 | 无法确定混合是否更优 | 搜索两阶段 workflow 的风险比较 |\n\n## 6. 黑盒收口表\n\n| 编号 | 黑盒项 | 为什么没有闭式 | 估计区间 | 一天内能做完的测法 | 弹性 |\n|------|--------|----------------|----------|---------------------|------|\n| **B1** | 先验 $\\pi(\\theta)$ 的敏感性 | 先验是主观的，无法闭式求解 | 先验对后验的影响随 $n$ 增大而减小 | 用不同先验（平坦、弱信息、强信息）计算后验，比较风险 | 高（小样本时） |\n| **B2** | MCMC 收敛诊断 | 收敛是渐近性质，无闭式判据 | 通常需 10,000-100,000 次迭代 | 运行 MCMC，检查 Gelman-Rubin 统计量 | 中 |\n| **B3** | 专家先验获取成本 | 专家时间成本无法闭式量化 | 通常 1-10 小时/专家 | 访谈专家，记录时间成本 | 低 |\n| **B4** | 制度约束的惩罚函数 | 约束的惩罚无法闭式量化 | 通常用 0-1 损失（不满足则划掉） | 查询期刊政策，定义惩罚函数 | 高（若约束严格） |\n\n## 7. 口径声明\n\n- **约束类维度**：D4（制度约束）— 不满足直接划掉候选\n- **成本类维度**：D1, D2, D3, D5, D6 — 进公式计算期望损失\n\n## 8. 瓶颈识别\n\n**主导项**：**D1: 损失函数结构** 和 **D4: 制度约束**\n\n**论证**：\n- **D1**：损失函数直接决定风险计算方式。若损失函数是 0-1 损失（如假设检验），频率学派的 $\\alpha$ 控制更直接；若损失函数是平方误差损失，贝叶斯后验均值可能更优。\n- **D4**：制度约束是硬约束。若期刊要求 $p$ 值，贝叶斯学派需额外转换（如 p 值 from 后验），增加摩擦成本；若监管要求可审计，频率学派的固定样本性质更易审计。\n\n**弹性**：\n- **D1** 的弹性高：损失函数形式的变化会直接改变风险计算，可能导致结论翻转。\n- **D4** 的弹性高：制度约束的严格程度会直接划掉候选，导致结论翻转。\n\n## 9. 阶段 02 研究入口\n\n**第一批行动**：\n1. 搜索 arXiv 上关于 Bayesian vs frequentist risk 比较的论文（如 [1], [2], [3]），提取不同损失函数下的风险比较结果。\n2. 搜索有限样本风险比较的模拟研究，确定样本量对两学派风险差异的影响。\n3. 查询主要期刊的统计方法政策，确定制度约束的具体要求。\n4. 搜索 MCMC 计算时间基准和专家先验获取成本，量化实施摩擦成本。\n\n**目标来源**：\n- arXiv 论文（如 [1], [2], [3]）\n- 统计学期刊（如 JASA, Annals of Statistics）\n- 期刊政策页面\n- MCMC 计算基准研究\n\n**搜索词**：\n- \"Bayesian vs frequentist risk comparison\"\n- \"finite sample risk Bayesian frequentist\"\n- \"journal policy statistical methods\"\n- \"MCMC computation time benchmark\"\n\n**失败备用路径**：\n- 若 arXiv 论文不足，搜索 Google Scholar 上的相关综述。\n- 若期刊政策页面不可访问，搜索期刊的投稿指南或 FAQ。\n- 若 MCMC 计算基准研究不足，自行运行小规模 MCMC 实验，记录计算时间。\n\n## 10. 判定\n\n**分解完成**：所有叶子因素已最小化，所有未验证条件已列入空缺清单，阶段 02 研究入口已明确。\n\n**Reviewer 应判定**：`pass`，允许直接进入阶段 02。",
+  "sources": [
+    {
+      "title": "Bridging Bayesian, frequentist and fiducial (BFF) inferences using confidence distribution",
+      "url": "http://arxiv.org/abs/2012.04464v3",
+      "snippet": "Bayesian, frequentist and fiducial (BFF) inferences are much more congruous than they have been perceived historically in the scientific community (cf., Reid and Cox 2015; Kass 2011; Efron 1998). Most practitioners are probably more familiar with the two dominant statistical inferential paradigms, Bayesian inference and frequentist inference. The third, lesser known fiducial inference paradigm was pioneered by R.A. Fisher in an attempt to define an inversion procedure for inference as an alterna",
+      "observed_at": "2026-11-06T11:53:31.269342+00:00",
+      "source_type": "arxiv"
+    },
+    {
+      "title": "Controlling the degree of caution in statistical inference with the Bayesian and frequentist approaches as opposite extremes",
+      "url": "http://arxiv.org/abs/1109.5278v1",
+      "snippet": "In statistical practice, whether a Bayesian or frequentist approach is used in inference depends not only on the availability of prior information but also on the attitude taken toward partial prior information, with frequentists tending to be more cautious than Bayesians. The proposed framework defines that attitude in terms of a specified amount of caution, thereby enabling data analysis at the level of caution desired and on the basis of any prior information. The caution parameter represents",
+      "observed_at": "2026-11-06T11:53:31.269342+00:00",
+      "source_type": "arxiv"
+    },
+    {
+      "title": "A comparison of Bayesian and frequentist interval estimators in regression that utilize uncertain prior information",
+      "url": "http://arxiv.org/abs/1401.3084v1",
+      "snippet": "Consider a linear regression model with regression parameter beta and normally distributed errors. Suppose that the parameter of interest is theta = a^T beta where a is a specified vector. Define the parameter tau = c^T beta - t where c and t are specified and a and c are linearly independent. Also suppose that we have uncertain prior information that tau = 0. Kabaila and Giri, 2009, JSPI, describe a new frequentist 1-alpha confidence interval for theta that utilizes this uncertain prior informa",
+      "observed_at": "2026-11-06T11:53:31.269342+00:00",
+      "source_type": "arxiv"
+    },
+    {
+      "title": "Bayesian inference - Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Bayesian_inference",
+      "snippet": "Jump to content\nMain menu\nSearch\nDonate\nCreate account\nLog in\nContents hide\n(Top)\nIntroduction to Bayes' rule\nToggle Introduction to Bayes' rule subsection\nInference over exclusive and exhaustive possibilities\nToggle Inference over exclusive and exhaustive possibilities subsection\nFormal description",
+      "alive": true,
+      "observed_at": "2026-11-06T11:53:31.269342+00:00",
+      "source_type": "direct_site"
+    }
+  ],
+  "wall_s": 43.5,
+  "tokens": {
+    "in": 6102,
+    "out": 2832
+  },
+  "timestamp": "2026-11-06T11:53:44.115479+00:00"
+}

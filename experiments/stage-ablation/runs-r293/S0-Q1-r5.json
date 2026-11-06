@@ -1,0 +1,18 @@
+{
+  "arm": "S0",
+  "qid": "Q1",
+  "rep": 5,
+  "model": "qwen3.8-27b",
+  "params": {
+    "temp": 0,
+    "max_tokens": 8000
+  },
+  "output_text": "# H100 PCIe vs SXM 在 LLM 推理中的实际吞吐差异\n\n## 直接回答\n\n**SXM 版通常比 PCIe 版快 10%–25% 左右（在典型 LLM 推理场景下），但并非\"快很多\"到数量级差异。** 具体差距取决于模型大小、batch size、是否使用 NVLink 多卡互联、以及推理框架的优化程度。\n\n## 为什么 SXM 更快？核心原因\n\n### 1. 互联带宽（最关键因素）\n- **PCIe 版**：卡间通信走 PCIe 总线（Gen5 x16 ≈ 64 GB/s 双向），多卡推理时 all-reduce / tensor parallel 通信是瓶颈。\n- **SXM 版**：通过 NVSwitch 实现全互联 NVLink（H100 SXM 每卡 900 GB/s NVLink 带宽，8 卡全互联）。多卡推理时通信开销大幅降低。\n\n> 对于 LLM 推理，尤其是 **tensor parallelism**（把模型切到多卡上），卡间通信频率极高，NVLink 的带宽优势直接转化为吞吐提升。\n\n### 2. 功耗与散热\n- SXM 版 TDP 可达 700W（H100 SXM），PCIe 版通常 350W（H100 PCIe）。\n- 更高功耗意味着更高的 boost clock 和更少的降频，持续推理时 SXM 能维持更高频率。\n\n### 3. 内存带宽\n- 两者 HBM3 容量相同（80GB），但 SXM 版 HBM 带宽略高（3.35 TB/s vs PCIe 版 2.0 TB/s 左右——**这个具体数字我不太确定，需要查证**）。\n- 对 memory-bound 的 LLM 推理（decode 阶段），HBM 带宽直接影响 token 生成速度。\n\n### 4. 实际场景中的差距\n| 场景 | 预期差距 |\n|------|---------|\n| 单卡推理（小模型，如 7B/13B） | 差距较小，~5-10%（主要靠功耗/频率） |\n| 多卡 tensor parallel（70B+ 模型） | 差距显著，~15-25%（NVLink 通信优势） |\n| 高 batch size 推理 | 差距中等，~10-15% |\n| 低延迟单请求 decode | 差距较小，~5-10% |\n\n## 需要注意的混淆点\n\n- **PCIe 版 H100 也有 NVLink**（4 条 NVLink，900 GB/s 总带宽），但**没有 NVSwitch**，所以 8 卡不能全互联，只能两两或有限拓扑通信。这是多卡场景下 SXM 优势最大的地方。\n- 如果只用 **1-2 张卡**，PCIe 版 H100 的 NVLink 已经够用，差距会缩小。\n- 推理框架（vLLM、TensorRT-LLM、SGLang 等）对 PCIe 版的优化程度也会影响实际差距。\n\n## 我不确定 / 需要进一步查证的点\n\n1. **H100 PCIe 版的 HBM 带宽具体数值**：我记得 SXM 是 3.35 TB/s，PCIe 版可能略低（~2.0 TB/s？），但具体数字记不清，需要查 NVIDIA 官方 datasheet 确认。\n2. **PCIe 版 H100 的 NVLink 配置细节**：是 4 条 NVLink 还是其他配置？总带宽是否确实是 900 GB/s？需要确认。\n3. **具体 benchmark 数据**：不同框架（vLLM vs TensorRT-LLM）下 PCIe vs SXM 的实测吞吐对比，我没有可靠的单一来源数据，建议查 NVIDIA 官方白皮书或社区 benchmark（如 HuggingFace 上的对比测试）。\n4. **H100 PCIe 版的 TDP 是否严格为 350W**：有些资料提到 350W，有些提到可配置到 400W，需要确认。\n\n## 总结\n\nSXM 版在 LLM 推理中确实更快，但**不是\"快很多\"（不是 2x 或 3x）**，而是 **10%-25% 的合理提升**。核心优势来自 NVSwitch 全互联（多卡通信）和更高功耗/频率。如果你的部署是单卡或小规模（≤2 卡），PCIe 版的性价比可能更优；如果是 8 卡跑大模型（70B+），SXM 的 NVLink 全互联优势会充分体现。",
+  "sources": [],
+  "wall_s": 39.0,
+  "tokens": {
+    "in": 153,
+    "out": 1054
+  },
+  "timestamp": "2026-11-06T11:27:37.506868+00:00"
+}
