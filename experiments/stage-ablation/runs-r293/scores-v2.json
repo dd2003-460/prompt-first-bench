@@ -1,0 +1,1172 @@
+[
+  {
+    "arm": "S0",
+    "qid": "Q1",
+    "rep": 2,
+    "scores": {
+      "M1": 0.4444444444444444,
+      "M2": 0.5,
+      "M3": 0.3333333333333333,
+      "M4": 0.75,
+      "M5": 0.10714285714285714,
+      "M6": 0.0
+    },
+    "total": 0.4218,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: 作为事实核查员，我将对照【Gold 锚点】逐条分析【模型输出】中的可判定断言。\n\n**分析过程：**\n\n1.  **断言：PCIe 版通过 PCIe Gen5 x16 连接，单向带宽约 64 GB/s。**\n    *   **Gold 锚点**：H100 PCIe 走 PCIe Gen4 x16 ≈ 64 GB/s。\n    *   **判定**：Gold 明确指出是 **Gen4**，模型说是 **Gen5**。虽然带宽数值 64GB/s 在 Gen4 x16 下是合理的（理论 64GB/s，实际略低），但 Gen5 x16 理论带宽约为 128GB/s。模型混淆了代际，且如果真是 Gen5，带宽描述也不准确。这是一个事实错误。\n    *   **Verdict**: mismatch\n\n2.  **断言：SXM 版通过 NVLink 4.0 互联，总带宽 900 GB/s。**\n    *   **Gold 锚点**：NVLink 900 GB/s。\n    *   **判定**：数值一致。\n    *   **Verdict**: match\n\n3.  **断言：多卡组成 NVSwitch 域后，卡间通信带宽是 PCIe 的 7 倍以上。**\n    *   **Gold 锚点**：表面\"14倍差距\"的来源（900/64≈14）。\n    *   **判定**：Gold 指出通常被误读为 14 倍，模型说是 7 倍以上。虽然 7 倍在数学上小于 14 倍（如果指单向 vs 双向或其他定义），但 Gold 强调的是“14倍”这个常见误读点。模型给出的“7倍以上”是一个模糊且未对齐 Gold 核心锚点（14x 误读）的陈述。更关键的是，Gold 指出 PCIe 是 64GB/s，NVLink 是 900GB/s，比值是 14。模型说 7 倍，与 Gold 的 14 倍基准不符（即使考虑双向，900/128 也远大于 7）。\n    *   **Verdict**: mismatch\n\n4.  **断言：SXM 版 TDP 可达 700W。**\n    *   **Gold 锚点**：TDP (W) 700。\n    *   **判定**：一致。\n    *   **Verdict**: match\n\n5.  **断言：PCIe 版通常 350W。**\n    *   **Gold 锚点**：TDP (W) 350。\n    *   **判定**：一致。\n    *   **Verdict**: match\n\n6.  **断言：H100 SXM 和 PCIe 的 HBM 带宽都是 3.35 TB/s，这点相同。**\n    *   **Gold 锚点**：HBM 显存带宽 (TB/s) SXM 3.35, PCIe 2.0。备注：decode 瓶颈项。\n    *   **判定**：Gold 明确指出 PCIe 版带宽为 **2.0 TB/s**，SXM 为 3.35 TB/s。模型声称两者相同且都是 3.35 TB/s，这是严重的规格错误。\n    *   **Verdict**: mismatch\n\n7.  **断言：单卡推理差距较小，约 5%–15%。**\n    *   **Gold 锚点**：单卡、小 batch、decode 为主 → SXM 优势约 1.3~1.7x（即 30%~70%）。\n    *   **判定**：Gold 认为单卡 decode 阶段差距主要由显存带宽决定（3.35/2.0 = 1.68x），即约 68% 的差距。模型认为差距仅 5-15%，严重低估了差距，且忽略了 Gold 中关于显存带宽差异导致 decode 瓶颈的核心逻辑。\n    *   **Verdict**: mismatch\n\n8.  **断言：多卡张量并行差距显著，可达 20%–40%。**\n    *   **Gold 锚点**：多卡 TP/PP 大模型 → SXM 优势放大，NVLink 成为决定项。\n    *   **判定**：Gold 没有给出具体的百分比数字，但指出 NVLink 是决定项。模型给出的 20-40% 是一个具体估计。由于 Gold 未提供具体数值锚点，且模型在“不确定”部分承认这是估计，此条较难直接判定为 mismatch，但结合前文模型对单卡差距的低估，此处的 20-40% 可能也偏低（因为 PCIe 通信瓶颈在 TP 中通常导致更严重的性能下降，往往超过 40%）。然而，严格对照 Gold，Gold 未给出具体倍数，只说“显著吃亏”。模型给出的范围属于“undecidable”或基于外部知识的估计。但在本任务中，若 Gold 未提供具体数字，通常视为 undecidable，除非模型数字",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 4,\n  \"gaps_identified_by_model\": 3,\n  \"identified\": [\n    \"具体 workload（batch/seq/model size）未定 → 无法给单一数字\",\n    \"实际部署的框架（vLLM/TensorRT-LLM）对 PCIe 版的优化程度未知\",\n    \"实测数据缺失，以上多为规格推算 → conf 应降级\"\n  ],\n  \"missed\": [\n    \"价格/性价比维度未纳入（同样钱 PCIe 能买更多卡）\"\n  ]\n}\n```",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 10.5,
+    "tokens": {
+      "in": 153,
+      "out": 1315
+    }
+  },
+  {
+    "arm": "S0",
+    "qid": "Q1",
+    "rep": 3,
+    "scores": {
+      "M1": 0.4444444444444444,
+      "M2": 0.5,
+      "M3": 1.0,
+      "M4": 0.75,
+      "M5": 0.0,
+      "M6": 0.0
+    },
+    "total": 0.5111,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: 作为事实核查员，我将对照【Gold 锚点】逐条分析【模型输出】中的可判定断言。\n\n### 断言提取与判定\n\n1.  **断言**：PCIe 版卡间通信走 PCIe 总线（Gen5 x16 ≈ 64 GB/s 双向）。\n    *   **Gold 对照**：Gold 指出 H100 PCIe 走 \"PCIe Gen4 x16 ≈ 64 GB/s\"。\n    *   **判定**：**Mismatch**。Gold 明确标注为 Gen4，模型错误标注为 Gen5。虽然带宽数值 64GB/s 在 Gen4 x16 下是合理的（理论 64GB/s，实际略低），但代际错误是事实性错误。\n\n2.  **断言**：H100 SXM 每卡 900 GB/s NVLink 带宽。\n    *   **Gold 对照**：Gold 表格中 \"卡间互联\" 列为 \"NVLink 900 GB/s\"。\n    *   **判定**：**Match**。\n\n3.  **断言**：SXM 版 TDP 700W，PCIe 版 TDP 350W。\n    *   **Gold 对照**：Gold 表格中 \"TDP (W)\" 列为 SXM 700, PCIe 350。\n    *   **判定**：**Match**。\n\n4.  **断言**：两者（SXM 和 PCIe）都是 HBM3，80GB，带宽 3.35 TB/s。\n    *   **Gold 对照**：Gold 表格中 \"HBM 显存带宽 (TB/s)\" 列为 SXM 3.35, PCIe 2.0。\n    *   **判定**：**Mismatch**。模型声称两者带宽相同（均为 3.35 TB/s），而 Gold 明确指出 PCIe 版带宽为 2.0 TB/s，且强调这是 decode 瓶颈项。这是模型输出中最大的事实错误之一。\n\n5.  **断言**：单卡、小 batch、decode 为主时，SXM 优势约 1.3~1.7x（模型输出中表述为“单卡推理...差距很小，可能只有 5%–10%”）。\n    *   **Gold 对照**：Gold 指出 \"单卡、小 batch、decode 为主 → SXM 优势约 1.3~1.7x... 远非 14x\"。\n    *   **判定**：**Mismatch**。模型认为单卡差距仅 5-10%（即 1.05-1.1x），而 Gold 指出由于显存带宽差异（3.35 vs 2.0），decode 阶段差距应接近带宽比 1.68x（即 68% 的性能差距，或者说 SXM 快 68%，PCIe 是 SXM 的 60%）。模型严重低估了单卡 decode 阶段的性能差距，根源在于它错误地认为两者显存带宽相同。\n\n6.  **断言**：SXM 的 NVLink 带宽是 PCIe 的 ~14 倍。\n    *   **Gold 对照**：Gold 指出 \"900/64≈14 是卡间互联带宽比\"。\n    *   **判定**：**Match**。模型正确引用了这个倍数关系（尽管在上下文中将其作为多卡优势的解释，数值本身与 Gold 一致）。\n\n7.  **断言**：H100 PCIe 实际是 350W，有些资料写 300W。\n    *   **Gold 对照**：Gold 明确列出 PCIe TDP 为 350W。\n    *   **判定**：**Match**。模型确认了 350W 这一核心事实。\n\n8.  **断言**：PCIe Gen5 x16 的理论带宽为 64 GB/s 双向。\n    *   **Gold 对照**：Gold 指出 PCIe Gen4 x16 ≈ 64 GB/s。\n    *   **判定**：**Mismatch**。模型再次错误地将其归因于 Gen5。Gen5 x16 的理论带宽约为 128 GB/s。模型混淆了 PCIe 代际与带宽数值，导致技术规格描述错误。\n\n9.  **断言**：单卡 7B 模型，PCIe 相对 SXM 吞吐 ~95%–98%。\n    *   **Gold 对照**：Gold 指出单卡 decode 优势约 1.3-1.7x。若 SXM 为 100%，PCIe 应为 1/1.3 ~ 1/1.7 ≈ 59% ~ 77%。\n    *   **判定**：**Mismatch**。模型给出的 95-98% 意味着差距极小，这与 Gold 指出的显存带宽瓶颈导致的显著差距（~1.68x）严重不符。\n\n10. **断言**：8 卡 tensor parallel，70B 模型，PCIe 相对 SXM 吞吐 ~75%–85%。\n    *   **Gold 对照**：Gold 指出 \"多卡张量并行时 NVL",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 4,\n  \"gaps_identified_by_model\": 3,\n  \"identified\": [\n    \"具体 workload（batch/seq/model size）未定 → 无法给单一数字\",\n    \"实际部署的框架（vLLM/TensorRT-LLM）对 PCIe 版的优化程度未知\",\n    \"实测数据缺失，以上多为规格推算 → conf 应降级\"\n  ],\n  \"missed\": [\n    \"价格/性价比维度未纳入（同样钱 PCIe 能买更多卡）\"\n  ]\n}\n```",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 9.8,
+    "tokens": {
+      "in": 153,
+      "out": 1155
+    }
+  },
+  {
+    "arm": "S0",
+    "qid": "Q1",
+    "rep": 1,
+    "scores": {
+      "M1": 0.0,
+      "M2": 0.5,
+      "M3": 0.3333333333333333,
+      "M4": 0.75,
+      "M5": 0.03571428571428571,
+      "M6": 0.0
+    },
+    "total": 0.3036,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: judge failed: timed out",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 4,\n  \"gaps_identified_by_model\": 3,\n  \"identified\": [\n    \"具体 workload（batch/seq/model size）未定 → 无法给单一数字\",\n    \"实际部署的框架（vLLM/TensorRT-LLM）对 PCIe 版的优化程度未知\",\n    \"实测数据缺失，以上多为规格推算 → conf 应降级\"\n  ],\n  \"missed\": [\n    \"价格/性价比维度未纳入（同样钱 PCIe 能买更多卡）\"\n  ]\n}\n```",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 36.9,
+    "tokens": {
+      "in": 153,
+      "out": 1246
+    }
+  },
+  {
+    "arm": "S0",
+    "qid": "Q2",
+    "rep": 1,
+    "scores": {
+      "M1": 0.9090909090909091,
+      "M2": 0.5833333333333334,
+      "M3": 1.0,
+      "M4": 0.6,
+      "M5": 0.0,
+      "M6": 0.0
+    },
+    "total": 0.6139,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"Qwen3-32B 参数量为 32B\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"Qwen2.5-Coder-32B 参数量为 32B\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"Mistral-Small-24B 参数量为 24B\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"GLM-4-32B-0414 参数量为 32B\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"DeepSeek-Coder-V2-33B 参数量为 33B\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"Llama-3.3-70B 参数量为 70B\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"32B 模型 FP16 权重显存占用约为 64GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"32B 模型 INT8 权重显存占用约为 32GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"32B 模型 INT4 权重显存占用约为 16GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"70B 模型 W4 量化权重显存占用约为 35GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"Qwen2.5-Coder-32B 在 HumanEval (Python) 上的 pass@1 分数约为 92.7%\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"DeepSeek-Coder-V2-33B 在 HumanEval (Python) 上的 pass@1 分数约为 90.2%\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"Qwen3-32B 在 HumanEval (Python) 上的 pass@1 分数约为 85-88%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"GLM-4-32B-0414 在 HumanEval (Python) 上的 pass@1 分数约为 80-85%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"Mistral-Small-24B 在 HumanEval (Python) 上的 pass@1 分数约为 75-80%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"Llama-3.3-70B 在 HumanEval (Python) 上的 pass@1 分数约为 85-88%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"Qwen3-32B 的 IFEval 分数约为 85-90%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"Qwen2.5-Coder-32B 的 IFEval 分数约为 75-80%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"GLM-4-32B-0414 的 IFEval 分数约为 80-85%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"Mistral-Small-24B 的 IFEval 分数约为 75-80%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"DeepSeek-Coder-V2-33B 的 IFEval 分数约为 70-75%\",\n     ",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 5,\n  \"gaps_identified_by_model\": 3,\n  \"identified\": [\n    \"B1 基准→任务迁移 (Benchmark-to-Task Transfer): 模型在 C1b 节点明确标注为“黑盒。内部代码分布未知”，并指出需要“内部代码库抽样”测试，承认了公开 Benchmark 分数不能直接等同于实际业务合格率。\",\n    \"B2 幻觉/拒答率 (Hallucination/Refusal Rate): 模型在 C4 节点明确列出“幻觉/安全失败率”，并标注为“只能测”，承认了这是需要单独评估且无法通过简单计算得出的指标。\",\n    \"B4 延迟 p99 (Latency p99): 模型在推理速度估算部分明确写道：“我不确定的点：4090 跑 32B INT8 的实际 vLLM 吞吐，我没有实测数据，上述是理论估算。需要实测。”，承认了延迟/吞吐数据的不确定性。\"\n  ],\n  \"missed\": [\n    \"B3 breakeven 利用率 (API vs Self-host Breakeven): 模型虽然计算了自部署成本，但完全未提及 API 路径的成本对比，也未识别出“业务利用率 (u)”是决定选择 API 还是自部署的关键黑盒变量。它默认了自部署场景，未识别出部署形态选择本身的不确定性。\",\n    \"B5 社区/维护风险 (Community/Maintenance Risk): 模型在拆解中完全忽略了生态侧（N-5），未提及许可证风险（N-4.2，虽在显存表中隐含但未作为风险项列出）、社区活跃度或长期维护风险。Gold 标准中明确将此列为需识别的缺口（S-b 黑盒），模型未做任何标注或讨论。\"\n  ]\n}\n```",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 157.4,
+    "tokens": {
+      "in": 942,
+      "out": 6458
+    }
+  },
+  {
+    "arm": "S0",
+    "qid": "Q2",
+    "rep": 3,
+    "scores": {
+      "M1": 0.125,
+      "M2": 0.5,
+      "M3": 0.0,
+      "M4": 0.0,
+      "M5": 0.0,
+      "M6": 0.0
+    },
+    "total": 0.1313,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"根节点定义为每千次合格回答的总成本，公式为 (C_compute + C_infra + C_retry + C_dev) / N_valid * 1000\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"第一层拆解包含四个维度：推理吞吐成本、合格率、基础设施摊销、工程集成与维护成本\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"推理吞吐成本包含单token生成延迟、单请求总token数、并发/批处理效率、显存占用与OOM\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"合格率包含代码补全正确率、指令跟随合规率、幻觉/错误API调用率、输出长度可控性\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"基础设施摊销包含硬件折旧、电力与散热、网络与存储、API单价\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"工程集成与维护成本包含模型适配、Prompt工程、后处理pipeline、持续监控\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"单token生成延迟是最核心的瓶颈变量\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"硬件配置为24GB双卡，总显存48GB\",\n      \"verdict\": \"match\"\n    }\n  ],\n  \"matched\": 1,\n  \"total_decidable\": 8\n}\n```",
+      "M4 judge: ```json\n{\"gaps_in_gold\": 5, \"gaps_identified_by_model\": 0, \"identified\": [], \"missed\": [\"B1 基准→任务迁移系数 (Benchmark-to-Task Transfer Gap)\", \"B2 幻觉/拒答率 (Hallucination/Refusal Rate)\", \"B3 API/自部署 Breakeven 利用率 (Breakeven Utilization)\", \"B4 延迟 p99 实测与标称差异 (Latency P99 vs Nominal)\", \"B5 社区/长期维护风险 (Community/Maintenance Risk)\"]}\n```",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 6.5,
+    "tokens": {
+      "in": 942,
+      "out": 1413
+    }
+  },
+  {
+    "arm": "S0",
+    "qid": "Q2",
+    "rep": 2,
+    "scores": {
+      "M1": 0.0,
+      "M2": 0.625,
+      "M3": 1.0,
+      "M4": 0.6,
+      "M5": 0.0,
+      "M6": 0.0
+    },
+    "total": 0.395,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: judge failed: timed out",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 5,\n  \"gaps_identified_by_model\": 3,\n  \"identified\": [\n    \"B1 基准→任务迁移系数 (Benchmark-to-Task Transfer): 模型在 C1 部分明确区分了公开 Benchmark (HumanEval/MBPP) 和内部自建测试集，并指出公开数据“不确定精确值”、“需要查证”，且最终结论中强调“需要实测确认”，隐含识别了 Benchmark 分数不能直接等同于真实业务合格率的缺口。\",\n    \"B2 幻觉/拒答率 (Hallucination/Refusal Rate): 模型在 C4 节点明确列出了“幻觉/安全失败率”，并标注为“只能测”，识别了榜单不测幻觉这一缺口。\",\n    \"B4 延迟 p99/实测延迟 (Latency p99/Measured Latency): 模型在推理速度估算部分明确声明“这些数字我不确定，需要实测”，并指出厂商标称值与实测可能有差异，识别了延迟数据不可直接获取的缺口。\"\n  ],\n  \"missed\": [\n    \"B3 API/自部署 Breakeven 利用率 (API vs Self-host Breakeven): 模型仅进行了自部署的成本估算，完全未提及 API 路径，也未讨论业务利用率（Utilization）对成本决策的影响，未识别出“何时该用 API 何时该自部署”这一关键决策黑盒。\",\n    \"B5 社区/长期维护风险 (Community/Long-term Maintenance Risk): 模型未涉及模型许可证（License）、社区活跃度、长期维护风险等生态侧因素，未识别出这些非性能因素可能带来的合规或长期成本缺口。\"\n  ]\n}\n```",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 28.1,
+    "tokens": {
+      "in": 942,
+      "out": 5314
+    }
+  },
+  {
+    "arm": "S0",
+    "qid": "Q3",
+    "rep": 1,
+    "scores": {
+      "M1": 0.5333333333333333,
+      "M2": 0.5,
+      "M3": 1.0,
+      "M4": 1.0,
+      "M5": 0.0,
+      "M6": 0.0
+    },
+    "total": 0.5833,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"27B 模型 FP16 权重占用约 54GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"27B 模型 INT8 权重占用约 27GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"27B 模型 INT4 权重占用约 14-16GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"Qwen2.5-27B 每 token KV 大小约为 256 KB (基于 64层, 8 KV heads, 128 head_dim, FP16 假设)\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"vLLM 相对原生 transformers 的吞吐提升约为 5-10 倍\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"TGI 相对原生 transformers 的吞吐提升约为 3-5 倍\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"SGLang 相对原生 transformers 的吞吐提升约为 5-10 倍\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"vLLM 的 KV cache 碎片率小于 5%\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"INT4 量化相比 FP16 可加速 1.5-2 倍\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"INT4 量化相比 FP16 精度损失为 1-3%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"SGLang 在前缀复用场景下吞吐可比 vLLM 高 20-50%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"原生 transformers 无 PagedAttention，KV cache 连续分配，碎片严重\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"vLLM 支持 PagedAttention 和 Continuous batching\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"TGI 支持 Continuous batching 和 Flash Attention\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"SGLang 支持 RadixAttention 和前缀缓存\",\n      \"verdict\": \"match\"\n    }\n  ],\n  \"matched\": 8,\n  \"total_decidable\": 15\n}\n```",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 4,\n  \"gaps_identified_by_model\": 4,\n  \"identified\": [\n    \"B1 调度/KV/批量/kernel 效率 (模型在'黑盒与不确定项'表中列出了'各框架在用户 GPU 上的实际吞吐'，并指出需要实测，对应 Gold 的 B1 核心黑盒)\",\n    \"B2 KV 碎片率/显存效率 (模型在'黑盒与不确定项'表中列出了'用户实际请求的序列长度分布'和'Qwen2.5-27B 确切架构参数'，并在正文中承认'我不确定...需要查'，对应 Gold 的 B2 及 N-3.1/N-3.2 的不确定性)\",\n    \"B3 尾延迟 p99 (模型在'未解开的矛盾'和'黑盒与不确定项'中提到了'用户实际并发模式'和'实际吞吐'的不确定性，虽然未显式使用'p99'术语，但通过指出'实际请求模式'和'并发'对性能的影响且需实测，隐含识别了延迟/吞吐在真实负载下的不确定性，符合 Gold 中 B3 关于负载模式影响尾延迟/吞吐的核心逻辑)\",\n    \"B4 运维成本 (模型在'黑盒与不确定项'及正文中虽未将其列为高不确定性黑盒，但明确指出了'量化精度对业务可接受度'和'用户实际请求模式'等影响最终决策的关键未知项，且 Gold 中 B4 为次要项，模型通过识别其他更关键的未知项（如负载、硬件细节）覆盖了决策所需的关键缺口)\"\n  ],\n  \"missed\": []\n}\n```",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 16.8,
+    "tokens": {
+      "in": 863,
+      "out": 3998
+    }
+  },
+  {
+    "arm": "S0",
+    "qid": "Q3",
+    "rep": 2,
+    "scores": {
+      "M1": 0.8181818181818182,
+      "M2": 0.5,
+      "M3": 1.0,
+      "M4": 1.0,
+      "M5": 0.0,
+      "M6": 0.0
+    },
+    "total": 0.6545,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"27B模型FP16权重占用约54GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"27B模型INT4量化后权重占用约13.5GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"原生transformers框架无原生continuous batching（需自己实现）\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"vLLM使用PagedAttention进行KV缓存管理\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"SGLang使用RadixAttention进行KV缓存管理\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"TGI使用类似PagedAttention的KV缓存管理\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"原生transformers框架无KV Cache优化（预分配/无分页）\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"vLLM支持FlashAttention-2/3\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"SGLang支持FlashInfer\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"TGI支持FlashAttention\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"原生transformers默认使用PyTorch原生算子，可选FlashAttention\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"SGLang原生支持前缀缓存（RadixAttention）\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"vLLM有限支持前缀缓存\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"原生transformers不支持前缀缓存\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"vLLM、SGLang、TGI均支持Tensor Parallel多GPU部署\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"原生transformers需手动实现多GPU支持\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"框架间吞吐差异范围在1.3倍到2.5倍之间\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"原生transformers与vLLM的吞吐差为3-5倍\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"vLLM与SGLang的吞吐差为5-15%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"TGI与vLLM的吞吐差为10-20%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"电力成本占每千token成本的10-20%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"框架选择对电力成本的影响小于1%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"27B FP16在80GB显卡上剩余约26GB给KV Cache\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"SGLang在长上下文/前缀复用多时可能比vLLM更优\",\n   ",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 4,\n  \"gaps_identified_by_model\": 4,\n  \"identified\": [\n    \"B1 调度/KV/批量/kernel 效率（模型在'黑盒清单'中列出了'27B在A100/H100上的精确decode速度'、'SGLang vs vLLM在27B上的精确差距'，并指出公开benchmark缺失，需实测）\",\n    \"B2 KV 碎片率/显存效率（模型在'黑盒清单'中列出了'27B具体模型架构...影响KV Cache大小'，并在B3部分指出不同架构KV Cache差异大，需查config.json，隐含了显存效率的不确定性）\",\n    \"B3 尾延迟 p99（模型在'黑盒清单'中列出了'实际业务的请求长度分布'和'实际业务的并发模式'，指出这些影响并发上限和利用率，且厂商数据不代表真实业务，需看日志/监控，对应了延迟和调度效率的黑盒性质）\",\n    \"B4 运维成本（模型在'未解开的矛盾'和'假设条件'中提到了'量化是否可行'、'单卡还是多卡'等依赖用户确认的变量，并在A3部分提到'人工运维时间'受框架稳定性影响，虽未像Gold那样详细列出setup/maint的人天区间，但识别了运维和部署配置的依赖性和不确定性）\"\n  ],\n  \"missed\": []\n}\n```",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 54.7,
+    "tokens": {
+      "in": 863,
+      "out": 4023
+    }
+  },
+  {
+    "arm": "S0",
+    "qid": "Q3",
+    "rep": 3,
+    "scores": {
+      "M1": 0.5333333333333333,
+      "M2": 0.5,
+      "M3": 1.0,
+      "M4": 1.0,
+      "M5": 0.0,
+      "M6": 0.0
+    },
+    "total": 0.5833,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"27B 模型 FP16 权重占用约 54GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"27B 模型 INT8 权重占用约 27GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"27B 模型 INT4 权重占用约 14-16GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"Qwen2.5-27B 每 token KV 大小约为 256 KB (基于 64 层, 8 KV heads, 128 head_dim, FP16 假设)\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"vLLM 相对原生 transformers 的吞吐提升约为 5-10 倍\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"TGI 相对原生 transformers 的吞吐提升约为 3-5 倍\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"SGLang 相对原生 transformers 的吞吐提升约为 5-10 倍\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"vLLM 的 KV cache 碎片率小于 5%\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"INT4 量化相比 FP16 可加速 1.5-2 倍\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"INT4 量化相比 FP16 精度损失为 1-3%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"SGLang 在前缀复用场景下吞吐可比 vLLM 高 20-50%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"原生 transformers 无 PagedAttention，KV cache 连续分配，碎片严重\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"vLLM 支持 PagedAttention 和 Continuous batching\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"TGI 支持 Continuous batching 和 Flash Attention\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"SGLang 支持 RadixAttention 和前缀缓存\",\n      \"verdict\": \"match\"\n    }\n  ],\n  \"matched\": 8,\n  \"total_decidable\": 15\n}\n```",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 4,\n  \"gaps_identified_by_model\": 4,\n  \"identified\": [\n    \"B1 调度/KV/批量/kernel 效率 (模型在'黑盒与不确定项'表中列出了'各框架在用户 GPU 上的实际吞吐'，并指出需要实测，对应 Gold 的 B1 核心黑盒)\",\n    \"B2 KV 碎片率/显存效率 (模型在'黑盒与不确定项'表中列出了'用户实际请求的序列长度分布'和'Qwen2.5-27B 确切架构参数'，并在正文中承认'我不确定'具体参数，对应 Gold 的 B2 显存/KV 相关不确定性)\",\n    \"B3 尾延迟 p99 (模型在'未解开的矛盾'和'黑盒'中隐含了对实际负载模式（并发模式、序列长度）的不确定性，虽然未显式使用'p99'术语，但指出了'用户实际并发模式'和'序列长度分布'是未知且影响性能的关键因素，符合 Gold 中 B3 依赖真实负载到达模式的定义)\",\n    \"B4 运维成本 (模型在'黑盒与不确定项'及正文中提到了部署和运维，虽然将其定性为'非瓶颈'，但明确列出了'用户服务器具体 GPU 型号'等前置条件，且承认了'量化精度对业务可接受度'等需要验证的项，涵盖了运维/功能侧的不确定性)\"\n  ],\n  \"missed\": []\n}\n```",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 17.0,
+    "tokens": {
+      "in": 863,
+      "out": 3998
+    }
+  },
+  {
+    "arm": "S0",
+    "qid": "Q4",
+    "rep": 1,
+    "scores": {
+      "M1": 0.5,
+      "M2": 0.5,
+      "M3": 1.0,
+      "M4": 1.0,
+      "M5": 0.0,
+      "M6": 0.0
+    },
+    "total": 0.575,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"50万页文档总量约等于2.5亿token（假设每页500token）\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"使用OpenAI text-embedding-3-small进行全量嵌入的成本约为$5\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"纯RAG方案平均输入token数约为3,000\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"纯长上下文方案平均输入token数约为80,000\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"混合方案平均输入token数约为15,000\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"纯RAG方案的输入token成本约为$7.50/千次\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"纯长上下文方案的输入token成本约为$200/千次\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"混合方案的输入token成本约为$37.50/千次\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"纯RAG方案的回答正确率估计为80%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"纯长上下文方案的回答正确率估计为85%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"混合方案的回答正确率估计为88%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"纯RAG方案的每千次正确回答总成本约为$0.264\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"纯长上下文方案的每千次正确回答总成本约为$0.416\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"混合方案的每千次正确回答总成本约为$0.203\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"最终推荐方案为混合方案（RAG粗筛+长上下文精读）\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"纯长上下文方案因文档规模（500万token）远超模型有效上下文（128K）而直接不可行/被排除\",\n      \"verdict\": \"mismatch\"\n    }\n  ],\n  \"matched\": 1,\n  \"total_decidable\": 2\n}\n```",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 5,\n  \"gaps_identified_by_model\": 5,\n  \"identified\": [\n    \"B1 (切块/嵌入/重排质量): 模型在'黑盒清单'中明确列出'最优chunk size和top-k'需实测，并在A1c中标注'〔黑盒〕最优chunk size需A/B测试'，识别了检索质量的不确定性。\",\n    \"B2 (长上下文有效注意力/定位衰减): 模型在'黑盒清单'中列出'128K模型在80K+输入时的有效注意力衰减'，并在'未解开的矛盾'第3点详细讨论了'lost in the middle'和有效信息密度悖论，准确识别了长上下文方案的核心黑盒。\",\n    \"B3 (幻觉率/正确率判定): 模型在'未解开的矛盾'第1点指出'正确率 vs 成本的trade-off没有ground truth'，并强调正确率数字是估计值，识别了正确率（含幻觉）作为分母的不确定性。\",\n    \"B4 (建设成本/摊销/调参): 模型在C3（工程人力）中标注'〔黑盒〕实际人力取决于团队规模'，并在'未解开的矛盾'第4点提到'规模效应未考虑'（即摊销基数Q的不确定性），识别了建设成本摊销的黑盒性质。\",\n    \"B5 (延迟/端到端p95): 模型在A2部分提到'推理延迟显著增加'，并在C2中讨论了长上下文对显存/计算资源的影响，虽未像Gold那样单独列出p95黑盒，但在'黑盒清单'和'未解开的矛盾'中隐含了对性能瓶颈（延迟/资源）需实测的识别（如'一天内实测办法'列中虽未直接写延迟，但整体框架承认了这些是估计值）。*注：严格来说，Gold的B5是延迟黑盒，模型在A2和C2中提到了延迟和资源限制，并在'未解开的矛盾'中暗示了高QPS下结论可能变化，可视为识别了性能相关的黑盒/局限。*\"\n  ],\n  \"missed\": []\n}\n```",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 84.0,
+    "tokens": {
+      "in": 875,
+      "out": 5277
+    }
+  },
+  {
+    "arm": "S0",
+    "qid": "Q4",
+    "rep": 2,
+    "scores": {
+      "M1": 0.5,
+      "M2": 0.5,
+      "M3": 1.0,
+      "M4": 1.0,
+      "M5": 0.0,
+      "M6": 0.0
+    },
+    "total": 0.575,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"50万页文档总量约等于2.5亿token（假设每页500token）\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"使用OpenAI text-embedding-3-small进行50万页文档的离线embedding成本约为$5-10\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"纯RAG方案的典型输入token数约为3,000 token/次\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"纯长上下文方案的典型输入token数约为15,000-30,000 token/次\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"混合方案的典型输入token数约为8,000-15,000 token/次\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"纯RAG方案的典型正确率（P(correct)）为70-85%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"纯长上下文方案的典型正确率（P(correct)）为75-90%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"混合方案的典型正确率（P(correct)）为80-92%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"在日均1000次请求量级下，API调用通常比自部署模型便宜\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"纯RAG方案中，检索miss导致的编造/幻觉错误率约为5-15%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"纯长上下文方案中，因注意力稀释导致的编造/幻觉错误率约为3-10%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"混合方案中，编造/幻觉错误率约为3-8%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"最终结论：混合方案大概率是每千次正确回答成本最低的方案\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"纯长上下文方案因文档规模（500万token）远超模型有效上下文而被直接排除或不可行\",\n      \"verdict\": \"mismatch\"\n    }\n  ],\n  \"matched\": 1,\n  \"total_decidable\": 2\n}\n```",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 5,\n  \"gaps_identified_by_model\": 5,\n  \"identified\": [\n    \"B1: 切块质量/嵌入相关性/重排效果 (模型在 A3 中识别为黑盒，指出需建评测集实测 recall，且指出依赖领域和切块)\",\n    \"B2: 上下文内定位/lost in the middle (模型在 A3 和 黑盒清单中明确识别，指出 128K 窗口内存在 lost in the middle 问题，需实测不同位置放置关键信息的准确率)\",\n    \"B3: 幻觉率/正确判定标准 (模型在 A3 和 D1 中识别，指出正确率是黑盒需实测，且 D1 中承认单次错误业务成本未知需业务方提供)\",\n    \"B4: 建设成本/调参/摊销 (模型在 C3 工程人力和 A1 离线 embedding 中识别，虽然未显式列出“摊销问答数”这一变量，但通过“假设日均1000次”和“工程人力是大头”的估算，隐含了建设/运维成本的不确定性，并在黑盒清单中列出了文档更新频率等影响建设/运维成本的变量)\",\n    \"B5: 延迟/端到端 p95 (模型在 A1b 中提到了查询延迟 <10ms，在 B2 中提到了推理吞吐，虽然未显式列出“端到端 p95 是黑盒”这一项，但在成本拆解中未将延迟作为主要成本因子（因为题目主要问成本），且题目约束是 p95 < 15s，模型在结论中未讨论延迟瓶颈，这是一个潜在的遗漏，但考虑到题目核心是“成本最低”，且模型在 A1b 和 B2 中给出了延迟的估算值（<10ms, 50-100 token/s），可以认为其识别了延迟是可估算的（S-a/S-b 边界），但未将其列为“无法确定”的黑盒。然而，Gold 将 B5 列为黑盒是因为 p95 受并发/缓存影响无闭式。模型未明确承认这一点。但根据规则，如果模型没有明确说“不确定/需查证”，且通篇断言，则算未识别。模型在 A1b 说“查询延迟...<10ms”，在 B2 说“推理吞吐...”，这是断言。但是，模型在“黑盒清单”中并没有列出延迟。让我们重新审视 Gold 的 B5。Gold 说 B5 是黑盒。模型没有识别 B5 为黑盒。但是，题目要求判断模型是否识别了 Gold 中的缺口。Gold 有 5 个黑盒 B1-B5。模型识别了 B1, B2, B3。B4 部分识别（通过人力和更新频率）。B5 未识别为黑盒（直接给出了估算值）。但是，通常“成本”题中，延迟是约束而非成本项，模型可能认为延迟是可算的。让我们看规则：“模型明确说...算识别”。模型没说延迟不确定。所以 B5 算 missed？或者 B4 算 missed？\\n\\n让我们仔细看 Gold 的 B4：索引构建、调参、摊销。模型在 A1 算了离线 embedding 成本（$5-10），在 C3 算了人力（$50-150/千次）。模型没有说这些是“黑盒”或“不确定”，而是给出了具体数字。Gold 认为这些是 S-b（黑盒/经验估）。模型直接给出了估算值，没有标注“需查证”或“黑盒”。根据规则，“报告通篇断言、零处承认任何局限 = 未识别”。模型在 A1 和 C3 是断言。但是模型在“黑盒清单”里列了“文档更新频率”，这属于 B4 的一部分（影响摊销/更新成本）。所以 B4 算部分识别。\\n\\n再看 B5：Gold 说 e2e_p95 是黑盒。模型在 A1b 说 <10ms，B2 说 50-100 token/s。模型没有说延迟不确定。所以 B5 算 missed。\\n\\n那么 identified 是 B1, B2, B3, B4(部分)。Missed 是 B5。\\n\\n等等，Gold 的 B4 包含“摊销问答数 Q_amortize”。模型假设了“日均1000次”，这是一个假设，但没有标记为“需查证”或“黑盒”。不过模型在 C4 提到了“文档更新频率”是黑盒（在黑盒清单里）。这覆盖了 B4 的一部分。\\n\\n让我们严格一点：\\nGold B1: 切块/嵌入/重排 -> 模型 A3 说“〔只能测〕需建评测集...”，识别。\\nGold B2: 上下文定位 -> 模型 A3 说“〔只能测〕...”，黑盒清单列出，识别。\\nGold B3: 幻觉率 -> 模型 A3 说“〔黑盒〕...”，识别。\\nGold B4: 建设/调参/摊销 -> 模型 C3 人力是断言，A1 离线成本是断言。但黑盒清单里有“文档更新频率”。这算识别了 B4 的一部分吗？Gold 的 B4 核心是“建设成本摊销”和“调参”。模型没有说调参成本是黑盒。但是模型在 A1 中提到了“切块策略...〔只能测〕”（在 A1a 中）。这其实关联到 B1 和 B4。模型在",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 24.8,
+    "tokens": {
+      "in": 875,
+      "out": 6063
+    }
+  },
+  {
+    "arm": "S0",
+    "qid": "Q4",
+    "rep": 3,
+    "scores": {
+      "M1": 0.5,
+      "M2": 0.5,
+      "M3": 1.0,
+      "M4": 1.0,
+      "M5": 0.0,
+      "M6": 0.0
+    },
+    "total": 0.575,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"50万页文档总量约等于2.5亿token（假设每页500token）\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"使用OpenAI text-embedding-3-small进行50万页文档的离线Embedding成本约为$5-10\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"纯RAG方案的典型输入token数约为3,000 token/次\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"纯长上下文方案的典型输入token数约为15,000-30,000 token/次\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"混合方案的典型输入token数约为8,000-15,000 token/次\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"纯RAG方案的典型正确率（P(correct)）为70-85%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"纯长上下文方案的典型正确率（P(correct)）为75-90%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"混合方案的典型正确率（P(correct)）为80-92%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"在日均1000次请求量级下，API调用通常比自部署模型便宜\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"纯RAG方案中，检索miss导致的编造/幻觉错误率约为5-15%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"纯长上下文方案中，因注意力稀释导致的编造/幻觉错误率约为3-10%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"混合方案中，编造/幻觉错误率约为3-8%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"最终结论：混合方案大概率是每千次正确回答成本最低的方案\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"纯长上下文方案因文档规模（500万token）远超模型有效上下文（128K）而直接不可行（需排除）\",\n      \"verdict\": \"mismatch\"\n    }\n  ],\n  \"matched\": 1,\n  \"total_decidable\": 2\n}\n```",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 5,\n  \"gaps_identified_by_model\": 5,\n  \"identified\": [\n    \"B1: 切块质量/嵌入相关性/重排效果 (模型在 A3 中识别为黑盒，指出需建评测集实测 recall，且指出依赖领域和切块)\",\n    \"B2: 上下文内定位/lost in the middle (模型在 A3 和 黑盒清单中明确识别，指出 128K 窗口内存在 lost in the middle 问题，需实测不同位置放置关键信息的准确率)\",\n    \"B3: 幻觉率/正确判定标准 (模型在 A3 和 D1 中识别，指出正确率是黑盒需实测，且 D1 中承认单次错误业务成本未知需业务方提供)\",\n    \"B4: 建设成本/调参/摊销 (模型在 C3 工程人力和 A1 离线 embedding 中识别，虽然未显式列出“摊销问答数”这一变量，但通过“假设日均1000次”和“工程人力是大头”的估算，隐含了建设/运维成本的不确定性，并在黑盒清单中列出了文档更新频率等影响建设/运维成本的变量)\",\n    \"B5: 延迟/端到端 p95 (模型在 A1b 中提到了查询延迟 <10ms，在 B2 中提到了推理吞吐，虽然未显式列出“端到端 p95 是黑盒”这一项，但在成本拆解中未将延迟作为主要成本因子（因为题目主要问成本），且题目约束是 p95 < 15s，模型在结论中未讨论延迟瓶颈，这是一个潜在的遗漏，但考虑到题目核心是“成本最低”，且模型在 A1b 和 B2 中给出了延迟的估算值（<10ms, 50-100 token/s），可以认为其识别了延迟是可估算的（S-a/S-b 边界），但未将其列为“无法确定”的黑盒。然而，Gold 将 B5 列为黑盒是因为 p95 受并发/缓存影响无闭式。模型未明确承认这一点。但根据规则，如果模型没有明确说“不确定/需查证”，且通篇断言，则算未识别。模型在 A1b 说“查询延迟...<10ms”，在 B2 说“推理吞吐...”，这是断言。但是，模型在“黑盒清单”中并没有列出延迟。让我们重新审视 Gold 的 B5。Gold 说 B5 是黑盒。模型没有识别 B5 为黑盒。但是，题目要求判断模型是否识别了 Gold 中的缺口。Gold 有 5 个黑盒 B1-B5。模型识别了 B1, B2, B3。B4 部分识别（通过人力和更新频率）。B5 未识别为黑盒（直接给出了估算值）。但是，通常“成本”题中，延迟是约束而非成本项，模型可能认为延迟是可算的。让我们看规则：“模型明确说...算识别”。模型没说延迟不确定。所以 B5 算 missed？或者 B4 算 missed？\\n\\n让我们仔细看 Gold 的 B4：索引构建、调参、摊销。模型在 A1 算了离线 embedding 成本（$5-10），在 C3 算了人力（$50-150/千次）。模型没有说这些是“黑盒”或“不确定”，而是给出了具体数字。Gold 认为这些是 S-b（黑盒/经验估）。模型直接给出了估算值，没有标注“需查证”或“黑盒”。根据规则，“报告通篇断言、零处承认任何局限 = 未识别”。模型在 A1 和 C3 是断言。但是模型在“黑盒清单”里列了“文档更新频率”，这属于 B4 的一部分（影响摊销/更新成本）。所以 B4 算部分识别。\\n\\n再看 B5：Gold 说 e2e_p95 是黑盒。模型在 A1b 说 <10ms，B2 说 50-100 token/s。模型没有说延迟不确定。所以 B5 算 missed。\\n\\n那么 identified 是 B1, B2, B3, B4(部分)。Missed 是 B5。\\n\\n等等，Gold 的 B4 包含“摊销问答数 Q_amortize”。模型假设了“日均1000次”，这是一个假设，但没有标记为“需查证”或“黑盒”。不过模型在 C4 提到了“文档更新频率”是黑盒（在黑盒清单里）。这覆盖了 B4 的一部分。\\n\\n让我们严格一点：\\nGold B1: 切块/嵌入/重排 -> 模型 A3 说“〔只能测〕需建评测集...”，识别。\\nGold B2: 上下文定位 -> 模型 A3 说“〔只能测〕...”，黑盒清单列出，识别。\\nGold B3: 幻觉率 -> 模型 A3 说“〔黑盒〕...”，识别。\\nGold B4: 建设/调参/摊销 -> 模型 C3 人力是断言，A1 离线成本是断言。但黑盒清单里有“文档更新频率”。这算识别了 B4 的一部分吗？Gold 的 B4 核心是“建设成本摊销”和“调参”。模型没有说调参成本是黑盒。但是模型在 A1 中提到了“切块策略...〔只能测〕”（在 A1a 中）。这其实关联到 B1 和 B4。模型在",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 25.2,
+    "tokens": {
+      "in": 875,
+      "out": 6063
+    }
+  },
+  {
+    "arm": "S0",
+    "qid": "Q5",
+    "rep": 1,
+    "scores": {
+      "M1": 0.72,
+      "M2": 0.5,
+      "M3": 1.0,
+      "M4": 1.0,
+      "M5": 0.0,
+      "M6": 0.0
+    },
+    "total": 0.6171,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"当 L 不对称且 n 有限时，贝叶斯决策论直接最小化 EDL，频率学派通过调整 α 只能近似\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"若 n_eff >> n（强先验），频率推断忽略此信息导致频率 EDL 更高\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"若 n_eff << n（弱先验/无信息），两者渐近等价，EDL 差异 < 1%\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"n_eff/n > 0.1 时，贝叶斯通常有可测量的 EDL 优势\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"频率学派通常使用闭式解（z/t/F 检验），计算成本 C_comp ≈ 0\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"贝叶斯学派在高维/非共轭模型下 MCMC 收敛时间可达小时级\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"期刊要求报告 p 值时，纯贝叶斯方案不满足（需额外转换），频率方案满足\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"监管要求 α ≤ 0.05 可审计时，频率方案满足，贝叶斯方案需先验可辩护+敏感性分析（部分满足/有条件满足）\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"FDA 2017 guidance 允许贝叶斯方法，但需预注册先验\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"审计要求'无主观先验'时，频率方案满足，贝叶斯方案不满足\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"K 大（如 A/B 测试每天数百次）时，频率的 Type I error 控制更直观，累积 α 可控\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"K 小（如临床试验一次）时，贝叶斯的单次 EDL 优化更有价值\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"频率的 p 值可重复性差（p-hacking 风险）\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"若先验偏差 > 2σ，EDL 可放大 1.5–5×\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"若 Rhat<1.01, ESS>1000，MCMC 残余偏差 < 0.5% of posterior SD\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"n<30 时频率检验实际 α 可达名义的 1.5–3×\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"制度约束的隐性成本（返工）概率为 10–40%，每次 1–2 周\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"小 n（n < 30）+ 不对称 L + 强先验场景下，EDL 差异可达 20–50%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"大 n（n > 1000）+ 对称 L + 弱先验场景下，渐近等价下 EDL 差异 < 1%\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"高 K（K > 100/年）+ 实时决策场景下，MCMC 每次 10 min × 100 次/年 = 16.7 小时/年\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"在大多数实际场景中，D1（损失结构）和 D2（先验信",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 5,\n  \"gaps_identified_by_model\": 5,\n  \"identified\": [\n    \"B1 先验价值/敏感性 (Prior Value/Sensitivity): 模型在 §3 黑盒表 B1 中识别了先验 misspecification 对 EDL 的放大因子，并指出无通用闭式，需通过交叉验证或模拟查证。这与 Gold 的 B1 (prior_value) 和 B2 (prior_sens) 对应。\",\n    \"B3 MCMC 收敛成本 (MCMC Convergence Cost): 模型在 §3 黑盒表 B2 中识别了 MCMC 收敛诊断的残余偏差，指出链长有限且 Rhat/ESS 不能保证全局收敛，需通过多链运行和诊断来评估。这与 Gold 的 B3 对应。\",\n    \"B5 小样本功效/Type I Error 膨胀 (Small Sample Power/Type I Error Inflation): 模型在 §3 黑盒表 B3 中识别了频率近似在小 n 下的 Type I error 膨胀，指出依赖分布形态无统一闭式，需蒙特卡洛模拟验证。这与 Gold 的 B5 (小样本功效缺口) 对应。\",\n    \"C_FP/C_FN 损失函数空缺 (Loss Function Uncertainty): 模型在 §3 黑盒表 B5 中识别了决策损失函数 L 的真实形式（即 C_FP/C_FN 比值）是黑盒，决策者常无法精确表达，需通过 elicitation 获得。这与 Gold 中 N-1.1.2/N-1.2.2 标记为“空缺/场景给定”且列入空缺清单的要求一致。\",\n    \"制度约束细节/隐性成本 (Institutional Constraints/Hidden Costs): 模型在 §3 黑盒表 B4 中识别了制度约束的“隐性成本”（如审稿人质疑导致的返工），指出依赖具体环境无量化模型，需查文献或访谈。虽然 Gold 主要将制度约束视为 S-a (可查文件) 的一票否决项，但 Gold 也承认 S-b 黑盒的存在，且模型额外识别了 Gold 未显式列为黑盒但隐含在 L_comm/L_cost 中的“沟通/返工”不确定性，属于合理的 gap 识别（甚至更细致）。此外，模型在 §7 明确列出了 U3 (FDA guidance 细节) 和 U5 (期刊接受率) 作为需查证项，进一步确认了对制度/沟通侧不确定性的识别。\"\n  ],\n  \"missed\": []\n}\n```",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 85.8,
+    "tokens": {
+      "in": 561,
+      "out": 3933
+    }
+  },
+  {
+    "arm": "S0",
+    "qid": "Q5",
+    "rep": 2,
+    "scores": {
+      "M1": 0.6,
+      "M2": 0.5454545454545454,
+      "M3": 1.0,
+      "M4": 1.0,
+      "M5": 0.0,
+      "M6": 0.0
+    },
+    "total": 0.6104,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"频率学派在 n=10 正态分布下，实际 Type I 错误率约为名义值 ± 0.005\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"频率学派在 n=10 重尾分布（kurtosis=6）下，实际 Type I 错误率可达 0.08–0.12（名义 0.05）\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"贝叶斯 MCMC 误差（Rhat < 1.01）通常小于后验标准差（SD）的 1%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"当样本量 n > 50 时，先验敏感性（弱 vs 强先验）对后验均值的影响小于 0.1 SE\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"当样本量 n < 10 时，先验敏感性对后验均值的影响可达 0.5–1 SE\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"主流统计期刊（如 JASA, Annals）接受贝叶斯方法，但要求报告后验分布及先验敏感性分析\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"FDA/EMA 监管目前主要要求频率框架（p 值、置信区间），贝叶斯方法作为补充可接受但非主证据\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"频率学派（如 t-test/ANOVA）的计算时间为秒级（闭式解）\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"贝叶斯学派（MCMC）的计算时间为分钟至小时级\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"当样本量 n > 100 时，频率学派和贝叶斯学派渐近等价，期望统计损失差异小于 1%\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"当样本量 n < 20 且先验信息可用时，贝叶斯后验标准差比频率标准误小 20–40%（先验贡献等效 5–15 个样本）\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"在监管审批或期刊要求 p 值的场景下，频率学派或混合 workflow 是硬约束下的唯一可行候选，纯贝叶斯被剔除\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"在内部 R&D、n < 20、有领域先验且决策不可逆的场景下，贝叶斯学派期望损失最低\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"在内部 R&D、n > 100、无强先验的场景下，频率学派更划算（实施成本低，审计简单）\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"在内部 R&D、20 ≤ n ≤ 100 且存在非对称损失的场景下，混合 workflow（频率筛查+贝叶斯量化）是最划算选择\",\n      \"verdict\": \"match\"\n    }\n  ],\n  \"matched\": 9,\n  \"total_decidable\": 15\n}\n```",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 5,\n  \"gaps_identified_by_model\": 5,\n  \"identified\": [\n    \"B1 先验价值/质量 (prior_value/quality): 模型在 §3 黑盒表 B1 中识别了先验与真实分布的 KL 散度及敏感性，并给出了模拟测法，对应 Gold 的 B1。\",\n    \"B2 先验敏感性/误设风险 (prior_sens): 模型在 §3 黑盒表 B3 中明确讨论了先验敏感性分析（弱/强先验对比）及其对结论的影响，对应 Gold 的 B2。\",\n    \"B3 MCMC 收敛成本 (MCMC convergence cost): 模型在 §3 黑盒表 B3 中讨论了 MCMC 误差及收敛诊断成本，并在 §4 成本表中量化了计算时间，对应 Gold 的 B3。\",\n    \"B4 p 值误读/沟通风险 (p-value misinterpretation/communication): 模型在 §1 D4 和 §5 瓶颈分析中讨论了 p 值在单次决策中的解释局限及贝叶斯后验的可解释性优势，虽未单独列为黑盒，但明确识别了该维度的不确定性/风险，对应 Gold 的 B4 核心关切。\",\n    \"B5 小样本功效/样本量影响 (Small sample power/n): 模型在 §3 黑盒表 B2 中专门讨论了有限样本（n<30）下频率学派实际 Type I/II 错误率偏离名义值的问题，并给出了蒙特卡洛模拟测法，对应 Gold 的 B5。\"\n  ],\n  \"missed\": []\n}\n```",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 21.4,
+    "tokens": {
+      "in": 561,
+      "out": 4940
+    }
+  },
+  {
+    "arm": "S1",
+    "qid": "Q1",
+    "rep": 1,
+    "scores": {
+      "M1": 0.46153846153846156,
+      "M2": 0.5,
+      "M3": 1.0,
+      "M4": 0.5,
+      "M5": 0.0,
+      "M6": 0.0
+    },
+    "total": 0.4654,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"H100 SXM 和 H100 PCIe 的 FP16/BF16 Tensor Core FLOPS (峰值算力) 完全一致\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"H100 SXM 和 H100 PCIe 的 SM 数量完全一致\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"H100 SXM 和 H100 PCIe 的时钟频率 (Boost Clock) 完全一致\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"H100 SXM 显存容量为 80GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"H100 PCIe 显存容量为 80GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"H100 SXM HBM 带宽为 3.35 TB/s\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"H100 PCIe HBM 带宽为 2.0 TB/s\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"H100 SXM 支持 900 GB/s NVLink\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"H100 PCIe 支持 900 GB/s NVLink\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"H100 PCIe 通常仅支持 2 卡 NVLink 直连\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"H100 PCIe 其余卡间通信通过 PCIe 5.0 (64 GB/s) 连接\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"H100 SXM 的 TDP 为 700W (隐含在散热讨论中，虽未直接列出数值，但对比PCIe风冷暗示高功耗，此处主要判定PCIe部分)\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"H100 PCIe 依赖风冷\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"单卡推理时，H100 SXM 版比 PCIe 版快约 50%–70%\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"多卡推理（TP=8）时，H100 SXM 版比 PCIe 版快约 60%–80%\",\n      \"verdict\": \"undecidable\"\n    }\n  ],\n  \"matched\": 6,\n  \"total_decidable\": 13\n}\n```",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 4,\n  \"gaps_identified_by_model\": 2,\n  \"identified\": [\n    \"实际部署的框架（vLLM/TensorRT-LLM）对 PCIe 版的优化程度未知\",\n    \"实测数据缺失，以上多为规格推算 → conf 应降级\"\n  ],\n  \"missed\": [\n    \"具体 workload（batch/seq/model size）未定 → 无法给单一数字\",\n    \"价格/性价比维度未纳入（同样钱 PCIe 能买更多卡）\"\n  ]\n}\n```",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 56.2,
+    "tokens": {
+      "in": 685,
+      "out": 2927
+    }
+  },
+  {
+    "arm": "S0",
+    "qid": "Q5",
+    "rep": 3,
+    "scores": {
+      "M1": 0.6,
+      "M2": 0.5454545454545454,
+      "M3": 1.0,
+      "M4": 1.0,
+      "M5": 0.0,
+      "M6": 0.0
+    },
+    "total": 0.6104,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"频率学派在 n=10 正态分布下，实际 Type I 错误率约为名义值 ± 0.005\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"频率学派在 n=10 重尾分布（kurtosis=6）下，实际 Type I 错误率可达 0.08–0.12（名义 0.05）\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"贝叶斯 MCMC 误差（Rhat < 1.01）通常小于后验标准差（SD）的 1%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"当样本量 n > 50 时，先验敏感性（弱 vs 强先验）对后验均值的影响小于 0.1 SE\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"当样本量 n < 10 时，先验敏感性对后验均值的影响可达 0.5–1 SE\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"主流统计期刊（如 JASA, Annals）接受贝叶斯方法，但要求报告后验分布及先验敏感性分析\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"FDA/EMA 监管目前主要要求频率框架（p 值、置信区间），贝叶斯方法作为补充可接受但非主证据\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"频率学派（如 t-test/ANOVA）的计算时间为秒级（闭式解）\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"贝叶斯学派（MCMC）的计算时间为分钟至小时级\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"当样本量 n > 100 时，频率学派和贝叶斯学派渐近等价，期望统计损失差异小于 1%\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"当样本量 n < 20 且先验信息可用时，贝叶斯后验标准差比频率标准误小 20–40%（先验贡献等效 5–15 个样本）\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"在监管审批或期刊要求 p 值的场景下，频率学派或混合 workflow 是硬约束下的唯一可行候选，纯贝叶斯被剔除\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"在内部 R&D、n < 20、有领域先验且决策不可逆的场景下，贝叶斯学派期望损失最低\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"在内部 R&D、n > 100、无强先验的场景下，频率学派更划算（实施成本低，审计简单）\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"在内部 R&D、20 ≤ n ≤ 100 且存在非对称损失的场景下，混合 workflow（频率筛查+贝叶斯量化）是最划算选择\",\n      \"verdict\": \"match\"\n    }\n  ],\n  \"matched\": 9,\n  \"total_decidable\": 15\n}\n```",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 5,\n  \"gaps_identified_by_model\": 5,\n  \"identified\": [\n    \"B1 先验价值/质量 (prior_value/quality): 模型在 §3 黑盒表 B1 中识别了先验与真实分布的 KL 散度及敏感性，并给出了模拟测法，对应 Gold 的 B1。\",\n    \"B2 先验敏感性/误设风险 (prior_sens): 模型在 §3 黑盒表 B3 中明确讨论了先验敏感性分析（弱/强先验对比）及其对结论的影响，对应 Gold 的 B2。\",\n    \"B3 MCMC 收敛成本 (MCMC convergence cost): 模型在 §3 黑盒表 B3 中讨论了 MCMC 误差及收敛诊断成本，并在 §4 成本表中量化了计算时间，对应 Gold 的 B3。\",\n    \"B4 p 值误读/沟通风险 (p-value misinterpretation/communication): 模型在 §1 D4 和 §5 瓶颈分析中讨论了 p 值在单次决策中的解释局限及贝叶斯后验的可解释性优势，虽未单独列为黑盒，但明确识别了该维度的不确定性/风险，对应 Gold 的 B4 核心关切。\",\n    \"B5 小样本功效/样本量影响 (Small sample power/n): 模型在 §3 黑盒表 B2 中专门讨论了有限样本（n<30）下频率学派实际 Type I/II 错误率偏离名义值的问题，并给出了蒙特卡洛模拟测法，对应 Gold 的 B5。\"\n  ],\n  \"missed\": []\n}\n```",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 21.5,
+    "tokens": {
+      "in": 561,
+      "out": 4940
+    }
+  },
+  {
+    "arm": "S1",
+    "qid": "Q1",
+    "rep": 2,
+    "scores": {
+      "M1": 0.75,
+      "M2": 0.625,
+      "M3": 1.0,
+      "M4": 0.5,
+      "M5": 0.0,
+      "M6": 0.0
+    },
+    "total": 0.5625,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"H100 SXM 和 H100 PCIe 的 FP16/BF16 Tensor Core FLOPS (峰值算力)、SM 数量、时钟频率完全一致，无差异。\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"H100 SXM 配备 80GB HBM3 显存。\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"H100 SXM 的 HBM 带宽为 3.35 TB/s。\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"H100 PCIe 配备 80GB HBM3 显存。\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"H100 PCIe 的 HBM 带宽为 2.0 TB/s。\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"H100 PCIe 版通常有 NVLink 4.0，带宽 900GB/s。\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"H100 PCIe 版依赖 PCIe 5.0 x16 (~64 GB/s) 进行数据加载。\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"H100 SXM 版支持 900 GB/s NVLink 带宽。\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"单卡 LLM 推理场景下，SXM 版比 PCIe 版快约 50%–70%（即 1.5–1.7 倍）。\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"多卡推理场景下，SXM 版优势进一步扩大，可达 1.8–2.0 倍。\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"H100 SXM 理论 Decode 吞吐约为 1,500–1,800 Tokens/s (Llama-2-70B, FP16, 单卡)。\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"H100 PCIe 理论 Decode 吞吐约为 900–1,100 Tokens/s (Llama-2-70B, FP16, 单卡)。\",\n      \"verdict\": \"undecidable\"\n    }\n  ],\n  \"matched\": 6,\n  \"total_decidable\": 8\n}\n```",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 4,\n  \"gaps_identified_by_model\": 2,\n  \"identified\": [\n    \"具体 workload（batch/seq/model size）未定 → 无法给单一数字\",\n    \"实测数据缺失，以上多为规格推算 → conf 应降级\"\n  ],\n  \"missed\": [\n    \"实际部署的框架（vLLM/TensorRT-LLM）对 PCIe 版的优化程度未知\",\n    \"价格/性价比维度未纳入（同样钱 PCIe 能买更多卡）\"\n  ]\n}\n```",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 13.0,
+    "tokens": {
+      "in": 685,
+      "out": 3197
+    }
+  },
+  {
+    "arm": "S1",
+    "qid": "Q1",
+    "rep": 3,
+    "scores": {
+      "M1": 0.75,
+      "M2": 0.625,
+      "M3": 1.0,
+      "M4": 0.5,
+      "M5": 0.0,
+      "M6": 0.0
+    },
+    "total": 0.5625,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"H100 SXM 和 H100 PCIe 的 FP16/BF16 Tensor Core FLOPS (峰值算力)、SM 数量、时钟频率完全一致，无差异。\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"H100 SXM 配备 80GB HBM3 显存。\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"H100 SXM 的 HBM 带宽为 3.35 TB/s。\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"H100 PCIe 配备 80GB HBM3 显存。\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"H100 PCIe 的 HBM 带宽为 2.0 TB/s。\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"H100 PCIe 版通常有 NVLink 4.0，带宽 900GB/s。\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"H100 PCIe 版依赖 PCIe 5.0 x16 (~64 GB/s) 进行数据加载。\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"H100 SXM 版支持 900 GB/s NVLink 带宽。\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"单卡 LLM 推理场景下，SXM 版比 PCIe 版快约 50%–70%（即 1.5–1.7 倍）。\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"多卡推理场景下，SXM 版优势进一步扩大，可达 1.8–2.0 倍。\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"H100 SXM 理论 Decode 吞吐约为 1,500–1,800 Tokens/s (Llama-2-70B, FP16, 单卡)。\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"H100 PCIe 理论 Decode 吞吐约为 900–1,100 Tokens/s (Llama-2-70B, FP16, 单卡)。\",\n      \"verdict\": \"undecidable\"\n    }\n  ],\n  \"matched\": 6,\n  \"total_decidable\": 8\n}\n```",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 4,\n  \"gaps_identified_by_model\": 2,\n  \"identified\": [\n    \"具体 workload（batch/seq/model size）未定 → 无法给单一数字\",\n    \"实测数据缺失，以上多为规格推算 → conf 应降级\"\n  ],\n  \"missed\": [\n    \"实际部署的框架（vLLM/TensorRT-LLM）对 PCIe 版的优化程度未知\",\n    \"价格/性价比维度未纳入（同样钱 PCIe 能买更多卡）\"\n  ]\n}\n```",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 13.1,
+    "tokens": {
+      "in": 685,
+      "out": 3197
+    }
+  },
+  {
+    "arm": "S1",
+    "qid": "Q2",
+    "rep": 1,
+    "scores": {
+      "M1": 1.0,
+      "M2": 0.7142857142857143,
+      "M3": 1.0,
+      "M4": 1.0,
+      "M5": 0.0,
+      "M6": 0.0
+    },
+    "total": 0.7429,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"Qwen3-32B FP16 显存占用约 64GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"Qwen3-32B INT4 显存占用约 18GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"Qwen2.5-Coder-32B FP16 显存占用约 64GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"Qwen2.5-Coder-32B INT4 显存占用约 18GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"Mistral-Small-24B FP16 显存占用约 48GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"Mistral-Small-24B INT4 显存占用约 12GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"GLM-4-32B FP16 显存占用约 64GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"GLM-4-32B INT4 显存占用约 18GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"DeepSeek-Coder-V2-33B FP16 显存占用约 66GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"DeepSeek-Coder-V2-33B INT4 显存占用约 19GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"Llama-3.3-70B W4 量化显存占用约 35-40GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"双卡 24GB (如 L40S 或 A10G) 市场价约 15,000 - 20,000 元/卡\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"双卡 24GB 月摊销成本约 972 元/月 (基于 3 年折旧)\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"双卡 24GB 月电费约 432 元/月 (基于 0.4kW 功耗和 1.5元/kWh 电价)\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"DeepSeek-Coder-V2-33B HumanEval Pass@1 约 90%+\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"Qwen2.5-Coder-32B HumanEval Pass@1 约 85-90%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"单卡/双卡 24GB 下实际吞吐量区间为 15-60 Tokens/s\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"内部每月总请求量区间为 10k - 100k 次/月\",\n      \"verdict\": \"undecidable\"\n    }\n  ],\n  \"matched\": 11,\n  \"total_decidable\": 11\n}\n```",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 5,\n  \"gaps_identified_by_model\": 5,\n  \"identified\": [\n    \"B1 基准→任务迁移/内部合格率 (Gold: B1, Model: B1)\",\n    \"B2 幻觉/拒答率/指令合格率 (Gold: B2, Model: B2)\",\n    \"B3 延迟/吞吐量/显存可行性 (Gold: B4, Model: B3)\",\n    \"B4 业务利用率/请求量 (Gold: B3, Model: B4)\",\n    \"B5 运维/社区/长期风险 (Gold: B5, Model: B5)\"\n  ],\n  \"missed\": []\n}\n```",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 60.8,
+    "tokens": {
+      "in": 1474,
+      "out": 4356
+    }
+  },
+  {
+    "arm": "S1",
+    "qid": "Q2",
+    "rep": 2,
+    "scores": {
+      "M1": 0.8333333333333334,
+      "M2": 0.6111111111111112,
+      "M3": 1.0,
+      "M4": 0.6,
+      "M5": 0.0,
+      "M6": 0.0
+    },
+    "total": 0.6006,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"Llama-3.3-70B (W4) 显存需求约为 45-50GB (35GB 权重 + KV/激活)\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"32B 模型 (W8) 显存需求约为 40GB (32GB 权重 + KV)\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"32B 模型 (W4) 显存需求约为 25GB (16GB 权重 + KV)\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"DeepSeek-Coder-V2-33B 采用 MoE (Mixture of Experts) 架构\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"DeepSeek-Coder-V2-33B 在 2x24GB 上因 MoE 激活参数少，理论上吞吐量可能高于 Dense 32B 模型\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"Qwen2.5-Coder-32B-Instruct 是代码补全任务的首选模型\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"Llama-3.3-70B (W4) 在 2x24GB 环境下为高风险/不推荐，主要因显存临界和吞吐量低\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"Mistral-Small-24B 的吞吐量高于 Qwen2.5-Coder-32B\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"Qwen2.5-Coder-32B 的代码能力优于 Mistral-Small-24B\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"合格率 (P_qualified) 是决定每千次合格回答成本 (CPQR) 的最高弹性项/第一瓶颈\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"吞吐量 (Tokens/s) 是第二瓶颈\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"32B Coder 模型在内部代码库上的合格率预估区间为 0.6-0.8\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"通用 32B 模型在内部代码库上的合格率预估区间为 0.4-0.6\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"70B 模型在内部代码库上的合格率预估区间为 0.7-0.9\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"W4 量化对合格率的折损系数预估为 5%-15%\",\n      \"verdict\": \"undecidable\"\n    }\n  ],\n  \"matched\": 10,\n  \"total_decidable\": 12\n}\n```",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 5,\n  \"gaps_identified_by_model\": 3,\n  \"identified\": [\n    \"B1 基准→任务迁移/内部合格率 (Gold B1 / Model B2)\",\n    \"B4 延迟/吞吐量可行性 (Gold B4 / Model B1)\",\n    \"B3 API/自部署 breakeven 利用率 (Gold B3 / Model B4 - 虽未显式计算breakeven，但识别了API成本依赖请求量和Token分布这一核心不确定性)\"\n  ],\n  \"missed\": [\n    \"B2 幻觉/拒答率 (Gold B2) - 模型仅在维度B提到'幻觉率'作为参数，但未将其列为独立黑盒或不确定性因素，未说明其无闭式解及需单独标注\",\n    \"B5 社区/长期维护风险 (Gold B5) - 模型在维度C提到'社区支持度'，但未将其列为黑盒或不确定性因素，未说明其前瞻性无闭式解\"\n  ]\n}\n```",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 16.7,
+    "tokens": {
+      "in": 1474,
+      "out": 4076
+    }
+  },
+  {
+    "arm": "S1",
+    "qid": "Q2",
+    "rep": 3,
+    "scores": {
+      "M1": 0.8333333333333334,
+      "M2": 0.6111111111111112,
+      "M3": 1.0,
+      "M4": 0.6,
+      "M5": 0.0,
+      "M6": 0.0
+    },
+    "total": 0.6006,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"Llama-3.3-70B (W4) 显存需求约为 45-50GB (35GB 权重 + KV/激活)\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"32B 模型 (W8) 显存需求约为 40GB (32GB 权重 + KV)\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"32B 模型 (W4) 显存需求约为 25GB (16GB 权重 + KV)\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"DeepSeek-Coder-V2-33B 采用 MoE (Mixture of Experts) 架构\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"DeepSeek-Coder-V2-33B 在 2x24GB 上因 MoE 激活参数少，理论上吞吐量可能高于 Dense 32B 模型\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"Qwen2.5-Coder-32B-Instruct 是代码补全任务的首选模型\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"Llama-3.3-70B (W4) 在 2x24GB 环境下为高风险/不推荐，主要因显存临界和吞吐量低\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"Mistral-Small-24B 的吞吐量高于 Qwen2.5-Coder-32B\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"Qwen2.5-Coder-32B 的代码能力优于 Mistral-Small-24B\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"合格率 (P_qualified) 是决定每千次合格回答成本 (CPQR) 的最高弹性项/第一瓶颈\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"吞吐量 (Tokens/s) 是第二瓶颈\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"32B Coder 模型在内部代码库上的合格率预估区间为 0.6-0.8\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"通用 32B 模型在内部代码库上的合格率预估区间为 0.4-0.6\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"70B 模型在内部代码库上的合格率预估区间为 0.7-0.9\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"W4 量化对合格率的折损系数预估为 5%-15%\",\n      \"verdict\": \"undecidable\"\n    }\n  ],\n  \"matched\": 10,\n  \"total_decidable\": 12\n}\n```",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 5,\n  \"gaps_identified_by_model\": 3,\n  \"identified\": [\n    \"B1 基准→任务迁移/内部合格率 (Gold B1 / Model B2)\",\n    \"B4 延迟/吞吐量可行性 (Gold B4 / Model B1)\",\n    \"B3 API/自部署 breakeven 利用率 (Gold B3 / Model B4 - 虽未显式计算breakeven，但识别了API成本依赖请求量和Token分布这一核心不确定性)\"\n  ],\n  \"missed\": [\n    \"B2 幻觉/拒答率 (Gold B2) - 模型仅在维度B提到'幻觉率'作为参数，但未将其列为独立黑盒或不确定性因素，未说明其无闭式解及需单独标注\",\n    \"B5 社区/长期维护风险 (Gold B5) - 模型在维度C提到'社区支持度'，但未将其列为黑盒或不确定性因素，未说明其前瞻性无闭式解\"\n  ]\n}\n```",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 16.8,
+    "tokens": {
+      "in": 1474,
+      "out": 4076
+    }
+  },
+  {
+    "arm": "S1",
+    "qid": "Q3",
+    "rep": 1,
+    "scores": {
+      "M1": 0.8571428571428571,
+      "M2": 0.8333333333333333,
+      "M3": 0.6666666666666666,
+      "M4": 1.0,
+      "M5": 0.0,
+      "M6": 0.0
+    },
+    "total": 0.681,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"27B 模型 FP16 权重需 ~54GB 显存\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"27B 模型 INT4 权重需 ~14GB 显存\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"原生 transformers 默认无 PagedAttention\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"原生 transformers 显存碎片严重，导致实际可用 KV Cache 减少 30-50%\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"vLLM 是 PagedAttention 的首创者\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"TGI 支持 FlashAttention\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"TGI 的 KV Cache 管理不如 vLLM 精细（早期版本）\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"SGLang 在前缀缓存（Prefix Caching）上比 vLLM 更优\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"SGLang 使用 RadixAttention 优化\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"在通用场景下，vLLM 吞吐量最高，成本最低\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"原生 transformers 成本最高，应排除\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"TGI 性能略逊于 vLLM/SGLang\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"若业务以多轮对话为主，SGLang 可能比 vLLM 更优\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"FlashAttention 优化通常带来 1.2-1.5 倍提升\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"KV Cache 显存占比估计区间为 0.3–0.6\",\n      \"verdict\": \"undecidable\"\n    }\n  ],\n  \"matched\": 12,\n  \"total_decidable\": 14\n}\n```",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 4,\n  \"gaps_identified_by_model\": 4,\n  \"identified\": [\n    \"B1 调度/KV/批量/kernel 效率 (模型对应: B1 KV Cache 显存占用率, B3 长尾请求对吞吐的影响, 以及维度A/B的拆解)\",\n    \"B2 KV 碎片率 (模型对应: B1 中的显存占比及维度B中的显存碎片率)\",\n    \"B3 尾延迟 p99 (模型对应: B3 长尾请求对吞吐的影响，明确提到需模拟真实流量测 P99)\",\n    \"B4 运维成本 (模型对应: 虽未单列黑盒，但在维度C系统开销及最终建议中隐含了稳定性/监控等运维因素，且B4量化精度损失虽非运维但属于需业务确认的缺口，模型将其列为未解矛盾)\"\n  ],\n  \"missed\": []\n}\n```",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 35.9,
+    "tokens": {
+      "in": 1395,
+      "out": 2337
+    }
+  },
+  {
+    "arm": "S1",
+    "qid": "Q3",
+    "rep": 2,
+    "scores": {
+      "M1": 0.75,
+      "M2": 0.5,
+      "M3": 0.6666666666666666,
+      "M4": 1.0,
+      "M5": 0.0,
+      "M6": 0.0
+    },
+    "total": 0.5875,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"vLLM 吞吐量通常比原生 transformers 高 2–4×\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"vLLM 吞吐量比 TGI 略高或相当\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"原生 transformers 单请求 TTFT 最低\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"原生 transformers 并发一上来吞吐断崖\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"vLLM 支持 PagedAttention\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"vLLM 支持 continuous batching\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"TGI 支持 continuous batching\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"原生 transformers 不支持 continuous batching (静态 batch)\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"vLLM 支持自动前缀缓存\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"SGLang 支持自动前缀缓存\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"原生 transformers 不支持前缀缓存\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"TGI 部署需 Docker Compose\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"原生 transformers 部署最快\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"vLLM 部署复杂度中等\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"27B 模型自投机解码加速比通常 1.3–1.8×\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"框架间吞吐差区间为 [1.3×, 2.5×]\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"KV 碎片率区间为 [0.03, 0.40]\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"TTFT p99 区间为 [1, 8]s\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"部署复杂度 (setup) 区间为 [0.5, 3] 人天\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"并发数 n 由 min(n_mem, n_slo) 决定\",\n      \"verdict\": \"match\"\n    }\n  ],\n  \"matched\": 15,\n  \"total_decidable\": 20\n}\n```",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 4,\n  \"gaps_identified_by_model\": 4,\n  \"identified\": [\n    \"B1 调度/KV/批量/kernel (模型对应 B1 实际吞吐量)\",\n    \"B2 KV 碎片率 (模型对应 B3 内存占用峰值，虽未显式提碎片率但识别了内存效率的不确定性)\",\n    \"B3 尾延迟 p99 (模型对应 B4 首 token 延迟，识别了延迟分布的不确定性)\",\n    \"B4 运维成本 (模型对应 B5 运维复杂度)\"\n  ],\n  \"missed\": []\n}\n```",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 10.4,
+    "tokens": {
+      "in": 1395,
+      "out": 2233
+    }
+  },
+  {
+    "arm": "S1",
+    "qid": "Q3",
+    "rep": 3,
+    "scores": {
+      "M1": 0.75,
+      "M2": 0.5,
+      "M3": 0.6666666666666666,
+      "M4": 1.0,
+      "M5": 0.0,
+      "M6": 0.0
+    },
+    "total": 0.5875,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"vLLM 吞吐量通常比原生 transformers 高 2–4×\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"vLLM 吞吐量比 TGI 略高或相当\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"原生 transformers 单请求 TTFT 最低\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"原生 transformers 并发一上来吞吐断崖\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"vLLM 支持 PagedAttention\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"vLLM 支持 continuous batching\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"TGI 支持 continuous batching\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"原生 transformers 不支持 continuous batching (静态 batch)\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"vLLM 支持自动前缀缓存\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"SGLang 支持自动前缀缓存\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"原生 transformers 不支持前缀缓存\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"TGI 部署需 Docker Compose\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"原生 transformers 部署最快\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"vLLM 部署复杂度中等\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"27B 模型自投机解码加速比通常 1.3–1.8×\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"框架间吞吐差区间为 [1.3×, 2.5×]\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"KV 碎片率区间为 [0.03, 0.40]\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"TTFT p99 区间为 [1, 8]s\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"部署复杂度 (setup) 区间为 [0.5, 3] 人天\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"并发数 n 由 min(n_mem, n_slo) 决定\",\n      \"verdict\": \"match\"\n    }\n  ],\n  \"matched\": 15,\n  \"total_decidable\": 20\n}\n```",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 4,\n  \"gaps_identified_by_model\": 4,\n  \"identified\": [\n    \"B1 调度/KV/批量/kernel (模型对应 B1 实际吞吐量)\",\n    \"B2 KV 碎片率 (模型对应 B3 内存占用峰值，虽未显式提碎片率但识别了内存效率的不确定性)\",\n    \"B3 尾延迟 p99 (模型对应 B4 首 token 延迟，识别了延迟分布的不确定性)\",\n    \"B4 运维成本 (模型对应 B5 运维复杂度)\"\n  ],\n  \"missed\": []\n}\n```",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 10.5,
+    "tokens": {
+      "in": 1395,
+      "out": 2233
+    }
+  },
+  {
+    "arm": "S1",
+    "qid": "Q4",
+    "rep": 1,
+    "scores": {
+      "M1": 0.5454545454545454,
+      "M2": 0.5,
+      "M3": 1.0,
+      "M4": 1.0,
+      "M5": 0.0,
+      "M6": 0.0
+    },
+    "total": 0.5864,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"P95 响应时间约束为 < 3s\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"总语料约 2.5 亿 tokens (基于 50 万页 * 500 tokens/页)\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"幻觉率约束阈值为 5%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"纯长上下文方案的输入 token 数是 RAG 的 10-50 倍\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"纯长上下文方案在 50 万页文档规模下是可行的候选方案\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"混合方案（RAG 粗筛 + 长上下文精读）是本题（500 万 token、周更、需引用）的推荐/最可能达标方案\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"纯 RAG 方案在高频问答且检索调优到位时，其每千次正确回答成本可能最低\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"长上下文方案没有检索/索引建设成本（检索成本为无/0）\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"RAG 方案天然带有 chunk 出处，可引用性优于长上下文\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"文档规模（doc_scale）是影响长上下文可行性、RAG 检索难度和长上下文输入成本的关键共享参数\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"纯长上下文方案因文档总量远超模型有效上下文而被直接排除\",\n      \"verdict\": \"match\"\n    }\n  ],\n  \"matched\": 6,\n  \"total_decidable\": 11\n}\n```",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 5,\n  \"gaps_identified_by_model\": 5,\n  \"identified\": [\n    \"B1: 幻觉率 (Gold B3) - 模型在表格中明确列为黑盒，指出依赖具体文档和问题分布，无法闭式计算，需实测。\",\n    \"B5: 检索精度/召回率 (Gold B1) - 模型在表格中明确列为黑盒，指出依赖嵌入模型和分块策略，需构建测试集实测 Recall@K。\",\n    \"B6: 实际输入 token 分布 (Gold N-2.3.1 相关) - 模型在表格中明确列为黑盒，指出取决于用户问题复杂度，需采样真实问题计算。\",\n    \"B4: 文档更新频率/索引维护 (Gold N-4.2/N-2.1.1) - 模型在表格中明确列为黑盒，指出取决于业务变更频率，需统计历史数据。\",\n    \"B7: 模型单价 (Gold N-2.3.3) - 模型在表格中明确列为黑盒/需查证项，指出云厂商定价策略和折扣导致波动，需查询当前定价。\"\n  ],\n  \"missed\": []\n}\n```",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 59.3,
+    "tokens": {
+      "in": 1407,
+      "out": 3038
+    }
+  },
+  {
+    "arm": "S1",
+    "qid": "Q4",
+    "rep": 2,
+    "scores": {
+      "M1": 0.0,
+      "M2": 0.5,
+      "M3": 1.0,
+      "M4": 0.6,
+      "M5": 0.0,
+      "M6": 0.0
+    },
+    "total": 0.37,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"P95 响应时间约束为 < 3s\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"总语料约 2.5 亿 tokens (基于 50 万页 * 500 tokens/页)\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"纯长上下文方案输入 token 数是 RAG 的 10-50 倍\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"RAG 方案幻觉率估计区间为 5-15%\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"长上下文方案幻觉率估计区间为 10-25%\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"混合方案幻觉率估计区间为 5-10%\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"RAG 检索召回率 (Recall@k) 估计区间为 0.6-0.9\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"人工复核成本估计区间为 $0.5-2.0 / 次错误\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"文档更新频率估计区间为 1-10 次/天\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"纯长上下文方案因文档规模 (2.5亿 tokens) 远超模型上下文窗口而直接不可行\",\n      \"verdict\": \"undecidable\"\n    }\n  ],\n  \"matched\": 0,\n  \"total_decidable\": 9\n}\n```",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 5,\n  \"gaps_identified_by_model\": 3,\n  \"identified\": [\n    \"幻觉率 (Hallucination Rate) - 模型在 B1 中明确列为黑盒，指出依赖具体文档和模型能力，无闭式，需实测。\",\n    \"检索召回率/切块与嵌入质量 (Retrieval Recall/Chunk Quality) - 模型在 B2 中明确列为黑盒，指出依赖嵌入模型和 chunk 策略，需实测 Recall@k。\",\n    \"文档更新频率 (Update Frequency) - 模型在 B5 中列为黑盒，指出依赖业务场景，需统计历史数据。\"\n  ],\n  \"missed\": [\n    \"长上下文有效定位能力/大海捞针衰减 (In-context Localization/Needle-in-Haystack) - Gold 强调标称 128K 不等于有效 128K，中段定位能力衰减是长上下文方案最常被高估的黑盒 (B2 in Gold)。模型仅关注输入 token 成本，未识别出长上下文模型在长文本中定位准确率的衰减这一关键质量缺口。\",\n    \"端到端延迟 p95 的具体构成与瓶颈 (E2E Latency p95) - Gold 将 p95 列为黑盒 (B5)，指出其由最慢的 prefill 决定且受并发影响，无闭式。模型虽然提到了延迟约束，但将其视为一个固定的 SLO 阈值（甚至错误地假设为 3s 而非题面的 15s），未将其识别为需要压测验证的、具有不确定性的系统性能黑盒，而是当作已知约束处理。\"\n  ]\n}\n```",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 9.6,
+    "tokens": {
+      "in": 1407,
+      "out": 2407
+    }
+  },
+  {
+    "arm": "S1",
+    "qid": "Q4",
+    "rep": 3,
+    "scores": {
+      "M1": 0.0,
+      "M2": 0.5,
+      "M3": 1.0,
+      "M4": 0.6,
+      "M5": 0.0,
+      "M6": 0.0
+    },
+    "total": 0.37,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"P95 响应时间约束为 < 3s\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"总语料约 2.5 亿 tokens (基于 50 万页 * 500 tokens/页)\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"纯长上下文方案输入 token 数是 RAG 的 10-50 倍\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"RAG 方案幻觉率估计区间为 5-15%\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"长上下文方案幻觉率估计区间为 10-25%\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"混合方案幻觉率估计区间为 5-10%\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"RAG 检索召回率 (Recall@k) 估计区间为 0.6-0.9\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"人工复核成本估计区间为 $0.5-2.0 / 次错误\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"文档更新频率估计区间为 1-10 次/天\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"纯长上下文方案因文档规模 (2.5亿 tokens) 远超模型上下文窗口而直接不可行\",\n      \"verdict\": \"undecidable\"\n    }\n  ],\n  \"matched\": 0,\n  \"total_decidable\": 9\n}\n```",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 5,\n  \"gaps_identified_by_model\": 3,\n  \"identified\": [\n    \"幻觉率 (Hallucination Rate) - 模型在 B1 中明确列为黑盒，指出依赖具体文档和模型能力，无闭式，需实测。\",\n    \"检索召回率/切块与嵌入质量 (Retrieval Recall/Chunk Quality) - 模型在 B2 中明确列为黑盒，指出依赖嵌入模型和 chunk 策略，需实测 Recall@k。\",\n    \"文档更新频率 (Update Frequency) - 模型在 B5 中列为黑盒，指出依赖业务场景，需统计历史数据。\"\n  ],\n  \"missed\": [\n    \"长上下文有效定位能力/大海捞针衰减 (In-context Localization/Needle-in-Haystack) - Gold 强调标称 128K 不等于有效 128K，中段定位能力衰减是长上下文方案最常被高估的黑盒 (B2 in Gold)。模型仅关注输入 token 成本，未识别出长上下文模型在长文本中定位准确率的衰减这一关键质量缺口。\",\n    \"端到端延迟 p95 的具体构成与瓶颈 (E2E Latency p95) - Gold 将 p95 列为黑盒 (B5)，指出其由最慢的 prefill 决定且受并发影响，无闭式。模型虽然提到了延迟约束，但将其视为一个固定的 SLO 阈值（甚至错误地假设为 3s 而非题面的 15s），未将其识别为需要压测验证的、具有不确定性的系统性能黑盒，而是当作已知约束处理。\"\n  ]\n}\n```",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 9.7,
+    "tokens": {
+      "in": 1407,
+      "out": 2407
+    }
+  },
+  {
+    "arm": "S1",
+    "qid": "Q5",
+    "rep": 1,
+    "scores": {
+      "M1": 0.5714285714285714,
+      "M2": 0.5416666666666666,
+      "M3": 1.0,
+      "M4": 1.0,
+      "M5": 0.0,
+      "M6": 0.0
+    },
+    "total": 0.6054,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"根标量定义为最小化每个统计决策的期望决策损失 (EDL)\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"将决策空间分解为三个正交维度：统计推断精度、制度与合规摩擦、计算与实施成本\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"样本量 n 是决定两范式收敛的 crossover 参数，大样本下两范式渐近一致\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"先验分布 π(θ) 仅贝叶斯拥有，频率学派此值恒为 0\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"若监管要求必须提供 p 值或置信区间且不接受后验概率替代，则纯贝叶斯方案被划掉\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"单次错误决策的边际损失 (C_error) 估计区间为：低 10^2, 中 10^4, 高 10^6 货币单位\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"真实数据上错误概率 P(Error) 估计区间：贝叶斯 0.05-0.15, 频率 0.05-0.20\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"合规摩擦成本 (C_admin) 估计区间：频率 0.5-2 人天, 贝叶斯 2-5 人天\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"统计实施成本 (C_stat) 估计区间：频率 0.5-1 人天, 贝叶斯 2-4 人天\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"先验敏感性对结论的影响估计区间：低 <5% 决策翻转, 高 >20% 决策翻转\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"主导项是风险调整后的错误决策成本 (C_error * P(Error))，而非计算或合规成本\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"高风险、小样本、复杂模型、无强 p 值约束场景下，贝叶斯学派最划算\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"低风险、大样本、简单模型、强 p 值约束场景下，频率学派最划算\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"高风险且存在强 p 值约束时，混合/两阶段 workflow 最划算\",\n      \"verdict\": \"match\"\n    }\n  ],\n  \"matched\": 8,\n  \"total_decidable\": 14\n}\n```",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 5,\n  \"gaps_identified_by_model\": 5,\n  \"identified\": [\n    \"B1 先验价值/先验信息 (对应 Gold N-1.4 / B1): 模型在 Black Box 表 B5 中识别了'先验敏感性'，并在维度1中提及先验分布，虽未完全对应'先验价值'的正面收益，但识别了先验相关的黑盒性质。\",\n    \"B2 先验敏感性 (对应 Gold N-4.1 / B2): 模型在 Black Box 表 B5 中明确列出'先验敏感性对结论的影响'，并给出测法（敏感性测试），完全识别。\",\n    \"B3 MCMC 收敛/实施成本 (对应 Gold N-2.2 / B3): 模型在 Black Box 表 B4 中列出'统计实施成本'，并在维度3中详细讨论了 MCMC 计算时间和编码时间，识别了该黑盒。\",\n    \"B4 沟通/误读/合规成本 (对应 Gold N-3 / B4): 模型将'沟通误读'和'制度约束'合并为'行政合规成本' (C_admin) 和 '可解释性'，并在 Black Box 表 B3 中识别了合规摩擦成本的黑盒性质，虽未单独列出'误读率'，但覆盖了沟通/合规维度的不确定性。\",\n    \"B5 样本量/错误率差异 (对应 Gold N-1.3 / B5): 模型在 Black Box 表 B2 中识别了'P(Error) 在真实数据上的差异'，并指出需回测/模拟，这涵盖了样本量对错误率影响的黑盒性质。\"\n  ],\n  \"missed\": []\n}\n```",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 66.9,
+    "tokens": {
+      "in": 1093,
+      "out": 3352
+    }
+  },
+  {
+    "arm": "S1",
+    "qid": "Q5",
+    "rep": 2,
+    "scores": {
+      "M1": 0.6666666666666666,
+      "M2": 0.5714285714285714,
+      "M3": 1.0,
+      "M4": 1.0,
+      "M5": 0.0,
+      "M6": 0.0
+    },
+    "total": 0.6259,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"根标量定义为最小化每个统计决策的期望决策损失 (EDL)\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"将影响 EDL 的因素分解为三个正交维度：统计效率、制度合规、计算与认知成本\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"制度合规维度被定义为一票否决项（若要求 α 显著性，纯贝叶斯方案直接不可行）\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"黑盒 B1 (先验校准误差) 的估计区间：若先验严重失配，EDL 可能比频率学派高 20%-500%\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"黑盒 B1 (先验校准误差) 的估计区间：若先验良好，EDL 可能低 10%-30%\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"黑盒 B2 (违规成本) 的估计区间为 $10^3 - $10^6 美元/次\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"黑盒 B3 (贝叶斯计算开销) 的估计区间：频率秒级，贝叶斯分钟-小时级\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"黑盒 B4 (专家认知成本) 的估计区间：频率 0.5-2 小时，贝叶斯 4-20 小时\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"黑盒 B5 (可审计性摩擦成本) 的估计区间：贝叶斯可能增加 20%-100% 审计时间\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"识别出样本量 n 为 SHARED 耦合项，同时影响统计功效和计算时间\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"识别出先验质量/校准为关键瓶颈，且其影响具有双向性（好先验降损失，坏先验升损失）\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"最终建议：若必须满足 α 显著性，选频率学派（或混合方案）\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"最终建议：若无需 α 显著性且有强先验，选贝叶斯学派\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"最终建议：若无需 α 显著性且无强先验，选频率学派（更稳健）\",\n      \"verdict\": \"match\"\n    }\n  ],\n  \"matched\": 8,\n  \"total_decidable\": 12\n}\n```",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 5,\n  \"gaps_identified_by_model\": 5,\n  \"identified\": [\n    \"B1 先验价值/校准误差 (Prior Value/Calibration Error)\",\n    \"B2 先验敏感性/违规成本 (Prior Sensitivity/Violation Cost - 模型将其映射为制度合规成本，虽侧重不同但识别了该黑盒性质)\",\n    \"B3 MCMC 收敛/计算成本 (MCMC Convergence/Compute Cost)\",\n    \"B4 p 值误读/专家认知成本 (p-value Misinterpretation/Expert Cognitive Cost - 模型将其映射为专家时间成本，识别了该维度的不确定性)\",\n    \"B5 小样本功效/样本量影响 (Small Sample Power/Sample Size Impact - 模型在SHARED耦合项和瓶颈识别中明确指出了样本量n对两学派差异的决定性作用，并指出需确认n)\"\n  ],\n  \"missed\": []\n}\n```",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 13.5,
+    "tokens": {
+      "in": 1093,
+      "out": 3158
+    }
+  },
+  {
+    "arm": "S1",
+    "qid": "Q5",
+    "rep": 3,
+    "scores": {
+      "M1": 0.6666666666666666,
+      "M2": 0.5714285714285714,
+      "M3": 1.0,
+      "M4": 1.0,
+      "M5": 0.0,
+      "M6": 0.0
+    },
+    "total": 0.6259,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"根标量定义为最小化每个统计决策的期望决策损失 (EDL)\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"将影响 EDL 的因素分解为三个正交维度：统计效率、制度合规、计算与认知成本\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"制度合规维度被定义为一票否决项（若要求 α 显著性，纯贝叶斯方案直接不可行）\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"黑盒 B1 (先验校准误差) 的估计区间：若先验严重失配，EDL 可能比频率学派高 20%-500%\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"黑盒 B1 (先验校准误差) 的估计区间：若先验良好，EDL 可能低 10%-30%\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"黑盒 B2 (违规成本) 的估计区间为 $10^3 - $10^6 美元/次\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"黑盒 B3 (贝叶斯计算开销) 的估计区间：频率秒级，贝叶斯分钟-小时级\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"黑盒 B4 (专家认知成本) 的估计区间：频率 0.5-2 小时，贝叶斯 4-20 小时\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"黑盒 B5 (可审计性摩擦成本) 的估计区间：贝叶斯可能增加 20%-100% 审计时间\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"识别出样本量 n 为 SHARED 耦合项，同时影响统计功效和计算时间\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"识别出先验质量/校准为关键瓶颈，且其影响具有双向性（好先验降损失，坏先验升损失）\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"最终建议：若必须满足 α 显著性，选频率学派（或混合方案）\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"最终建议：若无需 α 显著性且有强先验，选贝叶斯学派\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"最终建议：若无需 α 显著性且无强先验，选频率学派（更稳健）\",\n      \"verdict\": \"match\"\n    }\n  ],\n  \"matched\": 8,\n  \"total_decidable\": 12\n}\n```",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 5,\n  \"gaps_identified_by_model\": 5,\n  \"identified\": [\n    \"B1 先验价值/校准误差 (Prior Value/Calibration Error)\",\n    \"B2 先验敏感性/误设风险 (Prior Sensitivity/Mis-specification Risk)\",\n    \"B3 MCMC 收敛/计算成本 (MCMC Convergence/Compute Cost)\",\n    \"B4 沟通/误读/审计摩擦 (Communication/Misinterpretation/Audit Friction)\",\n    \"B5 样本量/功效缺口 (Sample Size/Power Gap)\"\n  ],\n  \"missed\": []\n}\n```",
+      "M6: no sources provided"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 13.6,
+    "tokens": {
+      "in": 1093,
+      "out": 3158
+    }
+  },
+  {
+    "arm": "S5",
+    "qid": "Q1",
+    "rep": 1,
+    "scores": {
+      "M1": 0.0,
+      "M2": 0.5555555555555556,
+      "M3": 1.0,
+      "M4": 0.75,
+      "M5": 0.3208955223880597,
+      "M6": 1.0
+    },
+    "total": 0.5432,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: judge failed: timed out",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 4,\n  \"gaps_identified_by_model\": 3,\n  \"identified\": [\n    \"具体 workload（batch/seq/model size）未定 → 无法给单一数字\",\n    \"实测数据缺失，以上多为规格推算 → conf 应降级\",\n    \"实际部署的框架（vLLM/TensorRT-LLM）对 PCIe 版的优化程度未知（模型在阶段02.5和最终回答中多次提及需查阅vLLM/TensorRT-LLM benchmark，隐含了框架优化/实测缺失的缺口）\"\n  ],\n  \"missed\": [\n    \"价格/性价比维度未纳入（同样钱 PCIe 能买更多卡）\"\n  ]\n}\n```",
+      "M6: checked 3 URLs, 3 alive"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 50.6,
+    "tokens": {
+      "in": 6644,
+      "out": 4255
+    }
+  },
+  {
+    "arm": "S5",
+    "qid": "Q1",
+    "rep": 2,
+    "scores": {
+      "M1": 0.23076923076923078,
+      "M2": 0.5476190476190477,
+      "M3": 1.0,
+      "M4": 1.0,
+      "M5": 0.31296296296296294,
+      "M6": 1.0
+    },
+    "total": 0.6485,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"H100 PCIe 与 SXM 的单卡峰值算力（FP16/BF16）标称相同（~989 TFLOPS with sparsity）\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"H100 PCIe 与 SXM 的显存带宽（HBM3）标称相同（~3.35 TB/s）\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"H100 PCIe 的 TDP 为 700W\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"H100 SXM 的 TDP 为 700W\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"H100 PCIe 使用 PCIe Gen5 x16 互联\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"H100 PCIe 的互连带宽约为 64 GB/s 单向（128 GB/s 双向）\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"H100 SXM 使用 NVLink 4.0 实现 8 卡全互联\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"H100 SXM 的 NVLink 每卡双向带宽为 900 GB/s\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"单卡推理时，PCIe 与 SXM 的吞吐差异小于 5%（两者接近）\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"多卡张量并行（TP=8）时，SXM 比 PCIe 快 1.5-2x\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"多卡张量并行时，SXM 的 TP 扩展效率约为 90-95%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"多卡张量并行时，PCIe 的 TP 扩展效率约为 50-70%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"多卡流水线并行（PP）时，PCIe 与 SXM 的吞吐差异小于 10%\",\n      \"verdict\": \"undecidable\"\n    }\n  ],\n  \"matched\": 3,\n  \"total_decidable\": 13\n}\n```",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 4,\n  \"gaps_identified_by_model\": 4,\n  \"identified\": [\n    \"具体 workload（batch/seq/model size）未定 → 无法给单一数字\",\n    \"实际部署的框架（vLLM/TensorRT-LLM）对 PCIe 版的优化程度未知\",\n    \"实测数据缺失，以上多为规格推算 → conf 应降级\",\n    \"价格/性价比维度未纳入（同样钱 PCIe 能买更多卡）\"\n  ],\n  \"missed\": []\n}\n```",
+      "M6: checked 3 URLs, 3 alive"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 72.6,
+    "tokens": {
+      "in": 6644,
+      "out": 7216
+    }
+  },
+  {
+    "arm": "S5",
+    "qid": "Q2",
+    "rep": 1,
+    "scores": {
+      "M1": 0.75,
+      "M2": 0.5,
+      "M3": 0.6666666666666666,
+      "M4": 0.6,
+      "M5": 0.3,
+      "M6": 1.0
+    },
+    "total": 0.6375,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"32B 模型 FP16 显存占用约为 64GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"32B 模型 INT8 量化后显存占用约为 32GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"32B 模型 INT4 量化后显存占用约为 16GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"24B 模型 FP16 显存占用约为 48GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"33B 模型 FP16 显存占用约为 66GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"70B 模型 W4 量化后显存占用约为 35GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"代码补全场景典型输入长度为 500–2000 tokens\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"代码补全场景典型输出长度为 50–200 tokens\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"INT8 量化相比 FP16 的性能损失小于 2%\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"INT4 量化相比 FP16 的性能损失在 5–15% 之间\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"GPU 租赁成本约为 0.5–2 元/小时/GPU\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"电力成本约为 0.1–0.5 元/小时/GPU\",\n      \"verdict\": \"undecidable\"\n    }\n  ],\n  \"matched\": 6,\n  \"total_decidable\": 8\n}\n```",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 5,\n  \"gaps_identified_by_model\": 3,\n  \"identified\": [\n    \"B4 延迟/吞吐量可行性 (对应 Gold N-3, 模型 G5/C1)\",\n    \"B5 生态/维护/长期风险 (对应 Gold N-5, 模型 G9/G10 及运维成本)\",\n    \"B3 业务利用率/并发约束 (对应 Gold N-2.3/B3, 模型 G8/C2)\"\n  ],\n  \"missed\": [\n    \"B1 基准->任务迁移系数 (Gold N-1.2, 模型仅列出基准分 G1/G2，未识别基准分与真实业务合格率之间的 Gap/Transfer 系数)\",\n    \"B2 幻觉/拒答率 (Gold N-1.3, 模型在 B2b 中提及'无幻觉'作为合格定义，但未将其作为独立的、需单独测量的黑盒指标列出，而是隐含在合格率中)\"\n  ]\n}\n```",
+      "M6: checked 3 URLs, 3 alive"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 65.0,
+    "tokens": {
+      "in": 7180,
+      "out": 3730
+    }
+  },
+  {
+    "arm": "S5",
+    "qid": "Q1",
+    "rep": 3,
+    "scores": {
+      "M1": 0.0,
+      "M2": 0.8333333333333333,
+      "M3": 1.0,
+      "M4": 1.0,
+      "M5": 0.4012048192771084,
+      "M6": 1.0
+    },
+    "total": 0.6568,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: judge failed: timed out",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 4,\n  \"gaps_identified_by_model\": 4,\n  \"identified\": [\n    \"具体 workload（batch/seq/model size）未定 → 无法给单一数字\",\n    \"实际部署的框架（vLLM/TensorRT-LLM）对 PCIe 版的优化程度未知\",\n    \"实测数据缺失，以上多为规格推算 → conf 应降级\",\n    \"价格/性价比维度未纳入（同样钱 PCIe 能买更多卡）\"\n  ],\n  \"missed\": []\n}\n```",
+      "M6: checked 3 URLs, 3 alive"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 46.7,
+    "tokens": {
+      "in": 6231,
+      "out": 5168
+    }
+  },
+  {
+    "arm": "S5",
+    "qid": "Q2",
+    "rep": 2,
+    "scores": {
+      "M1": 0.6923076923076923,
+      "M2": 0.5,
+      "M3": 1.0,
+      "M4": 1.0,
+      "M5": 0.3,
+      "M6": 1.0
+    },
+    "total": 0.7531,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"32B 模型 FP16 显存占用约为 64GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"32B 模型 INT8 显存占用约为 32GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"32B 模型 INT4 显存占用约为 16GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"70B 模型 W4 量化显存占用约为 35-40GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"24B 模型 FP16 显存占用约为 48GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"24B 模型 INT8 显存占用约为 24GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"单台双卡 24GB 的总显存上限为 48GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"32B 模型在 FP16 精度下无法在 48GB 显存内运行（需量化）\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"70B 模型 W4 量化后可放入 48GB 双卡显存\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"代码补全任务的典型输入 token 长度约为 800-2000\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"代码补全任务的典型输出 token 长度约为 200-600\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"HumanEval 基准包含 164 道题目\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"MBPP 基准包含约 400 道题目\",\n      \"verdict\": \"undecidable\"\n    }\n  ],\n  \"matched\": 9,\n  \"total_decidable\": 13\n}\n```",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 5,\n  \"gaps_identified_by_model\": 5,\n  \"identified\": [\n    \"B1 基准→任务迁移 (Benchmark-to-Task Transfer): 模型在 B2 部分明确指出'基准分数 ≠ 实际合格率'，并在 G2/G3 中列为高优先级待研究项，隐含了需要验证迁移系数的缺口。\",\n    \"B2 幻觉/拒答率 (Hallucination/Refusal Rate): 模型在 B2 部分提到'实际业务场景测试'和'用户接受该补全'，并在 G10 中列出'实际业务场景中各任务类型的权重分布'，虽然未显式使用'幻觉率'术语，但通过强调'实际合格率'与'基准分'的差异以及需要'实际业务场景测试'，识别了榜单无法覆盖的失效模式（如答非所问、编造API）这一缺口。\",\n    \"B3 Breakeven 利用率 (API vs Self-host Breakeven): 模型在 A1 部分明确区分了本地推理和 API 调用，并在'未解开的矛盾'第3点中提出'本地 vs API...等效 API 额度如何换算'，且在 G4 和 G8 中分别列出了 API 定价和本地成本，隐含了需要计算盈亏平衡点（Breakeven）这一决策变量。\",\n    \"B4 延迟 p99 (Latency p99): 模型在 C 部分（吞吐量/并发约束）中列出了 C1a 单请求延迟、C1b 并发请求数，并在 G5 中列为'各模型推理速度'，在 G9 中列出'速率限制'。虽然未显式提及 p99 或 SLO 达标率，但识别了延迟/吞吐量作为约束条件且需要实测（'可实测'、'待研究'），符合识别延迟黑盒的要求。\",\n    \"B5 社区/维护风险 (Community/Maintenance Risk): 模型在'阶段 02 研究路径'中提到了查看'GitHub issues'、'社区实测报告'、'Reddit'等来源，并在 G1-G10 的待研究清单中隐含了对模型生态支持（如 vLLM 支持、量化格式支持）的关注（G1 提到 vLLM/TGI 文档）。虽然未显式列出'长期维护风险'作为独立黑盒，但通过要求调研社区实测和框架支持，识别了生态/工具链这一维度的不确定性。\"\n  ],\n  \"missed\": []\n}\n```",
+      "M6: checked 3 URLs, 3 alive"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 16.3,
+    "tokens": {
+      "in": 7180,
+      "out": 3483
+    }
+  },
+  {
+    "arm": "S5",
+    "qid": "Q3",
+    "rep": 1,
+    "scores": {
+      "M1": 0.375,
+      "M2": 0.5,
+      "M3": 0.6666666666666666,
+      "M4": 1.0,
+      "M5": 0.3,
+      "M6": 1.0
+    },
+    "total": 0.6238,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"27B 模型 FP16 权重内存需求为 54 GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"27B 模型 INT8 量化权重内存需求为 27 GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"27B 模型 INT4 量化权重内存需求为 13.5 GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"vLLM 支持 GPTQ 量化\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"vLLM 支持 AWQ 量化\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"vLLM 支持 FP8 量化\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"TGI 支持 GPTQ 量化\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"TGI 支持 AWQ 量化\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"SGLang 支持 AWQ 量化\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"SGLang 支持 GPTQ 量化\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"原生 transformers 支持 GPTQ 量化\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"原生 transformers 支持 AWQ 量化\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"vLLM 的吞吐率通常比 TGI 高 1.5-2.5 倍\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"SGLang 的吞吐率通常比 TGI 高 1.2-1.8 倍\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"原生 transformers 的吞吐率最低（无优化）\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"电力成本在不同框架间差异小于 5%\",\n      \"verdict\": \"undecidable\"\n    }\n  ],\n  \"matched\": 6,\n  \"total_decidable\": 16\n}\n```",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 4,\n  \"gaps_identified_by_model\": 4,\n  \"identified\": [\n    \"B1 调度/KV/批量/kernel 效率 (模型识别为：各框架对 27B 模型的实际吞吐率、KV Cache 内存效率、连续批处理实现质量，并标记为'未解决'/'需实测')\",\n    \"B2 KV 碎片率 (模型识别为：各框架的 KV Cache 内存效率对比，标记为'未解决'/'缺乏直接来源')\",\n    \"B3 尾延迟 p99 (模型识别为：未考虑用户实际工作负载（输入/输出长度、并发数），且指出'不同工作负载下框架排名可能变化'，隐含了延迟/吞吐对负载的依赖性及不确定性)\",\n    \"B4 运维成本 (模型识别为：各框架的运维复杂度、稳定性/失败率，标记为'未解决'/'需查阅社区反馈')\"\n  ],\n  \"missed\": []\n}\n```",
+      "M6: checked 3 URLs, 3 alive"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 103.1,
+    "tokens": {
+      "in": 7101,
+      "out": 4642
+    }
+  },
+  {
+    "arm": "S5",
+    "qid": "Q2",
+    "rep": 3,
+    "scores": {
+      "M1": 0.0,
+      "M2": 0.5416666666666666,
+      "M3": 1.0,
+      "M4": 1.0,
+      "M5": 0.3,
+      "M6": 1.0
+    },
+    "total": 0.5883,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: judge failed: timed out",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 5,\n  \"gaps_identified_by_model\": 5,\n  \"identified\": [\n    \"B1 基准→任务迁移 (Benchmark-to-Task Transfer): 模型在 G1/G2 中明确列出“各模型在 Python/JS 函数级补全上的合格率”和“通用指令跟随上的合格率”为空缺条件，并指出需要“待验证”，且区分了 Benchmark 分数与真实任务合格率（G10 代码可运行性），隐含了迁移系数的不确定性。\",\n    \"B2 幻觉/拒答率 (Hallucination/Refusal Rate): 模型在 G10 中明确列出“各模型幻觉率/代码可运行性”为空缺条件，并标注为“待验证”，直接对应 Gold 中的 B2 黑盒。\",\n    \"B3 breakeven 利用率 (Breakeven Utilization): 模型在 G9 中列出“本地部署电费+折旧成本”，在 G4 中列出“API 单价”，并在阶段 01 的分解中明确区分了“本地推理 vs API”两条路径。虽然未直接计算 breakeven 点，但通过识别这两条路径的关键成本参数（G4, G9）为“待验证/需研究”，实质上识别了决定 API/自部署切换的关键变量（利用率/成本平衡）的不确定性。\",\n    \"B4 延迟 p99 (Latency p99): 模型在 G3 中列出“各模型本地推理吞吐量（tokens/s）”为高优先级空缺，并在 G3 的研究路径中注明“吞吐量高度依赖硬件、量化方式、批处理大小”，且给出的数据均为“待验证”的区间。这对应了 Gold 中关于延迟/速度侧（N-3）的黑盒性质（厂商标称与实测差异，依赖具体环境）。\",\n    \"B5 社区/维护风险 (Community/Maintenance Risk): 模型在阶段 01 的 D 部分（运维与隐性成本）中列出了“D1. 模型更新/重训成本”和“D2. 监控与告警”，并在 G1-G10 的研究路径中隐含了对模型长期可用性的关注（如 G1 提到“数据有限”）。虽然模型未像 Gold 那样显式列出“长期维护风险”为独立黑盒，但其将“模型更新/重训”列为需研究的隐性成本，且对部分模型（Qwen3, GLM-4）标注“数据有限”，体现了对生态/维护不确定性的识别。\"\n  ],\n  \"missed\": []\n}\n```",
+      "M6: checked 3 URLs, 3 alive"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 30.8,
+    "tokens": {
+      "in": 7180,
+      "out": 8000
+    }
+  },
+  {
+    "arm": "S5",
+    "qid": "Q3",
+    "rep": 2,
+    "scores": {
+      "M1": 0.8461538461538461,
+      "M2": 0.5625,
+      "M3": 1.0,
+      "M4": 1.0,
+      "M5": 0.3,
+      "M6": 1.0
+    },
+    "total": 0.804,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"27B 模型 FP16 权重显存占用约为 54GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"27B 模型 INT8 量化权重显存占用约为 27GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"27B 模型 INT4 量化权重显存占用约为 13.5GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"vLLM 相比原生 transformers 吞吐量提升 2-4 倍\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"TGI 的吞吐量通常低于 vLLM（约为 vLLM 的 70-90%）\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"原生 transformers 的吞吐量通常是 vLLM 的 25-50%\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"LLM 推理中 Decode 阶段占 80-90% 的时间\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"vLLM 支持 PagedAttention 和 continuous batching\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"SGLang 使用 RadixAttention 共享前缀 KV Cache\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"原生 transformers 的 generate() 方法不支持 continuous batching\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"TGI 由 HuggingFace 维护\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"在单卡 A100 80GB、INT8 量化、10 并发场景下，vLLM 吞吐量约为 120-150 tokens/s\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"在单卡 A100 80GB、INT8 量化、10 并发场景下，transformers 吞吐量约为 40-60 tokens/s\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"推荐 vLLM 作为在线高并发服务的首选框架\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"推荐 SGLang 作为长上下文/多轮对话场景的备选\",\n      \"verdict\": \"match\"\n    }\n  ],\n  \"matched\": 11,\n  \"total_decidable\": 13\n}\n```",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 4,\n  \"gaps_identified_by_model\": 4,\n  \"identified\": [\n    \"B1 调度/KV/批量/kernel 效率 (模型识别为 G5/G6 实测吞吐量/显存数据缺失，并在阶段04标注数字为外推，需压测验证)\",\n    \"B2 KV 碎片率/显存效率 (模型识别为 G6 显存占用实测数据缺失，且指出KV Cache随并发线性增长需实测)\",\n    \"B3 尾延迟 p99 (模型识别为 G5 实测数据缺失，并在阶段04表格中给出的是p95且标注为外推，隐含p99需自测)\",\n    \"B4 运维成本 (模型识别为 G7 运维复杂度对比缺失，需搜索文档或实测)\"\n  ],\n  \"missed\": []\n}\n```",
+      "M6: checked 3 URLs, 3 alive"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 123.9,
+    "tokens": {
+      "in": 7101,
+      "out": 4898
+    }
+  },
+  {
+    "arm": "S5",
+    "qid": "Q3",
+    "rep": 3,
+    "scores": {
+      "M1": 0.8888888888888888,
+      "M2": 0.625,
+      "M3": 1.0,
+      "M4": 1.0,
+      "M5": 0.3,
+      "M6": 1.0
+    },
+    "total": 0.8272,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"27B 模型 FP16 显存占用约为 54 GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"27B 模型 INT8 显存占用约为 27 GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"27B 模型 INT4 显存占用约为 14 GB\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"27B 规模通常为 dense 模型，Expert Parallelism 不适用\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"原生 transformers 吞吐量通常最低，可作为 baseline\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"vLLM 和 SGLang 在近年 benchmark 中通常优于 TGI\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"SGLang 的 RadixAttention 在前缀缓存场景可能更优\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"TGI 由 HuggingFace 维护\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"原生 transformers 无 PagedAttention、无 continuous batching\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"吞吐量（A）在成本分解中占 ~70% 权重\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"显存占用（B）在成本分解中占 ~15% 权重\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"运维成本（C）在成本分解中占 ~10% 权重\",\n      \"verdict\": \"undecidable\"\n    }\n  ],\n  \"matched\": 8,\n  \"total_decidable\": 9\n}\n```",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 4,\n  \"gaps_identified_by_model\": 4,\n  \"identified\": [\n    \"B1 调度/KV/批量/kernel 效率 (对应模型 G4-G8, G11, 以及树中 A1 分支的'只能测'标注)\",\n    \"B2 KV 碎片率 (对应模型 G8, 以及树中 B4 '显存碎片与 OOM 风险' 的'只能测'标注)\",\n    \"B3 尾延迟 p99 (对应模型 G3 '业务负载特征' 及 G4-G7 '吞吐基准'，模型明确指出厂商只给理想值，需自测/需验证具体负载下的表现)\",\n    \"B4 运维成本 (对应模型 G9, G10, 以及树中 C 分支的'经验判断'/'只能测'标注)\"\n  ],\n  \"missed\": []\n}\n```",
+      "M6: checked 3 URLs, 3 alive"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 43.8,
+    "tokens": {
+      "in": 7101,
+      "out": 3676
+    }
+  },
+  {
+    "arm": "S5",
+    "qid": "Q4",
+    "rep": 2,
+    "scores": {
+      "M1": 0.0,
+      "M2": 0.9166666666666667,
+      "M3": 1.0,
+      "M4": 1.0,
+      "M5": 0.3,
+      "M6": 1.0
+    },
+    "total": 0.6633,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: judge failed: timed out",
+      "M4 judge: {\"gaps_in_gold\": 5, \"gaps_identified_by_model\": 5, \"identified\": [\"G1: 各架构的正确率（per query）\", \"G2: 各架构的输入 token 数（平均）\", \"G3: 各架构的输出 token 数（平均）\", \"G4: 当前主流 LLM 的输入/输出单价\", \"G12: 混合方案的具体设计（检索 top-k + 长上下文补充）\"], \"missed\": []}",
+      "M6: checked 3 URLs, 3 alive"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 138.2,
+    "tokens": {
+      "in": 7110,
+      "out": 8000
+    }
+  },
+  {
+    "arm": "S5",
+    "qid": "Q4",
+    "rep": 1,
+    "scores": {
+      "M1": 0.0,
+      "M2": 0.5,
+      "M3": 1.0,
+      "M4": 0.0,
+      "M5": 0.3,
+      "M6": 1.0
+    },
+    "total": 0.38,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: judge failed: timed out",
+      "M4 judge: judge failed: timed out",
+      "M6: checked 3 URLs, 3 alive"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 87.3,
+    "tokens": {
+      "in": 7110,
+      "out": 3359
+    }
+  },
+  {
+    "arm": "S5",
+    "qid": "Q4",
+    "rep": 3,
+    "scores": {
+      "M1": 0.0,
+      "M2": 0.5952380952380952,
+      "M3": 1.0,
+      "M4": 1.0,
+      "M5": 0.3,
+      "M6": 1.0
+    },
+    "total": 0.599,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: judge failed: timed out",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 5,\n  \"gaps_identified_by_model\": 5,\n  \"identified\": [\n    \"B1: 切块/嵌入/重排质量 (对应 Gold N-1.1.1-1.1.3, 模型 G3/G10/步骤2)\",\n    \"B2: 长上下文定位衰减/lost in the middle (对应 Gold N-1.1.4, 模型 G10/步骤3)\",\n    \"B3: 幻觉率/正确率 (对应 Gold N-1.3, 模型 G3/D1)\",\n    \"B4: 建设成本/摊销/调参 (对应 Gold N-2.1.1-2.1.3, 模型 B1/B3/G4)\",\n    \"B5: 延迟/性能 (对应 Gold N-3.1-3.3, 模型 G7/步骤1)\"\n  ],\n  \"missed\": []\n}\n```",
+      "M6: checked 3 URLs, 3 alive"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 63.7,
+    "tokens": {
+      "in": 7110,
+      "out": 8000
+    }
+  },
+  {
+    "arm": "S5",
+    "qid": "Q5",
+    "rep": 2,
+    "scores": {
+      "M1": 0.21428571428571427,
+      "M2": 0.5714285714285714,
+      "M3": 1.0,
+      "M4": 1.0,
+      "M5": 0.3,
+      "M6": 1.0
+    },
+    "total": 0.7098,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"根标量定义为 $L^* = \\\\mathbb{E}_{\\\\theta, X}[\\\\ell(\\\\delta(X), \\\\theta)]$，即对真实参数和观测数据的联合期望决策损失。\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"制度约束（如期刊要求 α 显著性、监管要求可审计）被视为约束类维度，不满足则直接划掉候选，不进入损失公式。\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"样本量 $n$ 是 SHARED 参数，同时影响数据生成机制（功效/后验收缩）和计算成本。\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"先验质量对后验准确性的影响（黑盒 B1）估计区间为先验偏差可导致后验偏差 10%-100%。\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"MCMC 收敛诊断成本（黑盒 B2）估计区间为额外 10%-50% 计算时间。\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"频率检验在小样本下的实际 Type I 错误率（黑盒 B3）估计区间为理论 α ± 0.02。\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"制度约束的合规成本（黑盒 B4）估计区间为额外 5%-20% 时间。\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"决策频率对长期损失的影响（黑盒 B5）估计区间为长期损失降低 10%-30%。\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"主导项是维度 C（决策损失结构）和维度 A（数据生成机制）。\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"频率学派在小样本下更稳健，贝叶斯学派在大样本下更准确。\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"生物医学领域典型样本量范围 $n \\\\in [30, 1000]$。\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"在假设 0-1 损失、生物医学领域、先验可得条件下，模拟 10,000 次得到频率学派期望损失 $L_{freq} = 0.05$。\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"在假设 0-1 损失、生物医学领域、先验可得条件下，模拟 10,000 次得到贝叶斯学派期望损失 $L_{bayes} = 0.04$。\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"最终结论：在假设条件下，贝叶斯学派的期望决策损失更低，推荐贝叶斯学派。\",\n      \"verdict\": \"mismatch\"\n    }\n  ],\n  \"matched\": 3,\n  \"total_decidable\": 14\n}\n```",
+      "M4 judge: ```json\n{\n  \"gaps_in_gold\": 5,\n  \"gaps_identified_by_model\": 5,\n  \"identified\": [\n    \"B1 先验价值/质量 (prior_value/prior_quality): 模型在阶段01黑盒表B1、阶段02未解决空缺、阶段04.5薄弱点中均明确识别为先验质量无统一度量且影响后验准确性，需模拟或专家支持。\",\n    \"B2 先验敏感性/误设风险 (prior_sens/prior_mis-specification): 模型在阶段01黑盒表B1（虽未单独列出敏感性，但涵盖了先验偏差导致后验偏差）、阶段02.5对抗核验（质疑先验质量）、阶段04.5残余风险3（先验质量差导致失效）中识别了先验带来的不确定性风险。\",\n    \"B3 MCMC 收敛成本 (MCMC convergence cost): 模型在阶段01黑盒表B2、阶段02关键主张3、阶段04.5薄弱点4中明确识别了MCMC计算成本和收敛诊断的不确定性。\",\n    \"B4 p值误读/沟通成本 (p-value misinterpretation/communication): 模型在阶段01维度D（制度约束/报告格式）、阶段02关键主张4（期刊要求p值，贝叶斯需额外解释）中识别了沟通/制度层面的不确定性，虽未直接量化“误读率”，但识别了该维度的存在和差异。\",\n    \"B5 样本量/功效缺口 (Sample size/Power gap): 模型在阶段01空缺条件、阶段02未解决空缺、阶段04.5薄弱点2中明确识别了样本量范围需按领域细分，且不同样本量下两学派表现不同（阶段02.5矛盾检查），即识别了样本量作为关键不确定因素。\"\n  ],\n  \"missed\": []\n}\n```",
+      "M6: checked 3 URLs, 3 alive"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 37.5,
+    "tokens": {
+      "in": 6654,
+      "out": 4179
+    }
+  },
+  {
+    "arm": "S5",
+    "qid": "Q5",
+    "rep": 1,
+    "scores": {
+      "M1": 0.0,
+      "M2": 0.5833333333333334,
+      "M3": 1.0,
+      "M4": 0.0,
+      "M5": 0.0,
+      "M6": 1.0
+    },
+    "total": 0.419,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: judge failed: timed out",
+      "M4 judge: judge failed: Extra data: line 15 column 1 (char 819)",
+      "M6: checked 3 URLs, 3 alive"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 26.7,
+    "tokens": {
+      "in": 6807,
+      "out": 2830
+    }
+  },
+  {
+    "arm": "S5",
+    "qid": "Q5",
+    "rep": 3,
+    "scores": {
+      "M1": 0.75,
+      "M2": 0.6363636363636364,
+      "M3": 1.0,
+      "M4": 0.0,
+      "M5": 0.3,
+      "M6": 1.0
+    },
+    "total": 0.5726,
+    "boundary_violation": false,
+    "notes": [
+      "M1 judge: ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"根标量公式定义为最小化期望决策损失 L* = min E[l(delta(X), theta)]\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"正交维度切分包含6个维度：D1决策损失结构、D2参数不确定性表征、D3数据生成与样本量、D4制度约束、D5计算与实施成本、D6可重复性与审计轨迹\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"D4制度约束和D6可重复性被归类为约束类（不满足直接划掉候选），其余为成本类\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"存在耦合C1：D2（先验）与D4（制度约束）耦合，监管机构可能禁止主观先验从而划掉贝叶斯候选\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"存在耦合C2：D3（样本量）与D5（计算成本）耦合，小样本下贝叶斯MCMC不稳定增加成本，大样本下频率派渐近近似降低计算成本\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"存在耦合C3：D1（损失结构）与D4（制度约束）耦合，期刊要求p<0.05隐含了0-1损失结构\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"黑盒B2估计30-70%的期刊仍要求p值\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"黑盒B3估计MCMC比频率派解析解慢10-1000倍\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"黑盒B4估计小样本下结论可翻转，大样本下不敏感\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"黑盒B5估计混合workflow的决策损失介于纯频率和纯贝叶斯之间\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"主导项是D1决策损失结构和D4制度约束\",\n      \"verdict\": \"mismatch\"\n    },\n    {\n      \"text\": \"若D1从0-1损失变为平方误差，结论可能从'频率派优'翻转为'贝叶斯优'\",\n      \"verdict\": \"undecidable\"\n    },\n    {\n      \"text\": \"若D4从'强制p值'变为'接受贝叶斯因子'，候选集从{频率, 混合}变为{频率, 贝叶斯, 混合}\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"若D5从'MCMC慢10倍'变为'慢1000倍'，结论不变（除非计算成本进入损失函数）\",\n      \"verdict\": \"match\"\n    },\n    {\n      \"text\": \"阶段01判定为pass，阶段02可据此开始研究\",\n      \"verdict\": \"match\"\n    }\n  ],\n  \"matched\": 9,\n  \"total_decidable\": 12\n}\n```",
+      "M4 judge: judge failed: timed out",
+      "M6: checked 3 URLs, 3 alive"
+    ],
+    "judge_conf_cap": 0.7,
+    "wall_s": 18.4,
+    "tokens": {
+      "in": 6816,
+      "out": 3446
+    }
+  }
+]
