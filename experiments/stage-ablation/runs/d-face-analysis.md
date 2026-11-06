@@ -46,16 +46,13 @@ pfb S5 pipeline 在 AI/ML 域外（networking/storage）gold tree 覆盖率仅 0
 （离人工 gold 还差一半）。两个结论不矛盾——pfb 在同域内确实有优势，但这个
 优势不随域迁移。
 
-## 根因确认（已验证）
+## 根因确认（v2 修正）
 
-**Research hook 搜索源全部不相关。** Q6 的 5 个源全是 arXiv 论文（量子行走/DNN 推理/K8s/语言栈/网络优化），没有一个实际 CDN 定价页。Q7 类似（纠删码/tokenizer/后量子/视觉/因果存储），没有阿里云 OSS 或 S3 价目表。
+**v1 假设（搜索源不相关）→ 已修复但无效。** 给 Q6/Q7 加了 KNOWN_SITES（AWS CloudFront/Aliyun OSS 等真实定价页）后重跑，coverage 从 0.446 → 0.457，基本不变。
 
-pfb 在不相关的源上硬生成 12K chars 结构化输出（29-38 sections），但具体数字全来自模型权重而非真实数据。Gold tree 里的 ¥0.21/GB、$28/TB、PUE 1.2 等值不可能从这些源提取。
+**真正根因：模型能力上限。** 即使 prompt 里注入了真实定价页内容（AWS CloudFront ¥/GB、阿里云 OSS 分层价格），27b 仍然：
+1. 没有把 gold tree 里的换算系数（EC 冗余 1.375、元数据开销 1.05、预留水位 1.25）独立识别为叶子节点
+2. 没有探索边缘场景（分流比、双跑最低消费、海外单价上浮）
+3. 没有覆盖运维隐性成本（监控/DDoS/备件/巡检）和 RTO 维度
 
-**这是 D 面 FAIL 的直接原因，不是 prompt 模板问题。**
-
-### 待修
-
-- [ ] Research hook 搜索策略：当前 ego-browser 搜索偏学术源，需要加商业定价站权重
-- [ ] 搜索 query 质量：QUESTIONS dict 里的 search_query 可能不够精确
-- [ ] 修复后重跑 D 面（同 Q6/Q7，n=2→5）
+**结论：D 面 FAIL 是 27b 模型在跨域成本计算任务上的能力天花板，不是 pipeline 可修的 bug。** 要过 D3 gate (≥0.70)，需要更强模型（70B+）或针对成本计算类问题的专用 prompt variant（显式要求列出所有成本组件 + 换算系数）。
