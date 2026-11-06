@@ -126,6 +126,15 @@
 | R34 | *Sage: Formalization with Semantic Correction* | 2026 | https://arxiv.org/abs/2609.35790 |
 | R35 | Turpin et al., *LMs Don't Always Say What They Think* | 2023 / NeurIPS 2023 | https://arxiv.org/abs/2305.04388 |
 
+## 成璐补充来源（2026-11-07 九点讨论 · 待 T28 核验细节）
+
+| ID | 文献 | 年/venue | URL | 备注 |
+|----|------|----------|-----|------|
+| R36 | Agent-Oriented Planning：完整性/非冗余检测器（抽关键要素→逐个匹配子任务→查未预见依赖） | [待核验] | (paperswithcode，具体论文待 T28 Q4 定位) | 成璐贴入；与 STaD 重建的区别 = 逐要素匹配 vs 整体重建 |
+| R37 | ADaPT: Task Decomposition via Adaptive Planning | 2024 / NAACL Findings | (paperswithcode) | 只在执行者做不了时才递归分解；ALFWorld/WebShop/TextCraft +28.3%/+27%/+33%；失败判定靠执行者自生成启发式 → 校准问题 |
+
+> 登记说明：R36/R37 由成璐 2026-11-07 贴入（"我没找到正交完备检查、回退、占位留空、调研后填充合在一起的工作"），T28 任务卡负责定位原文 + 实现细节。
+
 ## vN 映射（成璐命名约定 → 建议实现与判定）
 
 | 版本 | 用户定义 | 依据与预期机制 | 主要风险 | 本仓该测什么 |
