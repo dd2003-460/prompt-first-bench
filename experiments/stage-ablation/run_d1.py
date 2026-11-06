@@ -1,12 +1,12 @@
 """D1 baseline runner: GPT Researcher 端到端跑 Q1-Q5。
 
 配置对齐 S 臂：本地 27b (localhost:8787) + duckduckgo 检索（免 key）。
-产出 runs/D1-Q<n>.json，字段与 S 臂 run json 同构（output_text/sources/wall_s），
+产出 runs/D1-Q<n>-r<m>.json，字段与 S 臂 run json 同构（output_text/sources/wall_s），
 score.py::score_run 可直接评分。
 
 用法:
-  .venv/bin/python run_d1.py --qs Q1          # 单题
-  .venv/bin/python run_d1.py                  # 全 5 题
+  .venv-d1/bin/python run_d1.py --qs Q1 --n 3     # 单题 3 rep
+  .venv-d1/bin/python run_d1.py --n 3             # 全 5 题 × 3 rep = 15 runs
 环境变量覆盖: OPENAI_BASE_URL / D1_MODEL（默认 qwen3.8-27b）
 """
 import argparse, asyncio, json, os, sys, time
@@ -16,7 +16,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from ablation_harness import QUESTIONS, extract_question, read_file  # noqa: E402
 
-RUNS_DIR = os.path.join(HERE, "runs")
+RUNS_DIR = os.environ.get("RUNS_DIR", os.path.join(HERE, "runs"))
 MODEL = os.environ.get("D1_MODEL", "qwen3.8-27b")
 BASE_URL = os.environ.get("OPENAI_BASE_URL", "http://127.0.0.1:8787/v1")
 
@@ -38,7 +38,7 @@ def setup_env():
     os.environ["TOTAL_WORDS"] = "1500"
 
 
-async def run_one(qid: str) -> dict:
+async def run_one(qid: str, rep: int) -> dict:
     from gpt_researcher import GPTResearcher
 
     q = QUESTIONS[qid]
@@ -57,7 +57,7 @@ async def run_one(qid: str) -> dict:
         if not any(u == s["url"] for s in sources):
             sources.append({"title": "", "url": u})
     return {
-        "arm": "D1", "qid": qid, "rep": 1,
+        "arm": "D1", "qid": qid, "rep": rep,
         "model": MODEL,
         "params": {"retriever": "duckduckgo", "system": "gpt-researcher-default-pipeline"},
         "output_text": report or "",
@@ -85,7 +85,7 @@ async def main():
             result = await run_one(qid)
         except Exception as e:
             print(f"  ERROR: {str(e)[:200]}", flush=True)
-            result = {"arm": "D1", "qid": qid, "rep": 1, "model": MODEL,
+            result = {"arm": "D1", "qid": qid, "rep": rep, "model": MODEL,
                       "output_text": "", "sources": [], "wall_s": 0, "tokens": {},
                       "error": str(e)[:500],
                       "timestamp": datetime.now(timezone.utc).isoformat()}
