@@ -111,11 +111,11 @@ def build_r2(arm, r1_text, question):
     return base
 
 
-def build_r3(arm, r2_text, question, sources_block):
-    """R3: 调研填充。"""
+def build_r3(arm, r2_text, question, sources_block, failed=False):
+    """R3: 调研填充。failed = 本轮 R2 审计是否未通过（E 臂触发安抚）。"""
     soothe_note = ""
-    if arm == "S10-E" and r2_text.upper().find("FAIL") >= 0:
-        # 简化触发：审计未通过即注入安抚（真实拒绝计数由 runner 维护）
+    if arm == "S10-E" and failed:
+        # 简化触发：本轮审计未通过即注入安抚（多轮场景的 ≥2 次计数需完整 R1-R4 回退循环，当前单遍近似）
         soothe_note = SOOTHE
     return (
         f"{soothe_note}"
@@ -186,7 +186,8 @@ def run_one(arm, qid, rep, dry_run=False):
     else:
         # R2 审计
         r2 = do_round("r2", build_r2(arm, r1, question))
-        failed = "FAIL" in r2.upper()
+        # FAIL 判定：显式 FAIL，或人话反馈（D/E 臂）里点出了具体缺口/重叠/盲区
+        failed = "FAIL" in r2.upper() or any(k in r2 for k in ("缺口", "盲区", "缺失", "重叠", "覆盖不全"))
         if failed:
             record["rejections"] += 1
         # R3 调研填充（需要联网来源）
