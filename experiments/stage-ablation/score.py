@@ -37,19 +37,21 @@ def judge_m1(output_text, gold_text):
 - 只判"可判定"的断言（有具体数字/规格/结论的陈述）
 - 模糊表述（"可能""大概""据我所知"）不算可判定断言，跳过
 - 每条断言标 match / mismatch / undecidable
+- **必须提取模型输出中所有可判定断言**（通常 5-15 条），不要只挑 1-2 条
+- 如果模型输出中有表格、列表、公式，其中的每个数值都是独立断言
 - 最后给 JSON: {{"assertions": [{{"text": "...", "verdict": "match|mismatch|undecidable"}}], "matched": N, "total_decidable": M}}
 
 【Gold 锚点】
-{gold_text[:6000]}
+{gold_text[:12000]}
 
 【模型输出】
-{output_text[:6000]}"""
+{output_text[:12000]}"""
     try:
         raw = llm_judge(prompt)
         m = re.search(r'\{.*\}', raw, re.DOTALL)
         if m:
             d = json.loads(m.group())
-            return d.get("matched", 0), d.get("total_decidable", 1), raw[:200]
+            return d.get("matched", 0), d.get("total_decidable", 1), raw[:2000]
         return 0, 1, f"no JSON in judge response: {raw[:100]}"
     except Exception as e:
         return 0, 1, f"judge failed: {e}"
@@ -66,16 +68,16 @@ def judge_m4(output_text, gold_text):
 - 最后给 JSON: {{"gaps_in_gold": N, "gaps_identified_by_model": M, "identified": [...], "missed": [...]}}
 
 【Gold 应识别的缺口】
-{gold_text[:4000]}
+{gold_text[:8000]}
 
 【模型输出】
-{output_text[:4000]}"""
+{output_text[:8000]}"""
     try:
         raw = llm_judge(prompt)
         m = re.search(r'\{.*\}', raw, re.DOTALL)
         if m:
             d = json.loads(m.group())
-            return d.get("gaps_identified_by_model", 0), d.get("gaps_in_gold", 1), raw[:200]
+            return d.get("gaps_identified_by_model", 0), d.get("gaps_in_gold", 1), raw[:2000]
         return 0, 1, f"no JSON in judge response: {raw[:100]}"
     except Exception as e:
         return 0, 1, f"judge failed: {e}"
