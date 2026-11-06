@@ -46,19 +46,16 @@ pfb S5 pipeline 在 AI/ML 域外（networking/storage）gold tree 覆盖率仅 0
 （离人工 gold 还差一半）。两个结论不矛盾——pfb 在同域内确实有优势，但这个
 优势不随域迁移。
 
-## 根因假设（待验证）
+## 根因确认（已验证）
 
-1. **Research hook 搜索词偏 AI/ML**：ego-browser 搜索 prompt 是通用模板，
-   对 CDN 定价/存储 TCO 这类非 AI 话题搜出来的源质量可能不够
-2. **Memory hook 无跨域记忆**：S5 的 memory 积累全在 AI/ML 域，
-   networking/storage 域没有历史经验可调用
-3. **Prompt 模板假设 AI/ML 结构**：decomp-01 v3 的分解逻辑
-   （先查后拆→找矛盾→按证据拆）可能对成本计算类问题不够适配
+**Research hook 搜索源全部不相关。** Q6 的 5 个源全是 arXiv 论文（量子行走/DNN 推理/K8s/语言栈/网络优化），没有一个实际 CDN 定价页。Q7 类似（纠删码/tokenizer/后量子/视觉/因果存储），没有阿里云 OSS 或 S3 价目表。
 
-## 下一步
+pfb 在不相关的源上硬生成 12K chars 结构化输出（29-38 sections），但具体数字全来自模型权重而非真实数据。Gold tree 里的 ¥0.21/GB、$28/TB、PUE 1.2 等值不可能从这些源提取。
 
-- [ ] 检查 research hook 实际搜到的 5 个源是什么（是否相关）
-- [ ] 对比 Q6/Q7 的 pfb 输出 vs gold tree 的具体内容差异（定性分析）
-- [ ] 如果搜索源质量是瓶颈 → 改进 search_query 或增加搜索轮次
-- [ ] 如果 prompt 模板是瓶颈 → 为成本计算类问题设计专用 prompt variant
-- [ ] 扩 n（每 rep 从 2→5）确认 0.446 不是小样本噪声
+**这是 D 面 FAIL 的直接原因，不是 prompt 模板问题。**
+
+### 待修
+
+- [ ] Research hook 搜索策略：当前 ego-browser 搜索偏学术源，需要加商业定价站权重
+- [ ] 搜索 query 质量：QUESTIONS dict 里的 search_query 可能不够精确
+- [ ] 修复后重跑 D 面（同 Q6/Q7，n=2→5）
