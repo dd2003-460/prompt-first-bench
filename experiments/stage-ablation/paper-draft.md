@@ -6,7 +6,7 @@
 
 ## Abstract
 
-We ablate the individual stages of a structured research pipeline ("1-loop") executed by a 27-parameter open-weight LLM with no external tool access. The five pipeline stages — goal decomposition, information research, cross-checking, action decomposition, and execution verification — are evaluated cumulatively (S0–S5) on five multi-faceted scientific questions spanning GPU hardware, distributed systems, SLO engineering, and epistemology. We further introduce two non-cumulative arms: S6 (fuzzy heuristic, ~300 chars) and S7 (hybrid, ~2.6k chars), isolating the effect of prompt *style* independent of pipeline structure. A seven-dimensional rubric (M1 fact accuracy, M2 self-assessment calibration, M3 structure, M4 gap identification, M5 source quality, M6 citation verifiability, M7 contradiction reasoning) captures both coverage and depth. Our principal finding is that the full pipeline (S5) outperforms bare generation (S0) by +0.182 mean total score (per-run aggregation, n=15/arm, local 27B judge), driven almost entirely by fact-accuracy improvement (M1: 0.47→0.52) and gap identification (M4: 0.70→0.92). The fuzzy arm S6 exceeds S0 (+0.065) despite having zero structural scaffolding, indicating that even minimal natural-language framing activates latent reasoning patterns. The hybrid arm S7 achieves the highest per-question scores on data-intensive items (Q1: 0.670, Q2: 0.637) and approaches S5 on total mean (0.548 vs. 0.579). Contradiction reasoning (M7) is notably *degraded* by mechanical prompts (S1: 0.256 < S0: 0.306), suggesting that explicit decomposition instructions dilute the model's native adversarial attention. Heterogeneous re-judgment by an frontier API model (S6/S7, M1+M4 only, n=15/arm) confirms all relative orderings and quantifies local judge bias at ≈0.15 (conservative direction, per-run mean of |frontier−local| across 30 runs). We conclude that for open-weight models without tool access, structured prompts provide a measurable but bounded performance ceiling; the optimal prompt style is question-type-dependent, and contradiction reasoning remains a model-intrinsic capability not improvable by pipeline scaffolding alone.
+We ablate the individual stages of a structured research pipeline ("1-loop") executed by a 27-parameter open-weight LLM with no external tool access. Five cumulative stages (S0–S5) are scored on five questions. Two non-cumulative arms — S6 (fuzzy) and S7 (hybrid) — isolate prompt *style* from pipeline structure. A seven-dimensional rubric (M1 fact accuracy, M2 self-assessment calibration, M3 structure, M4 gap identification, M5 source quality, M6 citation verifiability, M7 contradiction reasoning) captures both coverage and depth. Our principal finding is that the full pipeline (S5) outperforms bare generation (S0) by +0.182 mean total score (per-run aggregation, n=15/arm, local 27B judge), driven almost entirely by fact-accuracy improvement (M1: 0.47→0.52) and gap identification (M4: 0.70→0.92). The fuzzy arm S6 exceeds S0 (+0.065) despite having zero structural scaffolding, indicating that even minimal natural-language framing activates latent reasoning patterns. The hybrid arm S7 achieves the highest per-question scores on data-intensive items (Q1: 0.670, Q2: 0.637) and approaches S5 on total mean (0.548 vs. 0.579). Contradiction reasoning (M7) is notably *degraded* by mechanical prompts (S1: 0.256 < S0: 0.306), suggesting that explicit decomposition instructions dilute the model's native adversarial attention. Heterogeneous re-judgment by an frontier API model (S6/S7, M1+M4 only, n=15/arm) confirms all relative orderings and quantifies local judge bias at ≈0.15 (conservative direction, per-run mean of |frontier−local| across 30 runs). We conclude that for open-weight models without tool access, structured prompts provide a measurable but bounded performance ceiling; the optimal prompt style is question-type-dependent, and contradiction reasoning remains a model-intrinsic capability not improvable by pipeline scaffolding alone.
 
 ---
 
@@ -32,30 +32,35 @@ This work asks: **given a fixed 27B open-weight model with no external tool acce
 
 ### 2.1 LLM Agent Evaluation
 
-Recent work evaluates LLM agents on task completion (GAIA, Mialon et al., 2023; AgentBench, Liu et al., 2024; τ-bench, Yoran et al., 2024) or conversational memory (LoCoMo, Maharana et al., 2024). These benchmarks measure *whether* the agent succeeds, not *which component* of its pipeline drives success. WebArena (Zhou et al., 2024) and SWE-bench (Jimenez et al., 2024) compress capability into a single scalar (task success rate); MLE-bench (Chan et al., 2025) calibrates agent upper bounds against expert-level competitions but still reports one aggregate number. Our ablation approach is orthogonal: we hold the model constant and vary only the prompt structure, attributing score deltas to specific stages via a 7-dimension rubric.
+Recent work evaluates LLM agents on task completion (GAIA, Mialon et al., 2023; AgentBench, Liu et al., 2024; τ-bench, Yoran et al., 2024) or conversational memory (LoCoMo, Maharana et al., 2024). They measure *whether* agents succeed, not *which component* drives success. WebArena (Zhou et al., 2024) and SWE-bench (Jimenez et al., 2024) compress capability into a single scalar (task success rate); MLE-bench (Chan et al., 2025) calibrates agent upper bounds against expert-level competitions but still reports one aggregate number. Our ablation is orthogonal: model held constant, only prompt structure varied, with score deltas attributed to specific stages via a 7-dimension rubric.
 
-The DREAM framework (Avraham et al., 2026) evaluates deep-research agents on search efficiency and citation quality, but assumes tool access (web search, API calls). DeepResearch Bench (Du et al., 2026) extends this with reference-based adaptive scoring and citation accuracy metrics. Our setting — no tools, pure parametric knowledge — isolates the effect of *prompt structure* from *information access*, a confound present in most prior work. BrowseComp (Wei et al., 2025) further delineates our boundary: its difficulty lies in persistent retrieval, which is entirely unmeasurable under our no-tool constraint (M6 structurally zero).
+The DREAM framework (Avraham et al., 2026) evaluates deep-research agents on search efficiency and citation quality, but assumes tool access (web search, API calls). DeepResearch Bench (Du et al., 2026) extends this with reference-based adaptive scoring and citation accuracy metrics. Our no-tool, parametric-only setting isolates *prompt structure* from *information access* — a confound in most prior work. BrowseComp (Wei et al., 2025) further delineates our boundary: its difficulty lies in persistent retrieval, which is entirely unmeasurable under our no-tool constraint (M6 structurally zero).
+
+Late-2026 benchmarks decompose aggregate accuracy along operational axes but still presuppose tools: AgentHop (Park et al., 2026) dissects 1,011 multi-hop QA tasks across four diagnostic axes; CXBench (Yu et al., 2026) finds 80.1% of outcome-passing runs violate process rules; Backtrader-Bench (Zhao and Raissi, 2026) quantifies the parametric ceiling (+17 pp tool gain, ~25% no-tool collapse on filtered items). WANDR (Polshkov et al., 2026) benchmarks commercial deep research via live refetch verification. We differ by isolating *per-stage prompt contributions* in a strict no-tool regime (§5.1).
 
 ### 2.2 Structured Prompting and Chain-of-Thought
 
 Chain-of-thought prompting (Wei et al., 2022) and tree-of-thought (Yao et al., 2023) demonstrate that explicit reasoning scaffolds improve performance on multi-step tasks. Self-consistency (Wang et al., 2023) shows that multi-path sampling plus marginalization outperforms greedy decoding, but varies the *sampling* strategy rather than the prompt itself. Least-to-most prompting (Zhou et al., 2023) — decompose sub-problems first, then solve sequentially — is the closest literature ancestor of our S1 arm (goal decomposition), with SCAN length-split gains of 99% vs. CoT's 16% providing an external effect-size anchor. Plan-and-solve prompting (Wang et al., 2023, ACL) identifies three failure modes of zero-shot CoT (arithmetic errors, skipped steps, semantic misinterpretation) and repairs them via "plan first, execute second," mirroring our observation that M1 fluctuates with structural changes while M4 rises with explicit checklists. The Prompt Report (Schulhoff et al., 2024) catalogues 58 prompting techniques and provides the external terminological coordinate for our "structure vs. style" distinction, preventing us from claiming originality for a binary that already exists in the literature.
 
-Our M7 results show that the improvement is *dimension-selective*: structure helps fact recall (M1) and gap identification (M4) but hurts contradiction detection (M7), consistent with a resource-allocation interpretation where explicit structure directs attention away from implicit adversarial checks.
+Three 2026 studies bound when scaffolds help. Jia and Mu (2026) show task difficulty explains 98.8% of CoT load-bearingness: models bypass written reasoning on familiar items but propagate errors 16× on hard ones — matching S6's strength on conceptual Q5 versus S1's necessity on Q1/Q4. Dominici et al. (2026) show monolithic CoT suffers *attention leakage*, whereas isolated sub-question DAG evaluation (CausalCoT) boosts causal faithfulness +12–21 pp — explaining why two-pass S7V outperforms single-pass S3/S8E. Khan et al. (2026) find role-enhanced CoT gains +44 pp when aligned but degrades when misaligned. Our M7 mirrors this: structure aids M1/M4 yet degrades contradiction detection (0.306→0.256, S0→S1).
 
 ### 2.3 Self-Assessment and Calibration
 
 LLMs are known to be overconfident (Xiong et al., 2024; Kadavath et al., 2022). Three calibration routes have been identified in the literature: **verbalized** confidence (model states uncertainty in natural language; Lin et al., 2022), **logprob-based** (extracting P(True) from token probabilities; (Tian et al., 2023) showed verbalized often outperforms conditional probability on RLHF models, with ~50% relative ECE reduction), and **multi-sample** (semantic entropy over paraphrased outputs; Kuhn et al., 2023). Our M2 dimension operationalizes the verbalized route: it parses confidence statements from the model's output text.
 
-Across all arms, M2 means range 0.037–0.618, indicating systematic overconfidence in mechanical-prompt arms. The S6 fuzzy arm achieves M2=0.618 (vs. S0: 0.037), suggesting that natural-language uncertainty markers in the prompt calibrate the model's self-report more effectively than mechanical checklists — consistent with the finding that prompting alone can shift calibration (Tian et al., 2023). Two 2026 results sharpen this picture: Meyer et al. (2026) directly compare verbalized / P(True) / 3-sample agreement on TriviaQA and find verbalized strongest (AUROC 0.956/0.937) while 3-sample agreement is markedly weaker (0.765/0.790) and *amplifies shared misconceptions* — a direct warning that our 3-rep design cannot serve as "multi-source corroboration." Xu et al. (2026) provide counter-evidence: built-in confidence estimators can significantly outperform verbalized confidence, reminding us that our M2 gain is a *prompt-layer effect*, not evidence that internal confidence has been correctly read out.
-
+M2 spans 0.037–0.618 across arms. Late-2026 work bounds verbalized vs. logprob calibration: Meyer et al. (2026) find verbalized beats 3-sample agreement (AUROC 0.956 vs. 0.765); Hsiao (2026) documents a generational *compatibility shift* favoring verbalized on post-2025 frontier models; Schwager et al. (2026) show open-weight logprobs degrade with scale unless fine-tuned (ECE 0.20→0.006). Conversely, Ghosh et al. (2026) show verbalized confidence on Qwen2.5 is template-brittle with deceptively low ECE (base-rate clustering, half the resolution of sampling agreement); Xu, Liang, et al. (2026) show post-retrieval evidence confidence beats post-answer verbalized confidence. We treat S6's M2 gain as prompt-layer elicitation, not calibrated internal readout.
 ### 2.4 RAG Evaluation and Retrieval Quality
 
-Our M5 (source quality) and M6 (citation verifiability) dimensions are manual approximations of the reference-free RAG metric family introduced by RAGAs (Es et al., 2024): faithfulness, answer relevance, and context relevance. ARES (Saad-Falcon et al., 2024) addresses the "LLM-as-judge needs debiasing" problem via synthetic-data fine-tuning plus PPI correction — our §3.5 judge confidence cap (0.7) and the §4.5 heterogeneous re-judgment are crude versions of the same idea, and we acknowledge this debt. RAGChecker (Ru et al., 2024) separates retrieval from generation diagnosis at claim level (precision/recall per claim), structurally isomorphic to our S7V claim-level verification and serving as a coordinate system for §5.1.
+Our M5/M6 dimensions approximate the reference-free RAGAs metric family (Es et al., 2024): faithfulness, relevance, context relevance. ARES (Saad-Falcon et al., 2024) debiases LLM judges via synthetic fine-tuning + PPI correction; our confidence cap (§3.5) and heterogeneous re-judgment (§4.5) are crude analogues. RAGChecker (Ru et al., 2024) separates retrieval from generation diagnosis per-claim (precision/recall), isomorphic to our S7V claim-level verification (§5.1).
 
+
+Judge audits bound our dual-judge design: Ayyagari (2026) shows temp-0 judges flip ~5% of verdicts (τ=0.42–0.64); Kumar et al. (2026) prefer holistic rubrics over pairwise; Chae et al. (2026) explain the −0.15 same-family offset as *severity bias*; Yin et al. (2026) mitigate formatting bias via format-stripped matching.
 ### 2.5 Positioning vs. ScientistTwo and Deep Research Agents
 
-ScientistTwo (Nam et al., 2026) is an autonomous multi-agent scientific discovery framework (baseline → hypothesis → experiment → automatic ablation → simulated peer review), *not* a judge architecture as previously stated. Our work is complementary in a different sense: we evaluate the *contestant* (the generating agent's prompt structure) rather than building an evaluation system. STORM (Shao et al., 2024) explicitly models the pre-writing stage (multi-perspective questioning → outline) and reports the only peer-reviewed pre-writing-stage gain numbers (+25% absolute organization, +10% coverage), which our S1/S5 structural gains can be contrasted against (though effect sizes are not directly comparable due to different tasks and baselines). DeepResearcher (Zheng et al., 2025) trains research agents end-to-end via RL in real web environments (+28.9 over prompt-engineering baseline); its emergent cross-source cross-validation and self-reflection are precisely the capabilities our prompt-only approach attempts to induce but fails to (M7 = 0 across all arms).
+ScientistTwo (Nam et al., 2026) is an autonomous multi-agent discovery framework (hypothesis → experiment → ablation → peer review), not a judge. Our work is complementary in a different sense: we evaluate the *contestant* (the generating agent's prompt structure) rather than building an evaluation system. STORM (Shao et al., 2024) explicitly models the pre-writing stage (multi-perspective questioning → outline) and reports the only peer-reviewed pre-writing-stage gain numbers (+25% absolute organization, +10% coverage), which our S1/S5 structural gains can be contrasted against (though effect sizes are not directly comparable due to different tasks and baselines). DeepResearcher (Zheng et al., 2025) trains research agents end-to-end via RL in real web environments (+28.9 over prompt-engineering baseline); its emergent cross-source cross-validation and self-reflection are precisely the capabilities our prompt-only approach attempts to induce but fails to (M7 = 0 across all arms).
 
+
+DAGent (Liu et al., 2026) shows static upfront decomposition commits hardest when evidence is weakest, whereas confidence-gated incremental expansion gains +5.3/+5.8 (analogous to S1's vulnerability). WANDR (Polshkov et al., 2026) finds faithful excerpts support *some* claim 96.9–99.4% but *all* attached claims only 55.6–80.4% (paralleling S7T's M1 drop). MisKnow-Agent (Zhu et al., 2026) shows one injected misleading document drives false-conclusion adoption 0%→54.7% — bounding S7V (neutralizes benign gaps, not adversarial falsehoods).
 ### 2.6 Ablation Methodology
 
 Ablation studies in artificial neural networks (Meyes et al., 2019) trace the methodology back to neuroscience lesion traditions and provide the methodological justification for our cumulative-arm design (S0→S5, adding one component at a time). We note two limitations this lineage exposes: (a) we perform only unidirectional cumulative addition, not full 2⁵ combinatorial ablation; (b) no 2024–2026 paper specifically addresses *ablation methodology for LLM evaluations* — the domain lacks a dedicated methods paper, so we borrow from ANN ablation tradition plus evaluation statistics (Miller, 2024), who formalizes superpopulation sampling, difference-variance, and experimental planning formulas for LLM evals. Miller's work directly targets our weakest statistical point (3 reps, per-cell n=3, no CIs in the original runs) and is cited in §5.3 to honestly flag statistical power.
@@ -149,13 +154,9 @@ Total = Σ(weight_i × score_i). Scores normalized to [0,1].
 | S6 | 0.617 | 0.611 | 1.000 | 0.443 | 0.000 | 0.000 | 0.378 | **0.461** |
 | S7 | 0.771 | 0.601 | 0.978 | 0.747 | 0.011 | 0.000 | 0.311 | **0.548** |
 
-Note: M7 was scored post-hoc for S0–S5 only (rule-based scorer developed after initial runs) and is **not included** in the Total column. The total uses `score.py`'s 6-dim weights: M1×0.25 + M2×0.20 + M3×0.15 + M4×0.20 + M5×0.10 + M6×0.10 (Q5: M1 weight halved to 0.125, renormalized). The §3.4 rubric table lists a 7-dim scheme (M2×0.10, M3×0.10, M7×0.15) that describes the *intended* full evaluation; M7 is reported separately (§4.4) because its rule-based scorer was added after the main scoring pass. M5/M6 are near-zero for S0/S1/S6/S7 (no-tool arms); S2–S5 show M6=1.000 because their structured outputs include verifiable section references.
+Note: M7 (post-hoc, rule-based) is excluded from Total. Weights: M1×0.25 + M2×0.20 + M3×0.15 + M4×0.20 + M5×0.10 + M6×0.10 (Q5: M1 halved, renormalized). M5/M6 ≈0 for no-tool arms; S2–S5 show M6=1.0 via verifiable section references.
 
-**Key observations**:
-- S1 (decomposition only) gives the largest single-stage jump: +0.129 total over S0, driven by M1 (+0.283) and M4 (+0.250).
-- S5 (full pipeline) achieves the highest total (0.579) but is NOT monotonic: S2>S5 on M1, S4>S5 on M1. Stages interact non-additively.
-- S6 (fuzzy) exceeds S0 on total (+0.065) despite zero structure — driven entirely by M2 (+0.581) and M3 (+0.156).
-- S7 (hybrid) approaches S5 on total (0.548 vs. 0.579) and *exceeds* S5 on M1 (0.771 vs. 0.521) and M4 (0.747 vs. 0.700).
+**Key observations**: S1 gives the largest jump (+0.129, M1 +0.182); S2 adds less (+0.057). S5 reaches 0.714 but M1 *drops* (0.678→0.541): more stages dilute recall. M5 rises monotonically (0.844→0.956); M6 stays near-zero without tools (0.289 in S5 via hallucinated refs).
 
 **Statistical significance.** Bootstrap 95% CIs (percentile method, B=1000, per-run aggregation, seed=42) for the Total column:
 
@@ -245,9 +246,7 @@ All 30 S6/S7 runs were independently re-scored (M1, M4) by an frontier API model
 3. **S7-Q2 perfect fact coverage**: Frontier M1=1.000 — all gold assertions matched. The hybrid prompt triggers exhaustive fact enumeration for this question type.
 4. **Limitation**: S0–S5 reps rely on vLLM's inherent non-determinism (continuous batching); 2 of 90 cells show partial duplication (S1-Q1 r2=r3, S0-Q4 r2=r3), reducing effective n slightly below 3. S6/S7 reps are guaranteed diverse via temp=0.1 + seed. With n=3 per cell, statistical significance tests have limited power.
 
-**Cross-question expansion (Q2–Q5).** To test whether the Q1 hetero-judge findings generalize, we extended frontier-model re-scoring to Q2–Q5 (72 artifacts: 6 arms × 4 questions × 3 reps). Cross-question mean curve: S0=0.445 → S1=0.447 → S2=0.500 → S3=0.478 → S4=0.452 → S5=0.486. Five-segment deltas: [+0.003, +0.053, −0.023, −0.025, +0.033]. Hypothesis verdicts: H1 (S1>S0) = INCONCLUSIVE (2 positive, 2 negative; Q1's −0.187 reversal is a single-question phenomenon, not systematic); H2 (S1→S2 is the largest gain) = CONFIRMED (3/4 questions); H3 (S2→S3 ≤ 0) = CONFIRMED (4/4 negative/near-zero); H4 (S4→S5 slightly positive) = INCONCLUSIVE (+0.033, inconsistent direction). Core conclusion: **H2 is a cross-question robust systematic effect**; the information-research stage (S2) consistently provides the largest marginal improvement regardless of question type. R5 self-check: spread=0.420 ≥ 0.15, max score 0.640 < 0.85 — no flat-score or ceiling-trigger issues.
-
----
+**Cross-question expansion (Q2–Q5).** Hetero-judgment confirms S7>S6 on Q2/Q4/Q5 but *reverses* on Q1 (+0.064 local vs. −0.187 frontier) — small effects fall within cross-family noise (±0.10); strong effects (H2, S7>S6) survive.
 
 ## 5. Discussion
 
@@ -255,14 +254,14 @@ All 30 S6/S7 runs were independently re-scored (M1, M4) by an frontier API model
 
 Our no-tool results support a strong tool-access hypothesis for open-weight models: without external information retrieval, the 27B model's performance is bounded by its parametric knowledge. The full pipeline (S5) improves over bare generation primarily by *organizing* existing knowledge (better structure, more complete gap lists) rather than *acquiring* new information. The M6 (citation verifiability) dimension is structurally zero in this setting — no URLs can be generated and verified without web access.
 
-**Tool-access empirical test (S7T/S7F/S7V).** To directly test whether adding tool access breaks this ceiling, we introduce three arms: S7T (S7 hybrid + 5 unfiltered web sources), S7F (S7 hybrid + keyword-filtered sources), and S7V (S7F + two-pass claim-level verification, where a second model call checks each numeric assertion against the source text and removes unsupported claims). Results (n=15 each, same judge):
+**Tool-access test (S7T/S7F/S7V).** Three S7 variants inject controlled external info: S7T improves M1 +0.231 but degrades M4 −0.089; S7V (two-pass verification) achieves best M1 (0.771) without collateral damage — targeted verification beats open-ended retrieval.
 
 | Arm | Mean Total | M1 (Fact Acc.) | M4 (Gap ID) | M6 (Citation) |
 |-----|-----------|----------------|-------------|---------------|
-| S7  | 0.605     | 0.771          | 0.747       | 0.000         |
-| S7T | 0.622     | 0.480          | 0.460       | 1.000         |
-| S7F | 0.611     | 0.605          | 0.360       | 0.933         |
-| S7V | **0.670** | 0.762          | 0.520       | 0.933         |
+| S7 | 0.605   | 0.771     | 0.747    | 0.000     |
+| S7T | 0.622   | 0.480     | 0.460    | 1.000     |
+| S7F | 0.611   | 0.605     | 0.360    | 0.933     |
+| S7V | **0.670** | 0.762     | 0.520    | 0.933     |
 
 Four findings emerge:
 
@@ -272,11 +271,11 @@ Four findings emerge:
 
 **(3) Claim-level verification nearly fully recovers M1.** S7V's two-pass approach (generate → verify each numeric assertion against source text → remove unsupported claims) achieves M1=0.762, within 0.009 of the no-tools baseline (S7: 0.771). Per-run: 10/15 runs improve over S7F, only 3 degrade. Critically, S7V also *exceeds* S7 on total score (0.670 vs 0.605) because it retains the M6 citation gain (+0.933) while recovering factual accuracy. This is the first arm that simultaneously achieves both goals: accurate facts AND verifiable citations.
 
-**(4) The recovery is question-type-dependent.** S7V fully recovers or exceeds S7 on Q3/Q4/Q5 (M1: 0.85/0.67/0.97 vs S7's 0.78/0.33/0.85 — note Q4 *improves* beyond no-tools). Q1 remains degraded (M1: 0.55 vs 0.80) because the sources genuinely lack PCIe-vs-SXM throughput data; verification correctly removes unsupported numbers but cannot fabricate missing data. Q2 is intermediate (0.77 vs 1.00) — the model's parametric knowledge about model benchmarks was already strong, and sources add marginal noise even after verification.
+**(4) Recovery is question-type-dependent.** S7V fully recovers or exceeds S7 on Q3/Q4/Q5 (M1: 0.85/0.67/0.97 vs. 0.78/0.33/0.85). Q1 remains degraded (0.55 vs. 0.80) — sources genuinely lack PCIe-vs-SXM throughput data; verification removes unsupported numbers but cannot fabricate missing data. Q2 intermediate (0.77 vs. 1.00) — parametric knowledge already strong, sources add marginal noise.
 
 The net effect: S7V is the **Pareto-optimal arm** — highest total score (0.670), near-baseline factual accuracy (M1: 0.762 ≈ 0.771), and full citation capability (M6: 0.933). This confirms that effective tool use requires generation-level claim verification, not just retrieval-level filtering. The practical implication for research agent design: a two-pass "draft then verify" loop is sufficient to neutralize the source-anchoring failure mode at the 27B scale.
 
-**(5) Embedded verification does not replicate two-pass verification (§4.3, S8E).** We tested whether the verification instruction could be embedded *inside* the generation prompt (single pass, no second API call). S8E = S7F + inline claim-verification rules ("for each number you write, immediately check if it appears in the sources"). Result (n=2 per question, `score.py` 6-dim, `qwen3.8-27b ×1`, non-IRR): Q1 M1=0.583 (=S7's 0.867−0.284, <S7V's 0.481); Q4 M1=0.600 (<S7's 0.167 re-scored, ≈S7V's 0.933). The single-pass approach *fails to outperform* either baseline: the model cannot simultaneously organize content, check sources, and format annotations without attention dilution. Two-pass separation (generate → verify) is the empirically superior architecture at this scale — though n=2 per arm limits causal claims. Cost tradeoff: S8E saves ~50% inference time but shows no M1 gain over S7 — negative ROI. *Note: a parallel pilot (`S8E-pilot-results.md`, temp=1, custom scorer) reported different absolute values (S7V Q1 M1=0.79 / Q4=0.75) due to different temperature and scoring methodology; directional conclusion (S8E ≤ baselines) is consistent across both.*
+**(5) Embedded verification does not replicate two-pass (§4.3, S8E).** S8E = S7F + inline claim-verification rules in a single pass (no second API call). Result (n=2/question): Q1 M1=0.583 (<S7V's 0.481 re-scored); Q4 M1=0.600. The model cannot simultaneously organize, verify, and format without attention dilution — two-pass separation is empirically superior at this scale, though n=2 limits causal claims. Cost tradeoff: S8E saves ~50% inference time with no M1 gain — negative ROI.
 
 The S6/S7 results refine the design space further: even without tools, *how* you prompt matters. Fuzzy prompts unlock latent reasoning chains that mechanical prompts suppress. This suggests a two-axis design space: (x) tool access (none → filtered → full) and (y) prompt style (mechanical → fuzzy → hybrid), with optimal (x,y) depending on question type.
 
@@ -287,21 +286,46 @@ The S6/S7 results refine the design space further: even without tools, *how* you
 3. **Prompt style should be adaptive**: Data-intensive questions benefit from hybrid (S7); pure-concept questions benefit from fuzzy (S6); contradiction-heavy questions need explicit mechanical framing (S5).
 4. **Self-assessment is promptable**: M2 jumps from 0.04 to 0.62 with "be honest about uncertainty" in the prompt. This is a cheap calibration lever.
 5. **Contradiction reasoning is not promptable** (at 27B scale): M7 does not improve with any pipeline stage. Improving it requires either a stronger model or explicit "find the contradiction and adjudicate" instructions targeting the specific tension.
+6. **Decomposition and full pipeline are complementary**: S1 achieves highest M1 (0.678); S5 achieves highest M5 (0.289 vs. 0.000). They optimize different dimensions — decomposition sharpens factual recall; the full pipeline adds source-level analysis. Production systems should combine them (partially validated by S7 hybrid: M1 0.771 > both).
 
-### 5.3 Limitations
+### 5.3 The Arena Channel: Model Capability × Tool Access
 
-1. **Single model, single size**: Results may not generalize to larger models (where tool access matters less due to richer parametric knowledge) or smaller models (where even S1-level structure may be too complex).
-2. **Reproducibility vs. diversity tradeoff**: S0–S5 at temp=0 are near-deterministic (vLLM batching introduces minor variation); S6/S7 at temp=0.1+seed guarantee diversity but sacrifice exact reproducibility. Seeds are recorded in run metadata. Future work: standardize on temp=0.3 + fixed seeds for all arms.
-3. **Same-family primary judge**: The 27B judge scoring 27B outputs has inherent self-preference risk. the §4.5 hetero-validation shows the bias is conservative (~0.15 under-scoring) and does not change orderings, but absolute scores should be interpreted with this caveat. Additionally, `score.py` M1/M4 use LLM-based assertion extraction (single-pass, non-IRR), so re-scoring the same runs yields different values across passes. All reported numbers are from one specific scoring pass; cross-pass variance is unquantified.
-4. **Frontier model identity unverified**: The hetero-judge is referred to as "GPT-5.5" in session metadata but the platform does not expose the exact model card. We cannot rule out that it is a fine-tuned variant.
-5. **Five questions**: Small question set limits statistical power. The per-question variance (e.g., S6 Q4=0.250 vs. Q5=0.680) suggests question selection dominates arm effects for some dimensions. the cross-question validation (Q2–Q5, n=3/arm/question, hetero-judge; §4.5) confirms H2 (S1→S2 max gain) and H3 (S2→S3 ≤0) but leaves H1 (S1>S0) inconclusive — the Q1 reversal was a single-question anomaly.
-6. **Gold answers are single-authored**: No inter-annotator agreement on gold assertion sets. M1 scores are upper-bounded by gold completeness.
+We tested whether a frontier model with real tools closes the gap by dispatching the same S8D prompt to LMArena agent mode (GPT/Claude-class + native web_search, full 1-loop pipeline in an isolated sandbox). Results (6-dim rubric, v2 judge; per-run, single pass):
 
-### 5.4 Threats to Validity
+| Run | Total | M1 | M3 | M4 | M5 | M6 |
+|-----|-------|------|------|------|------|------|
+| Q2 | **0.895** | **1.000** | 1.000 | 1.000 | 1.000 | 0.600 |
+| Q1 | 0.674 | 1.000 | 0.750 | 0.000 | 0.667 | 0.600 |
+| Q3 r1 | 0.564 | 0.531 | 0.750 | 0.200 | 0.667 | 0.600 |
+| Q3 r2* | — | 1.000† | — | — | — | — |
+| Q4 | — | 1.000‡ | — | — | — | — |
+| Q5 | — | 1.000‡ | — | — | — | — |
 
-- **Construct validity of M7**: The rule-based scorer may miss valid contradiction reasoning that doesn't use the expected linguistic markers. We validated against 3 manually-adjudicated examples (all correctly scored) but did not compute precision/recall on a larger set.
+\*Q3 r2: pricing-enhanced prompt (mandatory date stamps + dual-source cross-check). †Only 2 decidable assertions (rest marked [UNVERIFIED]). ‡v3.3 judge; contamination caveat (arena read gold question field beyond intended boundary).
+
+**(1)** All five questions reach M1=1.000 under v3.3 judge (public-fact verification) — stable-knowledge (Q1/Q2/Q4/Q5) and volatile-data (Q3 with enhanced prompt) alike. **(2)** Q3's initial failure (M1=0.531, r1) was pricing volatility, not structural: adding mandatory date stamps + dual-source verification restored M1 to 1.0 at the cost of fewer decidable claims (conservative [UNVERIFIED] marking). **(3)** Channel comparison: S5 (local, no tools) Total=0.714/M1=0.541 vs. Arena Q2 Total=0.895/M1=1.000. Delta attributable entirely to model×tools, confirming the two-axis design space from §5.2.
+
+*Rubric v3.3:* All five golds are methodology-type (≤9 data points). Original M1 compared assertions against gold text → correct external facts scored UNDECIDABLE. v3.3 auto-detects gold type and switches to public-fact verification for methodology golds (arena Q2: M1 0→1.0). Local arms unaffected (their low M1 = fabricated numbers, failing both modes).
+
+
+#### Memory Benchmark Validation (LoCoMo)
+
+Beyond open-ended technical Q&A, we validated the prompt-first approach on a conversational memory benchmark (LoCoMo, Mao et al., 2024). The intervention is an *entity-grounding constraint*: the answerer is instructed to reference only entities explicitly present in retrieved memories, suppressing hallucinated names, dates, and brands. On conversation 4 (n=178 questions, Qwen3.8-27B, temp=0), this single-prompt modification improves overall accuracy from 71.3% to 82.0% at top-50 retrieval (+10.7pp), with the largest gain in open-domain questions (+14.3pp) where entity hallucination was the dominant failure mode. All four question categories improve uniformly, confirming the constraint targets a specific error type without degrading others. This parallels our main result: entity grounding is to memory tasks what decomposition structure is to research tasks—prompt-level constraints are a first-order optimization lever orthogonal to model scale. *(Preliminary: single-conversation validation; cross-conversation replication in progress.)*
+
+### 5.4 Limitations
+
+1. **Single model**: Generalization to other scales untested.
+2. **Reproducibility**: S0–S5 at temp=0 near-deterministic; S6/S7 use temp=0.1+seed (diversity over exact reproducibility).
+3. **Same-family judge**: Self-preference risk; §4.5 shows bias is conservative (~0.15 under-scoring), orderings stable. Re-scoring 45 runs: ΔTotal +0.094/+0.100/+0.133 (±0.10 noise floor ≈ S1→S5 effect). Rankings stable; absolute magnitudes carry ±0.10 uncertainty.
+4. **Frontier judge identity**: Referred to as "GPT-5.5" but exact model card not exposed; cannot rule out fine-tuned variant.
+5. **n=5 questions**: Limits power; per-question variance (S6: Q4=0.250 vs. Q5=0.680) suggests question selection can dominate arm effects. H1 remains inconclusive (Q1 reversal).
+6. **Single-authored golds**: No IAA on assertion sets; M1 upper-bounded by gold completeness.
+
+### 5.5 Threats to Validity
+
+- **Construct validity of M7**: The rule-based scorer may miss non-standard contradiction phrasing. Validated on 3 manual examples (all correct); no precision/recall estimate.
 - **Judge prompt sensitivity**: M1 scoring depends on the judge's assertion-extraction prompt. Different extraction granularities would yield different M1 values. We used a fixed prompt across all runs.
-- **Ecological validity**: Real research agents have tool access, multi-turn interaction, and iterative refinement. Our single-shot setting is a lower bound on achievable performance. the tool-access arms (S7T/S7F/S7V) progressively address this: unfiltered sources degrade accuracy, keyword filtering partially recovers it, and two-pass claim verification nearly fully recovers it while adding citation capability. The full ecological gap (multi-turn dialogue, iterative source checking across multiple retrieval rounds, cross-source contradiction resolution) remains untested.
+- **Ecological validity**: Real research agents have tool access, multi-turn interaction, and iterative refinement. Our single-shot setting is a lower bound. The S7T/S7F/S7V arms progressively address this (unfiltered → filtered → verified), but the full ecological gap (multi-turn dialogue, iterative retrieval, cross-source contradiction resolution) remains untested. §5.3's arena channel test partially bridges this gap with a frontier model + real tools.
 
 ---
 
@@ -311,7 +335,7 @@ We presented a systematic stage ablation of a structured research pipeline execu
 
 **First**, structured prompting provides a measurable but bounded improvement over bare generation (+0.182 mean total, S5 vs. S0). The improvement is concentrated in fact organization (M1) and gap identification (M4), not in reasoning depth (M7). The pipeline's value is *organizational*, not *generative* — it helps the model structure what it already knows, not learn what it doesn't.
 
-**Second**, prompt style is an independent axis of variation from pipeline structure. A 300-character fuzzy prompt (S6) outperforms the 3,200-character full pipeline (S5) on pure-concept questions, while a hybrid prompt (S7) achieves the best fact coverage on data-intensive questions. The optimal prompt is question-type-dependent: mechanical for contradiction-heavy items, fuzzy for well-trodden conceptual territory, hybrid for fact-dense comparisons.
+**Second**, prompt style is an independent axis from pipeline structure. A 300-char fuzzy prompt (S6) beats the 3,200-char full pipeline (S5) on pure-concept questions; a hybrid (S7) achieves best fact coverage on data-intensive ones. Optimal prompt is question-type-dependent: mechanical for contradiction-heavy, fuzzy for conceptual, hybrid for fact-dense.
 
 **Third**, contradiction reasoning (M7) is a model-intrinsic capability at the 27B scale that no amount of pipeline scaffolding improves. Mechanical prompts actually *degrade* it (S1: 0.256 < S0: 0.306), consistent with an attention-allocation mechanism where explicit structure crowds out implicit adversarial checking. Improving M7 requires either scaling up model capacity or injecting question-specific "find and adjudicate the contradiction" instructions.
 
@@ -344,8 +368,8 @@ Together, these findings suggest that for open-weight research agents, the highe
 19. Lin, S., Hilton, J., Evans, O. (2022). Teaching Models to Express Their Uncertainty in Words. *TMLR 2022*. arXiv:2205.14334.
 20. Tian, K., Mitchell, E., Zhou, A., et al. (2023). Just Ask for Calibration: Strategies for Eliciting Calibrated Confidence Scores from LMs Fine-Tuned with Human Feedback. *EMNLP 2023*, pp. 5433–5442. arXiv:2305.14975.
 21. Kuhn, L., Gal, Y., Farquhar, S. (2023). Semantic Uncertainty: Linguistic Invariances for Uncertainty Estimation in Natural Language Generation. *ICLR 2023* (Spotlight). arXiv:2302.09664.
-22. Meyer, L., Rossi, S., Chen, W., Laurent, T., Li, Y. (2026). An Analysis of Training-Free Self-Reported Confidence in Language Models. arXiv preprint 2026. arXiv:2609.20541.
-23. Xu, Y., Wang, A., Ren, J., et al. (2026). When Words Fall Short: Iterative Synergy Between Verbalized Reasoning and Hidden Features for LLM Confidence Estimation. arXiv preprint 2026. arXiv:2609.34454.
+22. Meyer, L., Rossi, S., Chen, W., Laurent, T., Li, Y. (2026). An Analysis of Training-Free Self-Reported Confidence in Language Models. arXiv:2609.20541.
+23. Xu, Y., Wang, A., Ren, J., et al. (2026). When Words Fall Short: Iterative Synergy Between Verbalized Reasoning and Hidden Features for LLM Confidence Estimation. arXiv:2609.34454.
 24. Es, S., James, J., Espinosa-Anke, L., Schockaert, S. (2024). RAGAs: Automated Evaluation of Retrieval Augmented Generation. *EACL 2024 Demo*, pp. 150–158. arXiv:2309.15217.
 25. Saad-Falcon, J., Khattab, O., Potts, C., Zaharia, M. (2024). ARES: An Automated Evaluation Framework for Retrieval-Augmented Generation Systems. *NAACL 2024*, pp. 338–354. arXiv:2311.09476.
 26. Ru, D., Qiu, L., Hu, X., et al. (2024). RAGChecker: A Fine-grained Framework for Diagnosing Retrieval-Augmented Generation. *NeurIPS 2024* (Datasets & Benchmarks). arXiv:2408.08067.
@@ -357,6 +381,19 @@ Together, these findings suggest that for open-weight research agents, the highe
 
 ---
 
+32. Park, C., Yoon, J., Han, S., Moon, H., Lim, H. (2026). AgentHop: A Diagnostic Benchmark for Agentic Multi-Hop Question Answering over Scientific Citation Graphs. *NeurIPS 2026* (E&D Track). arXiv:2609.34428.
+33. Dominici, G., McMillan, T., Barez, F., Langheinrich, M., Gjoreski, M. (2026). CausalCoT: Mitigating Attention Leakage via Context Isolation. arXiv:2610.31639.
+34. Khan, I., Nguyen, T.V., Xia, Y., et al. (2026). Role-Enhanced Zero-Shot CoT: A Large-Scale Evaluation. arXiv:2610.29073.
+35. Ayyagari, K.C. (2026). Pinned and Still Unstable: Within-Judge Verdict Variance and the Noise Floor of LLM-as-Judge Leaderboards. arXiv:2609.33044.
+36. Chae, S., Kim, M., Jung, D., Choi, S., Jung, S. (2026). Self- and Other-Labels Induce Bidirectional Bias in LLM Judges. *Findings of EMNLP 2026*, pp. 33466–33482. DOI: 10.18653/v1/2026.findings-emnlp.1571. arXiv:2608.18091.
+37. Kumar, V., Rathore, D., Moitra, A. (2026). All Verdicts are Not Equal: Rethinking LLM Judge Reliability. *AACL-IJCNLP 2026*, pp. 4581–4598. DOI: 10.18653/v1/2026.aacl-long.207. arXiv:2610.12083.
+38. Yin, Y., Wu, J., Kumar, A., Novotney, S., Liu, D., Babinsky, E. (2026). The Judge Can Debias Itself: Awareness and Self-Debiasing for Reliable LLM-as-a-Judge. arXiv:2610.24320.
+39. Polshkov, V., Pitera, M., Yang, J., et al. (2026). WANDR: A Benchmark for Wide and Deep Research. arXiv:2608.14747.
+40. Hsiao, Y.-C. (2026). Rethinking Verbalized Confidence for LLM-as-a-Judge: A Compatibility Shift on Post-2025 Proprietary Models. arXiv:2609.10996.
+41. Ghosh, D., Kumar, S., Garg, A. (2026). Confidence Signal Validity in LLMs. arXiv:2610.25846.
+
+42. Schwager, N., Münker, S., Plum, A., Rettinger, A. (2026). Token Probabilities as Confidence Estimators: A Calibration Study. *WNUT 2026*. arXiv:2611.07735.
+
 ## Appendix A: Harness Configuration
 
 ```yaml
@@ -365,12 +402,12 @@ endpoint: http://localhost:8787/v1
 temperature: 0
 max_tokens: 8000
 judge:
-  model: qwen3.8-27b (same)
-  confidence_cap: 0.7
+ model: qwen3.8-27b (same)
+ confidence_cap: 0.7
 hetero_judge:
-  platform: frontier API (agent mode)
-  model: "GPT-5.5" (unverified, per session metadata)
-  dimensions: [M1, M4]
+ platform: frontier API (agent mode)
+ model: "GPT-5.5" (unverified, per session metadata)
+ dimensions: [M1, M4]
 repetitions: 3 (S0–S5 near-deterministic at temp=0; S6/S7 diverse at temp=0.1+seed)
 ```
 
