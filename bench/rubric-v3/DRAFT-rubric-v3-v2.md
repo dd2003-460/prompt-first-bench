@@ -99,6 +99,8 @@
 
 > 本文引用的 O3 构念效度数字（gold mean rank / top-10 计数 / top-5 计数）**均为「相对 Lead-gold」的度量**：gold 树由单一作者构建，rubric 题面补丁与该 gold 答案结构同构，故「命中 gold」与「被题面引导写出 gold 形状」在当前设计下不可区分；且全部 p̃ 估计来自**同族双 judge**（qwen3.8-27b 底座，上下文独立但非家族独立），p̃ 层的系统性偏差（零命中高估 + 保守下界效应）未被消除。**在以下二者之一闭环前，这些数字不得作为 rubric-v3 有效性的独立证据对外宣称**：(i) 双 gold——由未参与 pfb 的第三方/异族模型独立构建同域 gold，报两 gold 命中差值作为同源偏置上界；(ii) 异源第三 judge（queue 项 R5.2-third-scorer）完成 p̃ 重估 + 构念效度复测。
 
+> **【T48 进展 · 2026-11-06 · aaa3f44】(i) 部分闭环**：Lead 本地独立构建了第二棵 gold tree（`ablation/dual-gold/gold-tree-independent.md`，未读 Gold A 数值/calc.py），Q1 稳定知识域 12/12 数值重叠 + 6/6 结构要素覆盖 = **同源偏置上界 ≈ 0（稳定知识子集）**。限定：(a) n=1 问题 × 1 构造者（非真正异族独立——同一 Lead agent 监督了 Gold A 创建）；(b) 仅覆盖稳定知识题（硬件规格有唯一正确答案），不覆盖波动数据题（Q3 定价）；(c) arena 通道死亡，未能实现真正的第三方独立构造。**状态：R-06 (i) 对稳定知识子集 PARTIAL PASS，完整闭环仍需 (ii) 异源第三 judge 或 Q3 波动数据双 gold。**
+
 **消融证据（r71/r71b · `ablation/ablation-result.md`）**：8 个真实 C0 run × 31 节点上对比 W0 flat / W1 importance / W2 surprisal（+W3=w1×w2、W4=w1+w2 组合探索）：
 - 排序影响成立：三套权重 Spearman ρ 0.81–0.97，W0–W2 分歧最大（ρ=0.8102）；W0 下打平的 run 对在 W1/W2 下全部拉开差距
 - 构念效度：top-5 gold 计数 ≥3/5 判据已废弃（对 p̃ 来源二元翻转 3/5↔1/5 + per-run 口径无 run 过线 max=2 + 超几何基线 P(X≥3)=1.99% 极严判据，AUDIT-report §3.1）；改用 gmr（连续量，扰动最小）
