@@ -124,6 +124,11 @@ KNOWN_SITES = {
     "Q5": [  # Bayesian vs frequentist decision theory
         ("https://arxiv.org/abs/2305.06980", "LLM Training Efficiency (arXiv)"),
         ("https://en.wikipedia.org/wiki/Bayesian_inference", "Bayesian Inference (Wikipedia)"),
+        # S8G (v3 gold-gap P2a): 统计方法论域精准文献源（经典可重复性/效应量文献）
+        # 注: arXiv 无 Ioannidis 2005 原文，用 Wikipedia 条目覆盖该主题
+        ("https://en.wikipedia.org/wiki/Replication_crisis", "Replication crisis (Wikipedia, incl. Ioannidis 2005 'why most published research findings are false')"),
+        ("https://en.wikipedia.org/wiki/Multiple_comparisons_problem", "Multiple comparisons problem (Wikipedia)"),
+        ("https://en.wikipedia.org/wiki/Effect_size", "Effect size (Wikipedia)"),
     ],
 }
 
@@ -133,7 +138,11 @@ ARXIV_QUERIES = {
     "Q2": ["Qwen2.5-Coder HumanEval code generation benchmark", "LLM model selection cost accuracy tradeoff open source"],
     "Q3": ["vLLM TGI SGLang inference serving comparison throughput", "LLM inference engine PagedAttention continuous batching"],
     "Q4": ["retrieval augmented generation vs long context window comparison", "RAG faithfulness evaluation lost in the middle"],
-    "Q5": ["Bayesian decision theory expected loss minimization frequentist", "statistical hypothesis testing decision rules risk"],
+    "Q5": ["Bayesian decision theory expected loss minimization frequentist", "statistical hypothesis testing decision rules risk",
+        # S8G (v3 gold-gap P2a): 统计方法论域精准查询词（可重复性危机/多重比较/效应量估计）
+        "statistical methodology reproducibility crisis",
+        "multiple comparisons correction p-value",
+        "effect size estimation bias small studies"],
 }
 
 # T31: 来源过滤关键词（只注入 title/snippet 含这些词的结果）
@@ -207,11 +216,13 @@ def research_hook(qid, question, max_results=5):
     queries = ARXIV_QUERIES.get(qid, [question])
     seen_urls = set()
     arxiv_cap = max(3, max_results - len(KNOWN_SITES.get(qid, [])))
+    n_arxiv_relevant = 0  # S8G: 统计相关结果数，用于 [RESEARCH-GAP] 判定
     for q in queries:
         if len(sources) >= arxiv_cap:
             break
         try:
             arxiv_results = _arxiv_search(q, max_results=max_results)
+            n_arxiv_relevant += len(arxiv_results)
             for r in arxiv_results:
                 if len(sources) >= arxiv_cap:
                     break
@@ -220,6 +231,12 @@ def research_hook(qid, question, max_results=5):
                     sources.append({**r, "observed_at": observed, "source_type": "arxiv"})
         except ResearchHookUnavailable:
             continue  # 单路失败不阻塞，继续下一路
+
+    # S8G (v3 gold-gap P2b): arXiv 相关结果 <2 → 记录 [RESEARCH-GAP] 标记，
+    # 不再静默继续——让 harness/judge 看到该域调研源确实不足。
+    if n_arxiv_relevant < 2:
+        print(f"  [RESEARCH-GAP] {qid}: arXiv returned only {n_arxiv_relevant} relevant result(s) "
+              f"(queries tried: {len(queries)}); domain coverage may be insufficient", file=sys.stderr)
 
     # 2. 已知站点直访
     sites = KNOWN_SITES.get(qid, [])
