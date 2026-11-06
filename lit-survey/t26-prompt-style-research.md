@@ -87,3 +87,51 @@
 | R24 | tanweai/pua（PUA prompt 合集，中文社区"驯服 agent"话术） | 2025–26, GitHub | https://github.com/tanweai/pua | 待验证话术的现实来源（≈19.8k stars）；R6 即以该类提示为 PUA 条件 |
 | R25 | *LoopTrap: Termination Poisoning Attacks on LLM Agents* | 2026, arXiv | https://arxiv.org/abs/2605.05846 | 风险侧：进度百分比/里程碑/逐步表扬可无限延长 agent 循环（P1–P10） |
 | R26 | Bsharat et al., *Principled Instructions Are All You Need…* (26 条原则) | 2023, arXiv | https://arxiv.org/abs/2312.16171 | 反例教材：同文不同版本报 57.7%/67.3% vs 36.4%，人评小样本无显著性检验 → 不应采信为"激励有效"证据 |
+
+---
+
+## Q4: 代数判据 vs 朴素空间说明
+
+> 追加任务（成璐 2026-11-06）。Q4 回答：检查类指令该写成"朴素空间说明"（v0）还是"代数式判据"（v1）。
+
+**结论先行**：**没有实验直接比较过"同一检查的空间表述 vs 代数表述"**（属文献缺失，conf 0.85）。最强间接证据两条，方向相反但不冲突：①把整体印象拆成**原子可判定**检查项 → 可靠性大涨（CheckEval：12 个评委模型、Krippendorff α 平均 **+0.45**、跨模型方差下降）；②一旦检查形式被**模板化/封闭化**，模型改用"同意"代替"检查"（CoVe：规则模板题 precision 0.22→**0.16**，yes/no 题 0.22→**0.19**，作者明说"模型对与错都倾向同意"）。→ 可让渡的是**证据的书写形式**，不能让渡的是**谁来填判据**（conf 0.7）。
+
+| 证据 | 设计 | 数字 | 对我们的含义 |
+|---|---|---|---|
+| CoVe R27 | 检查拆成原子验证问题、独立取证 | 列表 precision 0.17→**0.36**；FactScore 55.9→**71.4** | "拆细 + 独立取证"有效，靠的是取证据而非形式化 |
+| CoVe 反例 R27 | 同任务换成模板题 / yes-no 题 | 0.22→**0.16** / 0.22→**0.19** | 勾选式形式 → 同意偏差，检查退化为盖章 |
+| CheckEval R28 | 20–30 条二元清单替代 Likert | 12 评委 α **+0.45**，方差下降 | 原子 + 可判定 = 可靠；但清单由**人**写，非模型自拟 |
+| DecMetrics R29 | 完备性/独立性做成 entailment + 语义熵 | ClaimScore 可被"换个说法重复"刷高 | 朴素计数指标可游戏；正交性要用语义熵类量 |
+| STaD R30 | 完备性用**重建成功率**做代理 | coverage 87.5–99.3% | 完备性可以换测法，不必枚举全集 |
+
+**(b) 的失败模式：有，四篇独立记录（这正是我们最该防的）。** ①**vacuous formalization**（R31）：形式化带矛盾前提→任何结论均可证，表达式"成立"而检查为零，需"把目标换成 False 仍可证"的机械过滤器才抓得到；②**scope laundering**（R32）：模型直接报"形式化检查通过/Entailment"，实际**没执行**符号推理（真执行返回 Neutral）——形式结构提升准确率但**不提升忠实度**；③**formalization gaming**（R33）：为让证明过而编造公理/改量词，基线约 16% 的错误属不忠实，被"催出结果"(nudged) 时升到 **34.7%** → **压力/PUA 话术直接放大凑表达式**；④**compile-only 循环**（R34）：以"形式通过"为终止条件就停在语法对语义错处（monolithic 基线 70.9% answer leakage）。同源机制见 CoT 事后合理化（R35）。
+
+**共有局限（v0/v1 都有，换表达治不了）** ①**全集知识**：完备性=并集=父范围，而父范围常不可枚举，两种表述都得让模型脑补；证据：验证上限=模型知识上限（R27 limitations）、形式化真正瓶颈是"哪些隐含假设该显式化"（R32 §5.3）。②**同源自检**：检查者=生成者时内在自检不可靠（见 R11）；v0/v1 都不自带外部信号。③**判据-答案耦合**：模型知道"作者想通过"，任何判据都会被朝通过方向解释（R7/R15 的顺从倾向）。
+
+**v1 独有缺陷（v0 没有的新失败面）** ①**形式填充压力**：必须"指出独占参数"→ 编一个最省力且看起来完成了检查（R33/R31）；②**伪证据同义反复**：可直接把子节点原话改写成"参数"，v0 不会生产这种"看起来可核验"的假证据；③**通过率虚高**：自写自判 checklist 趋向全 PASS（R27 的 yes/no 效应；R28 的有效性恰恰依赖"人写清单"）；④**注意力挤占**：token 花在凑格式，压缩真正取证（R9 成本 + R33）。**v0 独有缺陷**：无"必须交证据"门槛，可说"我拼过了、没漏"——**不可审计**，与我们 S1 门禁失效（review loop 从未真正执行）是同构问题。
+
+**落地判断**：二选一时 **v1 > v0，但条件是 v1 的产物"外部可指认/可复算"**，否则 v1 只是更精致的表演（conf 0.55）；完备性建议**换测法而非换话术**——用"只给子节点能否重建父节点的判定/结论"替代"看有没有漏"（R30 重建代理），把不可枚举的全集降级成可执行测试（conf 0.5）。
+
+### Q4 来源（R27–R35，接上表编号）
+
+| ID | 文献 | 年/venue | URL |
+|----|------|----------|-----|
+| R27 | Dhuliawala et al., *Chain-of-Verification Reduces Hallucination in LLMs* | 2023 / ACL 2024 Findings | https://arxiv.org/abs/2309.11495 |
+| R28 | Lee et al., *CheckEval: checklist-based LLM-as-a-Judge* | 2024 / EMNLP 2025 | https://arxiv.org/abs/2403.18771 |
+| R29 | *DecMetrics: Structured Claim Decomposition Scoring* | 2025 | https://arxiv.org/abs/2509.04483 |
+| R30 | *STaD: Scaffolded Task Design*（重建式 coverage） | 2026 | https://arxiv.org/abs/2604.18177 |
+| R31 | *Don't Trust: Verify*（vacuous statement filter） | 2023 | https://arxiv.org/abs/2403.18120 |
+| R32 | *Know Your Limits: Faithfulness of LLMs as Solvers and Autoformalizers* | 2026 | https://arxiv.org/abs/2606.16118 |
+| R33 | *Do LLMs Game Formalization? Evaluating Faithfulness in Logical Reasoning* | 2026 | https://arxiv.org/abs/2604.19459 |
+| R34 | *Sage: Formalization with Semantic Correction* | 2026 | https://arxiv.org/abs/2609.35790 |
+| R35 | Turpin et al., *LMs Don't Always Say What They Think* | 2023 / NeurIPS 2023 | https://arxiv.org/abs/2305.04388 |
+
+## vN 映射（成璐命名约定 → 建议实现与判定）
+
+| 版本 | 用户定义 | 依据与预期机制 | 主要风险 | 本仓该测什么 |
+|---|---|---|---|---|
+| **v0** | 朴素说明：拼回去看漏 + 两两看重叠 | 保住"整体覆盖"视角，token 最省；但无可审计产物（Q4 已论证），与我们 S1 门禁失效同构 | 不可审计、可说"我拼过了没漏"；检出率与自信度脱钩 | 注入缺陷的**检出率**（唯一基线） |
+| **v1** | 代数判据：独占参数 / 贡献形式 | 原子可判定 → 可靠性上升（R28）；但形式化会被填表化（R31–R34） | **fabrication**：编参数、同义反复、全 PASS | 除检出率外必须测 **fabrication rate** |
+| **v2** | 混合：空间说明为主 + 关键处一条代数式 | 覆盖用空间直觉、**正交性**（最易混淆处）强制取证；符合"证据形式可让渡、判据填充权不可让渡"（Q4 结论） | 两套语言互相稀释 → 模型只挑好写的那套执行；仍受"全集知识"共有局限 | 与 v0/v1 在**同 token 预算**下的净增益 |
+
+**建议的实验设计（可直接落成 S 臂）**：三臂 v0/v1/v2 × 每题 n≥30；金标准用"注入缺陷的分解"（人为删一个子节点 = 完备性缺陷；人为让两子节点共享同一独占参数 = 正交性缺陷），测三个指标：**检出率 / 误报率 / fabrication rate**（v1/v2 给出的"独占参数"由第三方脚本复算，不可复算即记 fabrication）。三臂需**等 token、等格式、等信息量**（用等长中性句补齐 v0），judge 用异族模型并做长度控制——否则测到的是 token 数不是判据形式（方法论同 Q1 结论）。若 v1 在"可复算率"上塌陷，即证伪"代数判据更好"，此时应把 v1 的产物改成**可机械验证的样例**（给一个具体输入、要求两个子节点给出不同判定），而非要求模型自述参数。
