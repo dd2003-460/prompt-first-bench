@@ -41,6 +41,22 @@ def detect_gold_type(gold_text):
     return 'data' if numeric_lines >= 10 else 'methodology'
 
 
+def _smart_truncate(text, limit=12000):
+    """Truncate to `limit` chars, preferring the half with more numeric content.
+    Two-pass outputs (e.g. S8E) often put structure first and numbers second;
+    naive [:limit] can slice off all quantitative assertions."""
+    if len(text) <= limit:
+        return text
+    mid = len(text) // 2
+    import re as _re
+    n_first = len(_re.findall(r'\d+\.?\d*\s*(%|GB|TB|\$|tok/s|GPU·h|/M|million|ms|元|USD|B\b|K\b|M\b)', text[:mid]))
+    n_second = len(_re.findall(r'\d+\.?\d*\s*(%|GB|TB|\$|tok/s|GPU·h|/M|million|ms|元|USD|B\b|K\b|M\b)', text[mid:]))
+    if n_second > n_first * 2:
+        # Numbers concentrated in second half → keep tail
+        return "…[truncated head]…" + text[-limit:]
+    return text[:limit]
+
+
 def judge_m1(output_text, gold_text, gold_type=None):
     """M1 事实准确率。返回 (matched, total, notes)。
     gold_type: 'data' | 'methodology' | None(auto-detect)
@@ -62,10 +78,10 @@ def judge_m1(output_text, gold_text, gold_type=None):
 - 最后给 JSON: {{"assertions": [{{"text": "...", "verdict": "match|mismatch|undecidable"}}], "matched": N, "total_decidable": M}}
 
 【Gold 锚点】
-{gold_text[:12000]}
+{_smart_truncate(gold_text)}
 
 【模型输出】
-{output_text[:12000]}"""
+{_smart_truncate(output_text)}"""
     else:
         # Methodology type: verify against public knowledge, not gold text
         prompt = f"""你是事实核查员。以下是一个 AI agent 的分解树输出（gold 是方法论型的，不含具体数字）。
@@ -79,7 +95,7 @@ def judge_m1(output_text, gold_text, gold_type=None):
 - 最后给 JSON: {{"assertions": [{{"text": "...", "value": "...", "verdict": "correct|incorrect|uncertain"}}], "matched": N_correct, "total_decidable": N_correct+N_incorrect}}
 
 【模型输出】
-{output_text[:12000]}"""
+{_smart_truncate(output_text)}"""
 
     try:
         raw = llm_judge(prompt)
