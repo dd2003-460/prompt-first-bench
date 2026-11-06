@@ -29,9 +29,29 @@ def llm_judge(prompt, max_tokens=4000):
     return data["choices"][0]["message"]["content"]
 
 
-def judge_m1(output_text, gold_text):
-    """M1 事实准确率: 断言↔gold 匹配。返回 (matched, total, notes)。"""
-    prompt = f"""你是事实核查员。对照下面的【Gold 锚点】和【模型输出】，逐条判定模型输出中的可判定断言是否与 Gold 一致。
+def detect_gold_type(gold_text):
+    """检测 gold 类型: 'data' (含具体数值) 或 'methodology' (方法论型)。
+    data 型: ≥5 行含具体数值+单位 (%/$/GB/tok/s 等)
+    methodology 型: 主要是结构/方法描述，无大量具体数字
+    """
+    import re as _re
+    numeric_lines = len(_re.findall(r'\d+\.?\d*\s*(%|GB|TB|\$|tok/s|GPU·h|/M|/million|ms)\b', gold_text))
+    # Need ≥10 specific data points with units to be 'data' type
+    # Methodology-type golds may have a few numbers in examples but aren't primarily data
+    return 'data' if numeric_lines >= 10 else 'methodology'
+
+
+def judge_m1(output_text, gold_text, gold_type=None):
+    """M1 事实准确率。返回 (matched, total, notes)。
+    gold_type: 'data' | 'methodology' | None(auto-detect)
+    - data 型: 对照 gold 文本判 match/mismatch/undecidable
+    - methodology 型: 提取断言 → 对照公开事实（judge 训练知识）判 correct/incorrect
+    """
+    if gold_type is None:
+        gold_type = detect_gold_type(gold_text)
+
+    if gold_type == 'data':
+        prompt = f"""你是事实核查员。对照下面的【Gold 锚点】和【模型输出】，逐条判定模型输出中的可判定断言是否与 Gold 一致。
 
 规则：
 - 只判"可判定"的断言（有具体数字/规格/结论的陈述）
@@ -46,12 +66,27 @@ def judge_m1(output_text, gold_text):
 
 【模型输出】
 {output_text[:12000]}"""
+    else:
+        # Methodology type: verify against public knowledge, not gold text
+        prompt = f"""你是事实核查员。以下是一个 AI agent 的分解树输出（gold 是方法论型的，不含具体数字）。
+请从输出中提取 10-20 个最关键的定量断言（具体数字+单位），然后基于你已知的公开信息逐条判断是否正确。
+
+规则：
+- 只判有具体数值的断言（benchmark 分数、价格、硬件规格等）
+- 数值在合理范围内（±10%）算 correct
+- 明显错误（差 >30% 或指标名不对）算 incorrect
+- 无法判断的标 uncertain（不计入分母）
+- 最后给 JSON: {{"assertions": [{{"text": "...", "value": "...", "verdict": "correct|incorrect|uncertain"}}], "matched": N_correct, "total_decidable": N_correct+N_incorrect}}
+
+【模型输出】
+{output_text[:12000]}"""
+
     try:
         raw = llm_judge(prompt)
         m = re.search(r'\{.*\}', raw, re.DOTALL)
         if m:
             d = json.loads(m.group())
-            return d.get("matched", 0), d.get("total_decidable", 1), raw[:2000]
+            return d.get("matched", 0), d.get("total_decidable", 1), f"[{gold_type}] {raw[:2000]}"
         return 0, 1, f"no JSON in judge response: {raw[:100]}"
     except Exception as e:
         return 0, 1, f"judge failed: {e}"
