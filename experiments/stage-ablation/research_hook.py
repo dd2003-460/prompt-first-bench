@@ -181,7 +181,7 @@ def _fetch_page(url, title_hint, timeout=30):
         "  const info = await page.evaluate(() => ({\n"
         "    title: document.title,\n"
         "    bodyLen: document.body.innerText.length,\n"
-        "    sample: document.body.innerText.slice(0, 300)\n"
+        "    sample: document.body.innerText.slice(0, 6000)\n"
         "  }));\n"
         "  console.log(JSON.stringify(info));\n"
         "} catch(e) {\n"
@@ -195,8 +195,21 @@ def _fetch_page(url, title_hint, timeout=30):
         if lines:
             data = json.loads(lines[-1])
             if "error" not in data and data.get("bodyLen", 0) > 100:
+                sample = data.get("sample", "")[:6000]
+                # S9H-prep: 从长样本中抽取含规格关键词的窗口，替代盲目取前 300 字符
+                import re as _re
+                kw_pat = _re.compile(r"(HBM\d?e?\s*\d|GB/s|TB/s|PCIe\s*Gen?\s*\d|SXM|watt|W\b|memory bandwidth|显存)", _re.I)
+                hits = list(kw_pat.finditer(sample))
+                if hits:
+                    # 取第一个命中点为中心 ±800 字符窗口（最多 2 个窗口）
+                    windows = []
+                    for h in hits[:2]:
+                        s0 = max(0, h.start() - 400)
+                        s1 = min(len(sample), h.end() + 400)
+                        windows.append(sample[s0:s1])
+                    sample = " … ".join(windows)
                 return {"title": data.get("title", title_hint), "url": url,
-                        "snippet": data.get("sample", "")[:300], "alive": True}
+                        "snippet": sample, "alive": True}
     except Exception:
         pass
     return {"title": title_hint, "url": url, "snippet": "", "alive": False}

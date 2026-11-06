@@ -256,7 +256,8 @@ def inject_sources_into_prompt(prompt, sources):
         return prompt
     src_lines = ["\n【已检索到的来源（来自 ego-browser 真实网页检索）】"]
     for i, s in enumerate(sources, 1):
-        src_lines.append(f"{i}. {s['title']}\n   URL: {s['url']}\n   摘要: {s['snippet'][:200]}\n   观察时间: {s['observed_at']}")
+            snip = s.get("snippet", "")[:500]
+            src_lines.append(f"{i}. {s['title']}\n   URL: {s['url']}\n   摘要: {snip}\n   观察时间: {s['observed_at']}")
     src_block = "\n".join(src_lines) + "\n\n请基于以上来源回答，引用时标注来源编号。\n\n"
     # 插在"工具说明"段之后
     marker = "【工具说明】"
