@@ -1,0 +1,56 @@
+{
+  "arm": "S8G",
+  "qid": "Q4",
+  "rep": 1,
+  "model": "qwen3.8-27b",
+  "params": {
+    "temp": 0,
+    "max_tokens": 8000
+  },
+  "output_text": "# 阶段 01 — 目标分解\n\n## 根节点定义\n\n**根节点**：每千次正确回答的总成本（C_total_per_1k_correct）\n\n定义：\n- \"正确回答\" = 回答内容完全基于检索/上下文中的文档，无编造（hallucination-free），且回答了用户问题的核心意图\n- \"成本\" = 单次回答的推理成本 + 单次回答的检索/预处理成本 + 单次回答的失败重试成本（因错误导致的额外调用）\n- 单位：元/千次正确回答（或等价的货币单位）\n\n## 顶层因素分解（正交性检查）\n\n将根节点切为以下互不重叠、合起来完整覆盖的子因素：\n\n```\n每千次正确回答成本/\n├── A. 单次成功回答的推理成本（inference_cost_per_success）\n├── B. 单次成功回答的检索/预处理成本（retrieval_cost_per_success）\n├── C. 失败率导致的额外成本（failure_overhead）\n└── D. 系统固定摊销成本（amortized_fixed_cost）\n```\n\n**正交性验证**：\n- A 只算\"模型生成 token 的钱\"\n- B 只算\"把文档喂给模型之前的钱\"（embedding、向量库查询、chunk 处理）\n- C 只算\"因为第一次没答对，多花的钱\"（重试、升级、人工兜底）\n- D 只算\"不管答没答对都要摊的钱\"（向量库存储、索引维护、系统运维）\n\n四者拼起来 = 总成本。无重叠：A 不含检索，B 不含生成，C 是 A+B 的倍数效应，D 是独立于单次调用的固定项。\n\n## 递归分解\n\n### A. 单次成功回答的推理成本\n\n```\nA. 推理成本/\n├── A1. 输入 token 成本（input_token_cost）\n│   ├── A1a. 系统提示词 token 数（system_prompt_tokens）\n│   ├── A1b. 检索/上下文注入 token 数（context_tokens）\n│   └── A1c. 用户问题 token 数（query_tokens）\n├── A2. 输出 token 成本（output_token_cost）\n│   ├── A2a. 回答正文 token 数（answer_tokens）\n│   └── A2b. 引用标注 token 数（citation_tokens）\n└── A3. 模型单价（model_price_per_token）\n    ├── A3a. 输入单价（input_price）\n    └── A3b. 输出单价（output_price）\n```\n\n**关键区分**：\n- 纯 RAG：A1b 小（只注入 top-k chunks，通常 500-2000 tokens）\n- 纯长上下文：A1b 极大（可能 50K-128K tokens）\n- 混合：A1b 中等（检索 + 部分长上下文）\n\n### B. 单次成功回答的检索/预处理成本\n\n```\nB. 检索成本/\n├── B1. 向量检索成本（vector_search_cost）\n│   ├── B1a. 查询 embedding 计算成本（query_embedding_cost）\n│   ├── B1b. 向量库查询成本（vector_db_query_cost）\n│   └── B1c. 重排序成本（rerank_cost）\n├── B2. 文档预处理摊销成本（preprocessing_amortization）\n│   ├── B2a. 文档切块成本（chunking_cost）\n│   ├── B2b. 文档 embedding 生成成本（doc_embedding_cost）\n│   └── B2c. 向量库存储成本（vector_storage_cost）\n└── B3. 长上下文方案特有的预处理成本（long_context_preprocessing）\n    ├── B3a. 文档压缩/摘要成本（compression_cost）\n    └── B3b. 上下文窗口管理成本（context_management_cost）\n```\n\n**关键区分**：\n- 纯 RAG：B1 显著，B2 显著，B3 ≈ 0\n- 纯长上下文：B1 ≈ 0（或极小），B2 部分（仍需存储），B3 显著\n- 混合：B1 + B3 都有\n\n### C. 失败率导致的额外成本\n\n```\nC. 失败开销/\n├── C1. 幻觉率（hallucination_rate）\n│   ├── C1a. 检索失败导致的幻觉（retrieval_failure_hallucination）\n│   └── C1b. 模型生成导致的幻觉（generation_hallucination）\n├── C2. 答非所问率（irrelevance_rate）\n├── C3. 单次失败的重试成本（retry_cost_per_failure）\n│   ├── C3a. 重试次数期望值（expected_retries）\n│   └── C3b. 每次重试的完整成本（full_retry_cost = A + B）\n└── C4. 人工兜底成本（human_fallback_cost）\n    ├── C4a. 人工介入概率（human_intervention_prob）\n    └── C4b. 单次人工处理成本（human_cost_per_case）\n```\n\n**关键区分**：\n- 纯 RAG：C1a 高（检索不准 → 幻觉），C1b 低（上下文短，模型不易编造）\n- 纯长上下文：C1a 低（上下文全，检索失败影响小），C1b 可能高（长上下文中模型可能\"迷失\"，见 [S4]）\n- 混合：C1a 中等，C1b 中等\n\n### D. 系统固定摊销成本\n\n```\nD. 固定摊销/\n├── D1. 向量库/索引存储成本（storage_cost）\n│   ├── D1a. 50万页文档的向量存储（vector_storage_500k_pages）\n│   └── D1b. 元数据/原文存储（metadata_storage）\n├── D2. 索引维护成本（index_maintenance_cost）\n│   ├── D2a. 文档更新时的重新 embedding（reindex_cost）\n│   └── D2b. 索引优化/压缩（index_optimization_cost）\n└── D3. 系统运维成本（ops_cost）\n    ├── D3a. 服务器/云资源（infrastructure_cost）\n    └── D3b. 监控/日志/告警（monitoring_cost）\n```\n\n**关键区分**：\n- 纯 RAG：D1 大（50万页向量），D2 大\n- 纯长上下文：D1 小（只需原文存储），D2 小\n- 混合：D1 中等\n\n## 已知条件（人类已提供）\n\n| 条件 | 值 | 来源 |\n|------|-----|------|\n| 文档总量 | ~50 万页 | 用户陈述 |\n| 候选架构 | 纯 RAG / 纯长上下文 / 混合 | 用户陈述 |\n| 长上下文窗口 | 128K tokens | 用户陈述 |\n| 正确性要求 | 不能编造（hallucination-free） | 用户陈述 |\n| 回答要求 | 必须引用文档内容 | 用户陈述 |\n\n## 可推导条件（从项目推导）\n\n| 条件 | 推导 | 备注 |\n|------|------|------|\n| 50万页 ≈ 多少 tokens | 假设每页 ~500 tokens（英文）或 ~300 tokens（中文），则 50万页 ≈ 1.5亿-2.5亿 tokens | **待验证**：实际文档语言、格式、密度未知 |\n| 128K 上下文能装多少页 | 128K / 500 ≈ 256 页（英文）或 128K / 300 ≈ 427 页（中文） | **待验证**：实际 token 密度 |\n| 纯长上下文方案可行性 | 50万页 >> 128K 窗口，**无法一次性塞入** | 必须做检索/筛选/压缩 |\n| 纯 RAG 的 chunk 数量 | 50万页 / 每 chunk 200 tokens ≈ 75万-125万 chunks | **待验证**：chunk 大小策略 |\n\n## 空缺条件清单（需阶段 02 研究）\n\n| 编号 | 空缺 | 影响哪个因素 | 阻塞什么判断 | 研究路径 |\n|------|------|-------------|-------------|----------|\n| G1 | 文档语言（中文/英文/混合）及平均 token 密度 | A1b, B2, D1 | 无法估算上下文大小和存储 | 需用户提供样本文档，或假设典型值并标注 |\n| G2 | 各候选模型的输入/输出单价（元/1K tokens） | A3 | 无法计算推理成本 | 查 OpenAI/Anthropic/国内模型 API 定价页 |\n| G3 | 各候选模型的幻觉率（在知识库问答场景） | C1 | 无法估算失败开销 | 查论文/评测报告，或设计小规模实测 |\n| G4 | 长上下文模型在 128K 窗口下的\"迷失\"程度 | C1b, A1b 有效性 | 无法判断纯长上下文是否真的能利用全部上下文 | 查 [S4] Lost in the Middle 及后续研究 |\n| G5 | 向量检索的 top-k 最优值及对应召回率 | B1, C1a | 无法确定 RAG 的检索精度 | 需实测或查 RAG 最佳实践文献 |\n| G6 | 重排序模型的成本和效果 | B1c, C1a | 无法确定是否值得加重排 | 查 rerank 模型 API 定价和评测 |\n| G7 | 50万页文档的向量存储成本 | D1 | 无法估算固定成本 | 查向量数据库（Milvus/Pinecone/Weaviate）定价 |\n| G8 | 文档更新频率 | D2 | 无法估算索引维护成本 | 需用户提供 |\n| QPS/并发量 | 每千次回答的时间窗口 | D3, 摊销计算 | 无法将固定成本摊到每次回答 | 需用户提供 |\n| G10 | 混合方案的具体设计（检索多少 + 长上下文多少） | A1b, B1, B3 | 无法估算混合方案成本 | 需设计实验或查文献 |\n| G11 | 用户问题的平均长度和复杂度 | A1c, A2a | 无法估算输出 token 数 | 需用户提供样本问题 |\n| G12 | \"正确回答\"的判定标准（人工评估 vs 自动评估） | C1, C2 | 无法确定失败率测量方法 | 需用户定义 |\n\n## 阶段 02 研究入口\n\n**第一批优先研究**（按对结论影响排序）：\n\n1. **G2 + G4**：模型单价 + 长上下文有效性 → 直接决定 A 和 C 的量级\n   - 来源类型：模型厂商定价页、arXiv 论文（[S4] Lost in the Middle, [S1] Inference Scaling, [S2] LongRAG）\n   - 搜索词：\"128K context LLM pricing 2024\", \"long context LLM hallucination rate\", \"Lost in the Middle long context\"\n   - 备用：若找不到具体幻觉率数据，用定性分析 + 标注\"待实测\"\n\n2. **G5 + G6**：RAG 检索精度和重排序成本 → 决定 B 和 C1a\n   - 来源类型：RAG 综述（[S5]）、向量数据库文档、rerank 模型评测\n   - 搜索词：\"RAG top-k optimal retrieval accuracy\", \"rerank model cost vs benefit\"\n\n3. **G7**：向量存储成本 → 决定 D1\n   - 来源类型：Milvus/Pinecone/Weaviate 定价页\n   - 搜索词：\"vector database pricing 1 million vectors\"\n\n4. **G1**：文档 token 密度 → 影响所有 token 相关计算\n   - 来源类型：需用户提供样本，或假设典型值（中文 ~300 tokens/页，英文 ~500 tokens/页）并标注为假设\n\n## 瓶颈预判（待阶段 02 验证）\n\n**初步判断**：A1b（上下文注入 token 数）× A3a（输入单价）很可能是最大成本项，因为：\n- 纯长上下文：A1b ≈ 128K tokens，即使单价低，绝对值也远大于 RAG 的 1-2K tokens\n- 但 C1（失败率）可能反转结论：如果长上下文幻觉率显著低于 RAG，C 项可能大幅降低\n\n**待验证**：这个预判是否成立，取决于 G2（单价）和 G3/G4（幻觉率）的实际数值。\n\n## 未解矛盾\n\n1. **长上下文的\"全量\" vs \"迷失\"**：理论上长上下文能装更多文档，但 [S4] 表明模型在长上下文中对中间部分的信息利用效率下降。这是否意味着纯长上下文方案实际上无法有效利用 128K 窗口？→ 待 G4 研究\n2. **RAG 的\"精准\" vs \"召回不足\"**：RAG 只注入 top-k chunks，如果检索不准，关键信息可能不在 top-k 中。这是否意味着 RAG 的幻觉率其实很高？→ 待 G3/G5 研究\n3. **混合方案的最优比例**：检索多少 + 长上下文多少，没有现成答案，需要实验或文献支持 → 待 G10 研究\n\n## 阶段 01 判定\n\n- 因素分解完整：A/B/C/D 四支覆盖总成本，无遗漏\n- 正交性：四支不重叠，各自独立\n- 已知/可推导/未知：已区分，未知项全部列入空缺清单\n- 研究路径：具体到来源类型、搜索词、备用方案\n- 瓶颈预判：已给出，但标注为待验证\n- 未解矛盾：已列出 3 个\n\n**判定：pass**，可进入阶段 02。",
+  "sources": [
+    {
+      "title": "Inference Scaling for Long-Context Retrieval Augmented Generation",
+      "url": "http://arxiv.org/abs/2410.04343v2",
+      "snippet": "The scaling of inference computation has unlocked the potential of long-context large language models (LLMs) across diverse settings. For knowledge-intensive tasks, the increased compute is often allocated to incorporate more external knowledge. However, without effectively utilizing such knowledge, solely expanding context does not always enhance performance. In this work, we investigate inference scaling for retrieval augmented generation (RAG), exploring the combination of multiple strategies",
+      "observed_at": "2026-11-06T12:36:30.421049+00:00",
+      "source_type": "arxiv"
+    },
+    {
+      "title": "LongRAG: Enhancing Retrieval-Augmented Generation with Long-context LLMs",
+      "url": "http://arxiv.org/abs/2406.15319v3",
+      "snippet": "In traditional RAG framework, the basic retrieval units are normally short. The common retrievers like DPR normally work with 100-word Wikipedia paragraphs. Such a design forces the retriever to search over a large corpus to find the `needle' unit. In contrast, the readers only need to generate answers from the short retrieved units. The imbalanced `heavy' retriever and `light' reader design can lead to sub-optimal performance. The loss of contextual information in the short, chunked units may i",
+      "observed_at": "2026-11-06T12:36:30.421049+00:00",
+      "source_type": "arxiv"
+    },
+    {
+      "title": "LongLive-RAG: A General Retrieval-Augmented Framework for Long Video Generation",
+      "url": "http://arxiv.org/abs/2606.02553v1",
+      "snippet": "Autoregressive (AR) video diffusion enables variable-length synthesis, but long-horizon generation often suffers from accumulated errors and identity drift. For efficiency, existing methods commonly adopt sliding-window attention during generation. This creates an irreversible generation trajectory: once the active window accumulates appearance errors, subsequent generations can only condition on this degraded trajectory and drift further away. We address this limitation by formulating long vide",
+      "observed_at": "2026-11-06T12:36:30.421049+00:00",
+      "source_type": "arxiv"
+    },
+    {
+      "title": "[2307.03172] Lost in the Middle: How Language Models Use Long Contexts",
+      "url": "https://arxiv.org/abs/2307.03172",
+      "snippet": "Skip to main content\nSearch\nSubmit\nDonate\nLog in\nComputer Science > Computation and Language\n[Submitted on 6 Jul 2023 (v1), last revised 20 Nov 2023 (this version, v3)]\nLost in the Middle: How Language Models Use Long Contexts\nNelson F. Liu, Kevin Lin, John Hewitt, Ashwin Paranjape, Michele Bevilacq",
+      "alive": true,
+      "observed_at": "2026-11-06T12:36:30.421049+00:00",
+      "source_type": "direct_site"
+    },
+    {
+      "title": "[2312.10997] Retrieval-Augmented Generation for Large Language Models: A Survey",
+      "url": "https://arxiv.org/abs/2312.10997",
+      "snippet": "Skip to main content\nSearch\nSubmit\nDonate\nLog in\nComputer Science > Computation and Language\n[Submitted on 18 Dec 2023 (v1), last revised 27 Mar 2024 (this version, v5)]\nRetrieval-Augmented Generation for Large Language Models: A Survey\nYunfan Gao, Yun Xiong, Xinyu Gao, Kangxiang Jia, Jinliu Pan, Yu",
+      "alive": true,
+      "observed_at": "2026-11-06T12:36:30.421049+00:00",
+      "source_type": "direct_site"
+    }
+  ],
+  "wall_s": 124.6,
+  "tokens": {
+    "in": 6820,
+    "out": 3255
+  },
+  "timestamp": "2026-11-06T12:36:42.540964+00:00"
+}
