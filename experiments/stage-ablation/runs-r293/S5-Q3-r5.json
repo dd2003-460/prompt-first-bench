@@ -1,0 +1,56 @@
+{
+  "arm": "S5",
+  "qid": "Q3",
+  "rep": 5,
+  "model": "qwen3.8-27b",
+  "params": {
+    "temp": 0,
+    "max_tokens": 8000
+  },
+  "output_text": "# 阶段 01 — 目标分解\n\n## 根节点定义\n\n**根节点**：每千输出 token 的服务成本（Cost per 1K output tokens, CPT）\n\n$$C_{PT} = \\frac{C_{total}}{N_{out}} = \\frac{C_{fixed} + C_{variable}}{N_{out}}$$\n\n其中：\n- $C_{total}$：单位时间（如每小时）的总服务成本\n- $N_{out}$：单位时间内产出的总 token 数\n- $C_{fixed}$：与负载无关的固定成本（硬件折旧、基础电力）\n- $C_{variable}$：与负载相关的可变成本（增量电力、带宽、运维）\n\n由于硬件已固定，$C_{fixed}$ 对所有框架相同，**框架选择只影响 $N_{out}$（吞吐）和 $C_{variable}$（效率相关的能耗/运维）**。因此核心问题转化为：**在相同硬件上，哪个框架能最大化有效吞吐 $N_{out}$ 并最小化单位 token 的边际成本？**\n\n## 顶层因素分解（正交性检查）\n\n```\nCPT/\n├── A. 有效吞吐 (Throughput)          〔框架核心差异〕\n├── B. 内存效率 (Memory Efficiency)    〔决定能否跑/能跑多大batch〕\n├── C. 延迟特性 (Latency Profile)      〔影响并发策略和SLA〕\n├── D. 运维与集成成本 (Ops & Integration) 〔人力、监控、升级〕\n└── E. 硬件适配度 (Hardware Fit)       〔固定硬件的利用率〕\n```\n\n**正交性验证**：\n- A 和 B 看似相关，但正交：A 是\"每秒出多少 token\"，B 是\"能装下多少 KV cache / 多大 batch\"。B 是 A 的**约束条件**，不是 A 本身。若 B 不足，A 的上限被压低，但 B 本身不直接产出 token。\n- C 和 A 正交：高吞吐不一定低延迟（大 batch 提吞吐但增延迟）。C 影响的是\"在满足 SLA 前提下能开多大 batch\"，从而间接影响 A，但 C 本身是延迟分布，不是吞吐。\n- D 和 E 正交：D 是软件栈/人力成本，E 是硬件利用率。\n- 所有因素合起来覆盖 CPT 的分子（成本）和分母（吞吐）。\n\n## 递归分解\n\n### A. 有效吞吐\n\n```\nA. 有效吞吐/\n├── A1. 单请求生成速度 (Tokens/sec/request)\n│   ├── A1a. Prefill 速度 (Prompt processing speed)\n│   │   └── 〔只能测〕取决于 GPU 算力、序列长度、batch 策略\n│   ├── A1b. Decode 速度 (Token generation speed)\n│   │   └── 〔只能测〕取决于显存带宽、batch size、KV cache 管理\n│   └── A1c. 调度效率 (Scheduling efficiency)\n│       └── 〔框架差异〕continuous batching vs static batching\n├── A2. 并发能力 (Concurrency)\n│   ├── A2a. 最大 batch size\n│   │   └── 〔受 B 约束〕由 KV cache 显存决定\n│   ├── A2b. 请求排队策略\n│   │   └── 〔框架差异〕FIFO / priority / preemption\n│   └── A2c. 多请求混合调度\n│       └── 〔框架差异〕vLLM PagedAttention, SGLang RadixAttention\n└── A3. 实际利用率 (Utilization)\n    ├── A3a. GPU 利用率\n    │   └── 〔只能测〕nvidia-smi / DCGM\n    └── A3b. 有效负载占比\n        └── 〔可调〕取决于流量模式，非框架本身属性\n```\n\n**关键框架差异（待验证假设）**：\n- vLLM：PagedAttention 减少 KV cache 碎片，continuous batching\n- SGLang：RadixAttention 前缀缓存复用，对多轮对话/共享前缀场景吞吐更高\n- TGI：HuggingFace 生态，continuous batching，但 KV cache 管理较传统\n- 原生 transformers：无 continuous batching，batch 内所有请求同步，吞吐最低\n\n### B. 内存效率\n\n```\nB. 内存效率/\n├── B1. 模型权重占用\n│   └── 〔固定〕27B 模型，取决于精度 (FP16/BF16/INT8/INT4)\n│       └── 待验证：用户未指定精度，需假设或列为空缺\n├── B2. KV Cache 占用\n│   ├── B2a. 每 token KV 大小\n│   │   └── 〔公式〕2 × num_layers × num_kv_heads × head_dim × dtype_size\n│   ├── B2b. KV Cache 管理策略\n│   │   └── 〔框架差异〕PagedAttention (vLLM) vs RadixAttention (SGLang) vs 传统 (TGI/transformers)\n│   └── B2c. 前缀缓存复用\n│       └── 〔框架差异〕SGLang 强，vLLM 部分支持，TGI/transformers 弱\n├── B3. 激活值与临时缓冲\n│   └── 〔只能测〕取决于 batch size 和序列长度\n└── B4. 显存碎片率\n    └── 〔框架差异〕PagedAttention 显著降低碎片\n```\n\n**关键约束**：27B 模型在 FP16 下权重约 54GB，加上 KV cache 和激活值，需要至少 80GB 显存（如 A100-80G 或 H100）。若用户硬件是 40GB 卡，则必须量化（INT8/INT4），这会改变所有框架的相对表现。\n\n### C. 延迟特性\n\n```\nC. 延迟特性/\n├── C1. TTFT (Time To First Token)\n│   └── 〔只能测〕取决于 prefill 速度和排队时间\n├── C2. TPOT (Time Per Output Token)\n│   └── 〔只能测〕取决于 decode 速度和 batch size\n├── C3. 尾延迟 (P99/P95)\n│   └── 〔只能测〕取决于调度策略和 preemption\n└── C4. 延迟-吞吐权衡曲线\n    └── 〔框架差异〕不同框架在相同硬件上的 Pareto 前沿不同\n```\n\n**关键问题**：用户未指定 SLA 要求（如 P99 TTFT < 2s, P99 TPOT < 50ms）。不同 SLA 下最优框架可能不同。\n\n### D. 运维与集成成本\n\n```\nD. 运维与集成成本/\n├── D1. 部署复杂度\n│   ├── D1a. 安装依赖\n│   │   └── 〔可调〕vLLM/SGLang 需特定 CUDA 版本，TGI 需 Docker\n│   └── D1b. 配置复杂度\n│       └── 〔可调〕参数数量、文档质量\n├── D2. 监控与可观测性\n│   ├── D2a. 内置指标\n│   │   └── 〔框架差异〕vLLM/SGLang 提供 Prometheus 指标\n│   └── D2b. 日志与调试\n│       └── 〔框架差异〕错误信息清晰度\n├── D3. 升级与维护\n│   ├── D3a. 版本稳定性\n│   │   └── 〔待验证〕各框架 release 频率和 breaking changes\n│   └── D3b. 社区支持\n│       └── 〔待验证〕GitHub issues 响应速度、文档更新\n└── D4. 集成成本\n    ├── D4a. API 兼容性\n    │   └── 〔框架差异〕vLLM/SGLang 兼容 OpenAI API，TGI 自有 API\n    └── D4b. 多模型支持\n        └── 〔框架差异〕是否支持同时服务多个模型\n```\n\n### E. 硬件适配度\n\n```\nE. 硬件适配度/\n├── E1. GPU 架构支持\n│   └── 〔待验证〕用户未指定 GPU 型号，需列为空缺\n├── E2. 多 GPU 支持\n│   ├── E2a. Tensor Parallelism\n│   │   └── 〔框架差异〕vLLM/SGLang/TGI 均支持，transformers 需手动\n│   └── E2b. Pipeline Parallelism\n│       └── 〔框架差异〕vLLM 支持，SGLang 部分支持\n├── E3. 量化支持\n│   ├── E3a. GPTQ/AWQ\n│   │   └── 〔框架差异〕vLLM 支持好，SGLang 支持，TGI 部分\n│   └── E3b. FP8\n│       └── 〔框架差异〕vLLM/SGLang 支持 H100 FP8\n└── E4. CPU offload\n    └── 〔框架差异〕vLLM 支持 KV cache offload，其他有限\n```\n\n## 已知条件\n\n| 条件 | 值 | 来源 |\n|------|-----|------|\n| 模型规模 | 27B 参数 | 用户提供 |\n| 硬件 | 固定，不可更换 | 用户提供 |\n| 候选框架 | vLLM, TGI, 原生 transformers, SGLang | 用户提供 |\n| 目标指标 | 每千输出 token 成本 | 用户提供 |\n\n## 空缺条件（需阶段 02 研究）\n\n| 编号 | 空缺 | 影响 | 优先级 | 研究路径 |\n|------|------|------|--------|----------|\n| G1 | GPU 型号和显存大小 | 决定能否跑 27B、是否需要量化、batch size 上限 | **高** | 用户未提供，需询问或假设常见配置（A100-80G/H100-80G） |\n| G2 | 模型精度（FP16/BF16/INT8/INT4） | 决定权重占用和 KV cache 大小 | **高** | 用户未指定，需假设 FP16 或列出多种精度场景 |\n| G3 | 流量模式（并发数、序列长度分布） | 决定实际吞吐和延迟 | **高** | 用户未提供，需假设典型场景（如 10 并发，输入 512/输出 256） |\n| G4 | SLA 要求（TTFT/TPOT 上限） | 决定可接受的最大 batch size | **中** | 用户未指定，需假设宽松 SLA 或列出多种 SLA 场景 |\n| G5 | 各框架在 27B 模型上的实测吞吐 | 直接决定 CPT 分母 | **高** | 搜索 arXiv 论文、GitHub benchmark、社区实测 |\n| G6 | 各框架的 KV cache 管理效率 | 决定 B2 和 A2a | **高** | 阅读框架文档和源码 |\n| G7 | 各框架的运维成本差异 | 决定 D 部分 | **中** | 搜索社区反馈、GitHub issues |\n| G8 | 各框架对特定 GPU 的优化程度 | 决定 E 部分 | **中** | 搜索框架 release notes 和 benchmark |\n\n## 瓶颈判断（初步）\n\n**最大瓶颈：A. 有效吞吐**\n\n理由：\n1. 硬件固定，$C_{fixed}$ 相同，CPT 主要由 $N_{out}$ 决定\n2. 框架间吞吐差异可达 2-5 倍（vLLM vs 原生 transformers）\n3. 内存效率 (B) 是吞吐的约束，但本身不直接产出 token\n4. 运维成本 (D) 在单服务器场景下相对固定，差异较小\n5. 硬件适配 (E) 在框架都支持的情况下差异较小\n\n**次级瓶颈：B. 内存效率**\n\n理由：\n1. 27B 模型显存占用大，KV cache 管理效率直接决定最大 batch size\n2. SGLang 的 RadixAttention 在前缀复用场景下可能显著优于 vLLM\n3. 若显存不足，必须量化，这会改变所有框架的相对表现\n\n## 阶段 02 研究入口\n\n1. **搜索 vLLM vs SGLang vs TGI 在 27B 模型上的 benchmark**\n   - 来源：arXiv 论文、GitHub benchmark、社区实测\n   - 搜索词：\"vLLM SGLang TGI 27B benchmark throughput\"\n   - 字段：tokens/sec, batch size, GPU 型号, 序列长度\n\n2. **阅读各框架文档，确认 KV cache 管理策略**\n   - 来源：官方文档\n   - 字段：PagedAttention, RadixAttention, continuous batching\n\n3. **确认各框架对常见 GPU（A100/H100）的支持情况**\n   - 来源：GitHub release notes\n   - 字段：CUDA 版本要求、量化支持、多 GPU 支持\n\n4. **搜索社区反馈，评估运维成本差异**\n   - 来源：GitHub issues、Reddit、HuggingFace 论坛\n   - 字段：部署难度、bug 频率、文档质量\n\n## 判定\n\n阶段 01 分解完成：\n- 所有顶层因素已递归展开到叶子节点\n- 所有未验证条件已列入空缺清单\n- 阶段 02 研究路径具体可执行\n- 瓶颈判断有初步依据\n\n**Reviewer 应判定 `pass`，允许进入阶段 02。**",
+  "sources": [
+    {
+      "title": "Comparative Analysis of Large Language Model Inference Serving Systems: A Performance Study of vLLM and HuggingFace TGI",
+      "url": "http://arxiv.org/abs/2511.17593v1",
+      "snippet": "The deployment of Large Language Models (LLMs) in production environments requires efficient inference serving systems that balance throughput, latency, and resource utilization. This paper presents a comprehensive empirical evaluation of two prominent open-source LLM serving frameworks: vLLM and HuggingFace Text Generation Inference (TGI). We benchmark these systems across multiple dimensions including throughput performance, end-to-end latency, GPU memory utilization, and scalability character",
+      "observed_at": "2026-11-06T15:10:11.297262+00:00",
+      "source_type": "arxiv"
+    },
+    {
+      "title": "From Inference Engine to Inference Control Plane: Connecting vLLM, llm-d, and the Evolution of Efficient Distributed LLM Serving",
+      "url": "http://arxiv.org/abs/2609.23130v1",
+      "snippet": "Large language model (LLM) inference is evolving from an engine-local optimization problem into a distributed control problem involving reusable state, phase placement, heterogeneous accelerators, networking, autoscaling, reliability, and service-level objectives. This paper connects that transition across peer-reviewed systems research, open-source implementations, and documented production studies. It treats vLLM and llm-d as complementary layers: model-serving engines optimize execution throu",
+      "observed_at": "2026-11-06T15:10:11.297262+00:00",
+      "source_type": "arxiv"
+    },
+    {
+      "title": "Engineering Signals of Human-AI Collaboration in the Agentic Coding Era: A Longitudinal Analysis of 33,228 Pull Requests from vLLM and SGLang with Implications for Biomedical AI Agents and Bioinformat",
+      "url": "http://arxiv.org/abs/2608.13884v1",
+      "snippet": "The rapid adoption of AI coding assistants and autonomous agentic development systems has coincided with major changes in the pace and structure of open-source software engineering. Yet empirical longitudinal evidence of these changes at the team level remains limited. We present a descriptive longitudinal analysis of seven engineering metrics: pull request (PR) throughput, cycle time, contributor diversity, PR comment density, merge rate, new-author participation, and PR size. Metrics were comp",
+      "observed_at": "2026-11-06T15:10:11.297262+00:00",
+      "source_type": "arxiv"
+    },
+    {
+      "title": "Installation - vLLM",
+      "url": "https://docs.vllm.ai/en/latest/getting_started/installation/index.html",
+      "snippet": "Skip to content\n\nYou are viewing the latest developer preview docs. Click here to view docs for the latest stable release.\n\nvLLM\nInstallation\n \nType to start searching\n GitHub\nHome\nUser Guide\nDeveloper Guide\nBenchmarking\nAPI Reference\nCLI Reference\nCommunity\nUser Guide\nGetting Started\nQuickstart\nIns",
+      "alive": true,
+      "observed_at": "2026-11-06T15:10:11.297262+00:00",
+      "source_type": "direct_site"
+    },
+    {
+      "title": "sgl-project/sglang: SGLang is a high-performance serving framework for large language models and multimodal models.",
+      "url": "https://github.com/sgl-project/sglang",
+      "snippet": "sgl-project\nsglang\nType / to search\nRepository navigation\nCode\nIssues\n959\n (959)\nPull requests\n5k+\n (5k+)\nAgents\nDiscussions\nActions\nSecurity and quality\nInsights\nsglang\nPublic\nWatch\n185\n (185)\nFork10.2k\n (10.2k)\nStar38.5k\n (38.5k)\nmain\n2005 Branches\n167 Tags\nt\nT\nAdd file\nAdd file\nCode\nLatest commit",
+      "alive": true,
+      "observed_at": "2026-11-06T15:10:11.297262+00:00",
+      "source_type": "direct_site"
+    }
+  ],
+  "wall_s": 101.9,
+  "tokens": {
+    "in": 6297,
+    "out": 3199
+  },
+  "timestamp": "2026-11-06T15:12:06.679685+00:00"
+}
