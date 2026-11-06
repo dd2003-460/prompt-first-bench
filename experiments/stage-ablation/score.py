@@ -4,7 +4,7 @@
 纯 stdlib。M2/M3/M5 复用 gates.py；M1/M4 用本地 27b judge（conf ≤0.7）；
 M6 URL 存活检查。judge 非独立模型，结果标注 conf 上限。
 """
-import json, os, re, sys, urllib.request, time
+import json, os, re, sys, urllib.request, time, statistics
 from datetime import datetime, timezone
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -158,7 +158,7 @@ WEIGHTS = {"M1": 0.25, "M2": 0.20, "M3": 0.15, "M4": 0.20, "M5": 0.10, "M6": 0.1
 Q5_WEIGHT_OVERRIDES = {"M1": 0.125}  # Q5 的 M1 权重降半
 
 
-def score_run(run_json_path, gold_md, arm, qid):
+def score_run(run_json_path, gold_md, arm, qid, multi_n=1):
     with open(run_json_path) as f:
         run = json.load(f)
     output = run.get("output_text", "")
@@ -176,10 +176,21 @@ def score_run(run_json_path, gold_md, arm, qid):
     # M5 诚实度: 加权锚点率（行内强锚点=1.0, 弱锚点=0.5, sources兜底=0.3, 无=0）
     m5_norm = ga.get("anchored_rate_weighted") or 0.0
 
-    # M1 事实准确率 (judge)
-    m1_matched, m1_total, m1_note = judge_m1(output, gold_md)
-    m1_norm = m1_matched / max(m1_total, 1)
-    notes.append(f"M1 judge: {m1_note}")
+    # M1 事实准确率 (judge) — multi-sample reduces non-determinism
+    if multi_n > 1:
+        m1_scores = []
+        for i in range(multi_n):
+            try:
+                mm, mt, mn = judge_m1(output, gold_md)
+                m1_scores.append(mm / max(mt, 1))
+            except Exception as e:
+                pass
+        m1_norm = statistics.median(m1_scores) if m1_scores else 0.0
+        notes.append(f"M1 judge: multi({multi_n}) median={m1_norm:.3f} raw={[f'{x:.3f}' for x in m1_scores]}")
+    else:
+        m1_matched, m1_total, m1_note = judge_m1(output, gold_md)
+        m1_norm = m1_matched / max(m1_total, 1)
+        notes.append(f"M1 judge: {m1_note}")
 
     # M4 缺口覆盖 (judge)
     m4_id, m4_total, m4_note = judge_m4(output, gold_md)
@@ -250,7 +261,7 @@ def aggregate(runs_dir, questions):
     def _score_one(task):
         fn, path, arm, qid, gold_md = task
         try:
-            return score_run(path, gold_md, arm, qid)
+            return score_run(path, gold_md, arm, qid, multi_n=args.multi)
         except Exception as e:
             print(f"  score error {fn}: {e}", file=sys.stderr)
             return None
@@ -343,6 +354,7 @@ if __name__ == "__main__":
     sub = ap.add_subparsers(dest="cmd")
     agg_p = sub.add_parser("aggregate")
     agg_p.add_argument("--runs-dir", default=os.path.join(HERE, "runs"))
+    agg_p.add_argument("--multi", type=int, default=1, help="M1 judge samples per run (median aggregation)")
     args = ap.parse_args()
 
     if args.cmd == "aggregate":
