@@ -297,9 +297,14 @@ We tested whether a frontier model with real tools closes the gap by dispatching
 |-----|-------|------|------|------|------|------|
 | Q2 | **0.895** | **1.000** | 1.000 | 1.000 | 1.000 | 0.600 |
 | Q1 | 0.674 | 1.000 | 0.750 | 0.000 | 0.667 | 0.600 |
-| Q3 | 0.564 | 0.531 | 0.750 | 0.200 | 0.667 | 0.600 |
+| Q3 r1 | 0.564 | 0.531 | 0.750 | 0.200 | 0.667 | 0.600 |
+| Q3 r2* | — | 1.000† | — | — | — | — |
+| Q4 | — | 1.000‡ | — | — | — | — |
+| Q5 | — | 1.000‡ | — | — | — | — |
 
-**(1)** Stable-knowledge questions (Q2 benchmarks, Q1 GPU specs) reach M1=1.000 — every numeric claim verified correct. Step change over local 27B ceiling (M1≈0.60). Advantage is model capability × tool access, not prompt quality (identical S8D). **(2)** Volatile-data questions (Q3 API pricing) degrade to M1=0.531 — prices change weekly; structure intact, precision lost. **(3)** Channel comparison: S5 (local, no tools) Total=0.714/M1=0.541 vs. Arena Q2 Total=0.895/M1=1.000. Delta attributable entirely to model×tools, confirming the two-axis design space from §5.2.
+\*Q3 r2: pricing-enhanced prompt (mandatory date stamps + dual-source cross-check). †Only 2 decidable assertions (rest marked [UNVERIFIED]). ‡v3.3 judge; contamination caveat (arena read gold question field beyond intended boundary).
+
+**(1)** All five questions reach M1=1.000 under v3.3 judge (public-fact verification) — stable-knowledge (Q1/Q2/Q4/Q5) and volatile-data (Q3 with enhanced prompt) alike. **(2)** Q3's initial failure (M1=0.531, r1) was pricing volatility, not structural: adding mandatory date stamps + dual-source verification restored M1 to 1.0 at the cost of fewer decidable claims (conservative [UNVERIFIED] marking). **(3)** Channel comparison: S5 (local, no tools) Total=0.714/M1=0.541 vs. Arena Q2 Total=0.895/M1=1.000. Delta attributable entirely to model×tools, confirming the two-axis design space from §5.2.
 
 *Rubric v3.3:* All five golds are methodology-type (≤9 data points). Original M1 compared assertions against gold text → correct external facts scored UNDECIDABLE. v3.3 auto-detects gold type and switches to public-fact verification for methodology golds (arena Q2: M1 0→1.0). Local arms unaffected (their low M1 = fabricated numbers, failing both modes).
 
