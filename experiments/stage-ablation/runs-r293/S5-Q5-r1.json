@@ -1,0 +1,49 @@
+{
+  "arm": "S5",
+  "qid": "Q5",
+  "rep": 1,
+  "model": "qwen3.8-27b",
+  "params": {
+    "temp": 0,
+    "max_tokens": 8000
+  },
+  "output_text": "# 阶段 01 — 目标分解\n\n## 1. 根标量定义\n\n**目标**：在满足制度约束的前提下，使每个统计决策的期望决策损失最低。\n\n**根标量**：$L^* = \\mathbb{E}_{\\theta, D}[\\ell(\\delta(D), \\theta)]$\n\n- $\\theta$：真实参数（或真实状态）\n- $D$：观测数据\n- $\\delta(D)$：基于数据 $D$ 做出的决策（如\"拒绝/不拒绝 $H_0$\"、\"发布/不发布\"、\"剂量 A/B\"）\n- $\\ell(\\delta, \\theta)$：决策损失函数（如 0-1 损失、平方误差、商业机会成本）\n- $\\mathbb{E}$：对 $\\theta$ 的先验分布 $\\pi(\\theta)$ 和似然 $p(D|\\theta)$ 的联合期望\n\n**单位**：损失单位（如\"错误决策次数/年\"、\"货币损失/决策\"、\"标准化效用损失\"）。\n\n**关键前提**：此标量要求存在一个**先验分布** $\\pi(\\theta)$ 或**决策频率**的长期平均。若制度约束禁止使用先验（如 FDA 要求固定 $\\alpha$），则标量退化为**条件期望**：$\\mathbb{E}[\\ell | \\text{约束满足}]$。\n\n## 2. 正交维度切分\n\n### 维度 A：决策损失结构（Cost of Error）\n- **独占参数**：损失函数 $\\ell(\\delta, \\theta)$ 的具体形式（对称/不对称、连续/离散）\n- **子因素**：\n  - A1：Type I 错误成本（假阳性）\n  - A2：Type II 错误成本（假阴性）\n  - A3：决策延迟成本（若适用）\n  - A4：部分正确/部分错误的损失（如剂量偏差）\n\n### 维度 B：数据生成与样本特性（Data & Sample）\n- **独占参数**：样本量 $n$、数据分布 $p(D|\\theta)$、缺失机制\n- **子因素**：\n  - B1：样本量 $n$ 的大小（小样本 vs 大样本）\n  - B2：数据分布的已知程度（参数族是否已知）\n  - B3：数据质量（噪声、异常值、缺失）\n  - B4：重复实验可行性（能否收集更多数据）\n\n### 维度 C：先验信息与外部知识（Prior & External Knowledge）\n- **独占参数**：先验分布 $\\pi(\\theta)$ 的存在性、信息量、可靠性\n- **子因素**：\n  - C1：是否存在可靠先验（历史数据、领域专家）\n  - C2：先验的集中程度（信息量大小）\n  - C3：先验的可靠性（是否可能错误）\n  - C4：先验与似然的兼容性（共轭性、计算可行性）\n\n### 维度 D：制度与合规约束（Institutional Constraints）\n- **独占参数**：约束类型（硬约束/软约束）、审计要求、期刊/监管规定\n- **子因素**：\n  - D1：是否强制要求 $\\alpha$ 显著性（如 p < 0.05）\n  - D2：是否要求可审计性（方法透明、可复现）\n  - D3：是否允许使用先验（如 FDA 对贝叶斯方法的限制）\n  - D4：决策者对方法的接受度（同行评审、管理层）\n\n### 维度 E：计算与实施成本（Computational & Implementation Cost）\n- **独占参数**：计算资源、时间、人力、软件工具\n- **子因素**：\n  - E1：计算复杂度（MCMC vs 解析解）\n  - E2：实施时间（从数据到决策的延迟）\n  - E3：人力成本（需要贝叶斯专家 vs 统计软件用户）\n  - E4：软件与工具可用性\n\n### 维度 F：决策频率与长期影响（Decision Frequency & Long-term Impact）\n- **独占参数**：决策频率、决策的不可逆性、长期累积效应\n- **子因素**：\n  - F1：决策频率（一次性 vs 高频）\n  - F2：决策的不可逆性（如临床试验 vs A/B 测试）\n  - F3：长期累积效应（如重复发表偏差）\n  - F4：决策的下游影响（是否影响后续决策）\n\n## 3. SHARED 耦合参数\n\n| 参数 | 影响维度 | 路径说明 |\n|------|----------|----------|\n| 样本量 $n$ | B, C, E | 小样本时先验影响大（C），计算可能更简单（E）；大样本时先验影响小（C），但 MCMC 可能更慢（E） |\n| 先验可靠性 | C, D, A | 先验错误时，贝叶斯决策损失可能更高（A）；制度可能禁止使用不可靠先验（D） |\n| 计算时间 | E, F | 计算延迟影响决策时效（F），进而影响损失（A） |\n| 可审计性 | D, E | 贝叶斯方法的可审计性取决于 MCMC 收敛诊断等（E），制度要求可能限制方法选择（D） |\n\n## 4. 已知条件 vs 空缺条件\n\n### 已知条件（从任务描述推导）\n- 目标是最小化期望决策损失\n- 存在制度约束（期刊要求 $\\alpha$、监管要求可审计）\n- 候选方案：频率学派、贝叶斯学派、混合 workflow\n- 损失函数形式未指定（需假设或调研）\n- 样本量、先验信息、计算资源等未指定\n\n### 空缺条件（需阶段 02 研究）\n- **空缺 1**：典型决策场景的损失函数形式（如临床试验、A/B 测试、金融风控）\n- **空缺 2**：典型样本量范围（小样本 n<30 vs 大样本 n>1000）\n- **空缺 3**：先验信息的可用性和可靠性（领域特定）\n- **空缺 4**：制度约束的具体内容（FDA、期刊、内部政策）\n- **空缺 5**：计算资源和时间约束（MCMC 运行时间、人力成本）\n- **空缺 6**：决策频率和不可逆性（一次性 vs 高频）\n- **空缺 7**：频率学派和贝叶斯学派在典型场景下的实际损失比较（实证研究）\n\n## 5. 黑盒收口表\n\n| 编号 | 黑盒项 | 为什么没有闭式 | 估计区间 | 一天内能做完的测法 | 弹性 |\n|------|--------|----------------|----------|-------------------|------|\n| B1 | 损失函数 $\\ell(\\delta, \\theta)$ 的具体形式 | 依赖具体决策场景，无通用闭式 | 0-1 损失、平方误差、商业损失 | 调研 3-5 个典型场景的损失函数定义 | 高（直接决定期望损失） |\n| B2 | 先验分布 $\\pi(\\theta)$ 的可靠性 | 依赖领域知识和历史数据，无通用闭式 | 信息量从弱（均匀）到强（集中） | 访谈领域专家，收集历史数据 | 高（贝叶斯方法的核心输入） |\n| B3 | MCMC 计算时间和收敛性 | 依赖模型复杂度，无通用闭式 | 分钟到小时级 | 在典型模型上运行 MCMC，记录时间 | 中（影响实施成本，但不直接决定损失） |\n| B4 | 制度约束的具体内容 | 依赖具体机构，无通用闭式 | 从\"无约束\"到\"强制 $\\alpha$\" | 调研 FDA、期刊、内部政策 | 高（硬约束，直接排除候选） |\n| B5 | 频率学派和贝叶斯学派的实际损失比较 | 依赖具体场景，无通用闭式 | 贝叶斯在小样本时可能更优，大样本时差异小 | 模拟 3-5 个典型场景，比较损失 | 高（直接决定选择） |\n\n## 6. 口径声明\n\n### 约束类维度（不满足直接划掉候选）\n- D1：是否强制要求 $\\alpha$ 显著性\n- D2：是否要求可审计性\n- D3：是否允许使用先验\n\n### 成本类维度（进公式）\n- A1-A4：决策损失\n- B1-B4：数据特性\n- C1-C4：先验信息\n- E1-E4：计算与实施成本\n- F1-F4：决策频率与长期影响\n\n## 7. 瓶颈识别\n\n**主导项**：B5（频率学派和贝叶斯学派的实际损失比较）和 B1（损失函数形式）\n\n**论证**：\n- 期望决策损失 $L^*$ 直接由损失函数 $\\ell$ 和决策规则 $\\delta$ 决定\n- 频率学派和贝叶斯学派的核心差异在于决策规则 $\\delta$ 的构造方式\n- 因此，比较两种学派的实际损失（B5）是决定选择的关键\n- 损失函数形式（B1）决定了\"什么算错误\"，直接影响期望损失的计算\n- 其他因素（如计算成本、制度约束）是次要的，除非它们构成硬约束\n\n## 8. 阶段 02 研究路径\n\n### 第一批行动\n1. **调研典型决策场景的损失函数**（B1）\n   - 目标：临床试验、A/B 测试、金融风控\n   - 来源：统计教材、领域论文、行业报告\n   - 搜索词：\"loss function clinical trial\", \"A/B test loss function\", \"financial risk loss function\"\n\n2. **调研制度约束**（B4）\n   - 目标：FDA、期刊、内部政策\n   - 来源：FDA 指南、期刊投稿指南、内部政策文档\n   - 搜索词：\"FDA Bayesian methods guidelines\", \"journal p-value requirements\", \"regulatory audit requirements\"\n\n3. **调研频率学派和贝叶斯学派的实际损失比较**（B5）\n   - 目标：典型场景下的实证研究\n   - 来源：统计论文、元分析、模拟研究\n   - 搜索词：\"Bayesian vs frequentist decision loss\", \"Bayesian vs frequentist small sample\", \"Bayesian vs frequentist large sample\"\n\n4. **调研先验信息的可用性和可靠性**（B2）\n   - 目标：领域特定先验\n   - 来源：领域论文、专家访谈、历史数据\n   - 搜索词：\"prior distribution clinical trial\", \"prior information A/B test\", \"prior reliability financial risk\"\n\n5. **调研 MCMC 计算时间和收敛性**（B3）\n   - 目标：典型模型的计算成本\n   - 来源：统计软件文档、基准测试\n   - 搜索词：\"MCMC computation time\", \"MCMC convergence diagnostics\", \"Bayesian computation cost\"\n\n### 失败备用路径\n- 若无法找到典型场景的损失函数，使用 0-1 损失作为默认假设\n- 若无法找到制度约束的具体内容，假设\"无硬约束\"作为基线\n- 若无法找到实际损失比较，使用理论分析（如 minimax 风险）作为替代\n\n## 9. 候选对象处理\n\n| 候选对象 | 待验证属性 | 排除理由（若适用） |\n|----------|------------|-------------------|\n| 频率学派 | 实际损失、计算成本、制度兼容性 | 若制度强制要求先验，则排除 |\n| 贝叶斯学派 | 实际损失、计算成本、先验可靠性 | 若制度禁止使用先验，则排除 |\n| 混合 workflow | 实际损失、实施复杂度、制度兼容性 | 若实施复杂度过高，则排除 |\n\n## 10. 阶段 01 判定\n\n- **因素正交**：维度 A-F 各自独立影响目标，SHARED 耦合已显式记录\n- **覆盖目标**：所有关键目标（期望损失、制度约束、计算成本）均有维度覆盖\n- **边界清晰**：每个维度的边界条件明确\n- **优先级合理**：B5 和 B1 为高优先级，直接影响目标达成\n- **空缺完整**：所有未验证条件已列入空缺清单\n- **研究路径具体**：阶段 02 的研究路径已写明目标、来源、搜索词和备用路径\n- **候选对象处理**：候选对象已标明待验证属性，排除理由明确\n\n**判定**：`pass`，允许直接进入阶段 02。",
+  "sources": [
+    {
+      "title": "USB Connectivity Solutions for Medical Equipment | Newnex",
+      "url": "https://www.bing.com/ck/a?!&&p=9b45220ba1425bc357c4a890ccef4229cb01c71aba9e34e231739e36724d445eJmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly9uZXduZXguY29tL21lZGljYWwtdXNiLWNvbm5lY3Rpdml0eS5waHA&ntb=1",
+      "snippet": "Discover USB cables, extenders, and custom solutions trusted by medical device manufacturers worldwide.",
+      "observed_at": "2026-11-03T21:56:55.494217+00:00"
+    },
+    {
+      "title": "Extends USB 3.2 Gen 1 (5Gbps) 1 & Gigabit Ethernet | 330 ft ...",
+      "url": "https://www.bing.com/ck/a?!&&p=cd6b451f5943aabe611d53971a3fdc692763b3075ce37c432db9f312cee6947dJmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly93d3cuc3RhcnRlY2guY29tL2VuLXVzL2NhcmRzLWFkYXB0ZXJzL3VzYjMwMDRleHQy&ntb=1",
+      "snippet": "4-Port USB 3.0 Extender Hub with 1x Gigabit Ethernet Port Extension over Single Cat6a/Cat7 Cable (RJ45) - 330ft (100m) - USB …",
+      "observed_at": "2026-11-03T21:56:55.494217+00:00"
+    },
+    {
+      "title": "Cable Matters Active USB 3.0 Extension Cable, 32.8ft / 10m",
+      "url": "https://www.bing.com/ck/a?!&&p=796c0ca124e1db0b5382c9b80b7066e67f52b7075873345bc4249a0403f32e46JmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly93d3cuYW1hem9uLmNvbS9DYWJsZS1NYXR0ZXJzLUFjdGl2ZS1FeHRlbnNpb24tRmVtYWxlL2RwL0IwMERNRkZMMlc&ntb=1",
+      "snippet": "This USB active extension cable is backward compatible with USB 2.0 devices and cables—ideal for extending a printer cable or an …",
+      "observed_at": "2026-11-03T21:56:55.494217+00:00"
+    },
+    {
+      "title": "Gates of Vienna",
+      "url": "https://www.bing.com/ck/a?!&&p=ed3bf2e776169cc02ada6d117b8015aaeb14a92c139c44f86d50755fa3c7cad9JmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly9nYXRlc29mdmllbm5hLmJsb2dzcG90LmNvbS8&ntb=1",
+      "snippet": "Jan 17, 2013 · The British government offered the Algerians manpower, equipment, and expert assistance to expedite the resolution …",
+      "observed_at": "2026-11-03T21:56:55.494217+00:00"
+    },
+    {
+      "title": "25Feet Active USB 3.0 extension cable,Long USB ... - Amazon",
+      "url": "https://www.bing.com/ck/a?!&&p=adaccaa37dbc3d11ecf5cbba1691bb9f8621bf15ba8966d14f57ca16aa394a55JmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly93d3cuYW1hem9uLmNvbS9XRFgtTUFTVC1EWU5BUE9JTlQtTElNSVRFRC1BY3RpdmUtRXh0ZW5zaW9uL2RwL0IwOFk4Tks5Rzk&ntb=1",
+      "snippet": "Experience high-performance connectivity with this 25 feet USB 3.0 extension cable, perfect for extending the range of your USB …",
+      "observed_at": "2026-11-03T21:56:55.494217+00:00"
+    }
+  ],
+  "wall_s": 26.7,
+  "tokens": {
+    "in": 6807,
+    "out": 2830
+  },
+  "timestamp": "2026-11-03T21:57:22.185634+00:00"
+}

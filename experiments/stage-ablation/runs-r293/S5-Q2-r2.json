@@ -1,0 +1,49 @@
+{
+  "arm": "S5",
+  "qid": "Q2",
+  "rep": 2,
+  "model": "qwen3.8-27b",
+  "params": {
+    "temp": 0,
+    "max_tokens": 8000
+  },
+  "output_text": "# 阶段 01 — 目标分解\n\n## 根节点定义\n\n**根节点**：`每千次合格回答的总成本`（单位：元/千次合格回答）\n\n**公式骨架**：\n```\n每千次合格回答总成本 = (单次调用成本 × 每千次合格回答所需调用次数) / 1000\n                     = (单次调用成本 × 1 / 合格率)\n```\n\n其中：\n- **单次调用成本**：取决于部署方式（本地推理 vs API）\n- **合格率**：取决于模型在目标任务上的表现\n\n## 顶层因素分解（正交性检查）\n\n| 因素 | 说明 | 正交性 |\n|------|------|--------|\n| A. 单次调用成本 | 每次推理的边际成本 | 与 B 正交：A 是\"花多少钱\"，B 是\"花得值不值\" |\n| B. 合格率 | 每次调用产出合格回答的概率 | 与 A 正交：独立变量 |\n| C. 吞吐量/并发约束 | 单位时间能处理多少请求，影响实际部署规模 | 与 A、B 正交：影响的是\"规模经济\"而非单次成本或质量 |\n\n> **正交性验证**：A 改变（换更便宜的模型）不必然改变 B（质量可能变好或变差）；B 改变（换更准的模型）不必然改变 A（可能更贵也可能更便宜）；C 是系统级约束，独立于单次经济性和质量。三者合起来完整覆盖\"每千次合格回答总成本\"。\n\n## 递归分解\n\n### A. 单次调用成本\n\n#### A1. 部署方式选择\n- **A1a. 本地推理**：硬件已购/已租，边际成本 = 电力 + 维护摊销\n- **A1b. API 调用**：按 token 计费，边际成本 = 输入 token 单价 × 输入长度 + 输出 token 单价 × 输出长度\n\n> **约束**：预算为\"单台双卡 24GB 或等效 API 额度\"。这意味着：\n> - 本地路径：2×24GB = 48GB 显存上限\n> - API 路径：等效额度需换算（待研究）\n\n#### A2. 本地推理成本（A1a 展开）\n\n| 子因素 | 说明 | 可查/可测/黑盒 |\n|--------|------|----------------|\n| A2a. 模型显存占用 | 决定能否在 48GB 内运行，以及量化精度 | 可查规格 |\n| A2b. 推理速度（tokens/s） | 决定单位时间处理量，影响电力成本分摊 | 可实测 |\n| A2c. 电力成本 | 双卡 24GB 功耗 × 运行时间 × 电价 | 可查+可测 |\n| A2d. 硬件摊销 | GPU 折旧/租赁成本摊到每次调用 | 可查（租赁价）或假设（自购折旧） |\n| A2e. 量化精度损失 | 量化后质量下降 → 影响合格率 B | 可实测 |\n\n**A2a 显存占用分析**（关键约束）：\n- 24GB × 2 = 48GB 总显存\n- 32B 模型 FP16 ≈ 64GB → **超出**，必须量化\n- 32B 模型 INT8 ≈ 32GB → 可放入单卡或双卡\n- 32B 模型 INT4 ≈ 16GB → 轻松放入\n- 70B 模型 W4 ≈ 35-40GB → 可放入双卡（待验证具体框架）\n- 24B 模型 FP16 ≈ 48GB → 刚好，INT8 ≈ 24GB 轻松\n\n> **待验证**：各模型在 vLLM/TGI 等框架下的实际显存占用（含 KV cache）\n\n#### A3. API 调用成本（A1b 展开）\n\n| 子因素 | 说明 | 可查/可测/黑盒 |\n|--------|------|----------------|\n| A3a. 输入 token 单价 | 各模型 API 定价 | 可查 |\n| A3b. 输出 token 单价 | 各模型 API 定价 | 可查 |\n| A3c. 典型输入长度 | 代码补全上下文长度 | 可假设（典型值） |\n| A3d. 典型输出长度 | 补全代码长度 | 可假设（典型值） |\n| A3e. 免费额度/折扣 | 是否有免费层或批量折扣 | 可查 |\n\n> **待验证**：各模型当前 API 定价（易变事实，需阶段 02 核验）\n\n### B. 合格率\n\n#### B1. 任务类型分解\n- **B1a. 函数级代码补全（Python）**\n- **B1b. 函数级代码补全（JS）**\n- **B1c. 通用指令跟随**\n\n> 三个子任务合格率可能不同，需加权。权重取决于实际使用分布（**待用户确认**，暂假设等权 1/3 各）。\n\n#### B2. 合格率测量方法\n- **B2a. 基准测试分数**：HumanEval、MBPP、Codeforces 等\n- **B2b. 实际业务场景测试**：内部代码库上的补全接受率\n- **B2c. 指令跟随评测**：IFEval、MT-Bench 等\n\n> **关键区分**：基准分数 ≠ 实际合格率。基准是\"能写出正确代码\"，实际合格率是\"用户接受该补全\"。两者相关但不等同。\n\n#### B3. 各模型在 B1a/B1b/B1c 上的表现\n- 这是**核心待研究项**，需阶段 02 搜集各模型在相关基准上的分数\n- 不同量化精度下表现不同（A2e 与 B 耦合）\n\n### C. 吞吐量/并发约束\n\n#### C1. 本地推理吞吐量\n- **C1a. 单请求延迟**：影响用户体验\n- **C1b. 并发请求数**：影响系统容量\n- **C1c. 批处理效率**：vLLM 等框架的 continuous batching 效果\n\n#### C2. API 吞吐量\n- **C2a. 速率限制**：RPM/TPM 限制\n- **C2b. 并发连接数**\n\n> **与 A 的耦合**：吞吐量影响\"等效 API 额度\"的换算。如果本地吞吐量低，可能需要更多硬件或更长时间，增加 A2d 摊销成本。\n\n## 已知条件 vs 待研究条件\n\n### 已知（用户提供）\n1. 任务：函数级代码补全（Python/JS）+ 通用指令跟随\n2. 预算：单台双卡 24GB（48GB 总显存）或等效 API 额度\n3. 候选模型：Qwen3-32B、Qwen2.5-Coder-32B-Instruct、Mistral-Small-2501-24B、GLM-4-32B-0414、DeepSeek-Coder-V2-33B、Llama-3.3-70B-Instruct(W4)\n4. 目标指标：每千次合格回答的总成本\n\n### 可从项目推导\n1. 48GB 显存约束 → 排除 FP16 下 >48GB 的模型（32B FP16 ≈ 64GB 排除，需量化）\n2. 代码补全任务 → 代码专用模型（Qwen2.5-Coder、DeepSeek-Coder）可能有优势\n3. 双卡部署 → 模型需支持 tensor parallel 或 pipeline parallel\n\n### 待研究（空缺清单）\n\n| 编号 | 空缺项 | 阻塞哪个判断 | 优先级 |\n|------|--------|-------------|--------|\n| G1 | 各模型在 48GB 双卡下的实际显存占用（含 KV cache，不同量化精度） | A2a → 能否部署 | **高** |\n| G2 | 各模型在 HumanEval/MBPP 等代码基准上的分数（不同量化精度） | B3 → 合格率 | **高** |\n| G3 | 各模型在指令跟随基准上的分数 | B3 → 合格率 | **高** |\n| G4 | 各模型 API 定价（输入/输出 token 单价） | A3 → 单次调用成本 | **高** |\n| G5 | 各模型推理速度（tokens/s，不同硬件配置） | A2b → 电力成本分摊 | **中** |\n| G6 | 量化精度对代码补全质量的影响幅度 | A2e × B → 耦合项 | **中** |\n| G7 | 典型代码补全的输入/输出 token 长度分布 | A3c/A3d → API 成本计算 | **中** |\n| G8 | 双卡 24GB 的电力成本和硬件摊销 | A2c/A2d → 本地成本 | **中** |\n| G9 | 各模型 API 的速率限制和并发限制 | C2 → 吞吐量约束 | **低** |\n| G10 | 实际业务场景中各任务类型的权重分布 | B1 → 加权合格率 | **中** |\n\n## 阶段 02 研究路径\n\n### 第一批行动（高优先级）\n\n1. **G1 显存占用**：\n   - 来源类型：HuggingFace 模型卡片、vLLM/TGI 文档、社区实测报告\n   - 搜索词：`\"Qwen3-32B\" vLLM memory usage 48GB`、`\"DeepSeek-Coder-V2-33B\" INT8 memory`\n   - 字段：模型大小、量化精度、KV cache 大小、总显存需求\n   - 备用来源：GitHub issues、Reddit r/LocalLLaMA\n\n2. **G2/G3 基准分数**：\n   - 来源类型：HuggingFace 模型卡片、官方技术报告、独立评测（如 OpenCompass、LMSYS Arena）\n   - 搜索词：`\"Qwen2.5-Coder-32B\" HumanEval score`、`\"Mistral-Small-24B\" MBPP`\n   - 字段：基准名称、分数、量化精度、测试条件\n   - 备用来源：Papers with Code、arXiv 技术报告\n\n3. **G4 API 定价**：\n   - 来源类型：各模型提供商官网定价页\n   - 搜索词：`\"Qwen3-32B\" API pricing`、`\"DeepSeek-Coder\" API price per token`\n   - 字段：输入 token 单价、输出 token 单价、免费额度\n   - 备用来源：第三方 API 聚合平台（如 OpenRouter）\n\n### 第二批行动（中优先级）\n\n4. **G5 推理速度**：\n   - 来源类型：社区实测、vLLM benchmark 报告\n   - 搜索词：`\"Qwen3-32B\" vLLM tokens per second A100`\n   - 字段：硬件配置、batch size、tokens/s\n\n5. **G6 量化影响**：\n   - 来源类型：量化技术报告、社区对比测试\n   - 搜索词：`\"INT8 quantization\" code generation quality degradation`\n\n6. **G7 典型 token 长度**：\n   - 来源类型：代码补全系统文档、社区讨论\n   - 搜索词：`\"code completion\" typical context length tokens`\n\n7. **G8 电力/摊销**：\n   - 来源类型：GPU 功耗规格、云租赁价格\n   - 搜索词：`\"RTX 4090\" power consumption watts`、`\"A100\" rental price per hour`\n\n## 候选对象处理\n\n| 候选模型 | 待验证属性 | 初步排除/保留理由 |\n|----------|-----------|------------------|\n| Qwen3-32B | G1, G2, G3, G4, G5 | 保留 — 32B 需量化，待验证量化后质量 |\n| Qwen2.5-Coder-32B-Instruct | G1, G2, G3, G4, G5 | 保留 — 代码专用，可能有优势 |\n| Mistral-Small-2501-24B | G1, G2, G3, G4, G5 | 保留 — 24B 可能 FP16 可部署，显存友好 |\n| GLM-4-32B-0414 | G1, G2, G3, G4, G5 | 保留 — 32B 需量化，待验证 |\n| DeepSeek-Coder-V2-33B | G1, G2, G3, G4, G5 | 保留 — 代码专用，33B 需量化 |\n| Llama-3.3-70B-Instruct(W4) | G1, G2, G3, G4, G5 | 保留 — 70B W4 ≈ 35-40GB，待验证能否放入 48GB |\n\n> **注意**：所有候选均保留，排除/保留决定需阶段 02 核验 G1（显存）后才能做出。\n\n## 瓶颈预判（待阶段 02 验证）\n\n**初步判断**：瓶颈最可能是 **B（合格率）**，原因：\n1. 代码补全任务对模型能力敏感，不同模型合格率可能差异 2-5 倍\n2. 单次调用成本（A）在本地部署下差异较小（主要是电力和摊销），在 API 下差异 2-10 倍\n3. 合格率 2 倍差异 > 成本 2 倍差异，因此合格率是主要驱动因素\n\n**但需验证**：如果某模型合格率显著低于其他模型（如 <50%），即使成本最低也不划算。\n\n## 未解开的矛盾\n\n1. **量化精度 vs 质量**：32B 模型必须量化才能放入 48GB，但量化可能降低代码补全质量。具体降低多少？（G6）\n2. **代码专用 vs 通用**：Qwen2.5-Coder 和 DeepSeek-Coder 是代码专用，但通用指令跟随可能不如通用模型。如何权衡？（G2 vs G3）\n3. **本地 vs API**：本地部署固定成本低但吞吐量受限，API 按量付费但可能更贵。\"等效 API 额度\"如何换算？（G4 vs G8）\n\n## 阶段 01 判定\n\n- ✅ 目标交付物明确：每千次合格回答的总成本 + 最划算模型\n- ✅ 主要因素覆盖：A（成本）、B（合格率）、C（吞吐量）正交且完整\n- ✅ 已知/可推导/未知区分清晰\n- ✅ 空缺清单完整，无伪装已知\n- ✅ 阶段 02 研究路径具体（来源类型、搜索词、字段、备用来源）\n- ✅ 候选对象处理规范（均标待验证）\n- ✅ 瓶颈预判有理由，但标注为待验证\n\n**判定：pass**，可进入阶段 02。",
+  "sources": [
+    {
+      "title": "Large language model - Wikipedia",
+      "url": "https://www.bing.com/ck/a?!&&p=ddab2e5dd9405d74c92a6bf21c0de0b3ac130e2f7d6daeb9b39b269edd87452fJmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kvTGFyZ2VfbGFuZ3VhZ2VfbW9kZWw&ntb=1",
+      "snippet": "A large language model (LLM) is a machine learning model (typically a neural network) trained on a vast amount of text for natural …",
+      "observed_at": "2026-11-03T21:49:02.491542+00:00"
+    },
+    {
+      "title": "Introduction to Large Language Model (LLM) - GeeksforGeeks",
+      "url": "https://www.bing.com/ck/a?!&&p=8e3167046cf2ff688cc69264fe78ebef274e85cd6bc91ce4f3d81c24591bcb87JmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly93d3cuZ2Vla3Nmb3JnZWVrcy5vcmcvYXJ0aWZpY2lhbC1pbnRlbGxpZ2VuY2UvbGFyZ2UtbGFuZ3VhZ2UtbW9kZWwtbGxtLw&ntb=1",
+      "snippet": "Sep 16, 2026 · Your All-in-One Learning Portal: GeeksforGeeks is a comprehensive educational platform that empowers learners …",
+      "observed_at": "2026-11-03T21:49:02.491542+00:00"
+    },
+    {
+      "title": "What Is an LLM? Large Language Models Explained (2026 ...",
+      "url": "https://www.bing.com/ck/a?!&&p=088859b336b8399e731b478fd16a10c903ecdbf9d3d578fef8800e3adcb0c232JmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly90aGVhaXJhbmtpbmdzLmNvbS9ndWlkZXMvd2hhdC1pcy1hbi1sbG0v&ntb=1",
+      "snippet": "Oct 7, 2026 · What a large language model is, how LLMs work, what tokens and inference mean, and why LLMs hallucinate, …",
+      "observed_at": "2026-11-03T21:49:02.491542+00:00"
+    },
+    {
+      "title": "Master of Laws - Wikipedia",
+      "url": "https://www.bing.com/ck/a?!&&p=136888f149ff47fbced2a8a530eb36892e51498b2ba328e53a6db733ac6b4c4bJmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kvTWFzdGVyX29mX0xhd3M&ntb=1",
+      "snippet": "A Master of Laws (M.L. or LL.M.; Latin: Magister Legum or Legum Magister) is a postgraduate academic degree, pursued by those …",
+      "observed_at": "2026-11-03T21:49:02.491542+00:00"
+    },
+    {
+      "title": "LLM Fundamentals | Microsoft Learn",
+      "url": "https://www.bing.com/ck/a?!&&p=13056dd92537dd0d5f49192a14abbdb69f5aaffe39ef3b1d4448953dfdd26c5eJmltdHM9MTc5MzY2NDAwMA&ptn=3&ver=2&hsh=4&fclid=39f97890-9e12-6c1a-2170-6fd29f746dc8&u=a1aHR0cHM6Ly9sZWFybi5taWNyb3NvZnQuY29tL2VuLXVzL2FnZW50LWZyYW1ld29yay9qb3VybmV5L2xsbS1mdW5kYW1lbnRhbHM&ntb=1",
+      "snippet": "Aug 25, 2026 · The LLM never executes anything. It only generates the request. Your application code (or an agent framework) is …",
+      "observed_at": "2026-11-03T21:49:02.491542+00:00"
+    }
+  ],
+  "wall_s": 16.3,
+  "tokens": {
+    "in": 7180,
+    "out": 3483
+  },
+  "timestamp": "2026-11-03T21:49:18.771681+00:00"
+}
