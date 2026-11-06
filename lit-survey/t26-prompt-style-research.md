@@ -130,10 +130,10 @@
 
 | ID | 文献 | 年/venue | URL | 备注 |
 |----|------|----------|-----|------|
-| R36 | Agent-Oriented Planning：完整性/非冗余检测器（抽关键要素→逐个匹配子任务→查未预见依赖） | [待核验] | (paperswithcode，具体论文待 T28 Q4 定位) | 成璐贴入；与 STaD 重建的区别 = 逐要素匹配 vs 整体重建 |
-| R37 | ADaPT: Task Decomposition via Adaptive Planning | 2024 / NAACL Findings | (paperswithcode) | 只在执行者做不了时才递归分解；ALFWorld/WebShop/TextCraft +28.3%/+27%/+33%；失败判定靠执行者自生成启发式 → 校准问题 |
+| R36 | Li et al., *Agent-Oriented Planning in Multi-Agent Systems*（solvability/completeness/non-redundancy；detector 抽关键要素→逐个匹配→查未预见依赖） | 2024 / ICLR 2025 | https://arxiv.org/abs/2410.02189 | T28 Q4 已定位原文。**关键实证：详细指令直写进分解 prompt 不管用（>15% query 仍不完备/冗余），才改用独立 detector 角色**；completeness 0.822→0.969、non-redundancy 0.986→0.993（conf 0.8）。与 STaD 区别 = 逐要素匹配 vs 整体重建 |
+| R37 | Prasad et al., *ADaPT: As-Needed Decomposition and Planning with Language Models* | 2024 / NAACL Findings | https://aclanthology.org/2024.findings-naacl.264/ | T28 Q2 已定位原文（代码 archiki/ADaPT ★95）。只在执行者做不了时才递归分解；+28.3%/+27%/+33%；**失败判定=执行者自生成启发式（prompt 让它输出 task completed / task failed），无外部 verifier** → 校准风险（conf 0.85） |
 
-> 登记说明：R36/R37 由成璐 2026-11-07 贴入（"我没找到正交完备检查、回退、占位留空、调研后填充合在一起的工作"），T28 任务卡负责定位原文 + 实现细节。
+> 登记说明：R36/R37 由成璐 2026-11-07 贴入（"我没找到正交完备检查、回退、占位留空、调研后填充合在一起的工作"）；原文与实现细节已由 T28 定位补全（见 `lit-survey/t28-criteria-implementation.md`）。
 
 ## vN 映射（成璐命名约定 → 建议实现与判定）
 
