@@ -196,11 +196,24 @@ def _fetch_page(url, title_hint, timeout=30):
         "try {\n"
         f"  await page.goto(\"{url}\", {{waitUntil: \"domcontentloaded\", timeout: 20000}});\n"
         "  await new Promise(r => setTimeout(r, 2000));\n"
-        "  const info = await page.evaluate(() => ({\n"
-        "    title: document.title,\n"
-        "    bodyLen: document.body.innerText.length,\n"
-        "    sample: document.body.innerText.slice(0, 6000)\n"
-        "  }));\n"
+        "  const info = await page.evaluate(() => {\n"
+        "    // 优先取正文容器，跳过导航/页脚\n"
+        "    let main = document.querySelector('main') ||\n"
+        "             document.querySelector('article') ||\n"
+        "             document.querySelector('[role=\"main\"]') ||\n"
+        "             document.querySelector('.pricing-table') ||\n"
+        "             document.querySelector('table');\n"
+        "    let text;\n"
+        "    if (main && main.innerText.length > 200) {\n"
+        "      text = main.innerText;\n"
+        "    } else {\n"
+        "      // fallback: 全文去掉 nav/footer/header\n"
+        "      const clone = document.body.cloneNode(true);\n"
+        "      clone.querySelectorAll('nav, footer, header, .header, .footer, .nav, #nav, #header').forEach(el => el.remove());\n"
+        "      text = clone.innerText;\n"
+        "    }\n"
+        "    return { title: document.title, bodyLen: text.length, sample: text.slice(0, 8000) };\n"
+        "  });\n"
         "  console.log(JSON.stringify(info));\n"
         "} catch(e) {\n"
         "  console.log(JSON.stringify({error: e.message}));\n"
@@ -213,10 +226,16 @@ def _fetch_page(url, title_hint, timeout=30):
         if lines:
             data = json.loads(lines[-1])
             if "error" not in data and data.get("bodyLen", 0) > 100:
-                sample = data.get("sample", "")[:6000]
-                # S9H-prep: 从长样本中抽取含规格关键词的窗口，替代盲目取前 300 字符
+                sample = data.get("sample", "")[:8000]
+                # 从长样本中抽取含定价/规格关键词的窗口，替代盲目取前 N 字符
                 import re as _re
-                kw_pat = _re.compile(r"(HBM\d?e?\s*\d|GB/s|TB/s|PCIe\s*Gen?\s*\d|SXM|watt|W\b|memory bandwidth|显存)", _re.I)
+                kw_pat = _re.compile(
+                    r"(HBM\d?e?\s*\d|GB/s|TB/s|PCIe\s*Gen?\s*\d|SXM|watt|W\b|memory bandwidth|显存|"
+                    r"\$\d+[\.,]\d*/?(GB|TB|month|year|request)|¥\d+[\.,]\d*/?(GB|TB|月|年)|"
+                    r"per (GB|TB|month|year|request)|price[d]?|pricing|cost per|"
+                    r"标准存储|低频|归档|冷归档|深度冷归档|外网下行|取回费|请求费用)",
+                    _re.I
+                )
                 hits = list(kw_pat.finditer(sample))
                 if hits:
                     # 取命中点为中心 ±800 字符窗口（最多 3 个，按起点去重）
