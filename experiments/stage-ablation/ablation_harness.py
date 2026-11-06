@@ -275,6 +275,16 @@ def run_arm(arm, qid, rep, dry_run=False):
     prompt = build_prompt(arm, qid)
     tag = f"{arm}-{qid}-r{rep}"
     out_path = os.path.join(RUNS_DIR, f"{tag}.json")
+    if os.path.exists(out_path):
+        try:
+            with open(out_path) as _f:
+                _prev = json.load(_f)
+            _len = len(_prev.get("output_text", ""))
+            if not _prev.get("error") and _len > 200:
+                print(f"  [{tag}] SKIP (exists, {_len} chars)", flush=True)
+                return _prev
+        except Exception:
+            pass
 
     # S2+ 臂: 先跑真实联网检索，把来源包注入 prompt
     sources = []
