@@ -5,7 +5,8 @@
 - Branch：`arena/2858680a-prompt-first-bench`
 - `commit_sha`（研究开始时的基线 HEAD）：`dfc1ea3`（包含已合并的最新 `origin/main`；交付提交另见最终 git HEAD）
 - 交付树：[`gold-tree-independent.md`](./gold-tree-independent.md)
-- 搜索方法：按题面推导并分别搜索 a/b/c/d 四个硬件分区，合并后显式计默认先验/外先验；只使用可访问 GitHub 源。价格报价不可复核处用黑盒估计区间，不伪装为当日报价。
+- 搜索方法：按题面推导并分别搜索 a/b/c/d 四个硬件分区，合并后显式计默认先验/外先验；公开来源搜索只使用可访问 GitHub 源。价格报价不可复核处用黑盒估计区间，不伪装为当日报价。
+- 本次补充分支：按后续指令用已有规格知识拆解 H100 PCIe vs SXM；没有新增网页检索。NVIDIA 官方产品入口列作复核路径，不声称本次已重新抓取；SKU、互连和系统报价仍标为需核验。
 
 ## 阶段执行记录（01→02→02.5→03→04→04.5）
 
@@ -30,6 +31,7 @@
 - Apple M3 Ultra 512GB、长上下文单流与多流实测：<https://github.com/ggml-org/llama.cpp/issues/29335>（2026-09-23）。
 - vLLM 基准套件/基准方法文档：<https://github.com/vllm-project/vllm/tree/main/docs/benchmarking>（页面于 2026-11-06 检索；文档目录中的 README 最新更新 2026-08-11）。
 - vLLM 性能仪表板方法与 TTFT/TPOT/吞吐比较：<https://github.com/vllm-project/vllm/blob/main/docs/benchmarking/dashboard.md>（2026-09-17）。
+- NVIDIA H100 产品页及资料入口（补充分支的复核路径；按用户要求本次未重新抓取）：<https://www.nvidia.com/en-us/data-center/h100/>；<https://resources.nvidia.com/en-us-tensor-core>。
 
 ## 限定和交接
 

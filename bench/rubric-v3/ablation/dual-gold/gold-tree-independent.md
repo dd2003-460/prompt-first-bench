@@ -113,3 +113,67 @@
 - **第一瓶颈：每流 20 t/s 的 64K 可行性门槛。** 它是硬门；低于 20 的设备无论每瓦或购置价多低都不能参与最低成本比较。单 B70 已有同类 27B×64K 直接实测而不合格；M3 Ultra 的 32K 多流结果说明单流规格不能替代目标并发验收。
 - **最大成本敏感项：通过率 `p_i`。** 通过率以倒数放大所有成本；从 0.8 降至 0.5，期望尝试数由 1.25 增至 2。低比特量化/后端数值可能提高吞吐但降低任务正确率，必须将同一验收集上的 `p_i` 与每次功耗/时间一起测。
 - **暂定筛选结论：** 当前唯一有直接 27B×64K 速度数据的是单 B70，且两个后端都未达到硬门槛，因此排除。其余候选缺少足以证明目标约束的统一测量，不能宣布成本最低者。先用暖缓存和 64K 上下文对 4090/5090、H100、M3 Ultra、Strix Halo、MI300X、双 B70 做同一负载与精度测试，再记录电表、任务通过率、整机报价和预计全寿命尝试数，代入根式计算。
+
+## 补充分支：H100 PCIe vs H100 SXM（27B 本地推理）
+
+> 本节是对候选 `a1 H100 80GB` 的拆分，不替代前面的四分区候选树。按题面目标比较每个成功任务的成本；不做 rubric scoring。数值是公开产品规格的常见公开口径和理论推导；本次按用户要求未重新抓取厂商网页，具体 SKU、稀疏 FLOPS 标注、NVLink 能力及可买价格必须以 NVIDIA 对应版 datasheet/整机厂规格复核。来源入口： [NVIDIA H100](https://www.nvidia.com/en-us/data-center/h100/)；[NVIDIA H100 GPU 产品资料入口](https://resources.nvidia.com/en-us-tensor-core)。
+
+### 子树
+
+```text
+H100 PCIe / H100 SXM 中哪种每个通过的 27B×64K 任务成本最低？
+├── 1. 可行性门槛〔硬过滤，不参与金额份额〕
+│   ├── 1.1 模型与 KV 驻留〔可查/可算；按目标模型 allocator 峰值测量〕
+│   │   ├── 两者均常见 80GB 级配置；27B BF16 权重约 50.3GiB，Q4_K_M 实例权重 15.65GiB
+│   │   ├── 64K KV 示例约 16GiB（L=64、Hkv=8、D=128、FP16）；跨模型估计 2–32GiB
+│   │   └── 活跃流内存 = 权重 + 未共享 KV + runtime/workspace；稳定前缀可共享/复用与否须按 serving runtime 实测
+│   ├── 1.2 单流 decode SLA〔只能实测〕
+│   │   ├── 门槛 ≥20 token/s/stream；需预热固定前缀、64K 占用、连续解码≥400 token、重复 5 次
+│   │   └── 规格 roofline 不等于实测；若 decode 已达标，不应把峰值 FLOPS 当成本节的主导速度因子
+│   └── 1.3 多流与传输拓扑〔可查+可测〕
+│       ├── 单 GPU、单模型时，GPU 间 NVLink 通常不参与每 token 权重读取
+│       └── 多 GPU tensor parallel / 多节点时，NVLink/NVSwitch 与 PCIe peer path 才可能成为关键；普通 PCIe SKU 与 NVL bridge SKU 不混称
+├── 2. 每次尝试成本〔SHARE_K + SHARE_E + SHARE_O = 1〕
+│   ├── 2.1 硬件摊销 SHARE_K = (CAPEX/N_attempts)/C_attempt〔黑盒；按系统报价与寿命测量〕
+│   │   ├── PCIe：单卡工作站/PCIe 主机方案；黑盒估计约 USD 25k–60k
+│   │   └── SXM：SXM 模块须配 HGX/SXM 主板及服务器冷却；黑盒估计约 USD 100k–400k/节点，常见采购为多 GPU 节点，非单卡等价报价
+│   ├── 2.2 电费 SHARE_E = E_attempt/C_attempt〔墙上功率实测〕
+│   │   ├── PCIe 板卡 TDP 约 350W；整机墙上功率估计 0.6–1.2kW
+│   │   └── SXM 模块 TDP 约 700W；整机墙上功率估计 1.2–3.0kW（节点 GPU 数和冷却造成大幅变化）
+│   └── 2.3 运维 SHARE_O = O_attempt/C_attempt〔黑盒；按停机/维护工时记录〕
+│       ├── PCIe：机箱、电源、单卡气流与 PCIe 拓扑；需测热稳态降频率
+│       └── SXM：HGX 基板、NVSwitch、液冷/高压电源、专用维护；按整个节点摊销
+└── 3. 单任务性能与成功成本〔候选比较；不虚构固定百分比〕
+    ├── 3.1 HBM 带宽〔规格→理论上限；目标运行需实测〕
+    │   ├── PCIe H100：约 2.0 TB/s HBM 带宽；Q4 权重 16.8GB 的 weight-only roofline 约 119 token/s
+    │   ├── SXM H100：约 3.35 TB/s；同一权重的 weight-only roofline 约 199 token/s，约 PCIe 的 1.68×
+    │   └── 若举例再读约 17.2GB FP16 KV/token，总权重+KV roofline 分别约 59 / 98 token/s；注意实际 KV 访问、模型架构和内核效率可显著改写
+    ├── 3.2 FLOPS〔prefill/大 batch 更敏感；峰值不是实测〕
+    │   ├── FP32：PCIe 约 51 TFLOP/s，SXM 约 67 TFLOP/s（SXM 约 1.31×）
+    │   ├── dense BF16/FP16 Tensor：PCIe 约 756 TFLOP/s，SXM 约 989 TFLOP/s；启用结构化稀疏的宣传峰值约翻倍，稠密 27B 不应直接套用 sparse 数字
+    │   └── 前缀 KV 命中降低重复 prefill；持续单流 decode 仍以 HBM 带宽、KV 访问和 kernel 效率为主
+    ├── 3.3 互连〔拓扑条件分支〕
+    │   ├── PCIe H100：主机接口通常为 PCIe Gen5 x16（理论约 64GB/s/方向）；是否有 GPU-GPU NVLink bridge 取决于具体 board/SKU，不默认有
+    │   ├── SXM H100：NVLink 4 GPU-GPU 汇总带宽常标约 900GB/s/GPU，并可配 NVSwitch 做多卡 all-to-all
+    │   └── H100 NVL/桥接版是另一种 PCIe/NVL 配置，产品间互连数字不可直接替代普通 PCIe 卡或 HGX SXM
+    └── 3.4 通过率放大〔只能实测〕
+        ├── C_success = (CAPEX/N_attempts + E_attempt + O_attempt)/p
+        └── 同一模型/量化通常让 p 接近，但不同 kernel、KV 精度、数值路径可能改通过率；固定验收集重测 p
+```
+
+### 对照叶与判断
+
+| 项目 | H100 PCIe 80GB | H100 SXM 80GB | 本任务解释 |
+|---|---:|---:|---|
+| HBM 带宽 | 约 2.0 TB/s | 约 3.35 TB/s | SXM 理论带宽约 1.68×；decode roofline 不是稳定 1.68×实测承诺 |
+| 热设计功耗 | 约 350W | 约 700W | SXM 板卡 TDP 约 2×；系统墙上瓦数、降频和能效须实测 |
+| GPU-GPU 互连 | PCIe Gen5 x16；特定 NVL/桥接 SKU 另计 | NVLink 4，常见约 900GB/s/GPU，HGX 可用 NVSwitch | 单卡单流比较中不是主因素；张量并行/多卡服务时重要 |
+| 峰值 FP32 | 约 51 TFLOP/s | 约 67 TFLOP/s | SXM 约 1.31×；单流 decode 通常受内存带宽限制 |
+| 峰值 dense BF16/FP16 Tensor | 约 756 TFLOP/s | 约 989 TFLOP/s | SXM 约 1.31×；稀疏峰值不可直接套到普通稠密模型 |
+| Q4 27B 权重 roofline（不含 KV） | 约 119 token/s | 约 199 token/s | 以 16.8GB 权重计算的理论值；目标 64K 需加 KV/内核损耗 |
+| 购置/系统成本 | 黑盒估计 USD 25k–60k 工作站 | 黑盒估计 USD 100k–400k 多 GPU 节点 | 设备不是同等 SKU 直接售价；SXM 高固定成本可能吞掉吞吐收益 |
+| 候选排序 | **低成本优先的单卡基准候选** | **高并发/多卡带宽候选** | 未有同一任务的墙上电量、报价、p 和 64K 多流测量前，不作无条件胜负结论 |
+
+**分解结论：** 对单卡运行 27B、暖前缀、且 PCIe 版本在 64K 下稳定达到 20 token/s/stream 的场景，PCIe 因较低 TDP/平台复杂度/购置成本，可能有更低每任务成本；SXM 的约 1.68× HBM 带宽更适合提高并发或弥补 PCIe SLA 不达标，但单卡 SXM 通常不是可独立购买部署的同价替换。先测 64K 稳态每流 t/s、实际墙上 joule/成功任务、占用率与 `p`，再用同一生命周期任务量/报价代入根式。
+
+**信息边界：** 本次未重新访问 NVIDIA 产品页；上表为常见规格口径，不作为当前 SKU 报价或合同规格。PCIe NVLink 能力、SXM 的整机 GPU 数、dense vs sparse Tensor 峰值都可能因产品 SKU/计数口径改变。获取路径：锁定具体 board SKU 与 HGX 节点配置，核对相应 NVIDIA datasheet 和系统厂报价；再用同一 27B GGUF、64K warm-prefix、相同并发及验收集跑对照基准。
