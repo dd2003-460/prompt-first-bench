@@ -71,29 +71,32 @@ async def run_one(qid: str, rep: int) -> dict:
 async def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--qs", default="Q1,Q2,Q3,Q4,Q5")
+    ap.add_argument("--n", type=int, default=1, help="reps per question")
     args = ap.parse_args()
     qs = [x.strip() for x in args.qs.split(",")]
+    n_reps = args.n
 
     setup_env()
     for qid in qs:
-        out_path = os.path.join(RUNS_DIR, f"D1-{qid}.json")
-        if os.path.exists(out_path):
-            print(f"[skip] {qid} exists", flush=True)
-            continue
-        print(f"[d1] {qid} ...", flush=True)
-        try:
-            result = await run_one(qid)
-        except Exception as e:
-            print(f"  ERROR: {str(e)[:200]}", flush=True)
-            result = {"arm": "D1", "qid": qid, "rep": rep, "model": MODEL,
-                      "output_text": "", "sources": [], "wall_s": 0, "tokens": {},
-                      "error": str(e)[:500],
-                      "timestamp": datetime.now(timezone.utc).isoformat()}
-        with open(out_path, "w") as f:
-            json.dump(result, f, ensure_ascii=False, indent=2)
-        print(f"  done {result['qid']}: {len(result.get('output_text',''))} chars, "
-              f"{len(result.get('sources',[]))} sources, {result.get('wall_s')}s", flush=True)
-    print("\nAll D1 runs written.")
+        for rep in range(1, n_reps + 1):
+            out_path = os.path.join(RUNS_DIR, f"D1-{qid}-r{rep}.json")
+            if os.path.exists(out_path):
+                print(f"[skip] {qid} r{rep} exists", flush=True)
+                continue
+            print(f"[d1] {qid} r{rep}/{n_reps} ...", flush=True)
+            try:
+                result = await run_one(qid, rep)
+            except Exception as e:
+                print(f"  ERROR: {str(e)[:200]}", flush=True)
+                result = {"arm": "D1", "qid": qid, "rep": rep, "model": MODEL,
+                          "output_text": "", "sources": [], "wall_s": 0, "tokens": {},
+                          "error": str(e)[:500],
+                          "timestamp": datetime.now(timezone.utc).isoformat()}
+            with open(out_path, "w") as f:
+                json.dump(result, f, ensure_ascii=False, indent=2)
+            print(f"  done {qid} r{rep}: {len(result.get('output_text',''))} chars, "
+                  f"{len(result.get('sources',[]))} sources, {result.get('wall_s')}s", flush=True)
+    print(f"\nAll D1 runs written ({len(qs)} questions × {n_reps} reps).")
 
 
 if __name__ == "__main__":
