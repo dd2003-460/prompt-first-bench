@@ -1,0 +1,24 @@
+# T41 · 02.5 交叉核验（执行者自检，非独立 Reviewer）
+
+基准时间 2026-11-06 UTC；原始调研及通道回执见 `../02/T41-research.md`。核验的是**相同 SKU/模型、价格口径和单位**，不是把多篇转述同一厂商价格当成两次独立成交。第三方是独立发布方，但可能引用供应商，无法证明实际成交；高影响价目在下单前仍须账号内复核。
+
+| 高影响主张 | 一手来源 | 独立发布方/第二来源 | 结果和边界 |
+|---|---|---|---|
+| H100 SXM/PCIe：80/80 GB、3.35/2.00 TB/s | NVIDIA SXM [1](https://www.nvidia.com/en-us/data-center/h100/)、PCIe [2](https://www.nvidia.com/content/dam/en-zz/Solutions/gtcs22/data-center/h100/PB-11133-001_v01.pdf) | Dell 双系统表 [3](https://infohub.delltechnologies.com/fr-fr/p/comparing-nvidia-h100-pcie-on-r760xa-vs-nvidia-h100-sxm-on-xe9680/) | 规格一致；非独立实测带宽，PCIe 80GB 与 94GB NVL 不能混淆。 |
+| BF16 稠密峰值 989.5/756.5 TFLOP/s | Lenovo 表中稀疏 1,979/1,513 [7](https://lenovopress.lenovo.com/lp1732-thinksystem-nvidia-h100-pcie-gen5-gpu) | 图宾根大学区分 `*` 与非稀疏 [3](https://portal.mlcloud.uni-tuebingen.de/user-guide/_specs/gpu/h100/)；Flopper 直接列 BF16 值 [3](https://flopper.io/compare?s=nvidia-h100-pcie-80gb,nvidia-h100-sxm5-80gb) | 稠密值=稀疏值÷2；不把 advertised 稀疏 TFLOPS 当 BF16 dense 吞吐实测。 |
+| PCIe 可选 NVLink 600 GB/s 双向；SXM 900 GB/s 双向 | NVIDIA PCIe 表 6 [2](https://www.nvidia.com/content/dam/en-zz/Solutions/gtcs22/data-center/h100/PB-11133-001_v01.pdf)、SXM [1](https://www.nvidia.com/en-us/data-center/h100/) | Lenovo [7](https://lenovopress.lenovo.com/lp1732-thinksystem-nvidia-h100-pcie-gen5-gpu)，Dell [3](https://infohub.delltechnologies.com/fr-fr/p/comparing-nvidia-h100-pcie-on-r760xa-vs-nvidia-h100-sxm-on-xe9680/) | **冲突**：NVIDIA PCIe PDF 前言写 900，而其表 6 写三桥 600；多源支持表 6。某些第三方和仓库旧 gold 说 PCIe 无 NVLink；不可据此一概否定桥接。租赁机器是否装桥未证实；单卡树不以 NVLink 计速。 |
+| Runpod Secure GPU/h SXM $3.99、PCIe $2.89 | Runpod 价格页 [1](https://www.runpod.io/pricing)，页面更新 11-04，本轮直接读到 | Activepieces 2026-10-31 [3](https://www.activepieces.com/blog/runpod-pricing-2026-for-pods-serverless-and-storage) | 两个独立发布方数值一致；后者正好距观察日 6 天但未给时分。厂商较旧的 $3.49 [4](https://www.runpod.io/articles/guides/h100-clusters-on-runpod-for-distributed-ai-training) 不覆盖较新价。库存、区域、CPU/RAM和存储尚未同构验证。 |
+| Llama 3.1 8B + BF16 权重约 16 GB；KV 128 KiB/token | Meta [1](https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/MODEL_CARD.md)，HF [1](https://huggingface.co/blog/llama31) | VMware [2](https://blogs.vmware.com/cloud-foundation/2024/09/25/llm-inference-sizing-and-performance-guidance/)，独立模型形状推导 [1](https://dev.to/cloudgpu_app/kv-cache-vram-calculator-how-much-memory-does-context-length-need-2026-gc3) | 8B 是近似，16 GB 是十进制；128 KiB=131,072 B，约 0.000122 GiB/token。容量示例不等于可用全部显存。 |
+| 峰值带宽 roofline SXM/PCIe 1.675× | 带宽参数如第一行 | VMware 模型化近似 4.8/8.0 ms/token [2](https://blogs.vmware.com/cloud-foundation/2024/09/25/llm-inference-sizing-and-performance-guidance/)；Dell 的另一模型 BF16 实测吞吐约 1.30× [3](https://infohub.delltechnologies.com/fr-fr/p/comparing-nvidia-h100-pcie-on-r760xa-vs-nvidia-h100-sxm-on-xe9680/) | 1.675× 仅理想算术，不与 Dell 实测矛盾：工作负载/主机不同。**本例吞吐、利用率无配对实测**。 |
+| 三家 gpt-oss-120b 标准未缓存 $0.15 输入/$0.60 输出每 M tokens | Groq [1](https://console.groq.com/docs/model/openai/gpt-oss-120b)、Together [6](https://docs.together.ai/docs/serverless/models)、Fireworks [1](https://docs.fireworks.ai/serverless/pricing) | Maximem 2026-10-30 [5](https://www.maximem.ai/blog/llm-api-pricing-comparison-2026)，Omid 2026-10-28 [1](https://omidsaffari.com/blog/groq-pricing) | 可按公开价比较；10-30 日期距 11-06 为 7 个日历日，但缺精确时分，**不能声称严格 ≤168h 独立核验**。索引快照与实时价也可能不一致。 |
+| Groq 缓存 $0.075、Fireworks $0.015、Together 该模型无折扣 | Groq [1](https://console.groq.com/docs/model/openai/gpt-oss-120b)、Fireworks [1](https://docs.fireworks.ai/serverless/pricing)、Together 目录 [6](https://docs.together.ai/docs/serverless/models)与计价规则 [1](https://docs.together.ai/docs/inference/chat/prompt-caching) | Maximem [5](https://www.maximem.ai/blog/llm-api-pricing-comparison-2026)，Omid [1](https://omidsaffari.com/blog/groq-pricing) | 一手/独立发布方吻合；Together `-` 表示**不享缓存价**，不是证明平台没有缓存机制；不同供应商的命中率不能假定相同。 |
+| 100M 输入/20M 输出、50% 缓存 | 不是业务观测 | 公开文章说明性工作量 [1](https://omidsaffari.com/blog/groq-pricing) | **假设**而非外部真实测量；文中未指定该工作量周期，本报告仅为方便设定一月，无第二来源可使其成为用户流量事实。 |
+| 131,072 上下文、Groq 250K TPM/1K RPM 等 | 厂商型号页/配额页 [1](https://console.groq.com/docs/model/openai/gpt-oss-120b) [2](https://console.groq.com/docs/models) [2](https://docs.fireworks.ai/guides/quotas_usage/rate-limits) | 独立模型/价格盘点 [3](https://benchlm.ai/models/gpt-oss-120b)，Omid [1](https://omidsaffari.com/blog/groq-pricing) | 值只是所列型号、套餐或账户上限，不代表容量保证；真实账户限额、实际延迟需测。 |
+
+## 冲突裁定与未知
+
+1. 以较新 Runpod 页面为价格快照；比较时只计 GPU 租金，无法假定所含 CPU/RAM 等价。自建机器的额外电费不叠加在该托管租价上。
+2. Q1 的理想条件忽略 KV 带宽、prefill、kernel、排队、重试和软件开销；`T` 必须在付费资源上按真实输入/输出分布测得。Dell 的约 1.30× 是外部**不同负载**的实测，不能拿作本例 T，但能提示 1.675× 不稳健。
+3. 原拟 Llama 3.3 的公开按量可用性冲突（02 有原始来源）。改用三家均列 GPT-OSS 120B；变更是示例，不是原题模型已知。三家不同量化/推理参数可能导致质量与产出分布不同。
+4. 两道题的关键结论都不能超过证据：SXM 的理想 roofline 结果非正式测量；Fireworks 只在公共 token 价与示例命中条件下最低，不是总体供应商优胜。
+5. 本文件不是独立审核；没有 Reviewer 的最终授权前，任何阶段均不可标记为 reviewer-pass。
