@@ -22,7 +22,7 @@
 - [x] lit-survey/t26-prompt-style-research.md 追加 R36/R37 → T28 agent 已核实（AOP = arXiv 2410.02189 ICLR'25）
 - [x] decomp-01 反作弊规则删除（成璐纠正：诱导表演谨慎）→ 改为以事实为准
 - [x] T29 任务卡 + 派发（空白穷尽验证 + NoPUA 拆解 + 伪独立警惕）→ arena 跑中
-- [ ] S10 任务卡：v0/v1/v2 三臂 + 组合臂（终极目标框架 + 讲原因 + 人话 reviewer + 拒绝时安抚，四组件消融）
+- [ ] S10 任务卡：v0/v1/v2 三臂 + 组合臂（终极目标框架 + 讲原因 + 人话 reviewer + 拒绝时安抚，四组件消融）→ **已写好** @ d85757a（tasks/S10-combination-arm-ablation.md，5臂×4维×n=6，含注入缺陷校准+异族judge+token预算+风险降级）
 - [ ] decomp-01 §2 "先查后拆"原则落盘（v3 方向）→ **已写入**
 
 ## 第 10-12 点（2026-11-07 续）
