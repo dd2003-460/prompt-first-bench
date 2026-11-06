@@ -263,6 +263,8 @@ def aggregate(runs_dir, questions):
         path = os.path.join(runs_dir, fn)
         with open(path) as f:
             run = json.load(f)
+        if not isinstance(run, dict):
+            continue  # scores-v3.json 等非 run 文件（list）跳过
         arm = run.get("arm", "?")
         qid = run.get("qid", "?")
         rep = run.get("rep", 0)
