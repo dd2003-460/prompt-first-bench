@@ -1,0 +1,56 @@
+{
+  "arm": "S5",
+  "qid": "Q5",
+  "rep": 4,
+  "model": "qwen3.8-27b",
+  "params": {
+    "temp": 0,
+    "max_tokens": 8000
+  },
+  "output_text": "# 阶段 01 — 目标分解\n\n## 1. 根标量定义\n\n**目标**：在满足制度约束的前提下，使每个统计决策的期望决策损失最低。\n\n**根标量**：\n$$\n\\mathcal{L}^* = \\min_{\\text{学派} \\in \\{\\text{F}, \\text{B}, \\text{Hybrid}\\}} \\; \\mathbb{E}_{\\theta, X} \\left[ \\ell(\\delta(X), \\theta) \\right] \\quad \\text{s.t.} \\quad C_{\\text{regulatory}}(\\delta) = \\text{pass}\n$$\n\n其中：\n- $\\ell(\\delta, \\theta)$：决策损失函数（如 0-1 损失、平方损失、绝对损失）\n- $\\delta(X)$：基于数据 $X$ 的决策规则\n- $\\theta$：真实参数\n- $C_{\\text{regulatory}}$：制度约束（期刊 α 要求、监管可审计性）\n- 单位：**每次决策的期望损失单位**（与 $\\ell$ 的量纲一致）\n\n**关键前提**：此标量要求损失函数 $\\ell$ 和先验/数据生成机制已知或可估计。若 $\\ell$ 未指定，则\"最划算\"无唯一解——这是第一个黑盒。\n\n## 2. 正交维度切分\n\n### 维度 A：统计决策损失结构（成本类）\n- **独占参数**：损失函数形式 $\\ell$、参数空间 $\\Theta$、决策空间 $\\mathcal{D}$\n- **子因素**：\n  - A1：损失函数类型（0-1、平方、绝对、自定义）\n  - A2：参数维度与先验/似然结构\n  - A3：决策规则形式（点估计、区间、假设检验）\n\n### 维度 B：制度约束（约束类）\n- **独占参数**：期刊/监管的 α 水平、可审计性要求、报告格式\n- **子因素**：\n  - B1：显著性水平 α 是否强制\n  - B2：可审计性（p 值 vs 后验概率的可解释性）\n  - B3：报告格式要求（CI 宽度、p 值阈值）\n\n### 维度 C：计算与实施成本（成本类）\n- **独占参数**：计算时间、软件依赖、专家时间\n- **子因素**：\n  - C1：MCMC 收敛时间与诊断成本（贝叶斯）\n  - C2：解析/渐近解可得性（频率）\n  - C3：先验 elicitation 成本（贝叶斯）\n\n### 维度 D：数据特性（成本类）\n- **独占参数**：样本量 $n$、数据质量、缺失机制\n- **子因素**：\n  - D1：小样本 vs 大样本\n  - D2：数据缺失/噪声水平\n  - D3：分布假设的合理性\n\n### 维度 E：先验信息可用性（成本类）\n- **独占参数**：先验知识的质量与量化程度\n- **子因素**：\n  - E1：先验是否可合理 elicitation\n  - E2：先验敏感性对结论的影响\n  - E3：先验与似然的冲突处理\n\n### SHARED 耦合记录\n- **样本量 $n$**：同时影响 A（渐近性质）、C（计算复杂度）、D（数据特性）\n- **损失函数 $\\ell$**：同时影响 A（核心）和 B（制度约束可能隐含损失偏好）\n- **可审计性**：同时影响 B（约束）和 C（实施成本）\n\n## 3. 已知条件 vs 空缺条件\n\n### 已知（从任务描述可推导）\n- 候选学派：频率、贝叶斯、混合\n- 制度约束存在（期刊 α、监管可审计）\n- 目标是最小化期望决策损失\n\n### 空缺条件（需阶段 02 研究）\n| 编号 | 空缺 | 阻塞影响 |\n|------|------|----------|\n| G1 | 具体损失函数 $\\ell$ 未指定 | 无法计算 $\\mathcal{L}^*$，无法比较学派 |\n| G2 | 具体制度约束细节（α 值、可审计标准） | 无法判断约束是否排除某学派 |\n| G3 | 数据特性（$n$、分布、缺失） | 无法评估渐近 vs 小样本表现 |\n| G4 | 先验信息可用性 | 无法评估贝叶斯优势 |\n| G5 | 计算资源约束 | 无法评估实施可行性 |\n| G6 | 决策频率与后果严重性 | 无法加权损失 |\n\n## 4. 阶段 02 研究路径\n\n- **G1**：搜索\"decision loss function statistical inference\"，来源：Wald 决策论教材、arXiv 统计决策论文\n- **G2**：搜索\"journal requirements p-value Bayesian\"，来源：主要统计期刊投稿指南\n- **G3**：搜索\"Bayesian vs frequentist small sample\"，来源：arXiv 1401.3084、1109.5278\n- **G4**：搜索\"prior sensitivity analysis Bayesian\"，来源：贝叶斯统计教材\n- **G5**：搜索\"MCMC computational cost vs frequentist\"，来源：计算统计文献\n- **G6**：搜索\"statistical decision consequences loss\"，来源：决策论文献\n\n## 5. 候选对象冻结\n\n- 频率学派（固定样本检验/CI/p 值）\n- 贝叶斯学派（后验推断/决策论/MCMC）\n- 混合 workflow（频率筛查 + 贝叶斯量化）\n\n---\n\n# 阶段 02 — 信息调研\n\n## 来源核验\n\n基于已检索来源：\n\n1. **[1] arXiv:2012.04464** — BFF 推断桥接：指出贝叶斯、频率、先验推断在置信分布框架下高度一致。\n2. **[2] arXiv:1109.5278** — 控制推断谨慎度：贝叶斯与频率是\"相反极端\"，实际选择取决于先验信息可用性和对部分先验信息的态度。\n3. **[3] arXiv:1401.3084** — 回归中贝叶斯 vs 频率区间估计器比较：利用不确定先验信息时，两者表现取决于先验质量。\n4. **[5] Wikipedia: Bayesian inference** — 贝叶斯推断基础定义。\n\n## 关键主张与证据\n\n| 主张 | 来源 | 观察时间 | 不确定性 |\n|------|------|----------|----------|\n| 贝叶斯与频率在置信分布框架下可统一 | [1] | 2026-11-06 | 理论框架，非实证 |\n| 选择取决于先验信息可用性 | [2] | 2026-11-06 | 定性结论 |\n| 不确定先验下两者表现取决于先验质量 | [3] | 2026-11-06 | 特定回归模型 |\n| 贝叶斯推断基于 Bayes 规则更新后验 | [5] | 2026-11-06 | 基础定义 |\n\n## 未解决空缺\n\n- G1（损失函数）：来源未提供具体损失函数比较\n- G2（制度约束细节）：来源未提供具体期刊要求\n- G3（数据特性）：[3] 仅覆盖回归模型\n- G4（先验敏感性）：[2][3] 提及但未量化\n- G5（计算成本）：来源未覆盖\n- G6（决策后果）：来源未覆盖\n\n---\n\n# 阶段 02.5 — 交叉核对\n\n## 矛盾与一致性\n\n- [1] 主张 BFF 高度一致，[2] 主张两者是\"相反极端\"——**表面矛盾**。解释：[1] 在置信分布数学框架下统一，[2] 在实践哲学层面区分。两者不矛盾，层次不同。\n- [3] 显示不确定先验下贝叶斯可能劣于频率——支持\"先验质量是关键\"的结论。\n\n## 对抗核验\n\n- **质疑**：[1] 的\"高度一致\"是否意味着实践上可互换？\n- **反驳**：不一致。[2][3] 显示实践选择仍取决于先验信息和制度约束。[1] 是理论统一，非实践等价。\n- **停止理由**：数学理论瓶颈——置信分布框架的适用边界需学界进一步研究。\n\n## 证据边界\n\n- 已验证：先验信息可用性是关键区分因素\n- 未验证：具体损失函数下的期望损失比较\n- 未验证：制度约束的具体影响\n\n---\n\n# 阶段 03 — 行动分解\n\n## 步骤 1：确定损失函数（owner: user）\n- **输入**：决策问题描述\n- **动作**：用户指定 $\\ell(\\delta, \\theta)$\n- **依赖**：无\n- **产出**：损失函数定义\n- **验收**：$\\ell$ 明确写出，量纲一致\n\n## 步骤 2：明确制度约束（owner: user）\n- **输入**：期刊/监管要求\n- **动作**：用户列出 α 值、可审计标准\n- **依赖**：无\n- **产出**：约束清单\n- **验收**：约束可形式化为 $C_{\\text{regulatory}}(\\delta) = \\text{pass}$\n\n## 步骤 3：评估先验信息可用性（owner: agent）\n- **输入**：领域知识、历史数据\n- **动作**：评估先验 elicitation 可行性与敏感性\n- **依赖**：步骤 1\n- **产出**：先验质量评级（高/中/低）\n- **验收**：敏感性分析完成\n\n## 步骤 4：计算各学派期望损失（owner: agent）\n- **输入**：$\\ell$、约束、先验质量\n- **动作**：对 F/B/Hybrid 分别计算 $\\mathbb{E}[\\ell]$\n- **依赖**：步骤 1, 2, 3\n- **产出**：$\\mathcal{L}_F, \\mathcal{L}_B, \\mathcal{L}_{\\text{Hybrid}}$\n- **验收**：数值或解析结果\n\n## 步骤 5：选择最优学派（owner: agent）\n- **输入**：$\\mathcal{L}_F, \\mathcal{L}_B, \\mathcal{L}_{\\text{Hybrid}}$\n- **动作**：取 $\\min$，检查约束\n- **依赖**：步骤 4\n- **产出**：推荐学派\n- **验收**：推荐满足约束且损失最小\n\n## 并行性\n- 步骤 1 和 2 可并行\n- 步骤 3 依赖步骤 1\n- 步骤 4 依赖 1, 2, 3\n- 步骤 5 依赖 4\n\n---\n\n# 阶段 04 — 执行验证\n\n## 黑盒收口表\n\n| 编号 | 黑盒 | 为什么没有闭式 | 估计区间 | 一天内测法 | 弹性 |\n|------|------|----------------|----------|------------|------|\n| B1 | 损失函数 $\\ell$ | 取决于具体决策问题，无通用形式 | 0-1 损失：[0,1]；平方损失：[0,∞) | 用户指定 | 高——改变 $\\ell$ 可能翻转结论 |\n| B2 | 先验质量 | 依赖领域知识，无法先验确定 | 高/中/低三档 | 敏感性分析：变先验看结论是否变 | 高——先验差时贝叶斯劣于频率 |\n| B3 | 制度约束细节 | 因期刊/监管而异 | α ∈ {0.01, 0.05, 0.1} | 查期刊投稿指南 | 中——约束可能排除某学派 |\n| B4 | 计算成本 | 依赖数据规模和模型复杂度 | MCMC: 小时-天；频率: 秒-分钟 | 跑 benchmark | 低——除非资源极受限 |\n| B5 | 样本量 $n$ | 取决于具体数据 | 小: n<30；大: n>100 | 看数据 | 中——小样本时贝叶斯优势大 |\n\n## 瓶颈识别\n\n**主导项：B1（损失函数）和 B2（先验质量）**\n\n- **量级论证**：期望损失 $\\mathbb{E}[\\ell]$ 直接由 $\\ell$ 定义，改变 $\\ell$ 可完全改变排序。先验质量决定贝叶斯后验的可靠性，先验差时贝叶斯期望损失可能高于频率。\n- **弹性论证**：B1 和 B2 的弹性均为\"高\"——它们变动时结论可能翻转。B3-B5 弹性为中或低。\n\n## 最终回答\n\n**没有普适的\"最划算\"学派**。选择取决于：\n\n1. **若先验信息高质量且损失函数明确** → 贝叶斯（直接最小化期望损失，决策论原生）\n2. **若先验信息缺失/低质量且制度要求 p 值** → 频率（避免先验污染，满足约束）\n3. **若先验中等质量且需兼顾可审计性** → 混合（频率筛查满足约束，贝叶斯量化提供决策依据）\n\n**根标量**：$\\mathcal{L}^* = \\min \\mathbb{E}[\\ell(\\delta, \\theta)]$ s.t. 制度约束\n\n**主导瓶颈**：损失函数指定 + 先验质量评估。不解决这两个，无法给出唯一答案。",
+  "sources": [
+    {
+      "title": "Bridging Bayesian, frequentist and fiducial (BFF) inferences using confidence distribution",
+      "url": "http://arxiv.org/abs/2012.04464v3",
+      "snippet": "Bayesian, frequentist and fiducial (BFF) inferences are much more congruous than they have been perceived historically in the scientific community (cf., Reid and Cox 2015; Kass 2011; Efron 1998). Most practitioners are probably more familiar with the two dominant statistical inferential paradigms, Bayesian inference and frequentist inference. The third, lesser known fiducial inference paradigm was pioneered by R.A. Fisher in an attempt to define an inversion procedure for inference as an alterna",
+      "observed_at": "2026-11-06T15:22:32.208600+00:00",
+      "source_type": "arxiv"
+    },
+    {
+      "title": "Controlling the degree of caution in statistical inference with the Bayesian and frequentist approaches as opposite extremes",
+      "url": "http://arxiv.org/abs/1109.5278v1",
+      "snippet": "In statistical practice, whether a Bayesian or frequentist approach is used in inference depends not only on the availability of prior information but also on the attitude taken toward partial prior information, with frequentists tending to be more cautious than Bayesians. The proposed framework defines that attitude in terms of a specified amount of caution, thereby enabling data analysis at the level of caution desired and on the basis of any prior information. The caution parameter represents",
+      "observed_at": "2026-11-06T15:22:32.208600+00:00",
+      "source_type": "arxiv"
+    },
+    {
+      "title": "A comparison of Bayesian and frequentist interval estimators in regression that utilize uncertain prior information",
+      "url": "http://arxiv.org/abs/1401.3084v1",
+      "snippet": "Consider a linear regression model with regression parameter beta and normally distributed errors. Suppose that the parameter of interest is theta = a^T beta where a is a specified vector. Define the parameter tau = c^T beta - t where c and t are specified and a and c are linearly independent. Also suppose that we have uncertain prior information that tau = 0. Kabaila and Giri, 2009, JSPI, describe a new frequentist 1-alpha confidence interval for theta that utilizes this uncertain prior informa",
+      "observed_at": "2026-11-06T15:22:32.208600+00:00",
+      "source_type": "arxiv"
+    },
+    {
+      "title": "[2305.06980] Comparing theoretical predictions of radiation-free velocities of edge dislocations to molecular dynamics simulations",
+      "url": "https://arxiv.org/abs/2305.06980",
+      "snippet": "Skip to main content\nSearch\nSubmit\nDonate\nLog in\nCondensed Matter > Materials Science\n[Submitted on 11 May 2023 (v1), last revised 21 Nov 2023 (this version, v4)]\nComparing theoretical predictions of radiation-free velocities of edge dislocations to molecular dynamics simulations\nDaniel N. Blaschke,",
+      "alive": true,
+      "observed_at": "2026-11-06T15:22:32.208600+00:00",
+      "source_type": "direct_site"
+    },
+    {
+      "title": "Bayesian inference - Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Bayesian_inference",
+      "snippet": "Jump to content\nMain menu\nSearch\nDonate\nCreate account\nLog in\nContents hide\n(Top)\nIntroduction to Bayes' rule\nToggle Introduction to Bayes' rule subsection\nInference over exclusive and exhaustive possibilities\nToggle Inference over exclusive and exhaustive possibilities subsection\nFormal description",
+      "alive": true,
+      "observed_at": "2026-11-06T15:22:32.208600+00:00",
+      "source_type": "direct_site"
+    }
+  ],
+  "wall_s": 14.5,
+  "tokens": {
+    "in": 6154,
+    "out": 3126
+  },
+  "timestamp": "2026-11-06T15:23:00.059637+00:00"
+}

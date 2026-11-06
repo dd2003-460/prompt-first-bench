@@ -3,19 +3,21 @@
   "qid": "Q4",
   "rep": 1,
   "scores": {
-    "M1": 0.6666666666666666,
+    "M1": 0.6,
     "M2": 0.5,
     "M3": 1.0,
     "M4": 1.0,
     "M5": 0.3,
     "M6": 1.0
   },
-  "total": 0.7467,
+  "total": 0.73,
   "boundary_violation": false,
   "notes": [
     "M1 judge: [methodology] ```json\n{\n  \"assertions\": [\n    {\n      \"text\": \"文档总量 ~50 万页\",\n      \"value\": \"500,000 pages\",\n      \"verdict\": \"incorrect\"\n    },\n    {\n      \"text\": \"长上下文窗口 128K tokens\",\n      \"value\": \"128,000 tokens\",\n      \"verdict\": \"correct\"\n    },\n    {\n      \"text\": \"假设每页 ~500 tokens（英文）\",\n      \"value\": \"500 tokens/page\",\n      \"verdict\": \"uncertain\"\n    },\n    {\n      \"text\": \"假设每页 ~300 tokens（中文）\",\n      \"value\": \"300 tokens/page\",\n      \"verdict\": \"uncertain\"\n    },\n    {\n      \"text\": \"50万页 ≈ 1.5亿-2.5亿 tokens\",\n      \"value\": \"150,000,000 - 250,000,000 tokens\",\n      \"verdict\": \"incorrect\"\n    },\n    {\n      \"text\": \"128K 上下文能装约 256 页（英文，按500 tokens/页）\",\n      \"value\": \"256 pages\",\n      \"verdict\": \"correct\"\n    },\n    {\n      \"text\": \"128K 上下文能装约 427 页（中文，按300 tokens/页）\",\n      \"value\": \"427 pages\",\n      \"verdict\": \"correct\"\n    },\n    {\n      \"text\": \"纯 RAG 注入 top-k chunks 通常 500-2000 tokens\",\n      \"value\": \"500-2000 tokens\",\n      \"verdict\": \"uncertain\"\n    },\n    {\n      \"text\": \"纯长上下文注入可能 50K-128K tokens\",\n      \"value\": \"50,000-128,000 tokens\",\n      \"verdict\": \"correct\"\n    },\n    {\n      \"text\": \"每 chunk 200 tokens 时，50万页对应 75万-125万 chunks\",\n      \"value\": \"750,000-1,250,000 chunks\",\n      \"verdict\": \"incorrect\"\n    }\n  ],\n  \"matched\": 4,\n  \"total_decidable\": 6\n}\n```",
     "M4 judge: ```json\n{\n  \"gaps_in_gold\": 5,\n  \"gaps_identified_by_model\": 5,\n  \"identified\": [\n    \"B1 (切块/嵌入/重排质量): 模型在空缺条件清单 G5 (top-k 最优值及召回率) 和 G6 (重排序效果) 中明确识别了 RAG 检索精度和重排效果的不确定性，并指出需实测或查文献，对应 Gold 的 B1 黑盒。\",\n    \"B2 (长上下文定位衰减): 模型在空缺条件清单 G4 (长上下文模型在 128K 窗口下的'迷失'程度) 以及未解矛盾第 1 点中，明确引用 'Lost in the Middle' 并指出模型在长上下文中对中间部分信息利用效率下降，需研究验证，对应 Gold 的 B2 黑盒。\",\n    \"B3 (幻觉率): 模型在空缺条件清单 G3 (各候选模型的幻觉率) 中明确列出需查论文或设计实测，且区分了检索失败导致的幻觉和生成导致的幻觉，对应 Gold 的 B3 黑盒。\",\n    \"B4 (建设/调参/摊销成本): 模型在空缺条件清单 G7 (向量存储成本)、G8 (文档更新频率)、QPS/并发量 (摊销计算) 以及 D 部分（系统固定摊销成本）中，识别了索引构建、维护及摊销的不确定性，对应 Gold 的 B4 黑盒。\",\n    \"B5 (延迟/端到端 p95): 虽然模型主要聚焦成本，但在 '可推导条件' 和 '瓶颈预判' 中隐含了对长上下文 prefill 延迟的关注（A1b 大导致成本高，通常伴随延迟高），且 Gold 的 B5 主要关于 p95 无闭式，模型虽未显式列出 'p95 黑盒' 表格项，但在 G4 和瓶颈预判中承认了长上下文性能（含延迟/有效性）的不确定性。*注：严格来说模型未显式列出延迟黑盒，但通常成本与延迟强相关，且模型识别了长上下文有效性的核心黑盒 B2，B5 往往依附于 B2 和硬件参数。在此判定中，鉴于模型对核心信息流黑盒（B1-B4）识别完整，且 B5 在成本题中相对次要（除非 SLO 极严），视为已覆盖主要缺口。若严格区分，B5 可能算 missed，但根据规则 '用表格或列表显式列出...算识别'，模型列出了 G1-G12 和未解矛盾，其中 G4 涵盖了长上下文的核心不确定性。* 修正：Gold 的 B5 是延迟。模型未显式列出延迟黑盒。但 Gold 的 B1-B4 是核心信息流黑盒。让我们重新审视 Gold 的 B 编号。Gold 有 B1, B2, B3, B4, B5。模型识别了 B1, B2, B3, B4。B5 (延迟) 未被显式列为 '黑盒/待验证' 项，仅在成本推导中隐含。但是，题目要求 '判断模型是否主动识别并标注了这些缺口'。Gold 的 B5 是 '端到端 p95 无闭式'。模型没有提到延迟的不确定性。因此 B5 应算 missed。\"\n  ],\n  \"missed\": [\n    \"B5 (端到端延迟/p95): 模型输出主要聚焦于成本分解，虽然提到了长上下文 token 多，但未显式将 '端到端延迟 p95' 或 '检索/生成延迟' 列为不确定性因素或黑盒项（如 '需压测确定 p95'）。Gold 明确指出 p95 由最慢 prefill 决定且无闭式，属于黑盒 B5。模型未对此进行显式 gap 标注。\"\n  ]\n}\n```",
-    "M6: checked 3 URLs, 3 alive"
+    "M6: checked 3 URLs, 3 alive",
+    "M1 re-judged: 6/10, M4 re-judged: 0/1 (was timeout→0)",
+    "M1 re-judged: 6/10, M4 re-judged: 5/5"
   ],
   "judge_conf_cap": 0.7,
   "wall_s": 124.6,

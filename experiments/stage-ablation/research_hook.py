@@ -201,12 +201,18 @@ def _fetch_page(url, title_hint, timeout=30):
                 kw_pat = _re.compile(r"(HBM\d?e?\s*\d|GB/s|TB/s|PCIe\s*Gen?\s*\d|SXM|watt|W\b|memory bandwidth|显存)", _re.I)
                 hits = list(kw_pat.finditer(sample))
                 if hits:
-                    # 取第一个命中点为中心 ±800 字符窗口（最多 2 个窗口）
-                    windows = []
-                    for h in hits[:2]:
+                    # 取命中点为中心 ±800 字符窗口（最多 3 个，按起点去重）
+                    windows, seen_starts = [], set()
+                    for h in hits:
                         s0 = max(0, h.start() - 400)
                         s1 = min(len(sample), h.end() + 400)
+                        key = s0 // 200  # 200 字符粒度的桶
+                        if key in seen_starts:
+                            continue
+                        seen_starts.add(key)
                         windows.append(sample[s0:s1])
+                        if len(windows) >= 3:
+                            break
                     sample = " … ".join(windows)
                 return {"title": data.get("title", title_hint), "url": url,
                         "snippet": sample, "alive": True}
