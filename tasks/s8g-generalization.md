@@ -1,5 +1,11 @@
 # S8G 泛化验证 + S7V 基线补跑
 
+【执行前必读】
+1. 本任务必须走 1-loop：先读 sop/arena-loop-pipeline.md + loop/prompt-first/00..04.5
+2. 每阶段产出落盘 loop-artifacts/stages/<N>/
+3. 完成后 commit + push
+4. 通道故障 → 报告 Lead 降级，不得静默跳过
+
 > origin: ai · 2026-11-06 · 前置: pfb-v3-gold-gap PASS @5a7f375
 > 约束: 无答案泄漏; S8G prompt 不得因新题修改 (只允许修 harness/hook bug)
 
