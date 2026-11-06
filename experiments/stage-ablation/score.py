@@ -83,9 +83,11 @@ def judge_m1(output_text, gold_text, gold_type=None):
 【模型输出】
 {_smart_truncate(output_text)}"""
     else:
-        # Methodology type: verify against public knowledge, not gold text
-        prompt = f"""你是事实核查员。以下是一个 AI agent 的分解树输出（gold 是方法论型的，不含具体数字）。
-请从输出中提取 10-20 个最关键的定量断言（具体数字+单位），然后基于你已知的公开信息逐条判断是否正确。
+        # Methodology type: verify against public knowledge, with gold as reference anchor
+        prompt = f"""你是事实核查员。以下是一个 AI agent 的分解树输出。请从输出中提取 10-20 个最关键的定量断言（具体数字+单位），然后基于你已知的公开信息逐条判断是否正确。
+
+【参考锚点】（gold 中的关键数值，用于校准你的判断——如果 gold 明确写了某硬件规格，以 gold 为准）
+{_smart_truncate(gold_text)}
 
 规则：
 - 只判有具体数值的断言（benchmark 分数、价格、硬件规格等）
