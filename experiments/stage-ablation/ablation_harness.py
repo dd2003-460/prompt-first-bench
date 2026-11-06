@@ -53,6 +53,20 @@ QUESTIONS = {
         "gold_file": os.path.join(WORKSPACE, "projects/decomp/bench/gold-methodology/tree.md"),
         "search_query": "scientific research methodology hypothesis validation peer review best practices",
     },
+    # ── T49 新增：训练集外新域（networking / storage），用于验证跨域泛化 ──
+    # 与 Q1-Q5 的 AI/ML 域无重叠；gold tree 见 bench/rubric-v3/ablation/gold-Q6.md / gold-Q7.md
+    "Q6": {
+        "domain": "networking",
+        "prompt_file": os.path.join(PFB, "bench/questions/Q6-network-arch.txt"),
+        "gold_file": os.path.join(PFB, "bench/rubric-v3/ablation/gold-Q6.md"),
+        "search_query": "CDN pricing per GB vs self-hosted edge node POP cost P99 latency TCO",
+    },
+    "Q7": {
+        "domain": "storage",
+        "prompt_file": os.path.join(PFB, "bench/questions/Q7-storage-arch.txt"),
+        "gold_file": os.path.join(PFB, "bench/rubric-v3/ablation/gold-Q7.md"),
+        "search_query": "HDD vs NVMe vs S3 object storage cost per TB year erasure coding power RTO",
+    },
 }
 
 # ── 阶段 prompt 文件 ────────────────────────────────────────────────
