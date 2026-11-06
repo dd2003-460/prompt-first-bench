@@ -1,7 +1,7 @@
 # Stage-Ablation Scoring
 
 > generated: 2026-11-06T16:22:46.633973+00:00
-> runs scored: 91
+> runs scored: 90 (S0/S1/S5 × Q1-Q5 × n=6; Q4fix-S0-Q4-r1 为 Q4 题面修复前旧 run，已剔除)
 > judge: local 27b (self-judge, conf cap 0.7)
 > n per arm×q: varies (see table)
 
@@ -13,7 +13,6 @@
 | S0 | Q1 | r2 | 0.71 | 0.50 | 0.33 | 0.75 | 0.11 | 0.00 | **0.489** | 10.5 | 1315 |
 | S0 | Q1 | r3 | 0.62 | 0.50 | 1.00 | 0.75 | 0.00 | 0.00 | **0.556** | 9.8 | 1155 |
 | S0 | Q1 | r4 | 0.88 | 0.50 | 1.00 | 1.00 | 0.09 | 0.00 | **0.677** | 53.5 | 1217 |
-| S0 | Q4 | r1 | 1.00 | 0.67 | 1.00 | 1.00 | 0.00 | 0.00 | **0.733** | 20.0 | ? |
 | S0 | Q1 | r5 | 0.71 | 0.50 | 0.67 | 0.75 | 0.08 | 0.00 | **0.537** | 39.0 | 1054 |
 | S0 | Q1 | r6 | 0.75 | 0.50 | 1.00 | 0.75 | 0.08 | 0.00 | **0.596** | 34.8 | 1070 |
 | S0 | Q2 | r1 | 1.00 | 0.58 | 1.00 | 0.60 | 0.00 | 0.00 | **0.637** | 157.4 | 6458 |
@@ -105,7 +104,7 @@
 
 | Transition | Mean Prev | Mean Cur | Δ | Sign |
 |------------|-----------|----------|---|------|
-| S0→S1 | 0.562 | 0.575 | +0.013 | + |
+| S0→S1 | 0.556 | 0.575 | +0.019 | + |
 | S1→S5 | 0.575 | 0.791 | +0.216 | + |
 
 ## DESIGN §8 Criteria Check
@@ -116,7 +115,7 @@
 ## Honesty Clause
 
 - Judge is the same model being evaluated (self-bias risk); conf capped at 0.7
-- n=2 per arm×question → directional only, not statistically significant
+- n=6 per arm×question（Q4fix 剔除后）；judge 为同源 27b（self-judge），绝对值只作相对比较（T23-v2 异族 judge 曾推翻 H1 方向，跨轮次比分数前先对齐判据档位）
 - S2+ arms: web research hook not implemented (ego-browser stub) → M6 scores reflect zero sources
 - D1 comparison: N/A (environment incompatibility, documented in d1-choice.md)
 - M1/M4 depend on gold anchor quality; Q5 gold is opinion-survey type (lower confidence)
