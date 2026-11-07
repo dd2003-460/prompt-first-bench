@@ -4,7 +4,7 @@
 
 This repo contains the full experimental apparatus, raw data, scoring harness, and paper draft for a systematic stage-ablation study on a 27B open-weight model (Qwen3.8-27B) with no tool access.
 
-**New here?** Start with [`demo/`](demo/) — one question, two arms, runs offline in seconds: `python3 demo/run_demo.py`.
+**New here?** Start with [`demo/`](demo/) — a scoring walkthrough on one question, two arms: `python3 demo/run_demo.py` (no model needed; aggregates pre-computed scores).
 
 ## Key Results (TL;DR)
 

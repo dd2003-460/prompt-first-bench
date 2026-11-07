@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
-"""Minimal reproducible demo: score S0 vs S5 on Q1 (H100 PCIe vs SXM).
+"""Minimal scoring walkthrough: S0 vs S5 on Q1 (H100 PCIe vs SXM).
 
-Two modes:
-  1. Offline (no model needed): use the bundled scored runs from runs-r293.
-     Shows the full scoring pipeline end-to-end with real data.
-  2. Live (needs a local 27B at 8787): regenerate outputs, then re-score.
+What this does: loads pre-computed per-dimension scores (bundled in data/) for two
+arms on one question, aggregates them, and prints a dimension-by-dimension
+breakdown. It is a *scoring* demo — it does not call any model and does not
+re-score the bundled outputs; the numbers were produced once by score.py.
+
+Optional live mode (--live) would regenerate outputs via a local 27B endpoint,
+but that path is intentionally left as a pointer to the full harness rather than
+implemented here.
 
 Usage:
-  python run_demo.py            # offline: score bundled outputs (default)
-  python run_demo.py --live     # live: call LLM_URL, then score (needs endpoint)
+  python run_demo.py            # aggregate + display bundled scores (default)
 
 Scoring = 6 dimensions, weighted sum in [0,1]:
   M1 factual accuracy   (judge vs gold facts)      w=0.25
@@ -32,8 +35,12 @@ WEIGHTS = {"M1": 0.25, "M2": 0.20, "M3": 0.15, "M4": 0.20, "M5": 0.10, "M6": 0.1
 
 
 def load_bundled_scores():
-    """Offline path: read pre-computed scores from runs-r293/scores-v3.json."""
-    scores_path = os.path.join(SA, "runs-r293", "scores-v3.json")
+    """Offline path: read pre-computed scores bundled with the demo (data/q1-scores-v3.json).
+
+    These are NOT re-scored here — they were produced once by score.py against the
+    bundled outputs. This script only aggregates and displays them.
+    """
+    scores_path = os.path.join(HERE, "data", "q1-scores-v3.json")
     all_scores = json.load(open(scores_path))
     out = {}
     for arm in ("S0", "S5"):
@@ -57,7 +64,7 @@ def main():
     gold = open(os.path.join(HERE, "gold", "Q1-gold.md"), encoding="utf-8").read()
 
     print("=" * 62)
-    print("DEMO: S0 (bare prompt) vs S5 (full 6-stage pipeline) on Q1")
+    print("SCORING WALKTHROUGH: S0 (bare prompt) vs S5 (full 6-stage pipeline), Q1")
     print("Question: H100 PCIe vs SXM — how much faster is SXM for LLM inference?")
     print(f"Model: qwen3.8-27b @ temp=0 · n={len(results['S0']['per_run'])} reps/arm · judge: same model (conf ≤0.7)")
     print("=" * 62)

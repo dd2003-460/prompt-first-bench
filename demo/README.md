@@ -1,6 +1,9 @@
-# Minimal reproducible demo (Q1: H100 PCIe vs SXM)
+# Minimal scoring walkthrough (Q1: H100 PCIe vs SXM)
 
-One question, two arms, six scoring dimensions. Runs offline in seconds — no model needed for the bundled data.
+One question, two arms, six scoring dimensions. This is a **scoring** demo, not a
+model run: it loads pre-computed per-dimension scores bundled in `data/` and
+aggregates them — no model call, no re-scoring of the outputs. Runs offline in
+seconds.
 
 ```bash
 python3 run_demo.py
@@ -36,10 +39,14 @@ prompts/S5-full-pipeline.txt  # the exact prompt (S5 arm, ~9KB, all 6 stage file
 outputs/S0-Q1-r1.json         # raw model output + metadata (one rep)
 outputs/S5-Q1-r1.json         # raw model output + cited sources (one rep)
 gold/Q1-gold.md               # human-curated fact sheet used as scoring anchor
-run_demo.py                   # this demo: loads pre-computed scores from runs-r293/
+data/q1-scores-v3.json        # pre-computed per-run scores (S0/S5 × Q1, n=3 reps)
+run_demo.py                   # aggregates + displays the bundled scores (no model call)
 ```
 
-Scores shown come from `experiments/stage-ablation/runs-r293/scores-v3.json` (n=3 reps/arm for Q1; full study is n=15/arm across 5 questions × 5 arms).
+Scores come from `data/q1-scores-v3.json` — a subset of
+`experiments/stage-ablation/runs-r293/scores-v3.json` (n=3 reps/arm for Q1; full
+study is n=15/arm across 5 questions × 5 arms). The numbers were produced once by
+`score.py`; this demo does not re-score them.
 
 ## Regenerating outputs (optional, needs local model)
 
