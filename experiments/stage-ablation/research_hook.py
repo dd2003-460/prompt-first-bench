@@ -331,6 +331,17 @@ def research_hook(qid, question, max_results=5):
             page_info["source_type"] = "direct_site"
             sources.append(page_info)
 
+    # T33: 搜索引擎跳转链接过滤（bing.com/ck/a、google.com/url?）——
+    # 这类链接指向真实页面但无法直接核验，且历史上（runs-r293 S5-Q1 三 rep）
+    # 整批返回内容无关的垃圾源。任何通道漏进来的都在这层拦掉。
+    import re as _re
+    _BAD_ANCHOR = _re.compile(r'bing\.com/ck|google\.com/url\?', _re.I)
+    before = len(sources)
+    sources = [s for s in sources if not _BAD_ANCHOR.search(s.get("url", ""))]
+    dropped = before - len(sources)
+    if dropped:
+        print(f"  [ANCHOR-FILTER] {qid}: dropped {dropped} search-engine redirect link(s)", file=sys.stderr)
+
     if not sources:
         raise ResearchHookUnavailable("no sources from any channel (arXiv + direct sites all failed)")
 
