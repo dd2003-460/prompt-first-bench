@@ -473,6 +473,12 @@ def call_llm(prompt, max_tokens=LLM_MAX_TOKENS, timeout=LLM_TIMEOUT, retries=1, 
     }
     if seed is not None:
         payload_dict["seed"] = seed
+    # 反缓存: 8787 proxy 对相同 prompt 会返回缓存答案 (S8B 事故: r2/r3 逐字相同),
+    # 加不可见空格扰动让每次请求的 hash 不同, 不影响模型语义。
+    content = payload_dict["messages"][0]["content"]
+    import random as _rnd
+    pad = " ".join(_rnd.choice(["\u200b", "\u200c", ""]) for _ in range(4))
+    payload_dict["messages"][0]["content"] = content + pad
     payload = json.dumps(payload_dict).encode()
     for attempt in range(retries + 1):
         try:
