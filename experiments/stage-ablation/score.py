@@ -268,7 +268,7 @@ def aggregate(runs_dir, questions):
         arm = run.get("arm", "?")
         qid = run.get("qid", "?")
         rep = run.get("rep", 0)
-        if arm not in ("S0", "S1", "S2", "S3", "S4", "S5") or qid not in questions:
+        if arm not in ("S0", "S1", "S2", "S3", "S4", "S5", "T0", "T1", "T2") or qid not in questions:
             continue
         gold_path = questions[qid]["gold_file"]
         if not os.path.exists(gold_path):
