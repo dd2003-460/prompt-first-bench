@@ -363,8 +363,9 @@ def run_arm(arm, qid, rep, dry_run=False):
             pass
 
     # S2+ 臂: 先跑真实联网检索，把来源包注入 prompt
+    # T53: T0/T1/T2 (生产pf短prompt) 也走 research_hook — "隔离给所有工具"
     sources = []
-    if arm in ("S2", "S3", "S4", "S5", "S7T", "S7F", "S7V") and not dry_run:
+    if arm in ("S2", "S3", "S4", "S5", "S7T", "S7F", "S7V", "T0", "T1", "T2") and not dry_run:
         q = QUESTIONS[qid]
         # 优先用预设英文搜索词（Bing locale 更稳定），fallback 到 prompt 提取
         question = q.get("search_query") or extract_question(read_file(q["prompt_file"]))

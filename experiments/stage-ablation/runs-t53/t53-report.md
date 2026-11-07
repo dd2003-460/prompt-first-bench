@@ -34,6 +34,6 @@
 
 ## 待办（下一步，可逆自决）
 
-- [ ] T2 prompt 加一行输出结构约束（gold 树骨架），重跑验证 M6 是否归零损失 → 若 M6 修复后 total 差距缩到 <0.03，cascade 的 L1 档可用
+- [x] T2 + research_hook 重跑（harness 白名单 bug 修复后）→ **T53b：total Δ+0.025 p≈0.32 与 S5 持平，M1 +0.226，速度减半**。见 `runs-t53b/t53b-report.md`
 - [ ] O6 矛盾发现指标写入 rubric-v3 draft（idea-list #23 已定义，未落文）
 - [ ] S8-cascade-discuss 臂代码（跨家族审问者 + 置信度触发）
