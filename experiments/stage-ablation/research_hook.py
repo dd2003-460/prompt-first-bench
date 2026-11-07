@@ -142,6 +142,25 @@ KNOWN_SITES = {
         ("https://en.wikipedia.org/wiki/Erasure_code", "Erasure Code (Wikipedia)"),
         ("https://en.wikipedia.org/wiki/Redundant_array_of_independent_disks", "RAID (Wikipedia)"),
     ],
+    # T50 新增（B 面域内题）：一手论文源，与 gold-Q8/Q9/Q10.md 来源表对齐
+    "Q8": [  # code generation benchmark design (LLM evaluation domain)
+        ("https://arxiv.org/abs/2107.03374", "Codex/HumanEval (arXiv)"),
+        ("https://arxiv.org/abs/2403.07974", "LiveCodeBench (arXiv)"),
+        ("https://arxiv.org/abs/2305.01210", "EvalPlus/HumanEval+ (arXiv)"),
+        ("https://arxiv.org/abs/2311.04850", "Rephrased Samples Contamination (arXiv)"),
+    ],
+    "Q9": [  # VLM architecture comparison (multimodal domain)
+        ("https://arxiv.org/abs/2103.00020", "CLIP (arXiv)"),
+        ("https://arxiv.org/abs/2304.02643", "Segment Anything (arXiv)"),
+        ("https://arxiv.org/abs/2303.08774", "GPT-4 Technical Report (arXiv)"),
+        ("https://arxiv.org/abs/2403.05530", "Gemini 1.5 (arXiv)"),
+    ],
+    "Q10": [  # RLHF pipeline and alignment tax (alignment domain)
+        ("https://arxiv.org/abs/2203.02155", "InstructGPT (arXiv)"),
+        ("https://arxiv.org/abs/2305.18290", "DPO (arXiv)"),
+        ("https://arxiv.org/abs/2210.10760", "Reward Model Overoptimization (arXiv)"),
+        ("https://arxiv.org/abs/2312.01552", "URIAL / Superficial Alignment (arXiv)"),
+    ],
 }
 
 # arXiv 精准查询（T30: 每 Q 多路 query，取并集提升召回）
@@ -159,6 +178,10 @@ ARXIV_QUERIES = {
            "edge computing node TCO total cost of ownership latency"],
     "Q7": ["erasure coding storage overhead capacity efficiency",
            "SSD NVMe vs HDD cost per TB object storage pricing comparison"],
+    # T50 新增（B 面域内题）：任务书要求每题至少一条精准 arXiv query
+    "Q8": ["code generation benchmark contamination detection pass@k evaluation LLM"],
+    "Q9": ["vision language model architecture contrastive CLIP segment anything multimodal"],
+    "Q10": ["RLHF PPO KL penalty DPO preference optimization alignment tax"],
 }
 
 # T31: 来源过滤关键词（只注入 title/snippet 含这些词的结果）
@@ -170,6 +193,9 @@ FILTER_KEYWORDS = {
     "Q5": ["Bayesian", "frequentist", "hypothesis testing", "decision theory", "expected loss", "risk"],
     "Q6": ["CDN", "content delivery", "edge node", "P99", "latency", "per GB", "pricing", "TCO", "POP", "cache hit"],
     "Q7": ["erasure code", "RAID", "NVMe", "SSD", "HDD", "object storage", "per TB", "capacity", "RTO", "redundancy", "PUE"],
+    "Q8": ["HumanEval", "MBPP", "LiveCodeBench", "SWE-bench", "BigCodeBench", "pass@k", "contamination", "decontamination", "EvalPlus", "code generation", "benchmark"],
+    "Q9": ["CLIP", "SAM", "Segment Anything", "GPT-4V", "Gemini", "multimodal", "vision-language", "contrastive", "ViT", "tiling", "LLaVA", "Flamingo"],
+    "Q10": ["RLHF", "PPO", "DPO", "KL", "reward model", "preference", "alignment", "InstructGPT", "alignment tax", "fine-tuning"],
 }
 
 

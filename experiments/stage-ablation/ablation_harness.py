@@ -67,6 +67,26 @@ QUESTIONS = {
         "gold_file": os.path.join(PFB, "bench/rubric-v3/ablation/gold-Q7.md"),
         "search_query": "HDD vs NVMe vs S3 object storage cost per TB year erasure coding power RTO",
     },
+    # ── T50 新增：B 面 AI/ML 域内跨子领域泛化题（Q8 评估方法 / Q9 多模态架构 / Q10 对齐） ──
+    # 与 Q1-Q5 子领域正交；gold tree 见 bench/rubric-v3/ablation/gold-Q8/Q9/Q10.md
+    "Q8": {
+        "domain": "LLM评估方法",
+        "prompt_file": os.path.join(PFB, "bench/questions/Q8-eval-benchmark.txt"),
+        "gold_file": os.path.join(PFB, "bench/rubric-v3/ablation/gold-Q8.md"),
+        "search_query": "LLM code generation benchmark design pass@k contamination detection LiveCodeBench",
+    },
+    "Q9": {
+        "domain": "多模态架构",
+        "prompt_file": os.path.join(PFB, "bench/questions/Q9-vlm-arch.txt"),
+        "gold_file": os.path.join(PFB, "bench/rubric-v3/ablation/gold-Q9.md"),
+        "search_query": "vision language model CLIP SAM GPT-4V Gemini architecture training comparison",
+    },
+    "Q10": {
+        "domain": "RLHF对齐",
+        "prompt_file": os.path.join(PFB, "bench/questions/Q10-rlhf-align.txt"),
+        "gold_file": os.path.join(PFB, "bench/rubric-v3/ablation/gold-Q10.md"),
+        "search_query": "RLHF pipeline PPO KL DPO beta alignment tax quantification InstructGPT",
+    },
 }
 
 # ── 阶段 prompt 文件 ────────────────────────────────────────────────
