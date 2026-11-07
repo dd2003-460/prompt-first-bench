@@ -23,6 +23,18 @@ arXiv API × 16 组关键词（deep research + self-verification / agentic fact-
 
 **结论：没有一篇同时做「prompt 组件消融 + 信息论加权 rubric + 口径回溯一致性 + 矛盾发现作为一等公民」这四件事的组合。** 单项都有人碰（rubric×3、harness 验证×2、过程评测×2），组合是空的。但这只证明"组合没被占"，不证明"组合有价值"——后者靠 C/B/A face 实验说话。
 
+## 引文空间扫描（Semantic Scholar API，同日追加）
+
+对 8 篇最接近论文爬 references + citations（S2 免费 tier 限流严重，429 反复出现；成功拿到 2606.17029/2606.02060/2609.14412/2610.33503 的引用边，其余受限）。另对 3 个新发现的邻域论文拉了 arXiv 摘要全文比对：
+
+| 论文 | 实际做什么（读摘要后） | 与 pfb 关系修正 |
+|------|----------------------|----------------|
+| **Question's Gambit** (2609.14412, 2026-09) | "第一步检索"模块：把问题拆成 clues → 改写互补搜索 → 合并重排，给 agent 一个开局上下文。BrowseComp-Plus 上 gpt-5.5 答案准确率 83.1%→90.5% | **不是 cascade 分层撞车**。它优化的是"第一次搜什么"（retrieval first move），我们 idea-list #22 的 L1/L2 是"按回滚成本决定分解深度和校验强度"。相邻但正交：它是 loop 前的预处理，我们是 loop 内的资源分配。可引用为"first-move 质量重要"的外部佐证，不构成威胁 |
+| **PatEx-Gym** (2610.33503, 2026-10) | 专利审查 agent benchmark：1M 专利 + 52K 论文语料，迭代搜索+文档访问+新颖性评估；核心发现"最终决策准确率不能反映审查质量"，prior-art discovery 对 frontier 模型仍很难 | **直接可用**。它的"final accuracy ≠ process quality"结论和我们 M1-M6 多维评分的动机完全同构，related work 里当外部证据用；它的 PASS 轨迹合成法（document visit 当隐式相关信号）对我们的 B-face 真实泛化题构造有借鉴价值 |
+| **MetaResearcher** (2606.19893, 2026-06) | deep research agent 的 RL 训练框架：对抗虚拟环境（注入时间动态+虚假信息）→ 逼出 source credibility 评估能力；任务含 hypothesis generation 和 **contradiction resolution**；GRPO meta-reward 联合优化正确率/搜索效率/反思深度/工具多样性；Scout/Filter/Synthesizer 异构多智能体 | **最近的竞争者，要盯**。它的 contradiction resolution 任务和我们的 O6 重叠，source credibility 评估对应我们的 M6/来源分级。差异：它是**训练**（RL 改权重），我们是**测量+prompt 层**（不动权重，五级干预梯度取最低档）。这个差异本身可以写成卖点：同等能力目标下，prompt/hook 层的可审计性和回滚性优于权重修改。但它 2026-06 就提出了 contradiction resolution as task，说明"矛盾当一等公民"这个概念不再独占——我们的增量在**度量**（O6 三档判据+防泄露协议），不在概念 |
+
+**引文空间结论**：关键词空间的"四件套组合空位"判断在引文空间依然成立——没有任何一篇同时覆盖 prompt 消融 + 信息论 rubric + 口径链 + 矛盾度量。但 MetaResearcher 提示风险升级：概念层面（矛盾解决、来源可信度）已有强工作在训，我们的叙事必须钉死在**测量学**（怎么定义、怎么打分、怎么防 judge 泄露）而不是**能力主张**（agent 能找矛盾）。
+
 ## 真正的风险点（诚实说）
 
 1. **RubricAtlas 方向最近**。如果他们在 ACL 之后把自动 rubric 挖掘做到 expert-level 精度，我们手工 rubric 的差异化就只剩"信息论权重 + 域特化判据"（O5/O6 这类）。应对：rubric-v3 的价值主张要押在**可解释的维度设计**（每个 O 对应一个可证伪机制），不是"我们有 rubric"。
