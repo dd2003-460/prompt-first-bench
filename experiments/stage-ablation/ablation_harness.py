@@ -244,6 +244,41 @@ def build_prompt(arm, qid):
             "再次强调：查不到就承认查不到，不要编数字；比较前确认同口径。"
         )
 
+    if arm == "S8":
+        # S8-cascade-discuss (idea-list #23): A 生成 → B/C/D 跨家族质询 → A 修订
+        # 单模型限制：本地只有 qwen3.8-27b，"跨家族"用 persona 差异近似
+        # （Martingale Curse 2603.06801: 同质 debate ≤ majority vote → 必须角色正交）。
+        # 主指标 O6（矛盾发现），不是 M1。置信度触发：A 自评 <0.7 的节点才送质询。
+        return (
+            "你是一名资深研究员（代号 A），以严谨著称。按以下流程回答问题。\n\n"
+            f"问题：{question}\n\n"
+            "【第一轮 — 生成】\n"
+            "1. 目标分解：把问题拆成正交子因素，标注主导项。\n"
+            "2. 逐子因素分析：关键数字区分官方标称与实际表现。\n"
+            "3. 口径检查：比较前确认同口径（单位、单向/双向、标称/实测）。\n"
+            "4. 输出你的初步答案，并对每个关键结论附一个置信度（0-1）。\n"
+            "   置信度 <0.7 的结论标记为 [低置信]。\n\n"
+            "【第二轮 — 质询】现在你依次扮演三个不同视角的质询者，只针对 [低置信] 结论发难：\n"
+            "- 质询者 B（怀疑论工程师）：假设这个结论是错的，找出最可能错在哪——"
+            "哪个前提没验证？哪个数字口径混了？哪个变量被忽略了？\n"
+            "- 质询者 C（领域专家）：从领域内部知识出发，指出这个结论与已知事实或工程实践的矛盾点。\n"
+            "- 质询者 D（外部审计员）：只看来源和推理链，不引入新信息——"
+            "哪一步推理跳跃了？哪个断言没有来源支撑？\n"
+            "每个质询者输出：质疑点 + 依据 + 如果成立会推翻什么。\n\n"
+            "【第三轮 — 修订】回到研究员 A 的角色，逐条回应质询：\n"
+            "- 质询成立 → 修正结论，写明改了什么、为什么。\n"
+            "- 质询不成立 → 说明为什么不成立，保留原结论。\n"
+            "- 质询暴露了新缺口 → 标 [待核验]，不要编。\n"
+            "特别要求：如果质询过程中发现了原始问题框架之外的矛盾"
+            "（比如两个各自真实的数字放在一起互相矛盾），把它作为独立发现写出来，"
+            "说明它涉及哪个被忽略的变量/场景/口径，以及如果承认它会改变哪个结论。\n\n"
+            "【输出要求】\n"
+            "- 最终答案中每个关键事实注明「刚查到的」（附来源）还是「凭记忆的」（标 [待核验]）。\n"
+            "- 单独一节列出「质询发现的矛盾」：每条写清矛盾双方、涉及的变量、对结论的影响。\n"
+            "- 先给结论，再给因果链，不跳步。\n\n"
+            "再次强调：查不到就承认查不到，不要编数字；比较前确认同口径。"
+        )
+
     parts = [f"[阶段 01 — 目标分解]\n"]
     if arm in ("S1",):
         # S1: 01 + decomp 五步法
@@ -365,7 +400,7 @@ def run_arm(arm, qid, rep, dry_run=False):
     # S2+ 臂: 先跑真实联网检索，把来源包注入 prompt
     # T53: T0/T1/T2 (生产pf短prompt) 也走 research_hook — "隔离给所有工具"
     sources = []
-    if arm in ("S2", "S3", "S4", "S5", "S7T", "S7F", "S7V", "T0", "T1", "T2") and not dry_run:
+    if arm in ("S2", "S3", "S4", "S5", "S7T", "S7F", "S7V", "T0", "T1", "T2", "S8") and not dry_run:
         q = QUESTIONS[qid]
         # 优先用预设英文搜索词（Bing locale 更稳定），fallback 到 prompt 提取
         question = q.get("search_query") or extract_question(read_file(q["prompt_file"]))
@@ -396,7 +431,7 @@ def run_arm(arm, qid, rep, dry_run=False):
     # (temp=0 greedy decode is fully deterministic for short structured prompts; seed alone is ignored)
     call_seed = None
     call_temp = 0
-    if arm in ("S6", "S7", "S7T", "S7F", "S7V", "T0", "T1", "T2"):
+    if arm in ("S6", "S7", "S7T", "S7F", "S7V", "T0", "T1", "T2", "S8"):
         call_seed = hash(f"{arm}-{qid}") % 10000 + rep * 7919
         call_temp = 0.1
     try:
