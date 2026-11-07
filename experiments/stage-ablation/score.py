@@ -136,6 +136,63 @@ def judge_m4(output_text, gold_text):
         return 0, 1, f"judge failed: {e}"
 
 
+# ── O6 矛盾发现 (rubric-v3 §O6) ────────────────────────────────────
+def extract_contradictions(gold_text):
+    """从 gold 提取"常见误读/隐藏矛盾"节。返回 (items, section_text)。
+    无该节 → ([], None)，O6 = N/A。"""
+    m = re.search(r'##\s*(?:常见误读|隐藏矛盾)[^\n]*\n(.*?)(?=\n## |\Z)', gold_text, re.DOTALL)
+    if not m:
+        return [], None
+    body = m.group(1).strip()
+    items = [ln.strip() for ln in body.splitlines()
+             if re.match(r'^\s*\d+\.', ln.strip())]
+    return items, body
+
+
+def judge_o6(output_text, gold_items, gold_section):
+    """O6 矛盾发现: judge 对照 gold 隐藏矛盾逐条判命中档位 0/1/2。
+    防泄露: gold 内容只进 judge prompt，arm prompt 只有通用指令。
+    返回 (hits, total, notes)。total==0 → N/A。"""
+    if not gold_items:
+        return 0, 0, "gold has no contradiction section (N/A)"
+    prompt = f"""你是研究质量评审。任务：判断【模型输出】是否发现了【Gold 隐藏矛盾】中列出的每一条矛盾/误读。
+
+对 Gold 中的每条矛盾，按以下三档判定模型输出的命中程度：
+- 0 = 没发现（输出中完全没触及该矛盾点）
+- 1 = 发现了但没转化（指出了矛盾或相关数字差异，但没有推出它影响哪个结论、涉及什么变量）
+- 2 = 转化为具体新发现（明确指出矛盾双方 + 涉及的变量/条件 + 对原结论的具体影响）
+
+规则：
+- 语义命中即可，不要求措辞一致（模型说"TDP 版本混淆"算命中 gold 的"PCIe 版本区分"）
+- 模型自己额外发现的矛盾（不在 gold 列表里）不计入本分，单独记录在 extra_findings
+- 最后给 JSON: {{"hits": [{{"gold_item": <编号>, "tier": 0|1|2, "evidence": "输出中的对应原文片段"}}], "extra_findings": ["..."], "score": <总命中分>}}
+其中 score = sum(tier)，满分 = 2 × gold 条数。
+
+【Gold 隐藏矛盾】
+{gold_section}
+
+【模型输出】
+{_smart_truncate(output_text)}"""
+    try:
+        raw = llm_judge(prompt)
+        m = re.search(r'\{.*\}', raw, re.DOTALL)
+        if m:
+            d = json.loads(m.group())
+            hits = d.get("hits", [])
+            tier_sum = sum(h.get("tier", 0) for h in hits)
+            # 归一化到 [0,1]: 每条 2 分满分
+            norm = tier_sum / max(2 * len(gold_items), 1)
+            detail = "; ".join(f"#{h.get('gold_item')}:{h.get('tier')}" for h in hits)
+            extras = d.get("extra_findings", [])
+            note = f"[O6] tiers={detail} score={tier_sum}/{2*len(gold_items)}"
+            if extras:
+                note += f" extra={extras[:2]}"
+            return min(norm, 1.0), 1, note + f" | {raw[:500]}"
+        return 0, 1, f"no JSON in O6 judge response: {raw[:100]}"
+    except Exception as e:
+        return 0, 1, f"O6 judge failed: {e}"
+
+
 # ── M6 URL 存活 ─────────────────────────────────────────────────────
 _URL_CACHE = {}
 
@@ -220,7 +277,16 @@ def score_run(run_json_path, gold_md, arm, qid, multi_n=1):
     m6_norm = m6_alive / max(m6_checked, 1) if m6_checked > 0 else 0.0
     notes.append(f"M6: {m6_note}")
 
-    # 归一化 (M2/M3/M5 已算好; M1/M4/M6 从 judge/URL 来)
+    # O6 矛盾发现 (rubric-v3 §O6; gold 无该节 → N/A)
+    o6_items, o6_section = extract_contradictions(gold_md)
+    if o6_section:
+        o6_score, _, o6_note = judge_o6(output, o6_items, o6_section)
+        notes.append(o6_note)
+    else:
+        o6_score = None
+        notes.append("[O6] N/A (gold has no contradiction section)")
+
+    # 归一化 (M2/M3/M5 已算好; M1/M4/M6/O6 从 judge/URL 来)
     scores = {
         "M1": min(m1_norm, 1.0),
         "M2": m2_norm,
@@ -229,6 +295,7 @@ def score_run(run_json_path, gold_md, arm, qid, multi_n=1):
         "M5": max(0.0, m5_norm),
         "M6": m6_norm,
     }
+    o6_out = {"score": o6_score} if o6_score is not None else None
 
     weights = dict(WEIGHTS)
     if qid == "Q5":
@@ -241,7 +308,7 @@ def score_run(run_json_path, gold_md, arm, qid, multi_n=1):
 
     return {
         "arm": arm, "qid": qid, "rep": run.get("rep", 0),
-        "scores": scores, "total": round(total, 4),
+        "scores": scores, "O6": o6_out, "total": round(total, 4),
         "boundary_violation": ga.get("boundary_violation", False),
         "notes": notes,
         "judge_conf_cap": JUDGE_CONF_CAP,
@@ -311,8 +378,8 @@ def aggregate(runs_dir, questions):
         "",
         "## 6-Dim × Arm Summary",
         "",
-        "| Arm | Q | Rep | M1 | M2 | M3 | M4 | M5 | M6 | Total | Wall(s) | Tokens(out) |",
-        "|-----|---|-----|----|----|----|----|----|----|-------|---------|-------------|",
+        "| Arm | Q | Rep | M1 | M2 | M3 | M4 | M5 | M6 | O6 | Total | Wall(s) | Tokens(out) |",
+        "|-----|---|-----|----|----|----|----|----|----|----|-------|---------|-------------|",
     ]
     for s in all_scores:
         sc = s["scores"]
@@ -320,6 +387,7 @@ def aggregate(runs_dir, questions):
             f"| {s['arm']} | {s['qid']} | r{s['rep']} | "
             f"{sc['M1']:.2f} | {sc['M2']:.2f} | {sc['M3']:.2f} | "
             f"{sc['M4']:.2f} | {sc['M5']:.2f} | {sc['M6']:.2f} | "
+            f"{'N/A' if s.get('O6') is None else s['O6']['score']:.2f} | "
             f"**{s['total']:.3f}** | {s['wall_s']} | {s['tokens'].get('out', '?')} |"
         )
 
