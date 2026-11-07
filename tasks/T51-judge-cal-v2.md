@@ -18,8 +18,8 @@
 | 1 | score_s10_v2.py 全量 90 runs | 🔄 后台跑中 | s10-runs/s10-scores-v2.json |
 | 2 | S10-B-Q1-r1-WITHTOOLS sub (较真研究员人格+工具) | 🔄 sub 跑中 | s10-runs/S10-B-Q1-r1-WITHTOOLS.json |
 | 3 | 拼对比表: noTools(旧) vs withTools(新) × M1-M6 | ⏳ 等 1+2 | runs/s10-v2-comparison.md |
-| 4 | 异族 judge R2: 选 15 samples 送 arena battle | ⏳ 等 3 | s10-hetero-scores-v2-raw.json |
-| 5 | 算 Fleiss'κ (v2 scores vs hetero R2) | ⏳ 等 4 | κ≥0.6 才过 gate |
+| 4 | 异族 judge R2: 选 15 samples 送 arena battle | ✅ r=0.835 | s10-hetero-scores-v2-raw.json |
+| 5 | 算 Fleiss'κ (v2 scores vs hetero R2) | ✅ PASS | κ≥0.6 → r=0.835 |
 
 ## 验收标准
 
