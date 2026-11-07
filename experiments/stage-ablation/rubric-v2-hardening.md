@@ -17,17 +17,17 @@ Round 1 异族 judge 的 κ 诊断显示：M1/M2（硬维度）κ=1.0，M4/M5/M6
 | M2 | Completeness: covers major sub-questions? | **gold 主干节点覆盖率**：gold tree 的 depth≤2 节点（主干），输出中语义覆盖的比例 | covered_trunk_nodes / total_trunk_nodes | ⚠️ 半硬（"语义覆盖"仍需判断，但对象集合固定） |
 | M3 | Fabrication control: properly hedged? | **无源具体断言率**：输出中"具体数值+无来源标注"的断言占比。hedge 词（可能/大概/约）不计为来源。 | 1 - (unsourced_specifics / total_specifics) | ❌ 纯计数 |
 | M4 | Gap coverage: identifies what it couldn't determine? | **显式缺口声明计数**：输出中符合以下任一模式的句子数：① "无法验证/查不到/未披露/黑盒" + 具体对象名；② "[待核验]" 标记；③ "conf ≤ X" + 原因说明。**只数指认了具体对象的，泛化 hedge 不算。** | min(count / 3, 1.0)（≥3 个即满分） | ❌ 模式匹配 |
-| M5 | Source quality: relevant, authoritative? | **删除**（并入 M3）。理由：截断传输下 source 信息不完整，且"权威"是软判断。来源有无已由 M3 的 unsourced_specifics 捕获。 | — | — |
+| M5 | Source quality: relevant, authoritative? | **调研行为计数**（硬指标化）：① sources 字段非空；② 可解析 URL ≥3 条；③ 独立域名 ≥2 个（防刷源）。"权威"判断去掉——pfb 测的是"会不会调研"不是"引用品味"。 | min(①·0.3 + ②·0.4 + ③·0.3, 1.0) | ❌ 纯计数/程序 |
 | M6 | URL validity: real working URLs? | **URL 存活率**（不变，本来就是硬的）：sources 列表中抽样 3 条 HEAD 请求，200 = alive | alive / sampled | ❌ 纯程序 |
 
 ### 总分公式（v2）
 
 ```
-total = 0.35·M1 + 0.25·M2 + 0.25·M3 + 0.15·M4
+total = 0.30·M1 + 0.20·M2 + 0.20·M3 + 0.10·M4 + 0.10·M5 + 0.10·M6
 ```
 
-M5 删除、M6 降权后并入 M3（无源断言率已隐含"你引用的东西存不存在"的问题）。
-权重逻辑：M1（说对了吗）最重，M2（说全了吗）次之，M3（有没有瞎编）再次，M4（知不知道自己不知道）最轻——因为 M4 是元能力，重要但不是研究质量的第一性。
+权重逻辑：M1（说对了吗）最重，M2/M3（说全了吗/有没有瞎编）并列次之，M4/M5/M6（元能力/调研行为/引用真实性）各占 10%。
+M5 回归的理由：pfb 的核心假设是"给模型调研工具能提升研究质量"——如果不评"它到底去没去查"，这个假设就测不到。M5 现在只数行为（查没查、查了几个独立源），不判断品味（引得好不好）。
 
 ## 给 Judge 的新指令模板
 
@@ -54,10 +54,37 @@ M4 显式缺口声明：数输出中符合以下模式的句子：
 泛化的不确定性表达（"可能在某范围""取决于..."）不算。
 score = min(句数 / 3, 1.0)。
 
-输出 JSON: {"M1": x.xx|null, "M2": x.xx, "M3": x.xx, "M4": x.xx,
+M5 调研行为：检查 sources 字段和输出文本中的引用。
+① sources 列表非空？(0/1)
+② 可解析的完整 URL（http/https + 域名 + 路径）≥3 条？(0/1)
+③ 这些 URL 来自 ≥2 个不同域名？(0/1)
+score = 0.3·① + 0.4·② + 0.3·③。
+注意：只数"有没有去查"，不判断来源权威与否。
+
+M6 URL 存活：从 sources 中抽样 3 条 URL（不足 3 条则全取），
+逐条做 HTTP HEAD 请求，状态码 200-399 = alive。
+score = alive / sampled。无 URL 则 score = 0。
+
+输出 JSON: {"M1": x.xx|null, "M2": x.xx, "M3": x.xx, "M4": x.xx, "M5": x.xx, "M6": x.xx,
             "m1_detail": "matched/total", "m3_detail": "sourced/total",
-            "m4_sentences": [...]}
+            "m4_sentences": [...], "m5_detail": "urls=N domains=M"}
 ```
+
+## Sub 工具配置（实验设计层）
+
+pfb 实验给被测 sub 的工具集 = **所有调研工具 − 抄答案通道**：
+
+| 给 | 不给（抄答案） |
+|---|---|
+| ego-browser（登录态网页浏览） | gold tree 文件（bench/rubric-v3/ablation/gold-Q*.md） |
+| arXiv API（论文检索） | 历史 run 输出（experiments/stage-ablation/s*-runs/） |
+| web_fetch（纯 HTML 页提取） | 竞品调研笔记（competitor-survey.md） |
+| terminal（跑代码验证数字） | 本 rubric 文件本身 |
+| read_file / search_files（读工作区公开资料） | arena 任务书中的"关键叶子值示例"段 |
+| multi-search-engine（必应/百度） | |
+
+实现方式：sub 的 workspace 里 symlink 所有公开资料，但 gold/answer 类文件不放入其可见路径。
+prompt 中明确告知："你可以使用浏览器、搜索引擎、arXiv API 等工具自由调研。你的 sources 字段必须列出实际访问过的来源。"
 
 ## 预期效果
 
@@ -67,6 +94,7 @@ score = min(句数 / 3, 1.0)。
 
 ## 迁移成本
 
-- `score_s10.py` 需改：M3 逻辑重写（hedge_count → unsourced_specifics 计数）、M4 逻辑重写（judge LLM → 正则模式匹配）、删 M5、M6 降权。
+- `score_s10.py` 需改：M3 逻辑重写（hedge_count → unsourced_specifics 计数）、M4 逻辑重写（judge LLM → 正则模式匹配）、M5 回归（sources 字段解析 + 域名去重计数）。
 - 异族 battle prompt 需重写为上面的新模板。
 - 历史分数（self-judge round 1 + hetero round 1）不可直接对比——口径变了。标注为 rubric-v1 存档。
+- **S10 旧 run 的 M5/M6 = 0 是工具缺失导致的**（当时 sub 没有 ego-browser/搜索工具，自然没 sources）。v2 实验需要**带工具重跑**才有意义——这本身就是一个消融维度：S10-noTools vs S10-withTools。
