@@ -165,3 +165,9 @@
 **留痕**：wx-push 失败（retry-without-token invalid request），按协议不重试。
 
 **状态**：已执行完毕并 push。
+
+## 2026-11-07 social-ready 准备（自主执行，已留痕）
+
+- 仓库 `github.com/dd2003-460/prompt-first-bench` 完成公开化准备：LICENSE（code MIT + data CC-BY-4.0）、demo/ 最小可复现目录、README 入口、__pycache__ 去跟踪。commit 14e50eb，tag v0.1-social-ready 已推远端。
+- **待办（需成璐账号操作）**：GitHub 仓库 Settings → Integrations 添加 Zenodo OAuth → 打 tag 后自动生成 DOI 存档。完成后把 DOI 填进 README 顶部。
+- 回滚：git revert 14e50eb / git push origin :refs/tags/v0.1-social-ready
