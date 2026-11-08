@@ -85,9 +85,9 @@ P4_SYNTHESIZE = (
     "1. 只使用事实表中 status 为 verified 的节点作为定量依据；degraded 节点只能定性引用并说明局限；\n"
     "2. failed 或缺失的节点不得假设其值——显式写出「缺 X 导致 Y 无法定量」，给出区间而非点估计；\n"
     "3. 先给结论，再给因果链，不跳步；每个数字写出量纲和口径；\n"
-    "4. 区分「凭记忆的」和「刚查到的」：在正文中每出现一个关键数字/事实，紧跟其后用括号标注其状态——"
-    "（已核验：来自 verified 节点或来源直接支持）/（推导：由题面条件+verified 节点推出）/（凭记忆：模型先验，未获外部验证）。"
-    "要求：正文中至少出现 3 处此类括号标注；凡标注为（凭记忆）的数值必须降置信表述（如「约」「估计」）。\n"
+    "4. 溯源标注（硬性格式要求）：正文中每个关键数字/事实，紧跟其后加一个方括号标签，只允许三种写法：[已核验]、[推导]、[凭记忆]。"
+"例如：LRU 字节命中率约为 78% [推导]；典型 CDN 缓存容量约 10TB [凭记忆]。自检：数一下正文里带百分号/倍数/容量单位的数字共几个，"
+"标签总数不得少于该数字个数的三分之一；标 [凭记忆] 的数值必须配降置信词（约/估计/通常）。禁止只在末尾摘要表写状态而不给正文数字打标签。\n"
     "5. 最后单独一节「事实核验摘要」：列出你实际使用了哪些节点、各自状态、哪些结论因此受限。\n\n"
     "【问题】\n{question}\n\n"
     "【已核验事实节点表】\n{fact_table}\n"
@@ -154,6 +154,18 @@ def verify_node(node, srcs):
     return status, d.get("evidence", ""), d.get("corrected_claim", ""), out
 
 
+_LABELS = ("[已核验]", "[推导]", "[凭记忆]")
+
+
+def _label_stats(ans):
+    """正文溯源标注统计：标签数 / 关键数字数 / 覆盖率。"""
+    n_labels = sum(ans.count(p) for p in _LABELS)
+    import re as _re
+    n_nums = len(_re.findall(r'\d+\.?\d*\s*(%|个百分点|百分点|倍|ms|MB|GB|TB)', ans))
+    return {"n_labels": n_labels, "n_numeric_claims": n_nums,
+            "label_coverage": round(n_labels / max(n_nums, 1), 2)}
+
+
 def run_one(qid, rep, dry_run=False):
     tag = f"S5-{qid}-r{rep}"
     question = QUESTIONS[qid]
@@ -205,6 +217,7 @@ def run_one(qid, rep, dry_run=False):
     prompt = P4_SYNTHESIZE.format(question=question, fact_table=table) + _perturb()
     answer, usage = call_llm(prompt, max_tokens=8000, temperature=0.7, top_p=0.95)
     rec["answer"] = answer or ""
+    rec["label_stats"] = _label_stats(answer or "")
     rec["usage"] = usage
     rec["wall_s"] = round(time.time() - t0, 1)
     rec["n_verified"] = n_v
@@ -220,7 +233,7 @@ def run_one(qid, rep, dry_run=False):
     except Exception as e:
         rec["depth_score"] = None
         print(f"  [{tag}] depth-score failed: {e}", flush=True)
-    print(f"  [{tag}] P4+J: cov={cov} depth={rec['depth_score']} unverified={j.get('unverified_count')} wall={rec['wall_s']}s", flush=True)
+    print(f"  [{tag}] P4+J: cov={cov} depth={rec['depth_score']} labels={rec['label_stats']['n_labels']}/{rec['label_stats']['n_numeric_claims']} nums unverified={j.get('unverified_count')} wall={rec['wall_s']}s", flush=True)
     return rec
 
 
