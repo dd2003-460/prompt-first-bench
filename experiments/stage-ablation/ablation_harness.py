@@ -464,11 +464,12 @@ def build_prompt(arm, qid):
 
 
 # ── LLM 调用 ────────────────────────────────────────────────────────
-def call_llm(prompt, max_tokens=LLM_MAX_TOKENS, timeout=LLM_TIMEOUT, retries=1, seed=None, temperature=0):
+def call_llm(prompt, max_tokens=LLM_MAX_TOKENS, timeout=LLM_TIMEOUT, retries=1, seed=None, temperature=0.7, top_p=0.95):
     payload_dict = {
         "model": LLM_MODEL,
         "messages": [{"role": "user", "content": prompt}],
         "temperature": temperature,
+        "top_p": top_p,
         "max_tokens": max_tokens,
     }
     if seed is not None:
