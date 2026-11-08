@@ -205,6 +205,7 @@ def _run_p1p2p3(rec, tag, question):
         facts.append(node_rec)
     rec["stages"]["p2p3_nodes"] = facts
     n_v = sum(1 for f in facts if f["status"] == "verified")
+    rec["n_nodes"], rec["n_verified"] = len(facts), n_v
     print(f"  [{tag}] P2/P3 done: {n_v}/{len(facts)} verified", flush=True)
 
 
