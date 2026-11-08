@@ -300,7 +300,7 @@ def _run_p1p2p3(rec, tag, question):
     t0 = time.time()
     # P1
     nodes, p1_raw = decompose(question)
-    rec["stages"]["p1_decompose"] = {"nodes": len(nodes), "raw": p1_raw[:3000]}
+    rec["stages"]["p1_decompose"] = {"nodes": len(nodes), "levels": {str(k): int(v) for k, v in sorted(Counter(n.get("level", "?") for n in nodes)).items()}, "raw": p1_raw[:3000]}
     print(f"  [{tag}] P1: {len(nodes)} nodes", flush=True)
     if not nodes:
         rec["error"] = "decompose returned no nodes"
