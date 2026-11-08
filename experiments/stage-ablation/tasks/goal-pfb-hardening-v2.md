@@ -69,5 +69,5 @@
 - 2026-11-09: **修正两个错误诊断**（文件证据推翻了之前基于 raw[:3000] 截断存储的误判）：
   - (a) v13 r5 不是 max_tokens 截断——usage out=2128 < 8000，是模型 ~2100 token 处主动停笔。修复 = _extract_json 截断兜底 + retry 降温度（commit 5a3b6c17），对 r5 raw 实测可恢复 10/11 节点
   - (b) research_hook snippet 不是空的——全量审计 609 sources 全部有内容（arxiv 中位 500ch, ddg 222ch, web_llm 101ch）。真正的问题是 **local_corpus 通道污染**：_LOCAL_CORPUS_DIRS 只含 D1-gpu-research 语料，对 nat 题（CDN/Pareto/LRU）grep 出的"命中"全是 GPU 硬件文档。nat 100 reps 共 1506 个节点，evidence 里大量出现"参考来源[1]为GPU硬件规格...与该节点无关"——P3 在拿不相关的本地文档做核验，把本该 verified 的节点打成 degraded。已修（commit 39aa9536）：非 gpu 题禁用该通道
-  - (c) **v13 早期信号偏负**：7 个有效 rep（r5 失败）depth_score mean=0.402（r1 峰值 0.487，其余 0.316-0.430），cov mean=0.093。few-shot 纯结构示例可能没带来稳定增益，方差大。等 50-rep 完整数据再下结论；若 mean < 0.45，回退到 v8 配置对比
+  - (c) **v13 早期信号偏负**：6 个有效 rep（r5 失败，r8 在跑）depth_score mean=0.389 std=0.061（r1 峰值 0.487，其余 0.316-0.430），cov mean=0.111。few-shot 纯结构示例可能没带来稳定增益，方差大。等 50-rep 完整数据再下结论；若 mean < 0.45，回退到 v8 配置对比
   - (d) **P4 口径分离根因定位 + 修复**（commit 2db5f907）：逐点归因发现 S5 vs S0 差距集中在 point 4（字节 vs 请求命中率口径分离，S5 58% vs S0 71%）。40 个 miss rep 里 39 个 fact table 有对应节点（37 verified）——不是 P1 分解缺失，是 P4 综合时把两种口径合并成一个值。新增 rule 6「口径分离原则」强制逐口径分别报告
