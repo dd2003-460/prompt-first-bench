@@ -320,6 +320,7 @@ def _run_p1p2p3(rec, tag, question):
     facts = []
     for node in nodes:
         node_rec = {"id": node["id"], "claim": node["claim"],
+                    "level": node.get("level", "?"),
                     "source": node.get("source", "search"),
                     "search_query": node.get("search_query", "")}
         rounds = []
