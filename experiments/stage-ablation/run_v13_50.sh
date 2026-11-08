@@ -13,7 +13,7 @@ for ((r=1; r<=REPS; r++)); do
     continue
   fi
   echo "[$(date '+%F %T')] r$r start" >> "$LOG"
-  python3 s5_pipeline.py --qs gpu --reps 1 --out "$OUT" >> "$LOG" 2>&1 \
+  python3 s5_pipeline.py --qs gpu --reps "$r" --start-rep "$r" --out "$OUT" >> "$LOG" 2>&1 \
     | grep -E "P1:|P1.5:|P2/P3 done|P4\+J|CACHE-HIT|WEBLLM" >> "$LOG"
   echo "[$(date '+%F %T')] r$r end" >> "$LOG"
 done
