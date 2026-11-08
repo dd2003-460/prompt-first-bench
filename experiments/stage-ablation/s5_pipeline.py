@@ -287,15 +287,21 @@ def gap_check(question, existing_nodes):
         return [], [], ""
 
 
-def search_node(node):
+def search_node(node, qid="gpu"):
     """P2: 对该节点做真实联网检索 (arXiv API via ego-browser)。失败降级为空。
-    given/knowledge 节点不触发检索（逻辑核验即可）；search 节点全部真实联网（无预算上限）。"""
+    given/knowledge 节点不触发检索（逻辑核验即可）；search 节点全部真实联网（无预算上限）。
+
+    local_corpus 通道按题域启用：_LOCAL_CORPUS_DIRS 目前只有 D1-gpu-research 语料，
+    对 nat/soc 题 grep 出的"命中"全是无关 GPU 文档，会污染 P3 核验（nat 100 reps
+    evidence 里大量出现"参考来源[1]为GPU硬件规格...与该节点无关"）。
+    2026-11-09: 非 gpu 题禁用该通道，其余通道不受影响。"""
     if node.get("source", "search") in ("given", "knowledge"):
         return [], None  # no retrieval needed — logic verification only
     _budget_take()  # counter only, never blocks
     q = node.get("search_query") or node["claim"]
     try:
-        srcs = research_hook("s5-node", q, max_results=SEARCH_PER_NODE)
+        srcs = research_hook("s5-node", q, max_results=SEARCH_PER_NODE,
+                             enable_local=(qid == "gpu"))
         return srcs, None
     except ResearchHookUnavailable as e:
         return [], str(e)
@@ -338,7 +344,7 @@ def _label_stats(ans):
             "label_coverage": round(n_labels / max(n_nums, 1), 2)}
 
 
-def _run_p1p2p3(rec, tag, question):
+def _run_p1p2p3(rec, tag, question, qid="gpu"):
     """P1 decompose + P2 search + P3 verify. Sets stages.p2p3_nodes, n_verified, n_nodes."""
     t0 = time.time()
     # P1
@@ -370,7 +376,7 @@ def _run_p1p2p3(rec, tag, question):
                     "search_query": node.get("search_query", "")}
         rounds = []
         for rnd in range(1, MAX_ROUNDS + 1):
-            srcs, err = search_node(node)
+            srcs, err = search_node(node, qid=qid)
             if err:
                 status, evidence, corrected, raw = ("degraded", f"检索失败: {err}；claim 保留待后续补查", node["claim"], "")
             else:
@@ -416,7 +422,7 @@ def run_one(qid, rep, dry_run=False):
         print(f"  [{tag}] using pre-built fact table ({len(facts)} nodes, {n_v} verified)", flush=True)
     else:
         _budget_reset()
-        _run_p1p2p3(rec, tag, question)
+        _run_p1p2p3(rec, tag, question, qid=qid)
         facts = rec["stages"]["p2p3_nodes"]
         n_v = rec["n_verified"]
     # P4

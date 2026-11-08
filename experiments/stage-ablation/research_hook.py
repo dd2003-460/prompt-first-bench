@@ -538,7 +538,7 @@ def _fetch_page(url, title_hint, timeout=30):
     return {"title": title_hint, "url": url, "snippet": "", "alive": False}
 
 
-def research_hook(qid, question, max_results=8):
+def research_hook(qid, question, max_results=8, enable_local=True):
     """主接口 v3：多通道并行检索，返回 sources 列表。
 
     通道优先级（每个通道独立 cap，总输出 ≤ max_results）：
@@ -569,9 +569,12 @@ def research_hook(qid, question, max_results=8):
         sources.append({**r, "observed_at": observed, "source_type": stype})
 
     # ── 1. 本地语料（最快，~0.1s，已验证数据优先）──
+    # enable_local=False 时跳过：_LOCAL_CORPUS_DIRS 只有 D1-gpu-research 语料，
+    # 对非 GPU 题 grep 出的"命中"是无关文档，会污染下游 P3 核验。
     try:
-        for r in _local_corpus_search(question, max_results=2):
-            _add(r, "local_corpus")
+        if enable_local:
+            for r in _local_corpus_search(question, max_results=2):
+                _add(r, "local_corpus")
     except Exception:
         pass
 
