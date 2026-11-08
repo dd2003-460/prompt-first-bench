@@ -7,7 +7,7 @@
 
 | # | 组件 | 文件 | 最后修复 | 最后验证 | 状态 | 备注 |
 |---|------|------|----------|----------|------|------|
-| 1 | P1 分解 prompt (rules 1-9) | s5_pipeline.py L63-130 | 7152cec2 (11-09) | ❌ 未重跑 nat | 🔴 待验证 | rule 8 子问全覆盖 + rule 9 定量承诺是新的 |
+| 1 | P1 分解 prompt (rules 1-9) | s5_pipeline.py L63-130 | ac3618b2 (11-09) | ❌ 未重跑 nat | 🔴 待验证 | rule 8 子问全覆盖 + rule 9 定量承诺+分布参数实例化 |
 | 2 | P1 max_tokens + 截断重试 | s5_pipeline.py | (v13 r5 fix) | v13 r6-r10 无截断 | 🟢 OK | r5 后未再出现 |
 | 3 | P2 检索: wiki extracts API | research_hook.py `_wiki_search` | 061759d0 (11-09) | replay 15 nodes | 🟡 部分 | snippet ~1000ch，但 P3 仍说"来源无关" |
 | 4 | P2 检索: DDG→Bing fallback | research_hook.py `_ddg_search` | 061759d0 (11-09) | 单测 10 results | 🟢 OK | cn.bing.com setlang=en&cc=us |
@@ -15,7 +15,7 @@
 | 6 | P2 检索: local corpus gate | research_hook.py `_local_corpus_search` | f92fa19f (11-09) | nat→0, gpu→2 | 🟢 OK | qid 直判，非 gpu 域返回 [] |
 | 7 | P2 检索: sources_block cap | s5_pipeline.py | 061759d0 (11-09) | — | 🟢 OK | 400→800ch |
 | 8 | P3 验证逻辑 | s5_pipeline.py P3 prompt | 未改（用户要求不改） | replay: 2up/2down/11same | 🟡 瓶颈上游 | P3 靠第一性原理 rubber-stamp，本身没错；问题是喂给它的 source 质量 |
-| 9 | P4 综合 prompt (rules 1-7) | s5_pipeline.py L185-200 | f06116fe (11-09) | ❌ 未重跑 nat | 🔴 主瓶颈 | rule 6 node-to-answer bridge 是新的，未验证效果 |
+| 9 | P4 综合 prompt (rules 1-7) | s5_pipeline.py L185-210 | d49d44e0 (11-09) | ❌ 未重跑 nat | 🔴 主瓶颈 | rule 5 anti-hedging + rule 6 node-to-answer bridge，均未验证 |
 | 10 | Judge (coverage scoring) | judge_v2_depth.py | — | S0-nat 391 reps 稳定 | 🟢 OK | 同 judge 对比有效 |
 
 ## 当前数据状态 (2026-11-09 ~14:00 CST)
@@ -29,10 +29,20 @@
 
 ## 下一步（按优先级）
 
-1. **等 v13 + soc 跑完**（~2h），期间做 2
-2. **启动 nat 100-rep 重跑**（用 7152cec2+f06116fe 后的代码）— 这是 Phase 1 → Phase 1-validate 的门禁
-3. nat 重跑结果出来 → 算 mean cov vs 0.634 → 过则 advance stage
-4. 如果 nat 仍 < 0.634 → 追 P4 具体漏了哪些 gold point（per-node audit 再来一轮）
+1. **等 v13 (11/50) + soc (30/100) 跑完**（~1.5h）
+2. **启动 nat 100-rep 重跑**（用 ac3618b2 后的代码，含全部 6 个 fix）— Phase 1→Phase 1-validate 门禁
+3. nat 重跑结果 → mean cov vs 0.634 → 过则 advance stage
+4. 如果仍 < 0.634 → 第三轮 per-node audit（这次看 rule 8/9 是否生效：请求命中率节点出现率、分布参数实例化率）
+
+## p4/p2 miss 精确归因（2026-11-09 第二轮 audit）
+
+| Gold point | Miss 数 | 根因分布 | 对应 fix |
+|---|---|---|---|
+| p4 口径分离 | 40 | 88% 无请求命中率节点(P1没拆) / 80%答案只提字节不提请求 / 69%有公式节点却hedge | rule 8 + rule 5 anti-hedge + rule 6 bridge |
+| p2 头部集中度 | 40 | 72% 无累积质量节点(P1没给参数) / 28%有节点但P4没用 | rule 9 分布参数实例化 + rule 6 bridge |
+
+**结论**: 主瓶颈是 P1 分解不完整（缺节点）> P4 综合不力（有节点不用）> 检索质量。
+三个 fix 分别打三个层：P1 rule 8/9（源头）、P4 rule 5/6（出口）、retrieval（中间）。
 
 ## "漏风"诊断（2026-11-09）
 
