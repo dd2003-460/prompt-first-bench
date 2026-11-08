@@ -67,6 +67,37 @@ P1_DECOMPOSE = (
     "【问题】\n{question}\n"
 )
 
+P15A_DIMENSIONS = (
+    "你是研究问题分解专家。下面是一道待解问题。"
+    "你的唯一任务是：从问题文本本身出发，列出回答它必须覆盖的所有顶层维度。\\n\\n"
+    "【规则】\\n"
+    "- 只看问题文本，不参考任何外部框架或常识性检查清单；\\n"
+    "- 每个维度用一句话描述（如「单位时间的总成本构成」「实际使用率/占空比」）；\\n"
+    "- 维度之间必须正交——一个维度的信息不能由其他维度推出；\\n"
+    "- 通常 4-8 个维度，宁少勿多。\\n\\n"
+    "【格式要求】只输出 JSON：{{\"dimensions\": [\"...\", ...]}}\\n\\n"
+    "【问题】\\n{question}\\n"
+)
+
+P15B_GAP_FILL = (
+    "你是研究覆盖度审查员。下面是一道问题、一组顶层维度、和一份已生成的事实节点列表。"
+    "对照维度列表，找出哪些维度没有被节点充分覆盖，为缺失维度生成补充节点。\\n\\n"
+    "【判断标准】\\n"
+    "- 某维度有 ≥2 个具体可检索的节点 → 视为已覆盖；\\n"
+    "- 某维度只有 0-1 个节点且停留在定性层面 → 视为缺失，需补 L2/L3 节点；\\n"
+    "- 补充节点必须具体到可检索的事实（一个数字、一个公式、一个阈值），带英文检索词。\\n\\n"
+    "【规则】\\n"
+    "- 只补缺失维度，不重复已有节点；\\n"
+    "- 如果所有维度都已充分覆盖，new_nodes 输出空列表；\\n"
+    "- 补充节点数量通常 3-10 个。\\n\\n"
+    "【格式要求】只输出 JSON：{{\"missing_dimensions\": [\"...\", ...], \"new_nodes\": "
+    "[{{\"id\": \"NXX\", \"claim\": \"...\", \"level\": \"L2|L3\", "
+    "\"supports\": \"...\", \"search_query\": \"english query\"}}, ...]}}\\n\\n"
+    "【问题】\\n{question}\\n\\n"
+    "【顶层维度】\\n{dimensions}\\n\\n"
+    "【已有节点】\\n{existing_nodes}\\n"
+)
+
 P3_VERIFY = (
     "你是事实核验员。针对下面这个关键事实节点，执行两步检查：\n\n"
     "【第一步 — 逻辑校验】该陈述在逻辑上是否自洽？量纲/量级是否合理？"
@@ -135,6 +166,40 @@ def decompose(question, max_retries=2):
     return [], last_raw
 
 
+def gap_check(question, existing_nodes):
+    """P1.5: 两轮覆盖度审查。A=独立列维度（不看已有节点），B=对照补缺。"""
+    # P15A: 独立识别顶层维度（不受已有节点锚定）
+    prompt_a = P15A_DIMENSIONS.format(question=question) + _perturb()
+    try:
+        out_a, _ = call_llm(prompt_a, max_tokens=2048, temperature=0.7, top_p=0.95)
+        d_a = _extract_json(out_a or "") or {}
+        dimensions = d_a.get("dimensions") or []
+    except Exception as e:
+        print(f"  [gap_check A] error: {e}", flush=True)
+        return [], [], ""
+    if not dimensions:
+        print(f"  [gap_check A] no dimensions identified", flush=True)
+        return [], [], out_a or ""
+    print(f"  [gap_check A] {len(dimensions)} dimensions: {' | '.join(d[:30] for d in dimensions[:5])}...", flush=True)
+
+    # P15B: 对照维度列表补缺失节点
+    node_lines = "\n".join(
+        f"{n['id']} [{n.get('level','?')}]: {n['claim']}" for n in existing_nodes)
+    dim_lines = "\n".join(f"- {d}" for d in dimensions)
+    prompt_b = P15B_GAP_FILL.format(
+        question=question, dimensions=dim_lines, existing_nodes=node_lines) + _perturb()
+    try:
+        out_b, _ = call_llm(prompt_b, max_tokens=4096, temperature=0.7, top_p=0.95)
+        d_b = _extract_json(out_b or "") or {}
+        new_nodes = [n for n in (d_b.get("new_nodes") or [])
+                     if isinstance(n, dict) and n.get("claim")]
+        missing = d_b.get("missing_dimensions") or []
+        return new_nodes, missing, out_b
+    except Exception as e:
+        print(f"  [gap_check B] error: {e}", flush=True)
+        return [], [], ""
+
+
 def search_node(node):
     """P2: 对该节点做真实联网检索 (arXiv API via ego-browser)。失败降级为空。"""
     q = node.get("search_query") or node["claim"]
@@ -193,6 +258,17 @@ def _run_p1p2p3(rec, tag, question):
         rec["n_nodes"], rec["n_verified"] = 0, 0
         rec["stages"]["p2p3_nodes"] = []
         return rec
+    # P1.5: gap check — 覆盖度审查，补缺失维度
+    new_nodes, missing_dims, p15_raw = gap_check(question, nodes)
+    if new_nodes:
+        start_id = len(nodes) + 1
+        for i, n in enumerate(new_nodes):
+            n.setdefault("id", f"N{start_id + i}")
+        nodes.extend(new_nodes[:MAX_NODES - len(nodes)])
+        print(f"  [{tag}] P1.5: +{len(new_nodes)} nodes (missing: {', '.join(missing_dims[:4])}) → total {len(nodes)}", flush=True)
+    else:
+        print(f"  [{tag}] P1.5: no gaps found", flush=True)
+    rec["stages"]["p15_gap_check"] = {"added": len(new_nodes), "missing": missing_dims, "raw": p15_raw[:2000]}
     # P2+P3 per node (with re-search loop)
     facts = []
     for node in nodes:
