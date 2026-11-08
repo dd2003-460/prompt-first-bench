@@ -42,6 +42,10 @@ from research_hook import research_hook, ResearchHookUnavailable
 HERE = os.path.dirname(os.path.abspath(__file__))
 MAX_NODES = 60  # safety valve only — real stopping rule is the objective function, not this cap
 BUDGET_RETRIEVAL = 12  # external retrieval calls per run (search-source nodes only)
+# breadth-vs-depth trade-off weight in the decomposition objective:
+#   S_alpha(T) = sum_n [ n*ln(k_n) + alpha * k_n*ln(n) ]
+# alpha=0 -> pure depth-mining; alpha=1 -> symmetric depth/breadth; default 0.5
+ALPHA_BREADTH = 0.5
 _budget_used = {"n": 0}
 
 def _budget_reset():
@@ -69,8 +73,9 @@ P1_DECOMPOSE = (
     "不确定具体数字时不要犹豫、也不要降级成定性描述：用符号变量替代（例如 电价 ρ [元/kWh]、寿命 L [年]、利用率 u），\n"
     "把公式完整写出来——一个带变量的可计算表达式比一句定性判断有价值得多。变量在最终答案里保留为参数即可，不需要解出具体数值。\n\n"
     "【分解目标函数（显式优化准则）】\n"
-    "你的分解树得分 = Σₙ n·ln(kₙ)，其中 kₙ 是第 n 层的节点数（L1=直接因子层，L2=定义展开层，L3=可计算项层…）。这个分数衡量整棵树的总信息量：节点越深、该层节点越多，贡献越大。\n"
-    "边际收益规律（精确）：向第 n 层新增 1 个节点，得分增量 = ln((kₙ+1)/kₙ)，且该节点若继续展开还会带来更深层的间接增量。注意两层含义——(a) 同一层内：kₙ 越大，再加一个节点的边际越小（对数递减），所以横向铺量有饱和点；(b) 跨层：同样的 1 个节点放在第 n+1 层比放在第 n 层直接贡献多 ln((k+1)/k)×(n+1)/n 倍，而且解锁了它自己的子树。因此——\n"
+    "你的分解树得分 = Σₙ [ n·ln(kₙ) + {alpha}·kₙ·ln(n) ]，其中 kₙ 是第 n 层的节点数（L1=直接因子层，L2=定义展开层，L3=可计算项层…），n 是层深。\n"
+    "第一项奖励深度（同样的节点放在更深层贡献更大），第二项奖励广度（每层正交维度覆盖得越全贡献越大）。{alpha}=0 时纯挖深，{alpha}=1 时深挖与广搜完全对称——本题使用 {alpha}={alpha}，即两种挖掘收益并重。\n"
+    "边际收益规律（精确）：向第 n 层新增 1 个节点，得分增量 = ln((kₙ+1)/kₙ) + {alpha}·ln(n)，且该节点若继续展开还会带来更深层的间接增量。注意三层含义——(a) 同一层内：kₙ 越大，再加一个兄弟节点的边际越小（对数递减），所以无差别横向铺量有饱和点，但每个真正正交的新维度都仍值得加；(b) 跨层：同样的 1 个节点放在第 n+1 层比放在第 n 层贡献更大（两项都随 n 增长），而且解锁它自己的子树；(c) 广度项保证「漏掉一个顶层正交维度」是有代价的——宁可先保证 L1/L2 覆盖完整，再往深处挖。因此——\n"
     "- 展开一个有 2-3 个正交因子的定义式节点（如 成本→「采购价、电费摊销、故障损耗」）比多铺一个浅层兄弟节点值钱得多；\n"
     "- 停止条件：当「再展开一层能带来的信息增量」低于「该层检索/核验的预算成本」时停，不要为了凑深度硬拆无信息量的子项。\n"
     "【检索预算】你本次可用 {budget} 次外部检索（source=search 的节点才消耗预算；given/knowledge 不消耗）。在预算内最大化上述得分：优先把预算花在「展开后能产生具体数值/公式」的 search 节点上，而不是花在不改变答案内容的定性节点上。\n"
@@ -90,7 +95,7 @@ P1_DECOMPOSE = (
     "停在'X 包含 A、B、C'而不拆出 A/B/C 各自的计算方式 = 未完成分解。\n\n"
     "【展开深度与停止条件（由目标函数决定，不设固定节点数上限）】\n"
     "不要预设节点总数。判断标准只有一个：对树上每个非叶子候选位置问——「再往下展开一层，能否产生新的具体数值、公式或可检索事实？」能 → 必须展开；不能（只剩定性描述或同义复述）→ 停。\n"
-    "停止条件（两个方向都要判）：向下——若某节点已是最小可计算单元（单个价格、单个功耗值、单条不可再分的公式），它的任何子节点都不增加信息量，停；横向——若某层 kₙ 已大到新增兄弟节点只是同义复述或边缘案例，边际 ln((kₙ+1)/kₙ) 趋近于零，停。除此之外默认继续拆：深层节点直接贡献更大（∝n），且每个新节点都解锁自己的子树。\n"
+    "停止条件（三个方向都要判）：向下——若某节点已是最小可计算单元（单个价格、单个功耗值、单条不可再分的公式），它的任何子节点都不增加信息量，停；横向同层——若某层 kₙ 已大到新增兄弟节点只是同义复述或边缘案例，边际 ln((kₙ+1)/kₙ) 趋近于零，停；横向跨层——若某个正交维度在浅层还没有节点（覆盖缺口），广度项会持续扣分，必须补上而不是只顾深挖。除此之外默认继续拆：深层节点直接贡献更大（∝n），且每个新节点都解锁自己的子树。\n"
     "禁止为了控制篇幅而提前收树；也禁止硬拆无信息量的子项凑深度（那会稀释 kₙ 的有效性且不增加答案内容）。\n\n"
     "【格式要求】\n"
     "每个节点给：编号（N1, N2, ...）、一句话陈述（具体到可检索的事实）、层级标记（L1/L2/L3）、"
@@ -186,7 +191,7 @@ def decompose(question, max_retries=2):
     """P1: 拆出关键事实节点。返回 nodes 列表。JSON 解析失败时 retry。"""
     last_raw = ""
     for attempt in range(max_retries + 1):
-        prompt = P1_DECOMPOSE.format(question=question, budget=BUDGET_RETRIEVAL) + _perturb()
+        prompt = P1_DECOMPOSE.format(question=question, budget=BUDGET_RETRIEVAL, alpha=ALPHA_BREADTH) + _perturb()
         out, _ = call_llm(prompt, max_tokens=4096, temperature=0.7, top_p=0.95)
         last_raw = out or ""
         d = _extract_json(last_raw) or {}
