@@ -241,10 +241,14 @@ def _query_is_gpu_related(query):
     return any(m in q for m in GPU_QUERY_MARKERS)
 
 
-def _local_corpus_search(query, max_results=3):
+def _local_corpus_search(query, max_results=3, qid=None):
     """在本地已验证调研项目中搜索相关片段（grep -ri 关键词匹配）。
     返回 [{title, url(file path), snippet, source_type:'local_corpus'}, ...]
-    2026-11-09: 非 GPU 查询返回空列表（语料库主体是 D1-gpu 调研，对其它域是噪声）。"""
+    2026-11-09: 按题目域门控——只有 query 命中该域 corpus 的标记词才服务，否则返回空。
+    当前唯一 corpus = D1-gpu；qid='nat'/'soc' 等非 gpu 域直接返回 []。"""
+    # Domain gate: only serve queries that match this corpus's domain.
+    if qid is not None and qid != "gpu":
+        return []
     if not _query_is_gpu_related(query):
         return []
     import subprocess as _sp
@@ -638,7 +642,7 @@ def research_hook(qid, question, max_results=8, enable_local=True):
     # 对非 GPU 题 grep 出的"命中"是无关文档，会污染下游 P3 核验。
     try:
         if enable_local:
-            for r in _local_corpus_search(question, max_results=2):
+            for r in _local_corpus_search(question, max_results=2, qid=qid):
                 _add(r, "local_corpus")
     except Exception:
         pass
