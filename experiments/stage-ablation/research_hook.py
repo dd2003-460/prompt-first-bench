@@ -70,10 +70,32 @@ def _run_ego_browser(js_code, timeout=120):
     return result.stdout + "\n" + result.stderr
 
 
+def _wiki_extract(title, max_chars=900):
+    """取 wiki 页面 intro 段全文（比 search snippet 长 5-10 倍，含具体数值/公式）。
+    失败静默返回 ''。"""
+    import urllib.request
+    try:
+        url = (f"https://en.wikipedia.org/w/api.php?action=query&prop=extracts"
+               f"&titles={quote_plus(title)}&exintro=1&explaintext=1&format=json")
+        req = urllib.request.Request(url, headers={"User-Agent": "pfb-research/1.0"})
+        d = json.load(urllib.request.urlopen(req, timeout=15))
+        pages = d.get("query", {}).get("pages", {})
+        for p in pages.values():
+            ext = p.get("extract", "")
+            if ext:
+                return ext[:max_chars]
+    except Exception:
+        pass
+    return ""
+
+
 def _wiki_search(query, max_results=3):
     """Wikipedia API 检索（公网直连，不走 ego-browser/8787）。
-    返回 [{title, url, snippet}, ...]。对教科书级事实/工程规格有效。"""
-    import urllib.request
+    返回 [{title, url, snippet}, ...]。对教科书级事实/工程规格有效。
+    snippet = search API 短摘要 + extracts intro 前 ~900 字符拼接（2026-11-09：
+    原实现只有 ~150ch 的 search snippet，P3 核验拿不到具体数值/公式，
+    导致 search 节点大面积 degraded；DDG 被 anomaly 限流后 wiki 是主力通道，必须加厚）。"""
+    import urllib.request, time as _time
     results = []
     try:
         url = (f"https://en.wikipedia.org/w/api.php?action=query&list=search"
@@ -82,12 +104,15 @@ def _wiki_search(query, max_results=3):
         d = json.load(urllib.request.urlopen(req, timeout=15))
         for h in d.get("query", {}).get("search", []):
             title = h["title"]
-            snippet = re.sub(r'<[^>]+>', '', h.get("snippet", ""))[:400]
+            short = re.sub(r'<[^>]+>', '', h.get("snippet", ""))[:200]
+            intro = _wiki_extract(title)
+            snippet = (short + "\n" + intro)[:1200] if intro else short
             results.append({
                 "title": title,
                 "url": f"https://en.wikipedia.org/wiki/{quote_plus(title.replace(' ', '_'))}",
                 "snippet": snippet,
             })
+            _time.sleep(0.3)  # rate-limit courtesy
     except Exception:
         pass
     return results
@@ -127,6 +152,30 @@ def _ddg_search(query, max_results=3):
             if attempt == 0:
                 _time.sleep(2)
             continue
+    if not results:
+        # 2026-11-09: DDG lite 被 anomaly 限流、html 端点 TLS 握手失败 → 回退 Bing
+        # （cn.bing.com 可达，不同限流桶；对价格/规格类非学术事实有效）
+        try:
+            import urllib.request, html as _html
+            url2 = "https://cn.bing.com/search?q=" + quote_plus(query) + "&setlang=en&cc=us"
+            req2 = urllib.request.Request(url2, headers={
+                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36",
+                "Accept-Language": "en-US,en;q=0.9",
+            })
+            html_txt = urllib.request.urlopen(req2, timeout=15).read().decode("utf-8", errors="replace")
+            # bing result blocks: <li class="b_algo"> with <h2><a href> and <p>
+            for block in re.findall(r'<li class="b_algo".*?</li>', html_txt, re.DOTALL)[:max_results]:
+                a_m = re.search(r'<h2[^>]*><a[^>]*href="([^"]+)"[^>]*>(.*?)</a>', block, re.DOTALL)
+                p_m = re.search(r'<p[^>]*>(.*?)</p>', block, re.DOTALL)
+                if not a_m:
+                    continue
+                href = a_m.group(1)
+                title = _html.unescape(re.sub(r'<[^>]+>', '', a_m.group(2))).strip()
+                snippet = re.sub(r'<[^>]+>', '', p_m.group(1)).strip()[:400] if p_m else ""
+                if title:
+                    results.append({"title": title[:200], "url": href, "snippet": snippet})
+        except Exception:
+            pass
     return results
 
 
@@ -179,9 +228,25 @@ _LOCAL_CORPUS_DIRS = [
     "/Users/a1-6/Desktop/workspace/projects/decomp/archive/D1-gpu-research-2026",
 ]
 
+GPU_QUERY_MARKERS = ("gpu", "显卡", "rtx", "a100", "h100", "h200", "b200", "b300",
+                     "nvidia", "amd", "intel", "显存", "vram", "kv cache",
+                     "tok/s", "tpot", "ttft", "推理服务器")
+
+
+def _query_is_gpu_related(query):
+    """判断查询是否 GPU/硬件相关。D1-gpu 语料只服务这类查询（2026-11-09 修复：
+    nat/soc 等非 GPU 题的 P3 核验被 D1-gpu 语料污染——744/1506 个节点的 evidence
+    引用了 GPU 硬件规格，P3 模型看到无关语料直接标 degraded）。"""
+    q = query.lower()
+    return any(m in q for m in GPU_QUERY_MARKERS)
+
+
 def _local_corpus_search(query, max_results=3):
     """在本地已验证调研项目中搜索相关片段（grep -ri 关键词匹配）。
-    返回 [{title, url(file path), snippet, source_type:'local_corpus'}, ...]"""
+    返回 [{title, url(file path), snippet, source_type:'local_corpus'}, ...]
+    2026-11-09: 非 GPU 查询返回空列表（语料库主体是 D1-gpu 调研，对其它域是噪声）。"""
+    if not _query_is_gpu_related(query):
+        return []
     import subprocess as _sp
     # 提取核心词（≥2字符，过滤停用词）
     words = re.findall(r'[A-Za-z0-9]{2,}', query)

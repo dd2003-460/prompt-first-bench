@@ -317,7 +317,7 @@ def sources_block(srcs):
         return "(本轮检索无可用来源 — 全部通道失败)"
     lines = []
     for i, s in enumerate(srcs, 1):
-        lines.append(f"[{i}] {s.get('title','?')}\n    URL: {s.get('url','?')}\n    摘要: {s.get('snippet','')[:400]}")
+        lines.append(f"[{i}] {s.get('title','?')}\n    URL: {s.get('url','?')}\n    摘要: {s.get('snippet','')[:800]}")
     return "\n".join(lines)
 
 
