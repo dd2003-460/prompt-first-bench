@@ -7,87 +7,119 @@ This replaces the binary coverage metric (denominator=6 → only 7 discrete valu
 with a continuous resolution that distinguishes "mentioned the concept" from
 "derived the correct quantitative relationship".
 
+Weighting scheme — k·log(k) frequency-rarity weighting (成璐 2026-11-08):
+  - Depth levels are ordered by rarity: shallow = common (high base rate), deep = rare (low base rate).
+  - The value of reaching a level scales with how RARE it is (frequency × information content).
+  - Pure log(k) would under-weight deep levels; multiplying by k compensates:
+      w_k = k · ln(k+1) / Σ_j j·ln(j+1)   for k in {1..K}
+    K=3 → weights ≈ [0.29, 0.40, 0.31]... wait no:
+    k·ln(k+1): 1·ln2=0.693, 2·ln3=2.197, 3·ln4=4.159 → normalize: [0.11, 0.35, 0.54]
+    K=4: 0.693, 2.197, 4.159, 6.438 → [0.08, 0.24, 0.45, 0.69]... no:
+    sum=13.49 → [0.051, 0.163, 0.308, 0.477]
+  - So deeper levels get disproportionately more weight. A run that reaches level 4
+    but not level 1 gets 0.477 (not 0.25 as uniform would give).
+  - This is the production formula from bench/self-opt-tester/bench.md O3:
+      w_v = 1 + min(−log₂ p̃_v, log₂(1/ε))
+    where p̃ = blind-generation base rate. For our fixed depth ladder, we use the
+    deterministic k·ln(k+1) proxy instead of LLM-estimated p̃ (cheaper, no same-family
+    judge bias, monotonic by construction).
+
 Usage: python3 judge_v2_depth.py --runs runs-prod --arm S0 --q nat --reps 1-30
 """
-import argparse, json, os, re, sys
+import argparse, json, math, os, re, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from ablation_harness import call_llm
 
 # Depth-level rubric for nat (CDN cache) gold points
-# Each point: list of (weight, description) — weights sum to 1.0 per point
+# Each point: list of (weight, description) — weights are k·ln(k+1) normalized (deeper = rarer = more valuable)
+# K=3: [0.11, 0.35, 0.54]   K=4: [0.05, 0.16, 0.31, 0.48]
+
+def _w3():
+    raw = [k * math.log(k + 1) for k in range(1, 4)]
+    s = sum(raw)
+    return [r / s for r in raw]  # ≈ [0.11, 0.35, 0.54]
+
+def _w4():
+    raw = [k * math.log(k + 1) for k in range(1, 5)]
+    s = sum(raw)
+    return [r / s for r in raw]  # ≈ [0.05, 0.16, 0.31, 0.48]
+
+W3 = _w3()
+W4 = _w4()
+
 NAT_RUBRIC = {
     "pt1": [
-        (0.3, "提到用 Pareto/Zipf 累积质量估算命中率（头部 k% 对象承载大部分请求）"),
-        (0.3, "给出具体公式或推导步骤（如 H(k) = 1 - (1-k)^{1-α} 或等价表述）"),
-        (0.4, "代入题面参数（α=1.1, N=10⁵, C=128GB）算出数值区间"),
+        (W3[0], "提到用 Pareto/Zipf 累积质量估算命中率（头部 k% 对象承载大部分请求）"),
+        (W3[1], "给出具体公式或推导步骤（如 H(k) = 1 - (1-k)^{1-α} 或等价表述）"),
+        (W3[2], "代入题面参数（α=1.1, N=10⁵, C=128GB）算出数值区间"),
     ],
     "pt2": [
-        (0.4, "指出 α=1.1 接近临界值 1，分布重尾，容量利用率对头部集中度敏感"),
-        (0.3, "说明 128GB 能覆盖的头部比例决定命中率量级（定性）"),
-        (0.3, "给出覆盖比例的估算（如 top 10-20% 对象占 >80% 字节流量）"),
+        (W3[0], "指出 α=1.1 接近临界值 1，分布重尾，容量利用率对头部集中度敏感"),
+        (W3[1], "说明 128GB 能覆盖的头部比例决定命中率量级（定性）"),
+        (W3[2], "给出覆盖比例的估算（如 top 10-20% 对象占 >80% 字节流量）"),
     ],
     "pt3": [
-        (0.3, "提到 LFU 优势受对象更新/热度漂移限制"),
-        (0.3, "将 1%/天 更新率与 LFU 频率表老化关联（定性）"),
-        (0.4, "量化提升上限（给出百分点范围 + 推导依据，非拍脑袋）"),
+        (W3[0], "提到 LFU 优势受对象更新/热度漂移限制"),
+        (W3[1], "将 1%/天 更新率与 LFU 频率表老化关联（定性）"),
+        (W3[2], "量化提升上限（给出百分点范围 + 推导依据，非拍脑袋）"),
     ],
     "pt4": [
-        (0.4, "区分按字节命中率 vs 按请求命中率（两个口径分开报）"),
-        (0.3, "解释为什么大小-热度负相关导致两口径不同"),
-        (0.3, "分别给出两个口径的数值或关系式"),
+        (W3[0], "区分按字节命中率 vs 按请求命中率（两个口径分开报）"),
+        (W3[1], "解释为什么大小-热度负相关导致两口径不同"),
+        (W3[2], "分别给出两个口径的数值或关系式"),
     ],
     "pt5": [
-        (0.2, "提到'驻留时间'/'residence time'/'停留时间'概念"),
-        (0.3, "给出 T_res 的量级估计（天/小时级，非分钟级；如 ~100 天或 ~30 天）"),
-        (0.3, "将 T_res 与访问间隔做了显式对比（T_res >> inter-visit gap）"),
-        (0.2, "推导出折扣因子并给出数值（如 p_stale = 1-exp(-u·T_res)，代入得具体折数）"),
+        (W4[0], "提到'驻留时间'/'residence time'/'停留时间'概念"),
+        (W4[1], "给出 T_res 的量级估计（天/小时级，非分钟级；如 ~100 天或 ~30 天）"),
+        (W4[2], "将 T_res 与访问间隔做了显式对比（T_res >> inter-visit gap）"),
+        (W4[3], "推导出折扣因子并给出数值（如 p_stale = 1-exp(-u·T_res)，代入得具体折数）"),
     ],
     "pt6": [
-        (0.4, "明确标注哪些数字是估算、哪些是假设"),
-        (0.3, "列出关键假设（如 miss 惩罚、对象不可分割性、稳态假设）"),
-        (0.3, "对至少一个假设说明如果改变会怎样（敏感性）"),
+        (W3[0], "明确标注哪些数字是估算、哪些是假设"),
+        (W3[1], "列出关键假设（如 miss 惩罚、对象不可分割性、稳态假设）"),
+        (W3[2], "对至少一个假设说明如果改变会怎样（敏感性）"),
     ],
 }
 
 SOC_RUBRIC = {
     "pt1": [
-        (0.3, "假设链起点包含'生存压力/金钱资源=定向压力'"),
-        (0.3, "假设链起点包含'偏好噪声/随机演化残留'"),
-        (0.2, "没有直接跳到禀赋效应/损失厌恶等现成心理学标签"),
-        (0.2, "从起点到逐利行为有中间推导步骤（非一步到位）"),
+        (W4[0], "假设链起点包含'生存压力/金钱资源=定向压力'"),
+        (W4[1], "假设链起点包含'偏好噪声/随机演化残留'"),
+        (W4[2], "没有直接跳到禀赋效应/损失厌恶等现成心理学标签"),
+        (W4[3], "从起点到逐利行为有中间推导步骤（非一步到位）"),
     ],
     "pt2": [
-        (0.3, "给出至少一个解释候选（信号理论/锚定/比价成本等）"),
-        (0.3, "解释候选有机制说明（为什么高挂价→快成交）"),
-        (0.2, "评估了该解释的适用边界或局限"),
-        (0.2, "考虑了多个候选之间的竞争关系"),
+        (W4[0], "给出至少一个解释候选（信号理论/锚定/比价成本等）"),
+        (W4[1], "解释候选有机制说明（为什么高挂价→快成交）"),
+        (W4[2], "评估了该解释的适用边界或局限"),
+        (W4[3], "考虑了多个候选之间的竞争关系"),
     ],
     "pt3": [
-        (0.3, "给出至少一个解释候选（负面信号/咨询滞后/等待更低锚点等）"),
-        (0.3, "解释候选有机制说明（为什么降价→无咨询）"),
-        (0.2, "评估了该解释的适用边界或局限"),
-        (0.2, "考虑了多个候选之间的竞争关系"),
+        (W4[0], "给出至少一个解释候选（负面信号/咨询滞后/等待更低锚点等）"),
+        (W4[1], "解释候选有机制说明（为什么降价→无咨询）"),
+        (W4[2], "评估了该解释的适用边界或局限"),
+        (W4[3], "考虑了多个候选之间的竞争关系"),
     ],
     "pt4": [
-        (0.4, "明确指出哪条假设链能同时覆盖两个现象"),
-        (0.3, "明确指出哪条只能覆盖一个"),
-        (0.3, "对'同一假设 vs 不同假设'给出判断依据"),
+        (W3[0], "明确指出哪条假设链能同时覆盖两个现象"),
+        (W3[1], "明确指出哪条只能覆盖一个"),
+        (W3[2], "对'同一假设 vs 不同假设'给出判断依据"),
     ],
     "pt5": [
-        (0.4, "判定最可能驱动均衡的利益相关方（点名）"),
-        (0.3, "给出依据（数据里谁的行为变了/谁的收益结构变了）"),
-        (0.3, "排除了其他利益相关方的理由"),
+        (W3[0], "判定最可能驱动均衡的利益相关方（点名）"),
+        (W3[1], "给出依据（数据里谁的行为变了/谁的收益结构变了）"),
+        (W3[2], "排除了其他利益相关方的理由"),
     ],
     "pt6": [
-        (0.4, "提出具体最小干预方案"),
-        (0.3, "明确说清受害者是谁"),
-        (0.3, "说明为什么是'最小'的（而非更激进的替代）"),
+        (W3[0], "提出具体最小干预方案"),
+        (W3[1], "明确说清受害者是谁"),
+        (W3[2], "说明为什么是'最小'的（而非更激进的替代）"),
     ],
     "pt7": [
-        (0.4, "每个关键断言带置信度标注"),
-        (0.3, "低置信的显式标出（不是全部高置信）"),
-        (0.3, "置信度标注有依据（为什么这个给 0.6 那个给 0.9）"),
+        (W3[0], "每个关键断言带置信度标注"),
+        (W3[1], "低置信的显式标出（不是全部高置信）"),
+        (W3[2], "置信度标注有依据（为什么这个给 0.6 那个给 0.9）"),
     ],
 }
 
@@ -97,19 +129,24 @@ def build_judge_prompt(qid: str, answer: str) -> str:
     points_desc = []
     for pt_name, levels in rubric.items():
         pts = []
-        for w, desc in levels:
-            pts.append(f"  {w:.1f}: {desc}")
+        for i, (w, desc) in enumerate(levels, 1):
+            pts.append(f"  L{i} ({w:.2f}): {desc}")
         points_desc.append(f"{pt_name}:\n" + "\n".join(pts))
     
     rubric_text = "\n".join(points_desc)
     return (
-        "你是评分员。下面是一道题的深度评分标准和一个候选回答。\n"
-        "对每个要点的每个深度层级，判断候选回答是否达到该层级（达到=1，未达到=0）。\n"
-        "注意：高层级达成隐含低层级达成（如果给了高层级 1，低层级自动 1）。\n\n"
+        "你是严格评分员。下面是一道题的深度评分标准和一个候选回答。\n"
+        "对每个要点的每个深度层级，判断候选回答是否**明确、具体地**达到该层级。\n\n"
+        "**判定规则（必须严格遵守）：**\n"
+        "- 仅提到概念名称但无量化/推导/对比 = 未达到\n"
+        "- '打0.99折'≠'基于驻留时间推导折扣因子'——前者是拍脑袋，后者需要 T_res 量级 + 与访问间隔的显式对比\n"
+        "- 给出公式但未代入题面参数 = 未达到最深层级\n"
+        "- 高层级达成隐含低层级达成（如果给了 L3=1，L1/L2 自动 1）\n"
+        "- 拿不准时判 0（宁严勿松）\n\n"
         f"深度评分标准：\n{rubric_text}\n\n"
         f"候选回答：\n{answer[:12000]}\n\n"
         '输出 JSON：{"scores": {"pt1": [0或1, ...], "pt2": [...], ...}}\n'
-        "每个列表的长度必须对应该要点的层级数。"
+        "每个列表的长度必须对应该要点的层级数。只输出 JSON，不要解释。"
     )
 
 
