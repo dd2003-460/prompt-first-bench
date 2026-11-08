@@ -166,15 +166,8 @@ def _label_stats(ans):
             "label_coverage": round(n_labels / max(n_nums, 1), 2)}
 
 
-def run_one(qid, rep, dry_run=False):
-    tag = f"S5-{qid}-r{rep}"
-    question = QUESTIONS[qid]
-    rec = {"tag": tag, "arm": "S5", "qid": qid, "rep": rep,
-           "model": LLM_MODEL, "ts": datetime.now(timezone.utc).isoformat(),
-           "stages": {}}
-    if dry_run:
-        print(f"[dry] {tag}: pipeline ready (P1 decompose → P2 search×N → P3 verify×N → P4 synthesize)")
-        return rec
+def _run_p1p2p3(rec, tag, question):
+    """P1 decompose + P2 search + P3 verify. Sets stages.p2p3_nodes, n_verified, n_nodes."""
     t0 = time.time()
     # P1
     nodes, p1_raw = decompose(question)
@@ -182,6 +175,8 @@ def run_one(qid, rep, dry_run=False):
     print(f"  [{tag}] P1: {len(nodes)} nodes", flush=True)
     if not nodes:
         rec["error"] = "decompose returned no nodes"
+        rec["n_nodes"], rec["n_verified"] = 0, 0
+        rec["stages"]["p2p3_nodes"] = []
         return rec
     # P2+P3 per node (with re-search loop)
     facts = []
@@ -209,7 +204,29 @@ def run_one(qid, rep, dry_run=False):
         facts.append(node_rec)
     rec["stages"]["p2p3_nodes"] = facts
     n_v = sum(1 for f in facts if f["status"] == "verified")
-    print(f"  [{tag}] P2/P3 done: {n_v}/{len(facts)} verified ({time.time()-t0:.0f}s)", flush=True)
+    print(f"  [{tag}] P2/P3 done: {n_v}/{len(facts)} verified", flush=True)
+
+
+def run_one(qid, rep, dry_run=False):
+    tag = f"S5-{qid}-r{rep}"
+    question = QUESTIONS[qid]
+    rec = {"tag": tag, "arm": "S5", "qid": qid, "rep": rep,
+           "model": LLM_MODEL, "ts": datetime.now(timezone.utc).isoformat(),
+           "stages": {}}
+    if dry_run:
+        print(f"[dry] {tag}: pipeline ready (P1 decompose → P2 search×N → P3 verify×N → P4 synthesize)")
+        return rec
+    t0 = time.time()
+    if rec.get("_fact_table_override") is not None:
+        facts = rec["_fact_table_override"]
+        n_v = sum(1 for f in facts if f["status"] == "verified")
+        rec["stages"]["p2p3_nodes"] = facts
+        rec["n_nodes"], rec["n_verified"] = len(facts), n_v
+        print(f"  [{tag}] using pre-built fact table ({len(facts)} nodes, {n_v} verified)", flush=True)
+    else:
+        _run_p1p2p3(rec, tag, question)
+        facts = rec["stages"]["p2p3_nodes"]
+        n_v = rec["n_verified"]
     # P4
     table = "\n".join(
         f"{f['id']}: {f['corrected_claim']}  [status={f['status']}; evidence: {f['evidence'][:120]}]"
