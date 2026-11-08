@@ -79,3 +79,32 @@
 - nat-v14 补跑：PID 91250, workers=1, 预计 ~10h
 - v14-gpu 未启动（等 nat-v14 完成或 8787 负载降低）
 - Arena T52：撞车调研进行中
+
+## Round-3 结果（2026-11-09）
+
+### v13 GPU 50-rep 最终
+
+| 指标 | 值 | target | 判定 |
+|------|-----|--------|------|
+| depth mean | 0.3947 (std 0.0419) | ≥0.50 | **FAIL** (+0.105) |
+| cov mean | 0.2141 | — | — |
+| valid reps | 33/34 | — | r5 decompose empty |
+| wall mean | 581s (9.7min) | — | — |
+
+对比：v8=0.354, v12=0.377, v13=0.395。三个版本 depth 都卡在 ~0.38-0.40，说明 P1.5 gap_check 加 generic node 的策略不够——需要 per-candidate spec table（VRAM/BW/TFLOPS/price）。已提交 rule 9b（硬件 spec-table + TCO 公式强制展开），待 v14-gpu 验证。
+
+### nat-v14 早期信号（35/100，502 中断后补跑中）
+
+| 指标 | 旧 S5 (pre-fix) | nat-v14 (35 reps) | S0 baseline |
+|------|----------------|-------------------|-------------|
+| cov mean | 0.5350 | **0.6048** | 0.6338 |
+| depth mean | — | **0.5850** | — |
+| gap vs S0 | -0.1008 | **-0.0290** | — |
+
+6 个 fix 提升了 +0.070，从"比 S0 差 10 点"缩到"差 3 点"。方向正确但还差一口气。补跑 65 reps 后看完整均值。
+
+### 当前状态
+
+- nat-v14 补跑：PID 91756, workers=1, 预计 ~3.6h
+- v14-gpu 未启动（等 nat-v14 完成或 8787 负载降低）
+- Arena T52：撞车调研进行中
