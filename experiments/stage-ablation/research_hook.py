@@ -20,6 +20,43 @@ class ResearchHookUnavailable(Exception):
     pass
 
 
+# ── 检索结果缓存（用户指令 2026-11-08：稳定步骤直接 cache 复用，别重复打登录态会话）──
+# 按 (qid, question) 落盘 JSON。命中 → 直接读文件返回，不再触发任何外部通道
+# （DDG/Perplexity/arXiv/webfetch 全部跳过）。TTL 7 天，过期重查。
+import hashlib as _hashlib
+_CACHE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".research-cache")
+_CACHE_TTL_S = 7 * 24 * 3600
+
+
+def _cache_path(qid, question):
+    h = _hashlib.sha256(f"{qid}\x00{question}".encode()).hexdigest()[:24]
+    return os.path.join(_CACHE_DIR, f"{h}.json")
+
+
+def _cache_get(qid, question):
+    pth = _cache_path(qid, question)
+    try:
+        with open(pth) as f:
+            data = json.load(f)
+        if time.time() - data.get("ts", 0) > _CACHE_TTL_S:
+            return None  # expired
+        print(f"  [CACHE-HIT] {qid}: {len(data['sources'])} sources from cache", file=sys.stderr)
+        return data["sources"]
+    except Exception:
+        return None
+
+
+def _cache_put(qid, question, sources):
+    try:
+        os.makedirs(_CACHE_DIR, exist_ok=True)
+        with open(_cache_path(qid, question), "w") as f:
+            json.dump({"qid": qid, "question": question, "ts": time.time(),
+                       "sources": sources}, f, ensure_ascii=False)
+    except Exception as e:
+        print(f"  [CACHE-WRITE-ERR] {qid}: {e}", file=sys.stderr)
+
+
+
 def _run_ego_browser(js_code, timeout=120):
     """执行 ego-browser nodejs 脚本，返回 stdout。失败抛异常。"""
     if not os.path.exists(EGO_BROWSER):
@@ -515,6 +552,10 @@ def research_hook(qid, question, max_results=8):
     失败: 所有通道都空 → 抛 ResearchHookUnavailable
     """
     observed = datetime.now(timezone.utc).isoformat()
+    # cache-first: 稳定步骤复用，避免重复打 DDG/Perplexity（保护登录态会话 + 省 wall time）
+    cached = _cache_get(qid, question)
+    if cached is not None:
+        return cached
     sources = []
     seen_urls = set()
 
@@ -612,7 +653,9 @@ def research_hook(qid, question, max_results=8):
     if not sources:
         raise ResearchHookUnavailable("no sources from any channel (all 5 failed)")
 
-    return sources[:max_results]
+    out = sources[:max_results]
+    _cache_put(qid, question, out)
+    return out
 
 
 if __name__ == "__main__":
