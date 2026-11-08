@@ -130,23 +130,30 @@ def build_judge_prompt(qid: str, answer: str) -> str:
     for pt_name, levels in rubric.items():
         pts = []
         for i, (w, desc) in enumerate(levels, 1):
-            pts.append(f"  L{i} ({w:.2f}): {desc}")
-        points_desc.append(f"{pt_name}:\n" + "\n".join(pts))
+            pts.append(f"  L{i}: {desc}")
+        K = len(levels)
+        # show what each score means on the [0,1] scale
+        anchors = f"  (0=未触及, {1/K:.2f}=仅达L1, {2/K:.2f}=达L2, ..., 1.00=全部{K}层达成)"
+        points_desc.append(f"{pt_name} [{K}层]{anchors}:\n" + "\n".join(pts))
     
     rubric_text = "\n".join(points_desc)
     return (
         "你是严格评分员。下面是一道题的深度评分标准和一个候选回答。\n"
-        "对每个要点的每个深度层级，判断候选回答是否**明确、具体地**达到该层级。\n\n"
-        "**判定规则（必须严格遵守）：**\n"
-        "- 仅提到概念名称但无量化/推导/对比 = 未达到\n"
+        "对每个要点，给出一个 **0.00-1.00 的连续深度分**，表示候选回答在该要点上实际达到的深度位置。\n\n"
+        "**打分规则（必须严格遵守）：**\n"
+        "- 分数 = 实际达成的最高层级 / 总层数，可以在层级之间插值\n"
+        "- 例：4层要点，提到了概念但没给量级 → 在 L1 和 L2 之间 → 0.25-0.35\n"
+        "- 例：4层要点，给了量级和对比但没推导出数值 → 在 L3 和 L4 之间 → 0.65-0.75\n"
+        "- **不要只给 0、1/K、2/K...这些离散锚点**——如果回答部分达到了某层（比如给了公式但没代入参数），给该层位置的一半（如 L2 部分达成 → 0.17 而非 0.33）\n"
+        "- 仅提到概念名称但无量化/推导/对比 = 不超过 0.25\n"
         "- '打0.99折'≠'基于驻留时间推导折扣因子'——前者是拍脑袋，后者需要 T_res 量级 + 与访问间隔的显式对比\n"
-        "- 给出公式但未代入题面参数 = 未达到最深层级\n"
-        "- 高层级达成隐含低层级达成（如果给了 L3=1，L1/L2 自动 1）\n"
-        "- 拿不准时判 0（宁严勿松）\n\n"
+        "- 给出公式但未代入题面参数 = 不超过 0.75（4层时）\n"
+        "- 拿不准时往低判（宁严勿松）\n"
+        "- 分数必须是两位小数的数字，不要输出 0/1 列表\n\n"
         f"深度评分标准：\n{rubric_text}\n\n"
         f"候选回答：\n{answer[:12000]}\n\n"
-        '输出 JSON：{"scores": {"pt1": [0或1, ...], "pt2": [...], ...}}\n'
-        "每个列表的长度必须对应该要点的层级数。只输出 JSON，不要解释。"
+        '输出 JSON：{"scores": {"pt1": 0.xx, "pt2": 0.xx, ...}}\n'
+        "每个值是一个 0.00-1.00 的数字。只输出 JSON，不要解释。"
     )
 
 
@@ -161,32 +168,35 @@ def score_run(qid: str, answer: str) -> dict:
         return {"error": content[:500]}
     
     rubric = NAT_RUBRIC if qid == "nat" else SOC_RUBRIC
-    scores_raw = d.get("scores", {})
+    # LLM sometimes wraps in {"scores": {...}}, sometimes returns flat {pt1: x, ...}
+    if "scores" in d and isinstance(d["scores"], dict):
+        scores_raw = d["scores"]
+    else:
+        scores_raw = d
     point_scores = {}
-    total_weighted = 0
+    total = 0
     n_points = 0
     for pt_name, levels in rubric.items():
-        raw = scores_raw.get(pt_name, [])
-        # enforce monotonicity: if level i is 1, all lower levels must be 1
-        enforced = []
-        seen_one = False
-        for i in range(len(levels)):
-            if not seen_one and i > 0 and raw[i] == 1:
-                # higher level achieved without lower → force lower to 1
-                pass
-            val = int(raw[i]) if i < len(raw) else 0
-            enforced.append(val)
-        # fix monotonicity properly (bottom-up)
-        fixed = list(enforced)
-        for i in range(len(fixed) - 1, 0, -1):
-            if fixed[i] == 1:
-                fixed[i-1] = 1
-        weighted = sum(w * v for (w, _), v in zip(levels, fixed))
-        point_scores[pt_name] = {"levels": fixed, "score": round(weighted, 3)}
-        total_weighted += weighted
+        raw = scores_raw.get(pt_name, 0)
+        # handle both old format (list) and new format (scalar)
+        if isinstance(raw, list):
+            # legacy: convert 0/1 list to weighted score
+            fixed = list(int(x) for x in raw[:len(levels)])
+            for i in range(len(fixed) - 1, 0, -1):
+                if fixed[i] == 1:
+                    fixed[i-1] = 1
+            score = sum(w * v for (w, _), v in zip(levels, fixed))
+            point_scores[pt_name] = {"score": round(score, 3), "raw_levels": fixed}
+        else:
+            try:
+                score = max(0.0, min(1.0, float(raw)))
+            except (ValueError, TypeError):
+                score = 0.0
+            point_scores[pt_name] = {"score": round(score, 3)}
+        total += score
         n_points += 1
     
-    overall = total_weighted / max(n_points, 1)
+    overall = total / max(n_points, 1)
     return {"point_scores": point_scores, "overall": round(overall, 4),
             "raw": scores_raw}
 
