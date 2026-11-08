@@ -1,0 +1,152 @@
+[
+ {
+  "rep": "S5-nat-r1.json",
+  "node": "N1",
+  "claim": "The total request volume is 50 million per day, wh",
+  "old": "degraded",
+  "new": "verified",
+  "old_ev": "逻辑上50M/天作为规模参数自洽，但参考来源[1]为GPU硬件规格，[2]涉及吞吐量计算但未提及具体数值，[3][4]完全无关；无直接外部证据支持'50 mil",
+  "new_ev": "逻辑推导成立，来源未直接覆盖（参考来源与特定请求量数值无关，但该陈述作为系统规模假设在逻辑上自洽且无矛盾）",
+  "n_srcs": 4
+ },
+ {
+  "rep": "S5-nat-r1.json",
+  "node": "N4",
+  "claim": "There is a negative correlation (rho approx -0.3) ",
+  "old": "degraded",
+  "new": "degraded",
+  "old_ev": "逻辑自洽（负相关意味着小对象更热门，LRU对热小对象友好，提升命中率），但参考来源[1][2]讨论GPU显存与模型服务，[3][4]为无关生物/物理主题，均与该",
+  "new_ev": "逻辑自洽（小对象高频访问符合局部性原理，利于LRU命中），但所有参考来源（海马体、忆阻器、英语单词）均与该事实主题无关，属于无可用外部证据，故降级。",
+  "n_srcs": 4
+ },
+ {
+  "rep": "S5-nat-r1.json",
+  "node": "N6",
+  "claim": "To calculate the number of distinct objects N_max ",
+  "old": "degraded",
+  "new": "failed",
+  "old_ev": "参考来源均与GPU规格或采样算法相关，未覆盖该特定缓存策略事实；逻辑上贪心策略（优先填充小对象以最大化数量）在容量约束下是合理的启发式方法，但缺乏具体场景数据支",
+  "new_ev": "来源[1]-[3]关于哔哩哔哩平台，来源[4]关于采样算法，均与该事实节点（存储容量计算/对象排序）主题完全无关，无可用外部证据；且逻辑上，若目标是最大化可容纳",
+  "n_srcs": 4
+ },
+ {
+  "rep": "S5-nat-r1.json",
+  "node": "N12",
+  "claim": "The discount factor for LRU hit rate due to update",
+  "old": "degraded",
+  "new": "degraded",
+  "old_ev": "逻辑上量纲自洽（若 UpdateRate 定义为每单位时间的速率，则乘积无量纲），但四个参考来源均涉及 GPU/LLM 部署或计算机历史，与 LRU 缓存更新折",
+  "new_ev": "逻辑校验通过：该公式符合缓存命中率折减的基本直觉（更新导致脏数据或失效，降低命中概率），量纲合理。但所有参考来源（Intel、Acorn Archimedes、",
+  "n_srcs": 4
+ },
+ {
+  "rep": "S5-nat-r1.json",
+  "node": "N13",
+  "claim": "Since hot objects are small (rho=-0.3), the 128GB ",
+  "old": "degraded",
+  "new": "verified",
+  "old_ev": "逻辑上，负相关系数（rho=-0.3）意味着热对象体积较小，从而在固定容量缓存中能容纳更多对象，推导自洽；但参考来源[1][2]涉及GPU Roofline模型",
+  "new_ev": "逻辑推导成立，来源未直接覆盖。该陈述基于缓存替换算法（LRU）的基本原理：当热点对象尺寸小且数量多时，固定容量的缓存确实能容纳极高比例的热点集，从而获得高命中率",
+  "n_srcs": 4
+ },
+ {
+  "rep": "S5-nat-r1.json",
+  "node": "N14",
+  "claim": "The interaction between update rate and LRU evicti",
+  "old": "degraded",
+  "new": "degraded",
+  "old_ev": "逻辑上自洽（LRU基于时间，LFU基于频率，更新重置时间戳确实可能比LFU更快淘汰长期高频但近期未访问的对象），但参考来源[1][2]讨论GPU资源，[4]讨论",
+  "new_ev": "逻辑上自洽（LRU确实将更新视为访问从而重置年龄，可能导致热点对象因长期未更新而被淘汰）；来源[4]间接支持该机制（提到LRU依赖least-recently-",
+  "n_srcs": 4
+ },
+ {
+  "rep": "S5-nat-r10.json",
+  "node": "N1",
+  "claim": "LRU稳态字节命中率下界的核心公式为：H = (Cache_Size / Total_Request",
+  "old": "verified",
+  "new": "failed",
+  "old_ev": "逻辑推导成立，来源未直接覆盖（参考来源[1][2]均讨论GPU显存与LLM服务部署，与LRU缓存命中率公式无关）。该公式符合Zipf/Pareto分布下的缓存命",
+  "new_ev": "逻辑校验失败：LRU在Zipf/Pareto分布下的稳态命中率是缓存大小与请求字节比值的非线性函数（通常涉及积分或累积分布函数），不存在简单的线性乘法公式 H ",
+  "n_srcs": 4
+ },
+ {
+  "rep": "S5-nat-r10.json",
+  "node": "N5",
+  "claim": "LRU对‘扫描负载’（scan resistance）敏感，当更新率或一次性访问比例高时，有效命中率",
+  "old": "verified",
+  "new": "degraded",
+  "old_ev": "逻辑校验通过：LRU算法确实对扫描负载敏感（scan resistance差），高更新率或一次性访问会导致缓存污染从而降低命中率，这是其性能下界而非精确值的原因",
+  "new_ev": "逻辑自洽，LRU对扫描负载敏感且易受缓存污染是公认的算法特性；但参考来源[1][2][3]仅介绍LRU基本原理，未具体提及‘扫描负载’、‘一次性访问比例’或‘下",
+  "n_srcs": 4
+ },
+ {
+  "rep": "S5-nat-r10.json",
+  "node": "N7",
+  "claim": "在负相关(ρ=-0.3)场景下，LFU的优势被削弱，因为高频对象体积小，LFU倾向于保留高频小对象，",
+  "old": "degraded",
+  "new": "degraded",
+  "old_ev": "逻辑自洽：在负相关（频率与体积）下，LFU保留高频小对象确实符合LRU倾向且浪费了缓存空间给低价值数据，而中等频率大对象的替换收益受限于其‘中等’频率属性，故优",
+  "new_ev": "来源[1][2][3]均关注Zipf分布下LFU/LRU在命中率或能耗上的对比，未直接提供负相关(ρ=-0.3)场景下基于对象体积的差异化收益分析；逻辑上自洽（",
+  "n_srcs": 4
+ },
+ {
+  "rep": "S5-nat-r100.json",
+  "node": "N4",
+  "claim": "热度与大小的负相关系数 $\\rho \\approx -0.3$ 表明热门对象倾向于较小，冷门对象倾向",
+  "old": "degraded",
+  "new": "degraded",
+  "old_ev": "逻辑自洽，但参考来源[1][2]关于GPU显存与模型尺寸无关，[4]关于频率计数器噪声无关；仅来源[3]间接支持LRU/LFU在不同请求模式下的互补性，未直接提",
+  "new_ev": "逻辑上自洽，但参考来源[1]-[3]与主题无关，仅来源[4]涉及LRU/LFU缓存策略且暗示其互补性（间接支持），未直接提供ρ≈-0.3的具体数值或热度大小负相",
+  "n_srcs": 4
+ },
+ {
+  "rep": "S5-nat-r100.json",
+  "node": "N5",
+  "claim": "LRU 的稳态行为等价于按‘最近访问’排序，但在稳态下，若工作集稳定，其缓存内容近似于‘频率-时间’",
+  "old": "verified",
+  "new": "degraded",
+  "old_ev": "逻辑校验通过：LRU在稳态下确实基于最近访问时间排序，其性能在栈距离模型下通常优于FIFO但略低于Belady's MIN（最优离线算法），符合缓存替换理论的第",
+  "new_ev": "逻辑自洽（LRU基于时间局部性，FIFO无时间/频率优化故最劣，Belady MIN为理论下界，且LRU对幂律流量通常优于FIFO但非最优）。来源[1][2][",
+  "n_srcs": 4
+ },
+ {
+  "rep": "S5-nat-r100.json",
+  "node": "N7",
+  "claim": "具体数值估算：假设帕累托截断使得 Top 10% 对象贡献了约 80-90% 的请求（因 $\\bet",
+  "old": "degraded",
+  "new": "degraded",
+  "old_ev": "逻辑校验通过：帕累托分布中β=0.9确实比β=0.5平缓，Top 10%贡献80-90%在量级上合理且内部自洽；外部核验发现参考来源[1][2]仅涉及GPU硬件",
+  "new_ev": "逻辑上帕累托截断的定性描述自洽，但具体数值（80-90%贡献率、128GB阈值）属于特定假设场景下的估算，参考来源均与该内容无关（[4]虽涉及分布估计但未提供该",
+  "n_srcs": 4
+ },
+ {
+  "rep": "S5-nat-r100.json",
+  "node": "N9",
+  "claim": "推导 LFU 优势的理论依据：LFU 维护计数器，只有当新对象的频率超过当前最低频率对象时才替换。在",
+  "old": "verified",
+  "new": "verified",
+  "old_ev": "逻辑推导成立，来源未直接覆盖（来源[1][2]涉及GPU计算与KV Cache量化，[3]涉及真空极化，[4]涉及疫情分布，均与LFU缓存替换算法的具体机制无关",
+  "new_ev": "逻辑校验通过：LFU基于频率计数，在幂律分布下低频对象极少被访问，导致其频率远低于高频对象，因此驱逐阈值确实极高；来源[1][2][3]均确认LFU维护频率计数",
+  "n_srcs": 4
+ },
+ {
+  "rep": "S5-nat-r100.json",
+  "node": "N12",
+  "claim": "具体折扣计算：每日总请求字节数 $B_{total} = \\sum r_i s_i$。更新导致的无效",
+  "old": "verified",
+  "new": "verified",
+  "old_ev": "逻辑推导成立，来源未直接覆盖。该陈述基于缓存一致性原理（更新导致失效）和概率统计（1%对象更新对应约1%空间污染），量纲与逻辑自洽；参考来源[1]-[4]涉及G",
+  "new_ev": "逻辑推导成立，来源未直接覆盖（参考来源均为无关主题，无矛盾）",
+  "n_srcs": 4
+ },
+ {
+  "rep": "S5-nat-r100.json",
+  "node": "N15",
+  "claim": "最终估算逻辑链：(a) 先算 Top X% 热度对象的字节占比，检查是否 fit in 128GB。",
+  "old": "degraded",
+  "new": "degraded",
+  "old_ev": "逻辑校验通过：Top X%热度对象字节占比作为Hit Rate上界是合理的缓存理论近似；LFU在冷大文件场景下的优势及1-3%的提升幅度符合一般缓存经验；更新率",
+  "new_ev": "逻辑校验通过：(a) 基于字节权重的命中率估算符合缓存理论；(b) LFU相比LRU在冷大文件场景下的优势及ρ<0时的局限性描述合理；(c) 更新率导致的失效比",
+  "n_srcs": 4
+ }
+]
