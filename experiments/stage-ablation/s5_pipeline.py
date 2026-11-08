@@ -30,6 +30,7 @@ Usage:
     python3 s5_pipeline.py --qs nat,soc --reps 500 --out runs-prod-s5  # 量产 (接在主 run 后)
 """
 import argparse, json, os, random, re, sys, time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -260,24 +261,40 @@ def main():
     ap.add_argument("--reps", type=int, default=2)
     ap.add_argument("--out", default="runs-s5")
     ap.add_argument("--start-rep", type=int, default=1)
+    ap.add_argument("--workers", type=int, default=1,
+                    help="concurrent workers (default 1; use 2-3 for parallel)")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
     qs = args.qs.split(",")
     os.makedirs(args.out, exist_ok=True)
     out_f = open(f"{args.out}/run.log", "a")
     t0 = time.time()
-    total = len(qs) * max(0, args.reps - args.start_rep + 1)
-    done = 0
+
+    # Build work list: (qid, rep, tag, fp)
+    tasks = []
     for qid in qs:
         for rep in range(args.start_rep, args.reps + 1):
             tag = f"S5-{qid}-r{rep}"
             fp = f"{args.out}/{tag}.json"
             if os.path.exists(fp):
-                done += 1
-                continue
-            r = run_one(qid, rep, args.dry_run)
-            with open(fp, "w") as f:
-                json.dump(r, f, ensure_ascii=False, indent=1)
+                continue  # skip completed
+            tasks.append((qid, rep, tag, fp))
+
+    total = len(tasks)
+    print(f"S5 PIPELINE: {total} tasks, {args.workers} workers, qs={qs}", flush=True)
+    if total == 0:
+        print("S5 PIPELINE DONE (all cached)", flush=True)
+        return
+
+    done = 0
+    lock = __import__("threading").Lock()
+
+    def _worker(qid, rep, tag, fp):
+        nonlocal done
+        r = run_one(qid, rep, args.dry_run)
+        with open(fp, "w") as f:
+            json.dump(r, f, ensure_ascii=False, indent=1)
+        with lock:
             done += 1
             line = {"tag": tag, "ok": "error" not in r,
                     "cov": round((r.get("judge") or {}).get("coverage") or 0, 3),
@@ -285,6 +302,24 @@ def main():
                     "n_verified": r.get("n_verified"), "wall_s": r.get("wall_s")}
             print(f"[{done}/{total}] {line} ({time.time()-t0:.0f}s)", flush=True)
             out_f.write(json.dumps(line, ensure_ascii=False) + "\n"); out_f.flush()
+
+    if args.workers <= 1:
+        # serial path (original behavior)
+        for qid, rep, tag, fp in tasks:
+            _worker(qid, rep, tag, fp)
+    else:
+        # parallel path
+        with ThreadPoolExecutor(max_workers=args.workers) as pool:
+            futures = {pool.submit(_worker, qid, rep, tag, fp): tag
+                       for qid, rep, tag, fp in tasks}
+            for fut in as_completed(futures):
+                try:
+                    fut.result()
+                except Exception as e:
+                    tag = futures[fut]
+                    print(f"ERROR {tag}: {e}", flush=True)
+                    with lock:
+                        done += 1
     print("S5 PIPELINE DONE", flush=True)
 
 
