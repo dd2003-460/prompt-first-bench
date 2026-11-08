@@ -42,7 +42,7 @@ from research_hook import research_hook, ResearchHookUnavailable
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 MAX_NODES = 60  # safety valve only — real stopping rule is the objective function, not this cap
-BUDGET_RETRIEVAL = 12  # external retrieval calls per run (search-source nodes only)
+# BUDGET_RETRIEVAL removed 2026-11-08 (user: no cap on search). _budget_used is now a pure counter for diagnostics.
 # breadth-vs-depth trade-off weight in the decomposition objective:
 #   S_alpha(T) = sum_n [ n*ln(k_n) + alpha * k_n*ln(n) ]
 # alpha=0 -> pure depth-mining; alpha=1 -> symmetric depth/breadth; default 0.5
@@ -53,11 +53,9 @@ def _budget_reset():
     _budget_used["n"] = 0
 
 def _budget_take():
-    """Consume one retrieval slot; returns False if exhausted."""
-    if _budget_used["n"] >= BUDGET_RETRIEVAL:
-        return False
+    """Count retrieval calls (diagnostic only); NEVER blocks — user directive 2026-11-08: no budget cap on search/ego-browser."""
     _budget_used["n"] += 1
-    return True      # 每 rep 最多核验的关键事实节点数
+    return True
 MAX_ROUNDS = 2     # 每节点最大重查轮数 (含首轮)
 SEARCH_PER_NODE = 4  # 每节点注入的来源上限
 
@@ -79,7 +77,7 @@ P1_DECOMPOSE = (
     "边际收益规律（精确）：向第 n 层新增 1 个节点，得分增量 = ln((kₙ+1)/kₙ) + {alpha}·ln(n)，且该节点若继续展开还会带来更深层的间接增量。注意三层含义——(a) 同一层内：kₙ 越大，再加一个兄弟节点的边际越小（对数递减），所以无差别横向铺量有饱和点，但每个真正正交的新维度都仍值得加；(b) 跨层：同样的 1 个节点放在第 n+1 层比放在第 n 层贡献更大（两项都随 n 增长），而且解锁它自己的子树；(c) 广度项保证「漏掉一个顶层正交维度」是有代价的——宁可先保证 L1/L2 覆盖完整，再往深处挖。因此——\n"
     "- 展开一个有 2-3 个正交因子的定义式节点（如 成本→「采购价、电费摊销、故障损耗」）比多铺一个浅层兄弟节点值钱得多；\n"
     "- 停止条件：当「再展开一层能带来的信息增量」低于「该层检索/核验的预算成本」时停，不要为了凑深度硬拆无信息量的子项。\n"
-    "【检索预算】你本次可用 {budget} 次外部检索（source=search 的节点才消耗预算；given/knowledge 不消耗）。在预算内最大化上述得分：优先把预算花在「展开后能产生具体数值/公式」的 search 节点上，而不是花在不改变答案内容的定性节点上。\n"
+    "【检索策略】外部检索不限次数（source=search 的节点都会真实联网核验，given/knowledge 不触发检索）。最大化上述得分：把每个真正需要外部数据的 search 节点都查到位——宁可多查，不可漏查。给定/知识类节点直接写具体数值或符号变量公式，不要浪费在它们身上。\n"
     "预算不足时的取舍顺序：先保证所有 L1 正交维度都有节点（覆盖度），再把剩余预算按「展开增益/预算成本」从高到低分配给最深的未展开定义式节点。\n\n"
     "【逐层展开规则】\n"
     "1. 先识别顶层决策公式或目标函数（如成本公式、约束条件、评分标准），这是第 1 层；\n"
@@ -192,7 +190,7 @@ def decompose(question, max_retries=2):
     """P1: 拆出关键事实节点。返回 nodes 列表。JSON 解析失败时 retry。"""
     last_raw = ""
     for attempt in range(max_retries + 1):
-        prompt = P1_DECOMPOSE.format(question=question, budget=BUDGET_RETRIEVAL, alpha=ALPHA_BREADTH) + _perturb()
+        prompt = P1_DECOMPOSE.format(question=question, alpha=ALPHA_BREADTH) + _perturb()
         out, _ = call_llm(prompt, max_tokens=4096, temperature=0.7, top_p=0.95)
         last_raw = out or ""
         d = _extract_json(last_raw) or {}
@@ -246,11 +244,10 @@ def gap_check(question, existing_nodes):
 
 def search_node(node):
     """P2: 对该节点做真实联网检索 (arXiv API via ego-browser)。失败降级为空。
-    given/knowledge 节点不消耗检索预算（逻辑核验即可）；search 节点消耗 1 个预算槽。"""
+    given/knowledge 节点不触发检索（逻辑核验即可）；search 节点全部真实联网（无预算上限）。"""
     if node.get("source", "search") in ("given", "knowledge"):
         return [], None  # no retrieval needed — logic verification only
-    if not _budget_take():
-        return [], "budget_exhausted"  # budget spent — degrade honestly
+    _budget_take()  # counter only, never blocks
     q = node.get("search_query") or node["claim"]
     try:
         srcs = research_hook("s5-node", q, max_results=SEARCH_PER_NODE)
@@ -328,8 +325,8 @@ def _run_p1p2p3(rec, tag, question):
         rounds = []
         for rnd in range(1, MAX_ROUNDS + 1):
             srcs, err = search_node(node)
-            if err == "budget_exhausted":
-                status, evidence, corrected, raw = ("degraded", "检索预算已用尽，未执行外部核验；claim 保留待后续补查", node["claim"], "")
+            if err:
+                status, evidence, corrected, raw = ("degraded", f"检索失败: {err}；claim 保留待后续补查", node["claim"], "")
             else:
                 status, evidence, corrected, raw = verify_node(node, srcs)
             rounds.append({"round": rnd, "n_sources": len(srcs), "search_err": err,
