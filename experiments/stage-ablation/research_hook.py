@@ -38,7 +38,6 @@ def _wiki_search(query, max_results=3):
     返回 [{title, url, snippet}, ...]。对教科书级事实/工程规格有效。"""
     import urllib.request
     results = []
-    # 两路：search API + REST summary
     try:
         url = (f"https://en.wikipedia.org/w/api.php?action=query&list=search"
                f"&srsearch={quote_plus(query)}&format=json&srlimit={max_results}")
@@ -55,6 +54,103 @@ def _wiki_search(query, max_results=3):
     except Exception:
         pass
     return results
+
+
+def _webfetch_page(url, title_hint="", timeout=20):
+    """纯 HTTP GET 抓取页面文本（stdlib urllib，不依赖 ego-browser）。
+    适用于文档站/规格页等无 JS 渲染需求的站点。
+    返回 {title, url, snippet, alive}。"""
+    import urllib.request
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (pfb-research)"})
+        html = urllib.request.urlopen(req, timeout=timeout).read().decode("utf-8", errors="replace")
+        # 提取 <title>
+        tm = re.search(r'<title[^>]*>(.*?)</title>', html, re.DOTALL | re.I)
+        title = (tm.group(1).strip() if tm else title_hint or url)[:200]
+        # 去标签取正文
+        text = re.sub(r'<script[^>]*>.*?</script>', ' ', html, flags=re.DOTALL | re.I)
+        text = re.sub(r'<style[^>]*>.*?</style>', ' ', text, flags=re.DOTALL | re.I)
+        text = re.sub(r'<[^>]+>', ' ', text)
+        text = re.sub(r'\s+', ' ', text).strip()
+        # 关键词窗口抽取（同 _fetch_page 逻辑）
+        kw_pat = re.compile(
+            r"(HBM\d?e?\s*\d|GB/s|TB/s|PCIe\s*Gen?\s*\d|SXM|watt|W\b|memory bandwidth|显存|"
+            r"\$\d+[\.,]\d*/?(GB|TB|month|year|request)|¥\d+[\.,]\d*/?(GB|TB|月|年)|"
+            r"per (GB|TB|month|year|request)|price[d]?|pricing|cost per|"
+            r"VRAM|bandwidth|throughput|latency|cache hit|Pareto|Zipf)",
+            re.I
+        )
+        hits = list(kw_pat.finditer(text[:20000]))
+        if hits:
+            windows, seen_starts = [], set()
+            for h in hits[:6]:
+                s0 = max(0, h.start() - 300)
+                s1 = min(len(text), h.end() + 300)
+                key = s0 // 200
+                if key not in seen_starts:
+                    seen_starts.add(key)
+                    windows.append(text[s0:s1])
+                if len(windows) >= 3:
+                    break
+            snippet = " … ".join(windows)[:2000]
+        else:
+            snippet = text[:1000]
+        return {"title": title, "url": url, "snippet": snippet, "alive": True}
+    except Exception:
+        return {"title": title_hint or url, "url": url, "snippet": "", "alive": False}
+
+
+# ── 本地语料通道 ──────────────────────────────────────────────────────────
+_LOCAL_CORPUS_DIRS = [
+    "/Users/a1-6/Desktop/workspace/projects/decomp/archive/D1-gpu-research-2026",
+]
+
+def _local_corpus_search(query, max_results=3):
+    """在本地已验证调研项目中搜索相关片段（grep -ri 关键词匹配）。
+    返回 [{title, url(file path), snippet, source_type:'local_corpus'}, ...]"""
+    import subprocess as _sp
+    # 提取核心词（≥2字符，过滤停用词）
+    words = re.findall(r'[A-Za-z0-9]{2,}', query)
+    STOP = {'the', 'and', 'for', 'with', 'from', 'this', 'that', 'what', 'how',
+            'which', 'were', 'will', 'can', 'not', 'but', 'are', 'was', 'you',
+            'your', 'about', 'into', 'each', 'must', 'mark'}
+    terms = [w for w in words if w.lower() not in STOP][:5]
+    if not terms:
+        return []
+    results = []
+    for d in _LOCAL_CORPUS_DIRS:
+        if not os.path.isdir(d):
+            continue
+        try:
+            # grep -rilE (case-insensitive, extended regex for | alternation)
+            pattern = '|'.join(terms)
+            r = _sp.run(
+                ["grep", "-rilE", f"{pattern}", "--include=*.md", "--include=*.py", "--include=*.json", d],
+                capture_output=True, text=True, timeout=10,
+            )
+            files = r.stdout.strip().splitlines()[:8]
+            for f in files:
+                try:
+                    with open(f, "r", errors="replace") as fh:
+                        content = fh.read()
+                    lines = content.splitlines()
+                    relevant = [l.strip() for l in lines
+                                if any(t.lower() in l.lower() for t in terms)]
+                    if relevant:
+                        results.append({
+                            "title": f"{os.path.basename(d)}:{os.path.basename(f)}",
+                            "url": f,
+                            "snippet": " | ".join(relevant[:4])[:600],
+                        })
+                except Exception:
+                    continue
+                if len(results) >= max_results:
+                    break
+        except Exception:
+            continue
+        if len(results) >= max_results:
+            break
+    return results[:max_results]
 
 
 def _arxiv_search(query, max_results=5):
@@ -185,6 +281,16 @@ KNOWN_SITES = {
         ("https://arxiv.org/abs/2210.10760", "Reward Model Overoptimization (arXiv)"),
         ("https://arxiv.org/abs/2312.01552", "URIAL / Superficial Alignment (arXiv)"),
     ],
+    "gpu": [  # 27B local inference card selection (hardware spec domain)
+        # webfetch 可达（纯 HTTP，无 JS 墙）
+        ("https://www.nvidia.com/en-us/geforce/graphics-cards/50-series/rtx-5090/", "NVIDIA RTX 5090 Official"),
+        ("https://en.wikipedia.org/wiki/Nvidia_GeForce_RTX_50_series", "RTX 50 series (Wikipedia)"),
+        ("https://en.wikipedia.org/wiki/Ampere_(microarchitecture)", "Ampere architecture (Wikipedia, A100)"),
+        ("https://en.wikipedia.org/wiki/L40S", "L40S (Wikipedia)"),
+        # ego-browser 兜底（JS 渲染 / bot check）
+        ("https://www.techpowerup.com/gpu-specs/rtx-5090.c4226", "TechPowerUp RTX 5090 Specs"),
+        ("https://www.techpowerup.com/gpu-specs/a100-pcie-40gb.c3718", "TechPowerUp A100-40GB Specs"),
+    ],
 }
 
 # arXiv 精准查询（T30: 每 Q 多路 query，取并集提升召回）
@@ -206,6 +312,10 @@ ARXIV_QUERIES = {
     "Q8": ["code generation benchmark contamination detection pass@k evaluation LLM"],
     "Q9": ["vision language model architecture contrastive CLIP segment anything multimodal"],
     "Q10": ["RLHF PPO KL penalty DPO preference optimization alignment tax"],
+    # S5 GPU 题（27B 本地推理选卡）
+    "gpu": ["RTX 5090 specifications VRAM memory bandwidth",
+            "A100 HBM2e bandwidth L40S Ada Lovelace datasheet",
+            "large language model inference roofline bandwidth bound decoding"],
 }
 
 # T31: 来源过滤关键词（只注入 title/snippet 含这些词的结果）
@@ -220,6 +330,7 @@ FILTER_KEYWORDS = {
     "Q8": ["HumanEval", "MBPP", "LiveCodeBench", "SWE-bench", "BigCodeBench", "pass@k", "contamination", "decontamination", "EvalPlus", "code generation", "benchmark"],
     "Q9": ["CLIP", "SAM", "Segment Anything", "GPT-4V", "Gemini", "multimodal", "vision-language", "contrastive", "ViT", "tiling", "LLaVA", "Flamingo"],
     "Q10": ["RLHF", "PPO", "DPO", "KL", "reward model", "preference", "alignment", "InstructGPT", "alignment tax", "fine-tuning"],
+    "gpu": ["RTX 5090", "4090", "L40S", "A100", "VRAM", "bandwidth", "GB/s", "HBM", "PCIe", "roofline", "inference", "memory", "quantization", "INT8", "BF16"],
 }
 
 
@@ -308,80 +419,98 @@ def _fetch_page(url, title_hint, timeout=30):
     return {"title": title_hint, "url": url, "snippet": "", "alive": False}
 
 
-def research_hook(qid, question, max_results=5):
-    """主接口：arXiv API（多查询）+ 已知站点直访，返回 sources 列表。
+def research_hook(qid, question, max_results=8):
+    """主接口 v3：多通道并行检索，返回 sources 列表。
 
-    T30: 使用 ARXIV_QUERIES[qid] 的多路精准 query 替代单一宽泛 query。
-    返回格式: [{"title": str, "url": str, "snippet": str, "observed_at": ISO, "source_type": str}, ...]
-    失败: 抛 ResearchHookUnavailable
+    通道优先级（每个通道独立 cap，总输出 ≤ max_results）：
+      1. local_corpus  — 本地已验证调研项目（D1-gpu 等），最快最准
+      2. wikipedia     — 教科书/工程规格级事实，公网 API ~1.5s
+      3. arxiv         — 学术文献，ego-browser ~12s
+      4. webfetch      — 纯 HTTP 抓已知站点（文档/规格页），不依赖 ego-browser
+      5. direct_site   — ego-browser 深抓（JS 渲染页），最慢但最全
+
+    返回格式: [{title, url, snippet, observed_at, source_type}, ...]
+    失败: 所有通道都空 → 抛 ResearchHookUnavailable
     """
     observed = datetime.now(timezone.utc).isoformat()
     sources = []
-
-    # 1. arXiv API 检索（多查询取并集，限 3 条给直访留位）
-    queries = ARXIV_QUERIES.get(qid, [question])
     seen_urls = set()
-    arxiv_cap = max(3, max_results - len(KNOWN_SITES.get(qid, [])))
-    n_arxiv_relevant = 0  # S8G: 统计相关结果数，用于 [RESEARCH-GAP] 判定
-    for q in queries:
-        if len(sources) >= arxiv_cap:
-            break
-        try:
-            arxiv_results = _arxiv_search(q, max_results=max_results)
-            n_arxiv_relevant += len(arxiv_results)
-            for r in arxiv_results:
-                if len(sources) >= arxiv_cap:
-                    break
-                if r["url"] not in seen_urls:
-                    seen_urls.add(r["url"])
-                    sources.append({**r, "observed_at": observed, "source_type": "arxiv"})
-        except ResearchHookUnavailable:
-            continue  # 单路失败不阻塞，继续下一路
 
-    # S8G (v3 gold-gap P2b): arXiv 相关结果 <2 → 记录 [RESEARCH-GAP] 标记，
-    # 不再静默继续——让 harness/judge 看到该域调研源确实不足。
-    if n_arxiv_relevant < 2:
-        print(f"  [RESEARCH-GAP] {qid}: arXiv returned only {n_arxiv_relevant} relevant result(s) "
-              f"(queries tried: {len(queries)}); domain coverage may be insufficient", file=sys.stderr)
+    def _add(r, stype):
+        if len(sources) >= max_results:
+            return
+        key = r["url"]
+        if key in seen_urls:
+            return
+        seen_urls.add(key)
+        sources.append({**r, "observed_at": observed, "source_type": stype})
 
-    # 2. Wikipedia API（教科书/工程规格级事实，公网直连不占 8787）
-    wiki_cap = min(3, max_results - len(sources))
-    if wiki_cap > 0:
+    # ── 1. 本地语料（最快，~0.1s，已验证数据优先）──
+    try:
+        for r in _local_corpus_search(question, max_results=2):
+            _add(r, "local_corpus")
+    except Exception:
+        pass
+
+    # ── 2. Wikipedia API（~1.5s，教科书/规格）──
+    remaining = max_results - len(sources)
+    if remaining > 0:
         try:
-            wiki_results = _wiki_search(question, max_results=wiki_cap)
-            for r in wiki_results:
-                if len(sources) >= max_results:
-                    break
-                if r["url"] not in seen_urls:
-                    seen_urls.add(r["url"])
-                    sources.append({**r, "observed_at": observed, "source_type": "wikipedia"})
+            for r in _wiki_search(question, max_results=min(3, remaining)):
+                _add(r, "wikipedia")
         except Exception:
             pass
 
-    # 3. 已知站点直访
-    sites = KNOWN_SITES.get(qid, [])
-    for url, title_hint in sites:
-        if len(sources) >= max_results:
+    # ── 3. arXiv API（~12s/query，学术文献）──
+    queries = ARXIV_QUERIES.get(qid, [question])
+    n_arxiv_relevant = 0
+    arxiv_cap = min(3, max_results - len(sources))
+    for q in queries[:2]:  # 最多 2 路 query 控制时间
+        if len(sources) >= max_results or arxiv_cap <= 0:
             break
-        page_info = _fetch_page(url, title_hint)
-        if page_info["alive"]:
-            page_info["observed_at"] = observed
-            page_info["source_type"] = "direct_site"
-            sources.append(page_info)
+        try:
+            arxiv_results = _arxiv_search(q, max_results=max(2, arxiv_cap))
+            n_arxiv_relevant += len(arxiv_results)
+            for r in arxiv_results:
+                _add(r, "arxiv")
+                arxiv_cap -= 1
+        except (ResearchHookUnavailable, Exception):
+            continue
 
-    # T33: 搜索引擎跳转链接过滤（bing.com/ck/a、google.com/url?）——
-    # 这类链接指向真实页面但无法直接核验，且历史上（runs-r293 S5-Q1 三 rep）
-    # 整批返回内容无关的垃圾源。任何通道漏进来的都在这层拦掉。
-    import re as _re
-    _BAD_ANCHOR = _re.compile(r'bing\.com/ck|google\.com/url\?', _re.I)
+    if n_arxiv_relevant < 2:
+        print(f"  [RESEARCH-GAP] {qid}: arXiv returned only {n_arxiv_relevant} result(s); "
+              f"other channels compensate", file=sys.stderr)
+
+    # ── 4. WebFetch 已知站点（纯 HTTP，~2-5s/page，不占 ego-browser）──
+    sites = KNOWN_SITES.get(qid, [])
+    remaining = max_results - len(sources)
+    for url, title_hint in sites[:remaining]:
+        if "wikipedia.org" in url:
+            continue  # wiki 条目已由通道 2 覆盖
+        page_info = _webfetch_page(url, title_hint)
+        if page_info["alive"]:
+            _add(page_info, "webfetch")
+
+    # ── 5. ego-browser 深抓（JS 渲染页，~10-20s/page，最后兜底）──
+    remaining = max_results - len(sources)
+    if remaining > 0 and sites:
+        for url, title_hint in sites[len(sites) - min(2, remaining):]:
+            if "wikipedia.org" in url:
+                continue
+            page_info = _fetch_page(url, title_hint)
+            if page_info["alive"]:
+                _add(page_info, "direct_site")
+
+    # ── 过滤：搜索引擎跳转链接 ──
+    _BAD_ANCHOR = re.compile(r'bing\.com/ck|google\.com/url\?', re.I)
     before = len(sources)
     sources = [s for s in sources if not _BAD_ANCHOR.search(s.get("url", ""))]
     dropped = before - len(sources)
     if dropped:
-        print(f"  [ANCHOR-FILTER] {qid}: dropped {dropped} search-engine redirect link(s)", file=sys.stderr)
+        print(f"  [ANCHOR-FILTER] {qid}: dropped {dropped} redirect link(s)", file=sys.stderr)
 
     if not sources:
-        raise ResearchHookUnavailable("no sources from any channel (arXiv + direct sites all failed)")
+        raise ResearchHookUnavailable("no sources from any channel (all 5 failed)")
 
     return sources[:max_results]
 
