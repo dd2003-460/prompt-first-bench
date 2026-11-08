@@ -40,22 +40,30 @@ from judge_v2_depth import score_run
 from research_hook import research_hook, ResearchHookUnavailable
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-MAX_NODES = 8      # 每 rep 最多核验的关键事实节点数
+MAX_NODES = 25      # 每 rep 最多核验的关键事实节点数
 MAX_ROUNDS = 2     # 每节点最大重查轮数 (含首轮)
 SEARCH_PER_NODE = 4  # 每节点注入的来源上限
 
 # ── 阶段 prompt ────────────────────────────────────────────────────────
 P1_DECOMPOSE = (
-    "你是严谨的研究员。下面是一道待解问题。你的任务不是回答问题本身，而是把它拆解成"
-    "回答所依赖的关键事实/前提节点。\n\n"
-    "要求：\n"
-    "1. 列出回答该问题必须成立或必须取值的 3-8 个关键事实/前提（如物理常数、经验规律、"
-    "统计分布性质、工程惯例、理论公式适用条件）；\n"
-    "2. 每个节点给一个编号（N1, N2, ...）、一句话陈述、以及它支撑问题的哪个子问（a/b/c）；\n"
-    "3. 为每个节点写一条英文检索词（用于后续联网核验，具体到该事实本身，不要写成整道题）；\n"
-    "4. 不要把「计算步骤」当节点——节点是事实/前提，不是推导过程；\n"
-    "5. 只输出 JSON，格式：{{\"nodes\": [{{\"id\": \"N1\", \"claim\": \"...\", \"supports\": \"a\",\n"
-    "    \"search_query\": \"english query for this specific fact\"}}, ...]}}\n\n"
+    "你是严谨的研究员。下面是一道待解问题。你的任务不是回答问题本身，而是把它逐层拆解成"
+    "回答所依赖的完整决策树。\n\n"
+    "【逐层展开规则】\n"
+    "1. 先识别顶层决策公式或目标函数（如成本公式、约束条件、评分标准），这是第 1 层；\n"
+    "2. 对第 1 层的每个因子/参数，展开为第 2 层子节点——具体到需要查什么数字、什么公式、什么经验值；\n"
+    "3. 对第 2 层中涉及复合量或可分解量的节点，继续展开为第 3 层（如 TCO → 摊销+电费+故障损耗；"
+    "吞吐量 → prefill 算力瓶颈 + decode 带宽瓶颈）；\n"
+    "4. 如果某节点的取值会影响其他节点的判断（交互效应），单独列出 SHARED 节点说明耦合关系；\n"
+    "5. 不要停在'这个因素很重要'——必须拆到可以直接检索验证的具体事实（一个数字、一个公式、一个阈值）。\n\n"
+    "【节点数量】\n"
+    "- 简单问题：8-15 个节点\n"
+    "- 复杂多因子问题（如选卡、架构设计、成本分析）：15-25 个节点\n"
+    "- 宁多勿少：漏掉的节点 = 答案里缺的维度，比多查几个无用节点代价大得多\n\n"
+    "【格式要求】\n"
+    "每个节点给：编号（N1, N2, ...）、一句话陈述（具体到可检索的事实）、层级标记（L1/L2/L3）、"
+    "它支撑问题的哪个子问、一条英文检索词（具体到该事实本身）。\n"
+    "只输出 JSON，格式：{{\"nodes\": [{{\"id\": \"N1\", \"claim\": \"...\", \"level\": \"L1\", "
+    "\"supports\": \"a\", \"search_query\": \"english query\"}}, ...]}}\n\n"
     "【问题】\n{question}\n"
 )
 
@@ -109,16 +117,22 @@ def _extract_json(text):
         return None
 
 
-def decompose(question):
-    """P1: 拆出关键事实节点。返回 nodes 列表。"""
-    prompt = P1_DECOMPOSE.format(question=question) + _perturb()
-    out, _ = call_llm(prompt, max_tokens=2500, temperature=0.7, top_p=0.95)
-    d = _extract_json(out or "") or {}
-    nodes = d.get("nodes") or []
-    nodes = [n for n in nodes if isinstance(n, dict) and n.get("claim")]
-    for i, n in enumerate(nodes[:MAX_NODES], 1):
-        n.setdefault("id", f"N{i}")
-    return nodes[:MAX_NODES], out
+def decompose(question, max_retries=2):
+    """P1: 拆出关键事实节点。返回 nodes 列表。JSON 解析失败时 retry。"""
+    last_raw = ""
+    for attempt in range(max_retries + 1):
+        prompt = P1_DECOMPOSE.format(question=question) + _perturb()
+        out, _ = call_llm(prompt, max_tokens=4096, temperature=0.7, top_p=0.95)
+        last_raw = out or ""
+        d = _extract_json(last_raw) or {}
+        nodes = d.get("nodes") or []
+        nodes = [n for n in nodes if isinstance(n, dict) and n.get("claim")]
+        if nodes:
+            for i, n in enumerate(nodes[:MAX_NODES], 1):
+                n.setdefault("id", f"N{i}")
+            return nodes[:MAX_NODES], last_raw
+        print(f"  [decompose] attempt {attempt+1}: no nodes parsed, retrying...", flush=True)
+    return [], last_raw
 
 
 def search_node(node):
