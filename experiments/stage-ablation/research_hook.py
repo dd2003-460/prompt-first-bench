@@ -190,6 +190,42 @@ def _local_corpus_search(query, max_results=3):
     return results[:max_results]
 
 
+def _webllm_search(query, max_results=3):
+    """通道 6：网页 AI 信源（Perplexity via ego-browser，已登录会话）。
+
+    DDG/arXiv 都拿不到具体事实时的兜底：Perplexity 直接返回「答案 + 引用 URL」，
+    引用 URL 作为 source 落盘（snippet 用查询本身标注来源类型）。
+    用户指令 2026-11-08：'可以问 arena，不止 perplexity，然后根据网页 AI 信源验证'。
+    每个查询 ~15-25s（含页面渲染等待），仅在前面通道结果不足时触发。
+    """
+    js = """
+const task = await taskSpace("pfb-webllm-research");
+const page = task.page("p1");
+await page.goto("https://www.perplexity.ai/search?q=" + encodeURIComponent(%s));
+await new Promise(r => setTimeout(r, 12000));
+const links = await page.evaluate(() => Array.from(document.querySelectorAll("a")).map(a => a.href)
+  .filter(h => !h.includes("perplexity.ai") && !h.startsWith("#") && /^https?:/.test(h)));
+const uniq = [...new Set(links)].slice(0, %d);
+console.log(JSON.stringify(uniq));
+""" % (json.dumps(query), max_results)
+    out = _run_ego_browser(js, timeout=90)
+    # extract JSON array from stdout (last line that parses)
+    urls = []
+    for line in reversed(out.splitlines()):
+        line = line.strip()
+        if line.startswith("["):
+            try:
+                urls = json.loads(line)
+                break
+            except Exception:
+                continue
+    results = []
+    for u in urls[:max_results]:
+        results.append({"title": f"[web-llm] {query}", "url": u,
+                        "snippet": f"Perplexity 回答引用源（query: {query}）"})
+    return results
+
+
 def _arxiv_search(query, max_results=5):
     """通过 ego-browser 访问 arXiv API，返回 [{title, url, snippet}, ...]
 
@@ -515,6 +551,15 @@ def research_hook(qid, question, max_results=8):
                 _add(r, "ddg")
         except Exception:
             pass
+
+    # ── 2.7 Web-LLM（Perplexity via ego-browser，~15-25s；仅当前面通道 <3 条时兜底）──
+    # 用户指令 2026-11-08：网页 AI 信源作为独立验证通道，不限预算。
+    if len(sources) < 3:
+        try:
+            for r in _webllm_search(question, max_results=min(3, max_results - len(sources))):
+                _add(r, "web_llm")
+        except Exception as e:
+            print(f"  [WEBLLM-SKIP] {qid}: {str(e)[:100]}", file=sys.stderr)
 
     # ── 3. arXiv API（~12s/query，学术文献）──
     queries = ARXIV_QUERIES.get(qid, [question])
