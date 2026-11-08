@@ -1,0 +1,394 @@
+{
+ "tag": "S5-nat-r73",
+ "arm": "S5",
+ "qid": "nat",
+ "rep": 73,
+ "model": "qwen3.8-27b",
+ "ts": "2026-11-08T14:47:22.818740+00:00",
+ "stages": {
+  "p1_decompose": {
+   "nodes": 20,
+   "raw": "{\n  \"nodes\": [\n    {\n      \"id\": \"N1\",\n      \"claim\": \"定义目标函数：稳态字节命中率 H_B = (Cached_Bytes_Served / Total_Requested_Bytes) * 100%，其中 Cached_Bytes_Served 是命中请求对应的对象大小总和。\",\n      \"level\": \"L1\",\n      \"supports\": \"a\",\n      \"search_query\": \"definition of byte hit rate in caching systems\"\n    },\n    {\n      \"id\": \"N2\",\n      \"claim\": \"计算总请求字节量分母：Total_Bytes_Day = N_objects * E[Size] * R_total，需先确定 Pareto(α=1.1) 的均值是否存在或截断处理。\",\n      \"level\": \"L2\",\n      \"supports\": \"a\",\n      \"search_query\": \"mean of Pareto distribution alpha=1.1 convergence condition\"\n    },\n    {\n      \"id\": \"N3\",\n      \"claim\": \"Pareto 分布 α=1.1 < 2，方差无穷大；在有限缓存场景下，通常使用截断 Pareto 或假设最大对象大小 S_max 以计算有效均值 E[Size]。\",\n      \"level\": \"L3\",\n      \"supports\": \"a\",\n      \"search_query\": \"truncated Pareto distribution mean calculation for heavy tail sizes\"\n    },\n    {\n      \"id\": \"N4\",\n      \"claim\": \"LRU 稳态性能近似等于 Belady MIN 算法的下界（对于无未来信息的在线算法），但在 Zipf/Pareto 热度下，LRU 表现接近最优置换算法，因为热度具有强时间局部性。\",\n      \"level\": \"L2\",\n      \"supports\": \"a\",\n      \"search_query\": \"LRU vs LRU-MIN performance gap on Zipfian workload steady state\"\n    },\n    {\n      \"id\": \"N5\",\n      \"claim\": \"关键洞察：LRU 缓存的是'最近访问过的对象实例'，而非'最热的对象类型'。若同一对象多次被访问且未过期，LRU 只保留一份副本。\",\n      \"level\": \"L2\",\n      \"supports\": \"a\",\n      \"search_query\": \"LRU cache single copy per object identity assumption\"\n    },\n    {\n      \"id\": \"N6\",\n      \"claim\": \"计算缓存能容纳的对象数量上限 N_cap：由于大小服从重尾分布，平均对象大小 E[S] 很大，导致 N_cap = Cache_Size / E[S] 远小于总对象数 10^5。\",\n      \"level\": \"L2\",\n      \"supports\": \"a\",\n      \"search_query\": \"number of objects fit in cache given average size and total memory\"\n    },\n    {\n      \"id\": \"N7\",\n      \"claim\": \"利用帕累托原理（80/20）：在 β=0.9 的热度分布下，前 20% 的对象贡献约 70-80% 的请求次数；但字节命中率取决于这些热门对象的大小占比。\",\n      \"level\": \"L2\",\n      \"supports\": \"a\",\n      \"search_query\": \"Zipf law cumulative frequency top 20 percent objects share\"\n    },\n    {\n      \"id\": \"N8\",\n      \"claim\": \"负相关 ρ≈-0.3 的影响：热门对象倾向于较小，冷对象倾向于较大。这意味着 LRU 缓存住的热门对象虽然请求频率高，但单字节价值低；而缓存空间可能被少量巨大但不常访问的对象占据（如果它们刚被访问过）。\",\n      \"level\": \"L2\",\n      \"supports\": \"a\",\n      \"search_query\": \"impact of negative correlation between file size and popularity on cache efficiency\"\n    },\n    {\n      \"id\": \"N9\",\n      \"claim\": \"构建联合概率模型 P(Size=s, Popularity=p)：基于双变量正态 Copula 或简化线性回归 s = μ_s + ρσ_s z_p + ε，估算给定热度排名的期望大小。\",\n      \"level\": \"L3\",\n      \"supports\": \"a\",\n      \"search_query\": \"bivariate copula model for file size and request frequency correlation\"\n    },\n    {\n      \"id\": \"N10\",\n      \"claim\": \"LRU 稳态集合估计：在稳态下，LRU 缓存中保留的是过去一段时间内被访问过的对象。假设工作集大小 W << N_total，则缓存几乎完全由工作集填充。\",\n      \"level\": \"L3\",\n      \"supports\": \"a\",\n      \"search_query\": \"working set theory steady state LRU cache content estimation\"\n    },\n    {\n      \"id\": \"N11\",\n      \"claim\": \"计算下界公式：H_B_lower ≈ Σ_{i in Top_K} f_i * s_i / Σ_{j=1}^{N} f_j * s_j，其中 Top_K 是缓存容量能覆盖的、按'最近访问'排序的对象集合。由于 LRU 不区分热度仅看时间，Top_K 是动态滑动的。\",\n      \"level\": \"L3\",\n      \"supports\": \"a\",\n      \"search_query\": \"formula for hit ratio calculation using joint size"
+  },
+  "p2p3_nodes": [
+   {
+    "id": "N1",
+    "claim": "定义目标函数：稳态字节命中率 H_B = (Cached_Bytes_Served / Total_Requested_Bytes) * 100%，其中 Cached_Bytes_Served 是命中请求对应的对象大小总和。",
+    "search_query": "definition of byte hit rate in caching systems",
+    "status": "verified",
+    "evidence": "逻辑推导成立：该定义符合缓存系统中‘字节命中率’（Byte Hit Rate）的标准数学定义，量纲一致且无内部矛盾；参考来源[3]虽未直接给出公式但主题相关（缓存计算），未与之矛盾。",
+    "corrected_claim": "定义目标函数：稳态字节命中率 H_B = (Cached_Bytes_Served / Total_Requested_Bytes) * 100%，其中 Cached_Bytes_Served 是命中请求对应的对象大小总和。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "verified",
+      "evidence": "逻辑推导成立：该定义符合缓存系统中‘字节命中率’（Byte Hit Rate）的标准数学定义，量纲一致且无内部矛盾；参考来源[3]虽未直接给出公式但主题相关（缓存计算），未与之矛盾。"
+     }
+    ]
+   },
+   {
+    "id": "N2",
+    "claim": "计算总请求字节量分母：Total_Bytes_Day = N_objects * E[Size] * R_total，需先确定 Pareto(α=1.1) 的均值是否存在或截断处理。",
+    "search_query": "mean of Pareto distribution alpha=1.1 convergence condition",
+    "status": "degraded",
+    "evidence": "逻辑自洽：Pareto分布当α≤1时均值发散，α=1.1时理论均值存在但方差极大且对截断敏感，需处理；来源[3][4]确认了Pareto分布的幂律形式及参数定义，但未直接提供该特定场景下的数值计算结论或工程截断建议，故为间接支持。",
+    "corrected_claim": "计算总请求字节量分母：Total_Bytes_Day = N_objects * E[Size] * R_total，需先确定 Pareto(α=1.1) 的均值是否存在或截断处理。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "degraded",
+      "evidence": "逻辑自洽：Pareto分布当α≤1时均值发散，α=1.1时理论均值存在但方差极大且对截断敏感，需处理；来源[3][4]确认了Pareto分布的幂律形式及参数定义，但未直接提供该特定场景下的数值计算结论或工程截断建议，故为间接支持。"
+     }
+    ]
+   },
+   {
+    "id": "N3",
+    "claim": "Pareto 分布 α=1.1 < 2，方差无穷大；在有限缓存场景下，通常使用截断 Pareto 或假设最大对象大小 S_max 以计算有效均值 E[Size]。",
+    "search_query": "truncated Pareto distribution mean calculation for heavy tail sizes",
+    "status": "verified",
+    "evidence": "逻辑校验通过：Pareto分布当1<α<2时，方差确实为无穷大（由积分收敛性可知），且引入截断或最大值上限S_max以计算有限期望是标准处理手段；参考来源[4]提及了'截断分布'和'截断均值'概念，虽未直接覆盖Pareto具体参数，但支持了方法论的正确性，其余来源无关。",
+    "corrected_claim": "Pareto 分布 α=1.1 < 2，方差无穷大；在有限缓存场景下，通常使用截断 Pareto 或假设最大对象大小 S_max 以计算有效均值 E[Size]。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "verified",
+      "evidence": "逻辑校验通过：Pareto分布当1<α<2时，方差确实为无穷大（由积分收敛性可知），且引入截断或最大值上限S_max以计算有限期望是标准处理手段；参考来源[4]提及了'截断分布'和'截断均值'概念，虽未直接覆盖Pareto具体参数，但支持了方法论的正确性，其余来源无关。"
+     }
+    ]
+   },
+   {
+    "id": "N4",
+    "claim": "LRU 稳态性能近似等于 Belady MIN 算法的下界（对于无未来信息的在线算法），但在 Zipf/Pareto 热度下，LRU 表现接近最优置换算法，因为热度具有强时间局部性。",
+    "search_query": "LRU vs LRU-MIN performance gap on Zipfian workload steady state",
+    "status": "verified",
+    "evidence": "逻辑推导成立，来源未直接覆盖（参考来源均与缓存算法无关）",
+    "corrected_claim": "LRU 稳态性能近似等于 Belady MIN 算法的下界（对于无未来信息的在线算法），但在 Zipf/Pareto 热度下，LRU 表现接近最优置换算法，因为热度具有强时间局部性。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "verified",
+      "evidence": "逻辑推导成立，来源未直接覆盖（参考来源均与缓存算法无关）"
+     }
+    ]
+   },
+   {
+    "id": "N5",
+    "claim": "关键洞察：LRU 缓存的是'最近访问过的对象实例'，而非'最热的对象类型'。若同一对象多次被访问且未过期，LRU 只保留一份副本。",
+    "search_query": "LRU cache single copy per object identity assumption",
+    "status": "degraded",
+    "evidence": "逻辑自洽，符合LRU基本定义；来源[3]证实LRU状态随访问改变（间接支持），但无来源直接证明'只保留一份副本'这一具体实现细节。",
+    "corrected_claim": "LRU缓存基于最近访问时间管理对象实例的驻留状态，同一对象的多次访问不会增加其副本数量，而是更新其时间戳。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "degraded",
+      "evidence": "逻辑自洽，符合LRU基本定义；来源[3]证实LRU状态随访问改变（间接支持），但无来源直接证明'只保留一份副本'这一具体实现细节。"
+     }
+    ]
+   },
+   {
+    "id": "N6",
+    "claim": "计算缓存能容纳的对象数量上限 N_cap：由于大小服从重尾分布，平均对象大小 E[S] 很大，导致 N_cap = Cache_Size / E[S] 远小于总对象数 10^5。",
+    "search_query": "number of objects fit in cache given average size and total memory",
+    "status": "degraded",
+    "evidence": "逻辑上，若对象大小服从重尾分布导致均值E[S]极大，则N_cap确实可能远小于总数，逻辑自洽；但参考来源[1][2]讨论GPU硬件与LLM服务，[3][4]讨论通用算法效率，均未提供关于“重尾分布”或具体缓存容量计算的外部证据支持（来源无关），故依据规则降级。",
+    "corrected_claim": "计算缓存能容纳的对象数量上限 N_cap = Cache_Size / E[S]。在对象大小服从重尾分布的假设下，由于平均对象大小 E[S] 较大，N_cap 可能会显著小于总对象数 10^5，但具体倍数关系需依赖实际分布参数确定。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "degraded",
+      "evidence": "逻辑上，若对象大小服从重尾分布导致均值E[S]极大，则N_cap确实可能远小于总数，逻辑自洽；但参考来源[1][2]讨论GPU硬件与LLM服务，[3][4]讨论通用算法效率，均未提供关于“重尾分布”或具体缓存容量计算的外部证据支持（来源无关），故依据规则降级。"
+     }
+    ]
+   },
+   {
+    "id": "N7",
+    "claim": "利用帕累托原理（80/20）：在 β=0.9 的热度分布下，前 20% 的对象贡献约 70-80% 的请求次数；但字节命中率取决于这些热门对象的大小占比。",
+    "search_query": "Zipf law cumulative frequency top 20 percent objects share",
+    "status": "degraded",
+    "evidence": "逻辑上，β=0.9 的 Zipf 分布确实会导致头部对象占据高比例请求（积分计算支持约70-80%），且命中率与大小占比解耦符合缓存原理；来源 [3] 和 [4] 仅提及 Zipf 律在语言学和金融中的存在，未涉及特定 β 值下的累计分布计算或缓存命中率机制，属于间接背景支持。",
+    "corrected_claim": "利用帕累托原理：在 β=0.9 的 Zipf 热度分布下，前 20% 的对象贡献绝大部分请求次数（具体比例需通过积分计算确定，通常高于 60%）；字节命中率则取决于这些热门对象的体积占比而非其数量占比。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "degraded",
+      "evidence": "逻辑上，β=0.9 的 Zipf 分布确实会导致头部对象占据高比例请求（积分计算支持约70-80%），且命中率与大小占比解耦符合缓存原理；来源 [3] 和 [4] 仅提及 Zipf 律在语言学和金融中的存在，未涉及特定 β 值下的累计分布计算或缓存命中率机制，属于间接背景支持。"
+     }
+    ]
+   },
+   {
+    "id": "N8",
+    "claim": "负相关 ρ≈-0.3 的影响：热门对象倾向于较小，冷对象倾向于较大。这意味着 LRU 缓存住的热门对象虽然请求频率高，但单字节价值低；而缓存空间可能被少量巨大但不常访问的对象占据（如果它们刚被访问过）。",
+    "search_query": "impact of negative correlation between file size and popularity on cache efficiency",
+    "status": "verified",
+    "evidence": "逻辑推导成立，来源未直接覆盖；该陈述准确描述了负相关系数（ρ<0）在统计学上意味着一个变量增加时另一个变量减少的趋势，符合基本统计直觉。",
+    "corrected_claim": "负相关 ρ≈-0.3 的影响：热门对象倾向于较小，冷对象倾向于较大。这意味着 LRU 缓存住的热门对象虽然请求频率高，但单字节价值低；而缓存空间可能被少量巨大但不常访问的对象占据（如果它们刚被访问过）。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "verified",
+      "evidence": "逻辑推导成立，来源未直接覆盖；该陈述准确描述了负相关系数（ρ<0）在统计学上意味着一个变量增加时另一个变量减少的趋势，符合基本统计直觉。"
+     }
+    ]
+   },
+   {
+    "id": "N9",
+    "claim": "构建联合概率模型 P(Size=s, Popularity=p)：基于双变量正态 Copula 或简化线性回归 s = μ_s + ρσ_s z_p + ε，估算给定热度排名的期望大小。",
+    "search_query": "bivariate copula model for file size and request frequency correlation",
+    "status": "degraded",
+    "evidence": "逻辑上构建联合概率模型以估算期望大小是可行的统计方法，无内部矛盾；但参考来源[3][4]涉及信号处理和条件Copula模型，与具体的Size/Popularity业务场景无关，仅提供了Copula建模的一般性数学背景支持（间接支持），未直接验证该特定应用场景的有效性。",
+    "corrected_claim": "构建联合概率模型 P(Size=s, Popularity=p) 的方法在统计学上是自洽的，可采用双变量正态 Copula 或线性回归框架进行估算，但具体参数需基于实际数据拟合，现有外部来源仅提供通用方法论背景。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "degraded",
+      "evidence": "逻辑上构建联合概率模型以估算期望大小是可行的统计方法，无内部矛盾；但参考来源[3][4]涉及信号处理和条件Copula模型，与具体的Size/Popularity业务场景无关，仅提供了Copula建模的一般性数学背景支持（间接支持），未直接验证该特定应用场景的有效性。"
+     }
+    ]
+   },
+   {
+    "id": "N10",
+    "claim": "LRU 稳态集合估计：在稳态下，LRU 缓存中保留的是过去一段时间内被访问过的对象。假设工作集大小 W << N_total，则缓存几乎完全由工作集填充。",
+    "search_query": "working set theory steady state LRU cache content estimation",
+    "status": "verified",
+    "evidence": "逻辑推导成立（LRU基于最近访问保留对象，当工作集小于缓存容量时必然被完全覆盖），来源[3]确认了LRU机制但主题聚焦于侧信道攻击，未直接覆盖稳态集合估计，属于无直接外部证据但逻辑自洽的情形。",
+    "corrected_claim": "LRU 稳态集合估计：在稳态下，LRU 缓存中保留的是过去一段时间内被访问过的对象。假设工作集大小 W << N_total，则缓存几乎完全由工作集填充。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "verified",
+      "evidence": "逻辑推导成立（LRU基于最近访问保留对象，当工作集小于缓存容量时必然被完全覆盖），来源[3]确认了LRU机制但主题聚焦于侧信道攻击，未直接覆盖稳态集合估计，属于无直接外部证据但逻辑自洽的情形。"
+     }
+    ]
+   },
+   {
+    "id": "N11",
+    "claim": "计算下界公式：H_B_lower ≈ Σ_{i in Top_K} f_i * s_i / Σ_{j=1}^{N} f_j * s_j，其中 Top_K 是缓存容量能覆盖的、按'最近访问'排序的对象集合。由于 LRU 不区分热度仅看时间，Top_K 是动态滑动的。",
+    "search_query": "formula for hit ratio calculation using joint size and frequency distribution",
+    "status": "degraded",
+    "evidence": "逻辑自洽（LRU基于时间戳，Top_K为动态滑动窗口，公式量纲正确），但参考来源[1][2]涉及GPU硬件与测试代码，[3][4]涉及概率分布，均与该缓存下界公式主题无关，无可用外部证据支持。",
+    "corrected_claim": "计算下界公式 H_B_lower ≈ Σ_{i in Top_K} f_i * s_i / Σ_{j=1}^{N} f_j * s_j 在逻辑上成立，其中 Top_K 为基于最近访问时间的动态滑动集合；该表述缺乏直接文献支持，建议保留为定性推导结论。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "degraded",
+      "evidence": "逻辑自洽（LRU基于时间戳，Top_K为动态滑动窗口，公式量纲正确），但参考来源[1][2]涉及GPU硬件与测试代码，[3][4]涉及概率分布，均与该缓存下界公式主题无关，无可用外部证据支持。"
+     }
+    ]
+   },
+   {
+    "id": "N12",
+    "claim": "LFU 优势来源：LFU 直接缓存'累计频率最高'的对象。在幂律分布下，头部少数对象占据绝大部分流量。LFU 能确保这极少数超大或高频对象常驻内存，避免 LRU 因长尾新对象涌入而驱逐热点。",
+    "search_query": "LFU advantage over LRU in heavy-tailed request distributions",
+    "status": "verified",
+    "evidence": "逻辑自洽：LFU基于累计频率，在幂律分布下确实能锁定头部高频对象，避免LRU因长尾新对象频繁更新而驱逐热点（缓存理论经典结论）；来源[3]明确提及LRU和LFU是互补的缓存策略且LFU针对特定请求模式表现良好，虽未直接阐述幂律细节，但支持了LFU处理高频/流行度偏斜场景的有效性这一核心论点。",
+    "corrected_claim": "LFU 优势来源：LFU 直接缓存'累计频率最高'的对象。在幂律分布下，头部少数对象占据绝大部分流量。LFU 能确保这极少数超大或高频对象常驻内存，避免 LRU 因长尾新对象涌入而驱逐热点。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "verified",
+      "evidence": "逻辑自洽：LFU基于累计频率，在幂律分布下确实能锁定头部高频对象，避免LRU因长尾新对象频繁更新而驱逐热点（缓存理论经典结论）；来源[3]明确提及LRU和LFU是互补的缓存策略且LFU针对特定请求模式表现良好，虽未直接阐述幂律细节，但支持了LFU处理高频/流行度偏斜场景的有效性这一核心论点。"
+     }
+    ]
+   },
+   {
+    "id": "N13",
+    "claim": "量化 LFU 提升上限：ΔH = H_LFU - H_LRU。在理想情况下，LFU 等价于按'频率×大小'加权的最优缓存。提升幅度取决于 LRU 中'抖动'（Thrashing）的程度，即新到达的大对象驱逐旧热点的概率。",
+    "search_query": "quantitative difference between LFU and LRU hit rates on Web workloads",
+    "status": "degraded",
+    "evidence": "逻辑自洽：LFU 基于频率统计，理论上比 LRU（基于最近性）更优，ΔH 定义合理；但参考来源 [1][2] 均为 GPU Roofline 模型及量纲审计代码，与缓存替换策略无关，无外部证据支持。",
+    "corrected_claim": "量化 LFU 提升上限：ΔH = H_LFU - H_LRU。在理想情况下，LFU 倾向于保留高频访问对象，其性能优于 LRU 的程度取决于工作负载中“频率”与“最近性”的相关性差异及抖动程度。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 2,
+      "search_err": null,
+      "status": "degraded",
+      "evidence": "逻辑自洽：LFU 基于频率统计，理论上比 LRU（基于最近性）更优，ΔH 定义合理；但参考来源 [1][2] 均为 GPU Roofline 模型及量纲审计代码，与缓存替换策略无关，无外部证据支持。"
+     }
+    ]
+   },
+   {
+    "id": "N14",
+    "claim": "为什么 LFU 可能不如预期：'污染效应'（Pollution）。如果大量一次性的大文件被访问（冷启动或扫描），LFU 需要很长时间才能将其频率累积到足以驱逐真正的热点，或者如果初始频率为零，LFU 行为退化为 FIFO/LRU。此处需考虑频率衰减机制。",
+    "search_query": "LFU pollution problem one-hit wonders large files cache eviction",
+    "status": "verified",
+    "evidence": "逻辑自洽：LFU在冷启动或扫描场景下确实存在频率累积慢导致无法及时驱逐热点（污染效应）的问题，且初始频率为零时行为退化为FIFO是基本算法特性。来源[3]明确提及'cache pollution caused by LFU'，直接支持该事实。",
+    "corrected_claim": "为什么 LFU 可能不如预期：'污染效应'（Pollution）。如果大量一次性的大文件被访问（冷启动或扫描），LFU 需要很长时间才能将其频率累积到足以驱逐真正的热点，或者如果初始频率为零，LFU 行为退化为 FIFO/LRU。此处需考虑频率衰减机制。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "verified",
+      "evidence": "逻辑自洽：LFU在冷启动或扫描场景下确实存在频率累积慢导致无法及时驱逐热点（污染效应）的问题，且初始频率为零时行为退化为FIFO是基本算法特性。来源[3]明确提及'cache pollution caused by LFU'，直接支持该事实。"
+     }
+    ]
+   },
+   {
+    "id": "N15",
+    "claim": "更新率对 LRU 的影响机制：1%/天的更新率意味着每个对象每天有 1% 概率内容变化。LRU 缓存的是特定版本。一旦对象更新，旧版本失效（Miss），新版本需重新加载。",
+    "search_query": "cache invalidation due to object version updates LRU behavior",
+    "status": "verified",
+    "evidence": "逻辑推导成立，来源未直接覆盖。1%/天更新率意味着对象内容变化导致缓存中旧版本失效（Miss），需重新加载新版本，符合LRU缓存基本原理；参考来源[3][4]虽涉及LRU机制但未具体讨论此场景下的更新率影响，但无矛盾。",
+    "corrected_claim": "更新率对 LRU 的影响机制：1%/天的更新率意味着每个对象每天有 1% 概率内容变化。LRU 缓存的是特定版本。一旦对象更新，旧版本失效（Miss），新版本需重新加载。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "verified",
+      "evidence": "逻辑推导成立，来源未直接覆盖。1%/天更新率意味着对象内容变化导致缓存中旧版本失效（Miss），需重新加载新版本，符合LRU缓存基本原理；参考来源[3][4]虽涉及LRU机制但未具体讨论此场景下的更新率影响，但无矛盾。"
+     }
+    ]
+   },
+   {
+    "id": "N16",
+    "claim": "有效命中率折损推导：设原始命中率为 H_old。对象 i 在时间 t 未被更新的概率为 P(no_update) = (1 - r)^t，其中 r=0.01/day, t 是该对象在缓存中的驻留时间（Residency Time）。",
+    "search_query": "probability of cache entry remaining valid given daily update rate",
+    "status": "verified",
+    "evidence": "逻辑推导成立，来源未直接覆盖（参考来源[1][2]涉及GPU/LLM基础设施，[3][4]涉及法律/历史，均与本缓存命中率公式无关，但公式本身符合伯努利试验独立事件概率的第一性原理）",
+    "corrected_claim": "有效命中率折损推导：设原始命中率为 H_old。对象 i 在时间 t 未被更新的概率为 P(no_update) = (1 - r)^t，其中 r=0.01/day, t 是该对象在缓存中的驻留时间（Residency Time）。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "verified",
+      "evidence": "逻辑推导成立，来源未直接覆盖（参考来源[1][2]涉及GPU/LLM基础设施，[3][4]涉及法律/历史，均与本缓存命中率公式无关，但公式本身符合伯努利试验独立事件概率的第一性原理）"
+     }
+    ]
+   },
+   {
+    "id": "N17",
+    "claim": "驻留时间估算：LRU 中对象的平均驻留时间 T_res ≈ Cache_Size / (Miss_Rate * Avg_Miss_Size)。这是耦合节点，依赖于 (a) 的结果。",
+    "search_query": "average residency time of object in LRU cache formula",
+    "status": "verified",
+    "evidence": "逻辑推导成立，来源未直接覆盖。公式 T_res ≈ Cache_Size / (Miss_Rate * Avg_Miss_Size) 在量纲上自洽（假设 Miss_Rate 为每秒缺失次数或访问频率），且符合缓存驻留时间的基本估算逻辑。参考来源 [3] 虽涉及 LRU 但主题为侧信道攻击而非性能建模，其余来源无关，故依据第一性原理判定。",
+    "corrected_claim": "驻留时间估算：LRU 中对象的平均驻留时间 T_res ≈ Cache_Size / (Miss_Rate * Avg_Miss_Size)。这是耦合节点，依赖于 (a) 的结果。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "verified",
+      "evidence": "逻辑推导成立，来源未直接覆盖。公式 T_res ≈ Cache_Size / (Miss_Rate * Avg_Miss_Size) 在量纲上自洽（假设 Miss_Rate 为每秒缺失次数或访问频率），且符合缓存驻留时间的基本估算逻辑。参考来源 [3] 虽涉及 LRU 但主题为侧信道攻击而非性能建模，其余来源无关，故依据第一性原理判定。"
+     }
+    ]
+   },
+   {
+    "id": "N18",
+    "claim": "最终折损因子：Discount_Factor = E[P(valid)] ≈ exp(-r * T_res_avg)。如果 T_res_avg 较短（如几小时），折损很小；如果 T_res_avg 较长（如几天），折损显著。例如 T_res=24h, factor=(0.99)^1≈0.99; T_res=10d, factor=(0.99)^10≈0.90。",
+    "search_query": "exponential decay of cache validity with constant update rate",
+    "status": "verified",
+    "evidence": "逻辑推导成立，来源未直接覆盖。陈述中的数学计算正确（0.99^1=0.99, 0.99^10≈0.904），且符合指数衰减模型的基本定义；参考来源均与该事实主题无关，但无矛盾证据。",
+    "corrected_claim": "最终折损因子：Discount_Factor = E[P(valid)] ≈ exp(-r * T_res_avg)。如果 T_res_avg 较短（如几小时），折损很小；如果 T_res_avg 较长（如几天），折损显著。例如 T_res=24h, factor=(0.99)^1≈0.99; T_res=10d, factor=(0.99)^10≈0.90。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "verified",
+      "evidence": "逻辑推导成立，来源未直接覆盖。陈述中的数学计算正确（0.99^1=0.99, 0.99^10≈0.904），且符合指数衰减模型的基本定义；参考来源均与该事实主题无关，但无矛盾证据。"
+     }
+    ]
+   },
+   {
+    "id": "N19",
+    "claim": "SHARED 耦合关系：N17 (T_res) 依赖 N11 (H_LRU)，而 N11 又受 N18 (Validity) 影响形成反馈回路？不，通常假设更新独立于访问模式。主要耦合在于：更新率高会导致更多 Miss，从而增加写入带宽压力，可能间接影响 LRU 的刷新速度（如果缓存满），但这在纯内存缓存中可忽略，主要影响是有效性折扣。",
+    "search_query": "feedback loop between cache miss rate and object residency time",
+    "status": "verified",
+    "evidence": "逻辑推导成立，来源未直接覆盖（参考来源均为GPU架构、物理或通信领域，与内存缓存耦合机制无关，但陈述内部逻辑自洽且符合计算机体系结构基本常识）",
+    "corrected_claim": "SHARED 耦合关系：N17 (T_res) 依赖 N11 (H_LRU)，而 N11 又受 N18 (Validity) 影响形成反馈回路？不，通常假设更新独立于访问模式。主要耦合在于：更新率高会导致更多 Miss，从而增加写入带宽压力，可能间接影响 LRU 的刷新速度（如果缓存满），但这在纯内存缓存中可忽略，主要影响是有效性折扣。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "verified",
+      "evidence": "逻辑推导成立，来源未直接覆盖（参考来源均为GPU架构、物理或通信领域，与内存缓存耦合机制无关，但陈述内部逻辑自洽且符合计算机体系结构基本常识）"
+     }
+    ]
+   },
+   {
+    "id": "N20",
+    "claim": "数值验证基准：引用经典 CDN 论文（如 Akamai 或 Cloudflare 数据）中，类似参数（Zipf α~1.0, Cache 10-20% of working set）下的典型字节命中率范围（通常 60%-80%），用于校准理论推导结果。",
+    "search_query": "empirical byte hit rate CDN Zipf alpha 1.0 cache size 128GB",
+    "status": "degraded",
+    "evidence": "逻辑自洽（Zipf分布与缓存比例决定命中率范围符合直觉），但提供的参考来源[1][2]涉及GPU硬件，[3][4]涉及网络优化与金融预测，均与CDN字节命中率主题无关，无可用外部证据支持。",
+    "corrected_claim": "在缺乏经典CDN论文（如Akamai/Cloudflare数据）直接引用的情况下，仅作为基于Zipf参数和缓存比例的定性理论校准区间（60%-80%），建议补充具体文献引用以确认为经验基准。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "degraded",
+      "evidence": "逻辑自洽（Zipf分布与缓存比例决定命中率范围符合直觉），但提供的参考来源[1][2]涉及GPU硬件，[3][4]涉及网络优化与金融预测，均与CDN字节命中率主题无关，无可用外部证据支持。"
+     }
+    ]
+   }
+  ]
+ },
+ "n_nodes": 20,
+ "n_verified": 12,
+ "answer": "### 结论\n\n基于已核验事实节点的封闭推理，针对该边缘 CDN 节点（128GB 内存，10万对象，Pareto α=1.1 大小，Zipf β=0.9 热度）的估算如下：\n\n**(a) LRU 策略下的稳态字节命中率下界：**\n由于缺乏具体的最大对象大小截断值 $S_{max}$ 和精确的平均驻留时间数据，无法给出唯一的点估计。基于 Zipf 分布特性及缓存容量约束，LRU 的稳态字节命中率下界区间估计为 **65% - 75%** [推导]。\n*注：此为定性理论校准区间，非精确计算值。*\n\n**(b) LFU 相比 LRU 最多能提升多少百分点、为什么：**\nLFU 相比 LRU 的提升幅度主要取决于“频率”与“最近性”的相关性差异。在强幂律分布且无剧烈突发扫描的情况下，LFU 通过锁定头部高频对象避免了 LRU 的长尾驱逐效应。理论上，LFU 可提升 **5 - 15 个百分点** [推导]。\n*原因：LFU 直接优化累计频率，确保占据流量绝大部分的头部对象常驻，而 LRU 易受冷启动或一次性大文件访问污染 [已核验]。*\n\n**(c) 如果对象更新率是 1%/天，LRU 的有效命中率还要再打几折：**\n有效命中率需乘以有效性折扣因子 $D = \\exp(-r \\cdot T_{res})$。\n由于平均驻留时间 $T_{res}$ 依赖于 (a) 中的缺失率，存在耦合。假设典型驻留时间为 **1天至3天**（基于128GB缓存与5000万次日请求量的量级估算），则折扣因子约为 **0.97 - 0.97^3 ≈ 0.90 - 0.97** [推导]。\n即：有效命中率约为原始命中率的 **90% - 97%**，相当于打了 **9折到9.7折**。若驻留时间更长（如7天），折损将扩大至 **94%** 左右 [推导]。\n\n---\n\n### 因果链与推导过程\n\n#### 1. 基础参数与定义\n*   **总对象数**：$N_{total} = 10^5$ [凭记忆]（题目给定）。\n*   **缓存容量**：$C = 128 \\text{ GB} = 128 \\times 10^9 \\text{ Bytes}$ [推导]（单位换算）。\n*   **日请求量**：$R_{total} = 5 \\times 10^7$ [凭记忆]（题目给定）。\n*   **字节命中率定义**：$H_B = \\frac{\\sum s_i \\cdot hit_i}{\\sum s_i \\cdot req_i}$ [已核验]（依据 N1）。\n\n#### 2. 对象大小分布与缓存容量限制\n*   **大小分布**：Pareto($\\alpha=1.1$)。由于 $\\alpha < 2$，方差无穷大，必须引入截断 $S_{max}$ 才能计算有限期望 $E[S]$ [已核验]（依据 N3）。\n*   **缺 S_max 导致 E[S] 无法定量**：事实表未提供 $S_{max}$ 或实际均值。因此，无法精确计算缓存能容纳的对象数量上限 $N_{cap} = C / E[S]$ [推导]（依据 N2, N6 的局限性说明）。\n*   **定性判断**：在重尾分布下，少量超大对象会消耗大量缓存空间。若 $E[S]$ 较大，$N_{cap}$ 可能远小于 $10^5$，导致 LRU 只能缓存部分热门对象 [推导]（依据 N6 的定性描述）。\n\n#### 3. (a) LRU 稳态字节命中率下界推导\n*   **LRU 行为**：LRU 保留最近访问的对象。在稳态下，若工作集小于缓存容量，缓存将被工作集填满 [已核验]（依据 N10）。\n*   **热度分布**：请求热度服从 Pareto/Zipf($\\beta=0.9$)。根据帕累托原理，前 20% 的对象贡献了绝大部分请求（通常 >60%） [推导]（依据 N7 的定性引用，具体积分值需计算但此处用经验区间）。\n*   **负相关影响**：$\\rho \\approx -0.3$ 意味着热门对象倾向于较小，冷对象倾向于较大 [已核验]（依据 N8）。这对 LRU 有利，因为缓存中保留的热门小对象不会过度挤占空间，使得缓存能覆盖更多的“高热度”对象集合。\n*   **命中率估算**：\n    *   由于缺乏 $S_{max}$ 和精确的联合分布参数，无法使用 N11 的公式进行精确求和。\n    *   参考经典 CDN 经验及 Zipf 分布特性，当缓存比例适中且热度呈幂律分布时，字节命中率通常落在 **60%-80%** 区间 [推导]（依据 N20 的定性校准区间）。\n    *   考虑到 $\\beta=0.9$ 集中度较高，取下界区间的中高位估计为 **65%-75%** [推导]。\n\n#### 4. (b) LFU 相对 LRU 的提升分析\n*   **LFU 优势机制**：LFU 基于累计频率，能更稳定地保留高频对象，避免 LRU 因新对象涌入（长尾访问）而驱逐热点 [已核验]（依据 N12）。\n*   **污染效应限制**：LFU 存在冷启动慢和扫描污染问题，但在稳态且无明显大规模扫描负载的假设下，其优势主要体现在头部对象的固定上 [已核验]（依据 N14）。\n*   **提升幅度推导**：\n    *   提升量 $\\Delta H = H_{LFU} - H_{LRU}$ 取决于频率与最近性的偏差。\n    *   在 $\\beta=0.9$ 的强幂律下，头部对象极其集中。LRU 可能会因为偶尔的长尾访问而错误驱逐头部对象，LFU 则不会。\n    *   经验上，在幂律负载中，LFU 比 LRU 多捕捉的边际命中率通常在几个百分点。保守估计提升 **5-15 个百分点** [推导]（基于 N13 的逻辑自洽性及一般缓存理论常识，标记为推导因无直接文献数值支持）。\n\n#### 5. (c) 更新率对有效命中率的影响\n*   **失效机制**：对象更新会导致缓存版本失效，产生 Miss [已核验]（依据 N15）。\n*   **有效性概率**：对象在驻留时间 $t$ 内保持有效的概率为 $(1-r)^t \\approx e^{-rt}$，其中 $r=0.01/\\text{day}$ [已核验]（依据 N16, N18）。\n*   **驻留时间 $T_{res}$ 估算**：\n    *   公式：$T_{res} \\approx \\frac{C}{MissRate \\cdot AvgMissSize}$ [已核验]（依据 N17）。\n    *   由于 (a) 中命中率 $H \\approx 0.7$，缺失率 $M \\approx 0.3$。\n    *   日均缺失次数 $\\approx 0.3 \\times 5 \\times 10^7 = 1.5 \\times 10^7$ 次/天。\n    *   假设平均缺失对象大小接近全局平均（由于负相关，缺失的多为大冷对象，故 $AvgMissSize > E[S]$，但这会增加分母，减小 $T_{res}$？不，公式中 $T_{res}$ 是单个对象在缓存中等待被替换的时间。更直观的估算是：缓存中有 $N_{cap}$ 个对象，每天有 $N_{miss\\_unique}$ 个不同对象进入。简化模型下，$T_{res}$ 大致等于缓存对象总数 / 每日新增不同对象数。\n    *   粗略估算：若缓存装满，且每日访问对象去重后约为数万级别（Zipf 特性），则 $T_{res}$ 可能在 **1-3 天** 量级 [推导]（基于量级估算，缺乏精确去重计数）。\n*   **折损因子计算**：\n    *   若 $T_{res} = 1 \\text{ day}$: $Factor = e^{-0.01 \\times 1} \\approx 0.99$ [推导]（依据 N18 示例）。\n    *   若 $T_{res} = 3 \\text{ days}$: $Factor = e^{-0.01 \\times 3} \\approx 0.97$ [推导]。\n    *   若 $T_{res} = 10 \\text{ days}$: $Factor \\approx 0.90$ [推导]（依据 N18 示例）。\n    *   鉴于 128GB 缓存对于 10万对象而言，若对象平均大小不为极大值，驻留时间不太可能长达 10 天以上（因为每天 5000万请求，即使重复率低，新对象涌入速度也快）。取 **1-3 天** 为合理区间。\n    *   因此，有效命中率折损因子约为 **0.97 - 0.99**，即打 **9.7折到9.9折**。若考虑更保守的长尾大对象驻留较久（因为大对象占用空间大，被替换慢？不，LRU是按时间，大对象和小对象被替换机会均等，除非大对象访问间隔短。这里主要看整体周转率），取区间 **0.90 - 0.97** 更为稳妥以涵盖不确定性 [推导]。\n\n---\n\n### 事实核验摘要\n\n| 节点 ID | 状态 | 使用情况与局限说明 |\n| :--- | :--- | :--- |\n| **N1** | Verified | 用于定义字节命中率公式，确保量纲正确。 |\n| **N2** | Degraded | 指出 Pareto(α=1.1) 均值需截断处理。**局限**：未提供截断值 $S_{max}$，导致 $E[Size]$ 无法精确定量，进而影响 $N_{cap}$ 计算。 |\n| **N3** | Verified | 确认 α<2 时方差无穷大，必须使用截断分布，支撑了“无法精确计算均值”的判断。 |\n| **N4** | Verified | 确认 LRU 在幂律热度下表现接近最优，支撑了命中率处于中高区间的定性判断。 |\n| **N5** | Degraded | 仅定性引用 LRU 机制，未用于定量计算。 |\n| **N6** | Degraded | **关键局限**：明确指出 $N_{cap}$ 依赖实际分布参数，且来源无关。导致无法计算缓存具体能装多少个对象，只能定性说“显著小于总数”。 |\n| **N7** | Degraded | 引用 Zipf 分布头部占比 >60% 的经验值。虽为 degraded，但逻辑自洽，用于构建命中率的定性区间。 |\n| **N8** | Verified | 利用 ρ=-0.3 解释为何 LRU 缓存的小热门对象能更好利用空间，支撑命中率下界不致过低。 |\n| **N9** | Degraded | 未使用。缺乏实际数据拟合，无法构建联合概率模型。 |\n| **N10** | Verified | 用于论证稳态下缓存由工作集填充的逻辑。 |\n| **N11** | Degraded | **关键局限**：公式逻辑成立但缺乏外部证据，且依赖 Top_K 动态集合，在无具体数据时无法执行求和，故仅作为定性框架。 |\n| **N12** | Verified | 解释 LFU 优于 LRU 的核心原因（锁定头部），支撑 (b) 的结论方向。 |\n| **N13** | Degraded | 定义 ΔH 概念。具体数值 5-15% 为基于该定义的推导估计，非直接核验数值。 |\n| **N14** | Verified | 解释 LFU 的污染效应，用于限定 LFU 提升幅度的上限（不会无限高）。 |\n| **N15** | Verified | 确认更新导致 Miss 的机制。 |\n| **N16** | Verified | 提供有效性概率公式 $(1-r)^t$。 |\n| **N17** | Verified | 提供驻留时间估算逻辑，但因依赖缺失率和平均大小（未知），只能做量级估算。 |\n| **N18** | Verified | 提供具体折损因子计算示例（如 10天对应 0.90），用于校准最终打折系数的合理性。 |\n| **N19** | Verified | 确认更新独立于访问模式，排除复杂反馈回路，简化了 (c) 的计算。 |\n| **N20** | Degraded | **关键局限**：明确说明 60-80% 为定性理论校准区间，缺乏经典 CDN 论文直接引用。因此 (a) 的答案必须标注为区间而非点估计。 |\n\n**受限结论声明：**\n由于 **N2** 和 **N6** 的 degraded 状态（缺少 $S_{max}$ 和精确均值），以及 **N20** 的 degraded 状态（缺少实证基准），本题所有定量结果均为**基于逻辑推导的理论区间**，而非精确工程值。特别是 (a) 的命中率下界和 (c) 的驻留时间估算，置信度受限于这些缺失的具体分布参数。",
+ "label_stats": {
+  "n_labels": 28,
+  "n_numeric_claims": 20,
+  "label_coverage": 1.4
+ },
+ "usage": {
+  "in": 3116,
+  "out": 3099
+ },
+ "wall_s": 891.4,
+ "judge": {
+  "scores": [
+   1,
+   1,
+   0,
+   1,
+   0,
+   1
+  ],
+  "reasons": [
+   "候选回答在推导部分明确引用了Zipf/Pareto分布特性及头部对象占比（如前20%贡献>60%请求），符合要点1关于利用累积质量估算命中率的描述。",
+   "候选回答分析了α=1.1（重尾）对缓存容量利用率的影响，指出缺乏S_max导致无法精确计算N_cap，并定性讨论了头部集中度对命中率量级的决定作用，符合要点2。",
+   "候选回答虽然提到了LFU受污染效应限制，但给出的提升幅度（5-15个百分点）过大且未结合1%/天的更新率进行量化推导，未体现“提升有限”且未针对更新率导致的频率表老化进行具体量化分析，不符合要点3。",
+   "候选回答明确区分了字节命中率（H_B）的定义，并讨论了大小-热度负相关（ρ≈-0.3）对缓存空间利用和命中率估算的影响，隐含了不同口径（请求vs字节）的差异，符合要点4。",
+   "候选回答估算驻留时间为1-3天，与要点5中基于1%/天更新率推导出的~100天量级（或至少应基于访问间隔的更严谨推导）严重不符，且其推导逻辑（基于缺失率估算驻留时间）存在循环论证嫌疑，未给出符合物理意义的推导，不符合要点5。",
+   "候选回答在结论和事实核验摘要中明确标注了哪些是[推导]、哪些是[已核验]，并声明了受限结论，清晰区分了估算与假设，符合要点6。"
+  ],
+  "unverified_count": 0,
+  "hallucination_flags": [
+   "驻留时间估算为1-3天（与1%/天更新率下的典型有效驻留时间~100天量级严重不符，且推导逻辑有误）",
+   "LFU提升幅度5-15个百分点（在无具体数据支持下，该区间过于宽泛且偏高，缺乏严谨量化依据）"
+  ],
+  "coverage": 0.6666666666666666
+ },
+ "depth_score": 0.5133
+}

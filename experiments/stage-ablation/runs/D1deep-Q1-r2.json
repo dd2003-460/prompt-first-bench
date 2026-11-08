@@ -1,0 +1,90 @@
+{
+  "arm": "D1-deep",
+  "qid": "Q1",
+  "rep": 2,
+  "model": "qwen3.8-27b",
+  "params": {
+    "retriever": "duckduckgo",
+    "system": "gpt-researcher-deep",
+    "breadth": 4,
+    "depth": 2
+  },
+  "output_text": "# H100 PCIe 与 SXM 版在 LLM 推理中的性能差异深度研究报告\n\n## 摘要\n\n随着大语言模型（LLM）从研发阶段全面迈向生产部署，硬件选型成为决定推理成本与服务质量的关键因素。NVIDIA H100 作为当前数据中心 AI 算力的标杆，其两种主要形态——PCIe 版本与 SXM 版本——常被混淆或简单化地比较。本报告基于最新的多层级研究数据，深入剖析两者在实际 LLM 推理场景下的吞吐量差异、延迟表现及底层架构原因。研究发现，**在单 GPU 工作负载中，SXM 与 PCIe 的性能差距微乎其微（仅 0-5%），但在涉及多 GPU 张量并行（Tensor Parallelism）的大模型（如 70B+ 参数）推理场景中，SXM 凭借 NVLink 4.0 互连技术展现出显著优势，吞吐量可高出 30%-50%**。此外，SXM 版本拥有更高的内存带宽（3.35 TB/s vs ~2.0 TB/s），这在解码阶段（Decode Phase）尤为关键。然而，考虑到 PCIe 版本约 35% 的成本优势，对于中小规模模型或单卡部署，PCIe 往往是更具性价比的选择。本报告旨在为基础设施架构师和 AI 工程师提供基于实证数据的决策框架。\n\n---\n\n## 1. 引言：H100 形态之争的背景\n\n在 2026 年的 AI 基础设施市场中，NVIDIA Hopper 架构的 H100 GPU 依然是训练和推理大型语言模型的主力硬件。尽管 Blackwell 系列（B200/B300）已开始逐步渗透市场，但 H100 凭借其成熟的软件生态、广泛的可用性以及经过验证的稳定性，仍占据着巨大的市场份额 ([io.net](https://io.net/p/nvidia-hopper-gpu-for-ai-h100-performance-benchmarks-and-pricing))。\n\nH100 并非单一产品，而是根据物理接口和互连能力分为两个主要变体：\n1.  **H100 PCIe**：标准 PCIe Gen5 x16 插槽形式，TDP 通常为 350W，适用于工作站及通用服务器。\n2.  **H100 SXM (SXM5)**：专用基板形式，TDP 高达 700W，必须配合 HGX 或 DGX 等专用服务器主板使用，支持 NVLink 高速互连 ([io.net](https://io.net/p/nvidia-hopper-gpu-for-ai-h100-performance-benchmarks-and-pricing))。\n\n一个常见的误区是认为“SXM 就是更快的 H100”，因此在所有场景下都应优先选择 SXM。然而，这种观点忽略了推理工作负载的特殊性：推理不同于训练，它更侧重于低延迟和高并发吞吐，且对网络互连的依赖程度随模型大小和并行策略而变化。本报告将拆解这一复杂性，回答核心问题：**在跑 LLM 推理时，实际吞吐差多少？SXM 是否真的快很多？为什么？**\n\n---\n\n## 2. 基础架构差异：为何会有性能分化？\n\n要理解性能差异，首先必须厘清两者在硬件层面的根本区别。这些区别直接决定了它们在处理 LLM 推理时的瓶颈所在。\n\n### 2.1 内存带宽：解码阶段的决定性因素\n\nLLM 推理通常分为两个阶段：预填充（Prefill，计算密集型）和解码（Decode，内存带宽密集型）。在解码阶段，GPU 需要反复从显存中读取模型权重以生成下一个 Token。因此，**内存带宽（Memory Bandwidth）**是决定每秒生成 Token 数（Tokens/Second, T/S）的关键指标。\n\n| 特性 | H100 SXM | H100 PCIe | 差异影响 |\n| :--- | :--- | :--- | :--- |\n| **显存类型** | 80GB HBM3 | 80GB HBM3 | 容量相同 |\n| **内存带宽** | **3.35 TB/s** | **~2.0 TB/s** | SXM 高约 67% |\n| **TDP (热设计功耗)** | 700W | 350W | SXM 供电更强，时钟频率上限更高 |\n| **互连技术** | NVLink 4.0 (900 GB/s) | PCIe 5.0 (~128 GB/s) | SXM 具备专用 GPU-to-GPU 通道 |\n\n*数据来源: [Thunder Compute](https://www.thundercompute.com/blog/nvidia-h100-specs-full-guide), [Cloud GPU Tracker](https://cloudgputracker.com/compare/nvidia-h100-vs-nvidia-h100-pcie/)*\n\n研究表明，由于 LLM 解码通常是内存带宽受限的（memory-bandwidth bound），SXM 版本凭借 3.35 TB/s 的高带宽，在处理大模型（如 Llama 3 70B 或 Mixtral 8x7B）时，即使是在单卡能容纳的情况下，也能提供更高的 Tokens/Second ([Thunder Compute](https://www.thundercompute.com/blog/nvidia-h100-specs-full-guide))。这意味着，如果模型足够小，能够完全装入单张 H100 的 80GB 显存中，SXM 版本在纯解码速度上会略胜一筹，但这部分优势受限于具体的模型结构和批处理大小。\n\n### 2.2 互连带宽：多 GPU 协作的生命线\n\n当模型过大无法装入单张显卡时，必须使用多 GPU 进行张量并行（Tensor Parallelism, TP）或流水线并行（Pipeline Parallelism, PP）。此时，GPU 之间的通信开销成为主要瓶颈。\n\n*   **H100 SXM**：通过 NVLink 4.0 实现 GPU 间 900 GB/s 的双向带宽。在一个标准的 8-GPU HGX 节点内，NVSwitch 提供了全非阻塞的互连拓扑，使得任意两个 GPU 之间都能以最大带宽通信 ([Spheron Network](https://www.spheron.network/blog/gpu-networking-infiniband-roce-spectrum-x-guide/))。\n*   **H100 PCIe**：缺乏 NVLink，GPU 间通信必须通过 PCIe 总线。PCIe Gen5 x16 的理论带宽仅为 ~128 GB/s，且该带宽需与 CPU、网卡等其他设备共享 ([Rack2Cloud](https://www.rack2cloud.com/gpu-cluster-architecture-private-llm/))。\n\n**结论**：在多 GPU 场景下，PCIe 版本的互连带宽比 SXM 低了一个数量级（约 7 倍）。这导致在进行 All-Reduce 同步操作时，PCIe 集群会出现严重的通信等待时间，从而大幅降低有效吞吐量 ([Flatkey.ai](https://flatkey.ai/blog/h100-sxm-vs-pcie))。\n\n---\n\n## 3. 实证分析：不同场景下的吞吐量对比\n\n为了量化上述架构差异带来的实际影响，我们综合了多个独立基准测试和数据提供商的报告，将场景划分为“单 GPU 小模型”、“单 GPU 大模型（量化后）”和“多 GPU 大模型”三类。\n\n### 3.1 场景一：单 GPU 工作负载（模型 < 20B 参数）\n\n对于参数量较小、可以完全加载到单张 H100 显存中的模型（如 Llama 3 8B, Mistral 7B），SXM 与 PCIe 的性能差距极小。\n\n*   **数据证据**：多项测试显示，在单 GPU 推理任务中，SXM 仅比 PCIe 快 **0-5%**。例如，在 GPT-3 175B 的单卡模拟推理测试中（注：此处指单卡极限测试或特定配置），SXM 达到 142 tokens/sec，而 PCIe 为 134 tokens/sec，差距仅为 6% ([io.net](https://io.net/p/nvidia-hopper-gpu-for-ai-h100-performance-benchmarks-and-pricing))。\n*   **原因分析**：在此场景下，互连带宽不再是瓶颈，因为所有计算都在单个 GPU 内部完成。虽然 SXM 拥有更高的内存带宽，但由于模型较小，权重读取并未完全饱和 HBM3 的峰值带宽，或者计算密度较高，使得内存带宽优势被掩盖。此外，PCIe 版本较低的 TDP（350W）限制了其持续高频运行的能力，但在短时突发负载或中等负载下，这一劣势并不明显 ([io.net](https://io.net/p/h100-sxm-vs-pcie-which-gpu-configuration-for-ai-training))。\n*   **成本考量**：鉴于性能差距微小，而 PCIe 版本在云市场上通常比 SXM 便宜 **35%** 左右，对于此类工作负载，PCIe 是更经济的选择 ([AITOT](https://aitot.net/en/blog/gpu-cloud-pricing-comparison-2026))。\n\n### 3.2 场景二：单 GPU 大模型（利用 FP8 量化）\n\n随着 FP8 量化技术的成熟，70B 参数的模型（如 Llama 3.1 70B）可以被压缩至约 70GB 显存占用，从而勉强装入单张 80GB 的 H100 SXM 中。这是一个极具争议且关键的场景。\n\n*   **数据证据**：\n    *   在 H100 SXM 上使用 FP8 量化运行 Llama 3.1 70B，单 GPU 可实现 **1,420 tokens/s** 的吞吐量，首字延迟（TTFT）为 82ms ([GeneralCompute](https://www.generalcompute.com/blog/quantized-vs-full-precision-gptq-awq-fp8-benchmarks-across-model-sizes))。\n    *   相比之下，若使用 FP16 精度，则需要 4 张 GPU 才能达到 **1,850 tokens/s** 和 68ms TTFT ([GeneralCompute](https://www.generalcompute.com/blog/quantized-vs-full-precision-gptq-awq-fp8-benchmarks-across-model-sizes))。\n    *   虽然单卡 FP8 的绝对吞吐量低于四卡 FP16，但它将硬件需求从 4 张 GPU 降至 1 张，极大地降低了资本支出（CapEx）和运营支出（OpEx）。\n    *   值得注意的是，**H100 PCIe 版本同样支持 FP8**。理论上，PCIe 版本也可以运行单卡 FP8 70B 模型。然而，由于 PCIe 版本内存带宽较低（~2.0 TB/s vs 3.35 TB/s），其在解码阶段的吞吐量预计会比 SXM 版本低 10-15%。具体数值虽未在所有公开基准中统一列出，但根据带宽线性关系推断，PCIe 单卡 FP8 70B 的吞吐量可能在 1,200-1,300 tokens/s 区间 ([Inferbase](https://inferbase.ai/blog/llama-3-3-70b-sizing-h100-h200-b200))。\n*   **关键洞察**：在这个场景下，SXM 的优势在于其**更高的内存带宽允许更高效的单卡利用率**。如果用户希望避免多卡管理的复杂性（如 NCCL 调优、故障隔离），SXM 单卡方案更具吸引力。但如果预算极其敏感，且能接受稍低的吞吐量，PCIe 单卡 FP8 也是一个可行的替代方案，尽管其性价比可能不如 SXM 单卡（因为 SXM 单卡的每小时成本溢价可能被其更高的吞吐率所抵消）。\n\n### 3.3 场景三：多 GPU 大模型（标准生产环境）\n\n这是大多数企业部署 70B+ 参数模型的标准场景。通常采用 4 或 8 张 GPU 进行张量并行。\n\n*   **数据证据**：\n    *   **8-GPU 集群训练/推理对比**：在 LLaMA 2 70B 的 8-GPU 工作负载中，H100 SXM 集群的聚合吞吐量为 1,847 tokens/sec，而 H100 PCIe 集群仅为 1,203 tokens/sec。**SXM 比 PCIe 快了 54%** ([io.net](https://io.net/p/nvidia-hopper-gpu-for-ai-h100-performance-benchmarks-and-pricing))。\n    *   **64-GPU 大规模集群**：在更大规模的 64-GPU 训练中，SXM 的优势依然保持，耗时 28 天完成任务，而 PCIe 需要 41 天，效率提升 46% ([io.net](https://io.net/p/nvidia-hopper-gpu-for-ai-h100-performance-benchmarks-and-pricing))。\n    *   **Mixtral 8x7B 案例**：NVIDIA 官方博客指出，在两张 H100 SXM GPU 上使用 TensorRT-LLM 和 FP8 精度，离线推理吞吐量可达近 **21,000 tokens/second**（批处理大小 1,024） ([NVIDIA Developer Blog](https://developer.nvidia.com/blog/achieving-high-mixtral-8x7b-performance-with-nvidia-h100-tensor-core-gpus-and-tensorrt-llm/))。若在 PCIe 版本上运行相同配置，由于缺乏 NVLink，All-Reduce 操作将成为严重瓶颈，吞吐量预计将下降 30-50%，甚至可能因通信超时导致服务不稳定。\n*   **原因深度解析**：\n    1.  **通信开销占比激增**：在多 GPU 张量并行中，每一层 Transformer 的前向和反向传播都需要在 GPU 间交换激活值或梯度。Spheron Network 的研究指出，在大规模操作中，**15-30% 的周期可能花费在网络等待上** ([Spheron Network](https://www.spheron.network/blog/gpu-networking-infiniband-roce-spectrum-x-guide/))。对于 PCIe 集群，这个比例会更高，因为 PCIe 带宽远低于 NVLink。\n    2.  **NCCL 调优困境**：默认的网络通信库（NCCL）针对 NVLink 进行了优化。在 PCIe 环境中，消息大小在 4MB 到 512MB 之间时，性能可能会显著退化，除非进行精细的手动调优 ([NVIDIA Developer Blog](https://developer.nvidia.com/blog/understanding-nccl-tuning-to-accelerate-gpu-to-gpu-communication/))。这使得 PCIe 集群的实际性能往往低于理论预期，且运维复杂度更高。\n\n---\n\n## 4. 深层影响因素：冷却、功耗与能效\n\n除了直接的算力与带宽，物理层面的约束也对长期运行的吞吐量产生深远影响。\n\n### 4.1 热节流（Thermal Throttling）风险\n\nH100 SXM 的 TDP 高达 700W，而 PCIe 版本为 350W。在高密度数据中心中，散热能力直接决定了 GPU 能否维持最高频率。\n\n*   **空气冷却的局限**：传统空气冷却在每机架功率超过 40-50 kW 时面临挑战。对于 8-GPU H100 SXM 服务器（总功耗约 10.2 kW），如果机房气流组织不佳，GPU 温度可能迅速攀升至 72°C 以上，触发热节流，导致频率下降，吞吐量随之降低 ([Servnet UK](https://www.servnetuk.com/insights/ai-server-cooling-air-vs-liquid-2026))。\n*   **液冷优势**：采用直接芯片液冷（DTC）的系统可以将 GPU 温度稳定在 41-50°C，相比空气冷却（54-72°C），液冷系统可提供 **17% 更高的计算性能**（54 TFLOPs/GPU vs 46 TFLOPs/GPU） ([Arxiv](https://arxiv.org/html/2507.16781v1))。\n*   **对 PCIe 的影响**：虽然 PCIe 版本功耗较低，更容易通过风冷散热，但在高密度部署中，如果机箱风扇噪音和风量不足，同样会面临性能衰减。然而，总体而言，SXM 版本对冷却基础设施的要求更高，若冷却不到位，其标称的高性能将无法兑现。\n\n### 4.2 能效比（Performance per Watt）\n\n在电价高昂的数据中心，能效比是隐性成本的重要组成部分。\n\n*   **液冷 vs 风冷**：劳伦斯伯克利国家实验室（LBNL）的研究表明，液冷 H100 系统在微调工作负载中，节点级功耗比风冷系统低 **1000-1200 W**，同时保持了更高的 GPU 利用率（93.4% vs 92.9%） ([LBNL ETA Publications](https://eta-publications.lbl.gov/sites/default/files/2026-08/cooling_matters_benchmarking_large_language_models_and_vision-language_models_on_liquid-cooled_versus_air-cooled_h100_gpu_systems.pdf))。\n*   **FP8 的能效贡献**：无论 SXM 还是 PCIe，启用 FP8 量化都能显著提升能效。NVIDIA NeMo 测量显示，FP8 精度相比 BF16 带来了 **1.43 倍的吞吐量提升**，这主要归功于减少了 HBM3 中的数据移动量和加速了 Tensor Core 的加载速度 ([Lyceum Technology](https://lyceum.technology/magazine/fp8-training-h100-memory-savings/))。这意味着，在相同的电力预算下，FP8 模式下的 SXM 集群能产出更多的 Token。\n\n---\n\n## 5. 网络互连：InfiniBand vs RoCE 在推理中的角色\n\n虽然本报告聚焦于 PCIe vs SXM，但必须澄清一点：**对于 LLM 推理，节点间的网络（Inter-node Fabric）重要性远低于节点内的互连（Intra-node Interconnect）**。\n\n*   **推理流量特征**：与训练不同，推理主要是请求驱动的。KV Cache 的传输模式对延迟的敏感度低于训练的 All-Reduce 操作。Spheron Network 指出，**对于 LLM 推理，高速 InfiniBand 很少具有成本效益**，RoCE 或标准以太网通常就足够了 ([Spheron Network](https://www.spheron.network/blog/gpu-networking-infiniband-roce-spectrum-x-guide/))。\n*   **节点内才是关键**：在单节点内（如 8-GPU HGX 服务器），SXM 的 NVLink 是无可替代的。而在 PCIe 服务器上，由于缺乏 NVLink，即使配备了顶级的 InfiniBand 网卡，也无法弥补节点内 GPU 间通信的低效。因此，**不要试图用昂贵的节点间网络来弥补节点内互连的缺陷**。\n\n---\n\n## 6. 综合评估与决策建议\n\n基于上述多层次的研究数据，我们可以得出以下明确结论和建议：\n\n### 6.1 核心结论\n\n1.  **单 GPU 场景**：SXM 与 PCIe 性能差距 **< 5%**。PCIe 版本因成本低 35%，是更优选择。\n2.  **多 GPU 大模型场景（70B+）**：SXM 凭借 NVLink 4.0，吞吐量比 PCIe 高 **30-50%**。PCIe 版本在此场景下存在严重的通信瓶颈，不推荐用于生产级大模型推理。\n3.  **内存带宽红利**：SXM 的 3.35 TB/s 带宽使其在解码阶段具有天然优势，特别是在单卡运行量化大模型时，能提供更稳定的高吞吐。\n4.  **基础设施依赖**：SXM 的高性能高度依赖于良好的散热（推荐液冷）和正确的服务器平台（HGX/DGX）。若散热不当，SXM 的性能优势将被热节流抵消。\n\n### 6.2 决策矩阵\n\n| 工作负载类型 | 推荐型号 | 理由 | 预期性能差异 (SXM vs PCIe) |\n| :--- | :--- | :--- | :--- |\n| **小模型 (<20B) 单卡推理** | **H100 PCIe** | 成本最低，性能差距可忽略，易于集成到现有服务器。 | SXM 快 0-5% |\n| **中型模型 (20B-70B) 单卡 (FP8)** | **H100 SXM** | 更高内存带宽带来更高解码速度；单卡部署简化运维。 | SXM 快 10-15% |\n| **大模型 (70B+) 多卡推理** | **H100 SXM** | **必需**。NVLink 消除通信瓶颈，吞吐量提升 30-50%。 | SXM 快 30-50% |\n| **LoRA 微调 / 开发测试** | **H100 PCIe** | 通信需求低，成本敏感，无需复杂集群管理。 | SXM 快 0-10% |\n| **高并发生产集群** | **H100 SXM + 液冷** | 最大化能效比和稳定性，避免热节流导致的性能抖动。 | SXM 快 30-50% (含能效优势) |\n\n### 6.3 专家观点\n\n**“SXM 是不是快很多？”** —— 答案是：**取决于你的模型有多大，以及你是否愿意为那 35% 的成本溢价买单。**\n\n如果你的团队正在部署 Llama 3 8B 或 Mistral 7B 这样的轻量级模型，购买 SXM 版本是一种浪费。你支付的额外费用并没有转化为相应的性能提升。然而，如果你正在构建一个服务于数百万用户的 Llama 3.1 70B 或 Mixtral 8x7B 推理后端，SXM 不仅是“更快”，它是**唯一可行**的高性能选项。PCIe 版本在多卡并行时的通信开销会吞噬掉大部分计算资源，导致用户体验（延迟）恶化，且单位 Token 成本反而可能高于 SXM（因为你需要更多的 GPU 时间来补偿低效的通信）。\n\n此外，必须强调**FP8 量化**的重要性。无论选择哪种形态，启用 FP8 都是提升 H100 推理性能的最有效手段之一，它能带来近 1.4 倍的吞吐量提升并减半显存占用 ([Lyceum Technology](https://lyceum.technology/magazine/fp8-training-h100-memory-savings/))。在 SXM 平台上结合 FP8，可以实现单卡运行 70B 模型的壮举，这在 PCIe 平台上虽然理论可行，但受限于带宽，其实际吞吐量和稳定性均逊于 SXM。\n\n---\n\n## 7. 结论\n\nH100 PCIe 与 SXM 版本并非简单的“快慢”之分，而是针对不同应用场景的差异化产品。\n\n*   **PCIe 版本**是入门级和中端应用的理想选择，以其低成本和高兼容性见长，适合单卡或小规模集群。\n*   **SXM 版本**则是高性能计算的基石，其 NVLink 互连和高内存带宽使其成为大模型多卡推理和训练的不二之选。\n\n对于追求极致性能和规模化的企业，投资 SXM 基础设施（包括配套的液冷系统和 HGX 服务器）是必要的战略投入。而对于初创公司或特定垂直领域的轻量级应用，PCIe 版本则提供了更灵活的起步路径。最终，决策应基于具体的模型大小、并发需求、预算约束以及对延迟的敏感度进行综合权衡。\n\n---\n\n## 参考文献\n\n1.  AITOT. (2026). GPU Cloud Pricing Comparison 2026. [https://aitot.net/en/blog/gpu-cloud-pricing-comparison-2026](https://aitot.net/en/blog/gpu-cloud-pricing-comparison-2026)\n2.  Arxiv. (2025). Cooling Matters: Benchmarking Large Language Models and Vision-Language Models on Liquid-Cooled Versus Air-Cooled H100 GPU Systems. [https://arxiv.org/html/2507.16781v1](https://arxiv.org/html/2507.16781v1)\n3.  ClusterBid. (2026). GPU Cooling Techniques: Direct-to-Chip Liquid, Immersion, and Air Cooling Tradeoffs for H100 and B300 Clusters. [https://clusterbid.com/blog/gpu-cooling-techniques-direct-to-chip-liquid-immersion-air](https://clusterbid.com/blog/gpu-cooling-techniques-direct-to-chip-liquid-immersion-air)\n4.  Cloud GPU Tracker. (n.d.). NVIDIA H100 vs NVIDIA H100 PCIe. [https://cloudgputracker.com/compare/nvidia-h100-vs-nvidia-h100-pcie/](https://cloudgputracker.com/compare/nvidia-h100-vs-nvidia-h100-pcie/)\n5.  DCS Global. (2026). GPU Server Networking: InfiniBand, RoCE, Ethernet for AI Clusters. [https://dcsglobal.com/learning-center/gpu-servers/gpu-server-networking](https://dcsglobal.com/learning-center/gpu-servers/gpu-server-networking)\n6.  Flatkey.ai. (2026). H100 SXM vs PCIe. [https://flatkey.ai/blog/h100-sxm-vs-pcie](https://flatkey.ai/blog/h100-sxm-vs-pcie)\n7.  GeneralCompute. (n.d.). Quantized vs Full Precision GPTQ AWQ FP8 Benchmarks Across Model Sizes. [https://www.generalcompute.com/blog/quantized-vs-full-precision-gptq-awq-fp8-benchmarks-across-model-sizes](https://www.generalcompute.com/blog/quantized-vs-full-precision-gptq-awq-fp8-benchmarks-across-model-sizes)\n8.  Inferbase. (2026). Llama 3.3 70B Sizing H100 H200 B200. [https://inferbase.ai/blog/llama-3-3-70b-sizing-h100-h200-b200](https://inferbase.ai/blog/llama-3-3-70b-sizing-h100-h200-b200)\n9.  io.net. (2026). H100 SXM vs PCIe: Which GPU Configuration for AI Training? [https://io.net/p/h100-sxm-vs-pcie-which-gpu-configuration-for-ai-training](https://io.net/p/h100-sxm-vs-pcie-which-gpu-configuration-for-ai-training)\n10. io.net. (2026). NVIDIA Hopper GPU for AI: H100 Performance Benchmarks and Pricing. [https://io.net/p/nvidia-hopper-gpu-for-ai-h100-performance-benchmarks-and-pricing](https://io.net/p/nvidia-hopper-gpu-for-ai-h100-performance-benchmarks-and-pricing)\n11. LBNL ETA Publications. (2026). Cooling Matters: Benchmarking Large Language Models and Vision-Language Models on Liquid-Cooled Versus Air-Cooled H100 GPU Systems. [https://eta-publications.lbl.gov/sites/default/files/2026-08/cooling_matters_benchmarking_large_language_models_and_vision-language_models_on_liquid-cooled_versus_air-cooled_h100_gpu_systems.pdf](https://eta-publications.lbl.gov/sites/default/files/2026-08/cooling_matters_benchmarking_large_language_models_and_vision-language_models_on_liquid-cooled_versus_air-cooled_h100_gpu_systems.pdf)\n12. Lyceum Technology. (2026). FP8 Training H100 Memory Savings. [https://lyceum.technology/magazine/fp8-training-h100-memory-savings/](https://lyceum.technology/magazine/fp8-training-h100-memory-savings/)\n13. NVIDIA Developer Blog. (2024). Achieving High Mixtral 8x7B Performance with NVIDIA H100 Tensor Core GPUs and TensorRT-LLM. [https://developer.nvidia.com/blog/achieving-high-mixtral-8x7b-performance-with-nvidia-h100-tensor-core-gpus-and-tensorrt-llm/](https://developer.nvidia.com/blog/achieving-high-mixtral-8x7b-performance-with-nvidia-h100-tensor-core-gpus-and-tensorrt-llm/)\n14. NVIDIA Developer Blog. (2024). Understanding NCCL Tuning to Accelerate GPU-to-GPU Communication. [https://developer.nvidia.com/blog/understanding-nccl-tuning-to-accelerate-gpu-to-gpu-communication/](https://developer.nvidia.com/blog/understanding-nccl-tuning-to-accelerate-gpu-to-gpu-communication/)\n15. Rack2Cloud. (2026). Private LLM Training Hardware: GPU Cluster Architecture Guide. [https://www.rack2cloud.com/gpu-cluster-architecture-private-llm/](https://www.rack2cloud.com/gpu-cluster-architecture-private-llm/)\n16. Servnet UK. (2026). AI Server Cooling 2026: Air vs Liquid vs Immersion. [https://www.servnetuk.com/insights/ai-server-cooling-air-vs-liquid-2026](https://www.servnetuk.com/insights/ai-server-cooling-air-vs-liquid-2026)\n17. Spheron Network. (2026). GPU Networking for AI Clusters: InfiniBand vs RoCE vs Spectrum-X Decision Guide. [https://www.spheron.network/blog/gpu-networking-infiniband-roce-spectrum-x-guide/](https://www.spheron.network/blog/gpu-networking-infiniband-roce-spectrum-x-guide/)\n18. Thunder Compute. (n.d.). NVIDIA H100 Specs Full Guide. [https://www.thundercompute.com/blog/nvidia-h100-specs-full-guide](https://www.thundercompute.com/blog/nvidia-h100-specs-full-guide)",
+  "sources": [
+    {
+      "title": "",
+      "url": "https://io.net/p/nvidia-hopper-gpu-for-ai-h100-performance-benchmarks-and-pricing"
+    },
+    {
+      "title": "",
+      "url": "https://www.thundercompute.com/blog/nvidia-h100-specs-full-guide"
+    },
+    {
+      "title": "",
+      "url": "https://cloudgputracker.com/compare/nvidia-h100-vs-nvidia-h100-pcie/"
+    },
+    {
+      "title": "",
+      "url": "https://www.spheron.network/blog/gpu-networking-infiniband-roce-spectrum-x-guide/"
+    },
+    {
+      "title": "",
+      "url": "https://www.rack2cloud.com/gpu-cluster-architecture-private-llm/"
+    },
+    {
+      "title": "",
+      "url": "https://flatkey.ai/blog/h100-sxm-vs-pcie"
+    },
+    {
+      "title": "",
+      "url": "https://io.net/p/h100-sxm-vs-pcie-which-gpu-configuration-for-ai-training"
+    },
+    {
+      "title": "",
+      "url": "https://aitot.net/en/blog/gpu-cloud-pricing-comparison-2026"
+    },
+    {
+      "title": "",
+      "url": "https://www.generalcompute.com/blog/quantized-vs-full-precision-gptq-awq-fp8-benchmarks-across-model-sizes"
+    },
+    {
+      "title": "",
+      "url": "https://inferbase.ai/blog/llama-3-3-70b-sizing-h100-h200-b200"
+    },
+    {
+      "title": "",
+      "url": "https://developer.nvidia.com/blog/achieving-high-mixtral-8x7b-performance-with-nvidia-h100-tensor-core-gpus-and-tensorrt-llm/"
+    },
+    {
+      "title": "",
+      "url": "https://developer.nvidia.com/blog/understanding-nccl-tuning-to-accelerate-gpu-to-gpu-communication/"
+    },
+    {
+      "title": "",
+      "url": "https://www.servnetuk.com/insights/ai-server-cooling-air-vs-liquid-2026"
+    },
+    {
+      "title": "",
+      "url": "https://arxiv.org/html/2507.16781v1"
+    },
+    {
+      "title": "",
+      "url": "https://eta-publications.lbl.gov/sites/default/files/2026-08/cooling_matters_benchmarking_large_language_models_and_vision-language_models_on_liquid-cooled_versus_air-cooled_h100_gpu_systems.pdf"
+    },
+    {
+      "title": "",
+      "url": "https://lyceum.technology/magazine/fp8-training-h100-memory-savings/"
+    },
+    {
+      "title": "",
+      "url": "https://clusterbid.com/blog/gpu-cooling-techniques-direct-to-chip-liquid-immersion-air"
+    },
+    {
+      "title": "",
+      "url": "https://dcsglobal.com/learning-center/gpu-servers/gpu-server-networking"
+    }
+  ],
+  "wall_s": 509.9,
+  "tokens": {},
+  "timestamp": "2026-11-08T10:40:48.068766+00:00"
+}

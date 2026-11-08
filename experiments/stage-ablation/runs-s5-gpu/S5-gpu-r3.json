@@ -1,0 +1,328 @@
+{
+ "tag": "S5-gpu-r3",
+ "arm": "S5",
+ "qid": "gpu",
+ "rep": 3,
+ "model": "qwen3.8-27b",
+ "ts": "2026-11-08T09:40:08.471371+00:00",
+ "stages": {
+  "p1_decompose": {
+   "nodes": 15,
+   "raw": "{\n  \"nodes\": [\n    {\n      \"id\": \"N1\",\n      \"claim\": \"确定推理引擎与量化策略是决策前提：Qwen3-27B BF16 (54GB) 在单卡上无法运行，必须使用 FP8/INT8/AWQ/GPTQ 等量化方案或张量并行；不同引擎（vLLM, llama.cpp, TensorRT-LLM）对硬件特性（如 FP8 支持、KV Cache 管理）依赖不同。\",\n      \"level\": \"L1\",\n      \"supports\": \"a: 可行性判断\",\n      \"search_query\": \"Qwen3 27B local inference requirements quantization vLLM llama.cpp\"\n    },\n    {\n      \"id\": \"N2\",\n      \"claim\": \"显存容量硬性约束：BF16 权重 54GB + 32K 上下文 KV Cache (Qwen3 GQA 结构估算约 10-15GB @ BF16, 若量化 KV 则减半) + 激活值开销 > 40GB，因此 A100-40GB 直接淘汰；其余三卡需评估量化后权重大小是否适配。\",\n      \"level\": \"L1\",\n      \"supports\": \"b: 显存瓶颈排除\",\n      \"search_query\": \"Qwen3 27B KV cache size calculation 32k context length memory usage\"\n    },\n    {\n      \"id\": \"N3\",\n      \"claim\": \"延迟目标分解：< 3s/token 对于 27B 模型极宽松（通常 20-50 tokens/s），意味着瓶颈不在算力峰值而在内存带宽或软件栈效率，除非遇到极端长序列 prefill 场景。\",\n      \"level\": \"L1\",\n      \"supports\": \"c: 性能指标定义\",\n      \"search_query\": \"27B LLM inference latency benchmark tokens per second threshold\"\n    },\n    {\n      \"id\": \"N4\",\n      \"claim\": \"RTX 5090 关键参数：GDDR7 显存带宽 ~1.8 TB/s，显存容量 32GB，FP8 支持原生（Blackwell架构），TDP 575W。\",\n      \"level\": \"L2\",\n      \"supports\": \"d: 候选卡规格\",\n      \"search_query\": \"NVIDIA RTX 5090 specs GDDR7 bandwidth FP8 support TDP\"\n    },\n    {\n      \"id\": \"N5\",\n      \"claim\": \"RTX 4090 关键参数：GDDR6X 显存带宽 ~1.0 TB/s，显存容量 24GB，FP8 支持通过 Tensor Core 加速（Ada Lovelace），TDP 450W。\",\n      \"level\": \"L2\",\n      \"supports\": \"d: 候选卡规格\",\n      \"search_query\": \"NVIDIA RTX 4090 specs GDDR6X bandwidth FP8 support Ada Lovelace\"\n    },\n    {\n      \"id\": \"N6\",\n      \"claim\": \"L40S 关键参数：GDDR6 显存带宽 ~864 GB/s，显存容量 48GB，FP8 支持原生（Ada Lovelace 数据中心版），TDP 350W，PCIe Gen4 x16。\",\n      \"level\": \"L2\",\n      \"supports\": \"d: 候选卡规格\",\n      \"search_query\": \"NVIDIA L40S specs GDDR6 bandwidth 48GB FP8 support PCIe\"\n    },\n    {\n      \"id\": \"N7\",\n      \"claim\": \"A100-40GB 关键参数：HBM2e 显存带宽 ~1.6 TB/s，显存容量 40GB，不支持 FP8（仅 TF32/BF16/INT8），TDP 250W，已停产且价格波动大。\",\n      \"level\": \"L2\",\n      \"supports\": \"d: 候选卡规格\",\n      \"search_query\": \"NVIDIA A100 40GB HBM2e bandwidth FP8 support status discontinued\"\n    },\n    {\n      \"id\": \"N8\",\n      \"claim\": \"SHARED: 量化精度与显存占用耦合：若选用 AWQ INT4 (权重~14GB)，4090(24GB)可容纳但余量小；若选用 FP8 (权重~27GB)，4090(24GB)不可行，必须选 5090(32GB) 或 L40S(48GB)。这决定了哪张卡能跑哪种量化。\",\n      \"level\": \"SHARED\",\n      \"supports\": \"e: 量化与硬件匹配\",\n      \"search_query\": \"AWQ INT4 vs FP8 Qwen 27B model size GB comparison\"\n    },\n    {\n      \"id\": \"N9\",\n      \"claim\": \"Decode 阶段吞吐量公式：Tokens/sec ≈ Memory Bandwidth / (Model Weight Size in Bytes + KV Cache Size per Token * Active Context). 由于 <3s/token 要求极低，所有满足显存的卡在 decode 阶段都远超需求，此维度非决定性因素。\",\n      \"level\": \"L2\",\n      \"supports\": \"f: 性能计算\",\n      \"search_query\": \"LLM decode phase memory bandwidth bound formula tokens per second\"\n    },\n    {\n      \"id\": \"N10\",\n      \"claim\": \"Prefill 阶段算力瓶颈：32K 上下文的初始填充需要高 FLOPS。RTX 5090 (~330 TFLOPS FP8) > RTX 4090 (~330 TFLOPS FP8, 实际吞吐受限于驱动/库优化) > L40S (~362 TFLOPS FP8) > A100 (无FP8)。L40S 和 5090 在此处优势明显，4090 可能因软件栈成熟度略逊于数据中心卡。\",\n      \"level\": \"L2\",\n "
+  },
+  "p2p3_nodes": [
+   {
+    "id": "N1",
+    "claim": "确定推理引擎与量化策略是决策前提：Qwen3-27B BF16 (54GB) 在单卡上无法运行，必须使用 FP8/INT8/AWQ/GPTQ 等量化方案或张量并行；不同引擎（vLLM, llama.cpp, TensorRT-LLM）对硬件特性（如 FP8 支持、KV Cache 管理）依赖不同。",
+    "search_query": "Qwen3 27B local inference requirements quantization vLLM llama.cpp",
+    "status": "verified",
+    "evidence": "逻辑校验通过：Qwen3-27B BF16 权重约54GB，超出单张主流消费级/部分数据中心GPU显存（如40GB/80GB以下），确实需量化或并行；vLLM、TensorRT-LLM等引擎对FP8/KV Cache支持差异符合行业事实。来源[3]讨论了vLLM等推理引擎的演进与分布式服务架构，间接支持引擎选择与硬件特性依赖的论点；来源[2]提及Qwen 3.8 27B模型存在，佐证模型规模语境。",
+    "corrected_claim": "确定推理引擎与量化策略是决策前提：Qwen3-27B BF16 (54GB) 在单卡上无法运行，必须使用 FP8/INT8/AWQ/GPTQ 等量化方案或张量并行；不同引擎（vLLM, llama.cpp, TensorRT-LLM）对硬件特性（如 FP8 支持、KV Cache 管理）依赖不同。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "verified",
+      "evidence": "逻辑校验通过：Qwen3-27B BF16 权重约54GB，超出单张主流消费级/部分数据中心GPU显存（如40GB/80GB以下），确实需量化或并行；vLLM、TensorRT-LLM等引擎对FP8/KV Cache支持差异符合行业事实。来源[3]讨论了vLLM等推理引擎的演进与分布式服务架构，间接支持引擎选择与硬件特性依赖的论点；来源[2]提及Qwen 3.8 27B模型存在，佐证模型规模语境。"
+     }
+    ]
+   },
+   {
+    "id": "N2",
+    "claim": "显存容量硬性约束：BF16 权重 54GB + 32K 上下文 KV Cache (Qwen3 GQA 结构估算约 10-15GB @ BF16, 若量化 KV 则减半) + 激活值开销 > 40GB，因此 A100-40GB 直接淘汰；其余三卡需评估量化后权重大小是否适配。",
+    "search_query": "Qwen3 27B KV cache size calculation 32k context length memory usage",
+    "status": "degraded",
+    "evidence": "逻辑自洽：A100-40GB确实无法容纳54GB权重，淘汰结论正确；但KV Cache具体数值(10-15GB)缺乏直接来源支持，仅[3][4]间接证实KV Cache是长上下文主要瓶颈且可压缩，故降级为定性表述。",
+    "corrected_claim": "显存容量硬性约束：BF16 权重 54GB 远超 A100-40GB 容量，因此 A100-40GB 直接淘汰；其余三卡需评估量化后权重大小及 KV Cache（随上下文长度显著增长，可考虑量化压缩）是否适配。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "degraded",
+      "evidence": "逻辑自洽：A100-40GB确实无法容纳54GB权重，淘汰结论正确；但KV Cache具体数值(10-15GB)缺乏直接来源支持，仅[3][4]间接证实KV Cache是长上下文主要瓶颈且可压缩，故降级为定性表述。"
+     }
+    ]
+   },
+   {
+    "id": "N3",
+    "claim": "延迟目标分解：< 3s/token 对于 27B 模型极宽松（通常 20-50 tokens/s），意味着瓶颈不在算力峰值而在内存带宽或软件栈效率，除非遇到极端长序列 prefill 场景。",
+    "search_query": "27B LLM inference latency benchmark tokens per second threshold",
+    "status": "verified",
+    "evidence": "逻辑推导成立，来源未直接覆盖。该陈述符合LLM推理的基本物理直觉（Decode阶段为Memory-Bound，20-50 tokens/s对应延迟<3s/token是宽松目标），且与来源[3]中提到的KV cache内存开销瓶颈间接一致，无矛盾。",
+    "corrected_claim": "延迟目标分解：< 3s/token 对于 27B 模型极宽松（通常 20-50 tokens/s），意味着瓶颈不在算力峰值而在内存带宽或软件栈效率，除非遇到极端长序列 prefill 场景。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "verified",
+      "evidence": "逻辑推导成立，来源未直接覆盖。该陈述符合LLM推理的基本物理直觉（Decode阶段为Memory-Bound，20-50 tokens/s对应延迟<3s/token是宽松目标），且与来源[3]中提到的KV cache内存开销瓶颈间接一致，无矛盾。"
+     }
+    ]
+   },
+   {
+    "id": "N4",
+    "claim": "RTX 5090 关键参数：GDDR7 显存带宽 ~1.8 TB/s，显存容量 32GB，FP8 支持原生（Blackwell架构），TDP 575W。",
+    "search_query": "NVIDIA RTX 5090 specs GDDR7 bandwidth FP8 support TDP",
+    "status": "verified",
+    "evidence": "逻辑校验通过（GDDR7 24Gbps x 512-bit = 1.92TB/s，~1.8TB/s为合理标称值；32GB/575W/Blackwell均为已知规格），且来源[3]直接确认RTX 5090基于Blackwell架构并支持相关特性，无矛盾。",
+    "corrected_claim": "RTX 5090 关键参数：GDDR7 显存带宽 ~1.8 TB/s，显存容量 32GB，FP8 支持原生（Blackwell架构），TDP 575W。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "verified",
+      "evidence": "逻辑校验通过（GDDR7 24Gbps x 512-bit = 1.92TB/s，~1.8TB/s为合理标称值；32GB/575W/Blackwell均为已知规格），且来源[3]直接确认RTX 5090基于Blackwell架构并支持相关特性，无矛盾。"
+     }
+    ]
+   },
+   {
+    "id": "N5",
+    "claim": "RTX 4090 关键参数：GDDR6X 显存带宽 ~1.0 TB/s，显存容量 24GB，FP8 支持通过 Tensor Core 加速（Ada Lovelace），TDP 450W。",
+    "search_query": "NVIDIA RTX 4090 specs GDDR6X bandwidth FP8 support Ada Lovelace",
+    "status": "verified",
+    "evidence": "逻辑自洽：RTX 4090 规格（24GB GDDR6X, ~1TB/s 带宽, 450W TDP）符合已知硬件参数，FP8 支持是 Ada Lovelace 架构特性。来源 [3] 和 [4] 确认了 RTX 40 系列基于 Ada Lovelace 架构，虽然未直接列出所有具体数值，但与事实无矛盾且架构支持该功能，其余参数为公认常识/第一性原理可推导（如显存位宽频率计算），故判定 verified。",
+    "corrected_claim": "RTX 4090 关键参数：GDDR6X 显存带宽 ~1.0 TB/s，显存容量 24GB，FP8 支持通过 Tensor Core 加速（Ada Lovelace），TDP 450W。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "verified",
+      "evidence": "逻辑自洽：RTX 4090 规格（24GB GDDR6X, ~1TB/s 带宽, 450W TDP）符合已知硬件参数，FP8 支持是 Ada Lovelace 架构特性。来源 [3] 和 [4] 确认了 RTX 40 系列基于 Ada Lovelace 架构，虽然未直接列出所有具体数值，但与事实无矛盾且架构支持该功能，其余参数为公认常识/第一性原理可推导（如显存位宽频率计算），故判定 verified。"
+     }
+    ]
+   },
+   {
+    "id": "N6",
+    "claim": "L40S 关键参数：GDDR6 显存带宽 ~864 GB/s，显存容量 48GB，FP8 支持原生（Ada Lovelace 数据中心版），TDP 350W，PCIe Gen4 x16。",
+    "search_query": "NVIDIA L40S specs GDDR6 bandwidth 48GB FP8 support PCIe",
+    "status": "degraded",
+    "evidence": "逻辑校验通过（GDDR6 864GB/s对应19.2Gbps x 48bit，符合Ada Lovelace架构参数）；但参考来源[1][2]主要涉及HBM3/HBM3e高端GPU（H200/B200），与L40S GDDR6主题不直接相关，来源[3][4]仅讨论FP8算法原理未提供硬件规格支持，故仅有间接逻辑推导，无直接外部证据。",
+    "corrected_claim": "L40S 关键参数：GDDR6 显存带宽 ~864 GB/s，显存容量 48GB，FP8 支持原生（Ada Lovelace 数据中心版），TDP 350W，PCIe Gen4 x16。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "degraded",
+      "evidence": "逻辑校验通过（GDDR6 864GB/s对应19.2Gbps x 48bit，符合Ada Lovelace架构参数）；但参考来源[1][2]主要涉及HBM3/HBM3e高端GPU（H200/B200），与L40S GDDR6主题不直接相关，来源[3][4]仅讨论FP8算法原理未提供硬件规格支持，故仅有间接逻辑推导，无直接外部证据。"
+     }
+    ]
+   },
+   {
+    "id": "N7",
+    "claim": "A100-40GB 关键参数：HBM2e 显存带宽 ~1.6 TB/s，显存容量 40GB，不支持 FP8（仅 TF32/BF16/INT8），TDP 250W，已停产且价格波动大。",
+    "search_query": "NVIDIA A100 40GB HBM2e bandwidth FP8 support status discontinued",
+    "status": "verified",
+    "evidence": "逻辑自洽：A100-40GB基于GA102架构，HBM2e带宽约1555 GB/s（~1.6 TB/s），容量40GB，TDP 250W均为准确参数；且A100发布早于FP8支持引入的Ada Lovelace/Hopper架构，故不支持FP8符合事实。参考来源[3]和[4]讨论FP8技术背景但未直接覆盖A100具体规格，来源未直接覆盖但无矛盾，依据第一性原理及公开硬件规格判定为verified。",
+    "corrected_claim": "A100-40GB 关键参数：HBM2e 显存带宽 ~1.6 TB/s，显存容量 40GB，不支持 FP8（仅 TF32/BF16/INT8），TDP 250W，已停产且价格波动大。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "verified",
+      "evidence": "逻辑自洽：A100-40GB基于GA102架构，HBM2e带宽约1555 GB/s（~1.6 TB/s），容量40GB，TDP 250W均为准确参数；且A100发布早于FP8支持引入的Ada Lovelace/Hopper架构，故不支持FP8符合事实。参考来源[3]和[4]讨论FP8技术背景但未直接覆盖A100具体规格，来源未直接覆盖但无矛盾，依据第一性原理及公开硬件规格判定为verified。"
+     }
+    ]
+   },
+   {
+    "id": "N8",
+    "claim": "SHARED: 量化精度与显存占用耦合：若选用 AWQ INT4 (权重~14GB)，4090(24GB)可容纳但余量小；若选用 FP8 (权重~27GB)，4090(24GB)不可行，必须选 5090(32GB) 或 L40S(48GB)。这决定了哪张卡能跑哪种量化。",
+    "search_query": "AWQ INT4 vs FP8 Qwen 27B model size GB comparison",
+    "status": "degraded",
+    "evidence": "逻辑自洽：4090(24GB)无法容纳27GB的FP8权重，而5090(32GB)/L40S(48GB)可以；来源[3]和[4]分别证实了FP8和AWQ是有效的量化方法且能减少内存占用，但未提供特定模型的具体GB数值，故为间接支持。",
+    "corrected_claim": "SHARED: 量化精度与显存占用耦合：若选用 AWQ INT4 (权重~14GB)，4090(24GB)可容纳但余量小；若选用 FP8 (权重~27GB)，4090(24GB)不可行，必须选 5090(32GB) 或 L40S(48GB)。这决定了哪张卡能跑哪种量化。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "degraded",
+      "evidence": "逻辑自洽：4090(24GB)无法容纳27GB的FP8权重，而5090(32GB)/L40S(48GB)可以；来源[3]和[4]分别证实了FP8和AWQ是有效的量化方法且能减少内存占用，但未提供特定模型的具体GB数值，故为间接支持。"
+     }
+    ]
+   },
+   {
+    "id": "N9",
+    "claim": "Decode 阶段吞吐量公式：Tokens/sec ≈ Memory Bandwidth / (Model Weight Size in Bytes + KV Cache Size per Token * Active Context). 由于 <3s/token 要求极低，所有满足显存的卡在 decode 阶段都远超需求，此维度非决定性因素。",
+    "search_query": "LLM decode phase memory bandwidth bound formula tokens per second",
+    "status": "verified",
+    "evidence": "逻辑校验通过：Decode阶段为自回归生成，每步需加载全量权重及KV Cache，吞吐量确实受限于内存带宽与数据总量之比（Roofline模型），且3s/token的延迟要求极低，使得显存容量满足后带宽通常成为主要瓶颈或至少非决定性短板；来源[4]明确支持Batch-1 Decode是memory-bandwidth-bound且需streaming weights和KV cache的物理事实。",
+    "corrected_claim": "Decode 阶段吞吐量公式：Tokens/sec ≈ Memory Bandwidth / (Model Weight Size in Bytes + KV Cache Size per Token * Active Context). 由于 <3s/token 要求极低，所有满足显存的卡在 decode 阶段都远超需求，此维度非决定性因素。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "verified",
+      "evidence": "逻辑校验通过：Decode阶段为自回归生成，每步需加载全量权重及KV Cache，吞吐量确实受限于内存带宽与数据总量之比（Roofline模型），且3s/token的延迟要求极低，使得显存容量满足后带宽通常成为主要瓶颈或至少非决定性短板；来源[4]明确支持Batch-1 Decode是memory-bandwidth-bound且需streaming weights和KV cache的物理事实。"
+     }
+    ]
+   },
+   {
+    "id": "N10",
+    "claim": "Prefill 阶段算力瓶颈：32K 上下文的初始填充需要高 FLOPS。RTX 5090 (~330 TFLOPS FP8) > RTX 4090 (~330 TFLOPS FP8, 实际吞吐受限于驱动/库优化) > L40S (~362 TFLOPS FP8) > A100 (无FP8)。L40S 和 5090 在此处优势明显，4090 可能因软件栈成熟度略逊于数据中心卡。",
+    "search_query": "RTX 5090 vs L40S vs RTX 4090 FP8 TFLOPS prefill performance benchmark",
+    "status": "degraded",
+    "evidence": "逻辑校验通过：Prefill阶段确为计算密集型（Compute-bound），依赖高FLOPS，且FP8支持是区分代际的关键。外部核验中，来源[1][2]讨论GPU规格对比但未覆盖具体型号算力数值；来源[3]提及RTX 5090用于训练但无关推理瓶颈；来源[4]无关。无直接来源支持具体TFLOPS数值及排名细节，故降级。",
+    "corrected_claim": "Prefill阶段受限于计算吞吐量（FLOPS）。新一代支持FP8的GPU（如L40S、RTX 5090）通常优于不支持FP8或优化较弱的旧卡（如A100、部分4090场景），但具体性能排名需结合实际软件栈优化情况评估。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "degraded",
+      "evidence": "逻辑校验通过：Prefill阶段确为计算密集型（Compute-bound），依赖高FLOPS，且FP8支持是区分代际的关键。外部核验中，来源[1][2]讨论GPU规格对比但未覆盖具体型号算力数值；来源[3]提及RTX 5090用于训练但无关推理瓶颈；来源[4]无关。无直接来源支持具体TFLOPS数值及排名细节，故降级。"
+     }
+    ]
+   },
+   {
+    "id": "N11",
+    "claim": "成本数据获取：需查询当前二手/全新市场价。RTX 5090 新品溢价严重（$2000+）；RTX 4090 二手价稳定（$1200-$1500）；L40S 企业级采购价（$3000-$4000）或二手矿卡风险；A100-40GB 二手稀缺且价格虚高。",
+    "search_query": "RTX 5090 price 2024 vs RTX 4090 used price vs NVIDIA L40S price",
+    "status": "degraded",
+    "evidence": "逻辑自洽（符合2024-2026年GPU市场供需常识：50系新品溢价、40系二手稳定、企业卡稀缺），但提供的参考来源[1]-[4]仅涉及GPU规格对比或金融理论，未包含任何具体市场价格数据，无法直接定量支持，故降级。",
+    "corrected_claim": "成本数据获取需实时查询市场价。基于市场常态推断：RTX 5090新品存在显著溢价；RTX 4090二手价格相对平稳；L40S及A100等企业级/专业卡因供应链特性通常价格高于消费级且波动较大，具体数值需以当日电商/二手平台报价为准。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "degraded",
+      "evidence": "逻辑自洽（符合2024-2026年GPU市场供需常识：50系新品溢价、40系二手稳定、企业卡稀缺），但提供的参考来源[1]-[4]仅涉及GPU规格对比或金融理论，未包含任何具体市场价格数据，无法直接定量支持，故降级。"
+     }
+    ]
+   },
+   {
+    "id": "N12",
+    "claim": "功耗与散热成本：工作站环境限制。RTX 5090 (575W) 对电源和机箱风道要求极高，可能导致额外 $200-$400 基础设施成本；L40S (350W) 更友好；4090 (450W) 居中。长期电费差异在单机场景下相对购买成本占比小，但不可忽视。",
+    "search_query": "RTX 5090 power consumption workstation PSU requirements cooling cost",
+    "status": "degraded",
+    "evidence": "逻辑自洽：RTX 5090 (575W) > RTX 4090 (450W) > L40S (350W) 的功耗排序符合已知硬件规格，高功耗导致更高电源/散热成本及电费差异在单机场景下占比小符合经济直觉；外部来源[2]仅包含价格信息未涵盖功耗与基础设施成本，来源[1][3][4]与该事实主题无关，故无直接定量支持。",
+    "corrected_claim": "RTX 5090 (575W) 功耗最高，对电源和机箱风道要求极高，可能导致额外 $200-$400 基础设施成本；L40S (350W) 更友好；RTX 4090 (450W) 居中。长期电费差异在单机场景下相对购买成本占比小，但不可忽视。（注：具体金额需结合实际电价与当地电力设施标准进一步验证）",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "degraded",
+      "evidence": "逻辑自洽：RTX 5090 (575W) > RTX 4090 (450W) > L40S (350W) 的功耗排序符合已知硬件规格，高功耗导致更高电源/散热成本及电费差异在单机场景下占比小符合经济直觉；外部来源[2]仅包含价格信息未涵盖功耗与基础设施成本，来源[1][3][4]与该事实主题无关，故无直接定量支持。"
+     }
+    ]
+   },
+   {
+    "id": "N13",
+    "claim": "软件生态兼容性：vLLM/TensorRT-LLM 对 Blackwell (5090) 的支持尚在早期，可能存在驱动 bug 或 kernel 未优化问题；Ada Lovelace (4090/L40S) 生态最成熟。若用户追求稳定性，4090/L40S 风险更低。",
+    "search_query": "vLLM TensorRT-LLM support for RTX 5090 Blackwell driver issues early access",
+    "status": "degraded",
+    "evidence": "来源[2]间接支持了Blackwell (B300/GB200等)在vLLM中存在kernel限制（需FP8/NVFP4）及版本适配复杂度的问题，印证了'尚在早期/未优化'的定性描述；但所有来源均未涉及消费级RTX 5090或Ada Lovelace (4090/L40S)的具体生态成熟度对比，无法直接定量确认。",
+    "corrected_claim": "vLLM对Blackwell架构（如B系列数据中心GPU）的支持存在特定Kernel限制和版本依赖，处于逐步完善阶段；由于缺乏针对RTX 5090与Ada Lovelace (4090/L40S)的直接对比数据，仅能基于通用规律推断：通常较新架构的软件栈稳定性略低于上一代成熟架构，追求极致稳定性的场景可优先考虑Ada Lovelace系列。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "degraded",
+      "evidence": "来源[2]间接支持了Blackwell (B300/GB200等)在vLLM中存在kernel限制（需FP8/NVFP4）及版本适配复杂度的问题，印证了'尚在早期/未优化'的定性描述；但所有来源均未涉及消费级RTX 5090或Ada Lovelace (4090/L40S)的具体生态成熟度对比，无法直接定量确认。"
+     }
+    ]
+   },
+   {
+    "id": "N14",
+    "claim": "SHARED: 上下文窗口扩展性：L40S 拥有 48GB 显存，是唯一能轻松运行 BF16 全精度或部分高精度量化并保留大量 KV Cache 的卡。若未来需扩展到 64K+ 上下文或更高精度，L40S 具有唯一性优势，其他卡均为死胡同。",
+    "search_query": "L40S 48GB advantage over RTX 5090 32GB for long context LLM inference",
+    "status": "degraded",
+    "evidence": "逻辑上48GB显存确实优于低显存卡以支持长上下文KV Cache，但参考来源[1]明确指出可服务模型规模需综合考量权重精度、并发及运行时开销，并非仅由VRAM决定；且来源中未提供L40S与其他具体竞品（如A100/H100/MI300等）在64K+场景下的直接对比数据来支撑“唯一性优势”和“其他卡均为死胡同”这一绝对化结论。",
+    "corrected_claim": "L40S 拥有 48GB 显存，相比低显存显卡（如 L4/T4 等），在运行 BF16 或高精度量化模型并保留大量 KV Cache 方面具有显著容量优势，更适合长上下文场景；但对于高显存竞品（如 A100 80G/MI300 系列），其“唯一性”并不成立，需结合具体并发量和模型大小综合评估。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "degraded",
+      "evidence": "逻辑上48GB显存确实优于低显存卡以支持长上下文KV Cache，但参考来源[1]明确指出可服务模型规模需综合考量权重精度、并发及运行时开销，并非仅由VRAM决定；且来源中未提供L40S与其他具体竞品（如A100/H100/MI300等）在64K+场景下的直接对比数据来支撑“唯一性优势”和“其他卡均为死胡同”这一绝对化结论。"
+     }
+    ]
+   },
+   {
+    "id": "N15",
+    "claim": "最终决策矩阵构建：综合 N8 (量化可行性), N10 (Prefill 速度), N11 (价格), N13 (软件风险)。若纯看性价比且接受新卡风险 -> 5090; 若求稳且预算中等 -> 4090 (需 INT4); 若需最大显存冗余 -> L40S (性价比最低但能力最强)。",
+    "search_query": "best GPU for local LLM inference 2024 cost performance ratio RTX 5090 L40S",
+    "status": "degraded",
+    "evidence": "逻辑自洽（基于常规硬件认知，5090/4090/L40S的取舍符合性价比/稳定性/显存冗余的一般规律），但参考来源[1][2]讨论的是B300/GB300等数据中心级GPU及vLLM部署问题，与消费级/单卡选型（5090/4090）无关；来源[3][4]为学术论文，亦不覆盖具体硬件型号对比。因无直接外部证据支持特定结论细节（如4090需INT4的具体语境），依据规则降级为定性表述。",
+    "corrected_claim": "决策矩阵综合量化可行性、Prefill速度、价格及软件风险：若追求极致性价比且接受新架构驱动/软件兼容性风险，倾向于选择新一代高端消费卡（如5090类）；若追求生态稳定性且预算中等，倾向于选择上一代成熟旗舰卡（如4090类，可能需依赖量化压缩以适配显存或性能需求）；若需最大显存冗余以运行超大模型，则需选择专业级大显存卡（如L40S类），虽单位成本性能比低但容量优势明显。",
+    "rounds": [
+     {
+      "round": 1,
+      "n_sources": 4,
+      "search_err": null,
+      "status": "degraded",
+      "evidence": "逻辑自洽（基于常规硬件认知，5090/4090/L40S的取舍符合性价比/稳定性/显存冗余的一般规律），但参考来源[1][2]讨论的是B300/GB300等数据中心级GPU及vLLM部署问题，与消费级/单卡选型（5090/4090）无关；来源[3][4]为学术论文，亦不覆盖具体硬件型号对比。因无直接外部证据支持特定结论细节（如4090需INT4的具体语境），依据规则降级为定性表述。"
+     }
+    ]
+   }
+  ]
+ },
+ "n_nodes": 15,
+ "n_verified": 6,
+ "answer": "### 结论\n\n**首选推荐（条件性）：RTX 4090 (24GB) + AWQ/INT4 量化方案。**\n在满足“单流延迟 < 3s/token”和“上下文 ≥ 32K tokens”的硬性约束下，**RTX 4090 是性价比最优解**。其核心优势在于：FP8 原生支持带来的 Prefill 加速、极高的显存带宽保障 Decode 速度，以及成熟的软件栈生态。虽然 24GB 显存对 FP8 权重（~27GB）不足，但通过 INT4/AWQ 量化（权重 ~14GB）可留出足够空间给 32K 上下文的 KV Cache [推导]。\n\n**备选推荐（若预算充足且追求极致稳定性/大显存冗余）：L40S (48GB) + FP8 量化方案。**\n如果你无法接受新架构驱动的不确定性，或者需要更大的显存冗余以应对更长的上下文（如 64K+）或更高的并发数，L40S 是次优选择。它拥有 48GB 显存，可直接运行 FP8 权重并保留大量 KV Cache，且功耗较低（350W），但单位性能成本高于 4090 [推导]。\n\n**淘汰选项：**\n*   **A100-40GB**：直接淘汰。BF16 权重 54GB 超出其 40GB 显存，即使量化至 INT8 (~27GB) 也仅余 13GB，难以稳定支撑 32K 上下文的 KV Cache，且不支持 FP8，Prefill 效率低 [已核验]。\n*   **RTX 5090**：虽性能最强（1.8TB/s 带宽，FP8 原生），但存在显著的新品溢价和软件栈成熟度风险（vLLM 对 Blackwell 消费级卡的支持尚在完善中）。除非你极度看重未来升级潜力且不介意额外 $200-$400 的基础设施投入，否则在“性价比”维度上不如 4090 [推导]。\n\n---\n\n### 因果链推理与详细分析\n\n#### 1. 显存容量硬性约束分析（决定可行性）\n\n首先，必须确定哪些卡能装下模型。Qwen3-27B BF16 权重约 54GB [已核验]。\n\n*   **A100-40GB**：显存 40GB [已核验]。\n    *   BF16 (54GB) > 40GB，不可行。\n    *   INT8 量化后权重约 27GB [推导]（基于 N8 逻辑：INT8 约为 BF16 一半）。剩余显存 $40 - 27 = 13$ GB。\n    *   KV Cache 估算：对于 27B 模型，32K 上下文的 KV Cache 在 BF16 下通常占用巨大。即便 KV Cache 也用 FP16/INT8 压缩，13GB 余量非常紧张，极易因长序列 prefill 导致的临时显存峰值而 OOM（Out of Memory）。此外，A100 不支持 FP8 [已核验]，意味着无法使用最高效的量化格式来进一步节省显存。因此，A100-40GB 被**淘汰**。\n*   **RTX 4090**：显存 24GB [已核验]。\n    *   BF16 (54GB) > 24GB，不可行。\n    *   FP8 量化后权重约 27GB [推导]。$27 > 24$，**FP8 不可行**。\n    *   AWQ/INT4 量化后权重约 14GB [推导]（基于 N8 逻辑：INT4 约为 BF16 四分之一）。剩余显存 $24 - 14 = 10$ GB。\n    *   KV Cache 需求：32K 上下文的 KV Cache 大小取决于具体实现。根据行业经验，27B 模型在 32K 上下文下的 KV Cache（若采用 PagedAttention 等优化且 KV 也量化）通常在 5-10GB 之间波动 [凭记忆]。10GB 余量处于临界点，但通过启用 vLLM 的 `--gpu-memory-utilization` 参数精细调控，或使用 GQA (Grouped Query Attention) 优化，**可行但需仔细配置**。\n*   **RTX 5090**：显存 32GB [已核验]。\n    *   FP8 量化后权重约 27GB [推导]。剩余显存 $32 - 27 = 5$ GB。\n    *   这里出现了一个反直觉的点：5090 虽然显存比 4090 大 8GB，但对于 FP8 权重来说，5GB 的 KV Cache 余量反而可能比 4090 跑 INT4 时的 10GB 余量更紧张？不，这里需要修正逻辑：\n        *   如果 5090 跑 FP8 (27GB)，剩 5GB。\n        *   如果 5090 跑 INT4 (14GB)，剩 18GB。\n        *   显然，5090 可以选择更宽松的 INT4 方案，或者尝试 FP8。但考虑到 FP8 精度优于 INT4，若能跑 FP8 则更好。然而，5GB 的 KV Cache 空间对于 32K 上下文可能依然捉襟见肘，特别是考虑到 Prefill 阶段的激活值内存开销。因此，5090 最稳妥的策略也是跑 INT4/AWQ，此时其显存优势（18GB 余量）远超 4090（10GB 余量）。\n    *   结论：5090 显存完全充裕，可灵活选择量化策略。\n*   **L40S**：显存 48GB [已核验]。\n    *   FP8 量化后权重约 27GB [推导]。剩余显存 $48 - 27 = 21$ GB。\n    *   21GB 的 KV Cache 余量非常宽裕，足以轻松容纳 32K 甚至更长的上下文，并提供极大的并发潜力。L40S 是显存维度上的**最优解**。\n\n#### 2. 延迟目标分解（< 3s/token）\n\n*   **Decode 阶段（自回归生成）**：\n    *   瓶颈在于内存带宽。公式：$Throughput \\approx Bandwidth / (WeightSize + KVCachePerToken)$ [已核验]。\n    *   目标：< 3s/token $\\Rightarrow$ > 0.33 tokens/s。这是一个**极其宽松**的目标。即使是最低端的卡，只要显存够，都能达到 20-50 tokens/s [已核验]。\n    *   因此，所有满足显存约束的卡（4090, 5090, L40S）在 Decode 阶段都**远超**需求，此维度不构成决定性差异。\n*   **Prefill 阶段（提示词处理）**：\n    *   瓶颈在于计算吞吐量（FLOPS）。\n    *   RTX 4090 (Ada Lovelace) 支持 FP8 Tensor Core [已核验]，相比 A100（仅 TF32/BF16/INT8）[已核验]，在 Prefill 阶段有显著优势。\n    *   RTX 5090 (Blackwell) 和 L40S (Ada Lovelace) 均支持 FP8 [已核验]。\n    *   由于用户要求的是“单流”，Prefill 时间主要影响首次 Token 的等待时间（TTFT），而非持续生成的延迟（TPOT）。虽然问题只提了 <3s/token，但通常隐含对 TTFT 的合理期待。FP8 支持的卡（4090, 5090, L40S）在此处均优于 A100。\n\n#### 3. 软件栈与生态稳定性（隐性成本）\n\n*   **RTX 5090 (Blackwell)**：\n    *   vLLM 等主流引擎对 Blackwell 架构的支持处于逐步完善阶段，存在 Kernel 限制和版本依赖 [degraded]。\n    *   消费级 Blackwell 卡的软件栈成熟度通常低于上一代 Ada Lovelace 系列 [degraded]。\n    *   这意味着可能需要花费额外时间调试驱动、CUDA 版本或引擎兼容性，增加了“隐性时间成本”。\n*   **RTX 4090 (Ada Lovelace)**：\n    *   作为上一代旗舰，其驱动、CUDA 库及推理引擎（vLLM, TensorRT-LLM, llama.cpp）的支持极为成熟 [degraded]。\n    *   社区资源丰富，遇到问题容易找到解决方案。\n*   **L40S (Ada Lovelace Data Center)**：\n    *   同样基于 Ada Lovelace 架构，软件兼容性与 4090 高度一致，且在数据中心环境中经过更多验证 [degraded]。\n\n#### 4. 成本与功耗（性价比核心）\n\n*   **价格**：\n    *   具体市场价格需实时查询，但基于市场常态推断：RTX 5090 新品存在显著溢价；RTX 4090 二手价格相对平稳；L40S 企业级卡价格通常高于消费级 [degraded]。\n    *   假设粗略价格区间（仅作定性参考，非精确报价）：\n        *   RTX 4090: ~$1,500 - $2,000 (二手/新)\n        *   RTX 5090: ~$2,000 - $2,500+ (新品溢价)\n        *   L40S: ~$4,000 - $5,000+ (企业级定价)\n        *   A100-40G: ~$2,000 - $3,000 (停产，价格波动大，且已被淘汰)\n    *   **注意**：以上价格为 [凭记忆] 的估计值，实际请以当日电商报价为准。\n*   **功耗与基础设施**：\n    *   RTX 5090 TDP 575W [已核验]，对电源（建议 1000W+）和机箱风道要求极高，可能导致额外 $200-$400 的基础设施成本 [degraded]。\n    *   L40S TDP 350W [已核验]，功耗友好，适合长期运行。\n    *   RTX 4090 TDP 450W [已核验]，居中。\n    *   在单机工作站场景下，电费差异占比小，但电源升级成本和散热噪音是不可忽视的体验因素。\n\n#### 5. 综合决策矩阵\n\n| 维度 | RTX 4090 (24GB) | RTX 5090 (32GB) | L40S (48GB) | A100-40GB (40GB) |\n| :--- | :--- | :--- | :--- | :--- |\n| **可行性 (32K ctx)** | **可行** (需 INT4) | **可行** (INT4/FP8) | **最佳** (FP8 大余量) | **不可行/高风险** |\n| **Decode 速度** | 极快 (超需求) | 极快 (超需求) | 快 (超需求) | 快 (超需求) |\n| **Prefill 速度** | 快 (FP8) | 最快 (FP8+新架构) | 快 (FP8) | 慢 (无FP8) |\n| **软件稳定性** | **高** (成熟) | **中** (早期) | **高** (成熟) | 高 (但硬件过时) |\n| **显存冗余** | 中等 (10GB 余量) | 良好 (5-18GB 余量) | **极高** (21GB 余量) | 低 (13GB 余量) |\n| **预估价格** | **低** | 中高 | 高 | 中 (但无效) |\n| **功耗/基建** | 中 (450W) | 高 (575W) | 低 (350W) | 低 (250W) |\n| **综合性价比** | **最优** | 次优 | 第三 | 淘汰 |\n\n### 最终推荐方案\n\n**方案 A：性价比最优（推荐）**\n*   **硬件**：RTX 4090 (24GB)\n*   **量化策略**：AWQ INT4 或 GPTQ INT4\n*   **推理引擎**：vLLM 或 TensorRT-LLM（确保使用最新稳定版）\n*   **理由**：\n    1.  **显存适配**：INT4 权重 ~14GB [推导]，剩余 10GB 用于 KV Cache。对于 32K 上下文，需开启 KV Cache 量化（如 FP8 KV Cache）或依赖 vLLM 的 PagedAttention 高效管理。若发现 OOM，可降低最大上下文长度至 24K 或进一步优化。\n    2.  **性能达标**：Decode 速度远超 3s/token 要求 [已核验]。Prefill 得益于 FP8 支持，速度优秀 [已核验]。\n    3.  **成本效益**：购买成本低，无需升级高端电源，软件生态成熟，维护成本最低。\n    4.  **风险提示**：显存余量相对较小，若未来模型增大或上下文需求增加至 64K，可能需要重新评估。\n\n**方案 B：稳健扩展型（若预算允许 +$2000-$3000）**\n*   **硬件**：L40S (48GB)\n*   **量化策略**：FP8\n*   **推理引擎**：vLLM\n*   **理由**：\n    1.  **显存充裕**：FP8 权重 ~27GB [推导]，剩余 21GB 可轻松容纳 32K 甚至 64K 上下文的 KV Cache，无需担心 OOM。\n    2.  **功耗友好**：350W TDP [已核验]，适合长时间无人值守运行，电费更低。\n    3.  **稳定性**：企业级卡，驱动支持好，适合生产环境。\n    4.  **缺点**：初始采购成本高，单位性能价格比低于 4090。\n\n**为什么不选 RTX 5090？**\n尽管 5090 性能最强，但其 **32GB 显存对于 FP8 权重（27GB）仅留 5GB 余量**，这在 32K 上下文下可能不足以容纳 KV Cache 和激活值，迫使你也必须回退到 INT4 量化。既然 5090 和 4090 都只能跑 INT4 来保证安全，那么 5090 相比 4090 的显存优势（32GB vs 24GB）在 INT4 模式下（分别剩 18GB vs 10GB）依然存在，但考虑到 5090 的新品溢价、软件栈的不成熟风险以及更高的功耗/基建成本，其**边际收益**不足以覆盖**边际成本**。除非你计划未来运行 30B+ 模型的 FP8 版本而不换卡，否则 4090 在当前任务下更具性价比。\n\n### 事实核验摘要\n\n1.  **N1 (verified)**: 确认 Qwen3-27B BF16 需量化。用于确立前提。\n2.  **N2 (degraded)**: 确认 A100-40GB 淘汰。KV Cache 具体数值缺失，故采用定性描述“余量紧张”。\n3.  **N3 (verified)**: 确认 <3s/token 为宽松目标。用于排除算力峰值作为主要瓶颈。\n4.  **N4 (verified)**: 引用 RTX 5090 参数 (32GB, 1.8TB/s, 575W)。\n5.  **N5 (verified)**: 引用 RTX 4090 参数 (24GB, 1.0TB/s, 450W, FP8 支持)。\n6.  **N6 (degraded)**: 引用 L40S 参数 (48GB, 350W)。带宽数据基于逻辑校验，来源间接。\n7.  **N7 (verified)**: 引用 A100-40GB 参数 (40GB, 无 FP8)。\n8.  **N8 (degraded)**: 引用量化后权重大小估算 (INT4 ~14GB, FP8 ~27GB)。此为关键推导依据，但原始来源未提供特定模型精确值，故标记为降级/推导。\n9.  **N9 (verified)**: 确认 Decode 阶段为 Memory-Bound 且目标宽松。\n10. **N10 (degraded)**: 确认 Prefill 受 FLOPS 限制，FP8 支持有利。\n11. **N11 (degraded)**: 价格数据缺失，仅做定性排序（5090>4090, L40S>Consumer）。\n12. **N12 (degraded)**: 功耗对基建成本的影响 ($200-$400) 为估计值。\n13. **N13 (degraded)**: vLLM 对 Blackwell 支持尚不完善。用于论证 5090 的软件风险。\n14. **N14 (degraded)**: L40S 显存优势适用于长上下文。\n15. **N15 (degraded)**: 决策矩阵的一般规律。\n\n**受限结论说明**：\n*   **KV Cache 精确字节数**：由于缺乏 Qwen3-27B 在 32K 上下文下特定量化方案的 KV Cache 精确占用数据，本文使用了行业典型值进行定性判断。若实际 KV Cache 开销极大（例如超过 10GB），则 RTX 4090 的 INT4 方案可能存在 OOM 风险，此时需转向 L40S 或 5090+INT4。\n*   **具体市场价格**：所有价格均为定性比较，未提供精确货币数值，最终决策需结合实时市场价。",
+ "label_stats": {
+  "n_labels": 30,
+  "n_numeric_claims": 75,
+  "label_coverage": 0.4
+ },
+ "usage": {
+  "in": 2954,
+  "out": 4225
+ },
+ "wall_s": 344.1,
+ "judge": {
+  "scores": [
+   0,
+   0,
+   0,
+   1,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1
+  ],
+  "reasons": [
+   "候选回答未列出四卡VRAM门槛及BF16 54GB装不下的完整对比，仅分析了单卡可行性，未覆盖清单要求的完整门槛列表。",
+   "候选回答给出了Decode带宽瓶颈的定性描述，但未给出Roofline具体数值（如5090≈33 tok/s等），且错误地认为<3s/token是极其宽松的目标，未进行定量Roofline计算。",
+   "候选回答主要推荐INT4而非INT8，虽然提到了INT8/FP8权重~27GB，但未按要求进行INT8下的Roofline重算（如5090≈66 tok/s），且对4090在INT8下的紧张程度分析不足（直接转向INT4）。",
+   "候选回答明确区分了Prefill是算力瓶颈（FLOPS）和Decode是带宽瓶颈（Memory-Bandwidth），符合要点。",
+   "候选回答对KV Cache仅给出'5-10GB'的模糊估计，未提供基于层数/头数/维度的精确估算公式或具体数值（如~4GB），未覆盖精确估算要求。",
+   "候选回答未提及缓存命中率/前缀复用对吞吐的影响，完全缺失该要点。",
+   "候选回答未给出完整的TCO公式（包含残值、故障损耗等），仅做了定性的价格比较，未覆盖完整TCO公式。",
+   "候选回答提到了TDP和电费，但未进行独立的电费计算（如TDP×电价×占空比），仅定性提及电费差异占比小，未覆盖独立计算要求。",
+   "候选回答未将故障损耗作为独立项进行计算或讨论，完全缺失该要点。",
+   "候选回答未分解有效利用率u（占空比×调度效率），未覆盖该要点。",
+   "候选回答未进行并发流数S的双闸分析（速度闸vs显存闸），完全缺失该要点。",
+   "候选回答未提及市场价格波动敏感性（如GDDR7/HBM供应紧张导致的价差），完全缺失该要点。",
+   "候选回答未给出云租vs自建的分水岭利用率阈值及定量判断，完全缺失该要点。",
+   "候选回答未讨论SHARED参数（量化）对成本降低和通过率（质量）下降的双向交互效应，仅关注了显存和成本，未覆盖质量影响。",
+   "候选回答在事实核验摘要中使用了[verified]、[degraded]、[推导]等标记，并在结论中给出了条件性推荐（如'若预算充足...'、'在满足...约束下'），符合标注来源和条件性推荐的要求。"
+  ],
+  "unverified_count": 0,
+  "hallucination_flags": [
+   "RTX 4090 TDP 450W (实际通常为450W，但部分型号或超频版可能不同，此处视为合理估计，但需确认具体型号)",
+   "RTX 5090 TDP 575W (基于传闻/早期泄露，非官方最终确认值，但在此类分析中常作为参考，标记为疑似编造/未最终确认)",
+   "L40S 价格 $4,000-$5,000+ (实际市场价波动极大，且常高于此区间，尤其是供应紧张时，此价格可能偏低或过时)"
+  ],
+  "coverage": 0.13333333333333333
+ },
+ "depth_score": 0.2181
+}
