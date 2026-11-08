@@ -40,7 +40,7 @@ from judge_v2_depth import score_run
 from research_hook import research_hook, ResearchHookUnavailable
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-MAX_NODES = 35
+MAX_NODES = 60  # safety valve only — real stopping rule is the objective function, not this cap
 BUDGET_RETRIEVAL = 12  # external retrieval calls per run (search-source nodes only)
 _budget_used = {"n": 0}
 
@@ -86,10 +86,10 @@ P1_DECOMPOSE = (
     "7. 定义式必须展开到可计算项：如果某节点的 claim 是一个定义式（X = A + B + C），"
     "则每个组成项必须有对应的 L3 子节点给出其计算公式或具体数值来源。"
     "停在'X 包含 A、B、C'而不拆出 A/B/C 各自的计算方式 = 未完成分解。\n\n"
-    "【节点数量】\n"
-    "- 简单问题：8-15 个节点\n"
-    "- 复杂多因子问题（如选卡、架构设计、成本分析）：20-35 个节点\n"
-    "- 宁多勿少：漏掉的节点 = 答案里缺的维度，比多查几个无用节点代价大得多\n\n"
+    "【展开深度与停止条件（由目标函数决定，不设固定节点数上限）】\n"
+    "不要预设节点总数。判断标准只有一个：对树上每个非叶子候选位置问——「再往下展开一层，能否产生新的具体数值、公式或可检索事实？」能 → 必须展开；不能（只剩定性描述或同义复述）→ 停。\n"
+    "由于得分 Σₙ n·ln(kₙ) 中深层节点的边际贡献随层数递增，只要展开还能带来真实信息量，继续分解总是提高得分——所以默认倾向是继续拆，直到碰到「拆不动」为止（一个量已经是最小可计算单元，例如单个价格、单个功耗值、单条公式）。\n"
+    "禁止为了控制篇幅而提前收树；也禁止硬拆无信息量的子项凑深度（那会稀释 kₙ 的有效性且不增加答案内容）。\n\n"
     "【格式要求】\n"
     "每个节点给：编号（N1, N2, ...）、一句话陈述（具体到可检索的事实）、层级标记（L1/L2/L3）、"
     "它支撑问题的哪个子问、来源标记 source（given|knowledge|search）、一条英文检索词（具体到该事实本身；source=given/knowledge 时可为空字符串）。\n"
