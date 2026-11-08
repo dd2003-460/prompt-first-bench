@@ -48,6 +48,12 @@ SEARCH_PER_NODE = 4  # 每节点注入的来源上限
 P1_DECOMPOSE = (
     "你是严谨的研究员。下面是一道待解问题。你的任务不是回答问题本身，而是把它逐层拆解成"
     "回答所依赖的完整决策树。\n\n"
+    "【节点来源标记 source（每个节点必填）】\n"
+    "- given: 题目文本中直接给出的数值或条件；\n"
+    "- knowledge: 你已掌握且属于常识/稳定事实的内容（学科定义、经典公式、架构参数等），不需要联网查证即可确认；\n"
+    "- search: 完全不知道、必须检索才能确认的事实（实时价格、最新型号规格、具体电价、实测数据等）。\n"
+    "原则：能用 given/knowledge 覆盖的不要标 search——只有真正查不到的才需要检索。knowledge 节点的 claim 里要写出具体数值或公式，"
+    "并在 evidence 栏注明「模型先验知识，属常识级事实」。若该数值有时效性风险（如价格类），claim 末尾加「[时效待核]」。\n\n"
     "【逐层展开规则】\n"
     "1. 先识别顶层决策公式或目标函数（如成本公式、约束条件、评分标准），这是第 1 层；\n"
     "2. 对第 1 层的每个因子/参数，展开为第 2 层子节点——具体到需要查什么数字、什么公式、什么经验值；\n"
@@ -67,8 +73,8 @@ P1_DECOMPOSE = (
     "- 宁多勿少：漏掉的节点 = 答案里缺的维度，比多查几个无用节点代价大得多\n\n"
     "【格式要求】\n"
     "每个节点给：编号（N1, N2, ...）、一句话陈述（具体到可检索的事实）、层级标记（L1/L2/L3）、"
-    "它支撑问题的哪个子问、一条英文检索词（具体到该事实本身）。\n"
-    "只输出 JSON，格式：{{\"nodes\": [{{\"id\": \"N1\", \"claim\": \"...\", \"level\": \"L1\", "
+    "它支撑问题的哪个子问、来源标记 source（given|knowledge|search）、一条英文检索词（具体到该事实本身；source=given/knowledge 时可为空字符串）。\n"
+    "只输出 JSON，格式：{{\"nodes\": [{{\"id\": \"N1\", \"claim\": \"...\", \"level\": \"L1\", \"source\": \"given|knowledge|search\", "
     "\"supports\": \"a\", \"search_query\": \"english query\"}}, ...]}}\n\n"
     "【问题】\n{question}\n"
 )
@@ -118,6 +124,7 @@ P3_VERIFY = (
         "注意：来源未覆盖 ≠ 错误。数学性质、统计规律这类可从第一性原理推出的事实，"
         "若逻辑校验通过且无来源与之矛盾，应判 verified 并在 evidence 里注明「逻辑推导成立，来源未直接覆盖」；"
         "不要仅因检索结果不相关就判 failed。"
+    "【来源标记】\n该节点的 source 标记为 {source}。若 source 为 given 或 knowledge：核验重点变为「逻辑自洽 + 数值量级合理」，无需外部来源支持即可判 verified（evidence 注明「先验知识/题面给定，逻辑校验通过」）；若 source 为 search：按下方判定规则执行外部核验。\n\n"
     "【关键事实节点】\n{node_id}: {claim}\n\n"
     "【参考来源】\n{sources_block}\n\n"
     "只输出 JSON：{{\"status\": \"verified|degraded|failed\", \"logic_ok\": true/false,\n"
@@ -167,6 +174,10 @@ def decompose(question, max_retries=2):
         if nodes:
             for i, n in enumerate(nodes[:MAX_NODES], 1):
                 n.setdefault("id", f"N{i}")
+                n.setdefault("source", "search")
+            from collections import Counter as _C
+            sc = _C(n.get("source", "?") for n in nodes)
+            print(f"  [decompose] source mix: {dict(sc)}", flush=True)
             return nodes[:MAX_NODES], last_raw
         print(f"  [decompose] attempt {attempt+1}: no nodes parsed, retrying...", flush=True)
     return [], last_raw
@@ -231,6 +242,7 @@ def verify_node(node, srcs):
     """P3: 单节点逻辑+外部核验。返回 (status, evidence, corrected_claim)。"""
     prompt = P3_VERIFY.format(
         node_id=node["id"], claim=node["claim"],
+        source=node.get("source", "search"),
         sources_block=sources_block(srcs)) + _perturb()
     out, _ = call_llm(prompt, max_tokens=1200, temperature=0.7, top_p=0.95)
     d = _extract_json(out or "") or {}
@@ -279,6 +291,7 @@ def _run_p1p2p3(rec, tag, question):
     facts = []
     for node in nodes:
         node_rec = {"id": node["id"], "claim": node["claim"],
+                    "source": node.get("source", "search"),
                     "search_query": node.get("search_query", "")}
         rounds = []
         for rnd in range(1, MAX_ROUNDS + 1):
