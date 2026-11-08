@@ -33,6 +33,30 @@ def _run_ego_browser(js_code, timeout=120):
     return result.stdout + "\n" + result.stderr
 
 
+def _wiki_search(query, max_results=3):
+    """Wikipedia API 检索（公网直连，不走 ego-browser/8787）。
+    返回 [{title, url, snippet}, ...]。对教科书级事实/工程规格有效。"""
+    import urllib.request
+    results = []
+    # 两路：search API + REST summary
+    try:
+        url = (f"https://en.wikipedia.org/w/api.php?action=query&list=search"
+               f"&srsearch={quote_plus(query)}&format=json&srlimit={max_results}")
+        req = urllib.request.Request(url, headers={"User-Agent": "pfb-research/1.0"})
+        d = json.load(urllib.request.urlopen(req, timeout=15))
+        for h in d.get("query", {}).get("search", []):
+            title = h["title"]
+            snippet = re.sub(r'<[^>]+>', '', h.get("snippet", ""))[:400]
+            results.append({
+                "title": title,
+                "url": f"https://en.wikipedia.org/wiki/{quote_plus(title.replace(' ', '_'))}",
+                "snippet": snippet,
+            })
+    except Exception:
+        pass
+    return results
+
+
 def _arxiv_search(query, max_results=5):
     """通过 ego-browser 访问 arXiv API，返回 [{title, url, snippet}, ...]
 
@@ -320,7 +344,21 @@ def research_hook(qid, question, max_results=5):
         print(f"  [RESEARCH-GAP] {qid}: arXiv returned only {n_arxiv_relevant} relevant result(s) "
               f"(queries tried: {len(queries)}); domain coverage may be insufficient", file=sys.stderr)
 
-    # 2. 已知站点直访
+    # 2. Wikipedia API（教科书/工程规格级事实，公网直连不占 8787）
+    wiki_cap = min(3, max_results - len(sources))
+    if wiki_cap > 0:
+        try:
+            wiki_results = _wiki_search(question, max_results=wiki_cap)
+            for r in wiki_results:
+                if len(sources) >= max_results:
+                    break
+                if r["url"] not in seen_urls:
+                    seen_urls.add(r["url"])
+                    sources.append({**r, "observed_at": observed, "source_type": "wikipedia"})
+        except Exception:
+            pass
+
+    # 3. 已知站点直访
     sites = KNOWN_SITES.get(qid, [])
     for url, title_hint in sites:
         if len(sources) >= max_results:
