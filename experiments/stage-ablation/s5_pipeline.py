@@ -40,7 +40,7 @@ from judge_v2_depth import score_run
 from research_hook import research_hook, ResearchHookUnavailable
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-MAX_NODES = 25      # 每 rep 最多核验的关键事实节点数
+MAX_NODES = 35      # 每 rep 最多核验的关键事实节点数
 MAX_ROUNDS = 2     # 每节点最大重查轮数 (含首轮)
 SEARCH_PER_NODE = 4  # 每节点注入的来源上限
 
@@ -63,7 +63,7 @@ P1_DECOMPOSE = (
     "停在'X 包含 A、B、C'而不拆出 A/B/C 各自的计算方式 = 未完成分解。\n\n"
     "【节点数量】\n"
     "- 简单问题：8-15 个节点\n"
-    "- 复杂多因子问题（如选卡、架构设计、成本分析）：15-25 个节点\n"
+    "- 复杂多因子问题（如选卡、架构设计、成本分析）：20-35 个节点\n"
     "- 宁多勿少：漏掉的节点 = 答案里缺的维度，比多查几个无用节点代价大得多\n\n"
     "【格式要求】\n"
     "每个节点给：编号（N1, N2, ...）、一句话陈述（具体到可检索的事实）、层级标记（L1/L2/L3）、"
