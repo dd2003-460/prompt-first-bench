@@ -56,6 +56,43 @@ def _wiki_search(query, max_results=3):
     return results
 
 
+def _ddg_search(query, max_results=3):
+    """DuckDuckGo LITE endpoint（纯 HTTP，不依赖 ego-browser）。
+    lite.duckduckgo.com/lite/ 对 GPU 价格/功耗/TCO 这类非学术事实有效。
+    有 anomaly 限流——重试一次（间隔 4s），仍被拦则静默返回 []。
+    返回 [{title, url, snippet}, ...]"""
+    import urllib.request, time as _time, html as _html
+    results = []
+    for attempt in range(2):
+        try:
+            url = ("https://lite.duckduckgo.com/lite/?q=" + quote_plus(query))
+            req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (pfb-research)"})
+            html_txt = urllib.request.urlopen(req, timeout=15).read().decode("utf-8", errors="replace")
+            if "anomaly" in html_txt.lower():
+                if attempt == 0:
+                    _time.sleep(4)
+                    continue
+                break
+            from urllib.parse import unquote
+            for m in re.finditer(r'<a[^>]*rel="nofollow"[^>]*href="([^"]+)"[^>]*>(.*?)</a>', html_txt, re.DOTALL):
+                href, title = m.group(1), re.sub(r'<[^>]+>', '', m.group(2)).strip()
+                if not title or len(results) >= max_results:
+                    continue
+                if "uddg=" in href:
+                    idx = href.index("uddg=")
+                    href = _html.unescape(unquote(href[idx + 5:]))
+                snip_m = re.search(r"class='result-snippet'[^>]*>\s*(.*?)\s*</td>", html_txt[m.end():m.end()+2000], re.DOTALL)
+                snippet = re.sub(r'<[^>]+>', '', snip_m.group(1)).strip()[:400] if snip_m else ""
+                results.append({"title": _html.unescape(title)[:200], "url": href, "snippet": snippet})
+            if results:
+                break
+        except Exception:
+            if attempt == 0:
+                _time.sleep(2)
+            continue
+    return results
+
+
 def _webfetch_page(url, title_hint="", timeout=20):
     """纯 HTTP GET 抓取页面文本（stdlib urllib，不依赖 ego-browser）。
     适用于文档站/规格页等无 JS 渲染需求的站点。
@@ -467,6 +504,15 @@ def research_hook(qid, question, max_results=8):
         try:
             for r in _wiki_search(question, max_results=min(3, remaining)):
                 _add(r, "wikipedia")
+        except Exception:
+            pass
+
+    # ── 2.5 DuckDuckGo（~2-4s，非学术事实：价格/功耗/TCO）──
+    remaining = max_results - len(sources)
+    if remaining > 0:
+        try:
+            for r in _ddg_search(question, max_results=min(3, remaining)):
+                _add(r, "ddg")
         except Exception:
             pass
 
