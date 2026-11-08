@@ -186,7 +186,10 @@ P4_SYNTHESIZE = (
     "4. 溯源标注（硬性格式要求）：正文中每个关键数字/事实，紧跟其后加一个方括号标签，只允许三种写法：[已核验]、[推导]、[凭记忆]。"
 "例如：LRU 字节命中率约为 78% [推导]；典型 CDN 缓存容量约 10TB [凭记忆]。自检：数一下正文里带百分号/倍数/容量单位的数字共几个，"
 "标签总数不得少于该数字个数的三分之一；标 [凭记忆] 的数值必须配降置信词（约/估计/通常）。禁止只在末尾摘要表写状态而不给正文数字打标签。\n"
-    "5. 最后单独一节「事实核验摘要」：列出你实际使用了哪些节点、各自状态、哪些结论因此受限。\n\n"
+    "5. 定量优先原则：fact table 里任何 verified/degraded 节点携带的具体数值（容量、比率、价格、复杂度、带宽），最终答案必须把它用进定量推导——代入公式、算出区间或点估计。"
+"只有当该数值与问题无关、或节点 claim 本身是纯定性表述时，才允许只做定性引用。禁止把可用的具体数字降级成『有限』『显著』『大约』这类模糊描述——"
+"有数字就写数字，缺数字才写区间，这是硬约束。\n"
+    "6. 最后单独一节「事实核验摘要」：列出你实际使用了哪些节点、各自状态、哪些结论因此受限。\n\n"
     "【问题】\n{question}\n\n"
     "【已核验事实节点表】\n{fact_table}\n"
 )
@@ -200,18 +203,40 @@ def _extract_json(text):
     m = re.search(r"\{.*\}", text, re.S)
     if not m:
         return None
+    s = m.group(0)
+    # 从前往后找第一个能解析成功的 { ... } 区间。
+    # 旧实现只试一次全量贪婪匹配：模型输出被 max_tokens 截断时 JSON 尾部残缺，
+    # 整个 parse 失败 → decompose 返回 0 节点（v13 r5 事故）。
+    # 这里退而求其次：截取到最后一个完整对象（以 "}" 结尾且前面是 "," 或 "[" 的边界），
+    # 把残缺尾部的半截 node 丢弃，保住已完整的 nodes。
     try:
-        return json.loads(m.group(0))
+        return json.loads(s)
     except json.JSONDecodeError:
-        return None
+        pass
+    # 截断修复：找到最后一个完整闭合的对象边界，补上缺失的 "]}"
+    for end in range(len(s), max(0, len(s) - 2000), -1):
+        if s[end - 1] == "}":
+            candidate = s[:end].rstrip().rstrip(",") + "\n  ]\n}"
+            try:
+                return json.loads(candidate)
+            except json.JSONDecodeError:
+                continue
+    return None
 
 
-def decompose(question, max_retries=2):
-    """P1: 拆出关键事实节点。返回 nodes 列表。JSON 解析失败时 retry。"""
+def decompose(question, max_retries=3):
+    """P1: 拆出关键事实节点。返回 nodes 列表。JSON 解析失败时 retry（降温度）。
+
+    v2 (2026-11-09): r5 事故根因不是 max_tokens 截断（usage out=2128 < 8000），
+    是模型在 ~2100 token 处主动停笔、JSON 停在半截 node。旧实现 parse 失败直接
+    放弃整份输出（丢掉已完整的 N1-N10）。现在：_extract_json 有截断兜底，
+    只要解出 ≥1 个完整 node 就接受；全空才 retry（retry 用更低温度减少跑飞）。
+    """
     last_raw = ""
     for attempt in range(max_retries + 1):
+        temp = 0.7 if attempt == 0 else 0.3
         prompt = P1_DECOMPOSE.format(question=question, alpha=ALPHA_BREADTH) + _perturb()
-        out, _ = call_llm(prompt, max_tokens=4096, temperature=0.7, top_p=0.95)
+        out, _ = call_llm(prompt, max_tokens=8000, temperature=temp, top_p=0.95)
         last_raw = out or ""
         d = _extract_json(last_raw) or {}
         nodes = d.get("nodes") or []
@@ -318,7 +343,7 @@ def _run_p1p2p3(rec, tag, question):
     t0 = time.time()
     # P1
     nodes, p1_raw = decompose(question)
-    rec["stages"]["p1_decompose"] = {"nodes": len(nodes), "levels": {str(k): int(v) for k, v in Counter(n.get("level") or "?" for n in nodes).items()}, "raw": p1_raw[:3000]}
+    rec["stages"]["p1_decompose"] = {"nodes": len(nodes), "levels": {str(k): int(v) for k, v in Counter(n.get("level") or "?" for n in nodes).items()}, "raw": p1_raw}
     print(f"  [{tag}] P1: {len(nodes)} nodes", flush=True)
     if not nodes:
         rec["error"] = "decompose returned no nodes"
