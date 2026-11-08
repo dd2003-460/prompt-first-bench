@@ -124,8 +124,73 @@ SOC_RUBRIC = {
 }
 
 
+def _w5():
+    raw = [k * math.log(k + 1) for k in range(1, 6)]
+    s = sum(raw)
+    return [r / s for r in raw]  # ≈ [0.04, 0.12, 0.22, 0.33, 0.49]
+
+W5 = _w5()
+
+GPU_RUBRIC = {
+    "pt1": [  # VRAM gate: all 4 cards can't fit BF16 54GB
+        (W3[0], "提到至少一张候选卡的 VRAM 具体数值（GB）"),
+        (W3[1], "指出所有 4 张卡 VRAM 均 < 54GB，BF16 权重装不下"),
+        (W3[2], "同时考虑 KV cache 需求（32K context），说明即使权重勉强装下 KV 也不够"),
+    ],
+    "pt2": [  # Roofline decode throughput
+        (W3[0], "提到 decode 是 memory-bandwidth-bound（每 token 需读全部权重）"),
+        (W3[1], "给出 roofline 公式或等价表述（tok/s ≈ BW / bytes_per_token）"),
+        (W3[2], "代入具体数字算出至少一张卡的 tok/s 上限（如 5090: 1792/54≈33）"),
+    ],
+    "pt3": [  # INT8 quantization re-evaluation
+        (W3[0], "提到 INT8 量化后权重减半（~27GB），部分卡可以装下"),
+        (W3[1], "重新评估哪些卡在 INT8 下可行（5090 32GB 可装，4090 24GB 紧张）"),
+        (W3[2], "INT8 下 roofline 重算（BW/27 而非 BW/54），排名是否变化"),
+    ],
+    "pt4": [  # Source attribution & uncertainty
+        (W3[0], "对至少一个规格数字标注了来源（Wikipedia/厂商页/凭记忆）"),
+        (W3[1], "不确定的数字显式标了 [待核验] 而非默默省略"),
+        (W3[2], "区分了'刚查到的'和'凭记忆的'两类信息（题目明确要求）"),
+    ],
+    "pt5": [  # TCO formula completeness
+        (W4[0], "提到选卡不能只看卡价，还要考虑总拥有成本"),
+        (W4[1], "TCO 包含主机/配套成本（不只是卡本身）"),
+        (W4[2], "TCO 包含电费（功耗 × 运行时长 × 电价）"),
+        (W4[3], "TCO 包含残值（用 H 年后的残值折现回当前）或故障损耗"),
+    ],
+    "pt6": [  # Residual value as explicit parameter
+        (W3[0], "提到 GPU 有残值/贬值概念"),
+        (W3[1], "给出残值率的具体区间或假设值（如 0.15-0.45）"),
+        (W3[2], "明确声明残值率是假设参数，不同假设下结论可能不同"),
+    ],
+    "pt7": [  # Market price volatility
+        (W4[0], "提到 GPU 价格会随市场波动（不是固定 MSRP）"),
+        (W4[1], "给出波动量级（如 2-3x 价差）或具体例子"),
+        (W4[2], "指出供应因素（GDDR7/HBM 产能）是波动原因"),
+        (W4[3], "将采购时点作为决策变量（同一张卡不同时间买，TCO 差多少）"),
+    ],
+    "pt8": [  # Cloud rental vs self-hosted
+        (W3[0], "提到云租 GPU 是自建之外的替代选项"),
+        (W3[1], "给出云租价格量级（$0.2-0.5/h 或类似）"),
+        (W3[2], "指出利用率/占空比是分水岭（低利用率时云租更便宜）"),
+    ],
+    "pt9": [  # Conditional recommendation
+        (W3[0], "最终推荐附带了条件（不是无条件说'买 X'）"),
+        (W3[1], "条件至少覆盖两个维度（利用率/电价/采购时点/预算中的 ≥2 个）"),
+        (W3[2], "不同条件下给出了不同的最优选择（不是只给一个答案）"),
+    ],
+}
+
+
 def build_judge_prompt(qid: str, answer: str) -> str:
-    rubric = NAT_RUBRIC if qid == "nat" else SOC_RUBRIC
+    if qid == "nat":
+        rubric = NAT_RUBRIC
+    elif qid == "soc":
+        rubric = SOC_RUBRIC
+    elif qid == "gpu":
+        rubric = GPU_RUBRIC
+    else:
+        raise ValueError(f"Unknown qid: {qid}")
     points_desc = []
     for pt_name, levels in rubric.items():
         pts = []
@@ -167,7 +232,12 @@ def score_run(qid: str, answer: str) -> dict:
     except json.JSONDecodeError:
         return {"error": content[:500]}
     
-    rubric = NAT_RUBRIC if qid == "nat" else SOC_RUBRIC
+    if qid == "nat":
+        rubric = NAT_RUBRIC
+    elif qid == "soc":
+        rubric = SOC_RUBRIC
+    else:
+        rubric = GPU_RUBRIC
     # LLM sometimes wraps in {"scores": {...}}, sometimes returns flat {pt1: x, ...}
     if "scores" in d and isinstance(d["scores"], dict):
         scores_raw = d["scores"]
@@ -231,7 +301,7 @@ def main():
         print(f"\n=== SUMMARY: {args.arm}-{args.q} n={len(overalls)} ===")
         print(f"mean={mean:.4f} ± {sd:.4f}")
         # per-point means
-        for pt in (NAT_RUBRIC if args.q=="nat" else SOC_RUBRIC):
+        for pt in (NAT_RUBRIC if args.q == "nat" else SOC_RUBRIC if args.q == "soc" else GPU_RUBRIC):
             vals = [r["point_scores"][pt]["score"] for r in results if pt in r.get("point_scores",{})]
             if vals:
                 pm = sum(vals)/len(vals)
