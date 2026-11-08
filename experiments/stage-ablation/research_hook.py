@@ -281,15 +281,19 @@ KNOWN_SITES = {
         ("https://arxiv.org/abs/2210.10760", "Reward Model Overoptimization (arXiv)"),
         ("https://arxiv.org/abs/2312.01552", "URIAL / Superficial Alignment (arXiv)"),
     ],
-    "gpu": [  # 27B local inference card selection (hardware spec domain)
-        # webfetch 可达（纯 HTTP，无 JS 墙）
+    "gpu": [  # 27B local inference card selection (hardware spec + economic domain)
+        # webfetch 可达（纯 HTTP，无 JS 墙）— 硬件规格
         ("https://www.nvidia.com/en-us/geforce/graphics-cards/50-series/rtx-5090/", "NVIDIA RTX 5090 Official"),
         ("https://en.wikipedia.org/wiki/Nvidia_GeForce_RTX_50_series", "RTX 50 series (Wikipedia)"),
         ("https://en.wikipedia.org/wiki/Ampere_(microarchitecture)", "Ampere architecture (Wikipedia, A100)"),
         ("https://en.wikipedia.org/wiki/L40S", "L40S (Wikipedia)"),
-        # ego-browser 兜底（JS 渲染 / bot check）
+        # 经济层：云租价格 / 二手残值 / TCO
+        ("https://aws.amazon.com/ec2/instance-types/p5/", "AWS P5 Instance Pricing (H100 cloud rental)"),
+        ("https://cloudgputracker.com/pricing/", "CloudGPUTracker GPU Rental Pricing"),
         ("https://www.techpowerup.com/gpu-specs/rtx-5090.c4226", "TechPowerUp RTX 5090 Specs"),
         ("https://www.techpowerup.com/gpu-specs/a100-pcie-40gb.c3718", "TechPowerUp A100-40GB Specs"),
+        # ego-browser 兜底（JS 渲染 / bot check）
+        ("https://www.rigbuild.com/pages/gpu-pricing", "GPU Price Tracker (street prices)"),
     ],
 }
 
@@ -315,7 +319,10 @@ ARXIV_QUERIES = {
     # S5 GPU 题（27B 本地推理选卡）
     "gpu": ["RTX 5090 specifications VRAM memory bandwidth",
             "A100 HBM2e bandwidth L40S Ada Lovelace datasheet",
-            "large language model inference roofline bandwidth bound decoding"],
+            "large language model inference roofline bandwidth bound decoding",
+            # 经济层（gold-tree N-1/N-7）：TCO / 云租 / 残值
+            "GPU total cost of ownership TCO cloud rental vs purchase break-even",
+            "used GPU resale value depreciation rate second-hand market"],
 }
 
 # T31: 来源过滤关键词（只注入 title/snippet 含这些词的结果）
@@ -330,7 +337,9 @@ FILTER_KEYWORDS = {
     "Q8": ["HumanEval", "MBPP", "LiveCodeBench", "SWE-bench", "BigCodeBench", "pass@k", "contamination", "decontamination", "EvalPlus", "code generation", "benchmark"],
     "Q9": ["CLIP", "SAM", "Segment Anything", "GPT-4V", "Gemini", "multimodal", "vision-language", "contrastive", "ViT", "tiling", "LLaVA", "Flamingo"],
     "Q10": ["RLHF", "PPO", "DPO", "KL", "reward model", "preference", "alignment", "InstructGPT", "alignment tax", "fine-tuning"],
-    "gpu": ["RTX 5090", "4090", "L40S", "A100", "VRAM", "bandwidth", "GB/s", "HBM", "PCIe", "roofline", "inference", "memory", "quantization", "INT8", "BF16"],
+    "gpu": ["RTX 5090", "4090", "L40S", "A100", "VRAM", "bandwidth", "GB/s", "HBM", "PCIe", "roofline", "inference", "memory", "quantization", "INT8", "BF16",
+        # 经济层（gold-tree N-1/N-7）
+        "TCO", "total cost of ownership", "residual value", "depreciation", "cloud rental", "break-even", "utilization", "watt", "power consumption", "electricity"],
 }
 
 

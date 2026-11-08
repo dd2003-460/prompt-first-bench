@@ -132,6 +132,7 @@ def _w5():
 W5 = _w5()
 
 GPU_RUBRIC = {
+    # ── 硬件规格层（gold-tree N-5.1/N-3.2）──
     "pt1": [  # VRAM gate: all 4 cards can't fit BF16 54GB
         (W3[0], "提到至少一张候选卡的 VRAM 具体数值（GB）"),
         (W3[1], "指出所有 4 张卡 VRAM 均 < 54GB，BF16 权重装不下"),
@@ -147,37 +148,73 @@ GPU_RUBRIC = {
         (W3[1], "重新评估哪些卡在 INT8 下可行（5090 32GB 可装，4090 24GB 紧张）"),
         (W3[2], "INT8 下 roofline 重算（BW/27 而非 BW/54），排名是否变化"),
     ],
-    "pt4": [  # Source attribution & uncertainty
-        (W3[0], "对至少一个规格数字标注了来源（Wikipedia/厂商页/凭记忆）"),
-        (W3[1], "不确定的数字显式标了 [待核验] 而非默默省略"),
-        (W3[2], "区分了'刚查到的'和'凭记忆的'两类信息（题目明确要求）"),
+    # ── 吞吐分解层（gold-tree N-3.1/N-3.2/N-5.3）──
+    "pt4": [  # Prefill vs decode bottleneck separation
+        (W3[0], "区分了 prefill（算力瓶颈）和 decode（带宽瓶颈）两个阶段"),
+        (W3[1], "给出 prefill 的约束公式（FLOPs/TFLOPS/MFU）或定性说明为什么 prefill 不受带宽限制"),
+        (W3[2], "定量对比：同一张卡 prefill tok/s vs decode tok/s 的差距量级（通常 5-20x）"),
     ],
-    "pt5": [  # TCO formula completeness
+    "pt5": [  # KV cache estimation
+        (W3[0], "提到 KV cache 会占用额外显存（不是只算权重）"),
+        (W3[1], "给出 KV cache 的估算公式或量级（如 ~27B GQA: 32层×8头×128维×2×2字节×32K ≈ 4GB）"),
+        (W3[2], "KV cache 对并发流数 S 的限制（S ≤ VRAM余量/KV_bytes），与速度闸取 min"),
+    ],
+    "pt6": [  # Cache hit rate / prefix reuse
+        (W3[0], "提到前缀复用/缓存命中可以减少重复计算"),
+        (W3[1], "说明什么场景下命中率高（相同 system prompt、多轮对话）"),
+        (W3[2], "定量影响：命中率 h 时有效 prefill 成本降为 (1-h)×原始值，对 TCO 的影响"),
+    ],
+    # ── 成本结构层（gold-tree N-1/N-1.1/N-1.2/N-1.3）──
+    "pt7": [  # TCO formula completeness
         (W4[0], "提到选卡不能只看卡价，还要考虑总拥有成本"),
         (W4[1], "TCO 包含主机/配套成本（不只是卡本身）"),
         (W4[2], "TCO 包含电费（功耗 × 运行时长 × 电价）"),
         (W4[3], "TCO 包含残值（用 H 年后的残值折现回当前）或故障损耗"),
     ],
-    "pt6": [  # Residual value as explicit parameter
-        (W3[0], "提到 GPU 有残值/贬值概念"),
-        (W3[1], "给出残值率的具体区间或假设值（如 0.15-0.45）"),
-        (W3[2], "明确声明残值率是假设参数，不同假设下结论可能不同"),
+    "pt8": [  # Electricity as independent term
+        (W3[0], "提到 GPU 有功耗/TDP（如 350W/250W）"),
+        (W3[1], "电费独立计算（TDP × 电价 × 占空比 × 小时数），不是笼统'用电费'"),
+        (W3[2], "不同卡功耗差异对 TCO 排名的影响（5090 350W vs A100 400W，长期电费差多少）"),
     ],
-    "pt7": [  # Market price volatility
+    "pt9": [  # Failure cost as independent term
+        (W3[0], "提到 GPU 有故障概率/寿命概念"),
+        (W3[1], "故障损耗作为独立项（三年故障概率 × 卡价 / H），不是被 TCO 公式吞掉"),
+        (W3[2], "故障对实际可用性的影响（宕机时间 × 机会成本），不只是金钱损失"),
+    ],
+    # ── 利用率与调度层（gold-tree N-2/N-4/N-5.2）──
+    "pt10": [  # Utilization decomposition
+        (W3[0], "提到利用率/占空比影响实际成本"),
+        (W3[1], "u = 占空比 × 调度效率的分解（不是单一数字）"),
+        (W3[2], "不同 u 下 TCO 排名是否翻转（高 u 时贵卡摊薄更快，低 u 时便宜卡更优）"),
+    ],
+    "pt11": [  # Concurrent streams dual-gate analysis
+        (W3[0], "提到并发流数 S 受两个约束"),
+        (W3[1], "速度闸 S ≤ t_max·BW/(bytes/tok) 和显存闸 S ≤ VRAM/KV_bytes 分开写"),
+        (W3[2], "取 min 后哪张卡的实际最大并发最高，以及这个 min 是哪个闸在起作用"),
+    ],
+    # ── 经济决策层（gold-tree N-7）──
+    "pt12": [  # Market price volatility
         (W4[0], "提到 GPU 价格会随市场波动（不是固定 MSRP）"),
         (W4[1], "给出波动量级（如 2-3x 价差）或具体例子"),
         (W4[2], "指出供应因素（GDDR7/HBM 产能）是波动原因"),
         (W4[3], "将采购时点作为决策变量（同一张卡不同时间买，TCO 差多少）"),
     ],
-    "pt8": [  # Cloud rental vs self-hosted
+    "pt13": [  # Cloud rental vs self-hosted
         (W3[0], "提到云租 GPU 是自建之外的替代选项"),
         (W3[1], "给出云租价格量级（$0.2-0.5/h 或类似）"),
-        (W3[2], "指出利用率/占空比是分水岭（低利用率时云租更便宜）"),
+        (W3[2], "指出利用率/占空比是分水岭（低利用率时云租更便宜），给出阈值或半定量判断"),
     ],
-    "pt9": [  # Conditional recommendation
-        (W3[0], "最终推荐附带了条件（不是无条件说'买 X'）"),
-        (W3[1], "条件至少覆盖两个维度（利用率/电价/采购时点/预算中的 ≥2 个）"),
-        (W3[2], "不同条件下给出了不同的最优选择（不是只给一个答案）"),
+    # ── 元认知层（gold-tree SHARED 参数交互 + 来源标注）──
+    "pt14": [  # SHARED parameter interaction effects
+        (W3[0], "提到量化/精度选择同时影响多个维度（不只是成本）"),
+        (W3[1], "分开讨论两个方向：成本↓（权重变小→显存省/更便宜）vs 通过率↑↓（精度损失→质量下降）"),
+        (W3[2], "交互效应的净判断：在什么条件下量化值得（成本节省 > 质量损失的机会成本）"),
+    ],
+    "pt15": [  # Source attribution & conditional recommendation
+        (W4[0], "对至少一个规格数字标注了来源（Wikipedia/厂商页/凭记忆）"),
+        (W4[1], "不确定的数字显式标了 [待核验] 而非默默省略"),
+        (W4[2], "区分了'刚查到的'和'凭记忆的'两类信息"),
+        (W4[3], "最终推荐是条件性的（在什么利用率/电价/采购时点下哪张卡最优），不同条件下给出不同选择"),
     ],
 }
 
