@@ -21,7 +21,9 @@ T53（arena 调研中）负责回答三件事：① 显式树形目标函数进 
 | s5-prod nat | ✅ 100/100 完成。mean cov=0.533 < S0 的 0.634 → **不达标** |
 | s5-prod soc | 🔄 10/100 进行中 (PID 57416) |
 | v13 × 50 reps (GPU) | 🔄 6/50，r5 截断失败 (max_tokens)，有效 5。~3.5h 剩余 |
-| T52 撞车调研 (arena) | 🔄 派发中，报告未落盘 |
+| T52 撞车调研 (arena) | ✅ 完成（prompt-decomposition-collision.md +758 行，含 Beyond Retrieval [2512.00986] / Dissecting Agentic RAG [2606.21553] 两个意外发现） |
+| T53 长期方向调研 (arena) | 🔄 派发中（目标函数驱动 + 元目标学习，产出 research/longterm-vision-survey.md） |
+| S0-gpu 基线 | ✅ 完成 n=10 cov=0.167 → GPU 是模型天花板非管线 bug（tasks/s0-gpu-baseline.md） |
 | 已知缺陷 | ① P4 综合阶段 hedging（有 verified 数字却输出定性描述）② research_hook snippet 抽取可能为空 ③ P1 输出超 max_tokens 无重试 |
 
 ## 分阶段计划（长期自主执行）
