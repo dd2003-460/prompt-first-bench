@@ -405,9 +405,16 @@ def decompose_explore(question, max_rounds=8, budget_nodes=40, per_layer_cap=6, 
     rounds_log = []
     prev_sa = None
     stagnant = 0            # 连续无增长计数
+    stop = None             # 停止原因（R1/R3/R4），循环内设置
     rnd = 0
     while True:
         rnd += 1
+        # 防御性硬上限（v16.3 bug #5 修复）：R2 改软约束后循环真的无限了，
+        # gpu 域 R1 迟迟不触发导致单 rep 失控。max_rounds 管"别失控"，
+        # budget_nodes/compress_flag 管"该压缩了"，两者语义正交。
+        if max_rounds and rnd > max_rounds:
+            stop = "R4-max-rounds"
+            break
         q_ext = question
         if confirmed:
             block = "\n".join(f"- {i}: {c} [{s}]" for i, c, s in confirmed[-budget_nodes:])

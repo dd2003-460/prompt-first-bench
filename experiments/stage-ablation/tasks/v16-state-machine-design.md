@@ -76,3 +76,10 @@ R1 就是这个外部化信号：不是问模型"你拆够了吗"（Self-Refine 
 2. gap_check 每轮都跑一遍 A+B 两次调用 → 可只在 R1 未触发时跑
 3. 已确认事实块目前最多注入 24 条截断 → 大树场景会丢早期节点
 4. 停止判据还没接 S_α 边际增量（当前 R1 用新增节点数近似）→ 下一步改成 ΔS_α < ε
+5. **v16.3 遗留 bug（2026-11-09 smoke 发现）**：`decompose_explore(max_rounds=8)` 参数声明后从未使用——R2 改软约束后循环真的无限了，只靠 R1/R3 停。gpu 域 R1 迟迟不触发（每轮还能拆出几个新节点），单 rep 预计 >1h，smoke 不可行。修法：把 max_rounds 恢复为**防御性硬上限**（默认 8 轮），与 budget_nodes 的 compress_flag 并存——R2 管"该压缩了"，max_rounds 管"别失控"。两者语义正交，不冲突。[待核验] 修后 gpu 单 rep wall 是否 <30min
+
+## v16.3 smoke 状态（2026-11-09）
+
+- 首次启动（proc_f4bbd5069f8e）实际未跑起来：run.log 0 字节、console 只有 banner 一行、进程已死，原因未定位（疑似 shell 包装层问题）。
+- 二次启动 proc_d93038a1f0eb（--qs gpu --reps 4 --state-machine）：因 bug #5 预计超长，先观察 r1 完成时长再决定 kill + 修复 + 重跑。
+- v16.0 smoke（runs-s5-v16-smoke/，R2 仍为硬上限时代的数据）结论：nat cov 0.667 vs S0 基线 0.634（+0.033，n=2 方向为正但功效不足）；gpu depth 0.381 卡在 R2 硬上限（33/32 节点即停，S_α 还在涨）；soc-r2 满分 cov=1.0。
