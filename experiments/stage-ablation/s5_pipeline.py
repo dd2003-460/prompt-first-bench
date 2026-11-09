@@ -383,24 +383,26 @@ def _sa_tree(nodes):
     return round(s, 4), per_layer
 
 
-def decompose_explore(question, max_rounds=3, budget_nodes=24, qid="gpu"):
-    """P1e: 探索式分解 — 状态机主循环。
+def decompose_explore(question, max_rounds=8, budget_nodes=40, qid="gpu"):
+    """P1e: 探索式分解 — 状态机主循环（无限回退，目标函数驱动停止）。
 
-    每轮：decompose(整题) → gap_check(补广度) → 对未核验的 search 节点做一轮
-    P2/P3 核验 → 把 verified/degraded 节点的 (id, corrected_claim, status) 作为
-    【已确认事实】注入下一轮 P1 prompt。停止判据（全部来自目标函数/边际收益，
-    无固定深度上限）：
-      R1 饱和：本轮新增节点 < 2（模型找不到新东西可拆）
-      R2 预算：累计节点数 ≥ budget_nodes（安全阀，不是停止规则本体）
-      R3 轮数：达到 max_rounds
-    返回 (nodes_all, rounds_log)，rounds_log 含每轮的 S_α、新增节点、回退原因。
+    每轮：decompose(整题 + 已确认事实) → gap_check(补广度) → 对未核验的 search
+    节点做一轮 P2/P3 核验 → verified/degraded 节点作为【已确认事实】注入下一轮。
+    回退是无限的——没有固定轮数上限；停止判据全部来自边际收益/行为证据：
+      R1 饱和：本轮新增节点 < 2（模型找不到新东西可拆 = 定义级粒度自然停）
+      R2 预算：累计节点 ≥ budget_nodes（安全阀，不是停止规则本体）
+      R3 停滞：连续 2 轮 S_α 无增长（拆出来的都是同义复述）
+    返回 (nodes_all, rounds_log)，rounds_log 含每轮的 S_α、新增节点、停止原因。
     """
     confirmed = []          # [(id, claim, status)] 注入下一轮的已确认事实
     nodes_all = []
     seen_ids = set()
     rounds_log = []
     prev_sa = None
-    for rnd in range(1, max_rounds + 1):
+    stagnant = 0            # 连续无增长计数
+    rnd = 0
+    while True:
+        rnd += 1
         q_ext = question
         if confirmed:
             block = "\n".join(f"- {i}: {c} [{s}]" for i, c, s in confirmed[-budget_nodes:])
@@ -409,9 +411,12 @@ def decompose_explore(question, max_rounds=3, budget_nodes=24, qid="gpu"):
         nodes, raw = decompose(q_ext)
         new_nodes = [n for n in nodes if n["id"] not in seen_ids]
         seen_ids.update(n["id"] for n in nodes)
-        # 广度审查只对新增部分跑一次即可（已有节点在上一轮已被审过）
-        new_nodes2, missing, _ = gap_check(question, new_nodes) if new_nodes else ([], [], "")
-        added = new_nodes + new_nodes2[:max(0, MAX_NODES - len(nodes_all))]
+        # 广度审查只对新增部分跑（已有节点在上一轮已被审过）；无新增则跳过，省两次调用
+        if new_nodes:
+            new_nodes2, missing, _ = gap_check(question, new_nodes)
+            added = new_nodes + new_nodes2[:max(0, MAX_NODES - len(nodes_all))]
+        else:
+            added, missing = [], []
         nodes_all.extend(added)
         sa, per_layer = _sa_tree(nodes_all)
         # 一轮 P2/P3 核验：只查 source=search 且未核验过的节点
@@ -431,8 +436,15 @@ def decompose_explore(question, max_rounds=3, budget_nodes=24, qid="gpu"):
             stop = "R1-saturation"
         elif len(nodes_all) >= budget_nodes:
             stop = "R2-budget"
-        elif rnd == max_rounds:
-            stop = "R3-maxrounds"
+        else:
+            # R3 停滞：连续 2 轮 S_α 无增长（新增节点都是同义复述）
+            if prev_sa is not None and sa <= prev_sa + 1e-6:
+                stagnant += 1
+            else:
+                stagnant = 0
+            if stagnant >= 2:
+                stop = "R3-stagnant"
+        prev_sa = sa
         rounds_log.append({"round": rnd, "n_new": len(added), "n_total": len(nodes_all),
                            "S_alpha": sa, "per_layer": per_layer,
                            "n_verified_this_round": len(verified_now), "stop": stop})
