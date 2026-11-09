@@ -247,7 +247,7 @@ def _extract_json(text):
     return None
 
 
-def decompose(question, max_retries=3):
+def decompose(question, max_retries=3, unlimited=False):
     """P1: 拆出关键事实节点。返回 nodes 列表。JSON 解析失败时 retry（降温度）。
 
     v2 (2026-11-09): r5 事故根因不是 max_tokens 截断（usage out=2128 < 8000），
@@ -271,7 +271,8 @@ def decompose(question, max_retries=3):
             from collections import Counter as _C
             sc = _C(n.get("source", "?") for n in nodes)
             print(f"  [decompose] source mix: {dict(sc)}", flush=True)
-            return nodes[:MAX_NODES], last_raw
+            cap = len(nodes) if unlimited else MAX_NODES
+            return nodes[:cap], last_raw
         print(f"  [decompose] attempt {attempt+1}: no nodes parsed, retrying...", flush=True)
     return [], last_raw
 
@@ -365,6 +366,34 @@ def _label_stats(ans):
     n_nums = len(_re.findall(r'\d+\.?\d*\s*(%|个百分点|百分点|倍|ms|MB|GB|TB)', ans))
     return {"n_labels": n_labels, "n_numeric_claims": n_nums,
             "label_coverage": round(n_labels / max(n_nums, 1), 2)}
+
+
+
+
+
+P1H_INDEX = (
+    "你是严谨的研究员。下面是一道待解问题，正在被逐层分解成一棵目录树（结构同项目标准："
+    "每个父节点是一个文件夹，它的子节点清单就是该文件夹的 INDEX.md——只列条目和一句话说明，"
+    "不抄内容；每层的 INDEX 只描述下一层有哪些条目）。\n\n"
+    "【本轮任务】只对给定的这些父节点做分解：对每个父节点，列出它的全部正交子维度作为子节点"
+    "（即写出这个父节点文件夹的 INDEX）。不要碰其他分支，不要重复已确认事实里的内容。\n\n"
+    "【子节点规则】\n"
+    "1. 每个子节点必须携带具体数值、公式或可计算表达式——不允许纯定性表述；确实只有定性结论的标 [待核验] 并给出最接近的量化形式。\n"
+    "2. 复合概念展开：若某子维度能写成 X = f(A, B)，则 A、B 必须是独立兄弟节点，不得合并。\n"
+    "3. 定义式必须展开到可计算项：父节点是 X = A + B + C 时，A/B/C 各自必须有子节点给出计算方式。\n"
+    "4. 子问全覆盖：问题文本显式列出的每个子问必须在 L1 有节点支撑；要求区分口径时为每种口径各建一个节点。\n"
+    "5. 排除/筛选类结论不能当终点：「X 不可行」之后必须继续展开（放宽哪个前提/代价多少/重新排序），三问各至少一个节点。\n"
+    "6. 正交性：同一父节点下的兄弟节点之间不得互相包含或同义复述；宁缺毋滥，但真正正交的维度不得漏。\n\n"
+    "【何时停】对每个父节点问：再往下拆一层还能产生新的具体数值/公式/可检索事实吗？能 → 必须拆；"
+    "不能（只剩同义复述或定性描述）→ 该父节点本轮不产生子节点。全部父节点都停 → 输出空 nodes。\n\n"
+    "【节点来源标记 source（必填）】given=题面直接给出 / knowledge=常识级稳定事实（claim 里写具体数值或公式，evidence 注明「模型先验知识」，有时效风险加 [时效待核]）/ search=必须联网查证的事实。能用 given/knowledge 覆盖的不要标 search。\n\n"
+    "【格式】每个节点：编号 N{start} 起连续、claim（一句话，具体到可检索）、level（比父节点深 1 层）、"
+    "source、supports（支撑哪个子问）、search_query（英文检索词；given/knowledge 可为空）。"
+    "只输出 JSON：{{\"nodes\": [{{\"id\": \"N{start}\", \"claim\": \"...\", \"level\": \"L2\", \"source\": \"knowledge\", \"supports\": \"b\", \"search_query\": \"\"}}, ...]}}\n\n"
+    "【问题】\n{question}\n\n"
+    "【已确认事实（前几轮的结果，作为给定条件使用，不要重复拆解）】\n{confirmed_block}\n\n"
+    "【本轮要分解的父节点】\n{parents_block}"
+)
 
 
 def _sa_tree(nodes):
@@ -566,7 +595,18 @@ def run_one(qid, rep, dry_run=False, rec_override=None):
         print(f"  [{tag}] using pre-built fact table ({len(facts)} nodes, {n_v} verified)", flush=True)
     else:
         _budget_reset()
-        if rec.get("_use_state_machine"):
+        if rec.get("_use_hierarchy"):
+            # v17: 层级目录臂 — 逐层 INDEX 分解（成璐 2026-11-09 设计），无限预算。
+            # decompose_hierarchy 内部已边拆边核验，直接返回 fact table。
+            from s5_hierarchy import decompose_hierarchy
+            nodes_all, rounds_log, facts = decompose_hierarchy(question, qid=qid)
+            rec["stages"]["p1h_hierarchy"] = rounds_log
+            n_v = sum(1 for f in facts if f["status"] == "verified")
+            rec["n_nodes"], rec["n_verified"] = len(facts), n_v
+            rec["stages"]["p2p3_nodes"] = facts
+            rec["budget_used"] = 0
+            print(f"  [{tag}] hierarchy P1H+P2/P3 done: {n_v}/{len(facts)} verified", flush=True)
+        elif rec.get("_use_state_machine"):
             # v16: 状态机臂 — P1e 探索式分解（多轮回退 + 已确认事实注入）
             nodes_all, rounds_log = decompose_explore(question, qid=qid)
             rec["stages"]["p1e_state_machine"] = rounds_log
@@ -635,6 +675,8 @@ def main():
                     help="concurrent workers (default 1; use 2-3 for parallel)")
     ap.add_argument("--state-machine", action="store_true",
                     help="v16: P1e exploratory decomposition loop (multi-round backtracking + confirmed-fact injection)")
+    ap.add_argument("--hierarchy", action="store_true",
+                    help="v17: per-layer INDEX decomposition, unlimited budget (Chenglu 2026-11-09 design)")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
     qs = args.qs.split(",")
@@ -663,7 +705,13 @@ def main():
 
     def _worker(qid, rep, tag, fp):
         nonlocal done
-        if getattr(args, "state_machine", False) and not args.dry_run:
+        if getattr(args, "hierarchy", False) and not args.dry_run:
+            # v17 hierarchical arm: per-layer INDEX decomposition (unlimited budget)
+            rec2 = {"tag": tag, "arm": "S5-hier", "qid": qid, "rep": rep,
+                    "model": LLM_MODEL, "ts": datetime.now(timezone.utc).isoformat(),
+                    "stages": {}, "_use_hierarchy": True}
+            r = run_one(qid, rep, dry_run=False, rec_override=rec2)
+        elif getattr(args, "state_machine", False) and not args.dry_run:
             # v16 state-machine arm: P1e loop (rec carries the flag)
             rec2 = {"tag": tag, "arm": "S5-sm", "qid": qid, "rep": rep,
                     "model": LLM_MODEL, "ts": datetime.now(timezone.utc).isoformat(),
