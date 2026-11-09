@@ -638,6 +638,28 @@ def run_one(qid, rep, dry_run=False, rec_override=None):
             _run_p1p2p3(rec, tag, question, qid=qid)
             facts = rec["stages"]["p2p3_nodes"]
             n_v = rec["n_verified"]
+    # P0: 目录树落盘 — 成璐的项目标准：每个父节点一个文件夹，其子节点清单就是该文件夹的 INDEX.md
+    if rec.get("_use_hierarchy"):
+        try:
+            import os as _os, json as _js
+            base = _os.path.join(rec.get("out_path", ".") or ".", "tree", rec.get("tag", "?"))
+            # id -> node; parent 关系靠 level 前缀无法恢复，这里用 supports/顺序近似：按 level 分层写
+            from collections import defaultdict as _dd
+            by_lv = _dd(list)
+            for f in facts:
+                by_lv[f.get("level", "?")].append(f)
+            _os.makedirs(base, exist_ok=True)
+            with open(_os.path.join(base, "INDEX.md"), "w") as fi:
+                fi.write(f"# {rec.get('tag','?')} 目录树\n\n")
+                for lv in sorted(by_lv, key=lambda x: str(x).lstrip("L")):
+                    seg = by_lv[lv]
+                    fi.write(f"## {lv}（{len(seg)} 条）\n")
+                    for f in seg:
+                        st = {"verified": "✅", "degraded": "⚠️", "failed": "❌"}.get(f["status"], "?")
+                        fi.write(f"- [{f['id']}]{st} {f['corrected_claim']}\n")
+            print(f"  [{rec.get('tag')}] tree written to {base}/INDEX.md ({len(facts)} entries)", flush=True)
+        except Exception as e:
+            print(f"  [{rec.get('tag')}] tree write failed: {e}", flush=True)
     # P4
     table = "\n".join(
         f"{f['id']}: {f['corrected_claim']}  [status={f['status']}; evidence: {f['evidence'][:120]}]"
@@ -732,7 +754,7 @@ def main():
             # v17 hierarchical arm: per-layer INDEX decomposition (unlimited budget)
             rec2 = {"tag": tag, "arm": "S5-hier", "qid": qid, "rep": rep,
                     "model": LLM_MODEL, "ts": datetime.now(timezone.utc).isoformat(),
-                    "stages": {}, "_use_hierarchy": True}
+                    "stages": {}, "_use_hierarchy": True, "out_path": args.out}
             r = run_one(qid, rep, dry_run=False, rec_override=rec2)
         elif getattr(args, "state_machine", False) and not args.dry_run:
             # v16 state-machine arm: P1e loop (rec carries the flag)
