@@ -7,9 +7,11 @@
 
 **深广信息目标函数 S_α = Σ[n·ln(kₙ) + α·kₙ·ln(n)] 是 pfb 的核心研究贡献**：把"答案的深度×广度"从隐式 reward model 变成 prompt 层显式可计算的目标，让模型自主调节分解树形状。近期用 S_α 引导推理（本 goal 的 Phase 1-4），远期目标是训练一个完全自适应的系统——自己构建准确的目标函数、在 Pareto 前沿上自主选择操作点（深度 vs 广度 vs 成本）。远期路线不阻塞近期执行，但所有设计决策（状态机终止条件、预算分配、judge 校准）都要向这个方向对齐。
 
-**机制层延伸（成璐 2026-11-09 追加 · 升级为长期目标组成部分）**：S_α 不只是打分器，更是「no-query recall」的激活机制——LLM 训练时已学会领域知识但不问不想起来（术语待 T55 核验），分解树每下探一层就是一次外部化触发，拆到领域最小过程单元（如 prefill → tensor/标量/运算单元/带宽/指令发射）≈ in-context 内完成小白→专家转变。推论：① 状态机的停止判据 = 「节点已到不可再拆的定义级粒度」（自然饱和），与 S_α 边际收敛判据互为印证；② S_α 跨域饱和深度曲线可作「知识完备性地图」，比 cov/depth 更有解释力；③ 终极问题（开放，不承诺解决）：若分解能稳定达到各领域最小过程单元，是否构成 AGI 的必要条件之一（判断：必要非充分，缺跨域迁移/目标自设/持续学习维度）。
+**机制层延伸（成璐 2026-11-09 追加 · 升级为长期目标组成部分）**：S_α 不只是打分器，更是「no-query recall」的激活机制——LLM 训练时已学会领域知识但不问不想起来，分解树每下探一层就是一次外部化触发，拆到领域最小过程单元（如 prefill → tensor/标量/运算单元/带宽/指令发射）≈ in-context 内完成小白→专家转变。推论：① 状态机的停止判据 = 「节点已到不可再拆的定义级粒度」（自然饱和），与 S_α 边际收敛判据互为印证；② S_α 跨域饱和深度曲线可作「知识完备性地图」，比 cov/depth 更有解释力；③ 终极问题（开放，不承诺解决）：若分解能稳定达到各领域最小过程单元，是否构成 AGI 的必要条件之一（判断：必要非充分，缺跨域迁移/目标自设/持续学习维度）。
 
-T53（arena 调研中）负责回答三件事：① 显式树形目标函数进 prompt 有没有先例；② S_α 类目标作 RL reward 有没有人做过；③ meta-objective learning / Pareto 自适应 agent 的现状与 gap。产出落盘 `research/longterm-vision-survey.md`，回来后同步更新本节。
+**T55 术语核验结果（2026-11-09 落盘 research/no-query-recall-survey.md，90 行 + 346 行搜索日志）**：无 established 单一专名（conf 中）。推荐工作性描述 *cue-/context-dependent access to parametric knowledge*。最接近的可操作概念是 **compositionality gap**（子题都会、组合题失败，Press et al. arXiv:2210.03350）；认知科学类比 cue-dependent forgetting（Tulving & Psotka 1971）；ELK / capability elicitation 是正式相邻方向而非同义词。四层区分（存储→可探测→任务中使用→主动提醒）均不互相保证。「decomposition depth 作为激活强度指标」无人做过经验证的通用测量——**这是 pfb 的差异化空间**。关键近邻：Probing the Knowledge Boundary（arXiv:2602.00959，递归主题树 L5W5 vs L2W2 提取量 6 倍，但深宽叶同时变化非独立因果）、SMoT（arXiv:2312.17445，外部状态机 14%→95%，支持我们状态机路线）。
+
+T53 已完成（2026-11-09 落盘 `research/longterm-vision-survey.md`，402 行）：Q1 gap 确认（无人把树形闭式效用写进 prompt 让模型自调结构，conf 0.75）；Q2 生成时连续深广评分仍是 gap（事后评估侧 STORM/RACE/Beyond Retrieval 已标准化）；Q3 RL reward gap 窄但窗口收窄中（ReasonRAG/TreeRPO/SPA-RL/rubric-RL 正快速逼近，"拿着目标函数去训"应尽快做）；Q4 meta-objective learning 领域真实存在（Eureka/Text2Reward/OptiMUS/OMNI-EPIC 有 task-specific 版本），可跨任务泛化的元目标学习器未见，离完全自适应还差三步（§5.3）；Q6 有可引用定理护栏（PBRS 策略不变性、率失真 D*(R)、树目标 NP-hard）。
 
 ## 一句话目标
 
@@ -24,7 +26,9 @@ T53（arena 调研中）负责回答三件事：① 显式树形目标函数进 
 | s5-prod soc | 🔄 10/100 进行中 (PID 57416) |
 | v13 × 50 reps (GPU) | 🔄 6/50，r5 截断失败 (max_tokens)，有效 5。~3.5h 剩余 |
 | T52 撞车调研 (arena) | ✅ 完成（prompt-decomposition-collision.md +758 行，含 Beyond Retrieval [2512.00986] / Dissecting Agentic RAG [2606.21553] 两个意外发现） |
-| T53 长期方向调研 (arena) | 🔄 派发中（目标函数驱动 + 元目标学习，产出 research/longterm-vision-survey.md） |
+| T53 长期方向调研 (arena) | ✅ 完成（research/longterm-vision-survey.md 402 行，Q1/Q3 gap 确认 + Q4 六线索 + Q6 定理护栏） |
+| T54 推理激活调研 (arena) | ✅ 完成（research/reasoning-activation-survey.md，操作性激活成立 / 神经层未证实；P3 条件证据槽列为待试假说） |
+| T55 no-query recall 术语核验 (arena) | ✅ 完成（research/no-query-recall-survey.md，无 established 专名 → 工作性描述 cue-/context-dependent access to parametric knowledge） |
 | S0-gpu 基线 | ✅ 完成 n=10 cov=0.167 → GPU 是模型天花板非管线 bug（tasks/s0-gpu-baseline.md） |
 | 已知缺陷 | ① P4 综合阶段 hedging（有 verified 数字却输出定性描述）② research_hook snippet 抽取可能为空 ③ P1 输出超 max_tokens 无重试 |
 
