@@ -29,7 +29,7 @@ Usage:
     python3 s5_pipeline.py --qs nat --reps 1 --out runs-s5   # 冒烟
     python3 s5_pipeline.py --qs nat,soc --reps 500 --out runs-prod-s5  # 量产 (接在主 run 后)
 """
-import argparse, json, os, random, re, sys, time
+import argparse, json, math, os, random, re, sys, time
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
@@ -367,6 +367,82 @@ def _label_stats(ans):
             "label_coverage": round(n_labels / max(n_nums, 1), 2)}
 
 
+def _sa_tree(nodes):
+    """S_α 树形得分（与 P1 prompt 中同一公式，harness 侧实现）：
+    S = Σₙ [ n·ln(kₙ) + α·kₙ·ln(n) ]，kₙ = 第 n 层节点数。
+    同时返回每层 kₙ 供状态机日志用。"""
+    from collections import Counter as _C
+    lv = _C(int((n.get("level") or "L?").lstrip("L")) for n in nodes
+            if str(n.get("level") or "").startswith("L") and str(n.get("level")).lstrip("L").isdigit())
+    s = 0.0
+    per_layer = {}
+    for n, k in sorted(lv.items()):
+        contrib = n * math.log(k) + ALPHA_BREADTH * k * math.log(n)
+        s += contrib
+        per_layer[n] = {"k": k, "contrib": round(contrib, 3)}
+    return round(s, 4), per_layer
+
+
+def decompose_explore(question, max_rounds=3, budget_nodes=24, qid="gpu"):
+    """P1e: 探索式分解 — 状态机主循环。
+
+    每轮：decompose(整题) → gap_check(补广度) → 对未核验的 search 节点做一轮
+    P2/P3 核验 → 把 verified/degraded 节点的 (id, corrected_claim, status) 作为
+    【已确认事实】注入下一轮 P1 prompt。停止判据（全部来自目标函数/边际收益，
+    无固定深度上限）：
+      R1 饱和：本轮新增节点 < 2（模型找不到新东西可拆）
+      R2 预算：累计节点数 ≥ budget_nodes（安全阀，不是停止规则本体）
+      R3 轮数：达到 max_rounds
+    返回 (nodes_all, rounds_log)，rounds_log 含每轮的 S_α、新增节点、回退原因。
+    """
+    confirmed = []          # [(id, claim, status)] 注入下一轮的已确认事实
+    nodes_all = []
+    seen_ids = set()
+    rounds_log = []
+    prev_sa = None
+    for rnd in range(1, max_rounds + 1):
+        q_ext = question
+        if confirmed:
+            block = "\n".join(f"- {i}: {c} [{s}]" for i, c, s in confirmed[-budget_nodes:])
+            q_ext += ("\n\n【已确认事实（前几轮分解+核验的结果，直接作为 given/knowledge 使用，"
+                      "不要重复拆解它们；你的任务是找出尚未覆盖的维度并继续向深层展开）】\n" + block)
+        nodes, raw = decompose(q_ext)
+        new_nodes = [n for n in nodes if n["id"] not in seen_ids]
+        seen_ids.update(n["id"] for n in nodes)
+        # 广度审查只对新增部分跑一次即可（已有节点在上一轮已被审过）
+        new_nodes2, missing, _ = gap_check(question, new_nodes) if new_nodes else ([], [], "")
+        added = new_nodes + new_nodes2[:max(0, MAX_NODES - len(nodes_all))]
+        nodes_all.extend(added)
+        sa, per_layer = _sa_tree(nodes_all)
+        # 一轮 P2/P3 核验：只查 source=search 且未核验过的节点
+        to_verify = [n for n in nodes_all if n.get("source", "search") == "search"
+                     and n["id"] not in {c[0] for c in confirmed}]
+        verified_now = []
+        for node in to_verify[:12]:   # 每轮最多核验 12 个，控制 wall time
+            srcs, err = search_node(node, qid=qid)
+            if err:
+                status, evidence, corrected, _raw = ("degraded", f"检索失败: {err}", node["claim"], "")
+            else:
+                status, evidence, corrected, _raw = verify_node(node, srcs)
+            verified_now.append((node["id"], corrected or node["claim"], status))
+        confirmed.extend(verified_now)
+        stop = None
+        if len(added) < 2:
+            stop = "R1-saturation"
+        elif len(nodes_all) >= budget_nodes:
+            stop = "R2-budget"
+        elif rnd == max_rounds:
+            stop = "R3-maxrounds"
+        rounds_log.append({"round": rnd, "n_new": len(added), "n_total": len(nodes_all),
+                           "S_alpha": sa, "per_layer": per_layer,
+                           "n_verified_this_round": len(verified_now), "stop": stop})
+        print(f"  [state-machine] r{rnd}: +{len(added)} nodes (total {len(nodes_all)}), "
+              f"S_α={sa}, verified +{len(verified_now)}, stop={stop}", flush=True)
+        if stop:
+            break
+    return nodes_all, rounds_log
+
+
 def _run_p1p2p3(rec, tag, question, qid="gpu"):
     """P1 decompose + P2 search + P3 verify. Sets stages.p2p3_nodes, n_verified, n_nodes."""
     t0 = time.time()
@@ -426,10 +502,10 @@ def _run_p1p2p3(rec, tag, question, qid="gpu"):
     print(f"  [{tag}] P2/P3 done: {n_v}/{len(facts)} verified", flush=True)
 
 
-def run_one(qid, rep, dry_run=False):
+def run_one(qid, rep, dry_run=False, rec_override=None):
     tag = f"S5-{qid}-r{rep}"
     question = QUESTIONS[qid]
-    rec = {"tag": tag, "arm": "S5", "qid": qid, "rep": rep,
+    rec = rec_override or {"tag": tag, "arm": "S5", "qid": qid, "rep": rep,
            "model": LLM_MODEL, "ts": datetime.now(timezone.utc).isoformat(),
            "stages": {}}
     if dry_run:
@@ -445,9 +521,38 @@ def run_one(qid, rep, dry_run=False):
         print(f"  [{tag}] using pre-built fact table ({len(facts)} nodes, {n_v} verified)", flush=True)
     else:
         _budget_reset()
-        _run_p1p2p3(rec, tag, question, qid=qid)
-        facts = rec["stages"]["p2p3_nodes"]
-        n_v = rec["n_verified"]
+        if rec.get("_use_state_machine"):
+            # v16: 状态机臂 — P1e 探索式分解（多轮回退 + 已确认事实注入）
+            nodes_all, rounds_log = decompose_explore(question, qid=qid)
+            rec["stages"]["p1e_state_machine"] = rounds_log
+            facts = []
+            for node in nodes_all:
+                node_rec = {"id": node["id"], "claim": node["claim"],
+                            "level": node.get("level", "?"),
+                            "source": node.get("source", "search"),
+                            "search_query": node.get("search_query", "")}
+                if node.get("source") in ("given", "knowledge"):
+                    node_rec.update(status="verified", evidence="模型先验/题面给定，未触发检索",
+                                    corrected_claim=node["claim"])
+                    facts.append(node_rec)
+                    continue
+                srcs, err = search_node(node, qid=qid)
+                if err:
+                    status, evidence, corrected, raw = ("degraded", f"检索失败: {err}", node["claim"], "")
+                else:
+                    status, evidence, corrected, raw = verify_node(node, srcs)
+                node_rec.update(status=status, evidence=evidence,
+                                corrected_claim=corrected or node["claim"])
+                facts.append(node_rec)
+            n_v = sum(1 for f in facts if f["status"] == "verified")
+            rec["n_nodes"], rec["n_verified"] = len(facts), n_v
+            rec["stages"]["p2p3_nodes"] = facts
+            rec["budget_used"] = _budget_used["n"]
+            print(f"  [{tag}] state-machine P2/P3 done: {n_v}/{len(facts)} verified", flush=True)
+        else:
+            _run_p1p2p3(rec, tag, question, qid=qid)
+            facts = rec["stages"]["p2p3_nodes"]
+            n_v = rec["n_verified"]
     # P4
     table = "\n".join(
         f"{f['id']}: {f['corrected_claim']}  [status={f['status']}; evidence: {f['evidence'][:120]}]"
@@ -483,6 +588,8 @@ def main():
     ap.add_argument("--start-rep", type=int, default=1)
     ap.add_argument("--workers", type=int, default=1,
                     help="concurrent workers (default 1; use 2-3 for parallel)")
+    ap.add_argument("--state-machine", action="store_true",
+                    help="v16: P1e exploratory decomposition loop (multi-round backtracking + confirmed-fact injection)")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
     qs = args.qs.split(",")
@@ -511,7 +618,14 @@ def main():
 
     def _worker(qid, rep, tag, fp):
         nonlocal done
-        r = run_one(qid, rep, args.dry_run)
+        if getattr(args, "state_machine", False) and not args.dry_run:
+            # v16 state-machine arm: P1e loop (rec carries the flag)
+            rec2 = {"tag": tag, "arm": "S5-sm", "qid": qid, "rep": rep,
+                    "model": LLM_MODEL, "ts": datetime.now(timezone.utc).isoformat(),
+                    "stages": {}, "_use_state_machine": True}
+            r = run_one(qid, rep, dry_run=False, rec_override=rec2)
+        else:
+            r = run_one(qid, rep, args.dry_run)
         with open(fp, "w") as f:
             json.dump(r, f, ensure_ascii=False, indent=1)
         with lock:
