@@ -675,7 +675,13 @@ def research_hook(qid, question, max_results=8, enable_local=True):
             print(f"  [WEBLLM-SKIP] {qid}: {str(e)[:100]}", file=sys.stderr)
 
     # ── 3. arXiv API（~12s/query，学术文献）──
-    queries = ARXIV_QUERIES.get(qid, [question])
+    # v3.1 (2026-11-09): s5-node 通道不再走题级预设查询词——节点 query 是 L2/L3 子维度
+    # （如 "GPU depreciation rate"），用它查 arXiv 只会捞回无关论文；而本地语料/百科/DDG
+    # 已覆盖规格与定义类事实。只有题级 qid（Q1-Q8/S5-*）才用预设查询词。
+    if qid == "s5-node":
+        queries = []  # skip arxiv for node-level queries
+    else:
+        queries = ARXIV_QUERIES.get(qid, [question])
     n_arxiv_relevant = 0
     arxiv_cap = min(3, max_results - len(sources))
     for q in queries[:2]:  # 最多 2 路 query 控制时间
@@ -690,7 +696,7 @@ def research_hook(qid, question, max_results=8, enable_local=True):
         except (ResearchHookUnavailable, Exception):
             continue
 
-    if n_arxiv_relevant < 2:
+    if n_arxiv_relevant < 2 and qid != "s5-node":
         print(f"  [RESEARCH-GAP] {qid}: arXiv returned only {n_arxiv_relevant} result(s); "
               f"other channels compensate", file=sys.stderr)
 
