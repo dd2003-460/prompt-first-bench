@@ -389,8 +389,10 @@ def decompose_explore(question, max_rounds=8, budget_nodes=40, per_layer_cap=6, 
     每轮：decompose(整题 + 已确认事实) → gap_check(补广度) → 对未核验的 search
     节点做一轮 P2/P3 核验 → verified/degraded 节点作为【已确认事实】注入下一轮。
     回退是无限的——没有固定轮数上限；停止判据全部来自边际收益/行为证据：
-      R1 饱和：本轮新增节点 < 2（模型找不到新东西可拆 = 定义级粒度自然停）
-      R2 预算：累计节点 ≥ budget_nodes（安全阀，不是停止规则本体）
+      R1 饱和：本轮新增节点 = 0（模型找不到新东西可拆 = 定义级粒度自然停）
+      R2 预算：累计节点 ≥ budget_nodes —— **软约束，不停止**。
+         触发"该做层级压缩"信号（把深层叶子折叠成中间层摘要），树继续长。
+         general 超级工程拆到定义级粒度节点数可达千级，硬上限会砍掉合法深度。
       R3 停滞：连续 2 轮 S_α 无增长（拆出来的都是同义复述）
     **层内限流（per-layer cap）**：每层每轮最多吸收 per_layer_cap 个新节点，
     超出的留到下一轮——防止深层同层数量爆炸导致单轮 token 溢出 / 注意力稀释。
@@ -454,8 +456,6 @@ def decompose_explore(question, max_rounds=8, budget_nodes=40, per_layer_cap=6, 
         # 只有整棵树都长不出新节点才是真饱和。
         if len(added) == 0:
             stop = "R1-saturation"
-        elif len(nodes_all) >= budget_nodes:
-            stop = "R2-budget"
         else:
             # R3 停滞：连续 2 轮 S_α 无增长（新增节点都是同义复述）
             if prev_sa is not None and sa <= prev_sa + 1e-6:
@@ -464,10 +464,15 @@ def decompose_explore(question, max_rounds=8, budget_nodes=40, per_layer_cap=6, 
                 stagnant = 0
             if stagnant >= 2:
                 stop = "R3-stagnant"
+        # R2 预算阀：软约束，不停止循环。超过 budget_nodes 后在日志里标记
+        # compress_triggered=True（提示该做层级压缩：把深层叶子折叠成中间层摘要），
+        # 树继续长——general 超级工程拆到定义级粒度节点数可达千级，硬上限会砍掉合法深度。
+        compress_flag = len(nodes_all) >= budget_nodes
         prev_sa = sa
         rounds_log.append({"round": rnd, "n_new": len(added), "n_total": len(nodes_all),
                            "S_alpha": sa, "per_layer": per_layer,
                            "capped_layers": sorted(capped_layers),
+                           "compress_triggered": compress_flag,
                            "n_verified_this_round": len(verified_now), "stop": stop})
         print(f"  [state-machine] r{rnd}: +{len(added)} nodes (total {len(nodes_all)}), "
               f"S_α={sa}, verified +{len(verified_now)}, stop={stop}", flush=True)
