@@ -383,7 +383,7 @@ def _sa_tree(nodes):
     return round(s, 4), per_layer
 
 
-def decompose_explore(question, max_rounds=8, budget_nodes=40, qid="gpu"):
+def decompose_explore(question, max_rounds=8, budget_nodes=40, per_layer_cap=6, qid="gpu"):
     """P1e: 探索式分解 — 状态机主循环（无限回退，目标函数驱动停止）。
 
     每轮：decompose(整题 + 已确认事实) → gap_check(补广度) → 对未核验的 search
@@ -392,6 +392,9 @@ def decompose_explore(question, max_rounds=8, budget_nodes=40, qid="gpu"):
       R1 饱和：本轮新增节点 < 2（模型找不到新东西可拆 = 定义级粒度自然停）
       R2 预算：累计节点 ≥ budget_nodes（安全阀，不是停止规则本体）
       R3 停滞：连续 2 轮 S_α 无增长（拆出来的都是同义复述）
+    **层内限流（per-layer cap）**：每层每轮最多吸收 per_layer_cap 个新节点，
+    超出的留到下一轮——防止深层同层数量爆炸导致单轮 token 溢出 / 注意力稀释。
+    被截断的层会在日志里标记 capped=True，下一轮继续消化。
     返回 (nodes_all, rounds_log)，rounds_log 含每轮的 S_α、新增节点、停止原因。
     """
     confirmed = []          # [(id, claim, status)] 注入下一轮的已确认事实
@@ -414,9 +417,23 @@ def decompose_explore(question, max_rounds=8, budget_nodes=40, qid="gpu"):
         # 广度审查只对新增部分跑（已有节点在上一轮已被审过）；无新增则跳过，省两次调用
         if new_nodes:
             new_nodes2, missing, _ = gap_check(question, new_nodes)
-            added = new_nodes + new_nodes2[:max(0, MAX_NODES - len(nodes_all))]
+            candidates = new_nodes + new_nodes2[:max(0, MAX_NODES - len(nodes_all))]
         else:
-            added, missing = [], []
+            candidates, missing = [], []
+        # 层内限流：每层每轮最多吸收 per_layer_cap 个新节点，超出的留到下一轮。
+        # 深层同层数量大时（如 L3 一次出 15 个），单轮全吃下会导致 token 溢出
+        # 和注意力稀释；截断后下一轮模型看到已确认事实块会继续消化剩余维度。
+        from collections import Counter as _C2
+        layer_counts = _C2(int(str(n.get("level") or "L?").lstrip("L")) for n in nodes_all
+                           if str(n.get("level") or "").startswith("L") and str(n.get("level")).lstrip("L").isdigit())
+        added, capped_layers = [], set()
+        for n in candidates:
+            lv = int(str(n.get("level") or "L?").lstrip("L")) if str(n.get("level") or "").startswith("L") and str(n.get("level")).lstrip("L").isdigit() else 0
+            if lv > 0 and layer_counts[lv] >= per_layer_cap:
+                capped_layers.add(lv)
+                continue
+            added.append(n)
+            layer_counts[lv] += 1
         nodes_all.extend(added)
         sa, per_layer = _sa_tree(nodes_all)
         # 一轮 P2/P3 核验：只查 source=search 且未核验过的节点
@@ -432,7 +449,10 @@ def decompose_explore(question, max_rounds=8, budget_nodes=40, qid="gpu"):
             verified_now.append((node["id"], corrected or node["claim"], status))
         confirmed.extend(verified_now)
         stop = None
-        if len(added) < 2:
+        # R1 饱和：本轮无任何新增节点（模型找不到新东西可拆 = 定义级粒度自然停）。
+        # 注意口径是"所有层合计"——某一层被限流截断不算饱和，剩余维度下一轮继续消化；
+        # 只有整棵树都长不出新节点才是真饱和。
+        if len(added) == 0:
             stop = "R1-saturation"
         elif len(nodes_all) >= budget_nodes:
             stop = "R2-budget"
@@ -447,6 +467,7 @@ def decompose_explore(question, max_rounds=8, budget_nodes=40, qid="gpu"):
         prev_sa = sa
         rounds_log.append({"round": rnd, "n_new": len(added), "n_total": len(nodes_all),
                            "S_alpha": sa, "per_layer": per_layer,
+                           "capped_layers": sorted(capped_layers),
                            "n_verified_this_round": len(verified_now), "stop": stop})
         print(f"  [state-machine] r{rnd}: +{len(added)} nodes (total {len(nodes_all)}), "
               f"S_α={sa}, verified +{len(verified_now)}, stop={stop}", flush=True)
