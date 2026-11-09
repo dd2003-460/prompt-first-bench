@@ -642,28 +642,31 @@ def run_one(qid, rep, dry_run=False, rec_override=None):
     table = "\n".join(
         f"{f['id']}: {f['corrected_claim']}  [status={f['status']}; evidence: {f['evidence'][:120]}]"
         for f in facts)
+    prompt = P4_SYNTHESIZE.format(question=question, fact_table=table) + _perturb()
+    # v17 无限预算：fact table 巨大时单次 8000 token 输出不够，按层分段合成再合并
     if rec.get("_use_hierarchy") and len(facts) > 200:
-        # v17 无限预算下 fact table 可能超单次 prompt 容量：按 level 分层喂给综合器，
-        # 每层产出"该层结论摘要"，最后用各层摘要做总合成（层级 index 的读法）。
-        from collections import defaultdict
-        by_lv = defaultdict(list)
+        from collections import defaultdict as _dd
+        by_lv = _dd(list)
         for f in facts:
             by_lv[f.get("level", "?")].append(f)
-        layer_digests = []
+        parts = []
         for lv in sorted(by_lv, key=lambda x: str(x).lstrip("L")):
             seg = "\n".join(
                 f"{f['id']} ({lv}): {f['corrected_claim']}  [status={f['status']}; evidence: {f['evidence'][:80]}]"
                 for f in by_lv[lv])
-            p = (f"你是研究员。下面是一道问题在目录树第 {lv} 层的全部已核验事实条目"
-                 f"（该层的 INDEX 展开结果）。请把这层压缩成一段结构化结论："
-                 f"保留全部具体数值/公式/排序，去掉重复和纯定性描述，每条结论标注来源条目 id。\n\n"
+            p = (f"你是研究员。基于下面第 {lv} 层的已核验事实，回答原问题中该层涉及的部分。"
+                 f"只写结论+数值/公式，每条标来源条目 id，不要重复其他层的内容。\n\n"
                  f"【问题】\n{question}\n\n【第 {lv} 层事实】\n{seg}") + _perturb()
             out_l, _ = call_llm(p, max_tokens=4000, temperature=0.7, top_p=0.95)
-            layer_digests.append(f"=== 第 {lv} 层摘要 ===\n{out_l or '(空)'}")
-        table = "\n\n".join(layer_digests)
-        print(f"  [{rec.get('tag')}] hierarchy digest: {len(facts)} facts -> {len(layer_digests)} layer digests", flush=True)
-    prompt = P4_SYNTHESIZE.format(question=question, fact_table=table) + _perturb()
-    answer, usage = call_llm(prompt, max_tokens=8000, temperature=0.7, top_p=0.95)
+            parts.append(f"=== 第 {lv} 层 ===\n{out_l or '(空)'}")
+        merge_p = (f"你是研究员。下面是同一道问题按目录树分层得到的各层结论摘要。"
+                   f"请把它们合并成一份完整最终答案：覆盖问题全部子问，保留所有具体数值/公式/排序，"
+                   f"消除层间重复，最后给一个明确的推荐结论。\n\n【问题】\n{question}\n\n"
+                   + "\n\n".join(parts)) + _perturb()
+        answer, usage = call_llm(merge_p, max_tokens=8000, temperature=0.7, top_p=0.95)
+        print(f"  [{rec.get('tag')}] hierarchy segmented synthesis: {len(facts)} facts, {len(parts)} layers", flush=True)
+    else:
+        answer, usage = call_llm(prompt, max_tokens=8000, temperature=0.7, top_p=0.95)
     rec["answer"] = answer or ""
     rec["label_stats"] = _label_stats(answer or "")
     rec["usage"] = usage
