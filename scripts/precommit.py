@@ -11,9 +11,17 @@
 import subprocess, sys
 
 def main():
-    diff = subprocess.run(["git", "diff", "--cached", "--name-only", "-z"],
-                          capture_output=True).stdout.split(b"\0")
-    pys = [f.decode() for f in diff if f.endswith(b".py")]
+    # status --porcelain 覆盖 staged 的增/改/删；diff --cached 看不到已删除项
+    out = subprocess.run(["git", "status", "--porcelain", "-z"],
+                         capture_output=True).stdout.split(b"\0")
+    import os
+    pys = set()
+    for item in out:
+        if len(item) > 3 and item[3:].decode(errors="replace").endswith(".py"):
+            p = item[3:].decode(errors="replace")
+            if os.path.exists(p):  # 被删的文件没有可编译内容，跳过
+                pys.add(p)
+    pys = sorted(pys)
     for f in pys:
         r = subprocess.run([sys.executable, "-m", "py_compile", f], capture_output=True)
         if r.returncode != 0:
