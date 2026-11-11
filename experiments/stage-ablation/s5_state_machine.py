@@ -114,6 +114,7 @@ class ObjectiveConfig:
     fbeta_beta: float = 0.5          # β<1 偏向 precision（防同义变体刷分）
     necessary_judge_max_tokens: int = 600
     stop_criterion: str = "necessary"  # "gain"(v1 旧判据) | "necessary"(新判据: 本轮无必要节点→停)
+    contribution_threshold: float = 0.10  # idea #45: 子项对目标函数边际贡献 < 此值 → 不展开（极小概率极大不稳定期望豁免）
 
 
 def _ngram_overlap(a: str, b: str, n: int = 3) -> float:
@@ -224,7 +225,9 @@ EDGE_TYPE_PROMPT = (
     "例：推理稳定性 ← temp 采样 → 输出一致性；量化质量 ← 同一 temp 流 → 精度损失。\n\n"
     "【父节点】{parent_claim}\n"
     "【候选子维度】\n{children_block}\n\n"
-    "只输出一行 JSON：{{\"edge_type\": \"cartesian|quotient|stochastic\", \"reason\": \"一句话\"}}"
+    "同时估计：这些子维度整体对父节点所代表的目标函数因子的边际贡献有多大？"
+    "（0.0~1.0，越高表示越关键；极小概率但影响极大的风险项给高分并标 high_var=true）\n"
+    "只输出一行 JSON：{{\"edge_type\": \"cartesian|quotient|stochastic\", \"reason\": \"一句话\", \"contribution\": 0.XX, \"high_var\": false}}"
 )
 
 EDGE_PREDICT_PROMPT = (
@@ -235,16 +238,19 @@ EDGE_PREDICT_PROMPT = (
     "只能沿 frontier 列代表性工作点。\n"
     "3. stochastic：该概念的核心变异来自一个共享随机源对多个下游维度的同时驱动"
     "（如「推理稳定性」← temp 采样 → 一致性+精度）。\n\n"
+    "同时估计：这个概念如果被展开，其子维度对整体研究目标的边际贡献大概多大？"
+    "（0.0~1.0；极小概率但影响极大的风险项给高分并标 high_var=true）\n\n"
     "【概念】{concept}\n\n"
-    "只输出一行 JSON：{{\"edge_type\": \"cartesian|quotient|stochastic\", \"reason\": \"一句话\"}}"
+    "只输出一行 JSON：{{\"edge_type\": \"cartesian|quotient|stochastic\", \"reason\": \"一句话\", \"contribution\": 0.XX, \"high_var\": false}}"
 )
 
 
 def classify_edge(parent_claim: str, child_claims: list[str],
-                  cfg: "ObjectiveConfig") -> tuple[str, str]:
-    """LLM 判定父→子组合关系。返回 (edge_type, reason)。
+                  cfg: "ObjectiveConfig") -> tuple[str, str, float, bool]:
+    """LLM 判定父→子组合关系 + 边际贡献估计。
+    返回 (edge_type, reason, contribution, high_var)。
     child_claims 为空时用 EDGE_PREDICT_PROMPT 做概念结构预判。
-    失败时默认 cartesian（保守：按可展开处理）。"""
+    失败时默认 (cartesian, error, 1.0, False)——保守：按可展开处理。"""
     from ablation_harness import call_llm
     if not child_claims:
         prompt = EDGE_PREDICT_PROMPT.format(concept=parent_claim)
@@ -254,14 +260,17 @@ def classify_edge(parent_claim: str, child_claims: list[str],
     try:
         out, _ = call_llm(prompt, max_tokens=300, temperature=0.0, retries=2)
         m = re.search(r'"edge_type"\s*:\s*"(cartesian|quotient|stochastic)"', out or "", re.I)
-        if m:
-            et = m.group(1).lower()
-            rm = re.search(r'"reason"\s*:\s*"([^"]*)"', out or "")
-            return et, (rm.group(1) if rm else "")
-        return "cartesian", "parse fallback"
+        et = m.group(1).lower() if m else "cartesian"
+        rm = re.search(r'"reason"\s*:\s*"([^"]*)"', out or "")
+        reason = rm.group(1) if rm else ""
+        cm = re.search(r'"contribution"\s*:\s*([0-9]*\.?[0-9]+)', out or "")
+        contrib = float(cm.group(1)) if cm else 1.0
+        hv = re.search(r'"high_var"\s*:\s*(true|false)', out or "", re.I)
+        high_var = hv.group(1).lower() == "true" if hv else False
+        return et, reason, min(max(contrib, 0.0), 1.0), high_var
     except Exception as e:
         print(f"  [SM] edge-classify error: {e}", flush=True)
-        return "cartesian", f"error: {e}"
+        return "cartesian", f"error: {e}", 1.0, False
 
 
 def redundancy_score(nodes: list[dict]) -> float:
@@ -690,13 +699,21 @@ class DecompStateMachine:
                     pass  # 复核留到下一版；当前先信任继承值
             # 对 L1 节点（首次拆出的顶层维度）做边分类——这是 v17 爆炸的入口
             l1_frontier = [p for p in frontier if str(p.level) == "L1"]
+            low_contrib_nodes = []  # idea #45: 贡献低于阈值的节点不展开
             for p in l1_frontier:
-                et, reason = classify_edge(p.claim, [], self.cfg)
-                # 空 children 时 classify_edge 直接返回 cartesian，
-                # 所以这里用父 claim 本身让 LLM 判断"这个概念最可能是哪种结构"
+                et, reason, contrib, high_var = classify_edge(p.claim, [], self.cfg)
                 if et != "cartesian":
                     print(f"  [SM] edge-classify {p.id}: {et} ({reason[:50]})", flush=True)
                     p.edge_type = et
+                # idea #45: 贡献阈值过滤（极小概率极大不稳定期望豁免）
+                if contrib < self.cfg.contribution_threshold and not high_var:
+                    print(f"  [SM] contribution-filter {p.id}: {contrib:.2f} < {self.cfg.contribution_threshold} — skip expansion", flush=True)
+                    p.status = "degraded"  # 标记为不再展开
+                    low_contrib_nodes.append(p)
+            # 从 frontier 中移除低贡献节点
+            if low_contrib_nodes:
+                low_ids = {p.id for p in low_contrib_nodes}
+                frontier = [p for p in frontier if p.id not in low_ids]
 
             for i in range(0, len(frontier), 3):
                 batch = frontier[i:i+3]
@@ -706,7 +723,7 @@ class DecompStateMachine:
                     for p in batch:
                         p_children = [c.claim for c in kids if p.id in (c.parent_ids or [])]
                         if p_children and len(p_children) >= 2:
-                            et, reason = classify_edge(p.claim, p_children, self.cfg)
+                            et, reason, contrib, high_var = classify_edge(p.claim, p_children, self.cfg)
                             if et != p.edge_type:
                                 print(f"  [SM] edge-reclassify {p.id}: {p.edge_type}→{et} ({reason[:50]})", flush=True)
                                 p.edge_type = et

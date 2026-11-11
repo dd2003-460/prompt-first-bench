@@ -1,23 +1,32 @@
 [T53 SM] Running on 'gpu': 你要在本地工作站上推理 Qwen3-27B 模型，要求单流延迟 < 3s/token、上下文窗口 ≥ 32K token...
   [SM] L1 skeleton (top-level dimensions only)...
-  [SM] objective (model-estimated): Score = F1 * ( F3 - λ * F2 )
-    factor: F1_可行性硬约束满足度 (Binary): 候选方案在满载上下文(32K)下的单流解码延迟是否严格 < 3s/token，且显存容量是否足以容纳模型权重+KV
-    factor: F2_全生命周期总拥有成本 (TCO, Scalar): 涵盖硬件购置成本、电力消耗(基于功耗×电价×运行时长)、散热/机房基础设施溢价及多卡互联隐性成本。用于
-    factor: F3_输出质量保真度 (Quality, Scalar): 所选精度(BF16->W4)导致的基准测试分数下降幅度（如MMLU/GSM8k相对BF16的drop
-  [SM] L1: 4 top-level dimensions
-    [N1] 物理可行性边界：定义并量化决定方案能否入选的硬性门槛，包括显存容量下限（权重+KV Cache峰值占用）与计算/内存带宽瓶颈对单token生成时间的理论极限约束
-    [N2] 经济成本结构：拆解不同架构/代际/规模（单卡vs多卡）方案的TCO构成，覆盖初始资本支出(CAPEX)、运营支出(OPEX如电费)以及多卡方案特有的互联与故障率
-    [N3] 精度-质量权衡：评估从BF16到极低比特(W4/NVFP4)量化策略对Qwen3-27B模型推理质量的实际影响，建立“可接受质量损失”与“性能/成本增益”之间的
-    [N4] 硬件候选空间：构建覆盖消费级、数据中心级及非典型边缘方案的完整可比集，明确各候选在算力密度、显存带宽、生态兼容性上的定位及其进入比较池的理由。
-  [SM] edge-classify N3: quotient (该概念核心在于建立质量损失与性能/成本增益之间的兑换关系，本质是衡量两者比值的 trade-off )
-
-[T53 SM] FATAL: KeyError: '架构, 显存容量, 接口类型'
-Traceback (most recent call last):
-  File "/Users/a1-6/Desktop/workspace/pfb/experiments/stage-ablation/s5_state_machine.py", line 939, in <module>
-    result = sm.run(skip_l1=bool(resume_from), verify_only=verify_only)
-  File "/Users/a1-6/Desktop/workspace/pfb/experiments/stage-ablation/s5_state_machine.py", line 709, in run
-    et, reason = classify_edge(p.claim, p_children, self.cfg)
-  File "/Users/a1-6/Desktop/workspace/pfb/experiments/stage-ablation/s5_state_machine.py", line 253, in classify_edge
-    prompt = EDGE_TYPE_PROMPT.format(parent_claim=parent_claim, children_block=children_block)
-KeyError: '架构, 显存容量, 接口类型'
-[T53 SM] Checkpoint saved → runs-s5-sm-gpu-checkpoint.json (use --resume runs-s5-sm-gpu-checkpoint.json)
+  [SM] objective (model-estimated): Maximize ( E_efficiency / C_total ) subject to ( C_feasibility == True AND Q_quality >= Threshold_ac
+    factor: C_feasibility（可行性约束，布尔值）：单流延迟 < 3s/token 且上下文窗口 ≥ 32K tokens 的硬性达标情况
+    factor: Q_quality（质量损失可接受性，0-1标量）：所选量化精度下模型性能衰减是否在任务容忍范围内
+    factor: E_efficiency（推理效率，tokens/s/GPU·hour）：单位硬件资源产生的有效吞吐量
+    factor: C_total（总拥有成本，TCO，货币/月）：包含硬件折旧、电力、散热及运维的综合成本
+  [SM] L1: 6 top-level dimensions
+    [N1] 硬件候选集完备性与架构覆盖：定义所有可能影响决策边界的数据中心级、消费级及非典型异构方案的搜索空间，确保无遗漏关键架构代际与容量档位。
+    [N2] 可行性硬约束验证（延迟与显存容量）：基于KV Cache占用与计算瓶颈，判定各候选方案在32K上下文下的单流延迟是否严格小于3秒/token。
+    [N3] 精度-质量权衡与可接受性论证：评估不同量化格式对27B模型能力的实际损伤程度，建立质量损失的量化基准以筛选出可接受的精度选项。
+    [N4] 全生命周期成本结构（TCO）：构建包含采购价格、电力功耗、散热需求及多卡互联开销在内的综合成本模型，区分单卡与多卡部署的经济差异。
+    [N5] 数据溯源置信度与不确定性标注：对每个关键参数（带宽、算力、价格、能效）进行来源分级（实测/官方/推测），并标记待核验项以控制结论风险。
+    [N6] 条件性推荐逻辑与敏感性分析：基于上述维度输出依赖特定前提（如电价、批量、更新频率）的分支建议，避免给出绝对化的单一排名。
+  [SM] edge-classify N2: quotient (该概念本质是判定“单流延迟”这一由计算耗时与显存带宽共同决定的综合指标是否满足阈值，涉及计算与访存之)
+  [SM] edge-classify N3: quotient (该概念核心在于评估“能力损伤”与“量化收益”之间的权衡，本质是寻找质量损失与资源节省之间的最优比值或)
+  [SM] edge-classify N4: quotient (TCO 本质是各项成本分量（采购、电力、散热、互联）的加权求和与时间积分，各维度间存在显著的经济权衡)
+  [SM] edge-reclassify N1: cartesian→quotient (子维度通过显存容量、带宽、算力与成本等分量的运算组合（如吞吐量=带宽/权重大小、性价比=性能/TCO)
+  [SM] fanout cap 4: parent N1 kept 4/18, dropped 7
+  [SM] edge-reclassify N5: cartesian→quotient (父节点“置信度与不确定性标注”本质上是通过对子维度（如TCO公式、来源分级权重、敏感性分析）进行加权)
+  [SM] edge-reclassify N6: cartesian→quotient (子维度通过TCO公式（成本+能耗×时长）及敏感性分析（ΔTCO/Δ参数）进行加权运算与比值计算，存在)
+  [SM] fanout cap 4: parent N4 kept 4/18, dropped 7
+  [gap_check A] 7 dimensions: 候选硬件集的完备性界定：明确纳入比较的GPU架构、代际、显存 | 性能约束的量化验证：针对单流延迟<3s/token和上下文≥ | 精度选择的质量论证：分析不同权重精度（BF16/FP8/IN | 总拥有成本(TCO)的多维对比：涵盖单卡与多卡方案（如消费级 | 性价比排序的决定因素：定义用于最终排名的核心指标（如每有效t...
+  [SM] r1: +13 (total 19), gain=0.975, S_α'=15.4, ver=7/13, streak=0
+  [SM] fanout cap 4: parent N7 kept 4/14, dropped 5
+  [SM] edge-reclassify N15: cartesian→quotient (子维度通过计算动态功耗（FLOPs×能耗）与延迟约束的比值来定义能效比，体现了性能与功耗之间的权衡关)
+  [SM] edge-reclassify N16: cartesian→quotient (父节点是速率公式（数据量/带宽），子维度分别提供了公式中的分子（权重/KV大小）和分母（有效带宽）的)
+  [SM] edge-reclassify N18: cartesian→quotient (父节点是‘可接受性’的判断边界，子维度提供了具体的量化误差指标（如PPL增加、幻觉率、准确率下降）作)
+  [SM] fanout cap 4: parent N16 kept 4/14, dropped 5
+  [SM] edge-reclassify N19: cartesian→quotient (父节点 CPVT 明确定义为 TCO 与吞吐量、正常运行时间及质量因子的商，子维度通过除法运算组合成)
+  [SM] fanout cap 4: parent N19 kept 4/8, dropped 2
+  [gap_check A] 6 dimensions: 硬件候选集构建策略：基于架构、代际、显存容量及价格区间定义值 | 性能约束满足性验证：评估各候选方案在单流延迟低于3s/tok | 精度选择与质量损失论证：确定所选权重精度（BF16至W4）及 | 全生命周期成本（TCO）对比：量化单卡与多卡配置（含消费级与 | 数据溯源与不确定性标记机制：区分关键参数来源（实时查询vs记...
