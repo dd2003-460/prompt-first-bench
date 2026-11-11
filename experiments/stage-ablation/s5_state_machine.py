@@ -904,6 +904,30 @@ if __name__ == "__main__":
         elif v.startswith("--resume="):
             resume_from_early = v.split("=", 1)[1]
     qid = args[0] if args and args[0] in QUESTIONS else "gpu"
+    # T53 night-autonomy (2026-11-12): --qid 指定外部题的标识（落盘文件名用）
+    for k, v in enumerate(_raw):
+        if v == "--qid" and k + 1 < len(_raw):
+            qid = _raw[k+1]
+        elif v.startswith("--qid="):
+            qid = v.split("=", 1)[1]
+    # T53 night-autonomy (2026-11-12): 外部题加载 — DRB pilot。
+    # --question-file <path>: 从文件读题（DRB query.jsonl 的 prompt 字段或纯文本），qid 用 --qid 指定
+    question_file = None
+    for k, v in enumerate(_raw):
+        if v == "--question-file" and k + 1 < len(_raw):
+            question_file = _raw[k+1]
+        elif v.startswith("--question-file="):
+            question_file = v.split("=", 1)[1]
+    if question_file:
+        import json as _json_qf
+        raw_q = open(question_file).read().strip()
+        try:
+            q = _json_qf.loads(raw_q)["prompt"]
+        except Exception:
+            q = raw_q
+        print(f"[T53 SM] Loaded external question from {question_file} ({len(q)} chars)", flush=True)
+    else:
+        q = QUESTIONS[qid]
     no_verify = "--no-verify" in flags
     resume_from = resume_from_early
     if resume_from is None and "--resume" in flags:
