@@ -1,0 +1,74 @@
+# T53 夜间自治任务书（2026-11-12 · D 睡前指令）
+
+> origin: human (D 指令) + ai (执行细化)
+> 状态：r14 运行中（proc_9f36253dab6c, pid 69056），本文件是夜间自主推进的完整授权与边界。
+
+## 授权范围（D 原话拆解）
+
+1. **打赢开源 SOTA**（"虽然很可能是幻想"）— 继续调状态机，目标 ≥5 道 deepresearch 题上 judge 分 ≥ CellCog Max 对标基线（DRB 56.72 作为分数锚点）。
+2. **打赢之后**：继续实现 D 的其他 idea（IDEA-INDEX.md 里未 ✅ 的条目）。
+3. **调研纪律（硬约束）**：真的开始研究某个 idea 前必须滚雪球调研——注意最新进展和"可直接做的组"，避免撞车。落盘 lit-survey/ + IDEA-INDEX 更新完成度标记。
+4. **邮件准备**：调研完成后起草给相关领域教授组的通信邮件（只起草，不发送——外发留痕等 D 醒来确认）。
+
+## 硬约束（继承 tasks/T53-decomp-state-machine.md，此处只索引不重复）
+
+- **严禁泄漏**：状态机任何位置不得泄漏题目本身（T53 文件 §硬约束 + research/sm-leak-sop.md）
+- **general 原则**：prompt 规则必须是 meta-rule，不得写死某道题的统计量或域特定先验。判定用 structural test（可检验结构特征），不用经验比例。
+- **无 train/test 污染**：bench 题特征不得进入 prompt 规则（ICL-as-training，Decision 23）。
+- **过去版本可复现**：每次改 s5_state_machine.py 前 git commit；每轮 run 记录 rN + commit SHA；checkpoint JSON 保留全部历史版本不覆盖。
+- **目标函数公式**：U(T) = C·A·S − λ·cost(T)（机器侧验收，不进 prompt）；S_α' 只做过程监控（proxy cone），不进 prompt。
+
+## 当前状态（交接快照）
+
+| 项 | 值 |
+|---|---|
+| r14 | 运行中，commit d230a64d（structural test + 信息量语义），baseline = sm-gpu-r11-crash-303.json |
+| r13 教训 | 63/70 节点判 quotient = 例子诱导偏置 → 已修（cartesian 默认 + 运算结构才判 quotient） |
+| r14 观察点 | edge_types 应回到 cartesian 主导（quotient ≤20%）；节点数预期 100-150；contribution filter 首次生效（阈值 0.10） |
+| 本地 LLM | 127.0.0.1:8787 (qwen3.8-27b) |
+| 网络 | ego-browser 可用但慢（WEBLLM-SKIP 属降级非故障） |
+
+## 夜间工作序列（遇阻跳过做下一个，不停摆）
+
+### Phase 1: r14 监控与校准（~1h）
+1. 盯 proc_9f36253dab6c 跑完（预计 30-60min）。
+2. 提取 stats：节点数 / edge_types 分布 / contribution-filter 触发次数 / leaks / degraded 率。
+3. 判定：quotient >30% → 再修 prompt 跑 r15；节点 <80 且 verified <30% → 放宽 fanout cap；正常区间（quotient ≤20%, 节点 100-150）→ 进 Phase 2。
+4. 结果落盘 experiments/stage-ablation/r14-results.md（含 r12/r13 对比表）。
+
+### Phase 2: bench 泛化（打赢 SOTA 路径）
+1. 选 5 道 deepresearch 类题（HotpotQA hard / 2WikiMultihop / DRB 公开题集；多跳+事实检索混合，避开 GPU 域）。
+2. 每题跑状态机，记录节点数/轮数/核验率/答案质量。
+3. 评分口径：异族 judge（数字正确 0.5 + 对比/单位正确 0.5，n=3 median）。
+4. 对照：CellCog Max 56.72（overall）+ 子项（comprehensiveness 57.06 / insight 57.67 / instruction following 56.58 / readability 53.81）。
+5. 汇总 experiments/stage-ablation/s5-sm-bench-report.md。
+6. 打不赢 → 诊断弱项子项 → 回 Phase 1 修机制（不是加题）。
+
+### Phase 3: idea 逐个推进
+按 IDEA-INDEX.md 未完成条目产投比排序：
+1. 开工前滚雪球调研：arXiv 近 6 月 + GitHub 已有实现 + 谁在做做到哪了。
+2. 撞车 → 标 📦 吸收记差异，换下一个。
+3. 找"方法已发表但工程未落地"窗口（优势 = 本地 27b + hook 不改权重）。
+4. 产出落盘 lit-survey/，IDEA-INDEX 更新状态。
+
+### Phase 4: 教授通信邮件（Phase 3 后）
+1. 定目标教授组（领域匹配 + 近期活跃 + 合作意愿信号）。
+2. 起草邮件（介绍 autoresearch 方向 + 具体技术问题 + 合作切入点）。
+3. **只起草不发送**。存 个人/outbox-drafts/，APPROVALS.md 留痕，等 D 醒来审阅。
+
+## 唤醒与汇报
+
+- cron/heartbeat 周期唤醒（loop-station-keepalive 30min，需确认 enabled）。
+- 每次唤醒读此文件 → 看当前 Phase → 推进 → 更新「执行日志」。
+- 关键节点（r14 完成 / bench 出分 / 撞车 / 需 D 决策）QQ 汇报，其余静默。
+
+## 红线（夜间也有效）
+
+- 不发任何对外消息（邮件/社交/发布）——只起草。
+- 不动 AGENTS.md 非临时内容。不花钱。
+- 删工作区外文件前写 APPROVALS。
+- 拿不准的事 → 标 [待D醒] 跳过做别的。
+
+## 执行日志
+
+- 2026-11-12 ~02:00 任务书创建，r14 启动（proc_9f36253dab6c, commit d230a64d）。
