@@ -15,11 +15,29 @@
 | # | 子项 | 状态 | 缺口 |
 |---|------|------|------|
 | 1 | bench 选型 | ✅ DRB（备选 GAIA 450 题，答案型非报告型，不匹配 report 对比） | — |
-| 2 | 题目子集 | 待选 | 建议 n=10（5 zh + 5 en，覆盖 ≥4 领域）；全量 100 题成本另算 |
+| 2 | 题目子集 | ✅ n=10 调研型子集（见下节） | — |
 | 3 | SOTA 臂执行 | claude -p 通道已通 | 单题耗时/成本未测；需确认 claude 的 web 搜索在 -p 模式可用 |
 | 4 | 我方臂执行 | gptr_bench_run.py 已有（自造 5 题版） | 需改接 query.jsonl 的 prompt 字段；输出格式对齐 raw_data/<model>.jsonl |
 | 5 | judge | DRB 默认 GPT-5.5/GPT-5.4-mini via OpenRouter | **本机无 OPENROUTER_API_KEY / OPENAI_API_KEY** → 需成璐提供 key，或降级用 qwen2.5-7b@1234 当 judge（半异族，下界估计） |
 | 6 | 输出对齐 | — | DRB raw_data 格式：{"id","prompt","article"} jsonl；claude 输出需截断清洗（clean_article.py） |
+
+## 题目子集（2026-11-12 成璐校准："调研类型但不用到研究级别"）
+**n=10，从 DRB 100 题里筛"调研型"中等难度题**（收集整理/横向对比/现状梳理类动词优先，避开推导/证明/机制设计类研究题）：
+
+| id | lang | topic | prompt 摘要 |
+|----|------|-------|------------|
+| 1 | zh | Finance & Business | 中国9阶层实际收入和财务状况、中产特点与人数 |
+| 2 | zh | Finance & Business | 国际综合实力前十保险公司横向比较 |
+| 16 | zh | Software Development | 非接触式感知领域做得最好的算法策略，输入信号与准确率 |
+| 41 | zh | Entertainment | 中国电影票房前十资料收集+横向比较 |
+| 50 | zh | Social Life | 孩子身心健康成长资料整理（学习/生活/兴趣安排） |
+| 52 | en | Finance & Business | Duan Yongping / Buffett / Munger 投资哲学对比 |
+| 57 | en | Finance & Business | 全球 AI 相关投资、关键举措与产出综述 |
+| 62 | en | Science & Technology | 离子阱量子计算从小规模扩展的最有效方法 |
+| 67 | en | Software Development | RL 让 agent 探索的近期研究进展综述 |
+| 78 | en | Health | 帕金森病的潜在健康预警信号 |
+
+筛选方法：prompt 含调研类动词（收集整理/对比/overview/survey/summarize）加分、研究类动词（推导/证明/机制/模型构建）减分，取排序头部；中英各 5。全量 100 题跑法保留为后续选项（成本另算）。
 
 ## 成本估算（粗）
 - claude -p 单题 deep research：预计 3-10 分钟、$0.5-3（取决于 web 检索轮数）。n=10 ≈ $5-30。
