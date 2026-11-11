@@ -53,4 +53,5 @@
 - `experiments/stage-ablation/s5_state_machine.py` — #30-33 的代码落点（S_alpha_corrected, redundancy_score）
 
 | #35 | 终点锚定 prompt：公式降级为机器侧监控（Decision 16） | ⚠️落地中(P1/P1H 已改✅/新代码首轮验证🔸待 r9 后 resume) 
-| #36 | 终点目标函数形式化 U(T)=C·A·S−λ·cost（Decision 18）：覆盖×准确×具体 乘积 − 代价；不进 prompt，做机器侧终极验收；gold 维度集 G9 + λ 标定 G10 待设计 | ⚠️设计完成待落地(依赖 r10 完整树+答案生成管线) ||
+| #36 | 终点目标函数形式化 U(T)=C·A·S−λ·cost（Decision 18）：覆盖×准确×具体 乘积 − 代价；不进 prompt，做机器侧终极验收；gold 维度集 G9 + λ 标定 G10 待设计 | ⚠️设计完成待落地(依赖 r10 完整树+答案生成管线) |
+| #37 | 模型自估计终点目标函数：L1 轮先形式化（可测要素+组合方式）再导出维度；objective 落盘不进后续 prompt，做 G9 gold 初稿 + 机器侧对照（Decision 19） | ⚠️已落地(代码✅/旧ckpt兼容✅/首次生效🔸待新树) ||
