@@ -72,3 +72,4 @@
 ## 执行日志
 
 - 2026-11-12 ~02:00 任务书创建，r14 启动（proc_9f36253dab6c, commit d230a64d）。- 2026-11-12 ~04:05 D 指令升级：① 迭代优化循环授权（不止 r14，确认有优化空间就继续改/跑）；② DRB 感觉差不多时直接跑（HF muset-ai/DeepResearch-Bench-Dataset + 官方 judge 口径对齐 56.72，先 2-3 题试水再扩 5 题）；③ gold 答案降级为回归测试集（保留，不进主验收），主验收 = DRB 公开题。bus L2 已通知 teamer。
+- 2026-11-12 ~03:40 Lead 唤醒：r14 已于 02:44 DONE（137 records/40 unique，quotient 12.4%✅，leaks=0，degraded 56.9%⚠️，contribution-filter 零触发❌）。CC 期间已完成 C1/C2/C3（校准分析 + DDG 取证 + id 撞号 fix @7cf91694），卡在内存；现 free RAM ~40GB 已释放。Lead 落盘 experiments/stage-ablation/r14-results.md（含 r11/r13/r14 对比表 + Phase 1 判定：不进 r15，进 Phase 2 DRB pilot）。下一步等 CC 启动 drb-1（新 qid 顺带验证 id fix）→ 组装器 → 四维判分。
