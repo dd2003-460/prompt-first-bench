@@ -7,6 +7,16 @@
 
 **版本线是连续的（成璐 2026-11-11 纠正）**：v17 → T53 不是"换名重启"，是同一条实验改进路线上的下一版。T53 = 这条线的当前版本，继承 v17 的问题设定（层级分解 arm）、诊断结论（Goodhart 刷分）和 bench 题集；版本号不另起 v18/v19/v20，而是用 T53 任务 ID + 本文件 rN 迭代轮定位具体改动。若未来需要大版本锚点（如架构级重写），在本文件加一行 "vN = rX+rY 合并发布" 即可，不新建编号体系。
 
+## 2026-11-11 r6 — pass_rate 计算 bug 修复（r5 smoke 暴露）
+
+**症状**：smoke test v5（pid 88778）r2 产出 0 新节点、dropped_redundant=142，streak 只到 1 就靠 `not deduped` 分支停掉——但按设计意图，r2 的 pass_rate = 0/142 ≈ 0 < 0.3，应该走"低通过率"路径而非"空产出"路径。两条路都停，表面结果一样，但日志语义错了（会误判为"模型没生成候选"而不是"生成了 142 个全被 necessary 砍掉"）。
+
+**根因**：`n_candidates = len(deduped) + self.dropped_redundant - self._prev_dropped` 这行里 `dropped_redundant` 是跨轮累计计数器（line 289 初始化 0，每轮只增不减），r1 结束时已累计 0（r1 无冗余），r2 结束时累计 142。公式本身算增量是对的（142-0=142），但 `self._prev_dropped` 在 r1 从未被赋值过（hasattr 保护返回 0），碰巧没错——真正的坑是如果 r1 有冗余（比如 30 个），r2 的 n_candidates = 0 + (30+142) - 30 = 142 ✓ 也对。实际错误更隐蔽：当 `deduped` 非空且 pass_rate ≥ 0.3 时 streak 清零，但当 deduped 为空时走 `elif not deduped: streak += 1`——这个分支绕过了 pass_rate 判断，导致"空产出"和"高冗余"两种不同病态共用同一个 streak 计数，无法区分。
+
+**修法**：把增量计算显式化（`n_new_dropped = dropped_redundant - _prev_dropped`），消除 hasattr 隐式默认值；保留双分支但让空产出分支也记录 pass_rate=0 进 rounds_log（已有 n_new=0 字段，足够区分）。
+
+**验证**：py_compile OK。重跑 smoke 需等当前 bench 链路确认（不在实验中间改行为）。
+
 ---
 
 ## 2026-11-11 r1 — S_α recall 型 → F_β 型（necessary 过滤接入）
