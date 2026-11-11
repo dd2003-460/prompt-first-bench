@@ -530,9 +530,10 @@ class DecompStateMachine:
                     kids = self._decompose_layer(batch)
                     new_nodes.extend(kids)
                 except LeakError as e:
-                    print(f"  [SM] LEAK in decompose r{rnd}: {e}", flush=True)
-                    # 记录但不中止整轮——跳过该 batch
-                    continue
+                    # AC2 零容忍：任何产出回显题目 = 验收 fail，整轮中止。
+                    # 不跳过继续跑——那只是把失败推迟到 bench 阶段才暴露。
+                    print(f"  [SM] LEAK in decompose r{rnd}: {e} — ABORT (AC2 zero-tolerance)", flush=True)
+                    raise
 
             # gap_check 补充（需要 id 字段）
             if new_nodes:
