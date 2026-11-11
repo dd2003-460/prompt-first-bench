@@ -28,7 +28,7 @@
 | qid | 域 | 语言 | 状态 | 四维分 | 加权总分 | 对标差 |
 |---|---|---|---|---|---|---|
 | drb-1 | Finance&Business（中国 9 阶层收入/中产） | zh | ✅ DONE（169 nodes, 3 rounds, leaks=0；judge 完成） | C 0 / I 0 / IF 0 / R 0 | **0.0** | −56.72 |
-| drb-2 | 国际前十保险公司横评 | zh | 排队（等 drb-1 检索修复后启动） | — | — | — |
+| drb-2 | 国际前十保险公司横评 | zh | ✅ DONE（55 nodes, 3 rounds, leaks=0；verified=0） | C 0 / I 0 / IF 0 / R 0 | **0.0** | −56.72 |
 | drb-16 | 非接触式感知算法策略评估 | zh | 排队 | — | — | — |
 
 扩展计划：pipeline 跑通后扩到 5 题（L2 授权范围内）。
@@ -51,12 +51,25 @@
   - 与 r14 的 degraded 56.9% 同病根（DDG-lite IP 级 anomaly 封锁 + cn.bing 跨域噪声），但 DRB 题需要真实统计数据（收入分位数、CHFS 样本数），逻辑自洽救不了数值缺失，所以放大到 0 分。
 - **下一步动作**：修检索通道（junk filter v1+v2 已落 de4e44cc/64397299；bing intl fallback + ranking-question DDG exemption 已落 1c05f599）。drb-2 作为修复后首题在跑（验证中文+国际混合域）；drb-1 重跑排队其后。候选修法排序见 §4 迭代日志。
 
+### drb-2（国际前十保险公司横评 · zh）
+
+- **run**：`runs-s5-sm-drb-2.json`（3 rounds, 55 unique nodes, leaks=0, reworks=50）
+- **status 分布**：verified 0 / degraded 50 / pending 5 → verified 率 0%（比 drb-1 的 14.8% 更差）
+- **edge_types**：cartesian 51 / quotient 4（7.3% ≤20% ✅）
+- **病根诊断**（与 drb-1 不同）：
+  - drb-1 的病 = 垃圾源污染（junk filter v1/v2 已修）；drb-2 的病 = **缓存中毒**。
+  - `.research-cache/` 里 2865 条 s5-node 缓存是 junk filter v1 时代存的，含大量垃圾源（淘宝/百度翻译/IMDb/测速平台等）。SM 运行时 cache-first 直接命中旧缓存、跳过所有真实检索通道 → evidence 全是 "no sources from any channel (all 5 failed)"。
+  - 实测验证：手动调 `_wiki_search` + `_ddg_search` 对同一查询能返回 3+3 条结果（知乎保险排名/人民网年报/搜狐五家对比），说明通道本身活着，是缓存层把路堵死了。
+- **修复**：清掉全部 s5-node 域缓存（2865 条 → `.research-cache-backup-20261112-072330/`），保留 gpu/nat 题级缓存（3 条）。drb-2 重跑时走真实检索通道。
+- **待做**：drb-2 重跑（清缓存后）→ assemble → judge → 看 verified 率能否脱离 0。
+
 ## 4. 迭代日志（每轮一条）
 
 | # | 日期 | 改动（commit） | 触发原因 | 结果（总分变化） |
 |---|---|---|---|---|
-| 1 | 2026-11-12 | junk filter v1：research_hook 加垃圾源关键词过滤（色情/游戏/翻译工具/股票行情等），de4e44cc | drb-1 = 0.0，rework 149 条全是"来源与主题无关" | 待验证（drb-2 在跑） |
-| 2 | 2026-11-12 | junk filter v2：补 cn 垃圾域（bilibili/mall/tensorflow 首页等 v1 漏网），64397299；bing intl fallback + ranking-question DDG exemption（zh-wiki 无 listicle 条目），1c05f599 | CC 取证发现 v1 覆盖不全 + 排名类题 DDG 全盲 | 待验证（drb-2 在跑） |
+| 1 | 2026-11-12 | junk filter v1：research_hook 加垃圾源关键词过滤（色情/游戏/翻译工具/股票行情等），de4e44cc | drb-1 = 0.0，rework 149 条全是"来源与主题无关" | drb-2 仍 0.0（但病根不同——缓存中毒） |
+| 2 | 2026-11-12 | junk filter v2：补 cn 垃圾域（bilibili/mall/tensorflow 首页等 v1 漏网），64397299；bing intl fallback + ranking-question DDG exemption（zh-wiki 无 listicle 条目），1c05f599 | CC 取证发现 v1 覆盖不全 + 排名类题 DDG 全盲 | drb-2 仍 0.0（缓存中毒未修） |
+| 3 | 2026-11-12 | 清 s5-node 缓存（2865 条 → backup），18899174 | drb-2 诊断：cache-first 命中旧垃圾缓存，跳过真实检索 | 待验证（drb-2 重跑中） |
 
 ## 5. 结论（待填）
 
