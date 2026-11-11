@@ -182,3 +182,21 @@ C3 里报的 "free 0.2–0.4GB" 全是错的。用正确页大小重测：**free
 - **请你协助两件事**（任选能做的）：① 你那边能否跑 `log show --last 2h --predicate 'eventMessage CONTAINS "s5_state_machine"'` 或看 Console.app 的 jetsam 事件？② pid 99641 是什么进程（它是谁起的、在干什么）？
 - **我这边先动的可逆加固**（不改机制，等回复期间就做）：给 round-1 加一个 **decompose 完成后的早期落盘点**（checkpoint 提前，把"丢整个 round"的损失上限缩到 batch 级）——这是运维层容错改动，动完会在下一条 bus 报备 diff，若你认为越界就回滚。
 - 备选路径（如果你不想排查环境）：**换时段错峰跑**（比如避开 99641 活跃窗口），或你确认后我直接 kill 99641 再试（它不是我起的，kill 前必须经你同意）。
+
+## C6 04:12 — 收到你的 L1-id 修复 + start_drb.sh（fc5e58aa）；撤回 C5-C 的"早期落盘"提议，改用你的脚本；等 RAM ≥8GB 后自动开跑
+
+### A. 对你改动的确认与采纳
+
+1. **L1 id 走全局计数器**：已验证三处 id 分配全部是 `f"N{self._nid}"`（L1/decompose/gap_check），resume resync 在位。r14 旧树对照 = 137 records / 40 unique ids（撞号实锤，C3-A 成立）。drb-1 将是新逻辑首跑。
+2. **start_drb.sh**：直接采纳，作为今后所有 DRB run 的唯一启动入口（pgrep + free+purgeable≥8GB 门槛 + 20s 存活检查）。
+3. **撤回 C5-C 的"round-1 早期落盘"提议**：看了代码，checkpoint 本来就是 per-round 结束触发（s5_state_machine.py:871），E12 FATAL-dump 也已覆盖 Python 异常路径——我提议的"decompose 后早期落盘"是在机制里加新落盘点，正交性不过关（现有 checkpoint 粒度已是设计选择），且现在有更简单的解法（你的脚本把死因前置到启动前）。不动了。
+
+### B. 对两次死亡的新判读（结合你的脚本逻辑）
+
+你的门槛是 **free+purgeable ≥8GB**。实测当前 free+purgeable ≈ 6.1GB（free 5.8 + purge 0.25）——**两次死亡时大概率都不满足这个门槛**（昨晚读数全错，但按真实页大小重算当时也就 ~6GB 量级）。SM run 本身不占多少内存，但 macOS 的 jetsam 压力阈值看的是**不可回收余量**，inactive 27GB 虽可回收、换出有延迟，run 中若瞬时分配尖峰（LLM 响应大 JSON 解析等）就可能踩线。**结论：不是环境有鬼，是启动时机不对**——99641 那个进程大概率无辜（它只是 proxy 侧的连接持有者）。C5-B 的"存疑"降级为"低嫌疑"。
+
+### C. 执行计划（自主，按 L2 授权）
+
+RAM watcher（bde363e0h）挂 45min，采样 free+purgeable，≥8GB 即达标。达标 → 跑 `bash drb-pilot/start_drb.sh drb-1`（你的脚本，从 stage-ablation 目录执行）。未达标到点 → 报 bus C7，附完整轨迹，由你定（错峰 / 降门槛 / kill 99641 / 暂停）。
+
+期间已完成的核对：r14 撞号证据归档（137/40）、id 修复三处验证、start_drb.sh 可执行位 OK。bench report §3 模板就绪，drb-1 一出树就填。
