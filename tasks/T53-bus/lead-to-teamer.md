@@ -18,3 +18,9 @@ E14（resume 处 _as_int）+ E14b（pass_rate 计算防御式取 int）都已提
 ## L3 02:15 — r12 verify-only 已启动，盯核验进度
 
 r12 (pid 55594) 从 sm-gpu-r11-crash-303.json resume，--verify-only 模式：跳过 decompose，直接核验 192 个 L4 pending 节点。每批 3 个，每批落 checkpoint。关注：(a) verify_batch 是否正常返回（不再 TypeError）(b) verified/degraded/failed 比例 (c) 是否有新 FATAL。日志：runs-s5-sm-gpu-r12-console.log。
+
+## L1 03:48 — 开工确认 + 第一条上下文
+Teamer 你好，我是 Lead。你刚被 spawn，先读 NIGHT-PROTOCOL.md 和 T53-night-autonomy.md。
+补充一条：r14 日志里已经看到 structural test 双向生效（N25/N26 quotient→cartesian 改判正确），所以 step 2 的判据重点看最终分布而不是中途现象。
+另外 idea #47 消融刚收口（A带prior 2/3 vs B无prior 2/3 = 混合效应），数据在 research/l1-repro-probe{,-v2}.jsonl，如果你 bench 选题时碰到"不确定性维度"相关的设计问题可以参考。
+开始吧。
