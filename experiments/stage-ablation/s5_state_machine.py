@@ -140,33 +140,47 @@ def marginal_gain(new_claims: list[str], existing_claims: list[str]) -> float:
     return 1.0 - total_max_sim / len(new_claims)
 
 
-def judge_necessary(claim: str, parent_claims: list[str], confirmed: list[tuple],
-                     cfg: "ObjectiveConfig") -> bool:
-    """J_precision 的 necessary(n): 该节点是否引入父 claim/已确认事实中不存在的新变量、
-    新约束或新可检索事实。用 LLM 做二元裁决（T-PR-15 建议 1，依据 2610.33512）。
-    失败时保守返回 False（宁可少拆不多拆——v17 的病就是多拆）。"""
+def judge_necessary_batch(candidates: list[tuple[str, list[str]]],
+                          confirmed: list[tuple], cfg: "ObjectiveConfig") -> list[bool]:
+    """批量 necessary-judge：一次 LLM 调用判定多个候选节点。
+    candidates: [(claim, parent_claims), ...]
+    返回与 candidates 等长的 bool 列表。失败时全部返回 False。"""
     from ablation_harness import call_llm
-    parents_block = "\n".join(f"- {c}" for c in parent_claims[-10:]) or "（无）"
+    if not candidates:
+        return []
     confirmed_block = "\n".join(f"- {i}: {c}" for i, c, _s in confirmed[-30:]) or "（暂无）"
+    items_block = ""
+    for idx, (claim, par_claims) in enumerate(candidates):
+        par = "\n".join(f"    - {c}" for c in par_claims[-5:]) or "    （无）"
+        items_block += f"[{idx}] claim: {claim}\n    父节点:\n{par}\n\n"
     prompt = (
-        "你是严格的审稿人。判断下面这个研究子问题相对于【已知】是否引入了新信息。\n"
+        "你是严格的审稿人。对下面每个编号的研究子问题，判断它相对于【已知】是否引入了新信息。\n"
         "【新信息的定义】满足至少一条：(a) 出现已知里不存在的物理量/参数/型号/数字；"
         "(b) 新增一个约束或口径（如新的精度/延迟/温度条件）；(c) 是一个新的可独立检索的事实断言。\n"
         "如果只是换措辞复述、把已知结论换个说法、或纯定性描述 → 不是新信息。\n\n"
-        f"【父节点 claim】\n{parents_block}\n\n"
         f"【已确认事实】\n{confirmed_block}\n\n"
-        f"【待判定节点】{claim}\n\n"
-        "只输出 JSON：{{\"necessary\": true/false, \"reason\": \"一句话\"}}"
+        f"【待判定节点列表】\n{items_block}\n"
+        "对每个编号输出 JSON 数组，格式：[{\"idx\": 0, \"necessary\": true/false}, ...]\n"
+        "只输出 JSON 数组，不要其他文字。"
     )
     try:
-        out, _ = call_llm(prompt, max_tokens=cfg.necessary_judge_max_tokens, temperature=0.0)
-        m = re.search(r'"necessary"\s*:\s*(true|false)', out or "", re.I)
-        if m:
-            return m.group(1).lower() == "true"
-        return False
+        out, _ = call_llm(prompt, max_tokens=cfg.necessary_judge_max_tokens * len(candidates) // 2 + 200, temperature=0.0)
+        results = [False] * len(candidates)
+        for m in re.finditer(r'\{\s*"idx"\s*:\s*(\d+)\s*,\s*"necessary"\s*:\s*(true|false)', out or "", re.I):
+            idx = int(m.group(1))
+            if 0 <= idx < len(candidates):
+                results[idx] = m.group(2).lower() == "true"
+        return results
     except Exception as e:
-        print(f"  [SM] necessary-judge error: {e}", flush=True)
-        return False
+        print(f"  [SM] necessary-judge-batch error: {e}", flush=True)
+        return [False] * len(candidates)
+
+
+def judge_necessary(claim: str, parent_claims: list[str], confirmed: list[tuple],
+                     cfg: "ObjectiveConfig") -> bool:
+    """单节点版（兼容保留）。"""
+    r = judge_necessary_batch([(claim, parent_claims)], confirmed, cfg)
+    return r[0] if r else False
 
 
 def redundancy_score(nodes: list[dict]) -> float:
@@ -411,6 +425,24 @@ class DecompStateMachine:
                     node.evidence = f"[rework-{node.rework_count}] {evidence}"
                     node.corrected_claim = corrected or node.claim
 
+    def _save_checkpoint(self, rnd: int):
+        """每轮结束把当前树状态落盘。resume 时读回继续。"""
+        import os
+        ckpt_dir = "checkpoints"
+        os.makedirs(ckpt_dir, exist_ok=True)
+        path = os.path.join(ckpt_dir, f"sm-{self.qid}-r{rnd}.json")
+        with open(path, "w") as f:
+            json.dump({
+                "qid": self.qid,
+                "question": self.question,
+                "round": rnd,
+                "state": self.state.value,
+                "dropped_redundant": self.dropped_redundant,
+                "leak_hits_total": self.leak_hits_total,
+                "rework_events": self.rework_events,
+                "nodes": [vars(n) for n in self.nodes],
+            }, f, ensure_ascii=False, indent=2)
+
     def run(self) -> SMResult:
         """主循环。"""
         self.state = State.DECOMPOSE
@@ -469,14 +501,18 @@ class DecompStateMachine:
                 if not is_dup:
                     deduped.append(nn)
 
-            # ── J_precision: necessary 过滤（T-PR-15 修法核心）──
+            # ── J_precision: necessary 过滤（T-PR-15 修法核心，批量版）──
             # 每个候选节点必须通过"引入新变量/新约束/新可检索事实"裁决才进树。
             # 这是 recall 型 S_α 的 precision 项：不通过 = 同义变体，直接丢弃。
-            necessary_nodes = []
             id2claim = {n.id: n.claim for n in self.nodes}  # parent_ids 是 "N5" 形式，直接查表
+            cand_list = []
             for nn in deduped:
                 par_claims = [id2claim[pid] for pid in nn.parent_ids if pid in id2claim]
-                if judge_necessary(nn.claim, par_claims, self.confirmed, self.cfg):
+                cand_list.append((nn.claim, par_claims))
+            verdicts = judge_necessary_batch(cand_list, self.confirmed, self.cfg)
+            necessary_nodes = []
+            for nn, v in zip(deduped, verdicts):
+                if v:
                     necessary_nodes.append(nn)
                 else:
                     self.dropped_redundant += 1
@@ -535,6 +571,9 @@ class DecompStateMachine:
                   f"ver={sum(1 for n in deduped if n.status=='verified')}/{len(deduped)}, "
                   f"streak={low_gain_streak}", flush=True)
 
+            # ── CHECKPOINT: 每轮结束落盘，进程死了能 resume（E6 可靠性修复）──
+            self._save_checkpoint(rnd)
+
             # ── J_stop: 全局收敛（判据由 cfg.stop_criterion 选）──
             if self._no_ness_streak >= self.cfg.stop_rounds:
                 self.state = State.STOP
@@ -562,11 +601,28 @@ class DecompStateMachine:
 if __name__ == "__main__":
     import sys
     from s5_pipeline import QUESTIONS
-    qid = sys.argv[1] if len(sys.argv) > 1 else "gpu"
-    no_verify = "--no-verify" in sys.argv
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    flags = [a for a in sys.argv[1:] if a.startswith("--")]
+    qid = args[0] if args and args[0] in QUESTIONS else "gpu"
+    no_verify = "--no-verify" in flags
+    resume_from = None
+    if "--resume" in flags:
+        i = flags.index("--resume")
+        if i + 1 < len(flags):
+            resume_from = flags[i+1]
     q = QUESTIONS[qid]
     print(f"[T53 SM] Running on '{qid}': {q[:60]}...", flush=True)
     sm = DecompStateMachine(q, qid=qid)
+    if resume_from:
+        import json as _json
+        ck = _json.load(open(resume_from))
+        from s5_state_machine import NodeRecord
+        for nd in ck["nodes"]:
+            sm.nodes.append(NodeRecord(**nd))
+        sm.dropped_redundant = ck.get("dropped_redundant", 0)
+        sm.leak_hits_total = ck.get("leak_hits_total", 0)
+        sm.rework_events = ck.get("rework_events", [])
+        print(f"[SM] resumed from {resume_from}: {len(sm.nodes)} nodes @ r{ck['round']}", flush=True)
     if no_verify:
         # Monkey-patch: 跳过联网检索，但所有节点仍过 LLM 核验（AC3 需要真实 evidence）
         from s5_pipeline import search_node as _sn

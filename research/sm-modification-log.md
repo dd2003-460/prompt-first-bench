@@ -36,3 +36,17 @@
 ## 2026-11-11 r1b — parent_ids 索引 bug 修复
 
 r1 里 `par_claims` 用 `int(id.lstrip("N"))-1` 当列表下标取父节点 claim——id "N81" 会取到第 80 个节点而不是 id 为 N81 的节点，necessary 判定的参照系是错的。改成 `{n.id: n.claim}` 查表。单独测了 judge_necessary：新变量节点 True / 同义变体 False，裁决方向正确（各 ~1.5s/次）。
+
+
+## 2026-11-11 r3 — 可靠性三件套（E6 静默死修复）
+
+**背景**：r2 smoke 再次静默死在 L1 之后（log 停在 `[SM] L1: 25 nodes`，无 Traceback 无 EXIT）。单发/连发 verify_node 前台全过、8787 proxy 活着——说明不是某条 claim 触发异常，是后台长进程 + LLM 调用组合下的环境性死亡。这正是成璐点名的"微信会断，状态机要可靠"。
+
+**改了什么**（commit 见下）：
+1. **每轮 checkpoint 落盘**：`run()` 每轮结束写 `checkpoints/sm-{qid}-r{rnd}.json`（完整节点树 + 计数器）。死了不丢已完成的轮次。
+2. **`--resume <ckpt>`**：CLI 支持从 checkpoint 加载继续跑，NodeRecord 反序列化已验证（假 ckpt 测试通过）。
+3. **call_llm retries 1→2**：proxy 抖动多扛一次（timeout 本来就是 600s，不动）。
+
+**没改的**：启动方式仍建议走 `scripts/launch.sh`（tee + EXIT code），这样即使再死，log 最后一行有 exit code，不再是 4 行无头尸体。
+
+**待验证**：用 launch.sh 起 r2 重跑（proc_0df18a438c91 还在前台复现 _verify_batch 25 节点，结果出来对照）。若 launch.sh 下仍静默死且 EXIT≠0 → 死因可定位；若 EXIT=0 但 log 截断 → 是日志层问题不是进程问题。

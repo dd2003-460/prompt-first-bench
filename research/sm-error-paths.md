@@ -30,3 +30,10 @@
 - **症状**：log 停在某轮中间，无 DONE 行；PID 不存在。
 - **根因**：macOS 睡眠断网最常见；其次是 8787 proxy 重启。
 - **处理**：runs-s5-sm-*.json 只在 run() 返回时落盘，中途死 = 无产物，直接重跑（状态机无持久 checkpoint，单题 ~30-60min 可接受）。若频繁发生，改用 scripts/launch.sh 包一层 tee + EXIT code（已有工具，commit af0994cd）。
+
+
+## E6 — verify_node 无异常路径但进程仍静默死（2026-11-11 r2 smoke 实测）
+- **症状**：`runs-s5-sm-gpu-fbeta-r2.log` 停在 `[SM] L1: 25 nodes`，无 DONE 无 Traceback，PID 消失；直接重放 `_verify_batch(25节点)` 前台跑却正常。
+- **根因**：未定——单发/连发 5 次 verify_node 全过（各 ~1.7s），说明不是 proxy 拒绝某条特定 claim；怀疑是后台进程 + 长 LLM 调用组合下的环境因素（macOS 睡眠断网 / 终端会话回收）。r1 smoke 也是同样模式死于 L1 之后。
+- **处理**：这正是要修的可靠性问题本身。方向：① run() 每轮结束落盘 checkpoint（nodes JSON），死了能 resume；② 启动统一走 `scripts/launch.sh`（tee + EXIT code），至少死因可见；③ 关键 LLM 调用加 timeout + 单次重试。先复现：用 launch.sh 起 r2 重跑，看是否再次静默死、EXIT code 是什么。
+- **状态**：[待核验] 复现中。
