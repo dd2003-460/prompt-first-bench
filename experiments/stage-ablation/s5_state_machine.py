@@ -109,7 +109,7 @@ class ObjectiveConfig:
     max_nodes: int = 150              # 硬顶（安全阀；v17 是无限→1930）
     max_depth: int = 4                # 最大层级深度（3-4 层 × 6-10 节点 ≈ 几十~百级）
     max_kids_per_parent: int = 8      # 单父节点子节点上限（正交维度数；2026-11-11 D 指出 18-21 是扁平化，正常应 ~6×6×6）
-    redundancy_penalty_beta: float = 0.3
+    redundancy_penalty_beta: float = 3.0   # 2026-11-11 标定：full-pair mean Jaccard≈0.015 @n=117，β=3 使罚项≈5（structural 的 5%）；旧值 0.3 罚项仅 0.5，形同虚设
     # ── T-PR-15 修法（2610.33512 F_β 证据）：recall 型 S_α → recall×precision 型 ──
     fbeta_beta: float = 0.5          # β<1 偏向 precision（防同义变体刷分）
     necessary_judge_max_tokens: int = 600
@@ -210,7 +210,10 @@ def redundancy_score(nodes: list[dict]) -> float:
                     pairs.append((group[i]["claim"], group[j]["claim"]))
     if not pairs:
         return 0.0
-    sims = [_ngram_overlap(a, b) for a, b in pairs[:200]]  # cap 200 对
+    # 2026-11-11 D 指示：冗余项要全量算，不截断。cap 200 在 n~120 时只覆盖 ~4% 的 pair，
+    # 罚项被稀释到 ≈0（实测 penalty 0.51 vs structural 97），等于没罚。
+    # 复杂度控制靠上面的采样策略（同层 >20 抽 20），不再砍 pair 数本身。
+    sims = [_ngram_overlap(a, b) for a, b in pairs]
     return sum(sims) / len(sims)
 
 
