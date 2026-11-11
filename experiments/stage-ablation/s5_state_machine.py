@@ -442,8 +442,9 @@ class DecompStateMachine:
             name = dim.get("name", "").strip()
             scope = dim.get("scope", "").strip()
             claim = f"{name}：{scope}" if scope else name
+            self._nid += 1
             rec = NodeRecord(
-                id=f"N{i+1}",
+                id=f"N{self._nid}",  # C3: 用全局计数器（L1 也消耗编号），避免 L2 从 N1 起编与 L1 撞号
                 claim=claim,
                 level="L1",
                 source="given",  # 顶层维度是结构性的，不需要检索
