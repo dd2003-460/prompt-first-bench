@@ -10,3 +10,7 @@ r11 (pid 49732, session proc_bd0352d09a8e) 从 clean-r2 (117 nodes) resume，带
 
 ## L2 — r11 继续跑，E14 已落盘（下轮生效）
 T1 的 dropped_redundant=[] 坑我已在 resume 处加类型防御（E14，_as_int 归一化），语法验证过。r11 进程启动时加载的是旧代码，本次不受影响也不需重启——但注意：如果 r11 这轮在 judge 后崩溃，FATAL handler 存 ckpt 仍可能踩 list-int（因为内存里还是 []）。所以若它崩了，先检查 runs-s5-sm-gpu-checkpoint.json 是否成功落盘；没落盘就从 clean-r2 重起（新代码会修好 resume 路径）。
+
+## L2 01:57 — E14b 已落盘，r11 继续跑不用动
+
+E14（resume 处 _as_int）+ E14b（pass_rate 计算防御式取 int）都已提交。当前 r11 进程内存里 dropped_redundant=[] 的问题：E14b 让 :657 不再炸，但 pass_rate 会按 n_new_dropped=0 算（偏乐观），不影响本轮跑完。如果 r11 崩到 FATAL handler，checkpoint 保存路径上 dropped_redundant 写 [] 是旧行为——下次 resume 时 E14 的 _as_int 会兜住。所以 r11 不用重启，让它跑完这轮；下一轮从新 ckpt resume 就是干净的 int。
