@@ -725,13 +725,18 @@ def research_hook(qid, question, max_results=8, enable_local=True):
     # Junk filter (2026-11-12): drb-1 诊断——DDG/cn.bing 对中文 DRB 题返回大量无关源
     # （色情视频/英雄联盟/原神/翻译工具/股票行情），75% 节点 degraded 全因于此。
     # 这些源的 title/snippet 与查询主题零相关，喂给 verify 只会触发 rework。
+    # v2 (drb-1 r1 复盘): v1 只覆盖英文+部分中文模式，实测漏网（哔哩哔哩/TensorFlow 主页/
+    # 商城平台仍进 evidence）。补中文垃圾域模式；宁可多杀——verify 对"无可用外部证据"
+    # 会降级，但错误来源比空来源更毒（诱导 rework 循环）。
     _JUNK_PATTERNS = re.compile(
         r'色情|成人|av\b|porn|sex\b|xxx|裸体|情色|'
-        r'英雄联盟|lol\b|原神|genshin|崩坏|星穹铁道|王者荣耀|'
-        r'翻译工具|在线翻译|有道翻译|百度翻译|deepl|'
-        r'股票行情|实时股价|个股分析|基金净值|期货行情|'
-        r'下载中心|软件破解|免费资源|网盘分享|百度云盘|'
-        r'短视频|抖音|快手|tiktok|直播|',
+        r'英雄联盟|lol\b|原神|genshin|崩坏|星穹铁道|王者荣耀|我的世界|和平精英|'
+        r'翻译工具|在线翻译|有道翻译|百度翻译|deepl|google\s*translate|'
+        r'股票行情|实时股价|个股分析|基金净值|期货行情|大盘|涨停|'
+        r'下载中心|软件破解|免费资源|网盘分享|百度云盘|迅雷|'
+        r'短视频|抖音|快手|tiktok|直播|哔哩哔哩|bilibili|b站|腾讯视频|爱奇艺|优酷|'
+        r'商城|淘宝|天猫|京东|拼多多|苏宁易购|当当|'
+        r'tensorflow|pytorch|kubernetes|docker|linux\s*教程|编程入门|python教程|',
         re.I
     )
     before = len(sources)
