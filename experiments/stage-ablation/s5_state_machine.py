@@ -754,8 +754,12 @@ if __name__ == "__main__":
         from s5_state_machine import NodeRecord
         for nd in ck["nodes"]:
             sm.nodes.append(NodeRecord(**nd))
-        sm.dropped_redundant = ck.get("dropped_redundant", 0)
-        sm.leak_hits_total = ck.get("leak_hits_total", 0)
+        # E14 (Decision 21): ckpt 字段类型防御 — clean-r2 里 dropped_redundant 存成了 []，
+        # 照搬会让后续 list-int 运算炸 TypeError（连锁崩溃），统一归一为 int
+        def _as_int(v, default=0):
+            return v if isinstance(v, int) and not isinstance(v, bool) else default
+        sm.dropped_redundant = _as_int(ck.get("dropped_redundant", 0))
+        sm.leak_hits_total = _as_int(ck.get("leak_hits_total", 0))
         sm.network_degraded = ck.get("network_degraded", False)
         sm.objective = ck.get("objective")  # Decision 19: resume 时恢复模型自估计目标函数
         sm.rework_events = ck.get("rework_events", [])

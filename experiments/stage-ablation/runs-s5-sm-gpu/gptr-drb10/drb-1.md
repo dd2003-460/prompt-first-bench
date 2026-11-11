@@ -1,0 +1,1 @@
+I could not gather any source material for "收集整理目前中国9阶层实际收入和财务状况，特别研究得出中国的中产有哪些特点，实际中产人数，财力等等". No sources were retrieved (searches may have returned nothing or been blocked), so I am not able to produce a reliable, sourced report.
