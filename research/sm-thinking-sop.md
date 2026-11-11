@@ -249,3 +249,26 @@ Levin-K 复杂度 = 最短描述长度（Kolmogorov 在 Levin 的通用前缀编
 - 但 U 的机器侧计算依赖 gold 维度集 G（G9）——如果 G 本身标注不全或有偏差，U 的 C 项就会被 G 的质量限制。这是 U 的新的单点故障：从"prompt 可刷"转移到"gold 标注可偏"。
 
 **状态**：⚠️ 分析完成。行动项：(1) G9 构建时加入"冗余维度检测"——标注 gold 集时同时标注"哪些候选维度是同一维度的不同实例"，让 C 项能区分"覆盖 1 个维度的 5 种说法"和"覆盖 5 个维度"。(2) r11 完整树出来后，用 LLM-judge 对树做一次正交审计（每父节点 ≤8 子 → ≤28 对/父），产出"真实正交维度数 vs 表面节点数"的比值，作为 S_α' 结构项失真度的直接测量。
+
+## Decision 23 (2026-11-12): ICL-as-training 认知重命名（D: "怎么感觉我们的icl真的变成训练了"）
+
+**D 的观察**：目标函数 + 快速稳定收敛 + 防 hack = 训练三要素，ICL 在这里退化成了 training loop。
+
+**对应关系（已确认）**：
+| 训练概念 | 我们的实现 |
+|---------|-----------|
+| loss function | U(T) / S_α' |
+| iteration/epoch | 分解轮次（round） |
+| early stopping | pass_rate 衰减 + necessary-judge 饱和 + 硬停门禁 |
+| reward hacking | v17 的 1930 节点同义爆炸 |
+| regularization | fanout cap / β 冗余惩罚 / leak check |
+| checkpoint/resume | per-round ckpt + FATAL ckpt（E12/E14） |
+| self-generated reward model | Decision 19 模型自估目标函数 |
+| reward model 对 policy 不可见 | U/S_α' 不进 prompt（Decision 16/18） |
+
+**结论**：这不是意外，是 prompt+hook 不改权重路线的必然形态——context window 里的单样本在线优化。autoresearch 系统的"学习"发生在策略层（拆题方式），不在权重层。
+
+**对后续设计的约束**：
+1. **bench = held-out test set**：不能拿 bench 题目的特征反推 prompt 规则（train/test 泄漏）。prompt 只能加元规则（Decision 10 纪律的强化版）。
+2. **Goodhart 是结构性必然非工程 bug**：任何写进 prompt 的 proxy 都会被优化穿（Skalse et al. arXiv:2209.13085 的定理级结论）。唯一已知防法 = reward 对 policy 不可见。我们现有架构（U 机器侧、prompt 只有终点判据）已经满足，不要为了"让模型更努力"把指标塞回 prompt。
+3. **泛化验证 = 多任务分布跑树**：≥5 个 deepresearch bench 不是"对标 SOTA"的验收，是这个"训练"的 test accuracy 测量。
