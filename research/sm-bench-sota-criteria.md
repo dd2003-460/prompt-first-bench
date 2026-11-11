@@ -1,35 +1,43 @@
 # SM Bench SOTA 对标标准
 
 > origin: ai (T53 AC4)
-> 状态：v1（SOTA 清单待 arena 调研确认）
+> 状态：v2（baseline = 本机模型 + 开源 deepresearch 框架，2026-11-11 成璐指令修订）
 
 ## 验收定义
 
-**在 ≥5 道 deepresearch 类问题上，状态机最终答案的 judge 分 ≥ 最新开源 SOTA 在同题上的分数。**
+**在 ≥5 道 deepresearch 类问题上，状态机最终答案的 judge 分 ≥ 开源 deepresearch 框架（同一本机模型驱动）在同题上的分数。**
 
 "打赢"不是节点数更少、不是更快——是**答案质量**（数字对不对、对比/单位对不对）。
 
-## SOTA 候选基线 [待核验]
+## Baseline 定义（v2 · 2026-11-11 修订）
 
-| 系统 | 来源 | 公开结果位置 | 备注 |
-|------|------|-------------|------|
-| OpenAI Deep Research (o3-pro) | OpenAI 2025.02 | 官方博客 + HLE leaderboard | 非完全开源，但分数公开可对标 |
-| GPT-4o + tool-use (多跳) | 各论文 baseline | HotpotQA / 2WikiMultihop leaderboard | 经典多跳 QA SOTA |
-| AutoGPT / AgentGPT 类 | GitHub | 各自 repo benchmark 节 | 开源 agent 框架 |
-| Perplexity Sonar Pro API | Perplexity | 无公开 per-question 分数 | 可能不可用 |
-| Qwen3-232B (本地/云端) | 阿里云 | 各 bench 报告 | 同族模型，不算异族 |
+**核心原则**：同一模型（Qwen3-27B @8787），不同策略。对比的是"我的 decomp 状态机" vs "通用开源 deepresearch 框架"在同一模型上的表现差异。
 
-**选择原则**：
-- 优先选有**逐题分数**公开的（不是只有 aggregate）
-- 至少包含 1 个 LLM-based agent（不是纯 IR pipeline）
-- 如果找不到逐题分数 → 退化为 aggregate EM/F1 对标（HotpotQA dev set）
+| 角色 | 内容 | 说明 |
+|------|------|------|
+| 实验组 | s5_state_machine.py（decomp+verify+rework+stop） | 目标函数驱动，防 Goodhart |
+| 对照组 | 开源 deepresearch 框架 + Qwen3-27B | 当前活跃维护的 agent 框架 |
+
+**开源 deepresearch 框架候选** [待核验：选哪个]：
+- OpenHands (All-Hands-AI) — 2025-2026 活跃，支持本地 LLM via OpenAI-compatible API
+- LangGraph + create_react_agent — 灵活，可配 search tool
+- AutoGPT (agpt-co) — 老牌，但 2025 后活跃度下降
+- CrewAI — 多 agent 协作，支持本地模型
+
+**选择标准**：
+1. 支持 OpenAI-compatible API（能指向 localhost:8787）
+2. 有内置或易接的 web search 工具（我们的 bench 题需要搜索验证）
+3. 2025-2026 仍活跃维护（GitHub 最近 3 个月有 commit）
+4. 部署复杂度低（pip install + 配置文件即可跑）
+
+**为什么不用公开分数表**：arena 调研确认（`research/sm-bench-sota-table.json`），我们的 5 题是自建 bench，不属于任何公开 test set，所有系统逐题分数均为 null。唯一可行的对比方式 = 本地复跑。
 
 ## Judge 口径
 
 - **Judge**: B-face qwen2.5-7b (localhost:1234)，异族（生成端是 Qwen3.8-27B）
 - **Rubric**: 每题满分 1.0 = 0.5（核心数字正确）+ 0.5（对比/单位/百分比正确）
 - **聚合**: n=3 runs, median
-- **tie-break**: 状态机 ≥ SOTA 即算"打赢"（平局算赢）
+- **tie-break**: 状态机 ≥ baseline 即算"打赢"（平局算赢）
 
 ## 题目选择（≥5 道）
 
@@ -40,13 +48,11 @@
 4. LLaMA 2 70B 参数量 + 训练 token 数（模型规格）
 5. DeepSeek-V3 MoE 总参数/激活参数/ratio（架构参数）
 
-**替换规则**：如果某题 SOTA 没有公开分数，换一道有的。最终 bench 必须保证 ≥5 道可对标。
-
 ## 执行流程
 
-1. 状态机跑 5 题 → 收集最终答案 + 节点数 + 耗时
-2. SOTA 分数从公开来源获取（arena 调研）→ 填入 `runs/sm-bench-sota-table.json`
-3. Judge 打分 → 填表
+1. 选定开源 deepresearch 框架 → 配置指向 localhost:8787 → 跑 5 题 → 收集答案
+2. 状态机跑同样 5 题 → 收集最终答案 + 节点数 + 耗时
+3. B-face judge 对两组答案分别打分（n=3, median）
 4. 判定：≥5/5 打赢 → AC4 PASS；否则记录哪些题输了 + 原因分析
 
 ## 文件索引
@@ -54,4 +60,5 @@
 - 派发任务书: `tasks/T53C-bench-dispatch.md`
 - 状态机代码: `experiments/stage-ablation/s5_state_machine.py`
 - 防泄漏 SOP: `research/sm-leak-sop.md`
+- SOTA 分数表（参考用，非主 baseline）: `research/sm-bench-sota-table.json`
 - 本文件: `research/sm-bench-sota-criteria.md`
