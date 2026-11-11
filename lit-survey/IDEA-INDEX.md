@@ -52,4 +52,5 @@
 - `research/sm-thinking-sop.md` — 决策 11/12（#32/#33 的设计决定）
 - `experiments/stage-ablation/s5_state_machine.py` — #30-33 的代码落点（S_alpha_corrected, redundancy_score）
 
-| #35 | 终点锚定 prompt：公式降级为机器侧监控（Decision 16） | ⚠️落地中(P1/P1H 已改✅/新代码首轮验证🔸待 r9 后 resume) |
+| #35 | 终点锚定 prompt：公式降级为机器侧监控（Decision 16） | ⚠️落地中(P1/P1H 已改✅/新代码首轮验证🔸待 r9 后 resume) 
+| #36 | 终点目标函数形式化 U(T)=C·A·S−λ·cost（Decision 18）：覆盖×准确×具体 乘积 − 代价；不进 prompt，做机器侧终极验收；gold 维度集 G9 + λ 标定 G10 待设计 | ⚠️设计完成待落地(依赖 r10 完整树+答案生成管线) ||
