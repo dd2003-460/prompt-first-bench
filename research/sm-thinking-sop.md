@@ -196,3 +196,21 @@ D 问：v17 的 hack 是不是 prompt 里目标函数文字描述驱动的？公
 3. 单元测试 8/8 通过（含 r9/r10 实际输出形态）。
 
 **教训**：① 修 bug 要验证"修复后的完整链路"而不是只修报错的那一层——E11 修了 max_tokens（真实问题之一）但没跑通 parse 路径，等于没修。② "Checkpoint saved" 日志 + round=0 空壳再次出现（FATAL handler 把内存树存进去了但本轮新节点在 extend 前就崩了，所以还是 117）——checkpoint 机制本身没问题，问题是崩溃点太靠前。E13 让 judge 不再崩，才是正解。
+
+## Decision 21 (2026-11-12): Lead↔teamer 持久通信 = 文件总线 + steer（D: "你和一个sub能持久交流就行"）
+
+**需求**：不要一次性 leaf，要能和同一个 teamer 持续对话。
+
+**Hermes 原生能力盘点**（来自 hermes-agent skill background-systems 文档）：
+- `delegate_task(action='steer')`：运行中的 child 可以中途注入课程修正文本——这是唯一的"对活着的 sub 说话"通道，但它只是单向投递，child 的中间输出不回传，只有最终 summary 回来。
+- 没有 persistent session、没有 inter-agent message bus、leaf 之间无边。
+
+**落地方案（本 goal 采用）**：文件总线。约定一个共享目录 `tasks/T53-bus/`：
+- `lead→teamer.md`：我写的指令/方向修正/上下文补充（追加式，带时间戳和序号）
+- `teamer→lead.md`：teamer 写的进展/问题/方向质疑（追加式）
+- teamer 的 standing instruction：每完成一个工作单元就检查 `lead→teamer.md` 有无新条目，有就先响应再继续；自己产出的关键判断写进 `teamer→lead.md`。
+- 我在两轮之间读 `teamer→lead.md`，需要纠正时用 steer 即时投递 + 同步写进 bus 文件（双保险：steer 是实时通道，bus 是持久记录）。
+
+**为什么这样够用**：T53 的时间尺度是小时级（一轮分解 15-40 min），不是秒级。文件轮询的延迟对这个尺度完全可接受，而它换来的是：① 通信内容落盘可追溯（比 steer 的瞬态消息强）；② 不依赖 Hermes 有没有没文档化的特性；③ 换任何执行层（arena/subagent/未来的真 team）协议不变。
+
+**边界**：如果以后需要秒级交互或 >2 个 agent 互聊，再上 kanban 或 spawn+tmux 方案；当前不过度设计。
