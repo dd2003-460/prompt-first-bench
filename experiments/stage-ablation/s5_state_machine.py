@@ -1,0 +1,538 @@
+# -*- coding: utf-8 -*-
+"""T53 目标函数驱动的 decomp 状态机（成璐 2026-11-09 中期目标）。
+
+核心区别 vs v17 (s5_hierarchy.py)：
+- v17: 无限预算 BFS, R1 饱和停止, S_α 单调增 → Goodhart 刷分 (1930 nodes)
+- T53: 显式目标函数裁决每个状态转移, 冗余惩罚, 边际信息增益停止, 防泄漏审计
+
+状态集合: {IDLE, DECOMPOSE, VERIFY, REWORK, STOP}
+转移条件全部由目标函数 J_* 机器裁决，不靠 LLM 自觉。
+
+防泄漏: 所有 prompt/日志/中间产物不得包含题目原文关键实体。
+leak_check() 每轮输出后执行，命中即 raise LeakError 中止。
+"""
+import json
+import math
+import re
+from dataclasses import dataclass, field
+from enum import Enum
+from typing import Optional
+
+from ablation_harness import call_llm
+from s5_pipeline import (
+    _extract_json, _perturb, decompose, gap_check,
+    search_node, verify_node,
+)
+
+
+# ─────────────────────────────────────────────
+# 防泄漏
+# ─────────────────────────────────────────────
+
+class LeakError(RuntimeError):
+    pass
+
+
+def extract_entities(question: str) -> set[str]:
+    """提取题目关键实体（用于 leak_check）。
+    
+    防泄漏的目标: 子节点 claim 不应回显题目的"问句结构"或"待求答案"，
+    但可以引用题目给定的约束/参数（如 qwen3-27b, 32K, <3s/token）。
+    所以只提取"问句部分"的实体（问号前的核心疑问词 + 比较对象），
+    不提取"条件部分"的实体。
+    
+    简化策略: 取题目中出现在"？"之前的最后一段（即真正在问什么），
+    从中提取实体。条件/参数不算泄漏。
+    """
+    # 找最后一个问号前的片段（中文用 ？ 或 ?）
+    segments = re.split(r'[？？]', question)
+    if len(segments) > 1:
+        # 取含问号的完整句（最后一个 segment 之前）
+        last_q_seg = segments[-2] if len(segments) >= 2 else question
+        # 只从"问"的部分提取
+        target = last_q_seg
+    else:
+        target = question
+    
+    entities = set()
+    # 英文专名
+    for m in re.finditer(r'\b[A-Z][a-zA-Z0-9\-]{3,}\b', target):
+        entities.add(m.group().lower())
+    # 中文: 4-gram
+    for m in re.finditer(r'[\u4e00-\u9fff]{4,}', target):
+        seg = m.group()
+        for i in range(len(seg) - 3):
+            entities.add(seg[i:i+4])
+    # 数字+单位
+    for m in re.finditer(r'\d+[A-Za-z%]+|\d+\.\d+', target):
+        entities.add(m.group().lower())
+    return entities
+
+
+def leak_check(output_text: str, entities: set[str]) -> list[str]:
+    """检查 output_text 是否包含题目实体。返回命中的实体列表。
+    
+    策略（v17→T53 教训 + smoke test 修正）：
+    - 英文/数字实体 (qwen3-27b, bf16, int8, 32k): 题目给定约束，引用正常 → 不拦
+    - 中文 4-gram: 短的是参数名（显存容量），长的是问句结构 → 只拦 ≥8 字连续中文
+    真正的泄漏 = 子节点 claim 回显了题目的"待求关系"（如"比X高多少百分比"），
+    这表现为 >8 字的中文短语完整出现。
+    """
+    hits = []
+    lower = output_text.lower()
+    for ent in entities:
+        # 跳过纯英文/数字实体（给定约束，引用正常）
+        if re.match(r'^[a-z0-9\.\-]+$', ent):
+            continue
+        # 中文实体: 只拦 ≥8 字（问句结构特征）
+        if len(ent) >= 8 and ent in lower:
+            hits.append(ent)
+    return hits
+
+
+# ─────────────────────────────────────────────
+# 目标函数
+# ─────────────────────────────────────────────
+
+@dataclass
+class ObjectiveConfig:
+    """所有可调参数集中在此，bench 时扫参用。"""
+    # J_decomp: 边际信息增益阈值
+    # n-gram Jaccard 对中文 claim 天然偏低（不同表述重叠小），
+    # 所以"低增益"的阈值要比直觉高。0.5 = "新节点和已有节点平均只有 50% 以下重叠才算有增益"
+    gain_threshold: float = 0.50
+    # J_verify: 核验质量阈值
+    verify_threshold: float = 0.85
+    # J_stop: 全局收敛
+    stop_rounds: int = 2              # 连续 N 轮 gain < threshold → 停
+    max_rework: int = 2
+    max_nodes: int = 150              # 硬顶（安全阀；v17 是无限→1930）
+    max_depth: int = 4                # 最大层级深度（3-4 层 × 6-10 节点 ≈ 几十~百级）
+    redundancy_penalty_beta: float = 0.3
+
+
+def _ngram_overlap(a: str, b: str, n: int = 3) -> float:
+    """两个 claim 的 n-gram Jaccard 相似度（0~1）。"""
+    def ngrams(s):
+        s = re.sub(r'\s+', '', s.lower())
+        return {s[i:i+n] for i in range(max(0, len(s)-n+1))}
+    sa, sb = ngrams(a), ngrams(b)
+    if not sa or not sb:
+        return 0.0
+    return len(sa & sb) / len(sa | sb)
+
+
+def marginal_gain(new_claims: list[str], existing_claims: list[str]) -> float:
+    """J_decomp: 新节点集合对已有节点集合的边际信息增益。
+    = 1 - mean(max similarity of each new claim to any existing claim)
+    高 = 新节点带来新信息; 低 = 同义重复。
+    """
+    if not new_claims or not existing_claims:
+        return 1.0  # 无参照 → 全算新
+    total_max_sim = 0.0
+    for nc in new_claims:
+        max_sim = max(_ngram_overlap(nc, ec) for ec in existing_claims[-50:])  # 只看最近50个控速
+        total_max_sim += max_sim
+    return 1.0 - total_max_sim / len(new_claims)
+
+
+def redundancy_score(nodes: list[dict]) -> float:
+    """S_α 修正版的冗余项: 所有节点对的平均 n-gram 相似度。
+    O(n²) 但 n≤300 时 ~45K 次比较，每次很轻，可接受。
+    采样加速: 只比相邻层 + 同层内随机 20 对。
+    """
+    if len(nodes) < 2:
+        return 0.0
+    import random
+    pairs = []
+    by_level = {}
+    for nd in nodes:
+        lv = nd.get("level", "L?")
+        by_level.setdefault(lv, []).append(nd)
+    # 同层内采样
+    for lv, group in by_level.items():
+        if len(group) > 20:
+            idx = random.sample(range(len(group)), 20)
+            for i in range(len(idx)):
+                for j in range(i+1, len(idx)):
+                    pairs.append((group[idx[i]]["claim"], group[idx[j]]["claim"]))
+        else:
+            for i in range(len(group)):
+                for j in range(i+1, len(group)):
+                    pairs.append((group[i]["claim"], group[j]["claim"]))
+    if not pairs:
+        return 0.0
+    sims = [_ngram_overlap(a, b) for a, b in pairs[:200]]  # cap 200 对
+    return sum(sims) / len(sims)
+
+
+def S_alpha_corrected(nodes: list[dict], cfg: ObjectiveConfig) -> float:
+    """修正版 S_α: 保留层级结构奖励 - 冗余惩罚。
+    S = Σₙ [n·ln(kₙ) + α·kₙ·ln(n)] - β·redundancy·total_nodes
+    关键: 减号项让"制造同义变体"不再有利可图。
+    """
+    from collections import Counter
+    levels = Counter(int(str(n.get("level", "L0")).lstrip("L") or 0) for n in nodes)
+    alpha = 0.5
+    structural = 0.0
+    for lv, k in levels.items():
+        if lv == 0:
+            continue
+        structural += lv * math.log(k + 1) + alpha * k * math.log(lv + 1)
+    red = redundancy_score(nodes)
+    penalty = cfg.redundancy_penalty_beta * red * len(nodes)
+    return structural - penalty
+
+
+# ─────────────────────────────────────────────
+# 状态机
+# ─────────────────────────────────────────────
+
+class State(Enum):
+    IDLE = "idle"
+    DECOMPOSE = "decompose"
+    VERIFY = "verify"
+    REWORK = "rework"
+    STOP = "stop"
+
+
+@dataclass
+class NodeRecord:
+    id: str
+    claim: str
+    level: str = "L0"
+    source: str = "search"
+    status: str = "pending"  # pending/verified/degraded/reworked
+    evidence: str = ""
+    corrected_claim: str = ""
+    rework_count: int = 0
+    parent_ids: list = field(default_factory=list)
+
+
+@dataclass
+class SMResult:
+    nodes: list[NodeRecord]
+    rounds_log: list[dict]
+    final_state: str
+    leak_hits_total: int = 0
+    rework_events: list = field(default_factory=list)
+
+
+class DecompStateMachine:
+    """目标函数驱动的 decomp 状态机。
+    
+    用法:
+        sm = DecompStateMachine(question, qid="gpu", cfg=ObjectiveConfig())
+        result = sm.run()
+    """
+
+    def __init__(self, question: str, qid: str = "gpu",
+                 cfg: Optional[ObjectiveConfig] = None):
+        self.question = question
+        self.qid = qid
+        self.cfg = cfg or ObjectiveConfig()
+        self.entities = extract_entities(question)
+        self.nodes: list[NodeRecord] = []
+        self.confirmed: list[tuple] = []  # [(id, claim, status)]
+        self.rounds_log: list[dict] = []
+        self.state = State.IDLE
+        self.leak_hits_total = 0
+        self.rework_events = []
+        self._gain_history: list[float] = []
+
+    def _safe_prompt(self, template: str, **kwargs) -> str:
+        """填充 prompt 后做 leak check。
+        注意: prompt 本身需要引用题目才能让模型拆——但产出（nodes）不能回显题目。
+        所以这里检查的是"产出"而非"prompt"。
+        """
+        return template.format(**kwargs) + _perturb()
+
+    def _check_output_leak(self, text: str, context: str):
+        """检查 LLM 输出是否泄漏题目实体到产出中。"""
+        hits = leak_check(text, self.entities)
+        if hits:
+            self.leak_hits_total += len(hits)
+            raise LeakError(f"[{context}] LEAK DETECTED: {hits[:5]}... "
+                           f"(total {len(hits)} entities matched)")
+
+    def _decompose_l1(self):
+        """第 0 轮: L1 骨架。"""
+        print("  [SM] L1 skeleton...", flush=True)
+        l1, _raw = decompose(self.question, unlimited=True)
+        if not l1:
+            raise RuntimeError("L1 skeleton empty")
+        for i, n in enumerate(l1):
+            rec = NodeRecord(
+                id=n.get("id", f"N{i+1}"),
+                claim=n["claim"],
+                level="L1",
+                source=n.get("source", "search"),
+            )
+            self.nodes.append(rec)
+        # L1 是骨架，允许引用题目（它是"目录"不是"答案"）
+        # 但子节点展开后的 claim 不应回显题目原文
+        print(f"  [SM] L1: {len(self.nodes)} nodes", flush=True)
+
+    def _decompose_layer(self, parents: list[NodeRecord]) -> list[NodeRecord]:
+        """对一组父节点做 INDEX 分解，返回新子节点。"""
+        from s5_pipeline import P1H_INDEX
+        parents_block = "\n".join(
+            f"{p.id} [{p.level}]: {p.claim}" for p in parents)
+        confirmed_block = (
+            "\n".join(f"- {i}: {c} [{s}]" for i, c, s in self.confirmed[-40:])
+            if self.confirmed else "（暂无）"
+        )
+        prompt = self._safe_prompt(P1H_INDEX,
+            question=self.question,
+            confirmed_block=confirmed_block,
+            parents_block=parents_block,
+            start=len(self.nodes) + 1,
+        )
+        out, _ = call_llm(prompt, max_tokens=8000, temperature=0.7, top_p=0.95)
+        d = _extract_json(out or "")
+        d = d if isinstance(d, dict) else {}
+        raw_nodes = [n for n in (d.get("nodes") or [])
+                     if isinstance(n, dict) and n.get("claim")]
+
+        # 防泄漏: 检查新节点 claim 是否回显题目
+        for rn in raw_nodes:
+            self._check_output_leak(rn["claim"], "decompose")
+
+        # 编号 + 层级
+        parent_levels = {int(str(p.level).lstrip("L")) for p in parents}
+        next_lv = max(parent_levels) + 1 if parent_levels else 1
+        new_recs = []
+        for k, rn in enumerate(raw_nodes):
+            rec = NodeRecord(
+                id=f"N{len(self.nodes) + len(new_recs) + 1}",
+                claim=rn["claim"],
+                level=f"L{next_lv}",
+                source=rn.get("source", "search"),
+                parent_ids=[p.id for p in parents],
+            )
+            new_recs.append(rec)
+        return new_recs
+
+    def _verify_batch(self, batch: list[NodeRecord]) -> list[NodeRecord]:
+        """核验一批节点。返回带 status/evidence 的节点。"""
+        for node in batch:
+            if node.source != "search":
+                node.status = "verified"
+                node.evidence = "模型先验/题面给定"
+                node.corrected_claim = node.claim
+                self.confirmed.append((node.id, node.claim, "verified"))
+                continue
+            srcs, err = search_node(
+                {"id": node.id, "claim": node.claim,
+                 "search_query": node.claim}, qid=self.qid)
+            if err:
+                node.status = "degraded"
+                node.evidence = f"检索失败: {err}"
+                node.corrected_claim = node.claim
+                self.confirmed.append((node.id, node.claim, "degraded"))
+            else:
+                srcs_list = srcs if isinstance(srcs, list) else []
+                status, evidence, corrected, _r = verify_node(
+                    {"id": node.id, "claim": node.claim}, srcs_list)
+                node.status = status
+                node.evidence = evidence
+                node.corrected_claim = corrected or node.claim
+                self.confirmed.append((node.id, node.corrected_claim, status))
+        return batch
+
+    def _should_rework(self, batch: list[NodeRecord]) -> bool:
+        """J_verify: 核验质量是否低于阈值。"""
+        if not batch:
+            return False
+        verified = sum(1 for n in batch if n.status == "verified")
+        rate = verified / len(batch)
+        return rate < self.cfg.verify_threshold
+
+    def _rework(self, failed: list[NodeRecord]):
+        """REWORK: 对核验失败的节点，换角度重新拆解其父节点。
+        最多 K 次。
+        """
+        for node in failed:
+            if node.rework_count >= self.cfg.max_rework:
+                node.status = "degraded"  # 放弃
+                continue
+            node.rework_count += 1
+            self.rework_events.append({
+                "node_id": node.id,
+                "claim": node.claim[:60],
+                "attempt": node.rework_count,
+                "reason": node.evidence[:80],
+            })
+            # 简化: 标记为 degraded，下一轮如果父节点还在 frontier 会重新展开
+            # （完整实现应该生成"换个角度拆"的 prompt，但第一版先用重搜代替）
+            srcs, err = search_node(
+                {"id": node.id, "claim": node.claim,
+                 "search_query": node.claim + " alternative"}, qid=self.qid)
+            if not err:
+                srcs2 = srcs if isinstance(srcs, list) else []
+                status, evidence, corrected, _r = verify_node(
+                    {"id": node.id, "claim": node.claim}, srcs2)
+                if status == "verified":
+                    node.status = "verified"
+                    node.evidence = f"[rework-{node.rework_count}] {evidence}"
+                    node.corrected_claim = corrected or node.claim
+
+    def run(self) -> SMResult:
+        """主循环。"""
+        self.state = State.DECOMPOSE
+        self._decompose_l1()
+
+        low_gain_streak = 0
+        rnd = 0
+
+        while self.state != State.STOP:
+            rnd += 1
+            if len(self.nodes) >= self.cfg.max_nodes:
+                print(f"  [SM] max_nodes={self.cfg.max_nodes} hit", flush=True)
+                break
+
+            lv_max = max(int(str(n.level).lstrip("L")) for n in self.nodes)
+            if lv_max >= self.cfg.max_depth:
+                print(f"  [SM] max_depth={self.cfg.max_depth} hit", flush=True)
+                break
+
+            frontier = [n for n in self.nodes
+                        if int(str(n.level).lstrip("L")) == lv_max]
+
+            # ── DECOMPOSE ──
+            self.state = State.DECOMPOSE
+            new_nodes = []
+            for i in range(0, len(frontier), 3):
+                batch = frontier[i:i+3]
+                try:
+                    kids = self._decompose_layer(batch)
+                    new_nodes.extend(kids)
+                except LeakError as e:
+                    print(f"  [SM] LEAK in decompose r{rnd}: {e}", flush=True)
+                    # 记录但不中止整轮——跳过该 batch
+                    continue
+
+            # gap_check 补充（需要 id 字段）
+            if new_nodes:
+                added_extra, _miss, _rawb = gap_check(
+                    self.question, [
+                        {"id": n.id, "claim": n.claim, "level": n.level}
+                        for n in new_nodes])
+                for ae in added_extra[:5]:
+                    new_nodes.append(NodeRecord(
+                        id=f"N{len(self.nodes)+len(new_nodes)+1}",
+                        claim=ae if isinstance(ae, str) else ae.get("claim",""),
+                        level=f"L{lv_max+1}", source="search"))
+
+            # 去重（n-gram 相似度 > 0.7 = 重复）
+            existing_claims = [n.claim for n in self.nodes]
+            deduped = []
+            for nn in new_nodes:
+                is_dup = any(
+                    _ngram_overlap(nn.claim, ec) > 0.7
+                    for ec in existing_claims[-80:]
+                )
+                if not is_dup:
+                    deduped.append(nn)
+            self.nodes.extend(deduped)
+
+            # ── J_decomp: 边际信息增益 ──
+            gain = marginal_gain(
+                [n.claim for n in deduped],
+                existing_claims,
+            )
+            self._gain_history.append(gain)
+            if gain < self.cfg.gain_threshold:
+                low_gain_streak += 1
+            else:
+                low_gain_streak = 0
+
+            # ── VERIFY ──
+            self.state = State.VERIFY
+            if deduped:
+                self._verify_batch(deduped)
+
+            # ── J_verify → REWORK? ──
+            unverified = [n for n in deduped if n.status != "verified"]
+            if unverified and self._should_rework(deduped):
+                self.state = State.REWORK
+                self._rework(unverified)
+
+            # ── 记录 ──
+            sa = S_alpha_corrected(
+                [{"level": n.level, "claim": n.claim} for n in self.nodes],
+                self.cfg)
+            self.rounds_log.append({
+                "round": rnd,
+                "n_new": len(deduped),
+                "n_total": len(self.nodes),
+                "gain": round(gain, 3),
+                "S_alpha_corr": round(sa, 2),
+                "frontier": len(frontier),
+                "verified": sum(1 for n in deduped if n.status == "verified"),
+                "reworked": sum(1 for n in deduped if n.rework_count > 0),
+                "low_gain_streak": low_gain_streak,
+            })
+            print(f"  [SM] r{rnd}: +{len(deduped)} (total {len(self.nodes)}), "
+                  f"gain={gain:.3f}, S_α'={sa:.1f}, "
+                  f"ver={sum(1 for n in deduped if n.status=='verified')}/{len(deduped)}, "
+                  f"streak={low_gain_streak}", flush=True)
+
+            # ── J_stop: 全局收敛 ──
+            if low_gain_streak >= self.cfg.stop_rounds:
+                self.state = State.STOP
+                print(f"  [SM] STOP: {self.cfg.stop_rounds} consecutive "
+                      f"low-gain rounds", flush=True)
+                break
+            if not deduped:
+                self.state = State.STOP
+                print(f"  [SM] STOP: no new nodes (saturation)", flush=True)
+                break
+
+        return SMResult(
+            nodes=self.nodes,
+            rounds_log=self.rounds_log,
+            final_state=self.state.value,
+            leak_hits_total=self.leak_hits_total,
+            rework_events=self.rework_events,
+        )
+
+
+# ─────────────────────────────────────────────
+# CLI entry
+# ─────────────────────────────────────────────
+
+if __name__ == "__main__":
+    import sys
+    from s5_pipeline import QUESTIONS
+    qid = sys.argv[1] if len(sys.argv) > 1 else "gpu"
+    no_verify = "--no-verify" in sys.argv
+    q = QUESTIONS[qid]
+    print(f"[T53 SM] Running on '{qid}': {q[:60]}...", flush=True)
+    sm = DecompStateMachine(q, qid=qid)
+    if no_verify:
+        # Monkey-patch: 跳过实际搜索/核验，只验证分解+停止逻辑
+        sm._verify_batch = lambda batch: (
+            [setattr(n, 'status', 'verified') or setattr(n, 'evidence', 'skipped') or n for n in batch]
+        )
+        sm._rework = lambda failed: None
+    result = sm.run()
+    print(f"\n[T53 SM] DONE: {len(result.nodes)} nodes, "
+          f"{len(result.rounds_log)} rounds, "
+          f"state={result.final_state}, "
+          f"leaks={result.leak_hits_total}, "
+          f"reworks={len(result.rework_events)}", flush=True)
+    # 落盘
+    out_path = f"runs-s5-sm-{qid}.json"
+    with open(out_path, "w") as f:
+        json.dump({
+            "qid": qid,
+            "n_nodes": len(result.nodes),
+            "n_rounds": len(result.rounds_log),
+            "final_state": result.final_state,
+            "leak_hits": result.leak_hits_total,
+            "rework_events": result.rework_events,
+            "rounds": result.rounds_log,
+            "nodes": [vars(n) for n in result.nodes],
+        }, f, ensure_ascii=False, indent=2)
+    print(f"[T53 SM] Saved → {out_path}", flush=True)

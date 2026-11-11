@@ -4,9 +4,30 @@
 > 状态：decomp 完成，待 arena 派发
 > 关联：v17 Goodhart 诊断 (d5bb7d06)、T-PR-15 (文字目标函数 hack 调研, 进行中)
 
-## 一句话目标
+## 硬约束（写两遍，不可违反）
 
-把 v17 的"无限预算 BFS + R1 饱和停止"换成**目标函数驱动的状态机**——每个状态转移由显式目标函数裁决（拆/停/核验/返工），防 Goodhart，且状态机任何位置不泄漏题目文本；最后拿它跑一个泛化的 deepresearch bench 验证。
+### 严禁泄漏（第一遍）
+
+**状态机任何位置不得泄漏题目本身。** 具体含义：
+- 所有 LLM prompt 中不出现题目原文（只传结构化参数：父节点 claim + 层级 + 已确认事实列表）
+- 所有日志 / 中间产物 / JSON 输出中不包含题目文本
+- 防泄漏 SOP 索引 → `research/sm-leak-sop.md`（审计方法 + 实体提取策略 + 误报处理）
+
+### 严禁泄漏（第二遍 · 强调）
+
+再重复一次：**严禁状态机任何地方泄漏题目本身。** 这不是"尽量不泄漏"，是硬门禁——leak_check() 命中即 raise LeakError 中止整轮运行。评估泄漏的 SOP 见 `research/sm-leak-sop.md`（含：怎么提取题目实体、什么算泄漏什么不算、误报怎么处理、每轮审计的执行时机）。
+
+### 验收标准：打赢 SOTA（第一遍）
+
+**在大部分 bench（至少 5 个 deepresearch 相关题）上打赢最新开源 SOTA 基准。** 具体含义：
+- 选 ≥5 道 deepresearch 类问题（多跳推理 + 事实检索混合）
+- 对照基线包含当前最新开源 deepresearch agent 的公开结果（如 GPT-4o-based DeepResearch、OpenAI o3-pro 等 [待核验具体哪个版本]）
+- 状态机最终答案质量（judge 分）≥ SOTA 基线在同等题目上的分数
+- 口径：异族 judge (B-face 7b) 打分 0-1，数字正确 0.5 + 对比/单位正确 0.5，n=3 median
+
+### 验收标准：打赢 SOTA（第二遍 · 强调）
+
+再重复一次：**验收标准是在大部分 bench（至少 5 个）打赢最新开源 SOTA 相关基准。** 不是"超过朴素 CoT"，不是"节点数更少"——是最终答案质量打赢 SOTA。如果打不赢，说明状态机的分解+核验+返工循环没有产生足够的质量增益，需要回去改目标函数设计。SOTA 对标清单和 judge 口径详见 `research/sm-bench-sota-criteria.md`。
 
 ## 背景（为什么做）
 
@@ -56,11 +77,11 @@ v17 暴露的问题链：S_α = Σₙ[n·ln(kₙ)+α·kₙ·ln(n)] 对节点数�
 ## 验收标准（AC）
 
 1. **AC1 节点效率**：GPU 单题新状态机节点数 ≤ 200（v17 是 1930），正交维度 ≥ 6
-2. **AC2 防泄漏**：bench 全程 leak_check 零命中（任何轮次输出含题目实体 → 自动 fail）
+2. **AC2 防泄漏**：bench 全程 leak_check 零命中（任何轮次输出含题目实体 → 自动 fail）。SOP: `research/sm-leak-sop.md`
 3. **AC3 核验覆盖**：≥ 90% 的 search 节点有 verified/degraded 状态（非空 evidence）
-4. **AC4 泛化**：5+ 道 deepresearch 题上，状态机答案质量（judge 分）≥ 朴素 CoT 基线
+4. **AC4 打赢 SOTA**：≥5 道 deepresearch 题上，状态机答案质量（judge 分）≥ 最新开源 SOTA 基准分数。SOTA 对标: `research/sm-bench-sota-criteria.md`
 5. **AC5 返工生效**：至少 1 道题触发了 REWORK 且返工后核验通过（证明循环真的在工作）
-6. **AC6 SOP 落盘**：D1-D3 三个文件存在且非空
+6. **AC6 SOP 落盘**：D1-D3 + sm-leak-sop + sm-bench-sota-criteria 五个文件存在且非空
 7. **AC7 可复现**：bench 脚本一键跑通，seed 固定，结果可重放
 
 ## 缺口清单（汇总）
