@@ -750,6 +750,12 @@ if __name__ == "__main__":
     q = QUESTIONS[qid]
     print(f"[T53 SM] Running on '{qid}': {q[:60]}...", flush=True)
     sm = DecompStateMachine(q, qid=qid)
+    # --max-nodes N: 覆盖硬顶（resume 时 ckpt 节点数可能已超默认 150）
+    for k, v in enumerate(_raw):
+        if v == "--max-nodes" and k + 1 < len(_raw):
+            sm.cfg.max_nodes = int(_raw[k+1])
+        elif v.startswith("--max-nodes="):
+            sm.cfg.max_nodes = int(v.split("=", 1)[1])
     if resume_from:
         import json as _json
         ck = _json.load(open(resume_from))
