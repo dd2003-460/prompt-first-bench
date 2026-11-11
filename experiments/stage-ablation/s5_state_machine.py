@@ -208,6 +208,62 @@ def judge_necessary(claim: str, parent_claims: list[str], confirmed: list[tuple]
     return r[0] if r else False
 
 
+# ─────────────────────────────────────────────
+# 三边分类 (Decision 24 扩展, idea #43)
+# ─────────────────────────────────────────────
+
+EDGE_TYPE_PROMPT = (
+    "你是结构分析师。判断一个父节点与其子维度之间的组合关系属于以下哪种：\n"
+    "1. cartesian（笛卡尔积）：子维度独立取值，联合空间 = 各维度取值组合，无交叉约束。"
+    "例：GPU 的 {架构, 显存容量, 接口类型} 之间。\n"
+    "2. quotient（商/约束）：子维度通过运算（除法、比值、加权）组合成父概念，"
+    "存在 trade-off——一个分量↑另一个分量↓时最终目标可能不变。"
+    "例：性价比 = 性能 / TCO；能效比 = 吞吐量 / 功耗。\n"
+    "3. stochastic（随机耦合）：一个共享随机源（如温度采样、量化噪声、batch 组成波动）"
+    "同时驱动多个下游子维度，它们不是独立的也不是运算组合的，而是同一个随机过程的不同投影。"
+    "例：推理稳定性 ← temp 采样 → 输出一致性；量化质量 ← 同一 temp 流 → 精度损失。\n\n"
+    "【父节点】{parent_claim}\n"
+    "【候选子维度】\n{children_block}\n\n"
+    "只输出一行 JSON：{{\"edge_type\": \"cartesian|quotient|stochastic\", \"reason\": \"一句话\"}}"
+)
+
+EDGE_PREDICT_PROMPT = (
+    "你是结构分析师。下面是一个待分解的概念。在它被展开之前，先判断它最可能是哪种组合结构：\n"
+    "1. cartesian：该概念可拆成若干独立维度，各维度取值互不影响（如「GPU 选型」→ 架构/显存/接口）。\n"
+    "2. quotient：该概念本身是一个运算结果（比值/加权/差值），其分量之间存在 trade-off"
+    "（如「性价比」= 性能÷TCO、「能效比」= 吞吐÷功耗）。这类概念的子维度不能穷举组合，"
+    "只能沿 frontier 列代表性工作点。\n"
+    "3. stochastic：该概念的核心变异来自一个共享随机源对多个下游维度的同时驱动"
+    "（如「推理稳定性」← temp 采样 → 一致性+精度）。\n\n"
+    "【概念】{concept}\n\n"
+    "只输出一行 JSON：{{\"edge_type\": \"cartesian|quotient|stochastic\", \"reason\": \"一句话\"}}"
+)
+
+
+def classify_edge(parent_claim: str, child_claims: list[str],
+                  cfg: "ObjectiveConfig") -> tuple[str, str]:
+    """LLM 判定父→子组合关系。返回 (edge_type, reason)。
+    child_claims 为空时用 EDGE_PREDICT_PROMPT 做概念结构预判。
+    失败时默认 cartesian（保守：按可展开处理）。"""
+    from ablation_harness import call_llm
+    if not child_claims:
+        prompt = EDGE_PREDICT_PROMPT.format(concept=parent_claim)
+    else:
+        children_block = "\n".join(f"- {c}" for c in child_claims[:10])
+        prompt = EDGE_TYPE_PROMPT.format(parent_claim=parent_claim, children_block=children_block)
+    try:
+        out, _ = call_llm(prompt, max_tokens=300, temperature=0.0, retries=2)
+        m = re.search(r'"edge_type"\s*:\s*"(cartesian|quotient|stochastic)"', out or "", re.I)
+        if m:
+            et = m.group(1).lower()
+            rm = re.search(r'"reason"\s*:\s*"([^"]*)"', out or "")
+            return et, (rm.group(1) if rm else "")
+        return "cartesian", "parse fallback"
+    except Exception as e:
+        print(f"  [SM] edge-classify error: {e}", flush=True)
+        return "cartesian", f"error: {e}"
+
+
 def redundancy_score(nodes: list[dict]) -> float:
     """S_α 修正版的冗余项: 所有节点对的平均 n-gram 相似度。
     O(n²) 但 n≤300 时 ~45K 次比较，每次很轻，可接受。
@@ -283,6 +339,7 @@ class NodeRecord:
     rework_count: int = 0
     parent_ids: list = field(default_factory=list)
     objective: Optional[dict] = None  # Decision 19: L0 终点目标函数（模型自估计，仅根节点带）
+    edge_type: str = "cartesian"  # Decision 24 扩展 (idea #43): cartesian / quotient / stochastic
 
 
 @dataclass
@@ -383,18 +440,35 @@ class DecompStateMachine:
             print(f"    [{n.id}] {n.claim[:80]}", flush=True)
 
     def _decompose_layer(self, parents: list[NodeRecord]) -> list[NodeRecord]:
-        """对一组父节点做 INDEX 分解，返回新子节点。"""
+        """对一组父节点做 INDEX 分解，返回新子节点（含 edge_type 标注）。"""
         from s5_pipeline import P1H_INDEX
         parents_block = "\n".join(
-            f"{p.id} [{p.level}]: {p.claim}" for p in parents)
+            f"{p.id} [{p.level}] (edge={p.edge_type}): {p.claim}" for p in parents)
         confirmed_block = (
             "\n".join(f"- {i}: {c} [{s}]" for i, c, s in self.confirmed[-40:])
             if self.confirmed else "（暂无）"
         )
+        # 三边规则注入：告诉模型当前父节点的边类型，约束展开行为
+        edge_hints = []
+        for p in parents:
+            if p.edge_type == "quotient":
+                edge_hints.append(
+                    f"⚠️ 父节点 {p.id} 是商/约束结构（{p.claim[:40]}）："
+                    f"其子维度通过运算组合、存在 trade-off。"
+                    f"不要穷举所有分量组合——只沿 frontier 列 2-4 个代表性工作点"
+                    f"（如高性低成/中性价比最优/高成本低性），每个工作点是一个子节点。")
+            elif p.edge_type == "stochastic":
+                edge_hints.append(
+                    f"⚠️ 父节点 {p.id} 是随机耦合结构（{p.claim[:40]}）："
+                    f"多个子维度共享同一个随机源。"
+                    f"先列一个「共享随机源」子节点描述该源，再列各下游投影；"
+                    f"不要把同一随机源复制成多个独立噪声节点。")
+        edge_block = ("\n【边类型约束】\n" + "\n".join(edge_hints) + "\n") if edge_hints else ""
+
         prompt = self._safe_prompt(P1H_INDEX,
             question=self.question,
             confirmed_block=confirmed_block,
-            parents_block=parents_block,
+            parents_block=parents_block + edge_block,
             start=len(self.nodes) + 1,
         )
         out, _ = call_llm(prompt, max_tokens=8000, temperature=0.7, top_p=0.95, retries=4)
@@ -407,17 +481,24 @@ class DecompStateMachine:
         for rn in raw_nodes:
             self._check_output_leak(rn["claim"], "decompose")
 
-        # 编号 + 层级
+        # 编号 + 层级 + edge_type
         parent_levels = {int(str(p.level).lstrip("L")) for p in parents}
         next_lv = max(parent_levels) + 1 if parent_levels else 1
         new_recs = []
         for k, rn in enumerate(raw_nodes):
+            # edge_type: LLM 可在节点里标（可选字段），否则继承父节点类型
+            et = rn.get("edge_type", "")
+            valid_et = et if et in ("cartesian", "quotient", "stochastic") else ""
+            if not valid_et:
+                # 继承：取第一个父节点的 edge_type
+                valid_et = parents[0].edge_type if parents else "cartesian"
             rec = NodeRecord(
                 id=f"N{len(self.nodes) + len(new_recs) + 1}",
                 claim=rn["claim"],
                 level=f"L{next_lv}",
                 source=rn.get("source", "search"),
                 parent_ids=[p.id for p in parents],
+                edge_type=valid_et,
             )
             new_recs.append(rec)
         return new_recs
@@ -598,14 +679,54 @@ class DecompStateMachine:
             # ── DECOMPOSE ──
             self.state = State.DECOMPOSE
             new_nodes = []
+
+            # ── 三边分类：对 frontier 中 edge_type 未定的节点做 LLM 判定 ──
+            # cartesian → 正常展开; quotient → frontier 采样（限 2-4 子）;
+            # stochastic → 记录共享源（限 1 源 + N 投影）
+            for p in frontier:
+                if p.edge_type == "cartesian" and int(str(p.level).lstrip("L")) >= 2:
+                    # L2+ 的 cartesian 节点在首次进入 frontier 时做一次边复核
+                    # （L1 是模型自估的骨架，默认 cartesian 可信）
+                    pass  # 复核留到下一版；当前先信任继承值
+            # 对 L1 节点（首次拆出的顶层维度）做边分类——这是 v17 爆炸的入口
+            l1_frontier = [p for p in frontier if str(p.level) == "L1"]
+            for p in l1_frontier:
+                et, reason = classify_edge(p.claim, [], self.cfg)
+                # 空 children 时 classify_edge 直接返回 cartesian，
+                # 所以这里用父 claim 本身让 LLM 判断"这个概念最可能是哪种结构"
+                if et != "cartesian":
+                    print(f"  [SM] edge-classify {p.id}: {et} ({reason[:50]})", flush=True)
+                    p.edge_type = et
+
             for i in range(0, len(frontier), 3):
                 batch = frontier[i:i+3]
                 try:
                     kids = self._decompose_layer(batch)
+                    # ── 三边复核：子节点出来后，用实际 children 确认父节点的 edge_type ──
+                    for p in batch:
+                        p_children = [c.claim for c in kids if p.id in (c.parent_ids or [])]
+                        if p_children and len(p_children) >= 2:
+                            et, reason = classify_edge(p.claim, p_children, self.cfg)
+                            if et != p.edge_type:
+                                print(f"  [SM] edge-reclassify {p.id}: {p.edge_type}→{et} ({reason[:50]})", flush=True)
+                                p.edge_type = et
+                                for c in kids:
+                                    if p.id in (c.parent_ids or []):
+                                        c.edge_type = et
                     # 单父节点扇出上限：超过的按 n-gram 与已有 claim 距离排序保留最近的，
                     # 防止 LLM 把一层铺成 20+ 个近义变体（r2 ckpt 实测 L1 各 18 子、L2 最高 21 子）。
-                    cap = self.cfg.max_kids_per_parent
+                    # 三边分类 (idea #43): quotient/stochastic 用更紧的 cap——
+                    #   cartesian: max_kids_per_parent (默认 8)
+                    #   quotient:  min(4, cap) — frontier 采样只需 2-4 个代表工作点
+                    #   stochastic: min(5, cap) — 1 个共享源 + ≤4 个下游投影
+                    base_cap = self.cfg.max_kids_per_parent
                     for p in batch:
+                        if p.edge_type == "quotient":
+                            cap = min(4, base_cap)
+                        elif p.edge_type == "stochastic":
+                            cap = min(5, base_cap)
+                        else:
+                            cap = base_cap
                         pk = [k for k in kids if p.id in (k.parent_ids or [])]
                         if len(pk) > cap:
                             base = [n.claim for n in self.nodes] + [p.claim]
@@ -701,6 +822,8 @@ class DecompStateMachine:
             sa = S_alpha_corrected(
                 [{"level": n.level, "claim": n.claim} for n in self.nodes],
                 self.cfg)
+            from collections import Counter as _C
+            edge_counts = dict(_C(n.edge_type for n in self.nodes))
             self.rounds_log.append({
                 "round": rnd,
                 "n_new": len(deduped),
@@ -712,6 +835,7 @@ class DecompStateMachine:
                 "reworked": sum(1 for n in deduped if n.rework_count > 0),
                 "dropped_redundant": self.dropped_redundant,
                 "low_gain_streak": low_gain_streak,
+                "edge_types": edge_counts,
             })
             print(f"  [SM] r{rnd}: +{len(deduped)} (total {len(self.nodes)}), "
                   f"gain={gain:.3f}, S_α'={sa:.1f}, "
