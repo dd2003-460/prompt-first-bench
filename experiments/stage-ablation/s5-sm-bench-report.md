@@ -27,24 +27,29 @@
 
 | qid | 域 | 语言 | 状态 | 四维分 | 加权总分 | 对标差 |
 |---|---|---|---|---|---|---|
-| drb-1 | Finance&Business（中国 9 阶层收入/中产） | zh | 🔄 r2 运行中（04:43 ckpt，71 nodes，quotient 15.5%，leaks=0；r3 gap_check 进行中） | — | — | — |
-| drb-2 | 国际前十保险公司横评 | zh | 排队 | — | — | — |
+| drb-1 | Finance&Business（中国 9 阶层收入/中产） | zh | ✅ DONE（169 nodes, 3 rounds, leaks=0；judge 完成） | C 0 / I 0 / IF 0 / R 0 | **0.0** | −56.72 |
+| drb-2 | 国际前十保险公司横评 | zh | 排队（等 drb-1 检索修复后启动） | — | — | — |
 | drb-16 | 非接触式感知算法策略评估 | zh | 排队 | — | — | — |
 
 扩展计划：pipeline 跑通后扩到 5 题（L2 授权范围内）。
 
-## 3. 逐题记录（模板）
+## 3. 逐题记录
 
-### drb-N
+### drb-1（中国 9 阶层收入/中产 · zh）
 
-- **run**：`runs-s5-sm-drb-N.json`（N rounds, X records / Y unique ids, leaks=?, reworks=?）
-- **树健康**：unique id 数 == 记录数？（新 id 逻辑验证点）
-- **status 分布**：verified/degraded/pending/failed
-- **报告**：`drb-pilot/answers/drb-N-report.md`（KB 数，来源回填 N 个 search 节点）
-- **四维分**：comprehensiveness __ / insight __ / instruction_following __ / readability __
-- **加权总分**：__（vs 56.72，差 __）
-- **弱项子项**：（哪个维度垫底 → 对应哪些 criterion 判 0 → 归因：分解覆盖不足 / 证据质量 / 表述 / 引用缺失）
-- **下一步动作**：（改哪条机制 or 收敛）
+- **run**：`runs-s5-sm-drb-1.json`（3 rounds, 169 unique nodes, leaks=0, reworks=149）
+- **树健康**：unique id == 记录数 ✅（_nid fix 验证通过，无撞号）
+- **status 分布**：verified 25 / degraded 126 / pending 5 / failed 13 → verified 率 14.8%（r14 是 40/137≈29%，DRB 题因需真实数据更低）
+- **edge_types**：cartesian 149 / quotient 20（11.8% ≤20% ✅，r13 教训修复生效）
+- **报告**：`drb-pilot/answers/drb-1-report.md`（193 KB，来源回填 169 个 search 节点——但其中绝大多数是垃圾源）
+- **四维分**：comprehensiveness 0 / insight 0 / instruction_following 0 / readability 0
+- **加权总分**：**0.0**（vs 56.72，差 −56.72）
+- **弱项归因**（核心诊断）：
+  - **病根 = 检索通道对中文 DRB 题全盲**。research_hook("s5-node") 走 wiki(英文API→0命中) + DDG-lite/cn.bing(返回色情视频/英雄联盟/原神/翻译工具/股票行情等无关源) + webllm(ego-browser PageNavigationTimeout)。rework_events 里 149 条全是同一模式："参考来源[1][2][3]均为 X 与事实主题完全无关"。
+  - **后果链**：169 节点里 75% degraded（verify 判"逻辑自洽但无外部证据"）→ assemble 出的报告只有一堆"待核验指标列表"没有实质数值 → judge 按 criterion 逐条打 0（"未提供具体收入数据""引用的来源多为无关网页"）。
+  - **judge 判 0 合理**，不是判分 bug。问题在 pipeline 上游（检索），不在下游（判分）。
+  - 与 r14 的 degraded 56.9% 同病根（DDG-lite IP 级 anomaly 封锁 + cn.bing 跨域噪声），但 DRB 题需要真实统计数据（收入分位数、CHFS 样本数），逻辑自洽救不了数值缺失，所以放大到 0 分。
+- **下一步动作**：修检索通道（junk filter + 中文数据源接入），重跑 drb-1 看 verified 率能否拉到 ≥40%。候选修法排序见 §4 迭代日志。
 
 ## 4. 迭代日志（每轮一条）
 
