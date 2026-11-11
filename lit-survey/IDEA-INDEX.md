@@ -39,6 +39,7 @@
 | 31 | 公式描述 vs 文字描述的目标函数差异 | 2026-11-11 | D | ❓空白（无直接研究） | idea-list §F.#31; lit-survey/2026-11-11-idea-research.md §C | T53 消融（首个数据点） |
 | 32 | 压缩即智能当分解目标函数（MDL 路线） | 2026-11-11 | D | ⚠️提法已有(arXiv:2606.25960 等)/🔸用于分解树目标=空白 | idea-list §F.#32; lit-survey/2026-11-11-idea-research.md §A; research/sm-thinking-sop.md 决策 12 | T53 新颖性主张点 |
 | 33 | 冗余度量选型 n-gram/embedding/LLM-judge | 2026-11-11 | ai 导出/D 认可 | ⚠️部分(MIDGARD 选答案有/节点去重对比无) | idea-list §F.#33; sm-thinking-sop.md 决策 12 待办 | T53 S_α β 项实现 |
+| 34 | 压缩项连续性原则 + 外生离散信息豁免（不插值、不进压缩项） | 2026-11-12 | D | ⚠️落地中(全量化+β标定✅/exogenous 标签🔸待设计) | sm-thinking-sop.md Decision 14; s5_state_machine.py redundancy_score | T53 S_α' β 项 |
 
 ## 快速检索
 - **按完成度找增量空间**：🔸 标记行 = #6(窄)、#10、#12(中文)、#17、#30(prompt-only 消融)、#31、#32(应用层)

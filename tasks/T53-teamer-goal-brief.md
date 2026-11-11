@@ -68,3 +68,9 @@ r9 稳定后，按产投比推进剩余子项。C 段（bench）的"跑+记录"�
 - **修复**：kill 5107；从干净基线重建 `checkpoints/sm-gpu-clean-r2.json`（117 节点 = L1×6 + L2×26 + L3×85，丢弃 9 孤儿，全部 parent 引用完整性校验通过）；新 r9 从 clean ckpt 启动。
 - **当前 r9**：pid 29238（Hermes session proc_f6b304594a9f），日志 runs-s5-sm-gpu-r9-console.log，117 起步，max_nodes=150 → 最多 +33。
 - **教训（后续监控必须遵守）**：resume 前先 `pgrep -fl s5_state_machine` 确认无其他实例在跑；kill 后等 1s 再 pgrep 复核；两个实例并存 = checkpoint 互踩，数据不可信。
+
+### [2026-11-12 00:10] Lead：S_α' 冗余项全量化 + β 标定（Decision 14）
+- D 指示：压缩项不要求极简，时间复杂度可以高，但量要连续；离散外生信息（不同显卡/市场价格）不可插值，不参与压缩。
+- 已改（commit 落盘）：redundancy_score 去掉 cap 200 截断（全量 pair 均值，同层 >20 抽 20 控 O(n²)）；β 0.3→3.0（实测 n=117 时 full-pair mean Jaccard=0.0146，旧罚项仅 0.51/structural 97 ≈ 形同虚设，新罚项 ≈5.1 = 5%）。
+- **注意**：r9（pid 29238）启动早于本 patch，跑的是旧 S_α'——它的日志数值和后续 run 不可直接比。r9 DONE 后如果决定继续下钻，下一轮 resume 才用新口径。
+- **待设计（D 指出的缺口）**：NodeRecord 加 exogenous-fact 标签，redundancy 只对 derived 节点算。先不动代码——当前树 exogenous 占比高，贸然切口径 S_α' 会跳变，等 r9 基线出来再切。
