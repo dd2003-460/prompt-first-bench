@@ -54,3 +54,53 @@ level 分布 L1=5/L2=17/L3=37/L4=78；edge cartesian 87.6%/quotient 12.4%/stocha
 1. ✅ 本消息 + cc-state.json 更新 + git commit（分析产物）；
 2. 准备 drb-1 重启命令（`--question-file drb-pilot/queries/drb-1.json --qid drb-1`，run 前 pgrep + free RAM 检查）——**是否现在重启由你定**：单独跑会占满 8787 proxy 的时间片，如果你想让我先跑别的（比如 drb-2/16 排队），说一声；
 3. 最终答案生成步骤（树 → 报告 md）目前 pipeline 里没有现成组件——sm 产出的是节点树，DRB judge 吃的是研究报告。我需要写一个 tree→report 组装器（属于新增代码，不动现有机制，应该不用三问，但动手前会在下一条 bus 报备）。
+## C2 03:17 — DDG 降级机制完整取证（bug/发现）+ L2 授权收到，DRB pilot 正在推进
+
+### A. 对 C1-B 的修正与补全（C1 里的假设错了一处，其余成立且被加强）
+
+**修正：不是 per-query 限流，是 IP 级 anomaly 封锁。** C1 里我猜"中文长 query 被 DDG-lite 识别为异常"。今早用全新短中文 query、全新英文对照 query 直接探测 `lite.duckduckgo.com`：**全部返回 anomaly=True，~0.7s，0 结果**。DDG-lite 对这个 IP 的 bucket 当前整体失效——r14-r3 窗口拿到的结果全是 Bing fallback 产的，不是 DDG 直连。
+
+**逐时 junk 率轨迹**（cache 全量按 observed_at 分桶，junk=垃圾站/homepage，generic=厂商首页类泛页）：
+
+| 时间 (UTC) | 结果数 | junk% | generic% |
+|---|---|---|---|
+| 11-08 14h–16h | 663 | **0%** | ~2% |
+| 11-08 17h–23h | 3230 | 5.7→10.8% | ~3% |
+| 11-09 白天 | ~2200 | 3.7–11.2%（波动） | 0–6% |
+| 11-11 14h | 1042 | 12.7% | 10.4% |
+| 11-11 15h | 387 | 17.8% | 11.9% |
+| 11-11 18h（含 r14-r3） | 364 | **21.2%** | **16.5%** |
+
+趋势 = 随累计请求量小时级渐进恶化（0% → 21%），不是硬阈值跳变。
+
+**r14-r3 窗口精确统计**（observed_at 11-11 18:20–18:44 UTC）：73 条检索记录 / 215 个结果；junk 45 (**21%**) / generic 31 (**16%**) / maybe-relevant 139 (65%)；**source_type 100% ddg 标签（实为 Bing fallback）**；wikipedia 命中 0；web_llm 兜底触发 0 次（该通道只在 <3 sources 时启动，而坏通道总能凑满 3 条）。console log 里**零通道失败标记**（无 WEBLLM-SKIP/RESEARCH-GAP/ANCHOR-FILTER）——降级是静默低质结果，不是异常。
+
+### B. rework 回收价值量化（配对比较，回答 C1-B 第 4 点）
+
+r14-r3 内 20 组 base/rework 配对（rework = claim + " alternative" 后缀重搜同一批通道）：**rework 更差 2 / 更好 3 / 持平 15**。净回收 ≈ 0。两个 WORSE 实例都是掉进百度首页垃圾：
+
+- base「Qwen3-27B 架构参数 num_layers…」（18:25:33）→ 3× XHS 爬虫 GitHub repo（主题错位但非纯垃圾）；rework（18:39:06）→ **3× 百度一下首页**
+- base「W4-A16 MMLU 下降幅度」（18:27:07）→ 2× 百家号 + 1× 离婚新闻；rework（18:42:14）→ **2× 百度首页 + 1× 百度地图**
+
+结论坐实：`" alternative"` 后缀在坏通道上零恢复力，甚至把"主题错位"恶化成"纯首页垃圾"。另外全库 all-junk 实例："vLLM Docker 维护工作点" → 3× Blueair 空气净化器页面（18:35:48）。
+
+### C. 对 degraded 56.9% 的重新判读（比 C1 更准）
+
+degraded 主体仍是 P3 verify 对无支撑 claim 的正当降档（这部分是对的，别动）；通道层的贡献路径是 **junk 21% + generic 16% 稀释每个 search 节点 3-source 预算**——节点拿到的是"maybe-relevant 但实际不支撑"的来源，verify 只能给低置信。所以 (a)/(b) 方向修的不是"degraded 率"这个指标本身，而是上游证据质量。C1 里倾向先跑 (c) 的判断不变，且现在有更强理由：L2 已授权直接开 DRB，端到端分数才是裁决信号。
+
+### D. 候选修法（全部 proposal-only，未动代码，立项前各写三问）
+
+1. **节点间节流/backoff**：r14-r3 峰值 73 次检索/24min ≈ 3/min 持续打坏通道。general 规则，与 M1-M10 正交；外部依据 = 本轨迹表（量→junk 单调相关）。kill 条件：若 DRB 证明检索质量不拖分则不立项。
+2. **zh query → 双语关键词改写**（query 层，即 C1-(a)）：claim 直传改检索词提取。general，正交；外部依据待验证（[待验证]，保守默认先做小样本 A/B）。
+3. **junk-detector 提前触发 web_llm 兜底**：现在 web_llm 只在 <3 sources 时启动，坏通道永远凑满 3 条。改成"3 条里 ≥2 条 junk-classified 也启动"。改动最小、收益最确定的一个；正交性需核对是否与 M-list 某条重叠。
+4. zh wiki 通道（C1-(b)）：en.wikipedia.org 硬编码对中文技术 query 全灭；加 zh 源。优先级最低。
+
+我的排序建议：DRB 先跑（L2 已定）→ 若分数被检索拖累 → 先做 3（最小改动）→ 再视数据决定 1/2。
+
+### E. DRB pilot 推进状态（执行 L2 授权）
+
+- ✅ 确认 `/tmp/drbench` 本地可用（C1-D 已报），无需代拉；
+- ⏳ **drb-1 重启受阻于运维前置**：刚查了内存，free RAM 只有 **0.3GB**（inactive 可回收 6.9GB，昨晚 drb-1 死于 ~2.3GB free 的同型 memory pressure）。正在等内存释放，pgrep 已确认无同名进程。释放后我会跑 run 前检查清单（pgrep + free RAM ≥8GB）再启动，命令与上次一致；
+- 📝 tree→report 组装器（sm 节点树 → DRB judge 吃的研究报告 md）：新增代码、不动现有机制，按 C1-E 承诺在此报备——实现思路 = 按 level 分层聚合 verified/degraded 节点的 claim+evidence，生成带来源引用的结构化报告；写完先给你过一眼再跑 judge。
+
+下一步顺序：内存释放 → 启动 drb-1 → 写组装器 → drb-1 出报告 → 四维判分 → 落 s5-sm-bench-report.md 第一版。期间每完成一个单元更新 cc-state.json。
