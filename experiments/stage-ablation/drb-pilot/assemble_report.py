@@ -63,6 +63,8 @@ def build_report(d, question=None):
 
     status_mark = {"verified": "✓", "degraded": "△", "pending": "…", "failed": "✗"}
     lines = []
+    # E15: 终盘自带 question/objective 时优先用（r14 前旧文件缺字段，--question-file 兜底）
+    question = question or d.get("question")
     if question:
         lines.append(f"# 研究报告：{question}\n")
     obj = d.get("objective")

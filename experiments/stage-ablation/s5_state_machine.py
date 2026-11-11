@@ -1026,6 +1026,10 @@ if __name__ == "__main__":
             "leak_hits": result.leak_hits_total,
             "rework_events": result.rework_events,
             "rounds": result.rounds_log,
+            # E15 (2026-11-12): question/objective 随终盘落盘——assemble 侧不再依赖 ckpt
+            # （r14 事故：runs-s5-sm-gpu.json 缺这两字段，只能从 checkpoint 借）。
+            "question": q,
+            "objective": sm.objective,
             "nodes": [vars(n) for n in result.nodes],
         }, f, ensure_ascii=False, indent=2)
     print(f"[T53 SM] Saved → {out_path}", flush=True)
