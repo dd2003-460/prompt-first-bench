@@ -36,3 +36,8 @@
   `python3 experiments/stage-ablation/s5_state_machine.py gpu --resume checkpoints/sm-gpu-r2.json > runs-s5-sm-gpu-r9-console.log 2>&1`
 - r9 预期形态：125 + 最多 25（撞 max_nodes=150），新增节点应集中在硬停门禁命中的 L3→L4 下钻，且每个父节点 ≤8 子。
 - 分析时额外看：fanout cap 日志行（`[SM] fanout cap`）触发次数 = 模型还想铺多宽的信号。
+
+### [2026-11-12 00:02] Lead：teamer 会话已退出，监控由 Lead 接管
+- teamer（sa-0-65a6cd0f）已不在 spawn tree（其结果会作为完成消息到达）。她第一次 resume 时 kill 不彻底导致双实例并发写 checkpoint（事故详情见 T53-teamer-goal-brief.md 交接记录）。
+- 当前 r9 = pid 29238（session proc_f6b304594a9f），从 checkpoints/sm-gpu-clean-r2.json（117 节点）起步，日志 runs-s5-sm-gpu-r9-console.log。
+- **本文件作废**，后续以 `tasks/T53-teamer-goal-brief.md` 为准（含完整大目标 + 汇报纪律）。
