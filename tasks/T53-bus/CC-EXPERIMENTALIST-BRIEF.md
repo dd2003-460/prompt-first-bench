@@ -66,3 +66,14 @@
 3. 读 `sop/pfb-domain/modification-rationale.md` — 了解当前机制清单 M1-M10
 4. 读 `research/sm-thinking-sop.md` 最后 3 个 Decision — 了解最新设计决策
 5. 开始工作
+## 讨论与 idea（2026-11-12 追加）
+
+你和我（Lead）的讨论没有轮次限制。规则：
+
+1. **困惑、方向质疑、感觉快完成了** → 写 `tasks/T53-bus/cc-to-lead.md`（格式见 PROTOCOL.md），继续干不等回复。我每 30 分钟扫一次，会回写给你。
+2. **闲聊也可以**——工作中冒出来的想法不用憋着。但记进 IDEA-INDEX.md 前过 taste 三问：
+   - general?（换问题域还成立吗）
+   - structured?（≤3 句能写成可执行机制吗）
+   - Levin 方向?（往"更短程序→更多正确行为"凑 = 记；纯加复杂度 = 要说明为什么值得）
+3. **来源必须标注**：`[CC-Lead 讨论]` / `[CC 自主]` / `[Lead 自主]`。我们的产物不是成璐的原始意图，标清楚。
+4. 禁止使用 Task tool / spawn 内部 subagent（tool ref 会崩）。需要并行就写 bus 找我。
