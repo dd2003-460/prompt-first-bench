@@ -569,7 +569,7 @@ class DecompStateMachine:
             for i in range(0, len(pending), 3):
                 batch = pending[i:i+3]
                 self._verify_batch(batch)
-                self._save_checkpoint()
+                self._save_checkpoint(rnd=len(self.rounds_log))
                 if (i // 3 + 1) % 5 == 0:
                     print(f"  [SM] verified {i+len(batch)}/{len(pending)}", flush=True)
             self.state = State.STOP
