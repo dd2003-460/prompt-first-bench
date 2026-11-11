@@ -1,0 +1,119 @@
+{
+  "task": "T-PR-15",
+  "artifact": "web-llm cross-check receipts (AC8)",
+  "nature": "网页/本地 LLM 回答仅是审阅线索，不是权威事实来源。",
+  "generated_at_utc": "2026-11-11T11:44:31+00:00",
+  "claims": [
+    {
+      "id": "K1",
+      "claim": "Goodhart's law 是比 specification gaming 与 reward hacking 更宽的框架；后两者是它在特定设定下的实例（而非并列概念）。",
+      "ask": "请给出支持与反对各 2 条，并指出是否有反例文献（要求可检索的 arXiv ID 或 DOI）。"
+    },
+    {
+      "id": "K2",
+      "claim": "LLM 在 prompt/评估场景下的 hack 形态可归为五类：格式/长度刷分、关键词 stuffing、自评 inflation、judge sycophancy、benchmark 污染；前四类都作用于『文字条款 + 判者』这一层。",
+      "ask": "请判断该五分类是否有遗漏类别（尤其是『利用评测 harness 而非判者』），并给可检索来源。"
+    },
+    {
+      "id": "K3",
+      "claim": "『文字目标比数值目标更容易被 hack』缺乏同实验对照证据；更准确的表述是『可操纵接口数量 × 优化压力』。",
+      "ask": "请找反例：是否存在同实验内比较文字条款目标与数值目标 hack 率的研究？"
+    },
+    {
+      "id": "K4",
+      "claim": "只改 prompt/判据、不改权重时，最有效的防御是给覆盖度型（recall）代理加精度/冗余项 + 硬预算约束，而非 reward clipping。",
+      "ask": "请给出反例或更强的替代方案（例如无需改权重却比 precision term 更有效的手段），并给来源。"
+    }
+  ],
+  "services": [
+    {
+      "id": "A",
+      "url_env": "PFB_LLM_A_URL",
+      "model": "qwen3.8-27b",
+      "transport": "http_openai_compatible",
+      "configured": true,
+      "status": "error"
+    },
+    {
+      "id": "B",
+      "url_env": "PFB_LLM_B_URL",
+      "model": "second-family-unset",
+      "transport": "http_openai_compatible",
+      "configured": true,
+      "status": "error"
+    }
+  ],
+  "receipts": [
+    {
+      "claim_id": "K1",
+      "service": "A",
+      "asked_at_utc": "2026-11-11T11:44:31+00:00",
+      "status": "error",
+      "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+    },
+    {
+      "claim_id": "K2",
+      "service": "A",
+      "asked_at_utc": "2026-11-11T11:44:31+00:00",
+      "status": "error",
+      "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+    },
+    {
+      "claim_id": "K3",
+      "service": "A",
+      "asked_at_utc": "2026-11-11T11:44:31+00:00",
+      "status": "error",
+      "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+    },
+    {
+      "claim_id": "K4",
+      "service": "A",
+      "asked_at_utc": "2026-11-11T11:44:31+00:00",
+      "status": "error",
+      "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+    },
+    {
+      "claim_id": "K1",
+      "service": "B",
+      "asked_at_utc": "2026-11-11T11:44:31+00:00",
+      "status": "error",
+      "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+    },
+    {
+      "claim_id": "K2",
+      "service": "B",
+      "asked_at_utc": "2026-11-11T11:44:31+00:00",
+      "status": "error",
+      "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+    },
+    {
+      "claim_id": "K3",
+      "service": "B",
+      "asked_at_utc": "2026-11-11T11:44:31+00:00",
+      "status": "error",
+      "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+    },
+    {
+      "claim_id": "K4",
+      "service": "B",
+      "asked_at_utc": "2026-11-11T11:44:31+00:00",
+      "status": "error",
+      "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+    }
+  ],
+  "contradictions": [],
+  "ac8_status": "not_satisfied",
+  "usage_limit": "未取得回执的服务一律记 dispatch_failed；不得把未取回的回答写成已验证事实。",
+  "ac8_note": "ok_receipts=0/8；原因=环境（无 endpoint），非拒绝执行；待 Lead 本机补跑 run_crosscheck.py",
+  "environment_note": "沙箱内无任何 LLM endpoint：本机 127.0.0.1:8787（score.py 使用的 qwen3.8-27b）与 127.0.0.1:8788 均返回 Connection refused（Errno 111）；bash 出网白名单只有 github/npm/pypi，无 API key 环境变量。按任务书【失败降级】『沙箱够不到 Lead 本机 endpoint 是环境限制不是故障；endpoint 类步骤由 Lead 本地补跑』处理。",
+  "what_was_delivered_instead": {
+    "design": "4 条待核验主张（K1-K4）+ 每条的反例要求 + 防锚定措辞（只发主张不发本文结论）",
+    "runner": "research/web-llm/run_crosscheck.py（Lead 本机 export 两个不同底座的 endpoint 后直接跑，会就地写入 receipts 并计算 ac8_status）",
+    "substitute_check_not_a_substitute_for_ac8": [
+      "来源级交叉核对：同一结论用 ≥2 条相互独立的论文支撑（如 Q3-C 用 2210.10760 + 2201.03544 + 2610.33512 三条不同组）",
+      "对抗自审：survey §8 的 C1-C6 六条质询，其中 C3/C4 实质改写了结论口径",
+      "以上均**不**满足 AC8 的『不同 LLM 服务』要求，仅记录以免误读"
+    ]
+  },
+  "handoff": "Lead 在本机执行：PFB_LLM_A_URL=... PFB_LLM_B_URL=... python3 research/web-llm/run_crosscheck.py，然后把 receipts 里的 verdict 与 contradictions 回填 survey §0/§9"
+}
