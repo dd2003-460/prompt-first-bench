@@ -214,3 +214,13 @@ D 问：v17 的 hack 是不是 prompt 里目标函数文字描述驱动的？公
 **为什么这样够用**：T53 的时间尺度是小时级（一轮分解 15-40 min），不是秒级。文件轮询的延迟对这个尺度完全可接受，而它换来的是：① 通信内容落盘可追溯（比 steer 的瞬态消息强）；② 不依赖 Hermes 有没有没文档化的特性；③ 换任何执行层（arena/subagent/未来的真 team）协议不变。
 
 **边界**：如果以后需要秒级交互或 >2 个 agent 互聊，再上 kanban 或 spawn+tmux 方案；当前不过度设计。
+
+## Decision 21 (2026-11-12): E14 — resume 处 ckpt 字段类型防御（teamer T1 发现）
+
+**坑**：`checkpoints/sm-gpu-clean-r2.json` 里 `dropped_redundant` 存成了 `[]`（clean-r2 生成时 E12 FATAL handler 写入就是坏的），resume 逻辑 `ck.get(..., 0)` 照搬 → 后续 `self.dropped_redundant - _prev_dropped` 变 list-int → TypeError，且可能连锁炸掉 FATAL handler 自己导致 checkpoint 存不下来。
+
+**修**：resume 处加 `_as_int` 归一化（bool 也算非 int 挡掉），leak_hits_total 同处理。一行级改动，语法验证过。
+
+**生效时机**：下次 --resume 才生效。r11 进程启动时已加载旧代码，本次运行不受影响；若 r11 在 judge 后崩溃，FATAL handler 仍可能踩内存里的 `[]`——所以崩了先查 checkpoint 是否落盘成功，没落盘就从 clean-r2 重起（新代码的 resume 路径已修好）。
+
+**教训**：E12 让 FATAL handler 存 ckpt 时没有对字段做类型校验，脏值从一次崩溃传染进了基线 checkpoint，再被 resume 放大成连锁崩溃隐患。写 checkpoint 的地方应该和读的地方一样防御——读写两侧都要有 isinstance 检查，单侧防御不够。
