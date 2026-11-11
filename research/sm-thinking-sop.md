@@ -142,3 +142,11 @@ D 问：v17 的 hack 是不是 prompt 里目标函数文字描述驱动的？公
 **为什么这样切分是对的（Goodhart 视角）**：v17 失败的根因是"把代理指标当目标告诉模型"——模型对显式数字的响应远强于对文字倾向的响应。现在：模型面对的是不可计算的终点判据（只能靠真的把树做对来满足），机器拿可计算的 S_α' 做刹车（防过度扩张）。代理与目标分离，hack 路径消失。
 
 **风险与观察点**：(a) 去掉公式后模型可能失去"何时停"的内部感——已有硬停门禁 + gain/pass_rate 双停止信号兜底，且判据 (d) 提供了经济学直觉；(b) "不同时间尺度"写进了 prompt 作为通用答案结构要求——这是元规则（好答案常需多时间尺度对比），不是 gpu 题的内容，若后续 bench 发现它对非决策类题目造成噪声再撤。**生效时机**：r9 跑的是旧代码（无锚定段），r9 DONE 后的下一轮 resume 才生效；届时 S_α' 数值仍可比（公式没变），变的只是树的形态预期（更朝答案承载长）。
+
+## Decision 17 (2026-11-12): FATAL checkpoint 落盘当前树状态（E12）
+
+**事故**：r9 崩溃在轮内 judge 阶段（HTTP 400 → TypeError），per-round `_save_checkpoint` 还没触发。FATAL handler 只 dump `rounds_log`（空）+ 空节点列表到 `runs-s5-sm-gpu-checkpoint.json`，打印 "Checkpoint saved"——看着像存了，实际是空壳。resume 后从 0 节点重跑，整轮白干。
+
+**修复**：E12 — FATAL handler 改为直接保存内存里的 `sm.nodes`（崩溃前已 extend 的部分保留）。配合 E11（judge max_tokens 封顶 4096 + 紧凑格式解析 + 异常兜底返回 bool list），崩溃概率本身也降了。
+
+**教训**："Checkpoint saved" 这类日志必须看内容不看字样——r9 的 checkpoint 文件存在、日志正常，但 round=0 nodes=[]。验收标准应该是 resume 后能恢复非平凡状态。
