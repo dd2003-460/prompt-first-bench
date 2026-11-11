@@ -277,6 +277,7 @@ class NodeRecord:
     corrected_claim: str = ""
     rework_count: int = 0
     parent_ids: list = field(default_factory=list)
+    objective: Optional[dict] = None  # Decision 19: L0 终点目标函数（模型自估计，仅根节点带）
 
 
 @dataclass
@@ -310,6 +311,7 @@ class DecompStateMachine:
         self.rework_events = []
         self._gain_history: list[float] = []
         self.dropped_redundant = 0
+        self.objective: Optional[dict] = None  # Decision 19: 模型自估计终点目标函数（L1 轮产出）
         self._no_ness_streak = 0
         self.network_degraded = False  # E8: 出口探针结果，run() 开头设置
 
@@ -343,6 +345,17 @@ class DecompStateMachine:
         prompt = P1_L1_SKELETON.format(question=self.question)
         out, _ = call_llm(prompt, max_tokens=2048, temperature=0.7, top_p=0.95, retries=3)
         d = _extract_json(out or "") or {}
+        # Decision 19: 模型自估计的终点目标函数——落盘到根节点，不进后续 prompt。
+        # 角色：机器侧对照基准（G9 gold 维度集的免费替代初稿），不是刷分目标。
+        objective = d.get("objective")
+        if isinstance(objective, dict):
+            self.objective = objective
+            print(f"  [SM] objective (model-estimated): {str(objective.get('composition',''))[:100]}", flush=True)
+            for f_ in (objective.get("factors") or [])[:8]:
+                print(f"    factor: {str(f_)[:80]}", flush=True)
+        else:
+            self.objective = None
+            print("  [SM] objective: model returned no objective block", flush=True)
         dims = d.get("dimensions") or []
         dims = [x for x in dims if isinstance(x, dict) and (x.get("name") or x.get("scope"))]
         if not dims:
@@ -485,6 +498,7 @@ class DecompStateMachine:
                 "dropped_redundant": self.dropped_redundant,
                 "leak_hits_total": self.leak_hits_total,
                 "network_degraded": self.network_degraded,
+                "objective": self.objective,  # Decision 19: 模型自估计终点目标函数随 ckpt 落盘
                 "rework_events": self.rework_events,
                 "nodes": [vars(n) for n in self.nodes],
             }, f, ensure_ascii=False, indent=2)
@@ -738,6 +752,7 @@ if __name__ == "__main__":
         sm.dropped_redundant = ck.get("dropped_redundant", 0)
         sm.leak_hits_total = ck.get("leak_hits_total", 0)
         sm.network_degraded = ck.get("network_degraded", False)
+        sm.objective = ck.get("objective")  # Decision 19: resume 时恢复模型自估计目标函数
         sm.rework_events = ck.get("rework_events", [])
         print(f"[SM] resumed from {resume_from}: {len(sm.nodes)} nodes @ r{ck['round']}", flush=True)
     if no_verify:
@@ -779,6 +794,7 @@ if __name__ == "__main__":
                 "dropped_redundant": sm.dropped_redundant,
                 "leak_hits_total": sm.leak_hits_total,
                 "network_degraded": sm.network_degraded,
+                "objective": sm.objective,  # Decision 19
                 "rework_events": sm.rework_events,
             }, f, ensure_ascii=False, indent=2)
         print(f"[T53 SM] Checkpoint saved → {ck_path} (use --resume {ck_path})", flush=True)
