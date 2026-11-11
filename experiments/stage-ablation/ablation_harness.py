@@ -493,9 +493,16 @@ def call_llm(prompt, max_tokens=LLM_MAX_TOKENS, timeout=LLM_TIMEOUT, retries=2, 
                 "out": usage.get("completion_tokens", 0),
             }
         except Exception as e:
+            # E9 (2026-11-11): HTTPError 按状态码分策略——5xx 是服务端抖动，指数退避重试；
+            # 4xx（除 429）是请求本身有问题，重试无意义直接抛。
+            import urllib.error as _ue
+            code = getattr(e, "code", None)
+            if code is not None and 400 <= code < 500 and code != 429:
+                raise
             if attempt < retries:
-                print(f"  retry {attempt+1}: {e}", file=sys.stderr)
-                time.sleep(5)
+                wait = 5 * (2 ** attempt)
+                print(f"  retry {attempt+1} (wait {wait}s): {e}", file=sys.stderr)
+                time.sleep(wait)
             else:
                 raise
 

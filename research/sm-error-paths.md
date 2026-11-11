@@ -31,29 +31,27 @@
 - **根因**：macOS 睡眠断网最常见；其次是 8787 proxy 重启。
 - **处理**：runs-s5-sm-*.json 只在 run() 返回时落盘，中途死 = 无产物，直接重跑（状态机无持久 checkpoint，单题 ~30-60min 可接受）。若频繁发生，改用 scripts/launch.sh 包一层 tee + EXIT code（已有工具，commit af0994cd）。
 
+## E6 — 静默死（进程活着但 log 不再增长）
+- **症状**：PID 存在、CPU 0%、log 停在某行不动超过 10 分钟。
+- **根因**：call_llm 在 502/timeout 上无限阻塞或 retry 循环吞掉异常；或 ego-browser 调用挂起无超时。
+- **处理**：r3 已修（commit 96747559）：每轮 checkpoint 落盘 + --resume 续跑 + call_llm retries 有界。发现静默死 → 看最新 checkpoint 从哪轮 resume，不要从头跑。
 
-## E6 — verify_node 无异常路径但进程仍静默死（2026-11-11 r2 smoke 实测）
-- **症状**：`runs-s5-sm-gpu-fbeta-r2.log` 停在 `[SM] L1: 25 nodes`，无 DONE 无 Traceback，PID 消失；直接重放 `_verify_batch(25节点)` 前台跑却正常。
-- **根因**：未定——单发/连发 5 次 verify_node 全过（各 ~1.7s），说明不是 proxy 拒绝某条特定 claim；怀疑是后台进程 + 长 LLM 调用组合下的环境因素（macOS 睡眠断网 / 终端会话回收）。r1 smoke 也是同样模式死于 L1 之后。
-- **处理**：这正是要修的可靠性问题本身。方向：① run() 每轮结束落盘 checkpoint（nodes JSON），死了能 resume；② 启动统一走 `scripts/launch.sh`（tee + EXIT code），至少死因可见；③ 关键 LLM 调用加 timeout + 单次重试。先复现：用 launch.sh 起 r2 重跑，看是否再次静默死、EXIT code 是什么。
-- **状态**：[待核验] 复现中。
+## E7 — 本机代理端口挂掉导致联网通道全盲
+- **症状**：ego-browser goto 全部 ERR_PROXY_CONNECTION_FAILED / ERR_FAILED；Python 直连也 Connection refused；但 ClashX 进程和控制面板 API（9090）还活着。
+- **根因（2026-11-11 20:55 定位）**：ClashX 的 HTTP 代理端口 7890 不再监听（mixed-port/port 配置成了 0，只剩 SOCKS 7891 工作），而系统代理仍指向 7890。ego lite 渲染进程出站走系统代理 → 全挂；Python urllib 默认不走系统代理所以部分直连可用。这就是"微信会断"和 r2/r3 挂死的同一类病：**机器网络环境（ClashX）抖动，状态机没有隔离层**。
+- **处理**：① 手动把 GLOBAL 切到可用节点 + 确认 7890 监听恢复出口；② 状态机侧加出口健康探针（E8）：Python 通道探活失败不整体死，快速探 ego-browser 是否还能活，能活就继续用 ego 通道，不能才置 network_degraded=True 让 search 节点降级为 degraded 继续跑。
+- **先例**：2026-11-11 r2/r3 两次挂死均为此根因；--no-verify 对照 run（pid 69821）同期 9 分钟正常推进 81 节点，证明主循环本身没病。
 
-
-## E7 — 全链路（联网检索）核验批次挂死，--no-verify 模式正常（2026-11-11 对照实验定位）
-- **症状**：r2/r3 smoke 都停在 L1 之后的 VERIFY 阶段，无 Traceback；进程有时静默消失（r2），有时 ESTABLISHED 挂着不动（r3 pid 72070）。
-- **对照实验（本轮关键证据）**：同一台机器、同一个 8787 proxy，两个进程同时跑——
-  - `--no-verify` 模式（跳过 search_node，只过 verify_node）：9 分钟已到 r1，+59 节点，ver=29/59，活着且在推进。
-  - 全链路模式（search_node 联网检索 + verify_node）：4 分钟卡在 L1 后，CPU 0%，TCP ESTABLISHED 无流量。
-  → 变量隔离出来了：**卡点是 search_node（ego-browser 联网检索通道），不是 verify_node，不是 proxy，不是状态机逻辑。**
-- **根因（2026-11-11 20:55 定位）**：系统代理 ClashX 的 7890 端口挂了（进程活着但不再监听，nc 探测 port closed；GLOBAL 节点还停在 DIRECT）。ego lite 渲染进程的出站流量全走系统代理 → ERR_PROXY_CONNECTION_FAILED / ERR_FAILED；而 Python urllib 直连不走系统代理所以 8787/wikipedia API 都正常。这就是"微信会断"和 r2/r3 挂死的同一类病：**机器网络环境（ClashX）抖动，状态机没有隔离层**。修复：① 手动把 GLOBAL 切到可用节点恢复出口；② 长期方案见 E8。
-- **处理**：① 给 search_node 加硬超时（如 120s）+ 失败降级为 degraded（设计里本来就有这个分支，但前提是它能"失败返回"而不是挂住）；② bench 跑之前先单测 research_hook 一次确认通道活着。
-- **附带发现**：--no-verify r1 已 +59 节点（total 81），necessary 过滤在跑（ver=29/59 说明有节点被丢），F_β 方向有效，AC1 ≤200 大概率能达标。
-
-
-## E8 — 状态机与本机网络环境解耦（设计方向，未实现）
+## E8 — 状态机与本机网络环境解耦（已实现，commit d793b1a6 之后）
 - **问题**：research_hook 的 ego-browser 通道依赖系统代理（ClashX 7890），ClashX 一挂整个联网检索通道就死；Python 侧通道（urllib 直连 arXiv/wiki API）反而不受影响。
-- **方向**（按性价比排序）：
-  1. **通道顺序调整**：s5-node 级别优先走纯 Python 直连通道（arXiv API + wiki API + DDG html），ego-browser 只做最后兜底——现在 ego-browser 在 webllm 阶段就提前触发，把坏通道的失败日志刷满了 log。
-  2. **出口健康探针**：run() 开始前探一次 `https://en.wikipedia.org`（经系统代理路径），不通则跳过所有 ego-browser 通道并落盘标记 `network_degraded=true`，不阻塞、不静默死。
-  3. **ClashX 自愈**：检测到 7890 无监听时，通过 9090 API 把 GLOBAL 从 DIRECT 切到可用节点（本轮手动执行过，有效）。可以做成 launch.sh 的前置检查。
-- **状态**：[待实现] 1+2 是 bench 跑通前的必要条件（AC7 可复现要求 bench 不因网络抖动整体挂掉）。
+- **已落地**：
+  1. `_probe_network()`：run() 开头先探 Python 直连 → 失败再经 scutil 读出的系统代理试一次 → 两次都失败则快速探 ego-browser（taskSpace+page 存活判断）→ ego 还活就不降级，全死才 network_degraded=True。
+  2. `_verify_batch`：network_degraded 时 search 节点跳过联网检索直接标 degraded（evidence 写明原因），不阻塞主循环。
+  3. checkpoint 带 network_degraded 字段，resume 继承。
+- **未做**：ClashX 自动切换节点（那是环境修复不是状态机职责）；launch.sh 前置网络检查（需要时再加）。
+
+## E9 — 8787 proxy 间歇性 502 Bad Gateway
+- **症状**：log 出现 `retry N: HTTP Error 502: Bad Gateway`，重试耗尽后整个 run 崩掉（r3 实际死法）。
+- **根因**：8787 是 node proxy → 服务器 ninfer(qwen3.8-27b)，上游偶发 502。旧版 call_llm retries=2 且固定 sleep(5s)，遇到连续 502 窗口（>15s）就全灭。
+- **处理**（2026-11-11 修）：① call_llm 按状态码分策略——5xx/429 指数退避（5s/10s/20s/40s），4xx 直接抛不浪费重试；② _decompose_layer retries 2→4，judge_necessary_batch retries 2→3。总最坏等待 ~75s，覆盖常见 502 窗口。
+- **验证**：py_compile OK；待下次全链路 run 观察。

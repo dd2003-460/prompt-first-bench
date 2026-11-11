@@ -50,3 +50,30 @@ r1 里 `par_claims` 用 `int(id.lstrip("N"))-1` 当列表下标取父节点 clai
 **没改的**：启动方式仍建议走 `scripts/launch.sh`（tee + EXIT code），这样即使再死，log 最后一行有 exit code，不再是 4 行无头尸体。
 
 **待验证**：用 launch.sh 起 r2 重跑（proc_0df18a438c91 还在前台复现 _verify_batch 25 节点，结果出来对照）。若 launch.sh 下仍静默死且 EXIT≠0 → 死因可定位；若 EXIT=0 但 log 截断 → 是日志层问题不是进程问题。
+
+
+## 2026-11-11 r4 — 通道健康探针 + ego-browser 降级（E8.1+E8.2 落地）
+
+**改了什么**：
+1. `s5_state_machine.py` run() 开头加网络出口探针：纯 Python 直连 `https://en.wikipedia.org`（不走系统代理，~1s），失败则置 `self.network_degraded=True`。
+2. `_verify_batch` 里 search 节点走 search_node 前检查探针：degraded 时跳过联网检索直接标 degraded（evidence 写明原因），不再让 ego-browser 坏通道把整批卡死/刷屏。
+3. 探针结果落进 checkpoint（`network_degraded` 字段），resume 时继承。
+
+**为什么**：r2/r3 两次挂死根因都是 ClashX 7890 端口掉线 → ego lite 渲染进程出站全走系统代理 → ERR_PROXY_CONNECTION_FAILED。状态机不该因为本机代理抖动而整体停摆——检索失败本来就该降级为 degraded 节点继续跑（设计里就有这个分支），只是坏通道的错误处理路径没兜住。
+
+**没做的**：ClashX 自动切换节点（E8.3）——那是环境修复不是状态机职责，手动切 GLOBAL 已恢复出口；launch.sh 前置检查以后有需要再加。
+
+**验证**：py_compile OK；等 --no-verify run（pid 69821）出结果对照 AC1。
+
+## 2026-11-11 r5 — 可靠性收尾（E8.2b + E9）
+
+**改了什么**：
+1. `ablation_harness.call_llm`：重试按 HTTP 状态码分策略——5xx/429 指数退避（5s→10s→20s→40s），4xx 直接抛。修掉 r3 实际死法（连续 502 窗口 >15s 时旧版固定 sleep(5)×2 全灭）。
+2. `s5_state_machine._decompose_layer` retries 2→4；`judge_necessary_batch` retries 2→3。
+3. `_probe_network` 补第三路：Python 通道全挂时快速探 ego-browser（taskSpace+page 存活，~2s），ego 还活就不降级——因为 ego lite 走自己的网络栈，ClashX 挂了它不一定挂（r3 期间实测 daemon 响应正常）。
+
+**为什么**：r3 死在 L2 decompose 的 call_llm 上（502×2 后 raise），而同期 --no-verify run 正常推进到 81 节点——说明主循环健康，死因是网络抖动 × 重试不足。这一轮把"网络抖动导致整 run 崩"的路径全部堵上：LLM 侧退避拉长、探针三路兜底、degraded 分支不阻塞。
+
+**验证**：py_compile OK；探针单测通过（当前 ClashX 7890 仍死 → Python 两路失败 → ego-browser 探活成功 → network_degraded=False，符合预期）。
+
+**没做的**：ClashX 端口配置修复（mixed-port=0 是用户环境的事，手动切 GLOBAL 已恢复出口，不动配置文件）。

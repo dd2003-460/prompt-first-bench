@@ -164,7 +164,7 @@ def judge_necessary_batch(candidates: list[tuple[str, list[str]]],
         "只输出 JSON 数组，不要其他文字。"
     )
     try:
-        out, _ = call_llm(prompt, max_tokens=cfg.necessary_judge_max_tokens * len(candidates) // 2 + 200, temperature=0.0)
+        out, _ = call_llm(prompt, max_tokens=cfg.necessary_judge_max_tokens * len(candidates) // 2 + 200, temperature=0.0, retries=3)
         results = [False] * len(candidates)
         for m in re.finditer(r'\{\s*"idx"\s*:\s*(\d+)\s*,\s*"necessary"\s*:\s*(true|false)', out or "", re.I):
             idx = int(m.group(1))
@@ -288,6 +288,7 @@ class DecompStateMachine:
         self._gain_history: list[float] = []
         self.dropped_redundant = 0
         self._no_ness_streak = 0
+        self.network_degraded = False  # E8: 出口探针结果，run() 开头设置
 
     def _safe_prompt(self, template: str, **kwargs) -> str:
         """填充 prompt 后做 leak check。
@@ -337,7 +338,7 @@ class DecompStateMachine:
             parents_block=parents_block,
             start=len(self.nodes) + 1,
         )
-        out, _ = call_llm(prompt, max_tokens=8000, temperature=0.7, top_p=0.95)
+        out, _ = call_llm(prompt, max_tokens=8000, temperature=0.7, top_p=0.95, retries=4)
         d = _extract_json(out or "")
         d = d if isinstance(d, dict) else {}
         raw_nodes = [n for n in (d.get("nodes") or [])
@@ -366,9 +367,12 @@ class DecompStateMachine:
         """核验一批节点。返回带 status/evidence 的节点。"""
         for node in batch:
             if node.source == "search":
-                srcs, err = search_node(
-                    {"id": node.id, "claim": node.claim,
-                     "search_query": node.claim}, qid=self.qid)
+                if self.network_degraded:
+                    srcs, err = [], "network_degraded: 出口探针失败，跳过联网检索"
+                else:
+                    srcs, err = search_node(
+                        {"id": node.id, "claim": node.claim,
+                         "search_query": node.claim}, qid=self.qid)
                 if err:
                     node.status = "degraded"
                     node.evidence = f"检索失败: {err}"
@@ -439,12 +443,61 @@ class DecompStateMachine:
                 "state": self.state.value,
                 "dropped_redundant": self.dropped_redundant,
                 "leak_hits_total": self.leak_hits_total,
+                "network_degraded": self.network_degraded,
                 "rework_events": self.rework_events,
                 "nodes": [vars(n) for n in self.nodes],
             }, f, ensure_ascii=False, indent=2)
 
+    def _probe_network(self):
+        """E8.2: 出口健康探针。
+        本机网络是"代理模式"（ClashX 7890），Python 直连被拒是常态——
+        先试直连，失败再经系统代理（scutil 读出的 HTTPProxy）试一次；
+        两次都失败才判 degraded。探的是 Python 侧通道（wiki/arXiv API）；
+        ego-browser 通道的失败由 research_hook 内部降级兜底。"""
+        import urllib.request, subprocess, re
+        url = "https://en.wikipedia.org"
+        hdr = {"User-Agent": "pfb-sm-probe/1.0"}
+        try:
+            req = urllib.request.Request(url, method="HEAD", headers=hdr)
+            urllib.request.urlopen(req, timeout=8)
+            self.network_degraded = False
+            return
+        except Exception:
+            pass
+        try:
+            out = subprocess.run(["scutil", "--proxy"],
+                                  capture_output=True, text=True, timeout=5).stdout
+            host = re.search(r"HTTPProxy\s*:\s*(\S+)", out)
+            port = re.search(r"HTTPPort\s*:\s*(\d+)", out)
+            if host and port:
+                proxy = f"http://{host.group(1)}:{port.group(1)}"
+                opener = urllib.request.build_opener(
+                    urllib.request.ProxyHandler({"https": proxy, "http": proxy}))
+                req = urllib.request.Request(url, method="HEAD", headers=hdr)
+                opener.open(req, timeout=8)
+                self.network_degraded = False
+                return
+        except Exception:
+            pass
+        # E8.2b: Python 通道降级 ≠ ego-browser 通道死了（后者走 ego lite 自己的网络栈）。
+        # 快速探一次 ego-browser；能活就继续用，不能才整体降级。
+        try:
+            from research_hook import _run_ego_browser
+            r = _run_ego_browser(
+                'const t = await taskSpace("sm-probe"); const p = t.page("x"); '
+                'console.log(JSON.stringify({alive: !!p}));', timeout=20)
+            if "alive" in (r or ""):
+                self.network_degraded = False
+                print("  [SM] python channel degraded but ego-browser alive — continuing", flush=True)
+                return
+        except Exception as e:
+            print(f"  [SM] ego-browser probe failed: {e}", flush=True)
+        self.network_degraded = True
+        print("  [SM] network probe FAILED (all channels) — retrieval degraded", flush=True)
+
     def run(self) -> SMResult:
         """主循环。"""
+        self._probe_network()
         self.state = State.DECOMPOSE
         self._decompose_l1()
 
@@ -621,6 +674,7 @@ if __name__ == "__main__":
             sm.nodes.append(NodeRecord(**nd))
         sm.dropped_redundant = ck.get("dropped_redundant", 0)
         sm.leak_hits_total = ck.get("leak_hits_total", 0)
+        sm.network_degraded = ck.get("network_degraded", False)
         sm.rework_events = ck.get("rework_events", [])
         print(f"[SM] resumed from {resume_from}: {len(sm.nodes)} nodes @ r{ck['round']}", flush=True)
     if no_verify:
@@ -643,7 +697,25 @@ if __name__ == "__main__":
             return batch
         sm._verify_batch = _vb_no_search
         sm._rework = lambda failed: None
-    result = sm.run()
+    try:
+        result = sm.run()
+    except Exception as e:
+        import traceback, sys as _sys
+        print(f"\n[T53 SM] FATAL: {type(e).__name__}: {e}", flush=True)
+        traceback.print_exc()
+        ck_path = f"runs-s5-sm-{qid}-checkpoint.json"
+        with open(ck_path, "w") as f:
+            json.dump({
+                "qid": qid,
+                "round": len(sm.rounds_log),
+                "nodes": [vars(n) for n in sm.nodes],
+                "dropped_redundant": sm.dropped_redundant,
+                "leak_hits_total": sm.leak_hits_total,
+                "network_degraded": sm.network_degraded,
+                "rework_events": sm.rework_events,
+            }, f, ensure_ascii=False, indent=2)
+        print(f"[T53 SM] Checkpoint saved → {ck_path} (use --resume {ck_path})", flush=True)
+        _sys.exit(1)
     print(f"\n[T53 SM] DONE: {len(result.nodes)} nodes, "
           f"{len(result.rounds_log)} rounds, "
           f"state={result.final_state}, "

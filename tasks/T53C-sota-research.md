@@ -1,5 +1,13 @@
 # T53C-SOTA: DeepResearch Bench SOTA 分数调研
 
+
+## 任务书头部（arena 对齐用 · 2026-11-11 补）
+
+**目标**：为 T53 AC4（打赢 SOTA ≥5 bench）拿到可引用的 SOTA 逐题/aggregate 分数基线。
+**验收口径**：输出 JSON 含 sota_systems[]（name/source/url/分数/口径注明 per-question or aggregate），≥3 个系统，每个分数带来源 URL；找不到的标 [待核验] 不编。
+**硬约束**：只调研不改代码；产出 commit 到 arena 分支并 push；引用必须可点击溯源。
+**落盘位置**：research/sota-bench-scores.json + 本文件尾部 append 结论摘要。
+
 ## 任务
 
 查当前最新开源/公开 deepresearch 类 agent 在以下 5 道题（或最接近的 benchmark subset）上的**逐题分数**：
