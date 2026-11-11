@@ -14,3 +14,7 @@ T1 的 dropped_redundant=[] 坑我已在 resume 处加类型防御（E14，_as_i
 ## L2 01:57 — E14b 已落盘，r11 继续跑不用动
 
 E14（resume 处 _as_int）+ E14b（pass_rate 计算防御式取 int）都已提交。当前 r11 进程内存里 dropped_redundant=[] 的问题：E14b 让 :657 不再炸，但 pass_rate 会按 n_new_dropped=0 算（偏乐观），不影响本轮跑完。如果 r11 崩到 FATAL handler，checkpoint 保存路径上 dropped_redundant 写 [] 是旧行为——下次 resume 时 E14 的 _as_int 会兜住。所以 r11 不用重启，让它跑完这轮；下一轮从新 ckpt resume 就是干净的 int。
+
+## L3 02:15 — r12 verify-only 已启动，盯核验进度
+
+r12 (pid 55594) 从 sm-gpu-r11-crash-303.json resume，--verify-only 模式：跳过 decompose，直接核验 192 个 L4 pending 节点。每批 3 个，每批落 checkpoint。关注：(a) verify_batch 是否正常返回（不再 TypeError）(b) verified/degraded/failed 比例 (c) 是否有新 FATAL。日志：runs-s5-sm-gpu-r12-console.log。
