@@ -45,6 +45,15 @@
   - `--no-verify` 模式（跳过 search_node，只过 verify_node）：9 分钟已到 r1，+59 节点，ver=29/59，活着且在推进。
   - 全链路模式（search_node 联网检索 + verify_node）：4 分钟卡在 L1 后，CPU 0%，TCP ESTABLISHED 无流量。
   → 变量隔离出来了：**卡点是 search_node（ego-browser 联网检索通道），不是 verify_node，不是 proxy，不是状态机逻辑。**
-- **根因**：[待核验] ego-browser 会话掉线/登录态失效时 research_hook 的超时行为——它可能无限等待而不是返回 err 降级。
+- **根因（2026-11-11 20:55 定位）**：系统代理 ClashX 的 7890 端口挂了（进程活着但不再监听，nc 探测 port closed；GLOBAL 节点还停在 DIRECT）。ego lite 渲染进程的出站流量全走系统代理 → ERR_PROXY_CONNECTION_FAILED / ERR_FAILED；而 Python urllib 直连不走系统代理所以 8787/wikipedia API 都正常。这就是"微信会断"和 r2/r3 挂死的同一类病：**机器网络环境（ClashX）抖动，状态机没有隔离层**。修复：① 手动把 GLOBAL 切到可用节点恢复出口；② 长期方案见 E8。
 - **处理**：① 给 search_node 加硬超时（如 120s）+ 失败降级为 degraded（设计里本来就有这个分支，但前提是它能"失败返回"而不是挂住）；② bench 跑之前先单测 research_hook 一次确认通道活着。
 - **附带发现**：--no-verify r1 已 +59 节点（total 81），necessary 过滤在跑（ver=29/59 说明有节点被丢），F_β 方向有效，AC1 ≤200 大概率能达标。
+
+
+## E8 — 状态机与本机网络环境解耦（设计方向，未实现）
+- **问题**：research_hook 的 ego-browser 通道依赖系统代理（ClashX 7890），ClashX 一挂整个联网检索通道就死；Python 侧通道（urllib 直连 arXiv/wiki API）反而不受影响。
+- **方向**（按性价比排序）：
+  1. **通道顺序调整**：s5-node 级别优先走纯 Python 直连通道（arXiv API + wiki API + DDG html），ego-browser 只做最后兜底——现在 ego-browser 在 webllm 阶段就提前触发，把坏通道的失败日志刷满了 log。
+  2. **出口健康探针**：run() 开始前探一次 `https://en.wikipedia.org`（经系统代理路径），不通则跳过所有 ego-browser 通道并落盘标记 `network_degraded=true`，不阻塞、不静默死。
+  3. **ClashX 自愈**：检测到 7890 无监听时，通过 9090 API 把 GLOBAL 从 DIRECT 切到可用节点（本轮手动执行过，有效）。可以做成 launch.sh 的前置检查。
+- **状态**：[待实现] 1+2 是 bench 跑通前的必要条件（AC7 可复现要求 bench 不因网络抖动整体挂掉）。
