@@ -183,3 +183,16 @@ D 问：v17 的 hack 是不是 prompt 里目标函数文字描述驱动的？公
 **兼容性**：旧 checkpoint 无 objective 字段 → resume 得 None，不影响。已验证 old ckpt 加载正常。
 
 **生效时机**：L1 轮才触发，--resume 场景 skip L1 所以 r10 不受影响；下一棵新树（或手动清 L1 重跑）时首次生效。
+
+## Decision 20 (2026-11-12): E13 — judge 解析器与 prompt 格式不匹配（r9/r10 同根因）
+
+**事故**：r10 和 r9 死在同一处——`if v:` TypeError: 'int' object is not iterable。r9 当时归因为"HTTP 400 → 兜底 [False]*n"，E11 修了 max_tokens；但 r10 带着 E11 依然死于同一行，说明 **E11 没修到真正的根因**。
+
+**真根因**：prompt 要求模型输出无 [] 包裹的紧凑行（`"idx":0,"necessary":true`），但解析代码第一步是 `re.search(r'\[.*?\]')` 找 JSON 数组——模型照 prompt 做之后这个正则永远匹配不到，全部落回 fallback regex。fallback 对某些输出形态漏解析/误判，verdicts 里混入非 bool 值，`if v:` 对 int 迭代炸 TypeError。
+
+**修法（E13）**：
+1. 解析改为全文 finditer `"idx":N,"necessary":bool`（主路径，兼容紧凑行/JSON数组/一行多对象/混合），无逗号松散行走逐行兜底；hit==0 时打 warning（raw head 80 字符）便于下次诊断。
+2. zip 循环加 `isinstance(v, bool)` 防御——即使 verdicts 再混进脏值也只会静默 drop，不会炸进程。
+3. 单元测试 8/8 通过（含 r9/r10 实际输出形态）。
+
+**教训**：① 修 bug 要验证"修复后的完整链路"而不是只修报错的那一层——E11 修了 max_tokens（真实问题之一）但没跑通 parse 路径，等于没修。② "Checkpoint saved" 日志 + round=0 空壳再次出现（FATAL handler 把内存树存进去了但本轮新节点在 extend 前就崩了，所以还是 117）——checkpoint 机制本身没问题，问题是崩溃点太靠前。E13 让 judge 不再崩，才是正解。

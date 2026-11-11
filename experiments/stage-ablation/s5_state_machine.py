@@ -170,26 +170,31 @@ def judge_necessary_batch(candidates: list[tuple[str, list[str]]],
         # 配合紧凑输出格式（每行一条）足够 30+ 条裁决。
         mtok = min(cfg.necessary_judge_max_tokens * len(candidates) // 2 + 200, 4096)
         out, _ = call_llm(prompt, max_tokens=mtok, temperature=0.0, retries=3)
+        # E13 (2026-11-12): 逐行解析。旧版先 re.search(r'\[.*?\]') 找 JSON 数组——
+        # 但 prompt 要求的是无 [] 的紧凑行（"idx":0,"necessary":true），模型照做后
+        # 正则永远匹配不到 → 全部落回 fallback regex → 漏解析/误判。
+        # 现在直接逐行取 "idx":N,"necessary":bool，兼容有无 [] 两种输出。
         results = [False] * len(candidates)
         raw = out or ""
-        arr_m = re.search(r'\[.*?\]', raw, re.S)
-        parsed = False
-        if arr_m:
-            try:
-                import json as _json
-                for item in _json.loads(arr_m.group(0)):
-                    if isinstance(item, dict) and "idx" in item and "necessary" in item:
-                        i = int(item["idx"])
-                        if 0 <= i < len(candidates):
-                            results[i] = bool(item["necessary"])
-                parsed = True
-            except Exception:
-                pass
-        if not parsed:
-            for m in re.finditer(r'(?:"idx"|idx)\s*[:=]\s*(\d+)[^{}]*?(?:"necessary"|necessary)\s*[:=]\s*(true|false)', raw, re.I):
-                idx = int(m.group(1))
-                if 0 <= idx < len(candidates):
-                    results[idx] = m.group(2).lower() == "true"
+        hit = 0
+        # 主路径：全文 finditer——紧凑行 / JSON 数组（含一行多对象）/ 混合形态都兼容
+        for m in re.finditer(r'"?idx"?:\s*(\d+)\s*,\s*"?necessary"?:\s*(true|false)', raw, re.I):
+            i = int(m.group(1))
+            if 0 <= i < len(candidates):
+                results[i] = m.group(2).lower() == "true"
+                hit += 1
+        # 兜底：无逗号分隔的松散行（如 "idx": 0  necessary: true，逐行各取一个）
+        if hit == 0:
+            for line in raw.splitlines():
+                mi = re.search(r'"?idx"?:\s*(\d+)', line)
+                mn = re.search(r'"?necessary"?:\s*(true|false)', line, re.I)
+                if mi and mn:
+                    i = int(mi.group(1))
+                    if 0 <= i < len(candidates):
+                        results[i] = mn.group(1).lower() == "true"
+                        hit += 1
+        if hit == 0:
+            print(f"  [SM] necessary-judge: no verdict lines parsed (raw head: {raw[:80]!r})", flush=True)
         return results
     except Exception as e:
         print(f"  [SM] necessary-judge-batch error: {e}", flush=True)
@@ -633,7 +638,7 @@ class DecompStateMachine:
             verdicts = judge_necessary_batch(cand_list, self.confirmed, self.cfg)
             necessary_nodes = []
             for nn, v in zip(deduped, verdicts):
-                if v:
+                if isinstance(v, bool) and v:
                     necessary_nodes.append(nn)
                 else:
                     self.dropped_redundant += 1
