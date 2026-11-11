@@ -37,3 +37,14 @@
 - **根因**：未定——单发/连发 5 次 verify_node 全过（各 ~1.7s），说明不是 proxy 拒绝某条特定 claim；怀疑是后台进程 + 长 LLM 调用组合下的环境因素（macOS 睡眠断网 / 终端会话回收）。r1 smoke 也是同样模式死于 L1 之后。
 - **处理**：这正是要修的可靠性问题本身。方向：① run() 每轮结束落盘 checkpoint（nodes JSON），死了能 resume；② 启动统一走 `scripts/launch.sh`（tee + EXIT code），至少死因可见；③ 关键 LLM 调用加 timeout + 单次重试。先复现：用 launch.sh 起 r2 重跑，看是否再次静默死、EXIT code 是什么。
 - **状态**：[待核验] 复现中。
+
+
+## E7 — 全链路（联网检索）核验批次挂死，--no-verify 模式正常（2026-11-11 对照实验定位）
+- **症状**：r2/r3 smoke 都停在 L1 之后的 VERIFY 阶段，无 Traceback；进程有时静默消失（r2），有时 ESTABLISHED 挂着不动（r3 pid 72070）。
+- **对照实验（本轮关键证据）**：同一台机器、同一个 8787 proxy，两个进程同时跑——
+  - `--no-verify` 模式（跳过 search_node，只过 verify_node）：9 分钟已到 r1，+59 节点，ver=29/59，活着且在推进。
+  - 全链路模式（search_node 联网检索 + verify_node）：4 分钟卡在 L1 后，CPU 0%，TCP ESTABLISHED 无流量。
+  → 变量隔离出来了：**卡点是 search_node（ego-browser 联网检索通道），不是 verify_node，不是 proxy，不是状态机逻辑。**
+- **根因**：[待核验] ego-browser 会话掉线/登录态失效时 research_hook 的超时行为——它可能无限等待而不是返回 err 降级。
+- **处理**：① 给 search_node 加硬超时（如 120s）+ 失败降级为 degraded（设计里本来就有这个分支，但前提是它能"失败返回"而不是挂住）；② bench 跑之前先单测 research_hook 一次确认通道活着。
+- **附带发现**：--no-verify r1 已 +59 节点（total 81），necessary 过滤在跑（ver=29/59 说明有节点被丢），F_β 方向有效，AC1 ≤200 大概率能达标。
