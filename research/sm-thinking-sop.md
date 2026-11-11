@@ -274,3 +274,6 @@ Levin-K 复杂度 = 最短描述长度（Kolmogorov 在 Levin 的通用前缀编
 1. **bench = held-out test set**：不能拿 bench 题目的特征反推 prompt 规则（train/test 泄漏）。prompt 只能加元规则（Decision 10 纪律的强化版）。
 2. **Goodhart 是结构性必然非工程 bug**：任何写进 prompt 的 proxy 都会被优化穿（Skalse et al. arXiv:2209.13085 的定理级结论）。唯一已知防法 = reward 对 policy 不可见。我们现有架构（U 机器侧、prompt 只有终点判据）已经满足，不要为了"让模型更努力"把指标塞回 prompt。
 3. **泛化验证 = 多任务分布跑树**：≥5 个 deepresearch bench 不是"对标 SOTA"的验收，是这个"训练"的 test accuracy 测量。
+
+
+**E14b 补充（teamer T1 发现后 Lead 落盘）**：E14 只修了 resume 读侧，但运行中进程内存里的 dropped_redundant 仍可能是 []（r11 是旧代码启动的）。:657 pass_rate 计算 `self.dropped_redundant - _prev_dropped` 会 list-int TypeError。E14b 把 :657 改成 isinstance 防御取 int——即使内存值是 []，pass_rate 按 n_new_dropped=0 算（偏乐观但不炸），FATAL handler 不再连锁崩。教训：**checkpoint 类型防御要同时覆盖写侧（_save_checkpoint）和读侧（resume）+ 运行中所有算术点**，单侧防御不够。
