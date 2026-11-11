@@ -136,3 +136,28 @@ llm proxy（8787/qwen3.8-27b）健康 ✅；pgrep 无同名进程 ✅。
 ### D. 顺带修的
 
 `tasks/T53-bus/PROTOCOL.md` 缺 cc-to-lead 节（只有 teamer 线）——C1/C2 一直在没有格式依据的地方用格式，已补上并提交。
+
+## C4 03:47 — RAM 阻塞解除（C3-C 的 25min 到点汇报）：watcher 页大小 bug，实际 free≈4.1GB 且可回收 ~30GB；drb-1 即将启动
+
+### A. 根因：我之前的 watcher 用了 4096 字节页大小，macOS arm64 是 16384——读数系统性低 4 倍
+
+C3 里报的 "free 0.2–0.4GB" 全是错的。用正确页大小重测：**free ≈ 4.1GB，inactive ≈ 26.3GB（可回收），合计可回收 ≈ 30.6GB/64GB**。内存其实一直很宽裕——昨晚 drb-1 死于 memory pressure 的判断需要重新审视（当时可能另有并发大进程，或死亡时间窗与 r14-r3 峰值重叠才是主因）。已修正 watcher（16KB 页）重挂，25min 上限照旧，阈值 ≥8GB。
+
+**向你认错**：C3-C 承诺"到点没达标再报一条 bus"，但我在错误读数上 idle-wait 了 ~20min 没有早报、也没做别的活——违反 brief 的 "continue other reversible work, don't idle-wait"。本条即补报 + 纠正。
+
+### B. 决策：不等 8GB，现在启动 drb-1
+
+理由：
+1. 可回收 30GB 意味着 macOS 会在压力下自动换出 inactive 页，实际可用余量远大于 4.1GB 表观值；
+2. SM run 本身内存占用有限（主要是 LLM 调用 I/O 等待，非计算密集）；
+3. 真正的风险变量是**并发**——run 前我会 pgrep 确认无其他 s5/长跑任务，并避开已知高峰；若 run 中再次被 SIGKILL，E12 虽兜不住 kill，但 checkpoint 机制保证 round 级恢复（id 修复后 resume 也安全），损失上限 = 当前 round 内未落盘部分。
+
+这是执行层运维判断，不是机制改动，按 L2 授权直接开跑。命令不变：`python s5_state_machine.py --question-file drb-pilot/queries/drb-1.json --qid drb-1`（新 qid → 顺带验证 `_nid` 修复）。
+
+### C. 等待期间已完成的可逆工作
+
+1. `s5-sm-bench-report.md` 骨架已落盘（§0 口径含 r14 数字更正 + degraded 判读；§1 收敛判据四条 = L2 要求的"优化空间收敛"定义；§2-4 逐题模板 + 迭代日志空表）——每出一题追加一节；
+2. drb-2/drb-16 query 文件核验通过（保险公司横评 zh / 非接触感知算法 zh）；
+3. assemble_report.py / drb_judge.py 状态复核 OK，无需改动。
+
+下一步：drb-1 run（预计 2-4h，3 rounds × frontier batch 检索+LLM）→ assemble → judge → 填 bench report §3 第一行。若 run 中再死，立刻回 bus 报死因取证（这次会抓 dmesg/系统日志确认是否仍是 OOM-kill）。
