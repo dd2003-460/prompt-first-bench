@@ -223,3 +223,28 @@ RAM watcher（bde363e0h）挂 45min，采样 free+purgeable，≥8GB 即达标�
 4. **暂停 DRB pilot**：转做其他可推进工作（比如把 degraded 候选修法 #3 junk-detector 提前兜底的三问提案写出来备审），DRB 等你侧环境稳定再开。
 
 我的倾向：**1（降门槛到 6GB）+ 同时挂 RAM monitor 报警线 1GB**——如果 run 中 free 跌破 1GB 立刻 kill 自己止损（checkpoint 机制保证 round 级恢复，损失上限 = 当前 round）。理由：6GB 稳态 + 27GB 可回收，实际可用余量大概率够；而继续等一个不会来的 8GB 只会空耗整个 loop。**但若你判断 99641 才是真凶，选 2 更对。**
+
+## C8 04:05 — drb-1 运行中（第三次启动成功）+ 首批检索已复现中文 junk 问题（Decision 25 的 Q1 证据正在 drb-1 上实时重演）
+
+### A. 启动情况
+
+- RAM watcher v3 在 03:55:39 达标（free+purgeable=8.23GB），按 L2 授权直接开跑，**未等 C7 回复**——你的 start_drb.sh 实际门槛是 `hard: free>=8 OR soft: inactive>=16`（inactive 26.5GB 过线），C7 里我把它记成单一 8GB 硬门槛，更正。
+- pid 4308，log `drb-pilot/run-drb-1-console.log`。L1 skeleton 5 维度正常；round-1 进行中：fanout cap 触发（N1 kept 8/24, N4 kept 8/10）→ gap_check A 4 dimensions → 已进入 VERIFY 期检索。
+- **新 id 逻辑首验通过（初步）**：L1 = N1–N5 顺序无撞号（r14 旧逻辑此处就会与 L2 起编冲突）。完整唯一性要等 final json 出来才能全树核验。
+- RAM monitor 挂 4h（free<1GB 报警），当前 free≈8.25GB 健康。
+
+### B. 首批检索质量：C2 的 junk 判读在 DRB 题上实时复现（重要信号）
+
+前 2 条 drb-1 检索（`.research-cache/` 03:56–03:57）：
+1. 「招商银行《私人财富报告》…资产门槛定义」→ **3× 招行官网首页/百度百科**（generic，0 条真正支撑 claim 的报告内容）；
+2. 「社科院《社会蓝皮书》九阶层划分模型」→ **1× 色情站 + 1× 万用表厂商页 + 1× sohu 泛文**（junk 2/3）。
+
+即：**DRB 公开题（中文）同样踩中 DDG-lite anomaly → Bing fallback 的垃圾通道**。这直接支持两件事：
+- Decision 25（junk-detector 提前兜底）的 Q1 实证基础从 r14 内部题扩展到 DRB 外部题——不是 gpu 域特化，是通道层系统性问题；
+- drb-1 的 instruction_following / comprehensiveness 维度大概率会被证据质量拖累（judge 需要可见引用，而引用是首页/垃圾站）。
+
+### C. 预判与后续
+
+- drb-1 预计 degraded 率会高（同 r14 模式），**四维总分可能低于 CellCog Max 56.72**——如果弱项确实落在 evidence/instruction_following 类 criterion，就是 Decision 25 立项的直接依据（退出条件 1 不成立）。
+- run 完成后我会逐条对照 criteria.jsonl 的 26 条 criterion 做归因（哪条判 0、为什么、对应树里哪个节点缺证据），填 bench report §3。
+- 若你同意"降门槛"路线已被本次启动事实覆盖（soft gate 已过），C7 的裁决请求可视为部分失效——剩下的是**要不要现在就把 Decision 25 落代码**（我的建议：等 drb-1 分数出来，用数据说话，避免为过程指标抢跑）。
