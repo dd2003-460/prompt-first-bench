@@ -104,3 +104,35 @@ degraded 主体仍是 P3 verify 对无支撑 claim 的正当降档（这部分�
 - 📝 tree→report 组装器（sm 节点树 → DRB judge 吃的研究报告 md）：新增代码、不动现有机制，按 C1-E 承诺在此报备——实现思路 = 按 level 分层聚合 verified/degraded 节点的 claim+evidence，生成带来源引用的结构化报告；写完先给你过一眼再跑 judge。
 
 下一步顺序：内存释放 → 启动 drb-1 → 写组装器 → drb-1 出报告 → 四维判分 → 落 s5-sm-bench-report.md 第一版。期间每完成一个单元更新 cc-state.json。
+
+## C3 03:28 — bug：节点 id 跨 level 撞号（r14 树实际只有 40 个唯一节点）+ 两处修复 + DRB 启动被内存卡住
+
+### A. bug 描述（本地证据，无猜测）
+
+`runs-s5-sm-gpu.json`（r14 final）**137 条节点记录里只有 40 个唯一 id**——L2/L3/L4 各 12 个唯一 id 互相覆盖。r2 checkpoint 同样（59 records / 29 unique）。
+
+根因在 `s5_state_machine.py` 的 id 分配：`id=f"N{len(self.nodes) + len(new_recs) + 1}"`（_decompose_layer）和 `f"N{len(self.nodes)+len(new_nodes)+1}"`（gap_check 补充）。同轮 frontier batch 内，`len(self.nodes)` 不变、`new_recs/new_nodes` 只计各自局部列表——batch=[N4,N5] 时两个父拆出的子都从 N16 起编；下一轮 `lv_max` 前进后 L3 又一批从 N16 起编。**跨 level 系统性撞号**。
+
+影响面：
+1. r14 分析里"137 nodes"是记录数不是节点数——level 分布 L2=17/L3=37/L4=78 全是重复计数，真实规模 ≈ 40 节点（5 L1 + 12×3 层）。C1-A 表里的数字口径错了，向你更正；
+2. 下游任何按 id 索引的逻辑（parent_ids 反查、去重、报告组装）全部失真——我写 tree→report 组装器时直接撞上：递归渲染炸成 20MB（同一子树经多个共享"父"重复展开 3485 次）；
+3. **对 SM 机制本身的伤害**：dedupe 用 claim n-gram（不受影响），但 parent_ids 指向歧义 id → edge 继承/贡献度归因错乱，J_precision 的 par_claims 查表（`id2claim[pid]`）会拿到错误父 claim。也就是说 r14 的 quotient 12.4% 等指标是在带伤的结构上算的——方向应该没错（structural test 生效），但数值精度存疑。
+
+另注：`parent_ids` 语义 = 同轮 frontier batch（兄弟共享），不是内容真父（65/132 条记录的内容最近邻不在声明父里）。这是设计使然（INDEX 分解按 batch 走），不是 bug，但报告组装不能按它递归。
+
+### B. 已做的两处修复（都是修 bug 恢复正确行为，非新机制，不走三问）
+
+1. **s5_state_machine.py**：加全局计数器 `self._nid`，两处 id 分配改为 `self._nid += 1; id=f"N{self._nid}"`；`--resume` 时同步 `_nid = max(已有最大编号)`（否则 resume 继续撞）。语法校验通过，未跑过完整 run（等 drb-1 首跑顺带验证——drb-1 是新 qid，正好能检验新 id 逻辑）。
+2. **drb-pilot/assemble_report.py**（C2-E 报备的那个组装器，已写完）：放弃 parent_ids 递归（理由见 A.3），改为 **level 分节平铺** + 状态标注（✓/△/…/✗）+ **来源回填**（SM 落盘不含检索 URL，evidence 只是 judge 文字判断；`.research-cache` 按 query=claim 存了完整 sources，精确匹配回填 top-5 title/URL/snippet——DRB instruction_following 维度需要可见引用）。r14 树上 smoke test 通过：137 records → 70KB 报告，48 个 search 节点命中缓存回填。
+
+**这两处改动意味着 drb-1 将跑在新 id 逻辑上**——如果它正常出树且 id 全唯一，bug fix 即验证完成；如果有异常我会立刻回滚并报告。
+
+### C. DRB pilot 启动阻塞：内存不释放
+
+free RAM 持续 **0.2–0.4GB**（watcher 每 60s 采样中，阈值 ≥8GB 才启动），inactive 6.9GB 可回收但 macOS 没主动换出。昨晚 drb-1 死于 ~2.3GB free 的同型 memory pressure，我不会在 0.3GB 上再赌一次。watcher 设了 25min 上限，到点没达标我就再报一条 bus 说明情况（可能需要你这边关掉占内存的应用，或接受我降低并发风险硬跑——由你定）。
+
+llm proxy（8787/qwen3.8-27b）健康 ✅；pgrep 无同名进程 ✅。
+
+### D. 顺带修的
+
+`tasks/T53-bus/PROTOCOL.md` 缺 cc-to-lead 节（只有 teamer 线）——C1/C2 一直在没有格式依据的地方用格式，已补上并提交。

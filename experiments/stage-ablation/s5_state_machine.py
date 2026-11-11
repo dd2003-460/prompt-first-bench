@@ -375,6 +375,7 @@ class DecompStateMachine:
     def __init__(self, question: str, qid: str = "gpu",
                  cfg: Optional[ObjectiveConfig] = None):
         self.question = question
+        self._nid = 0  # C3: 全局唯一节点 id（旧逻辑按 len(self.nodes)+1 编号，同轮 batch 内互相覆盖 → 跨 level 撞号）
         self.qid = qid
         self.cfg = cfg or ObjectiveConfig()
         self.entities = extract_entities(question)
@@ -505,8 +506,9 @@ class DecompStateMachine:
             if not valid_et:
                 # 继承：取第一个父节点的 edge_type
                 valid_et = parents[0].edge_type if parents else "cartesian"
+            self._nid += 1
             rec = NodeRecord(
-                id=f"N{len(self.nodes) + len(new_recs) + 1}",
+                id=f"N{self._nid}",
                 claim=rn["claim"],
                 level=f"L{next_lv}",
                 source=rn.get("source", "search"),
@@ -771,8 +773,9 @@ class DecompStateMachine:
                         {"id": n.id, "claim": n.claim, "level": n.level}
                         for n in new_nodes])
                 for ae in added_extra[:5]:
+                    self._nid += 1
                     new_nodes.append(NodeRecord(
-                        id=f"N{len(self.nodes)+len(new_nodes)+1}",
+                        id=f"N{self._nid}",
                         claim=ae if isinstance(ae, str) else ae.get("claim",""),
                         level=f"L{lv_max+1}", source="search"))
 
@@ -949,6 +952,9 @@ if __name__ == "__main__":
         from s5_state_machine import NodeRecord
         for nd in ck["nodes"]:
             sm.nodes.append(NodeRecord(**nd))
+        # C3: resume 后 id 计数器必须超过 ckpt 里已有最大编号，否则新节点继续撞号
+        _max_nid = max((int(str(n.id).lstrip("N")) for n in sm.nodes if str(n.id).lstrip("N").isdigit()), default=0)
+        sm._nid = max(getattr(sm, "_nid", 0), _max_nid)
         # E14 (Decision 21): ckpt 字段类型防御 — clean-r2 里 dropped_redundant 存成了 []，
         # 照搬会让后续 list-int 运算炸 TypeError（连锁崩溃），统一归一为 int
         def _as_int(v, default=0):
