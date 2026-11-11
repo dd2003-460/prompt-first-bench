@@ -934,7 +934,6 @@ if __name__ == "__main__":
         i = flags.index("--resume")
         if i + 1 < len(flags):
             resume_from = flags[i+1]
-    q = QUESTIONS[qid]
     print(f"[T53 SM] Running on '{qid}': {q[:60]}...", flush=True)
     sm = DecompStateMachine(q, qid=qid)
     # --max-nodes N: 覆盖硬顶（resume 时 ckpt 节点数可能已超默认 150）
