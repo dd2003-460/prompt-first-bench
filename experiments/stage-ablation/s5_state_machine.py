@@ -306,25 +306,40 @@ class DecompStateMachine:
                            f"(total {len(hits)} entities matched)")
 
     def _decompose_l1(self, skip_if_seeded: bool = False):
-        """第 0 轮: L1 骨架。skip_if_seeded=True 且已有节点（resume 场景）时跳过重拆。"""
+        """第 0 轮: L1 骨架——只取顶层正交维度（3-7 个），不往下钻。
+
+        旧实现调 decompose()（P1_DECOMPOSE）要求模型一次拆出整棵多层树再全部标 L1，
+        导致层级拍平：逐卡规格/公式推导混进第一层，S_alpha 层级贡献失真。
+        现在用 P1_L1_SKELETON 专用 prompt，严格约束只输出顶层目录。
+        """
         if skip_if_seeded and self.nodes:
             print(f"  [SM] L1 already seeded ({len(self.nodes)} nodes from checkpoint), skipping decompose", flush=True)
             return
-        print("  [SM] L1 skeleton...", flush=True)
-        l1, _raw = decompose(self.question, unlimited=True)
-        if not l1:
+        print("  [SM] L1 skeleton (top-level dimensions only)...", flush=True)
+        from s5_pipeline import P1_L1_SKELETON, _extract_json
+        prompt = P1_L1_SKELETON.format(question=self.question)
+        out, _ = call_llm(prompt, max_tokens=2048, temperature=0.7, top_p=0.95, retries=3)
+        d = _extract_json(out or "") or {}
+        dims = d.get("dimensions") or []
+        dims = [x for x in dims if isinstance(x, dict) and (x.get("name") or x.get("scope"))]
+        if not dims:
             raise RuntimeError("L1 skeleton empty")
-        for i, n in enumerate(l1):
+        # 上限 7 个（防模型不守规矩）
+        dims = dims[:7]
+        for i, dim in enumerate(dims):
+            name = dim.get("name", "").strip()
+            scope = dim.get("scope", "").strip()
+            claim = f"{name}：{scope}" if scope else name
             rec = NodeRecord(
-                id=n.get("id", f"N{i+1}"),
-                claim=n["claim"],
+                id=f"N{i+1}",
+                claim=claim,
                 level="L1",
-                source=n.get("source", "search"),
+                source="given",  # 顶层维度是结构性的，不需要检索
             )
             self.nodes.append(rec)
-        # L1 是骨架，允许引用题目（它是"目录"不是"答案"）
-        # 但子节点展开后的 claim 不应回显题目原文
-        print(f"  [SM] L1: {len(self.nodes)} nodes", flush=True)
+        print(f"  [SM] L1: {len(self.nodes)} top-level dimensions", flush=True)
+        for n in self.nodes:
+            print(f"    [{n.id}] {n.claim[:80]}", flush=True)
 
     def _decompose_layer(self, parents: list[NodeRecord]) -> list[NodeRecord]:
         """对一组父节点做 INDEX 分解，返回新子节点。"""
