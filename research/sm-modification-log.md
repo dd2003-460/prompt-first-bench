@@ -3,6 +3,8 @@
 > origin: ai (T53-D2, 成璐要求"所有相关错误、修改路径放在项目里")
 > 格式：日期 / 改了什么 / 为什么 / 证据。append-only，不删历史条目。
 
+**编号规则（2026-11-11 成璐质询后补）**：本文件 rN = 状态机工程迭代轮次（smoke test run + 代码改动批次），从 r1 起连续递增，与 v17 的 r1-r10（`s5_hierarchy.py` 单次 run 内部的 decompose 分解轮，见 `runs-s5-v17-hier-smoke-console.log`）是**不同命名空间**。v17 没有 v18/v19/v20——它的后继就是 T53 状态机本身（设计动机见 `research/v17-hier-decomposition-blowup.md`），不再另起 vN 版本号；若未来需要大版本锚点，在本文件加一行 "vN = rX+rY 合并发布" 即可，不新建编号体系。
+
 ---
 
 ## 2026-11-11 r1 — S_α recall 型 → F_β 型（necessary 过滤接入）
