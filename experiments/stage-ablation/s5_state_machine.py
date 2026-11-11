@@ -584,8 +584,9 @@ class DecompStateMachine:
             self._gain_history.append(gain)
 
             # ── 停止判据：necessary 通过率 ──
-            # 候选总数 vs 通过数：通过率 < 0.3 连续 stop_rounds 轮 → 模型在硬凑，停
-            n_candidates = len(deduped) + self.dropped_redundant - (self._prev_dropped if hasattr(self, '_prev_dropped') else 0)
+            # 本轮新增冗余数 = dropped_redundant - 上轮累计值（dropped_redundant 是跨轮累计计数器）
+            n_new_dropped = self.dropped_redundant - getattr(self, '_prev_dropped', 0)
+            n_candidates = len(deduped) + n_new_dropped
             pass_rate = len(deduped) / max(n_candidates, 1)
             self._prev_dropped = self.dropped_redundant
             if pass_rate < 0.3 and deduped:
