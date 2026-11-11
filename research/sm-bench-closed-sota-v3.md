@@ -39,6 +39,18 @@
 
 筛选方法：prompt 含调研类动词（收集整理/对比/overview/survey/summarize）加分、研究类动词（推导/证明/机制/模型构建）减分，取排序头部；中英各 5。全量 100 题跑法保留为后续选项（成本另算）。
 
+## 已发表闭源 SOTA 对标线（DRB 官方 repo 数据）
+
+来源: `/tmp/drbench/results/race/claude-3-7-sonnet-latest/race_result.txt` (repo 内置, 100 题全量)
+
+| 模型 | RACE Overall | Comprehensiveness | Insight | Instruction Following | Readability | FACT valid_rate |
+|---|---|---|---|---|---|---|
+| **Claude-3.7-Sonnet** (闭源) | **0.4218** | 0.4110 | 0.4051 | 0.4621 | 0.4172 | 0.873 |
+
+**判定规则**: 我们 n=10 子集 RACE 均值 > 0.4218 → 泛化打赢已发表闭源 SOTA（headline result）。
+注意: 对方是 100 题均值，我们是 10 题子集，方差大；严格比较需同子集。
+Leaderboard 完整条目（Kimi/Doubao/Claude-Researcher 等）在 HF Space (JS 渲染, 未抓全)。
+
 ## 成本估算（粗）
 - claude -p 单题 deep research：预计 3-10 分钟、$0.5-3（取决于 web 检索轮数）。n=10 ≈ $5-30。
 - GPT-Researcher 本地跑：免费（本地 27B），单题 ~90s-5min。
