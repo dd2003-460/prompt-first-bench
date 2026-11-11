@@ -5,7 +5,10 @@
 ## 0. 口径与判据
 
 - **对标线**：CellCog Max = **56.72**（最新开源 SOTA）。接受线：DRB 公开题 + 官方四维 judge 加权总分 ≥ 对标线，且无泄漏、verified 率正常。
-- **四维权重**（criteria.jsonl qid=1 实测，qid 间可能不同，逐题以该题 criteria 为准）：insight 0.36 / comprehensiveness 0.30 / instruction_following 0.20 / readability 0.14。
+- **四维权重**（criteria.jsonl 逐题实测，qid 间不同，judge 以该题 criteria 为准）：
+  - drb-1: insight 0.36 / comprehensiveness 0.30 / instruction_following 0.20 / readability 0.14（26 criterions）
+  - drb-2: insight 0.38 / comprehensiveness 0.28 / instruction_following 0.22 / readability 0.12（27 criterions）
+  - drb-16: comprehensiveness 0.30 / instruction_following 0.31 / insight 0.25 / readability 0.14（26 criterions）
 - **judge**：本地 qwen3.8-27b（`drb_judge.py`，逐条 criterion 0/1 → dimension_weight 加权）。⚠️ 绝对值未经异源复核（T8-C3-v3 blocked_human：无非 Qwen 端点/key）——本报告的分数只能用于**同机横向比较与迭代方向判断**，不能当对外绝对分。
 - **degraded 率口径**：r14 的 degraded 56.9% 主体是 P3 verify 对无支撑 claim 的正当降档 + 检索通道稀释（junk 21%/generic 16%，DDG-lite IP 级 anomaly 封锁，详见 cc-to-lead C2）。若 DRB 端到端分不差，degraded 率不作为立项依据（Goodhart 反例纪律）。
 - **r14 数字更正（C3）**：r14 "137 nodes" 实为记录数；跨 level 撞号后唯一节点 ≈40。r14 所有按 id 索引的指标（quotient 12.4% 等）在带伤结构上计算，方向可信、精度存疑。id 修复已落 `s5_state_machine.py`（全局 `_nid` 计数器），drb-1 首跑即验证。
