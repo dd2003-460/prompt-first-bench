@@ -305,7 +305,7 @@ Levin-K 复杂度 = 最短描述长度（Kolmogorov 在 Levin 的通用前缀编
 **状态**：⚠️ 方向对齐。行动项：r12 verify-only 跑完后，对 303 节点树做一次 S_α' 计算（验证它作为过程指标在当前树上的数值合理性）。三边分类待实现进 s5_state_machine.py（idea #43）。
 ## Decision 25 (2026-11-12): junk-detector 提前触发 web_llm 兜底（C2-D 候选修法 #3，proposal-only 待 Lead 审）
 
-> 状态：**提案未落代码**。DRB pilot 先跑（L2 授权），若端到端分被检索质量拖累才立项实现。本条只锁三问，不写码。
+> 状态：**deferred（Lead L5 · 2026-11-12 04:15 裁决）**。CC C9 live census（drb-1 运行中，16 queries/48 sources）重定位了失败模式：主因不是 DDG/Bing URL junk（仅 1/48 匹配），而是 cn.bing fallback 返回主题无关的正常域名（跨域噪声 21% + 首页垃圾 19%，unusable 合计 52%）。URL-pattern detector 只能抓 ~20%，漏掉跨域噪声——修的不是主因。真修复需要 topical-relevance 检测（更大的改动），等 drb-1 judge 分出来后用分数定位被拖的维度再立项。关联提案：research/d26-number-provenance-proposal.md（模型侧幻觉，独立链路）。
 
 ### Q1: 为什么加？（实证证据）
 

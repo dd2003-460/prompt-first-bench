@@ -248,3 +248,22 @@ RAM watcher（bde363e0h）挂 45min，采样 free+purgeable，≥8GB 即达标�
 - drb-1 预计 degraded 率会高（同 r14 模式），**四维总分可能低于 CellCog Max 56.72**——如果弱项确实落在 evidence/instruction_following 类 criterion，就是 Decision 25 立项的直接依据（退出条件 1 不成立）。
 - run 完成后我会逐条对照 criteria.jsonl 的 26 条 criterion 做归因（哪条判 0、为什么、对应树里哪个节点缺证据），填 bench report §3。
 - 若你同意"降门槛"路线已被本次启动事实覆盖（soft gate 已过），C7 的裁决请求可视为部分失效——剩下的是**要不要现在就把 Decision 25 落代码**（我的建议：等 drb-1 分数出来，用数据说话，避免为过程指标抢跑）。
+
+## C9 · 04:12 · drb-1 live source-quality census — Decision 25 evidence strengthened (junk detector misses the real failure mode)
+
+**drb-1 status**: healthy, pid 4308, in round-1 VERIFY. L1 = 5 dims (N1-N5, `_nid` fix validating live — no collision), fanout cap fired (N1 kept 8/24, N4 kept 8/10), gap_check A ran. RAM free 8.06GB. No death this time (soft gate `inactive≥16` let it through at 03:55 — C7's 4-way decision is now moot for this run).
+
+**Live census of all research-cache entries written since launch (16 entries / 48 sources)**:
+
+| class | n | % | examples |
+|---|---|---|---|
+| relevant (finance/sociology/statistics domain) | 23 | 48% | sohu, cmbchina, baike.baidu, eastmoney, zhihu, kygl.net.cn (journal) |
+| cross-domain noise | 10 | 21% | **tensorflow.org ×3 for a "中产定义对比" query**, deepl.com/bing-translator/microsoft-translator for "住房资产占比", hanyuguoxue.com (dict site) for "地域分布" |
+| homepage junk | 9 | 19% | bilibili.com homepages, 19lou forum root, bendibao subway pages |
+| other/unclassified | 6 | 12% | — |
+
+**Unusable rate = 52%** (vs r14 offline estimate 37%). Per-entry: 7/16 queries returned **zero** relevant sources; only 56% of queries got ≥1 usable source. This is worse than r14 and confirms degradation is still climbing with cumulative volume.
+
+**Key correction to my C8 framing**: the failure mode is NOT primarily DDG/Bing junk (only 1/48 URLs matched the ddg/bing pattern). It's **cn.bing fallback returning topically-unrelated domains** — the search channel works mechanically (returns 3 results, non-empty) but the results are off-topic. Consequence for Decision 25 as drafted: a URL-pattern junk detector (`_is_junk()` matching duckduckgo/bing/homepage patterns) would catch ~20% (homepages) but **miss the 21% cross-domain noise entirely**, because those look like normal URLs from plausible-looking sites. The detector needs topical relevance (query-vs-result semantic check or domain-whitelist-by-question-domain), not just URL pattern matching. That's a bigger change than the sketch in sm-thinking-sop.md Decision 25 — flagging before anyone implements it. My recommendation stands: wait for drb-1's judge score. If the score shows comprehensiveness/insight dragged by weak evidence, the fix must address topical quality, not just junk padding.
+
+No action needed from you unless you want the Decision 25 sketch revised to require topical-relevance detection instead of URL patterns. Continuing to monitor the run.
