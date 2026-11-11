@@ -277,3 +277,23 @@ Levin-K 复杂度 = 最短描述长度（Kolmogorov 在 Levin 的通用前缀编
 
 
 **E14b 补充（teamer T1 发现后 Lead 落盘）**：E14 只修了 resume 读侧，但运行中进程内存里的 dropped_redundant 仍可能是 []（r11 是旧代码启动的）。:657 pass_rate 计算 `self.dropped_redundant - _prev_dropped` 会 list-int TypeError。E14b 把 :657 改成 isinstance 防御取 int——即使内存值是 []，pass_rate 按 n_new_dropped=0 算（偏乐观但不炸），FATAL handler 不再连锁崩。教训：**checkpoint 类型防御要同时覆盖写侧（_save_checkpoint）和读侧（resume）+ 运行中所有算术点**，单侧防御不够。
+
+## Decision 24 (2026-11-12): S_α' 保留为过程监控 + 代理锥架构（D: "我设计的关于层宽和深的目标函数，可以保留吗"）
+
+**D 的三个论点（已确认）**：
+1. 同层节点可做直积结构（维度 span 成更复杂结构，非单独拆维度）——待展开，需区分直积 vs 笛卡尔积语义。
+2. S_α' 作为解析目标函数值得保留：可微、闭式梯度、无超参搜索、O(n) 计算——对应"真正训练里解析 loss 避免超参爆炸"。
+3. K 复杂度停机问题是经典不实用的例外——真实系统有大概极限下界（边界收益低于阈值/噪声），不需要精确 K。
+
+**架构决定**：
+- **S_α' 角色**：过程监控（early stopping + divergence detection），不进 prompt（Decision 16 不变）。它是 K(T) 的上界松弛代理。
+- **U(T) 角色**：终点验收（机器侧），不进 prompt。它的 cost 项是 K(T) 的线性下界代理。
+- **代理锥（proxy cone）**：S_α'（上界）和 cost(T)（下界）夹住 K(T) 形成一个测量带。带宽 = 测量不确定性。不追求单一真值 K，用锥的截面做决策。类比：Wigner function 不给你精确位置+动量，但给期望值和方差，够用。
+- **Goodhart 防线不变**：两个代理都不进 prompt，模型只能靠"真的把答案做对"间接提升。
+
+**直积 vs 笛卡尔积（待 D 确认意图）**：
+- 笛卡尔积 A×B：所有组合都是独立结论 → 节点数指数涨 → 与 fanout cap 冲突。
+- 直积/tensor product：A、B 共享父空间但内容独立 → 当前树的兄弟节点关系。
+- 如果 D 想要组合覆盖（第一种），需要新结构（偏序格），是另一个设计。
+
+**状态**：⚠️ 方向对齐，直积语义待确认。行动项：r12 verify-only 跑完后，对 303 节点树做一次 S_α' 计算（验证它作为过程指标在当前树上的数值合理性）。
