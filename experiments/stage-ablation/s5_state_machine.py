@@ -161,16 +161,35 @@ def judge_necessary_batch(candidates: list[tuple[str, list[str]]],
         "如果只是换措辞复述、把已知结论换个说法、或纯定性描述 → 不是新信息。\n\n"
         f"【已确认事实】\n{confirmed_block}\n\n"
         f"【待判定节点列表】\n{items_block}\n"
-        "对每个编号输出 JSON 数组，格式：[{\"idx\": 0, \"necessary\": true/false}, ...]\n"
-        "只输出 JSON 数组，不要其他文字。"
+        f"对每个编号输出一行，共 {len(candidates)} 行，紧凑无空格，格式示例：\"idx\":0,\"necessary\":true\n"
+        "只输出这些行，不要其他文字。"
     )
     try:
-        out, _ = call_llm(prompt, max_tokens=cfg.necessary_judge_max_tokens * len(candidates) // 2 + 200, temperature=0.0, retries=3)
+        # E11 (2026-11-12): max_tokens 上限保护——8787 端点（ninfer/qwen3.8-27b）对超大
+        # max_tokens 返回 HTTP 400；r9 首轮 20+ 候选 → ~7000 tokens 触发。封顶 4096，
+        # 配合紧凑输出格式（每行一条）足够 30+ 条裁决。
+        mtok = min(cfg.necessary_judge_max_tokens * len(candidates) // 2 + 200, 4096)
+        out, _ = call_llm(prompt, max_tokens=mtok, temperature=0.0, retries=3)
         results = [False] * len(candidates)
-        for m in re.finditer(r'\{\s*"idx"\s*:\s*(\d+)\s*,\s*"necessary"\s*:\s*(true|false)', out or "", re.I):
-            idx = int(m.group(1))
-            if 0 <= idx < len(candidates):
-                results[idx] = m.group(2).lower() == "true"
+        raw = out or ""
+        arr_m = re.search(r'\[.*?\]', raw, re.S)
+        parsed = False
+        if arr_m:
+            try:
+                import json as _json
+                for item in _json.loads(arr_m.group(0)):
+                    if isinstance(item, dict) and "idx" in item and "necessary" in item:
+                        i = int(item["idx"])
+                        if 0 <= i < len(candidates):
+                            results[i] = bool(item["necessary"])
+                parsed = True
+            except Exception:
+                pass
+        if not parsed:
+            for m in re.finditer(r'(?:"idx"|idx)\s*[:=]\s*(\d+)[^{}]*?(?:"necessary"|necessary)\s*[:=]\s*(true|false)', raw, re.I):
+                idx = int(m.group(1))
+                if 0 <= idx < len(candidates):
+                    results[idx] = m.group(2).lower() == "true"
         return results
     except Exception as e:
         print(f"  [SM] necessary-judge-batch error: {e}", flush=True)
@@ -525,7 +544,6 @@ class DecompStateMachine:
 
         low_gain_streak = 0
         rnd = 0
-
         while self.state != State.STOP:
             rnd += 1
             if len(self.nodes) >= self.cfg.max_nodes:
