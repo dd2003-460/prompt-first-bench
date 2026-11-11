@@ -25,3 +25,12 @@
 ## 决策 4 — SOTA 对标口径：逐题 judge 分 ≥ SOTA 同题分
 
 不打 aggregate EM/F1（HotpotQA dev 那种），因为我们的 bench 是自拟 deepresearch 题，SOTA 系统没跑过原题。可行路径：选 SOTA 公开报告覆盖过的题（或最接近的 benchmark subset），用同一 rubric（0.5 数字 + 0.5 对比/单位，异族 judge n=3 median）两边都打一遍。如果 SOTA 只有 aggregate 分数没有逐题 → 退化为在 SOTA 原始 bench 上比 aggregate，口径写进 sm-bench-sota-criteria.md。
+
+
+## 决策 7：TCO 必须按时间结构正交展开（2026-11-11 r4 审计后）
+
+r1 的 TCO 节点只有"瞬时+电费"两层（N5/N17/N28），故障/可靠性、不确定性方差、机会成本基本没拆——这是 LLM 分解的自然偏向：成本问题先想到价格再想到电费，就停了。修复不在 prompt 里加例子（那会泄漏到答案空间），而是加**结构性规则**：成本类父节点必须展开为 CapEx/OpEx/可靠性/不确定性四个独立兄弟（P1H_INDEX 规则 7）。这是元规则不是内容提示，不违反防泄漏。
+
+## 决策 8：微架构下钻靠领域知识，不靠题面
+
+用户问"题目和 prompt 都没明说微架构，L1/L2 会不会出现"——r1 的答案是会出现但靠运气：N79 挖到 GQA head_dim 是因为模型恰好知道 Qwen3 架构，不是分解规则逼出来的。修复 = P1H_INDEX 规则 8：硬件对比必须下钻到一手性能参数（带宽/HBM 代际/SM 数/L2/制程/互联），source=knowledge。营销规格（显存大小、价格）只是入口不是终点。
