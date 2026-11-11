@@ -70,12 +70,14 @@ def _run_ego_browser(js_code, timeout=120):
     return result.stdout + "\n" + result.stderr
 
 
-def _wiki_extract(title, max_chars=900):
+def _wiki_extract(title, max_chars=900, lang="en"):
     """取 wiki 页面 intro 段全文（比 search snippet 长 5-10 倍，含具体数值/公式）。
-    失败静默返回 ''。"""
+    lang: 'en'/'zh'——中文题走 zh.wikipedia.org（2026-11-12 drb-1 r2 诊断：
+    en-wiki 对"中国中产/九阶层"类查询零命中，DDG/cn.bing 全是垃圾源，
+    zh-wiki 是中文事实检索的主力通道）。失败静默返回 ''。"""
     import urllib.request
     try:
-        url = (f"https://en.wikipedia.org/w/api.php?action=query&prop=extracts"
+        url = (f"https://{lang}.wikipedia.org/w/api.php?action=query&prop=extracts"
                f"&titles={quote_plus(title)}&exintro=1&explaintext=1&format=json")
         req = urllib.request.Request(url, headers={"User-Agent": "pfb-research/1.0"})
         d = json.load(urllib.request.urlopen(req, timeout=15))
@@ -93,28 +95,38 @@ def _wiki_search(query, max_results=3):
     """Wikipedia API 检索（公网直连，不走 ego-browser/8787）。
     返回 [{title, url, snippet}, ...]。对教科书级事实/工程规格有效。
     snippet = search API 短摘要 + extracts intro 前 ~900 字符拼接（2026-11-09：
-    原实现只有 ~150ch 的 search snippet，P3 核验拿不到具体数值/公式，
-    导致 search 节点大面积 degraded；DDG 被 anomaly 限流后 wiki 是主力通道，必须加厚）。"""
+    双语言策略（2026-11-12 drb-1 r2）：中文题 en-wiki 零命中且 DDG/cn.bing 垃圾源，
+    zh.wikipedia.org 是中文事实的主力通道——先查含 CJK 字符则 zh-first+en-supplement，
+    否则 en-first（保持 GPU 等英文题原有行为不变）。"""
     import urllib.request, time as _time
+    has_cjk = bool(re.search(r'[\u4e00-\u9fff]', query))
+    langs = ["zh", "en"] if has_cjk else ["en"]
     results = []
-    try:
-        url = (f"https://en.wikipedia.org/w/api.php?action=query&list=search"
-               f"&srsearch={quote_plus(query)}&format=json&srlimit={max_results}")
-        req = urllib.request.Request(url, headers={"User-Agent": "pfb-research/1.0"})
-        d = json.load(urllib.request.urlopen(req, timeout=15))
-        for h in d.get("query", {}).get("search", []):
-            title = h["title"]
-            short = re.sub(r'<[^>]+>', '', h.get("snippet", ""))[:200]
-            intro = _wiki_extract(title)
-            snippet = (short + "\n" + intro)[:1200] if intro else short
-            results.append({
-                "title": title,
-                "url": f"https://en.wikipedia.org/wiki/{quote_plus(title.replace(' ', '_'))}",
-                "snippet": snippet,
-            })
-            _time.sleep(0.3)  # rate-limit courtesy
-    except Exception:
-        pass
+    seen_titles = set()
+    for lang in langs:
+        if len(results) >= max_results:
+            break
+        try:
+            url = (f"https://{lang}.wikipedia.org/w/api.php?action=query&list=search"
+                   f"&srsearch={quote_plus(query)}&format=json&srlimit={max_results}")
+            req = urllib.request.Request(url, headers={"User-Agent": "pfb-research/1.0"})
+            d = json.load(urllib.request.urlopen(req, timeout=15))
+            for h in d.get("query", {}).get("search", []):
+                title = h["title"]
+                if title in seen_titles or len(results) >= max_results:
+                    continue
+                seen_titles.add(title)
+                short = re.sub(r'<[^>]+>', '', h.get("snippet", ""))[:200]
+                intro = _wiki_extract(title, lang=lang)
+                snippet = (short + "\n" + intro)[:1200] if intro else short
+                results.append({
+                    "title": title,
+                    "url": f"https://{lang}.wikipedia.org/wiki/{quote_plus(title.replace(' ', '_'))}",
+                    "snippet": snippet,
+                })
+                _time.sleep(0.3)  # rate-limit courtesy
+        except Exception:
+            pass
     return results
 
 
@@ -157,7 +169,7 @@ def _ddg_search(query, max_results=3):
         # （cn.bing.com 可达，不同限流桶；对价格/规格类非学术事实有效）
         try:
             import urllib.request, html as _html
-            url2 = "https://cn.bing.com/search?q=" + quote_plus(query) + "&setlang=en&cc=us"
+            url2 = "https://www.bing.com/search?q=" + quote_plus(query) + "&setlang=en&cc=us"
             req2 = urllib.request.Request(url2, headers={
                 "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36",
                 "Accept-Language": "en-US,en;q=0.9",
@@ -657,8 +669,16 @@ def research_hook(qid, question, max_results=8, enable_local=True):
             pass
 
     # ── 2.5 DuckDuckGo（~2-4s，非学术事实：价格/功耗/TCO）──
+    # 中文查询跳过 DDG/cn.bing（2026-11-12 drb-1 r2 实测：中文题返回知乎"豆包水印"类
+    # 完全无关垃圾，junk filter 拦不住这种"标题看着正常但内容零相关"的源；
+    # zh-wiki 通道已接管中文事实检索）。英文查询保持原行为。
+    # 例外（drb-2 诊断 2026-11-12 ~07:00）：中文"榜单/对比/排名"题——zh-wiki 没有
+    # "国际综合实力前十保险公司"这类条目，DDG/bing 是唯一能拿到候选名单的通道，
+    # 且英文 query 走 bing 国际版结果干净（实测 top10 insurance companies in China
+    # by assets → 正确公司列表），不触发 cn.bing 跨域噪声。
     remaining = max_results - len(sources)
-    if remaining > 0:
+    if remaining > 0 and not (re.search(r'[\u4e00-\u9fff]', question)
+                              and not re.search(r'排名|榜单|前十|前\s*\d+\s*名|综合.{0,8}(实力|竞争力)|top\s*\d+', question, re.I)):
         try:
             for r in _ddg_search(question, max_results=min(3, remaining)):
                 _add(r, "ddg")
