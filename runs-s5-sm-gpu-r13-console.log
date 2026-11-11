@@ -1,0 +1,23 @@
+[T53 SM] Running on 'gpu': 你要在本地工作站上推理 Qwen3-27B 模型，要求单流延迟 < 3s/token、上下文窗口 ≥ 32K token...
+  [SM] L1 skeleton (top-level dimensions only)...
+  [SM] objective (model-estimated): Score = F1 * ( F3 - λ * F2 )
+    factor: F1_可行性硬约束满足度 (Binary): 候选方案在满载上下文(32K)下的单流解码延迟是否严格 < 3s/token，且显存容量是否足以容纳模型权重+KV
+    factor: F2_全生命周期总拥有成本 (TCO, Scalar): 涵盖硬件购置成本、电力消耗(基于功耗×电价×运行时长)、散热/机房基础设施溢价及多卡互联隐性成本。用于
+    factor: F3_输出质量保真度 (Quality, Scalar): 所选精度(BF16->W4)导致的基准测试分数下降幅度（如MMLU/GSM8k相对BF16的drop
+  [SM] L1: 4 top-level dimensions
+    [N1] 物理可行性边界：定义并量化决定方案能否入选的硬性门槛，包括显存容量下限（权重+KV Cache峰值占用）与计算/内存带宽瓶颈对单token生成时间的理论极限约束
+    [N2] 经济成本结构：拆解不同架构/代际/规模（单卡vs多卡）方案的TCO构成，覆盖初始资本支出(CAPEX)、运营支出(OPEX如电费)以及多卡方案特有的互联与故障率
+    [N3] 精度-质量权衡：评估从BF16到极低比特(W4/NVFP4)量化策略对Qwen3-27B模型推理质量的实际影响，建立“可接受质量损失”与“性能/成本增益”之间的
+    [N4] 硬件候选空间：构建覆盖消费级、数据中心级及非典型边缘方案的完整可比集，明确各候选在算力密度、显存带宽、生态兼容性上的定位及其进入比较池的理由。
+  [SM] edge-classify N3: quotient (该概念核心在于建立质量损失与性能/成本增益之间的兑换关系，本质是衡量两者比值的 trade-off )
+
+[T53 SM] FATAL: KeyError: '架构, 显存容量, 接口类型'
+Traceback (most recent call last):
+  File "/Users/a1-6/Desktop/workspace/pfb/experiments/stage-ablation/s5_state_machine.py", line 939, in <module>
+    result = sm.run(skip_l1=bool(resume_from), verify_only=verify_only)
+  File "/Users/a1-6/Desktop/workspace/pfb/experiments/stage-ablation/s5_state_machine.py", line 709, in run
+    et, reason = classify_edge(p.claim, p_children, self.cfg)
+  File "/Users/a1-6/Desktop/workspace/pfb/experiments/stage-ablation/s5_state_machine.py", line 253, in classify_edge
+    prompt = EDGE_TYPE_PROMPT.format(parent_claim=parent_claim, children_block=children_block)
+KeyError: '架构, 显存容量, 接口类型'
+[T53 SM] Checkpoint saved → runs-s5-sm-gpu-checkpoint.json (use --resume runs-s5-sm-gpu-checkpoint.json)

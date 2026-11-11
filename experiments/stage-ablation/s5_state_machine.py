@@ -215,7 +215,7 @@ def judge_necessary(claim: str, parent_claims: list[str], confirmed: list[tuple]
 EDGE_TYPE_PROMPT = (
     "你是结构分析师。判断一个父节点与其子维度之间的组合关系属于以下哪种：\n"
     "1. cartesian（笛卡尔积）：子维度独立取值，联合空间 = 各维度取值组合，无交叉约束。"
-    "例：GPU 的 {架构, 显存容量, 接口类型} 之间。\n"
+    "例：GPU 的「架构、显存容量、接口类型」之间。\n"
     "2. quotient（商/约束）：子维度通过运算（除法、比值、加权）组合成父概念，"
     "存在 trade-off——一个分量↑另一个分量↓时最终目标可能不变。"
     "例：性价比 = 性能 / TCO；能效比 = 吞吐量 / 功耗。\n"
