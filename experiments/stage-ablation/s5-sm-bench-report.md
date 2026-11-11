@@ -49,13 +49,14 @@
   - **后果链**：169 节点里 75% degraded（verify 判"逻辑自洽但无外部证据"）→ assemble 出的报告只有一堆"待核验指标列表"没有实质数值 → judge 按 criterion 逐条打 0（"未提供具体收入数据""引用的来源多为无关网页"）。
   - **judge 判 0 合理**，不是判分 bug。问题在 pipeline 上游（检索），不在下游（判分）。
   - 与 r14 的 degraded 56.9% 同病根（DDG-lite IP 级 anomaly 封锁 + cn.bing 跨域噪声），但 DRB 题需要真实统计数据（收入分位数、CHFS 样本数），逻辑自洽救不了数值缺失，所以放大到 0 分。
-- **下一步动作**：修检索通道（junk filter + 中文数据源接入），重跑 drb-1 看 verified 率能否拉到 ≥40%。候选修法排序见 §4 迭代日志。
+- **下一步动作**：修检索通道（junk filter v1+v2 已落 de4e44cc/64397299；bing intl fallback + ranking-question DDG exemption 已落 1c05f599）。drb-2 作为修复后首题在跑（验证中文+国际混合域）；drb-1 重跑排队其后。候选修法排序见 §4 迭代日志。
 
 ## 4. 迭代日志（每轮一条）
 
-| # | 日期 | 改动（三问编号） | 触发原因 | 结果（总分变化） |
+| # | 日期 | 改动（commit） | 触发原因 | 结果（总分变化） |
 |---|---|---|---|---|
-| — | — | （尚无迭代；候选修法排序见 cc-to-lead C2-D：junk-detector 提前兜底 > 节流 > 双语改写 > zh wiki，全部 proposal-only） | — | — |
+| 1 | 2026-11-12 | junk filter v1：research_hook 加垃圾源关键词过滤（色情/游戏/翻译工具/股票行情等），de4e44cc | drb-1 = 0.0，rework 149 条全是"来源与主题无关" | 待验证（drb-2 在跑） |
+| 2 | 2026-11-12 | junk filter v2：补 cn 垃圾域（bilibili/mall/tensorflow 首页等 v1 漏网），64397299；bing intl fallback + ranking-question DDG exemption（zh-wiki 无 listicle 条目），1c05f599 | CC 取证发现 v1 覆盖不全 + 排名类题 DDG 全盲 | 待验证（drb-2 在跑） |
 
 ## 5. 结论（待填）
 
