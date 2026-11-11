@@ -109,6 +109,10 @@ class ObjectiveConfig:
     max_nodes: int = 150              # 硬顶（安全阀；v17 是无限→1930）
     max_depth: int = 4                # 最大层级深度（3-4 层 × 6-10 节点 ≈ 几十~百级）
     redundancy_penalty_beta: float = 0.3
+    # ── T-PR-15 修法（2610.33512 F_β 证据）：recall 型 S_α → recall×precision 型 ──
+    fbeta_beta: float = 0.5          # β<1 偏向 precision（防同义变体刷分）
+    necessary_judge_max_tokens: int = 600
+    stop_criterion: str = "necessary"  # "gain"(v1 旧判据) | "necessary"(新判据: 本轮无必要节点→停)
 
 
 def _ngram_overlap(a: str, b: str, n: int = 3) -> float:
@@ -134,6 +138,35 @@ def marginal_gain(new_claims: list[str], existing_claims: list[str]) -> float:
         max_sim = max(_ngram_overlap(nc, ec) for ec in existing_claims[-50:])  # 只看最近50个控速
         total_max_sim += max_sim
     return 1.0 - total_max_sim / len(new_claims)
+
+
+def judge_necessary(claim: str, parent_claims: list[str], confirmed: list[tuple],
+                     cfg: "ObjectiveConfig") -> bool:
+    """J_precision 的 necessary(n): 该节点是否引入父 claim/已确认事实中不存在的新变量、
+    新约束或新可检索事实。用 LLM 做二元裁决（T-PR-15 建议 1，依据 2610.33512）。
+    失败时保守返回 False（宁可少拆不多拆——v17 的病就是多拆）。"""
+    from ablation_harness import call_llm
+    parents_block = "\n".join(f"- {c}" for c in parent_claims[-10:]) or "（无）"
+    confirmed_block = "\n".join(f"- {i}: {c}" for i, c, _s in confirmed[-30:]) or "（暂无）"
+    prompt = (
+        "你是严格的审稿人。判断下面这个研究子问题相对于【已知】是否引入了新信息。\n"
+        "【新信息的定义】满足至少一条：(a) 出现已知里不存在的物理量/参数/型号/数字；"
+        "(b) 新增一个约束或口径（如新的精度/延迟/温度条件）；(c) 是一个新的可独立检索的事实断言。\n"
+        "如果只是换措辞复述、把已知结论换个说法、或纯定性描述 → 不是新信息。\n\n"
+        f"【父节点 claim】\n{parents_block}\n\n"
+        f"【已确认事实】\n{confirmed_block}\n\n"
+        f"【待判定节点】{claim}\n\n"
+        "只输出 JSON：{{\"necessary\": true/false, \"reason\": \"一句话\"}}"
+    )
+    try:
+        out, _ = call_llm(prompt, max_tokens=cfg.necessary_judge_max_tokens, temperature=0.0)
+        m = re.search(r'"necessary"\s*:\s*(true|false)', out or "", re.I)
+        if m:
+            return m.group(1).lower() == "true"
+        return False
+    except Exception as e:
+        print(f"  [SM] necessary-judge error: {e}", flush=True)
+        return False
 
 
 def redundancy_score(nodes: list[dict]) -> float:
@@ -239,6 +272,8 @@ class DecompStateMachine:
         self.leak_hits_total = 0
         self.rework_events = []
         self._gain_history: list[float] = []
+        self.dropped_redundant = 0
+        self._no_ness_streak = 0
 
     def _safe_prompt(self, template: str, **kwargs) -> str:
         """填充 prompt 后做 leak check。
@@ -316,29 +351,28 @@ class DecompStateMachine:
     def _verify_batch(self, batch: list[NodeRecord]) -> list[NodeRecord]:
         """核验一批节点。返回带 status/evidence 的节点。"""
         for node in batch:
-            if node.source != "search":
-                node.status = "verified"
-                node.evidence = "模型先验/题面给定"
-                node.corrected_claim = node.claim
-                self.confirmed.append((node.id, node.claim, "verified"))
-                continue
-            srcs, err = search_node(
-                {"id": node.id, "claim": node.claim,
-                 "search_query": node.claim}, qid=self.qid)
-            if err:
-                node.status = "degraded"
-                node.evidence = f"检索失败: {err}"
-                node.corrected_claim = node.claim
-                self.confirmed.append((node.id, node.claim, "degraded"))
-            else:
+            if node.source == "search":
+                srcs, err = search_node(
+                    {"id": node.id, "claim": node.claim,
+                     "search_query": node.claim}, qid=self.qid)
+                if err:
+                    node.status = "degraded"
+                    node.evidence = f"检索失败: {err}"
+                    node.corrected_claim = node.claim
+                    self.confirmed.append((node.id, node.claim, "degraded"))
+                    continue
                 srcs_list = srcs if isinstance(srcs, list) else []
-                status, evidence, corrected, _r = verify_node(
-                    {"id": node.id, "claim": node.claim}, srcs_list)
-                node.status = status
-                node.evidence = evidence
-                node.corrected_claim = corrected or node.claim
-                self.confirmed.append((node.id, node.corrected_claim, status))
+            else:
+                # given/knowledge 不检索，但同样过 LLM 核验（AC3: 所有节点都要有真实 evidence）
+                srcs_list, err = [], None
+            status, evidence, corrected, _r = verify_node(
+                {"id": node.id, "claim": node.claim}, srcs_list)
+            node.status = status
+            node.evidence = evidence
+            node.corrected_claim = corrected or node.claim
+            self.confirmed.append((node.id, node.corrected_claim, status))
         return batch
+
 
     def _should_rework(self, batch: list[NodeRecord]) -> bool:
         """J_verify: 核验质量是否低于阈值。"""
@@ -434,18 +468,40 @@ class DecompStateMachine:
                 )
                 if not is_dup:
                     deduped.append(nn)
+
+            # ── J_precision: necessary 过滤（T-PR-15 修法核心）──
+            # 每个候选节点必须通过"引入新变量/新约束/新可检索事实"裁决才进树。
+            # 这是 recall 型 S_α 的 precision 项：不通过 = 同义变体，直接丢弃。
+            necessary_nodes = []
+            id2claim = {n.id: n.claim for n in self.nodes}  # parent_ids 是 "N5" 形式，直接查表
+            for nn in deduped:
+                par_claims = [id2claim[pid] for pid in nn.parent_ids if pid in id2claim]
+                if judge_necessary(nn.claim, par_claims, self.confirmed, self.cfg):
+                    necessary_nodes.append(nn)
+                else:
+                    self.dropped_redundant += 1
+            deduped = necessary_nodes
             self.nodes.extend(deduped)
 
-            # ── J_decomp: 边际信息增益 ──
+            # ── J_decomp: 边际信息增益（记录用）──
             gain = marginal_gain(
                 [n.claim for n in deduped],
                 existing_claims,
             )
             self._gain_history.append(gain)
-            if gain < self.cfg.gain_threshold:
+
+            # ── 停止判据：necessary 通过率 ──
+            # 候选总数 vs 通过数：通过率 < 0.3 连续 stop_rounds 轮 → 模型在硬凑，停
+            n_candidates = len(deduped) + self.dropped_redundant - (self._prev_dropped if hasattr(self, '_prev_dropped') else 0)
+            pass_rate = len(deduped) / max(n_candidates, 1)
+            self._prev_dropped = self.dropped_redundant
+            if pass_rate < 0.3 and deduped:
+                low_gain_streak += 1
+            elif not deduped:
                 low_gain_streak += 1
             else:
                 low_gain_streak = 0
+            self._no_ness_streak = low_gain_streak
 
             # ── VERIFY ──
             self.state = State.VERIFY
@@ -471,6 +527,7 @@ class DecompStateMachine:
                 "frontier": len(frontier),
                 "verified": sum(1 for n in deduped if n.status == "verified"),
                 "reworked": sum(1 for n in deduped if n.rework_count > 0),
+                "dropped_redundant": self.dropped_redundant,
                 "low_gain_streak": low_gain_streak,
             })
             print(f"  [SM] r{rnd}: +{len(deduped)} (total {len(self.nodes)}), "
@@ -478,8 +535,8 @@ class DecompStateMachine:
                   f"ver={sum(1 for n in deduped if n.status=='verified')}/{len(deduped)}, "
                   f"streak={low_gain_streak}", flush=True)
 
-            # ── J_stop: 全局收敛 ──
-            if low_gain_streak >= self.cfg.stop_rounds:
+            # ── J_stop: 全局收敛（判据由 cfg.stop_criterion 选）──
+            if self._no_ness_streak >= self.cfg.stop_rounds:
                 self.state = State.STOP
                 print(f"  [SM] STOP: {self.cfg.stop_rounds} consecutive "
                       f"low-gain rounds", flush=True)
@@ -511,10 +568,24 @@ if __name__ == "__main__":
     print(f"[T53 SM] Running on '{qid}': {q[:60]}...", flush=True)
     sm = DecompStateMachine(q, qid=qid)
     if no_verify:
-        # Monkey-patch: 跳过实际搜索/核验，只验证分解+停止逻辑
-        sm._verify_batch = lambda batch: (
-            [setattr(n, 'status', 'verified') or setattr(n, 'evidence', 'skipped') or n for n in batch]
-        )
+        # Monkey-patch: 跳过联网检索，但所有节点仍过 LLM 核验（AC3 需要真实 evidence）
+        from s5_pipeline import search_node as _sn
+        def _vb_no_search(batch):
+            for node in batch:
+                if node.source == "search":
+                    node.status = "degraded"
+                    node.evidence = "no-verify 模式：未检索"
+                    node.corrected_claim = node.claim
+                    sm.confirmed.append((node.id, node.claim, "degraded"))
+                    continue
+                status, evidence, corrected, _r = verify_node(
+                    {"id": node.id, "claim": node.claim}, [])
+                node.status = status
+                node.evidence = evidence
+                node.corrected_claim = corrected or node.claim
+                sm.confirmed.append((node.id, node.corrected_claim, status))
+            return batch
+        sm._verify_batch = _vb_no_search
         sm._rework = lambda failed: None
     result = sm.run()
     print(f"\n[T53 SM] DONE: {len(result.nodes)} nodes, "

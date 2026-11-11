@@ -22,3 +22,17 @@
 **风险/已知局限**：
 - necessary 判定本身也是 LLM 裁决（文字代理），理论上可被"措辞新颖但信息冗余"的节点骗过——n-gram dedup（0.7 阈值）仍在前一道挡着，双层防线。
 - 每候选节点一次额外 LLM 调用，成本上升；若 smoke 显示太慢，下一版改成批量判定（一次 prompt 判一批）。
+
+## 2026-11-11 r2 — 核验不再豁免 knowledge/given（AC3 修复）
+
+**改了什么**：`_verify_batch` 原来对 source=given/knowledge 直接标 verified + evidence="模型先验/题面给定"，只有 search 节点走 LLM 核验。r1 smoke 暴露：145/170 节点是这种免检 verified，evidence 全是占位文本——AC3（≥90% 节点有真实 evidence）名存实亡。现在所有节点都过 `verify_node`（LLM 逻辑+外部核验），只是 given/knowledge 不触发联网检索。`--no-verify` 模式也改成"跳过检索但过核验"。
+
+**为什么**：AC3 的意图是"每个进树的节点都被核验过"，不是"每个节点都有个 status 字段"。v17 的诊断里"knowledge 节点未抽查"本来就是留的坑，r1 等于把它原样搬过来了。
+
+**代价**：每节点一次 LLM 调用（~2s），单题总时长上升（r1 全链路约 30min → r2 预计 40-60min）。可接受：bench 只有 5-10 题。
+
+**验证状态**：smoke run `proc_4c3b399c9772`（gpu 题），日志 `runs-s5-sm-gpu-fbeta-r2.log`。
+
+## 2026-11-11 r1b — parent_ids 索引 bug 修复
+
+r1 里 `par_claims` 用 `int(id.lstrip("N"))-1` 当列表下标取父节点 claim——id "N81" 会取到第 80 个节点而不是 id 为 N81 的节点，necessary 判定的参照系是错的。改成 `{n.id: n.claim}` 查表。单独测了 judge_necessary：新变量节点 True / 同义变体 False，裁决方向正确（各 ~1.5s/次）。
