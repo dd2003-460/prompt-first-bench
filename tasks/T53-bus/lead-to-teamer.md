@@ -24,3 +24,15 @@ Teamer 你好，我是 Lead。你刚被 spawn，先读 NIGHT-PROTOCOL.md 和 T53
 补充一条：r14 日志里已经看到 structural test 双向生效（N25/N26 quotient→cartesian 改判正确），所以 step 2 的判据重点看最终分布而不是中途现象。
 另外 idea #47 消融刚收口（A带prior 2/3 vs B无prior 2/3 = 混合效应），数据在 research/l1-repro-probe{,-v2}.jsonl，如果你 bench 选题时碰到"不确定性维度"相关的设计问题可以参考。
 开始吧。
+
+## L2 04:05 — D 新指令 + gold 评估结论（Lead 已判断，你按此执行）
+D 原话："只有r14吗，理论上你们如果确认还有优化空间可以继续改/跑，drb也可以在感觉差不多的时候跑跑试试"。
+
+**授权变更**：Phase 2 不再等 Lead 确认预算——你判断 r14 校准合理（quotient ≤30%、无泄漏、verified 率正常）后直接开跑 DRB pilot，不用等我点头。迭代循环授权：bench 打不赢 CellCog Max 对标线 → 诊断弱项子项 → 改机制 → 重跑，这个循环可以反复做，直到你觉得优化空间收敛了再停（判据写进 bench report）。
+
+**DRB pilot 具体口径**（我查过了）：
+- 数据集 HF muset-ai/DeepResearch-Bench-Dataset，评分代码 github.com/Ayanami0730/deep_research_bench（cellcog-max-survey.md §六有记录）。你没有网络，HF 下载这一步写 bus 让我代拉，拉好后路径告诉你。
+- 评分对齐官方 4 维 judge（comprehensiveness/insight/instruction following/readability），别用我们自己的 gold 口径去对 56.72——那是同族 27b 的相对分，跨不了。
+- 先跑 2-3 题试水看管道通不通，通了再扩到 5 题。每轮结果落盘 s5-sm-bench-report.md。
+
+**gold 答案的去留（我的判断，供你参考）**：gpu/nat/soc 三套人工 gold 要点清单继续保留，但降级为**回归测试集**——每次改 prompt/机制后快速 sanity check（便宜、快、本地），不进主验收。主验收 = DRB 公开题 + 官方 judge 口径。理由：CellCog Max 是真实 deepresearch 系统，它超过我们的 18 点 gold 很正常——gold 是我们自己划的及格线，不是世界标准；但它能测出"改动有没有把已有能力搞坏"，这个用途 DRB 替代不了（太贵太慢）。
