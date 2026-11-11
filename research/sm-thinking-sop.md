@@ -303,3 +303,47 @@ Levin-K 复杂度 = 最短描述长度（Kolmogorov 在 Levin 的通用前缀编
 **非交换检验顺序（idea #44，D 补充描述）**：核心 = "有意思的、不频繁的、不交换的特征"——检验顺序的不对称代价是稀有性质，大多数检验顺序对称（先A后B ≈ 先B后A），只有特定组合（先正交后完备）有单向收益（单调收窄无回退）。影响全局视角这点未定。[待展开]
 
 **状态**：⚠️ 方向对齐。行动项：r12 verify-only 跑完后，对 303 节点树做一次 S_α' 计算（验证它作为过程指标在当前树上的数值合理性）。三边分类待实现进 s5_state_machine.py（idea #43）。
+## Decision 25 (2026-11-12): junk-detector 提前触发 web_llm 兜底（C2-D 候选修法 #3，proposal-only 待 Lead 审）
+
+> 状态：**提案未落代码**。DRB pilot 先跑（L2 授权），若端到端分被检索质量拖累才立项实现。本条只锁三问，不写码。
+
+### Q1: 为什么加？（实证证据）
+
+r14-r3 核验窗口（observed_at 11-11 18:20–18:44 UTC，`.research-cache/` 73 条检索记录 / 215 结果）：junk 45 (**21%**) + generic 31 (**16%**) = **37% 的 source 槽位被垃圾/首页占满**。而 `research_hook.py:670` 的 web_llm 兜底门槛是 `if len(sources) < 3:`——坏通道（DDG-lite IP 级 anomaly → Bing cn fallback）总能凑满 3 条 junk/generic，**web_llm 触发次数 = 0**（console log 零 WEBLLM-SKIP，因为根本没进那个分支）。结果：每个 search 节点拿到的是"maybe-relevant 但实际不支撑"的来源，P3 verify 只能给低置信 → degraded 56.9% 的通道层贡献路径坐实（C2-A/C2-C）。
+
+推导链：坏通道产出 junk/generic（量→junk 单调相关，C2-A 逐时轨迹 0%→21%）→ 凑满 3-source 预算 → web_llm 兜底被 `<3` 门槛屏蔽 → 节点无可用外部证据 → P3 降档。**缺口 = 兜底触发条件只看"数量"不看"质量"**。
+
+### Q2: 和现有规则正交吗？（对照 M1-M10 清单）
+
+- **M4（verify_threshold 0.6 + degraded）**：交互-互补。M4 管"下游怎么对待无支撑 claim"（降档），本条管"上游怎么多拿一条好来源"（补证）。方向一致（都在救证据质量），无冲突。
+- **M5（contribution threshold 0.10）**：独立。一个管停展开，一个管检索通道选择。
+- **M6/M7（structural test / quotient sampling）**：独立。边分类与采样策略，不碰检索。
+- **M1-M3/M8-M10**：独立（skeleton/fanout/硬停/监控/验收/Goodhart 纪律均不涉及检索通道）。
+- **冗余检查**：去掉本条，M-list 行为不变（没有任何现有机制在"3 条里 ≥2 条 junk"时启动额外通道）→ **非冗余**。
+- **唯一交互点**：web_llm 本身已有 `<3` 门槛（research_hook.py:670），本条是**放宽该门槛的触发条件**（从"数量<3"扩到"数量<3 或 质量差"），不是新增并行通道——属于对既有兜底的修正，非叠加新规则。
+
+**判定**：正交通过。改动面 = 单行条件扩展 + 一个轻量 junk 分类器（见 Q3）。
+
+### Q3: 外部依据是什么？
+
+- **已有实验**（本项目内）：C2-A 逐时 junk 率轨迹（`.research-cache/` 全量按 observed_at 分桶，11-08 0% → 11-11 21%，随累计请求量单调恶化）+ r14-r3 窗口精确统计（junk 21%/generic 16%/web_llm 触发 0 次）。路径：`experiments/stage-ablation/.research-cache/`。
+- **第一性原理**：信息论角度，junk/generic source 对目标 claim 的条件信息 I(source|claim) ≈ 0——它们占据了 source 预算却不传递可核验信息，等价于用噪声填充了证据槽位。兜底通道的触发条件应当基于**期望信息量**而非**数量**；当前 `<3` 是数量启发式，在通道健康时近似正确（3 条真源 ≈ 足够信息），在通道降级时失效（3 条 junk ≈ 0 信息）。修正 = 把触发条件从数量阈值改为"数量不足 **或** 已收集 source 的低质占比超阈"。
+- **junk 分类器参数 [待验证]**：初步判据 = URL 域名黑名单（百度首页/磁力链接/XHS 爬虫 repo/Blueair 等 C2-B 实例域名）+ title 关键词（"首页"/"下载"/"磁力"）。**保守默认**：先只用域名黑名单（高精确、低召回），阈值 = "3 条中 ≥2 条命中黑名单即触发 web_llm"。参数值待 DRB pilot 数据回来后标定（若 DRB 证明检索不拖分则整条不立项，见退出条件）。
+
+### 退出条件
+
+1. **DRB pilot 证明检索质量不拖端到端分**（四维加权 ≥ CellCog Max 56.72 且弱项不在 instruction_following/evidence 类 criterion）→ 本条**不立项**（Goodhart 反例纪律：别为过程指标 degraded% 改机制）。
+2. 连续 3 次 run 中 junk 分类器从未触发（dead code）→ 删。
+3. 若后续实现 zh wiki 通道（C2-D #4）且其质量足以替代 web_llm 兜底 → 本条被上游覆盖，删。
+
+### 实现草图（未写码，仅锁范围）
+
+`research_hook.py:670` 的 `if len(sources) < 3:` 改为：
+```python
+def _is_junk(src):  # 域名黑名单 + title 关键词，高精确低召回
+    ...
+n_junk = sum(1 for s in sources if _is_junk(s))
+if len(sources) < 3 or (len(sources) >= 2 and n_junk >= 2):
+    # web_llm 兜底
+```
+改动面 = 1 个辅助函数 + 1 行条件。smoke test = 3 节点小树，mock 2 条 junk source 确认 web_llm 被触发。
