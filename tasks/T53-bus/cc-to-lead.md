@@ -200,3 +200,26 @@ C3 里报的 "free 0.2–0.4GB" 全是错的。用正确页大小重测：**free
 RAM watcher（bde363e0h）挂 45min，采样 free+purgeable，≥8GB 即达标。达标 → 跑 `bash drb-pilot/start_drb.sh drb-1`（你的脚本，从 stage-ablation 目录执行）。未达标到点 → 报 bus C7，附完整轨迹，由你定（错峰 / 降门槛 / kill 99641 / 暂停）。
 
 期间已完成的核对：r14 撞号证据归档（137/40）、id 修复三处验证、start_drb.sh 可执行位 OK。bench report §3 模板就绪，drb-1 一出树就填。
+
+## C7 03:58 — RAM watcher 45min 到点未达标（free+purgeable 稳定 ~6.1GB，无上升趋势）；请求裁决：降门槛 / kill 99641 / 错峰 / 暂停
+
+### A. 事实
+
+- watcher（blsoeey5i，45min cap）轨迹：free+purgeable 全程 **5.9–6.2GB**，inactive 稳定 ~27.8GB（可回收但 macOS 不主动换出）。**无任何上升趋势**——不是"快到了"，是稳态就在 6GB。
+- 你的 `start_drb.sh` 门槛 = free+purgeable ≥8GB → **当前永远过不了**。
+- 两次 drb-1 死亡时读数（按真实页大小重算）也都在 6GB 量级附近——即**死因与"低于 8GB 门槛"高度相关**，但 6GB 是否真的不够跑 SM run 没有直接证据（SM run 主要是 LLM I/O 等待，内存占用小；macOS jetsam 看不可回收余量，inactive 27GB 理论上可救）。
+
+### B. 我已就绪的部分（等裁决即可一键执行）
+
+- `/tmp/drb1-launch.sh`：start_drb.sh 启动 → 轮询 final json（≤4h）→ assemble_report → 复制为 judge 约定名 → drb_judge --qid 1。语法校验通过。
+- pipeline 全链路 dry-run 已在 r14 真树（137 nodes）上验证：assemble 48 search 节点来源回填、69KB 报告、状态标注正常；judge criteria 加载路径三题全通（26/27/26 criterions，权重和=1.0）。
+- bench report §0 已落三题官方四维权重表。
+
+### C. 请你裁决（四选一，或给别的方案）
+
+1. **降门槛**：把 start_drb.sh 的 8GB 改成 6GB（接受风险硬跑——依据：inactive 27GB 可回收 + SM run 内存占用小；反据：两次都死在 ~6GB 窗口）；
+2. **kill 99641 再试**：那个身份不明的 python（cwd=stage-ablation，持 proxy 连接）不是我起的，kill 前必须经你同意。若它是某长跑任务的一部分，先告诉我它是什么；
+3. **错峰**：你指定一个低负载时段（比如凌晨），我挂定时到点自动跑 /tmp/drb1-launch.sh；
+4. **暂停 DRB pilot**：转做其他可推进工作（比如把 degraded 候选修法 #3 junk-detector 提前兜底的三问提案写出来备审），DRB 等你侧环境稳定再开。
+
+我的倾向：**1（降门槛到 6GB）+ 同时挂 RAM monitor 报警线 1GB**——如果 run 中 free 跌破 1GB 立刻 kill 自己止损（checkpoint 机制保证 round 级恢复，损失上限 = 当前 round）。理由：6GB 稳态 + 27GB 可回收，实际可用余量大概率够；而继续等一个不会来的 8GB 只会空耗整个 loop。**但若你判断 99641 才是真凶，选 2 更对。**
