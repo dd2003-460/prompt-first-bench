@@ -654,10 +654,12 @@ class DecompStateMachine:
 
             # ── 停止判据：necessary 通过率 ──
             # 本轮新增冗余数 = dropped_redundant - 上轮累计值（dropped_redundant 是跨轮累计计数器）
-            n_new_dropped = self.dropped_redundant - getattr(self, '_prev_dropped', 0)
+            # E14b: 防御式 — dropped_redundant 可能是 []（旧 ckpt 残留），取 int 值再算
+            _dr = self.dropped_redundant if isinstance(self.dropped_redundant, int) else 0
+            n_new_dropped = _dr - (getattr(self, '_prev_dropped', 0) if isinstance(getattr(self, '_prev_dropped', 0), int) else 0)
             n_candidates = len(deduped) + n_new_dropped
             pass_rate = len(deduped) / max(n_candidates, 1)
-            self._prev_dropped = self.dropped_redundant
+            self._prev_dropped = _dr
             if pass_rate < 0.3 and deduped:
                 low_gain_streak += 1
             elif not deduped:
