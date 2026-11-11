@@ -555,11 +555,29 @@ class DecompStateMachine:
         self.network_degraded = True
         print("  [SM] network probe FAILED (all channels) — retrieval degraded", flush=True)
 
-    def run(self, skip_l1: bool = False) -> SMResult:
+    def run(self, skip_l1: bool = False, verify_only: bool = False) -> SMResult:
         """主循环。skip_l1=True 用于 --resume：L1 已在 checkpoint 里，不重拆。"""
         self._probe_network()
         self.state = State.DECOMPOSE
         self._decompose_l1(skip_if_seeded=skip_l1)
+
+        if verify_only:
+            # --verify-only: 树结构已完整，跳过 decompose 直接核验所有 pending 节点
+            print(f"  [SM] verify-only mode: {sum(1 for n in self.nodes if n.status=='pending')} pending nodes to verify", flush=True)
+            self.state = State.VERIFY
+            pending = [n for n in self.nodes if n.status == 'pending']
+            for i in range(0, len(pending), 3):
+                batch = pending[i:i+3]
+                self._verify_batch(batch)
+                self._save_checkpoint()
+                if (i // 3 + 1) % 5 == 0:
+                    print(f"  [SM] verified {i+len(batch)}/{len(pending)}", flush=True)
+            self.state = State.STOP
+            return SMResult(
+                nodes=list(self.nodes), rounds_log=self.rounds_log,
+                final_state="verified", leak_hits_total=self.leak_hits_total,
+                rework_events=list(self.rework_events),
+            )
 
         low_gain_streak = 0
         rnd = 0
@@ -756,6 +774,7 @@ if __name__ == "__main__":
             sm.cfg.max_nodes = int(_raw[k+1])
         elif v.startswith("--max-nodes="):
             sm.cfg.max_nodes = int(v.split("=", 1)[1])
+    verify_only = "--verify-only" in flags
     if resume_from:
         import json as _json
         ck = _json.load(open(resume_from))
@@ -793,7 +812,7 @@ if __name__ == "__main__":
         sm._verify_batch = _vb_no_search
         sm._rework = lambda failed: None
     try:
-        result = sm.run(skip_l1=bool(resume_from))
+        result = sm.run(skip_l1=bool(resume_from), verify_only=verify_only)
     except Exception as e:
         import traceback, sys as _sys
         print(f"\n[T53 SM] FATAL: {type(e).__name__}: {e}", flush=True)
