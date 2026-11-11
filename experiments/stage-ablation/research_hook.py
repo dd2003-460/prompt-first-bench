@@ -720,13 +720,27 @@ def research_hook(qid, question, max_results=8, enable_local=True):
             if page_info["alive"]:
                 _add(page_info, "direct_site")
 
-    # ── 过滤：搜索引擎跳转链接 ──
+    # ── 过滤：搜索引擎跳转链接 + 垃圾源 ──
     _BAD_ANCHOR = re.compile(r'bing\.com/ck|google\.com/url\?', re.I)
+    # Junk filter (2026-11-12): drb-1 诊断——DDG/cn.bing 对中文 DRB 题返回大量无关源
+    # （色情视频/英雄联盟/原神/翻译工具/股票行情），75% 节点 degraded 全因于此。
+    # 这些源的 title/snippet 与查询主题零相关，喂给 verify 只会触发 rework。
+    _JUNK_PATTERNS = re.compile(
+        r'色情|成人|av\b|porn|sex\b|xxx|裸体|情色|'
+        r'英雄联盟|lol\b|原神|genshin|崩坏|星穹铁道|王者荣耀|'
+        r'翻译工具|在线翻译|有道翻译|百度翻译|deepl|'
+        r'股票行情|实时股价|个股分析|基金净值|期货行情|'
+        r'下载中心|软件破解|免费资源|网盘分享|百度云盘|'
+        r'短视频|抖音|快手|tiktok|直播|',
+        re.I
+    )
     before = len(sources)
-    sources = [s for s in sources if not _BAD_ANCHOR.search(s.get("url", ""))]
+    sources = [s for s in sources
+               if not _BAD_ANCHOR.search(s.get("url", ""))
+               and not _JUNK_PATTERNS.search(s.get("title", "") + " " + s.get("snippet", ""))]
     dropped = before - len(sources)
     if dropped:
-        print(f"  [ANCHOR-FILTER] {qid}: dropped {dropped} redirect link(s)", file=sys.stderr)
+        print(f"  [JUNK-FILTER] {qid}: dropped {dropped} junk/redirect source(s)", file=sys.stderr)
 
     if not sources:
         raise ResearchHookUnavailable("no sources from any channel (all 5 failed)")
