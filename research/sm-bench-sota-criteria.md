@@ -5,17 +5,18 @@
 
 ## 验收定义
 
-**在 ≥5 道 deepresearch 类问题上，状态机最终答案的 judge 分 ≥ 开源 deepresearch 框架（同一本机模型驱动）在同题上的分数。**
+**在 ≥5 道 deepresearch 类问题上，我们的管线（S5/T53）最终答案的 judge 分 ≥ 开源 deepresearch 框架（同一本机模型驱动）在同题上的分数。**
 
 "打赢"不是节点数更少、不是更快——是**答案质量**（数字对不对、对比/单位对不对）。
 
 ## Baseline 定义（v2 · 2026-11-11 修订）
 
-**核心原则**：同一模型（Qwen3-27B @8787），不同策略。对比的是"我的 decomp 状态机" vs "通用开源 deepresearch 框架"在同一模型上的表现差异。
+**核心原则**：同一模型（Qwen3-27B @8787），不同策略。主对比对象是"我们的管线（S5/T53）" vs "通用开源 deepresearch 框架"在同一模型上的表现差异。状态机（s5_state_machine.py）只是我们管线内部的候选臂之一，预期分数更低，不与 baseline 平级。
 
 | 角色 | 内容 | 说明 |
 |------|------|------|
-| 实验组 | s5_state_machine.py（decomp+verify+rework+stop） | 目标函数驱动，防 Goodhart |
+| 实验组（主） | 我们的管线 S5/T53 | 目标函数驱动的 decomp+verify+rework+stop 流程 |
+| 内部候选臂 | s5_state_machine.py | 管线内部实现之一，预期分数低于主臂，非独立主角 |
 | 对照组 | 开源 deepresearch 框架 + Qwen3-27B | 当前活跃维护的 agent 框架 |
 
 **开源 deepresearch 框架候选** [待核验：选哪个]：
@@ -51,8 +52,8 @@
 ## 执行流程
 
 1. 选定开源 deepresearch 框架 → 配置指向 localhost:8787 → 跑 5 题 → 收集答案
-2. 状态机跑同样 5 题 → 收集最终答案 + 节点数 + 耗时
-3. B-face judge 对两组答案分别打分（n=3, median）
+2. 我们的管线（S5/T53）跑同样 5 题 → 收集最终答案 + 节点数 + 耗时；状态机作为内部候选臂一并跑，用于内部对照
+3. B-face judge 对各组答案分别打分（n=3, median）
 4. 判定：≥5/5 打赢 → AC4 PASS；否则记录哪些题输了 + 原因分析
 
 ## 文件索引
