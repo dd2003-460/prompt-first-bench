@@ -54,4 +54,5 @@
 
 | #35 | 终点锚定 prompt：公式降级为机器侧监控（Decision 16） | ✅已落地(r10 携带全部修复运行中，fanout cap/judge fix/per-round ckpt 均生效) | 
 | #36 | 终点目标函数形式化 U(T)=C·A·S−λ·cost（Decision 18）：覆盖×准确×具体 乘积 − 代价；不进 prompt，做机器侧终极验收；gold 维度集 G9 + λ 标定 G10 待设计 | ⚠️设计完成待落地(依赖 r10 完整树+答案生成管线) |
-| #37 | 模型自估计终点目标函数：L1 轮先形式化（可测要素+组合方式）再导出维度；objective 落盘不进后续 prompt，做 G9 gold 初稿 + 机器侧对照（Decision 19） | ⚠️已落地(代码✅/旧ckpt兼容✅/首次生效🔸待新树) ||
+| #37 | 模型自估计终点目标函数：L1 轮先形式化（可测要素+组合方式）再导出维度；objective 落盘不进后续 prompt，做 G9 gold 初稿 + 机器侧对照（Decision 19） | ⚠️已落地(代码✅/旧ckpt兼容✅/首次生效🔸待新树) |
+| #38 | E13: judge 解析器与 prompt 格式不匹配是 r9/r10 同根因（E11 只修了 max_tokens 没修 parse）；全文 finditer + isinstance 防御 + 8 项单测（Decision 20） | ✅已落地(代码✅/单测8/8✅/r11 验证🔸待跑) ||
