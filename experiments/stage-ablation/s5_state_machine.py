@@ -108,6 +108,7 @@ class ObjectiveConfig:
     max_rework: int = 2
     max_nodes: int = 150              # 硬顶（安全阀；v17 是无限→1930）
     max_depth: int = 4                # 最大层级深度（3-4 层 × 6-10 节点 ≈ 几十~百级）
+    max_kids_per_parent: int = 8      # 单父节点子节点上限（正交维度数；2026-11-11 D 指出 18-21 是扁平化，正常应 ~6×6×6）
     redundancy_penalty_beta: float = 0.3
     # ── T-PR-15 修法（2610.33512 F_β 证据）：recall 型 S_α → recall×precision 型 ──
     fbeta_beta: float = 0.5          # β<1 偏向 precision（防同义变体刷分）
@@ -543,6 +544,19 @@ class DecompStateMachine:
                 batch = frontier[i:i+3]
                 try:
                     kids = self._decompose_layer(batch)
+                    # 单父节点扇出上限：超过的按 n-gram 与已有 claim 距离排序保留最近的，
+                    # 防止 LLM 把一层铺成 20+ 个近义变体（r2 ckpt 实测 L1 各 18 子、L2 最高 21 子）。
+                    cap = self.cfg.max_kids_per_parent
+                    for p in batch:
+                        pk = [k for k in kids if p.id in (k.parent_ids or [])]
+                        if len(pk) > cap:
+                            base = [n.claim for n in self.nodes] + [p.claim]
+                            def dist(k):
+                                return min((_ngram_overlap(k.claim, c) for c in base), default=0.0)
+                            pk.sort(key=dist, reverse=True)
+                            dropped = pk[cap:]
+                            kids = [k for k in kids if k not in dropped]
+                            print(f"  [SM] fanout cap {cap}: parent {p.id} kept {cap}/{len(pk)+len(dropped)}, dropped {len(dropped)}", flush=True)
                     new_nodes.extend(kids)
                 except LeakError as e:
                     # AC2 零容忍：任何产出回显题目 = 验收 fail，整轮中止。
