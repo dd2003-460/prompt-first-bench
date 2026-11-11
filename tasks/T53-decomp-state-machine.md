@@ -73,6 +73,7 @@ v17 暴露的问题链：S_α = Σₙ[n·ln(kₙ)+α·kₙ·ln(n)] 对节点数�
 | D2 | 修改路径记录：`research/sm-modification-log.md`（每次改目标函数/状态转移的原因 + 前后对比） |
 | D3 | 思考 SOP：`research/sm-thinking-sop.md`（设计决策的推理过程，为什么选这个目标函数而不是那个） |
 | D4 | goal 内留索引：本文件顶部 + goal JSON 里指向 A-D 四块的关键文件 |
+| D5 | idea 检索入口：`lit-survey/IDEA-INDEX.md`（33 条 idea 全量登记，含提出时间/业内完成度标记/落点地址；T53 相关 = #9,#10,#30-33） |
 
 ## 验收标准（AC）
 
