@@ -36,7 +36,7 @@
 3. 判定：quotient >30% → 再修 prompt 跑 r15；节点 <80 且 verified <30% → 放宽 fanout cap；正常区间（quotient ≤20%, 节点 100-150）→ 进 Phase 2。
 4. 结果落盘 experiments/stage-ablation/r14-results.md（含 r12/r13 对比表）。
 
-### Phase 2: bench 泛化（打赢 SOTA 路径）
+### Phase 2: DRB pilot + 迭代优化循环（D 04:05 授权升级：校准合理即开跑，不用等 Lead 确认；打不赢→诊断弱项→改机制→重跑，循环到收敛）
 1. 选 5 道 deepresearch 类题（HotpotQA hard / 2WikiMultihop / DRB 公开题集；多跳+事实检索混合，避开 GPU 域）。
 2. 每题跑状态机，记录节点数/轮数/核验率/答案质量。
 3. 评分口径：异族 judge（数字正确 0.5 + 对比/单位正确 0.5，n=3 median）。
@@ -71,4 +71,4 @@
 
 ## 执行日志
 
-- 2026-11-12 ~02:00 任务书创建，r14 启动（proc_9f36253dab6c, commit d230a64d）。
+- 2026-11-12 ~02:00 任务书创建，r14 启动（proc_9f36253dab6c, commit d230a64d）。- 2026-11-12 ~04:05 D 指令升级：① 迭代优化循环授权（不止 r14，确认有优化空间就继续改/跑）；② DRB 感觉差不多时直接跑（HF muset-ai/DeepResearch-Bench-Dataset + 官方 judge 口径对齐 56.72，先 2-3 题试水再扩 5 题）；③ gold 答案降级为回归测试集（保留，不进主验收），主验收 = DRB 公开题。bus L2 已通知 teamer。
