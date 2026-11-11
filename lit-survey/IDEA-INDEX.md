@@ -58,3 +58,4 @@
 | #38 | E13: judge 解析器与 prompt 格式不匹配是 r9/r10 同根因（E11 只修了 max_tokens 没修 parse）；全文 finditer + isinstance 防御 + 8 项单测（Decision 20） | ✅已落地(代码✅/单测8/8✅/r11 验证🔸待跑) ||| #39 | E14: ckpt 字段类型防御 — clean-r2 里 dropped_redundant=[] 被 resume 照搬，后续 list-int 运算会连锁炸 FATAL handler；resume 处 _as_int 归一化（teamer T1 发现，Decision 21） | ✅已落地(代码✅/语法✅/生效🔸下次resume) |
 | #40 | 压缩阶梯（数值→变量→函数族→向量空间）与 K 复杂度：decomp 树为何是好压缩形式；断点在压缩发现本身(NP-hard)+压缩-展开税；cost(T)=K复杂度+展开税（D 2026-11-12 直觉 + Lead 回应） | 🔸讨论捕获待展开 |
 | #41 | E14b: pass_rate 计算防御式取 int（运行中进程内存值也可能是 []） | ✅已落地(代码✅/语法✅/生效🔸下次resume) |
+| #42 | S_α' 保留为过程监控 + 代理锥架构（上界松弛 vs cost 下界夹住 K(T)） | ✅Decision 24 落盘 |
