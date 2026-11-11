@@ -1,0 +1,1 @@
+I could not gather any source material for "收集整理目前中国电影票房前十的电影的相关资料，横向比较各电影的主题、技制作公司、题材、时长等维度，并为我评估出最有可能在未来实现高票房的电影类型". No sources were retrieved (searches may have returned nothing or been blocked), so I am not able to produce a reliable, sourced report.
