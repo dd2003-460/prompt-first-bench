@@ -766,6 +766,10 @@ if __name__ == "__main__":
         import traceback, sys as _sys
         print(f"\n[T53 SM] FATAL: {type(e).__name__}: {e}", flush=True)
         traceback.print_exc()
+        # E12 (2026-11-12): FATAL 时落盘"当前树状态"而非空壳。
+        # r9 事故：崩溃发生在轮内（judge 阶段），per-round checkpoint 还没触发，
+        # 旧逻辑只 dump rounds_log（空）→ resume 后从 0 节点重跑，整轮白干。
+        # 现在直接保存内存里的 self.nodes（崩溃前已 extend 的部分保留）。
         ck_path = f"runs-s5-sm-{qid}-checkpoint.json"
         with open(ck_path, "w") as f:
             json.dump({
