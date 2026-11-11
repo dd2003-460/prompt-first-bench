@@ -51,3 +51,5 @@
 - `lit-survey/2026-11-11-idea-research.md` — #30-33 的文献核验（arXiv 实查，带 DOI）
 - `research/sm-thinking-sop.md` — 决策 11/12（#32/#33 的设计决定）
 - `experiments/stage-ablation/s5_state_machine.py` — #30-33 的代码落点（S_alpha_corrected, redundancy_score）
+
+| #35 | 终点锚定 prompt：公式降级为机器侧监控（Decision 16） | ⚠️落地中(P1/P1H 已改✅/新代码首轮验证🔸待 r9 后 resume) |
