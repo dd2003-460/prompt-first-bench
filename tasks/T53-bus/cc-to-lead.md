@@ -161,3 +161,24 @@ C3 里报的 "free 0.2–0.4GB" 全是错的。用正确页大小重测：**free
 3. assemble_report.py / drb_judge.py 状态复核 OK，无需改动。
 
 下一步：drb-1 run（预计 2-4h，3 rounds × frontier batch 检索+LLM）→ assemble → judge → 填 bench report §3 第一行。若 run 中再死，立刻回 bus 报死因取证（这次会抓 dmesg/系统日志确认是否仍是 OOM-kill）。
+
+## C5 04:02 — drb-1 第二次死：无 checkpoint、非 OOM（系统日志查不到 kill 记录）、死因存疑——请求你侧协助排查，我先做可逆加固
+
+### A. 死亡事实（本地证据）
+
+- 03:44 启动（pid 821），L1 skeleton 完成（5 维度 + objective factors 全打印），round-1 decompose 进行到 **fanout cap 首次触发**（N1 kept 8/12, dropped 2）后静默死亡；
+- log 止于该行，**无 FATAL/traceback**；`checkpoints/` 里 **没有任何 sm-drb-1-r*.json**（E12 crash-dump 也没触发 → 同昨晚一样是 SIGKILL 型，不是 Python 异常）；
+- 时间窗 03:44–03:47（log mtime 03:46），RAM monitor 两次采样 free≈3.7–3.8GB / inactive≈26GB——**没有低内存读数**。
+
+### B. 死因排查：排除了 OOM，但查不到真凶
+
+1. **OOM 嫌疑下降**：free 3.8GB + inactive 26GB 可回收，且 SM run 主要是 LLM I/O 等待不占内存。昨晚"死于 memory pressure"的结论现在存疑（当时 watcher 读数也是错的，真实余量可能一直够）。
+2. **系统日志查不到**：`/usr/bin/log show --last 15m | grep -iE "jetsam|memorystatus|kill"` = **零命中**（已用 unsandboxed 执行确认查询本身有效）。要么 kill 来源不写 unified log（如外部进程直接 `kill -9`），要么日志被轮转。
+3. **环境里有一个身份不明的 python 进程**（pid 99641，cwd 恰好是 stage-ablation 目录，与 node proxy 8787 有 ESTABLISHED 连接，lsof 对其 fd 不可读——沙箱限制）。它在我启动 drb-1 之前就存在。**我无法排除它与本次死亡有关**，也无法自己进一步取证（ps/lsof 对它受限）。
+
+### C. 我的判断与请求
+
+- **我不再裸跑第三次**。连续两次同位置死亡（L1 后、round-1 内、无 checkpoint）已经超出"运气差"的解释范围，需要定位而不是重试。
+- **请你协助两件事**（任选能做的）：① 你那边能否跑 `log show --last 2h --predicate 'eventMessage CONTAINS "s5_state_machine"'` 或看 Console.app 的 jetsam 事件？② pid 99641 是什么进程（它是谁起的、在干什么）？
+- **我这边先动的可逆加固**（不改机制，等回复期间就做）：给 round-1 加一个 **decompose 完成后的早期落盘点**（checkpoint 提前，把"丢整个 round"的损失上限缩到 batch 级）——这是运维层容错改动，动完会在下一条 bus 报备 diff，若你认为越界就回滚。
+- 备选路径（如果你不想排查环境）：**换时段错峰跑**（比如避开 99641 活跃窗口），或你确认后我直接 kill 99641 再试（它不是我起的，kill 前必须经你同意）。

@@ -11,13 +11,14 @@ if pgrep -f "s5_state_machine.py.*$QID" >/dev/null; then
   echo "[$(date '+%F %T')] ABORT: $QID 进程已存在"; exit 1
 fi
 
-# 2. free RAM 门槛 ≥8GB
-free_gb=$(python3 -c "import subprocess,re;s=subprocess.check_output(['vm_stat']).decode();pg=int(re.search(r'page size of (\d+)',s).group(1));free=int(re.search(r'Pages free:\s+(\d+)',s).group(1));purge=int(re.search(r'Pages purgeable:\s+(\d+)',s).group(1));print(round((free+purge)*pg/1e9,1))")
-echo "[$(date '+%F %T')] free+purgeable RAM = ${free_gb}GB (need >=8)"
-if python3 -c "exit(0 if $free_gb>=8 else 1)"; then
+# 2. RAM 门槛：free+purgeable ≥8GB 硬过；否则看 inactive（macOS 压力下自动换出，可回收）≥16GB 软过
+free_gb=$(python3 -c "import subprocess,re;s=subprocess.check_output(['vm_stat']).decode();pg=int(re.search(r'page size of (\d+)',s).group(1));g=lambda k:int(re.search(k+r':\s+(\d+)',s).group(1))*pg/1e9;print(f\"{g('Pages free')+g('Pages purgeable'):.1f} {g('Pages inactive'):.1f}\")")
+FREE=${free_gb% *}; INACT=${free_gb#* }
+echo "[$(date '+%F %T')] free+purgeable=${FREE}GB inactive=${INACT}GB (hard: free>=8 | soft: inactive>=16)"
+if python3 -c "exit(0 if $FREE>=8 or $INACT>=16 else 1)"; then
   :
 else
-  echo "[$(date '+%F %T')] RAM below threshold — NOT starting"; exit 2
+  echo "[$(date '+%F %T')] RAM below both thresholds — NOT starting"; exit 2
 fi
 
 # 3. 启动
