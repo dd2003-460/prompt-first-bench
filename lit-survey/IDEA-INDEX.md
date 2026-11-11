@@ -63,3 +63,5 @@
 | #44 | 检验顺序的非交换收益："有意思的、不频繁的、不交换的特征"——不对称代价是稀有性质，仅特定组合有单向收益（先正交后完备=单调收窄）；MECE 原则里没有这些 [待展开] | ❓D 提出，核心含义已补+MECE 确认，具体例子待 D 展开 |
 | #45 | 贡献估计+阈值停止：模型估计每个子项对目标函数的边际贡献（0~1），低于阈值不展开；极小概率极大不稳定期望豁免（high_var=true） | ✅已落地(commit 04969d53: classify_edge 返回 contribution+high_var, L1 frontier 按 0.10 过滤) |
 | #46 | cellorg-max DRB harness 结构调研：微信兄弟找到最高分 harness 用了 MECE，需查其结构+我们剩余优化空间 | 🔍待调研 |
+| #47 | 不确定性横切维度自发涌现：L1 skeleton 自发把"不确定性/置信度"拆成独立 L1 兄弟节点（r7 N6）；v1 探针 3/3 复现但含 2b prior（"横切因子必须独立成兄弟节点"），创新声明降级为 prior-guided；v2 消融实验（去 2b 重跑 3 次）量化 prior 贡献——若 B 组仍出现则真涌现，否则是 prompt 工程产物 | ❓复现率 v1=3/3(prior-on)，v2 消融🔸进行中(2026-11-12) | research/l1-repro-probe.jsonl; l1_repro_probe_v2.py | T53 P1_L1_SKELETON 2b 规则 |
+| #48 | 领域网络/激活子图视角：无外部检索时模型生成的分解树≈其内部激活子图（问题"点亮"了哪些概念），有检索后变成耦合图（外部证据为新节点，verified/degraded/failed=耦合强度）；对标从 deepresearch agents 转向 concept graph / knowledge activation 文献，撞车风险更低 | 🔸讨论捕获(2026-11-12 D 提出+Lead 认可) | — | T53 研究定位备选方向 |

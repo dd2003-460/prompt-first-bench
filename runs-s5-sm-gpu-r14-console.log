@@ -1,0 +1,28 @@
+[T53 SM] Running on 'gpu': 你要在本地工作站上推理 Qwen3-27B 模型，要求单流延迟 < 3s/token、上下文窗口 ≥ 32K token...
+  [SM] L1 skeleton (top-level dimensions only)...
+  [SM] objective (model-estimated): Utility = F1 · max(F2, Threshold) · (F4 / F3^λ)，其中 λ 为价格敏感度系数。若 F1=0 或 F2<Threshold，Utility=0；否则按性价比
+    factor: F1_可行性硬约束 (Boolean): 方案必须同时满足 (a) 单流生成延迟 < 3s/token, (b) 上下文窗口 ≥ 32K tokens, (c)
+    factor: F2_质量保真度 (Score 0-1): 所选量化精度相对于 BF16/FP16 基线的任务级性能损失（如 MMLU/CodeEval 分数下降幅度）。需论证
+    factor: F3_全生命周期成本 (Currency): TCO = 硬件初始采购成本 + 预期电力消耗成本(基于功耗与运行时长) + 基础设施溢价(散热/机箱/网络)。用
+    factor: F4_架构适配性 (Score 0-1): 候选硬件对长上下文(32K+)及大模型(27B)的内存带宽与容量匹配度。反映非典型方案（如统一内存）在特定负载下的实
+  [SM] L1: 5 top-level dimensions
+    [N1] 物理可行性边界：定义内存容量下限（权重+KV Cache≥32K）、显存带宽下限（满足<3s/token）及连接拓扑（PCIe/NVLink/Infinity 
+    [N2] 候选集全景扫描：构建包含消费级GPU、数据中心GPU、高性能CPU/统一内存平台及新兴ASIC的非典型完整候选矩阵，覆盖不同代际、容量档位与价格区间，确保无遗漏
+    [N3] 精度-质量权衡分析：评估BF16至W4各量化等级在27B规模下的模型能力衰减曲线，确立‘可接受质量损失’的具体阈值，并确定每种硬件下唯一可行的最高效精度配置。
+    [N4] 单卡vs多卡TCO结构：对比单张高配卡与多张中低配卡（含互联损耗、软件栈复杂度、故障率）的全生命周期成本差异，明确多卡方案中通信开销对有效吞吐量的侵蚀比例。
+    [N5] 不确定性与伦理风险：标注关键参数（如最新芯片实测带宽、量化后具体基准分）的数据来源可靠性（刚查vs记忆），识别供应链波动、驱动稳定性等可能导致推荐失效的外部变量
+  [SM] edge-classify N3: quotient (该概念核心在于定义‘可接受质量损失’阈值，本质是模型能力衰减与量化收益（效率/显存）之间的比值权衡，)
+  [SM] edge-classify N4: quotient (该概念核心是计算全生命周期成本（TCO）与有效吞吐量（受通信开销侵蚀）的比值或差值，属于典型的运算结)
+  [SM] edge-reclassify N3: quotient→cartesian (父节点是评估任务，子维度（显存、带宽、硬件、精度点）是独立的技术约束参数，需联合满足以筛选可行配置，)
+  [SM] fanout cap 8: parent N1 kept 8/12, dropped 2
+  [SM] edge-reclassify N4: quotient→cartesian (父节点是单卡与多卡两种独立工作点（A/B）及其各自成本构成、通信效率、硬件参数和风险因素的并列对比集)
+  [gap_check A] 7 dimensions: 候选硬件全集的界定标准与覆盖范围，包括不同架构、代际、显存容 | 特定精度下的模型推理性能指标（单流延迟）与显存占用约束的量化 | 所选权重精度的质量损失评估方法、可接受性判定标准及具体论证过 | 单卡与多卡方案在总拥有成本（TCO）上的构成要素差异及对比分 | 影响性价比排序的非典型因素或特殊场景考量（如功耗、散热、软件...
+  [SM] r1: +17 (total 22), gain=0.971, S_α'=17.7, ver=7/17, streak=0
+  [SM] edge-reclassify N8: cartesian→quotient (父节点核心是带宽下限的推导，其定义显式包含运算结构 BW = (Weight + KV) / Lat)
+  [SM] fanout cap 8: parent N9 kept 8/12, dropped 2
+  [SM] edge-reclassify N8: cartesian→quotient (父节点明确定义为通信与计算比值的运算结果（η_eff = 1 / (1 + α * D_comm /)
+  [SM] fanout cap 8: parent N7 kept 8/14, dropped 3
+  [SM] fanout cap 4: parent N8 kept 4/12, dropped 4
+  [SM] edge-reclassify N10: cartesian→quotient (父节点明确定义失效概率为子项之和（P_fail = P_supply + P_driver），且子维)
+  [SM] fanout cap 4: parent N10 kept 4/12, dropped 4
+  [gap_check A] 6 dimensions: 硬件候选集的完整性界定，包括涵盖的架构类型、代际范围、显存容 | 在单流延迟<3s/token和上下文≥32K tokens约 | 不同权重精度（BF16/FP8/INT8/NVFP4/W4） | 单卡与多卡方案在初始采购成本、电力消耗、散热需求及维护复杂度 | 性价比排序中各关键性能参数与价格数据的来源标注规范，区分实时...
