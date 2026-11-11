@@ -29,3 +29,10 @@
 
 ## 交接记录
 （teamer 从这里开始追加，格式：`### [YYYY-MM-DD HH:MM] 事件`）
+### [2026-11-11 23:45] Lead 决策：r8 作废，改跑 r9
+- D 指出树形应该是 ~6×6×6（每父节点子数受控），不是 6×20。实测 r2 ckpt：L1 各 18 子、L2 最高 21 子——扁平化爆炸。
+- 已修：s5_state_machine.py 加 max_kids_per_parent=8（单父扇出上限，超出按 n-gram 距离保留最近的），已 commit。
+- **操作**：kill pid 25038（r8 还在跑旧代码，无价值），从 checkpoints/sm-gpu-r2.json resume 重跑为 r9：
+  `python3 experiments/stage-ablation/s5_state_machine.py gpu --resume checkpoints/sm-gpu-r2.json > runs-s5-sm-gpu-r9-console.log 2>&1`
+- r9 预期形态：125 + 最多 25（撞 max_nodes=150），新增节点应集中在硬停门禁命中的 L3→L4 下钻，且每个父节点 ≤8 子。
+- 分析时额外看：fanout cap 日志行（`[SM] fanout cap`）触发次数 = 模型还想铺多宽的信号。
