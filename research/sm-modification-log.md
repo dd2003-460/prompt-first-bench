@@ -77,3 +77,10 @@ r1 里 `par_claims` 用 `int(id.lstrip("N"))-1` 当列表下标取父节点 clai
 **验证**：py_compile OK；探针单测通过（当前 ClashX 7890 仍死 → Python 两路失败 → ego-browser 探活成功 → network_degraded=False，符合预期）。
 
 **没做的**：ClashX 端口配置修复（mixed-port=0 是用户环境的事，手动切 GLOBAL 已恢复出口，不动配置文件）。
+
+## 2026-11-11 r4b — --resume 参数解析 bug（r3 遗留）
+
+**症状**：`--resume checkpoints/sm-gpu-r1.json`（空格形式）被 flag 过滤器吃掉路径，resume_from=None → 静默从头跑 + 重拆 L1。
+**根因**：main 里 `flags = [a for a in argv if a.startswith("--")]`，`--resume` 后的值不以 `--` 开头进了 args；旧解析逻辑只在 flags 列表内部找下一个元素，永远找不到。
+**修法**：在原始 argv 上扫 `--resume <path>` 和 `--resume=<path>` 两种写法；resume 时 `_decompose_l1(skip_if_seeded=True)` 跳过重拆（L1 已在 checkpoint）。
+**验证**：pid 92810 实际 resume 成功——log 出现 "resumed from ...: 81 nodes @ r1" + "L1 already seeded (81 nodes), skipping decompose"，正在跑 r2 的 gap_check/decompose。
