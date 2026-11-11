@@ -63,3 +63,8 @@ r9 稳定后，按产投比推进剩余子项。C 段（bench）的"跑+记录"�
 
 ## 交接记录
 （从这里追加，格式 `### [YYYY-MM-DD HH:MM] 事件`）
+### [2026-11-11 23:58] Lead 事件：r9 已重启，ckpt 污染修复
+- **事故**：teamer 第一次 resume 时 kill 不彻底——旧 r3 进程（pid 5107）没死透，和新 r9（pid 27158）并发写同一组 checkpoint 文件，互相覆盖。后果：sm-gpu-r2.json 被旧进程的 126 节点树覆盖（含 9 个孤儿 L3：N33-N37、N138-N141，parent_ids 为空，是旧 run 的残留），且 r2/r3 两文件的 claim 大面积错位（39 个 id 内容不同）。
+- **修复**：kill 5107；从干净基线重建 `checkpoints/sm-gpu-clean-r2.json`（117 节点 = L1×6 + L2×26 + L3×85，丢弃 9 孤儿，全部 parent 引用完整性校验通过）；新 r9 从 clean ckpt 启动。
+- **当前 r9**：pid 29238（Hermes session proc_f6b304594a9f），日志 runs-s5-sm-gpu-r9-console.log，117 起步，max_nodes=150 → 最多 +33。
+- **教训（后续监控必须遵守）**：resume 前先 `pgrep -fl s5_state_machine` 确认无其他实例在跑；kill 后等 1s 再 pgrep 复核；两个实例并存 = checkpoint 互踩，数据不可信。
