@@ -305,8 +305,11 @@ class DecompStateMachine:
             raise LeakError(f"[{context}] LEAK DETECTED: {hits[:5]}... "
                            f"(total {len(hits)} entities matched)")
 
-    def _decompose_l1(self):
-        """第 0 轮: L1 骨架。"""
+    def _decompose_l1(self, skip_if_seeded: bool = False):
+        """第 0 轮: L1 骨架。skip_if_seeded=True 且已有节点（resume 场景）时跳过重拆。"""
+        if skip_if_seeded and self.nodes:
+            print(f"  [SM] L1 already seeded ({len(self.nodes)} nodes from checkpoint), skipping decompose", flush=True)
+            return
         print("  [SM] L1 skeleton...", flush=True)
         l1, _raw = decompose(self.question, unlimited=True)
         if not l1:
@@ -495,11 +498,11 @@ class DecompStateMachine:
         self.network_degraded = True
         print("  [SM] network probe FAILED (all channels) — retrieval degraded", flush=True)
 
-    def run(self) -> SMResult:
-        """主循环。"""
+    def run(self, skip_l1: bool = False) -> SMResult:
+        """主循环。skip_l1=True 用于 --resume：L1 已在 checkpoint 里，不重拆。"""
         self._probe_network()
         self.state = State.DECOMPOSE
-        self._decompose_l1()
+        self._decompose_l1(skip_if_seeded=skip_l1)
 
         low_gain_streak = 0
         rnd = 0
@@ -656,10 +659,18 @@ if __name__ == "__main__":
     from s5_pipeline import QUESTIONS
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     flags = [a for a in sys.argv[1:] if a.startswith("--")]
+    # --resume 同时支持 "--resume=<path>" 和 "--resume <path>" 两种写法
+    resume_from_early = None
+    _raw = sys.argv[1:]
+    for k, v in enumerate(_raw):
+        if v == "--resume" and k + 1 < len(_raw):
+            resume_from_early = _raw[k+1]
+        elif v.startswith("--resume="):
+            resume_from_early = v.split("=", 1)[1]
     qid = args[0] if args and args[0] in QUESTIONS else "gpu"
     no_verify = "--no-verify" in flags
-    resume_from = None
-    if "--resume" in flags:
+    resume_from = resume_from_early
+    if resume_from is None and "--resume" in flags:
         i = flags.index("--resume")
         if i + 1 < len(flags):
             resume_from = flags[i+1]
@@ -698,7 +709,7 @@ if __name__ == "__main__":
         sm._verify_batch = _vb_no_search
         sm._rework = lambda failed: None
     try:
-        result = sm.run()
+        result = sm.run(skip_l1=bool(resume_from))
     except Exception as e:
         import traceback, sys as _sys
         print(f"\n[T53 SM] FATAL: {type(e).__name__}: {e}", flush=True)
