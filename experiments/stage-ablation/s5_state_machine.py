@@ -119,7 +119,7 @@ class ObjectiveConfig:
     contrib_samples: int = 1          # 每条 edge 采样次数（1 = 退化为现状单点估计）
     contrib_temperature: float = 0.0  # 采样温度（0.0 = 确定性，退化为现状）
     lambda_uncertainty: float = 1.0   # 不确定度系数：剪枝判据 = mean + λ·std < θ（λ越大越保守越难剪）
-    stop_std_max: float = 0.15        # E4: J_stop 方差上限（gain std > 此值 = 还在探索，不触发停止计数）
+    stop_std_max: float = 0.06        # E4/P5: J_stop 方差上限（gain std > 此值 = 还在探索，不触发停止计数）。P5 CDF 回标 2026-11-12：8 样本（drb-1×3+drb-2×2+gpu×3，n_new=0 轮剔除）std_pop=0.056 → 取 1x σ；原 0.15 是拍脑袋值，比实测波动宽 2.7x，等于永不 reset
 
 
 def _ngram_overlap(a: str, b: str, n: int = 3) -> float:
