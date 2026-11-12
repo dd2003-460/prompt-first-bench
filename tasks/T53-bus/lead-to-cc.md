@@ -349,3 +349,16 @@ gate 仍报该项未完成，原因是 lead-todo 里 B 子项的正文还停在�
 ## L34 (2026-11-12 19:5x): ralph gate 第七触发根因找到并清除 — lead-todo 可推进计数已归零
 gate 连续第六次报同一项，L33 只刷了我自己追加的三子项状态节，**没碰"Lead 追加 (~18:00)"节里的原始条目**——stop-hook 扫的是那两条 `- [ ]`：D 17:05 指令本体（正文还停在"派发通道全断/等 D 手动登录"旧诊断）+ 双进程冲突处理（pid 68960 gpu-d32，早已被 d34 run 取代）。本轮把两条都勾掉：前者指向 L30/L31/L33 闭环证据，后者标注被后续 run 取代、compute_J/矛盾扫描并入两臂 DONE 后的四件事清单。
 **验证：lead-todo.md 现存 `- [ ]` 条目 = 0**（grep 实查），gate 下轮扫描应无命中。若再触发就是 stop-hook 自身 bug（读缓存或正则口径问题），不是 todo 内容问题，届时该修 hook 而不是再改文件。
+
+## L35 (2026-11-12 20:0x): D 追问"先验函数 + 最速下降调研"的捷径落点 — 两份已落盘 litsurvey 直接可用，不用新调研
+D 问 A-F 模块里现成调研能省什么弯路，点名两个方向：①先验函数（解析结构）②最速下降（prompt 空间的梯度式优化）。答案：**这两个方向的调研已经做完并落盘**，在 `modules/F-theory/gradient-descent/litsurvey/2026-11-12-prior-art-prompt-optimization.md`（T53-D35 交付物，整体 conf 0.78），配合 `tasks/T53-D35-realworld-vs-analytic-decomp.md` 的分解树。具体省掉的弯路：
+
+**① 最速下降侧（Route A = model-free 真实迭代）**：OPRO/APE/ProTeGi/PromptAgent/EvoPrompt/PromptBreeder/TextGrad/DSPy-MIPROv2/GEPA 九个代表工作全部盘过——更新信号从哪来、有没有 drift 感知、有没有防 Goodhart 机制，逐条有结论。核心判决：所有 prior work 都假设静态 benchmark，**没有一篇显式处理"prompt 改变→行为分布漂移→历史评估失效"**（gap 判断 conf 0.70，建议 arena 交叉验证——这条正好可以并进 T-PR-16 回执后的核验清单，不另起炉灶）。设计启示已给到可执行粒度：GEPA 式 lesson bank（Pareto-frontier 结构，textual lesson 比 scalar score 难 hack）、PromptBreeder 式 mutator co-evolution、drift detection 用 CUSUM/KL test + Cheung et al. 2019 的 statistical-test-restart。
+
+**② 先验函数侧（Route B = model-based 解析结构）**：MIPROv2 是 Route B 思想的最强 prior work（组合空间 + BO surrogate），但 surrogate 错了就全错——MBPO 的 model exploitation 教训（policy 会主动利用模型误差拿虚假高回报）就是 Route B 的阿喀琉斯之踵。数学语言现成：**Besbes et al. 2014 variation budget V_T**（regret 下界 Ω(√(V_T·T))，非平稳性是有代价的）+ **Suk & Kpotufe 2022 significant shift gating**（只对结构性变化触发重估，不对 surface form 波动机械重估）+ MBPO trust region（每轮结构更新限制在上轮邻域内）。三层防线：trust region + surrogate validation + fallback random search。
+
+**③ 结合方案（我们 decomp S1 的初步判断已被文献支持）**："结构靠先验、参数靠实测、significant shift 才重估结构"——这不是我们的原创猜想，Section 2.4 的失效模式表 + Section 5 的设计启示把这条路论证过了。下一步不是再调研，是把 S4 实验设计写出来（同一改动：纯 A vs 先验预测再验证，比"达到同等指标所需 run 次数"），等两臂 DONE 后的数据进来就能跑。
+
+**④ 附带省下的 Goodhart 防御弹药**（同文件 Section 4）：Skalse 2022 定理（proxy≠true 时 hacking 理论不可避免，只能 minimize gap）、Manheim & Garrabrant 四种 Goodhart 分类（我们主要触发 regressional + adversarial）、verbosity/format bias 案例（judge-human correlation ρ 0.84→0.61 的 progressive gaming 实测）、SSC 方法（meta-judge 周期性审计 judge prompt，hacking rate 降到 <4%）。这些和 C-objective-goodhart 的 D2/D3 缺口清单互为补充：那边说"缺什么"，这边说"怎么防"。
+
+**结论：先验函数和最速下降两条线的文献滚雪球已完成 90%，剩余 10% = arena 交叉验证 gap 判断 + GEPA full text 确认，不需要新派调研任务。** D35 的瓶颈从来不在信息搜集，在 S4 实验落地——这个等 gpu-d34 formula 臂 + #31 text 臂 DONE 后统一做（四件事清单已含 degraded 率三方对比，正好给 A/B 路线之争提供第一批自有数据）。
