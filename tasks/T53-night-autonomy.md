@@ -101,3 +101,5 @@
 - **2026-11-12 18:25** CC 工作核实：D34 query 瘦身（`research_hook._slim_query` ≤6 实义词，修 DDG lite 长尾零结果根因）+ checkpoint/r3/gpu 终态落盘 → 已 commit `fec564f4` push origin main。
 - **2026-11-12 18:25** restructure B1 完成：根目录 27 文件 → `archive/root-runs/` + `archive/legacy-docs/`（pid 72066/92810 均已死，确认无活进程引用）；6 处代码引用同步改（r14_analysis/drb_judge/gptr_smoke/gptr_bench_run/gptr_drb10_run/drb_race_judge），py_compile 全过；根目录 57→28。同 commit `fec564f4`。
 - **待办**：B2 一级目录归位（bench/lit-survey/knowledge-base/outputs/notes/receipts/checkpoints/demo/src → modules/）——需先建 modules/ 骨架，留下一轮。
+
+| 2026-11-12 ~19:15 | 夜间唤醒：inbox 空；gpu-d34 (pid 92938) ALIVE 健康（SITE-WL 白名单生效，N18 verified via rework-angle）；subagent sa-1 撞车调研已收口（commit 4a0ecc43：prompt-opt prior-art conf 0.78 + SOTA decomp 骨架）；确认 `research/prior-art-sota-systems.md` 未落盘 → 本轮补写 | gpu run 继续跑（预计 1-2h），下轮唤醒验 DONE |
