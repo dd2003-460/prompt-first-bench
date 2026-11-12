@@ -449,6 +449,7 @@ class DecompStateMachine:
         self._gain_history: list[float] = []
         self.dropped_redundant = 0
         self.objective: Optional[dict] = None  # Decision 19: 模型自估计终点目标函数（L1 轮产出）
+        self.objective_mode: str = "formula"  # #31 消融臂: formula=P1_L1_SKELETON(公式版) / text=P1_L1_TEXT(文字版)
         self._no_ness_streak = 0
         self.network_degraded = False  # E8: 出口探针结果，run() 开头设置
 
@@ -478,8 +479,11 @@ class DecompStateMachine:
             print(f"  [SM] L1 already seeded ({len(self.nodes)} nodes from checkpoint), skipping decompose", flush=True)
             return
         print("  [SM] L1 skeleton (top-level dimensions only)...", flush=True)
-        from s5_pipeline import P1_L1_SKELETON, _extract_json
-        prompt = P1_L1_SKELETON.format(question=self.question)
+        from s5_pipeline import P1_L1_SKELETON, P1_L1_TEXT, _extract_json
+        if self.objective_mode == "text":
+            prompt = P1_L1_TEXT.format(question=self.question)
+        else:
+            prompt = P1_L1_SKELETON.format(question=self.question)
         out, _ = call_llm(prompt, max_tokens=2048, temperature=0.7, top_p=0.95, retries=3)
         d = _extract_json(out or "") or {}
         # Decision 19: 模型自估计的终点目标函数——落盘到根节点，不进后续 prompt。
@@ -834,6 +838,7 @@ class DecompStateMachine:
                 "leak_hits_total": self.leak_hits_total,
                 "network_degraded": self.network_degraded,
                 "objective": self.objective,  # Decision 19: 模型自估计终点目标函数随 ckpt 落盘
+                "objective_mode": self.objective_mode,  # #31 消融臂标记
                 "rework_events": self.rework_events,
                 "contradiction_events": self.contradiction_events,
                 "nodes": [vars(n) for n in self.nodes],
@@ -1213,6 +1218,8 @@ if __name__ == "__main__":
         elif v.startswith("--max-nodes="):
             sm.cfg.max_nodes = int(v.split("=", 1)[1])
     verify_only = "--verify-only" in flags
+    obj_mode_flag = next((f.split("=", 1)[1] for f in flags if f.startswith("--obj-mode=")), "formula")
+    sm.objective_mode = obj_mode_flag  # #31 消融臂: formula(默认) / text
     if resume_from:
         import json as _json
         ck = _json.load(open(resume_from))
@@ -1230,6 +1237,7 @@ if __name__ == "__main__":
         sm.leak_hits_total = _as_int(ck.get("leak_hits_total", 0))
         sm.network_degraded = ck.get("network_degraded", False)
         sm.objective = ck.get("objective")  # Decision 19: resume 时恢复模型自估计目标函数
+        sm.objective_mode = ck.get("objective_mode", "formula")  # #31 消融臂
         sm.rework_events = ck.get("rework_events", [])
         sm.contradiction_events = ck.get("contradiction_events", [])
         print(f"[SM] resumed from {resume_from}: {len(sm.nodes)} nodes @ r{ck['round']}", flush=True)
