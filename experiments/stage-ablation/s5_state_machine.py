@@ -115,6 +115,11 @@ class ObjectiveConfig:
     necessary_judge_max_tokens: int = 600
     stop_criterion: str = "necessary"  # "gain"(v1 旧判据) | "necessary"(新判据: 本轮无必要节点→停)
     contribution_threshold: float = 0.10  # idea #45: 子项对目标函数边际贡献 < 此值 → 不展开（极小概率极大不稳定期望豁免）
+    # ── E2 (2026-11-12): contribution 方差感知 ──
+    contrib_samples: int = 1          # 每条 edge 采样次数（1 = 退化为现状单点估计）
+    contrib_temperature: float = 0.0  # 采样温度（0.0 = 确定性，退化为现状）
+    lambda_uncertainty: float = 1.0   # 不确定度系数：剪枝判据 = mean + λ·std < θ（λ越大越保守越难剪）
+    stop_std_max: float = 0.15        # E4: J_stop 方差上限（gain std > 此值 = 还在探索，不触发停止计数）
 
 
 def _ngram_overlap(a: str, b: str, n: int = 3) -> float:
@@ -275,6 +280,59 @@ def classify_edge(parent_claim: str, child_claims: list[str],
     except Exception as e:
         print(f"  [SM] edge-classify error: {e}", flush=True)
         return "cartesian", f"error: {e}", 1.0, False
+
+
+def classify_edge_var(parent_claim: str, child_claims: list[str],
+                      cfg: "ObjectiveConfig") -> tuple[str, str, float, float, bool]:
+    """E2 (2026-11-12): 方差感知版 classify_edge。
+    同一 edge 采样 cfg.contrib_samples 次（temperature=cfg.contrib_temperature），
+    返回 (edge_type, reason, contrib_mean, contrib_std, high_var_any)。
+
+    - edge_type 取众数（temp>0 时可能漂移，众数最稳）
+    - contribution 取 mean±std（分布信息）
+    - high_var_any = 任一样本标 high_var → True（豁免剪枝）
+    - cfg.contrib_samples=1 且 contrib_temperature=0.0 时退化为 classify_edge 行为（std=0）
+    - 全部采样失败 → 保守默认 (cartesian, error, 1.0, 0.0, False)
+    """
+    from ablation_harness import call_llm
+    if not child_claims:
+        prompt = EDGE_PREDICT_PROMPT.format(concept=parent_claim)
+    else:
+        children_block = "\n".join(f"- {c}" for c in child_claims[:10])
+        prompt = EDGE_TYPE_PROMPT.format(parent_claim=parent_claim, children_block=children_block)
+
+    n = max(1, int(cfg.contrib_samples))
+    temp = float(cfg.contrib_temperature)
+    et_list, contribs, hvs = [], [], []
+    first_reason = ""
+    for i in range(n):
+        try:
+            out, _ = call_llm(prompt, max_tokens=300, temperature=temp, retries=2)
+            m = re.search(r'"edge_type"\s*:\s*"(cartesian|quotient|stochastic)"', out or "", re.I)
+            et_list.append(m.group(1).lower() if m else "cartesian")
+            rm = re.search(r'"reason"\s*:\s*"([^"]*)"', out or "")
+            r = rm.group(1) if rm else ""
+            if i == 0 and r:
+                first_reason = r
+            cm = re.search(r'"contribution"\s*:\s*([0-9]*\.?[0-9]+)', out or "")
+            contribs.append(min(max(float(cm.group(1)), 0.0), 1.0) if cm else 1.0)
+            hv = re.search(r'"high_var"\s*:\s*(true|false)', out or "", re.I)
+            hvs.append(hv.group(1).lower() == "true" if hv else False)
+        except Exception as e:
+            print(f"  [SM] edge-classify-var sample {i} error: {e}", flush=True)
+            # 单样本失败不中断，计入保守默认
+            et_list.append("cartesian")
+            contribs.append(1.0)
+            hvs.append(False)
+
+    if not contribs:
+        return "cartesian", "all-samples-failed", 1.0, 0.0, False
+    mean_c = sum(contribs) / len(contribs)
+    std_c = (sum((c - mean_c) ** 2 for c in contribs) / len(contribs)) ** 0.5
+    # edge_type 众数
+    from collections import Counter
+    et_mode = Counter(et_list).most_common(1)[0][0]
+    return et_mode, first_reason, mean_c, std_c, any(hvs)
 
 
 def redundancy_score(nodes: list[dict]) -> float:
@@ -707,14 +765,26 @@ class DecompStateMachine:
             # 对 L1 节点（首次拆出的顶层维度）做边分类——这是 v17 爆炸的入口
             l1_frontier = [p for p in frontier if str(p.level) == "L1"]
             low_contrib_nodes = []  # idea #45: 贡献低于阈值的节点不展开
+            use_var = self.cfg.contrib_samples > 1  # E2: 多采样启用方差感知
             for p in l1_frontier:
-                et, reason, contrib, high_var = classify_edge(p.claim, [], self.cfg)
+                if use_var:
+                    et, reason, contrib_mean, contrib_std, high_var = classify_edge_var(p.claim, [], self.cfg)
+                    # E2 剪枝判据：mean + λ·std < θ → 即使最乐观估计也不够 → 才剪
+                    # （方差大 = LLM 不确定 = 保守保留，防误剪）
+                    optimistic = contrib_mean + self.cfg.lambda_uncertainty * contrib_std
+                    prune_signal = optimistic
+                    contrib_display = f"{contrib_mean:.2f}±{contrib_std:.2f}"
+                else:
+                    et, reason, contrib, high_var = classify_edge(p.claim, [], self.cfg)
+                    optimistic = contrib
+                    prune_signal = contrib
+                    contrib_display = f"{contrib:.2f}"
                 if et != "cartesian":
                     print(f"  [SM] edge-classify {p.id}: {et} ({reason[:50]})", flush=True)
                     p.edge_type = et
-                # idea #45: 贡献阈值过滤（极小概率极大不稳定期望豁免）
-                if contrib < self.cfg.contribution_threshold and not high_var:
-                    print(f"  [SM] contribution-filter {p.id}: {contrib:.2f} < {self.cfg.contribution_threshold} — skip expansion", flush=True)
+                # idea #45 + E2: 贡献阈值过滤（极小概率极大不稳定期望豁免；E2 用不确定度感知判据）
+                if prune_signal < self.cfg.contribution_threshold and not high_var:
+                    print(f"  [SM] contribution-filter {p.id}: {contrib_display} < {self.cfg.contribution_threshold} — skip expansion", flush=True)
                     p.status = "degraded"  # 标记为不再展开
                     low_contrib_nodes.append(p)
             # 从 frontier 中移除低贡献节点
