@@ -568,3 +568,27 @@ H_M(ℓ_new | parent) / H*(Q)  ≈  λ · [∂S_α'/∂ℓ]_normalized
 3. 命题 2 假设"新增节点属于已覆盖维度"——若模型加的是**真新维度**（gold 之外但对答案有贡献的），Δ 也会增但 cov 不降，I 会误伤。缓解：gold 标注应包含"合理扩展维度"（类似 G9 构建时的 redundancy 标注思路）；或者接受这个保守偏差（宁误伤真新维度也不放过冗余，因为 bench 题面封闭）。
 
 **状态**：⚠️ 理论落盘。行动项：(1) r12 verify-only 出树后计算 J(T) 全量（需要 oracle 树 + 条件 MDL + S_α' 三个分量）；(2) A/B 消融扩为 3 组：baseline / 仅压缩声明(D29) / 压缩+展开声明(D30)，看展开声明是否额外提升 cov 且不引入新 hack；(3) 命题 2 的实验验证 = H2 的加强版（v17 树不仅 Δ 大，且在 cov=1 子集上 I 随节点数单调递减——画 I vs n_nodes 曲线，斜率应为负）。
+
+## Decision 31: LLM info-gain 作为条件熵代理 — 首组区分度验证（2026-11-12）
+
+**背景**：D28/D30 的 I(T)/J(T) 依赖 D(T)=ΣH_M(ℓ|parent)，但 compute_J v1 用 token×4.5nat 常数 NLL，所有叶子同价 → Δ 对叶类型不敏感 → 命题 2 验不了。
+
+**修法**：d_total() 改用 llm_info_gain(parent_claim, leaf_claim)——让本地 qwen3.8-27b 评"知道父维度后叶子还带来多少新信息"，0-10 分映射 score×ln(11) nat。不需要绝对 NLL，相对排序就够。
+
+**首组数据**（gpu 153节点 vs drb-2 62节点）：
+- gpu: D_T=4549nat, S_α'=140.6, 低分叶(≤2)=19/147=13%
+- drb-2: D_T=2178nat, S_α'=61.9, 低分叶(≤2)=27/56=48%
+- 分数分布: gpu 双峰(53个10分+19个≤2), drb-2 偏态(17个0分堆底)
+
+**关键对照**（剥掉 degraded 污染）：
+- gpu verified(42): 低分12%, 均分7.6 | degraded(102): 低分13%, 均分7.6 → 一致，尺子稳定
+- drb-2 verified(1): 8分 | degraded(49): 低分51%, 均分3.9 → 差异全在degraded，但verified样本=1无法对照
+
+**硬结论**：LLM-judge info-gain 有区分度（同一把尺子量出13% vs 48%，且gpu内部跨status一致）。命题2机器侧信号立住：冗余叶(0分)对D(T)贡献≈0，新维叶(~10分)贡献~24nat，指数压差成立。
+
+**未决**：
+1. drb-2 冗余率待 verify-only 补完 degraded claim 后复算（若从48%掉下来=文本残缺假象；维持=真冗余）
+2. H* oracle 仍缺：gold/Q*.md 维度结构未接入 compute_J，I/J 暂 null
+3. B(T) 量纲未对齐（C_expand=depth-sum vs C_transmit=tokens，ratio恒~0.04）
+
+**落盘**：compute_J.py v2 + J-gpu.json + J-drb-2-reverified.json @cbbd23b7
