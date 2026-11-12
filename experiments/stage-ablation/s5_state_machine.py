@@ -445,6 +445,7 @@ class DecompStateMachine:
         self.state = State.IDLE
         self.leak_hits_total = 0
         self.rework_events = []
+        self.contradiction_events: list[dict] = []  # D33: 全局矛盾扫描事件（喂回 decompose + 度量）
         self._gain_history: list[float] = []
         self.dropped_redundant = 0
         self.objective: Optional[dict] = None  # Decision 19: 模型自估计终点目标函数（L1 轮产出）
@@ -542,7 +543,7 @@ class DecompStateMachine:
 
         prompt = self._safe_prompt(P1H_INDEX,
             question=self.question,
-            confirmed_block=confirmed_block,
+            confirmed_block=confirmed_block + (contradiction_block or ""),
             parents_block=parents_block + edge_block,
             start=len(self.nodes) + 1,
         )
@@ -555,6 +556,21 @@ class DecompStateMachine:
         # 防泄漏: 检查新节点 claim 是否回显题目
         for rn in raw_nodes:
             self._check_output_leak(rn["claim"], "decompose")
+
+        # D33: 矛盾反馈注入——把上一轮检出的树内矛盾喂给 decompose 层，
+        # 让模型看到"你之前拆的定义和已核验事实打架了"，定向修正而不是盲展开。
+        # 这是旧流程"外部校验→内部修正"闭环的恢复：decompose 层第一次收到验证层信号。
+        contradiction_block = ""
+        if getattr(self, "contradiction_events", None):
+            recent = self.contradiction_events[-10:]
+            lines = "\n".join(
+                f"- {c['a']}({c['a_claim'][:50]}) vs {c['b']}({c['b_claim'][:50]}): {c['desc'][:80]}"
+                for c in recent)
+            contradiction_block = (
+                "\n【已检出的树内矛盾（来自上一轮全局扫描）】\n" + lines +
+                "\n如果本轮要展开与上述矛盾相关的父节点，先判断哪个数值/定义更可信"
+                "（看 evidence 的来源质量），在子节点 claim 里显式修正错误的一方，"
+                "并在 evidence 栏注明「修正自矛盾检测」。不要回避矛盾、两边都保留。\n")
 
         # 编号 + 层级 + edge_type
         parent_levels = {int(str(p.level).lstrip("L")) for p in parents}
@@ -652,6 +668,51 @@ class DecompStateMachine:
                     node.evidence = f"[rework-{node.rework_count}] {evidence}"
                     node.corrected_claim = corrected or node.claim
 
+    def _scan_contradictions(self, rnd: int):
+        """D33: 全局矛盾扫描——对已 verified 节点批量问 LLM 有没有互相矛盾的数值。
+
+        单节点 P3_VERIFY 只查"该节点 vs 自己的来源"；树内节点 A 和 B 的数值打架
+        （如 H100 带宽两处差 10 倍）没有任何一步会抓。这里每轮一次、批处理，
+        命中后：(a) 记入 contradiction_events 喂回下一轮 decompose（定向修正）；
+        (b) 度量 contradiction_rate / fix_success_rate（信息获取提升度量的核心项）。
+        只对 verified 节点扫（degraded 的 claim 本身不完整，扫了是噪声）。
+        """
+        from ablation_harness import call_llm as _cll
+        ver = [n for n in self.nodes if n.status == "verified"]
+        if len(ver) < 4:
+            return
+        # 控制成本：每轮最多扫最近 30 个 verified 节点
+        sample = ver[-30:]
+        block = "\n".join(f"{n.id}: {n.claim[:120]}" for n in sample)
+        prompt = (
+            "下面是一棵研究分解树里已核验的事实节点。请检查其中是否存在【互相矛盾】的数值或定义"
+            "（同一物理量/参数在不同节点给出冲突的值，或两个节点的结论逻辑上不能同时成立）。\n"
+            "注意：口径不同不算矛盾（如 prefill 吞吐 vs decode 吞吐）；同一量的单位换算等价也不算。\n"
+            "只报真矛盾，没有就返回空列表。\n\n" + block +
+            '\n输出 JSON：{"contradictions": [{"a": "Nxx", "b": "Nyy", "desc": "一句话说明哪里矛盾"}]}')
+        try:
+            out, _ = _cll(prompt, max_tokens=2000, temperature=0.0, retries=2)
+        except Exception:
+            return
+        d = _extract_json(out or "") or {}
+        items = d.get("contradictions") or []
+        by_id = {n.id: n for n in sample}
+        found = 0
+        for it in items[:5]:
+            a, b = it.get("a"), it.get("b")
+            if a not in by_id or b not in by_id:
+                continue
+            found += 1
+            self.contradiction_events.append({
+                "round": rnd, "a": a, "b": b,
+                "a_claim": by_id[a].claim[:80], "b_claim": by_id[b].claim[:80],
+                "desc": str(it.get("desc", ""))[:120],
+                "fixed": False,
+            })
+            print(f"  [SM] r{rnd} CONTRADICTION: {a} vs {b} — {str(it.get('desc',''))[:60]}", flush=True)
+        if found:
+            print(f"  [SM] r{rnd}: {found} contradiction(s) → fed back to next decompose round", flush=True)
+
     def _save_checkpoint(self, rnd: int):
         """每轮结束把当前树状态落盘。resume 时读回继续。"""
         import os
@@ -669,6 +730,7 @@ class DecompStateMachine:
                 "network_degraded": self.network_degraded,
                 "objective": self.objective,  # Decision 19: 模型自估计终点目标函数随 ckpt 落盘
                 "rework_events": self.rework_events,
+                "contradiction_events": self.contradiction_events,
                 "nodes": [vars(n) for n in self.nodes],
             }, f, ensure_ascii=False, indent=2)
 
@@ -733,6 +795,8 @@ class DecompStateMachine:
             for i in range(0, len(pending), 3):
                 batch = pending[i:i+3]
                 self._verify_batch(batch)
+                if (i // 3 + 1) % 10 == 0:
+                    self._scan_contradictions(rnd=len(self.rounds_log))  # D33: verify-only 也扫矛盾
                 self._save_checkpoint(rnd=len(self.rounds_log))
                 if (i // 3 + 1) % 5 == 0:
                     print(f"  [SM] verified {i+len(batch)}/{len(pending)}", flush=True)
@@ -929,6 +993,12 @@ class DecompStateMachine:
                 self.state = State.REWORK
                 self._rework(unverified)
 
+            # ── D33: 全局矛盾扫描（每轮一次，批处理省 LLM 调用）──
+            # 旧流程"内部/外部校验有没有逻辑矛盾"的恢复：单节点 P3_VERIFY 只查自己 vs 来源，
+            # 树内节点互相打架（N22 带宽 3.35TB/s vs N89 通信量差 1000 倍这类）没人抓。
+            # 度量：contradiction_rate + fix_success_rate（定向修复后转 verified 比例）。
+            self._scan_contradictions(rnd)
+
             # ── 记录 ──
             sa = S_alpha_corrected(
                 [{"level": n.level, "claim": n.claim} for n in self.nodes],
@@ -947,6 +1017,7 @@ class DecompStateMachine:
                 "dropped_redundant": self.dropped_redundant,
                 "low_gain_streak": low_gain_streak,
                 "edge_types": edge_counts,
+                "contradictions_found": sum(1 for c in self.contradiction_events if c.get("round") == rnd),
             })
             print(f"  [SM] r{rnd}: +{len(deduped)} (total {len(self.nodes)}), "
                   f"gain={gain:.3f}, S_α'={sa:.1f}, "
@@ -1055,6 +1126,7 @@ if __name__ == "__main__":
         sm.network_degraded = ck.get("network_degraded", False)
         sm.objective = ck.get("objective")  # Decision 19: resume 时恢复模型自估计目标函数
         sm.rework_events = ck.get("rework_events", [])
+        sm.contradiction_events = ck.get("contradiction_events", [])
         print(f"[SM] resumed from {resume_from}: {len(sm.nodes)} nodes @ r{ck['round']}", flush=True)
     if no_verify:
         # Monkey-patch: 跳过联网检索，但所有节点仍过 LLM 核验（AC3 需要真实 evidence）
