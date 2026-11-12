@@ -1,6 +1,7 @@
 #!/bin/bash
 # DRB pilot 启动脚本（C3 后由 Lead 落盘）：内存门槛 + pgrep 检查 + nohup 启动
 set -u
+cd "$(dirname "$0")/../.."
 OUT="drb-pilot"
 QID="${1:-drb-1}"
 QF="$OUT/queries/$QID.json"
@@ -21,8 +22,9 @@ else
   echo "[$(date '+%F %T')] RAM below both thresholds — NOT starting"; exit 2
 fi
 
-# 3. 启动
-nohup python3 s5_state_machine.py --question-file "$QF" --qid "$QID" > "$LOG" 2>&1 &
+# 3. 启动（cwd=repo root；PYTHONPATH 指向 stage-ablation，因为 s5_state_machine import ablation_harness/s5_pipeline）
+export PYTHONPATH="experiments/stage-ablation:${PYTHONPATH:-}"
+nohup python3 experiments/stage-ablation/s5_state_machine.py --question-file "$QF" --qid "$QID" > "$LOG" 2>&1 &
 PID=$!
 echo "[$(date '+%F %T')] STARTED $QID pid=$PID log=$LOG"
 sleep 20
