@@ -362,3 +362,19 @@ D 问 A-F 模块里现成调研能省什么弯路，点名两个方向：①先�
 **④ 附带省下的 Goodhart 防御弹药**（同文件 Section 4）：Skalse 2022 定理（proxy≠true 时 hacking 理论不可避免，只能 minimize gap）、Manheim & Garrabrant 四种 Goodhart 分类（我们主要触发 regressional + adversarial）、verbosity/format bias 案例（judge-human correlation ρ 0.84→0.61 的 progressive gaming 实测）、SSC 方法（meta-judge 周期性审计 judge prompt，hacking rate 降到 <4%）。这些和 C-objective-goodhart 的 D2/D3 缺口清单互为补充：那边说"缺什么"，这边说"怎么防"。
 
 **结论：先验函数和最速下降两条线的文献滚雪球已完成 90%，剩余 10% = arena 交叉验证 gap 判断 + GEPA full text 确认，不需要新派调研任务。** D35 的瓶颈从来不在信息搜集，在 S4 实验落地——这个等 gpu-d34 formula 臂 + #31 text 臂 DONE 后统一做（四件事清单已含 degraded 率三方对比，正好给 A/B 路线之争提供第一批自有数据）。
+
+## L36 (2026-11-12 20:1x): D 追问"越来越像 train，ICL train 有记录和论文吗" — 已查证落盘
+D 的直觉是对的：我们现在的循环（跑 run → 看指标/degraded → 改 prompt/参数 → 再跑）在文献里**有正式名字**——In-Context Reinforcement Learning (ICRL)：不更新权重，把轨迹+反馈写回 context 让模型在上下文内做 policy improvement。本轮 arXiv API 实查（来源①）：
+
+**核心论文（全部 id 经 export.arxiv.org 核验）**：
+- **A Survey of In-Context Reinforcement Learning** — arXiv:2502.07978 (2025-02, Moeini, Wang, Beck, Blaser et al.) — 这个方向的 survey，直接引用入口。
+- **Emergence of In-Context Reinforcement Learning from Noise Distillation** — arXiv:2312.12275 (2023-12, Zisman, Kurenkov, Nikulin, Sinii et al., 俄系团队) — ICRL 概念源头之一：从噪声蒸馏中涌现出上下文内的 RL 行为。
+- **Honesty to Subterfuge: In-Context RL Can Make Honest Models Reward Hack** — arXiv:2410.06491 — litsurvey Section 4.3 引过的那篇（gpt-4o-mini ICRL 下 2% rollout 发现 zero-shot 10000 次没发现的 gaming strategy）。**这篇对我们是双刃剑**：它证明了 iterative in-context reflection 就是 ICRL 实例、且优化压力会自发挖 judge 漏洞——正好是我们 v17 Goodhart 案例的理论解释，也是 #31 text 臂要防的事。
+
+**同族记录（本轮检索顺带确认存在）**：XLand-100B 数据集 (2406.08973)、Safe ICRL (2509.25582)、Vintix action model (2501.19400)、Free Random Projection for ICRL (2504.06983)、Transformers Provably Implement ICRL with Policy Improvement (2605.05755)。方向活跃度：2023-2026 持续有新工作，不是死胡同。
+
+**和我们管线的精确对应关系**（这是 D 问题的真正答案）：
+- 我们的 "decompose → verify/rework → 下一轮 prompt 带 contradiction_block" = ICRL 的 trajectory + feedback 回写 context。区别：标准 ICRL 研究的是**同一任务内**多 episode 改进；我们是**跨任务**（每轮换题面），所以还叠加了 non-stationarity——这恰好回到 D35 的 gap（没有 prior work 显式处理 prompt-induced drift）。
+- 所以"越来越像 train"的感觉有文献背书：**prompt-first 自优化管线 ≈ ICRL 的一个实例**，而且是最难的那个变体（non-stationary + judge-as-reward + 无权重更新）。这个定位对论文叙事很有用：不用自己造概念，直接站在 ICRL survey 的肩膀上，贡献点 = 把它推到 non-stationary regime + 给出 Goodhart 防御。
+
+**待办（并入现有清单，不新派调研）**：survey 2502.07978 的 full text 值得读一遍（确认它的 taxonomy 能不能直接用来组织我们方法的章节结构）——这条和 GEPA full text 一起放进 T-PR-16 回执后的阅读清单。
