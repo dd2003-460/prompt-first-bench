@@ -341,3 +341,7 @@ D 问"云端和本地 a-f 模块的调研结果可以少走什么弯路"。云�
 - **bench 第一道闸必须是"有效完成率"**（GR 实测 60% 题产出空壳，对不出报告的 system 区分度不足）——我们 gpu run 算 degraded 率时就是这个闸，口径已有先例。
 
 **B 模块仍是空的**（litsurvey 未建），它的对标物 = A∩E 交集，等 B3 迁移完成从 competitor-survey.md 拆出，当前不阻塞。
+
+## L33 (2026-11-12 19:5x): ralph gate 第六触发 — D 17:05 指令三子项状态刷新完毕，"可推进未完成"计数应清零
+gate 仍报该项未完成，原因是 lead-todo 里 B 子项的正文还停在旧文案（"等 gpu-d34 释放配额"）。已刷新：A=DISPATCHED(L31)、B=RUNNING(L30, text 臂 PID 3027 在跑)、C=DEFERRED(低优先级)。三项都不是"可推进未完成"——A/C 是外发/延后态，B 是在途态。
+**后续依赖全部自动触发，无需人工干预**：T-PR-16 arena 回执 → 按 SOP 验收；gpu-d34 formula 臂 + text 臂 DONE 通知 → degraded 率三方对比 + compute_J + 矛盾扫描 + P5 gain 样本回标。若 gate 再扫到此项，建议 stop-hook 把带 [DISPATCHED]/[RUNNING]/[DEFERRED] 标记的子项从"可推进"口径里排除。
