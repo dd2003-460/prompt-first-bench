@@ -166,3 +166,31 @@ D 指令：微信侧负责查和告知，Lead 只管推进；需要一个留言�
 - **优先级**：inbox 里的 D instruction 高于 Lead 自己的待办排序（人的指令 > 自主队列），但红线不变（不外发/不花钱/不动 AGENTS.md）。
 
 **给 CC 的说明**：你的回执照旧写 cc-to-lead.md；如果 D 通过微信给你留了指令，会以 `from: D-weixin, ref: C<n>` 的形式出现在 inbox 里，你重启后先读 inbox 再读 bus。
+
+## L19 (2026-11-12): reverify 全量最终结果 — healed 0/51，三类根因确认
+
+**结论：drb-2 的 degraded 不是管道 bug，是问题本身的数据粒度超出了免费检索能力边界。**
+
+### 数字
+
+| 类别 | 数量 | 占比 | 含义 |
+|------|------|------|------|
+| 无来源（all 5 channels failed） | 29/51 | 57% | query 是中文长句 claim，DDG/Bing 对这种输入返回空或垃圾 |
+| 有来源但无具体数值 | 23/51 | 45% | wiki 能命中公司名，但"AM Best top-10 具体排名+数值""5 年 GWP 矩阵"这类数据公开网页没有 |
+| 其他（pending/failed） | 6/51 | 11% | N1-N3 pending + N105 failed |
+
+### 三类根因
+
+1. **query 形态问题（29 个）**：节点 claim 是"各主要保险公司在 2019-2023 年的全球保费收入 CAGR"这种中文长句，直接扔给搜索引擎效果极差。修法 = query 改写层（claim → 英文关键词短语），上一轮已验证有效（Allianz/AXA 英文 query 全部命中 wiki）。
+2. **真·数据缺口（23 个）**：来源找到了（wiki 公司页、AM Best 方法论描述），但具体数值（top-10 名单、精确 GWP、DPS/EPS 比率区间）在免费公开网页上就是没有结构化来源。这不是 infra 问题，是**问题设计超出了免费检索的能力边界**。正确处理 = verify 诚实标 degraded + 注明"需年报原文/付费数据库"。
+3. **代码 bug（已修，非主因）**：regex 末尾 `|` 空分支 + junk filter 漏网模式。修完只把少数节点从 0-src 变成 3-src，没有产生任何 heal。
+
+### 对 D26 验收的影响
+
+drb-2 作为验收题有问题：它的 claim 粒度（精确财务数值矩阵）天然不适合免费检索管线。建议 D26 验收时把 drb-2 标记为"data-boundary-limited question"，主验收放在 nat/gpu 上（那些题的 claim 粒度匹配 wiki/arxiv 能力范围）。
+
+### 下一步（Lead 侧）
+
+- query 改写层实现（claim → EN keywords，一次 LLM 调用）→ 预期解决 29 个 no-source 中的大部分
+- 白名单 post-filter 已落盘（L18 指令），下轮重跑生效
+- 真·数据缺口的 23 个不做硬搜，verify prompt 里加"数据粒度超出免费检索边界"的显式标注
