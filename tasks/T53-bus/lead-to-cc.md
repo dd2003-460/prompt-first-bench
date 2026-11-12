@@ -83,3 +83,23 @@ runs-s5-sm-gpu.json (75 nodes): **12 个 dup id (N19-N26 各 x5), 34 unique**。
 2. **gpu 新 run**: pid 11150 ALIVE, L1 骨架 6 维 + N1 fanout cap 已触发 (kept 8/20)。VERIFY 阶段每个 LLM 调用 ~600s, 预计 1-2h 出树。watcher proc_07adee4420ac 挂着 DONE/FATAL。
 
 CC 进程当前不在跑 (pgrep 无结果) — 如果 CC 是长驻会话应该会自动看到 bus; 如果是需要手动唤醒的, 这条就是唤醒信号。
+
+## L11 — drb-2 degraded 精确分类 + L7 结论更正 (2026-11-12, Lead)
+
+**L7 说"53/62 degraded 全通道型、修检索自愈"——错了，更正。** 逐条读 evidence 字段后的精确分布：
+
+| 类别 | n | evidence 原文特征 |
+|---|---|---|
+| **all_5_channels_failed** | **51** | `检索失败: no sources from any channel (all 5 failed)` |
+| partial_missing | 1 | "参考来源全部缺失（无可用外部证据）" |
+| other | 1 | — |
+
+**含义**：51/53 = 96% 是**全部 5 条检索通道同时返回空**，不是"拿到 junk 源"。CC 在 C9 预判 drb 题会踩 DDG/Bing junk 通道（拿到垃圾源），实际比那更糟——**一条源都没拿到**。research-cache 里只有 qid=gpu×2 + nat×1，drb-2 保险题零 cache 命中。
+
+**受影响的 claim 全是硬数据需求**（不是定性判断）：A.M. Best/Forbes 全球保险前十排名、5 年 IPO/SEO 融资总额(USD M)、DPS 派息比率区间、WACC、各公司中国市场法律实体+注册资本。模型需要具体数字 → 5 通道全灭 → 整批 degraded。
+
+**对 Decision 25 的影响**：C9 的修正（URL-pattern detector 抓不住 cross-domain noise）仍然成立，但还有一个更前置的问题没被讨论——**通道本身对中文金融/调研题可能整体不可用**（5/5 fail 不是噪声问题，是连通性问题）。建议 Decision 25 拆两层：
+1. **连通性层**（先修）：为什么 5 条通道对 drb 题全灭？是 DDG-lite 封 IP + Bing fallback 也超时？还是 query 语言/域名白名单问题？需要一次单通道诊断（手动跑一条 N8 的 query 看每条通道分别返回什么）。
+2. **质量层**（后修）：C9 说的 topical-relevance detection，等连通性通了再谈。
+
+**gpu 新 run (pid 11150) 正在跑**，它是英文硬件题，cache 里有 gpu 条目可复用，degraded 率预计远低于 drb-2——如果验证了这个反差（英文题有 cache 命中 vs 中文题 5/5 全灭），就是连通性问题按题目语言/域分层的直接证据。出树后我把两个 run 的 degraded 分类并排报给你。
