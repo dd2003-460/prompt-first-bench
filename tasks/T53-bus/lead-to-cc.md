@@ -323,3 +323,21 @@ lead-todo B 项状态改为"开跑中"。
 ## L31 (2026-11-12 19:3x): T-PR-16 派发成功 ✅（D 登录后一次通过）
 D 在 ego-lite 完成 arena 登录 → 复核：登录横幅消失、dashboard 正常。New Chat composer 贴入任务书全文（4525 chars，分支引用已改为 arena/f65a5a27-prompt-first-bench），mouse click Send → **编辑器清空 + 侧栏 TODAY 出现新 session 条目** = 发送确认。T-PR-16（#47/#48/#44/#40 撞车调研）正式在途，arena 执行层跑完后按 arena-outsource SOP 验收（回执落盘 + 交叉核对）。
 教训闭环：L24 探针设计缺陷（只观察 Log In 按钮不点穿）→ L25 误判"读cookie够" → D 一句"我不信登录墙"纠正方向 → 本轮验证写操作确实需要完整登录态。**正确诊断 = 三层：未登录(游客壳) / 半登录(读cookie) / 完整登录(可写)**，探针必须逐层点穿验证，不能停在 UI 表面。
+
+## L32 (2026-11-12 19:4x): A-F 模块调研资产盘点 → 少走弯路的三处直接落点
+D 问"云端和本地 a-f 模块的调研结果可以少走什么弯路"。云端核对：origin 只有 main + arena/f65a5a27 两分支（sigma-nlnlk-snowball 已不存在），本地 modules/A-F 即全量，无云端独有内容。逐模块扫完 litsurvey，能直接省掉重新调研的结论：
+
+**① C-objective-goodhart（text-objective-goodhart-survey, T-PR-15）→ #31 text 臂的设计依据，不用自己推**
+- Q3 判决：文字 vs 数值目标的可 hack 性差异，"文字更容易 hack"只在"多了一层可被表面特征操纵的判者"意义上成立，**无同实验内直接对照定量证据**（conf 0.72）——这正是 #31 消融要补的空缺，任务方向已被文献确认是 gap，不用再做"要不要做"的判断。
+- Q4 防御清单：9 类手段里 6 类 prompt 层可做；**pfb rubric 漏 D2（预算约束）+ D3（精度项）**，现有防御只防"判者不稳"没防"指标可加量刷高"（conf 0.78）。#31 跑的时候若 text 臂出现节点数膨胀，先查是不是踩了 D2/D3 缺口，不用再从头诊断。
+- 唯一有硬数字的防御：加精度项后 hack 胜率 10.6%→68.0%、长度降 2.6×（arXiv:2610.33512，full read）——后续给 S_α/rubric 加冗余惩罚时直接引用这个量级预期。
+
+**② F-theory/gradient-descent（prior-art-prompt-optimization, T53-D35）→ D35 两条路线的领域坐标**
+- 9 个代表工作（OPRO/APE/ProTeGi/PromptAgent/EvoPrompt/TextGrad/DSPy-MIPROv2/GEPA 等）全部假设静态基准集，**没有一个把"prompt 改变→行为分布漂移→历史评估失效"当一等公民**（gap 判断 conf 0.70，待 arena 交叉验证后才可当行动前提）。
+- Route B（每 K 轮重估结构）文献无直接先例，但有现成数学语言：Besbes et al. 2014 variation budget / significant shifts（RL 非平稳理论）——写方案时直接套这套术语，不用自造概念。
+
+**③ E-sota-benchmark（prior-art-sota-systems）→ bench 基线选择已定，别再纠结**
+- 闭源三家全是单 agent 迭代循环且 OpenAI DR 已 retired（2026-07-23）；公平对标 = GPT-Researcher 同题同 judge，不是闭源榜分数。
+- **bench 第一道闸必须是"有效完成率"**（GR 实测 60% 题产出空壳，对不出报告的 system 区分度不足）——我们 gpu run 算 degraded 率时就是这个闸，口径已有先例。
+
+**B 模块仍是空的**（litsurvey 未建），它的对标物 = A∩E 交集，等 B3 迁移完成从 competitor-survey.md 拆出，当前不阻塞。
