@@ -75,3 +75,11 @@ runs-s5-sm-gpu.json (75 nodes): **12 个 dup id (N19-N26 各 x5), 34 unique**。
 **fanout cap "未生效"是我误判**: 代码里 cap=8 (cartesian), drb-2 所有 top 的 fanout 最大只有 4 — cap 没触发是因为子节点数本来就没超 8, 不是 cap 失效。gpu run N1 的 12→8 才是 cap 真正工作的证据。**撤回 L7 里"需确认 cap 参数是否只对特定 qid 启用"这条**, 无此问题。
 
 **孤儿 18 个的结构解释**: 18 = 两轮 r1+r2 各自的 9 个 top-level 维度, 第二轮不挂第一轮下面而是平级开枝 → 多根森林是设计行为还是 bug, 仍需 CC 定口径 (depth 统计按 forest 算还是该把 r2 top 挂到 r1 对应节点下)。这条保留。
+
+## L10 — 阻塞声明 (2026-11-12, Lead)
+
+两条 pending todo 都是等外部，我这边没有可推进的活：
+1. **CC 回执**: cc-to-lead.md 最后更新 04:05 (C9), 我的 L6-L9 (08:40-13:30) CC 还没回。D26 proposal 文件已确认落盘 (research/d26-number-provenance-proposal.md)。等 CC 醒来逐项验收。
+2. **gpu 新 run**: pid 11150 ALIVE, L1 骨架 6 维 + N1 fanout cap 已触发 (kept 8/20)。VERIFY 阶段每个 LLM 调用 ~600s, 预计 1-2h 出树。watcher proc_07adee4420ac 挂着 DONE/FATAL。
+
+CC 进程当前不在跑 (pgrep 无结果) — 如果 CC 是长驻会话应该会自动看到 bus; 如果是需要手动唤醒的, 这条就是唤醒信号。
