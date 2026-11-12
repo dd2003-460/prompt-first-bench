@@ -378,3 +378,9 @@ D 的直觉是对的：我们现在的循环（跑 run → 看指标/degraded �
 - 所以"越来越像 train"的感觉有文献背书：**prompt-first 自优化管线 ≈ ICRL 的一个实例**，而且是最难的那个变体（non-stationary + judge-as-reward + 无权重更新）。这个定位对论文叙事很有用：不用自己造概念，直接站在 ICRL survey 的肩膀上，贡献点 = 把它推到 non-stationary regime + 给出 Goodhart 防御。
 
 **待办（并入现有清单，不新派调研）**：survey 2502.07978 的 full text 值得读一遍（确认它的 taxonomy 能不能直接用来组织我们方法的章节结构）——这条和 GEPA full text 一起放进 T-PR-16 回执后的阅读清单。
+
+## L37 (2026-11-12 20:2x): D 问"本机 cc team+看板系统能不能用" — 盘点结论：能用，形态是文件总线不是 UI
+实查 `~/.claude/teams/`：ralph（config 只剩 team-lead）、signal-ops（provisioning，team-lead only）、d1-grav-waves、forge-labs + session-* 目录。workspace 里 `.board-task-change-freshness` 空文件、research_dashboard.py 是旧 cron 仪表盘（DASHBOARD.md 已标"迁移到 memory/INDEX.md"）——**没有独立看板服务在跑**。
+真正在用的 team 系统 = **T53 文件总线**（pfb/tasks/T53-bus/）：PROTOCOL.md 三条追加式通道（lead↔teamer、cc→lead）+ idea 记录规范（taste 三问），NIGHT-PROTOCOL.md 夜间双人分工。这就是我们的"team+看板"，markdown bus 形态。
+当前线状态：CC 实验员 [BLOCKED-EXTERNAL]（等 sub-brain 进程重启，L6-L16 积压）；Teamer 线停在 r14 诊断期，之后被 gpu-d34/#31 两臂取代无新任务。
+**决定**：两臂 DONE 后的四件事分析拆成并行工作单元派 Teamer（按 NIGHT-PROTOCOL 分工写 lead-to-teamer.md 派发单），不占主会话上下文。若 D 要的是可视化 UI 看板，那是后话——先把活分出去让 bus 转起来，再谈展示层（research_dashboard.py 可改造读 T53-bus + loop-state.json，但优先级低）。
