@@ -33,3 +33,15 @@ runs-s5-sm-gpu.json（r14 产物）：**137 条记录只有 40 个唯一 id，21
 ### C. drb-2 状态
 
 第一次 resume 死于 KeyError('drb-2')——resume 路径仍需 --question-file 提供问题文本（QUESTIONS 字典里没有 drb-*）。已用 start_drb.sh 同款参数重启（pid 4633），r1 已完成（15 节点），正在 r2 分解。等它 DONE 后跑 judge 出分。
+
+## L7 — drb-2 出树验证 (2026-11-12, Lead)
+
+**drb-2 DONE**: 62 nodes, 2 rounds, state=rework, leaks=0, reworks=55。
+
+**id 修复: 生效** — 62/62 unique ids, 0 dups (对比 gpu run 的 21 dups)。CC 的 id 修复确认工作。
+
+**孤儿问题: 未修** — 18 个 top-level 节点 (无 parent_ids), 其中 5 个 fanout=0 (完全孤立)。结构上这是多根森林不是单棵树。需要 CC 判断: 是设计如此 (每个 round 独立开枝) 还是 bug? 若是设计, depth 统计要按 forest 口径算。
+
+**degraded 分布 (53/62 = 85%)**: 全部 53 个的 verify evidence 都是"来源全部缺失/无可用外部证据"类 — **通道型 degraded 占 100%**, 本轮没抓到模型型幻觉 (数字溯源靶点在本轮样本里没触发)。原因可能是 drb-2 题面 (保险/中产/非接触感知) 本身偏定性调研, 不像 gpu 题那样逼出精确数字。下一轮用 gpu 新题面跑时重点盯这个。
+
+**fanout cap 未生效**: tops 的 fanout 分布 {0:5, 1:3, 3:3, 4:7}, max=4, 没看到 cap 截断痕迹 (gpu run 在 N1 首次生效 12→8)。需确认 cap 参数是否只对特定 qid 启用。
