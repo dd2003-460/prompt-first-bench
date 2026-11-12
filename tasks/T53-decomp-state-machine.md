@@ -104,9 +104,46 @@ v17 暴露的问题链：S_α = Σₙ[n·ln(kₙ)+α·kₙ·ln(n)] 对节点数�
 - **C 部分外包 arena**：bench 的"跑 + 记录"可以 arena 代劳（它有执行层），但状态机代码本身本地改完再给它跑。
 - **D 本地做**：文档类。
 
+## E. 自写目标函数 + 方差感知（成璐 2026-11-12 追问 · 新增正交子项）
+
+> 触发：成璐指出"目标函数看起来确实可以激活，但我们几乎是拍脑袋随机赶着 AI"，并问"让他自己写目标函数、优化啥的怎么样了，他可以准确度量信息并且考虑 var 这种问题吗"。
+
+### 代码审计结论（来源①，2026-11-12 grep s5_state_machine.py）
+
+| 事实 | 证据 | 含义 |
+|------|------|------|
+| Decision 19 的 `objective`（Final_Score 公式）**不进任何决策回路** | line 390/426/603/966/1008/1032 只读/写/打印/落盘；`_verify_batch`/`classify_edge`/`marginal_gain` 全不读它 | 目标函数现在是**装饰品**——模型 r1 自估一个公式，但不驱动 decompose/verify/stop |
+| 真正驱动展开的是两个拍脑袋阈值 | `gain_threshold=0.50`（n-gram Jaccard 边际增益, line 105）、`contribution_threshold=0.10`（line 118） | "拍脑袋随机赶着 AI"精确命中这里 |
+| `contribution` 是 LLM **单次调用 temperature=0.0 的点值** | classify_edge line 255/274，无多次采样 | **没有任何 variance/方差度量**——全文件搜不到 std/variance/多采样逻辑 |
+| "var" 仅以 `high_var` 布尔 flag 存在 | prompt line 233/246，剪枝豁免 line 716 | 定性二元（防黑天鹅被剪），**非数值不确定性传播** |
+
+### 已有调研基础（来源②，research/longterm-vision-survey.md）
+
+- Q4 判决 conf 0.7：Eureka[2310.12931]/Text2Reward[2309.11489]/OptiMUS[2310.06116]/OMNI-EPIC[2405.15568] 全是 **task-specific** 目标生成器，**跨任务泛化的元目标学习器未见**。
+- OP2 双层可辨识性（外层学目标形式/参数 α，内层优化行为）是理论框架；IRL 病态性是负面基线（无真值时反推目标不可辨识）。
+- 里程碑 M1（6mo）= S_α 单形式 α 自动定参 = "元目标"最小可运行版。
+
+### 正交子项（E 块）
+
+| 子项 | 内容 | 缺口标注 |
+|------|------|----------|
+| E1 | **让 objective 进决策回路**：把 Decision 19 自估公式从装饰品变成 classify_edge/marginal_gain 的实际输入 | [待设计] 怎么把 Final_Score 分解成 per-edge 的 contribution 权重？现在 contribution 是独立 LLM 调用，和 objective 脱节 |
+| E2 | **contribution 加方差**：同一 edge 多次采样（temp>0, n≥5）取 mean±std，剪枝判据改成 `mean - λ·std < threshold`（不确定就保留，防误剪） | [待核验] n 取多少、λ 怎么标定、成本 ×n 是否可接受（当前每 edge 一次 LLM 调用） |
+| E3 | **self-written objective 的 grounding**：模型自估的 Final_Score 公式本身没有验证——谁保证它不是乱写的？需要 gold 题反向校验（用已知答案的题检验公式是否区分优劣） | [待核验] 跨任务泛化元目标学习器是否真的未见（survey 说未见，需 arena 交叉核验 2025-2026 最新） |
+| E4 | **var-aware 停止判据**：J_stop 现在只看 gain 均值连续 M 轮 < ε，应改成考虑 gain 的方差（方差大 = 还在探索，不该停） | [待设计] 与 E2 共享采样机制 |
+| E5 | **idea 生成视角**：成璐提"原生涌现很适合跑 idea"——decomp 状态机的涌现结构（frontier 扩展 + contribution 排序）能否当 idea 生成器？目标函数自优化 = 自动发现哪些维度组合有信息量 | [待设计] 这是新方向，先落 candidate 不立项 |
+
+### 验收标准（E 块）
+
+- **EA1**：objective 进入 classify_edge 回路后，GPU 单题节点数相比"objective 装饰"版本有可测变化（证明它真的在驱动，不是摆设）。
+- **EA2**：contribution 加方差后，drb-2 那批"all 5 failed" degraded 节点的剪枝决策更稳（方差大的保留率上升，误剪率下降）。
+- **EA3**：self-written objective 通过 ≥1 道 gold 题的反向校验（公式对已知优劣的答案给出正确排序）。
+
 ## 当前进度
 
 - [x] decomp 分解树（本文件）
+- [x] E 块：自写目标函数 + 方差感知 decomp（2026-11-12，含代码审计 + 调研基础 + 5 子项 + EA1-EA3）
+- [ ] E 块 arena 交叉核验（E3：跨任务泛化元目标学习器现状 + var-aware objective 最新工作）
 - [ ] A1-A7 状态机设计（下一步）
 - [ ] B1-B4 实现 + smoke
 - [ ] C1-C4 bench
