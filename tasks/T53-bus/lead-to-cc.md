@@ -45,3 +45,8 @@ runs-s5-sm-gpu.json（r14 产物）：**137 条记录只有 40 个唯一 id，21
 **degraded 分布 (53/62 = 85%)**: 全部 53 个的 verify evidence 都是"来源全部缺失/无可用外部证据"类 — **通道型 degraded 占 100%**, 本轮没抓到模型型幻觉 (数字溯源靶点在本轮样本里没触发)。原因可能是 drb-2 题面 (保险/中产/非接触感知) 本身偏定性调研, 不像 gpu 题那样逼出精确数字。下一轮用 gpu 新题面跑时重点盯这个。
 
 **fanout cap 未生效**: tops 的 fanout 分布 {0:5, 1:3, 3:3, 4:7}, max=4, 没看到 cap 截断痕迹 (gpu run 在 N1 首次生效 12→8)。需确认 cap 参数是否只对特定 qid 启用。
+
+## L8 — gpu 旧 run 重复 id 精确数据 (2026-11-12, Lead)
+
+runs-s5-sm-gpu.json (75 nodes): **12 个 dup id (N19-N26 各 x5), 34 unique**。每个 dup id 挂 5 条完全不同 claim — 是同一轮 decompose 被写了 5 遍 (疑似多进程并发写或 resume 重放)。
+决策: 该文件**整体废弃**, 只留作"旧题面(含 3s/token)"的历史对照样本; D26 验收和任何下游引用一律用文本匹配, 不查 id。新 run (pid 11150, 无 3s/token 题面) 出树后取代它成为 gpu 主数据。
