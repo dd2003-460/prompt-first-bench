@@ -623,3 +623,19 @@ H_M(ℓ_new | parent) / H*(Q)  ≈  λ · [∂S_α'/∂ℓ]_normalized
 预期：(a) 动得最明显；(b) 大概率不会，因为当前架构里没有"这次搜索失败了"的反馈回路传给 decompose 层——模型不知道失败。如果 (b) 出现才是真涌现。
 
 **遗留**：drb-2 无 gold（GOLD 只有 nat/soc/gpu），只能走 fallback；J 需 S_α' oracle（对照树）才能出数；I 的归一化待新树数据后定。
+
+## Decision 33 — 全局矛盾扫描 pass（恢复"内部/外部校验矛盾"闭环）· 2026-11-12
+
+**背景**：成璐问"之前做过必须搜、搜出定义靠节点定义分解、内部外部校验有没有逻辑矛盾/新实测矛盾，这个为啥没做了"。核查结论：单节点链条还在（P1 规则 6/7 定义式展开 + P3_VERIFY 两步核验含"矛盾"判定），丢的是两个闭环环节——(a) 跨节点矛盾检测（P3 是单节点视角，N22 vs N89 这类树内数值打架没人抓）；(b) rework 是残废的（代码注释自认"完整实现应该生成换个角度拆的 prompt，第一版先用重搜代替"，实际只加 "alternative" 后缀盲重搜）。
+
+**修复（@4d670325）**：
+1. `_scan_contradictions(rnd)`：每轮 VERIFY 后对最近 ≤30 个 verified 节点批量问 LLM（temp=0, max_tokens=2000）有无互相矛盾的数值/定义；口径不同不算矛盾（prefill vs decode 吞吐）、单位换算等价不算。命中记入 `contradiction_events`（round/a/b/claims/desc/fixed）。
+2. **反馈回路**：`_decompose_layer` 把最近 10 条 contradiction_events 注入下轮 decompose prompt——"先判断哪边更可信（看 evidence 来源质量），在子节点 claim 里显式修正错误一方，evidence 注明「修正自矛盾检测」"。这是 decompose 层第一次收到验证层信号，也是"模型看到矛盾会不会主动修源头"这个主动性指标的可观测点。
+3. verify-only 模式每 10 批扫一次；checkpoint 持久化 contradiction_events（resume 不丢）。
+
+**度量（信息获取提升度量的核心项）**：
+- contradiction_rate = 每轮检出数 / verified 节点数
+- fix_success_rate = 后续轮次中相关节点转 verified 的比例（需下一轮数据才能算，fixed 字段目前恒 False，待接定向 rework）
+- 行为指标：decompose 输出里出现「修正自矛盾检测」标注的次数 = 模型主动响应矛盾的证据
+
+**已知边界**：当前命中矛盾后只做"喂回提示"，没有机器侧强制定向 rework（带矛盾证据重拆父节点）——下一步如果 contradiction_rate 稳定 >0 再接。成本：每轮 1 次 LLM 调用（~2s），可忽略。
