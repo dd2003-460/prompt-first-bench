@@ -895,7 +895,14 @@ class DecompStateMachine:
             pass_rate = len(deduped) / max(n_candidates, 1)
             self._prev_dropped = _dr
             if pass_rate < 0.3 and deduped:
-                low_gain_streak += 1
+                # E4/P3: gain 方差感知 — 近窗 gain std > stop_std_max 说明还在探索期，不触发停止计数
+                _win = self._gain_history[-5:]
+                _gstd = (sum((g - sum(_win)/len(_win))**2 for g in _win)/len(_win)) ** 0.5 if len(_win) >= 2 else 0.0
+                if _gstd <= self.cfg.stop_std_max:
+                    low_gain_streak += 1
+                else:
+                    low_gain_streak = 0
+                    print(f"    [SM] high-gain-std ({_gstd:.3f} > {self.cfg.stop_std_max}): streak reset", flush=True)
             elif not deduped:
                 low_gain_streak += 1
             else:
