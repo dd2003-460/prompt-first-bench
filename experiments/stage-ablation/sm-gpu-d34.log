@@ -1,0 +1,31 @@
+[T53 SM] Running on 'gpu': 你要在本地工作站上推理 Qwen3-27B 模型，不设硬性延迟指标（延迟是性能变量，由硬件和部署配置决定，不作为前置约束...
+  [SM] L1 skeleton (top-level dimensions only)...
+  [SM] objective (model-estimated): Result = Validity · Coverage · (1 / TCO_Efficiency) + λ·(Quality_Acceptability · Credibility_Score)
+    factor: 可行性覆盖度 (Coverage)：候选集是否完整覆盖了所有可能影响性价比排序的架构/代际/价格区间（0-1布尔值，遗漏关键类别则此项为0）
+    factor: 容量合规性 (Capacity Compliance)：所选方案在指定上下文窗口（≥32K tokens）和模型权重精度下，显存占用是否低于硬件物理上限（含KV
+    factor: 质量损失可接受度 (Quality Acceptability)：所选低精度（若适用）相对于BF16基线的性能下降是否在可接受阈值内（基于基准测试数据或经验法则
+    factor: 总拥有成本效率 (TCO Efficiency)：单位有效吞吐量（tokens/s）或单位推理请求的完全成本（硬件折旧+电力+维护），作为排序键越小越好
+    factor: 信息可信度与条件性 (Credibility & Conditionality)：关键数字来源标注率、不确定性标记覆盖率、以及最终推荐是否包含明确的前置条件（如
+  [SM] L1: 6 top-level dimensions
+    [N1] 候选硬件全集构建：定义搜索边界，涵盖消费级、数据中心级及非典型方案的所有潜在候选卡，确立比较的基础集合。
+    [N2] 显存容量与带宽约束评估：计算不同精度下的模型权重体积及32K上下文KV Cache需求，判定各候选卡的物理可行性（过滤门）。
+    [N3] 精度选择与质量损失论证：分析BF16至W4等不同量化水平对Qwen3-27B输出质量的潜在影响，确定技术上的可接受精度下限。
+    [N4] 单卡与多卡TCO对比结构：构建成本模型，对比单张高配卡与多张中低端卡在采购成本、电力消耗、散热复杂度及故障率方面的总拥有成本差异。
+    [N5] 性价比排序与敏感性分析：基于D2-D4的数据，计算单位吞吐成本，并进行敏感性分析以识别哪些变量（如电价、二手折扣）会改变排名结果。
+    [N6] 证据溯源与条件性结论生成：标注所有关键数据的来源置信度（查得vs记忆），并基于前述维度给出附带前置条件的最终推荐方案。
+  [SM] edge-classify N5: quotient (核心指标“单位吞吐成本”是性能与成本的比值运算，且敏感性分析旨在识别改变该比值排名的变量，符合 qu)
+  [SM] fanout cap 8: parent N1 kept 8/12, dropped 2
+  [SM] edge-reclassify N4: cartesian→quotient (父节点核心在于对比总拥有成本（TCO）与性价比，子维度中显式定义了 TCO 公式、单位吞吐成本比（R)
+  [SM] fanout cap 4: parent N4 kept 4/16, dropped 6
+  [gap_check A] 7 dimensions: 候选硬件全集的构建逻辑与覆盖范围界定（含架构、代际、容量档位 | 所选权重精度对模型输出质量损失的可接受性论证 | 满足32K上下文窗口容量的显存需求计算与硬件匹配验证 | 单卡与多卡方案在总拥有成本（TCO）上的差异评估 | 基于性价比排序的关键决策维度识别与权重分配...
+  [SITE-WL] s5-node: kept 3 whitelisted, dropped 1 non-whitelisted
+  [SITE-WL] s5-node: kept 2 whitelisted, dropped 1 non-whitelisted
+  [SITE-WL] s5-node: kept 2 whitelisted, dropped 1 non-whitelisted
+  [SM] rework-angle N18: verified via 'multi-GPU TCO formula scaling efficiency'
+  [SITE-WL] s5-node: kept 3 whitelisted, dropped 1 non-whitelisted
+  [SM] rework-angle N29: verified via 'LLM inference cost breakdown hardware el'
+  [SITE-WL] s5-node: kept 3 whitelisted, dropped 1 non-whitelisted
+  [SITE-WL] s5-node: kept 3 whitelisted, dropped 1 non-whitelisted
+  [SM] rework-angle N31: verified via 'NVIDIA GPU datasheet specifications vs i'
+  [SM] r1: +17 (total 23), gain=0.967, S_α'=18.3, ver=12/17, streak=0
+  [SM] fanout cap 8: parent N7 kept 8/14, dropped 3

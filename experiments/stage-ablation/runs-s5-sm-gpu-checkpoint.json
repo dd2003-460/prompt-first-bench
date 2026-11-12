@@ -1,0 +1,110 @@
+{
+  "qid": "gpu",
+  "round": 0,
+  "nodes": [
+    {
+      "id": "N1",
+      "claim": "容量与内存带宽约束：评估不同架构和代际GPU在处理≥32K上下文时的KV Cache显存占用下限，以及HBM/GDDR带宽对解码阶段吞吐量的决定性影响，作为筛选候选硬件的第一道物理门槛。",
+      "level": "L1",
+      "source": "given",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N2",
+      "claim": "精度-质量-算力权衡：分析BF16/FP8/INT4等权重精度对模型推理速度的加速比及其对应的质量损失边界，确定在本地工作站场景下‘可接受质量损失’的技术定义与验证标准。",
+      "level": "L1",
+      "source": "given",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N3",
+      "claim": "总拥有成本结构：对比单卡与多卡方案（含消费级组合vs数据中心级单卡）的硬件购置成本、功耗差异带来的长期电费支出，以及潜在的平台兼容性隐性成本，构建完整的TCO评估模型。",
+      "level": "L1",
+      "source": "given",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N4",
+      "claim": "部署生态与软件栈兼容性：考察候选硬件在当前主流推理框架（如vLLM, TensorRT-LLM）中的支持成熟度、量化内核优化程度及社区维护活跃度，确保理论性能能够转化为实际可用的推理服务。",
+      "level": "L1",
+      "source": "given",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N5",
+      "claim": "物理环境与电源拓扑：界定本地工作站的供电上限、机箱空间限制及散热能力对高功耗数据中心级硬件或高密度多卡方案的可行性约束，排除物理上无法落地的选项。",
+      "level": "L1",
+      "source": "given",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N6",
+      "claim": "决策不确定性管理：识别关键参数（如具体型号实时价格、特定量化方法的质量衰减数据）的来源可靠性与时效性，标记[待核验]项并分析其对最终排序的敏感度，支撑条件性推荐的逻辑闭环。",
+      "level": "L1",
+      "source": "given",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    }
+  ],
+  "dropped_redundant": 0,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "Feasibility (可行性硬约束满足度：是否同时满足显存容量>=32K上下文需求、算力吞吐量>0、供电/散热物理兼容，取值0或1)",
+      "TCO_Efficiency (全生命周期成本效率：硬件采购成本+电力运营成本/单位有效Token生成速度，数值越低越好)",
+      "Quality_Risk (质量风险惩罚系数：所选精度相对于BF16基准的困惑度增加或下游任务性能下降幅度，需通过文献论证其可接受性，取值越大表示质量损失越不可控)",
+      "Conditionality (推荐的条件覆盖度：最终方案是否明确绑定了特定的精度、量化方法、软件栈版本及硬件驱动环境，取值0-1)"
+    ],
+    "composition": "Result = Feasibility * (TCO_Efficiency + λ * Quality_Risk) * Conditionality",
+    "rationale": "该函数成立是因为首先必须通过可行性过滤（否则无法运行），其次在可行解中需权衡经济成本与模型质量损失（加权和体现性价比核心），最后必须乘以条件性以确保结论在非绝对环境下依然严谨可靠。"
+  },
+  "rework_events": []
+}
