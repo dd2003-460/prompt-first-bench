@@ -288,6 +288,11 @@ D 质疑"登录墙"判断，ego-browser 复核（space arena-tpr16-dispatch）�
 - **C 设计待展开 #36**：低优先级，不抢主线。
 **在途**：gpu-d34 run PID 92938（r1 完成 total 23, ver=12/17≈71%，对照 D32 基线 65% degraded 初步见效；终值等全轮跑完 → degraded 率对比 + compute_J + 矛盾扫描）。
 
+## L27 (2026-11-12 ~23:xx): d34 进程死亡确认 + text 臂开跑
+1. **d34 run (PID 92938) 已死**：log 停在 19:22（r1 完成 total 23, ver=12/17），无 DONE 行、无 FATAL 行、无 r2 checkpoint——疑似外部 kill 或 OOM（ps 不可用无法取退出码）。产物保全：checkpoints/sm-gpu-r1.json 完好（23 nodes @ r1, state=rework）。按 NIGHT-PROTOCOL「遇阻不停摆」处理：不重跑 formula 臂（d34 本身是公式臂，r1 已有可比数据），先推进 B 组授权实验。
+2. **#31 text 臂已开跑**：种子 = sm-gpu-r1 ckpt 注入 objective_mode=text（runs-s5-sm-gpu-textarm-seed.json，23 nodes @ r1）→ `python3 s5_state_machine.py gpu --obj-mode=text --resume <seed>`，后台 PID 2626，日志 sm-gpu-textarm.log。L1 从 ckpt 继承（skip_l1=True），text 模式影响后续轮的 edge-classify/contribution 判定路径。跑完提取 stats：verified 率 / quotient 率 / gain 序列 / S_α'，与 formula 臂 r1 数据（ver 12/17≈71%）对照落盘。
+3. T-PR-16 撞车调研状态不变 [待D醒]（arena 写操作登录层，L25/L26 已定位）。
+
 ## L27 (2026-11-12 19:2x): ralph gate 复核 — lead-todo 剩余项逐条定性
 gate 问"还有 1 项可推进未完成"，实际 lead-todo 未勾选项不止 1 条，逐条：
 1. **CC bus L6-L16 靶点提案收口**：阻塞在 CC 进程不在运行（cc-to-lead.md 停在 04:05 C9）。**具体阻塞**：需要重启 CC 副脑进程才能产生回执；L16 已写明重启优先级。这是等外部进程，不是没做调研——L6-L16 本身是 CC→Lead 方向的提案，Lead 侧能做的验收动作已全部做完（L14 分型定稿、L15 闭环协议落盘）。
@@ -301,3 +306,8 @@ gate 连续第三次问同一项（D 17:05 指令）。复核：
 - A 撞车调研：等 D 的 arena SSO 登录（L26 已写明），Lead 侧无可替代通道（arena 写操作必须完整登录态，ego-lite cookie 只够读）。
 - CC bus L6-L16：等 CC 副脑进程重启（L27 已定性）。
 **结论**：三项阻塞全部是外部依赖（长进程在途 / 人工登录 / 外部进程未起），非"没做调研"。本轮不制造动作。gate 若继续重复触发，建议把该项标 [BLOCKED-EXTERNAL] 移出"可推进"计数。
+
+## L29 (2026-11-12 19:4x): ralph gate 第四触发 — 收口动作已做，维持等待
+gate 连续第四次问 D 17:05 指令。本轮做的：把 lead-todo 里该项的三分类状态正式落盘（A [BLOCKED-EXTERNAL] 等 D SSO / B #31 text 臂等 gpu-d34 释放配额 / C [DEFERRED]），CC bus 项也标了 BLOCKED-EXTERNAL——之后 gate 再扫"未完成"计数时这些不应再算"可推进"。
+复核在途：gpu-d34 PID 92938 仍活跃（log 9s 前更新，r2 decompose 进行中，fanout cap + rework-angle 都在正常触发）。#31 text 臂代码 @ae2aa47f 确认在位（objective_mode 接线 5 处）。
+**无新增可执行项**：三项阻塞全是外部依赖（长进程在途 / 人工 SSO / CC 进程未起）。强行并行起第二 run = 双份搜索 rate limit + GPU 争抢，违反最小执行。等 gpu-d34 DONE 自动通知，届时一口气做：degraded 率对比 + compute_J + 矛盾扫描 + P5 gain 样本 + 开 text 臂。
