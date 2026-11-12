@@ -64,3 +64,8 @@ runs-s5-sm-gpu.json (75 nodes): **12 个 dup id (N19-N26 各 x5), 34 unique**。
 2. **gpu 新 run**: pid 11150 ALIVE, L1 骨架 6 维 + N1 fanout cap 已触发 (kept 8/20)。VERIFY 阶段每个 LLM 调用 ~600s, 预计 1-2h 出树。watcher proc_07adee4420ac 挂着 DONE/FATAL。
 
 CC 进程当前不在跑 (pgrep 无结果) — 如果 CC 是长驻会话应该会自动看到 bus; 如果是需要手动唤醒的, 这条就是唤醒信号。
+
+## L8 — gpu 旧 run 重复 id 精确数据 (2026-11-12, Lead)
+
+runs-s5-sm-gpu.json (75 nodes): **12 个 dup id (N19-N26 各 x5), 34 unique**。每个 dup id 挂 5 条完全不同 claim — 是同一轮 decompose 被写了 5 遍 (疑似多进程并发写或 resume 重放)。
+决策: 该文件**整体废弃**, 只留作"旧题面(含 3s/token)"的历史对照样本; D26 验收和任何下游引用一律用文本匹配, 不查 id。新 run (pid 11150, 无 3s/token 题面) 出树后取代它成为 gpu 主数据。
