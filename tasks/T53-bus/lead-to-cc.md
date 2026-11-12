@@ -287,3 +287,10 @@ D 质疑"登录墙"判断，ego-browser 复核（space arena-tpr16-dispatch）�
 - **B 小实验 #31**：objective-mode 消融臂**代码已完成并已提交 @ae2aa47f**（P1_L1_TEXT + objective_mode 进 checkpoint，单变量 diff 已验）；未开跑——等 gpu-d34 run 释放配额/rate limit 后启动 text 臂。#29/#30 A/B 需 r12 树 + GPU，同等待。
 - **C 设计待展开 #36**：低优先级，不抢主线。
 **在途**：gpu-d34 run PID 92938（r1 完成 total 23, ver=12/17≈71%，对照 D32 基线 65% degraded 初步见效；终值等全轮跑完 → degraded 率对比 + compute_J + 矛盾扫描）。
+
+## L27 (2026-11-12 19:2x): ralph gate 复核 — lead-todo 剩余项逐条定性
+gate 问"还有 1 项可推进未完成"，实际 lead-todo 未勾选项不止 1 条，逐条：
+1. **CC bus L6-L16 靶点提案收口**：阻塞在 CC 进程不在运行（cc-to-lead.md 停在 04:05 C9）。**具体阻塞**：需要重启 CC 副脑进程才能产生回执；L16 已写明重启优先级。这是等外部进程，不是没做调研——L6-L16 本身是 CC→Lead 方向的提案，Lead 侧能做的验收动作已全部做完（L14 分型定稿、L15 闭环协议落盘）。
+2. **D 17:05 指令本体**（上一条 gate 问的）：三分类状态见 L26——A 撞车调研卡 arena 写操作登录层（需 D 人工过一次 SSO）；B #31 代码已提交 @ae2aa47f 待 gpu-d34 释放配额开跑 text 臂；C #36 低优先级不抢主线。
+**在途不可打断**：gpu-d34 run PID 92938（r1 完成 total 23, ver≈71%，对照 D32 基线 65% degraded 初步见效），跑完自动出终值 → degraded 率对比 + compute_J + 矛盾扫描 + P5 补 gain 样本。
+**本轮无新增可执行项**：所有非阻塞工作已在途或已完成，强行制造动作违反最小执行原则。
