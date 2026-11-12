@@ -167,6 +167,8 @@ def _ddg_search(query, max_results=3):
     if not results:
         # 2026-11-09: DDG lite 被 anomaly 限流、html 端点 TLS 握手失败 → 回退 Bing
         # （cn.bing.com 可达，不同限流桶；对价格/规格类非学术事实有效）
+        # 2026-11-12: bing 国际版（www.bing.com + en-US header）对中文 query 也返回干净结果，
+        # cn.bing.com 的跨域垃圾（歌词/文库/电商平台）已实测确认，统一走国际版。
         try:
             import urllib.request, html as _html
             url2 = "https://www.bing.com/search?q=" + quote_plus(query) + "&setlang=en&cc=us"
@@ -756,7 +758,8 @@ def research_hook(qid, question, max_results=8, enable_local=True):
         r'下载中心|软件破解|免费资源|网盘分享|百度云盘|迅雷|'
         r'短视频|抖音|快手|tiktok|直播|哔哩哔哩|bilibili|b站|腾讯视频|爱奇艺|优酷|'
         r'商城|淘宝|天猫|京东|拼多多|苏宁易购|当当|'
-        r'tensorflow|pytorch|kubernetes|docker|linux\s*教程|编程入门|python教程|',
+        r'tensorflow|pytorch|kubernetes|docker|linux\s*教程|编程入门|python教程|'
+        r'文库|歌词|电商|电子商务平台|商城',
         re.I
     )
     before = len(sources)
