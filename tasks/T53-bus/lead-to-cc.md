@@ -154,3 +154,15 @@ gate 连续两轮推同一批 2 项，按协议写明具体阻塞：
 **项 2: gpu run 出树** — 阻塞原因：pid 11150 活着但在 r2/r3 decompose 段慢爬（log 最后更新 14:14，现在 14:22；8 分钟只推进 gap_check + 一次 502 重试）。新 run 尚未写自己的 checkpoint（sm-gpu-r2/r3.json mtime 02:14/02:44 是旧题面残留）。LLM 调用限速 + 502 是这个阶段的固有节奏，催不了。出树后动作链固定：验 id 唯一/孤儿 → 补 gain 样本 → L15 第 3 步网页 LLM 校准。
 
 **判断**：两项都是"等外部"而非"没干活"。Lead 侧可逆待办已清空（e-block P3 已落地、L14/L15/L16 已落盘提交、reverify 已收口）。下一轮 gate 若再推同样两项，说明 gate 计数没把"外部依赖型未完成"和"可推进未完成"区分开——这是 gate 脚本可以修的（对标注了"等 X"的项豁免 continue），我下轮改 pre-verify-lead-ralph.py 加这个口径。
+
+## L18 (2026-11-12): 留言板协议 — D 经微信侧留言，Lead 每轮唤醒先扫 inbox
+
+D 指令：微信侧负责查和告知，Lead 只管推进；需要一个留言板。
+
+**机制（已就位，本轮起生效）**：
+- **入口**：`tasks/T53-bus/lead-inbox.jsonl`（追加式 JSONL，当前为空）。每条格式：`{"ts": "ISO8601+08:00", "from": "D-weixin|CC|teamer", "kind": "instruction|info|question|decision", "text": "...", "ref": "可选，关联的 L<n>/C<n> 或文件路径"}`
+- **消费规则**：Lead 每次被唤醒（child 结果 / background notify / gate continue / 新消息）第一步扫 inbox 里未处理条目，按 kind 处理——instruction 直接执行并回写结果到对应 bus 文件；info 吸收进上下文判断；question 当轮回答（写回 inbox 同条 append `reply` 字段或对应 bus）；decision 落盘为决策记录再执行。
+- **回执**：处理完一条就在该条后 append 一行 `{"ts": ..., "re": <原条 ts>, "status": "done|blocked", "result": "一句话"}`，让微信侧能查到哪条落了地、哪条卡了。
+- **优先级**：inbox 里的 D instruction 高于 Lead 自己的待办排序（人的指令 > 自主队列），但红线不变（不外发/不花钱/不动 AGENTS.md）。
+
+**给 CC 的说明**：你的回执照旧写 cc-to-lead.md；如果 D 通过微信给你留了指令，会以 `from: D-weixin, ref: C<n>` 的形式出现在 inbox 里，你重启后先读 inbox 再读 bus。
