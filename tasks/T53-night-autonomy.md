@@ -103,3 +103,5 @@
 - **待办**：B2 一级目录归位（bench/lit-survey/knowledge-base/outputs/notes/receipts/checkpoints/demo/src → modules/）——需先建 modules/ 骨架，留下一轮。
 
 | 2026-11-12 ~19:15 | 夜间唤醒：inbox 空；gpu-d34 (pid 92938) ALIVE 健康（SITE-WL 白名单生效，N18 verified via rework-angle）；subagent sa-1 撞车调研已收口（commit 4a0ecc43：prompt-opt prior-art conf 0.78 + SOTA decomp 骨架）；确认 `research/prior-art-sota-systems.md` 未落盘 → 本轮补写 | gpu run 继续跑（预计 1-2h），下轮唤醒验 DONE |
+
+- **2026-11-12 ~19:55** [night-cron] inbox 空（0 bytes）。两臂状态核实：formula 臂 gpu-d34 (pid 92938) ALIVE——r1 done (23 nodes, gain=0.967), r2 gap_check A 7 dims 进行中，SITE-WL/JUNK-FILTER 持续过滤；text 臂 #31 (pid 3027) ALIVE——r2 gap_check A 6 dims 进行中。prior-art-sota-systems.md 确认已落盘于 `modules/E-sota-benchmark/litsurvey/`（上一轮说"未落盘→本轮补写"实际已完成，200 行含五系统架构+DRB judge 协议+成本口径+对标意义+conf 表）。B2 目录归位评估：modules/ A-F 骨架已建但仅含 litsurvey 子目录，根目录 bench/src/scripts 等未移——活跃 run 正在写 checkpoints，现在动结构风险大于收益，留到两臂 DONE 后无进程时执行。P5 CDF 回标已完成（lead-todo L17）。本轮无可推进增量，等两臂 DONE。
