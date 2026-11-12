@@ -1,0 +1,46 @@
+[T53 SM] Running on 'gpu': 你要在本地工作站上推理 Qwen3-27B 模型，不设硬性延迟指标（延迟是性能变量，由硬件和部署配置决定，不作为前置约束...
+  [SM] L1 skeleton (top-level dimensions only)...
+  [SM] objective (model-estimated): Final_Score = Feasibility_Coverage × Recommendation_Conditionality × (α·Cost_Performance_Accuracy + 
+    factor: 可行性覆盖度 (Feasibility Coverage): 在满足上下文≥32K tokens且显存容量足够的硬件组合中，是否覆盖了所有能影响性价比排序的架构
+    factor: 性价比指标准确性 (Cost-Performance Accuracy): 基于TCO（总拥有成本）和有效吞吐量或延迟特性计算出的性价比比值，其数值来源是否标注
+    factor: 精度-质量权衡论证完备性 (Precision-Quality Trade-off Validity): 针对所选低精度格式（FP8/INT4等），是否提供了可
+    factor: 推荐条件性强度 (Recommendation Conditionality): 最终结论是否明确区分了不同使用场景（如纯推理vs微调、高并发vs单用户、电力成
+  [SM] L1: 6 top-level dimensions
+    [N1] 候选硬件全集界定：定义值得纳入比较的完整硬件池，涵盖GPU架构代际、显存容量档位、消费级/数据中心级分类及非典型方案（如大显存核显、旧代高端卡），确保搜索空间无
+    [N2] 显存容量与上下文适配性：评估各候选硬件在加载Qwen3-27B模型权重（考虑不同精度占用）后，剩余显存是否足以支撑≥32K tokens的KV Cache需求，
+    [N3] TCO成本结构分析：量化单卡与多卡方案的总拥有成本，包括硬件采购价、供电损耗、散热设施成本及潜在的多卡互联开销，用于构建性价比分母。
+    [N4] 推理性能与吞吐潜力：估算各方案在目标工作负载下的推理速度（tokens/sec）或并发处理能力，结合显存带宽瓶颈分析，用于构建性价比分子及识别性能短板。
+    [N5] 量化精度与质量损失论证：分析BF16至W4等不同精度下的模型表现差异，通过基准测试或文献数据论证所选精度的质量损失是否在可接受范围内，确定最终部署的精度基线。
+    [N6] 场景化条件推荐矩阵：综合前述维度，依据不同的假设条件（如电价水平、并发用户数、是否允许长尾延迟）生成条件性的最优选卡方案，避免无条件排名。
+  [SM] fanout cap 8: parent N1 kept 8/20, dropped 6
+  [SM] fanout cap 8: parent N4 kept 8/26, dropped 9
+  [gap_check A] 6 dimensions: 基于Qwen3-27B模型架构与32K上下文窗口约束，推导显 | 构建包含消费级、数据中心级及非典型方案在内的完整硬件候选集， | 量化不同权重精度（BF16/FP8/INT8等）对模型输出质 | 分析单卡与多卡部署在总拥有成本（TCO）、系统复杂性及扩展性 | 定义性价比评估指标体系，将推理吞吐量、延迟分布与硬件投入进行...
+  [WEBLLM-SKIP] s5-node: ego-browser exit 1: PageNavigationTimeoutError: page.goto timed out after 15000ms waiting for load; 
+  [SM] r1: +21 (total 27), gain=0.968, S_α'=20.4, ver=9/21, streak=0
+  [SM] fanout cap 8: parent N10 kept 8/10, dropped 1
+  [SM] edge-reclassify N21: cartesian→quotient (父节点吞吐量明确定义为显存带宽与单token读取参数量（权重+KV Cache）的比值，子维度提供了)
+  [SM] fanout cap 8: parent N13 kept 8/14, dropped 3
+  [SM] fanout cap 4: parent N21 kept 4/12, dropped 4
+  [SM] edge-reclassify N24: cartesian→quotient (父节点明确将并发能力定义为显存预算与KV Cache单请求占用量的比值（Max_Batch_Size)
+  [SM] fanout cap 8: parent N22 kept 8/12, dropped 2
+  [SM] fanout cap 4: parent N24 kept 4/12, dropped 4
+  [SM] fanout cap 8: parent N28 kept 8/12, dropped 2
+  [gap_check A] 6 dimensions: 候选硬件集合的构建逻辑，包括架构、代际、显存容量档位及价格区 | 所选权重精度对模型质量损失的影响评估及其可接受性论证标准 | 满足32K tokens上下文窗口所需的显存容量计算及不同精 | 单卡与多卡部署方案在总拥有成本（TCO）上的对比，涵盖硬件采 | 影响性价比排序的关键性能变量（如吞吐量、内存带宽、互联速度）...
+  [SM] r2: +43 (total 70), gain=0.916, S_α'=58.2, ver=16/43, streak=0
+  [SM] fanout cap 8: parent N44 kept 8/10, dropped 1
+  [SM] fanout cap 8: parent N50 kept 8/12, dropped 2
+  [SM] edge-reclassify N60: quotient→cartesian (父节点核心论断是BF16单卡不可行，子维度中仅第一项直接量化证明该结论，其余项（多卡门槛、FP8/I)
+  [SM] edge-reclassify N61: quotient→cartesian (父节点核心是FP8显存占用及硬件依赖，子维度涵盖BF16对比、精度损失、硬件验证及INT8对比，各维)
+  [SM] edge-reclassify N62: quotient→cartesian (父节点核心论断是INT8显存占用与FP8相同但计算效率可能劣势，子维度分别独立验证了BF16不可行性)
+  [SM] edge-reclassify N90: cartesian→quotient (父节点明确定义为通信数据量除以有效带宽的运算结果，且子维度分别提供了分子（数据量）和分母（带宽）的取)
+  [SM] edge-reclassify N91: cartesian→quotient (父节点明确定义为吞吐量的比值运算（(单卡-多卡)/单卡），且子维度中显式包含该公式的量化分解，符合商)
+  [SM] fanout cap 4: parent N90 kept 4/8, dropped 2
+  [SM] fanout cap 8: parent N93 kept 8/10, dropped 1
+  [SM] edge-reclassify N98: cartesian→quotient (父节点明确定义为 PPL 差值（ΔPPL = PPL_FP8 - PPL_BF16），属于两个子项的)
+  [SM] edge-reclassify N100: cartesian→quotient (父节点明确定义为 Purchase_Price 除以 Useful_Life_Years 的商，且候)
+  [SM] fanout cap 4: parent N98 kept 4/16, dropped 6
+  [SM] edge-reclassify N105: cartesian→quotient (父节点明确定义为吞吐量损耗率的量化公式（比值/加权运算），子维度提供了公式中的关键变量（通信延迟、掩)
+  [SM] edge-reclassify N106: cartesian→quotient (父节点核心结论（TCO 拐点/溢价）是硬件成本、电力成本与运维成本等子维度通过加权求和及与吞吐量（性)
+  [SM] fanout cap 4: parent N105 kept 4/14, dropped 5
+  [gap_check A] 7 dimensions: 候选硬件集合的构建逻辑，包括架构、代际、显存容量档位及价格区 | 所选权重精度对Qwen3-27B模型输出质量的影响评估及其可 | 满足32K tokens上下文窗口下限所需的显存占用计算逻辑 | 单卡与多卡部署方案在总拥有成本（TCO）上的差异分析，涵盖硬 | 影响性价比排序的非典型硬件方案或特殊配置纳入比较的理由及其局...
+  retry 1 (wait 5s): HTTP Error 502: Bad Gateway
