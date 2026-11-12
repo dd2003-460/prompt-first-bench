@@ -230,3 +230,17 @@ log 文件里先后出现两次 DONE（14:30 的 75-node 版 + 本次 153-node �
 ### 树健康摘要（gpu-rerun2-results.md §1-§3 有全表）
 
 verified 42 (27.5%) / degraded 102 (66.7%) / pending 6 / failed 3；leaks=0；quotient 20/153=13.1% ✅；三轮 gain 0.968/0.916/0.892 全 >0.5 且 n_new 非零 → **3 个有效 gain 样本进 P5 CDF 回标池（累计 10 个，脚本可以写了）**。degraded 主体是"逻辑自洽但检索无可用源"（通道型，rework reason 抽样确认），同 L14 三分类的"真·数据缺口"类。
+
+## L22 (2026-11-12 ~18:10): P5 CDF 回标完成 — stop_std_max 0.15→0.06（拍脑袋值第一次被数据替换）
+
+**样本池**（L21 说"累计 10 个可以写了"，实际有效 8 个——drb-1×3 + drb-2×2 + gpu×3，n_new=0 轮按 L20-C 规则剔除；gpu 那轮的 r2 n_new=43 有效，之前记的"10 个"含了 2 个伪值轮）：
+- gain 分布 [0.805, 0.978]，mean=0.896，std_pop=0.056
+- 经验 CDF：P(<0.85)=2/8, P(<0.90)=4/8, P(<0.95)=6/8 —— 单调衰减正常，无离群点
+
+**改动**：`stop_std_max` 0.15 → 0.06（取 1x σ）。原值是拍的，比实测波动宽 2.7x——意味着近窗 5 轮 gain std 要超过 0.15 才 reset low_gain_streak，而实测整个 run 内波动只有 ~0.056，这个分支基本永远不触发。修完后 E4 方差感知判据才真正在回路里工作。
+
+**落盘**：`experiments/stage-ablation/p5-cdf-backlabel.json`（8 样本 + CDF + 推荐值）+ s5_state_machine.py config 行（commit 见 git log）。
+
+**局限声明**：n=8 且来自 3 条题、同一模型（qwen3.8-27b）、同一 prompt 版本——这是首轮回标不是终值。换题面/换模型后应重跑回标脚本（脚本逻辑就是读 runs json 抽 rounds，可复用）。0.06 是 1x σ 的整定，若后续发现 streak 误 reset 频繁可放宽到 1.5x σ≈0.084。
+
+**接回 e-block 校准节**：P5 从"待写"变"已落地"；下一步排序更新为：query 改写层（ROI 最高，救 no-source 节点）> P4 多采样（等 gold 题集）> P6 gold 题校验（等 D26 口径定稿）。
