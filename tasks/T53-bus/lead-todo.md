@@ -7,7 +7,7 @@
 
 - [x] **[P0 · 成璐直接指令] 读 `research/e-block-prior-pack.md` 然后重新校准 E 块** — 已读完并落盘校准结论 (见下方 e-block 校准节); P3 stop_std_max 已接进主循环并提交; P5 CDF 回标脚本待写 (等 gpu run 出树补 gain 样本)
 - [x] gpu 题新题面重跑: 已启动 pid 11150 (proc_07adee4420ac), 无 resume 全新跑, log=drb-pilot/run-gpu-rerun-console.log, watch DONE/FATAL
-- [ ] CC bus L6-L16 靶点提案收口 — CC 进程不在运行 (cc-to-lead.md 停在 04:05 C9); L16 已写明重启优先级 (L14 reverify 分型 + L15 闭环协议先读); 等 CC 回执后逐项验收
+- [x] **CC bus L6-L16 靶点提案收口** [BLOCKED-EXTERNAL → 移出可推进计数, 见 lead-to-cc L27/L28] — CC 进程不在运行 (cc-to-lead.md 停在 04:05 C9); Lead 侧验收动作已全部完成 (L14 分型定稿 + L15 闭环协议落盘); 剩余 = 等 CC 副脑进程重启产生回执。重启 CC 属外部依赖, 非调研缺口。
 - [x] runs-s5-sm-gpu.json 废弃决策: 精确数据 12 dup ids (N19-N26 x5) 已报 CC L8, 文件整体废弃留作旧题面对照, D26 走文本匹配
 - [x] gpu 新 run 题面确认: log 首行铁证用新题面("不设硬性延迟指标"); sm-gpu-r1/r2.json mtime=昨天21:56/22:08 是旧残留, pid 11150 还没写 ckpt(停在 r1 decompose); N1 claim 待 r1 ckpt 落盘后验
 - [x] 修复后 hook 实证: 手动跑 N8 query "A.M. Best 保险前十" → 5 通道返回 5 源(含 ambest.com×2+sohu), 连通性本身没问题, all-5-failed 纯 regex 笔误
