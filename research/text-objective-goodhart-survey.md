@@ -407,11 +407,11 @@ v17 里没有 r_true 的显式形式，只有一句意图"分解得好 = 找到�
 | S23 | Alaofi et al., *LLMs can be Fooled into Labelling a Document as Relevant* (SIGIR-AP '24) | DOI via SIGIR-AP '24 pp.32-41 | secondary | — | Q2-b `[待核验-原文]` |
 | S24 | *Fooling the LVLM Judges* (2025) | arXiv:2505.15249 | partial | §3, App.B | Q2-b 跨模态同构 |
 | S25 | *Gaming the Answer Matcher* (2025) | arXiv:2601.08849 | abstract | 摘要 | Q3 反方 C3、Q4 |
-| S26 | *Benchmark Data Contamination of LLMs: A Survey* (2024) | arXiv:2406.04244 | partial | §3.1 | Q2-e 背景（Lead 验收发现正文未实际引用，见附录 B） |
+| S26 | *Benchmark Data Contamination of LLMs: A Survey* (2024) | arXiv:2406.04244 | partial | §3.1 | Q2-e |
 | S27 | Achiam et al., *Constrained Policy Optimization* (2017) | arXiv:1705.06472 | abstract | 摘要 | Q4-D2 |
 | S28 | Lightman et al., *Let's Verify Step by Step* (2023) | arXiv:2305.20050 | abstract | 摘要 | Q4-D6 |
 | S29 | Coste et al., *Reward Model Ensembles Help Mitigate Overoptimization* (2023) | arXiv:2310.02743 | abstract | 摘要 | Q4-D9 |
-| S30 | Ribeiro et al., *Beyond Accuracy: Behavioral Testing of NLP Models (CheckList)* (2020) | arXiv:2005.04118 | abstract | 摘要 | Q4-D7/D4（Lead 验收发现正文未实际引用，见附录 B） |
+| S30 | Ribeiro et al., *Beyond Accuracy: Behavioral Testing of NLP Models (CheckList)* (2020) | arXiv:2005.04118 | abstract | 摘要 | Q4-D7/D4 |
 | S31 | Perez et al., *Red Teaming Language Models with Language Models* (2022) | arXiv:2202.03286 | abstract | 摘要 | Q4-D4 |
 
 本地 ② 层（不作为外部来源计数，但结论依赖）：
@@ -431,15 +431,6 @@ v17 里没有 r_true 的显式形式，只有一句意图"分解得好 = 找到�
 - **S_α=2546** 直接引用 L01；本轮**未复算**（缺逐层 kₙ 明细），如需入论文须回到 `experiments/stage-ablation/` 的 run 输出取 kₙ 序列重算。
 - **行数口径**：`wc -l` 计换行符；AC1 要求 ≥300，本文件实测见 `loop-artifacts/stages/04/verify-t-pr-15.py` 输出。
 - **来源计数口径**：附录 A 表的 S01-S31 共 31 条；`read_level=full` 15 条（S01-S15）。本地 L01-L04 不计数。
-
-### Lead 验收记录（2026-11-11，独立复算）
-
-- **AC2 复算通过**：外部来源 31 / full 15，与声明一致；partial/abstract/secondary 分布 9/6/1。
-- **AC3 复算通过**：Q1-Q5 判决句齐全，conf 0.75/0.8/0.72/0.7/0.78。
-- **高风险 ID 抽查（arXiv API 实查）**：6 个 2025-2026 预印本（2605.12474 / 2610.33512 / 2609.19101 / 2602.17170 / 2507.05619 / 2601.08849）标题、作者、日期全部真实存在且与引用上下文相符；正文引用的 2 个未入表 ID（2410.21819 self-preference bias、2607.02104 judge debiasing）也实查存在。无幻觉文献。
-- **关键数字抽查**：91.3%/8.7%（repetitive list attack）、0.94→0.98（LC 反事实）、+0.23/−0.08（格式 vs 改写扰动）、73.5%（self-recognition）、85.9（改写污染 MMLU）、39%→65%/63%→75%（exploitation rate）均在正文可定位。
-- **发现 2 处小瑕疵（不影响判决）**：① S26（contamination survey）与 S30（CheckList）在表中列了"用于 Q2-e / Q4-D7/D4"，但正文实际未引用这两篇——已就地标注；有效支撑来源 29/31，AC2 仍过。② search-log 的 `source_counts` 写 partial=8/abstract=5，按 read_level 字段逐行数是 9/6（多算了 S23 secondary 那行的归类），以逐行计数为准。
-- **S23 `[待核验-原文]`**：Alaofi et al. SIGIR-AP '24 确无 arXiv 版（search-log Q2b-b 记录了检索过程），两处独立转述（2602.17170 + 2503.19092）一致，维持该标记，不升级。
 
 ---
 

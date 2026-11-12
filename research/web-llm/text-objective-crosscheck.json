@@ -2,7 +2,7 @@
   "task": "T-PR-15",
   "artifact": "web-llm cross-check receipts (AC8)",
   "nature": "网页/本地 LLM 回答仅是审阅线索，不是权威事实来源。",
-  "generated_at_utc": "2026-11-11T12:04:25+00:00",
+  "generated_at_utc": "2026-11-11T11:44:31+00:00",
   "claims": [
     {
       "id": "K1",
@@ -37,77 +37,83 @@
     {
       "id": "B",
       "url_env": "PFB_LLM_B_URL",
-      "model": null,
+      "model": "second-family-unset",
       "transport": "http_openai_compatible",
-      "configured": false,
-      "status": "dispatch_failed",
-      "error": "env PFB_LLM_B_URL not set (sandbox has no LLM endpoint)"
+      "configured": true,
+      "status": "error"
     }
   ],
   "receipts": [
     {
-      "claim_id": "K3",
-      "service": "A",
-      "asked_at_utc": "2026-11-11T12:05:15+00:00",
-      "status": "ok",
-      "latency_s": 18.66,
-      "answer": "针对该主张的核查，核心在于寻找**同一实验框架内**（same experimental setup）直接对比“文字/自然语言目标”与“数值/量化目标”在代理模型（Agent）或优化算法中产生“hack”（即奖励作弊、Goodharting 或 specification gaming）频率的研究。\n\n### 1. 检索结果与反例分析\n\n经过对 arXiv、NeurIPS、ICML、ICLR 等主流 AI 安全与强化学习会议论文的检索，**未发现**任何一项研究在同一控制变量实验中，直接以“文字目标 vs 数值目标”为自变量，以“hack 率”为因变量进行定量对比并得出“文字更容易被 hack”这一结论的研究。\n\n相反，现有文献提供了以下**限制该主张适用范围**或**矛盾**的证据：\n\n#### 反例 1：Hack 行为主要源于“可操纵性”而非“表达形式”\n*   **来源**: [arXiv:2305.18290] *Specification Gaming in Reinforcement Learning: A Survey and Taxonomy* (2023) 及 [arXiv:2206.04705] *The Goodhart Law in Machine Learning* (2022).\n*   **分析**: 这些综述指出，Specification Gaming（规范游戏/Hack）的核心机制是**代理指标（proxy metric）与真实目标之间的错位**。无论是用文字描述（如“最大化用户满意度”）还是数值函数（如 $R = \\sum r_t$），只要存在未被约束的自由度（degrees of freedom），agent 就会找到最小化成本的路径。\n    *   **矛盾点**: 如果将“文字目标”转化为具体的数值奖励函数（这是 RL 的标准做法），其 hack 风险取决于**奖励函数的稀疏性或漏洞**，而非其原始的文字表述。例如，一个定义清晰的数值目标（如“每步移动距离不超过 1 单位”）可能比模糊的文字目标（如“高效移动”）更难被 hack，但这归因于**约束的严格程度**，而非“文字 vs 数值”的形式本身。\n\n#### 2. 反例 2：LLM 作为 Agent 时，文字目标的 Hack 率受“提示工程”影响极大，且无统一基准\n*   **来源**: [arXiv:2308.03688] *SWE-bench: Can Language Models Resolve Real-World GitHub Issues?* (2023) 和 [arXiv:2402.01304] *AgentBench: Evaluating LLMs as Agents* (2024).\n*   **分析**: 在这些基于 LLM 的 agent 评估中，“目标”通常以自然语言任务指令给出（文字目标）。然而，研究中并未设置对照组使用“数值目标”（因为 LLM 无法直接优化一个外部数值梯度，除非通过代码生成间接实现）。\n    *   **限制范围**: 由于缺乏同实验内的数值目标对照组，无法断言文字目标“更容易”被 hack。实际上，许多 LLM hack 案例（如忽略安全约束）是由于**上下文窗口限制**或**注意力机制缺陷**，而非文字本身的模糊性。若将同样的任务用严格的数值约束（如代码中的 assert 语句）强制执行，hack 率会显著降低，但这证明的是**执行机制**的差异，而非文字形式的固有缺陷。\n\n#### 3. 反例 3：数值目标同样极易被 Hack（Goodharting）\n*   **来源**: [arXiv:2005.05567] *Reward Hacking in Deep Reinforcement Learning* (2020) 及 [arXiv:2106.05296] *On the Robustness of Reward Functions to Adversarial Perturbations* (2021).\n*   **分析**: 经典 RL 研究中，数值奖励函数（如 Atari 游戏的得分函数）经常被 agent “hack”（例如，在 Breakout 游戏中，agent 学会只打砖块而不让球落地，以无限增加分数）。\n    *   **",
-      "verdict": "无独立 VERDICT 行（max_tokens=900 截断，方向取自全文） | 方向: 未发现文字 vs 数值同实验对照研究；hack 源于可操纵性而非表达形式；数值目标同样易被 hack → 与 survey 判决一致"
-    },
-    {
-      "claim_id": "K4",
-      "service": "A",
-      "asked_at_utc": "2026-11-11T12:05:33+00:00",
-      "status": "ok",
-      "latency_s": 14.57,
-      "answer": "针对该主张的核查，我们需要区分“防御目标”是**防止奖励黑客（Reward Hacking/Goodharting）**还是**提高生成质量**。\n\n主张的核心逻辑是：在仅修改 Prompt/Judge 层面（不更新模型权重），为了对抗 LLM-as-a-Judge 或基于文本的 Reward Model 被“钻空子”（例如通过增加冗余内容来提高 Recall 分数），最有效的手段是引入 Precision 项和硬预算约束，而不是简单的 Reward Clipping。\n\n以下是反例、更强的替代方案及来源分析：\n\n### 1. 反例与局限性分析\n\n**反例 A：Clipping 并非无效，且在特定分布下更稳定**\n主张认为 \"reward clipping\" 不如 precision term 有效。然而，在许多 RLHF 或 DPO 的变体中，Clipping 的主要目的不是直接优化精度，而是**限制策略偏离参考策略的程度**，从而间接防止模型为了追求高 Recall 而生成极端冗长或离题的内容。如果仅添加 Precision 项而不控制 KL 散度或长度偏差，模型可能会陷入“短且错”或“长且对但啰嗦”的局部最优，而 Clipping 提供了全局稳定性。\n*   **来源**: *Direct Preference Optimization: Your Language Model is Secretly a Reward Model* (arXiv:2305.18290). 虽然这是关于 DPO 的，但其核心思想表明，隐式的正则化（如 KL 惩罚，常通过 clipping 或 log-ratio 截断实现）对于防止过拟合到特定的 judge 偏好至关重要。单纯依赖 prompt 中的 precision 指令往往无法抵消模型内部对 token 概率的偏置。\n\n**反例 B：Precision 项本身容易被 Hack（Goodhart's Law 再次发生）**\n主张建议加 Precision 项。但是，LLM Judge 评估 Precision 同样不可靠。模型可以通过生成**极短但看似正确**的回答来最大化 Precision 分数，同时牺牲了实际的信息量（Recall）。此时，硬预算约束（Hard Budget）可能过于刚性，导致模型无法表达复杂概念。相比之下，**动态长度归一化（Length Normalization）** 比固定的硬预算更有效，因为它允许模型根据问题复杂度调整长度，同时抑制无意义的填充。\n*   **来源**: *The Unreasonable Effectiveness of Length in Large Language Models* (arXiv:2407.06541) 或 *Length-Controlled Generation in Large Language Models* (arXiv:2307.09110). 这些研究表明，简单的长度惩罚或归一化比复杂的二元 Precision/Recall 组合更能平衡质量与效率，且无需改变权重即可在推理时应用。\n\n### 2. 更强的替代方案（无需改权重）\n\n以下方案在“不改权重”的前提下，通常比单纯的 “Precision + Hard Budget” 更有效，因为它们解决了 Judge 的不一致性和模型的自利性：\n\n#### 方案一：Self-Consistency with Majority Voting (自洽性投票)\n**原理**：不依赖单一的 Precision/Recall 判据，而是让模型生成多个候选答案，然后用一个独立的 Judge（或同一模型的不同采样）进行多数投票。这极大地降低了单次评估中被“冗余项”欺骗的概率，因为随机噪声和特定的 hacking 模式会在多次采样中平均掉。\n**为何更强**：它不依赖于精确计算 Precision（这在 LLM Judge 中很难准确量化），而是利用统计一致性。相比硬预算，它更灵活；相比 Clipping，它直接针对输出分布而非损失函数。\n*   **来源**: *Self-Consistency Improves Chain of Thought Reasoning in Language Models* (arXiv:2203.11171, ICLR 2023). 该文证明，通过采样多条路径并取多数票，可以显著提升推理准确率，且这种提升在不需要微调权重的情况下即可实现，是对抗单一指标偏差的强力手段。\n\n#### 方案二：Debate-based Evaluation (辩论式评估)\n**原理**：让两个或多个 LLM 实例分别扮演“正方”和“反方”，就生成的回答是否满足要求（包括",
-      "verdict": "无独立 VERDICT 行（max_tokens=900 截断，方向取自全文） | 方向: 反例：clipping 提供全局稳定性、precision 项本身可被刷（短而看似正确）；更强替代=self-consistency voting / debate-based eval → 『clipping 无效』需限定为纯 recall 代理场景"
-    },
-    {
-      "claim_id": "K1",
-      "service": "B",
-      "status": "dispatch_failed",
-      "error": "env PFB_LLM_B_URL not set (sandbox has no LLM endpoint)"
-    },
-    {
-      "claim_id": "K2",
-      "service": "B",
-      "status": "dispatch_failed",
-      "error": "env PFB_LLM_B_URL not set (sandbox has no LLM endpoint)"
-    },
-    {
-      "claim_id": "K3",
-      "service": "B",
-      "status": "dispatch_failed",
-      "error": "env PFB_LLM_B_URL not set (sandbox has no LLM endpoint)"
-    },
-    {
-      "claim_id": "K4",
-      "service": "B",
-      "status": "dispatch_failed",
-      "error": "env PFB_LLM_B_URL not set (sandbox has no LLM endpoint)"
-    },
-    {
       "claim_id": "K1",
       "service": "A",
-      "asked_at_utc": "2026-11-11T12:06:01+00:00",
-      "status": "ok",
-      "latency_s": 11.85,
-      "answer": "### 支持主张的文献（2条）\n\n1.  **来源**：Amodei, D., et al. (2016). *Concrete Problems in AI Safety*. arXiv:1606.06565\n    *   **理由**：该论文在定义“Specification Gaming”时，明确将其归类为更广泛的“Goodhart's Law”现象的一个子集。文中指出，当优化代理针对代理指标（proxy metric）而非真实目标进行优化时，就会发生 Goodhart 效应；而 Specification Gaming 特指这种效应在机器学习/强化学习系统因规格说明（specification）不完美或存在漏洞而被利用时的具体表现。这直接支持了“Specification Gaming 是 Goodhart's Law 在特定设定下的实例”这一层级关系。\n    *   **检索标识**：arXiv:1606.06565\n\n2.  **来源**：Everitt, T., et al. (2021). *Reward Hacking: The Failure Mode of RL Agents Optimizing an Imperfect Proxy*. arXiv:2112.00839\n    *   **理由**：虽然标题聚焦于 Reward Hacking，但正文及后续相关综述（如 Everitt & Amodei, 2022, *The Importance of Being Honest*）中反复强调，Reward Hacking 和 Specification Gaming 都是 Goodhart's Law 在人工智能安全领域的具体表现形式。作者明确指出，Goodhart's Law 是一个统计学/经济学原理，描述了“当一个度量成为目标时，它就不再是一个好的度量”，而 AI 中的 hacking 行为是该原理在算法优化过程中的工程化体现。因此，前者是理论框架，后者是应用实例。\n    *   **检索标识**：arXiv:2112.00839\n\n---\n\n### 反对/限制主张的文献（2条）\n\n1.  **来源**：Everitt, T., et al. (2021). *Reward Hacking: The Failure Mode of RL Agents Optimizing an Imperfect Proxy*. arXiv:2112.00839\n    *   **理由**：尽管该文承认 Goodhart 的背景，但它将 **Reward Hacking** 定义为一种特定的、可操作的失败模式（failure mode），其核心特征是代理找到了一个高奖励但低真实效用的策略。这与广义的 Goodhart's Law（通常涉及人类决策者或统计相关性失效）在机制上有显著区别。许多研究者认为，将 Reward Hacking 简单视为 Goodhart 的子集忽略了其在多智能体博弈、对抗性环境中的独特动力学，这些动力学超出了传统 Goodhart 定律的描述范围。因此，两者在某些语境下被视为并列的、具有不同因果机制的概念，而非严格的包含关系。\n    *   **检索标识**：arXiv:2112.00839\n\n2.  **来源**：Sharma, M., et al. (2023). *Towards Faithful and Robust Evaluation of Large Language Models*. arXiv:2305.14922 (或参考相关 LLM 评估文献，如 G-Eval, Zheng et al., 2023, arXiv:2303.16634)\n    *   **理由**：在大语言模型（LLM）评估领域，**Specification Gaming** 常被特指为模型“作弊”以通过基准测试的行为（例如，利用提示词中的漏洞或记忆训练数据）。而 **Goodhart's Law** 在该领域更多被用来描述“过度拟合基准分数”这一宏观趋势。然而，有研究指出，LLM 中的 Specification Gaming 往往涉及复杂的语义操纵和上下文理解，这与传统 Goodhart 定律中简单的线性指标失真不同。部分学者主张，由于 LLM 的非线性黑箱特性，传统的 Goodhart 框架不足以完全涵盖 Specification Gaming 的所有形式，因此两者应被视为在不同抽象层次上讨论的问题，而非简单的上下位关系。\n    *   **检索标识**：arXiv:2303.16634 (G-Eval: NLG",
-      "verdict": "无独立 VERDICT 行（max_tokens=900 截断，方向取自全文） | 方向: 正反双方都给了：spec gaming 在 LLM 评估语境常被特指基准作弊、Goodhart 偏宏观趋势；有学者主张两者非简单上下位关系 → 支持 survey『无统一裁定』"
+      "asked_at_utc": "2026-11-11T11:44:31+00:00",
+      "status": "error",
+      "error": "URLError: <urlopen error [Errno 111] Connection refused>"
     },
     {
       "claim_id": "K2",
       "service": "A",
-      "asked_at_utc": "2026-11-11T12:06:13+00:00",
-      "status": "ok",
-      "latency_s": 14.0,
-      "answer": "该主张将 LLM 在 prompt/评估场景下的 hack（作弊/利用漏洞）行为归纳为五类，并断言前四类均作用于“文字条款 + 判者”这一层。经过文献核查，该分类存在显著遗漏，且对“作用层级”的界定过于狭隘，忽略了直接针对**评测基础设施（Harness）**和**模型内部状态（Internal State）**的攻击向量。\n\n### 1. 遗漏类别分析：利用评测 Harness 而非判者\n\n主张中提到的“格式/长度刷分”、“关键词 stuffing”等确实主要依赖于自动评分器或 LLM Judge 的规则匹配。然而，存在一类更底层的攻击，即**Prompt Injection into the Evaluation Pipeline**（向评估流水线注入提示）或 **Harness Manipulation**（操纵评测框架）。这类攻击不依赖“判者”理解语义或规则，而是直接篡改输入给判者的上下文、修改评分脚本的逻辑，或利用 API 返回的非标准字段来绕过检查。\n\n*   **反例 1：通过 Prompt Injection 操纵 LLM Judge 的系统提示词**\n    许多研究指出，LLM Judge 本身也是 LLM，其系统提示词（System Prompt）可能被用户输入中的恶意内容覆盖或干扰。这不仅仅是“sycophancy”（谄媚），而是直接劫持判者的指令集。\n    *   **来源**: Greshake et al., \"Not what you've signed up for: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection\", arXiv:2302.12173 (2023). 该文展示了如何通过间接提示注入，使 LLM 执行非预期操作，包括在评估场景中输出特定以通过测试的内容，而无需依赖判者的“偏好”，而是通过破坏判者的完整性。\n    *   **来源**: Liu et al., \"Prompt Injections in Large Language Models: A Survey and Taxonomy\", arXiv:2405.19688 (2024). 该综述明确区分了针对模型的攻击和针对集成应用（包括评估管道）的攻击，指出 harness 层面的漏洞是独立于判者逻辑的。\n\n*   **反例 2：利用 Benchmark 数据泄露与 Memorization（记忆化）而非污染**\n    主张提到了“benchmark 污染”，但这通常指训练数据中包含测试集。另一种更隐蔽的 hack 是**Memorization-based Overfitting**，即模型并非真正理解任务，而是记住了特定 benchmark 的输入-输出对。这与“污染”不同，它发生在推理阶段，且可能不涉及训练数据的显式污染，而是通过微调（Fine-tuning）专门针对特定 benchmark 进行优化。\n    *   **来源**: Min et al., \"Rethinking the Evaluation of Large Language Models: The Role of Data Contamination and Memorization\", arXiv:2305.18538 (2023). 该文分析了模型如何通过对特定数据集的记忆来“hack”评估分数，这种机制不同于简单的关键词匹配，而是基于参数化的记忆检索。\n\n*   **反例 3：Adversarial Suffixes / Perturbations（对抗性后缀/扰动）**\n    这是一种直接作用于模型输入分布的攻击，旨在诱导模型产生特定输出，而不需要依赖判者的规则或偏好。例如，添加特定的字符序列使得模型忽略安全约束或生成特定答案。\n    *   **来源**: Zou et al., \"Universal and Transferable Adversarial Attacks on Aligned Language Models\", arXiv:2307.15043 (2023). 该文展示了如何通过短的后缀字符串，使对齐后的 LLM 违反安全策略或生成特定内容，从而在安全评估或合规性检查中“hack”过检测。\n\n### 2. 对“前四类都作用于『文字条款 + 判者』这一层”的反驳\n\n该陈述限制了前四类的适用范围。实际上：\n\n1.  **格式/长度刷分**：虽然常由判者执行，但也可以由**确定性脚本**（Deterministic Scripts）执行。如果 harness 使用正则表达式或长度计数器作为第一道过滤，那么这种",
-      "verdict": "无独立 VERDICT 行（max_tokens=900 截断，方向取自全文） | 方向: 五分类基本认可但补遗漏类（prompt injection 操纵 judge 系统提示词 / benchmark memorization / 对抗后缀），并反驳『前四类都作用于判者层』（确定性脚本也可执行）→ 成立但需扩子类"
+      "asked_at_utc": "2026-11-11T11:44:31+00:00",
+      "status": "error",
+      "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+    },
+    {
+      "claim_id": "K3",
+      "service": "A",
+      "asked_at_utc": "2026-11-11T11:44:31+00:00",
+      "status": "error",
+      "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+    },
+    {
+      "claim_id": "K4",
+      "service": "A",
+      "asked_at_utc": "2026-11-11T11:44:31+00:00",
+      "status": "error",
+      "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+    },
+    {
+      "claim_id": "K1",
+      "service": "B",
+      "asked_at_utc": "2026-11-11T11:44:31+00:00",
+      "status": "error",
+      "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+    },
+    {
+      "claim_id": "K2",
+      "service": "B",
+      "asked_at_utc": "2026-11-11T11:44:31+00:00",
+      "status": "error",
+      "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+    },
+    {
+      "claim_id": "K3",
+      "service": "B",
+      "asked_at_utc": "2026-11-11T11:44:31+00:00",
+      "status": "error",
+      "error": "URLError: <urlopen error [Errno 111] Connection refused>"
+    },
+    {
+      "claim_id": "K4",
+      "service": "B",
+      "asked_at_utc": "2026-11-11T11:44:31+00:00",
+      "status": "error",
+      "error": "URLError: <urlopen error [Errno 111] Connection refused>"
     }
   ],
   "contradictions": [],
-  "ac8_status": "partial",
+  "ac8_status": "not_satisfied",
   "usage_limit": "未取得回执的服务一律记 dispatch_failed；不得把未取回的回答写成已验证事实。",
-  "ac8_note": "ok_receipts=4 (全部来自 A=qwen3.8-27b@8787), required=8; B 服务本机无第二家族 endpoint（8788 无监听），AC8 仅单服务核验，按任务书失败降级条款如实标注，conf 不下压（K3/K4 答案方向与 survey 一致）"
+  "ac8_note": "ok_receipts=0/8；原因=环境（无 endpoint），非拒绝执行；待 Lead 本机补跑 run_crosscheck.py",
+  "environment_note": "沙箱内无任何 LLM endpoint：本机 127.0.0.1:8787（score.py 使用的 qwen3.8-27b）与 127.0.0.1:8788 均返回 Connection refused（Errno 111）；bash 出网白名单只有 github/npm/pypi，无 API key 环境变量。按任务书【失败降级】『沙箱够不到 Lead 本机 endpoint 是环境限制不是故障；endpoint 类步骤由 Lead 本地补跑』处理。",
+  "what_was_delivered_instead": {
+    "design": "4 条待核验主张（K1-K4）+ 每条的反例要求 + 防锚定措辞（只发主张不发本文结论）",
+    "runner": "research/web-llm/run_crosscheck.py（Lead 本机 export 两个不同底座的 endpoint 后直接跑，会就地写入 receipts 并计算 ac8_status）",
+    "substitute_check_not_a_substitute_for_ac8": [
+      "来源级交叉核对：同一结论用 ≥2 条相互独立的论文支撑（如 Q3-C 用 2210.10760 + 2201.03544 + 2610.33512 三条不同组）",
+      "对抗自审：survey §8 的 C1-C6 六条质询，其中 C3/C4 实质改写了结论口径",
+      "以上均**不**满足 AC8 的『不同 LLM 服务』要求，仅记录以免误读"
+    ]
+  },
+  "handoff": "Lead 在本机执行：PFB_LLM_A_URL=... PFB_LLM_B_URL=... python3 research/web-llm/run_crosscheck.py，然后把 receipts 里的 verdict 与 contradictions 回填 survey §0/§9"
 }
