@@ -30,6 +30,7 @@
 | drb-1 | Finance&Business（中国 9 阶层收入/中产） | zh | ✅ DONE（169 nodes, 3 rounds, leaks=0；judge 完成） | C 0 / I 0 / IF 0 / R 0 | **0.0** | −56.72 |
 | drb-2 | 国际前十保险公司横评 | zh | ✅ DONE（55 nodes, 3 rounds, leaks=0；verified=0） | C 0 / I 0 / IF 0 / R 0 | **0.0** | −56.72 |
 | drb-16 | 非接触式感知算法策略评估 | zh | 排队 | — | — | — |
+| gpu（内部题 · 新题面） | GPU 选型（Qwen3-27B, ≥32K ctx） | zh | ✅ DONE（153 nodes, 3 rounds, leaks=0；max_nodes hit；未 judge——内部题无 DRB criteria，不进四维分表） | — | — | — |
 
 扩展计划：pipeline 跑通后扩到 5 题（L2 授权范围内）。
 
@@ -58,6 +59,15 @@
 - **唯一 verified**：NN23（Jaccard 定义——纯数学逻辑，不依赖外部检索）
 - **病根**（与 drb-1 同病根，非缓存中毒）：清缓存后 junk filter 生效但 verified 仍≈0。根因=检索通道对中文 DRB 题全盲（wiki=0, ddg 质量差, arxiv 报错, local_corpus=0）。51/62 evidence="no sources"——不是 junk filter 过滤掉有效源，是根本没有有效源可过滤。
 - **修复方向**：ddg 加中文 query 改写 + bing intl fallback 权重提升；中期接 Perplexity via ego-browser；长期考虑 arena 外包检索。
+
+### gpu（内部题 · 新题面无 3s/token 硬约束）
+
+- **run**：`runs-s5-sm-gpu.json` @ 60e96b82（3 rounds, 153 unique nodes, leaks=0, reworks=105, max_nodes=150 hit → state=rework）
+- **树健康**：unique id == 记录数 ✅（_nid fix 在 gpu 题上验证通过）；quotient 20/153 = 13.1% ≤20% ✅
+- **status 分布**：verified 42 (27.5%) / degraded 102 (66.7%) / pending 6 (3.9%) / failed 3 (2.0%)
+- **gain 轨迹**：r1 0.968 → r2 0.916 → r3 0.892（三轮 n_new 均非零，全部进 P5 CDF 回标池；累计有效样本 10 个）
+- **定位**：内部题无 DRB 官方 criteria，不判四维分、不进对标线比较；作用 = S5 SM 机制在真实硬件域的行为样本 + gain/pass_rate 校准数据。degraded 主体为通道型（"逻辑自洽但检索无可用源"，rework reason 抽样确认），同 L14 三分类的"真·数据缺口"类。
+- **历史注记**：同一 run 早先出现过一次带伤中间态 final JSON（75 records / 34 unique / dup ids / reworks=[]，落盘于 `gpu-rerun-results.md`，已标 SUPERSEDED）；L20 据此报给 CC 的两项 P0/P1 核查已随本 run 撤销（lead-to-cc L21）。
 
 ## 4. 迭代日志（每轮一条）
 

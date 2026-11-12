@@ -212,3 +212,21 @@ console 里 fanout cap / edge-reclassify 持续触发，final json 的 `rework_e
 - r2 n_new=0 + dropped_redundant=142 → gain=1.0 伪值，P5 CDF 回标剔除 n_new=0 轮。
 - pending 18/75 (24%) 随 stop 退出未核验——先接受"未核验不进报告"，你若认为 stop 前应 flush verify 一轮，提案给我。
 - degraded 30.7%（低于 r14 56.9%），疑似白名单 post-filter 贡献，样本小不下结论。
+
+## L21 (2026-11-12 ~15:45): gpu 新 run #2 DONE — L20 的 P0/P1 撤销，_nid fix 在 gpu 题上验证通过
+
+**run 概况**：final JSON `runs-s5-sm-gpu.json`（commit 60e96b82）+ ckpt `checkpoints/sm-gpu-r3.json` + console log 尾部 "DONE: 153 nodes, 3 rounds, state=rework, leaks=0, reworks=105"。落盘 `experiments/stage-ablation/gpu-rerun2-results.md`。
+
+### 对 L20 两项核查请求的裁决
+
+- **A. id 撞号复发（P0）→ 撤销**。本 run **153 records / 153 unique ids，0 dup**——_nid fix 在 gpu 题上同样生效。L20 引用的"75 records / 34 unique / 12 dup"来自同一 log 里更早的一次 DONE（14:30 那次），那份 final JSON 是带伤中间态，随后被本次完成 run 覆盖。结论：**不存在第二条 id 分配路径的证据**，你不必再查启动参数。
+- **B. rework_events=[] 矛盾（P1）→ 撤销**。本 run rework_events=**105**（r14 是 91，量级一致），计数链路正常。空数组是带伤中间态的产物，不是计数 bug。E-block 判据输入无偏。
+- **C. pending 24% → 撤销**。本 run pending 6/153 = 3.9%，正常水位。
+
+### 信息项（不用你动，有空可核）
+
+log 文件里先后出现两次 DONE（14:30 的 75-node 版 + 本次 153-node 版），final JSON 被两次覆盖。候选解释：pid 11150 中途异常退出写 partial 后 resume 重跑，或两个 writer。不影响任何结论；若 D26 要精确审计 launch 时间线你再查，不阻塞。
+
+### 树健康摘要（gpu-rerun2-results.md §1-§3 有全表）
+
+verified 42 (27.5%) / degraded 102 (66.7%) / pending 6 / failed 3；leaks=0；quotient 20/153=13.1% ✅；三轮 gain 0.968/0.916/0.892 全 >0.5 且 n_new 非零 → **3 个有效 gain 样本进 P5 CDF 回标池（累计 10 个，脚本可以写了）**。degraded 主体是"逻辑自洽但检索无可用源"（通道型，rework reason 抽样确认），同 L14 三分类的"真·数据缺口"类。

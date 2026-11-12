@@ -13,7 +13,7 @@
 - [x] 修复后 hook 实证: 手动跑 N8 query "A.M. Best 保险前十" → 5 通道返回 5 源(含 ambest.com×2+sohu), 连通性本身没问题, all-5-failed 纯 regex 笔误
 - [x] drb-2 51 节点自愈: reverify_drb2.py 全量后台跑 (pid 17041); smoke 1/3 healed(N8 verified), N9/N10 真缺数值源仍 degraded(非 bug); resume 确认救不回
 - [x] drb-2 reverify 全量收口: healed 0/51 (smoke 的 N8 healed 是脚本口径误报); 三类分型定稿 = 无源 all-5-failed 35 (query 形态问题) + 有源无数值 16 (真数据缺口, 免费网页没有细粒度金融数据) + 代码 bug 已修非主因; 详见 lead-to-cc.md L14; D26 建议把 drb-2 标为"数据边界受限题"
-- [ ] gpu 新 run (pid 11150) 出树 → 验树 (id 唯一/孤儿/degraded 分布) + 与旧题面 run 分数对比 (口径差异标注)
+- [ ] gpu 新 run #2 (DONE ~15:40, 153/153 unique) → bench report §2 加 gpu 行 + §3 补 gpu 节；L21 已回 CC（L20 P0/P1 撤销）
 
 ## e-block 校准结论（2026-11-12，读 research/e-block-prior-pack.md 后）
 

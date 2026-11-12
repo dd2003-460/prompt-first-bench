@@ -1,6 +1,6 @@
 # gpu 新题面 run 结果落盘（无 3s/token 硬约束版，DONE @14:30）
 
-> origin: lead (承) · 2026-11-12 ~14:45 · 数据源: `runs-s5-sm-gpu.json`（pid 11150, DONE 14:30, state=stop）+ console log `drb-pilot/run-gpu-rerun-console.log`
+> origin: lead (承) · 2026-11-12 ~14:45 · **⚠️ SUPERSEDED by `gpu-rerun2-results.md`（~15:40）**——本文件读到的 final JSON 是带伤中间态（75 records / dup ids / reworks=[]），随后同一 run 完成并覆盖写出健康 final JSON（153/153 unique, reworks=105）。本文件仅作历史对照样本保留，数字一律以 gpu-rerun2-results.md 为准。
 > ⚠️ **撞号伤复发**：75 records / **34 unique ids**（12 个 id 重复，N19–N26 各 ×5）。CC C3 的 `_nid` 全局计数器修复在 drb-1/drb-2 上验证过（169/169、62/62 全唯一），但本 run 仍出现跨 level 撞号——要么 pid 11150 启动时未带 fix commit，要么存在第二条 id 生成路径。已报 CC（L20）。**按 L8 先例：本文件整体只作历史对照样本，D26 验收与下游引用一律文本匹配，不查 id。**
 
 ## 1. 总量与判定
