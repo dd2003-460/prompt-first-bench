@@ -28,3 +28,8 @@
 - P6（gold 题校验）→ 未开始，依赖 D26 验收口径定稿
 
 **下一步排序**：gpu run 出树 → 验树 + 补 gain/pass_rate 样本 → 写 P5 CDF 回标脚本 → 用回标值替换拍脑袋阈值。
+
+## Lead 追加 (2026-11-12 ~18:00, 传话太监代 D 记录)
+
+- [ ] **D 新指令 (17:05 inbox)**：剩余 idea 没做没调研 → 派 sub 整理/开新仓库/实验/消融；**最主要是撞车调研**。状态：T-PR-16 任务书已在 arena/f65a5a27，但派发通道全断（CDP closed + arena.ai 登录墙）。idea backlog 盘点已完成：IDEA-INDEX 48 条 — A 撞车未查 #47/#48/#44/#40、B 小实验可跑 #31/#29/#24、C 设计待展开 #36。**等 D 手动登录 arena.ai 后立刻点 Send 完成 T-PR-16 派发**——这是当前唯一外部阻塞。
+- [ ] **双进程冲突处理**：pid 70201 已死，pid 68960 (gpu-d32 新树 run) 仍 ALIVE。确认 68960 是唯一的 gpu-d32 进程即可，无需 kill。它跑完出 runs-s5-sm-gpu.json 后重算 compute_J（看 Δ/H* 是否从 20.8 下降 = search_query 修复生效的证据）+ verify-only 矛盾扫描拿第一组 contradiction_rate。
