@@ -274,3 +274,10 @@ D 质疑"登录墙"判断，ego-browser 复核（space arena-tpr16-dispatch）�
 3. 但点该 session 条目 → 主区仍 "couldn't load this chat"（Trace ID efa7cdbf）。
 新判断：不是登录问题，是 **arena 服务端这个 coding session 加载失败**（可能 session 过期/损坏）。下一步：试 "Try again" 按钮；若仍挂 → 新建 coding session 重派 T-PR-16（任务书已在 origin/main @tasks/T-PR-16-collision-backlog.md，注意新版要指定 arena/f65a5a27 分支而非 main）。
 教训：探针不能只看"页面上有没有 Log In 按钮"，要点进去确认落地页。
+
+## L25 (2026-11-12 ~22:4x): 旧 session 确认救不回，新 composer 发送被登录门拦截
+1. agent/01a1ca66 点 Try again（含 nth=0）→ 仍 "couldn't load this chat"（Trace ID 39693ad0），**该 coding session 服务端已损坏/过期，放弃修复**。
+2. 改走 New Chat（arena.ai/agent）：tiptap 编辑器 + Agent Mode 可用，任务书全文（7995B → 4618 chars 渲染后）已成功插入 composer。
+3. **但 Send 失败**：`button[aria-label="Send message"]` 存在且 disabled=false，click API 报 "none can receive input; <div> intercepts pointer events"；JS .click() 和 mouse.click(坐标) 均无网络请求发出、无新 session 生成（侧栏无新条目）。页面同时显示 "Log in / Sign up for free" 横幅——**composer 是游客态壳，发送动作被登录门静默拦截**。
+4. 修正 L24 结论：dashboard/侧栏浏览 = 已登录 cookie 有效；**发消息 = 需要完整会话授权，当前浏览器 profile 的 arena 登录态对写操作不够**。之前 F5/F6 判"登录墙"方向没错，错在没定位到具体是哪一层（读 vs 写）。
+下一步（需 D 一次人工）：在 ego-lite 浏览器里手动完成一次 arena 登录（Sign up for free / Log in 任一，过 Google SSO），登录后我立刻重发 T-PR-16（内容已在 composer 备好，或重新粘贴）。备选：D 自己在浏览器里把任务书贴进 arena 点 Send（任务书全文 origin/main @tasks/T-PR-16-collision-backlog.md）。
