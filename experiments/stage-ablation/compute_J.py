@@ -112,6 +112,62 @@ def c_transmit(nodes: list[dict]) -> int:
     return max(total, 1)
 
 
+def gold_H_star(qid: str) -> float:
+    """H*(Q) 代理：gold 维度集的 info-gain 总和。
+
+    gold 是人工标注的标准答案维度集（独立于被评树），
+    每个维度文本的"信息量"用同一把 LLM 尺子量——
+    parent 用问题文本（gold 维度之间无层级，视为平铺）。
+    按命题 1，D(gold) ≥ H*（保守偏大，只低估分数不产生假阳）。
+    """
+    from s8b_pilot import GOLD, QUESTIONS
+    if qid not in GOLD:
+        return None
+    question = QUESTIONS.get(qid, "")
+    total = 0.0
+    for dim_text in GOLD[qid]:
+        total += llm_info_gain(question, dim_text) * math.log(11)
+    return total
+
+
+def cov_gold(nodes: list[dict], qid: str):
+    """cov(T) = |M(T) ∩ G| / g：树的叶子对 gold 维度的覆盖率。
+
+    v1 粗匹配：每个 gold 维度问 LLM "这棵树的哪些叶子实质覆盖了它"。
+    返回 (cov, per_dim_hits) 或 None。
+    """
+    from s8b_pilot import GOLD
+    from ablation_harness import call_llm
+    if qid not in GOLD:
+        return None
+    leaves = [n for n in nodes if str(n.get("level", "L0")).lstrip("L") != "1"]
+    leaf_claims = [(n.get("id"), (n.get("corrected_claim") or n.get("claim") or "")[:200]) for n in leaves]
+    if not leaf_claims:
+        return None
+    leaf_block = "\n".join(f"{i}: {c}" for i, c in leaf_claims)
+    covered = 0
+    hits = {}
+    for gi, dim in enumerate(GOLD[qid]):
+        prompt = (
+            "下面是一道题的标准答案维度之一，和一棵分解树的叶子列表。\n"
+            f"标准维度：{dim[:300]}\n\n"
+            f"叶子列表：\n{leaf_block[:4000]}\n\n"
+            '问：这些叶子中有没有任何一个【实质覆盖】了该标准维度（回答该维度需要的核心内容在某个叶子里出现）？'
+            '同义改写但缺核心数据的不算；沾边不深入的不算。\n'
+            '只输出 JSON：{"covered": true/false, "leaf_id": "覆盖它的叶子id或null"}'
+        )
+        out, _ = call_llm(prompt, max_tokens=150, temperature=0)
+        m = re.search(r'\{.*?\}', out or "", re.S)
+        try:
+            dd = json.loads(m.group()) if m else {}
+            ok = bool(dd.get("covered"))
+            covered += ok
+            hits[f"g{gi}"] = dd.get("leaf_id") if ok else None
+        except Exception:
+            pass
+    return covered / len(GOLD[qid]), hits
+
+
 def compute(run_path: str, oracle_path=None, qid: str = "gpu", use_llm: bool = True) -> dict:
     d = json.load(open(run_path))
     nodes = d["nodes"]
@@ -122,19 +178,22 @@ def compute(run_path: str, oracle_path=None, qid: str = "gpu", use_llm: bool = T
     Ct = c_transmit(nodes)
     B = Ce / Ct if Ct else None
 
-    # oracle 代理 H*
-    H_star = None
+    # H* 优先从 gold 文件算（独立于被评树）；oracle 路径作 fallback
+    H_star = gold_H_star(qid) if use_llm else None
     Sa_oracle = None
-    if oracle_path and os.path.exists(oracle_path):
+    h_source = "gold" if H_star is not None else None
+    if H_star is None and oracle_path and os.path.exists(oracle_path):
         od = json.load(open(oracle_path))
         onodes = od["nodes"]
         H_star, _ = d_total(onodes, use_llm=use_llm)
         Sa_oracle = s_alpha(onodes)
+        h_source = "oracle-tree"
 
     # Δ 和 I
     delta = (D - H_star) if H_star else None
-    # cov: 需要 gold 对照，v1 跳过（None），后续接 judge 的 coverage
-    cov = None
+    # cov: gold 维度集对照
+    cov_result = cov_gold(nodes, qid) if use_llm else None
+    cov, cov_hits = (cov_result if isinstance(cov_result, tuple) else (None, None))
 
     I = None
     J = None
@@ -159,13 +218,15 @@ def compute(run_path: str, oracle_path=None, qid: str = "gpu", use_llm: bool = T
         "B_ratio": round(B, 3) if B else None,
         "B_in_band": (0.9 <= B <= 1.1) if B else None,
         "H_star_nat": round(H_star, 1) if H_star is not None else None,
+        "H_star_source": h_source,
         "delta_nat": round(delta, 1) if delta is not None else None,
         "delta_over_Hstar": round(delta / H_star, 4) if (delta is not None and H_star) else None,
         "cov": cov,
+        "cov_hits": cov_hits,
         "I": round(I, 6) if I is not None else None,
         "J": round(J, 6) if J is not None else None,
         "per_node_info_gain": per_node_scores if use_llm else None,
-        "note": f"use_llm={use_llm}; H* oracle={'yes' if H_star else 'no'}; cov 未接 gold",
+        "note": f"use_llm={use_llm}; H* source={h_source}; cov={'gold' if cov is not None else 'n/a'}",
     }
     return result
 

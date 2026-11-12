@@ -972,6 +972,7 @@ class DecompStateMachine:
 # ─────────────────────────────────────────────
 
 if __name__ == "__main__":
+    import os
     import sys
     from s5_pipeline import QUESTIONS
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
@@ -1016,6 +1017,9 @@ if __name__ == "__main__":
         if i + 1 < len(flags):
             resume_from = flags[i+1]
     print(f"[T53 SM] Running on '{qid}': {q[:60]}...", flush=True)
+    # T53 night-autonomy (2026-11-12): cwd 感知——DRB pilot 从 repo root 启动，
+    # ckpt/final json 落 stage-ablation/（与 gpu run 同目录），不再依赖进程 cwd。
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
     sm = DecompStateMachine(q, qid=qid)
     # --max-nodes N: 覆盖硬顶（resume 时 ckpt 节点数可能已超默认 150）
     for k, v in enumerate(_raw):

@@ -2,7 +2,7 @@
 # DRB pilot 启动脚本（C3 后由 Lead 落盘）：内存门槛 + pgrep 检查 + nohup 启动
 set -u
 cd "$(dirname "$0")/../.."
-OUT="drb-pilot"
+OUT="experiments/stage-ablation/drb-pilot"
 QID="${1:-drb-1}"
 QF="$OUT/queries/$QID.json"
 LOG="$OUT/run-$QID-console.log"
