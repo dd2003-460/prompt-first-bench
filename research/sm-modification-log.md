@@ -98,3 +98,22 @@ r1 里 `par_claims` 用 `int(id.lstrip("N"))-1` 当列表下标取父节点 clai
 **根因**：main 里 `flags = [a for a in argv if a.startswith("--")]`，`--resume` 后的值不以 `--` 开头进了 args；旧解析逻辑只在 flags 列表内部找下一个元素，永远找不到。
 **修法**：在原始 argv 上扫 `--resume <path>` 和 `--resume=<path>` 两种写法；resume 时 `_decompose_l1(skip_if_seeded=True)` 跳过重拆（L1 已在 checkpoint）。
 **验证**：pid 92810 实际 resume 成功——log 出现 "resumed from ...: 81 nodes @ r1" + "L1 already seeded (81 nodes), skipping decompose"，正在跑 r2 的 gap_check/decompose。
+
+## 2026-11-12 D34 — rework 从盲重搜升级为双路径（成璐指令"看看能不能修rework的矛盾"）
+
+**症状**：D33 恢复了全局矛盾扫描，但命中后只是"喂回 decompose prompt 提示"，机器侧没有强制修复动作；同时 `_rework` 本体还是 r1 时代的残废实现——给原 claim 加 "alternative" 后缀盲重搜一次，不判失败原因、不换检索角度、不用矛盾证据。代码注释自己承认"完整实现应该生成换个角度拆的 prompt，第一版先用重搜代替"。
+
+**根因**：T53 重写时注意力在防泄漏/防 Goodhart/pass_rate 停止判据上，旧 pipeline 的校验闭环被当隐含保留，实际迁移时单点功能都在、组合回路断了（同 D33 诊断）。
+
+**修法**（commit 见 git log，文件 `experiments/stage-ablation/s5_state_machine.py`）：
+1. `_rework` 重构为路由层：对每个 failed 节点查 `contradiction_events` 索引（未 fixed 的），有矛盾 → `_rework_directed`，无矛盾 → `_rework_angle`。
+2. `_rework_directed`：LLM 拿双方 evidence（截断 200 字）做来源质量裁决（一手 > 转述 > 无来源），输出 corrected_claim + 英文 search_query → 新 query 重搜 + verify_node 重验 → 成功则更新节点 claim/evidence/search_query，关联的 contradiction_events 标 fixed=True。
+3. `_rework_angle`：LLM 出 2 个不同角度的改写检索词（要求至少一个英文、角度不同：查数值 vs 查定义 vs 查出处），逐个试搜+验，任一 verified 即收。
+4. 度量：rework_events 新增 mode 字段（directed/angle）；日志输出 `rework directed: X/Y fixed (fix_rate=Z)`。
+
+**验证**（mock LLM + mock search 单测，两条路径都跑通）：
+- directed 路径：N1/N2 互斥矛盾 → 两节点均 FIXED 到同一正确值，contra event fixed=True ✓
+- angle 路径：孤立 failed 节点 → 第一个改写 query 即 verified，search_query 已更新 ✓
+- py_compile OK + precommit lint OK。真实数据上的 fix_rate 等下一轮 gpu/drb run 产出。
+
+**边界（故意留的）**：directed 修正只改本节点 claim，不改对方节点——如果裁决结果是"对方错"，对方会在下轮矛盾扫描里再次命中并触发自己的 rework（事件 fixed 标记防止重复处理同一 pair）。K=max_rework=2 上限不变。
