@@ -33,6 +33,7 @@ _CACHE_TTL_S = 7 * 24 * 3600
 # cn.bing geo 后失效），所以搜索照常跑，拿到结果后按域过滤。
 # 白名单 = 百科 + 监管年报 + 财务数据 + 行业媒体 + 技术论坛（D 确认 wiki/技术论坛质量高）。
 _SOURCE_WHITELIST = [
+    # 百科 + 监管/数据
     "wikipedia.org",       # en+zh 百科
     "sec.gov",             # EDGAR 年报/招股书
     "investopedia.com",    # 金融术语与概念手册
@@ -40,9 +41,28 @@ _SOURCE_WHITELIST = [
     "bloomberg.com",       # 财经新闻
     "macrotrends.net",     # 长尾财务序列
     "stockanalysis.com",   # 财务比率与估值
-    "stackoverflow.com",   # 技术论坛（GPU/工程规格类问题）
+    # 技术论坛 + 技术博客/资料（D 2026-11-12: 限制在英文数据和论坛和技术博客和资料）
+    "stackoverflow.com",   # 技术 Q&A
     "hackernews.com",      # 技术讨论
     "reddit.com",          # 社区讨论（r/MachineLearning, r/GPU 等）
+    "techpowerup.com",     # GPU 规格数据库（实测 H100 query 命中）
+    "arxiv.org",           # 预印本
+    "github.com",          # 代码/文档
+    "nvidia.com",          # 官方 datasheet（实测 H100 query 命中）
+    "amd.com",             # 官方 datasheet
+    "intel.com",           # 官方 datasheet
+    "developer.nvidia.com",# CUDA 文档
+    "pytorch.org",         # 框架文档
+    "tensorflow.org",      # 框架文档
+    "medium.com",          # 技术博客
+    "substack.com",        # 技术博客
+    "towardsdatascience.com", # ML 博客
+    "analyticsvidhya.com", # ML 博客
+    "dev.to",              # 开发者博客
+    "blog.google",         # 官方博客
+    "openai.com",          # 官方博客/论文
+    "anthropic.com",       # 官方博客
+    "huggingface.co",      # 模型卡/文档
 ]
 
 
