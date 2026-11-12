@@ -63,8 +63,13 @@ pfb/
 1. **B0 分支清理**：删远程 57 个僵尸分支（保留 main + f65a5a27 活跃 arena 分支）。
 2. **B1 根目录清场**：runs-*.log/pid/json/console.log → archive/root-runs/；一次性 md → archive/legacy-docs/；
    更新 3 处代码引用（r14_analysis.py, drb_judge.py, gptr_smoke.py 的路径常量）。
-3. **B2 一级目录归位**：bench/ → modules/A-eval-infra/bench/；lit-survey/ knowledge-base/ → modules/F-theory/ 或 A；
-   outputs/ notes/ receipts/ checkpoints/ demo/ src/ → 对应模块或 archive。
+3. **B2 一级目录归位**：bench/ → modules/A-eval-infra/bench/；**litsurvey 按领域分进各子模块**（成璐 2026-11-12 指令："结果直接放在对应子模块的 litsurvey，根目录只当索引，描述被做过百分比和剩余内容"）：
+   - lit-survey/ + research/ 中评测基准类调研 → modules/A-eval-infra/litsurvey/
+   - sm-* 调研、decomp 状态机相关 → modules/D-decomp-state-machine/litsurvey/
+   - SOTA 对标类（sm-bench-closed-sota-v3, drb-leaderboard-*）→ modules/E-sota-benchmark/litsurvey/
+   - prompt 优化理论（text-objective-goodhart-survey 等）→ modules/F-theory/gradient-descent/litsurvey/
+   - knowledge-base/ → modules/F-theory/compression/ 或 archive
+   - outputs/ notes/ receipts/ checkpoints/ demo/ src/ → 对应模块或 archive
 4. **B3 stage-ablation 拆分**：runs-* 数据目录 → modules/B-pipeline-ablation/runs/；
    代码/脚本按 arm 归类；sm-* 调研 → modules/D-decomp-state-machine/。
    ⚠️ 前置条件：gpu run (pid 68960) DONE。
