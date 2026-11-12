@@ -63,6 +63,14 @@ _SOURCE_WHITELIST = [
     "openai.com",          # 官方博客/论文
     "anthropic.com",       # 官方博客
     "huggingface.co",      # 模型卡/文档
+    # 中国权威机构（D 2026-11-12: 中国顶多引用权威机构数据）
+    "stats.gov.cn",        # 国家统计局
+    "cbirc.gov.cn",        # 银保监会（金融监管总局前身）
+    "nfra.gov.cn",         # 国家金融监督管理总局
+    "csrc.gov.cn",         # 证监会
+    "pbc.gov.cn",          # 中国人民银行
+    "mofcom.gov.cn",       # 商务部
+    "chinamoney.com.cn",   # 全国银行间同业拆借中心
 ]
 
 
