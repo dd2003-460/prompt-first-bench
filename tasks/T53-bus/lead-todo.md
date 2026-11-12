@@ -41,3 +41,30 @@
 2. sop/arena-loop-pipeline.md 故障修复清单加 ⓪ 步：登录态探针必跑第一步，不满足直接报"需人工登录"。
 3. 当前实测（本轮）：ego-lite 打开 arena.ai/agent → 停在裸路径 + Log In 墙 + title 仍是 "Agent Mode | Autonomous AI Agents"（正是假阳性的来源——title 和导航文本都含 Agent 字样）。probe: inSession=false, composerVisible=false, repoPanel=false → 按新门禁正确判定"未登录"。
 **给 Teamer 的提醒**：T-PR-16 派发仍阻塞在 arena 登录墙上（与之前判断一致，现在有了可复现的证据链）。下次任何派发动作前先跑探针，别再凭印象说"登录态有效"。
+
+## [2026-11-12 D指令] 三件事处理状态
+### ① rework 矛盾修复 — 已落地 ✅ (D34, commit 见 git log)
+`_rework` 从"加 alternative 后缀盲重搜"升级为双路径：
+- directed（有矛盾证据）：LLM 拿双方 evidence 裁决来源质量 → corrected claim + 新英文 query → 重搜+重验 → 成功标 contra event fixed=True
+- angle（普通 failed）：LLM 出 2 个不同角度的改写检索词（至少一个英文）逐个试
+mock 单测两条路径全过；真实 fix_rate 等下一轮 run。修改日志已落 sm-modification-log.md D34 节。
+**给 Teamer**：你下次跑 gpu/drb 时 rework 会自动走新路径，看 log 里 `rework directed: X/Y fixed` 行。如果 directed fix_rate < 0.5，说明 LLM 裁决环节在 27b 上不可靠，考虑把裁决换成规则（evidence 里有一手 URL 的赢）。
+
+### ② 真实世界迭代 vs 解析先验+泛函梯度下降 — 调研中 🔄
+decomp 已列（见下方 decomposition 段），正在滚雪球调研。方向预判（凭理论直觉，待文献核验）：
+- 这是 "model-based planning (POMDP/MBPO) vs model-free RL (policy gradient)" 的同构问题搬到 prompt 空间
+- 关键差异：我们的"环境"（LLM 分解行为）每轮都在被策略本身改变（non-stationary），纯梯度下降的前提（固定环境）不成立 → 倾向结合：解析先验定结构（哪些轴正交、停止判据形式），真实 run 数据定参数（阈值/权重），每 K 轮用新数据重估先验
+- 待查文献：MBPO (Hansen 2022)、gradient estimation for discrete search (REINFORCE baseline variance)、hyperparameter optimization as outer loop (BO vs grid)
+
+### ③ pfb 目录重组为直积子模块 — 方案已定，执行前需对账 ⏸
+成璐判断："pfb 方向非常多和杂乱，不同 idea 方向直接平铺在根目录当子模块研究，因为都是可直积因素"——同意，且这符合 AGENTS.md 项目分类原则（领域分层、INDEX 纯索引、3-7 子模块）。
+**但有一个必须先解决的对账问题**：projects/AI-计算科学/ 下已有 D1-academic-AI / D1-gpu / D1-persona-align 等 D1-* 项目，pfb 与它们的关系没理清（pfb 是独立 repo 还是某 D1 的子模块？）。按红线"存在性检查"，动结构前先 grep 确认归属，避免造出第二套平行编号体系。
+**拟定直积分解**（待对账后落 INDEX.md）：
+- A 评测基建（rubric/judge/scorer/bench harness）— 当前 runs/ scoring-v3*
+- B 管线消融（S0-S9 arms, S8M/S8L, stage-ablation）— 当前 experiments/stage-ablation/
+- C 目标函数与 Goodhart（v17 诊断, T-PR-15, E-block）— research/v17* + e-block*
+- D decomp 状态机（T53 全线, r1-rN, D32-D34）— s5_state_machine + sm-* docs
+- E SOTA 对标与 bench（DRB, GPT-Researcher, closed-sota v3）— research/sm-bench* + drb*
+- F 理论框架（信息论/压缩/本条调研）— research/information-theory/ + 新文件
+每个子模块 = 根目录一级目录 + INDEX.md（纯索引）+ memory/（探索记录）+ tasks/（临时状态），扇出 6 个 ≤ 7 ✓。
+**执行顺序**：先对账 D1-* 归属（grep projects/INDEX.md）→ 再移动（git mv，历史保留）→ 最后建 INDEX。预计一次 session 内完成，不阻塞 Teamer 的 run。
