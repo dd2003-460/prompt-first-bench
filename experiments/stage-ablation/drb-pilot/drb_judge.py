@@ -83,7 +83,7 @@ def judge_one(qid: int, answer: str) -> dict:
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--qid", required=True, help="逗号分隔的 DRB id")
-    ap.add_argument("--answer-dir", default=os.path.join(HERE, "..", "runs-s5-sm-gpu"))
+    ap.add_argument("--answer-dir", default=os.path.join(HERE, "..", "..", "..", "archive", "root-runs", "runs-s5-sm-gpu"))
     args = ap.parse_args()
     os.makedirs(JUDGMENTS_DIR, exist_ok=True)
     for qid_s in args.qid.split(","):

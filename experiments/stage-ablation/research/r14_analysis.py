@@ -50,7 +50,7 @@ def analyze(tag, data):
 
 
 def main():
-    r14 = load(os.path.join(HERE, "..", "..", "..", "runs-s5-sm-gpu.json"))
+    r14 = load(os.path.join(HERE, "..", "..", "..", "..", "archive", "root-runs", "runs-s5-sm-gpu.json"))
     a14 = analyze("r14-final", r14)
 
     lines = []

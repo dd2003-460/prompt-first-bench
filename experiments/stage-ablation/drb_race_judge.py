@@ -124,11 +124,11 @@ def main():
     parser.add_argument("--judge-model", default="qwen2.5-7b-original")
     parser.add_argument("--openrouter-key", default=os.environ.get("OPENROUTER_API_KEY", ""))
     parser.add_argument("--openrouter-model", default="openai/gpt-5.5")
-    parser.add_argument("--target-dir", default="runs-s5-sm-gpu/gptr-bench")
+    parser.add_argument("--target-dir", default="archive/root-runs/runs-s5-sm-gpu/gptr-bench")
     parser.add_argument("--query-path", default=f"{DRB_DIR}/data/prompt_data/query.jsonl")
     parser.add_argument("--criteria-path", default=f"{DRB_DIR}/data/criteria_data/criteria.jsonl")
     parser.add_argument("--reference-path", default=f"{DRB_DIR}/data/test_data/cleaned_data/reference.jsonl")
-    parser.add_argument("--output", default="runs-s5-sm-gpu/drb-race-scores.json")
+    parser.add_argument("--output", default="archive/root-runs/runs-s5-sm-gpu/drb-race-scores.json")
     parser.add_argument("--ids", type=str, default="", help="Comma-separated question IDs to evaluate (empty = all found)")
     args = parser.parse_args()
 

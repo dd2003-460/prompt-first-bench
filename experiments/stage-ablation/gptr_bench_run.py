@@ -21,7 +21,7 @@ QUESTIONS = [
     ("Q5", "For DeepSeek-V3, what are the total parameter count, the active parameter count per token, and the ratio between them?"),
 ]
 
-OUT = "runs-s5-sm-gpu/gptr-bench"
+OUT = "archive/root-runs/runs-s5-sm-gpu/gptr-bench"
 
 
 async def run_one(qid, query):

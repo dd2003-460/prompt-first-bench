@@ -14,7 +14,7 @@ os.environ["LANGCHAIN_OPENAI_STREAM_CHUNK_TIMEOUT_S"] = "600"
 from gpt_researcher import GPTResearcher
 
 DRB_DIR = "/tmp/drbench"
-OUT = "runs-s5-sm-gpu/gptr-drb10"
+OUT = "archive/root-runs/runs-s5-sm-gpu/gptr-drb10"
 
 # Our selected n=10 survey-type subset
 OUR_IDS = [1, 2, 16, 41, 50, 52, 57, 62, 67, 78]

@@ -25,7 +25,7 @@ async def main():
     print(f"\n=== REPORT ({dt:.0f}s) ===")
     print(report[:3000])
     # save full
-    with open("runs-s5-sm-gpu/gptr-smoke-h200.md", "w") as f:
+    with open("archive/root-runs/runs-s5-sm-gpu/gptr-smoke-h200.md", "w") as f:
         f.write(f"# GPT-Researcher smoke: H200 TDP\n# model=qwen3.8-27b@8787 elapsed={dt:.0f}s\n\n{report}\n")
     print("\n[saved] runs-s5-sm-gpu/gptr-smoke-h200.md")
 
