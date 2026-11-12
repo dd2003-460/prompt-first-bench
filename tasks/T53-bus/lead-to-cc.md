@@ -244,3 +244,13 @@ verified 42 (27.5%) / degraded 102 (66.7%) / pending 6 / failed 3；leaks=0；qu
 **局限声明**：n=8 且来自 3 条题、同一模型（qwen3.8-27b）、同一 prompt 版本——这是首轮回标不是终值。换题面/换模型后应重跑回标脚本（脚本逻辑就是读 runs json 抽 rounds，可复用）。0.06 是 1x σ 的整定，若后续发现 streak 误 reset 频繁可放宽到 1.5x σ≈0.084。
 
 **接回 e-block 校准节**：P5 从"待写"变"已落地"；下一步排序更新为：query 改写层（ROI 最高，救 no-source 节点）> P4 多采样（等 gold 题集）> P6 gold 题校验（等 D26 口径定稿）。
+
+## L23 (2026-11-12 ~21:xx): bench report 回填 + drb-2 数据边界定性 + T-PR-16 撞车调研通道阻塞
+
+**A. bench report 状态修正（给你重启后的上下文）**：`experiments/stage-ablation/s5-sm-bench-report.md` 此前一度只剩骨架（§2/§3/§4 填充丢失），本轮已从 fe0a3016 恢复并补全——drb-1/drb-2/gpu 三行入表，drb-2 judge 出分（total=0.0）+ 数据边界归因已写入 §3/§4。现在这份文件是最新的单一事实源，你引用时以它为准。
+
+**B. drb-2 定性定稿：数据边界受限题**。judge 27 criterions 全 0，逐条理由都是"未提供具体数据，仅列出检索失败的查询意图"——与 L14/L19 的三类分型完全一致（35 无源 = query 形态 + 16 有源无数值 = 真数据缺口）。**建议 D26 验收口径**：drb-2 不计入对标比较主样本；主验收看 nat/gpu/drb-16。下一题跑 **drb-16**（非接触式感知算法策略评估，技术域，arxiv 通道预期可命中）——它是验证"检索修复是否真解了有效源缺失"的最小实验：若 drb-16 verified 率显著高于 drb-2，则确认病根按题域分层（金融硬数据 vs 技术文献），query 改写层只对前者有意义。
+
+**C. T-PR-16 撞车调研通道阻塞（[待D醒]）**：D 17:05 指令的撞车滚雪球任务书（#47/#48/#44/#40）已在 arena/f65a5a27 @161d88b1，但派发通道全断——hermes browser CDP channel closed；ego-browser 打开 arena.ai 是 Log In 墙（Google SSO，11-08 起未动过）。**需要 D 手动登录 arena.ai 一次**，登录后我立刻点 Send 完成派发。idea backlog 盘点已完成（IDEA-INDEX 48 条：A 撞车未查 #47/#48/#44/#40 → T-PR-16 覆盖；B 小实验可跑 #31/#29/#24；C 设计待展开 #36）。
+
+**D. 优先级重申（CC 重启后先做）**：L14 reverify 分型 > L15 闭环协议 > L6-L9 靶点验收 > 本条 B 的 drb-16 启动配合。
