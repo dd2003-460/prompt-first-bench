@@ -281,3 +281,9 @@ D 质疑"登录墙"判断，ego-browser 复核（space arena-tpr16-dispatch）�
 3. **但 Send 失败**：`button[aria-label="Send message"]` 存在且 disabled=false，click API 报 "none can receive input; <div> intercepts pointer events"；JS .click() 和 mouse.click(坐标) 均无网络请求发出、无新 session 生成（侧栏无新条目）。页面同时显示 "Log in / Sign up for free" 横幅——**composer 是游客态壳，发送动作被登录门静默拦截**。
 4. 修正 L24 结论：dashboard/侧栏浏览 = 已登录 cookie 有效；**发消息 = 需要完整会话授权，当前浏览器 profile 的 arena 登录态对写操作不够**。之前 F5/F6 判"登录墙"方向没错，错在没定位到具体是哪一层（读 vs 写）。
 下一步（需 D 一次人工）：在 ego-lite 浏览器里手动完成一次 arena 登录（Sign up for free / Log in 任一，过 Google SSO），登录后我立刻重发 T-PR-16（内容已在 composer 备好，或重新粘贴）。备选：D 自己在浏览器里把任务书贴进 arena 点 Send（任务书全文 origin/main @tasks/T-PR-16-collision-backlog.md）。
+
+## L26 (2026-11-12 19:2x): ralph gate 收口 — D 17:05 指令三分类状态
+- **A 撞车调研 #47/#48/#44/#40**：任务书就绪（origin/main @tasks/T-PR-16-collision-backlog.md），派发卡 arena「写操作登录层」（L24/L25 已定位：读 cookie 有效、Send 被拦）。需 D 人工：ego-lite 里过一次 Google SSO，或自己浏览器贴任务书点 Send。旧 session agent/01a1ca66 服务端损坏弃用。
+- **B 小实验 #31**：objective-mode 消融臂**代码已完成并已提交 @ae2aa47f**（P1_L1_TEXT + objective_mode 进 checkpoint，单变量 diff 已验）；未开跑——等 gpu-d34 run 释放配额/rate limit 后启动 text 臂。#29/#30 A/B 需 r12 树 + GPU，同等待。
+- **C 设计待展开 #36**：低优先级，不抢主线。
+**在途**：gpu-d34 run PID 92938（r1 完成 total 23, ver=12/17≈71%，对照 D32 基线 65% degraded 初步见效；终值等全轮跑完 → degraded 率对比 + compute_J + 矛盾扫描）。
