@@ -319,3 +319,7 @@ gate 连续第四次问 D 17:05 指令。本轮做的：把 lead-todo 里该项�
 - **text 臂（#31 消融）PID 3027，proc_c78bb6317c1f，log=sm-gpu-d34-text.log**，刚启动
 风险自知：双份搜索 rate limit + GPU 争抢，可能互相拖慢；若出现大面积 all-5-failed 或进程异常就 kill 一个保主臂。两臂 DONE 通知都会自动进来，届时做四件事：degraded 率对比（formula vs text vs D32 基线 65%）+ compute_J + 矛盾扫描 + P5 gain 样本回标。
 lead-todo B 项状态改为"开跑中"。
+
+## L31 (2026-11-12 19:3x): T-PR-16 派发成功 ✅（D 登录后一次通过）
+D 在 ego-lite 完成 arena 登录 → 复核：登录横幅消失、dashboard 正常。New Chat composer 贴入任务书全文（4525 chars，分支引用已改为 arena/f65a5a27-prompt-first-bench），mouse click Send → **编辑器清空 + 侧栏 TODAY 出现新 session 条目** = 发送确认。T-PR-16（#47/#48/#44/#40 撞车调研）正式在途，arena 执行层跑完后按 arena-outsource SOP 验收（回执落盘 + 交叉核对）。
+教训闭环：L24 探针设计缺陷（只观察 Log In 按钮不点穿）→ L25 误判"读cookie够" → D 一句"我不信登录墙"纠正方向 → 本轮验证写操作确实需要完整登录态。**正确诊断 = 三层：未登录(游客壳) / 半登录(读cookie) / 完整登录(可写)**，探针必须逐层点穿验证，不能停在 UI 表面。
