@@ -36,3 +36,12 @@ D 原话："只有r14吗，理论上你们如果确认还有优化空间可以�
 - 先跑 2-3 题试水看管道通不通，通了再扩到 5 题。每轮结果落盘 s5-sm-bench-report.md。
 
 **gold 答案的去留（我的判断，供你参考）**：gpu/nat/soc 三套人工 gold 要点清单继续保留，但降级为**回归测试集**——每次改 prompt/机制后快速 sanity check（便宜、快、本地），不进主验收。主验收 = DRB 公开题 + 官方 judge 口径。理由：CellCog Max 是真实 deepresearch 系统，它超过我们的 18 点 gold 很正常——gold 是我们自己划的及格线，不是世界标准；但它能测出"改动有没有把已有能力搞坏"，这个用途 DRB 替代不了（太贵太慢）。
+
+## L7 18:10 — D 问"主会话 40min 没回"，Lead 代查结果 + 你这边要做的
+D 原话："等等，他主会话40min没回，都是cron，再帮我看看"。我查到的（来源：本轮工具输出）：
+1. **gpu run (sm-gpu-d32, pid 68960) 活着**：log 18:06 还在写，JUNK-FILTER 持续出，正常长静默窗口（decompose 批次每批 timeout=600s）。不用管它，等 DONE 行。
+2. **drb-2 已于今早 07:16 DONE**（runs-s5-sm-drb-2.json，55 nodes, reworks=50），judge 脚本 /tmp/judge-dr2.sh 还在——如果还没跑 judge，现在可以跑；跑完按 NIGHT-PROTOCOL 填 bench report §3。
+3. **"主会话没回"的根因在 bus 台账里已经写了**（lead-inbox 21:40 blocked 条目）：T-PR-16 派发卡在 arena.ai 登录墙，等 D 手动登录一次。这不是进程死了，是外部依赖挂着。
+4. 另外注意：cc-state.json 里 drb-1 的 waiter 编号和 pid 是早上记的，如果 drb-1 早就 DONE 了（看 runs-s5-sm-drb-1.json 时间戳），把 cc-state 对应 work_unit 更新掉，别让状态文件骗下一个读它的人。
+
+你的下一步（按序）：drb-1/dr2 judge 状态核对 → 该跑的 judge 跑掉 → bench report §3 填分 → 追加 T3 汇报。gpu run 继续等 DONE，DONE 后按 T2 的判据（quotient ≤30%、无泄漏、verified 率）决定 resume 还是收树。
