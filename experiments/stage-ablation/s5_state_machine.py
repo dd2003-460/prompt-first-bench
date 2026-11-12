@@ -642,31 +642,134 @@ class DecompStateMachine:
     def _rework(self, failed: list[NodeRecord]):
         """REWORK: 对核验失败的节点，换角度重新拆解其父节点。
         最多 K 次。
+
+        D34 (2026-11-12): 旧实现是"加 alternative 后缀盲重搜一次"——没有判断失败原因、
+        没有换检索词、没有利用矛盾证据，等于把同一个坏 query 再掷一次骰子。
+        现在分两类处理：
+          (a) 有矛盾证据的（contradiction_events 涉及该节点）→ 定向修正 rework：
+              LLM 拿到双方 evidence + 来源，判哪边可信，产出 corrected claim + 新 search_query；
+              用新 query 重搜 + 重验，成功则更新 claim/evidence 并标 fixed=True。
+          (b) 无矛盾证据的普通 failed → 换角度重拆：LLM 给 2 个改写后的 search_query
+              （不同角度/同义替换/英文化），逐个试，任一 verified 即收。
+        度量：rework_fix_rate = 定向修正成功数 / 定向修正尝试数。
         """
+        from ablation_harness import call_llm as _cll
+        # 建矛盾索引：node_id -> [event, ...]
+        contra_idx: dict[str, list[dict]] = {}
+        for ev in getattr(self, "contradiction_events", []):
+            if not ev.get("fixed"):
+                for k in ("a", "b"):
+                    contra_idx.setdefault(ev[k], []).append(ev)
+
+        n_directed = n_directed_ok = 0
         for node in failed:
             if node.rework_count >= self.cfg.max_rework:
                 node.status = "degraded"  # 放弃
                 continue
             node.rework_count += 1
+            events = contra_idx.get(node.id, [])
+            mode = "directed" if events else "angle"
             self.rework_events.append({
                 "node_id": node.id,
                 "claim": node.claim[:60],
                 "attempt": node.rework_count,
+                "mode": mode,
                 "reason": node.evidence[:80],
             })
-            # 简化: 标记为 degraded，下一轮如果父节点还在 frontier 会重新展开
-            # （完整实现应该生成"换个角度拆"的 prompt，但第一版先用重搜代替）
-            srcs, err = search_node(
-                {"id": node.id, "claim": node.claim,
-                 "search_query": node.claim + " alternative"}, qid=self.qid)
-            if not err:
-                srcs2 = srcs if isinstance(srcs, list) else []
-                status, evidence, corrected, _r = verify_node(
-                    {"id": node.id, "claim": node.claim}, srcs2)
-                if status == "verified":
-                    node.status = "verified"
-                    node.evidence = f"[rework-{node.rework_count}] {evidence}"
-                    node.corrected_claim = corrected or node.claim
+            ok = False
+            try:
+                if events:
+                    ok = self._rework_directed(node, events)
+                    n_directed += 1
+                    if ok:
+                        n_directed_ok += 1
+                else:
+                    ok = self._rework_angle(node)
+            except Exception as e:
+                print(f"  [SM] rework {node.id} ({mode}) error: {e}", flush=True)
+            if not ok and node.status != "verified":
+                node.status = "degraded"
+        if n_directed:
+            rate = n_directed_ok / n_directed
+            print(f"  [SM] rework directed: {n_directed_ok}/{n_directed} fixed (fix_rate={rate:.2f})", flush=True)
+
+    def _rework_directed(self, node: "NodeRecord", events: list[dict]) -> bool:
+        """D34: 定向矛盾修正——拿双方 evidence 让 LLM 裁决，产出修正 claim + 新检索词。"""
+        from ablation_harness import call_llm as _cll
+        by_id = {n.id: n for n in self.nodes}
+        blocks = []
+        for ev in events[:3]:
+            other_id = ev["b"] if ev["a"] == node.id else ev["a"]
+            other = by_id.get(other_id)
+            if not other:
+                continue
+            a_node = by_id.get(ev["a"])
+            blocks.append(
+                f"节点A {ev['a']}: {ev['a_claim']}\n  evidence: {(a_node.evidence[:200] if a_node else '（缺失）')}\n"
+                f"节点B {ev['b']}: {ev['b_claim']}\n  evidence: {other.evidence[:200]}\n"
+                f"矛盾描述: {ev['desc']}"
+            )
+        prompt = (
+            "一棵研究分解树里两个已核验节点互相矛盾。请裁决：基于双方 evidence 的来源质量"
+            "（一手数据 > 转述 > 无来源），哪个节点的数值/定义更可信？\n\n"
+            + "\n---\n".join(blocks) +
+            f"\n\n当前需要修正的节点是 {node.id}: {node.claim}\n"
+            '输出 JSON：{"keep": "A"或"B", "corrected_claim": "修正后本节点应表述的内容（带具体数值）", '
+            '"search_query": "用于重新检索验证修正值的一句话检索词（英文优先，arXiv 友好）"}'
+        )
+        out, _ = _cll(prompt, max_tokens=1500, temperature=0.0, retries=2)
+        d = _extract_json(out or "") or {}
+        corrected = str(d.get("corrected_claim") or "").strip()
+        new_q = str(d.get("search_query") or "").strip()
+        if not corrected:
+            return False
+        # 用新 query 重搜 + 重验
+        srcs, err = search_node({"id": node.id, "claim": corrected,
+                                 "search_query": new_q or corrected}, qid=self.qid)
+        if err:
+            return False
+        status, evidence, corr2, _r = verify_node(
+            {"id": node.id, "claim": corrected}, srcs if isinstance(srcs, list) else [])
+        if status == "verified":
+            node.claim = corr2 or corrected
+            node.search_query = new_q or node.search_query
+            node.status = "verified"
+            node.evidence = f"[rework-directed r{node.rework_count}] {evidence}"
+            node.corrected_claim = corr2 or corrected
+            for ev in events:
+                ev["fixed"] = True
+            print(f"  [SM] rework-directed {node.id}: FIXED → {node.claim[:60]}", flush=True)
+            return True
+        return False
+
+    def _rework_angle(self, node: "NodeRecord") -> bool:
+        """D34: 换角度重拆——LLM 给 2 个改写检索词（不同角度/英文化），逐个重试。"""
+        from ablation_harness import call_llm as _cll
+        prompt = (
+            "一个事实节点核验失败（来源不支持或与来源冲突）。请给出 2 个【不同检索角度】的改写检索词，"
+            "用于重新检索验证它。要求：① 至少一个用英文（arXiv 通道友好）；② 角度要不同"
+            "（如：直接查数值 vs 查定义/公式 vs 查权威出处）；③ 每个 ≤15 词。\n"
+            f"原节点: {node.claim}\n失败证据: {node.evidence[:150]}\n"
+            '输出 JSON：{"queries": ["...", "..."]}'
+        )
+        out, _ = _cll(prompt, max_tokens=800, temperature=0.3, retries=2)
+        d = _extract_json(out or "") or {}
+        queries = [str(q).strip() for q in (d.get("queries") or []) if str(q).strip()]
+        for q in queries[:2]:
+            srcs, err = search_node({"id": node.id, "claim": node.claim,
+                                     "search_query": q}, qid=self.qid)
+            if err:
+                continue
+            status, evidence, corrected, _r = verify_node(
+                {"id": node.id, "claim": node.claim}, srcs if isinstance(srcs, list) else [])
+            if status == "verified":
+                node.status = "verified"
+                node.search_query = q
+                node.evidence = f"[rework-angle r{node.rework_count}] {evidence}"
+                node.corrected_claim = corrected or node.claim
+                print(f"  [SM] rework-angle {node.id}: verified via '{q[:40]}'", flush=True)
+                return True
+        return False
 
     def _scan_contradictions(self, rnd: int):
         """D33: 全局矛盾扫描——对已 verified 节点批量问 LLM 有没有互相矛盾的数值。
