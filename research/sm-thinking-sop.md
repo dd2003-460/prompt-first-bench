@@ -369,3 +369,33 @@ cond_gain(ℓ) = H(parent(ℓ)) − H(ℓ | parent(ℓ))    # 该节点带来的
 **局限声明**：条件熵依赖本地模型的 tokenizer 和概率校准，换模型数值不可比——口径必须钉死 qwen3.8-27b + 固定采样参数。这是测量仪器不是物理量，跨模型比较无意义。
 
 **落地顺序**：① r12 verify-only 出树后先对 303 节点树算一遍条件 MDL（验证数值合理性，对应 Decision 24 行动项的升级版）→ ② 在 v17 hack 树上复算（预期：条件 MDL 能区分 v17 与正常树，而 S_α'/cost 不能——这就是它的判别力证据）→ ③ 有判别力数据后再谈 β 标定。
+
+## Decision 27 (2026-11-12): "压缩即智能"从提法落成可测命题（D: "深度目标和广度目标并没有问题，也许直接让他考虑复杂度最低的压缩? 可以诞生压缩-智能吗"）
+
+**D 的输入拆解**：① S_α' 的深度/广度结构项本身没问题——保留；② 与其在 prompt 里堆规则约束模型，不如直接把"找最低复杂度压缩"交给模型当任务；③ 这样能观测到"压缩→智能"的关系吗？
+
+**先钉死概念边界（防漂移）**："压缩即智能"作为提法不是我们的原创——arXiv:2404.09937（Compression Represents Intelligence Linearly, 2024）、arXiv:2511.08066（Information Capacity, 2025）、arXiv:2606.25960（Agentic System as Compressor, 2026）已有共识级工作（来自 lit-survey/2026-11-11-idea-research.md §A，②类来源）。但**把 MDL 用作分解状态机的目标函数形式没查到直接先例**（同文件结论，conf 0.8）——这是新颖性主张点。所以"诞生压缩-智能"不能声称发现新定律，只能声称：在分解树这个具体对象上，给出一个可测的操作化定义 + 实测证据链。
+
+**操作化定义（本决定核心）**：
+```
+compression_ratio(T) = desc_len(oracle 最短覆盖) / desc_len(T)   # 由条件 MDL（Decision 26）计算
+intelligence_score   = compression_ratio × answer_quality        # 质量侧用 U(T) 的 C·A·S
+```
+- 直觉：同样一道题，A 用 5 个真正交维度压住全部约束（desc_len 小），B 用 1930 个近义变体撑出同等覆盖（desc_len 大）→ A 的压缩率高 → A 的分解更"聪明"。
+- **这就是"压缩-智能"的可测形式**：不依赖任何主观判断，两个因子都是机器可算的（条件 MDL + U(T) 审计）。
+- v17 hack 树是天然的负样本：答案质量可能还行（C·A·S 不低），但 desc_len 爆炸 → intelligence_score 塌掉。**它能区分"做对了"和"聪明地做对"——这正是 S_α' 和 U(T) 单独都做不到的**。
+
+**与 D 第②点的关系（prompt 侧 vs 机器侧）**：注意方向——我们**不把**压缩目标写进 prompt（Goodhart 防线，Decision 16/24 不变）。"直接让模型考虑最低复杂度压缩"的正确读法是：模型按原有任务正常生成树，**机器侧**用条件 MDL 度量它实际找到了多好的压缩。如果模型自发地产出高压缩率的树，那才是"压缩-智能"涌现的证据；如果把目标写进 prompt 再测高分，只是又造了个 proxy 给模型 hack（v17 的前车之鉴）。所以这个实验的设计必须是**无提示条件下的自然行为测量**。
+
+**可测命题（falsifiable）**：
+- H1：同一题多次采样（n≥5），answer_quality 高的 run 其 compression_ratio 显著更高（Spearman ρ > 0.5，p < 0.05）。若成立 = 该模型在该题域上"压缩能力与解题质量正相关"，复现 arXiv:2404.09937 的发现于分解树域。
+- H2：v17 hack 树的 intelligence_score 显著低于 clean run 同题基线。若成立 = 指标有判别力（负样本通过）。
+- H3（跨模型，远期）：不同规模模型的 intelligence_score 随参数单调变化。这条贵，先不做，留作论文扩展。
+
+**落地顺序**（复用 Decision 26 的管线，不加新组件）：
+1. r12 verify-only 出树 → 算条件 MDL → 得 desc_len(T)；同题 gold 参考树（人工标 5-8 维）当 oracle 近似 → compression_ratio。
+2. 同题 n=5 采样（现有 s5_state_machine 支持 seed 流）→ H1 检验。
+3. v17 树复算 → H2 检验。
+4. 三条全过 → "分解树域的压缩-智能"有了第一条完整证据链，可进 T53 论文的方法节。
+
+**局限声明**：oracle 用人工参考树是近似（真 oracle 不可算，MDL 老问题）；条件 MDL 口径钉死 qwen3.8-27b（Decision 26 已声明）；n=5 的统计功效有限，H1 的 p 值要带置信区间报。
