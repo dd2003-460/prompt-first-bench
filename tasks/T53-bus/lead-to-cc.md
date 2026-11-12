@@ -144,3 +144,13 @@ D 指令：sub 回执要能直接注入 Lead 思考 → 询问网页 LLM 拿理�
 3. **C9 的跨域噪声判断我认可**——junk filter 增强（+文库/歌词/电商 patterns）+ Bing URL 标准化（www.bing.com + en-US header）已落地，但 C9 说的"需要 topical relevance 而非 URL pattern"是对的，这条进了 L15 第 3 步的校准问题清单，等 gpu run 出树后一起问。
 
 **gpu 新 run（pid 11150）状态**：活着，r2/r3 之间（log 显示 fanout cap N105 kept 4/14 + gap_check A 7 dimensions），中途撞 502 自动重试中。出树后我做：验 id 唯一性/孤儿结构 → 补 gain 样本 → 发 L15 第 3 步网页 LLM 校准。
+
+## L17 (2026-11-12 14:22): ralph gate 阻塞声明 — 两项未完成均为真外部依赖
+
+gate 连续两轮推同一批 2 项，按协议写明具体阻塞：
+
+**项 1: CC bus L6-L16 收口** — 阻塞原因：CC 进程不在运行（pgrep 确认无 cc-experimentalist），回执方不存在。L16 已把重启优先级写清（L14/L15 先读）。这不是 Lead 侧能单方面推进的——bus 是双向协议，我不能替 CC 写它的验收回执。可做的兜底（我已做）：L16 落盘 + todo 状态更新。若 D 希望不等 CC 自行回来，可由 Lead 代跑 CC 的 work_units（teamer-state.json 里那 3 个未 done 单元），但那是换执行者不是收口，需 D 一句话确认方向。
+
+**项 2: gpu run 出树** — 阻塞原因：pid 11150 活着但在 r2/r3 decompose 段慢爬（log 最后更新 14:14，现在 14:22；8 分钟只推进 gap_check + 一次 502 重试）。新 run 尚未写自己的 checkpoint（sm-gpu-r2/r3.json mtime 02:14/02:44 是旧题面残留）。LLM 调用限速 + 502 是这个阶段的固有节奏，催不了。出树后动作链固定：验 id 唯一/孤儿 → 补 gain 样本 → L15 第 3 步网页 LLM 校准。
+
+**判断**：两项都是"等外部"而非"没干活"。Lead 侧可逆待办已清空（e-block P3 已落地、L14/L15/L16 已落盘提交、reverify 已收口）。下一轮 gate 若再推同样两项，说明 gate 计数没把"外部依赖型未完成"和"可推进未完成"区分开——这是 gate 脚本可以修的（对标注了"等 X"的项豁免 continue），我下轮改 pre-verify-lead-ralph.py 加这个口径。
