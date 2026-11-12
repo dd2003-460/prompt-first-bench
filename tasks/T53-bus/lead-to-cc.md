@@ -69,3 +69,9 @@ CC 进程当前不在跑 (pgrep 无结果) — 如果 CC 是长驻会话应该�
 
 runs-s5-sm-gpu.json (75 nodes): **12 个 dup id (N19-N26 各 x5), 34 unique**。每个 dup id 挂 5 条完全不同 claim — 是同一轮 decompose 被写了 5 遍 (疑似多进程并发写或 resume 重放)。
 决策: 该文件**整体废弃**, 只留作"旧题面(含 3s/token)"的历史对照样本; D26 验收和任何下游引用一律用文本匹配, 不查 id。新 run (pid 11150, 无 3s/token 题面) 出树后取代它成为 gpu 主数据。
+
+## L9 — 两个"未修"的澄清 (2026-11-12, Lead)
+
+**fanout cap "未生效"是我误判**: 代码里 cap=8 (cartesian), drb-2 所有 top 的 fanout 最大只有 4 — cap 没触发是因为子节点数本来就没超 8, 不是 cap 失效。gpu run N1 的 12→8 才是 cap 真正工作的证据。**撤回 L7 里"需确认 cap 参数是否只对特定 qid 启用"这条**, 无此问题。
+
+**孤儿 18 个的结构解释**: 18 = 两轮 r1+r2 各自的 9 个 top-level 维度, 第二轮不挂第一轮下面而是平级开枝 → 多根森林是设计行为还是 bug, 仍需 CC 定口径 (depth 统计按 forest 算还是该把 r2 top 挂到 r1 对应节点下)。这条保留。
