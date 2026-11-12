@@ -148,3 +148,24 @@ v17 暴露的问题链：S_α = Σₙ[n·ln(kₙ)+α·kₙ·ln(n)] 对节点数�
 - [ ] B1-B4 实现 + smoke
 - [ ] C1-C4 bench
 - [ ] D1-D4 SOP
+## E 块落地状态（2026-11-12 更新 · 来源①本轮 grep s5_state_machine.py）
+
+**D 的问题"不知道放哪里怎么加入"——答案：E2/E4 的代码已经写进主循环了，只是没开开关。**
+
+| 子项 | 代码现状 | 证据（line） | 剩余工作 |
+|------|----------|--------------|----------|
+| E2 contribution 方差 | `classify_edge_var`（多采样 mean±std + λ·std 保守剪枝判据）**已实现且已接线**：L1 frontier 处 `use_var = contrib_samples > 1` 分支调用它，剪枝用 `mean + λ·std < θ`（乐观估计不够才剪，防误剪） | L285-337 函数体；L768-789 调用+判据；config L119-121（contrib_samples=1, contrib_temperature=0.0, lambda_uncertainty=1.0） | **只差标定**：n 取几、temp 取多少、λ 怎么定——这是网页 LLM 校准三问的第一个对象。成本 ×n（当前 n=1 零开销退化） |
+| E4 var-aware J_stop | `stop_std_max=0.15` **已接线**：gain 窗口 std > 阈值 → reset low_gain_streak（还在探索不计数停止） | config L121；J_stop 段 ~L897 | 同上，并入同一轮校准 |
+| E1 objective 进回路 | **仍是装饰品**（未动）：Decision 19 的自估公式只落盘/打印，classify_edge/marginal_gain 都不读它 | L482-492（写入）、L661/L1085/L1109（落盘） | 待设计：把 Final_Score 分解成 per-edge 权重喂给 classify_edge。survey §5.5 M1（α 自动定参）是它的远期形态，近期最小版 = objective.factors 的文本注入 classify_edge prompt |
+| E3 objective grounding | 未动 | — | gold 题反向校验脚本（EA3）；arena 交叉核验 deferred 到 T-PR-15 后 |
+| E5 idea 生成视角 | 未动 | — | 保持 candidate，不立项 |
+
+### 接入路径（回答"怎么加入"）
+
+1. **现在就能开的**：`contrib_samples=3, contrib_temperature=0.3`（或校准后的值）→ E2/E4 全链路激活，每 edge 3 次 LLM 调用。gpu run（pid 11150）跑完后用它重跑一题做 EA1/EA2 对照（同题对比 n=1 vs n=3 的节点数/剪枝分布）。
+2. **理论指导从哪来**：这就是 L15 闭环协议 Step 3 的校准三问对象——(a) "单点 temp=0 估计 + 固定阈值 0.10 剪枝，理论上缺什么？" (b) "标准做法是什么（cite: LLM self-consistency / test-time compute 文献）？" (c) "最小修改 + 预期失效模式？" ego-browser ≥2 源，落 calibration-log.md，commit 引用条目号。
+3. **E1 是下一个台阶**：objective 从装饰品变驱动，先做文本注入版（factors 进 prompt），验证 EA1（节点数可测变化），再考虑数值分解版。
+
+### 与 survey 的对齐
+
+survey §5.3 三个缺口里，我们现在的位置 = 缺口 2 的最小实例（无真值闭环下的目标质量评估 → pfb 用 judge/gold 覆盖率兜底，现成基建）。M1 里程碑（S_α α 自动定参）的前置就是 E1+E2 落地。
