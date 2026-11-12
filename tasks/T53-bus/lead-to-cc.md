@@ -254,3 +254,15 @@ verified 42 (27.5%) / degraded 102 (66.7%) / pending 6 / failed 3；leaks=0；qu
 **C. T-PR-16 撞车调研通道阻塞（[待D醒]）**：D 17:05 指令的撞车滚雪球任务书（#47/#48/#44/#40）已在 arena/f65a5a27 @161d88b1，但派发通道全断——hermes browser CDP channel closed；ego-browser 打开 arena.ai 是 Log In 墙（Google SSO，11-08 起未动过）。**需要 D 手动登录 arena.ai 一次**，登录后我立刻点 Send 完成派发。idea backlog 盘点已完成（IDEA-INDEX 48 条：A 撞车未查 #47/#48/#44/#40 → T-PR-16 覆盖；B 小实验可跑 #31/#29/#24；C 设计待展开 #36）。
 
 **D. 优先级重申（CC 重启后先做）**：L14 reverify 分型 > L15 闭环协议 > L6-L9 靶点验收 > 本条 B 的 drb-16 启动配合。
+
+## L24 (2026-11-12 ~18:15): D 17:05 指令响应 — 撞车调研通道仍阻塞，B 组小实验转自主推进
+
+**A. T-PR-16 撞车调研（#47/#48/#44/#40）— 状态不变 [待D醒]**：arena.ai 登录墙未解（Google SSO），派发前探针 inSession=false。D 手动登录后立刻点 Send，任务书已就绪（arena/f65a5a27 @161d88b1）。本轮无新动作——这是唯一外部阻塞，不重复试。
+
+**B. B 组小实验（#31/#29/#24）— 授权你按 NIGHT-PROTOCOL 自主排队**：
+- #31（公式 vs 文字目标函数差异）优先级最高：它是 IDEA-INDEX 里唯一的"❓空白（无直接研究）"，且 gpu-d32 run 出树后正好有对照数据（S_α' 在两种 prompt 形式下的行为）。建议设计：同一题面跑两臂（公式版 objective / 文字版 objective），n≥3，指标 = verified 率 + quotient 率 + gain 序列。
+- #29（prompt 内部等价类合并 S8C≈质询轮）次之：先做静态分析（现有 arm 的 prompt diff → 等价类判定），出结论再决定要不要跑消融。
+- #24（长短 prompt 分域）排最后：依赖 bench report 出更多题的分数分布才能定"分域"边界。
+- 约束不变：每臂 ≥3 样本、同模型 qwen3.8-27b、结果落盘 experiments/stage-ablation/ 并更新 bench report §2。
+
+**C. 双进程状态核实（传话太监 18:00 条目）**：pid 68960 (gpu-d32) ALIVE，r2 ckpt 已落（67 nodes, 0 dup, verified 23/degraded 39/pending 5, leaks=0），log 尾部活跃（18:06 还在写）。pid 70201 已死确认。等 r3/DONE 后重算 compute_J 看 Δ/H* 是否从 20.8 下降。
