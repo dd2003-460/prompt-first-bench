@@ -266,3 +266,11 @@ verified 42 (27.5%) / degraded 102 (66.7%) / pending 6 / failed 3；leaks=0；qu
 - 约束不变：每臂 ≥3 样本、同模型 qwen3.8-27b、结果落盘 experiments/stage-ablation/ 并更新 bench report §2。
 
 **C. 双进程状态核实（传话太监 18:00 条目）**：pid 68960 (gpu-d32) ALIVE，r2 ckpt 已落（67 nodes, 0 dup, verified 23/degraded 39/pending 5, leaks=0），log 尾部活跃（18:06 还在写）。pid 70201 已死确认。等 r3/DONE 后重算 compute_J 看 Δ/H* 是否从 20.8 下降。
+
+## L24 (2026-11-12 ~22:xx): arena 通道复核 — 登录态有效，坏的是那个 session URL
+D 质疑"登录墙"判断，ego-browser 复核（space arena-tpr16-dispatch）：
+1. 直开 agent/01a1ca66 → "Something went wrong, couldn't load this chat" + **Log In 按钮可见**；
+2. 点 Log In → **直接进已登录 dashboard**（无 SSO 表单），侧栏显示 YESTERDAY 的 T-PR-16 coding session 条目（标题还是旧任务书"main 分支"版）→ **登录态一直有效，之前 F5/F6 结论有误**（当时只看到 Log In 按钮就判墙，没点进去验证）；
+3. 但点该 session 条目 → 主区仍 "couldn't load this chat"（Trace ID efa7cdbf）。
+新判断：不是登录问题，是 **arena 服务端这个 coding session 加载失败**（可能 session 过期/损坏）。下一步：试 "Try again" 按钮；若仍挂 → 新建 coding session 重派 T-PR-16（任务书已在 origin/main @tasks/T-PR-16-collision-backlog.md，注意新版要指定 arena/f65a5a27 分支而非 main）。
+教训：探针不能只看"页面上有没有 Log In 按钮"，要点进去确认落地页。
