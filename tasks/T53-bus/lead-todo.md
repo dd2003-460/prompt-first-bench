@@ -33,3 +33,11 @@
 
 - [ ] **D 新指令 (17:05 inbox)**：剩余 idea 没做没调研 → 派 sub 整理/开新仓库/实验/消融；**最主要是撞车调研**。状态：T-PR-16 任务书已在 arena/f65a5a27，但派发通道全断（CDP closed + arena.ai 登录墙）。idea backlog 盘点已完成：IDEA-INDEX 48 条 — A 撞车未查 #47/#48/#44/#40、B 小实验可跑 #31/#29/#24、C 设计待展开 #36。**等 D 手动登录 arena.ai 后立刻点 Send 完成 T-PR-16 派发**——这是当前唯一外部阻塞。
 - [ ] **双进程冲突处理**：pid 70201 已死，pid 68960 (gpu-d32 新树 run) 仍 ALIVE。确认 68960 是唯一的 gpu-d32 进程即可，无需 kill。它跑完出 runs-s5-sm-gpu.json 后重算 compute_J（看 Δ/H* 是否从 20.8 下降 = search_query 修复生效的证据）+ verify-only 矛盾扫描拿第一组 contradiction_rate。
+
+## [2026-11-12 D指令] arena 工具信任问题 — 已处理 ✅
+成璐："arena那个我完全不信，经常把无登录状态的当egolite的登录态掉了，能不能删掉原来的工具避免误会，或者用工具的时候加hook或者注释"
+处置（选注释+硬门禁而非删除——ego-browser 是通用浏览器通道，删了伤筋动骨；真问题是 arena 登录判定太松）：
+1. skill arena-outsource 新增「登录态判定门禁」节：唯一合法判定 = URL 落在 /agent/<uuid> + composer 可见或 repo panel 存在，双信号缺一即判未登录；标准探针脚本内嵌；probe JSON 必须落盘回执留痕。派发前硬门禁表从 6 条扩到 7 条（新增第4条探针）。
+2. sop/arena-loop-pipeline.md 故障修复清单加 ⓪ 步：登录态探针必跑第一步，不满足直接报"需人工登录"。
+3. 当前实测（本轮）：ego-lite 打开 arena.ai/agent → 停在裸路径 + Log In 墙 + title 仍是 "Agent Mode | Autonomous AI Agents"（正是假阳性的来源——title 和导航文本都含 Agent 字样）。probe: inSession=false, composerVisible=false, repoPanel=false → 按新门禁正确判定"未登录"。
+**给 Teamer 的提醒**：T-PR-16 派发仍阻塞在 arena 登录墙上（与之前判断一致，现在有了可复现的证据链）。下次任何派发动作前先跑探针，别再凭印象说"登录态有效"。
