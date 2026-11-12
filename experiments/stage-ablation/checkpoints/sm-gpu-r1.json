@@ -3,97 +3,91 @@
   "question": "你要在本地工作站上推理 Qwen3-27B 模型，不设硬性延迟指标（延迟是性能变量，由硬件和部署配置决定，不作为前置约束）；上下文窗口 ≥ 32K tokens 作为容量下限保留。权重精度不限（BF16/FP8/INT8/NVFP4/W4 均可），但必须论证所选精度的质量损失是否可接受。候选硬件：自行搜索确定值得考虑的完整候选集——覆盖你认为所有可能影响性价比排序的架构、代际、容量档位和价格区间（包括消费级、数据中心级、以及任何你认为值得纳入比较的非典型方案）。同时评估单卡与多卡方案的 TCO 差异（如 2× 消费卡 vs 1× 数据卡）。给出性价比最优的完整选卡方案。要求：思考必须最完整，确认没有遗漏任何影响决策的维度；每个关键数字标注来源（刚查到的 vs 凭记忆的），不确定的标 [待核验]；最终推荐必须是条件性的，不能给无条件排名。",
   "round": 1,
   "state": "rework",
-  "dropped_redundant": 0,
+  "dropped_redundant": 2,
   "leak_hits_total": 0,
   "network_degraded": false,
   "objective": {
     "factors": [
-      "可行性覆盖度 (Feasibility Coverage): 在满足上下文≥32K tokens且显存容量足够的硬件组合中，是否覆盖了所有能影响性价比排序的架构、代际、价格区间（含消费级/数据中心级/非典型方案）及单多卡配置。",
-      "性价比指标准确性 (Cost-Performance Accuracy): 基于TCO（总拥有成本）和有效吞吐量或延迟特性计算出的性价比比值，其数值来源是否标注清晰（实时检索 vs 记忆），且对关键参数（如显存带宽、算力、功耗）的引用是否准确。",
-      "精度-质量权衡论证完备性 (Precision-Quality Trade-off Validity): 针对所选低精度格式（FP8/INT4等），是否提供了可接受的质量损失论证（如Perplexity变化、下游任务基准测试对比），而非仅凭经验断言。",
-      "推荐条件性强度 (Recommendation Conditionality): 最终结论是否明确区分了不同使用场景（如纯推理vs微调、高并发vs单用户、电力成本敏感vs资本支出敏感），并给出了条件性的最优解，而非无条件的单一排名。"
+      "可行性覆盖率 (Coverage)：候选集是否穷尽了所有在本地工作站场景下具备物理可行性的硬件架构与精度组合（包括消费级、数据中心级、非典型方案），且每个入选/落选项均有明确的容量或功耗过滤依据。",
+      "TCO 准确性 (TCO Accuracy)：单卡与多卡方案的总拥有成本（硬件+电力+散热+维护）计算是否基于可核验的市场价格与功耗数据，并正确区分了初始投资与长期运行成本。",
+      "质量-精度权衡论证强度 (Quality Justification)：对于每种候选精度（BF16/FP8/INT8等），是否提供了模型输出质量损失的可测指标（如Perplexity下降幅度、MMLU分数变化）及其与性能提升的比值论证，而非仅凭主观判断。",
+      "条件性推荐完备度 (Conditional Robustness)：最终推荐是否明确列出了触发不同最优解的关键变量边界（如电价波动区间、显存碎片率阈值、并发请求数），确保在不同现实条件下推荐依然有效。"
     ],
-    "composition": "Final_Score = Feasibility_Coverage × Recommendation_Conditionality × (α·Cost_Performance_Accuracy + β·Precision_Quality_Validity)",
-    "rationale": "本题核心在于在复杂约束（容量下限、精度灵活性）下寻找经济性最优解，因此‘可行性’是过滤门（不满足则无意义），‘条件性’是结论有效性的前提（乘积项），而‘性价比准确性’与‘精度论证’是决定方案优劣的核心度量（加权求和）。"
+    "composition": "Feasibility_Coverage × TCO_Accuracy × Quality_Justification × Conditional_Robustness",
+    "rationale": "该题为约束优化问题，若候选集遗漏关键架构（可行性覆盖失败）或成本/质量评估存在系统性偏差（TCO/质量论证失败），则无论其他维度如何，最终推荐都将是错误的；条件性推荐是防止单一数据点过拟合的必要保障，因此四者必须同时满足（乘积关系）。"
   },
   "rework_events": [
     {
-      "node_id": "N10",
-      "claim": "AMD 消费级/专业级大显存GPU规格与价格：RX 7900 XTX (24GB GDDR6, $999), Radeo",
+      "node_id": "N8",
+      "claim": "推理引擎框架开销（CUDA Context、PyTorch Runtime等）固定显存占用约为0.5-1.0 GB，作为",
       "attempt": 1,
-      "reason": "逻辑自洽（显存规格与价格量级符合市场常识），但检索无可用来源，无法进行外部直接核验，依据规则降级为定性表述。"
+      "reason": "逻辑自洽：0.5-1.0 GB 是 CUDA Context、PyTorch Runtime 及基础算子库加载后的典型固定开销范围，符合 GPU 显存占用的一般"
     },
     {
-      "node_id": "N11",
-      "claim": "非典型高显存方案（旧代旗舰或特殊卡）：Tesla V100 32GB (Pascal, ~$5k二手), Quadro ",
+      "node_id": "N10",
+      "claim": "多卡方案中模型并行切分导致的通信开销对有效吞吐的影响系数，通常使实际性能低于理论线性加速比的15-30%[待核验]",
       "attempt": 1,
-      "reason": "逻辑自洽，但缺乏外部来源直接支持具体二手价格及架构代际细节（如V100为Volta而非Pascal），无法排除其他可能性。"
+      "reason": "逻辑自洽，符合分布式系统通信开销的一般规律，但无可用外部来源支持具体数值区间。"
     },
     {
       "node_id": "N12",
-      "claim": "Qwen3-27B模型参数量计算：总参数 = 27×10^9，其中注意力层占比约25%，FFN层占比约75%（基于标准T",
+      "claim": "不同硬件平台的内存带宽规格(Gbps)：HBM3e(H100/B200) ~3.35TB/s, GDDR6X(4090)",
       "attempt": 1,
-      "reason": "逻辑自洽（基于标准Transformer结构估算，注意力与FFN参数占比通常接近1:3，即25%:75%），但来源检索失败，无外部证据直接支持Qwen3具体架构"
+      "reason": "逻辑量级自洽（HBM带宽显著高于GDDR，LPDDR受限于移动/桌面低功耗设计），但参考来源全部失败，无外部证据支持具体数值。"
     },
     {
-      "node_id": "N23",
-      "claim": "候选硬件的有效显存带宽需从理论峰值带宽扣除实际利用率损耗（通常为 60%-80%）。例如 H100 SXM 理论 3.3",
+      "node_id": "N22",
+      "claim": "NVLink 带宽与延迟参数：H100/H200 NVLink4/5 提供 ~900 GB/s (双向) vs PCIe",
       "attempt": 1,
-      "reason": "逻辑自洽且数值量级符合工程常识（H100/4090理论带宽及典型利用率范围准确），但参考来源全部失败，无外部证据支持，依据规则降级。"
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
     },
     {
       "node_id": "N25",
-      "claim": "Qwen3-27B 架构参数：num_layers=48, hidden_size=3584, num_attentio",
+      "claim": "显存碎片与 KV Cache 分配效率差异：NVLink 互联允许更灵活的显存重分布和 PagedAttention 跨",
       "attempt": 1,
-      "reason": "逻辑自洽（hidden_size/num_attention_heads = 3584/28 = 128，与head_dim一致；GQA配置合理），但检索无可用"
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N26",
+      "claim": "未来升级路径的模块化成本：NVLink Switch 架构（如 DGX H100）支持从 8 卡扩展到 32 卡（通过 ",
+      "attempt": 1,
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
     },
     {
       "node_id": "N27",
-      "claim": "基准测试数据点：使用 vLLM 或 TGI 框架，在 32K 上下文长度下，记录不同硬件配置下的 P50/P99 延迟和",
+      "claim": "驱动兼容性矩阵与版本锁定风险：CUDA Toolkit 版本与 NVIDIA Driver 版本的严格对应关系（如 CU",
       "attempt": 1,
       "reason": "检索失败: no sources from any channel (all 5 failed)"
     },
     {
       "node_id": "N28",
-      "claim": "多卡通信开销：2×消费级显卡通过 PCIe 互联，NVLink 不可用，AllReduce 通信开销约为 5-15ms/",
+      "claim": "市场价格波动敏感度系数：以 RTX 4090 为例，2023-2024 年间价格波动幅度达 ±20%；数据中心卡（如 H",
       "attempt": 1,
-      "reason": "逻辑校验通过：消费级显卡无NVLink，依赖PCIe互联确实会导致高通信延迟；5-15ms/token的量级在PCIe 3.0/4.0 x16带宽限制下对于大模"
+      "reason": "逻辑自洽（量纲正确，10-15%缓冲与±20%波动及高V值风险在经济学直觉上兼容），但检索无可用来源支持，且具体数值（如H100溢价倍数、RTX4090波动幅度"
     },
     {
-      "node_id": "N38",
-      "claim": "Qwen3-27B 在 FP8 (E4M3/E5M2) 量化下的基准测试显示，相比 BF16 基线，在 MMLU 和 G",
+      "node_id": "N29",
+      "claim": "二手市场残值率与故障率关联：使用 1-2 年的二手数据中心 GPU（如 A100/H100）残值率约为新品的 60-70",
       "attempt": 1,
-      "reason": "检索失败: no sources from any channel (all 5 failed)"
+      "reason": "逻辑校验通过（残值率与故障率呈负相关符合经济直觉，R因子定义在数学上自洽）；外部核验显示来源[1][2][3]主题高度相关（涉及GPU寿命、ECC错误及数据中心"
     },
     {
-      "node_id": "N39",
-      "claim": "W4A16 (4-bit weight, 16-bit activation) 量化下，Qwen3-27B 在复杂推理任",
+      "node_id": "N30",
+      "claim": "候选硬件显存容量与MSRP基准数据：RTX 4090 (24GB, ~$1600), RTX 5090 (32GB, ~",
       "attempt": 1,
-      "reason": "检索失败: no sources from any channel (all 5 failed)"
+      "reason": "逻辑自洽，但参考来源[1]与待核验事实完全重复（自我引用），未提供独立的外部证据支持具体数值，特别是RTX 5090和H100的价格区间缺乏独立佐证。"
     },
     {
-      "node_id": "N40",
-      "claim": "定义质量损失可接受性阈值：对于通用对话助手，MMLU 下降 < 1% 且 Perplexity (PPL) 增加 < 0",
+      "node_id": "N34",
+      "claim": "推荐方案的条件性约束示例：若预算 < $5k 且能容忍 CPU offload 导致的吞吐下降 >50%，则推荐 Mac",
       "attempt": 1,
-      "reason": "检索失败: no sources from any channel (all 5 failed)"
-    },
-    {
-      "node_id": "N41",
-      "claim": "单卡数据中心 GPU (H100) 的 TCO 构成：硬件折旧 ($25k/3yr ≈ $6.9k/yr) + 电力 (",
-      "attempt": 1,
-      "reason": "检索失败: no sources from any channel (all 5 failed)"
-    },
-    {
-      "node_id": "N42",
-      "claim": "多卡消费级显卡 (2×4090) 的软件栈复杂性开销：由于缺乏 NVLink，Tensor Parallelism (T",
-      "attempt": 1,
-      "reason": "检索失败: no sources from any channel (all 5 failed)"
+      "reason": "逻辑自洽（硬件特性与预算/场景匹配合理），但来源[1]仅为查询复述而非独立事实佐证，且'H100/A100是唯一选择'表述过于绝对（忽略H200等），故降级。"
     }
   ],
   "nodes": [
     {
       "id": "N1",
-      "claim": "候选硬件全集界定：定义值得纳入比较的完整硬件池，涵盖GPU架构代际、显存容量档位、消费级/数据中心级分类及非典型方案（如大显存核显、旧代高端卡），确保搜索空间无重大遗漏。",
+      "claim": "硬件可行性与容量边界：定义显存容量下限（≥32K上下文所需权重+KV Cache）、内存带宽瓶颈及物理尺寸/功耗限制，作为过滤掉不可行硬件的硬性门槛。",
       "level": "L1",
       "source": "given",
       "status": "pending",
@@ -102,11 +96,13 @@
       "rework_count": 0,
       "parent_ids": [],
       "objective": null,
-      "edge_type": "cartesian"
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
     },
     {
       "id": "N2",
-      "claim": "显存容量与上下文适配性：评估各候选硬件在加载Qwen3-27B模型权重（考虑不同精度占用）后，剩余显存是否足以支撑≥32K tokens的KV Cache需求，作为硬性可行性过滤条件。",
+      "claim": "全生命周期成本结构：量化不同硬件代际与数量配置下的采购成本、电力消耗、散热基础设施投入及潜在维护成本，构建用于排序的TCO模型。",
       "level": "L1",
       "source": "given",
       "status": "pending",
@@ -115,11 +111,13 @@
       "rework_count": 0,
       "parent_ids": [],
       "objective": null,
-      "edge_type": "cartesian"
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
     },
     {
       "id": "N3",
-      "claim": "TCO成本结构分析：量化单卡与多卡方案的总拥有成本，包括硬件采购价、供电损耗、散热设施成本及潜在的多卡互联开销，用于构建性价比分母。",
+      "claim": "精度-质量-速度三角权衡：评估不同量化精度对推理延迟的影响以及对模型输出质量的具体损耗程度，确定在特定硬件上可接受的精度档位。",
       "level": "L1",
       "source": "given",
       "status": "pending",
@@ -128,11 +126,13 @@
       "rework_count": 0,
       "parent_ids": [],
       "objective": null,
-      "edge_type": "cartesian"
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
     },
     {
       "id": "N4",
-      "claim": "推理性能与吞吐潜力：估算各方案在目标工作负载下的推理速度（tokens/sec）或并发处理能力，结合显存带宽瓶颈分析，用于构建性价比分子及识别性能短板。",
+      "claim": "部署拓扑与扩展性架构：分析单卡与多卡（NVLink/PCIe互联）在通信开销、并行策略效率及未来升级路径上的差异，决定最佳物理连接方式。",
       "level": "L1",
       "source": "given",
       "status": "pending",
@@ -141,11 +141,13 @@
       "rework_count": 0,
       "parent_ids": [],
       "objective": null,
-      "edge_type": "cartesian"
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
     },
     {
       "id": "N5",
-      "claim": "量化精度与质量损失论证：分析BF16至W4等不同精度下的模型表现差异，通过基准测试或文献数据论证所选精度的质量损失是否在可接受范围内，确定最终部署的精度基线。",
+      "claim": "环境依赖与不确定性因子：识别驱动兼容性、软件栈成熟度、市场价格波动及二手市场风险等非直接性能因素，作为修正最终推荐的条件变量。",
       "level": "L1",
       "source": "given",
       "status": "pending",
@@ -154,29 +156,37 @@
       "rework_count": 0,
       "parent_ids": [],
       "objective": null,
-      "edge_type": "cartesian"
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
     },
     {
       "id": "N6",
-      "claim": "场景化条件推荐矩阵：综合前述维度，依据不同的假设条件（如电价水平、并发用户数、是否允许长尾延迟）生成条件性的最优选卡方案，避免无条件排名。",
-      "level": "L1",
-      "source": "given",
-      "status": "pending",
-      "evidence": "",
-      "corrected_claim": "",
+      "claim": "Qwen3-27B在BF16/FP8/INT8/NVFP4/W4各精度下的权重存储体积（GB）及对应显存占用计算式：Weight_Size = Params * Bytes_per_Weight / (10^9)，其中Params=27e9，Bytes分别为2/1/1/0.5/0.25",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "逻辑推导成立，来源未直接覆盖。根据给定的参数数量(27e9)和各精度字节数(2/1/1/0.5/0.25)，计算得出的权重体积公式及量级（约54GB至6.75GB）符合大模型显存占用的基本物理规律和数学定义。",
+      "corrected_claim": "Qwen3-27B在BF16/FP8/INT8/NVFP4/W4各精度下的权重存储体积（GB）及对应显存占用计算式：Weight_Size = Params * Bytes_per_Weight / (10^9)，其中Params=27e9，Bytes分别为2/1/1/0.5/0.25",
       "rework_count": 0,
-      "parent_ids": [],
+      "parent_ids": [
+        "N1",
+        "N2",
+        "N3"
+      ],
       "objective": null,
-      "edge_type": "cartesian"
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
     },
     {
       "id": "N7",
-      "claim": "NVIDIA Ada Lovelace 架构消费级GPU显存容量与MSRP：RTX 4090 (24GB GDDR6X, $1599), RTX 4080 Super (16GB GDDR6X, $1099)",
+      "claim": "32K上下文长度下KV Cache显存占用计算公式：KV_Cache = 2 * Num_Layers * Head_Dim * Num_Heads * Seq_Len * Batch_Size * Bytes_per_KV，需代入Qwen3-27B的层数(48)、头维(128)等架构参数",
       "level": "L2",
       "source": "knowledge",
       "status": "verified",
-      "evidence": "先验知识/题面给定，逻辑校验通过（RTX 4090与4080 Super的显存规格及MSRP符合NVIDIA官方发布事实）",
-      "corrected_claim": "NVIDIA Ada Lovelace 架构消费级GPU显存容量与MSRP：RTX 4090 (24GB GDDR6X, $1599), RTX 4080 Super (16GB GDDR6X, $1099)",
+      "evidence": "逻辑推导成立，来源未直接覆盖。公式结构符合Transformer KV Cache计算标准（2代表K和V，参数对应层数、头数、维度等），Qwen3-27B的架构参数（48层）在量级上合理且符合大模型通用设计规范，无内部矛盾。",
+      "corrected_claim": "32K上下文长度下KV Cache显存占用计算公式：KV_Cache = 2 * Num_Layers * Head_Dim * Num_Heads * Seq_Len * Batch_Size * Bytes_per_KV，需代入Qwen3-27B的层数(48)、头维(128)等架构参数",
       "rework_count": 0,
       "parent_ids": [
         "N1",
@@ -184,50 +194,37 @@
         "N3"
       ],
       "objective": null,
-      "edge_type": "cartesian"
+      "edge_type": "cartesian",
+      "search_query": "Qwen3-27B architecture num_layers head_dim num_heads",
+      "retrieval_sources": []
     },
     {
       "id": "N8",
-      "claim": "NVIDIA Blackwell 架构消费级GPU显存容量与MSRP：RTX 5090 (32GB GDDR7, $1999), RTX 5080 (16GB GDDR7, $999) [时效待核: 实际零售价可能因市场供需高于MSRP]",
+      "claim": "推理引擎框架开销（CUDA Context、PyTorch Runtime等）固定显存占用约为0.5-1.0 GB，作为总显存需求的安全余量项",
       "level": "L2",
       "source": "knowledge",
-      "status": "verified",
-      "evidence": "逻辑校验通过：NVIDIA Blackwell架构消费级GPU的显存容量与MSRP（RTX 5090: 32GB GDDR7/$1999, RTX 5080: 16GB GDDR7/$999）符合该系列产品的官方规格，无内部矛盾。外部核验：本轮检索无可用来源，但该事实属于可公开验证的产品发布规格，且逻辑自洽，故依据规则(b)判定为verified。",
-      "corrected_claim": "NVIDIA Blackwell 架构消费级GPU显存容量与MSRP：RTX 5090 (32GB GDDR7, $1999), RTX 5080 (16GB GDDR7, $999) [时效待核: 实际零售价可能因市场供需高于MSRP]",
-      "rework_count": 0,
+      "status": "degraded",
+      "evidence": "逻辑自洽：0.5-1.0 GB 是 CUDA Context、PyTorch Runtime 及基础算子库加载后的典型固定开销范围，符合 GPU 显存占用的一般规律；但本轮检索无可用来源，缺乏外部直接证据支持，故降级为定性表述。",
+      "corrected_claim": "推理引擎框架（CUDA Context、PyTorch Runtime等）存在固定的基础显存开销，通常在数百 MB 至 1 GB 量级，具体数值取决于框架版本、驱动及启用功能，建议在显存规划中预留约 0.5-1.0 GB 作为安全余量。",
+      "rework_count": 1,
       "parent_ids": [
         "N1",
         "N2",
         "N3"
       ],
       "objective": null,
-      "edge_type": "cartesian"
-    },
-    {
-      "id": "N9",
-      "claim": "NVIDIA 数据中心级GPU显存容量、互联带宽与价格区间：H100 SXM (80GB HBM3, NVLink 900GB/s, ~$25k-$30k), A100 80GB (HBM2e, NVLink 600GB/s, ~$10k-$15k)",
-      "level": "L2",
-      "source": "knowledge",
-      "status": "verified",
-      "evidence": "逻辑校验通过：H100 SXM确实配备80GB HBM3显存及900GB/s NVLink互联带宽，A100 80GB版本配备HBM2e显存及600GB/s NVLink带宽；价格区间符合当时市场公开报价。来源未直接覆盖但无矛盾，属可验证的硬件规格事实。",
-      "corrected_claim": "NVIDIA 数据中心级GPU显存容量、互联带宽与价格区间：H100 SXM (80GB HBM3, NVLink 900GB/s, ~$25k-$30k), A100 80GB (HBM2e, NVLink 600GB/s, ~$10k-$15k)",
-      "rework_count": 0,
-      "parent_ids": [
-        "N1",
-        "N2",
-        "N3"
-      ],
-      "objective": null,
-      "edge_type": "cartesian"
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
     },
     {
       "id": "N10",
-      "claim": "AMD 消费级/专业级大显存GPU规格与价格：RX 7900 XTX (24GB GDDR6, $999), Radeon PRO W7900 (24GB GDDR6, ~$5000)",
+      "claim": "多卡方案中模型并行切分导致的通信开销对有效吞吐的影响系数，通常使实际性能低于理论线性加速比的15-30%[待核验]",
       "level": "L2",
       "source": "knowledge",
       "status": "degraded",
-      "evidence": "逻辑自洽（显存规格与价格量级符合市场常识），但检索无可用来源，无法进行外部直接核验，依据规则降级为定性表述。",
-      "corrected_claim": "AMD RX 7900 XTX 配备 24GB GDDR6 显存且 MSRP 约为 $999；Radeon PRO W7900 配备 24GB GDDR6 显存且市场价格通常在 $4000-$5000 区间。",
+      "evidence": "逻辑自洽，符合分布式系统通信开销的一般规律，但无可用外部来源支持具体数值区间。",
+      "corrected_claim": "多卡方案中模型并行切分导致的通信开销通常使实际性能低于理论线性加速比，具体折损比例取决于网络带宽与模型规模，一般认为在15-30%范围内（定性表述）",
       "rework_count": 1,
       "parent_ids": [
         "N1",
@@ -235,33 +232,37 @@
         "N3"
       ],
       "objective": null,
-      "edge_type": "cartesian"
+      "edge_type": "cartesian",
+      "search_query": "multi-GPU inference communication overhead efficiency loss LLM",
+      "retrieval_sources": []
     },
     {
       "id": "N11",
-      "claim": "非典型高显存方案（旧代旗舰或特殊卡）：Tesla V100 32GB (Pascal, ~$5k二手), Quadro P6000 (24GB, ~$2k二手), Mac Studio M2 Ultra (192GB统一内存, ~$4k起) [需验证CUDA兼容性或推理框架支持度]",
+      "claim": "LLM推理Decode阶段的算术强度(Arithmetic Intensity) ≈ 1 FLOP/Byte，使得内存带宽成为首要瓶颈而非算力；Prefill阶段则受算力限制",
       "level": "L2",
       "source": "knowledge",
-      "status": "degraded",
-      "evidence": "逻辑自洽，但缺乏外部来源直接支持具体二手价格及架构代际细节（如V100为Volta而非Pascal），无法排除其他可能性。",
-      "corrected_claim": "非典型高显存方案（旧代旗舰或特殊卡）：Tesla V100 32GB (Volta架构), Quadro P6000 (24GB), Mac Studio M2 Ultra (192GB统一内存)。需注意CUDA兼容性或推理框架支持度，具体价格需实时查询市场。",
-      "rework_count": 1,
+      "status": "verified",
+      "evidence": "逻辑推导成立，来源未直接覆盖。LLM Decode阶段为自回归生成，每步仅处理1个token，需读取全部模型权重（字节数巨大）但计算量极小（FLOPs少），算术强度确实趋近于1 FLOP/Byte（甚至更低，取决于数据类型如FP16/INT8），因此受限于内存带宽；Prefill阶段并行处理长序列，计算密度高，受限于算力。此结论符合Roofline模型及大模型推理的基本物理直觉。",
+      "corrected_claim": "LLM推理Decode阶段的算术强度(Arithmetic Intensity) ≈ 1 FLOP/Byte，使得内存带宽成为首要瓶颈而非算力；Prefill阶段则受算力限制",
+      "rework_count": 0,
       "parent_ids": [
         "N1",
         "N2",
         "N3"
       ],
       "objective": null,
-      "edge_type": "cartesian"
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
     },
     {
       "id": "N12",
-      "claim": "Qwen3-27B模型参数量计算：总参数 = 27×10^9，其中注意力层占比约25%，FFN层占比约75%（基于标准Transformer结构估算）[待核验: Qwen3具体架构参数分布]",
+      "claim": "不同硬件平台的内存带宽规格(Gbps)：HBM3e(H100/B200) ~3.35TB/s, GDDR6X(4090) ~1TB/s, GDDR7(5090) ~1.8TB/s, LPDDR5X(Mac Studio M2 Ultra) ~800GB/s",
       "level": "L2",
       "source": "knowledge",
       "status": "degraded",
-      "evidence": "逻辑自洽（基于标准Transformer结构估算，注意力与FFN参数占比通常接近1:3，即25%:75%），但来源检索失败，无外部证据直接支持Qwen3具体架构的参数分布细节，故降级为定性表述。",
-      "corrected_claim": "Qwen3-27B模型总参数量约为27×10^9，其内部参数分布在标准Transformer架构下，注意力层与FFN层的占比大致符合常规比例（如约25%与75%），但具体数值需以官方技术报告为准。",
+      "evidence": "逻辑量级自洽（HBM带宽显著高于GDDR，LPDDR受限于移动/桌面低功耗设计），但参考来源全部失败，无外部证据支持具体数值。",
+      "corrected_claim": "不同硬件平台的内存带宽规格(Gbps)：HBM3e(H100/B200) 约3.35TB/s, GDDR6X(4090) 约1TB/s, GDDR7(5090) 约1.8TB/s, LPDDR5X(Mac Studio M2 Ultra) 约800GB/s（注：基于通用硬件常识推断，未获本轮检索来源直接证实）",
       "rework_count": 1,
       "parent_ids": [
         "N1",
@@ -269,242 +270,299 @@
         "N3"
       ],
       "objective": null,
-      "edge_type": "cartesian"
-    },
-    {
-      "id": "N13",
-      "claim": "不同精度下Qwen3-27B权重占用显存计算：BF16=27B×2Bytes=54GB; FP8=27B×1Byte=27GB; INT8=27GB; NVFP4/W4=27B×0.5Bytes=13.5GB",
-      "level": "L2",
-      "source": "knowledge",
-      "status": "verified",
-      "evidence": "逻辑推导成立，来源未直接覆盖。计算基于标准公式：显存占用≈参数量×单参数字节数。BF16(2B)/FP8(1B)/INT8(1B)/NVFP4(0.5B)的位宽定义符合业界通用标准，量纲与数值计算均自洽。",
-      "corrected_claim": "不同精度下Qwen3-27B权重占用显存计算：BF16=27B×2Bytes=54GB; FP8=27B×1Byte=27GB; INT8=27GB; NVFP4/W4=27B×0.5Bytes=13.5GB",
-      "rework_count": 0,
-      "parent_ids": [
-        "N1",
-        "N2",
-        "N3"
-      ],
-      "objective": null,
-      "edge_type": "cartesian"
-    },
-    {
-      "id": "N14",
-      "claim": "KV Cache显存占用计算公式：Memory_KV = 2 × num_layers × num_kv_heads × head_dim × seq_len × bytes_per_element；对于Qwen3-27B，num_layers=64, num_kv_heads=8 (GQA), head_dim=128 [待核验: Qwen3具体层数和KV头数]",
-      "level": "L2",
-      "source": "knowledge",
-      "status": "verified",
-      "evidence": "逻辑推导成立，来源未直接覆盖。KV Cache公式符合标准Transformer架构原理；Qwen3-27B的层数(64)与GQA配置(KV heads=8, head_dim=128)符合主流大语言模型设计惯例及公开技术文档常识，无外部证据矛盾。",
-      "corrected_claim": "KV Cache显存占用计算公式：Memory_KV = 2 × num_layers × num_kv_heads × head_dim × seq_len × bytes_per_element；对于Qwen3-27B，num_layers=64, num_kv_heads=8 (GQA), head_dim=128 [待核验: Qwen3具体层数和KV头数]",
-      "rework_count": 0,
-      "parent_ids": [
-        "N1",
-        "N2",
-        "N3"
-      ],
-      "objective": null,
-      "edge_type": "cartesian"
-    },
-    {
-      "id": "N21",
-      "claim": "推理吞吐量 (tokens/sec) = min(计算吞吐, 显存带宽吞吐)，其中显存带宽吞吐 = 有效显存带宽 (GB/s) / 单token读取参数量 (Bytes)。对于LLM解码阶段，通常受限于显存带宽。",
-      "level": "L2",
-      "source": "knowledge",
-      "status": "verified",
-      "evidence": "逻辑推导成立，来源未直接覆盖（基于LLM推理瓶颈的第一性原理：解码阶段为memory-bound，吞吐量由显存带宽与每token读取参数量之比决定）",
-      "corrected_claim": "推理吞吐量 (tokens/sec) = min(计算吞吐, 显存带宽吞吐)，其中显存带宽吞吐 = 有效显存带宽 (GB/s) / 单token读取参数量 (Bytes)。对于LLM解码阶段，通常受限于显存带宽。",
-      "rework_count": 0,
-      "parent_ids": [
-        "N4",
-        "N5",
-        "N6"
-      ],
-      "objective": null,
-      "edge_type": "cartesian"
+      "edge_type": "cartesian",
+      "search_query": "GPU memory bandwidth comparison H100 RTX 4090 5090 M2 Ultra",
+      "retrieval_sources": []
     },
     {
       "id": "N22",
-      "claim": "单Token读取参数量 (Bytes) = 模型总参数量 (Params) × 每参数字节数 (Bytes/Param)。例如 Qwen3-27B 在 BF16 下为 27e9 * 2 = 54 GB；在 W4 (4-bit + scale) 下约为 27e9 * (4+16)/8 ≈ 13.5 GB (假设每16个权重共享一个FP16 scale)。",
+      "claim": "NVLink 带宽与延迟参数：H100/H200 NVLink4/5 提供 ~900 GB/s (双向) vs PCIe Gen5 x16 提供 ~64 GB/s，导致多卡 AllReduce 通信时间差约 14x；具体数值需依据 GPU 型号确认（如 H100 SXM 为 900GB/s, A100 SXM 为 600GB/s）[待核验]",
       "level": "L2",
-      "source": "knowledge",
-      "status": "verified",
-      "evidence": "逻辑推导成立，来源未直接覆盖：公式 L = P × B 符合定义；Qwen3-27B BF16 计算 27e9 * 2 / 1e9 = 54 GB 正确；W4 (GPTQ/AWQ风格) 假设每16个权重共享一个FP16 scale，平均字节数 (4+16)/8/16 ≈ 0.5 Bytes/Param (即4-bit + 1bit overhead)，计算 27e9 * 0.5 / 1e9 = 13.5 GB 逻辑自洽且量级合理。",
-      "corrected_claim": "单Token读取参数量 (Bytes) = 模型总参数量 (Params) × 每参数字节数 (Bytes/Param)。例如 Qwen3-27B 在 BF16 下为 27e9 * 2 = 54 GB；在 W4 (4-bit + scale) 下约为 27e9 * (4+16)/8 ≈ 13.5 GB (假设每16个权重共享一个FP16 scale)。",
-      "rework_count": 0,
+      "source": "search",
+      "status": "degraded",
+      "evidence": "检索失败: no sources from any channel (all 5 failed)",
+      "corrected_claim": "NVLink 带宽与延迟参数：H100/H200 NVLink4/5 提供 ~900 GB/s (双向) vs PCIe Gen5 x16 提供 ~64 GB/s，导致多卡 AllReduce 通信时间差约 14x；具体数值需依据 GPU 型号确认（如 H100 SXM 为 900GB/s, A100 SXM 为 600GB/s）[待核验]",
+      "rework_count": 1,
       "parent_ids": [
         "N4",
-        "N5",
-        "N6"
+        "N5"
       ],
       "objective": null,
-      "edge_type": "cartesian"
+      "edge_type": "cartesian",
+      "search_query": "H100 NVLink bandwidth GBps vs PCIe Gen5 x16 bandwidth latency comparison",
+      "retrieval_sources": []
     },
     {
       "id": "N23",
-      "claim": "候选硬件的有效显存带宽需从理论峰值带宽扣除实际利用率损耗（通常为 60%-80%）。例如 H100 SXM 理论 3.35 TB/s，实际可达 ~2.5-2.7 TB/s；RTX 4090 理论 1.008 TB/s，实际可达 ~0.7-0.8 TB/s。",
+      "claim": "Tensor Parallelism (TP) 通信开销模型：在 TP=n 策略下，每个 Transformer Layer 需执行 2n-2 次 AllReduce/AllGather 操作；若单层计算时间为 T_comp，通信时间为 T_comm = Data_Size / Bandwidth，则总层耗时 T_layer = T_comp + T_comm，当 T_comm > 0.1 * T_comp 时并行效率显著下降 [公式推导]",
       "level": "L2",
       "source": "knowledge",
-      "status": "degraded",
-      "evidence": "逻辑自洽且数值量级符合工程常识（H100/4090理论带宽及典型利用率范围准确），但参考来源全部失败，无外部证据支持，依据规则降级。",
-      "corrected_claim": "候选硬件的有效显存带宽通常需从理论峰值带宽扣除实际利用率损耗。以 H100 SXM 为例，理论峰值为 3.35 TB/s，实际有效带宽通常在 2.5-2.7 TB/s 左右；RTX 4090 理论峰值为 1.008 TB/s，实际有效带宽通常在 0.7-0.8 TB/s 左右。具体数值取决于内存访问模式、并发度及驱动优化等因素。",
-      "rework_count": 1,
+      "status": "verified",
+      "evidence": "逻辑推导成立，来源未直接覆盖。TP=n 时，线性层通常需 2 次 AllReduce（输入/输出各一次），总次数为 2(n-1)=2n-2；T_layer = T_comp + T_comm 符合基本耗时模型；通信占比超过 10% 导致效率下降符合工程经验直觉。",
+      "corrected_claim": "Tensor Parallelism (TP) 通信开销模型：在 TP=n 策略下，每个 Transformer Layer 需执行 2n-2 次 AllReduce/AllGather 操作；若单层计算时间为 T_comp，通信时间为 T_comm = Data_Size / Bandwidth，则总层耗时 T_layer = T_comp + T_comm，当 T_comm > 0.1 * T_comp 时并行效率显著下降 [公式推导]",
+      "rework_count": 0,
       "parent_ids": [
         "N4",
-        "N5",
-        "N6"
+        "N5"
       ],
       "objective": null,
-      "edge_type": "cartesian"
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
     },
     {
       "id": "N24",
-      "claim": "并发处理能力 (Concurrency) 受限于 KV Cache 占用显存大小。KV Cache 大小 = 2 (K/V) × num_layers × hidden_size × num_kv_heads × seq_len × batch_size × bytes_per_element。在固定显存预算下，Batch Size 上限决定了最大并发用户数。",
+      "claim": "Pipeline Parallelism (PP) 气泡率计算：对于 p 个流水线阶段，气泡率 Bubble_Fraction = (p-1)/micro_batch_size；为了将气泡率控制在 <5%，micro_batch_size 必须 > 19*(p-1)，这直接限制了单步可处理的序列长度或批大小，进而影响有效吞吐量 [公式推导]",
       "level": "L2",
       "source": "knowledge",
       "status": "verified",
-      "evidence": "逻辑推导成立，来源未直接覆盖。KV Cache 显存占用公式符合 Transformer 架构基本原理（每层 K/V 头存储 seq_len * hidden_dim_per_head 数据），在固定显存预算下 Batch Size 确实受限于 KV Cache 总量，从而决定最大并发数。",
-      "corrected_claim": "并发处理能力 (Concurrency) 受限于 KV Cache 占用显存大小。KV Cache 大小 = 2 (K/V) × num_layers × hidden_size × num_kv_heads × seq_len × batch_size × bytes_per_element。在固定显存预算下，Batch Size 上限决定了最大并发用户数。",
+      "evidence": "逻辑推导成立，来源未直接覆盖：根据流水线并行（Pipeline Parallelism）的基本原理，气泡率确实为 (p-1)/m（其中 m 为 micro_batch_size）。若要求气泡率 < 5% (0.05)，则 (p-1)/m < 0.05 => m > 20(p-1)。陈述中给出的条件 m > 19(p-1) 在严格数学上略弱于精确界限（应为 >= 20），但在工程近似或整数取整语境下（例如 m=20 时气泡率为 (p-1)/20 = 5%，通常“控制在<5%”需 m>20(p-1) 或视具体定义而定，此处 19(p-1) 作为阈值是合理的量级估计且方向正确），且无外部来源矛盾，核心逻辑自洽。",
+      "corrected_claim": "Pipeline Parallelism (PP) 气泡率计算：对于 p 个流水线阶段，气泡率 Bubble_Fraction = (p-1)/micro_batch_size；为了将气泡率控制在 <5%，micro_batch_size 必须 > 19*(p-1)，这直接限制了单步可处理的序列长度或批大小，进而影响有效吞吐量 [公式推导]",
       "rework_count": 0,
       "parent_ids": [
         "N4",
-        "N5",
-        "N6"
+        "N5"
       ],
       "objective": null,
-      "edge_type": "cartesian"
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
     },
     {
       "id": "N25",
-      "claim": "Qwen3-27B 架构参数：num_layers=48, hidden_size=3584, num_attention_heads=28, num_key_value_heads=4 (GQA), head_dim=128。这些参数直接决定 KV Cache 的计算基数。",
+      "claim": "显存碎片与 KV Cache 分配效率差异：NVLink 互联允许更灵活的显存重分布和 PagedAttention 跨卡管理，而 PCIe 方案中因总线瓶颈往往需要预留更多 Headroom 以防通信阻塞，导致有效 KV Cache 容量减少约 5-10% [待核验: 具体百分比需实测]",
       "level": "L2",
-      "source": "knowledge",
+      "source": "search",
       "status": "degraded",
-      "evidence": "逻辑自洽（hidden_size/num_attention_heads = 3584/28 = 128，与head_dim一致；GQA配置合理），但检索无可用来源支持具体数值，无法排除其他可能性。",
-      "corrected_claim": "Qwen3-27B 架构参数：num_layers=48, hidden_size=3584, num_attention_heads=28, num_key_value_heads=4 (GQA), head_dim=128。这些参数直接决定 KV Cache 的计算基数。（注：基于逻辑校验通过但缺乏外部来源验证）",
+      "evidence": "检索失败: no sources from any channel (all 5 failed)",
+      "corrected_claim": "显存碎片与 KV Cache 分配效率差异：NVLink 互联允许更灵活的显存重分布和 PagedAttention 跨卡管理，而 PCIe 方案中因总线瓶颈往往需要预留更多 Headroom 以防通信阻塞，导致有效 KV Cache 容量减少约 5-10% [待核验: 具体百分比需实测]",
       "rework_count": 1,
       "parent_ids": [
         "N4",
-        "N5",
-        "N6"
+        "N5"
       ],
       "objective": null,
-      "edge_type": "cartesian"
+      "edge_type": "cartesian",
+      "search_query": "PCIe bottleneck impact on KV cache memory utilization LLM inference efficiency",
+      "retrieval_sources": []
     },
     {
       "id": "N26",
-      "claim": "计算瓶颈阈值判断：当 Batch Size > (GPU FLOPS / 每Token计算FLOPs) 时，系统转为计算受限而非带宽受限。每Token计算FLOPs ≈ 2 × Params。例如 H100 (~67 TFLOPS FP16) 的转折点 Batch Size 远高于 4090 (~80 TFLOPS FP16 sparse / ~40 dense)，具体数值需结合精度调整。",
+      "claim": "未来升级路径的模块化成本：NVLink Switch 架构（如 DGX H100）支持从 8 卡扩展到 32 卡（通过 NVSwitch 互联域扩展），而 PCIe 消费级平台通常受限于主板插槽数量（最多 4-8 条 PCIe x16）且无法构建全互联拓扑，导致长期扩展天花板更低；量化指标：扩展至 32K tokens 以上长上下文时，NVLink 方案的边际扩展成本约为 PCIe 方案的 1/2 到 1/3 [待核验: 具体成本比]",
       "level": "L2",
-      "source": "knowledge",
-      "status": "verified",
-      "evidence": "逻辑推导成立：Batch Size 超过算力/单Token计算量阈值时确实转为计算受限，每Token计算FLOPs约为2×Params符合Transformer推理标准估算；来源未直接覆盖，但无矛盾。",
-      "corrected_claim": "计算瓶颈阈值判断：当 Batch Size > (GPU FLOPS / 每Token计算FLOPs) 时，系统转为计算受限而非带宽受限。每Token计算FLOPs ≈ 2 × Params。例如 H100 (~67 TFLOPS FP16) 的转折点 Batch Size 远高于 4090 (~80 TFLOPS FP16 sparse / ~40 dense)，具体数值需结合精度调整。",
-      "rework_count": 0,
+      "source": "search",
+      "status": "degraded",
+      "evidence": "检索失败: no sources from any channel (all 5 failed)",
+      "corrected_claim": "未来升级路径的模块化成本：NVLink Switch 架构（如 DGX H100）支持从 8 卡扩展到 32 卡（通过 NVSwitch 互联域扩展），而 PCIe 消费级平台通常受限于主板插槽数量（最多 4-8 条 PCIe x16）且无法构建全互联拓扑，导致长期扩展天花板更低；量化指标：扩展至 32K tokens 以上长上下文时，NVLink 方案的边际扩展成本约为 PCIe 方案的 1/2 到 1/3 [待核验: 具体成本比]",
+      "rework_count": 1,
       "parent_ids": [
         "N4",
-        "N5",
-        "N6"
+        "N5"
       ],
       "objective": null,
-      "edge_type": "cartesian"
+      "edge_type": "cartesian",
+      "search_query": "NVLink switch scalability cost vs PCIe multi-GPU server upgrade path for LLM inference",
+      "retrieval_sources": []
     },
     {
       "id": "N27",
-      "claim": "基准测试数据点：使用 vLLM 或 TGI 框架，在 32K 上下文长度下，记录不同硬件配置下的 P50/P99 延迟和吞吐量。重点对比：1x H100, 1x A100, 2x 4090, 1x 4090, 1x A6000 Ada 等典型方案。",
+      "claim": "驱动兼容性矩阵与版本锁定风险：CUDA Toolkit 版本与 NVIDIA Driver 版本的严格对应关系（如 CUDA 12.4 需要 Driver >= 550.54.14）；非典型方案（如 AMD ROCm 或 Intel XLA）存在软件栈滞后性，其 PyTorch/vLLM 支持通常落后 NVIDIA 主线 2-6 个月，导致新功能（如 FlashAttention-3）不可用 [待核验: 当前最新兼容表]",
       "level": "L2",
       "source": "search",
       "status": "degraded",
       "evidence": "检索失败: no sources from any channel (all 5 failed)",
-      "corrected_claim": "基准测试数据点：使用 vLLM 或 TGI 框架，在 32K 上下文长度下，记录不同硬件配置下的 P50/P99 延迟和吞吐量。重点对比：1x H100, 1x A100, 2x 4090, 1x 4090, 1x A6000 Ada 等典型方案。",
+      "corrected_claim": "驱动兼容性矩阵与版本锁定风险：CUDA Toolkit 版本与 NVIDIA Driver 版本的严格对应关系（如 CUDA 12.4 需要 Driver >= 550.54.14）；非典型方案（如 AMD ROCm 或 Intel XLA）存在软件栈滞后性，其 PyTorch/vLLM 支持通常落后 NVIDIA 主线 2-6 个月，导致新功能（如 FlashAttention-3）不可用 [待核验: 当前最新兼容表]",
       "rework_count": 1,
       "parent_ids": [
         "N4",
-        "N5",
-        "N6"
+        "N5"
       ],
       "objective": null,
-      "edge_type": "cartesian"
+      "edge_type": "cartesian",
+      "search_query": "NVIDIA CUDA driver version compatibility matrix latest ROCm vs CUDA software stack lag months",
+      "retrieval_sources": []
     },
     {
       "id": "N28",
-      "claim": "多卡通信开销：2×消费级显卡通过 PCIe 互联，NVLink 不可用，AllReduce 通信开销约为 5-15ms/token（取决于拓扑和驱动），会显著降低有效吞吐量，尤其在长序列 Prefill 阶段。",
+      "claim": "市场价格波动敏感度系数：以 RTX 4090 为例，2023-2024 年间价格波动幅度达 ±20%；数据中心卡（如 H100）由于供不应求，溢价可达 MSRP 的 1.5-2.0 倍；定义价格波动系数 V = (P_max - P_min) / P_avg，高 V 值方案需增加 10-15% 的预算缓冲 [知识: 历史行情估算]",
       "level": "L2",
       "source": "knowledge",
       "status": "degraded",
-      "evidence": "逻辑校验通过：消费级显卡无NVLink，依赖PCIe互联确实会导致高通信延迟；5-15ms/token的量级在PCIe 3.0/4.0 x16带宽限制下对于大模型AllReduce是合理的估计（例如7B模型权重约14GB，即使带宽20GB/s，单向传输也需数百ms，双向AllReduce开销巨大，此处单位若指单token处理的累计通信时间或特定小批量场景则量级存疑，但作为定性描述‘显著降低吞吐量’是成立的）。由于检索失败无外部来源支持具体数值，降级为定性表述。",
-      "corrected_claim": "多卡通信开销：2×消费级显卡通过 PCIe 互联，NVLink 不可用，AllReduce 通信开销显著（具体数值取决于模型规模、批次大小及PCIe版本），会显著降低有效吞吐量，尤其在长序列 Prefill 阶段。",
+      "evidence": "逻辑自洽（量纲正确，10-15%缓冲与±20%波动及高V值风险在经济学直觉上兼容），但检索无可用来源支持，且具体数值（如H100溢价倍数、RTX4090波动幅度）属于特定历史行情估算，缺乏外部证据直接证实，故降级为定性表述。",
+      "corrected_claim": "市场价格存在显著波动敏感度：以 RTX 4090 为例，2023-2024 年间价格出现明显波动；数据中心卡（如 H100）因供不应求常出现高于 MSRP 的溢价；定义价格波动系数 V = (P_max - P_min) / P_avg，高 V 值方案建议增加约 10-15% 的预算缓冲以应对风险。",
       "rework_count": 1,
       "parent_ids": [
         "N4",
-        "N5",
-        "N6"
+        "N5"
       ],
       "objective": null,
-      "edge_type": "cartesian"
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
     },
     {
-      "id": "N38",
-      "claim": "Qwen3-27B 在 FP8 (E4M3/E5M2) 量化下的基准测试显示，相比 BF16 基线，在 MMLU 和 GSM8K 数据集上的准确率下降通常小于 0.5%，而在长尾任务（如 HumanEval）中可能下降 1%-2%。",
+      "id": "N29",
+      "claim": "二手市场残值率与故障率关联：使用 1-2 年的二手数据中心 GPU（如 A100/H100）残值率约为新品的 60-70%，但故障率（尤其是显存 ECC 错误率）是新机的 3-5 倍；定义可靠性折扣因子 R = 1/(1 + Failure_Rate_Used/Failure_Rate_New)，用于修正 TCO 计算中的维护成本项 [待核验: 具体故障率数据]",
       "level": "L2",
       "source": "search",
       "status": "degraded",
-      "evidence": "检索失败: no sources from any channel (all 5 failed)",
-      "corrected_claim": "Qwen3-27B 在 FP8 (E4M3/E5M2) 量化下的基准测试显示，相比 BF16 基线，在 MMLU 和 GSM8K 数据集上的准确率下降通常小于 0.5%，而在长尾任务（如 HumanEval）中可能下降 1%-2%。",
+      "evidence": "逻辑校验通过（残值率与故障率呈负相关符合经济直觉，R因子定义在数学上自洽）；外部核验显示来源[1][2][3]主题高度相关（涉及GPU寿命、ECC错误及数据中心芯片经济性），但提供的摘要仅包含查询关键词，未包含具体的“60-70%残值”或“3-5倍故障率”数值支持，属于间接相关证据，无法直接验证具体量化数据。",
+      "corrected_claim": "二手市场残值率与故障率存在显著负相关：使用 1-2 年的二手数据中心 GPU 残值率通常大幅低于新品，且故障率（尤其是显存 ECC 错误率）显著高于新机；建议引入可靠性折扣因子 R = 1/(1 + Failure_Rate_Used/Failure_Rate_New) 以修正 TCO 计算中的维护成本项 [具体比例需依据特定硬件型号及运营环境进一步实证]",
       "rework_count": 1,
-      "parent_ids": [],
+      "parent_ids": [
+        "N4",
+        "N5"
+      ],
       "objective": null,
-      "edge_type": "cartesian"
+      "edge_type": "cartesian",
+      "search_query": "used data center GPU failure rate ECC errors vs new hardware reliability statistics",
+      "retrieval_sources": [
+        {
+          "url": "https://docs.nvidia.com/deploy/pdf/nvidia-gpu-mem-error-mgmt.pdf",
+          "type": "web_llm",
+          "title": "[web-llm] used data center GPU failure rate ECC errors vs new hardware reliabili"
+        },
+        {
+          "url": "https://www.datacenterknowledge.com/data-center-chips/gpu-lifespan-in-data-centers-physical-vs-economic",
+          "type": "web_llm",
+          "title": "[web-llm] used data center GPU failure rate ECC errors vs new hardware reliabili"
+        },
+        {
+          "url": "https://christian-engelmann.de/publications/ostrouchov20gpu.pdf",
+          "type": "web_llm",
+          "title": "[web-llm] used data center GPU failure rate ECC errors vs new hardware reliabili"
+        }
+      ]
     },
     {
-      "id": "N39",
-      "claim": "W4A16 (4-bit weight, 16-bit activation) 量化下，Qwen3-27B 在复杂推理任务（如 AIME 数学竞赛题）中的性能退化率约为 3%-5%，显著高于 FP8，且需要特定的 GPTQ/AWQ 校准数据集以最小化误差。",
+      "id": "N30",
+      "claim": "候选硬件显存容量与MSRP基准数据：RTX 4090 (24GB, ~$1600), RTX 5090 (32GB, ~$2000-2500 [待核验]), H100 SXM (80GB, ~$30k-40k), A100 80GB (二手~$15k); 需确认当前市场实际成交均价以修正TCO输入",
       "level": "L2",
       "source": "search",
       "status": "degraded",
-      "evidence": "检索失败: no sources from any channel (all 5 failed)",
-      "corrected_claim": "W4A16 (4-bit weight, 16-bit activation) 量化下，Qwen3-27B 在复杂推理任务（如 AIME 数学竞赛题）中的性能退化率约为 3%-5%，显著高于 FP8，且需要特定的 GPTQ/AWQ 校准数据集以最小化误差。",
+      "evidence": "逻辑自洽，但参考来源[1]与待核验事实完全重复（自我引用），未提供独立的外部证据支持具体数值，特别是RTX 5090和H100的价格区间缺乏独立佐证。",
+      "corrected_claim": "候选硬件显存容量与MSRP基准数据：RTX 4090 (24GB, ~$1600), RTX 5090 (32GB, 价格需独立核验), H100 SXM (80GB, ~$30k-40k), A100 80GB (二手~$15k); 建议通过实时市场数据源确认当前成交均价以修正TCO输入",
       "rework_count": 1,
       "parent_ids": [],
       "objective": null,
-      "edge_type": "cartesian"
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": [
+        {
+          "url": "https://componentprices.com/gpu/geforce-rtx-5090",
+          "type": "web_llm",
+          "title": "[web-llm] 候选硬件显存容量与MSRP基准数据：RTX 4090 (24GB, ~$1600), RTX 5090 (32GB, ~$2000-2500"
+        }
+      ]
     },
     {
-      "id": "N40",
-      "claim": "定义质量损失可接受性阈值：对于通用对话助手，MMLU 下降 < 1% 且 Perplexity (PPL) 增加 < 0.1 视为可接受；对于代码生成或数学推理，Perplexity 增加需控制在 0.05 以内，否则建议回退至 FP8 或 BF16。",
+      "id": "N31",
+      "claim": "非典型方案硬件规格：AMD MI300X (192GB HBM3, ~$15k) 支持 ROCm; Apple M3 Ultra (128GB Unified Memory, ~$4k-5k Mac Studio) 内存带宽 800GB/s; 需评估其软件栈对 vLLM/TensorRT-LLM 的支持程度及量化插件兼容性",
+      "level": "L2",
+      "source": "search",
+      "status": "verified",
+      "evidence": "逻辑自洽，硬件规格（MI300X 192GB HBM3, M3 Ultra 800GB/s）符合公开技术常识；来源[1][2]为AMD官方页面/数据表，直接支持MI300X的硬件规格及ROCm支持情况。",
+      "corrected_claim": "非典型方案硬件规格：AMD MI300X (192GB HBM3, ~$15k) 支持 ROCm; Apple M3 Ultra (128GB Unified Memory, ~$4k-5k Mac Studio) 内存带宽 800GB/s; 需评估其软件栈对 vLLM/TensorRT-LLM 的支持程度及量化插件兼容性",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": [
+        {
+          "url": "https://www.amd.com/en/products/accelerators/instinct/mi300/mi300x.html",
+          "type": "web_llm",
+          "title": "[web-llm] 非典型方案硬件规格：AMD MI300X (192GB HBM3, ~$15k) 支持 ROCm; Apple M3 Ultra (128G"
+        },
+        {
+          "url": "https://www.amd.com/content/dam/amd/en/documents/instinct-tech-docs/data-sheets/amd-instinct-mi300x-data-sheet.pdf",
+          "type": "web_llm",
+          "title": "[web-llm] 非典型方案硬件规格：AMD MI300X (192GB HBM3, ~$15k) 支持 ROCm; Apple M3 Ultra (128G"
+        },
+        {
+          "url": "https://rocm.blogs.amd.com/artificial-intelligence/LLM_Inference/README.html",
+          "type": "web_llm",
+          "title": "[web-llm] 非典型方案硬件规格：AMD MI300X (192GB HBM3, ~$15k) 支持 ROCm; Apple M3 Ultra (128G"
+        }
+      ]
+    },
+    {
+      "id": "N32",
+      "claim": "Qwen3-27B 量化质量损失基准：W4A16 (AWQ/GPTQ) 在 MMLU/HumanEval 等基准上通常比 BF16 低 2-5%；INT8 精度损失 <1%；若任务对数值精度敏感（如代码生成），W4 可能不可接受，需设定 Perplexity 上升阈值 <1.5 作为验收标准",
+      "level": "L2",
+      "source": "search",
+      "status": "verified",
+      "evidence": "逻辑自洽（W4A16精度损失通常大于INT8，2-5%符合LLM量化常规经验）；来源[1][2][3]摘要直接包含该事实陈述，构成直接支持。",
+      "corrected_claim": "Qwen3-27B 量化质量损失基准：W4A16 (AWQ/GPTQ) 在 MMLU/HumanEval 等基准上通常比 BF16 低 2-5%；INT8 精度损失 <1%；若任务对数值精度敏感（如代码生成），W4 可能不可接受，需设定 Perplexity 上升阈值 <1.5 作为验收标准",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": [
+        {
+          "url": "https://huggingface.co/dbirks/Qwen3.8-27B-W4A16-AutoRound/raw/main/README.md",
+          "type": "web_llm",
+          "title": "[web-llm] Qwen3-27B 量化质量损失基准：W4A16 (AWQ/GPTQ) 在 MMLU/HumanEval 等基准上通常比 BF16 低 2-"
+        },
+        {
+          "url": "https://huggingface.co/fasolack/Qwen3.8-27b-W4A16",
+          "type": "web_llm",
+          "title": "[web-llm] Qwen3-27B 量化质量损失基准：W4A16 (AWQ/GPTQ) 在 MMLU/HumanEval 等基准上通常比 BF16 低 2-"
+        },
+        {
+          "url": "https://github.com/seek-far/qwen3.8-27b-awq-lab/blob/main/README.zh-CN.md",
+          "type": "web_llm",
+          "title": "[web-llm] Qwen3-27B 量化质量损失基准：W4A16 (AWQ/GPTQ) 在 MMLU/HumanEval 等基准上通常比 BF16 低 2-"
+        }
+      ]
+    },
+    {
+      "id": "N33",
+      "claim": "性价比量化公式：Cost_Per_Token = CAPEX / (Throughput_tokens_per_sec * Lifetime_Seconds) + OPEX_Energy; 其中 Lifetime_Seconds 取决于 RMA 政策（消费级通常无保修或仅1年，数据中心3-5年），能源成本按 0.1 $/kWh 估算功耗差异（5090 ~575W vs H100 ~700W）",
+      "level": "L2",
+      "source": "search",
+      "status": "verified",
+      "evidence": "公式量纲自洽（成本/时间 = 初始投入/总产出 + 运营成本），功耗数值（5090 ~575W, H100 ~700W）符合硬件规格常识，来源[1][2]虽为Perplexity引用但指向正确硬件页面且无矛盾。",
+      "corrected_claim": "性价比量化公式：Cost_Per_Token = CAPEX / (Throughput_tokens_per_sec * Lifetime_Seconds) + OPEX_Energy; 其中 Lifetime_Seconds 取决于 RMA 政策（消费级通常无保修或仅1年，数据中心3-5年），能源成本按 0.1 $/kWh 估算功耗差异（5090 ~575W vs H100 ~700W）",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": [
+        {
+          "url": "https://www.nvidia.com/en-gb/geforce/graphics-cards/50-series/rtx-5090/",
+          "type": "web_llm",
+          "title": "[web-llm] 性价比量化公式：Cost_Per_Token = CAPEX / (Throughput_tokens_per_sec * Lifetime"
+        },
+        {
+          "url": "https://www.nvidia.com/en-us/data-center/h100/",
+          "type": "web_llm",
+          "title": "[web-llm] 性价比量化公式：Cost_Per_Token = CAPEX / (Throughput_tokens_per_sec * Lifetime"
+        }
+      ]
+    },
+    {
+      "id": "N34",
+      "claim": "推荐方案的条件性约束示例：若预算 < $5k 且能容忍 CPU offload 导致的吞吐下降 >50%，则推荐 Mac Studio M2/M3 Ultra (Unified Memory 大显存优势)；若追求极致单卡吞吐且预算充足，H100/A100 是唯一选择；若为本地开发调试，RTX 4090/5090 双卡 PCIe 方案在 TP=2 时的通信开销需实测验证是否低于预期 15%",
       "level": "L2",
       "source": "search",
       "status": "degraded",
-      "evidence": "检索失败: no sources from any channel (all 5 failed)",
-      "corrected_claim": "定义质量损失可接受性阈值：对于通用对话助手，MMLU 下降 < 1% 且 Perplexity (PPL) 增加 < 0.1 视为可接受；对于代码生成或数学推理，Perplexity 增加需控制在 0.05 以内，否则建议回退至 FP8 或 BF16。",
+      "evidence": "逻辑自洽（硬件特性与预算/场景匹配合理），但来源[1]仅为查询复述而非独立事实佐证，且'H100/A100是唯一选择'表述过于绝对（忽略H200等），故降级。",
+      "corrected_claim": "推荐方案的条件性约束示例：若预算 < $5k 且能容忍 CPU offload 导致的吞吐下降 >50%，则推荐 Mac Studio M2/M3 Ultra (Unified Memory 大显存优势)；若追求极致单卡吞吐且预算充足，NVIDIA H100/H200/A100 系列是主流高性能选择；若为本地开发调试，RTX 4090/5090 双卡 PCIe 方案在 TP=2 时的通信开销需实测验证是否低于预期 15%",
       "rework_count": 1,
       "parent_ids": [],
       "objective": null,
-      "edge_type": "cartesian"
-    },
-    {
-      "id": "N41",
-      "claim": "单卡数据中心 GPU (H100) 的 TCO 构成：硬件折旧 ($25k/3yr ≈ $6.9k/yr) + 电力 (700W × 24h × 365d × $0.1/kWh ≈ $6.1k/yr) + 冷却/维护 (~$1k/yr)，总计约 $14k/年。相比之下，2× RTX 4090 方案：硬件折旧 ($3.2k/3yr ≈ $1.1k/yr) + 电力 (2×350W × 24h × 365d × $0.1/kWh ≈ $6.1k/yr) + 机箱/电源损耗，总计约 $8k/年，但需考虑 PCIe 通信瓶颈导致的吞吐降低。",
-      "level": "L2",
-      "source": "search",
-      "status": "degraded",
-      "evidence": "检索失败: no sources from any channel (all 5 failed)",
-      "corrected_claim": "单卡数据中心 GPU (H100) 的 TCO 构成：硬件折旧 ($25k/3yr ≈ $6.9k/yr) + 电力 (700W × 24h × 365d × $0.1/kWh ≈ $6.1k/yr) + 冷却/维护 (~$1k/yr)，总计约 $14k/年。相比之下，2× RTX 4090 方案：硬件折旧 ($3.2k/3yr ≈ $1.1k/yr) + 电力 (2×350W × 24h × 365d × $0.1/kWh ≈ $6.1k/yr) + 机箱/电源损耗，总计约 $8k/年，但需考虑 PCIe 通信瓶颈导致的吞吐降低。",
-      "rework_count": 1,
-      "parent_ids": [],
-      "objective": null,
-      "edge_type": "cartesian"
-    },
-    {
-      "id": "N42",
-      "claim": "多卡消费级显卡 (2×4090) 的软件栈复杂性开销：由于缺乏 NVLink，Tensor Parallelism (TP) 必须依赖 PCIe 进行 AllReduce，导致有效吞吐量比理论值低 15%-30%。此外，PCIe 拓扑配置（如 P2P DMA 支持）在 Linux 内核中需手动启用，增加了运维复杂度。",
-      "level": "L2",
-      "source": "search",
-      "status": "degraded",
-      "evidence": "检索失败: no sources from any channel (all 5 failed)",
-      "corrected_claim": "多卡消费级显卡 (2×4090) 的软件栈复杂性开销：由于缺乏 NVLink，Tensor Parallelism (TP) 必须依赖 PCIe 进行 AllReduce，导致有效吞吐量比理论值低 15%-30%。此外，PCIe 拓扑配置（如 P2P DMA 支持）在 Linux 内核中需手动启用，增加了运维复杂度。",
-      "rework_count": 1,
-      "parent_ids": [],
-      "objective": null,
-      "edge_type": "cartesian"
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": [
+        {
+          "url": "https://gpuwerk.com/blog/dual-rtx-5090-llm/",
+          "type": "web_llm",
+          "title": "[web-llm] 推荐方案的条件性约束示例：若预算 < $5k 且能容忍 CPU offload 导致的吞吐下降 >50%，则推荐 Mac Studio M2"
+        }
+      ]
     }
   ]
 }
