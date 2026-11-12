@@ -411,6 +411,8 @@ class NodeRecord:
     parent_ids: list = field(default_factory=list)
     objective: Optional[dict] = None  # Decision 19: L0 终点目标函数（模型自估计，仅根节点带）
     edge_type: str = "cartesian"  # Decision 24 扩展 (idea #43): cartesian / quotient / stochastic
+    search_query: str = ""  # D32: 模型生成的英文检索词（P1H_INDEX 已要求输出；之前被丢弃，导致检索永远用中文 claim）
+    retrieval_sources: list = field(default_factory=list)  # D32: 该节点实际拿到的来源 [{url,type,title}]——信息获取度量的原料
 
 
 @dataclass
@@ -573,6 +575,7 @@ class DecompStateMachine:
                 source=rn.get("source", "search"),
                 parent_ids=[p.id for p in parents],
                 edge_type=valid_et,
+                search_query=(rn.get("search_query") or "").strip(),  # D32: 不再丢弃模型生成的检索词
             )
             new_recs.append(rec)
         return new_recs
@@ -586,7 +589,7 @@ class DecompStateMachine:
                 else:
                     srcs, err = search_node(
                         {"id": node.id, "claim": node.claim,
-                         "search_query": node.claim}, qid=self.qid)
+                         "search_query": node.search_query or node.claim}, qid=self.qid)
                 if err:
                     node.status = "degraded"
                     node.evidence = f"检索失败: {err}"
@@ -594,6 +597,12 @@ class DecompStateMachine:
                     self.confirmed.append((node.id, node.claim, "degraded"))
                     continue
                 srcs_list = srcs if isinstance(srcs, list) else []
+                # 信息获取度量（D32）：记录该节点实际拿到哪些来源——
+                # 后续可算 per-node source yield（几条来源支撑了几 nat info-gain），
+                # 以及通道级命中率（哪个 channel 的来源最终进了 verified evidence）。
+                node.retrieval_sources = [
+                    {"url": s.get("url"), "type": s.get("source_type"),
+                     "title": (s.get("title") or "")[:80]} for s in srcs_list]
             else:
                 # given/knowledge 不检索，但同样过 LLM 核验（AC3: 所有节点都要有真实 evidence）
                 srcs_list, err = [], None
