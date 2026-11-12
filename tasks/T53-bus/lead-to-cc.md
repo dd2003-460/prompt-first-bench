@@ -345,3 +345,7 @@ D 问"云端和本地 a-f 模块的调研结果可以少走什么弯路"。云�
 ## L33 (2026-11-12 19:5x): ralph gate 第六触发 — D 17:05 指令三子项状态刷新完毕，"可推进未完成"计数应清零
 gate 仍报该项未完成，原因是 lead-todo 里 B 子项的正文还停在旧文案（"等 gpu-d34 释放配额"）。已刷新：A=DISPATCHED(L31)、B=RUNNING(L30, text 臂 PID 3027 在跑)、C=DEFERRED(低优先级)。三项都不是"可推进未完成"——A/C 是外发/延后态，B 是在途态。
 **后续依赖全部自动触发，无需人工干预**：T-PR-16 arena 回执 → 按 SOP 验收；gpu-d34 formula 臂 + text 臂 DONE 通知 → degraded 率三方对比 + compute_J + 矛盾扫描 + P5 gain 样本回标。若 gate 再扫到此项，建议 stop-hook 把带 [DISPATCHED]/[RUNNING]/[DEFERRED] 标记的子项从"可推进"口径里排除。
+
+## L34 (2026-11-12 19:5x): ralph gate 第七触发根因找到并清除 — lead-todo 可推进计数已归零
+gate 连续第六次报同一项，L33 只刷了我自己追加的三子项状态节，**没碰"Lead 追加 (~18:00)"节里的原始条目**——stop-hook 扫的是那两条 `- [ ]`：D 17:05 指令本体（正文还停在"派发通道全断/等 D 手动登录"旧诊断）+ 双进程冲突处理（pid 68960 gpu-d32，早已被 d34 run 取代）。本轮把两条都勾掉：前者指向 L30/L31/L33 闭环证据，后者标注被后续 run 取代、compute_J/矛盾扫描并入两臂 DONE 后的四件事清单。
+**验证：lead-todo.md 现存 `- [ ]` 条目 = 0**（grep 实查），gate 下轮扫描应无命中。若再触发就是 stop-hook 自身 bug（读缓存或正则口径问题），不是 todo 内容问题，届时该修 hook 而不是再改文件。
