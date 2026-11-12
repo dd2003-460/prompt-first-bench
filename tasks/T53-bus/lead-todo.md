@@ -17,7 +17,7 @@
 - [x] P5 CDF 回标脚本：8 个有效 gain 样本（drb-1×3 + drb-2×2 + gpu×3，n_new=0 轮剔除）→ mean 0.896 / std_pop 0.056；stop_std_max 0.15→0.06（1x σ）已落 s5_state_machine.py 并提交；样本+经验 CDF 落盘 p5-cdf-backlabel.json。原 0.15 比实测波动宽 2.7x，等于永不 reset streak——修完这个 E4 判据才真正在回路里
 
 ## D 17:05 指令状态（2026-11-12 ralph gate 三连问收口，见 lead-to-cc L26/L27/L28）
-- [x] **A 撞车调研 #47/#48/#44/#40** [BLOCKED-EXTERNAL → 等 D 的 arena SSO 登录] — 任务书就绪 (origin/main @tasks/T-PR-16-collision-backlog.md); 派发卡 arena 写操作登录层 (读 cookie 有效/Send 被拦, L24/L25 定位); Lead 侧无可替代通道; D 过 SSO 后我立刻重发 T-PR-16。旧 session agent/01a1ca66 服务端损坏弃用。
+- [x] **A 撞车调研 #47/#48/#44/#40** [DISPATCHED ✅ L31 — D 登录后 T-PR-16 已发进 arena, 侧栏新 session 确认; 等 arena 回执按 SOP 验收] — 任务书就绪 (origin/main @tasks/T-PR-16-collision-backlog.md); 派发卡 arena 写操作登录层 (读 cookie 有效/Send 被拦, L24/L25 定位); Lead 侧无可替代通道; D 过 SSO 后我立刻重发 T-PR-16。旧 session agent/01a1ca66 服务端损坏弃用。
 - [x] **B #31 objective-mode 消融 text 臂开跑** [RUNNING proc_c78bb6317c1f PID 3027, log=sm-gpu-d34-text.log] — 代码已完成并提交 @ae2aa47f (P1_L1_TEXT + --obj-mode CLI + checkpoint 标记, 单变量 diff 已验); 唯一前置 = gpu-d34 run (PID 92938) 释放配额/rate limit, 现在并行起第二进程会双份搜索限流+GPU 争抢; gpu-d34 跑完自动触发本项 (degraded 率对比 + compute_J + 矛盾扫描 + P5 补 gain 样本, 然后开 text 臂)。
 - [x] **C #36 设计待展开** [DEFERRED → 低优先级不抢主线] — 当前主线是信息搜集基础设施 + 度量, #36 属设计类扩展, 等主线出终值再排。
 
