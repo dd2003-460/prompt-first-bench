@@ -199,71 +199,81 @@ def _wiki_search(query, max_results=3):
     return results
 
 
+
+_STOPWORDS = frozenset("""of the a an and or vs versus for with from to in on by at per
+that this these those how what which when where why does do did is are was were be been
+its its their your my our his her not no more most less least between within without
+under over into onto upon against through during before after each every some any all
+both few several other another such than then so as if while because but also only just
+very quite can could should would may might will shall""".split())
+
+def _slim_query(query, max_words=6):
+    """把长尾陈述句 query 压成 ≤max_words 个实义词的检索式。
+    规则：小写分词 → 丢停用词 → 含数字的 token（型号 H100/RTX 4090/27B、年份 2024）
+    及其紧邻的前置修饰词优先保留，其余实义词按原序补足；全被丢光则退回原 query。
+    动机（D34）：degraded 节点英文 query 中位 9 词最长 14 词，DDG lite 多条件 AND
+    直接零结果；唯一 verified 英文命中是最短 5 词 query。"""
+    toks = re.findall(r"[A-Za-z0-9][A-Za-z0-9.%/-]*", query.lower())
+    keep = []
+    for i, w in enumerate(toks):
+        if w in _STOPWORDS:
+            continue
+        if any(ch.isdigit() for ch in w):
+            # 型号/数字：带上它前面的一个非停用词修饰（如 rtx 之于 4090）
+            if i > 0 and toks[i-1] not in _STOPWORDS and toks[i-1] not in keep:
+                keep.append(toks[i-1])
+            keep.append(w)
+    for w in toks:  # 纯文字实义词按原序补足
+        if w not in _STOPWORDS and w not in keep:
+            keep.append(w)
+        if len(keep) >= max_words:
+            break
+    keep = keep[:max_words]
+    return " ".join(keep) if keep else query
+
 def _ddg_search(query, max_results=3):
     """DuckDuckGo LITE endpoint（纯 HTTP，不依赖 ego-browser）。
     lite.duckduckgo.com/lite/ 对 GPU 价格/功耗/TCO 这类非学术事实有效。
     有 anomaly 限流——重试一次（间隔 4s），仍被拦则静默返回 []。
+    D34: 长 query 先瘦身再查（_slim_query），失败退回原 query 再试一轮。
     返回 [{title, url, snippet}, ...]"""
     import urllib.request, time as _time, html as _html
-    # D 指令 (2026-11-12): site: 白名单限定（业内公司文档/手册域），从源头掐广告垃圾。
-    # 注意：DDG lite/Bing 对多 site: 支持不稳，这里用单域名轮询策略——
-    # 先不加限定跑一次，若结果含非白名单域则逐域重试（见下方逻辑）。
+    # D34 (2026-11-12): P1H_INDEX 生成的 search_query 是完整事实陈述（degraded 节点
+    # 英文 query 中位 9 词、最长 14 词），塞进 DDG lite 等于多条件 AND → 零结果，
+    # 这是上一轮 gpu 跑 43/86 degraded 全是 "all 5 failed" 的主因之一。
+    slimmed = _slim_query(query)
+    queries = [query] if slimmed == query else [slimmed, query]
     results = []
-    for attempt in range(2):
-        try:
-            url = ("https://lite.duckduckgo.com/lite/?q=" + quote_plus(query))
-            req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (pfb-research)"})
-            html_txt = urllib.request.urlopen(req, timeout=15).read().decode("utf-8", errors="replace")
-            if "anomaly" in html_txt.lower():
+    for q_try in queries:
+        for attempt in range(2):
+            try:
+                url = ("https://lite.duckduckgo.com/lite/?q=" + quote_plus(q_try))
+                req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (pfb-research)"})
+                html_txt = urllib.request.urlopen(req, timeout=15).read().decode("utf-8", errors="replace")
+                if "anomaly" in html_txt.lower():
+                    if attempt == 0:
+                        _time.sleep(4)
+                        continue
+                    break
+                from urllib.parse import unquote
+                for mm in re.finditer(r'<a[^>]*rel="nofollow"[^>]*href="([^"]+)"[^>]*>(.*?)</a>', html_txt, re.DOTALL):
+                    href, title = mm.group(1), re.sub(r'<[^>]+>', '', mm.group(2)).strip()
+                    if not title or len(results) >= max_results:
+                        continue
+                    if "uddg=" in href:
+                        idx = href.index("uddg=")
+                        href = _html.unescape(unquote(href[idx + 5:]))
+                    snip_m = re.search(r"class='result-snippet'[^>]*>\s*(.*?)\s*</td>", html_txt[mm.end():mm.end()+2000], re.DOTALL)
+                    snippet = re.sub(r'<[^>]+>', '', snip_m.group(1)).strip()[:400] if snip_m else ""
+                    results.append({"title": _html.unescape(title)[:200], "url": href, "snippet": snippet})
+                if results:
+                    break
+            except Exception:
                 if attempt == 0:
-                    _time.sleep(4)
-                    continue
-                break
-            from urllib.parse import unquote
-            for m in re.finditer(r'<a[^>]*rel="nofollow"[^>]*href="([^"]+)"[^>]*>(.*?)</a>', html_txt, re.DOTALL):
-                href, title = m.group(1), re.sub(r'<[^>]+>', '', m.group(2)).strip()
-                if not title or len(results) >= max_results:
-                    continue
-                if "uddg=" in href:
-                    idx = href.index("uddg=")
-                    href = _html.unescape(unquote(href[idx + 5:]))
-                snip_m = re.search(r"class='result-snippet'[^>]*>\s*(.*?)\s*</td>", html_txt[m.end():m.end()+2000], re.DOTALL)
-                snippet = re.sub(r'<[^>]+>', '', snip_m.group(1)).strip()[:400] if snip_m else ""
-                results.append({"title": _html.unescape(title)[:200], "url": href, "snippet": snippet})
-            if results:
-                break
-        except Exception:
-            if attempt == 0:
-                _time.sleep(2)
-            continue
-    if not results:
-        # 2026-11-09: DDG lite 被 anomaly 限流、html 端点 TLS 握手失败 → 回退 Bing
-        # （cn.bing.com 可达，不同限流桶；对价格/规格类非学术事实有效）
-        # 2026-11-12: bing 国际版（www.bing.com + en-US header）对中文 query 也返回干净结果，
-        # cn.bing.com 的跨域垃圾（歌词/文库/电商平台）已实测确认，统一走国际版。
-        try:
-            import urllib.request, html as _html
-            url2 = "https://www.bing.com/search?q=" + quote_plus(query) + "&setlang=en&cc=us"
-            req2 = urllib.request.Request(url2, headers={
-                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36",
-                "Accept-Language": "en-US,en;q=0.9",
-            })
-            html_txt = urllib.request.urlopen(req2, timeout=15).read().decode("utf-8", errors="replace")
-            # bing result blocks: <li class="b_algo"> with <h2><a href> and <p>
-            for block in re.findall(r'<li class="b_algo".*?</li>', html_txt, re.DOTALL)[:max_results]:
-                a_m = re.search(r'<h2[^>]*><a[^>]*href="([^"]+)"[^>]*>(.*?)</a>', block, re.DOTALL)
-                p_m = re.search(r'<p[^>]*>(.*?)</p>', block, re.DOTALL)
-                if not a_m:
-                    continue
-                href = a_m.group(1)
-                title = _html.unescape(re.sub(r'<[^>]+>', '', a_m.group(2))).strip()
-                snippet = re.sub(r'<[^>]+>', '', p_m.group(1)).strip()[:400] if p_m else ""
-                if title:
-                    results.append({"title": title[:200], "url": href, "snippet": snippet})
-        except Exception:
-            pass
+                    _time.sleep(2)
+        if results:
+            break
     return results
-
 
 def _webfetch_page(url, title_hint="", timeout=20):
     """纯 HTTP GET 抓取页面文本（stdlib urllib，不依赖 ego-browser）。
