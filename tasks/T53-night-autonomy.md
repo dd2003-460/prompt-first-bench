@@ -94,3 +94,10 @@
 
 ## 执行日志
 - 2026-11-12 ~18:15 [night-cron] 处理 inbox L2（D 17:05 idea/撞车指令）：撞车调研 T-PR-16 仍阻塞于 arena.ai 登录墙（[待D醒]，不重复试）；idea backlog B 组小实验 #31/#29/#24 授权 CC 按 NIGHT-PROTOCOL 自主排队（lead-to-cc L24）。inbox 已清空。gpu-d32 (pid 68960) r2 ckpt 落盘：67 nodes / 0 dup / verified 23 / leaks=0，log 活跃中；等 r3/DONE 后重算 compute_J 对比 Δ/H* 20.8 基线。已 commit+push (b8a9fd15)。
+
+## 执行日志（追加）
+
+- **2026-11-12 18:25** gpu-d32 已于 18:21 DONE（137 nodes / 3 rounds / state=rework / leaks=0 / reworks=91；status: verified 52 / degraded 78 / failed 2 / pending 5；edge: cartesian 120 + quotient 17）。stats 已读自 `experiments/stage-ablation/runs-s5-sm-gpu.json`。注：JSON n_nodes=137 vs console 报 133，差 4 个重复 id 条目（N60×13 等），属记录层小瑕疵，不影响本轮结论。
+- **2026-11-12 18:25** CC 工作核实：D34 query 瘦身（`research_hook._slim_query` ≤6 实义词，修 DDG lite 长尾零结果根因）+ checkpoint/r3/gpu 终态落盘 → 已 commit `fec564f4` push origin main。
+- **2026-11-12 18:25** restructure B1 完成：根目录 27 文件 → `archive/root-runs/` + `archive/legacy-docs/`（pid 72066/92810 均已死，确认无活进程引用）；6 处代码引用同步改（r14_analysis/drb_judge/gptr_smoke/gptr_bench_run/gptr_drb10_run/drb_race_judge），py_compile 全过；根目录 57→28。同 commit `fec564f4`。
+- **待办**：B2 一级目录归位（bench/lit-survey/knowledge-base/outputs/notes/receipts/checkpoints/demo/src → modules/）——需先建 modules/ 骨架，留下一轮。
