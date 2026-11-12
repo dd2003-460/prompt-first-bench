@@ -34,6 +34,15 @@
 
 **下一步排序**：gpu run 出树 → 验树 + 补 gain/pass_rate 样本 → 写 P5 CDF 回标脚本 → 用回标值替换拍脑袋阈值。
 
+## Team 系统盘点 (2026-11-12 20:2x, D 问"本机 cc team+看板能不能用")
+
+D 提示本机有基于 CC 的 team+看板系统，本轮实查（来源①）：
+- `~/.claude/teams/`：ralph（config 只剩 team-lead 一人）、ralph-loop、signal-ops（provisioning flow，team-lead only）、d1-grav-waves、forge-labs + 一批 session-* 目录。**没有独立的看板服务在跑**——workspace 里的 `.board-task-change-freshness` 是空文件，`scripts/research_dashboard.py` 是旧的 cron 仪表盘（已迁到 memory/INDEX.md），DASHBOARD.md 标注"已迁移"。所以"看板"部分目前只有文件总线形态。
+- **真正可用的是 T53 文件总线**（`pfb/tasks/T53-bus/`）：PROTOCOL.md 定义 lead-to-teamer / teamer-to-lead / cc-to-lead 三条追加式通道 + idea 记录规范（taste 三问），NIGHT-PROTOCOL.md 定义夜间双人分工（Teamer=subagent 执行层，Lead=方向判断）。这就是我们的"team+看板"，只是形态是 markdown bus 而不是 UI 看板。
+- **当前状态**：CC 实验员线 [BLOCKED-EXTERNAL]（等 CC sub-brain 进程重启，L6-L16 积压）；Teamer 线上次活跃是 r14 诊断期（teamer-state.json note @02:50），之后被 gpu-d34/#31 两臂取代，无新任务下发。
+
+**可用性结论**：能用，且现在就该用——两臂 DONE 后的四件事分析（degraded 率三方对比 + compute_J + 矛盾扫描 + P5 gain 样本回标）正好拆成可并行的工作单元派给 Teamer，不用占主会话上下文。等 DONE 通知一到我就按 NIGHT-PROTOCOL 分工写 lead-to-teamer.md 派发单。若 D 想要的是**可视化看板**（UI 形态），那是另一件事：research_dashboard.py 可以改造读 T53-bus + loop-state.json 生成 HTML，但优先级低于让现有 bus 转起来——先把活分出去，再谈展示。
+
 ## Lead 追加 (2026-11-12 ~18:00, 传话太监代 D 记录)
 
 - [x] **D 新指令 (17:05 inbox)** [CLOSED ✅ L31/L30/L33]：剩余 idea 没做没调研 → 三子项全部闭环或外发在途：**A 撞车调研 #47/#48/#44/#40 = DISPATCHED**（D 登录后 T-PR-16 已发进 arena, 侧栏新 session 确认, L31）；**B 小实验 #31 = RUNNING**（objective-mode text 臂 PID 3027 proc_c78bb6317c1f 在跑, L30; #29/#30 需 r12 树+GPU 同等待）；**C 设计 #36 = DEFERRED**（低优先级不抢主线）。后续自动触发：arena 回执→SOP 验收；两臂 DONE→degraded 率三方对比+compute_J+矛盾扫描+P5 gain 样本回标。原"派发通道全断"诊断已被 L24-L31 推翻修正（非裸登录墙, 是写操作需完整登录态, D 登录后一次通过）。
