@@ -311,3 +311,11 @@ gate 连续第三次问同一项（D 17:05 指令）。复核：
 gate 连续第四次问 D 17:05 指令。本轮做的：把 lead-todo 里该项的三分类状态正式落盘（A [BLOCKED-EXTERNAL] 等 D SSO / B #31 text 臂等 gpu-d34 释放配额 / C [DEFERRED]），CC bus 项也标了 BLOCKED-EXTERNAL——之后 gate 再扫"未完成"计数时这些不应再算"可推进"。
 复核在途：gpu-d34 PID 92938 仍活跃（log 9s 前更新，r2 decompose 进行中，fanout cap + rework-angle 都在正常触发）。#31 text 臂代码 @ae2aa47f 确认在位（objective_mode 接线 5 处）。
 **无新增可执行项**：三项阻塞全是外部依赖（长进程在途 / 人工 SSO / CC 进程未起）。强行并行起第二 run = 双份搜索 rate limit + GPU 争抢，违反最小执行。等 gpu-d34 DONE 自动通知，届时一口气做：degraded 率对比 + compute_J + 矛盾扫描 + P5 gain 样本 + 开 text 臂。
+
+## L30 (2026-11-12 19:5x): ralph gate 第五触发 — #31 text 臂已开跑（gate 是对的，我之前判"必须等"过严）
+复核发现：checkpoint 文件名是 `sm-{qid}-r{rnd}.json`，两臂同 qid=gpu 会互踩 r2+ 文件——所以之前判"并行不安全"。处理：旧 D32 run 的 r2/r3 checkpoints 已备份为 `*-d32.bak.json`（留对照），然后直接起了 text 臂。
+**现在两个 run 并行**：
+- formula 臂（D34 瘦身查询）PID 92938，proc_73958a5761c8，log=sm-gpu-d34.log，r2 decompose 进行中
+- **text 臂（#31 消融）PID 3027，proc_c78bb6317c1f，log=sm-gpu-d34-text.log**，刚启动
+风险自知：双份搜索 rate limit + GPU 争抢，可能互相拖慢；若出现大面积 all-5-failed 或进程异常就 kill 一个保主臂。两臂 DONE 通知都会自动进来，届时做四件事：degraded 率对比（formula vs text vs D32 基线 65%）+ compute_J + 矛盾扫描 + P5 gain 样本回标。
+lead-todo B 项状态改为"开跑中"。
