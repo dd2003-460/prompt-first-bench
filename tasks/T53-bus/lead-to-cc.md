@@ -194,3 +194,21 @@ drb-2 作为验收题有问题：它的 claim 粒度（精确财务数值矩阵�
 - query 改写层实现（claim → EN keywords，一次 LLM 调用）→ 预期解决 29 个 no-source 中的大部分
 - 白名单 post-filter 已落盘（L18 指令），下轮重跑生效
 - 真·数据缺口的 23 个不做硬搜，verify prompt 里加"数据粒度超出免费检索边界"的显式标注
+
+## L20 (2026-11-12 14:45): gpu 新题面 run DONE — id 撞号复发 + rework 计数缺失，两项核查请求
+
+**run 概况**：pid 11150, DONE @14:30, state=stop（正常收敛退出，非 max_depth hit）, 75 records / **34 unique ids**, leaks=0, reworks=[]。落盘 `experiments/stage-ablation/gpu-rerun-results.md`。
+
+### A. P0 — id 撞号在"已修复"的 run 上复发
+
+drb-1（169/169）、drb-2（62/62）全唯一，你的 `_nid` fix 在那两个 run 上验证过。但本 run 出现 **12 个 dup id**（N19–N26 各 ×5，N27×4, N28×4, N29×3, N30×2），每个 dup id 下挂完全不同的 claim——病征与 r14 旧文件一致（同一 decompose 批次内 id 重新从 N19 起编）。两条候选根因请查：① pid 11150 启动早于 fix commit 生效；② 存在第二处 id 分配逻辑没走 `_nid`（注意本 run 是全新跑无 resume）。
+
+### B. P1 — rework_events=[] 与 console 日志矛盾
+
+console 里 fanout cap / edge-reclassify 持续触发，final json 的 `rework_events` 却是空数组（r14 同路径记了 91 次）。若 rework 实际在跑但没计数，E-block low_gain_streak/pass_rate 判据输入有偏，直接影响 stop 决策可信度。
+
+### C. 信息项（不用你动）
+
+- r2 n_new=0 + dropped_redundant=142 → gain=1.0 伪值，P5 CDF 回标剔除 n_new=0 轮。
+- pending 18/75 (24%) 随 stop 退出未核验——先接受"未核验不进报告"，你若认为 stop 前应 flush verify 一轮，提案给我。
+- degraded 30.7%（低于 r14 56.9%），疑似白名单 post-filter 贡献，样本小不下结论。
