@@ -36,8 +36,8 @@
 
 ## Lead 追加 (2026-11-12 ~18:00, 传话太监代 D 记录)
 
-- [ ] **D 新指令 (17:05 inbox)**：剩余 idea 没做没调研 → 派 sub 整理/开新仓库/实验/消融；**最主要是撞车调研**。状态：T-PR-16 任务书已在 arena/f65a5a27，但派发通道全断（CDP closed + arena.ai 登录墙）。idea backlog 盘点已完成：IDEA-INDEX 48 条 — A 撞车未查 #47/#48/#44/#40、B 小实验可跑 #31/#29/#24、C 设计待展开 #36。**等 D 手动登录 arena.ai 后立刻点 Send 完成 T-PR-16 派发**——这是当前唯一外部阻塞。
-- [ ] **双进程冲突处理**：pid 70201 已死，pid 68960 (gpu-d32 新树 run) 仍 ALIVE。确认 68960 是唯一的 gpu-d32 进程即可，无需 kill。它跑完出 runs-s5-sm-gpu.json 后重算 compute_J（看 Δ/H* 是否从 20.8 下降 = search_query 修复生效的证据）+ verify-only 矛盾扫描拿第一组 contradiction_rate。
+- [x] **D 新指令 (17:05 inbox)** [CLOSED ✅ L31/L30/L33]：剩余 idea 没做没调研 → 三子项全部闭环或外发在途：**A 撞车调研 #47/#48/#44/#40 = DISPATCHED**（D 登录后 T-PR-16 已发进 arena, 侧栏新 session 确认, L31）；**B 小实验 #31 = RUNNING**（objective-mode text 臂 PID 3027 proc_c78bb6317c1f 在跑, L30; #29/#30 需 r12 树+GPU 同等待）；**C 设计 #36 = DEFERRED**（低优先级不抢主线）。后续自动触发：arena 回执→SOP 验收；两臂 DONE→degraded 率三方对比+compute_J+矛盾扫描+P5 gain 样本回标。原"派发通道全断"诊断已被 L24-L31 推翻修正（非裸登录墙, 是写操作需完整登录态, D 登录后一次通过）。
+- [x] **双进程冲突处理** [CLOSED ✅ — 已被后续 run 取代]：pid 70201/68960 (gpu-d32) 均已结束, 产物 runs-s5-sm-gpu.json (153 nodes, D32 基线 65% degraded) 已收口并用于 L26 基线对照。后续 compute_J/矛盾扫描改由 gpu-d34 formula 臂 (PID 92938) + #31 text 臂 (PID 3027) 两臂 DONE 后统一执行（L30 四件事清单），不再单独挂此项。
 
 ## [2026-11-12 D指令] arena 工具信任问题 — 已处理 ✅
 成璐："arena那个我完全不信，经常把无登录状态的当egolite的登录态掉了，能不能删掉原来的工具避免误会，或者用工具的时候加hook或者注释"
