@@ -28,6 +28,36 @@ _CACHE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".research
 _CACHE_TTL_S = 7 * 24 * 3600
 
 
+# D 指令 (2026-11-12)：搜索结果全是广告 → 只定准业内公司文档和手册。
+# 结果侧域名白名单（post-filter）——搜索引擎对 site: 支持不稳（DDG lite 忽略、
+# cn.bing geo 后失效），所以搜索照常跑，拿到结果后按域过滤。
+# 白名单 = 百科 + 监管年报 + 财务数据 + 行业媒体 + 技术论坛（D 确认 wiki/技术论坛质量高）。
+_SOURCE_WHITELIST = [
+    "wikipedia.org",       # en+zh 百科
+    "sec.gov",             # EDGAR 年报/招股书
+    "investopedia.com",    # 金融术语与概念手册
+    "reuters.com",         # 行业新闻
+    "bloomberg.com",       # 财经新闻
+    "macrotrends.net",     # 长尾财务序列
+    "stockanalysis.com",   # 财务比率与估值
+    "stackoverflow.com",   # 技术论坛（GPU/工程规格类问题）
+    "hackernews.com",      # 技术讨论
+    "reddit.com",          # 社区讨论（r/MachineLearning, r/GPU 等）
+]
+
+
+
+
+# D 指令 (2026-11-12)：搜索结果全是广告 → 只定准业内公司文档和手册。
+# site: 白名单让 DDG/Bing 只在权威域内检索，从源头掐掉广告/垃圾站。
+_SITE_RESTRICT = (" ".join(f"site:{d}" for d in [
+    "wikipedia.org", "sec.gov", "investopedia.com", "reuters.com",
+    "bloomberg.com", "macrotrends.net", "stockanalysis.com",
+]))
+
+
+
+
 def _cache_path(qid, question):
     h = _hashlib.sha256(f"{qid}\x00{question}".encode()).hexdigest()[:24]
     return os.path.join(_CACHE_DIR, f"{h}.json")
@@ -127,6 +157,17 @@ def _wiki_search(query, max_results=3):
                 _time.sleep(0.3)  # rate-limit courtesy
         except Exception:
             pass
+    # D 指令 (2026-11-12): site: 白名单后过滤——搜索引擎对 site: 支持不稳（实测
+    # DDG lite 忽略 site:，Bing geo 到 cn 时 site: 失效），所以这里做结果侧兜底：
+    # 只保留白名单域的结果。若全被杀光则返回空（让上层走 wiki/webfetch 通道）。
+    _wl_domains = ["wikipedia.org", "sec.gov", "investopedia.com", "reuters.com",
+                   "bloomberg.com", "macrotrends.net", "stockanalysis.com"]
+    def _in_whitelist(url):
+        return any(d in url for d in _wl_domains)
+    before_wl = len(results)
+    results = [r for r in results if _in_whitelist(r.get("url", ""))]
+    if before_wl > len(results):
+        print(f"  [SITE-WL] filtered {before_wl - len(results)} non-whitelisted source(s)", file=sys.stderr)
     return results
 
 
@@ -136,6 +177,9 @@ def _ddg_search(query, max_results=3):
     有 anomaly 限流——重试一次（间隔 4s），仍被拦则静默返回 []。
     返回 [{title, url, snippet}, ...]"""
     import urllib.request, time as _time, html as _html
+    # D 指令 (2026-11-12): site: 白名单限定（业内公司文档/手册域），从源头掐广告垃圾。
+    # 注意：DDG lite/Bing 对多 site: 支持不稳，这里用单域名轮询策略——
+    # 先不加限定跑一次，若结果含非白名单域则逐域重试（见下方逻辑）。
     results = []
     for attempt in range(2):
         try:
@@ -772,6 +816,21 @@ def research_hook(qid, question, max_results=8, enable_local=True):
 
     if not sources:
         raise ResearchHookUnavailable("no sources from any channel (all 5 failed)")
+
+    # D 指令 (2026-11-12): 结果侧域名白名单过滤——广告/垃圾站从源头掐掉。
+    # 策略：若过滤后仍有 ≥2 条白名单源，只用白名单；否则保留全部（宁缺毋滥但别空手）。
+    def _wl_match(url):
+        return any(d in url for d in _SOURCE_WHITELIST)
+    wl_sources = [s_ for s_ in sources if _wl_match(s_.get("url", ""))]
+    if len(wl_sources) >= 2:
+        dropped_wl = len(sources) - len(wl_sources)
+        if dropped_wl:
+            print(f"  [SITE-WL] {qid}: kept {len(wl_sources)} whitelisted, dropped {dropped_wl} non-whitelisted", file=sys.stderr)
+        sources = wl_sources
+    elif wl_sources:
+        # 只有 1 条白名单源：保留它 + 其余源（避免只剩 1 条太薄）
+        pass
+    # 0 条白名单源：不过滤（让 junk filter 兜底）
 
     out = sources[:max_results]
     _cache_put(qid, question, out)
