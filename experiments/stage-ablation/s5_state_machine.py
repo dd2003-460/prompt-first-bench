@@ -541,6 +541,22 @@ class DecompStateMachine:
                     f"不要把同一随机源复制成多个独立噪声节点。")
         edge_block = ("\n【边类型约束】\n" + "\n".join(edge_hints) + "\n") if edge_hints else ""
 
+        # D33: 矛盾反馈注入——把上一轮检出的树内矛盾喂给 decompose 层，
+        # 让模型看到"你之前拆的定义和已核验事实打架了"，定向修正而不是盲展开。
+        # 这是旧流程"外部校验→内部修正"闭环的恢复：decompose 层第一次收到验证层信号。
+        contradiction_block = ""
+        if getattr(self, "contradiction_events", None):
+            recent = self.contradiction_events[-10:]
+            lines = "\n".join(
+                f"- {c['a']}({c['a_claim'][:50]}) vs {c['b']}({c['b_claim'][:50]}): {c['desc'][:80]}"
+                for c in recent)
+            contradiction_block = (
+                "\n【已检出的树内矛盾（来自上一轮全局扫描）】\n" + lines +
+                "\n如果本轮要展开与上述矛盾相关的父节点，先判断哪个数值/定义更可信"
+                "（看 evidence 的来源质量），在子节点 claim 里显式修正错误的一方，"
+                "并在 evidence 栏注明「修正自矛盾检测」。不要回避矛盾、两边都保留。\n")
+
+
         prompt = self._safe_prompt(P1H_INDEX,
             question=self.question,
             confirmed_block=confirmed_block + (contradiction_block or ""),
@@ -556,21 +572,6 @@ class DecompStateMachine:
         # 防泄漏: 检查新节点 claim 是否回显题目
         for rn in raw_nodes:
             self._check_output_leak(rn["claim"], "decompose")
-
-        # D33: 矛盾反馈注入——把上一轮检出的树内矛盾喂给 decompose 层，
-        # 让模型看到"你之前拆的定义和已核验事实打架了"，定向修正而不是盲展开。
-        # 这是旧流程"外部校验→内部修正"闭环的恢复：decompose 层第一次收到验证层信号。
-        contradiction_block = ""
-        if getattr(self, "contradiction_events", None):
-            recent = self.contradiction_events[-10:]
-            lines = "\n".join(
-                f"- {c['a']}({c['a_claim'][:50]}) vs {c['b']}({c['b_claim'][:50]}): {c['desc'][:80]}"
-                for c in recent)
-            contradiction_block = (
-                "\n【已检出的树内矛盾（来自上一轮全局扫描）】\n" + lines +
-                "\n如果本轮要展开与上述矛盾相关的父节点，先判断哪个数值/定义更可信"
-                "（看 evidence 的来源质量），在子节点 claim 里显式修正错误的一方，"
-                "并在 evidence 栏注明「修正自矛盾检测」。不要回避矛盾、两边都保留。\n")
 
         # 编号 + 层级 + edge_type
         parent_levels = {int(str(p.level).lstrip("L")) for p in parents}
