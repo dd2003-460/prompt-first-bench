@@ -592,3 +592,34 @@ H_M(ℓ_new | parent) / H*(Q)  ≈  λ · [∂S_α'/∂ℓ]_normalized
 3. B(T) 量纲未对齐（C_expand=depth-sum vs C_transmit=tokens，ratio恒~0.04）
 
 **落盘**：compute_J.py v2 + J-gpu.json + J-drb-2-reverified.json @cbbd23b7
+
+## Decision 32 (2026-11-12): 信息获取基础设施修复 + H* gold oracle — 首组 I/J 绝对值
+
+**背景（两个矛盾）**：
+1. **search_query 被丢弃**：P1H_INDEX prompt 一直要求模型输出英文检索词，但 `_decompose_layer` 建 NodeRecord 时没接这个字段——所有 search 节点实际用中文 claim 原文去查。缓存统计佐证：84 条来源里 ddg 65 / wikipedia 14 / arxiv 仅 1——学术通道基本没吃到流量，查询语言错了。这是"信息获取提升度量"的第一个可量化目标。
+2. **H* 无独立来源**：compute_J v1/v2 的 H* 要么拿同 run checkpoint（artifact），要么 null → I/J 永远算不出。
+
+**修复**：
+- NodeRecord 加 `search_query` + `retrieval_sources` 字段；`_verify_batch` 改用 `node.search_query or node.claim` 检索；每次检索记录 [{url,type,title}] 到节点上——后续可算 per-node source yield（几条来源支撑几 nat info-gain）和通道级命中率。
+- compute_J.py 加 `gold_H_star(qid)`：读 s8b_pilot.GOLD 人工标注维度集（gpu 15 维），每条用同一把 LLM 尺子量（parent=问题文本）。满足 D30 关键约束：oracle 独立于被评树。
+- 加 `cov_gold()`：每个 gold 维度问 LLM "树的哪些叶子实质覆盖它"，判定卡紧（同义改写缺核心数据不算、沾边不深入不算）。
+
+**首组 I/J 绝对值（gpu 树，@e24bac56）**：
+- D(T) = 4552.0 nat；H*(gold) = 208.6 nat → **Δ/H\* = 20.8**
+- cov = 4/15 = 0.333（命中 g3→N26 roofline阈值, g6/g7/g12→N41 TCO三件套, g9→N23 有效带宽）
+- I(T) = cov·exp(−Δ/H\*) ≈ 0（exp(−20.8) 下溢）
+- J = None（S_α' oracle 未接，J 需对照树）
+
+**解读**：
+- Δ/H\*=20.8 不是"差 20 倍"那么糟——它说明这棵树的信息总量是 gold 最小完备集的 ~21 倍，即大量节点在重复表达 gold 已含的信息。这和 D31 的低分叶 13% 一致但更极端：即使单叶不冗余，整棵树的组织方式离"恰好完备"还很远。
+- cov=0.333 更有诊断价值：15 个 gold 维度只命中 4 个，且 N41 一个节点同时命中 3 个（TCO 公式/电费/故障损耗都挤在一个 L2 节点里）——**粒度过粗**，gold 期望它们是独立项。这是"对标真实"测试的第一个具体涌现指标：新 prompt 下模型会不会主动把复合节点拆成正交子项。
+- I≈0 对当前所有树都会成立（只要 Δ/H\*>~10 exp 就下溢）。**I 作为区分度指标在当前尺度失效，需要改归一化**（比如 I = cov·exp(−Δ/(k·H\*)) 或直接用 Δ/H\* 作连续指标）。这是下一个 react 点，暂不改公式——先让 search_query 修复后的新树出数，看 Δ/H\* 是否随信息获取质量下降。
+
+**主动性/涌现测试设计（D29 A-half 对照）**：
+现成的对照组 = gpu 旧树（102 degraded，evidence 全是"检索失败/来源未覆盖"）。search_query 修复后跑新树，三个探测指标：
+(a) degraded 率从 67% 降到多少——纯管道修复效果；
+(b) 检索失败后模型是否主动换 query 角度重搜（当前 rework 只会机械加 "alternative" 后缀）——真主动性；
+(c) gap_check 补出的节点是否带自生成检索词 + 复合节点是否主动拆分（对应 cov 命中模式变化）——涌现结构行为。
+预期：(a) 动得最明显；(b) 大概率不会，因为当前架构里没有"这次搜索失败了"的反馈回路传给 decompose 层——模型不知道失败。如果 (b) 出现才是真涌现。
+
+**遗留**：drb-2 无 gold（GOLD 只有 nat/soc/gpu），只能走 fallback；J 需 S_α' oracle（对照树）才能出数；I 的归一化待新树数据后定。
