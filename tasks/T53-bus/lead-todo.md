@@ -82,3 +82,4 @@ decomp 已列（见下方 decomposition 段），正在滚雪球调研。方向�
 - F 理论框架（信息论/压缩/本条调研）— research/information-theory/ + 新文件
 每个子模块 = 根目录一级目录 + INDEX.md（纯索引）+ memory/（探索记录）+ tasks/（临时状态），扇出 6 个 ≤ 7 ✓。
 **执行顺序**：先对账 D1-* 归属（grep projects/INDEX.md）→ 再移动（git mv，历史保留）→ 最后建 INDEX。预计一次 session 内完成，不阻塞 Teamer 的 run。
+## taste-keeper cron: 50fc6eba8e78 created 2026-11-13 17:15
