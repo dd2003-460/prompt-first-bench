@@ -23,3 +23,8 @@
 4. 若 arena 分数显著 > 0 → 反推它检索通道强在哪，写回迭代日志 §4
 
 # origin: ai · 2026-11-13
+
+## 执行记录（2026-11-13 17:45）
+- criteria 落盘确认：/tmp/drbench/data/criteria_data/criteria.jsonl，qid 1/2/16 各 4 个 dimension ✓
+- arena 任务卡已备好：tasks/T53-bus/arena-drb-taskcard.md（subagent infra-audit 产出，commit 26a1a88c）
+- 下一步：ego-browser 派发 drb-2 给 LMArena agent mode（smoke 题），回收报告 → drb_judge.py 判分 → 填 bench-report 对比表
