@@ -45,3 +45,16 @@ D 原话："等等，他主会话40min没回，都是cron，再帮我看看"。�
 4. 另外注意：cc-state.json 里 drb-1 的 waiter 编号和 pid 是早上记的，如果 drb-1 早就 DONE 了（看 runs-s5-sm-drb-1.json 时间戳），把 cc-state 对应 work_unit 更新掉，别让状态文件骗下一个读它的人。
 
 你的下一步（按序）：drb-1/dr2 judge 状态核对 → 该跑的 judge 跑掉 → bench report §3 填分 → 追加 T3 汇报。gpu run 继续等 DONE，DONE 后按 T2 的判据（quotient ≤30%、无泄漏、verified 率）决定 resume 还是收树。
+
+## L8 20:2x — d34 已 resume，你盯它 + 跑 drb judge + 填 bench report
+状态更新（来源：本轮工具输出）：
+1. **d34 (sm-gpu-d34) 已于 20:19 死于 HTTP 502**（本地 LLM 8787 burst），ckpt 落盘 round=2, 53 nodes。E15+E16（b076df10）已修长调用可重试 + ckpt state 校验。8787 当前 health ok，内存 90% free。
+2. **我刚 resume 了 d34**：pid 67868, session proc_c5dd61b78294, log = sm-gpu-d34-resume.log。从 runs-s5-sm-gpu-checkpoint.json (round 2, 53 nodes) 续跑到 max-nodes 150。
+3. **d32 已 DONE**（runs-s5-sm-gpu.json, 133 nodes, 3 rounds, leaks=0, reworks=89, verified 39/133=29%, degraded 86/133=65%）。
+4. **drb-1/dr2 judge 已跑完**（judgments/drb-{1,2}.json 存在），bench report §3 已填分（两题均 0.0，病根=检索通道对中文 DRB 全盲）。§4 迭代日志到第 3 条（junk filter v2 + 清缓存）。
+
+你的工作单元（按序）：
+- **T4**: 盯 d34 resume（sm-gpu-d34-resume.log），关注 E15 重试是否生效（502 不再 FATAL）、r3/r4 是否正常推进、quotient 分布变化。DONE 或崩了都追加 T 汇报。
+- **T5**: 核对 bench report §3 的 drb-1/2 数据与 judgments/*.json 一致（我填的分是 0.0，确认 judge 输出确实是全 0 不是脚本 bug）。
+- **T6**: 如果 d34 DONE，按 T2 判据（quotient ≤30%、degraded 率、verified 率）出 d34-calibration-analysis，和 d32 对比。
+- **T7**: bench report §4 补第 4 条迭代日志（d34 502 崩溃 + E15/E16 修复 + resume）。
