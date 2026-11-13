@@ -1240,6 +1240,11 @@ if __name__ == "__main__":
         sm.objective_mode = ck.get("objective_mode", "formula")  # #31 消融臂
         sm.rework_events = ck.get("rework_events", [])
         sm.contradiction_events = ck.get("contradiction_events", [])
+        # E16 (2026-11-13): FATAL 落盘的 ckpt 缺 state 字段（text arm seed 就是这种）。
+        # 无需恢复 sm.state——run() 开头无条件 self.state = State.DECOMPOSE，skip_l1=True
+        # 跳过 L1 后主循环从 frontier 继续核验/重拆。这里只校验 ckpt 合法性。
+        if ck.get("state") not in (None, "rework", "done", "decompose", "verify"):
+            print(f"[SM] WARNING: unexpected state in ckpt: {ck.get('state')!r}", flush=True)
         print(f"[SM] resumed from {resume_from}: {len(sm.nodes)} nodes @ r{ck['round']}", flush=True)
     if no_verify:
         # Monkey-patch: 跳过联网检索，但所有节点仍过 LLM 核验（AC3 需要真实 evidence）

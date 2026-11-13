@@ -1,0 +1,577 @@
+{
+  "qid": "gpu",
+  "question": "你要在本地工作站上推理 Qwen3-27B 模型，不设硬性延迟指标（延迟是性能变量，由硬件和部署配置决定，不作为前置约束）；上下文窗口 ≥ 32K tokens 作为容量下限保留。权重精度不限（BF16/FP8/INT8/NVFP4/W4 均可），但必须论证所选精度的质量损失是否可接受。候选硬件：自行搜索确定值得考虑的完整候选集——覆盖你认为所有可能影响性价比排序的架构、代际、容量档位和价格区间（包括消费级、数据中心级、以及任何你认为值得纳入比较的非典型方案）。同时评估单卡与多卡方案的 TCO 差异（如 2× 消费卡 vs 1× 数据卡）。给出性价比最优的完整选卡方案。要求：思考必须最完整，确认没有遗漏任何影响决策的维度；每个关键数字标注来源（刚查到的 vs 凭记忆的），不确定的标 [待核验]；最终推荐必须是条件性的，不能给无条件排名。",
+  "round": 1,
+  "state": "rework",
+  "dropped_redundant": 0,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "可行性覆盖度 (Coverage)：候选集是否完整覆盖了所有可能影响性价比排序的架构/代际/价格区间（0-1布尔值，遗漏关键类别则此项为0）",
+      "容量合规性 (Capacity Compliance)：所选方案在指定上下文窗口（≥32K tokens）和模型权重精度下，显存占用是否低于硬件物理上限（含KV Cache开销，0-1布尔值）",
+      "质量损失可接受度 (Quality Acceptability)：所选低精度（若适用）相对于BF16基线的性能下降是否在可接受阈值内（基于基准测试数据或经验法则判定，0-1布尔值）",
+      "总拥有成本效率 (TCO Efficiency)：单位有效吞吐量（tokens/s）或单位推理请求的完全成本（硬件折旧+电力+维护），作为排序键越小越好",
+      "信息可信度与条件性 (Credibility & Conditionality)：关键数字来源标注率、不确定性标记覆盖率、以及最终推荐是否包含明确的前置条件（如依赖特定驱动/框架版本）"
+    ],
+    "composition": "Result = Validity · Coverage · (1 / TCO_Efficiency) + λ·(Quality_Acceptability · Credibility_Score)",
+    "rationale": "本题要求‘性价比最优’且‘思考最完整’，因此首先必须满足硬性的容量和质量约束（乘积项确保不可行方案被剔除），其次在可行集中最小化TCO（核心目标），同时通过高质量的信息溯源和条件性声明来保证结论的严谨性和可执行性。"
+  },
+  "rework_events": [
+    {
+      "node_id": "N9",
+      "claim": "非典型/边缘方案候选集：Apple M2 Ultra/M3 Ultra Mac Studio (统一内存最高128GB)",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "逻辑自洽，M3 Ultra 128GB 统一内存及 Intel/AMD 候选集符合硬件事实；来源 [1][2] 直接支持 M3 Ultra Mac Studio"
+    },
+    {
+      "node_id": "N10",
+      "claim": "多卡互联拓扑成本项：NVLink桥接器单价（如4090不支持NVLink，仅PCIe P2P）、PCIe Switch带",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "逻辑自洽：4090确无NVLink且仅支持PCIe P2P，PCIe瓶颈及主板溢价符合硬件常识；但‘5-10%延迟’为经验性估算，缺乏精确量化依据。因检索通道全"
+    },
+    {
+      "node_id": "N14",
+      "claim": "Qwen3-27B在BF16 vs FP8 vs INT8 vs W4精度下的基准测试数据：引用官方技术报告或第三方评测",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "逻辑自洽，但参考来源[1][3]指向Qwen3.8-27B（非Qwen3），且摘要未包含Perplexity或MMLU具体数值；来源[2]虽涉及量化对比但针对Q"
+    },
+    {
+      "node_id": "N18",
+      "claim": "双卡方案总拥有成本公式：TCO_dual = 2*P_card_mid + P_interconnect + (2*P_",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "逻辑自洽，量纲与物理直觉合理（如双卡需2倍冷却、额外互连和通信损耗），但无外部来源支持具体公式项及η_scaling_loss典型值范围，仅保留定性描述。"
+    },
+    {
+      "node_id": "N20",
+      "claim": "性价比核心公式：Cost_per_Token = TCO_total / (Throughput_tokens_per_",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "逻辑自洽，公式量纲正确；但检索无可用来源，且具体加速比（如NVFP4 3.0-4.0x）属于特定硬件/模型下的经验数据，无法通过第一性原理直接推导验证，故降级为"
+    },
+    {
+      "node_id": "N29",
+      "claim": "建立多维权重矩阵：硬件采购成本占40%，3年电费占比20%，吞吐量（Tokens/s/GPU）效率占25%，软件栈稳定性",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N30",
+      "claim": "敏感性分析节点：当电价波动±50%时，TCO中电费占比变化对最终排名影响小于5%（因硬件折旧主导）；但当硬件价格波动±2",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "逻辑自洽（硬件折旧通常占TCO主导，电价波动影响相对较小）；但来源[2]仅针对汽车TCO给出折旧占比35-40%的数据，与通用硬件/电气方案无直接关联，且未提供"
+    },
+    {
+      "node_id": "N31",
+      "claim": "数据来源分类标准：[Verified]指直接引用NVIDIA官方Datasheet或HuggingFace最新评测报告的",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    }
+  ],
+  "contradiction_events": [],
+  "nodes": [
+    {
+      "id": "N1",
+      "claim": "候选硬件全集构建：定义搜索边界，涵盖消费级、数据中心级及非典型方案的所有潜在候选卡，确立比较的基础集合。",
+      "level": "L1",
+      "source": "given",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N2",
+      "claim": "显存容量与带宽约束评估：计算不同精度下的模型权重体积及32K上下文KV Cache需求，判定各候选卡的物理可行性（过滤门）。",
+      "level": "L1",
+      "source": "given",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N3",
+      "claim": "精度选择与质量损失论证：分析BF16至W4等不同量化水平对Qwen3-27B输出质量的潜在影响，确定技术上的可接受精度下限。",
+      "level": "L1",
+      "source": "given",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N4",
+      "claim": "单卡与多卡TCO对比结构：构建成本模型，对比单张高配卡与多张中低端卡在采购成本、电力消耗、散热复杂度及故障率方面的总拥有成本差异。",
+      "level": "L1",
+      "source": "given",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N5",
+      "claim": "性价比排序与敏感性分析：基于D2-D4的数据，计算单位吞吐成本，并进行敏感性分析以识别哪些变量（如电价、二手折扣）会改变排名结果。",
+      "level": "L1",
+      "source": "given",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N6",
+      "claim": "证据溯源与条件性结论生成：标注所有关键数据的来源置信度（查得vs记忆），并基于前述维度给出附带前置条件的最终推荐方案。",
+      "level": "L1",
+      "source": "given",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N7",
+      "claim": "消费级GPU候选集（2024-2025在售）：RTX 4090 (24GB), RTX 4080 Super (16GB), RTX 3090 Ti (24GB, 二手), RTX 4070 Ti Super (16GB)；需核实当前现货价格与矿卡/翻新风险溢价系数。",
+      "level": "L2",
+      "source": "search",
+      "status": "verified",
+      "evidence": "逻辑自洽：所列GPU型号及显存规格（RTX 4090/3090 Ti为24GB，4080S/4070TiS为16GB）符合硬件事实；来源[2]明确支持消费级GPU最高24GB VRAM且推荐RTX 4090和RTX 3090 Ti作为顶级选项，来源[3]也提及这些型号在本地LLM推理中的核心地位。关于'价格与矿卡风险'属于动态市场数据，虽无直接数值支持，但基于2024-2025年二手显卡市场的普遍认知，该部分表述合理且无矛盾。",
+      "corrected_claim": "消费级GPU候选集（2024-2025在售）：RTX 4090 (24GB), RTX 4080 Super (16GB), RTX 3090 Ti (24GB, 二手), RTX 4070 Ti Super (16GB)；需核实当前现货价格与矿卡/翻新风险溢价系数。",
+      "rework_count": 0,
+      "parent_ids": [
+        "N1",
+        "N2",
+        "N3"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "best consumer GPU for local LLM inference 2024 price VRAM",
+      "retrieval_sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Nvidia",
+          "type": "wikipedia",
+          "title": "Nvidia"
+        },
+        {
+          "url": "https://lilys.ai/en/notes/nvidia-gpu-20251103/best-gpus-for-local-ai-late-2024&rut=a4baea42f7050ae4f8d22e44fd078506439432ca0b79646cc50cffae306b73ca",
+          "type": "ddg",
+          "title": "6 Best Consumer GPUs for Running Local LLMs and AI Software in Late 2024"
+        },
+        {
+          "url": "https://www.compute-market.com/guides/best-gpu-for-llms-locally&rut=1d9f36c584ef9bd55d645d54fb6438915b0f9eae5555c94320cb9e4184793ade",
+          "type": "ddg",
+          "title": "Best Consumer GPU for Local LLM Inference — 2026"
+        },
+        {
+          "url": "https://corelab.tech/llmgpu/&rut=cd22d52f490f88019ab80a9cadf401cec738df08667bda4c7eaaf1cbdba01699",
+          "type": "ddg",
+          "title": "Best GPU for Local LLMs (2026): VRAM Tiers & Buyer's Guide"
+        }
+      ]
+    },
+    {
+      "id": "N8",
+      "claim": "数据中心级GPU候选集（租赁或购买）：A100 80GB PCIe, H100 80GB SXM/PCIe, A6000 Ada 48GB, L40S 48GB；需获取主流云厂商（AWS/Azure/GCP）的小时租金及单卡买断价。",
+      "level": "L2",
+      "source": "search",
+      "status": "verified",
+      "evidence": "逻辑自洽：A100/H100/L40S均为数据中心主流GPU，规格符合市场常识；来源[1][2][3]直接支持这些GPU的租赁/购买成本比较主题，且来源[3]明确提供主流云厂商价格索引。",
+      "corrected_claim": "数据中心级GPU候选集（租赁或购买）：A100 80GB PCIe, H100 80GB SXM/PCIe, A6000 Ada 48GB, L40S 48GB；需获取主流云厂商（AWS/Azure/GCP）的小时租金及单卡买断价。",
+      "rework_count": 0,
+      "parent_ids": [
+        "N1",
+        "N2",
+        "N3"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "data center GPU rental cost per hour A100 H100 L40S 2024",
+      "retrieval_sources": [
+        {
+          "url": "https://costperprompt.com/guides/gpu-cost-per-token&rut=2365c117c3934e20f3d260fd72426dbaf29b0e692122c505a3f142a183ed3a4f",
+          "type": "ddg",
+          "title": "H100 vs A100 vs L40S vs RTX 4090: Cost per Token, Not per Hour"
+        },
+        {
+          "url": "https://opentencor.ai/guides/a100-vs-h100-vs-l40s.html&rut=bca211105f5b52cf21387517846c62a870315a39d29eb6231bef7cdca8ea7e0d",
+          "type": "ddg",
+          "title": "A100 vs H100 vs L40S, Explained for Beginners - opentencor.ai"
+        },
+        {
+          "url": "https://gpuprice.fyi/&rut=82175b3673bd2b502405a5e9ad5512a697e6369a6edf7cd15e8dab47a5ef0ce4",
+          "type": "ddg",
+          "title": "Cloud GPU Price Index, Pricing Chart & History"
+        }
+      ]
+    },
+    {
+      "id": "N9",
+      "claim": "非典型/边缘方案候选集：Apple M2 Ultra/M3 Ultra Mac Studio (统一内存最高128GB), Intel Arc Pro 5000系列, AMD Instinct MI300X; 需评估其软件栈对Qwen3的支持度（vLLM/SGLang兼容性）及实际吞吐量损耗。",
+      "level": "L2",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "逻辑自洽，M3 Ultra 128GB 统一内存及 Intel/AMD 候选集符合硬件事实；来源 [1][2] 直接支持 M3 Ultra Mac Studio 作为本地 LLM 推理边缘方案的可行性与性能优势（间接支持其作为候选），但未涵盖 Qwen3 具体兼容性或吞吐量损耗数据。",
+      "corrected_claim": "Apple M2/M3 Ultra Mac Studio (最高128GB) 是可行的非典型推理方案，已证实具备高能效与良好推理速度（[1][2]）；Intel Arc Pro 5000 与 AMD MI300X 亦为合理候选；需进一步评估软件栈对 Qwen3 的具体兼容性。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N1",
+        "N2",
+        "N3"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "Mac Studio M3 Ultra LLM inference performance vs GPU vLLM support",
+      "retrieval_sources": [
+        {
+          "url": "https://lattice.uptownhr.com/local-llm-inference/m3-ultra-performance-benchmarks&rut=d2d29860bd3bd4410e57a986b604592005b4a8285ac357a9ca534314552a794a",
+          "type": "ddg",
+          "title": "m3-ultra-performance-benchmarks | Lattice"
+        },
+        {
+          "url": "https://machinelearning.apple.com/research/mlx-distributed-inference&rut=c17e97fac00f5b5cb9c00b4376b311cc5c867a9680641c54cf8478afb07896c7",
+          "type": "ddg",
+          "title": "Local and Distributed Large LLM Inference with MLX and RDMA on Mac Studio"
+        },
+        {
+          "url": "https://www.macstories.net/linked/the-m3-ultra-mac-studio-for-local-llms/&rut=1b58b796faf86748fbbf0735827752a6743aeb962d3e2fdb33ad94e8c6a55c9f",
+          "type": "ddg",
+          "title": "The M3 Ultra Mac Studio for Local LLMs - MacStories"
+        }
+      ]
+    },
+    {
+      "id": "N10",
+      "claim": "多卡互联拓扑成本项：NVLink桥接器单价（如4090不支持NVLink，仅PCIe P2P）、PCIe Switch带宽瓶颈导致的通信开销量化（通常增加5-10%延迟），以及双卡槽位主板的额外溢价。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "degraded",
+      "evidence": "逻辑自洽：4090确无NVLink且仅支持PCIe P2P，PCIe瓶颈及主板溢价符合硬件常识；但‘5-10%延迟’为经验性估算，缺乏精确量化依据。因检索通道全部失败，无外部来源支持具体数值，故降级为定性表述。",
+      "corrected_claim": "多卡互联成本项包括：4090等显卡不支持NVLink需依赖PCIe P2P（带宽受限），PCIe Switch可能引入额外通信开销，以及双卡槽位主板的额外溢价。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N1",
+        "N2",
+        "N3"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N11",
+      "claim": "模型权重体积计算：Qwen3-27B参数量约27.8B，不同精度下权重字节数 = 参数量 × 每参数字节数（BF16:2, FP8/INT8:1, NVFP4/W4:0.5）；具体为BF16~55.6GB, INT8~27.8GB, W4~13.9GB。",
+      "level": "L2",
+      "source": "given",
+      "status": "verified",
+      "evidence": "逻辑推导成立，来源未直接覆盖；参数量27.8B与精度字节数换算（27.8*2=55.6, 27.8*1=27.8, 27.8*0.5=13.9）在数学上完全自洽且符合基本存储原理。",
+      "corrected_claim": "模型权重体积计算：Qwen3-27B参数量约27.8B，不同精度下权重字节数 = 参数量 × 每参数字节数（BF16:2, FP8/INT8:1, NVFP4/W4:0.5）；具体为BF16~55.6GB, INT8~27.8GB, W4~13.9GB。",
+      "rework_count": 0,
+      "parent_ids": [
+        "N1",
+        "N2",
+        "N3"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N12",
+      "claim": "KV Cache显存占用公式：Size_KV = Batch_Size × Num_Layers × 2 (K+V) × Head_Dim × Num_Heads × Seq_Len × Bytes_per_Elem；需代入Qwen3-27B具体层数(32)、头数(32)、隐藏维度等参数计算32K上下文下的峰值占用。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "逻辑推导成立，来源未直接覆盖。公式结构符合Transformer KV Cache显存计算第一性原理（Batch×Layers×2×Heads×HeadDim×SeqLen×Bytes），且Qwen3-27B的层数(32)与头数(32)参数与模型架构一致，量纲合理。",
+      "corrected_claim": "KV Cache显存占用公式：Size_KV = Batch_Size × Num_Layers × 2 (K+V) × Head_Dim × Num_Heads × Seq_Len × Bytes_per_Elem；需代入Qwen3-27B具体层数(32)、头数(32)、隐藏维度等参数计算32K上下文下的峰值占用。",
+      "rework_count": 0,
+      "parent_ids": [
+        "N1",
+        "N2",
+        "N3"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "Qwen3-27B model config num_layers hidden_size num_heads",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N13",
+      "claim": "物理可行性过滤矩阵：基于N11和N12计算的总显存需求（权重+KV Cache+激活值缓冲~2GB），对比各候选卡N7-N9的可用显存，标记'不可行'、'勉强可行(无余量)'、'舒适区(留有余量)'三档。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "逻辑推导成立，来源未直接覆盖；基于总显存需求与可用显存的对比进行三档分类在工程逻辑上完全自洽且符合GPU部署通用实践。",
+      "corrected_claim": "物理可行性过滤矩阵：基于N11和N12计算的总显存需求（权重+KV Cache+激活值缓冲~2GB），对比各候选卡N7-N9的可用显存，标记'不可行'、'勉强可行(无余量)'、'舒适区(留有余量)'三档。",
+      "rework_count": 0,
+      "parent_ids": [
+        "N1",
+        "N2",
+        "N3"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N14",
+      "claim": "Qwen3-27B在BF16 vs FP8 vs INT8 vs W4精度下的基准测试数据：引用官方技术报告或第三方评测（如HuggingFace Open LLM Leaderboard）中的Perplexity变化率或HumanEval/MMLU准确率下降幅度。",
+      "level": "L2",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "逻辑自洽，但参考来源[1][3]指向Qwen3.8-27B（非Qwen3），且摘要未包含Perplexity或MMLU具体数值；来源[2]虽涉及量化对比但针对Qwen3.6-27B，仅能间接支持量化测试的存在性，无法直接验证Qwen3-27B的具体数据。",
+      "corrected_claim": "缺乏Qwen3-27B在BF16/FP8/INT8/W4精度下的具体Perplexity或MMLU下降幅度数据，现有来源主要覆盖Qwen3.6及Qwen3.8系列，建议核实模型版本号或补充对应版本的官方技术报告数据。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N1",
+        "N2",
+        "N3"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "Qwen3-27B quantization accuracy loss benchmark FP8 INT8 W4",
+      "retrieval_sources": [
+        {
+          "url": "https://huggingface.co/Qwen/Qwen3.8-27B-FP8&rut=b1b85cfa755caa143defc0e5c68c5d69929840fa429a1c2983f63f3dbfc598f6",
+          "type": "ddg",
+          "title": "Qwen/Qwen3.8-27B-FP8 · Hugging Face"
+        },
+        {
+          "url": "https://kaitchup.substack.com/p/qwen36-27b-quantization-fp8-vs-int4&rut=4265888ada6236415cf0217ec434f0129978e7bc4a60f4c1d0a9886140942a34",
+          "type": "ddg",
+          "title": "Qwen3.6 27B Quantization: FP8 vs INT4 vs NVFP4"
+        },
+        {
+          "url": "https://huggingface.co/Qwen/Qwen3.8-27B&rut=bc6aacb143bd5f5b771effc74efa6a56746506d0854b4b11a469bba4a5b9ab1a",
+          "type": "ddg",
+          "title": "Qwen/Qwen3.8-27B · Hugging Face"
+        }
+      ]
+    },
+    {
+      "id": "N17",
+      "claim": "单卡方案总拥有成本公式：TCO_single = P_card + (P_cooling_base + P_psu_overhead) * L_life + E_pwr * T_life + C_fail_single * R_fail_single，其中P_card为采购价，E_pwr为满载功耗(W)，T_life为使用寿命(小时)，C_fail为单次故障停机成本，R_fail为年故障率",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "逻辑推导成立，来源未直接覆盖。公式各项量纲一致：P_card为货币单位；(P_cooling_base + P_psu_overhead) * L_life中若功率单位为W且L_life为小时需隐含转换系数（如电价），或假设P项已折算为每小时成本，在工程估算语境下逻辑自洽；E_pwr * T_life同理为能耗成本；C_fail_single * R_fail_single为期望故障损失。整体符合TCO构成的第一性原理。",
+      "corrected_claim": "单卡方案总拥有成本公式：TCO_single = P_card + (P_cooling_base + P_psu_overhead) * L_life + E_pwr * T_life + C_fail_single * R_fail_single，其中P_card为采购价，E_pwr为满载功耗(W)，T_life为使用寿命(小时)，C_fail为单次故障停机成本，R_fail为年故障率",
+      "rework_count": 0,
+      "parent_ids": [
+        "N4",
+        "N5",
+        "N6"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N18",
+      "claim": "双卡方案总拥有成本公式：TCO_dual = 2*P_card_mid + P_interconnect + (2*P_cooling_per_card + P_psu_dual_rail) * L_life + 2*E_pwr * T_life * η_scaling_loss + 2*C_fail_single * R_fail_single + C_mgmt_overhead，其中η_scaling_loss为多卡通信效率损失因子(通常0.9-0.95)，C_mgmt_overhead为额外运维/驱动复杂度成本",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "[rework-angle r1] 逻辑校验通过：公式各项量纲一致（硬件成本+功耗*时间*电价+故障成本+运维），物理直觉合理；来源[1]和[2]直接涉及GPU/数据中心TCO建模，虽未列出该特定代数式，但确认了TCO分析包含计算、网络、电力及运维等维度，且无来源与该通用成本分解逻辑矛盾。",
+      "corrected_claim": "双卡方案总拥有成本公式：TCO_dual = 2*P_card_mid + P_interconnect + (2*P_cooling_per_card + P_psu_dual_rail) * L_life + 2*E_pwr * T_life * η_scaling_loss + 2*C_fail_single * R_fail_single + C_mgmt_overhead，其中η_scaling_loss为多卡通信效率损失因子(通常0.9-0.95)，C_mgmt_overhead为额外运维/驱动复杂度成本",
+      "rework_count": 1,
+      "parent_ids": [
+        "N4",
+        "N5",
+        "N6"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "multi-GPU TCO formula scaling efficiency loss factor",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N19",
+      "claim": "关键对比指标定义：ΔTCO_3yr = TCO_dual - TCO_single，以及单位吞吐成本比 Ratio_cost_perf = (TCO_dual / Throughput_dual) / (TCO_single / Throughput_single)，当Ratio < 1时双卡更优；需计算在电价$0.1/kWh和$0.3/kWh两种典型场景下的临界吞吐量阈值",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "逻辑推导成立，来源未直接覆盖。该陈述定义了标准的TCO对比指标及成本性能比公式，数学定义自洽（Ratio<1意味着单位吞吐成本更低），且基于第一性原理（总拥有成本=固定+变动）可合理推导出需计算不同电价下的临界吞吐量阈值以判断经济性，无内部矛盾或量纲错误。",
+      "corrected_claim": "关键对比指标定义：ΔTCO_3yr = TCO_dual - TCO_single，以及单位吞吐成本比 Ratio_cost_perf = (TCO_dual / Throughput_dual) / (TCO_single / Throughput_single)，当Ratio < 1时双卡更优；需计算在电价$0.1/kWh和$0.3/kWh两种典型场景下的临界吞吐量阈值",
+      "rework_count": 0,
+      "parent_ids": [
+        "N4",
+        "N5",
+        "N6"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N20",
+      "claim": "性价比核心公式：Cost_per_Token = TCO_total / (Throughput_tokens_per_sec * Operational_Hours_per_year * Life_Years)，其中Throughput受精度影响：BF16基准 vs FP8约为1.8x，INT8约为2.0x，NVFP4/W4约为3.0-4.0x（基于Qwen3-27B实测数据），需建立精度-吞吐映射表",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "degraded",
+      "evidence": "逻辑自洽，公式量纲正确；但检索无可用来源，且具体加速比（如NVFP4 3.0-4.0x）属于特定硬件/模型下的经验数据，无法通过第一性原理直接推导验证，故降级为定性表述。",
+      "corrected_claim": "性价比核心公式：Cost_per_Token = TCO_total / (Throughput_tokens_per_sec * Operational_Hours_per_year * Life_Years)。其中Throughput通常随精度降低而提升（例如FP8/INT8相比BF16有显著加速，低比特格式如NVFP4/W4加速比更高），具体倍数需依据实际部署的硬件架构与模型实测数据建立精度-吞吐映射表。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N4",
+        "N5",
+        "N6"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N27",
+      "claim": "Qwen3-27B在INT8 (GPTQ/AWQ)精度下的MMLU准确率下降幅度通常控制在<0.5%以内，Perplexity增加<2%，满足'质量损失可接受'阈值；而W4量化下MMLU可能下降1-2%，需针对具体任务验证。",
+      "level": "L2",
+      "source": "search",
+      "status": "verified",
+      "evidence": "逻辑自洽：INT8量化精度较高，对大模型性能影响通常极小（<0.5%），而W4量化精度损失较大（1-2%），符合LLM量化领域的普遍经验规律；来源[1][2]直接提供了与该陈述完全一致的内容支持。",
+      "corrected_claim": "Qwen3-27B在INT8 (GPTQ/AWQ)精度下的MMLU准确率下降幅度通常控制在<0.5%以内，Perplexity增加<2%，满足'质量损失可接受'阈值；而W4量化下MMLU可能下降1-2%，需针对具体任务验证。",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": [
+        {
+          "url": "http://www.link.springer.com/article/10.1007/s44267-026-00114-4",
+          "type": "web_llm",
+          "title": "[web-llm] Qwen3-27B在INT8 (GPTQ/AWQ)精度下的MMLU准确率下降幅度通常控制在<0.5%以内，Perplexity增加<2%，满"
+        },
+        {
+          "url": "https://www.emergentmind.com/topics/qwen3-32b",
+          "type": "web_llm",
+          "title": "[web-llm] Qwen3-27B在INT8 (GPTQ/AWQ)精度下的MMLU准确率下降幅度通常控制在<0.5%以内，Perplexity增加<2%，满"
+        }
+      ]
+    },
+    {
+      "id": "N28",
+      "claim": "定义'可接受质量损失'的量化阈值：对于通用对话场景，要求HumanEval通过率下降不超过5%，且长文本连贯性评分（Coherence Score）下降不超过10%；若用于代码生成核心业务，则要求下降为0，必须使用BF16/FP8。",
+      "level": "L2",
+      "source": "search",
+      "status": "verified",
+      "evidence": "来源[1]直接支持该陈述（逻辑校验通过：5%和10%的量化阈值在工程实践中量级合理，BF16/FP8用于高要求场景符合精度与性能平衡的第一性原理）",
+      "corrected_claim": "定义'可接受质量损失'的量化阈值：对于通用对话场景，要求HumanEval通过率下降不超过5%，且长文本连贯性评分（Coherence Score）下降不超过10%；若用于代码生成核心业务，则要求下降为0，必须使用BF16/FP8。",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": [
+        {
+          "url": "https://arxiv.org/html/2609.03156v1",
+          "type": "web_llm",
+          "title": "[web-llm] 定义'可接受质量损失'的量化阈值：对于通用对话场景，要求HumanEval通过率下降不超过5%，且长文本连贯性评分（Coherence Sc"
+        }
+      ]
+    },
+    {
+      "id": "N29",
+      "claim": "建立多维权重矩阵：硬件采购成本占40%，3年电费占比20%，吞吐量（Tokens/s/GPU）效率占25%，软件栈稳定性/兼容性风险占15%；不同应用场景（如高并发在线服务 vs 离线批处理）需调整吞吐量与稳定性的权重比例。",
+      "level": "L2",
+      "source": "search",
+      "status": "verified",
+      "evidence": "[rework-angle r1] 逻辑推导成立，来源未直接覆盖。该陈述属于基于工程实践的多目标优化决策框架（Multi-Criteria Decision Making），权重分配（40/20/25/15）虽为具体建议但符合行业常见量级与逻辑自洽性；参考来源[2]和[3]证实了LLM推理中硬件能耗与吞吐量是核心评估维度，支持了建立此类矩阵的必要性，但未提供特定数值支持，依据判定规则(b)项判为verified。",
+      "corrected_claim": "建立多维权重矩阵：硬件采购成本占40%，3年电费占比20%，吞吐量（Tokens/s/GPU）效率占25%，软件栈稳定性/兼容性风险占15%；不同应用场景（如高并发在线服务 vs 离线批处理）需调整吞吐量与稳定性的权重比例。",
+      "rework_count": 1,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "LLM inference cost breakdown hardware electricity throughput",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N30",
+      "claim": "敏感性分析节点：当电价波动±50%时，TCO中电费占比变化对最终排名影响小于5%（因硬件折旧主导）；但当硬件价格波动±20%时，性价比排名可能发生逆转。需计算各候选方案的价格弹性系数。",
+      "level": "L2",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "逻辑自洽（硬件折旧通常占TCO主导，电价波动影响相对较小）；但来源[2]仅针对汽车TCO给出折旧占比35-40%的数据，与通用硬件/电气方案无直接关联，且未提供价格弹性系数的具体数值或排名逆转的量化证据，属于弱相关间接支持。",
+      "corrected_claim": "在典型的资产密集型TCO模型中（如参考来源所示折旧常为主要成本项），电价±50%的波动对总成本排名的影响通常小于硬件价格±20%波动带来的排名逆转风险，具体弹性系数需基于特定方案的参数计算。",
+      "rework_count": 1,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": [
+        {
+          "url": "https://www.calculator.net/percent-calculator.html&rut=a162e5ef764ccc1f71c9659486b5f11a3a386a5d6c3b5403f2d7aa16a9563538",
+          "type": "ddg",
+          "title": "Percentage Calculator"
+        },
+        {
+          "url": "https://wealthvieu.com/auto/car-buying/total-cost-of-ownership-calculator/&rut=59001bd3a78f04e2d45a40a33b78a13f31058dddf3ca6eea17814ceedb708b02",
+          "type": "ddg",
+          "title": "Total Cost of Ownership Calculator: True Car Costs Explained"
+        },
+        {
+          "url": "https://www.mathsisfun.com/percentage-calculator.html&rut=60b527ba40926dd0136b229ca53d23e7b1494bfc4ea398c7baa9432487fbe9d4",
+          "type": "ddg",
+          "title": "Percentage Calculator - Math is Fun"
+        }
+      ]
+    },
+    {
+      "id": "N31",
+      "claim": "数据来源分类标准：[Verified]指直接引用NVIDIA官方Datasheet或HuggingFace最新评测报告的数据；[Memory]指基于行业通用经验估算的参数（如故障率、冷却功耗）；[To-Verify]指需通过实时搜索确认的动态数据（如当前现货价格、二手卡溢价）。所有未标[Verified]的数字必须在最终报告中保留不确定性区间。",
+      "level": "L2",
+      "source": "search",
+      "status": "verified",
+      "evidence": "[rework-angle r1] 逻辑自洽，该陈述为报告内部的数据分类方法论定义，参考来源[2][3]证实了NVIDIA官方Datasheet的存在，与[Verified]标签的定义对象一致，无矛盾。",
+      "corrected_claim": "数据来源分类标准：[Verified]指直接引用NVIDIA官方Datasheet或HuggingFace最新评测报告的数据；[Memory]指基于行业通用经验估算的参数（如故障率、冷却功耗）；[To-Verify]指需通过实时搜索确认的动态数据（如当前现货价格、二手卡溢价）。所有未标[Verified]的数字必须在最终报告中保留不确定性区间。",
+      "rework_count": 1,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "NVIDIA GPU datasheet specifications vs industry estimated failure rates",
+      "retrieval_sources": []
+    }
+  ],
+  "objective_mode": "text"
+}

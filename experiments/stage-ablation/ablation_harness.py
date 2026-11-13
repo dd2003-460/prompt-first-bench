@@ -499,6 +499,13 @@ def call_llm(prompt, max_tokens=LLM_MAX_TOKENS, timeout=LLM_TIMEOUT, retries=2, 
             code = getattr(e, "code", None)
             if code is not None and 400 <= code < 500 and code != 429:
                 raise
+            # E15 (2026-11-13): 长调用（timeout≥600s）的超时/断连也按可重试处理。
+            # 两臂 r2 死于 502 burst：decompose 单次调用 ~10min，burst 持续 >75s
+            # （5+10+20+40s 退避耗尽）就整轮 FATAL。8787→ninfer 的抖动实测会超过这个窗口。
+            # 只放宽长调用；短调用（judge/verify, timeout 小）保持原行为快速失败。
+            if isinstance(e, (TimeoutError, ConnectionError)) or "timed out" in str(e):
+                if timeout < 600:
+                    raise
             if attempt < retries:
                 wait = 5 * (2 ** attempt)
                 print(f"  retry {attempt+1} (wait {wait}s): {e}", file=sys.stderr)
