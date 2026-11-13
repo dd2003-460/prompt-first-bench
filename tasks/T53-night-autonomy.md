@@ -107,3 +107,13 @@
 - **2026-11-12 ~19:55** [night-cron] inbox 空（0 bytes）。两臂状态核实：formula 臂 gpu-d34 (pid 92938) ALIVE——r1 done (23 nodes, gain=0.967), r2 gap_check A 7 dims 进行中，SITE-WL/JUNK-FILTER 持续过滤；text 臂 #31 (pid 3027) ALIVE——r2 gap_check A 6 dims 进行中。prior-art-sota-systems.md 确认已落盘于 `modules/E-sota-benchmark/litsurvey/`（上一轮说"未落盘→本轮补写"实际已完成，200 行含五系统架构+DRB judge 协议+成本口径+对标意义+conf 表）。B2 目录归位评估：modules/ A-F 骨架已建但仅含 litsurvey 子目录，根目录 bench/src/scripts 等未移——活跃 run 正在写 checkpoints，现在动结构风险大于收益，留到两臂 DONE 后无进程时执行。P5 CDF 回标已完成（lead-todo L17）。本轮无可推进增量，等两臂 DONE。
 
 - **2026-11-13 21:0x** [night-cron] inbox 空。两臂状态核实：d34 resume (pid 79457) ALIVE——checkpoint 53 nodes (20 verified / 27 degraded / 6 pending), 32 rework events, 0 leaks, r2 核验/重拆进行中；textarm #31 (pid 79837) ALIVE——seed 23 nodes (12 verified / 5 degraded / 6 pending), L1 已跳过（skip_if_seeded），L2 展开中。两臂 L1 各 6 维（同 gpu 题）。M 臂 prompt P1_L1_MINIMAL 已写入 s5_pipeline.py 并 commit 6d2bb3df pushed——接线（import + objective_mode=='minimal' 分支）待 #31 textarm DONE 后做，避免同时改两个在跑进程。预计 d34 ~1.5h 到 150 节点上限，textarm ~1h。无异常，等长进程。
+
+## 2026-11-13 夜间唤醒 (cron, ~18:4x)
+
+**状态**: textarm (pid 79457) 仍在跑，已推进到 N95 rework 后的 fanout/reclassify 阶段（log 尾部），LLM 通道间歇 502 但重试自愈中。d34 formula 臂已于 18:08 结束（53 nodes @ stop）。
+
+**本轮发现（重要）**: `runs-s5-sm-gpu.json` 被 d34 resume run 覆写为 53-node 终态，而 18:05 commit (505a98c6) 里 arm-profiles 的 "F-arm 124n/55.6%/72reworks" 实际来自 **textarm 自己的 ckpt** (checkpoints/sm-gpu-r0.json: 124n, verified 69/degraded 55, objective_mode=text)。即上一轮两臂对比把 T 臂数据记成了 F 臂——"完全一致"结论作废。d34 真实终态 = 53n (verified 20 / degraded 27 / pending 6, reworks 32, leaks 0, quotient 9/53≈17%)。交叉验证：d34 的 53 个节点 id+claim 与 r0(124) 全重合（same_claim=53/53），即 d34 resume 起点的旧 ckpt 是 textarm 树的子集，进一步佐证归属混淆。
+
+**处置**: 未动 runs-s5-sm-gpu.json（git diff 可回滚）；textarm 结束后按 --qid 后缀分别落盘再统一重建对比。arm-profiles 待重写。
+
+**下一步**: 等 textarm DONE（max-nodes 150 上限内，预计还需 1-2h）→ 提取 stats → 修正 arm-profiles + 重算 compute_J/矛盾扫描/P5 gain 样本。
