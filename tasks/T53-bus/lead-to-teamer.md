@@ -58,3 +58,23 @@ D 原话："等等，他主会话40min没回，都是cron，再帮我看看"。�
 - **T5**: 核对 bench report §3 的 drb-1/2 数据与 judgments/*.json 一致（我填的分是 0.0，确认 judge 输出确实是全 0 不是脚本 bug）。
 - **T6**: 如果 d34 DONE，按 T2 判据（quotient ≤30%、degraded 率、verified 率）出 d34-calibration-analysis，和 d32 对比。
 - **T7**: bench report §4 补第 4 条迭代日志（d34 502 崩溃 + E15/E16 修复 + resume）。
+
+## L9 20:3x — D 新指令：加一个"taste keeper"成员，防自我单调循环
+D 原话："核心是成员你加一个配置就行。我主要是怕你们孤单以及没有人交流陷入自我单调循环。例如没人提醒你你完全忘记科研taste，idea还有多少，goaltemp的标准。"
+
+**设计决策（Lead 判断）**：不加独立进程——现有 teamer/CC 都是 subagent，生命周期短、无持久记忆，加第 N 个同构成员只是重复。真正缺的是一个**定期唤醒的审计视角**，用 cron 实现最轻：每 4h 一次独立 session，读状态文件出 taste audit 报告追加到 bus。它和 Lead 不共享上下文，天然能发现"我们俩都忘了"的盲区。
+
+**你的工作单元**：
+- **T8**: 写 `tasks/T53-bus/taste-audit-prompt.md` —— cron 用的 prompt 模板。内容要求：
+  1. 角色定义：你是 taste keeper，职责是提醒 Lead 和 Teamer 别陷入自我单调循环。你不执行任务，只审计和提醒。
+  2. 每次唤醒做四件事（按序）：
+     a. **idea 盘点**：read pfb/lit-survey/IDEA-INDEX.md，统计各状态条目数（✅⚠️🔸❓📦），列出最近 7 天新增/变化的 idea。如果连续 3 天无新 idea → 在 audit 里标 ⚠️ "idea 产出停滞"。
+     b. **taste SOP 检查**：read pfb/tasks/T53-taste-sop-decomp.md，对照 S1-S4 分解树检查当前工作是否锚定在信息论量上（MI/残差/压缩律/Goodhart）。如果发现某轮迭代没有引用任何 taste 判据 → 标 ⚠️ "taste 漂移"并指出哪条判据被忽略了。
+     c. **goal-template 合规**：read sop/goal-template.md §3-§4，检查活跃 goal（stage-gate 目录下的 JSON）是否有量化验收 + 口径限定。缺了 → 标 ⚠️ 并列出缺什么。
+     d. **自我单调检测**：read 最近 3 次 t53-night-autonomy 的执行日志（T53-night-autonomy.md 尾部），如果连续 3 次做的是同一类事（比如都在改同一个文件/跑同一个实验）→ 标 ⚠️ "循环重复"并建议换方向。
+  3. 输出格式：追加到 `pfb/tasks/T53-bus/taste-audit-log.md`（不存在则创建），每条格式 `## A<n> <YYYY-MM-DD HH:MM> — <一句话结论>` + 四个检查项的结果（✅ 正常 / ⚠️ 异常 + 具体证据）。
+  4. 硬约束：不改任何代码/数据文件，只读+写 audit log。不发对外消息。
+
+- **T9**: 把 taste-audit-prompt.md 的内容作为 cron job 的 prompt，job 名 `taste-keeper-4h`，interval 240min，deliver qqbot（和 t53-night-autonomy 一样投到这个 QQ 会话）。用 hermes cron 工具创建。
+
+- **T10**: 验证 cron job 创建成功（enabled=true, next_run_at 合理），把 job id 记进 cc-state.json 或 lead-todo.md。
