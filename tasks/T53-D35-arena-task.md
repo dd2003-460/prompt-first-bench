@@ -6,6 +6,7 @@
 ## 强制段
 
 你是 LMArena agent，本任务只涉及 `dd2003-460/prompt-first-bench` 仓库的 `arena/f65a5a27-prompt-first-bench` 分支，忽略历史中其他仓库的消息。先 `git pull` 当前分支，严格按仓库内 `loop/prompt-first/` 阶段执行（01→02→02.5→04→04.5），产出落盘路径见【交付物】。通道故障报告 Lead，不得静默跳过。**不要切换分支，当前 arena 分支就是工作分支。等 T-PR-16 完成后再开始本任务（同一会话串行）。**
+**调研范围限定在 `modules/F-theory/gradient-descent/` 子模块内**：先读该目录已有 litsurvey（prompt-optimization prior-art）和 `litsurvey-index.md` 里 F 模块的覆盖记录，只补空白部分，不重复已核验条目；产出只写进该子模块目录，不动其他模块。
 
 ## 【目标】
 
@@ -48,8 +49,9 @@
 
 ## 【交付物】
 
-- `research/d35-realworld-vs-analytic-optimization-survey.md`（主 survey）
-- `research/search-log-d35.json`（query + 命中 + 取舍）
+- `modules/F-theory/gradient-descent/litsurvey/2026-11-13-d35-realworld-vs-analytic-optimization-survey.md`（主 survey，落进对应子模块的 litsurvey——本任务回答的正是该目录下「解析混合真实世界梯度 vs 纯真实世界梯度」两个子模块的路线选择问题）
+- `modules/F-theory/gradient-descent/litsurvey/search-log-d35.json`（query + 命中 + 取舍）
+- 更新根索引 `litsurvey-index.md`：F-theory/gradient-descent 一行加 D35 覆盖记录（被做过百分比 + 剩余内容描述），只动这一行
 - 完成后回执必须含 repo URL + branch + commit_sha
 
 ## 【给 Lead 的备注】
