@@ -457,8 +457,7 @@ def _webllm_search(query, max_results=3):
             js = f'''
 (async () => {{
 const task = await taskSpace("pfb-webllm-{name}-" + Date.now());
-const tabs = await task.tabs();
-const page = tabs[0].page;
+const page = task.page("p1");
 await page.goto("{url}", {{ timeout: 30000, waitUntil: "domcontentloaded" }});
 await page.waitForTimeout(5000);
 
@@ -601,8 +600,7 @@ def _arxiv_search(query, max_results=5):
     js = (
         "(async () => {\n"
         f'const task = await taskSpace("{space_name}");\n'
-        'const tabs = await task.tabs();\n'
-        'const page = tabs[0].page;\n'
+        'const page = task.page("p1");\n'
         # 第一路：完整 query
         f'await page.goto("http://export.arxiv.org/api/query?search_query=all:{encoded_full}&start=0&max_results={max_results}&sortBy=relevance", {{waitUntil: "domcontentloaded"}});\n'
         'await new Promise(r => setTimeout(r, 3000));\n'
@@ -788,9 +786,8 @@ def _fetch_page(url, title_hint, timeout=30):
     space_name = f"fetch-{int(time.time()*1000)}"
     js = (
         "(async () => {\n"
-        f"const task = await taskSpace(\"{space_name}\");\n"
-        "const tabs = await task.tabs();\n"
-        "const page = tabs[0].page;\n"
+        f'const task = await taskSpace("{space_name}");\n'
+        'const page = task.page("p1");\n'
         "try {\n"
         f"  await page.goto(\"{url}\", {{waitUntil: \"domcontentloaded\", timeout: 20000}});\n"
         "  await new Promise(r => setTimeout(r, 2000));\n"
@@ -913,8 +910,8 @@ def research_hook(qid, question, max_results=8, enable_local=True):
         try:
             if re.search(r'[\u4e00-\u9fff]', question):
                 # 中文 query → bing 国际版
-                for r in _bing_search(question, max_results=min(3, remaining)):
-                    _add(r, "bing")
+                for r in _arxiv_search(question, max_results=min(3, remaining)):
+                    _add(r, "arxiv")
             else:
                 # 英文 query → DDG lite
                 for r in _ddg_search(question, max_results=min(3, remaining)):
@@ -1013,14 +1010,11 @@ def research_hook(qid, question, max_results=8, enable_local=True):
     def _wl_match(url):
         return any(d in url for d in _SOURCE_WHITELIST)
     wl_sources = [s_ for s_ in sources if _wl_match(s_.get("url", ""))]
-    if len(wl_sources) >= 2:
+    if len(wl_sources) >= 1:
         dropped_wl = len(sources) - len(wl_sources)
         if dropped_wl:
             print(f"  [SITE-WL] {qid}: kept {len(wl_sources)} whitelisted, dropped {dropped_wl} non-whitelisted", file=sys.stderr)
         sources = wl_sources
-    elif wl_sources:
-        # 只有 1 条白名单源：保留它 + 其余源（避免只剩 1 条太薄）
-        pass
     # 0 条白名单源：不过滤（让 junk filter 兜底）
 
     out = sources[:max_results]
