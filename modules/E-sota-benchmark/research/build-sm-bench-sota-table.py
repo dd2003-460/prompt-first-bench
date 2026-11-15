@@ -290,7 +290,7 @@ contradictions = [
 
 doc = {
     "task": "T53C-SOTA",
-    "task_book": "tasks/T53C-sota-research.md",
+    "task_book": "tasks/E-sota-benchmark/TASK-E01-t53c-dr-sota-research.md",
     "generated_at_utc": "2026-11-11",
     "base_commit": "ac1b481",
     "branch": "arena/f65a5a27-prompt-first-bench",

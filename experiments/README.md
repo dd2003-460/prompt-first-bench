@@ -9,4 +9,4 @@
 | T8-matrix/ | 矩阵实验 (任务类型 × prompt 变体)：design.md + runs/ + report.md | pending |
 | T8-arena-compare/ | Part D: arena-native vs pfb 流程对比（7 维度） | pending |
 
-设计依据：`tasks/T8-prompt-ablation.md`（v6 三机分工版）。
+设计依据：`tasks/B-pipeline-ablation/TASK-B04-t8-prompt-ablation-matrix.md`（v6 三机分工版）。

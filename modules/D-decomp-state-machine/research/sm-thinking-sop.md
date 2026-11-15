@@ -205,7 +205,7 @@ D 问：v17 的 hack 是不是 prompt 里目标函数文字描述驱动的？公
 - `delegate_task(action='steer')`：运行中的 child 可以中途注入课程修正文本——这是唯一的"对活着的 sub 说话"通道，但它只是单向投递，child 的中间输出不回传，只有最终 summary 回来。
 - 没有 persistent session、没有 inter-agent message bus、leaf 之间无边。
 
-**落地方案（本 goal 采用）**：文件总线。约定一个共享目录 `tasks/T53-bus/`：
+**落地方案（本 goal 采用）**：文件总线。约定一个共享目录 `tasks/D-decomp-state-machine/TASK-D06-t53-file-bus//`：
 - `lead→teamer.md`：我写的指令/方向修正/上下文补充（追加式，带时间戳和序号）
 - `teamer→lead.md`：teamer 写的进展/问题/方向质疑（追加式）
 - teamer 的 standing instruction：每完成一个工作单元就检查 `lead→teamer.md` 有无新条目，有就先响应再继续；自己产出的关键判断写进 `teamer→lead.md`。

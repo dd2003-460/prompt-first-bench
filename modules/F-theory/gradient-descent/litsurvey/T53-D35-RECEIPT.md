@@ -4,7 +4,7 @@
 - branch: `arena/f65a5a27-prompt-first-bench`
 - base: `0fb0c1e`（D35 任务书落点修正后）
 - commit_sha: `c58bee7`（完整：见 `git log --oneline -1` / 回执提交本身为其子提交）
-- 任务书: `tasks/T53-D35-arena-task.md`
+- 任务书: `tasks/E-sota-benchmark/TASK-E16-t53d35-realworld-vs-analytic-arena.md`
 - 日期: 2026-11-13
 - 执行模式: `loop/prompt-first/` 01 → 02 → 02.5 → 04 → 04.5（SOP: `sop/arena-loop-pipeline.md`）
 

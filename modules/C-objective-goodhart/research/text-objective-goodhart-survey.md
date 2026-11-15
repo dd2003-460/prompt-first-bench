@@ -1,6 +1,6 @@
 # 文字目标函数的 Goodhart / reward hacking — 滚雪球调研（T-PR-15）
 
-- 任务书：`tasks/T-PR-15-text-objective-goodhart.md` @ `6b86d3db11eba096b8df1c99c2d684899d0a93a2`
+- 任务书：`tasks/C-objective-goodhart/TASK-C01-tp15-text-objective-goodhart.md` @ `6b86d3db11eba096b8df1c99c2d684899d0a93a2`
 - 仓库：`github.com/dd2003-460/prompt-first-bench` · 分支：`arena/f65a5a27-prompt-first-bench`
 - 执行：2026-11-11 · loop/prompt-first 01→04.5 · 纯调研，**未改任何代码**
 - 本地触发实例：v17 层级分解（`research/v17-hier-decomposition-blowup.md`）

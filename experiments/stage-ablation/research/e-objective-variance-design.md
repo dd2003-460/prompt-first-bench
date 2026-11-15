@@ -1,6 +1,6 @@
 # E 块设计 — 自写目标函数进回路 + contribution 方差感知
 
-> origin: ai (D 2026-11-12 追问触发；decomp 见 tasks/T53-decomp-state-machine.md §E)
+> origin: ai (D 2026-11-12 追问触发；decomp 见 tasks/D-decomp-state-machine/TASK-D01-t53-decomp-state-machine-main.md §E)
 > 状态：设计方案 v1，未实现。实现前需 smoke test 验证 EA1/EA2。
 > 关联代码：s5_state_machine.py classify_edge (line ~250) / l1_frontier 循环 (line ~708) / ObjectiveConfig (line ~98)
 

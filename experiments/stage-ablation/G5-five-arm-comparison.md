@@ -1,6 +1,6 @@
 # G5 — 五臂对比表（s8g-generalization 验收交付物）
 
-> origin: ai · 2026-11-06 · 任务卡 tasks/s8g-generalization.md 验收项 G5
+> origin: ai · 2026-11-06 · 任务卡 tasks/B-pipeline-ablation/TASK-B02-s8g-generalization.md 验收项 G5
 > 评分器: v3 judge (score.py score_run, M1/M4 LLM judge conf_cap=0.7, M2/M3/M5 gates, M6 URL check)
 > 总分 = Σ(维度归一化分 × 权重)，M2/M3/M5 反向计分（见 DESIGN.md §4）
 

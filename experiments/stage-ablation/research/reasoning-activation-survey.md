@@ -8,7 +8,7 @@
 - 可追溯检索：同目录 `reasoning-activation-search-log.json`；搜索返回数量是工具返回条数，不是搜索引擎总命中数。
 - 阅读标记「已读原文」指实际读取原论文的摘要及与主张相关的方法、结果或讨论片段，非声称完整逐页精读。
 - 文中“证据”指被引用论文的发现；“建议/预测”是对此项目的推断，不应混同。
-- T52 的任务书 `tasks/T52-prompt-decomposition-collision.md` 在当前分支；其指定产物 `research/prompt-decomposition-collision.md` 当前分支及 `origin/main` 均不存在，无法引用结论。
+- T52 的任务书 `tasks/B-pipeline-ablation/TASK-B07-t52-prompt-decomp-collision.md` 在当前分支；其指定产物 `research/prompt-decomposition-collision.md` 当前分支及 `origin/main` 均不存在，无法引用结论。
 - 同样未找到 T53 指定产物 `research/longterm-vision-survey.md`；不假装已读其 Q1/Q2 或 ToT 价值函数分析。
 - 任务书给出的 nat 结果 S5 cov=0.578、S0=0.637、条件点 0.27/0.44 是**项目背景自报**；没有在此独立重算。
 

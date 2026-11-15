@@ -117,7 +117,7 @@
 | 2 | κ 门禁阈值标定（queue L36 [~]） | 对 `bench/rubric-v3/kappa-u1k1-adjudication-materials.md` §4 勾选：公式 ∈ {F2,F3} × 阈值语义 ∈ {硬门禁,SIGNAL} × 阈值处置 ∈ {α,β,γ} | 按材料 §5 D1-D6 清单落地（protocol L71 UNRESOLVED 销账等 6 步机械操作） | 勾选后 ~6 步 |
 | 3 | closure-gate-integration K4 O1-O4 裁定（APPROVALS 2026-10-31 条目） | 四选一：O1 完全接受 staged-diff 双轨【备料倾向】/ O2 有条件接受 / O3 退回 commit-hash 签名 / O4 不接入门禁 | 按 materials §5 D1-D6 开执行 goal 或归档 | 选 O4 则零成本关闭 |
 | 4 | web-llm 三 provider 人工登录（D1-gpu cross_validation_out 门禁） | 浏览器一次性登录 Perplexity/ChatGPT/Gemini | 重跑 ralph web-llm-check → re-apply → advance | 一次登录 |
-| 5 | queue 存量排版归一范围裁定（queue L68） | 选项 (i) 全量归一 / (ii) 仅活跃区归一 | 按 tasks/queue-format-contract.md §4 执行 | 小 |
+| 5 | queue 存量排版归一范围裁定（queue L68） | 选项 (i) 全量归一 / (ii) 仅活跃区归一 | 按 tasks/00-ops/queue-format-contract.md §4 执行 | 小 |
 
 **说明**：#1/#2/#3 互相独立可任意顺序解锁；#4 属 D1-gpu 项目线（非 pfb）；#5 是队列卫生小事。agent 侧在以上任一项解锁前不会重复推进——下轮 keepalive 唤醒会直接核对这五项是否有变化，有变化就执行对应动作，没变化就继续做可逆维护工作（如 queue 卫生扫描、回执补全）。
 

@@ -1,6 +1,6 @@
 # T26 — Prompt 风格维度调研：拟人激励 / PUA × 机械
 
-> 任务书：`tasks/T26-prompt-style-research.md`｜完成：2026-11-06｜来源：arXiv / ACL / MDPI / Anthropic / GitHub
+> 任务书：`tasks/B-pipeline-ablation/TASK-B07-t26-prompt-style-research.md`｜完成：2026-11-06｜来源：arXiv / ACL / MDPI / Anthropic / GitHub
 > 三场景口径：**(a) 单轮 QA** = 1 次 call 1 题；**(b) 多轮 agentic** = 多次 call + 工件传递（≈本仓 4 阶段 pipeline）；**(c) self-refine loop** = 生成→批评→重写在同 call 或紧邻 call 内。
 > **TL;DR**：(a) 场景下激励/威胁/小费的**聚合效应基本为 0**（多次独立复现失败）；(b) 场景下唯一较干净的信号是**信任式框架 > 恐惧式框架**（单篇 preprint、混淆未除）；而"模型有拟人情绪所以激励有效"**在表征层有因果证据，在行为→任务质量层没有**。可复制的增益来自**信息/程序荷载**（多一条必须执行的检查、一个外部可验证锚点），不是情绪荷载。
 

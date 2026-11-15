@@ -42,7 +42,7 @@
 
 ## 题目选择（≥5 道）
 
-当前候选（`tasks/T53C-bench-dispatch.md` 中已列）：
+当前候选（`tasks/B-pipeline-ablation/TASK-B13-t53c-bench-dispatch.md` 中已列）：
 1. H200 TDP vs H100 SXM（GPU 硬件参数 + 百分比对比）
 2. Transformer heads: 原始论文 vs GPT-3（论文事实 + 倍数计算）
 3. HotpotQA 标注数 + compositional 比例（数据集元信息）
@@ -58,7 +58,7 @@
 
 ## 文件索引
 
-- 派发任务书: `tasks/T53C-bench-dispatch.md`
+- 派发任务书: `tasks/B-pipeline-ablation/TASK-B13-t53c-bench-dispatch.md`
 - 状态机代码: `experiments/stage-ablation/s5_state_machine.py`
 - 防泄漏 SOP: `modules/D-decomp-state-machine/research/sm-leak-sop.md`
 - SOTA 分数表（参考用，非主 baseline）: `modules/E-sota-benchmark/research/sm-bench-sota-table.json`

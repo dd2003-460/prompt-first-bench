@@ -1,8 +1,8 @@
 # D35 · 真实世界迭代 vs 解析先验+泛函梯度下降（文献滚雪球补缺）
 
-- 任务书：`tasks/T53-D35-arena-task.md`
+- 任务书：`tasks/E-sota-benchmark/TASK-E16-t53d35-realworld-vs-analytic-arena.md`
 - 前序同模块 survey：`modules/F-theory/gradient-descent/litsurvey/2026-11-12-prior-art-prompt-optimization.md`（下称 **F-旧**，conf 0.78，覆盖 ~65%）
-- 消费方：`tasks/T53-D35-realworld-vs-analytic-decomp.md`（S1 同构映射 / S3 文献滚雪球 / S4 实验设计）
+- 消费方：`tasks/E-sota-benchmark/TASK-E17-t53d35-realworld-vs-analytic-decomp.md`（S1 同构映射 / S3 文献滚雪球 / S4 实验设计）
 - 本轮定位：**只补 F-旧 点名的缺口 + 做它做不了的勘误与交叉验证**，不重做它的四条结论。
 - 日期：2026-11-13 · 分支 `arena/f65a5a27-prompt-first-bench`
 - 检索日志（机读）：`modules/F-theory/gradient-descent/litsurvey/search-log-d35.json`
@@ -288,7 +288,7 @@ Cost     ← tokens + c·rollouts                                  （新增，�
 
 ---
 
-## 9. 对本仓库的可执行结论（给 `tasks/T53-D35-realworld-vs-analytic-decomp.md` S4 用）
+## 9. 对本仓库的可执行结论（给 `tasks/E-sota-benchmark/TASK-E17-t53d35-realworld-vs-analytic-decomp.md` S4 用）
 
 1. **不要再把 "drift 无人研究" 当创新点**（§2.3，conf 0.85）。改写为"drift 的预算-理论化 + 自指档的处理"。
 2. **目标函数立刻加 Div 与 Drift 两项**（§7.3），Div 的 λ 冻结不参与搜索。

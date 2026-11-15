@@ -1,6 +1,6 @@
 # T28 — 判据实现调研：STaD 重建测试 + ADaPT 失败回退 + 组合臂设计
 
-> 任务卡 `tasks/T28-criteria-implementation.md`｜前置 T26 §Q4、`tasks/2026-11-07-nine-points.md` 第 3/6/8 点
+> 任务卡 `tasks/B-pipeline-ablation/TASK-B08-t28-criteria-implementation.md`｜前置 T26 §Q4、`tasks/00-ops/archive/2026-11-07-d-nine-points.md` 第 3/6/8 点
 > 口径：这是一份 **prompt 工程调研 + 可执行草稿**，不跑实验。所有 prompt 均可直接复制进 S10 三臂 / 组合臂。
 > 验收对照：①来源 8 条带 URL+conf（§6）②重建模板（§2）③≤200 字回退段（§3，实测 189 字）④组合臂草稿 + decomp-01 §2 衔接（§4）⑤文献/原创分列（§5）。
 

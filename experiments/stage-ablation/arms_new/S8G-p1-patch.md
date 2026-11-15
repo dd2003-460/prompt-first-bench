@@ -1,6 +1,6 @@
 # 臂 S8G — S5 全流程 + P1 prompt patch (v3 gold-gap)
 
-> origin: 执行 agent · 2026-11-06 · 任务卡 tasks/v3-gold-gap.md (P1+A2+A3)
+> origin: 执行 agent · 2026-11-06 · 任务卡 tasks/F-theory/TASK-F02-v3-gold-gap.md (P1+A2+A3)
 > 基线：S5（loop/prompt-first/01..04.5 全文拼接，见 ablation_harness.build_prompt）
 > 定位：**只叠加三条通用质量规则**，不替换任何阶段文件。措辞为通用原则，
 > 不得出现任何 gold 维度名/结构（无答案泄漏硬约束）。

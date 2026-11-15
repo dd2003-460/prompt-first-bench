@@ -1,6 +1,6 @@
 # T53 · 长期方向调研：目标函数驱动的自适应推理 + 元目标学习
 
-> origin: arena agent (T53) · 2026-11-09 · 任务书：experiments/stage-ablation/tasks/T53-longterm-vision-survey.md（sigma-nlnk-snowball @ 12f7294b）
+> origin: arena agent (T53) · 2026-11-09 · 任务书：experiments/stage-ablation/tasks/E-sota-benchmark/TASK-E18-t53-longterm-vision-survey.md（sigma-nlnk-snowball @ 12f7294b）
 > 前置调研直接引用、不重复展开：T51 → research/objective-function-priorart/SNOWBALL-T51.md（即任务书所称 collision-snowball.md 之对应产出）；T52 → research/prompt-decomposition-collision.md + research/prompt-decomposition-search-log.json。
 > 检索日志：research/longterm-search-log.json
 > 被调研对象：S_α = Σ[n·ln(kₙ) + α·kₙ·ln(n)]（n=层级深度，kₙ=该层节点数，α=广深权衡权重）——注意 T53 版比 T51 版（S(T)=Σn·ln(kₙ)）多了 α·kₙ·ln(n) 广度项，本报告按新版调研，T51/T52 结论在旧版上成立、对新版逐项重新核对。

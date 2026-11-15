@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """S10 组合臂消融 runner — 5 臂 × Q1/Q3/Q4 × n≥6，多轮状态传递。
 
-设计依据: tasks/S10-combination-arm-ablation.md
+设计依据: tasks/B-pipeline-ablation/TASK-B01-s10-combination-arm-ablation.md
 臂定义:
   S10-A 基线（v0 朴素空间直觉，无结构化检查）
   S10-B 判据（v2 引导式可审计：拼接覆盖图 + STaD 重建 + 以事实为准）
