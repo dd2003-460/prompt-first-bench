@@ -393,14 +393,23 @@ def _local_corpus_search(query, max_results=3, qid=None):
 
 
 def _webllm_search(query, max_results=3):
-    """通道 6：网页 AI 信源（Perplexity via ego-browser，已登录会话）。
+    """通道 6：网页 AI 信源（多端点 fallback via ego-browser，已登录会话）。
 
-    DDG/arXiv 都拿不到具体事实时的兜底：Perplexity 直接返回「答案 + 引用 URL」，
+    DDG/arXiv 都拿不到具体事实时的兜底：网页 AI 直接返回「答案 + 引用 URL」，
     引用 URL 作为 source 落盘（snippet 用查询本身标注来源类型）。
     用户指令 2026-11-08：'可以问 arena，不止 perplexity，然后根据网页 AI 信源验证'。
+    2026-11-15：Perplexity 免费额度用完导致单点故障，加 fallback 链。
     每个查询 ~15-25s（含页面渲染等待），仅在前面通道结果不足时触发。
     """
-    js = """
+    endpoints = [
+        ("perplexity", "https://www.perplexity.ai/search?q="),
+        ("chatgpt", "https://chatgpt.com/s/"),
+        ("deepseek", "https://chat.deepseek.com/a/chat"),
+    ]
+    for name, url_prefix in endpoints:
+        try:
+            if name == "perplexity":
+                js = """
 const task = await taskSpace("pfb-webllm-research");
 const page = task.page("p1");
 await page.goto("https://www.perplexity.ai/search?q=" + encodeURIComponent(%s));
@@ -410,22 +419,68 @@ const links = await page.evaluate(() => Array.from(document.querySelectorAll("a"
 const uniq = [...new Set(links)].slice(0, %d);
 console.log(JSON.stringify(uniq));
 """ % (json.dumps(query), max_results)
-    out = _run_ego_browser(js, timeout=25)
-    # extract JSON array from stdout (last line that parses)
-    urls = []
-    for line in reversed(out.splitlines()):
-        line = line.strip()
-        if line.startswith("["):
-            try:
-                urls = json.loads(line)
-                break
-            except Exception:
+            elif name == "chatgpt":
+                js = """
+const task = await taskSpace("pfb-webllm-research");
+const page = task.page("p1");
+await page.goto("https://chatgpt.com/", {timeout: 30000});
+await new Promise(r => setTimeout(r, 3000));
+const input = await page.$('textarea');
+if (input) {
+  await input.type(%s);
+  await page.keyboard.press('Enter');
+  await new Promise(r => setTimeout(r, 15000));
+  const links = await page.evaluate(() => Array.from(document.querySelectorAll("a")).map(a => a.href)
+    .filter(h => !h.includes("chatgpt.com") && !h.startsWith("#") && /^https?:/.test(h)));
+  const uniq = [...new Set(links)].slice(0, %d);
+  console.log(JSON.stringify(uniq));
+} else {
+  console.log("[]");
+}
+""" % (json.dumps(query), max_results)
+            elif name == "deepseek":
+                js = """
+const task = await taskSpace("pfb-webllm-research");
+const page = task.page("p1");
+await page.goto("https://chat.deepseek.com/a/chat", {timeout: 30000});
+await new Promise(r => setTimeout(r, 3000));
+const input = await page.$('textarea');
+if (input) {
+  await input.type(%s);
+  await page.keyboard.press('Enter');
+  await new Promise(r => setTimeout(r, 15000));
+  const links = await page.evaluate(() => Array.from(document.querySelectorAll("a")).map(a => a.href)
+    .filter(h => !h.includes("deepseek.com") && !h.startsWith("#") && /^https?:/.test(h)));
+  const uniq = [...new Set(links)].slice(0, %d);
+  console.log(JSON.stringify(uniq));
+} else {
+  console.log("[]");
+}
+""" % (json.dumps(query), max_results)
+            else:
                 continue
-    results = []
-    for u in urls[:max_results]:
-        results.append({"title": f"[web-llm] {query}", "url": u,
-                        "snippet": f"Perplexity 回答引用源（query: {query}）"})
-    return results
+            out = _run_ego_browser(js, timeout=25)
+            urls = []
+            for line in reversed(out.splitlines()):
+                line = line.strip()
+                if line.startswith("["):
+                    try:
+                        urls = json.loads(line)
+                        break
+                    except Exception:
+                        continue
+            if urls:
+                results = []
+                for u in urls[:max_results]:
+                    results.append({"title": f"[web-llm:{name}] {query}", "url": u,
+                                    "snippet": f"{name} 回答引用源（query: {query}）"})
+                return results
+            else:
+                print(f"  [WEBLLM-EMPTY] {name}: no links returned", file=sys.stderr)
+        except Exception as e:
+            print(f"  [WEBLLM-FAIL] {name}: {str(e)[:80]}", file=sys.stderr)
+            continue
+    return []
 
 
 def _arxiv_search(query, max_results=5):
