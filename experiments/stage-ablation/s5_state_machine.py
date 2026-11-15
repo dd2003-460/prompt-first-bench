@@ -663,6 +663,8 @@ class DecompStateMachine:
             return verify_node(
                 {"id": node.id, "claim": node.claim,
                  "source": node.source}, srcs_list)
+        if not prepared:
+            return batch  # 整批在检索阶段已处理完（如检索失败→degraded），无 LLM 核验可做
         with ThreadPoolExecutor(max_workers=min(len(prepared), 4)) as ex:
             results = list(ex.map(_do_verify, prepared))
         for (node, _), (status, evidence, corrected, _r) in zip(prepared, results):

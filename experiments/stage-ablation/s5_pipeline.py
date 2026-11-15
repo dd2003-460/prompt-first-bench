@@ -432,7 +432,9 @@ def verify_node(node, srcs):
         node_id=node["id"], claim=node["claim"],
         source=node.get("source", "search"),
         sources_block=sources_block(srcs)) + _perturb()
-    out, _ = call_llm(prompt, max_tokens=1200, temperature=0, top_p=1.0)
+    # verify 是短结构化任务（JSON 输出），不需要内部推理——thinking 会把
+    # budget 烧在 reasoning_content 上导致 content 为空。关掉后单请求 ~3s vs 20s+。
+    out, _ = call_llm(prompt, max_tokens=1200, temperature=0, top_p=1.0, enable_thinking=False)
     d = _extract_json(out or "") or {}
     status = d.get("status")
     if status not in ("verified", "degraded", "failed"):
