@@ -139,3 +139,16 @@ inbox 空。无活跃 SM 进程（r14 早已 DONE，r14-results.md 11-12 已落�
 **[待D醒] 不变**：strict 口径（9.2% vs 19.4%）是否作为 bench 报告官方 verified 口径——宽口径 T 领先 19.7pp，strict 口径 T 领先 10.2pp，方向一致、幅度不同。在此之前不把 verified_rate 写进对比报告。
 
 **下一步**：drb-1 重跑排队等口径定；webllm 脚本修复（短 timeout+快速失败）可做但涉及代码改动，留 D 醒后确认方向再动。
+
+## 2026-11-15 夜间唤醒 #3 (cron, ~13:25)
+
+inbox 空（0 bytes）。发现 **M 臂 (objective_mode=minimal) 已在跑**（上轮 #3 commit 已记录，pid 27188/27192，13:0x 启动）：r1 完成 27n (ver=10/21, logic-only 3, unique id 27/27)，r2 进行中，log 活跃（sm-gpu-minimal.log，SITE-WL/JUNK-FILTER 持续过滤，rework-angle 多节点 verified）。
+
+本轮增量：
+1. **r1 ckpt 留痕**：checkpoints/sm-gpu-r1.json 被 M 臂覆写（HEAD 版本是 textarm 时代状态），git commit b65bfeab pushed 留回滚点。
+2. **M 臂重跑决策 [自主]**：M 臂 qid=gpu → 终态会覆盖写 runs-s5-sm-gpu.json（F-arm 163n 终态，b2fe484b 已核验落盘）。F-arm 数据 git 可回滚，但为保险起见我 kill 掉 27188/27192，重跑 `python3 s5_state_machine.py gpu --obj-mode=minimal --max-nodes=150`（pid 33637，log sm-gpu-minimal.log 续写）。L1 已正常出 6 维（与 F/T 臂同题同维数，minimal prompt 首验通过）。预计 1-2h DONE，届时 stats 落盘 + 三臂对比（F 163n / T 124n / M 待定）。
+3. **CC 状态核实**：cc-state.json 显示 drb-1 11-12 04:09 启动后无后续记录（C9 是最后一条消息），进程早已不在——DRB pilot 实际停摆 3 天，重启需先解决 11-12 C7 的 4 选 1 裁决（降门槛/kill 99641/错峰/暂停），且 11-15 已确认 [待D醒] 口径问题未决（strict vs 宽口径 verified 定义）→ DRB 重跑维持排队，不自主重启。
+
+**[待D醒] 不变**：① strict 口径是否官方；② DRB 重启裁决；③ webllm 修复方向。
+
+**下一步**：等 M 臂 DONE（pid 33637）→ 提取 stats 落盘 marm-profile + 三臂对比表 → bench 出分。
