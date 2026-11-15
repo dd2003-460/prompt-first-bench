@@ -20,5 +20,7 @@ verified=174, pending=77, degraded=31, total=283 → cov=0.615。
 - 长度 ≤80 行（过程论证删掉，只留结论+证据）。
 
 ## 交付（硬约束）
-把结果写入本仓库 `experiments/stage-ablation/loop-artifacts/stages/arena-outsource/soc-gap-20261116.md` 并 push 到 main。
+把结果写入本仓库 `experiments/stage-ablation/loop-artifacts/stages/arena-outsource/soc-gap-20261116.md`，
+commit + push 到**你当前 checkout 的分支**（即 `arena/f65a5a27-prompt-first-bench`，不要 push main——token 无 main 写权限）。
 **文件不存在 = 任务未完成，Lead 不验收。**
+完成后回执必须含：repo URL（https://github.com/dd2003-460/prompt-first-bench）+ branch + commit_sha。
