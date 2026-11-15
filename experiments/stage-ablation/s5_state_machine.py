@@ -444,6 +444,7 @@ class DecompStateMachine:
         self.rounds_log: list[dict] = []
         self.state = State.IDLE
         self.leak_hits_total = 0
+        self.challenge_log: list[dict] = []  # D-质询审计（2026-11-16）：各层反方质询记录
         self.rework_events = []
         self.contradiction_events: list[dict] = []  # D33: 全局矛盾扫描事件（喂回 decompose + 度量）
         self._gain_history: list[float] = []
@@ -492,6 +493,10 @@ class DecompStateMachine:
             prompt = P1_L1_SKELETON.format(question=self.question)
         out, _ = call_llm(prompt, max_tokens=2048, temperature=0.7, top_p=0.95, retries=3)
         d = _extract_json(out or "") or {}
+        # D-质询落盘（2026-11-16）：challenge 字段此前解析后直接丢弃，
+        # 现在存到 self.challenge_log 并随 checkpoint 持久化——质询过程可审计。
+        if isinstance(d.get("challenge"), dict):
+            self.challenge_log.append({"layer": "L1", "question": self.question[:100], **d["challenge"]})
         # Decision 19: 模型自估计的终点目标函数——落盘到根节点，不进后续 prompt。
         # 角色：机器侧对照基准（G9 gold 维度集的免费替代初稿），不是刷分目标。
         objective = d.get("objective")
@@ -860,6 +865,7 @@ class DecompStateMachine:
                 "network_degraded": self.network_degraded,
                 "objective": self.objective,  # Decision 19: 模型自估计终点目标函数随 ckpt 落盘
                 "objective_mode": self.objective_mode,  # #31 消融臂标记
+                "challenge_log": self.challenge_log,  # D-质询审计（2026-11-16）
                 "rework_events": self.rework_events,
                 "contradiction_events": self.contradiction_events,
                 "nodes": [vars(n) for n in self.nodes],
@@ -1271,6 +1277,7 @@ if __name__ == "__main__":
         sm.network_degraded = ck.get("network_degraded", False)
         sm.objective = ck.get("objective")  # Decision 19: resume 时恢复模型自估计目标函数
         sm.objective_mode = ck.get("objective_mode", "formula")  # #31 消融臂
+        sm.challenge_log = ck.get("challenge_log", [])  # D-质询审计（2026-11-16）
         sm.rework_events = ck.get("rework_events", [])
         sm.contradiction_events = ck.get("contradiction_events", [])
         # E16 (2026-11-13): FATAL 落盘的 ckpt 缺 state 字段（text arm seed 就是这种）。

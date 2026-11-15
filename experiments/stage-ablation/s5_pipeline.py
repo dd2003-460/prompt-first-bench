@@ -190,12 +190,15 @@ P15B_GAP_FILL = (
 )
 
 P3_VERIFY = (
-    "你是事实核验员。针对下面这个关键事实节点，执行两步检查：\n\n"
-    "【第一步 — 逻辑校验】该陈述在逻辑上是否自洽？量纲/量级是否合理？"
-    "是否存在内部矛盾或明显违背基本物理/经济直觉的地方？\n\n"
-    "【第二步 — 外部核验】先判断参考来源与该事实是否相关（主题/领域是否匹配），再在相关性成立时判断是否有明确支持。"
+    "你是事实核验员。针对下面这个关键事实节点，执行三步检查：\n\n"
+    "【第一步 — 反方质询】先扮演反对者：这条陈述最可能错在哪？（数值量级？口径混淆？把相关当因果？来源不可靠？）"
+    "把最强的一个攻击点写在 challenge 字段里；如果确实找不到站得住的攻击点，写「无可信攻击点」。\n\n"
+    "【第二步 — 逻辑校验】该陈述在逻辑上是否自洽？量纲/量级是否合理？"
+    "是否存在内部矛盾或明显违背基本物理/经济直觉的地方？注意回应第一步找到的攻击点——"
+    "若攻击点成立且无法排除，判定应相应降档。\n\n"
+    "【第三步 — 外部核验】先判断参考来源与该事实是否相关（主题/领域是否匹配），再在相关性成立时判断是否有明确支持。"
     "支持强度：直接支持 / 间接支持 / 无关 / 矛盾。注意：若全部来源均与该事实主题无关，外部核验记为「无可用外部证据」——"
-    "此时只能依据第一步逻辑校验判定，不得因来源不相关而判 failed，也不得把「来源无关」写成「来源支持」。\n\n"
+    "此时只能依据第二步逻辑校验判定，不得因来源不相关而判 failed，也不得把「来源无关」写成「来源支持」。\n\n"
     "【判定规则】\n"
         "- verified: 逻辑自洽，且满足以下任一条件：(a) 至少一个来源直接支持；(b) 该事实可从第一性原理/题面条件推出且无来源与之矛盾；(c) 两个或以上独立来源给出一致或兼容的数值/结论（即使没有单一来源'直接陈述'）；\n"
         "- degraded: 逻辑自洽但仅有一个间接来源、且无法排除其他可能性 → 保留但降级为定性表述；\n"
@@ -214,7 +217,7 @@ P3_VERIFY = (
     "【来源标记】\n该节点的 source 标记为 {source}。若 source 为 given 或 knowledge：核验重点变为「逻辑自洽 + 数值量级合理」，无需外部来源支持即可判 verified（evidence 注明「先验知识/题面给定，逻辑校验通过」）；经验事实排除条款对 given/knowledge 节点不适用——模型先验知识中的稳定工程参数（如 LRU 命中率量级、Zipf 指数典型值）属于 knowledge 范畴，逻辑自洽即判 verified。若 source 为 search：按上方判定规则（含经验事实排除条款）执行外部核验。\n\n"
     "【关键事实节点】\n{node_id}: {claim}\n\n"
     "【参考来源】\n{sources_block}\n\n"
-    "只输出 JSON：{{\"status\": \"verified|degraded|failed\", \"logic_ok\": true/false,\n"
+    "只输出 JSON：{{\"status\": \"verified|degraded|failed\", \"challenge\": \"最强攻击点或「无可信攻击点」\", \"logic_ok\": true/false,\n"
     "\"evidence\": \"一句话说明依据（引用来源编号）\", \"corrected_claim\": \"若 failed/degraded，给出修正后的表述；否则空字符串\"}}"
 )
 
@@ -419,7 +422,11 @@ def sources_block(srcs):
 
 
 def verify_node(node, srcs):
-    """P3: 单节点逻辑+外部核验。返回 (status, evidence, corrected_claim)。"""
+    """P3: 单节点逻辑+外部核验。返回 (status, evidence, corrected_claim)。
+
+    D-质询（2026-11-16）：prompt 第一步改为反方质询，模型必须先把最强攻击点
+    写进 challenge 字段再判定——攻击点成立且无法排除时降档。challenge 随
+    evidence 落盘（前缀 [质询]），verify 记录可审计。"""
     prompt = P3_VERIFY.format(
         node_id=node["id"], claim=node["claim"],
         source=node.get("source", "search"),
@@ -429,7 +436,11 @@ def verify_node(node, srcs):
     status = d.get("status")
     if status not in ("verified", "degraded", "failed"):
         status = "degraded"  # 解析失败按保守档处理
-    return status, d.get("evidence", ""), d.get("corrected_claim", ""), out
+    ev = d.get("evidence", "")
+    ch = d.get("challenge", "")
+    if ch and ch != "无可信攻击点":
+        ev = f"[质询]{ch} | {ev}"
+    return status, ev, d.get("corrected_claim", ""), out
 
 
 _LABELS = ("[已核验]", "[推导]", "[凭记忆]")
