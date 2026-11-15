@@ -1294,6 +1294,8 @@ if __name__ == "__main__":
                 "network_degraded": sm.network_degraded,
                 "objective": sm.objective,  # Decision 19
                 "rework_events": sm.rework_events,
+                "objective_mode": getattr(sm, "objective_mode", "formula"),  # #31 消融臂
+                "contradiction_events": getattr(sm, "contradiction_events", []),
             }, f, ensure_ascii=False, indent=2)
         print(f"[T53 SM] Checkpoint saved → {ck_path} (use --resume {ck_path})", flush=True)
         _sys.exit(1)

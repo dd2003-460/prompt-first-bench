@@ -380,7 +380,7 @@ def verify_node(node, srcs):
         node_id=node["id"], claim=node["claim"],
         source=node.get("source", "search"),
         sources_block=sources_block(srcs)) + _perturb()
-    out, _ = call_llm(prompt, max_tokens=1200, temperature=0.7, top_p=0.95)
+    out, _ = call_llm(prompt, max_tokens=1200, temperature=0, top_p=1.0)
     d = _extract_json(out or "") or {}
     status = d.get("status")
     if status not in ("verified", "degraded", "failed"):
