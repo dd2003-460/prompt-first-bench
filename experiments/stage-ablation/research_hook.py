@@ -418,8 +418,9 @@ def _webllm_search(query, max_results=3):
             prompt_file = f.name
             js = f'''
 (async () => {{
-const task = await taskSpace("pfb-webllm-{name}");
-const page = task.page("p1");
+const task = await taskSpace("pfb-webllm-{name}-" + Date.now());
+const tabs = await task.tabs();
+const page = tabs[0].page;
 await page.goto("{url}", {{ timeout: 30000, waitUntil: "domcontentloaded" }});
 await page.waitForTimeout(5000);
 
@@ -562,7 +563,8 @@ def _arxiv_search(query, max_results=5):
     js = (
         "(async () => {\n"
         f'const task = await taskSpace("{space_name}");\n'
-        'const page = task.page("p1");\n'
+        'const tabs = await task.tabs();\n'
+        'const page = tabs[0].page;\n'
         # 第一路：完整 query
         f'await page.goto("http://export.arxiv.org/api/query?search_query=all:{encoded_full}&start=0&max_results={max_results}&sortBy=relevance", {{waitUntil: "domcontentloaded"}});\n'
         'await new Promise(r => setTimeout(r, 3000));\n'
@@ -749,7 +751,8 @@ def _fetch_page(url, title_hint, timeout=30):
     js = (
         "(async () => {\n"
         f"const task = await taskSpace(\"{space_name}\");\n"
-        "const page = task.page(\"p1\");\n"
+        "const tabs = await task.tabs();\n"
+        "const page = tabs[0].page;\n"
         "try {\n"
         f"  await page.goto(\"{url}\", {{waitUntil: \"domcontentloaded\", timeout: 20000}});\n"
         "  await new Promise(r => setTimeout(r, 2000));\n"
