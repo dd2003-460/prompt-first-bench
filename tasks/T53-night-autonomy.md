@@ -127,3 +127,15 @@ inbox 空（0 bytes）。核实进程：pgrep 无活跃 SM 进程——**textarm
 **异常 [待D醒]**: 52 个 verified 节点里 39 个 evidence 是 "逻辑推导成立，来源未直接覆盖"（logic-only，无外部来源），仅 13 个带真实 retrieval_sources——verify fallback 口径存疑（log 里有 ego-browser PageNavigationTimeoutError，疑似 web-llm 通道失败后走纯逻辑校验标 verified）。F-arm 31.9% vs T-arm 55.6% 的 verified_rate 差异在此口径澄清前不可解读。另 checkpoints/sm-gpu-r0/r1.json 被本次运行改写（HEAD 版本是 textarm 时代状态，git 可回滚；今后跨臂对比须用 git show 取历史版本）。
 
 处置：未动 runs-s5-sm-gpu.json；bench 出分前先定"什么算 verified"口径。本轮 commit 留痕中。
+
+## 2026-11-15 夜间唤醒 #2 (cron)
+
+inbox 空。无活跃 SM 进程（r14 早已 DONE，r14-results.md 11-12 已落盘）。本轮做三件事：
+
+1. **T-arm 同口径重算数字修正**：上轮画像里 T-arm strict 口径写的是 23/124=18.5%（logic-only 41），本轮用与 F-arm 完全相同的判定逻辑（`'来源未直接覆盖' in evidence AND not retrieval_sources`）对 `runs-s5-sm-gpu-textarm-r2.json`（124n，@794791e4 版本与磁盘一致）重算，得 real_ev=24（strict 19.4%）、logic_only=40。差异来源：上轮判定条件可能漏了 evidence 文本里引用了来源编号但 retrieval_sources 字段为空的节点（如 N21/N23/N25 等 rework-angle 节点）。已修正 farm-163-profile-20261115.md 表格+结论段。
+2. **ego-browser 通道验证**（上轮 L21 待办收口）：`ego-browser nodejs -e` 直连 arXiv API 成功（LEN=5095），`/Users/a1-6/.local/bin/ego-browser` 存在可执行。结论：webllm 超时不是 ego-browser 本身挂了，是 research_hook 的 webllm JS 脚本内导航目标站（perplexity/chatgpt 登录墙或慢响应）超时。修复方向收窄：(a) webllm 脚本换更稳端点或加短 timeout+快速失败；(b) 中期接 arena 外包检索不变。已写入 s5-sm-bench-report.md 修复日志 #4。
+3. **git 留痕**：commit e3538705 pushed（farm-163-profile 数字修正 + bench-report 修复日志 #4）。gpu-criteria.json 已在上轮 43cfbed2 提交。
+
+**[待D醒] 不变**：strict 口径（9.2% vs 19.4%）是否作为 bench 报告官方 verified 口径——宽口径 T 领先 19.7pp，strict 口径 T 领先 10.2pp，方向一致、幅度不同。在此之前不把 verified_rate 写进对比报告。
+
+**下一步**：drb-1 重跑排队等口径定；webllm 脚本修复（短 timeout+快速失败）可做但涉及代码改动，留 D 醒后确认方向再动。
