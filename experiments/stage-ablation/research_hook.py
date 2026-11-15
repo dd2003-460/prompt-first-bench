@@ -461,8 +461,25 @@ if (inputSel) {{
 await page.waitForTimeout(300);
 await page.keyboard.press("Enter");
 
-// 等待响应（最多 20s）
-await page.waitForTimeout(20000);
+// 轮询等待响应（最多 40s，DeepSeek 思考模式需要 25-35s）
+let resp = '';
+for (let i = 0; i < 8; i++) {{
+  await page.waitForTimeout(5000);
+  resp = await page.evaluate(() => {{
+    const body = document.body ? document.body.innerText : '';
+    const ta = document.querySelector('textarea');
+    if (ta) {{
+      let el = ta.parentElement;
+      while (el && el.parentElement) {{
+        el = el.parentElement;
+        if (el.innerText.length > 500) break;
+      }}
+      return el ? el.innerText : body;
+    }}
+    return body;
+  }});
+  if (resp.length > 800) break;
+}}
 
 // 提取引用链接（兼容 DeepSeek 的 .ds-markdown-cite 等引用标记）
 const links = await page.evaluate(() => {{
@@ -491,7 +508,7 @@ const uniq = [...new Set(links)].slice(0, {max_results});
 console.log(JSON.stringify(uniq));
 }})();
 '''
-            out = _run_ego_browser(js, timeout=60 if name == "deepseek" else 45)
+            out = _run_ego_browser(js, timeout=90 if name == "deepseek" else 60)
             os.unlink(prompt_file)
             urls = []
             for line in reversed(out.splitlines()):
