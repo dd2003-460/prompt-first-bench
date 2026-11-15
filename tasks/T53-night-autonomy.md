@@ -152,3 +152,13 @@ inbox 空（0 bytes）。发现 **M 臂 (objective_mode=minimal) 已在跑**（�
 **[待D醒] 不变**：① strict 口径是否官方；② DRB 重启裁决；③ webllm 修复方向。
 
 **下一步**：等 M 臂 DONE（pid 33637）→ 提取 stats 落盘 marm-profile + 三臂对比表 → bench 出分。
+
+## 2026-11-15 夜间唤醒 #4 (cron, ~13:36)
+
+inbox 空（0 bytes）。M 臂 (objective_mode=minimal, pid 27188/27192) 健康推进 r2：78 nodes / verified 19 (logic-only 6) / degraded 53 / pending 6，unique id 78/78 ✅，leaks=0，rework 63 条，fanout cap + edge-reclassify 正常触发，log 活跃（13:35 仍在写）。r2 ckpt 留痕 commit b3a43a14。
+
+**taste-audit A1 (CC 13:28) 两项异常处理**：
+- a. idea 3 天无新登记 → 登记条件 = 产出/决策/洞察型讨论，夜间无新讨论源，不凑数硬造；M 臂出树后三臂对比若产生新洞察再登记。
+- b. 最近 3 轮未引用 taste 判据 → 本轮起执行日志显式带 taste 自检行（本轮：M 臂重跑决策 S3 杠杆测试 = minimal prompt 改动对 verified_rate 有杠杆、对树规模无杠杆，选它是因为三臂对比缺 M 臂数据，残差定位 S2 = 缺臂比多臂残差大）。
+
+[待D醒] 三项不变（strict 口径 / DRB 重启裁决 / webllm 修复方向）。下一步：等 M 臂 DONE（预计 1-2h）→ stats 落盘 marm-profile + 三臂对比表 → bench 出分。
