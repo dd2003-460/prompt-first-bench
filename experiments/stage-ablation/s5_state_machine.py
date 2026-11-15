@@ -649,7 +649,8 @@ class DecompStateMachine:
                 # given/knowledge 不检索，但同样过 LLM 核验（AC3: 所有节点都要有真实 evidence）
                 srcs_list, err = [], None
             status, evidence, corrected, _r = verify_node(
-                {"id": node.id, "claim": node.claim}, srcs_list)
+                {"id": node.id, "claim": node.claim,
+                 "source": node.source}, srcs_list)
             node.status = status
             node.evidence = evidence
             node.corrected_claim = corrected or node.claim
@@ -918,18 +919,24 @@ class DecompStateMachine:
         self._decompose_l1(skip_if_seeded=skip_l1)
 
         if verify_only:
-            # --verify-only: 树结构已完整，跳过 decompose 直接核验所有 pending 节点
-            print(f"  [SM] verify-only mode: {sum(1 for n in self.nodes if n.status=='pending')} pending nodes to verify", flush=True)
+            # --verify-only: 树结构已完整，跳过 decompose 直接核验所有 pending + degraded 节点
+            n_pending = sum(1 for n in self.nodes if n.status == 'pending')
+            n_degraded = sum(1 for n in self.nodes if n.status == 'degraded')
+            print(f"  [SM] verify-only mode: {n_pending} pending + {n_degraded} degraded nodes to verify", flush=True)
             self.state = State.VERIFY
-            pending = [n for n in self.nodes if n.status == 'pending']
-            for i in range(0, len(pending), 3):
-                batch = pending[i:i+3]
+            to_verify = [n for n in self.nodes if n.status in ('pending', 'degraded')]
+            # 重置 degraded 节点为 pending，让 _verify_batch 重新核验
+            for n in to_verify:
+                if n.status == 'degraded':
+                    n.status = 'pending'
+            for i in range(0, len(to_verify), 3):
+                batch = to_verify[i:i+3]
                 self._verify_batch(batch)
                 if (i // 3 + 1) % 10 == 0:
                     self._scan_contradictions(rnd=len(self.rounds_log))  # D33: verify-only 也扫矛盾
                 self._save_checkpoint(rnd=len(self.rounds_log))
                 if (i // 3 + 1) % 5 == 0:
-                    print(f"  [SM] verified {i+len(batch)}/{len(pending)}", flush=True)
+                    print(f"  [SM] verified {i+len(batch)}/{len(to_verify)}", flush=True)
             self.state = State.STOP
             return SMResult(
                 nodes=list(self.nodes), rounds_log=self.rounds_log,
