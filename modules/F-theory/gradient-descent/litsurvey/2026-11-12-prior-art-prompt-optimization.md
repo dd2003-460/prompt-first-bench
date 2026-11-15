@@ -1,6 +1,6 @@
 # 自动 prompt 优化 / 目标函数驱动 prompt 搜索：prior art 调研
 
-> # origin: ai（成璐 T53-D35 任务派发，2026-11-12）
+> # origin: ai（D T53-D35 任务派发，2026-11-12）
 > 目的：为 D35 两条子路线（realworld-gradient vs analytic-hybrid）提供领域坐标——聪明人已经做过什么、各自失败在哪、我们该抄什么。
 > 方法：web_search 检索 arXiv/ACL Anthology/官方文档一手来源；具体 id 均经本轮工具输出核验，未核验的标 [待核验]。
 

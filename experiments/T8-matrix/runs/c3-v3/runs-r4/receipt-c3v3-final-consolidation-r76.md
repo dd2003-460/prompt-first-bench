@@ -36,7 +36,7 @@
 | # | 项 | 解锁条件 | 成本 |
 |---|---|---|---|
 | 1 | G1b family_check unknown→CLOSED（queue T8-C3-v3-g1b-family-upgrade） | 用户给明确非 Qwen API key 或 arena 平台披露模型身份 | ~5 次 judge 调用或一次会话查询；blocked-on-human |
-| 2 | κ 门禁阈值标定（RV3G6-kappa-u1k1-execution） | 成璐对 kappa-u1k1 材料 §4 勾选裁定 | 裁定后 ~6 步机械落地；blocked-on-human |
+| 2 | κ 门禁阈值标定（RV3G6-kappa-u1k1-execution） | D对 kappa-u1k1 材料 §4 勾选裁定 | 裁定后 ~6 步机械落地；blocked-on-human |
 | 3 | 严格盲法复核（第二人执行 M8 联合判读） | 第二人类标注者参与 | 外部依赖 |
 | 4 | harder domain 激活 cover 区分力 | 第三域任务资产建设 | 新 goal |
 

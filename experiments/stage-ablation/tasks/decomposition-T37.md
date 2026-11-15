@@ -54,7 +54,7 @@ T37 paper 投稿就绪
 | G1 | ~~S6/S7 per-run scores 来源不明~~ **已解决**：`runs/hetero-judge-s6s7-results.json` (30 runs, S6+S7, M1+M4 only)；完整 6-dim 仅 S0-S5 有（raw-data-full-perdim.json）。S6/S7 的 M2/M3/M5/M6 需重跑 score.py 或标注"仅 M1/M4 可 bootstrap" | A2 覆盖范围受限 | ✅ 核验完成 |
 | G2 | ~~S7T/S7F/S7V per-run scores~~ **已确认不存在**：runs/ 下只有原始 output JSON（无 scores 字段），§5.1 的 arm-level 均值来自单次 scoring pass 未落盘 | A2 无法覆盖工具臂 | 需重跑 score.py（vLLM 可用，~15min）或标注"工具臂仅报告点估计" |
 | G3 | ~~完整 prompt 提取方式~~ **已解决**：`ablation_harness.py:build_prompt(arm, qid)` 硬编码全部 8 个 arm 的 prompt 模板；问题文本从 5 个 .txt 文件加载（路径在 QUESTIONS dict）→ 可直接 `python3 -c "from ablation_harness import build_prompt; ..."` 导出全部 40 variants | C3 工作量 = 写个 10 行脚本 | ✅ 核验完成 |
-| G4 | 投稿目标未定：arXiv preprint vs ICLR/NeurIPS workshop vs ACL workshop？格式要求不同 | D4 格式检查标准 | 默认 arXiv preprint（最快路径），成璐可改 |
+| G4 | 投稿目标未定：arXiv preprint vs ICLR/NeurIPS workshop vs ACL workshop？格式要求不同 | D4 格式检查标准 | 默认 arXiv preprint（最快路径），D可改 |
 | G5 | related work 具体缺哪些方向：需要调研后才能确定 B2 的文献清单 | B2 无法启动 | 走 arena 调研（02-information-research 阶段） |
 | G6 | n=3/cell 的统计功效：bootstrap CI 在 n=3 时极宽（几乎无信息量），是否需要诚实报告"CI 过宽，仅报告点估计+方向性结论"？ | A2 产出形式 | [待核验] 先算一组看 CI 宽度再决定呈现方式 |
 

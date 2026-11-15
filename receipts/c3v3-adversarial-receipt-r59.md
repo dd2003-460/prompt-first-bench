@@ -1,7 +1,7 @@
 # origin: ai — C3 v3 对抗核验回执落盘 + 处置表（r59 · 2026-10-31）
 
 ## 背景
-arena 会话（origin/arena/78602cd5-prompt-first-bench tip 5a525c7）对 tasks/T8-C3-v3-adversarial-check.md 的 6 个质询方向出了核验回执 `receipts/c3-v3-adversarial-check.json`（142 行），总判定 **PASS-with-fixes**：无根本缺陷，但确认性开跑前有 3 条 blocking fixes。该 commit 在 arena 分支上、未进 main；本回执内容此前从未被消费——R4 主分析收口（r47）与 rubric v11（r44-r46）都是在它之前完成的，本轮首次对齐。
+arena 会话（origin/arena/78602cd5-prompt-first-bench tip 5a525c7）对 tasks/A-eval-infra/TASK-A18-t8-c3v3-adversarial-check.md 的 6 个质询方向出了核验回执 `receipts/c3-v3-adversarial-check.json`（142 行），总判定 **PASS-with-fixes**：无根本缺陷，但确认性开跑前有 3 条 blocking fixes。该 commit 在 arena 分支上、未进 main；本回执内容此前从未被消费——R4 主分析收口（r47）与 rubric v11（r44-r46）都是在它之前完成的，本轮首次对齐。
 
 ## 落盘动作
 1. 从 5a525c7 检出回执到 `receipts/c3-v3-adversarial-check.json`（byte-exact，sha256 对账）。

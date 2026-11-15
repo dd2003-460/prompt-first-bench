@@ -1,7 +1,7 @@
 # T23 Hetero-Judge — 通道阻塞状态 & 恢复方案
 
 > origin: ai · 2026-11-05 · Lead 记录
-> 任务书：`tasks/T23-stage-ablation-hetero-judge-task.md`
+> 任务书：`tasks/A-eval-infra/TASK-A19-t23-stage-ablation-hetero-judge.md`
 > 工件数据：`runs/*.json`（18 份，已在 arena/4a614e63-prompt-first-bench @ 9744b36）
 
 ## 阻塞原因（2026-11-05 确认）

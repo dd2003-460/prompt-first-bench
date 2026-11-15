@@ -1,6 +1,6 @@
 # §3.2 声明 4「27/98」数字勘误裁决材料 — RV3G6-o3-claim-list-erratum-27
 
-> 状态：**材料已备，待成璐裁定**（runner 不代裁——同 jaccard-m5-adjudication-materials.md 先例）
+> 状态：**材料已备，待D裁定**（runner 不代裁——同 jaccard-m5-adjudication-materials.md 先例）
 > 依据：r142 (RV3G6-o3-claim-rejudge-evidence-audit) A4 节三口径独立复算 + 本 goal 02.5 X1 二次独立复算（双源一致）
 > 冻结件：`bench/rubric-v3/o3-claim-list.md` L137（§6 红线：修改 = 新 goal + APPROVALS 登记；本文件即该通道备料）
 
@@ -38,13 +38,13 @@
 | 改动面 | o3-claim-list 1 行 + assert 3 处 + revision-log 1 条目 | o3-claim-list 1 行 + assert 2 处 + revision-log 1 条目 | o3-claim-list 1 行 + assert A4 段重写 + revision-log 1 条目 |
 | 主要风险 | 括号注记略长（可缩为短注记折中） | 维护面×3，gold-tree/hit-matrix 再变时三口径都要重算 | 读者失去量级感 |
 
-## 4. 推荐（供成璐消费，非裁定）
+## 4. 推荐（供D消费，非裁定）
 
 **推荐 A**。理由：(1) 唯一同时满足「数字可机判复现 + 信息完整 + 改动面最小」；(2) assert 脚本成为常态守护者——hit-matrix/gold-tree 任何变更导致计数漂移都会显式 MISMATCH，27 型静默失实不可能复发；(3) 括号内溯源注记保留「为什么从 27 改成 13」的审计链，不抹掉历史。
 
 **折中出口**：若认为 A 的括号注记太长破坏可读性 → 缩为「（V1 口径，assert-hitmatrix-evidence.py 机判；原值 27 见 r142 勘误）」；若连短注记都不要 → 退到 C。
 
-## 5. 裁定后执行清单（成璐勾选后由 runner 执行）
+## 5. 裁定后执行清单（D勾选后由 runner 执行）
 
 ### 方案 A 执行序列（推荐）
 
@@ -75,13 +75,13 @@
 
 **操作**：`bench/rubric-v3/o3-claim-list.md` L137 单行修改（「27 个」→「13 个」+ V1 口径注记）+ `ablation/scripts/assert-hitmatrix-evidence.py` 3 处同步（docstring/declared 常量/输出文案）。
 
-**理由**：r142 A4 + 本 goal 02.5 X1 双源独立复算证实原值 27 不可复现（三口径 13/34/35 均≠27）；结论方向不受影响，仅数字失实。改法 = 成璐裁定方案 A/B/C。
+**理由**：r142 A4 + 本 goal 02.5 X1 双源独立复算证实原值 27 不可复现（三口径 13/34/35 均≠27）；结论方向不受影响，仅数字失实。改法 = D裁定方案 A/B/C。
 
 **影响面声明**：o3-claim-list.md 改动面限 L137 单行（§2/§4/§6 零触碰）；assert 脚本改动面限 A4 段 3 处（C1-C5 判定逻辑零触碰）；hit-matrix.json / gold-tree.md / runs-C0-* 冻结数据零修改。
 
 **回退方式**：`git revert <收口 commit>` 单步还原。
 
-**状态**：已执行（成璐裁定方案 X 后 runner 落地）。
+**状态**：已执行（D裁定方案 X 后 runner 落地）。
 ```
 
 ### revision-log-batch1.md 条目模板
@@ -102,6 +102,6 @@
 
 ## 6. 边界声明
 
-- **runner 只备料不代裁**：三个方案的精确 diff 已预写，但 o3-claim-list.md / assert 脚本 / revision-log / APPROVALS 四个文件在本 goal 全程**零触碰**（git status 验证）。裁定是成璐的人工动作。
+- **runner 只备料不代裁**：三个方案的精确 diff 已预写，但 o3-claim-list.md / assert 脚本 / revision-log / APPROVALS 四个文件在本 goal 全程**零触碰**（git status 验证）。裁定是D的人工动作。
 - 本材料不改 r142 历史工件（loop-artifacts/stages/0{2,2.5,4}/RV3G6o3ea-*）——审计链保留原始发现过程（「当时发现 27 失实」的记录不因后续勘误而改写）。
 - web-llm 交叉验证：unverified 降级（三 provider 登录态失效，沿用 r124 起惯例）——本 goal 证据链仓库内闭合（双源独立复算 + 既有 assert 脚本常态输出），外部第二意见边际贡献 ≈ 0。

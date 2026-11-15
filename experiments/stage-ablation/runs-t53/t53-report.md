@@ -1,7 +1,7 @@
 # T53: 生产 pf 短prompt (T2) vs S5-full — GPU 域试跑
 
 - **日期**：2026-11-07
-- **目的**：成璐指令"直接优化生产pf，然后跑gpu调研试试"。生产路径已收敛（E3 机制结论：优化在调查阶段），本轮把 idea-list #22 的短prompt 触发器落到 harness 臂上实测——T2 = 短prompt + research_hook（工具全开：搜索/网页/arXiv）。
+- **目的**：D指令"直接优化生产pf，然后跑gpu调研试试"。生产路径已收敛（E3 机制结论：优化在调查阶段），本轮把 idea-list #22 的短prompt 触发器落到 harness 臂上实测——T2 = 短prompt + research_hook（工具全开：搜索/网页/arXiv）。
 - **改动**：`score.py` 聚合白名单加 T0/T1/T2（之前只认 S0-S5）。
 
 ## 运行

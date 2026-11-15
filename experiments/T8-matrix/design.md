@@ -1,6 +1,6 @@
 # T8 矩阵实验设计（v1）
 
-依据：tasks/T8-prompt-ablation.md（轴定义 + Part C/D 协议）。本文件只登记**已执行/进行中**的 run，未开跑的变体不预写。
+依据：tasks/B-pipeline-ablation/TASK-B04-t8-prompt-ablation-matrix.md（轴定义 + Part C/D 协议）。本文件只登记**已执行/进行中**的 run，未开跑的变体不预写。
 
 ## M8 口径（复用 intermediate-rounds-audit.md §口径定义）
 M8 = Σ(核验条目通过三测的权重) / Σ(全部核验条目权重)；权重 = 通道 conf（独立 LLM 交叉 1.0 / agent 自检 0.2 / 未执行 0）。表演型质疑计 0 且单列。

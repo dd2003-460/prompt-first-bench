@@ -444,6 +444,7 @@ class DecompStateMachine:
         self.rounds_log: list[dict] = []
         self.state = State.IDLE
         self.leak_hits_total = 0
+        self.challenge_log: list[dict] = []  # D-质询审计（2026-11-16）：各层反方质询记录
         self.rework_events = []
         self.contradiction_events: list[dict] = []  # D33: 全局矛盾扫描事件（喂回 decompose + 度量）
         self._gain_history: list[float] = []
@@ -492,6 +493,10 @@ class DecompStateMachine:
             prompt = P1_L1_SKELETON.format(question=self.question)
         out, _ = call_llm(prompt, max_tokens=2048, temperature=0.7, top_p=0.95, retries=3)
         d = _extract_json(out or "") or {}
+        # D-质询落盘（2026-11-16）：challenge 字段此前解析后直接丢弃，
+        # 现在存到 self.challenge_log 并随 checkpoint 持久化——质询过程可审计。
+        if isinstance(d.get("challenge"), dict):
+            self.challenge_log.append({"layer": "L1", "question": self.question[:100], **d["challenge"]})
         # Decision 19: 模型自估计的终点目标函数——落盘到根节点，不进后续 prompt。
         # 角色：机器侧对照基准（G9 gold 维度集的免费替代初稿），不是刷分目标。
         objective = d.get("objective")
@@ -623,7 +628,14 @@ class DecompStateMachine:
         return new_recs
 
     def _verify_batch(self, batch: list[NodeRecord]) -> list[NodeRecord]:
-        """核验一批节点。返回带 status/evidence 的节点。"""
+        """核验一批节点。返回带 status/evidence 的节点。
+
+        D-质询并行（2026-11-16）：verify_node 是纯 LLM 调用，短上下文批量并发
+        实测提速明显（8787 qwen3.8-27b：6 并发总耗时 ≈ 最慢单个，而非累加）。
+        search 节点的检索仍串行（ego-browser 有状态），LLM 核验部分并发。"""
+        from concurrent.futures import ThreadPoolExecutor
+        # 先串行做检索（search 节点），收集 (node, srcs_list)
+        prepared = []
         for node in batch:
             if node.source == "search":
                 if self.network_degraded:
@@ -639,17 +651,23 @@ class DecompStateMachine:
                     self.confirmed.append((node.id, node.claim, "degraded"))
                     continue
                 srcs_list = srcs if isinstance(srcs, list) else []
-                # 信息获取度量（D32）：记录该节点实际拿到哪些来源——
-                # 后续可算 per-node source yield（几条来源支撑了几 nat info-gain），
-                # 以及通道级命中率（哪个 channel 的来源最终进了 verified evidence）。
                 node.retrieval_sources = [
                     {"url": s.get("url"), "type": s.get("source_type"),
                      "title": (s.get("title") or "")[:80]} for s in srcs_list]
             else:
-                # given/knowledge 不检索，但同样过 LLM 核验（AC3: 所有节点都要有真实 evidence）
                 srcs_list, err = [], None
-            status, evidence, corrected, _r = verify_node(
-                {"id": node.id, "claim": node.claim}, srcs_list)
+            prepared.append((node, srcs_list))
+        # 并发 LLM 核验（含反方质询）
+        def _do_verify(item):
+            node, srcs_list = item
+            return verify_node(
+                {"id": node.id, "claim": node.claim,
+                 "source": node.source}, srcs_list)
+        if not prepared:
+            return batch  # 整批在检索阶段已处理完（如检索失败→degraded），无 LLM 核验可做
+        with ThreadPoolExecutor(max_workers=min(len(prepared), 4)) as ex:
+            results = list(ex.map(_do_verify, prepared))
+        for (node, _), (status, evidence, corrected, _r) in zip(prepared, results):
             node.status = status
             node.evidence = evidence
             node.corrected_claim = corrected or node.claim
@@ -859,6 +877,7 @@ class DecompStateMachine:
                 "network_degraded": self.network_degraded,
                 "objective": self.objective,  # Decision 19: 模型自估计终点目标函数随 ckpt 落盘
                 "objective_mode": self.objective_mode,  # #31 消融臂标记
+                "challenge_log": self.challenge_log,  # D-质询审计（2026-11-16）
                 "rework_events": self.rework_events,
                 "contradiction_events": self.contradiction_events,
                 "nodes": [vars(n) for n in self.nodes],
@@ -918,18 +937,24 @@ class DecompStateMachine:
         self._decompose_l1(skip_if_seeded=skip_l1)
 
         if verify_only:
-            # --verify-only: 树结构已完整，跳过 decompose 直接核验所有 pending 节点
-            print(f"  [SM] verify-only mode: {sum(1 for n in self.nodes if n.status=='pending')} pending nodes to verify", flush=True)
+            # --verify-only: 树结构已完整，跳过 decompose 直接核验所有 pending + degraded 节点
+            n_pending = sum(1 for n in self.nodes if n.status == 'pending')
+            n_degraded = sum(1 for n in self.nodes if n.status == 'degraded')
+            print(f"  [SM] verify-only mode: {n_pending} pending + {n_degraded} degraded nodes to verify", flush=True)
             self.state = State.VERIFY
-            pending = [n for n in self.nodes if n.status == 'pending']
-            for i in range(0, len(pending), 3):
-                batch = pending[i:i+3]
+            to_verify = [n for n in self.nodes if n.status in ('pending', 'degraded')]
+            # 重置 degraded 节点为 pending，让 _verify_batch 重新核验
+            for n in to_verify:
+                if n.status == 'degraded':
+                    n.status = 'pending'
+            for i in range(0, len(to_verify), 3):
+                batch = to_verify[i:i+3]
                 self._verify_batch(batch)
                 if (i // 3 + 1) % 10 == 0:
                     self._scan_contradictions(rnd=len(self.rounds_log))  # D33: verify-only 也扫矛盾
                 self._save_checkpoint(rnd=len(self.rounds_log))
                 if (i // 3 + 1) % 5 == 0:
-                    print(f"  [SM] verified {i+len(batch)}/{len(pending)}", flush=True)
+                    print(f"  [SM] verified {i+len(batch)}/{len(to_verify)}", flush=True)
             self.state = State.STOP
             return SMResult(
                 nodes=list(self.nodes), rounds_log=self.rounds_log,
@@ -1220,6 +1245,11 @@ if __name__ == "__main__":
         print(f"[T53 SM] Loaded external question from {question_file} ({len(q)} chars)", flush=True)
     else:
         # qid 可能是自定义标识（如 gpu-method），QUESTIONS 里没有——回退到 gpu 取题
+        # E17 (2026-11-15): 回退时打印警告——nat-mc-v3-resume 事故：qid 不在 QUESTIONS
+        # 里静默回退到 gpu 题，resume 的 81 个 nat 节点跑在 gpu 题上，整轮作废。
+        if qid not in QUESTIONS:
+            print(f"[SM] WARNING: qid={qid!r} not in QUESTIONS, falling back to {list(QUESTIONS.keys())} — "
+                  f"check if you meant --qid=nat/soc/gpu", flush=True)
         q = QUESTIONS.get(qid, QUESTIONS["gpu"])
     no_verify = "--no-verify" in flags
     resume_from = resume_from_early
@@ -1259,6 +1289,7 @@ if __name__ == "__main__":
         sm.network_degraded = ck.get("network_degraded", False)
         sm.objective = ck.get("objective")  # Decision 19: resume 时恢复模型自估计目标函数
         sm.objective_mode = ck.get("objective_mode", "formula")  # #31 消融臂
+        sm.challenge_log = ck.get("challenge_log", [])  # D-质询审计（2026-11-16）
         sm.rework_events = ck.get("rework_events", [])
         sm.contradiction_events = ck.get("contradiction_events", [])
         # E16 (2026-11-13): FATAL 落盘的 ckpt 缺 state 字段（text arm seed 就是这种）。

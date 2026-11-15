@@ -37,7 +37,7 @@ prompt-version-gold-map.json 移除 `v3/test-diff-bound` 条目（basis="temp te
 
 **验证**：json.load 可解析 + 8 正式条目完整（pre-v3/C9-plain + v3/V0..V3-sham ×6 + 无 test-diff-bound）+ grep 全仓无脚本逻辑引用该版本键（仅 04 工件历史记录引用，历史工件不改写）。
 
-**负面发现登记**：r153 阶段 04 工件 L64-68 记录 T4-SIGNAL 验证「测后还原」，实际漏还原 v3/test-diff-bound 一条（已随 r153 收口 commit 042bb83 提交进权威源）。本轮 A3 完成补还原。供成璐知悉，不阻塞。
+**负面发现登记**：r153 阶段 04 工件 L64-68 记录 T4-SIGNAL 验证「测后还原」，实际漏还原 v3/test-diff-bound 一条（已随 r153 收口 commit 042bb83 提交进权威源）。本轮 A3 完成补还原。供D知悉，不阻塞。
 
 ## A4 · 回归取证 ✅
 

@@ -464,13 +464,16 @@ def build_prompt(arm, qid):
 
 
 # ── LLM 调用 ────────────────────────────────────────────────────────
-def call_llm(prompt, max_tokens=LLM_MAX_TOKENS, timeout=LLM_TIMEOUT, retries=2, seed=None, temperature=0.7, top_p=0.95):
+def call_llm(prompt, max_tokens=LLM_MAX_TOKENS, timeout=LLM_TIMEOUT, retries=2, seed=None, temperature=0.7, top_p=0.95, enable_thinking=True):
     payload_dict = {
         "model": LLM_MODEL,
         "messages": [{"role": "user", "content": prompt}],
         "temperature": temperature,
         "top_p": top_p,
         "max_tokens": max_tokens,
+        # 2026-11-16: qwen3.8-27b 默认开 thinking，短结构化任务（verify/judge）
+        # 会把 budget 烧在内部推理上导致 content 为空。显式控制开关。
+        "enable_thinking": enable_thinking,
     }
     if seed is not None:
         payload_dict["seed"] = seed

@@ -59,4 +59,4 @@
 - X1：(b) 检查对 D1 缺省路径（gold_nodes 缺省沿用 GOLD_DOMAIN1）是否适用？→ 预判：仅显式声明时检查（current-goal 失败降级第 2 条已预注册此最小规则）。
 - X2：(b) 违例出口编号与文案格式（对齐 E 系列风格 `prior: gold node {nid} not in nodes keys`）。
 - X3：M1 降级落地形态——prompt_version「存在性 + 字符串非空」检查放 load_batch2（schema 层）还是 lint_main？若放 load_batch2 则判定模式也生效（byte-exact 不受影响因 batch2/ 不存在态不可达，但未来数据到来时判定模式行为改变——需 docstring 预注册）。
-- X4：「题面版本↔gold_nodes 映射」权威源缺失的处置——导出候选（建映射登记表）vs APPROVALS（需成璐裁定映射归属）？预判：前者（纯仓库内新建件不需裁定，裁定的是「谁有权改映射」属流程问题）。
+- X4：「题面版本↔gold_nodes 映射」权威源缺失的处置——导出候选（建映射登记表）vs APPROVALS（需D裁定映射归属）？预判：前者（纯仓库内新建件不需裁定，裁定的是「谁有权改映射」属流程问题）。

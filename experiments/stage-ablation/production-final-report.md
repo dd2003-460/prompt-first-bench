@@ -7,7 +7,7 @@
 
 1. **干成了啥**：180 次实验（3 臂 × 2 域 × 30 reps）全部跑完，统计脚本可重跑，六臂数据落盘 runs-prod/。核心发现：prompt 层干预的效果取决于 lever 作用的位置——输出端检查（A3）零效应，过程示范（A4）弱正向但 n=30 不够显著，知识型断点（pt5 stale derivation）两者都打不动。
 2. **卡在哪**：A4 的方向性信号（+0.022 nat, +0.024 soc）被 run-to-run 方差淹没（sign test p=1.000），n=30 保 power 0.8 的前提是效应量 d≥0.5，实际观测 d≈0.11 远低于预期——要推过显著性需要 n≈500+/臂，超出本次预算。
-3. **下一步**：G4 邮件草稿已备好（4 封），等成璐查邮箱地址后本人发出；Zenodo DOI 上传待用户 2FA；论文定位建议写入 G2 collision-snowball.md 的 related work 节。
+3. **下一步**：G4 邮件草稿已备好（4 封），等D查邮箱地址后本人发出；Zenodo DOI 上传待用户 2FA；论文定位建议写入 G2 collision-snowball.md 的 related work 节。
 
 ## 1. 主实验结果（G1）
 
@@ -75,7 +75,7 @@ CI 宽度 > 0.05 门槛（goal 验收标准），原因是 n=30 + 高方差（sd
 
 - 4 封英文邮件，每封 ≤200 词，格式：一个可复现结果（commit 62d43dd2 + runs-s8b/*.json 路径）+ 一个问题。
 - 对象：Sheroz Shaikh（DREAM 评测）、Wenyu Huang（UGent）、Hailey Onweller + Lumer（IBM）、Ron Dorfman + Ron Litman（Technion）。
-- **状态**：草稿完成，未发送。发送需成璐本人操作（arXiv 不公布邮箱地址，需自行查找）。
+- **状态**：草稿完成，未发送。发送需D本人操作（arXiv 不公布邮箱地址，需自行查找）。
 
 ## 5. 核心论点定位（论文用）
 

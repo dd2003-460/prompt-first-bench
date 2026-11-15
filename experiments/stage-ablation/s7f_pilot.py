@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """gen: S7F 近似臂 runner — S5 全流程 prompt, 无 research hook, 无两遍核验 (纯 prompt).
 
-任务卡 tasks/s8g-generalization.md G4 定义: "S7F = 全流程无核验无 hook (纯 prompt)"。
+任务卡 tasks/B-pipeline-ablation/TASK-B02-s8g-generalization.md G4 定义: "S7F = 全流程无核验无 hook (纯 prompt)"。
 ablation_harness.build_prompt("S7F") 实际是 S6-style fuzzy heuristic + filtered sources
 注入 (T31), 与任务卡口径不符; arms_new/ 目录里也没有现成的 S7F arm 定义。
 因此按硬约束第 3 条降级: 用 S5 prompt 减去 research_hook 作为 S7F 近似, 并在此记录。

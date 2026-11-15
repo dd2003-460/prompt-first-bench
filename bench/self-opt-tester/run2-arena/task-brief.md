@@ -1,6 +1,6 @@
 # 任务书 · run2（arena agent mode · §3.0 链路 R3.2）
 
-> 来源：dd2003-460/prompt-first-bench · 2026-10-24 · Lead: 成璐数字分身（DSH session-1c44f689）
+> 来源：dd2003-460/prompt-first-bench · 2026-10-24 · Lead: D数字分身（DSH session-1c44f689）
 > 优先级：P-1 自身优化（token 效率/harness/prompt）
 
 ## 强制段（arena 必读）

@@ -1,6 +1,6 @@
 # Qwen3.8-Flash-Next 部署性价比硬件调研（2026-11-03 · Lead 代查 v3）
 
-> origin: ai · v1(dense 27B/70B) 作废；v2 被成璐指出 5 处硬伤，本版修正。
+> origin: ai · v1(dense 27B/70B) 作废；v2 被D指出 5 处硬伤，本版修正。
 > **流程声明**：本任务未走 goaltemp 完整流程（decomp → pfb），直接进了调研执行——骨架错误，细节数据经两轮纠正后补全。后续同类任务必须先过 decomp。
 > 所有价格/速度为来源声称值或社区实测，未独立复测；标注了测量条件与来源等级。
 
@@ -34,11 +34,11 @@
 
 ## 实测数据汇总（v3 增补 AMD 优化栈 + 本机 baseline）
 
-### 本机 baseline（成璐提供，最高优先级）
+### 本机 baseline（D提供，最高优先级）
 
 | 系统 | 模型 | 单流 decode | 并发吞吐 | 备注 |
 |------|------|-------------|----------|------|
-| 本机 (Mac, vLLM @8787) | qwen3.8-27b dense | **~200 t/s** | **300-400 t/s** | 成璐实测。v2 拿"理论 38 t/s"当 baseline 是错的 |
+| 本机 (Mac, vLLM @8787) | qwen3.8-27b dense | **~200 t/s** | **300-400 t/s** | D实测。v2 拿"理论 38 t/s"当 baseline 是错的 |
 
 ### NVIDIA
 
@@ -70,7 +70,7 @@
 | RX 7900 XTX 24GB | 24GB+RAM | Strata fork rdna3-moe-offload-perf | ~58 (stock 36) | Ben1078 fork, UD-Q5_K_XL, offload 优化 2-3x |
 | Strix Halo (Ryzen AI Max+) | 128GB unified | strix-llama.cpp HIP+MTP | 57-58 code | agentionai, all experts on GPU, 131K ctx |
 
-**AMD 侧结论修正**：v2 说"R9700 176 t/s 是低功耗甜点"过于乐观。单卡真实水平 **85-100 t/s**（Strata 最新调优+spec decoding），双卡 radiance 147 t/s。成璐说的"比 strata 厉害的优化让 R9700 接近 5090"——目前证据看 radiance（双卡）和 Strata gfx12 调优（单卡）是这个方向，但"几乎 5090 速度"（300+ t/s）尚无公开实测支撑，**待核验**。
+**AMD 侧结论修正**：v2 说"R9700 176 t/s 是低功耗甜点"过于乐观。单卡真实水平 **85-100 t/s**（Strata 最新调优+spec decoding），双卡 radiance 147 t/s。D说的"比 strata 厉害的优化让 R9700 接近 5090"——目前证据看 radiance（双卡）和 Strata gfx12 调优（单卡）是这个方向，但"几乎 5090 速度"（300+ t/s）尚无公开实测支撑，**待核验**。
 
 ### Apple / 其他（v3.1 更新——M5 Ultra 已发布，改变结论）
 
@@ -113,7 +113,7 @@
 - DGX Spark（$4,699 只有 60 t/s，贵且慢）
 - 单张 5090 纯推理（32GB 装不下全部 expert，offload 走 PCIe 被拖慢，除非用 Strata expert cache 把常用 expert 钉在 VRAM）
 
-## 与成璐现状的关系（v3 修正）
+## 与D现状的关系（v3 修正）
 
 当前栈：vLLM 跑 qwen3.8-27b @ 8787，**本机实测单流 ~200 t/s / 并发 300-400 t/s**。
 换 Flash-Next 的真实收益：
@@ -124,7 +124,7 @@
 
 ## 最终核验结论（v3 subagent · deleg_39fcb260）
 
-**物理红旗——本机 baseline 存疑**：subagent 判定"27B dense 单流 200 t/s 在任何已知 Mac 上物理不可达"（M3 Ultra 819 GB/s 即便 1-bit 理论上限 ~243 / 实际 ~150；≥2-bit ≤121）。三种可能：未发布高带宽 Mac / 并发聚合值被标成单流 / 测量口径问题。**该数字不确认前，"Flash-Next 更慢但更好"的叙事不能定稿。待成璐补机型+测量方法。**
+**物理红旗——本机 baseline 存疑**：subagent 判定"27B dense 单流 200 t/s 在任何已知 Mac 上物理不可达"（M3 Ultra 819 GB/s 即便 1-bit 理论上限 ~243 / 实际 ~150；≥2-bit ≤121）。三种可能：未发布高带宽 Mac / 并发聚合值被标成单流 / 测量口径问题。**该数字不确认前，"Flash-Next 更慢但更好"的叙事不能定稿。待D补机型+测量方法。**
 
 **其他物理验证**：
 - 双 5070 Ti 374 vs Strata 195（同硬件 1.92x）：spec decoding N=2、acceptance ~50% → ×2.0 ≈ 390，bracket 住 374，机制 plausible（条件性成立，DFlash2 未确认）
@@ -144,8 +144,8 @@
 3. 5090 真实速度区间。**v2 核验裁决**：313 t/s = 936GB/s ÷ 3GB 的理论极限（ratio 1.00x，物理自洽）；540 = 313×1.73，需 MTP 1.7x 高效运作（acceptance >80% + 短上下文）。实际持续速率大概率 350-420 而非 540。agentionai 数据：不开 MTP 只有 113 t/s——**两个"5090 速度"并存：MegaCapybara 313（expert-aware 引擎）vs llama.cpp 113（通用引擎），差 2.8x，引擎选择比硬件更重要**。
 4. 2× 5070 Ti 的 374 t/s：DFlash2 是什么？**v2 核验裁决**：从命名推断为 draft+verify 两阶段 speculative decoding。同硬件 Strata IQ3_S 无 DFlash2 时 195 t/s，boost = 1.92x，在 spec-decoding 典型增益范围（1.5-3x）内，物理合理。不开 DFlash2 预期掉到 ~195-250 t/s。风险：autoresearch 类 prompt（代码/数学）上 draft 接受率可能偏低，实际增益可能只有 1.3-1.5x → 260-320 t/s。
 5. 1× 5060 Ti 16GB 跑 176B 出 156 t/s：**v2 核验修正**——448GB/s ÷ 3GB = 149 理论，实测 156 = 1.04x，恰在理论边界，物理上可成立（3-bit 量化 active ≈ 2.25GB → 理论 199，实测更低因 KV 吃余量）。但 16GB VRAM 装不下多少 expert，长 ctx 会显著下降。v3 此前标"剔除"过严，改为"短上下文才成立，不可作为采购依据"。
-6. R9700 "接近 5090 速度"（成璐提到的 AMD 顶级优化）：公开数据最高 radiance 双卡 147 / Strata 单卡 99.8，距 5090 MegaCapybara 的 313 还差 2x——是否存在未公开的优化栈待查。
+6. R9700 "接近 5090 速度"（D提到的 AMD 顶级优化）：公开数据最高 radiance 双卡 147 / Strata 单卡 99.8，距 5090 MegaCapybara 的 313 还差 2x——是否存在未公开的优化栈待查。
 7. R9700 国内渠道价：日本 +55%、美国 +80%，国内水货价未知，可能更高。
-8. 本机 27B baseline（单流 200/并发 300-400）的具体硬件配置未在文件里记录——**需成璐补充机型**，否则无法精确对比 Flash-Next 同机表现。
+8. 本机 27B baseline（单流 200/并发 300-400）的具体硬件配置未在文件里记录——**需D补充机型**，否则无法精确对比 Flash-Next 同机表现。
 9. **引擎生态风险（v2 核验新增）**：capy-flash/MegaCapybara/radiance 均为社区项目，无 SLA、无版本保障。Flash-Next 模型更新后这些引擎可能 lag 数周至数月。SGLang/vLLM 虽成熟但对 MoE 架构优化不足（6000 PRO 数据证明 effective bytes/token ≈ 8GB vs 优化引擎 3GB）。选型时需评估引擎维护活跃度。
 10. **DDR5 涨价的隐性成本（v2 核验新增）**：2026 DDR5 现货价全球上涨 30-50%，直接冲击所有 x86+NVIDIA/AMD 方案的 RAM 成本（96GB 套件从 ~$300 涨到 ~$450-500）。Mac 统一内存不受 DDR5 现货波动影响（Apple 自购 DRAM 晶圆）——这是 2026 年 Mac 方案的隐性成本优势，整机价差可能拉大到 $200-400。

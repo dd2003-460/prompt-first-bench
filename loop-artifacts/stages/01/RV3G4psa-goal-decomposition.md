@@ -26,7 +26,7 @@
 
 | # | 判断 | 选项空间 | 预注册倾向 |
 |---|------|----------|-----------|
-| J1 | signal-only vs verdict 二选一（queue 明写「在 01 定」） | A signal-only：脚本只验 provenance 元数据存在性 + artifact 可解析 + judge_id 去重数 ≥2，不对 p̃ 数值本身做门禁 / B verdict：缺 provenance 时直接拒收整个 prior-estimates.json（所有下游 W2/W3/W4 计算标记无效） | **A signal-only**——理由：(a) 现有 prior-estimates.json 是 batch1 冻结件，verdict 模式会立刻让全部既有统计失效，超出本 goal 授权范围；(b) G4 导出原文的「拒收」针对的是未来新产出的 prior 文件，不是追溯冻结件；(c) signal-only 下脚本对当前文件 PASS（补 D2 后）+ 对未来单源文件 FAIL，防护力等价且不破坏冻结链。若成璐要 verdict 模式，改脚本一处常量即可（登记为后续候选） |
+| J1 | signal-only vs verdict 二选一（queue 明写「在 01 定」） | A signal-only：脚本只验 provenance 元数据存在性 + artifact 可解析 + judge_id 去重数 ≥2，不对 p̃ 数值本身做门禁 / B verdict：缺 provenance 时直接拒收整个 prior-estimates.json（所有下游 W2/W3/W4 计算标记无效） | **A signal-only**——理由：(a) 现有 prior-estimates.json 是 batch1 冻结件，verdict 模式会立刻让全部既有统计失效，超出本 goal 授权范围；(b) G4 导出原文的「拒收」针对的是未来新产出的 prior 文件，不是追溯冻结件；(c) signal-only 下脚本对当前文件 PASS（补 D2 后）+ 对未来单源文件 FAIL，防护力等价且不破坏冻结链。若D要 verdict 模式，改脚本一处常量即可（登记为后续候选） |
 | J2 | N_MIN（独立源下限）取值 | A 2（G4 导出原文「≥N」未定值，取最小可验证阈值）/ B 3（rubric-v3 遗留 #1「独立 judge 盲测」要求 ≥3） | **A 2**——B 是 rubric-v3 正式实验开跑前的更严标准（另开 goal 跟踪），本 goal 落地 G4 导出的最小机械化版本；J2 取值写入脚本常量 N_MIN=2 + 注释指向遗留 #1 |
 | J3 | 独立性判定口径 | A judge_id 字符串去重数 / B judge_id + 模型家族双维度 | **A**——家族信息不在结构化字段里（只有 judge 描述字符串），机判家族需要 NLP 或人工维护映射表，超出 assert 脚本职责；家族隔离降级为 D2 note 的人工声明 + 04.5 复核项 |
 | J4 | prior-estimates.json 修改是否违反冻结纪律 | A 追加顶层元数据键 = 冻结件修改，需 APPROVALS 登记 / B 元数据追加不改任何被消费字段（nodes/stats 复算脚本只读 nodes.*），实质零影响 | **A 从严**：runner 硬规则「冻结数据只读，要改必须开新文件 + APPROVALS.md 登记」。处置：APPROVALS.md 登记本追加（理由：G4 导出授权的机械化落地必需；改动 = 纯新增顶层键，断言脚本 assert-w2-formula.py / assert-w3w4-recompute.py 重跑 exit 0 证明消费侧零影响），同时脚本设计为「缺 provenance 不 FAIL 既有数值检查」避免双重惩罚 |

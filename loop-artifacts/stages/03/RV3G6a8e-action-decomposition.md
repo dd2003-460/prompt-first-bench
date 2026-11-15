@@ -1,7 +1,7 @@
 # 阶段 03：行动分解 — RV3G6-audit8-erratum
 
 > goal: AUDIT-report §8 参考值表绝对值勘误 · 分支 ralph/rv3g6-audit8-erratum · 2026-10-30
-> owner 标注：agent = runner 可自主执行 / user = 需成璐决策（写 APPROVALS 不阻塞）
+> owner 标注：agent = runner 可自主执行 / user = 需D决策（写 APPROVALS 不阻塞）
 > 输入边界：只使用 02/02.5 已核验证据；U3（L103/L166 G3 口径数值）经 02.5 A3a 裁决**不并入**本 erratum，导出 queue
 
 ## 行动表

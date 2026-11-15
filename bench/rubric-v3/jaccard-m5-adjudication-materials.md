@@ -1,7 +1,7 @@
 # M5 Jaccard 双口径人工裁决材料 — RV3B1-jaccard-adjudicate
 
 > goal: O1 防刷分判据 1 的 Jaccard 双口径收敛（revision-log M5）· 2026-10-30
-> 定位：**供成璐裁定的决策材料 + 推荐**，非裁定本身。runner 只备料不代裁（queue 条目原文惯例）。
+> 定位：**供D裁定的决策材料 + 推荐**，非裁定本身。runner 只备料不代裁（queue 条目原文惯例）。
 > 上游：`revision-log-batch1.md` M5 段 / `DRAFT-rubric-v3-v2.md` L38 + L311 / `AUDIT-report.md` §2-O1 L77 / `receipts/adversarial-check-rubric-v3.json` finding idx 19（= #20）
 
 ---
@@ -45,7 +45,7 @@
 | 对 pilot 的影响 | 零额外数据需求，开跑即可用 | 要求每题 ≥2 run（成本 +1×），或首批 pilot 该判据挂起 | 同 B |
 | 修订 diff 面 | DRAFT v2 L38 改 ~1 行 + L311 销账 + revision-log M5 销账 | 同左 | 零改动（维持现状） |
 
-## 4. 推荐（供成璐消费，非裁定）
+## 4. 推荐（供D消费，非裁定）
 
 **推荐 A（仅档位区分度）**，理由：
 
@@ -53,14 +53,14 @@
 2. **pilot 可行性**：A 单 run 可判，不增加 run 数要求；B/C 在 pilot 首批（预计每题 1-2 run）下部分空转。
 3. **误伤控制**：B 的「legitimate convergence 误伤」与 bench 目标（测的是搜索流程能力，收敛到正确答案是好事）方向相反——把「多次搜索得到一致结果」判为刷分，会惩罚好行为。
 
-**若成璐认为 trial 复制刷分风险真实存在**（例如预期被测 agent 会在同批次内复用搜索缓存），折中方案 = A + 把 run 间稳定性降为**诊断信号**（SIGNAL，不 gate O1 得分，只在报告中标注「该题多 run 候选集高度重合，建议人工复核」）——此折中不在三选项内，属新增设计，需另行预注册。
+**若D认为 trial 复制刷分风险真实存在**（例如预期被测 agent 会在同批次内复用搜索缓存），折中方案 = A + 把 run 间稳定性降为**诊断信号**（SIGNAL，不 gate O1 得分，只在报告中标注「该题多 run 候选集高度重合，建议人工复核」）——此折中不在三选项内，属新增设计，需另行预注册。
 
-## 5. 裁定后执行清单（成璐勾选后由 runner 执行）
+## 5. 裁定后执行清单（D勾选后由 runner 执行）
 
 - [ ] **若裁定 A**：
   - DRAFT v2 L38 判据 1 改为：「档位区分度：不同维度导出的候选集两两 Jaccard < 0.9，否则**两者均**判为同一维度的重复表述，合并后按单维度计覆盖分（不重复计分）【v2 修订 · M5 已裁定】」
   - DRAFT v2 L311 开放问题 6 改为：「【v2 已裁定（M5, 2026-10-30）】Jaccard 判据收敛为跨维度去重单一口径（#20 fix (c) 原文语义）；run 间稳定性未纳入（无 #20 原文支撑 + legitimate convergence 误伤风险，见 jaccard-m5-adjudication-materials.md）」
-  - revision-log-batch1.md M5 段追加：「**已裁定（2026-10-30, 成璐）**：选项 A——…」+ 销账标记
+  - revision-log-batch1.md M5 段追加：「**已裁定（2026-10-30, D）**：选项 A——…」+ 销账标记
   - diff 面 ≈ 3 行
 - [ ] **若裁定 B 或 C 或折中**：按对应选项改写上述三处（折中方案需先在 revision-log 预注册 SIGNAL 语义再落地）
 
@@ -68,4 +68,4 @@
 
 - 本文件不修改 DRAFT v2 / revision-log 任何一行（裁定前冻结）。
 - 溯源依据 receipt 文件为冻结审计产物（adversarial-check verdict=revise 的历史记录），本 goal 只读。
-- 推荐的权重排序（本意还原 > pilot 可行 > 误伤控制）是 runner 的分析框架，成璐可按不同权重裁定不同选项——材料已把所有选项的事实基础摆齐。
+- 推荐的权重排序（本意还原 > pilot 可行 > 误伤控制）是 runner 的分析框架，D可按不同权重裁定不同选项——材料已把所有选项的事实基础摆齐。

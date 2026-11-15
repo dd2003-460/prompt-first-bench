@@ -1,10 +1,10 @@
 # Arena Loop 外包链路（SOP · 唯一入口）
 
-> origin: ai · 2026-10-22 · 成璐指令"链路核查 + arena 首选 + loop 双场景必需 + 精简 SOP + 新 SOP 复制到仓库给 arena 读"
+> origin: ai · 2026-10-22 · D指令"链路核查 + arena 首选 + loop 双场景必需 + 精简 SOP + 新 SOP 复制到仓库给 arena 读"
 > 本文件是外包 arena 任务的**唯一 SOP 入口**（goal 只索引这一个）。仓库/降级/loop 阶段细节已并入本文件，旧 `sop/arena-outsource.md` 与 `sop/loop-executor.md` 仅作存档指针，不再单独注入 goal。
 > **部署**：创建目标仓库后，本文件必须复制进仓库 `sop/arena-loop-pipeline.md` 并 commit+push（与 loop/ 同次 push），arena agent 读仓库内的这份。
 
-## 0. 优先级（硬规则 · 成璐指令）
+## 0. 优先级（硬规则 · D指令）
 
 1. **Arena 外包 = 必须首选通道**：调研/核验/执行类任务，默认走 arena（LMArena agent mode）。不自己 AI 琢磨。
 2. **Loop 全程必需 · 双场景**：无论 arena agent 在仓库里执行，**还是** arena 通道失败回退本地 Lead 自答，**loop 6 阶段（01→04.5）一个不少**。
@@ -55,14 +55,14 @@
 
 | 任务类型 | 仓库 | 说明 |
 |---------|------|------|
-| decomp T4 消融 | `dd2003-460/decomp-bench` | 任务书在 `tasks/T4-arena-batch*.md`。**2026-11-02 r237：GitHub binding 失效（agent 侧 403 "Write access to repository not granted"，T7.2 会话 01a19a08 卡死于此）→ 需成璐在 arena UI 重绑 decomp-bench；T8 Part B 文献调研任务书已就绪 @ main c358b48（tasks/T8-partB-lit-survey-task.md），重绑后直接派发** |
+| decomp T4 消融 | `dd2003-460/decomp-bench` | 任务书在 `tasks/T4-arena-batch*.md`。**2026-11-02 r237：GitHub binding 失效（agent 侧 403 "Write access to repository not granted"，T7.2 会话 01a19a08 卡死于此）→ 需D在 arena UI 重绑 decomp-bench；T8 Part B 文献调研任务书已就绪 @ main c358b48（tasks/T8-partB-lit-survey-task.md），重绑后直接派发** |
 | prompt-first 流程调研 | `dd2003-460/prompt-first-bench`（2026-10-22 建） | 任务书在 `tasks/` |
 | 风格蒸馏 | `dd2003-460/persona-distill`（假设） | 任务书在 `tasks/` |
 | 论文校对 | `dd2003-460/academic-AI`（假设） | 任务书在 `tasks/` |
 | 媒体 pipeline | `dd2003-460/d1-media-pipeline`（假设） | 任务书在 `tasks/` |
 | AI 视频复刻（像素剧/对标 B 站合集） | `dd2003-460/d1-video-recreation`（2026-10-26 确认，实际在用） | 任务卡在 `arena-prompts/batchN/`，SOP 在仓库 `sop/` |
 
-**会话台账（一仓一会话 · r80 + 成璐 2026-11-01 硬约束）**：外包调研允许用各种 AI（arena agent/Battle、网页 LLM），但**固定会话，不能乱开**——派发前必须先查此表复用该仓库的既有会话；仅当该仓库确无会话时才允许新开，且开完立即登记进本表。同一仓库出现两个活跃 arena 会话 = 违规（历史上下文分裂，任务书版本漂移）。
+**会话台账（一仓一会话 · r80 + D 2026-11-01 硬约束）**：外包调研允许用各种 AI（arena agent/Battle、网页 LLM），但**固定会话，不能乱开**——派发前必须先查此表复用该仓库的既有会话；仅当该仓库确无会话时才允许新开，且开完立即登记进本表。同一仓库出现两个活跃 arena 会话 = 违规（历史上下文分裂，任务书版本漂移）。
 
 **judge 选择条款（pfb G2 F2(a)，2026-11-02 升格）**：多 judge 交叉打分必须异族隔离——同底座模型的两遍判定只算"上下文独立"不算"家族独立"，同源共享偏差无法靠加 judge 消除。κ 回执中 judge 族必须显式标注（如 "qwen3.8-27b ×2, non-IRR"）；宣称真 IRR 需 ≥2 不同底座。
 
@@ -75,7 +75,7 @@
 | —（本地 stop_hook 改造） | — | 2026-10-29 r88-r90：stop_hook 对齐 ralph-loop 停止门——每回合过门+无活也 continue 找新目标，真停仅 HALT/用户喊停。stage-gate commits 600045a→061ec62→60ce4b4 |
 | —（R5.4 终态效度） | — | 2026-10-29：run4 oracle 独立复验 PASS（sha256 一致 + 4/4 EXIT=0），terminal-validity.md 落盘，workspace commit 20f7713c。R5 剩余：R5.1 第二打分器（ego ChatGPT，需登录态）→ R5.2b run5 arena → R5.5 bench.md r5 |
 
-| hermes-workspace-zero（金融 D1-financial-market-analysis + GW taste review） | 新会话 2026-11-01（F10-R3 资金动力学调研），taskSpace: f10-r3-arena-dispatch，绑定分支 arena/gw-taste-review → agent 工作分支 arena/25201d65-hermes-workspace-zero | **2026-11-02：GW-BacQFT 全 5 阶段完成** ✅（ff7d2974→d39d68e8→c7567c2d→464e0822→f57d40fc）。s1-refs: 清除 7 幻觉文献替换已验证 arXiv。s2-math: Thm 3.1 P-scaling 修正 + SNR 统一。s3-taste: 删 AI 元叙事。s4-cosmic-variance: Allen 2023 error budget + 删跨域元叙事。s5-m2-positioning: Limitations 新增 Methodological positioning 条目（双层结构声明）。13pp, 19 bibitems (zero orphans), arXiv pack v16 ready。待成璐手动上传 arxiv.org。会话空闲。 **2026-11-02：ORF 阶段4 全组件完成** ✅（A+B+C+D）。A: 协方差构造+验证(4.75% err)。B: 分离估计量(I 3.4%, V 17.2%)。C: Fisher信息+LRT校准(H0 p>0.05, signal p≈0)+灵敏度曲线。D: 真实LISA-Taiji ORF端到端(Γ^I零交叉@2mHz, Γ^V<<Γ^I 4-6 orders, 有效频段f<5mHz) + 三通道联合Fisher(X+Y+Z: V增益3→10×, I增益1.4→92×; X通道对手征有几何抑制, Y/Z更强)。论文第四部分已写入。D-04 真实ORF注入恢复验证通过（I无偏@f>2.5mHz, V亚单位不确定度@4mHz）。 2026-11-01：F10-R3 完成 — A/B/C/D + receipts @ 8479fb50 (agent 分支 arena/bbea6ca3-hermes-workspace-zero)，merge 回 arena/f10-gas-dynamics-research @ 11f78192。receipts 自报降级 level 4（沙箱无 web-llm），D 门禁独立线=2 <3。**此会话为该仓库唯一活跃会话**。坑：agent 工作分支 ≠ 任务书分支，回执核验去 agent 实际 push 的分支找 |
+| hermes-workspace-zero（金融 D1-financial-market-analysis + GW taste review） | 新会话 2026-11-01（F10-R3 资金动力学调研），taskSpace: f10-r3-arena-dispatch，绑定分支 arena/gw-taste-review → agent 工作分支 arena/25201d65-hermes-workspace-zero | **2026-11-02：GW-BacQFT 全 5 阶段完成** ✅（ff7d2974→d39d68e8→c7567c2d→464e0822→f57d40fc）。s1-refs: 清除 7 幻觉文献替换已验证 arXiv。s2-math: Thm 3.1 P-scaling 修正 + SNR 统一。s3-taste: 删 AI 元叙事。s4-cosmic-variance: Allen 2023 error budget + 删跨域元叙事。s5-m2-positioning: Limitations 新增 Methodological positioning 条目（双层结构声明）。13pp, 19 bibitems (zero orphans), arXiv pack v16 ready。待D手动上传 arxiv.org。会话空闲。 **2026-11-02：ORF 阶段4 全组件完成** ✅（A+B+C+D）。A: 协方差构造+验证(4.75% err)。B: 分离估计量(I 3.4%, V 17.2%)。C: Fisher信息+LRT校准(H0 p>0.05, signal p≈0)+灵敏度曲线。D: 真实LISA-Taiji ORF端到端(Γ^I零交叉@2mHz, Γ^V<<Γ^I 4-6 orders, 有效频段f<5mHz) + 三通道联合Fisher(X+Y+Z: V增益3→10×, I增益1.4→92×; X通道对手征有几何抑制, Y/Z更强)。论文第四部分已写入。D-04 真实ORF注入恢复验证通过（I无偏@f>2.5mHz, V亚单位不确定度@4mHz）。 2026-11-01：F10-R3 完成 — A/B/C/D + receipts @ 8479fb50 (agent 分支 arena/bbea6ca3-hermes-workspace-zero)，merge 回 arena/f10-gas-dynamics-research @ 11f78192。receipts 自报降级 level 4（沙箱无 web-llm），D 门禁独立线=2 <3。**此会话为该仓库唯一活跃会话**。坑：agent 工作分支 ≠ 任务书分支，回执核验去 agent 实际 push 的分支找 |
 | dd2003-460/hermes-workspace-zero | 01a196b0 (f10-r3-gate-fix, 2026-11-01) | F10-R3 A/D域门禁补证, 分支 arena/f10-r3-gate-fix; 旧会话 01a19661 已完成 R3 主体 |
 | from-motivation-to-society（动机社会写作） | `arena.ai/agent/01a197a6-b7bb-7c8c-8565-139a0b215928`（taskSpace: motivation-society-ch10-contradiction） | **2026-11-02：Part IV + Part V 全部完成** ✅。ch8 通道生成器 → ch9 模因 → ch10 经济（含幽灵堵车 H6）→ ch11 政治 → ch12 法律 → ch13 预测 → ch14 闭合。7 章 0 gray placeholders，669 行。test 分支 @ 9629054。会话空闲。 |
 
@@ -164,7 +164,7 @@ R5.2-third-scorer / RV3G4-kappa-gate-execution 类"需要不同模型家族独�
 - 投票是揭晓模型名的唯一途径，不投票 = 白跑
 - 记录时必须存原始回答全文（不是摘要），后续复算要用
 - 同一份材料发多次 = 多个独立样本，但同一模型家族只取一次（防重复计数）
-- 自动化限制：battle 页面的发送/投票按钮用 ego-browser JS 事件派发（同 GPT 侧套路）；若菜单/按钮触发失败，降级为半手动（我准备好材料，成璐点两下）
+- 自动化限制：battle 页面的发送/投票按钮用 ego-browser JS 事件派发（同 GPT 侧套路）；若菜单/按钮触发失败，降级为半手动（我准备好材料，D点两下）
 
 ## 结果核验
 

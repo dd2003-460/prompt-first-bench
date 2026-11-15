@@ -29,7 +29,7 @@ $ grep -n "换位双判\|κ≥0.6" DRAFT-rubric-v3-v2.md
 | # | 攻击 | 裁决 |
 |---|------|------|
 | A1 | "F1 拆掉 gate_passed 是擅自改 g5 C2 schema——提案权在 runner 吗？" | **驳回（提案义务明确）**。g5 C2 原文自带「需最小 schema 提案」——schema 不存在，提案是本 goal 的交付物之一，不是越权。拆 gate_passed 的理由（派生量双写漂移）记录在 F1，04.5 再攻一次 |
-| A2 | "对真实数据输出 FAIL 就收口，等于给仓库留一个常红脚本——CI 噪音" | **部分成立，接受**。本仓无 CI（ralph loop 手动收口验证），且该 FAIL 是**待办事实的显式呈现**：κ 门禁执行本身挂 P2/R5.2-third-scorer（外部阻塞）。脚本红了 = 提醒「此处有未闭环协议」，与 X5 unverified 登记同功能。若成璐裁定应降级为 SIGNAL，改一行分支即可（回退成本低）——但默认取 g5 C2 原文的 FAIL 语义，不擅自放宽 |
+| A2 | "对真实数据输出 FAIL 就收口，等于给仓库留一个常红脚本——CI 噪音" | **部分成立，接受**。本仓无 CI（ralph loop 手动收口验证），且该 FAIL 是**待办事实的显式呈现**：κ 门禁执行本身挂 P2/R5.2-third-scorer（外部阻塞）。脚本红了 = 提醒「此处有未闭环协议」，与 X5 unverified 登记同功能。若D裁定应降级为 SIGNAL，改一行分支即可（回退成本低）——但默认取 g5 C2 原文的 FAIL 语义，不擅自放宽 |
 | A3 | "length_debias_check 允许 'na'——那这个字段形同虚设，填 na 就永远过" | **成立（设计上接受）**。当前消融确实没做长度去偏（无第二 judge 可换），强制 "pass" 会逼出假数据；"na"+必填 note = 如实登记缺口。字段的防护价值在未来：一旦有人声称做了去偏，必须写 "pass" 且 method 里能对上。防的是**虚假声明**，不是**真实缺席** |
 | A4 | "judges 恰两个写死——Fleiss'κ（≥3 judge）场景来了脚本要改" | **驳回（范围切割明确）**。docstring 显式声明本 schema 覆盖 DRAFT v2 R5 的两 judge 换位双判；≥3 judge Fleiss'κ 属 R5.2-third-scorer 范围（外部阻塞中），届时扩展 judges 为 ≥2 列表 + κ 方法字段区分 Cohen/Fleiss 即可，改动面小 |
 

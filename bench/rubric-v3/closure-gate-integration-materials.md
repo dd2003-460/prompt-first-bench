@@ -1,7 +1,7 @@
 # RV3G3cdx-closure-gate-integration · 裁定材料（备料不代裁）
 
 > 定位：本文件是**决策输入非裁定本身**（同 RV3B1-jaccard-adjudicate / kappa-u1k1 备料模式）。
-> 是否接入门禁 + 方案选择 = 成璐人工裁定动作；裁定前 queue L27 保持 `[ ]` blocked-on-human。
+> 是否接入门禁 + 方案选择 = D人工裁定动作；裁定前 queue L27 保持 `[ ]` blocked-on-human。
 > 证据链：stages/01/RV3G3cdx-cgi-goal-decomposition.md（F1-F6+K1-K5）→ stages/02/RV3G3cdx-cgi-stage02-evidence.md（A1-A6 实证）→ stages/03/RV3G3cdx-cgi-action-decomposition.md（B1-B9）→ 本文件（B1-B6 落盘）+ `.githooks/pre-commit.closure-checklist`（B7 未激活原型）+ stages/04 三出口实跑记录（B8）。
 > 禁区承诺（全程零触碰，04.5 复核锚点）：assert-closure-checklist.py 本体零改动 / core.hooksPath 零设置（hook 仅文件存在 = 未激活态）/ tasks/goal-queue.md L27 状态位零改动 / 冻结面（hit-matrix.json / prior-estimates.json / gold-tree.md / runs-C0-* / DRAFT-rubric-v3-v2.md / gmr-criterion-freeze.md / o3-claim-list.md）零 diff。
 
@@ -30,7 +30,7 @@
 
 - 97d2adf 型漏翻先例：message 声称「划掉」而 checkbox 未翻转，跨 r141-r144 四轮无人发现（r146 sweep D1 实证）。
 - r148 把检测从事后 sweep 前移到收口当下，但仍是手动工具——**「前移」的收益以「有人跑」为前提**。
-- 本 goal 承接 r148 B4 预注册导出：接入 = 独立 goal，前置 = 成璐裁定。
+- 本 goal 承接 r148 B4 预注册导出：接入 = 独立 goal，前置 = D裁定。
 
 ## §2 两方案对照表（≥8 维）
 
@@ -45,9 +45,9 @@
 | 7 | CI 依赖 | 零外部依赖（纯本地 git + python3） | 依赖 GitHub Actions 配额/可用性/登录态；本仓零 CI 基建需从零建 |
 | 8 | 误拦风险 | 误拦 = 挡本机提交，当场可见当场修（摩擦低、反馈即时） | 误拦 = 红屏在远端日志里，定位往返成本高（且本仓拦截力零 ⇒ 此维度实际不生效） |
 | 9 | 维护成本 | hook 文件 + 断言脚本双份语义须同步（staged 变体 vs commit 变体两套入口） | 单一权威实现（直接调原脚本），无双份漂移面 |
-| 10 | 与本仓工作流匹配度 | 高——本仓全部 commit 出自单机（runner + 成璐），本地拦截即全覆盖 | 低——为「多人协作防绕过」设计的机制，本仓单人直推场景收益 ≈ 0 |
+| 10 | 与本仓工作流匹配度 | 高——本仓全部 commit 出自单机（runner + D），本地拦截即全覆盖 | 低——为「多人协作防绕过」设计的机制，本仓单人直推场景收益 ≈ 0 |
 
-**备料意见（非裁定）**：本仓约束下方案 B 拦截力为零（维度 1+4 组合），方案 A 是唯一有实际拦截力的选项；但方案 A 强制力弱（维度 3）——对本仓单人工作流，「弱强制 + 即时反馈」可能恰好够用。**最终取舍 = 成璐裁定**（含 K4 语义漂移接受度，见 §3/§4）。
+**备料意见（非裁定）**：本仓约束下方案 B 拦截力为零（维度 1+4 组合），方案 A 是唯一有实际拦截力的选项；但方案 A 强制力弱（维度 3）——对本仓单人工作流，「弱强制 + 即时反馈」可能恰好够用。**最终取舍 = D裁定**（含 K4 语义漂移接受度，见 §3/§4）。
 
 ## §3 分流规则定稿 + K1 解法评估
 
@@ -79,7 +79,7 @@ hook 层适配（staged 变体下的「不该检查 vs 检查失败」区分机�
 | (ii) staged-diff 变体 | hook 消费 `git diff --cached`（queue 文件的 staged 变更）+ staged 侧拟提交 message（GIT_EDITOR 捕获或约定），断言逻辑读 staged 内容不读 hash | 可行——`git diff --cached --name-only` 实测直接拿到 staged 文件列表（A6 沙盒）；**零接口改动**（断言脚本本体不动，hook 内置 staged 版判定逻辑，关键词集 byte-exact 同源） | 中 | 语义漂移：从「验证某 commit」变为「验证本次将要提交的 staged 变更」——覆盖面更贴合 pre-commit 时点语义，但属口径变更 ⇒ **K4 裁定输入**（§4 四选项） | **推荐主体** |
 | (iii) 弱检查（触发收窄） | 仅当 staged 含 `tasks/goal-queue.md` diff 时才运行判定（(ii) 的子集） | 可行——同 (ii)，多一层 name-only 过滤 | 最低 | 无 queue diff 的收口 commit 漏检——**A3 数据 21/21 收口 commit 均含 queue diff，实际漏检面 = 0**（未来若出现「收口不动 queue」形态则漏，但该形态本身违反收口契约，由 assert-queue-lint 静态侧兜底） | **推荐叠加** |
 
-**推荐（备料意见，裁定权在成璐）**：(ii)+(iii) 合并 = staged-diff 变体 + 触发条件收窄（仅 queue.md 有 staged diff 时运行）。理由：零接口改动（冻结脚本零触碰）、误拦面最小（纯工件 commit 根本不进判定）、与 pre-commit 时点语义对齐。(i) 否决理由如上。
+**推荐（备料意见，裁定权在D）**：(ii)+(iii) 合并 = staged-diff 变体 + 触发条件收窄（仅 queue.md 有 staged diff 时运行）。理由：零接口改动（冻结脚本零触碰）、误拦面最小（纯工件 commit 根本不进判定）、与 pre-commit 时点语义对齐。(i) 否决理由如上。
 
 ### 3.3 首建即 [x] 豁免子句 · 调用方运维文档草案
 
@@ -113,7 +113,7 @@ hook（staged 变体）内置副本必须与上述 byte-exact 同源；**双份�
 - **兜底**：(c) 双向闭合不受关键词集影响——diff 中每个 checkbox 行变更的短名必须在 message 中有对应声称（子串双向匹配 min(8,len) 阈值）。漏翻（动了行但 message 没提）被 (c) 捕获；**漏报（message 提了但没动行）才是关键词集失守的净漏检面**，且方向安全（漏报 = 少拦，不误拦）。
 - **边界声明**：(c) 兜底的是「行变更未被声称」，兜不住「声称未被执行且行未变更」（纯 message 虚报）——该形态无 diff 可查，属语义理解范畴，机判门禁明确不覆盖（r148 docstring「纯字符串机判，不做语义理解」原义）。
 
-### 4.3 K4 语义漂移接受度 · 四选项预写（成璐勾选）
+### 4.3 K4 语义漂移接受度 · 四选项预写（D勾选）
 
 staged-diff 变体相对 r148 原签名的口径变化 = 从「验证某 commit 的收口完整性」变为「验证本次将要提交的 staged 变更」。请裁定接受度：
 
@@ -122,7 +122,7 @@ staged-diff 变体相对 r148 原签名的口径变化 = 从「验证某 commit 
 - **O3 不接受，退回 (i)**：坚持 commit-hash 签名 ⇒ 需开新 goal 改断言脚本接口（解冻 assert-closure-checklist.py，APPROVALS 登记），本轮备料到此为止。
 - **O4 不接受，不接入门禁**：维持 r148 手动工具现状，本 goal 材料归档，queue L27 转 `[~]`（设计内终态，同 jaccard/erratum-27 先例）。
 
-## §5 裁定后执行清单 D1-Dn（若成璐裁定 O1/O2 接入门禁）
+## §5 裁定后执行清单 D1-Dn（若D裁定 O1/O2 接入门禁）
 
 | # | 步骤 | 命令/操作 | 预计 diff 面 | 验证式 |
 |---|---|---|---|---|
@@ -135,7 +135,7 @@ staged-diff 变体相对 r148 原签名的口径变化 = 从「验证某 commit 
 
 ## §6 边界声明
 
-1. **备料非裁定**：本文件 + hook 原型 + 三出口实跑记录全部为决策输入。是否接入、选哪个方案、K4 四选项勾选 = 成璐人工动作（同 RV3B1-jaccard-adjudicate / kappa-u1k1 备料模式）。
+1. **备料非裁定**：本文件 + hook 原型 + 三出口实跑记录全部为决策输入。是否接入、选哪个方案、K4 四选项勾选 = D人工动作（同 RV3B1-jaccard-adjudicate / kappa-u1k1 备料模式）。
 2. **冻结件零触碰承诺**（04.5 复核锚点，逐项可验）：
    - `bench/rubric-v3/ablation/scripts/assert-closure-checklist.py` 本体零改动（git diff 可验）
    - `core.hooksPath` 零设置（`git config core.hooksPath` 回显为空 = hook 未激活态实证）

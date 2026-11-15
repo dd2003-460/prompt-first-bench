@@ -36,7 +36,7 @@ R-04（pilot 两步走）/ R-05（维度合并规则）/ R-07（gold 新发现�
 
 **M5 登记（需人工裁决）**：防刷分判据 1「候选集 Jaccard<0.9」在 AUDIT-report §2-O1 中未展开定义。v2 落笔为**双口径兜底**：「同题重复 run 的候选集 Jaccard < 0.9，且相邻档候选集不得几乎相同」。两种读法（run 间稳定性 vs 档位区分度）都服务于 #20 防刷分目的，无法从仓库内证据裁定作者本意 → 双口径同时生效，待人工裁决后收敛为单一口径。
 
-**M5 已裁定（2026-10-31, 成璐）**：选项 A——仅档位区分度（跨维度去重，#20 fix (c) 原文语义）。run 间稳定性不纳入判据（无原文支撑 + legitimate convergence 误伤风险）。DRAFT v2 L38/L311 已同步改写，销账。材料 = bench/rubric-v3/jaccard-m5-adjudication-materials.md。
+**M5 已裁定（2026-10-31, D）**：选项 A——仅档位区分度（跨维度去重，#20 fix (c) 原文语义）。run 间稳定性不纳入判据（无原文支撑 + legitimate convergence 误伤风险）。DRAFT v2 L38/L311 已同步改写，销账。材料 = bench/rubric-v3/jaccard-m5-adjudication-materials.md。
 
 ### R-02 · 全维尺度统一（AUDIT-report §2 横切节 + §7.1 B6/#26）
 
@@ -131,7 +131,7 @@ R-04（pilot 两步走）/ R-05（维度合并规则）/ R-07（gold 新发现�
 | 项 | 内容 |
 |---|---|
 | 触发 | r142 (RV3G6-o3-claim-rejudge-evidence-audit) A4：三口径独立复算 V1=13/V2=34/V3=35 均≠27，27 为起草期不可复现人工计数 |
-| 裁定 | 成璐选方案 A（直接改 13 + 短注记），材料 = `bench/rubric-v3/o3-claim-list-erratum-27-materials.md` §3/§4 |
+| 裁定 | D选方案 A（直接改 13 + 短注记），材料 = `bench/rubric-v3/o3-claim-list-erratum-27-materials.md` §3/§4 |
 | 改动 1 | `o3-claim-list.md` L137：「27 个」→「13 个」+ 尾注「（V1 口径，assert-hitmatrix-evidence.py 机判；原值 27 见 r142 勘误）」 |
 | 改动 2 | `ablation/scripts/assert-hitmatrix-evidence.py` 三处同步：docstring L26-28 / `declared = 13`（L151）/ mismatch 文案（L154） |
 | 验证 | `python3 assert-hitmatrix-evidence.py` → 「V1 计数 = 13/98 vs 声明值 = 13（一致）」VERDICT: PASS exit 0 |
@@ -179,7 +179,7 @@ R-04（pilot 两步走）/ R-05（维度合并规则）/ R-07（gold 新发现�
 
 ---
 
-| 触发 | queue KAPPA-U1K1-DISPOSITION（成璐裁定：F2 Fleiss'κ + β 维持 0.6 + γ 降 SIGNAL+人工裁决；P1 双判者对照 κ=0.537 实证分歧 19 cell 后激活） |
+| 触发 | queue KAPPA-U1K1-DISPOSITION（D裁定：F2 Fleiss'κ + β 维持 0.6 + γ 降 SIGNAL+人工裁决；P1 双判者对照 κ=0.537 实证分歧 19 cell 后激活） |
 | 改动 | U-K1 销账落地 D1-D6：judge-protocol-batch1.md L71 U-K1 段替换为裁定结果（F2+β+γ）；assert-kappa-receipt.py docstring 口径更新 + method 收紧为取值域约束（fleiss/pairwise/cohen）+ judges 从「恰两个」放宽「≥2」；DRAFT v2 L16/L208 追加口径绑定注记（L208「不过不开评」措辞按 γ 软化）；o3-claim-list §4.3 写入具体公式与数字（κ_fleiss < 0.6, β 沿用声明, γ 语义）；queue RV3G4-kappa-gate-execution 联动注记 |
 | 性质 | 冻结件修改（o3-claim-list §4.3）→ APPROVALS.md 登记；其余为非冻结文档修订。U-K1 是发散型缺口（§4.3 原文从未写公式），本条落地的是裁定结果而非还原本意 |
 | 验证 | assert-kappa-receipt.py 实跑基线回归（既有 kappa-receipt.json 应仍 PASS——method 含 'cohen' 历史兼容）+ 新增 3-judge 合成回执正变异（judges=3 → PASS）+ method 域外反变异（method="unknown" → FAIL） |
@@ -221,15 +221,15 @@ R-04（pilot 两步走）/ R-05（维度合并规则）/ R-07（gold 新发现�
 | 改动 | ① 新增 `ablation/pilot-matrix/pilot-post-analysis.json`：双判均值维度分重算（DRAFT 预注册公式）+ 三组主对比配对 sd_d + n_pairs 反推（δ_min=0.1）+ 7×7 Spearman 矩阵 + |ρ|>0.8 簇候选 + 变体总分（outcome/process 预注册权重）；② DRAFT v2 §3.1 第二步行追加 r164 实测输入四注记（κ 处置/簇裁定挂起/n_pairs 方向性/天花板效应），不改任何预注册数值与权重表 |
 | 关键数字 | κ overall 0.857(n=162) / O3 claim 1.0(n=279) / O1 0.506(SIGNAL)；簇 {O1,O2,P4} ρ(O2,P4)=1.0；V1full−V0 outcome Δ=+0.208(sd 0.094, n≥8)、process Δ=+0.222(sd 0.096, n≥8)；O1 Δ=+0.556(sd 0.419, n≥139)；变体均值 outcome V0 0.634 / V1-full 0.841 / V1-align 0.823 |
 | 性质 | 冻结文档修订（DRAFT 状态，非已冻结件）；只加注记不动预注册值（权重表/δ_min/阈值零触碰）；kappa-results-corrected.json 等既有回执零触碰 |
-| 遗留边界 | ① O1 入簇但属确认性主维度 → R-05 合并处置需成璐裁定（JSON r05_decision_input 已备料），裁定前正式实验维度结构未最终确认；② P2 全 NA（无 run-log）→ 矩阵 7×7 非预注册 8×8，正式实验须补 run-log 采集否则 P2 永久缺列；③ 同序号配对为约定非随机化，n=3 每对 → n_pairs 只作方向性输入；④ V1 侧 O2/P4 天花板效应未解决，区分度问题进正式实验设计清单 |
+| 遗留边界 | ① O1 入簇但属确认性主维度 → R-05 合并处置需D裁定（JSON r05_decision_input 已备料），裁定前正式实验维度结构未最终确认；② P2 全 NA（无 run-log）→ 矩阵 7×7 非预注册 8×8，正式实验须补 run-log 采集否则 P2 永久缺列；③ 同序号配对为约定非随机化，n=3 每对 → n_pairs 只作方向性输入；④ V1 侧 O2/P4 天花板效应未解决，区分度问题进正式实验设计清单 |
 | 验证 | python 独立重算（条目级二值分 → 维度分 → 总分/sd/ρ 全链路脚本可复现，源 = judge-A.json + judge1/2.json）；grep 确认 DRAFT 预注册权重表（L124/L194）与 δ_min 行零 diff |
 | 日期 | 2026-11-02 |
 
-## R-22 · R-05 合并处置裁定登记（成璐 2026-11-01 微信授权「直接更新」· Lead 倾向 c 采纳）
+## R-22 · R-05 合并处置裁定登记（D 2026-11-01 微信授权「直接更新」· Lead 倾向 c 采纳）
 
 | 项 | 内容 |
 |---|---|
-| 触发 | R-21 遗留边界①：实测簇 {O1,O2,P4} 含确认性主维 O1，R-05 合并处置需成璐裁定；成璐微信指令「直接更新，然后继续测试走完整流程」= 授权按 Lead 分析推进 |
+| 触发 | R-21 遗留边界①：实测簇 {O1,O2,P4} 含确认性主维 O1，R-05 合并处置需D裁定；D微信指令「直接更新，然后继续测试走完整流程」= 授权按 Lead 分析推进 |
 | 裁定 | **选项 c：维持分开报，只标共线风险**。O1/O2/P4 不合并为簇、不降诊断值；正式报告正文对三维度显式标注共线风险（ρ(O2,P4)=1.0, ρ(O1,O2)=ρ(O1,P4)=0.854），簇内分数不可独立解读，归因结论以 outcome/process 总分主对比为准。确认性主维度维持预注册不变：O3 + O1 |
 | 理由留痕 | ① O1 = pilot 消融信号最强维（Δ=+0.556），降级丢最灵敏探针；② 选项 b 动预注册权重表与检验族结构，违背 L126「开跑后不改」；③ 选项 c 零触碰预注册数值/Holm 预算，仅新增报告义务 |
 | 改动 | DRAFT v2 §3.1 R-05 落地注记段后追加裁定登记（L198）；本条目。权重表/n_pairs 公式/检验族定义零 diff |
@@ -256,7 +256,7 @@ R-04（pilot 两步走）/ R-05（维度合并规则）/ R-07（gold 新发现�
 | 改动 | DRAFT v2 §3.1 第二步行后新增「第三步 正式矩阵执行 + 消融归因」段：RV3G7 21 run 收口事实 + 双裁判盲评限定语（同 agent 双口径，非独立 IRR）+ 归因四要点（D1 净效应≈+0.12 sham 打掉 / D2 边际 +5.06 稳健但 sham 污染偏保守 / 增益集中 O1+P4 两通道 / O3 结构性缺口 5 claim 单列）+ 预注册预言 Pr1/Pr2 核对结论。数字全部引自 attribution-analysis.md §1-§6（已 04.5 复算零 mismatch），不引入新计算 |
 | 性质 | 冻结文档修订（DRAFT 状态，非已冻结件）；只追加段落，预注册数值（权重表/δ_min/n_pairs 公式/检验族/§3.2 变体冻结表）零触碰；与既有 R-21/R-22 注记同型（实测输入回代模式） |
 | 验证 | ① grep 确认权重表（outcome 0.4/0.25/0.2/0.15、process 四等分）与 δ_min 行零 diff；② 新增段内数字逐项对 attribution-analysis.md 原文核对（+0.12/+5.06/O1 +2.0~+4.33/P4 +2.67~+4.67/P4-E2 6.0 vs 3.11/5 claim 0 命中）；③ 回归 assert-kappa-receipt.py exit 0（消费面不受影响） |
-| 遗留边界 | ① 本段结论继承同判官限定语——真实 IRR 待 G1b family_check 解锁后须复核 D1/D2 效应方向是否翻转（sham 锚点质量是净效应估计的单点依赖）；② n_pairs 反推（r164：总分对比 n≥8）与本轮 21 run 实际规模一致，无需重算；③ O3 gold 树 prefill 路径分歧（FLOPs 建模 vs 实测 tok/s）若成璐裁定修订 gold，O3 维度全量重算 + 本段 ④ 需同步更新 |
+| 遗留边界 | ① 本段结论继承同判官限定语——真实 IRR 待 G1b family_check 解锁后须复核 D1/D2 效应方向是否翻转（sham 锚点质量是净效应估计的单点依赖）；② n_pairs 反推（r164：总分对比 n≥8）与本轮 21 run 实际规模一致，无需重算；③ O3 gold 树 prefill 路径分歧（FLOPs 建模 vs 实测 tok/s）若D裁定修订 gold，O3 维度全量重算 + 本段 ④ 需同步更新 |
 | 日期 | 2026-11-02 |
 
 ## R-25 · R-05 报告义务执行：正式矩阵 8×8 相关矩阵 + pilot 簇复现检验（keepalive r185）

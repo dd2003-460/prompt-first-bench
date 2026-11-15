@@ -31,5 +31,5 @@ jaccard-m5-adjudication-materials.md 六节结构：溯源 byte-exact / 关键�
 
 ## X4 — 预期风险声明
 
-- 若成璐选 B/C，assert 脚本的 declared 常量处置不同：B → declared 改为 13 且注明「机判基准=V1，文中并列值仅历史溯源」；C → declared 机制整体移除（A4 段降级为纯计数报告，不再做 mismatch 对照）。三种改法的脚本侧 diff 均已预写（见 04 执行清单）。
+- 若D选 B/C，assert 脚本的 declared 常量处置不同：B → declared 改为 13 且注明「机判基准=V1，文中并列值仅历史溯源」；C → declared 机制整体移除（A4 段降级为纯计数报告，不再做 mismatch 对照）。三种改法的脚本侧 diff 均已预写（见 04 执行清单）。
 - 勘误落地前，assert-hitmatrix-evidence.py 常态输出 MISMATCH 提示——这是**预期行为**（信号源职责），不因本 goal 收口而改变。

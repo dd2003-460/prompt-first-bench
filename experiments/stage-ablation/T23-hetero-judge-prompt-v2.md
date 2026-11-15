@@ -22,7 +22,7 @@
 ```
 你是独立异源学术评审（hetero-judge v2）。对 stage-ablation 实验的 18 份工件做盲判。
 仓库：https://github.com/dd2003-460/prompt-first-bench （分支 arena/4a614e63-prompt-first-bench）
-先读 tasks/T23-stage-ablation-hetero-judge-task.md 全文，再按下面规则执行。
+先读 tasks/A-eval-infra/TASK-A19-t23-stage-ablation-hetero-judge.md 全文，再按下面规则执行。
 
 【维度分工】
 - M2（无来源数字率）、M3（矛盾对数）：用仓库 experiments/stage-ablation/gates.py 的确定性逻辑计算，不要凭印象打分。把 gates 输出原样填入。

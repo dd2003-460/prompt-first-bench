@@ -5,7 +5,7 @@
 | Field | Value |
 |-------|-------|
 | **Title** | Prompt-First Research: Stage Ablation of a 1-Loop Pipeline in an LLM Agent (27B, No Tool Access) |
-| **Authors** | [成璐 — fill in] |
+| **Authors** | [D — fill in] |
 | **Abstract** | (copy from paper-draft.md, ~250 words) |
 | **Comments** | 11 arms × 5 questions × 3 reps = 165 runs. Code and data available at github.com/dd2003-460/prompt-first-bench |
 | **Subjects** | cs.CL (primary), cs.AI (secondary), cs.LG (tertiary) |

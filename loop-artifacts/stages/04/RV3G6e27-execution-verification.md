@@ -20,7 +20,7 @@
 
 ## A4 — queue 更新 ✓
 
-L24 `[ ]` → `[~]`（材料已备待成璐裁定，同 jaccard-adjudicate L45 惯例不划掉），结果注记指向 materials 文件路径。
+L24 `[ ]` → `[~]`（材料已备待D裁定，同 jaccard-adjudicate L45 惯例不划掉），结果注记指向 materials 文件路径。
 
 ## 回归基线（未触碰脚本，预期不变）
 

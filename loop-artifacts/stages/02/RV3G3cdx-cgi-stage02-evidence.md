@@ -70,11 +70,11 @@
   且临时 commit 不在任何 ref 上，断言脚本 `git show <h>~1` 的前驱引用会失败 ⇒ **需要改断言脚本接口，超出备料范围**。
 - **(ii) staged-diff 变体**：`git diff --cached --name-only` 实测可直接拿到 staged 文件列表（queue.md 命中），
   无需 hash。语义漂移 = 从「验证某 commit 的收口完整性」变为「验证本次将要提交的 staged 变更」——
-  覆盖面其实更贴合 pre-commit 时点语义，但须成璐裁定接受度（K4）。
+  覆盖面其实更贴合 pre-commit 时点语义，但须D裁定接受度（K4）。
 - **(iii) 弱检查**（staged queue diff 非空且含 checkbox 翻转才触发）：= (ii) 的子集，实现最简单，
   漏检面 = 无 queue diff 的收口 commit（实际不存在——收口必动 queue，A3 数据 21/21 均含 queue diff）。
 
-**推荐**（备料意见，裁定权在成璐）：(ii)+(iii) 合并 = staged-diff 变体 + 触发条件收窄（仅 queue.md 有 staged diff 时运行），
+**推荐**（备料意见，裁定权在D）：(ii)+(iii) 合并 = staged-diff 变体 + 触发条件收窄（仅 queue.md 有 staged diff 时运行），
 理由：零接口改动（断言脚本只读 staged 内容不读 hash）、误拦面最小、与 pre-commit 时点语义对齐。
 (i) 否决理由：需改冻结断言脚本接口，超出「备料不代裁」定位。
 

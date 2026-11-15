@@ -33,10 +33,10 @@
 | A8 | 19b9ffb | r136b | 「RV3G4-kappa-receipt-assert 标记完成 (26710e7) + 追加导出候选 kappa-gate-execution」 | 2+/1- |
 | A9 | 52f70d8 | r137b | 「R5.2assert-suite-docsync 标记完成 (c8963c6)…本轮 = 核销验证 + 队列卫生修复」 | 1+/1- |
 | A10 | 446f4cc | r138+ | 「RV3G3-goldrank-threshold-proof 标记完成 (862741b) + 新导出候选 RV3G3-threshold-crossdomain-reverify」 | 2+/1- |
-| A11 | 74e3046 | r139 | 「RV3B1-jaccard-adjudicate 材料收口…queue 转『材料已备，待成璐裁定』（不划掉）」 | 1+/1- |
+| A11 | 74e3046 | r139 | 「RV3B1-jaccard-adjudicate 材料收口…queue 转『材料已备，待D裁定』（不划掉）」 | 1+/1- |
 | A12 | 91117b8 | r141 | 「RV3G6-o3-claim-rejudge-scaffold 收口…queue 更新（RV3G6-o3-claim-rejudge 转 [~]…+ 新导出候选 RV3G6-kappa-formula-adjudicate）」 | 3+/2- |
 | A13 | 404ba7e | r142 | 「RV3G6-o3-claim-rejudge-evidence-audit 收口 — queue 划掉 + 结果注记 + 新导出勘误候选 RV3G6-o3-claim-list-erratum-27」 | 2+/0- |
-| A14 | 93a899b | r144 | 「RV3G6-o3-claim-list-erratum-27 收口 — 勘误备料落盘…待成璐裁定不代裁」 | 1+/1- |
+| A14 | 93a899b | r144 | 「RV3G6-o3-claim-list-erratum-27 收口 — 勘误备料落盘…待D裁定不代裁」 | 1+/1- |
 | A15 | c0eba3b | r143 | 「RV3G6-kappa-formula-adjudicate 收口 — queue 划掉 + 结果注记 + 新导出候选 ×2」 | 3+/1- |
 | A16 | 9f48d94 | r145 | 「…A3 queue L28 [ ]→[x] 补翻 + 核销注记 / A4 新候选 ×2：batch2-schema-lint + queue-hygiene-sweep…」 | 3+/1- |
 | A17 | 28f0551 | r145 | 「…攻击 6『sweep 候选无终止条件』已修 = queue 候选补范围上限近 20 轮收口行…」 | 1+/1- |
@@ -65,12 +65,12 @@
 | A9 | 52f70d8 | R5.2assert-suite-docsync | 标记完成（核销+队列卫生修复） | `- [ ]` → `+ [x] …(r137: c8963c6…)` | L32 `[x]` | ✓ 一致 |
 | A10 | 446f4cc | RV3G3-goldrank-threshold-proof | 标记完成 | `- [ ]` → `+ [x] …(r138+: 862741b…)` | L41 `[x]` | ✓ 一致 |
 | A10' | 446f4cc | RV3G3-threshold-crossdomain-reverify | 新导出候选 | `+ [ ]` 初始条目 | L30 `[x]`（经 97d2adf 写结果注记 + 9f48d94 补翻，见 D1/D2） | ✓ 终态一致（过程异常已登记 D1） |
-| A11 | 74e3046 | RV3B1-jaccard-adjudicate | 转「材料已备，待成璐裁定」（**不划掉**） | `- [ ]` → `+ [~]`（checkbox 位翻转 [ ]→[~]，正文追加材料注记） | L49 `[~]` | ✓ 一致（message 明言不划掉，[~] 即预期终态） |
+| A11 | 74e3046 | RV3B1-jaccard-adjudicate | 转「材料已备，待D裁定」（**不划掉**） | `- [ ]` → `+ [~]`（checkbox 位翻转 [ ]→[~]，正文追加材料注记） | L49 `[~]` | ✓ 一致（message 明言不划掉，[~] 即预期终态） |
 | A12 | 91117b8 | RV3G6-o3-claim-rejudge | 转 [~] | `- [ ]` → `+ [~]`（正文追加骨架完成注记） | L48 `[~]` | ✓ 一致 |
 | A12' | 91117b8 | RV3G6-kappa-formula-adjudicate | 新导出候选 | `+ [ ]` 完整条目 | L26 `[x]`（后续被 A15 收口） | ✓ 一致（时序性，非异常） |
 | A13 | 404ba7e | RV3G6-o3-claim-rejudge-evidence-audit | queue 划掉 + 结果注记 | `+ [x]` 完整条目（首次以 [x] 形态写入，含结果注记；diff 面 2+/0-，无删除行） | L16 `[x]` | ✓ 一致（该行此前不存在于 queue，「划掉」语义 = 以 [x] 形态建档，无 checkbox 漏翻空间） |
 | A13' | 404ba7e | RV3G6-o3-claim-list-erratum-27 | 新导出勘误候选 | `+ [ ]` 完整条目 | L25 `[~]`（后续被 A14 转 [~]） | ✓ 一致（时序性，非异常） |
-| A14 | 93a899b | RV3G6-o3-claim-list-erratum-27 | 收口（备料落盘，**待成璐裁定不代裁**） | `- [ ]` → `+ [~]`（正文追加「材料已备，待成璐裁定…不划掉」注记） | L25 `[~]` | ✓ 一致（message 明言不代裁，[~] 即预期终态） |
+| A14 | 93a899b | RV3G6-o3-claim-list-erratum-27 | 收口（备料落盘，**待D裁定不代裁**） | `- [ ]` → `+ [~]`（正文追加「材料已备，待D裁定…不划掉」注记） | L25 `[~]` | ✓ 一致（message 明言不代裁，[~] 即预期终态） |
 | A15 | c0eba3b | RV3G6-kappa-formula-adjudicate | queue 划掉 + 结果注记 | `- [ ]` → `+ [x] …(r143: 3251510…)` | L26 `[x]` | ✓ 一致 |
 | A15' | c0eba3b | RV3G6-kappa-u1k1-execution / threshold-recalibrate | 新导出候选 ×2 | `+ [ ]`×2 完整条目 | L23 `[ ]` / L24 `[ ]`（均 blocked-on-human，未启动） | ✓ 一致 |
 | A16 | 9f48d94 | RV3G3-threshold-crossdomain-reverify | A3 queue L28 [ ]→[x] 补翻 + 核销注记 | `- [ ]` → `+ [x]`（正文追加「r145 核销轮补翻」注记） | L30 `[x]` | ✓ 一致（修复动作本身正确） |
@@ -99,4 +99,4 @@ message 声称「queue 划掉」vs 实际未翻 = **D1 型缺陷（message↔状
 
 无漏检方向遗漏需声明。两点如实登记（非异常）：
 1. A13（404ba7e）的「queue 划掉」针对的是**首次建档即 [x]** 的行：`git show 404ba7e~1:tasks/goal-queue.md | grep -c evidence-audit` = **0**（该行在收口 commit 之前不存在于 queue，系 r142 轮内新导出并直接以 `[x]` 形态建档），故不存在可漏翻的 checkbox 位；message 措辞与实际动作语义兼容。
-2. A11/A14 两个 `[~]` 行的 message 均明言「不划掉」——[~] 是设计内终态（待成璐裁定），不计为异常。
+2. A11/A14 两个 `[~]` 行的 message 均明言「不划掉」——[~] 是设计内终态（待D裁定），不计为异常。

@@ -37,4 +37,4 @@ Sprague et al. (ICLR 2025) 的 110 篇元分析 + AC 元评审：把轨迹拆成
 ## 下一步
 - [ ] Arena GitHub 授权 pfb 写权限 → push 两个 commit（sha 保留）
 - [ ] 或：让 agent 输出 base64(JSONL) → 本地解码落盘
-- [ ] 更新 tasks/T24-decomp-prerequisite-lit-survey.md 标记完成
+- [ ] 更新 tasks/E-sota-benchmark/TASK-E15-t24-decomp-prereq-lit-survey.md 标记完成

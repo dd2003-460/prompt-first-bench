@@ -48,7 +48,7 @@
 pass/fail 过线功能由 **top-10 辅助口径**承担。其阈值：
 
 ```
-threshold_top10 := 双轨：t=4（严判据，基线 P(X≥4)=74/2697≈2.7%，独立可机判）+ t=3（宽判据，基线 ≈17.6%，须叠加 gmr 佐证）——论证见 goldrank-threshold-proof.md（RV3G3-goldrank-threshold-proof, 2026-10-30）；最终裁定权在 G6/成璐
+threshold_top10 := 双轨：t=4（严判据，基线 P(X≥4)=74/2697≈2.7%，独立可机判）+ t=3（宽判据，基线 ≈17.6%，须叠加 gmr 佐证）——论证见 goldrank-threshold-proof.md（RV3G3-goldrank-threshold-proof, 2026-10-30）；最终裁定权在 G6/D
 ```
 
 回填状态：**已回填**（2026-10-30, RV3G3-goldrank-threshold-proof merge）。本文件 §2.1 占位符为 r118 预注册的回填授权通道，本次改动面限本节两行 + §2.3 门禁行，其余零触碰。

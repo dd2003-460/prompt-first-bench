@@ -1,6 +1,6 @@
 # T52 · Prompt 层逐层分解 → 推理深度：滚雪球撞车调研
 
-> origin: arena agent (T52) · 2026-11-09 · 任务书：tasks/T52-prompt-decomposition-collision.md（sigma-nlnk-snowball @ 2f3bc174）
+> origin: arena agent (T52) · 2026-11-09 · 任务书：tasks/B-pipeline-ablation/TASK-B07-t52-prompt-decomp-collision.md（sigma-nlnk-snowball @ 2f3bc174）
 > 姊妹任务：T51（S_α 公式先例）→ research/objective-function-priorart/SNOWBALL-T51.md。本报告聚焦**机制层**：
 > 「prompt 层逐层/递归分解提升 LLM 推理深度」是否被系统研究过，以及 S5 pipeline 三个创新点 (a)迭代加深 (b)逐节点检索验证 (c)显式目标函数 S_α 各自的先例状况。
 > 检索日志（全部查询组+命中+筛选）：research/prompt-decomposition-search-log.json

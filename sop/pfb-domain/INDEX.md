@@ -1,6 +1,6 @@
 # PFB 领域 SOP 索引
 
-> origin: ai · 2026-11-07 · 成璐指令："pfb这些规则可以做成领域sop"
+> origin: ai · 2026-11-07 · D指令："pfb这些规则可以做成领域sop"
 > 本文件夹是 pfb（prompt-first-bench）实验的完整操作规程。每份文件开头解释"为什么这样做"，再给具体步骤。新 agent 接手时从这里开始读。
 
 ## 文件清单
@@ -17,6 +17,14 @@
 | `arena-outsource-pfb.md` | pfb 专属 arena 外包：任务书模板、回执验收、T 编号台账 | 派 arena 做 pfb 相关工作时 |
 | `modification-rationale.md` | 机制修改三问（为什么加/正交性/外部依据）+ 退出条件 + 当前生效机制清单 M1-M10 | **任何规则/机制改动前必读** |
 | `retrieval-diagnosis.md` | 检索通道诊断 SOP：先诊断根因再改参数、ego-browser 手动操控 vs 自动化 pipeline、根因→修法映射、禁止行为 | **webllm/research_hook 超时、ERR_ABORTED、verified 率异常低时** |
+
+## 与全局 SOP 的关系
+
+| 全局 SOP | 本目录对应 | 关系 |
+|----------|-----------|------|
+| `sop/collision-research-sop.md`（撞车调研） | `research-hook.md`（检索架构）+ `gold-tree.md`（覆盖率计算） | 撞车调研用 research_hook 做检索，用 gold-tree 的 Jaccard 方法算构念重叠 |
+| `sop/research-task-template.md`（调研任务模板） | `arena-outsource-pfb.md`（pfb 专属 arena 外包） | 调研任务模板是通用拆解，arena-outsource-pfb 是 pfb 仓库的派发细节 |
+| `sop/verification-sop.md`（验证与结论引用） | `judge-calibration.md`（judge 校准）+ `scoring.md`（评分流程） | 验证 SOP 是通用规则，judge-calibration/scoring 是 pfb 实验的具体实现 |
 
 ## 核心原则（所有 SOP 共享）
 

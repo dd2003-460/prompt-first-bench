@@ -24,6 +24,8 @@ class ResearchHookUnavailable(Exception):
 # 按 (qid, question) 落盘 JSON。命中 → 直接读文件返回，不再触发任何外部通道
 # （DDG/Perplexity/arXiv/webfetch 全部跳过）。TTL 7 天，过期重查。
 import hashlib as _hashlib
+# webllm 快速失败：所有端点都挂后不再重试（避免 bench 空转 10+ 分钟）
+_WEBLLM_BROKEN = {"flag": False}
 _CACHE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".research-cache")
 _CACHE_TTL_S = 7 * 24 * 3600
 
@@ -71,6 +73,28 @@ _SOURCE_WHITELIST = [
     "pbc.gov.cn",          # 中国人民银行
     "mofcom.gov.cn",       # 商务部
     "chinamoney.com.cn",   # 全国银行间同业拆借中心
+    # 中文社会经济数据源（2026-11-15: soc 题 86 pending 根因——DDG 返回中文源全被白名单过滤）
+    "zhihu.com",           # 知乎（经济/金融/社科讨论，DDG 实测命中 ARA/RRA 定义）
+    "sohu.com",            # 搜狐（家庭财富配置白皮书等调研报告）
+    "sina.cn",             # 新浪（news.sina.cn 等子域，家庭储蓄/消费分析）
+    "163.com",             # 网易（财经/社会新闻）
+    "thepaper.cn",         # 澎湃新闻（社会经济深度报道）
+    "yicai.com",           # 第一财经（财经数据）
+    "caixin.com",          # 财新网（宏观经济/金融）
+    "cass.org.cn",         # 中国社会科学院（社会蓝皮书/中产阶层研究）
+    "pku.edu.cn",          # 北京大学（经济学院/金融研究院报告）
+    "tsinghua.edu.cn",     # 清华大学（五道口金融学院/经济系）
+    "fudan.edu.cn",        # 复旦大学（经济学院/金融学院）
+    "ruc.edu.cn",          # 中国人民大学（经济学院/财政金融学院）
+    "swufe.edu.cn",        # 西南财经大学（CHFS 中国家庭金融调查，DDG 中文实测命中）
+    "baidu.com",           # 百度文库/百科（调研报告/数据汇编，DDG 中文实测命中）
+    "toutiao.com",         # 今日头条（央行/CHFS 数据引用，DDG 中文实测命中）
+    "imf.org",             # 国际货币基金组织
+    "worldbank.org",       # 世界银行
+    "oecd.org",            # 经合组织
+    "un.org",              # 联合国
+    "ilo.org",             # 国际劳工组织
+    "who.int",             # 世界卫生组织
 ]
 
 
@@ -189,7 +213,12 @@ def _wiki_search(query, max_results=3):
     # DDG lite 忽略 site:，Bing geo 到 cn 时 site: 失效），所以这里做结果侧兜底：
     # 只保留白名单域的结果。若全被杀光则返回空（让上层走 wiki/webfetch 通道）。
     _wl_domains = ["wikipedia.org", "sec.gov", "investopedia.com", "reuters.com",
-                   "bloomberg.com", "macrotrends.net", "stockanalysis.com"]
+                   "bloomberg.com", "macrotrends.net", "stockanalysis.com",
+                   # 中文技术社区（2026-11-15 成璐指令：中文题面白名单全盲）
+                   "csdn.net", "zhihu.com", "juejin.cn", "segmentfault.com",
+                   "cloud.baidu.com", "blog.sina.com.cn", "163.com",
+                   # 通用知识源
+                   "stackoverflow.com", "github.com", "arxiv.org"]
     def _in_whitelist(url):
         return any(d in url for d in _wl_domains)
     before_wl = len(results)
@@ -231,6 +260,44 @@ def _slim_query(query, max_words=6):
     keep = keep[:max_words]
     return " ".join(keep) if keep else query
 
+def _bing_search(query, max_results=3):
+    """Bing 国际版搜索（纯 HTTP，不依赖 ego-browser）。
+    中文 query 走 bing 国际版（setlang=en），drb-2 诊断已验证英文 query 结果干净。
+    Bing 的 href 是 /ck/a 重定向链接，真实 URL 在 u=a1 参数里（base64 编码）。
+    返回 [{title, url, snippet}, ...]
+    """
+    import urllib.request, html as _html, base64
+    try:
+        url = ("https://www.bing.com/search?q=" + quote_plus(query) + "&setlang=en&count=" + str(max_results))
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (pfb-research)"})
+        html_txt = urllib.request.urlopen(req, timeout=15).read().decode("utf-8", errors="replace")
+        results = []
+        # Bing 结果在 <li class="b_algo"> 里
+        for mm in re.finditer(r'<li class="b_algo"[^>]*>(.*?)</li>', html_txt, re.DOTALL):
+            block = mm.group(1)
+            # 标题
+            title_m = re.search(r'<h2[^>]*>.*?<a[^>]*>(.*?)</a>', block, re.DOTALL)
+            title = re.sub(r'<[^>]+>', '', title_m.group(1)).strip() if title_m else ""
+            # 真实 URL：从 u=a1 参数解码
+            real_url = ""
+            u_m = re.search(r'u=a1([A-Za-z0-9+/=]+)', block)
+            if u_m:
+                b64 = u_m.group(1)
+                b64 += '=' * (-len(b64) % 4)
+                try:
+                    real_url = base64.b64decode(b64).decode('utf-8', errors='replace')
+                except Exception:
+                    pass
+            # snippet
+            snip_m = re.search(r'<p[^>]*>(.*?)</p>', block, re.DOTALL)
+            snippet = re.sub(r'<[^>]+>', '', snip_m.group(1)).strip()[:400] if snip_m else ""
+            if title and real_url and len(results) < max_results:
+                results.append({"title": _html.unescape(title)[:200], "url": real_url, "snippet": snippet})
+        return results
+    except Exception:
+        return []
+
+
 def _ddg_search(query, max_results=3):
     """DuckDuckGo LITE endpoint（纯 HTTP，不依赖 ego-browser）。
     lite.duckduckgo.com/lite/ 对 GPU 价格/功耗/TCO 这类非学术事实有效。
@@ -241,8 +308,13 @@ def _ddg_search(query, max_results=3):
     # D34 (2026-11-12): P1H_INDEX 生成的 search_query 是完整事实陈述（degraded 节点
     # 英文 query 中位 9 词、最长 14 词），塞进 DDG lite 等于多条件 AND → 零结果，
     # 这是上一轮 gpu 跑 43/86 degraded 全是 "all 5 failed" 的主因之一。
-    slimmed = _slim_query(query)
-    queries = [query] if slimmed == query else [slimmed, query]
+    # 2026-11-15: 中文 query 不走 _slim_query（它只处理英文，中文瘦身后变垃圾），
+    # 直接截断到 40 字符保留语义完整性。
+    if re.search(r'[\u4e00-\u9fff]', query):
+        queries = [query[:40]]
+    else:
+        slimmed = _slim_query(query)
+        queries = [query] if slimmed == query else [slimmed, query]
     results = []
     for q_try in queries:
         for attempt in range(2):
@@ -405,12 +477,17 @@ def _webllm_search(query, max_results=3):
     page.click(selector) 等 API。交互用 page.fill + page.keyboard +
     page.evaluate + document.querySelector，参照 cross_judge.py 的 Perplexity 交互模式。
     """
+    if _WEBLLM_BROKEN["flag"]:
+        return []
+
     import tempfile, os
     endpoints = [
         ("perplexity", "https://www.perplexity.ai/"),
         ("chatgpt", "https://chatgpt.com/"),
-        ("deepseek", "https://chat.deepseek.com/a/chat"),
+        # deepseek 2026-11-15 实测登录墙（/a/chat 弹验证码注册页）→ 摘除；恢复需先登录
+        # ("deepseek", "https://chat.deepseek.com/a/chat"),
     ]
+    results = []
     for name, url in endpoints:
         try:
             with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False, encoding='utf-8') as f:
@@ -418,7 +495,7 @@ def _webllm_search(query, max_results=3):
             prompt_file = f.name
             js = f'''
 (async () => {{
-const task = await taskSpace("pfb-webllm-{name}");
+const task = await taskSpace("pfb-webllm-{name}-" + Date.now() + "-" + Math.random().toString(36).slice(2, 8));
 const page = task.page("p1");
 await page.goto("{url}", {{ timeout: 30000, waitUntil: "domcontentloaded" }});
 await page.waitForTimeout(5000);
@@ -442,19 +519,22 @@ const input = await page.evaluate(() => {{
 if (!input) {{ console.log(JSON.stringify({{ error: "NO_INPUT" }})); return; }}
 await page.waitForTimeout(300);
 
-// 读取 query 文件，用 fill 输入（ego-browser 无 page.$，用 fill 替代）
+// 读取 query 文件，用 evaluate 输入（ego-browser 的 page.fill 对 contenteditable 不可靠）
 const fs = require('fs');
-const q = fs.readFileSync({json.dumps(prompt_file)}, 'utf-8');
-const inputSel = await page.evaluate(() => {{
+const inputResult = await page.evaluate((q) => {{
   const sel = ['[role="textbox"]', 'textarea', '[contenteditable="true"]', 'input[type="text"]'];
   for (const s of sel) {{
-    if (document.querySelector(s)) return s;
+    const el = document.querySelector(s);
+    if (el) {{
+      el.focus();
+      el.textContent = q;
+      el.dispatchEvent(new Event('input', {{ bubbles: true }}));
+      return s;
+    }}
   }}
   return null;
-}});
-if (inputSel) {{
-  await page.fill(inputSel, q);
-}} else {{
+}}, {json.dumps(query)});
+if (!inputResult) {{
   console.log(JSON.stringify({{ error: "NO_INPUT_SEL" }}));
   return;
 }}
@@ -502,6 +582,17 @@ const links = await page.evaluate(() => {{
       out.push(h);
     }}
   }}
+  // 3. 从回答文本中提取 URL（ChatGPT 把 URL 写在文本里而不是 <a> 标签）
+  const bodyText = document.body ? document.body.innerText : '';
+  const urlRegex = /https?:\/\/\S+/g;
+  const textUrls = bodyText.match(urlRegex) || [];
+  for (const u of textUrls) {{
+    const clean = u.replace(/[).,;!?]+$/, '');
+    if (!clean.includes(domain) && !seen.has(clean)) {{
+      seen.add(clean);
+      out.push(clean);
+    }}
+  }}
   return out;
 }});
 const uniq = [...new Set(links)].slice(0, {max_results});
@@ -538,7 +629,11 @@ console.log(JSON.stringify(uniq));
         except Exception as e:
             print(f"  [WEBLLM-FAIL] {name}: {str(e)[:80]}", file=sys.stderr)
             continue
-    return []
+    if not results:
+        _WEBLLM_BROKEN["flag"] = True
+        print("  [WEBLLM-BROKEN] all endpoints failed, skipping future webllm calls", file=sys.stderr)
+
+    return results
 
 def _arxiv_search(query, max_results=5):
     """通过 ego-browser 访问 arXiv API，返回 [{title, url, snippet}, ...]
@@ -558,7 +653,7 @@ def _arxiv_search(query, max_results=5):
     ti_query = ' AND '.join(f'ti:{w}' for w in specific[:4]) if specific else f'ti:{core_words[0]}'
     encoded_ti = quote_plus(ti_query)
 
-    space_name = f"arxiv-{int(time.time())}"
+    space_name = f"arxiv-{int(time.time())}-{os.getpid()}"
     js = (
         "(async () => {\n"
         f'const task = await taskSpace("{space_name}");\n'
@@ -745,11 +840,11 @@ def filter_sources(sources, qid):
 
 def _fetch_page(url, title_hint, timeout=30):
     """直接访问 URL，确认存活并提取标题。"""
-    space_name = f"fetch-{int(time.time()*1000)}"
+    space_name = f"fetch-{int(time.time()*1000)}-{os.getpid()}"
     js = (
         "(async () => {\n"
-        f"const task = await taskSpace(\"{space_name}\");\n"
-        "const page = task.page(\"p1\");\n"
+        f'const task = await taskSpace("{space_name}");\n'
+        'const page = task.page("p1");\n'
         "try {\n"
         f"  await page.goto(\"{url}\", {{waitUntil: \"domcontentloaded\", timeout: 20000}});\n"
         "  await new Promise(r => setTimeout(r, 2000));\n"
@@ -864,17 +959,12 @@ def research_hook(qid, question, max_results=8, enable_local=True):
         except Exception:
             pass
 
-    # ── 2.5 DuckDuckGo（~2-4s，非学术事实：价格/功耗/TCO）──
-    # 中文查询跳过 DDG/cn.bing（2026-11-12 drb-1 r2 实测：中文题返回知乎"豆包水印"类
-    # 完全无关垃圾，junk filter 拦不住这种"标题看着正常但内容零相关"的源；
-    # zh-wiki 通道已接管中文事实检索）。英文查询保持原行为。
-    # 例外（drb-2 诊断 2026-11-12 ~07:00）：中文"榜单/对比/排名"题——zh-wiki 没有
-    # "国际综合实力前十保险公司"这类条目，DDG/bing 是唯一能拿到候选名单的通道，
-    # 且英文 query 走 bing 国际版结果干净（实测 top10 insurance companies in China
-    # by assets → 正确公司列表），不触发 cn.bing 跨域噪声。
+    # ── 2.5 搜索引擎（~2-4s，非学术事实：价格/功耗/TCO）──
+    # 中英文查询都走 DDG lite（2026-11-15 修正：中文 query 走 arXiv 无效——
+    # arXiv 只索引英文论文，中文 query 匹配到 β-Pictoris/LaFeAsO 等无关物理论文。
+    # DDG lite 支持中文搜索，对 cache invalidation 等学术概念也有效。）
     remaining = max_results - len(sources)
-    if remaining > 0 and not (re.search(r'[\u4e00-\u9fff]', question)
-                              and not re.search(r'排名|榜单|前十|前\s*\d+\s*名|综合.{0,8}(实力|竞争力)|top\s*\d+', question, re.I)):
+    if remaining > 0:
         try:
             for r in _ddg_search(question, max_results=min(3, remaining)):
                 _add(r, "ddg")
@@ -972,14 +1062,11 @@ def research_hook(qid, question, max_results=8, enable_local=True):
     def _wl_match(url):
         return any(d in url for d in _SOURCE_WHITELIST)
     wl_sources = [s_ for s_ in sources if _wl_match(s_.get("url", ""))]
-    if len(wl_sources) >= 2:
+    if len(wl_sources) >= 1:
         dropped_wl = len(sources) - len(wl_sources)
         if dropped_wl:
             print(f"  [SITE-WL] {qid}: kept {len(wl_sources)} whitelisted, dropped {dropped_wl} non-whitelisted", file=sys.stderr)
         sources = wl_sources
-    elif wl_sources:
-        # 只有 1 条白名单源：保留它 + 其余源（避免只剩 1 条太薄）
-        pass
     # 0 条白名单源：不过滤（让 junk filter 兜底）
 
     out = sources[:max_results]

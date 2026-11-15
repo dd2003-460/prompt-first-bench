@@ -33,7 +33,7 @@
 依据（S3 推导链）：完整 fail-loud 需要「题面版本↔gold_nodes 映射」权威源；现有冻结件（DRAFT v2 §3.2 冻结 diff + revision-log 冻结 commit 快照）**不含**该映射——六变体共用同一基础题面（B10），gold 差异只可能出现在跨域换题面场景，而跨域题面文本无任何落盘件。⇒ 内容级对照在当前仓库内**无机判可实现的对象**。
 处置分解：
 - 本轮落地：X3 的 M2 最小消费（存在性 + 非空）——把 prompt_version 从「纯注释字段」变为「有机器检查的字段」，M1/M2 的「登记了没人接」状态终结；
-- 导出候选（新 goal）：「batch2 题面↔gold_nodes 映射登记表」——新建 `bench/rubric-v3/ablation/batch2-prompt-gold-map.json`（或 md）承载 {prompt_version: {prompt_file, gold_nodes, freeze_ref}}，届时 fail-loud = 对照表查表 + 不一致 exit 2。建表动作纯仓库内不需成璐裁定（裁定的是流程归属，属候选 goal 内部事项）。
+- 导出候选（新 goal）：「batch2 题面↔gold_nodes 映射登记表」——新建 `bench/rubric-v3/ablation/batch2-prompt-gold-map.json`（或 md）承载 {prompt_version: {prompt_file, gold_nodes, freeze_ref}}，届时 fail-loud = 对照表查表 + 不一致 exit 2。建表动作纯仓库内不需D裁定（裁定的是流程归属，属候选 goal 内部事项）。
 - M1 原登记项（r147）状态更新：「登记不擅自扩规则」→「部分承接：M2 最小消费已落地；完整 fail-loud 导出候选 <name>」。
 
 ## X5 — 样例矩阵目标口径（勘误 r147「5/8」）

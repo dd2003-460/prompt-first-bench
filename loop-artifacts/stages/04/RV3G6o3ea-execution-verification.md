@@ -61,4 +61,4 @@ EXIT=0
 
 ## A6 — queue 更新 + 候选导出
 
-见 goal-queue.md diff：(a) 追加本 goal 完成条目；(b) 导出勘误候选 **RV3G6-o3-claim-list-erratum-27**（§3.2 声明 4「27」不可复现 → V1=13，冻结件修改需 APPROVALS 登记 + 成璐裁定，备料模式不代裁）；(c) batch2-closure 条目无需再动（r141 已注记 assert-o3-claim-rejudge.py 消费者，本脚本不消费 [SIGNAL] 分流——它自身就是信号源）。
+见 goal-queue.md diff：(a) 追加本 goal 完成条目；(b) 导出勘误候选 **RV3G6-o3-claim-list-erratum-27**（§3.2 声明 4「27」不可复现 → V1=13，冻结件修改需 APPROVALS 登记 + D裁定，备料模式不代裁）；(c) batch2-closure 条目无需再动（r141 已注记 assert-o3-claim-rejudge.py 消费者，本脚本不消费 [SIGNAL] 分流——它自身就是信号源）。
