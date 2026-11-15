@@ -402,8 +402,8 @@ def _webllm_search(query, max_results=3):
     每个查询 ~15-25s（含页面渲染等待），仅在前面通道结果不足时触发。
 
     注意：ego-browser 的 page 对象是自定义封装，没有 Playwright 的 page.$ /
-    page.click(selector) 等 API。交互用 page.keyboard + page.evaluate +
-    document.querySelector，参照 cross_judge.py 的 Perplexity 交互模式。
+    page.click(selector) 等 API。交互用 page.fill + page.keyboard +
+    page.evaluate + document.querySelector，参照 cross_judge.py 的 Perplexity 交互模式。
     """
     import tempfile, os
     endpoints = [
@@ -415,7 +415,7 @@ def _webllm_search(query, max_results=3):
         try:
             with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False, encoding='utf-8') as f:
                 f.write(query)
-                prompt_file = f.name
+            prompt_file = f.name
             js = f'''
 (async () => {{
 const task = await taskSpace("pfb-webllm-{name}");
@@ -442,12 +442,21 @@ const input = await page.evaluate(() => {{
 if (!input) {{ console.log(JSON.stringify({{ error: "NO_INPUT" }})); return; }}
 await page.waitForTimeout(300);
 
-// 读取 query 文件，分块输入
+// 读取 query 文件，用 fill 输入（ego-browser 无 page.$，用 fill 替代）
 const fs = require('fs');
 const q = fs.readFileSync({json.dumps(prompt_file)}, 'utf-8');
-const chunks = q.match(/./g) || [];
-for (let i = 0; i < chunks.length; i += 200) {{
-  await page.keyboard.type(chunks.slice(i, i + 200).join(''), {{ delay: 0 }});
+const inputSel = await page.evaluate(() => {{
+  const sel = ['[role="textbox"]', 'textarea', '[contenteditable="true"]', 'input[type="text"]'];
+  for (const s of sel) {{
+    if (document.querySelector(s)) return s;
+  }}
+  return null;
+}});
+if (inputSel) {{
+  await page.fill(inputSel, q);
+}} else {{
+  console.log(JSON.stringify({{ error: "NO_INPUT_SEL" }}));
+  return;
 }}
 await page.waitForTimeout(300);
 await page.keyboard.press("Enter");
@@ -455,11 +464,28 @@ await page.keyboard.press("Enter");
 // 等待响应（最多 20s）
 await page.waitForTimeout(20000);
 
-// 提取引用链接
+// 提取引用链接（兼容 DeepSeek 的 .ds-markdown-cite 等引用标记）
 const links = await page.evaluate(() => {{
   const domain = window.location.hostname;
-  return Array.from(document.querySelectorAll("a")).map(a => a.href)
-    .filter(h => h && !h.includes(domain) && !h.startsWith("#") && !h.startsWith("javascript:") && /^https?:/.test(h));
+  const seen = new Set();
+  const out = [];
+  // 1. 常规 <a> 标签
+  for (const a of document.querySelectorAll("a")) {{
+    const h = a.href;
+    if (h && !h.includes(domain) && !h.startsWith("#") && !h.startsWith("javascript:") && /^https?:/.test(h) && !seen.has(h)) {{
+      seen.add(h);
+      out.push(h);
+    }}
+  }}
+  // 2. DeepSeek 引用标记 .ds-markdown-cite 内的 <a>
+  for (const c of document.querySelectorAll(".ds-markdown-cite a, [class*=cite] a, [class*=source] a")) {{
+    const h = c.href;
+    if (h && !h.includes(domain) && /^https?:/.test(h) && !seen.has(h)) {{
+      seen.add(h);
+      out.push(h);
+    }}
+  }}
+  return out;
 }});
 const uniq = [...new Set(links)].slice(0, {max_results});
 console.log(JSON.stringify(uniq));
@@ -496,7 +522,6 @@ console.log(JSON.stringify(uniq));
             print(f"  [WEBLLM-FAIL] {name}: {str(e)[:80]}", file=sys.stderr)
             continue
     return []
-
 
 def _arxiv_search(query, max_results=5):
     """通过 ego-browser 访问 arXiv API，返回 [{title, url, snippet}, ...]
