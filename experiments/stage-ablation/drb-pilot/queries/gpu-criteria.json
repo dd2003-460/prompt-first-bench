@@ -1,0 +1,105 @@
+{
+  "id": "gpu",
+  "prompt": "本地工作站推理 Qwen3-27B，32K 上下文，性价比最优选卡方案",
+  "dimension_weight": {
+    "comprehensiveness": 0.30,
+    "insight": 0.35,
+    "instruction_following": 0.20,
+    "readability": 0.15
+  },
+  "criterions": {
+    "comprehensiveness": [
+      {
+        "criterion": "候选硬件覆盖度",
+        "explanation": "是否覆盖消费级（RTX 4090/3090 等）、数据中心级（A100/H100/B200）、非典型方案（Apple M 系列/AMD MI300X/Intel Arc），且包含单卡与多卡组合",
+        "weight": 0.25
+      },
+      {
+        "criterion": "精度选项完整性",
+        "explanation": "是否覆盖 BF16/FP8/INT8/NVFP4/W4 全部精度档位，并给出各精度下的显存占用计算",
+        "weight": 0.20
+      },
+      {
+        "criterion": "TCO 分析深度",
+        "explanation": "是否包含采购成本、电力消耗、散热、故障率等全生命周期成本项，且区分单卡与多卡 TCO",
+        "weight": 0.20
+      },
+      {
+        "criterion": "质量损失量化",
+        "explanation": "是否给出低精度（INT8/W4）相对于 BF16 的具体质量退化数据（PPL/MMLU 下降幅度），而非仅定性描述",
+        "weight": 0.20
+      },
+      {
+        "criterion": "数据溯源标注",
+        "explanation": "关键数字是否标注来源（刚查到的 vs 凭记忆的），不确定的是否标 [待核验]",
+        "weight": 0.15
+      }
+    ],
+    "insight": [
+      {
+        "criterion": "性价比排序的逻辑严密性",
+        "explanation": "性价比排序是否有明确的量化指标（如 tokens/s/$），且排序逻辑可追溯、可复现",
+        "weight": 0.30
+      },
+      {
+        "criterion": "条件性结论的质量",
+        "explanation": "最终推荐是否为条件性（If...Then 结构），条件是否覆盖用户可能的不同优先级（极致性能/低成本/单槽位限制等）",
+        "weight": 0.25
+      },
+      {
+        "criterion": "多卡 vs 单卡的深层分析",
+        "explanation": "是否分析了多卡方案的隐性成本（PCIe 带宽瓶颈、KV Cache 跨卡通信、主板溢价），而非仅算采购价",
+        "weight": 0.25
+      },
+      {
+        "criterion": "对 Qwen3-27B 架构特性的利用",
+        "explanation": "是否利用了 Qwen3-27B 的具体架构参数（层数/头数/GQA 配置）做显存计算，而非用通用公式",
+        "weight": 0.20
+      }
+    ],
+    "instruction_following": [
+      {
+        "criterion": "32K 上下文约束是否满足",
+        "explanation": "推荐方案是否明确满足 32K 上下文容量下限，且给出 KV Cache 显存计算",
+        "weight": 0.30
+      },
+      {
+        "criterion": "精度质量损失论证",
+        "explanation": "是否论证了所选精度的质量损失可接受（有数据支撑），而非仅说'通常可接受'",
+        "weight": 0.30
+      },
+      {
+        "criterion": "无硬性延迟约束的遵守",
+        "explanation": "是否将延迟作为性能变量而非前置约束（不出现'延迟必须 < Xs'这类硬约束）",
+        "weight": 0.20
+      },
+      {
+        "criterion": "条件性推荐（非无条件排名）",
+        "explanation": "最终推荐是否附带前置条件，而非给出'最佳 = X'的无条件结论",
+        "weight": 0.20
+      }
+    ],
+    "readability": [
+      {
+        "criterion": "结构清晰度",
+        "explanation": "报告是否有清晰的层次结构（L1-L4），读者能快速定位关键结论",
+        "weight": 0.30
+      },
+      {
+        "criterion": "数字可读性",
+        "explanation": "关键数字是否带单位和参照（如'3.35TB/s ≈ H100 的 70%'），而非孤立数字",
+        "weight": 0.25
+      },
+      {
+        "criterion": "结论前置",
+        "explanation": "最终推荐是否在报告开头或显著位置给出，而非埋在末尾",
+        "weight": 0.25
+      },
+      {
+        "criterion": "不确定性标注",
+        "explanation": "不确定/待核验的内容是否有明确标记，读者能区分'已验证'和'推测'",
+        "weight": 0.20
+      }
+    ]
+  }
+}
