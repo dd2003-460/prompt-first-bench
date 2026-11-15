@@ -1,5 +1,11 @@
 # T53 补充任务书：deepresearch 泛化 bench（≥5 题打赢 SOTA）
 
+【执行前必读】
+1. 本任务必须走 1-loop：先读 sop/arena-loop-pipeline.md + loop/prompt-first/00..04.5
+2. 每阶段产出落盘 loop-artifacts/stages/<N>/
+3. 完成后 commit + push
+4. 通道故障 → 报告 Lead 降级，不得静默跳过
+
 > origin: ai · 2026-11-15 · Lead 验收 T53-D35 后发出
 > 上游：T53-D35 文献调研（14/14 AC 过，verifier fails=0）
 > 本任务书是 t53-decomp-sm goal 的**核心验收标准**落地——T53-D35 只完成了调研子项，bench 跑分还没做。
