@@ -36,8 +36,8 @@
 | 28 | S9-audit 证据元数据审计臂 | 2026-11-07 | D | ❓ | idea-list §E.#28 | pfb S9 |
 | 29 | prompt 内部等价类合并（S8C≈质询轮） | 2026-11-07 | D 指出/ai 落盘 | ❓ | idea-list §E.#29 | pfb S8C 修正方案 |
 | 30 | v17 hack = prompt 显式目标函数文字驱动 | 2026-11-11 | D 质询/ai 确认 | ✅机制/🔸prompt-only 消融空白 | idea-list §F.#30; research/v17-hier-decomposition-blowup.md | T53; s5_pipeline.py P1_DECOMPOSE:95-98 |
-| 31 | 公式描述 vs 文字描述的目标函数差异 | 2026-11-11 | D | ❓空白（无直接研究） | idea-list §F.#31; lit-survey/2026-11-11-idea-research.md §C | T53 消融（首个数据点） |
-| 32 | 压缩即智能当分解目标函数（MDL 路线） | 2026-11-11 | D | ⚠️提法已有(arXiv:2606.25960 等)/🔸用于分解树目标=空白 | idea-list §F.#32; lit-survey/2026-11-11-idea-research.md §A; research/sm-thinking-sop.md 决策 12 | T53 新颖性主张点 |
+| 31 | 公式描述 vs 文字描述的目标函数差异 | 2026-11-11 | D | ❓空白（无直接研究） | idea-list §F.#31; modules/D-decomp-state-machine/research/2026-11-11-idea-research.md §C | T53 消融（首个数据点） |
+| 32 | 压缩即智能当分解目标函数（MDL 路线） | 2026-11-11 | D | ⚠️提法已有(arXiv:2606.25960 等)/🔸用于分解树目标=空白 | idea-list §F.#32; modules/D-decomp-state-machine/research/2026-11-11-idea-research.md §A; modules/D-decomp-state-machine/research/sm-thinking-sop.md 决策 12 | T53 新颖性主张点 |
 | 33 | 冗余度量选型 n-gram/embedding/LLM-judge | 2026-11-11 | ai 导出/D 认可 | ⚠️部分(MIDGARD 选答案有/节点去重对比无) | idea-list §F.#33; sm-thinking-sop.md 决策 12 待办 | T53 S_α β 项实现 |
 | 34 | 压缩项连续性原则 + 外生离散信息豁免（不插值、不进压缩项） | 2026-11-12 | D | ⚠️落地中(全量化+β标定✅/exogenous 标签🔸待设计) | sm-thinking-sop.md Decision 14; s5_state_machine.py redundancy_score | T53 S_α' β 项 |
 
@@ -47,9 +47,9 @@
 - **按日期**：2026-11-07 批 = #1-29；2026-11-11 批 = #30-33
 
 ## 文件地图
-- `lit-survey/2026-11-07-idea-list.md` — #1-33 全文（含原话、备注、整理者注）
-- `lit-survey/2026-11-11-idea-research.md` — #30-33 的文献核验（arXiv 实查，带 DOI）
-- `research/sm-thinking-sop.md` — 决策 11/12（#32/#33 的设计决定）
+- `modules/D-decomp-state-machine/research/2026-11-07-idea-list.md` — #1-33 全文（含原话、备注、整理者注）
+- `modules/D-decomp-state-machine/research/2026-11-11-idea-research.md` — #30-33 的文献核验（arXiv 实查，带 DOI）
+- `modules/D-decomp-state-machine/research/sm-thinking-sop.md` — 决策 11/12（#32/#33 的设计决定）
 - `experiments/stage-ablation/s5_state_machine.py` — #30-33 的代码落点（S_alpha_corrected, redundancy_score）
 
 | #35 | 终点锚定 prompt：公式降级为机器侧监控（Decision 16） | ✅已落地(r10 携带全部修复运行中，fanout cap/judge fix/per-round ckpt 均生效) | 
@@ -64,5 +64,5 @@
 | #45 | 贡献估计+阈值停止：模型估计每个子项对目标函数的边际贡献（0~1），低于阈值不展开；极小概率极大不稳定期望豁免（high_var=true） | ✅已落地(commit 04969d53: classify_edge 返回 contribution+high_var, L1 frontier 按 0.10 过滤) |
 | #46 | cellorg-max DRB harness 结构调研：微信兄弟找到最高分 harness 用了 MECE，需查其结构+我们剩余优化空间 | 🔍待调研 |
 | #47 | 不确定性横切维度涌现：L1 skeleton 把"不确定性/置信度"拆成独立 L1 兄弟节点（r7 N6）。消融矩阵(2026-11-12, qwen3.8-27b, n=3/组): A带2b prior=2/3命中(v1另3/3), B去2b=2/3命中 → 结论: 非纯涌现也非纯prior产物, 是模型内禀倾向(不稳定~50%)+2b规则放大(→~80%)的混合效应; r7单次出现属高方差事件。创新声明定位: "prior-guided emergence with measurable ablation gap" | ❓消融完成(数据: research/l1-repro-probe{,-v2}.jsonl) | l1_repro_probe_v2.py | T53 P1_L1_SKELETON 2b 规则 |
-| #48 | 领域网络/激活子图视角：无外部检索时模型生成的分解树≈其内部激活子图（问题"点亮"了哪些概念），有检索后变成耦合图（外部证据为新节点，verified/degraded/failed=耦合强度）；对标从 deepresearch agents 转向 concept graph / knowledge activation 文献，撞车风险更低 | 🔸形式化框架完成(2026-11-15, lit-survey/2026-11-15-idea48-activation-subgraph.md)，文献对标待检索通道恢复后补 | T53 研究定位备选方向 |
+| #48 | 领域网络/激活子图视角：无外部检索时模型生成的分解树≈其内部激活子图（问题"点亮"了哪些概念），有检索后变成耦合图（外部证据为新节点，verified/degraded/failed=耦合强度）；对标从 deepresearch agents 转向 concept graph / knowledge activation 文献，撞车风险更低 | 🔸形式化框架完成(2026-11-15, modules/F-theory/research/2026-11-15-idea48-activation-subgraph.md)，文献对标待检索通道恢复后补 | T53 研究定位备选方向 |
 | #49 | 量化对 agent 长程工作/高视角规划的影响：核心发现——表面分数不变但过程恶化（τ²-bench: 4-bit vs BF16 最终分几乎一样，工具幻觉率 19.5%→38.3%，错误事件 2.5×）；机制是"放大已有弱点"非创造新错误（rank corr ≥0.94，新错误仅 0.18%）；三个 horizon 决定长程影响（任务步数/错误预算/实际轨迹长度）；ACBench ICML2025: 4-bit 真实应用掉 10-15%、>32K token 退化明显；Mistral-Nemo 12B Q4_K_M 掉 5/8 agent 能力、Q5_K_M 零损失（悬崖在 Q4/Q5）；DMR 动态混合精度路由可恢复全精度水平 | ❓文献调研完成(2026-11-15)，与 pfb bench 关联：若未来本地 4-bit 部署跑 nat/soc/gpu 多步拆解，L3/L4 精确参数引用节点最易触发"放大已有弱点"效应；待展开：是否做量化消融实验（BF16 vs INT8 vs INT4 跑同一 bench 对比 L4 深度质量） | — |

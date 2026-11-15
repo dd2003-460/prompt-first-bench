@@ -16,7 +16,7 @@
 3. **完成判定**：日志出现 `[T53 SM] DONE` 或 `FATAL` → 读 `runs-s5-sm-gpu.json`，统计：总节点数、各层级分布（重点 L4 数量）、leak_hits、rework_events 数、rounds_log 每轮 gain。
 4. **结果分析**（DONE 后做一次）：
    - 新门禁有没有起作用？对照 r4 终态（133 节点全 ≤L3，r2 起 +0）看这次 L3/L4 增量。
-   - 如果 L4 = 0 且 +0 saturation 重现 → 这是 prompt 层面的失败，把诊断写进 `research/sm-thinking-sop.md`（新增 Decision 13），不要自己改代码硬试第二次——报告给 Lead 定夺。
+   - 如果 L4 = 0 且 +0 saturation 重现 → 这是 prompt 层面的失败，把诊断写进 `modules/D-decomp-state-machine/research/sm-thinking-sop.md`（新增 Decision 13），不要自己改代码硬试第二次——报告给 Lead 定夺。
    - 如果 L4 > 0 → 记录哪些父节点触发了下钻（claim 原文摘录 3-5 条），验证硬停门禁哪一条命中的。
 5. **落盘**：所有发现追加到本文件下方「## 交接记录」节，带时间戳。关键数字同时更新 `tasks/T53-decomp-state-machine.md` 的状态行。
 6. **git**：每次有新结论落盘后 commit（--no-verify，pre-commit hook 已知损坏）。

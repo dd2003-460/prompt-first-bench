@@ -5,7 +5,7 @@
 ## 每次唤醒做四件事（按序）
 
 ### a. idea 盘点
-read `/Users/a1-6/Desktop/workspace/pfb/lit-survey/IDEA-INDEX.md`：
+read `/Users/a1-6/Desktop/workspace/pfb/modules/IDEA-INDEX.md`：
 - 统计各状态条目数：✅ / ⚠️ / 🔸 / ❓ / 📦（总表里每行一个 idea，状态在"业内完成度"列）。
 - 列出最近 7 天新增或变化的 idea（看"提出时间"列 + 备注里的变化标记）。
 - 如果连续 3 天无新 idea（对比上次 audit log 里的日期）→ 标 ⚠️ "idea 产出停滞"。

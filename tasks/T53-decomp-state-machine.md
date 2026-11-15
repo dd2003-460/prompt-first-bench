@@ -11,11 +11,11 @@
 **状态机任何位置不得泄漏题目本身。** 具体含义：
 - 所有 LLM prompt 中不出现题目原文（只传结构化参数：父节点 claim + 层级 + 已确认事实列表）
 - 所有日志 / 中间产物 / JSON 输出中不包含题目文本
-- 防泄漏 SOP 索引 → `research/sm-leak-sop.md`（审计方法 + 实体提取策略 + 误报处理）
+- 防泄漏 SOP 索引 → `modules/D-decomp-state-machine/research/sm-leak-sop.md`（审计方法 + 实体提取策略 + 误报处理）
 
 ### 严禁泄漏（第二遍 · 强调）
 
-再重复一次：**严禁状态机任何地方泄漏题目本身。** 这不是"尽量不泄漏"，是硬门禁——leak_check() 命中即 raise LeakError 中止整轮运行。评估泄漏的 SOP 见 `research/sm-leak-sop.md`（含：怎么提取题目实体、什么算泄漏什么不算、误报怎么处理、每轮审计的执行时机）。
+再重复一次：**严禁状态机任何地方泄漏题目本身。** 这不是"尽量不泄漏"，是硬门禁——leak_check() 命中即 raise LeakError 中止整轮运行。评估泄漏的 SOP 见 `modules/D-decomp-state-machine/research/sm-leak-sop.md`（含：怎么提取题目实体、什么算泄漏什么不算、误报怎么处理、每轮审计的执行时机）。
 
 ### 验收标准：打赢 SOTA（第一遍）
 
@@ -27,7 +27,7 @@
 
 ### 验收标准：打赢 SOTA（第二遍 · 强调）
 
-再重复一次：**验收标准是在大部分 bench（至少 5 个）打赢最新开源 SOTA 相关基准。** 不是"超过朴素 CoT"，不是"节点数更少"——是最终答案质量打赢 SOTA。如果打不赢，说明状态机的分解+核验+返工循环没有产生足够的质量增益，需要回去改目标函数设计。SOTA 对标清单和 judge 口径详见 `research/sm-bench-sota-criteria.md`。
+再重复一次：**验收标准是在大部分 bench（至少 5 个）打赢最新开源 SOTA 相关基准。** 不是"超过朴素 CoT"，不是"节点数更少"——是最终答案质量打赢 SOTA。如果打不赢，说明状态机的分解+核验+返工循环没有产生足够的质量增益，需要回去改目标函数设计。SOTA 对标清单和 judge 口径详见 `modules/E-sota-benchmark/research/sm-bench-sota-criteria.md`。
 
 ## 背景（为什么做）
 
@@ -69,18 +69,18 @@ v17 暴露的问题链：S_α = Σₙ[n·ln(kₙ)+α·kₙ·ln(n)] 对节点数�
 
 | 子项 | 内容 |
 |------|------|
-| D1 | 所有错误路径文档化：`research/sm-error-paths.md`（每种失败模式 + 触发条件 + 处理） |
-| D2 | 修改路径记录：`research/sm-modification-log.md`（每次改目标函数/状态转移的原因 + 前后对比） |
-| D3 | 思考 SOP：`research/sm-thinking-sop.md`（设计决策的推理过程，为什么选这个目标函数而不是那个） |
+| D1 | 所有错误路径文档化：`modules/D-decomp-state-machine/research/sm-error-paths.md`（每种失败模式 + 触发条件 + 处理） |
+| D2 | 修改路径记录：`modules/D-decomp-state-machine/research/sm-modification-log.md`（每次改目标函数/状态转移的原因 + 前后对比） |
+| D3 | 思考 SOP：`modules/D-decomp-state-machine/research/sm-thinking-sop.md`（设计决策的推理过程，为什么选这个目标函数而不是那个） |
 | D4 | goal 内留索引：本文件顶部 + goal JSON 里指向 A-D 四块的关键文件 |
-| D5 | idea 检索入口：`lit-survey/IDEA-INDEX.md`（33 条 idea 全量登记，含提出时间/业内完成度标记/落点地址；T53 相关 = #9,#10,#30-33） |
+| D5 | idea 检索入口：`modules/IDEA-INDEX.md`（33 条 idea 全量登记，含提出时间/业内完成度标记/落点地址；T53 相关 = #9,#10,#30-33） |
 
 ## 验收标准（AC）
 
 1. **AC1 节点效率**：GPU 单题新状态机节点数 ≤ 200（v17 是 1930），正交维度 ≥ 6
-2. **AC2 防泄漏**：bench 全程 leak_check 零命中（任何轮次输出含题目实体 → 自动 fail）。SOP: `research/sm-leak-sop.md`
+2. **AC2 防泄漏**：bench 全程 leak_check 零命中（任何轮次输出含题目实体 → 自动 fail）。SOP: `modules/D-decomp-state-machine/research/sm-leak-sop.md`
 3. **AC3 核验覆盖**：≥ 90% 的 search 节点有 verified/degraded 状态（非空 evidence）
-4. **AC4 打赢 SOTA**：≥5 道 deepresearch 题上，状态机答案质量（judge 分）≥ 最新开源 SOTA 基准分数。SOTA 对标: `research/sm-bench-sota-criteria.md`
+4. **AC4 打赢 SOTA**：≥5 道 deepresearch 题上，状态机答案质量（judge 分）≥ 最新开源 SOTA 基准分数。SOTA 对标: `modules/E-sota-benchmark/research/sm-bench-sota-criteria.md`
 5. **AC5 返工生效**：至少 1 道题触发了 REWORK 且返工后核验通过（证明循环真的在工作）
 6. **AC6 SOP 落盘**：D1-D3 + sm-leak-sop + sm-bench-sota-criteria 五个文件存在且非空
 7. **AC7 可复现**：bench 脚本一键跑通，seed 固定，结果可重放

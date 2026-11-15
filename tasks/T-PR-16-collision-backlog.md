@@ -25,7 +25,7 @@
 - `sop/arena-loop-pipeline.md`（链路+台账）
 - `loop/prompt-first/01..04.5`（阶段定义）
 - `research/collision-snowball.md`（撞车判定标准 + 四象限方法，沿用其口径）
-- `lit-survey/IDEA-INDEX.md`（#40/#44/#47/#48 的原始登记行）
+- `modules/IDEA-INDEX.md`（#40/#44/#47/#48 的原始登记行）
 - `research/l1-repro-probe-v2.jsonl`（#47 的消融数据）
 
 ## 【实验设计】— 四条主张逐一核验
@@ -68,5 +68,5 @@
 ## 【给 Lead 的备注】
 
 - 边界：本任务只做文献核验，不改代码、不动 s5_state_machine.py。
-- 产出接回点：判决落到 `lit-survey/IDEA-INDEX.md` 对应行的「业内完成度」列更新；C2 若撞车则 T53 研究定位备选方向作废，主线回到 T52 收窄后的叙事。
+- 产出接回点：判决落到 `modules/IDEA-INDEX.md` 对应行的「业内完成度」列更新；C2 若撞车则 T53 研究定位备选方向作废，主线回到 T52 收窄后的叙事。
 - 下一步归属：C1/C3/C4 若判无先例 → 进入小实验队列（#47 已有 n=3 数据可扩样本；#44 需要造非交换特征对的 mini-bench；#40 先纸面推导再决定要不要实现）。

@@ -57,7 +57,7 @@ markdown，≤60 行核心 + 附录：
 
 ## [落盘约束]
 
-- 交付物写到 `lit-survey/t26-prompt-style-research.md`（本仓库）
+- 交付物写到 `modules/B-pipeline-ablation/research/t26-prompt-style-research.md`（本仓库）
 - 完成后回执必须含 repo URL + branch + commit_sha
 - 文件不存在 = 任务未完成，Lead 不验收
 

@@ -64,7 +64,7 @@
 1. `pgrep -f 's5_state_machine.py'` — 确认 r14 是否还在跑
 2. 读 `tasks/T53-bus/lead-to-cc.md` — 看 Lead 有没有留言
 3. 读 `sop/pfb-domain/modification-rationale.md` — 了解当前机制清单 M1-M10
-4. 读 `research/sm-thinking-sop.md` 最后 3 个 Decision — 了解最新设计决策
+4. 读 `modules/D-decomp-state-machine/research/sm-thinking-sop.md` 最后 3 个 Decision — 了解最新设计决策
 5. 开始工作
 ## 讨论与 idea（2026-11-12 追加）
 

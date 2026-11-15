@@ -2,9 +2,9 @@
 
 > **目标仓库**：prompt-first-bench（pfb）· branch main
 > **派发日期**：2026-11-07
-> **前置**：T26 Q4（lit-survey/t26-prompt-style-research.md §Q4）、tasks/2026-11-07-nine-points.md 第 3/6/8 点
+> **前置**：T26 Q4（modules/B-pipeline-ablation/research/t26-prompt-style-research.md §Q4）、tasks/2026-11-07-nine-points.md 第 3/6/8 点
 > **验收标准**（机器可查）：
-> 1. `lit-survey/t28-criteria-implementation.md` 落盘，含 ≥5 个独立来源（arXiv/GitHub），每个带 URL + conf
+> 1. `modules/B-pipeline-ablation/research/t28-criteria-implementation.md` 落盘，含 ≥5 个独立来源（arXiv/GitHub），每个带 URL + conf
 > 2. STaD 重建成功率做成**可执行 prompt 模板**（输入：父节点描述 + 子节点列表；输出：重建文本 + 覆盖率自评 + 缺口清单），贴进报告 §2
 > 3. ADaPT 式"失败触发回退"写成 **≤200 字的 prompt 指令段**（什么算失败、回退到哪层、重分解时保留什么丢弃什么），贴进报告 §3
 > 4. 组合臂（正交完备检查 + 失败回退 + 占位留空 + 调研后填充）的完整 prompt 草稿，贴进报告 §4，标注与 decomp-01.md §2 可审计产物的衔接方式

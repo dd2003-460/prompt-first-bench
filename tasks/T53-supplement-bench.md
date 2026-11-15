@@ -27,7 +27,7 @@
 4. **产出**：
    - `experiments/stage-ablation/s5-sm-bench-report.md` 更新：≥5 题 × SOTA 对标表
    - 每题的 run 数据落盘 `experiments/stage-ablation/runs-s5-sm-<topic>.json`
-   - SOTA 对标清单落盘 `research/sm-bench-sota-criteria.md`（目前缺失）
+   - SOTA 对标清单落盘 `modules/E-sota-benchmark/research/sm-bench-sota-criteria.md`（目前缺失）
 
 ## 约束
 

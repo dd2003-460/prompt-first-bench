@@ -2,7 +2,7 @@
 
 > **目标仓库**：prompt-first-bench（pfb）· branch main
 > **创建日期**：2026-11-07
-> **前置**：T28（lit-survey/t28-criteria-implementation.md）、T29（lit-survey/t29-blank-and-nopua.md）、decomp-01.md §2 v3（先查后拆）、tasks/2026-11-07-nine-points.md 第 10 点
+> **前置**：T28（modules/B-pipeline-ablation/research/t28-criteria-implementation.md）、T29（modules/B-pipeline-ablation/research/t29-blank-and-nopua.md）、decomp-01.md §2 v3（先查后拆）、tasks/2026-11-07-nine-points.md 第 10 点
 > **定位**：不是"首创组合"（T29 已证伪），是**把三个已有零件串成带复检的闭环，并把占位提升为一等工件**。S10 测的是：闭环里哪些 prompt 策略真正贡献质量提升。
 
 ## 核心假设

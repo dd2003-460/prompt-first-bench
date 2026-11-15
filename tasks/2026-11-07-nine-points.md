@@ -19,7 +19,7 @@
 - [x] 本文件落盘（原始意图锚点）
 - [x] decomp-01.md §2 升级：引导式检查 + 可审计产物（拼接覆盖图 + STaD 重建核验）→ 后修正为以事实为准
 - [x] 派 arena T28：STaD/ADaPT 实现细节调研 → **已完成验收** @ 44680fc
-- [x] lit-survey/t26-prompt-style-research.md 追加 R36/R37 → T28 agent 已核实（AOP = arXiv 2410.02189 ICLR'25）
+- [x] modules/B-pipeline-ablation/research/t26-prompt-style-research.md 追加 R36/R37 → T28 agent 已核实（AOP = arXiv 2410.02189 ICLR'25）
 - [x] decomp-01 反作弊规则删除（D纠正：诱导表演谨慎）→ 改为以事实为准
 - [x] T29 任务卡 + 派发（空白穷尽验证 + NoPUA 拆解 + 伪独立警惕）→ arena 跑中
 - [ ] S10 任务卡：v0/v1/v2 三臂 + 组合臂（终极目标框架 + 讲原因 + 人话 reviewer + 拒绝时安抚，四组件消融）→ **已写好** @ d85757a（tasks/S10-combination-arm-ablation.md，5臂×4维×n=6，含注入缺陷校准+异族judge+token预算+风险降级）

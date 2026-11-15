@@ -7,12 +7,12 @@
 
 1. **打赢开源 SOTA**（"虽然很可能是幻想"）— 继续调状态机，目标 ≥5 道 deepresearch 题上 judge 分 ≥ CellCog Max 对标基线（DRB 56.72 作为分数锚点）。
 2. **打赢之后**：继续实现 D 的其他 idea（IDEA-INDEX.md 里未 ✅ 的条目）。
-3. **调研纪律（硬约束）**：真的开始研究某个 idea 前必须滚雪球调研——注意最新进展和"可直接做的组"，避免撞车。落盘 lit-survey/ + IDEA-INDEX 更新完成度标记。
+3. **调研纪律（硬约束）**：真的开始研究某个 idea 前必须滚雪球调研——注意最新进展和"可直接做的组"，避免撞车。落盘 modules/<对应模块>/research/ + modules/IDEA-INDEX.md 更新完成度标记。
 4. **邮件准备**：调研完成后起草给相关领域教授组的通信邮件（只起草，不发送——外发留痕等 D 醒来确认）。
 
 ## 硬约束（继承 tasks/T53-decomp-state-machine.md，此处只索引不重复）
 
-- **严禁泄漏**：状态机任何位置不得泄漏题目本身（T53 文件 §硬约束 + research/sm-leak-sop.md）
+- **严禁泄漏**：状态机任何位置不得泄漏题目本身（T53 文件 §硬约束 + modules/D-decomp-state-machine/research/sm-leak-sop.md）
 - **general 原则**：prompt 规则必须是 meta-rule，不得写死某道题的统计量或域特定先验。判定用 structural test（可检验结构特征），不用经验比例。
 - **无 train/test 污染**：bench 题特征不得进入 prompt 规则（ICL-as-training，Decision 23）。
 - **过去版本可复现**：每次改 s5_state_machine.py 前 git commit；每轮 run 记录 rN + commit SHA；checkpoint JSON 保留全部历史版本不覆盖。
@@ -49,7 +49,7 @@
 1. 开工前滚雪球调研：arXiv 近 6 月 + GitHub 已有实现 + 谁在做做到哪了。
 2. 撞车 → 标 📦 吸收记差异，换下一个。
 3. 找"方法已发表但工程未落地"窗口（优势 = 本地 27b + hook 不改权重）。
-4. 产出落盘 lit-survey/，IDEA-INDEX 更新状态。
+4. 产出落盘 modules/<对应模块>/research/，modules/IDEA-INDEX.md 更新状态。
 
 ### Phase 4: 教授通信邮件（Phase 3 后）
 1. 定目标教授组（领域匹配 + 近期活跃 + 合作意愿信号）。

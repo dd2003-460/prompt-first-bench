@@ -68,7 +68,7 @@ D 原话："核心是成员你加一个配置就行。我主要是怕你们孤�
 - **T8**: 写 `tasks/T53-bus/taste-audit-prompt.md` —— cron 用的 prompt 模板。内容要求：
   1. 角色定义：你是 taste keeper，职责是提醒 Lead 和 Teamer 别陷入自我单调循环。你不执行任务，只审计和提醒。
   2. 每次唤醒做四件事（按序）：
-     a. **idea 盘点**：read pfb/lit-survey/IDEA-INDEX.md，统计各状态条目数（✅⚠️🔸❓📦），列出最近 7 天新增/变化的 idea。如果连续 3 天无新 idea → 在 audit 里标 ⚠️ "idea 产出停滞"。
+     a. **idea 盘点**：read pfb/modules/IDEA-INDEX.md，统计各状态条目数（✅⚠️🔸❓📦），列出最近 7 天新增/变化的 idea。如果连续 3 天无新 idea → 在 audit 里标 ⚠️ "idea 产出停滞"。
      b. **taste SOP 检查**：read pfb/tasks/T53-taste-sop-decomp.md，对照 S1-S4 分解树检查当前工作是否锚定在信息论量上（MI/残差/压缩律/Goodhart）。如果发现某轮迭代没有引用任何 taste 判据 → 标 ⚠️ "taste 漂移"并指出哪条判据被忽略了。
      c. **goal-template 合规**：read sop/goal-template.md §3-§4，检查活跃 goal（stage-gate 目录下的 JSON）是否有量化验收 + 口径限定。缺了 → 标 ⚠️ 并列出缺什么。
      d. **自我单调检测**：read 最近 3 次 t53-night-autonomy 的执行日志（T53-night-autonomy.md 尾部），如果连续 3 次做的是同一类事（比如都在改同一个文件/跑同一个实验）→ 标 ⚠️ "循环重复"并建议换方向。

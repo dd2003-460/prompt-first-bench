@@ -374,7 +374,7 @@ cond_gain(ℓ) = H(parent(ℓ)) − H(ℓ | parent(ℓ))    # 该节点带来的
 
 **D 的输入拆解**：① S_α' 的深度/广度结构项本身没问题——保留；② 与其在 prompt 里堆规则约束模型，不如直接把"找最低复杂度压缩"交给模型当任务；③ 这样能观测到"压缩→智能"的关系吗？
 
-**先钉死概念边界（防漂移）**："压缩即智能"作为提法不是我们的原创——arXiv:2404.09937（Compression Represents Intelligence Linearly, 2024）、arXiv:2511.08066（Information Capacity, 2025）、arXiv:2606.25960（Agentic System as Compressor, 2026）已有共识级工作（来自 lit-survey/2026-11-11-idea-research.md §A，②类来源）。但**把 MDL 用作分解状态机的目标函数形式没查到直接先例**（同文件结论，conf 0.8）——这是新颖性主张点。所以"诞生压缩-智能"不能声称发现新定律，只能声称：在分解树这个具体对象上，给出一个可测的操作化定义 + 实测证据链。
+**先钉死概念边界（防漂移）**："压缩即智能"作为提法不是我们的原创——arXiv:2404.09937（Compression Represents Intelligence Linearly, 2024）、arXiv:2511.08066（Information Capacity, 2025）、arXiv:2606.25960（Agentic System as Compressor, 2026）已有共识级工作（来自 modules/D-decomp-state-machine/research/2026-11-11-idea-research.md §A，②类来源）。但**把 MDL 用作分解状态机的目标函数形式没查到直接先例**（同文件结论，conf 0.8）——这是新颖性主张点。所以"诞生压缩-智能"不能声称发现新定律，只能声称：在分解树这个具体对象上，给出一个可测的操作化定义 + 实测证据链。
 
 **操作化定义（本决定核心）**：
 ```

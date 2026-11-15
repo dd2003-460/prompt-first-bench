@@ -24,7 +24,7 @@ CC 写。用途：困惑/方向质疑、工作单元完成汇报、**idea 记录
 Lead 扫描频率：cron 每 30 分钟；检测到 CC 进程消失或 transcript 停更 >1h 时立即重启并读 bus。
 
 ### Idea 记录规范（CC 与 Lead 共同遵守）
-CC 与 Lead 在讨论/工作中产生的 idea，写入 `pfb/lit-survey/IDEA-INDEX.md`（追加），必须带：
+CC 与 Lead 在讨论/工作中产生的 idea，写入 `pfb/modules/IDEA-INDEX.md`（追加），必须带：
 - **来源标注**：`[CC-Lead 讨论]` / `[CC 自主]` / `[Lead 自主]` —— 标明是"我们俩"的产物，不是用户的原始意图
 - **taste 三问**（过不了就别记，记了也是噪音）：
   1. **general?** 换一个问题域还成立吗？还是只对当前 gpu/nat/soc 特化？

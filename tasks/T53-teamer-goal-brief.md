@@ -8,7 +8,7 @@
 **一句话**：重构 decomp 状态机为"目标函数驱动"系统——该不该拆/停/返工全部由可机器裁决的目标函数决定，防 Goodhart（v17 教训：S_α 对节点数单调增 → 模型刷出 1930 个同义节点），且打赢 ≥5 道 deepresearch 题的最新开源 SOTA。
 
 **硬约束（违反即 fail，细节见主任务书）**：
-1. **严禁泄漏题目本身**——状态机任何位置（prompt/日志/中间产物）不得出现题目原文。leak_check 命中 = 整轮 ABORT。SOP: `research/sm-leak-sop.md`
+1. **严禁泄漏题目本身**——状态机任何位置（prompt/日志/中间产物）不得出现题目原文。leak_check 命中 = 整轮 ABORT。SOP: `modules/D-decomp-state-machine/research/sm-leak-sop.md`
 2. **Prompt 规则必须 general**——只写"怎么判断分解质量"的元规则，绝不写某道题的内容规则（如"GPU 题要包含 KV Cache"）。断点可以是工作树，改 prompt 可以加元判据，但绝不能不 general。
 3. **AC 验收口径不可改**——AC1 节点≤200 且正交维度≥6 / AC2 零泄漏 / AC3 核验覆盖≥90% / AC4 打赢 SOTA / AC5 返工生效 / AC6 SOP 落盘 / AC7 可复现。
 
@@ -41,7 +41,7 @@
 
 ### 阶段 2：r9 结果分析（DONE 后）
 - 新门禁有没有逼出 L4？对照 r4 的 +0 saturation。
-- 如果 L4=0 且 saturation 重现 → prompt 层失败，诊断写进 `research/sm-thinking-sop.md`（新增 Decision 13），**不要自己硬试第二次**，报告 Lead 定夺。
+- 如果 L4=0 且 saturation 重现 → prompt 层失败，诊断写进 `modules/D-decomp-state-machine/research/sm-thinking-sop.md`（新增 Decision 13），**不要自己硬试第二次**，报告 Lead 定夺。
 - 如果 L4>0 → 摘录触发下钻的父节点 claim 3-5 条，标注命中的是哪条硬停门禁。
 - 评估 AC1 现状：节点数 vs 200 上限、正交维度估计（L1 数 + 各层独立主题数）。
 

@@ -2,10 +2,10 @@
 
 > **目标仓库**：prompt-first-bench（pfb）· branch main
 > **派发日期**：2026-11-07
-> **前置**：T26 Q1-Q3（lit-survey/t26-prompt-style-research.md）、tasks/2026-11-07-nine-points.md 第 10 点、S10 任务卡 H4
+> **前置**：T26 Q1-Q3（modules/B-pipeline-ablation/research/t26-prompt-style-research.md）、tasks/2026-11-07-nine-points.md 第 10 点、S10 任务卡 H4
 > **归类**：引导式 prompt 策略 → 人情绪维度（与机械/引导大分类下的"引导"子项对齐）
 > **验收标准**（机器可查）：
-> 1. `lit-survey/t30-emotion-and-motivation.md` 落盘，≥8 个独立来源（arXiv ≥4 + 博客/报告 ≥2 + GitHub ≥2），每条带 URL + conf
+> 1. `modules/B-pipeline-ablation/research/t30-emotion-and-motivation.md` 落盘，≥8 个独立来源（arXiv ≥4 + 博客/报告 ≥2 + GitHub ≥2），每条带 URL + conf
 > 2. §1 情绪表征层：Anthropic R8（171 emotion vectors）完整解读——哪些向量与"作弊/走捷径"行为相关、steering 幅度多少、是否可被 prompt 文本间接移动（找 activation steering → prompt 的因果链证据）
 > 3. §2 行为层：反复拒绝/打回场景下 LLM 行为变化的实证（≥3 篇）。重点：焦躁→performance vs 焦躁→genuine effort 的分岔条件是什么？有没有"被拒 N 次后 fabrication rate 上升"的直接测量？
 > 4. §3 prompt 操控层：安抚语句 / 信任框架 / 终极目标框架 / 讲原因——这四类 prompt 策略对情绪向量的影响有没有被测量过？如果没有，设计一个最小实验方案（用什么 probe、什么指标、多少样本）

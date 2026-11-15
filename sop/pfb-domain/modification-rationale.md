@@ -62,7 +62,7 @@
 
 ## 修改流程（操作步骤）
 
-1. **写决策条目**：在 `research/sm-thinking-sop.md` 追加 Decision N，包含 Q1/Q2/Q3 完整回答。
+1. **写决策条目**：在 `modules/D-decomp-state-machine/research/sm-thinking-sop.md` 追加 Decision N，包含 Q1/Q2/Q3 完整回答。
 2. **更新本文件的机制清单**：新增/修改/删除对应行。
 3. **代码改动**：小步改，一次只动一个机制，跑 smoke test（3 节点小树）确认不炸。
 4. **落盘证据**：git commit message 格式 `M{编号}: {一句话} (Decision {N})`。

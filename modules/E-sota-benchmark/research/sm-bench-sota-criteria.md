@@ -31,7 +31,7 @@
 3. 2025-2026 仍活跃维护（GitHub 最近 3 个月有 commit）
 4. 部署复杂度低（pip install + 配置文件即可跑）
 
-**为什么不用公开分数表**：arena 调研确认（`research/sm-bench-sota-table.json`），我们的 5 题是自建 bench，不属于任何公开 test set，所有系统逐题分数均为 null。唯一可行的对比方式 = 本地复跑。
+**为什么不用公开分数表**：arena 调研确认（`modules/E-sota-benchmark/research/sm-bench-sota-table.json`），我们的 5 题是自建 bench，不属于任何公开 test set，所有系统逐题分数均为 null。唯一可行的对比方式 = 本地复跑。
 
 ## Judge 口径
 
@@ -60,6 +60,6 @@
 
 - 派发任务书: `tasks/T53C-bench-dispatch.md`
 - 状态机代码: `experiments/stage-ablation/s5_state_machine.py`
-- 防泄漏 SOP: `research/sm-leak-sop.md`
-- SOTA 分数表（参考用，非主 baseline）: `research/sm-bench-sota-table.json`
-- 本文件: `research/sm-bench-sota-criteria.md`
+- 防泄漏 SOP: `modules/D-decomp-state-machine/research/sm-leak-sop.md`
+- SOTA 分数表（参考用，非主 baseline）: `modules/E-sota-benchmark/research/sm-bench-sota-table.json`
+- 本文件: `modules/E-sota-benchmark/research/sm-bench-sota-criteria.md`

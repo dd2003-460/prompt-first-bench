@@ -2,9 +2,9 @@
 
 > **目标仓库**：prompt-first-bench（pfb）· branch main
 > **派发日期**：2026-11-07
-> **前置**：T28（lit-survey/t28-criteria-implementation.md）、tasks/2026-11-07-nine-points.md
+> **前置**：T28（modules/B-pipeline-ablation/research/t28-criteria-implementation.md）、tasks/2026-11-07-nine-points.md
 > **验收标准**（机器可查）：
-> 1. `lit-survey/t29-blank-and-nopua.md` 落盘，≥8 个独立来源（arXiv ≥4 + GitHub ≥2 + 其他 ≥2），每条带 URL + conf
+> 1. `modules/B-pipeline-ablation/research/t29-blank-and-nopua.md` 落盘，≥8 个独立来源（arXiv ≥4 + GitHub ≥2 + 其他 ≥2），每条带 URL + conf
 > 2. §1 空白验证：对"正交完备检查 + 失败回退 + 占位留空 + 调研后填充"的组合，**穷尽式搜索**（见下方搜索矩阵），每个搜到的近邻工作给"重叠度评估表"（四个组件逐一对比：有/部分/无 + 一句话理由）；最终结论 = "完全空白 / 部分空白（哪部分被谁占了）/ 非空白（最接近的工作是哪篇、差在哪）"，三选一，不许含糊
 > 3. §2 NoPUA 应用：把 NoPUA（R6, arXiv 2603.14373）的方法论拆成**可迁移组件清单**（哪些是情绪词、哪些是结构），给出 pfb pipeline 里每个阶段（decomp/research/check/review）该注入哪个组件的具体建议，标 [可直接用] / [需改造] / [不适用]
 > 4. §3 交叉验证独立性：回答"多源交叉验证时如何警惕伪独立"——找 ≥3 篇讨论 source independence / common origin / citation cartography 的工作（如 Common Crawl 溯源、媒体转载链检测、LLM 训练数据去重文献），总结可操作的独立性判据（不是"找两个不同网站"这种废话，要能执行的规则）
