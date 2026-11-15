@@ -479,11 +479,15 @@ class DecompStateMachine:
             print(f"  [SM] L1 already seeded ({len(self.nodes)} nodes from checkpoint), skipping decompose", flush=True)
             return
         print("  [SM] L1 skeleton (top-level dimensions only)...", flush=True)
-        from s5_pipeline import P1_L1_SKELETON, P1_L1_TEXT, P1_L1_MINIMAL, _extract_json
+        from s5_pipeline import P1_L1_SKELETON, P1_L1_TEXT, P1_L1_MINIMAL, P1_L1_METHOD, P1_L1_METHOD_CHALLENGE, _extract_json
         if self.objective_mode == "text":
             prompt = P1_L1_TEXT.format(question=self.question)
         elif self.objective_mode == "minimal":
             prompt = P1_L1_MINIMAL.format(question=self.question)
+        elif self.objective_mode == "method":
+            prompt = P1_L1_METHOD.format(question=self.question)
+        elif self.objective_mode == "method_challenge":
+            prompt = P1_L1_METHOD_CHALLENGE.format(question=self.question)
         else:
             prompt = P1_L1_SKELETON.format(question=self.question)
         out, _ = call_llm(prompt, max_tokens=2048, temperature=0.7, top_p=0.95, retries=3)
