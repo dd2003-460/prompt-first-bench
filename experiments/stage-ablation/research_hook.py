@@ -490,19 +490,24 @@ const input = await page.evaluate(() => {{
 if (!input) {{ console.log(JSON.stringify({{ error: "NO_INPUT" }})); return; }}
 await page.waitForTimeout(300);
 
-// 读取 query 文件，用 fill 输入（ego-browser 无 page.$，用 fill 替代）
+// 读取 query 文件，用 evaluate 输入（ego-browser 的 page.fill 对 contenteditable 不可靠）
 const fs = require('fs');
-const q = fs.readFileSync({json.dumps(prompt_file)}, 'utf-8');
-const inputSel = await page.evaluate(() => {{
+const inputResult = await page.evaluate(() => {{
+  const fs = require('fs');
+  const q = fs.readFileSync({json.dumps(prompt_file)}, 'utf-8');
   const sel = ['[role="textbox"]', 'textarea', '[contenteditable="true"]', 'input[type="text"]'];
   for (const s of sel) {{
-    if (document.querySelector(s)) return s;
+    const el = document.querySelector(s);
+    if (el) {{
+      el.focus();
+      el.textContent = q;
+      el.dispatchEvent(new Event('input', {{ bubbles: true }}));
+      return s;
+    }}
   }}
   return null;
 }});
-if (inputSel) {{
-  await page.fill(inputSel, q);
-}} else {{
+if (!inputResult) {{
   console.log(JSON.stringify({{ error: "NO_INPUT_SEL" }}));
   return;
 }}
