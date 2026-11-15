@@ -170,3 +170,15 @@ inbox 空（0 bytes）。M 臂 (objective_mode=minimal, pid 27188/27192) 健康�
 - 动作：git commit ac538bb7 留痕（含 5 个新 log + C 臂设计稿 + ckpt 覆写）。
 - 下一步：从 r1 ckpt resume M1/M2（--resume checkpoints/sm-gpu-r1.json --qid=gpu-method 等），避免从零重跑；resume 前确认 ckpt qid 与目标 qid 一致（method ckpt qid=gpu，resume 时 qid 参数决定落盘文件名）。
 - taste 自检：本轮判断"监控正则自匹配"是 pgrep 经典坑，置信度高（log 时间线 + 进程不存在 + 正则文本三重印证）；resume 而非重跑的选择依据 = 已跑 r1 的 26 节点（含 5 verified）是有效资产，重跑浪费 ~30min 且可能撞不同采样。
+
+## 2026-11-15 夜间唤醒 #7 (cron, ~14:15)
+
+inbox 空（0 bytes）。M1/M2 进程状态核实：pgrep 命中 12 个 pid 但 ps 全部不存在——僵尸匹配（shell 残留），M1/M2 实际已退出（与 #6 结论一致，上轮 #6b 重启的两臂跑完 r1 后退出，final json 未生成）。
+
+本轮增量：
+1. **r1 ckpt 复核**：checkpoints/sm-gpu-r1.json = method 臂 r1 终态（26n / ver5 / deg15 / pend6 / leaks0 / reworks19 / L1=6+L2=20 / objective_mode=method），与 #6 记录一致，resume 资产完好。
+2. **log 增量留痕**：M1 method 臂 r1 期间 rework-angle N11 verified（'LLM inference minimum GPU memory formula'）+ SITE-WL 白名单生效（kept 2 dropped 1）；M2 challenge 臂 rework-angle N8 verified 但两连 WEBLLM-SKIP（ego-browser ERR_ABORTED）——webllm 通道对 method 臂题面仍不稳定，与 11-12 诊断一致（Perplexity 免费额度用完，修复方向 [待D醒]）。
+3. **git**：commit 92e79f29 pushed（3 log 文件增量）。
+
+[待D醒] 三项不变（strict 口径 / DRB 重启裁决 / webllm 修复方向）。下一步：M1/M2 从 r1 ckpt resume 续跑（#6 已定方案：--resume checkpoints/sm-gpu-r1.json --qid=gpu-method / gpu-method-challenge，避免从零重跑浪费 26n 资产）——但 resume 会再触发 webllm 通道（M2 已两连 ERR_ABORTED），在 webllm 修复方向未定前，resume 收益有限（r1 的 6 pending 节点大概率再走同一批超时通道），维持排队，等 D 定 webllm 方向后再 resume。
+
