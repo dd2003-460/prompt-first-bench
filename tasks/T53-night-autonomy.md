@@ -117,3 +117,13 @@
 **处置**: 未动 runs-s5-sm-gpu.json（git diff 可回滚）；textarm 结束后按 --qid 后缀分别落盘再统一重建对比。arm-profiles 待重写。
 
 **下一步**: 等 textarm DONE（max-nodes 150 上限内，预计还需 1-2h）→ 提取 stats → 修正 arm-profiles + 重算 compute_J/矛盾扫描/P5 gain 样本。
+
+## 2026-11-15 夜间唤醒 (cron)
+
+inbox 空（0 bytes）。核实进程：pgrep 无活跃 SM 进程——**textarm (pid 79457) 已退出**。发现 formula 臂在 **11-15 11:20–11:24 自主跑完**（sm-gpu-formula-r3.log + sm-gpu-formula-verify.log，research-cache 新文件时间戳佐证）：从 runs-s5-sm-gpu-checkpoint.json (163n@r1, textarm r2 超时时的 ckpt) resume → max_depth=4 hit → verify-only 55 pending→verified → DONE state=verified leaks=0 reworks=40，覆盖写 runs-s5-sm-gpu.json。
+
+终态 163n: verified 52 / degraded 106 / failed 5 / pending 0；levels L1=6/L2=17/L3=43/L4=97；edges cartesian 140 / quotient 23。画像落盘 `experiments/stage-ablation/farm-163-profile-20261115.md`。
+
+**异常 [待D醒]**: 52 个 verified 节点里 39 个 evidence 是 "逻辑推导成立，来源未直接覆盖"（logic-only，无外部来源），仅 13 个带真实 retrieval_sources——verify fallback 口径存疑（log 里有 ego-browser PageNavigationTimeoutError，疑似 web-llm 通道失败后走纯逻辑校验标 verified）。F-arm 31.9% vs T-arm 55.6% 的 verified_rate 差异在此口径澄清前不可解读。另 checkpoints/sm-gpu-r0/r1.json 被本次运行改写（HEAD 版本是 textarm 时代状态，git 可回滚；今后跨臂对比须用 git show 取历史版本）。
+
+处置：未动 runs-s5-sm-gpu.json；bench 出分前先定"什么算 verified"口径。本轮 commit 留痕中。
