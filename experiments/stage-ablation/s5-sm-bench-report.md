@@ -100,6 +100,28 @@ gate 要 nat cov≥0.634 + gpu depth≥0.50，但 DRB 题 verified 率 1.6%（51
 - **Step 2（检索通道修复后）**：nat cov 重跑。DRB 题（drb-1/drb-2）verified 率从 1.6% 提上来后重跑 nat，看 cov 能否从 0.334 提到 ≥0.634。依赖：DDG 中文质量修复 + zh-wiki 覆盖修复 + Perplexity 超时修复（三选一或组合）。
 - **Step 1 不阻塞 Step 2，Step 2 不阻塞 Step 1 的产出落盘**。M1/M2 跑完先出 Step 1 数据，检索通道修复并行推进。
 
+### gpu-method 消融表（Step 1 · 2026-11-15）
+
+M1（formula/method）vs M2（textarm/method_challenge）对比 S5 SM 机制在方法型题面上的行为差异。
+
+| 指标 | M1-formula-r2 | M2-textarm-r2 | gpu-main（基线） |
+|------|:---:|:---:|:---:|
+| nodes | 53 | 124 | 163 |
+| verified | 20 (37.7%) | 64 (51.6%) | 52 (31.9%) |
+| degraded | 27 (50.9%) | 54 (43.5%) | 106 (65.0%) |
+| failed | 0 | 0 | 5 (3.1%) |
+| **depth** (verified rate) | **0.377** | **0.516** | **0.319** |
+| cov (with sources) | 0.887 | 0.952 | 1.000 |
+| quotient rate | 13.2% | 7.3% | 14.1% |
+| final_state | rework | ? | verified |
+
+**解读**：
+- **M2（textarm/method_challenge）depth 0.516 达标（≥0.50）**，M1（formula/method）0.377 未达标，gpu-main 基线 0.319 最低。
+- M2 的 method_challenge 机制让模型在方法型题面上产生更多 verified 节点（51.6% vs 37.7% vs 31.9%），说明 challenge 机制有效提升了方法型推理的深度。
+- M2 的 quotient rate 7.3% 低于 M1 的 13.2% 和 gpu-main 的 14.1%，说明 challenge 机制减少了冗余分支，节点更聚焦。
+- **gpu depth gate（≥0.50）在 M2 臂上达标**，但 gpu-main 基线未达标。gate 的口径需要明确：是用主 run 还是消融臂？如果 gate 要求主 run 达标，则需要把 M2 的 challenge 机制合入主 pipeline 后重跑。
+- nat cov / soc cov 仍阻塞在检索通道修复（中文 DRB 题全盲），无法计算。
+
 ## 5. 结论（待填）
 
 （≥3 题出分后写：是否达对标线 / 未达则弱项归因与后续建议 / 收敛判据第几条生效。）
