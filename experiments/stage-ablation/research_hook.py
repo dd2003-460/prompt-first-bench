@@ -24,6 +24,8 @@ class ResearchHookUnavailable(Exception):
 # 按 (qid, question) 落盘 JSON。命中 → 直接读文件返回，不再触发任何外部通道
 # （DDG/Perplexity/arXiv/webfetch 全部跳过）。TTL 7 天，过期重查。
 import hashlib as _hashlib
+# webllm 快速失败：所有端点都挂后不再重试（避免 bench 空转 10+ 分钟）
+_WEBLLM_BROKEN = {"flag": False}
 _CACHE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".research-cache")
 _CACHE_TTL_S = 7 * 24 * 3600
 
@@ -453,12 +455,16 @@ def _webllm_search(query, max_results=3):
     page.click(selector) 等 API。交互用 page.fill + page.keyboard +
     page.evaluate + document.querySelector，参照 cross_judge.py 的 Perplexity 交互模式。
     """
+    if _WEBLLM_BROKEN["flag"]:
+        return []
+
     import tempfile, os
     endpoints = [
         ("perplexity", "https://www.perplexity.ai/"),
         ("chatgpt", "https://chatgpt.com/"),
         ("deepseek", "https://chat.deepseek.com/a/chat"),
     ]
+    results = []
     for name, url in endpoints:
         try:
             with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False, encoding='utf-8') as f:
@@ -572,7 +578,7 @@ const uniq = [...new Set(links)].slice(0, {max_results});
 console.log(JSON.stringify(uniq));
 }})();
 '''
-            out = _run_ego_browser(js, timeout=90 if name == "deepseek" else 60)
+            out = _run_ego_browser(js, timeout=30)
             os.unlink(prompt_file)
             urls = []
             for line in reversed(out.splitlines()):
@@ -602,7 +608,11 @@ console.log(JSON.stringify(uniq));
         except Exception as e:
             print(f"  [WEBLLM-FAIL] {name}: {str(e)[:80]}", file=sys.stderr)
             continue
-    return []
+    if not results:
+        _WEBLLM_BROKEN["flag"] = True
+        print("  [WEBLLM-BROKEN] all endpoints failed, skipping future webllm calls", file=sys.stderr)
+
+    return results
 
 def _arxiv_search(query, max_results=5):
     """通过 ego-browser 访问 arXiv API，返回 [{title, url, snippet}, ...]
