@@ -231,6 +231,44 @@ def _slim_query(query, max_words=6):
     keep = keep[:max_words]
     return " ".join(keep) if keep else query
 
+def _bing_search(query, max_results=3):
+    """Bing 国际版搜索（纯 HTTP，不依赖 ego-browser）。
+    中文 query 走 bing 国际版（setlang=en），drb-2 诊断已验证英文 query 结果干净。
+    Bing 的 href 是 /ck/a 重定向链接，真实 URL 在 u=a1 参数里（base64 编码）。
+    返回 [{title, url, snippet}, ...]
+    """
+    import urllib.request, html as _html, base64
+    try:
+        url = ("https://www.bing.com/search?q=" + quote_plus(query) + "&setlang=en&count=" + str(max_results))
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (pfb-research)"})
+        html_txt = urllib.request.urlopen(req, timeout=15).read().decode("utf-8", errors="replace")
+        results = []
+        # Bing 结果在 <li class="b_algo"> 里
+        for mm in re.finditer(r'<li class="b_algo"[^>]*>(.*?)</li>', html_txt, re.DOTALL):
+            block = mm.group(1)
+            # 标题
+            title_m = re.search(r'<h2[^>]*>.*?<a[^>]*>(.*?)</a>', block, re.DOTALL)
+            title = re.sub(r'<[^>]+>', '', title_m.group(1)).strip() if title_m else ""
+            # 真实 URL：从 u=a1 参数解码
+            real_url = ""
+            u_m = re.search(r'u=a1([A-Za-z0-9+/=]+)', block)
+            if u_m:
+                b64 = u_m.group(1)
+                b64 += '=' * (-len(b64) % 4)
+                try:
+                    real_url = base64.b64decode(b64).decode('utf-8', errors='replace')
+                except Exception:
+                    pass
+            # snippet
+            snip_m = re.search(r'<p[^>]*>(.*?)</p>', block, re.DOTALL)
+            snippet = re.sub(r'<[^>]+>', '', snip_m.group(1)).strip()[:400] if snip_m else ""
+            if title and real_url and len(results) < max_results:
+                results.append({"title": _html.unescape(title)[:200], "url": real_url, "snippet": snippet})
+        return results
+    except Exception:
+        return []
+
+
 def _ddg_search(query, max_results=3):
     """DuckDuckGo LITE endpoint（纯 HTTP，不依赖 ego-browser）。
     lite.duckduckgo.com/lite/ 对 GPU 价格/功耗/TCO 这类非学术事实有效。
@@ -867,20 +905,20 @@ def research_hook(qid, question, max_results=8, enable_local=True):
         except Exception:
             pass
 
-    # ── 2.5 DuckDuckGo（~2-4s，非学术事实：价格/功耗/TCO）──
-    # 中文查询跳过 DDG/cn.bing（2026-11-12 drb-1 r2 实测：中文题返回知乎"豆包水印"类
-    # 完全无关垃圾，junk filter 拦不住这种"标题看着正常但内容零相关"的源；
-    # zh-wiki 通道已接管中文事实检索）。英文查询保持原行为。
-    # 例外（drb-2 诊断 2026-11-12 ~07:00）：中文"榜单/对比/排名"题——zh-wiki 没有
-    # "国际综合实力前十保险公司"这类条目，DDG/bing 是唯一能拿到候选名单的通道，
-    # 且英文 query 走 bing 国际版结果干净（实测 top10 insurance companies in China
-    # by assets → 正确公司列表），不触发 cn.bing 跨域噪声。
+    # ── 2.5 搜索引擎（~2-4s，非学术事实：价格/功耗/TCO）──
+    # 中文查询走 bing 国际版（setlang=en），drb-2 诊断已验证结果干净。
+    # 英文查询走 DDG lite（原行为）。
     remaining = max_results - len(sources)
-    if remaining > 0 and not (re.search(r'[\u4e00-\u9fff]', question)
-                              and not re.search(r'排名|榜单|前十|前\s*\d+\s*名|综合.{0,8}(实力|竞争力)|top\s*\d+', question, re.I)):
+    if remaining > 0:
         try:
-            for r in _ddg_search(question, max_results=min(3, remaining)):
-                _add(r, "ddg")
+            if re.search(r'[\u4e00-\u9fff]', question):
+                # 中文 query → bing 国际版
+                for r in _bing_search(question, max_results=min(3, remaining)):
+                    _add(r, "bing")
+            else:
+                # 英文 query → DDG lite
+                for r in _ddg_search(question, max_results=min(3, remaining)):
+                    _add(r, "ddg")
         except Exception:
             pass
 
