@@ -3,7 +3,7 @@
   "question": "某边缘 CDN 节点有 128GB 内存做对象缓存，工作负载：10 万对象，大小服从 Pareto(α=1.1)，请求热度也服从 Pareto(β=0.9)，热门对象与大小负相关（ρ≈-0.3）。每天总请求 5000 万次。请估算：(a) LRU 策略下的稳态字节命中率下界；(b) LFU 相比 LRU 最多能提升多少百分点、为什么；(c) 如果对象更新率是 1%/天，LRU 的有效命中率还要再打几折？给出推导链，区分「凭记忆的」和「刚查到的」。",
   "round": 1,
   "state": "rework",
-  "dropped_redundant": 0,
+  "dropped_redundant": 3,
   "leak_hits_total": 0,
   "network_degraded": false,
   "objective": null,
@@ -11,119 +11,98 @@
   "rework_events": [
     {
       "node_id": "N6",
-      "claim": "对象大小分布服从 Pareto(α=1.1)，其累积分布函数 CDF_S(s) = (s_min/s)^1.1 (s >",
+      "claim": "对象总字节数 E[TotalSize] = N * E[Size]，其中 N=10^5，E[Size] 需根据 Pare",
       "attempt": 1,
       "mode": "angle",
-      "reason": "逻辑自洽：Pareto分布的CDF公式形式正确，量纲合理；但α=1.1及s_min的具体取值属于经验事实/假设参数，非第一性原理可推导，且无外部来源支持，故降级"
-    },
-    {
-      "node_id": "N7",
-      "claim": "请求热度分布服从 Pareto(β=0.9)，其概率密度函数或访问频率分布 f(r) ∝ r^(-1.9)，其中 r 为",
-      "attempt": 1,
-      "mode": "angle",
-      "reason": "逻辑自洽：Pareto分布指数α=1.9时，累积分布函数CDF(r) ∝ r^(-0.9)，符合β=0.9的设定；头部对象占据大部分请求量符合幂律分布特性。但具"
+      "reason": "逻辑自洽（期望线性性质成立），但 S_min=1KB 为经验假设且无来源支持，属于经验事实缺来源支持"
     },
     {
       "node_id": "N8",
-      "claim": "对象大小与请求热度存在负相关 ρ ≈ -0.3，意味着热门对象倾向于较小，这会影响 LRU 缓存的字节命中率，因为缓存更",
+      "claim": "热度-大小负相关系数 ρ=-0.3 对 LRU 命中率的影响量化：通过联合分布密度函数 f(size, pop) 的修正",
       "attempt": 1,
       "mode": "angle",
-      "reason": "经验事实，逻辑自洽但缺来源支持"
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N9",
+      "claim": "LRU 稳态字节命中率下界模型：Hit_LRU >= 1 - (1 - C_ratio)^{1/α_eff}，其中 α_",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "逻辑自洽，但属于特定缓存模型的经验/理论推导结论，非第一性原理公理，且无外部来源支持，依据经验事实排除条款降级。"
+    },
+    {
+      "node_id": "N10",
+      "claim": "LRU 下界计算工作点 1（保守估计，忽略相关性）：假设大小与热度独立，Hit_LRU_base = 1 - (1 - ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "逻辑自洽：该公式符合Zipf定律下LRU缓存命中率的经典近似推导（假设大小与热度独立，忽略相关性），量纲与量级合理。但无可用外部来源支持，且涉及具体参数β=0."
     },
     {
       "node_id": "N11",
-      "claim": "LRU 命中率下界可通过 Belady 算法或栈距离算法计算，对于 Pareto 分布，下界通常接近最优离线算法的性能",
+      "claim": "LRU 下界计算工作点 2（考虑负相关修正）：Hit_LRU_corr = Hit_LRU_base * (1 - k*",
       "attempt": 1,
       "mode": "angle",
-      "reason": "逻辑自洽：LRU 的栈距离算法确实能精确计算其命中率，且 Belady 算法（OPT）是离线最优算法，LRU 性能通常接近 OPT 是缓存理论中的常见经验结论；"
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N12",
+      "claim": "LFU 理论最大命中率上限：Hit_LFU_max = 1 - (1 - C_ratio)^{1/β}，假设 LFU 能",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "经验事实/理论模型参数，逻辑自洽但缺来源支持"
     },
     {
       "node_id": "N13",
-      "claim": "LFU 相比 LRU 的提升上限取决于访问模式的局部性，在强 Pareto 分布下，LFU 可提升约 5-15 个百分点",
+      "claim": "LFU 相比 LRU 的最大提升幅度 ΔHit_max = Hit_LFU_max - Hit_LRU_corr，其中 ",
       "attempt": 1,
       "mode": "angle",
-      "reason": "经验事实，逻辑自洽但缺来源支持"
+      "reason": "逻辑自洽：LFU 利用频率信息，在热度分布陡峭（β 小，即少数热点对象占据大部分请求）时，相比仅利用时间局部性的 LRU 通常具有更高的命中率优势，符合缓存替换"
     },
     {
       "node_id": "N14",
-      "claim": "更新率对LRU有效命中率的折扣因子 D_update = 1 - (1 - h_base) * (1 - e^(-λT)",
+      "claim": "LFU 性能增益的物理机制：LFU 利用频率信息抵抗扫描型访问，而 LRU 易受时间局部性破坏；在 Pareto(β=0",
       "attempt": 1,
       "mode": "angle",
-      "reason": "逻辑自洽（量纲正确，公式结构符合概率独立性假设下的更新干扰模型），但属于特定缓存/存储系统的经验性建模公式，非第一性原理可推导的普适物理/数学定律，且无外部来源"
-    },
-    {
-      "node_id": "N15",
-      "claim": "在Pareto(β=0.9)热度分布下，对象平均驻留时间 T_avg = 1/(λ * P(rank > thresho",
-      "attempt": 1,
-      "mode": "angle",
-      "reason": "经验事实/模型参数，逻辑自洽但缺来源支持"
+      "reason": "逻辑自洽：LFU 利用频率信息确实比 LRU 更能抵抗扫描型访问（scan resistance），且 Pareto(β=0.9) 分布下头部对象贡献高比例请求"
     },
     {
       "node_id": "N16",
-      "claim": "LRU在动态更新下的失效机制：对象更新后其热度排名变化Δr，若Δr > k (k为缓存淘汰边界)，则对象被提前淘汰，概率",
+      "claim": "LRU 缓存项平均驻留时间 T_residence 的估计公式：T_residence ≈ C / (R_hit * L",
       "attempt": 1,
       "mode": "angle",
-      "reason": "逻辑自洽，但属于特定缓存策略下的经验性/模型化假设，非第一性原理可推导事实，且无外部来源支持。"
-    },
-    {
-      "node_id": "N17",
-      "claim": "时间尺度影响：即时(1h)内更新率影响可忽略 (<0.1%)，短期(1day)内折扣因子 D_update ≈ 0.95",
-      "attempt": 1,
-      "mode": "angle",
-      "reason": "经验事实，逻辑自洽但缺来源支持"
-    },
-    {
-      "node_id": "N19",
-      "claim": "推导链步骤1（LRU稳态命中率下界）：基于Pareto(α=1.1)大小分布和Pareto(β=0.9)热度分布，h_L",
-      "attempt": 1,
-      "mode": "angle",
-      "reason": "逻辑自洽：LRU稳态命中率下界通常由未被缓存的对象占比决定，公式结构符合积分定义；但具体数值（C=128GB/平均大小）及Pareto参数为经验事实，且本轮检索"
-    },
-    {
-      "node_id": "N20",
-      "claim": "推导链步骤2（LFU提升幅度）：LFU通过频率权重w_i = freq_i^γ (γ=1)优化，提升Δh = h_LFU",
-      "attempt": 1,
-      "mode": "angle",
-      "reason": "逻辑自洽：LFU在Pareto分布下确实可能因过度加权高频而忽略长尾，导致相比LRU的提升有限，5-10%的量级在特定缓存场景下合理；但无外部来源支持，且具体数"
-    },
-    {
-      "node_id": "N21",
-      "claim": "推导链步骤3（更新折扣）：有效命中率 h_eff = h_LRU * D_update，其中D_update由N6公式计",
-      "attempt": 1,
-      "mode": "angle",
-      "reason": "逻辑自洽，但属于经验事实/模型参数设定，且无可用外部来源支持，依据经验事实排除条款降级。"
+      "reason": "逻辑自洽（量纲：GB / (无量纲 * GB) = 无量纲，若L为字节则需单位换算，但公式结构符合Little定律或平均驻留时间=容量/吞吐率的直觉），但属于经"
     },
     {
       "node_id": "N22",
-      "claim": "Pareto(α=1.1) 大小分布的期望值 E[S] 是发散的（因为 α ≤ 1），但在截断分布下（假设 s_max=",
+      "claim": "Pareto(α=1.1) 分布的期望大小 E[Size] 在 S_min=1KB 时理论发散（因 α<2），实际工程中",
       "attempt": 1,
       "mode": "angle",
       "reason": "检索失败: no sources from any channel (all 5 failed)"
     },
     {
       "node_id": "N23",
-      "claim": "在强负相关 (ρ=-0.3) 下，LRU 的字节命中率下界不能简单用独立分布积分计算，而应使用 Copula 函数（如 ",
+      "claim": "基于 Pareto(β=0.9) 热度分布，前 K 个最热门对象占总请求比例 P_topK = 1 - (K/N)^(1",
       "attempt": 1,
       "mode": "angle",
       "reason": "检索失败: no sources from any channel (all 5 failed)"
     },
     {
       "node_id": "N24",
-      "claim": "LFU 相比 LRU 的理论最大提升受限于“频率-大小”权衡。在 β=0.9 的长尾分布下，LFU 会过度缓存低频但巨大",
+      "claim": "LRU 在独立假设下的字节命中率下界可通过积分 ∫_{0}^{C} f_size(s) * (1 - (s/C)^{1/",
       "attempt": 1,
       "mode": "angle",
       "reason": "检索失败: no sources from any channel (all 5 failed)"
     },
     {
       "node_id": "N25",
-      "claim": "对象更新率 1%/day 导致的 LRU 有效命中率折损因子 D_update 可通过“失效概率”量化：若对象平均驻留时",
+      "claim": "负相关 ρ=-0.3 意味着热门对象倾向于较小，这实际上有利于 LRU（因为小对象占用空间少，更多热门对象可驻留），但题",
       "attempt": 1,
       "mode": "angle",
       "reason": "检索失败: no sources from any channel (all 5 failed)"
     },
     {
       "node_id": "N26",
-      "claim": "“凭记忆”的知识包括：LRU/LFU 的基本定义、Pareto 分布的 PDF/CDF 公式、Belady 算法的最优性",
+      "claim": "LFU 相比 LRU 的最大提升百分点 ΔHit_pp 在 β=0.9 且存在扫描噪声时，理论上限约为 (1/β - 1",
       "attempt": 1,
       "mode": "angle",
       "reason": "检索失败: no sources from any channel (all 5 failed)"
@@ -133,7 +112,7 @@
   "nodes": [
     {
       "id": "N1",
-      "claim": "数据分布特征：覆盖对象大小、请求热度、两者相关性等Pareto分布参数，作为所有命中率计算的基础输入约束",
+      "claim": "工作负载特征与容量约束：覆盖对象大小/热度分布（Pareto参数）、热度-大小相关性、总请求量及缓存容量限制，确定系统的物理边界与统计特性。",
       "level": "L1",
       "source": "given",
       "status": "pending",
@@ -148,7 +127,7 @@
     },
     {
       "id": "N2",
-      "claim": "缓存容量与稳态假设：覆盖128GB内存约束、稳态定义、以及稳态下LRU命中率下界的推导逻辑",
+      "claim": "LRU稳态命中率下界推导：基于D1的分布特征，建立LRU在稳态下的字节命中率数学模型，推导其理论下界（对应问题a）。",
       "level": "L1",
       "source": "given",
       "status": "pending",
@@ -163,7 +142,7 @@
     },
     {
       "id": "N3",
-      "claim": "策略机制差异：覆盖LFU与LRU在Pareto分布下的理论性能差异、提升上限及背后的访问局部性原因",
+      "claim": "LFU与LRU的性能差异分析：分析LFU利用热度信息相较于LRU利用时间局部性的增益上限，解释为何存在差异及最大提升幅度（对应问题b）。",
       "level": "L1",
       "source": "given",
       "status": "pending",
@@ -172,13 +151,13 @@
       "rework_count": 0,
       "parent_ids": [],
       "objective": null,
-      "edge_type": "cartesian",
+      "edge_type": "quotient",
       "search_query": "",
       "retrieval_sources": []
     },
     {
       "id": "N4",
-      "claim": "动态更新影响：覆盖1%/天更新率对LRU有效命中率的折扣效应、缓存失效机制及时间尺度影响",
+      "claim": "对象更新对有效命中率的影响：量化对象更新率导致的缓存失效（Invalidation）对LRU有效命中率的折损系数，区分静态命中与动态有效命中（对应问题c）。",
       "level": "L1",
       "source": "given",
       "status": "pending",
@@ -187,13 +166,13 @@
       "rework_count": 0,
       "parent_ids": [],
       "objective": null,
-      "edge_type": "cartesian",
+      "edge_type": "quotient",
       "search_query": "",
       "retrieval_sources": []
     },
     {
       "id": "N5",
-      "claim": "认知来源标注：覆盖推导链中每一步结论是'凭记忆'还是'刚查到的'的元认知标注，确保可追溯性",
+      "claim": "推导链的置信度与来源区分：明确区分推导过程中哪些步骤依赖通用缓存理论（凭记忆），哪些步骤依赖特定分布下的数值计算或近期文献结论（刚查到），确保答案的可追溯性。",
       "level": "L1",
       "source": "given",
       "status": "pending",
@@ -208,12 +187,12 @@
     },
     {
       "id": "N6",
-      "claim": "对象大小分布服从 Pareto(α=1.1)，其累积分布函数 CDF_S(s) = (s_min/s)^1.1 (s >= s_min)，其中 s_min 为最小对象大小（通常取 1KB 或 1Byte，需假设）",
+      "claim": "对象总字节数 E[TotalSize] = N * E[Size]，其中 N=10^5，E[Size] 需根据 Pareto(α=1.1) 的截断参数（最小大小 S_min）计算，若未指定 S_min，假设 S_min=1KB 进行基准计算。",
       "level": "L2",
-      "source": "given",
+      "source": "knowledge",
       "status": "degraded",
-      "evidence": "逻辑自洽：Pareto分布的CDF公式形式正确，量纲合理；但α=1.1及s_min的具体取值属于经验事实/假设参数，非第一性原理可推导，且无外部来源支持，故降级。",
-      "corrected_claim": "对象大小分布可建模为 Pareto 分布，其累积分布函数形式为 CDF_S(s) = (s_min/s)^α (s >= s_min)，其中 α 和 s_min 为需根据具体场景假设或拟合的参数（例如 α=1.1, s_min=1KB）。",
+      "evidence": "逻辑自洽（期望线性性质成立），但 S_min=1KB 为经验假设且无来源支持，属于经验事实缺来源支持",
+      "corrected_claim": "对象总字节数 E[TotalSize] = N * E[Size]，其中 N=10^5，E[Size] 需根据 Pareto(α=1.1) 的截断参数（最小大小 S_min）计算；若未指定 S_min，需明确假设值（如 S_min=1KB）以进行基准计算，该假设值需根据具体场景或标准确定。",
       "rework_count": 1,
       "parent_ids": [
         "N1"
@@ -225,13 +204,13 @@
     },
     {
       "id": "N7",
-      "claim": "请求热度分布服从 Pareto(β=0.9)，其概率密度函数或访问频率分布 f(r) ∝ r^(-1.9)，其中 r 为对象排名，头部对象占据绝大部分请求量",
+      "claim": "缓存容量占比 C_ratio = 128GB / E[TotalSize]，该比值决定了缓存能覆盖的对象数量比例，是命中率模型的核心输入参数。",
       "level": "L2",
-      "source": "given",
-      "status": "degraded",
-      "evidence": "逻辑自洽：Pareto分布指数α=1.9时，累积分布函数CDF(r) ∝ r^(-0.9)，符合β=0.9的设定；头部对象占据大部分请求量符合幂律分布特性。但具体参数值（β=0.9/α=1.9）属于经验事实，无来源支持，且检索失败，无法验证该特定参数是否为通用标准或题面给定。",
-      "corrected_claim": "请求热度分布服从 Pareto 分布，其访问频率分布 f(r) ∝ r^(-α)，其中 α 为幂律指数（通常 α > 1），头部对象占据绝大部分请求量。",
-      "rework_count": 1,
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "逻辑推导成立，来源未直接覆盖。该陈述定义了缓存容量占比 C_ratio 的计算公式及其在命中率模型中的作用，属于基于题面条件（128GB缓存）和缓存系统基本逻辑（容量决定覆盖范围）的合理定义，无内部矛盾或量纲错误。",
+      "corrected_claim": "缓存容量占比 C_ratio = 128GB / E[TotalSize]，该比值决定了缓存能覆盖的对象数量比例，是命中率模型的核心输入参数。",
+      "rework_count": 0,
       "parent_ids": [
         "N1"
       ],
@@ -242,30 +221,30 @@
     },
     {
       "id": "N8",
-      "claim": "对象大小与请求热度存在负相关 ρ ≈ -0.3，意味着热门对象倾向于较小，这会影响 LRU 缓存的字节命中率，因为缓存更多小对象会提升字节命中率",
+      "claim": "热度-大小负相关系数 ρ=-0.3 对 LRU 命中率的影响量化：通过联合分布密度函数 f(size, pop) 的修正项 ΔHit = ∫∫ ρ * ∂²f/∂s∂p * I(s,p) ds dp 估算，通常导致热门大对象被挤出，命中率下降约 2-5%（[待核验]，需具体分布仿真）。",
       "level": "L2",
-      "source": "given",
+      "source": "search",
       "status": "degraded",
-      "evidence": "经验事实，逻辑自洽但缺来源支持",
-      "corrected_claim": "对象大小与请求热度可能存在负相关，这会影响 LRU 缓存的字节命中率，因为缓存更多小对象可能会提升字节命中率",
+      "evidence": "检索失败: no sources from any channel (all 5 failed)",
+      "corrected_claim": "热度-大小负相关系数 ρ=-0.3 对 LRU 命中率的影响量化：通过联合分布密度函数 f(size, pop) 的修正项 ΔHit = ∫∫ ρ * ∂²f/∂s∂p * I(s,p) ds dp 估算，通常导致热门大对象被挤出，命中率下降约 2-5%（[待核验]，需具体分布仿真）。",
       "rework_count": 1,
       "parent_ids": [
         "N1"
       ],
       "objective": null,
       "edge_type": "cartesian",
-      "search_query": "",
+      "search_query": "impact of negative correlation between object size and popularity on LRU cache hit rate Pareto distribution",
       "retrieval_sources": []
     },
     {
       "id": "N9",
-      "claim": "缓存容量 C = 128GB = 128 * 1024^3 bytes，作为 LRU 缓存可容纳的总字节数上限",
+      "claim": "LRU 稳态字节命中率下界模型：Hit_LRU >= 1 - (1 - C_ratio)^{1/α_eff}，其中 α_eff 为有效幂律指数，考虑热度分布 β=0.9 与大小分布 α=1.1 的交互作用，需通过积分 ∫_{0}^{C} f_pop(x) * f_size(x) dx 求解。",
       "level": "L2",
-      "source": "given",
-      "status": "verified",
-      "evidence": "逻辑推导成立，来源未直接覆盖（128GB 转换为字节数的数学计算正确，LRU 缓存容量定义符合计算机体系结构常识）",
-      "corrected_claim": "缓存容量 C = 128GB = 128 * 1024^3 bytes，作为 LRU 缓存可容纳的总字节数上限",
-      "rework_count": 0,
+      "source": "knowledge",
+      "status": "degraded",
+      "evidence": "逻辑自洽，但属于特定缓存模型的经验/理论推导结论，非第一性原理公理，且无外部来源支持，依据经验事实排除条款降级。",
+      "corrected_claim": "LRU 稳态字节命中率下界模型通常表述为 Hit_LRU >= 1 - (1 - C_ratio)^{1/α_eff}，其中 α_eff 为有效幂律指数，具体数值需结合热度分布 β=0.9 与大小分布 α=1.1 的交互作用，通过积分 ∫_{0}^{C} f_pop(x) * f_size(x) dx 求解。",
+      "rework_count": 1,
       "parent_ids": [
         "N2"
       ],
@@ -276,29 +255,12 @@
     },
     {
       "id": "N10",
-      "claim": "稳态定义为缓存内容分布不再随时间变化，即缓存中存储的对象集合及其频率达到平衡状态",
-      "level": "L2",
-      "source": "knowledge",
-      "status": "verified",
-      "evidence": "逻辑推导成立，来源未直接覆盖。该定义符合缓存系统稳态（Stationary State）的基本数学与物理直觉，即系统状态变量（对象集合及频率分布）的时间导数为零，达到动态平衡。",
-      "corrected_claim": "稳态定义为缓存内容分布不再随时间变化，即缓存中存储的对象集合及其频率达到平衡状态",
-      "rework_count": 0,
-      "parent_ids": [
-        "N2"
-      ],
-      "objective": null,
-      "edge_type": "cartesian",
-      "search_query": "",
-      "retrieval_sources": []
-    },
-    {
-      "id": "N11",
-      "claim": "LRU 命中率下界可通过 Belady 算法或栈距离算法计算，对于 Pareto 分布，下界通常接近最优离线算法的性能",
+      "claim": "LRU 下界计算工作点 1（保守估计，忽略相关性）：假设大小与热度独立，Hit_LRU_base = 1 - (1 - C_ratio)^{1/β}，其中 β=0.9，C_ratio 由 N7 确定。",
       "level": "L2",
       "source": "knowledge",
       "status": "degraded",
-      "evidence": "逻辑自洽：LRU 的栈距离算法确实能精确计算其命中率，且 Belady 算法（OPT）是离线最优算法，LRU 性能通常接近 OPT 是缓存理论中的常见经验结论；但‘对于 Pareto 分布，下界通常接近最优’属于特定负载下的经验事实，非第一性原理可严格推导，且本轮检索无可用来源支持，故降级。",
-      "corrected_claim": "LRU 命中率可通过栈距离算法精确计算，Belady 算法为离线最优基准；在包括 Pareto 分布在内的多种常见负载下，LRU 性能通常接近最优离线算法，但具体接近程度取决于负载特性。",
+      "evidence": "逻辑自洽：该公式符合Zipf定律下LRU缓存命中率的经典近似推导（假设大小与热度独立，忽略相关性），量纲与量级合理。但无可用外部来源支持，且涉及具体参数β=0.9的经验假设，无法从第一性原理严格推出，故降级。",
+      "corrected_claim": "LRU 下界计算工作点 1（保守估计，忽略相关性）：假设大小与热度独立，Hit_LRU_base ≈ 1 - (1 - C_ratio)^{1/β}，其中 β 为经验参数（此处取0.9），C_ratio 由 N7 确定。",
       "rework_count": 1,
       "parent_ids": [
         "N2"
@@ -309,14 +271,31 @@
       "retrieval_sources": []
     },
     {
+      "id": "N11",
+      "claim": "LRU 下界计算工作点 2（考虑负相关修正）：Hit_LRU_corr = Hit_LRU_base * (1 - k*|ρ|)，其中 k 为经验修正系数（通常 k≈0.1-0.2），反映热门大对象对 LRU 驱逐策略的负面干扰。",
+      "level": "L2",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "检索失败: no sources from any channel (all 5 failed)",
+      "corrected_claim": "LRU 下界计算工作点 2（考虑负相关修正）：Hit_LRU_corr = Hit_LRU_base * (1 - k*|ρ|)，其中 k 为经验修正系数（通常 k≈0.1-0.2），反映热门大对象对 LRU 驱逐策略的负面干扰。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N2"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "LRU cache hit rate correction factor for size-popularity correlation coefficient",
+      "retrieval_sources": []
+    },
+    {
       "id": "N12",
-      "claim": "LFU 通过记录访问频率来淘汰低频对象，在 Pareto 分布下能更好地保留高频对象，但存在计数器老化问题",
+      "claim": "LFU 理论最大命中率上限：Hit_LFU_max = 1 - (1 - C_ratio)^{1/β}，假设 LFU 能完美按热度排序，忽略大小影响（理想化上界）。",
       "level": "L2",
       "source": "knowledge",
-      "status": "verified",
-      "evidence": "逻辑推导成立，来源未直接覆盖：LFU 基于访问频率淘汰低频项是其定义属性，在偏斜分布（如 Pareto）下保留高频项符合算法设计初衷，计数器老化（需定期衰减或重置）是该算法公认的已知缺陷，无逻辑矛盾。",
-      "corrected_claim": "LFU 通过记录访问频率来淘汰低频对象，在 Pareto 分布下能更好地保留高频对象，但存在计数器老化问题",
-      "rework_count": 0,
+      "status": "degraded",
+      "evidence": "经验事实/理论模型参数，逻辑自洽但缺来源支持",
+      "corrected_claim": "LFU 理论最大命中率上限：Hit_LFU_max = 1 - (1 - C_ratio)^{1/β}，假设 LFU 能完美按热度排序，忽略大小影响（理想化上界）。",
+      "rework_count": 1,
       "parent_ids": [
         "N3"
       ],
@@ -327,12 +306,12 @@
     },
     {
       "id": "N13",
-      "claim": "LFU 相比 LRU 的提升上限取决于访问模式的局部性，在强 Pareto 分布下，LFU 可提升约 5-15 个百分点，具体数值需模拟或理论推导",
+      "claim": "LFU 相比 LRU 的最大提升幅度 ΔHit_max = Hit_LFU_max - Hit_LRU_corr，其中 Hit_LRU_corr 来自 N11，ΔHit_max 通常受限于热度分布的陡峭程度（β 越小，LFU 优势越明显）。",
       "level": "L2",
       "source": "knowledge",
       "status": "degraded",
-      "evidence": "经验事实，逻辑自洽但缺来源支持",
-      "corrected_claim": "LFU 相比 LRU 的提升上限取决于访问模式的局部性，在强 Pareto 分布下，LFU 通常能带来显著性能提升，具体数值需模拟或理论推导",
+      "evidence": "逻辑自洽：LFU 利用频率信息，在热度分布陡峭（β 小，即少数热点对象占据大部分请求）时，相比仅利用时间局部性的 LRU 通常具有更高的命中率优势，符合缓存替换算法的基本原理。但具体数值 ΔHit_max 及 β 与提升幅度的定量关系属于经验事实，且本轮检索无可用来源支持，无法验证具体量级或公式细节。",
+      "corrected_claim": "LFU 相比 LRU 的命中率提升幅度通常受限于热度分布的陡峭程度（β 越小，LFU 优势越明显），但具体最大提升幅度 ΔHit_max 需依赖具体负载模型和实验数据确定。",
       "rework_count": 1,
       "parent_ids": [
         "N3"
@@ -344,15 +323,15 @@
     },
     {
       "id": "N14",
-      "claim": "更新率对LRU有效命中率的折扣因子 D_update = 1 - (1 - h_base) * (1 - e^(-λT)), 其中 λ=0.01/day, T为对象平均驻留时间，h_base为静态命中率",
+      "claim": "LFU 性能增益的物理机制：LFU 利用频率信息抵抗扫描型访问，而 LRU 易受时间局部性破坏；在 Pareto(β=0.9) 分布下，前 10% 对象贡献约 50% 请求，LFU 能更稳定地保留这些对象，提升幅度约为 (Hit_LFU - Hit_LRU) * 100%。",
       "level": "L2",
       "source": "knowledge",
       "status": "degraded",
-      "evidence": "逻辑自洽（量纲正确，公式结构符合概率独立性假设下的更新干扰模型），但属于特定缓存/存储系统的经验性建模公式，非第一性原理可推导的普适物理/数学定律，且无外部来源支持，故降级。",
-      "corrected_claim": "在假设更新事件独立且服从指数分布的特定模型下，更新率对LRU有效命中率的折扣因子可建模为 D_update = 1 - (1 - h_base) * (1 - e^(-λT))，其中 λ=0.01/day, T为对象平均驻留时间，h_base为静态命中率。",
+      "evidence": "逻辑自洽：LFU 利用频率信息确实比 LRU 更能抵抗扫描型访问（scan resistance），且 Pareto(β=0.9) 分布下头部对象贡献高比例请求符合幂律分布特性；但具体数值（前 10% 贡献 50%）及性能增益公式属于经验事实/特定场景统计结果，非第一性原理可严格推导，且无外部来源支持，故降级。",
+      "corrected_claim": "LFU 利用频率信息抵抗扫描型访问，而 LRU 易受时间局部性破坏；在具有显著头部效应（如 Pareto 分布）的访问模式下，LFU 能更稳定地保留高频对象，其性能增益取决于具体工作负载特征，通常表现为 (Hit_LFU - Hit_LRU) * 100%。",
       "rework_count": 1,
       "parent_ids": [
-        "N4"
+        "N3"
       ],
       "objective": null,
       "edge_type": "cartesian",
@@ -361,131 +340,80 @@
     },
     {
       "id": "N15",
-      "claim": "在Pareto(β=0.9)热度分布下，对象平均驻留时间 T_avg = 1/(λ * P(rank > threshold)), 其中threshold由缓存容量决定，λ=0.01/day",
+      "claim": "对象更新率 μ=1%/天 对应的缓存项平均有效存活时间 T_update = 1/μ = 24小时（或 86400秒）",
       "level": "L2",
-      "source": "knowledge",
-      "status": "degraded",
-      "evidence": "经验事实/模型参数，逻辑自洽但缺来源支持",
-      "corrected_claim": "在Pareto(β=0.9)热度分布下，对象平均驻留时间 T_avg 与 λ 及 P(rank > threshold) 相关，具体公式需依据特定缓存替换策略（如LRU/LFU）推导，λ=0.01/day 为假设参数。",
-      "rework_count": 1,
+      "source": "given",
+      "status": "verified",
+      "evidence": "逻辑推导成立，来源未直接覆盖：根据指数分布或几何分布的期望值定义，更新率 μ 的倒数即为平均存活时间，1/(1%/天) = 1天 = 24小时 = 86400秒，量纲与数值均正确。",
+      "corrected_claim": "对象更新率 μ=1%/天 对应的缓存项平均有效存活时间 T_update = 1/μ = 24小时（或 86400秒）",
+      "rework_count": 0,
       "parent_ids": [
         "N4"
       ],
       "objective": null,
-      "edge_type": "cartesian",
+      "edge_type": "quotient",
       "search_query": "",
       "retrieval_sources": []
     },
     {
       "id": "N16",
-      "claim": "LRU在动态更新下的失效机制：对象更新后其热度排名变化Δr，若Δr > k (k为缓存淘汰边界)，则对象被提前淘汰，概率 P_evict = 1 - F(Δr | Pareto(β=0.9))",
+      "claim": "LRU 缓存项平均驻留时间 T_residence 的估计公式：T_residence ≈ C / (R_hit * L) 或基于热度分布的积分近似，其中 C=128GB, R_hit 为稳态命中率, L 为平均对象大小",
       "level": "L2",
       "source": "knowledge",
       "status": "degraded",
-      "evidence": "逻辑自洽，但属于特定缓存策略下的经验性/模型化假设，非第一性原理可推导事实，且无外部来源支持。",
-      "corrected_claim": "在基于热度排名的动态缓存策略中，若对象更新导致的热度排名变化Δr超过淘汰边界k，则可能触发提前淘汰机制，其概率分布可建模为 P_evict = 1 - F(Δr | Pareto(β=0.9))。",
+      "evidence": "逻辑自洽（量纲：GB / (无量纲 * GB) = 无量纲，若L为字节则需单位换算，但公式结构符合Little定律或平均驻留时间=容量/吞吐率的直觉），但属于经验性工程估算公式，非第一性原理严格推导，且无外部来源支持。",
+      "corrected_claim": "LRU 缓存项平均驻留时间 T_residence 的估算可参考 T_residence ≈ C / (R_hit * L) 或基于热度分布的积分近似，其中 C=128GB, R_hit 为稳态命中率, L 为平均对象大小（注：此为经验估算公式，具体数值需结合实际负载验证）。",
       "rework_count": 1,
       "parent_ids": [
         "N4"
       ],
       "objective": null,
-      "edge_type": "cartesian",
-      "search_query": "",
+      "edge_type": "quotient",
+      "search_query": "LRU cache residence time formula steady state hit rate",
       "retrieval_sources": []
     },
     {
       "id": "N17",
-      "claim": "时间尺度影响：即时(1h)内更新率影响可忽略 (<0.1%)，短期(1day)内折扣因子 D_update ≈ 0.95-0.97，长期(7day)内 D_update ≈ 0.85-0.90",
+      "claim": "更新导致的失效概率 P_invalidation = 1 - exp(-μ * T_residence)，当 μ*T_residence << 1 时近似为 μ * T_residence",
       "level": "L2",
       "source": "knowledge",
-      "status": "degraded",
-      "evidence": "经验事实，逻辑自洽但缺来源支持",
-      "corrected_claim": "时间尺度影响：即时(1h)内更新率影响可忽略 (<0.1%)，短期(1day)内折扣因子 D_update 约为 0.95-0.97，长期(7day)内 D_update 约为 0.85-0.90（具体数值需依据特定业务场景校准）",
-      "rework_count": 1,
+      "status": "verified",
+      "evidence": "逻辑推导成立，来源未直接覆盖。该公式基于泊松过程（Poisson process）推导，失效概率为 1 - exp(-λt)，当 λt << 1 时利用泰勒展开 exp(-x) ≈ 1-x 可得近似值 x，符合数学第一性原理。",
+      "corrected_claim": "更新导致的失效概率 P_invalidation = 1 - exp(-μ * T_residence)，当 μ*T_residence << 1 时近似为 μ * T_residence",
+      "rework_count": 0,
       "parent_ids": [
         "N4"
       ],
       "objective": null,
-      "edge_type": "cartesian",
-      "search_query": "",
+      "edge_type": "quotient",
+      "search_query": "cache invalidation probability exponential update rate",
       "retrieval_sources": []
     },
     {
       "id": "N18",
-      "claim": "认知来源标注规则：'凭记忆'指模型先验知识中的标准缓存理论公式（如LRU/LFU命中率下界推导），'刚查到的'指需联网验证的具体参数值（如Pareto分布实际拟合值）",
+      "claim": "有效命中率折损系数 F = 1 - P_invalidation，即 H_effective = H_static * F，其中 H_static 为无更新时的 LRU 稳态命中率",
       "level": "L2",
-      "source": "given",
+      "source": "knowledge",
       "status": "verified",
-      "evidence": "逻辑推导成立，来源未直接覆盖。该陈述是对‘认知来源’这一元概念的定义性描述，区分了基于公理/标准理论（先验）与基于具体数据拟合（经验/检索）的知识类型，符合知识管理的基本逻辑，且无内部矛盾。",
-      "corrected_claim": "认知来源标注规则：'凭记忆'指模型先验知识中的标准缓存理论公式（如LRU/LFU命中率下界推导），'刚查到的'指需联网验证的具体参数值（如Pareto分布实际拟合值）",
+      "evidence": "逻辑推导成立，来源未直接覆盖。该定义符合缓存理论中有效命中率的基本定义：有效命中率等于静态命中率乘以未被失效（invalidation）的比例（即 1 - P_invalidation），量纲与逻辑均自洽。",
+      "corrected_claim": "有效命中率折损系数 F = 1 - P_invalidation，即 H_effective = H_static * F，其中 H_static 为无更新时的 LRU 稳态命中率",
       "rework_count": 0,
       "parent_ids": [
-        "N5"
+        "N4"
       ],
       "objective": null,
-      "edge_type": "cartesian",
-      "search_query": "",
-      "retrieval_sources": []
-    },
-    {
-      "id": "N19",
-      "claim": "推导链步骤1（LRU稳态命中率下界）：基于Pareto(α=1.1)大小分布和Pareto(β=0.9)热度分布，h_LRU = 1 - ∫_{C}^{∞} f_size(x) * f_heat(rank(x)) dx，其中C=128GB/平均对象大小",
-      "level": "L2",
-      "source": "knowledge",
-      "status": "degraded",
-      "evidence": "逻辑自洽：LRU稳态命中率下界通常由未被缓存的对象占比决定，公式结构符合积分定义；但具体数值（C=128GB/平均大小）及Pareto参数为经验事实，且本轮检索无可用来源支持，无法验证具体推导细节。",
-      "corrected_claim": "基于Pareto(α=1.1)大小分布和Pareto(β=0.9)热度分布，LRU稳态命中率下界可表示为 h_LRU = 1 - ∫_{C}^{∞} f_size(x) * f_heat(rank(x)) dx，其中C取决于缓存容量与平均对象大小之比（具体数值需依据实际系统参数确定）。",
-      "rework_count": 1,
-      "parent_ids": [
-        "N5"
-      ],
-      "objective": null,
-      "edge_type": "cartesian",
-      "search_query": "",
-      "retrieval_sources": []
-    },
-    {
-      "id": "N20",
-      "claim": "推导链步骤2（LFU提升幅度）：LFU通过频率权重w_i = freq_i^γ (γ=1)优化，提升Δh = h_LFU - h_LRU ≤ 5-10%，因Pareto(β=0.9)长尾导致LFU过度加权低频对象",
-      "level": "L2",
-      "source": "knowledge",
-      "status": "degraded",
-      "evidence": "逻辑自洽：LFU在Pareto分布下确实可能因过度加权高频而忽略长尾，导致相比LRU的提升有限，5-10%的量级在特定缓存场景下合理；但无外部来源支持，且具体数值范围（5-10%）属于经验事实，缺乏直接证据。",
-      "corrected_claim": "LFU通过频率权重优化，在Pareto(β=0.9)长尾分布下，其相比LRU的性能提升幅度通常有限（具体数值需视具体负载而定，可能为个位数百分比），因LFU可能过度加权高频对象而忽略长尾。",
-      "rework_count": 1,
-      "parent_ids": [
-        "N5"
-      ],
-      "objective": null,
-      "edge_type": "cartesian",
-      "search_query": "",
-      "retrieval_sources": []
-    },
-    {
-      "id": "N21",
-      "claim": "推导链步骤3（更新折扣）：有效命中率 h_eff = h_LRU * D_update，其中D_update由N6公式计算，需标注D_update参数来源（λ=0.01/day为给定，T_avg为推导）",
-      "level": "L2",
-      "source": "knowledge",
-      "status": "degraded",
-      "evidence": "逻辑自洽，但属于经验事实/模型参数设定，且无可用外部来源支持，依据经验事实排除条款降级。",
-      "corrected_claim": "有效命中率 h_eff = h_LRU * D_update，其中D_update由N6公式计算，需标注D_update参数来源（λ=0.01/day为给定，T_avg为推导），具体数值需依据实际系统参数确定。",
-      "rework_count": 1,
-      "parent_ids": [
-        "N5"
-      ],
-      "objective": null,
-      "edge_type": "cartesian",
-      "search_query": "",
+      "edge_type": "quotient",
+      "search_query": "effective hit rate cache invalidation factor",
       "retrieval_sources": []
     },
     {
       "id": "N22",
-      "claim": "Pareto(α=1.1) 大小分布的期望值 E[S] 是发散的（因为 α ≤ 1），但在截断分布下（假设 s_max=10GB），需计算截断均值 E[S_trunc] 以确定 128GB 缓存理论上可容纳的最大对象数量 N_cap = C / E[S_trunc]，这是计算字节命中率积分上限的关键物理参数。",
+      "claim": "Pareto(α=1.1) 分布的期望大小 E[Size] 在 S_min=1KB 时理论发散（因 α<2），实际工程中需设定截断上限 S_max（如 100MB 或 1GB）或采用截断 Pareto 模型计算 E[Size] ≈ S_min * (α-1) / (α-2) * (1 - (S_max/S_min)^(2-α)) 的变体，需具体数值以确定 C_ratio。",
       "level": "L2",
       "source": "search",
       "status": "verified",
-      "evidence": "[rework-angle r1] 逻辑推导成立：Pareto分布当α≤1时均值发散是数学公理推论；截断均值计算及容量公式N=C/E[S]符合定义。来源[2]确认Pareto分布属于幂律分布，虽未直接给出截断均值公式，但无矛盾且支持分布性质。",
-      "corrected_claim": "Pareto(α=1.1) 大小分布的期望值 E[S] 是发散的（因为 α ≤ 1），但在截断分布下（假设 s_max=10GB），需计算截断均值 E[S_trunc] 以确定 128GB 缓存理论上可容纳的最大对象数量 N_cap = C / E[S_trunc]，这是计算字节命中率积分上限的关键物理参数。",
+      "evidence": "[rework-angle r1] 逻辑推导成立：Pareto分布当α<2时期望发散是数学公理推论；来源[2]确认Pareto分布属于幂律分布，支持其长尾特性，虽未直接给出截断公式，但核心数学性质无误。",
+      "corrected_claim": "Pareto(α=1.1) 分布的期望大小 E[Size] 在 S_min=1KB 时理论发散（因 α<2），实际工程中需设定截断上限 S_max（如 100MB 或 1GB）或采用截断 Pareto 模型计算 E[Size] ≈ S_min * (α-1) / (α-2) * (1 - (S_max/S_min)^(2-α)) 的变体，需具体数值以确定 C_ratio。",
       "rework_count": 1,
       "parent_ids": [],
       "objective": null,
@@ -495,27 +423,27 @@
     },
     {
       "id": "N23",
-      "claim": "在强负相关 (ρ=-0.3) 下，LRU 的字节命中率下界不能简单用独立分布积分计算，而应使用 Copula 函数（如 Clayton Copula）联合建模大小与热度。具体地，热门小对象被缓存的概率 P(small & hot | cache) 显著高于独立假设，导致 LRU 字节命中率下界比独立假设高约 5-8%。",
+      "claim": "基于 Pareto(β=0.9) 热度分布，前 K 个最热门对象占总请求比例 P_topK = 1 - (K/N)^(1-β)，当 K=1000 (1%) 时，P_topK ≈ 1 - (0.01)^0.1 ≈ 0.63，表明头部 1% 对象承载 63% 流量，这是 LRU/LFU 性能差异的关键量化依据。",
       "level": "L2",
       "source": "search",
-      "status": "degraded",
-      "evidence": "检索失败: no sources from any channel (all 5 failed)",
-      "corrected_claim": "在强负相关 (ρ=-0.3) 下，LRU 的字节命中率下界不能简单用独立分布积分计算，而应使用 Copula 函数（如 Clayton Copula）联合建模大小与热度。具体地，热门小对象被缓存的概率 P(small & hot | cache) 显著高于独立假设，导致 LRU 字节命中率下界比独立假设高约 5-8%。",
+      "status": "verified",
+      "evidence": "[rework-angle r1] 逻辑推导成立，来源未直接覆盖（参考来源均为正态/卡方/基尼系数，与Pareto分布无关，但数学计算 1-(0.01)^0.1 ≈ 0.63 正确且符合Pareto分布定义）",
+      "corrected_claim": "基于 Pareto(β=0.9) 热度分布，前 K 个最热门对象占总请求比例 P_topK = 1 - (K/N)^(1-β)，当 K=1000 (1%) 时，P_topK ≈ 1 - (0.01)^0.1 ≈ 0.63，表明头部 1% 对象承载 63% 流量，这是 LRU/LFU 性能差异的关键量化依据。",
       "rework_count": 1,
       "parent_ids": [],
       "objective": null,
       "edge_type": "cartesian",
-      "search_query": "",
+      "search_query": "Pareto distribution cumulative probability top K fraction formula",
       "retrieval_sources": []
     },
     {
       "id": "N24",
-      "claim": "LFU 相比 LRU 的理论最大提升受限于“频率-大小”权衡。在 β=0.9 的长尾分布下，LFU 会过度缓存低频但巨大的对象（因为频率计数累积慢），导致字节命中率提升上限 Δh_max ≈ (h_LFU_byte - h_LRU_byte) ≤ 3.5%，具体取决于对象大小方差。",
+      "claim": "LRU 在独立假设下的字节命中率下界可通过积分 ∫_{0}^{C} f_size(s) * (1 - (s/C)^{1/β}) ds 近似，或更精确地引用 Cheung 等人 (2007) 提出的 LRU 命中率近似公式 Hit ≈ 1 - (1 - C_ratio)^{1/β_eff}，其中 β_eff 需根据联合分布修正。",
       "level": "L2",
       "source": "search",
       "status": "degraded",
       "evidence": "检索失败: no sources from any channel (all 5 failed)",
-      "corrected_claim": "LFU 相比 LRU 的理论最大提升受限于“频率-大小”权衡。在 β=0.9 的长尾分布下，LFU 会过度缓存低频但巨大的对象（因为频率计数累积慢），导致字节命中率提升上限 Δh_max ≈ (h_LFU_byte - h_LRU_byte) ≤ 3.5%，具体取决于对象大小方差。",
+      "corrected_claim": "LRU 在独立假设下的字节命中率下界可通过积分 ∫_{0}^{C} f_size(s) * (1 - (s/C)^{1/β}) ds 近似，或更精确地引用 Cheung 等人 (2007) 提出的 LRU 命中率近似公式 Hit ≈ 1 - (1 - C_ratio)^{1/β_eff}，其中 β_eff 需根据联合分布修正。",
       "rework_count": 1,
       "parent_ids": [],
       "objective": null,
@@ -525,12 +453,12 @@
     },
     {
       "id": "N25",
-      "claim": "对象更新率 1%/day 导致的 LRU 有效命中率折损因子 D_update 可通过“失效概率”量化：若对象平均驻留时间 T_res ≈ 1/(β-1) * (rank_threshold)^(β-1) 天，则更新导致的强制驱逐概率 P_inval = 1 - e^(-0.01 * T_res)。对于头部对象 T_res 较短，P_inval 较低；对于尾部对象 T_res 较长，P_inval 接近 1 - e^(-0.01*T_res)。",
+      "claim": "负相关 ρ=-0.3 意味着热门对象倾向于较小，这实际上有利于 LRU（因为小对象占用空间少，更多热门对象可驻留），但题目指出“热门对象与大小负相关”通常指热门=小，若解释为热门对象被挤出则需重新审视符号定义；若 ρ 定义为 Size vs Popularity 为负，则热门对象小，LRU 效率提升，修正项 k*|ρ| 应为正向增益或减小惩罚，需明确相关方向对驱逐策略的影响。",
       "level": "L2",
       "source": "search",
       "status": "degraded",
       "evidence": "检索失败: no sources from any channel (all 5 failed)",
-      "corrected_claim": "对象更新率 1%/day 导致的 LRU 有效命中率折损因子 D_update 可通过“失效概率”量化：若对象平均驻留时间 T_res ≈ 1/(β-1) * (rank_threshold)^(β-1) 天，则更新导致的强制驱逐概率 P_inval = 1 - e^(-0.01 * T_res)。对于头部对象 T_res 较短，P_inval 较低；对于尾部对象 T_res 较长，P_inval 接近 1 - e^(-0.01*T_res)。",
+      "corrected_claim": "负相关 ρ=-0.3 意味着热门对象倾向于较小，这实际上有利于 LRU（因为小对象占用空间少，更多热门对象可驻留），但题目指出“热门对象与大小负相关”通常指热门=小，若解释为热门对象被挤出则需重新审视符号定义；若 ρ 定义为 Size vs Popularity 为负，则热门对象小，LRU 效率提升，修正项 k*|ρ| 应为正向增益或减小惩罚，需明确相关方向对驱逐策略的影响。",
       "rework_count": 1,
       "parent_ids": [],
       "objective": null,
@@ -540,17 +468,17 @@
     },
     {
       "id": "N26",
-      "claim": "“凭记忆”的知识包括：LRU/LFU 的基本定义、Pareto 分布的 PDF/CDF 公式、Belady 算法的最优性定理。这些属于通用缓存理论，无需实时查证。",
+      "claim": "LFU 相比 LRU 的最大提升百分点 ΔHit_pp 在 β=0.9 且存在扫描噪声时，理论上限约为 (1/β - 1/β_lru_eff) * 100%，但在无扫描、纯幂律负载下 LFU 与 LRU 差距极小（<1-2%），主要增益来自对突发冷启动的抵抗，具体数值需通过 Belady 算法仿真或解析解获得。",
       "level": "L2",
       "source": "search",
-      "status": "verified",
-      "evidence": "[rework-angle r1] 逻辑自洽：LRU/LFU定义、Pareto分布公式及Belady定理均为计算机科学/统计学中的标准基础理论，属于通用知识范畴，无需实时查证。来源[1]直接支持Pareto分布的存在及性质，虽未直接覆盖LRU/Belady，但无矛盾，且该陈述本质为对知识属性的分类判断，符合第一性原理（通用理论无需实时查证）。",
-      "corrected_claim": "“凭记忆”的知识包括：LRU/LFU 的基本定义、Pareto 分布的 PDF/CDF 公式、Belady 算法的最优性定理。这些属于通用缓存理论，无需实时查证。",
+      "status": "degraded",
+      "evidence": "检索失败: no sources from any channel (all 5 failed)",
+      "corrected_claim": "LFU 相比 LRU 的最大提升百分点 ΔHit_pp 在 β=0.9 且存在扫描噪声时，理论上限约为 (1/β - 1/β_lru_eff) * 100%，但在无扫描、纯幂律负载下 LFU 与 LRU 差距极小（<1-2%），主要增益来自对突发冷启动的抵抗，具体数值需通过 Belady 算法仿真或解析解获得。",
       "rework_count": 1,
       "parent_ids": [],
       "objective": null,
       "edge_type": "cartesian",
-      "search_query": "Pareto distribution probability density function formula definition",
+      "search_query": "",
       "retrieval_sources": []
     }
   ]
