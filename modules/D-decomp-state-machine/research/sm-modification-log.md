@@ -1,11 +1,11 @@
 # SM 修改日志（T53 D2 · 每次改目标函数/状态转移的原因 + 前后对比）
 
-> origin: ai (T53-D2, 成璐要求"所有相关错误、修改路径放在项目里")
+> origin: ai (T53-D2, D要求"所有相关错误、修改路径放在项目里")
 > 格式：日期 / 改了什么 / 为什么 / 证据。append-only，不删历史条目。
 
-**编号规则（2026-11-11 成璐质询后补）**：本文件 rN = 状态机工程迭代轮次（smoke test run + 代码改动批次），从 r1 起连续递增，与 v17 的 r1-r10（`s5_hierarchy.py` 单次 run 内部的 decompose 分解轮，见 `runs-s5-v17-hier-smoke-console.log`）是**不同命名空间**。
+**编号规则（2026-11-11 D质询后补）**：本文件 rN = 状态机工程迭代轮次（smoke test run + 代码改动批次），从 r1 起连续递增，与 v17 的 r1-r10（`s5_hierarchy.py` 单次 run 内部的 decompose 分解轮，见 `runs-s5-v17-hier-smoke-console.log`）是**不同命名空间**。
 
-**版本线是连续的（成璐 2026-11-11 纠正）**：v17 → T53 不是"换名重启"，是同一条实验改进路线上的下一版。T53 = 这条线的当前版本，继承 v17 的问题设定（层级分解 arm）、诊断结论（Goodhart 刷分）和 bench 题集；版本号不另起 v18/v19/v20，而是用 T53 任务 ID + 本文件 rN 迭代轮定位具体改动。若未来需要大版本锚点（如架构级重写），在本文件加一行 "vN = rX+rY 合并发布" 即可，不新建编号体系。
+**版本线是连续的（D 2026-11-11 纠正）**：v17 → T53 不是"换名重启"，是同一条实验改进路线上的下一版。T53 = 这条线的当前版本，继承 v17 的问题设定（层级分解 arm）、诊断结论（Goodhart 刷分）和 bench 题集；版本号不另起 v18/v19/v20，而是用 T53 任务 ID + 本文件 rN 迭代轮定位具体改动。若未来需要大版本锚点（如架构级重写），在本文件加一行 "vN = rX+rY 合并发布" 即可，不新建编号体系。
 
 ## 2026-11-11 r6 — pass_rate 计算 bug 修复（r5 smoke 暴露）
 
@@ -54,7 +54,7 @@ r1 里 `par_claims` 用 `int(id.lstrip("N"))-1` 当列表下标取父节点 clai
 
 ## 2026-11-11 r3 — 可靠性三件套（E6 静默死修复）
 
-**背景**：r2 smoke 再次静默死在 L1 之后（log 停在 `[SM] L1: 25 nodes`，无 Traceback 无 EXIT）。单发/连发 verify_node 前台全过、8787 proxy 活着——说明不是某条 claim 触发异常，是后台长进程 + LLM 调用组合下的环境性死亡。这正是成璐点名的"微信会断，状态机要可靠"。
+**背景**：r2 smoke 再次静默死在 L1 之后（log 停在 `[SM] L1: 25 nodes`，无 Traceback 无 EXIT）。单发/连发 verify_node 前台全过、8787 proxy 活着——说明不是某条 claim 触发异常，是后台长进程 + LLM 调用组合下的环境性死亡。这正是D点名的"微信会断，状态机要可靠"。
 
 **改了什么**（commit 见下）：
 1. **每轮 checkpoint 落盘**：`run()` 每轮结束写 `checkpoints/sm-{qid}-r{rnd}.json`（完整节点树 + 计数器）。死了不丢已完成的轮次。
@@ -99,7 +99,7 @@ r1 里 `par_claims` 用 `int(id.lstrip("N"))-1` 当列表下标取父节点 clai
 **修法**：在原始 argv 上扫 `--resume <path>` 和 `--resume=<path>` 两种写法；resume 时 `_decompose_l1(skip_if_seeded=True)` 跳过重拆（L1 已在 checkpoint）。
 **验证**：pid 92810 实际 resume 成功——log 出现 "resumed from ...: 81 nodes @ r1" + "L1 already seeded (81 nodes), skipping decompose"，正在跑 r2 的 gap_check/decompose。
 
-## 2026-11-12 D34 — rework 从盲重搜升级为双路径（成璐指令"看看能不能修rework的矛盾"）
+## 2026-11-12 D34 — rework 从盲重搜升级为双路径（D指令"看看能不能修rework的矛盾"）
 
 **症状**：D33 恢复了全局矛盾扫描，但命中后只是"喂回 decompose prompt 提示"，机器侧没有强制修复动作；同时 `_rework` 本体还是 r1 时代的残废实现——给原 claim 加 "alternative" 后缀盲重搜一次，不判失败原因、不换检索角度、不用矛盾证据。代码注释自己承认"完整实现应该生成换个角度拆的 prompt，第一版先用重搜代替"。
 

@@ -2,7 +2,7 @@
 
 > goal: RV3G3-goldrank-threshold-proof · 分支 ralph/rv3g3-goldrank-threshold-proof · 2026-10-30
 > 上游：`gmr-criterion-freeze.md` §2.1（`threshold_top10 := RV3G3-goldrank-threshold-proof 产出值`）+ §2.3 门禁行；queue 条目「本 goal 只给参考值不定稿论证」由 G3 04.5 W6 导出。
-> 定位：**供 G6 定稿 O1 时消费的材料 + 推荐**，非最终裁定（同 G3「推荐路径供 G6 非决策」惯例）。最终阈值裁定权在成璐/G6。
+> 定位：**供 G6 定稿 O1 时消费的材料 + 推荐**，非最终裁定（同 G3「推荐路径供 G6 非决策」惯例）。最终阈值裁定权在D/G6。
 > **全文统一 0-based 口径**（rank 0 = 最高权重，与 freeze §5 协议一致）。引用 G3 F3b L48 原值（1-based 记法）处均带换算注记。
 
 ---

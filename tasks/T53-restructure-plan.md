@@ -1,4 +1,4 @@
-# PFB 仓库重构方案（2026-11-12 · 成璐指令）
+# PFB 仓库重构方案（2026-11-12 · D指令）
 
 > origin: ai（用户指令："github 的 pfb 很乱，分支多，合并后按设想构建；子模块同类归一文件夹；
 > 解析混合真实世界梯度 vs 纯真实世界梯度 → 同一层级的两个子模块，放在"梯度下降"分类下，可互相消融"）
@@ -34,7 +34,7 @@ pfb/
 │   ├── E-sota-benchmark/                 # SOTA 对标
 │   │   └── (gptr 基准, drb-leaderboard, sm-bench-sota-*)
 │   └── F-theory/                         # 理论框架
-│       ├── gradient-descent/             # ★ 平行消融层（成璐点名）
+│       ├── gradient-descent/             # ★ 平行消融层（D点名）
 │       │   ├── realworld-gradient/       #   纯真实世界迭代（D35 线: T53-D35-*, T53C-*）
 │       │   ├── analytic-hybrid/          #   解析先验 + 混合梯度（longterm-vision-survey 线）
 │       │   └── ablation.md               #   两臂对照实验协议（待设计）
@@ -52,7 +52,7 @@ pfb/
 
 | 决策 | 理由 |
 |---|---|
-| gradient-descent 下两个子模块同级 | 成璐原话：两者同层级、可消融；ablation.md 放父目录做对照协议 |
+| gradient-descent 下两个子模块同级 | D原话：两者同层级、可消融；ablation.md 放父目录做对照协议 |
 | 根目录 runs-* 进 archive 而非删 | 保留可追溯性；r14_analysis.py 等分析脚本引用旧路径，archive 后需同步改 3 处引用 |
 | active run 产物（stage-ablation 内）不动 | pid 68960 正在写该目录，git mv 会破坏其相对路径假设 |
 | T53 活跃任务卡暂留 tasks/ | restructure 完成前不碰在途工作流；收尾时再按模块归档 |
@@ -63,7 +63,7 @@ pfb/
 1. **B0 分支清理**：删远程 57 个僵尸分支（保留 main + f65a5a27 活跃 arena 分支）。
 2. **B1 根目录清场**：runs-*.log/pid/json/console.log → archive/root-runs/；一次性 md → archive/legacy-docs/；
    更新 3 处代码引用（r14_analysis.py, drb_judge.py, gptr_smoke.py 的路径常量）。
-3. **B2 一级目录归位**：bench/ → modules/A-eval-infra/bench/；**litsurvey 按领域分进各子模块**（成璐 2026-11-12 指令："结果直接放在对应子模块的 litsurvey，根目录只当索引，描述被做过百分比和剩余内容"）：
+3. **B2 一级目录归位**：bench/ → modules/A-eval-infra/bench/；**litsurvey 按领域分进各子模块**（D 2026-11-12 指令："结果直接放在对应子模块的 litsurvey，根目录只当索引，描述被做过百分比和剩余内容"）：
    - lit-survey/ + research/ 中评测基准类调研 → modules/A-eval-infra/litsurvey/
    - sm-* 调研、decomp 状态机相关 → modules/D-decomp-state-machine/litsurvey/
    - SOTA 对标类（sm-bench-closed-sota-v3, drb-leaderboard-*）→ modules/E-sota-benchmark/litsurvey/

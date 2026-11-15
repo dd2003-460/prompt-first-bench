@@ -1,7 +1,7 @@
 # T53 基线升级：闭源 SOTA + DeepResearch Bench（2026-11-11）
 
 ## 决策背景
-成璐指令："要不打闭源sota，拿真实几个research的bench"。原 v2 基线（本地 Qwen3-27B + GPT-Researcher + 自造 5 题）说服力不足，升级为：
+D指令："要不打闭源sota，拿真实几个research的bench"。原 v2 基线（本地 Qwen3-27B + GPT-Researcher + 自造 5 题）说服力不足，升级为：
 - **题目**：DeepResearch Bench（arXiv 2506.11763，848 stars，MIT/Apache 2.0）——100 道 PhD 级真实研究任务（50 中 / 50 英），22 个领域，专家撰写 rubric（每题含 dimension_weight + criterions）。
 - **SOTA 臂**：Claude Code CLI（本机已装 2.1.210，OAuth 登录态可用，`claude -p` 冒烟通过）。自带 WebSearch/WebFetch 工具 = 真实 deep-research agent，不是裸 LLM。
 - **我方臂**：GPT-Researcher + 本地 Qwen3-27B@8787 + arxiv retriever（已部署，冒烟通过）。
@@ -18,10 +18,10 @@
 | 2 | 题目子集 | ✅ n=10 调研型子集（见下节） | — |
 | 3 | SOTA 臂执行 | claude -p 通道已通 | 单题耗时/成本未测；需确认 claude 的 web 搜索在 -p 模式可用 |
 | 4 | 我方臂执行 | gptr_bench_run.py 已有（自造 5 题版） | 需改接 query.jsonl 的 prompt 字段；输出格式对齐 raw_data/<model>.jsonl |
-| 5 | judge | DRB 默认 GPT-5.5/GPT-5.4-mini via OpenRouter | **本机无 OPENROUTER_API_KEY / OPENAI_API_KEY** → 需成璐提供 key，或降级用 qwen2.5-7b@1234 当 judge（半异族，下界估计） |
+| 5 | judge | DRB 默认 GPT-5.5/GPT-5.4-mini via OpenRouter | **本机无 OPENROUTER_API_KEY / OPENAI_API_KEY** → 需D提供 key，或降级用 qwen2.5-7b@1234 当 judge（半异族，下界估计） |
 | 6 | 输出对齐 | — | DRB raw_data 格式：{"id","prompt","article"} jsonl；claude 输出需截断清洗（clean_article.py） |
 
-## 题目子集（2026-11-12 成璐校准："调研类型但不用到研究级别"）
+## 题目子集（2026-11-12 D校准："调研类型但不用到研究级别"）
 **n=10，从 DRB 100 题里筛"调研型"中等难度题**（收集整理/横向对比/现状梳理类动词优先，避开推导/证明/机制设计类研究题）：
 
 | id | lang | topic | prompt 摘要 |

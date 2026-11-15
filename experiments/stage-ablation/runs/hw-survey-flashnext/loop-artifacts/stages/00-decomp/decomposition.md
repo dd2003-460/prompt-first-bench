@@ -19,7 +19,7 @@
 | 相关项目目录 | ✅ | `ls projects/*D1*gpu*` + grep loop-state.json | D1-gpu-inference-hardware 存在但无活跃 loop-state；decomp 项目有 T19（27B dense 硬件选型，方法论可复用） |
 | 已有调研/报告 | ✅ | `find -name "*hardware*" -o -name "*qwen*deploy*"` | pfb/experiments/stage-ablation/hardware-survey-qwen-deploy.md v3.1（137→150 行，含 M5 Ultra/R9700/5090 数据，但跳过 decomp 直接搜的）；T8-matrix 有 D3-hardware-purchase 种子题 |
 | 相关记忆 | ✅ | `grep MEMORY.md` | MEMORY.md 有 Flash-Next 模型规格（176B/6B active/512 experts top-10/262K ctx）+ 本机 27B baseline（单流 200 t/s，物理红旗待确认） |
-| 用户过往讨论 | ✅ | session_search（压缩前上下文） | 成璐纠正过：MoE 不吃显存容量但吃内存容量+PCIe swap 效率；AMD 有比 Strata 强的优化让 R9700 接近 5090；27B baseline 是实测数据必须用 |
+| 用户过往讨论 | ✅ | session_search（压缩前上下文） | D纠正过：MoE 不吃显存容量但吃内存容量+PCIe swap 效率；AMD 有比 Strata 强的优化让 R9700 接近 5090；27B baseline 是实测数据必须用 |
 
 **小结**：本地已有 3 项相关资产（v3.1 调研 + T19 方法论 + 模型规格记忆），本次可复用 v3.1 的数据框架和 T19 的报告结构，需新增：decomp 结构化拆解、arena 交叉验证、最新价格/引擎版本核验。
 
@@ -150,7 +150,7 @@ Flash-Next 硬件调研
 
 | 缺口 | 影响 | 优先级 | 状态 (v2) |
 |------|------|--------|-----------|
-| [待核验] 本机 27B baseline 200 t/s 的机型+测量方法 | 对比叙事悬空，不确认则报告不能定稿 | P0 | ⬜ 仍待成璐确认（物理红旗：M1 Max 400GB/s → 上限 ~28 t/s） |
+| [待核验] 本机 27B baseline 200 t/s 的机型+测量方法 | 对比叙事悬空，不确认则报告不能定稿 | P0 | ⬜ 仍待D确认（物理红旗：M1 Max 400GB/s → 上限 ~28 t/s） |
 | ~~M5 Ultra 512GB 配置的 Flash-Next 实测 t/s~~ | 第一梯队推荐缺乏实测支撑 | P0 | ✅ **已解**（MacStories 256GB 单元实测 60-100+ t/s ctx 相关；512GB 同芯片带宽相同，速度预期相近，容量差异不影响 decode 速度——标注推断） |
 | ~~radiance 引擎成熟度~~ | 双 R9700 方案的可靠性评估 | P1 | ✅ **已解**（Codeberg 86 stars/47 forks/≥4 贡献者/3 周 7 release + Level1Techs & Reddit 两个独立第三方复现 137-147 t/s） |
 | Strata 0.2.10 的 DFlash2 默认 drafter 对 Flash-Next 的实际加速比 | 影响所有 Strata 系配置的速度预期 | P1 | ⬜ 仍未解（无公开 benchmark；Reddit 个人 bench 里 Strata 0.1.42 = radiance 的 54%，DFlash2 能否翻盘未知） |

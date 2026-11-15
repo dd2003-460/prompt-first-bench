@@ -2,7 +2,7 @@
 
 > 派发目标：LMArena agent（pfb 仓库，会话 01a195cb / taskSpace pfb-rejudge-g1b-20261101）
 > 本任务只涉及 prompt-first-bench/main，忽略历史中其他仓库的消息。
-> 背景：原 cross_judge.py 走 ego-browser → perplexity.ai 免费网页版，2026-11-04 确认 QUOTA_EXHAUSTED（滚动窗口，重置时间不确定）。成璐指令：异源 judge 必须非 Qwen 族，Perplexity 不可用则换 arena agent 盲判通道。
+> 背景：原 cross_judge.py 走 ego-browser → perplexity.ai 免费网页版，2026-11-04 确认 QUOTA_EXHAUSTED（滚动窗口，重置时间不确定）。D指令：异源 judge 必须非 Qwen 族，Perplexity 不可用则换 arena agent 盲判通道。
 
 ## 【强制段】
 你是 LMArena agent，工作仓库 = dd2003-460/prompt-first-bench，分支 main。先 `git pull` 到最新。严格按本任务书步骤执行，产出落盘路径见【交付物】。任何通道故障报告 Lead，不得静默跳过、不得伪造评分。完成后回执必须含 repo URL + branch + commit_sha。

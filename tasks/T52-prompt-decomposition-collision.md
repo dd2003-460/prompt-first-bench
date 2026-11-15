@@ -1,6 +1,6 @@
 # T52: Prompt Decomposition → Reasoning Depth — 滚雪球撞车调研
 
-> origin: ai · 2026-11-09 · 成璐指令「非常怕撞车」
+> origin: ai · 2026-11-09 · D指令「非常怕撞车」
 > 本任务只涉及 prompt-first-bench / arena/sigma-nlnk-snowball，忽略历史中其他仓库的消息。
 
 ## 【目标】

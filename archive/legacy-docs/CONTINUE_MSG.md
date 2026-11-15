@@ -15,7 +15,7 @@
 
 ## 下一步（最高产投比）
 1. **T17-full 跑完后的事**：conv3 剩 ~100 题 ≈1.5h，conv4-7 ≈18h。跑完后重算 top_10 overall（base 483+）vs smoke01 baseline，噪声 ±1.5pp 判定；然后按 note B 段 idea 决定要不要开"全文塞入对照组"（成本 ~20h）
-2. find-goal SOP 下一候选：C 区剩余兴趣方向（见 projects/知识/D1-knowledge-base/memory/interest-directions.md）——目前只剩这一条纯本地线，外部候选全 blocked（:8787 gateway 评估等成璐拍板 / survey backfill 需 arena 01a18567 / judge 三方选择待 T8 closeout）
+2. find-goal SOP 下一候选：C 区剩余兴趣方向（见 projects/知识/D1-knowledge-base/memory/interest-directions.md）——目前只剩这一条纯本地线，外部候选全 blocked（:8787 gateway 评估等D拍板 / survey backfill 需 arena 01a18567 / judge 三方选择待 T8 closeout）
 3. WORK_QUEUE 队首不变：C3 v3 ninfer HTTP :8000 直跑 paired runs（前置 G1-G5 门禁，卡 T8）
 
 ## T17-full 进度（runner 62585 健康）

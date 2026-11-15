@@ -1,6 +1,6 @@
 # SM 错误路径（T53 D1 · 每种失败模式 + 触发条件 + 处理）
 
-> origin: ai (T53-D1, 成璐要求"所有相关错误放在项目里")
+> origin: ai (T53-D1, D要求"所有相关错误放在项目里")
 > append-only。每条：症状 / 根因 / 处理 / 先例。
 
 ## E1 — LLM 返回无法解析的 JSON（decompose "no nodes parsed"）

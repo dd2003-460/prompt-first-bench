@@ -29,7 +29,7 @@
 | **D4 ≥2 判定** | run 级 M4 达标 ⇔ 计入口中（D2 排除后）存在 ≥2 条 D1 判独立的条目，且至少一条 nature=external 或 local-measured（transcription 永不单独构成独立源，见 D2(β)）。 | E2「web_search 单通道非≥2独立源」+ E4 run2「仍差『不同 provider 的 LLM 回执对』」——两器均要求跨通道/跨 provider 而非数量堆叠 |
 | **D5 降级态上限** | channel_status 声明外部通道不可达（degraded-partial / 无网络 / 无 ≥2 LLM 通道）⇒ 该 run M4 不得以「本地双源」顶格：本地双源仅当满足 D1 维度 (ii)/(iii) 差异时按 1 个独立源计，且 run 级结论上限 = mid 档（对应现有打分尺度 ≈ ≤60）。 | E4 run1/run2 basis 均因 channel_status 降级而判 low/mid；E3 run3「无网络无外部交叉=无验证低分」 |
 
-**互验结果**：D1-D5 每条至少一个 basis 原文锚点（表右列），无一条为纯演绎。D3 是唯一含数值参数（0.7 封顶）的条款——参数来源 = packet run2 channel_status 原文「M4 顶格 conf 0.8」之下二手源的合理折减位，**登记为暂定值待成璐确认**（不代裁数值，只定机制）。
+**互验结果**：D1-D5 每条至少一个 basis 原文锚点（表右列），无一条为纯演绎。D3 是唯一含数值参数（0.7 封顶）的条款——参数来源 = packet run2 channel_status 原文「M4 顶格 conf 0.8」之下二手源的合理折减位，**登记为暂定值待D确认**（不代裁数值，只定机制）。
 
 ## X5 — 机判升级路径预注册（本轮不改脚本）
 

@@ -1,6 +1,6 @@
 # 01 · Arena Agent Mode 外包流程
 
-> origin: human (成璐 m00002: "全部外包给arena的agentmode")
+> origin: human (D m00002: "全部外包给arena的agentmode")
 > 最后更新: 2026-10-23
 > 适用: 任何需要把视觉/媒体制作任务外包给 arena.ai/agent 的场景
 
@@ -154,7 +154,7 @@ await task.finish({ keep: ['p1'] })  // 保留页面让用户看
 - 新主题候选: 告别 (Goodbye) / 陪伴 (Companion) / 错误 (Error) — 见 docs/new-themes.md
 - ego-browser 发送技巧: tiptap 输入框有时不在 snapshot 中，用 `p1.evaluate()` + IIFE 包装填充
 
-## 七、并发与并行化规则（origin: human · 成璐 m00189 · 2026-10-24）
+## 七、并发与并行化规则（origin: human · D m00189 · 2026-10-24）
 
 **总则**：SOP 执行必须严格外包 arena（仅「必须本地」时例外）。但**寻找 / 选择 / 可并行**的任务，应拆分给**多个短上下文 subagent** 并行完成，以提高并发度与总速率。
 

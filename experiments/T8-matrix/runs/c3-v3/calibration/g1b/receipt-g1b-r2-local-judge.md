@@ -28,7 +28,7 @@
 
 ## verdict
 
-**PARTIAL-PASS（附降级声明）**：r2 数据有效（协议 sha 校验通过、schema 合规、与 G1a 逐条可比），但 family_check=unknown（同族未证实）⇒ 不能销账 queue L25，只能作为附加数据点归档。若成璐后续提供非 Qwen key，重打成本 ~5 次调用，模板现成（本回执方法段可直接复用）。
+**PARTIAL-PASS（附降级声明）**：r2 数据有效（协议 sha 校验通过、schema 合规、与 G1a 逐条可比），但 family_check=unknown（同族未证实）⇒ 不能销账 queue L25，只能作为附加数据点归档。若D后续提供非 Qwen key，重打成本 ~5 次调用，模板现成（本回执方法段可直接复用）。
 
 ## 教训
 

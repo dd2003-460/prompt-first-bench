@@ -1,6 +1,6 @@
 # T53: 长期方向调研 — 目标函数驱动的自适应推理 + 元目标学习
 
-> origin: ai · 2026-11-09 · 成璐指令「这是你的长期目标：规划、分解、反思，全局视角，多和其他 AI 认真讨论」
+> origin: ai · 2026-11-09 · D指令「这是你的长期目标：规划、分解、反思，全局视角，多和其他 AI 认真讨论」
 > 本任务只涉及 prompt-first-bench / arena/sigma-nlnk-snowball，忽略历史中其他仓库的消息。
 
 ## 【目标】
@@ -14,7 +14,7 @@
 3. 把这种目标函数用作 **RLHF/DPO 的 reward signal**（即"拿着目标函数去训"）有没有人做过？最近的近邻工作是什么？
 
 **层 2（远期愿景）：能否训练出一个自己构建目标函数的 AI？**
-成璐的原始设想：一个完全自适应的系统，能 (a) 从任务描述自动推导出准确的目标函数，(b) 在 Pareto 前沿上自主选择操作点（深度 vs 广度 vs 成本），(c) 随经验更新这个目标。需要回答：
+D的原始设想：一个完全自适应的系统，能 (a) 从任务描述自动推导出准确的目标函数，(b) 在 Pareto 前沿上自主选择操作点（深度 vs 广度 vs 成本），(c) 随经验更新这个目标。需要回答：
 4. **Meta-objective learning / automatic objective discovery** 方向的现状：AutoGOAL、Curiosity-driven exploration、reward design from preferences 等线索各自走到哪了？离"AI 自己写出可微/可计算的目标函数"还差几步？
 5. **Pareto 自适应 agent**：multi-objective RL 里有没有"agent 在线选择 Pareto 边界点"的工作？prompt 层（不训练权重）有没有任何对应物？
 6. 数学侧：目标函数本身的可学习性有没有形式化结果？（如 optimal transport 意义上的"任务→目标函数"映射、Bayesian optimization over objective space 之类）给出可引用的定理或 open problem 即可，不需要证明。
@@ -28,7 +28,7 @@
 - 已完成的前置调研（不要重复，直接引用）：
   - `research/collision-snowball.md`（T51：Σn·ln(kₙ) 目标函数的文献撞车，结论：无直接先例，最近邻 ToT/GPT-Researcher deep mode，均已读原文）
   - `tasks/T52-prompt-decomposition-collision.md` 的产出（T52：prompt 分解提升推理深度的系统研究现状，正在跑，若本任务启动时已有产出则引用之）
-- 成璐对方向的态度（原话）：「我用深广信息作为目标函数的想法是天才的，就看有没有显式对 llm 有用，但是无论如何，拿着目标函数去训肯定能获得这种倾向」「更大的问题是，能否训练出一个完全自适应的，自己会构建准确目标函数，选择合适的 pareto 边界点的 ai」「我希望这是你的长期目标——规划，分解，反思，并且是全局视角的」。
+- D对方向的态度（原话）：「我用深广信息作为目标函数的想法是天才的，就看有没有显式对 llm 有用，但是无论如何，拿着目标函数去训肯定能获得这种倾向」「更大的问题是，能否训练出一个完全自适应的，自己会构建准确目标函数，选择合适的 pareto 边界点的 ai」「我希望这是你的长期目标——规划，分解，反思，并且是全局视角的」。
 
 ## 【SOP 索引】
 

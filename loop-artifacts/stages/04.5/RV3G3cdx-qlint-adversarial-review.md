@@ -32,7 +32,7 @@
 
 ## 攻击 8 — 「改动面里的 queue-lint-samples/ 放在 bench/rubric-v3/ablation/ 下是领域错配：queue 是 tasks/ 域工件，样例放 ablation 目录会误导后续维护者以为它们是被测数据」
 
-**驳回（权衡留痕）**。备选位置确实更「语义正确」（tasks/samples/ 或 loop-artifacts/），但落点选择服从两条更强的约束：(i) 与七脚本基线的执行位置一致——所有 assert 脚本及其配套样例都在 bench/rubric-v3/ablation/scripts|samples 族内（batch2-lint-samples/ 先例），分散到 tasks/ 会破坏「跑回归 = cd 到一个目录」的既有肌肉记忆；(ii) 样例文件名全部带 neg-/pos- 前缀 + RV3TEST-* 短名前缀 + 首行注释标明「构造性样例」，三重标注下被误认为真实 queue 数据的概率低于目录语义收益。若成璐认为领域归属优先，迁移是 1 行 mv 的可逆操作，不构成返工风险。
+**驳回（权衡留痕）**。备选位置确实更「语义正确」（tasks/samples/ 或 loop-artifacts/），但落点选择服从两条更强的约束：(i) 与七脚本基线的执行位置一致——所有 assert 脚本及其配套样例都在 bench/rubric-v3/ablation/scripts|samples 族内（batch2-lint-samples/ 先例），分散到 tasks/ 会破坏「跑回归 = cd 到一个目录」的既有肌肉记忆；(ii) 样例文件名全部带 neg-/pos- 前缀 + RV3TEST-* 短名前缀 + 首行注释标明「构造性样例」，三重标注下被误认为真实 queue 数据的概率低于目录语义收益。若D认为领域归属优先，迁移是 1 行 mv 的可逆操作，不构成返工风险。
 
 ## 数字层独立重算
 

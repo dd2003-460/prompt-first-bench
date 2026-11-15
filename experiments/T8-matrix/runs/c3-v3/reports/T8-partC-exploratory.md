@@ -1,7 +1,7 @@
 # T8 Part C 可解释性加速：top-k 嫌疑段归因的探索性证据
 
 **状态**: exploratory-closed（r245s · 2026-11-02）
-**origin**: ai（依据成璐 m01140 自主收口；纯文档产出，可回滚）
+**origin**: ai（依据D m01140 自主收口；纯文档产出，可回滚）
 **数据面**: pfb `experiments/T8-matrix/runs/c3-v3/`（R6 36 run + R5 D3 18 run，J1/J2 双判 qwen3.8-27b）
 **定位**: 方向性发现。非确认性结论，不可用于功效声明或跨域泛化断言。
 

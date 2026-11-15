@@ -1,6 +1,6 @@
 # 压缩-智能框架：完整推导（Theory: Compression-Intelligence for Decomposition Trees）
 
-> origin: ai · 2026-11-12 · 成璐指令"给我推导和计算"
+> origin: ai · 2026-11-12 · D指令"给我推导和计算"
 > 本文档把 Decision 26/28/30 散落的定义收成自洽的形式体系：公理 → 命题（带证明）→ 推论 → 数值例 → 可算性分析 → 假设与局限。
 > 符号约定：log 为自然对数；熵单位 bits（以 2 为底时结论不变，只换 e 的底数）；所有量对固定 LM M 和固定题 Q 定义。
 

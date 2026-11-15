@@ -1,7 +1,7 @@
 # SM Bench SOTA 对标标准
 
 > origin: ai (T53 AC4)
-> 状态：v2（baseline = 本机模型 + 开源 deepresearch 框架，2026-11-11 成璐指令修订）
+> 状态：v2（baseline = 本机模型 + 开源 deepresearch 框架，2026-11-11 D指令修订）
 
 ## 验收定义
 

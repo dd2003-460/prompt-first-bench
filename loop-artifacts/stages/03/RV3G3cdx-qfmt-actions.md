@@ -8,7 +8,7 @@
 | A2 | queue L3 加一行契约指针（blockquote，非 goal 行） | tasks/goal-queue.md L3 后 | assert-queue-lint 实跑仍 48 行 / 0 FAIL / 3 SIGNAL exit 0（指针行不被解析为 goal 行——行数不变即证） |
 | A3 | (b) 备料清单落盘 `loop-artifacts/stages/04/RV3G3cdx-qfmt-stock-inventory.md`：15 简写行 + 4 标记变体逐行表（行号 + 形态摘录 + 改写预览），吸收登记行 4 处单独标高风险 | stages/04/ 新文件 | 行数与 02 S2/S3 实数对账（15+4，交集空）；双正则+awk 三角验证（X6） |
 | A4 | 回归取证：assert-queue-lint 实跑 + 八脚本基线 + 冻结面 diff | 仓库根 | 48 行 / 0 FAIL / 3 SIGNAL exit 0；[0,0,0,1,0,0,0,0]；git diff main -- 三冻结件 = 0 行 |
-| A5 | 收口 | queue + branch | 本 goal 行 `[ ]`→`[x]` + 元数据 + `**结果**：` 注记（按 C5 标准形态书写——本行即契约首秀）+ 追加候选 ≥1【(b) 存量改写执行候选，措辞含成璐裁定范围】；merge main |
+| A5 | 收口 | queue + branch | 本 goal 行 `[ ]`→`[x]` + 元数据 + `**结果**：` 注记（按 C5 标准形态书写——本行即契约首秀）+ 追加候选 ≥1【(b) 存量改写执行候选，措辞含D裁定范围】；merge main |
 
 **改动面白名单**：{tasks/queue-format-contract.md（新建）, tasks/goal-queue.md（L3 指针 + 收口行翻转 + 候选追加）, loop-artifacts/stages/{02,02.5,03,04,04.5}/*, current-goal.md}。
 **禁区复核**：assert-queue-lint.py **零改动**（current-goal (c) 字面：本轮只写规格）；其余七脚本零触碰；冻结数据零修改。

@@ -1,6 +1,6 @@
 # 中期目标规划：PFB-APPLY（可应用 + 真实泛化 + 打赢开源）
 
-> origin: ai · 2026-11-07 早 · 成璐指令「和subagent用人话商量一个中期目标」
+> origin: ai · 2026-11-07 早 · D指令「和subagent用人话商量一个中期目标」
 > 状态：decomp 落盘，待 subagent 讨论轮 + arena 派发
 
 ## 0. 用户原话（意图锚点）

@@ -14,10 +14,10 @@
 | B3 | 写 materials §3 K1 三候选解法评估（i 临时 commit / ii staged-diff / iii 弱检查）+ 推荐 (ii)+(iii) 合并及理由（A6 沙盒证据） | 三行各带可行性/复杂度/漏检面 | A6 |
 | B4 | 写 materials §4 分流规则定稿草案：exit 0 放行 / exit 1 FAIL 指名道姓行 / exit 2 不适用放行（纯工件 commit 无 queue diff = 正常态）——抄录断言脚本 L21-22 原语义 + hook 层适配说明 | 与 A5 锚点 byte-exact 一致 | A5 |
 | B5 | 写 materials §5 豁免子句运维说明 + FLIP_KW/APPEND_KW 维护责任登记（W2 边界：新措辞漏检由双向闭合兜底）+ K4 语义漂移接受度作为显式裁定输入（四选项预写） | 关键词集与 A5 抄录一致 | A3/A5 |
-| B6 | 写 materials §6 执行清单 D1-Dn（若成璐裁定接入门禁：hook 文件落 .githooks/ + core.hooksPath 设置步骤 + 负样例构造方式【K5：tmp 缺失，按 r148 登记方式构造】+ 激活验证命令） | 清单每步带命令 | B1-B5 |
+| B6 | 写 materials §6 执行清单 D1-Dn（若D裁定接入门禁：hook 文件落 .githooks/ + core.hooksPath 设置步骤 + 负样例构造方式【K5：tmp 缺失，按 r148 登记方式构造】+ 激活验证命令） | 清单每步带命令 | B1-B5 |
 | B7 | 落盘未激活 hook 原型 `.githooks/pre-commit.closure-checklist`（**不设置 core.hooksPath，仅文件存在 = 未激活态**）：消费 staged queue diff（B4 分流规则），调用 assert-closure-checklist.py 逻辑的 staged 变体 | 文件存在 + shellcheck 级语法自检（bash -n） | B4 |
 | B8 | 三出口实跑验证（在沙盒或本仓 dry-run，不触发真实提交拦截）：(a) staged queue diff 含翻转 → exit 1 路径输出指名道姓行 / (b) staged 无 queue diff → exit 2 不适用放行 / (c) staged queue diff 合规收口 → exit 0 放行 | 三出口实测记录 | B7 |
-| B9 | APPROVALS.md 登记：本 goal 全部产出为备料性质，门禁激活 = 待成璐裁定（K4 + 方案选择） | grep APPROVALS 新增条目 | B1-B6 |
+| B9 | APPROVALS.md 登记：本 goal 全部产出为备料性质，门禁激活 = 待D裁定（K4 + 方案选择） | grep APPROVALS 新增条目 | B1-B6 |
 
 ## 顺序依赖
 

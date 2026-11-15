@@ -29,7 +29,7 @@
 **G2 脚本判定语义**（权威源 = 定义文档 §3 U1 (a)(b)(c) + 04.5 W2 双条件并联）：
 - (a) nature ∈ {external, local-measured, transcription} = **FAIL 级**（exit 1）。
 - (b) source 归一 = 小写 + 去日期括号（半角/全角 `(2026-06-18)` 型）+ 空白折叠；同 run 内归一后重复 = **SIGNAL**（疑似同源拆条，D2(γ)/回测 M1 首个实证用例预注册）。
-- (c) 三类扫描：transcription ⇒ D2(β) 自动排除 SIGNAL；`转引|经\s*\S+\s*blog|二手` 命中 ⇒ D3 折减标记 SIGNAL（**只标折不改值**——0.7 暂定待成璐裁定，脚本不把 0.7 当硬阈值写入任何判定，符合定义文档 D3 ⚠ 注记）；X3 = conf=null **且** 负向关键词（不可达/无源/unverified/无外部/无网络）才自动排除，单独任一 = SIGNAL 人工复核（W2 双条件并联）。
+- (c) 三类扫描：transcription ⇒ D2(β) 自动排除 SIGNAL；`转引|经\s*\S+\s*blog|二手` 命中 ⇒ D3 折减标记 SIGNAL（**只标折不改值**——0.7 暂定待D裁定，脚本不把 0.7 当硬阈值写入任何判定，符合定义文档 D3 ⚠ 注记）；X3 = conf=null **且** 负向关键词（不可达/无源/unverified/无外部/无网络）才自动排除，单独任一 = SIGNAL 人工复核（W2 双条件并联）。
 - 双模式自动切换：packet 任一条目含 provider/channel 键 ⇒ v3 完整实跑（追加 provider 必填非空 str + channel 枚举 + nature-channel 映射冲突检查）；否则 v2 降级运行（跳过 provider 维度，SIGNAL 声明 U3 激活条件未满足）。
 - exit 语义对齐 r5 既有脚本惯例（assert-packet-audit.py 范式）：exit 0 = FAIL 级全过（SIGNAL signal-only 不参与 exit code）/ exit 1 = 存在 FAIL。
 

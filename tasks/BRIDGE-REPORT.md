@@ -4,7 +4,7 @@
 - 新开会话后 arena 自动绑定 from-motivation-to-society（上次活跃仓库），非 decomp-bench
 - agent 正确识别仓库不匹配 + git ls-remote decomp-bench 403 → 报告 BLOCKED，未执行任何阶段
 - **根因**：arena GitHub integration 对 decomp-bench 无访问权限（或会话未正确绑定）
-- **需成璐操作**：Arena → Connectors → GitHub → 确认 dd2003-460/decomp-bench 在已授权仓库列表中；或在会话内手动切换仓库
+- **需D操作**：Arena → Connectors → GitHub → 确认 dd2003-460/decomp-bench 在已授权仓库列表中；或在会话内手动切换仓库
 - 降级条款：按任务书规则可降级 Lead 本地执行（conf−0.2，gold 盲评隔离失效）
 
 **E30 在途**（arena 会话 `01a19a03`）：
@@ -33,7 +33,7 @@
   - XU_STAND_BOX 宽 58×2=116 ≠ 期望 115 → 修正期望值
 - mp4 ffprobe 确认：1280×720 / 60fps / 30.000s / h264+aac / 1004KB
 - d1 仓 commit cc195f4 pushed（4 文件 + status-table 41→42）
-- APPROVALS E29 条目标记 resolved（无需成璐授权，产出已在本地）
+- APPROVALS E29 条目标记 resolved（无需D授权，产出已在本地）
 - **下一步**：同型派发 E30/E31/E32（batch-12 剩余 3 集）
 
 ## r196 — E29 在途观察（未落盘）
@@ -50,8 +50,8 @@
   - 音频峰值 -13.01 dBFS（E27/E28 为 -13.6/-12.2，无削波）
   - **卡点：push 403** — arena GitHub 集成令牌对 d1-video-recreation 只读（只对 from-motivation-to-society 有写权限），API 建 ref 也 403
 - 回收尝试：base64 分片方案受阻（单条消息输出上限 ~8.8KB，tar 包 base64 需 25,964 字符 ≈ 3 条消息量，agent 贴出的块不完整已声明作废；页面 DOM 里 pre 块也是同一份 8800 字符截断版）
-- **待成璐决策（已写 APPROVALS）**：① Arena 给 d1 仓库加写权限（重授权 GitHub integration）→ agent 一条 push 收口；或 ② 接受源码经多轮 next 逐片传输（~3 轮）后本地复现 mp4（95s 渲染）
-- **下轮核验起点**：先查 APPROVALS 是否已有成璐指示 → 有则按指示执行；无则检查 arena 会话是否有新状态（可能成璐手动在 Arena 操作过授权）：`git fetch origin && git ls-remote origin | grep -i "4a5725f7\|E29"` → 有分支则提取 4 文件 → 本地 check_overlap（E28_SANS_FONT=Hiragino Sans GB.ttc）→ ffprobe → episodes/status-table 41→42 → push
+- **待D决策（已写 APPROVALS）**：① Arena 给 d1 仓库加写权限（重授权 GitHub integration）→ agent 一条 push 收口；或 ② 接受源码经多轮 next 逐片传输（~3 轮）后本地复现 mp4（95s 渲染）
+- **下轮核验起点**：先查 APPROVALS 是否已有D指示 → 有则按指示执行；无则检查 arena 会话是否有新状态（可能D手动在 Arena 操作过授权）：`git fetch origin && git ls-remote origin | grep -i "4a5725f7\|E29"` → 有分支则提取 4 文件 → 本地 check_overlap（E28_SANS_FONT=Hiragino Sans GB.ttc）→ ffprobe → episodes/status-table 41→42 → push
 - 风险登记：npm install 若持续失败（@napi-rs/canvas 原生依赖），agent 可能超时会话挂掉 → 届时重派 E29（任务书不变，新会话）
 
 ## r195 — batch-12 E29 派发（arena 直连 d1）
@@ -136,7 +136,7 @@
 
 **结果**：main 16e4ec3 pushed。回归 assert-queue-lint.py exit 0。
 
-**下一步**：完整五段式归一待成璐裁定 (i)/(ii)；其余卡人项不变。微信广播失败（wx-push.py ret=-1，连续第 3 轮同因）。
+**下一步**：完整五段式归一待D裁定 (i)/(ii)；其余卡人项不变。微信广播失败（wx-push.py ret=-1，连续第 3 轮同因）。
 
 ---
 
@@ -157,7 +157,7 @@
 - goal: 无活跃 stage-gate goal；r187 完成 queue-lint 卫生修复（4 FAIL→0）。剩余卡人项不变：G1b family_check / O3 gold 树 prefill 路径分歧裁定 / APPROVALS 条目 1
 - commit: main f812129（r187：queue 3 处吸收声明 + L110 em-dash）
 - 验收自检: assert-queue-lint.py 0 FAIL / 7 SIGNAL（全部合法跨区重复）exit 0
-- 结论：**queue 排版归一选项 (ii) 的 lint 可执行部分已落地**——4 个 FAIL 全部修复，7 个 SIGNAL 为合法吸收登记形态。queue L93 候选行（RV3G3cdx-qfc-stock-normalize）的激活前置「成璐裁定 (i)/(ii)」仍待裁，但 lint 层面的硬伤已清。下一可自主推进项见 goal-queue 队首扫描。
+- 结论：**queue 排版归一选项 (ii) 的 lint 可执行部分已落地**——4 个 FAIL 全部修复，7 个 SIGNAL 为合法吸收登记形态。queue L93 候选行（RV3G3cdx-qfc-stock-normalize）的激活前置「D裁定 (i)/(ii)」仍待裁，但 lint 层面的硬伤已清。下一可自主推进项见 goal-queue 队首扫描。
 
 ---
 
@@ -167,7 +167,7 @@
 
 **结果**：main 16e4ec3 pushed。回归 assert-queue-lint.py exit 0。
 
-**下一步**：完整五段式归一待成璐裁定 (i)/(ii)；其余卡人项不变。微信广播失败（wx-push.py ret=-1，连续第 3 轮同因）。
+**下一步**：完整五段式归一待D裁定 (i)/(ii)；其余卡人项不变。微信广播失败（wx-push.py ret=-1，连续第 3 轮同因）。
 
 ---
 

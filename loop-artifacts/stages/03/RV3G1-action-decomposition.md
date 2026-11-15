@@ -1,7 +1,7 @@
 # 阶段 03：行动分解 — RUBRIC-V3-FULL-AUDIT / G1
 
 > goal: rubric-v3-audit-g1 · 2026-10-30
-> owner 标注：agent = ralph loop 自主执行；user = 需成璐决策
+> owner 标注：agent = ralph loop 自主执行；user = 需D决策
 
 ## 行动清单（DAG）
 

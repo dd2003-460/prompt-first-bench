@@ -4,7 +4,7 @@
 
 ## 1. 为什么现在做
 
-queue 待办区现状：R5.2-third-scorer / RV3G4-kappa-gate-execution / R5.2audit-C4-arena-export / RV3G1-semantic-rejudge / RV3G3-batch2-arrival-closure 全 blocked-on-external；RV3B1-jaccard-adjudicate / RV3G6-o3-claim-rejudge 为 [~] 待人工/待外部。纯仓库内可动项 = **RV3G6-kappa-formula-adjudicate**（r141 导出，~2 回合备料型）+ 新导出的 RV3G6-o3-claim-list-erratum-27（冻结件修改需成璐裁定改法——比本项多一道人工前置）。按产投比取 kappa-formula-adjudicate：它是 judge-protocol-batch1.md §4 UNRESOLVED 标记的直接上游，且 batch2/rejudge 执行体到来后 protocol 即刻需要该公式闭合——备料先行无浪费。
+queue 待办区现状：R5.2-third-scorer / RV3G4-kappa-gate-execution / R5.2audit-C4-arena-export / RV3G1-semantic-rejudge / RV3G3-batch2-arrival-closure 全 blocked-on-external；RV3B1-jaccard-adjudicate / RV3G6-o3-claim-rejudge 为 [~] 待人工/待外部。纯仓库内可动项 = **RV3G6-kappa-formula-adjudicate**（r141 导出，~2 回合备料型）+ 新导出的 RV3G6-o3-claim-list-erratum-27（冻结件修改需D裁定改法——比本项多一道人工前置）。按产投比取 kappa-formula-adjudicate：它是 judge-protocol-batch1.md §4 UNRESOLVED 标记的直接上游，且 batch2/rejudge 执行体到来后 protocol 即刻需要该公式闭合——备料先行无浪费。
 
 ## 2. 缺口精确定位（预注册研究问题）
 
@@ -26,6 +26,6 @@ o3-claim-list §4.3（κ 门禁，无公式）
 
 ## 3. 不做的事
 
-- **不代裁**：推荐排序是给成璐的决策输入，不是结论（同 jaccard-m5 先例——材料落盘即本 goal 完成，裁定是人工动作）
+- **不代裁**：推荐排序是给D的决策输入，不是结论（同 jaccard-m5 先例——材料落盘即本 goal 完成，裁定是人工动作）
 - **不算真实 κ**：无 rejudge-results.json（blocked-on-external），数值自检只用手算小例验证公式引用正确性
 - **不动冻结件**：o3-claim-list.md / DRAFT v2 / judge-protocol-batch1.md / assert-kappa-receipt.py 裁定前零触碰；裁定后执行清单只描述 diff 面不执行

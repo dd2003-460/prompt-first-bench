@@ -31,11 +31,11 @@
 
 **r3 派发本轮未完成**，G1b family_check 维持 unknown，R5 家族隔离项维持 PARTIAL-CLOSED，queue L46 状态位不变。
 
-## 解锁路径（给 Lead/成璐，按成本排序）
+## 解锁路径（给 Lead/D，按成本排序）
 
-1. **人工浏览器过 Cloudflare 后接管 battle**（最便宜）：在本机任意正常浏览器打开 arena.ai 过一次人机验证，之后我可以用 CDP attach 到该已登录/已验证的浏览器实例继续跑 5 份工件的 Direct/Battle 评分（每份 ~1 次调用，揭名即得模型全名）。需要成璐做一次扫码/点验证。
+1. **人工浏览器过 Cloudflare 后接管 battle**（最便宜）：在本机任意正常浏览器打开 arena.ai 过一次人机验证，之后我可以用 CDP attach 到该已登录/已验证的浏览器实例继续跑 5 份工件的 Direct/Battle 评分（每份 ~1 次调用，揭名即得模型全名）。需要D做一次扫码/点验证。
 2. **非 Qwen API key**：任一明确非 Qwen 家族的 key（Claude/GPT/Gemini 等），~5 次调用按 r2 模板重打，family_check 直接实锤 yes/no。
-3. **arena 平台侧问模型身份**：若成璐在 arena 网页端能看到会话所用模型全名（有些版本 UI 显示），直接登记即可升级，连重打都省了。
+3. **arena 平台侧问模型身份**：若D在 arena 网页端能看到会话所用模型全名（有些版本 UI 显示），直接登记即可升级，连重打都省了。
 
 ## verdict
 

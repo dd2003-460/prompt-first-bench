@@ -1,6 +1,6 @@
 # T8-lit 文献调研任务书（可解释性前沿 · 三方向）
 
-**状态**: ready（2026-10-29 成璐指令：先调研前沿再说，再定 C3 执行细节）
+**状态**: ready（2026-10-29 D指令：先调研前沿再说，再定 C3 执行细节）
 **执行通道**: arena agent mode @ prompt-first-bench 仓 `research/interpretability` 分支
 **目的**: C3 paired runs 方案已过对抗核验（r50 PASS-with-fixes），开跑前先把三个方向的成熟方法调研清楚——哪些是重复造轮子、哪些能直接用成熟方法替代。
 

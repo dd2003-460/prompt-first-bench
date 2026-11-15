@@ -3,7 +3,7 @@
 **r198 发现**：E29 的 4 个产出文件已在 d1 本地工作区（arena agent r197 直接落盘），不需要从沙箱回收。本地 check_overlap 修 4 bug 后 9/9 PASSED，d1 仓 cc195f4 pushed。batch-12 进度 1/4。
 # APPROVALS — 待用户裁定的不可逆/越权操作队列
 
-> runner 遇到「不可逆且偏好不明」或「冻结数据修改」时登记于此，跳过继续做可逆工作。成璐裁定后销账。
+> runner 遇到「不可逆且偏好不明」或「冻结数据修改」时登记于此，跳过继续做可逆工作。D裁定后销账。
 
 ## 2026-10-30 · RV3G4-prior-source-assert（r130）
 
@@ -15,7 +15,7 @@
 
 **回退方式**：`git revert <收口 commit>` 单步还原，无级联影响。
 
-**状态**：已执行（runner 按 J4 预注册处置：登记 + 纯新增 + 回归证明三重保障）。若成璐认为应走开新文件路径，revert 后按新方案重做。
+**状态**：已执行（runner 按 J4 预注册处置：登记 + 纯新增 + 回归证明三重保障）。若D认为应走开新文件路径，revert 后按新方案重做。
 
 ## 2026-10-30 · RV3G3-goldrank-threshold-proof（r138+）— freeze doc 回填备案
 
@@ -27,19 +27,19 @@
 
 **回退方式**：`git revert <收口 commit>` 单步还原。
 
-**状态**：已执行（事后备案）。若成璐认为 §2.1 回填应走其他形式（如拆独立阈值文件），revert 后按新方案重做。
+**状态**：已执行（事后备案）。若D认为 §2.1 回填应走其他形式（如拆独立阈值文件），revert 后按新方案重做。
 
 ## 2026-10-30 · RV3G3cdx-crossdomain-promptversion-mapping（r153）— C9-plain 归属推论复核 + 执行偏差备案
 
 **操作**：`bench/rubric-v3/ablation/prompt-version-gold-map.json` 新建权威映射表，其中 `pre-v3/C9-plain` 条目的 status=`archived-reference` 及「C9-plain ≠ v3 变体矩阵成员」的归属判定为**推论**而非直接证据——L1 原始任务书不在本仓，推论锚点 = DRAFT-rubric-v3-v2.md §3.2 L180 #27 裁定原文（「V0 必须在 v3 题面上同批次重跑……L1 C9-plain 只作外部参照」把两者当不同对象处理）。
 
-**理由**：04.5 A-1 攻击项复核结论为驳回（推论有裁定文本锚点支撑），但残余不确定性非零——若成璐知悉 C9-plain 实为 V0-baseline 旧名，则映射表存在重复登记。消费逻辑零影响（两条目 gold_nodes 相同，仅 label/status 一行 diff），故不阻塞收口，挂此供复核。
+**理由**：04.5 A-1 攻击项复核结论为驳回（推论有裁定文本锚点支撑），但残余不确定性非零——若D知悉 C9-plain 实为 V0-baseline 旧名，则映射表存在重复登记。消费逻辑零影响（两条目 gold_nodes 相同，仅 label/status 一行 diff），故不阻塞收口，挂此供复核。
 
 **影响面声明**：纯新增文件（git status `??`），冻结面零触碰；消费方 assert-goldrank-crossdomain.py 的 gold_map_check 对该条目只做 sorted-set 相等比较，label/status 字段机判零消费。
 
 **回退方式**：`git revert <收口 commit>` 单步还原；或单行修改该条目 status/label 即可纠正归属，无需重建表。
 
-**状态**：待成璐复核（不阻塞）。
+**状态**：待D复核（不阻塞）。
 
 **附 · 执行偏差备案（D-a~D-d，均已修复复验，无遗留）**：
 - D-a：初版 domain 解析用 prompt_version 的 `/` 后缀查 versions dict，而映射表键为完整字符串 ⇒ 恒 miss 误落 T3 SIGNAL；修复 = 完整 pv 直查 + 多域期 prefix 路由过渡形态（升级条款预注册于代码注释，挂 queue 候选 RV3G3cdx-goldmap-multidomain-upgrade）。
@@ -57,13 +57,13 @@
 
 **回退方式**：`git revert <收口 commit>` 单步还原（重新引入该临时条目）。
 
-**状态**：已执行（事后备案）。供成璐知悉 r153 收口遗漏，不阻塞。
+**状态**：已执行（事后备案）。供D知悉 r153 收口遗漏，不阻塞。
 
 ## 2026-10-31 · RV3G3cdx-closure-gate-integration（r155/r27）— 门禁激活待裁定登记
 
 **操作**：无已执行操作。本条目为**备料完成 + 裁定请求**登记：closure-checklist 门禁接入的全部备料件已落盘——`bench/rubric-v3/closure-gate-integration-materials.md`（六节裁定材料）+ `.githooks/pre-commit.closure-checklist`（未激活 hook 原型，core.hooksPath 零设置 = 对现有提交流程零行为变化）+ 三出口沙盒实跑记录（stages/04/RV3G3cdx-cgi-execution-log.md）。
 
-**待成璐裁定项**（materials §2/§3/§4.3）：
+**待D裁定项**（materials §2/§3/§4.3）：
 1. **是否接入门禁**：否 ⇒ queue L27 转 `[~]` 设计内终态（K4 选项 O4），材料归档；是 ⇒ 进入方案选择。
 2. **方案选择**：本仓约束下方案 B（CI check）实际拦截力 = 零（直推 main 无 PR 时点可挂，A2 实证）；方案 A（pre-commit hook）是唯一有实际拦截力的选项，但强制力弱（`--no-verify` 可绕过）。
 3. **K4 语义漂移接受度（四选项）**：O1 完全接受 staged-diff 变体双轨并存【备料倾向】/ O2 有条件接受（hook 输出显式标注 staged 时点判定）/ O3 不接受退回 commit-hash 签名（需解冻 assert-closure-checklist.py 接口 = 新 goal + 本队列再登记）/ O4 不接入门禁。
@@ -73,13 +73,13 @@
 
 **回退方式**：`git revert <收口 commit>` 单步还原（删 2 新增文件 + 撤销本条目）。
 
-**状态**：待成璐裁定（不阻塞——备料性质，同 RV3B1-jaccard-adjudicate / kappa-u1k1 备料模式）。裁定后按 materials §5 D1-D6 清单开执行 goal。
+**状态**：待D裁定（不阻塞——备料性质，同 RV3B1-jaccard-adjudicate / kappa-u1k1 备料模式）。裁定后按 materials §5 D1-D6 清单开执行 goal。
 
 ## 2026-10-31 · RV3G6-o3-claim-list-erratum-27（r29）— 冻结件修改登记（方案 A 已执行）
 
 **操作**：`o3-claim-list.md` L137「27 个」→「13 个」+ 短注记；`assert-hitmatrix-evidence.py` 三处同步（docstring/declared=13/mismatch 文案）。
 
-**裁定依据**：成璐选方案 A（材料 §4 推荐项）。r142 三口径独立复算 V1=13/V2=34/V3=35 均≠27，27 不可复现。
+**裁定依据**：D选方案 A（材料 §4 推荐项）。r142 三口径独立复算 V1=13/V2=34/V3=35 均≠27，27 不可复现。
 
 **验证**：`python3 assert-hitmatrix-evidence.py` → 「V1 计数 = 13/98 vs 声明值 = 13（一致）」VERDICT: PASS exit 0。
 
@@ -91,9 +91,9 @@
 
 ## 2026-10-31 · T8-C3-v3-opportunity-set-freeze — 空分母口径 + cover 门槛裁定（r62z）
 
-**操作**：无文件修改。本条目为**成璐授权 runner 自主裁定**的记录。
+**操作**：无文件修改。本条目为**D授权 runner 自主裁定**的记录。
 
-**成璐指令原文**：「你自己决定approve里面的事情」（2026-10-31，微信）。
+**D指令原文**：「你自己决定approve里面的事情」（2026-10-31，微信）。
 
 **裁定内容**：
 1. **空分母口径**：选**保守口径**（unaddressed 计入分母、不计入分子）。理由：防「少做事反而分数高」漏洞，与 sham 分离目标一致。激进口径保留作敏感性分析双报。
@@ -101,13 +101,13 @@
 
 **影响面声明**：协议草案 `design/opportunity-set-freeze-protocol-draft-r57.md` 状态从「草案待裁定」→「已定稿」；goal-queue.md T8 行 BLOCKED ON USER → UNBLOCKED。R5 执行层解除阻塞。
 
-**回退方式**：若成璐事后认为应选激进口径或不同门槛值，改协议草案 §二.2/§三 两行即可，已落盘数据不受影响（R4/R5 用的是旧口径 M8-r4-variable，历史数字保持原样）。
+**回退方式**：若D事后认为应选激进口径或不同门槛值，改协议草案 §二.2/§三 两行即可，已落盘数据不受影响（R4/R5 用的是旧口径 M8-r4-variable，历史数字保持原样）。
 
 **状态**：已裁定已记录。
 
 ## 2026-11-01 · r76 keepalive — 卡人项状态汇总（无新裁定请求，纯状态登记）
 
-**背景**：r76 唤醒时把 C3 v3 全链核查收口 + market-alpha T5-R1 收口 + lit-survey 来源审计做完后，盘点全部未决项，确认 agent 侧无可推进空间。本条为状态快照，供成璐下次看微信播报时快速定位要做什么。
+**背景**：r76 唤醒时把 C3 v3 全链核查收口 + market-alpha T5-R1 收口 + lit-survey 来源审计做完后，盘点全部未决项，确认 agent 侧无可推进空间。本条为状态快照，供D下次看微信播报时快速定位要做什么。
 
 **当前卡人项清单（按解锁成本排序）**：
 
@@ -140,7 +140,7 @@
 
 **影响面**：(a) 新增文件；(b)/(c) 改一行或零改动。均不影响已落盘数据。
 
-**状态**：待成璐裁定。runner 倾向 (b)——最小动作堵住引用风险，不造文书。
+**状态**：待D裁定。runner 倾向 (b)——最小动作堵住引用风险，不造文书。
 
 ## 2026-11-03 · r260 keepalive — seedc powerup 收口（无新裁定请求，状态登记）
 
@@ -160,7 +160,7 @@
 
 **结果**：G1 PASS（per-item 一致率 1.0）；G2 FAIL——全表 spread 0.044，constraint-only spread 0.0。**根因确认**：R4 全部 54 工件均为阶段 01+02 产出（prompt freeze 组件限定「本阶段是因素分解，不是资料搜集」），消融信号在阶段 01/02 层面极弱。之前所有 per-config Δ 测的是弱信号被测量噪声淹没，不能升级 confirmatory 声明。
 
-**新决策点（需成璐拍板）**：是否补跑完整 loop（01→04）到最终报告再评分？成本 ≈ 9-13h 本地 LLM（:8787 qwen3.8-27b），收益 = 第一次真正测到消融对最终报告质量的影响。如果 T8 exploratory 结论够用则关闭实验线。
+**新决策点（需D拍板）**：是否补跑完整 loop（01→04）到最终报告再评分？成本 ≈ 9-13h 本地 LLM（:8787 qwen3.8-27b），收益 = 第一次真正测到消融对最终报告质量的影响。如果 T8 exploratory 结论够用则关闭实验线。
 
 **留痕**：wx-push 失败（retry-without-token invalid request），按协议不重试。
 
@@ -169,5 +169,5 @@
 ## 2026-11-07 social-ready 准备（自主执行，已留痕）
 
 - 仓库 `github.com/dd2003-460/prompt-first-bench` 完成公开化准备：LICENSE（code MIT + data CC-BY-4.0）、demo/ 最小可复现目录、README 入口、__pycache__ 去跟踪。commit 14e50eb，tag v0.1-social-ready 已推远端。
-- **待办（需成璐账号操作）**：GitHub 仓库 Settings → Integrations 添加 Zenodo OAuth → 打 tag 后自动生成 DOI 存档。完成后把 DOI 填进 README 顶部。
+- **待办（需D账号操作）**：GitHub 仓库 Settings → Integrations 添加 Zenodo OAuth → 打 tag 后自动生成 DOI 存档。完成后把 DOI 填进 README 顶部。
 - 回滚：git revert 14e50eb / git push origin :refs/tags/v0.1-social-ready

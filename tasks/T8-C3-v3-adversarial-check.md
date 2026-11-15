@@ -8,7 +8,7 @@ T8 prompt 消融实验的 C3「定向 paired runs」方案 v3 已按文献调研
 **上下文速览**（细节以文件为准）：
 - 目标：测 3 个 prompt 组件（candidate-freeze / owner-tag / evidence-url）对 M8（核验真实性率，口径见 experiments/T8-audit/intermediate-rounds-audit.md §M8 基线计算）的净因果贡献。
 - 前史：v2 已过一轮对抗核验（PASS-with-fixes，6 必改项全落地）；本轮 v3 在 v2 基础上补 R1（C1 表征偏离三道地板：sham 地板/Spearman 长度否决线/z-score+CI）、R4（3 单删→2³ 全因子 8 组测交互）、R5（judge 校准前置硬门禁：换位双判+家族隔离+CALM 扰动+κ≥0.6+长度去偏）。
-- 算力：行为层 paired runs 走 ninfer HTTP :8000（qwen3.8-27b，reasoning 模型 max_tokens≥2048）；表征层本次暂缓（成璐指令），C3 v3 完全行为层自洽。
+- 算力：行为层 paired runs 走 ninfer HTTP :8000（qwen3.8-27b，reasoning 模型 max_tokens≥2048）；表征层本次暂缓（D指令），C3 v3 完全行为层自洽。
 - 现状：尚未开跑任何 run。
 
 ## 反方要找的漏洞（重点质询方向）

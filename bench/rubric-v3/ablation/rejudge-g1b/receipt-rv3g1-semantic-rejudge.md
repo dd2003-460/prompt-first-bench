@@ -17,7 +17,7 @@
 ## 诚实声明
 1. 单 judge 同族（与 G1b family_check 同病）：跨家族验证待非 Qwen 凭证解锁后补打这 75 cell（复用本回执的 judge-input.json 即可，~11 次调用）。
 2. 「h=0 零翻转」是「未发现假阳性」，不是「证明无假阳性」——样本 40/248≈16%，且 judge 与原标注同模型族。置信度实际 ~0.5。
-3. 10 个歧义 cell 的共同模式：evidence 是 run 内「结构化账本行」（PARENT/NOW/GAP/TEST 格式）里的短片段，judge 语义判断认为片段本身不构成对节点的独立实质覆盖——这是**标注口径问题**（账本行算不算覆盖），不是数据错误，留成璐裁定后回填 hit-matrix（冻结件，须开新文件 + APPROVALS 登记，本轮不动）。
+3. 10 个歧义 cell 的共同模式：evidence 是 run 内「结构化账本行」（PARENT/NOW/GAP/TEST 格式）里的短片段，judge 语义判断认为片段本身不构成对节点的独立实质覆盖——这是**标注口径问题**（账本行算不算覆盖），不是数据错误，留D裁定后回填 hit-matrix（冻结件，须开新文件 + APPROVALS 登记，本轮不动）。
 
 ## 落盘清单（bench/rubric-v3/ablation/rejudge-g1b/）
 - node-defs.json（30 节点定义抽取）· judge-input.json（75 条输入，prior_h 仅对照）· rejudge-rules.json（判定规则 v1 冻结）

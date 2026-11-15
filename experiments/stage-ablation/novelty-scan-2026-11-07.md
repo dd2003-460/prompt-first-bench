@@ -1,8 +1,8 @@
-# 新颖性撞车扫描（2026-11-07 · 成璐问"decomp 也有人做了，我们还有啥新的？怎么完整搜索未知？"）
+# 新颖性撞车扫描（2026-11-07 · D问"decomp 也有人做了，我们还有啥新的？怎么完整搜索未知？"）
 
 ## 背景
 
-成璐的观察：pfb 最终形态 = 正交分解 → 全渠道搜索 → 质询/找矛盾 → 外部校验 → 修正输入 → 内外逻辑校验的 loop。decomp 类工作别人也在做（GPT Researcher、Open Deep Research、STORM 等，见 `competitor-survey.md`）。担心撞车，且 arXiv 关键词命中是否足够覆盖"未知"存疑。
+D的观察：pfb 最终形态 = 正交分解 → 全渠道搜索 → 质询/找矛盾 → 外部校验 → 修正输入 → 内外逻辑校验的 loop。decomp 类工作别人也在做（GPT Researcher、Open Deep Research、STORM 等，见 `competitor-survey.md`）。担心撞车，且 arXiv 关键词命中是否足够覆盖"未知"存疑。
 
 ## 本轮扫描方法
 
@@ -21,7 +21,7 @@ arXiv API × 16 组关键词（deep research + self-verification / agentic fact-
 | **Multi-Turn Evaluation of DRA Under Process-Level Feedback** (2606.09748) | 过程级反馈的多轮评测 | 过程评测 | 他们是端到端多轮交互，我们是**单管道内六阶段**的组件消融 |
 | **Where Do Deep-Research Agents Go Wrong?** (2606.02060) | span-level 错误定位 | 错误分析 | 他们定位**哪错了**，我们度量**为什么错**（M1-M6 六维 + O5 口径链 + O6 矛盾发现） |
 
-**结论（2026-11-07 晚修正，成璐指出"分解并不是一切"）**：novelty 不是"四件套组合"这个笼统说法，而是**三个正交轴上的位置选择 + 各轴贡献的独立测量**——
+**结论（2026-11-07 晚修正，D指出"分解并不是一切"）**：novelty 不是"四件套组合"这个笼统说法，而是**三个正交轴上的位置选择 + 各轴贡献的独立测量**——
 
 1. **分解方式**（怎么拆）：不新（GPT Researcher/TreeFlex/ScaffoldAgent 都做了），只是管道第一环
 2. **校验方式**（谁验、怎么验）：我们真正在动的轴。单模型自验（S5）→ 多 persona 质询（S8）→ 异族 judge（B-face），验证独立性是连续变量不是开关
@@ -57,7 +57,7 @@ arXiv API × 16 组关键词（deep research + self-verification / agentic fact-
 
 **关于"增加大量搜索预算"**：我的判断是**不加量，换维度**。121 篇已经覆盖了关键词空间的头部；再加 10 组同构关键词的边际收益很低（会看到更多 CascadeFilter/手眼标定这类噪声）。真正缺的是引文空间 + 会议目录这两个正交维度，不是关键词数量。
 
-## 自适应路由撞车扫描（2026-11-07 晚追加 · 成璐问"这种自适应是不是也有很多人做"）
+## 自适应路由撞车扫描（2026-11-07 晚追加 · D问"这种自适应是不是也有很多人做"）
 
 **结论：是，"自适应分配 test-time compute/检索预算"已非常拥挤，但 #24（长短prompt按任务类型分域）不在它们的层面上。**
 

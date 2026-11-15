@@ -5,7 +5,7 @@
 
 ## 当前队列
 
-- [x] **[P0 · 成璐直接指令] 读 `research/e-block-prior-pack.md` 然后重新校准 E 块** — 已读完并落盘校准结论 (见下方 e-block 校准节); P3 stop_std_max 已接进主循环并提交; P5 CDF 回标脚本待写 (等 gpu run 出树补 gain 样本)
+- [x] **[P0 · D直接指令] 读 `research/e-block-prior-pack.md` 然后重新校准 E 块** — 已读完并落盘校准结论 (见下方 e-block 校准节); P3 stop_std_max 已接进主循环并提交; P5 CDF 回标脚本待写 (等 gpu run 出树补 gain 样本)
 - [x] gpu 题新题面重跑: 已启动 pid 11150 (proc_07adee4420ac), 无 resume 全新跑, log=drb-pilot/run-gpu-rerun-console.log, watch DONE/FATAL
 - [x] **CC bus L6-L16 靶点提案收口** [BLOCKED-EXTERNAL → 移出可推进计数, 见 lead-to-cc L27/L28] — CC 进程不在运行 (cc-to-lead.md 停在 04:05 C9); Lead 侧验收动作已全部完成 (L14 分型定稿 + L15 闭环协议落盘); 剩余 = 等 CC 副脑进程重启产生回执。重启 CC 属外部依赖, 非调研缺口。
 - [x] runs-s5-sm-gpu.json 废弃决策: 精确数据 12 dup ids (N19-N26 x5) 已报 CC L8, 文件整体废弃留作旧题面对照, D26 走文本匹配
@@ -49,7 +49,7 @@ D 提示本机有基于 CC 的 team+看板系统，本轮实查（来源①）�
 - [x] **双进程冲突处理** [CLOSED ✅ — 已被后续 run 取代]：pid 70201/68960 (gpu-d32) 均已结束, 产物 runs-s5-sm-gpu.json (153 nodes, D32 基线 65% degraded) 已收口并用于 L26 基线对照。后续 compute_J/矛盾扫描改由 gpu-d34 formula 臂 (PID 92938) + #31 text 臂 (PID 3027) 两臂 DONE 后统一执行（L30 四件事清单），不再单独挂此项。
 
 ## [2026-11-12 D指令] arena 工具信任问题 — 已处理 ✅
-成璐："arena那个我完全不信，经常把无登录状态的当egolite的登录态掉了，能不能删掉原来的工具避免误会，或者用工具的时候加hook或者注释"
+D："arena那个我完全不信，经常把无登录状态的当egolite的登录态掉了，能不能删掉原来的工具避免误会，或者用工具的时候加hook或者注释"
 处置（选注释+硬门禁而非删除——ego-browser 是通用浏览器通道，删了伤筋动骨；真问题是 arena 登录判定太松）：
 1. skill arena-outsource 新增「登录态判定门禁」节：唯一合法判定 = URL 落在 /agent/<uuid> + composer 可见或 repo panel 存在，双信号缺一即判未登录；标准探针脚本内嵌；probe JSON 必须落盘回执留痕。派发前硬门禁表从 6 条扩到 7 条（新增第4条探针）。
 2. sop/arena-loop-pipeline.md 故障修复清单加 ⓪ 步：登录态探针必跑第一步，不满足直接报"需人工登录"。
@@ -71,7 +71,7 @@ decomp 已列（见下方 decomposition 段），正在滚雪球调研。方向�
 - 待查文献：MBPO (Hansen 2022)、gradient estimation for discrete search (REINFORCE baseline variance)、hyperparameter optimization as outer loop (BO vs grid)
 
 ### ③ pfb 目录重组为直积子模块 — 方案已定，执行前需对账 ⏸
-成璐判断："pfb 方向非常多和杂乱，不同 idea 方向直接平铺在根目录当子模块研究，因为都是可直积因素"——同意，且这符合 AGENTS.md 项目分类原则（领域分层、INDEX 纯索引、3-7 子模块）。
+D判断："pfb 方向非常多和杂乱，不同 idea 方向直接平铺在根目录当子模块研究，因为都是可直积因素"——同意，且这符合 AGENTS.md 项目分类原则（领域分层、INDEX 纯索引、3-7 子模块）。
 **但有一个必须先解决的对账问题**：projects/AI-计算科学/ 下已有 D1-academic-AI / D1-gpu / D1-persona-align 等 D1-* 项目，pfb 与它们的关系没理清（pfb 是独立 repo 还是某 D1 的子模块？）。按红线"存在性检查"，动结构前先 grep 确认归属，避免造出第二套平行编号体系。
 **拟定直积分解**（待对账后落 INDEX.md）：
 - A 评测基建（rubric/judge/scorer/bench harness）— 当前 runs/ scoring-v3*

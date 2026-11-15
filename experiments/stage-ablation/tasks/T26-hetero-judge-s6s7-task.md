@@ -10,7 +10,7 @@
 
 ## 【目标】
 
-用你的模型（GPT/Claude 级）作为**异源 judge**，对 S6（模糊启发式 prompt）和 S7（混合 prompt）臂的 30 个 run 做 M1/M4 评分。这是本地 27B 同族自评的交叉验证——成璐硬规则：judge 必须 ≥ 被评模型或走 arena，禁用 7B 等小模型。
+用你的模型（GPT/Claude 级）作为**异源 judge**，对 S6（模糊启发式 prompt）和 S7（混合 prompt）臂的 30 个 run 做 M1/M4 评分。这是本地 27B 同族自评的交叉验证——D硬规则：judge 必须 ≥ 被评模型或走 arena，禁用 7B 等小模型。
 
 ## 【背景】
 

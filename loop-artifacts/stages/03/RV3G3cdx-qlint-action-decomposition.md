@@ -45,4 +45,4 @@
 
 ## A6 — 收口
 
-queue L26 `[ ]`→`[x]` + 结果注记 + 新导出候选 ≥1（预登记方向：queue 排版统一候选——em-dash 简写行 vs 五段式统一，02.5 X2 明确划出本 goal 范围外；或 queue-lint 门禁接入候选，与 closure-gate-integration 同源待成璐裁定）。merge main + push。
+queue L26 `[ ]`→`[x]` + 结果注记 + 新导出候选 ≥1（预登记方向：queue 排版统一候选——em-dash 简写行 vs 五段式统一，02.5 X2 明确划出本 goal 范围外；或 queue-lint 门禁接入候选，与 closure-gate-integration 同源待D裁定）。merge main + push。

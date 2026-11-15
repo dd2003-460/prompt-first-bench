@@ -18,7 +18,7 @@
 | 相关项目目录 | ✅ | `ls pfb/experiments/stage-ablation/` + `find . -name "*judge*"` | cross_judge.py（本地判官）、arena-judge-results.jsonl（90 行）、bench/rubric-v3/（M4 判据条款化先例 D1-D5） |
 | 已有调研/报告 | ✅ | `cat runs/cross-judge-status.md` | n=90 完整分析已落盘：mean\|Δ\|=0.277, ρ=0.188；根因=rubric mismatch（zero-fact 规则 + 粒度）；两修复选项已列出待裁定 |
 | 相关记忆 | ✅ | MEMORY.md "advance: payload..." 条 + session compacted summary | arena 回执门禁规则已知；cross-judge 结论已入 memory（rubric mismatch 非事实分歧） |
-| 用户过往讨论 | ✅ | compacted context "Key Decisions" 节 | 成璐已知两选项（① zero-fact 触发条件 ② 断言粒度），尚未裁定选哪个 |
+| 用户过往讨论 | ✅ | compacted context "Key Decisions" 节 | D已知两选项（① zero-fact 触发条件 ② 断言粒度），尚未裁定选哪个 |
 
 **小结**：本地已有 4 项资产（90 行 arena 分数、本地 scoring.md、cross-judge-status.md 分析、rubric-v3 判据条款化先例）。可复用全部，需新增 = 修改后的 JUDGE_PROMPT + 重跑脚本 + 对齐验证报告。
 

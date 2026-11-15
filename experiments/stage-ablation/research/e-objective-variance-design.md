@@ -1,6 +1,6 @@
 # E 块设计 — 自写目标函数进回路 + contribution 方差感知
 
-> origin: ai (成璐 2026-11-12 追问触发；decomp 见 tasks/T53-decomp-state-machine.md §E)
+> origin: ai (D 2026-11-12 追问触发；decomp 见 tasks/T53-decomp-state-machine.md §E)
 > 状态：设计方案 v1，未实现。实现前需 smoke test 验证 EA1/EA2。
 > 关联代码：s5_state_machine.py classify_edge (line ~250) / l1_frontier 循环 (line ~708) / ObjectiveConfig (line ~98)
 
@@ -12,7 +12,7 @@
 2. **真正驱动力是两个拍脑袋阈值**：`gain_threshold=0.50`（n-gram Jaccard 边际增益）+ `contribution_threshold=0.10`（LLM 单点估 0-1）。
 3. **contribution 无方差**：`classify_edge` 单次 LLM 调用 temperature=0.0 返回一个点值（line 255/274），全文件无 std/variance/多采样逻辑。"var" 仅以 `high_var` 布尔 flag 存在（定性二元，防黑天鹅被剪）。
 
-成璐的判断精确命中："目标函数看起来确实可以激活，但我们几乎是拍脑袋随机赶着 AI"。
+D的判断精确命中："目标函数看起来确实可以激活，但我们几乎是拍脑袋随机赶着 AI"。
 
 ## 设计目标
 

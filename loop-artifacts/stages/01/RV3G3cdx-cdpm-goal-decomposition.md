@@ -31,7 +31,7 @@
     不引入文件解析依赖）。gold-tree 文件仅作溯源锚点记录（path + commit hash），不作机判输入。
 
 ### F3 递归分解
-- F3a 三分支语义（预注册，成璐可推翻项挂 04.5）：
+- F3a 三分支语义（预注册，D可推翻项挂 04.5）：
   - B1 声明匹配：pe.prompt_version ∈ 映射表 ∧ pe.gold_nodes == 映射表该版本 gold_nodes（顺序敏感？→ O2）⇒ PASS（零输出或 [PASS] 行）
   - B2 版本未知：pe.prompt_version ∉ 映射表 ⇒ **SIGNAL**（exit 0，指名道姓提示「新域/新版本需建表后重跑」）——
     不代裁：runner 无权替数据提供方裁定新域 gold 清单（同 r150 S4 不代裁原则）
@@ -59,7 +59,7 @@
 
 | O# | 空缺 | 阻塞 | 处置 |
 |----|------|------|------|
-| O1 | domain1 既有 run（runs-C0-*）实际使用的题面在 v3 变体矩阵中的归属：C9-plain 是 V0-baseline 的前身（L1 旧题面，#27 裁定只作外部参照）还是独立的 pre-v3 版本？ | 映射表 domain1 条目应登记几个 prompt_version | 保守口径：登记为独立版本 `pre-v3/C9-plain`（v3 矩阵未开跑、无 run 使用过任何 v3 变体题面——K5/K7 实证）；V0-V3-sham 六变体条目以「未开跑·占位」形态预注册 gold 清单 = domain1 gold（B10 同题面规则 K3 的直接推论），标注 status=pending-run。矛盾登记挂 04.5 + APPROVALS（若成璐认为 C9-plain 不应入表） |
+| O1 | domain1 既有 run（runs-C0-*）实际使用的题面在 v3 变体矩阵中的归属：C9-plain 是 V0-baseline 的前身（L1 旧题面，#27 裁定只作外部参照）还是独立的 pre-v3 版本？ | 映射表 domain1 条目应登记几个 prompt_version | 保守口径：登记为独立版本 `pre-v3/C9-plain`（v3 矩阵未开跑、无 run 使用过任何 v3 变体题面——K5/K7 实证）；V0-V3-sham 六变体条目以「未开跑·占位」形态预注册 gold 清单 = domain1 gold（B10 同题面规则 K3 的直接推论），标注 status=pending-run。矛盾登记挂 04.5 + APPROVALS（若D认为 C9-plain 不应入表） |
 | O2 | gold_nodes 一致性判定顺序敏感 vs 集合相等？ | B1/B3 分支实现 | 倾向 **排序后集合相等**（gold 清单无语义顺序——gmr/top10 计数均按权重排序消费，清单顺序零消费；顺序敏感会把等价声明误杀为 FAIL，fail-safe 方向反向）。挂 04.5 攻击项 |
 | O3 | 缺省 gold_nodes（未声明）+ prompt_version 已声明时的对照义务 | F3b 分支 | 保守口径：缺省 = 不触发清单对照（沿用 r150 Y1 缺省零变化先例），但若声明版本 ≠ 该 domain 缺省绑定版本则 SIGNAL（提示「建议显式声明 gold_nodes」）。挂 04.5 |
 | O4 | 映射表放哪个目录/文件名？ | F1 落盘位置 | 可推导：bench/rubric-v3/ablation/prompt-version-gold-map.json（与 batch2/ 约定目录同级，load_batch2 可直接引用；不进 scripts/ 防与断言脚本混淆）。无实质二义性，直接执行 |

@@ -2,7 +2,7 @@
 
 ## 1. 交付物定义
 
-本 goal = **备料轮**（同 RV3B1-jaccard-adjudicate / RV3G6-kappa-formula-adjudicate 模式）：把「assert-closure-checklist.py 从手动工具升级为自动门禁」的裁定所需全部材料落盘，使成璐可一次性勾选裁定。交付两件：
+本 goal = **备料轮**（同 RV3B1-jaccard-adjudicate / RV3G6-kappa-formula-adjudicate 模式）：把「assert-closure-checklist.py 从手动工具升级为自动门禁」的裁定所需全部材料落盘，使D可一次性勾选裁定。交付两件：
 
 - **D-A 材料文件** `bench/rubric-v3/closure-gate-integration-materials.md`（六节，见 current-goal 验收 1）
 - **D-B hook 原型** `.githooks/pre-commit.closure-checklist`（未激活状态落盘 + 三出口实跑验证记录并入材料 §3）
@@ -18,22 +18,22 @@
 | F3 | 方案 B：CI check 的约束面 | 远端强制力（push 后拦截 vs PR 触发）/ hash 可得性（CI 中 commit 已存在，可直接消费 r148 原签名）/ 平台依赖（GitHub Actions？本仓 .github 是否存在）/ 拦截时机滞后性（push 已发生，只能事后报警不能阻止） | 待研究——**空缺 K2 = 本仓 CI 基础设施现状**（.github/workflows 存在性需 grep 实证）；**空缺 K3 = 远端是否允许 push 后拦截**（GitHub 无原生 post-receive block，protection rules 仅对 PR 生效——unverified-通用知识，标仓库内证据上限） |
 | F4 | 分流规则定稿 | exit 0 放行 / exit 1 FAIL 拦截指名道姓 / exit 2 不适用放行 三分支 × {hook, CI} 两载体的处置矩阵；「不该检查」（无 queue diff 的纯工件 commit）vs「检查失败」（有 queue diff 但闭合缺口）的区分机制；首建即 [x] 豁免子句的调用方运维文档草案 | 已知大半——r148 exit 2 语义已预注册（docstring L21-22「commit 不存在 / 该 commit 无 queue diff」）；待定 = hook 载体下 exit 2 的判定前置（staged diff 为空 ⇒ 提前短路，不调用断言逻辑）+ 运维文档措辞 |
 | F5 | 关键词集维护责任 | FLIP_KW/APPEND_KW 现行值登记 + W2 漏检路径分析（未来新措辞如「销账」「关闭」不进 FLIP_KW ⇒ (a) 不触发）+ (c) 双向闭合兜底边界声明（(c) 只兜「diff 动了 message 没提」方向，兜不住「message 说了 diff 没动」方向——即 (a)/(b) 漏检无兜底，须显式声明） | 已知——r148 04.5 W2 已登记「关键词集不完备由 (c) 兜底」，本轮须精确化该兜底的**方向边界**（这是材料的新增量，非重复登记） |
-| F6 | 裁定后执行清单 D1-Dn | 若成璐选方案 A/B/双轨/不接入四选项各自的落地动作序列，每条带预计 diff 面 + 验证式 | 可推导——基于 F2/F3 约束面即可预写；**空缺 K4 = 成璐是否接受「hook 变体签名」（message↔staged diff）与原签名（message↔committed diff）的语义差异**——须在材料中显式呈现为裁定输入 |
+| F6 | 裁定后执行清单 D1-Dn | 若D选方案 A/B/双轨/不接入四选项各自的落地动作序列，每条带预计 diff 面 + 验证式 | 可推导——基于 F2/F3 约束面即可预写；**空缺 K4 = D是否接受「hook 变体签名」（message↔staged diff）与原签名（message↔committed diff）的语义差异**——须在材料中显式呈现为裁定输入 |
 
 ## 3. 已知条件（人类提供 / 项目可推导）
 
 - G1 人类指令：取 RV3G3cdx-closure-gate-integration 走完整 1-loop；queue L27 行描述本 goal 三子项 (a)(b)(c) + 「裁定前 blocked-on-human」。
-- G2 r148 收口注记（queue L26）：assert-closure-checklist.py 131 行、exit 三分支全可达、正样例 3/3 负样例 2/2、**B4 预注册「本轮只交付工具不接入门禁（接入 = 成璐裁定后独立 goal）」**——本 goal 即该独立 goal。
+- G2 r148 收口注记（queue L26）：assert-closure-checklist.py 131 行、exit 三分支全可达、正样例 3/3 负样例 2/2、**B4 预注册「本轮只交付工具不接入门禁（接入 = D裁定后独立 goal）」**——本 goal 即该独立 goal。
 - G3 r148 04.5 W2 登记：「关键词集不完备由 (c) 双向闭合兜底」——F5 的承接锚点。
 - G4 仓库内既有负样例资产：tmp/closurecheck-neg-samples N1=f8acff9（漏翻复刻）N2=cc168bd（幻影候选）——原型验证可复用（待 02 确认 tmp 资产仍在）。
-- G5 冻结面红线：assert-closure-checklist.py 本体零改动（禁区）；.git/hooks/ 零写入（激活 = 成璐裁定动作）。
+- G5 冻结面红线：assert-closure-checklist.py 本体零改动（禁区）；.git/hooks/ 零写入（激活 = D裁定动作）。
 
 ## 4. 空缺清单（不得伪装成已知）
 
-- **K1**（阻塞 F2 定稿）：pre-commit 时点被检 commit hash 不存在 ⇒ hook 无法直接消费 r148 原签名 `<hash> <name>`。候选解法：(i) hook 内构造临时 index commit 取 hash（复杂度↑）/ (ii) hook 做 staged-diff 变体（语义漂移，须成璐裁定接受度）/ (iii) hook 只做「queue diff 非空且含 checkbox 翻转」弱检查（覆盖面↓）。→ 02 逐一评估可行性并给出推荐。
+- **K1**（阻塞 F2 定稿）：pre-commit 时点被检 commit hash 不存在 ⇒ hook 无法直接消费 r148 原签名 `<hash> <name>`。候选解法：(i) hook 内构造临时 index commit 取 hash（复杂度↑）/ (ii) hook 做 staged-diff 变体（语义漂移，须D裁定接受度）/ (iii) hook 只做「queue diff 非空且含 checkbox 翻转」弱检查（覆盖面↓）。→ 02 逐一评估可行性并给出推荐。
 - **K2**（阻塞 F3 定稿）：本仓 CI 基础设施现状——.github/ 存在性、是否有其他 workflow、remote 是否为 GitHub（origin URL 已知 github.com，CI 平台 = GitHub Actions 推定 unverified）。→ 02 grep/find 实证。
 - **K3**（阻塞 F3 拦截力评级）：GitHub 对已 push 到受保护分支的 commit 能否事后拦截——通用知识层面 protection rules 作用于 PR merge 时点而非 push 时点（unverified-通用知识，标注仓库内证据上限 = 无 CI 配置可查）。
-- **K4**（阻塞 F6 清单定稿）：成璐对「hook 变体签名」语义漂移的接受度——材料 §5 须把此作为显式裁定输入呈现，不代选。
+- **K4**（阻塞 F6 清单定稿）：D对「hook 变体签名」语义漂移的接受度——材料 §5 须把此作为显式裁定输入呈现，不代选。
 - **K5**（低优先级）：tmp/closurecheck-neg-samples 资产是否仍在工作区（tmp 目录可能未入库）——02 确认；若缺失则 03 构造等价负样例（r148 已登记构造方式）。
 
 ## 5. 阻塞影响图

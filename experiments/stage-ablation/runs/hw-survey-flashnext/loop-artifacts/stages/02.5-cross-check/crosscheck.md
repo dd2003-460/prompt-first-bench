@@ -44,7 +44,7 @@ Flash-Next 4bit：active 6B params × 0.5 bytes = 3GB/token（不含 KV cache �
 |---|------|------|------|
 | C1 | 2× 5070 Ti "374 t/s" vs 物理带宽上限 | v3.1 第一梯队推荐 | **降级为"spec 未验证"**，不进入决策矩阵主表，仅列参考值 |
 | C2 | 1× 3090 "47-50 t/s" vs DDR4 带宽 | v3.1 第二梯队 | **标注"测量条件待确认"**，保守估计 25-35 t/s |
-| C3 | 本机 M1 Max 27B "200 t/s" vs 400GB/s 物理上限 28 t/s | MEMORY.md baseline | **物理不可能**。200 t/s 必来自其他机器或不同测量口径（如 aggregate throughput with batching ≠ single-stream decode）。标记为 [待成璐确认] |
+| C3 | 本机 M1 Max 27B "200 t/s" vs 400GB/s 物理上限 28 t/s | MEMORY.md baseline | **物理不可能**。200 t/s 必来自其他机器或不同测量口径（如 aggregate throughput with batching ≠ single-stream decode）。标记为 [待D确认] |
 | C4 | Flash-Next 总参数 176B vs 125B（两来源） | 模型规格 | 取 HF model card 为准（176B），125B 可能是旧版本或 active-only 误读。**注：MacStories/YouTube 引述中也有 "125 billion parameters" 的说法**——HF model card 的 176B 含 vision tower + MTP head 的可能性更大，纯 LLM 部分可能 ~125B。不影响内存需求结论（以 .rad 容器实测 113.6GiB 为准） |
 | **C5** (v2) | M5 Ultra 512GB "$5,499+" vs MacRumors $22,299 | 原报告 §1/§2 | **原报告错误**。$5,499 = 96GB 基础款（30-core/64-core）；512GB 必须顶配芯片 + $15,500 内存升级 = $22,299+。修正后 M5U 512GB 不再是"比 2×R9700 贵 $700"，而是贵 ~$16k。性价比叙事需重写 |
 | **C6** (v2) | M5 Ultra "~400 t/s 理论" vs MacStories 实测 60-100+ | 原报告核心卖点 | **理论值作废**。实测区间 60-100+ t/s（ctx 相关）。M5U 仍是消费级最快，但速度优势从"碾压"变为"领先 ~1.5-2x"（vs 2×R9700 137-147） |

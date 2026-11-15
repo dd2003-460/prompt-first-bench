@@ -4,7 +4,7 @@
 
 ## 1. 为什么这是 queue 空扫后的最高产投比项
 
-queue 待办区现状：R5.2-third-scorer（blocked-on-external）/ RV3G3-batch2-arrival-closure（blocked-on-external）/ RV3B1-jaccard-adjudicate（待成璐裁定 [~]）/ RV3G4-kappa-gate-execution（blocked-on-external）/ R5.2audit-C4-arena-export（blocked-on-external）/ RV3G1-semantic-rejudge（blocked-on-external）/ RV3G6-kappa-formula-adjudicate（r141 刚导出，裁定型备料）。按协议阶段 A.1 兜底路径自找——扫冻结数据已知缺陷面。
+queue 待办区现状：R5.2-third-scorer（blocked-on-external）/ RV3G3-batch2-arrival-closure（blocked-on-external）/ RV3B1-jaccard-adjudicate（待D裁定 [~]）/ RV3G4-kappa-gate-execution（blocked-on-external）/ R5.2audit-C4-arena-export（blocked-on-external）/ RV3G1-semantic-rejudge（blocked-on-external）/ RV3G6-kappa-formula-adjudicate（r141 刚导出，裁定型备料）。按协议阶段 A.1 兜底路径自找——扫冻结数据已知缺陷面。
 
 **缺口定位**：o3-claim-list §3.2 口径声明 4 声称「已核：98 个 h=1 cell 中 27 个 evidence 含 gold-tree 数值 token」——该核查只覆盖了**数值泄漏方向**（evidence 是否携带 gold 答案数值）。TASK-ablation Step 1 的另一半硬约束——「evidence 必须是 run 文件里真实存在的句子（不许改写）」——**从未被机判验证过**。r141 骨架把子串性确立为 rejudge 新结果的 schema 硬约束，形成标准不对称：新数据受检、旧数据免检。而 M1 identity 锚点（1.0 基线）与 FM-2 补数分母都建立在旧 hit-matrix 上——旧数据 evidence 若含改写/拼接，锚点可信度受损且当前无证据排除。
 

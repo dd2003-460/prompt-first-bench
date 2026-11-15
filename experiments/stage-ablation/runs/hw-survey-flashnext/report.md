@@ -35,7 +35,7 @@
 
 ## 3. 关键洞察
 
-### 3.1 MoE vs Dense 的瓶颈差异（成璐纠正点）
+### 3.1 MoE vs Dense 的瓶颈差异（D纠正点）
 
 Dense 27B：瓶颈 = 显存容量（14GB 4bit，24GB 卡装得下）。
 MoE 176B/6B active：瓶颈 = **总内存容量**（88GB 4bit 权重）+ **swap 效率**（expert 路由需要频繁在 CPU↔GPU 间搬运）。
@@ -80,7 +80,7 @@ spec decoding 理论上 1.3-1.7x 加速，但 acceptance rate 取决于 drafter 
 |---|------|------|
 | C1 | 2× 5070 Ti "374 t/s" 超物理带宽上限 | 降级为 spec 未验证，主表只列 195 (Strata base) |
 | C2 | 1× 3090 "47-50 t/s" 超 DDR4 带宽 | 保守估计 25-35 t/s，标注测量条件待确认 |
-| C3 | 本机 M1 Max "27B 200 t/s" 物理不可能（400GB/s → 上限 28 t/s） | **待成璐确认**：哪个机器/什么测量口径 |
+| C3 | 本机 M1 Max "27B 200 t/s" 物理不可能（400GB/s → 上限 28 t/s） | **待D确认**：哪个机器/什么测量口径 |
 | C4 | Flash-Next 176B vs 125B | 取 HF model card 176B |
 
 ### 数据缺口（[待核验]）

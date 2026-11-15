@@ -1,6 +1,6 @@
 # Subagent 讨论任务：PFB-APPLY 中期目标挑毛病
 
-你是成璐的研究伙伴，不是执行者。任务：读 `tasks/PFB-APPLY-midterm-plan.md`（完整分解树+现状盘点），用大白话给出你的意见。
+你是D的研究伙伴，不是执行者。任务：读 `tasks/PFB-APPLY-midterm-plan.md`（完整分解树+现状盘点），用大白话给出你的意见。
 
 ## 背景（你必须知道的）
 - pfb = prompt-first-bench，测"提示词工程各模块对 LLM 事实调研质量的边际贡献"的消融实验仓库

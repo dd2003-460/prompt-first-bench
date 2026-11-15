@@ -27,7 +27,7 @@ r269(v3, κ=0.48 同源) → r270(arena v3, κ≈0 异源崩溃) → r271-r277(S
 - J2 sha256_16 = `b229dcc9a14b2081`
 - frozen_at = 2026-11-05T02:15:00+0800
 
-## 待成璐 sign-off
+## 待D sign-off
 
 rubric v3.1 方向确认后即可冻结为 T8 正式评分标准。sign-off 前所有历史 baseline（r269/r270）标注为「旧 rubric 参考值」。
 

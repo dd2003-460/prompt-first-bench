@@ -129,8 +129,8 @@ gold 对照物都是同一个 gold 树**（变体差异只在 prompt 侧指令�
 2. **O1 的 C9-plain 归属**仍是判断而非事实：TASK-ablation.md 称其「C9-plain 档」，但 L1 原始任务书
    （decomp 侧）不在本仓可取证范围（research/deepresearch-bench-survey 分支提及，未核）——
    「C9-plain = pre-v3 独立版本」是基于 #27 裁定文本（L180/L310）的推论，unverified 程度低但非 byte-exact 闭环。
-   挂 APPROVALS 供成璐复核（不阻塞）。
-3. **r71b vs r71 冻结事件选择**（A2 注）：若成璐认为应登记 r71（4aa32a2，首次落盘事件）而非 r71b
+   挂 APPROVALS 供D复核（不阻塞）。
+3. **r71b vs r71 冻结事件选择**（A2 注）：若D认为应登记 r71（4aa32a2，首次落盘事件）而非 r71b
    （口径裁定事件），映射表一行 diff 可改，消费逻辑零影响（frozen_at_commit 机判不消费）。
 
 ## A10 · 阶段 02 判定

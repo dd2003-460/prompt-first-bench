@@ -20,7 +20,7 @@
   - D3. 更新 limitations（M6 不再 structurally zero for S7T）
 
 正交性自检：A(基础设施) / B(实验执行) / C(分析) / D(写作) — 顺序依赖 A→B→C→D，内部无交叉 ✓
-完备性：回答成璐问题"优化应用+实测"= 修复检索质量(A) + 量化 tool access 效果(B/C) + 论文落地(D) ✓
+完备性：回答D问题"优化应用+实测"= 修复检索质量(A) + 量化 tool access 效果(B/C) + 论文落地(D) ✓
 
 ## 缺口清单
 

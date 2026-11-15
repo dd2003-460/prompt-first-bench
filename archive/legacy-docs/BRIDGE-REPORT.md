@@ -12,4 +12,4 @@ C3v3-G1b-hetero-judge（L24）核实为**漏翻残留行**——实际工作早�
 处置：划掉 L24 + 注记「r189 核销：重复行，同 C3v3-G1a-ninfer-execution 先例」。
 
 ## r189 find-goal 扫描 (2026-11-02)
-pfb 待办队列 5 行全 blocked-on-human/external，无自主可推进项。arena/78602cd5 分支 15 commit 未 merge——逐条核实：adversarial receipt (5a525c7) 已消费 @ main（r59 处置表 + opportunity-set-freeze goal 收口）；survey 308 行回填已在 main (d95e4bf)；rubric-v3 草案链已被 RV3G6 系列吸收。净缺口 = R4 MDE/任务块模型预注册件缺失（合规性文书，非数据污染），但需成璐裁定「补文书」还是「接受方向性证据上限」——写入 APPROVALS。
+pfb 待办队列 5 行全 blocked-on-human/external，无自主可推进项。arena/78602cd5 分支 15 commit 未 merge——逐条核实：adversarial receipt (5a525c7) 已消费 @ main（r59 处置表 + opportunity-set-freeze goal 收口）；survey 308 行回填已在 main (d95e4bf)；rubric-v3 草案链已被 RV3G6 系列吸收。净缺口 = R4 MDE/任务块模型预注册件缺失（合规性文书，非数据污染），但需D裁定「补文书」还是「接受方向性证据上限」——写入 APPROVALS。

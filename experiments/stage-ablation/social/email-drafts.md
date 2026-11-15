@@ -1,8 +1,8 @@
 # G4 — 专家 social 邮件草稿
 
 > origin: ai · 2026-11-08 · goal-pfb-production-hardening.md G4
-> 状态：**草稿，未发送**。发送由成璐本人操作（红线：对外动作）。
-> 格式定式（成璐）：一个可复现结果（commit hash + 数据路径）+ 一个问题。英文，≤200 词/封。
+> 状态：**草稿，未发送**。发送由D本人操作（红线：对外动作）。
+> 格式定式（D）：一个可复现结果（commit hash + 数据路径）+ 一个问题。英文，≤200 词/封。
 > 可复现锚点：pfb repo commit `62d43dd2`，数据 `experiments/stage-ablation/runs-s8b/*.json`（9 runs, 3 arms × nat/soc），judge 协议同文件内。
 
 ## 收件人选择逻辑
@@ -95,7 +95,7 @@ Chenglu
 
 ---
 
-## 发送前检查清单（成璐操作时看）
+## 发送前检查清单（D操作时看）
 
 - [ ] 邮箱地址：arXiv 页面不公开邮箱，需从个人主页/GitHub/机构页查（Shaikh: 搜 GitHub/LinkedIn；Huang: UGent iMinds 组页；Lumer: IBM Research 主页；Dorfman/Litman: Technion CS 系页）
 - [ ] 每封确认 ≤200 词、一个可复现结果 + 一个问题
