@@ -550,6 +550,17 @@ const links = await page.evaluate(() => {{
       out.push(h);
     }}
   }}
+  // 3. 从回答文本中提取 URL（ChatGPT 把 URL 写在文本里而不是 <a> 标签）
+  const bodyText = document.body ? document.body.innerText : '';
+  const urlRegex = /https?:\/\/[^\s<>"{{}}|\\^`\\x60]+/g;
+  const textUrls = bodyText.match(urlRegex) || [];
+  for (const u of textUrls) {{
+    const clean = u.replace(/[).,;!?]+$/, '');
+    if (!clean.includes(domain) && !seen.has(clean)) {{
+      seen.add(clean);
+      out.push(clean);
+    }}
+  }}
   return out;
 }});
 const uniq = [...new Set(links)].slice(0, {max_results});
