@@ -1205,7 +1205,8 @@ if __name__ == "__main__":
             q = raw_q
         print(f"[T53 SM] Loaded external question from {question_file} ({len(q)} chars)", flush=True)
     else:
-        q = QUESTIONS[qid]
+        # qid 可能是自定义标识（如 gpu-method），QUESTIONS 里没有——回退到 gpu 取题
+        q = QUESTIONS.get(qid, QUESTIONS["gpu"])
     no_verify = "--no-verify" in flags
     resume_from = resume_from_early
     if resume_from is None and "--resume" in flags:
