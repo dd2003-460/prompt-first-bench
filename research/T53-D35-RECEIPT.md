@@ -43,7 +43,7 @@
 
 ```
 $ python3 loop-artifacts/stages/04/verify-d35.py
-（21 项，结果见 loop-artifacts/stages/04/T53-D35-04-execution.log）
+fails=0  passes=21  total=21（最终运行；log 已覆盖为最终输出。首跑 fails=4 → 回上游修订 AC7b 后二跑仅 AC12 缺 sha → 填回执后三跑全过）
 ```
 
 ## 5. 遗留 / 需 Lead 决策
