@@ -491,7 +491,7 @@ const uniq = [...new Set(links)].slice(0, {max_results});
 console.log(JSON.stringify(uniq));
 }})();
 '''
-            out = _run_ego_browser(js, timeout=45)
+            out = _run_ego_browser(js, timeout=60 if name == "deepseek" else 45)
             os.unlink(prompt_file)
             urls = []
             for line in reversed(out.splitlines()):
