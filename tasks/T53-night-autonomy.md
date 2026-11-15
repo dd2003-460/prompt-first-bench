@@ -193,3 +193,12 @@ inbox 2 条已处理并清空：webllm 修复确认（CC 14:24-14:37 多端点 f
 3. **M1/M2 resume 维持排队**：resume 方案不变（--resume checkpoints/sm-gpu-r1.json --qid=gpu-method / gpu-method-challenge），但 r3 无 ckpt 落盘说明 challenge 臂退出路径仍有未走完的落盘逻辑，resume 前需先确认 r3 退出原因（gap_check 后正常退出 vs 异常），避免 resume 后重蹈覆辙。
 
 [待D醒] 三项不变（strict 口径 / DRB 重启裁决 / webllm 修复方向已解除）。taste 自检：本轮判断"r3 无 ckpt = 退出路径未走完"置信度高（log 停在 gap_check + 无 Saved 行 + 无 ckpt 文件三重印证）；resume 排队而非立即执行的选择依据 = 先查清 r3 退出原因，避免 resume 后同样丢落盘。
+
+## 执行日志
+
+| 时间 | 动作 | 结果 |
+|------|------|------|
+| 11-15 14:57 | 检查 r4 (M2 method_challenge) 进程状态 | r4 在跑（log mtime 14:57:03，~10min 前启动），L1 骨架 5 维度 + gap_check 7 维度已完成，正在 verify 阶段（webllm 通道全空：perplexity 额度用完 + chatgpt 无链接）。预计 30-60min 跑完。 |
+| 11-15 14:57 | 核实 r2 ckpt 归属 | sm-gpu-r2.json (59n/ver20/deg33) 是 gpu 主臂 r2（qid=gpu, objective_mode=None），**不是 M1/M2 臂**。bench 报告 8c2d9840 的 "M1-formula-r2 53n/ver20" 和 "M2-textarm-r2 124n/ver64" 数据源不明（无对应 ckpt/final json），M2 数据可能是 r4 的中间快照。r4 跑完后需重新核实 M1/M2 数据并修正 bench 报告。 |
+| 11-15 14:57 | 检查 CC inbox | 空（0 bytes），无待处理条目。 |
+| 11-15 14:57 | 检查 git 状态 | 8c2d9840 已 push（bench report 消融表），sm-gpu-method-challenge-r4.log 是 untracked（r4 跑完后会生成 final json）。 |
