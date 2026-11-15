@@ -162,3 +162,11 @@ inbox 空（0 bytes）。M 臂 (objective_mode=minimal, pid 27188/27192) 健康�
 - b. 最近 3 轮未引用 taste 判据 → 本轮起执行日志显式带 taste 自检行（本轮：M 臂重跑决策 S3 杠杆测试 = minimal prompt 改动对 verified_rate 有杠杆、对树规模无杠杆，选它是因为三臂对比缺 M 臂数据，残差定位 S2 = 缺臂比多臂残差大）。
 
 [待D醒] 三项不变（strict 口径 / DRB 重启裁决 / webllm 修复方向）。下一步：等 M 臂 DONE（预计 1-2h）→ stats 落盘 marm-profile + 三臂对比表 → bench 出分。
+
+2026-11-15 14:0x 夜间 #6：
+- 进程核查：pgrep 命中 8 个 pid 但 ps 全不存在——僵尸匹配（shell 残留），M1/M2 实际已退出。
+- 根因：wait-and-launch.sh 用 `pgrep -f "s5_state_machine.*method"` 监控，M1/M2 的 qid 就是 gpu-method/gpu-method-challenge，**监控正则匹配到监控进程自身** → 死循环永远等不到退出；两臂实际在 ~13:57 跑完 r1 后退出（log 停在 r1 gap_check，无 "Saved →" 行）。
+- 落盘状态：method 臂 r1 ckpt = 26n/ver5/deg15/pend6/leaks0/obj_mode=method（sm-gpu-r1.json 已被覆写，原 r1 是 minimal 臂的，git 历史可回溯）。final json 未生成（进程退出前没走到 out_path 写入）。
+- 动作：git commit ac538bb7 留痕（含 5 个新 log + C 臂设计稿 + ckpt 覆写）。
+- 下一步：从 r1 ckpt resume M1/M2（--resume checkpoints/sm-gpu-r1.json --qid=gpu-method 等），避免从零重跑；resume 前确认 ckpt qid 与目标 qid 一致（method ckpt qid=gpu，resume 时 qid 参数决定落盘文件名）。
+- taste 自检：本轮判断"监控正则自匹配"是 pgrep 经典坑，置信度高（log 时间线 + 进程不存在 + 正则文本三重印证）；resume 而非重跑的选择依据 = 已跑 r1 的 26 节点（含 5 verified）是有效资产，重跑浪费 ~30min 且可能撞不同采样。
