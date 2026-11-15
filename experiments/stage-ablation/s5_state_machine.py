@@ -14,6 +14,7 @@ leak_check() 每轮输出后执行，命中即 raise LeakError 中止。
 import json
 import math
 import re
+import time
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Optional
@@ -1206,6 +1207,62 @@ class DecompStateMachine:
 # CLI entry
 # ─────────────────────────────────────────────
 
+# ─────────────────────────────────────────────
+# P4 synthesis + judge（2026-11-16，phase1-fix-pipeline "修复 P4 synthesis gap"）
+# ─────────────────────────────────────────────
+# 背景：SM 管线跑完只有节点树（final_state='verified'），没有 answer 综合步骤，
+# 产不出 judge.coverage——gate "soc cov ≥ 0.898" 的 0.898 是 S0 的 judge.coverage
+# （runs-s5-prod S5-soc 100 reps mean=0.8957），两个指标不同没法比。
+# 一次性诊断（synth_diag_soc.py，soc 1.0 / nat 0.667 两 gate 均过）验证了
+# 节点树信息量足够；本函数把同样的逻辑正式修进管线（复用 s5_pipeline 的
+# 分段综合与 _perturb，judge 用 s8b_pilot.judge，depth 对照用 judge_v2_depth）。
+# 用法：CLI 加 --synth；不加则行为与旧版完全一致（向后兼容）。
+
+def synthesize_answer(question: str, nodes: list, qid: str) -> dict:
+    """节点树 → 分段综合 → merge → judge + depth。返回 {answer, judge, coverage, depth}。"""
+    from collections import defaultdict
+    from s5_pipeline import _perturb
+    by_lv = defaultdict(list)
+    for n in nodes:
+        by_lv[n.level].append(n)
+    parts = []
+    for lv in sorted(by_lv, key=lambda x: str(x).lstrip("L")):
+        seg = "\n".join(
+            f"{n.id} ({lv}): {n.corrected_claim or n.claim}  "
+            f"[status={n.status}; evidence: {(n.evidence or '')[:80]}]"
+            for n in by_lv[lv])
+        p = (f"你是研究员。基于下面第 {lv} 层的已核验事实，回答原问题中该层涉及的部分。"
+             f"只写结论+数值/公式，每条标来源条目 id，不要重复其他层的内容。\n\n"
+             f"【问题】\n{question}\n\n【第 {lv} 层事实】\n{seg}") + _perturb()
+        t0 = time.time()
+        out_l, _ = call_llm(p, max_tokens=4000, temperature=0.7, top_p=0.95, retries=3)
+        parts.append(f"=== 第 {lv} 层 ===\n{out_l or '(空)'}")
+        print(f"  [SM] synth {lv}: {len(by_lv[lv])} 节点, out={len(out_l or '')}c, {time.time()-t0:.0f}s", flush=True)
+    merge_p = (f"你是研究员。下面是同一道问题按目录树分层得到的各层结论摘要。"
+               f"请把它们合并成一份完整最终答案：覆盖问题全部子问，保留所有具体数值/公式/排序，"
+               f"消除层间重复，最后给一个明确的推荐结论。\n\n【问题】\n{question}\n\n"
+               + "\n\n".join(parts)) + _perturb()
+    t0 = time.time()
+    answer, _ = call_llm(merge_p, max_tokens=8000, temperature=0.7, top_p=0.95, retries=3)
+    print(f"  [SM] synth merge: out={len(answer or '')}c, {time.time()-t0:.0f}s", flush=True)
+    # judge（gate 指标：GOLD 要点逐条 0/1 → coverage）
+    from s8b_pilot import judge
+    t0 = time.time()
+    j = judge(qid, answer)
+    cov = round(j.get("coverage") or 0, 3)
+    print(f"  [SM] judge coverage = {cov} {time.time()-t0:.0f}s", flush=True)
+    # depth 对照（gpu gate 用 depth ≥ 0.50）
+    depth = None
+    try:
+        from judge_v2_depth import score_run
+        dv = score_run(qid, answer)
+        depth = dv.get("overall")
+        print(f"  [SM] depth_score = {depth}", flush=True)
+    except Exception as e:
+        print(f"  [SM] depth score failed: {e}", flush=True)
+    return {"answer": answer, "judge": j, "coverage": cov, "depth": depth}
+
+
 if __name__ == "__main__":
     import os
     import sys
@@ -1367,3 +1424,28 @@ if __name__ == "__main__":
             "nodes": [vars(n) for n in result.nodes],
         }, f, ensure_ascii=False, indent=2)
     print(f"[T53 SM] Saved → {out_path}", flush=True)
+    # --synth (2026-11-16, phase1-fix-pipeline "修复 P4 synthesis gap"):
+    # 节点树跑完后补 P4 综合 + judge，产出 judge.coverage（gate 指标）。
+    # 不加 flag 行为不变（向后兼容）。输出 runs-s5-sm-{qid}-synth.json，
+    # 与一次性诊断 synth_diag_soc.py 同格式，bench 对比不用改。
+    if "--synth" in flags:
+        print(f"\n[T53 SM] --synth: P4 synthesis + judge ...", flush=True)
+        try:
+            s = synthesize_answer(q, result.nodes, qid)
+            synth_path = f"runs-s5-sm-{qid}-synth.json"
+            with open(synth_path, "w") as f:
+                json.dump({
+                    "qid": qid,
+                    "n_nodes": len(result.nodes),
+                    "final_state": result.final_state,
+                    "answer": s["answer"],
+                    "judge": s["judge"],
+                    "coverage": s["coverage"],
+                    "depth_score": s["depth"],
+                    "source_run": out_path,
+                }, f, ensure_ascii=False, indent=2)
+            print(f"[T53 SM] Synth saved → {synth_path} | coverage={s['coverage']} depth={s['depth']}", flush=True)
+        except Exception as e:
+            import traceback
+            print(f"[T53 SM] SYNTH FAILED: {type(e).__name__}: {e}", flush=True)
+            traceback.print_exc()
