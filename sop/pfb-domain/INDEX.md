@@ -16,6 +16,7 @@
 | `gold-tree.md` | gold tree 构建规范：节点/叶子定义、Jaccard 覆盖率计算、正交性检查、B1 新题模板 | 建 gold / 算覆盖率时 |
 | `arena-outsource-pfb.md` | pfb 专属 arena 外包：任务书模板、回执验收、T 编号台账 | 派 arena 做 pfb 相关工作时 |
 | `modification-rationale.md` | 机制修改三问（为什么加/正交性/外部依据）+ 退出条件 + 当前生效机制清单 M1-M10 | **任何规则/机制改动前必读** |
+| `retrieval-diagnosis.md` | 检索通道诊断 SOP：先诊断根因再改参数、ego-browser 手动操控 vs 自动化 pipeline、根因→修法映射、禁止行为 | **webllm/research_hook 超时、ERR_ABORTED、verified 率异常低时** |
 
 ## 核心原则（所有 SOP 共享）
 

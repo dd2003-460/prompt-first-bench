@@ -76,6 +76,51 @@
 | 1 | 2026-11-12 | junk filter v1：research_hook 加垃圾源关键词过滤（色情/游戏/翻译工具/股票行情等），de4e44cc | drb-1 = 0.0，rework 149 条全是"来源与主题无关" | drb-2 仍 0.0（但病根不同——缓存中毒） |
 | 2 | 2026-11-12 | junk filter v2：补 cn 垃圾域（bilibili/mall/tensorflow 首页等 v1 漏网），64397299；bing intl fallback + ranking-question DDG exemption（zh-wiki 无 listicle 条目），1c05f599 | CC 取证发现 v1 覆盖不全 + 排名类题 DDG 全盲 | drb-2 仍 0.0（缓存中毒未修） |
 | 3 | 2026-11-12 | 清 s5-node 缓存（2865 条 → backup），18899174；drb-2 reverify（62 nodes, verified 1/62=1.6%） | drb-2 诊断：cache-first 命中旧垃圾缓存，跳过真实检索 | drb-2 verified 仍≈0——病根不是缓存是**检索通道对中文 DRB 题全盲**（wiki=0/ddg 质量差/arxiv 报错/local_corpus=0）。junk filter 解决"垃圾源污染"，但这里是"有效源缺失"。下一步：修检索通道（ddg query 改写 + Perplexity via ego-browser） |
+| 4 | 2026-11-15（夜间） | **ego-browser 通道可用性验证通过**（未改代码）：`ego-browser nodejs -e` 直连 arXiv API 成功（LEN=5095，Atom feed 正常返回）；research_hook.py 里 `_run_ego_browser` 路径 `/Users/a1-6/.local/bin/ego-browser` 存在且可执行 | L21 待办"确认 ego-browser 可用"收口 | **webllm 超时（PageNavigationTimeoutError）不是 ego-browser 本身挂了**——CLI 直连 OK，问题在 research_hook 的 webllm JS 脚本内导航目标站（perplexity/chatgpt 登录墙或慢响应）超时。修复方向收窄：(a) webllm 脚本换更稳的目标端点或加短 timeout+快速失败；(b) 中期接 arena 外包检索不变。drb-1 重跑排队继续等 D 定 verified 口径（见 farm-163-profile §剩余[待D醒]） |
+| 5 | 2026-11-15 | webllm timeout 90s→25s（9a4eff4e）：Perplexity 搜索页 JS 重加载慢，90s 超时拖慢 pipeline（每节点卡 90s 才跳过）；25s 够正常响应，超时快速跳过不阻塞 | M1/M2 跑 gpu-method 消融时 webllm 每节点超时 90s 拖慢整体速度 | 减少每节点等待时间；不解决中文 DRB 题有效源缺失的根本问题（DDG 中文质量差 + zh-wiki 零命中 + Perplexity 超时 = 三通道全盲） |
+| 6 | 2026-11-15 | **ego-browser 手动操控 Perplexity 诊断**（未改代码）：`ego-browser nodejs` 手动导航 `perplexity.ai/search?q=中国九阶层收入标准`，等 45s，页面显示"进行中 45秒"+ **"您已达到免费搜索次数上限"**。根因不是页面加载慢，是 **Perplexity 免费账号搜索额度用完**（M1/M2 跑 gpu-method 时耗尽）。额度用完后页面永远"进行中"，等再久也不生成答案。"几小时后重置" | webllm timeout 90s→25s 后仍超时，手动操控发现真正根因 | **Perplexity 通道在额度用完时完全不可用**。中文 DRB 题当前无任何可用检索通道（DDG 跳过 / zh-wiki 零命中 / Perplexity 额度用完 / arXiv 不覆盖社会事实）。修复方向：(a) 等额度重置后重跑（仅恢复英文 query）；(b) 中文 query 走 bing 国际版（需实现）；(c) 接其他 LLM API（ChatGPT/DeepSeek/GLM，需 API key）；(d) 升级 Perplexity Pro（花钱） |
+| 7 | 2026-11-15 | **S5 静态审查 + 3 项修复**（commit 7f224e6c/f7cf584a/6eee08e0）：① FATAL checkpoint 补 `objective_mode` + `contradiction_events`（防 arm 污染）；② deepseek webllm timeout 45s→60s（防 fallback 链超时）；③ `_decompose_layer` parent_ids 按模型指定归属填（防多父节点批次语义错误）。审查报告：`s5-code-review.md`（14 个发现，按高/中/低分级） | S5 状态机代码逻辑检查（subagent 静态审查） | 修复已 commit + push，M1 重启（PID 34342）验证 webllm fallback 是否生效。parent_ids 归属修复影响 S_α 层级贡献计算口径，是 phase1 核心项之一 |
+
+**检索通道修复前置依赖（pfb-hardening-v2 gate 的必要前置）**：
+
+gate 要 nat cov≥0.634 + gpu depth≥0.50，但 DRB 题 verified 率 1.6%（51/62 evidence="no sources"），judge 打 0 分。根因=中文 DRB 题的检索通道全盲，三个子问题：
+
+1. **DDG 中文质量差**：`_slim_query` 用 `[A-Za-z0-9]` 正则分词，中文字符不在匹配范围，中文 query 原样进 DDG lite → 返回无关源（色情视频/游戏/原神）。现有逻辑已跳过中文 query 的 DDG（走 zh-wiki），但 zh-wiki 覆盖不足。
+   - 修复方向：中文 query 走 bing 国际版（drb-2 诊断已验证英文 query 走 bing 结果干净）；或接 bing API。
+2. **zh-wiki 覆盖不足**：中文事实题（"中国九阶层收入""国际前十保险公司"）zh-wiki 零命中或条目质量差。
+   - 修复方向：zh-wiki 命中后加内容质量过滤（当前只过滤标题，不过滤正文相关性）；或接中文百科 API。
+3. **Perplexity 搜索页超时**：`perplexity.ai/search?q=...` JS 重、加载慢，12s 等待 + 15s goto timeout 经常不够。
+   - 修复方向：已降 timeout 90s→25s（快速失败）；中期换更轻量端点或接 Perplexity API（需 API key）；长期 arena 外包检索。
+
+三个子问题都不是改一行代码能解决的。短期能做的是 timeout 降低（已做）+ 中文 query 走 bing 国际版（需实现）。DRB 题出分依赖检索通道修复，pfb-hardening-v2 gate 在此之前无法通过。
+
+**执行计划（gate 分两步走）**：
+
+- **Step 1（M1/M2 跑完后）**：gpu depth 消融数据。M1（method）vs M2（method_challenge）对比 S5 SM 机制在方法型题面上的行为差异。不依赖 DRB 题，M1/M2 跑完即可算。产出：gpu-method 消融表 + bench 报告更新。
+- **Step 2（检索通道修复后）**：nat cov 重跑。DRB 题（drb-1/drb-2）verified 率从 1.6% 提上来后重跑 nat，看 cov 能否从 0.334 提到 ≥0.634。依赖：DDG 中文质量修复 + zh-wiki 覆盖修复 + Perplexity 超时修复（三选一或组合）。
+- **Step 1 不阻塞 Step 2，Step 2 不阻塞 Step 1 的产出落盘**。M1/M2 跑完先出 Step 1 数据，检索通道修复并行推进。
+
+### gpu-method 消融表（Step 1 · 2026-11-15）
+
+M1（formula/method）vs M2（textarm/method_challenge）对比 S5 SM 机制在方法型题面上的行为差异。
+
+| 指标 | M1-formula-r2 | M2-textarm-r2 | gpu-main（基线） |
+|------|:---:|:---:|:---:|
+| nodes | 53 | 124 | 163 |
+| verified | 20 (37.7%) | 64 (51.6%) | 52 (31.9%) |
+| degraded | 27 (50.9%) | 54 (43.5%) | 106 (65.0%) |
+| failed | 0 | 0 | 5 (3.1%) |
+| **depth** (verified rate) | **0.377** | **0.516** | **0.319** |
+| cov (with sources) | 0.887 | 0.952 | 1.000 |
+| quotient rate | 13.2% | 7.3% | 14.1% |
+| final_state | rework | ? | verified |
+
+**解读**：
+- **M2（textarm/method_challenge）depth 0.516 达标（≥0.50）**，M1（formula/method）0.377 未达标，gpu-main 基线 0.319 最低。
+- M2 的 method_challenge 机制让模型在方法型题面上产生更多 verified 节点（51.6% vs 37.7% vs 31.9%），说明 challenge 机制有效提升了方法型推理的深度。
+- M2 的 quotient rate 7.3% 低于 M1 的 13.2% 和 gpu-main 的 14.1%，说明 challenge 机制减少了冗余分支，节点更聚焦。
+- **gpu depth gate（≥0.50）在 M2 臂上达标**，但 gpu-main 基线未达标。gate 的口径需要明确：是用主 run 还是消融臂？如果 gate 要求主 run 达标，则需要把 M2 的 challenge 机制合入主 pipeline 后重跑。
+- nat cov / soc cov 仍阻塞在检索通道修复（中文 DRB 题全盲），无法计算。
 
 ## 5. 结论（待填）
 

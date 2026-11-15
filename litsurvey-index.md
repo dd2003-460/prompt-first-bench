@@ -8,7 +8,7 @@
 | 模块 | 覆盖 | litsurvey 现状 | 剩余内容（未做/待核验） |
 |---|---|---|---|
 | A-eval-infra | ~70% | prior-art-eval-bench（10 bench 对照 + judge 协议 + 空白区确认） | ResearchRubrics 作者、DR Tulu id、BrowseComp/SimpleQA/RAGAS 无 arXiv 仅技术报告；「prompt 因果消融是空白」是弱推断，需 arena 交叉验证 |
-| B-pipeline-ablation | ~40% | （空——臂设计文档还在 experiments/stage-ablation/，B3 批次迁移时归位） | S 系列各臂的公开对标物未单独调研（竞品事实散在 competitor-survey.md） |
+| B-pipeline-ablation | ~45% | （骨架已建 2026-11-13：litsurvey/ 目录就位；臂设计文档仍在 experiments/stage-ablation/，B3 批次迁移时归位） | S 系列各臂的公开对标物未单独调研（竞品事实散在 competitor-survey.md） |
 | C-objective-goodhart | ~50% | text-objective-goodhart-survey + v17-hier-decomposition-blowup（历史资产迁入） | Goodhart 防御的理论框架综述未做（F 线 §4 有初步结论：Skalse 定理 + 3 种 hacking 模式，但没成独立 survey） |
 | D-decomp-state-machine | ~60% | sm-* 五份 SOP/日志（历史资产迁入） | decomp 状态机本身的 prior art 未系统调研（最接近的是 ODR+/DR Tulu，见 A 报告 Q2）；D35 四文献簇已派 arena（T53-D35-arena-task.md），回执未到 |
 | E-sota-benchmark | ~80% | prior-art-sota-systems + closed-sota-v3 + drb-leaderboard×2 + sota-table（本轮补完） | GAIA/HLE/BrowseComp 各 DRA 单项分数 [待核验]；arXiv:2601.06007 成本数值 [待核验]；GR n=10 空壳建议正式报告前复跑固化 |

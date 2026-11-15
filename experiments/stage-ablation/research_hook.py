@@ -393,40 +393,135 @@ def _local_corpus_search(query, max_results=3, qid=None):
 
 
 def _webllm_search(query, max_results=3):
-    """通道 6：网页 AI 信源（Perplexity via ego-browser，已登录会话）。
+    """通道 6：网页 AI 信源（多端点 fallback via ego-browser，已登录会话）。
 
-    DDG/arXiv 都拿不到具体事实时的兜底：Perplexity 直接返回「答案 + 引用 URL」，
+    DDG/arXiv 都拿不到具体事实时的兜底：网页 AI 直接返回「答案 + 引用 URL」，
     引用 URL 作为 source 落盘（snippet 用查询本身标注来源类型）。
     用户指令 2026-11-08：'可以问 arena，不止 perplexity，然后根据网页 AI 信源验证'。
+    2026-11-15：Perplexity 免费额度用完导致单点故障，加 fallback 链。
     每个查询 ~15-25s（含页面渲染等待），仅在前面通道结果不足时触发。
-    """
-    js = """
-const task = await taskSpace("pfb-webllm-research");
-const page = task.page("p1");
-await page.goto("https://www.perplexity.ai/search?q=" + encodeURIComponent(%s));
-await new Promise(r => setTimeout(r, 12000));
-const links = await page.evaluate(() => Array.from(document.querySelectorAll("a")).map(a => a.href)
-  .filter(h => !h.includes("perplexity.ai") && !h.startsWith("#") && /^https?:/.test(h)));
-const uniq = [...new Set(links)].slice(0, %d);
-console.log(JSON.stringify(uniq));
-""" % (json.dumps(query), max_results)
-    out = _run_ego_browser(js, timeout=90)
-    # extract JSON array from stdout (last line that parses)
-    urls = []
-    for line in reversed(out.splitlines()):
-        line = line.strip()
-        if line.startswith("["):
-            try:
-                urls = json.loads(line)
-                break
-            except Exception:
-                continue
-    results = []
-    for u in urls[:max_results]:
-        results.append({"title": f"[web-llm] {query}", "url": u,
-                        "snippet": f"Perplexity 回答引用源（query: {query}）"})
-    return results
 
+    注意：ego-browser 的 page 对象是自定义封装，没有 Playwright 的 page.$ /
+    page.click(selector) 等 API。交互用 page.fill + page.keyboard +
+    page.evaluate + document.querySelector，参照 cross_judge.py 的 Perplexity 交互模式。
+    """
+    import tempfile, os
+    endpoints = [
+        ("perplexity", "https://www.perplexity.ai/"),
+        ("chatgpt", "https://chatgpt.com/"),
+        ("deepseek", "https://chat.deepseek.com/a/chat"),
+    ]
+    for name, url in endpoints:
+        try:
+            with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False, encoding='utf-8') as f:
+                f.write(query)
+            prompt_file = f.name
+            js = f'''
+(async () => {{
+const task = await taskSpace("pfb-webllm-{name}");
+const page = task.page("p1");
+await page.goto("{url}", {{ timeout: 30000, waitUntil: "domcontentloaded" }});
+await page.waitForTimeout(5000);
+
+// 检测额度耗尽/登录墙
+const body0 = await page.evaluate(() => document.body ? document.body.innerText : "");
+if (/免费搜索次数上限|free (search )?(limit|allowance)|sign in to continue|log in/i.test(body0)) {{
+  console.log(JSON.stringify({{ error: "QUOTA_OR_LOGIN", body: body0.slice(0, 200) }}));
+  return;
+}}
+
+// 找输入框（兼容多种选择器）
+const input = await page.evaluate(() => {{
+  const sel = ['[role="textbox"]', 'textarea', '[contenteditable="true"]', 'input[type="text"]'];
+  for (const s of sel) {{
+    const el = document.querySelector(s);
+    if (el) {{ el.focus(); return true; }}
+  }}
+  return false;
+}});
+if (!input) {{ console.log(JSON.stringify({{ error: "NO_INPUT" }})); return; }}
+await page.waitForTimeout(300);
+
+// 读取 query 文件，用 fill 输入（ego-browser 无 page.$，用 fill 替代）
+const fs = require('fs');
+const q = fs.readFileSync({json.dumps(prompt_file)}, 'utf-8');
+const inputSel = await page.evaluate(() => {{
+  const sel = ['[role="textbox"]', 'textarea', '[contenteditable="true"]', 'input[type="text"]'];
+  for (const s of sel) {{
+    if (document.querySelector(s)) return s;
+  }}
+  return null;
+}});
+if (inputSel) {{
+  await page.fill(inputSel, q);
+}} else {{
+  console.log(JSON.stringify({{ error: "NO_INPUT_SEL" }}));
+  return;
+}}
+await page.waitForTimeout(300);
+await page.keyboard.press("Enter");
+
+// 等待响应（最多 20s）
+await page.waitForTimeout(20000);
+
+// 提取引用链接（兼容 DeepSeek 的 .ds-markdown-cite 等引用标记）
+const links = await page.evaluate(() => {{
+  const domain = window.location.hostname;
+  const seen = new Set();
+  const out = [];
+  // 1. 常规 <a> 标签
+  for (const a of document.querySelectorAll("a")) {{
+    const h = a.href;
+    if (h && !h.includes(domain) && !h.startsWith("#") && !h.startsWith("javascript:") && /^https?:/.test(h) && !seen.has(h)) {{
+      seen.add(h);
+      out.push(h);
+    }}
+  }}
+  // 2. DeepSeek 引用标记 .ds-markdown-cite 内的 <a>
+  for (const c of document.querySelectorAll(".ds-markdown-cite a, [class*=cite] a, [class*=source] a")) {{
+    const h = c.href;
+    if (h && !h.includes(domain) && /^https?:/.test(h) && !seen.has(h)) {{
+      seen.add(h);
+      out.push(h);
+    }}
+  }}
+  return out;
+}});
+const uniq = [...new Set(links)].slice(0, {max_results});
+console.log(JSON.stringify(uniq));
+}})();
+'''
+            out = _run_ego_browser(js, timeout=60 if name == "deepseek" else 45)
+            os.unlink(prompt_file)
+            urls = []
+            for line in reversed(out.splitlines()):
+                line = line.strip()
+                if line.startswith("["):
+                    try:
+                        urls = json.loads(line)
+                        break
+                    except Exception:
+                        continue
+                elif line.startswith("{"):
+                    try:
+                        d = json.loads(line)
+                        if d.get("error"):
+                            print(f"  [WEBLLM-{d['error']}] {name}: {d.get('body', '')[:80]}", file=sys.stderr)
+                        break
+                    except Exception:
+                        continue
+            if urls:
+                results = []
+                for u in urls[:max_results]:
+                    results.append({"title": f"[web-llm:{name}] {query}", "url": u,
+                                    "snippet": f"{name} 回答引用源（query: {query}）"})
+                return results
+            else:
+                print(f"  [WEBLLM-EMPTY] {name}: no links returned", file=sys.stderr)
+        except Exception as e:
+            print(f"  [WEBLLM-FAIL] {name}: {str(e)[:80]}", file=sys.stderr)
+            continue
+    return []
 
 def _arxiv_search(query, max_results=5):
     """通过 ego-browser 访问 arXiv API，返回 [{title, url, snippet}, ...]

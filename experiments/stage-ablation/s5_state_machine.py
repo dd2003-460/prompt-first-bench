@@ -479,9 +479,15 @@ class DecompStateMachine:
             print(f"  [SM] L1 already seeded ({len(self.nodes)} nodes from checkpoint), skipping decompose", flush=True)
             return
         print("  [SM] L1 skeleton (top-level dimensions only)...", flush=True)
-        from s5_pipeline import P1_L1_SKELETON, P1_L1_TEXT, _extract_json
+        from s5_pipeline import P1_L1_SKELETON, P1_L1_TEXT, P1_L1_MINIMAL, P1_L1_METHOD, P1_L1_METHOD_CHALLENGE, _extract_json
         if self.objective_mode == "text":
             prompt = P1_L1_TEXT.format(question=self.question)
+        elif self.objective_mode == "minimal":
+            prompt = P1_L1_MINIMAL.format(question=self.question)
+        elif self.objective_mode == "method":
+            prompt = P1_L1_METHOD.format(question=self.question)
+        elif self.objective_mode == "method_challenge":
+            prompt = P1_L1_METHOD_CHALLENGE.format(question=self.question)
         else:
             prompt = P1_L1_SKELETON.format(question=self.question)
         out, _ = call_llm(prompt, max_tokens=2048, temperature=0.7, top_p=0.95, retries=3)
@@ -568,6 +574,13 @@ class DecompStateMachine:
             parents_block=parents_block + edge_block,
             start=len(self.nodes) + 1,
         )
+        # 多父节点批次：要求模型给每个节点指定 parent 字段
+        if len(parents) > 1:
+            prompt += (
+                f"\n\n【重要】本批次有 {len(parents)} 个父节点：{', '.join(p.id for p in parents)}。"
+                f"每个子节点必须加 `parent` 字段指定它属于哪个父节点（值必须是上述 id 之一）。"
+                f"不要把所有子节点都挂在同一个父节点下。"
+            )
         out, _ = call_llm(prompt, max_tokens=8000, temperature=0.7, top_p=0.95, retries=4)
         d = _extract_json(out or "")
         d = d if isinstance(d, dict) else {}
@@ -581,6 +594,7 @@ class DecompStateMachine:
         # 编号 + 层级 + edge_type
         parent_levels = {int(str(p.level).lstrip("L")) for p in parents}
         next_lv = max(parent_levels) + 1 if parent_levels else 1
+        parent_id_set = {p.id for p in parents}
         new_recs = []
         for k, rn in enumerate(raw_nodes):
             # edge_type: LLM 可在节点里标（可选字段），否则继承父节点类型
@@ -589,13 +603,19 @@ class DecompStateMachine:
             if not valid_et:
                 # 继承：取第一个父节点的 edge_type
                 valid_et = parents[0].edge_type if parents else "cartesian"
+            # parent_ids: 优先用模型指定的 parent 字段，没指定才 fallback 到第一个父节点
+            specified_parent = rn.get("parent", "")
+            if specified_parent in parent_id_set:
+                pids = [specified_parent]
+            else:
+                pids = [p.id for p in parents]  # fallback: 挂整批父节点
             self._nid += 1
             rec = NodeRecord(
                 id=f"N{self._nid}",
                 claim=rn["claim"],
                 level=f"L{next_lv}",
                 source=rn.get("source", "search"),
-                parent_ids=[p.id for p in parents],
+                parent_ids=pids,
                 edge_type=valid_et,
                 search_query=(rn.get("search_query") or "").strip(),  # D32: 不再丢弃模型生成的检索词
             )
@@ -1199,7 +1219,8 @@ if __name__ == "__main__":
             q = raw_q
         print(f"[T53 SM] Loaded external question from {question_file} ({len(q)} chars)", flush=True)
     else:
-        q = QUESTIONS[qid]
+        # qid 可能是自定义标识（如 gpu-method），QUESTIONS 里没有——回退到 gpu 取题
+        q = QUESTIONS.get(qid, QUESTIONS["gpu"])
     no_verify = "--no-verify" in flags
     resume_from = resume_from_early
     if resume_from is None and "--resume" in flags:
@@ -1287,6 +1308,8 @@ if __name__ == "__main__":
                 "network_degraded": sm.network_degraded,
                 "objective": sm.objective,  # Decision 19
                 "rework_events": sm.rework_events,
+                "objective_mode": getattr(sm, "objective_mode", "formula"),  # #31 消融臂
+                "contradiction_events": getattr(sm, "contradiction_events", []),
             }, f, ensure_ascii=False, indent=2)
         print(f"[T53 SM] Checkpoint saved → {ck_path} (use --resume {ck_path})", flush=True)
         _sys.exit(1)
