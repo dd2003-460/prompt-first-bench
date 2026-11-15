@@ -498,9 +498,7 @@ await page.waitForTimeout(300);
 
 // 读取 query 文件，用 evaluate 输入（ego-browser 的 page.fill 对 contenteditable 不可靠）
 const fs = require('fs');
-const inputResult = await page.evaluate(() => {{
-  const fs = require('fs');
-  const q = fs.readFileSync({json.dumps(prompt_file)}, 'utf-8');
+const inputResult = await page.evaluate((q) => {{
   const sel = ['[role="textbox"]', 'textarea', '[contenteditable="true"]', 'input[type="text"]'];
   for (const s of sel) {{
     const el = document.querySelector(s);
@@ -512,7 +510,7 @@ const inputResult = await page.evaluate(() => {{
     }}
   }}
   return null;
-}});
+}}, {json.dumps(query)});
 if (!inputResult) {{
   console.log(JSON.stringify({{ error: "NO_INPUT_SEL" }}));
   return;
