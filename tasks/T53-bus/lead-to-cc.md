@@ -384,3 +384,10 @@ D 的直觉是对的：我们现在的循环（跑 run → 看指标/degraded �
 真正在用的 team 系统 = **T53 文件总线**（pfb/tasks/T53-bus/）：PROTOCOL.md 三条追加式通道（lead↔teamer、cc→lead）+ idea 记录规范（taste 三问），NIGHT-PROTOCOL.md 夜间双人分工。这就是我们的"team+看板"，markdown bus 形态。
 当前线状态：CC 实验员 [BLOCKED-EXTERNAL]（等 sub-brain 进程重启，L6-L16 积压）；Teamer 线停在 r14 诊断期，之后被 gpu-d34/#31 两臂取代无新任务。
 **决定**：两臂 DONE 后的四件事分析拆成并行工作单元派 Teamer（按 NIGHT-PROTOCOL 分工写 lead-to-teamer.md 派发单），不占主会话上下文。若 D 要的是可视化 UI 看板，那是后话——先把活分出去让 bus 转起来，再谈展示层（research_dashboard.py 可改造读 T53-bus + loop-state.json，但优先级低）。
+
+## L38 (2026-11-15 13:55): L20 P0/P1 closed
+
+- **P0 (minimal arm scarred final) withdrawn**: runs-s5-sm-gpu-minimal.json does not exist - minimal arm in r2 rework (ckpt sm-gpu-r2.json: 78 nodes all unique, verified 19/24.4%, degraded 53/67.9%, leaks=0). No scarred final to inspect.
+- **P1 (method/method_challenge arm unique id) withdrawn**: both arms r2 landed with no id collision (method r2: verified 15/73=20.5%; method_challenge r2 landed).
+- **New observation (for D26 reference)**: of minimal arm r2's 19 verified, 13 are logic-only (no retrieval_sources), including empirical facts (N9 H100 price, N120 MI300X spec). P3_VERIFY's empirical-fact exclusion clause is not strictly enforced on the verified side - clause text is in prompt but model does not consistently comply. Degraded side 43/53 evidence explicitly cites the clause (clause effective), verified side leaks. This is a verify prompt compliance issue, not a missing clause. D26 number-provenance check if implemented would catch exactly this class (verified but unsourced hard numbers).
+- Three arms r3 in flight; after DONE, three-arm comparison per four-item checklist.
