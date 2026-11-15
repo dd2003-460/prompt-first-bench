@@ -12,7 +12,7 @@
 | C-objective-goodhart | ~50% | text-objective-goodhart-survey + v17-hier-decomposition-blowup（历史资产迁入） | Goodhart 防御的理论框架综述未做（F 线 §4 有初步结论：Skalse 定理 + 3 种 hacking 模式，但没成独立 survey） |
 | D-decomp-state-machine | ~60% | sm-* 五份 SOP/日志（历史资产迁入） | decomp 状态机本身的 prior art 未系统调研（最接近的是 ODR+/DR Tulu，见 A 报告 Q2）；D35 四文献簇已派 arena（T53-D35-arena-task.md），回执未到 |
 | E-sota-benchmark | ~80% | prior-art-sota-systems + closed-sota-v3 + drb-leaderboard×2 + sota-table（本轮补完） | GAIA/HLE/BrowseComp 各 DRA 单项分数 [待核验]；arXiv:2601.06007 成本数值 [待核验]；GR n=10 空壳建议正式报告前复跑固化 |
-| F-theory/gradient-descent | ~65% | prior-art-prompt-optimization（conf 0.78，9 工作 × 4 问 + 设计启示） | "无 prior work 讨论 prompt-induced drift" gap 判断 conf 0.70 待 arena 交叉验证；AdaPrompt 具体 id [待核验]；GEPA full text 未读 |
+| F-theory/gradient-descent | ~80% | prior-art-prompt-optimization（conf 0.78，9 工作 × 4 问 + 设计启示）+ 2026-11-13-d35-realworld-vs-analytic-optimization-survey（A/B/结合四问，26 源，Q1 0.78 / Q2 0.72 / Q4 0.72 / Q3 0.66） | drift gap 判断**已被 D35 推翻**（HAPO 2601.02683 + PromptOps 2611.07123 显式定义并度量，0.85）；AdaPrompt id = 2202.04824 已补；GEPA 已读 §1；**注意**：D35 §11 勘误 F 旧文 3 处 arXiv ID 错误（2101.05574/1403.3919/2202.06384 均指向无关论文），转引前必查；遗留：Besbes 精确指数口径 [待核验]、自指/对抗 MDP 理论未检索、Drift→V_T 预算化属"搜了没找到"级 0.3 |
 
 ## 跨领域共性缺口（拼回去看漏）
 
