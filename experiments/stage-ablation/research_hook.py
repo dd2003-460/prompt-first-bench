@@ -466,7 +466,7 @@ def _webllm_search(query, max_results=3):
             prompt_file = f.name
             js = f'''
 (async () => {{
-const task = await taskSpace("pfb-webllm-{name}-" + Date.now());
+const task = await taskSpace("pfb-webllm-{name}-" + Date.now() + "-" + Math.random().toString(36).slice(2, 8));
 const page = task.page("p1");
 await page.goto("{url}", {{ timeout: 30000, waitUntil: "domcontentloaded" }});
 await page.waitForTimeout(5000);
@@ -617,7 +617,7 @@ def _arxiv_search(query, max_results=5):
     ti_query = ' AND '.join(f'ti:{w}' for w in specific[:4]) if specific else f'ti:{core_words[0]}'
     encoded_ti = quote_plus(ti_query)
 
-    space_name = f"arxiv-{int(time.time())}"
+    space_name = f"arxiv-{int(time.time())}-{os.getpid()}"
     js = (
         "(async () => {\n"
         f'const task = await taskSpace("{space_name}");\n'
@@ -804,7 +804,7 @@ def filter_sources(sources, qid):
 
 def _fetch_page(url, title_hint, timeout=30):
     """直接访问 URL，确认存活并提取标题。"""
-    space_name = f"fetch-{int(time.time()*1000)}"
+    space_name = f"fetch-{int(time.time()*1000)}-{os.getpid()}"
     js = (
         "(async () => {\n"
         f'const task = await taskSpace("{space_name}");\n'
