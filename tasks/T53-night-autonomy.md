@@ -182,3 +182,14 @@ inbox 空（0 bytes）。M1/M2 进程状态核实：pgrep 命中 12 个 pid 但 
 
 [待D醒] 三项不变（strict 口径 / DRB 重启裁决 / webllm 修复方向）。下一步：M1/M2 从 r1 ckpt resume 续跑（#6 已定方案：--resume checkpoints/sm-gpu-r1.json --qid=gpu-method / gpu-method-challenge，避免从零重跑浪费 26n 资产）——但 resume 会再触发 webllm 通道（M2 已两连 ERR_ABORTED），在 webllm 修复方向未定前，resume 收益有限（r1 的 6 pending 节点大概率再走同一批超时通道），维持排队，等 D 定 webllm 方向后再 resume。
 
+
+## 2026-11-15 夜间唤醒 #8 (cron, ~14:45)
+
+inbox 2 条已处理并清空：webllm 修复确认（CC 14:24-14:37 多端点 fallback + ego-browser API 兼容，DeepSeek 验证 3 引用）+ r3 资产核实。lead-to-cc 回执已写。
+
+本轮增量：
+1. **r3 资产核实**：sm-gpu-method-challenge-r3.log 停在 round3 gap_check（14:42 后无写入），无 r3 ckpt、无 final json——r3 进程退出前未落盘。r2 ckpt 完好（78n/ver19/deg53/pend6/leaks0/obj=minimal），r1 ckpt 完好（26n/ver5/obj=method）。
+2. **webllm 修复确认**：CC 两笔 commit（0580986f fallback 链 / 5ebe6ef8 API 兼容）已验证生效，M2 此前两连 ERR_ABORTED 的阻塞解除。
+3. **M1/M2 resume 维持排队**：resume 方案不变（--resume checkpoints/sm-gpu-r1.json --qid=gpu-method / gpu-method-challenge），但 r3 无 ckpt 落盘说明 challenge 臂退出路径仍有未走完的落盘逻辑，resume 前需先确认 r3 退出原因（gap_check 后正常退出 vs 异常），避免 resume 后重蹈覆辙。
+
+[待D醒] 三项不变（strict 口径 / DRB 重启裁决 / webllm 修复方向已解除）。taste 自检：本轮判断"r3 无 ckpt = 退出路径未走完"置信度高（log 停在 gap_check + 无 Saved 行 + 无 ckpt 文件三重印证）；resume 排队而非立即执行的选择依据 = 先查清 r3 退出原因，避免 resume 后同样丢落盘。
