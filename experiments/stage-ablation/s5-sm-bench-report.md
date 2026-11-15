@@ -92,6 +92,12 @@ gate 要 nat cov≥0.634 + gpu depth≥0.50，但 DRB 题 verified 率 1.6%（51
 
 三个子问题都不是改一行代码能解决的。短期能做的是 timeout 降低（已做）+ 中文 query 走 bing 国际版（需实现）。DRB 题出分依赖检索通道修复，pfb-hardening-v2 gate 在此之前无法通过。
 
+**执行计划（gate 分两步走）**：
+
+- **Step 1（M1/M2 跑完后）**：gpu depth 消融数据。M1（method）vs M2（method_challenge）对比 S5 SM 机制在方法型题面上的行为差异。不依赖 DRB 题，M1/M2 跑完即可算。产出：gpu-method 消融表 + bench 报告更新。
+- **Step 2（检索通道修复后）**：nat cov 重跑。DRB 题（drb-1/drb-2）verified 率从 1.6% 提上来后重跑 nat，看 cov 能否从 0.334 提到 ≥0.634。依赖：DDG 中文质量修复 + zh-wiki 覆盖修复 + Perplexity 超时修复（三选一或组合）。
+- **Step 1 不阻塞 Step 2，Step 2 不阻塞 Step 1 的产出落盘**。M1/M2 跑完先出 Step 1 数据，检索通道修复并行推进。
+
 ## 5. 结论（待填）
 
 （≥3 题出分后写：是否达对标线 / 未达则弱项归因与后续建议 / 收敛判据第几条生效。）
