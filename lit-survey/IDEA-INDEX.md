@@ -64,4 +64,4 @@
 | #45 | 贡献估计+阈值停止：模型估计每个子项对目标函数的边际贡献（0~1），低于阈值不展开；极小概率极大不稳定期望豁免（high_var=true） | ✅已落地(commit 04969d53: classify_edge 返回 contribution+high_var, L1 frontier 按 0.10 过滤) |
 | #46 | cellorg-max DRB harness 结构调研：微信兄弟找到最高分 harness 用了 MECE，需查其结构+我们剩余优化空间 | 🔍待调研 |
 | #47 | 不确定性横切维度涌现：L1 skeleton 把"不确定性/置信度"拆成独立 L1 兄弟节点（r7 N6）。消融矩阵(2026-11-12, qwen3.8-27b, n=3/组): A带2b prior=2/3命中(v1另3/3), B去2b=2/3命中 → 结论: 非纯涌现也非纯prior产物, 是模型内禀倾向(不稳定~50%)+2b规则放大(→~80%)的混合效应; r7单次出现属高方差事件。创新声明定位: "prior-guided emergence with measurable ablation gap" | ❓消融完成(数据: research/l1-repro-probe{,-v2}.jsonl) | l1_repro_probe_v2.py | T53 P1_L1_SKELETON 2b 规则 |
-| #48 | 领域网络/激活子图视角：无外部检索时模型生成的分解树≈其内部激活子图（问题"点亮"了哪些概念），有检索后变成耦合图（外部证据为新节点，verified/degraded/failed=耦合强度）；对标从 deepresearch agents 转向 concept graph / knowledge activation 文献，撞车风险更低 | 🔸讨论捕获(2026-11-12 D 提出+Lead 认可) | — | T53 研究定位备选方向 |
+| #48 | 领域网络/激活子图视角：无外部检索时模型生成的分解树≈其内部激活子图（问题"点亮"了哪些概念），有检索后变成耦合图（外部证据为新节点，verified/degraded/failed=耦合强度）；对标从 deepresearch agents 转向 concept graph / knowledge activation 文献，撞车风险更低 | 🔸形式化框架完成(2026-11-15, lit-survey/2026-11-15-idea48-activation-subgraph.md)，文献对标待检索通道恢复后补 | T53 研究定位备选方向 |
