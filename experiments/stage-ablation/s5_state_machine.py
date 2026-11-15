@@ -628,7 +628,14 @@ class DecompStateMachine:
         return new_recs
 
     def _verify_batch(self, batch: list[NodeRecord]) -> list[NodeRecord]:
-        """核验一批节点。返回带 status/evidence 的节点。"""
+        """核验一批节点。返回带 status/evidence 的节点。
+
+        D-质询并行（2026-11-16）：verify_node 是纯 LLM 调用，短上下文批量并发
+        实测提速明显（8787 qwen3.8-27b：6 并发总耗时 ≈ 最慢单个，而非累加）。
+        search 节点的检索仍串行（ego-browser 有状态），LLM 核验部分并发。"""
+        from concurrent.futures import ThreadPoolExecutor
+        # 先串行做检索（search 节点），收集 (node, srcs_list)
+        prepared = []
         for node in batch:
             if node.source == "search":
                 if self.network_degraded:
@@ -644,18 +651,21 @@ class DecompStateMachine:
                     self.confirmed.append((node.id, node.claim, "degraded"))
                     continue
                 srcs_list = srcs if isinstance(srcs, list) else []
-                # 信息获取度量（D32）：记录该节点实际拿到哪些来源——
-                # 后续可算 per-node source yield（几条来源支撑了几 nat info-gain），
-                # 以及通道级命中率（哪个 channel 的来源最终进了 verified evidence）。
                 node.retrieval_sources = [
                     {"url": s.get("url"), "type": s.get("source_type"),
                      "title": (s.get("title") or "")[:80]} for s in srcs_list]
             else:
-                # given/knowledge 不检索，但同样过 LLM 核验（AC3: 所有节点都要有真实 evidence）
                 srcs_list, err = [], None
-            status, evidence, corrected, _r = verify_node(
+            prepared.append((node, srcs_list))
+        # 并发 LLM 核验（含反方质询）
+        def _do_verify(item):
+            node, srcs_list = item
+            return verify_node(
                 {"id": node.id, "claim": node.claim,
                  "source": node.source}, srcs_list)
+        with ThreadPoolExecutor(max_workers=min(len(prepared), 4)) as ex:
+            results = list(ex.map(_do_verify, prepared))
+        for (node, _), (status, evidence, corrected, _r) in zip(prepared, results):
             node.status = status
             node.evidence = evidence
             node.corrected_claim = corrected or node.claim

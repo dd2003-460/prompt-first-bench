@@ -214,6 +214,7 @@ P3_VERIFY = (
         "【硬性约束】本条款仅适用于 source=search 的节点。"
         "source=given/knowledge 的节点：逻辑自洽即判 verified，无论 claim 是否含经验参数、公式推导、或理论模型结论。"
         "禁止对 given/knowledge 节点引用本条款降级。若你正在考虑对 given/knowledge 节点写「经验事实…缺来源支持」→ 停，这是错误的，应判 verified。\n"
+        "注意：反方质询（第一步）对所有节点类型生效——given/knowledge 节点的 challenge 若成立且无法排除，同样降档为 degraded；「逻辑自洽即 verified」的前提是无可信攻击点。\n"
     "【来源标记】\n该节点的 source 标记为 {source}。若 source 为 given 或 knowledge：核验重点变为「逻辑自洽 + 数值量级合理」，无需外部来源支持即可判 verified（evidence 注明「先验知识/题面给定，逻辑校验通过」）；经验事实排除条款对 given/knowledge 节点不适用——模型先验知识中的稳定工程参数（如 LRU 命中率量级、Zipf 指数典型值）属于 knowledge 范畴，逻辑自洽即判 verified。若 source 为 search：按上方判定规则（含经验事实排除条款）执行外部核验。\n\n"
     "【关键事实节点】\n{node_id}: {claim}\n\n"
     "【参考来源】\n{sources_block}\n\n"
