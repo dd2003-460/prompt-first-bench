@@ -279,8 +279,13 @@ def _ddg_search(query, max_results=3):
     # D34 (2026-11-12): P1H_INDEX 生成的 search_query 是完整事实陈述（degraded 节点
     # 英文 query 中位 9 词、最长 14 词），塞进 DDG lite 等于多条件 AND → 零结果，
     # 这是上一轮 gpu 跑 43/86 degraded 全是 "all 5 failed" 的主因之一。
-    slimmed = _slim_query(query)
-    queries = [query] if slimmed == query else [slimmed, query]
+    # 2026-11-15: 中文 query 不走 _slim_query（它只处理英文，中文瘦身后变垃圾），
+    # 直接截断到 40 字符保留语义完整性。
+    if re.search(r'[\u4e00-\u9fff]', query):
+        queries = [query[:40]]
+    else:
+        slimmed = _slim_query(query)
+        queries = [query] if slimmed == query else [slimmed, query]
     results = []
     for q_try in queries:
         for attempt in range(2):
@@ -903,19 +908,14 @@ def research_hook(qid, question, max_results=8, enable_local=True):
             pass
 
     # ── 2.5 搜索引擎（~2-4s，非学术事实：价格/功耗/TCO）──
-    # 中文查询走 bing 国际版（setlang=en），drb-2 诊断已验证结果干净。
-    # 英文查询走 DDG lite（原行为）。
+    # 中英文查询都走 DDG lite（2026-11-15 修正：中文 query 走 arXiv 无效——
+    # arXiv 只索引英文论文，中文 query 匹配到 β-Pictoris/LaFeAsO 等无关物理论文。
+    # DDG lite 支持中文搜索，对 cache invalidation 等学术概念也有效。）
     remaining = max_results - len(sources)
     if remaining > 0:
         try:
-            if re.search(r'[\u4e00-\u9fff]', question):
-                # 中文 query → bing 国际版
-                for r in _arxiv_search(question, max_results=min(3, remaining)):
-                    _add(r, "arxiv")
-            else:
-                # 英文 query → DDG lite
-                for r in _ddg_search(question, max_results=min(3, remaining)):
-                    _add(r, "ddg")
+            for r in _ddg_search(question, max_results=min(3, remaining)):
+                _add(r, "ddg")
         except Exception:
             pass
 
