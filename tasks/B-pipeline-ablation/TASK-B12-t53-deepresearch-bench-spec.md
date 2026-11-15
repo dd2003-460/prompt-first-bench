@@ -38,3 +38,7 @@
 ## 降级
 
 arena 不可用 → 本地跑（conf-0.2），只降通道不降流程。
+
+## 回执（必须）
+
+完成后回执 JSON 必须含 `repo`（remote URL）+ `branch` + `commit_sha`（你 push 到的分支的 sha）。Lead 落盘前用 `git ls-remote` 核对 sha 存在——回执没指纹 = 未验证，不通过门禁。
