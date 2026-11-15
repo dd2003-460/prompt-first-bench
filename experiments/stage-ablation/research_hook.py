@@ -410,7 +410,7 @@ const links = await page.evaluate(() => Array.from(document.querySelectorAll("a"
 const uniq = [...new Set(links)].slice(0, %d);
 console.log(JSON.stringify(uniq));
 """ % (json.dumps(query), max_results)
-    out = _run_ego_browser(js, timeout=90)
+    out = _run_ego_browser(js, timeout=25)
     # extract JSON array from stdout (last line that parses)
     urls = []
     for line in reversed(out.splitlines()):
