@@ -1,0 +1,539 @@
+{
+  "task": "T53-D35",
+  "title": "真实世界迭代 vs 解析先验+泛函梯度下降（文献滚雪球补缺）",
+  "generated": "2026-11-13",
+  "branch": "arena/f65a5a27-prompt-first-bench",
+  "survey_file": "modules/F-theory/gradient-descent/litsurvey/2026-11-13-d35-realworld-vs-analytic-optimization-survey.md",
+  "route_legend": {
+    "A": "model-free 真实世界迭代（bench→metric→改→重跑，≈policy gradient）",
+    "B": "model-based 解析先验 + 函数空间泛函梯度（≈MBPO）"
+  },
+  "question_priority": [
+    "Q1",
+    "Q2",
+    "Q4",
+    "Q3"
+  ],
+  "queries": [
+    {
+      "id": "q1",
+      "question": "Q1 两条路线的文献证据",
+      "engine": "web_search",
+      "query": "arXiv iterative prompt optimization feedback loop distribution drift stale evaluations history invalidated LLM self-improvement",
+      "depth": 2,
+      "hits_used": [
+        "2611.07123",
+        "2601.02683",
+        "2603.25681"
+      ],
+      "note": "决定性：找到两篇显式定义 prompt/judge drift 的 2026 工作，推翻 F-旧 的 gap 判断"
+    },
+    {
+      "id": "q2",
+      "question": "Q2 定理与失败条件",
+      "engine": "fetch_page",
+      "query": "arxiv.org/abs/1906.08253（MBPO 正确 ID 核验）",
+      "hits_used": [
+        "1906.08253"
+      ],
+      "note": "同时证伪 F-旧 写的 2101.05574（实为 astro-ph）"
+    },
+    {
+      "id": "q3",
+      "question": "非平稳带通与变差预算",
+      "engine": "web_search",
+      "query": "Besbes Gur Zeevi \"Stochastic Multi-Armed-Bandit Problem with Non-stationary Rewards\" arXiv 1406",
+      "depth": 1,
+      "hits_used": [
+        "besbes2014neurips"
+      ],
+      "note": "确认无 arXiv 版；证伪 F-旧 的 1403.3919（实为 astro-ph）"
+    },
+    {
+      "id": "q4",
+      "question": "Suk & Kpotufe 定位",
+      "engine": "web_search",
+      "query": "Suk Kpotufe \"Adaptive Nonstationary Bandits\" arXiv id significant shifts regret",
+      "depth": 1,
+      "hits_used": [
+        "2407.08654",
+        "2505.18871"
+      ],
+      "note": "只有转述，无 arXiv 原文；证伪 F-旧 的 2202.06384（实为 FairTraDEX）"
+    },
+    {
+      "id": "q5",
+      "question": "AdaPrompt ID 补全",
+      "engine": "web_search",
+      "query": "AdaPrompt adaptive prompt learning arXiv id 2202.04824",
+      "depth": 1,
+      "hits_used": [
+        "2202.04824"
+      ],
+      "note": "两个独立参考文献列表一致 → 2202.04824，解除 [待核验]"
+    },
+    {
+      "id": "q6",
+      "question": "Q4 防 Goodhart 的形式化",
+      "engine": "fetch_page",
+      "query": "arxiv.org/abs/1908.05659（DRO review）",
+      "hits_used": [
+        "1908.05659"
+      ],
+      "note": "DRO/minimax 框架；结论：能形式化'对指定裁判族的最坏情况'，不能形式化'不可被 hack'"
+    },
+    {
+      "id": "q7",
+      "question": "GEPA full text（F-旧 未读）",
+      "engine": "fetch_page",
+      "query": "arxiv.org/html/2507.19457 chunk 0",
+      "hits_used": [
+        "2507.19457"
+      ],
+      "note": "'文本比标量奖励信息量更大' + Pareto 前沿作为内置多样化机制；35x rollout 效率"
+    }
+  ],
+  "sources": [
+    {
+      "n": 1,
+      "id": "arXiv:2611.07123",
+      "title": "PromptOps: Iterative Prompt Optimization for LLM-as-a-Judge Systems",
+      "url": "https://arxiv.org/html/2611.07123",
+      "date": "2026-11-04",
+      "level": "①",
+      "read_level": "full",
+      "chunks_read": [
+        0,
+        3
+      ],
+      "key_claims": [
+        "judge drift 定义：固定 judge 与目标人类评估政策的一致性下降，可仅由评估流变化引起",
+        "触发式 Controller（窗内误差 >= τ 触发，w 轮冷却）+ 只允许用过去观测",
+        "500-turn 流 + 6 次优化 pass（t=20/50/95/163/265/417）",
+        "结论：recovery 不等于 invariance；适配会 specialization 到 shift 前反馈",
+        "结论：优化器选择与更新时机都不普适"
+      ],
+      "verdict_use": [
+        "Q1",
+        "Q2",
+        "§6",
+        "§7"
+      ]
+    },
+    {
+      "n": 2,
+      "id": "arXiv:2601.02683",
+      "title": "Learning from Prompt itself: the Hierarchical Attribution Prompt Optimization (HAPO)",
+      "url": "https://arxiv.org/html/2601.02683",
+      "date": "2026-01-06",
+      "level": "①",
+      "read_level": "partial",
+      "chunks_read": [
+        0
+      ],
+      "key_claims": [
+        "摘要即定义 prompt drift：新 prompt 修旧错但损害原本通过的题",
+        "Drift(t) 可计算 + 阈值早停 + retention 指标",
+        "UCB 选编辑位置（A 的成分嵌在 B 框架内）",
+        "11/12 场景最优，平均 +7.21%"
+      ],
+      "verdict_use": [
+        "Q1",
+        "§2.3",
+        "§4.3"
+      ]
+    },
+    {
+      "n": 3,
+      "id": "arXiv:2507.19457",
+      "title": "GEPA: Reflective Prompt Evolution Can Outperform Reinforcement Learning",
+      "url": "https://arxiv.org/html/2507.19457",
+      "date": "v2 2026-02-14",
+      "level": "①",
+      "read_level": "partial",
+      "chunks_read": [
+        0
+      ],
+      "key_claims": [
+        "文本反思优于稀疏标量奖励的策略梯度",
+        "Pareto 前沿保留实例级 top-k → 内置多样化/反局部最优",
+        "比 GRPO 平均 +6%、最多 +20%，rollout 少至 1/35；比 MIPROv2 聚合 +13% vs +5.6%",
+        "held-out 仅以星标形式报告，未给方差"
+      ],
+      "verdict_use": [
+        "Q1",
+        "§4.3"
+      ]
+    },
+    {
+      "n": 4,
+      "id": "arXiv:1906.08253",
+      "title": "When to Trust Your Model: Model-Based Policy Optimization (MBPO)",
+      "url": "https://arxiv.org/abs/1906.08253",
+      "level": "①",
+      "read_level": "abstract",
+      "key_claims": [
+        "悲观界过紧 → 用经验模型误差替代，支持短 rollout 分支",
+        "模型误差是策略质量瓶颈"
+      ],
+      "verdict_use": [
+        "Q2/T3",
+        "§7.2"
+      ]
+    },
+    {
+      "n": 5,
+      "id": "NeurIPS-2014-besbes",
+      "title": "Stochastic Multi-Armed-Bandit Problem with Non-stationary Rewards",
+      "url": "https://mlanthology.org/neurips/2014/besbes2014neurips-stochastic/",
+      "level": "①",
+      "read_level": "abstract",
+      "key_claims": [
+        "变差预算 V_T 与最小可达 regret 直接挂钩",
+        "无 arXiv 版（F-旧 的 1403.3919 为错误 ID）"
+      ],
+      "verdict_use": [
+        "Q2/T1"
+      ]
+    },
+    {
+      "n": 6,
+      "id": "arXiv:2407.08654",
+      "title": "Adaptive Smooth Non-Stationary Bandits",
+      "url": "https://arxiv.org/abs/2407.08654",
+      "level": "①",
+      "read_level": "partial",
+      "key_claims": [
+        "Hölder 平滑非平稳的最小最大动态 regret，可自适应不预知 β,λ",
+        "转述 Suk & Kpotufe (2022) 的 significant shift 概念"
+      ],
+      "verdict_use": [
+        "Q2/T2"
+      ]
+    },
+    {
+      "n": 7,
+      "id": "arXiv:2505.18871",
+      "title": "Non-Stationary Lipschitz Bandits",
+      "url": "https://arxiv.org/pdf/2505.18871v1",
+      "level": "①",
+      "read_level": "partial",
+      "key_claims": [
+        "Õ(L^{1/3}T^{2/3}) 动态 regret",
+        "有 safe arm 时可快于 √T"
+      ],
+      "verdict_use": [
+        "Q2/T2"
+      ]
+    },
+    {
+      "n": 8,
+      "id": "arXiv:2603.25681",
+      "title": "Self-Improvement of Large Language Models: A Technical Overview and Future Outlook",
+      "url": "https://arxiv.org/html/2603.25681v3",
+      "level": "①",
+      "read_level": "partial",
+      "key_claims": [
+        "§6.1：持续适配下固定 benchmark 会 stale 或被 superficial shortcut 过拟合",
+        "§7.3：对 proxy reward 优化会扭曲行为",
+        "§7.1：data autophagy 降质降多样性"
+      ],
+      "verdict_use": [
+        "Q1",
+        "Q4",
+        "§2.3"
+      ]
+    },
+    {
+      "n": 9,
+      "id": "arXiv:1908.05659",
+      "title": "Distributionally Robust Optimization: A Review",
+      "url": "https://arxiv.org/abs/1908.05659",
+      "level": "①",
+      "read_level": "abstract",
+      "key_claims": [
+        "min_θ sup_{Q∈𝒰} E_Q[L(θ)] 标准形态",
+        "与 robust optimization / 风险厌恶 / 机会约束的关系"
+      ],
+      "verdict_use": [
+        "Q4"
+      ]
+    },
+    {
+      "n": 10,
+      "id": "arXiv:2202.04824",
+      "title": "AdaPrompt: Adaptive model training for prompt-based NLP",
+      "url": "https://arxiv.org/pdf/2205.05638v2",
+      "level": "①",
+      "read_level": "id_only",
+      "key_claims": [
+        "ID 由两个独立参考文献列表确认"
+      ],
+      "verdict_use": [
+        "§11 勘误"
+      ]
+    },
+    {
+      "n": 11,
+      "id": "arXiv:2101.05574",
+      "title": "Test of the cosmic distance duality relation（反证材料）",
+      "url": "https://arxiv.org/abs/2101.05574",
+      "level": "①",
+      "read_level": "abstract",
+      "key_claims": [
+        "astro-ph.CO，与 RL 无关 → F-旧 的 MBPO ID 错误"
+      ],
+      "verdict_use": [
+        "§11 勘误"
+      ]
+    },
+    {
+      "n": 12,
+      "id": "arXiv:1403.3919",
+      "title": "Hint of relic gravitational waves in the Planck and WMAP data（反证材料）",
+      "url": "https://arxiv.org/abs/1403.3919",
+      "level": "①",
+      "read_level": "abstract",
+      "key_claims": [
+        "astro-ph.CO → F-旧 的 Besbes ID 错误"
+      ],
+      "verdict_use": [
+        "§11 勘误"
+      ]
+    },
+    {
+      "n": 13,
+      "id": "arXiv:2202.06384",
+      "title": "FairTraDEX: A Decentralised Exchange Preventing Value Extraction（反证材料）",
+      "url": "https://arxiv.org/abs/2202.06384",
+      "level": "①",
+      "read_level": "abstract",
+      "key_claims": [
+        "cs.GT DeFi → F-旧 的 Suk&Kpotufe ID 错误"
+      ],
+      "verdict_use": [
+        "§11 勘误"
+      ]
+    },
+    {
+      "n": 14,
+      "id": "arXiv:2309.03409",
+      "title": "OPRO",
+      "url": "",
+      "level": "②",
+      "read_level": "workspace_history",
+      "verdict_use": [
+        "§2.1"
+      ]
+    },
+    {
+      "n": 15,
+      "id": "arXiv:2211.01910",
+      "title": "APE",
+      "url": "",
+      "level": "②",
+      "read_level": "workspace_history",
+      "verdict_use": [
+        "§2.1"
+      ]
+    },
+    {
+      "n": 16,
+      "id": "arXiv:2305.03495",
+      "title": "ProTeGi",
+      "url": "",
+      "level": "②",
+      "read_level": "workspace_history",
+      "verdict_use": [
+        "§2.1"
+      ]
+    },
+    {
+      "n": 17,
+      "id": "arXiv:2310.03714",
+      "title": "DSPy / MIPROv2",
+      "url": "",
+      "level": "②",
+      "read_level": "workspace_history",
+      "verdict_use": [
+        "§2.1"
+      ]
+    },
+    {
+      "n": 18,
+      "id": "arXiv:2406.07496",
+      "title": "TextGrad",
+      "url": "",
+      "level": "②",
+      "read_level": "workspace_history",
+      "verdict_use": [
+        "§2.1"
+      ]
+    },
+    {
+      "n": 19,
+      "id": "EvoPrompt/PromptBreeder/PromptAgent",
+      "title": "进化式 prompt 优化家族",
+      "url": "",
+      "level": "②",
+      "read_level": "workspace_history",
+      "verdict_use": [
+        "§2.1"
+      ]
+    },
+    {
+      "n": 20,
+      "id": "arXiv:1811.04551",
+      "title": "PlaNet",
+      "url": "",
+      "level": "②",
+      "read_level": "workspace_history",
+      "verdict_use": [
+        "§11"
+      ]
+    },
+    {
+      "n": 21,
+      "id": "Suk-Kpotufe-2022",
+      "title": "Adaptive Nonstationary Bandits (AISTATS)",
+      "url": "",
+      "level": "②",
+      "read_level": "cited_by_2407.08654",
+      "verdict_use": [
+        "Q2/T2"
+      ]
+    },
+    {
+      "n": 22,
+      "id": "arXiv:1708.01799",
+      "title": "Cheung, Simchi-Levi, Zhu",
+      "url": "",
+      "level": "②",
+      "read_level": "workspace_history",
+      "verdict_use": [
+        "§3.3"
+      ]
+    },
+    {
+      "n": 23,
+      "id": "Metelli-2018",
+      "title": "OPE variance",
+      "url": "",
+      "level": "②",
+      "read_level": "workspace_history",
+      "verdict_use": [
+        "§11"
+      ]
+    },
+    {
+      "n": 24,
+      "id": "T-PR-15-survey",
+      "title": "text-objective-goodhart-survey（本仓库）",
+      "url": "modules/C-objective-goodhart/litsurvey/text-objective-goodhart-survey.md",
+      "level": "②",
+      "read_level": "workspace_history",
+      "verdict_use": [
+        "Q4"
+      ]
+    },
+    {
+      "n": 25,
+      "id": "arXiv:2210.10760",
+      "title": "Skalse et al., reward hacking",
+      "url": "",
+      "level": "②",
+      "read_level": "workspace_history",
+      "verdict_use": [
+        "Q4"
+      ]
+    },
+    {
+      "n": 26,
+      "id": "F-旧-survey",
+      "title": "2026-11-12-prior-art-prompt-optimization.md（本模块）",
+      "url": "modules/F-theory/gradient-descent/litsurvey/2026-11-12-prior-art-prompt-optimization.md",
+      "level": "②",
+      "read_level": "workspace_history",
+      "verdict_use": [
+        "全篇基线"
+      ]
+    }
+  ],
+  "source_counts": {
+    "total": 26,
+    "level_1_this_round": 13,
+    "level_1_at_or_beyond_abstract": 12,
+    "level_1_beyond_abstract": 7,
+    "level_2_workspace_history": 13,
+    "level_3_memory_used_in_verdict": 0
+  },
+  "verdicts": {
+    "Q1": {
+      "sentence": "文献中无干净 A-vs-B 对照；证据指向 B 定函数空间 + A 定步长与停止 + 控制器管漂移",
+      "conf": 0.78
+    },
+    "Q2": {
+      "sentence": "T1+T2+T3 可拼成'先验可信度 × 非平稳速度'判据；自指情形无定理，只能靠监控",
+      "conf": 0.72
+    },
+    "Q4": {
+      "sentence": "DRO/minimax 只能形式化对指定裁判族的最坏情况，不能形式化不可被 hack；需正交多样性项兜底",
+      "conf": 0.72
+    },
+    "Q3": {
+      "sentence": "<20 trials 下做结构先验 + 定向单因子探测，BO 降级为可选",
+      "conf": 0.66
+    },
+    "errata": {
+      "sentence": "F-旧 3 处 arXiv ID 指向无关论文，其 ID 自评不成立",
+      "conf": 0.95
+    },
+    "drift_gap": {
+      "sentence": "F-旧 '无 prior work 讨论 prompt-induced drift' 被推翻",
+      "conf": 0.85
+    }
+  },
+  "counter_interrogations": [
+    "GEPA 样本效率能否迁移到几十题 bench（过拟合 dev set 风险）",
+    "自指情形是否已有 adversarial MDP 理论（本轮未覆盖）",
+    "多样性项 Div 自身是否成为新的 Goodhart 目标",
+    "3 处 ID 错误是否 fetch 错页（已用 arxiv abs 原文交叉确认）"
+  ],
+  "not_found": [
+    {
+      "item": "adversarial MDP / endogenous dynamics 的 regret 界",
+      "tried": "未检索（预算分配）",
+      "conf": 0.2
+    },
+    {
+      "item": "Suk & Kpotufe 2022 的 arXiv ID",
+      "tried": "web_search: Suk Kpotufe Adaptive Nonstationary Bandits arXiv id",
+      "conf": 0.3
+    },
+    {
+      "item": "Besbes 2014 精确指数 vs F-旧 Ω(√(V_T·T))",
+      "tried": "仅取到摘要，未核公式",
+      "conf": 0.3
+    },
+    {
+      "item": "Hyperband/ASHA 在 <20 trials 的实测收益",
+      "tried": "未检索",
+      "conf": 0.2
+    },
+    {
+      "item": "把 Drift(t) 接进变差预算 V_T 的工作",
+      "tried": "web_search: prompt drift variation budget",
+      "conf": 0.3,
+      "note": "搜了没找到级证据：按纪律给 conf 0.30，需 Lead 二次交叉验证后才能作为行动前提"
+    },
+    {
+      "item": "world model / planning 在文本策略空间的直接应用",
+      "tried": "未检索",
+      "conf": 0.2
+    }
+  ],
+  "channel_notes": [
+    "bash curl 无外网（白名单仅 github/npm/pypi），全部外部检索经 fetch_page/web_search",
+    "arxiv.org/abs/* 与 /html/* 通道正常；pdf 通道对 2505.18871 可用"
+  ]
+}
