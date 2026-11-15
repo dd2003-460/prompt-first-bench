@@ -1220,6 +1220,11 @@ if __name__ == "__main__":
         print(f"[T53 SM] Loaded external question from {question_file} ({len(q)} chars)", flush=True)
     else:
         # qid 可能是自定义标识（如 gpu-method），QUESTIONS 里没有——回退到 gpu 取题
+        # E17 (2026-11-15): 回退时打印警告——nat-mc-v3-resume 事故：qid 不在 QUESTIONS
+        # 里静默回退到 gpu 题，resume 的 81 个 nat 节点跑在 gpu 题上，整轮作废。
+        if qid not in QUESTIONS:
+            print(f"[SM] WARNING: qid={qid!r} not in QUESTIONS, falling back to {list(QUESTIONS.keys())} — "
+                  f"check if you meant --qid=nat/soc/gpu", flush=True)
         q = QUESTIONS.get(qid, QUESTIONS["gpu"])
     no_verify = "--no-verify" in flags
     resume_from = resume_from_early
