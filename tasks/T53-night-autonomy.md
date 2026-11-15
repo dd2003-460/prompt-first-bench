@@ -202,3 +202,6 @@ inbox 2 条已处理并清空：webllm 修复确认（CC 14:24-14:37 多端点 f
 | 11-15 14:57 | 核实 r2 ckpt 归属 | sm-gpu-r2.json (59n/ver20/deg33) 是 gpu 主臂 r2（qid=gpu, objective_mode=None），**不是 M1/M2 臂**。bench 报告 8c2d9840 的 "M1-formula-r2 53n/ver20" 和 "M2-textarm-r2 124n/ver64" 数据源不明（无对应 ckpt/final json），M2 数据可能是 r4 的中间快照。r4 跑完后需重新核实 M1/M2 数据并修正 bench 报告。 |
 | 11-15 14:57 | 检查 CC inbox | 空（0 bytes），无待处理条目。 |
 | 11-15 14:57 | 检查 git 状态 | 8c2d9840 已 push（bench report 消融表），sm-gpu-method-challenge-r4.log 是 untracked（r4 跑完后会生成 final json）。 |
+| 11-15 ~15:30 | 夜间唤醒 #9 | inbox 空。r14 进程不在跑（早已 DONE，r14-results.md 11-12 已落盘）。r5 (gpu-method-challenge) 实际已退出（pgrep 9 个 pid 全僵尸残留，log 停在 15:21 verify 阶段，无 final json）。发现 webllm 通道新故障模式：deepseek 端点 `WEBLLM-FAIL taskSpace already exists`（ego-browser taskSpace 复用冲突），perplexity/chatgpt 全 EMPTY（额度/登录墙）。 |
+| 11-15 ~15:30 | 修 research_hook.py taskSpace API | 三处 `task.page("p1")` → `task.tabs()[0].page`（_webllm_search/_arxiv_search/_fetch_page），webllm 空间名加 Date.now() 后缀防复用冲突。ego-browser 实测 arXiv API 直连成功（XML feed 正常返回）。commit 2f0ca76f pushed。 |
+| 11-15 ~15:30 | 下一步 | r5 无 final json（退出前未落盘），r1 ckpt 完好（26n/ver5/obj=method）可 resume；但 resume 前需确认 r5 退出原因（同 r3 模式：gap_check 后退出路径未走完）。webllm 修复已 commit，resume 后 verify 阶段应能拿到真实来源。[待D醒] 两项不变（strict 口径 / DRB 重启裁决）。 |
