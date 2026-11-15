@@ -212,3 +212,4 @@ inbox 2 条已处理并清空：webllm 修复确认（CC 14:24-14:37 多端点 f
 ## 执行日志（追加）
 
 - 2026-11-15 15:45 CST — r6 (method_challenge 臂) 跑完，提取 stats：163 nodes, 52 verified (31.9%), 44 logic-only (84.6% of verified), 106 degraded (65.0%), 5 failed, 0 leak hits, 40 rework events (5 all-channels-failed, 1 logic_check_failed, 34 other)。webllm taskSpace 修复已 commit (9ce603f7)。
+- 2026-11-15 ~16:10 CST — 夜间唤醒 #14：inbox 空。nat-mc-v2 在跑（PID 75762，log mtime 16:02，L1 5 维度 + edge-classify 已完成，正在 verify 阶段）。webllm 通道全空（perplexity/chatgpt EMPTY, deepseek NO_INPUT）——nat 题面是中文，webllm 通道对中文 query 可能不工作。发现 research_hook.py 未 commit 改动：中文 query 走 arXiv（只索引英文论文，匹配到 β-Pictoris 等无关物理论文）。修复：中英文统一走 DDG lite，_slim_query 跳过中文直接截断 40 字符。commit 0d12b9f2 pushed。nat-mc-v2 跑完后看 DDG lite 中文搜索效果。
