@@ -1,7 +1,7 @@
 # soc cov 指标口径问题（2026-11-16 发现）
 
 # origin: ai
-# 状态：诊断完成（两 gate 均过），待修管线
+# 状态：soc gate 真值判定完成（10-run mean PASS），nat 10-run 运行中
 # 关联：goal-pfb-hardening-v2.md gate "soc cov ≥ 0.898 (S0 基线)"
 
 ## 结论（conf 0.95，证据全部可复现）
@@ -36,6 +36,26 @@ nat 同理存疑：SM verified 率 0.6511 vs S0 judge cov 0.634（391 reps），
 
 **管线修复冒烟测试（11-16 06:3x，--synth 已修进 s5_state_machine.py）**：
 用现有 soc 283 节点树跑 `synthesize_answer()` 全链路（L1/L2/L3/L4 分段综合 → merge → judge → depth），输出 coverage=**0.857**、depth=0.8386、hallucination_flags=11。管线本身跑通（SMOKE_OK），但暴露**单次综合方差问题**：同一节点树，诊断脚本一次综合得 1.0，冒烟测试另一次得 0.857——两次差 0.143，且 0.857 < 0.898 gate 线。结论：synthesis 是 temperature=0.7 的 LLM 调用，单次分数不可作为 gate 判定依据，**gate 判定必须用多次综合的 mean**（S0 基线 0.8957 本身就是 100 reps mean）。hallucination_flags 也波动（6→11），同因。
+
+## soc gate 真值判定（11-16 07:0x，synth_multi_soc.py 10 次综合）
+
+对现有 soc 283 节点树跑 10 次 `synthesize_answer()`（每次 L1/L2/L3/L4 分段综合 → merge → judge → depth），wall 1578s：
+
+| 项 | 值 |
+|---|---|
+| 有效 run | 10/10 |
+| coverage 序列 | 1.0, 0.857, 0.857, 0.857, 1.0, 1.0, 0.857, 0.857, 1.0, 0.857 |
+| **mean** | **0.9142** |
+| sd | 0.0701 |
+| min/max | 0.857 / 1.0 |
+| gate ≥0.898 | **PASS** |
+| S0 基线 0.8957 | above（+0.0185） |
+
+**判定**：soc gate 真值 = 10-run mean 0.9142 ≥ 0.898，**通过**。coverage 只取两档（7/7 要点 = 1.0，6/7 = 0.857），方差来自单次综合漏掉 1 个要点的概率（10 次里 6 次漏），不是连续分布。hallucination_flags 序列 [10,7,19,9,9,14,9,11,12,13]，mean 12.3——幻觉数字问题持续存在（judge 不管这个），单独立项处理。
+
+输出：`runs-s5-sm-soc-synth-multi.json`（含全部 10 次 covs/depths/hflags）。
+
+nat 同口径 10-run 已排队（链式自动接上，278 节点，gate 0.634 / S0 基线 0.634），结果待落。
 
 ## 时间线（git log 核实）
 

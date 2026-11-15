@@ -19,3 +19,9 @@ SOC 消融臂（S5 状态机跑中文社考题，逐条 claim 核验，cov = ver
 `experiments/stage-ablation/loop-artifacts/stages/arena-outsource/soc-upperbound-review.md`
 结构：四节对应四任务 + 末尾「核心发现 ≤10 行」。中文，每条结论标 conf(0-1)。
 **文件不存在 = 未完成。** 完成后 commit 到 main（前缀 `soc:`），更新本文件末尾「## 完成报告」。
+
+## 完成报告
+时间：2026-11-16（2026-11-15 23:10 UTC）· 交付物：`experiments/stage-ablation/loop-artifacts/stages/arena-outsource/soc-upperbound-review.md`
+1. 0.813 是场景混用产物：不修 search 通道（场景 A）上限 [0.784, 0.801]，连 0.813 都到不了；0.813 反推需 R_search∈[0.06, 0.15]，与"通道全挂"前提矛盾。
+2. gate 0.898 需 V≥255：不修通道不可达（差约 28 节点）；修通道取决于 R_search（arena 粗估 0.20 → 上限 [0.823, 0.840]，仍不可达；过 gate 需 R_search≥0.514）。
+3. gate 口径本身合理，但被 search 单通道故障绑架：建议改"可核子集 cov"或加"通道可用"前置条件；全部数字经 @alice 独立重算核验（审查节见交付物末尾）。
