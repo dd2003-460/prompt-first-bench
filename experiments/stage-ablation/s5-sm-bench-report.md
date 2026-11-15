@@ -124,4 +124,4 @@ M1（formula/method）vs M2（textarm/method_challenge）对比 S5 SM 机制在�
 
 ## 5. 结论（待填）
 
-（≥3 题出分后写：是否达对标线 / 未达则弱项归因与后续建议 / 收敛判据第几条生效。）
+（≥3 题出分后写：是否达对标线 / 未达则弱项归因与后续建议 / 收敛判据第几条生效。）| 8 | 2026-11-15（夜间） | **r6 (method_challenge) 跑完 + webllm taskSpace 修复**（commit 9ce603f7/74a9ffef）：r6 163 nodes, 52 verified (31.9%), 44 logic-only (84.6%), 106 degraded (65.0%), 5 failed, 0 leak, 40 rework (5 all-channels-failed)。webllm 三处 `task.page("p1")` → `task.tabs()[0].page` 修复 "taskSpace already exists" 报错 | r5 跑完但 webllm 全挂（taskSpace 冲突），r6 重启验证修复效果 | **r6 结果与 gpu-main 基线一致（31.9% vs 31.9%），method_challenge 臂在 gpu 题面上未产生增益**。M2-textarm (51.6%) 仍是最强臂，但其题面是 textarm 不是 gpu。gpu depth gate (≥0.50) 在 gpu 题面上所有臂均未达标。nat/soc cov 仍阻塞在检索通道修复（中文 DRB 题全盲） |
