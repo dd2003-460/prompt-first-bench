@@ -70,6 +70,7 @@
 - 拿不准的事 → 标 [待D醒] 跳过做别的。
 
 ## 执行日志- [11-15 16:30] 诊断 nat-mc-v3 搜索通道：DDG lite 被 anomaly 限流（3 次重试全失败），Bing 英文 query 返回垃圾结果（geo 定位问题），中文 query 提取英文关键词策略无效。结论：搜索通道当前不可用，nat-mc-v3 跑完也大概率全 degraded。不修代码（避免动正在跑的进程），等 v3 跑完看结果。
+- [11-15 16:31] 核验 PID 91756：已不存在（完成/崩溃）。当前 5 个 SM 进程在跑（nat-mc-v2/v3, gpu-method-r7, gpu-method-challenge-r7），日志都在更新。91756 可能是 r7 的某个 run，r7 还在跑（无 final json）。不杀进程（日志在更新=活着），等 r7 跑完提取 stats。搜索通道诊断已落盘（#16），本轮无新修复。
 - [11-15 16:30] 诊断 nat-mc-v3 搜索通道：DDG lite 被 anomaly 限流（3 次重试全失败），Bing 英文 query 返回垃圾结果（geo 定位问题），中文 query 提取英文关键词策略无效。结论：搜索通道当前不可用，nat-mc-v3 跑完也大概率全 degraded。不修代码（避免动正在跑的进程），等 v3 跑完看结果。
 
 - 2026-11-12 20:15 · inbox 收口：T-PR-16 派发双通道全断（hermes browser CDP channel closed；ego-browser 打开 arena.ai = Log In 墙，Google SSO 需 D 手动过）→ inbox 回写 blocked + [待D醒]。idea backlog 盘点已完成落盘（IDEA-INDEX 48 条三分类）。drb-2 judge 出分 total=0.0（4 维全 0，与 L14/L19 数据边界结论一致——报告只列了检索失败意图，judge 按 criterion 判无内容）。r14 进程不在跑（pgrep 空），gpu-rerun2 (153 nodes) 是最新主数据，无需再提 stats。
