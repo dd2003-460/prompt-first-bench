@@ -76,6 +76,7 @@
 | 1 | 2026-11-12 | junk filter v1：research_hook 加垃圾源关键词过滤（色情/游戏/翻译工具/股票行情等），de4e44cc | drb-1 = 0.0，rework 149 条全是"来源与主题无关" | drb-2 仍 0.0（但病根不同——缓存中毒） |
 | 2 | 2026-11-12 | junk filter v2：补 cn 垃圾域（bilibili/mall/tensorflow 首页等 v1 漏网），64397299；bing intl fallback + ranking-question DDG exemption（zh-wiki 无 listicle 条目），1c05f599 | CC 取证发现 v1 覆盖不全 + 排名类题 DDG 全盲 | drb-2 仍 0.0（缓存中毒未修） |
 | 3 | 2026-11-12 | 清 s5-node 缓存（2865 条 → backup），18899174；drb-2 reverify（62 nodes, verified 1/62=1.6%） | drb-2 诊断：cache-first 命中旧垃圾缓存，跳过真实检索 | drb-2 verified 仍≈0——病根不是缓存是**检索通道对中文 DRB 题全盲**（wiki=0/ddg 质量差/arxiv 报错/local_corpus=0）。junk filter 解决"垃圾源污染"，但这里是"有效源缺失"。下一步：修检索通道（ddg query 改写 + Perplexity via ego-browser） |
+| 4 | 2026-11-15（夜间） | **ego-browser 通道可用性验证通过**（未改代码）：`ego-browser nodejs -e` 直连 arXiv API 成功（LEN=5095，Atom feed 正常返回）；research_hook.py 里 `_run_ego_browser` 路径 `/Users/a1-6/.local/bin/ego-browser` 存在且可执行 | L21 待办"确认 ego-browser 可用"收口 | **webllm 超时（PageNavigationTimeoutError）不是 ego-browser 本身挂了**——CLI 直连 OK，问题在 research_hook 的 webllm JS 脚本内导航目标站（perplexity/chatgpt 登录墙或慢响应）超时。修复方向收窄：(a) webllm 脚本换更稳的目标端点或加短 timeout+快速失败；(b) 中期接 arena 外包检索不变。drb-1 重跑排队继续等 D 定 verified 口径（见 farm-163-profile §剩余[待D醒]） |
 
 ## 5. 结论（待填）
 
