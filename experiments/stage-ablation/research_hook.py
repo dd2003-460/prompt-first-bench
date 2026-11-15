@@ -73,6 +73,28 @@ _SOURCE_WHITELIST = [
     "pbc.gov.cn",          # 中国人民银行
     "mofcom.gov.cn",       # 商务部
     "chinamoney.com.cn",   # 全国银行间同业拆借中心
+    # 中文社会经济数据源（2026-11-15: soc 题 86 pending 根因——DDG 返回中文源全被白名单过滤）
+    "zhihu.com",           # 知乎（经济/金融/社科讨论，DDG 实测命中 ARA/RRA 定义）
+    "sohu.com",            # 搜狐（家庭财富配置白皮书等调研报告）
+    "sina.cn",             # 新浪（news.sina.cn 等子域，家庭储蓄/消费分析）
+    "163.com",             # 网易（财经/社会新闻）
+    "thepaper.cn",         # 澎湃新闻（社会经济深度报道）
+    "yicai.com",           # 第一财经（财经数据）
+    "caixin.com",          # 财新网（宏观经济/金融）
+    "cass.org.cn",         # 中国社会科学院（社会蓝皮书/中产阶层研究）
+    "pku.edu.cn",          # 北京大学（经济学院/金融研究院报告）
+    "tsinghua.edu.cn",     # 清华大学（五道口金融学院/经济系）
+    "fudan.edu.cn",        # 复旦大学（经济学院/金融学院）
+    "ruc.edu.cn",          # 中国人民大学（经济学院/财政金融学院）
+    "swufe.edu.cn",        # 西南财经大学（CHFS 中国家庭金融调查，DDG 中文实测命中）
+    "baidu.com",           # 百度文库/百科（调研报告/数据汇编，DDG 中文实测命中）
+    "toutiao.com",         # 今日头条（央行/CHFS 数据引用，DDG 中文实测命中）
+    "imf.org",             # 国际货币基金组织
+    "worldbank.org",       # 世界银行
+    "oecd.org",            # 经合组织
+    "un.org",              # 联合国
+    "ilo.org",             # 国际劳工组织
+    "who.int",             # 世界卫生组织
 ]
 
 
@@ -462,7 +484,8 @@ def _webllm_search(query, max_results=3):
     endpoints = [
         ("perplexity", "https://www.perplexity.ai/"),
         ("chatgpt", "https://chatgpt.com/"),
-        ("deepseek", "https://chat.deepseek.com/a/chat"),
+        # deepseek 2026-11-15 实测登录墙（/a/chat 弹验证码注册页）→ 摘除；恢复需先登录
+        # ("deepseek", "https://chat.deepseek.com/a/chat"),
     ]
     results = []
     for name, url in endpoints:
@@ -561,7 +584,7 @@ const links = await page.evaluate(() => {{
   }}
   // 3. 从回答文本中提取 URL（ChatGPT 把 URL 写在文本里而不是 <a> 标签）
   const bodyText = document.body ? document.body.innerText : '';
-  const urlRegex = /https?:\/\/[^\s<>"{{}}|\\^`\\x60]+/g;
+  const urlRegex = /https?:\/\/\S+/g;
   const textUrls = bodyText.match(urlRegex) || [];
   for (const u of textUrls) {{
     const clean = u.replace(/[).,;!?]+$/, '');
@@ -576,7 +599,7 @@ const uniq = [...new Set(links)].slice(0, {max_results});
 console.log(JSON.stringify(uniq));
 }})();
 '''
-            out = _run_ego_browser(js, timeout=30)
+            out = _run_ego_browser(js, timeout=90)
             os.unlink(prompt_file)
             urls = []
             for line in reversed(out.splitlines()):

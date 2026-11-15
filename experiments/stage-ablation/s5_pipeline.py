@@ -202,7 +202,7 @@ P3_VERIFY = (
         "- failed: 仅当该陈述与参考来源明确矛盾，或存在硬逻辑错误（量纲错/内部矛盾）时才判 failed。\n"
         "注意：来源未覆盖 ≠ 错误。数学性质、统计规律这类可从第一性原理推出的事实，"
         "若逻辑校验通过且无来源与之矛盾，应判 verified 并在 evidence 里注明「逻辑推导成立，来源未直接覆盖」；"
-        "不要仅因检索结果不相关就判 failed。\\n"
+        "不要仅因检索结果不相关就判 failed。\n"
         "【经验事实排除条款】条件 (b) 仅适用于可从第一性原理/数学公理/题面条件严格推出的事实"
         "（如数学性质、物理定律推论、逻辑恒等式）。经验事实——硬件规格（带宽/显存/制程/功耗）、"
         "市场价格、具体版本号、API 参数默认值、产品发布日期——不属于第一性原理可推出范畴，"
@@ -358,14 +358,55 @@ def search_node(node, qid="gpu"):
         return [], None  # no retrieval needed — logic verification only
     _budget_take()  # counter only, never blocks
     q = node.get("search_query") or node["claim"]
-    try:
-        srcs = research_hook("s5-node", q, max_results=SEARCH_PER_NODE,
-                             enable_local=(qid == "gpu"))
-        return srcs, None
-    except ResearchHookUnavailable as e:
-        return [], str(e)
-    except Exception as e:
-        return [], str(e)
+    claim = node["claim"]
+    # 2026-11-15: 中文 claim 优先用中文 query 查（英文 search_query 查 wiki
+    # 返回英文条目，与中文 claim 完全无关——soc 106 节点 retrieval_sources 全空
+    # 的根因）。DDG 中文实测能出好结果（搜狐/今日头条/知乎，含央行/CHFS 数据）。
+    # 策略：claim 含中文 → 先用中文 claim 查；否则用原 query。
+    # 两组都查，取结果更好的那组（数量多 + 来源类型多）。
+    import re as _re
+    has_chinese = bool(_re.search(r'[\u4e00-\u9fff]', claim))
+    if has_chinese and q != claim:
+        # 中文 claim：优先用中文来源（英文 wiki 条目与中文 claim 无关，
+        # 数量多不代表质量好——soc 106 节点全空的根因）。
+        # 中文来源为空时才用英文兜底。
+        try:
+            srcs_cn = research_hook("s5-node", claim, max_results=SEARCH_PER_NODE,
+                                    enable_local=(qid == "gpu"))
+        except Exception:
+            srcs_cn = []
+        if srcs_cn:
+            return srcs_cn, None
+        # 中文全空 → 英文兜底
+        try:
+            srcs_en = research_hook("s5-node", q, max_results=SEARCH_PER_NODE,
+                                    enable_local=(qid == "gpu"))
+            return srcs_en, None
+        except Exception:
+            return [], None
+    else:
+        try:
+            srcs = research_hook("s5-node", q, max_results=SEARCH_PER_NODE,
+                                 enable_local=(qid == "gpu"))
+            return srcs, None
+        except ResearchHookUnavailable as e:
+            if has_chinese and q != claim:
+                try:
+                    srcs = research_hook("s5-node", claim, max_results=SEARCH_PER_NODE,
+                                         enable_local=(qid == "gpu"))
+                    return srcs, None
+                except Exception:
+                    pass
+            return [], str(e)
+        except Exception as e:
+            if has_chinese and q != claim:
+                try:
+                    srcs = research_hook("s5-node", claim, max_results=SEARCH_PER_NODE,
+                                         enable_local=(qid == "gpu"))
+                    return srcs, None
+                except Exception:
+                    pass
+            return [], str(e)
 
 
 def sources_block(srcs):
@@ -528,9 +569,15 @@ P1H_INDEX = (
     "4. 子问全覆盖：问题文本显式列出的每个子问必须在 L1 有节点支撑；要求区分口径时为每种口径各建一个节点。\n"
     "5. 排除/筛选类结论不能当终点：「X 不可行」之后必须继续展开（放宽哪个前提/代价多少/重新排序），三问各至少一个节点。\n"
     "6. 正交性：同一父节点下的兄弟节点之间不得互相包含或同义复述；宁缺毋滥，但真正正交的维度不得漏。\n"
-    "7. 深度判据（通用）：对每个叶子节点问——『一个该领域的专家看到这条 claim，会不会说\'这还不够具体，还差一层\'？』会 → 继续拆；"
-    "不会（已是可直接检索/计算的最小事实单元）→ 停。判断标准是信息粒度而非主题：任何领域都有\'表面描述 vs 一手机制参数\'的层次差，"
-    "停在表面描述层 = 分解未完成。此判据对所有题目类型成立，不依赖具体领域知识。\n\n"
+    "7. 深度判据（通用）：对每个叶子节点问——『一个该领域的专家看到这条 claim，会不会说'这还不够具体，还差一层'？』会 → 继续拆；"
+    "不会（已是可直接检索/计算的最小事实单元）→ 停。判断标准是信息粒度而非主题：任何领域都有'表面描述 vs 一手机制参数'的层次差，"
+    "停在表面描述层 = 分解未完成。此判据对所有题目类型成立，不依赖具体领域知识。\n"
+    "8. 反参数展开（防 Goodhart）：把同一公式/同一信息维度套到 N 个不同实例上（如'实例A的X''实例B的X''实例C的X'各一个节点）"
+    "不算深度——这是宽度伪装成深度，信息量只有一行参数表。"
+    "合法的下层展开必须引入父节点没有的新信息维度：机制解释（为什么是这个值/什么约束导致）、"
+    "交互效应（两个参数怎么耦合影响结果）、边界条件（什么情况下公式失效/需要修正项）。"
+    "对比类题目：每个实例独立用同一套估计框架，"
+    "修正项/约束项才是深度，不是把每个实例的参数各列一行。\n\n"
     "【何时停】逐条判，不是整批判：对本轮要分解的每个父节点单独问——再往下拆一层还能产生新的具体数值/公式/可检索事实吗？"
     "能 → 必须拆；不能（只剩同义复述或定性描述）→ 仅该父节点本轮不产生子节点，其他父节点照常输出。"
     "全部父节点都停 → 才允许输出空 nodes。禁止因为多数父节点已饱和就跳过仍有展开空间的少数父节点。\n\n"
