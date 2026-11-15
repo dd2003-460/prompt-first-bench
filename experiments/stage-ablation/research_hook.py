@@ -189,7 +189,12 @@ def _wiki_search(query, max_results=3):
     # DDG lite 忽略 site:，Bing geo 到 cn 时 site: 失效），所以这里做结果侧兜底：
     # 只保留白名单域的结果。若全被杀光则返回空（让上层走 wiki/webfetch 通道）。
     _wl_domains = ["wikipedia.org", "sec.gov", "investopedia.com", "reuters.com",
-                   "bloomberg.com", "macrotrends.net", "stockanalysis.com"]
+                   "bloomberg.com", "macrotrends.net", "stockanalysis.com",
+                   # 中文技术社区（2026-11-15 成璐指令：中文题面白名单全盲）
+                   "csdn.net", "zhihu.com", "juejin.cn", "segmentfault.com",
+                   "cloud.baidu.com", "blog.sina.com.cn", "163.com",
+                   # 通用知识源
+                   "stackoverflow.com", "github.com", "arxiv.org"]
     def _in_whitelist(url):
         return any(d in url for d in _wl_domains)
     before_wl = len(results)
