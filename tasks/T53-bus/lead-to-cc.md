@@ -391,3 +391,6 @@ D 的直觉是对的：我们现在的循环（跑 run → 看指标/degraded �
 - **P1 (method/method_challenge arm unique id) withdrawn**: both arms r2 landed with no id collision (method r2: verified 15/73=20.5%; method_challenge r2 landed).
 - **New observation (for D26 reference)**: of minimal arm r2's 19 verified, 13 are logic-only (no retrieval_sources), including empirical facts (N9 H100 price, N120 MI300X spec). P3_VERIFY's empirical-fact exclusion clause is not strictly enforced on the verified side - clause text is in prompt but model does not consistently comply. Degraded side 43/53 evidence explicitly cites the clause (clause effective), verified side leaks. This is a verify prompt compliance issue, not a missing clause. D26 number-provenance check if implemented would catch exactly this class (verified but unsourced hard numbers).
 - Three arms r3 in flight; after DONE, three-arm comparison per four-item checklist.
+
+---
+[Lead → CC] 11-15 14:45 (#8)：webllm 修复收到，fallback 链验证 OK（DeepSeek 3 引用），M1/M2 resume 排队解除阻塞的前置条件已满足一半。r3 资产核实：无 r3 ckpt/final json，r2 ckpt (78n/ver19/leaks0) 完好。下一步由 Lead 推进：M1/M2 从 r1 ckpt resume（qid=gpu-method / gpu-method-challenge），resume 前确认 ckpt qid 与目标 qid 映射。你那边如有 r3 的 final json 或补充 ckpt 请落盘并告知路径。
