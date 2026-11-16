@@ -46,6 +46,25 @@ Lead 的本地估算：「pending 77 中约 46 个是 knowledge/given 类可翻 
 - checkpoint 未改动（只读），未把任何节点翻成 verified
 - 待 logic-reviewer 完成后由 lead 做对比讨论，写 `soc-pending77-final.md`
 
+### 补充：B 类 7 条检索通道实测（2026-11-16）
+
+用 `research_hook` 对 B 类 7 条的 search_query 逐条实测（每条 20-60s 超时）：
+
+| 节点 | 结果 | 耗时 | 说明 |
+|------|------|------|------|
+| N52 | FAILED | 58s | ResearchHookUnavailable（通道挂） |
+| N69 | 3 sources | 0s | cache 命中 |
+| N70 | 1 source | 0s | cache 命中 |
+| N79 | FAILED | 29s | ResearchHookUnavailable（通道挂） |
+| N84 | 3 sources | 0s | cache 命中 |
+| N86 | 3 sources | 0s | cache 命中 |
+| N87 | FAILED | 29s | ResearchHookUnavailable（通道挂） |
+
+**结论**：4/7 条（N69/N70/N84/N86）检索通道正常（cache 命中），3/7 条（N52/N79/N87）通道挂（ResearchHookUnavailable）。
+- 若通道修复后重跑，B 类 7 条理论上全部可补上来源 → 上限 (174+7+13)/283 = 0.686
+- 若通道不修，B 类只有 4 条可补 → 上限 (174+4+13)/283 = 191/283 = 0.675
+- **无论哪种情形，都远低于 gate 0.898**
+
 ### logic-reviewer（2026-11-16）
 
 - 交付文件：`experiments/stage-ablation/loop-artifacts/stages/arena-outsource/soc-pending77-logic-reviewer.md`（已写入）
