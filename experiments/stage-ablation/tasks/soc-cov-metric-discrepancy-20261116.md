@@ -1,7 +1,7 @@
 # soc cov 指标口径问题（2026-11-16 发现）
 
 # origin: ai
-# 状态：soc gate 真值判定完成（10-run mean PASS），nat 10-run 运行中
+# 状态：soc/nat gate 真值判定完成（soc 10-run mean 0.9142 PASS；nat 10-run mean 0.5002 FAIL，真缺口，根因指向 search 通道断裂，单独立项）
 # 关联：goal-pfb-hardening-v2.md gate "soc cov ≥ 0.898 (S0 基线)"
 
 ## 结论（conf 0.95，证据全部可复现）
@@ -85,8 +85,8 @@ nat 同口径 10-run 已排队（链式自动接上，278 节点，gate 0.634 / 
 ## 未做（下回合）
 
 - [x] synthesis+judge 修进 s5_state_machine.py（`--synth` flag，向后兼容；冒烟测试 SMOKE_OK）
-- [ ] **gate 判定口径修正**：单次综合分数波动大（同树两次 1.0 vs 0.857），gate 必须用多次综合 mean（S0 基线是 100 reps mean）——待跑 ≥10 次综合取 mean 再判 gate
+- [x] **gate 判定口径修正**：单次综合分数波动大（同树两次 1.0 vs 0.857），gate 必须用多次综合 mean（S0 基线是 100 reps mean）——soc 10-run mean=0.9142 PASS、nat 10-run mean=0.5002 FAIL（sd=0.247，coverage 只取三档 4/6、1/6、2/6，要点数少导致单次方差远大于 soc）
 - [ ] verify-only 重验 61 节点（39 pending + 22 degraded，bing/DDG 通道）
 - [ ] hallucination_flags 质量问题处理（judge 加幻觉检查，或综合 prompt 加来源约束）
-- [x] nat 假过核实（0.667 > 0.634，真过）
+- [x] nat 假过核实（单次 0.667 是假过——10-run mean=0.5002，gate 0.634 FAIL，低于 S0 基线 -0.134；根因指向 search 通道断裂：knowledge 171/174 通过、search 0/56 通过，`research_hook._bing_search` 用 `except: return []` 把解析失败伪装成通道无结果）
 - [x] bench 报告更新口径说明（条目 #18）
