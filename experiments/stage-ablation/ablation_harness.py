@@ -479,9 +479,12 @@ def call_llm(prompt, max_tokens=LLM_MAX_TOKENS, timeout=LLM_TIMEOUT, retries=2, 
         payload_dict["seed"] = seed
     # 反缓存: 8787 proxy 对相同 prompt 会返回缓存答案 (S8B 事故: r2/r3 逐字相同),
     # 加不可见空格扰动让每次请求的 hash 不同, 不影响模型语义。
+    # 2026-11-16: 4 个空格扰动不足——10 个 synth run 前缀相同，vLLM prefix cache
+    # 命中导致后 5 run 复用前 5 run 的 KV 片段，输出质量漂移（cov 0.667→0.367）。
+    # 改为 16 个随机 token 扰动，确保 prefix cache 不命中。
     content = payload_dict["messages"][0]["content"]
     import random as _rnd
-    pad = " ".join(_rnd.choice(["\u200b", "\u200c", ""]) for _ in range(4))
+    pad = " ".join(_rnd.choice(["\u200b", "\u200c", " ", "\u200d", "\u200e", "\u200f"]) for _ in range(16))
     payload_dict["messages"][0]["content"] = content + pad
     payload = json.dumps(payload_dict).encode()
     for attempt in range(retries + 1):
