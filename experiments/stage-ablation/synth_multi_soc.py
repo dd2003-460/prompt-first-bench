@@ -16,20 +16,6 @@ BASELINES = {"soc": 0.8957, "nat": 0.5801}
 GATE = GATES[QID]
 BASELINE = BASELINES[QID]
 
-# 8787 proxy 间歇 502（2026-11-16 实测：单次综合 10-15 分钟，期间 502 频繁）：
-# 外层每 run 最多 3 次，每次失败后 ping 8787 探活，ping 通才重试。
-# 单次综合内 call_llm 已有 3 次 retry，这里兜底的是"整轮综合期间 proxy 挂了"的情况。
-import urllib.request
-
-def _proxy_alive():
-    try:
-        urllib.request.urlopen(urllib.request.Request(LLM_URL + "/models"), timeout=10)
-        return True
-    except Exception:
-        return False
-
-from ablation_harness import LLM_URL
-
 d = json.load(open(f'runs-s5-sm-{QID}.json'))
 nodes = [NodeRecord(**n) for n in d['nodes']]
 print(f'multi-synth: {QID} {len(nodes)} nodes, N={N}', flush=True)
@@ -54,26 +40,14 @@ for i in range(N):
     if covs[i] is not None:
         continue
     t0 = time.time()
-    ok = False
-    for attempt in range(3):
-        try:
-            s = synthesize_answer(QUESTIONS[QID], nodes, QID)
-            covs[i] = s['coverage']
-            depths[i] = s['depth']
-            hflags[i] = len(s['judge'].get('hallucination_flags') or [])
-            print(f'run {i+1}/{N}: coverage={s["coverage"]} depth={s["depth"]} hf={hflags[i]} {time.time()-t0:.0f}s', flush=True)
-            ok = True
-            break
-        except Exception as e:
-            print(f'run {i+1}/{N} attempt {attempt+1} FAILED: {type(e).__name__}: {e}', flush=True)
-            if attempt < 2:
-                # 探活：ping 8787，通了才值得重试；不通就等 60s 再探
-                alive = _proxy_alive()
-                wait = 10 if alive else 60
-                print(f'  proxy {"alive" if alive else "DOWN"}, wait {wait}s', flush=True)
-                time.sleep(wait)
-    if not ok:
-        print(f'run {i+1}/{N} GIVE UP after 3 attempts', flush=True)
+    try:
+        s = synthesize_answer(QUESTIONS[QID], nodes, QID)
+        covs[i] = s['coverage']
+        depths[i] = s['depth']
+        hflags[i] = len(s['judge'].get('hallucination_flags') or [])
+        print(f'run {i+1}/{N}: coverage={s["coverage"]} depth={s["depth"]} hf={hflags[i]} {time.time()-t0:.0f}s', flush=True)
+    except Exception as e:
+        print(f'run {i+1}/{N} FAILED: {type(e).__name__}: {e}', flush=True)
     # 每跑完一个就落盘，防中断丢进度
     valid = [c for c in covs if c is not None]
     mean = sum(valid)/len(valid) if valid else None
