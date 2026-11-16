@@ -33,3 +33,15 @@ Lead 的本地估算：「pending 77 中约 46 个是 knowledge/given 类可翻 
 - 分类依据必须引用节点字段（source/evidence/search_query），不许凭 claim 文字感觉拍。
 - 完成 = 三个文件都存在且 final 文件有分歧表。缺文件 = 未完成。
 - 完成后 commit 到 main（前缀 `soc:`），并更新本文件末尾「## 完成报告」。
+
+## 完成报告
+
+### method-reviewer（2026-11-16）
+
+- 交付文件：`experiments/stage-ablation/loop-artifacts/stages/arena-outsource/soc-pending77-method-reviewer.md`（已写入）
+- 分类结果：A=0, B=7, C=70（pending 77）；D=13, E=18（degraded 31）
+- 现实上限：(174+0+13)/283 = 187/283 = **0.661**（保守）；若 B 类 7 条检索通道修复后全补上，上限 (174+7+13)/283 = 194/283 = **0.686**（乐观）
+- 与 lead 估算 0.813 差距：**0.152**（保守口径）/ **0.127**（乐观口径）
+- 主因：lead 把 46 条 knowledge/given 当「可翻 verified」，逐条核后这些节点全是推导框架或自设参数（source=knowledge 45 条 + source=given 5 条 L1 任务描述），无一满足 A 类条件（「有明确数值/日期/定义且 evidence 缺失但可补」）
+- checkpoint 未改动（只读），未把任何节点翻成 verified
+- 待 logic-reviewer 完成后由 lead 做对比讨论，写 `soc-pending77-final.md`
