@@ -45,3 +45,14 @@ Lead 的本地估算：「pending 77 中约 46 个是 knowledge/given 类可翻 
 - 主因：lead 把 46 条 knowledge/given 当「可翻 verified」，逐条核后这些节点全是推导框架或自设参数（source=knowledge 45 条 + source=given 5 条 L1 任务描述），无一满足 A 类条件（「有明确数值/日期/定义且 evidence 缺失但可补」）
 - checkpoint 未改动（只读），未把任何节点翻成 verified
 - 待 logic-reviewer 完成后由 lead 做对比讨论，写 `soc-pending77-final.md`
+
+### logic-reviewer（2026-11-16）
+
+- 交付文件：`experiments/stage-ablation/loop-artifacts/stages/arena-outsource/soc-pending77-logic-reviewer.md`（已写入）
+- 分类结果：A=0, B=9, C=68（pending 77）；D=9, E=22（degraded 31）
+- 现实上限：(174+0+9)/283 = 183/283 = **0.647**（保守）；若 B 类 9 条检索通道修复后全补上，上限 (174+9+9)/283 = 192/283 = **0.678**（乐观）
+- 与 lead 估算 0.813 差距：**0.166**（保守口径）/ **0.135**（乐观口径）
+- 主因：5 条 source=given 全是 L1 任务描述（非事实断言），45 条 source=knowledge 全是自设参数/推导框架/量化任务，A 类为 0；B 类 9 条（N35/N45/N52/N79/N84/N87/N93/N94/N99）是真正「来源存在但通道挂」的公开可检索事实（佣金率、转化率基线、分布统计）
+- 数据口径：主 checkpoint `sm-soc-r1.json` 已被后续 verify-only 轮更新为 221-verified，本任务按任务书口径（174/77/31/1）只读 `sm-soc-r1.bak-verifyonly.json`，未改动任何 checkpoint，未把任何节点翻成 verified
+- 边界标注：N250 的 claim 数值（-13.33）与公式代入结果（≈-0.70）不一致，归 D（可核验的算术错误，补 evidence+修正即可）；若 lead 认为算术错误=站不住可改 E，上限 0.647→0.636
+- 待 lead 做对比讨论，写 `soc-pending77-final.md`
