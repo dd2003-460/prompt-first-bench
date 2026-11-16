@@ -1240,7 +1240,10 @@ def synthesize_answer(question: str, nodes: list, qid: str) -> dict:
         print(f"  [SM] synth {lv}: {len(by_lv[lv])} 节点, out={len(out_l or '')}c, {time.time()-t0:.0f}s", flush=True)
     merge_p = (f"你是研究员。下面是同一道问题按目录树分层得到的各层结论摘要。"
                f"请把它们合并成一份完整最终答案：覆盖问题全部子问，保留所有具体数值/公式/排序，"
-               f"消除层间重复，最后给一个明确的推荐结论。\n\n【问题】\n{question}\n\n"
+               f"消除层间重复，最后给一个明确的推荐结论。"
+               f"规则：问题问「最多/上限/提升多少/打几折」时，必须显式列出限制因素并给出其定量影响"
+               f"（如频率表老化、热度漂移、容量覆盖不足），不能只讲优势不讲上限；"
+               f"比较策略时，每个策略都要给出适用限制；涉及更新/失效/折扣的，给出推导公式和代入过程。\n\n【问题】\n{question}\n\n"
                + "\n\n".join(parts)) + _perturb()
     t0 = time.time()
     answer, _ = call_llm(merge_p, max_tokens=8000, temperature=0.7, top_p=0.95, retries=3)

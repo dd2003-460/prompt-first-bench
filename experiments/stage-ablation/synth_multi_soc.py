@@ -9,8 +9,10 @@ from s5_pipeline import QUESTIONS
 
 N = int(sys.argv[1]) if len(sys.argv) > 1 else 10
 QID = sys.argv[2] if len(sys.argv) > 2 else "soc"
-GATES = {"soc": 0.898, "nat": 0.634}
-BASELINES = {"soc": 0.8957, "nat": 0.634}
+# 2026-11-16 口径更新：新 GOLD（要点 5 措辞修正）下 S0 391 reps 重判 mean=0.5801，
+# gate 阈值与基线同步更新（同口径对比，非 Goodharting——修的是 GOLD 措辞 bug）。
+GATES = {"soc": 0.898, "nat": 0.5801}
+BASELINES = {"soc": 0.8957, "nat": 0.5801}
 GATE = GATES[QID]
 BASELINE = BASELINES[QID]
 
