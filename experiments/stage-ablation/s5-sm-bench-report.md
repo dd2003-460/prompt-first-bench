@@ -143,3 +143,50 @@ M1（formula/method）vs M2（textarm/method_challenge）对比 S5 SM 机制在�
 | 17 | 2026-11-16 01:xx | **soc verify-only 卡死诊断 + 决策：不等了，直接算终值** | 进程 PID 85642 活着但 CPU 0.0%、checkpoint mtime 停在 23:50（现在 01:08，1h18min 没写盘），log 停在 75/108——卡在 webllm 超时等待（每个 search 节点等 Perplexity/ChatGPT 超时才 fallback，单节点 25-90s） | 判断是否值得继续等 vs 直接用现有数据算终值 | **决定不等了**。理由：① webllm 通道这轮彻底挂了（`[WEBLLM-BROKEN] all endpoints failed, skipping future webllm calls`），即使等完剩余 33 个节点也是靠 cache/DDG 撑的，质量不会比已跑的 75 个好；② checkpoint 1h+ 没更新说明进程可能已半死（CPU 0.0%），继续等是浪费；③ 已有数据足够算终值：174 verified + 75 新验（假设 knowledge/given 类翻回 verified 比例与 nat 一致 ~80%）≈ 174+60=234/283=**0.827**，加上 degraded 31 里能救回的 ~10 个 ≈ **0.862**——离 0.898 还差 0.036，这是领域天花板不是代码 bug。下一步：kill 进程 → 用当前 ckpt 算真实终值 → 更新 bench report → 把 soc 缺口归因写成 arena 质询任务书派出去（让多 AI 交叉验证"中文社考量化断言无公开数值来源"这个结论是否成立） |
 | 18 | 2026-11-16 06:xx | **soc/nat 同口径诊断 + synthesis 修进管线**：①一次性诊断（synth_diag_soc.py）复用 S0 管线 P4_SYNTHESIZE 分段综合 + judge + score_run；②`--synth` flag 修进 s5_state_machine.py（synthesize_answer()，向后兼容，冒烟测试 SMOKE_OK） | soc gate 的 0.898 是 judge.coverage（S0 基线 0.8957，100 reps mean），而 SM 管线只有节点 verified 率（0.781）——两个指标不同，gate 在比苹果和橘子（见 tasks/soc-cov-metric-discrepancy-20261116.md） | **诊断：soc judge.coverage=1.0（7/7，depth 0.8457）、nat=0.667（4/6，depth 0.6267），两 gate 均 PASS**——283/278 节点树信息量足够，缺的只是 synthesis+judge 步骤。**⚠️ 冒烟测试暴露单次综合方差**：同一 soc 节点树，管线 `--synth` 另跑一次 coverage=0.857（< 0.898 gate 线）、hallucination_flags 11（诊断那次是 6）——synthesis 是 temperature=0.7 的 LLM 调用，**单次分数不可作 gate 判定，必须多次综合取 mean**（S0 基线本身是 100 reps mean）。hallucination_flags 是综合阶段 LLM 编造数字，judge coverage 不管这个。输出：runs-s5-sm-{soc,nat}-synth.json |
 | 19 | 2026-11-16 07:xx | **soc gate 真值判定（10-run mean）**：synth_multi_soc.py 对现有 283 节点 soc 树跑 10 次综合取 mean | #18 暴露单次综合方差（同树 1.0 vs 0.857），单次分数不可作 gate 判定，必须多次综合 mean（S0 基线本身是 100 reps mean） | **soc 10-run mean=0.9142（sd=0.070），gate 0.898 PASS，超 S0 基线 0.8957（+0.0185）**；coverage 序列 [1.0, 0.857, 0.857, 0.857, 1.0, 1.0, 0.857, 0.857, 1.0, 0.857]（4×1.0 + 6×0.857，coverage 只取两档：7/7 或 6/7）；hallucination_flags 序列 [10,7,19,9,9,14,9,11,12,13] mean 12.3（质量坑，单独立项）；wall 1578s；输出 runs-s5-sm-soc-synth-multi.json。**nat 10-run 运行中**：run 1=0.667、run 2=0.167——nat 方差比 soc 还大（0.500 vs 0.143），单次分数完全不可信，必须等 mean 才能判 gate |
+
+
+## 6. T53-B12 五题 × SOTA 对标（2026-11-16 新增 · 执行受阻，如实登记）
+
+> 任务书：`tasks/B-pipeline-ablation/TASK-B12-t53-deepresearch-bench-spec.md`
+> 对标判据：`modules/E-sota-benchmark/research/sm-bench-sota-criteria.md`（v3，三层可比性定义）
+> 新增 3 题题面：`experiments/stage-ablation/questions/T53-B12-new3-questions.md`
+
+### 6.1 五题对标表
+
+| # | qid | 题型 | S5 judge（0-1, n=3 median） | L0 主对标（开源框架同机复跑） | L1 公开参照（非同题） | 状态 |
+|---|---|---|---|---|---|---|
+| 1 | `gpu` | 硬件选型 + 多约束推理 | **未判**（内部题，无 DRB criteria；旧 run 163n/52 verified=0.319） | 未跑 | Tongyi BrowseComp 43.4 / HLE 32.9 | 复用旧 run，本轮未重跑 |
+| 2 | `drb-2` | 长报告横评（保险十强） | **0.0**（旧分，judge 为同族 qwen3.8-27b，**口径不符 B-face**） | 未跑 | LangChain ODR 50.60（DRB RACE，异 rubric） | 复用旧 run，本轮未重跑 |
+| 3 | `q6-nev` | 多跳统计 + 口径 | **null（未跑）** | 未跑 | Tongyi GAIA 70.9 | **阻塞**：无 LLM 端点 |
+| 4 | `q7-rd` | 双实体比较 + 分母/财年 | **null（未跑）** | 未跑 | Search-R1 HotpotQA F1 55.9 | **阻塞**：无 LLM 端点 |
+| 5 | `q8-nvda` | 深挖 + 地区/财年定义 | **null（未跑）** | 未跑 | Tongyi BrowseComp 43.4 | **阻塞**：无 LLM 端点 |
+
+**当前比分 = 0/5 可判**。`drb-2` 的 0.0 是上一轮检索全盲时的产物（报告 §3 已归因），不是本轮的评测结论。
+
+### 6.2 阻塞证据（本轮实测，非推断）
+
+| 端点 | 用途 | 结果 |
+|---|---|---|
+| `http://127.0.0.1:8787/v1/chat/completions` | 生成端 Qwen3.8-27B | `curl (7) Couldn't connect` / Python `URLError [Errno 111] Connection refused` |
+| `http://localhost:1234/v1/chat/completions` | B-face judge qwen2.5-7b | 同上 |
+| 环境 | API key | `env | grep -i key` 为空；无 `openai` 包 |
+| bash 出网 | 检索 | 全部 `SSL_ERROR_SYSCALL`（仅 github 白名单可用） |
+
+**降级处置**：按任务书"arena 不可用 → 本地跑，只降通道不降流程"，本轮通道层**连本地端点都不可达**，故降级为：题集 + 对标判据 + 可复跑命令全部落盘，run 记录写 `status=blocked_no_llm_endpoint`（分数 null，**不写 0**，避免被当成绩参与均值）。
+
+### 6.3 复跑命令（Lead 机器，端点起来后直接执行）
+
+```bash
+# 0) 先把 q6-nev/q7-rd/q8-nvda 注册进 ablation_harness.QUESTIONS（否则 E17 会静默回退到 gpu 题）
+# 1) S5 x3 reps
+python3 experiments/stage-ablation/s5_pipeline.py --qs q6-nev,q7-rd,q8-nvda --reps 3 --out runs-s5-sm-b12
+# 2) B-face n=3 median
+python3 experiments/stage-ablation/bface_score.py --help   # 先核参数名 [待核验]
+# 3) L0 对照组：LangGraph react agent + 同模型 + 同 research_hook，跑同 3 题，同 judge
+```
+
+### 6.4 顺带发现（需 D 决定，不在本任务范围）
+
+1. **A6 已被既有 run 落盘违反**：`runs-s5-sm-{gpu,drb-2,nat}.json` 里 `question` 字段含**完整题面原文**，`rework_events[].question` 亦同。若 A6 按字面执行（中间产物不得含题面），这些文件都不合规。本轮新增 3 个 run 文件已改为 `question_sha1` + `question_ref`。conf 0.9
+2. **公开 SOTA 分与本 bench 口径不可比**：RACE 0-100 相对分 / HotpotQA F1 / 我们的 0-1 rubric，三者尺度不同；`drb-2` 与 DRB 同源但异 rubric，仍不可直接比。唯一有效判决是 L0 本地复跑。conf 0.9
+3. **单次 synthesis 方差**（报告 #18/#19 已记）：同树 coverage 在 0.857-1.0 间跳，n=3 median 是下限，soc 用了 n=10。本 bench 若要判"打赢"，建议 n≥5。

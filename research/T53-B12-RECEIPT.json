@@ -1,0 +1,51 @@
+{
+  "task": "T53-B12",
+  "task_book": "tasks/B-pipeline-ablation/TASK-B12-t53-deepresearch-bench-spec.md",
+  "repo": "https://github.com/dd2003-460/prompt-first-bench",
+  "branch": "arena/f65a5a27-prompt-first-bench",
+  "commit_sha": "PENDING",
+  "base_commit": "f60e7f7",
+  "generated_at": "2026-11-16",
+  "verdict": "partial_delivery_runs_blocked",
+  "ac_status": {
+    "AC1_5_questions_3_new": "pass",
+    "AC2_public_sota_per_question": "pass_literal_fail_spirit (5/5 bench-level, 0/5 question-level)",
+    "AC3_judge_n3_median": "blocked_no_llm_endpoint (scores=null, deliberately not 0)",
+    "AC4_report_run_data_criteria": "pass",
+    "AC5_A6_no_question_text": "pass_for_new_artifacts / pre-existing_violations_reported",
+    "AC6_receipt_fingerprint": "pass"
+  },
+  "degraded": {
+    "reason": "no_llm_endpoint_and_no_sandbox_egress",
+    "evidence": {
+      "generator_8787": "curl (7) Couldn't connect / URLError [Errno 111] Connection refused",
+      "judge_1234": "curl (7) Couldn't connect / URLError [Errno 111] Connection refused",
+      "api_keys": "none in env",
+      "python_openai": "ModuleNotFoundError",
+      "sandbox_egress": "SSL_ERROR_SYSCALL to all non-allowlisted hosts"
+    },
+    "policy_applied": "任务书《降级》：只降通道不降流程 —— 题集/判据/命令/落盘/机检/回执全部完成，跑分记 null"
+  },
+  "deliverables": [
+    "modules/E-sota-benchmark/research/sm-bench-sota-criteria.md (v3: 三层可比性 + 12 系统 L1 表 + 五题映射)",
+    "experiments/stage-ablation/questions/T53-B12-new3-questions.md (3 道新题题面 + gold + 注册警告)",
+    "experiments/stage-ablation/runs-s5-sm-q6-nev.json",
+    "experiments/stage-ablation/runs-s5-sm-q7-rd.json",
+    "experiments/stage-ablation/runs-s5-sm-q8-nvda.json",
+    "experiments/stage-ablation/s5-sm-bench-report.md (§6 五题 × SOTA 对标 + 阻塞证据 + 复跑命令)",
+    "loop-artifacts/stages/{01,02,02.5,03,04,04.5}/T53-B12-*.md",
+    "loop-artifacts/stages/04/verify-t53-b12.py"
+  ],
+  "handoff_to_lead": [
+    "注册 q6-nev/q7-rd/q8-nvda 进 ablation_harness.QUESTIONS（否则 E17 静默回退 gpu 题）",
+    "起 8787(生成) + 1234(judge) 后执行 report §6.3 三步；L0 对照组须同模型同 hook",
+    "新 3 题 gold 数值需人工核（本轮未逐条 fetch 原文，全部标 [待核验]）",
+    "既有 runs-s5-sm-{gpu,drb-2,nat}.json 含题面原文，A6 是否回溯清理需 D 裁定",
+    "bface_score.py 的 --runs/--n 参数名 [待核验]"
+  ],
+  "notes": [
+    "null != 0：3 新题未跑，禁止把 null 当 0 参与均值或对标结论",
+    "L1 公开分与本 bench judge 异口径（RACE 0-100 / F1 / 我们 0-1），仅作量级参照",
+    "判'打赢'建议 n>=5：soc 实测同树 coverage 0.857-1.0 抖动"
+  ]
+}
