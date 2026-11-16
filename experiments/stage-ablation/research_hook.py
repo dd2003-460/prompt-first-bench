@@ -294,7 +294,12 @@ def _bing_search(query, max_results=3):
             if title and real_url and len(results) < max_results:
                 results.append({"title": _html.unescape(title)[:200], "url": real_url, "snippet": snippet})
         return results
-    except Exception:
+    except Exception as e:
+        # 2026-11-16: 不再静默吞异常——解析失败/网络错误都打日志，
+        # 否则 except: return [] 把"通道挂了"伪装成"通道无结果"，
+        # 下游 degraded 节点无法区分"真没来源"和"通道故障"。
+        import sys
+        print(f"[RESEARCH-HOOK] _bing_search FAILED: {type(e).__name__}: {e} | query={query[:80]}", file=sys.stderr, flush=True)
         return []
 
 
@@ -350,7 +355,9 @@ def _ddg_search(query, max_results=3):
 def _webfetch_page(url, title_hint="", timeout=20):
     """纯 HTTP GET 抓取页面文本（stdlib urllib，不依赖 ego-browser）。
     适用于文档站/规格页等无 JS 渲染需求的站点。
-    返回 {title, url, snippet, alive}。"""
+    返回 {title, url, snippet, alive}。
+    2026-11-16: 优先提取 <article> / content-main-detail 等正文容器，
+    避免 sohu/zhihu 等站点的导航/JS 配置污染 snippet。"""
     import urllib.request
     try:
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (pfb-research)"})
@@ -358,23 +365,36 @@ def _webfetch_page(url, title_hint="", timeout=20):
         # 提取 <title>
         tm = re.search(r'<title[^>]*>(.*?)</title>', html, re.DOTALL | re.I)
         title = (tm.group(1).strip() if tm else title_hint or url)[:200]
-        # 去标签取正文
-        text = re.sub(r'<script[^>]*>.*?</script>', ' ', html, flags=re.DOTALL | re.I)
-        text = re.sub(r'<style[^>]*>.*?</style>', ' ', text, flags=re.DOTALL | re.I)
-        text = re.sub(r'<[^>]+>', ' ', text)
-        text = re.sub(r'\s+', ' ', text).strip()
+        # 优先提取正文容器（<article> / content-main-detail / article-content）
+        text = ""
+        for pat in [r'<article[^>]*>(.*?)</article>',
+                    r'class="content-main-detail"[^>]*>(.*?)(?=<div|</div)',
+                    r'class="article-content[^"]*"[^>]*>(.*?)(?=<div|</div)']:
+            m = re.search(pat, html, re.DOTALL | re.I)
+            if m:
+                text = re.sub(r'<[^>]+>', ' ', m.group(1))
+                text = re.sub(r'\s+', ' ', text).strip()
+                if len(text) > 100:
+                    break
+        if not text:
+            # 回退：去标签取全文
+            text = re.sub(r'<script[^>]*>.*?</script>', ' ', html, flags=re.DOTALL | re.I)
+            text = re.sub(r'<style[^>]*>.*?</style>', ' ', text, flags=re.DOTALL | re.I)
+            text = re.sub(r'<[^>]+>', ' ', text)
+            text = re.sub(r'\s+', ' ', text).strip()
         # 关键词窗口抽取（同 _fetch_page 逻辑）
         kw_pat = re.compile(
             r"(HBM\d?e?\s*\d|GB/s|TB/s|PCIe\s*Gen?\s*\d|SXM|watt|W\b|memory bandwidth|显存|"
             r"\$\d+[\.,]\d*/?(GB|TB|month|year|request)|¥\d+[\.,]\d*/?(GB|TB|月|年)|"
             r"per (GB|TB|month|year|request)|price[d]?|pricing|cost per|"
-            r"VRAM|bandwidth|throughput|latency|cache hit|Pareto|Zipf)",
+            r"VRAM|bandwidth|throughput|latency|cache hit|Pareto|Zipf|"
+            r"\d+\.?\d*万辆|出口量|产量|销量|渗透率|出口额|新能源汽车|中汽协|海关)",
             re.I
         )
         hits = list(kw_pat.finditer(text[:20000]))
         if hits:
             windows, seen_starts = [], set()
-            for h in hits[:6]:
+            for h in hits[:15]:
                 s0 = max(0, h.start() - 300)
                 s1 = min(len(text), h.end() + 300)
                 key = s0 // 200
@@ -970,6 +990,19 @@ def research_hook(qid, question, max_results=8, enable_local=True):
                 _add(r, "ddg")
         except Exception:
             pass
+
+    # ── 2.6 来源深抓（~2-5s/source，为 DDG/wiki 返回的源补充 snippet）──
+    # 2026-11-16: DDG lite 被 anomaly 限流时返回的源 snippet 为空，
+    # verify LLM 只看到 title+URL 无法核验 → 全 degraded。
+    # 对 snippet 为空的源做 HTTP fetch 提取正文窗口，补上 snippet。
+    for src in sources:
+        if not src.get("snippet", "").strip() and src.get("url"):
+            try:
+                pf = _webfetch_page(src["url"], title_hint=src.get("title", ""))
+                if pf["alive"] and pf.get("snippet"):
+                    src["snippet"] = pf["snippet"]
+            except Exception:
+                pass
 
     # ── 2.7 Web-LLM（Perplexity via ego-browser，~15-25s；仅当前面通道 <3 条时兜底）──
     # 用户指令 2026-11-08：网页 AI 信源作为独立验证通道，不限预算。
