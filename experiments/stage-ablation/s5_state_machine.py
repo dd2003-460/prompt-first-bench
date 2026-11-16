@@ -25,6 +25,14 @@ from s5_pipeline import (
     search_node, verify_node,
 )
 
+# AC7 可复现（2026-11-16）：SM_SEED 环境变量固定随机采样（默认 -1 = 不固定，向后兼容）。
+# random 是单例模块，这里 seed 后 line 355 局部 `import random` 拿到的也是同一全局状态。
+import os as _os
+import random as _random
+_SM_SEED = int(_os.environ.get("SM_SEED", "-1"))
+if _SM_SEED >= 0:
+    _random.seed(_SM_SEED)
+
 
 # ─────────────────────────────────────────────
 # 防泄漏

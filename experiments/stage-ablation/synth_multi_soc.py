@@ -16,23 +16,75 @@ BASELINES = {"soc": 0.8957, "nat": 0.5801}
 GATE = GATES[QID]
 BASELINE = BASELINES[QID]
 
+# 8787 proxy 间歇 502（2026-11-16 实测：单次综合 10-15 分钟，期间 502 频繁）：
+# 外层每 run 最多 3 次，每次失败后 ping 8787 探活，ping 通才重试。
+# 单次综合内 call_llm 已有 3 次 retry，这里兜底的是"整轮综合期间 proxy 挂了"的情况。
+import urllib.request
+
+def _proxy_alive():
+    try:
+        urllib.request.urlopen(urllib.request.Request(LLM_URL + "/models"), timeout=10)
+        return True
+    except Exception:
+        return False
+
+from ablation_harness import LLM_URL
+
 d = json.load(open(f'runs-s5-sm-{QID}.json'))
 nodes = [NodeRecord(**n) for n in d['nodes']]
 print(f'multi-synth: {QID} {len(nodes)} nodes, N={N}', flush=True)
 
+# resume：已有结果文件且 n 一致时，只重跑 covs 为 None 的 index
 covs, depths, hflags = [], [], []
+out_path = f'runs-s5-sm-{QID}-synth-multi.json'
+if '--fresh' not in sys.argv:
+    try:
+        prev = json.load(open(out_path))
+        if prev.get('n') == N and len(prev.get('covs') or []) == N:
+            covs, depths, hflags = prev['covs'], prev['depths'], prev['hflags']
+            done = sum(1 for c in covs if c is not None)
+            print(f'resume: {done}/{N} 已有，补跑 {N-done} 个', flush=True)
+    except (FileNotFoundError, KeyError):
+        pass
+if not covs:
+    covs = [None] * N; depths = [None] * N; hflags = [None] * N
+
 t_start = time.time()
 for i in range(N):
+    if covs[i] is not None:
+        continue
     t0 = time.time()
-    try:
-        s = synthesize_answer(QUESTIONS[QID], nodes, QID)
-        covs.append(s['coverage'])
-        depths.append(s['depth'])
-        hflags.append(len(s['judge'].get('hallucination_flags') or []))
-        print(f'run {i+1}/{N}: coverage={s["coverage"]} depth={s["depth"]} hf={hflags[-1]} {time.time()-t0:.0f}s', flush=True)
-    except Exception as e:
-        print(f'run {i+1}/{N} FAILED: {type(e).__name__}: {e}', flush=True)
-        covs.append(None); depths.append(None); hflags.append(None)
+    ok = False
+    for attempt in range(3):
+        try:
+            s = synthesize_answer(QUESTIONS[QID], nodes, QID)
+            covs[i] = s['coverage']
+            depths[i] = s['depth']
+            hflags[i] = len(s['judge'].get('hallucination_flags') or [])
+            print(f'run {i+1}/{N}: coverage={s["coverage"]} depth={s["depth"]} hf={hflags[i]} {time.time()-t0:.0f}s', flush=True)
+            ok = True
+            break
+        except Exception as e:
+            print(f'run {i+1}/{N} attempt {attempt+1} FAILED: {type(e).__name__}: {e}', flush=True)
+            if attempt < 2:
+                # 探活：ping 8787，通了才值得重试；不通就等 60s 再探
+                alive = _proxy_alive()
+                wait = 10 if alive else 60
+                print(f'  proxy {"alive" if alive else "DOWN"}, wait {wait}s', flush=True)
+                time.sleep(wait)
+    if not ok:
+        print(f'run {i+1}/{N} GIVE UP after 3 attempts', flush=True)
+    # 每跑完一个就落盘，防中断丢进度
+    valid = [c for c in covs if c is not None]
+    mean = sum(valid)/len(valid) if valid else None
+    import statistics as _st
+    json.dump({
+        'qid': QID, 'n': N, 'valid': len(valid), 'covs': covs, 'depths': depths,
+        'hflags': hflags, 'mean': mean,
+        'sd': _st.pstdev(valid) if len(valid) > 1 else None,
+        'gate': GATE, 'gate_pass': bool(mean and mean >= GATE),
+        'baseline': BASELINE, 'wall_s': time.time()-t_start,
+    }, open(out_path, 'w'), ensure_ascii=False, indent=2)
 
 valid = [c for c in covs if c is not None]
 mean = sum(valid)/len(valid) if valid else None
