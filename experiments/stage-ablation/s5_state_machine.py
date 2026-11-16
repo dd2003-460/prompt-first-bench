@@ -460,6 +460,7 @@ class DecompStateMachine:
         self.dropped_redundant = 0
         self.objective: Optional[dict] = None  # Decision 19: 模型自估计终点目标函数（L1 轮产出）
         self.objective_mode: str = "formula"  # #31 消融臂: formula=P1_L1_SKELETON(公式版) / text=P1_L1_TEXT(文字版)
+        self.ckpt_round = 0  # 2026-11-16: resume 时记录 ckpt round（verify-only 批次号基准）
         self._no_ness_streak = 0
         self.network_degraded = False  # E8: 出口探针结果，run() 开头设置
 
@@ -870,12 +871,18 @@ class DecompStateMachine:
             print(f"  [SM] r{rnd}: {found} contradiction(s) → fed back to next decompose round", flush=True)
 
     def _save_checkpoint(self, rnd: int):
-        """每轮结束把当前树状态落盘。resume 时读回继续。"""
+        """每轮结束把当前树状态落盘。resume 时读回继续。
+
+        原子写（2026-11-16 verify-only 落盘修复）：先写同目录 tmp 再 os.replace。
+        旧实现直接 open(path,"w") 写最终路径——进程在写半截时死掉/被杀，
+        checkpoint 就是坏文件，resume 直接炸。tmp+rename 保证任何时刻磁盘上
+        要么是旧完整版、要么是新完整版。"""
         import os
         ckpt_dir = "checkpoints"
         os.makedirs(ckpt_dir, exist_ok=True)
         path = os.path.join(ckpt_dir, f"sm-{self.qid}-r{rnd}.json")
-        with open(path, "w") as f:
+        tmp = path + ".tmp"
+        with open(tmp, "w") as f:
             json.dump({
                 "qid": self.qid,
                 "question": self.question,
@@ -891,6 +898,9 @@ class DecompStateMachine:
                 "contradiction_events": self.contradiction_events,
                 "nodes": [vars(n) for n in self.nodes],
             }, f, ensure_ascii=False, indent=2)
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(tmp, path)  # 同目录 rename = 原子替换
 
     def _probe_network(self):
         """E8.2: 出口健康探针。
@@ -956,14 +966,23 @@ class DecompStateMachine:
             for n in to_verify:
                 if n.status == 'degraded':
                     n.status = 'pending'
+            # 2026-11-16 落盘修复：verify-only 每批落盘一次，且文件名带批次号
+            # （sm-{qid}-r{base}-{k}.json）。旧逻辑用 len(self.rounds_log) 当 rnd，
+            # verify-only 下 rounds_log 永远为空 → 每批都覆写同一个 sm-{qid}-r0.json，
+            # 而 resume 读的是 sm-{qid}-r1.json（启动时的 ckpt）→ 进度全丢，
+            # 下次 resume 又从头验一遍（1h 白跑，见 runs-s5-sm-soc-verifyonly.log）。
+            # 批次号从 ckpt round 递增，resume 时取 checkpoints/ 里最大的 r{base}-{k} 续跑。
+            base_rnd = self.ckpt_round  # resume 时 = ckpt 的 round；无 resume = 0
+            n_batches = (len(to_verify) + 2) // 3  # 每批 3 节点
             for i in range(0, len(to_verify), 3):
                 batch = to_verify[i:i+3]
                 self._verify_batch(batch)
-                if (i // 3 + 1) % 10 == 0:
-                    self._scan_contradictions(rnd=len(self.rounds_log))  # D33: verify-only 也扫矛盾
-                self._save_checkpoint(rnd=len(self.rounds_log))
-                if (i // 3 + 1) % 5 == 0:
-                    print(f"  [SM] verified {i+len(batch)}/{len(to_verify)}", flush=True)
+                k = i // 3 + 1
+                if k % 10 == 0:
+                    self._scan_contradictions(rnd=base_rnd + k)  # D33: verify-only 也扫矛盾
+                self._save_checkpoint(rnd=base_rnd + k)
+                print(f"  [SM] verified {i+len(batch)}/{len(to_verify)} "
+                      f"(batch {k}/{n_batches}) → ckpt r{base_rnd + k}", flush=True)
             self.state = State.STOP
             return SMResult(
                 nodes=list(self.nodes), rounds_log=self.rounds_log,
@@ -1360,6 +1379,28 @@ if __name__ == "__main__":
         sm.challenge_log = ck.get("challenge_log", [])  # D-质询审计（2026-11-16）
         sm.rework_events = ck.get("rework_events", [])
         sm.contradiction_events = ck.get("contradiction_events", [])
+        # 2026-11-16 verify-only 落盘修复：resume 时记录 ckpt round + 探测已有 verify-only
+        # 批次 ckpt（sm-{qid}-r{round+k}.json，round = base + 批号），取最大 k 作为续跑起点。
+        # 旧逻辑只读固定路径 sm-{qid}-r{round}.json——verify-only 每批落盘写到
+        # 批次号文件里，下次 resume 读不到 → 已验的节点（pending 已翻 verified）全丢。
+        import glob as _glob
+        _base = int(ck.get("round", 0) or 0)
+        _max_k = 0
+        for _p in _glob.glob(f"checkpoints/sm-{qid}-r*.json"):
+            _m = re.search(r"r(\d+)\.json$", _p)
+            if _m:
+                _k = int(_m.group(1)) - _base
+                if _k > 0:
+                    _max_k = max(_max_k, _k)
+        if _max_k > 0:
+            _resumed = json.load(open(f"checkpoints/sm-{qid}-r{_base + _max_k}.json"))
+            _old = {n.id: n for n in sm.nodes}
+            for nd in _resumed["nodes"]:
+                if nd["id"] in _old:
+                    _old[nd["id"]].__dict__.update(nd)
+            sm.ckpt_round = _base + _max_k
+            print(f"[SM] verify-only resume: 续跑自批次 ckpt r{_base + _max_k} "
+                  f"(checkpoints/sm-{qid}-r{_base + _max_k}.json)", flush=True)
         # E16 (2026-11-13): FATAL 落盘的 ckpt 缺 state 字段（text arm seed 就是这种）。
         # 无需恢复 sm.state——run() 开头无条件 self.state = State.DECOMPOSE，skip_l1=True
         # 跳过 L1 后主循环从 frontier 继续核验/重拆。这里只校验 ckpt 合法性。
