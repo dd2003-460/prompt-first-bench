@@ -78,15 +78,20 @@
 - synth 综合步骤把节点树转化为答案，judge 对答案打分 → judge.coverage
 - 两个口径不同，节点树 cov 上限不直接约束 gate
 
-**实际 gate 状态**（`runs-s5-sm-*-synth.json`，11-16 07:38）：
-- soc: judge.coverage = **1.0** ≥ 0.898 → **PASS**
-- nat: judge.coverage = **0.667** ≥ 0.634 → **PASS**
+**实际 gate 状态**（`runs-s5-sm-*-synth-multi.json`，10-run mean 口径）：
+- soc: judge.coverage mean = **0.914** ≥ 0.898 → **PASS**（10 runs: [1.0, 0.857×6, 1.0×3]）
+- nat: judge.coverage mean = **0.517** < 0.5801 → **FAIL**（10 runs: [0.833×3, 0.667×2, 0.333×3, 0.167×2]）
 - gpu: 待跑 synth（gate 要求 depth ≥ 0.50）
 
-**结论修正**：上一轮说"gate 在当前 checkpoint 结构下不可达"是错的——把节点树 cov 和 judge.coverage 两个口径混了。soc/nat 两臂 gate 已通过，gpu 臂待核。
+**结论修正**：
+1. 上一轮说"gate 在当前 checkpoint 结构下不可达"是错的——把节点树 cov 和 judge.coverage 两个口径混了
+2. soc 臂 gate 已通过（0.914 ≥ 0.898）
+3. **nat 臂 gate 未通过**（0.517 < 0.5801），需修复
+4. gpu 臂待核
 
 ## 五、下一步建议
 
-1. **跑 gpu synth**：补全 phase1-fix-pipeline 第三个 gate（depth ≥ 0.50）
-2. **修检索通道**：B 类 9 条中 3 条（N52/N79/N87）ResearchHookUnavailable，修复后可补上来源（提升节点树质量，但不影响 gate）
-3. **写消融报告**：soc 1.0 / nat 0.667 / gpu 待核，三臂数据齐后可出报告
+1. **修 nat 臂**：judge.coverage mean=0.517 < 0.5801 gate FAIL，需诊断低分原因（10 runs 中 5 个 ≤0.333，方差大）
+2. **跑 gpu synth**：补全 phase1-fix-pipeline 第三个 gate（depth ≥ 0.50）
+3. **修检索通道**（可选）：B 类 9 条中 3 条（N52/N79/N87）ResearchHookUnavailable，修复后可补上来源（提升节点树质量，但不影响 gate）
+4. **写消融报告**：soc 0.914 PASS / nat 0.517 FAIL / gpu 待核，三臂数据齐后可出报告
