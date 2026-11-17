@@ -18,7 +18,7 @@ import sys
 from datetime import datetime, timezone
 
 BASE = "/Users/a1-6/Desktop/workspace/pfb/experiments/stage-ablation"
-LOG = "/tmp/t53b/gpu_formula_r02.sm.log"
+LOG = "/tmp/t53b/gpu_formula_r07.sm.log"
 SYNTH = os.path.join(BASE, "runs-s5-sm-gpu-synth.json")
 WATCHER_LOG = os.path.join(BASE, "ablation-watcher.log")
 CC_STATE = "/Users/a1-6/Desktop/workspace/pfb/tasks/T53-bus/cc-state.json"
