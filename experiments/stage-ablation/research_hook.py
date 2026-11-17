@@ -484,6 +484,94 @@ def _local_corpus_search(query, max_results=3, qid=None):
     return results[:max_results]
 
 
+# GPU 规格页映射（Wikipedia 有完整规格表，ego-browser 可解析 HTML 表格）
+_GPU_SPEC_PAGES = {
+    "rtx 40": "https://en.wikipedia.org/wiki/GeForce_RTX_40_series",
+    "rtx 50": "https://en.wikipedia.org/wiki/GeForce_RTX_50_series",
+    "rtx 30": "https://en.wikipedia.org/wiki/GeForce_RTX_30_series",
+    "a100": "https://en.wikipedia.org/wiki/Ampere_(microarchitecture)",
+    "h100": "https://en.wikipedia.org/wiki/Hopper_(microarchitecture)",
+    "mi300": "https://en.wikipedia.org/wiki/AMD_Radeon_Graphics",
+}
+
+
+def _gpu_spec_search(query, max_results=3):
+    """通道 1.5：GPU 规格表（ego-browser 解析 Wikipedia HTML 表格，~15s）。
+
+    纯 HTTP 拿不到 Wikipedia 的规格表（API 只返回 intro 段），但 ego-browser
+    可以解析完整的 HTML 表格 DOM。对 GPU 硬件规格类查询（带宽/TFLOPS/TDP/价格）
+    比 DDG/Bing 精确得多。
+
+    2026-11-17: DDG TLS 阻断 + Bing 日语垃圾 + TechPowerUp Cloudflare 拦截后，
+    这是 GPU 规格数据最稳定的免费通道。
+    """
+    import subprocess as _sp
+    q_lower = query.lower()
+    # 匹配 GPU 型号 → 对应 Wikipedia 页面
+    target_urls = []
+    for key, url in _GPU_SPEC_PAGES.items():
+        if key in q_lower:
+            target_urls.append(url)
+    # 通用 GPU 查询 → 默认 RTX 40 series
+    if not target_urls and any(k in q_lower for k in ['gpu', '显卡', 'vram', 'bandwidth', 'tdp']):
+        target_urls = [_GPU_SPEC_PAGES["rtx 40"]]
+    if not target_urls:
+        return []
+
+    results = []
+    for url in target_urls[:2]:  # 最多 2 个页面控制时间
+        if len(results) >= max_results:
+            break
+        js = f'''
+(async () => {{
+  const task = await taskSpace("pfb-gpu-specs-" + Date.now());
+  const page = task.page("p1");
+  await page.goto("{url}", {{waitUntil: "domcontentloaded", timeout: 30000}});
+  await page.waitForTimeout(3000);
+  const result = await page.evaluate(() => {{
+    const table = document.querySelector("table.wikitable");
+    if (!table) return null;
+    const rows = table.querySelectorAll("tr");
+    const data = [];
+    rows.forEach(row => {{
+      const cells = Array.from(row.querySelectorAll("th, td")).map(c => c.innerText.trim().replace(/\\n/g, " "));
+      if (cells.length >= 8 && cells[0].includes("RTX")) data.push(cells);
+    }});
+    return data.length > 0 ? data : null;
+  }});
+  if (!result) {{ console.log("===NO_DATA==="); return; }}
+  console.log("===GPU_SPECS===");
+  result.forEach(row => console.log(row.join(" | ")));
+}})();
+'''
+        try:
+            r = _sp.run(
+                [EGO_BROWSER, "nodejs", "-e", js],
+                capture_output=True, text=True, timeout=60,
+            )
+            out = r.stdout + r.stderr
+            if "===GPU_SPECS===" in out:
+                lines = out.split("===GPU_SPECS===")[1].strip().splitlines()
+                # 把每行规格数据作为一个 source
+                for line in lines[:max_results]:
+                    parts = [p.strip() for p in line.split("|")]
+                    if len(parts) >= 8:
+                        gpu_name = parts[0][:50]
+                        # 提取关键数字
+                        snippet_parts = [f"GPU: {gpu_name}"]
+                        for i, p in enumerate(parts):
+                            if any(kw in p for kw in ['GB/s', 'W', 'TFLOPS', 'TOPS', '$', '¥', 'GB']):
+                                snippet_parts.append(p)
+                        results.append({
+                            "title": f"GPU Specs: {gpu_name}",
+                            "url": url,
+                            "snippet": " | ".join(snippet_parts[:8])[:600],
+                        })
+        except Exception:
+            continue
+    return results[:max_results]
+
+
 def _webllm_search(query, max_results=3):
     """通道 6：网页 AI 信源（多端点 fallback via ego-browser，已登录会话）。
 
@@ -965,10 +1053,22 @@ def research_hook(qid, question, max_results=8, enable_local=True):
     # 对非 GPU 题 grep 出的"命中"是无关文档，会污染下游 P3 核验。
     try:
         if enable_local:
-            for r in _local_corpus_search(question, max_results=2, qid=qid):
+            for r in _local_corpus_search(question, max_results=4, qid=qid):
                 _add(r, "local_corpus")
     except Exception:
         pass
+
+    # ── 1.5 GPU 规格表（ego-browser 解析 Wikipedia HTML 表格，~15s）──
+    # 2026-11-17: DDG TLS 阻断 + Bing 日语垃圾 + TechPowerUp Cloudflare 拦截后，
+    # Wikipedia 规格表是 GPU 硬件数据最稳定的免费通道。
+    if qid == "gpu" or _query_is_gpu_related(question):
+        remaining = max_results - len(sources)
+        if remaining > 0:
+            try:
+                for r in _gpu_spec_search(question, max_results=min(3, remaining)):
+                    _add(r, "gpu_specs")
+            except Exception:
+                pass
 
     # ── 2. Wikipedia API（~1.5s，教科书/规格）──
     remaining = max_results - len(sources)
@@ -1102,6 +1202,9 @@ def research_hook(qid, question, max_results=8, enable_local=True):
     # D 指令 (2026-11-12): 结果侧域名白名单过滤——广告/垃圾站从源头掐掉。
     # 策略：若过滤后仍有 ≥2 条白名单源，只用白名单；否则保留全部（宁缺毋滥但别空手）。
     def _wl_match(url):
+        # Local corpus files (file paths) are always trusted — skip domain whitelist
+        if url.startswith("/") or url.startswith("~"):
+            return True
         return any(d in url for d in _SOURCE_WHITELIST)
     wl_sources = [s_ for s_ in sources if _wl_match(s_.get("url", ""))]
     if len(wl_sources) >= 1:
