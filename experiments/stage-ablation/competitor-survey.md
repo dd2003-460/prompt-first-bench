@@ -145,7 +145,77 @@ pfb 独有的维度：
 
 一句话：现有 bench 回答"报告质量如何"，pfb 回答"分解过程质量如何 + 数值锚定率如何 + 约束满足度如何"。三者互补，缺一个故事都不完整。
 
-### 6.8 Harness 优化系统调研（2026-11-17 追加）
+### 6.9 Idea 调研 + Harness 优化系统调研（2026-11-17 追加）
+
+> 触发：D 问"他们缺少 idea 调研和相关应用"
+> 核心发现：最匹配的是 Arbor（hypothesis tree + insight 传播 + harness engineering）、AutoResearchClaw（23-stage pipeline，idea→paper）、CoAutoResearch（recursive self-improvement）。pfb 的分解树已经有结构，但缺少"insight 从子节点抽象到父节点"的机制。
+
+#### 6.9.1 最匹配的系统（按推荐度排）
+
+**1. Arbor（RUC-NLPIR，arXiv:2606.11926）**
+
+- 核心机制：Hypothesis Tree Refinement（HTR）——persistent tree-based state，coordinator 管理全局研究策略，executors 在 isolated worktrees 里实现和测试假设
+- idea 调研：hypothesis tree 本身就是 idea 调研的结构化表示——每个节点是一个可验证/可证伪的假设，insight 从子节点抽象到父节点（"compact semantic memory that propagates upward"）
+- harness 优化：支持 harness engineering 场景（Terminal-Bench 2.0, BrowseComp），cross-task idea transfer（BrowseComp 上优化的 harness 能迁移到 unseen search-agent 任务）
+- 性能：6 个真实任务（model training / harness engineering / data synthesis），held-out 结果比 Codex/Claude Code 好 2.5×，MLE-Bench Lite 86.36% Any-Medal
+- 开源：github.com/RUC-NLPIR/Arbor（Apache 2.0）
+- 关键发现：ablation 显示 hypothesis tree 和 insight feedback 都不可或缺（w/o tree → 63.64%，w/o insight feedback → 54.54%）
+- 来源：arxiv.org/abs/2606.11926
+
+**2. AutoResearchClaw（aiming-lab，arXiv:2605.20025）**
+
+- 核心机制：23-stage pipeline，从 idea 到 paper 的完整循环
+- idea 调研：Stage 1-8 是 idea generation + literature search + hypothesis formation
+- harness 优化：Stage 9-12 是 experiment design + code generation + experiment run
+- 性能：A/B 实验（same topic, same LLM, same configuration）显示 self-evolving 版本比 baseline 好
+- 开源：github.com/aiming-lab/AutoResearchClaw（MIT）
+- 特点：支持 web search（Tavily + Google Scholar）、PDF extraction、HITL gate（Stage 10 可以暂停让人 review）
+- 来源：arxiv.org/abs/2605.20025
+
+**3. CoAutoResearch（YihongT）**
+
+- 核心机制：autonomous investigation + recursive self-improvement + human-AI collaboration
+- idea 调研：autonomous investigation（从文献/数据/失败中生成新假设）
+- harness 优化：recursive self-improvement（refine methods through evidence and feedback）
+- 开源：github.com/YihongT/CoAutoResearch（Apache 2.0）
+- 特点：v2.0.0（2026-09-11），支持多语言（README 有翻译，agent 回复跟用户语言）
+- 来源：github.com/YihongT/CoAutoResearch
+
+**4. self-improving-agent-harness（ethan-haas）**
+
+- 核心机制：autonomous multi-agent system，7-tier verification gauntlet（parse → unit → property → mutation → benchmark → sealed holdout → fresh-context critic）
+- idea 调研：meta-improvement loops（self-modifying scaffolds / prompt evolution / skill discovery / episodic memory）
+- harness 优化：inner loop（autoresearch）+ outer loop（meta-improvement）
+- 开源：github.com/ethan-haas/self-improving-agent-harness（MIT）
+- 特点：sealed holdout（agent 不能读/编辑，防止 gamed）、fresh-context critic（独立审查）
+- 来源：github.com/ethan-haas/self-improving-agent-harness
+
+**5. OpenTracy（OpenTracy）**
+
+- 核心机制：self-improving AI agent harness，AHE autonomous loop + MCP + BYOK + eval suite
+- idea 调研：learn from real usage（从真实使用痕迹中生成改进假设）
+- harness 优化：propose → eval → approve → ship（human approval gate）
+- 开源：github.com/OpenTracy/OpenTracy（MIT，159 stars）
+- 特点：trainable agent surface（YAML + Python files，mutated by Claude Code）
+- 来源：github.com/OpenTracy/OpenTracy
+
+#### 6.9.2 跟 pfb 的对比
+
+| 系统 | idea 调研 | harness 优化 | 隔离机制 | 验证机制 | 模型支持 | 适用场景 |
+|------|----------|-------------|----------|----------|----------|----------|
+| **Arbor** | hypothesis tree（insight 传播） | harness engineering（Terminal-Bench/BrowseComp） | git worktree | held-out margin | 任意（LiteLLM） | 通用优化 |
+| **AutoResearchClaw** | 23-stage pipeline（literature search + hypothesis） | experiment design + code generation | Docker | 4-round audit | 多 CLI agent | 端到端论文 |
+| **CoAutoResearch** | autonomous investigation | recursive self-improvement | 无 | evidence + feedback | 任意 | 研究伙伴 |
+| **self-improving-agent-harness** | meta-improvement loops | inner + outer loop | sandbox | 7-tier gauntlet | Claude Code | 软件改进 |
+| **OpenTracy** | learn from real usage | AHE autonomous loop | 无 | eval + human approval | Anthropic API | agent 部署 |
+
+#### 6.9.3 对 pfb 的启示
+
+1. **Arbor 的 hypothesis tree + insight 传播**：pfb 分解树已经有结构，但缺少"insight 从子节点抽象到父节点"的机制——如果加上"rework 后把教训往树上推"，后面的节点可以继承前面的经验
+2. **AutoResearchClaw 的 23-stage pipeline**：pfb 是"分解→验证→rework"，AutoResearchClaw 是"idea→literature→hypothesis→experiment→paper"——如果 pfb 要扩展成"完整研究循环"，AutoResearchClaw 的 stage 划分可以参考
+3. **CoAutoResearch 的 recursive self-improvement**：pfb 是"单轮优化"，CoAutoResearch 是"递归自改进"——如果加上"上一轮的优化结果作为下一轮的输入"，可以形成闭环
+4. **self-improving-agent-harness 的 7-tier verification**：pfb judge 是"同族自判"，self-improving-agent-harness 是"7 层验证"——如果加上"sealed holdout + fresh-context critic"，可以防 judge 偏松
+5. **OpenTracy 的 human approval gate**：pfb 是"全自动"，OpenTracy 是"human approval"——如果加上"关键节点暂停让人 review"，可以防"优化方向跑偏"
 
 > 触发：D 问"他们的实验看起来都是训练，我这种针对 harness 的优化呢"
 > 核心发现：最匹配的是 ReASearch（prompt optimization，controller-light）、VeRO（agent optimization harness，versioned snapshots）、Meta-Harness（harness code 搜索）、Turbo Harness（instance-adaptive harness）。pfb 的状态机是 harness code，Meta-Harness 的方法可以直接用。
