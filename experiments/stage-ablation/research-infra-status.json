@@ -1,0 +1,44 @@
+{
+ "timestamp": "2026-11-17T21:14:40+0800",
+ "channels": {
+  "ddg_lite": {
+   "status": "FAIL",
+   "error": "TLS EOF (ERR_CONNECTION_CLOSED)",
+   "impact": "research_hook.py 主通道，导致 q7 65% 节点 degraded"
+  },
+  "bing": {
+   "status": "OK",
+   "time": "1.1s",
+   "quality": "差——中文 query 返回日语垃圾，英文 query 返回官网首页",
+   "impact": "已加入 research_hook.py 作为 fallback（commit 64973d58），但质量不够"
+  },
+  "nvidia_news": {
+   "status": "OK",
+   "time": "1.0s",
+   "quality": "好——直接抓 Q4 FY2025 Press Release 拿到 $130.5B 真值",
+   "impact": "q8 真值核验成功"
+  },
+  "sec_edgar": {
+   "status": "FAIL",
+   "error": "HTTP 403 Forbidden",
+   "impact": "无法直接抓 10-K，需要走 NVIDIA IR 页面"
+  },
+  "nvidia_ir": {
+   "status": "FAIL (urllib) / OK (ego-browser)",
+   "error": "urllib 403，ego-browser 可访问",
+   "impact": "10-K PDF 通过 ego-browser 下载成功（nvidia-10k-fy2025.pdf, 93 pages, 1MB）"
+  }
+ },
+ "conclusion": {
+  "working": [
+   "bing (质量差)",
+   "nvidia_news (直接抓新闻稿)",
+   "ego-browser (JS 页面/10-K PDF)"
+  ],
+  "broken": [
+   "ddg_lite (TLS)",
+   "sec_edgar (403)"
+  ],
+  "gap": "中国区营收数字不在 10-K 里（只披露 segment，不披露 geographic），需要财报电话会 transcript 或第三方数据"
+ }
+}
