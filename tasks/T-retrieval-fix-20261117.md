@@ -16,6 +16,8 @@ pfb 的基础检索设施目前只有 arXiv API + 直访站点能用，DDG/Bing/
 
 **沙箱网络限制**：arena 沙箱环境只能访问 GitHub API（api.github.com），StackExchange/Reddit/HN/pytorch.org 被 block。验收标准只要求"代码能正确调用 API"，不要求实际返回结果。
 
+**分支纪律**：所有修改 push 到 arena 分支（如 `arena/<id>-prompt-first-bench`），不 push 到 main。由 Lead 核验后 merge 回 main。
+
 1. **arXiv API**：已能用，不需要修复
 2. **GitHub API**：能搜索 GitHub 仓库、issues、PRs（免费，5000 次/小时）——沙箱环境能实际返回结果
 3. **ego-browser**：能搜索 Stack Overflow / Reddit / Hacker News（已登录会话）——沙箱环境只要求代码逻辑正确，不要求实际返回结果
