@@ -39,6 +39,9 @@ v17 用 1930 个节点证明了"只奖多不罚重"的目标函数必然被 Good
 
 **关键转折**: Decision 16 是 v17→T53 的分水岭。v17 把 S_α 公式写进 prompt 让模型逐字优化; T53 把公式从 prompt 里删掉, 只留"完整详尽准确的最终答案"这个不可计算的终点。模型面对不可刷的目标, 只能靠真的把树做对来间接提升。
 
+**r7 惊奇时刻 (2026-11-11 22:25, session 20261110_120, weixin)**:
+r7 的 L1 骨架出了 6 个顶层维度: 硬件候选全集 / 延迟性能边界 / 精度质量权衡 / 上下文显存规划 / TCO 结构 / **不确定性管理 (N6)**。模型自发把"不确定性"拆成正交 L1 维度, 和 TCO/性能/精度并列——prompt 里没有"不确定性必须独立成维度"的规则, 这是模型自己用领域知识发现的。D 原话: "他比我想象的更厉害, 显存确定是约束而不应该是性能, **不确定性也是可以正交直积的**"。22:33 D 问"这个需要进 sop 吗, 是正交判据吗", 我回"等 r7 跑完看 TCO 维度下有没有自己长出故障损失方差 (不确定性 N6 作为横切兄弟应该能把它带出来)"。r7 跑完 (23:29 进程退出) 后完整树未保存成 JSON (只有 console log `runs-s5-sm-gpu-r7-console.log`), r8 被 kill (旧代码), r9 从 r2 checkpoint resume。**r7 之后所有 run 的 L1 都没有再出现独立的"不确定性"维度**——它被合并进了 N6"证据溯源与条件性结论生成" (gpu-main 163n) 或 N5"数据置信度与来源溯源" (checkpoint 34n)。**一次性自发行为, 未稳定复现**。三边理论 (Decision 24) 是把这个自发行为理论化; 要让它稳定复现需要把三边分类落成代码规则 (idea #43), 而不是靠模型自发。
+
 ### Phase 2: 理论深化 (2026-11-12, Decision 17-30)
 
 | # | Decision | 核心内容 | 来源 |
@@ -60,7 +63,7 @@ v17 用 1930 个节点证明了"只奖多不罚重"的目标函数必然被 Good
 
 **关键洞察链**:
 - D22: S_α' 被 hack 不是"度量错了东西", 是"度量的东西(结构规模)和真正要的东西(正交完备)之间没有保序关系"
-- D24: 随机耦合边 = 任何结构化理论的残差项 (解释掉的是结构, 解释不掉的就是噪声); LLM 生成天然自带 (temp>0 的 seed 流); 错误动作=当独立维度展开, 正确动作=记录共享源不复制
+- D24: 随机耦合边 = 任何结构化理论的残差项 (解释掉的是结构, 解释不掉的就是噪声); LLM 生成天然自带 (temp>0 的 seed 流); 错误动作=当独立维度展开, 正确动作=记录共享源不复制。**触发源: r7 惊奇时刻 (11-11 22:25, session 20261110_120) — 模型自发把"不确定性"拆成正交 L1 维度, 三边理论是把这个自发行为理论化**
 - D26: 条件 MDL 补上 cost(T) "罚得均一不分冗余与否"的缺口
 - D30: **正交性不需要独立度量, 它就是压缩性的别名**。H_M(ℓ₂|ℓ₁) 小 ↔ ℓ₁ℓ₂ 不正交 ↔ ℓ₂ 是冗余的。D15 纠结的三种度量 (n-gram/embedding/LLM-judge) 都是条件熵的粗糙近似
 
@@ -98,6 +101,8 @@ v17 用 1930 个节点证明了"只奖多不罚重"的目标函数必然被 Good
 |------|------|
 | modules/D-decomp-state-machine/research/sm-thinking-sop.md | 31 个 Decision 全文 (641行) |
 | modules/C-objective-goodhart/research/v17-hier-decomposition-blowup.md | v17 爆炸诊断 + Goodhart 本质 |
+| experiments/stage-ablation/runs-s5-sm-gpu-r7-console.log | r7 惊奇时刻 console log (完整树未保存成 JSON) |
+| state.db messages (session 20261110_120, 11-11 22:25-23:44) | r7 L1 六维 + D 原话 + 三边理论讨论上下文 |
 | experiments/stage-ablation/s5_state_machine.py | 状态机实现 (1518行) |
 | experiments/stage-ablation/research_hook.py | 检索 hook |
 | experiments/stage-ablation/judge_v2_depth.py | 深度加权评分 |
