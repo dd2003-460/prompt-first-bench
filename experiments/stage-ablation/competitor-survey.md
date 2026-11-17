@@ -145,7 +145,61 @@ pfb 独有的维度：
 
 一句话：现有 bench 回答"报告质量如何"，pfb 回答"分解过程质量如何 + 数值锚定率如何 + 约束满足度如何"。三者互补，缺一个故事都不完整。
 
-### 6.6 FALCA 深度分析（2026-11-17 追加）
+### 6.7 Autoresearch 系统调研（2026-11-17 追加）
+
+> 触发：D 问"能调研 autoresearch 系统吗，开源免费使用的，我需要稳定跑实验，提出修改方案，应用优化的"
+> 核心发现：最匹配的是 Arbor（hypothesis tree + backpropagate，支持本地模型）和 hugoferreira/autoresearch（falsifiable hypotheses + strict-mode firewall）。pfb 的分解树+rework 机制跟 Arbor 的 Idea Tree 几乎同构。
+
+#### 6.7.1 最匹配的系统（按推荐度排）
+
+**1. Arbor（Decentralised-AI/Arbor，RUC-NLPIR，2026-06）**
+
+- 核心机制：hypothesis tree（假设树），每个 idea 是一个分支，跑完实验后 backpropagate（把教训往树上推，后面的 idea 继承前面的经验）
+- 六步循环：Observe→Ideate→Select→Dispatch→Backpropagate→Decide
+- 隔离执行：每个实验在独立 git worktree 里跑，main 分支不动，验证通过才 merge
+- held-out 验证：dev split 上迭代，held-out test split 上验证，只有超过可配置 margin 的改进才 merge
+- 模型灵活：LiteLLM（DeepSeek/Gemini/Qwen/vLLM/Ollama/本地网关），27b 本地模型可直接接
+- 交互模式：auto / direction / review / collaborative
+- 成绩：BrowseComp 67.67（+22.34）、MLE-Bench Lite 86.36% Any-Medal、Terminal-Bench 77.36（+7.55）
+- 问题：项目新（2026-06），社区早期
+- 来源：github.com/Decentralised-AI/Arbor + RUC-NLPIR.github.io/Arbor + arXiv:2606.11926
+
+**2. hugoferreira/autoresearch**
+
+- 核心机制：falsifiable hypotheses + instrument-backed experiments + strict-mode firewall
+- 严格结论门禁：bootstrap CI 在错误方向跨零，或效果 < min_effect → "supported" 降级为 "inconclusive"
+- 独立审查：决定性结论可被 gate reviewer 接受或降级
+- 内容寻址：每个 observation content-addressed，可追溯
+- 单写者：只有 CLI 写 .research/，agent 只能通过 verb 操作
+- 适用：优化现有系统（不是从零探索）
+- 来源：github.com/hugoferreira/autoresearch
+
+**3. karpathy/autoresearch**
+
+- 核心机制：单文件（train.py）+ 固定 5 分钟预算 + val_bpb 指标 + keep/reset 协议
+- eval 冻结：agent 不能改指标，只能改 train.py
+- ~12 实验/小时，~100 实验/夜
+- 适用：ML 训练场景（nanochat），不适合 GPU 调研/bench
+- 来源：github.com/karpathy/autoresearch
+
+#### 6.7.2 跟 pfb 的对比
+
+| 维度 | Arbor | hugoferreira/autoresearch | pfb |
+|------|-------|--------------------------|-----|
+| 假设管理 | 树（Idea Tree） | 列表（.research/hypotheses/） | 分解树（153 节点） |
+| 实验隔离 | git worktree | git worktree | 无（状态机内部） |
+| 验证 | held-out margin | bootstrap CI + min_effect | judge（同族自判） |
+| 教训传播 | backpropagate 到祖先节点 | lesson layer（predicted_effect 校准） | rework events |
+| 模型 | LiteLLM（任意） | Claude Code/Codex | 本地 27b |
+| 可复现 | 源码公开 | 源码公开 | 源码可公开 |
+| 适用场景 | 通用优化 | 现有系统优化 | deep research bench |
+
+#### 6.7.3 对 pfb 的启示
+
+1. **Arbor 的 backpropagate 机制**：pfb 的 rework events 是"发现缺口→重新分解→再验证"，但没有把教训显式传播到分解树的祖先节点。如果加上"rework 后把教训往树上推"，后面的节点可以继承前面的经验
+2. **hugoferreira 的 strict-mode firewall**：pfb 的 judge 是同族自判（conf 上限 0.7），如果加上"效果 < 预测就降级为 inconclusive"的门禁，可以防 judge 偏松
+3. **karpathy 的 eval 冻结原则**：pfb 的 gold points 是"我构造的"，如果改成"冻结的 oracle"（agent 不能改 gold points，只能改状态机），防刷题的证明力更强
+4. **Arbor 支持本地模型**：如果 27b 能在 Arbor 上跑通 pfb 的 gpu 题，就是"用开源框架验证 pfb 方法论"的独立证据
 
 > 来源：arXiv:2610.28361（BAAI+THU+CASIA，2026-10-20）+ homepage（douzj-llm.github.io/FALCA）
 > 核心发现：Falsifier 是主要增益来源（ablation -11.9 最大 drop），验证了 pfb rework 机制方向正确。但 FALCA 代码未开源、搜索用本地 HNSW（非开放 web）、训练需 8×H100。
