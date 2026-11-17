@@ -1258,8 +1258,20 @@ def synthesize_answer(question: str, nodes: list, qid: str) -> dict:
             f"{n.id} ({lv}): {n.corrected_claim or n.claim}  "
             f"[status={n.status}; evidence: {(n.evidence or '')[:80]}]"
             for n in by_lv[lv])
+        # 2026-11-16 fix: 截断时保头不保尾——公式/数值集中在前段，
+        # 尾部多为检索来源列表和重复性节点。旧逻辑 seg[:6000] 保头，
+        # 但 L4 有 97 节点 24K chars，截断后丢失的恰是后半段的
+        # roofline/故障损耗/利用率等关键公式节点。改为保头+保尾。
+        if len(seg) > 12000:
+            head = seg[:8000]
+            tail = seg[-4000:]
+            seg = head + "\n[...中间省略...]\n" + tail
         p = (f"你是研究员。基于下面第 {lv} 层的已核验事实，回答原问题中该层涉及的部分。"
-             f"只写结论+数值/公式，每条标来源条目 id，不要重复其他层的内容。\n\n"
+             f"只写结论+数值/公式，每条标来源条目 id，不要重复其他层的内容。"
+             f"【关键】上面列出的每一个公式（如 TCO 公式、roofline 公式、KV Cache 计算、"
+             f"故障损耗项、利用率分解等），必须在你的回答中完整保留并代入具体数值，"
+             f"不得省略或仅定性提及。如果某条事实给出了完整公式，你的回答必须展示该公式。"
+             f"如果不同事实之间存在矛盾（如不同 head_dim 取值），取多数一致的值并注明分歧。\n\n"
              f"【问题】\n{question}\n\n【第 {lv} 层事实】\n{seg}") + _perturb()
         t0 = time.time()
         out_l, _ = call_llm(p, max_tokens=4000, temperature=0.7, top_p=0.95, retries=3)
@@ -1270,7 +1282,11 @@ def synthesize_answer(question: str, nodes: list, qid: str) -> dict:
                f"消除层间重复，最后给一个明确的推荐结论。"
                f"规则：问题问「最多/上限/提升多少/打几折」时，必须显式列出限制因素并给出其定量影响"
                f"（如频率表老化、热度漂移、容量覆盖不足），不能只讲优势不讲上限；"
-               f"比较策略时，每个策略都要给出适用限制；涉及更新/失效/折扣的，给出推导公式和代入过程。\n\n【问题】\n{question}\n\n"
+               f"比较策略时，每个策略都要给出适用限制；涉及更新/失效/折扣的，给出推导公式和代入过程。"
+               f"【关键】上面各层摘要中出现的每一个公式、数值、参数（如 TCO 公式、roofline 公式、"
+               f"KV Cache 计算、故障损耗项、利用率分解、临界阈值等），必须在最终答案中显式保留并代入具体数值，"
+               f"不得省略或仅定性提及。如果某层给出了完整公式，最终答案必须展示该公式及其代入过程。"
+               f"如果各层之间存在矛盾（如不同 head_dim 取值），取多数一致的值并注明分歧。\n\n【问题】\n{question}\n\n"
                + "\n\n".join(parts)) + _perturb()
     t0 = time.time()
     answer, _ = call_llm(merge_p, max_tokens=8000, temperature=0.7, top_p=0.95, retries=3)
