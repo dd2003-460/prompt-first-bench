@@ -86,3 +86,61 @@ L1 的「S5 ≥ GPT Researcher」判据依赖一个隐含假设：GR 在我们�
 - **定位 pfb 的结构性优势**：反过来，如果 GR 在数值锚点密集的题（GPU 规格类）上系统性偏弱、pfb 稳定领先，这是最有价值的发现——证明六阶段流水线（交叉核对+缺口标注）在精确事实核验场景提供了通用流水线给不了的能力。论文主 claim 应落在「X 类任务上 Y 模块带来 Z 提升」，而不是笼统的总分对比。
 
 真正的风险信号只有一种：GR 全面持平或更强，仅个别题 pfb 偶然赢——那说明优势来自题目偶然性而非结构。
+
+## 6. 细粒度数值调研 bench 调研（2026-11-17 追加）
+
+> 触发：D 问"我的 bench 是 GPU 调研这种颗粒度，深宽很细的大规模研究，有没有别的同类 bench？如果要可靠和宣传应该怎么做？"
+> 核心发现：现有 DR bench 全是 flat claims 或报告级 LLM judge，没有测"分解树结构质量 + 多约束同时满足 + 每节点数值锚定"的。pfb 的差异化在结构和约束维度。
+
+### 6.1 最接近的 bench（按颗粒度排序）
+
+| Bench | 出处 | 评什么 | 粒度 | 结构 | 数值锚定 | 开源 | 免费跑 |
+|-------|------|--------|------|------|---------|------|--------|
+| **LiveDRBench** | Microsoft, ICLR 2026 | 中间 claim 生成步骤的 precision/recall | 单 claim | 无（flat） | 弱 | 代码+数据公开 | 需 LLM judge（可本地） |
+| **DeepFact** | Duke+Amazon, ACL 2026 | DRR claim-level 事实性（Audit-then-Score） | 单 claim | 无 | 中 | 论文公开，数据 [待核验] | 需 LLM judge |
+| **DRACO** | Perplexity+Harvard, 2026-02 | 4 维 rubric（accuracy/completeness/presentation/citation），每题 39.3 条 | 单条 rubric | 无 | 强（20.5/39.3 条测数值） | 数据在 HF 公开 | 需 LLM judge |
+| **FALCA** | 2026-10 | 不是 bench 是方法（propose-falsify 架构） | 研究状态 | 有（Searcher-Falsifier 循环） | 中 | 论文公开 | — |
+| **DEER** | LG, ICML 2026 | 101 条 fixed rubric + 7 维 25 子维 taxonomy + claim 验证 | 单条 rubric + claim | 无 | 强 | 数据在 HF（密码 7z） | 需 LLM judge |
+| **LiveResearchBench** | Salesforce, ICLR 2026 | 100 题 expert-curated，DeepEval 6 维（coverage/depth/citation/consistency/presentation） | 报告级 + claim 级 | 无 | 中 | 代码+数据公开 | 需 LLM judge |
+| **DRBench** | ServiceNow, ICLR 2026 | 企业级 DR（公开 web + 私有 KB），100 题 10 域 | 报告级 | 无 | 中 | 代码+数据公开（github.com/ServiceNow/drbench） | 需 LLM judge |
+| **WebDetective** | ICLR 2026 | 200 道 hint-free 多跳推理题（2-6 hops） | 单答案 | 无 | 弱 | 数据公开 | 纯字符串匹配，完全免费 |
+
+### 6.2 pfb 的差异化定位
+
+**所有现有 bench 都是 flat claims 或报告级打分，没有测"分解树结构质量"的。**
+
+pfb 独有的维度：
+1. **分解树结构**：fanout cap 8、quotient 比例（≤20%）、gap_check 维度覆盖率、edge 分类（cartesian/quotient）——这些是树结构指标，flat claims 没有
+2. **多约束同时满足**：32K ctx 可行性 + TCO 全成本项 + 精度质量损失论证 + 性价比排序——不是单维打分，是约束交集
+3. **每节点数值锚定**：27.5% verified（每个 verified 节点有外部数值源），对比 LiveDRBench 上 DeepResearcher+Qwen32B 的 0.06-0.12 F1
+4. **rework 机制**：105 条 rework events 是"发现缺口→重新分解→再验证"的闭环，FALCA 的 propose-falsify 是同类思路但 pfb 有显式状态机
+
+**主 claim 不是"分数比 X 高"，而是"分解质量 + 数值锚定率 + 约束满足度"三个维度别人没有。**
+
+### 6.3 如果要可靠和宣传，最低可信度门槛
+
+1. **样本量**：≥5 题（不是 1 题），覆盖 ≥3 个领域（硬件/金融/科学），每题 ≥2 次运行取均值 ± SD
+2. **judge 一致性**：抽 20 条 judge 结果做人工标注对照，报 Cohen's κ 或 Spearman ρ（27b 同族自判的绝对值不可信，但一致率可以证明"判分不是随机的"）
+3. **结构指标独立报告**：fanout、quotient%、gap_check 覆盖率、verified 率、rework 率——这些不依赖 judge，是纯计算指标，可信度最高
+4. **数值锚定率**：verified 节点 / 总节点，每个 verified 节点必须有外部数值源（URL + 抓取时间戳）——这是最硬的指标
+5. **约束满足矩阵**：每题列出所有约束（ctx 容量、TCO 项、精度选项、价格区间），逐条标注满足/未满足/部分满足
+6. **完整 trace 公开**：源码 + 所有中间产物（节点 JSON、rework events、synth 报告、judge 输出）
+7. **对比对象**：至少 2 个开源 DRA（GPT Researcher、Open Deep Research），用同一个 judge 评
+8. **防刷题证明**：源码公开 + rubric 不是自己造的（用 DRACO/LiveDRBench 的公开 rubric）+ 完整 trace
+
+### 6.4 免费可执行路径
+
+1. **借 LiveDRBench 的 claim extraction**：对 gpu 题 synth 报告做 claim-level precision/recall，跟 OpenAI DR 的 0.48-0.61 F1 对比（需本地 27b 做 claim agreement judge）
+2. **借 DRACO 的 rubric**：从 DRACO 100 题里挑 5-10 道数值密集的题，用 pfb 状态机跑，对比 39.3 条 rubric 通过率
+3. **结构指标独立成表**：fanout/quotient%/gap_check/verified 率/rework 率，不依赖 judge，直接算
+4. **WebDetective 免费跑**：200 道多跳题，纯字符串匹配评分，不需要 LLM judge，完全免费——作为"多跳推理能力"的辅助证据
+5. **完整 trace + 源码公开**：GitHub repo，README 写清"如何复现"
+
+### 6.5 跟现有 bench 的关系（不是替代，是互补）
+
+- **LiveDRBench**：量 claim precision/recall（"说的对不对、全不全"）→ pfb 的 verified 率是它的结构升级版
+- **DRACO**：量 rubric 通过率（"数值对不对、分析深不深"）→ pfb 的多约束满足是它的约束升级版
+- **DeepFact**：量 claim 事实性（"引用是否支持 claim"）→ pfb 的 citation_check 是同类
+- **WebDetective**：量多跳推理（"能不能串起来"）→ pfb 的分解树是它的结构升级版
+
+一句话：现有 bench 回答"报告质量如何"，pfb 回答"分解过程质量如何 + 数值锚定率如何 + 约束满足度如何"。三者互补，缺一个故事都不完整。
