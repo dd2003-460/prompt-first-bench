@@ -148,58 +148,59 @@ pfb 独有的维度：
 ### 6.7 Autoresearch 系统调研（2026-11-17 追加）
 
 > 触发：D 问"能调研 autoresearch 系统吗，开源免费使用的，我需要稳定跑实验，提出修改方案，应用优化的"
-> 核心发现：最匹配的是 Arbor（hypothesis tree + backpropagate，支持本地模型）和 hugoferreira/autoresearch（falsifiable hypotheses + strict-mode firewall）。pfb 的分解树+rework 机制跟 Arbor 的 Idea Tree 几乎同构。
+> 核心发现：LMArena 本身没有专门的 autoresearch 系统，但 ResearchArena（Cornell，arXiv:2605.19156）是评测框架。最匹配的是 Arbor（hypothesis tree + backpropagate，支持本地模型）、NeuriCo（AutoResearch 循环）、Crucible（judge separation）。
 
-#### 6.7.1 最匹配的系统（按推荐度排）
+#### 6.7.1 LMArena 相关的 autoresearch 系统
 
-**1. Arbor（Decentralised-AI/Arbor，RUC-NLPIR，2026-06）**
+**LMArena 本身没有专门的 autoresearch 系统**——它是模型竞技场（arena.ai），不是研究框架。
 
-- 核心机制：hypothesis tree（假设树），每个 idea 是一个分支，跑完实验后 backpropagate（把教训往树上推，后面的 idea 继承前面的经验）
-- 六步循环：Observe→Ideate→Select→Dispatch→Backpropagate→Decide
-- 隔离执行：每个实验在独立 git worktree 里跑，main 分支不动，验证通过才 merge
-- held-out 验证：dev split 上迭代，held-out test split 上验证，只有超过可配置 margin 的改进才 merge
-- 模型灵活：LiteLLM（DeepSeek/Gemini/Qwen/vLLM/Ollama/本地网关），27b 本地模型可直接接
-- 交互模式：auto / direction / review / collaborative
-- 成绩：BrowseComp 67.67（+22.34）、MLE-Bench Lite 86.36% Any-Medal、Terminal-Bench 77.36（+7.55）
-- 问题：项目新（2026-06），社区早期
-- 来源：github.com/Decentralised-AI/Arbor + RUC-NLPIR.github.io/Arbor + arXiv:2606.11926
+**ResearchArena（Cornell，arXiv:2605.19156）**：
+- 最小 scaffold，让通用 agent（Claude Code/Codex/Kimi Code）跑完整研究循环（ideation→experiment→paper→review）
+- 13 个 CS 领域，117 篇 agent 生成的论文
+- 核心发现：实验严谨性是最大弱点——agent 经常不能规划、执行、忠实报告实验
+- 跟 pfb 的关系：ResearchArena 是评测 pfb 这类系统的 benchmark，不是 pfb 的竞品
+- 来源：arxiv.org/abs/2605.19156
 
-**2. hugoferreira/autoresearch**
+#### 6.7.2 开源 autoresearch 系统全景（按推荐度排）
 
-- 核心机制：falsifiable hypotheses + instrument-backed experiments + strict-mode firewall
-- 严格结论门禁：bootstrap CI 在错误方向跨零，或效果 < min_effect → "supported" 降级为 "inconclusive"
-- 独立审查：决定性结论可被 gate reviewer 接受或降级
-- 内容寻址：每个 observation content-addressed，可追溯
-- 单写者：只有 CLI 写 .research/，agent 只能通过 verb 操作
-- 适用：优化现有系统（不是从零探索）
-- 来源：github.com/hugoferreira/autoresearch
+| 系统 | GitHub | Stars | 核心机制 | 模型支持 | 隔离 | 验证 | 适用场景 |
+|------|--------|-------|----------|----------|------|------|----------|
+| **Arbor** | RUC-NLPIR/Arbor | [待核验] | hypothesis tree + backpropagate | LiteLLM（任意） | git worktree | held-out margin | 通用优化 |
+| **InternAgent-1.5** | InternScience/InternAgent | 1467 | 19-stage state machine + MLEvolve | 多 provider | Docker | 8-dim ScholarEval | 科学发现 |
+| **Kosmos** | jimmc414/Kosmos | 605 | 多 agent + knowledge graph | LiteLLM（100+） | Docker | 8-dim ScholarEval | 科学发现 |
+| **Sibyl** | Sibyl-Research-Team/AutoResearch-SibylSystem | 289 | 20+ agents + 19-stage pipeline | Claude Code | 无 | quality gates | ML 研究 |
+| **AutoResearchClaw** | aiming-lab/AutoResearchClaw | [待核验] | 23-stage pipeline + HITL | 多 CLI agent | Docker | 4-round audit | 端到端论文 |
+| **NeuriCo** | ChicagoHAI/NeuriCo | 163 | AutoResearch 循环（propose→execute→score→checkpoint） | Claude/Codex/Gemini | Docker | scored baseline | 通用优化 |
+| **Crucible** | eren23/crucible | 5 | fleet orchestration + judge separation | 任意（BYO） | RunPod/SSH | judge ≠ eval | ML 训练 |
+| **Mechanist** | zjunlp/Mechanist | 79 | 4-stage pipeline（claim→experiment→verify→iterate） | Claude Code | 本地 GPU | robustness validation | LLM 机制研究 |
+| **hugoferreira/autoresearch** | hugoferreira/autoresearch | [待核验] | falsifiable hypotheses + strict-mode firewall | Claude Code/Codex | git worktree | bootstrap CI | 现有系统优化 |
+| **karpathy/autoresearch** | karpathy/autoresearch | [待核验] | 单文件 + 固定预算 + eval 冻结 | 任意 | 无 | val_bpb | ML 训练 |
 
-**3. karpathy/autoresearch**
+#### 6.7.3 跟 pfb 最接近的三个
 
-- 核心机制：单文件（train.py）+ 固定 5 分钟预算 + val_bpb 指标 + keep/reset 协议
-- eval 冻结：agent 不能改指标，只能改 train.py
-- ~12 实验/小时，~100 实验/夜
-- 适用：ML 训练场景（nanochat），不适合 GPU 调研/bench
-- 来源：github.com/karpathy/autoresearch
+1. **Arbor**：hypothesis tree + backpropagate 跟你的分解树 + rework 几乎同构，支持本地模型（LiteLLM 接 vLLM）
+2. **NeuriCo**：AutoResearch 循环（propose→execute→score→checkpoint）跟你的"提修改→跑实验→验证→应用"完全一致，而且支持 Docker 隔离
+3. **Crucible**：judge separation（reward judge ≠ eval judge）跟你的"同族自判 conf 上限 0.7"是同一个问题，但 Crucible 用不同模型族解决
 
-#### 6.7.2 跟 pfb 的对比
+#### 6.7.4 优劣势总结
 
-| 维度 | Arbor | hugoferreira/autoresearch | pfb |
-|------|-------|--------------------------|-----|
-| 假设管理 | 树（Idea Tree） | 列表（.research/hypotheses/） | 分解树（153 节点） |
-| 实验隔离 | git worktree | git worktree | 无（状态机内部） |
-| 验证 | held-out margin | bootstrap CI + min_effect | judge（同族自判） |
-| 教训传播 | backpropagate 到祖先节点 | lesson layer（predicted_effect 校准） | rework events |
-| 模型 | LiteLLM（任意） | Claude Code/Codex | 本地 27b |
-| 可复现 | 源码公开 | 源码公开 | 源码可公开 |
-| 适用场景 | 通用优化 | 现有系统优化 | deep research bench |
+- **Arbor**：优势（hypothesis tree + backpropagate + 本地模型支持）、劣势（项目新、社区早期）
+- **InternAgent**：优势（1467 stars、MLEvolve #1 MLEBench、多领域）、劣势（重、需要 GPU、Docker）
+- **Kosmos**：优势（605 stars、100+ LLM provider、knowledge graph）、劣势（Docker 依赖、Neo4j 可选）
+- **Sibyl**：优势（289 stars、20+ agents、self-evolution）、劣势（只支持 Claude Code、无隔离）
+- **AutoResearchClaw**：优势（23-stage、HITL、anti-fabrication）、劣势（重、多 CLI agent 依赖）
+- **NeuriCo**：优势（AutoResearch 循环、Docker 隔离、多 provider）、劣势（163 stars、社区小）
+- **Crucible**：优势（judge separation、fleet orchestration、BYO 模型）、劣势（5 stars、早期）
+- **Mechanist**：优势（4-stage pipeline、robustness validation、本地 GPU）、劣势（79 stars、只支持 Claude Code）
+- **hugoferreira**：优势（strict-mode firewall、bootstrap CI）、劣势（重、需要 instrument 注册）
+- **karpathy**：优势（极简、eval 冻结）、劣势（只适合 ML 训练）
 
-#### 6.7.3 对 pfb 的启示
+#### 6.7.5 对 pfb 的启示
 
 1. **Arbor 的 backpropagate 机制**：pfb 的 rework events 是"发现缺口→重新分解→再验证"，但没有把教训显式传播到分解树的祖先节点。如果加上"rework 后把教训往树上推"，后面的节点可以继承前面的经验
-2. **hugoferreira 的 strict-mode firewall**：pfb 的 judge 是同族自判（conf 上限 0.7），如果加上"效果 < 预测就降级为 inconclusive"的门禁，可以防 judge 偏松
-3. **karpathy 的 eval 冻结原则**：pfb 的 gold points 是"我构造的"，如果改成"冻结的 oracle"（agent 不能改 gold points，只能改状态机），防刷题的证明力更强
-4. **Arbor 支持本地模型**：如果 27b 能在 Arbor 上跑通 pfb 的 gpu 题，就是"用开源框架验证 pfb 方法论"的独立证据
+2. **NeuriCo 的 AutoResearch 循环**：propose→execute→score→checkpoint 跟 pfb 的需求完全一致，可以借鉴它的 checkpoint 机制（每次改进都保存一个 checkpoint，可以回滚）
+3. **Crucible 的 judge separation**：pfb 的 judge 是同族自判（conf 上限 0.7），如果加上"reward judge ≠ eval judge"的门禁（用不同模型族打分），可以防 judge 偏松
+4. **ResearchArena 的评测维度**：manuscript quality / artifact quality / process quality 三个维度，pfb 的 bench 可以借鉴它的 process quality 维度（评估研究轨迹是否反映健全的方法论）
 
 > 来源：arXiv:2610.28361（BAAI+THU+CASIA，2026-10-20）+ homepage（douzj-llm.github.io/FALCA）
 > 核心发现：Falsifier 是主要增益来源（ablation -11.9 最大 drop），验证了 pfb rework 机制方向正确。但 FALCA 代码未开源、搜索用本地 HNSW（非开放 web）、训练需 8×H100。
