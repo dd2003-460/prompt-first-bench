@@ -145,7 +145,79 @@ pfb 独有的维度：
 
 一句话：现有 bench 回答"报告质量如何"，pfb 回答"分解过程质量如何 + 数值锚定率如何 + 约束满足度如何"。三者互补，缺一个故事都不完整。
 
-### 6.9 Idea 调研 + Harness 优化系统调研（2026-11-17 追加）
+### 6.10 稳定可靠的执行系统调研（2026-11-17 追加）
+
+> 触发：D 说"我的 prompt 足够优秀，苦恼的是怎么塞进一个稳定可靠的系统（hermes hook 跑这些看起来很不稳定可靠）"
+> 核心发现：最匹配的是 LangGraph（checkpoint + retry + error handler）、Orcana Runtime（typed execution graph + durable execution）、Dapr Agents（durable actors + workflows）、Pydantic AI Harness（per-step checkpoint + replay）。pfb 的状态机可以映射成 LangGraph 的 graph，每个阶段是一个节点，rework 是一个循环边。
+
+#### 6.10.1 最匹配的系统（按推荐度排）
+
+**1. LangGraph（LangChain）**
+
+- 核心机制：graph-based state machine，每个节点是一个步骤，边是状态转移
+- 稳定性机制：
+  - Checkpointing：每个 superstep 保存状态，crash 后可以从最后一个 checkpoint 恢复
+  - Retry policy：自动重试失败节点（exponential backoff + jitter）
+  - Timeout：限制单个节点运行时间
+  - Error handler：重试耗尽后运行补偿逻辑（Saga pattern）
+  - Idempotency：外部副作用用 idempotency key 防止重复执行
+- 跟 pfb 的关系：pfb 状态机（分解→验证→rework）可以映射成 LangGraph 的 graph，每个阶段是一个节点，rework 是一个循环边
+- 开源：github.com/langchain-ai/langgraph（MIT）
+- 关键发现：LangGraph 的 checkpoint 是"at-least-once"语义，外部副作用必须自己保证 idempotency
+- 来源：docs.langchain.com/oss/python/langgraph/fault-tolerance
+
+**2. Orcana Runtime（Leo-Ayh-Oday）**
+
+- 核心机制：model-agnostic agent runtime，typed execution graph（G0-G6）
+- 稳定性机制：
+  - Durable execution：stable step IDs + side-effect declarations + idempotency keys
+  - Prepared/Executing/Committed states：每个步骤有明确的状态机
+  - Crash injection：测试 crash 恢复
+  - Trace replay：可以重放执行轨迹
+- 跟 pfb 的关系：Orcana 的 typed execution graph 比 LangGraph 更严格——每个步骤有明确的状态（Prepared/Executing/Committed），crash 后不会重复执行副作用
+- 开源：github.com/Leo-Ayh-Oday/orcana-runtime（[待核验]）
+- 关键发现：Orcana 是"research-grade"，不是"production-grade"——但它的 durable execution 机制比 LangGraph 更严格
+- 来源：github.com/Leo-Ayh-Oday/orcana-runtime
+
+**3. Dapr Agents（Dapr/CNCF）**
+
+- 核心机制：durable actors + workflows，state/messaging/recovery 由 Dapr runtime 提供
+- 稳定性机制：
+  - Durable actors：每个 actor 有持久状态，crash 后自动恢复
+  - Workflows：long-running 工作流，支持 human approval gate
+  - Recovery：runtime 层自动检测失败并恢复
+- 跟 pfb 的关系：Dapr 的 durable actors 比 LangGraph 的 checkpoint 更"分布式系统"——每个 actor 有独立的持久状态，crash 后自动恢复，不需要手动触发
+- 开源：github.com/dapr/dapr（Apache 2.0）
+- 关键发现：Dapr 是"production-grade"，但学习曲线比 LangGraph 陡
+- 来源：docs.dapr.io/developing-ai/dapr-agents/dapr-agents-introduction/
+
+**4. Pydantic AI Harness（Pydantic）**
+
+- 核心机制：durable Pydantic AI agents on AWS Lambda
+- 稳定性机制：
+  - Checkpointing：每个 model request / tool call / MCP call 都 checkpoint
+  - Replay：crash 后从 checkpoint 重放，已完成的步骤不重新执行
+  - Step semantics：AT_MOST_ONCE_PER_RETRY / AT_LEAST_ONCE
+- 跟 pfb 的关系：Pydantic AI 的 checkpoint 比 LangGraph 更细粒度——每个 tool call 都 checkpoint，crash 后不会重复执行
+- 开源：github.com/pydantic/pydantic-ai（MIT）
+- 关键发现：Pydantic AI 的 checkpoint 是"per-step"，LangGraph 的 checkpoint 是"per-superstep"——Pydantic AI 更细粒度，但配置更复杂
+- 来源：pydantic.dev/articles/harness-aws-lambda
+
+#### 6.10.2 跟 pfb 的对比
+
+| 系统 | 稳定性机制 | 粒度 | 恢复方式 | 适用场景 |
+|------|----------|------|----------|----------|
+| **LangGraph** | checkpoint + retry + timeout + error handler | superstep | 手动触发（thread_id） | 通用 agent |
+| **Orcana** | durable execution + typed execution graph | step（Prepared/Executing/Committed） | 自动（crash injection） | research-grade agent |
+| **Dapr** | durable actors + workflows | actor | 自动（runtime 层） | production-grade agent |
+| **Pydantic AI** | checkpoint + replay | step（per tool call） | 自动（AWS Lambda） | cloud-native agent |
+
+#### 6.10.3 对 pfb 的启示
+
+1. **LangGraph 的 checkpoint + retry + error handler**：pfb 状态机可以映射成 LangGraph 的 graph，每个阶段是一个节点，rework 是一个循环边。LangGraph 的 checkpoint 可以防止"跑一半 crash 了要从头来"
+2. **Orcana 的 typed execution graph**：pfb 状态机（分解→验证→rework）可以加上"Prepared/Executing/Committed"状态，crash 后不会重复执行副作用
+3. **Dapr 的 durable actors**：如果 pfb 要扩展到"多 agent 协作"，Dapr 的 durable actors 比 LangGraph 的 checkpoint 更"分布式系统"
+4. **Pydantic AI 的 per-step checkpoint**：如果 pfb 要"每个 tool call 都 checkpoint"，Pydantic AI 的机制比 LangGraph 更细粒度
 
 > 触发：D 问"他们缺少 idea 调研和相关应用"
 > 核心发现：最匹配的是 Arbor（hypothesis tree + insight 传播 + harness engineering）、AutoResearchClaw（23-stage pipeline，idea→paper）、CoAutoResearch（recursive self-improvement）。pfb 的分解树已经有结构，但缺少"insight 从子节点抽象到父节点"的机制。
