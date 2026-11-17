@@ -145,7 +145,75 @@ pfb 独有的维度：
 
 一句话：现有 bench 回答"报告质量如何"，pfb 回答"分解过程质量如何 + 数值锚定率如何 + 约束满足度如何"。三者互补，缺一个故事都不完整。
 
-### 6.7 Autoresearch 系统调研（2026-11-17 追加）
+### 6.8 Harness 优化系统调研（2026-11-17 追加）
+
+> 触发：D 问"他们的实验看起来都是训练，我这种针对 harness 的优化呢"
+> 核心发现：最匹配的是 ReASearch（prompt optimization，controller-light）、VeRO（agent optimization harness，versioned snapshots）、Meta-Harness（harness code 搜索）、Turbo Harness（instance-adaptive harness）。pfb 的状态机是 harness code，Meta-Harness 的方法可以直接用。
+
+#### 6.8.1 最匹配的系统（按推荐度排）
+
+**1. ReASearch（Snowflake AI Research，COLM 2026）**
+
+- 核心机制：controller-light framework，agent 自主决定"评估什么、诊断失败、做哪些编辑、何时验证/重启"
+- 三个场景：prompt optimization / program evolution / ML workflow optimization
+- 跟 pfb 的关系：pfb 是 prompt + hook（不改权重），ReASearch 的 prompt optimization 场景跟 pfb 需求完全一致
+- 性能：14 个任务，比 specialized 系统好 2%-40%，Circle Packing 上超过人类最佳
+- 开源：github.com/Snowflake-AI-Research/ReASearch
+- 关键发现：复杂搜索行为（回退、重启、exploit vs explore）从 agent 推理中自然涌现，不需要显式 controller
+- 来源：arxiv.org/abs/2608.06714
+
+**2. VeRO（Scale AI，arXiv:2602.22480）**
+
+- 核心机制：evaluation harness for agents to optimize agents——versioned snapshots + budget-controlled evaluation + structured execution traces
+- 跟 pfb 的关系：pfb 需要"稳定跑实验 + 验证改进是真实的"，VeRO 的 versioned snapshots + structured traces 正好解决
+- 开源：github.com/scaleapi/vero
+- 关键发现：current optimizers 默认改 prompt，很少改结构（control flow / tool logic）——跟 pfb 状态机优化是同一个问题
+- 来源：arxiv.org/abs/2602.22480
+
+**3. Meta-Harness（arXiv:2603.28052）**
+
+- 核心机制：outer-loop system that searches over harness code——agentic proposer 访问所有 prior candidates 的 source code / scores / execution traces
+- 跟 pfb 的关系：pfb 状态机是 harness code，Meta-Harness 直接搜索 harness code 空间
+- 性能：
+  - online text classification：比 SOTA context management 好 7.7 分，context tokens 少 4×
+  - retrieval-augmented math reasoning：200 道 IMO 级题目，5 个 held-out 模型平均好 4.7 分
+  - agentic coding：TerminalBench-2 超过 best hand-engineered baselines
+- 开源：[待核验]（arXiv 论文有，GitHub 需确认）
+- 来源：arxiv.org/abs/2603.28052
+
+**4. Turbo Harness（arXiv:2609.40330）**
+
+- 核心机制：instance-adaptive harness optimization——reuse artifacts from global harness optimization，train a harness editor to generate instance-specific patches
+- 跟 pfb 的关系：pfb 有 gpu 题和 nat 题，Turbo Harness 的"instance-specific patches"正好解决"不同题目需要不同 harness 配置"
+- 开源：github.com/Tyrion58/turbo-harness
+- 性能：7 个 benchmark，consistently outperforms existing harness optimization baselines
+- 来源：arxiv.org/abs/2609.40330
+
+**5. SIA-W（arXiv:2605.27276，ICML 2026 Workshop）**
+
+- 核心机制：self-improving agent framework that jointly optimizes agent scaffold (tools, prompts, execution harnesses) and model weights through test-time RL
+- 跟 pfb 的关系：pfb 只优化 scaffold（不改权重），SIA-W 同时优化 scaffold + weights——如果 27b 本地模型能跑 test-time RL，是扩展方向
+- 开源：[待核验]
+- 边界：weight updates 需要 test-time RL computation，不是纯 prompt + hook
+- 来源：arxiv.org/abs/2605.27276
+
+#### 6.8.2 跟 pfb 的对比
+
+| 系统 | 优化对象 | 隔离机制 | 验证机制 | 模型支持 | 适用场景 |
+|------|----------|----------|----------|----------|----------|
+| **ReASearch** | prompt / program / ML workflow | 无（agent 自主） | train/val/test split | 任意（GPT-4.1 mini 示例） | prompt 优化 |
+| **VeRO** | agent scaffold（prompt + tools + orchestration） | versioned snapshots | budget-controlled eval + structured traces | 任意（scaffold-agnostic） | agent 优化 |
+| **Meta-Harness** | harness code（prompt + retrieval + state update） | filesystem（prior candidates） | scores + execution traces | 任意（coding agent） | harness 搜索 |
+| **Turbo Harness** | harness（global → instance-specific） | playbook（structured） | 7 benchmarks | 任意（harness editor） | instance-adaptive |
+| **SIA-W** | scaffold + weights | test-time RL | 3 domains（LawBench / GPU kernel / single-cell RNA） | 任意（test-time RL） | 联合优化 |
+
+#### 6.8.3 对 pfb 的启示
+
+1. **ReASearch 的 controller-light 设计**：pfb 状态机是显式 controller（分解→验证→rework），ReASearch 证明"复杂搜索行为从 agent 推理中自然涌现"——如果把状态机改成"agent 自主决定何时分解/验证/rework"，可能更灵活
+2. **VeRO 的 versioned snapshots**：pfb 需要"稳定跑实验 + 验证改进是真实的"，VeRO 的 versioned snapshots + structured traces 正好解决——每次优化保存一个 snapshot，可以回滚
+3. **Meta-Harness 的 harness code 搜索**：pfb 状态机是 harness code，Meta-Harness 直接搜索 harness code 空间——如果把状态机参数（fanout cap / quotient threshold / rework trigger）改成 searchable space，Meta-Harness 的方法可以直接用
+4. **Turbo Harness 的 instance-adaptive**：pfb 有 gpu 题和 nat 题，Turbo Harness 的"instance-specific patches"正好解决"不同题目需要不同 harness 配置"
+5. **SIA-W 的联合优化**：如果 27b 本地模型能跑 test-time RL，SIA-W 的"jointly optimize scaffold + weights"是扩展方向——但需要 GPU，不是纯 prompt + hook
 
 > 触发：D 问"能调研 autoresearch 系统吗，开源免费使用的，我需要稳定跑实验，提出修改方案，应用优化的"
 > 核心发现：LMArena 本身没有专门的 autoresearch 系统，但 ResearchArena（Cornell，arXiv:2605.19156）是评测框架。最匹配的是 Arbor（hypothesis tree + backpropagate，支持本地模型）、NeuriCo（AutoResearch 循环）、Crucible（judge separation）。
