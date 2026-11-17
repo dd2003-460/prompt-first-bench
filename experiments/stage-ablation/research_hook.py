@@ -983,6 +983,9 @@ def research_hook(qid, question, max_results=8, enable_local=True):
     # 中英文查询都走 DDG lite（2026-11-15 修正：中文 query 走 arXiv 无效——
     # arXiv 只索引英文论文，中文 query 匹配到 β-Pictoris/LaFeAsO 等无关物理论文。
     # DDG lite 支持中文搜索，对 cache invalidation 等学术概念也有效。）
+    # 2026-11-17: DDG lite 被 TLS 阻断（ERR_CONNECTION_CLOSED，本机网络环境变化），
+    # 实测 bing 国际版纯 HTTP 1.3s 返回 3 条干净中文结果（sohu/eet-china）。
+    # 双通道：DDG 优先（保留原行为），DDG 空 → bing 兜底。
     remaining = max_results - len(sources)
     if remaining > 0:
         try:
@@ -990,6 +993,12 @@ def research_hook(qid, question, max_results=8, enable_local=True):
                 _add(r, "ddg")
         except Exception:
             pass
+        if len(sources) < max_results:
+            try:
+                for r in _bing_search(question, max_results=min(3, max_results - len(sources))):
+                    _add(r, "bing")
+            except Exception:
+                pass
 
     # ── 2.6 来源深抓（~2-5s/source，为 DDG/wiki 返回的源补充 snippet）──
     # 2026-11-16: DDG lite 被 anomaly 限流时返回的源 snippet 为空，
