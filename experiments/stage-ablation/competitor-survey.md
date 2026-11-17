@@ -99,7 +99,7 @@ L1 的「S5 ≥ GPT Researcher」判据依赖一个隐含假设：GR 在我们�
 | **LiveDRBench** | Microsoft, ICLR 2026 | 中间 claim 生成步骤的 precision/recall | 单 claim | 无（flat） | 弱 | 代码+数据公开 | 需 LLM judge（可本地） |
 | **DeepFact** | Duke+Amazon, ACL 2026 | DRR claim-level 事实性（Audit-then-Score） | 单 claim | 无 | 中 | 论文公开，数据 [待核验] | 需 LLM judge |
 | **DRACO** | Perplexity+Harvard, 2026-02 | 4 维 rubric（accuracy/completeness/presentation/citation），每题 39.3 条 | 单条 rubric | 无 | 强（20.5/39.3 条测数值） | 数据在 HF 公开 | 需 LLM judge |
-| **FALCA** | 2026-10 | 不是 bench 是方法（propose-falsify 架构） | 研究状态 | 有（Searcher-Falsifier 循环） | 中 | 论文公开 | — |
+| **FALCA** | BAAI+THU+CASIA, 2026-10 (arXiv:2610.28361) | 不是 bench 是方法（propose-falsify 架构 + SFT+RL） | 研究状态 | 有（Searcher-Falsifier 双 agent） | 中 | 论文公开，**代码未开源** | 不能（需 8×H100 训练） |
 | **DEER** | LG, ICML 2026 | 101 条 fixed rubric + 7 维 25 子维 taxonomy + claim 验证 | 单条 rubric + claim | 无 | 强 | 数据在 HF（密码 7z） | 需 LLM judge |
 | **LiveResearchBench** | Salesforce, ICLR 2026 | 100 题 expert-curated，DeepEval 6 维（coverage/depth/citation/consistency/presentation） | 报告级 + claim 级 | 无 | 中 | 代码+数据公开 | 需 LLM judge |
 | **DRBench** | ServiceNow, ICLR 2026 | 企业级 DR（公开 web + 私有 KB），100 题 10 域 | 报告级 | 无 | 中 | 代码+数据公开（github.com/ServiceNow/drbench） | 需 LLM judge |
@@ -144,3 +144,77 @@ pfb 独有的维度：
 - **WebDetective**：量多跳推理（"能不能串起来"）→ pfb 的分解树是它的结构升级版
 
 一句话：现有 bench 回答"报告质量如何"，pfb 回答"分解过程质量如何 + 数值锚定率如何 + 约束满足度如何"。三者互补，缺一个故事都不完整。
+
+### 6.6 FALCA 深度分析（2026-11-17 追加）
+
+> 来源：arXiv:2610.28361（BAAI+THU+CASIA，2026-10-20）+ homepage（douzj-llm.github.io/FALCA）
+> 核心发现：Falsifier 是主要增益来源（ablation -11.9 最大 drop），验证了 pfb rework 机制方向正确。但 FALCA 代码未开源、搜索用本地 HNSW（非开放 web）、训练需 8×H100。
+
+#### 架构
+
+- **Searcher-Falsifier 双 agent**：Searcher 提候选假设 → 独立 Falsifier（contradiction-first）找反例/查未满足约束/识别冲突 → 返回结构化 falsification report（verdict: reject/survive/uncertain + 被否约束 + 证据 + 建议后续搜索）→ Searcher 修订研究状态 → 循环
+- **5 个工具**：Search（batched queries）/ Visit（webpage 摘要）/ Update Context（压缩研究状态：verified facts + unresolved constraints + plans）/ Finish（终止+最终答案）/ Refute（Falsifier 返回结构化对抗报告）
+- **共享 evidence environment**：Searcher 和 Falsifier 用同一个搜索+浏览工具，但各自独立 context
+- **研究状态**：压缩文本（非结构化树），通过 Update Context 维护
+
+#### 成绩（4B 模型，5 个 benchmark）
+
+| 配置 | BrowseComp | GAIA | DeepSearchQA | xbench-2510 | WideSearch-en | 均值 |
+|------|-----------|------|-------------|-------------|---------------|------|
+| Qwen3.5-4B（默认 harness） | 32.7 | 65.0 | 62.6 | 45.0 | 53.9 | 51.8 |
+| Qwen3.5-4B（+Falsifier harness） | 39.0 | 62.1 | 63.3 | 49.0 | 64.3 | 55.5 |
+| **FALCA-4B**（+SFT+RL） | **56.0** | **72.8** | **70.8** | **58.0** | **65.8** | **64.7** |
+| Qwen3.5-9B（同 harness） | 41.4 | 68.0 | 65.0 | 48.0 | 67.2 | 57.9 |
+| Tongyi-DeepResearch-30B | 43.4 | 70.9 | – | 55.0 | – | ~55 |
+| GPT-5 | 54.9 | 76.4 | 79.0 | 75.0 | 59.7 | ~65 |
+| Gemini-3.1-Pro | 85.9 | 80.6 | 93.3 | 53.0 | 66.4 | ~75.6 |
+
+#### Ablation
+
+| 变体 | 均值 | Δ |
+|------|------|---|
+| FALCA（完整） | 64.7 | — |
+| w/o Falsifier | 52.8 | **-11.9**（最大 drop） |
+| w/o Agentic RL | 60.5 | -4.2 |
+| w/o Process-level Reward | 60.1 | -4.6 |
+
+**Falsifier 是主要增益来源**，RL 和 process reward 是次要的。
+
+#### 训练
+
+- **SFT warmup**：在 falsification trajectories 上做 rejection sampling（保留正确答案+有效工具交互+充分证据支持的轨迹），masked LM 目标（mask 环境观测）
+- **Agentic RL**：PPO-style，hierarchical credit assignment（trajectory→segment→turn 三级 reward），parallel rollouts（n 条轨迹并行），asynchronous trajectory execution + asynchronous process evaluation
+- **Turn-level reward**：LLM judge（Qwen3.5-35B-A3B）给每个 turn 打分 s_t ∈ {-1, 0, 1, 2}（harmful/neutral/useful/critical）
+- **Segment-level reward**：多跳任务的 subgoal 完成信号，均匀分配到对应研究阶段
+- **Trajectory-level reward**：最终答案正确性（exact match + LLM judge）
+- **硬件**：8× NVIDIA H100 80GB
+- **搜索工具**：本地 HNSW 索引（BGE-m3 embedding），**不是开放 web 搜索**
+
+#### 问题
+
+1. **代码未开源**（截至 2026-11-17）。GitHub 搜不到 repo，homepage 只有论文和结果表
+2. **搜索用本地 HNSW**（固定语料），不是开放 web——结果不能直接跟开放 web 系统比
+3. **训练成本极高**：8×H100，SFT+RL 两阶段
+4. **Falsifier 用同一 4B backbone**：falsification 能力受限于 4B 推理能力，如果 Falsifier 自己不懂，找到的"反例"可能是假的
+5. **WideSearch-en 增益最小**：falsification 在"广覆盖"任务上收益有限，主要在"约束密集+多步验证"任务上有效
+
+#### 跟 pfb 的对比
+
+| 维度 | FALCA | pfb |
+|------|-------|-----|
+| 架构 | Searcher + 独立 Falsifier（双 agent） | 单状态机（分解→验证→rework） |
+| Falsification | 显式 Falsifier agent，contradiction-first | rework 机制（发现缺口→重新分解→再验证） |
+| 研究状态 | Update Context 压缩（verified facts + unresolved constraints + plans） | 分解树（cartesian/quotient 边、层级、fanout） |
+| 训练 | SFT + agentic RL（8×H100） | 无训练（prompt + hook，不改权重） |
+| 搜索 | 本地 HNSW（BGE-m3） | 开放 web（DDG/wiki/arxiv/ego-browser） |
+| 约束 | 任务约束（answer type, hard/soft constraints） | 多约束（32K ctx、TCO、精度、价格） |
+| 结构 | flat（research state 是压缩文本） | **树结构**（153 节点、6 顶层维度、edge 分类） |
+| 可复现 | 代码未开源 | 源码可公开 |
+
+#### 对 pfb 的启示
+
+1. **FALCA 证明 falsification 是主要增益来源**（-11.9 最大 drop）→ 验证 pfb rework 机制方向正确
+2. **双 agent vs 单 agent**：FALCA 的 Falsifier 是独立 agent（避免 confirmation bias），pfb 的 rework 是同一状态机内部循环（省 token 但可能有 self-confirmation bias）。pfb 的 27.5% verified 率 vs FALCA 的 4B 模型 58.0 xbench——不同 benchmark 不可直接比，但 pfb 在开放 web 上跑（更难），FALCA 在本地 HNSW 上跑（更受控）
+3. **hierarchical credit assignment**（trajectory→segment→turn）跟 pfb 的 gain 轨迹（r1 0.968→r2 0.916→r3 0.892）思路类似——过程级信号比终局信号更有信息量
+4. **如果 pfb 在开放 web 上能拿到 FALCA 在本地 HNSW 上的分数**，那是更强的 claim（开放 web 更难、更真实）
+5. **FALCA 的 harness 部分（5 工具 + Searcher-Falsifier 循环）理论上可以用 prompt 实现**（不需要训练），但效果会差（55.5 vs 64.7）——pfb 的 rework 机制本质上就是 prompt 版的 falsification
