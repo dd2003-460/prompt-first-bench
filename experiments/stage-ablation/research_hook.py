@@ -701,10 +701,13 @@ const links = await page.evaluate(() => {{
   const domain = window.location.hostname;
   const seen = new Set();
   const out = [];
-  // 1. 常规 <a> 标签
+  // 1. 常规 <a> 标签（2026-11-18 修复：ChatGPT 引用链接带 utm_source=chatgpt.com，
+  // 被 !h.includes(domain) 误过滤；改为只过滤 chatgpt.com/c/ 和 chatgpt.com/g/ 的导航链接）
   for (const a of document.querySelectorAll("a")) {{
     const h = a.href;
-    if (h && !h.includes(domain) && !h.startsWith("#") && !h.startsWith("javascript:") && /^https?:/.test(h) && !seen.has(h)) {{
+    if (h && !h.startsWith("#") && !h.startsWith("javascript:") && /^https?:/.test(h) && !seen.has(h)) {{
+      // 过滤 chatgpt.com 的导航/会话链接
+      if (h.includes(domain) && (/\/c\//.test(h) || /\/g\//.test(h))) continue;
       seen.add(h);
       out.push(h);
     }}
@@ -723,7 +726,9 @@ const links = await page.evaluate(() => {{
   const textUrls = bodyText.match(urlRegex) || [];
   for (const u of textUrls) {{
     const clean = u.replace(/[).,;!?]+$/, '');
-    if (!clean.includes(domain) && !seen.has(clean)) {{
+    // 同样过滤 chatgpt.com 的导航/会话链接
+    if (clean.includes(domain) && (/\/c\//.test(clean) || /\/g\//.test(clean))) continue;
+    if (!seen.has(clean)) {{
       seen.add(clean);
       out.push(clean);
     }}
