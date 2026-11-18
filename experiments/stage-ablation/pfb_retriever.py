@@ -78,9 +78,20 @@ class PfbRetriever:
 
 
 def install_pfb_retriever():
-    """monkey-patch gptr 的 get_retriever，让 'pfb' 名字返回 PfbRetriever。"""
-    import gpt_researcher.actions.retriever as _ret
+    """monkey-patch gptr，让 'pfb' 名字返回 PfbRetriever。
 
+    两处 patch（缺一会被 gptr 内部回退成默认 tavily）：
+    1. get_retriever（actions/retriever.py）：名字→类 的分发。
+    2. get_all_retriever_names（retrievers/utils.py）：config 白名单校验。
+       config.parse_retrievers 用它校验 RETRIEVER 环境变量，'pfb' 不在
+       白名单会抛 ValueError 回退 tavily（smoke test 实测踩到这道关卡）。
+       白名单来源 = retrievers 目录子目录名 + entry_points 插件名，
+       函数内 import 每次从 utils 模块取当前值，patch 模块属性即生效。
+    """
+    import gpt_researcher.actions.retriever as _ret
+    import gpt_researcher.retrievers.utils as _utils
+
+    # patch 1: get_retriever 名字→类
     _orig_get_retriever = _ret.get_retriever
 
     def _patched_get_retriever(name):
@@ -89,8 +100,18 @@ def install_pfb_retriever():
         return _orig_get_retriever(name)
 
     _ret.get_retriever = _patched_get_retriever
-    # 同时 patch get_retrievers（它内部调 get_retriever，但为了安全也 patch 一下）
-    # get_retrievers 里用的是模块级 get_retriever，所以 patch 模块属性就够了
+
+    # patch 2: get_all_retriever_names 白名单
+    _orig_get_names = _utils.get_all_retriever_names
+
+    def _patched_get_names():
+        names = _orig_get_names()
+        if "pfb" not in names:
+            names.append("pfb")
+        return names
+
+    _utils.get_all_retriever_names = _patched_get_names
+
     print("[PFB-RETRIEVER] installed: gptr 'pfb' → s5 research_hook + ego-direct", flush=True)
 
 
