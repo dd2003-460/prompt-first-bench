@@ -180,7 +180,7 @@ def _wiki_search(query, max_results=3):
     双语言策略（2026-11-12 drb-1 r2）：中文题 en-wiki 零命中且 DDG/cn.bing 垃圾源，
     zh.wikipedia.org 是中文事实的主力通道——先查含 CJK 字符则 zh-first+en-supplement，
     否则 en-first（保持 GPU 等英文题原有行为不变）。"""
-    import urllib.request, time as _time
+    import urllib.request, urllib.error, time as _time
     has_cjk = bool(re.search(r'[\u4e00-\u9fff]', query))
     langs = ["zh", "en"] if has_cjk else ["en"]
     results = []
@@ -192,7 +192,15 @@ def _wiki_search(query, max_results=3):
             url = (f"https://{lang}.wikipedia.org/w/api.php?action=query&list=search"
                    f"&srsearch={quote_plus(query)}&format=json&srlimit={max_results}")
             req = urllib.request.Request(url, headers={"User-Agent": "pfb-research/1.0"})
-            d = json.load(urllib.request.urlopen(req, timeout=15))
+            try:
+                d = json.load(urllib.request.urlopen(req, timeout=15))
+            except urllib.error.HTTPError as he:
+                if he.code == 429:
+                    # rate limit: backoff 5s 重试一次
+                    _time.sleep(5)
+                    d = json.load(urllib.request.urlopen(req, timeout=15))
+                else:
+                    raise
             for h in d.get("query", {}).get("search", []):
                 title = h["title"]
                 if title in seen_titles or len(results) >= max_results:
@@ -268,7 +276,7 @@ def _bing_search(query, max_results=3):
     """
     import urllib.request, html as _html, base64
     try:
-        url = ("https://www.bing.com/search?q=" + quote_plus(query) + "&setlang=en&count=" + str(max_results))
+        url = ("https://www.bing.com/search?q=" + quote_plus(query) + "&setlang=en&mkt=en-US&count=" + str(max_results))
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (pfb-research)"})
         html_txt = urllib.request.urlopen(req, timeout=15).read().decode("utf-8", errors="replace")
         results = []
@@ -594,6 +602,9 @@ def _webllm_search(query, max_results=3):
         ("chatgpt", "https://chatgpt.com/"),
         # deepseek 2026-11-15 实测登录墙（/a/chat 弹验证码注册页）→ 摘除；恢复需先登录
         # ("deepseek", "https://chat.deepseek.com/a/chat"),
+        # GLM (2026-11-17): 实测需登录才能输入，不可用。Kimi 同样无输出。
+        # 恢复需先登录 chatglm.cn 会话。
+        # ("glm", "https://chatglm.cn/main/csqa"),
     ]
     results = []
     for name, url in endpoints:
@@ -627,25 +638,21 @@ const input = await page.evaluate(() => {{
 if (!input) {{ console.log(JSON.stringify({{ error: "NO_INPUT" }})); return; }}
 await page.waitForTimeout(300);
 
-// 读取 query 文件，用 evaluate 输入（ego-browser 的 page.fill 对 contenteditable 不可靠）
-const fs = require('fs');
+// 用 page.fill 输入（2026-11-18 实测：evaluate 设 textContent 对 Lexical contenteditable 不触发
+// 内部状态更新，Perplexity 输入框为空；page.fill 走 Playwright 的 fill API 能正确触发）
 const inputResult = await page.evaluate((q) => {{
   const sel = ['[role="textbox"]', 'textarea', '[contenteditable="true"]', 'input[type="text"]'];
   for (const s of sel) {{
     const el = document.querySelector(s);
-    if (el) {{
-      el.focus();
-      el.textContent = q;
-      el.dispatchEvent(new Event('input', {{ bubbles: true }}));
-      return s;
-    }}
+    if (el) {{ el.focus(); return s; }}
   }}
   return null;
-}}, {json.dumps(query)});
+}});
 if (!inputResult) {{
   console.log(JSON.stringify({{ error: "NO_INPUT_SEL" }}));
   return;
 }}
+await page.fill(inputResult, {json.dumps(query)});
 await page.waitForTimeout(300);
 await page.keyboard.press("Enter");
 
@@ -1123,11 +1130,19 @@ def research_hook(qid, question, max_results=8, enable_local=True):
             print(f"  [WEBLLM-SKIP] {qid}: {str(e)[:100]}", file=sys.stderr)
 
     # ── 3. arXiv API（~12s/query，学术文献）──
-    # v3.1 (2026-11-09): s5-node 通道不再走题级预设查询词——节点 query 是 L2/L3 子维度
-    # （如 "GPU depreciation rate"），用它查 arXiv 只会捞回无关论文；而本地语料/百科/DDG
-    # 已覆盖规格与定义类事实。只有题级 qid（Q1-Q8/S5-*）才用预设查询词。
+    # v3.2 (2026-11-17): s5-node 用 slim query 查 arXiv（不再跳过）。
+    # 节点 query 是 L2/L3 子维度（如 "GPU depreciation rate"），slim 后 ≤6 词，
+    # arXiv 能匹配到相关论文。之前跳过是因为长 query 捞回无关论文，slim 解决了这个问题。
     if qid == "s5-node":
-        queries = []  # skip arxiv for node-level queries
+        # 中文 query 的 slim 结果可能全是中文（arXiv 只索引英文），
+        # 此时用原始 question 的前 5 个英文词（如果有）
+        _slimmed = _slim_query(question, max_words=5)
+        if re.search(r'[\u4e00-\u9fff]', _slimmed):
+            # 提取英文词
+            _en_words = re.findall(r'[A-Za-z0-9]{3,}', question)
+            queries = [' '.join(_en_words[:5])] if _en_words else [_slimmed]
+        else:
+            queries = [_slimmed]
     else:
         queries = ARXIV_QUERIES.get(qid, [question])
     n_arxiv_relevant = 0
@@ -1144,7 +1159,7 @@ def research_hook(qid, question, max_results=8, enable_local=True):
         except (ResearchHookUnavailable, Exception):
             continue
 
-    if n_arxiv_relevant < 2 and qid != "s5-node":
+    if n_arxiv_relevant < 2:
         print(f"  [RESEARCH-GAP] {qid}: arXiv returned only {n_arxiv_relevant} result(s); "
               f"other channels compensate", file=sys.stderr)
 
