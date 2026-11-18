@@ -226,6 +226,61 @@ P3_VERIFY = (
     "\"evidence\": \"一句话说明依据（引用来源编号）\", \"corrected_claim\": \"若 failed/degraded，给出修正后的表述；否则空字符串\"}}"
 )
 
+# D2 消融臂（no_challenge）专用：与 P3_VERIFY 唯一差异是去掉【第一步 — 反方质询】，
+# 其余（逻辑校验/外部核验/判定规则/经验事实排除/公式豁免/来源标记）完全一致，
+# 保证单变量对照。编号相应前移：逻辑校验=第一步，外部核验=第二步。
+P3_VERIFY_NC = (
+    "你是事实核验员。针对下面这个关键事实节点，执行两步检查：\n\n"
+    "【第一步 — 逻辑校验】该陈述在逻辑上是否自洽？量纲/量级是否合理？"
+    "是否存在内部矛盾或明显违背基本物理/经济直觉的地方？\n\n"
+    "【第二步 — 外部核验】先判断参考来源与该事实是否相关（主题/领域是否匹配），再在相关性成立时判断是否有明确支持。"
+    "支持强度：直接支持 / 间接支持 / 无关 / 矛盾。注意：若全部来源均与该事实主题无关，外部核验记为「无可用外部证据」——"
+    "此时只能依据第一步逻辑校验判定，不得因来源不相关而判 failed，也不得把「来源无关」写成「来源支持」。\n\n"
+    "【判定规则】\n"
+        "- verified: 逻辑自洽，且满足以下任一条件：(a) 至少一个来源直接支持；(b) 该事实可从第一性原理/题面条件推出且无来源与之矛盾；(c) 两个或以上独立来源给出一致或兼容的数值/结论（即使没有单一来源'直接陈述'）；\n"
+        "- degraded: 逻辑自洽但仅有一个间接来源、且无法排除其他可能性 → 保留但降级为定性表述；\n"
+        "- failed: 仅当该陈述与参考来源明确矛盾，或存在硬逻辑错误（量纲错/内部矛盾）时才判 failed。\n"
+        "注意：来源未覆盖 ≠ 错误。数学性质、统计规律这类可从第一性原理推出的事实，"
+        "若逻辑校验通过且无来源与之矛盾，应判 verified 并在 evidence 里注明「逻辑推导成立，来源未直接覆盖」；"
+        "不要仅因检索结果不相关就判 failed。\n"
+        "【经验事实排除条款】条件 (b) 仅适用于可从第一性原理/数学公理/题面条件严格推出的事实"
+        "（如数学性质、物理定律推论、逻辑恒等式）。经验事实——硬件规格（带宽/显存/制程/功耗）、"
+        "市场价格、具体版本号、API 参数默认值、产品发布日期——不属于第一性原理可推出范畴，"
+        "不适用条件 (b)：此类事实若仅有逻辑自洽而无来源直接支持 (a) 或多源一致 (c)，"
+        "应判 degraded 而非 verified，evidence 注明「经验事实，逻辑自洽但缺来源支持」。\n"
+        "【硬性约束】本条款仅适用于 source=search 的节点。"
+        "source=given/knowledge 的节点：逻辑自洽即判 verified，无论 claim 是否含经验参数、公式推导、或理论模型结论。"
+        "禁止对 given/knowledge 节点引用本条款降级。若你正在考虑对 given/knowledge 节点写「经验事实…缺来源支持」→ 停，这是错误的，应判 verified。\n"
+        "【公式/推导类豁免（2026-11-16）】source=search 的节点，若 claim 核心是数学公式/推导/不等式/期望值/积分/量纲分析"
+        "（含 ∫、≥、≤、E[·]、Σ、∂、≈ 等数学符号，或「下界/上界/收敛性/方差/命中率公式」等推导性表述），"
+        "则不要求外部来源直接支持——逻辑自洽 + 量纲合理即判 verified，evidence 注明「公式/推导类，逻辑校验通过，来源未直接覆盖」。"
+        "此豁免不适用于经验数值断言（如「命中率提升 5-15 个百分点」）——数值仍需来源支持。\n"
+    "【来源标记】\n该节点的 source 标记为 {source}。若 source 为 given 或 knowledge：核验重点变为「逻辑自洽 + 数值量级合理」，无需外部来源支持即可判 verified（evidence 注明「先验知识/题面给定，逻辑校验通过」）；经验事实排除条款对 given/knowledge 节点不适用——模型先验知识中的稳定工程参数（如 LRU 命中率量级、Zipf 指数典型值）属于 knowledge 范畴，逻辑自洽即判 verified。若 source 为 search：按上方判定规则（含经验事实排除条款）执行外部核验。\n\n"
+    "【关键事实节点】\n{node_id}: {claim}\n\n"
+    "【参考来源】\n{sources_block}\n\n"
+    "只输出 JSON：{{\"status\": \"verified|degraded|failed\", \"logic_ok\": true/false,\n"
+    "\"evidence\": \"一句话说明依据（引用来源编号）\", \"corrected_claim\": \"若 failed/degraded，给出修正后的表述；否则空字符串\"}}"
+)
+
+
+def verify_node_nc(node, srcs):
+    """P3 no-challenge 版：单节点逻辑+外部核验（无反方质询）。
+
+    D2 消融臂（no_challenge）专用。与 verify_node 唯一差异是去掉第一步反方质询，
+    其余判定逻辑完全一致，保证单变量对照。返回 (status, evidence, corrected_claim, raw)。"""
+    prompt = P3_VERIFY_NC.format(
+        node_id=node["id"], claim=node["claim"],
+        source=node.get("source", "search"),
+        sources_block=sources_block(srcs)) + _perturb()
+    out, _ = call_llm(prompt, max_tokens=1200, temperature=0, top_p=1.0, enable_thinking=False)
+    d = _extract_json(out or "") or {}
+    status = d.get("status")
+    if status not in ("verified", "degraded", "failed"):
+        status = "degraded"
+    ev = d.get("evidence", "")
+    return status, ev, d.get("corrected_claim", ""), out
+
+
 P4_SYNTHESIZE = (
     "你是严谨的研究员。下面是一道问题和一组已经过核验的事实节点表。"
     "请基于这些事实做封闭推理，给出最终答案。\n\n"
@@ -355,29 +410,69 @@ def gap_check(question, existing_nodes):
 
 
 def search_node(node, qid="gpu"):
-    """P2: 对该节点做真实联网检索 (arXiv API via ego-browser)。失败降级为空。
+    """P2: 对该节点做真实联网检索。失败降级为空。
     given/knowledge 节点不触发检索（逻辑核验即可）；search 节点全部真实联网（无预算上限）。
 
+    2026-11-18 自适应检索（D提议）：
+    1. 跑 research_hook（固定通道）
+    2. LLM 检查相关性：来源是否真的支持 claim
+    3. 不相关 → LLM 生成新 query → 再跑 research_hook
+    4. 还不相关 → 返回空（让 verify 阶段判 degraded）
+
     local_corpus 通道按题域启用：_LOCAL_CORPUS_DIRS 目前只有 D1-gpu-research 语料，
-    对 nat/soc 题 grep 出的"命中"全是无关 GPU 文档，会污染 P3 核验（nat 100 reps
-    evidence 里大量出现"参考来源[1]为GPU硬件规格...与该节点无关"）。
+    对 nat/soc 题 grep 出的"命中"全是无关 GPU 文档，会污染 P3 核验。
     2026-11-09: 非 gpu 题禁用该通道，其余通道不受影响。"""
     if node.get("source", "search") in ("given", "knowledge"):
         return [], None  # no retrieval needed — logic verification only
     _budget_take()  # counter only, never blocks
     q = node.get("search_query") or node["claim"]
     claim = node["claim"]
-    # 2026-11-15: 中文 claim 优先用中文 query 查（英文 search_query 查 wiki
-    # 返回英文条目，与中文 claim 完全无关——soc 106 节点 retrieval_sources 全空
-    # 的根因）。DDG 中文实测能出好结果（搜狐/今日头条/知乎，含央行/CHFS 数据）。
-    # 策略：claim 含中文 → 先用中文 claim 查；否则用原 query。
-    # 两组都查，取结果更好的那组（数量多 + 来源类型多）。
     import re as _re
     has_chinese = bool(_re.search(r'[\u4e00-\u9fff]', claim))
-    if has_chinese and q != claim:
-        # 中文 claim：优先用中文来源（英文 wiki 条目与中文 claim 无关，
-        # 数量多不代表质量好——soc 106 节点全空的根因）。
-        # 中文来源为空时才用英文兜底。
+
+    # ── 第一轮：固定通道 ──
+    srcs, err = _run_research(q, claim, qid, has_chinese)
+    if not srcs:
+        return [], err
+
+    # ── 相关性检查：LLM 判断来源是否支持 claim ──
+    relevant = _check_relevance(claim, srcs)
+    if relevant:
+        return srcs, None
+
+    # ── 不相关 → LLM 生成新 query → 第二轮 ──
+    print(f"  [ADAPTIVE-SEARCH] {node.get('id','?')}: sources not relevant, retrying with new query", flush=True)
+    new_query = _generate_new_query(claim, q, srcs)
+    if new_query and new_query != q:
+        srcs2, err2 = _run_research(new_query, claim, qid, has_chinese)
+        if srcs2:
+            relevant2 = _check_relevance(claim, srcs2)
+            if relevant2:
+                print(f"  [ADAPTIVE-SEARCH] {node.get('id','?')}: retry succeeded with query: {new_query[:60]}", flush=True)
+                return srcs2, None
+            # 第二轮也不相关 → 第三层：ego-browser 直接去权威网站
+            print(f"  [ADAPTIVE-SEARCH] {node.get('id','?')}: retry still not relevant, trying ego-direct", flush=True)
+            ego_srcs = _ego_direct_fetch(claim, qid)
+            if ego_srcs:
+                # ego-direct 成功 → 合并（ego 来源优先）
+                merged = ego_srcs + [s for s in srcs2 if s["url"] not in {x["url"] for x in ego_srcs}]
+                return merged[:SEARCH_PER_NODE], None
+            # ego-direct 也失败 → 合并两轮结果
+            merged = srcs + [s for s in srcs2 if s["url"] not in {x["url"] for x in srcs}]
+            return merged[:SEARCH_PER_NODE], None
+        return srcs, None  # 第二轮空 → 返回第一轮
+    # 没有新 query → 直接 ego-direct
+    ego_srcs = _ego_direct_fetch(claim, qid)
+    if ego_srcs:
+        merged = ego_srcs + [s for s in srcs if s["url"] not in {x["url"] for x in ego_srcs}]
+        return merged[:SEARCH_PER_NODE], None
+    return srcs, None
+
+
+def _run_research(query, claim, qid, has_chinese):
+    """执行一轮 research_hook，处理中文/英文 query 逻辑。"""
+    if has_chinese and query != claim:
+        # 中文 claim：优先用中文来源
         try:
             srcs_cn = research_hook("s5-node", claim, max_results=SEARCH_PER_NODE,
                                     enable_local=(qid == "gpu"))
@@ -387,27 +482,18 @@ def search_node(node, qid="gpu"):
             return srcs_cn, None
         # 中文全空 → 英文兜底
         try:
-            srcs_en = research_hook("s5-node", q, max_results=SEARCH_PER_NODE,
+            srcs_en = research_hook("s5-node", query, max_results=SEARCH_PER_NODE,
                                     enable_local=(qid == "gpu"))
             return srcs_en, None
         except Exception:
             return [], None
     else:
         try:
-            srcs = research_hook("s5-node", q, max_results=SEARCH_PER_NODE,
+            srcs = research_hook("s5-node", query, max_results=SEARCH_PER_NODE,
                                  enable_local=(qid == "gpu"))
             return srcs, None
-        except ResearchHookUnavailable as e:
-            if has_chinese and q != claim:
-                try:
-                    srcs = research_hook("s5-node", claim, max_results=SEARCH_PER_NODE,
-                                         enable_local=(qid == "gpu"))
-                    return srcs, None
-                except Exception:
-                    pass
-            return [], str(e)
         except Exception as e:
-            if has_chinese and q != claim:
+            if has_chinese and query != claim:
                 try:
                     srcs = research_hook("s5-node", claim, max_results=SEARCH_PER_NODE,
                                          enable_local=(qid == "gpu"))
@@ -415,6 +501,283 @@ def search_node(node, qid="gpu"):
                 except Exception:
                     pass
             return [], str(e)
+
+
+def _check_relevance(claim, srcs):
+    """LLM 检查：检索来源是否真的支持 claim。返回 True/False。"""
+    from ablation_harness import call_llm
+    src_lines = "\n".join(
+        f"  [{i}] {s.get('title','?')[:80]} | {s.get('snippet','')[:100]}"
+        for i, s in enumerate(srcs[:4], 1)
+    )
+    prompt = f"""判断以下检索来源是否与 claim 相关（即来源内容能否支持或反驳 claim 的核心断言）：
+
+Claim: {claim[:200]}
+
+检索来源：
+{src_lines}
+
+只回答 JSON：{{"relevant": true/false, "reason": "一句话"}}"""
+    try:
+        resp, _ = call_llm(prompt, max_tokens=100, timeout=30)
+        import json as _json
+        resp_clean = resp.strip()
+        if resp_clean.startswith("```"):
+            resp_clean = resp_clean.split("```")[1].strip()
+            if resp_clean.startswith("json"):
+                resp_clean = resp_clean[4:]
+            resp_clean = resp_clean.strip()
+        check = _json.loads(resp_clean)
+        return check.get("relevant", False)
+    except Exception:
+        # LLM 检查失败 → 假设相关（不阻塞）
+        return True
+
+
+def _generate_new_query(claim, old_query, srcs):
+    """LLM 生成新 query：基于 claim 和旧 query 的失败原因，换一个角度/关键词。"""
+    from ablation_harness import call_llm
+    src_titles = "\n".join(f"  - {s.get('title','?')[:60]}" for s in srcs[:3])
+    prompt = f"""旧 query 检索到的来源与 claim 不相关。请生成一个新的检索 query（英文优先，≤8 词），
+换角度/换关键词/用更具体的术语。
+
+Claim: {claim[:200]}
+旧 query: {old_query[:100]}
+旧来源（不相关）：
+{src_titles}
+
+只回答新 query（一行，不要解释）："""
+    try:
+        resp, _ = call_llm(prompt, max_tokens=50, timeout=30)
+        new_q = resp.strip().strip('"').strip("'")
+        new_q = new_q.replace("```", "").strip()
+        return new_q if new_q else None
+    except Exception:
+        return None
+
+
+def _http_fetch_text(url, timeout=25):
+    """纯 HTTP 抓页面正文（快、稳、无浏览器开销）。
+
+    2026-11-18 实测：Wikipedia 完美（55万字节）；TechPowerUp 有 JS bot check
+    （只返回 2.5KB 挑战页）→ 这类站返回 None，由调用方 fallback 到浏览器。
+    返回 (title, text) 或 None。
+    """
+    import urllib.request, re, html as _html
+    try:
+        req = urllib.request.Request(url, headers={
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                          "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36"})
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            raw = r.read().decode("utf-8", errors="ignore")
+        if len(raw) < 10000:
+            return None  # 太小 = 挑战页/反爬
+        m = re.search(r"(?is)<title[^>]*>(.*?)</title>", raw)
+        title = _html.unescape(m.group(1)).strip() if m else url[:60]
+        raw = re.sub(r"(?is)<(script|style|nav|header|footer)[^>]*>.*?</\1>", " ", raw)
+        text = re.sub(r"(?s)<[^>]+>", " ", raw)
+        text = _html.unescape(text)
+        text = re.sub(r"\s+", " ", text).strip()
+        if len(text) < 500:
+            return None
+        return title, text
+    except Exception:
+        return None
+
+
+def _ego_direct_fetch(claim, qid="gpu"):
+    """LLM 选权威网站 + 直接访问提取数据（2026-11-18 D提议）。
+
+    当固定通道（wiki/DDG/bing/arXiv）返回的来源与 claim 不相关时，
+    LLM 判断该去哪个权威网站查，然后直接访问提取正文。
+
+    两层抓取（2026-11-18 实测后定）：
+    1. 纯 HTTP（urllib）——快（~1s）、稳，覆盖 wiki/文档类；
+    2. 失败（bot check/JS 渲染）→ ego-browser 真浏览器，能过 TechPowerUp 的 JS 挑战。
+
+    比"换 query 再跑 research_hook"强：research_hook 是固定通道，
+    直接访问可以是任何网站（NVIDIA 官网/TechPowerUp/AnandTech 等）。
+    """
+    from ablation_harness import call_llm
+    import subprocess as _sp
+    import os as _os
+
+    EGO_BROWSER = "/Users/a1-6/.local/bin/ego-browser"
+    if not _os.path.exists(EGO_BROWSER):
+        return []
+
+    # Step 1: LLM 判断该去哪个网站 + 具体页面（2026-11-18 修订：加 specific_urls）
+    prompt = f"""以下 claim 需要外部证据支持，但固定搜索通道返回的来源不相关。
+请判断最可能包含该 claim 相关数据的权威网站。
+
+Claim: {claim[:200]}
+
+候选网站类型（根据 claim 内容选择）：
+- GPU 硬件规格/价格/功耗：techpowerup.com, nvidia.com, amd.com, anandtech.com, tomshardware.com
+- 量化/精度质量损失：arxiv.org, huggingface.co, github.com
+- TCO/电力成本：eia.gov, epfl.ch
+- 推理框架/部署：github.com, docs.nvidia.com
+- 通用技术事实：en.wikipedia.org, stackoverflow.com
+
+输出 JSON（只输出 JSON，不要解释）：
+{{"domains": ["example.com"], "specific_urls": ["https://example.com/specific/page"], "search_keywords": "3-5 个英文关键词"}}
+
+specific_urls 规则：
+- 如果你能基于该站的 URL 模式推测出具体页面 URL，就给（即使不完全确定，如 techpowerup.com/gpu-specs/rtx-5090）
+- 完全无法推测就给空数组 []
+- 最多 2 个 URL"""
+    try:
+        resp, _ = call_llm(prompt, max_tokens=200, timeout=30)
+        import json as _json
+        resp_clean = resp.strip()
+        if resp_clean.startswith("```"):
+            resp_clean = resp_clean.split("```")[1].strip()
+            if resp_clean.startswith("json"):
+                resp_clean = resp_clean[4:]
+            resp_clean = resp_clean.strip()
+        plan = _json.loads(resp_clean)
+        domains = [d for d in plan.get("domains", []) if isinstance(d, str)][:2]
+        # 2026-11-18：specific_urls 优先（具体页有数据，根路径首页没数据）
+        specific_urls = [u for u in plan.get("specific_urls", [])
+                         if isinstance(u, str) and u.startswith("http")][:2]
+        keywords = plan.get("search_keywords") or claim[:60]
+        if isinstance(keywords, list):
+            keywords = keywords[0] if keywords else claim[:60]
+        elif not isinstance(keywords, str):
+            keywords = str(keywords)
+    except Exception:
+        return []
+
+    if not domains and not specific_urls:
+        return []
+
+    # Step 2: 抓取。
+    # 2026-11-18 实测结论（别再在这层反复试搜索引擎）：
+    #   - DDG html 端点被反爬（SSL EOF）
+    #   - Bing 在本机 IP 下地理定位到越南，site: 被忽略、英文 query 返回 0 条
+    #   - LLM 直接编具体 URL 不可靠（404 / 根域名）
+    # 所以：Wikipedia 走官方 API 拿全文（唯一实测完美的权威源）；
+    # 其他域名走浏览器访问根路径兜底（内容有限但比没有强）。
+    import urllib.request, urllib.parse, json as _json
+
+    results = []
+
+    # 通道 0（无条件）: Wikipedia API 全文 —— 不依赖 LLM 是否给 wikipedia.org，
+    # 用 keywords 直接查。wiki 是唯一实测完美的权威源（官方 JSON、无 bot check）。
+    try:
+        api = ("https://en.wikipedia.org/w/api.php?action=query&list=search"
+               "&srsearch=" + urllib.parse.quote(keywords) +
+               "&format=json&srlimit=2")
+        req = urllib.request.Request(api, headers={"User-Agent": "Mozilla/5.0 (pfb-research)"})
+        with urllib.request.urlopen(req, timeout=15) as r:
+            d = _json.load(r)
+        for item in d.get("query", {}).get("search", []):
+            if len(results) >= 3:
+                break
+            title = item["title"]
+            # 2026-11-18：extracts plaintext（去模板/链接/注释，噪音 70%→0%）
+            # wikitext 前 2500 全是 infobox 模板，有效文本只有 30%
+            page_api = ("https://en.wikipedia.org/w/api.php?action=query&prop=extracts"
+                        "&titles=" + urllib.parse.quote(title) +
+                        "&format=json&explaintext=1&redirects=1")
+            req2 = urllib.request.Request(page_api, headers={"User-Agent": "Mozilla/5.0 (pfb-research)"})
+            with urllib.request.urlopen(req2, timeout=15) as r2:
+                d2 = _json.load(r2)
+            pages = d2.get("query", {}).get("pages", {})
+            page = list(pages.values())[0] if pages else {}
+            text = page.get("extract", "")
+            if len(text) < 500:
+                continue
+            results.append({
+                "title": f"wiki-full: {title}",
+                "url": f"https://en.wikipedia.org/wiki/{urllib.parse.quote(title.replace(' ', '_'))}",
+                "snippet": text[:2500],
+            })
+            print(f"  [EGO-DIRECT] {qid}: wiki-full ok {title} ({len(text)} chars)", flush=True)
+            break  # 取第一个命中即可
+    except Exception as e:
+        print(f"  [EGO-DIRECT] {qid}: wiki api failed: {str(e)[:80]}", flush=True)
+
+    # 通道 A: LLM 判断的其他 domain
+    # 2026-11-18 修订：specific_urls 优先（具体页有数据），根路径兜底
+    if not _os.path.exists(EGO_BROWSER):
+        print(f"  [EGO-DIRECT] {qid}: no ego-browser, skip browser", flush=True)
+        return results
+
+    # 构建 URL 列表：specific_urls 优先，根路径兜底
+    url_list = list(specific_urls)
+    for dom in domains:
+        if "wikipedia.org" in dom:
+            continue  # 已在通道 0 处理
+        root = f"https://{dom}"
+        if root not in url_list:
+            url_list.append(root)
+    url_list = url_list[:3]  # 最多 3 个 URL
+
+    for url in url_list:
+        if len(results) >= 3:
+            break
+        js = f'''
+(async () => {{
+  let task;
+  try {{
+    task = await taskSpace("pfb-ego-direct-" + Date.now());
+    const page = task.page("p1");
+    await page.goto("{url}", {{waitUntil: "domcontentloaded", timeout: 30000}});
+    await page.waitForTimeout(5000);
+    const result = await page.evaluate(() => {{
+      // 2026-11-18 修复：table 优先（GPU 规格数据在 table 里），fallback 最长容器
+      // 实测 techpowerup：body 最长但前 3000 字全是导航+论坛帖，规格 table 在后面
+      let tableText = "";
+      document.querySelectorAll("table").forEach(t => {{
+        tableText += (t.innerText || "") + " ";
+      }});
+      if (tableText.length > 150) {{
+        return tableText.substring(0, 3000);
+      }}
+      const candidates = [
+        document.body,
+        document.querySelector("article"),
+        document.querySelector("main"),
+        document.querySelector("[role=main]"),
+      ].filter(Boolean);
+      let best = "";
+      for (const el of candidates) {{
+        const t = el.innerText || "";
+        if (t.length > best.length) best = t;
+      }}
+      return best.substring(0, 3000);
+    }});
+    if (!result || result.length < 100) {{
+      console.log("===NO_DATA===");
+      return;
+    }}
+    console.log("===EGO_DIRECT===");
+    console.log(result);
+  }} finally {{
+    try {{ if (task) await task.finish({{ keep: [] }}); }} catch(e) {{}}
+  }}
+}})();
+'''
+        try:
+            r = _sp.run(
+                [EGO_BROWSER, "nodejs", "-e", js],
+                capture_output=True, text=True, timeout=75,
+            )
+            out = r.stdout + r.stderr
+            if "===EGO_DIRECT===" in out:
+                text = out.split("===EGO_DIRECT===")[1].strip()[:2000]
+                results.append({
+                    "title": f"direct-browser: {url}",
+                    "url": url,
+                    "snippet": text,
+                })
+                print(f"  [EGO-DIRECT] {qid}: browser ok {url} ({len(text)} chars)", flush=True)
+            else:
+                print(f"  [EGO-DIRECT] {qid}: browser no-data {url}", flush=True)
+        except Exception as e:
+            print(f"  [EGO-DIRECT] {qid}: browser failed {url}: {str(e)[:80]}", flush=True)
+    return results
 
 
 def sources_block(srcs):
