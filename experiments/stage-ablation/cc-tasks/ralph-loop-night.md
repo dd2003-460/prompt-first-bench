@@ -28,7 +28,7 @@
   ```bash
   cd /Users/a1-6/Desktop/workspace/pfb/experiments/stage-ablation
   rm -f /tmp/langgraph-pfb-full-nat.sqlite*
-  /Library/Developer/CommandLineTools/usr/bin/python3 -u langgraph-pfb-full.py nat --max-nodes 12 --max-depth 2 > /tmp/lg-pfb-full-nat.log 2>&1 &
+  /Library/Developer/CommandLineTools/usr/bin/python3 -u langgraph-pfb-full.py nat > /tmp/lg-pfb-full-nat.log 2>&1 &
   ```
 
 ### T3: langgraph gpu 题（T2 完成后启动）
@@ -36,7 +36,7 @@
   ```bash
   cd /Users/a1-6/Desktop/workspace/pfb/experiments/stage-ablation
   rm -f /tmp/langgraph-pfb-full-gpu.sqlite*
-  /Library/Developer/CommandLineTools/usr/bin/python3 -u langgraph-pfb-full.py gpu --max-nodes 12 --max-depth 2 > /tmp/lg-pfb-full-gpu.log 2>&1 &
+  /Library/Developer/CommandLineTools/usr/bin/python3 -u langgraph-pfb-full.py gpu > /tmp/lg-pfb-full-gpu.log 2>&1 &
   ```
 - 日志：`/tmp/lg-pfb-full-gpu.log`
 - 验收：日志末尾有 S_α 值 + verified 比例
@@ -96,3 +96,4 @@ curl -s -o /dev/null -w "8787: %{http_code}\n" http://127.0.0.1:8787/health
 - langgraph 和 gptr 可以并行（langgraph 用 python3.9，gptr 用 .venv-d1 python3.12，不冲突）
 - 所有输出落盘到 pfb/experiments/stage-ablation/ 下，不要写到 /tmp 以外的地方（日志除外）
 - 2026-11-18 修复：no_challenge 臂（A1/A3/A8/A10/A11）原来没真正去掉反方质询（两分支都调 verify_node，D2 主效应恒为 0 假阴性）。已加 P3_VERIFY_NC + verify_node_nc（s5_pipeline.py），qc_ablation_sweep.py 的 no_challenge 分支真正走它。跑 A0-A13 前确认修复已生效（grep verify_node_nc qc_ablation_sweep.py 应有匹配）。
+- 2026-11-18: langgraph max_nodes 从 12 改回默认 150（日常完整 pipeline 水平；12 是早期快速验证值，太小，只跑了 12 个节点就停，不反映真实 pipeline 表现）。日常完整 pipeline 历史节点数：nat=278/soc=283（verified 率 65-79%）。
