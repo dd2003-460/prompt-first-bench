@@ -550,10 +550,14 @@ def main():
 
         t0 = time.time()
         try:
+            # recursion_limit：默认 25 不够（nat 跑到 N254 超限挂了，2026-11-19）。
+            # 图拓扑是 expand/verify/rework 循环，一个图步处理一批 SM 节点，
+            # 25 步 ≈ N250。设 300 留足余量（防死循环靠图内 stop 条件，不靠这个上限）。
             final_state = graph.invoke(
                 {"round": 0, "stop": False, "stop_reason": "",
                  "pending_verify": [], "rounds_log": []},
-                config={"configurable": {"thread_id": f"pfb-full-{qid}"}}
+                config={"configurable": {"thread_id": f"pfb-full-{qid}"},
+                        "recursion_limit": 300}
             )
         except Exception as e:
             import traceback
