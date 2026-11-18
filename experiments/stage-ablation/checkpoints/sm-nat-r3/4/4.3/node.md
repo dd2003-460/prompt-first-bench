@@ -1,0 +1,24 @@
+# N18: 有效命中率 $H_{eff} = H_{LRU} \times (1 - R_{inv} \cdot \frac{C_{miss}}{C_{total}})$，
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+有效命中率 $H_{eff} = H_{LRU} \times (1 - R_{inv} \cdot \frac{C_{miss}}{C_{total}})$，其中 $C_{miss}$ 为因更新而导致的额外未命中成本占比，通常简化为 $H_{eff} \approx H_{LRU} \times (1 - R_{inv})$ 当更新均匀分布时。
+
+## Corrected Claim
+
+有效命中率 $H_{eff} = H_{LRU} \times (1 - R_{inv} \cdot \frac{C_{miss}}{C_{total}})$，其中 $C_{miss}$ 为因更新而导致的额外未命中成本占比，通常简化为 $H_{eff} \approx H_{LRU} \times (1 - R_{inv})$ 当更新均匀分布时。
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备, 有冗余（子节点1和子节点2都围绕同一个变量 C_miss/C_total 展开，前者讨论其随更新-热度相关性的变化（动态修正），后者讨论其边界取值（静态定义/特例）。两者存在概念重叠（都定义/解释该变量），且未覆盖父节点中 H_LRU 的基础定义或 R_inv 的具体含义，导致不完备。此外，子节点2的边界条件（0或1）实际上是子节点1中一般化公式的特例，属于冗余。）
+
+## Search Query
+
+cache hit rate reduction due to object updates uniform distribution

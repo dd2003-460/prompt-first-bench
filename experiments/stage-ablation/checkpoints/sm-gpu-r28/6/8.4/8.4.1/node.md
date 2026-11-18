@@ -1,0 +1,29 @@
+# N269: RTX 4090 双卡方案在 Qwen3-27B BF16 推理（NVLink 互联，batch_size=1）下的系统总功耗为 850W ± 20W，其中 G
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N84
+
+## Claim
+
+RTX 4090 双卡方案在 Qwen3-27B BF16 推理（NVLink 互联，batch_size=1）下的系统总功耗为 850W ± 20W，其中 GPU 功耗 800W-880W，辅助组件（主板、内存、风扇）功耗约 50W-70W，该值为计算年电力成本的保守上限均值。
+
+## Corrected Claim
+
+RTX 4090 双卡方案在 Qwen3-27B BF16 推理（NVLink 互联，batch_size=1）下的系统总功耗约为 850W-1000W（基于单卡TDP 450W估算），具体数值需实测确认。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性功耗数值（850W±20W等），属于硬件规格/功耗数据，无法从第一性原理推导。参考来源[1]为无关的论坛首页，来源[2]仅提及RTX 4060的功耗（115W），与RTX 4090双卡方案完全无关，缺乏直接支持证据。 | 逻辑上自洽（RTX 4090 TDP约450W，双卡约900W，加上辅助组件总功耗在850W-1000W区间是合理的量级），但参考来源均与该具体事实无关，无法提供直接支持，符合经验事实排除条款中'逻辑自洽但缺来源支持'的情形。
+
+## Search Query
+
+2x RTX 4090 system power consumption LLM inference NVLink watts
+
+## Retrieval Sources
+
+- {'url': 'https://anandtech.com', 'type': None, 'title': 'direct-browser: anandtech.com'}
+- {'url': 'https://en.wikipedia.org/wiki/GeForce_RTX_40_series', 'type': 'gpu_specs', 'title': 'GPU Specs: GeForce\xa0RTX 4060[56][57][58]'}

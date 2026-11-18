@@ -14,6 +14,7 @@ Perplexity 已验证可用（2026-11-04）。
 """
 import json, os, subprocess, sys, time, re, tempfile
 from datetime import datetime, timezone
+from research_hook import _inject_finish
 
 EGO_BROWSER = "/Users/a1-6/.local/bin/ego-browser"
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -128,7 +129,7 @@ console.log(JSON.stringify({{text: text}}));
 '''
     try:
         result = subprocess.run(
-            [EGO_BROWSER, "nodejs", "-e", js],
+            [EGO_BROWSER, "nodejs", "-e", _inject_finish(js)],
             capture_output=True, text=True, timeout=300,
         )
     except subprocess.TimeoutExpired:

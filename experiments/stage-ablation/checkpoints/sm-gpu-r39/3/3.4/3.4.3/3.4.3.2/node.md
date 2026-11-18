@@ -1,0 +1,29 @@
+# N161: vLLM 对 Intel Arc (Xe-HPG) 的支持状态：截至 2024 年，vLLM 官方仅支持 NVIDIA/AMD ROCm/Intel Gaudi
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N52
+
+## Claim
+
+vLLM 对 Intel Arc (Xe-HPG) 的支持状态：截至 2024 年，vLLM 官方仅支持 NVIDIA/AMD ROCm/Intel Gaudi/TPU，不支持 Intel Arc；若强行通过 IPEX 或社区 fork 运行，缺少 Flash Attention 2/3 内核，导致 Attention 计算回退至非优化路径，吞吐量下降 30-50% [待核验]。
+
+## Corrected Claim
+
+vLLM 对 Intel Arc (Xe-HPG) 的支持状态：截至 2024 年，vLLM 官方仅支持 NVIDIA/AMD ROCm/Intel Gaudi/TPU，不支持 Intel Arc；若强行通过 IPEX 或社区 fork 运行，缺少 Flash Attention 2/3 内核，导致 Attention 计算回退至非优化路径，吞吐量显著下降。
+
+## Evidence
+
+[质询]吞吐量下降 30-50% 属于具体的经验数值断言，缺乏基准测试数据支持，且不同模型/硬件配置下性能差异巨大，该具体区间可能不准确或具有误导性。 | 参考来源 [1] 和 [2] 均与 vLLM 或 Intel Arc 支持状态无关，无法提供外部证据支持；该陈述包含具体性能下降数值（30-50%），属于经验事实，逻辑自洽但缺来源支持，故降级。
+
+## Search Query
+
+vLLM Intel Arc Xe-HPG support status Flash Attention kernel missing
+
+## Retrieval Sources
+
+- {'url': 'https://github.com', 'type': None, 'title': 'direct-browser: github.com'}
+- {'url': 'http://arxiv.org/abs/2406.10598v1', 'type': 'arxiv', 'title': 'Double Multi-Head Attention Multimodal System for Odyssey 2024 Speech Emotion Re'}

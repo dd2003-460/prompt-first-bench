@@ -1,0 +1,24 @@
+# N17: 在 $\lambda=0.01/day$ 且热门对象高频访问（$T_{LRU} \approx 1/\text{freq}$）的边界条件下，若对象平均驻留时间 
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+在 $\lambda=0.01/day$ 且热门对象高频访问（$T_{LRU} \approx 1/\text{freq}$）的边界条件下，若对象平均驻留时间 $T_{LRU} < 100$ 天，则 $R_{inv} \approx \lambda \cdot T_{LRU}$，折损为线性关系；若 $T_{LRU} > 500$ 天，折损趋近于 100%（完全失效）。
+
+## Corrected Claim
+
+在 $\lambda=0.01/day$ 且热门对象高频访问（$T_{LRU} \approx 1/\text{freq}$）的边界条件下，若对象平均驻留时间 $T_{LRU} < 100$ 天，则 $R_{inv} \approx \lambda \cdot T_{LRU}$，折损为线性关系；若 $T_{LRU} > 500$ 天，折损趋近于 100%（完全失效）。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1聚焦于特定边界条件（冷门对象/T_LRU≈1天）下的具体数值计算，子节点2聚焦于全局加权平均公式及定性结论，两者在逻辑层级和关注点上正交且无矛盾。然而，父节点明确提到了两个关键阈值（T_LRU < 100天为线性关系，T_LRU > 500天趋近100%失效），子节点仅覆盖了低值端（T_LRU≈1天）的线性情况，完全缺失了对高值端（T_LRU > 500天，折损趋近100%）这一关键边界条件的分解或说明，因此不完备。）
+
+## Search Query
+
+exponential decay approximation linear regime small lambda

@@ -1,0 +1,31 @@
+# N147: vLLM 框架在 Llama-2-70B 上启用 FP8 KV Cache 相比 BF16 KV Cache，在 4K 上下文长度下，Perplexity (困
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N43
+
+## Claim
+
+vLLM 框架在 Llama-2-70B 上启用 FP8 KV Cache 相比 BF16 KV Cache，在 4K 上下文长度下，Perplexity (困惑度) 增加约 0.5-1.5% (从 ~5.2 增至 ~5.3-5.4)，而在 32K 长上下文下，累积误差可能导致 Perplexity 增加超过 3%，具体数值需参考 vLLM 官方博客或论文 'FP8 for LLM Inference' 中的实测数据。
+
+## Corrected Claim
+
+vLLM 框架在 Llama-2-70B 上启用 FP8 KV Cache 相比 BF16 KV Cache，通常会导致 Perplexity 轻微增加，具体增幅取决于上下文长度和量化策略，需参考 vLLM 官方文档或相关实测数据。
+
+## Evidence
+
+[质询]具体数值（0.5-1.5% 和 >3%）及特定基准（Llama-2-70B, 4K/32K）缺乏直接来源支持，且来源[4]主要讨论RL场景下的FP8稳定性，未提供该特定推理场景下的Perplexity实测数据。 | 逻辑上FP8量化导致精度损失从而增加Perplexity是合理的，但具体数值属于经验事实，参考来源[4]仅间接支持FP8在LLM中的应用背景，未直接提供该特定数值，故降级。
+
+## Search Query
+
+vLLM FP8 KV cache perplexity degradation long context benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://github.com', 'type': None, 'title': 'direct-browser: github.com'}
+- {'url': 'https://arxiv.org', 'type': None, 'title': 'direct-browser: arxiv.org'}
+- {'url': 'https://en.m.wikipedia.org/wiki/Gmail', 'type': 'bing', 'title': 'Gmail - Wikipedia'}
+- {'url': 'http://arxiv.org/abs/2601.18150v2', 'type': 'arxiv', 'title': 'FP8-RL: A Practical and Stable Low-Precision Stack for LLM Reinforcement Learnin'}

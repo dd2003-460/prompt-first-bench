@@ -1,0 +1,24 @@
+# N134: 工作点 A 中 K_LRU=10,000 的合理性验证：K_LRU 应等于缓存中实际容纳的对象数量，由 Σ_{i=1}^{K_LRU} E[S_i | rank
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N56
+
+## Claim
+
+工作点 A 中 K_LRU=10,000 的合理性验证：K_LRU 应等于缓存中实际容纳的对象数量，由 Σ_{i=1}^{K_LRU} E[S_i | rank_i] ≤ 128GB 确定；若 Top-1% 对象平均大小为 1.5KB，则 10,000 个对象占用 15MB，远小于 128GB，说明 K_LRU=10,000 仅覆盖 Top-1%，剩余容量用于其他对象，T_A 计算需考虑缓存中实际驻留对象的热度分布。
+
+## Corrected Claim
+
+工作点 A 中 K_LRU=10,000 的合理性验证：K_LRU 应等于缓存中实际容纳的对象数量，由 Σ_{i=1}^{K_LRU} E[S_i | rank_i] ≤ 128GB 确定；若 Top-1% 对象平均大小为 1.5KB，则 10,000 个对象占用 15MB，远小于 128GB，说明 K_LRU=10,000 仅覆盖 Top-1%，剩余容量用于其他对象，T_A 计算需考虑缓存中实际驻留对象的热度分布。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：10,000 * 1.5KB = 15MB，远小于 128GB，量级合理且逻辑自洽。
+
+## Search Query
+
+LRU cache object count capacity constraint calculation

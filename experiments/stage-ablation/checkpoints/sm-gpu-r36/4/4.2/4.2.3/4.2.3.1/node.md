@@ -1,0 +1,20 @@
+# N189: Google TPU v5e 的最小本地部署单元为单个 TPU 芯片，但 Google 不向个人/本地工作站销售裸 TPU 硬件，仅通过 Cloud TPU 服
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N59
+
+## Claim
+
+Google TPU v5e 的最小本地部署单元为单个 TPU 芯片，但 Google 不向个人/本地工作站销售裸 TPU 硬件，仅通过 Cloud TPU 服务提供，因此 '本地工作站部署 TPU' 在物理上不可行，必须转向云端 API 或租用云端 TPU 实例。
+
+## Corrected Claim
+
+Google TPU v5e 的最小本地部署单元为单个 TPU 芯片，但 Google 不向个人/本地工作站销售裸 TPU 硬件，仅通过 Cloud TPU 服务提供，因此 '本地工作站部署 TPU' 在物理上不可行，必须转向云端 API 或租用云端 TPU 实例。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

@@ -1,0 +1,24 @@
+# N130: LRU 缓存中第 i 个对象的驻留时间 T_i 的精确计算需基于栈距离（Stack Distance）模型，T_i ≈ D_i / λ_i，其中 D_i 是对象
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N55
+
+## Claim
+
+LRU 缓存中第 i 个对象的驻留时间 T_i 的精确计算需基于栈距离（Stack Distance）模型，T_i ≈ D_i / λ_i，其中 D_i 是对象 i 在 LRU 栈中的平均深度（即其被替换前需被访问多少次才能触发替换），而非简单的 K_LRU/λ_i；对于 Top-10% 对象，D_i 远小于 K_LRU，需通过 IRM 迭代或静态分析求解。
+
+## Corrected Claim
+
+LRU 缓存中第 i 个对象的驻留时间 T_i 的精确计算需基于栈距离（Stack Distance）模型，T_i ≈ D_i / λ_i，其中 D_i 是对象 i 在 LRU 栈中的平均深度（即其被替换前需被访问多少次才能触发替换），而非简单的 K_LRU/λ_i；对于 Top-10% 对象，D_i 远小于 K_LRU，需通过 IRM 迭代或静态分析求解。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+LRU stack distance residency time calculation model

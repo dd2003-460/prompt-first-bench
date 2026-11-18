@@ -1,0 +1,25 @@
+# N27: Qwen3-27B 在 FP8 量化下，基于 MMLU 或 HumanEval 基准测试，准确率下降通常小于 0.5%，而在 INT4/W4 量化下，长上下文（
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+Qwen3-27B 在 FP8 量化下，基于 MMLU 或 HumanEval 基准测试，准确率下降通常小于 0.5%，而在 INT4/W4 量化下，长上下文（>16K）推理的困惑度（Perplexity）增加约 5-10% 或特定任务准确率下降 1-3% [待核验: 需引用 Qwen3 官方技术报告或第三方量化评测数据]
+
+## Corrected Claim
+
+Qwen3-27B 在 FP8 量化下，基于 MMLU 或 HumanEval 基准测试，准确率下降通常较小（具体数值需参考官方技术报告或第三方评测）；而在 INT4/W4 量化下，长上下文（>16K）推理的困惑度（Perplexity）或特定任务准确率可能出现一定程度的下降（具体幅度需实证数据支持）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值断言（FP8下降<0.5%，INT4困惑度增加5-10%等），属于硬件/模型性能经验事实，无法从第一性原理推导。参考来源[2]仅讨论FP8在强化学习中的工程挑战，未提供Qwen3-27B在MMLU/HumanEval上的具体量化精度损失数据，来源未直接支持具体数值。 | 经验事实，逻辑自洽但缺来源支持（来源[2]仅涉及FP8 RL工程，未覆盖Qwen3量化精度具体数值）
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org', 'type': None, 'title': 'direct-browser: arxiv.org'}
+- {'url': 'http://arxiv.org/abs/2601.18150v2', 'type': 'arxiv', 'title': 'FP8-RL: A Practical and Stable Low-Precision Stack for LLM Reinforcement Learnin'}

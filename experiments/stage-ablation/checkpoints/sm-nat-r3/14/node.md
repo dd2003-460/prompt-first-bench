@@ -1,0 +1,24 @@
+# N85: 对于 LRU 策略，更新导致的命中率折损系数 δ_update = 1 - exp(-u * T_avg_residency)，其中 T_avg_residen
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+对于 LRU 策略，更新导致的命中率折损系数 δ_update = 1 - exp(-u * T_avg_residency)，其中 T_avg_residency 是缓存中对象从插入到被替换的平均时间；在稳态下，T_avg_residency ≈ C / (S_avg * R_miss)，需迭代求解。
+
+## Corrected Claim
+
+在假设对象驻留时间服从指数分布的特定LRU缓存模型中，更新导致的命中率折损系数可近似表示为 δ_update = 1 - exp(-u * T_avg_residency)，其中 T_avg_residency ≈ C / (S_avg * R_miss) 需在稳态下迭代求解。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点公式中的核心变量定义（T_avg_residency）、求解算法（迭代过程）以及最终结果应用（H_final计算与验证），三者逻辑层级清晰，无内容重叠或矛盾，且完整覆盖了父节点描述的数学模型与求解流程。）
+
+## Retrieval Sources
+
+- {'url': 'http://arxiv.org/abs/1806.07361v3', 'type': 'arxiv', 'title': 'Comparing the emission spectra of U and Th hollow cathode lamps and a new U line'}

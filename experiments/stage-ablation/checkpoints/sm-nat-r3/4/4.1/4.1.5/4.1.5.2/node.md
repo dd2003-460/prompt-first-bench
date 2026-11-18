@@ -1,0 +1,20 @@
+# N138: 工作点 C 对象（热度排名 10%-100%）的更新失效率 R_inv_C 的解析表达式：R_inv_C = 1 - exp(-u * T_C)，其中 u = 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N58
+
+## Claim
+
+工作点 C 对象（热度排名 10%-100%）的更新失效率 R_inv_C 的解析表达式：R_inv_C = 1 - exp(-u * T_C)，其中 u = 0.01/day，T_C 为 N86 计算出的平均驻留时间；当 u * T_C < 0.1 时，可近似为 R_inv_C ≈ u * T_C。
+
+## Corrected Claim
+
+工作点 C 对象（热度排名 10%-100%）的更新失效率 R_inv_C 的解析表达式：R_inv_C = 1 - exp(-u * T_C)，其中 u = 0.01/day，T_C 为 N86 计算出的平均驻留时间；当 u * T_C < 0.1 时，可近似为 R_inv_C ≈ u * T_C。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：指数分布失效率公式 R=1-exp(-λt) 及其小参数近似 R≈λt 符合数学第一性原理，量纲一致（u为1/day，T为day，乘积无量纲），且 source 标记为 knowledge，无需外部来源支持。

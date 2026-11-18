@@ -1,0 +1,24 @@
+# N14: LFU 性能增益上限：在稳态下 LFU 保留最频繁访问的对象，其命中率 H_LFU ≈ 1 - (1 - F_top)^β，F_top 为 top-K 对象的热
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+LFU 性能增益上限：在稳态下 LFU 保留最频繁访问的对象，其命中率 H_LFU ≈ 1 - (1 - F_top)^β，F_top 为 top-K 对象的热度累积占比
+
+## Corrected Claim
+
+LFU 性能增益上限：在稳态下 LFU 保留最频繁访问的对象，其命中率 H_LFU ≈ 1 - (1 - F_top)^β，F_top 为 top-K 对象的热度累积占比
+
+## Evidence
+
+父节点级核验未通过：不完备（父节点描述了 LFU 命中率的公式 H_LFU ≈ 1 - (1 - F_top)^β，其中包含两个关键变量：F_top（热度占比）和 β（分布指数/衰减因子）。子节点仅详细定义了 F_top 在特定 Pareto 分布下的计算方式，完全缺失了对 β 的定义、来源或取值范围的说明，导致无法完整复现或理解父节点公式中的核心参数。）
+
+## Search Query
+
+LFU vs LRU hit rate upper bound

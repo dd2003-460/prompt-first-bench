@@ -1,0 +1,31 @@
+# N121: Top-1% 对象（N=1000）的条件平均大小 E[S|Top1%] 的精确数值：基于 Frank Copula (ρ=-0.3) 和 Pareto(α=1.
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N52
+
+## Claim
+
+Top-1% 对象（N=1000）的条件平均大小 E[S|Top1%] 的精确数值：基于 Frank Copula (ρ=-0.3) 和 Pareto(α=1.1, x_min=1KB) 的数值积分结果，预计约为 1.2-1.8 KB，需替代 N52 中假设的 1.5 KB 以校准 K_A。
+
+## Corrected Claim
+
+基于 Frank Copula (ρ=-0.3) 和 Pareto(α=1.1, x_min=1KB) 的数值积分，Top-1% 对象的条件平均大小 E[S|Top1%] 预计显著高于 1KB，具体数值需通过数值模拟确定，原假设 1.5 KB 可能需校准。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值断言（1.2-1.8 KB），属于特定模型参数下的计算结果，无法从第一性原理直接推导，且参考来源中完全缺乏对该具体数值或相关Copula/Pareto混合分布数值积分结果的支持。 | 逻辑上，Pareto(α=1.1) 的尾部较重，Top 1% 的条件均值确实会显著高于中位数，量级在 KB 级别是合理的；但所有参考来源（金融经济学、arXiv首页、GitHub首页、Top-N准确率）均与该具体数值事实无关，无法提供外部证据支持该特定数值范围。
+
+## Search Query
+
+Frank copula negative correlation Pareto size distribution conditional mean top 1 percent
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Financial_economics', 'type': None, 'title': 'wiki-full: Financial economics'}
+- {'url': 'https://arxiv.org', 'type': None, 'title': 'direct-browser: https://arxiv.org'}
+- {'url': 'https://github.com', 'type': None, 'title': 'direct-browser: https://github.com'}
+- {'url': 'https://stackoverflow.com/questions/37668902/evaluation-calculate-top-n-accuracy-top-1-and-top-5&rut=382758b8bac6792135e2c1c5f0fd0c03d6cad7e80606a7bba48c2151ef35eed1', 'type': 'ddg', 'title': 'Evaluation & Calculate Top-N Accuracy: Top 1 and Top 5'}

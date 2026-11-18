@@ -1,0 +1,30 @@
+# N158: Frank Copula 下高热度对象（F∈Top 10%）的条件期望 E[S|F∈Top 10%] 的数值积分解：基于 Frank(θ=-0.4286) 和 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N70
+
+## Claim
+
+Frank Copula 下高热度对象（F∈Top 10%）的条件期望 E[S|F∈Top 10%] 的数值积分解：基于 Frank(θ=-0.4286) 和 Pareto(α=1.1, x_min=1KB) 边缘分布，积分 ∫_0.9^1 S * f_S(s|F) ds ≈ 8.2 KB，比线性近似 9.35 KB 低 12.3%。
+
+## Corrected Claim
+
+基于 Frank(θ=-0.4286) 和 Pareto(α=1.1, x_min=1KB) 边缘分布，通过数值积分计算 Frank Copula 下高热度对象（F∈Top 10%）的条件期望 E[S|F∈Top 10%]，其结果约为 8.2 KB，比线性近似值 9.35 KB 低约 12.3%（注：具体数值需依赖特定计算实现，此处保留原数值但标记为待验证的经验计算结果）。
+
+## Evidence
+
+[质询]该陈述包含具体的数值积分结果（8.2 KB）和百分比差异（12.3%），属于经验性计算结果。参考来源仅提供了Frank Copula的理论背景（最大熵原理），未提供针对特定参数（θ=-0.4286, α=1.1）的具体数值计算过程或结果，无法直接验证该数值的准确性。 | 逻辑上，Frank Copula与Pareto分布结合进行条件期望积分在数学上是可行的，量纲（KB）和量级（KB级别）合理。但参考来源[3]仅讨论Frank Copula的理论性质，未覆盖具体数值计算，属于间接相关但无直接数值支持。
+
+## Search Query
+
+Frank Copula conditional expectation Pareto distribution negative correlation
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org', 'type': None, 'title': 'direct-browser: https://arxiv.org'}
+- {'url': 'https://github.com', 'type': None, 'title': 'direct-browser: https://github.com'}
+- {'url': 'https://arxiv.org/html/2406.14814v1&rut=09761f879fb2182150a8644820fa896358dbc272aef29351ca8061792a990889', 'type': 'ddg', 'title': "Frank copula is minimum information copula under fixed Kendall's"}

@@ -1,0 +1,30 @@
+# N223: H100 SXM5 的二手价格 ($25k-$35k) 主要取决于显卡的使用时长（<6个月 vs >12个月）和是否附带原装散热器/背板，通常使用时长每增加 6
+
+- **status**: pending
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N71
+
+## Claim
+
+H100 SXM5 的二手价格 ($25k-$35k) 主要取决于显卡的使用时长（<6个月 vs >12个月）和是否附带原装散热器/背板，通常使用时长每增加 6 个月，价格下降约 5%-8%。
+
+## Corrected Claim
+
+H100 SXM5 的二手价格通常受显卡使用时长和配件完整性（如原装散热器/背板）影响，使用时长越长价格通常越低，但具体价格区间和折旧率随市场波动，无固定标准。
+
+## Evidence
+
+[质询]该陈述包含具体的二手市场价格区间（$25k-$35k）及折旧率（5%-8%/6个月），属于典型的市场经验事实。参考来源均为学术论文，完全不涉及硬件二手交易市场价格或折旧规律，无法提供外部证据支持。此外，二手GPU价格受供需、渠道、具体成色等多重因素影响，‘每增加6个月价格下降5%-8%’这一线性折旧模型过于简化，缺乏普遍适用的实证数据支持。 | 经验事实，逻辑自洽但缺来源支持（来源[1][2][3]均与二手市场价格无关）
+
+## Search Query
+
+used H100 SXM price depreciation rate usage months
+
+## Retrieval Sources
+
+- {'url': 'http://arxiv.org/abs/2608.15764v1', 'type': 'arxiv', 'title': 'Concurrency Response of Plain Global Loads on the NVIDIA H100'}
+- {'url': 'http://arxiv.org/abs/nucl-ex/0602002v1', 'type': 'arxiv', 'title': 'Ground state magnetic dipole moment of 35K'}
+- {'url': 'http://arxiv.org/abs/2609.19657v1', 'type': 'arxiv', 'title': 'PrefixBench-H100: Characterizing Prefix Reuse and Time-to-First-Token in H100 LL'}

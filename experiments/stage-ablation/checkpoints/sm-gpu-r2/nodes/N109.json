@@ -1,0 +1,17 @@
+{
+  "id": "N109",
+  "claim": "2x RTX 4090 在 FP8 量化下的 32K 上下文吞吐基准：tokens/sec = 2 × (24GB × 1024 GB/s) / (27B × 1 byte) ≈ 180 tokens/sec（理论上限），实际受 KV Cache 开销影响约 150-160 tokens/sec [待核验]。",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值量级与物理直觉严重不符：2x RTX 4090 的总显存带宽约为 1.6 TB/s (2 * 1008 GB/s)，而 27B 模型 FP8 权重仅约 27 GB。理论上限吞吐应为 带宽/权重大小 ≈ 1.6TB/s / 27GB ≈ 59,000 tokens/sec。陈述中计算出的 180 tokens/sec 比理论上限低了约 300 倍，且未考虑 32K 上下文下 KV Cache 对显存带宽的显著占用（KV Cache 通常远大于权重大小，会进一步降低吞吐，但不会降低 300 倍）。此外，24GB 显存无法容纳 27B 模型权重 + 32K 上下文的 KV Cache，该配置在物理上不可行。 | 逻辑校验失败：带宽/权重大小计算得出的理论上限与陈述数值相差 300 倍，且显存容量不足以支撑所述模型与上下文长度。",
+  "corrected_claim": "2x RTX 4090 (48GB 总显存) 在 FP8 量化下运行 27B 模型，32K 上下文吞吐受 KV Cache 带宽限制，实际吞吐通常在 100-300 tokens/sec 范围（取决于具体实现和 KV Cache 大小），但 24GB 单卡显存不足以容纳 27B 模型权重及 32K 上下文 KV Cache。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N31"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "",
+  "retrieval_sources": []
+}

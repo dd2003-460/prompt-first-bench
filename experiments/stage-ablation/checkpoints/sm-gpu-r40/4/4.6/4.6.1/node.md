@@ -1,0 +1,31 @@
+# N73: NVIDIA H100 SXM 在 LLaMA-70B FP16 下的官方理论吞吐量（tokens/s）与第三方实测（如 HuggingFace 或 LMSYS
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N22
+
+## Claim
+
+NVIDIA H100 SXM 在 LLaMA-70B FP16 下的官方理论吞吐量（tokens/s）与第三方实测（如 HuggingFace 或 LMSYS 基准）的差异系数，需区分 batch_size=1 与 batch_size=32 的衰减率
+
+## Corrected Claim
+
+NVIDIA H100 SXM 在 LLaMA-70B FP16 下，batch_size=1 时的推理延迟约为 1.7 秒（8-GPU DGX H100 配置，来源[3]）；由于缺乏官方理论吞吐量与第三方实测吞吐量的具体对比数据及不同 batch size 下的吞吐量数值，无法量化具体的差异系数与衰减率。
+
+## Evidence
+
+[质询]该陈述要求提供具体的“差异系数”和“衰减率”数值，但参考来源中仅包含定性描述或单一场景下的延迟数据（如1.7秒/次），缺乏官方理论吞吐量与第三方实测吞吐量的直接对比数据，更缺乏 batch_size=1 与 32 的具体吞吐量数值以计算衰减率。 | 来源[3]提供了 H100 处理 Llama 2 70B 在 batch_size=1 下的延迟（1.7s），可间接推算单卡/多卡吞吐量量级，但未提供官方理论值、第三方实测对比值或 batch_size=32 的数据，无法验证具体的“差异系数”和“衰减率”数值。
+
+## Search Query
+
+H100 SXM LLaMA-70B throughput tokens/s official vs benchmark batch size
+
+## Retrieval Sources
+
+- {'url': 'https://docs.nvidia.com', 'type': None, 'title': 'direct-browser: docs.nvidia.com'}
+- {'url': 'https://lmsys.org', 'type': None, 'title': 'direct-browser: lmsys.org'}
+- {'url': 'https://developer.nvidia.com/blog/achieving-top-inference-performance-with-the-nvidia-h100-tensor-core-gpu-and-nvidia-tensorrt-llm/&rut=c91ee97d519c93f7bcb3bbc925d9726c028a5a41711aaf5e4c95d0c5649c7c91', 'type': 'ddg', 'title': 'Achieving Top Inference Performance with the NVIDIA H100 Tensor Core ...'}
+- {'url': 'https://www.nvidia.com/en-us/', 'type': 'bing', 'title': 'World Leader in Artificial Intelligence Computing | NVIDIA'}

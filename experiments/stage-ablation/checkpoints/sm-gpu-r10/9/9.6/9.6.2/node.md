@@ -1,0 +1,20 @@
+# N286: Apple M2 Ultra 运行 Qwen3-27B INT8 量化时的理论吞吐上限计算：Throughput_INT8 = Memory_Bandwidth
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N111
+
+## Claim
+
+Apple M2 Ultra 运行 Qwen3-27B INT8 量化时的理论吞吐上限计算：Throughput_INT8 = Memory_Bandwidth / Weight_Size = 800 GB/s / (27e9 * 1 byte) ≈ 29.63 tokens/s (Batch=1, Decode阶段)。
+
+## Corrected Claim
+
+Apple M2 Ultra 运行 Qwen3-27B INT8 量化时的理论吞吐上限计算：Throughput_INT8 = Memory_Bandwidth / Weight_Size = 800 GB/s / (27e9 * 1 byte) ≈ 29.63 tokens/s (Batch=1, Decode阶段)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：M2 Ultra 内存带宽约 800GB/s，Qwen3-27B INT8 权重约 27GB，算术运算 800/27 ≈ 29.63 正确，符合 Decode 阶段内存带宽瓶颈的理论上限计算逻辑。

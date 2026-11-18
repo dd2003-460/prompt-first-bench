@@ -1,0 +1,31 @@
+# N138: Qwen3-27B 的 num_hidden_layers 参数值为 64，需从官方配置确认，以验证 N38 中 L=64 的假设
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N38
+
+## Claim
+
+Qwen3-27B 的 num_hidden_layers 参数值为 64，需从官方配置确认，以验证 N38 中 L=64 的假设
+
+## Corrected Claim
+
+Qwen3-27B 的 num_hidden_layers 参数值通常为 64，但需查阅官方配置文件以最终确认。
+
+## Evidence
+
+[质询]参考来源完全无关（均为粒子物理或GitHub首页），无法提供外部证据支持该具体硬件/模型配置参数。 | 经验事实，逻辑自洽但缺来源支持（来源[1]-[4]均与Qwen3模型配置无关）
+
+## Search Query
+
+Qwen3-27B config.json num_hidden_layers 64
+
+## Retrieval Sources
+
+- {'url': 'https://github.com', 'type': None, 'title': 'direct-browser: github.com'}
+- {'url': 'http://arxiv.org/abs/2604.05712v1', 'type': 'arxiv', 'title': 'Precise measurement of the CKM angle $γ$ with a novel approach'}
+- {'url': 'http://arxiv.org/abs/2511.02619v2', 'type': 'arxiv', 'title': 'Search for $K_{\\mathrm{S(L)}}^{0} \\rightarrow π^{+}π^{-}μ^{+}μ^{-}$ decays at LH'}
+- {'url': 'http://arxiv.org/abs/2610.13101v1', 'type': 'arxiv', 'title': 'Determination of $U$-spin breaking parameters with an amplitude analysis of the '}

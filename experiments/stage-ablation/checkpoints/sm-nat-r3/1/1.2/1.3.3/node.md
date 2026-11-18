@@ -1,0 +1,24 @@
+# N32: x_min 的合理性校验：假设 x_min = 1 KB 时，100,000 个对象的总数据量 D_total = N * E[S] = 100,000 * 1
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N6, N7, N8
+
+## Claim
+
+x_min 的合理性校验：假设 x_min = 1 KB 时，100,000 个对象的总数据量 D_total = N * E[S] = 100,000 * 11 KB = 1.1 TB，需验证该总量是否符合边缘 CDN 节点通常处理的对象库规模（通常 TB 级）。
+
+## Corrected Claim
+
+x_min 的合理性校验：假设 x_min = 1 KB 时，100,000 个对象的总数据量 D_total = N * E[S] = 100,000 * 11 KB ≈ 1.1 GB，需验证该总量是否符合边缘 CDN 节点通常处理的对象库规模（通常 GB 至 TB 级）。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1针对基准假设（x_min=1KB）进行定性验证，子节点2针对参数变化（x_min敏感性）进行定量/定性分析，两者逻辑维度不同（基准验证 vs 边界/敏感性分析），无重叠且无矛盾。父节点核心任务是“校验合理性”，这两个子节点共同构成了完整的校验过程（基准符合性+参数鲁棒性）。）
+
+## Search Query
+
+CDN object library total size typical scale

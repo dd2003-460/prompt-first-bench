@@ -1,0 +1,28 @@
+# N148: FP8 KV Cache 在代码生成任务 (HumanEval Pass@1) 上的质量损失通常小于 1-2% (例如从 90% 降至 88-89%)，远低于 
+
+- **status**: pending
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N43
+
+## Claim
+
+FP8 KV Cache 在代码生成任务 (HumanEval Pass@1) 上的质量损失通常小于 1-2% (例如从 90% 降至 88-89%)，远低于 W4 权重量化的损失 (通常 >5%)，因为 KV Cache 主要影响注意力机制的精度，对生成逻辑的结构性影响较小，但需通过具体任务基准验证。
+
+## Corrected Claim
+
+FP8 KV Cache 在代码生成任务上的质量损失通常较小（具体数值需通过基准测试验证），远低于 W4 权重量化的损失，因为 KV Cache 主要影响注意力机制精度，对生成逻辑结构性影响较小。
+
+## Evidence
+
+[质询]参考来源仅涉及 RL 场景下的 FP8 工程挑战，未提供 HumanEval Pass@1 的具体量化损失数据（1-2% vs >5%），属于经验事实缺乏直接来源支持。 | 经验事实，逻辑自洽但缺来源支持（来源[1]仅证实 FP8 用于 KV Cache 加速，未覆盖具体精度损失数值）
+
+## Search Query
+
+FP8 KV cache impact on code generation accuracy HumanEval Pass@1
+
+## Retrieval Sources
+
+- {'url': 'http://arxiv.org/abs/2601.18150v2', 'type': 'arxiv', 'title': 'FP8-RL: A Practical and Stable Low-Precision Stack for LLM Reinforcement Learnin'}

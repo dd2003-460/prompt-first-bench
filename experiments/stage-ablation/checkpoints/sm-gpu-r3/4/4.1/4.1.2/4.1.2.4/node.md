@@ -1,0 +1,31 @@
+# N171: AMD Radeon RX 7900 XTX 的当前市场实际价格（2024年Q4），作为计算每美元吞吐比的分子基础，MSRP 为 $999，但市场溢价或折扣需实
+
+- **status**: pending
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N55
+
+## Claim
+
+AMD Radeon RX 7900 XTX 的当前市场实际价格（2024年Q4），作为计算每美元吞吐比的分子基础，MSRP 为 $999，但市场溢价或折扣需实时查询 [待核验]
+
+## Corrected Claim
+
+AMD Radeon RX 7900 XTX 的 MSRP 为 $999，其 2024 年 Q4 的实际市场交易价格需依据实时市场数据查询，可能存在溢价或折扣。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性市场数据（2024年Q4的实际市场价格/溢价情况），这属于动态变化的商业事实，无法从第一性原理推导，且参考来源中完全缺失相关价格数据，存在来源不可靠/缺失的风险。 | 经验事实，逻辑自洽但缺来源支持（参考来源[1]-[4]均与显卡市场价格无关，无法提供直接支持）
+
+## Search Query
+
+AMD Radeon RX 7900 XTX current market price 2024 Q4
+
+## Retrieval Sources
+
+- {'url': 'https://www.amd.com/en.html', 'type': 'bing', 'title': 'AMD ׀ together we advance_AI'}
+- {'url': 'https://www.amd.com/en/support/download/drivers.html', 'type': 'bing', 'title': 'Drivers and Support for Processors and Graphics'}
+- {'url': 'https://en.wikipedia.org/wiki/AMD', 'type': 'bing', 'title': 'AMD - Wikipedia'}
+- {'url': 'http://arxiv.org/abs/2410.02371v1', 'type': 'arxiv', 'title': 'NTU-NPU System for Voice Privacy 2024 Challenge'}

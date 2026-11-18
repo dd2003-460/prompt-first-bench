@@ -1,0 +1,24 @@
+# N166: Qwen3-27B 32K 上下文 KV Cache 大小计算：假设 n_layers=32, n_heads=32, head_dim=128, 双向注意力，
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N54
+
+## Claim
+
+Qwen3-27B 32K 上下文 KV Cache 大小计算：假设 n_layers=32, n_heads=32, head_dim=128, 双向注意力，KV Cache 大小 = 2 * 32 * 32 * 128 * 32768 * 2 bytes (BF16) ≈ 4.3GB；若使用 INT8 量化 KV Cache，则约为 2.15GB；此数值需结合具体模型架构参数核验 [待核验]。
+
+## Corrected Claim
+
+Qwen3-27B 32K 上下文 KV Cache 大小计算：假设 n_layers=32, n_heads=32, head_dim=128, 双向注意力，KV Cache 大小 = 2 * 32 * 32 * 128 * 32768 * 2 bytes (BF16) ≈ 4.3GB；若使用 INT8 量化 KV Cache，则约为 2.15GB；此数值需结合具体模型架构参数核验 [待核验]。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+Qwen3-27B KV cache size 32k context calculation

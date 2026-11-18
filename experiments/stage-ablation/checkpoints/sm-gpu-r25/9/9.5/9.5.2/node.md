@@ -1,0 +1,20 @@
+# N282: H100 SXM5 运行 Qwen3-27B FP8 时的理论吞吐上限计算：Throughput_FP8 = Memory_Bandwidth / Weight
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N110
+
+## Claim
+
+H100 SXM5 运行 Qwen3-27B FP8 时的理论吞吐上限计算：Throughput_FP8 = Memory_Bandwidth / Weight_Size = 3350 GB/s / (27e9 * 1 byte) ≈ 124.07 tokens/s (Batch=1, Decode阶段)。
+
+## Corrected Claim
+
+H100 SXM5 运行 Qwen3-27B FP8 时的理论吞吐上限计算：Throughput_FP8 = Memory_Bandwidth / Weight_Size = 3350 GB/s / (27e9 * 1 byte) ≈ 124.07 tokens/s (Batch=1, Decode阶段)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H100 SXM5 显存带宽约 3.35 TB/s (3350 GB/s)，Qwen3-27B FP8 权重约 27 GB，算术运算 3350/27 ≈ 124.07，量纲与数值均合理。

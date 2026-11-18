@@ -1,0 +1,27 @@
+# N312: NVIDIA RTX 5090 (Blackwell) 的显存容量确认为 32GB GDDR7，而非传闻中的 24GB，这一容量是判断其能否单卡承载 Qwen3
+
+- **status**: pending
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+NVIDIA RTX 5090 (Blackwell) 的显存容量确认为 32GB GDDR7，而非传闻中的 24GB，这一容量是判断其能否单卡承载 Qwen3-27B FP8/INT8 权重的关键物理约束。
+
+## Corrected Claim
+
+NVIDIA RTX 5090 (Blackwell) 的显存容量据公开报道为 32GB GDDR7，这一容量是判断其能否单卡承载 Qwen3-27B FP8/INT8 权重的关键物理约束。
+
+## Evidence
+
+[质询]参考来源中未包含任何关于 NVIDIA RTX 5090 具体硬件规格（显存容量、类型）的信息，无法通过提供的来源直接验证该经验事实。 | 经验事实，逻辑自洽但缺来源支持（来源[1]-[4]均与具体显卡规格无关，未提供直接证据）
+
+## Retrieval Sources
+
+- {'url': 'https://www.nvidia.com/en-us/', 'type': 'bing', 'title': 'World Leader in Artificial Intelligence Computing | NVIDIA'}
+- {'url': 'https://www.nvidia.com/en-us/drivers/', 'type': 'bing', 'title': 'Download The Official NVIDIA Drivers | NVIDIA'}
+- {'url': 'https://en.m.wikipedia.org/wiki/Nvidia', 'type': 'bing', 'title': 'Nvidia - Wikipedia'}
+- {'url': 'http://arxiv.org/abs/2302.13956v6', 'type': 'arxiv', 'title': 'Blackwell-Monotone Updating Rules'}

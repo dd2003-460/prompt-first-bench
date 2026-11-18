@@ -139,10 +139,38 @@ def _cache_put(qid, question, sources):
 
 
 
+def _inject_finish(js_code):
+    """给 ego-browser JS 代码注入 try/finally + task.finish({keep: []}) 自动清理。
+    把 `const task = await taskSpace(...)` 提升到 IIFE 顶层，
+    用 try/finally 包裹主体，确保即使内部 return/throw 也能关闭 space。"""
+    if "taskSpace(" not in js_code or "task.finish" in js_code:
+        return js_code
+    js_code = js_code.strip()
+    prefix = "(async () => {"
+    suffix = "})();"
+    if not (js_code.startswith(prefix) and js_code.endswith(suffix)):
+        return js_code
+    inner = js_code[len(prefix):len(js_code)-len(suffix)].strip()
+    # 把 `const task = await taskSpace(...)` 改成赋值（去掉 const）
+    inner = inner.replace("const task = await taskSpace", "task = await taskSpace", 1)
+    return (
+        "(async () => {\n"
+        "let task;\n"
+        "try {\n"
+        f"{inner}\n"
+        "} finally {\n"
+        "  try { if (task) await task.finish({ keep: [] }); } catch(e) {}\n"
+        "}\n"
+        "})();"
+    )
+
+
 def _run_ego_browser(js_code, timeout=120):
-    """执行 ego-browser nodejs 脚本，返回 stdout。失败抛异常。"""
+    """执行 ego-browser nodejs 脚本，返回 stdout。失败抛异常。
+    自动注入 task.finish({keep: []}) 关闭 taskSpace，防止堆积。"""
     if not os.path.exists(EGO_BROWSER):
         raise ResearchHookUnavailable(f"ego-browser not found at {EGO_BROWSER}")
+    js_code = _inject_finish(js_code)
     result = subprocess.run(
         [EGO_BROWSER, "nodejs", "-e", js_code],
         capture_output=True, text=True, timeout=timeout,
@@ -554,7 +582,7 @@ def _gpu_spec_search(query, max_results=3):
 '''
         try:
             r = _sp.run(
-                [EGO_BROWSER, "nodejs", "-e", js],
+                [EGO_BROWSER, "nodejs", "-e", _inject_finish(js)],
                 capture_output=True, text=True, timeout=60,
             )
             out = r.stdout + r.stderr

@@ -1,0 +1,20 @@
+# N20: 不确定性标注框架：将结论分为三级：(1) 高置信（given + knowledge，如 Pareto 参数、LRU 基本公式）；(2) 中置信（knowled
+
+- **status**: verified
+- **level**: L2
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+不确定性标注框架：将结论分为三级：(1) 高置信（given + knowledge，如 Pareto 参数、LRU 基本公式）；(2) 中置信（knowledge 但依赖假设，如 x_min、耦合因子 f）；(3) 低置信（需 search 验证，如 LFU 提升上限的实验值、更新率影响的实测数据）；每个子问的最终答案需标注所用结论的置信等级，属 given 来源（题面要求区分）。
+
+## Corrected Claim
+
+不确定性标注框架：将结论分为三级：(1) 高置信（given + knowledge，如 Pareto 参数、LRU 基本公式）；(2) 中置信（knowledge 但依赖假设，如 x_min、耦合因子 f）；(3) 低置信（需 search 验证，如 LFU 提升上限的实验值、更新率影响的实测数据）；每个子问的最终答案需标注所用结论的置信等级，属 given 来源（题面要求区分）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

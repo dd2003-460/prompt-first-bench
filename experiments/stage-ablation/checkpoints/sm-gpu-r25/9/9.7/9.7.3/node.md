@@ -1,0 +1,28 @@
+# N291: FP8 量化在代码生成任务 (HumanEval/MBPP) 上的 Pass@1 准确率下降幅度：通常比 BF16 低 1-3 个百分点，若下降超过 5% 则不
+
+- **status**: pending
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N112
+
+## Claim
+
+FP8 量化在代码生成任务 (HumanEval/MBPP) 上的 Pass@1 准确率下降幅度：通常比 BF16 低 1-3 个百分点，若下降超过 5% 则不可接受，需结合具体任务类型 (如数学推理 vs 代码生成) 进行差异化评估。
+
+## Corrected Claim
+
+FP8 量化在代码生成任务上的 Pass@1 准确率通常会有所下降，具体幅度需结合任务类型评估，一般认为显著下降（如超过 5%）可能影响可用性，但具体数值（如 1-3 个百分点）需参考特定模型与基准测试的实验数据。
+
+## Evidence
+
+[质询]参考来源 [1] 主要讨论 FP8 在强化学习（RL）中的工程稳定性与加速，并未提供代码生成任务（HumanEval/MBPP）上 Pass@1 准确率下降的具体数值（1-3 个百分点）或 5% 的阈值标准，属于经验事实缺乏直接来源支持。 | 经验事实，逻辑自洽但缺来源支持（来源 [1] 仅涉及 RL 场景，未覆盖代码生成基准测试的具体精度损失数据）。
+
+## Search Query
+
+FP8 quantization code generation accuracy drop HumanEval Pass@1 Qwen
+
+## Retrieval Sources
+
+- {'url': 'http://arxiv.org/abs/2601.18150v2', 'type': 'arxiv', 'title': 'FP8-RL: A Practical and Stable Low-Precision Stack for LLM Reinforcement Learnin'}

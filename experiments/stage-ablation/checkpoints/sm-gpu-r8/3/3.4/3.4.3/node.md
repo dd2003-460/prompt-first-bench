@@ -1,0 +1,28 @@
+# N52: Intel Arc (Xe-HPG 架构) 运行 vLLM 或 llama.cpp 进行 27B 模型推理的最低驱动版本要求及已知兼容性阻断点 (如 Flash
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N8
+
+## Claim
+
+Intel Arc (Xe-HPG 架构) 运行 vLLM 或 llama.cpp 进行 27B 模型推理的最低驱动版本要求及已知兼容性阻断点 (如 Flash Attention 内核缺失)，若不可行，替代方案 (llama.cpp Vulkan backend) 的实测吞吐与 CUDA 版本的比值
+
+## Corrected Claim
+
+Intel Arc (Xe-HPG) 运行 27B 模型推理的具体最低驱动版本、Flash Attention 兼容性细节及 Vulkan 后端相对于 CUDA 的实测吞吐比值需查阅 Intel 官方文档或最新社区基准测试报告，当前缺乏可靠外部证据支持具体数值。
+
+## Evidence
+
+[质询]参考来源与事实主题完全无关，无法提供外部证据支持具体的驱动版本、兼容性阻断点或性能比值数据。 | 来源[1]讨论的是ARC-AGI-3智能体基准测试，与Intel Arc硬件驱动及LLM推理性能无关，属于经验事实且缺来源支持。
+
+## Search Query
+
+Intel Arc A770 vLLM compatibility Qwen 27B Vulkan backend throughput comparison CUDA
+
+## Retrieval Sources
+
+- {'url': 'http://arxiv.org/abs/2603.24621v2', 'type': 'arxiv', 'title': 'ARC-AGI-3: A New Challenge for Frontier Agentic Intelligence'}

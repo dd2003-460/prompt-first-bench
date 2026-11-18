@@ -1,0 +1,29 @@
+# N290: FP8 量化在长上下文 (32K) 生成任务中的累积误差机制：由于 Attention 矩阵中的 Key/Value 向量在 FP8 下精度降低，随着序列长度增
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N112
+
+## Claim
+
+FP8 量化在长上下文 (32K) 生成任务中的累积误差机制：由于 Attention 矩阵中的 Key/Value 向量在 FP8 下精度降低，随着序列长度增加，Softmax 归一化误差累积，导致生成质量在 16K tokens 后可能出现逻辑连贯性下降，具体阈值需通过长文本一致性测试 (如 LongBench) 验证。
+
+## Corrected Claim
+
+FP8 量化在长上下文生成任务中，由于 Key/Value 向量精度降低，Softmax 归一化误差可能随序列长度增加而累积，导致生成质量下降；具体性能拐点需通过长文本一致性测试（如 LongBench）针对特定模型和量化配置进行验证。
+
+## Evidence
+
+[质询]陈述中关于“16K tokens后出现逻辑连贯性下降”的具体阈值缺乏普遍性，属于特定实验条件下的经验观察，而非FP8量化的固有物理/数学必然结果；不同模型架构、量化策略（如per-tensor vs per-channel）及硬件实现可能导致该阈值显著偏移或不存在明显断崖。 | 来源[2]证实FP8在长序列生成中主要受KV-cache内存和计算精度影响，支持累积误差机制的存在，但未提供“16K tokens”这一具体阈值或LongBench测试的直接证据，故降级为定性表述。
+
+## Search Query
+
+FP8 quantization long context LLM inference error accumulation attention mechanism
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org', 'type': None, 'title': 'direct-browser: arxiv.org'}
+- {'url': 'http://arxiv.org/abs/2601.18150v2', 'type': 'arxiv', 'title': 'FP8-RL: A Practical and Stable Low-Precision Stack for LLM Reinforcement Learnin'}

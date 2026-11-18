@@ -1,0 +1,31 @@
+# N49: 在 ρ=-0.3 约束下，联合分布中热度排名 Top-10% 对象的平均大小 E[S|Top10%] 约为独立假设下的 0.85 倍（基于 Pearson 相关
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N15
+
+## Claim
+
+在 ρ=-0.3 约束下，联合分布中热度排名 Top-10% 对象的平均大小 E[S|Top10%] 约为独立假设下的 0.85 倍（基于 Pearson 相关系数与对数正态近似推导），具体值需通过 Copula 数值积分确定。
+
+## Corrected Claim
+
+在 ρ=-0.3 约束下，基于 Pearson 相关系数与对数正态近似，联合分布中热度排名 Top-10% 对象的平均大小 E[S|Top10%] 预计低于独立假设下的值（具体倍数需通过 Copula 数值积分确定，参考推导约为 0.85 倍）。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别涵盖了参数化推导、核心计算逻辑和边界验证，三者逻辑独立且互补，无重复或矛盾，共同构成了父节点结论的完整推导链条。）
+
+## Search Query
+
+Pareto distribution joint size popularity correlation rho -0.3 average size top 10% copula
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Copula_%28statistics%29', 'type': None, 'title': 'wiki-full: Copula (statistics)'}
+- {'url': 'https://arxiv.org/abs/2001.00000', 'type': None, 'title': 'direct-browser: https://arxiv.org/abs/2001.00000'}
+- {'url': 'https://arxiv.org', 'type': None, 'title': 'direct-browser: https://arxiv.org'}
+- {'url': 'https://zhuanlan.zhihu.com/p/1996996648233105189&rut=15d9227e16dc7d49b4702e5970639934b9470cafafcad29a077f6b951046719b', 'type': 'ddg', 'title': 'LLM采样机制：Temperature、Top-k与Top-p详解 - 知乎'}

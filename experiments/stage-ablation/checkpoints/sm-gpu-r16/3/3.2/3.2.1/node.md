@@ -1,0 +1,31 @@
+# N38: Qwen3-27B 的 GQA 结构参数：层数 L=64，KV 头数 H_kv=4，head_dim=128，需从模型架构文档或 config.json 确认
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N6
+
+## Claim
+
+Qwen3-27B 的 GQA 结构参数：层数 L=64，KV 头数 H_kv=4，head_dim=128，需从模型架构文档或 config.json 确认
+
+## Corrected Claim
+
+Qwen3-27B 的 GQA 结构参数需查阅官方 config.json 确认；参考来源显示 Qwen3-32B 为 64 层 GQA，而 Qwen3.6/3.8-27B 采用混合注意力架构，不能直接推断 Qwen3-27B 的具体参数。
+
+## Evidence
+
+[质询]参考来源主要涉及 Qwen3.6/3.8 混合架构或 Qwen3-32B，缺乏 Qwen3-27B 具体 config.json 的直接证据，存在版本混淆风险（如 27B 与 32B 参数差异，或 27B 是否采用混合架构）。 | 来源 [3] 确认 Qwen3-32B 为 64 层 GQA，来源 [1][2] 显示 Qwen3.6/3.8-27B 为混合架构（非纯 GQA 或层数不同），无来源直接支持 Qwen3-27B 为纯 GQA 且 L=64, H_kv=4, head_dim=128，属经验事实缺直接来源支持。
+
+## Search Query
+
+Qwen3-27B architecture config.json num_hidden_layers num_key_value_heads head_dim
+
+## Retrieval Sources
+
+- {'url': 'https://freedom-lwx.github.io/llm-architecture-handbook/04_Qwen3.6-27B/&rut=d6898aa33ecc505b37b4a90aab64be21e871f29fa76bc4a3fa9a2a1afb72bba9', 'type': 'ddg', 'title': '04 · Qwen3.6-27B - 大模型架构学习手册'}
+- {'url': 'https://happyrock.cloud/zh/blog/2026-08-16_qwen3.8-27b/&rut=a806ce1028ecdedc576355eddea548d4daa7df0e0712123e3216f3ec78fd1bd9', 'type': 'ddg', 'title': 'Qwen3.8-27B混合注意力架构深度解析：48层Gated DeltaNet + 16层Attention如何让270亿参数模型跑在消费级 ...'}
+- {'url': 'https://blog.csdn.net/gitblog_00033/article/details/151733507&rut=d182b9c8daab47d36cfcf4f8ed6464454fa59a1d40d2ab6318523113a9a1cc1d', 'type': 'ddg', 'title': 'Qwen3-32B模型结构解析：64层Transformer与GQA注意力机制详解-CSDN博客'}
+- {'url': 'https://keirin-station.com/', 'type': 'bing', 'title': '競輪（KEIRIN・ケイリン）情報なら競輪ステーション'}

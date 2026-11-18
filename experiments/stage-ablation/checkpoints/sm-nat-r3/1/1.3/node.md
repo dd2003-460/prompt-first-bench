@@ -1,0 +1,24 @@
+# N8: 对象大小服从 Pareto 分布，形状参数 α = 1.1，最小值 x_min 需根据总数据量或典型对象大小估算 [待核验]，假设 x_min = 1 KB 则
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+对象大小服从 Pareto 分布，形状参数 α = 1.1，最小值 x_min 需根据总数据量或典型对象大小估算 [待核验]，假设 x_min = 1 KB 则 E[S] = α/(α-1) * x_min = 11 KB
+
+## Corrected Claim
+
+对象大小服从 Pareto 分布，形状参数 α = 1.1，最小值 x_min 需根据总数据量或典型对象大小估算 [待核验]，假设 x_min = 1 KB 则 E[S] = α/(α-1) * x_min = 11 KB
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别处理了内存可用量计算、队列边界确定、参数合理性验证以及敏感性分析，逻辑上互斥且互补，无重复内容。）
+
+## Search Query
+
+Pareto distribution expected value alpha 1.1

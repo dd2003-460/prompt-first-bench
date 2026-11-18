@@ -1,0 +1,20 @@
+# N7: 对象总数 N = 100,000
+
+- **status**: pending
+- **level**: L2
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+对象总数 N = 100,000
+
+## Corrected Claim
+
+对象总数 N = 100,000
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备（子节点与父节点（对象总数 N=100,000）缺乏逻辑上的从属关系。父节点是规模参数，而子节点主要讨论缓存容量、LRU边界及敏感性分析，未直接分解 N 的构成或属性。此外，子节点2和4存在逻辑依赖和潜在矛盾：子节点2基于 S_min=1KB 计算 K_max，而子节点4假设 x_min=100Bytes 导致 K_avg 变化，两者对最小对象大小的假设不一致，破坏了正交性。）

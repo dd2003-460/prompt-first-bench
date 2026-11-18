@@ -1,0 +1,28 @@
+# N275: H100 SXM 在 LLM 推理（非训练）负载下的实际平均功耗 P_actual 约为 TDP 的 60%-75%，即 420W-525W，而非满载 700W
+
+- **status**: pending
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N107
+
+## Claim
+
+H100 SXM 在 LLM 推理（非训练）负载下的实际平均功耗 P_actual 约为 TDP 的 60%-75%，即 420W-525W，而非满载 700W；用于计算 Opex 时应采用实测均值或保守估计 500W，误差范围 ±100W
+
+## Corrected Claim
+
+H100 SXM 在 LLM 推理负载下的实际平均功耗通常低于 TDP（700W），工程估算中常采用 400W-550W 区间或保守值 500W，具体数值取决于模型大小、批处理策略及推理框架优化程度。
+
+## Evidence
+
+[质询]参考来源仅涉及H100内存带宽与并发响应，完全未提及功耗数据，无法提供外部证据支持；且'60%-75%'这一具体数值范围属于经验性统计结论，不同推理框架（如TensorRT-LLM vs vLLM）及模型规模下波动较大，缺乏单一权威来源直接背书该精确区间。 | 经验事实，逻辑自洽（推理负载通常低于训练峰值功耗，500W作为保守估计符合工程直觉），但参考来源[1]与功耗主题无关，无可用外部证据直接支持具体数值范围。
+
+## Search Query
+
+H100 SXM inference power consumption average watts LLM
+
+## Retrieval Sources
+
+- {'url': 'http://arxiv.org/abs/2608.15764v1', 'type': 'arxiv', 'title': 'Concurrency Response of Plain Global Loads on the NVIDIA H100'}

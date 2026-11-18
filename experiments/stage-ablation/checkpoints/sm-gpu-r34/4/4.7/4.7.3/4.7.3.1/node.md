@@ -1,0 +1,31 @@
+# N244: AMD Instinct MI250X 的单卡市场参考价约为 $25,000 - $30,000（2024年数据），二手市场或批量采购价格可能在 $15,000
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N77
+
+## Claim
+
+AMD Instinct MI250X 的单卡市场参考价约为 $25,000 - $30,000（2024年数据），二手市场或批量采购价格可能在 $15,000 - $20,000 区间，需查阅最新硬件行情网站确认具体成交价
+
+## Corrected Claim
+
+AMD Instinct MI250X 的单卡市场参考价约为 $25,000 - $30,000（2024年数据），二手市场或批量采购价格可能在 $15,000 - $20,000 区间，具体成交价需查阅最新硬件行情网站确认
+
+## Evidence
+
+[质询]该陈述包含具体的市场价格数值（$25,000-$30,000），属于经验事实。参考来源中未包含任何关于AMD Instinct MI250X具体售价或市场行情的数据，无法通过现有来源验证其数值准确性。 | 经验事实，逻辑自洽但缺来源支持（来源[1]-[4]均未提供具体价格数据）
+
+## Search Query
+
+AMD Instinct MI250X current market price 2024 USD
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Supercomputer', 'type': None, 'title': 'wiki-full: Supercomputer'}
+- {'url': 'https://www.amd.com/en.html', 'type': 'bing', 'title': 'AMD ׀ together we advance_AI'}
+- {'url': 'https://www.amd.com/en/support/download/drivers.html', 'type': 'bing', 'title': 'Drivers and Support for Processors and Graphics'}
+- {'url': 'https://en.wikipedia.org/wiki/AMD', 'type': 'bing', 'title': 'AMD - Wikipedia'}

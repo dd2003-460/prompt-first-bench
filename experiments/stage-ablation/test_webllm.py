@@ -1,4 +1,5 @@
 import subprocess, json
+from research_hook import _inject_finish
 
 query = 'H100 GPU FLOPS'
 js = '''
@@ -84,6 +85,6 @@ console.log('LINKS:' + JSON.stringify(links));
 })()
 '''
 
-result = subprocess.run(['/Users/a1-6/.local/bin/ego-browser', 'nodejs', '-e', js], capture_output=True, text=True, timeout=90)
+result = subprocess.run(['/Users/a1-6/.local/bin/ego-browser', 'nodejs', '-e', _inject_finish(js)], capture_output=True, text=True, timeout=90)
 print('STDOUT:', result.stdout)
 print('STDERR:', result.stderr[:500])

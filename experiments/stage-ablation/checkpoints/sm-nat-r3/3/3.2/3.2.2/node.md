@@ -1,0 +1,31 @@
+# N52: 工作点 A（高热度/小对象）：对于热度排名 Top-1% 的对象，假设其平均大小为 1.5 KB（基于负相关推断），则 128 GB 容量可容纳 K_A = 1
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N15
+
+## Claim
+
+工作点 A（高热度/小对象）：对于热度排名 Top-1% 的对象，假设其平均大小为 1.5 KB（基于负相关推断），则 128 GB 容量可容纳 K_A = 1.374e11 / 1500 ≈ 91,600 个对象，覆盖热度累积占比 F_A ≈ 95%（基于 β=0.9 的 Pareto 累积分布）。
+
+## Corrected Claim
+
+工作点 A（高热度/小对象）：对于热度排名 Top-1% 的对象，若假设其平均大小为 1.5 KB，则 128 GB 容量可容纳约 91,600 个对象；在特定 Pareto 分布（如 β=0.9）假设下，其覆盖热度累积占比约为 95%。
+
+## Evidence
+
+[质询]该陈述包含多个具体的经验性假设（Top-1%对象平均大小1.5KB、Pareto指数β=0.9、累积占比95%），这些参数并非第一性原理可推导，且参考来源中未提供相关数据支持，属于缺乏来源支撑的经验事实。 | 经验事实，逻辑自洽但缺来源支持（来源[1]-[4]均与缓存对象大小分布及Pareto参数无关）
+
+## Search Query
+
+Pareto beta 0.9 top 1% cumulative frequency coverage
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org', 'type': None, 'title': 'direct-browser: https://arxiv.org'}
+- {'url': 'https://blog.csdn.net/weixin_33508411/article/details/163320555&rut=7df329e8fb2d52b0ba226ad3ca4966763dab5549c0117fd798430cb87ffeea8d', 'type': 'ddg', 'title': '华为od机试：开源项目热度榜算法实现与系统设计解析-csdn博客'}
+- {'url': 'https://juejin.cn/post/7393746524473851967&rut=554be39c0565ffaef39140ff5f3d851f7fb60b6466125add44fba58c94acccb0', 'type': 'ddg', 'title': '榜单模型 (二)：计算热榜的具体算法及实现一、核心的算法 考虑到文章数可能非常多，我们采用一个批量计算的方法，整个流程如上 - 掘金'}
+- {'url': 'https://blog.csdn.net/qq_61723836/article/details/150959627&rut=2b8efc2405a844acaae9eb68d341a97e8529ddfad79e25f39a3133ff2d2c9706', 'type': 'ddg', 'title': '常见的 Top K 热度查询解决方案 - CSDN博客'}

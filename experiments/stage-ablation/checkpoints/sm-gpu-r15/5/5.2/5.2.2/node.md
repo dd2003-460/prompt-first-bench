@@ -1,0 +1,28 @@
+# N258: Qwen3-27B W4 量化在 HumanEval Pass@1 上的准确率为 60.5%（基于 Llama-3-70B W4 量化在 HumanEval 上
+
+- **status**: pending
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N80
+
+## Claim
+
+Qwen3-27B W4 量化在 HumanEval Pass@1 上的准确率为 60.5%（基于 Llama-3-70B W4 量化在 HumanEval 上下降约 4-5% 的规律推算，具体数值需查 Qwen 官方量化报告或第三方评测 [待核验]）。
+
+## Corrected Claim
+
+Qwen3-27B W4 量化在 HumanEval Pass@1 上的准确率预计约为 60.5%（基于 Llama-3-70B W4 量化下降 4-5% 的规律推算，具体数值需查 Qwen 官方量化报告或第三方评测确认）。
+
+## Evidence
+
+[质询]该数值（60.5%）是基于其他模型（Llama-3-70B）的量化损失规律进行的推测，而非直接测量或官方报告数据。不同模型架构（Qwen vs Llama）对量化敏感度的差异可能导致实际准确率与推算值存在偏差，且缺乏针对 Qwen3-27B W4 在 HumanEval 上的直接实证数据支持。 | 参考来源 [1] 为凝聚态物理论文，与 AI 模型量化评测完全无关，属于「无可用外部证据」。该陈述为经验事实（具体模型性能指标），逻辑上虽自洽（基于类比推算），但缺乏直接来源支持，且明确标注为「推算」，故降级为定性/推测性表述。
+
+## Search Query
+
+Qwen3-27B W4 quantization HumanEval Pass@1 accuracy degradation
+
+## Retrieval Sources
+
+- {'url': 'http://arxiv.org/abs/1303.4033v1', 'type': 'arxiv', 'title': 'Two-dimensional magnetic interactions in LaFeAsO'}

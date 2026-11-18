@@ -1,0 +1,20 @@
+# N200: 2x RTX 4090 运行 Qwen3-27B BF16 时，若采用 Tensor Parallelism (TP=2)，每卡需加载 ~27GB 权重，单卡 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N62
+
+## Claim
+
+2x RTX 4090 运行 Qwen3-27B BF16 时，若采用 Tensor Parallelism (TP=2)，每卡需加载 ~27GB 权重，单卡 24GB 显存不足以容纳，必须采用 Pipeline Parallelism (PP=2) 或混合并行，PP 模式下流水线气泡 (Bubble) 会导致吞吐量损失约 10-20%。
+
+## Corrected Claim
+
+2x RTX 4090 总显存 48GB，不足以直接加载 Qwen3-27B BF16 模型（约 54GB）。若强行运行需依赖量化或 CPU Offload。在假设模型已加载的前提下，TP=2 每卡权重约 27GB 超出单卡 24GB 限制，需采用 PP 或混合并行，PP 模式可能引入 10-20% 的流水线气泡损失。
+
+## Evidence
+
+[质询]数值量级与工程实践偏差：Qwen3-27B 在 BF16 下权重约为 54GB，TP=2 每卡约 27GB，确实超出 24GB 显存（含 KV Cache 和激活值），但现代推理框架（如 vLLM, TensorRT-LLM）通常支持量化（INT8/INT4）或 Offloading，且 2x 4090 显存总和 48GB 不足以直接运行 BF16 27B 模型（需 54GB+），因此前提“运行 BF16”本身在 2x 4090 上几乎不可行，除非使用量化或 CPU Offload，这使得“必须采用 PP”的结论在纯 GPU BF16 场景下不成立，因为根本跑不起来。此外，PP 气泡损失 10-20% 是经验值，非绝对真理，取决于 batch size 和序列长度。 | 先验知识/题面给定，逻辑校验通过。虽然 2x 4090 (48GB) 无法直接容纳 27B BF16 (54GB) 模型，但陈述内部逻辑（TP 显存不足 -> 需 PP/混合）在假设模型能加载的前提下是自洽的。由于 source 为 knowledge，且无外部来源矛盾，但考虑到硬件显存硬限制导致前提在纯 GPU BF16 下不成立，降级为 degraded 以反映工程实现的复杂性（通常需量化或 Offload）。

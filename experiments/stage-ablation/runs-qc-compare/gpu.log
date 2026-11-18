@@ -1,0 +1,78 @@
+=== gpu start ===
+  [SM] L1 skeleton (top-level dimensions only)...
+  [SM] objective (model-estimated): Feasibility · (Quality ≥ Threshold) · (Completeness == True) · (Performance / TCO) 最大化，其中 Performanc
+    factor: Feasibility (布尔值)：硬件配置是否满足 27B 模型在选定精度下的显存/内存容量下限（含 KV Cache 32K 开销）及架构兼容性
+    factor: Performance (标量)：在选定硬件上的实际推理吞吐量（tokens/s）或首 token 延迟，作为性能维度的可测指标
+    factor: Quality (标量)：所选量化精度相对于 BF16 基准的质量损失分数（如困惑度增加量或基准测试下降幅度），需论证在可接受阈值内
+    factor: TCO (标量)：总拥有成本，包含硬件购置成本、电力消耗成本及多卡方案的额外基础设施成本（如互联、机箱、散热）
+    factor: Completeness (布尔值)：候选集是否覆盖了所有关键架构（GPU/ASIC/NPU）、代际和价格区间，且每个关键数字均标注了来源可靠性
+  [SM] L1: 4 top-level dimensions
+    [N1] 可行性与容量约束：界定硬件显存/内存容量下限、架构兼容性（CUDA/ROCm/其他）及 32K 上下文窗口的 KV Cache 开销，作为方案入选的过滤门。
+    [N2] 精度-质量权衡：评估不同量化方案（BF16/FP8/INT8/NVFP4/W4）对模型输出质量的影响，确定质量损失的可接受阈值，并据此筛选可行的精度-硬件组合。
+    [N3] 性能-成本效率：计算候选方案的推理吞吐量（或延迟）与总拥有成本（TCO）的比值，涵盖单卡与多卡方案的硬件成本、电力成本及互联开销，用于排序择优。
+    [N4] 候选集覆盖与数据溯源：确保候选硬件列表涵盖消费级、数据中心级及非典型方案的所有关键架构与代际，并对所有关键性能/价格数字标注来源（实测/官方/推测）及不确定性标
+  [SM] edge-classify N3: quotient (概念定义显式为吞吐量与TCO的比值运算，属于典型的商结构指标。)
+  [SM] fanout cap 8: parent N1 kept 8/14, dropped 3
+  [SM] fanout cap 4: parent N3 kept 4/12, dropped 4
+  [SM] fanout cap 8: parent N4 kept 8/14, dropped 3
+  [gap_check A] 7 dimensions: 候选硬件全集的构建逻辑，包括涵盖的架构类型、代际范围、显存容 | 所选权重精度对模型输出质量的具体影响评估，以及论证该质量损失 | 满足32K tokens上下文窗口容量下限所需的显存占用分析 | 单卡与多卡部署方案（如双消费卡对比单数据卡）在硬件成本、软件 | 基于硬件价格、性能指标（如吞吐量/延迟潜力）及部署复杂度推导...
+  [RESEARCH-GAP] s5-node: arXiv returned only 0 result(s); other channels compensate
+  [SITE-WL] s5-node: kept 1 whitelisted, dropped 3 non-whitelisted
+  [SITE-WL] s5-node: kept 1 whitelisted, dropped 3 non-whitelisted
+  [RESEARCH-GAP] s5-node: arXiv returned only 0 result(s); other channels compensate
+  [SITE-WL] s5-node: kept 1 whitelisted, dropped 3 non-whitelisted
+  [RESEARCH-GAP] s5-node: arXiv returned only 0 result(s); other channels compensate
+  [SITE-WL] s5-node: kept 1 whitelisted, dropped 3 non-whitelisted
+  [RESEARCH-GAP] s5-node: arXiv returned only 0 result(s); other channels compensate
+  [SITE-WL] s5-node: kept 1 whitelisted, dropped 3 non-whitelisted
+  [RESEARCH-GAP] s5-node: arXiv returned only 0 result(s); other channels compensate
+  [SITE-WL] s5-node: kept 1 whitelisted, dropped 3 non-whitelisted
+  [CACHE-HIT] s5-node: 1 sources from cache
+  [CACHE-HIT] s5-node: 1 sources from cache
+  [CACHE-HIT] s5-node: 1 sources from cache
+  [CACHE-HIT] s5-node: 1 sources from cache
+  [CACHE-HIT] s5-node: 1 sources from cache
+  [CACHE-HIT] s5-node: 1 sources from cache
+  [CACHE-HIT] s5-node: 1 sources from cache
+  [CACHE-HIT] s5-node: 1 sources from cache
+  [CACHE-HIT] s5-node: 1 sources from cache
+  [CACHE-HIT] s5-node: 1 sources from cache
+  [CACHE-HIT] s5-node: 1 sources from cache
+  [CACHE-HIT] s5-node: 1 sources from cache
+  [SM] r1: +16 (total 20), gain=0.972, S_α'=16.0, ver=10/16, streak=0
+Traceback (most recent call last):
+  File "/Users/a1-6/Desktop/workspace/pfb/experiments/stage-ablation/run_qc_compare.py", line 16, in <module>
+    result = sm.run()
+  File "/Users/a1-6/Desktop/workspace/pfb/experiments/stage-ablation/s5_state_machine.py", line 1055, in run
+    kids = self._decompose_layer(batch)
+  File "/Users/a1-6/Desktop/workspace/pfb/experiments/stage-ablation/s5_state_machine.py", line 599, in _decompose_layer
+    out, _ = call_llm(prompt, max_tokens=8000, temperature=0.7, top_p=0.95, retries=4)
+             ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/a1-6/Desktop/workspace/pfb/experiments/stage-ablation/ablation_harness.py", line 493, in call_llm
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.4_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.4_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.4_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.4_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.4_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1350, in http_open
+    return self.do_open(http.client.HTTPConnection, req)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.4_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1325, in do_open
+    r = h.getresponse()
+  File "/opt/homebrew/Cellar/python@3.14/3.14.4_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1450, in getresponse
+    response.begin()
+    ~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.4_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 336, in begin
+    version, status, reason = self._read_status()
+                              ~~~~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.4_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 305, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+                             " response")
+http.client.RemoteDisconnected: Remote end closed connection without response

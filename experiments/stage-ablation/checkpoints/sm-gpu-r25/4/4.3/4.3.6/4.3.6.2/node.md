@@ -1,0 +1,24 @@
+# N209: NVIDIA H100 SXM 配备 5 组 HBM3 堆栈，每组 16 个 24Gb 颗粒，总容量 80GB；带宽 = 5 × 1024 bit 总线宽度 ×
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N65
+
+## Claim
+
+NVIDIA H100 SXM 配备 5 组 HBM3 堆栈，每组 16 个 24Gb 颗粒，总容量 80GB；带宽 = 5 × 1024 bit 总线宽度 × 5.2 Gbps 速率 ≈ 3.35 TB/s；HBM 带宽可通过增加堆栈数量（如 H200 使用 6 组）线性提升，无通道数限制
+
+## Corrected Claim
+
+NVIDIA H100 SXM 配备 5 组 HBM3 堆栈，每组 16 个 24Gb 颗粒，总容量 80GB；带宽 = 5 × 1024 bit 总线宽度 × 5.2 Gbps 速率 ≈ 3.35 TB/s；HBM 带宽可通过增加堆栈数量（如 H200 使用 6 组）线性提升，无通道数限制
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+NVIDIA H100 SXM HBM3 stack count bandwidth calculation

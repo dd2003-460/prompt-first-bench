@@ -1,0 +1,38 @@
+{
+  "id": "N36",
+  "claim": "NVFP4/W4 权重占用空间计算：27.8B * 0.5 bytes = 13.9 GB，需确认 NVFP4 是否包含 block-wise scale 因子（如每 128 元素一个 scale，额外开销约 1-2%）",
+  "level": "L3",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]NVFP4 并非简单的 4-bit 整数，而是包含 block-wise scale 因子的浮点格式。若仅按 0.5 bytes/element 计算，忽略了 scale 因子（通常每 128 或 64 个元素一个 FP8/FP16 scale）带来的额外存储开销，导致总占用空间被低估。 | 来源 [3] 和 [4] 确认了 NVFP4 的存在及硬件支持，但未提供具体的存储开销数值；逻辑上 27.8B * 0.5 = 13.9 GB 计算正确，但 NVFP4 实际包含 scale 因子，纯 4-bit 计算不完整，属于经验事实且缺乏精确来源支持，故降级。",
+  "corrected_claim": "NVFP4 权重基础占用约为 13.9 GB (27.8B * 0.5 bytes)，但需额外计入 block-wise scale 因子的开销（通常增加 1-2% 或更多，取决于 block size 和 scale 精度），实际占用略高于 13.9 GB。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N5"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "NVFP4 quantization overhead scale factors storage",
+  "retrieval_sources": [
+    {
+      "url": "https://docs.nvidia.com",
+      "type": null,
+      "title": "direct-browser: docs.nvidia.com"
+    },
+    {
+      "url": "https://github.com",
+      "type": null,
+      "title": "direct-browser: github.com"
+    },
+    {
+      "url": "https://zhuanlan.zhihu.com/p/1944504541950248086&rut=7c0984fec9ccc397e773776c6f1d777c9a29f0f4e3ca3f64035752532416768f",
+      "type": "ddg",
+      "title": "Nvfp4量化技术深度解析：4位精度下实现2.3倍推理加速 - 知乎"
+    },
+    {
+      "url": "https://arxiv.org/pdf/2509.25149v1&rut=03182edf92f725599267994c933f2ae2fccace1b1037fb1712b410202f143ddc",
+      "type": "ddg",
+      "title": "Pretraining Large Language Models with NVFP4 - arXiv.org"
+    }
+  ]
+}

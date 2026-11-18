@@ -1,0 +1,24 @@
+# N117: 工作点 C（低 K 高 N 比）：当 K/N = 0.001 时，F_top = 1 - (0.001)^0.1 ≈ 1 - 0.501 = 0.499，即前 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N47
+
+## Claim
+
+工作点 C（低 K 高 N 比）：当 K/N = 0.001 时，F_top = 1 - (0.001)^0.1 ≈ 1 - 0.501 = 0.499，即前 0.1% 的对象贡献近 50% 的热度，表明极端头部效应。
+
+## Corrected Claim
+
+工作点 C（低 K 高 N 比）：当 K/N = 0.001 时，F_top = 1 - (0.001)^0.1 ≈ 1 - 0.501 = 0.499，即前 0.1% 的对象贡献近 50% 的热度，表明极端头部效应。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算 (0.001)^0.1 即 10^(-3*0.1) = 10^(-0.3) ≈ 0.501，故 1 - 0.501 = 0.499，数值推导准确且符合幂律分布特征。
+
+## Search Query
+
+Zipf distribution cumulative share top 0.1 percent

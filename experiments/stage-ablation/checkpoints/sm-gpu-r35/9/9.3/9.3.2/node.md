@@ -1,0 +1,30 @@
+# N278: Mac Studio 192GB 配置的硬件成本修正：MSRP $3,999 为 128GB 配置，192GB 配置需额外支付 $1,000-$1,500 内存
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N108
+
+## Claim
+
+Mac Studio 192GB 配置的硬件成本修正：MSRP $3,999 为 128GB 配置，192GB 配置需额外支付 $1,000-$1,500 内存升级费，实际 Capex 约为 $4,999-$5,499；若考虑二手市场，价格可能低至 $3,500-$4,000
+
+## Corrected Claim
+
+Mac Studio 192GB 配置的实际成本高于基础款，具体 MSRP 及升级费用需查阅 Apple 官方最新定价表；二手市场价格波动较大，需参考实时市场数据。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件配置价格（MSRP $3,999 for 128GB, 升级费 $1,000-$1,500）及二手市场价格，属于经验事实。参考来源中未包含任何关于 Mac Studio 具体配置价格或内存升级费用的信息，无法验证这些具体数值的准确性。 | 经验事实，逻辑自洽但缺来源支持（来源[1]为Apple首页无具体产品参数，来源[2]为MacBook Pro促销，来源[3]为物理论文，均与Mac Studio价格无关）。
+
+## Search Query
+
+Mac Studio M2 Ultra 192GB price 2024
+
+## Retrieval Sources
+
+- {'url': 'https://apple.com', 'type': None, 'title': 'direct-browser: apple.com'}
+- {'url': 'https://macrumors.com', 'type': None, 'title': 'direct-browser: macrumors.com'}
+- {'url': 'http://arxiv.org/abs/1303.4033v1', 'type': 'arxiv', 'title': 'Two-dimensional magnetic interactions in LaFeAsO'}

@@ -1,0 +1,31 @@
+# N57: NVIDIA H100 SXM (80GB) 与 RTX 4090 在 Qwen3-27B BF16/FP8 推理下的每 Token 成本对比：H100 的功耗
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N17
+
+## Claim
+
+NVIDIA H100 SXM (80GB) 与 RTX 4090 在 Qwen3-27B BF16/FP8 推理下的每 Token 成本对比：H100 的功耗 (700W) 与 RTX 4090 (450W) 的电力成本差异，以及 H100 的更高显存带宽 (3.35 TB/s) 带来的吞吐优势，计算达到盈亏平衡点的月运行时长 (hours/month)
+
+## Corrected Claim
+
+NVIDIA H100 SXM (80GB) 与 RTX 4090 在 Qwen3-27B BF16/FP8 推理下的每 Token 成本对比需基于具体电力单价和实际吞吐测试数据计算；H100 通常具有更高的显存带宽和能效比，但具体盈亏平衡点月运行时长取决于部署场景和电价，当前缺乏具体数值支持。
+
+## Evidence
+
+[质询]参考来源中完全缺失关于 H100 和 RTX 4090 的具体功耗、显存带宽数值，以及 Qwen3-27B 模型在两种硬件上的推理吞吐量和电力成本计算数据，无法验证具体的盈亏平衡点计算结果。 | 经验事实，逻辑自洽但缺来源支持（来源[1]-[4]均未提供 H100/4090 具体规格或成本对比数据，仅[2]提及 4060 功耗，与 4090 无关）
+
+## Search Query
+
+H100 vs RTX 4090 LLM inference cost per token electricity price break-even hours Qwen 27B
+
+## Retrieval Sources
+
+- {'url': 'https://nvidia.com', 'type': None, 'title': 'direct-browser: nvidia.com'}
+- {'url': 'https://en.wikipedia.org/wiki/GeForce_RTX_40_series', 'type': 'gpu_specs', 'title': 'GPU Specs: GeForce\xa0RTX 4060[56][57][58]'}
+- {'url': 'https://www.nvidia.com/en-us/', 'type': 'bing', 'title': 'World Leader in Artificial Intelligence Computing | NVIDIA'}
+- {'url': 'https://www.nvidia.com/en-us/drivers/', 'type': 'bing', 'title': 'Download The Official NVIDIA Drivers | NVIDIA'}

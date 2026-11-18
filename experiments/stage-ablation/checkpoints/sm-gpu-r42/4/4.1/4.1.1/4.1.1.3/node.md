@@ -1,0 +1,24 @@
+# N167: RTX 4090 运行 Qwen3-27B W4 量化时的 Batch Size 限制：总显存需求 = 权重 (13.5GB) + KV Cache (4.3G
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N54
+
+## Claim
+
+RTX 4090 运行 Qwen3-27B W4 量化时的 Batch Size 限制：总显存需求 = 权重 (13.5GB) + KV Cache (4.3GB, BF16) + 激活值 (约 1-2GB) ≈ 19-20GB；剩余显存约 4-5GB，支持的最大 Batch Size 取决于序列长度，对于 32K 上下文，通常仅支持 Batch Size = 1 或 2，无法进行高并发推理。
+
+## Corrected Claim
+
+RTX 4090 运行 Qwen3-27B W4 量化时的 Batch Size 限制：总显存需求 = 权重 (13.5GB) + KV Cache (4.3GB, BF16) + 激活值 (约 1-2GB) ≈ 19-20GB；剩余显存约 4-5GB，支持的最大 Batch Size 取决于序列长度，对于 32K 上下文，通常仅支持 Batch Size = 1 或 2，无法进行高并发推理。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 显存 24GB，Qwen3-27B W4 量化权重约 13.5GB，32K 上下文下 KV Cache 与激活值占用合理，剩余显存确实仅支持低并发（Batch Size 1-2），数值量级与工程经验一致。
+
+## Search Query
+
+RTX 4090 24GB Qwen3-27B W4 quantization max batch size 32k context

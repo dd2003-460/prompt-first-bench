@@ -1,0 +1,17 @@
+{
+  "id": "N200",
+  "claim": "2x RTX 4090 运行 Qwen3-27B BF16 时，若采用 Tensor Parallelism (TP=2)，每卡需加载 ~27GB 权重，单卡 24GB 显存不足以容纳，必须采用 Pipeline Parallelism (PP=2) 或混合并行，PP 模式下流水线气泡 (Bubble) 会导致吞吐量损失约 10-20%。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值量级与工程实践偏差：Qwen3-27B 在 BF16 下权重约为 54GB，TP=2 每卡约 27GB，确实超出 24GB 显存（含 KV Cache 和激活值），但 2x RTX 4090 通常通过量化（如 INT8/INT4）或 Offloading 运行，而非强制 PP；且 PP=2 的气泡损失取决于 micro-batch size，10-20% 是经验估计值，缺乏特定硬件/配置下的精确来源支持，属于经验事实而非第一性原理推导。 | 经验事实，逻辑自洽但缺来源支持（source=knowledge 节点，但涉及具体硬件性能损耗比例，属经验参数，无外部来源直接验证 10-20% 的精确范围，故降级为定性表述）",
+  "corrected_claim": "2x RTX 4090 运行 Qwen3-27B BF16 时，若采用 Tensor Parallelism (TP=2)，每卡需加载 ~27GB 权重，单卡 24GB 显存不足以容纳（需考虑 KV Cache 和激活值），通常需采用量化、Offloading 或混合并行策略；若采用 Pipeline Parallelism (PP=2)，流水线气泡会导致一定程度的吞吐量损失，具体比例取决于 micro-batch size 和序列长度。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N62"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

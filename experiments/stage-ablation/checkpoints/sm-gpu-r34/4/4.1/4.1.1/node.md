@@ -1,0 +1,24 @@
+# N54: NVIDIA RTX 4090 (24GB) 推理 Qwen3-27B BF16 时的显存占用分解：模型权重 (54GB) 无法装入单卡，必须使用 INT8/F
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N16
+
+## Claim
+
+NVIDIA RTX 4090 (24GB) 推理 Qwen3-27B BF16 时的显存占用分解：模型权重 (54GB) 无法装入单卡，必须使用 INT8/FP8 量化或 Offload；INT8 量化下模型权重 (27GB) + 32K 上下文 KV Cache (约 4-6GB) 的总显存需求及剩余显存对 Batch Size 的限制
+
+## Corrected Claim
+
+NVIDIA RTX 4090 (24GB) 推理 Qwen3-27B BF16 时的显存占用分解：模型权重 (54GB) 无法装入单卡，必须使用 INT8/FP8 量化或 Offload；INT8 量化下模型权重 (27GB) + 32K 上下文 KV Cache (约 4-6GB) 的总显存需求及剩余显存对 Batch Size 的限制
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B BF16权重约54GB，INT8量化后约27GB，32K上下文KV Cache估算4-6GB符合Transformer架构显存占用规律，总需求约31-33GB，超出RTX 4090 24GB显存，结论自洽。
+
+## Search Query
+
+RTX 4090 24GB Qwen 27B INT8 quantization memory footprint KV cache 32k context batch size limit

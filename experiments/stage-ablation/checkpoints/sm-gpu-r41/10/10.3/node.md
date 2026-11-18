@@ -1,0 +1,20 @@
+# N298: INT8 量化下 Qwen3-27B 的总显存需求 = 模型权重 (27B * 1 byte = 27 GB) + KV Cache (若 KV Cache 保
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N119
+
+## Claim
+
+INT8 量化下 Qwen3-27B 的总显存需求 = 模型权重 (27B * 1 byte = 27 GB) + KV Cache (若 KV Cache 保持 BF16 则 51.5 GB，若量化为 INT8 则 25.75 GB) + 激活值 (约 1-2 GB)。若 KV Cache 为 BF16，总需求 ≈ 80-82 GB；若 KV Cache 为 INT8，总需求 ≈ 54-55 GB。
+
+## Corrected Claim
+
+INT8 量化下 Qwen3-27B 的总显存需求 = 模型权重 (27B * 1 byte = 27 GB) + KV Cache (若 KV Cache 保持 BF16 则 51.5 GB，若量化为 INT8 则 25.75 GB) + 激活值 (约 1-2 GB)。若 KV Cache 为 BF16，总需求 ≈ 80-82 GB；若 KV Cache 为 INT8，总需求 ≈ 54-55 GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：INT8权重27GB计算正确；KV Cache数值（51.5GB/25.75GB）符合BF16/INT8量级差异；总显存求和逻辑自洽。

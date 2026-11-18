@@ -1,0 +1,24 @@
+# N12: LRU 命中判定逻辑：对象 i 在缓存中当且仅当自上次访问以来的请求数小于 K，即其访问间隔 T_i < K
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+LRU 命中判定逻辑：对象 i 在缓存中当且仅当自上次访问以来的请求数小于 K，即其访问间隔 T_i < K
+
+## Corrected Claim
+
+LRU 命中判定逻辑：对象 i 在缓存中当且仅当自上次访问以来的请求数小于 K，即其访问间隔 T_i < K
+
+## Evidence
+
+父节点级核验未通过：不完备（父节点描述的是LRU缓存的命中判定逻辑（基于访问间隔 T_i < K 的布尔判断），而唯一的子节点描述的是对象在缓存中的驻留时间/等待时间（W_i）的近似计算。子节点内容偏离了父节点的核心主题（命中逻辑），转而讨论性能指标（驻留时间），且未解释 T_i 与 K 的关系如何导致命中，因此不完备。）
+
+## Search Query
+
+LRU hit probability access interval

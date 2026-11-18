@@ -1,0 +1,31 @@
+# N70: RTX 4090 的 MSRP 为 $1599，但 2024 年实际市场价约为 $2000-$2500，二手价约为 $1800-$2200 [时效待核: 价格波
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N21
+
+## Claim
+
+RTX 4090 的 MSRP 为 $1599，但 2024 年实际市场价约为 $2000-$2500，二手价约为 $1800-$2200 [时效待核: 价格波动]
+
+## Corrected Claim
+
+RTX 4090 的 MSRP 为 $1599，2024 年期间实际市场价因供需波动较大，通常高于 MSRP，具体价格随时间和市场状况变化。
+
+## Evidence
+
+[质询]2024年RTX 4090的市场价格受供需波动影响极大，且随时间推移（特别是2024年下半年至2025年初RTX 50系列发布前后）价格可能已回落或波动，固定区间$2000-$2500可能无法准确反映整个2024年的平均或典型市场价，存在时效性和具体时间点缺失的问题。 | MSRP $1599为已知事实，逻辑自洽；但参考来源[1]为RTX 50系列，[2]为NVIDIA官网首页，[3]为Tom's Hardware关于黄仁勋的文章，[4]为RTX 4060规格，均无直接证据支持2024年RTX 4090的具体市场均价和二手价区间，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+RTX 4090 price 2024 market price used
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/GeForce_RTX_50_series', 'type': None, 'title': 'wiki-full: GeForce RTX 50 series'}
+- {'url': 'https://nvidia.com', 'type': None, 'title': 'direct-browser: nvidia.com'}
+- {'url': 'https://tomshardware.com', 'type': None, 'title': 'direct-browser: tomshardware.com'}
+- {'url': 'https://en.wikipedia.org/wiki/GeForce_RTX_40_series', 'type': 'gpu_specs', 'title': 'GPU Specs: GeForce\xa0RTX 4060[56][57][58]'}

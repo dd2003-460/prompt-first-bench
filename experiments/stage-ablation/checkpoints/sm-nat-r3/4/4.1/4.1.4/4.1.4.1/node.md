@@ -1,0 +1,24 @@
+# N135: 工作点 B 中热度 1%-10% 对象的访问频率占比验证：在 Pareto(β=0.9) 分布下，热度排名 1000-10000 的对象热度占比 F_1to10
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N57
+
+## Claim
+
+工作点 B 中热度 1%-10% 对象的访问频率占比验证：在 Pareto(β=0.9) 分布下，热度排名 1000-10000 的对象热度占比 F_1to10% = (Σ_{i=1000}^{10000} i^{-0.9}) / (Σ_{j=1}^{100000} j^{-0.9}) ≈ (H_{10000, 0.9} - H_{1000, 0.9}) / H_{100000, 0.9}，需计算具体数值以修正 T_B 中的频率因子。
+
+## Corrected Claim
+
+工作点 B 中热度 1%-10% 对象的访问频率占比验证：在 Pareto(β=0.9) 分布下，热度排名 1000-10000 的对象热度占比 F_1to10% = (Σ_{i=1000}^{10000} i^{-0.9}) / (Σ_{j=1}^{100000} j^{-0.9}) ≈ (H_{10000, 0.9} - H_{1000, 0.9}) / H_{100000, 0.9}，需计算具体数值以修正 T_B 中的频率因子。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+Pareto distribution frequency distribution middle percentile calculation

@@ -1,0 +1,20 @@
+# N147: 工作点 A（热对象高频更新/高折损）：假设更新率与热度正相关（ρ_update_heat = 0.5），Top 10% 热门对象的有效更新率 u_eff = u
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N64
+
+## Claim
+
+工作点 A（热对象高频更新/高折损）：假设更新率与热度正相关（ρ_update_heat = 0.5），Top 10% 热门对象的有效更新率 u_eff = u_base * (1 + ρ_update_heat * β) = 0.01 * (1 + 0.45) = 0.0145/day。由于热门对象驻留时间 T_res 极短（约 1e-5 天量级），其单次驻留期间的失效概率 R_inv = 1 - exp(-u_eff * T_res) ≈ 1.45e-7，但因该部分对象承载 90% 流量，其对全局字节命中率的绝对贡献需加权计算。
+
+## Corrected Claim
+
+工作点 A（热对象高频更新/高折损）：假设更新率与热度正相关（ρ_update_heat = 0.5），Top 10% 热门对象的有效更新率 u_eff = u_base * (1 + ρ_update_heat * β) = 0.01 * (1 + 0.45) = 0.0145/day。由于热门对象驻留时间 T_res 极短（约 1e-5 天量级），其单次驻留期间的失效概率 R_inv = 1 - exp(-u_eff * T_res) ≈ 1.45e-7，但因该部分对象承载 90% 流量，其对全局字节命中率的绝对贡献需加权计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

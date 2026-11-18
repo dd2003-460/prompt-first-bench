@@ -1,0 +1,30 @@
+# N179: H100 SXM 在 Qwen3-27B BF16 下的实测吞吐量基准值（tokens/s），基于 vLLM 或 TensorRT-LLM 在 32K 上下文下
+
+- **status**: pending
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N57
+
+## Claim
+
+H100 SXM 在 Qwen3-27B BF16 下的实测吞吐量基准值（tokens/s），基于 vLLM 或 TensorRT-LLM 在 32K 上下文下的单卡实测数据，通常范围在 80-120 tokens/s 之间 [待核验]
+
+## Corrected Claim
+
+H100 SXM 在 Qwen3-27B BF16 下的实测吞吐量基准值（tokens/s），基于 vLLM 或 TensorRT-LLM 在 32K 上下文下的单卡实测数据，通常范围在 80-120 tokens/s 之间（注：此数值为经验估计，缺乏当前参考来源的直接实证支持，建议补充具体基准测试报告作为依据）。
+
+## Evidence
+
+[质询]该陈述为具体的经验性硬件性能基准数据（吞吐量数值范围），属于经验事实，无法从第一性原理推导。参考来源中未包含针对 Qwen3-27B 在 H100 SXM 上 32K 上下文的具体吞吐量实测数据，缺乏直接来源支持。 | 经验事实，逻辑自洽但缺来源支持（来源[1]涉及H100推理但未提供该特定模型吞吐量，来源[3]涉及Qwen3-27B微调但未提供H100吞吐量基准）。
+
+## Search Query
+
+NVIDIA H100 SXM Qwen3-27B BF16 inference benchmark tokens per second vLLM 32k context
+
+## Retrieval Sources
+
+- {'url': 'http://arxiv.org/abs/2609.19657v1', 'type': 'arxiv', 'title': 'PrefixBench-H100: Characterizing Prefix Reuse and Time-to-First-Token in H100 LL'}
+- {'url': 'http://arxiv.org/abs/2608.15764v1', 'type': 'arxiv', 'title': 'Concurrency Response of Plain Global Loads on the NVIDIA H100'}
+- {'url': 'http://arxiv.org/abs/2608.13681v1', 'type': 'arxiv', 'title': 'Fine-Tuning Qwen3-27B for C-to-Rust Code Translation: A Three-Stage Curriculum o'}

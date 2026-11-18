@@ -1,0 +1,25 @@
+# N28: 单卡方案（如 1x H100 80GB）的 TCO 计算模型：TCO_1yr = Hardware_Cost + (Power_Draw_W * Hours *
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+单卡方案（如 1x H100 80GB）的 TCO 计算模型：TCO_1yr = Hardware_Cost + (Power_Draw_W * Hours * Electricity_Rate) + Cooling_Cost；以 H100 为例，满载功耗 700W，若电价 $0.10/kWh，年电力成本约为 $613，而 2x RTX 4090 (2x 450W) 年电力成本约为 $788，但硬件初始成本差异巨大 ($30k vs $3.2k)
+
+## Corrected Claim
+
+单卡方案 TCO 计算模型逻辑成立。以 H100 SXM5 (700W) 为例，年电力成本约 $613；2x RTX 4090 (900W) 年电力成本约 $788。硬件成本需根据具体型号（SXM/PCIe）和市场行情确定，H100 价格远高于 4090。
+
+## Evidence
+
+[质询]H100 80GB SXM5 的 TDP 通常为 700W，但 PCIe 版本为 350W；若指 PCIe 版本，电力成本计算错误。此外，H100 价格波动大，$30k 为早期或特定渠道价格，非固定事实。 | 来源 [1] 和 [2] 均未提供 H100/4090 的具体功耗、价格或 TCO 数据，无法直接支持；但 TCO 公式逻辑自洽，电力成本计算（700W*8760h*0.1$/kWh ≈ $613）在数学上正确，属于经验事实缺来源支持。
+
+## Retrieval Sources
+
+- {'url': 'https://nvidia.com', 'type': None, 'title': 'direct-browser: nvidia.com'}
+- {'url': 'https://en.wikipedia.org/wiki/GeForce_RTX_40_series', 'type': 'gpu_specs', 'title': 'GPU Specs: GeForce\xa0RTX 4060[56][57][58]'}

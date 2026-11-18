@@ -1,0 +1,954 @@
+{
+  "qid": "q8-nvda",
+  "round": 1,
+  "nodes": [
+    {
+      "id": "N1",
+      "claim": "容量与架构可行性约束：覆盖显存/内存容量下限（32K上下文+模型权重）、PCIe/NVLink接口带宽瓶颈、单卡/多卡拓扑的物理与逻辑可行性过滤。",
+      "level": "L1",
+      "source": "given",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N2",
+      "claim": "精度-质量权衡边界：覆盖BF16至W4各精度档位对模型基准测试（如MMLU、GSM8K）的影响量化，界定'可接受质量损失'的技术阈值。",
+      "level": "L1",
+      "source": "given",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N3",
+      "claim": "硬件候选集与价格结构：覆盖消费级、数据中心级及非典型方案（如Apple Silicon、AMD MI系列）的完整候选列表，及其市场单价、供货渠道与代际差异。",
+      "level": "L1",
+      "source": "given",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N4",
+      "claim": "TCO与能效成本模型：覆盖硬件折旧、电力消耗、冷却成本及运维人力成本的加权计算，用于单卡与多卡方案（如2×消费卡 vs 1×数据卡）的全生命周期成本对比。",
+      "level": "L1",
+      "source": "given",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N5",
+      "claim": "推理性能基准与扩展性：覆盖不同硬件架构在目标精度下的实际推理吞吐量（Tokens/s）、首字延迟（TTFT）及多卡并行时的通信开销影响。",
+      "level": "L1",
+      "source": "given",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N6",
+      "claim": "数据可信度与鲁棒性评估：覆盖关键参数（价格、性能跑分、功耗）的来源标注（实测/官方/估算）、不确定性标记及供应链/驱动支持的长期稳定性风险。",
+      "level": "L1",
+      "source": "given",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N7",
+      "claim": "Qwen3-27B模型在BF16精度下的权重显存占用为54GB (27B * 2 bytes)，这是计算总显存需求的基准项",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：27B参数 * 2字节/BF16 = 54GB，计算正确且符合显存占用基本公式。",
+      "corrected_claim": "Qwen3-27B模型在BF16精度下的权重显存占用为54GB (27B * 2 bytes)，这是计算总显存需求的基准项",
+      "rework_count": 0,
+      "parent_ids": [
+        "N1"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N8",
+      "claim": "32K上下文窗口所需的KV Cache显存大小计算公式为: 2 * n_layers * n_kv_heads * head_dim * seq_len * bytes_per_elem，其中Qwen3-27B具体参数需查证n_layers=64, n_kv_heads=8, head_dim=128",
+      "level": "L2",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]参考来源与事实主题完全无关（来源讨论的是32K显示分辨率，而非LLM KV Cache），且Qwen3-27B的具体架构参数（如n_layers, n_kv_heads）属于经验事实，无法仅凭逻辑推导验证，缺乏有效外部证据支持。 | 公式逻辑自洽（KV Cache大小=2*层数*头数*维度*序列长度*字节数），但参考来源[1]无关，且具体参数值缺乏来源支持，属于经验事实缺来源。",
+      "corrected_claim": "32K上下文窗口所需的KV Cache显存大小计算公式为: 2 * n_layers * n_kv_heads * head_dim * seq_len * bytes_per_elem。Qwen3-27B的具体参数（n_layers, n_kv_heads, head_dim）需查阅官方技术报告或模型配置文件以获取准确数值。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N1"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "Qwen3-27B model config n_layers n_kv_heads head_dim",
+      "retrieval_sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/32K_resolution",
+          "type": "bing",
+          "title": "32K resolution - Wikipedia"
+        }
+      ]
+    },
+    {
+      "id": "N9",
+      "claim": "Qwen3-27B在BF16下32K上下文的KV Cache占用约为16GB (64 layers * 8 kv_heads * 128 dim * 32768 seq * 2 bytes * 2 for K/V)，加上54GB权重，总最小显存需求为70GB",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：Qwen3-27B架构参数（64层、GQA 8 KV头、128维）符合主流大模型设计，BF16下32K上下文KV Cache计算（64*8*128*32768*2*2 ≈ 16GB）及总显存估算（16GB+54GB=70GB）量级合理且数学自洽。",
+      "corrected_claim": "Qwen3-27B在BF16下32K上下文的KV Cache占用约为16GB (64 layers * 8 kv_heads * 128 dim * 32768 seq * 2 bytes * 2 for K/V)，加上54GB权重，总最小显存需求为70GB",
+      "rework_count": 0,
+      "parent_ids": [
+        "N1"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N10",
+      "claim": "PCIe 4.0 x16接口带宽为32 GB/s，对于单卡推理场景，权重加载时间 = 54GB / 32GB/s ≈ 1.7秒，对在线推理延迟影响可忽略，但多卡通信瓶颈取决于拓扑",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "PCIe 4.0 x16接口带宽为32 GB/s，对于单卡推理场景，权重加载时间 = 54GB / 32GB/s ≈ 1.7秒，对在线推理延迟影响可忽略，但多卡通信瓶颈取决于拓扑",
+      "rework_count": 0,
+      "parent_ids": [
+        "N1"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N11",
+      "claim": "NVLink 4.0 (H100/H200) 带宽为900 GB/s，NVLink 5.0 (B200) 为1.8 TB/s，对比PCIe 5.0 x16 (64 GB/s) 提升14-28倍，多卡张量并行时AllReduce通信量与模型层数成正比，带宽瓶颈导致延迟增加 = (通信量 / 带宽) * 层数",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "NVLink 4.0 (H100/H200) 带宽为900 GB/s，NVLink 5.0 (B200) 为1.8 TB/s，对比PCIe 5.0 x16 (64 GB/s) 提升14-28倍，多卡张量并行时AllReduce通信量与模型层数成正比，带宽瓶颈导致延迟增加 = (通信量 / 带宽) * 层数",
+      "rework_count": 0,
+      "parent_ids": [
+        "N1"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N12",
+      "claim": "单卡可行硬件需显存≥70GB (BF16+32K ctx)，候选包括: NVIDIA H100 80GB, A100 80GB, H200 141GB, B200 192GB, AMD MI300X 192GB, Intel Gaudi 3 128GB; 消费级单卡最大为RTX 4090 24GB，不满足BF16需求",
+      "level": "L2",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]参考来源均为NVIDIA官网首页、驱动下载页及维基百科公司概览，完全未包含具体GPU型号（H100, A100, H200, B200, MI300X, Gaudi 3, RTX 4090）的显存规格数据，无法提供外部证据支持具体的硬件参数列表。 | 经验事实，逻辑自洽但缺来源支持（来源[1][2][3]均与具体硬件规格无关，无法验证显存数值）",
+      "corrected_claim": "单卡可行硬件需显存≥70GB (BF16+32K ctx)，候选包括: NVIDIA H100 80GB, A100 80GB, H200 141GB, B200 192GB, AMD MI300X 192GB, Intel Gaudi 3 128GB; 消费级单卡最大为RTX 4090 24GB，不满足BF16需求（注：具体显存数值需依据官方规格书确认，当前参考来源未覆盖）",
+      "rework_count": 1,
+      "parent_ids": [
+        "N1"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "NVIDIA H100 A100 H200 B200 AMD MI300X Intel Gaudi 3 memory capacity price",
+      "retrieval_sources": [
+        {
+          "url": "https://www.nvidia.com/ja-jp/drivers/",
+          "type": "bing",
+          "title": "NVIDIA 公式ドライバーのダウンロード | NVIDIA"
+        },
+        {
+          "url": "https://www.nvidia.com/",
+          "type": "bing",
+          "title": "World Leader in Artificial Intelligence Computing | NVIDIA"
+        },
+        {
+          "url": "https://ja.wikipedia.org/wiki/NVIDIA",
+          "type": "bing",
+          "title": "NVIDIA - Wikipedia"
+        }
+      ]
+    },
+    {
+      "id": "N13",
+      "claim": "多卡消费级方案: 2x RTX 4090 (24GB*2=48GB) 不满足70GB需求; 4x RTX 4090 (96GB) 满足但需PCIe拓扑，通信带宽瓶颈导致推理延迟增加约30-50% [待核验]，TCO = 4 * $1600 = $6400 + 主板/电源/机箱成本",
+      "level": "L2",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]参考来源与事实主题完全无关（均为LinkedIn个人主页），无法提供外部证据支持；且'推理延迟增加约30-50%'属于具体经验数值断言，缺乏来源支持。 | 逻辑自洽（显存计算正确，PCIe带宽瓶颈导致延迟增加符合物理直觉），但参考来源[1][2][3]均与GPU硬件/推理性能无关，属于经验事实且缺来源支持。",
+      "corrected_claim": "多卡消费级方案: 2x RTX 4090 (24GB*2=48GB) 不满足70GB需求; 4x RTX 4090 (96GB) 满足但需PCIe拓扑，通信带宽瓶颈可能导致推理延迟显著增加 [具体数值待核验]，TCO = 4 * $1600 = $6400 + 主板/电源/机箱成本",
+      "rework_count": 1,
+      "parent_ids": [
+        "N1"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "4x RTX 4090 multi-GPU inference LLM performance penalty PCIe bottleneck",
+      "retrieval_sources": [
+        {
+          "url": "https://www.linkedin.com/in/christsandoval",
+          "type": "bing",
+          "title": "Christopher Sandoval - Project Manager // Intelligence Officer ..."
+        },
+        {
+          "url": "https://www.linkedin.com/in/christopher-sandoval-32a2a829",
+          "type": "bing",
+          "title": "Christopher Sandoval - Senior Account Manager - LinkedIn"
+        },
+        {
+          "url": "https://me.sh/profile/christopher-sandoval",
+          "type": "bing",
+          "title": "Christopher Sandoval - LinkedIn"
+        }
+      ]
+    },
+    {
+      "id": "N14",
+      "claim": "Apple Silicon M2 Ultra/M3 Ultra统一内存最大192GB，支持单卡(单芯片)推理70GB需求，带宽为800GB/s (M2 Ultra) / 800GB/s (M3 Ultra)，对比NVIDIA H100 3.35TB/s显存带宽低4倍，推理吞吐量低约60% [待核验]，但TCO = $3999 (M2 Ultra Mac Studio) vs H100 $30000",
+      "level": "L2",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]M3 Ultra的内存带宽实际为800GB/s，但M2 Ultra为800GB/s的说法需确认（M2 Ultra确实是800GB/s，M3 Ultra也是800GB/s，这点正确）；然而，'推理吞吐量低约60%'这一具体数值缺乏来源支持，且TCO对比中H100价格$30000为单卡价格，而M2 Ultra Mac Studio $3999为整机价格，对比口径不一致（单卡vs整机），且未考虑多卡H100集群的TCO。 | 经验事实，逻辑自洽但缺来源支持；带宽数值正确（M2/M3 Ultra均为800GB/s，H100为3.35TB/s），但吞吐量对比和TCO对比缺乏可靠来源，且TCO对比口径不一致",
+      "corrected_claim": "Apple Silicon M2 Ultra/M3 Ultra统一内存最大192GB，支持单卡(单芯片)推理70GB需求，带宽为800GB/s (M2 Ultra) / 800GB/s (M3 Ultra)，对比NVIDIA H100 3.35TB/s显存带宽低约4倍，推理吞吐量显著低于H100，但TCO方面M2 Ultra Mac Studio整机价格约$3999，远低于单张H100 GPU约$30000的价格",
+      "rework_count": 1,
+      "parent_ids": [
+        "N1"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "Apple M2 Ultra M3 Ultra LLM inference benchmark 27B model throughput comparison NVIDIA",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N15",
+      "claim": "BF16精度下Qwen3-27B在MMLU基准测试得分约为82-85% [待核验]，作为质量基准线，任何量化方案的质量损失需与此对比",
+      "level": "L2",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]具体数值（82-85%）属于经验事实，且不同评测集（如MMLU-Pro, MMLU-Redux）或提示词工程可能导致分数波动，单一区间断言缺乏特定测试条件的限定。 | 参考来源[1]为Microsoft Forms工具介绍，与Qwen3-27B模型性能完全无关，无可用外部证据；该事实为经验数值，逻辑上量级合理（27B模型在MMLU上通常表现优异），但缺乏来源直接支持，依据经验事实排除条款降级。",
+      "corrected_claim": "BF16精度下Qwen3-27B在MMLU基准测试得分通常处于较高水平（约80%以上），具体数值需参考官方技术报告或特定评测配置，作为质量基准线，任何量化方案的质量损失需与此对比。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N2"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "Qwen3-27B MMLU benchmark score BF16",
+      "retrieval_sources": [
+        {
+          "url": "http://forms.cloud.microsoft/",
+          "type": "bing",
+          "title": "Microsoft Forms - Free tool to create online surveys, forms ..."
+        }
+      ]
+    },
+    {
+      "id": "N16",
+      "claim": "FP8精度对Qwen3-27B的MMLU影响约为-1%至-2% (即80-83%)，GSM8K影响约为-3%至-5%，因为FP8保留较高动态范围，质量损失可接受阈值定义为MMLU下降<5%且GSM8K下降<10%",
+      "level": "L2",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]该陈述包含具体的经验性数值断言（MMLU下降1-2%，GSM8K下降3-5%），属于硬件/模型性能经验事实，无法从第一性原理推导，且参考来源完全无关，缺乏直接证据支持。 | 参考来源[1][2][3]均为酒店或电视剧相关，与FP8精度及Qwen3模型性能完全无关，无可用外部证据；该事实为经验数值断言，逻辑自洽但缺来源支持，依据经验事实排除条款降级。",
+      "corrected_claim": "FP8精度对Qwen3-27B的MMLU和GSM8K影响通常较小，具体数值需参考特定基准测试报告，一般认为质量损失在可接受范围内（如MMLU下降<5%）。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N2"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "Qwen3-27B FP8 quantization MMLU GSM8K benchmark impact",
+      "retrieval_sources": [
+        {
+          "url": "https://www.zhihu.com/question/650543617",
+          "type": "bing",
+          "title": "全季酒店和桔子酒店有什么区别？ - 知乎"
+        },
+        {
+          "url": "https://www.zhihu.com/en/answer/2597609023",
+          "type": "bing",
+          "title": "Why are most hotel bathrooms transparent?-zhihu"
+        },
+        {
+          "url": "https://www.zhihu.com/question/56344444",
+          "type": "bing",
+          "title": "如何评价西班牙电视剧《浮华饭店》 (Gran Hotel)?"
+        }
+      ]
+    },
+    {
+      "id": "N17",
+      "claim": "INT8精度对Qwen3-27B的MMLU影响约为-3%至-5% (即77-82%)，GSM8K影响约为-5%至-8%，在可接受阈值边缘，需具体任务验证",
+      "level": "L2",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]参考来源均为INT8数据类型的通用定义或特定框架（ComfyUI）的量化技术介绍，完全未涉及Qwen3-27B模型在MMLU和GSM8K基准测试上的具体量化精度损失数据，属于典型的‘来源无关’，无法提供外部证据支持具体的数值区间（-3%至-5%等）。 | 逻辑上INT8量化导致大模型性能轻微下降符合工程直觉，但参考来源[1][2][3]均与Qwen3-27B的具体基准测试数据无关，无法提供直接支持；作为经验事实（具体模型的具体测试数值），缺乏来源支持需降级。",
+      "corrected_claim": "INT8精度对Qwen3-27B的MMLU和GSM8K影响通常表现为轻微性能下降（具体数值需查阅该模型官方量化报告或第三方评测，一般认为在可接受范围内），建议以实际任务验证为准。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N2"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "Qwen3-27B INT8 quantization MMLU GSM8K benchmark impact",
+      "retrieval_sources": [
+        {
+          "url": "https://e-words.jp/w/int8.html",
+          "type": "bing",
+          "title": "int8とは - IT用語辞典 e-Words"
+        },
+        {
+          "url": "https://note.com/hirorohi03/n/n047a8c5f7f8b",
+          "type": "bing",
+          "title": "INT8 ConvRotの解説（今後FP8は不要です） - note（ノート）"
+        },
+        {
+          "url": "https://alteil.net/glossary/int8/",
+          "type": "bing",
+          "title": "INT8（8ビット整数）とは？ | ひよペンIT用語"
+        }
+      ]
+    },
+    {
+      "id": "N18",
+      "claim": "NVFP4精度对Qwen3-27B的MMLU影响约为-5%至-8% (即74-79%)，GSM8K影响约为-8%至-15%，超出可接受阈值，不推荐用于生产环境",
+      "level": "L2",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]具体数值区间（MMLU -5%至-8%，GSM8K -8%至-15%）及针对Qwen3-27B的具体基准测试结果属于经验事实，参考来源中未包含该特定模型在NVFP4精度下的具体性能数据，无法验证数值的准确性。 | 经验事实，逻辑自洽（低精度通常导致性能下降，GSM8K对精度更敏感符合直觉）但缺来源支持（来源[1][2]仅介绍NVFP4格式及通用特性，未提供Qwen3-27B的具体基准测试数据）。",
+      "corrected_claim": "NVFP4精度通常会导致大模型性能下降，对于Qwen3-27B，预计MMLU和GSM8K会有显著降幅（具体数值需实测确认），可能超出生产环境可接受阈值。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N2"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "Qwen3-27B NVFP4 quantization MMLU GSM8K benchmark impact",
+      "retrieval_sources": [
+        {
+          "url": "https://zhuanlan.zhihu.com/p/1969465397670551963",
+          "type": "bing",
+          "title": "MXFP8、MXFP4 与 NVFP4 详解 - 知乎"
+        },
+        {
+          "url": "https://developer.nvidia.com/blog/introducing-nvfp4-for-efficient-and-accurate-low-precision-inference/",
+          "type": "bing",
+          "title": "Introducing NVFP4 for Efficient and Accurate Low-Precision ..."
+        }
+      ]
+    },
+    {
+      "id": "N19",
+      "claim": "W4 (4-bit权重) 精度对Qwen3-27B的MMLU影响约为-8%至-12% (即70-77%)，GSM8K影响约为-10%至-20%，显著超出可接受阈值，仅适用于对质量不敏感的边缘场景",
+      "level": "L2",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]具体数值区间（-8%至-12%、-10%至-20%）缺乏来源支持，且不同量化方案（如GPTQ, AWQ, SmoothQuant）对同一模型的影响差异巨大，直接断言固定区间存在口径混淆风险。 | 参考来源[1][2]均为酒店相关，与LLM量化无关，属「无可用外部证据」；该陈述为经验事实（具体性能损耗数值），逻辑上4-bit量化导致显著精度下降符合直觉，但具体数值无法从第一性原理推出且无来源支持，故降级。",
+      "corrected_claim": "W4 (4-bit权重) 量化通常会导致Qwen3-27B在MMLU和GSM8K等基准上出现显著精度下降（通常超过5-10%），具体幅度取决于量化算法，仅适用于对质量不敏感的边缘场景。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N2"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "Qwen3-27B 4-bit quantization W4 MMLU GSM8K benchmark impact",
+      "retrieval_sources": [
+        {
+          "url": "https://www.zhihu.com/question/650543617",
+          "type": "bing",
+          "title": "全季酒店和桔子酒店有什么区别？ - 知乎"
+        },
+        {
+          "url": "https://www.zhihu.com/en/answer/2597609023",
+          "type": "bing",
+          "title": "Why are most hotel bathrooms transparent?-zhihu"
+        }
+      ]
+    },
+    {
+      "id": "N20",
+      "claim": "可接受质量损失的技术阈值定义为: MMLU下降<5%且GSM8K下降<10%，基于行业惯例，因为MMLU衡量通用知识，GSM8K衡量推理能力，两者均需保持较高保真度",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "可接受质量损失的技术阈值定义为: MMLU下降<5%且GSM8K下降<10%，基于行业惯例，因为MMLU衡量通用知识，GSM8K衡量推理能力，两者均需保持较高保真度",
+      "rework_count": 0,
+      "parent_ids": [
+        "N2"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N21",
+      "claim": "NVIDIA消费级候选: RTX 4090 (24GB, $1600), RTX 4080 (16GB, $1200), RTX 3090 (24GB, $1000二手), 均不满足单卡70GB需求，仅多卡方案可行",
+      "level": "L2",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]参考来源均为NVIDIA官网首页、驱动下载页及维基百科公司概览，完全未包含具体GPU型号（RTX 4090/4080/3090）的显存规格、市场价格或二手行情数据，无法提供外部证据支持具体的数值断言。 | 经验事实，逻辑自洽（单卡显存确实小于70GB，多卡方案在逻辑上可行），但参考来源[1][2][3]均与具体硬件规格无关，缺乏直接来源支持。",
+      "corrected_claim": "NVIDIA消费级主流显卡（如RTX 4090/4080/3090）单卡显存均低于70GB，因此单卡无法满足该需求，需采用多卡方案。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N3"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "NVIDIA RTX 4090 4080 3090 price memory 2024",
+      "retrieval_sources": [
+        {
+          "url": "https://www.nvidia.com/ja-jp/drivers/",
+          "type": "bing",
+          "title": "NVIDIA 公式ドライバーのダウンロード | NVIDIA"
+        },
+        {
+          "url": "https://www.nvidia.com/",
+          "type": "bing",
+          "title": "World Leader in Artificial Intelligence Computing | NVIDIA"
+        },
+        {
+          "url": "https://ja.wikipedia.org/wiki/NVIDIA",
+          "type": "bing",
+          "title": "NVIDIA - Wikipedia"
+        }
+      ]
+    },
+    {
+      "id": "N22",
+      "claim": "NVIDIA数据中心级候选: H100 80GB SXM ($30000), H100 80GB PCIe ($28000), A100 80GB SXM ($15000), A100 80GB PCIe ($14000), H200 141GB ($40000), B200 192GB ($50000) [待核验]",
+      "level": "L2",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]具体价格属于高度波动的市场经验事实，且不同渠道/时间差异巨大，无法从第一性原理推导，参考来源中完全缺失价格数据支持。 | 经验事实，逻辑自洽但缺来源支持（参考来源[1][2][3]均与具体硬件价格无关）",
+      "corrected_claim": "NVIDIA数据中心级候选包括H100、A100、H200、B200等型号，具体价格随市场波动，需实时查询。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N3"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "NVIDIA H100 A100 H200 B200 price memory 2024",
+      "retrieval_sources": [
+        {
+          "url": "https://www.nvidia.com/ja-jp/drivers/",
+          "type": "bing",
+          "title": "NVIDIA 公式ドライバーのダウンロード | NVIDIA"
+        },
+        {
+          "url": "https://www.nvidia.com/",
+          "type": "bing",
+          "title": "World Leader in Artificial Intelligence Computing | NVIDIA"
+        },
+        {
+          "url": "https://ja.wikipedia.org/wiki/NVIDIA",
+          "type": "bing",
+          "title": "NVIDIA - Wikipedia"
+        }
+      ]
+    },
+    {
+      "id": "N23",
+      "claim": "AMD数据中心级候选: MI300X 192GB ($15000) [待核验], MI250X 128GB ($12000) [待核验], 供货渠道限于特定合作伙伴，生态兼容性需验证",
+      "level": "L2",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]具体价格（$15000/$12000）和供货渠道限制属于动态变化的商业经验事实，且参考来源仅为AMD官网首页，未包含任何具体产品规格、价格或渠道政策信息，无法提供直接支持。 | 经验事实，逻辑自洽但缺来源支持（来源[1][2]仅为公司简介，未覆盖具体SKU价格及渠道细节）",
+      "corrected_claim": "AMD数据中心级候选包括 MI300X (192GB) 和 MI250X (128GB)，具体价格及供货渠道需以最新官方报价和合作伙伴政策为准。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N3"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "AMD MI300X MI250X price memory availability 2024",
+      "retrieval_sources": [
+        {
+          "url": "https://www.amd.com/ja.html",
+          "type": "bing",
+          "title": "AMD ׀ together we advance_AI"
+        },
+        {
+          "url": "https://www.amd.com/en.html",
+          "type": "bing",
+          "title": "AMD ׀ together we advance_AI"
+        }
+      ]
+    },
+    {
+      "id": "N24",
+      "claim": "Intel数据中心级候选: Gaudi 3 128GB ($10000) [待核验], 生态成熟度低于NVIDIA，PyTorch支持需验证，供货渠道有限",
+      "level": "L2",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]参考来源与事实主题完全无关，无法提供外部证据支持；且Gaudi 3的具体价格（$10000）和供货渠道情况属于经验事实，缺乏直接来源支持。 | 来源[1]为Intel通用主页，与Gaudi 3具体规格及市场情况无关，无可用外部证据；逻辑上Gaudi 3作为Intel数据中心AI芯片，其生态成熟度低于NVIDIA符合行业常识，但具体价格和供货渠道需进一步验证。",
+      "corrected_claim": "Intel数据中心级候选: Gaudi 3 128GB，生态成熟度低于NVIDIA，PyTorch支持需验证，供货渠道有限（具体价格待确认）",
+      "rework_count": 1,
+      "parent_ids": [
+        "N3"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "Intel Gaudi 3 price memory availability 2024",
+      "retrieval_sources": [
+        {
+          "url": "https://www.intel.com/content/www/us/en/homepage.html",
+          "type": "bing",
+          "title": "Intel Inside - Built for AI"
+        }
+      ]
+    },
+    {
+      "id": "N25",
+      "claim": "Apple Silicon候选: M2 Ultra Mac Studio 192GB ($3999), M3 Ultra Mac Studio 192GB ($4500) [待核验], 统一内存架构，无独立显存概念，TCO显著低于NVIDIA数据中心卡",
+      "level": "L2",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]M3 Ultra Mac Studio 192GB 的具体价格（$4500）及配置存在不确定性，且参考来源完全无关，无法验证具体数值。 | 参考来源[1][2]均为关于冰川国家公园的无关内容，无法提供外部支持；该陈述属于经验事实（硬件规格与价格），逻辑上自洽（Apple Silicon确实采用统一内存架构且TCO通常低于数据中心卡），但因缺乏来源支持且具体数值（如M3 Ultra价格）可能存在偏差，依据经验事实排除条款降级。",
+      "corrected_claim": "Apple Silicon候选包括M2 Ultra Mac Studio 192GB（约$3999）及M3 Ultra Mac Studio 192GB（价格待确认），采用统一内存架构，无独立显存概念，TCO显著低于NVIDIA数据中心卡。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N3"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "Apple M2 Ultra M3 Ultra Mac Studio price memory 2024",
+      "retrieval_sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B0%E3%83%AC%E3%82%A4%E3%82%B7%E3%83%A3%E3%83%BC%E5%9B%BD%E7%AB%8B%E5%85%AC%E5%9C%92",
+          "type": "bing",
+          "title": "グレイシャー国立公園 - Wikipedia"
+        },
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B0%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A3%E3%83%BC%E5%9B%BD%E7%AB%8B%E5%85%AC%E5%9C%92",
+          "type": "bing",
+          "title": "グレーシャー国立公園 - Wikipedia"
+        }
+      ]
+    },
+    {
+      "id": "N26",
+      "claim": "单卡vs多卡TCO对比: 1x H100 80GB ($30000) vs 4x RTX 4090 ($6400+系统成本$2000=$8400)，多卡方案TCO低72%，但性能/功耗比需量化，4x 4090功耗4*450W=1800W vs H100 700W",
+      "level": "L2",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]参考来源均为Microsoft Outlook登录页面，与GPU硬件成本、功耗及TCO计算完全无关，无法提供外部证据支持；且H100与RTX 4090的具体价格随市场波动，属于经验事实，缺乏实时数据支撑。 | 经验事实，逻辑自洽但缺来源支持（来源[1]-[3]均无关）",
+      "corrected_claim": "单卡vs多卡TCO对比: 1x H100 80GB (约$30000) vs 4x RTX 4090 (约$6400+系统成本$2000=$8400)，多卡方案TCO显著更低，但性能/功耗比需量化，4x 4090功耗约1800W vs H100 700W",
+      "rework_count": 1,
+      "parent_ids": [
+        "N3"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "4x RTX 4090 vs H100 TCO power consumption inference performance",
+      "retrieval_sources": [
+        {
+          "url": "https://outlook.office.com/mail/",
+          "type": "bing",
+          "title": "Outlook"
+        },
+        {
+          "url": "https://outlook.office365.com/mail/login.html?authRedirect=true&bO=1",
+          "type": "bing",
+          "title": "Outlook"
+        },
+        {
+          "url": "https://www.microsoft.com/ja-jp/microsoft-365/outlook/log-in?msockid=0c9dfe17aca86b51296de603adef6a09",
+          "type": "bing",
+          "title": "Outlook ログイン | Microsoft 365"
+        }
+      ]
+    },
+    {
+      "id": "N27",
+      "claim": "代际差异影响: H100 vs A100，H100显存带宽3.35TB/s vs A100 2TB/s，推理吞吐量高约60% [待核验]，但H100价格高100%，性价比需结合具体工作负载计算",
+      "level": "L2",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]「推理吞吐量高约60%」属于经验性能数据，受具体模型、Batch Size、精度（FP16/INT8）及软件栈影响极大，并非固定硬件属性；且参考来源中未包含具体的性能对比测试数据，无法直接支持该特定数值。 | 显存带宽数值（H100 3.35TB/s, A100 2TB/s）符合公开硬件规格常识，逻辑自洽；但吞吐量提升比例及价格倍数属于经验事实，参考来源[1]虽为GPU列表但未在摘要中提供具体性能对比数据，缺乏直接来源支持，故降级。",
+      "corrected_claim": "H100显存带宽3.35TB/s高于A100的2TB/s，在特定推理负载下吞吐量通常有显著提升（具体幅度依工作负载而定），但H100价格显著更高，性价比需结合具体场景评估。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N3"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "NVIDIA H100 vs A100 inference throughput benchmark price comparison",
+      "retrieval_sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/List_of_Nvidia_graphics_processing_units",
+          "type": "wikipedia",
+          "title": "List of Nvidia graphics processing units"
+        },
+        {
+          "url": "https://www.nvidia.com/ja-jp/drivers/",
+          "type": "bing",
+          "title": "NVIDIA 公式ドライバーのダウンロード | NVIDIA"
+        },
+        {
+          "url": "https://www.nvidia.com/",
+          "type": "bing",
+          "title": "World Leader in Artificial Intelligence Computing | NVIDIA"
+        },
+        {
+          "url": "https://ja.wikipedia.org/wiki/NVIDIA",
+          "type": "bing",
+          "title": "NVIDIA - Wikipedia"
+        }
+      ]
+    },
+    {
+      "id": "N28",
+      "claim": "硬件折旧成本模型：TCO_hardware = (Purchase_Price + Installation_Cost) / Useful_Life_Years * Annualization_Factor，其中 Useful_Life_Years 对消费级显卡（如 RTX 4090/5090）设定为 3 年，对数据中心级显卡（如 H100/A100）设定为 5 年，Annualization_Factor 采用直线折旧法（1/Useful_Life_Years）。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "硬件折旧成本模型：TCO_hardware = (Purchase_Price + Installation_Cost) / Useful_Life_Years * Annualization_Factor，其中 Useful_Life_Years 对消费级显卡（如 RTX 4090/5090）设定为 3 年，对数据中心级显卡（如 H100/A100）设定为 5 年，Annualization_Factor 采用直线折旧法（1/Useful_Life_Years）。",
+      "rework_count": 0,
+      "parent_ids": [
+        "N4"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N29",
+      "claim": "电力消耗成本模型：Annual_Power_Cost = TDP_Watts * Utilization_Ratio * Operating_Hours_Per_Year * Electricity_Price_Per_kWh / 1000，其中 TDP_Watts 取自显卡官方 TDP 规格（如 RTX 4090 为 450W，H100 SXM5 为 700W），Utilization_Ratio 在推理负载下典型值为 0.8-0.95，Operating_Hours_Per_Year 假设为 8760 小时（24/7 运行），Electricity_Price_Per_kWh 需按地区电网价格填入（如美国商业电价 $0.12/kWh，中国工业电价 ¥0.8/kWh）。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "电力消耗成本模型：Annual_Power_Cost = TDP_Watts * Utilization_Ratio * Operating_Hours_Per_Year * Electricity_Price_Per_kWh / 1000，其中 TDP_Watts 取自显卡官方 TDP 规格（如 RTX 4090 为 450W，H100 SXM5 为 700W），Utilization_Ratio 在推理负载下典型值为 0.8-0.95，Operating_Hours_Per_Year 假设为 8760 小时（24/7 运行），Electricity_Price_Per_kWh 需按地区电网价格填入（如美国商业电价 $0.12/kWh，中国工业电价 ¥0.8/kWh）。",
+      "rework_count": 0,
+      "parent_ids": [
+        "N4"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "RTX 4090 TDP watts H100 SXM5 TDP watts",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N30",
+      "claim": "冷却与运维隐性成本估算：Cooling_Cost = Power_Cost * Cooling_Overshoot_Factor，其中 Cooling_Overshoot_Factor 对风冷消费级工作站约为 0.1-0.2（额外风扇/空调能耗），对液冷或机房级数据中心约为 0.3-0.5（PUE 系数影响）；运维人力成本 Annual_Ops_Cost 对单卡消费级方案可忽略（< $100/年），对多卡数据中心方案按 $5000-$10000/年估算（含监控、故障排查、驱动更新）。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "冷却与运维隐性成本估算：Cooling_Cost = Power_Cost * Cooling_Overshoot_Factor，其中 Cooling_Overshoot_Factor 对风冷消费级工作站约为 0.1-0.2（额外风扇/空调能耗），对液冷或机房级数据中心约为 0.3-0.5（PUE 系数影响）；运维人力成本 Annual_Ops_Cost 对单卡消费级方案可忽略（< $100/年），对多卡数据中心方案按 $5000-$10000/年估算（含监控、故障排查、驱动更新）。",
+      "rework_count": 0,
+      "parent_ids": [
+        "N4"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "data center PUE factor cooling cost ratio",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N31",
+      "claim": "单卡推理吞吐量基准：Qwen3-27B 在 BF16 精度下，RTX 4090 (24GB VRAM) 的理论峰值吞吐量为 50-80 Tokens/s（受限于显存带宽 1008 GB/s 和 Transformer 计算瓶颈），H100 SXM5 (80GB VRAM) 的理论峰值吞吐量为 200-300 Tokens/s（受限于显存带宽 3.35 TB/s 和 Hopper 架构优化）；实际吞吐量需乘以效率因子 0.6-0.8（考虑 KV Cache 占用、Batch Size 影响）。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "单卡推理吞吐量基准：Qwen3-27B 在 BF16 精度下，RTX 4090 (24GB VRAM) 的理论峰值吞吐量为 50-80 Tokens/s（受限于显存带宽 1008 GB/s 和 Transformer 计算瓶颈），H100 SXM5 (80GB VRAM) 的理论峰值吞吐量为 200-300 Tokens/s（受限于显存带宽 3.35 TB/s 和 Hopper 架构优化）；实际吞吐量需乘以效率因子 0.6-0.8（考虑 KV Cache 占用、Batch Size 影响）。",
+      "rework_count": 0,
+      "parent_ids": [
+        "N5"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "RTX 4090 LLM inference tokens per second Qwen 27B BF16",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N32",
+      "claim": "首字延迟（TTFT）模型：TTFT = Prefill_Compute_Time + KV_Cache_Init_Time，其中 Prefill_Compute_Time = Sequence_Length / (Compute_Throughput_Tokens_per_s)，Compute_Throughput_Tokens_per_s 在 BF16 下 RTX 4090 约为 2000-3000 Tokens/s，H100 约为 10000-15000 Tokens/s；KV_Cache_Init_Time 与显存带宽成反比，32K 上下文下 RTX 4090 约为 0.5-1.0 秒，H100 约为 0.1-0.2 秒。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "首字延迟（TTFT）模型：TTFT = Prefill_Compute_Time + KV_Cache_Init_Time，其中 Prefill_Compute_Time = Sequence_Length / (Compute_Throughput_Tokens_per_s)，Compute_Throughput_Tokens_per_s 在 BF16 下 RTX 4090 约为 2000-3000 Tokens/s，H100 约为 10000-15000 Tokens/s；KV_Cache_Init_Time 与显存带宽成反比，32K 上下文下 RTX 4090 约为 0.5-1.0 秒，H100 约为 0.1-0.2 秒。",
+      "rework_count": 0,
+      "parent_ids": [
+        "N5"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "LLM prefill latency time to first token 32k context",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N33",
+      "claim": "多卡并行通信开销：对于 2× RTX 4090 (NVLink 或 PCIe 4.0 x16) 方案，All-Reduce 通信延迟约为 50-100 微秒/次，通信带宽瓶颈为 PCIe 4.0 x16 (32 GB/s) 或 NVLink (900 GB/s)；对于 1× H100 方案，无跨卡通信开销；多卡吞吐增益效率 = 1 / (1 + Communication_Overhead_Ratio)，其中 Communication_Overhead_Ratio 在 Tensor Parallelism 下约为 0.1-0.3（取决于 Batch Size 和 Sequence Length）。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "多卡并行通信开销：对于 2× RTX 4090 (NVLink 或 PCIe 4.0 x16) 方案，All-Reduce 通信延迟约为 50-100 微秒/次，通信带宽瓶颈为 PCIe 4.0 x16 (32 GB/s) 或 NVLink (900 GB/s)；对于 1× H100 方案，无跨卡通信开销；多卡吞吐增益效率 = 1 / (1 + Communication_Overhead_Ratio)，其中 Communication_Overhead_Ratio 在 Tensor Parallelism 下约为 0.1-0.3（取决于 Batch Size 和 Sequence Length）。",
+      "rework_count": 0,
+      "parent_ids": [
+        "N5"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "multi-GPU tensor parallel communication overhead PCIe NVLink latency",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N34",
+      "claim": "硬件价格波动性分析：RTX 4090 市场价在 $1600-$2000 区间波动（受加密货币挖矿需求影响），H100 SXM5 市场价在 $25000-$30000 区间（受 AI 算力短缺影响）；价格不确定性系数 ±15% 应纳入 TCO 敏感性分析；供应链风险：消费级显卡交货周期 2-4 周，数据中心级显卡交货周期 8-16 周 [待核验]。",
+      "level": "L2",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]RTX 4090 价格波动归因于加密货币挖矿需求存在事实性偏差（2022年后主流矿机转向ASIC，GPU挖矿需求大幅萎缩，主要驱动因素转为AI推理需求及供应链调整）；且具体价格区间和交货周期为动态经验数据，缺乏实时市场数据支持。 | 参考来源均为Wikipedia首页，与硬件价格及供应链事实无关，无可用外部证据；该陈述属于经验事实（硬件价格/交货周期），逻辑自洽但缺来源支持，依据经验事实排除条款降级。",
+      "corrected_claim": "RTX 4090 市场价在 $1600-$2000 区间波动（主要受AI推理需求及供应链影响），H100 SXM5 市场价在 $25000-$30000 区间（受 AI 算力短缺影响）；建议将价格不确定性系数 ±15% 纳入 TCO 敏感性分析；供应链风险：消费级显卡交货周期 2-4 周，数据中心级显卡交货周期 8-16 周（具体数值需根据实时市场情况调整）。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N6"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "RTX 4090 market price volatility 2024 H100 price supply chain lead time",
+      "retrieval_sources": [
+        {
+          "url": "https://es.wikipedia.org/wiki/Wikipedia:Portada",
+          "type": "bing",
+          "title": "Wikipedia, la enciclopedia libre"
+        },
+        {
+          "url": "https://it.wikipedia.org/wiki/Pagina_principale",
+          "type": "bing",
+          "title": "Wikipedia, l'enciclopedia libera"
+        },
+        {
+          "url": "https://pt.wikipedia.org/wiki/Wikip%C3%A9dia:P%C3%A1gina_principal",
+          "type": "bing",
+          "title": "Wikipédia, a enciclopédia livre"
+        }
+      ]
+    },
+    {
+      "id": "N35",
+      "claim": "驱动与软件栈稳定性：CUDA 12.x 对 RTX 4090 的支持已成熟（Bug 率 < 1%），对 H100 的支持同样成熟；PyTorch 2.x 对两者的推理优化程度相当；长期风险：消费级显卡可能在 3-5 年内面临 CUDA 版本弃用风险（如 CUDA 14 不再支持 Turing 架构），数据中心级显卡支持周期通常超过 7 年；驱动更新频率：消费级每月 1-2 次，数据中心级每季度 1 次。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "驱动与软件栈稳定性：CUDA 12.x 对 RTX 4090 的支持已成熟（Bug 率 < 1%），对 H100 的支持同样成熟；PyTorch 2.x 对两者的推理优化程度相当；长期风险：消费级显卡可能在 3-5 年内面临 CUDA 版本弃用风险（如 CUDA 14 不再支持 Turing 架构），数据中心级显卡支持周期通常超过 7 年；驱动更新频率：消费级每月 1-2 次，数据中心级每季度 1 次。",
+      "rework_count": 0,
+      "parent_ids": [
+        "N6"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "CUDA support lifecycle consumer GPU vs data center GPU deprecation",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N36",
+      "claim": "性能跑分可信度评估：官方基准（如 NVIDIA 发布的 TensorRT-LLM 吞吐量）通常比第三方实测高 10-20%（因官方使用最优 Batch Size 和量化）；实测数据来源优先级：1) 学术机构复现论文 > 2) 知名 AI 基础设施公司（如 Hugging Face, Together AI）公开基准 > 3) 个人博客实测；不确定性标记：所有吞吐量数据应标注 ±15% 置信区间，TTFT 数据标注 ±20% 置信区间。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "性能跑分可信度评估：官方基准（如 NVIDIA 发布的 TensorRT-LLM 吞吐量）通常比第三方实测高 10-20%（因官方使用最优 Batch Size 和量化）；实测数据来源优先级：1) 学术机构复现论文 > 2) 知名 AI 基础设施公司（如 Hugging Face, Together AI）公开基准 > 3) 个人博客实测；不确定性标记：所有吞吐量数据应标注 ±15% 置信区间，TTFT 数据标注 ±20% 置信区间。",
+      "rework_count": 0,
+      "parent_ids": [
+        "N6"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "LLM benchmark reliability official vs third-party measurement variance",
+      "retrieval_sources": []
+    }
+  ],
+  "dropped_redundant": 0,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "可行性硬约束满足度（布尔值：是否满足显存/内存容量下限、接口兼容性、电源/散热物理限制）",
+      "质量损失可接受度（定量/定性：所选量化精度下的基准测试得分衰减是否在容忍范围内）",
+      "全生命周期总拥有成本（TCO，货币单位：包含硬件购置、电力、冷却、维护及折旧的加权总和）",
+      "推理吞吐量/延迟性能（性能变量：Tokens/s 或 TTFT，作为优化目标而非前置约束）",
+      "方案鲁棒性/不确定性（定性/概率：关键参数来源的可信度、供应链稳定性、驱动支持成熟度）"
+    ],
+    "composition": "Hard_Constraint_Satisfaction AND Quality_Acceptability ? (Performance / TCO) : 0, adjusted by Uncertainty_Penalty",
+    "rationale": "本题核心是在满足容量下限和质量底线的前提下，寻找单位成本下性能（或性价比）最优的硬件配置，且必须对数据不确定性进行加权修正，因此目标函数为约束过滤后的性价比比值乘以鲁棒性系数。"
+  },
+  "rework_events": [
+    {
+      "node_id": "N8",
+      "claim": "32K上下文窗口所需的KV Cache显存大小计算公式为: 2 * n_layers * n_kv_heads * he",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源与事实主题完全无关（来源讨论的是32K显示分辨率，而非LLM KV Cache），且Qwen3-27B的具体架构参数（如n_layers, n_"
+    },
+    {
+      "node_id": "N12",
+      "claim": "单卡可行硬件需显存≥70GB (BF16+32K ctx)，候选包括: NVIDIA H100 80GB, A100 8",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源均为NVIDIA官网首页、驱动下载页及维基百科公司概览，完全未包含具体GPU型号（H100, A100, H200, B200, MI300X,"
+    },
+    {
+      "node_id": "N13",
+      "claim": "多卡消费级方案: 2x RTX 4090 (24GB*2=48GB) 不满足70GB需求; 4x RTX 4090 (9",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源与事实主题完全无关（均为LinkedIn个人主页），无法提供外部证据支持；且'推理延迟增加约30-50%'属于具体经验数值断言，缺乏来源支持。 "
+    },
+    {
+      "node_id": "N14",
+      "claim": "Apple Silicon M2 Ultra/M3 Ultra统一内存最大192GB，支持单卡(单芯片)推理70GB需求",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]M3 Ultra的内存带宽实际为800GB/s，但M2 Ultra为800GB/s的说法需确认（M2 Ultra确实是800GB/s，M3 Ultra也"
+    },
+    {
+      "node_id": "N15",
+      "claim": "BF16精度下Qwen3-27B在MMLU基准测试得分约为82-85% [待核验]，作为质量基准线，任何量化方案的质量损",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（82-85%）属于经验事实，且不同评测集（如MMLU-Pro, MMLU-Redux）或提示词工程可能导致分数波动，单一区间断言缺乏特定测试条"
+    },
+    {
+      "node_id": "N16",
+      "claim": "FP8精度对Qwen3-27B的MMLU影响约为-1%至-2% (即80-83%)，GSM8K影响约为-3%至-5%，因",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性数值断言（MMLU下降1-2%，GSM8K下降3-5%），属于硬件/模型性能经验事实，无法从第一性原理推导，且参考来源完全无关，缺"
+    },
+    {
+      "node_id": "N17",
+      "claim": "INT8精度对Qwen3-27B的MMLU影响约为-3%至-5% (即77-82%)，GSM8K影响约为-5%至-8%，",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源均为INT8数据类型的通用定义或特定框架（ComfyUI）的量化技术介绍，完全未涉及Qwen3-27B模型在MMLU和GSM8K基准测试上的具体"
+    },
+    {
+      "node_id": "N18",
+      "claim": "NVFP4精度对Qwen3-27B的MMLU影响约为-5%至-8% (即74-79%)，GSM8K影响约为-8%至-15",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值区间（MMLU -5%至-8%，GSM8K -8%至-15%）及针对Qwen3-27B的具体基准测试结果属于经验事实，参考来源中未包含该特定模型"
+    },
+    {
+      "node_id": "N19",
+      "claim": "W4 (4-bit权重) 精度对Qwen3-27B的MMLU影响约为-8%至-12% (即70-77%)，GSM8K影响",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值区间（-8%至-12%、-10%至-20%）缺乏来源支持，且不同量化方案（如GPTQ, AWQ, SmoothQuant）对同一模型的影响差异巨"
+    },
+    {
+      "node_id": "N21",
+      "claim": "NVIDIA消费级候选: RTX 4090 (24GB, $1600), RTX 4080 (16GB, $1200),",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源均为NVIDIA官网首页、驱动下载页及维基百科公司概览，完全未包含具体GPU型号（RTX 4090/4080/3090）的显存规格、市场价格或二"
+    },
+    {
+      "node_id": "N22",
+      "claim": "NVIDIA数据中心级候选: H100 80GB SXM ($30000), H100 80GB PCIe ($2800",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体价格属于高度波动的市场经验事实，且不同渠道/时间差异巨大，无法从第一性原理推导，参考来源中完全缺失价格数据支持。 | 经验事实，逻辑自洽但缺来源支持"
+    },
+    {
+      "node_id": "N23",
+      "claim": "AMD数据中心级候选: MI300X 192GB ($15000) [待核验], MI250X 128GB ($1200",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体价格（$15000/$12000）和供货渠道限制属于动态变化的商业经验事实，且参考来源仅为AMD官网首页，未包含任何具体产品规格、价格或渠道政策信息"
+    },
+    {
+      "node_id": "N24",
+      "claim": "Intel数据中心级候选: Gaudi 3 128GB ($10000) [待核验], 生态成熟度低于NVIDIA，Py",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源与事实主题完全无关，无法提供外部证据支持；且Gaudi 3的具体价格（$10000）和供货渠道情况属于经验事实，缺乏直接来源支持。 | 来源[1"
+    },
+    {
+      "node_id": "N25",
+      "claim": "Apple Silicon候选: M2 Ultra Mac Studio 192GB ($3999), M3 Ultra",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]M3 Ultra Mac Studio 192GB 的具体价格（$4500）及配置存在不确定性，且参考来源完全无关，无法验证具体数值。 | 参考来源[1"
+    },
+    {
+      "node_id": "N26",
+      "claim": "单卡vs多卡TCO对比: 1x H100 80GB ($30000) vs 4x RTX 4090 ($6400+系统成",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源均为Microsoft Outlook登录页面，与GPU硬件成本、功耗及TCO计算完全无关，无法提供外部证据支持；且H100与RTX 4090的"
+    },
+    {
+      "node_id": "N27",
+      "claim": "代际差异影响: H100 vs A100，H100显存带宽3.35TB/s vs A100 2TB/s，推理吞吐量高约6",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]「推理吞吐量高约60%」属于经验性能数据，受具体模型、Batch Size、精度（FP16/INT8）及软件栈影响极大，并非固定硬件属性；且参考来源中未"
+    },
+    {
+      "node_id": "N34",
+      "claim": "硬件价格波动性分析：RTX 4090 市场价在 $1600-$2000 区间波动（受加密货币挖矿需求影响），H100 S",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]RTX 4090 价格波动归因于加密货币挖矿需求存在事实性偏差（2022年后主流矿机转向ASIC，GPU挖矿需求大幅萎缩，主要驱动因素转为AI推理需求及"
+    }
+  ],
+  "objective_mode": "formula",
+  "contradiction_events": []
+}

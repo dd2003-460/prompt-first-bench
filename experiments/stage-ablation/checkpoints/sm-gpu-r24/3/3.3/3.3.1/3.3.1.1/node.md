@@ -1,0 +1,20 @@
+# N149: 工作点1 (高显存单卡)：H100 80GB SXM。BF16 权重 55.6GB + KV Cache (32K, BS=1) 4.0GB + 激活/开销 2
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N46
+
+## Claim
+
+工作点1 (高显存单卡)：H100 80GB SXM。BF16 权重 55.6GB + KV Cache (32K, BS=1) 4.0GB + 激活/开销 2.25GB = 61.85GB < 80GB。剩余 18.15GB 显存可用于增加 Batch Size 或扩展上下文至 ~55K tokens，适合高吞吐或长上下文场景。
+
+## Corrected Claim
+
+工作点1 (高显存单卡)：H100 80GB SXM。BF16 权重 55.6GB + KV Cache (32K, BS=1) 4.0GB + 激活/开销 2.25GB = 61.85GB < 80GB。剩余 18.15GB 显存可用于增加 Batch Size 或扩展上下文至 ~55K tokens，适合高吞吐或长上下文场景。
+
+## Evidence
+
+[质询]KV Cache 4.0GB 的估算可能依赖于特定的模型架构参数（如层数、头数、头维度），若模型规模不同，该数值可能有偏差；但作为特定工作点的假设性计算，逻辑上自洽。 | 先验知识/题面给定，逻辑校验通过：55.6 + 4.0 + 2.25 = 61.85GB，小于 80GB，剩余 18.15GB 计算正确，符合 H100 80GB 显存约束下的部署逻辑。

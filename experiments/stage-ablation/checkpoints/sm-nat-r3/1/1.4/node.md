@@ -1,0 +1,20 @@
+# N9: 请求热度服从 Pareto 分布，形状参数 β = 0.9，最小热度 h_min 需归一化，总请求率 R_total = 50,000,000 / day
+
+- **status**: pending
+- **level**: L2
+- **source**: given
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+请求热度服从 Pareto 分布，形状参数 β = 0.9，最小热度 h_min 需归一化，总请求率 R_total = 50,000,000 / day
+
+## Corrected Claim
+
+请求热度服从 Pareto 分布，形状参数 β = 0.9，最小热度 h_min 需归一化，总请求率 R_total = 50,000,000 / day
+
+## Evidence
+
+父节点级核验未通过：不完备（由于只有一个子节点，正交性和冗余性自然满足。但完备性不足：父节点明确给出了总请求率 R_total 和最小热度 h_min 需归一化的要求，但子节点仅讨论了归一化常数 Z 的近似值，未说明如何利用 Z 和 R_total 计算具体的 h_min 或单个对象的绝对热度公式，缺少从参数到最终热度值的关键推导步骤。）

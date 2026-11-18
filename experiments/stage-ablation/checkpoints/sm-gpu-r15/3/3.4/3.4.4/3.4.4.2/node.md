@@ -1,0 +1,31 @@
+# N164: RTX 5090 (Blackwell) 对 FP8 的支持：Blackwell 架构进一步强化 FP8/FP4 支持，其 Tensor Core 在 FP8 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N53
+
+## Claim
+
+RTX 5090 (Blackwell) 对 FP8 的支持：Blackwell 架构进一步强化 FP8/FP4 支持，其 Tensor Core 在 FP8 下的 FLOPS 相比 Ada Lovelace 提升约 50-70%；由于 RTX 5090 尚未大规模上市，其具体 FP8 推理能效比（tokens/Joule）需待官方发布后实测，预计优于 RTX 4090 的 FP8 能效 [待核验]。
+
+## Corrected Claim
+
+Blackwell架构（RTX 5090）进一步强化FP8/FP4支持，其Tensor Core在FP8下的FLOPS相比Ada Lovelace有显著提升；由于RTX 5090尚未大规模上市，其具体FP8推理能效比需待官方发布后实测，预计优于RTX 4090的FP8能效。
+
+## Evidence
+
+[质询]具体数值（50-70%提升）和能效比预测属于经验事实，缺乏直接来源支持，且RTX 5090具体规格可能随最终发布版本变动。 | 来源[1]为NVIDIA官网但内容无关；来源[2]仅提及RTX 4060；来源[3]讨论FP8在RL中的应用但未涉及RTX 5090具体性能对比；来源[4]为经济学论文。所有来源均无法直接支持RTX 5090的具体FP8性能提升数值及能效比预测，属于经验事实缺来源支持。
+
+## Search Query
+
+NVIDIA Blackwell RTX 5090 FP8 tensor core specs vs Ada Lovelace
+
+## Retrieval Sources
+
+- {'url': 'https://nvidia.com', 'type': None, 'title': 'direct-browser: nvidia.com'}
+- {'url': 'https://en.wikipedia.org/wiki/GeForce_RTX_40_series', 'type': 'gpu_specs', 'title': 'GPU Specs: GeForce\xa0RTX 4060[56][57][58]'}
+- {'url': 'http://arxiv.org/abs/2601.18150v2', 'type': 'arxiv', 'title': 'FP8-RL: A Practical and Stable Low-Precision Stack for LLM Reinforcement Learnin'}
+- {'url': 'http://arxiv.org/abs/2302.13956v6', 'type': 'arxiv', 'title': 'Blackwell-Monotone Updating Rules'}

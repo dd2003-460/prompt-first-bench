@@ -1,0 +1,20 @@
+# N55: 更新失效率 R_inv 的分层计算：对于热度排名 Top-10% 的对象，其访问频率 f_i ≈ 0.5% * R_total，驻留时间 T_i ≈ 1/(f_
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N16
+
+## Claim
+
+更新失效率 R_inv 的分层计算：对于热度排名 Top-10% 的对象，其访问频率 f_i ≈ 0.5% * R_total，驻留时间 T_i ≈ 1/(f_i) * K_LRU，代入 R_inv_i = 1 - e^{-0.01 * T_i} 得到具体数值；由于 T_i 较小，R_inv_i 近似为 0.01 * T_i。
+
+## Corrected Claim
+
+更新失效率 R_inv 的分层计算：对于热度排名 Top-10% 的对象，其访问频率 f_i ≈ 0.5% * R_total，驻留时间 T_i ≈ 1/(f_i) * K_LRU，代入 R_inv_i = 1 - e^{-0.01 * T_i} 得到具体数值；由于 T_i 较小，R_inv_i 近似为 0.01 * T_i。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学近似 1-e^{-x}≈x 在 x 较小时成立，量纲与推导逻辑自洽。

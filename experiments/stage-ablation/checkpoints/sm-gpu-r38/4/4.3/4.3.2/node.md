@@ -1,0 +1,28 @@
+# N61: Apple M3 Ultra (预计) 的内存带宽预计为 1.5 TB/s，内存容量预计为 256 GB，其推理吞吐量理论上限预计约为 25-30 tokens
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N18
+
+## Claim
+
+Apple M3 Ultra (预计) 的内存带宽预计为 1.5 TB/s，内存容量预计为 256 GB，其推理吞吐量理论上限预计约为 25-30 tokens/s [待核验: 具体规格未发布]
+
+## Corrected Claim
+
+Apple M3 Ultra 的内存容量最高可达 512 GB（参考来源[1]），内存带宽预计为 1.5 TB/s，其推理吞吐量取决于具体模型大小和量化方式，25-30 tokens/s 仅为特定条件下的估计值，非通用理论上限。
+
+## Evidence
+
+[质询]数值量级与规格不符：参考来源[1]明确提及M3 Ultra配备512GB统一内存，而陈述中称内存容量预计为256GB，存在明显事实冲突；此外，1.5 TB/s带宽下运行大模型（如70B+）的推理吞吐量通常远高于25-30 tokens/s（取决于模型大小和量化方式，该数值偏低或仅适用于极小模型/未优化场景），且具体规格未发布，属于推测性数据。 | 来源[1]直接指出M3 Ultra有512GB版本，与陈述中的256GB矛盾；吞吐量数值缺乏直接来源支持且可能偏低，属于经验事实推测，逻辑上虽自洽但缺乏准确来源支持。
+
+## Search Query
+
+Apple M3 Ultra memory bandwidth specs 256GB
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1928856739001927267&rut=ff7631722bf7bdf3471985f08df699c01d3a4e56496cf0f1544e4ff3b2b74af1', 'type': 'ddg', 'title': 'Apple M3 Ultra（512GB统一内存）本地LLM推理全面分析'}

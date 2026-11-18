@@ -1,0 +1,24 @@
+# N119: 候选硬件全集的纳入标准：显存容量必须 ≥ 模型权重+32K KV Cache 需求（即 BF16下≥64GB, INT8下≥32GB），且具备主流推理框架（vL
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+候选硬件全集的纳入标准：显存容量必须 ≥ 模型权重+32K KV Cache 需求（即 BF16下≥64GB, INT8下≥32GB），且具备主流推理框架（vLLM/llama.cpp/TensorRT-LLM）的原生支持或成熟社区补丁；排除无公开价格或无法在本地工作站物理部署的云专用芯片（如 TPU Pod, Cerebras WSE）。
+
+## Corrected Claim
+
+候选硬件全集的纳入标准：显存容量需满足模型权重与KV Cache需求（具体阈值依量化精度而定，如BF16下通常需较大显存），且具备主流推理框架支持；排除无法在本地工作站物理部署的云专用芯片。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件选型阈值（如BF16下≥64GB）和排除标准（如排除TPU Pod），属于经验性工程决策而非第一性原理可推导的数学事实。参考来源[1]仅讨论了32B模型在INT4量化下的显存估算，未涉及BF16/INT8下的通用阈值，也未提及vLLM/TensorRT-LLM支持情况或云芯片排除标准，因此缺乏直接来源支持。 | 逻辑上自洽（显存需求=权重+KV Cache，排除云专用芯片符合本地部署定义），但参考来源[1]仅覆盖INT4场景，未直接支持BF16/INT8的具体阈值及框架支持标准，属于经验事实且缺来源直接支持。
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2078185430382655314&rut=bbf11904c0f80f20ddb77d00e99f88220ae6722303a272e816e81634920146b9', 'type': 'ddg', 'title': '7b、14b、32b、67b 模型分别需要什么 Gpu 配置？2026 年显存估算与部署清单 - 知乎'}

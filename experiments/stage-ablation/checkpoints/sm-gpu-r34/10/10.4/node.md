@@ -1,0 +1,30 @@
+# N299: 主流推理框架对 Qwen3-27B 的支持状态：vLLM 自 v0.4.0 起支持 Qwen3 系列，llama.cpp 自 commit abc123 起支持
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N119
+
+## Claim
+
+主流推理框架对 Qwen3-27B 的支持状态：vLLM 自 v0.4.0 起支持 Qwen3 系列，llama.cpp 自 commit abc123 起支持 Qwen3-27B，TensorRT-LLM 需通过社区插件支持。不支持的硬件（如 Intel Arc）需依赖 llama.cpp 的 Vulkan 后端，其吞吐量通常比 CUDA 低 30-50%。
+
+## Corrected Claim
+
+主流推理框架（如 vLLM, llama.cpp, TensorRT-LLM）通常支持 Qwen3 系列模型，但具体支持版本和性能表现（如 Vulkan 后端相对于 CUDA 的吞吐量差异）需查阅各框架最新官方文档或基准测试报告，不同硬件和配置下差异显著。
+
+## Evidence
+
+[质询]陈述中包含具体的版本号（vLLM v0.4.0）、特定的 commit hash（abc123，疑似占位符或错误）以及具体的性能损耗数值（30-50%），这些属于经验事实，且参考来源中完全未提及 Qwen3-27B 或相关推理框架的支持状态，无法验证具体数值和版本号的准确性。 | 经验事实，逻辑自洽但缺来源支持（来源[1][2][3]均与Qwen3-27B推理框架支持状态无关）
+
+## Search Query
+
+vLLM llama.cpp TensorRT-LLM Qwen3-27B support status 2024
+
+## Retrieval Sources
+
+- {'url': 'https://github.com', 'type': None, 'title': 'direct-browser: github.com'}
+- {'url': 'https://docs.nvidia.com', 'type': None, 'title': 'direct-browser: docs.nvidia.com'}
+- {'url': 'http://arxiv.org/abs/2509.17765v1', 'type': 'arxiv', 'title': 'Qwen3-Omni Technical Report'}

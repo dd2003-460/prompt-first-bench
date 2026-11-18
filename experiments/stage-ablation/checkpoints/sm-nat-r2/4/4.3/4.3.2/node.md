@@ -1,0 +1,20 @@
+# N65: 更新导致的额外未命中成本占比 C_miss/C_total 的边界条件：当对象更新后其内容哈希变化导致缓存行失效时，C_miss/C_total = 1；若更新
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+更新导致的额外未命中成本占比 C_miss/C_total 的边界条件：当对象更新后其内容哈希变化导致缓存行失效时，C_miss/C_total = 1；若更新仅修改元数据且缓存层支持原地更新，则 C_miss/C_total = 0。典型对象存储场景取 1。
+
+## Corrected Claim
+
+更新导致的额外未命中成本占比 C_miss/C_total 的边界条件：当对象更新后其内容哈希变化导致缓存行失效时，C_miss/C_total = 1；若更新仅修改元数据且缓存层支持原地更新，则 C_miss/C_total = 0。典型对象存储场景取 1。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：哈希变化导致缓存键失效必然引发未命中（成本占比1），元数据原地更新不触发数据层未命中（成本占比0），符合缓存一致性基本原理。

@@ -1,0 +1,28 @@
+# N289: FP8 (E4M3/E5M2) 量化相对于 BF16 在 Qwen3-27B 上的 Perplexity (困惑度) 增加幅度：在 WikiText2 或 C4
+
+- **status**: pending
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N112
+
+## Claim
+
+FP8 (E4M3/E5M2) 量化相对于 BF16 在 Qwen3-27B 上的 Perplexity (困惑度) 增加幅度：在 WikiText2 或 C4 数据集上，FP8 的 PPL 通常比 BF16 高 0.1-0.3 个百分点，若超过 0.5 个百分点则视为质量损失显著，需考虑重校准或回退至 BF16。
+
+## Corrected Claim
+
+FP8 (E4M3/E5M2) 量化相对于 BF16 在 Qwen3-27B 上通常会导致轻微的 Perplexity 增加（具体数值需参考特定基准测试，一般认为在可接受范围内），若 PPL 显著上升（如超过 0.5）则需考虑重校准或回退。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值断言（PPL增加0.1-0.3，阈值0.5），且特定于Qwen3-27B模型。参考来源[1]仅讨论FP8在RL中的工程挑战，未提供Qwen3-27B在WikiText2/C4上的具体PPL对比数据，无法直接支持该具体数值范围。 | 逻辑自洽（FP8量化通常导致轻微精度损失，PPL增加0.1-0.3符合一般经验），但参考来源[1]主题相关却未提供具体数值支持，属于经验事实且缺直接来源支持。
+
+## Search Query
+
+Qwen3 27B FP8 quantization perplexity degradation vs BF16 benchmark
+
+## Retrieval Sources
+
+- {'url': 'http://arxiv.org/abs/2601.18150v2', 'type': 'arxiv', 'title': 'FP8-RL: A Practical and Stable Low-Precision Stack for LLM Reinforcement Learnin'}

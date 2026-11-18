@@ -1,0 +1,30 @@
+# N276: 数据中心托管费 C_datacenter_overhead 的具体构成：对于 1U 服务器，托管费约为 $150-$300/月（含电力、冷却、带宽），折合年成本
+
+- **status**: pending
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N107
+
+## Claim
+
+数据中心托管费 C_datacenter_overhead 的具体构成：对于 1U 服务器，托管费约为 $150-$300/月（含电力、冷却、带宽），折合年成本 $1,800-$3,600；若自建机房，分摊成本包括机房租金($500/月)、UPS 维护($100/月)及人工($200/月)，总计约 $10,800/年
+
+## Corrected Claim
+
+数据中心托管费 C_datacenter_overhead 的具体构成：对于 1U 服务器，托管费约为 $150-$300/月（含电力、冷却、带宽），折合年成本 $1,800-$3,600；若自建机房，分摊成本包括机房租金($500/月)、UPS 维护($100/月)及人工($200/月)，总计约 $9,600/年
+
+## Evidence
+
+[质询]参考来源与数据中心托管费完全无关，无法提供外部证据支持；且具体数值（如$150-$300/月）属于经验事实，不同地区、不同服务商差异巨大，缺乏特定上下文（如地理位置、带宽具体量级）时，该数值范围可能不准确或具有误导性。 | 参考来源[1][2][3]均为物理学论文（磁性、噪声、脉冲生成），与数据中心成本无关，属于「无可用外部证据」。该陈述为经验事实，逻辑上算术自洽（150*12=1800, 300*12=3600; 800*12=9600，注：原文自建成本计算 500+100+200=800/月，800*12=9600，但陈述中写总计约$10,800/年，存在算术错误：800*12=9600≠10800。若按10800/12=900/月，则分项之和应为900，但500+100+200=800。存在内部算术矛盾。
+
+## Search Query
+
+1U server colocation cost per month 2024 data center
+
+## Retrieval Sources
+
+- {'url': 'http://arxiv.org/abs/1303.4033v1', 'type': 'arxiv', 'title': 'Two-dimensional magnetic interactions in LaFeAsO'}
+- {'url': 'http://arxiv.org/abs/2301.12957v2', 'type': 'arxiv', 'title': 'High-field 1/f noise in hBN-encapsulated graphene transistors'}
+- {'url': 'http://arxiv.org/abs/2212.06599v2', 'type': 'arxiv', 'title': 'Generation of subcycle isolated attosecond pulses by pumping ionizing gating'}

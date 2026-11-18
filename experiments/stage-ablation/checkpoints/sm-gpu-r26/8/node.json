@@ -1,0 +1,21 @@
+{
+  "id": "N30",
+  "claim": "多卡部署（2x RTX 4090）的软件栈复杂度惩罚：使用 vLLM 或 llama.cpp 进行张量并行（Tensor Parallelism）时，PCIe 带宽瓶颈导致 KV Cache 传输效率降低，实测吞吐比单卡 H100 低 15-20% 且配置复杂度增加（需驱动版本匹配、CUDA 拓扑优化）；若使用 Mac Studio (M2 Ultra) 则无此问题但受限于统一内存带宽",
+  "level": "L2",
+  "source": "search",
+  "status": "pending",
+  "evidence": "[质询]数值断言缺乏来源支持：'实测吞吐比单卡 H100 低 15-20%' 是具体的经验性能数据，参考来源 [1] 仅涉及 RTX 4060 的功耗/规格，与 RTX 4090 多卡部署、H100 对比及 vLLM/llama.cpp 的具体性能表现完全无关，无法验证该具体百分比。 | 逻辑上，PCIe 带宽瓶颈确实会导致多卡张量并行效率低于 NVLink 连接的 H100，且 Mac Studio 统一内存架构确实避免了 PCIe 瓶颈但受限于内存带宽，定性描述符合硬件原理；但具体数值 '15-20%' 属于经验事实，参考来源 [1] 无关，无法提供直接支持，故降级。",
+  "corrected_claim": "多卡部署（2x RTX 4090）使用 vLLM 或 llama.cpp 进行张量并行时，受限于 PCIe 带宽瓶颈，KV Cache 传输效率低于 NVLink 连接的 H100，导致整体吞吐性能下降且配置复杂度增加（需驱动匹配、拓扑优化）；若使用 Mac Studio (M2 Ultra) 则无 PCIe 瓶颈但受限于统一内存带宽。",
+  "rework_count": 1,
+  "parent_ids": [],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": [
+    {
+      "url": "https://en.wikipedia.org/wiki/GeForce_RTX_40_series",
+      "type": "gpu_specs",
+      "title": "GPU Specs: GeForce RTX 4060[56][57][58]"
+    }
+  ]
+}

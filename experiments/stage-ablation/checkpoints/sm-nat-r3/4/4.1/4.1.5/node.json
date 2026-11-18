@@ -1,0 +1,38 @@
+{
+  "id": "N58",
+  "claim": "工作点 C（低频率/高失效）：对于热度 10%-100% 的对象，假设其访问频率为总请求的 20%，且 LRU 缓存中此类对象占比高，则 T_C ≈ 1/(0.2 * 50,000,000) * K_LRU ≈ 1/(10,000,000) * K_LRU 天，若 K_LRU=10,000，则 T_C ≈ 1e-6 天，R_inv_C ≈ 1e-8；但若考虑对象更新率 λ=0.01/day 作用于对象本身而非访问间隔，则需重新定义 T_LRU 为对象在缓存中的平均存在时间。",
+  "level": "L3",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]该陈述包含具体的经验数值假设（如总请求量 50,000,000、K_LRU=10,000、访问频率占比 20%），这些并非第一性原理可推导的数学恒等式，而是特定场景下的经验参数。参考来源中未包含支持这些具体数值或该特定缓存失效模型的外部证据。 | 逻辑推导自洽（1/(0.2*5e7) = 1e-7，乘以 K_LRU=1e4 得 1e-3 天？等等，计算检查：1/(10,000,000) * 10,000 = 0.001 天，而非 1e-6 天。这里存在计算错误。0.2 * 50,000,000 = 10,000,000。1/10,000,000 = 1e-7。1e-7 * 10,000 = 1e-3。陈述中写 T_C ≈ 1e-6 天，计算错误。因此逻辑校验失败。",
+  "corrected_claim": "工作点 C（低频率/高失效）：对于热度 10%-100% 的对象，假设其访问频率为总请求的 20%，且 LRU 缓存中此类对象占比高，则 T_C ≈ 1/(0.2 * 50,000,000) * K_LRU。若 K_LRU=10,000，则 T_C ≈ 1e-3 天（而非 1e-6 天），R_inv_C 需根据具体定义重新计算；若考虑对象更新率 λ=0.01/day 作用于对象本身而非访问间隔，则需重新定义 T_LRU 为对象在缓存中的平均存在时间。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N16"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "CDN cache invalidation rate object update frequency LRU residence time",
+  "retrieval_sources": [
+    {
+      "url": "https://en.wikipedia.org/wiki/Page_replacement_algorithm",
+      "type": null,
+      "title": "wiki-full: Page replacement algorithm"
+    },
+    {
+      "url": "https://arxiv.org/abs/2309.06180",
+      "type": null,
+      "title": "direct-browser: https://arxiv.org/abs/2309.06180"
+    },
+    {
+      "url": "https://arxiv.org/abs/1604.04385",
+      "type": null,
+      "title": "direct-browser: https://arxiv.org/abs/1604.04385"
+    },
+    {
+      "url": "https://zhuanlan.zhihu.com/p/35189753&rut=463027ddc34b04a7dd70830777af26ec95e524e6dc5672f587f4ba4b04c6e433",
+      "type": "ddg",
+      "title": "原来电路最高工作频率是这么算出来的（STA基础篇）"
+    }
+  ]
+}

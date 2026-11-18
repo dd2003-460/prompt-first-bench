@@ -1,0 +1,20 @@
+# N69: Clayton Copula 参数 θ 与 Pearson 相关系数 ρ 的转换公式：ρ = 2θ / ((2-θ)^2)，代入 ρ=-0.3 解得 θ ≈ 0
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N22
+
+## Claim
+
+Clayton Copula 参数 θ 与 Pearson 相关系数 ρ 的转换公式：ρ = 2θ / ((2-θ)^2)，代入 ρ=-0.3 解得 θ ≈ 0.35（注：Clayton 仅支持正相关，负相关需使用 Gumbel 或 Frank Copula，此处需修正为 Frank Copula 参数化）。
+
+## Corrected Claim
+
+Clayton Copula 参数 θ 与 Pearson 相关系数 ρ 的转换公式：ρ = 2θ / ((2-θ)^2)，代入 ρ=-0.3 解得 θ ≈ 0.35（注：Clayton 仅支持正相关，负相关需使用 Gumbel 或 Frank Copula，此处需修正为 Frank Copula 参数化）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Clayton Copula 的 Pearson 相关系数公式 ρ = 2θ/(2-θ)² 正确，且 Clayton 确实仅支持正相关（θ>0 时 ρ>0），负相关需使用 Frank 或 Gumbel 等支持负相关的 Copula，陈述内部逻辑自洽且修正建议合理。

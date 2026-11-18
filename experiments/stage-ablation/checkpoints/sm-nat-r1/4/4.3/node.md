@@ -1,0 +1,24 @@
+# N17: 对象总大小 S_total 的计算：S_total = N * E[X]，其中 N=10^5，E[X] 为 Pareto(α=1.1) 分布的期望；由于 α=1
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+对象总大小 S_total 的计算：S_total = N * E[X]，其中 N=10^5，E[X] 为 Pareto(α=1.1) 分布的期望；由于 α=1.1 > 1，E[X] = α * x_min / (α - 1)，需假设 x_min（最小对象大小），典型 CDN 场景 x_min ≈ 1KB，则 E[X] ≈ 11KB，S_total ≈ 1.1TB；此计算依赖 x_min 假设，属 [待核验]，量化形式：S_total = 10^5 * (1.1 * x_min / 0.1)。
+
+## Corrected Claim
+
+对象总大小 S_total 的计算：S_total = N * E[X]，其中 N=10^5，E[X] 为 Pareto(α=1.1) 分布的期望；由于 α=1.1 > 1，E[X] = α * x_min / (α - 1)，需假设 x_min（最小对象大小），典型 CDN 场景 x_min ≈ 1KB，则 E[X] ≈ 11KB，S_total ≈ 1.1TB；此计算依赖 x_min 假设，属 [待核验]，量化形式：S_total = 10^5 * (1.1 * x_min / 0.1)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+Pareto distribution expected value alpha=1.1 minimum size assumption CDN

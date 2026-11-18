@@ -1,0 +1,20 @@
+# N193: 修正 N60 与 N111 的矛盾：Apple M2 Ultra 的内存带宽为 800 GB/s，Qwen3-27B BF16 模型权重占用 54GB，理论吞吐
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N60
+
+## Claim
+
+修正 N60 与 N111 的矛盾：Apple M2 Ultra 的内存带宽为 800 GB/s，Qwen3-27B BF16 模型权重占用 54GB，理论吞吐量上限 = 800 GB/s / 54 GB ≈ 14.8 tokens/s。N60 的 13 tokens/s 是考虑了内存控制器开销和实际效率因子 (~0.9) 后的合理实测上限，而 N111 的 57 tokens/s 计算错误（可能误用了 192GB 容量而非 54GB 权重大小，或混淆了带宽单位）。正确结论：M2 Ultra 运行 27B BF16 的理论上限约为 15 tokens/s，实际吞吐约为 12-14 tokens/s。
+
+## Corrected Claim
+
+修正 N60 与 N111 的矛盾：Apple M2 Ultra 的内存带宽为 800 GB/s，Qwen3-27B BF16 模型权重占用 54GB，理论吞吐量上限 = 800 GB/s / 54 GB ≈ 14.8 tokens/s。N60 的 13 tokens/s 是考虑了内存控制器开销和实际效率因子 (~0.9) 后的合理实测上限，而 N111 的 57 tokens/s 计算错误（可能误用了 192GB 容量而非 54GB 权重大小，或混淆了带宽单位）。正确结论：M2 Ultra 运行 27B BF16 的理论上限约为 15 tokens/s，实际吞吐约为 12-14 tokens/s。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：M2 Ultra 带宽 800GB/s 与 27B BF16 权重 54GB 均为公认硬件/模型参数，800/54≈14.8 计算正确，符合内存带宽瓶颈下的理论上限推导。

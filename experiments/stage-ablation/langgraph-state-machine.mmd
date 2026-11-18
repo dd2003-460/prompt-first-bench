@@ -1,0 +1,35 @@
+# LangGraph 状态机 Mermaid 图
+
+```mermaid
+graph TD
+    A[decompose] --> B[search]
+    B --> C[validate]
+    C --> D[complete]
+    D --> END
+    
+    A -.->|重试| A
+    B -.->|重试| B
+    C -.->|重试| B
+    C -.->|失败| F[fail]
+    F --> END
+    
+    style A fill:#e1f5ff
+    style B fill:#fff4e1
+    style C fill:#ffe1e1
+    style D fill:#e1ffe1
+    style F fill:#f0f0f0
+```
+
+## 说明
+
+- **decompose**: 生成分解树
+- **search**: 对每个节点做信息搜索
+- **validate**: 校验信效度
+- **complete**: 生成最终答案
+- **fail**: 重试耗尽后运行补偿逻辑 (Saga pattern)
+
+## 重试逻辑
+
+- 每个阶段最多 3 次
+- 重试耗尽后进入 fail 节点
+- fail 节点运行补偿逻辑 (降级标 [待核验])

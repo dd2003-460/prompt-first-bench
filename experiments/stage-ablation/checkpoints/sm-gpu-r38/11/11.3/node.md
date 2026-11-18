@@ -1,0 +1,31 @@
+# N302: Intel Arc A770 (16GB) 和 AMD Radeon Pro W7800 (32GB) 的软件栈成熟度量化：Intel Arc 的 IPEX 库
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N120
+
+## Claim
+
+Intel Arc A770 (16GB) 和 AMD Radeon Pro W7800 (32GB) 的软件栈成熟度量化：Intel Arc 的 IPEX 库对 LLM 推理的支持仅限于 INT8 量化，且吞吐量比 NVIDIA 同代产品低 50-70%；AMD Radeon Pro 的 ROCm 5.7 对 Qwen3-27B 的支持需手动编译，且存在 10-20% 的性能损失。
+
+## Corrected Claim
+
+Intel Arc A770 和 AMD Radeon Pro W7800 的软件栈在 LLM 推理支持上相对 NVIDIA 存在差距，具体量化指标（如吞吐量差异百分比、特定模型支持状态）需依据最新官方基准测试或社区实测数据确认，当前缺乏可靠来源支持具体数值。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值断言（如吞吐量低50-70%、性能损失10-20%）和特定软件版本支持状态（ROCm 5.7对Qwen3-27B的支持情况），这些属于硬件/软件生态的经验事实，无法从第一性原理推导，且参考来源中完全未涉及Intel Arc或AMD Radeon Pro的相关性能基准测试或软件栈细节，缺乏外部证据支持。 | 经验事实，逻辑自洽但缺来源支持（参考来源[1]-[4]均与GPU软件栈成熟度及具体性能对比无关）
+
+## Search Query
+
+Intel Arc A770 AMD Radeon Pro W7800 LLM inference performance benchmark 2024
+
+## Retrieval Sources
+
+- {'url': 'https://github.com', 'type': None, 'title': 'direct-browser: github.com'}
+- {'url': 'http://arxiv.org/abs/2603.24621v2', 'type': 'arxiv', 'title': 'ARC-AGI-3: A New Challenge for Frontier Agentic Intelligence'}
+- {'url': 'http://arxiv.org/abs/2411.11206v1', 'type': 'arxiv', 'title': 'Capturing Sparks of Abstraction for the ARC Challenge'}
+- {'url': 'http://arxiv.org/abs/2607.18213v1', 'type': 'arxiv', 'title': 'SWE-Pruner Pro: The Coder LLM Already Knows What to Prune'}

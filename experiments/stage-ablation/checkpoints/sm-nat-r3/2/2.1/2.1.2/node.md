@@ -1,0 +1,24 @@
+# N39: 忽略负相关时的基准 K_base = C / E[S] = 1.374e11 bytes / 11000 bytes ≈ 12,494,450，但由于 N=10
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N11
+
+## Claim
+
+忽略负相关时的基准 K_base = C / E[S] = 1.374e11 bytes / 11000 bytes ≈ 12,494,450，但由于 N=100,000 < K_base，意味着在忽略相关性时缓存可容纳所有对象（命中率趋近 100%），此异常需通过负相关修正头部大小来解释为何实际命中率非 100% 或重新审视 x_min 假设。
+
+## Corrected Claim
+
+忽略负相关时的基准 K_base = C / E[S] = 1.374e11 bytes / 11000 bytes ≈ 12,494,450，但由于 N=100,000 < K_base，意味着在忽略相关性时缓存可容纳所有对象（命中率趋近 100%），此异常需通过负相关修正头部大小来解释为何实际命中率非 100% 或重新审视 x_min 假设。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别从参数假设偏差（x_min）、量级不匹配的物理含义（N vs C）、以及参数修正方向（N或C调整）三个维度展开。虽然子节点1和2都涉及数值计算，但侧重点不同（1侧重分布参数对均值的修正，2侧重总量与容量的物理直觉），且3是综合后的行动指南，逻辑上正交且完备覆盖了父节点中'解释异常'和'修正假设'的两个核心任务。）
+
+## Search Query
+
+cache capacity vs total objects count anomaly analysis

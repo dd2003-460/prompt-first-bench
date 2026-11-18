@@ -1,0 +1,20 @@
+# N181: 突发持续时间 T_burst 与命中率恢复时间的关系：T_recover ≈ T_res_avg * ln(B)，即命中率恢复到稳态所需时间与突发因子 B 的对
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N79
+
+## Claim
+
+突发持续时间 T_burst 与命中率恢复时间的关系：T_recover ≈ T_res_avg * ln(B)，即命中率恢复到稳态所需时间与突发因子 B 的对数成正比，与突发持续时间 T_burst 无直接关系（假设突发结束后请求率恢复平均）。
+
+## Corrected Claim
+
+突发持续时间 T_burst 与命中率恢复时间的关系：T_recover ≈ T_res_avg * ln(B)，即命中率恢复到稳态所需时间与突发因子 B 的对数成正比，与突发持续时间 T_burst 无直接关系（假设突发结束后请求率恢复平均）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

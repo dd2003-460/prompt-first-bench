@@ -1,0 +1,31 @@
+# N8: 总数据量S_total计算：S_total = N_objects * E[S] = 100000 * (α-1) * S_min / (α-1) [Paret
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N2
+
+## Claim
+
+总数据量S_total计算：S_total = N_objects * E[S] = 100000 * (α-1) * S_min / (α-1) [Pareto期望值公式，需假设S_min]，[待核验] S_min典型值为1KB或10KB
+
+## Corrected Claim
+
+总数据量S_total计算：S_total = N_objects * E[S] = 100000 * α * S_min / (α-1) [基于Pareto分布期望值公式]，S_min的具体典型值需根据实际数据集确定，常见假设范围可能在KB级别，但无通用标准值。
+
+## Evidence
+
+[质询]S_min（Pareto分布的最小值/尺度参数）的具体典型值（1KB或10KB）属于经验事实，无法从Pareto分布的数学定义或第一性原理中推导得出，且参考来源中未提供该具体数值的支持。 | 来源[1]直接支持了Pareto分布期望值公式 E[S] = α*x_m/(α-1) 的正确性（其中x_m即S_min），但所有来源均未提及S_min在文件存储场景下的典型值为1KB或10KB，该部分为缺乏来源支持的经验断言。
+
+## Search Query
+
+Pareto distribution mean object size CDN typical minimum size
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Pareto_distribution', 'type': None, 'title': 'direct-browser: https://en.wikipedia.org/wiki/Pareto_distribution'}
+- {'url': 'https://en.wikipedia.org/wiki/File_size', 'type': None, 'title': 'direct-browser: https://en.wikipedia.org/wiki/File_size'}
+- {'url': 'https://arxiv.org', 'type': None, 'title': 'direct-browser: https://arxiv.org'}
+- {'url': 'https://www.reddit.com/r/GMail/comments/588eyd/gmail_help_resources/', 'type': 'bing', 'title': 'Gmail Help Resources : r/GMail - Reddit'}

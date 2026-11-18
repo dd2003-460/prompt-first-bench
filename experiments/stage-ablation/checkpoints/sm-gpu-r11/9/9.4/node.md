@@ -1,0 +1,20 @@
+# N109: 2x RTX 4090 在 FP8 量化下的 32K 上下文吞吐基准：tokens/sec = 2 × (24GB × 1024 GB/s) / (27B × 
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N31
+
+## Claim
+
+2x RTX 4090 在 FP8 量化下的 32K 上下文吞吐基准：tokens/sec = 2 × (24GB × 1024 GB/s) / (27B × 1 byte) ≈ 180 tokens/sec（理论上限），实际受 KV Cache 开销影响约 150-160 tokens/sec [待核验]。
+
+## Corrected Claim
+
+2x RTX 4090 (24GB each) 在 FP8 量化下运行 27B 模型时，受限于显存容量（24GB < 27GB 权重 + KV Cache），无法完整加载模型或需大幅降低上下文长度/启用 offload，因此无法直接得出 150-160 tokens/sec 的稳定吞吐基准；若假设模型可加载（如使用 48GB 卡或量化至 INT4），理论带宽上限约为 2 × 1008 GB/s / 27B ≈ 74 tokens/sec（仅权重读取），实际吞吐受 Attention 计算和 KV Cache 读写影响，通常远低于此简单估算值。
+
+## Evidence
+
+[质询]数值量级与硬件规格严重不符：RTX 4090 显存带宽约为 1008 GB/s（而非 1024 GB/s），且 24GB 显存无法容纳 27B 模型在 FP8 下的完整权重（约 27GB）及 32K 上下文的 KV Cache，导致理论计算前提（显存容量与带宽数值）存在事实性错误，且未考虑 Attention 计算瓶颈，仅按显存带宽估算吞吐过于简化。 | 先验知识/题面给定，逻辑校验未通过：RTX 4090 带宽非 1024 GB/s，且 24GB 显存不足以同时容纳 27B FP8 模型权重与 32K KV Cache，理论上限计算基础错误。

@@ -1,0 +1,29 @@
+# N232: vLLM 在单卡 RTX 4090 上运行 27B INT8 模型时，若启用 PagedAttention 且 KV Cache 使用 FP16，32K 上下文
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N74
+
+## Claim
+
+vLLM 在单卡 RTX 4090 上运行 27B INT8 模型时，若启用 PagedAttention 且 KV Cache 使用 FP16，32K 上下文下的 KV Cache 显存占用约为 2 * 32768 * n_layers * n_heads * head_dim * 2 bytes，需结合 Qwen3-27B 具体层数(如64层)计算是否触发 OOM 或强制降低 Max Batch Size 至 1。
+
+## Corrected Claim
+
+vLLM 在单卡 RTX 4090 上运行 27B INT8 模型时，若启用 PagedAttention 且 KV Cache 使用 FP16，32K 上下文下的 KV Cache 显存占用需根据具体模型层数、头数及头维度计算（公式：2 * 32768 * n_layers * n_heads * head_dim * 2 bytes），具体是否触发 OOM 或降低 Max Batch Size 取决于实际计算结果与显存余量，需结合 Qwen3-27B 具体架构参数验证。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件规格（RTX 4090显存）、模型架构参数（Qwen3-27B层数）及特定软件行为（vLLM OOM阈值），属于经验事实。参考来源[1]为无关的GitHub首页内容，来源[2]仅提及RTX 4060规格，均未提供RTX 4090在运行27B INT8模型时的具体KV Cache显存占用数据或OOM触发条件，缺乏直接外部证据支持。 | 公式推导逻辑自洽（KV Cache大小 = 2 * seq_len * n_layers * n_heads * head_dim * dtype_size），但作为经验事实（硬件/模型具体参数及运行表现），参考来源未提供直接支持，依据经验事实排除条款降级。
+
+## Search Query
+
+Qwen3-27B architecture n_layers n_heads head_dim vLLM KV cache size calculation
+
+## Retrieval Sources
+
+- {'url': 'https://github.com', 'type': None, 'title': 'direct-browser: github.com'}
+- {'url': 'https://en.wikipedia.org/wiki/GeForce_RTX_40_series', 'type': 'gpu_specs', 'title': 'GPU Specs: GeForce\xa0RTX 4060[56][57][58]'}

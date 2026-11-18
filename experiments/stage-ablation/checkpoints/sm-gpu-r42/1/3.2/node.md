@@ -1,0 +1,24 @@
+# N6: 32K 上下文窗口下，Qwen3-27B 的 KV Cache 大小约为 1.2-1.5 GB (基于 GQA 结构，层数约 64，KV 头数约 4，head_
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+32K 上下文窗口下，Qwen3-27B 的 KV Cache 大小约为 1.2-1.5 GB (基于 GQA 结构，层数约 64，KV 头数约 4，head_dim 128，精度 BF16/FP8 混合计算：64 * 4 * 128 * 32768 * 2 bytes / 1024^3 ≈ 1.25 GB)，该值随 batch size 线性增长
+
+## Corrected Claim
+
+32K 上下文窗口下，Qwen3-27B 的 KV Cache 大小约为 1.2-1.5 GB (基于 GQA 结构，层数约 64，KV 头数约 4，head_dim 128，精度 BF16/FP8 混合计算：64 * 4 * 128 * 32768 * 2 bytes / 1024^3 ≈ 1.25 GB)，该值随 batch size 线性增长
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于GQA结构（64层，4 KV头，128维，BF16精度）计算KV Cache大小为 64 * 4 * 128 * 32768 * 2 bytes ≈ 1.25 GB，量级合理且符合线性增长规律。
+
+## Search Query
+
+Qwen3-27B KV cache size 32k context GQA configuration

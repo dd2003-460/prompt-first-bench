@@ -1,0 +1,31 @@
+# N270: RTX 4090 双卡方案在 Qwen3-27B INT8 量化推理下的系统总功耗为 780W ± 15W，相比 BF16 降低约 8%，源于 INT8 计算能
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N84
+
+## Claim
+
+RTX 4090 双卡方案在 Qwen3-27B INT8 量化推理下的系统总功耗为 780W ± 15W，相比 BF16 降低约 8%，源于 INT8 计算能效提升及内存带宽压力减小，需作为 INT8 部署场景下的电力成本基准值。
+
+## Corrected Claim
+
+RTX 4090 双卡方案在 Qwen3-27B INT8 量化推理下的系统总功耗预计显著低于 BF16 方案，具体数值需依据实际硬件配置与负载测试确定，INT8 部署通常能带来能效提升。
+
+## Evidence
+
+[质询]具体数值（780W ± 15W）及特定模型（Qwen3-27B）的功耗数据属于高度依赖具体硬件配置、驱动版本、负载场景及量化实现的经验事实，无法从第一性原理推导，且参考来源中未包含任何关于 RTX 4090 双卡运行 Qwen3-27B 的功耗实测数据。 | 逻辑上 INT8 量化通常能降低计算能耗，但 780W 的总功耗数值缺乏来源支持（来源 [2] 仅提及 RTX 4060 规格，[4] 提及 RTX 4090 但未涉及双卡 Qwen3-27B 功耗），属于经验事实且缺来源直接支持。
+
+## Search Query
+
+RTX 4090 INT8 inference power consumption efficiency watts
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org', 'type': None, 'title': 'direct-browser: arxiv.org'}
+- {'url': 'https://en.wikipedia.org/wiki/GeForce_RTX_40_series', 'type': 'gpu_specs', 'title': 'GPU Specs: GeForce\xa0RTX 4060[56][57][58]'}
+- {'url': 'http://arxiv.org/abs/2611.00486v1', 'type': 'arxiv', 'title': 'Integer-Exact Microscaling: Running MXFP4 Language Models on INT8 Matrix Units'}
+- {'url': 'http://arxiv.org/abs/2607.27205v3', 'type': 'arxiv', 'title': 'TurboVLA: Real-Time Vision-Language-Action Model at 32 Hz on an RTX 4090 with &l'}

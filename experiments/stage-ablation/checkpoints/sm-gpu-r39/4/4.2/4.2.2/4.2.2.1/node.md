@@ -1,0 +1,31 @@
+# N184: AMD Instinct MI250X 的单卡市场零售价在 2024-2025 年期间约为 $15,000 - $20,000 USD（新品），二手或拆机卡价格
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N58
+
+## Claim
+
+AMD Instinct MI250X 的单卡市场零售价在 2024-2025 年期间约为 $15,000 - $20,000 USD（新品），二手或拆机卡价格约为 $8,000 - $12,000 USD，具体需查询 eBay 或专业服务器二手商最新报价。
+
+## Corrected Claim
+
+AMD Instinct MI250X 的市场价格因采购渠道（OEM、云服务商、二手市场）和时间波动较大，具体价格需查询最新市场报价，参考区间约为新品 $15,000 - $20,000 USD，二手 $8,000 - $12,000 USD。
+
+## Evidence
+
+[质询]该陈述包含具体的市场价格区间（新品 $15k-$20k，二手 $8k-$12k），属于经验事实。参考来源中未包含任何关于 MI250X 具体售价或市场行情的数据，无法验证数值准确性。此外，MI250X 作为数据中心加速卡，通常通过 OEM 或云服务商采购，其‘单卡市场零售价’的定义本身可能存在口径模糊（是 MSRP 还是实际成交价？是否包含服务器集成成本？）。 | 经验事实，逻辑自洽但缺来源支持。参考来源 [1]-[4] 均为 AMD 官方或通用列表页面，未提供 MI250X 的具体价格信息，无法直接支持或反驳该数值区间。
+
+## Search Query
+
+AMD Instinct MI250X price 2024 2025 used new market price
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/List_of_AMD_graphics_processing_units', 'type': None, 'title': 'wiki-full: List of AMD graphics processing units'}
+- {'url': 'https://www.amd.com/en.html', 'type': 'bing', 'title': 'AMD ׀ together we advance_AI'}
+- {'url': 'https://www.amd.com/en/support/download/drivers.html', 'type': 'bing', 'title': 'Drivers and Support for Processors and Graphics'}
+- {'url': 'https://en.wikipedia.org/wiki/AMD', 'type': 'bing', 'title': 'AMD - Wikipedia'}

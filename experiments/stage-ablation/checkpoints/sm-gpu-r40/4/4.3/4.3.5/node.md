@@ -1,0 +1,31 @@
+# N64: Groq LPU 和 Cerebras WSE-3 均为云端专用加速器，本地部署成本极高 (Groq LPU 集群价格 > $100,000 [待核验])，且软
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N18
+
+## Claim
+
+Groq LPU 和 Cerebras WSE-3 均为云端专用加速器，本地部署成本极高 (Groq LPU 集群价格 > $100,000 [待核验])，且软件栈不开放，不适合个人本地工作站部署
+
+## Corrected Claim
+
+Groq LPU 和 Cerebras WSE-3 均为云端专用加速器，本地部署成本极高，且软件栈不开放，不适合个人本地工作站部署
+
+## Evidence
+
+[质询]具体数值断言「Groq LPU 集群价格 > $100,000」缺乏直接来源支持，且该价格可能随市场波动或具体配置（单卡/集群规模）变化，属于经验事实而非第一性原理可推导内容。 | 来源[1][2][3]均聚焦于云端租赁成本（cost per million tokens）和架构对比，未提供本地硬件采购的具体价格数据；逻辑上云端专用加速器本地部署成本高符合直觉，但具体数值无法从现有来源验证。
+
+## Search Query
+
+Groq LPU local deployment cost Cerebras WSE-3 price
+
+## Retrieval Sources
+
+- {'url': 'https://www.spheron.network/blog/groq-lpu-vs-cerebras-wse-cheapest-inference-2026/&rut=75f5858a30472637c30ecac36cf931ac4dad3d56afb2bab6960190fc8ac4d68c', 'type': 'ddg', 'title': 'Groq vs Cerebras: Cheapest Inference Chip to Rent in 2026 | Spheron'}
+- {'url': 'https://chip.computer/compare/groq-lpu-vs-cerebras-wse3&rut=9189d80b297b568a52b682cf6d766a45c733584f7d07750de69bc7c0be079409', 'type': 'ddg', 'title': 'Groq LPU vs Cerebras WSE-3 - chip.computer'}
+- {'url': 'https://edgesiliconlab.com/groq-lpu-vs-cerebras-cs-3-ultra-low-latency-inference-2026/&rut=8c2dc26afa3d5361088b561dbfa4656182af23594388dd35ed3a50a2a2273684', 'type': 'ddg', 'title': 'Groq LPU vs Cerebras CS-3: Ultra-Low Latency Inference'}
+- {'url': 'https://www.geico.com/living/everything-you-need-to-know-about-rental-car-insurance/', 'type': 'bing', 'title': 'Does Car Insurance Cover Rental Cars? Complete Rental Coverage …'}

@@ -1,0 +1,29 @@
+# N136: Qwen3-27B W4 (4-bit) 量化版本在长上下文（32K）任务中，由于量化误差累积，其困惑度（Perplexity）相比 INT8 基线额外增加约 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N37
+
+## Claim
+
+Qwen3-27B W4 (4-bit) 量化版本在长上下文（32K）任务中，由于量化误差累积，其困惑度（Perplexity）相比 INT8 基线额外增加约 10-20%（相对值），且代码生成任务（HumanEval）Pass@1 下降可能超过 10 个百分点，具体数值需引用 4-bit 量化特定评测（如 GPTQ-Int4 报告）。
+
+## Corrected Claim
+
+Qwen3-27B W4 (4-bit) 量化版本在长上下文及代码生成任务中，由于量化误差累积，其困惑度（Perplexity）和代码生成能力（HumanEval Pass@1）相比INT8基线会出现一定程度的下降，具体数值需引用4-bit量化特定评测报告。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值断言（PPL增加10-20%，Pass@1下降>10%），属于硬件/模型性能指标，无法从第一性原理推导，且参考来源中未包含针对Qwen3-27B W4量化的具体评测数据，存在数值缺乏直接证据支持的风险。 | 逻辑上量化误差导致性能下降符合直觉，但参考来源[1]仅为arXiv首页，[2]讨论预训练与困惑度关系，均与Qwen3-27B W4量化具体数值无关，属于经验事实且缺来源直接支持。
+
+## Search Query
+
+Qwen3-27B 4-bit quantization long context perplexity degradation HumanEval
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org', 'type': None, 'title': 'direct-browser: arxiv.org'}
+- {'url': 'http://arxiv.org/abs/2609.38764v1', 'type': 'arxiv', 'title': 'Lasting Effects of Abstract Pretraining Beyond Perplexity'}

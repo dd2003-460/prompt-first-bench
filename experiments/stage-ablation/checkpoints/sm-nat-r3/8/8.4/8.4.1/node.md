@@ -1,0 +1,20 @@
+# N173: 对象大小条件期望的解析近似式：E[s_i | rank_i] ≈ 1 KB * exp(2.3979 - 0.3 * 1.338 * Φ^{-1}(1 - (i
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N75
+
+## Claim
+
+对象大小条件期望的解析近似式：E[s_i | rank_i] ≈ 1 KB * exp(2.3979 - 0.3 * 1.338 * Φ^{-1}(1 - (i-0.5)/100000))，其中 α=1.1, β=0.9, ρ=-0.3, x_min=1KB，用于替代不可解析的 Copula 积分。
+
+## Corrected Claim
+
+对象大小条件期望的解析近似式：E[s_i | rank_i] ≈ 1 KB * exp(2.3979 - 0.3 * 1.338 * Φ^{-1}(1 - (i-0.5)/100000))，其中 α=1.1, β=0.9, ρ=-0.3, x_min=1KB，用于替代不可解析的 Copula 积分。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

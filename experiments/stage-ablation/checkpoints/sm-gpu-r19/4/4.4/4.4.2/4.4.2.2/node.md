@@ -1,0 +1,20 @@
+# N218: RTX 4090 的内存带宽利用率（Memory Bandwidth Utilization）在 LLM Decode 阶段通常为 70-85%，因此实际吞吐量
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N68
+
+## Claim
+
+RTX 4090 的内存带宽利用率（Memory Bandwidth Utilization）在 LLM Decode 阶段通常为 70-85%，因此实际吞吐量 = (1008 GB/s * 0.75) / 54 GB ≈ 14 tokens/s，而非理论上限 18.6 tokens/s。
+
+## Corrected Claim
+
+RTX 4090 的内存带宽利用率（Memory Bandwidth Utilization）在 LLM Decode 阶段通常为 70-85%，因此实际吞吐量 = (1008 GB/s * 0.75) / 54 GB ≈ 14 tokens/s，而非理论上限 18.6 tokens/s。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 显存带宽 1008 GB/s 与 LLM Decode 阶段受内存带宽限制（Memory-Bound）的特性符合硬件事实；70-85% 的带宽利用率在工程实践中属于合理量级；数学计算 (1008 * 0.75) / 54 ≈ 14.0 与 1008 / 54 ≈ 18.67 均准确无误。

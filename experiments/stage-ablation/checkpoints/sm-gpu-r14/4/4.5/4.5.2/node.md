@@ -1,0 +1,28 @@
+# N71: H100 80GB 的 MSRP 为 $25,000-$30,000，2024 年实际市场价约为 $30,000-$40,000，二手价约为 $25,000-$
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N21
+
+## Claim
+
+H100 80GB 的 MSRP 为 $25,000-$30,000，2024 年实际市场价约为 $30,000-$40,000，二手价约为 $25,000-$35,000 [待核验: 最新价格]
+
+## Corrected Claim
+
+H100 80GB 的 MSRP 约为 $25,000-$30,000，2024 年实际市场价及二手价受供需影响波动较大，需参考最新市场报价。
+
+## Evidence
+
+[质询]参考来源与事实主题完全无关，无法提供外部证据支持；且H100价格随时间波动大，具体数值需最新市场数据佐证。 | 经验事实，逻辑自洽但缺来源支持（来源[1]为H100性能研究，与价格无关）
+
+## Search Query
+
+NVIDIA H100 80GB price 2024 market price
+
+## Retrieval Sources
+
+- {'url': 'http://arxiv.org/abs/2608.15764v1', 'type': 'arxiv', 'title': 'Concurrency Response of Plain Global Loads on the NVIDIA H100'}

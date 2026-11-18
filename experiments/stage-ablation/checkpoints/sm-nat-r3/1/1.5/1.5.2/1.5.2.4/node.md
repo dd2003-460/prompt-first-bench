@@ -1,0 +1,20 @@
+# N104: F_H(r_i) 的解析形式：对于 Pareto(β=0.9) 热度分布，F_H(r_i) = 1 - (r_i/N)^(1-β) = 1 - (r_i/N)^
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N37
+
+## Claim
+
+F_H(r_i) 的解析形式：对于 Pareto(β=0.9) 热度分布，F_H(r_i) = 1 - (r_i/N)^(1-β) = 1 - (r_i/N)^0.1，当 r_i=1 时 F_H≈0.9，当 r_i=N 时 F_H≈1
+
+## Corrected Claim
+
+F_H(r_i) 的解析形式：对于 Pareto(β=0.9) 热度分布，F_H(r_i) = 1 - (r_i/N)^(1-β) = 1 - (r_i/N)^0.1，当 r_i=1 时 F_H≈0.9，当 r_i=N 时 F_H≈1
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

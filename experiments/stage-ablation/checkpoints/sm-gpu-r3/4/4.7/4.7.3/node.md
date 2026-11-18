@@ -1,0 +1,31 @@
+# N77: AMD MI250X (128GB HBM2e) 的单卡价格与功耗（~750W）与 NVIDIA H100 (80GB HBM3) 的对比，计算每 GB 显存成
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N25
+
+## Claim
+
+AMD MI250X (128GB HBM2e) 的单卡价格与功耗（~750W）与 NVIDIA H100 (80GB HBM3) 的对比，计算每 GB 显存成本与每瓦性能比，评估其作为非典型数据中心方案的 TCO 优势
+
+## Corrected Claim
+
+AMD MI250X 配备 128GB HBM2e 显存（来源[3]支持），其单卡价格、具体功耗及与 NVIDIA H100 的 TCO 对比优势需参考具体市场报价及第三方评测数据，当前来源未提供相关经济评估。
+
+## Evidence
+
+[质询]该陈述包含具体的市场价格（单卡价格）和TCO评估结论，属于经验事实。参考来源仅提供了硬件规格（如128GB HBM2e），完全缺失价格数据、NVIDIA H100的对比数据以及TCO分析，无法验证“TCO优势”这一核心结论及具体的成本/功耗数值。 | 来源[3]直接支持MI250X拥有128GB HBM2e显存的规格，但所有来源均未提供价格、功耗具体数值（~750W虽符合常识但无来源直接证实）或与H100的TCO对比数据，属于经验事实且缺乏来源支持。
+
+## Search Query
+
+AMD MI250X vs NVIDIA H100 price power consumption cost per GB performance
+
+## Retrieval Sources
+
+- {'url': 'https://www.amd.com/en/products/accelerators/instinct/mi200/mi250x.html&rut=b9ccbcfbe2b19f5f5373082b86d53f4714e8e58b068ba95eae8e1dd78c164a26', 'type': 'ddg', 'title': 'AMD Instinct™ MI250X Accelerators'}
+- {'url': 'https://www.amd.com/zh-cn/products/accelerators/instinct/mi200/mi250x.html&rut=652d472f99d0792cab061ca261389d03599d1bfc12c46ad666dd0d702e6ef60f', 'type': 'ddg', 'title': 'AMD Instinct MI250X 加速器'}
+- {'url': 'https://www.techpowerup.com/gpu-specs/instinct-mi250x.c3837&rut=476a0181320dc3b342728c65d7acabfed3783cbfaf2194b5761137ba4b3aec89', 'type': 'ddg', 'title': 'AMD Instinct MI250X Specs | TechPowerUp GPU Database'}
+- {'url': 'https://www.amd.com/en.html', 'type': 'bing', 'title': 'AMD ׀ together we advance_AI'}

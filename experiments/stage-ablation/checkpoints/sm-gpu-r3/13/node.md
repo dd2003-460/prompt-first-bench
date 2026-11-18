@@ -1,0 +1,24 @@
+# N122: 每美元吞吐量 (Throughput per Dollar, TpD) 修正系数：TpD = (Measured_Throughput_tokens_per_s
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+每美元吞吐量 (Throughput per Dollar, TpD) 修正系数：TpD = (Measured_Throughput_tokens_per_s) / (Total_Hardware_Cost_USD)。对于多卡方案，需除以 (1 - Interconnect_Overhead_Factor)，其中 PCIe Gen4 x16 互联开销系数约为 0.1-0.15，NVLink 约为 0.02-0.05。
+
+## Corrected Claim
+
+每美元吞吐量 (TpD) 定义为实测吞吐量除以总硬件成本。对于多卡方案，需考虑互联开销进行修正，具体修正系数取决于互联技术（如 PCIe 或 NVLink）及实际负载情况，通常 PCIe 开销高于 NVLink。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值（PCIe Gen4 和 NVLink 的互联开销系数），属于硬件性能经验事实，无法从第一性原理严格推导，且参考来源完全未覆盖此主题，缺乏外部证据支持。 | 逻辑自洽（公式量纲正确，修正系数逻辑合理），但参考来源[1]讨论的是通用高并发指标（QPS/TPS），与GPU互联开销系数无关，属于经验事实且缺来源支持。
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/337708438&rut=526b93cdb24b748f434aa02a855c2bf839a67d124f7c6e3312d1c011b9733869', 'type': 'ddg', 'title': '一文搞懂高并发性能指标：QPS、TPS、RT、并发数、吞吐量'}
