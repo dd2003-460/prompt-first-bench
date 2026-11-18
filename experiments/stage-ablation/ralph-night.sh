@@ -30,9 +30,9 @@ gptr_done() { grep -q "ALL DONE" "$GPTR_LOG" 2>/dev/null; }
 gptr_running() { ps aux | grep "gptr_official" | grep -v grep > /dev/null 2>&1; }
 gptr_pfb_done() { grep -q "ALL DONE" "$GPTR_PFB_LOG" 2>/dev/null; }
 gptr_pfb_running() { ps aux | grep "gptr_pfb_3q" | grep -v grep > /dev/null 2>&1; }
-lg_nat_done() { grep -qE "\[LG:stop\]|FINAL|Traceback" "$LG_NAT_LOG" 2>/dev/null; }
+lg_nat_done() { grep -qE "\[LG:stop\]|FINAL" "$LG_NAT_LOG" 2>/dev/null; }
 lg_nat_running() { ps aux | grep "langgraph-pfb-full.*nat" | grep -v grep > /dev/null 2>&1; }
-lg_gpu_done() { grep -qE "\[LG:stop\]|FINAL|Traceback" "$LG_GPU_LOG" 2>/dev/null; }
+lg_gpu_done() { grep -qE "\[LG:stop\]|FINAL" "$LG_GPU_LOG" 2>/dev/null; }
 lg_gpu_running() { ps aux | grep "langgraph-pfb-full.*gpu" | grep -v grep > /dev/null 2>&1; }
 
 restart_gptr() {

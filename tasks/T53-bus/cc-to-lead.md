@@ -584,3 +584,36 @@ commit a8ae3055：score_run 加 ptN→N-X 格式容错映射（按 rubric key �
 ### 发现 2（SM_SEED 可复现口径）：定为"扰动序列固定、LLM 输出允许漂移"
 理由：temperature=0.7 下逐字复现本来就不是合理要求；改 harness 传 seed 给 vLLM
 超出当前实验边界。统计汇总里写明此口径即可。
+## 批量执行器失败: gpu_formula_r09 (2026-11-19 02:57:27)
+rc=143，查 /tmp/t53b-batch.log
+
+## 批量执行器失败: gpu_formula_r09 (2026-11-19 02:57:27)
+rc=143，查 /tmp/t53b-batch.log
+
+## 批量执行器失败: gpu_formula_r09 (2026-11-19 02:57:27)
+rc=143，查 /tmp/t53b-batch.log
+
+## 批量执行器失败: gpu_formula_r09 (2026-11-19 02:57:27)
+rc=143，查 /tmp/t53b-batch.log
+
+## 批量执行器失败: gpu_formula_r09 (2026-11-19 02:57:27)
+rc=143，查 /tmp/t53b-batch.log
+
+## 批量执行器失败: gpu_formula_r09 (2026-11-19 02:57:27)
+rc=143，查 /tmp/t53b-batch.log
+
+## 批量执行器失败: gpu_formula_r09 (2026-11-19 02:57:27)
+rc=143，查 /tmp/t53b-batch.log
+
+## 批量执行器失败: gpu_formula_r09 (2026-11-19 02:57:27)
+rc=143，查 /tmp/t53b-batch.log
+
+## 批量执行器失败: gpu_formula_r09 (2026-11-19 02:57:27)
+rc=143，查 /tmp/t53b-batch.log
+
+## 批量执行器失败: gpu_formula_r09 (2026-11-19 02:57:27)
+rc=143，查 /tmp/t53b-batch.log
+
+## 批量执行器失败: gpu_formula_r09 (2026-11-19 02:57:27)
+rc=143，查 /tmp/t53b-batch.log
+

@@ -1,0 +1,1 @@
+/Users/a1-6/.hermes/scripts/monitor-all.sh
