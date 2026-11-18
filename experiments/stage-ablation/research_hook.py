@@ -654,7 +654,22 @@ if (!inputResult) {{
 }}
 await page.fill(inputResult, {json.dumps(query)});
 await page.waitForTimeout(300);
-await page.keyboard.press("Enter");
+
+// 点击提交按钮（aria-label=提交）而不是 Enter（2026-11-18 实测：Enter 对 Perplexity
+// Lexical contenteditable 不触发提交，点击提交按钮才有效）
+const clicked = await page.evaluate(() => {{
+  const btns = document.querySelectorAll('button');
+  for (const b of btns) {{
+    if (b.getAttribute('aria-label') === '提交') {{
+      b.click();
+      return true;
+    }}
+  }}
+  return false;
+}});
+if (!clicked) {{
+  await page.keyboard.press("Enter");
+}}
 
 // 轮询等待响应（最多 40s，DeepSeek 思考模式需要 25-35s）
 let resp = '';
@@ -673,6 +688,11 @@ for (let i = 0; i < 8; i++) {{
     }}
     return body;
   }});
+  // 检测额度耗尽（Perplexity 免费版用完后显示"您已达到免费搜索次数上限"）
+  if (/您已达到免费搜索次数上限|free (search )?(limit|allowance)|sign in to continue/i.test(resp)) {{
+    console.log(JSON.stringify({{ error: "QUOTA_OR_LOGIN", body: resp.slice(0, 200) }}));
+    return;
+  }}
   if (resp.length > 800) break;
 }}
 
