@@ -9,6 +9,7 @@
 #   - L1 不确定性判据：claim 全文含关键词（原判据读不存在的 scope 字段，
 #     必然 false；见 cc-to-lead 发现 3，等 Lead 正式裁决）
 set -euo pipefail
+setopt NULL_GLOB  # zsh: glob 匹配不到时展开为空，避免 rm -f 因 nomatch 失败（T1 测试暴露）
 cd /Users/a1-6/Desktop/workspace/pfb
 STAGE=experiments/stage-ablation
 CC_STATE=tasks/T53-bus/cc-state.json
@@ -36,10 +37,12 @@ rm -f "$STAGE/checkpoints/sm-${QID}-r"*.json \
 echo "[clean] removed ${QID} ckpt/output files"
 
 # ── 跑 SM（SM_SEED=42 固定，前台，无超时——由 CC 会话看门）──
+# 注意：不用 `if ! cmd; then RC=$?`——`!` 反转退出码，then 里 $? 是 0 不是 cmd 的 rc（T2 测试暴露）
 T0=$(date +%s)
-if ! SM_SEED=42 python3 "$STAGE/s5_state_machine.py" "$QID" --obj-mode="$ARM" --synth \
-      > "$LOG_DIR/${RUN}.sm.log" 2>&1; then
-  RC=$?
+RC=0
+SM_SEED=42 python3 "$STAGE/s5_state_machine.py" "$QID" --obj-mode="$ARM" --synth \
+      > "$LOG_DIR/${RUN}.sm.log" 2>&1 || RC=$?
+if [ $RC -ne 0 ]; then
   echo "[FAIL] SM exited rc=$RC after $(( $(date +%s) - T0 ))s — 不记账，保持 done=false，查 $LOG_DIR/${RUN}.sm.log"
   exit $RC
 fi
