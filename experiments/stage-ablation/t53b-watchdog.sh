@@ -101,7 +101,7 @@ for wu in s['work_units']:
     nohup bash "$STAGE/t53b-batch.sh" >> /tmp/t53b-batch.log 2>&1 &
     NEWPID=$!
     echo "$NEWPID" > "$BATCH_PIDFILE"
-    log "已重启 PID: $NEWPID（断点续跑：从 cc-state.json 读第一个 pending）"
+    log "restarted batch PID: $NEWPID (resume from cc-state.json pending)"
   fi
 
   sleep 60
