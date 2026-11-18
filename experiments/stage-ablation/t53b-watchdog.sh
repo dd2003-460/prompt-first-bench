@@ -12,6 +12,18 @@ STAGE=experiments/stage-ablation
 CC_STATE=tasks/T53-bus/cc-state.json
 LOG=/tmp/t53b-watchdog.log
 BATCH_PIDFILE=/tmp/t53b-batch.pid
+WATCHDOG_LOCK=/tmp/t53b-watchdog.lock
+# single-instance lock: prevent double watchdog (2026-11-19 incident)
+if [ -f "$WATCHDOG_LOCK" ]; then
+  OLDW=$(cat "$WATCHDOG_LOCK" 2>/dev/null)
+  if [ -n "${OLDW:-}" ] && kill -0 "$OLDW" 2>/dev/null; then
+    if ps -p "$OLDW" -o command= 2>/dev/null | grep -qF "t53b-watchdog.sh"; then
+      echo "watchdog already running (pid $OLDW), this instance exits" >> "$LOG" 2>/dev/null
+      exit 0
+    fi
+  fi
+fi
+echo $$ > "$WATCHDOG_LOCK"
 
 log() { echo "[$(date '+%F %H:%M:%S')] $*" >> "$LOG"; }
 
