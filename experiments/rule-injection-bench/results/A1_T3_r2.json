@@ -1,0 +1,13 @@
+{
+  "run_id": "A1_T3_r2",
+  "arm": "A1",
+  "task": "T3",
+  "run": 2,
+  "injection_chars": 1040,
+  "model_elapsed_s": 16.1,
+  "score": 10,
+  "judge_reason": "明确分三阶段调研顺序（GitHub框架→基准对比→硬件实测），涵盖GitHub/现有方案/社区实测来源，且有完整对比维度表与权重决策标准。",
+  "response_chars": 1915,
+  "timestamp": "2026-11-19T20:24:43.775593+00:00",
+  "response": "\n\n# 本地代码生成 LLM 部署调研方案\n\n## 一、调研目标拆解\n你的需求本质是**在 M4 Max 32GB 硬件约束下，找到代码生成能力最接近 GPT-4 的本地模型**，核心矛盾点：\n- **代码质量**：需量化\"接近 GPT-4\"的具体指标（如 HumanEval 通过率、MBPP 准确率）\n- **响应速度**：5s/行 需明确是\"生成 1 行代码耗时\"还是\"完整代码块生成耗时\"（建议按 token 生成速度 × 平均代码行长度估算）\n- **硬件限制**：32GB 内存 + M4 Max GPU 决定可加载模型规模（通常 ≤13B 参数或量化后 ≤24GB）\n\n## 二、调研来源与顺序\n### 阶段 1：候选模型筛选（1-2 天）\n1. **Hugging Face 模型库**  \n   - 筛选条件：`code-generation` 标签 + 参数 ≤13B + 量化版本（GGUF/AWQ）  \n   - 重点关注：CodeLlama、StarCoder2、Mistral Code、Qwen2-Coder、DeepSeek-Coder  \n   - 记录：模型大小、量化精度、许可证（是否允许商业使用）\n\n2. **GitHub 推理框架**  \n   - 检查 `llama.cpp`（Metal 后端）、`Ollama`、`vLLM` 对 M4 Max 的优化程度  \n   - 确认是否支持 `MPS`（Metal Performance Shaders）加速\n\n3. **社区实测报告**  \n   - Reddit r/LocalLLaMA、Hacker News 搜索 \"M4 Max code generation\"  \n   - 重点看用户实测的 token 生成速度（tokens/sec）和内存占用\n\n### 阶段 2：代码质量基准对比（2-3 天）\n1. **官方基准测试**  \n   - HumanEval（Python 代码补全）、MBPP（基础编程问题）、EvalPlus（增强版）  \n   - 数据来源：模型仓库 README、第三方评测站（如 OpenLLM Leaderboard）  \n   - 关键指标：Pass@1 准确率（GPT-4 在 HumanEval 约 90.2%）\n\n2. **实际代码生成测试**  \n   - 准备 20-30 个典型代码任务（算法、API 调用、调试）  \n   - 用统一提示词模板测试各模型，人工评估代码正确性、可读性、边界处理\n\n### 阶段 3：硬件性能实测（1-2 天）\n1. **本地部署测试**  \n   - 用 `llama.cpp` 加载候选模型（Q4_K_M 量化）  \n   - 测量：  \n     - 内存峰值占用（`top` 命令）  \n     - Token 生成速度（`--verbose` 参数输出）  \n     - 首 token 延迟（TTFT）\n\n2. **速度换算**  \n   - 假设平均代码行 20 tokens，5s/行 → 需 ≥4 tokens/sec  \n   - 对比各模型实测速度（M4 Max 上 7B 模型通常 10-20 tokens/sec）\n\n## 三、对比维度与决策标准\n| 维度 | 权重 | 评估方式 |\n|------|------|----------|\n| 代码质量 | 40% | HumanEval Pass@1 + 人工测试得分 |\n| 生成速度 | 30% | 实测 tokens/sec（是否 ≥4） |\n| 内存占用 | 20% | 峰值内存 ≤28GB（留 4GB 系统开销） |\n| 易用性 | 10% | 部署复杂度、社区支持、许可证 |\n\n**决策规则**：  \n1. 先淘汰内存超限或速度不达标模型  \n2. 对剩余模型按加权得分排序  \n3. 若前 2 名差距 <5%，选社区更活跃/更新更频繁的\n\n## 四、风险预判\n- **GPT-4 代码质量可能无法完全复现**：开源模型在复杂多文件项目上仍落后，建议限定\"单文件/中等复杂度\"场景  \n- **量化损失**：Q4 量化可能降低 3-5% 准确率，需对比 Q5/Q6 版本  \n- **上下文限制**：32GB 内存可能限制上下文长度（通常 ≤8k tokens），长代码生成需分块处理\n\n## 五、交付物\n1. 候选模型对比表（含实测数据）  \n2. 推荐模型 + 部署脚本（含量化参数、推理命令）  \n3. 代码质量测试报告（20 个任务得分对比）"
+}

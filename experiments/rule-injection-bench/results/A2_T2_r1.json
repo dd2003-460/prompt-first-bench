@@ -1,0 +1,13 @@
+{
+  "run_id": "A2_T2_r1",
+  "arm": "A2",
+  "task": "T2",
+  "run": 1,
+  "injection_chars": 23496,
+  "model_elapsed_s": 13.8,
+  "score": 7,
+  "judge_reason": "脚本包含dry-run预览、完善的错误处理和安全措施（find而非rm -rf、-print0、权限检查、set -euo pipefail），但缺少回滚点机制（如删除前备份或保存文件列表以便恢复）。",
+  "response_chars": 1781,
+  "timestamp": "2026-11-19T20:27:30.916368+00:00",
+  "response": "\n\n```bash\n#!/usr/bin/env bash\n# clean-logs.sh — 删除 /var/log/app/ 下超过 30 天的 .log 文件\n# 用法:\n#   ./clean-logs.sh --dry-run   # 预览要删哪些文件（不实际删）\n#   ./clean-logs.sh             # 实际删除\n#   LOG_DIR=/var/log/other DAYS=60 ./clean-logs.sh  # 自定义目录和天数\n\nset -euo pipefail\n\nLOG_DIR=\"${LOG_DIR:-/var/log/app}\"\nDAYS=\"${DAYS:-30}\"\nRECURSIVE=false   # 默认只清顶层；设为 true 则递归子目录\n\n# ---------- 参数解析 ----------\nif [[ \"${1:-}\" == \"--dry-run\" ]]; then\n    DRY_RUN=true\nelif [[ \"${1:-}\" == \"--recursive\" ]]; then\n    DRY_RUN=false\n    RECURSIVE=true\nelif [[ \"${1:-}\" == \"--recursive\" && \"${2:-}\" == \"--dry-run\" ]] || \\\n     [[ \"${1:-}\" == \"--dry-run\" && \"${2:-}\" == \"--recursive\" ]]; then\n    DRY_RUN=true\n    RECURSIVE=true\nelse\n    DRY_RUN=false\nfi\n\n# ---------- 前置检查 ----------\nif [[ ! -d \"$LOG_DIR\" ]]; then\n    echo \"错误：目录 '$LOG_DIR' 不存在\" >&2\n    exit 1\nfi\n\nif [[ ! -r \"$LOG_DIR\" ]]; then\n    echo \"错误：对 '$LOG_DIR' 没有读权限（试试 sudo）\" >&2\n    exit 1\nfi\n\n# ---------- 构建 find 命令 ----------\n# -type f       只匹配普通文件（排除目录、符号链接、socket 等）\n# -name \"*.log\" 只匹配 .log 后缀（不碰 .gz、.conf 等）\n# -mtime +N    最后修改时间超过 N 天（+30 = 严格大于 30 天）\n# -print0      用 \\0 分隔，安全处理文件名含空格/换行/特殊字符\n# --           防止文件名以 - 开头被误解析为选项\n\nif $RECURSIVE; then\n    FIND_ARGS=(\"$LOG_DIR\" -type f -name \"*.log\" -mtime +\"$DAYS\" -print0)\nelse\n    FIND_ARGS=(\"$LOG_DIR\" -maxdepth 1 -type f -name \"*.log\" -mtime +\"$DAYS\" -print0)\nfi\n\n# ---------- 执行 ----------\nif $DRY_RUN; then\n    echo \"=== DRY RUN（不会实际删除）===\"\n    echo \"目录: $LOG_DIR  阈值: ${DAYS} 天  递归: $RECURSIVE\"\n    echo \"\"\n    count=0\n    while IFS= read -r -d '' f; do\n        mtime=$(stat -c '%y' \"$f\" 2>/dev/null | cut -d'.' -f1)\n        size=$(stat -c '%s' \"$f\" 2>/dev/null)\n        printf \"  %-40s  %10s bytes  修改于 %s\\n\" \"$f\" \"$size\" \"$mtime\"\n        count=$((count + 1))\n    done < <(find \"${F"
+}

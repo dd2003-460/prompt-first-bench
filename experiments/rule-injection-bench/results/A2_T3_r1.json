@@ -1,0 +1,13 @@
+{
+  "run_id": "A2_T3_r1",
+  "arm": "A2",
+  "task": "T3",
+  "run": 1,
+  "injection_chars": 23496,
+  "model_elapsed_s": 23.8,
+  "score": 10,
+  "judge_reason": "明确列出GitHub/arXiv/HuggingFace等调研来源，按时间顺序分阶段执行，并定义了对比维度和量化标准。",
+  "response_chars": 1478,
+  "timestamp": "2026-11-19T20:28:48.383521+00:00",
+  "response": "\n\n## 本地代码生成 LLM 部署调研方案\n\n### 一、明确需求与约束\n**目标**：在 M4 Max 32GB Mac 上部署开源 LLM，满足：\n- 代码质量接近 GPT-4（需定义量化标准，如 HumanEval pass@1 ≥ 80%）\n- 响应时间 < 5s/行（需明确\"行\"的定义：单行代码 or 完整代码块？）\n- 完全本地化（无云端依赖）\n\n**关键约束**：\n- 硬件：32GB 内存（需考虑模型量化后内存占用）\n- 性能：推理速度需满足延迟要求\n- 易用性：部署复杂度、工具链成熟度\n\n---\n\n### 二、调研步骤与来源\n\n#### **1. 候选模型筛选（2-3 天）**\n**目标**：列出 5-8 个代码生成能力强的开源模型  \n**来源**：\n- **HuggingFace 模型库**：筛选 `code-generation` 标签 + 高下载量模型（如 CodeLlama、StarCoder2、DeepSeek-Coder、Mistral、Llama 3）\n- **arXiv 论文**：查阅模型技术报告（重点看 HumanEval/MBPP 基准结果）\n- **GitHub 仓库**：检查模型官方实现（如 `huggingface/transformers` 支持情况）\n\n**输出**：候选模型列表 + 初步性能对比表\n\n---\n\n#### **2. 硬件兼容性验证（1-2 天）**\n**目标**：确认模型在 32GB 内存下的可行性  \n**方法**：\n- **模型大小估算**：\n  - 7B 模型：FP16 约 14GB，INT4 量化约 4GB\n  - 13B 模型：FP16 约 26GB，INT4 量化约 7GB\n  - 30B+ 模型：需 Q4 量化（约 15-20GB）\n- **来源**：\n  - HuggingFace 模型卡片（查看量化版本）\n  - `llama.cpp`/`MLX` 社区讨论（Reddit r/LocalLLaMA、GitHub Issues）\n  - 实测：用 `mlc-llm` 或 `llama.cpp` 加载模型测试内存占用\n\n**输出**：可行模型子集（内存占用 < 24GB，留 8GB 给系统）\n\n---\n\n#### **3. 代码生成能力对比（3-5 天）**\n**目标**：量化各模型与 GPT-4 的差距  \n**基准测试**：\n- **HumanEval**：164 个 Python 函数生成任务（GPT-4 pass@1 ≈ 80%）\n- **MBPP**：974 个 Python 问题（GPT-4 pass@1 ≈ 65%）\n- **Codeforces**：竞赛级代码（可选，评估复杂逻辑能力）\n\n**数据来源**：\n- **官方基准**：模型技术报告（如 DeepSeek-Coder 论文）\n- **第三方评测**：\n  - `lm-evaluation-harness`（HuggingFace 工具）\n  - `BigCodeBench`（多语言代码基准）\n  - `EvalPlus`（增强版 HumanEval）\n- **社区实测**：Reddit/GitHub 用户分享的基准结果\n\n**对比方法**：\n- 制作表格：模型 | HumanEval pass@1 | MBPP pass@1 | 支持语言 | 量化影响\n- 加权评分：代码质量（60%）+ 多语言支持（20%）+ 量化鲁棒性（20%）\n\n**输出**："
+}

@@ -1,0 +1,13 @@
+{
+  "run_id": "A2_T3_r3",
+  "arm": "A2",
+  "task": "T3",
+  "run": 3,
+  "injection_chars": 23496,
+  "model_elapsed_s": 15.5,
+  "score": 10,
+  "judge_reason": "明确提出了分步调研顺序（硬件→模型→引擎/量化→验证），并指定了GitHub、Hugging Face、论文等具体来源，对比维度清晰完整。",
+  "response_chars": 1647,
+  "timestamp": "2026-11-19T20:29:26.923914+00:00",
+  "response": "\n\n先说结论：这个任务的核心矛盾是\"32GB 内存能装下的模型\"和\"代码质量接近 GPT-4\"之间的差距有多大——调研的本质就是量化这个差距，然后看有没有工程手段（量化、推理优化）能把它补上。\n\n下面是我的调研方案。\n\n## 一、先拆清楚到底在查什么（分解树）\n\n这个需求拆成 5 个正交子项，每个子项独立调研，最后交叉：\n\n| 子项 | 核心问题 | 缺口标注 |\n|------|----------|----------|\n| A. 硬件天花板 | M4 Max 32GB 统一内存，实际能跑多大的模型（量化后）？推理速度（tokens/s）跟内存带宽什么关系？ | M4 Max 的实测数据比 M3/M1 少，很多 bench 是 x86 上跑的，不能直接搬 |\n| B. 模型候选池 | 开源代码模型里，哪些在 HumanEval/MBPP 上分数最高？参数量多大？ | \"接近 GPT-4\"需要量化——GPT-4 在 HumanEval pass@1 是 92%，开源最高大概 70-75%？[待核验] |\n| C. 推理引擎 | llama.cpp / Ollama / vLLM / LM Studio 在 Apple Silicon 上的性能差异？KV cache 优化、speculative decoding 能提速多少？ | 各引擎对 M4 Max 的优化程度不同，需要分别测 |\n| D. 量化方案 | Q4_K_M / Q5_K_M / Q6_K / Q8_0 对代码生成质量的影响有多大？32GB 下能装多大的模型用哪个量化？ | 量化对代码能力的损伤可能比对自然语言损伤更大（代码对精确 token 依赖更强）[待核验] |\n| E. 基准与实测 | HumanEval / MBPP / LiveCodeBench 的分数怎么比？\"5s/行\"怎么定义和测量？ | \"一行代码\"平均多少 tokens？5s/行 = 多少 tokens/s？需要先定口径 |\n\n## 二、查什么来源、按什么顺序\n\n**顺序原则：先定硬件极限（A），再筛模型（B），再选引擎和量化（C+D），最后验证（E）。** 为什么这个顺序——如果 32GB 连 30B 模型都装不下，那 B 里再好的模型也没法跑，先卡住上限能砍掉一大半候选。\n\n### 第 1 步：硬件天花板（A）\n\n- **查什么**：M4 Max 的内存带宽（理论 546GB/s）、统一内存架构下 GPU 可用显存上限（32GB 里系统占多少）、llama.cpp 在 Apple Silicon 上的实际 tokens/s 跟模型大小的关系\n- **来源**：\n  - Apple 官方 M4 Max 技术规格页（内存带宽、统一内存）\n  - llama.cpp GitHub issues / discussions 里 M4 Max 用户的实测帖（搜 \"M4 Max\" + \"tokens/s\"）\n  - Reddit r/LocalLLaMA、Hacker News 上 M4 Max 跑大模型的实测\n  - 论文：Apple Silicon 上 LLM 推理的内存带宽瓶颈分析（如果有）\n- **产出**：一张表——模型参数量 × 量化精度 → 内存占用 → 预期 tokens/s（保守估计）\n\n### 第 2 步：模型候选池（B）\n\n- **查什么**：开源代码模型在 HumanEval / MBPP / LiveCodeBench 上的 pass@1 分数，按分数排序，标出参数量\n- **来源**：\n  - Hugging Face Open LLM Leaderboard（代码子集）\n  - 各模型官方技术报告（DeepSeek-Coder、Qwen2.5-Coder、CodeLlama、StarCoder2、Mistral 等）\n  - LiveCodeBench（更抗污染，比 Human"
+}

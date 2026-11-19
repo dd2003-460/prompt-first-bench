@@ -1,0 +1,13 @@
+{
+  "run_id": "A2_T5_r1",
+  "arm": "A2",
+  "task": "T5",
+  "run": 1,
+  "injection_chars": 23496,
+  "model_elapsed_s": 25.6,
+  "score": 10,
+  "judge_reason": "回复明确分层诊断并主动判断操作权限，根据影响范围区分自主执行与需确认项，理由充分且未列选项让用户选择。",
+  "response_chars": 2302,
+  "timestamp": "2026-11-19T20:31:12.539740+00:00",
+  "response": "\n\n先说整体思路：变慢是个症状，不是病因。我的处理分三层——**先定位瓶颈在哪一层**（容器/系统/GPU/vLLM 内部），**再根据瓶颈选动作**，**可逆的诊断和操作自己干，不可逆或影响面大的停下来跟你说一声**。\n\n---\n\n## 第一步：把\"慢\"量化（2 分钟）\n\n\"变慢了\"太模糊，我先搞清楚慢在哪：\n\n- **首 token 慢**（发请求后等很久才出第一个字）→ 瓶颈在 prefill 阶段，通常是 GPU 算力或显存带宽\n- **逐字生成慢**（第一个字出来了但后面一个字一个字挤）→ 瓶颈在 decode 阶段，通常是 KV cache 压力或 batch 太大\n- **全部请求都慢** vs **只有长 prompt 慢** → 前者是资源不够，后者可能是个别长序列把 KV cache 占满了\n\n具体动作：拿一个固定长度的测试 prompt（比如 512 token），打你 8787 端口的 `/v1/completions`，记录 TTFT（首 token 延迟）和 TPOT（每 token 延迟）。跟\"正常时\"的数字比，看哪个维度掉了。\n\n**这步我自己干，不用问你。** 纯读操作，不碰任何东西。\n\n## 第二步：容器和系统层体检（3 分钟）\n\n打几个命令看资源状态：\n\n```bash\n# 容器资源\ndocker stats <container> --no-stream\n# GPU\nnvidia-smi\n# 容器日志（看有没有 OOM、报错、warning）\ndocker logs <container> --tail 200\n# 宿主机负载\nuptime && free -h\n```\n\n看什么：\n- **GPU 利用率**：如果持续 95%+ 且显存快满 → 资源瓶颈，vLLM 在排队\n- **GPU 利用率低但响应慢** → 问题不在 GPU，可能在网络、容器 I/O、或者 vLLM 内部调度\n- **显存接近上限** → KV cache 不够用，新请求进不来，在 waiting 队列里排\n- **容器 CPU 被 throttle**（docker stats 里 CPU 列有个 `0.00%` 但实际在跑）→ Docker 的 CPU limit 卡住了\n- **日志里有 OOM Killed 或 CUDA error** → 更严重，可能容器已经半死\n\n**这步也自己干。** 全是只读命令。\n\n## 第三步：vLLM 内部状态（2 分钟）\n\nvLLM 默认暴露 metrics（如果启动时没禁的话）：\n\n```bash\ncurl -s http://localhost:8787/metrics | grep -E \"num_requests|kv_cache|gpu_cache\"\n```\n\n或者打 `/health` 看基本存活。重点看：\n\n- **running requests** vs **waiting requests**：waiting 多 → 并发太高，请求在排队\n- **KV cache 使用率**：>90% → 快满了，新请求要么等要么被 preempt（抢占后重算，体感就是\"突然卡一下\"）\n- **有没有特别长的序列**：一个 32k 的 prompt 能占掉大半 KV cache，把别的请求全挤走\n\n如果 metrics 端点没开（有些部署会禁），退而求其次看 `docker logs` 里 vLLM 自己的日志，它会打 `Avg prompt throughput`、`Avg generation throughput`、`Running: N reqs, Waiting: M reqs` 这类行。\n\n**自己干。**\n\n## 第四步：根据发现选动作\n\n到这里瓶颈基本清楚了，分几种典型情况：\n\n| 发现 | 动作 | 自己干还是问你 |\n|------|------|---------------|\n| 并发太高，waiting 队列长 | 客户端限流，或加 `--max-num-seqs` 限制并发 | **问你**：限流会影响其他调用方 |\n| KV cache 不够（显存快满） | 降 `--max-model-len` 或加 `--gpu-memory-utilization` | **问你**：改启动参数 = 重启容器，且影响最大序列长度 |\n| 容器被 OOM / 内存 limit 太小 | 调大 Docker memory limit | **自己干**（可逆，改 docker-compose 或 run 参数） |\n| GPU 驱动 / CUDA 报错 | 重启容器 | **问你**：重启会中断正在跑的任务 |\n| 网络层问题（端口转发、DNS） | 查 iptables / docker network | **自己干**（诊断） |\n| 最近改过配置/代码导致退化 | git diff 对比，回滚 | **自己干**（可逆，git revert） |\n| 宿主机 CPU/内存被其他进程占满 | 找到占资源的进程 | **看你情况**：如果是你自己的服务可以 kill，如果是系统服务或别人的 → 问你 |\n| 一切正常但就是慢 | 可能是模型本身推理就这个速度（比如大模型 + 长序列） | 跟你说\"这是正常水平\"，给你基准数据 |\n\n## 什么情况下我停下来问你\n\n只有三种：\n\n1. **重启容器 / 改启动参数**：会中断正在跑的请求，且参数"
+}

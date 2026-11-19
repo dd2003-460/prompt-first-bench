@@ -1,0 +1,13 @@
+{
+  "run_id": "A2_T3_r2",
+  "arm": "A2",
+  "task": "T3",
+  "run": 2,
+  "injection_chars": 23496,
+  "model_elapsed_s": 16.1,
+  "score": 10,
+  "judge_reason": "明确分步骤调研（先定标尺查基准分数，再列候选池查GitHub/HuggingFace/Reddit），顺序清晰且包含对比维度表格。",
+  "response_chars": 1217,
+  "timestamp": "2026-11-19T20:29:07.418824+00:00",
+  "response": "\n\n好，这个需求里有个核心矛盾值得先点出来：**\"接近 GPT-4 的代码质量\"和\"32GB 本地跑\"之间可能没有交集**——GPT-4 的 HumanEval（一个代码生成基准测试，给函数签名让它写实现，看能不能跑过测试用例）pass@1 大约在 92%，而目前开源模型里能上 85%+ 的基本都是 70B 参数起步，Q4 量化后 40GB+，你的 32GB 装不下。所以调研的核心问题不是\"选哪个模型\"，而是**\"32GB 内能拿到的最好代码质量到底离 GPT-4 多远，这个差距能不能接受\"**。\n\n下面是我的调研计划，按执行顺序排：\n\n---\n\n## 第一步：定标尺（半天）\n\n动机：不先把\"接近 GPT-4\"量化成可比较的数字，后面所有对比都是感觉。\n\n- 查 GPT-4 / GPT-4o / o1 在 HumanEval、MBPP、LiveCodeBench（比前两个难，用竞赛题而非教科书题）上的公开分数。来源：OpenAI 技术报告 + HuggingFace Open LLM Leaderboard 存档。\n- 定一个\"可接受下限\"：比如 HumanEval pass@1 ≥ 80% 算\"接近\"，还是 ≥ 85%？这个阈值你定，我按阈值筛。\n- 同时把 5s/行 换算成 tokens/s：一行代码大概 5~20 tokens（短的一行赋值 3 个 token，长的一个 for 循环 15 个 token），5s/行 ≈ 1~4 tokens/s。这个约束其实非常宽松，M4 Max 跑 7B 模型轻松 50+ tokens/s，所以**速度大概率不是瓶颈，内存才是**。\n\n## 第二步：列候选池（半天）\n\n动机：先穷举 32GB 内能装下的代码模型，再筛，避免漏掉好选项。\n\n来源和顺序：\n1. **HuggingFace 模型卡片**：搜 `coder` / `code` tag，按下载量排序，看 2025 年 1 月后发布的。重点看 Qwen2.5-Coder 系列（14B/32B）、CodeLlama-34B、StarCoder2（7B/15B）、Mistral Small 系列、DeepSeek-Coder-V2（MoE 架构，激活参数小但总参数大，需要单独算内存）。\n2. **GitHub llama.cpp / MLX 仓库的 issues**：搜 \"M4 Max\" + \"code\"，找 Mac 用户的实测报告——哪些模型能跑、实际 tokens/s、有没有坑（比如某些模型在 MLX 上精度异常）。\n3. **Reddit r/LocalLLaMA**：搜 \"M4 Max 32GB code\"，社区实测数据比官方 benchmark 更真实（官方数据往往是 A100 上跑的）。\n\n产出：一张表，列 = 模型名 / 参数量 / Q4 内存占用 / HumanEval 分数 / "
+}
