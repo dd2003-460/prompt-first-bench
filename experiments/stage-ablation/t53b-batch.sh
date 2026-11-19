@@ -57,13 +57,46 @@ for wu in s['work_units']:
   if T53B_RUN="$PENDING" zsh "$STAGE/ablation_driver.sh" >> "$LOG" 2>&1; then
     log "完成: $PENDING"
     OK=$((OK+1))
+    # 清除失败计数（成功时重置）
+    rm -f "/tmp/t53b-fail-${PENDING}.count"
   else
     RC=$?
-    log "失败: $PENDING (rc=$RC)，标记 done 跳过"
-    FAIL=$((FAIL+1))
-    # 标记为 done=true（避免无限循环）
-    # 用 heredoc + 环境变量传递，避免 bash 对多行双引号字符串的变量展开边界行为（T1 测试暴露）
-    T53B_PENDING="$PENDING" T53B_RC="$RC" T53B_CC_STATE="$CC_STATE" python3 << 'PYEOF'
+    if [ "$RC" -eq 143 ]; then
+      # rc=143 = SIGTERM（被 watchdog/手动 kill，如 SSL 卡死）
+      # 不立即标记 done，保持 done=false 重跑；连续 3 次才标记 done 跳过
+      COUNT_FILE="/tmp/t53b-fail-${PENDING}.count"
+      COUNT=$(cat "$COUNT_FILE" 2>/dev/null || echo 0)
+      COUNT=$((COUNT+1))
+      echo "$COUNT" > "$COUNT_FILE"
+      if [ "$COUNT" -ge 3 ]; then
+        log "失败: $PENDING (rc=143, 连续${COUNT}次)，标记 done 跳过"
+        FAIL=$((FAIL+1))
+        T53B_PENDING="$PENDING" T53B_RC="$RC" T53B_CC_STATE="$CC_STATE" python3 << 'PYEOF'
+import json, os
+cc_state = os.environ['T53B_CC_STATE']
+pending = os.environ['T53B_PENDING']
+rc = os.environ['T53B_RC']
+s = json.load(open(cc_state))
+for wu in s['work_units']:
+    if wu.get('name') == pending:
+        wu['done'] = True
+        wu['note'] = (wu.get('note','') + ' | 批量执行器: 连续3次rc=' + rc + '，标记跳过').strip(' |')
+        break
+json.dump(s, open(cc_state,'w'), ensure_ascii=False, indent=2)
+PYEOF
+        {
+          echo "## 批量执行器失败: $PENDING ($(date '+%F %T'))"
+          echo "rc=${RC}，连续${COUNT}次，查 /tmp/t53b-batch-${QID_FILTER:-all}.log"
+          echo ""
+        } >> tasks/T53-bus/cc-to-lead.md
+      else
+        log "失败: $PENDING (rc=143, 第${COUNT}次)，保持 done=false 重跑"
+      fi
+    else
+      log "失败: $PENDING (rc=$RC)，标记 done 跳过"
+      FAIL=$((FAIL+1))
+      # 非 143 的 rc（SM 自身故障），立即标记 done 跳过
+      T53B_PENDING="$PENDING" T53B_RC="$RC" T53B_CC_STATE="$CC_STATE" python3 << 'PYEOF'
 import json, os
 cc_state = os.environ['T53B_CC_STATE']
 pending = os.environ['T53B_PENDING']
@@ -76,11 +109,12 @@ for wu in s['work_units']:
         break
 json.dump(s, open(cc_state,'w'), ensure_ascii=False, indent=2)
 PYEOF
-    {
-      echo "## 批量执行器失败: $PENDING ($(date '+%F %T'))"
-      echo "rc=${RC}，查 /tmp/t53b-batch.log"
-      echo ""
-    } >> tasks/T53-bus/cc-to-lead.md
+      {
+        echo "## 批量执行器失败: $PENDING ($(date '+%F %T'))"
+        echo "rc=${RC}，查 /tmp/t53b-batch-${QID_FILTER:-all}.log"
+        echo ""
+      } >> tasks/T53-bus/cc-to-lead.md
+    fi
   fi
 done
 
