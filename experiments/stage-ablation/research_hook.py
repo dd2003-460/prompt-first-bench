@@ -158,6 +158,8 @@ def _wiki_extract(title, max_chars=900, lang="en"):
     en-wiki 对"中国中产/九阶层"类查询零命中，DDG/cn.bing 全是垃圾源，
     zh-wiki 是中文事实检索的主力通道）。失败静默返回 ''。"""
     import urllib.request
+    if not _probe_network():
+        return ""
     try:
         url = (f"https://{lang}.wikipedia.org/w/api.php?action=query&prop=extracts"
                f"&titles={quote_plus(title)}&exintro=1&explaintext=1&format=json")
@@ -181,6 +183,8 @@ def _wiki_search(query, max_results=3):
     zh.wikipedia.org 是中文事实的主力通道——先查含 CJK 字符则 zh-first+en-supplement，
     否则 en-first（保持 GPU 等英文题原有行为不变）。"""
     import urllib.request, time as _time
+    if not _probe_network():
+        return []
     has_cjk = bool(re.search(r'[\u4e00-\u9fff]', query))
     langs = ["zh", "en"] if has_cjk else ["en"]
     results = []
@@ -267,6 +271,8 @@ def _bing_search(query, max_results=3):
     返回 [{title, url, snippet}, ...]
     """
     import urllib.request, html as _html, base64
+    if not _probe_network():
+        return []
     try:
         url = ("https://www.bing.com/search?q=" + quote_plus(query) + "&setlang=en&count=" + str(max_results))
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (pfb-research)"})
@@ -305,6 +311,8 @@ def _ddg_search(query, max_results=3):
     D34: 长 query 先瘦身再查（_slim_query），失败退回原 query 再试一轮。
     返回 [{title, url, snippet}, ...]"""
     import urllib.request, time as _time, html as _html
+    if not _probe_network():
+        return []
     # D34 (2026-11-12): P1H_INDEX 生成的 search_query 是完整事实陈述（degraded 节点
     # 英文 query 中位 9 词、最长 14 词），塞进 DDG lite 等于多条件 AND → 零结果，
     # 这是上一轮 gpu 跑 43/86 degraded 全是 "all 5 failed" 的主因之一。
@@ -352,6 +360,8 @@ def _webfetch_page(url, title_hint="", timeout=20):
     适用于文档站/规格页等无 JS 渲染需求的站点。
     返回 {title, url, snippet, alive}。"""
     import urllib.request
+    if not _probe_network():
+        return {"title": title_hint or url, "url": url, "snippet": "", "alive": False}
     try:
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (pfb-research)"})
         html = urllib.request.urlopen(req, timeout=timeout).read().decode("utf-8", errors="replace")
@@ -399,6 +409,36 @@ _LOCAL_CORPUS_DIRS = [
     "/Users/a1-6/Desktop/workspace/pfb/knowledge-base/hardware",
     "/Users/a1-6/Desktop/workspace/projects/decomp/archive/D1-gpu-research-2026",
 ]
+
+# ── 网络健康探测（2026-11-20）─────────────────────────────────────────
+# r06/r07/r08 三次卡死在 SSL 握手（urlopen timeout=15 不覆盖 CPython
+# PySSL_select 内部的 select，代理上游 TLS 握手中断时进程无限 poll）。
+# curl -m 8 是硬超时（含 DNS/TCP/SSL/传输），不受 Python SSL bug 影响。
+# 探测结果缓存 60s，不健康时跳过所有公网通道（降级到 KB + 本地语料）。
+_network_healthy = True
+_network_probe_at = 0.0
+_NETWORK_PROBE_TTL = 60  # 秒
+
+def _probe_network():
+    global _network_healthy, _network_probe_at
+    now = time.time()
+    if now - _network_probe_at < _NETWORK_PROBE_TTL:
+        return _network_healthy
+    _network_probe_at = now
+    try:
+        r = subprocess.run(
+            ["curl", "-s", "-m", "8", "-o", "/dev/null", "-w", "%{http_code}",
+             "https://en.wikipedia.org"],
+            capture_output=True, text=True, timeout=10,
+        )
+        code = r.stdout.strip()
+        _network_healthy = code.startswith(("2", "3"))
+    except Exception:
+        _network_healthy = False
+    if not _network_healthy:
+        print("  [NET-PROBE] 代理不健康，跳过公网检索通道（降级 KB+本地）", file=sys.stderr)
+    return _network_healthy
+
 
 GPU_QUERY_MARKERS = ("gpu", "显卡", "rtx", "a100", "h100", "h200", "b200", "b300",
                      "nvidia", "amd", "intel", "显存", "vram", "kv cache",
