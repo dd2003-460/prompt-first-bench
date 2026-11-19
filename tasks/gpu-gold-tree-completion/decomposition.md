@@ -66,12 +66,12 @@ gpu gold 树完善
 | # | 任务 | 验收标准 | 依赖 |
 |---|---|---|---|
 | T1 | 查 L5-blackbox.md（是否在 archive/旧 commit） | ✅ 完成：L0-L5 在 `projects/decomp/bench/gold/`（独立 git 仓库，pfb 搬家时引用没跟）；calc.py 确认缺失（两个仓库都没有）；B2/B3 完整定义已获取 | - |
-| T2 | MFU 子项定义 + 数值（SM 占用率/TensorCore 利用率/L2 命中/kernel 效率） | 4 个子项，每个有公式 + 实测值（出处） | T1 |
-| T3 | η_bw 子项定义 + 数值（HBM 带宽利用率/L2 缓存命中/kernel launch 开销） | 3 个子项，每个有公式 + 实测值（出处） | T1 |
-| T4 | TCO 缺失项识别 + 份额重新分配 | 新 N-1 子项列表，份额和=100%，正交性全过 | - |
-| T5 | 候选硬件扩展（V100/TPU/片上内存）+ 数值填充 | 3 类新硬件，每个有完整规格（出处：knowledgebase） | - |
-| T6 | 公式适用性验证（TPU/片上内存） | 验证报告：哪些公式适用、哪些不适用、为什么 | T5 |
-| T7 | 正交性标准定义 + 逐步检查 | 标准文档 + 31+新节点的正交性核对表 | T2/T3/T4/T5 |
+| T2 | MFU 子项定义 + 数值 | ✅ 完成：N-3.1.3 改 split，挂 SM占用率/TensorCore利用率/L2命中率 3 个叶子（各钉死 NCU counter）；4 因子乘法分解不成立（Perplexity+2609.12923 验证），改恒等式+诊断视图；note: research/mfu-microarch-decomposition.md | T1 |
+| T3 | η_bw 子项定义 + 数值 | ✅ 完成：N-3.2.4 改 split，挂 HBM带宽利用率/L2命中率/launch gap 3 个叶子（各钉死 NCU counter）；η_bw 4 因子分解不成立（HBM 利用率=η_bw 本身不能作子项） | T1 |
+| T4 | TCO 缺失项识别 + 份额重新分配 | ✅ 完成：现有 N-1 三项（摊销42.8%+电费49.3%+故障8.0%=100.1%）都改变排序；缺失项（运维/网络/软件/人力/机会成本）对所有候选一视同仁→nuisance 不进瓶颈表，不重新分配份额（符合 L5 完备性哲学） | - |
+| T5 | 候选硬件扩展（V100/TPU/片上内存）+ 数值填充 | ✅ 完成：gold-tree.md 新增候选硬件扩展小节（V100×8/TPU v5p/v5e/Groq/Cerebras/SambaNova），每类标注公式适用性 + 数据出处（knowledgebase） | - |
+| T6 | 公式适用性验证（TPU/片上内存） | ✅ 完成：随 T5 候选表标注（V100 完全适用/TPU 部分适用-无SM概念/片上内存不适用-无HBM）；[待核验]：TPU XLA profiler 指标名、片上内存算力 | T5 |
+| T7 | 正交性标准定义 + 逐步检查 | ✅ 完成：标准=共享物理量/公式项即 SHARED；新增 6 叶子核对：仅 l2_hit 在 N-3.1.3.3↔N-3.2.4.2 重叠（已标 SHARED），其余 5 个无重叠；原有 4 处 SHARED（gpu_price/quant/n/l2_hit）不变 | T2/T3/T4/T5 |
 | T8 | gold 树更新（tree.md 新增节点 + 公式 + SHARE 份额） | tree.md 更新，commit+push | T2-T7 |
 
 ## 正交性核对
