@@ -1703,6 +1703,12 @@ if __name__ == "__main__":
             sm.cfg.max_nodes = int(_raw[k+1])
         elif v.startswith("--max-nodes="):
             sm.cfg.max_nodes = int(v.split("=", 1)[1])
+    # --beta N: 覆盖冗余惩罚系数（消融臂：β=0 = 纯 S_α 无冗余惩罚，复现 v13 时代行为）
+    for k, v in enumerate(_raw):
+        if v == "--beta" and k + 1 < len(_raw):
+            sm.cfg.redundancy_penalty_beta = float(_raw[k+1])
+        elif v.startswith("--beta="):
+            sm.cfg.redundancy_penalty_beta = float(v.split("=", 1)[1])
     verify_only = "--verify-only" in flags
     obj_mode_flag = next((f.split("=", 1)[1] for f in flags if f.startswith("--obj-mode=")), "formula")
     sm.objective_mode = obj_mode_flag  # #31 消融臂: formula(默认) / text
