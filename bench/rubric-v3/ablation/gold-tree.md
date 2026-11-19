@@ -1,6 +1,6 @@
 # 全树一页
 
-31 个节点，主干深度 4，叶子 13 个。所有数字来自 [`../tasks/T0-local-27b/reference/calc.py`](../tasks/T0-local-27b/reference/calc.py)，赢家配置 3090×4 / W4 / n=2。
+37 个节点（★F-D 新增 6 个微架构诊断叶子），主干深度 5，叶子 17 个。所有数字来自 [`../tasks/T0-local-27b/reference/calc.py`](../tasks/T0-local-27b/reference/calc.py)，赢家配置 3090×4 / W4 / n=2。
 
 长出这棵树的过程见 [`L0`](L0-root.md) → [`L1`](L1.md) → [`L2`](L2.md) → [`L3`](L3.md) → [`L4`](L4.md) → [`L5`](L5-blackbox.md)。
 
@@ -38,13 +38,29 @@ N-0  每个通过任务的成本  c_pass [¢/task]                        SHARE 
 │  │  │    = prefill_FLOPs / (卡数 × 峰值TFLOPS × MFU × tp_eff)
 │  │  ├─ N-3.1.1  prefill 计算量 prefill_flops .30           leaf S-a  594 TFLOP
 │  │  ├─ N-3.1.2  峰值算力       tf_peak       .25           leaf S-a
-│  │  └─ N-3.1.3  MFU            mfu           .45  B2 1.20x leaf S-b
+│  │  └─ N-3.1.3  MFU            mfu           .45  B2 1.20x split ★F-D
+│  │     │    = (T_kernel/T_step) × Σ_k (T_k/T_step × F_k/(T_k×C_peak))  [恒等式]
+│  │     │    微架构诊断视图（2609.12923 式，每个钉死 NCU counter）：
+│  │     ├─ N-3.1.3.1  SM 占用率        sm_occupancy  .?  leaf S-b
+│  │     │  └─ NCU: sm__warps_active.avg.pct_of_peak_sustained_active
+│  │     ├─ N-3.1.3.2  TensorCore 利用率 tensor_util   .?  leaf S-b
+│  │     │  └─ NCU: DCGM_FI_PROF_PIPE_TENSOR_ACTIVE
+│  │     └─ N-3.1.3.3  L2 命中率        l2_hit        .?  leaf S-b  [SHARED→N-3.2.4.2]
+│  │        └─ NCU: lts__t_sector_hit_rate.pct
 │  └─ N-3.2  decode 时间         59.9%                       ★F-A    split
 │     │    = 输出tok × (W + n×KV) / (卡数 × 峰值BW × η_bw × tp_eff)
 │     ├─ N-3.2.1  权重字节       w_bytes       .25           leaf S-a  14/27/54 GB
 │     ├─ N-3.2.2  每流 KV 字节   kv_per_stream .20  B7 2.0x  leaf S-b  ★ 2倍分歧
 │     ├─ N-3.2.3  峰值带宽       bw_peak       .25           leaf S-a
-│     └─ N-3.2.4  有效带宽系数   eta_bw        .30  B3 1.43x leaf S-b
+│     └─ N-3.2.4  有效带宽系数   eta_bw        .30  B3 1.43x split ★F-D
+│        │    = (T_mem-kernel/T_wall) × (kernel 内 HBM bytes/s / B_HBM,peak)  [恒等式]
+│        │    微架构诊断视图（每个钉死 NCU counter）：
+│        ├─ N-3.2.4.1  HBM 带宽利用率  hbm_sol    .?  leaf S-b
+│        │  └─ NCU: dram__bytes.sum.per_second / B_HBM,peak
+│        ├─ N-3.2.4.2  L2 命中率       l2_hit     .?  leaf S-b  [SHARED→N-3.1.3.3]
+│        │  └─ NCU: lts__t_sector_hit_rate.pct；命中率高→HBM 流量低→SOL 低（非性能差）
+│        └─ N-3.2.4.3  launch gap     launch_gap .?  leaf S-b
+│           └─ NCU: Nsight Systems timeline gap（wall time − kernel 时间）
 │     └─ (并发数 n  → 由 N-5 决定, S-c, SHARED)
 │
 ├─ N-4  任务通过率  G_pass [—]        nuisance              .25  B1 1.57x  stopped S-b  ■瓶颈#2
@@ -56,7 +72,7 @@ N-0  每个通过任务的成本  c_pass [¢/task]                        SHARE 
    └─ N-5.3  缓存命中率     cache_hit_rate  nuisance  B8  7.6x       leaf S-b
 ```
 
-**图例**　`.25` SHARE（对父节点的弹性份额）｜`2.2x` BOUND｜`B4` 黑盒编号（见 [`L5`](L5-blackbox.md)）｜`S-a/b/c` 停止依据（见 [`README`](README.md)）｜`★` 本次分解订正的地方
+**图例**　`.25` SHARE（对父节点的弹性份额）｜`2.2x` BOUND｜`B4` 黑盒编号（见 [`L5`](L5-blackbox.md)）｜`S-a/b/c` 停止依据（见 [`README`](README.md)）｜`★F-D` 微架构显式分解订正（2026-11-19，MFU/η_bw 从黑盒 leaf 改 split，见 [`research/mfu-microarch-decomposition.md`](../../../tasks/gpu-gold-tree-completion/research/mfu-microarch-decomposition.md)）｜`★` 本次分解订正的地方
 
 > **补充**：混合负载下效率大幅下降的发现见 [`L6-mixed-load.md`](L6-mixed-load.md)——并发扩展不是线性的，混合负载使实际吞吐远低于理论值，可能改变赢家排名。
 
@@ -69,6 +85,7 @@ N-0  每个通过任务的成本  c_pass [¢/task]                        SHARE 
 | `gpu_price` | `N-1.1.1`、`N-1.3.2` | 同号 | 真实弹性 0.275，比只看摊销高 17% |
 | `quant` | `N-3.2.1`、`N-5.1`、`N-4` | **前两条降成本，第三条升成本** | W4 不是无条件最优；`ΔG > 0.08` 时输给 W8 |
 | `n` 并发数 | `N-3.2`、`N-5.1`、`N-5.2` | — | 不是自由量，`n = min(n_speed, n_cap)`，S-c |
+| `l2_hit` | `N-3.1.3.3`、`N-3.2.4.2` | 同号 | MFU 和 η_bw 共享同一个 L2 命中率；命中率高→HBM 流量低→η_bw 低（非性能差） |
 
 ---
 
