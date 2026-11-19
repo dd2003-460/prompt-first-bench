@@ -78,7 +78,7 @@ N-0  每个通过任务的成本  c_pass [¢/task]                        SHARE 
 
 ---
 
-## 三处 `SHARED`
+## 四处 `SHARED`
 
 | 参数 | 出现在 | 符号 | 后果 |
 |---|---|---|---|
@@ -86,6 +86,26 @@ N-0  每个通过任务的成本  c_pass [¢/task]                        SHARE 
 | `quant` | `N-3.2.1`、`N-5.1`、`N-4` | **前两条降成本，第三条升成本** | W4 不是无条件最优；`ΔG > 0.08` 时输给 W8 |
 | `n` 并发数 | `N-3.2`、`N-5.1`、`N-5.2` | — | 不是自由量，`n = min(n_speed, n_cap)`，S-c |
 | `l2_hit` | `N-3.1.3.3`、`N-3.2.4.2` | 同号 | MFU 和 η_bw 共享同一个 L2 命中率；命中率高→HBM 流量低→η_bw 低（非性能差） |
+
+---
+
+## 候选硬件扩展（★F-D · 2026-11-19）
+
+原候选 4 类（3090 / M2 Ultra / L40S / A100），新增 3 类。数据来源：`knowledgebase/hardware/`（V100 官方页 + TPU 官方文档 + 片上内存系统）。
+
+| 候选 | 峰值算力 (FP16/BF16) | 峰值带宽 | 显存 | 公式适用性 |
+|---|---|---|---|---|
+| V100×8 (SXM2) | 125 TFLOPs/卡 | 900 GB/s/卡 | 32 GB HBM2/卡 | ✅ 完全适用（第一代 Tensor Core，无 TF32/FP8） |
+| TPU v5p×4 (host) | 459 TFLOPs/卡 | 2765 GB/s/卡 | 95 GB HBM/卡 | ⚠️ 部分适用：N-3.1.3.1 SM 占用率无对应概念（TPU 无 SM，用 TensorCore 活跃周期替代） |
+| TPU v5e×8 (host) | 197 TFLOPs/卡 | 800 GB/s/卡 | 16 GB HBM/卡 | ⚠️ 同上；单芯片仅 1 TensorCore |
+| Groq LPU (GroqChip 1) | [待核验] | SRAM 80 TB/s（官方口径） | 230 MB/芯片 SRAM | ❌ 不适用：无 HBM，η_bw 公式（N-3.2.4）失效；纯推理定位，无训练路径 |
+| Cerebras WSE-3 (CS-3) | [待核验] | 片上 SRAM（带宽未公开） | 44 GB/晶圆 SRAM | ❌ 同上；整片晶圆=一个芯片，卡数概念不适用 |
+| SambaNova RDU (SN40L) | [待核验] | 混合 SRAM+HBM2e | 64 MB SRAM/芯片 + HBM2e | ⚠️ 混合架构，η_bw 需拆 SRAM 路径 + HBM 路径两条 |
+
+**关键约束**：
+- TPU 的 N-3.1.3.1（SM 占用率）无对应 NCU counter，需改用 XLA profiler 的 TensorCore 活跃周期 [待核验：XLA profiler 具体指标名]
+- 片上内存系统的 N-5.2 带宽准入下限公式需重写（SRAM 带宽 80 TB/s 远超 HBM，原公式的"带宽瓶颈"假设不成立）
+- V100 是 2017 年规格，无 TF32/FP8，W4/W8 量化路径需确认 cuBLASLt 支持 [待核验]
 
 ---
 
