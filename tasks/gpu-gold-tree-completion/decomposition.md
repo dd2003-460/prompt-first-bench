@@ -72,7 +72,7 @@ gpu gold 树完善
 | T5 | 候选硬件扩展（V100/TPU/片上内存）+ 数值填充 | ✅ 完成：gold-tree.md 新增候选硬件扩展小节（V100×8/TPU v5p/v5e/Groq/Cerebras/SambaNova），每类标注公式适用性 + 数据出处（knowledgebase） | - |
 | T6 | 公式适用性验证（TPU/片上内存） | ✅ 完成：随 T5 候选表标注（V100 完全适用/TPU 部分适用-无SM概念/片上内存不适用-无HBM）；[待核验]：TPU XLA profiler 指标名、片上内存算力 | T5 |
 | T7 | 正交性标准定义 + 逐步检查 | ✅ 完成：标准=共享物理量/公式项即 SHARED；新增 6 叶子核对：仅 l2_hit 在 N-3.1.3.3↔N-3.2.4.2 重叠（已标 SHARED），其余 5 个无重叠；原有 4 处 SHARED（gpu_price/quant/n/l2_hit）不变 | T2/T3/T4/T5 |
-| T8 | gold 树更新（tree.md 新增节点 + 公式 + SHARE 份额） | tree.md 更新，commit+push | T2-T7 |
+| T8 | gold 树更新（gold-tree.md 新增节点 + 公式 + SHARE 份额） | ✅ 完成：gold-tree.md 更新（微架构分解 02e889c0c + 候选扩展 ff7844db5 + decomposition 8a05d15b4），已 push 到 tmp-lit-snowball | T2-T7 |
 
 ## 正交性核对
 
