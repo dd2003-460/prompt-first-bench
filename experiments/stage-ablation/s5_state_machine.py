@@ -1041,7 +1041,11 @@ class DecompStateMachine:
             return num
 
         level_ids = {}  # node_id -> "1.1.3"
+        _visited = set()  # 环检测：防止 parent_ids 有环导致无限递归
         def assign_level_ids(node_id, prefix):
+            if node_id in _visited:
+                return  # 检测到环，跳过
+            _visited.add(node_id)
             level_ids[node_id] = prefix
             kids = sorted(children.get(node_id, []), key=sort_key)
             for i, kid in enumerate(kids, 1):
@@ -1051,7 +1055,11 @@ class DecompStateMachine:
             assign_level_ids(root_id, str(i))
 
         # 递归写树（用层级编号做目录名）
+        _write_visited = set()  # 环检测：同 assign_level_ids
         def write_node_tree(node_id, current_dir):
+            if node_id in _write_visited or node_id not in level_ids:
+                return  # 环或环检测时跳过的节点，不写
+            _write_visited.add(node_id)
             node = node_map[node_id]
             dir_name = level_ids[node_id]  # "1", "1.1", "1.1.3"
             node_dir = os.path.join(current_dir, dir_name)
