@@ -1154,6 +1154,14 @@ class DecompStateMachine:
                 return meta, nodes
         else:
             # 旧格式：单文件
+            # 2026-11-19 诊断员修复：路径不存在时显式报错（原 json.load 直接抛
+            # FileNotFoundError，调用方拿不到"哪个文件丢了"的上下文；r04/r05 事故
+            # 里 driver 传相对路径被 chdir 后双重前缀，3 次 resume 全浪费）。
+            if not os.path.exists(path):
+                raise FileNotFoundError(
+                    f"checkpoint 不存在: {path}（cwd={os.getcwd()}）——"
+                    f"检查 driver 是否传了相对路径（SM 入口 os.chdir 到 stage-ablation/）"
+                )
             d = json.load(open(path))
             return d, d.get("nodes", [])
 
@@ -1820,6 +1828,10 @@ if __name__ == "__main__":
                 "rework_events": sm.rework_events,
                 "objective_mode": getattr(sm, "objective_mode", "formula"),  # #31 消融臂
                 "contradiction_events": getattr(sm, "contradiction_events", []),
+                # 2026-11-19 诊断员补：challenge_log 此前漏存（正常 _save_checkpoint 有，
+                # FATAL 路径没有）→ resume 时 sm.challenge_log 被 meta.get 重置为 []，
+                # 崩溃前的 L1 质询审计记录丢失。
+                "challenge_log": getattr(sm, "challenge_log", []),
             }, f, ensure_ascii=False, indent=2)
         print(f"[T53 SM] Checkpoint saved → {ck_path} (use --resume {ck_path})", flush=True)
         _sys.exit(1)
