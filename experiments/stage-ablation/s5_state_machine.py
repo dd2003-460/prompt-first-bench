@@ -25,6 +25,14 @@ from s5_pipeline import (
     search_node, verify_node,
 )
 
+# AC7 可复现（2026-11-16）：SM_SEED 环境变量固定随机采样（默认 -1 = 不固定，向后兼容）。
+# random 是单例模块，这里 seed 后 line 355 局部 `import random` 拿到的也是同一全局状态。
+import os as _os
+import random as _random
+_SM_SEED = int(_os.environ.get("SM_SEED", "-1"))
+if _SM_SEED >= 0:
+    _random.seed(_SM_SEED)
+
 
 # ─────────────────────────────────────────────
 # 防泄漏
@@ -452,6 +460,7 @@ class DecompStateMachine:
         self.dropped_redundant = 0
         self.objective: Optional[dict] = None  # Decision 19: 模型自估计终点目标函数（L1 轮产出）
         self.objective_mode: str = "formula"  # #31 消融臂: formula=P1_L1_SKELETON(公式版) / text=P1_L1_TEXT(文字版)
+        self.ckpt_round = 0  # 2026-11-16: resume 时记录 ckpt round（verify-only 批次号基准）
         self._no_ness_streak = 0
         self.network_degraded = False  # E8: 出口探针结果，run() 开头设置
 
@@ -675,6 +684,107 @@ class DecompStateMachine:
             self.confirmed.append((node.id, node.corrected_claim, status))
         return batch
 
+    def _verify_parent_nodes(self):
+        """父节点级核验（2026-11-18 D提议）。
+
+        一个父节点下所有子节点都 verify 完 + 正交/完备/冗余检查通过后，
+        才标父节点 verified。
+
+        检查项：
+        1. 所有子节点 status == "verified"
+        2. 正交性：子节点之间是否正交（不重复、不矛盾）
+        3. 完备性：子节点是否覆盖父节点的 claim
+        4. 冗余：子节点是否有可压缩成参数/变量的内容
+
+        全部通过 → 父节点标 verified
+        任一失败 → 父节点不标 verified（保持 pending），记录原因
+        """
+        from ablation_harness import call_llm as _cll
+        import json as _json
+
+        # 按父节点分组
+        parent_children: dict[str, list[NodeRecord]] = {}
+        for n in self.nodes:
+            for pid in n.parent_ids:
+                if pid not in parent_children:
+                    parent_children[pid] = []
+                parent_children[pid].append(n)
+
+        # 对每个有子节点的父节点做核验
+        for parent_id, children in parent_children.items():
+            parent = next((n for n in self.nodes if n.id == parent_id), None)
+            if parent is None:
+                continue
+
+            # 检查 1：所有子节点都 verified
+            unverified_children = [c for c in children if c.status != "verified"]
+            if unverified_children:
+                # 子节点还没 verify 完，父节点保持 pending
+                continue
+
+            # 检查 2-4：正交性、完备性、冗余（LLM 判断）
+            child_claims = [c.claim for c in children]
+            prompt = f"""你是一个学术分解质量检查员。检查以下分解是否合格：
+
+父节点：{parent.claim}
+
+子节点（共 {len(children)} 个）：
+""" + "\n".join(f"  - {c}" for c in child_claims) + """
+
+请检查：
+1. 正交性：子节点之间是否正交（不重复、不矛盾）？
+2. 完备性：子节点是否覆盖了父节点的所有关键方面？
+3. 冗余：子节点是否有可压缩成参数/变量的内容（即多个子节点其实是一个参数的不同取值）？
+
+输出 JSON：
+{{
+  "orthogonal": true/false,
+  "complete": true/false,
+  "redundant": true/false,
+  "reason": "简短说明",
+  "suggestions": ["如果有问题，给出具体建议"]
+}}"""
+            try:
+                resp, _usage = _cll(prompt, max_tokens=500, timeout=60)
+                # 解析 JSON
+                resp_clean = resp.strip()
+                if resp_clean.startswith("```"):
+                    resp_clean = resp_clean.split("```")[1]
+                    if resp_clean.startswith("json"):
+                        resp_clean = resp_clean[4:]
+                    resp_clean = resp_clean.strip()
+                check = _json.loads(resp_clean)
+
+                if check.get("orthogonal") and check.get("complete") and not check.get("redundant"):
+                    # 全部通过 → 父节点标 verified
+                    parent.status = "verified"
+                    parent.evidence = f"父节点级核验通过：正交+完备+无冗余（{check.get('reason', '')}）"
+                    self.confirmed.append((parent.id, parent.claim, "verified"))
+                    print(f"    [SM] parent {parent_id} verified: {len(children)} children, orthogonal+complete+no-redundant", flush=True)
+                else:
+                    # 任一失败 → 父节点保持 pending，记录原因
+                    issues = []
+                    if not check.get("orthogonal"):
+                        issues.append("非正交")
+                    if not check.get("complete"):
+                        issues.append("不完备")
+                    if check.get("redundant"):
+                        issues.append("有冗余")
+                    parent.status = "pending"
+                    parent.evidence = f"父节点级核验未通过：{', '.join(issues)}（{check.get('reason', '')}）"
+                    # 记录到 rework_events
+                    self.rework_events.append({
+                        "parent_id": parent_id,
+                        "issues": issues,
+                        "suggestions": check.get("suggestions", []),
+                        "round": len(self.rounds_log),
+                    })
+                    print(f"    [SM] parent {parent_id} NOT verified: {', '.join(issues)}", flush=True)
+            except Exception as e:
+                # LLM 调用失败 → 父节点保持 pending
+                parent.status = "pending"
+                parent.evidence = f"父节点级核验失败（LLM 错误）：{e}"
+                print(f"    [SM] parent {parent_id} verify failed: {e}", flush=True)
 
     def _should_rework(self, batch: list[NodeRecord]) -> bool:
         """J_verify: 核验质量是否低于阈值。"""
@@ -862,27 +972,182 @@ class DecompStateMachine:
             print(f"  [SM] r{rnd}: {found} contradiction(s) → fed back to next decompose round", flush=True)
 
     def _save_checkpoint(self, rnd: int):
-        """每轮结束把当前树状态落盘。resume 时读回继续。"""
+        """每轮结束把当前树状态落盘。resume 时读回继续。
+
+        树形目录结构（2026-11-18）：
+        checkpoints/sm-{qid}-r{rnd}/
+          meta.json              # 全局状态
+          N1/                    # 根节点文件夹
+            node.md              # 可读文档
+            node.json            # 机器解析
+            N2/                  # N1 的子节点
+              node.md
+              node.json
+              N4/                # N2 的子节点
+                node.md
+                node.json
+            N3/
+              node.md
+              node.json
+
+        每个父节点文件夹 = 一个索引，打开就能看到所有子节点。
+        原子写：meta.json 先写 tmp 再 os.replace。"""
         import os
         ckpt_dir = "checkpoints"
-        os.makedirs(ckpt_dir, exist_ok=True)
-        path = os.path.join(ckpt_dir, f"sm-{self.qid}-r{rnd}.json")
-        with open(path, "w") as f:
-            json.dump({
-                "qid": self.qid,
-                "question": self.question,
-                "round": rnd,
-                "state": self.state.value,
-                "dropped_redundant": self.dropped_redundant,
-                "leak_hits_total": self.leak_hits_total,
-                "network_degraded": self.network_degraded,
-                "objective": self.objective,  # Decision 19: 模型自估计终点目标函数随 ckpt 落盘
-                "objective_mode": self.objective_mode,  # #31 消融臂标记
-                "challenge_log": self.challenge_log,  # D-质询审计（2026-11-16）
-                "rework_events": self.rework_events,
-                "contradiction_events": self.contradiction_events,
-                "nodes": [vars(n) for n in self.nodes],
-            }, f, ensure_ascii=False, indent=2)
+        base = os.path.join(ckpt_dir, f"sm-{self.qid}-r{rnd}")
+        os.makedirs(base, exist_ok=True)
+
+        # 写 meta.json（原子）
+        meta = {
+            "qid": self.qid,
+            "question": self.question,
+            "round": rnd,
+            "state": self.state.value,
+            "dropped_redundant": self.dropped_redundant,
+            "leak_hits_total": self.leak_hits_total,
+            "network_degraded": self.network_degraded,
+            "objective": self.objective,
+            "objective_mode": self.objective_mode,
+            "challenge_log": self.challenge_log,
+            "rework_events": self.rework_events,
+            "contradiction_events": self.contradiction_events,
+            "n_nodes": len(self.nodes),
+        }
+        meta_path = os.path.join(base, "meta.json")
+        meta_tmp = meta_path + ".tmp"
+        with open(meta_tmp, "w") as f:
+            json.dump(meta, f, ensure_ascii=False, indent=2)
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(meta_tmp, meta_path)
+
+        # 构建树：node_id -> node, parent_id -> [child_ids]
+        node_map = {n.id: n for n in self.nodes}
+        children = {}  # parent_id -> [child_ids]
+        roots = []
+        for n in self.nodes:
+            if not n.parent_ids:
+                roots.append(n.id)
+            for pid in n.parent_ids:
+                if pid not in children:
+                    children[pid] = []
+                children[pid].append(n.id)
+
+        # 层级编号：node_id -> "1", "1.1", "1.1.3"
+        # 按 parent_ids 排序，保证兄弟节点顺序稳定
+        def sort_key(nid):
+            # N1 < N2 < ... < N10（数字排序，不是字典序）
+            num = int(str(nid).lstrip("N"))
+            return num
+
+        level_ids = {}  # node_id -> "1.1.3"
+        def assign_level_ids(node_id, prefix):
+            level_ids[node_id] = prefix
+            kids = sorted(children.get(node_id, []), key=sort_key)
+            for i, kid in enumerate(kids, 1):
+                assign_level_ids(kid, f"{prefix}.{i}" if prefix else str(i))
+
+        for i, root_id in enumerate(sorted(roots, key=sort_key), 1):
+            assign_level_ids(root_id, str(i))
+
+        # 递归写树（用层级编号做目录名）
+        def write_node_tree(node_id, current_dir):
+            node = node_map[node_id]
+            dir_name = level_ids[node_id]  # "1", "1.1", "1.1.3"
+            node_dir = os.path.join(current_dir, dir_name)
+            os.makedirs(node_dir, exist_ok=True)
+
+            # 写 node.json
+            node_json_path = os.path.join(node_dir, "node.json")
+            node_json_tmp = node_json_path + ".tmp"
+            with open(node_json_tmp, "w") as f:
+                json.dump(vars(node), f, ensure_ascii=False, indent=2)
+                f.flush()
+                os.fsync(f.fileno())
+            os.replace(node_json_tmp, node_json_path)
+
+            # 写 node.md（可读）
+            node_md_path = os.path.join(node_dir, "node.md")
+            md_lines = [
+                f"# {node.id}: {node.claim[:80]}",
+                "",
+                f"- **status**: {node.status}",
+                f"- **level**: {node.level}",
+                f"- **source**: {node.source}",
+                f"- **edge_type**: {node.edge_type}",
+                f"- **rework_count**: {node.rework_count}",
+                f"- **parent_ids**: {', '.join(node.parent_ids) if node.parent_ids else '(root)'}",
+                "",
+                "## Claim",
+                "",
+                node.claim,
+                "",
+            ]
+            if node.corrected_claim:
+                md_lines += ["## Corrected Claim", "", node.corrected_claim, ""]
+            if node.evidence:
+                md_lines += ["## Evidence", "", node.evidence, ""]
+            if node.search_query:
+                md_lines += ["## Search Query", "", node.search_query, ""]
+            if node.retrieval_sources:
+                md_lines += ["## Retrieval Sources", ""]
+                for src in node.retrieval_sources:
+                    md_lines.append(f"- {src}")
+                md_lines.append("")
+
+            with open(node_md_path, "w") as f:
+                f.write("\n".join(md_lines))
+                f.flush()
+                os.fsync(f.fileno())
+
+            # 递归写子节点
+            for child_id in children.get(node_id, []):
+                write_node_tree(child_id, node_dir)
+
+        # 从根节点开始写
+        for root_id in roots:
+            write_node_tree(root_id, base)
+
+    def _load_checkpoint(self, path: str):
+        """从树形目录结构加载 checkpoint。兼容旧单文件 JSON 和旧 nodes/ 格式。
+
+        path 可以是：
+        - 树形目录（新格式）：checkpoints/sm-soc-r3/（含 1/, 1.1/, 1.1.3/ 等子目录）
+        - 旧 nodes/ 目录：checkpoints/sm-soc-r3/（含 nodes/ 子目录）
+        - 单文件（旧格式）：checkpoints/sm-soc-r3.json
+        返回 (meta_dict, nodes_list)
+        """
+        import os
+        if os.path.isdir(path):
+            meta = json.load(open(os.path.join(path, "meta.json")))
+
+            # 检查是树形目录还是旧 nodes/ 格式
+            nodes_subdir = os.path.join(path, "nodes")
+            if os.path.isdir(nodes_subdir):
+                # 旧 nodes/ 格式
+                nodes = []
+                for fn in sorted(os.listdir(nodes_subdir)):
+                    if fn.endswith(".json") and not fn.endswith(".tmp"):
+                        nodes.append(json.load(open(os.path.join(nodes_subdir, fn))))
+                return meta, nodes
+            else:
+                # 新树形目录格式：递归读（目录名是 1, 1.1, 1.1.3 等）
+                nodes = []
+                def read_node_tree(current_dir):
+                    for fn in sorted(os.listdir(current_dir)):
+                        fn_path = os.path.join(current_dir, fn)
+                        if os.path.isdir(fn_path) and fn[0].isdigit():
+                            node_json = os.path.join(fn_path, "node.json")
+                            if os.path.exists(node_json):
+                                nodes.append(json.load(open(node_json)))
+                            # 递归读子节点
+                            read_node_tree(fn_path)
+                read_node_tree(path)
+                return meta, nodes
+        else:
+            # 旧格式：单文件
+            d = json.load(open(path))
+            return d, d.get("nodes", [])
 
     def _probe_network(self):
         """E8.2: 出口健康探针。
@@ -920,8 +1185,9 @@ class DecompStateMachine:
         try:
             from research_hook import _run_ego_browser
             r = _run_ego_browser(
-                'const t = await taskSpace("sm-probe"); const p = t.page("x"); '
-                'console.log(JSON.stringify({alive: !!p}));', timeout=20)
+                '(async () => { const t = await taskSpace("sm-probe"); '
+                'const p = t.page("x"); '
+                'console.log(JSON.stringify({alive: !!p})); })();', timeout=20)
             if "alive" in (r or ""):
                 self.network_degraded = False
                 print("  [SM] python channel degraded but ego-browser alive — continuing", flush=True)
@@ -948,14 +1214,23 @@ class DecompStateMachine:
             for n in to_verify:
                 if n.status == 'degraded':
                     n.status = 'pending'
+            # 2026-11-16 落盘修复：verify-only 每批落盘一次，且文件名带批次号
+            # （sm-{qid}-r{base}-{k}.json）。旧逻辑用 len(self.rounds_log) 当 rnd，
+            # verify-only 下 rounds_log 永远为空 → 每批都覆写同一个 sm-{qid}-r0.json，
+            # 而 resume 读的是 sm-{qid}-r1.json（启动时的 ckpt）→ 进度全丢，
+            # 下次 resume 又从头验一遍（1h 白跑，见 runs-s5-sm-soc-verifyonly.log）。
+            # 批次号从 ckpt round 递增，resume 时取 checkpoints/ 里最大的 r{base}-{k} 续跑。
+            base_rnd = self.ckpt_round  # resume 时 = ckpt 的 round；无 resume = 0
+            n_batches = (len(to_verify) + 2) // 3  # 每批 3 节点
             for i in range(0, len(to_verify), 3):
                 batch = to_verify[i:i+3]
                 self._verify_batch(batch)
-                if (i // 3 + 1) % 10 == 0:
-                    self._scan_contradictions(rnd=len(self.rounds_log))  # D33: verify-only 也扫矛盾
-                self._save_checkpoint(rnd=len(self.rounds_log))
-                if (i // 3 + 1) % 5 == 0:
-                    print(f"  [SM] verified {i+len(batch)}/{len(to_verify)}", flush=True)
+                k = i // 3 + 1
+                if k % 10 == 0:
+                    self._scan_contradictions(rnd=base_rnd + k)  # D33: verify-only 也扫矛盾
+                self._save_checkpoint(rnd=base_rnd + k)
+                print(f"  [SM] verified {i+len(batch)}/{len(to_verify)} "
+                      f"(batch {k}/{n_batches}) → ckpt r{base_rnd + k}", flush=True)
             self.state = State.STOP
             return SMResult(
                 nodes=list(self.nodes), rounds_log=self.rounds_log,
@@ -1066,6 +1341,83 @@ class DecompStateMachine:
                     print(f"  [SM] LEAK in decompose r{rnd}: {e} — ABORT (AC2 zero-tolerance)", flush=True)
                     raise
 
+            # ── Q2: 正交性判据（2026-11-18）──
+            # 同一父节点下的子节点两两 n-gram 重叠 > 0.5 的对，调 LLM 判"B 能否从 A 推出"。
+            # 能推出 → 丢弃 B（redundant）。防 Goodhart：拆出来的如果是同义变体，S_α 不涨。
+            n_orthogonal_dropped = 0
+            if new_nodes:
+                # 按 parent 分组
+                by_parent: dict[str, list[NodeRecord]] = {}
+                for nn in new_nodes:
+                    for pid in (nn.parent_ids or []):
+                        by_parent.setdefault(pid, []).append(nn)
+                ortho_drop_ids: set[str] = set()
+                for pid, siblings in by_parent.items():
+                    if len(siblings) < 2:
+                        continue
+                    # 找重叠对
+                    pairs = []
+                    for i in range(len(siblings)):
+                        for j in range(i + 1, len(siblings)):
+                            ov = _ngram_overlap(siblings[i].claim, siblings[j].claim)
+                            if ov > 0.5:
+                                pairs.append((i, j, ov))
+                    if not pairs:
+                        continue
+                    # 批量 LLM 判推
+                    pair_block = "\n".join(
+                        f"[{k}] A={siblings[pi].claim[:100]} B={siblings[pj].claim[:100]}"
+                        for k, (pi, pj, _ov) in enumerate(pairs))
+                    ortho_prompt = (
+                        "你是严格审稿人。对下面每对研究子节点，判断 B 能否从 A 推出"
+                        "（即 B 的信息是否已包含在 A 中，或 B 只是 A 的换措辞/特例）。"
+                        "能推出 → B 是冗余的。\n\n"
+                        f"{pair_block}\n\n"
+                        f"对每对输出一行，共 {len(pairs)} 行，紧凑格式：\"pair\":0,\"redundant\":true\n"
+                        "只输出这些行。"
+                    )
+                    try:
+                        mtok = min(200 * len(pairs) + 200, 4096)
+                        out, _ = call_llm(ortho_prompt, max_tokens=mtok, temperature=0.0, retries=2)
+                        for k, (pi, pj, _ov) in enumerate(pairs):
+                            # 解析每行
+                            line_pat = rf'"pair"\s*:\s*{k}\s*,\s*"redundant"\s*:\s*(true|false)'
+                            m = re.search(line_pat, out or "")
+                            if m and m.group(1) == "true":
+                                # B 冗余 → 丢弃 B（j 侧）
+                                ortho_drop_ids.add(siblings[pj].id)
+                                n_orthogonal_dropped += 1
+                    except Exception as e:
+                        print(f"  [SM] Q2 orthogonality LLM error: {e}", flush=True)
+                if ortho_drop_ids:
+                    new_nodes = [nn for nn in new_nodes if nn.id not in ortho_drop_ids]
+                    print(f"  [SM] Q2 orthogonality: dropped {n_orthogonal_dropped} redundant nodes", flush=True)
+
+            # ── Q4: 可压缩复杂度判据（2026-11-18）──
+            # 对每个父节点，算 marginal_gain(子节点 claims, [父节点 claim])。
+            # gain < 0.3 → 子节点集合相对父节点几乎没有新信息 → 膨胀，丢弃所有子节点。
+            n_compression_dropped = 0
+            if new_nodes:
+                by_parent2: dict[str, list[NodeRecord]] = {}
+                for nn in new_nodes:
+                    for pid in (nn.parent_ids or []):
+                        by_parent2.setdefault(pid, []).append(nn)
+                comp_drop_ids: set[str] = set()
+                for pid, siblings in by_parent2.items():
+                    if not siblings:
+                        continue
+                    parent_claim = next((n.claim for n in self.nodes if n.id == pid), "")
+                    if not parent_claim:
+                        continue
+                    gain = marginal_gain([s.claim for s in siblings], [parent_claim])
+                    if gain < 0.3:
+                        for s in siblings:
+                            comp_drop_ids.add(s.id)
+                        n_compression_dropped += len(siblings)
+                        print(f"  [SM] Q4 compression: parent {pid} gain={gain:.3f} < 0.3 — dropped {len(siblings)} kids (inflation)", flush=True)
+                if comp_drop_ids:
+                    new_nodes = [nn for nn in new_nodes if nn.id not in comp_drop_ids]
+
             # gap_check 补充（需要 id 字段）
             if new_nodes:
                 added_extra, _miss, _rawb = gap_check(
@@ -1143,6 +1495,11 @@ class DecompStateMachine:
             if deduped:
                 self._verify_batch(deduped)
 
+            # ── 父节点级核验（2026-11-18 D提议）──
+            # 一个父节点下所有子节点都 verify 完 + 正交/完备/冗余检查通过后，
+            # 才标父节点 verified。这样 AI 对核验进度和需要核验什么很清晰。
+            self._verify_parent_nodes()
+
             # ── J_verify → REWORK? ──
             unverified = [n for n in deduped if n.status != "verified"]
             if unverified and self._should_rework(deduped):
@@ -1174,6 +1531,8 @@ class DecompStateMachine:
                 "low_gain_streak": low_gain_streak,
                 "edge_types": edge_counts,
                 "contradictions_found": sum(1 for c in self.contradiction_events if c.get("round") == rnd),
+                "n_orthogonal_dropped": n_orthogonal_dropped,
+                "n_compression_dropped": n_compression_dropped,
             })
             print(f"  [SM] r{rnd}: +{len(deduped)} (total {len(self.nodes)}), "
                   f"gain={gain:.3f}, S_α'={sa:.1f}, "
@@ -1231,8 +1590,20 @@ def synthesize_answer(question: str, nodes: list, qid: str) -> dict:
             f"{n.id} ({lv}): {n.corrected_claim or n.claim}  "
             f"[status={n.status}; evidence: {(n.evidence or '')[:80]}]"
             for n in by_lv[lv])
+        # 2026-11-16 fix: 截断时保头不保尾——公式/数值集中在前段，
+        # 尾部多为检索来源列表和重复性节点。旧逻辑 seg[:6000] 保头，
+        # 但 L4 有 97 节点 24K chars，截断后丢失的恰是后半段的
+        # roofline/故障损耗/利用率等关键公式节点。改为保头+保尾。
+        if len(seg) > 12000:
+            head = seg[:8000]
+            tail = seg[-4000:]
+            seg = head + "\n[...中间省略...]\n" + tail
         p = (f"你是研究员。基于下面第 {lv} 层的已核验事实，回答原问题中该层涉及的部分。"
-             f"只写结论+数值/公式，每条标来源条目 id，不要重复其他层的内容。\n\n"
+             f"只写结论+数值/公式，每条标来源条目 id，不要重复其他层的内容。"
+             f"【关键】上面列出的每一个公式（如 TCO 公式、roofline 公式、KV Cache 计算、"
+             f"故障损耗项、利用率分解等），必须在你的回答中完整保留并代入具体数值，"
+             f"不得省略或仅定性提及。如果某条事实给出了完整公式，你的回答必须展示该公式。"
+             f"如果不同事实之间存在矛盾（如不同 head_dim 取值），取多数一致的值并注明分歧。\n\n"
              f"【问题】\n{question}\n\n【第 {lv} 层事实】\n{seg}") + _perturb()
         t0 = time.time()
         out_l, _ = call_llm(p, max_tokens=4000, temperature=0.7, top_p=0.95, retries=3)
@@ -1240,7 +1611,14 @@ def synthesize_answer(question: str, nodes: list, qid: str) -> dict:
         print(f"  [SM] synth {lv}: {len(by_lv[lv])} 节点, out={len(out_l or '')}c, {time.time()-t0:.0f}s", flush=True)
     merge_p = (f"你是研究员。下面是同一道问题按目录树分层得到的各层结论摘要。"
                f"请把它们合并成一份完整最终答案：覆盖问题全部子问，保留所有具体数值/公式/排序，"
-               f"消除层间重复，最后给一个明确的推荐结论。\n\n【问题】\n{question}\n\n"
+               f"消除层间重复，最后给一个明确的推荐结论。"
+               f"规则：问题问「最多/上限/提升多少/打几折」时，必须显式列出限制因素并给出其定量影响"
+               f"（如频率表老化、热度漂移、容量覆盖不足），不能只讲优势不讲上限；"
+               f"比较策略时，每个策略都要给出适用限制；涉及更新/失效/折扣的，给出推导公式和代入过程。"
+               f"【关键】上面各层摘要中出现的每一个公式、数值、参数（如 TCO 公式、roofline 公式、"
+               f"KV Cache 计算、故障损耗项、利用率分解、临界阈值等），必须在最终答案中显式保留并代入具体数值，"
+               f"不得省略或仅定性提及。如果某层给出了完整公式，最终答案必须展示该公式及其代入过程。"
+               f"如果各层之间存在矛盾（如不同 head_dim 取值），取多数一致的值并注明分歧。\n\n【问题】\n{question}\n\n"
                + "\n\n".join(parts)) + _perturb()
     t0 = time.time()
     answer, _ = call_llm(merge_p, max_tokens=8000, temperature=0.7, top_p=0.95, retries=3)
@@ -1325,14 +1703,21 @@ if __name__ == "__main__":
             sm.cfg.max_nodes = int(_raw[k+1])
         elif v.startswith("--max-nodes="):
             sm.cfg.max_nodes = int(v.split("=", 1)[1])
+    # --beta N: 覆盖冗余惩罚系数（消融臂：β=0 = 纯 S_α 无冗余惩罚，复现 v13 时代行为）
+    for k, v in enumerate(_raw):
+        if v == "--beta" and k + 1 < len(_raw):
+            sm.cfg.redundancy_penalty_beta = float(_raw[k+1])
+        elif v.startswith("--beta="):
+            sm.cfg.redundancy_penalty_beta = float(v.split("=", 1)[1])
     verify_only = "--verify-only" in flags
     obj_mode_flag = next((f.split("=", 1)[1] for f in flags if f.startswith("--obj-mode=")), "formula")
     sm.objective_mode = obj_mode_flag  # #31 消融臂: formula(默认) / text
     if resume_from:
         import json as _json
-        ck = _json.load(open(resume_from))
+        # 兼容新文件夹格式和旧单文件格式
+        meta, ck_nodes = sm._load_checkpoint(resume_from)
         from s5_state_machine import NodeRecord
-        for nd in ck["nodes"]:
+        for nd in ck_nodes:
             sm.nodes.append(NodeRecord(**nd))
         # C3: resume 后 id 计数器必须超过 ckpt 里已有最大编号，否则新节点继续撞号
         _max_nid = max((int(str(n.id).lstrip("N")) for n in sm.nodes if str(n.id).lstrip("N").isdigit()), default=0)
@@ -1341,20 +1726,49 @@ if __name__ == "__main__":
         # 照搬会让后续 list-int 运算炸 TypeError（连锁崩溃），统一归一为 int
         def _as_int(v, default=0):
             return v if isinstance(v, int) and not isinstance(v, bool) else default
-        sm.dropped_redundant = _as_int(ck.get("dropped_redundant", 0))
-        sm.leak_hits_total = _as_int(ck.get("leak_hits_total", 0))
-        sm.network_degraded = ck.get("network_degraded", False)
-        sm.objective = ck.get("objective")  # Decision 19: resume 时恢复模型自估计目标函数
-        sm.objective_mode = ck.get("objective_mode", "formula")  # #31 消融臂
-        sm.challenge_log = ck.get("challenge_log", [])  # D-质询审计（2026-11-16）
-        sm.rework_events = ck.get("rework_events", [])
-        sm.contradiction_events = ck.get("contradiction_events", [])
+        sm.dropped_redundant = _as_int(meta.get("dropped_redundant", 0))
+        sm.leak_hits_total = _as_int(meta.get("leak_hits_total", 0))
+        sm.network_degraded = meta.get("network_degraded", False)
+        sm.objective = meta.get("objective")
+        sm.objective_mode = meta.get("objective_mode", "formula")
+        sm.challenge_log = meta.get("challenge_log", [])
+        sm.rework_events = meta.get("rework_events", [])
+        sm.contradiction_events = meta.get("contradiction_events", [])
+        # 2026-11-16 verify-only 落盘修复：resume 时记录 ckpt round + 探测已有 verify-only
+        # 批次 ckpt（sm-{qid}-r{round+k}.json，round = base + 批号），取最大 k 作为续跑起点。
+        import glob as _glob
+        _base = int(meta.get("round", 0) or 0)
+        # 2026-11-19 fix: resume 后无条件设 ckpt_round = _base。
+        # 旧逻辑只在 _max_k > 0 分支里设，导致 resume r3 后 ckpt_round 仍为 0，
+        # verify-only 批次号从 1 起算 → 落盘 sm-gpu-r1/ r2/ 覆盖旧树形目录。
+        sm.ckpt_round = _base
+        _max_k = 0
+        # 兼容新旧格式：旧格式 glob *.json，新格式 glob 目录
+        for _p in _glob.glob(f"checkpoints/sm-{qid}-r*"):
+            if os.path.isdir(_p):
+                _m = re.search(r"r(\d+)$", _p)
+            else:
+                _m = re.search(r"r(\d+)\.json$", _p)
+            if _m:
+                _k = int(_m.group(1)) - _base
+                if _k > 0:
+                    _max_k = max(_max_k, _k)
+        if _max_k > 0:
+            _ckpt_path = f"checkpoints/sm-{qid}-r{_base + _max_k}"
+            _meta2, _resumed_nodes = sm._load_checkpoint(_ckpt_path)
+            _old = {n.id: n for n in sm.nodes}
+            for nd in _resumed_nodes:
+                if nd["id"] in _old:
+                    _old[nd["id"]].__dict__.update(nd)
+            sm.ckpt_round = _base + _max_k
+            print(f"[SM] verify-only resume: 续跑自批次 ckpt r{_base + _max_k} "
+                  f"({_ckpt_path})", flush=True)
         # E16 (2026-11-13): FATAL 落盘的 ckpt 缺 state 字段（text arm seed 就是这种）。
         # 无需恢复 sm.state——run() 开头无条件 self.state = State.DECOMPOSE，skip_l1=True
         # 跳过 L1 后主循环从 frontier 继续核验/重拆。这里只校验 ckpt 合法性。
-        if ck.get("state") not in (None, "rework", "done", "decompose", "verify"):
-            print(f"[SM] WARNING: unexpected state in ckpt: {ck.get('state')!r}", flush=True)
-        print(f"[SM] resumed from {resume_from}: {len(sm.nodes)} nodes @ r{ck['round']}", flush=True)
+        if meta.get("state") not in (None, "rework", "done", "decompose", "verify"):
+            print(f"[SM] WARNING: unexpected state in ckpt: {meta.get('state')!r}", flush=True)
+        print(f"[SM] resumed from {resume_from}: {len(sm.nodes)} nodes @ r{meta['round']}", flush=True)
     if no_verify:
         # Monkey-patch: 跳过联网检索，但所有节点仍过 LLM 核验（AC3 需要真实 evidence）
         from s5_pipeline import search_node as _sn
