@@ -509,8 +509,25 @@ def call_llm(prompt, max_tokens=LLM_MAX_TOKENS, timeout=LLM_TIMEOUT, retries=2, 
             if isinstance(e, (TimeoutError, ConnectionError)) or "timed out" in str(e):
                 if timeout < 600:
                     raise
+            # E17 (2026-11-19): 5xx 抖动窗口加长——5+10+20+40s（75s）盖不住
+            # 8787→上游的 burst（2026-11-19 19:41-19:47 / 21:00-21:13 两波，
+            # 实测持续 6-12min，SM 侧 retries=3-4 全部耗尽 → 连丢 7 个 run）。
+            # 退避 15·2^n 封顶 120s：retries=3 总窗口 315s，retries=4 总窗口 435s。
+            # 只影响重试等待时长，不改快速失败语义（4xx 仍直接抛）。
+            # E18 (2026-11-19 诊断员): 5xx 抖动再兜底——E17 窗口（≤435s）仍盖不住
+            # 实测 6-12min 的 burst（21:00-21:13 波：nat_formula_r01 26 节点树
+            # FATAL 丢 23min 进度）。5xx 是服务端抖动，重试语义上就该一直试到恢复：
+            # 5xx 路径退避 30·2^n 封顶 300s、不设次数上限（每次失败都重试，
+            # burst 一过即恢复）；4xx 仍直接抛、超时仍按 E15 语义。
+            # 代价：上游真宕机时 run 会挂住（由 watchdog 60s 巡检 + batch 前台
+            # 阻塞兜底，不会静默丢数据）。
+            if code is not None and 500 <= code < 600:
+                wait = min(30 * (2 ** attempt), 300)
+                print(f"  retry {attempt+1} (wait {wait}s, 5xx unlimited): {e}", file=sys.stderr)
+                time.sleep(wait)
+                continue
             if attempt < retries:
-                wait = 5 * (2 ** attempt)
+                wait = min(15 * (2 ** attempt), 120)
                 print(f"  retry {attempt+1} (wait {wait}s): {e}", file=sys.stderr)
                 time.sleep(wait)
             else:
