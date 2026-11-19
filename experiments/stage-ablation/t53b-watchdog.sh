@@ -64,7 +64,7 @@ for wu in s['work_units']:
   # 兜底防线：_probe_network 已防 SSL 卡死，这里防 8787 推理 hang / SM 死循环。
   # kill 后 driver 捕获 RC 进入 resume（最多 3 次），resume 失败则 batch 标记 done。
   # 阈值 180s：正常 LLM 调用 5-30s，单节点 8787 推理 <60s，180s 未写日志基本可判定卡死。
-  SM_STALE_THRESHOLD=180
+  SM_STALE_THRESHOLD=1800
   BATCH_LOG=/tmp/t53b-batch.log
   CUR_RUN=$(grep "开始:" "$BATCH_LOG" 2>/dev/null | tail -1 | sed -E 's/.*开始: ([a-z0-9_]+) \(第.*/\1/')
   if [ -n "$CUR_RUN" ]; then
