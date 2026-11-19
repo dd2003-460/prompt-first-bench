@@ -161,10 +161,23 @@ smoke 轨迹：
 2. **工程迭代轮**：`sm-modification-log.md` 的 r1-r6 = 跨 run 的代码修改批次。
    历史遗留：runs-r293 的 293 = 主仓全局迭代轮号（ralph-loop 时代，11-06），仅此一处。
 
-## 5. 编号纪律（今后新增东西按这个来）
+## 5. 编号纪律（2026-11-19 修订：版本连续性）
+
+**核心原则：版本线连续，v1→v19 不断档。不同 prompt 版本用不同版本号，轮次在子文件夹里命名。**
 
 - 新实验臂 → 下一个 S 编号（S9 起），在 s8-report.md 同级加一行定义。
-- S5 线代码大改 → 跟任务 ID 走（T53、T54…），不再发明 vN；需要版本锚点时在
+- S5 线代码大改 → **继续 vN 编号（v18、v19…），不跳到 T 编号**。需要版本锚点时在
   sm-modification-log.md 加一行 "vN = rX+rY merged release"。
-- 新 run 目录 → `runs-{arm}-{domain}-{version}/`，version 用任务 ID 或版本号，禁止无后缀裸目录。
+- 新 run 目录 → `v{N}/{qid}-{prompt}-rep{M}/`，例如 `v18/gpu-formula-rep01/`、`v19/nat-formula-rep01/`。
+  轮次（rep）放在子文件夹名里，不放在顶层目录名里。
 - 新任务 → tasks/ 全局递增 T 编号；stage-ablation/tasks/ 内的 T54+ 并入主序列前先查重。
+
+**版本线（2026-11-19 确认）：**
+- v1-v15: s5_pipeline.py 早期（P1 分解 + P2 搜索 + P3 核验 + P4 综合）
+- v16: 状态机分支（P1e 探索式分解）
+- v17: 层级索引分支（逐层 INDEX，无限预算）
+- **v18: T53 状态机**（s5_state_machine.py，2026-11-11 诞生）
+- **v19: langgraph 控制流**（langgraph-pfb-full.py，2026-11-19 诞生）
+
+**基座（prompt 版本，不变版本号，作为子标签）：**
+- formula / text / minimal / method / method_challenge

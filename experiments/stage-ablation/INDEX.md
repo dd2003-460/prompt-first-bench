@@ -3,6 +3,23 @@
 > 1-loop 阶段消融实验：prompt 各阶段（调研/分解/核验...）对最终产出质量的影响。
 > 本目录 = 单一实验项目，文件按「设计→数据→评分→报告」分层。
 
+## 文件迁移（2026-11-19）
+
+**所有 note/报告/调研 .md 已按主题归入 `pfb/modules/{A-F}*/research/`**（各 module 有 INDEX.md）。
+本目录顶层只留导航类：DESIGN.md / README.md / INDEX.md / VERSION.md。
+下方各层引用的 .md 文件新位置：
+
+| 旧位置（本目录） | 新位置 |
+|---|---|
+| scoring*.md / RESCORE-V3-NOTES.md / RUBRIC-V3.3-NOTES.md / judge-v2-* / m4-anchor / rubric-v2-hardening / T23-hetero-judge-* / T23-semihetero / M7-design / competitor-survey / cellcog-max / hardware-survey / s5-sm-bench-report | `modules/A-eval-infra/research/` |
+| T17-*/T22-*/G1/G5/S8B/S8E/S10-*/RESULTS-FINAL / production-final / ablation-matrix-full / ablation-prior-work-mapping / collision-snowball / novelty-scan / design-critique / gap-to-gold / scientisttwo / farm-163 / ftm-bench / nat-mc-v3 / gpu-rerun* / r14-results / t26-t30 / optimize-T35/ | `modules/B-pipeline-ablation/research/` |
+| v17-hier-blowup / text-objective-goodhart / T-PR-15 / T51-priorart / s-alpha-audit / e-objective-variance | `modules/C-objective-goodhart/research/` |
+| s5-pipeline-spec / s5-code-review / state-machine-comparison / t53b-test-plan / T23-gold-gap / T25 / research-hook-sop / TODO-ego-direct / qc-node-conditions / r14-* / exploration-history / sm-* / t53-milestones / longterm-vision | `modules/D-decomp-state-machine/research/` |
+| paper-draft / arxiv-submission / visualization-options / SOTA 调研与榜单 | `modules/E-sota-benchmark/research/` |
+| 理论调研（T54/T55/压缩-智能/激活子图） | `modules/F-theory/research/` |
+
+版本线（v1→v19 连续）见 `VERSION.md`；编号→含义权威映射见 `modules/D-decomp-state-machine/research/exploration-history.md`。
+
 ## 层 1：设计与问题
 | 文件 | 内容 |
 |---|---|
