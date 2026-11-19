@@ -102,7 +102,16 @@ for wu in s['work_units']:
           MT=$(stat -f %m "$SM_LOG")
           AGE=$(( NOW - MT ))
           if [ "$AGE" -gt "$SM_STALE_THRESHOLD" ]; then
-            log "[$QID] SM stale: ${CUR_RUN} 日志 ${AGE}s 未更新 (pid ${SM_PID})，kill 恢复"
+            # 2026-11-20 误杀修复：日志 stale 不等于卡死——SM 在长 LLM 调用序列期间
+            # 不写日志（proxy 日志实证 03:45 误杀时三路都在活跃发请求）。
+            # 活性检查：有子进程（curl 检索）或 TCP 连接（等 8787 LLM）= 在干活，跳过。
+            CHILDREN=$(pgrep -P "$SM_PID" 2>/dev/null | wc -l | tr -d ' ')
+            TCP=$(lsof -p "$SM_PID" 2>/dev/null | grep -c TCP)
+            if [ "$CHILDREN" -gt 0 ] || [ "$TCP" -gt 0 ]; then
+              log "[$QID] SM stale 但活跃 (pid ${SM_PID}, children=${CHILDREN} tcp=${TCP})，跳过 kill"
+              continue
+            fi
+            log "[$QID] SM stale: ${CUR_RUN} 日志 ${AGE}s 未更新 (pid ${SM_PID})，无子进程无连接，kill 恢复"
             kill "$SM_PID" 2>/dev/null
             sleep 3
             if kill -0 "$SM_PID" 2>/dev/null; then
