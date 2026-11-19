@@ -1,65 +1,76 @@
-# SM Bench SOTA 对标标准
+# SM Bench SOTA 对标标准 v3（T53-B12 落地）
 
-> origin: ai (T53 AC4)
-> 状态：v2（baseline = 本机模型 + 开源 deepresearch 框架，2026-11-11 D指令修订）
+> origin: ai（T53 AC4 → T53-B12 修订）· 2026-11-16 · 分支 `arena/f65a5a27-prompt-first-bench`
+> 上游：v2（2026-11-11，baseline = 本机模型 + 开源框架）；本版补"公开 SOTA 分"这一层，并裁定尺度口径。
+> 数字来源：`modules/E-sota-benchmark/research/sm-bench-sota-table.json`（T53C 已逐条 fetch 核到原文，12 系统全部 http URL + 原文摘录）。
 
-## 验收定义
+## 0. 一句话
 
-**在 ≥5 道 deepresearch 类问题上，我们的管线（S5/T53）最终答案的 judge 分 ≥ 开源 deepresearch 框架（同一本机模型驱动）在同题上的分数。**
+**公开 SOTA 分只能当"量级参照"，不能当"同题对标"——因为①它们是 bench 级平均分不是题级分，②RACE 是 0-100、F1 是 0-100、我们的 judge 是 0-1，③题目不同。真正的"打赢"必须在同一 judge 口径下本地复跑开源框架。**
 
-"打赢"不是节点数更少、不是更快——是**答案质量**（数字对不对、对比/单位对不对）。
+## 1. 三层对标定义（本 bench 只用 L0 作判决，L1 作参照）
 
-## Baseline 定义（v2 · 2026-11-11 修订）
+| 层 | 定义 | 可比性 | 用途 |
+|---|---|---|---|
+| **L0 主对标（判决用）** | 同一本机模型（Qwen3.8-27B @8787）驱动**开源 deepresearch 框架**（LangChain Open Deep Research / LangGraph react agent），跑**同一 5 题**，用**同一 B-face judge** 打分 | 完全可比 | 判"是否打赢" |
+| **L1 参照对标（只作量级）** | 公开 leaderboard / 论文里的开源系统分（bench 级平均） | 不可比（异题、异口径、异 judge） | 判断"SOTA 量级在哪个区间" |
+| L2 传闻 | 二手聚合站/无出处分 | — | 不采用 |
 
-**核心原则**：同一模型（Qwen3-27B @8787），不同策略。主对比对象是"我们的管线（S5/T53）" vs "通用开源 deepresearch 框架"在同一模型上的表现差异。状态机（s5_state_machine.py）只是我们管线内部的候选臂之一，预期分数更低，不与 baseline 平级。
+**判决：AC2"每题 ≥1 个开源 SOTA 基线的公开分数"只能以 L1 形式满足（5/5 有 L1 分），题级公开分 0/5 存在（这些题是我们自建或从公开集抽样，题级分数从未公开）。conf 0.95**
 
-| 角色 | 内容 | 说明 |
-|------|------|------|
-| 实验组（主） | 我们的管线 S5/T53 | 目标函数驱动的 decomp+verify+rework+stop 流程 |
-| 内部候选臂 | s5_state_machine.py | 管线内部实现之一，预期分数低于主臂，非独立主角 |
-| 对照组 | 开源 deepresearch 框架 + Qwen3-27B | 当前活跃维护的 agent 框架 |
+## 2. L1 公开 SOTA 分表（开源系统标 ★，数值 + 出处 + 摘录）
 
-**开源 deepresearch 框架候选** [待核验：选哪个]：
-- OpenHands (All-Hands-AI) — 2025-2026 活跃，支持本地 LLM via OpenAI-compatible API
-- LangGraph + create_react_agent — 灵活，可配 search tool
-- AutoGPT (agpt-co) — 老牌，但 2025 后活跃度下降
-- CrewAI — 多 agent 协作，支持本地模型
+| 系统 | bench | 指标 | 分 | 开源? | 出处 |
+|---|---|---|---|---|---|
+| ★ LangChain Open Deep Research（backbone GPT-5） | DeepResearch Bench (100 题) | RACE overall | **50.60** | 框架开源（backbone 闭源） | https://proceedings.iclr.cc/paper_files/paper/2026/file/465f… |
+| ★ Tongyi DeepResearch (30B-A3B) | DeepResearch Bench | RACE overall | **40.46** | **权重+框架全开源** | 同上 |
+| ★ DeepResearcher (RL, Qwen2.5-7B) | DeepResearch Bench | RACE overall | **10.77** | 全开源 | 同上 |
+| ★ Tongyi DeepResearch (30B-A3B) | GAIA text-only val | Avg@3 | **70.9** | 全开源 | https://arxiv.org/html/2510.24701 |
+| ★ Tongyi DeepResearch | BrowseComp | Avg@3 acc | **43.4** | 全开源 | 同上 |
+| ★ Tongyi DeepResearch | BrowseComp-ZH | Avg@3 acc | **46.7** | 全开源 | 同上 |
+| ★ Tongyi DeepResearch | HLE | Avg@3 | **32.9** | 全开源 | 同上 |
+| ★ Search-R1 (base, Qwen2.5-7B) | HotpotQA (512 dev) | F1 | **55.9** | 全开源 | https://arxiv.org/html/2504.03160 |
+| ★ DeepResearcher (Qwen2.5-7B) | HotpotQA | F1 | **52.8** | 全开源 | 同上 |
+| ★ DeepResearcher | 2WikiMultiHopQA | F1 | **59.7** | 全开源 | 同上 |
+| ★ Search-R1 (base) | 2WikiMultiHopQA | F1 | **44.6** | 全开源 | 同上 |
+| OpenAI Deep Research (o3) | GAIA val | pass@1 | 67.36 | 闭源 | https://openai.com/index/introducing-deep-research/ |
+| Gemini-2.5-Pro DR | DeepResearch Bench | RACE | 49.71 | 闭源 | ICLR 2026 proceedings |
+| OpenAI Deep Research | DeepResearch Bench | RACE | 46.45 | 闭源 | 同上 |
+| Kimi Researcher | DeepResearch Bench | RACE | 44.64 | 闭源 | 同上 |
 
-**选择标准**：
-1. 支持 OpenAI-compatible API（能指向 localhost:8787）
-2. 有内置或易接的 web search 工具（我们的 bench 题需要搜索验证）
-3. 2025-2026 仍活跃维护（GitHub 最近 3 个月有 commit）
-4. 部署复杂度低（pip install + 配置文件即可跑）
+**口径警告**：RACE 是**相对分**（intra-model 相对评分），跨版本不可比（T53C contradiction X1 已记录）；F1 是短答案 EM/F1，与"长篇报告"不是同一任务（X4）；我们的 judge 是 0-1 rubric（0.5 数字 + 0.5 对比/单位）。
 
-**为什么不用公开分数表**：arena 调研确认（`modules/E-sota-benchmark/research/sm-bench-sota-table.json`），我们的 5 题是自建 bench，不属于任何公开 test set，所有系统逐题分数均为 null。唯一可行的对比方式 = 本地复跑。
+## 3. 五题 × SOTA 映射（L1 参照；L0 待本地复跑）
 
-## Judge 口径
+| # | qid | 题型 | 最接近的公开 bench | 该 bench 开源 SOTA（L1） | 口径可搬？ |
+|---|---|---|---|---|---|
+| 1 | `gpu`（已有，复用） | 硬件选型 + 多约束推理 | BrowseComp / HLE 类硬事实深挖 | Tongyi BrowseComp 43.4 / HLE 32.9 | ✗ 异题，仅量级 |
+| 2 | `drb-2`（已有，复用） | 长报告横评（保险十强） | DeepResearch Bench（同源！） | LangChain ODR 50.60（RACE） | ✗ 同 bench 异题 + 异 rubric |
+| 3 | `q6-nev`（新） | 多跳统计 + 口径（新能源产销/出口/份额） | GAIA 多跳事实整合 | Tongyi GAIA 70.9 | ✗ 异题，仅量级 |
+| 4 | `q7-rd`（新） | 双实体比较 + 分母/财年口径 | HotpotQA 比较型多跳 | Search-R1 F1 55.9 | ✗ 短答案 vs 长报告 |
+| 5 | `q8-nvda`（新） | 深挖 + 财年/地区定义 | BrowseComp 深挖 | Tongyi BrowseComp 43.4 | ✗ 异题，仅量级 |
 
-- **Judge**: B-face qwen2.5-7b (localhost:1234)，异族（生成端是 Qwen3.8-27B）
-- **Rubric**: 每题满分 1.0 = 0.5（核心数字正确）+ 0.5（对比/单位/百分比正确）
-- **聚合**: n=3 runs, median
-- **tie-break**: 状态机 ≥ baseline 即算"打赢"（平局算赢）
+**判决：5 题全部有 ≥1 个开源系统公开分（L1 层），但 0 题有同题同口径公开分 → AC2 按字面 5/5 通过、按精神 0/5 不通过；唯一有效判决来自 L0 本地复跑。conf 0.9**
 
-## 题目选择（≥5 道）
+## 4. Judge 口径（不变，来自 v2）
 
-当前候选（`tasks/B-pipeline-ablation/TASK-B13-t53c-bench-dispatch.md` 中已列）：
-1. H200 TDP vs H100 SXM（GPU 硬件参数 + 百分比对比）
-2. Transformer heads: 原始论文 vs GPT-3（论文事实 + 倍数计算）
-3. HotpotQA 标注数 + compositional 比例（数据集元信息）
-4. LLaMA 2 70B 参数量 + 训练 token 数（模型规格）
-5. DeepSeek-V3 MoE 总参数/激活参数/ratio（架构参数）
+- **B-face**：qwen2.5-7b-original @ `localhost:1234`（`bface_score.py` / `drb_race_judge.py --judge local`），异族于生成端 Qwen3.8-27B
+- **Rubric**：满分 1.0 = 0.5（核心数字正确）+ 0.5（对比/单位/百分比/口径正确）
+- **聚合**：n=3 runs，取 **median**；单次分数不作判决（对抗 synthesis 方差，见 bench report #18/#19）
+- **防泄漏 A6**：prompt/日志/中间产物不得含题面原文；run 落盘用 `question_sha1` 代替原文（本版新增强制项）
 
-## 执行流程
+## 5. 本地复跑命令（L0，需在 pfb 主机执行）
 
-1. 选定开源 deepresearch 框架 → 配置指向 localhost:8787 → 跑 5 题 → 收集答案
-2. 我们的管线（S5/T53）跑同样 5 题 → 收集最终答案 + 节点数 + 耗时；状态机作为内部候选臂一并跑，用于内部对照
-3. B-face judge 对各组答案分别打分（n=3, median）
-4. 判定：≥5/5 打赢 → AC4 PASS；否则记录哪些题输了 + 原因分析
+```bash
+# 生成端 8787 + judge 1234 都起来后
+python3 experiments/stage-ablation/s5_pipeline.py --qs q6-nev,q7-rd,q8-nvda --reps 3 --out runs-s5-sm-b12
+python3 experiments/stage-ablation/bface_score.py --runs runs-s5-sm-b12 --n 3   # 取 median
+# 开源框架对照（L0 主对标）
+# LangGraph react agent + 同一模型 + 同一检索 hook，跑同 3 题，同 judge
+```
 
-## 文件索引
+**未验证项**：`bface_score.py --runs/--n` 参数是否存在（本轮未读该脚本参数定义）——执行前先 `--help` 核对。`[待核验]`
 
-- 派发任务书: `tasks/B-pipeline-ablation/TASK-B13-t53c-bench-dispatch.md`
-- 状态机代码: `experiments/stage-ablation/s5_state_machine.py`
-- 防泄漏 SOP: `modules/D-decomp-state-machine/research/sm-leak-sop.md`
-- SOTA 分数表（参考用，非主 baseline）: `modules/E-sota-benchmark/research/sm-bench-sota-table.json`
-- 本文件: `modules/E-sota-benchmark/research/sm-bench-sota-criteria.md`
+## 6. 变更记录
+
+- v1：验收定义（0-1 judge vs 本机模型）→ v2：加"开源框架同机复跑"主对标，声明公开分数不可用 → **v3（本版）**：补 L1 公开分表（12 系统）+ 三层可比性裁定 + 五题映射 + A6 落盘要求。
