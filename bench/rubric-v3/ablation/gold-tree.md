@@ -106,6 +106,7 @@ N-0  每个通过任务的成本  c_pass [¢/task]                        SHARE 
 - TPU 的 N-3.1.3.1（SM 占用率）无对应 NCU counter，需改用 XLA profiler 的 TensorCore 活跃周期 [待核验：XLA profiler 具体指标名]
 - 片上内存系统的 N-5.2 带宽准入下限公式需重写（SRAM 带宽 80 TB/s 远超 HBM，原公式的"带宽瓶颈"假设不成立）
 - V100 是 2017 年规格，无 TF32/FP8，W4/W8 量化路径需确认 cuBLASLt 支持 [待核验]
+- **INT8/INT4 精度路径**：不作为 MFU/η_bw 的独立子节点（物理上精度是选择项，不是 MFU 的因子），通过 `quant` SHARED 参数显式体现——N-3.1.2 峰值算力（FP16→INT8 翻倍，如 V100 125→250 TOPS）+ N-3.2.1 权重字节（W4/W8/W16 = 14/27/54 GB）。INT8/INT4 的影响未被藏进黑盒，而是作为跨节点 SHARED 参数显式可见。
 
 ---
 
