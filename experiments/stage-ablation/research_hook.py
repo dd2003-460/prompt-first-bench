@@ -394,6 +394,10 @@ def _webfetch_page(url, title_hint="", timeout=20):
 # ── 本地语料通道 ──────────────────────────────────────────────────────────
 _LOCAL_CORPUS_DIRS = [
     "/Users/a1-6/Desktop/workspace/projects/decomp/archive/D1-gpu-research-2026",
+    # 2026-11-19: 本地硬件知识库（17 卡/19 变体，含 TPU/Groq/Cerebras/Apple Silicon）。
+    # 硬件规格 query 先命中 KB（~0.1s，零网络），减少公网检索依赖——
+    # r06 卡死在代理出口 SSL 握手（198.18.1.104:443）的根因就是硬件 query 全走网络。
+    "/Users/a1-6/Desktop/workspace/pfb/knowledge-base/hardware",
 ]
 
 GPU_QUERY_MARKERS = ("gpu", "显卡", "rtx", "a100", "h100", "h200", "b200", "b300",
