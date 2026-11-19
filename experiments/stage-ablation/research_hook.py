@@ -152,6 +152,23 @@ def _run_ego_browser(js_code, timeout=120):
     return result.stdout + "\n" + result.stderr
 
 
+def _http_get(url, timeout=30, user_agent="Mozilla/5.0 (pfb-research)"):
+    """curl 硬超时 HTTP GET（覆盖 DNS/TCP/SSL/传输全过程）。
+    urllib 的 timeout 不覆盖 SSL 握手内部 select（CPython PySSL_select），
+    代理半死时请求可无限卡（2026-11-20 三路并行实测 nat/soc 卡 7890 31min）。
+    curl -m 是进程级硬超时，到点必杀。失败返回 None。"""
+    try:
+        r = subprocess.run(
+            ["curl", "-s", "-m", str(timeout), "-A", user_agent,
+             "--compressed", "-L", "--max-redirs", "3", url],
+            capture_output=True, text=True, timeout=timeout + 5)
+        if r.returncode != 0:
+            return None
+        return r.stdout
+    except Exception:
+        return None
+
+
 def _wiki_extract(title, max_chars=900, lang="en"):
     """取 wiki 页面 intro 段全文（比 search snippet 长 5-10 倍，含具体数值/公式）。
     lang: 'en'/'zh'——中文题走 zh.wikipedia.org（2026-11-12 drb-1 r2 诊断：
@@ -163,8 +180,10 @@ def _wiki_extract(title, max_chars=900, lang="en"):
     try:
         url = (f"https://{lang}.wikipedia.org/w/api.php?action=query&prop=extracts"
                f"&titles={quote_plus(title)}&exintro=1&explaintext=1&format=json")
-        req = urllib.request.Request(url, headers={"User-Agent": "pfb-research/1.0"})
-        d = json.load(urllib.request.urlopen(req, timeout=15))
+        txt = _http_get(url, timeout=15, user_agent="pfb-research/1.0")
+        if txt is None:
+            return ""
+        d = json.loads(txt)
         pages = d.get("query", {}).get("pages", {})
         for p in pages.values():
             ext = p.get("extract", "")
@@ -195,8 +214,10 @@ def _wiki_search(query, max_results=3):
         try:
             url = (f"https://{lang}.wikipedia.org/w/api.php?action=query&list=search"
                    f"&srsearch={quote_plus(query)}&format=json&srlimit={max_results}")
-            req = urllib.request.Request(url, headers={"User-Agent": "pfb-research/1.0"})
-            d = json.load(urllib.request.urlopen(req, timeout=15))
+            txt = _http_get(url, timeout=15, user_agent="pfb-research/1.0")
+            if txt is None:
+                continue
+            d = json.loads(txt)
             for h in d.get("query", {}).get("search", []):
                 title = h["title"]
                 if title in seen_titles or len(results) >= max_results:
@@ -275,8 +296,9 @@ def _bing_search(query, max_results=3):
         return []
     try:
         url = ("https://www.bing.com/search?q=" + quote_plus(query) + "&setlang=en&count=" + str(max_results))
-        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (pfb-research)"})
-        html_txt = urllib.request.urlopen(req, timeout=15).read().decode("utf-8", errors="replace")
+        html_txt = _http_get(url, timeout=15)
+        if html_txt is None:
+            return []
         results = []
         # Bing 结果在 <li class="b_algo"> 里
         for mm in re.finditer(r'<li class="b_algo"[^>]*>(.*?)</li>', html_txt, re.DOTALL):
@@ -328,8 +350,11 @@ def _ddg_search(query, max_results=3):
         for attempt in range(2):
             try:
                 url = ("https://lite.duckduckgo.com/lite/?q=" + quote_plus(q_try))
-                req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (pfb-research)"})
-                html_txt = urllib.request.urlopen(req, timeout=15).read().decode("utf-8", errors="replace")
+                html_txt = _http_get(url, timeout=15)
+                if html_txt is None:
+                    if attempt == 0:
+                        _time.sleep(2)
+                    continue
                 if "anomaly" in html_txt.lower():
                     if attempt == 0:
                         _time.sleep(4)
@@ -363,8 +388,9 @@ def _webfetch_page(url, title_hint="", timeout=20):
     if not _probe_network():
         return {"title": title_hint or url, "url": url, "snippet": "", "alive": False}
     try:
-        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (pfb-research)"})
-        html = urllib.request.urlopen(req, timeout=timeout).read().decode("utf-8", errors="replace")
+        html = _http_get(url, timeout=timeout)
+        if html is None:
+            return {"title": title_hint or url, "url": url, "snippet": "", "alive": False}
         # 提取 <title>
         tm = re.search(r'<title[^>]*>(.*?)</title>', html, re.DOTALL | re.I)
         title = (tm.group(1).strip() if tm else title_hint or url)[:200]
