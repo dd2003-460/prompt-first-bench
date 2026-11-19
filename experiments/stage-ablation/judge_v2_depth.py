@@ -252,6 +252,12 @@ GPU_RUBRIC = {
         (W3[1], "MFU 的典型范围（如 0.3-0.6，取决于 batch size 和 kernel 效率）"),
         (W3[2], "MFU 是黑盒（B2）但 BOUND 只有 1.2x——即使 MFU 假设错一倍，prefill 时间也只变 20%"),
     ],
+    # ═══ N-3.1.3 微架构分解（★F-D）═══
+    "N-3.1.3-microarch": [  # MFU 微架构分解（SM 占用率/TensorCore 利用率/L2 命中率）
+        (W3[0], "识别 MFU 不是单纯黑盒，可分解为微架构子项（SM 占用率/TensorCore 利用率/L2 命中率）"),
+        (W3[1], "给出至少一个子项的 NCU 测法（如 sm__warps_active 或 DCGM_FI_PROF_PIPE_TENSOR_ACTIVE）"),
+        (W3[2], "说明 4 因子乘法分解不成立（量纲不同/L2 命中率不直接折损 FLOPs），改用恒等式+诊断视图"),
+    ],
     # ═══ N-3.2 decode 时间 ═══
     "N-3.2": [  # = tok×(W+n×KV)/(卡数×BW×η_bw×tp_eff), ★F-A
         (W3[0], "提到 decode 是带宽受限（memory-bandwidth-bound）"),
@@ -281,6 +287,12 @@ GPU_RUBRIC = {
         (W3[0], "提到实际带宽达不到峰值（η_bw < 1）"),
         (W3[1], "η_bw 典型范围（如 0.6-0.85，取决于访问模式和 kernel 优化）"),
         (W3[2], "η_bw 是黑盒（B3）但 BOUND 1.43x——假设误差对 decode 速度影响有限（< 43%）"),
+    ],
+    # ═══ N-3.2.4 微架构分解（★F-D）═══
+    "N-3.2.4-microarch": [  # η_bw 微架构分解（HBM 带宽利用率/L2 命中率/launch gap）
+        (W3[0], "识别 η_bw 可分解为微架构子项（HBM 带宽利用率/L2 命中率/launch gap）"),
+        (W3[1], "给出至少一个子项的 NCU 测法（如 dram__bytes.sum.per_second 或 lts__t_sector_hit_rate.pct）"),
+        (W3[2], "说明 L2 命中率高→HBM 流量低→η_bw 反而低（非性能差），不能把 L2 命中当折损因子"),
     ],
     # ═══ N-4 任务通过率 ═══
     "N-4": [  # G_pass, nuisance, B1, 1.57x, ■瓶颈#2
@@ -426,11 +438,24 @@ def score_run(qid: str, answer: str) -> dict:
         scores_raw = d["scores"]
     else:
         scores_raw = d
+    # 格式容错：LLM 有时输出 pt1/pt2/... 而非 N-0/N-1/...（2026-11-18 cc 发现 15）
+    # 按 rubric key 顺序建立 ptN → N-X 映射，两种格式都能取到值
+    pt_map = {}
+    for i, pt_name in enumerate(rubric.keys()):
+        pt_map[f"pt{i+1}"] = pt_name
+    def _lookup(pt_name):
+        if pt_name in scores_raw:
+            return scores_raw[pt_name]
+        # 反向查：ptN 格式
+        for k, v in scores_raw.items():
+            if pt_map.get(k) == pt_name:
+                return v
+        return 0
     point_scores = {}
     total = 0
     n_points = 0
     for pt_name, levels in rubric.items():
-        raw = scores_raw.get(pt_name, 0)
+        raw = _lookup(pt_name)
         # handle both old format (list) and new format (scalar)
         if isinstance(raw, list):
             # legacy: convert 0/1 list to weighted score
