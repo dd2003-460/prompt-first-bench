@@ -38,11 +38,19 @@ echo "=== driver: $RUN (started $(date '+%F %T')) ==="
 # 2026-11-19 诊断员修复：SM 树形 ckpt 是目录（checkpoints/sm-{qid}-r{rnd}/，
 # 2026-11-18 起新格式），旧清场只 rm *.json 漏掉目录 → 新 run 从残留树 resume
 # 出污染状态（watchdog 03:05 日志已见 [clean] 只删 json 的口径）。
-rm -rf "$STAGE/checkpoints/sm-${QID}-r"* \
-       "$STAGE/runs-s5-sm-${QID}.json" \
-       "$STAGE/runs-s5-sm-${QID}-synth.json" \
-       "$STAGE/runs-s5-sm-${QID}-checkpoint.json"
-echo "[clean] removed ${QID} ckpt/output files"
+# 2026-11-20 D指令：checkpoint 是原始数据，不许删 → 改为 mv 归档。
+# mv 后原路径清空，防 resume 污染的效果与 rm 等价，但逐节点数据保留。
+# 已完成的 23 个 run 的节点级数据在改前已被 rm 销毁（不可恢复），
+# 本改动只保护之后的 run。
+ARCHIVE="$STAGE/checkpoints/archive/sm-${QID}-$(date +%Y%m%d-%H%M%S)"
+mkdir -p "$ARCHIVE"
+for f in "$STAGE/checkpoints/sm-${QID}-r"* \
+         "$STAGE/runs-s5-sm-${QID}.json" \
+         "$STAGE/runs-s5-sm-${QID}-synth.json" \
+         "$STAGE/runs-s5-sm-${QID}-checkpoint.json"; do
+  [ -e "$f" ] && mv "$f" "$ARCHIVE/"
+done
+echo "[clean] archived ${QID} ckpt/output files → $ARCHIVE"
 
 # ── 跑 SM（SM_SEED=42 固定，前台，无超时——由 CC 会话看门）──
 # 注意：不用 `if ! cmd; then RC=$?`——`!` 反转退出码，then 里 $? 是 0 不是 cmd 的 rc（T2 测试暴露）
