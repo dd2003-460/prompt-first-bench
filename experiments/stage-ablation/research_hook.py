@@ -345,7 +345,15 @@ def _ddg_search(query, max_results=3):
     lite.duckduckgo.com/lite/ 对 GPU 价格/功耗/TCO 这类非学术事实有效。
     有 anomaly 限流——重试一次（间隔 4s），仍被拦则静默返回 []。
     D34: 长 query 先瘦身再查（_slim_query），失败退回原 query 再试一轮。
-    返回 [{title, url, snippet}, ...]"""
+    返回 [{title, url, snippet}, ...]
+    2026-11-20: 快失败（同 _webllm 的 WEBLLM-BROKEN 模式）——DDG lite 在
+    TLS 层拒连（rc=35，2026-11-20 实测直连+7890代理都死，同代理下
+    wikipedia/arxiv 正常=站级封锁非代理问题）时，每次调用白烧
+    ~40s（2 query × 2 次 × 8s SSL 失败 + sleep）。连续 2 次失败后
+    本进程内跳过 DDG，不再重试。"""
+    global _ddg_fail_streak
+    if _ddg_fail_streak >= 2:
+        return []
     import urllib.request, time as _time, html as _html
     if not _probe_network():
         return []
@@ -392,6 +400,12 @@ def _ddg_search(query, max_results=3):
                     _time.sleep(2)
         if results:
             break
+    if results:
+        _ddg_fail_streak = 0
+    else:
+        _ddg_fail_streak += 1
+        if _ddg_fail_streak == 2:
+            print(f"  [DDG-BROKEN] consecutive failures, skipping future DDG calls this run", file=sys.stderr)
     return results
 
 def _webfetch_page(url, title_hint="", timeout=20):
@@ -457,6 +471,7 @@ _LOCAL_CORPUS_DIRS = [
 # 探测结果缓存 60s，不健康时跳过所有公网通道（降级到 KB + 本地语料）。
 _network_healthy = True
 _network_probe_at = 0.0
+_ddg_fail_streak = 0  # 2026-11-20: DDG 快失败计数（连续失败≥2 本进程内跳过）
 _NETWORK_PROBE_TTL = 60  # 秒
 
 def _probe_network():
