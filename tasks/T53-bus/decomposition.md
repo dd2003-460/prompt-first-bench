@@ -76,7 +76,7 @@ post-62-runs
 | T5 | B1 | parent_ids 持久化修复 | 62 run done（不动在跑代码） | 待 62 run |
 | T6 | B2 | KB staging → corpus（6 卡 mv） | 62 run done | 待 62 run |
 | T7 | C1 | SM 重构: 推理/计算分离 | 62 run done + B1 | 待 62 run |
-| T8 | C2 | 条件集 C schema 设计 | 无（可并行） | 可现在做 |
+| T8 | C2 | 条件集 C schema 设计 | 无（可并行） | **已完成（11-21）**：kt-framework-v1.1 补 C schema（type/source/sensitivity/drift_sensitive + 三分类机判 + 完备性检验）；待 62-run 回填验证 |
 | T9 | D1 | 62 run 全量 K^t 复测 | 62 run done | 待 62 run |
 | T10 | D2 | 微架构效率测量方案调研 | 无 | 可现在做 |
 | T11 | E1 | general 改法实验（新 goal） | T7 | 待 T7 |
@@ -85,6 +85,6 @@ post-62-runs
 ## 空缺清单
 - [ ] A4: DESIGN.md 假设清单 [待核验]
 - [ ] C1: 验收判据（f(H) 节点数 ≈ 14）[待设计]
-- [ ] C2: 条件集 schema [待设计]
+- [x] C2: 条件集 schema [已定 v1.1，待 62-run 回填验证]
 - [ ] E1: 目标函数正交维度完备性 [待核验]
 - [ ] D2: 业界 SM 级效率模型 [待调研]
