@@ -26,7 +26,7 @@ def latest_nodes(run, n):
     return nodes[:n]
 
 
-def probe(run, n):
+def probe(run, n, compact=False):
     nodes = latest_nodes(run, n)
     now = time.time()
     # 实时健康信号: 当前 run 的 sm.log mtime (秒级更新, 比 checkpoint 可靠)
@@ -40,9 +40,15 @@ def probe(run, n):
         log_name = os.path.basename(newest)
         log_s = f'{int(log_age)//60}m{int(log_age)%60:02d}s'
         health = 'LIVE' if log_age < 120 else ('SLOW' if log_age < 1800 else 'DEAD?')
-        print(f'\n[{run}] sm.log {log_name} {log_s} ago → {health}')
+        if compact:
+            print(f'{run}|{log_name}|{int(log_age)}s|{health}', end='')
+        else:
+            print(f'\n[{run}] sm.log {log_name} {log_s} ago → {health}')
     if not nodes:
-        print(f'  (无 checkpoint 节点 — 可能轮次中间未落盘, 看 sm.log 判健康)')
+        if compact:
+            print('|-|0|NO_CKPT')
+        else:
+            print(f'  (无 checkpoint 节点 — 可能轮次中间未落盘, 看 sm.log 判健康)')
         return
     # 状态分布 (全量)
     dirs = glob.glob(os.path.join(CKPT, f'sm-{run}-r*'))
@@ -56,6 +62,9 @@ def probe(run, n):
                 total += 1
             except Exception:
                 pass
+    if compact:
+        print(f'|n={total}|' + ' '.join(f'{k}:{v}' for k, v in sorted(dist.items())))
+        return
     dist_str = ' '.join(f'{k}:{v}' for k, v in sorted(dist.items()))
     print(f'\n[{run}] 总节点 {total} | 状态 {dist_str}')
     for mt, f in nodes:
@@ -75,11 +84,18 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--n', type=int, default=5, help='每 run 采样节点数')
     ap.add_argument('--run', default=None, help='只看指定 run (gpu/nat/soc)')
+    ap.add_argument('--compact', action='store_true',
+                    help='每 run 一行 run|log|age|health (供定时抽查留痕)')
     a = ap.parse_args()
     runs = [a.run] if a.run else ['gpu', 'nat', 'soc']
-    print(f'=== 节点抽查 {time.strftime("%H:%M:%S")} ===')
+    if a.compact:
+        print(time.strftime('%H:%M:%S'), end=' ')
+    else:
+        print(f'=== 节点抽查 {time.strftime("%H:%M:%S")} ===')
     for r in runs:
-        probe(r, a.n)
+        probe(r, a.n, compact=a.compact)
+        if not a.compact:
+            print()
 
 
 if __name__ == '__main__':
