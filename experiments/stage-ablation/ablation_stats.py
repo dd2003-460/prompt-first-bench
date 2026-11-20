@@ -9,6 +9,14 @@
 - 口径限定：judge 族 qwen3.8-27b ×1, non-IRR；seed=42
 
 用法: python3 ablation_stats.py [--out ablation-stats.md]
+
+机判边界（SOP verification-sop.md §6）：
+- 能验：coverage/depth 数值复算（mean/SE/95%CI 从 run 文件重算）、
+  (qid,arm) 分组、同题内 Δ 口径、缺口/blocked 对账（done 但无数据）。
+- 不能验：judge 打分本身是否正确（语义级重判需异族 judge 或人工）、
+  coverage/depth 是否真反映 rubric 构念效度（相对 qwen3.8-27b 单 judge，
+  non-IRR，同族无隔离价值——见 §2）、统计显著性（n<8 时本脚本只报
+  点估计+区间+功效不足，不打方向/显著标签，见 §3）。
 """
 import argparse, json, os, math, re, sys
 from collections import defaultdict
@@ -59,6 +67,7 @@ def main():
 
     # 缺口：cc-state done 但 results 无
     missing = []
+    blocked = []
     if os.path.exists(CC_STATE):
         s = json.load(open(CC_STATE))
         pat = re.compile(r"^(nat|soc|gpu)_(formula|text)_r(\d{2})$")
@@ -70,13 +79,17 @@ def main():
                 continue
             key = f"{m.group(1)}_{m.group(2)}_r{m.group(3)}"
             if key not in best:
-                missing.append(key)
+                # 2026-11-20: blocked 第三态——卡死跳过（非完成）与真完成漏记分开报
+                (blocked if wu.get("blocked") else missing).append(key)
 
     lines = []
     lines.append("# T53b 统计汇总")
     lines.append("")
     lines.append(f"生成: {datetime.now(timezone.utc).astimezone().isoformat(timespec='seconds')}")
     lines.append(f"口径: per-run 聚合 | judge 族 qwen3.8-27b ×1 (non-IRR) | seed=42")
+    # SOP verification-sop.md §4 口径限定：tie-break + gold 参照系
+    lines.append("口径限定: tie-break 无（coverage/depth 为连续比例，非排名）| "
+                 "gold 参照系: rubric gold points（相对该 rubric，非绝对构念效度）")
     lines.append(f"已记录 run: {len(best)} / 60 | 缺口: {len(missing)}")
     lines.append("")
 
@@ -129,9 +142,14 @@ def main():
         (nf, cf, df_), (nt, ct, dt_) = row["formula"], row["text"]
         if cf is not None and ct is not None:
             dc, dd = cf - ct, (df_ - dt_) if (df_ is not None and dt_ is not None) else float("nan")
+            # SOP verification-sop.md §3: n<8 禁方向/显著标签（n=3 bootstrap CI 退化，
+            # 精确符号检验最小双侧 p=0.25）——只报点估计+区间+功效不足声明
+            if min(nf, nt) < 8:
+                verdict = f"功效不足（n_f={nf}, n_t={nt}）"
+            else:
+                verdict = "formula 优" if dc > 0 else ("text 优" if dc < 0 else "平")
             lines.append(
-                f"| {qid} | {nf} | {nt} | {dc:+.3f} | {dd:+.3f} "
-                f"| {'formula 优' if dc > 0 else ('text 优' if dc < 0 else '平')} |")
+                f"| {qid} | {nf} | {nt} | {dc:+.3f} | {dd:+.3f} | {verdict} |")
         else:
             lines.append(f"| {qid} | {nf} | {nt} | — | — | 数据不足 |")
     lines.append("")
@@ -156,6 +174,13 @@ def main():
         lines.append("## 缺口（cc-state done 但 results 无记录）")
         lines.append("")
         for k in missing:
+            lines.append(f"- {k}")
+        lines.append("")
+
+    if blocked:
+        lines.append("## blocked（卡死跳过，非完成——不计入 62/62 完成数）")
+        lines.append("")
+        for k in blocked:
             lines.append(f"- {k}")
         lines.append("")
 
