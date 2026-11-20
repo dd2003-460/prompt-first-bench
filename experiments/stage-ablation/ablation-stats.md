@@ -1,8 +1,8 @@
 # T53b 统计汇总
 
-生成: 2026-11-20T13:21:23+08:00
+生成: 2026-11-20T13:23:38+08:00
 口径: per-run 聚合 | judge 族 qwen3.8-27b ×1 (non-IRR) | seed=42
-已记录 run: 16 / 60 | 缺口: 2
+已记录 run: 16 / 60 | 缺口: 0
 
 ## nat
 
@@ -25,12 +25,17 @@
 | formula | 10 | 0.100±0.023 | [0.049,0.151] | 0.342±0.042 | [0.246,0.438] | r01d,r02c,r03c,r04d,r05c,r05d,r07d,r09c,r10c,r10d |
 | text | 1 | 0.067±nan | [nan,nan] | 0.393±nan | [nan,nan] | — |
 
+## 消融对比（主口径：同题内 Δ = formula − text）
+
+| 题 | n_f | n_t | Δcoverage | Δdepth | 方向 |
+|---|---|---|---|---|---|
+| nat | 4 | 0 | — | — | 数据不足 |
+| soc | 1 | 0 | — | — | 数据不足 |
+| gpu | 10 | 1 | +0.033 | -0.051 | formula 优 |
+
+注: 跨题绝对 coverage/depth 不可直接比较（rubric 粒度差异），上表 Δ 才是消融结论口径。
+
 ## r7 复现（gpu 题 L1 不确定性维度）
 l1_uncertainty=true 的轮次: 1/10 [7]
 判据: ≥3 轮 → FAIL/待数据
-
-## 缺口（cc-state done 但 results 无记录）
-
-- gpu_text_r04
-- gpu_text_r05
 

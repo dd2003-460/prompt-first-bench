@@ -109,6 +109,35 @@ def main():
                 f"| {dm:.3f}±{ds:.3f} | [{dl:.3f},{dh:.3f}] | {','.join(hi) or '—'} |")
         lines.append("")
 
+    # 消融主口径：同题内 formula vs text 差值（跨题绝对值不可比——
+    # rubric 粒度不同: nat 6pt/19层, soc 7pt/24层, gpu 38pt/122层,
+    # 细粒度子项多 → overall 天然偏低）
+    lines.append("## 消融对比（主口径：同题内 Δ = formula − text）")
+    lines.append("")
+    lines.append("| 题 | n_f | n_t | Δcoverage | Δdepth | 方向 |")
+    lines.append("|---|---|---|---|---|---|")
+    for qid in QIDS:
+        row = {}
+        for arm in ARMS:
+            rs = [best[f"{qid}_{arm}_r{i:02d}"] for i in range(1, 11)
+                  if f"{qid}_{arm}_r{i:02d}" in best]
+            covs = [r["coverage"] for r in rs if r.get("coverage") is not None]
+            deps = [r["depth"] for r in rs if r.get("depth") is not None]
+            row[arm] = (len(rs),
+                        sum(covs) / len(covs) if covs else None,
+                        sum(deps) / len(deps) if deps else None)
+        (nf, cf, df_), (nt, ct, dt_) = row["formula"], row["text"]
+        if cf is not None and ct is not None:
+            dc, dd = cf - ct, (df_ - dt_) if (df_ is not None and dt_ is not None) else float("nan")
+            lines.append(
+                f"| {qid} | {nf} | {nt} | {dc:+.3f} | {dd:+.3f} "
+                f"| {'formula 优' if dc > 0 else ('text 优' if dc < 0 else '平')} |")
+        else:
+            lines.append(f"| {qid} | {nf} | {nt} | — | — | 数据不足 |")
+    lines.append("")
+    lines.append("注: 跨题绝对 coverage/depth 不可直接比较（rubric 粒度差异），上表 Δ 才是消融结论口径。")
+    lines.append("")
+
     # r7 复现检查
     gpu_l1 = [i for i in range(1, 11)
               if f"gpu_formula_r{i:02d}" in best and best[f"gpu_formula_r{i:02d}"].get("l1_uncertainty")]
