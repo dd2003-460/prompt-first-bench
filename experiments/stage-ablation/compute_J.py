@@ -168,6 +168,88 @@ def cov_gold(nodes: list[dict], qid: str):
     return covered / len(GOLD[qid]), hits
 
 
+def cov_gold_v2(nodes: list[dict], qid: str):
+    """GOLD v2 覆盖率（G9 审计后，2026-11-20）。
+
+    规则（g9-gold-v2-design.md）：
+    - 子项（parent 非空）covered 时归父命中，不单独计分
+    - examples 拼进 judge 维度描述（本题实例），不计分
+    - meta 作为附加要求列在 prompt 尾部，命中不计 C
+    - soc chain：逐环节问"答案是否完整走到这一环"，链完整度 = 走到/总环节
+    返回 (cov, per_dim_hits, chain_hits) 或 None。
+    """
+    from s8b_pilot import GOLD_V2
+    from ablation_harness import call_llm
+    if qid not in GOLD_V2:
+        return None
+    spec = GOLD_V2[qid]
+    leaves = [n for n in nodes if str(n.get("level", "L0")).lstrip("L") != "1"]
+    leaf_claims = [(n.get("id"), (n.get("corrected_claim") or n.get("claim") or "")[:200]) for n in leaves]
+    if not leaf_claims:
+        return None
+    leaf_block = "\n".join(f"{i}: {c}" for i, c in leaf_claims)
+    meta_block = ("\n\n附加要求（不计分，仅供 judge 参考答案质量）：\n"
+                  + "\n".join(f"- {m}" for m in spec.get("meta") or [])) if spec.get("meta") else ""
+
+    # 计分维度 = 无 parent 的 dims
+    score_dims = [d for d in spec["dims"] if not d.get("parent")]
+    # 子项 → 父 映射
+    children = {}
+    for d in spec["dims"]:
+        if d.get("parent"):
+            children.setdefault(d["parent"], []).append(d)
+
+    covered = 0
+    hits = {}
+    for dim in score_dims:
+        desc = dim["text"]
+        if dim.get("examples"):
+            desc += "\n本题实例：" + "；".join(dim["examples"])
+        for child in children.get(dim["id"], []):
+            desc += f"\n（含子项：{child['text']}）"
+        prompt = (
+            "下面是一道题的标准答案维度之一，和一棵分解树的叶子列表。\n"
+            f"标准维度：{desc[:400]}\n\n"
+            f"叶子列表：\n{leaf_block[:4000]}\n\n"
+            '问：这些叶子中有没有任何一个【实质覆盖】了该标准维度（回答该维度需要的核心内容在某个叶子里出现）？'
+            '同义改写但缺核心数据的不算；沾边不深入的不算。\n'
+            f'只输出 JSON：{{"covered": true/false, "leaf_id": "覆盖它的叶子id或null"}}{meta_block}'
+        )
+        out, _ = call_llm(prompt, max_tokens=150, temperature=0)
+        m = re.search(r'\{.*?\}', out or "", re.S)
+        try:
+            dd = json.loads(m.group()) if m else {}
+            ok = bool(dd.get("covered"))
+            covered += ok
+            hits[dim["id"]] = dd.get("leaf_id") if ok else None
+        except Exception:
+            hits[dim["id"]] = None
+
+    cov = covered / len(score_dims) if score_dims else None
+
+    # 链完整度（soc）
+    chain_hits = None
+    if spec.get("chain"):
+        chain_hits = {}
+        for li, link in enumerate(spec["chain"]):
+            prompt = (
+                "下面是一道题答案应走的推理链环节之一，和一棵分解树的叶子列表。\n"
+                f"环节：{link}\n\n"
+                f"叶子列表：\n{leaf_block[:4000]}\n\n"
+                '问：这棵树的叶子是否【完整走到】了该环节（有实质内容支撑，不是只点名）？\n'
+                '只输出 JSON：{"reached": true/false, "leaf_id": "支撑叶子id或null"}'
+            )
+            out, _ = call_llm(prompt, max_tokens=120, temperature=0)
+            m = re.search(r'\{.*?\}', out or "", re.S)
+            try:
+                dd = json.loads(m.group()) if m else {}
+                chain_hits[link.split()[0]] = dd.get("leaf_id") if dd.get("reached") else None
+            except Exception:
+                chain_hits[link.split()[0]] = None
+
+    return cov, hits, chain_hits
+
+
 def compute(run_path: str, oracle_path=None, qid: str = "gpu", use_llm: bool = True) -> dict:
     d = json.load(open(run_path))
     nodes = d["nodes"]

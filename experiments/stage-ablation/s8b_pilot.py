@@ -109,6 +109,63 @@ GOLD = {
     ],
 }
 
+# ── GOLD v2（G9 独立性审计后，2026-11-20；设计见 g9-gold-v2-design.md）──
+# 结构：dims（进 C 项计分；parent 非空 = 子项，covered 归父不单独计）
+#       + examples（题面实例，judge 上下文不计分）
+#       + meta（rubric 层要求，judge 附加要求不计 C）
+#       + chain（soc 链式环节；C 项 = 维度乘积 × 链完整度）
+GOLD_V2 = {
+    "nat": {
+        "dims": [
+            {"id": "g0", "text": "Zipf/Pareto 累积质量估算 LRU 命中率（头部 k% 对象承载大部分请求）",
+             "examples": ["α=1.1 接近临界 → 容量利用率对头部集中度敏感，128GB 能覆盖的头部比例决定命中率量级"]},
+            {"id": "g1", "text": "更新率 1%/天 的完整推导：LFU 频率表老化限制策略优势上限 + 有效驻留时间 ~100 天量级，折扣幅度需推导而非拍脑袋",
+             "examples": []},
+            {"id": "g2", "text": "大小-热度负相关 → 按字节命中率 ≠ 按请求命中率，口径分开报", "examples": []},
+            {"id": "g3", "text": "明确标注哪些数字是估算、哪些是假设（如 miss 惩罚、对象不可分割性）", "examples": []},
+        ],
+        "meta": [],
+        "chain": None,
+    },
+    "soc": {
+        "dims": [
+            {"id": "s0", "text": "现象 A（挂价高+成交快）的解释候选：信号理论/锚定/比价成本，且给出区分依据", "examples": []},
+            {"id": "s1", "text": "现象 B（降价无咨询）的解释候选：负面信号/行为滞后/等待更低锚点，且给出区分依据", "examples": []},
+        ],
+        "meta": [],
+        "chain": [
+            "L1 假设链起点：生存压力（金钱资源=定向）+ 偏好噪声（随机演化残留），不跳级",
+            "L2 两个现象同一假设的解释力评估（哪条链同时覆盖两者，哪条只覆盖一个）",
+            "L3 利益相关方判定有依据（谁的行为变了、谁的收益结构变了），不只点名",
+            "L4 最小干预方案 + 明确受害者",
+            "L5 每个关键断言带置信度，低置信显式标出",
+        ],
+    },
+    "gpu": {
+        "dims": [
+            {"id": "g0", "text": "四卡 VRAM 门槛：5090=32GB / 4090=24GB / L40S=48GB / A100-40=40GB，BF16 54GB 全部装不下", "examples": []},
+            {"id": "g1", "text": "Roofline decode 公式 tokens/s ≈ BW/bytes_per_token，给出具体数值（5090≈33, A100≈29, L40S≈16 tok/s 量级）", "examples": []},
+            {"id": "g2", "text": "INT8 后权重 ~27GB：5090 可装、4090 仍紧张、L40S/A100 可装；INT8 roofline 重算（5090≈66 tok/s 上限）", "examples": []},
+            {"id": "g3", "text": "Prefill 算力瓶颈（FLOPs/TFLOPS/MFU）vs decode 带宽瓶颈——两阶段约束不同不混谈", "examples": []},
+            {"id": "g4", "text": "KV cache 精确估算（~27B GQA: 32层×8 KV头×128维×2(K+V)×2字节×32K ctx ≈ 4GB）或指出 KV 对显存余量的影响", "examples": []},
+            {"id": "g5", "text": "缓存命中率/前缀复用对实际吞吐的影响（重复 prompt 下 decode 跳过部分 prefill）", "examples": []},
+            {"id": "g6", "text": "TCO 完整公式：c_hour = (卡价 + 主机 − 残值)/H + 功耗×电价×u + 故障损耗/H，不只报卡价", "examples": []},
+            {"id": "g7", "text": "电费独立计算（TDP 350W/250W × 电价 × 占空比），不笼统一笔带过", "parent": "g6", "examples": []},
+            {"id": "g8", "text": "故障损耗独立项（三年故障概率 × 卡价 / H），不被 TCO 公式吞掉", "parent": "g6", "examples": []},
+            {"id": "g9", "text": "有效利用率 u = 占空比 × 调度效率的分解，非单一数字", "examples": []},
+            {"id": "g10", "text": "并发流数 S 双闸：速度闸 S ≤ t_max·BW/(bytes/tok) vs 显存闸 S ≤ VRAM/KV_bytes，取 min", "examples": []},
+            {"id": "g11", "text": "市场价格波动敏感性：GDDR7/HBM 供应紧张致同型号价差 2-3x，选卡对采购时点敏感", "examples": []},
+            {"id": "g12", "text": "云租 vs 自建分水岭 = 利用率阈值（低占空比时 $0.22–0.50/h 云租低于自建 TCO），定量/半定量判断", "examples": []},
+            {"id": "g13", "text": "SHARED 参数交互：量化同时改变成本↓和通过率↑，两方向分开讨论", "examples": []},
+        ],
+        "meta": [
+            "每个关键数字标注来源（刚查到的 vs 凭记忆的），不确定标 [待核验]",
+            "最终推荐必须是条件性的（在什么利用率/电价/采购时点下哪张卡最优），不给无条件排名",
+        ],
+        "chain": None,
+    },
+}
+
 # ── 臂 prompt ─────────────────────────────────────────────────────────
 def build_prompt(arm: str, qid: str) -> str:
     q = QUESTIONS[qid]
