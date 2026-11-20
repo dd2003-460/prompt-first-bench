@@ -54,3 +54,11 @@
 - 修复：clean 改 mv 归档到 checkpoints/archive/sm-{qid}-<ts>/（commit 446fb0494），防 resume 污染效果不变
 - 损失：已完成 23 run 的节点级数据不可恢复；judge 分 + 最终 answer 安全（ablation-runs/ 持久化）
 - 04-verify 影响：节点级细查只能覆盖归档后的 run；跨 run 节点质量对比样本不全，结论需标注
+
+## 2026-11-20 19:55 · 占位符 evidence 57% + verified 膨胀（04-verify 必须处理）
+- 现象：154 节点抽查，57% evidence = "先验知识/题面给定，逻辑校验通过"（占位符），其中 71/88 标 verified
+- 因果链：DDG fast-fail 生效 → 检索通道缩水 → judge 退化为自洽性检查 → formula 臂公式"自推自"过 verified
+- Δ 污染：formula 臂 verified 率高可能源于"公式更易自洽"而非"公式更好"；text 臂经验断言无法自洽只能 degraded
+- 04-verify 处置：统计维度加第三个——evidence 来源（外部检索 vs 先验占位）；Δ 只在"有外部 evidence"的子集上算主口径，全量口径单列
+- 对照缺口：已完成 23 run 的节点级数据已丢失（checkpoint 事故），占位符率的历史基线无法回查——本条是首个可测点
+- 附带观察：nat text 臂也在生成公式（H_effective 全概率分解），两臂区分度可能小于预期
