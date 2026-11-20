@@ -91,7 +91,7 @@ if (( MT < T0 )); then
 fi
 
 # ── copy + judge + 记账 + note + state（一次性 python，只信本 run 文件）──
-RUN="$RUN" QID="$QID" ARM="$ARM" ROUND="$ROUND" SRC="$SRC" python3 - <<'PYEOF'
+RUN="$RUN" QID="$QID" ARM="$ARM" ROUND="$ROUND" SRC="$SRC" T0="$T0" python3 - <<'PYEOF'
 import json, os, shutil, sys, glob
 from datetime import datetime
 STAGE = "experiments/stage-ablation"
@@ -123,14 +123,20 @@ if answer:
     depth = judge_result.get("overall", depth)
     print(f"[judge] overall={depth}")
 
-# 节点统计 + L1 判据（读本 run 的 checkpoint 最新文件；claim 全文含关键词）
+# 节点统计 + L1 判据（2026-11-20 修复：改读 non-synth 终盘文件——
+# 它带完整 nodes 数组；旧逻辑 glob checkpoints/sm-{qid}-r*.json 只匹配
+# 旧单文件格式，11-18 起 SM 写树形目录（sm-{qid}-r{rnd}/），glob 永远
+# 匹配不到 → l1_uncertainty 恒 False，r7 复现判据被系统性判 FAIL。
+# mtime ≥ T0 防读到上一 run 的旧文件（同 qid 串行覆盖）。）
 n_nodes = run_data.get("n_nodes", 0)
 n_verified = n_degraded = 0
 l1_unc = False
-ckpts = sorted(glob.glob(f"{STAGE}/checkpoints/sm-{QID}-r*.json"))
-if ckpts:
-    ck = json.load(open(ckpts[-1]))
-    nodes = ck.get("nodes", [])
+nodes_src = f"{STAGE}/runs-s5-sm-{QID}.json"
+T0 = int(os.environ.get("T0", "0"))
+if os.path.exists(nodes_src) and int(os.stat(nodes_src).st_mtime) >= T0:
+    nd = json.load(open(nodes_src))
+    nodes = nd.get("nodes", [])
+    n_nodes = len(nodes) or n_nodes
     n_verified = sum(1 for n in nodes if n.get("status") == "verified")
     n_degraded = sum(1 for n in nodes if n.get("status") == "degraded")
     for n in nodes:
@@ -141,6 +147,12 @@ if ckpts:
             if any(k in claim for k in ["横切", "作用于", "cross-cut", "affect"]):
                 l1_unc = True
                 break
+    # nodes 写进存档（自包含，事后复核 l1 判据不用依赖现场文件）
+    run_data["nodes"] = nodes
+    with open(dst, "w") as f:
+        json.dump(run_data, f, ensure_ascii=False, indent=2)
+else:
+    print(f"[WARN] nodes 源文件缺失/过旧: {nodes_src} — l1 判据不可信", flush=True)
 
 # results（去重后追加，防双记账）
 results = json.load(open(RESULTS)) if os.path.exists(RESULTS) else {"runs": []}
