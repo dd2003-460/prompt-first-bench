@@ -8,7 +8,8 @@
 - [ ] 62 run 全部 done（当前 13/62 有数据，4 回滚重跑 + 45 排队，估 6-7h）
 - [ ] ablation-results.json 完整 + commit
 - [ ] watchdog 日志无连续 SM stale kill（监控中）
-- [x] **死因诊断修正（2026-11-20 14:08，推翻 13:50 的"残余风险"判断）**：13:50 记的"E18 退避 sleep 被 1800s 误杀"是误诊。实证：① retry 行确实写进 sm.log（502 重试日志），若卡退避 sleep 日志 mtime 会新鲜，stale 不会触发；② 被 kill 的 run（soc_formula_r02/gpu_formula_r09）死前日志尾部是 CACHE-HIT / verify 输出，不是 retry 行；③ watchdog 报"无子进程无连接"= CPU 采样也没涨。真实死因：SM 在纯 Python 处理阶段（cache/verify）CPU 冻结 30min+ = 真挂死，watchdog kill 是**正确行为非误杀**。根因在 SM 代码纯 Python 路径（死循环/死锁候选），收口时若复发用 py-spy 栈定位具体函数。
+- [x] **py-spy 抓栈工具链在 macOS 上失效（2026-11-20 14:12 验证）**：`py-spy dump --pid <活SM>` 返回 "This program requires root on OSX"。watchdog 13:34 加的抓栈逻辑会静默失败（错误写进 dump 文件，无"已抓栈"日志）。后台进程不能加 sudo（密码提示会挂住）。结论：栈诊断不可用，死因定位依赖日志证据（已足够：死前最后一行 = CACHE-HIT/verify 输出）。
+- [x] **死因诊断修正（2026-11-20 14:08，推翻 13:50 的"残余风险"判断）**：13:50 记的"E18 退避 sleep 被 1800s 误杀"是误诊。实证：① retry 行确实写进 sm.log（502 重试日志），若卡退避 sleep 日志 mtime 会新鲜，stale 不会触发；② 被 kill 的 run（soc_formula_r02/gpu_formula_r09）死前日志尾部是 CACHE-HIT / verify 输出，不是 retry 行；③ watchdog 报"无子进程无连接"= CPU 采样也没涨。真实死因：SM 在纯 Python 处理阶段（cache/verify）CPU 冻结 30min+ = 真挂死，watchdog kill 是**正确行为非误杀**。根因在 SM 代码纯 Python 路径（死循环/死锁候选）。
 
 ## 目标
 T53b 62 个消融 run 全部跑完并收口；验证 SSL 卡死修复（_probe_network）+ watchdog SM stale 检测在实际运行中有效，无复发。
