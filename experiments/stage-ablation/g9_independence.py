@@ -17,7 +17,7 @@ G 不正交 → C 双重计数或漏计 → 乘积语义歪。本脚本做 G 的
 
 用法: python3 g9_independence.py [--qids gpu,nat,soc] [--workers 3]
 """
-import argparse, itertools, json, os, sys
+import argparse, itertools, json, os, re, sys
 from datetime import datetime, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -52,29 +52,53 @@ PROMPT = """你是本体论审计员。下面是一道题的两个 gold 评分�
   "confidence": 0.0-1.0}}"""
 
 
+def robust_parse(out: str):
+    """剥 ```json fence + 找完整对象；截断时逐字段救回 verdict。"""
+    if not out:
+        return None
+    t = out.strip()
+    t = re.sub(r"^```(?:json)?\s*", "", t)
+    t = re.sub(r"\s*```$", "", t)
+    m = re.search(r"\{.*\}", t, re.S)
+    if m:
+        try:
+            return json.loads(m.group())
+        except Exception:
+            pass
+    d = {}
+    for key in ("verdict", "counterexample", "mechanism", "layer", "confidence"):
+        mm = re.search(rf'"{key}"\s*:\s*("(?:[^"\\]|\\.)*"|\d+(?:\.\d+)?|null)', t)
+        if mm:
+            v = mm.group(1)
+            if v == "null":
+                d[key] = None
+            elif v.startswith('"'):
+                try:
+                    d[key] = json.loads(v)
+                except Exception:
+                    d[key] = v.strip('"')
+            else:
+                d[key] = float(v) if "." in v else int(v)
+    return d if d.get("verdict") else None
+
+
 def check_pair(qid: str, gi: int, di: str, gj: int, dj: str) -> dict:
     q = QUESTIONS.get(qid, "")
     prompt = PROMPT.format(question=q[:800], dim_i=di, dim_j=dj)
-    out, _ = call_llm(prompt, max_tokens=400, temperature=0, retries=2)
-    import re
-    m = re.search(r"\{.*\}", out or "", re.S)
+    out, _ = call_llm(prompt, max_tokens=2000, temperature=0, retries=2)
     rec = {"i": gi, "j": gj, "dim_i": di[:60], "dim_j": dj[:60]}
-    if m:
-        try:
-            d = json.loads(m.group())
-            rec.update({
-                "verdict": d.get("verdict", "未解析"),
-                "counterexample": d.get("counterexample"),
-                "mechanism": d.get("mechanism"),
-                "layer": d.get("layer"),
-                "confidence": d.get("confidence"),
-            })
-        except Exception:
-            rec["verdict"] = "未解析"
-            rec["raw"] = (out or "")[:200]
+    d = robust_parse(out)
+    if d:
+        rec.update({
+            "verdict": d.get("verdict", "未解析"),
+            "counterexample": d.get("counterexample"),
+            "mechanism": d.get("mechanism"),
+            "layer": d.get("layer"),
+            "confidence": d.get("confidence"),
+        })
     else:
         rec["verdict"] = "未解析"
-        rec["raw"] = (out or "")[:200]
+        rec["raw"] = (out or "")[:300]
     return rec
 
 
@@ -82,6 +106,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--qids", default="gpu,nat,soc")
     ap.add_argument("--workers", type=int, default=3)
+    ap.add_argument("--rerun-unparsed", action="store_true",
+                    help="只重跑已有 JSON 里 verdict==未解析 的对（省 LLM 调用）")
     args = ap.parse_args()
     qids = args.qids.split(",")
 
@@ -91,19 +117,27 @@ def main():
             print(f"[skip] {qid} 不在 GOLD", file=sys.stderr)
             continue
         dims = GOLD[qid]
-        n = len(dims)
-        pairs = list(itertools.combinations(range(n), 2))
-        print(f"[{qid}] {n} 维度 → {len(pairs)} 对", file=sys.stderr)
-        # 并发（8787 单实例，3 并发安全）
+        existing_path = os.path.join(HERE, f"g9-independence-{qid}.json")
+        existing = {}
+        if args.rerun_unparsed and os.path.exists(existing_path):
+            ex = json.load(open(existing_path))
+            existing = {(p["i"], p["j"]): p for p in ex["pairs"]
+                        if p["verdict"] != "未解析"}
+            print(f"[{qid}] 复用已解析 {len(existing)} 对", file=sys.stderr)
+        pairs = [(i, j) for i, j in itertools.combinations(range(len(dims)), 2)
+                 if (i, j) not in existing]
+        print(f"[{qid}] 待跑 {len(pairs)} 对", file=sys.stderr)
         from concurrent.futures import ThreadPoolExecutor
-        results = []
-        with ThreadPoolExecutor(max_workers=args.workers) as ex:
-            futs = {ex.submit(check_pair, qid, i, dims[i], j, dims[j]): (i, j)
-                    for i, j in pairs}
-            for fut in futs:
-                r = fut.result()
-                results.append(r)
-                print(f"  [{qid}] g{r['i']}-g{r['j']}: {r['verdict']}", file=sys.stderr)
+        results = list(existing.values())
+        if pairs:
+            with ThreadPoolExecutor(max_workers=args.workers) as ex:
+                futs = {ex.submit(check_pair, qid, i, dims[i], j, dims[j]): (i, j)
+                        for i, j in pairs}
+                for fut in futs:
+                    r = fut.result()
+                    results.append(r)
+                    print(f"  [{qid}] g{r['i']}-g{r['j']}: {r['verdict']}",
+                          file=sys.stderr)
         all_results[qid] = results
 
     # 落盘
