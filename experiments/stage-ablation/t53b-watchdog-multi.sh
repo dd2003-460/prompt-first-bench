@@ -122,6 +122,13 @@ for wu in s['work_units']:
               continue
             fi
             log "[$QID] SM stale: ${CUR_RUN} 日志 ${AGE}s 未更新 (pid ${SM_PID})，无子进程无连接，kill 恢复"
+            # 2026-11-20: kill 前抓 py-spy 栈——soc_formula_r02 三次卡死（CPU 冻结+无子进程
+            # +无 TCP+33min 无日志），进程死后无法事后诊断；抓栈落盘才能定位根因。
+            PYSPY="$HOME/Library/Python/3.9/bin/py-spy"
+            if [ -x "$PYSPY" ]; then
+              "$PYSPY" dump --pid "$SM_PID" > "/tmp/t53b/${CUR_RUN}.stale-dump.txt" 2>&1 \
+                && log "[$QID] 已抓栈 → /tmp/t53b/${CUR_RUN}.stale-dump.txt"
+            fi
             kill "$SM_PID" 2>/dev/null
             sleep 3
             if kill -0 "$SM_PID" 2>/dev/null; then
