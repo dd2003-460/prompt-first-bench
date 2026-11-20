@@ -14,7 +14,10 @@ PFB = os.path.abspath(os.path.join(STAGE, "..", ".."))
 CC_STATE = os.path.join(PFB, "tasks/T53-bus/cc-state.json")
 RESULTS = os.path.join(STAGE, "ablation-results.json")
 DRIVER = os.path.join(STAGE, "ablation_driver.sh")
-WATCHDOG = os.path.join(STAGE, "t53b-watchdog.sh")
+# 2026-11-20 修复: 实际在跑的是多路版 t53b-watchdog-multi.sh（pid 25886 实证）。
+# 旧单路 t53b-watchdog.sh 已废弃——pgrep "t53b-watchdog.sh" 匹配不到 "-multi.sh"，
+# T14 假 FAIL；T12/T13 也读错了文件（旧文件恰好含 SM_STALE 才蒙混过关）。
+WATCHDOG = os.path.join(STAGE, "t53b-watchdog-multi.sh")
 OUT = os.path.join(STAGE, "verify-results.json")
 
 sys.path.insert(0, STAGE)
@@ -99,7 +102,7 @@ except Exception as e:
 # ── T14: watchdog 进程存在 ──
 try:
     pids = [p for p in subprocess.run(
-        ["pgrep", "-f", "t53b-watchdog.sh"], capture_output=True, text=True
+        ["pgrep", "-f", "t53b-watchdog-multi.sh"], capture_output=True, text=True
     ).stdout.split() if p.strip()]
     record("T14", "watchdog 进程存在", "P0", len(pids) >= 1, f"pids={pids}")
 except Exception as e:
