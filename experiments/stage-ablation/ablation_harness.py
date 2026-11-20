@@ -489,17 +489,37 @@ def call_llm(prompt, max_tokens=LLM_MAX_TOKENS, timeout=LLM_TIMEOUT, retries=2, 
             # 2026-11-20 修复：urllib 的 timeout 不覆盖内部 read/select 路径，
             # 长 LLM 调用期间可能无限挂死（bench runner 同坑实证：A1_T2_r1 卡 7min
             # 超时未触发）。改用 curl -m 硬超时（OS 级，必触发）。
-            import subprocess as _sp
-            proc = _sp.run(
-                ["curl", "-s", "-m", str(timeout), "-X", "POST", LLM_URL,
-                 "-H", "Content-Type: application/json", "-d", payload.decode(),
-                 "-w", "\n%{http_code}"],
-                capture_output=True, timeout=timeout + 15,
-            )
-            if proc.returncode != 0:
-                raise ConnectionError(f"curl rc={proc.returncode} {proc.stderr[:100]}")
-            _body, _code = proc.stdout.decode().rsplit("\n", 1)
-            _code = int(_code)
+            # 2026-11-20 根因修复（r02 型卡死实锤，nat_formula_r05 活体 sample 栈）：
+            # capture_output=True 走 pipe，curl 被 -m 杀死退出后，CPython 3.9 的
+            # communicate() 进入"子进程已退出→stdout.read()"分支，该分支不受
+            # timeout 参数保护（timeout 只覆盖 select 等待阶段），pipe EOF 丢失时
+            # read() 无限阻塞——特征：CPU 0%、无子进程、无 TCP、日志停在 LLM 调用
+            # 前一行、0 条 retry 记录（还没走到 retry 逻辑就被卡死）。
+            # 改用临时文件替代 pipe：无 pipe 即无死锁，curl -m 仍是唯一超时源。
+            import subprocess as _sp, tempfile as _tf
+            _tmp = _tf.NamedTemporaryFile(prefix="t53llm_", suffix=".out", delete=False)
+            _tmp.close()
+            try:
+                proc = _sp.run(
+                    ["curl", "-s", "-m", str(timeout), "-X", "POST", LLM_URL,
+                     "-H", "Content-Type: application/json", "-d", payload.decode(),
+                     "-w", "\n%{http_code}", "-o", _tmp.name],
+                    capture_output=True, timeout=timeout + 15,
+                )
+                if proc.returncode != 0:
+                    raise ConnectionError(f"curl rc={proc.returncode} {proc.stderr[:100]}")
+                # -w 的输出在 stdout（-o 只接管 body），文件里只有 body
+                _code = proc.stdout.decode().strip()
+                with open(_tmp.name, "rb") as _f:
+                    _body = _f.read().decode()
+                if not _code.isdigit():
+                    raise ConnectionError(f"curl -w 异常输出: {proc.stdout[:100]!r}")
+                _code = int(_code)
+            finally:
+                try:
+                    os.unlink(_tmp.name)
+                except OSError:
+                    pass
             if _code >= 400:
                 # 构造带 .code 的异常，保持下方 4xx 直抛 / 5xx 无限重试的分支语义
                 import io as _io
