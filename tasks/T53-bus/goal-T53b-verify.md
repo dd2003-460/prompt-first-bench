@@ -1,6 +1,15 @@
 # T53b 验证与收口 Goal
 # origin: ai, 2026-11-20
 
+## 进度（2026-11-20 13:48）
+- [x] verify_checkpoints.py PASS（P0 全过 + P1 100%）—— 修了 T12/T13/T14 指向多路 watchdog 的 bug（旧脚本 pgrep 匹配不到 -multi.sh → T14 假 FAIL）。commit 已落。
+- [x] 回滚 4 个空 run 重跑（gpu_formula_r09/r10, gpu_text_r01, soc_formula_r02）—— 根因=旧 watchdog 180s 误杀 + E18 5xx 无限重试致 SM 挂住。现 1800s+活性检查已修。
+- [x] py-spy 已装（13:33），后续卡死可抓栈诊断
+- [ ] 62 run 全部 done（当前 13/62 有数据，4 回滚重跑 + 45 排队，估 6-7h）
+- [ ] ablation-results.json 完整 + commit
+- [ ] watchdog 日志无连续 SM stale kill（监控中）
+- [ ] **残余风险（2026-11-20 13:50 发现）**：1800s 阈值在 E18 无限重试 + curl 600s 超时组合下仍可能误杀。模式：8787 proxy 在上游 5xx 时可能挂住不立即返回 → curl 600s 超时 + 300s 退避 = 900s/周期 → 2 周期 = 1800s = kill。日志实证：7 次 kill 前都有多次"跳过 kill"（活性检查说有子进程），60s 内突然"无子进程无连接"（curl 子进程刚退出，SM 进入退避 sleep）。修复方向（收口时做）：① curl 超时 600→120s（缩短周期）；② watchdog 活性检查加"最近 5min 内有 curl 子进程启动过"判断（区分退避 sleep 和真卡死）。不影响正在跑的 62 run。
+
 ## 目标
 T53b 62 个消融 run 全部跑完并收口；验证 SSL 卡死修复（_probe_network）+ watchdog SM stale 检测在实际运行中有效，无复发。
 
