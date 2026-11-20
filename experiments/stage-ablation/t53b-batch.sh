@@ -80,7 +80,11 @@ s = json.load(open(cc_state))
 for wu in s['work_units']:
     if wu.get('name') == pending:
         wu['done'] = True
-        wu['note'] = (wu.get('note','') + ' | 批量执行器: 连续3次rc=' + rc + '，标记跳过').strip(' |')
+        # 2026-11-20: blocked 第三态——卡死跳过 ≠ 真完成。done=True 让选择器跳过
+        # （避免无限重试），blocked=True 让 stats 缺口检查区分"真完成"vs"卡死跳过"，
+        # 不再冒充 62/62 里的完成项。
+        wu['blocked'] = True
+        wu['note'] = (wu.get('note','') + ' | 批量执行器: 连续3次rc=' + rc + '，标记blocked跳过(非完成)').strip(' |')
         break
 json.dump(s, open(cc_state,'w'), ensure_ascii=False, indent=2)
 PYEOF
@@ -105,7 +109,8 @@ s = json.load(open(cc_state))
 for wu in s['work_units']:
     if wu.get('name') == pending:
         wu['done'] = True
-        wu['note'] = (wu.get('note','') + ' | 批量执行器: 失败 rc=' + rc + '，标记跳过').strip(' |')
+        wu['blocked'] = True  # 2026-11-20: 卡死/故障跳过 ≠ 真完成
+        wu['note'] = (wu.get('note','') + ' | 批量执行器: 失败 rc=' + rc + '，标记blocked跳过(非完成)').strip(' |')
         break
 json.dump(s, open(cc_state,'w'), ensure_ascii=False, indent=2)
 PYEOF

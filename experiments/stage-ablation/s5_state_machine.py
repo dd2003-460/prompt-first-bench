@@ -1660,6 +1660,12 @@ def synthesize_answer(question: str, nodes: list, qid: str) -> dict:
 if __name__ == "__main__":
     import os
     import sys
+    # 2026-11-20: 卡死诊断——SIGUSR1 dump 全线程 Python 栈到 stderr（免 root，
+    # py-spy 在 macOS 要 root 抓不了；watchdog kill 前先发 SIGUSR1）。
+    import faulthandler as _fh
+    import signal as _sig
+    _fh.register(_sig.SIGUSR1, file=sys.stderr, all_threads=True)
+    print("[T53 SM] faulthandler SIGUSR1 registered (stale-dump capable)", flush=True)
     from s5_pipeline import QUESTIONS
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     flags = [a for a in sys.argv[1:] if a.startswith("--")]

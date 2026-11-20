@@ -126,6 +126,18 @@ for wu in s['work_units']:
             # 改用系统自带 sample（同用户进程免 root，已验证可用）。Python 3.9 无符号，
             # 帧名是 ???，但 call graph 能区分 CPU 递归卡死 vs I/O 等待（实证：
             # 14:16 抓 nat_formula_r05，1392/1392 采样全在主线程递归链上）。
+            # 2026-11-20 升级: 先 SIGUSR1 触发 faulthandler dump 全线程 Python 栈
+            # 到 .sm.log（SM 入口已注册 faulthandler.register(SIGUSR1)），比 sample
+            # 的 ??? 帧能定位到具体 Python 行。sample 保留作 CPU 分布佐证。
+            # 门控: SIGUSR1 默认动作是终止进程——旧代码 SM（未注册 faulthandler）
+            # 收到会直接死，等于误杀。只有日志含注册标记（新代码进程）才发。
+            if grep -q "faulthandler SIGUSR1 registered" "$SM_LOG" 2>/dev/null; then
+              kill -USR1 "$SM_PID" 2>/dev/null
+              sleep 2
+              log "[$QID] 已发 SIGUSR1 抓 Python 栈 → ${SM_LOG} 尾部"
+            else
+              log "[$QID] SM 为旧代码进程（无 faulthandler 标记），跳过 SIGUSR1 防误杀"
+            fi
             if /usr/bin/sample "$SM_PID" 2 -file "/tmp/t53b/${CUR_RUN}.stale-sample.txt" >/dev/null 2>&1; then
               log "[$QID] 已抓 sample 栈 → /tmp/t53b/${CUR_RUN}.stale-sample.txt"
             fi
