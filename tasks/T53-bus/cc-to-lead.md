@@ -733,3 +733,24 @@ rc=143，连续3次，查 /tmp/t53b-batch-soc.log
 根因: 旧 watchdog 180s 阈值误杀(已修 1800s+活性检查)。4 个 run 被连续 3 次 rc=143 标记 done 跳过但无真实数据。
 回滚: gpu_formula_r09, gpu_formula_r10, gpu_text_r01, soc_formula_r02 → done=false
 batch 会自动捡起重跑。py-spy 已装(13:33)，后续卡死可抓栈诊断。
+## 批量执行器失败: nat_formula_r05 (2026-11-20 15:07:05)
+rc=137，查 /tmp/t53b-batch-nat.log
+
+## 批量执行器失败: gpu_text_r02 (2026-11-20 15:32:06)
+rc=143，连续3次，查 /tmp/t53b-batch-gpu.log
+
+## 批量执行器失败: gpu_formula_r06 (2026-11-20 15:41:03)
+rc=137，查 /tmp/t53b-batch-gpu.log
+
+## 批量执行器失败: nat_formula_r06 (2026-11-20 15:41:03)
+rc=137，查 /tmp/t53b-batch-nat.log
+
+## 批量执行器失败: soc_formula_r02 (2026-11-20 15:41:03)
+rc=137，查 /tmp/t53b-batch-soc.log
+
+## 批量执行器失败: soc_formula_r03 (2026-11-20 16:35:17)
+rc=1，查 /tmp/t53b-batch-soc.log
+
+## 批量执行器失败: nat_formula_r09 (2026-11-20 18:24:06)
+rc=1，查 /tmp/t53b-batch-nat.log
+
