@@ -81,6 +81,7 @@ post-62-runs
 | T10 | D2 | 微架构效率测量方案调研 | 无 | 可现在做 |
 | T11 | E1 | general 改法实验（新 goal） | T7 | 待 T7 |
 | T12 | E2 | webllm 效应配对实验 | 登录窗口 | 待登录 |
+| T13 | 管线固化 | 跑-存档-增量-继续跑 固化 | 无 | **已完成（11-21）**：pipeline_snapshot.py（幂等 manifest+delta，commit 882f754ca）+ 10min 后台循环（pid 26394）；跑/继续跑/存档现有管线已有，补的是"记录增量变化"环 |
 
 ## 空缺清单
 - [ ] A4: DESIGN.md 假设清单 [待核验]
