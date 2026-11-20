@@ -7,7 +7,7 @@
 - [x] py-spy 已装（13:33），后续卡死可抓栈诊断
 - [ ] 62 run 全部 done（当前 13/62 有数据，4 回滚重跑 + 45 排队，估 6-7h）
 - [ ] ablation-results.json 完整 + commit
-- [x] **04-verify 统计管线现在就绪（2026-11-20 14:25 smoke test）**：`ablation_stats.py` 已存在且口径正确——(qid,arm) 二维分组、同题内 Δ=formula−text 为主口径、标 rubric 粒度差异（nat 6pt/soc 7pt/gpu 38pt，跨题绝对值不可比）、95%CI 用 t 分布查表、r7 复现判据、缺口清单。16 run 中间态 smoke test 跑通（gpu formula n=10 cov=0.100±0.023，nat/soc 数据不足待补）。62 run 跑完直接 `python3 ablation_stats.py` 出报告，不用到时候再写/调试。
+- [x] **04-verify 统计管线现在就绪且对齐 verification-sop（2026-11-20 14:25 smoke test + 14:35 修 3 缺口）**：`ablation_stats.py` 口径正确——(qid,arm) 二维分组、同题内 Δ=formula−text 为主口径、标 rubric 粒度差异、95%CI t 分布、r7 复现判据、缺口/blocked 第三态（§8 done 对账已满足）。对照 SOP 8 条查出 3 缺口已修 commit：① §3 n<8 禁方向标签——消融对比"方向"列原按 dc>0 标"formula 优"不看 n（smoke test gpu n_t=1 就标了），现 min(nf,nt)<8 标"功效不足（n_f=, n_t=）"；② §4 口径限定——补 tie-break 无（连续比例非排名）+ gold 参照系=rubric gold points（相对非绝对构念效度）；③ §6 docstring 机判边界——能验（数值复算/分组/Δ口径/缺口对账）vs 不能验（judge 语义正确性/构念效度/显著性）。62 run 跑完直接 `python3 ablation_stats.py` 出报告。
 - [x] **中间态 n=10 含 3 条回滚残留旧记录，最终不受污染（2026-11-20 14:30 查清）**：results 里 gpu_formula_r09/r10、gpu_text_r01 三条 cc-state 未 done——正是回滚 4 个里还没重跑完的 3 个（soc_r02 已重跑完成）。特征：answer=0c、run_file 空、ts=11-19 旧批次 = 回滚前旧坏记录。无需动作：① driver 记账前先删同 (qid,arm,round) 旧记录再追加（ablation_driver.sh:158-161）→ 重跑完成自动覆盖；② ablation_stats.py 按最新 ts 去重 → 双重保险。唯一影响：中间态 smoke test 的 n=10 混了 3 条空答案旧记录，不能当结论读；62 run 跑完后所有记录新鲜，直接出报告。
 - [ ] watchdog 日志无连续 SM stale kill（监控中）
 - [x] **冻结是随机的，系统自愈有效，不阻塞完成（2026-11-20 14:35 统计）**：kill 分布分散——13 个不同 run 被 kill 过，多数 1-2 次，最多 3 次（soc_r02/nat_r01/gpu_r10/gpu_r09，后 3 个已回滚重跑完成）。不是"单 run 冻死同一处反复 kill"的死循环。soc_r02 被 kill 3 次后回滚重跑最终 done → kill→resume→完成 自愈链有效。代价：每个冻结浪费 ~30min（1800s 阈值），但不阻塞 62 run 完成。改 SM 代码修根因风险 > 等 30min 代价（动正在跑的代码），不动。
