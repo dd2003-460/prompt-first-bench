@@ -65,22 +65,49 @@ def main():
         if key not in best or r.get("timestamp", "") > best[key].get("timestamp", ""):
             best[key] = r
 
-    # 缺口：cc-state done 但 results 无
-    missing = []
+    # 2026-11-20 口径修正（verification-sop §8）：cc-state done 是权威账本。
+    # results 里可能有残留（cc-state 未标 done 的旧记录，如 11-19 作废 run），
+    # 直接数 results 会多算；done 但无数据工件的（空 done）不得计入统计。
+    done_set = set()
     blocked = []
+    s = None
+    pat = re.compile(r"^(nat|soc|gpu)_(formula|text)_r(\d{2})$")
     if os.path.exists(CC_STATE):
         s = json.load(open(CC_STATE))
-        pat = re.compile(r"^(nat|soc|gpu)_(formula|text)_r(\d{2})$")
         for wu in s["work_units"]:
             if not wu.get("done"):
                 continue
             m = pat.match(wu.get("name", ""))
-            if not m:
+            if m:
+                done_set.add(f"{m.group(1)}_{m.group(2)}_r{m.group(3)}")
+
+    # 残留：results 有但 cc-state 未标 done（旧作废数据，剔除）
+    stale = [k for k in best if done_set and k not in done_set]
+    # 空 done：cc-state done 但 results 无记录
+    missing = [k for k in done_set if k not in best]
+    # blocked 第三态：空 done 中 cc-state 标了 blocked 的（卡死跳过，非完成）
+    if done_set and s is not None:
+        _blocked_names = set()
+        for wu in s["work_units"]:
+            if not (wu.get("done") and wu.get("blocked")):
                 continue
-            key = f"{m.group(1)}_{m.group(2)}_r{m.group(3)}"
-            if key not in best:
-                # 2026-11-20: blocked 第三态——卡死跳过（非完成）与真完成漏记分开报
-                (blocked if wu.get("blocked") else missing).append(key)
+            m = pat.match(wu.get("name", ""))
+            if m:
+                _blocked_names.add(f"{m.group(1)}_{m.group(2)}_r{m.group(3)}")
+        blocked = [k for k in missing if k in _blocked_names]
+        missing = [k for k in missing if k not in blocked]
+    # 统计口径：仅 done 且有 results 记录的 run
+    if done_set:
+        best = {k: v for k, v in best.items() if k in done_set}
+    # 无数据工件剔除（verification-sop §8）：results 有记录但 judge 文件不存在
+    # 的 run，其 coverage/depth 是占位符（非真分数），不得计入统计均值。
+    no_artifact = []
+    if best:
+        for k in list(best):
+            jf = os.path.join(HERE, "ablation-runs", f"{k}_judge.json")
+            if not os.path.exists(jf):
+                no_artifact.append(k)
+                del best[k]
 
     lines = []
     lines.append("# T53b 统计汇总")
@@ -90,7 +117,7 @@ def main():
     # SOP verification-sop.md §4 口径限定：tie-break + gold 参照系
     lines.append("口径限定: tie-break 无（coverage/depth 为连续比例，非排名）| "
                  "gold 参照系: rubric gold points（相对该 rubric，非绝对构念效度）")
-    lines.append(f"已记录 run: {len(best)} / 60 | 缺口: {len(missing)}")
+    lines.append(f"已记录 run: {len(best)} / 60 | 缺口(空done): {len(missing)} | blocked: {len(blocked)} | 残留剔除: {len(stale)} | 无judge剔除: {len(no_artifact)}")
     lines.append("")
 
     # 每题每臂统计
