@@ -122,12 +122,12 @@ for wu in s['work_units']:
               continue
             fi
             log "[$QID] SM stale: ${CUR_RUN} 日志 ${AGE}s 未更新 (pid ${SM_PID})，无子进程无连接，kill 恢复"
-            # 2026-11-20: kill 前抓 py-spy 栈——soc_formula_r02 三次卡死（CPU 冻结+无子进程
-            # +无 TCP+33min 无日志），进程死后无法事后诊断；抓栈落盘才能定位根因。
-            PYSPY="$HOME/Library/Python/3.9/bin/py-spy"
-            if [ -x "$PYSPY" ]; then
-              "$PYSPY" dump --pid "$SM_PID" > "/tmp/t53b/${CUR_RUN}.stale-dump.txt" 2>&1 \
-                && log "[$QID] 已抓栈 → /tmp/t53b/${CUR_RUN}.stale-dump.txt"
+            # 2026-11-20: kill 前抓栈。py-spy 在 macOS 需 root（后台进程不能 sudo），
+            # 改用系统自带 sample（同用户进程免 root，已验证可用）。Python 3.9 无符号，
+            # 帧名是 ???，但 call graph 能区分 CPU 递归卡死 vs I/O 等待（实证：
+            # 14:16 抓 nat_formula_r05，1392/1392 采样全在主线程递归链上）。
+            if /usr/bin/sample "$SM_PID" 2 -file "/tmp/t53b/${CUR_RUN}.stale-sample.txt" >/dev/null 2>&1; then
+              log "[$QID] 已抓 sample 栈 → /tmp/t53b/${CUR_RUN}.stale-sample.txt"
             fi
             kill "$SM_PID" 2>/dev/null
             sleep 3
