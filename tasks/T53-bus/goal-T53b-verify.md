@@ -7,6 +7,7 @@
 - [x] py-spy 已装（13:33），后续卡死可抓栈诊断
 - [ ] 62 run 全部 done（当前 13/62 有数据，4 回滚重跑 + 45 排队，估 6-7h）
 - [ ] ablation-results.json 完整 + commit
+- [x] **04-verify 统计管线现在就绪（2026-11-20 14:25 smoke test）**：`ablation_stats.py` 已存在且口径正确——(qid,arm) 二维分组、同题内 Δ=formula−text 为主口径、标 rubric 粒度差异（nat 6pt/soc 7pt/gpu 38pt，跨题绝对值不可比）、95%CI 用 t 分布查表、r7 复现判据、缺口清单。16 run 中间态 smoke test 跑通（gpu formula n=10 cov=0.100±0.023，nat/soc 数据不足待补）。62 run 跑完直接 `python3 ablation_stats.py` 出报告，不用到时候再写/调试。
 - [ ] watchdog 日志无连续 SM stale kill（监控中）
 - [x] **冻结是随机的，系统自愈有效，不阻塞完成（2026-11-20 14:35 统计）**：kill 分布分散——13 个不同 run 被 kill 过，多数 1-2 次，最多 3 次（soc_r02/nat_r01/gpu_r10/gpu_r09，后 3 个已回滚重跑完成）。不是"单 run 冻死同一处反复 kill"的死循环。soc_r02 被 kill 3 次后回滚重跑最终 done → kill→resume→完成 自愈链有效。代价：每个冻结浪费 ~30min（1800s 阈值），但不阻塞 62 run 完成。改 SM 代码修根因风险 > 等 30min 代价（动正在跑的代码），不动。
 - [x] **py-spy 抓栈工具链在 macOS 上失效（2026-11-20 14:12 验证）**：`py-spy dump --pid <活SM>` 返回 "This program requires root on OSX"。watchdog 13:34 加的抓栈逻辑会静默失败（错误写进 dump 文件，无"已抓栈"日志）。后台进程不能加 sudo（密码提示会挂住）。
