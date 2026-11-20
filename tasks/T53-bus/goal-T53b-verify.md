@@ -10,7 +10,7 @@
 - [ ] watchdog 日志无连续 SM stale kill（监控中）
 - [x] **py-spy 抓栈工具链在 macOS 上失效（2026-11-20 14:12 验证）**：`py-spy dump --pid <活SM>` 返回 "This program requires root on OSX"。watchdog 13:34 加的抓栈逻辑会静默失败（错误写进 dump 文件，无"已抓栈"日志）。后台进程不能加 sudo（密码提示会挂住）。结论：栈诊断不可用，死因定位依赖日志证据（已足够：死前最后一行 = CACHE-HIT/verify 输出）。
 - [x] **死因诊断修正（2026-11-20 14:08，推翻 13:50 的"残余风险"判断）**：13:50 记的"E18 退避 sleep 被 1800s 误杀"是误诊。实证：① retry 行确实写进 sm.log（502 重试日志），若卡退避 sleep 日志 mtime 会新鲜，stale 不会触发；② 被 kill 的 run（soc_formula_r02/gpu_formula_r09）死前日志尾部是 CACHE-HIT / verify 输出，不是 retry 行；③ watchdog 报"无子进程无连接"= CPU 采样也没涨。真实死因：SM 在纯 Python 处理阶段（cache/verify）CPU 冻结 30min+ = 真挂死，watchdog kill 是**正确行为非误杀**。根因在 SM 代码纯 Python 路径（死循环/死锁候选）。
-- [x] **coverage=0.0 可能是 judge 静默失败，非真信号（2026-11-20 14:15 发现）**：s8b_pilot.judge() 里 LLM 返回 JSON 解析失败时 `d={"parse_error":...}` → `scores=[]` → `covered=0` → coverage 精确记 0（s5_state_machine.py:1646 `j.get("coverage") or 0`）。实证：gpu arm 6/6 run coverage 全在 0.0-0.2（r08 精确 0.0），judge 耗时 13s 正常（非超时）→ 是 JSON 解析失败或 scores 全 0，不是答案质量差。04-verify 统计时：① cov=0.0 的 run 要单独标记，不能当"质量差"计入；② 区分 parse_error vs 真 scores 全 0 需看 judge 原始返回（synth json）。**不影响 62 run 执行，只影响最终统计解读**。
+- [x] **coverage=0.0 是真实信号，非 judge bug（2026-11-20 14:20 一锤定音，推翻 14:15 的"judge 静默失败"假设）**：14:15 曾怀疑 s8b_pilot.judge() JSON 解析失败→scores 空→coverage 记 0。但当前批次 synth json 被 driver 拷到 `ablation-runs/{RUN}.json`，judge 原始返回就在里面——**无 parse_error，scores 是真实 0/1 评分**：gpu 各 run 的 15 个 GOLD 要点几乎全 0（r08 全 0→cov=0.0），nat 的 6 个要点覆盖 5/6（cov=0.833）。结论：judge 工作正常，**gpu arm 低 coverage 是真信号**（gpu prompt 的分解/答案确实没覆盖 GOLD 要点），04-verify 统计时直接计入，不需单独标记。注意：gpu scores 长度 15、nat 长度 6（GOLD 要点数按 qid 不同），非 bug。
 
 ## 目标
 T53b 62 个消融 run 全部跑完并收口；验证 SSL 卡死修复（_probe_network）+ watchdog SM stale 检测在实际运行中有效，无复发。
