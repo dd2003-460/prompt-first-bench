@@ -156,17 +156,31 @@ def _http_get(url, timeout=30, user_agent="Mozilla/5.0 (pfb-research)"):
     """curl 硬超时 HTTP GET（覆盖 DNS/TCP/SSL/传输全过程）。
     urllib 的 timeout 不覆盖 SSL 握手内部 select（CPython PySSL_select），
     代理半死时请求可无限卡（2026-11-20 三路并行实测 nat/soc 卡 7890 31min）。
-    curl -m 是进程级硬超时，到点必杀。失败返回 None。"""
+    curl -m 是进程级硬超时，到点必杀。失败返回 None。
+    2026-11-20 根因修复（同 ablation_harness.call_llm 的 pipe read 卡死）：
+    capture_output=True 走 pipe，curl 被 -m 杀死退出后 CPython 3.9 的
+    communicate() 进入"子进程已退出→stdout.read()"分支，该分支不受
+    timeout 参数保护，pipe EOF 丢失时 read() 无限阻塞。
+    改用临时文件替代 pipe：无 pipe 即无死锁。"""
+    import tempfile as _tf
+    _tmp = _tf.NamedTemporaryFile(prefix="t53http_", suffix=".out", delete=False)
+    _tmp.close()
     try:
         r = subprocess.run(
             ["curl", "-s", "-m", str(timeout), "-A", user_agent,
-             "--compressed", "-L", "--max-redirs", "3", url],
+             "--compressed", "-L", "--max-redirs", "3", "-o", _tmp.name, url],
             capture_output=True, text=True, timeout=timeout + 5)
         if r.returncode != 0:
             return None
-        return r.stdout
+        with open(_tmp.name, "r", errors="replace") as _f:
+            return _f.read()
     except Exception:
         return None
+    finally:
+        try:
+            os.unlink(_tmp.name)
+        except OSError:
+            pass
 
 
 def _wiki_extract(title, max_chars=900, lang="en"):
