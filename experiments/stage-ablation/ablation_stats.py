@@ -141,9 +141,15 @@ def main():
     # r7 复现检查
     gpu_l1 = [i for i in range(1, 11)
               if f"gpu_formula_r{i:02d}" in best and best[f"gpu_formula_r{i:02d}"].get("l1_uncertainty")]
+    gpu_l1_none = [i for i in range(1, 11)
+                   if f"gpu_formula_r{i:02d}" in best and best[f"gpu_formula_r{i:02d}"].get("l1_uncertainty") is None]
     lines.append("## r7 复现（gpu 题 L1 不确定性维度）")
     lines.append(f"l1_uncertainty=true 的轮次: {len(gpu_l1)}/10 {gpu_l1}")
     lines.append(f"判据: ≥3 轮 → {'PASS' if len(gpu_l1) >= 3 else 'FAIL/待数据'}")
+    lines.append("注: 11-20 13:27 前的 run 由旧 l1 检测逻辑（glob 旧单文件 ckpt + 读不存在的 scope 字段）生成，"
+                 "且树形 ckpt 已被 driver rm -rf，无法用新判据（claim 双关键词）复验——"
+                 "旧 run 的 l1 值仅作历史参考，r7 结论以修复后新 run 为准。"
+                 + (f" l1=None（无数据）的轮次: {gpu_l1_none}" if gpu_l1_none else ""))
     lines.append("")
 
     if missing:
