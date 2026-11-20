@@ -8,6 +8,7 @@
 - [ ] 62 run 全部 done（当前 13/62 有数据，4 回滚重跑 + 45 排队，估 6-7h）
 - [ ] ablation-results.json 完整 + commit
 - [ ] watchdog 日志无连续 SM stale kill（监控中）
+- [x] **冻结是随机的，系统自愈有效，不阻塞完成（2026-11-20 14:35 统计）**：kill 分布分散——13 个不同 run 被 kill 过，多数 1-2 次，最多 3 次（soc_r02/nat_r01/gpu_r10/gpu_r09，后 3 个已回滚重跑完成）。不是"单 run 冻死同一处反复 kill"的死循环。soc_r02 被 kill 3 次后回滚重跑最终 done → kill→resume→完成 自愈链有效。代价：每个冻结浪费 ~30min（1800s 阈值），但不阻塞 62 run 完成。改 SM 代码修根因风险 > 等 30min 代价（动正在跑的代码），不动。
 - [x] **py-spy 抓栈工具链在 macOS 上失效（2026-11-20 14:12 验证）**：`py-spy dump --pid <活SM>` 返回 "This program requires root on OSX"。watchdog 13:34 加的抓栈逻辑会静默失败（错误写进 dump 文件，无"已抓栈"日志）。后台进程不能加 sudo（密码提示会挂住）。
 - [x] **替代方案：系统自带 `sample` 免 root，已验证可用（2026-11-20 14:16）；但 14:32 对照组推翻"递归栈=卡死"解读**：`sample <pid> 2 -file out.txt` 对同用户进程直接可用。watchdog 已把 py-spy 换成 sample 并重启（pid 47871，14:17），kill 前自动抓栈留现场。但 14:32 抓对照组发现：① 14:16 标"nat_r05"的 26 层递归栈其实是 soc_r03（pid 21010 启动时间 13:24:30 对应 soc，标错）；② 同一 soc_r03 两次采样递归深度 26→14 波动；③ gpu_text_r02 也是 14 层。**深层递归栈是 SM 正常计算态，非卡死专属**——sample 栈区分不了健康 vs 冻结（Python 3.9 无符号 + 深度波动），只能当 kill 现场的存档证据，不能当诊断依据。真正的卡死判别器仍是日志 mtime（watchdog 原有逻辑）。
 - [x] **死因诊断修正（2026-11-20 14:08，推翻 13:50 的"残余风险"判断）**：13:50 记的"E18 退避 sleep 被 1800s 误杀"是误诊。实证：① retry 行确实写进 sm.log（502 重试日志），若卡退避 sleep 日志 mtime 会新鲜，stale 不会触发；② 被 kill 的 run（soc_formula_r02/gpu_formula_r09）死前日志尾部是 CACHE-HIT / verify 输出，不是 retry 行；③ watchdog 报"无子进程无连接"= CPU 采样也没涨。真实死因：SM 在纯 Python 处理阶段（cache/verify）CPU 冻结 30min+ = 真挂死，watchdog kill 是**正确行为非误杀**。根因在 SM 代码纯 Python 路径（死循环/死锁候选）。
