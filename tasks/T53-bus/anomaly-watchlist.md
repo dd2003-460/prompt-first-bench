@@ -62,3 +62,12 @@
 - 04-verify 处置：统计维度加第三个——evidence 来源（外部检索 vs 先验占位）；Δ 只在"有外部 evidence"的子集上算主口径，全量口径单列
 - 对照缺口：已完成 23 run 的节点级数据已丢失（checkpoint 事故），占位符率的历史基线无法回查——本条是首个可测点
 - 附带观察：nat text 臂也在生成公式（H_effective 全概率分解），两臂区分度可能小于预期
+
+## 2026-11-20 20:15 · 本地 KB 通道形同虚设（62 跑完后改进项）
+- 实测：118 节点 retrieval_sources 中 104 空、14 全网络（amd 2/zhihu 6/csdn 4/sohu 2），本地文件命中 0
+- 覆盖：_LOCAL_CORPUS_DIRS 只有 GPU 域（hardware KB 18 文件 + D1-gpu 120 文件）；域门控 qid≠gpu 直接返回空 → nat/soc 零覆盖
+- gpu 不命中根因：grep 关键词匹配（5 词 → grep -rilE），query 措辞与 KB 文件措辞不匹配；KB 粒度=卡规格表，节点 query 粒度=运维/成本计算，粒度错配
+- 改进（62 run 后，同质性约束内不动）：
+  1. gpu：query→KB 文件映射表（比 grep 稳）或 gpu 题模板加规格表引用
+  2. nat/soc：无本地语料（确认"真没有"）；D1-knowledge-base 项目语料接入 hook 是独立任务
+- 04-verify 关联：本地命中 0 意味着所有 evidence 都来自"网络 or 先验占位"二分，占位符率归因不受本地通道干扰（简化）
