@@ -53,7 +53,7 @@
 - `experiments/stage-ablation/s5_state_machine.py` — #30-33 的代码落点（S_alpha_corrected, redundancy_score）
 
 | #35 | 终点锚定 prompt：公式降级为机器侧监控（Decision 16） | ✅已落地(r10 携带全部修复运行中，fanout cap/judge fix/per-round ckpt 均生效) | 
-| #36 | 终点目标函数形式化 U(T)=C·A·S−λ·cost（Decision 18）：覆盖×准确×具体 乘积 − 代价；不进 prompt，做机器侧终极验收；gold 维度集 G9 + λ 标定 G10 待设计 | ⚠️G9 独立性检验脚本落地(2026-11-20, g9_independence.py, Decision 22 本体论反例判据); nat 15对检出2合并候选; gpu/soc 全量跑中; λ 标定 G10 仍待 r10 完整树 |
+| #36 | 终点目标函数形式化 U(T)=C·A·S−λ·cost（Decision 18）：覆盖×准确×具体 乘积 − 代价；不进 prompt，做机器侧终极验收；gold 维度集 G9 + λ 标定 G10 待设计 | ⚠️G9 全链路落地(2026-11-20): 独立性审计141对(105gpu+21soc+15nat, g9_independence.py) → 4跨题模式(方法vs题面/元维度/整体-部分/链式) → GOLD_V2落码(s8b_pilot)+cov_gold_v2(compute_J, smoke过); soc选链式rubric(2维+5环节链); λ标定G10待T53b r10完整树 |
 | #37 | 模型自估计终点目标函数：L1 轮先形式化（可测要素+组合方式）再导出维度；objective 落盘不进后续 prompt，做 G9 gold 初稿 + 机器侧对照（Decision 19） | ⚠️已落地(代码✅/旧ckpt兼容✅/首次生效🔸待新树) |
 | #38 | E13: judge 解析器与 prompt 格式不匹配是 r9/r10 同根因（E11 只修了 max_tokens 没修 parse）；全文 finditer + isinstance 防御 + 8 项单测（Decision 20） | ✅已落地(代码✅/单测8/8✅/r11 验证🔸待跑) ||| #39 | E14: ckpt 字段类型防御 — clean-r2 里 dropped_redundant=[] 被 resume 照搬，后续 list-int 运算会连锁炸 FATAL handler；resume 处 _as_int 归一化（teamer T1 发现，Decision 21） | ✅已落地(代码✅/语法✅/生效🔸下次resume) |
 | #40 | 压缩阶梯（数值→变量→函数族→向量空间）与 K 复杂度：decomp 树为何是好压缩形式；断点在压缩发现本身(NP-hard)+压缩-展开税；cost(T)=K复杂度+展开税（D 2026-11-12 直觉 + Lead 回应） | 🔸讨论捕获待展开 |
