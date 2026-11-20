@@ -107,6 +107,16 @@ for wu in s['work_units']:
             # 活性检查：有子进程（curl 检索）或 TCP 连接（等 8787 LLM）= 在干活，跳过。
             CHILDREN=$(pgrep -P "$SM_PID" 2>/dev/null | wc -l | tr -d ' ')
             TCP=$(lsof -p "$SM_PID" 2>/dev/null | grep -c TCP)
+            # 2026-11-20 二次修复：children/TCP 都抓不到"纯 Python 处理中"的 SM
+            # （无子进程、无连接、日志块缓冲 mtime 假 stale）。加 CPU 时间采样：
+            # 5s 内累计 CPU 时间在涨 = 活着。
+            C1=$(ps -o time= -p "$SM_PID" 2>/dev/null | tr -d ' ')
+            sleep 5
+            C2=$(ps -o time= -p "$SM_PID" 2>/dev/null | tr -d ' ')
+            if [ -n "$C2" ] && [ "$C2" != "$C1" ]; then
+              log "[$QID] SM stale 但 CPU 在动 (pid ${SM_PID}, cpu ${C1}→${C2})，跳过 kill"
+              continue
+            fi
             if [ "$CHILDREN" -gt 0 ] || [ "$TCP" -gt 0 ]; then
               log "[$QID] SM stale 但活跃 (pid ${SM_PID}, children=${CHILDREN} tcp=${TCP})，跳过 kill"
               continue

@@ -48,7 +48,7 @@ echo "[clean] removed ${QID} ckpt/output files"
 # 注意：不用 `if ! cmd; then RC=$?`——`!` 反转退出码，then 里 $? 是 0 不是 cmd 的 rc（T2 测试暴露）
 T0=$(date +%s)
 RC=0
-SM_SEED=42 python3 "$STAGE/s5_state_machine.py" "$QID" --obj-mode="$ARM" --synth \
+SM_SEED=42 python3 -u "$STAGE/s5_state_machine.py" "$QID" --obj-mode="$ARM" --synth \
       > "$LOG_DIR/${RUN}.sm.log" 2>&1 || RC=$?
 # 2026-11-19 诊断员修复：SM FATAL 时落盘 runs-s5-sm-${QID}-checkpoint.json（E12），
 # 旧逻辑直接 exit 丢弃进度 → batch 标记 done 跳过，整轮白干（19:42-20:47 连丢 7 个
@@ -67,7 +67,7 @@ while [ $RC -ne 0 ] && [ $RESUME_TRIES -lt 3 ]; do
   RESUME_TRIES=$((RESUME_TRIES+1))
   echo "[resume] SM FATAL 后从 ckpt 续跑 (第${RESUME_TRIES}/3次): $CKPT"
   T0=$(date +%s)
-  SM_SEED=42 python3 "$STAGE/s5_state_machine.py" "$QID" --obj-mode="$ARM" --synth \
+  SM_SEED=42 python3 -u "$STAGE/s5_state_machine.py" "$QID" --obj-mode="$ARM" --synth \
         --resume "$CKPT" >> "$LOG_DIR/${RUN}.sm.log" 2>&1 || RC=$?
 done
 if [ $RC -ne 0 ]; then

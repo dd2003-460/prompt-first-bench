@@ -486,9 +486,27 @@ def call_llm(prompt, max_tokens=LLM_MAX_TOKENS, timeout=LLM_TIMEOUT, retries=2, 
     payload = json.dumps(payload_dict).encode()
     for attempt in range(retries + 1):
         try:
-            req = urllib.request.Request(LLM_URL, data=payload, headers={"Content-Type": "application/json"})
-            with urllib.request.urlopen(req, timeout=timeout) as resp:
-                data = json.loads(resp.read())
+            # 2026-11-20 修复：urllib 的 timeout 不覆盖内部 read/select 路径，
+            # 长 LLM 调用期间可能无限挂死（bench runner 同坑实证：A1_T2_r1 卡 7min
+            # 超时未触发）。改用 curl -m 硬超时（OS 级，必触发）。
+            import subprocess as _sp
+            proc = _sp.run(
+                ["curl", "-s", "-m", str(timeout), "-X", "POST", LLM_URL,
+                 "-H", "Content-Type: application/json", "-d", payload.decode(),
+                 "-w", "\n%{http_code}"],
+                capture_output=True, timeout=timeout + 15,
+            )
+            if proc.returncode != 0:
+                raise ConnectionError(f"curl rc={proc.returncode} {proc.stderr[:100]}")
+            _body, _code = proc.stdout.decode().rsplit("\n", 1)
+            _code = int(_code)
+            if _code >= 400:
+                # 构造带 .code 的异常，保持下方 4xx 直抛 / 5xx 无限重试的分支语义
+                import io as _io
+                import urllib.error as _ue
+                raise _ue.HTTPError(LLM_URL, _code, f"HTTP {_code}", None,
+                                    _io.BytesIO(_body.encode()))
+            data = json.loads(_body)
             content = data["choices"][0]["message"]["content"]
             usage = data.get("usage", {})
             return content, {
