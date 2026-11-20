@@ -696,6 +696,7 @@ const links = await page.evaluate(() => {{
 }});
 const uniq = [...new Set(links)].slice(0, {max_results});
 console.log(JSON.stringify(uniq));
+try {{ await task.finish({{ keep: [] }}); }} catch (e) {{}}
 }})();
 '''
             out = _run_ego_browser(js, timeout=90 if name == "deepseek" else 60)
@@ -767,6 +768,7 @@ def _arxiv_search(query, max_results=5):
         'await new Promise(r => setTimeout(r, 3000));\n'
         'let xml2 = await page.evaluate(() => document.body.innerText);\n'
         'console.log("===TITLE===" + xml2);\n'
+        'try { await task.finish({ keep: [] }); } catch (e) {}\n'
         '})();'
     )
     stdout = _run_ego_browser(js, timeout=90)
@@ -969,7 +971,8 @@ def _fetch_page(url, title_hint, timeout=30):
         "} catch(e) {\n"
         "  console.log(JSON.stringify({error: e.message}));\n"
         "}\n"
-        "})();"
+        "try { await task.finish({ keep: [] }); } catch (e) {}\n"
+        "})()"
     )
     try:
         stdout = _run_ego_browser(js, timeout=timeout)
