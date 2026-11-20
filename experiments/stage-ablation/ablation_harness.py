@@ -484,8 +484,13 @@ def call_llm(prompt, max_tokens=LLM_MAX_TOKENS, timeout=LLM_TIMEOUT, retries=2, 
     pad = " ".join(_rnd.choice(["\u200b", "\u200c", ""]) for _ in range(4))
     payload_dict["messages"][0]["content"] = content + pad
     payload = json.dumps(payload_dict).encode()
+    import time as _llm_t  # 2026-11-20: 调用边界计时（提到循环外，except 路径也安全）
     for attempt in range(retries + 1):
         try:
+            # 2026-11-20: 调用边界日志（卡死诊断：LLM 调用是唯一能静默 10min+
+            # 的操作，打 start/end 后看最后一行即可区分"在跑长调用"与"卡死"）。
+            _t0 = _llm_t.time()
+            print(f"  [LLM] call start attempt={attempt} timeout={timeout}s prompt_len={len(prompt)}", flush=True)
             # 2026-11-20 修复：urllib 的 timeout 不覆盖内部 read/select 路径，
             # 长 LLM 调用期间可能无限挂死（bench runner 同坑实证：A1_T2_r1 卡 7min
             # 超时未触发）。改用 curl -m 硬超时（OS 级，必触发）。
@@ -529,11 +534,13 @@ def call_llm(prompt, max_tokens=LLM_MAX_TOKENS, timeout=LLM_TIMEOUT, retries=2, 
             data = json.loads(_body)
             content = data["choices"][0]["message"]["content"]
             usage = data.get("usage", {})
+            print(f"  [LLM] call done in {_llm_t.time()-_t0:.1f}s out_len={len(content)}", flush=True)
             return content, {
                 "in": usage.get("prompt_tokens", 0),
                 "out": usage.get("completion_tokens", 0),
             }
         except Exception as e:
+            print(f"  [LLM] call FAIL after {_llm_t.time()-_t0:.1f}s: {type(e).__name__}: {str(e)[:120]}", flush=True)
             # E9 (2026-11-11): HTTPError 按状态码分策略——5xx 是服务端抖动，指数退避重试；
             # 4xx（除 429）是请求本身有问题，重试无意义直接抛。
             import urllib.error as _ue

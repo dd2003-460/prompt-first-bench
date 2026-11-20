@@ -1660,6 +1660,16 @@ def synthesize_answer(question: str, nodes: list, qid: str) -> dict:
 if __name__ == "__main__":
     import os
     import sys
+    # 2026-11-20: 日志时间戳（卡死诊断：区分"长 LLM 调用"与"真卡死"——
+    # 无时间戳时"37 分钟无输出"无法判断，只能 sample 抓栈。包一层 print
+    # 单点覆盖全模块 46 处日志，不逐处改。）
+    import builtins as _bi
+    import time as _t
+    _orig_print = _bi.print
+    def _ts_print(*a, **k):
+        k.setdefault("flush", True)
+        _orig_print(_t.strftime("%H:%M:%S"), *a, **k)
+    _bi.print = _ts_print
     # 2026-11-20: 卡死诊断——SIGUSR1 dump 全线程 Python 栈到 stderr（免 root，
     # py-spy 在 macOS 要 root 抓不了；watchdog kill 前先发 SIGUSR1）。
     import faulthandler as _fh
