@@ -86,6 +86,7 @@
 - 代码创建时 fallback 是挂整批父节点（`pids = [p.id for p in parents]`），不该为空
 - 但 N30（L2）在 r1 轮 checkpoint 里已是根目录（`7/` 而非 `3/1/`），丢失发生在首轮写入之前
 - 机制未完全定位（TODO：trace 创建→首轮 checkpoint 之间的 parent_ids 赋值路径）
+- **恢复源核查（2026-11-21 00:2x）**：目录结构**不是**独立 ground truth——`_save_checkpoint`（line 1026-1034）的目录树是从内存 parent_ids 现场构建的，目录和 node.json 是同一份数据的两个编码，丢失节点在目录里同样被放根层。sm.log 只记父 ID（"fanout cap: parent N4 kept 8/12"）不记子 ID，也恢复不了。**结论：已丢失的 3-12% 链接无任何独立记录源可恢复**。修复方向（62 run 后）：(a) 修持久化 bug 本体；(b) expand 事件日志加子节点 ID 列表，给未来数据留独立恢复源
 - **对 04-verify 的影响**：树结构/深度相关统计（S_alpha 层级贡献、depth 指标）在 parent_ids 丢失的节点上不可信；但 level 字段、claim 内容、judge 分、evidence 都安全
 
 **历史版本 L1 污染的真正来源（prompt 定位）**：
