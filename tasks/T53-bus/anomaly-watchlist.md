@@ -47,3 +47,10 @@
 - soc (二手平台均衡): degraded=公式假硬凑 (w_s/w_b/w_p 权重无出处, 阈值 2.0 无实证), 检索源含头条/百度
 - NN119 evidence 空但已标状态 (小瑕疵, 质询未跑)
 - **04-verify 统计注意**: degraded 标签混了两种成因 (公式自洽性 vs 数值有据性), 跨题 Δ 要拆两维度, 否则 soc 假公式和 nat 真公式混同, Δ 信号污染
+
+## 2026-11-20 19:10 · checkpoint 清场销毁原始数据（已修）
+- 现象：driver 每 run 启动 rm -rf checkpoint 目录 + 终盘文件，逐节点原始数据（claim/evidence/judge 质询）销毁，只留聚合统计
+- D 指令：checkpoint 是原始数据，不许删
+- 修复：clean 改 mv 归档到 checkpoints/archive/sm-{qid}-<ts>/（commit 446fb0494），防 resume 污染效果不变
+- 损失：已完成 23 run 的节点级数据不可恢复；judge 分 + 最终 answer 安全（ablation-runs/ 持久化）
+- 04-verify 影响：节点级细查只能覆盖归档后的 run；跨 run 节点质量对比样本不全，结论需标注
