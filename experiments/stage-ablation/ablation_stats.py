@@ -18,7 +18,7 @@
   non-IRR，同族无隔离价值——见 §2）、统计显著性（n<8 时本脚本只报
   点估计+区间+功效不足，不打方向/显著标签，见 §3）。
 """
-import argparse, json, os, math, re, sys
+import argparse, json, os, math, random, re, sys
 from collections import defaultdict
 from datetime import datetime, timezone
 
@@ -135,6 +135,73 @@ def welch_t(vals_a, vals_b):
     t = (ma - mb) / math.sqrt(se2)
     df = se2 ** 2 / ((va / na) ** 2 / (na - 1) + (vb / nb) ** 2 / (nb - 1))
     return (t, df, t_pvalue(t, df))
+
+def cliffs_delta(vals_a, vals_b):
+    """Cliff's δ（SafeLLM4SE 2609.37294 效应量）：a 组值超过 b 组的比例差。
+    |δ|>0.149 小 / >0.333 中 / >0.474 大（romano 2013 阈值）。"""
+    if not vals_a or not vals_b:
+        return float("nan")
+    gt = sum(1 for x in vals_a for y in vals_b if x > y)
+    lt = sum(1 for x in vals_a for y in vals_b if x < y)
+    return (gt - lt) / (len(vals_a) * len(vals_b))
+
+def mann_whitney_u(vals_a, vals_b):
+    """独立样本 Mann-Whitney U（SafeLLM4SE 2609.37294 推荐的非参数检验）。
+    无 scipy：合并秩（平均秩处理并列）→ U_a → 正态近似 + 连续性校正双侧 p。
+    n 各 ≥5 时近似可用；返回 (U, p)。"""
+    na, nb = len(vals_a), len(vals_b)
+    if na < 2 or nb < 2:
+        return (float("nan"), float("nan"))
+    combined = [(v, 0) for v in vals_a] + [(v, 1) for v in vals_b]
+    combined.sort(key=lambda x: x[0])
+    # 平均秩（并列）
+    ranks = [0.0] * len(combined)
+    i = 0
+    while i < len(combined):
+        j = i
+        while j + 1 < len(combined) and combined[j + 1][0] == combined[i][0]:
+            j += 1
+        avg_rank = (i + 1 + j + 1) / 2.0
+        for k in range(i, j + 1):
+            ranks[k] = avg_rank
+        i = j + 1
+    rank_sum_a = sum(r for r, (_, grp) in zip(ranks, combined) if grp == 0)
+    u_a = rank_sum_a - na * (na + 1) / 2.0
+    mu = na * nb / 2.0
+    # 并列校正方差
+    n = na + nb
+    tie_term = 0.0
+    i = 0
+    while i < len(combined):
+        j = i
+        while j + 1 < len(combined) and combined[j + 1][0] == combined[i][0]:
+            j += 1
+        t = j - i + 1
+        if t > 1:
+            tie_term += t ** 3 - t
+        i = j + 1
+    sigma2 = na * nb / 12.0 * ((n + 1) - tie_term / (n * (n - 1)))
+    if sigma2 <= 0:
+        return (u_a, float("nan"))
+    # 连续性校正：|U-mu|<0.5 时 clamp 到 0（p=1），保证 z≥0 → p≤1
+    z = max(0.0, abs(u_a - mu) - 0.5) / math.sqrt(sigma2)
+    # 标准正态双侧 p（erfc）
+    p = math.erfc(z / math.sqrt(2.0))
+    return (u_a, p)
+
+
+def bootstrap_ci(vals_a, vals_b, n_boot=20000, seed=42):
+    """Δmean 的 bootstrap 95% CI（SafeLLM4SE：分布偏离正态时替代 t 区间）。"""
+    if len(vals_a) < 2 or len(vals_b) < 2:
+        return (float("nan"), float("nan"))
+    rng = random.Random(seed)
+    diffs = []
+    for _ in range(n_boot):
+        sa = [rng.choice(vals_a) for _ in range(len(vals_a))]
+        sb = [rng.choice(vals_b) for _ in range(len(vals_b))]
+        diffs.append(sum(sa) / len(sa) - sum(sb) / len(sb))
+    diffs.sort()
+    return (diffs[int(0.025 * n_boot)], diffs[int(0.975 * n_boot)])
 
 
 def se(vals):
@@ -284,8 +351,8 @@ def main():
     # 细粒度子项多 → overall 天然偏低）
     lines.append("## 消融对比（主口径：同题内 Δ = formula − text，独立样本 Welch t 检验）")
     lines.append("")
-    lines.append("| 题 | 指标 | n_f | n_t | Δ | t | p | 结论 |")
-    lines.append("|---|---|---|---|---|---|---|---|")
+    lines.append("| 题 | 指标 | n_f | n_t | Δ | t | p | U | p_U | Cliff's δ | boot 95%CI | 结论 |")
+    lines.append("|---|---|---|---|---|---|---|---|---|---|---|---|")
     _ab_rows = []  # 收集 (qid, metric, vals_a, vals_b) 供敏感性分析
     for qid in qids:
         row = {}
@@ -317,14 +384,30 @@ def main():
                 return (f"{a0} 优 ✓" if d > 0 else f"{a1} 优 ✓")
             def fmt_p(p):
                 return "—" if (p is None or math.isnan(p)) else f"{p:.3f}"
-            lines.append(f"| {qid} | cov | {nf} | {nt} | {dc:+.3f} | {tc:.2f} | {fmt_p(pc)} | {verdict(pc, dc)} |")
-            lines.append(f"| {qid} | depth | {nf} | {nt} | {dd:+.3f} | {td:.2f} | {fmt_p(pd)} | {verdict(pd, dd)} |")
+            # SafeLLM4SE 2609.37294: 效应量 + bootstrap CI（不只报 p 值）
+            cd_c = cliffs_delta(covs_a, covs_b)
+            cd_d = cliffs_delta(deps_a, deps_b)
+            bc_c = bootstrap_ci(covs_a, covs_b)
+            bc_d = bootstrap_ci(deps_a, deps_b)
+            def fmt_cd(x):
+                return "—" if (x is None or math.isnan(x)) else f"{x:+.2f}"
+            def fmt_bc(x):
+                return "—" if (math.isnan(x[0]) or math.isnan(x[1])) else f"[{x[0]:+.3f},{x[1]:+.3f}]"
+            u_c, pu_c = mann_whitney_u(covs_a, covs_b)
+            u_d, pu_d = mann_whitney_u(deps_a, deps_b)
+            def fmt_u(u):
+                return "—" if (u is None or math.isnan(u)) else f"{u:.0f}"
+            lines.append(f"| {qid} | cov | {nf} | {nt} | {dc:+.3f} | {tc:.2f} | {fmt_p(pc)} | {fmt_u(u_c)} | {fmt_p(pu_c)} | {fmt_cd(cd_c)} | {fmt_bc(bc_c)} | {verdict(pc, dc)} |")
+            lines.append(f"| {qid} | depth | {nf} | {nt} | {dd:+.3f} | {td:.2f} | {fmt_p(pd)} | {fmt_u(u_d)} | {fmt_p(pu_d)} | {fmt_cd(cd_d)} | {fmt_bc(bc_d)} | {verdict(pd, dd)} |")
             _ab_rows.append((qid, "cov", covs_a, covs_b))
             _ab_rows.append((qid, "depth", deps_a, deps_b))
         else:
-            lines.append(f"| {qid} | cov | {nf} | {nt} | — | — | — | 数据不足 |")
+            lines.append(f"| {qid} | cov | {nf} | {nt} | — | — | — | — | — | — | — | 数据不足 |")
     lines.append("")
     lines.append("注: 跨题绝对 coverage/depth 不可直接比较（rubric 粒度差异），上表 Δ 才是消融结论口径。")
+    lines.append("注: U/p_U = Mann-Whitney U 非参数检验（SafeLLM4SE 推荐，n 小正态假设勉强时比 t 稳，正态近似+连续性校正）；")
+    lines.append("注: Cliff's δ（效应量，SafeLLM4SE 2609.37294 要求报效应量不只报 p）：|δ|>0.149 小 / >0.333 中 / >0.474 大；")
+    lines.append("boot 95%CI = Δmean 的 bootstrap 区间（n=20000, seed=42，分布偏离正态时比 t 区间稳）。")
     lines.append("")
 
     # 敏感性分析（稳定性验证）：去各自最低/最高/双端 trim 后 Δ 是否不变
