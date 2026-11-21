@@ -83,7 +83,7 @@ post-62-runs
 | T7 | C1 | SM 重构: 推理/计算分离 | 62 run done + B1 | 待 62 run |
 | T8 | C2 | 条件集 C schema 设计 | 无（可并行） | **已完成（11-21）**：kt-framework-v1.1 补 C schema（type/source/sensitivity/drift_sensitive + 三分类机判 + 完备性检验）；待 62-run 回填验证 |
 | T9 | D1 | 62 run 全量 K^t 复测 | 62 run done | 待 62 run |
-| T10 | D2 | 微架构效率测量方案调研 | 无 | 可现在做 |
+| T10 | D2 | 微架构效率测量方案调研 | 无 | **降级（11-21 D 纠正）**：工程级具体问题（GPU 场景专用，不 general），不占主线。移到工程维护层，E1 需要时再启动 |
 | T11 | E1 | general 改法实验（新 goal） | T7 | 待 T7 |
 | T12 | E2 | webllm 效应配对实验 | 登录窗口 | 待登录 |
 | T13 | 管线固化 | 跑-存档-增量-继续跑 固化 | 无 | **已完成（11-21）**：pipeline_snapshot.py（幂等 manifest+delta，commit 882f754ca）+ cron 每 10min（job 3eae1ea698b3，no_agent 纯脚本，跨 session 持久）；跑/继续跑/存档现有管线已有，补的是"记录增量变化"环 |
