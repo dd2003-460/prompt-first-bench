@@ -30,12 +30,22 @@ research-agi-budget（D 硬件条件下，预算控制 AI 在 Pareto 边界上�
 │   └── A3. 出 matched 批 stats（SM vs bare，同负载）
 │       └── 原子：ablation_stats.py 跑 30 SM + 30 bare，Welch/MWU/δ/CI
 │
-├── B. prompt 去污染修复（等 A 完成，批实时读 prompts.py 不能动）
-│   ├── B1. 删时间尺度框架（5 个 L1 变体 + P1H_INDEX 的"即时/短期运营/长期持有"）
-│   │   └── 原子：8 个常量改文本，byte-level diff 落盘，重跑 smoke 验证不崩
-│   ├── B2. 领域例子换抽象占位符（P3_VERIFY/P4_SYNTHESIZE/EDGE_*/P1_L1_TEXT）
-│   │   └── 原子：同上
-│   └── B3. P1_DECOMPOSE 不动（legacy，不在生产路径）
+├── B. prompt 设计（AGI 题，等 A 完成；批实时读 prompts.py 不能动）
+│   ├── B0. 修正污染清单（2026-11-22 重 grep，摘要失真已纠正）
+│   │   └── 完整时间尺度框架（即时/短期运营/长期持有）实际只在 2 处：
+│   │       line 54（P1_DECOMPOSE，legacy）+ line 306（P1H_INDEX，生产路径）。
+│   │       5 个 L1 变体只有泛化"时间尺度"（横切因子例子），非三分类框架。
+│   ├── B1. P1H_INDEX line 306 去 TCO 特定框架
+│   │   └── 原子："即时/短期运营/长期持有" → 通用"与该决策相关的时间跨度"，
+│   │       byte-level diff 落盘，重跑 1 轮 smoke 验证不崩
+│   ├── B2. 领域例子换抽象占位符（生产路径 4 处）
+│   │   └── 原子：P3_VERIFY"硬件规格（带宽/显存/制程/功耗）"→"经验事实（具体规格/参数/版本）"；
+│   │       P4_SYNTHESIZE"按字节 vs 按请求"→"不同口径的度量"；
+│   │       EDGE_*"TCO/GPU 选型"→ 抽象运算例子；contradiction_scan"prefill/decode"→"不同口径的量"
+│   ├── B3. AGI 题 prompt 组装（新题 Q9-agi 专用）
+│   │   └── 原子：通用规则（B1/B2 修复后）+ 目标定义段（AGI 操作化 + D 硬件条件，
+│   │       合法题面）+ 不含 gold 骨架（贡献因子分解结构）。目标定义段 = Q9-agi 题面 §题面
+│   └── B4. P1_DECOMPOSE 不动（legacy，不在生产路径）
 │       └── 原子：标记 legacy，不修
 │
 ├── C. merge 消融（等 A 完成，vLLM 负载释放后）
