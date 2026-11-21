@@ -347,7 +347,9 @@ def main():
         lines.append("")
 
     # 消融主口径：同题内 formula vs text 差值（跨题绝对值不可比——
-    # rubric 粒度不同: nat 6pt/19层, soc 7pt/24层, gpu 38pt/122层,
+    # rubric 粒度不同: nat 6pt/19档, soc 7pt/24档, gpu 38pt/122档,
+    # （19/24/122 = 判定点×每点档位数 的总测量档位，不是树深度——
+    #  gpu gold 树实际 37 节点/主干深度 5，2026-11-21 D 质疑后修正）
     # 细粒度子项多 → overall 天然偏低）
     lines.append("## 消融对比（主口径：同题内 Δ = formula − text，独立样本 Welch t 检验）")
     lines.append("")
