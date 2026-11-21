@@ -108,10 +108,11 @@ def _extract_tree(text):
 
 
 def run_one(qid, round_id, max_tokens=4096,
-            hard_max_search=40, hard_max_steps=60):
+            hard_max_search=40, hard_max_steps=60, trace=False):
     """无上限裸跑：模型自己控制搜索/分解/停止。
     机器侧只有防死循环安全阀（hard_max_search/hard_max_steps，不告诉模型，
-    触发了打 hard_cap_hit 标）。重复查询去重（防 bug，不罚）。"""
+    触发了打 hard_cap_hit 标）。重复查询去重（防 bug，不罚）。
+    trace=True 时记录每轮模型输出（截断 1500 字符）+ 搜索查询，用于分析工作模式。"""
     question = QUESTIONS[qid]
     prompt = BARE_PROMPT.format(question=question)
     all_sources = []
@@ -120,11 +121,15 @@ def run_one(qid, round_id, max_tokens=4096,
     done_by_model = False
     hard_cap_hit = False
     seen_queries = set()
+    trace_log = []
     t0 = time.time()
 
     for step in range(hard_max_steps):
         content, _ = call_llm(prompt, max_tokens=max_tokens, temperature=0.7,
                               enable_thinking=False)
+        if trace:
+            trace_log.append({"step": step, "search": None,
+                              "output": (content or "")[:1500]})
         tree = _extract_tree(content)
         if tree:
             last_tree = tree
@@ -136,6 +141,8 @@ def run_one(qid, round_id, max_tokens=4096,
         if m and n_search < hard_max_search:
             n_search += 1
             q = m.group(1).strip()
+            if trace and trace_log:
+                trace_log[-1]["search"] = q
             if q in seen_queries:
                 res = "（重复查询，之前已搜过，结果见上方历史记录）"
             else:
@@ -211,6 +218,8 @@ def run_one(qid, round_id, max_tokens=4096,
         "tree": last_tree,
         "observed_at": datetime.now(timezone.utc).isoformat(),
     }
+    if trace:
+        out["trace"] = trace_log
     os.makedirs(RUNS_DIR, exist_ok=True)
     path = os.path.join(RUNS_DIR, f"{qid}_bare_{round_id}.json")
     with open(path, "w") as f:
@@ -244,7 +253,10 @@ if __name__ == "__main__":
                     help="防死循环安全阀（不告诉模型）")
     ap.add_argument("--runs-dir", default=None,
                     help="输出目录（默认 runs/；生产并发模式用 runs_prod/）")
+    ap.add_argument("--trace", action="store_true",
+                    help="记录每轮模型输出+搜索查询（行为分析用，不进统计）")
     a = ap.parse_args()
     if a.runs_dir:
         RUNS_DIR = os.path.abspath(a.runs_dir)
-    run_one(a.qid, a.round_id, a.max_tokens, a.hard_max_search, a.hard_max_steps)
+    run_one(a.qid, a.round_id, a.max_tokens, a.hard_max_search,
+            a.hard_max_steps, trace=a.trace)
