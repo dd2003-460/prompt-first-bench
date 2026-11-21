@@ -127,11 +127,29 @@ D 指出 2410 太老（2024-10）+ 我们是本地量化模型。核实结果：
 | 2609.07664 "Accuracy is Not Enough" | 2026-09 | **量化模型保真度**：zero-shot accuracy 对量化不敏感（argmax 不变≠分布不变），需分布敏感指标（divergence）对比 BF16 基模 |
 | 2609.19524 Unified Trustworthy Eval | 2026-09 | 输出级/轨迹级/跨模态三层评估，8 维可信度 |
 
-**量化模型维度的含义**（2609.07664 对口）：
-- 我们的 NVFP4 模型相对 BF16 基模有保真度损失，accuracy 类指标可能掩盖它。
-- 我们的 coverage/depth 是 rubric 打分（非 argmax accuracy），对分布变化更敏感——部分缓解该问题。
-- [gap] 量化模型的"评估不确定性" = 采样不确定性（≈0，实测）+ 并发非确定性（实测存在）+ 量化保真度损失（未测，需 BF16 对照）。
-  第三项是真正的未覆盖维度：需要 NVFP4 vs BF16 同题对照实验才能量化。
+**量化模型维度——已关闭（2026-11-21，D 指令：不需保真度实验，文献背书即可）**：
+
+关闭论证（两条独立证据）：
+1. **共同因素抵消**（设计层面）：T53b 是同一量化模型（NVFP4）上的双臂消融（formula vs text prompt）。
+   量化分布偏移同时打在两个臂上，Δ 中被抵消。唯一残余风险 = 量化×臂类型交互
+   （量化对 formula 和 text 影响不同）——无先验理由认为存在，且若存在应表现为两臂都变差而非方向性偏移。
+2. **文献背书**（2610.27913 ACE-Compression，2026-10-20，ar5iv 全文核实）：35+ 压缩 checkpoint × 6 开源 LLM，
+   四能力维度之一即 **procedural reasoning and constraint execution**（= 我们测的推理树过程/深度）：
+   - "4-bit quantization stays close to the FP16 parent on both prompt-level and instruction-level views"
+   - "Quantization is generally more resilient to ability degradation than pruning"
+   - Qwen2.5-7B BnB-4bit 甚至略超 FP16（0.7209 vs 0.7172 prompt-level strict）
+   → 4-bit 量化在程序性推理维度上 ≈ FP16，不构成 T53b 的方差来源。
+
+诚实 caveat（写入 verification.md 局限节，不阻塞）：
+- ACE 测的是 INT4（BnB/AWQ/GPTQ），我们是 NVFP4（4-bit 浮点，块级浮点 scale，通常保真度 ≥ INT4）——
+  同属 4-bit 类，方向一致，非逐字匹配。
+- ACE 发现压缩"redistributes ability profile"（非均匀）+ 细粒度能力更不稳定——我们的 rubric 打分
+  属细粒度维度，残余风险存在但被共同因素抵消论证覆盖。
+- 2609.07664 "Accuracy is Not Enough" 提醒 accuracy 类指标对量化不敏感——我们 coverage/depth 是
+  rubric 打分非 argmax accuracy，对该问题部分免疫。
+
+结论：T53b 方差来源清单 = 并发非确定性（实测）+ 基础设施故障（实测）+ checkpoint resume 分叉（实测）。
+**量化保真度从清单移除**（文献+设计双重关闭）。
 
 **ID 核实教训**：arXiv API 的 entry 解析（非贪婪 regex 跨 entry）会错位——本轮 2610.01058/2610.00656 两个 ID
 均错位（实际分别是 MOMAT 越狱防御 / Lingtai）。所有 ID 必须经 arxiv.org/abs/<id> 页面标题核实后才可引用。

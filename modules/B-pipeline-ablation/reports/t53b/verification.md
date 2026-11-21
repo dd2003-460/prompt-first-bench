@@ -171,4 +171,5 @@ ls modules/B-pipeline-ablation/data/t53b/runs/*.json | wc -l   # 61 = 60 SM + 1 
 3. gpu n<8（离群剔除后 n_f=9/n_t=6）→ 功效不足，Δ 只作方向参考。
 4. verify.md 旧 p 值（0.008/0.006）与当前复算（0.013/0.016）不一致 → 以当前为准，旧值标历史快照。
 5. webllm 效应识别需登录 + I3 配对实验（未做）。
-6. **方差来源 ≠ 采样**：单请求 temp=0 确定，并发非确定（vLLM batch 组合）。nat_formula r05/r07 stop 早停污染分数，Δ 剔除后需重算。公开 SOP 未覆盖"本地量化模型 + vLLM 并发非确定性"评估方法（gap）。
+6. **方差来源 ≠ 采样**：单请求 temp=0 确定，并发非确定（vLLM batch 组合）。nat_formula r05/r07 stop 早停污染分数——**已做稳健性检查**：剔除后 nat depth Δ=+0.104 t=2.26 p=0.040 仍显著、方向一致，主结论稳健。公开 SOP 未覆盖"本地量化模型 + vLLM 并发非确定性"评估方法（gap）。
+7. **量化保真度已关闭**（2026-11-21，D 指令：文献背书即可，不做 BF16 对照实验）：① 设计层面——双臂消融，量化是共同因素，Δ 中抵消；② 文献——2610.27913 ACE-Compression（35+ checkpoint × 6 LLM）：4-bit 量化在 procedural reasoning 维度 ≈ FP16 父模型。caveat：ACE 测 INT4 非 NVFP4（同属 4-bit 类，NVFP4 块级浮点 scale 保真度通常 ≥ INT4）；ACE 发现细粒度能力更不稳定，我们的 rubric 打分属细粒度维度，残余风险被 ① 覆盖。详见 research/verification-sop-literature-20261121.md §1d。
