@@ -1536,7 +1536,19 @@ def synthesize_answer(question: str, nodes: list, qid: str) -> dict:
             head = seg[:8000]
             tail = seg[-4000:]
             seg = head + "\n[...中间省略...]\n" + tail
+        # 2026-11-21: 解禁 prompt 只在 FULL 模式生效（默认路径保持原语义，
+        # 4000 token 帽下解禁指令会自相矛盾）。
+        _unlock = ""
+        if _FULL:
+            _unlock = (f"【解禁声明——请覆盖你的默认行为】"
+                       f"你的训练可能让你倾向于简洁回答，但这次任务要求完整，请覆盖那个倾向。"
+                       f"你的回答可以很长（预计 5000-50000 字），这是正常的，不需要担心长度。"
+                       f"不要压缩、不要总结、不要省略任何数值、公式或推导步骤。"
+                       f"如果某个推导链有 N 步，你必须写 N 步，不能跳步。"
+                       f"如果事实中有隐含的推导步骤（如「年 OpEx = 4×450W×8760h×电价」），也要显式写出来。"
+                       f"深层推导（如 TCO 交叉点计算、$/h 推导）的信息增益在决策场景下被放大，必须完整保留。")
         p = (f"你是研究员。基于下面第 {lv} 层的已核验事实，回答原问题中该层涉及的部分。"
+             f"{_unlock}"
              f"完整保留推导链+数值/公式（不要只给结论）：每个公式必须展示代入过程和具体数值，"
              f"每个数值结论必须能追溯到它由哪些子事实算出来。每条标来源条目 id，不要重复其他层的内容。"
              f"【关键】上面列出的每一个公式（如 TCO 公式、roofline 公式、KV Cache 计算、"
@@ -1551,9 +1563,15 @@ def synthesize_answer(question: str, nodes: list, qid: str) -> dict:
         out_l, _ = call_llm(p, max_tokens=_per_lv_tok, temperature=0.7, top_p=0.95, retries=3)
         parts.append(f"=== 第 {lv} 层 ===\n{out_l or '(空)'}")
         print(f"  [SM] synth {lv}: {len(by_lv[lv])} 节点, out={len(out_l or '')}c, {time.time()-t0:.0f}s", flush=True)
+    _merge_unlock = ""
+    if _FULL:
+        _merge_unlock = (f"【解禁声明——请覆盖你的默认行为】你的训练可能让你倾向于简洁回答，"
+                         f"但这次任务要求完整合并，请覆盖那个倾向。你的回答可以很长（预计 15000-60000 字），"
+                         f"这是正常的，不需要担心长度。不要压缩各层的推导链，不要省略数值和公式代入过程。")
     merge_p = (f"你是研究员。下面是同一道问题按目录树分层得到的各层完整推导（含公式代入过程和数值链）。"
+               f"{_merge_unlock}"
                f"请把它们合并成一份完整最终答案：覆盖问题全部子问，保留所有具体数值/公式/排序/推导链，"
-               f"消除层间重复，最后给一个明确的推荐结论。"
+               f"消除层间重复（重复的数值/公式只保留一次，但推导步骤不删），最后给一个明确的推荐结论。"
                f"规则：问题问「最多/上限/提升多少/打几折」时，必须显式列出限制因素并给出其定量影响"
                f"（如频率表老化、热度漂移、容量覆盖不足），不能只讲优势不讲上限；"
                f"比较策略时，每个策略都要给出适用限制；涉及更新/失效/折扣的，给出推导公式和代入过程。"
@@ -1563,7 +1581,7 @@ def synthesize_answer(question: str, nodes: list, qid: str) -> dict:
                f"如果各层之间存在矛盾（如不同 head_dim 取值），取多数一致的值并注明分歧。\n\n【问题】\n{question}\n\n"
                + "\n\n".join(parts)) + _perturb()
     t0 = time.time()
-    answer, _ = call_llm(merge_p, max_tokens=(24000 if _FULL else 8000), temperature=0.7, top_p=0.95, retries=3)
+    answer, _ = call_llm(merge_p, max_tokens=(48000 if _FULL else 8000), temperature=0.7, top_p=0.95, retries=3)
     print(f"  [SM] synth merge: out={len(answer or '')}c, {time.time()-t0:.0f}s", flush=True)
     # judge（gate 指标：GOLD 要点逐条 0/1 → coverage）
     from s8b_pilot import judge

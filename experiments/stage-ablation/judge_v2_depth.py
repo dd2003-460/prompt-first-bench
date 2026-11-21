@@ -410,7 +410,7 @@ def build_judge_prompt(qid: str, answer: str) -> str:
         # 2026-11-21: 12000→40000。SM_SYNTH_FULL 放开后答案可达 30k+ 字，
         # 旧 12k 截断让 judge 永远看不到答案后半段（深层 TCO 推导常在后段），
         # 是 depth 分数的硬上限。judge 模型 262k 上下文，40k 字答案无压力。
-        f"候选回答：\n{answer[:40000]}\n\n"
+        f"候选回答：\n{answer[:50000]}\n\n"
         '输出 JSON：{"scores": {"pt1": 0.xx, "pt2": 0.xx, ...}}\n'
         "每个值是一个 0.00-1.00 的数字。只输出 JSON，不要解释。"
     )
