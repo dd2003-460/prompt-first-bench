@@ -114,7 +114,39 @@ faithfulness），不是平铺 rubric。我们的 3 棵分解树（19/24/122 层
 但报告规范（10 轮重复 + 分布化报告）对齐 ReasonBench 2512.07795 的标准，超过 RPTS 的单轮裸报。
 下一步扩到 10-20 棵分解树即可进入该文献的量级带。"
 
-**[待核验]**：RPTS 是 LVLM 多模态，我们是纯文本管线——构念同构（推理树+节点级打分）但领域不同，
+**RPTS 实例到底是什么（ar5iv Table 1 实测）**：
+- 实例 = 一棵推理树，规模按**树高（depth）**统计，不是节点数：
+  树高 ≤2: 3.85% / 3: 42.82% / 4: 32.56% / 5: 13.08% / ≥6: 7.69%（390 棵树）
+- 即 RPTS 是**浅树评测**（主体 3-5 层），我们是 19/24/122 层——**深度差 4-40 倍**。
+- RPTS 无层级依赖约束、无正交/完备/压缩约束——只有"叶=证据、非叶=推导"的结构。
+  **我们的层级依赖 + 正交/完备/压缩约束在现有树评测文献中无直接对应物**（conf 0.8，
+  基于已查的 RPTS/Tree-PLV/ReasonBench/VISTA 四篇均无此约束组合）——这是 novelty 声明点。
+
+**发表水平 + 滚雪球锚点（venue 均 OpenReview/S2 核实，非凭记忆）**：
+
+| 论文 | venue | 角色 |
+|---|---|---|
+| Let's Verify Step by Step（OpenAI, 2023, 2305.20050） | arXiv（OpenAI 技术报告） | **PRM 领域开山**（过程奖励模型 + PRM800K 数据集） |
+| **Math-Shepherd** 2312.08935 | **ACL 2024**（OpenReview 确认，标题精确匹配） | 步骤级自动验证+强化，PRM 奠基 |
+| **Tree-PLV** 2407.00390 | **EMNLP 2024**（S2 确认） | 树基过程验证（步骤级偏好） |
+| **VISTA** 2511.10182 | **AAAI 2025**（S2 确认） | 多轮推理过程解构 |
+| PRM That Think 2504.16828 | **TMLR accepted**（OpenReview） | PRM 前沿（2026-02 v5） |
+| RPTS 2511.06899 | preprint（无 venue，仅 ARR 投稿记录） | 树评测（最接近我们，但未发表） |
+| ReasonBench 2512.07795 | preprint（29 页 19 表） | 稳定性基准 |
+
+**滚雪球路径（顶刊锚点 → 领域分支）**：
+PRM 开山（Let's Verify Step by Step, OpenAI 2023）→ Math-Shepherd（ACL 2024）→
+Tree-PLV（EMNLP 2024）→ PRM That Think（TMLR 2026）= **过程验证/奖励主线**（顶会密度高）。
+树评测分支（Tree-PLV → RPTS）= **顶会锚点少**（仅 EMNLP 一篇，RPTS 未发表）——
+说明"树结构评测"本身是新兴分支，**我们的层级依赖+正交/完备/压缩约束组合可能是该分支的空白点**
+（conf 0.7，待 arena 对抗核验：是否有我们没查到的顶会论文已覆盖此约束组合）。
+
+**2026 更新的吗**：三轮 arXiv 检索（tree-structured eval 2026H2 / decomposition tree 2026 /
+reasoning process tree bench）无更新的树评测直接命中。最新相关：AtomTree 2610.38744
+（2026-10-28，embodied 指令跟随，层级框架但非评测）、PR Tree Rollout 2607.15610
+（2026-07-17，RL 训练非评测）。**RPTS（2025-11）仍是最接近的树评测基准**（conf 0.8）。
+
+——构念同构（推理树+节点级打分）但领域不同，
 套磁时按"结构同构、领域不同"表述，不 claim 直接可比。
 
 
