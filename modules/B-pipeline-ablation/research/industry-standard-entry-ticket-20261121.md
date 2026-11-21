@@ -231,6 +231,33 @@ D 的质疑成立：第一轮关键词太窄（"reasoning tree"+evaluation 只�
 **目标函数前置的满足**：训练篇把目标烧进权重（RL reward），推理篇放进 prompt——共同点
 是目标函数**固定、不让 LLM 自选**。我们放 prompt，满足 D 的"目标函数应前置"。
 
+**裸跑 vs 完整管线对照（2026-11-21，D 质疑"冗余惩罚是补丁，最原始裸跑 vs pfb 分解-校验-新信息搜集-校验呢"）**：
+
+D 记忆的"prompt vs 裸 baseline 大提升"= **paper-draft.md 的 S0 vs S5 = +0.182**
+（5 题 × n=15/arm × 7 维 rubric，source ①：`experiments/stage-ablation/paper-draft.md`）。
+T53b 不是这个对照——T53b 是管线**内部**子消融（formula vs text L1 prompt 格式），两臂都有完整 SM 管线。
+
+| | paper-draft（S0–S5） | T53b（formula vs text） |
+|---|---|---|
+| 对照 | 裸跑 vs 完整管线 | 公式目标函数 vs 散文目标函数 |
+| 管线 | prompt 级（S1–S5 是 prompt 指令，单次生成，无真实搜索/核验） | SM 级（真实状态机、真实 web 搜索、真实迭代核验） |
+| Δ | **+0.182**（S5 vs S0） | +0.11~0.19（formula vs text） |
+| n | 15/arm，5 题，3 reps | 10/arm，3 题 |
+| rubric | 7 维（M1-M7） | 2 维（coverage/depth） |
+| 核心发现 | 管线价值是**组织性的**（M1 0.47→0.52，M4 0.70→0.92），非生成性的 | 公式目标函数在 nat depth/soc cov 显著，gpu 地板效应 |
+
+**冗余惩罚/S_α 的位置**：SM 管线的**防 hack 补丁**（v17 Goodhart 1930 节点、r13 90%
+quotient 教训），不是核心循环的一部分。核心循环 = L1 骨架→逐层展开→verify_node→
+search_node→rework。补丁 = 冗余惩罚（β=3.0）+ 边际增益阈值 + structural test +
+max_nodes 硬顶 150。
+
+**裸跑 vs SM 管线对照缺口**：
+- prompt 级答案已有：paper-draft S0 vs S5 = +0.182
+- SM 级答案**没有**：T53b 没有裸跑臂。"裸跑 vs 完整 SM 管线（含真实搜索+核验）"
+  需要新跑 S0 臂（同 3 题 × 10 轮，无管线直接答）。
+- 套磁引用"大提升"时用 paper-draft 的 +0.182（prompt 级），不能用 T53b 的
+  +0.11~0.19（管线内部子消融）——两个 delta 量级不同、对照不同。
+
 **与我们 T53b 的对照（套磁最强论据）**：
 - T53b 的 text arm = "无结构（LLM 自行组织）"，formula arm = "结构前置（管线+约束固定）"
   ——正是这 6 篇的共同对照设计。
