@@ -1657,6 +1657,13 @@ if __name__ == "__main__":
             sm.cfg.max_nodes = int(_raw[k+1])
         elif v.startswith("--max-nodes="):
             sm.cfg.max_nodes = int(v.split("=", 1)[1])
+    # --max-depth N: 覆盖层级深度上限（2026-11-21: resume 续拆 L5+ 用；
+    # 默认 4 < gold 树深度 5，结构上产不出 L5 节点）
+    for k, v in enumerate(_raw):
+        if v == "--max-depth" and k + 1 < len(_raw):
+            sm.cfg.max_depth = int(_raw[k+1])
+        elif v.startswith("--max-depth="):
+            sm.cfg.max_depth = int(v.split("=", 1)[1])
     # --beta N: 覆盖冗余惩罚系数（消融臂：β=0 = 纯 S_α 无冗余惩罚，复现 v13 时代行为）
     for k, v in enumerate(_raw):
         if v == "--beta" and k + 1 < len(_raw):
