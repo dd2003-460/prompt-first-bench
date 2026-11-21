@@ -144,6 +144,7 @@ fi
 # STAGE/CC/JUDGE 由 spec 驱动（env 传入），T53b 默认值向后兼容。
 RUN="$RUN" QID="$QID" ARM="$ARM" ROUND="$ROUND" SRC="$SRC" T0="$T0" \
 STAGE="$STAGE" CC_STATE="$CC_STATE" JUDGE_MODULE="$JUDGE_MODULE" JUDGE_FUNC="$JUDGE_FUNC" \
+RUNS_DIR="$RUNS_DIR" NOTES_DIR="$NOTES_DIR" RESULTS_FILE="$RESULTS_FILE" ARCHIVE="$ARCHIVE" \
 python3 - <<'PYEOF'
 import json, os, shutil, sys, glob, importlib.util
 from datetime import datetime
