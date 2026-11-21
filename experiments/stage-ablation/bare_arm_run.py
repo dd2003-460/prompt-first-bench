@@ -44,27 +44,29 @@ RUNS_DIR = os.path.join(PFB_ROOT, "modules/B-pipeline-ablation/data/t53b/runs")
 
 BARE_PROMPT = (
     "你是严谨的研究员。下面是一道待解问题。你的任务：为这道题构建一棵递归分解树，"
-    "使最终答案能够『完整、详尽、准确』地回答这道题，且性价比最优（信息密度最高、"
-    "不冗余、不遗漏）。\n\n"
+    "使最终答案能够『完整、详尽、准确』地回答这道题，不遗漏任何影响决策的维度。\n\n"
     "【树的要求】\n"
     "1. 递归分解：从顶层维度开始逐层下钻，直到叶子节点是可核验的具体断言"
-    "（带数字/来源/推导，不是抽象目录名）。\n"
+    "（带数字/来源/推导，不是抽象目录名）。深度不设上限——拆到每个影响决策的"
+    "维度都有可核验的叶子为止。\n"
     "2. 正交性：同层兄弟节点必须正交——A 的取值不影响 B 需要查什么 → 可并列；"
     "A 是 B 的父级或子集 → 不得并列，只保留更上层。\n"
     "3. 完备性：题目显式列出的每个子问必须被某节点覆盖；影响决策的关键维度不得遗漏。\n"
     "4. 压缩：同义变体不得重复；能合并的合并；每节点必须携带新增信息，否则删掉。\n"
-    "5. 性价比：优先展开对最终答案影响最大的分支；影响小的可以浅一些。"
-    "当你判断继续展开的边际信息增益低于成本时，停止——不需要无限展开。\n\n"
+    "5. 贡献因子：每个节点必须标注它对最终答案的贡献因子（0-1 连续值）。"
+    "贡献因子 = 如果删掉这个节点，最终答案会损失多少。0.8 以上 = 核心结论依赖它；"
+    "0.4-0.8 = 重要支撑；0.2-0.4 = 次要细节；0.2 以下 = 可删。"
+    "标贡献因子时认真想：这个节点真的必要吗？\n\n"
     "【每轮输出格式】（纯文本，按以下标记）\n"
     "SEARCH: <查询语句>      （可选。需要查资料时写这一行，机器会执行搜索并返回结果，"
-    "你下一轮继续。每轮最多一条 SEARCH。）\n"
-    "TREE:                  （你当前维护的完整树，缩进列表，每行一个节点，"
-    "格式：- [N1] 断言内容 (来源: given/记忆/已查[1])。每次输出都要给完整树，"
-    "机器只记录你最后一版。）\n"
+    "你下一轮继续。每轮最多一条 SEARCH。搜索次数不设上限。）\n"
+    "TREE:                  （你当前维护的完整树，每行一个节点，"
+    "格式：- [N1] 断言内容 (来源: given/记忆/已查[1]) (贡献: 0.85)。"
+    "每次输出都要给完整树，机器只记录你最后一版。）\n"
     "DONE                   （你判断树已完备、可以写最终答案时，在末尾写这一行。）\n\n"
     "【流程】你自己控制：先拆顶层维度，逐层下钻，需要查资料就 SEARCH，"
-    "判断完备了就写 DONE。机器不控制你的过程、不催你、不罚你——但搜索次数有限"
-    "（{max_search} 次），用完后机器会强制你基于已有树写最终答案。\n\n"
+    "判断完备了就写 DONE。机器不控制你的过程、不催你、不罚你、不设上限——"
+    "唯一的要求是树尽可能完整、全面、准确。\n\n"
     "【问题】\n{question}\n"
 )
 
@@ -105,45 +107,79 @@ def _extract_tree(text):
     return lines if lines else None
 
 
-def run_one(qid, round_id, max_search=8, max_tokens=4096):
+def run_one(qid, round_id, max_tokens=4096,
+            hard_max_search=40, hard_max_steps=60):
+    """无上限裸跑：模型自己控制搜索/分解/停止。
+    机器侧只有防死循环安全阀（hard_max_search/hard_max_steps，不告诉模型，
+    触发了打 hard_cap_hit 标）。重复查询去重（防 bug，不罚）。"""
     question = QUESTIONS[qid]
-    prompt = BARE_PROMPT.format(question=question, max_search=max_search)
+    prompt = BARE_PROMPT.format(question=question)
     all_sources = []
     last_tree = []
     n_search = 0
     done_by_model = False
+    hard_cap_hit = False
+    seen_queries = set()
     t0 = time.time()
 
-    for step in range(max_search + 3):
+    for step in range(hard_max_steps):
         content, _ = call_llm(prompt, max_tokens=max_tokens, temperature=0.7,
                               enable_thinking=False)
         tree = _extract_tree(content)
         if tree:
             last_tree = tree
-        if "DONE" in content.upper():
+        # DONE 必须独立成行（防树内容里的 "done" 字样误判）
+        if re.search(r"^\s*DONE\s*$", content, re.M):
             done_by_model = True
             break
         m = re.search(r"SEARCH:\s*(.+)", content)
-        if m and n_search < max_search:
+        if m and n_search < hard_max_search:
             n_search += 1
             q = m.group(1).strip()
-            res = _search(q, qid)
+            if q in seen_queries:
+                res = "（重复查询，之前已搜过，结果见上方历史记录）"
+            else:
+                seen_queries.add(q)
+                res = _search(q, qid)
             all_sources.append(f"### SEARCH #{n_search}: {q}\n{res}")
             prompt = prompt + SEARCH_RESULT_FMT.format(results=res)
-            print(f"[bare] {qid} {round_id} step{step}: search {n_search}/{max_search} "
+            # 上下文防膨胀：prompt 超 30000 字符时压缩——只保留题面 + 当前树
+            # （机器记录的最后一版）+ 最近 8 条搜索记录。模型每轮输出完整树，
+            # 树本身不依赖早期搜索原文（引用标在节点里）。
+            if len(prompt) > 30000:
+                recent = "\n\n".join(all_sources[-8:])
+                tree_now = "\n".join(last_tree) if last_tree else "（尚无树）"
+                prompt = (BARE_PROMPT.format(question=question)
+                          + "\n\n【你当前维护的树（机器记录，继续在此基础上扩展）】\n"
+                          + tree_now
+                          + "\n\n【历史搜索记录（早期已省略）】\n"
+                          + recent
+                          + "\n\n继续。")
+                print(f"[bare] {qid} {round_id} prompt compressed "
+                      f"(tree={len(last_tree)} nodes, recent 8 searches)", flush=True)
+            print(f"[bare] {qid} {round_id} step{step}: search {n_search} "
                   f"tree={len(last_tree)}", flush=True)
             continue
+        if n_search >= hard_max_search:
+            hard_cap_hit = True
+            break
         # 既没 SEARCH 也没 DONE：再给一次机会（不罚，只提醒格式）
-        if step < max_search:
-            prompt = prompt + ("\n\n【格式提醒】每轮输出需含 TREE:（完整树）和/或 "
-                               "SEARCH:（查询）；完备了就在末尾写 DONE。")
-            continue
-        break  # 预算耗尽
+        prompt = prompt + ("\n\n【格式提醒】每轮输出需含 TREE:（完整树）和/或 "
+                           "SEARCH:（查询）；完备了就在末尾写 DONE。")
+    else:
+        hard_cap_hit = True
 
     elapsed = time.time() - t0
     # 合成最终答案（与 SM 臂 synthesize_answer 对等）
+    # 上下文防膨胀：树和搜索记录都截断（树已含 [已查n] 引用和断言，
+    # 合成不需要全部原始搜索记录；保留最近 12 条）
     tree_text = "\n".join(last_tree) if last_tree else "（树为空）"
-    sources_text = "\n\n".join(all_sources) if all_sources else "（未搜索）"
+    if len(tree_text) > 15000:
+        tree_text = tree_text[:15000] + "\n...（树过长，已截断，以上为前 15000 字符）"
+    src_blocks = all_sources[-12:] if all_sources else []
+    sources_text = "\n\n".join(src_blocks) if src_blocks else "（未搜索）"
+    if len(sources_text) > 15000:
+        sources_text = sources_text[-15000:] + "\n...（搜索记录过长，已保留最近部分）"
     synth = SYNTH_PROMPT.format(question=question, tree=tree_text, sources=sources_text)
     answer, _ = call_llm(synth, max_tokens=max_tokens, temperature=0.7,
                          enable_thinking=False)
@@ -169,6 +205,7 @@ def run_one(qid, round_id, max_search=8, max_tokens=4096):
         "max_depth": max_depth,
         "n_search": n_search,
         "done_by_model": done_by_model,
+        "hard_cap_hit": hard_cap_hit,
         "elapsed_s": round(elapsed, 1),
         "answer": answer,
         "tree": last_tree,
@@ -180,6 +217,7 @@ def run_one(qid, round_id, max_search=8, max_tokens=4096):
         json.dump(out, f, ensure_ascii=False, indent=2)
     print(f"[bare] {qid} {round_id}: nodes={len(last_tree)} depth={max_depth} "
           f"search={n_search} done_by_model={done_by_model} "
+          f"hard_cap={hard_cap_hit} "
           f"elapsed={elapsed:.0f}s answer_len={len(answer)}", flush=True)
     if answer:
         try:
@@ -199,7 +237,10 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("qid", choices=["nat", "soc", "gpu"])
     ap.add_argument("round_id", help="e.g. r01")
-    ap.add_argument("--max-search", type=int, default=8)
     ap.add_argument("--max-tokens", type=int, default=4096)
+    ap.add_argument("--hard-max-search", type=int, default=40,
+                    help="防死循环安全阀（不告诉模型）")
+    ap.add_argument("--hard-max-steps", type=int, default=60,
+                    help="防死循环安全阀（不告诉模型）")
     a = ap.parse_args()
-    run_one(a.qid, a.round_id, a.max_search, a.max_tokens)
+    run_one(a.qid, a.round_id, a.max_tokens, a.hard_max_search, a.hard_max_steps)
