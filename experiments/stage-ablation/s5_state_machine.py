@@ -1508,7 +1508,14 @@ class DecompStateMachine:
 # 用法：CLI 加 --synth；不加则行为与旧版完全一致（向后兼容）。
 
 def synthesize_answer(question: str, nodes: list, qid: str) -> dict:
-    """节点树 → 分段综合 → merge → judge + depth。返回 {answer, judge, coverage, depth}。"""
+    """节点树 → 分段综合 → merge → judge + depth。返回 {answer, judge, coverage, depth}。
+
+    2026-11-21: SM_SYNTH_FULL=1 放开压缩（D 指令"放开然后完整跑"）：
+    段截断 12000→不截断、每层 max_tokens 4000→8000、merge 8000→16000。
+    默认值不变（不影响在跑的 matched 批语义；进程启动时已加载旧代码）。
+    """
+    import os as _os
+    _FULL = _os.environ.get("SM_SYNTH_FULL", "") == "1"
     from collections import defaultdict
     from s5_pipeline import _perturb
     by_lv = defaultdict(list)
@@ -1524,7 +1531,8 @@ def synthesize_answer(question: str, nodes: list, qid: str) -> dict:
         # 尾部多为检索来源列表和重复性节点。旧逻辑 seg[:6000] 保头，
         # 但 L4 有 97 节点 24K chars，截断后丢失的恰是后半段的
         # roofline/故障损耗/利用率等关键公式节点。改为保头+保尾。
-        if len(seg) > 12000:
+        # 2026-11-21: SM_SYNTH_FULL=1 时不截断（完整跑）。
+        if not _FULL and len(seg) > 12000:
             head = seg[:8000]
             tail = seg[-4000:]
             seg = head + "\n[...中间省略...]\n" + tail
@@ -1536,7 +1544,7 @@ def synthesize_answer(question: str, nodes: list, qid: str) -> dict:
              f"如果不同事实之间存在矛盾（如不同 head_dim 取值），取多数一致的值并注明分歧。\n\n"
              f"【问题】\n{question}\n\n【第 {lv} 层事实】\n{seg}") + _perturb()
         t0 = time.time()
-        out_l, _ = call_llm(p, max_tokens=4000, temperature=0.7, top_p=0.95, retries=3)
+        out_l, _ = call_llm(p, max_tokens=(8000 if _FULL else 4000), temperature=0.7, top_p=0.95, retries=3)
         parts.append(f"=== 第 {lv} 层 ===\n{out_l or '(空)'}")
         print(f"  [SM] synth {lv}: {len(by_lv[lv])} 节点, out={len(out_l or '')}c, {time.time()-t0:.0f}s", flush=True)
     merge_p = (f"你是研究员。下面是同一道问题按目录树分层得到的各层结论摘要。"
@@ -1551,7 +1559,7 @@ def synthesize_answer(question: str, nodes: list, qid: str) -> dict:
                f"如果各层之间存在矛盾（如不同 head_dim 取值），取多数一致的值并注明分歧。\n\n【问题】\n{question}\n\n"
                + "\n\n".join(parts)) + _perturb()
     t0 = time.time()
-    answer, _ = call_llm(merge_p, max_tokens=8000, temperature=0.7, top_p=0.95, retries=3)
+    answer, _ = call_llm(merge_p, max_tokens=(16000 if _FULL else 8000), temperature=0.7, top_p=0.95, retries=3)
     print(f"  [SM] synth merge: out={len(answer or '')}c, {time.time()-t0:.0f}s", flush=True)
     # judge（gate 指标：GOLD 要点逐条 0/1 → coverage）
     from s8b_pilot import judge
