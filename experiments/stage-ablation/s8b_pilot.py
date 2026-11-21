@@ -206,7 +206,9 @@ def judge(qid: str, answer: str) -> dict:
         "你是评分员。下面是一道题的标准答案要点清单和一个候选回答。"
         "逐条判断候选回答是否实质覆盖了该要点（覆盖=1，未覆盖或答错=0；部分覆盖按 0 计并在 reason 说明）。\n\n"
         f"要点清单：\n{points}\n\n"
-        f"候选回答：\n{answer[:12000]}\n\n"
+        # 2026-11-21: 12000→40000，同 judge_v2_depth（放开 synth 后答案超长，
+        # 12k 截断让 coverage 也只看得到答案前段）。
+        f"候选回答：\n{answer[:40000]}\n\n"
         "输出 JSON：{\"scores\": [每要点 0/1], \"reasons\": [每条一句话], "
         "\"unverified_count\": 回答中 [待核验] 标记出现的次数, \"hallucination_flags\": [疑似编造的具体数字/事实, 没有就给空列表]}"
     )

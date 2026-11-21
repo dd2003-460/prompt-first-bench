@@ -1537,18 +1537,22 @@ def synthesize_answer(question: str, nodes: list, qid: str) -> dict:
             tail = seg[-4000:]
             seg = head + "\n[...中间省略...]\n" + tail
         p = (f"你是研究员。基于下面第 {lv} 层的已核验事实，回答原问题中该层涉及的部分。"
-             f"只写结论+数值/公式，每条标来源条目 id，不要重复其他层的内容。"
+             f"完整保留推导链+数值/公式（不要只给结论）：每个公式必须展示代入过程和具体数值，"
+             f"每个数值结论必须能追溯到它由哪些子事实算出来。每条标来源条目 id，不要重复其他层的内容。"
              f"【关键】上面列出的每一个公式（如 TCO 公式、roofline 公式、KV Cache 计算、"
              f"故障损耗项、利用率分解等），必须在你的回答中完整保留并代入具体数值，"
              f"不得省略或仅定性提及。如果某条事实给出了完整公式，你的回答必须展示该公式。"
              f"如果不同事实之间存在矛盾（如不同 head_dim 取值），取多数一致的值并注明分歧。\n\n"
              f"【问题】\n{question}\n\n【第 {lv} 层事实】\n{seg}") + _perturb()
         t0 = time.time()
-        out_l, _ = call_llm(p, max_tokens=(8000 if _FULL else 4000), temperature=0.7, top_p=0.95, retries=3)
+        # 2026-11-21: token 帽按节点数缩放——树往下变宽(6→28→83→220)，
+        # 固定帽会让深层每节点预算递减(36 tok/节点)。FULL 模式给足空间。
+        _per_lv_tok = (min(60000, max(8000, len(by_lv[lv]) * 250)) if _FULL else 4000)
+        out_l, _ = call_llm(p, max_tokens=_per_lv_tok, temperature=0.7, top_p=0.95, retries=3)
         parts.append(f"=== 第 {lv} 层 ===\n{out_l or '(空)'}")
         print(f"  [SM] synth {lv}: {len(by_lv[lv])} 节点, out={len(out_l or '')}c, {time.time()-t0:.0f}s", flush=True)
-    merge_p = (f"你是研究员。下面是同一道问题按目录树分层得到的各层结论摘要。"
-               f"请把它们合并成一份完整最终答案：覆盖问题全部子问，保留所有具体数值/公式/排序，"
+    merge_p = (f"你是研究员。下面是同一道问题按目录树分层得到的各层完整推导（含公式代入过程和数值链）。"
+               f"请把它们合并成一份完整最终答案：覆盖问题全部子问，保留所有具体数值/公式/排序/推导链，"
                f"消除层间重复，最后给一个明确的推荐结论。"
                f"规则：问题问「最多/上限/提升多少/打几折」时，必须显式列出限制因素并给出其定量影响"
                f"（如频率表老化、热度漂移、容量覆盖不足），不能只讲优势不讲上限；"
@@ -1559,7 +1563,7 @@ def synthesize_answer(question: str, nodes: list, qid: str) -> dict:
                f"如果各层之间存在矛盾（如不同 head_dim 取值），取多数一致的值并注明分歧。\n\n【问题】\n{question}\n\n"
                + "\n\n".join(parts)) + _perturb()
     t0 = time.time()
-    answer, _ = call_llm(merge_p, max_tokens=(16000 if _FULL else 8000), temperature=0.7, top_p=0.95, retries=3)
+    answer, _ = call_llm(merge_p, max_tokens=(24000 if _FULL else 8000), temperature=0.7, top_p=0.95, retries=3)
     print(f"  [SM] synth merge: out={len(answer or '')}c, {time.time()-t0:.0f}s", flush=True)
     # judge（gate 指标：GOLD 要点逐条 0/1 → coverage）
     from s8b_pilot import judge
