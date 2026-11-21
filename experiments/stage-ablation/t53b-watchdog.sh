@@ -135,8 +135,8 @@ for wu in s['work_units']:
     log "批量执行器不在，清场后重启"
     cd /Users/a1-6/Desktop/workspace/pfb
     git add tasks/T53-bus/cc-state.json \
-            experiments/stage-ablation/ablation-runs/ \
-            experiments/stage-ablation/ablation-notes/ \
+            modules/B-pipeline-ablation/data/t53b/runs/ \
+            modules/B-pipeline-ablation/data/t53b/notes/ \
             experiments/stage-ablation/ablation-results.json 2>/dev/null
     git commit -m "T53b: watchdog checkpoint (batch driver died, resuming)" 2>/dev/null >> "$LOG"
     nohup bash "$STAGE/t53b-batch.sh" >> /tmp/t53b-batch.log 2>&1 &

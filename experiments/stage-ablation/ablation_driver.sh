@@ -11,9 +11,47 @@
 set -euo pipefail
 setopt NULL_GLOB  # zsh: glob 匹配不到时展开为空，避免 rm -f 因 nomatch 失败（T1 测试暴露）
 cd /Users/a1-6/Desktop/workspace/pfb
-STAGE=experiments/stage-ablation
-CC_STATE=tasks/T53-bus/cc-state.json
-LOG_DIR=/tmp/t53b
+# ── 实验形状由 spec 驱动（ABLATION_SPEC 指向 spec/<name>.json，run_ablation.sh 设置）──
+# 无 ABLATION_SPEC 时回退 T53b 默认值（向后兼容：62 run 已验证的行为不变）。
+# spec 是唯一改实验形状的地方（qid/臂/轮数/seed/judge/cc-state 路径），本脚本不硬编码。
+ABLATION_SPEC="${ABLATION_SPEC:-}"
+_SPEC_ENV="${TMPDIR:-/tmp}/ablation-spec-env.$$"
+python3 - "$ABLATION_SPEC" > "$_SPEC_ENV" <<'PY'
+import json, os, sys
+p = sys.argv[1]
+if p and os.path.exists(p):
+    s = json.load(open(p))
+    qids = '|'.join(s['qids']); arms = '|'.join(s['arms'].keys())
+    pat = '^(' + qids + ')_(' + arms + ')_r(\\d{2})$'
+    print("STAGE=" + s.get('stage', 'experiments/stage-ablation'))
+    print("CC_STATE=" + s['cc_state'])
+    print("SM_SEED=" + str(s.get('seed', 42)))
+    print("RUN_PATTERN=" + pat)
+    print("JUDGE_MODULE=" + s.get('judge_module', 'judge_v2_depth'))
+    print("JUDGE_FUNC=" + s.get('judge_func', 'score_run'))
+    out = s.get('output', {})
+    print("RUNS_DIR=" + out.get('runs_dir', 'modules/B-pipeline-ablation/data/t53b/runs'))
+    print("NOTES_DIR=" + out.get('notes_dir', 'modules/B-pipeline-ablation/data/t53b/notes'))
+    print("RESULTS_FILE=" + out.get('results', 'modules/B-pipeline-ablation/data/t53b/results.json'))
+    print("LOG_DIR=" + s.get('log_dir', '/tmp/ablation'))
+    for a, fl in s['arms'].items():
+        print("ARMFLAGS_%s=%s" % (a, fl))
+else:
+    print("STAGE=experiments/stage-ablation")
+    print("CC_STATE=tasks/T53-bus/cc-state.json")
+    print("SM_SEED=42")
+    print("RUN_PATTERN=^(gpu|nat|soc)_(formula|text)_r(\\d{2})$")
+    print("JUDGE_MODULE=judge_v2_depth")
+    print("JUDGE_FUNC=score_run")
+    print("RUNS_DIR=modules/B-pipeline-ablation/data/t53b/runs")
+    print("NOTES_DIR=modules/B-pipeline-ablation/data/t53b/notes")
+    print("RESULTS_FILE=modules/B-pipeline-ablation/data/t53b/results.json")
+    print("LOG_DIR=/tmp/t53b")
+    print("ARMFLAGS_formula=--obj-mode=formula")
+    print("ARMFLAGS_text=--obj-mode=text")
+PY
+source "$_SPEC_ENV"
+rm -f "$_SPEC_ENV"
 mkdir -p "$LOG_DIR" "$STAGE/ablation-runs" "$STAGE/ablation-notes"
 
 # ── 取下一个 pending run（支持 T53B_RUN 环境变量指定，batch 并行模式用）──
@@ -21,10 +59,10 @@ if [[ -n "${T53B_RUN:-}" ]]; then
   RUN="$T53B_RUN"
   echo "[driver] using T53B_RUN=$RUN (from batch)"
 else
-  RUN="$(python3 -c "
-import json, re
-s=json.load(open('$CC_STATE'))
-pat=re.compile(r'^(gpu|nat|soc)_(formula|text)_r(\d{2})$')
+  RUN="$(RUN_PATTERN="$RUN_PATTERN" CC_STATE="$CC_STATE" python3 -c "
+import json, re, os
+s=json.load(open(os.environ['CC_STATE']))
+pat=re.compile(os.environ['RUN_PATTERN'])
 for wu in s['work_units']:
     if not wu.get('done') and pat.match(wu.get('name','')):
         print(wu['name']); break
@@ -52,11 +90,14 @@ for f in "$STAGE/checkpoints/sm-${QID}-r"* \
 done
 echo "[clean] archived ${QID} ckpt/output files → $ARCHIVE"
 
-# ── 跑 SM（SM_SEED=42 固定，前台，无超时——由 CC 会话看门）──
+# ── 跑 SM（seed 由 spec 固定，前台，无超时——由 CC 会话看门）──
+# 臂参数由 spec 的 arms.<arm> 指定（ARMFLAGS_<arm>），T53b 默认 --obj-mode=<arm>。
 # 注意：不用 `if ! cmd; then RC=$?`——`!` 反转退出码，then 里 $? 是 0 不是 cmd 的 rc（T2 测试暴露）
 T0=$(date +%s)
 RC=0
-SM_SEED=42 python3 -u "$STAGE/s5_state_machine.py" "$QID" --obj-mode="$ARM" --synth \
+# 臂 flag 由 spec 的 arms.<arm> 给出（字符串，如 --obj-mode=formula）；zsh 间接展开
+_AF_NAME="ARMFLAGS_$ARM"; _AF="${(P)_AF_NAME}"
+SM_SEED="$SM_SEED" python3 -u "$STAGE/s5_state_machine.py" "$QID" ${=_AF} --synth \
       > "$LOG_DIR/${RUN}.sm.log" 2>&1 || RC=$?
 # 2026-11-19 诊断员修复：SM FATAL 时落盘 runs-s5-sm-${QID}-checkpoint.json（E12），
 # 旧逻辑直接 exit 丢弃进度 → batch 标记 done 跳过，整轮白干（19:42-20:47 连丢 7 个
@@ -75,7 +116,8 @@ while [ $RC -ne 0 ] && [ $RESUME_TRIES -lt 3 ]; do
   RESUME_TRIES=$((RESUME_TRIES+1))
   echo "[resume] SM FATAL 后从 ckpt 续跑 (第${RESUME_TRIES}/3次): $CKPT"
   T0=$(date +%s)
-  SM_SEED=42 python3 -u "$STAGE/s5_state_machine.py" "$QID" --obj-mode="$ARM" --synth \
+  _AF_NAME="ARMFLAGS_$ARM"; _AF="${(P)_AF_NAME}"
+  SM_SEED="$SM_SEED" python3 -u "$STAGE/s5_state_machine.py" "$QID" ${=_AF} --synth \
         --resume "$CKPT" >> "$LOG_DIR/${RUN}.sm.log" 2>&1 || RC=$?
 done
 if [ $RC -ne 0 ]; then
@@ -99,17 +141,22 @@ if (( MT < T0 )); then
 fi
 
 # ── copy + judge + 记账 + note + state（一次性 python，只信本 run 文件）──
-RUN="$RUN" QID="$QID" ARM="$ARM" ROUND="$ROUND" SRC="$SRC" T0="$T0" python3 - <<'PYEOF'
-import json, os, shutil, sys, glob
+# STAGE/CC/JUDGE 由 spec 驱动（env 传入），T53b 默认值向后兼容。
+RUN="$RUN" QID="$QID" ARM="$ARM" ROUND="$ROUND" SRC="$SRC" T0="$T0" \
+STAGE="$STAGE" CC_STATE="$CC_STATE" JUDGE_MODULE="$JUDGE_MODULE" JUDGE_FUNC="$JUDGE_FUNC" \
+python3 - <<'PYEOF'
+import json, os, shutil, sys, glob, importlib.util
 from datetime import datetime
-STAGE = "experiments/stage-ablation"
+STAGE = os.environ["STAGE"]
+ROOT = os.getcwd()  # driver 在 repo root 执行（L13 cd）
+RUNS_DIR = os.path.join(ROOT, os.environ["RUNS_DIR"])
 RUN, QID, ARM = os.environ["RUN"], os.environ["QID"], os.environ["ARM"]
 ROUND = int(os.environ["ROUND"])
 SRC = os.environ["SRC"]
-ABL = f"{STAGE}/ablation-runs"
-NOTES = f"{STAGE}/ablation-notes"
-RESULTS = f"{STAGE}/ablation-results.json"
-CC = "tasks/T53-bus/cc-state.json"
+ABL = RUNS_DIR
+NOTES = os.path.join(ROOT, os.environ["NOTES_DIR"])
+RESULTS = os.path.join(ROOT, os.environ["RESULTS_FILE"])
+CC = os.environ["CC_STATE"]
 
 dst = f"{ABL}/{RUN}.json"
 shutil.copy2(SRC, dst)
@@ -120,9 +167,14 @@ answer = run_data.get("answer", "")
 coverage = run_data.get("coverage")
 depth = run_data.get("depth_score")
 
-# judge（judge_v2_depth.score_run，与任务书一致）
+# judge（spec 指定模块，T53b 默认 judge_v2_depth.score_run，与任务书一致）
 sys.path.insert(0, STAGE)
-from judge_v2_depth import score_run
+_jmod_name = os.environ.get("JUDGE_MODULE", "judge_v2_depth")
+_jfunc_name = os.environ.get("JUDGE_FUNC", "score_run")
+_jspec = importlib.util.spec_from_file_location(_jmod_name, os.path.join(os.getcwd(), STAGE, f"{_jmod_name}.py"))
+_jmod = importlib.util.module_from_spec(_jspec)
+_jspec.loader.exec_module(_jmod)
+score_run = getattr(_jmod, _jfunc_name)
 judge_result = None
 if answer:
     judge_result = score_run(QID, answer)
@@ -171,8 +223,8 @@ results["runs"].append({
     "coverage": coverage, "depth": depth,
     "n_nodes": n_nodes, "n_verified": n_verified, "n_degraded": n_degraded,
     "l1_uncertainty": l1_unc,
-    "run_file": f"ablation-runs/{RUN}.json",
-    "judge_file": f"ablation-runs/{RUN}_judge.json" if judge_result else None,
+    "run_file": f"{RUNS_DIR}/{RUN}.json",
+    "judge_file": f"{RUNS_DIR}/{RUN}_judge.json" if judge_result else None,
     "timestamp": datetime.now().astimezone().isoformat(),
 })
 with open(RESULTS, "w") as f:

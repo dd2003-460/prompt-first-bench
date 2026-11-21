@@ -24,7 +24,7 @@ import json, os, glob, re, sys
 from datetime import datetime
 
 STAGE = os.path.dirname(os.path.abspath(__file__))
-RUNS_DIR = os.path.join(STAGE, "ablation-runs")
+RUNS_DIR = os.path.join(STAGE, "..", "..", "modules/B-pipeline-ablation/data/t53b", "runs")
 OUT = os.path.join(RUNS_DIR, "pipeline-state.json")
 
 # ── 模式关键词表（v1，从 47 run 实测 claim 词频推得，2026-11-21）──
@@ -100,7 +100,7 @@ def load_runs():
             "n_degraded": sum(1 for n in nodes if n.get("status") == "degraded"),
             "patterns": patterns,
             "n_patterns": len([p for p in patterns if p != "other"]),
-            "file": f"ablation-runs/{run_name}.json",
+            "file": f"modules/B-pipeline-ablation/data/t53b/runs/{run_name}.json",
             "mtime": datetime.fromtimestamp(os.path.getmtime(f)).astimezone().isoformat(),
         })
     return runs

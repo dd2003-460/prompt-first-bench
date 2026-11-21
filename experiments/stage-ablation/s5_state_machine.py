@@ -12,6 +12,8 @@
 leak_check() 每轮输出后执行，命中即 raise LeakError 中止。
 """
 import json
+import prompts  # prompt 单一来源（常量 + 模板函数）
+from prompts import EDGE_TYPE_PROMPT, EDGE_PREDICT_PROMPT
 import math
 import re
 import time
@@ -169,16 +171,7 @@ def judge_necessary_batch(candidates: list[tuple[str, list[str]]],
     for idx, (claim, par_claims) in enumerate(candidates):
         par = "\n".join(f"    - {c}" for c in par_claims[-5:]) or "    （无）"
         items_block += f"[{idx}] claim: {claim}\n    父节点:\n{par}\n\n"
-    prompt = (
-        "你是严格的审稿人。对下面每个编号的研究子问题，判断它相对于【已知】是否引入了新信息。\n"
-        "【新信息的定义】满足至少一条：(a) 出现已知里不存在的物理量/参数/型号/数字；"
-        "(b) 新增一个约束或口径（如新的精度/延迟/温度条件）；(c) 是一个新的可独立检索的事实断言。\n"
-        "如果只是换措辞复述、把已知结论换个说法、或纯定性描述 → 不是新信息。\n\n"
-        f"【已确认事实】\n{confirmed_block}\n\n"
-        f"【待判定节点列表】\n{items_block}\n"
-        f"对每个编号输出一行，共 {len(candidates)} 行，紧凑无空格，格式示例：\"idx\":0,\"necessary\":true\n"
-        "只输出这些行，不要其他文字。"
-    )
+    prompt = prompts.necessity_batch_prompt(confirmed_block, items_block, len(candidates))
     try:
         # E11 (2026-11-12): max_tokens 上限保护——8787 端点（ninfer/qwen3.8-27b）对超大
         # max_tokens 返回 HTTP 400；r9 首轮 20+ 候选 → ~7000 tokens 触发。封顶 4096，
@@ -226,41 +219,6 @@ def judge_necessary(claim: str, parent_claims: list[str], confirmed: list[tuple]
 # ─────────────────────────────────────────────
 # 三边分类 (Decision 24 扩展, idea #43)
 # ─────────────────────────────────────────────
-
-EDGE_TYPE_PROMPT = (
-    "你是结构分析师。判断一个父节点与其子维度之间的组合关系属于以下哪种：\n"
-    "1. cartesian（笛卡尔积）【默认】：子维度独立取值，联合空间 = 各维度取值组合，无交叉约束。\n"
-    "例：GPU 的「架构、显存容量、接口类型」之间。\n"
-    "2. quotient（商/约束）：判定的唯一条件是——父概念的定义本身就是子项的运算结果"
-    "（比值/加权/差值），且父 claim 文本中显式包含运算结构（÷、/、ratio、per unit、每…的…、加权）。"
-    "存在 trade-off——一个分量↑另一个分量↓时最终目标可能不变。"
-    "例：性价比 = 性能 / TCO；能效比 = 吞吐量 / 功耗。\n"
-    "注意：大多数分解边是 cartesian。只有当父概念明确是\"A 与 B 的运算\"时才判 quotient，"
-    "不要因为子项之间存在某种权衡关系就判 quotient——权衡普遍存在，但运算定义稀有。\n"
-    "3. stochastic（随机耦合）：一个共享随机源（如温度采样、量化噪声、batch 组成波动）"
-    "同时驱动多个下游子维度，它们不是独立的也不是运算组合的，而是同一个随机过程的不同投影。"
-    "例：推理稳定性 ← temp 采样 → 输出一致性；量化质量 ← 同一 temp 流 → 精度损失。\n\n"
-    "【父节点】{parent_claim}\n"
-    "【候选子维度】\n{children_block}\n\n"
-    "同时估计：如果删掉这些子维度，回答父节点所代表的问题时的完整性损失有多大？"
-    "（0.0~1.0，即该子项携带的信息量——去掉后父问题的答案缺多少；"
-    "极小概率但影响极大的尾部风险项，即使期望信息量低也要标 high_var=true 并给 ≥0.5 分）\n"
-    "只输出一行 JSON：{{\"edge_type\": \"cartesian|quotient|stochastic\", \"reason\": \"一句话\", \"contribution\": 0.XX, \"high_var\": false}}"
-)
-
-EDGE_PREDICT_PROMPT = (
-    "你是结构分析师。下面是一个待分解的概念。在它被展开之前，先判断它最可能是哪种组合结构：\n"
-    "1. cartesian【默认】：该概念可拆成若干独立维度，各维度取值互不影响（如「GPU 选型」→ 架构/显存/接口）。\n"
-    "2. quotient：判定条件同上——该概念本身是一个运算结果（比值/加权/差值），其定义中显式包含运算结构"
-    "（如「性价比」= 性能÷TCO、「能效比」= 吞吐÷功耗）。这类概念的子维度不能穷举组合，"
-    "只能沿 frontier 列代表性工作点。不要因为概念涉及多个相互影响的因子就判 quotient。\n"
-    "3. stochastic：该概念的核心变异来自一个共享随机源对多个下游维度的同时驱动"
-    "（如「推理稳定性」← temp 采样 → 一致性+精度）。\n\n"
-    "同时估计：这个概念如果被展开，其子维度携带的信息量大概多大？"
-    "（0.0~1.0，即删掉整个该分支后整体研究答案缺多少；极小概率但影响极大的尾部风险项标 high_var=true 并给 ≥0.5 分）\n\n"
-    "【概念】{concept}\n\n"
-    "只输出一行 JSON：{{\"edge_type\": \"cartesian|quotient|stochastic\", \"reason\": \"一句话\", \"contribution\": 0.XX, \"high_var\": false}}"
-)
 
 
 def classify_edge(parent_claim: str, child_claims: list[str],
@@ -724,26 +682,7 @@ class DecompStateMachine:
 
             # 检查 2-4：正交性、完备性、冗余（LLM 判断）
             child_claims = [c.claim for c in children]
-            prompt = f"""你是一个学术分解质量检查员。检查以下分解是否合格：
-
-父节点：{parent.claim}
-
-子节点（共 {len(children)} 个）：
-""" + "\n".join(f"  - {c}" for c in child_claims) + """
-
-请检查：
-1. 正交性：子节点之间是否正交（不重复、不矛盾）？
-2. 完备性：子节点是否覆盖了父节点的所有关键方面？
-3. 冗余：子节点是否有可压缩成参数/变量的内容（即多个子节点其实是一个参数的不同取值）？
-
-输出 JSON：
-{{
-  "orthogonal": true/false,
-  "complete": true/false,
-  "redundant": true/false,
-  "reason": "简短说明",
-  "suggestions": ["如果有问题，给出具体建议"]
-}}"""
+            prompt = prompts.parent_check_prompt(parent.claim, len(children), child_claims)
             try:
                 resp, _usage = _cll(prompt, max_tokens=500, timeout=60)
                 # 解析 JSON
@@ -864,14 +803,7 @@ class DecompStateMachine:
                 f"节点B {ev['b']}: {ev['b_claim']}\n  evidence: {other.evidence[:200]}\n"
                 f"矛盾描述: {ev['desc']}"
             )
-        prompt = (
-            "一棵研究分解树里两个已核验节点互相矛盾。请裁决：基于双方 evidence 的来源质量"
-            "（一手数据 > 转述 > 无来源），哪个节点的数值/定义更可信？\n\n"
-            + "\n---\n".join(blocks) +
-            f"\n\n当前需要修正的节点是 {node.id}: {node.claim}\n"
-            '输出 JSON：{"keep": "A"或"B", "corrected_claim": "修正后本节点应表述的内容（带具体数值）", '
-            '"search_query": "用于重新检索验证修正值的一句话检索词（英文优先，arXiv 友好）"}'
-        )
+        prompt = prompts.contradiction_adjudication_prompt(blocks, node.id, node.claim)
         out, _ = _cll(prompt, max_tokens=1500, temperature=0.0, retries=2)
         d = _extract_json(out or "") or {}
         corrected = str(d.get("corrected_claim") or "").strip()
@@ -900,13 +832,7 @@ class DecompStateMachine:
     def _rework_angle(self, node: "NodeRecord") -> bool:
         """D34: 换角度重拆——LLM 给 2 个改写检索词（不同角度/英文化），逐个重试。"""
         from ablation_harness import call_llm as _cll
-        prompt = (
-            "一个事实节点核验失败（来源不支持或与来源冲突）。请给出 2 个【不同检索角度】的改写检索词，"
-            "用于重新检索验证它。要求：① 至少一个用英文（arXiv 通道友好）；② 角度要不同"
-            "（如：直接查数值 vs 查定义/公式 vs 查权威出处）；③ 每个 ≤15 词。\n"
-            f"原节点: {node.claim}\n失败证据: {node.evidence[:150]}\n"
-            '输出 JSON：{"queries": ["...", "..."]}'
-        )
+        prompt = prompts.rework_angle_prompt(node.claim, node.evidence[:150])
         out, _ = _cll(prompt, max_tokens=800, temperature=0.3, retries=2)
         d = _extract_json(out or "") or {}
         queries = [str(q).strip() for q in (d.get("queries") or []) if str(q).strip()]
@@ -942,12 +868,7 @@ class DecompStateMachine:
         # 控制成本：每轮最多扫最近 30 个 verified 节点
         sample = ver[-30:]
         block = "\n".join(f"{n.id}: {n.claim[:120]}" for n in sample)
-        prompt = (
-            "下面是一棵研究分解树里已核验的事实节点。请检查其中是否存在【互相矛盾】的数值或定义"
-            "（同一物理量/参数在不同节点给出冲突的值，或两个节点的结论逻辑上不能同时成立）。\n"
-            "注意：口径不同不算矛盾（如 prefill 吞吐 vs decode 吞吐）；同一量的单位换算等价也不算。\n"
-            "只报真矛盾，没有就返回空列表。\n\n" + block +
-            '\n输出 JSON：{"contradictions": [{"a": "Nxx", "b": "Nyy", "desc": "一句话说明哪里矛盾"}]}')
+        prompt = prompts.contradiction_scan_prompt(block)
         try:
             out, _ = _cll(prompt, max_tokens=2000, temperature=0.0, retries=2)
         except Exception:
@@ -1384,14 +1305,7 @@ class DecompStateMachine:
                     pair_block = "\n".join(
                         f"[{k}] A={siblings[pi].claim[:100]} B={siblings[pj].claim[:100]}"
                         for k, (pi, pj, _ov) in enumerate(pairs))
-                    ortho_prompt = (
-                        "你是严格审稿人。对下面每对研究子节点，判断 B 能否从 A 推出"
-                        "（即 B 的信息是否已包含在 A 中，或 B 只是 A 的换措辞/特例）。"
-                        "能推出 → B 是冗余的。\n\n"
-                        f"{pair_block}\n\n"
-                        f"对每对输出一行，共 {len(pairs)} 行，紧凑格式：\"pair\":0,\"redundant\":true\n"
-                        "只输出这些行。"
-                    )
+                    ortho_prompt = prompts.ortho_pair_prompt(pair_block, len(pairs))
                     try:
                         mtok = min(200 * len(pairs) + 200, 4096)
                         out, _ = call_llm(ortho_prompt, max_tokens=mtok, temperature=0.0, retries=2)

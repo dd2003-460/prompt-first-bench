@@ -7,8 +7,25 @@
 
 set -uo pipefail
 cd /Users/a1-6/Desktop/workspace/pfb
-STAGE=experiments/stage-ablation
-CC_STATE=tasks/T53-bus/cc-state.json
+# 实验形状由 spec 驱动（ABLATION_SPEC 指向 spec/<name>.json，run_ablation.sh 设置）；
+# 无 spec 时回退 T53b 默认（向后兼容）。与 ablation_driver.sh 的 spec 解析块同源。
+ABLATION_SPEC="${ABLATION_SPEC:-}"
+_SPEC_ENV="${TMPDIR:-/tmp}/ablation-spec-env-batch.$$"
+python3 - "$ABLATION_SPEC" > "$_SPEC_ENV" <<'PY'
+import json, os, sys
+p = sys.argv[1]
+if p and os.path.exists(p):
+    s = json.load(open(p))
+    qids = '|'.join(s['qids']); arms = '|'.join(s['arms'].keys())
+    print("CC_STATE=" + s['cc_state'])
+    print("RUN_PATTERN=" + '^(' + qids + ')_(' + arms + ')_r(\\d{2})$')
+else:
+    print("CC_STATE=tasks/T53-bus/cc-state.json")
+    print("RUN_PATTERN=^(gpu|nat|soc)_(formula|text)_r(\\d{2})$")
+PY
+source "$_SPEC_ENV"
+rm -f "$_SPEC_ENV"
+STAGE=experiments/stage-ablation  # 管线自身位置（非实验形状参数）
 # 支持 QID 过滤：bash t53b-batch.sh nat 只跑 nat 题（并行模式）
 QID_FILTER="${1:-}"
 if [ -n "$QID_FILTER" ]; then
@@ -31,10 +48,10 @@ MAX_RUNS=60  # 安全上限（55 个 pending + 余量）
 
 while [ $RUNS -lt $MAX_RUNS ]; do
   # 取下一个 pending run（可选 QID 过滤）
-  PENDING=$(QID_FILTER="$QID_FILTER" python3 -c "
+  PENDING=$(QID_FILTER="$QID_FILTER" RUN_PATTERN="$RUN_PATTERN" CC_STATE="$CC_STATE" python3 -c "
 import json, re, os
-s=json.load(open('$CC_STATE'))
-pat=re.compile(r'^(gpu|nat|soc)_(formula|text)_r(\d{2})$')
+s=json.load(open(os.environ['CC_STATE']))
+pat=re.compile(os.environ['RUN_PATTERN'])
 qid_filter = os.environ.get('QID_FILTER','')
 for wu in s['work_units']:
     name = wu.get('name','')
@@ -128,9 +145,9 @@ log "=== T53b 批量执行器结束: $RUNS runs ($OK ok, $FAIL fail) ==="
 # git commit
 cd /Users/a1-6/Desktop/workspace/pfb
 git add tasks/T53-bus/cc-state.json \
-        experiments/stage-ablation/ablation-runs/ \
-        experiments/stage-ablation/ablation-notes/ \
-        experiments/stage-ablation/ablation-results.json \
+        modules/B-pipeline-ablation/data/t53b/runs/ \
+        modules/B-pipeline-ablation/data/t53b/notes/ \
+        modules/B-pipeline-ablation/data/t53b/results.json \
         tasks/T53-bus/cc-to-lead.md 2>/dev/null
 git commit -m "T53b: $RUNS ablation runs ($OK ok, $FAIL fail) via batch driver" 2>&1 >> "$LOG"
 log "git commit 完成"

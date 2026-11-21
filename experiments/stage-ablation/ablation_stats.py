@@ -23,10 +23,40 @@ from collections import defaultdict
 from datetime import datetime, timezone
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-RESULTS = os.path.join(HERE, "ablation-results.json")
-CC_STATE = os.path.join(HERE, "..", "..", "tasks", "T53-bus", "cc-state.json")
-QIDS = ["nat", "soc", "gpu"]
-ARMS = ["formula", "text"]
+
+# ── spec 驱动（--spec <name>）：实验形状（qids/arms/rounds/cc-state/seed）从 spec 读 ──
+# 无 --spec 时回退 T53b 默认值（向后兼容：无参运行输出与改造前逐字节一致）。
+T53B_DEFAULTS = {
+    "results": os.path.join(HERE, "..", "..", "modules/B-pipeline-ablation/data/t53b", "results.json"),
+    "cc_state": os.path.join(HERE, "..", "..", "tasks", "T53-bus", "cc-state.json"),
+    "runs_dir": os.path.join(HERE, "..", "..", "modules/B-pipeline-ablation/data/t53b", "runs"),
+    "qids": ["nat", "soc", "gpu"],
+    "arms": ["formula", "text"],
+    "rounds": list(range(1, 11)),
+    "seed": 42,
+    # r7 复现检查（T53b 任务书验收项 6）：gpu 题 formula 臂 l1_uncertainty ≥3 轮。
+    # 其他实验无此项 → spec 不带 r7 字段则跳过该节。
+    "r7": {"qid": "gpu", "arm": "formula", "min_rounds": 3},
+}
+
+
+def load_spec(name):
+    """读 spec/<name>.json，合并出统计所需形状参数；缺字段用 T53b 默认。
+    spec 的 output.* 路径是相对 repo root（与 driver/batch 的 cd 基准一致）。"""
+    p = name if name.endswith(".json") else os.path.join(HERE, "spec", f"{name}.json")
+    s = json.load(open(p))
+    cfg = dict(T53B_DEFAULTS)
+    out = s.get("output", {})
+    repo_root = os.path.join(HERE, "..", "..")
+    cfg["results"] = os.path.normpath(os.path.join(repo_root, out.get("results", "modules/B-pipeline-ablation/data/t53b/results.json")))
+    cfg["runs_dir"] = os.path.normpath(os.path.join(repo_root, out.get("runs_dir", "modules/B-pipeline-ablation/data/t53b/runs")))
+    cfg["cc_state"] = os.path.normpath(os.path.join(repo_root, s["cc_state"]))
+    cfg["qids"] = s["qids"]
+    cfg["arms"] = list(s["arms"].keys())
+    cfg["rounds"] = s["rounds"]
+    cfg["seed"] = s.get("seed", 42)
+    cfg["r7"] = s.get("r7")  # None → 跳过 r7 节
+    return cfg
 
 
 def se(vals):
@@ -52,11 +82,26 @@ def ci95(vals):
 
 
 def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--out", default=os.path.join(HERE, "ablation-stats.md"))
+    ap = argparse.ArgumentParser(description="消融实验统计（spec 驱动，--spec 缺省回退 T53b）")
+    ap.add_argument("--out", default=None, help="输出 md 路径（缺省=<results 同目录>/ablation-stats.md）")
+    ap.add_argument("--spec", default=None, help="spec 名（spec/<name>.json）或完整路径；缺省=T53b 默认")
     args = ap.parse_args()
 
-    d = json.load(open(RESULTS))
+    if args.spec:
+        cfg = load_spec(args.spec)
+    else:
+        cfg = dict(T53B_DEFAULTS)
+    results_path = cfg["results"]
+    cc_state = cfg["cc_state"]
+    runs_dir = cfg["runs_dir"]
+    qids = cfg["qids"]
+    arms = cfg["arms"]
+    rounds = cfg["rounds"]
+    seed = cfg["seed"]
+    r7 = cfg["r7"]
+    out_path = args.out or os.path.join(os.path.dirname(results_path), "ablation-stats.md")
+
+    d = json.load(open(results_path))
     runs = d["runs"]
     # 去重：同 run 多次记录取最新
     best = {}
@@ -71,9 +116,10 @@ def main():
     done_set = set()
     blocked = []
     s = None
-    pat = re.compile(r"^(nat|soc|gpu)_(formula|text)_r(\d{2})$")
-    if os.path.exists(CC_STATE):
-        s = json.load(open(CC_STATE))
+    # run 名正则由 qids/arms 导出（与 driver/batch 的 spec 解析同源）
+    pat = re.compile("^(" + "|".join(qids) + ")_(" + "|".join(arms) + ")_r(\\d{2})$")
+    if os.path.exists(cc_state):
+        s = json.load(open(cc_state))
         for wu in s["work_units"]:
             if not wu.get("done"):
                 continue
@@ -104,7 +150,7 @@ def main():
     no_artifact = []
     if best:
         for k in list(best):
-            jf = os.path.join(HERE, "ablation-runs", f"{k}_judge.json")
+            jf = os.path.join(runs_dir, f"{k}_judge.json")
             if not os.path.exists(jf):
                 no_artifact.append(k)
                 del best[k]
@@ -113,21 +159,21 @@ def main():
     lines.append("# T53b 统计汇总")
     lines.append("")
     lines.append(f"生成: {datetime.now(timezone.utc).astimezone().isoformat(timespec='seconds')}")
-    lines.append(f"口径: per-run 聚合 | judge 族 qwen3.8-27b ×1 (non-IRR) | seed=42")
+    lines.append(f"口径: per-run 聚合 | judge 族 qwen3.8-27b ×1 (non-IRR) | seed={seed}")
     # SOP verification-sop.md §4 口径限定：tie-break + gold 参照系
     lines.append("口径限定: tie-break 无（coverage/depth 为连续比例，非排名）| "
                  "gold 参照系: rubric gold points（相对该 rubric，非绝对构念效度）")
-    lines.append(f"已记录 run: {len(best)} / 60 | 缺口(空done): {len(missing)} | blocked: {len(blocked)} | 残留剔除: {len(stale)} | 无judge剔除: {len(no_artifact)}")
+    lines.append(f"已记录 run: {len(best)} / {len(qids) * len(arms) * len(rounds)} | 缺口(空done): {len(missing)} | blocked: {len(blocked)} | 残留剔除: {len(stale)} | 无judge剔除: {len(no_artifact)}")
     lines.append("")
 
     # 每题每臂统计
-    for qid in QIDS:
+    for qid in qids:
         lines.append(f"## {qid}")
         lines.append("")
         lines.append("| 臂 | n | coverage mean±SE | 95%CI | depth mean±SE | 95%CI | 高轮次(cov/depth>mean+1SE) |")
         lines.append("|---|---|---|---|---|---|---|")
-        for arm in ARMS:
-            rs = [best[f"{qid}_{arm}_r{i:02d}"] for i in range(1, 11)
+        for arm in arms:
+            rs = [best[f"{qid}_{arm}_r{i:02d}"] for i in rounds
                   if f"{qid}_{arm}_r{i:02d}" in best]
             if not rs:
                 lines.append(f"| {arm} | 0 | — | — | — | — | — |")
@@ -156,17 +202,19 @@ def main():
     lines.append("")
     lines.append("| 题 | n_f | n_t | Δcoverage | Δdepth | 方向 |")
     lines.append("|---|---|---|---|---|---|")
-    for qid in QIDS:
+    for qid in qids:
         row = {}
-        for arm in ARMS:
-            rs = [best[f"{qid}_{arm}_r{i:02d}"] for i in range(1, 11)
+        for arm in arms:
+            rs = [best[f"{qid}_{arm}_r{i:02d}"] for i in rounds
                   if f"{qid}_{arm}_r{i:02d}" in best]
             covs = [r["coverage"] for r in rs if r.get("coverage") is not None]
             deps = [r["depth"] for r in rs if r.get("depth") is not None]
             row[arm] = (len(rs),
                         sum(covs) / len(covs) if covs else None,
                         sum(deps) / len(deps) if deps else None)
-        (nf, cf, df_), (nt, ct, dt_) = row["formula"], row["text"]
+        # Δ 口径 = arms[0] − arms[1]（T53b: formula − text，与任务书一致）
+        a0, a1 = arms[0], arms[1]
+        (nf, cf, df_), (nt, ct, dt_) = row[a0], row[a1]
         if cf is not None and ct is not None:
             dc, dd = cf - ct, (df_ - dt_) if (df_ is not None and dt_ is not None) else float("nan")
             # SOP verification-sop.md §3: n<8 禁方向/显著标签（n=3 bootstrap CI 退化，
@@ -174,7 +222,7 @@ def main():
             if min(nf, nt) < 8:
                 verdict = f"功效不足（n_f={nf}, n_t={nt}）"
             else:
-                verdict = "formula 优" if dc > 0 else ("text 优" if dc < 0 else "平")
+                verdict = f"{a0} 优" if dc > 0 else (f"{a1} 优" if dc < 0 else "平")
             lines.append(
                 f"| {qid} | {nf} | {nt} | {dc:+.3f} | {dd:+.3f} | {verdict} |")
         else:
@@ -183,19 +231,20 @@ def main():
     lines.append("注: 跨题绝对 coverage/depth 不可直接比较（rubric 粒度差异），上表 Δ 才是消融结论口径。")
     lines.append("")
 
-    # r7 复现检查
-    gpu_l1 = [i for i in range(1, 11)
-              if f"gpu_formula_r{i:02d}" in best and best[f"gpu_formula_r{i:02d}"].get("l1_uncertainty")]
-    gpu_l1_none = [i for i in range(1, 11)
-                   if f"gpu_formula_r{i:02d}" in best and best[f"gpu_formula_r{i:02d}"].get("l1_uncertainty") is None]
-    lines.append("## r7 复现（gpu 题 L1 不确定性维度）")
-    lines.append(f"l1_uncertainty=true 的轮次: {len(gpu_l1)}/10 {gpu_l1}")
-    lines.append(f"判据: ≥3 轮 → {'PASS' if len(gpu_l1) >= 3 else 'FAIL/待数据'}")
-    lines.append("注: 11-20 13:27 前的 run 由旧 l1 检测逻辑（glob 旧单文件 ckpt + 读不存在的 scope 字段）生成，"
-                 "且树形 ckpt 已被 driver rm -rf，无法用新判据（claim 双关键词）复验——"
-                 "旧 run 的 l1 值仅作历史参考，r7 结论以修复后新 run 为准。"
-                 + (f" l1=None（无数据）的轮次: {gpu_l1_none}" if gpu_l1_none else ""))
-    lines.append("")
+    # r7 复现检查（spec 带 r7 字段才输出；T53b 默认带）
+    if r7:
+        rq, ra, rmin = r7["qid"], r7["arm"], r7.get("min_rounds", 3)
+        r7_key = lambda i: f"{rq}_{ra}_r{i:02d}"
+        r7_hits = [i for i in rounds if r7_key(i) in best and best[r7_key(i)].get("l1_uncertainty")]
+        r7_none = [i for i in rounds if r7_key(i) in best and best[r7_key(i)].get("l1_uncertainty") is None]
+        lines.append(f"## r7 复现（{rq} 题 L1 不确定性维度）")
+        lines.append(f"l1_uncertainty=true 的轮次: {len(r7_hits)}/{len(rounds)} {r7_hits}")
+        lines.append(f"判据: ≥{rmin} 轮 → {'PASS' if len(r7_hits) >= rmin else 'FAIL/待数据'}")
+        lines.append("注: 11-20 13:27 前的 run 由旧 l1 检测逻辑（glob 旧单文件 ckpt + 读不存在的 scope 字段）生成，"
+                     "且树形 ckpt 已被 driver rm -rf，无法用新判据（claim 双关键词）复验——"
+                     "旧 run 的 l1 值仅作历史参考，r7 结论以修复后新 run 为准。"
+                     + (f" l1=None（无数据）的轮次: {r7_none}" if r7_none else ""))
+        lines.append("")
 
     if missing:
         lines.append("## 缺口（cc-state done 但 results 无记录）")
@@ -213,9 +262,9 @@ def main():
 
     out = "\n".join(lines)
     print(out)
-    with open(args.out, "w") as f:
+    with open(out_path, "w") as f:
         f.write(out + "\n")
-    print(f"\n[written] {args.out}", file=sys.stderr)
+    print(f"\n[written] {out_path}", file=sys.stderr)
 
 
 if __name__ == "__main__":
