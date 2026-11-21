@@ -141,6 +141,34 @@ Tree-PLV（EMNLP 2024）→ PRM That Think（TMLR 2026）= **过程验证/奖励
 说明"树结构评测"本身是新兴分支，**我们的层级依赖+正交/完备/压缩约束组合可能是该分支的空白点**
 （conf 0.7，待 arena 对抗核验：是否有我们没查到的顶会论文已覆盖此约束组合）。
 
+**关联结构分支全景（2026-11-21 二轮滚雪球，D 质疑"这么少？"后换依赖/拓扑/正交/完备角度重搜）**：
+
+D 的质疑成立：第一轮关键词太窄（"reasoning tree"+evaluation 只抓到树评测基准小类），
+换关联结构角度后空间很密，只是**分散在至少 4 个子分支、没有统一命名**——这就是"看起来少"的原因。
+
+| 子分支 | 顶会锚点 | 与我们的对应 |
+|---|---|---|
+| **PRM 主线**（步骤级奖励/验证） | Let's Verify Step by Step（OpenAI 2023）→ Math-Shepherd（**ACL 2024**）→ Tree-PLV（**EMNLP 2024**）→ PRM That Think（**TMLR**）→ **GPRM 2611.20755**（2026-11-16，最新） | 步骤级信号；**GPRM 明确把"weak historical dependency modeling"列为开放问题——层级依赖建模是业内承认的 gap** |
+| **结构化过程监督** | **Rewarding Novel Deductions 2609.34660 = NeurIPS 2026 accepted**（solver-guided，"constraint tracking, consistency preservation, multi-step deduction"）；BioPRM 2610.19657（步骤级一致性验证） | 约束追踪+一致性保持=我们的完备/依赖约束的同构问题 |
+| **正交/层级分解** | **Orthogonal Hierarchical Decomposition 2602.01969 = ICML 2026**（表格理解，方法名与我们的正交/完备约束同词）；TaReD 2610.11268（递归分解+"intermediate dependencies"） | 正交层级分解=我们的约束组合的直接词汇对应 |
+| **结构完备性/拓扑** | Knossos 2610.04721（**complete** diagram topology extraction 基准）；Completeness and Cost of Retrieval Structures 2610.41905（6 种结构 flat vs hierarchical 对比，**completeness 作为评测维度**的方法学先例） | 完备性作为可测维度=我们的 coverage 指标先例 |
+| 树评测基准（第一轮已查） | Tree-PLV（EMNLP 2024）→ RPTS（preprint） | 最接近但顶会薄 |
+| 推理树聚合/审计 | AgentAudit 2602.09341（审计多智能体推理树，GSM8K/AMC/MATH/MMLU） | 树结构作为评测对象的方法先例 |
+
+**"为啥这么少"的元答案**（conf 0.85）：
+1. **不是少，是散**——过程奖励主线顶会密度其实高（ACL/EMNLP/TMLR/NeurIPS 2026 全有），
+   但"层级依赖 + 正交/完备/压缩约束 + 深树评测"这个**交叉点**没有统一命名，
+   各子分支各说各话（PRM 说 dependency、表格理解说 orthogonal decomposition、
+   拓扑抽取说 completeness），所以按单一关键词搜会严重低估。
+2. **交叉点本身是新兴空白**——GPRM（2026-11）把 dependency modeling 列为开放问题、
+   NeurIPS 2026 的 solver-guided 才刚把 constraint tracking 做进过程监督，
+   说明"带约束的深树过程评测"在 2026 年才刚开始被系统触及。
+3. **对我们的含义**：novelty 声明从"树评测文献无对应物"（第一轮，conf 0.8）
+   升级为更精确的"**约束组合 × 深树 × 过程评测的交叉点是 2026 年新兴空白，
+   各子分支已分别验证了约束（ICML 2026 正交分解）、依赖（GPRM 开放问题）、
+   完备性（Knossos/retrieval structures）的独立价值，但没有人把它们组合进一个深树评测**"
+   （conf 0.8，仍待 arena 对抗核验）。
+
 **2026 更新的吗**：三轮 arXiv 检索（tree-structured eval 2026H2 / decomposition tree 2026 /
 reasoning process tree bench）无更新的树评测直接命中。最新相关：AtomTree 2610.38744
 （2026-10-28，embodied 指令跟随，层级框架但非评测）、PR Tree Rollout 2607.15610

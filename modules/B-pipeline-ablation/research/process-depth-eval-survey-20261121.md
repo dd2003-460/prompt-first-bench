@@ -96,3 +96,25 @@ formula 臂 depth +0.113 p=0.008 / coverage +0.186 p=0.006，27b 本地模型）
 
 **结论**：树/过程类评测可发表量级 = 几百树实例（RPTS 390）；我们 3 棵分解树差 2 量级，
 报告规范超 RPTS（10 轮重复+CI+效应量 vs 单轮裸报）。详见 entry-ticket §1d。
+
+## 二轮滚雪球（2026-11-21 深夜，D 质疑"过程奖励/推理+树为啥这么少"，换关联结构角度重搜）
+
+**元结论**：不是少，是散——分散在 4 个子分支、无统一命名。单关键词搜严重低估。
+（venue 均 arXiv abs 页 comments 字段核实，2026-11-21）
+
+| 论文 | 子分支 | venue | 关键内容 |
+|---|---|---|---|
+| **GPRM** 2611.20755（2026-11-16） | PRM 主线 | preprint | 把 **"weak historical dependency modeling" 列为 PRM 开放问题**——层级依赖建模是业内承认的 gap |
+| **Rewarding Novel Deductions** 2609.34660 | 结构化过程监督 | **NeurIPS 2026 accepted**（abs comments） | solver-guided 过程监督；"constraint tracking, consistency preservation, multi-step deduction" |
+| **Orthogonal Hierarchical Decomposition** 2602.01969 | 正交/层级分解 | **ICML 2026**（abs comments） | 表格理解；方法名与我们的正交/完备约束同词 |
+| BioPRM 2610.19657 | 结构化过程监督 | preprint | 步骤级一致性验证（生物协议） |
+| Knossos 2610.04721 | 结构完备性 | preprint | **complete** diagram topology extraction 基准 |
+| Completeness and Cost of Retrieval Structures 2610.41905 | 结构完备性 | preprint | 6 种结构（flat vs hierarchical）对比，completeness 作为评测维度的方法学先例 |
+| TaReD 2610.11268 | 递归分解 | preprint | 长程任务递归分解，"intermediate dependencies" |
+| AgentAudit 2602.09341 | 推理树聚合/审计 | preprint | 审计多智能体推理树 > 多数投票/LLM-judge；GSM8K/AMC/MATH/MMLU |
+| FVRuleLearner 2604.03245 | 形式验证 | IEEE VTS'26（abs comments） | 算子级推理树（Op-Tree）规则学习 |
+| STOP 2605.13165 | 长 CoT 结构化剪枝 | Findings of EMNLP 2026（abs comments） | 结构化 on-policy 剪枝 |
+
+**novelty 声明升级**：约束组合（正交/完备/依赖/压缩）× 深树 × 过程评测的交叉点是 2026 新兴空白；
+各子分支已分别验证约束（ICML 2026）、依赖（GPRM 开放问题）、完备性（Knossos）的独立价值，
+但无人组合进一个深树评测。conf 0.8，待 arena 对抗核验。
