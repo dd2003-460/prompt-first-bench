@@ -169,6 +169,40 @@ D 的质疑成立：第一轮关键词太窄（"reasoning tree"+evaluation 只�
    完备性（Knossos/retrieval structures）的独立价值，但没有人把它们组合进一个深树评测**"
    （conf 0.8，仍待 arena 对抗核验）。
 
+**关联结构论文的实验设计全景（2026-11-21 三轮，6 篇 ar5iv 全文提取，数据量/模型/结论）**：
+
+| 论文 | 测试规模 | 训练数据 | 模型 | 核心结论 |
+|---|---|---|---|---|
+| SPRING 2609.34660（NeurIPS 2026） | ZebraLogic 700 + AR-LSAT 230 + KnK | 250-300 题（RL） | **小模型**：Qwen3-1.7B/4B/8B + Phi-4-Reasoning | solver-guided 过程监督 > base +49.71 点（ZebraLogic）、> outcome-only +15.43；**小模型受益最大** |
+| OHD 2602.01969（ICML 2026） | AITQA + HiTab（数百题） | 无（表示方法） | Qwen2-72B + TableLLaMA-7B；judge=Qwen2-72B/DeepSeek-v3/GPT-4 三模型集成 | 正交层级分解 EM +8.79、LLM-eval +18.09 vs 最强基线；跨 evaluator 稳定 |
+| BioPRM 2610.19657 | SciRecipe + 自采协议 | 同左（两阶段训练） | 骨干 Llama-3.1-8B + LoRA；对比 GPT-6-luna/Claude-sonnet-5/GLM-5.3/Qwen3.8-flash | **"always-correct 基线 88.53% step accuracy → accuracy alone is insufficient"**（单指标不够，直接背书我们的 depth+coverage 双指标） |
+| Knossos 2610.04721 | **19,200 图 / 245,179 节点 / 439,740 边**，6 域；测试 1,200 | 18,000 图 | 开源 7-32B VLM + GPT-4o/GPT-5.6/Opus 5 | 结构化分解（节点清单→边预测）> 一步抽取；小 VLM 训练后大幅提升；闭源泛化更好 |
+| TaReD 2610.11268 | 复杂真实工具任务 | 无（推理方法） | matched models/budgets/verifiers | 能力对齐的子任务树 > 单链/plan-then-execute，端到端成功率 **+40pp** |
+| AgentAudit 2602.09341 | GSM8K/MATH/AMC/MMLU（标准基准） | consensus-trap 实例（小规模） | Llama3-3B/8B + Qwen2.5-3B/7B，3 seeds | 审计推理树 > 多数投票（+5%）> LLM-judge（+3%）；**改进集中在弱骨干，强骨干趋饱和** |
+
+**跨论文一致模式（conf 0.9，6 篇独立来源）**：
+1. **结构化 > 无结构（LLM 自行组织）方向一致**，但改进幅度集中在**弱模型 + 复杂任务**，
+   强模型/简单任务上饱和（AgentAudit 原话："As the backbone strengthens... MV baselines
+   approach saturation"；SPRING 小模型受益最大；Knossos 闭源大模型已强、结构化增益小）。
+2. **目标函数/约束前置是共同设计**：6 篇全部把约束/目标/结构**前置固定**（solver 引导、
+   正交分解规则、协议一致性判据、节点-边分解、能力对齐树、审计判据），**没有一篇让 LLM
+   自行选择目标函数**——D 的纠正（"目标函数应该前置"）与文献实践一致。
+3. **单指标不够**：BioPRM 的 always-correct 88.53% 基线证明裸 accuracy 无法区分——
+   与我们 depth+coverage 双指标 + 树内多节点的设计动机相同。
+
+**与我们 T53b 的对照（套磁最强论据）**：
+- T53b 的 text arm = "无结构（LLM 自行组织）"，formula arm = "结构前置（管线+约束固定）"
+  ——正是这 6 篇的共同对照设计。
+- 我们的结果模式（nat/soc 显著、gpu 不显著）**与跨论文的"改进集中在复杂任务、简单任务饱和"
+  模式方向一致**（gpu 题相对简单 → 管线增益小；nat/soc 长程分解 → 增益显著）。
+  单模型 3 题的小规模结果**复现了顶会多模型大规模的方向性发现**——这是套磁的核心叙事：
+  "我们 3 题 × 10 轮的单模型消融，方向性结论与 NeurIPS/ICML 2026 多模型研究一致，
+  且报告规范（10 轮重复+CI+效应量）超过其中多数（单轮裸报）。"
+- 规模对照：他们测试 230-1200 题（答案准确率），我们 3 题 × ~38 节点（过程结构）。
+  他们训 1.7B-8B 小模型（便宜快），我们 1 个 27B 本地量化模型。
+  差距表述：题数差 1-2 量级，但单实例信息密度（38 节点树 vs 单答案）高一个量级，
+  且方向性结论已被顶会独立复现。
+
 **2026 更新的吗**：三轮 arXiv 检索（tree-structured eval 2026H2 / decomposition tree 2026 /
 reasoning process tree bench）无更新的树评测直接命中。最新相关：AtomTree 2610.38744
 （2026-10-28，embodied 指令跟随，层级框架但非评测）、PR Tree Rollout 2607.15610

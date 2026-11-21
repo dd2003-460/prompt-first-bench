@@ -118,3 +118,19 @@ formula 臂 depth +0.113 p=0.008 / coverage +0.186 p=0.006，27b 本地模型）
 **novelty 声明升级**：约束组合（正交/完备/依赖/压缩）× 深树 × 过程评测的交叉点是 2026 新兴空白；
 各子分支已分别验证约束（ICML 2026）、依赖（GPRM 开放问题）、完备性（Knossos）的独立价值，
 但无人组合进一个深树评测。conf 0.8，待 arena 对抗核验。
+
+## 实验设计提取（2026-11-21 三轮，ar5iv 全文）
+
+| 论文 | 测试规模 | 训练 | 模型 | 结论 |
+|---|---|---|---|---|
+| SPRING 2609.34660 | ZebraLogic 700 + AR-LSAT 230 + KnK | 250-300 题 RL | Qwen3-1.7B/4B/8B + Phi-4-Reasoning | solver-guided 过程监督 > base +49.71 / > outcome-only +15.43；小模型受益最大 |
+| OHD 2602.01969 | AITQA + HiTab | 无 | Qwen2-72B / TableLLaMA-7B；judge 三模型集成 | 正交层级分解 EM +8.79 / LLM-eval +18.09；跨 evaluator 稳定 |
+| BioPRM 2610.19657 | SciRecipe + 自采 | 两阶段 | Llama-3.1-8B + LoRA；对比 GPT-6-luna/Claude-sonnet-5 等 | always-correct 基线 88.53% → 单指标不足 |
+| Knossos 2610.04721 | 19,200 图 / 245k 节点 / 440k 边 | 18,000 图 | 7-32B VLM + GPT-4o/GPT-5.6/Opus 5 | 结构化分解 > 一步抽取；闭源泛化更好 |
+| TaReD 2610.11268 | 复杂工具任务 | 无 | matched | 能力对齐子任务树 +40pp 端到端成功率 |
+| AgentAudit 2602.09341 | GSM8K/MATH/AMC/MMLU | consensus-trap 实例 | Llama3-3B/8B + Qwen2.5-3B/7B，3 seeds | 审计树 > 多数投票 +5% > LLM-judge +3%；强骨干饱和 |
+
+**跨论文一致模式**：① 结构化 > 无结构，但增益集中在弱模型+复杂任务，强模型饱和；
+② 目标函数/约束全部前置固定，无一篇让 LLM 自选目标函数；③ 单指标不够（BioPRM 88.53% 基线）。
+与 T53b 对照：text vs formula arm = 无结构 vs 结构前置，方向性结论（nat/soc 显著、gpu 饱和）
+与"增益集中在复杂任务"模式一致。
