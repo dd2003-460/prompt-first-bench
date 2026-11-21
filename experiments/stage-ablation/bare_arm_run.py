@@ -242,5 +242,9 @@ if __name__ == "__main__":
                     help="防死循环安全阀（不告诉模型）")
     ap.add_argument("--hard-max-steps", type=int, default=60,
                     help="防死循环安全阀（不告诉模型）")
+    ap.add_argument("--runs-dir", default=None,
+                    help="输出目录（默认 runs/；生产并发模式用 runs_prod/）")
     a = ap.parse_args()
+    if a.runs_dir:
+        RUNS_DIR = os.path.abspath(a.runs_dir)
     run_one(a.qid, a.round_id, a.max_tokens, a.hard_max_search, a.hard_max_steps)

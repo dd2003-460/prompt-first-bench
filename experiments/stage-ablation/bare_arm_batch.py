@@ -15,7 +15,7 @@ def log(msg):
     with open(LOG, "a") as f:
         f.write(line + "\n")
 
-qids = ["nat", "soc", "gpu"]
+qids = ["gpu", "nat", "soc"]  # 2026-11-21 D: gpu 最权威优先（gold 树最完整 38 判定点+真树+SHARE 标注）
 rounds = [f"r{i:02d}" for i in range(1, 11)]
 total, done, failed = 0, 0, 0
 for qid in qids:
