@@ -74,9 +74,9 @@ post-62-runs
 
 | # | 条目 | 动作 | 依赖 | 状态 |
 |---|---|---|---|---|
-| T1 | A1 | 62 run 跑完后 `python3 ablation_stats.py` | 62 run done | 待 62 run |
-| T2 | A2 | 好轮次重跑 3 次 | T1 | 待 T1 |
-| T3 | A3 | webllm 混淆变量处置（选项 a 落盘） | 无 | 可现在做 |
+| T1 | A1 | 62 run 跑完后 `python3 ablation_stats.py` | 62 run done | **已完成（11-21 10:25）**：62 SM run 全跑完（r09 缺口重跑中），stats 出 nat/soc/gpu 三臂 Δ（nat +0.141 / soc +0.186 / gpu -0.007 cov） |
+| T2 | A2 | 好轮次重跑 3 次 | T1 | 待 T1（判据 cov/depth>mean+1SE，波动<0.05） |
+| T3 | A3 | webllm 混淆变量处置（选项 a 落盘） | 无 | **已完成（11-21）**：watchlist 落盘采纳 (a)——5 OK run 标离群剔除、主统计"webllm 缺席"口径、webllm 效应=E2 配对实验 |
 | T4 | A4 | 结论对标 DESIGN.md | T1 | 待 T1 |
 | T5 | B1 | parent_ids 持久化修复 | 62 run done（不动在跑代码） | 待 62 run |
 | T6 | B2 | KB staging → corpus（6 卡 mv） | 62 run done | 待 62 run |
