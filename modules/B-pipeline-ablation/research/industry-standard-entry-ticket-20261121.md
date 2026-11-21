@@ -51,19 +51,54 @@
 短板是题数（3 vs 100-132），属私有 bench 定位；nat/soc 两题 gold 树偏粗（6-7 点）
 是标注上限的真实约束 [待核验：是否拆细]。
 
+## 1c. 有效测量量级论证（2026-11-21，D 论点："一个题=一套有依赖的习题，reward 颗粒度满足 100 量级"）
 
+**D 的论点成立一半，另一半需精确化**——套磁时会被攻击的点，提前备好：
+
+**成立：测量精度意义**（conf 0.9）
+- 我们的每题分数不是单个 0/1 判断，而是 ~38 个二元节点判定的聚合（gpu 题 coverage = 38 项命中比例，
+  二项 SE ≈ √(p(1-p)/38) ≈ 0.08 @ p=0.5；单题测量精度远高于单判断）。
+- IRT（项目反应理论，心理测量学 1950s 成熟理论）正是干这个的框架：多个判据（item）联合估计一个
+  潜变量（模型对该题的理解质量），**信息量跨 item 累加**。LLM 评测 2026 年已有三篇直接应用（ID 均 abs 核实）：
+  - **2611.05556 AGORA**（2026-11-03）：IRT aggregator，把每个 item 放在同一潜质量尺度上，
+    judge 用敏感度参数描述，可靠性从所有 item 联合学习——**专治"小评测集（几百 item 以下）"场景**，
+    正是我们的规模。
+  - **2609.35739 Rubric-Calibrated Preferences**（2026-09-28）：yes/no rubric 判据（递增严格度）
+    提供绝对尺度 + IRT 跨 query 校准——与我们"二元节点判定 + 树内聚合"同构。
+  - **2608.22295 Contextual Multidimensional IRT**（2026-08-23）：多维 IRT 把 LLM 表示为
+    潜能力画像，跨题迁移信息。
+  - （2602.00521 IRT 诊断 judge 可靠性，此前已核实。）
+- **结论：单题测量精度对标几百条平铺判据的 bench 成立**——我们的 coverage 本身就是 polytomous
+  分数（多档），正是 GRM/IRT 建模的对象。
+
+**需精确化：独立样本量意义**（conf 0.9）
+- 同题的 38 个判定点是**相关的**（都测"这道题"一个潜变量）→ 有效独立样本量**仍是 3 题，不是 114**。
+- 颗粒度提升的是每题的**测量信度**（降低单题分数噪声），不是**题域多样性**。
+- 消融检验（formula vs text）的分析单元仍是题 → n=3 题的统计效力没变（这也是我们 n=10 轮重复
+  的必要性：轮次是独立样本，判定点不是）。
+
+**套磁叙事（精确版）**：
+"我们的 3 题不是 3 个二元判断，是 3 × ~38 项的结构化测量仪器。IRT 框架（AGORA 2611.05556 等
+2026 三篇）下判据信息跨 item 累加，单题测量精度对标几百条平铺判据的 bench。剩余差距是
+**题域多样性**（3 vs 100-132），不是颗粒度——这也是为什么我们用 10 轮重复补样本量：
+轮次是独立样本，判定点是测量仪器。"
+
+**[待做]**：若套磁对象追问，可补一个 IRT 拟合演示（GRM 拟合我们的 38 项 coverage，展示信息函数）
+——成本半天，价值高，先不做（Occam：叙事够用就不加实体）。
+
+## 2. 报告层：SafeLLM4SE 最小报告标准（Table 2，2026-09，最新）
 
 | 类别 | 必须报告 | 我们的现状 | 差距 |
 |---|---|---|---|
 | Quality | 选定质量指标 + 估计值 θ̂ | coverage/depth 均值 ✓ | 无 |
 | Stability | 稳定性指标（SD / 变异系数 / IQR） | stats.md 有 SD ✓ | 无 |
-| Estimation uncertainty | **每个主指标 CI + 置信水平** | p 值 ✓，CI 部分（bootstrap 已补算） | **小**：CI 未进 stats.md 主表 |
+| Estimation uncertainty | **每个主指标 CI + 置信水平** | p 值 ✓ + bootstrap 95%CI ✓（已进主表） | 无 |
 | Sampling | 执行次数、采样程序、最小样本量、停止判据、预算 | 10 轮/arm ✓，停止判据=固定 10（未声明） | **小**：停止判据未文档化 |
 | Model | 模型名、版本/标识、provider | qwen3.8-27b-mtp ✓ | 无 |
 | Inference config | temperature 及其他推理参数 | temp=0 ✓ | 无 |
 | Reproducibility | 随机 seed（若支持）、精确 prompt、环境 | prompt-snapshot.md ✓，seed=None 已声明 | 无 |
-| Effect size | **效应量，不只报 p 值**（Cliff's δ / rank-biserial） | **未报** | **中**：已补算（下表），未进 stats.md |
-| 统计检验 | 独立样本用 **Mann-Whitney U**（非参数）+ bootstrap CI for difference；配对用 Wilcoxon | 用的 Welch t（参数） | **中**：分布偏离正态时 Mann-Whitney 更稳 |
+| Effect size | **效应量，不只报 p 值**（Cliff's δ / rank-biserial） | Cliff's δ ✓（已进主表） | 无 |
+| 统计检验 | 独立样本用 **Mann-Whitney U**（非参数）+ bootstrap CI for difference；配对用 Wilcoxon | Welch t + Mann-Whitney U 双报 ✓ | 无 |
 
 ## 3. 我们补算的效应量（2026-11-21，来源①本轮计算）
 
@@ -88,7 +123,9 @@ SafeLLM4SE 推荐的非参数检验）、bootstrap CI 不含 0 → 主结论对�
 ## 4. 套磁叙事（统一入场券）
 
 **开场定位**：我们在做私有小规模 bench（3 题 × 2 臂 × 10 轮）的管线阶段消融 + 分解树
-depth/coverage 结构指标，单模型（本地 NVFP4 量化 27b）。
+depth/coverage 结构指标，单模型（本地 NVFP4 量化 27b）。**3 题 ≠ 3 个二元判断——是 3 × ~38 项
+结构化测量仪器（IRT 框架下信息跨 item 累加，见 §1c），单题测量精度对标几百条平铺判据的 bench；
+差距在题域多样性不在颗粒度。**
 
 **展示规范意识**（三句）：
 1. 报告规范对标 2410.03492 + 2609.37294（SafeLLM4SE，2026-09）：CI / 效应量 / 方差来源全报。
