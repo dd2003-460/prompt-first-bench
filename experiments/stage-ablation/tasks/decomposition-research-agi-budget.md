@@ -130,6 +130,52 @@ research-agi-budget（D 硬件条件下，预算控制 AI 在 Pareto 边界上�
 | E1 预算轴 | 哪个预算参数最能控制"覆盖度 vs 压缩"（search 次数 vs token vs 轮数） | 先跑 1 个参数扫描，看哪个轴的 Pareto 曲线最陡 [待核验] |
 | E4 拐点 | 性价比最优点的量化定义 | 边际质量增益/边际预算成本 最大化，[待核验]：是否需要归一化 |
 
+## §1 本地背景扫描（2026-11-22 执行，4 项带证据）
+
+| 必查项 | 查了吗 | 搜索命令/路径 | 发现 |
+|---|---|---|---|
+| 相关项目目录 | ✓ | `ls -d projects/*/D1-*` | 20 个 D1-*；直接相关：D1-think-token-budget（token 预算实验，T1-T4 完成，P1 answer-only 前沿）、D1-prompt-first-bench（本 bench 的母项目）、D1-persona-align（goal 方法论） |
+| 已有调研/报告 | ✓ | `ls pfb/modules/B-pipeline-ablation/research/` | 11 份调研；直接复用：budget-sensitivity-goal-spec-survey（预算/敏感度文献）、rl-budget-unlock-survey（RL 预算控制 8 ID）、process-depth-eval-survey（深度评估 30+ 论文） |
+| 相关记忆 | ✓ | MEMORY.md + qanda-ledger grep | T53b 全量结论（SM +0.182、并发非确定性、能力上限微架构层）；D1-think-token-budget 的"prompt 级预算 vs serving 级预算"两层结论可直接迁移到 E 预算轴设计 |
+| 用户过往讨论 | ✓ | qanda-ledger.md grep + 本会话压缩摘要 | D 2026-11-22 睡前指令（本 goal 发起）；D 的 AGI 重述（"general 不会有问题"）；RL 预算控制 + prompt 解禁（L4 实验 3.5x 输出） |
+
+**小结**：本地已有 3 份直接相关调研 + 2 个相关项目 + T53b 全量实验数据，本次需新增 = Q9-agi 题面/gold（D 目标无现成 gold）+ E 预算扫描（无现成 Pareto 数据）。
+
+## §2 调研对象全集（候选 + 纳入/排除）
+
+| 候选 | 纳入/排除 | 理由 |
+|---|---|---|
+| gpu 题（现有 gold 37 节点/深度 5） | 纳入 | E 预算扫描第一轮用（gold 最完整，判分锚定） |
+| q9-agi 新题（D 目标） | 纳入 | D 指令核心；E 第二轮 + 长期主线 |
+| nat/soc 题（flat rubric 无 gold 树） | 排除（本轮） | 无 gold 树，判分锚定弱；matched 批数据仍可用（A3） |
+| Q1-Q5 旧题（H100/模型选型/部署/RAG/方法论） | 排除 | 与 AGI 目标正交，不贡献 Pareto 数据 |
+| 云端 API 预算通道 | 待定 | D 未确认是否算"我的条件"内；[待核验]，默认排除（本地优先） |
+| RL 微调路径 | 排除 | D 约束"不改权重"；rl-budget-unlock-survey 结论仅用于 E 的文献锚定 |
+
+**覆盖性自检**：D 指令三要素（goal 安排/不泄露/预算 Pareto）× 执行层（A-E）全覆盖；无落空候选。
+
+## §6 量化定义（所有指标带公式）
+
+| 指标 | 公式/计算方式 | 数据来源 | 单位 |
+|---|---|---|---|
+| 预算 B | max_nodes 参数值（SM 树节点硬顶） | s5_state_machine.py:120 | 节点数 |
+| 质量 Q | depth_score = judge_v2_depth.score_run(answer).overall（38 判定点加权） | judge_v2_depth.py | [0,1] |
+| 覆盖 C | coverage = 判定点命中数/38（judge 输出） | judge_v2_depth.py | [0,1] |
+| 成本 cost | elapsed_s（单 run 墙钟）+ n_nodes×unit_call_cost（LLM 调用数） | runs json | s / ¥ |
+| Pareto 拐点 | 最小 B* s.t. ΔQ/ΔB < θ_pareto（θ_pareto=0.01/节点，即每多 1 节点质量增益 <0.01 视为平台期） | E4 扫描数据 | 节点数 |
+| 性价比 | Q/cost（depth 每单位墙钟） | E4 | depth·s⁻¹ |
+| 可靠性 rel | 结论正确率 = 人工抽查命中 gold 判定点数/抽查数（D 确认后定义） | D 抽查 | [0,1] |
+
+## §7 任务书（arena 外包用，登录恢复后派发）
+
+- **调研问题**：在 4×V100 + 27b 本地模型 + 不改权重约束下，达到 research-AGI（可发表级自主科研循环）的最优路径分解 + 预算-质量 Pareto 边界
+- **已知背景**：§1 小结（T53b 数据 + 3 份调研 + 2 项目）
+- **候选范围**：§2 全集
+- **拆解维度**：能力/成本/可靠性/时间/路径（gold/Q9.md 树骨架 v0）
+- **量化口径**：§6 公式
+- **产出要求**：gold 树深度 5（对标 gpu 37 节点格式）+ 每叶子带 S-a/S-b/S-c 判分档 + ≥2 agent 交叉检验
+- **失败降级**：arena 登录过期 → 本地 conf-0.2 骨架（已完成，gold/Q9.md v0），登录恢复后升级
+
 ## 执行顺序（D 睡眠期间）
 
 1. **现在**：A1 监控（后台）+ 本文件落盘
