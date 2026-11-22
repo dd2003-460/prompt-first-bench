@@ -19,7 +19,7 @@ T-JUDGE-1 公式 judge（第三轨，机械验证，不依赖 LLM/embedding）
   python3 tjudge1_formula.py --smoke <tree.json>     # 在模型树上冒烟
   python3 tjudge1_formula.py --selftest              # 验证器自检(tricky 数值)
 """
-import json, re, sys, math
+import json, re, sys, math, os
 import sympy as sp
 from sympy.core.relational import Relational
 
@@ -362,6 +362,46 @@ def l1_check(tree_path):
             cap_per = total_gb / nc
             rows.append({"check": f"per-card {nc}x{card}: 每卡{used}GB vs 单卡{cap_per:.0f}GB",
                          "recomputed": used, "pass": used <= cap_per})
+
+    # D) 卡容量一致性 (不依赖措辞, 只靠 卡名+紧邻GB):
+    #    只匹配"卡名后 8 字符内紧邻的 N GB" — 这是最可靠的"卡容量声明"模式。
+    #    排除: GB/s (带宽), (NGB total) (多卡总显存), 变体列表 (A100 [40,80])。
+    #    卡表: card-vram.json (knowledgebase/hardware + 已知规格/变体补齐)。
+    try:
+        vram_tab = json.load(open(os.path.join(os.path.dirname(__file__), "card-vram.json")))
+    except Exception:
+        vram_tab = {}
+    keys = sorted(vram_tab, key=len, reverse=True)
+    seen = set()
+    for c in claims:
+        for k in keys:
+            allowed = vram_tab[k]
+            if not isinstance(allowed, list):
+                allowed = [allowed]
+            m = re.search(re.escape(k) + r"[\s\(\（]{0,8}?(\d{1,3})\s*GB(?!\s*/)", c)
+            if m:
+                gb = int(m.group(1))
+                after = c[m.end():m.end()+8].lower()
+                if "total" in after:
+                    continue  # 多卡总显存, 非单卡容量
+                before = c[max(0, m.start()-10):m.start()]
+                if re.search(r"\d+\s*[×x]", before):
+                    continue  # "N×卡名" 前缀 → GB 是多卡总量, 非单卡容量
+                sig = (k, gb)
+                if sig in seen:
+                    continue
+                seen.add(sig)
+                ok = gb in allowed
+                rows.append({"check": f"卡容量 {k}: 声称{gb}GB vs 表{allowed}",
+                             "recomputed": allowed, "pass": ok})
+
+    # E) 自标矛盾计数 (metacog (a) 信号): 模型自己标记物理矛盾/不可行的节点数。
+    #    不是 pass/fail, 是计数 — (a) 环节"知道自己不知道"的直接测量。
+    #    标记词: 物理不可行/超出/矛盾/不满足/违反/无法容纳
+    flag_words = r"物理不可行|不可行|超出|矛盾|不满足|违反|无法容纳|无法运行"
+    n_flagged = sum(1 for c in claims if re.search(flag_words, c))
+    rows.append({"check": f"自标矛盾节点数 (a 信号, 非 pass/fail)",
+                 "recomputed": n_flagged, "pass": True})
     return all(r["pass"] for r in rows), rows
 
 
