@@ -19,7 +19,7 @@ Our setting is deliberately unglamorous: Qwen3-27B (NVFP4) on 4×Tesla V100, ser
 Three contributions:
 1. A **frozen mechanical judge** (three layers, deterministic, no LLM in the scoring path) that makes harness ablation reproducible.
 2. A **metacognition axis** orthogonal to quality: it measures whether the agent monitors its own information state (gap marking) and controls it (retrieval + repair), separately from how good its answers are.
-3. **Three findings** (§4): monitoring/repair dissociation, difficulty-calibrated gap marking, and a non-monotonic budget–quality curve.
+3. **Four findings** (§4–§5): monitoring/repair dissociation, difficulty-calibrated gap marking, a non-monotonic budget–quality curve, and a checkpoint-reuse tradeoff (coverage for metacognitive precision).
 
 ## 2. Setup
 
