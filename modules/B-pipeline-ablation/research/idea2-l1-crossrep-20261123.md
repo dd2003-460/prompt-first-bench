@@ -145,3 +145,33 @@ n=2/臂，suggestive，r3 落地后看 3/3 是否同向。
   层级分布差异是否跨 rep 稳定，r3 落地后按层重算
 - metacog 反向（B>A）的结论不变（gap 率总量 B 高），但机制表述从
   "前缀含已验证 gap"改为"臂间 gap 标记层级分布不同，B 臂顶层+底层标记更多"
+
+## 三臂信号综合（2026-11-23）
+
+三个独立信号，方向不一致但结构一致：
+
+| 轴 | A 臂(fresh) | B 臂(resume) | 方向 | 驱动 |
+|---|---|---|---|---|
+| composite total | 0.5944/0.5806 | 0.5111/0.5250 | **A>B** (2/2) | cov (B 臂覆盖少) |
+| metacog | 0.2365/0.1502 | 0.2461/0.2174 | **B>A** (2/2) | gap 率 2x + ret 率更高 |
+| L4 loose (结论层提 3090) | 0/2 | 2/2 | **B>A** (2/2) | 结论层更贴 gold 候选 |
+
+**统一解释（tradeoff 结构）**：
+resume 臂（B）固定了 L1-L3 前缀（122 节点），省下的节点预算投向了
+L4 深层 + 更精准的 gap 标记。代价是**覆盖变窄**（cov 低，树偏且浅，
+对齐 gold 单元少）→ composite 低。收益是**metacog 更精准**（gap 标记
+集中在顶层+底层，检索命中率高）+ **结论层更贴 gold 候选**（3090 出现率
+2/2 vs 0/2）。
+
+即：**checkpoint-as-cache 用 breadth（覆盖）换 precision（metacog+结论贴近）**。
+这不是"resume 更好"或"fresh 更好"的二选一，是一个可测量的 tradeoff 轴：
+- 若下游要**完整覆盖**（composite/cov 主导）→ fresh 臂
+- 若下游要**精准 metacog + 贴 gold 结论**（metacog/L4 主导）→ resume 臂
+
+**对 AGI 目标的含义**：resume 臂的 metacog 更高 + 结论更贴 gold，
+说明 checkpoint 前缀里的已验证 gap 节点是"高质量 metacog 种子"——
+站在已验证的 gap 上继续，比从头标记更精准。这支持 AGI 的 (a) 环节
+（judge 自己信息充分性）可以**累积**：前缀的 gap 标记是跨 run 可复用的
+metacog 资产，不是每次从头算。
+
+**n=2/臂，全部 suggestive**，r3 落地后看 3/3 是否同向。
