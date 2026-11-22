@@ -42,12 +42,13 @@
 - **下一步**: D 确认后 → gold 调研（arena）→ rubric 判定点。
 
 ### L2-4 实验层（在跑）
-- **结论**: Idea 2（checkpoint-as-cache）A/B 各 3 reps 在跑（22:13 起, ~3h）；补重复（5 budget × 8-12 reps）排队。
-- **证据**: idea2_runner.sh（ac6090870）；idea2-run.log。
-- **下一步**: Idea 2 完 → 配对统计（judge v1.0 + metacog 轴双评）→ 补重复开跑。
+- **结论**: Idea 2（checkpoint-as-cache）A/B 各 3 reps 在跑（22:13 起）。**口径**: B 臂新预算仅 28 节点（150−122 前缀）→ B vs A 质量对比不公平；B 臂正确解读 = wall time 节省 + 前缀一致性（同前缀节点是否逐字/语义一致），质量只作旁证。
+- **A-r1 已评**（idea2-scores.json）: wall 2865s, 316 节点, judge 0.5111（depth 0.8 / cov 0.222, 在 K7 budget-150 区间 0.43-0.52 内）, metacog 0.2365（hg 0.930, post 0.400）。
+- **证据**: idea2_runner.sh（ac6090870）；idea2-run.log；idea2-scores.json。
+- **下一步**: B-r1 完 → 前缀一致性检查（B 前 122 节点 vs ckpt 逐字 diff）+ wall time 配对 → A2/B2/A3/B3 → 全量统计。
 
 ### L2-5 发表层（v0.1 稿已落盘）
-- **结论**: workshop 稿 v0.1 写完（workshop-draft-metacog-20261122.md, edacf05b7）。三发现: ①监控在/修复缺（rework 0/46, 断点=修复环）②gap 难度校准（era-matched nat<soc<gpu 全 p<0.001）③预算-质量非单调（150=peak, sd<spread）。限制节前置（单模型/self-judge/n=3/mech 诊断）。
+- **结论**: workshop 稿 v0.1 写完（workshop-draft-metacog-20261122.md, edacf05b7+8c266fc8e+f501166f9）。四发现: ①监控在/修复缺（rework 修复率 1.6-2.1%, loop=filter 非 repair cycle）②gap 难度校准（era-matched nat<soc<gpu 全 p<0.001）③预算-质量非单调（150=peak, sd<spread）④loop 连续但不累积（验证率跨层平坦, 无链断, 树绕开未验证节点生长）。限制节前置（单模型/self-judge/n=3/mech 诊断/执行者连续性 meta）。
 - **证据**: 全数字来自本地已验证 artifact（k7-pareto-15run / metacog-budget-scan-v1.1 / judge-v1-cov-calibration / plan-layered era-matched 重算）。
 - **下一步**: Idea 2 + 补重复数据齐后填 §4.3 的 n 和 peak 位置；repair-loop fix 跑完补 §5.1 的实测；heterogeneous re-judge（无 API key, 已知 gap）。
 
