@@ -286,6 +286,74 @@ def l0_check(calc_path="bench/rubric-v3/tasks/T0-local-27b/reference/calc.py"):
     return all(r["pass"] for r in rows), rows
 
 
+def l1_check(tree_path):
+    """L1 物理层检查: 模型树内部物理自洽 (2026-11-23 形式化)。
+
+    口径: 全部用模型自己报的数, 不碰 gold — 所以不受 construct mismatch
+    (32K vs 64K 题面分叉) 污染。两类检查:
+      A) KV 自洽: "KV 峰值 X GB (公式...)" 节点 — 重算公式, 与 X 比对
+      B) 显存交叉核验: "显存硬性下限 X GB" (按精度) vs "N x 卡 (MGB) 跑 精度"
+         工作点 — 总显存 N*M 必须 >= 该精度下限, 否则模型推荐了违反自己
+         下限的工作点。
+    返回 (all_pass, rows)。rows: list[dict]。
+    """
+    d = json.load(open(tree_path))
+    nodes = d["nodes"]
+    claims = [n["claim"] for n in nodes]
+    rows = []
+
+    # A) KV 自洽: 抽 "KV Cache 的理论峰值显存占用为 X GB（...2 × 32768 × 64 × 1 × 2 bytes...）"
+    for c in claims:
+        m = re.search(r"KV\s*Cache[^\n]*?占用为\s*([\d.]+)\s*GB（([^）]*?)）", c)
+        if not m:
+            continue
+        stated = float(m.group(1))
+        expr = m.group(2)
+        # 取 "bytes" 之前的数值公式部分(模型常写 "…× 2 bytes，假设…"),
+        # × → *, 去空格后 sympify。公式与声称值比对。
+        num = re.match(r"([\d\s×x*().]+)bytes", expr)
+        if num:
+            e = num.group(1).replace("×", "*").replace("x", "*").replace(" ", "")
+            try:
+                val_bytes = float(sp.sympify(e))
+                val = val_bytes / 1e9  # → GB
+            except Exception:
+                val = None
+        else:
+            val = None
+        if val is not None:
+            ok = abs(val - stated) / stated < 0.01
+            rows.append({"check": f"KV 自洽 (stated {stated}GB)",
+                         "recomputed": round(val, 4), "pass": ok})
+        break  # 只取第一个 KV 节点
+
+    # B) 显存交叉核验
+    lower = {}
+    for c in claims:
+        m = re.search(r"显存硬性下限为\s*([\d.]+)\s*GB", c)
+        if m:
+            q = ("BF16" if "BF16" in c else
+                 "FP8" if "FP8" in c else
+                 "INT4" if ("INT4" in c or "AWQ" in c) else None)
+            if q:
+                lower[q] = float(m.group(1))
+    wps = []
+    for c in claims:
+        m = re.search(r"(\d+)\s*x\s*([\w\s]+?)\s*\((\d+)\s*GB\)\s*运行\s*Qwen[\w-]*\s*(BF16|FP8|INT4|AWQ|W4|W8)", c)
+        if m:
+            nc, card, mem, q = int(m.group(1)), m.group(2).strip(), int(m.group(3)), m.group(4)
+            qn = {"W4": "INT4", "W8": "FP8", "AWQ": "INT4"}.get(q, q)
+            wps.append((nc, card, mem, qn))
+    for nc, card, mem, qn in wps:
+        need = lower.get(qn)
+        if need is None:
+            continue
+        total = mem * nc
+        rows.append({"check": f"工作点 {nc}x{card} {qn}: {total}GB vs 下限 {need}GB",
+                     "recomputed": total, "pass": total >= need})
+    return all(r["pass"] for r in rows), rows
+
+
 if __name__ == "__main__":
     import argparse
     ap = argparse.ArgumentParser()
@@ -293,6 +361,7 @@ if __name__ == "__main__":
     ap.add_argument("--smoke", metavar="TREE")
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--l0", action="store_true", help="L0 自洽检查 (calc.py × sidecar ref)")
+    ap.add_argument("--l1", metavar="TREE", help="L1 物理层检查 (模型树内部自洽, 不碰 gold)")
     ap.add_argument("--sidecar", default="gold-gpu-formulas.json")
     a = ap.parse_args()
     if a.l0:
@@ -303,6 +372,17 @@ if __name__ == "__main__":
         for r in rows:
             print(f"  {r['unit']:8s} {r['check']:28s} ref={r['ref']:<8} recalc={r['recomputed']:<8} {'✅' if r['pass'] else '❌'}")
         print(f"[l0] {'PASS' if ok else 'FAIL'} ({sum(r['pass'] for r in rows)}/{len(rows)})")
+        if not ok:
+            sys.exit(1)
+    if a.l1:
+        ok, rows = l1_check(a.l1)
+        for r in rows:
+            print(f"  {r['check']:48s} recalc={r['recomputed']:<10} {'✅' if r['pass'] else '❌'}")
+        if not rows:
+            print("[l1] WARN: 0 个检查项被抽取 — 该树的措辞与正则不匹配, "
+                  "PASS 无意义 (空通过), 需人工核对该树是否有物理量节点")
+        else:
+            print(f"[l1] {'PASS' if ok else 'FAIL'} ({sum(r['pass'] for r in rows)}/{len(rows)})")
         if not ok:
             sys.exit(1)
     if a.emit_sidecar:
