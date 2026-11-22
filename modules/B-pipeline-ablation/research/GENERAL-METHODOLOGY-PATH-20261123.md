@@ -15,14 +15,19 @@ D 2026-11-23 纠正："gpu题目的机械判定只能证明这方面没有llm ju
 - **缺口**：无。可直接跑 Q6-Q10 任意题的 budget scan。
 
 ### 轴2：quality 轴（gold-conditioned，机械 judge）
-- **general 化成本 = per-domain 转换**（核验 judge_v1.py 得出）：
+- **general 化成本 = per-domain 转换**（核验 judge_v1.py + gold-Q6.md 得出）：
   - judge_v1 吃 **structured gold**：`gold-gpu-units.json`（36 单元, text 供 embedding）
     + `gold-gpu-formulas.json`（36 单元, kind/sympy/ref/bound）。
   - Q6-Q10 的 gold 是 **markdown**（`bench/rubric-v3/ablation/gold-Q6.md` 等, 41 节点）。
-  - **per-domain 成本 = 把 markdown 树转成 structured JSON**（units→JSON schema）。
-- **转换程序本身 = 方法的一部分**（units→JSON 的映射规则可复用），这才是真正
-  general 的组件。
-- **缺口**：① 转换脚本未写（markdown→units.json+formulas.json）；② Q6-Q10 无 runs。
+  - **转换可分两层（核验 gold-Q6.md 后修正，2026-11-23）**：
+    - **units.json（coverage 层用）≈ 可自动**：Q6 gold 与 GPU gold 同构
+      （N-id / depth / SHARE / leaf 标记 / 数值+单位行），解析器可机械提取
+      unit_id/depth/raw/text。coverage 层只吃 text 做 embedding cosine，够用。
+    - **formulas.json（L1 物理层用）= 人工标注**：`sympy`（符号式）/`ref`（参考值）/
+      `bound`（约束）是域特定量（GPU 是物理约束，Q6 是经济参数），不可从 markdown
+      机械提取，需人工或半自动（LLM 辅助 + 人工核验）标注。
+  - **结论**：Q6 的 coverage 轴跑分 = 写解析器（机械）；L1 物理层 = 人工标注成本。
+    先跑 coverage 轴即可验证"曲线形状跨域成立"，L1 层可后置。
 
 ## 分解树（正交子项）
 ```
