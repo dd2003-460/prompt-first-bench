@@ -25,7 +25,7 @@ Three contributions:
 
 **Questions.** Three research questions of increasing difficulty: *nat* (natural-language reasoning), *soc* (sociotechnical), *gpu* (GPU performance modeling with a 37-node gold decomposition tree). Difficulty ordering is by gold-tree depth and domain specificity, not by our score.
 
-**Pipeline.** A state-machine research loop (S5): decompose → expand nodes → mark gaps → retrieve → verify → rework (max 2 reworks per node). Node budget (max_nodes) is the controlled variable: 50/100/150/300/719.
+**Pipeline.** A state-machine research loop (S5): decompose → expand nodes → mark gaps → retrieve → verify → rework (max 2 reworks per node). The nominal node budget (max_nodes) is set to 50/100/150/300/719, but it is a *soft* cap — checked once per round, before a round's expansion — so a single round can overshoot it. Realized node counts overlap across tiers (budget 50 → 103–175 nodes; 100 → 122–314; 150 → 167–392; 300 → 364–415; 719 → 665–747). The budget parameter is therefore a *lower bound with overshoot*, not a clean independent variable; the realized node count (which proxies compute cost) is the effective one, and the two are conflated at the low tiers. We report both and scope the budget-tier claims accordingly (§4.3).
 
 **Judge (frozen, v1.0).** Three mechanical layers, no LLM: (L-struct) depth score — fraction of gold-tree depth reached, normalized; (L-cov) coverage — embedding match of model nodes to gold units (cosine ≥ 0.70, per-unit absorption cap 3 to prevent magnet effects); (L-mech) formula/symbol check — diagnostic only (symbol alignment between model and gold is not yet solved, so it is excluded from the composite). Composite = 0.5·depth + 0.5·coverage. Thresholds calibrated on 15 runs (cosine 0.80 collapsed coverage to 0.015; 0.70 gives 0.350 with per-run spread 0.11–0.56 — discriminative). Deterministic: same input → same output.
 
@@ -64,9 +64,9 @@ Kruskal–Wallis H=39.2, p<0.0001. If gap marking were noise, it would not track
 
 **Honest boundaries**: (i) within *soc*, gap_rate correlates with node count (ρ=0.488, p=0.010) — part of the soc effect may be a budget effect; (ii) the gradient is verified at one budget point (150); a budget-stratified replication is planned. A 质询 (adversarial check) initially found the 83-run aggregate mixed two populations (sm-* era vs budget-* scan); era-matching *strengthened* the gradient (gpu 0.102→0.147) and showed the budget scan's gap_rate is non-monotonic in budget (50→0.079, 100→0.209, 150→0.147, 300→0.082, 719→0.089) — a budget effect independent of difficulty.
 
-### 4.3 Budget–quality is non-monotonic
+### 4.3 Budget–quality is flat-to-weakly-non-monotonic
 
-Depth score by budget (n=3/budget, bootstrap 95% CI):
+Depth score by nominal budget tier (n=3/tier, bootstrap 95% CI; realized node counts in §2):
 
 | budget | mean depth | CI95 |
 |---|---|---|
@@ -76,7 +76,7 @@ Depth score by budget (n=3/budget, bootstrap 95% CI):
 | 300 | 0.4275 | [0.3516, 0.4811] |
 | 719 | 0.4376 | [0.4042, 0.4782] |
 
-Run-to-run sd (0.046) vs the 150-vs-plateau gap (0.041, plateau = mean of 100/300/719): the 150 "peak" is **0.9 run-sd above the plateau — suggestive, not significant at n=3**. Dropping the 300-r3 outlier (0.3516) moves 300 to 0.465, within 0.009 of 150. The robust, n-independent part of the finding is the *breadth-vs-depth* split: 719 buys ~700 nodes vs ~380 at 150 with no depth gain — the agent spreads budget across sibling branches instead of pushing down the gold tree's spine. **Under compute limits, the harness's budget allocation — not the budget size — is the quality variable.** The peak's location and significance are exactly what the queued 8–12 rep replication (100/150/300) is designed to settle; until then this finding is a hypothesis with the right sign, not a confirmed curve.
+Run-to-run sd (0.046) vs the 150-vs-plateau gap (0.041, plateau = mean of 100/300/719): the 150 "peak" is **0.9 run-sd above the plateau — suggestive, not significant at n=3**. Dropping the 300-r3 outlier (0.3516) moves 300 to 0.465, within 0.009 of 150. Two caveats scope this claim. First, the budget tiers are soft caps with overlapping realized node counts (§2): tiers 50/100/150 realize 103–392 nodes and overlap, so a depth "peak at 150" cannot be cleanly attributed to the budget parameter rather than to realized node count; the replication must re-analyze on realized node count as the x-axis. Second, the peak's location and significance are exactly what the queued 8–12 rep replication (100/150/300) is designed to settle; until then this finding is a hypothesis with the right sign, not a confirmed curve. The robust, n-independent part of the finding is the *breadth-vs-depth* split, stated on realized node counts: ~700 nodes (tier 719) vs ~380 (tier 150) with no depth gain — the agent spreads budget across sibling branches instead of pushing down the gold tree's spine. **Under compute limits, the harness's budget allocation — not the budget size — is the quality variable.**
 
 ### 4.4 Failure modes and continuity (per-layer anatomy)
 
