@@ -6,7 +6,7 @@
 
 ## Abstract
 
-Autonomous research agents are typically evaluated end-to-end, conflating what the model does with what the harness (prompt structure, verification loops, budget control) adds. We study this separation under an explicit compute constraint — a 27B open-weight model on 4×V100, no weight updates — where "more compute = better" cannot be assumed. Using a frozen three-layer mechanical judge (no LLM in the scoring path) and an orthogonal metacognition axis, we report three findings across 100+ runs on three research questions of increasing difficulty. (1) **Monitoring is present, repair is absent**: the agent marks information gaps with a healthy gap rate (94% of degraded nodes are correctly classified as "unverifiable" rather than "contradicted"), but its rework loop fixes 0/46 flagged nodes — budget is spent re-searching nodes that are unverifiable by construction. (2) **Gap marking is functional, not noise**: the defensive-marking rate rises monotonically with question difficulty (nat 0.028 < soc 0.058 < gpu 0.147, era-matched, all pairwise p<0.001), the signature of calibrated uncertainty monitoring. (3) **Budget–quality is non-monotonic**: depth score peaks at budget 150 (0.474) and declines at 719 (0.438); run-to-run spread (sd 0.045) is smaller than the tier spread (0.090), so the peak is not noise. Under compute limits, harness metacognition helps most where the model's own monitoring is weakest — the hard questions — and spending more budget past the peak buys nodes, not depth.
+Autonomous research agents are typically evaluated end-to-end, conflating what the model does with what the harness (prompt structure, verification loops, budget control) adds. We study this separation under an explicit compute constraint — a 27B open-weight model on 4×V100, no weight updates — where "more compute = better" cannot be assumed. Using a frozen three-layer mechanical judge (no LLM in the scoring path) and an orthogonal metacognition axis, we report four findings across 100+ runs on three research questions of increasing difficulty. (1) **Monitoring is present, repair is absent**: the agent marks information gaps with a healthy gap rate (94% of degraded nodes are correctly classified as "unverifiable" rather than "contradicted"), but its rework loop fixes only 1.6–2.1% of flagged nodes — the metacognitive loop behaves as a *filter* (mark, retrieve, classify), not a *repair cycle*; the tree grows around its 55% unverified nodes rather than repairing them. (2) **Gap marking is functional, not noise**: the defensive-marking rate rises monotonically with question difficulty (nat 0.028 < soc 0.058 < gpu 0.147, era-matched, all pairwise p<0.001), the signature of calibrated uncertainty monitoring. (3) **Budget–quality is non-monotonic**: depth score peaks at budget 150 (0.474) and declines at 719 (0.438); run-to-run spread (sd 0.045) is smaller than the tier spread (0.090), so the peak is not noise. (4) **The loop is continuous but not cumulative**: verification rate is flat across depth (43–49% for L2–L4) and no layer fully breaks (18/18 runs), yet the 1.6–2.1% rework fix rate means the tree grows *around* its unverified nodes rather than repairing them — continuity of the search process coexists with the absence of a closed metacognitive repair cycle. Under compute limits, harness metacognition helps most where the model's own monitoring is weakest — the hard questions — and spending more budget past the peak buys nodes, not depth.
 
 ---
 
@@ -46,7 +46,7 @@ Three contributions:
 
 Across 83 runs: healthy_gap_rate mean 0.938 (range 0.667–1.0) — when the agent cannot verify a claim after retrieval, 94% of the time the correct diagnosis is "unverifiable" (the source genuinely lacks the value), not "contradicted". The agent *knows the difference between "I don't know" and "I'm wrong"*.
 
-But the rework loop — the control mechanism — fixes **0 of 46** reworked nodes. Root cause (from evidence-field analysis): rework re-issues the same retrieval for nodes that are unverifiable by construction (the required value is model-specific and absent from generic sources), so rework spends budget on a guaranteed no-op. Repair budget is misallocated: it should fire only on *contradicted* nodes.
+But the rework loop — the control mechanism — fixes only **1.6–2.1%** of reworked nodes (36/2298 budget-scan, 61/2919 era-matched). Root cause (from evidence-field analysis): 87% of degraded nodes are *unverifiable* (the required value is model-specific and absent from generic sources), so rework spends budget re-searching nodes that are unverifiable by construction. Repair budget is misallocated: it should fire only on *contradicted* nodes (4% of degraded).
 
 **Claim**: the metacognitive breakpoint in a 27B research agent is the repair loop, not monitoring. This refines the myopia framing of 2408.05568: monitoring is healthier than reported; the missing piece is *targeted* control.
 
@@ -77,6 +77,24 @@ Depth score by budget (n=3/budget, bootstrap 95% CI):
 | 719 | 0.4376 | [0.4042, 0.4782] |
 
 Run-to-run sd (0.0445) < tier spread (0.0901): the 150 peak is real, not noise. More nodes (719 → ~700 nodes vs 150 → ~380) buys *breadth*, not *depth*: the agent spreads budget across sibling branches instead of pushing down the gold tree's spine. **Under compute limits, the harness's budget allocation — not the budget size — is the quality variable.**
+
+### 4.4 Failure modes and continuity (per-layer anatomy)
+
+Per-layer status across 18 era-matched gpu runs (5,812 nodes):
+
+| layer | nodes | verified | degraded | pending | ver% |
+|---|---|---|---|---|---|
+| L1 | 102 | 10 | 0 | 92 | 9.8% (by design: source=given, structural) |
+| L2 | 514 | 232 | 212 | 70 | 45.1% |
+| L3 | 1668 | 722 | 787 | 159 | 43.3% |
+| L4 | 3528 | 1729 | 1799 | 0 | 49.0% |
+
+Three structural observations:
+1. **Verification is flat across depth** (43–49% for L2–L4): the agent does not get systematically worse at deeper nodes — depth is not a verification cliff. What degrades with depth is *coverage* (judge §4.3), not verification rate.
+2. **No chain breaks below L1**: in 18/18 runs, every L2–L4 layer contains at least some verified nodes; the tree never dies at a layer. The loop is *continuous* in the weak sense (always some forward progress).
+3. **The loop is continuous but not cumulative**: with a 1.6–2.1% rework fix rate, rework does not repair the 55% of nodes that fail verification — they stay degraded and the tree simply grows *around* them. The metacognitive loop therefore behaves as a **filter** (mark + retrieve + classify), not a **repair cycle** (mark → fix → re-verify → improved). This is the precise sense in which continuity holds while the (a)→(b)→(c) loop fails to close.
+
+**Predicted failure mode for the fix**: conditioning rework on degraded-class (§5.1) should raise fix-rate on the 4% contradicted subset and free ~87% of rework budget; if the freed budget does not convert to depth (judge §4.3), the bottleneck is expansion, not repair — a falsifiable branch point for the next experiment.
 
 ## 5. Implications
 

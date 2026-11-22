@@ -32,9 +32,9 @@
 - **下一步**: 权重 0.4/0.3/0.3 待补重复后消融；mech 层符号对齐（独立工作项）；难度梯度在补重复时按 budget 分层重验（排除 soc 混淆）。
 
 ### L2-2 改进层（进行中）
-- **结论**: 断点 = 修复环（rework 46 次 fix rate 0/46, 全烧在 unverifiable 上）。27b monitoring 健康（hg 0.938），缺的是 targeted control。
-- **证据**: metacog-loop-design-20261122.md（evidence 正则分类 + rework_count 分布）。
-- **下一步**: 干预 2（rework 只对 contradicted 触发）→ 前后各 ≥3 runs → Welch t 检验（ε≈0.1 统计门禁）。
+- **结论**: 断点 = 修复环。修正数字: rework 修复率 1.6-2.1%（36/2298 budget-scan, 61/2919 era-matched），非 0/46（旧口径只数了 rework_count>0 的节点子集）。degraded 87% unverifiable / 4% contradicted / 13% ambiguous。
+- **失败模式解剖（18 runs, 5812 节点）**: ① 验证率跨层平坦（L2-L4 43-49%），深度不是验证悬崖——深度掉的是 coverage 不是 ver%；② L2-L4 无链断（18/18 runs 每层都有 verified）；③ loop 连续但不累积 = **filter 不是 repair cycle**（树绕开 55% 未验证节点生长）。L1 pending 92% 是 by design（source=given, s5_state_machine.py:494）。
+- **下一步**: 干预 2（rework 只对 contradicted 触发）→ 前后各 ≥3 runs → Welch t。可证伪分支点: 省出的预算若没转成 depth，瓶颈在 expansion 不在 repair。
 
 ### L2-3 题目层（等 D）
 - **结论**: AGI 题面 v0 落盘（q9-agi-question-v0.md），gold 骨架未建。
