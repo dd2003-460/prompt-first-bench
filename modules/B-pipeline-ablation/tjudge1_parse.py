@@ -6,7 +6,7 @@
   checkpoint: checkpoints/sm-gpu-r{N}/ 树形目录（node.json 的 claim 字段）
 输出统一 schema: [{unit_id, depth, text, parent_id}]
 """
-import json, os, re, glob
+import json, os, re, sys, glob
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PFB_ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
@@ -59,6 +59,21 @@ def parse_gold_q1(path):
                           "depth": 1, "text": m.group(1), "parent_id": "N-0", "kind": kind})
         i += 1
     return units
+
+
+def parse_gold_flat(qid, items):
+    """s8b_pilot.GOLD 平铺要点清单（nat/soc）→ 单元列表（与 Q1 同构, kind=point）"""
+    return [{"unit_id": f"P-{i+1}", "depth": 1, "text": t, "parent_id": "N-0", "kind": "point"}
+            for i, t in enumerate(items)]
+
+
+def load_gold(qid):
+    """按 qid 取 gold 单元: gpu → Q1.md 事实清单(16, 更权威); nat/soc → s8b_pilot.GOLD 平铺清单"""
+    if qid == "gpu":
+        return parse_gold_q1(GOLD)
+    sys.path.insert(0, os.path.join(PFB_ROOT, "experiments", "stage-ablation"))
+    from s8b_pilot import GOLD as FLAT_GOLD
+    return parse_gold_flat(qid, FLAT_GOLD[qid])
 
 
 def parse_checkpoint(ckpt_dir):

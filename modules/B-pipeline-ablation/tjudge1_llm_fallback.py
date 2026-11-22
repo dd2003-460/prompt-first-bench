@@ -10,8 +10,9 @@
 import json, os, sys, time, urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-FALLBACK = os.path.join(HERE, "tjudge1-llm-fallback-gpu.json")
-OUT = os.path.join(HERE, "tjudge1-llm-fallback-gpu-adjudicated.json")
+FALLBACK = os.path.join(HERE, "tjudge1-llm-fallback-all.json")
+OUT = os.path.join(HERE, "tjudge1-llm-fallback-all-adjudicated.json")
+MATCH = os.path.join(HERE, "tjudge1-match-all.json")
 API = "http://127.0.0.1:8787/v1/chat/completions"
 
 PROMPT = """你是严格的事实核对员。判断【研究节点】的内容是否实质性覆盖了【标准答案单元】所述的事实/结论。
@@ -53,7 +54,7 @@ def main():
 
     items = json.load(open(FALLBACK, encoding="utf-8"))
     # gold 单元全文（从 match 明细取）
-    match = json.load(open(os.path.join(HERE, "tjudge1-match-gpu.json"), encoding="utf-8"))
+    match = json.load(open(MATCH, encoding="utf-8"))
     gold_text = {}
     for name, r in match["runs"].items():
         for m in r["matches"]:
