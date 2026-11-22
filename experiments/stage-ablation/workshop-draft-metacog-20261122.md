@@ -124,7 +124,7 @@ Four structural observations:
 
 ## 8. Data & code
 
-All metrics are deterministic functions of saved run JSONs; judge code, calibration record, metacog axis, and the 15-run budget scan are in the repository (paths in the supplementary). Reproduction: `judge_v1.py` + `metacog_axis.py` over `checkpoints/archive/`.
+All metrics are deterministic functions of saved run JSONs; judge code, calibration record, metacog axis, and the 15-run budget scan are in the repository (paths in the supplementary). Reproduction: `judge_v1.py` + `metacog_axis.py` over `checkpoints/archive/`. The source-anchored numeric verification layer (§4.4 obs4) is `source_verify.py` (fetch each node's cited URL, strict 20-char-window number+unit co-occurrence; no LLM; results in `data/source-verify.json`), and the self-report vs mechanical-verification calibration check is `calibration_check.py` (results in `data/calibration-check.json`).
 
 ---
 
