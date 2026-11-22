@@ -127,6 +127,10 @@ T-JUDGE-1 客观 judge
     │   算对但换说法
     └── 缺口: calc.py 不在仓库(gold-tree.md 引用但缺失), 参考值散在 gold-tree.md 文本
         (594 TFLOP/14-27-54 GB/774-1034-1574 GB/s/42.8-49.3-8.0%), 已提取进 sidecar ref 字段
+        ✅ 已解决(2026-11-22, 963206281): calc.py 从 L3/L4/L5 文档无损重建
+        (bench/rubric-v3/tasks/T0-local-27b/reference/calc.py), 4锚验证全过
+        ✅ L0 自洽性通过(2026-11-22): sidecar 5/5 份额 + 1/1 带宽门槛重算命中
+        (T-JUDGE-1-L0-20261122.md); 关键口径: t_decode 除以 n, bw_ok=(W+KV)×20 tok/s
 └── J7. gpu 题目统一 + bench 完善（2026-11-22 D 指令"统一题目，只跑 gpu"）
     ├── J7-1 关键发现: gpu qid 下混着两道题 ——
     │   │   QUESTIONS['gpu']（K7 实际跑）= 本地工作站推理 Qwen3-27B 选卡方案
