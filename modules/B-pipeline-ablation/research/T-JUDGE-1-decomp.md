@@ -99,6 +99,34 @@ T-JUDGE-1 客观 judge
     │     → 预算从 150→719 没有提升 gold 覆盖（与 K7 预算-质量弱相关一致）
     │   → 磁体单元 6-16/run（enriched text 后更严重）→ LLM 兜底量会大,
     │     J4 跑前需重新生成 fallback 清单（旧 102 条作废）
+├── J8. 公式 judge（第三轨，机械验证，2026-11-22 D 提出"公式当节点结果判定"）
+    │   动机: 旧 LLM judge=长度代理, embedding judge=文本存在性(精度低)。
+    │   公式 judge 把判定降到计算层: 结构对不对(sympy 化简差为0) + 系数在不在区间
+    │   + 排序对不对。三层全机械, 不依赖 LLM/embedding。
+    ├── 设计（D 2026-11-22 两问确认）:
+    │   ① 公式验证器只验结构, 不纠结系数值 —— 恒等式/定义式(N-0/N-1/N-3.1)结构唯一,
+    │      经验系数(MFU/η_bw/duty/p_fail)验区间+弹性加权(BOUND); 终极验证=选卡排序
+    │      (系数分歧不改变赢家 3090×4/W4/n=2 就不影响结论)
+    │   ② 深度评判=结构对齐度, 不是节点数 —— gold 深度 5 由停止准则定义
+    │      (S-a 信息充足停/S-b 黑盒停/S-c SHARED 停); 显卡种类在 N-5 列候选不逐个展开,
+    │      MFU 展开到 NCU 层(可测量影响排序), duty 停 N-2.1(业务数据不可推导)。
+    │      "深度"= 模型树在 gold 该展开处展开/该停处停, 机械可算, 比长度代理客观。
+    ├── 防 hack: tricky 代数独立点输入(√2,√3,1/√5,√7,√6)。标准输入(3090×4/W4)
+    │   模型可能背过, tricky 输入必须真算; 两公式在足够多代数独立点输出相同=同一公式。
+    ├── 落地（6d568d293）:
+    │   gold-gpu-formulas.json: 36 单元 × {kind: formula/param/ncu/constraint/set,
+    │       expand: split/leaf, sympy 公式, ref 区间, share/bound 弹性}
+    │   tjudge1_formula.py: sympy 结构等价 + tricky 数值验证 + 不等式布尔化
+    │   自检: 12/13 数值通过(N-3.1.3 Σ 恒等式走结构验证, 预期)
+    │   150_r1 冒烟: 29/122 节点含可提取公式, 19 sympy 可解析;
+    │   结构匹配 0 命中 = 模型公式符号体系与 gold 不对齐(模型用 Total_Mem/Weights_MB,
+    │   gold 用 c_pass/c_hour) → 需 LLM 补写对齐符号(微信在做, 预算无所谓)
+    ├── 与现有 judge 关系: 第三轨, 最客观(机械)。三轨互补:
+    │   embedding=提到没有(文本存在性), 公式=算对没有(计算正确性), 旧 LLM=废弃
+    │   两者都过=强确认; 只过 embedding 没过公式=提到但算错; 只过公式没过 embedding=
+    │   算对但换说法
+    └── 缺口: calc.py 不在仓库(gold-tree.md 引用但缺失), 参考值散在 gold-tree.md 文本
+        (594 TFLOP/14-27-54 GB/774-1034-1574 GB/s/42.8-49.3-8.0%), 已提取进 sidecar ref 字段
 └── J7. gpu 题目统一 + bench 完善（2026-11-22 D 指令"统一题目，只跑 gpu"）
     ├── J7-1 关键发现: gpu qid 下混着两道题 ——
     │   │   QUESTIONS['gpu']（K7 实际跑）= 本地工作站推理 Qwen3-27B 选卡方案
