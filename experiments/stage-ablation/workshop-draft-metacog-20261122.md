@@ -119,4 +119,4 @@ All metrics are deterministic functions of saved run JSONs; judge code, calibrat
 
 ---
 
-*Draft notes (not for submission): numbers from k7-pareto-15run-20261122.md, metacog-budget-scan-v1.1.json, judge-v1-cov-calibration.md, plan-layered-20261122.md (era-matched recompute). Venue target: ICML 2027 workshop (~Jan 2027, deadline unverified). Related pending experiments: Idea 2 (checkpoint-as-cache, running), rep replication (queued), repair-loop fix (designed).*
+*Draft notes (not for submission): numbers from k7-pareto-15run-20261122.md, metacog-budget-scan-v1.1.json, judge-v1-cov-calibration.md, plan-layered-20261122.md (era-matched recompute). Venue target: ICML 2027 workshop. **Deadline verified 2026-11-23 (icml.cc/Conferences/2027/Dates, source ①)**: main-conference abstract 2027-01-14 AoE, full paper 2027-01-22 AoE; conference 2027-08-02~04 San Diego, workshops 08-05~06. Workshop-specific CFP/deadline not yet published (workshop organizers post separately, typically later than main) — re-verify when CFP drops. Related pending experiments: Idea 2 (checkpoint-as-cache, running), rep replication (queued), repair-loop fix (designed).*
