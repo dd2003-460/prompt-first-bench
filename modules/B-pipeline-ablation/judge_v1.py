@@ -137,7 +137,12 @@ def layer_structure(nodes):
 
 
 def layer_coverage(nodes, gold_units, model, cos_threshold=COS_THRESHOLD):
-    """L-覆盖: bge-m3 cosine >= 阈值, MAGNET_LIMIT 磁体降级。返回 (score, detail)。"""
+    """L-覆盖: bge-m3 cosine >= 阈值, 去重计数(每个 gold unit 命中≥1次算1次)。
+    2026-11-23 修复: 旧版 MAGNET_LIMIT=3 是二元清零(unit 被≥3节点命中→整个剔除),
+    对高节点 run 产生反相关伪影(覆盖越充分→越易触发→cov 越低, B-r1 0.222→0.0)。
+    confirmed 本就是 set(unit 级天然去重, 不存在刷分), magnet 排除纯有害。
+    现: confirmed = 所有 matched unit 的集合; magnet_ids 保留作诊断字段。
+    记录: research/judge-v1-magnet-artifact-20261123.md"""
     from sentence_transformers import SentenceTransformer
     node_emb = model.encode([n["claim"] for n in nodes], normalize_embeddings=True,
                             show_progress_bar=False)
@@ -149,11 +154,8 @@ def layer_coverage(nodes, gold_units, model, cos_threshold=COS_THRESHOLD):
     matched = top1_sim >= cos_threshold
     from collections import Counter
     absorb = Counter(top1[i] for i in range(len(nodes)) if matched[i])
-    magnets = {g for g, c in absorb.items() if c >= MAGNET_LIMIT}
-    confirmed = set()
-    for i in range(len(nodes)):
-        if matched[i] and top1[i] not in magnets:
-            confirmed.add(top1[i])
+    magnets = {g for g, c in absorb.items() if c >= MAGNET_LIMIT}  # 诊断用, 不再剔除
+    confirmed = set(top1[i] for i in range(len(nodes)) if matched[i])
     score = len(confirmed) / len(gold_units)
     return score, {"coverage": round(score, 4), "n_confirmed": len(confirmed),
                    "n_gold": len(gold_units), "n_magnets": len(magnets),
