@@ -10,8 +10,14 @@ import json, os, re, sys, glob
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PFB_ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
-GOLD = os.path.join(PFB_ROOT, "experiments/stage-ablation/gold/Q1.md")
-CKPT = os.path.join(PFB_ROOT, "experiments/stage-ablation/checkpoints")
+GOLD = os.path.join(PFB_ROOT, "experiments", "stage-ablation", "gold", "Q1.md")
+# 2026-11-22 修正: gpu qid 实际题面 = s5_pipeline.QUESTIONS['gpu'] (27B 本地选卡),
+# 其权威 gold = rubric-v3 37 节点树 (decomp 27B 硬件选型域, 深度 5, 17 叶子)。
+# 旧映射 gpu→Q1.md 是 H100 SXM vs PCIe 题的 gold (questions/Q1-gpu-h100.md), 题不匹配。
+GOLD_TREE = os.path.join(PFB_ROOT, "bench", "rubric-v3", "ablation", "gold-tree.md")
+# enriched 匹配单元 sidecar (36 单元, text 字段供 bge-m3 匹配; 原树冻结不修改)
+GOLD_UNITS = os.path.join(HERE, "gold-gpu-units.json")
+CKPT = os.path.join(PFB_ROOT, "experiments", "stage-ablation", "checkpoints")
 
 
 def parse_gold_q1(path):
@@ -61,6 +67,50 @@ def parse_gold_q1(path):
     return units
 
 
+def parse_gold_tree(path):
+    """rubric-v3 37 节点 gold 树 (gold-tree.md) → 单元列表。
+    规则: 只取第一个 ``` 代码块 (树正文; 后面的 OC-1 样例块会重复 N-0 等)。
+    行内 'N-x.y  名称' 模式 → 单元 (unit_id=节点号, depth=点号数+1)。
+    text = 中文名 + 符号 (如 'gpu_price') + 紧随其后的公式行 (含 '=' 的续行)。
+    跳过 SHARED 指针行 (名称后跟 '→ N-x')。
+    """
+    units = []
+    in_code = False
+    n_blocks = 0
+    last = None
+    for ln in open(path, encoding="utf-8").read().splitlines():
+        if ln.strip().startswith("```"):
+            if in_code:
+                n_blocks += 1
+                in_code = False
+            else:
+                in_code = True
+            last = None
+            continue
+        if not in_code or n_blocks >= 1:
+            continue
+        m = re.search(r"(N-\d+(?:\.\d+)*)\s{2,}(\S.*)", ln)
+        if not m:
+            # 公式续行 (│ 开头, 含 '=') → 挂到上一个单元
+            if last is not None and "=" in ln and re.match(r"^[│├└\s]*", ln):
+                last["text"] += " " + re.sub(r"^[│├└─\s]+", "", ln).strip()
+            continue
+        nid, rest = m.group(1), m.group(2).strip()
+        if "→ N-" in rest:  # SHARED 指针行
+            continue
+        # rest = '卡价          gpu_price    .55  B4  2.2x   leaf S-b ...'
+        segs = re.split(r"\s{2,}", rest)
+        name = segs[0]
+        if len(segs) > 1 and re.match(r"^[a-z][a-z0-9_]*$", segs[1]):
+            name += " " + segs[1]  # 符号名 (匹配 SM 节点时的高信号词)
+        depth = nid.count(".") + 1
+        u = {"unit_id": nid, "depth": depth, "text": name,
+             "parent_id": None, "kind": "goldnode"}
+        units.append(u)
+        last = u
+    return units
+
+
 def parse_gold_flat(qid, items):
     """s8b_pilot.GOLD 平铺要点清单（nat/soc）→ 单元列表（与 Q1 同构, kind=point）"""
     return [{"unit_id": f"P-{i+1}", "depth": 1, "text": t, "parent_id": "N-0", "kind": "point"}
@@ -68,9 +118,18 @@ def parse_gold_flat(qid, items):
 
 
 def load_gold(qid):
-    """按 qid 取 gold 单元: gpu → Q1.md 事实清单(16, 更权威); nat/soc → s8b_pilot.GOLD 平铺清单"""
+    """按 qid 取 gold 单元。
+    gpu → gold-gpu-units.json sidecar (36 单元, enriched text 供 bge-m3 匹配;
+         源 = rubric-v3 37 节点树, 2026-11-22 修正题-gold 不匹配问题)。
+    nat/soc → s8b_pilot.GOLD 平铺清单 (6/7 点, 粗粒度)。
+    旧映射 gpu→Q1.md (H100 SXM vs PCIe 题) 已废弃: 题不匹配, 仅留 parse_gold_q1 供历史分析。
+    """
     if qid == "gpu":
-        return parse_gold_q1(GOLD)
+        if os.path.exists(GOLD_UNITS):
+            d = json.load(open(GOLD_UNITS, encoding="utf-8"))
+            return [{"unit_id": u["unit_id"], "depth": u["depth"], "text": u["text"],
+                     "parent_id": None, "kind": "goldnode"} for u in d["units"]]
+        return parse_gold_tree(GOLD_TREE)
     sys.path.insert(0, os.path.join(PFB_ROOT, "experiments", "stage-ablation"))
     from s8b_pilot import GOLD as FLAT_GOLD
     return parse_gold_flat(qid, FLAT_GOLD[qid])
