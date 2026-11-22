@@ -27,15 +27,8 @@ for B in "${BUDGETS[@]}"; do
     RUN="gpu_budget${B}_r${R}"
     LOG="$LOGDIR/${RUN}.sm.log"
     echo "=== $RUN (max_nodes=$B, rep $R) started $(date '+%F %T') ==="
-    # 清场：归档上一 run 的文件（checkpoint 是原始数据，mv 不 rm）
-    ARCHIVE="$STAGE/checkpoints/archive/budget-${B}-r${R}-$(date +%Y%m%d-%H%M%S)"
-    mkdir -p "$ARCHIVE"
-    for f in "$STAGE/checkpoints/sm-${QID}-r"* \
-             "$STAGE/runs-s5-sm-${QID}.json" \
-             "$STAGE/runs-s5-sm-${QID}-synth.json" \
-             "$STAGE/runs-s5-sm-${QID}-checkpoint.json"; do
-      [ -e "$f" ] && mv "$f" "$ARCHIVE/"
-    done
+    # 2026-11-23 修复(off-by-one): 原归档块在 run 之前用当前 run 名 → 目录装的是
+    # 上一 run 的输出, 整体错位一格。现移到 run+bookkeeping 之后(见下方)。
     T0=$(date +%s)
     RC=0
     SM_SEED=42 SM_SYNTH_FULL=1 python3 -u "$STAGE/s5_state_machine.py" "$QID" \
@@ -73,6 +66,16 @@ json.dump(d, open(dst, "w"), ensure_ascii=False, indent=1)
 print(f"  [bookkeeping] {run}: nodes={d.get('n_nodes')} depth={d.get('depth_score')} "
       f"cov={d.get('coverage')} {elapsed}s")
 PY
+    # 归档本 run 的文件（2026-11-23 修复: 移到 run 之后, 目录名=内容生成时刻,
+    # 不再 off-by-one。checkpoint 是原始数据, mv 不 rm。）
+    ARCHIVE="$STAGE/checkpoints/archive/budget-${B}-r${R}-$(date +%Y%m%d-%H%M%S)"
+    mkdir -p "$ARCHIVE"
+    for f in "$STAGE/checkpoints/sm-${QID}-r"* \
+             "$STAGE/runs-s5-sm-${QID}.json" \
+             "$STAGE/runs-s5-sm-${QID}-synth.json" \
+             "$STAGE/runs-s5-sm-${QID}-checkpoint.json"; do
+      [ -e "$f" ] && mv "$f" "$ARCHIVE/"
+    done
   done
 done
 
