@@ -46,10 +46,10 @@
 - **证据**: idea2_runner.sh（ac6090870）；idea2-run.log。
 - **下一步**: Idea 2 完 → 配对统计（judge v1.0 + metacog 轴双评）→ 补重复开跑。
 
-### L2-5 发表层（排队）
-- **结论**: workshop claim = "compute-limited 下 harness 元认知价值随模型能力变 + 预算-质量非单调 + 自我认识断点在修复环"。
-- **证据**: K7 15-run（fda831ba2, 150=peak）+ L2-1/L2-2 发现。
-- **下一步**: ②④ 数据齐后开写（4-8 页, ICML 2027 workshop ~2027-01 [deadline 待核验]）。
+### L2-5 发表层（v0.1 稿已落盘）
+- **结论**: workshop 稿 v0.1 写完（workshop-draft-metacog-20261122.md, edacf05b7）。三发现: ①监控在/修复缺（rework 0/46, 断点=修复环）②gap 难度校准（era-matched nat<soc<gpu 全 p<0.001）③预算-质量非单调（150=peak, sd<spread）。限制节前置（单模型/self-judge/n=3/mech 诊断）。
+- **证据**: 全数字来自本地已验证 artifact（k7-pareto-15run / metacog-budget-scan-v1.1 / judge-v1-cov-calibration / plan-layered era-matched 重算）。
+- **下一步**: Idea 2 + 补重复数据齐后填 §4.3 的 n 和 peak 位置；repair-loop fix 跑完补 §5.1 的实测；heterogeneous re-judge（无 API key, 已知 gap）。
 
 ## 质询协议（D 不在时, 质疑替代 D）
 
