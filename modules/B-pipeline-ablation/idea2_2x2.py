@@ -38,7 +38,7 @@ def main():
     if "--score" in sys.argv:
         scores = json.load(open(SCORES)) if os.path.exists(SCORES) else []
         have = {(s["arm"], s["rep"]) for s in scores}
-        for arm, rep in [("A", 1), ("A", 2), ("B", 1), ("B", 2)]:
+        for arm, rep in [(a, r) for a in "AB" for r in (1, 2, 3)]:
             if (arm, rep) in have:
                 continue
             m = sorted(glob.glob(os.path.join(DATA, f"idea2-{arm}-r{rep}-*.json")))
