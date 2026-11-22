@@ -56,23 +56,26 @@ T-JUDGE-1 客观 judge
 │   │     → 解法: 吸 N 个节点的 gold 单元标 magnet，其匹配全部降级送 LLM 兜底复核
 │   └── 验证: top 匹配肉眼核验通过（N21 多卡并行→MIS-4 ✓ / N46 A100 算力→SPEC-1 ✓ /
               N56 RX TDP→SPEC-5 ✓）；边界段 0.60-0.65 混入率 ~50%（阈值 0.65 后大幅减少）
-├── J4. LLM 兜底（二元裁决）
-│   ├── 触发: top-1 sim < 阈值的输出节点
-│   ├── prompt: "gold 树中是否有节点表达了以下语义？是/否 + 最接近的 gold 节点 id"
-│   │   （二元判断，非连续分；LLM 只做语义对齐，不做质量打分）
-│   ├── 成本: 27b 本地，每节点 1 次调用；预估触发率 [待核验]（首跑统计）
+├── J4. LLM 兜底（二元裁决）✅ 脚本就绪（tjudge1_llm_fallback.py，等 K7 释放 vLLM）
+│   ├── 触发（首跑后修正）: 磁体匹配的节点（gold 单元吸 >=3 节点 → 全部降级），
+│   │   不是低 sim 节点——低 sim 直接判 unmatched 更稳（0.60-0.65 段混入率 ~50%）
+│   ├── prompt: 二元 yes/no（节点是否实质覆盖该 gold 单元）+ 一句话理由；temp=0
+│   ├── 成本: 27b 本地，每节点 1 次调用；首跑触发 29 条（r1 0 + r2 29，磁体 5 单元）
 │   └── 验证: 兜底裁决与 embedding 判断的一致率（应高，否则阈值标定有问题）
-├── J5. 指标计算（从匹配结果导出，纯计算）
-│   ├── 覆盖率 = 匹配上的 gold 节点数 / gold 节点总数（按深度分层报告）
-│   ├── 深度匹配 = 输出关键路径深度 / gold 关键路径深度
-│   ├── 压缩率 = 匹配节点的 claim 总长 / gold 对应节点总长（信息量代理: token 数，局限已声明）
-│   ├── 精确率 = 匹配上的输出节点 / 输出节点总数（= 冗余率反向）
-│   └── Pareto 点 = (cost=节点数或 token 数, 覆盖率) → 跨 run 画前沿
+├── J5. 指标计算（从匹配结果导出，纯计算）✅ 首跑已出
+│   ├── 覆盖率 = 匹配上的 gold 单元数 / 16（按 spec/misread/conclusion/gap 分类报告）
+│   │   首跑（confirmed 口径）: r1 5/16=0.312 | r2 3/16=0.188（+磁体 pending 5 → LLM 裁决后上限 8/16）
+│   ├── 压缩率 = confirmed 节点 claim 总长 / 对应 gold 单元总长（token 数代理，局限已声明）
+│   │   首跑: r1 1.30x | r2 4.37x（r2 节点多 4 倍但覆盖少 → 每覆盖单元花更多文本 = 更"稀释"）
+│   ├── 精确率 = confirmed 节点 / 输出节点总数（**粒度比，不是质量比**——输出树比 gold 细 7 倍，
+│   │   多节点覆盖同一 gold 单元是正常分解；主指标是覆盖率+压缩率，precision 只作参考）
+│   └── Pareto 点 = (cost=节点数, 覆盖率) → 跨 run 画前沿（K7 全量数据出来后重打）
 └── J6. 重打历史数据 + dual-track 对照
-    ├── 范围: sm-gpu-r1/r2（37 节点 gold 最完整）+ synth-l5-719nodes + matched 批可用树
-    ├── 产出: 新 judge 指标 vs 旧 judge depth_score 相关性（Spearman ρ）
-    └── 判据: ρ > 0.7 → 新 judge 可信且更客观，K7/T-PR-17 后续用它；
-              ρ < 0.5 → 两 judge 测的不是同一构念，需回查匹配质量（不强行统一）
+    ├── 范围: sm-gpu-r1/r2（✅ 已打）+ matched 批 30 run（gpu/nat/soc，judge_file 已有旧分）
+    │   + synth-l5-719nodes + budget scan 15 run（K7 完成后）
+    ├── 旧 judge 分数位置: data/t53b/runs_sm_matched/*_judge.json（scores 0/1 列表 + reasons）
+    └── 判据: 新覆盖率 vs 旧 depth_score 相关性（Spearman ρ）；
+              ρ > 0.7 → 新 judge 可信且更客观；ρ < 0.5 → 测的不是同一构念，回查匹配质量
 ```
 
 ## 缺口清单
@@ -80,9 +83,9 @@ T-JUDGE-1 客观 judge
 | 子项 | 缺什么 | 补法 |
 |---|---|---|
 | J1 gold 解析 | Q1-Q5 的 markdown 格式未逐一核（Q9 已核: 代码块包裹 + N-x 编号） | 解析前逐文件 head 核格式 |
-| J3 模型选型 | bge-m3 vs MiniLM 未定 | 下载 bge-m3 试跑；若 HF 下载慢/失败降级 MiniLM（纯英文 claim 够用） |
-| J3 阈值 | 无 ground truth | 人工标定集（20 正例 + 20 负例对）+ ROC 拐点 |
-| J4 触发率 | 未知 | 首跑统计 |
+| J3 模型选型 | ✅ 已定 bge-m3（dim 1024，MPS 跑通，缓存已落） | — |
+| J3 阈值 | ✅ 首跑标定 0.65 + 磁体降级（0.60 假匹配多 / 0.70 覆盖塌） | 后续: 人工标定集（20 正例 + 20 负例对）验证 ROC 拐点 |
+| J4 触发率 | ✅ 首跑 29 条（r2 磁体 5 单元）；脚本就绪，**等 K7 释放 vLLM 后跑** | 跑完重算 confirmed 覆盖率 |
 | J5 信息量定义 | token 数代理的局限（长 ≠ 信息多） | 报告中声明局限；备选: embedding 向量模长（无意义）→ 维持 token 数 |
 | J6 覆盖范围 | budget scan 结果无树，需回 checkpoints/ 取 | 核对 checkpoints/ 里哪些 run 的树还在（archive 已核验 11 个） |
 
