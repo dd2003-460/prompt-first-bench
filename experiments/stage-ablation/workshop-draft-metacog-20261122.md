@@ -113,7 +113,13 @@ Three structural observations:
 - **Workshop scope**: this is a measurement + diagnosis paper, not a fix paper. The repair-loop fix is designed and predicted, not yet run.
 - **Executor continuity (meta)**: the agent running this study is itself continuity-bound — its actions are passively triggered (user message or background-process completion), so a goal state-machine records *where to resume* but does not *drive* resumption. Continuity here is achieved by synchronous in-session progress + background processes covering GPU waits (auto-wake on completion) + planning written to seamless-resume granularity. Self-triggered unattended action is unavailable to the executor — a property of the research *process*, stated for honesty, distinct from the evaluated 27B system's metacognitive limits.
 
-## 7. Data & code
+## 7. Future work
+
+- **Structural stop-criterion axis (L2, new diagnostic layer).** A BOUND-weighted mechanical check of whether the agent expands where the gold decomposition requires expansion and stops where its stopping criteria (information-sufficient / black-box / business-data) apply. Across 14 runs the agent systematically over-expands (40 over- vs 18 under-expansions, 2.2:1) and the axis is near-orthogonal to the depth score (r = −0.23) — the model does not know when to stop. Not yet in the composite (representative-node assignment is the main measurement-error source); a replication with pinned question text is the next step.
+- **Tree-level conditional information gain for bottleneck localization.** A follow-up direction: quantify, per reasoning-tree node, the conditional information gain of expanding that node toward the final answer, and use the gain profile to localize which layer of the decomposition is the bottleneck. A collision survey (2026-11-23) found the single components mature (Roofline bottleneck analysis: arXiv:2402.16363; information-gain CoT: arXiv:2411.11984; mechanistic NPU critics: arXiv:2611.24733) but the tree-level combination unclaimed — full-text check of the closest paper (2611.24733, 131K chars) shows zero overlap with reasoning-tree or information-gain content.
+- **Replication and capability axis.** The queued replication (5 added reps per tier at 100/150/300, n = 3→8) pins the peak location; a 7b/70b capability curve is planned but not run.
+
+## 8. Data & code
 
 All metrics are deterministic functions of saved run JSONs; judge code, calibration record, metacog axis, and the 15-run budget scan are in the repository (paths in the supplementary). Reproduction: `judge_v1.py` + `metacog_axis.py` over `checkpoints/archive/`.
 
