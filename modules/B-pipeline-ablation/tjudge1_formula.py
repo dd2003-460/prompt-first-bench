@@ -233,14 +233,78 @@ def _safe(s):
         return False
 
 
+# ---------------------------------------------------------------------------
+# L0 自洽层（2026-11-23 形式化; informal 通过记录 research/T-JUDGE-1-L0-20261122.md）
+# L0 = gold 树内部自洽: sidecar 的 ref 数值必须能被 calc.py 重建参数 + 公式重算。
+# 口径(踩过的坑):
+#   1) t_decode 份额用 per-stream 口径 t_decode/n (L4 F-A 订正; 用总时间得 25:75 错值)
+#   2) bw_ok 门槛 = 20 tokens/s 解码目标: (W+KV_per_stream)×20 GB/s, 三量化档精确命中
+#      (20 tok/s 出处文档未写, conf 0.8 [待核验] — 唯一同时命中三档的线性结构)
+# 容差: 份额 1.0 个百分点(文档可能用未四舍五入中间值); bw_ok 精确(1e-6)。
+# ---------------------------------------------------------------------------
+L0_TOL_SHARE_PP = 1.0   # 百分点
+L0_TOL_BW = 1e-6        # 精确命中
+L0_BW_TARGET_TPS = 20.0 # tokens/s 解码目标 (conf 0.8, 待核验)
+
+
+def l0_check(calc_path="bench/rubric-v3/tasks/T0-local-27b/reference/calc.py"):
+    """L0 自洽检查。返回 (all_pass, rows)。rows: list[dict]。
+    参考配置 = 3090×4/W4/n=2 (gold 树 winner)。"""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("calc_ref", calc_path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"无法加载 calc 模块: {calc_path}")
+    calc = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(calc)
+    card, nc, q, n = "3090", 4, "W4", 2
+    hw = calc.HARDWARE[card]
+    gpu_price = hw["price_each"] * nc
+    amort = (gpu_price + calc.HOST_PRICE - gpu_price * calc.RESID) / calc.H_HOURS
+    elec = (nc * hw["tdp"] + 300) / 1000.0 * calc.ELEC
+    fail = calc.P_FAIL * gpu_price / calc.H_HOURS
+    c_hour = amort + elec + fail
+    t_prefill = calc.PREFILL_FLOPS / (nc * hw["tf_peak"] * calc.MFU * calc.TP_EFF)
+    # per-stream decode (口径 1): 总 decode / n
+    t_decode_ps = (calc.OUT_TOK * (calc.W_BYTES[q] + n * calc.KV_PER_STREAM)
+                   / (nc * hw["bw"] * calc.ETA_BW * calc.TP_EFF)) / n
+    t_task = t_prefill + t_decode_ps
+    rows = []
+    def add(uid, name, ref, got, tol):
+        ok = abs(got - ref) <= tol
+        rows.append({"unit": uid, "check": name, "ref": ref,
+                     "recomputed": round(got, 4), "tol": tol, "pass": ok})
+    # 5 份额 (ref 来自 gold 文档, frozen ed552c4)
+    add("N-1.1", "amort share %", 42.8, amort / c_hour * 100, L0_TOL_SHARE_PP)
+    add("N-1.2", "elec share %", 49.3, elec / c_hour * 100, L0_TOL_SHARE_PP)
+    add("N-1.3", "fail share %", 8.0, fail / c_hour * 100, L0_TOL_SHARE_PP)
+    add("N-3.1", "prefill share %", 40.1, t_prefill / t_task * 100, L0_TOL_SHARE_PP)
+    add("N-3.2", "decode share % (per-stream)", 59.9, t_decode_ps / t_task * 100, L0_TOL_SHARE_PP)
+    # 1 带宽门槛 (ref: W4=774/W8=1034/W16=1574 GB/s)
+    for quant, ref_bw in [("W4", 774.0), ("W8", 1034.0), ("W16", 1574.0)]:
+        got = (calc.W_BYTES[quant] + calc.KV_PER_STREAM) * L0_BW_TARGET_TPS
+        add("N-5.2", f"bw_ok {quant} GB/s", ref_bw, got, L0_TOL_BW)
+    return all(r["pass"] for r in rows), rows
+
+
 if __name__ == "__main__":
     import argparse
     ap = argparse.ArgumentParser()
     ap.add_argument("--emit-sidecar", action="store_true")
     ap.add_argument("--smoke", metavar="TREE")
     ap.add_argument("--selftest", action="store_true")
+    ap.add_argument("--l0", action="store_true", help="L0 自洽检查 (calc.py × sidecar ref)")
     ap.add_argument("--sidecar", default="gold-gpu-formulas.json")
     a = ap.parse_args()
+    if a.l0:
+        import os
+        calc_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+                                 "bench/rubric-v3/tasks/T0-local-27b/reference/calc.py")
+        ok, rows = l0_check(calc_path)
+        for r in rows:
+            print(f"  {r['unit']:8s} {r['check']:28s} ref={r['ref']:<8} recalc={r['recomputed']:<8} {'✅' if r['pass'] else '❌'}")
+        print(f"[l0] {'PASS' if ok else 'FAIL'} ({sum(r['pass'] for r in rows)}/{len(rows)})")
+        if not ok:
+            sys.exit(1)
     if a.emit_sidecar:
         emit_sidecar(a.sidecar)
     if a.selftest:
