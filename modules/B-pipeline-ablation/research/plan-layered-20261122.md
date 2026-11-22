@@ -26,8 +26,9 @@
 ### L2-1 测量层（2026-11-22 收口）
 - **结论**: 三层机械 judge v1.0 冻结（0.5*depth+0.5*cov, COS=0.70）；metacog 轴 v1.1 建成（gap/retrieval/healthy_gap/post_acc）。
 - **证据**: judge-v1-cov-calibration.md（15 runs 标定）；metacog-budget-scan-v1.1.json（83 runs）；跨题质询通过（hg 0.90-0.98 三题一致, 排除"gpu 题特殊"替代解释）。
-- **新发现（已验证）**: gap_rate 随题难度单调升 nat 0.0254 < soc 0.0562 < gpu 0.1020，三对 Mann-Whitney 全 p<0.001（nat<soc p=0.0003, soc<gpu p=0.00007, nat<gpu p<1e-5），KW H=36.4 p<0.0001。= 功能性 monitoring 特征（校准的不确定性标记）。
-- **混淆边界（诚实标注）**: soc 题内 gap_rate 与 n_nodes 正相关（rho=0.488, p=0.010）→ soc 的难度效应部分可能是预算效应；nat/gpu 无此相关（rho=-0.05/-0.10, p>0.5）。claim 限定为"跨题难度梯度成立，但 soc 单题内预算混淆未排除"。
+- **新发现（已验证, era-matched）**: gap_rate 随题难度单调升，**限定 sm-* era（同 budget=150 默认）**: nat 0.0281(n=21) < soc 0.0576(n=26) < gpu 0.1469(n=18)，三对 Mann-Whitney 全 p<0.001，KW H=39.2 p<0.0001。= 功能性 monitoring 特征。
+- **质询修正（重要）**: 最初 83-run 聚合把 sm-* era（Nov20-21, budget=150）和 budget-* scan（Nov22, 50-719）两个 population 混了，gpu 被稀释到 0.102。era-matched 后 gpu=0.147 梯度更强。budget scan 内部 gap_rate 非单调（50→0.079, 100→0.209, 150→0.147, 300→0.082, 719→0.089）= budget 效应独立于难度，**两 population 不可混算**。
+- **混淆边界（诚实标注）**: ① soc 题内 gap_rate 与 n_nodes 正相关（rho=0.488, p=0.010）→ soc 难度效应部分可能是预算效应；② 难度梯度只在 budget=150 单点验证，跨 budget 的梯度需补重复时按 budget 分层重验。claim 限定为"同预算下跨题难度梯度成立"。
 - **下一步**: 权重 0.4/0.3/0.3 待补重复后消融；mech 层符号对齐（独立工作项）；难度梯度在补重复时按 budget 分层重验（排除 soc 混淆）。
 
 ### L2-2 改进层（进行中）
