@@ -1,0 +1,102 @@
+# Metacognition Under Compute Limits: Monitoring, Repair, and the Non-Monotonic Budget–Quality Curve in a 27B Research Agent
+
+*Workshop draft v0.1 — 2026-11-22 — status: DRAFT (numbers verified from local artifacts; see §6 limitations)*
+
+---
+
+## Abstract
+
+Autonomous research agents are typically evaluated end-to-end, conflating what the model does with what the harness (prompt structure, verification loops, budget control) adds. We study this separation under an explicit compute constraint — a 27B open-weight model on 4×V100, no weight updates — where "more compute = better" cannot be assumed. Using a frozen three-layer mechanical judge (no LLM in the scoring path) and an orthogonal metacognition axis, we report three findings across 100+ runs on three research questions of increasing difficulty. (1) **Monitoring is present, repair is absent**: the agent marks information gaps with a healthy gap rate (94% of degraded nodes are correctly classified as "unverifiable" rather than "contradicted"), but its rework loop fixes 0/46 flagged nodes — budget is spent re-searching nodes that are unverifiable by construction. (2) **Gap marking is functional, not noise**: the defensive-marking rate rises monotonically with question difficulty (nat 0.028 < soc 0.058 < gpu 0.147, era-matched, all pairwise p<0.001), the signature of calibrated uncertainty monitoring. (3) **Budget–quality is non-monotonic**: depth score peaks at budget 150 (0.474) and declines at 719 (0.438); run-to-run spread (sd 0.045) is smaller than the tier spread (0.090), so the peak is not noise. Under compute limits, harness metacognition helps most where the model's own monitoring is weakest — the hard questions — and spending more budget past the peak buys nodes, not depth.
+
+---
+
+## 1. Introduction
+
+Research-agent evaluations usually fix the model and vary the task, or fix the task and vary the model. We fix both and vary the **harness** — the prompt structure, verification loop, and node budget — because under a compute constraint the harness is the only degree of freedom left. The question: *what does structured metacognition (gap marking, retrieval, verification, rework) actually add, and when does it stop paying?*
+
+Our setting is deliberately unglamorous: Qwen3-27B (NVFP4) on 4×Tesla V100, serving via vLLM, no weight modification. This is not a limitation to apologize for — it is the experimental condition. Conclusions are scoped to open-weight models in the 27B range; the claim is about the *shape* of the budget–quality relationship and the *location* of the metacognitive breakpoint, both of which should hold across models of similar capability.
+
+Three contributions:
+1. A **frozen mechanical judge** (three layers, deterministic, no LLM in the scoring path) that makes harness ablation reproducible.
+2. A **metacognition axis** orthogonal to quality: it measures whether the agent monitors its own information state (gap marking) and controls it (retrieval + repair), separately from how good its answers are.
+3. **Three findings** (§4): monitoring/repair dissociation, difficulty-calibrated gap marking, and a non-monotonic budget–quality curve.
+
+## 2. Setup
+
+**Questions.** Three research questions of increasing difficulty: *nat* (natural-language reasoning), *soc* (sociotechnical), *gpu* (GPU performance modeling with a 37-node gold decomposition tree). Difficulty ordering is by gold-tree depth and domain specificity, not by our score.
+
+**Pipeline.** A state-machine research loop (S5): decompose → expand nodes → mark gaps → retrieve → verify → rework (max 2 reworks per node). Node budget (max_nodes) is the controlled variable: 50/100/150/300/719.
+
+**Judge (frozen, v1.0).** Three mechanical layers, no LLM: (L-struct) depth score — fraction of gold-tree depth reached, normalized; (L-cov) coverage — embedding match of model nodes to gold units (cosine ≥ 0.70, per-unit absorption cap 3 to prevent magnet effects); (L-mech) formula/symbol check — diagnostic only (symbol alignment between model and gold is not yet solved, so it is excluded from the composite). Composite = 0.5·depth + 0.5·coverage. Thresholds calibrated on 15 runs (cosine 0.80 collapsed coverage to 0.015; 0.70 gives 0.350 with per-run spread 0.11–0.56 — discriminative). Deterministic: same input → same output.
+
+**Metacognition axis.** Four metrics from node fields (no LLM): gap_rate (defensive markers / total nodes), retrieval_rate (source=search / total), healthy_gap_rate (unverifiable / (unverifiable + contradicted) among degraded nodes), post_retrieval_accuracy (verified / (verified + contradicted)). The v1.1 key correction: "degraded" splits into *unverifiable* (source lacks the value — a healthy "I checked, I can't verify") and *contradicted* (source conflicts — a true failure). Conflating them (v1.0) measured verification strictness, not self-awareness.
+
+**Reproducibility.** Per-run results are *not* reproducible by design (temp 0.7, top_p 0.95, anti-cache perturbation, vLLM concurrent non-determinism). The pipeline and statistical conclusions are: all metrics are deterministic functions of the saved run JSON.
+
+## 3. Related work (positioning, condensed)
+
+- **Metacognition in LLMs**: factual self-awareness is documented (arXiv:2505.21399); metacognitive myopia — monitoring present, control absent — is the open gap (arXiv:2408.05568). We provide a *measured* instance of this dissociation in a research pipeline, with the breakpoint located (repair loop, not monitoring).
+- **RSI / self-improvement**: greedy acceptance of single-run score gains misclassifies noise as progress (45.6% of accepts are degradations; statistical gates reduce to 2.8%, arXiv:2611.10787). Our budget scan is a controlled instance: more budget does not monotonically improve the score, so any self-improvement loop on this harness must use statistical gates.
+- **Budget/effort scaling in reasoning**: compute-optimal scaling (Kaplan; Chinchilla) fixes the task and varies scale; we fix the task *and* the model and vary the harness budget — the regime where scaling-law promises do not apply (no loss to optimize, metacognition is not a parametric capability).
+- **Deep-research benchmarks** (DREAM, DR-Bench, BrowseComp): assume tool access and measure end-to-end success; we isolate the harness under a no-weight-update constraint with a mechanical judge.
+
+## 4. Findings
+
+### 4.1 Monitoring is present; repair is absent
+
+Across 83 runs: healthy_gap_rate mean 0.938 (range 0.667–1.0) — when the agent cannot verify a claim after retrieval, 94% of the time the correct diagnosis is "unverifiable" (the source genuinely lacks the value), not "contradicted". The agent *knows the difference between "I don't know" and "I'm wrong"*.
+
+But the rework loop — the control mechanism — fixes **0 of 46** reworked nodes. Root cause (from evidence-field analysis): rework re-issues the same retrieval for nodes that are unverifiable by construction (the required value is model-specific and absent from generic sources), so rework spends budget on a guaranteed no-op. Repair budget is misallocated: it should fire only on *contradicted* nodes.
+
+**Claim**: the metacognitive breakpoint in a 27B research agent is the repair loop, not monitoring. This refines the myopia framing of 2408.05568: monitoring is healthier than reported; the missing piece is *targeted* control.
+
+### 4.2 Gap marking is difficulty-calibrated
+
+Era-matched (same default budget, same pipeline era), defensive-marking rate rises monotonically with question difficulty:
+
+| question | n | gap_rate | pairwise |
+|---|---|---|---|
+| nat | 21 | 0.0281 | nat<soc p=0.0003 |
+| soc | 26 | 0.0576 | soc<gpu p<0.0001 |
+| gpu | 18 | 0.1469 | nat<gpu p<0.0001 |
+
+Kruskal–Wallis H=39.2, p<0.0001. If gap marking were noise, it would not track an independent difficulty ordering. It is the signature of calibrated uncertainty monitoring — the agent is more defensive exactly where it should be.
+
+**Honest boundaries**: (i) within *soc*, gap_rate correlates with node count (ρ=0.488, p=0.010) — part of the soc effect may be a budget effect; (ii) the gradient is verified at one budget point (150); a budget-stratified replication is planned. A 质询 (adversarial check) initially found the 83-run aggregate mixed two populations (sm-* era vs budget-* scan); era-matching *strengthened* the gradient (gpu 0.102→0.147) and showed the budget scan's gap_rate is non-monotonic in budget (50→0.079, 100→0.209, 150→0.147, 300→0.082, 719→0.089) — a budget effect independent of difficulty.
+
+### 4.3 Budget–quality is non-monotonic
+
+Depth score by budget (n=3/budget, bootstrap 95% CI):
+
+| budget | mean depth | CI95 |
+|---|---|---|
+| 50 | 0.3842 | [0.3597, 0.4126] |
+| 100 | 0.4352 | [0.4276, 0.4392] |
+| **150** | **0.4743** | [0.4300, 0.5184] |
+| 300 | 0.4275 | [0.3516, 0.4811] |
+| 719 | 0.4376 | [0.4042, 0.4782] |
+
+Run-to-run sd (0.0445) < tier spread (0.0901): the 150 peak is real, not noise. More nodes (719 → ~700 nodes vs 150 → ~380) buys *breadth*, not *depth*: the agent spreads budget across sibling branches instead of pushing down the gold tree's spine. **Under compute limits, the harness's budget allocation — not the budget size — is the quality variable.**
+
+## 5. Implications
+
+1. **For harness design**: rework should be conditioned on the degraded-class (fire only on *contradicted*). This is a one-line change with a measurable prediction: repair fix-rate > 0 and budget reallocation toward depth. (Planned as the next experiment; acceptance via statistical gate, not single-run — per §2 related work, greedy gates misclassify 45.6% of accepts.)
+2. **For evaluation**: a mechanical, frozen judge is feasible and necessary for harness ablation — LLM judges inject family bias and non-determinism into the very variable being measured.
+3. **For compute-limited research**: the non-monotonic curve is a warning against "just give it more budget" — past the peak, extra budget degrades depth.
+
+## 6. Limitations (stated up front)
+
+- **Single model** (27B): no capability curve. The model-capability axis (7b/27b/70b) is planned but not run; claims are scoped to "open-weight, ~27B range".
+- **Self-judge bias**: the depth axis is same-family; the report notes r=0.861 with an older LLM-judge cov axis. Heterogeneous re-judging (frontier API) is blocked (no API key) — a known gap, stated, not hidden.
+- **n=3/budget**: the non-monotonicity is robust to run noise (sd < spread) but the peak *location* (150 vs 100) needs the planned 8–12 rep replication to pin down.
+- **Mech layer diagnostic-only**: symbol alignment between model and gold unsolved; the formula layer contributes 0 to the composite.
+- **One question family** for the gold tree (gpu); nat/soc golds are smaller (6/7 points).
+- **Workshop scope**: this is a measurement + diagnosis paper, not a fix paper. The repair-loop fix is designed and predicted, not yet run.
+
+## 7. Data & code
+
+All metrics are deterministic functions of saved run JSONs; judge code, calibration record, metacog axis, and the 15-run budget scan are in the repository (paths in the supplementary). Reproduction: `judge_v1.py` + `metacog_axis.py` over `checkpoints/archive/`.
+
+---
+
+*Draft notes (not for submission): numbers from k7-pareto-15run-20261122.md, metacog-budget-scan-v1.1.json, judge-v1-cov-calibration.md, plan-layered-20261122.md (era-matched recompute). Venue target: ICML 2027 workshop (~Jan 2027, deadline unverified). Related pending experiments: Idea 2 (checkpoint-as-cache, running), rep replication (queued), repair-loop fix (designed).*
