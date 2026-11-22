@@ -45,8 +45,8 @@ general-methodology
 │   └── A3. 跨域 metacog 曲线对比（gpu vs Q6 vs Q7 的 gap_rate/ret 曲线）
 ├── B. quality 轴跨域验证（per-domain，成本=转换）
 │   ├── B1. markdown→structured gold 转换脚本（Q6 先行）                    [✅ 完成, gold_md_to_units.py]
-│   ├── B2. 转换产物人工核验（units 数/公式/bound 对齐 gold 原文）
-│   ├── B3. Q6 quality judge 跑分（judge_v1 换 gold 文件）                  [待B1+B2]
+│   ├── B2. 转换产物人工核验（units 数/公式/bound 对齐 gold 原文）            [✅ Q6 share 全对]
+│   ├── B3. Q6 quality judge 跑分（judge_v1 --gold-units 注入）              [✅ 前置完成, 待Q6 runs]
 │   └── B4. 跨域 budget-quality 曲线对比（gpu vs Q6 的 peak 位置）
 └── C. capability 轴（独立 general 化, 7b/27b/70b）                          [未启动, 需换模型]
 ```
@@ -66,6 +66,11 @@ general-methodology
 
 ## 下一步（vLLM 释放后）
 1. A1: Q6 budget scan（复用 budget_scan_batch.sh, 改 QID + --question-file）
-2. B1: 写 markdown→structured gold 转换脚本（Q6 先行）
-3. A2+B3: Q7 scan + Q6 quality 跑分
-4. A3+B4: 跨域曲线对比 → 填 workshop §7
+2. A2: Q7 budget scan
+3. B3: Q6 quality 跑分 = `judge_v1.py --runs-dir <q6 runs> --gold-units <B1产物> --runs-glob "q6_budget*.json"`（前置已就绪）
+4. A3+B4: 跨域曲线对比（metacog 3 域 + quality gpu vs Q6 peak 位置）→ 填 workshop §7
+
+## 已完成（2026-11-23, 不依赖 vLLM）
+- B1: `gold_md_to_units.py`（markdown→units, Q6 46 units 验证 + Q7 泛化）
+- B2: Q6 share 全对（N-1=.35/N-2=.28/N-4=.18/N-5=.12/N-7=.03）
+- B3 前置: `judge_v1.py --gold-units` 参数化 + 回归验证（gpu 默认 0.3972 不变, Q6 注入链通 cov=0 正确）
