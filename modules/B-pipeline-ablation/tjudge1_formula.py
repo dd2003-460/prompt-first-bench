@@ -225,6 +225,42 @@ def smoke(tree_path, sidecar_path="gold-gpu-formulas.json"):
         print("   (无变量重叠≥2 的匹配 — 预期: 模型公式用词与 gold 符号不同, 需 LLM 补写对齐符号)")
 
 
+def l4_check(tree_path, sidecar_path="gold-gpu-formulas.json"):
+    """L4 结论层: 模型最终推荐是否命中 gold winner (2026-11-23 形式化)。
+
+    口径 (T-JUDGE-1-L4-20261123.md):
+      - winner 配置 = sidecar ref_config (card_model/n_cards/quant, L0 已验数值自洽)
+      - 结论区 = answer 最后 2000 字符
+      - strict: 结论区出现 winner 配置组合 (卡型号 + ×N, N=n_cards)
+      - loose:  结论区出现卡型号 (候选层命中, 非 winner 提交)
+      - full:   全文出现 winner 配置组合 (排除"结论区位置"混淆)
+    返回 (strict_hit, det)。det: dict。
+    """
+    sc = json.load(open(sidecar_path))
+    rc = sc.get("ref_config", {})
+    card = rc.get("card_model", "3090")
+    n_cards = rc.get("n_cards", 4)
+    d = json.load(open(tree_path))
+    a = (d.get("answer") or "").strip()
+    tail = a[-2000:]
+    # 配置组合: 卡型号后 6 字符内 ×N (N 后不跟数字), 或 N×卡型号
+    combo = re.compile(
+        rf"({re.escape(card)}\s*(?:\(二手\)|\(全新\))?\s*[×xX]\s*{n_cards}(?!\d)"
+        rf"|[×xX]\s*{n_cards}\s*[×xX]?\s*{re.escape(card)}"
+        rf"|四张\s*{re.escape(card)}|{re.escape(card)}\s*四张)")
+    strict = bool(combo.search(tail))
+    loose = bool(re.search(re.escape(card), tail))
+    full = bool(combo.search(a))
+    # 结论区最终推荐提取 (人工核对辅助): 含 推荐/最优/最终/结论 的行
+    concl_lines = [l.strip() for l in tail.split("\n")
+                   if re.search(r"(推荐|最优|最终|结论)", l)][:4]
+    return strict, {
+        "card": card, "n_cards": n_cards, "quant": rc.get("quant"),
+        "strict": strict, "loose": loose, "full_combo": full,
+        "answer_len": len(a), "concl_lines": concl_lines,
+    }
+
+
 def _safe(s):
     try:
         e = sp.sympify(s)
@@ -371,7 +407,7 @@ def l1_check(tree_path):
         vram_tab = json.load(open(os.path.join(os.path.dirname(__file__), "card-vram.json")))
     except Exception:
         vram_tab = {}
-    keys = sorted(vram_tab, key=len, reverse=True)
+    keys = sorted((k for k in vram_tab if not k.startswith("_")), key=len, reverse=True)
     seen = set()
     for c in claims:
         for k in keys:
@@ -509,6 +545,7 @@ if __name__ == "__main__":
     ap.add_argument("--l0", action="store_true", help="L0 自洽检查 (calc.py × sidecar ref)")
     ap.add_argument("--l1", metavar="TREE", help="L1 物理层检查 (模型树内部自洽, 不碰 gold)")
     ap.add_argument("--l2", metavar="TREE", help="L2 结构层: BOUND 加权 展开/停止 判定 (复用 cov 对齐)")
+    ap.add_argument("--l4", metavar="TREE", help="L4 结论层: 最终推荐是否命中 gold winner 配置")
     ap.add_argument("--sidecar", default="gold-gpu-formulas.json")
     a = ap.parse_args()
     if a.l0:
@@ -546,6 +583,13 @@ if __name__ == "__main__":
               f"w_sum={det['w_sum']}, cos={det['cos_threshold']})")
         if det["n_matched_units"] < 5:
             print("[l2] WARN: matched units < 5 — 对齐样本太少, 分数无意义 (与 cov 并看)")
+    if a.l4:
+        strict, det = l4_check(a.l4, a.sidecar)
+        print(f"[l4] winner={det['card']}×{det['n_cards']}/{det['quant']} "
+              f"strict={'HIT' if strict else 'MISS'} loose={'hit' if det['loose'] else 'miss'} "
+              f"full_combo={'hit' if det['full_combo'] else 'miss'} (answer {det['answer_len']} chars)")
+        for l in det["concl_lines"]:
+            print(f"   | {l[:100]}")
     if a.emit_sidecar:
         emit_sidecar(a.sidecar)
     if a.selftest:
