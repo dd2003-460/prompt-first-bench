@@ -110,6 +110,7 @@ Three structural observations:
 - **Mech layer diagnostic-only**: symbol alignment between model and gold unsolved; the formula layer contributes 0 to the composite.
 - **One question family** for the gold tree (gpu); nat/soc golds are smaller (6/7 points).
 - **Workshop scope**: this is a measurement + diagnosis paper, not a fix paper. The repair-loop fix is designed and predicted, not yet run.
+- **Executor continuity (meta)**: the agent running this study is itself continuity-bound — its actions are passively triggered (user message or background-process completion), so a goal state-machine records *where to resume* but does not *drive* resumption. Continuity here is achieved by synchronous in-session progress + background processes covering GPU waits (auto-wake on completion) + planning written to seamless-resume granularity. Self-triggered unattended action is unavailable to the executor — a property of the research *process*, stated for honesty, distinct from the evaluated 27B system's metacognitive limits.
 
 ## 7. Data & code
 
