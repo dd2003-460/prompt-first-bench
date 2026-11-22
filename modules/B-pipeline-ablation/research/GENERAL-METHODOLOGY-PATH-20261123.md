@@ -28,6 +28,13 @@ D 2026-11-23 纠正："gpu题目的机械判定只能证明这方面没有llm ju
       机械提取，需人工或半自动（LLM 辅助 + 人工核验）标注。
   - **结论**：Q6 的 coverage 轴跑分 = 写解析器（机械）；L1 物理层 = 人工标注成本。
     先跑 coverage 轴即可验证"曲线形状跨域成立"，L1 层可后置。
+  - **B1 已完成并验证（2026-11-23）**：`gold_md_to_units.py` 解析 markdown gold →
+    structured units（unit_id/depth/raw/text/kind/stop_marker/share）。Q6 验证 46 units
+    （9 split + 33 leaf，share 全对：N-1=.35/N-2=.28/N-4=.18 等），Q7 泛化通过（48 units）。
+    judge_v1 的 coverage 层只读 `u["text"]`（line 149），B1 产物是其超集 →
+    **Q6 coverage 跑分 = B1 产物 + judge_v1 layer_coverage，唯一改动是把硬编码的
+    GOLD_UNITS 路径参数化**。整条链闭合，不依赖 vLLM（embedding 用本地 bge-m3）。
+    Q8 有 21 个 kind=None（叶子标记格式不同），需单独适配，不影响可行性结论。
 
 ## 分解树（正交子项）
 ```
@@ -37,7 +44,7 @@ general-methodology
 │   ├── A2. Q7 budget scan（同上, Q7）                                      [待vLLM]
 │   └── A3. 跨域 metacog 曲线对比（gpu vs Q6 vs Q7 的 gap_rate/ret 曲线）
 ├── B. quality 轴跨域验证（per-domain，成本=转换）
-│   ├── B1. markdown→structured gold 转换脚本（Q6 先行）                    [未写]
+│   ├── B1. markdown→structured gold 转换脚本（Q6 先行）                    [✅ 完成, gold_md_to_units.py]
 │   ├── B2. 转换产物人工核验（units 数/公式/bound 对齐 gold 原文）
 │   ├── B3. Q6 quality judge 跑分（judge_v1 换 gold 文件）                  [待B1+B2]
 │   └── B4. 跨域 budget-quality 曲线对比（gpu vs Q6 的 peak 位置）
