@@ -46,6 +46,7 @@
 - **A-r1 已评**（idea2-scores.json）: wall 2865s, 316 节点, judge 0.5111（depth 0.8 / cov 0.222, 在 K7 budget-150 区间 0.43-0.52 内）, metacog 0.2365（hg 0.930, post 0.400）。
 - **证据**: idea2_runner.sh（ac6090870）；idea2-run.log；idea2-scores.json。
 - **下一步**: B-r1 完 → 前缀一致性检查（B 前 122 节点 vs ckpt 逐字 diff）+ wall time 配对 → A2/B2/A3/B3 → 全量统计。
+- **过夜队列已挂**（rep_scan_queue.sh, b8e7d0a13, pid 16572）: idea2 完 → 自动补重复 100/150/300×5 reps（r4-r8 接续 K7, peak 定位优先, 50/719 端点不补）→ 每 run 自动双轴评分 append 到 rep-scan-scores.json。预计 ~11h（凌晨完）。**唤醒后第一动作**: 读 rep-scan-scores.json + idea2 全量 → 配对统计 + peak 定位 + 填稿 §4.3。
 
 ### L2-5 发表层（v0.1 稿已落盘）
 - **结论**: workshop 稿 v0.1 写完（workshop-draft-metacog-20261122.md, edacf05b7+8c266fc8e+f501166f9）。四发现: ①监控在/修复缺（rework 修复率 1.6-2.1%, loop=filter 非 repair cycle）②gap 难度校准（era-matched nat<soc<gpu 全 p<0.001）③预算-质量非单调（150=peak, sd<spread）④loop 连续但不累积（验证率跨层平坦, 无链断, 树绕开未验证节点生长）。限制节前置（单模型/self-judge/n=3/mech 诊断/执行者连续性 meta）。
