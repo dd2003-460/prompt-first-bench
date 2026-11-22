@@ -89,10 +89,11 @@ Per-layer status across 18 era-matched gpu runs (5,812 nodes):
 | L3 | 1668 | 722 | 787 | 159 | 43.3% |
 | L4 | 3528 | 1729 | 1799 | 0 | 49.0% |
 
-Three structural observations:
+Four structural observations:
 1. **Verification is flat across depth** (43–49% for L2–L4): the agent does not get systematically worse at deeper nodes — depth is not a verification cliff. What degrades with depth is *coverage* (judge §4.3) — though the coverage axis is partially confounded by the construct mismatch in §6 (model and gold not on the same question surface), so the *depth* of the degradation is not yet cleanly attributed.
 2. **No chain breaks below L1**: in 18/18 runs, every L2–L4 layer contains at least some verified nodes; the tree never dies at a layer. The loop is *continuous* in the weak sense (always some forward progress).
 3. **The loop is continuous but not cumulative**: with a 1.6–2.1% rework fix rate, rework does not repair the 55% of nodes that fail verification — they stay degraded and the tree simply grows *around* them. The metacognitive loop therefore behaves as a **filter** (mark + retrieve + classify), not a **repair cycle** (mark → fix → re-verify → improved). This is the precise sense in which continuity holds while the (a)→(b)→(c) loop fails to close.
+4. **The conclusion layer does not converge across budgets** (judge layer 4, "final answer vs gold winner" — distinct from tree-depth L4 above): across all 15 budget-scan runs, **0/15** final recommendations match the gold winner (4× RTX 3090 / W4 / n=2, L0-verified); the full-text string "3090×4" never appears (0/15), while "3090" alone appears in 14/15 as a candidate. The 15 winners scatter across A100 / M3 Max / 2×4090 / 1×4090 / 5090 / W7900. The model *knows the candidate* but never *commits to the configuration* — and more budget does not fix this: the zero-convergence holds at every budget tier. This is a stronger signal than the score non-monotonicity in §4.3: budget buys more nodes, not a more stable answer. (Loose criterion — "3090 among the recommended cards" — gives 2/15; both reported.)
 
 **Predicted failure mode for the fix**: conditioning rework on degraded-class (§5.1) should raise fix-rate on the ~6% contradicted subset and free ~84% of rework budget; if the freed budget does not convert to depth (judge §4.3), the bottleneck is expansion, not repair — a falsifiable branch point for the next experiment.
 
