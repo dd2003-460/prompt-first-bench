@@ -37,6 +37,7 @@ TCO 时间分解 = 背景引用（十年老题，不能当 novelty）。套磁�
 | K6 merge 消融 | merge 是压缩瓶颈吗? | DONE | 否 (Δ=-0.013, A≈B) |
 | K7 预算扫描 | 预算-质量 Pareto 什么形状? | RUNNING 13/15 | 曲线 + 拐点 (k7_pareto.py 已就绪) |
 | T-JUDGE-1 | 怎么客观打分? | ACTIVE | embedding judge + 磁体检测 + LLM 兜底 (102 条待跑) |
+| gold 映射修复 | K7 的 gold 用对了吗? | DONE 3f5c713f7 | 旧 gold/Q1.md 是另一道题 (H100 SXM vs PCIe); 改挂 rubric-v3 37 节点树 + enriched sidecar, 覆盖 6/36→20/36 |
 | T-PR-17 | prompt 序列影响终态吗? | PENDING | 4 臂消融 (canonical/verify-off/null-control/verify-late) |
 | 0.5184 解剖 | 最高分 run 为什么高? | DONE | depth_score ≈ judge 分 (r=0.861), 非结构度量 |
 

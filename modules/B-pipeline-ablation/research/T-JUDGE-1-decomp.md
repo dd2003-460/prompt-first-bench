@@ -72,7 +72,7 @@ T-JUDGE-1 客观 judge
 │   ├── 精确率 = confirmed 节点 / 输出节点总数（**粒度比，不是质量比**——输出树比 gold 细 7 倍，
 │   │   多节点覆盖同一 gold 单元是正常分解；主指标是覆盖率+压缩率，precision 只作参考）
 │   └── Pareto 点 = (cost=节点数, 覆盖率) → 跨 run 画前沿（K7 全量数据出来后重打）
-└── J6. 重打历史数据 + dual-track 对照
+├── J6. 重打历史数据 + dual-track 对照
     ├── 范围: budget scan 13 run（✅ 已打，K7 719_r2/r3 完成后补 2）
     │   + matched 批 30 run（树体不在盘上，只有 2/30 节点数命中归档 → 跳过）
     │   + 9 棵 checkpoint 树（gpu 3 棵 = K7 719_r2 活中间状态 ❌ 无效; nat/soc 6 棵 = 旧树 ✅）
@@ -80,16 +80,44 @@ T-JUDGE-1 客观 judge
     ├── 树体位置: checkpoints/archive/budget-*/runs-s5-sm-gpu.json（错位一格映射已验证）
     ├── 判据: 新覆盖率 vs 旧 depth_score 相关性（Spearman ρ）
     │   ρ > 0.7 → 新 judge 可信且更客观；ρ < 0.5 → 测的不是同一构念，回查匹配质量
-    └── ✅ 首跑结果（n=13, 2026-11-22）:
-        - 旧 cov15 vs 新 cov16: Spearman = -0.122（零相关）
-        - depth vs 旧 cov15: Spearman = 0.785（强相关）
-        - depth vs 新 cov16: Spearman = 0.036（零）
-        → 旧 judge "coverage" 实际测答案长度/深度（长答案覆盖更多 rubric 点）
-        → 新 embedding judge 测特定 gold 单元是否文本存在
-        → 两者测不同构念，互补不冗余
-        → 新 judge confirmed 精度差（抽查: 0.65-0.79 sim 大量"主题相关但没真覆盖"）
-        → 结论: 0.65 阈值对 confirmed 口径太松; embedding judge 召回高、精度低
-        → 修正方向: confirmed 需 LLM 二次确认（不只磁体），或阈值提到 0.75+
+    │   ✅ 首跑结果（n=13, 2026-11-22, 旧 gold 16 单元, 已作废备份 tjudge1-dualtrack-wronggold.json）:
+    │   - 旧 cov15 vs 新 cov16: Spearman = -0.122（零相关）
+    │   - depth vs 旧 cov15: Spearman = 0.785（强相关）
+    │   - depth vs 新 cov16: Spearman = 0.036（零）
+    │   → 旧 judge "coverage" 实际测答案长度/深度（长答案覆盖更多 rubric 点）
+    │   → 新 embedding judge 测特定 gold 单元是否文本存在
+    │   → 两者测不同构念，互补不冗余
+    │   → 新 judge confirmed 精度差（抽查: 0.65-0.79 sim 大量"主题相关但没真覆盖"）
+    │   → 结论: 0.65 阈值对 confirmed 口径太松; embedding judge 召回高、精度低
+    │   → 修正方向: confirmed 需 LLM 二次确认（不只磁体），或阈值提到 0.75+
+    │   ✅ 重打（n=13, 2026-11-22, J7 修正后 36 单元 gold）:
+    │   - 新 cov36 (confirmed): 0.111-0.306, 含 pending 0.333-0.611
+    │   - 旧 cov15 vs 新 cov36: Spearman = -0.336（仍零/负相关）
+    │   - depth vs 新 cov36: Spearman = -0.221（零）; depth vs 旧 cov15: 0.785（不变）
+    │   → 构念结论不变: 旧 judge = 长度代理, 新 judge = gold 单元存在性
+    │   → 新发现: 719_r1 (665 节点) 新 cov = 0.167 与 150_r1 (392 节点) 持平
+    │     → 预算从 150→719 没有提升 gold 覆盖（与 K7 预算-质量弱相关一致）
+    │   → 磁体单元 6-16/run（enriched text 后更严重）→ LLM 兜底量会大,
+    │     J4 跑前需重新生成 fallback 清单（旧 102 条作废）
+└── J7. gpu 题目统一 + bench 完善（2026-11-22 D 指令"统一题目，只跑 gpu"）
+    ├── J7-1 关键发现: gpu qid 下混着两道题 ——
+    │   │   QUESTIONS['gpu']（K7 实际跑）= 本地工作站推理 Qwen3-27B 选卡方案
+    │   │   gold/Q1.md（tjudge1 旧映射）= H100 SXM vs PCIe 吞吐差异（另一道题）
+    │   │   真正的 gpu 题 gold = bench/rubric-v3/ablation/gold-tree.md
+    │   │   （37 节点/深度 5/17 叶子, frozen ed552c4, c_pass 成本分解树）
+    │   │   → 之前所有 gpu 新 judge 结果（J3 阈值标定/J5 首跑/J6 dual-track 的 cov16）
+    │   │     都是拿错题的 gold 算的，数值作废，需重打
+    │   └── 修复（3f5c713f7）: load_gold('gpu') → 37 节点树; enriched sidecar
+    │       gold-gpu-units.json（36 单元, text 与 SM claim 同语言风格, 原树冻结不修改）
+    │       冒烟（150_r1, 392 节点）: 0.65 阈值覆盖 6/36 → 20/36
+    ├── J7-2 未覆盖 16 单元的结构: 6 个 = NCU 微架构层（N-3.1.3.x/N-3.2.4.x, 27b 能力上限外,
+    │   已证不可达）; 其余 = 摊销/利用率/带宽系数等中间层（best sim 0.55-0.69, 差一点过线）
+    └── J7-3 bench 完善候选（待 D 圈选）:
+        ① NCU 层 6 节点从匹配分母剔除或单列"超纲层"（coverage 只算可达层 30 单元）
+        ② enriched 后 0.65 阈值 confirmed 精度需重抽检
+        ③ 权威题面裁定: rubric-v3 V0-baseline 题面 vs QUESTIONS['gpu'] 措辞不同
+        ④ nat/soc 正式弃用（flat 6/7 点太粗）, 历史数据保留
+        ⑤ 双 gold（第三方/异族独立建同域 gold）= 发表线构念效度硬需求
 ```
 
 ## 缺口清单
@@ -100,6 +128,7 @@ T-JUDGE-1 客观 judge
 | J3 模型选型 | ✅ 已定 bge-m3（dim 1024，MPS 跑通，缓存已落） | — |
 | J3 阈值 | ✅ 首跑标定 0.65 + 磁体降级（0.60 假匹配多 / 0.70 覆盖塌） | 后续: 人工标定集（20 正例 + 20 负例对）验证 ROC 拐点 |
 | J4 触发率 | ✅ 首跑 29 条（r2 磁体 5 单元）；脚本就绪，**等 K7 释放 vLLM 后跑** | 跑完重算 confirmed 覆盖率 |
+| J4 数据失效 | 首跑后扩 3-qid 生成的 102 条 fallback 清单（tjudge1-llm-fallback-all.json）基于旧 gold（错题）→ 作废 | K7 释放后基于 36 单元 gold 重新生成 fallback 清单再跑 J4 |
 | J5 信息量定义 | token 数代理的局限（长 ≠ 信息多） | 报告中声明局限；备选: embedding 向量模长（无意义）→ 维持 token 数 |
 | J6 覆盖范围 | budget scan 结果无树，需回 checkpoints/ 取 | ✅ 已解决: 归档错位一格映射（目录名=新 run 时间戳, 内容=上一 run）, 13/15 run 树体在盘 |
 | J6 构念差异 | 旧 cov15 与 depth 强相关(0.785)但与新 cov16 零相关(-0.122) | 报告必须分开报告两个构念; 旧 judge 的"coverage"≈长度代理, 新 judge 测单元存在性 |
