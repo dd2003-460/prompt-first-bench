@@ -351,6 +351,17 @@ def l1_check(tree_path):
         total = mem * nc
         rows.append({"check": f"工作点 {nc}x{card} {qn}: {total}GB vs 下限 {need}GB",
                      "recomputed": total, "pass": total >= need})
+
+    # C) per-card 工作点自洽 (K7 措辞): "N x 卡 (XGB total) 运行…总显存每卡~YGB"
+    #    每卡总占用 Y 必须 <= 单卡容量 X/N (K7 N17 型: 30.5GB > 48/2=24GB)
+    #    注意: 只匹配"总显存每卡", 不能匹配"权重分片每卡" (那是分片不是总占用)
+    for c in claims:
+        m = re.search(r"(\d+)\s*[×x]\s*([\w\s]+?)\s*\((\d+)\s*GB\s*total\)[^。]*?总显存每卡[~约]*(\d+\.?\d*)\s*GB", c)
+        if m:
+            nc, card, total_gb, used = int(m.group(1)), m.group(2).strip(), int(m.group(3)), float(m.group(4))
+            cap_per = total_gb / nc
+            rows.append({"check": f"per-card {nc}x{card}: 每卡{used}GB vs 单卡{cap_per:.0f}GB",
+                         "recomputed": used, "pass": used <= cap_per})
     return all(r["pass"] for r in rows), rows
 
 
