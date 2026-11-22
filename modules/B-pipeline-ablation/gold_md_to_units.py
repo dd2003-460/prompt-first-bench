@@ -37,45 +37,60 @@ def tree_depth(prefix: str) -> int:
 def parse_gold(md_path: str) -> list:
     units = []
     in_tree = False
+    last = None  # 上一个节点(续行补 kind 用)
     with open(md_path) as f:
         for line in f:
             line = line.rstrip('\n')
             # 进入/离开 ``` 代码块(全树在代码块里)
             if line.strip().startswith('```'):
                 in_tree = not in_tree
+                last = None
                 continue
             if not in_tree:
                 continue
             m = NODE_RE.match(line)
-            if not m:
-                continue
-            nid = m.group('id')
-            rest = m.group('rest').strip()
-            depth = tree_depth(m.group('prefix'))
-            kind_m = KIND_RE.search(rest)
-            kind = kind_m.group(1) if kind_m else None
-            stop_m = STOP_RE.search(rest)
-            stop = stop_m.group(1) if stop_m else None
-            # share = split/leaf 关键字前一个 token(固定列), 校验形如 .35 / 1.00
-            share = None
-            kw = re.search(r'\b(split|leaf)\b', rest)
-            if kw:
-                before = rest[:kw.start()].rsplit()
-                if before:
-                    tok = before[-1]
-                    if re.fullmatch(r'\d?\.\d{1,2}', tok):
-                        share = float(tok)
-            # raw = 去掉标记后的主体(取 id 后到第一个标记前)
-            raw = rest
-            units.append({
-                'unit_id': nid,
-                'depth': depth,
-                'raw': raw,
-                'text': raw,  # coverage 层用 raw 做 embedding
-                'kind': kind,
-                'stop_marker': stop,
-                'share': share,
-            })
+            if m:
+                nid = m.group('id')
+                rest = m.group('rest').strip()
+                depth = tree_depth(m.group('prefix'))
+                kind_m = KIND_RE.search(rest)
+                kind = kind_m.group(1) if kind_m else None
+                stop_m = STOP_RE.search(rest)
+                stop = stop_m.group(1) if stop_m else None
+                # share = split/leaf 关键字前一个 token(固定列), 校验形如 .35 / 1.00
+                share = None
+                kw = re.search(r'\b(split|leaf)\b', rest)
+                if kw:
+                    before = rest[:kw.start()].rsplit()
+                    if before:
+                        tok = before[-1]
+                        if re.fullmatch(r'\d?\.\d{1,2}', tok):
+                            share = float(tok)
+                # raw = 去掉标记后的主体(取 id 后到第一个标记前)
+                raw = rest
+                units.append({
+                    'unit_id': nid,
+                    'depth': depth,
+                    'raw': raw,
+                    'text': raw,  # coverage 层用 raw 做 embedding
+                    'kind': kind,
+                    'stop_marker': stop,
+                    'share': share,
+                })
+                last = units[-1]
+            else:
+                # 续行: 若上一节点 kind 缺失, 从续行补(Q8 的 leaf 标记常在第二行)
+                if last is not None and last['kind'] is None:
+                    km = KIND_RE.search(line)
+                    if km:
+                        last['kind'] = km.group(1)
+                        sm = STOP_RE.search(line)
+                        if sm and last['stop_marker'] is None:
+                            last['stop_marker'] = sm.group(1)
+                        # raw 续行并入 text(多行节点)
+                        cont = re.sub(r'^[│├└─\s]+', '', line).strip()
+                        if cont:
+                            last['text'] = last['text'] + ' ' + cont
     return units
 
 
