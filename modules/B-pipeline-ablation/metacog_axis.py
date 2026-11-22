@@ -7,7 +7,8 @@ AGI 完整定义三段: (a) 判断信息是否充分 + (b) 获取缺失信息 + 
 
 "至少有自我认识" 的可测线 = (a)+(b) 被机械测到:
   - gap_rate: 防御性标记节点占比（标了缺口 = monitoring 在工作）
-  - retrieval_rate: source=search 且 status=verified 占比（真的去查了 = control 在工作）
+  - retrieval_rate: source=search 占比（标了检索的节点覆盖率；不含 status 过滤，
+    2026-11-23 修正 docstring——旧版误写"且 status=verified"，代码一直是 n_search/n_total）
   - post_retrieval_accuracy: search 节点中 verified/degraded 比（查完质量）
   - metacog_total: 综合分
 
