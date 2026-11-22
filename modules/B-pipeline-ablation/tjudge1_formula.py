@@ -428,7 +428,10 @@ if __name__ == "__main__":
     if a.l1:
         ok, rows = l1_check(a.l1)
         for r in rows:
-            print(f"  {r['check']:48s} recalc={r['recomputed']:<10} {'✅' if r['pass'] else '❌'}")
+            rec = r['recomputed']
+            if isinstance(rec, list):
+                rec = f"{rec}"
+            print(f"  {r['check']:52s} recalc={str(rec):<12} {'✅' if r['pass'] else '❌'}")
         if not rows:
             print("[l1] WARN: 0 个检查项被抽取 — 该树的措辞与正则不匹配, "
                   "PASS 无意义 (空通过), 需人工核对该树是否有物理量节点")
