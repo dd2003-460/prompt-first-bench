@@ -35,6 +35,30 @@ DEFENSIVE_PATTERNS = [
 ]
 DEFENSIVE_RE = re.compile('|'.join(DEFENSIVE_PATTERNS))
 
+# v1.1: degraded 二分（2026-11-22 闭环设计, metacog-loop-design-20261122.md）
+# unverifiable = 来源不含该数值/细节（健康缺口, 不算自我认识失败）
+# contradicted = 来源与 claim 冲突（真失败, myopia 候选）
+UNVERIFIABLE_RE = re.compile(
+    r'无法验证|无法确认|未找到|找不到|缺乏.{0,8}支持|缺少.{0,8}支持|'
+    r'缺.{0,10}(数值|来源|数据|证据)|没有.{0,8}(来源|支持)|'
+    r'参考来源.{0,20}(未|没有|不)(提及|涉及|包含|介绍)|'
+    r'未提供|无直接来源|来源.{0,10}(未|没有)')
+CONTRADICTED_RE = re.compile(r'矛盾|不符|冲突|不一致|严重.{0,6}(偏差|错误)|与.{0,10}(矛盾|冲突|不符)')
+
+
+def classify_degraded(evidence):
+    """degraded 节点分类: 'contradicted' / 'unverifiable' / 'ambiguous'。"""
+    e = evidence or ''
+    is_contra = bool(CONTRADICTED_RE.search(e))
+    is_unver = bool(UNVERIFIABLE_RE.search(e))
+    if is_contra and not is_unver:
+        return 'contradicted'
+    if is_unver and not is_contra:
+        return 'unverifiable'
+    if is_contra and is_unver:
+        return 'contradicted'  # 两者都有, 矛盾优先（更严重）
+    return 'ambiguous'
+
 
 def load_run_nodes(run_json_path):
     """从 run json 加载节点列表。"""
@@ -66,21 +90,36 @@ def compute_metacog(nodes):
     source_counts = Counter(n.get('source', '') for n in nodes)
     n_search = source_counts.get('search', 0)
 
-    # search 节点中 verified vs degraded
+    # search 节点中 verified vs degraded（v1.1: degraded 二分）
     n_search_verified = 0
     n_search_degraded = 0
+    n_contradicted = 0
+    n_unverifiable = 0
+    n_ambiguous = 0
     for n in nodes:
         if n.get('source') == 'search':
             if n.get('status') == 'verified':
                 n_search_verified += 1
             elif n.get('status') == 'degraded':
                 n_search_degraded += 1
+                cls = classify_degraded(n.get('evidence', ''))
+                if cls == 'contradicted':
+                    n_contradicted += 1
+                elif cls == 'unverifiable':
+                    n_unverifiable += 1
+                else:
+                    n_ambiguous += 1
 
     retrieval_rate = n_search / n_total  # 检索覆盖率
-    # 查完质量: verified / (verified + degraded)
-    n_search_resolved = n_search_verified + n_search_degraded
+    # v1.1: 查完质量 = verified / (verified + contradicted)
+    # unverifiable 不算失败（健康缺口: 查完知道"查不到"）
+    n_search_resolved = n_search_verified + n_contradicted
     post_retrieval_accuracy = (n_search_verified / n_search_resolved
                                if n_search_resolved > 0 else 0)
+    # 健康缺口率: 查完能分清"查不到"(unverifiable) 的比例（自我认识核心）
+    n_classified = n_unverifiable + n_contradicted
+    healthy_gap_rate = (n_unverifiable / n_classified
+                        if n_classified > 0 else 0)
 
     # 综合: 0.4*gap + 0.3*retrieval + 0.3*post_acc
     # 权重 [待标定] — 初值拍的，补重复后用消融验证
@@ -94,6 +133,10 @@ def compute_metacog(nodes):
         "retrieval_rate": round(retrieval_rate, 4),
         "n_search_verified": n_search_verified,
         "n_search_degraded": n_search_degraded,
+        "n_contradicted": n_contradicted,
+        "n_unverifiable": n_unverifiable,
+        "n_ambiguous": n_ambiguous,
+        "healthy_gap_rate": round(healthy_gap_rate, 4),
         "post_retrieval_accuracy": round(post_retrieval_accuracy, 4),
         "metacog_total": round(metacog_total, 4),
         "source_counts": dict(source_counts),
@@ -125,7 +168,9 @@ def main():
         print(f"{os.path.basename(p):50s} metacog={r['metacog_total']:.4f} "
               f"gap={r['gap_rate']:.3f} ret={r['retrieval_rate']:.3f} "
               f"post={r['post_retrieval_accuracy']:.3f} "
-              f"(n={r['n_total']}, search={r['n_search']})")
+              f"hg={r['healthy_gap_rate']:.3f} "
+              f"(n={r['n_total']}, search={r['n_search']}, "
+              f"contra={r['n_contradicted']}, unver={r['n_unverifiable']})")
 
     if args.out:
         with open(args.out, 'w') as f:

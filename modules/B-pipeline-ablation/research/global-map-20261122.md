@@ -19,11 +19,12 @@
 │       测 (c) 推理质量: 0.5*depth + 0.5*cov, 机械不依赖 LLM
 │       └── 缺口: mech 层符号不对齐（诊断用）; 权重 0.5/0.5 [待标定]
 │
-├── [改进层] 怎么让它真的有自我认识？（最核心缺口，未建）
+├── [改进层] 怎么让它真的有自我认识？（断点已定位, 干预待跑）
 │   ├── 闭环: 测到断在哪环 → 针对性补 → 重测看涨没涨
-│   │   断点已知: post_acc≈0（retrieval 后 verify 收不住）
-│   │   └── 候选改进: retrieval 后加 verify 重试 / 缺口标记触发重查
-│   └── 验收: 改进前后 metacog_total 差 + 显著性（统计门禁, 非单次）
+│   │   v1.1 诊断: monitoring 健康(hg_rate 0.938), 断点在修复环——
+│   │   rework 46 次全浪费在 unverifiable 上, contradicted 修复率 0
+│   │   └── 首要干预: rework 只对 contradicted 触发（省预算+集中修复）
+│   └── 验收: 干预前后 metacog_total 差 + 显著性（统计门禁, 非单次）
 │
 ├── [题目层] 在什么题上测/改？
 │   ├── AGI 题面 + gold 骨架（decomp D1-D3, 未建）
