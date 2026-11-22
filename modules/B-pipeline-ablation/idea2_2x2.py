@@ -54,31 +54,38 @@ def main():
                   f"over={rec['l2']['over']} under={rec['l2']['under']}")
     scores = json.load(open(SCORES))
     by = {(s["arm"], s["rep"]): s for s in scores}
-    cells = [(a, r) for a in "AB" for r in (1, 2) if (a, r) in by]
-    if len(cells) < 4:
-        print(f"只有 {len(cells)}/4 格: {cells} — B-r2 未落地, 等")
+    reps = sorted({r for (_, r) in by})
+    cells = [(a, r) for a in "AB" for r in reps if (a, r) in by]
+    if len(cells) < 2:
+        print(f"只有 {len(cells)}/2 格: {cells} — 等")
         return
     print(f"\n{'':6s} {'total':>7s} {'depth':>6s} {'cov':>7s} {'metacog':>8s} {'l2':>7s} {'over':>4s} {'under':>5s} {'n_nodes':>7s}")
     for a in "AB":
-        for r in (1, 2):
+        for r in reps:
+            if (a, r) not in by:
+                continue
             s = by[(a, r)]
             print(f"{a}-r{r}  {s['judge']['total']:>7.4f} {s['judge']['depth']:>6.3f} "
                   f"{s['judge']['cov']:>7.4f} {s['metacog']['total']:>8.4f} "
                   f"{s['l2']['score']:>7.4f} {s['l2']['over']:>4d} {s['l2']['under']:>5d} {s['n_nodes']:>7d}")
     # 臂差 (A-B) 按 rep 配对
-    for r in (1, 2):
+    diffs = []
+    for r in reps:
+        if ("A", r) not in by or ("B", r) not in by:
+            continue
         a, b = by[("A", r)], by[("B", r)]
-        print(f"\nrep{r} 臂差 A-B: total={a['judge']['total']-b['judge']['total']:+.4f} "
+        d = a['judge']['total'] - b['judge']['total']
+        diffs.append(d)
+        print(f"\nrep{r} 臂差 A-B: total={d:+.4f} "
               f"depth={a['judge']['depth']-b['judge']['depth']:+.3f} "
               f"cov={a['judge']['cov']-b['judge']['cov']:+.4f} "
               f"metacog={a['metacog']['total']-b['metacog']['total']:+.4f} "
               f"l2={a['l2']['score']-b['l2']['score']:+.4f} "
               f"n_nodes={a['n_nodes']-b['n_nodes']:+d}")
-    # 一致性: 两 rep 臂差方向
-    d1 = by[("A", 1)]["judge"]["total"] - by[("B", 1)]["judge"]["total"]
-    d2 = by[("A", 2)]["judge"]["total"] - by[("B", 2)]["judge"]["total"]
-    print(f"\n臂差方向一致性: rep1={d1:+.4f} rep2={d2:+.4f} "
-          f"→ {'同向(A>B)' if d1 * d2 > 0 else '反向(不稳定)'}")
+    # 一致性: 各 rep 臂差方向
+    signs = {1 if d > 0 else -1 for d in diffs}
+    print(f"\n臂差方向一致性: " + " ".join(f"rep{r}={d:+.4f}" for r, d in zip(reps, diffs))
+          + f" → {'同向(A>B)' if len(signs) == 1 and diffs[0] > 0 else '同向(B>A)' if len(signs) == 1 else '反向(不稳定)'}")
 
 
 if __name__ == "__main__":
