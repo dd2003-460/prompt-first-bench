@@ -1,0 +1,29 @@
+# N286: 市场基数 M₀ 的量化定义：M₀ 为干预前月均订单数，需从平台数据库中提取。[待核验]：具体数值需根据平台规模确定，例如若月活用户为 100 万，转化率 5%，
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N77
+
+## Claim
+
+市场基数 M₀ 的量化定义：M₀ 为干预前月均订单数，需从平台数据库中提取。[待核验]：具体数值需根据平台规模确定，例如若月活用户为 100 万，转化率 5%，则 M₀ ≈ 50,000 单。
+
+## Corrected Claim
+
+市场基数 M₀ 的量化定义：M₀ 为干预前月均订单数，需从平台数据库中提取。其数值取决于平台规模与转化率，例如在月活用户为 100 万且转化率为 5% 的假设场景下，M₀ 约为 50,000 单。
+
+## Evidence
+
+[质询]该陈述中的具体数值（M₀ ≈ 50,000 单）是基于假设参数（100万月活、5%转化率）推导出的示例，而非普遍适用的市场事实或特定平台的真实数据。作为经验事实，缺乏具体平台背景下的来源支持，且转化率5%仅为假设值，不同行业差异巨大，直接作为量化定义的具体数值示例存在误导性。 | 逻辑上 M₀ = 月活 * 转化率 的推导自洽，但参考来源 [1] 讨论 MMM 模型理论，[2] 讨论客户回购行为，均未提供关于“市场基数 M₀ 具体数值”或“100万月活对应5万订单”的直接支持或矛盾证据，属于经验事实缺来源支持。
+
+## Search Query
+
+platform monthly order volume baseline for GMV volatility calculation
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/sinat_26917383/article/details/151956845&rut=940564ef4d15104e3426b49cb1858a4bb8d1834eb1fcde91445d1f9c8500ec58', 'type': 'ddg', 'title': '营销组合模型 (Mmm)：从理论到部署的实用指南 - Csdn博客'}
+- {'url': 'https://experienceleague.adobe.com/zh-hans/docs/commerce-business-intelligence/mbi/analyze/customers/repurchase-behavior&rut=07f1bc8e6f559c171033590954ccc3ae15f572534809a23cbaa3dfc172ee28fc', 'type': 'ddg', 'title': '分析客户回购行为 | Adobe Commerce 智能 - Experience League'}

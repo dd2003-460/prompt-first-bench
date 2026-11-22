@@ -1,0 +1,24 @@
+# N401: 噪声 σ_pref 的分布假设检验：假设买家偏好噪声服从正态分布 N(0, σ^2) 还是重尾分布（如 t 分布）？重尾分布意味着极端偏好买家存在，会拉长 T_
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N129
+
+## Claim
+
+噪声 σ_pref 的分布假设检验：假设买家偏好噪声服从正态分布 N(0, σ^2) 还是重尾分布（如 t 分布）？重尾分布意味着极端偏好买家存在，会拉长 T_search 的右尾。需计算 95 分位数 T_search_p95 以判断“短周期”是否仅指中位数缩短而均值未变。
+
+## Corrected Claim
+
+需通过实证数据检验买家偏好噪声的分布形态（正态或重尾），并计算 T_search 的 95 分位数以区分中位数与均值的差异，从而准确界定“短周期”的含义。
+
+## Evidence
+
+[质询]该陈述包含具体的统计建模假设（正态 vs 重尾）及特定的业务指标定义（T_search_p95），属于经验事实或特定模型设定，无法从第一性原理直接推导，且缺乏外部来源支持其具体数值或分布形态的合理性。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+buyer preference noise distribution heavy tail vs normal second hand search time

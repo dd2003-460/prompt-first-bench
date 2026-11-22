@@ -1,0 +1,24 @@
+# N99: 多卡数据中心方案（4×A100）的适用场景边界：仅当并发用户数≥10且要求延迟<100ms/1K tokens时，4×A100的高吞吐量才能抵消其高TCO；若并
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N16
+
+## Claim
+
+多卡数据中心方案（4×A100）的适用场景边界：仅当并发用户数≥10且要求延迟<100ms/1K tokens时，4×A100的高吞吐量才能抵消其高TCO；若并发用户数<5或延迟容忍>500ms，则2×RTX 3090或1×L40S的TCO更低且性能足够，4×A100方案被支配；需量化'并发用户数'与'延迟要求'对TCO/性能比的影响系数
+
+## Corrected Claim
+
+多卡数据中心方案（4×A100）通常适用于高并发、低延迟场景；在低并发或高延迟容忍场景下，单卡或双卡消费级/专业级显卡（如RTX 3090/L40S）可能具有更优的TCO/性能比，具体阈值需根据实际负载量化评估。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（并发≥10、延迟<100ms）和具体的硬件对比结论（4×A100被2×3090或1×L40S支配），这些属于依赖具体模型大小、推理框架优化程度及电力/硬件成本的复杂工程经验事实，无法从第一性原理严格推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+multi-GPU datacenter inference cost per token vs single GPU low concurrency scenario

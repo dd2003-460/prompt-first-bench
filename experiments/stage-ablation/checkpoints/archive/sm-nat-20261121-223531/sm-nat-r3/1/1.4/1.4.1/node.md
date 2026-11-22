@@ -1,0 +1,24 @@
+# N34: CDN 对象大小截断上限 s_max 的工程典型值：根据 Akamai 和 Cloudflare 的公开报告，99.9% 的对象大小小于 1MB，而 100MB
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N9
+
+## Claim
+
+CDN 对象大小截断上限 s_max 的工程典型值：根据 Akamai 和 Cloudflare 的公开报告，99.9% 的对象大小小于 1MB，而 100MB 是常见的最大对象限制阈值（用于防止大文件耗尽缓存），因此取 s_max = 100MB 作为计算截断均值的上限。
+
+## Corrected Claim
+
+CDN 对象大小截断上限 s_max 的工程典型值：根据 Akamai 和 Cloudflare 的公开报告，99.9% 的对象大小小于 1MB，而 100MB 是常见的最大对象限制阈值（用于防止大文件耗尽缓存），因此取 s_max = 100MB 作为计算截断均值的上限。
+
+## Evidence
+
+[质询]将“99.9%对象小于1MB”与“100MB最大限制”直接关联并作为截断上限的工程典型值，存在逻辑跳跃。虽然100MB是常见的单对象缓存限制，但将其作为计算“截断均值”的统计上限（s_max）缺乏直接的公开报告支持，且不同CDN提供商的具体限制和对象分布差异较大，不能简单概括为通用工程典型值。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+CDN object size distribution 99.9 percentile max size 100MB

@@ -1,0 +1,20 @@
+# N240: RTX 4090 上 W8A8 硬件加速效率对比：纯 PTQ W8A8 (无 SmoothQuant) 因激活值动态范围过大导致量化噪声大，可能需要软件修正或回
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N81
+
+## Claim
+
+RTX 4090 上 W8A8 硬件加速效率对比：纯 PTQ W8A8 (无 SmoothQuant) 因激活值动态范围过大导致量化噪声大，可能需要软件修正或回退到 FP16 计算部分层，实测吞吐量仅达理论 FP8/INT8 峰值的 60-70%；应用 SmoothQuant 后，激活值分布归一化，可全程使用 Tensor Core INT8/FP8 指令，吞吐量提升至理论峰值的 85-95%，相对提升 20-40%。
+
+## Corrected Claim
+
+RTX 4090 上 W8A8 硬件加速效率对比：纯 PTQ W8A8 (无 SmoothQuant) 因激活值动态范围过大导致量化噪声大，可能需要软件修正或回退到 FP16 计算部分层，实测吞吐量仅达理论 FP8/INT8 峰值的 60-70%；应用 SmoothQuant 后，激活值分布归一化，可全程使用 Tensor Core INT8/FP8 指令，吞吐量提升至理论峰值的 85-95%，相对提升 20-40%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

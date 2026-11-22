@@ -1,0 +1,24 @@
+# N176: 波动率 σ_market 的时变结构：σ_market 并非常数，而是服从 GARCH(1,1) 过程 σ_t^2 = ω + α * ε_{t-1}^2 + 
+
+- **status**: verified
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N55
+
+## Claim
+
+波动率 σ_market 的时变结构：σ_market 并非常数，而是服从 GARCH(1,1) 过程 σ_t^2 = ω + α * ε_{t-1}^2 + β * σ_{t-1}^2，需确定参数 ω, α, β 以准确计算 σ_est 的置信区间。
+
+## Corrected Claim
+
+波动率 σ_market 的时变结构：σ_market 并非常数，而是服从 GARCH(1,1) 过程 σ_t^2 = ω + α * ε_{t-1}^2 + β * σ_{t-1}^2，需确定参数 ω, α, β 以准确计算 σ_est 的置信区间。
+
+## Evidence
+
+[rework-angle r1] 来源[2]明确定义了GARCH模型用于描述时间序列中随时间变化的波动率（time-varying volatility），且其方差结构符合陈述中的公式形式；来源[1]也确认GARCH模型用于解释波动率聚集现象，支持σ_market非恒定且服从GARCH过程的逻辑。
+
+## Search Query
+
+GARCH(1,1) volatility clustering standard financial time series model

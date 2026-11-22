@@ -1,0 +1,28 @@
+# N26: SGLang 与 vLLM 在 Qwen3-27B 上的性能差异量化：对比两者在相同硬件配置下的 Throughput (tokens/s) 和 Latency
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N5
+
+## Claim
+
+SGLang 与 vLLM 在 Qwen3-27B 上的性能差异量化：对比两者在相同硬件配置下的 Throughput (tokens/s) 和 Latency (ms) 数据，特别关注 SGLang 的 RadixAttention 机制在 32K 长上下文场景下相比 vLLM PagedAttention 的 KV Cache 复用效率提升百分比。
+
+## Corrected Claim
+
+在 2x RTX 3090 硬件配置下，针对 Qwen3.8-27B（或类似规模模型）的实测显示，SGLang 在单流场景下比 vLLM 快约 21%，但在 4 路并发负载下两者性能持平；关于 32K 长上下文下 RadixAttention 相比 PagedAttention 的具体 KV Cache 复用效率提升百分比，当前参考来源未提供直接量化数据。
+
+## Evidence
+
+[质询]参考来源[1]针对的是 'Qwen3.8-27B'（疑似笔误或非标准版本号，通常应为 Qwen2.5 或 Qwen3 系列，且 3.8 并非已知标准发布名）在 2x RTX 3090 上的对比，而事实节点要求的是 'Qwen3-27B' 在 '32K 长上下文' 场景下 'RadixAttention vs PagedAttention' 的 'KV Cache 复用效率提升百分比'。来源仅提供了单流吞吐提升 21% 和并发持平的宏观结论，未提供 32K 长上下文下的具体 Latency/Throughput 数据，也未量化 KV Cache 复用效率的具体百分比提升，存在模型版本不匹配和具体指标缺失的问题。 | 来源[1]提供了 SGLang 与 vLLM 在类似规模模型上的性能对比（SGLang 单流快 21%），间接支持 SGLang 在特定场景下可能更优，但未直接覆盖 Qwen3-27B 32K 长上下文下的 KV Cache 复用效率量化数据，属于间接支持且存在模型版本疑点。
+
+## Search Query
+
+SGLang vs vLLM benchmark Qwen3 long context throughput
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/tonyd2wild/Qwen3.8-27B-SGLang-vs-vLLM-2x3090&rut=a5d587ce9ef4f82c6caa9ba79043d75675128c52e46984083d4b97cf7e0d24be', 'type': 'ddg', 'title': 'GitHub - tonyd2wild/Qwen3.8-27B-SGLang-vs-vLLM-2x3090: Measured head-to ...'}

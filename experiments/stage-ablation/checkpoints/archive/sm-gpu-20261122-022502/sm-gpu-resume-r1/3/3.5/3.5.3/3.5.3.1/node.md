@@ -1,0 +1,24 @@
+# N236: Apple Silicon M2 Ultra 统一内存的实际有效带宽利用率（Effective Bandwidth Utilization）在运行 LLM De
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N86
+
+## Claim
+
+Apple Silicon M2 Ultra 统一内存的实际有效带宽利用率（Effective Bandwidth Utilization）在运行 LLM Decode 时通常为理论峰值 (800 GB/s) 的 55-65%，主要受限于内存控制器调度开销及非对齐访问，需通过 `mlx` benchmark 工具实测 `memcpy` 与 `llm_decode` 的带宽差异来校准该系数。
+
+## Corrected Claim
+
+Apple Silicon M2 Ultra 统一内存的实际有效带宽利用率在运行 LLM Decode 时通常低于理论峰值 (800 GB/s)，具体数值受内存控制器调度开销及访问模式影响，需通过实测工具（如 mlx benchmark）校准。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值范围（55-65%）和特定的工具校准建议，属于硬件性能经验事实，无法从第一性原理推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Apple M2 Ultra effective memory bandwidth utilization LLM decode benchmark mlx

@@ -1,0 +1,24 @@
+# N39: C_fix（固定分摊）由商品原始购买价格 P_original 除以预期持有期 T_hold 得出，即 C_fix = P_original / T_hold，
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N7
+
+## Claim
+
+C_fix（固定分摊）由商品原始购买价格 P_original 除以预期持有期 T_hold 得出，即 C_fix = P_original / T_hold，反映沉没成本的摊销效应。
+
+## Corrected Claim
+
+C_fix（固定分摊）由商品原始购买价格 P_original 除以预期持有期 T_hold 得出，即 C_fix = P_original / T_hold，反映沉没成本的摊销效应。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点本质上是同一公式 C_fix = P_original / T_hold 在不同参数组合下的两个具体实例，属于数值演示而非独立的概念维度，因此存在冗余。此外，父节点仅定义了计算逻辑和物理意义（沉没成本摊销），子节点引入了额外的策略规则（如“不应计算”、“触发长期持有策略”），这些内容超出了父节点的定义范围，导致分解不完整且引入了未定义的逻辑分支。）
+
+## Search Query
+
+sunk cost amortization in second hand pricing fixed cost allocation

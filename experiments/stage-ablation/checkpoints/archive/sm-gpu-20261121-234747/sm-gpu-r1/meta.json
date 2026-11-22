@@ -1,0 +1,90 @@
+{
+  "qid": "gpu",
+  "question": "你要在本地工作站上推理 Qwen3-27B 模型，不设硬性延迟指标（延迟是性能变量，由硬件和部署配置决定，不作为前置约束）；上下文窗口 ≥ 32K tokens 作为容量下限保留。权重精度不限（BF16/FP8/INT8/NVFP4/W4 均可），但必须论证所选精度的质量损失是否可接受。候选硬件：自行搜索确定值得考虑的完整候选集——覆盖你认为所有可能影响性价比排序的架构、代际、容量档位和价格区间（包括消费级、数据中心级、以及任何你认为值得纳入比较的非典型方案）。同时评估单卡与多卡方案的 TCO 差异（如 2× 消费卡 vs 1× 数据卡）。给出性价比最优的完整选卡方案。要求：思考必须最完整，确认没有遗漏任何影响决策的维度；每个关键数字标注来源（刚查到的 vs 凭记忆的），不确定的标 [待核验]；最终推荐必须是条件性的，不能给无条件排名。",
+  "round": 1,
+  "state": "rework",
+  "dropped_redundant": 0,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "可行性覆盖率（候选集是否完整覆盖所有影响性价比的架构/代际/容量/价格区间，含消费级、数据中心级及非典型方案）",
+      "容量达标率（每个候选方案是否满足上下文窗口 ≥ 32K tokens 的硬性下限）",
+      "精度质量损失可接受度（所选权重精度的质量损失是否经论证为可接受，覆盖 BF16/FP8/INT8/NVFP4/W4 等选项）",
+      "TCO 准确性（单卡与多卡方案的总拥有成本数值是否准确，含 2×消费卡 vs 1×数据卡等组合）",
+      "来源标注完整性（每个关键数字是否标注来源：刚查到的 vs 凭记忆的，不确定的是否标 [待核验]）",
+      "条件性完备度（最终推荐是否为条件性结论，而非无条件排名，且明确列出各条件分支）"
+    ],
+    "composition": "Coverage · CapacityGate · PrecisionGate · TCO_accuracy · SourceAnnotation · ConditionalCompleteness（所有要素为合取关系，缺一不可；Coverage 为可行性约束起过滤作用，TCO_accuracy 为优劣度量起排序作用，SourceAnnotation 与 ConditionalCompleteness 为横切因子独立成维度）",
+    "rationale": "本题要求给出性价比最优的完整选卡方案，因此候选集必须完整（否则遗漏即失败）、容量必须达标（否则不可行）、精度损失必须可接受（否则方案无效）、TCO 必须准确（否则排序无意义）、来源必须标注（否则结论不可信）、推荐必须条件性（否则违反题目显式要求），六者缺一不可。"
+  },
+  "objective_mode": "formula",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "node_id": "N9",
+      "claim": "价格与可获得性数据：各候选GPU/平台在2024-2025年的市场均价、供货周期、以及二手/租赁价格区间，需区分新购TC",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述要求提供2024-2025年具体GPU的市场均价、供货周期及二手/租赁价格区间，属于高度动态且依赖实时市场数据的经验事实。由于缺乏具体GPU型号（"
+    },
+    {
+      "node_id": "N15",
+      "claim": "工作点2-中性价比最优：2×消费卡（如2×RTX 3090 24GB）vs 1×数据卡（如1×L40S 48GB）在BF",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的硬件TCO对比结论及性能吞吐比数值，属于经验事实。虽然逻辑框架（多卡通信开销影响吞吐）合理，但缺乏具体数据支持，且不同场景下TCO和吞吐"
+    },
+    {
+      "node_id": "N22",
+      "claim": "量化各条件分支的边界值：明确列出'预算区间'分界点的依据——例如5k USD分界基于'单卡消费级旗舰（RTX 4090）",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的硬件型号（RTX 4090, L4）及其价格交叉点、以及具体的UX/成本阈值（100ms, 500ms），这些属于经验事实和市场数据，无"
+    },
+    {
+      "node_id": "N25",
+      "claim": "建立精度选择的质量损失量化标准：每种精度（BF16/FP8/INT8/NVFP4/W4）的质量损失必须用至少两个指标量化",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的工程阈值（如'损失>2%准确率'）和特定的指标组合要求，属于经验性工程规范而非第一性原理可推导的数学或物理事实。缺乏行业通用标准或特定论"
+    },
+    {
+      "node_id": "N26",
+      "claim": "Qwen3-27B模型在BF16精度下的权重文件大小约为54GB（27B * 2 bytes），在FP8精度下约为27G",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N27",
+      "claim": "RTX 4090在运行27B模型INT8量化版本时的实测吞吐量约为15-25 tokens/s（单用户，32K上下文），",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N28",
+      "claim": "2×RTX 3090通过PCIe 4.0互联进行27B模型推理时，由于KV Cache分片导致的通信开销约为单卡性能的1",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N29",
+      "claim": "L40S 48GB在2024Q4-2025Q1的市场均价约为$10,000-$12,000 USD，而RTX 4090约",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N30",
+      "claim": "FP8量化在27B规模模型上通常导致Perplexity增加<1%，MMLU准确率下降<0.5%，因此被视为“无损”或“",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 30
+}

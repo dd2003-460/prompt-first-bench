@@ -1,0 +1,20 @@
+# N84: 若采用 CPU Offload 方案（GPU 加载部分权重，CPU 加载其余），RTX 4090 的吞吐率将大幅下降至 5-15 Token/s，TPOT 将增
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N29
+
+## Claim
+
+若采用 CPU Offload 方案（GPU 加载部分权重，CPU 加载其余），RTX 4090 的吞吐率将大幅下降至 5-15 Token/s，TPOT 将增加至 60-200 ms，N29 中 20-30 Token/s 的估计可能基于特定的部分 Offload 配置，需明确 Offload 比例
+
+## Corrected Claim
+
+若采用 CPU Offload 方案（GPU 加载部分权重，CPU 加载其余），RTX 4090 的吞吐率将大幅下降至 5-15 Token/s，TPOT 将增加至 60-200 ms，N29 中 20-30 Token/s 的估计可能基于特定的部分 Offload 配置，需明确 Offload 比例
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 显存约 24GB，若采用 CPU Offload 方案，受限于 PCIe 带宽（~32-64 GB/s）及 CPU 内存访问延迟，大模型推理吞吐率确实会显著下降至 5-15 Token/s 量级，TPOT 增加至 60-200 ms 符合物理直觉与工程经验；N29 中 20-30 Token/s 的估计若基于特定部分 Offload 配置（如仅 Offload 部分层或 KV Cache），逻辑上自洽，需明确 Offload 比例以消除歧义。

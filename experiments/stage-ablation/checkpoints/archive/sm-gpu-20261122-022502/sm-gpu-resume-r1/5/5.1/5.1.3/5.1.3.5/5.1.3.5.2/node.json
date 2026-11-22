@@ -1,0 +1,17 @@
+{
+  "id": "N865",
+  "claim": "llama.cpp 实际 Decode 吞吐公式修正：实际吞吐 = (理论带宽 * η_llama) / (模型大小 + KV Cache 大小)，其中 KV Cache 大小计算方式同 N340，但 llama.cpp 默认使用 FP16 存储 KV Cache（除非指定 --cache-type-k/v），导致 KV Cache 大小比 vLLM 的 BF16 大 0%（相同），但若使用 INT8 KV Cache 则大小减半，需对比两种配置下的吞吐差异 [待核验默认数据类型]",
+  "level": "L5",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]陈述中关于 llama.cpp 默认 KV Cache 数据类型的描述存在事实错误风险。llama.cpp 的默认行为通常是将 KV Cache 存储为与模型权重相同的数据类型（例如，若模型为 FP16，则 KV 为 FP16；若模型为 Q4_0，则 KV 通常也为 Q4_0 或 FP16 取决于具体版本和编译选项，但绝非固定为 FP16 除非显式指定或模型本身为 FP16）。此外，'比 vLLM 的 BF16 大 0%（相同）' 这一比较前提假设了 vLLM 使用 BF16 且 llama.cpp 使用 FP16，但 FP16 和 BF16 在存储大小上确实相同（均为 2 字节/元素），然而 llama.cpp 的默认行为并非总是 FP16，这导致前提条件不严谨。 | 经验事实，逻辑自洽但缺来源支持。虽然吞吐公式逻辑正确，但关于 llama.cpp 默认 KV Cache 类型为 FP16 的经验性断言缺乏来源支持，且该默认行为随版本和模型类型变化，不能一概而论。",
+  "corrected_claim": "llama.cpp 实际 Decode 吞吐公式修正：实际吞吐 = (理论带宽 * η_llama) / (模型大小 + KV Cache 大小)。KV Cache 大小取决于其存储精度，llama.cpp 允许通过 --cache-type-k/v 指定精度（如 FP16, Q8_0, Q4_0 等），默认行为通常跟随模型权重精度或为 FP16（视具体版本而定），需根据实际配置计算 KV Cache 大小以评估吞吐差异。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N270"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "llama.cpp default KV cache data type FP16 BF16 INT8 --cache-type-k v bandwidth impact",
+  "retrieval_sources": []
+}

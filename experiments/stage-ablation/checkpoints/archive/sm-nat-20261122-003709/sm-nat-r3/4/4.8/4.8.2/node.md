@@ -1,0 +1,24 @@
+# N79: 验证项：LFU相对LRU在幂律工作负载下的性能差距理论界（Theoretical Bound on LFU vs LRU），需检索确认是否存在针对β=0.9特定
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N24
+
+## Claim
+
+验证项：LFU相对LRU在幂律工作负载下的性能差距理论界（Theoretical Bound on LFU vs LRU），需检索确认是否存在针对β=0.9特定参数的解析解或仿真基准数据，以替代‘凭记忆’的定性描述。
+
+## Corrected Claim
+
+LFU相对LRU在幂律工作负载下的性能优势通常通过仿真研究验证，针对β=0.9特定参数的解析解或标准化基准数据需查阅具体文献确认，目前缺乏通用理论界直接覆盖该特定参数。
+
+## Evidence
+
+[质询]该陈述声称存在针对特定参数（β=0.9）的解析解或仿真基准数据，但缺乏具体来源支持，且‘理论界’通常指渐近复杂度或通用界，特定参数下的精确数值往往依赖具体仿真而非通用解析解，存在将特定实验结果误述为通用理论界的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法确认特定参数下的解析解或基准数据存在性）
+
+## Search Query
+
+LFU vs LRU performance bound power law workload zipf beta 0.9

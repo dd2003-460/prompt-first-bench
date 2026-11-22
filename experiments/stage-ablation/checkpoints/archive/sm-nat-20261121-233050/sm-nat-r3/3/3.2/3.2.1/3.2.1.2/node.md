@@ -1,0 +1,30 @@
+# N113: 在 M/C = 0.5 的工作点下，LRU 和 LFU 的字节命中率差异 ΔH 约为 2-4 个百分点，LFU 通过避免驱逐高频对象获得显著优势。
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N43
+
+## Claim
+
+在 M/C = 0.5 的工作点下，LRU 和 LFU 的字节命中率差异 ΔH 约为 2-4 个百分点，LFU 通过避免驱逐高频对象获得显著优势。
+
+## Corrected Claim
+
+在 M/C = 0.5 的工作点下，LRU 和 LFU 的字节命中率差异 ΔH 约为 2-4 个百分点，LFU 通过避免驱逐高频对象获得显著优势（注：此为经验性估计，缺乏当前来源直接验证）。
+
+## Evidence
+
+[质询]该陈述属于具体的经验性性能数据（特定工作点下的命中率差异），无法从第一性原理或数学公理直接推导得出，且参考来源完全无关，缺乏直接证据支持。 | 逻辑自洽（LFU在存在热点对象时通常优于LRU，2-4个百分点的差异在合理量级内），但参考来源[1][2][3]均与缓存算法无关，属于经验事实且缺来源支持。
+
+## Search Query
+
+LRU vs LFU hit rate difference Pareto distribution alpha 1.1 beta 0.9 M/C 0.5
+
+## Retrieval Sources
+
+- {'url': 'https://statisticsfundamentals.com/hypothesis-testing/significance-level/&rut=dfb6f88133ad16b84149017618e8b662d8450dfa08ee18b54dae2094ad150d10', 'type': 'ddg', 'title': 'Significance Level (α) in Statistics: Definition, Formula & Examples (2026)'}
+- {'url': 'https://accessmedicine.mhmedical.com/content.aspx?sectionid=201361245&rut=dd7792edea0a6e9af3e302f46bb512c41708df50b982f8646f66dbb80a24e340', 'type': 'ddg', 'title': "Clinical Laboratory Reference Values | Laposata's Laboratory Medicine ..."}
+- {'url': 'https://healthmatters.io/understand-blood-test-results/m-spike&rut=fb00a20b5dba48d6cd6524f11f1bf4a5abca1ca898d1743fb1256f902d4c8bba', 'type': 'ddg', 'title': 'M-Spike: What It Means, Normal Range & What Specific Values Indicate'}

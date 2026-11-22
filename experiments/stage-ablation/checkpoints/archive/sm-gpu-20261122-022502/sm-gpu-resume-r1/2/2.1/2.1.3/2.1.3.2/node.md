@@ -1,0 +1,24 @@
+# N171: RDNA 4 (RX 9000 系列) 的 FP8 硬件支持状态：RDNA 4 架构引入了对 FP8 数据类型的原生支持 [待核验：具体指令集细节]，但 ROC
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N55
+
+## Claim
+
+RDNA 4 (RX 9000 系列) 的 FP8 硬件支持状态：RDNA 4 架构引入了对 FP8 数据类型的原生支持 [待核验：具体指令集细节]，但 ROCm 软件栈对 FP8 推理的优化程度尚处于早期阶段，实际加速比可能低于 NVIDIA Ada/Hopper 架构的 2-3 倍，预计仅为 1.5-2 倍。
+
+## Corrected Claim
+
+RDNA 4 (RX 9000 系列) 预计引入对 FP8 数据类型的支持，但 ROCm 软件栈对 FP8 推理的优化程度尚处于早期阶段，实际加速比可能低于 NVIDIA Ada/Hopper 架构，具体数值待官方发布确认。
+
+## Evidence
+
+[质询]该陈述包含具体的性能加速比数值（1.5-2倍）和软件栈成熟度判断，属于经验事实。由于检索失败无外部来源支持，且‘RDNA 4 原生支持 FP8’这一硬件特性在公开资料中尚未得到广泛确认（通常 RDNA 3 及之前主要强调 FP16/BF16，FP8 支持情况需具体查证），存在将推测当事实或数值量级不准确的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源），无法验证具体加速比数值及硬件指令集细节，故降级。
+
+## Search Query
+
+AMD RDNA 4 FP8 support ROCm optimization status 2025

@@ -1,0 +1,24 @@
+# N171: 低耐心买家群体（λ_wait > 0.1）的流失临界点：p_holdout_low = 1 - e^(-0.1 * 48) * S_signal_low ≈ 1
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N52
+
+## Claim
+
+低耐心买家群体（λ_wait > 0.1）的流失临界点：p_holdout_low = 1 - e^(-0.1 * 48) * S_signal_low ≈ 1 - e^(-4.8) * 0.3 ≈ 0.999 * 0.3 ≈ 0.3，与原 claim 一致；但该群体对'无咨询'的容忍度极低，若 48h 无咨询，其转向竞争对手的概率 P_switch = 1 - e^(-μ_switch * 48)，需估算 μ_switch（通常 0.05-0.1/小时）以量化平台流失风险。
+
+## Corrected Claim
+
+低耐心买家群体（λ_wait > 0.1）的48小时无咨询留存概率 p_holdout_low = 1 - e^(-0.1 * 48) * S_signal_low ≈ 1 - e^(-4.8) * 0.3 ≈ 0.9918 * 0.3 ≈ 0.298。该群体对'无咨询'容忍度低，若48h无咨询，其转向竞争对手的概率需独立估算 μ_switch 以量化风险，不能直接等同于 p_holdout。
+
+## Evidence
+
+[质询]数值计算存在严重逻辑错误：1 - e^(-4.8) ≈ 0.9917，乘以 0.3 后结果约为 0.2975，而非陈述中声称的 0.999 * 0.3 ≈ 0.3（虽然最终近似值 0.3 碰巧接近，但中间步骤 0.999 是错误的，且 0.9917 与 0.999 差异显著，暗示对指数衰减的理解或计算有误；更关键的是，将 '流失临界点' 定义为 p_holdout 并直接等同于 '转向竞争对手概率' 的推导链条缺乏理论支撑，混淆了留存概率与转换概率）。 | 先验知识/题面给定，逻辑校验发现中间计算步骤错误（e^-4.8 ≈ 0.0082, 1-0.0082=0.9918, 0.9918*0.3≈0.2975），且概念定义模糊，无法直接验证为 verified。
+
+## Search Query
+
+low patience consumer switching probability e-commerce platform churn rate waiting time threshold

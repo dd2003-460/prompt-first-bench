@@ -1,0 +1,24 @@
+# N312: 二手平台数据质量 q_data 的经验分布：在 eBay 和闲鱼等主流二手平台的公开数据集或学术复现中，针对非标品（如电子产品、奢侈品）的价格序列，q_data
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N105
+
+## Claim
+
+二手平台数据质量 q_data 的经验分布：在 eBay 和闲鱼等主流二手平台的公开数据集或学术复现中，针对非标品（如电子产品、奢侈品）的价格序列，q_data 的中位数约为 0.82，标准差约为 0.08，即 95% 置信区间为 [0.66, 0.98]，该值用于校准假设链中关于数据可信度的先验概率。
+
+## Corrected Claim
+
+在主流二手平台（如eBay、闲鱼）的非标品价格序列数据中，数据质量指标 q_data 通常呈现较高的可信度（中位数估计在0.8左右），具体分布需依据特定数据集校准。
+
+## Evidence
+
+[质询]该陈述包含具体的经验统计数值（中位数0.82，标准差0.08），属于特定数据集下的经验事实，无法从第一性原理推导，且缺乏公开权威来源直接支持该精确数值分布。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且数值过于具体，无法仅凭逻辑验证其准确性）
+
+## Search Query
+
+second hand marketplace price data quality index empirical distribution eBay Xianyu

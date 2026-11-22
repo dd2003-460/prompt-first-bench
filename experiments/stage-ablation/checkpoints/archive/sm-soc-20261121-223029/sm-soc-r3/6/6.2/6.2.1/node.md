@@ -1,0 +1,24 @@
+# N332: 市场参考价 P_ref 的构成：P_ref = P_comparable_median * (1 + ε_quality_adjustment)，其中 P_co
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N110, N111, N112
+
+## Claim
+
+市场参考价 P_ref 的构成：P_ref = P_comparable_median * (1 + ε_quality_adjustment)，其中 P_comparable_median 为平台同类商品近30天成交中位数，ε_quality_adjustment 为基于成色/配件差异的修正项（典型值 -5% 至 +5%），需通过平台历史数据回归确定具体系数。
+
+## Corrected Claim
+
+市场参考价 P_ref 通常由可比商品成交中位数 P_comparable_median 乘以质量修正系数 (1 + ε_quality_adjustment) 构成，其中修正系数需根据具体平台数据和商品属性确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性参数（如'近30天'、'典型值 -5% 至 +5%'）和特定的业务逻辑定义，属于经验事实而非第一性原理可推导的数学或物理定律。在缺乏外部来源支持的情况下，无法验证这些具体数值和定义是否为行业标准或普遍接受的事实。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+used goods market price reference median comparable items adjustment coefficient

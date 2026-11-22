@@ -1,0 +1,20 @@
+# N307: 修正项1（带宽利用率）：消费级GPU（RTX 4090）在LLM解码阶段的实际带宽利用率通常为0.8-0.9，受限于PCIe总线延迟和内存控制器效率，具体值需根
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N108
+
+## Claim
+
+修正项1（带宽利用率）：消费级GPU（RTX 4090）在LLM解码阶段的实际带宽利用率通常为0.8-0.9，受限于PCIe总线延迟和内存控制器效率，具体值需根据vLLM/TensorRT-LLM框架实测确定。
+
+## Corrected Claim
+
+消费级GPU（RTX 4090）在LLM解码阶段的显存带宽利用率通常较高（可达0.9以上），具体数值受Batch Size、模型大小及框架优化策略影响显著，需根据vLLM/TensorRT-LLM框架实测确定。
+
+## Evidence
+
+[质询]数值量级存疑：在LLM解码阶段，GPU计算单元通常处于空闲状态，主要瓶颈在于显存带宽。对于RTX 4090这类高端消费级GPU，其显存带宽利用率（Memory Bandwidth Utilization）在理想批处理或大模型场景下通常可达0.9-0.95以上。0.8-0.9的范围偏低，且将瓶颈主要归因于'PCIe总线延迟'在纯解码阶段（权重常驻显存）并不准确，PCIe主要影响权重加载或CPU-GPU数据交换，而非显存内部读取效率。此外，'实际带宽利用率'受Batch Size影响极大，未指定Batch Size的情况下给出固定区间缺乏严谨性。 | 先验知识/题面给定，逻辑校验通过但数值区间偏保守且归因略有偏差，缺乏外部来源支持，降级为定性表述。

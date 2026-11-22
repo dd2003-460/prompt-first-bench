@@ -1,0 +1,20 @@
+# N81: 步骤2的具体计算：K_cap = 128GB / E[S]；当 E[S]=6.9KB 时 K_cap≈1.9×10^7 > 10^5，故实际保留对象数 K_re
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N27
+
+## Claim
+
+步骤2的具体计算：K_cap = 128GB / E[S]；当 E[S]=6.9KB 时 K_cap≈1.9×10^7 > 10^5，故实际保留对象数 K_retained = min(K_cap, 10^5) = 10^5；若 E[S] 被错误高估为1MB，则 K_cap≈131,072，仍 > 10^5，结论不变：缓存容量不构成瓶颈
+
+## Corrected Claim
+
+步骤2的具体计算：K_cap = 128GB / E[S]；当 E[S]=6.9KB 时 K_cap≈1.9×10^7 > 10^5，故实际保留对象数 K_retained = min(K_cap, 10^5) = 10^5；若 E[S] 被错误高估为1MB，则 K_cap≈131,072，仍 > 10^5，结论不变：缓存容量不构成瓶颈
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：128GB/6.9KB≈1.9×10^7，128GB/1MB=131,072，数值量级与逻辑推导均正确

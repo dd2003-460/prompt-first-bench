@@ -1,0 +1,20 @@
+# N79: P_resident 的量化计算：P_resident = 1 - F_Pareto_β(λ_threshold)，其中 λ_threshold 是 LRU 驱
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N22, N23
+
+## Claim
+
+P_resident 的量化计算：P_resident = 1 - F_Pareto_β(λ_threshold)，其中 λ_threshold 是 LRU 驱逐边界对应的请求频率阈值，需通过 N_cap 与热度分布 CDF 反解得到。
+
+## Corrected Claim
+
+P_resident 的量化计算：P_resident = 1 - F_Pareto_β(λ_threshold)，其中 λ_threshold 是 LRU 驱逐边界对应的请求频率阈值，需通过 N_cap 与热度分布 CDF 反解得到。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1负责计算阈值λ_threshold（基于N_cap和逆CDF），子节点2负责计算该阈值对应的CDF值F(λ)（基于λ和参数）。两者分别处理公式P_resident = 1 - F(λ)中的不同变量，逻辑上正交且互补，共同覆盖了父节点量化计算的所有必要步骤，无冗余。）

@@ -1,0 +1,30 @@
+# N113: 中国居民用电价格 $0.014/kWh 为阶梯电价第一档，若月用电超过 200-300 kWh（高负载推理场景易超），第二/三档电价升至 $0.018-$0.0
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N36, N37, N38
+
+## Claim
+
+中国居民用电价格 $0.014/kWh 为阶梯电价第一档，若月用电超过 200-300 kWh（高负载推理场景易超），第二/三档电价升至 $0.018-$0.025/kWh，需按加权平均电价计算
+
+## Corrected Claim
+
+中国居民用电实行阶梯电价，第一档电价较低，若月用电量超过当地规定的分档阈值（通常为200-300 kWh左右，视地区而定），第二/三档电价将显著上升（通常每度电增加0.05-0.3元人民币不等），高负载场景需按加权平均电价计算成本。
+
+## Evidence
+
+[质询]具体数值（$0.014/kWh, $0.018-$0.025/kWh）及分档阈值（200-300 kWh）属于特定地区或特定汇率下的经验数据，中国各地居民电价标准不一，且美元换算随汇率波动，无法从第一性原理推出，且参考来源未提供统一的全国固定美元价格。 | 来源[2]和[3]证实了阶梯电价机制及第二/三档电价高于第一档的事实（间接支持），但来源中未提供具体的美元数值或统一的200-300 kWh阈值，具体数值缺乏直接来源支持，属于经验事实。
+
+## Search Query
+
+China residential electricity tiered pricing 2024 average
+
+## Retrieval Sources
+
+- {'url': 'https://wenku.baidu.com/view/3720aebd3586bceb19e8b8f67c1cfad6185fe901.html&rut=4f74b80141ca7143692b70e64ed99aefd6c1f5f8663086686c1dde1512b67465', 'type': 'ddg', 'title': '国家电网居民电价标准一览：2026年阶梯电价分档与计费规则详解'}
+- {'url': 'https://wenku.baidu.com/view/573965d1f90a79563c1ec5da50e2524de418d034.html&rut=4c547f36adf6c1ba197f05f3ea7e067a93a5e84dd65270d1eb08fd9d66ddb33f', 'type': 'ddg', 'title': '居民用电阶梯电价怎么算？2026年最新分档标准与计算示例'}
+- {'url': 'https://set.baidu.com/view/e692892ea72d7375a417866fb84ae45c3b35c29a.html&rut=808d974fc308f65d79d63a2995123aff9d485128a92905cc3b6090bbd8232426', 'type': 'ddg', 'title': '2025年居民阶梯电价政策全解读与实用指南 - set.baidu.com'}

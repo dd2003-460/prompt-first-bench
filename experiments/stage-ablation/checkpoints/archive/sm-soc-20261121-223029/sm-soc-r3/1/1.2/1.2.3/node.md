@@ -1,0 +1,24 @@
+# N40: C_opportunity（持有机会成本）等于商品当前市场价值 P_market 乘以资金年化收益率 r_annual 乘以持有时间 t_years，即 C_o
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N7
+
+## Claim
+
+C_opportunity（持有机会成本）等于商品当前市场价值 P_market 乘以资金年化收益率 r_annual 乘以持有时间 t_years，即 C_opportunity = P_market * r_annual * t_years。
+
+## Corrected Claim
+
+C_opportunity（持有机会成本）等于商品当前市场价值 P_market 乘以资金年化收益率 r_annual 乘以持有时间 t_years，即 C_opportunity = P_market * r_annual * t_years。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点本质上是同一公式在不同参数（t_years）下的具体数值实例，而非对父节点概念的不同维度分解；此外，子节点引入了父节点未定义的额外概念（如'流动性'、'预期利润空间'、'溢价波动'），导致分解偏离了纯粹的'机会成本计算'主题，且未覆盖公式中其他变量的独立影响或边界条件。）
+
+## Search Query
+
+opportunity cost calculation for holding inventory annual rate

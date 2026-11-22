@@ -1,0 +1,24 @@
+# N881: INT4 KV Cache 显存计算及开销修正：Memory_KV_INT4 = Memory_KV_BF16 / 4 + Overhead。若采用 per-c
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N276, N277, N278
+
+## Claim
+
+INT4 KV Cache 显存计算及开销修正：Memory_KV_INT4 = Memory_KV_BF16 / 4 + Overhead。若采用 per-channel 或 per-token 量化，需额外存储 scale 和 zero-point。假设 per-token 量化，每个 token 每层每 KV 头需 1 个 FP16 scale (2 bytes) 和 1 个 FP16 zero-point (2 bytes)，共 4 bytes/token/layer/kv_head。Overhead = L * N_kv * S * 4 / 1e9 = 60 * 8 * 32768 * 4 / 1e9 = 0.0629 GB。总 Memory_KV_INT4 ≈ 0.5033 + 0.0629 = 0.5662 GB。
+
+## Corrected Claim
+
+INT4 KV Cache 显存计算及开销修正：Memory_KV_INT4 = Memory_KV_BF16 / 4 + Overhead。若采用 per-channel 或 per-token 量化，需额外存储 scale 和 zero-point。假设 per-token 量化，每个 token 每层每 KV 头需 1 个 FP16 scale (2 bytes) 和 1 个 FP16 zero-point (2 bytes)，共 4 bytes/token/layer/kv_head。Overhead = L * N_kv * S * 4 / 1e9 = 60 * 8 * 32768 * 4 / 1e9 = 0.0629 GB。总 Memory_KV_INT4 ≈ 0.5033 + 0.0629 = 0.5662 GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：INT4量化显存约为BF16的1/4，Per-token量化开销计算（L*N_kv*S*4bytes）量级与数值推导正确。
+
+## Search Query
+
+INT4 KV cache quantization overhead per-token scale zero-point memory

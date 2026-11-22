@@ -1,0 +1,29 @@
+# N21: 干预效果'最小干预打破均衡'的置信度，需基于反事实推理（counterfactual reasoning）估计干预前后均衡点偏移量，置信度量化为预测区间（如 9
+
+- **status**: verified
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+干预效果'最小干预打破均衡'的置信度，需基于反事实推理（counterfactual reasoning）估计干预前后均衡点偏移量，置信度量化为预测区间（如 95% CI）包含 0 的概率，若区间不跨 0 则标记为高置信度，否则标记为[待核验]并给出最小可检测效应量（MDE）。
+
+## Corrected Claim
+
+干预效果的评估需基于反事实推理估计均衡点偏移量。通常通过构建预测区间（如95% CI）来评估显著性：若区间不跨0，可认为效应显著（高置信度）；若区间跨0，则效应不显著，需结合最小可检测效应量（MDE）进一步分析。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（三个子节点分别对应父节点中的核心计算逻辑（反事实估计）、阈值判定标准（MDE）以及最终置信度标记规则（CI跨零判定），逻辑层次清晰且互不重叠，完整覆盖了从数据估算到置信度标签生成的全流程。）
+
+## Search Query
+
+counterfactual reasoning minimum intervention equilibrium shift confidence interval minimum detectable effect
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/612511199&rut=bb3e9d5fc6e027eb5df1e5cae3e56204f85025a48f72b9f42bd763410b573c36', 'type': 'ddg', 'title': '因果推断入门 - 4 反事实及其应用 - 知乎'}
+- {'url': 'https://zhuanlan.zhihu.com/p/357183135&rut=49dd79f903d53dc8962f075b1b5ebe10efb13e77dc230797c307059deefe7d5f', 'type': 'ddg', 'title': '反事实因果(Counterfactual)简介 - 知乎'}

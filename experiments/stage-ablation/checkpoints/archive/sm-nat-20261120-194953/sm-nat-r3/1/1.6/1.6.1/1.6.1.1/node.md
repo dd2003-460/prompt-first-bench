@@ -1,0 +1,20 @@
+# N103: 在全量驻留且无突发流量导致驱逐的场景下，LRU与LFU保留对象集合相同（均为全部10^5个对象），ΔH = H_freq - H_LRU = 0，N42中<2个
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N42
+
+## Claim
+
+在全量驻留且无突发流量导致驱逐的场景下，LRU与LFU保留对象集合相同（均为全部10^5个对象），ΔH = H_freq - H_LRU = 0，N42中<2个百分点的偏差估计在全量驻留前提下不成立
+
+## Corrected Claim
+
+在全量驻留且无突发流量导致驱逐的场景下，LRU与LFU保留对象集合相同（均为全部10^5个对象），ΔH = H_freq - H_LRU = 0，N42中<2个百分点的偏差估计在全量驻留前提下不成立
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在全量驻留且无驱逐场景下，LRU与LFU均保留所有对象，集合相同，故差异为0，逻辑自洽。

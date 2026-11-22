@@ -1,0 +1,20 @@
+# N268: Qwen3-27B 模型在 BF16 精度下的权重文件大小为 54GB，与 N82 中的计算一致，是 H100 Decode 理论吞吐计算的分母
+
+- **status**: verified
+- **level**: L4
+- **source**: given
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N83
+
+## Claim
+
+Qwen3-27B 模型在 BF16 精度下的权重文件大小为 54GB，与 N82 中的计算一致，是 H100 Decode 理论吞吐计算的分母
+
+## Corrected Claim
+
+Qwen3-27B 模型在 BF16 精度下的权重文件大小为 54GB，与 N82 中的计算一致，是 H100 Decode 理论吞吐计算的分母
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数在BF16（2字节/参数）下理论大小约为54GB，量级与计算逻辑自洽。

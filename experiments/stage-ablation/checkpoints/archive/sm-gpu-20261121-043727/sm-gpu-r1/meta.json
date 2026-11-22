@@ -1,0 +1,117 @@
+{
+  "qid": "gpu",
+  "question": "你要在本地工作站上推理 Qwen3-27B 模型，不设硬性延迟指标（延迟是性能变量，由硬件和部署配置决定，不作为前置约束）；上下文窗口 ≥ 32K tokens 作为容量下限保留。权重精度不限（BF16/FP8/INT8/NVFP4/W4 均可），但必须论证所选精度的质量损失是否可接受。候选硬件：自行搜索确定值得考虑的完整候选集——覆盖你认为所有可能影响性价比排序的架构、代际、容量档位和价格区间（包括消费级、数据中心级、以及任何你认为值得纳入比较的非典型方案）。同时评估单卡与多卡方案的 TCO 差异（如 2× 消费卡 vs 1× 数据卡）。给出性价比最优的完整选卡方案。要求：思考必须最完整，确认没有遗漏任何影响决策的维度；每个关键数字标注来源（刚查到的 vs 凭记忆的），不确定的标 [待核验]；最终推荐必须是条件性的，不能给无条件排名。",
+  "round": 1,
+  "state": "rework",
+  "dropped_redundant": 0,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": null,
+  "objective_mode": "text",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "node_id": "N9",
+      "claim": "列出当前市场主流GPU候选清单及其关键参数：NVIDIA H100 (80GB HBM3, $25k-$30k), A1",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]价格区间属于高度波动的市场经验事实，且不同渠道（新品/二手/企业采购）差异巨大，单一来源难以覆盖所有型号的最新实时价格；此外，RTX 4090/3090"
+    },
+    {
+      "node_id": "N10",
+      "claim": "评估非典型硬件方案的可行性：AMD MI300X (192GB HBM3, $15k) 与 MI250 (128GB H",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]MI250 的显存规格（128GB HBM2e）与价格（$10k）在参考来源中完全缺失，且 MI250 实际为 64GB HBM2e（单卡），128GB"
+    },
+    {
+      "node_id": "N12",
+      "claim": "量化BF16精度作为基准的质量保持率：Qwen3-27B在BF16下的Perplexity (PPL) 与MMLU/CM",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（PPL≈3.2, MMLU≈85%）缺乏直接来源支持，且参考来源主要讨论量化对比而非BF16基线的绝对数值，存在数值不准确或版本混淆的风险。 "
+    },
+    {
+      "node_id": "N13",
+      "claim": "评估FP8精度（E4M3/E5M2）在Qwen3-27B上的质量损失：Perplexity增加幅度（通常+0.1-0.3",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级与具体模型不匹配：Qwen3-27B 的 FP8 权重显存占用约为 27GB（27B * 1 byte），而非陈述中的 13.6GB（13.6G"
+    },
+    {
+      "node_id": "N22",
+      "claim": "Qwen3-27B 在 BF16 精度下的理论 KV Cache 内存占用为 2 * 27B * 32K * 2 byt",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值计算错误：2 * 27B * 32K * 2 bytes 的实际结果约为 3.44 PB (Petabytes)，而非 3.44 TB (Terab"
+    },
+    {
+      "node_id": "N24",
+      "claim": "消费级 GPU (RTX 4090/3090) 在 BF16 推理下的 Model FLOPs Utilization ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源主要关注吞吐量（tokens/s）和成本效益，未直接提供 MFU（Model FLOPs Utilization）的具体百分比数值，且将性能差异"
+    },
+    {
+      "node_id": "N28",
+      "claim": "量化精度对延迟的影响：INT8/FP8 推理相比 BF16 通常提速 1.2-1.5 倍（因内存带宽减半且计算单元支持）",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含两个独立断言：1. 量化提速1.2-1.5倍；2. Qwen3-27B INT8困惑度增加<5%。参考来源仅讨论FP8/INT8格式定义，未提"
+    },
+    {
+      "node_id": "N29",
+      "claim": "驱动兼容性：Linux 下 NVIDIA 驱动版本需匹配 CUDA 12.x 以支持 FP8/INT8 推理；Windo",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中包含多个具体的经验性数值（WSL2性能损失5-10%、AMD兼容性滞后3-6个月），这些数值缺乏统一的基准测试支持，且随硬件代际和软件版本波动较大"
+    },
+    {
+      "node_id": "N34",
+      "claim": "补充硬件候选集：NVIDIA H200 (141GB HBM3e, $35k-$40k) 与 RTX 5090 (32G",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]RTX 5090 的价格区间（$2k-$2.5k）及发布状态属于经验事实，且该节点明确标记为[待核验]，缺乏直接来源支持；Intel Max 1550 "
+    },
+    {
+      "node_id": "N35",
+      "claim": "量化TCO中的功耗成本：RTX 4090 TDP 450W, H100 SXM TDP 700W, MI300X TDP",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]RTX 4090 的 TDP 450W 是桌面版标准值，但参考来源 [3] 指出移动版 TDP 仅为 150-200W，且来源 [2] 实测功耗可达 5"
+    },
+    {
+      "node_id": "N36",
+      "claim": "量化TCO中的硬件折旧与维护：假设3年折旧期，RTX 4090 残值率约30%，H100 残值率约50%；多卡方案（2x",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源仅讨论GPU选型对TCO的宏观影响及利用率，未提供RTX 4090/H100的具体残值率数据，也未提及多卡方案中PCIe riser、主板插槽等"
+    },
+    {
+      "node_id": "N37",
+      "claim": "定义性价比指标公式：Value Score = (Throughput_tokens_per_sec * Quality",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该公式为自定义指标，参考来源仅涉及推理延迟（TPOT/TTFT）和吞吐量概念，未提供关于将MMLU/CMMLU作为质量分母、或包含硬件折旧/电力/维护的"
+    },
+    {
+      "node_id": "N38",
+      "claim": "推导条件性最优方案边界：若追求极低TCO且接受W4/FP8精度（质量损失<2%），推荐 2x RTX 4090 (PCI",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的硬件型号（RTX 4090/5090, H200, MI300X）及其在特定精度下的性能/成本权衡结论，属于经验事实。参考来源[1]仅涉"
+    }
+  ],
+  "contradiction_events": [
+    {
+      "round": 1,
+      "a": "N11",
+      "b": "N26",
+      "a_claim": "分析多卡互联拓扑对推理性能的影响：NVLink (900GB/s) vs PCIe 4.0 x16 (32GB/s) vs PCIe 5.0 x16 (64GB",
+      "b_claim": "多卡通信开销：2x RTX 4090 通过 PCIe 4.0 x16 连接，带宽 32GB/s，相比 NVLink (400GB/s) 低 12.5 倍；在 T",
+      "desc": "NVLink 带宽数值冲突：N11 标注为 900GB/s，而 N26 标注为 400GB/s。",
+      "fixed": false
+    }
+  ],
+  "n_nodes": 26
+}

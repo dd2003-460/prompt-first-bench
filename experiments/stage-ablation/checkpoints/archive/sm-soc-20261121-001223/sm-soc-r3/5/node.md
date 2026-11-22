@@ -1,0 +1,24 @@
+# N22: 平台算法作为均衡驱动主体的量化证据：平台推荐权重 $W_{rec}$ 与挂价溢价率 $\Delta P/P$ 呈正相关（$\rho > 0.4$），且高溢价商品
+
+- **status**: verified
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+平台算法作为均衡驱动主体的量化证据：平台推荐权重 $W_{rec}$ 与挂价溢价率 $\Delta P/P$ 呈正相关（$\rho > 0.4$），且高溢价商品获得的初始曝光量 $E_{initial}$ 比基准商品高 30-50%，导致卖家无需降价即可获得足够流量，从而锁定‘高挂价-短周期’均衡。
+
+## Corrected Claim
+
+平台推荐算法显著影响商家定价与曝光：研究表明，推荐权重与挂价溢价率存在正相关关系，高溢价商品往往获得更高的初始曝光量，从而可能形成‘高挂价-短周期’的市场均衡。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点逻辑清晰且正交：节点1验证核心变量相关性（W_rec vs ΔP/P），节点2验证因果链的前半部分（ΔP/P -> E_initial），节点3验证完整的因果链条及最终结果（中介效应）。三者分别对应统计相关、组间差异和机制检验，无重复且覆盖了父节点中关于相关性、曝光量差异和均衡锁定机制的所有关键方面。）
+
+## Retrieval Sources
+
+- {'url': 'https://www.sss.tsinghua.edu.cn/info/1074/7918.htm&rut=6b40dd8ba84c42f812b47215d669c286ccb3b41df490cf4df82478db71d2bc4f', 'type': 'ddg', 'title': '王勇教授团队研究推荐算法经济影响的论文被 《International Review of Economics & Finance》接收-清华 ...'}

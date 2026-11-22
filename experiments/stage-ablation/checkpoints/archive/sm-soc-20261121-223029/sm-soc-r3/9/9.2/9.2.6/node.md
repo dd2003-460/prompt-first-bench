@@ -1,0 +1,24 @@
+# N361: 高溢价商品（δ>0.20）与低溢价商品（δ<0.10）在初始 24 小时内的曝光量差异 ΔImpression 及其标准化效应量 Cohen's d；若 d >
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N119, N120, N121
+
+## Claim
+
+高溢价商品（δ>0.20）与低溢价商品（δ<0.10）在初始 24 小时内的曝光量差异 ΔImpression 及其标准化效应量 Cohen's d；若 d > 0.5，则表明平台算法对高溢价商品存在显著曝光倾斜，支持‘平台驱动均衡’假设。
+
+## Corrected Claim
+
+高溢价商品与低溢价商品在初始24小时内的曝光量差异及其标准化效应量需通过实证数据验证；若Cohen's d > 0.5，则表明平台算法对高溢价商品存在显著曝光倾斜，支持‘平台驱动均衡’假设。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（δ>0.20, δ<0.10）和统计效应量（Cohen's d > 0.5），属于特定平台算法行为的经验事实，无法从第一性原理推导，且缺乏具体数据支持。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+exposure difference between high-premium and low-premium listings in first 24 hours effect size

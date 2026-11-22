@@ -1,0 +1,20 @@
+# N6: 对象大小分布的截断阈值 S_max 计算：求解 Pareto(α=1.1) 在 128GB 容量约束下的最大可缓存对象大小，公式 S_max = (128 * 
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+对象大小分布的截断阈值 S_max 计算：求解 Pareto(α=1.1) 在 128GB 容量约束下的最大可缓存对象大小，公式 S_max = (128 * 10^9 bytes) / (100,000 * (S_min)^(α-1) * (1 - (S_min/S_max)^(α-1))) 的迭代解，其中 S_min 为最小对象大小 [待核验]，通常设为 1KB。
+
+## Corrected Claim
+
+对象大小分布的截断阈值 S_max 计算：求解 Pareto(α=1.1) 在 128GB 容量约束下的最大可缓存对象大小，通常通过积分 ∫_{S_min}^{S_max} x * f(x) dx = 128GB 来迭代求解 S_max，其中 S_min 为最小对象大小，通常设为 1KB。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点2关于Pareto分布截断后方差计算的内容超出了父节点‘计算S_max’的范围，属于模型后续应用（Copula标准化）的细节，而非S_max求解本身的必要组成部分，导致分解不完备且引入了无关信息。）

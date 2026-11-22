@@ -1,0 +1,24 @@
+# N444: 消费级 GPU 的 MTBF 与负载强度的非线性关系模型：MTBF_load = MTBF_idle / (1 + k * Load_factor^2)，其中 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N145
+
+## Claim
+
+消费级 GPU 的 MTBF 与负载强度的非线性关系模型：MTBF_load = MTBF_idle / (1 + k * Load_factor^2)，其中 k 为散热/电压应力系数，需引用 NVIDIA 白皮书中关于温度每升高 10°C 寿命减半的 Arrhenius 模型参数来校准 k 值。
+
+## Corrected Claim
+
+消费级 GPU 的 MTBF 与负载强度存在非线性关系，通常可用包含负载因子的非线性模型（如 MTBF_load = MTBF_idle / (1 + k * Load_factor^n)）进行近似描述，其中系数 k 需结合具体的热力学模型（如 Arrhenius 方程）及厂商提供的温度-寿命数据进行校准，而非直接套用固定的二次方公式。
+
+## Evidence
+
+[质询]该陈述将具体的数学公式（MTBF_load = MTBF_idle / (1 + k * Load_factor^2)）与特定的工程经验法则（温度每升高 10°C 寿命减半）强行绑定，并声称需引用 NVIDIA 白皮书中的 Arrhenius 参数来校准 k 值。然而，MTBF 与负载强度的关系通常是非线性的且受多种因素（如电压、电流、热循环）影响，简单的二次方负载模型并非行业标准或 NVIDIA 白皮书中明确给出的通用校准公式；此外，'10度减半'是经验法则，直接用于校准特定系数 k 缺乏严谨的推导依据，属于将不同量级的经验数据与特定数学模型强行关联。 | 先验知识/题面给定，逻辑校验通过（公式在数学上自洽，量纲合理），但作为经验事实，缺乏来源直接支持其特定系数校准方法的权威性，故降级。
+
+## Search Query
+
+GPU MTBF temperature dependence Arrhenius model NVIDIA whitepaper

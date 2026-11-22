@@ -1,0 +1,24 @@
+# N165: Qwen3-27B 是否启用 RoPE (Rotary Positional Embedding) 及其 base 频率：需确认 'rope_theta' 参数
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N36
+
+## Claim
+
+Qwen3-27B 是否启用 RoPE (Rotary Positional Embedding) 及其 base 频率：需确认 'rope_theta' 参数。虽然不直接增加显存占用，但影响位置编码的计算开销和长上下文外推能力，进而影响 32K 上下文下的推理质量稳定性。
+
+## Corrected Claim
+
+Qwen3-27B 采用 RoPE (Rotary Positional Embedding) 作为位置编码方案，其 base 频率参数（rope_theta）影响长上下文外推能力，但不直接增加显存占用。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件/模型配置参数（rope_theta 的存在性及具体影响），属于经验事实。虽然 Qwen 系列模型普遍使用 RoPE 是业界共识，但缺乏本轮检索来源的直接支持，且 'base 频率' 的具体数值未给出，无法通过第一性原理严格推导具体参数值。 | 经验事实，逻辑自洽（RoPE 是主流 LLM 标准组件，Qwen 系列已知使用 RoPE），但本轮检索无可用来源，缺直接来源支持。
+
+## Search Query
+
+Qwen3-27B rope_theta config

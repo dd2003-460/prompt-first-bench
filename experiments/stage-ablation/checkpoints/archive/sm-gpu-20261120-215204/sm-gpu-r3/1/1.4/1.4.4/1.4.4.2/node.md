@@ -1,0 +1,20 @@
+# N181: RTX 4090 24GB 显存在 W4 精度 (权重 13.5GB) + 32K 上下文 BF16 KV Cache (17.2GB) 的总显存需求为 30.
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N48, N49, N50
+
+## Claim
+
+RTX 4090 24GB 显存在 W4 精度 (权重 13.5GB) + 32K 上下文 BF16 KV Cache (17.2GB) 的总显存需求为 30.7GB，超出 24GB 物理上限 6.7GB，结论：单卡 4090 无法在 32K 上下文下运行 W4 Qwen3-27B，必须降低上下文至 ~16K (KV 8.6GB, 总 22.1GB < 24GB) 或启用 CPU Offloading。
+
+## Corrected Claim
+
+RTX 4090 24GB 显存在 W4 精度 (权重 13.5GB) + 32K 上下文 BF16 KV Cache (17.2GB) 的总显存需求为 30.7GB，超出 24GB 物理上限 6.7GB，结论：单卡 4090 无法在 32K 上下文下运行 W4 Qwen3-27B，必须降低上下文至 ~16K (KV 8.6GB, 总 22.1GB < 24GB) 或启用 CPU Offloading。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B W4权重约13.5GB，32K上下文BF16 KV Cache约17.2GB，总和30.7GB确实超过24GB显存上限，数学推导自洽。

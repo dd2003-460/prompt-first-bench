@@ -1,0 +1,28 @@
+# N357: 平台激励强度 S_platform 的变异系数验证：计算 CV_platform = σ(S_platform) / μ(S_platform)，其中 S_pl
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N121
+
+## Claim
+
+平台激励强度 S_platform 的变异系数验证：计算 CV_platform = σ(S_platform) / μ(S_platform)，其中 S_platform 基于不同品类的流量分配权重计算；若 CV_platform > CV_seller 且 > CV_buyer，则平台策略的异质性是均衡的主要驱动源。
+
+## Corrected Claim
+
+平台激励强度 S_platform 的变异系数可通过 CV_platform = σ(S_platform) / μ(S_platform) 计算；若计算结果显示 CV_platform 显著高于 CV_seller 和 CV_buyer，则表明平台策略的异质性可能是均衡差异的主要驱动源。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性结论（平台策略异质性是均衡的主要驱动源）及特定的统计比较结果（CV_platform > CV_seller/buyer），这属于经验事实而非第一性原理可推导的数学性质。参考来源与主题完全无关，无法提供外部支持。 | 逻辑上变异系数比较是合理的统计方法，但参考来源[1]为无关的GitHub项目，未提供该特定经济/平台模型结论的支持；作为经验事实，缺乏来源直接支持，故降级。
+
+## Search Query
+
+platform traffic allocation variance by category second-hand
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/NanChangQin/cv-algorithm-platform&rut=5ddcc64f1e6dbd8d62ee9da0e82e8012b342f8247734396970548d98cd82c09e', 'type': 'ddg', 'title': 'GitHub - NanChangQin/cv-algorithm-platform'}

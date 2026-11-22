@@ -1,0 +1,20 @@
+# N163: PCIe 4.0 (有效 28 GB/s) 下 512 KB 通信耗时 T_comm = 512 KB / 28 GB/s ≈ 18.3 μs/step，而单步
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N50
+
+## Claim
+
+PCIe 4.0 (有效 28 GB/s) 下 512 KB 通信耗时 T_comm = 512 KB / 28 GB/s ≈ 18.3 μs/step，而单步计算耗时 T_comp 取决于 FLOPs 和算力，Qwen3-27B 单 token 解码 FLOPs ≈ 2 * 27B = 54 GFLOPs，RTX 4090 FP16 算力 82.6 TFLOPS，T_comp ≈ 54 GFLOPs / 82.6 TFLOPS ≈ 0.654 ms/step，通信占比 T_comm/T_comp ≈ 2.8%，不可忽略。
+
+## Corrected Claim
+
+PCIe 4.0 (有效 28 GB/s) 下 512 KB 通信耗时 T_comm = 512 KB / 28 GB/s ≈ 18.3 μs/step，而单步计算耗时 T_comp 取决于 FLOPs 和算力，Qwen3-27B 单 token 解码 FLOPs ≈ 2 * 27B = 54 GFLOPs，RTX 4090 FP16 算力 82.6 TFLOPS，T_comp ≈ 54 GFLOPs / 82.6 TFLOPS ≈ 0.654 ms/step，通信占比 T_comm/T_comp ≈ 2.8%，不可忽略。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe 4.0 x16 理论带宽约 32 GB/s，有效带宽 28 GB/s 合理；512KB/28GB/s ≈ 18.3μs 计算正确；Qwen3-27B 单 token 解码 FLOPs 估算为 2*参数量 = 54 GFLOPs 符合线性层主导的近似逻辑；RTX 4090 FP16 算力 82.6 TFLOPS 符合其规格（82.58 TFLOPS）；54/82.6 ≈ 0.654 ms 计算正确；18.3μs / 654μs ≈ 2.8% 比例计算正确。所有数值量级和逻辑推导均自洽。

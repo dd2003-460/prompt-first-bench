@@ -1,0 +1,24 @@
+# N416: Qwen3-27B 在 H100 SXM5 上 BF16 精度下的实测吞吐量（tokens/s），基于 vLLM 框架、batch size 32、input 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N145
+
+## Claim
+
+Qwen3-27B 在 H100 SXM5 上 BF16 精度下的实测吞吐量（tokens/s），基于 vLLM 框架、batch size 32、input length 2048、output length 512 的标准配置，需从 NVIDIA 或 vLLM 官方基准测试获取。
+
+## Corrected Claim
+
+Qwen3-27B 在 H100 SXM5 上 BF16 精度下，基于 vLLM 框架、batch size 32、input length 2048、output length 512 的标准配置，其实测吞吐量需参考 NVIDIA 或 vLLM 官方最新基准测试数据，具体数值因软件版本和系统配置而异。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件（H100 SXM5）、模型（Qwen3-27B）、框架（vLLM）及特定配置下的实测吞吐量数值，属于典型的经验事实（硬件性能基准）。此类数据无法从第一性原理或数学公理推导得出，必须依赖具体的基准测试报告。由于检索失败，无法验证该具体数值是否准确，存在数值偏差或配置细节（如并发数、内存占用等）导致结果不同的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体吞吐量数值）
+
+## Search Query
+
+Qwen3-27B H100 vLLM BF16 throughput tokens per second benchmark

@@ -1,0 +1,30 @@
+# N92: Intel Arc A770 (16GB) 方案的初始硬件采购总成本 C_hw_Arc = P_ArcA770 + P_sys，其中 P_ArcA770 约为 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N21, N22, N23
+
+## Claim
+
+Intel Arc A770 (16GB) 方案的初始硬件采购总成本 C_hw_Arc = P_ArcA770 + P_sys，其中 P_ArcA770 约为 $300-$400 [时效待核]，但需配合 CPU 卸载方案，系统总成本需额外增加大容量内存成本（如 128GB DDR5 约 $500），总计约 $800-$900
+
+## Corrected Claim
+
+Intel Arc A770 (16GB) 的市场价格约为1230元人民币（约$170），若配合CPU卸载方案并增加大容量内存（如128GB DDR5），系统总成本需根据具体配置估算，但显卡本身成本远低于$300-$400。
+
+## Evidence
+
+[质询]来源[2]显示Intel Arc A770 16GB的市场价格约为1230元人民币（约$170），远低于陈述中声称的$300-$400（约$2100-$2800人民币），存在显著的价格量级偏差；此外，陈述中关于128GB DDR5内存成本约$500的估算也缺乏来源支持，且总成本推导依赖于未经验证的具体硬件配置假设。 | 来源[2]直接指出A770 16GB价格约为1230元，与陈述中的$300-$400矛盾；来源[1]和[3]未提供具体价格信息，无法支持陈述中的成本估算。
+
+## Search Query
+
+Intel Arc A770 price 2024 LLM inference cost
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/m0_57836225/article/details/161089515&rut=24384305c9db7eb9fcc73f19574debc93f39c85e38dc667a310c49b162835c1f', 'type': 'ddg', 'title': '2026 最新｜Windows 下 Ollama + Intel Arc A770 Vulkan GPU 加速完全手册'}
+- {'url': 'https://post.smzdm.com/p/aomoq0m6/&rut=bde6a248edc2f83ca5147ac20c67d7f47303f38176505bf260fabd1d47bbb2fa', 'type': 'ddg', 'title': '1230块捡16G显卡？Intel A770这波比内存条还便宜'}
+- {'url': 'https://www.intel.cn/content/www/cn/zh/products/sku/229151/intel-arc-a770-graphics-16gb/specifications.html&rut=f959a181c4e133e798d29da42269d646e14a9897823f8fb3d298d8c9413d41f9', 'type': 'ddg', 'title': '英特尔锐炫™ A770 显卡 (16 Gb) 规格'}

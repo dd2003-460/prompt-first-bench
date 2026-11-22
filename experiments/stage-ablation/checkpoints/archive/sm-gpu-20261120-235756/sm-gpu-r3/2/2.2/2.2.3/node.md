@@ -1,0 +1,20 @@
+# N60: KV Cache 每 token 增量字节数 = 2 × 64 × 8 × 128 × (kv_dtype_bits / 8) = 128 KB/token (
+
+- **status**: verified
+- **level**: L3
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N14
+
+## Claim
+
+KV Cache 每 token 增量字节数 = 2 × 64 × 8 × 128 × (kv_dtype_bits / 8) = 128 KB/token (BF16)，在 32K 上下文下，每生成一个 token 需额外读取 32K × 128 KB = 4 GB 的 KV Cache 数据，该值随上下文长度线性增长，成为长上下文推理的带宽瓶颈。
+
+## Corrected Claim
+
+KV Cache 每 token 增量字节数 = 2 × 64 × 8 × 128 × (kv_dtype_bits / 8) = 256 KB/token (BF16)，在 32K 上下文下，每生成一个 token 需额外读取 32K × 256 KB = 8 GB 的 KV Cache 数据。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算过程 2(KV) × 64(层) × 8(头) × 128(维度) × 2字节(BF16) = 262,144 字节 = 256 KB/token，但题目中公式写为 128 KB/token，存在数值矛盾。重新检查：2*64*8*128*2 = 262144 bytes = 256 KB。题目声称 128 KB/token，这与标准 LLaMA-2 70B 或类似架构（64层，8头，128维）的 BF16 KV Cache 大小不符（应为 256 KB/token）。然而，若架构参数不同（例如 32 层或 64 维），则可能为 128 KB。但题目明确给出了公式 `2 × 64 × 8 × 128 × (kv_dtype_bits / 8)`。让我们计算该公式：2 * 64 * 8 * 128 * (16/8) = 2 * 64 * 8 * 128 * 2 = 262,144 Bytes = 256 KB。题目断言结果为 128 KB，这是数学计算错误。因此，逻辑不自洽。

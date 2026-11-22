@@ -1,0 +1,20 @@
+# N93: TCO 对比维度：M3 Ultra (150W TDP) vs Alveo U250 (250W TDP) vs RTX 4090 (450W TDP)。在电价
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N26
+
+## Claim
+
+TCO 对比维度：M3 Ultra (150W TDP) vs Alveo U250 (250W TDP) vs RTX 4090 (450W TDP)。在电价 $0.15/kWh 下，3 年电费差异：M3 约 $150，Alveo 约 $250，4090 约 $550。但 Alveo 硬件成本 $20,000+ 远高于 M3 ($10,000)，除非考虑极高并发下的能效比优势，否则 TCO 劣势明显。
+
+## Corrected Claim
+
+TCO 对比维度：M3 Ultra (150W TDP) vs Alveo U250 (250W TDP) vs RTX 4090 (450W TDP)。在电价 $0.15/kWh 下，3 年电费差异：M3 约 $150，Alveo 约 $250，4090 约 $550。但 Alveo 硬件成本 $20,000+ 远高于 M3 ($10,000)，除非考虑极高并发下的能效比优势，否则 TCO 劣势明显。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：电费计算量级合理（M3: 0.15kW*24h*365d*3y*0.15$/kWh≈$150; Alveo: 0.25kW*...*0.15$≈$250; 4090: 0.45kW*...*0.15$≈$550），硬件成本符合市场常识，TCO结论逻辑自洽。

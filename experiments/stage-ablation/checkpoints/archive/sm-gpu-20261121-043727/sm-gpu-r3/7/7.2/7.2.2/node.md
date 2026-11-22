@@ -1,0 +1,20 @@
+# N241: H100 vs RTX 4090 单位 Token 电力成本对比：基于 N89 和 N112 的修正功耗数据，结合各自的 T_decode 吞吐率（RTX 40
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N90
+
+## Claim
+
+H100 vs RTX 4090 单位 Token 电力成本对比：基于 N89 和 N112 的修正功耗数据，结合各自的 T_decode 吞吐率（RTX 4090 FP8 ~15-20 tokens/s, H100 FP8 ~50-80 tokens/s [待核验]），计算每生成 1000 tokens 的电力成本：RTX 4090 ≈ ($0.09/kWh * 0.3kW * 1h) / 15000 tokens ≈ $0.000006/token; H100 ≈ ($0.1/kWh * 0.45kW * 1h) / 60000 tokens ≈ $0.00000075/token，论证 H100 尽管总功耗高，但单位 Token 电力效率显著优于 RTX 4090
+
+## Corrected Claim
+
+基于典型推理场景下的估算，H100 的单位 Token 电力成本通常低于 RTX 4090，具体数值取决于模型规模与推理优化策略。
+
+## Evidence
+
+[质询]吞吐量数据（RTX 4090 ~15-20 tokens/s, H100 ~50-80 tokens/s）为经验事实且标注[待核验]，不同模型大小、序列长度及推理框架下波动极大，缺乏具体上下文（如模型参数量、Batch Size）导致数值可能不准确；此外，H100在FP8下的实际能效比是否显著优于4090取决于具体负载，此处直接断言'显著优于'可能过于绝对。 | source=knowledge，逻辑推导自洽（成本=功耗/吞吐），但吞吐量参数为经验事实且无外部来源支持，依据经验事实排除条款及knowledge节点规则，因存在未核验的经验参数，降级为degraded以保留定性结论。

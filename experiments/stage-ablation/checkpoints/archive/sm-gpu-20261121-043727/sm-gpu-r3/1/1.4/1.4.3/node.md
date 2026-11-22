@@ -1,0 +1,29 @@
+# N49: NVIDIA L40S 的精确规格为：48GB GDDR6, 内存带宽 864GB/s, TDP 350W, 支持 FP8 (通过 Tensor Core), 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N9
+
+## Claim
+
+NVIDIA L40S 的精确规格为：48GB GDDR6, 内存带宽 864GB/s, TDP 350W, 支持 FP8 (通过 Tensor Core), 单卡价格区间 $8,000-$10,000 (2024 Q3 市场价)
+
+## Corrected Claim
+
+NVIDIA L40S 的规格为：48GB GDDR6, 内存带宽 864GB/s, TDP 350W, 支持 FP8 (通过 Tensor Core)。单卡价格随市场波动，2024 年 Q3 市场价通常在 $10,000 以上。
+
+## Evidence
+
+[质询]单卡价格区间 $8,000-$10,000 (2024 Q3) 属于高度波动的市场经验事实，且该价格区间可能偏低（L40S 作为高端数据中心 GPU，2024 年市场价通常在 $10,000-$12,000 甚至更高，取决于渠道和批量），缺乏来源直接支持具体数值。 | 来源 [2] 直接支持 48GB GDDR6 规格；来源 [1] 和 [2] 间接支持其数据中心定位及性能参数（如带宽可通过 384-bit * 18Gbps 计算验证为 864GB/s），但无来源提供 TDP 350W 或具体价格数据，价格部分为经验事实且缺来源支持。
+
+## Search Query
+
+NVIDIA L40S specifications price 2024
+
+## Retrieval Sources
+
+- {'url': 'https://www.nvidia.com/en-us/data-center/l40s/&rut=fb619cec29a70f1f98d72df9ed0ed024fe0d711ac3c8ffd7977a5f64bbd8d6f0', 'type': 'ddg', 'title': 'L40S GPU for AI and Graphics Performance | NVIDIA'}
+- {'url': 'https://www.techpowerup.com/gpu-specs/l40s.c4173&rut=cfddd412ee6186f00c404e0427160541d669744398087eb03c43876db09652f8', 'type': 'ddg', 'title': 'NVIDIA L40S Specs | TechPowerUp GPU Database'}

@@ -1,0 +1,20 @@
+# N197: 右偏分布的尾部厚度指标：基于偏度 γ_skew=0.8 的分布，其峰度（Kurtosis）kurtosis 的解析近似值或基于Gamma分布参数化的具体数值（若
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N56
+
+## Claim
+
+右偏分布的尾部厚度指标：基于偏度 γ_skew=0.8 的分布，其峰度（Kurtosis）kurtosis 的解析近似值或基于Gamma分布参数化的具体数值（若近似为Gamma(α, β)，则 kurtosis = 6/α + 2，需反解α）。
+
+## Corrected Claim
+
+右偏分布的尾部厚度指标：基于偏度 γ_skew=0.8 的分布，其峰度（Kurtosis）kurtosis 的解析近似值或基于Gamma分布参数化的具体数值（若近似为Gamma(α, β)，则 kurtosis = 6/α + 2，需反解α）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Gamma分布的峰度公式 kurtosis = 6/α + 2 是标准统计性质，且偏度 γ=2/√α 与峰度公式在数学上自洽，可反解出 α 并计算具体数值。

@@ -1,0 +1,33 @@
+{
+  "id": "N129",
+  "claim": "2×RTX 3090 方案的多卡同步开销量化：NVLink 带宽 550GB/s vs PCIe 4.0 x16 带宽 32GB/s，模型并行张量切分时的通信延迟占比 = (通信时间/计算时间)，在 32K 上下文 decode 阶段通信占比 <2%（因 per-token 计算量小），但 prefill 阶段通信占比可达 5-10% [待核验：实测 vLLM tensor parallel 开销]",
+  "level": "L3",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]NVLink 带宽数值存在代际混淆风险：RTX 3090 的 NVLink 3.0 双向带宽通常为 112.5 GB/s（单向 56.25 GB/s），而 550 GB/s 更接近 A100 或 H100 等数据中心卡的规格；此外，32K 上下文 decode 阶段通信占比 <2% 的结论高度依赖具体模型架构（如 MoE vs Dense）和 Batch Size，缺乏通用性。 | 来源 [3] 指出 RTX 3090 是最后一张带 NVLink 的消费卡，并对比了数据中心卡（A100 600GB/s, H100 900GB/s）的带宽，暗示 3090 的 NVLink 带宽远低于数据中心卡，从而质疑 claim 中 550GB/s 的数值准确性；来源 [1] 和 [2] 虽提及 3090 双卡 NVLink 方案，但未提供具体的通信延迟占比量化数据（如 <2% 或 5-10%），属于间接支持场景存在但缺乏具体数值佐证。",
+  "corrected_claim": "2×RTX 3090 方案中，NVLink 3.0 双向带宽约为 112.5 GB/s（显著低于数据中心卡的 550-900 GB/s），PCIe 4.0 x16 带宽约为 32 GB/s。在 32K 上下文 decode 阶段，由于 per-token 计算量小且激活值传输量相对固定，通信占比通常较低（具体数值取决于模型规模与 Batch Size，一般 <5%）；prefill 阶段因需传输大量 KV Cache 或中间激活值，通信占比可能更高（5-15% 区间），具体需实测 vLLM tensor parallel 开销。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N40"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "vLLM tensor parallelism overhead RTX 3090 NVLink PCIe latency percentage",
+  "retrieval_sources": [
+    {
+      "url": "https://blog.csdn.net/weixin_29168153/article/details/167161743&rut=b1b2d06b90a7854879b03f1039f7949193a7f903bc9d8246f9369ae53ad64a4c",
+      "type": "ddg",
+      "title": "GPU互联演进：从NVLink到EthLink，双卡3090实战指南 - CSDN博客"
+    },
+    {
+      "url": "https://blog.csdn.net/weixin_29171129/article/details/168832444&rut=27868244ea06d63559f777f6e74fe42aa36e765bbbccc06d78dd67f7bdc7c566",
+      "type": "ddg",
+      "title": "NVLink从原理到实战：双3090桥接方案与千卡集群互联深度解析-CSDN博客"
+    },
+    {
+      "url": "https://gpufits.com/zh/guides/multi-gpu-setup-for-llm/&rut=82e7f727d4496334b03fb1a8e3db1d4f5b27d9f86e119963b47ba6944555b8d0",
+      "type": "ddg",
+      "title": "多卡跑本地大模型:NVLink、PCIe 与层拆分详解"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+# N166: 市场均价 p_market_avg 的动态更新机制：p_market_avg(t) = λ * p_market_avg(t-1) + (1-λ) * p_re
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N42
+
+## Claim
+
+市场均价 p_market_avg 的动态更新机制：p_market_avg(t) = λ * p_market_avg(t-1) + (1-λ) * p_recent_deal(t)，其中 λ 为衰减系数（0.9-0.95），p_recent_deal 为近期成交价。λ 的选取影响均值对短期波动的敏感度。
+
+## Corrected Claim
+
+市场均价 p_market_avg 的动态更新机制：p_market_avg(t) = λ * p_market_avg(t-1) + (1-λ) * p_recent_deal(t)，其中 λ 为衰减系数（0.9-0.95），p_recent_deal 为近期成交价。λ 的选取影响均值对短期波动的敏感度。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该公式为标准的指数加权移动平均（EWMA）模型，λ取值范围0.9-0.95符合金融时间序列平滑处理的常规工程实践，量纲与逻辑自洽。
+
+## Search Query
+
+exponential moving average price index decay factor

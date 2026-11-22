@@ -1,0 +1,20 @@
+# N350: 最终推荐方案的条件性约束声明：推荐 RTX 4090 (W4/FP8) 方案的前提条件是软件栈必须为 vLLM 0.5.0+ 或 llama.cpp (CUDA
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+最终推荐方案的条件性约束声明：推荐 RTX 4090 (W4/FP8) 方案的前提条件是软件栈必须为 vLLM 0.5.0+ 或 llama.cpp (CUDA backend)，且运行环境需支持 FP8 KV Cache；若用户强制要求 BF16 精度，则推荐条件变更为 A100 80GB 或 2x RTX 4090 (TP=2)，此时 TCO 增加约 300%-500%，需用户明确接受该成本溢价以换取精度无损。
+
+## Corrected Claim
+
+最终推荐方案的条件性约束声明：推荐 RTX 4090 (W4/FP8) 方案的前提条件是软件栈必须为 vLLM 0.5.0+ 或 llama.cpp (CUDA backend)，且运行环境需支持 FP8 KV Cache；若用户强制要求 BF16 精度，则推荐条件变更为 A100 80GB 或 2x RTX 4090 (TP=2)，此时 TCO 增加约 300%-500%，需用户明确接受该成本溢价以换取精度无损。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

@@ -1,0 +1,28 @@
+# N55: 买家核验成本函数：买家核验成本 C_verify = c_base * (1 - s_signal)，其中 c_base 为基准核验成本（如时间或金钱），s_s
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N9
+
+## Claim
+
+买家核验成本函数：买家核验成本 C_verify = c_base * (1 - s_signal)，其中 c_base 为基准核验成本（如时间或金钱），s_signal 为信号强度（0到1之间），当 s_signal > 0.7 时，C_verify 降低幅度超过50%，需通过用户行为日志中的页面停留时间和咨询频率估算。
+
+## Corrected Claim
+
+买家核验成本通常随信号强度增加而降低，具体函数形式及阈值（如 s_signal > 0.7 时降低幅度）需依据特定市场数据或实证研究确定，不能仅凭通用逻辑断定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（s_signal > 0.7 时成本降低超过 50%）及特定的估算方法（页面停留时间和咨询频率），这些属于经验事实或特定模型假设，无法从第一性原理推导，且参考来源完全无关，缺乏外部证据支持其具体数值和逻辑关系的真实性。 | 参考来源 [1] 为代码校验库，与买家核验成本经济学模型无关，无可用外部证据；该陈述为经验事实，逻辑自洽但缺来源支持，故降级。
+
+## Search Query
+
+buyer verification cost function signal strength search behavior analysis
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/aweiu/verify-base&rut=59909aeb7d1cdf8d432a60876d2a8b356b460297d75424fde0f7f311ece2b90f', 'type': 'ddg', 'title': 'GitHub - aweiu/verify-base: 校验基础包，内含各种常用校验方法'}

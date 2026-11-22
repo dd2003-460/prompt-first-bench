@@ -1,0 +1,20 @@
+# N118: H100 80GB 在 BF16 下支持 batch size=3 时的显存占用计算：权重 54GB + 3 * 0.2GB (KV Cache) + 3 * 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N37
+
+## Claim
+
+H100 80GB 在 BF16 下支持 batch size=3 时的显存占用计算：权重 54GB + 3 * 0.2GB (KV Cache) + 3 * 2GB (激活值缓冲) = 60.6GB，显存利用率 75.75%，剩余 19.4GB 可用于进一步扩展上下文或增加 batch size 至 4 (利用率 81.5%)。
+
+## Corrected Claim
+
+H100 80GB 在 BF16 下支持 batch size=3 时的显存占用估算：权重约 54GB + KV Cache 及激活值缓冲（具体数值取决于序列长度和模型架构，此处估算为 6.6GB）≈ 60.6GB，显存利用率约 75.75%。
+
+## Evidence
+
+[质询]激活值缓冲（Activation Buffer）的估算值（2GB/样本）缺乏明确的模型架构和序列长度前提，属于高度依赖具体配置的经验参数，且不同推理框架（如 vLLM, TensorRT-LLM）对激活值的优化策略差异巨大，该数值可能严重偏离实际场景。 | 经验事实，逻辑自洽但缺来源支持；权重54GB符合70B模型BF16量级，但激活值2GB/样本为特定假设下的估算值，无通用标准，且无外部来源验证该具体配置下的显存分布。

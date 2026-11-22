@@ -1,0 +1,24 @@
+# N363: 拐点 D* 的二阶导数判定条件：寻找 d²CTR/dD² = 0 且 dCTR/dD > 0 的点，而非仅一阶导数变号，以排除局部极大值（如 D=15% 处的峰
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N107
+
+## Claim
+
+拐点 D* 的二阶导数判定条件：寻找 d²CTR/dD² = 0 且 dCTR/dD > 0 的点，而非仅一阶导数变号，以排除局部极大值（如 D=15% 处的峰值可能是局部极大而非拐点），需计算 D* 处的曲率阈值 κ_min = 0.01。
+
+## Corrected Claim
+
+拐点 D* 的二阶导数判定条件：寻找 d²CTR/dD² = 0 且 dCTR/dD > 0 的点，而非仅一阶导数变号，以排除局部极大值（如 D=15% 处的峰值可能是局部极大而非拐点），需计算 D* 处的曲率阈值 κ_min = 0.01。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：二阶导数为零且一阶导数为正是识别特定类型拐点（如S型曲线上升段）的标准数学条件，用于区分局部极大值（二阶导负）与拐点（二阶导变号或为零），逻辑自洽。
+
+## Search Query
+
+second derivative test for inflection point in CTR curve

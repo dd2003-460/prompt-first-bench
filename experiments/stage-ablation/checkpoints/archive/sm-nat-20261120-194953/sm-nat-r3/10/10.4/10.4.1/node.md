@@ -1,0 +1,20 @@
+# N178: 前提验证：全量驻留状态成立的条件是 K_cap >= N_total，其中 K_cap = 128GB / E[S] 且 E[S] 为 Pareto(α=1.1
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N83, N84
+
+## Claim
+
+前提验证：全量驻留状态成立的条件是 K_cap >= N_total，其中 K_cap = 128GB / E[S] 且 E[S] 为 Pareto(α=1.1, S_min=1KB, S_max=100MB) 的截断均值；若 S_max 未给定导致 E[S] 发散，则全量驻留前提失效，需重新计算 K_cap 以确认是否仍满足 K_cap >= 10^5
+
+## Corrected Claim
+
+前提验证：全量驻留状态成立的条件是 K_cap >= N_total，其中 K_cap = 128GB / E[S] 且 E[S] 为 Pareto(α=1.1, S_min=1KB, S_max=100MB) 的截断均值；若 S_max 未给定导致 E[S] 发散，则全量驻留前提失效，需重新计算 K_cap 以确认是否仍满足 K_cap >= 10^5
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布截断均值公式及内存容量约束逻辑自洽，且S_max给定后E[S]收敛，前提验证逻辑成立。

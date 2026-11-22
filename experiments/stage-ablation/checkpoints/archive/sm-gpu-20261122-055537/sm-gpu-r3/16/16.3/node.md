@@ -1,0 +1,24 @@
+# N405: 排除边界的具体硬件列表：基于带宽 < 500 GB/s 的条件，排除 NVIDIA L4 (336 GB/s), NVIDIA A10 (600 GB/s 但需
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N127
+
+## Claim
+
+排除边界的具体硬件列表：基于带宽 < 500 GB/s 的条件，排除 NVIDIA L4 (336 GB/s), NVIDIA A10 (600 GB/s 但需验证实际有效带宽是否受 PCIe 限制), AMD RX 7900 XTX (960 GB/s 但架构不同，需单独评估)。保留 RTX 4090 (1008 GB/s), H100 (3.35 TB/s), MI300X (5.3 TB/s)。注意：A10 的 600 GB/s 是显存带宽，但受 PCIe 4.0 x16 (32 GB/s) 限制，若模型需 CPU Offload，则有效带宽骤降，需单独评估。
+
+## Corrected Claim
+
+排除边界的具体硬件列表：基于带宽 < 500 GB/s 的条件，排除 NVIDIA L4 (336 GB/s), NVIDIA A10 (600 GB/s 但需验证实际有效带宽是否受 PCIe 限制), AMD RX 7900 XTX (960 GB/s 但架构不同，需单独评估)。保留 RTX 4090 (1008 GB/s), H100 (3.35 TB/s), MI300X (5.3 TB/s)。注意：A10 的 600 GB/s 是显存带宽，但受 PCIe 4.0 x16 (32 GB/s) 限制，若模型需 CPU Offload，则有效带宽骤降，需单独评估。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+NVIDIA A10 effective bandwidth PCIe bottleneck LLM inference

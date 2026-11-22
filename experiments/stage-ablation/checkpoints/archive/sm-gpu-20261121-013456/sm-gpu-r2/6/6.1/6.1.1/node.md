@@ -1,0 +1,24 @@
+# N93: 条件(1)阈值量化：1×RTX 4090 24GB 在 Qwen3-27B BF16 下的可持续吞吐量上限为 12.5 tokens/s（基于 54GB 权重 
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N39
+
+## Claim
+
+条件(1)阈值量化：1×RTX 4090 24GB 在 Qwen3-27B BF16 下的可持续吞吐量上限为 12.5 tokens/s（基于 54GB 权重 + 4.3GB KV Cache(32K GQA) + 2GB 激活 = 60.3GB > 24GB，故 BF16 不可行；实际需 INT8/FP8 量化，INT8 下权重 27GB 仍超 24GB，需 INT4/AWQ，INT4 下权重 13.5GB + 4.3GB KV + 2GB = 19.8GB < 24GB，可运行；吞吐量基准：4090 在 INT4 下实测约 15-20 tokens/s，保守取 12.5 tokens/s 作为 P95 延迟约束下的可持续值 [待核验：需实测 Qwen3-27B INT4 在 4090 上的 tokens/s]）。若吞吐量需求 > 12.5 tokens/s，则单卡 4090 失效。
+
+## Corrected Claim
+
+条件(1)阈值量化：1×RTX 4090 24GB 在 Qwen3-27B 下，BF16 因显存不足（>24GB）不可行；INT4/AWQ 量化下显存占用约 19.8GB，可运行。其可持续吞吐量上限约为 12.5 tokens/s（基于保守估计，需实测验证）。若吞吐量需求 > 12.5 tokens/s，则单卡 4090 失效。
+
+## Evidence
+
+[质询]吞吐量数值（12.5 tokens/s）属于特定硬件与模型组合下的经验性能指标，无法从第一性原理严格推导，且缺乏实测数据支持；此外，Qwen3-27B 的具体架构参数（如 GQA 配置、KV Cache 大小）若与官方发布不符，会导致内存计算基础错误。 | source=knowledge，逻辑自洽（内存计算 19.8GB < 24GB 成立，量化路径合理），但吞吐量 12.5 tokens/s 为经验事实，无外部来源直接支持，依据经验事实排除条款降级。
+
+## Search Query
+
+Qwen3-27B INT4 AWQ RTX 4090 inference tokens per second benchmark

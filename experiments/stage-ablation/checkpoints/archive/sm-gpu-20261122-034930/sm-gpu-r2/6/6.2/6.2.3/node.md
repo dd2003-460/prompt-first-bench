@@ -1,0 +1,24 @@
+# N134: 物理空间与机箱兼容性边界条件：2x RTX 4090需要ATX全塔机箱，且GPU插槽间距需≥3槽位（3-slot）以容纳双卡散热。若机箱为标准ATX中塔或Min
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N39
+
+## Claim
+
+物理空间与机箱兼容性边界条件：2x RTX 4090需要ATX全塔机箱，且GPU插槽间距需≥3槽位（3-slot）以容纳双卡散热。若机箱为标准ATX中塔或Mini-ITX，则无法安装2x 4090。A100 SXM模块需要专用服务器主板（如Supermicro AS-4124GS-TNRT），无法在标准PC机箱中部署，除非使用PCIe版A100（带宽降低约20% [待核验：PCIe A100带宽实测]）。
+
+## Corrected Claim
+
+物理空间与机箱兼容性边界条件：2x RTX 4090需要ATX全塔机箱，且GPU插槽间距需≥3槽位（3-slot）以容纳双卡散热。若机箱为标准ATX中塔或Mini-ITX，则无法安装2x 4090。A100 SXM模块需要专用服务器主板（如Supermicro AS-4124GS-TNRT），无法在标准PC机箱中部署；PCIe版A100虽可部署于标准PC，但其带宽低于SXM版本（具体损失比例依PCIe代际而异，通常显著低于SXM互联带宽）。
+
+## Evidence
+
+[质询]陈述中关于PCIe版A100带宽降低约20%的具体数值缺乏来源支持，且不同PCIe代际（Gen4 vs Gen3）及具体实现下带宽损失比例存在差异，该经验事实无法仅凭逻辑推导确定精确量级。 | 逻辑自洽：RTX 4090物理尺寸（3-slot）与ATX机箱兼容性符合硬件常识；A100 SXM需专用基板亦符合事实。但PCIe A100带宽损失20%为经验事实，检索无可用来源，依据经验事实排除条款降级。
+
+## Search Query
+
+A100 PCIe vs SXM bandwidth performance difference inference

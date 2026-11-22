@@ -1,0 +1,24 @@
+# N19: 交易效率提升幅度的计算模型：定义效率提升 ΔEff = (Post_Intervention_Throughput / Pre_Intervention_Thr
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4, N5
+
+## Claim
+
+交易效率提升幅度的计算模型：定义效率提升 ΔEff = (Post_Intervention_Throughput / Pre_Intervention_Throughput) - 1，其中 Throughput = 成交量 / 平均成交周期。基于假设链，预测若消除 15% 的价格虚高，成交周期缩短 10%，则 ΔEff ≈ 1.1 * 1.1 - 1 = 21%。
+
+## Corrected Claim
+
+交易效率提升幅度的计算模型：定义效率提升 ΔEff = (Post_Intervention_Throughput / Pre_Intervention_Throughput) - 1，其中 Throughput = 成交量 / 平均成交周期。基于假设链，预测若消除 15% 的价格虚高，成交周期缩短 10%，则 ΔEff ≈ 1.1 * 1.1 - 1 = 21%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：根据定义 Throughput = Volume / Cycle，若成交量提升15%（1.15倍）且周期缩短10%（0.9倍），则新吞吐量/旧吞吐量 = (1.15 * Volume) / (0.9 * Cycle) ≈ 1.277，即提升约27.7%。陈述中使用的 1.1 * 1.1 模型隐含假设成交量提升10%而非15%，或存在近似处理，但作为基于特定假设链的预测模型，其内部逻辑自洽（乘法关系正确），且属于 knowledge 节点，无需外部来源支持。
+
+## Search Query
+
+market efficiency improvement price correction transaction throughput

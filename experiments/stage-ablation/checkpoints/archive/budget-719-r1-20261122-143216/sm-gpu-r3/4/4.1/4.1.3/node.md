@@ -1,0 +1,24 @@
+# N94: A100 80GB SXM 与 PCIe 版本在二手企业级市场的当前均价及其与 H100 80GB 现货价格的比率，用于量化跨代际硬件的相对价值波动
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N21
+
+## Claim
+
+A100 80GB SXM 与 PCIe 版本在二手企业级市场的当前均价及其与 H100 80GB 现货价格的比率，用于量化跨代际硬件的相对价值波动
+
+## Corrected Claim
+
+A100 80GB SXM 与 PCIe 版本在二手企业级市场的均价及其与 H100 80GB 现货价格的比率随市场供需波动，需参考实时市场数据以量化跨代际硬件的相对价值。
+
+## Evidence
+
+[质询]该陈述涉及具体的二手市场价格和跨代际硬件价格比率，属于高度动态且依赖具体市场时点的经验事实，无法从第一性原理推导，且缺乏实时数据支持。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+A100 80GB used price vs H100 80GB new price ratio 2025

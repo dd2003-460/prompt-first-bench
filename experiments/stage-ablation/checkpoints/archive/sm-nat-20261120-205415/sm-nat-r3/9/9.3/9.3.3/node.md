@@ -1,0 +1,28 @@
+# N227: LFU增益估算的悲观工作点（ρ=-0.3, Clayton）：假设F平均大小0.5MB，L平均大小1.5MB，H_LFU/H_LRU≈(0.5*∑h_F)/(1
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N83
+
+## Claim
+
+LFU增益估算的悲观工作点（ρ=-0.3, Clayton）：假设F平均大小0.5MB，L平均大小1.5MB，H_LFU/H_LRU≈(0.5*∑h_F)/(1.5*∑h_L)≈0.90-0.93，ΔH≈7-10%，量化尾部相关下的最大增益上限。
+
+## Corrected Claim
+
+在假设F平均大小0.5MB、L平均大小1.5MB及特定尾部相关系数（ρ=-0.3）的悲观工作点下，LFU相对于LRU的命中率增益上限估算约为7-10%（具体数值依赖于未明确给出的频率分布假设）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（F/L平均大小、ρ值、增益百分比），属于经验事实而非第一性原理可推导内容；且参考来源仅讨论LRU/LFU自适应的必要性，未提供具体的数值估算或悲观工作点数据，无法直接支持该具体数值结论。 | 逻辑上量纲和比例关系自洽（0.5/1.5 ≈ 0.33，若考虑频率分布差异，0.90-0.93的比值在特定假设下可能成立，但缺乏具体推导细节）；参考来源[1]主题相关但仅定性讨论，未提供数值支持，属于间接支持或无关，依据经验事实排除条款，判为degraded。
+
+## Search Query
+
+LFU LRU maximum hit rate gain tail correlation Clayton Copula cache simulation Pareto
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/679259506&rut=f013bbe63c240c69fef131a2de419b94200af7a6c469968c442400d1fc8a8540', 'type': 'ddg', 'title': 'Lru Lfu 自适应算法设计纲要 - 知乎'}

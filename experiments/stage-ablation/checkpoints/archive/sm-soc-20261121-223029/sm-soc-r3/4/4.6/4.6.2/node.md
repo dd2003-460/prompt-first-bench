@@ -1,0 +1,24 @@
+# N94: GMV提升量化：ΔRev_GMV_t = Fee_rate * (GMV_post - GMV_pre)。GMV_post 取决于成交周期缩短带来的交易频率提升
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N25
+
+## Claim
+
+GMV提升量化：ΔRev_GMV_t = Fee_rate * (GMV_post - GMV_pre)。GMV_post 取决于成交周期缩短带来的交易频率提升 ΔFreq 与单笔成交均价变化 ΔP_avg 的乘积：GMV_post = GMV_pre * (1 + ΔFreq) * (1 + ΔP_avg)。需核验 ΔFreq 与 ΔP_avg 的符号与幅度（[待核验]，若高溢价导致均价上升但成交量下降，需计算弹性）。
+
+## Corrected Claim
+
+GMV提升量化需考虑价格弹性：ΔRev_GMV_t = Fee_rate * (GMV_post - GMV_pre)，其中GMV_post受成交频率提升ΔFreq与均价变化ΔP_avg共同影响，但需结合价格弹性系数计算净效应，避免高溢价导致成交量下降的抵消作用。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点本质上是同一公式在不同参数（价格弹性系数）下的数值解算，属于参数敏感性分析而非独立维度的分解，存在高度冗余；且父节点明确要求核验“符号与幅度”，子节点仅展示了单一假设情景（均价+5%），未覆盖父节点隐含的多种符号组合（如均价下降、成交量上升等）或定性核验逻辑，完备性不足。）
+
+## Search Query
+
+second hand marketplace GMV elasticity price premium transaction frequency

@@ -1,0 +1,20 @@
+# N105: 流量弹性系数 $k$ 的贝叶斯后验均值计算公式：$\mu_{post} = \frac{\sigma_{prior}^2}{\sigma_{prior}^2 +
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N46
+
+## Claim
+
+流量弹性系数 $k$ 的贝叶斯后验均值计算公式：$\mu_{post} = \frac{\sigma_{prior}^2}{\sigma_{prior}^2 + \sigma_{data}^2/n} \mu_{prior} + \frac{\sigma_{prior}^2/n}{\sigma_{prior}^2 + \sigma_{data}^2/n} \bar{x}_{data}$。其中先验均值 $\mu_{prior} = 0.1$（对应10%偏离度导致10%流量变化），先验方差 $\sigma_{prior}^2 = 0.05^2$。该公式允许在样本量 $n$ 较小时平滑估计，避免小样本偏差。
+
+## Corrected Claim
+
+流量弹性系数 $k$ 的贝叶斯后验均值计算公式：$\mu_{post} = \frac{\sigma_{prior}^2}{\sigma_{prior}^2 + \sigma_{data}^2/n} \mu_{prior} + \frac{\sigma_{prior}^2/n}{\sigma_{prior}^2 + \sigma_{data}^2/n} \bar{x}_{data}$。其中先验均值 $\mu_{prior} = 0.1$（对应10%偏离度导致10%流量变化），先验方差 $\sigma_{prior}^2 = 0.05^2$。该公式允许在样本量 $n$ 较小时平滑估计，避免小样本偏差。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式符合正态-正态共轭先验的贝叶斯更新标准形式（权重与方差倒数成正比），参数设定合理。

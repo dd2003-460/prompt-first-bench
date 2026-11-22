@@ -1,0 +1,17 @@
+{
+  "id": "N107",
+  "claim": "RTX 5090 (32GB) 运行 Qwen3-27B INT8 量化模型时，显存占用计算：权重27GB + KV Cache(4GB, 基于N10公式) + 激活值/临时缓冲(1-2GB) = 32-33GB，超出32GB显存上限，需启用PagedAttention或CPU Offload部分KV Cache才能运行 [待核验]",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]KV Cache 4GB 的估算缺乏具体上下文（如序列长度、Batch Size），且 Qwen3-27B 的 INT8 权重实际占用可能因量化格式（如 GPTQ/AWQ 的 overhead）略高于 27GB，导致总显存需求可能远超 32GB，使得‘仅启用 PagedAttention 或 CPU Offload 部分 KV Cache’这一解决方案的可行性存疑（若权重本身已接近或超过 32GB，Offload KV Cache 无法解决权重溢出问题）。 | 先验知识/题面给定，逻辑校验通过；但 KV Cache 数值为经验估算，且未明确权重量化后的精确 overhead，存在不确定性，故降级。",
+  "corrected_claim": "RTX 5090 (32GB) 运行 Qwen3-27B INT8 量化模型时，显存占用估算：权重约27-28GB + KV Cache(取决于序列长度，此处估算4GB) + 激活值/临时缓冲(1-2GB) ≈ 32-34GB，接近或超出32GB显存上限。需启用 PagedAttention 优化 KV Cache 管理，并可能需将部分权重或 KV Cache Offload 至 CPU 才能稳定运行。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N30"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "RTX 5090 32GB Qwen3-27B INT8 KV cache memory overflow",
+  "retrieval_sources": []
+}

@@ -1,0 +1,24 @@
+# N267: 长程依赖退化主要源于 KV Cache 中 Key/Value 向量的动态范围压缩：INT8 量化将浮点数的动态范围（~1e38）压缩至整数范围（~1e3），导
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N83, N84, N85
+
+## Claim
+
+长程依赖退化主要源于 KV Cache 中 Key/Value 向量的动态范围压缩：INT8 量化将浮点数的动态范围（~1e38）压缩至整数范围（~1e3），导致长序列中微小但关键的注意力权重差异被抹平，具体表现为注意力熵（Attention Entropy）在 32K 位置处增加 15-20%（相比 BF16）
+
+## Corrected Claim
+
+长程依赖退化可能与 KV Cache 量化有关，INT8 量化可能因动态范围压缩影响长序列中细微注意力权重的区分度，但具体对注意力熵的影响幅度需依据特定模型和实验数据确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（注意力熵增加15-20%）和特定的因果机制归因（动态范围压缩导致长程依赖退化），属于经验事实而非第一性原理可推导结论。在缺乏外部来源支持的情况下，无法验证该具体数值量级和因果关系的准确性，且不同量化方案或模型架构下该数值可能存在显著差异。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+KV cache quantization dynamic range compression attention entropy long context degradation mechanism

@@ -1,0 +1,20 @@
+# N120: 共享随机源：卖家价值估计误差 ε_seller 的生成机制，定义为 ε_seller = f(ε_buyer_history, C_search_cost, λ
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N36
+
+## Claim
+
+共享随机源：卖家价值估计误差 ε_seller 的生成机制，定义为 ε_seller = f(ε_buyer_history, C_search_cost, λ_loss)，其中 ε_buyer_history 为过往成交价格的残差项，C_search_cost 为搜索成本导致的样本偏差，λ_loss 为损失厌恶系数
+
+## Corrected Claim
+
+共享随机源：卖家价值估计误差 ε_seller 的生成机制，定义为 ε_seller = f(ε_buyer_history, C_search_cost, λ_loss)，其中 ε_buyer_history 为过往成交价格的残差项，C_search_cost 为搜索成本导致的样本偏差，λ_loss 为损失厌恶系数
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

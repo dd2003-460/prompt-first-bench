@@ -1,0 +1,20 @@
+# N10: 统一假设链验证：构建联合概率模型 P(Short Cycle | High Price, High Consultation)，检验当咨询量激增时，成交周期缩短
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+统一假设链验证：构建联合概率模型 P(Short Cycle | High Price, High Consultation)，检验当咨询量激增时，成交周期缩短的概率是否显著高于基准分布，以确认单一假设（信号+启发式）能否同时解释两个现象。
+
+## Corrected Claim
+
+统一假设链验证：构建联合概率模型 P(Short Cycle | High Price, High Consultation)，检验当咨询量激增时，成交周期缩短的概率是否显著高于基准分布，以确认单一假设（信号+启发式）能否同时解释两个现象。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别定义了模型形式、基准分布、显著性检验指标和解释力评估指标，逻辑上相互独立且无重叠。模型形式（子节点1）是计算基础，基准分布（子节点2）是对比参照，显著性检验（子节点3）和解释力检验（子节点4）是两种不同维度的验证标准（统计显著性 vs. 模型拟合度），共同覆盖了父节点中'构建模型'、'检验显著性'和'确认解释力'的所有关键方面。各节点定义清晰，未出现参数重复定义或逻辑矛盾。）

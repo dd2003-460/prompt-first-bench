@@ -1,0 +1,20 @@
+# N289: 数据溯源标注规范的可操作性定义：[Source: Verified] 必须包含具体 URL 或文档版本号（如 'NVIDIA H100 Datasheet v1
+
+- **status**: verified
+- **level**: L4
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N105
+
+## Claim
+
+数据溯源标注规范的可操作性定义：[Source: Verified] 必须包含具体 URL 或文档版本号（如 'NVIDIA H100 Datasheet v1.2, p.4'）；[Source: Memory] 必须包含估算公式及参数来源（如 'TDP 700W from NVIDIA website, 2023-06'）；[Source: Pending] 必须包含预期检索路径（如 '需查阅 MLPerf Inference v4.1 报告'）。N105 原定义的 'Verified-2024Q4' 等时间戳标签缺乏验证机制，应替换为基于证据类型的标签。
+
+## Corrected Claim
+
+数据溯源标注规范的可操作性定义：[Source: Verified] 必须包含具体 URL 或文档版本号（如 'NVIDIA H100 Datasheet v1.2, p.4'）；[Source: Memory] 必须包含估算公式及参数来源（如 'TDP 700W from NVIDIA website, 2023-06'）；[Source: Pending] 必须包含预期检索路径（如 '需查阅 MLPerf Inference v4.1 报告'）。N105 原定义的 'Verified-2024Q4' 等时间戳标签缺乏验证机制，应替换为基于证据类型的标签。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

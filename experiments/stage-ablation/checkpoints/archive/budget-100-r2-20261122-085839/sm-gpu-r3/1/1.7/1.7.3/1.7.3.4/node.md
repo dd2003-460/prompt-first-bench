@@ -1,0 +1,24 @@
+# N170: GPTQ 与 SmoothQuant 在 Qwen3-27B 上的 HumanEval (Pass@1) 得分差异具体数值（代码生成任务对 token 概率分布
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N50
+
+## Claim
+
+GPTQ 与 SmoothQuant 在 Qwen3-27B 上的 HumanEval (Pass@1) 得分差异具体数值（代码生成任务对 token 概率分布的细微变化敏感，预期差异在 0.5-1.0% 区间）
+
+## Corrected Claim
+
+GPTQ 与 SmoothQuant 在 Qwen3-27B 上的 HumanEval (Pass@1) 得分存在差异，具体数值需查阅相关量化评估报告，通常代码生成任务对量化敏感，差异可能在较小百分比区间。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值区间（0.5-1.0%），属于特定模型（Qwen3-27B）在特定任务（HumanEval）上的量化评估结果，无法从第一性原理推导，且缺乏任何外部来源支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）。
+
+## Search Query
+
+Qwen3-27B GPTQ vs SmoothQuant HumanEval Pass@1 score

@@ -1,0 +1,20 @@
+# N274: 实时计算资源成本 C_compute 与平台日均活跃商品数 N_active 和定价请求频率 f_req 成正比：C_compute = N_active * 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N91
+
+## Claim
+
+实时计算资源成本 C_compute 与平台日均活跃商品数 N_active 和定价请求频率 f_req 成正比：C_compute = N_active * f_req * c_unit，其中 c_unit 为单次推理成本（约 0.001-0.005 元/次），对于 100 万活跃商品、每日更新 2 次的场景，月成本约为 6-30 万元
+
+## Corrected Claim
+
+实时计算资源成本 C_compute 与平台日均活跃商品数 N_active 和定价请求频率 f_req 成正比：C_compute = N_active * f_req * c_unit，其中 c_unit 为单次推理成本（约 0.001-0.005 元/次），对于 100 万活跃商品、每日更新 2 次的场景，月成本约为 6-30 万元
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：100万商品 * 2次/天 * 30天 = 6000万次/月，乘以0.001-0.005元/次，计算结果为6万-30万元，量级与公式推导完全一致。

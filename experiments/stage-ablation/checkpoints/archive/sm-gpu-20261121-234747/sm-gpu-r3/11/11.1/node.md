@@ -1,0 +1,20 @@
+# N499: TCO_annual 的完整展开公式：TCO_annual = (P_card / L_life) + (W_avg * 8760 * r_elec) + (C
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N158
+
+## Claim
+
+TCO_annual 的完整展开公式：TCO_annual = (P_card / L_life) + (W_avg * 8760 * r_elec) + (C_maint_annual / L_life) + C_software_license，其中 P_card 为硬件采购价，L_life 为折旧年限（通常3-5年），W_avg 为平均功耗（W），r_elec 为电价（$0.10-$0.15/kWh），C_maint_annual 为年均维护成本（含电费波动、驱动更新、硬件故障风险折损），C_software_license 为软件许可成本（本地推理通常为0，但需考虑潜在的商业授权费）
+
+## Corrected Claim
+
+TCO_annual 的完整展开公式：TCO_annual = (P_card / L_life) + (W_avg * 8760 * r_elec) + (C_maint_annual / L_life) + C_software_license，其中 P_card 为硬件采购价，L_life 为折旧年限（通常3-5年），W_avg 为平均功耗（W），r_elec 为电价（$0.10-$0.15/kWh），C_maint_annual 为年均维护成本（含电费波动、驱动更新、硬件故障风险折损），C_software_license 为软件许可成本（本地推理通常为0，但需考虑潜在的商业授权费）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

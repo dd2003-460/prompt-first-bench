@@ -1,0 +1,20 @@
+# N127: 工作点2（中性价比/工程常用）：假设 T_half = T_update / 10 = 10天，则 λ = ln(2)/10 ≈ 0.069 day^-1，A_
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N49
+
+## Claim
+
+工作点2（中性价比/工程常用）：假设 T_half = T_update / 10 = 10天，则 λ = ln(2)/10 ≈ 0.069 day^-1，A_decay = exp(-0.069 * 100) ≈ 0.0007，此时旧频率几乎完全遗忘，LFU 退化为近似的 LRU，适用于动态负载快速适应。
+
+## Corrected Claim
+
+工作点2（中性价比/工程常用）：假设 T_half = T_update / 10 = 10天，则 λ = ln(2)/10 ≈ 0.069 day^-1，A_decay = exp(-0.069 * 100) ≈ 0.0007，此时旧频率几乎完全遗忘，LFU 退化为近似的 LRU，适用于动态负载快速适应。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：λ=ln(2)/10≈0.069，exp(-0.069*100)≈exp(-6.9)≈0.001，数值量级正确，LFU退化为LRU的结论符合缓存理论直觉。

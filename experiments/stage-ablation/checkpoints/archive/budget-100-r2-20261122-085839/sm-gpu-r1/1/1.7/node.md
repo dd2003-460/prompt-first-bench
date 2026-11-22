@@ -1,0 +1,24 @@
+# N12: Qwen3-27B在INT8量化（如SmoothQuant, GPTQ）下的性能损失：通常在MMLU上损失1-2个百分点，在代码生成任务（HumanEval）上
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+Qwen3-27B在INT8量化（如SmoothQuant, GPTQ）下的性能损失：通常在MMLU上损失1-2个百分点，在代码生成任务（HumanEval）上损失2-4个百分点。例如，MMLU从85.0%降至83.5%，HumanEval从70%降至67% [待核验: 具体数值需查阅Qwen3量化评测报告或社区实测数据]。
+
+## Corrected Claim
+
+Qwen3-27B在INT8量化（如SmoothQuant, GPTQ）下通常会有轻微性能损失，MMLU等通用基准通常损失1-2个百分点，代码生成任务（HumanEval）损失可能稍大（2-4个百分点），具体数值取决于量化方法和校准数据。
+
+## Evidence
+
+[质询]具体数值（如MMLU 85.0%降至83.5%）属于特定模型版本在特定量化算法下的经验测量数据，不同量化方法（SmoothQuant vs GPTQ）和校准数据集会导致结果差异，且Qwen3-27B的具体基准分数需以官方技术报告为准，此处数值可能为估算或基于其他类似规模模型的推断。 | 经验事实，逻辑自洽但缺来源支持（source=knowledge，但具体数值缺乏直接证据，且属于易受实现细节影响的经验参数，故降级）
+
+## Search Query
+
+Qwen3-27B INT8 quantization performance degradation MMLU HumanEval

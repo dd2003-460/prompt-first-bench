@@ -1,0 +1,440 @@
+{
+  "qid": "gpu",
+  "question": "你要在本地工作站上推理 Qwen3-27B 模型，不设硬性延迟指标（延迟是性能变量，由硬件和部署配置决定，不作为前置约束）；上下文窗口 ≥ 32K tokens 作为容量下限保留。权重精度不限（BF16/FP8/INT8/NVFP4/W4 均可），但必须论证所选精度的质量损失是否可接受。候选硬件：自行搜索确定值得考虑的完整候选集——覆盖你认为所有可能影响性价比排序的架构、代际、容量档位和价格区间（包括消费级、数据中心级、以及任何你认为值得纳入比较的非典型方案）。同时评估单卡与多卡方案的 TCO 差异（如 2× 消费卡 vs 1× 数据卡）。给出性价比最优的完整选卡方案。要求：思考必须最完整，确认没有遗漏任何影响决策的维度；每个关键数字标注来源（刚查到的 vs 凭记忆的），不确定的标 [待核验]；最终推荐必须是条件性的，不能给无条件排名。",
+  "round": 2,
+  "state": "rework",
+  "dropped_redundant": 9,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "可行性约束满足度（硬指标）：候选方案在给定硬件下，能否以任意允许精度（BF16/FP8/INT8/NVFP4/W4）在显存容量上容纳 Qwen3-27B 模型权重及 ≥32K tokens 的上下文 KV Cache 开销。此因子为 0/1 门控，不满足则方案直接剔除。",
+      "质量损失可接受性（量化误差边界）：所选精度导致的模型推理输出质量下降是否在可接受范围内。此因子可测，定义为：与 BF16 基线相比，模型在标准评测集（如 MMLU、HumanEval 等）上的性能下降幅度，以及是否出现灾难性遗忘或幻觉率显著上升。此因子为连续值，需与精度档位挂钩。",
+      "全生命周期总拥有成本（TCO）：在满足前两项约束的前提下，方案在指定工作负载（如持续推理、多并发）下的年化总成本，包括硬件购置成本、电力消耗、散热成本及潜在的多卡互联/运维隐性成本。此因子为连续值，越低越好。",
+      "性能效率比（Throughput/Token）：在满足容量和质量约束下，单位时间处理的 Token 数或单位 Token 的延迟。虽然题目不设定硬性延迟，但性能直接影响 TCO（高吞吐量意味着同等负载下硬件闲置时间更少或可服务更多用户），因此作为成本结构的效率修正因子。"
+    ],
+    "composition": "可行方案集 = {方案 | 可行性约束满足度=1 AND 质量损失可接受性 ≤ 阈值}；最优方案 = argmin_{可行方案集} (TCO / 性能效率比)。即：先通过硬约束和软质量约束过滤，再在剩余方案中按单位有效吞吐量的成本最低者胜出。",
+    "rationale": "本题核心是‘性价比最优’，性价比本质是成本与收益（有效吞吐/质量）的比值，但前提是方案必须物理可行（显存装得下）且质量不崩盘（量化不毁模型），因此采用‘硬过滤 + 质量软约束 + 成本效率最小化’的复合目标函数。"
+  },
+  "objective_mode": "formula",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "node_id": "N13",
+      "claim": "多卡方案中，张量并行（Tensor Parallelism）的通信开销约为每层2 * hidden_size * dty",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级错误：BF16下每层通信量计算错误，4096 * 2 bytes = 8 KB，而非16 KB；且张量并行通信量通常涉及激活值（batch_si"
+    },
+    {
+      "node_id": "N27",
+      "claim": "在BF16精度下，NVIDIA RTX 4090 (24GB) 运行 Qwen3-27B 的稳态生成吞吐率（Token/",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源仅讨论了显存占用（27B * 2 bytes ≈ 54GB，远超24GB，暗示BF16无法直接装入24GB显存，需量化），未提供具体的吞吐率、TTF"
+    },
+    {
+      "node_id": "N28",
+      "claim": "在FP8精度下，NVIDIA RTX 5090 (32GB) 运行 Qwen3-27B 的稳态生成吞吐率（Token/s",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源[1]讨论的是Qwen3.8-Flash-Next（MoE模型，FP8权重172GB），与待核验事实中的Qwen3-27B（Dense模型，FP"
+    },
+    {
+      "node_id": "N29",
+      "claim": "在INT8精度下，NVIDIA RTX 4090 (24GB) 运行 Qwen3-27B 的稳态生成吞吐率（Token/",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源标题明确提及的是 'Qwen3.8-27B'（或类似变体），而待核验事实指定为 'Qwen3-27B'。虽然参数量相同，但不同版本/微调版本的模"
+    },
+    {
+      "node_id": "N30",
+      "claim": "在BF16精度下，NVIDIA A100 (80GB) 运行 Qwen3-27B 的稳态生成吞吐率（Token/s）约为",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源[1]讨论的是双A100部署Qwen3.6-27B（注意版本号差异，且为双卡），而待核验事实是单卡A100运行Qwen3-27B。来源未提供单卡"
+    },
+    {
+      "node_id": "N31",
+      "claim": "在FP8精度下，NVIDIA H100 (80GB) 运行 Qwen3-27B 的稳态生成吞吐率（Token/s）约为 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源中未包含针对 H100 80GB 单卡运行 Qwen3-27B FP8 的具体吞吐率（Token/s）、TTFT 或 TPOT 数值，无法通过外"
+    },
+    {
+      "node_id": "N32",
+      "claim": "单卡方案（如RTX 4090/5090）的驱动与软件栈（CUDA/PyTorch/vLLM）在本地工作站环境下的安装与配",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性数值（2-4小时安装时间、<0.5%月均故障率），这些并非第一性原理可推导的数学或物理事实，而是依赖于具体硬件批次、软件版本、网络"
+    },
+    {
+      "node_id": "N33",
+      "claim": "双卡方案（如2×RTX 4090）的NCCL通信库调优与PCIe带宽限制导致的性能损失约为 5-15%，配置与调试时间平",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值过于具体且缺乏通用性：NCCL调优后的性能损失、配置时间及故障率高度依赖具体硬件拓扑、驱动版本、网络配置及工作负载，不存在普适的固定区间（如5-15"
+    },
+    {
+      "node_id": "N35",
+      "claim": "AMD MI210 (64GB) 在BF16精度下运行 Qwen3-27B 的稳态生成吞吐率（Token/s）约为 25",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源仅提及部署配置（2x MI210, BF16, vLLM），未提供具体的稳态生成吞吐率数值（25-35 Token/s）或硬件价格（$10,000-"
+    },
+    {
+      "node_id": "N36",
+      "claim": "Intel Gaudi 3 (128GB) 在BF16精度下运行 Qwen3-27B 的稳态生成吞吐率（Token/s）",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源仅提供了测试硬件配置（1或4个Gaudi 3加速器），未提供具体的BF16精度下Qwen3-27B的稳态生成吞吐率数值（20-30 Token/s）"
+    },
+    {
+      "node_id": "N37",
+      "claim": "CPU+大内存方案（如128GB RAM + Intel Xeon）在INT8精度下运行 Qwen3-27B 的稳态生成",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源仅讨论硬件兼容性（Xeon与128G内存），完全未涉及Qwen3-27B模型的推理性能、吞吐率或价格，属于典型的来源无关；且具体吞吐率数值（5-"
+    },
+    {
+      "node_id": "N38",
+      "claim": "Qwen3-27B在W4A16 (4-bit Weight Only) 量化下，MMLU基准测试准确率通常从BF16的~",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源仅提供了量化压缩的技术实现（W4A16 GPTQ pipeline），并未包含任何关于MMLU准确率下降幅度（75-80%降至70-73%）或P"
+    },
+    {
+      "node_id": "N39",
+      "claim": "FP8 (E4M3/E5M2) 精度在H100/H200上的推理吞吐量相比BF16提升约1.5-2倍，且由于保留较高动态",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级与具体性能指标缺乏来源支持：来源仅定义了FP8格式，未提供H100/H200上的具体吞吐量提升倍数（1.5-2x）或Perplexity损失（<"
+    },
+    {
+      "node_id": "N40",
+      "claim": "INT8量化在消费级GPU (如RTX 4090) 上的加速比通常仅为1.2-1.5x（受限于计算单元对INT8的支持效",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源[1]明确指出INT8在消费级GPU（如RTX 4070 Ti Super，与4090同代架构）上的加速比约为1.5-2x，这与陈述中“通常仅为1."
+    },
+    {
+      "node_id": "N41",
+      "claim": "2×RTX 4090 (24GB each) 的总采购成本约为 $4000-$4500 (2024 Q4市场价)，加上支",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]2024 Q4期间RTX 4090受AI需求影响价格波动剧烈，单卡市场价常高于$2000，导致双卡成本可能超过$4000下限；且参考来源仅展示价格列表或"
+    },
+    {
+      "node_id": "N42",
+      "claim": "1×NVIDIA A100 80GB PCIe 二手市场单价约为 $8000-$12000，全新价格已不可得或极高；相比",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于2×RTX 4090显存总量为48GB的描述存在事实错误（RTX 4090单卡显存为24GB，双卡应为48GB，此处数值正确但需确认是否指代特"
+    },
+    {
+      "parent_id": "N9",
+      "issues": [
+        "不完备",
+        "有冗余"
+      ],
+      "suggestions": [
+        "将父节点和子节点中的所有硬件（H100, H200, A100, L40S, RTX 4090, RTX 3090, RTX 5090等）合并到一个统一的子节点中，以列表或表格形式呈现，避免碎片化。",
+        "如果必须拆分，请确保子节点覆盖父节点提到的所有硬件型号，不要遗漏H100、A100等关键数据。",
+        "重新定义节点结构，建议将‘显存规格’作为一个整体属性节点，其下不再按硬件拆分正交子节点，而是作为该节点的详细属性描述。"
+      ],
+      "round": 1
+    },
+    {
+      "parent_id": "N29",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "增加一个子节点或修正现有子节点，明确解释父节点中'INT8'标签下的性能数据（20-30 Token/s）是如何得出的。如果父节点数据错误，应指出；如果父节点实际指的是W4或Offload但误标为INT8，应在子节点中澄清这一标签错误。",
+        "确保子节点3（W4）和子节点4（Offload）的性能估算与父节点的数值范围（20-30 Token/s）进行直接对比或映射，以明确哪个替代方案最接近父节点的描述，从而完善对父节点内容的覆盖。"
+      ],
+      "round": 1
+    },
+    {
+      "parent_id": "N31",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "修正子节点1：Qwen3-27B在FP8下权重约为13.5GB（27B * 1 byte/param），而非27GB；重新计算KV Cache，明确其随上下文长度和Batch Size动态变化，而非固定值。",
+        "修正子节点2：区分'理论峰值算力'与'单序列稳态吞吐'。指出Decode阶段是Memory-Bound而非Compute-Bound，因此直接用FLOPS计算单序列Token/s是不恰当的，应强调计算利用率在Decode阶段通常极低，主要瓶颈不在计算。",
+        "补充TTFT分析：增加一个子节点或扩展现有节点，专门分析Prefill阶段对TTFT的影响（如：TTFT ≈ Prefill FLOPs / (H100 FLOPS * MFU) + 调度开销），以完整覆盖父节点中的TTFT指标。",
+        "统一精度假设：确认Qwen3-27B是否支持原生FP8推理，若为INT8/FP16混合或仅权重FP8，需明确计算假设，避免混淆。"
+      ],
+      "round": 1
+    },
+    {
+      "parent_id": "N37",
+      "issues": [
+        "非正交",
+        "不完备",
+        "有冗余"
+      ],
+      "suggestions": [
+        "合并子节点1和2为一个通用公式子节点，列出不同内存配置（DDR4/DDR5）作为变量参数，避免重复结构。",
+        "修正子节点3与父节点的数据矛盾：要么修正父节点的吞吐率范围以匹配理论瓶颈分析，要么在子节点中明确指出父节点的'5-10 Token/s'是基于特定高度优化场景（如使用llama.cpp + AVX512 + 特定量化格式），并解释为何实际能达到远超纯内存带宽理论上限的值（例如通过权重压缩、计算-内存重叠等）。",
+        "补充价格与性价比指数的计算依据子节点，目前子节点仅覆盖技术吞吐率，未覆盖父节点中的价格和性价比部分。"
+      ],
+      "round": 1
+    },
+    {
+      "node_id": "N47",
+      "claim": "Qwen3-27B 在 32K 上下文长度下，KV Cache 的理论最大需求为 0.785 GB（假设 48 层，每层",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": ""
+    },
+    {
+      "node_id": "N56",
+      "claim": "AMD MI300X (192GB) 在本地工作站环境下的适配成本（电源/散热/机箱）约为 $500-$1500，且由于",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述包含大量具体的经验性参数（适配成本$500-$1500、噪音≥75dB、电源800W+），这些属于具体工程规格和市场经验值，无法从第一性原理推导，且"
+    },
+    {
+      "node_id": "N58",
+      "claim": "AMD MI300X 的 HBM3 带宽为 5.3 TB/s，理论最大 Token/s 吞吐率约为 5.3e12 byt",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]将HBM带宽直接除以参数量来估算Token/s吞吐率是严重的逻辑错误。Token生成速度（Decode阶段）受限于内存带宽，但每个Token需要读取的字"
+    },
+    {
+      "node_id": "N59",
+      "claim": "AMD MI300X 的软件栈成熟度低于 NVIDIA CUDA，使用 vLLM/TensorRT-LLM 时需依赖 R",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于“推理效率通常比 CUDA 同代硬件低 10-20%”的具体数值缺乏直接来源支持，且该性能差距高度依赖于具体模型、序列长度及软件优化程度，并非"
+    },
+    {
+      "node_id": "N60",
+      "claim": "Intel Gaudi 3 (128GB) 的 HBM2e 带宽为 3.7 TB/s，理论最大 Token/s 吞吐率约",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级与物理直觉严重不符：3.7 TB/s 的带宽除以 54 GB 的模型大小，得到的理论上限约为 68,500 Token/s（即 6.8e4），而"
+    },
+    {
+      "node_id": "N61",
+      "claim": "Intel Gaudi 3 的采购价格约为 $10,000-$12,000 [待核验]，其每美元吞吐率 (Token/s",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源仅包含产品架构描述，完全缺失价格数据；且Gaudi 3作为较新发布的硬件，其具体采购价格（$10,000-$12,000）属于经验事实，无法从第"
+    },
+    {
+      "node_id": "N62",
+      "claim": "Intel Gaudi 3 的本地工作站适配成本包括专用水冷/风冷套件及高功率电源，预计额外成本 $800-$1500 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（$800-$1500）和具体时长（4小时）属于经验事实，缺乏公开权威来源直接支持，且‘本地工作站适配’并非Gaudi 3的主要设计场景（主要面"
+    },
+    {
+      "node_id": "N72",
+      "claim": "启用 PyTorch 环境变量 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于“显存碎片化损失降低至 <2%”和“引入 1-3% 额外计算开销”的具体数值缺乏来源支持，属于经验事实且未提供具体基准测试数据，存在数值量级不"
+    },
+    {
+      "node_id": "N73",
+      "claim": "在多卡 TP 场景中，各卡显存占用需保持均衡，若单卡碎片化差异超过 5%，将导致最慢卡成为瓶颈，整体有效显存容量受限于 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]「碎片化差异超过5%」和「safety_margin通常设为1GB」属于具体的经验阈值/工程参数，缺乏普适性，不同硬件架构、框架版本及负载场景下该数值可"
+    },
+    {
+      "node_id": "N76",
+      "claim": "若 N27 的 15-25 Token/s 数据成立，则必须假设使用了 INT4/W4 量化且权重完全驻留 GPU 显存",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述是一个条件性假设（'若...则必须假设...'），其核心逻辑在于将 15-25 Token/s 的低速度归因于特定硬件配置（INT4+全驻留GPU"
+    },
+    {
+      "node_id": "N79",
+      "claim": "RTX 5090 在 FP8 精度下的理论最大生成吞吐率（Token/s）为 显存带宽 / 模型权重大小 = 1792 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述将‘显存带宽/模型权重大小’直接等同于‘理论最大生成吞吐率’，忽略了Transformer解码阶段中KV Cache（键值缓存）的读取开销。随着序"
+    },
+    {
+      "node_id": "N80",
+      "claim": "RTX 5090 在 FP8 精度下 Qwen3-27B 的每 Token 生成时间（TPOT）理论下限为 1 / 66",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]理论下限计算存在逻辑瑕疵：1/66.4 ≈ 15ms 仅基于峰值算力（Roofline Model 的 Compute-bound 极限），未考虑内存带"
+    },
+    {
+      "node_id": "N87",
+      "claim": "A100 80GB PCIe 在 BF16 精度下的理论最大生成吞吐率（Token/s）为 2039 GB/s / 54",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述将A100 80GB PCIe的内存带宽（2039 GB/s）作为计算Token/s吞吐率的唯一分母，隐含假设模型参数量恰好为54GB且完全受内存"
+    },
+    {
+      "node_id": "N88",
+      "claim": "A100 80GB PCIe 在 BF16 精度下 Qwen3-27B 的每 Token 生成时间（TPOT）理论下限为",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性性能预测（30-40 ms）和特定硬件/模型组合的理论计算值（37.8 TFLOPS 或类似带宽/算力指标），这些属于经验事实而非"
+    },
+    {
+      "node_id": "N92",
+      "claim": "工作点A（高性低成）：采用NVIDIA官方提供的预编译CUDA 12.1 + PyTorch 2.1 + vLLM 0.",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（1.5小时、30分钟、0.1%故障率）属于经验性统计或特定环境下的观测数据，无法从第一性原理推导，且缺乏外部来源支持，存在因环境差异（如网络速"
+    },
+    {
+      "node_id": "N93",
+      "claim": "工作点B（中性价比最优）：采用NVIDIA最新稳定版CUDA 12.4 + PyTorch 2.2 + vLLM 0.5",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（3.5小时、0.3%故障率）属于高度依赖具体硬件配置、网络环境及操作熟练度的经验性统计，缺乏通用性，且“最新稳定版”与特定版本号（CUDA 1"
+    },
+    {
+      "node_id": "N94",
+      "claim": "工作点C（高成本低性）：采用NVIDIA开发版CUDA 12.5 + PyTorch 2.3 Nightly + vLL",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（6小时、3小时、2小时、1.5%故障率）属于高度依赖具体环境、硬件批次及操作者熟练度的经验性统计数据，缺乏通用性，且‘开发版包含未修复Bug’"
+    },
+    {
+      "node_id": "N95",
+      "claim": "工作点A（高性低成）：采用NVIDIA官方NCCL 2.18 + 默认PCIe拓扑配置，在双卡RTX 4090环境下，N",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（1小时调优时间、5%性能损失、0.5%月均故障率）属于高度依赖具体硬件批次、驱动版本、软件栈及负载场景的经验性观测数据，无法从第一性原理或通用"
+    },
+    {
+      "node_id": "N96",
+      "claim": "工作点B（中性价比最优）：采用NVIDIA NCCL 2.19 + 手动调整PCIe P2P拓扑和缓冲区大小，在双卡RT",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（4小时调优时间、10%性能损失、1.0%月均故障率）缺乏通用基准支持，属于特定实验场景下的经验数据，易受具体拓扑配置、驱动版本及测试负载影响，"
+    },
+    {
+      "node_id": "N97",
+      "claim": "工作点C（高成本低性）：采用NVIDIA NCCL 2.20-dev + 启用PCIe P2P绕过和自定义AllRedu",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含大量具体的经验性数值（如8小时调优时间、15%性能损失、2.0%故障率），这些属于特定环境下的实测数据或经验估计，无法从第一性原理或通用知识中"
+    },
+    {
+      "node_id": "N100",
+      "claim": "消费级高端（RTX 4090/5090）适配工作点：无需额外电源/机箱改造，成本$0，适配时间<1小时，噪音65-70d",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]噪音65-70dB对于高端显卡（如RTX 4090/5090）在量化推理负载下偏高，通常此类显卡在中等负载下噪音低于60dB，且'无需额外电源'取决于具"
+    },
+    {
+      "node_id": "N102",
+      "claim": "AMD MI210 W4A16中性价比工作点：稳态吞吐率约40-60 Token/s（因显存占用减半，带宽压力降低），价",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]吞吐率数值与来源存在显著偏差：来源[2]显示单卡MI210运行Qwen-27B（非W4A16特定量化，且为27B大模型）优化后最高可达63.0 tok/"
+    },
+    {
+      "node_id": "N104",
+      "claim": "Intel Gaudi 3 W4A16中性价比工作点：稳态吞吐率约35-50 Token/s（因显存占用减半，带宽压力降",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（35-50 Token/s, $8,000-$10,000）缺乏来源直接支持，且价格区间可能随市场波动，属于经验事实而非第一性原理可推导内容。"
+    },
+    {
+      "node_id": "N108",
+      "claim": "W4A16 量化下 MMLU 准确率的下降幅度 (ΔMMLU) 与模型参数量 (P) 和量化比特数 (b) 相关，经验公",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该经验公式缺乏广泛的学术共识或标准基准支持，属于特定模型或特定量化算法（如GPTQ/AWQ）下的拟合结果，不同模型架构和量化方法下误差幅度差异巨大，直接"
+    },
+    {
+      "node_id": "N109",
+      "claim": "W4A16 量化在代码生成任务（如 HumanEval）上的准确率下降幅度通常为 MMLU 下降幅度的 2-3 倍（即 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验数值（ΔHumanEval ≈ 5-7%）和特定的倍数关系（2-3倍），属于经验事实。虽然代码生成对量化更敏感在逻辑上合理，但具体的"
+    },
+    {
+      "node_id": "N110",
+      "claim": "FP8 (E4M3) 相比 BF16 的吞吐量提升倍数 (Speedup_FP8) 主要取决于硬件 Tensor Cor",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值范围（1.8-2.2x 和 2.0-2.5x）属于经验事实，且高度依赖于具体的模型架构、序列长度、Batch Size 以及是否启用了特定的量化"
+    },
+    {
+      "node_id": "N115",
+      "claim": "Qwen3-27B在RTX 4090上，INT8精度下的实际稳态生成吞吐量（Token/s）约为 25-35，而BF16",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源标题提及的模型为 'Qwen3.8-27B'，而事实节点声称的是 'Qwen3-27B'，存在模型版本/名称不匹配的风险；此外，摘要仅表明进行了部署"
+    },
+    {
+      "node_id": "N116",
+      "claim": "2×RTX 4090 的 2024 Q4 市场均价约为 $2000-$2200/卡，双卡合计硬件成本约为 $4000-$",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源[1]显示2024年12月6日RTX 4090最低价为$699，且整体平均价为$2014，这与陈述中2024 Q4均价$2000-$2200的区间下"
+    },
+    {
+      "node_id": "N117",
+      "claim": "支持双卡的高性能工作站主板（如X670E/WRX80）成本约为 $500-$1000，1200W以上电源成本约为 $15",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源仅提供了主板型号和规格（如X670E Taichi Carrara），未包含任何具体的市场价格数据（主板、电源、机箱的具体美元价格），无法验证$"
+    },
+    {
+      "node_id": "N119",
+      "claim": "NVIDIA A100 80GB PCIe 的 2024 Q4 二手市场均价约为 $10000-$12000，全新价格已",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源均为维基百科关于架构（Ampere/Hopper）和服务器（DGX）的技术介绍，完全未包含2024年Q4的市场价格数据，无法验证具体的二手均价（"
+    },
+    {
+      "node_id": "N122",
+      "claim": "A100 80GB 的推理吞吐量（BF16）约为 50-70 Token/s，而 2×RTX 4090 的 W4 量化吞",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]吞吐量数值高度依赖具体模型（如 LLaMA-7B vs 70B）、序列长度及并发数，未指定模型和负载条件，导致“50-70 Token/s”这一具体数值"
+    },
+    {
+      "node_id": "N123",
+      "claim": "NVIDIA RTX 4060 Ti 16GB 的 2024 Q4 市场均价约为 $450-$500，其 GDDR6 显",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N124",
+      "claim": "AMD Radeon RX 7900 XTX 24GB 的 2024 Q4 市场均价约为 $900-$1000，显存带宽",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N125",
+      "claim": "NVIDIA L4 (48GB GDDR6) 的 2024 Q4 市场均价约为 $2000-$2500，显存带宽为 30",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N126",
+      "claim": "NVFP4 (4-bit Float) 量化相比 W4 (INT4) 在 Qwen3-27B 上的 MMLU 准确率下降",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N127",
+      "claim": "INT8 量化在 Qwen3-27B 上的 MMLU 准确率下降幅度预计为 0.5-1.0%（相比 BF16），Perp",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 103
+}

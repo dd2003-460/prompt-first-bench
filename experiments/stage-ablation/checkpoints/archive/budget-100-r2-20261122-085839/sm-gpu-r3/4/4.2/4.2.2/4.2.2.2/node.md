@@ -1,0 +1,24 @@
+# N211: RTX 4090 的 FP16 Tensor Core 峰值算力同样为 330.4 TFLOPS (Dense)，与 BF16 相同；但在推理场景中，若使用 I
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N64
+
+## Claim
+
+RTX 4090 的 FP16 Tensor Core 峰值算力同样为 330.4 TFLOPS (Dense)，与 BF16 相同；但在推理场景中，若使用 INT8 量化（如 SmoothQuant），其 INT8 Tensor Core 峰值算力可达 660.8 TOPS (Dense) 或 1321.6 TOPS (Sparse)，这意味着切换至 INT8 可将理论算力上限翻倍，但需权衡精度损失（参考 N107）与量化开销。
+
+## Corrected Claim
+
+RTX 4090 的 FP16 Tensor Core 峰值算力同样为 330.4 TFLOPS (Dense)，与 BF16 相同；但在推理场景中，若使用 INT8 量化（如 SmoothQuant），其 INT8 Tensor Core 峰值算力可达 660.8 TOPS (Dense) 或 1321.6 TOPS (Sparse)，这意味着切换至 INT8 可将理论算力上限翻倍，但需权衡精度损失（参考 N107）与量化开销。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 的 FP16/BF16 Tensor Core 峰值算力确为 330.4 TFLOPS (Dense)，INT8 算力通常为 FP16 的 2 倍（660.8 TOPS），Sparse 模式再翻倍（1321.6 TOPS），数值量级与架构特性一致。
+
+## Search Query
+
+RTX 4090 INT8 tensor core TOPS performance

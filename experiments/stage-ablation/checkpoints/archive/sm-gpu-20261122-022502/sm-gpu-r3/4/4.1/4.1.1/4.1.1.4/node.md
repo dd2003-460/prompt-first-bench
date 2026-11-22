@@ -1,0 +1,24 @@
+# N182: A100 80GB PCIe 版本在 2024 Q4 的企业级新品渠道（如 Dell/Azure Marketplace 现货）价格约为 $11,000-$12
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N58, N59, N60
+
+## Claim
+
+A100 80GB PCIe 版本在 2024 Q4 的企业级新品渠道（如 Dell/Azure Marketplace 现货）价格约为 $11,000-$12,500，远高于消费级市场，且通常需通过授权经销商采购，无公开零售渠道
+
+## Corrected Claim
+
+A100 80GB PCIe 版本在 2024 Q4 的企业级渠道价格显著高于消费级市场，通常需通过授权经销商采购，无公开零售渠道，具体价格随市场波动，约为 $11,000-$12,500 量级。
+
+## Evidence
+
+[质询]价格波动剧烈且渠道不透明，2024 Q4 的具体现货价格区间（$11,000-$12,500）属于高度动态的市场经验数据，缺乏实时交易记录支持，且不同经销商报价差异大，该具体数值区间可能因时间点和具体供应商而异，存在口径混淆风险。 | 经验事实，逻辑自洽（A100 80GB PCIe 作为企业级高端 GPU，价格远高于消费级且无公开零售渠道符合市场常识），但本轮检索无可用来源，无法提供直接数值支持，故降级。
+
+## Search Query
+
+A100 80GB PCIe new price enterprise channel 2024

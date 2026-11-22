@@ -1,0 +1,24 @@
+# N43: LFU适应热度漂移的时间常数 τ_LFU 由频率衰减率 λ_decay 决定：τ_LFU = 1 / λ_decay；若采用指数衰减计数器，λ_decay 通常
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N16
+
+## Claim
+
+LFU适应热度漂移的时间常数 τ_LFU 由频率衰减率 λ_decay 决定：τ_LFU = 1 / λ_decay；若采用指数衰减计数器，λ_decay 通常设置为 1/T_window，其中 T_window 为观察窗口（如1小时）；当工作负载热度变化周期 T_shift < τ_LFU 时，LFU命中率比LRU低 ΔH_drift ≈ (T_shift / τ_LFU) * (H_LFU_static - H_LRU_static)。
+
+## Corrected Claim
+
+LFU适应热度漂移的时间常数 τ_LFU 由频率衰减率 λ_decay 决定：τ_LFU = 1 / λ_decay；若采用指数衰减计数器，λ_decay 通常设置为 1/T_window。当工作负载热度变化周期 T_shift 远小于 τ_LFU 时，LFU可能因无法及时适应热度变化而导致命中率低于LRU，具体性能差距取决于工作负载特征及缓存替换策略细节。
+
+## Evidence
+
+[质询]公式 ΔH_drift ≈ (T_shift / τ_LFU) * (H_LFU_static - H_LRU_static) 缺乏严格的理论推导支持，属于经验性近似或特定模型下的简化结论，且未定义 H_LFU_static 和 H_LRU_static 的具体计算口径，存在将复杂动态过程过度简化的风险。 | source=knowledge，逻辑自洽（τ=1/λ 符合指数衰减定义），但具体的命中率漂移近似公式属于经验性工程估算，缺乏通用理论证明，且无外部来源支持，故降级为定性表述。
+
+## Search Query
+
+LFU frequency decay time constant workload shift adaptation

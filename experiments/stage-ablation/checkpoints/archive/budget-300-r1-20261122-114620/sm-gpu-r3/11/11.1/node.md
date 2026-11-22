@@ -1,0 +1,20 @@
+# N406: NVIDIA H200 (141GB) 单卡运行 Qwen3-27B BF16 的并发能力 N_conc = (141GB - 54GB_weights - 1
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N138
+
+## Claim
+
+NVIDIA H200 (141GB) 单卡运行 Qwen3-27B BF16 的并发能力 N_conc = (141GB - 54GB_weights - 10GB_overhead) / 1.6GB_per_request = 44.4，即支持 44 个 32K 并发请求，相比 H100 80GB (N_conc=14.4) 提升 200%，无需多卡通信开销
+
+## Corrected Claim
+
+NVIDIA H200 (141GB) 单卡运行 Qwen3-27B BF16 的并发能力取决于具体的KV Cache管理策略和上下文长度。若按1.6GB/请求估算，理论并发约为44个，但该数值对32K上下文而言可能过于乐观，实际并发能力需结合PagedAttention等动态显存管理技术评估，通常显著低于静态线性估算值。
+
+## Evidence
+
+[质询]1.6GB/请求的KV Cache占用量级严重偏低，不符合32K上下文长度的物理直觉（通常32K上下文KV Cache需数GB至十几GB，取决于模型架构和Batch策略）；2. 54GB权重估算偏高（Qwen3-27B BF16理论权重约54GB，但通常需预留更多显存给激活值或采用更紧凑的量化/分页策略，此处假设可能过于理想化或参数不匹配）；3. 并发数计算基于静态显存分配，未考虑动态Batching和PagedAttention等现代推理引擎的优化，导致线性外推的并发数可能虚高。 | source=knowledge，逻辑自洽但1.6GB/请求的显存占用对于32K上下文而言量级存疑（通常更高），且缺乏具体模型架构（如GQA头数、层数）支撑该精确数值，属于经验事实且参数合理性存疑，故降级。

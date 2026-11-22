@@ -1,0 +1,17 @@
+{
+  "id": "N177",
+  "claim": "H100 SXM5 运行 BF16 Qwen3-27B 在 32K 上下文、batch_size=1 下的激活值峰值显存占用约为 hidden_size * seq_len * 2 * 2 / 1e9 = 4096 * 32768 * 4 / 1e9 ≈ 0.54GB，加上 CUDA Context 和框架缓冲 (~1.5GB)，总非权重/KV 开销约 2GB，故 13.42GB 余量充足，无 OOM 风险。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]激活值峰值显存占用估算严重低估。在 Transformer 推理中，激活值显存不仅包含当前层的 hidden states，还包含 Attention 的 Q/K/V 投影、Softmax 中间结果、FFN 中间层（通常是 hidden_size 的 4 倍）等。对于 32K 上下文，仅 Attention 部分的中间激活（Q, K, V, Output）就可能达到 hidden_size * seq_len * 4 * 2 * 2 / 1e9 ≈ 2.1GB，加上 FFN 中间层（hidden_size * seq_len * 4 * 2 * 2 / 1e9 ≈ 2.1GB），总激活值峰值远超 0.54GB，可能达到 4-5GB 甚至更高（取决于具体实现是否优化了中间激活存储）。因此，'总非权重/KV 开销约 2GB' 的结论过于乐观，存在 OOM 风险被低估的可能。 | 逻辑校验发现激活值显存估算公式不完整，未包含 Attention 和 FFN 的中间激活，导致量级低估。虽然 source 为 knowledge，但 challenge 成立且无法排除（因为标准 Transformer 推理确实需要存储这些中间激活），故降档为 degraded。",
+  "corrected_claim": "H100 SXM5 运行 BF16 Qwen3-27B 在 32K 上下文、batch_size=1 下的激活值峰值显存占用需考虑 Attention 和 FFN 中间层，估算约为 4-5GB，加上 CUDA Context 和框架缓冲 (~1.5GB)，总非权重/KV 开销约 5.5-6.5GB，13.42GB 余量仍充足，但需确认具体推理框架的激活值优化策略。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N57"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

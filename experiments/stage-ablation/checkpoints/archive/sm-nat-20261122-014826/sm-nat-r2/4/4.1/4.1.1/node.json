@@ -1,0 +1,17 @@
+{
+  "id": "N45",
+  "claim": "LRU 平均驻留时间 T_avg_residency 的精确计算：基于 LRU 堆栈深度分布，T_avg_residency = (1/C) * Σ_{i=1}^{C} (1/λ_i) * P(i ∈ LRU)，其中 C=128GB/平均对象大小，λ_i 为对象 i 的到达率；在 β=0.9 和 C/S=0.14 条件下，T_avg_residency ≈ 0.5-2 小时，具体值取决于 Top-K 对象的访问间隔分布。",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]公式中 λ_i 定义为'对象 i 的到达率'，但在 LRU 驻留时间语境下，通常应指'访问率'或'请求率'；若 λ_i 是生成新对象的速率，则与驻留时间（由访问间隔决定）无直接倒数关系，存在概念混淆风险。此外，'精确计算'一词过于绝对，因为该公式依赖于对 P(i ∈ LRU) 和 λ_i 分布的准确估计，实际中往往是近似值。 | 先验知识/题面给定，逻辑校验通过。虽然公式符号定义存在轻微歧义（到达率 vs 访问率），但整体量级（0.5-2小时）在典型缓存场景下合理，且 source 为 knowledge，依据规则逻辑自洽即视为有效，但因公式表述的潜在歧义及'精确'一词的绝对性，降级为 degraded 以提示需澄清定义。",
+  "corrected_claim": "LRU 平均驻留时间 T_avg_residency 的估算：基于 LRU 堆栈深度分布，T_avg_residency ≈ (1/C) * Σ_{i=1}^{C} (1/μ_i) * P(i ∈ LRU)，其中 C=128GB/平均对象大小，μ_i 为对象 i 的访问率（或请求率）；在 β=0.9 和 C/S=0.14 条件下，T_avg_residency 通常在 0.5-2 小时范围内，具体值取决于 Top-K 对象的访问间隔分布。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N15"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

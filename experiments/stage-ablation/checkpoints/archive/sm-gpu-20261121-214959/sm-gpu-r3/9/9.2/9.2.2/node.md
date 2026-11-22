@@ -1,0 +1,20 @@
+# N322: 在 32K 上下文 Prefill 阶段，M2 Ultra 的实际吞吐受内存带宽限制而非算力限制，因为计算强度 (Compute Intensity) = 2 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N116
+
+## Claim
+
+在 32K 上下文 Prefill 阶段，M2 Ultra 的实际吞吐受内存带宽限制而非算力限制，因为计算强度 (Compute Intensity) = 2 * seq_len * hidden_size / (2 * seq_len * hidden_size * bytes_per_token) 低于 Roofline 拐点；M2 Ultra 带宽 800 GB/s / 算力 74.2 TFLOPS ≈ 10.8 FLOPs/Byte，而 RTX 4090 带宽 1008 GB/s / 算力 165.2 TFLOPS ≈ 6.4 FLOPs/Byte，M2 Ultra 在长序列下更可能处于带宽受限区，其 Prefill 速度上限约为 800 GB/s / (2 * 32768 * 4096 * 2 bytes) * 2 (FLOPs/Op) ≈ 30.5 K tokens/s (理论峰值)，但实际因缓存未命中和内存延迟通常降至 1/3-1/2，即 10-15 K tokens/s。
+
+## Corrected Claim
+
+在 32K 上下文 Prefill 阶段，M2 Ultra 的性能瓶颈取决于具体模型架构及权重是否常驻缓存。若权重需从主存加载，其计算强度通常高于 Roofline 拐点，可能受算力限制；若权重常驻缓存，则受内存带宽限制。M2 Ultra 带宽 800 GB/s，RTX 4090 带宽 1008 GB/s。理论峰值吞吐需基于具体模型参数量计算，实际性能受缓存命中率和内存延迟影响，通常显著低于理论峰值，但具体比例（如 1/3-1/2）需结合特定模型基准测试数据确定。
+
+## Evidence
+
+[质询]计算强度（Arithmetic Intensity）的公式定义错误。标准定义中，分母应为总内存访问字节数（Total Bytes），而非单 token 字节数。对于 Prefill 阶段，若权重需从内存加载，计算强度约为 2*seq_len/bytes_per_weight，数值远大于 10.8，此时 M2 Ultra 可能处于算力受限区而非带宽受限区；若假设权重常驻 L2/L3 缓存，则需明确说明，否则逻辑前提不成立。此外，'实际降至 1/3-1/2' 缺乏具体模型架构（如 Attention 头数、FFN 维度）支持，属于经验估算。 | 先验知识/题面给定，逻辑校验发现计算强度公式量纲/定义错误，且缺乏具体模型参数支持经验性性能衰减比例，故降级。

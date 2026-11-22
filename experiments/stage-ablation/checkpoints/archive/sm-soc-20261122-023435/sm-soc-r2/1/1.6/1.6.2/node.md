@@ -1,0 +1,24 @@
+# N41: 点击率 CTR 对价格信号的敏感度：CTR 是价格偏离度的函数，CTR = CTR_base * e^(-β_p * δ_p)。实证表明，二手商品 CTR 对价
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+点击率 CTR 对价格信号的敏感度：CTR 是价格偏离度的函数，CTR = CTR_base * e^(-β_p * δ_p)。实证表明，二手商品 CTR 对价格偏离度高度敏感，β_p ≈ 1.2。当挂价高出均价 20% 时，CTR 下降至基准的 e^(-0.24) ≈ 78.7%，这一降幅会触发算法的负反馈机制进一步降低曝光。
+
+## Corrected Claim
+
+点击率 CTR 对价格信号敏感，通常建模为 CTR = CTR_base * e^(-β_p * δ_p)。实证表明二手商品 CTR 对价格偏离度敏感，β_p 的具体数值因平台和市场环境而异（例如若 β_p ≈ 1.2，则挂价高出均价 20% 时 CTR 降至基准的约 78.7%），显著的价格偏离会触发算法负反馈机制降低曝光。
+
+## Evidence
+
+[质询]β_p ≈ 1.2 的具体数值属于经验参数，缺乏通用理论推导支持，且不同平台/品类下该敏感度系数差异巨大，直接断言该特定数值可能不准确。 | source=knowledge，逻辑自洽（数学计算 e^(-1.2*0.2)=e^-0.24≈0.787 正确），但 β_p 的具体取值属于经验事实，无来源直接支持，依据经验事实排除条款降级。
+
+## Search Query
+
+click through rate price sensitivity online marketplace

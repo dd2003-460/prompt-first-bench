@@ -1,0 +1,24 @@
+# N346: Qwen3-27B 在 BF16 精度下 HumanEval (Pass@1) 的基线准确率为 86.0% (来源: Qwen3 官方技术报告 Table 3,
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N110
+
+## Claim
+
+Qwen3-27B 在 BF16 精度下 HumanEval (Pass@1) 的基线准确率为 86.0% (来源: Qwen3 官方技术报告 Table 3, 需确认具体版本是否为 Qwen3-27B-Instruct 或 Base，此处假设为 Instruct 版通用基准 [待核验])
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 精度下 HumanEval (Pass@1) 的基线准确率约为 86.0%（具体数值需依据 Qwen3 官方技术报告 Table 3 确认，且需明确是 Instruct 还是 Base 版本）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（86.0%）和特定的模型版本假设（Instruct vs Base），属于硬件/模型性能规格类经验事实，无法从第一性原理推导。且参考来源缺失，无法验证该数值是否准确对应 Qwen3-27B-Instruct 在 BF16 下的 HumanEval Pass@1 基线，存在版本混淆或数值偏差的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法确认具体版本及数值准确性）
+
+## Search Query
+
+Qwen3-27B HumanEval Pass@1 baseline BF16 accuracy technical report

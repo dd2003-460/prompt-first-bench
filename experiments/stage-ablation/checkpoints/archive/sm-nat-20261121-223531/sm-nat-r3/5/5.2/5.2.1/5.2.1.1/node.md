@@ -1,0 +1,20 @@
+# N181: LFU理论上限 $H_{LFU}^{max}$ 的分母（总字节加权请求流量）$\sum_{all} h_i S_i$ 在本题参数下（S_total ≈ 1.15
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N65
+
+## Claim
+
+LFU理论上限 $H_{LFU}^{max}$ 的分母（总字节加权请求流量）$\sum_{all} h_i S_i$ 在本题参数下（S_total ≈ 1.15GB, Req=50M）等于 50,000,000 次请求对应的总字节数，即 $50M \times E[S]$，其中 $E[S] = S_{total}/N_{obj} \approx 11.5 KB$，故分母约为 $575 TB$（或等效为 50M 次访问的字节总和）。
+
+## Corrected Claim
+
+LFU理论上限 $H_{LFU}^{max}$ 的分母（总字节加权请求流量）$\sum_{all} h_i S_i$ 在本题参数下（S_total ≈ 1.15GB, Req=50M）等于 50,000,000 次请求对应的总字节数，即 $50M \times E[S]$，其中 $E[S] = S_{total}/N_{obj} \approx 11.5 KB$，故分母约为 $575 GB$（或等效为 50M 次访问的字节总和）。
+
+## Evidence
+
+[质询]数值量级严重错误：50,000,000 次请求乘以平均大小 11.5 KB 的结果约为 575 GB，而非 575 TB。陈述中将 GB 误写为 TB，导致数值放大了 1000 倍。 | 逻辑校验发现内部矛盾：50M * 11.5KB ≈ 575GB，与陈述中的 575TB 不符，存在硬逻辑/计算错误。

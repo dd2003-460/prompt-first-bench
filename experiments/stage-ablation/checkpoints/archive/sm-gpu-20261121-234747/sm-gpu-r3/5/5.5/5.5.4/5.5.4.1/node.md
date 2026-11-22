@@ -1,0 +1,24 @@
+# N407: Qwen3-27B BF16 基线在 1000 条固定 Prompt 集（如 HellaSwag 前 1000 条或内部测试集）下的平均困惑度 PPL_BF16
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N134, N135, N136
+
+## Claim
+
+Qwen3-27B BF16 基线在 1000 条固定 Prompt 集（如 HellaSwag 前 1000 条或内部测试集）下的平均困惑度 PPL_BF16 具体数值，需通过本地推理获取，作为 KL 散度计算的参考分布基准
+
+## Corrected Claim
+
+Qwen3-27B BF16 基线在 1000 条固定 Prompt 集下的平均困惑度 PPL_BF16 需通过本地推理获取，作为 KL 散度计算的参考分布基准（具体数值待实测确定）
+
+## Evidence
+
+[质询]该陈述声称存在一个具体的数值（PPL_BF16），但实际内容指出该数值需通过本地推理获取，属于未确定的经验事实，且缺乏任何来源提供具体数值或验证其合理性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值或基准分布的合理性）
+
+## Search Query
+
+Qwen3-27B BF16 average perplexity HellaSwag 1000 prompts benchmark

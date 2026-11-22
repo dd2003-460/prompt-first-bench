@@ -1,0 +1,20 @@
+# N181: P_invalid 在 M/C=1.0 下的修正：若 T_res_avg → ∞，则 P_invalid = 1 - exp(-0.01 * ∞) = 1。但这
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N70
+
+## Claim
+
+P_invalid 在 M/C=1.0 下的修正：若 T_res_avg → ∞，则 P_invalid = 1 - exp(-0.01 * ∞) = 1。但这是针对单个对象在无限时间内的失效概率。对于稳态命中率，应使用 P_invalid_per_request = u * E[Time_Since_Last_Update | request]。在 M/C=1.0 下，对象更新后立即可用，P_invalid ≈ 0。
+
+## Corrected Claim
+
+P_invalid 在 M/C=1.0 下的修正：若 T_res_avg → ∞，则 P_invalid = 1 - exp(-0.01 * ∞) = 1。但这是针对单个对象在无限时间内的失效概率。对于稳态命中率，应使用 P_invalid_per_request = u * E[Time_Since_Last_Update | request]。在 M/C=1.0 下，对象更新后立即可用，P_invalid ≈ 0。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

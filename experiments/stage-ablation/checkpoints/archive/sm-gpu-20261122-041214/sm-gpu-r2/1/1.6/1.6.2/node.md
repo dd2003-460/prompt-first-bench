@@ -1,0 +1,30 @@
+# N63: FP8 KV Cache 的质量影响：使用 FP8 存储 KV Cache 可能导致长序列注意力分数精度下降，Perplexity 上升约 0.1-0.3，在 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+FP8 KV Cache 的质量影响：使用 FP8 存储 KV Cache 可能导致长序列注意力分数精度下降，Perplexity 上升约 0.1-0.3，在 32K 长度下累积误差可能使生成质量轻微退化，需权衡显存节省（~4GB）与质量损失。
+
+## Corrected Claim
+
+使用 FP8 存储 KV Cache 通常会导致长序列注意力分数精度轻微下降（Perplexity 小幅上升），从而在长上下文下可能引起生成质量轻微退化；此举可显著节省显存（具体数值取决于模型架构与序列长度），需在显存限制与质量损失间权衡。
+
+## Evidence
+
+[质询]具体数值（Perplexity 上升 0.1-0.3，显存节省 ~4GB）缺乏来源直接支持，且高度依赖模型架构（如 GQA vs MHA）、层数和具体 FP8 格式（E4M3/E5M2），属于经验事实而非通用常数。 | 来源 [1] 和 [3] 确认了 FP8 KV Cache 量化存在精度与显存的权衡（间接支持），但未提供具体的 PPL 增量或显存节省数值；作为经验事实，逻辑自洽但缺具体数值来源支持，故降级。
+
+## Search Query
+
+FP8 KV cache perplexity degradation long context 32k quality impact
+
+## Retrieval Sources
+
+- {'url': 'https://tensormesh.ai/learn/kv-cache-quantization/&rut=de0dc6b456684be07ef81f590c8dbb38d0515943e5cc39c259154d3cf5a60f75', 'type': 'ddg', 'title': 'KV Cache Quantization: FP8, FP4, and What They Cost You'}
+- {'url': 'https://bigolab.com/guides/5620-llm-kv-cache-vram-formula-32k-context-16gb-oom-guide&rut=11222b656da712c6ad6f244d39224c9d57411259de04630621b357c388a47e75', 'type': 'ddg', 'title': '大模型上下文 KV Cache 显存计算公式详解：为什么 32K 上下文一开 16GB 显卡就 OOM'}
+- {'url': 'https://www.praveentechworld.com/blog/why-32k-context-crashes-local-llm-vram-kv-cache-fix&rut=c2556a54629120ea2759119dc95c86d35a5495b8873d84680be3d966d1c2a48e', 'type': 'ddg', 'title': 'Why 32k Context Crashes Local LLMs: VRAM & KV Cache Fix'}

@@ -1,0 +1,30 @@
+# N135: RTX 3090 在 2025 年 Q1 的二手市场（eBay/Newegg Renewed）平均成交价为 $800-$900，显著低于 N51 声称的 202
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N51
+
+## Claim
+
+RTX 3090 在 2025 年 Q1 的二手市场（eBay/Newegg Renewed）平均成交价为 $800-$900，显著低于 N51 声称的 2024 Q3 一级市场价 $1,200-$1,500；计算 TCO 时应采用当前实际采购价 $850 作为基准，而非过时的一级市场价
+
+## Corrected Claim
+
+RTX 3090在2026年Q4的二手市场平均成交价约为$837-$1500，具体价格随市场波动；计算TCO时应采用当前实际采购价（如$1000-$1200区间）作为基准，而非过时的历史价格。
+
+## Evidence
+
+[质询]数值量级与来源严重矛盾：参考来源显示2026年11月RTX 3090二手均价约为$837-$1500，且历史最高价达$1644，并未出现2025年Q1跌至$800-$900的明确证据；相反，来源[3]指出2023年9月最低价为$462，暗示2025年价格可能高于或接近当前水平，而非显著低于2024年Q3的$1200-$1500区间，且$850作为2025年Q1基准缺乏支持。 | 来源[1]和[3]显示2026年11月二手均价在$837-$1500之间，且历史数据未支持2025年Q1价格显著低于2024年Q3至$800-$900的说法，与claim中的具体数值和趋势矛盾。
+
+## Search Query
+
+RTX 3090 used price 2025 Q1 eBay Newegg average
+
+## Retrieval Sources
+
+- {'url': 'https://gpudojo.com/rtx-3090&rut=0f1d03bad31dce6db3090640efa4da7832c7fa7466d0631b04494778a8113236', 'type': 'ddg', 'title': 'RTX 3090 24GB Used Price & History (Nov 2026) | GPUDojo'}
+- {'url': 'https://www.ebay.com/sch/i.html?_nkw=used+rtx+3090&_sop=12&rut=cffdbb1682579df0d44fbe2b023952f455649703b8803eb88a3ca363ae2e5d8b', 'type': 'ddg', 'title': 'Used Rtx 3090 for sale | eBay'}
+- {'url': 'https://bestvaluegpu.com/history/new-and-used-rtx-3090-price-history-and-specs/&rut=bf338bb3d66474ff3443d92fb877ea16771414620682c708c879cdaf8fd1520a', 'type': 'ddg', 'title': 'RTX 3090 Price History — $1499 used (Nov 2026)'}

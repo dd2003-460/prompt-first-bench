@@ -1,0 +1,20 @@
+# N355: M2 Ultra 与 2x RTX 4090 的 TCO 差异敏感性分析：若 M2 Ultra 采用 INT8 量化 (TPS 30)，总生成 Tokens 翻
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N115
+
+## Claim
+
+M2 Ultra 与 2x RTX 4090 的 TCO 差异敏感性分析：若 M2 Ultra 采用 INT8 量化 (TPS 30)，总生成 Tokens 翻倍至 2.38e9，Cost per 1000 Tokens 降至 $0.00205/1000 tokens，仍高于 2x RTX 4090 INT4 方案，但差距缩小至 2 倍；若 M2 Ultra 采用 INT4 (TPS 60)，Cost per 1000 Tokens 降至 $0.00102/1000 tokens，与 2x RTX 4090 INT4 方案持平，但需考虑 M2 Ultra 无 ECC 的稳定性风险。
+
+## Corrected Claim
+
+M2 Ultra 与 2x RTX 4090 的 TCO 差异敏感性分析：若 M2 Ultra 采用 INT8 量化 (TPS 30)，总生成 Tokens 翻倍至 2.38e9，Cost per 1000 Tokens 降至 $0.00205/1000 tokens，仍高于 2x RTX 4090 INT4 方案，但差距缩小至 2 倍；若 M2 Ultra 采用 INT4 (TPS 60)，Cost per 1000 Tokens 降至 $0.00102/1000 tokens，与 2x RTX 4090 INT4 方案持平，但需考虑 M2 Ultra 无 ECC 的稳定性风险。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算自洽（TPS翻倍导致成本减半，$0.00205/2=$0.001025≈$0.00102），且M2 Ultra无ECC为已知硬件特性，符合逻辑与工程常识。

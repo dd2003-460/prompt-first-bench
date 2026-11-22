@@ -1,0 +1,20 @@
+# N12: 特定参数修正：考虑 Pareto(α=1.1) 的长尾特性，LRU 命中率下界需修正为 H_byte_LRU_corrected = H_byte_LRU_ba
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+特定参数修正：考虑 Pareto(α=1.1) 的长尾特性，LRU 命中率下界需修正为 H_byte_LRU_corrected = H_byte_LRU_base × (1 - ε_tail)，其中 ε_tail 为长尾对象未被缓存导致的额外损失，需通过数值积分估算。
+
+## Corrected Claim
+
+特定参数修正：考虑 Pareto(α=1.1) 的长尾特性，LRU 命中率下界需修正为 H_byte_LRU_corrected = H_byte_LRU_base × (1 - ε_tail)，其中 ε_tail 为长尾对象未被缓存导致的额外损失，需通过数值积分估算。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间存在依赖关系但主题正交（一个定义损失率公式，一个定义截断点参数）。然而，完备性不足：父节点要求通过数值积分估算 ε_tail，但子节点仅提供了基于特定假设（对象独立、热度排序截断）的解析/半解析表达式，且未涵盖 LRU 缓存替换策略对长尾对象命中率的具体影响（LRU 并非简单的按大小截断，而是基于访问时间的堆栈算法，通常需使用 Stack Distance Distribution 或 Belady 算法模拟，而非简单的 CDF 逆函数截断）。此外，父节点提到的 'H_byte_LRU_base' 在子节点中未涉及，虽然这属于父节点上下文，但子节点未能完整解释如何从 ε_tail 推导到最终的 corrected 命中率，且 S_cache 的定义在 LRU 语境下物理意义存疑（LRU 保留的是最近访问的对象，其大小分布并非由全局 Pareto CDF 的固定分位数直接决定，而是依赖于访问模式）。）

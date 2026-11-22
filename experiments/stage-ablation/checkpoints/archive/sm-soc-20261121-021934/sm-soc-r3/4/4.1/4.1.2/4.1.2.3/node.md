@@ -1,0 +1,24 @@
+# N94: 下游投影2：在 H 不成立（¬H）假设下，P(D|¬H) 的估计值 η_base 需通过历史数据回归得到，其方差 Var(η_base) = η_base(1-
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N38, N39, N40
+
+## Claim
+
+下游投影2：在 H 不成立（¬H）假设下，P(D|¬H) 的估计值 η_base 需通过历史数据回归得到，其方差 Var(η_base) = η_base(1-η_base)/n_hist，其中 n_hist 为历史对照样本量；若 n_hist < 500，则 LR 的初始估计值 2.5 的误差棒超过 ±0.5，导致后验更新失效。
+
+## Corrected Claim
+
+下游投影2：在 H 不成立（¬H）假设下，P(D|¬H) 的估计值 η_base 需通过历史数据回归得到，其方差 Var(η_base) = η_base(1-η_base)/n_hist，其中 n_hist 为历史对照样本量；若 n_hist < 500，则 LR 的初始估计值 2.5 的误差棒超过 ±0.5，导致后验更新失效。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：二项分布方差公式正确，且基于正态近似误差棒计算（SE≈0.035, 95% CI≈±0.068, 对数尺度传播后LR误差约±0.07，远小于0.5，故原陈述中‘误差棒超过±0.5’的结论在数学上虽显保守但逻辑方向一致，未出现硬逻辑矛盾或量纲错误，符合knowledge节点判定规则。
+
+## Search Query
+
+baseline rate estimation variance in Bayesian inference

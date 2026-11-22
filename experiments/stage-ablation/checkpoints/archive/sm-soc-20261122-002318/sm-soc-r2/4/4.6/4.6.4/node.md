@@ -1,0 +1,24 @@
+# N74: 三方受损判定的联合约束条件：最小干预必须同时满足 ΔS_seller > -Threshold_seller, ΔS_buyer > -Threshold_bu
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N26
+
+## Claim
+
+三方受损判定的联合约束条件：最小干预必须同时满足 ΔS_seller > -Threshold_seller, ΔS_buyer > -Threshold_buyer, ΔS_platform > -Threshold_platform。若三个阈值区间无交集，则不存在'无伤害'的最小干预，需寻找次优解（如仅对特定类目展示价格，或对卖家提供缓冲期），量化缓冲期长度 T_buffer 对 ΔSS_seller 的缓解系数。
+
+## Corrected Claim
+
+三方受损判定的联合约束条件：最小干预必须同时满足 ΔS_seller > -Threshold_seller, ΔS_buyer > -Threshold_buyer, ΔS_platform > -Threshold_platform。若三个阈值区间无交集，则不存在'无伤害'的最小干预，需寻找次优解（如仅对特定类目展示价格，或对卖家提供缓冲期），量化缓冲期长度 T_buffer 对 ΔSS_seller 的缓解系数。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+joint constraint satisfaction stakeholder damage threshold intervention design

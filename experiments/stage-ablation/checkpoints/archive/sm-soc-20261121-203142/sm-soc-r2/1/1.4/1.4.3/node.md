@@ -1,0 +1,28 @@
+# N37: 投影2（决策路径）：买家在高曝光池中的决策时间 T_decision 缩短机制为 T_decision = T_base * exp(-k * CTR_expe
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N8
+
+## Claim
+
+投影2（决策路径）：买家在高曝光池中的决策时间 T_decision 缩短机制为 T_decision = T_base * exp(-k * CTR_expected)，其中 CTR_expected 是平台预测的点击率，k 为注意力衰减系数，需验证 k 是否在二手交易场景中显著大于 0.05。
+
+## Corrected Claim
+
+在特定模型假设下，买家决策时间可能随预期点击率呈指数衰减，但具体公式 T_decision = T_base * exp(-k * CTR_expected) 及参数 k > 0.05 的结论缺乏当前来源的直接实证支持，需进一步验证。
+
+## Evidence
+
+[质询]该公式 T_decision = T_base * exp(-k * CTR_expected) 为特定模型假设，缺乏通用理论支持；且参考来源仅讨论宏观决策阶段，未提供该具体数学模型或参数 k 的实证数据，属于无来源支持的特定经验/模型假设。 | 逻辑上指数衰减模型在描述注意力/决策时间缩短时是合理的（逻辑自洽），但参考来源[1]仅涉及消费者决策的一般性描述，未覆盖该具体公式或参数 k 的数值验证，属于经验/模型事实且缺乏直接来源支持。
+
+## Search Query
+
+user attention decay coefficient click-through rate decision time marketplace
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2025626367253835795&rut=654a9360cbdf7ef4b1cce26cb047d383db259d432138033d8bb7cb934bf78a80', 'type': 'ddg', 'title': '2026年消费者购买决策全拆解：从5阶段模型到AI时代新打法'}

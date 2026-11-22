@@ -1,0 +1,24 @@
+# N350: 高互动高价商品子集的 GMV 贡献率：GMV_Contribution = (GMV of Subset) / (Total GMV)，需计算该子集对平台整体 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N111
+
+## Claim
+
+高互动高价商品子集的 GMV 贡献率：GMV_Contribution = (GMV of Subset) / (Total GMV)，需计算该子集对平台整体 GMV 的贡献比例（例如 30%-50%），以验证其是否足以驱动平台整体 GMV 的 15-20% 提升。
+
+## Corrected Claim
+
+高互动高价商品子集的 GMV 贡献率定义为该子集 GMV 与平台总 GMV 之比。需通过实际数据计算该比例，以评估其对平台整体 GMV 增长的潜在驱动作用，具体数值范围需依据实际业务数据确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值范围（GMV贡献率30%-50%、GMV提升15-20%），属于特定业务场景下的经验事实，无法从第一性原理或数学公理中严格推导得出，且缺乏外部来源支持。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）。
+
+## Search Query
+
+GMV contribution of high engagement items in e-commerce platform

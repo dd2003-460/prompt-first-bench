@@ -1,0 +1,20 @@
+# N356: 社区实测数据（如GitHub Issues, Reddit, HuggingFace）的置信度默认降级为'低'，除非该数据被至少2个独立主流评测网站引用或复现，
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N128
+
+## Claim
+
+社区实测数据（如GitHub Issues, Reddit, HuggingFace）的置信度默认降级为'低'，除非该数据被至少2个独立主流评测网站引用或复现，否则误差范围强制标记为±15%而非±10%。
+
+## Corrected Claim
+
+在某些特定的数据评估框架或内部规范中，社区实测数据（如GitHub Issues, Reddit, HuggingFace）的置信度可能被默认降级为'低'，除非该数据被至少2个独立主流评测网站引用或复现，此时误差范围可能标记为±15%而非±10%。
+
+## Evidence
+
+[质询]该陈述定义了一套特定的数据置信度评估规则（如±15% vs ±10%的阈值、2个独立来源的要求），这属于特定机构或项目的内部方法论/政策，而非通用的客观事实或第一性原理。若将其表述为普遍适用的“事实”，则存在将特定规范普世化的风险。 | source=knowledge，逻辑自洽（规则内部无矛盾，量级合理），但缺乏外部来源直接支持该特定阈值的普遍适用性，且属于经验性/政策性规定，故降级。

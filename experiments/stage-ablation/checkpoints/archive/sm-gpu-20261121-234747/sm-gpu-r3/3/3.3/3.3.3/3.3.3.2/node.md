@@ -1,0 +1,24 @@
+# N261: L40S的FP8 Tensor Core峰值算力为121 TFLOPS，Qwen3-27B Decode阶段每个Token所需的FP8 FLOPs约为2 * 2
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N94, N95, N96
+
+## Claim
+
+L40S的FP8 Tensor Core峰值算力为121 TFLOPS，Qwen3-27B Decode阶段每个Token所需的FP8 FLOPs约为2 * 27e9 = 54 GFLOPs，理论最大吞吐上限 = 121,000 GFLOPS / 54 GFLOPs ≈ 2240 tokens/s，但受限于显存带宽（864 GB/s）和算术强度，实际Decode吞吐远低于此，需引入算术强度修正因子
+
+## Corrected Claim
+
+L40S的FP8 Tensor Core峰值算力为121 TFLOPS，Qwen3-27B Decode阶段每个Token所需的FP8 FLOPs约为2 * 27e9 = 54 GFLOPs，理论最大吞吐上限 = 121,000 GFLOPS / 54 GFLOPs ≈ 2240 tokens/s，但受限于显存带宽（864 GB/s）和算术强度，实际Decode吞吐远低于此，需引入算术强度修正因子
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：L40S FP8算力121 TFLOPS与显存带宽864 GB/s符合NVIDIA官方规格；Decode阶段FLOPs估算（2*参数量）及算术强度瓶颈分析符合大模型推理基本物理/工程直觉。
+
+## Search Query
+
+NVIDIA L40S FP8 Tensor Core TFLOPS spec

@@ -1,0 +1,24 @@
+# N206: Qwen3-27B 在 FP8 量化下，HumanEval 基准测试准确率相对于 BF16 基线的下降幅度为 1.0-2.0 个百分点（例如 BF16 为 75
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N66
+
+## Claim
+
+Qwen3-27B 在 FP8 量化下，HumanEval 基准测试准确率相对于 BF16 基线的下降幅度为 1.0-2.0 个百分点（例如 BF16 为 75.0%，FP8 为 73.0-74.0%），代码生成任务对量化误差累积效应更明显。
+
+## Corrected Claim
+
+Qwen3-27B 在 FP8 量化下，HumanEval 基准测试准确率相对于 BF16 基线通常会有轻微下降（约 1-2 个百分点），代码生成任务对量化误差累积效应较为敏感。
+
+## Evidence
+
+[质询]具体数值（75.0%基线及1.0-2.0%下降幅度）属于特定实验条件下的经验数据，不同量化实现（如SmoothQuant, GPTQ, AWQ等）和校准数据集会导致结果显著差异，且Qwen3-27B在HumanEval上的BF16基线分数可能并非精确的75.0%，该具体数值缺乏通用性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体量化精度损失数值属于经验数据，无法从第一性原理严格推出，故降级）
+
+## Search Query
+
+Qwen3-27B FP8 quantization HumanEval accuracy drop benchmark

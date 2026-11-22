@@ -1,0 +1,18 @@
+{
+  "id": "N122",
+  "claim": "Qwen3-27B 模型在 TP=2 (2x GPU) 模式下，每层 Transformer 中 AllReduce 通信的数据量大小 (Bytes/Step)，基于隐藏层维度 (hidden_size) 和 Batch Size=1 计算。",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "pending",
+  "evidence": "父节点级核验未通过：非正交, 不完备, 有冗余（1. 逻辑错误与不正交：子节点1将AllReduce通信量错误地计算为仅基于hidden_size的激活值传输（且忽略了TP中通常还涉及权重/梯度切分后的聚合，或者至少应明确这是针对激活值的单向/双向流量估算，而非完整的AllReduce语义，通常TP中AllReduce发生在Linear层输出，数据量确实是 batch*seq*hidden，但子节点1的表述‘每层...数据量’容易被误解为包含权重，且未区分前向/反向，导致与子节点2的‘总通信量’存在概念重叠和潜在矛盾）。2. 完备性缺失：父节点仅要求计算‘数据量大小 (Bytes/Step)’，子节点3引入了‘带宽’、‘延迟’和‘开销占比’，这超出了父节点的问题范围，属于额外推导，而非对‘数据量’本身的分解。3. 冗余：子节点1和子节点2在FP16/FP8的数据量计算上存在重复逻辑，子节点2只是子节点1乘以层数，应合并或明确层级关系，而非作为并列的正交节点。）",
+  "corrected_claim": "Qwen3-27B 模型在 TP=2 (2x GPU) 模式下，每层 Transformer 中 AllReduce 通信的数据量大小 (Bytes/Step)，基于隐藏层维度 (hidden_size) 和 Batch Size=1 计算。",
+  "rework_count": 0,
+  "parent_ids": [
+    "N33",
+    "N34"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

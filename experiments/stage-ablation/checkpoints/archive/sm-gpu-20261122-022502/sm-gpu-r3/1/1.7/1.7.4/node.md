@@ -1,0 +1,24 @@
+# N53: INT8 量化在代码生成任务 (HumanEval) 上的准确率下降幅度为 1.5% (从 75% 降至 73.5%)，高于 MMLU 的下降幅度，因代码对符号
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N12
+
+## Claim
+
+INT8 量化在代码生成任务 (HumanEval) 上的准确率下降幅度为 1.5% (从 75% 降至 73.5%)，高于 MMLU 的下降幅度，因代码对符号精度更敏感 [待核验]
+
+## Corrected Claim
+
+INT8 量化在代码生成任务 (HumanEval) 上的准确率通常会有所下降，且往往高于 MMLU 等通用知识任务的下降幅度，因代码对符号精度更敏感。
+
+## Evidence
+
+[质询]具体数值（75%降至73.5%）及特定模型/量化方法未指明，属于经验事实，缺乏来源支持且易受模型规模、量化算法（如GPTQ/AWQ）影响，数值可能不准确。 | 经验事实，逻辑自洽（代码对符号精度敏感符合直觉）但缺来源支持，且具体数值无法验证。
+
+## Search Query
+
+Qwen3-27B INT8 quantization HumanEval code generation accuracy drop

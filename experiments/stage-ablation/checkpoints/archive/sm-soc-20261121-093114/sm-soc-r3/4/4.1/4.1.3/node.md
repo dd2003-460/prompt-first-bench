@@ -1,0 +1,20 @@
+# N54: 信息过载的边际成本：买家决策疲劳指数 ΔFatigue 随展示数据点数量 N_data 增加而上升，量化为 ΔFatigue = δ * N_data^2，其中
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N17
+
+## Claim
+
+信息过载的边际成本：买家决策疲劳指数 ΔFatigue 随展示数据点数量 N_data 增加而上升，量化为 ΔFatigue = δ * N_data^2，其中 δ 为疲劳系数，若 ΔFatigue 超过阈值 θ_fatigue，则买家可能因认知负荷放弃咨询，抵消 ΔT_decision 的收益。
+
+## Corrected Claim
+
+信息过载的边际成本：买家决策疲劳指数 ΔFatigue 随展示数据点数量 N_data 增加而上升，量化为 ΔFatigue = δ * N_data^2，其中 δ 为疲劳系数，若 ΔFatigue 超过阈值 θ_fatigue，则买家可能因认知负荷放弃咨询，抵消 ΔT_decision 的收益。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

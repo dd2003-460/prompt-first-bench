@@ -1,0 +1,30 @@
+# N405: 一致性条件的边界失效：当市场处于供不应求状态（Demand > Supply * 1.2）时，即使 S_sig < S_crit，高挂价也不会延长周期，因为买家
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N130
+
+## Claim
+
+一致性条件的边界失效：当市场处于供不应求状态（Demand > Supply * 1.2）时，即使 S_sig < S_crit，高挂价也不会延长周期，因为买家被迫接受。需量化当前平台的供需比 D/S 分布，若 D/S > 1.2 的品类占比 > 30%，则 S_crit 阈值在这些品类中无效，需分段分析。
+
+## Corrected Claim
+
+一致性条件的边界失效：当市场处于显著供不应求状态时，即使 S_sig < S_crit，高挂价可能不会显著延长成交周期，因为买家议价能力受限。需量化当前平台的供需比 D/S 分布，若高供需比品类占比显著，则 S_crit 阈值在这些品类中可能失效，需分段分析。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（D/S > 1.2, 占比 > 30%）和特定的市场行为假设（高挂价不延长周期），这些并非经济学第一性原理可直接推导的普适定律，而是依赖于特定平台数据和市场微观结构的经验事实。参考来源仅提供了宏观经济学定义，无法支持这些具体的量化边界条件。 | 逻辑上，供不应求时买方议价能力增强，卖方定价权提升，因此‘高挂价不延长周期’在定性上符合供需理论直觉（来源[1][3]间接支持供需对价格的影响机制）。但具体的数值阈值（1.2, 30%）属于经验事实，缺乏来源直接支持，且不同市场结构下该阈值可能不同，故降级为定性表述。
+
+## Search Query
+
+supply demand ratio impact on price negotiation dynamics second hand market
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Managerial_economics', 'type': 'wikipedia', 'title': 'Managerial economics'}
+- {'url': 'https://en.wikipedia.org/wiki/Inflation', 'type': 'wikipedia', 'title': 'Inflation'}
+- {'url': 'https://en.wikipedia.org/wiki/Economics', 'type': 'wikipedia', 'title': 'Economics'}

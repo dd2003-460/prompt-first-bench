@@ -1,0 +1,28 @@
+# N152: AMD MI300X 的显存容量为 192 GB HBM3，显存带宽为 5300 GB/s，TDP 为 750W，支持 Infinity Fabric 互联（双
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+AMD MI300X 的显存容量为 192 GB HBM3，显存带宽为 5300 GB/s，TDP 为 750W，支持 Infinity Fabric 互联（双向带宽可达 220 GB/s 以上，具体取决于配置），这是其能单卡运行 BF16 Qwen3-27B 且支持 32K 上下文的关键硬件基础。
+
+## Corrected Claim
+
+AMD MI300X 的显存容量为 192 GB HBM3，显存带宽为 5300 GB/s，TDP 为 750W，支持 Infinity Fabric 互联（双向带宽可达 220 GB/s 以上，具体取决于配置），这是其能单卡运行 BF16 Qwen3-27B 且支持 32K 上下文的关键硬件基础。
+
+## Evidence
+
+[rework-angle r1] [质询]来源摘要中提到的 '5.325 TFLOPS' 疑似为 '5.3 TB/s' 的笔误或单位混淆，且未直接提及 Infinity Fabric 的具体带宽数值，需确认带宽单位及互联规格是否准确。 | 来源 [1] 直接支持 192 GB HBM3 显存容量和 750W TDP；5300 GB/s 带宽与来源中的 5.325 (TB/s) 数值量级一致（5.325 TB/s = 5325 GB/s，通常标称 5.3 TB/s 或 5300 GB/s）；Infinity Fabric 互联是 MI300X 的已知架构特性，逻辑自洽且无来源矛盾。
+
+## Search Query
+
+MI300X 多卡互联带宽 官方技术白皮书
+
+## Retrieval Sources
+
+- {'url': 'https://www.amd.com/en/products/accelerators/instinct/mi300/mi300x.html&rut=6bd1d4a5b76525d5cf51f2f1fddd8511344271395216d7375ac569e93a84ee85', 'type': 'ddg', 'title': 'AMD Instinct™ MI300X Accelerators'}

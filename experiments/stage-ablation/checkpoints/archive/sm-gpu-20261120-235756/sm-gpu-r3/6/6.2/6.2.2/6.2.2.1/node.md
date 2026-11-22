@@ -1,0 +1,24 @@
+# N310: 二手 A100 80GB 在 12 个月持有期内的累计故障概率（Annualized Failure Rate, AFR）约为 1.5%-2.5%（基于 Goo
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N115
+
+## Claim
+
+二手 A100 80GB 在 12 个月持有期内的累计故障概率（Annualized Failure Rate, AFR）约为 1.5%-2.5%（基于 Google 数据中心硬件可靠性报告对 GPU 类组件的统计外推，具体需区分 SXM4 与 PCIe 版本及退役年限）。
+
+## Corrected Claim
+
+二手 A100 80GB 在 12 个月持有期内的累计故障概率（AFR）估计在 1.5%-2.5% 之间（基于 Google 数据中心硬件可靠性报告对 GPU 类组件的统计外推），但需注意二手设备实际故障率可能因退役年限和版本（SXM4/PCIe）差异而更高。
+
+## Evidence
+
+[质询]将 Google 数据中心报告（主要基于 TPU 和服务器组件）直接外推至二手 A100 80GB 的 AFR 存在口径混淆风险，且二手市场硬件的故障率通常显著高于数据中心新机，1.5%-2.5% 的数值可能低估了二手设备的实际风险。 | 先验知识/题面给定，逻辑校验通过；但作为经验事实，缺乏直接来源支持，且外推逻辑存在不确定性，故降级。
+
+## Search Query
+
+Google datacenter GPU annualized failure rate A100 study

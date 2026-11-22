@@ -1,0 +1,24 @@
+# N203: RTX 4090 24GB 在 W4 权重 + INT8 KV Cache 配置下运行 Qwen3-27B (32K ctx) 的实测吞吐量基准值，需检索社区实
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N48
+
+## Claim
+
+RTX 4090 24GB 在 W4 权重 + INT8 KV Cache 配置下运行 Qwen3-27B (32K ctx) 的实测吞吐量基准值，需检索社区实测数据，预期值在 15-25 tokens/s 区间，受限于 GDDR6X 带宽 (1008 GB/s) 和量化反量化计算开销
+
+## Corrected Claim
+
+RTX 4090 24GB 在 W4 权重 + INT8 KV Cache 配置下运行 Qwen3-27B (32K ctx) 的吞吐量受限于 GDDR6X 带宽 (1008 GB/s) 和量化开销，具体实测值需参考特定推理框架的社区基准测试，通常处于低两位数至二十多 tokens/s 区间。
+
+## Evidence
+
+[质询]该陈述包含具体的实测吞吐量数值区间（15-25 tokens/s）和硬件带宽参数（1008 GB/s），属于经验事实。由于检索失败，无法验证该特定配置下的实测数据是否准确，且不同量化实现（如AWQ, GPTQ, GGUF）及推理引擎（vLLM, llama.cpp）对吞吐量的影响巨大，单一区间可能具有误导性。 | 经验事实，逻辑自洽但缺来源支持。RTX 4090带宽确为1008 GB/s，Qwen3-27B在24GB显存下运行32K上下文需依赖量化，吞吐量受带宽限制符合物理直觉，但具体数值区间无法通过第一性原理严格推导，且无外部来源佐证。
+
+## Search Query
+
+RTX 4090 Qwen3-27B W4A16 INT8 KV cache 32k context throughput benchmark

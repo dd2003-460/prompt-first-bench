@@ -1,0 +1,24 @@
+# N50: Qwen3-27B 在 BF16 精度下的 MMLU 基准准确率约为 85%-90%（基于 27B 参数量级模型在 MMLU 测试集上的典型表现估算，需以官方技
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+Qwen3-27B 在 BF16 精度下的 MMLU 基准准确率约为 85%-90%（基于 27B 参数量级模型在 MMLU 测试集上的典型表现估算，需以官方技术报告为准）
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 精度下的 MMLU 基准准确率预计处于 85%-90% 区间（基于同参数量级模型典型表现估算，具体数值需以官方发布为准）
+
+## Evidence
+
+[质询]该陈述将特定模型（Qwen3-27B）的具体基准测试成绩（MMLU 85%-90%）作为事实陈述，但 Qwen3 系列目前尚未正式发布或公开完整技术报告，该数值属于基于参数量级的推测而非已验证的经验事实，存在具体数值偏差风险。 | source=knowledge，逻辑上 27B 参数量级模型在 MMLU 上达到 85%-90% 符合当前大模型能力分布的合理量级，无内部矛盾；但作为具体模型的经验性能指标，缺乏官方直接支持，依据经验事实排除条款及知识节点降级规则（因存在具体数值的不确定性攻击点），判定为 degraded。
+
+## Search Query
+
+Qwen3-27B MMLU accuracy benchmark

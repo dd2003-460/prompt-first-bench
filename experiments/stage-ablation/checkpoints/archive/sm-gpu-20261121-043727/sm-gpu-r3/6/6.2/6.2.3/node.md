@@ -1,0 +1,20 @@
+# N234: RTX 5090 的 T_decode 理论上限：基于 1.792 TB/s 带宽，计算 W4 量化下的 T_decode = (14GB + KV_Cache
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N87
+
+## Claim
+
+RTX 5090 的 T_decode 理论上限：基于 1.792 TB/s 带宽，计算 W4 量化下的 T_decode = (14GB + KV_Cache) / 1.792 TB/s。与 RTX 4090 (1.0 TB/s) 对比，理论加速比 ≈ 1.79x。需验证 GDDR7 实际带宽利用率（通常 60-80%）对实际 T_decode 的影响，计算 Effective_T_decode_5090 = (Weight + KV) / (1.792 * Utilization_Factor) [待核验]
+
+## Corrected Claim
+
+RTX 5090 的 T_decode 理论上限：基于 1.792 TB/s 带宽，计算 W4 量化下的 T_decode = (14GB + KV_Cache) / 1.792 TB/s。与 RTX 4090 (1.0 TB/s) 对比，理论加速比 ≈ 1.79x。需验证 GDDR7 实际带宽利用率（通常 60-80%）对实际 T_decode 的影响，计算 Effective_T_decode_5090 = (Weight + KV) / (1.792 * Utilization_Factor) [待核验]
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 5090 带宽 1.792 TB/s 与 RTX 4090 带宽 1.0 TB/s 的比值约为 1.79，符合理论加速比计算逻辑；GDDR7 利用率 60-80% 为合理工程经验值。

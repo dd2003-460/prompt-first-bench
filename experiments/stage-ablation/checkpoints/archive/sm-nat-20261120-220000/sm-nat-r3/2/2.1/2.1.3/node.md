@@ -1,0 +1,20 @@
+# N29: LFU的冷启动惩罚量化为：新对象在首次访问后需要累积 n_warmup 次访问才能进入高频缓存区，n_warmup ≈ f_median / f_min，其中f
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N8
+
+## Claim
+
+LFU的冷启动惩罚量化为：新对象在首次访问后需要累积 n_warmup 次访问才能进入高频缓存区，n_warmup ≈ f_median / f_min，其中f_median为对象访问频率中位数，f_min为最小访问频率；在β=0.9下，n_warmup ≈ 100，导致新对象在最初100次请求内的命中率下降，冷启动惩罚 P_cold = (n_warmup * f_new) / F_total，其中f_new为新对象总请求数
+
+## Corrected Claim
+
+LFU的冷启动惩罚通常表现为新对象因初始频率低而被频繁淘汰，导致初期命中率低于 LRU。量化上，若假设访问频率服从幂律分布，新对象需累积一定次数访问才能稳定在缓存中，具体阈值取决于频率分布参数，而非简单的 f_median / f_min 比值。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别修正了参数定义（n_warmup）和最终指标计算（P_cold），两者逻辑独立且互补，覆盖了父节点中关于公式定义和具体数值推导的两个核心错误，无冗余或矛盾。）

@@ -1,0 +1,20 @@
+# N493: RTX 4090 运行 Qwen3-27B FP8 模型时，权重显存占用约为 27GB (27B * 1 byte)，加上 KV Cache (32K cont
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N152, N153, N154
+
+## Claim
+
+RTX 4090 运行 Qwen3-27B FP8 模型时，权重显存占用约为 27GB (27B * 1 byte)，加上 KV Cache (32K context, batch=1, GQA 8 heads, 128 dims) 约 1.2GB，总计约 28.2GB，低于 24GB 显存上限但接近极限，需启用 PagedAttention 或 offload 策略，来源：Qwen3-27B 架构参数 (27B params, GQA 8 KV heads)。
+
+## Corrected Claim
+
+RTX 4090 (24GB) 运行 Qwen3-27B FP8 模型时，仅权重显存占用约为 27GB，已超出 24GB 显存上限。加上 KV Cache (32K context) 后总占用远超 24GB，因此无法在单卡上直接完整加载运行，必须启用 offload 策略、使用更低的量化精度（如 INT4）或模型并行。
+
+## Evidence
+
+[质询]陈述存在严重的内部逻辑矛盾和事实错误：1. 结论自相矛盾，声称总显存占用约 28.2GB，却得出“低于 24GB 显存上限”的结论，这在数学上不可能成立；2. 硬件规格错误，RTX 4090 的显存容量为 24GB，而 28.2GB 的占用量已超出其物理上限，无法直接运行该模型而不进行 offload 或量化压缩；3. KV Cache 计算可能低估，对于 27B 模型（通常层数较多，如 64 层），32K context 下的 KV Cache 占用通常远超 1.2GB（例如 64 层 * 2 * 32768 * 8 heads * 128 dims * 2 bytes ≈ 8.6GB），导致总占用更高。 | 逻辑校验失败：28.2GB > 24GB，陈述中“低于 24GB”的结论与前提数据直接矛盾，且违背基本算术逻辑。

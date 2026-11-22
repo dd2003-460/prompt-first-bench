@@ -1,0 +1,17 @@
+{
+  "id": "N191",
+  "claim": "2x RTX 4090 PCIe 4.0 x16互联带宽瓶颈量化：PCIe 4.0 x16单向理论带宽31.5 GB/s，双向有效带宽受协议开销限制约为25 GB/s。在Tensor Parallelism策略下，每生成一个token需进行All-Reduce通信，数据量约为Layer Norm后激活值大小（Batch=1, 32K ctx, hidden_size=4096, num_layers=64, dtype=FP16），单次通信数据量约为 64 * 4096 * 2 bytes * 32768 * 2 (All-Reduce factor) ≈ 34.4 GB，远超PCIe带宽，导致通信时间占比超过90%，使得多卡方案在长上下文下性能劣化至接近单卡水平或更低。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]通信数据量计算存在严重逻辑错误：在Tensor Parallelism中，All-Reduce发生在每个Transformer层内部，而非整个模型结束后。单次All-Reduce的数据量应为 Batch * SeqLen * HiddenSize * DtypeSize (即 1 * 32768 * 4096 * 2 = 256 MB)，而非乘以层数(64)和额外的All-Reduce factor(2)。原陈述将总通信量误算为单次通信量，导致数值夸大数千倍。 | 先验知识/题面给定，逻辑校验失败：TP策略下每层独立进行All-Reduce，单次通信量不应包含层数因子，原计算量纲与逻辑不符。",
+  "corrected_claim": "PCIe 4.0 x16双向有效带宽约为25 GB/s。在Tensor Parallelism策略下，每生成一个token需进行64次All-Reduce（每层一次）。单次All-Reduce数据量约为 Batch * SeqLen * HiddenSize * DtypeSize = 1 * 32768 * 4096 * 2 bytes = 256 MB。总通信量为 64 * 256 MB = 16 GB。虽然总通信量巨大，但通信与计算可部分重叠，且单次通信延迟受限于PCIe往返时间而非纯带宽，需结合具体硬件延迟模型评估性能劣化程度，不能简单得出通信时间占比超过90%的结论。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N60"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "PCIe 4.0 bandwidth tensor parallelism overhead LLM inference",
+  "retrieval_sources": []
+}

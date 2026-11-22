@@ -1,0 +1,20 @@
+# N8: 买家支付意愿分布 W ~ N(μ_W, σ_W^2)，其中 μ_W 为平均支付意愿，σ_W 为偏好噪声标准差，反映随机偏好噪声。
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+买家支付意愿分布 W ~ N(μ_W, σ_W^2)，其中 μ_W 为平均支付意愿，σ_W 为偏好噪声标准差，反映随机偏好噪声。
+
+## Corrected Claim
+
+买家支付意愿分布 W ~ N(μ_W, σ_W^2)，其中 μ_W 为平均支付意愿，σ_W 为偏好噪声标准差，反映随机偏好噪声。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

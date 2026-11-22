@@ -1,0 +1,24 @@
+# N148: 工作点1（高溢价-短周期）：在 $D > 15\%$ 且 $T_{high} < T_{base}$ 的组合下，$\Delta T_{short} = T_{h
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N62
+
+## Claim
+
+工作点1（高溢价-短周期）：在 $D > 15\%$ 且 $T_{high} < T_{base}$ 的组合下，$\Delta T_{short} = T_{high} - T_{base}$ 为负值。具体量化：若基准组 $T_{base} = 30$ 天，高溢价组 $T_{high} = 20$ 天，则 $\Delta T_{short} = -10$ 天。此工作点代表‘信号加速成交’机制占主导，即高价格成功筛选出高质量买家或降低了买家的搜索成本，使得成交速度超过基准。该工作点的有效性依赖于 $\eta > 0$ 且 $\Delta T_{short}$ 的置信区间不包含 0。
+
+## Corrected Claim
+
+工作点1（高溢价-短周期）：在 $D > 15\%$ 且 $T_{high} < T_{base}$ 的组合下，$\Delta T_{short} = T_{high} - T_{base}$ 为负值。具体量化：若基准组 $T_{base} = 30$ 天，高溢价组 $T_{high} = 20$ 天，则 $\Delta T_{short} = -10$ 天。此工作点代表‘信号加速成交’机制占主导，即高价格成功筛选出高质量买家或降低了买家的搜索成本，使得成交速度超过基准。该工作点的有效性依赖于 $\eta > 0$ 且 $\Delta T_{short}$ 的置信区间不包含 0。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算 20-30=-10 正确，且负值与‘成交速度超过基准’（时间缩短）的经济学直觉一致，无内部矛盾。
+
+## Search Query
+
+high price premium faster sale time second hand market empirical evidence

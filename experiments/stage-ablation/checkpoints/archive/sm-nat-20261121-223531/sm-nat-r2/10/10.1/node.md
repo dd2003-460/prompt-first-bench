@@ -1,0 +1,20 @@
+# N82: 更新率 1%/天 对 LRU 命中率的衰减因子 D 的精确计算：D = 1 - E[P_stale | Byte Weighted]，其中 P_stale(h)
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N26
+
+## Claim
+
+更新率 1%/天 对 LRU 命中率的衰减因子 D 的精确计算：D = 1 - E[P_stale | Byte Weighted]，其中 P_stale(h) = 1 - e^{-λ_upd * T_res(h)}，T_res(h) = 1/h（天），λ_upd = 0.01/天。对于热门对象（h 大），P_stale ≈ λ_upd/h；对于冷门对象（h 小），P_stale 接近 1。
+
+## Corrected Claim
+
+更新率 1%/天 对 LRU 命中率的衰减因子 D 的精确计算：D = 1 - E[P_stale | Byte Weighted]，其中 P_stale(h) = 1 - e^{-λ_upd * T_res(h)}，T_res(h) = 1/h（天），λ_upd = 0.01/天。对于热门对象（h 大），P_stale ≈ λ_upd/h；对于冷门对象（h 小），P_stale 接近 1。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于指数更新模型，P_stale = 1 - e^{-λT}，当 λ=0.01 且 T=1/h 时，对于热门对象（h>>λ），利用泰勒展开 e^{-x}≈1-x 可得 P_stale ≈ λ/h；对于冷门对象（h<<λ），指数项趋近于0，P_stale趋近于1，推导符合数学逻辑。

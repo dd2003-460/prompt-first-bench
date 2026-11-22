@@ -1,0 +1,20 @@
+# N36: LRU 工作集模型中‘对象在工作集内’的概率 P_hit_object 的数学表达：P_hit_object = P(对象最近一次访问时间 t_last > t
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N10
+
+## Claim
+
+LRU 工作集模型中‘对象在工作集内’的概率 P_hit_object 的数学表达：P_hit_object = P(对象最近一次访问时间 t_last > t_now - T_residence)，其中 T_residence 由缓存容量 C 和请求速率 λ 决定
+
+## Corrected Claim
+
+LRU 工作集模型中‘对象在工作集内’的概率 P_hit_object 的数学表达：P_hit_object = P(对象最近一次访问时间 t_last > t_now - T_residence)，其中 T_residence 由缓存容量 C 和请求速率 λ 决定
+
+## Evidence
+
+父节点级核验未通过：不完备（由于只有一个子节点，正交性和冗余性在逻辑上自动满足（无冲突或重复）。然而，完备性不足：父节点定义了一个基于时间阈值的通用概率模型，而子节点仅提供了稳态下的指数近似下界及特定场景（头部对象）的数值评估需求，未涵盖非稳态、精确解或不同请求分布下的情况，未能完全覆盖父节点定义的数学表达的所有关键方面。）

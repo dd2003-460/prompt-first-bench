@@ -1,0 +1,24 @@
+# N164: 2x RTX 4090 方案中，因 24GB 单卡显存限制，KV Cache 必须分片或 Offload 至 CPU，导致 Decode 阶段每次 token 
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N35
+
+## Claim
+
+2x RTX 4090 方案中，因 24GB 单卡显存限制，KV Cache 必须分片或 Offload 至 CPU，导致 Decode 阶段每次 token 生成需额外 5-15ms 的内存交换延迟，使整体吞吐较纯 GPU 方案下降 15-30%。
+
+## Corrected Claim
+
+2x RTX 4090 方案中，若 KV Cache 超出单卡或双卡显存容量需分片或 Offload 至 CPU，Decode 阶段将因 PCIe 内存交换引入额外延迟，导致整体吞吐较纯 GPU 方案有所下降，具体幅度取决于模型规模与硬件配置。
+
+## Evidence
+
+[质询]数值量级与具体延迟（5-15ms）及吞吐下降比例（15-30%）属于高度依赖具体模型架构、序列长度、Batch Size 及硬件互联带宽（PCIe 4.0/5.0）的经验性数据，缺乏通用性，且 2x 4090 总显存 48GB 在多数主流 LLM 场景下未必强制触发 Offload，前提条件过于绝对。 | 先验知识/题面给定，逻辑校验通过：KV Cache 分片/Offload 确实会引入 PCIe 传输延迟并降低吞吐，但具体数值为经验估计，非第一性原理可严格推导的恒定值，故降级为定性表述。
+
+## Search Query
+
+KV cache offload CPU latency impact LLM inference throughput

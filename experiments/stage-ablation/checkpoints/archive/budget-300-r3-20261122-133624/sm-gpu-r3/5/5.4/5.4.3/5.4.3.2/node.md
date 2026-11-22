@@ -1,0 +1,24 @@
+# N393: 数据中心显卡（H100/H200）在LLM推理负载下的实际MTBF修正：基于NVIDIA企业客户报告和服务器运维数据，H100在持续高负载下，MTBF约为5-7
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N153
+
+## Claim
+
+数据中心显卡（H100/H200）在LLM推理负载下的实际MTBF修正：基于NVIDIA企业客户报告和服务器运维数据，H100在持续高负载下，MTBF约为5-7年（主要故障模式：HBM3内存错误、PCIe链路降速），H200约为5-6年（HBM3e更先进但散热压力更大），需替换N153中10-15年的乐观估计。
+
+## Corrected Claim
+
+数据中心显卡（H100/H200）在LLM推理负载下的实际MTBF通常显著低于传统CPU服务器的乐观估计（如10-15年），具体数值受散热、负载及运维策略影响较大，需依据特定环境实测数据确定，而非固定为5-7年或5-6年。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（MTBF 5-7年/5-6年）和特定的故障模式归因，属于经验事实而非第一性原理可推导内容。在缺乏任何可用外部来源（检索失败）的情况下，无法验证这些具体数值的准确性，且不同数据中心环境、负载策略下MTBF波动极大，单一数值区间可能具有误导性。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，无法进行外部核验）
+
+## Search Query
+
+NVIDIA H100 H200 MTBF mean time between failures enterprise LLM inference workload

@@ -1,0 +1,30 @@
+# N319: 后端数据聚合成本 C_dev_backend：计算同类商品 P25/P75 需建立实时聚合服务，涉及 1 名后端工程师 * 10 人天 * $600/人天 = 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N109
+
+## Claim
+
+后端数据聚合成本 C_dev_backend：计算同类商品 P25/P75 需建立实时聚合服务，涉及 1 名后端工程师 * 10 人天 * $600/人天 = $6,000；若使用预计算缓存（每小时更新），成本降至 5 人天 = $3,000，但引入数据延迟。
+
+## Corrected Claim
+
+后端数据聚合成本 C_dev_backend：计算同类商品 P25/P75 需建立实时聚合服务，预估涉及 1 名后端工程师约 10 人天（按 $600/人天计约 $6,000）；若使用预计算缓存（每小时更新），成本预估降至 5 人天（约 $3,000），但引入数据延迟。
+
+## Evidence
+
+[质询]该陈述包含具体的工程估算参数（10人天、$600/人天、5人天），属于经验事实。参考来源仅提供了后端开发的宏观成本范围（如$25k-$75k或时薪$47-$315），未提供针对“实时聚合P25/P75”这一特定微服务的具体人天估算或单价，无法直接验证具体数值。 | 逻辑自洽（1*10*600=6000, 1*5*600=3000），但来源[1][2][3]仅涵盖宏观后端成本，未覆盖具体功能模块的人天估算，属经验事实且缺直接来源支持。
+
+## Search Query
+
+backend developer cost real-time data aggregation service
+
+## Retrieval Sources
+
+- {'url': 'https://www.aalpha.net/blog/backend-development-cost/&rut=a8c2b1d6f0a1a75c1c4e63e2577f0e0c3424ac153b697363cca60458d0dfc56f', 'type': 'ddg', 'title': 'Backend Development Cost: Complete Pricing Guide 2026- Aalpha'}
+- {'url': 'https://www.monocubed.com/blog/backend-development-cost/&rut=10510a9d7042256850859adfc9838752c8ca9378882f1a8b0bec538817fa0511', 'type': 'ddg', 'title': 'Backend Development Cost in 2026: Full Pricing Guide'}
+- {'url': 'https://www.fiverr.com/resources/guides/costs/back-end-developer&rut=226177014d09f4280d620592344511ce1191f7717bf0739b42c4ec2226d26cfe', 'type': 'ddg', 'title': 'Average Cost to Hire a Back End Developer in 2026 | Fiverr'}

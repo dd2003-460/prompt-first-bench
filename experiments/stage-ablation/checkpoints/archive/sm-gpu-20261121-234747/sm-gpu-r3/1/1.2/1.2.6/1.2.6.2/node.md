@@ -1,0 +1,24 @@
+# N191: H100 80GB 运行 Qwen3-27B INT8 在 32K 上下文下的 Prefill 阶段吞吐量（tokens/s）：受计算密度限制，Prefill 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N42, N43, N44
+
+## Claim
+
+H100 80GB 运行 Qwen3-27B INT8 在 32K 上下文下的 Prefill 阶段吞吐量（tokens/s）：受计算密度限制，Prefill 速度通常远高于 Decode，约为 Decode 的 10-20 倍（即 600-1800 tokens/s），具体数值取决于 FlashAttention-2/3 的算子优化程度及 Batch Size=1 时的填充效率
+
+## Corrected Claim
+
+H100 80GB 运行 Qwen3-27B INT8 在 32K 上下文下的 Prefill 阶段吞吐量通常远高于 Decode 阶段，具体数值取决于 FlashAttention 优化程度及系统配置，一般可达数百至数千 tokens/s。
+
+## Evidence
+
+[质询]具体吞吐量数值（600-1800 tokens/s）及倍数关系（10-20倍）属于经验事实，受硬件驱动、软件栈版本、具体模型架构细节及系统负载影响极大，缺乏通用确定性；且32K上下文下Prefill耗时较长，若Batch Size=1，实际吞吐可能因显存带宽或计算单元利用率波动而偏离该区间。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+H100 Qwen3-27B INT8 prefill throughput tokens per second flash attention

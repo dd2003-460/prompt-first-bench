@@ -1,0 +1,24 @@
+# N382: 2x RTX 4090 (PCIe 4.0) 方案中，NVLink 桥接硬件 (如 NVIDIA NVLink Bridge) 的采购成本 P_NVLink 约
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N119
+
+## Claim
+
+2x RTX 4090 (PCIe 4.0) 方案中，NVLink 桥接硬件 (如 NVIDIA NVLink Bridge) 的采购成本 P_NVLink 约为 $200-300，需计入 TCO_2x4090_NVL 的初始硬件成本项，以评估其是否值得相比 PCIe 方案的额外延迟降低。
+
+## Corrected Claim
+
+2x RTX 4090 (PCIe 4.0) 方案中，若使用 NVLink 桥接硬件，其采购成本需计入 TCO_2x4090_NVL 的初始硬件成本项。具体成本（如 $200-300）需根据实时市场价格核实，且需评估 NVLink 带来的带宽提升是否足以抵消额外成本及潜在延迟收益。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性价格数据（$200-300）和硬件兼容性假设（RTX 4090 支持 NVLink 桥接用于双卡互联以降低延迟），属于经验事实。虽然 RTX 4090 确实支持 NVLink，但具体价格随市场波动，且 NVLink 在消费级显卡上的主要优势是带宽而非单纯延迟降低，需具体场景验证。由于无外部来源支持具体数值，无法确证该价格区间和效益评估的准确性。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）。RTX 4090 支持 NVLink 是已知事实，但具体采购成本 $200-300 及 TCO 评估结论缺乏直接证据。
+
+## Search Query
+
+NVIDIA NVLink Bridge price RTX 4090

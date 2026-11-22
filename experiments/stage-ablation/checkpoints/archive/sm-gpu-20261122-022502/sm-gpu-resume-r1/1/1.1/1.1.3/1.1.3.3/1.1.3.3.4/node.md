@@ -1,0 +1,24 @@
+# N451: NVIDIA H100/H800 的 FP8 (E4M3/E5M2) Tensor Core 硬件单元要求矩阵行数和列数均为 16 的倍数 (16 elemen
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N139, N140, N141
+
+## Claim
+
+NVIDIA H100/H800 的 FP8 (E4M3/E5M2) Tensor Core 硬件单元要求矩阵行数和列数均为 16 的倍数 (16 elements * 1 byte = 16 bytes alignment)，若 Qwen3-27B 的权重矩阵维度 (如 4096x11008) 均已是 16 的倍数，则 Padding 开销为 0 GB；仅当使用非标准维度或 Block-wise 量化导致子块不对齐时，才产生 <0.1% 的填充。
+
+## Corrected Claim
+
+NVIDIA H100/H800 的 FP8 (E4M3/E5M2) Tensor Core 硬件单元要求矩阵行数和列数均为 16 的倍数 (16 elements * 1 byte = 16 bytes alignment)，若 Qwen3-27B 的权重矩阵维度 (如 4096x11008) 均已是 16 的倍数，则 Padding 开销为 0 GB；仅当使用非标准维度或 Block-wise 量化导致子块不对齐时，才产生 <0.1% 的填充。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H100/H800 FP8 Tensor Core 确实要求 16 字节对齐（即 16 元素），4096 和 11008 均为 16 的倍数，故无 Padding 开销，符合硬件规格与数学逻辑。
+
+## Search Query
+
+NVIDIA H100 FP8 tensor core alignment requirement 16 bytes

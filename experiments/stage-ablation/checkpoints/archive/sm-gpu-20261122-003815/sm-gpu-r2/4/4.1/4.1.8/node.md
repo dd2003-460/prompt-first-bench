@@ -1,0 +1,24 @@
+# N124: INT4 量化 Overhead 精确计算：AWQ/GPTQ INT4 量化中，每 128 个权重共享一个 FP16 scale 和一个 FP16 zero-p
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N22, N23, N24
+
+## Claim
+
+INT4 量化 Overhead 精确计算：AWQ/GPTQ INT4 量化中，每 128 个权重共享一个 FP16 scale 和一个 FP16 zero-point（或仅 scale）。Overhead ≈ 27B * (2 bytes / 128 params) / 1 byte per param ≈ 0.42 GB。因此总权重占用 ≈ 13.5 + 0.42 ≈ 13.9 GB，而非简单的 15 GB。
+
+## Corrected Claim
+
+INT4 量化 Overhead 精确计算：AWQ/GPTQ INT4 量化中，每 128 个权重共享一个 FP16 scale 和一个 FP16 zero-point（或仅 scale）。Overhead ≈ 27B * (2 bytes / 128 params) / 1 byte per param ≈ 0.42 GB。因此总权重占用 ≈ 13.5 + 0.42 ≈ 13.9 GB，而非简单的 15 GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B * (2/128) / 1 = 0.421875 GB，总占用 13.5 + 0.42 ≈ 13.92 GB，计算无误且符合AWQ/GPTQ量化原理。
+
+## Search Query
+
+AWQ quantization overhead calculation 128 group size

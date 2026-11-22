@@ -1,0 +1,24 @@
+# N241: W8A8 SmoothQuant的Perplexity增加量为0.02 [待核验]，基于WikiText2数据集；该增量低于W4量化的0.08-0.12，表明S
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N82
+
+## Claim
+
+W8A8 SmoothQuant的Perplexity增加量为0.02 [待核验]，基于WikiText2数据集；该增量低于W4量化的0.08-0.12，表明SmoothQuant通过激活离群值缩放（scale factor alpha=0.5）有效缓解了激活值动态范围过大导致的量化噪声，使得权重量化误差未被激活放大
+
+## Corrected Claim
+
+W8A8 SmoothQuant在WikiText2上的Perplexity增加量通常较低（如约0.02），低于W4量化（约0.08-0.12），表明其通过激活离群值缩放有效缓解了量化噪声。
+
+## Evidence
+
+[质询]具体数值（0.02, 0.08-0.12）及特定数据集（WikiText2）属于经验事实，缺乏来源支持，且不同模型/实现下量化误差波动较大，单一数值可能不具备普适性。 | 经验事实，逻辑自洽但缺来源支持（检索失败，无外部证据）
+
+## Search Query
+
+Qwen3-27B W8A8 SmoothQuant perplexity WikiText2

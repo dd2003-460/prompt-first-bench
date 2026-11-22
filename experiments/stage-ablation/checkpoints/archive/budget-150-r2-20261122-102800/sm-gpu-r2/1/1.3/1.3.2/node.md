@@ -1,0 +1,20 @@
+# N61: Apple M2 Ultra (192GB unified) TDP为165W，M3 Ultra (256GB unified) 为165W，来源：Apple官
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N10
+
+## Claim
+
+Apple M2 Ultra (192GB unified) TDP为165W，M3 Ultra (256GB unified) 为165W，来源：Apple官方技术规格 [verified]
+
+## Corrected Claim
+
+Apple M2 Ultra 和 M3 Ultra 的 TDP 约为 165W（非官方公开数据，基于第三方测试与行业估算）
+
+## Evidence
+
+[质询]Apple 官方从未公开披露 M2 Ultra 或 M3 Ultra 的具体 TDP（热设计功耗）数值，165W 这一具体数值缺乏官方直接支持，且不同负载下功耗波动较大，固定 TDP 表述可能混淆了峰值功耗与持续 TDP 口径。 | source=knowledge，逻辑自洽（M2/M3 Ultra 功耗量级在 100-200W 区间合理），但 165W 为具体经验参数，无来源直接支持，依据经验事实排除条款降级。

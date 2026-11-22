@@ -1,0 +1,25 @@
+# N418: 随机偏好噪声的宏观聚合效应：个体卖家定价噪声 ε_i ~ N(0, σ²_noise) 在宏观层面通过‘赢家通吃’机制放大。当市场存在信号机制时，只有噪声方向与
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+随机偏好噪声的宏观聚合效应：个体卖家定价噪声 ε_i ~ N(0, σ²_noise) 在宏观层面通过‘赢家通吃’机制放大。当市场存在信号机制时，只有噪声方向与‘快速成交’标签一致的卖家（即偶然挂价偏高但被算法标记为优质）获得曝光。这种选择偏差导致观测到的平均挂价 δ_list 高于真实偏好均值，且成交周期 T 因信号筛选而缩短。
+
+## Corrected Claim
+
+在存在信号筛选机制的市场中，个体定价噪声可能导致观测到的平均挂价出现偏差，且可能影响成交周期，但具体方向（如挂价偏高）和幅度需实证数据支持。
+
+## Evidence
+
+[质询]该陈述描述了一个特定的微观-宏观传导机制（噪声通过信号筛选导致平均挂价偏差和成交周期缩短），属于经验性市场行为假设，无法从第一性原理严格推导，且参考来源未提供直接证据支持这一具体因果链条。 | 逻辑自洽（选择偏差导致观测均值偏离真实均值符合统计学直觉），但参考来源[1]和[2]与具体市场定价噪声机制无关，缺乏直接外部支持，且属于经验事实，故降级。
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org/pdf/2609.04174&rut=67aecb324f875db4c493abd914d7a2602d111318449d70cf30c4131ff904c591', 'type': 'ddg', 'title': 'arXiv.org'}
+- {'url': 'https://github.com/eluckydog/spectral-gap-factor&rut=1091b383c9081e9e29394e1bc8b47abbda93e8a24cbbdd327e53b221d4a88ba3', 'type': 'ddg', 'title': 'GitHub - eluckydog/spectral-gap-factor: Eigenvalue gap as a market ...'}

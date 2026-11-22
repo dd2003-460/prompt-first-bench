@@ -1,0 +1,12 @@
+# N1: 显存容量与架构可行性约束：覆盖不同架构（NVIDIA/AMD/Intel等）、代际及显存档位下，模型权重+KV Cache的最小显存需求，以及单卡/多卡互联拓扑
+
+- **status**: pending
+- **level**: L1
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: (root)
+
+## Claim
+
+显存容量与架构可行性约束：覆盖不同架构（NVIDIA/AMD/Intel等）、代际及显存档位下，模型权重+KV Cache的最小显存需求，以及单卡/多卡互联拓扑对总可用显存的净损耗（通信开销/碎片化），作为方案入池的硬过滤门。

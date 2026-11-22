@@ -1,0 +1,29 @@
+# N111: W4 (INT4) 量化在 RTX 4090 上的推理加速比验证：INT4 相比 BF16 在 Decode 阶段的理论加速比 = (BF16_Weight_S
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N41
+
+## Claim
+
+W4 (INT4) 量化在 RTX 4090 上的推理加速比验证：INT4 相比 BF16 在 Decode 阶段的理论加速比 = (BF16_Weight_Size / INT4_Weight_Size) * (INT4_Bandwidth_Utilization / BF16_Bandwidth_Utilization)，考虑到 INT4 解包开销，实际加速比通常为 1.5x-1.8x (而非理论 2x)；需对比 NVFP4 若支持原生硬件加速时的加速比差异 [待核验: 需实测或引用 vLLM/TensorRT 在 RTX 4090 上 INT4 vs BF16 的 tokens/s 数据]
+
+## Corrected Claim
+
+INT4量化在RTX 4090上的推理加速比受模型架构、序列长度及具体实现（如ModelOpt vs TensorRT）影响较大，实测数据范围较宽（如1.5x至3x不等），并非固定的1.5x-1.8x；需针对特定模型和框架进行实测对比。
+
+## Evidence
+
+[质询]来源[1]声称INT4量化带来3倍加速，与陈述中“实际加速比通常为1.5x-1.8x”存在显著数值矛盾；且来源[2]仅给出绝对速度（18 token/s），未提供BF16基线数据，无法直接验证相对加速比。 | 逻辑上INT4因带宽瓶颈和计算开销，加速比低于理论2x是合理的（1.5-1.8x符合工程经验）；但来源[1]的3x数据与陈述矛盾，来源[2]缺乏对比基线，无法构成直接支持，故降级。
+
+## Search Query
+
+RTX 4090 INT4 vs BF16 inference speedup tokens per second vLLM TensorRT benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_28706923/article/details/160810764&rut=15a5a2d7e81bdbee056cd8890d382122b031f38a4077195cbda8723cf5c92335', 'type': 'ddg', 'title': '告别臃肿模型：用NVIDIA ModelOpt的INT4量化，让LLaMA-7B在RTX 4090上推理快3倍'}
+- {'url': 'https://blog.csdn.net/weixin_30632267/article/details/157636007&rut=96f12f730c131c22d18d43c6727ceb43708bc300b1431ba1f67a2e376cf74575', 'type': 'ddg', 'title': 'GLM-4v-9b性能实测：4090上INT4推理速度达18 token/s（1120×1120）-CSDN博客'}

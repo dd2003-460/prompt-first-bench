@@ -1,0 +1,20 @@
+# N47: 基于确认参数的 KV Cache 精确计算：每 token 每层占用 = 8 heads * 128 dim * 2 bytes * 2 (K+V) = 409
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N10
+
+## Claim
+
+基于确认参数的 KV Cache 精确计算：每 token 每层占用 = 8 heads * 128 dim * 2 bytes * 2 (K+V) = 4096 bytes; 32K tokens 总 KV Cache = 4096 B/token/layer * 32768 tokens * 48 layers = 6,442,450,944 bytes ≈ 6.0 GB
+
+## Corrected Claim
+
+基于确认参数的 KV Cache 精确计算：每 token 每层占用 = 8 heads * 128 dim * 2 bytes * 2 (K+V) = 4096 bytes; 32K tokens 总 KV Cache = 4096 B/token/layer * 32768 tokens * 48 layers = 6,442,450,944 bytes ≈ 6.0 GB
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算过程 8*128*2*2=4096 bytes/token/layer 正确；总量 4096 * 32768 * 48 = 6,442,450,944 bytes，换算为 GiB (1024^3) 约为 6.0 GiB，数值量级与逻辑均自洽。

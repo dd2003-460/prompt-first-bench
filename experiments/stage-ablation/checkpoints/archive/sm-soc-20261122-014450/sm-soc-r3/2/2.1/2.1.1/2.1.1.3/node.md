@@ -1,0 +1,24 @@
+# N164: α (信号敏感度系数) 的回归估计方法：通过 OLS 回归 ln(D_i) = β_0 + β_1 * Signal_Quality_i + ε_i 估计，其中
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N49
+
+## Claim
+
+α (信号敏感度系数) 的回归估计方法：通过 OLS 回归 ln(D_i) = β_0 + β_1 * Signal_Quality_i + ε_i 估计，其中 D_i 为卖家 i 的实际有效需求密度。预期 β_1 (即 α) 在二手非标品中显著大于 0.1，需验证 p-value < 0.05 以确认统计显著性。
+
+## Corrected Claim
+
+α (信号敏感度系数) 的回归估计方法：通过 OLS 回归 ln(D_i) = β_0 + β_1 * Signal_Quality_i + ε_i 估计，其中 D_i 为卖家 i 的实际有效需求密度。预期 β_1 (即 α) 在二手非标品中显著为正，需验证 p-value < 0.05 以确认统计显著性。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（β_1 > 0.1）和统计显著性标准（p < 0.05），属于经验事实而非第一性原理可推导的数学或逻辑恒等式。在缺乏外部来源支持的情况下，无法确认该特定阈值在二手非标品领域的普遍适用性或准确性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+regression analysis signal quality impact on demand density used goods

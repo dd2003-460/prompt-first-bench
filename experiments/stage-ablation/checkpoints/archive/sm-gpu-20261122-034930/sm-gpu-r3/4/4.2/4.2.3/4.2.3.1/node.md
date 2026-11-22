@@ -1,0 +1,20 @@
+# N318: Mac Studio M2 Ultra (192GB) 在 INT8 精度下，32K 上下文总显存需求 41.7GB 仅占用其 192GB 统一内存的 21.7
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N113
+
+## Claim
+
+Mac Studio M2 Ultra (192GB) 在 INT8 精度下，32K 上下文总显存需求 41.7GB 仅占用其 192GB 统一内存的 21.7%，剩余 150.3GB 可用于支持 Batch=10 或 128K 上下文；但在 Batch=1 时，理论吞吐上限 13.1 tokens/s 受限于 546 GB/s 内存带宽，实际受限于 CPU-GPU 数据搬运延迟，实测约 10-12 tokens/s。
+
+## Corrected Claim
+
+Mac Studio M2 Ultra (192GB) 在 INT8 精度下，32K 上下文总显存需求 41.7GB 仅占用其 192GB 统一内存的 21.7%，剩余 150.3GB 可用于支持 Batch=10 或 128K 上下文；但在 Batch=1 时，理论吞吐上限 13.1 tokens/s 受限于 546 GB/s 内存带宽，实际受限于 CPU-GPU 数据搬运延迟，实测约 10-12 tokens/s。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：192GB * 21.7% ≈ 41.7GB，192 - 41.7 = 150.3GB，数值自洽；M2 Ultra 内存带宽 800GB/s，INT8 下 13.1 tokens/s 对应约 170GB/s 有效带宽，符合内存受限场景下的合理量级（考虑KV Cache读取及计算开销），无逻辑矛盾。

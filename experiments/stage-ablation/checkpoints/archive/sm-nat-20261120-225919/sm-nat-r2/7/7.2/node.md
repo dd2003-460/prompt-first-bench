@@ -1,0 +1,20 @@
+# N91: 若缓存容量足以容纳所有对象（k_max=N），则 N_byte = D_byte，H_byte = 100%。但若存在超大对象导致部分对象无法缓存，需剔除这些对
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N25
+
+## Claim
+
+若缓存容量足以容纳所有对象（k_max=N），则 N_byte = D_byte，H_byte = 100%。但若存在超大对象导致部分对象无法缓存，需剔除这些对象。假设 1% 的对象（最大）占据了 50% 的字节流量，则 H_byte ≤ 1 - 0.5 * (1 - hit_rate_of_large_objects)。
+
+## Corrected Claim
+
+若缓存容量足以容纳所有对象（k_max=N），则 N_byte = D_byte，H_byte = 100%。但若存在超大对象导致部分对象无法缓存，需剔除这些对象。假设 1% 的对象（最大）占据了 50% 的字节流量，则 H_byte ≤ 1 - 0.5 * (1 - hit_rate_of_large_objects)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：当缓存容量不足时，命中率上限确实受限于可缓存部分的流量占比，公式推导符合逻辑。

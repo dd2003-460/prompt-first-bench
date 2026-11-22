@@ -1,0 +1,29 @@
+# N168: FP8 KV Cache 导致 Qwen3-27B 在 MMLU/BBH 等标准基准上的准确率下降阈值：当 KV Cache 从 BF16 降至 FP8 时，长
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N65
+
+## Claim
+
+FP8 KV Cache 导致 Qwen3-27B 在 MMLU/BBH 等标准基准上的准确率下降阈值：当 KV Cache 从 BF16 降至 FP8 时，长文本（>8K）推理任务准确率下降通常 <0.5%，若下降 >1% 则视为质量不可接受，需回退至 BF16 或 INT16。
+
+## Corrected Claim
+
+FP8 KV Cache 通常会导致 Qwen3 系列模型在长文本推理任务上出现一定程度的准确率下降，具体幅度取决于硬件平台、并发量及实现细节；在部分配置下（如 B200）已观察到明显的精度退化，建议根据具体基准测试结果评估是否回退至 BF16。
+
+## Evidence
+
+[质询]陈述中的具体数值阈值（<0.5% 下降，>1% 不可接受）缺乏通用标准支持，且参考来源显示在特定硬件/配置下（如 B200 或高并发 ROCm 环境）FP8 KV Cache 可能导致显著的性能退化甚至崩溃，而非简单的 <0.5% 线性下降，暗示该阈值可能过于乐观或仅适用于特定理想条件。 | 来源 [2] 证实了 Qwen3.5 在 B200 上使用 FP8 KV Cache 时准确率下降（degraded accuracy），支持了 FP8 会导致精度损失的定性结论，但未提供具体的 <0.5% 或 1% 阈值数据；来源 [1] 涉及模型权重 FP8 而非 KV Cache，且为极端故障案例，与常规 KV Cache 量化阈值不直接相关。作为经验事实，缺乏直接来源支持具体数值阈值，故降级。
+
+## Search Query
+
+Qwen3-27B FP8 KV cache accuracy degradation MMLU BBH long context benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/vllm-project/vllm/issues/60160&rut=a3a17fe77c88c73169e01831217bc1894b8285dbe3690cc38b6adcb626f25c1d', 'type': 'ddg', 'title': '[Bug][ROCm] Qwen3.8-27B-FP8 (TP4, MI355X) accuracy collapses ... - GitHub'}
+- {'url': 'https://github.com/vllm-project/vllm/issues/37618&rut=8a3e499439aa83b2fcf1e689476c205f89ad2944650778aac36d953f459c1ced', 'type': 'ddg', 'title': '[Bug]: FP8 kv cache on b200 with qwen3.5 has degraded accuracy'}

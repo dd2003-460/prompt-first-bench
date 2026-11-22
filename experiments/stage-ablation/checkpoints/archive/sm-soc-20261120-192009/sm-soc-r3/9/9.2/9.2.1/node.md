@@ -1,0 +1,24 @@
+# N334: 持有成本率 r 的构成参数量化：具体化 r_holding = r_f + (C_storage + Depreciation)/Value，其中无风险利率 r
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N114
+
+## Claim
+
+持有成本率 r 的构成参数量化：具体化 r_holding = r_f + (C_storage + Depreciation)/Value，其中无风险利率 r_f 取 10 年期国债收益率（约 3-4% [时效待核]），折旧率 Depreciation 按品类（如数码 10%/月，服饰 5%/月）设定。
+
+## Corrected Claim
+
+持有成本率 r 的构成参数量化：具体化 r_holding = r_f + (C_storage + Depreciation)/Value，其中无风险利率 r_f 取 10 年期国债收益率（约 3-4% [时效待核]），折旧率 Depreciation 建议按品类采用非线性折旧模型或基于历史市场数据动态调整，而非固定月度百分比。
+
+## Evidence
+
+[质询]折旧率（Depreciation）按固定月度百分比（如数码10%/月）设定过于简化，忽略了资产残值、市场波动及具体品牌差异，且不同品类折旧曲线非线性，该线性假设在长期持有中会导致成本估算偏差。 | 先验知识/题面给定，逻辑校验通过；但折旧率的线性简化假设存在经验性偏差，且无外部来源支持具体数值，故降级为定性表述。
+
+## Search Query
+
+holding cost rate components risk free interest rate depreciation rate by category

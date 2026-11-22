@@ -1,0 +1,24 @@
+# N15: 消费级显卡（如RTX 4090）显存带宽为1008 GB/s，数据中心级（如A100 80GB）为2039 GB/s，前者在单卡场景下吞吐约为后者的50%。
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+消费级显卡（如RTX 4090）显存带宽为1008 GB/s，数据中心级（如A100 80GB）为2039 GB/s，前者在单卡场景下吞吐约为后者的50%。
+
+## Corrected Claim
+
+消费级显卡（如RTX 4090）显存带宽为1008 GB/s，数据中心级（如A100 80GB）为2039 GB/s，前者在单卡场景下吞吐约为后者的50%。
+
+## Evidence
+
+父节点级核验未通过：有冗余（子节点2和3本质上是同一类内容（不同精度下的吞吐计算示例），属于参数变化导致的重复结构，存在冗余；但整体覆盖了带宽数据、BF16和FP8场景下的吞吐推导，内容完备且无矛盾。）
+
+## Search Query
+
+RTX 4090 vs A100 memory bandwidth inference throughput comparison

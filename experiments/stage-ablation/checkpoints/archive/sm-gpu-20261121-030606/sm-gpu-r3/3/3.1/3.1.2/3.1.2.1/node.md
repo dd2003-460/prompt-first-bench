@@ -1,0 +1,28 @@
+# N247: Qwen3-27B在BF16精度下GSM8K基准测试的官方基准得分需从Qwen3技术报告或Hugging Face模型卡片中核实，当前82.1%为模型先验估计 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N109
+
+## Claim
+
+Qwen3-27B在BF16精度下GSM8K基准测试的官方基准得分需从Qwen3技术报告或Hugging Face模型卡片中核实，当前82.1%为模型先验估计 [待核验]，若实际基准为80.0%，则INT8相对损失需重新计算
+
+## Corrected Claim
+
+Qwen3-27B在BF16精度下GSM8K基准测试的官方得分需以Qwen3技术报告或Hugging Face模型卡片为准；当前82.1%为估计值，若实际基准不同，INT8相对损失需重新计算。
+
+## Evidence
+
+[质询]陈述中的82.1%被明确标记为'模型先验估计'而非官方数据，且参考来源[1]提及的是'Qwen3.8-27B'（版本号存疑，可能为笔误或非标准命名）的第三方基准测试，并非Qwen3-27B的官方技术报告或Hugging Face模型卡片，无法直接证实82.1%这一具体数值的准确性。 | 来源[1]提供了Qwen3系列27B模型在GSM8K上的测试背景，间接支持该模型在此基准上有得分，但未直接提供官方82.1%的数据，且来源中模型名称'Qwen3.8-27B'与标准命名'Qwen3-27B'存在差异，属于间接支持且存在不确定性。
+
+## Search Query
+
+Qwen3-27B GSM8K benchmark score BF16 official report
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/sgl-project/sglang/issues/41938&rut=eb2c1cdc34a0ccb4fd980a81a38388e220eb87ec074611613b62dc1989622dd7', 'type': 'ddg', 'title': 'Benchmark: Qwen3.8-27B FP8/BF16 on H200 with float32 SSM state ... - GitHub'}

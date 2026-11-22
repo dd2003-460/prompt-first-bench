@@ -1,0 +1,26 @@
+# N115: 二级结论框架层级逻辑定义：L1 为宏观现象描述（高挂价短周期、降价无咨询），L2 为中观机制解释（筛选效应、信息不对称、算法权重），L3 为微观参数验证（具体系
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+二级结论框架层级逻辑定义：L1 为宏观现象描述（高挂价短周期、降价无咨询），L2 为中观机制解释（筛选效应、信息不对称、算法权重），L3 为微观参数验证（具体系数、阈值、公式）；逻辑流向为 L3 参数支撑 L2 机制，L2 机制解释 L1 现象，任何 L1 结论必须至少由两个独立的 L2 机制支持，且每个 L2 机制需有至少一个 L3 量化节点佐证。
+
+## Corrected Claim
+
+该陈述描述了一个特定的二级结论分析框架，其中L1为宏观现象，L2为中观机制，L3为微观参数，并规定了L3支撑L2、L2解释L1的逻辑流向及数量约束。由于缺乏该特定框架的原始定义来源，仅能确认其逻辑结构自洽，具体业务术语（如高挂价、算法权重）的适用性需依据原始文档确认。
+
+## Evidence
+
+[质询]该陈述定义了一个特定的、包含具体业务场景（如“高挂价短周期”、“算法权重”）的分析框架，这属于特定项目或文档的内部定义，而非通用的学术或行业标准。参考来源中未包含该特定框架的定义，无法验证其具体层级内容（L1/L2/L3的具体指代）及约束条件（如“至少两个独立L2机制”）的准确性。 | 逻辑上自洽（宏观-中观-微观的层级递进符合一般分析逻辑），但参考来源[1][2][3]均与该特定业务框架（涉及挂价、咨询、算法权重等电商或特定市场场景）无关，无法提供外部支持，属于经验事实/特定定义，故降级。
+
+## Retrieval Sources
+
+- {'url': 'https://www.scribd.com/document/880562500/%E5%8D%8E%E6%B3%B0%E8%AF%81%E5%88%B8%E5%9B%BA%E6%94%B6%E5%88%86%E6%9E%90%E6%A1%86%E6%9E%B6%E5%9F%B9%E8%AE%AD-%E5%AE%8F%E8%A7%82%E7%BB%8F%E6%B5%8E%E5%88%86%E6%9E%90%E6%A1%86%E6%9E%B6-1&rut=da01823b79a910f715d3f39e1ea911706dfd87edf1ad7817528e12d563ead2ad', 'type': 'ddg', 'title': '【华泰证券固收分析框架培训】宏观经济分析框架 | Pdf'}
+- {'url': 'https://www.cfc108.com/zxjtqh/attachDir/2024/08/2024081914351281566.pdf&rut=71f3aca37bb45ccf81bef64876c56ce9cc20c11aba6e569808a1093d63baab93', 'type': 'ddg', 'title': 'PDF 商品研究框架的抽象与分解'}
+- {'url': 'https://orcapaper.cn/knowledge/thesis-guide/2026-step-by-step-guide-to-build-research-content-hierarchy-logic-from-top-framework-to-verification&rut=7d50253a13d48644e175a9b89873c7c5797affec4353868bf6d5429faad23466', 'type': 'ddg', 'title': '研究内容层级逻辑怎么搭？从顶层框架到落地校验的分步教程'}

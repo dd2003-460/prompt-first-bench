@@ -1,0 +1,24 @@
+# N280: STEM 类题目（Physics, Chemistry）NVFP4 量化 MMLU 损失 2.0-3.0% 的机制：STEM 题目包含更多低频专业术语（如 'p
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N89
+
+## Claim
+
+STEM 类题目（Physics, Chemistry）NVFP4 量化 MMLU 损失 2.0-3.0% 的机制：STEM 题目包含更多低频专业术语（如 'photosynthesis', 'thermodynamics'），其 token 频率 < 1e-3，量化误差累积效应更强；实测显示 STEM 子集的平均 token 频率比 Humanities 低 40%-60%，导致量化误差放大 1.5-2.0 倍。
+
+## Corrected Claim
+
+STEM 类题目（Physics, Chemistry）NVFP4 量化 MMLU 损失通常高于 Humanities 类题目，机制在于 STEM 题目包含更多低频专业术语，其 token 频率分布更偏向长尾，导致量化误差累积效应更强；具体损失幅度及频率差异需依据特定模型与数据集的实测数据确定。
+
+## Evidence
+
+[质询]陈述中包含具体的经验性数值（如 token 频率 < 1e-3、频率低 40%-60%、误差放大 1.5-2.0 倍），这些具体参数缺乏通用理论支持，且不同模型、数据集或量化实现下数值可能显著波动，存在将特定实验结果泛化为普遍机制的风险。 | 先验知识/题面给定，逻辑校验通过：STEM 领域术语分布确实更稀疏（长尾效应更强），低频 token 在量化中误差累积效应更强的机制符合信息论与量化误差传播的基本逻辑；但具体数值（40%-60% 等）属于经验观测值，无外部来源直接支持，故降级。
+
+## Search Query
+
+NVFP4 quantization MMLU STEM vs Humanities accuracy loss token frequency

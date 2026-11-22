@@ -1,0 +1,20 @@
+# N90: 1×A100 40GB 方案的吞吐量瓶颈量化：HBM2e 带宽 1555 GB/s，Qwen3-27B FP8 权重 27GB，理论最大解码速度 = Bandw
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N23
+
+## Claim
+
+1×A100 40GB 方案的吞吐量瓶颈量化：HBM2e 带宽 1555 GB/s，Qwen3-27B FP8 权重 27GB，理论最大解码速度 = Bandwidth / Weight_Size = 1555 / 27 ≈ 57.6 tokens/s（单序列），需对比 2×4090 的聚合带宽效率。
+
+## Corrected Claim
+
+1×A100 40GB 方案的吞吐量瓶颈量化：HBM2e 带宽 1555 GB/s，Qwen3-27B FP8 权重 27GB，理论最大解码速度 = Bandwidth / Weight_Size = 1555 / 27 ≈ 57.6 tokens/s（单序列），需对比 2×4090 的聚合带宽效率。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1聚焦于2×4090方案的带宽效率与理论速度估算，子节点2聚焦于A100在长上下文下的实际吞吐修正（引入KV Cache因素）。两者分别处理不同硬件方案的核心瓶颈变量，内容无重叠且互补，共同覆盖了父节点要求的‘量化’与‘对比’维度。）

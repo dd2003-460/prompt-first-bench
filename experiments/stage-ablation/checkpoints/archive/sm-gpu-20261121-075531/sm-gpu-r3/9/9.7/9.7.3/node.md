@@ -1,0 +1,24 @@
+# N367: 在 2x GPU 配置中，若主板未提供独立 PCIe x8 插槽而通过 PLX 芯片或 CPU 复用拆分 x16 为 2x x8，实际带宽可能降至 x4 等效（
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N123
+
+## Claim
+
+在 2x GPU 配置中，若主板未提供独立 PCIe x8 插槽而通过 PLX 芯片或 CPU 复用拆分 x16 为 2x x8，实际带宽可能降至 x4 等效（~8-16 GB/s），需确认具体主板（如 Z790 高端型号）是否支持原生 2x x8 直连 CPU 无 P2P 瓶颈。
+
+## Corrected Claim
+
+在 2x GPU 配置中，若主板未提供独立 PCIe x8 插槽而通过 PLX 芯片或 CPU 复用拆分 x16 为 2x x8，实际带宽可能受限于 PCIe 代际及芯片组架构，需确认具体主板（如 Z790 高端型号）是否支持原生 2x x8 直连 CPU 以避免 P2P 瓶颈。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件规格参数（如Z790芯片组特性、PLX芯片带宽损耗具体数值、PCIe通道拆分后的实际带宽范围），属于经验事实。由于检索失败无外部来源支持，且不同主板/芯片组实现差异巨大，无法仅凭逻辑推导确认具体数值范围（8-16 GB/s）的普适性或特定型号（Z790）的具体行为。 | 经验事实，逻辑自洽但缺来源支持。PCIe x8理论带宽约为16GB/s（Gen4）或8GB/s（Gen3），经PLX拆分或复用确实可能引入额外延迟或带宽瓶颈，但具体数值和主板支持情况需查证具体硬件手册，当前无来源可验证。
+
+## Search Query
+
+Z790 motherboard PCIe 4.0 x8 x8 slot configuration P2P bandwidth

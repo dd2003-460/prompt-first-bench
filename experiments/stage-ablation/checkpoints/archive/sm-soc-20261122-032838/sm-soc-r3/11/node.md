@@ -1,0 +1,20 @@
+# N108: 随机偏好噪声（Random Preference Noise）的阈值效应：买家对价格的随机扰动 $\epsilon_{pref}$ 服从正态分布 $N(0, \
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+随机偏好噪声（Random Preference Noise）的阈值效应：买家对价格的随机扰动 $\epsilon_{pref}$ 服从正态分布 $N(0, \sigma_{pref}^2)$。当挂价 $P_{ask}$ 超过基准价 $P_{ref}$ 的幅度 $\Delta$ 小于 $1.96 \sigma_{pref}$ 时，约95%的买家仍可能因随机偏好波动而发起咨询。若观测到15-25%溢价下仍有高咨询率，需验证 $\sigma_{pref}$ 是否足够大以覆盖该溢价区间，即 $\sigma_{pref} \ge \Delta / 1.96$。
+
+## Corrected Claim
+
+随机偏好噪声（Random Preference Noise）的阈值效应：买家对价格的随机扰动 $\epsilon_{pref}$ 服从正态分布 $N(0, \sigma_{pref}^2)$。当挂价 $P_{ask}$ 超过基准价 $P_{ref}$ 的幅度 $\Delta$ 小于 $1.96 \sigma_{pref}$ 时，约95%的买家仍可能因随机偏好波动而发起咨询。若观测到15-25%溢价下仍有高咨询率，需验证 $\sigma_{pref}$ 是否足够大以覆盖该溢价区间，即 $\sigma_{pref} \ge \Delta / 1.96$。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1和2虽然公式结构相似，但分别针对15%和25%两个具体的关键阈值进行计算，属于不同边界条件的验证，不构成冗余；子节点3从定性/逻辑一致性角度验证参数合理性，与前两个定量计算节点正交。三者共同覆盖了父节点中‘验证sigma是否足够大’（子1,2）和‘验证sigma是否过大导致矛盾’（子3）的所有关键方面。）

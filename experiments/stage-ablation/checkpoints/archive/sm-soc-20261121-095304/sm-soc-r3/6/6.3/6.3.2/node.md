@@ -1,0 +1,20 @@
+# N176: 买家估值分布的厚尾修正：实际分布通常为重尾分布（如Pareto或Log-normal），尾部概率 P(x > μ+2.5σ) 显著高于正态分布的0.62%，需估
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N62
+
+## Claim
+
+买家估值分布的厚尾修正：实际分布通常为重尾分布（如Pareto或Log-normal），尾部概率 P(x > μ+2.5σ) 显著高于正态分布的0.62%，需估算偏度系数Skewness对长尾概率的修正幅度。
+
+## Corrected Claim
+
+买家估值分布的厚尾修正：实际分布通常为重尾分布（如Pareto或Log-normal），尾部概率 P(x > μ+2.5σ) 显著高于正态分布的0.62%，需估算偏度系数Skewness对长尾概率的修正幅度。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：正态分布下 P(x > μ+2.5σ) 约为 0.62%，而重尾分布（如Pareto/Log-normal）的尾部概率显著高于此值，符合统计学基本性质。

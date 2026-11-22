@@ -1,0 +1,24 @@
+# N224: NVIDIA L40S 48GB 在 2024Q4-2025Q1 的企业级渠道（如 CDW, Insight, SHI）报价中位数为 $11,500，标准差 $
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N53
+
+## Claim
+
+NVIDIA L40S 48GB 在 2024Q4-2025Q1 的企业级渠道（如 CDW, Insight, SHI）报价中位数为 $11,500，标准差 $500，该价格显著高于消费级市场，且通常包含 3 年 ProSupport 服务，需将服务成本从硬件成本中剥离或单独核算。
+
+## Corrected Claim
+
+NVIDIA L40S 48GB 在 2024Q4-2025Q1 的企业级渠道报价通常显著高于消费级市场，价格区间大致在 $10,000-$13,000 之间，且通常包含 3 年 ProSupport 服务，需将服务成本从硬件成本中剥离或单独核算。
+
+## Evidence
+
+[质询]具体数值（$11,500中位数、$500标准差）及特定时间段（2024Q4-2025Q1）的渠道报价属于高度动态且细分的市场经验数据，缺乏公开权威来源直接佐证，存在数值偏差或口径混淆（如是否含税、是否含特定软件许可）的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值，但量级符合企业级GPU市场常识）
+
+## Search Query
+
+NVIDIA L40S 48GB price enterprise channel CDW Insight 2025

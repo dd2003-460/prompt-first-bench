@@ -1,0 +1,24 @@
+# N355: 单位毛利差 (Margin_high - Margin_low) 的量化：Margin_high = P_ref * (1 + premium_high) - 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N107
+
+## Claim
+
+单位毛利差 (Margin_high - Margin_low) 的量化：Margin_high = P_ref * (1 + premium_high) - C_ref，Margin_low = P_ref * (1 + premium_low) - C_ref。若 premium_high = 20%, premium_low = 5%, C_ref 固定，则 Margin_high - Margin_low = P_ref * 0.15。该值直接决定 ρ* 的分母，溢价率差越大，高定价策略越能容忍更高的低价卖家比例。
+
+## Corrected Claim
+
+单位毛利差 (Margin_high - Margin_low) 的量化：Margin_high = P_ref * (1 + premium_high) - C_ref，Margin_low = P_ref * (1 + premium_low) - C_ref。若 premium_high = 20%, premium_low = 5%, C_ref 固定，则 Margin_high - Margin_low = P_ref * 0.15。该值直接决定 ρ* 的分母，溢价率差越大，高定价策略越能容忍更高的低价卖家比例。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：代数推导正确，(1+0.20)-(1+0.05)=0.15，且C_ref在相减时抵消，结论符合经济学直觉。
+
+## Search Query
+
+profit margin difference pricing strategy equilibrium

@@ -1,0 +1,20 @@
+# N317: 中介效应量化：使用 Baron & Kenny 方法或 Bootstrap 法计算 CTR 对成交周期的间接效应（通过 T_exposure 传导）占比；若间接
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N108
+
+## Claim
+
+中介效应量化：使用 Baron & Kenny 方法或 Bootstrap 法计算 CTR 对成交周期的间接效应（通过 T_exposure 传导）占比；若间接效应占比 < 30%，则'CTR→曝光→成交'的传导机制解释力不足，需引入其他中介变量（如买家信任度）。
+
+## Corrected Claim
+
+中介效应量化：使用 Baron & Kenny 方法或 Bootstrap 法计算 CTR 对成交周期的间接效应（通过 T_exposure 传导）占比；若间接效应占比 < 30%，则'CTR→曝光→成交'的传导机制解释力不足，需引入其他中介变量（如买家信任度）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

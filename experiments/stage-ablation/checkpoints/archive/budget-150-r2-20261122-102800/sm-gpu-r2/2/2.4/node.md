@@ -1,0 +1,24 @@
+# N16: 单卡最小显存门槛：BF16需≥64 GB单卡（如A100-80GB, H100-80GB, M3 Ultra 96GB+）；FP8/INT8需≥36 GB单卡（
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+单卡最小显存门槛：BF16需≥64 GB单卡（如A100-80GB, H100-80GB, M3 Ultra 96GB+）；FP8/INT8需≥36 GB单卡（如A6000 48GB, L40S 48GB, M2 Ultra 128GB）；NVFP4/W4需≥24 GB单卡（如RTX 4090 24GB, RTX 3090 24GB, A6000 48GB）
+
+## Corrected Claim
+
+单卡最小显存门槛：BF16需≥64 GB单卡（如A100-80GB, H100-80GB, M3 Ultra 96GB+）；FP8/INT8需≥36 GB单卡（如A6000 48GB, L40S 48GB, M2 Ultra 128GB）；NVFP4/W4需≥24 GB单卡（如RTX 4090 24GB, RTX 3090 24GB, A6000 48GB）
+
+## Evidence
+
+父节点级核验失败（LLM 错误）：Unterminated string starting at: line 5 column 13 (char 79)
+
+## Search Query
+
+minimum VRAM for 27B LLM inference BF16 FP8 INT8 NVFP4 W4 single GPU

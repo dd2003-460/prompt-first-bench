@@ -1,0 +1,28 @@
+# N138: 探索率 ε_explore 的动态调整函数为 ε_explore(t) = ε_0 * exp(-κ * T_search(t))，其中 ε_0 为初始探索率（
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N59
+
+## Claim
+
+探索率 ε_explore 的动态调整函数为 ε_explore(t) = ε_0 * exp(-κ * T_search(t))，其中 ε_0 为初始探索率（0.2），κ 为搜索成本敏感度系数，T_search(t) 为当前搜索成本；需通过点击流数据中‘非推荐位点击占比’的时间序列回归估计 κ，若 κ > 0.1 则证实搜索成本上升显著抑制随机探索。
+
+## Corrected Claim
+
+探索率 ε_explore 的动态调整函数可能采用 ε_explore(t) = ε_0 * exp(-κ * T_search(t)) 的形式，其中 ε_0 为初始探索率，κ 为搜索成本敏感度系数，T_search(t) 为当前搜索成本；κ 可通过点击流数据中‘非推荐位点击占比’的时间序列回归估计，若 κ > 0.1 则表明搜索成本上升显著抑制随机探索。（注：具体参数值及阈值需依据特定实验或文档确认）
+
+## Evidence
+
+[质询]该陈述描述了一个特定的、非标准的启发式算法（基于搜索成本的指数衰减探索率及特定的回归估计方法），属于经验性工程设定或特定论文/项目中的自定义公式，而非通用的第一性原理或标准数学/物理定律。参考来源 [1] 仅提及 'ε-Explore' 是一个利用 Dirichlet 噪声和 Stockfish 生成棋局的项目，并未提供该具体公式、参数定义（如 ε_0=0.2, κ 的估计方法）或阈值判断逻辑，因此无法从现有来源直接验证其具体数值和逻辑细节。 | 逻辑上自洽（指数衰减函数形式合理，回归估计系数方法在统计学上可行），但参考来源 [1] 仅涉及项目背景，未包含该具体公式及参数定义，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+exploration rate decay search cost sensitivity coefficient click stream data
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/PhilipFelizarta/epsilon-Explore&rut=2bf1ea1e9b09133b4a4369f2a0acca6d9f8c807bc45c75d64d685ca48cfcd47f', 'type': 'ddg', 'title': 'GitHub - PhilipFelizarta/epsilon-Explore: ε-Explore is my novel ...'}

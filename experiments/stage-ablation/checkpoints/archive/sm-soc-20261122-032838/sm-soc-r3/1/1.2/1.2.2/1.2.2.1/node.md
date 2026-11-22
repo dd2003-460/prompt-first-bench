@@ -1,0 +1,24 @@
+# N122: 异质性放大系数 $\gamma$ 的量化：$\gamma$ 反映了商品异质性如何转化为估值分歧。$\gamma$ 与买家对商品属性的专业知识 $E_{buyer
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N38
+
+## Claim
+
+异质性放大系数 $\gamma$ 的量化：$\gamma$ 反映了商品异质性如何转化为估值分歧。$\gamma$ 与买家对商品属性的专业知识 $E_{buyer}$ 负相关，与商品属性的可观察性 $O_{attr}$ 正相关。公式：$\gamma = \frac{O_{attr}}{E_{buyer}}$。若商品属性高度可观察（如成色可见）且买家专业度高，则 $\gamma$ 小；反之 $\gamma$ 大。典型二手电子产品 $\gamma \in [0.5, 1.5]$。
+
+## Corrected Claim
+
+异质性放大系数 $\gamma$ 的量化：$\gamma$ 反映了商品异质性如何转化为估值分歧。$\gamma$ 与买家对商品属性的专业知识 $E_{buyer}$ 负相关，与商品属性的可观察性 $O_{attr}$ 正相关。公式：$\gamma = \frac{O_{attr}}{E_{buyer}}$。若商品属性高度可观察（如成色可见）且买家专业度高，则 $\gamma$ 小；反之 $\gamma$ 大。典型二手电子产品 $\gamma \in [0.5, 1.5]$。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+heterogeneity amplification coefficient buyer valuation variance second hand market

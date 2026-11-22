@@ -1,0 +1,20 @@
+# N154: Threadripper Pro 7000 WX 系列 (WRX90) 提供 128 条 PCIe 5.0 通道，理论上支持 8 张全速 x16 GPU；对于 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N42
+
+## Claim
+
+Threadripper Pro 7000 WX 系列 (WRX90) 提供 128 条 PCIe 5.0 通道，理论上支持 8 张全速 x16 GPU；对于 2x RTX 4090 方案，两张卡均可运行在 PCIe 5.0 x16 (双向 128 GB/s) 模式下，远超 GPU 显存带宽 (1008 GB/s) 需求，通信瓶颈完全消除，Decode 延迟仅受限于 GPU 自身带宽和计算能力，无主板侧瓶颈。
+
+## Corrected Claim
+
+Threadripper Pro 7000 WX 系列 (WRX90) 提供 128 条 PCIe 5.0 通道，理论上支持 8 张全速 x16 GPU；对于 2x RTX 4090 方案，两张卡均可运行在 PCIe 5.0 x16 (双向 128 GB/s) 模式下，远超 GPU 显存带宽 (1008 GB/s) 需求，通信瓶颈完全消除，Decode 延迟仅受限于 GPU 自身带宽和计算能力，无主板侧瓶颈。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：WRX90 平台确实提供 128 条 PCIe 5.0 通道，支持 8 路 x16 全速连接；RTX 4090 显存带宽 1008 GB/s 与 PCIe 5.0 x16 双向 128 GB/s 的量级对比符合物理事实，逻辑自洽。

@@ -1,0 +1,20 @@
+# N156: Quality Score 的量化映射函数：定义 Q_score = (Benchmark_Score_Quantized / Benchmark_Score_
+
+- **status**: pending
+- **level**: L3
+- **source**: derived
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N51
+
+## Claim
+
+Quality Score 的量化映射函数：定义 Q_score = (Benchmark_Score_Quantized / Benchmark_Score_BF16) * 100。具体基准选择：MMLU (通用知识), HumanEval (代码), GSM8K (数学)。基于 N49/N50 的量化损失数据：INT8 Q_score ≈ 98-99, W4 Q_score ≈ 90-95。该分数需归一化到 [0,1] 区间以符合 CPR 公式定义，即 Q_norm = Q_score / 100。
+
+## Corrected Claim
+
+Quality Score 的量化映射函数定义为 Q_score = (Benchmark_Score_Quantized / Benchmark_Score_BF16) * 100，基准包括 MMLU, HumanEval, GSM8K。需归一化至 [0,1] 区间 (Q_norm = Q_score / 100)。具体 Q_score 数值取决于模型与量化算法，典型情况下 INT8 损失较小 (Q_score 较高)，W4 损失较大 (Q_score 较低)，但具体范围需结合特定实验数据确定。
+
+## Evidence
+
+父节点级核验未通过：有冗余（子节点实质上是同一量化精度参数（Precision）在不同取值下的实例化（BF16/INT8/W4），而非正交的独立概念维度。虽然覆盖了父节点提到的主要基准和分数范围，但结构上存在冗余，因为它们共享相同的硬件可行性评估逻辑和质量映射逻辑，仅变量值不同。）

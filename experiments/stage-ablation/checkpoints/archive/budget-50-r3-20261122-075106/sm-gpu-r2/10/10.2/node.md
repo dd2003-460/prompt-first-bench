@@ -1,0 +1,30 @@
+# N117: 支持双卡的高性能工作站主板（如X670E/WRX80）成本约为 $500-$1000，1200W以上电源成本约为 $150-$250，支持双卡散热与安装的机箱成
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N41
+
+## Claim
+
+支持双卡的高性能工作站主板（如X670E/WRX80）成本约为 $500-$1000，1200W以上电源成本约为 $150-$250，支持双卡散热与安装的机箱成本约为 $100-$300，合计升级成本约为 $750-$1550
+
+## Corrected Claim
+
+支持双卡的高性能工作站主板（如X670E/WRX80）、1200W以上电源及支持双卡散热与安装的机箱，其合计升级成本通常在数百至一千五百美元区间（具体价格随市场波动）。
+
+## Evidence
+
+[质询]参考来源仅提供了主板型号和规格（如X670E Taichi Carrara），未包含任何具体的市场价格数据（主板、电源、机箱的具体美元价格），无法验证$500-$1000、$150-$250、$100-$300这些具体数值区间是否准确。 | 来源[1][2][3]确认了X670E/WRX80等芯片组支持双卡及高性能定位，但缺乏具体价格数据支持；该陈述属于经验事实（具体市场价格），逻辑上量级合理（高端主板+电源+机箱的总价范围符合市场常识），但因缺乏直接来源支持具体数值，依据经验事实排除条款降级。
+
+## Search Query
+
+dual RTX 4090 workstation motherboard PSU case cost
+
+## Retrieval Sources
+
+- {'url': 'https://wiki.1688.com/zh/motherboards/WKfhuq6dypbo5c&rut=77166eaf3ce9cb76cbcb54543f4a10cf8cac0993bbb505cbb9a2f62cabbbe94c', 'type': 'ddg', 'title': '2026春季支持多显卡主板推荐｜X670E/Z790/WRX80芯片组｜1688买家百科'}
+- {'url': 'https://www.asrock.com/MB/AMD/X670E%20Taichi%20Carrara/index.cn.asp&rut=0cdf65c86a5a5d846b975d50814e80ff8f5c5e296353483fb63324d4f6fa51c8', 'type': 'ddg', 'title': '华擎科技 > X670E 太极 Carrara - ASRock'}
+- {'url': 'https://www.asrock.com/MB/AMD/X670E%20Steel%20Legend/index.cn.asp&rut=e2a37a5855fef5e3292ba0de7a7ad3e06dd3c45e16e8f108e010ba835e2d1c25', 'type': 'ddg', 'title': '华擎科技 > X670E 钢铁传奇 - ASRock'}

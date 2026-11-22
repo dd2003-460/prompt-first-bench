@@ -1,0 +1,20 @@
+# N132: 基准搜索成本 C_base 的量化构成：C_base = C_attention * T_scan + C_cognitive * N_attributes，其
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N44
+
+## Claim
+
+基准搜索成本 C_base 的量化构成：C_base = C_attention * T_scan + C_cognitive * N_attributes，其中 C_attention ≈ 0.5 元/分钟，T_scan ≈ 2-3 分钟（浏览同类商品列表的平均时间），N_attributes ≈ 5-10（需验证的关键属性数），故 C_base ≈ 1-3 元。
+
+## Corrected Claim
+
+基准搜索成本 C_base 可量化为 C_base = C_attention * T_scan + C_cognitive * N_attributes。在典型电商场景下，若假设 C_attention ≈ 0.5 元/分钟，T_scan ≈ 2-3 分钟，N_attributes ≈ 5-10，则 C_base 估算约为 1-3 元（注：具体数值依赖于特定市场与用户群体的实证数据）。
+
+## Evidence
+
+[质询]该陈述将复杂的消费者决策成本简化为线性加和模型，且核心参数（如注意力成本0.5元/分钟、扫描时间2-3分钟）缺乏统一的经济学或心理学实证标准，属于高度主观的经验估算，不同研究或场景下数值可能差异巨大。 | 先验知识/题面给定，逻辑校验通过（量纲与量级在常规商业分析语境下合理），但作为经验事实缺乏外部来源直接支持，故降级。

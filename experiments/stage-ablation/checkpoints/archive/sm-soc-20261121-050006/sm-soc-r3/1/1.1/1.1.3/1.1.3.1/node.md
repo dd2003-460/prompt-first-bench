@@ -1,0 +1,20 @@
+# N124: Pareto 分布下，当 P_ask = 1.2 * P_median 时，高挂价匹配概率 p_match 的预测值为 0.15。
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N35
+
+## Claim
+
+Pareto 分布下，当 P_ask = 1.2 * P_median 时，高挂价匹配概率 p_match 的预测值为 0.15。
+
+## Corrected Claim
+
+在特定形状参数的 Pareto 分布假设下，当 P_ask = 1.2 * P_median 时，高挂价匹配概率 p_match 的预测值约为 0.15。
+
+## Evidence
+
+[质询]Pareto 分布的尾部行为高度依赖于形状参数 α。当 α 较大（分布较集中）时，1.2 倍中位数的价格可能仅略高于中位数，匹配概率可能远高于 0.15；当 α 较小（长尾）时，概率可能更低。0.15 是一个具体的经验数值，无法仅从 'Pareto 分布' 和 '1.2 * P_median' 这两个条件唯一推导出来，存在参数敏感性风险。 | 先验知识/题面给定，逻辑校验通过（量级合理，无内部矛盾），但具体数值 0.15 依赖于未指定的 Pareto 形状参数，属于经验性估计而非严格推导，故降级。

@@ -1,0 +1,20 @@
+# N56: 卖家偏离均衡的边际收益：dU_seller/dP = Q(P) - P * dQ/dP - dC_holding/dP。在均衡点 P* 处，若 dU_selle
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+卖家偏离均衡的边际收益：dU_seller/dP = Q(P) - P * dQ/dP - dC_holding/dP。在均衡点 P* 处，若 dU_seller/dP < 0，则卖家单方面降价（P < P*）会导致效用下降，因为 Q(P) 的增加不足以补偿 P 的下降及持有成本的减少。
+
+## Corrected Claim
+
+卖家偏离均衡的边际收益：dU_seller/dP = Q(P) - P * dQ/dP - dC_holding/dP。在均衡点 P* 处，若 dU_seller/dP < 0，则卖家单方面降价（P < P*）会导致效用下降，因为 Q(P) 的增加不足以补偿 P 的下降及持有成本的减少。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该表达式符合微观经济学中卖家利润/效用对价格求导的标准形式（收入项 Q-P*dQ/dP 减去成本项），且均衡点一阶条件及二阶导数符号与稳定性直觉一致。

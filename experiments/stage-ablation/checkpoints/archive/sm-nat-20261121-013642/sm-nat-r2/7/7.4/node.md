@@ -1,0 +1,24 @@
+# N83: LRU 缓存集合的期望字节覆盖率修正项 ΔCov = (E[size | freq_top10] - E[size]) * P(freq_top10 in ca
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N27
+
+## Claim
+
+LRU 缓存集合的期望字节覆盖率修正项 ΔCov = (E[size | freq_top10] - E[size]) * P(freq_top10 in cache)，当 ρ=-0.3 时，ΔCov 为负值，表明热门对象偏小导致 LRU 缓存的字节效率低于独立假设
+
+## Corrected Claim
+
+LRU 缓存集合的期望字节覆盖率修正项 ΔCov = (E[size | freq_top10] - E[size]) * P(freq_top10 in cache)，当 ρ=-0.3 时，ΔCov 为负值，表明热门对象偏小导致 LRU 缓存的字节效率低于独立假设
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：LRU缓存中热门对象（freq_top10）若平均尺寸小于整体平均尺寸（E[size|freq_top10] < E[size]），则其贡献的字节覆盖率低于独立假设下的期望值，导致修正项ΔCov为负，符合缓存效率分析的基本逻辑。
+
+## Search Query
+
+LRU cache byte coverage correction term negative correlation size frequency

@@ -1,0 +1,24 @@
+# N146: Intel Arc A770 16GB 当前市场售价约为 $300-$400，虽然硬件成本低，但 Offload 导致的低吞吐 (5-8 tok/s) 使其单位
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N35
+
+## Claim
+
+Intel Arc A770 16GB 当前市场售价约为 $300-$400，虽然硬件成本低，但 Offload 导致的低吞吐 (5-8 tok/s) 使其单位 token 成本 (TCO/throughput) 远高于 RTX 4090 或 L40S 方案。
+
+## Corrected Claim
+
+Intel Arc A770 16GB 的市场售价和 Offload 模式下的低吞吐特性通常导致其单位 token 成本高于高性能 GPU 方案，但具体数值需根据实时价格和特定工作负载基准测试确定。
+
+## Evidence
+
+[质询]具体数值（$300-$400 售价、5-8 tok/s 吞吐）属于经验事实，缺乏实时市场数据和技术基准测试支持，且不同模型/上下文长度下吞吐波动大，固定区间可能不准确。 | 经验事实，逻辑自洽但缺来源支持（检索失败，无外部证据）
+
+## Search Query
+
+Intel Arc A770 16GB current price 2024 average market cost

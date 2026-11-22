@@ -1,0 +1,24 @@
+# N64: Shadowing Effect 的量化分解：曝光权重下降幅度 ΔW_shadow = -k1 * (ΔP / P_market)，其中 k1 为算法惩罚系数（
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N22
+
+## Claim
+
+Shadowing Effect 的量化分解：曝光权重下降幅度 ΔW_shadow = -k1 * (ΔP / P_market)，其中 k1 为算法惩罚系数（假设 k1=0.5），需验证降价后48小时内商品曝光量绝对值下降是否超过 30% 才能解释咨询量未回升。
+
+## Corrected Claim
+
+Shadowing Effect 的量化分解需验证降价后48小时内商品曝光量绝对值下降幅度是否显著（如超过30%），以解释咨询量未回升；其中曝光权重下降幅度 ΔW_shadow 与价格变动 ΔP 呈负相关，具体系数 k1 需通过实证数据校准。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（三个子节点分别对应父节点公式中的参数校准（k1）、统计分布与阈值验证（ΔW_shadow分布）、以及结果归因（咨询量分解），逻辑上层层递进且互不重叠，覆盖了从参数确定到假设验证再到最终归因的完整链条。）
+
+## Search Query
+
+algorithm shadowing effect price drop exposure penalty coefficient e-commerce ranking algorithm

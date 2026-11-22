@@ -1,0 +1,20 @@
+# N78: 降价负面信号对 λ_consult 的影响：降价后 λ_consult 下降为 λ_post = λ_base * (1 - δ)，其中 δ 为负面信号强度，若
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N24
+
+## Claim
+
+降价负面信号对 λ_consult 的影响：降价后 λ_consult 下降为 λ_post = λ_base * (1 - δ)，其中 δ 为负面信号强度，若 60% 无咨询对应 λ_post ≈ 0.0105/h，则 δ ≈ 0.475（即咨询率下降 47.5%），需验证该 δ 值是否与信号博弈理论预测一致。
+
+## Corrected Claim
+
+降价负面信号对 λ_consult 的影响：降价后 λ_consult 下降为 λ_post = λ_base * (1 - δ)，其中 δ 为负面信号强度，若 60% 无咨询对应 λ_post ≈ 0.0105/h，则 δ ≈ 0.475（即咨询率下降 47.5%），需验证该 δ 值是否与信号博弈理论预测一致。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学推导自洽（0.0105/0.02 - 1 = -0.475），符合信号博弈中负面信号降低咨询率的定性逻辑。

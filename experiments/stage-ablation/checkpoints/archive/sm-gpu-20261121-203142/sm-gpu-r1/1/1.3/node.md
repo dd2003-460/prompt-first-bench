@@ -1,0 +1,24 @@
+# N9: NVFP4/W4量化下的显存总需求 = 模型权重(27B * 0.5 bytes = 13.5GB) + KV Cache(32K tokens * 2 * 2
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+NVFP4/W4量化下的显存总需求 = 模型权重(27B * 0.5 bytes = 13.5GB) + KV Cache(32K tokens * 2 * 27B / 27B_hidden_dim * 2 bytes ≈ 2.0GB) + 激活值(1-2GB) + 缩放因子(0.5GB) ≈ 17-18GB
+
+## Corrected Claim
+
+NVFP4/W4量化下的显存总需求 = 模型权重(27B * 0.5 bytes = 13.5GB) + KV Cache(需根据具体层数和隐藏维度重新计算，32K tokens 下通常显著高于 2.0GB) + 激活值(1-2GB) + 缩放因子(0.5GB) ≈ 17-20GB+
+
+## Evidence
+
+[质询]KV Cache 计算公式存在严重的逻辑与量纲错误：'32K tokens * 2 * 27B / 27B_hidden_dim * 2 bytes' 中，分子分母同时出现 27B（总参数量）和 hidden_dim（隐藏层维度），且未包含层数（layers）。对于 27B 模型（如 Llama-3-70B 或类似架构），KV Cache 大小通常由 `2 * layers * hidden_dim * seq_len * dtype_size` 决定。若按此错误公式计算，数值量级极不合理（要么极大要么极小），且 2.0GB 的估算对于 32K 上下文的 27B 模型而言通常偏低（通常 7B 模型 32K KV 约 1-2GB，27B 模型往往需要 4-8GB 甚至更多，取决于具体架构和精度）。 | source=knowledge，但 KV Cache 计算公式逻辑不自洽（混淆了总参数量与隐藏层维度，缺失层数因子），导致数值估算不可靠。
+
+## Search Query
+
+Qwen3-27B NVFP4 W4 quantization memory footprint

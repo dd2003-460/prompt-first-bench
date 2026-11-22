@@ -1,0 +1,20 @@
+# N80: NVIDIA RTX 4090 的 BF16/FP16 峰值算力约为 82.6 TFLOPS，INT8 峰值算力约为 165.2 TOPS，FP8 峰值算力约为
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N19
+
+## Claim
+
+NVIDIA RTX 4090 的 BF16/FP16 峰值算力约为 82.6 TFLOPS，INT8 峰值算力约为 165.2 TOPS，FP8 峰值算力约为 330.4 TFLOPS (若支持)，这些数值决定了其在 Prefill 阶段的理论处理速度
+
+## Corrected Claim
+
+NVIDIA RTX 4090 的 BF16/FP16 峰值算力约为 82.6 TFLOPS，INT8 峰值算力约为 165.2 TOPS，FP8 峰值算力约为 330.4 TFLOPS (若支持)，这些数值决定了其在 Prefill 阶段的理论处理速度
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 拥有 16384 个 CUDA 核心，Boost 频率约 2.52 GHz，FP16/BF16 峰值算力 = 16384 * 2 * 2.52 * 10^9 ≈ 82.6 TFLOPS，INT8 为 FP16 的 2 倍（165.2 TOPS），FP8 为 FP16 的 4 倍（330.4 TFLOPS），数值量级与架构特性完全自洽。

@@ -1,0 +1,24 @@
+# N164: Bottom 50% 冷门对象约 3% 缓存条目在命中前失效的机制：冷门对象访问间隔 Δt_cold ≈ 1/λ_cold，其中 λ_cold ≈ 100 次/
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N56
+
+## Claim
+
+Bottom 50% 冷门对象约 3% 缓存条目在命中前失效的机制：冷门对象访问间隔 Δt_cold ≈ 1/λ_cold，其中 λ_cold ≈ 100 次/天（Bottom 50% 平均），Δt_cold ≈ 0.01 天，但 LRU 驱逐间隔由缓存容量决定，T_resident ≈ 3.0 天，因此每个对象在失效前平均被访问 3.0 / 0.01 = 300 次，需通过仿真验证该比例是否准确。
+
+## Corrected Claim
+
+Bottom 50% 冷门对象在命中前失效的机制取决于访问间隔 Δt_cold 与 LRU 驱逐间隔 T_resident 的比值。若假设 λ_cold ≈ 100 次/天且 T_resident ≈ 3.0 天，则每个对象在失效前平均被访问约 300 次，但该比例需通过仿真验证。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（λ_cold ≈ 100 次/天，T_resident ≈ 3.0 天），这些数值并非第一性原理可推导，且缺乏外部来源支持，属于未经证实的经验假设。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+LRU cold object invalidation before hit simulation

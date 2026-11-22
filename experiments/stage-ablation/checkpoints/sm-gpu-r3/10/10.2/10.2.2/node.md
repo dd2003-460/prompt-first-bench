@@ -1,0 +1,30 @@
+# N296: H100 SXM单卡MSRP基准值：NVIDIA官方目录价（$25k-$30k区间）及2024年Q1-Q4的授权经销商实际成交价，用于计算折扣率的分母
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N130
+
+## Claim
+
+H100 SXM单卡MSRP基准值：NVIDIA官方目录价（$25k-$30k区间）及2024年Q1-Q4的授权经销商实际成交价，用于计算折扣率的分母
+
+## Corrected Claim
+
+H100 SXM单卡市场参考价约为$25k-$30k（基于行业普遍认知，具体MSRP及2024年各季度经销商成交价需查阅NVIDIA官方财报或特定渠道报价单以获取精确数据）。
+
+## Evidence
+
+[质询]参考来源主要提供租赁价格（时租/月租）和硬件规格，未直接提供NVIDIA官方目录价（MSRP）或2024年Q1-Q4授权经销商的实际成交均价，无法直接验证$25k-$30k这一具体数值区间及折扣率分母的准确性。 | 来源[1]提供的是租赁价格而非销售MSRP，来源[2][3]仅包含规格参数，均无直接证据支持$25k-$30k的MSRP区间或2024年具体成交价；该数值属于经验事实，逻辑上量级合理（H100作为高端GPU，单价在数万美金符合市场常识），但缺乏来源直接支持。
+
+## Search Query
+
+H100 SXM MSRP official price 2024 authorized reseller actual cost
+
+## Retrieval Sources
+
+- {'url': 'https://computeindex.net/gpu/h100&rut=67fc888797d2f9a77d4924bb9d2e27c2ee24e58c4f2d71e49d902702d869acf3', 'type': 'ddg', 'title': 'NVIDIA H100 SXM租赁价格 2026 | 时租$4.25/月租$1,989 — ComputeIndex'}
+- {'url': 'https://inferencex.semianalysis.com/zh/chips/h100&rut=f6f89a20f67a8aabf94d85cb223b75a35e5f2d36db1b8a3ed4a5d3a6bf86b885', 'type': 'ddg', 'title': 'NVIDIA H100 SXM 规格、价格与功耗 | InferenceX'}
+- {'url': 'https://inferencex.semianalysis.com/chips/h100&rut=4ae57c5cc3bdbd2a33288624e598152e576547d47cab5c116a3fa2215e7eadcc', 'type': 'ddg', 'title': 'NVIDIA H100 SXM Specs: ~$1.17/hr, 80 GB HBM3 | InferenceX'}

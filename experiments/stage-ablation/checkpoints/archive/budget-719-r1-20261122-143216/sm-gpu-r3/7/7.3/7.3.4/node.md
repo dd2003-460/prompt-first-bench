@@ -1,0 +1,24 @@
+# N373: L40S 的每美元带宽成本计算公式为 (Price_L40S / 864 GB/s)，若按 $9,000 计算，约为 $10.4/GB/s；对比 RTX 509
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N131
+
+## Claim
+
+L40S 的每美元带宽成本计算公式为 (Price_L40S / 864 GB/s)，若按 $9,000 计算，约为 $10.4/GB/s；对比 RTX 5090 ($2,000 / 1792 GB/s ≈ $1.1/GB/s)，L40S 的带宽性价比在单卡层面显著劣势，但其优势在于 48GB 显存容量允许在 BF16 下支持更高并发 Batch Size，需计算在相同 TCO 下 L40S 能支撑的最大 Batch Size 与 RTX 5090 的比值。
+
+## Corrected Claim
+
+L40S 的每美元带宽成本计算公式为 (Price_L40S / 864 GB/s)，若按 $9,000 计算，约为 $10.4/GB/s；对比 RTX 5090（假设价格 $2,000，带宽 1792 GB/s，则约为 $1.1/GB/s），L40S 的带宽性价比在单卡层面显著劣势，但其优势在于 48GB 显存容量允许在 BF16 下支持更高并发 Batch Size，需计算在相同 TCO 下 L40S 能支撑的最大 Batch Size 与 RTX 5090 的比值。
+
+## Evidence
+
+[质询]RTX 5090 的显存带宽 1792 GB/s 和价格 $2,000 属于具体硬件规格与市场价格，属于经验事实，无法从第一性原理推导，且当前无可用外部来源验证其准确性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+NVIDIA L40S price 2024 USD

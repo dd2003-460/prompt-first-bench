@@ -1,0 +1,24 @@
+# N291: A100 80GB PCIe 变体的 TDP 为 300W，但在服务器机架环境中，若未启用全速风扇或处于低负载待机状态，其系统基础功耗 P_sys_overhe
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N88, N89, N90
+
+## Claim
+
+A100 80GB PCIe 变体的 TDP 为 300W，但在服务器机架环境中，若未启用全速风扇或处于低负载待机状态，其系统基础功耗 P_sys_overhead 可能高达 300W-400W（因服务器 CPU/内存/散热系统更复杂），需与 SXM 方案的 200W-300W 系统开销进行对比。
+
+## Corrected Claim
+
+A100 80GB PCIe 变体的 TDP 为 300W，但在服务器机架环境中，若未启用全速风扇或处于低负载待机状态，其系统基础功耗 P_sys_overhead 可能高达 300W-400W（因服务器 CPU/内存/散热系统更复杂），需与 SXM 方案的 200W-300W 系统开销进行对比。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 80GB PCIe TDP 300W 符合官方规格；服务器整机基础功耗（含CPU/内存/风扇等）在 300W-400W 范围内符合工程常识，且高于 SXM 方案因集成度更高、外围组件更少导致的较低系统开销，逻辑自洽。
+
+## Search Query
+
+A100 PCIe server system power consumption watts idle load

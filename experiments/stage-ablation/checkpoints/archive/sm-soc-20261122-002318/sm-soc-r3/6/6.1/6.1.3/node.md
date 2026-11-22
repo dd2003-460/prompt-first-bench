@@ -1,0 +1,24 @@
+# N249: 拒绝概率对价格偏离度的弹性系数：在 P_bid < 0.95 * P_avg 区间内，P(Reject) 对 (P_fair - P_bid) 的弹性系数 ε_
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N88
+
+## Claim
+
+拒绝概率对价格偏离度的弹性系数：在 P_bid < 0.95 * P_avg 区间内，P(Reject) 对 (P_fair - P_bid) 的弹性系数 ε_reject 约为 2-4，意味着每增加 1% 的低于公平价幅度，拒绝概率增加 2-4%。
+
+## Corrected Claim
+
+在 P_bid < 0.95 * P_avg 区间内，P(Reject) 对 (P_fair - P_bid) 表现出正弹性，具体弹性系数需依赖实证数据确定，通常认为显著大于 1。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值范围（弹性系数 2-4），属于市场行为统计规律，无法从第一性原理或数学公理严格推导得出，且缺乏外部来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+price elasticity of rejection probability second hand market bargaining

@@ -1,0 +1,17 @@
+{
+  "id": "N179",
+  "claim": "RTX 5090 的 32 GB 显存容量在 W4 精度下运行 Qwen3-27B 时，KV Cache 最大支持上下文长度为 27.7K tokens (32 GB - 13.5 GB 权重 - 2 GB 激活/碎片 = 16.5 GB KV Cache，每 token 约 0.59 GB)，仍低于 32K 要求，但比 RTX 4090/3090 的 16.4K 提升 69%，可能通过优化 KV Cache 量化 (如 FP8) 达到 32K。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]KV Cache 每 token 占用 0.59 GB 的数值量级严重违背常识。对于 Qwen3-27B 这类模型，即使未量化 KV Cache，单 token 的 KV 大小通常在几 MB 到几十 MB 级别（取决于层数、头数和隐藏维度），0.59 GB/token 意味着上下文长度极短，这与 27.7K tokens 的结论在数学上可能自洽（16.5GB / 0.59GB ≈ 27.9K），但 0.59 GB/token 这一参数本身极不合理，疑似将总显存或权重大小误算为单 token 开销，或者单位混淆（如将 MB 误写为 GB，若为 0.59 MB/token，则 16.5GB 可支持约 28,000 tokens，此时数值合理，但原陈述单位错误）。此外，RTX 5090 的具体显存带宽和架构细节属于经验事实，缺乏来源支持。 | 经验事实，逻辑校验发现 KV Cache 单 token 占用 0.59 GB 量级异常（疑似单位错误，应为 MB），且无外部来源支持具体数值。",
+  "corrected_claim": "RTX 5090 的 32 GB 显存容量在 W4 精度下运行 Qwen3-27B 时，若 KV Cache 每 token 占用约 0.59 MB（而非 GB），则 16.5 GB 可用显存可支持约 27.7K tokens 上下文长度，仍低于 32K 要求，但相比 RTX 4090/3090 有显著提升。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N47"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "RTX 5090 32GB Qwen3-27B KV cache context length limit",
+  "retrieval_sources": []
+}

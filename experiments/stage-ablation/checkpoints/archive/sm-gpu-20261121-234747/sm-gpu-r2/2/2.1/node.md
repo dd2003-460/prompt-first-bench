@@ -1,0 +1,24 @@
+# N10: 32K上下文显存需求计算：Qwen3-27B在BF16/FP8/INT8/NVFP4/W4精度下，KV Cache每token占用量（bytes/token）×
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+32K上下文显存需求计算：Qwen3-27B在BF16/FP8/INT8/NVFP4/W4精度下，KV Cache每token占用量（bytes/token）×32000 tokens + 模型权重大小（GB）= 总显存需求，需给出各精度的具体数值
+
+## Corrected Claim
+
+32K上下文显存需求计算：Qwen3-27B在BF16/FP8/INT8/NVFP4/W4精度下，KV Cache每token占用量（bytes/token）×32000 tokens + 模型权重大小（GB）= 总显存需求，需给出各精度的具体数值
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：显存需求=权重+KV Cache，公式结构正确，量纲一致（GB与bytes/token换算合理），符合大模型推理显存计算的基本原理。
+
+## Search Query
+
+Qwen2 27B KV cache size per token 32K context memory requirement

@@ -1,0 +1,29 @@
+# N104: 候选硬件各档位的峰值功耗 TDP 具体数值：RTX 4090 (450W), RTX 3090 (350W), A100 SXM (400W), H100 SX
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N22
+
+## Claim
+
+候选硬件各档位的峰值功耗 TDP 具体数值：RTX 4090 (450W), RTX 3090 (350W), A100 SXM (400W), H100 SXM (700W), L40S (350W)，需查阅官方规格书确认 [search]
+
+## Corrected Claim
+
+RTX 4090的峰值功耗TDP为450W（来源[2]支持）；RTX 3090、A100 SXM、H100 SXM、L40S的具体TDP数值需查阅各自官方规格书确认，当前参考来源未提供相关证据。
+
+## Evidence
+
+[质询]参考来源仅覆盖了RTX 4090的TDP数值，完全缺失RTX 3090、A100 SXM、H100 SXM和L40S的官方规格数据，无法通过提供的来源验证其余四个硬件的功耗数值。 | 来源[2]直接支持RTX 4090 TDP为450W，但其余硬件（RTX 3090, A100, H100, L40S）的数值属于经验事实，且参考来源未提供相关数据，无法排除数值错误的可能性，故降级。
+
+## Search Query
+
+NVIDIA RTX 4090 A100 H100 TDP watts specifications
+
+## Retrieval Sources
+
+- {'url': 'https://post.smzdm.com/p/anv7wnqv/&rut=cfdffc82b946423048fdd1225b339238c71c4d289c0fcb2823898e33173cc358', 'type': 'ddg', 'title': 'Rtx 4090根本不用450w!实测功耗和电费曝光_显卡_什么值得买'}
+- {'url': 'https://www.pconline.com.cn/ask/536264.html&rut=19246b47b3925eaa054f97da2e827e1a5b08836feb2d81428b52a54b0878a060', 'type': 'ddg', 'title': '4090显卡的TDP是多少 - 太平洋科技 - PC Online'}

@@ -1,0 +1,20 @@
+# N49: 共享随机源：成交周期 T 的随机波动率 σ_T 与佣金率 r 的波动率 σ_r 的联合分布，其协方差 Cov(T, r) 决定了平台收入 r×T 的方差；该随机
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N10
+
+## Claim
+
+共享随机源：成交周期 T 的随机波动率 σ_T 与佣金率 r 的波动率 σ_r 的联合分布，其协方差 Cov(T, r) 决定了平台收入 r×T 的方差；该随机源同时影响平台收入均值 E[r×T] 和方差 Var[r×T]
+
+## Corrected Claim
+
+共享随机源：成交周期 T 的随机波动率 σ_T 与佣金率 r 的波动率 σ_r 的联合分布，其协方差 Cov(T, r) 决定了平台收入 r×T 的方差；该随机源同时影响平台收入均值 E[r×T] 和方差 Var[r×T]
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：根据概率论基本公式，Var(rT) = E[rT] - (E[rT])^2，且 E[rT] = E[r]E[T] + Cov(r,T)，因此 Cov(r,T) 确实同时影响均值（通过协方差项）和方差（通过均值项及二阶矩），逻辑自洽。

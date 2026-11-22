@@ -1,0 +1,20 @@
+# N69: BF16 精度下 Qwen3-27B 的权重加载时间 (TTFT 的一部分) 取决于显存带宽，RTX 4090 (1008 GB/s) 加载 54 GB 权重需
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+BF16 精度下 Qwen3-27B 的权重加载时间 (TTFT 的一部分) 取决于显存带宽，RTX 4090 (1008 GB/s) 加载 54 GB 权重需约 53.6 ms，而 A100 80GB (2039 GB/s) 需约 26.5 ms，H100 (3350 GB/s) 需约 16.1 ms。
+
+## Corrected Claim
+
+BF16 精度下 Qwen3-27B 的权重加载时间 (TTFT 的一部分) 取决于显存带宽，RTX 4090 (1008 GB/s) 加载 54 GB 权重需约 53.6 ms，而 A100 80GB (2039 GB/s) 需约 26.5 ms，H100 (3350 GB/s) 需约 16.1 ms。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：54GB/1008GB/s≈53.57ms，54GB/2039GB/s≈26.48ms，54GB/3350GB/s≈16.12ms，数值计算准确且符合物理直觉。

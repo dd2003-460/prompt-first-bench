@@ -1,0 +1,28 @@
+# N7: 32K 上下文窗口下 Qwen3-27B 的 KV Cache 显存占用公式为：2 (K+V) * n_layers * n_kv_heads * head_d
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+32K 上下文窗口下 Qwen3-27B 的 KV Cache 显存占用公式为：2 (K+V) * n_layers * n_kv_heads * head_dim * seq_len * dtype_size，需根据 Qwen3 具体架构参数（如 GQA 头数）计算具体 GB 数
+
+## Corrected Claim
+
+Qwen3-27B 采用混合注意力架构（部分全注意力+部分线性注意力），其 KV Cache 显存占用并非标准全注意力公式 2 * n_layers * n_kv_heads * head_dim * seq_len * dtype_size 的直接结果，而是约为同规模全注意力模型的 1/4（例如 32K 上下文下需按实际有效注意力层数或每 token 固定开销计算）。
+
+## Evidence
+
+[质询]来源[1]明确指出Qwen3.8-27B（与Qwen3-27B架构类似或为同一系列）采用混合注意力机制（16层全注意力+48层线性注意力），其KV Cache占用仅为同规模全注意力模型的1/4。原陈述给出的公式是标准全注意力Transformer的KV Cache计算公式，若直接应用于该模型而未考虑混合架构特性，会导致数值高估4倍，属于口径/架构假设错误。 | 来源[1]直接指出该模型KV Cache仅为全注意力模型的1/4，且每token占用32KiB(fp8)/64KiB(bf16)，这与标准全注意力公式计算结果存在显著差异，表明原公式需根据具体架构（混合注意力）进行修正，不能直接套用标准公式得出准确GB数。
+
+## Search Query
+
+Qwen3-27B architecture num_kv_heads head_dim num_layers
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/wuhy80/wuhy-notes/blob/main/%E5%A4%A7%E6%A8%A1%E5%9E%8B/04-%E9%83%A8%E7%BD%B2%E4%B8%8E%E5%B7%A5%E5%85%B7%E9%93%BE/%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/Qwen3.8-27B%20%E6%98%BE%E5%AD%98%E4%B8%8E%20KV%20Cache%20%E9%A2%84%E7%AE%97.md&rut=a94eec89f1a98dac6ec35d4ca8663ef3619808cf53158f3466fe82f509863d12', 'type': 'ddg', 'title': 'Qwen3.8-27B 显存与 KV Cache 预算.md - GitHub'}

@@ -1,0 +1,17 @@
+{
+  "id": "N255",
+  "claim": "1x H100 SXM 运行 FP8 Qwen3-27B 的显存余量分析：总占用 39.58GB，剩余 40.42GB。该余量可支持最大 Batch Size 计算：每请求 KV Cache 占用 12.58GB (32K ctx)，故最大并发请求数 = floor(40.42 / 12.58) = 3。若 Batch Size > 3，需启用 PagedAttention 或缩减上下文至 16K (KV 减半至 6.29GB，最大并发 = floor(40.42 / (6.29 + 27/3)) ≈ 12 请求，假设权重分片或共享，此处简化为 KV 限制)，实际最大并发受限于 vLLM 的 block 分配策略，通常可达 5-8 请求 (32K ctx) 而不 OOM。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值量级与逻辑存在严重矛盾：1. Qwen3-27B 在 FP8 下权重仅约 27GB，加上 39.58GB 总占用意味着 KV Cache 已占用 12.58GB，这与后文‘每请求 KV Cache 占用 12.58GB’混淆了‘当前已用’与‘单请求增量’的概念；2. 若剩余 40.42GB 且单请求 KV 为 12.58GB，理论最大并发应为 3，但后文声称‘通常可达 5-8 请求’，这在未启用 PagedAttention 或缩减上下文的情况下，直接违背内存算术（3 * 12.58 = 37.74 < 40.42，但 5 * 12.58 = 62.9 > 40.42，必然 OOM）；3. 16K 上下文下 KV 减半至 6.29GB，计算 floor(40.42 / 6.29) 应为 6，而非文中给出的 12（除非假设权重共享或分片，但文中未明确此前提导致逻辑跳跃）。 | 先验知识/题面给定，逻辑校验失败：内存算术不自洽，32K 上下文下 5-8 并发必然超出剩余显存，且 16K 上下文下的并发数计算错误。",
+  "corrected_claim": "1x H100 SXM 运行 FP8 Qwen3-27B，总占用约 39.58GB，剩余约 40.42GB。若每请求 32K 上下文 KV Cache 占用 12.58GB，则在不启用 PagedAttention 且无权重共享的情况下，最大并发请求数为 floor(40.42 / 12.58) = 3。若缩减至 16K 上下文（KV 约 6.29GB），最大并发请求数约为 floor(40.42 / 6.29) = 6。实际并发受 vLLM 块分配策略影响，但不应超过理论内存上限。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N93"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

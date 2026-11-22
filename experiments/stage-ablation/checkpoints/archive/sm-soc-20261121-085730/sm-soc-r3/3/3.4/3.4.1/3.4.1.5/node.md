@@ -1,0 +1,24 @@
+# N231: 最小干预针对买家侧信息展示的有效性阈值：当买家信号敏感度 s > 0.75 时，通过增加‘近期成交均价’透明度的干预措施，可使买家启发式权重 W_buyer_h
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N75
+
+## Claim
+
+最小干预针对买家侧信息展示的有效性阈值：当买家信号敏感度 s > 0.75 时，通过增加‘近期成交均价’透明度的干预措施，可使买家启发式权重 W_buyer_heur 降低 10% 且无需改变平台算法，该干预的最小可检测效应 MDE 为 5% 的咨询率提升。
+
+## Corrected Claim
+
+在买家信号敏感度较高的场景下，增加‘近期成交均价’透明度可能降低买家对启发式信息的依赖，但具体阈值（s > 0.75）及效应量（10%降低、5% MDE）需依赖特定实验数据验证，当前缺乏直接证据支持该精确数值。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（s > 0.75）、效应量（降低10%）及MDE（5%），属于特定平台或实验环境下的经验事实，无法从第一性原理或通用逻辑中严格推导得出，且缺乏来源支持其具体数值。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）。
+
+## Search Query
+
+buyer side information transparency intervention second hand market price anchoring effect

@@ -1,0 +1,24 @@
+# N343: 2×A100 在 32K 上下文下的首字延迟（TTFT）为 65ms，满足 <100ms 的延迟容忍度要求
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N120
+
+## Claim
+
+2×A100 在 32K 上下文下的首字延迟（TTFT）为 65ms，满足 <100ms 的延迟容忍度要求
+
+## Corrected Claim
+
+2×A100 在 32K 上下文下的首字延迟（TTFT）通常可控制在 100ms 以内（具体数值如 65ms 取决于模型规模、推理框架及优化策略），满足 <100ms 的延迟容忍度要求。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件性能指标（2×A100在32K上下文下的TTFT为65ms），属于经验事实。在缺乏具体模型名称、推理框架（如vLLM/TensorRT-LLM）、量化方式及硬件配置细节的情况下，65ms这一数值缺乏普适性，且不同实现下波动极大，无法仅凭逻辑推导得出确切数值。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该数值依赖具体实现细节，无法从第一性原理严格推出）
+
+## Search Query
+
+2x A100 Qwen3-27B 32K context TTFT latency ms

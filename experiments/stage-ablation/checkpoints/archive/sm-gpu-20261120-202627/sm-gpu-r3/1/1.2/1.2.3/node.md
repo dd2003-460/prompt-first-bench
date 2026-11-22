@@ -1,0 +1,20 @@
+# N40: 32K 上下文下 KV Cache 显存占用的数值计算（FP8/INT8 精度）：若 KV Cache 也量化为 8-bit (1 byte/element)，
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+32K 上下文下 KV Cache 显存占用的数值计算（FP8/INT8 精度）：若 KV Cache 也量化为 8-bit (1 byte/element)，计算得 KV_Cache = 2 * 64 * 4096 * 8 * 32768 * 1 / 1e9 ≈ 1.4 GB。
+
+## Corrected Claim
+
+32K 上下文下 KV Cache 显存占用的数值计算（FP8/INT8 精度）：若 KV Cache 也量化为 8-bit (1 byte/element)，计算得 KV_Cache = 2 * 64 * 4096 * 8 * 32768 * 1 / 1e9 ≈ 1.4 GB。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点并未覆盖父节点的核心内容。父节点明确限定主题为“KV Cache 显存占用的数值计算”，而唯一的子节点内容却是“权重显存占用”及“总显存需求”，这属于父节点计算之外的扩展内容（Total Memory），而非对 KV Cache 计算本身的分解。此外，KV Cache 的计算过程在父节点中已经完整给出，没有进一步分解的必要或空间，子节点偏离了父节点的语义范围。）

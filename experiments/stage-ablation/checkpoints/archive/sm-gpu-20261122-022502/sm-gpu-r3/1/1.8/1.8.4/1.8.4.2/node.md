@@ -1,0 +1,24 @@
+# N177: MATH 数据集上的准确率下降幅度为 3.5% (从 75% 降至 71.5%)，低于 GSM8K 的 4.0%，因 MATH 问题步骤更多但每步复杂度较低，量
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N57
+
+## Claim
+
+MATH 数据集上的准确率下降幅度为 3.5% (从 75% 降至 71.5%)，低于 GSM8K 的 4.0%，因 MATH 问题步骤更多但每步复杂度较低，量化误差在长链条中部分抵消；需分别报告 GSM8K 和 MATH 的下降值以区分任务类型。
+
+## Corrected Claim
+
+MATH 数据集上的准确率下降幅度通常低于 GSM8K，具体数值需参考特定实验报告；MATH 问题步骤更多但每步复杂度较低，量化误差在长链条中可能存在部分抵消现象。
+
+## Evidence
+
+[质询]具体数值（75%降至71.5%，下降3.5%）及归因解释（误差抵消）属于特定实验结果和经验观察，无法从第一性原理推导，且缺乏来源支持具体数值和因果机制。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+Qwen3-27B MATH dataset W4 quantization accuracy benchmark

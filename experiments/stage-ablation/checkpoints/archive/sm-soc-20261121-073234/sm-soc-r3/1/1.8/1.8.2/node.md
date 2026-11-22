@@ -1,0 +1,29 @@
+# N51: 平台排序算法中'快速成交'权重的具体系数：假设排序分数 Score = w1*Recency + w2*Price + w3*Velocity，需估算 w3（速
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N12
+
+## Claim
+
+平台排序算法中'快速成交'权重的具体系数：假设排序分数 Score = w1*Recency + w2*Price + w3*Velocity，需估算 w3（速度权重）在总分中的占比，若 w3 > 0.4，则证实平台算法显著偏向快速成交商品，从而间接奖励高价快销。
+
+## Corrected Claim
+
+平台排序算法通常包含对成交速度（Velocity）的考量，但具体权重系数并非固定公开值，且现代算法多采用非线性模型，无法简单通过线性系数 w3 > 0.4 来证实平台显著偏向快速成交商品。
+
+## Evidence
+
+[质询]该陈述假设了一个特定的线性加权排序公式（Score = w1*Recency + w2*Price + w3*Velocity），并试图估算具体系数 w3 > 0.4。然而，主流电商平台的排序算法（如淘宝、京东等）通常采用复杂的机器学习模型（如GBDT、DNN等）进行多目标优化，而非简单的线性加权求和，且权重是动态调整且非公开的。因此，断言存在一个固定的、可估算的 w3 系数且其值大于 0.4 缺乏事实依据，属于对算法机制的过度简化或臆测。 | 参考来源[1]讨论的是通用的LTR排序算法框架，未提及具体电商平台的权重系数；来源[2]讨论的是快速排序算法，与本题无关。无外部来源支持该具体系数估算，且该系数属于未公开的经验/工程参数，无法从第一性原理推出。
+
+## Search Query
+
+e-commerce ranking algorithm weight velocity speed of sale exposure boost
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/610333953&rut=4f8f9270dc8d18065c3aa801f2f0775670c5a32bf11b4d9a27e83e9fc9d3756c', 'type': 'ddg', 'title': '推荐系统 [四]：精排-详解排序算法LTR (Learning to Rank)_ poitwise, pairwise, listwise ...'}
+- {'url': 'https://zhuanlan.zhihu.com/p/508663114&rut=b806a295cfafb7b5f78d1d39e402ea00d653e125f0ca37f31446726527da3199', 'type': 'ddg', 'title': '最详细的排序算法——快速排序 - 知乎'}

@@ -1,0 +1,26 @@
+# N202: 推荐方案的条件性约束2（市场供应）：若推荐1×H100方案，前提是当地供应商能提供≤8周的交付周期且价格波动<5%。若H100交付周期>12周或价格溢价>20%
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+推荐方案的条件性约束2（市场供应）：若推荐1×H100方案，前提是当地供应商能提供≤8周的交付周期且价格波动<5%。若H100交付周期>12周或价格溢价>20%，则性价比排序将反转，2×RTX 4090（假设现货）或AMD MI300X（若ROCm兼容性解决）可能成为更优选择。此约束依赖于N174/N175中的供应链数据。
+
+## Corrected Claim
+
+推荐方案的条件性约束2（市场供应）：若推荐1×H100方案，需评估当地供应商的交付周期与价格稳定性。若H100交付周期过长或价格溢价过高，导致性价比低于2×RTX 4090（现货）或AMD MI300X（若ROCm兼容），则应调整推荐排序。具体阈值需依据实时供应链数据（N174/N175）确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（如8周交付周期、5%价格波动、20%溢价导致排序反转），这些具体数值属于市场经验数据，无法从第一性原理或逻辑公理中严格推导出来，且参考来源均未提供此类具体供应链数据支持。 | 参考来源[1][2][3]仅讨论基于约束的推荐系统算法原理，与GPU供应链具体参数无关，属于「无可用外部证据」；该陈述为经验事实，逻辑自洽但缺乏来源直接支持，依据经验事实排除条款降级。
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/LieQueov/article/details/79612178&rut=fb40a319e65bc768860a728a5c8db37fc4696e2d22dbb3528f479d40acc8986c', 'type': 'ddg', 'title': '开发基于约束条件的推荐系统---《推荐系统技术、评估及高效算法》---读书笔记（6）_基于条件的推荐-csdn博客'}
+- {'url': 'https://liuyijian.github.io/vuepressBlog/techNote/algorithms/recommendation_system/Chap5.html&rut=b03eea2feeee9545961cb21911cf90e61ff5080d9725e74d926f9d3d4b56a39b', 'type': 'ddg', 'title': 'Chap5 基于约束的推荐系统 | lyj Blog - GitHub Pages'}
+- {'url': 'https://juejin.cn/post/7321776898333687817&rut=9fc0462db26af545bbd9b09d106fdf6d5b58426a271825b12b442f1f2a993295', 'type': 'ddg', 'title': '约束优化在推荐系统中的应用1.背景介绍 推荐系统是现代互联网企业的核心业务之一，它通过对用户的行为、兴趣和需求进行分析， - 掘金'}

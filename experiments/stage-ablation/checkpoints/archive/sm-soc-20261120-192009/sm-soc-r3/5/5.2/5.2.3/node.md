@@ -1,0 +1,24 @@
+# N295: 折旧损耗分量 Depreciation 的动态衰减模型：假设商品价值随时间呈指数衰减 V(t) = V_0 * e^(-δt)，其中 δ 为年折旧率；对于耐用消
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N101
+
+## Claim
+
+折旧损耗分量 Depreciation 的动态衰减模型：假设商品价值随时间呈指数衰减 V(t) = V_0 * e^(-δt)，其中 δ 为年折旧率；对于耐用消费品（如家电）δ ≈ 0.15，对于时尚快消品（如服饰）δ ≈ 0.50；在 r_holding 公式中，该项表现为 (V_0 - V(t_wait))/Value，若 t_wait=30天，时尚品该项贡献约为 0.04，耐用品约为 0.012。
+
+## Corrected Claim
+
+折旧损耗分量 Depreciation 的动态衰减模型：假设商品价值随时间呈指数衰减 V(t) = V_0 * e^(-δt)，其中 δ 为年折旧率；对于耐用消费品（如家电）δ ≈ 0.15，对于时尚快消品（如服饰）δ ≈ 0.50；在 r_holding 公式中，该项表现为 (V_0 - V(t_wait))/Value，若 t_wait=30天，时尚品该项贡献约为 0.04，耐用品约为 0.012。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：指数衰减公式 V(t)=V0*e^(-δt) 在 t=30天(1/12年) 时，δ=0.50 对应损耗率 1-e^(-0.5/12)≈0.041，δ=0.15 对应损耗率 1-e^(-0.15/12)≈0.012，数值量级与陈述一致，且符合耐用消费品与快消品折旧率的常识范围。
+
+## Search Query
+
+consumer goods depreciation rate annual percentage

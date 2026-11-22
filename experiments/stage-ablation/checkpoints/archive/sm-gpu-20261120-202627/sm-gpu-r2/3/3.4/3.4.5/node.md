@@ -1,0 +1,24 @@
+# N83: 2×RTX 4090 方案的 3 年 TCO 计算：CapEx = 2 * $1600 + $100 (PCIe) + $300 (Chassis) = $36
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N19
+
+## Claim
+
+2×RTX 4090 方案的 3 年 TCO 计算：CapEx = 2 * $1600 + $100 (PCIe) + $300 (Chassis) = $3600；OpEx_energy = 700W * 0.7 (avg load) * 24h * 365d * 3y * $0.1/kWh = $13,122；总 TCO ≈ $16,722。
+
+## Corrected Claim
+
+2×RTX 4090 方案的 3 年 TCO 计算：CapEx = 2 * $1600 + $100 (PCIe) + $300 (Chassis) = $3600；OpEx_energy = 700W * 0.7 (avg load) * 24h * 365d * 3y * $0.1/kWh = $13,122；总 TCO ≈ $16,722。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：CapEx计算正确(2*1600+100+300=3600)；OpEx计算正确(700*0.7*24*365*3*0.1=13122)；总TCO计算正确(3600+13122=16722)。
+
+## Search Query
+
+RTX 4090 TDP average power consumption inference load

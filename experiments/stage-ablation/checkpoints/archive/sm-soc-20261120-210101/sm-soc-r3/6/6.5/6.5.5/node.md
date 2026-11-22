@@ -1,0 +1,24 @@
+# N365: 品类异质性修正：不同品类的 CTR(D) 曲线形状不同，需按品类分组拟合 τ_signal_c，其中 c 为品类索引；若跨品类 τ_signal 标准差 σ_τ
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N107
+
+## Claim
+
+品类异质性修正：不同品类的 CTR(D) 曲线形状不同，需按品类分组拟合 τ_signal_c，其中 c 为品类索引；若跨品类 τ_signal 标准差 σ_τ > 5%，则单一全局 τ_signal 不适用，需采用混合效应模型 τ_signal_c = τ_global + ε_c。
+
+## Corrected Claim
+
+品类异质性修正：不同品类的 CTR(D) 曲线形状可能存在显著差异，建议按品类分组拟合 τ_signal_c；若跨品类 τ_signal 的变异系数或统计检验显示显著异质性，则单一全局 τ_signal 不适用，需采用混合效应模型或其他分层建模方法。
+
+## Evidence
+
+[质询]阈值「5%」缺乏统计学或业务上的通用标准支持，属于任意设定的经验参数；且混合效应模型的具体形式（随机截距）是否足以捕捉品类异质性需视数据分布而定，不能仅凭标准差阈值一刀切。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该阈值非第一性原理可推导）
+
+## Search Query
+
+category-specific price sensitivity threshold in second-hand market

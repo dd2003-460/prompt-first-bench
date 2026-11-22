@@ -1,0 +1,24 @@
+# N118: 假设 5 风险量化：NVIDIA 消费级显卡（GeForce）在 Linux 下使用最新 CUDA Toolkit（如 12.6+）时，可能出现驱动与内核版本不
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N24, N25, N26
+
+## Claim
+
+假设 5 风险量化：NVIDIA 消费级显卡（GeForce）在 Linux 下使用最新 CUDA Toolkit（如 12.6+）时，可能出现驱动与内核版本不兼容导致的启动失败或性能降级，预计每年有 5%-10% 的概率需要花费 1-2 小时进行驱动调试，此维护成本需折算为美元计入 TCO（按 $50/hour 人力成本估算）。
+
+## Corrected Claim
+
+NVIDIA 消费级显卡在 Linux 下使用最新 CUDA Toolkit 时，可能存在驱动与内核版本不兼容的风险，导致启动失败或性能降级。此维护成本需计入 TCO，具体概率和人力成本需根据实际环境评估。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1聚焦于直接人力成本（$50/h），子节点2聚焦于业务中断的机会成本（$100/h）。两者在成本构成维度上正交（直接成本 vs 间接/机会成本），共同覆盖了父节点中提到的“维护成本折算为美元计入TCO”这一核心要求。虽然公式结构相似，但参数含义和成本类别不同，不属于冗余。）
+
+## Search Query
+
+NVIDIA GeForce driver compatibility issues Linux CUDA 12.6 inference stability

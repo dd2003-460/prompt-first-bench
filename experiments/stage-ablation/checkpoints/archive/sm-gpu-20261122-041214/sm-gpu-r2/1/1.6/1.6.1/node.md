@@ -1,0 +1,24 @@
+# N62: 32K 上下文 FP8 KV Cache 精确计算：若启用 FP8 KV Cache，KV_GB = (2 * 64 * 8 * 128 * 1 * 32768
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N11
+
+## Claim
+
+32K 上下文 FP8 KV Cache 精确计算：若启用 FP8 KV Cache，KV_GB = (2 * 64 * 8 * 128 * 1 * 32768) / 1024^3 ≈ 3.9 GB。N11 原估算 10-15GB 严重偏高，可能是基于错误的层数或头数假设。
+
+## Corrected Claim
+
+32K 上下文 FP8 KV Cache 精确计算：若启用 FP8 KV Cache，KV_GB = (2 * 64 * 8 * 128 * 1 * 32768) / 1024^3 ≈ 3.9 GB。N11 原估算 10-15GB 严重偏高，可能是基于错误的层数或头数假设。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 (2 * 64 * 8 * 128 * 1 * 32768) / 1024^3 计算结果确为 3.90625 GB，量纲与数值均正确。
+
+## Search Query
+
+FP8 KV cache size 32k tokens 27B model calculation

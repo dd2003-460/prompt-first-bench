@@ -1,0 +1,24 @@
+# N308: 中等降价（10%-20%）场景下的 CTR 衰减系数 δ_medium：在 10%-20% 区间，买家心理处于‘犹豫带’，CTR 衰减系数估计为 δ_mediu
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N103
+
+## Claim
+
+中等降价（10%-20%）场景下的 CTR 衰减系数 δ_medium：在 10%-20% 区间，买家心理处于‘犹豫带’，CTR 衰减系数估计为 δ_medium ∈ [0.3, 0.4]，且该区间内的 CTR 对‘是否有历史成交记录’高度敏感，若有近期成交则衰减减半，若无则加倍，形成非线性的交互效应。
+
+## Corrected Claim
+
+在中等降价（10%-20%）场景下，CTR 衰减系数 δ_medium 通常处于中等水平（定性估计），且该区间内的 CTR 对历史成交记录敏感，近期成交可能显著降低衰减幅度，形成非线性交互效应。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值区间（δ ∈ [0.3, 0.4]）及特定的非线性交互效应（成交记录导致衰减减半/加倍），这些属于市场行为经验事实，无法从第一性原理或数学公理严格推导，且缺乏外部数据支持其精确量级和具体机制。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+moderate price reduction click through rate interaction with sales history

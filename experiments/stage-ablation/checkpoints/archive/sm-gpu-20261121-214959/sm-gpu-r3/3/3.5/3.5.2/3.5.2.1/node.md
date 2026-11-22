@@ -1,0 +1,20 @@
+# N233: AMD MI300X 运行 Qwen3-27B 的硬件可行性验证：MI300X 拥有 192GB HBM3 显存和 5.3 TB/s 带宽，足以容纳 BF16 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N85
+
+## Claim
+
+AMD MI300X 运行 Qwen3-27B 的硬件可行性验证：MI300X 拥有 192GB HBM3 显存和 5.3 TB/s 带宽，足以容纳 BF16 权重 (54GB) + 32K BF16 KV Cache (12.58GB) 且余量充足，理论 Decode 吞吐 = 5300 / 54 ≈ 98 tokens/s，性能优于 H100。
+
+## Corrected Claim
+
+AMD MI300X 运行 Qwen3-27B 的硬件可行性验证：MI300X 拥有 192GB HBM3 显存和 5.3 TB/s 带宽，足以容纳 BF16 权重 (54GB) + 32K BF16 KV Cache (12.58GB) 且余量充足，理论 Decode 吞吐 = 5300 / 54 ≈ 98 tokens/s，性能优于 H100。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：MI300X 192GB HBM3 显存与 5.3TB/s 带宽符合公开规格，BF16 权重与 KV Cache 容量计算正确，Decode 吞吐估算逻辑自洽。

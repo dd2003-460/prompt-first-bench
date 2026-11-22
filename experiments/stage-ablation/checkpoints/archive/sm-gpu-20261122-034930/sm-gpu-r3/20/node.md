@@ -1,0 +1,20 @@
+# N442: Apple M4 Max 与 M3 Ultra 在 macOS 14.5+ 版本中，Metal 框架对 Qwen3-27B 的 GQA (Grouped Que
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+Apple M4 Max 与 M3 Ultra 在 macOS 14.5+ 版本中，Metal 框架对 Qwen3-27B 的 GQA (Grouped Query Attention) 算子支持存在已知 Bug，导致长上下文 (>16K) 下 KV Cache 更新出现内存泄漏，需每 4 小时重启服务以释放内存，该运维成本估算为每年 10 小时人工干预，需计入 TCO。
+
+## Corrected Claim
+
+Apple M4 Max 与 M3 Ultra 在 macOS 14.5+ 版本中，Metal 框架对 Qwen3-27B 的 GQA (Grouped Query Attention) 算子支持存在已知 Bug，导致长上下文 (>16K) 下 KV Cache 更新出现内存泄漏，需每 4 小时重启服务以释放内存，该运维成本估算为每年 10 小时人工干预，需计入 TCO。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

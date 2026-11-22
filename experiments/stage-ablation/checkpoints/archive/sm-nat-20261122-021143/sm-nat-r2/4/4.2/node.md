@@ -1,0 +1,24 @@
+# N16: 非线性失效模型：当更新率 u 接近对象流行度分布尾部时，LRU 命中率损失呈指数衰减，修正公式 H_eff = H_steady × exp(-u × T_p9
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+非线性失效模型：当更新率 u 接近对象流行度分布尾部时，LRU 命中率损失呈指数衰减，修正公式 H_eff = H_steady × exp(-u × T_p90)，其中 T_p90 为 90 分位对象驻留时间，需从 Pareto(α=1.1) 分布推导 T_p90
+
+## Corrected Claim
+
+在特定假设下，当更新率 u 较高时，LRU 命中率损失可近似用指数衰减模型 H_eff = H_steady × exp(-u × T_p90) 描述，其中 T_p90 需根据具体对象驻留时间分布（如 Pareto 分布）推导，但该公式并非普适理论，需结合具体负载特征验证。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间在逻辑上是正交的（分别定义驻留时间机制、T_p90求解方法、大小分布具体形式），无矛盾或重复。但存在严重的完备性缺失：父节点核心是关于命中率损失 H_eff 随更新率 u 指数衰减的模型及其修正公式，而所有子节点仅关注 T_p90 的参数推导，完全未涉及 H_steady（稳态命中率）的定义、u（更新率）与流行度分布尾部的具体关联、以及 exp(-u × T_p90) 这一修正项的物理/数学推导依据。此外，子节点1中假设 S(k) 与热度 R(k) 负相关，但子节点3给出的 S(k) 仅依赖于排名 k，未体现与 R(k) 的耦合，存在隐含的逻辑不一致风险（虽不直接矛盾，但缺乏关联说明）。）
+
+## Search Query
+
+non-linear cache invalidation model update rate exponential decay hit rate

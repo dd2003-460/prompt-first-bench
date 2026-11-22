@@ -1,0 +1,20 @@
+# N15: 对象平均驻留时间T_resident取决于LRU驱逐策略：T_resident = (缓存容量 / 对象大小) / (对象请求频率 * 平均间隔)，对于热门对象
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N3
+
+## Claim
+
+对象平均驻留时间T_resident取决于LRU驱逐策略：T_resident = (缓存容量 / 对象大小) / (对象请求频率 * 平均间隔)，对于热门对象，T_resident较短，P_invalid较小；对于冷门对象，T_resident较长，P_invalid较大。
+
+## Corrected Claim
+
+在 LRU 策略下，热门对象因频繁访问而长期驻留，T_resident 较长，P_invalid 较小；冷门对象易被驱逐，T_resident 较短，P_invalid 较大。T_resident 的具体计算需基于访问间隔分布，而非简单的容量/频率公式。
+
+## Evidence
+
+[质询]公式量纲与逻辑不自洽：T_resident 通常由访问间隔决定，而非简单的容量/频率除法；且‘热门对象 T_resident 较短’与 LRU 原理矛盾（热门对象因频繁访问而长期驻留，T_resident 应较长，P_invalid 应较小；冷门对象易被驱逐，T_resident 较短，P_invalid 较大）。 | 先验知识/题面给定，逻辑校验未通过：LRU 策略下热门对象驻留时间应更长，且给出的公式缺乏明确的物理/逻辑推导支持，存在内部矛盾。

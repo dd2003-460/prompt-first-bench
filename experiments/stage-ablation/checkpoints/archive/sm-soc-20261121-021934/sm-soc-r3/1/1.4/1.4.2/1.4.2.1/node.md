@@ -1,0 +1,30 @@
+# N81: β_ctr = 0.05 的估计基于线性假设 CTR_lift = β_ctr * (P_ask/P_rec - 1)，但该假设在价格偏离度 > 30% 时失效
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N33
+
+## Claim
+
+β_ctr = 0.05 的估计基于线性假设 CTR_lift = β_ctr * (P_ask/P_rec - 1)，但该假设在价格偏离度 > 30% 时失效，实际 CTR_lift 呈倒 U 型，峰值在偏离度 20-25% 处，需通过分段回归验证拐点位置
+
+## Corrected Claim
+
+β_ctr = 0.05 的估计基于线性假设 CTR_lift = β_ctr * (P_ask/P_rec - 1)，但该假设在价格偏离度较大时可能失效，实际 CTR_lift 可能呈非线性（如倒 U 型），需通过分段回归或非线性模型验证具体拐点位置及峰值区间。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（β_ctr=0.05、失效阈值30%、峰值区间20-25%），这些属于特定业务场景下的统计结论，无法从第一性原理推导，且参考来源均未提供相关数据支持，存在来源缺失风险。 | 逻辑上，CTR随价格偏离度呈倒U型符合消费者行为经济学直觉（适度优惠吸引点击，过高偏离引发怀疑），线性假设在大偏离度下失效也符合非线性建模常识；但参考来源[1][2][3]仅涉及CTR预测模型基础（GBDT+LR、平滑、LR原理），与该具体业务假设及数值参数无关，无外部证据支持。
+
+## Search Query
+
+price deviation click through rate nonlinear effect inverted U shape marketplace
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/yuhansmile/CTR_Prediction&rut=d678fc9b2a8afb10f394f735da96c6d50377a2ddf96ce3f0ec189229f7b90ef8', 'type': 'ddg', 'title': '广告点击率 (CTR)预测经典模型 GBDT + LR 理解与 ... - GitHub'}
+- {'url': 'https://zhuanlan.zhihu.com/p/531678678&rut=a137583863a70c4f4d6c9e7a4ce75c44f4c21fdbdded6729a886047d10f470c2', 'type': 'ddg', 'title': '深入理解推荐系统：Ctr平滑问题 - 知乎'}
+- {'url': 'https://zhuanlan.zhihu.com/p/123950479&rut=ccb20568231592cc999a63f133aeb220f4167bf859d5cf50c3ef03f5673940ac', 'type': 'ddg', 'title': 'Ctr预估模型总结 - 知乎 - 知乎专栏'}

@@ -1,0 +1,24 @@
+# N173: RTX 4090 的 24 GB 显存容量在 W4 精度下运行 Qwen3-27B 时，KV Cache 最大支持上下文长度为 16.4K tokens (24
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N45
+
+## Claim
+
+RTX 4090 的 24 GB 显存容量在 W4 精度下运行 Qwen3-27B 时，KV Cache 最大支持上下文长度为 16.4K tokens (24 GB - 13.5 GB 权重 - 2 GB 激活/碎片 = 8.5 GB KV Cache，每 token 约 0.52 GB)，低于 32K 要求，必须使用 CPU Offloading 或降低上下文。
+
+## Corrected Claim
+
+RTX 4090 的 24 GB 显存容量在 W4 精度下运行 Qwen3-27B 时，若 KV Cache 每 token 占用约 0.52 GB，则最大支持上下文长度约为 16.4K tokens，低于 32K 要求，需使用 CPU Offloading 或降低上下文。
+
+## Evidence
+
+[质询]数值量级与精度假设存在矛盾：Qwen3-27B 在 W4 精度下权重约为 13.5GB 是合理的，但 KV Cache 每 token 0.52GB 的估算极高（通常 27B 模型在 FP16 下每 token KV 约为 0.1-0.2GB，W4 下若 KV 也量化则更低，若 KV 保持 FP16 则 0.52GB 意味着上下文极短或模型结构特殊如 GQA 头数极多/层数极多，需具体模型配置支持，通用估算易出错）；此外，'Qwen3-27B' 具体版本及 KV 量化策略未明确，导致 16.4K 这一精确数值缺乏通用性。 | 先验知识/题面给定，逻辑校验通过（算术自洽：24-13.5-2=8.5, 8.5/0.52≈16.34K），但 KV 每 token 占用 0.52GB 属于特定配置下的经验参数，缺乏通用来源支持，且该数值偏高，故降级。
+
+## Search Query
+
+RTX 4090 24GB Qwen3-27B KV cache context length limit

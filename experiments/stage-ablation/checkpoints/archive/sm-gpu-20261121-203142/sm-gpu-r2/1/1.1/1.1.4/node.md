@@ -1,0 +1,28 @@
+# N38: 推理框架激活值峰值显存占用：基于vLLM或TGI实测数据，27B模型在32K上下文下的激活值（Activations）峰值通常在1.5-3.0GB之间，取决于b
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N7
+
+## Claim
+
+推理框架激活值峰值显存占用：基于vLLM或TGI实测数据，27B模型在32K上下文下的激活值（Activations）峰值通常在1.5-3.0GB之间，取决于batch size=1时的序列并行策略
+
+## Corrected Claim
+
+基于vLLM或TGI实测数据，27B模型在32K上下文下的激活值（Activations）峰值通常较小（具体数值取决于精度和实现，一般在GB级别以下或低个位数GB），主要显存瓶颈通常来自KV Cache和模型权重。
+
+## Evidence
+
+[质询]来源仅提供了显存构成的分类框架，未提供具体的激活值峰值数值（1.5-3.0GB），且该数值高度依赖于具体的硬件架构、精度（FP16/BF16/INT8）及vLLM版本，缺乏直接数据支持。 | 来源[1]确认了激活值是显存组成部分，但未提供具体数值；该事实属于经验性硬件/软件性能数据，逻辑上量级合理（27B模型32K上下文下激活值通常较小，主要显存占用在KV Cache和权重），但缺乏直接来源支持具体区间。
+
+## Search Query
+
+vLLM Qwen3-27B activation memory usage 32k context batch size 1
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1947229675689603831&rut=f6d9a0013dfebf1ddaafb2f67f387926e181406e404e8198e12bfed67614377f', 'type': 'ddg', 'title': 'vLLM 在大模型推理中的显存分析-以 Qwen3-32B 为例 - 知乎'}

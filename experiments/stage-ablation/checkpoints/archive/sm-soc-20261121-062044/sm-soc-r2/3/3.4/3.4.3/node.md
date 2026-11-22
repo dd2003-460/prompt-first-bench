@@ -1,0 +1,20 @@
+# N67: 长期留存率增益投影：ΔRetention_long = β * (1 - I_min/Threshold_harm)，若干预未超过卖家容忍阈值，留存率提升幅度约
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N18
+
+## Claim
+
+长期留存率增益投影：ΔRetention_long = β * (1 - I_min/Threshold_harm)，若干预未超过卖家容忍阈值，留存率提升幅度约为 1-2%，对应长期 GMV 增量约为短期损失的 0.5-1.5 倍（折现率 10% 下）。
+
+## Corrected Claim
+
+长期留存率增益投影：ΔRetention_long = β * (1 - I_min/Threshold_harm)，若干预未超过卖家容忍阈值，留存率通常会有所提升，长期 GMV 增量有望覆盖短期损失（具体倍数取决于折现率及用户生命周期价值模型）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值参数（留存率提升1-2%、GMV倍数0.5-1.5倍、折现率10%），这些并非数学恒等式或第一性原理可推导的必然结论，而是依赖于特定业务场景、用户行为模型及市场环境的经验估计。缺乏具体数据支撑时，这些精确数值具有高度不确定性。 | source=knowledge，逻辑结构自洽（公式定义与文字描述一致，量级在商业常识范围内），但具体数值属于经验事实，无外部来源直接支持，依据规则降级为定性表述。

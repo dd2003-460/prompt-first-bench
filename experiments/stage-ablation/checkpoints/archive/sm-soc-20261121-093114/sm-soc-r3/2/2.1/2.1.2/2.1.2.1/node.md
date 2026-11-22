@@ -1,0 +1,20 @@
+# N139: 共享随机源 S_signal 的分布参数：S_signal ~ N(μ_S, σ_S²)，其中 μ_S = 0.4, σ_S² = 0.04 (即 σ_S = 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N45, N46, N47
+
+## Claim
+
+共享随机源 S_signal 的分布参数：S_signal ~ N(μ_S, σ_S²)，其中 μ_S = 0.4, σ_S² = 0.04 (即 σ_S = 0.2)，该参数组基于二手市场稀缺性感知文献的元分析估计，用于计算 T_decision 缩短幅度的置信区间。
+
+## Corrected Claim
+
+共享随机源 S_signal 的分布参数：S_signal ~ N(μ_S, σ_S²)，其中 μ_S = 0.4, σ_S² = 0.04 (即 σ_S = 0.2)，该参数组基于二手市场稀缺性感知文献的元分析估计，用于计算 T_decision 缩短幅度的置信区间。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

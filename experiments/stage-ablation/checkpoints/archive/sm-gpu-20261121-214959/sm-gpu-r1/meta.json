@@ -1,0 +1,157 @@
+{
+  "qid": "gpu",
+  "question": "你要在本地工作站上推理 Qwen3-27B 模型，不设硬性延迟指标（延迟是性能变量，由硬件和部署配置决定，不作为前置约束）；上下文窗口 ≥ 32K tokens 作为容量下限保留。权重精度不限（BF16/FP8/INT8/NVFP4/W4 均可），但必须论证所选精度的质量损失是否可接受。候选硬件：自行搜索确定值得考虑的完整候选集——覆盖你认为所有可能影响性价比排序的架构、代际、容量档位和价格区间（包括消费级、数据中心级、以及任何你认为值得纳入比较的非典型方案）。同时评估单卡与多卡方案的 TCO 差异（如 2× 消费卡 vs 1× 数据卡）。给出性价比最优的完整选卡方案。要求：思考必须最完整，确认没有遗漏任何影响决策的维度；每个关键数字标注来源（刚查到的 vs 凭记忆的），不确定的标 [待核验]；最终推荐必须是条件性的，不能给无条件排名。",
+  "round": 1,
+  "state": "rework",
+  "dropped_redundant": 1,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "F1_可行性门控 (Feasibility Gate): 布尔值。模型权重在所选精度下能否装入显存，且上下文窗口≥32K tokens 所需的 KV Cache 与激活值内存是否有足够余量。若不满足，方案直接不可行。",
+      "F2_质量损失可接受度 (Quality Acceptance): 布尔值/等级。所选量化精度（BF16/FP8/INT8等）相对于 BF16 基线的性能下降是否在可接受范围内（需通过基准测试或文献论证）。若不满足，方案不可行。",
+      "F3_总拥有成本 (TCO): 数值。硬件采购成本 + 电力/散热/空间隐性成本 + 多卡互联/驱动维护复杂度成本。越低越好。",
+      "F4_推理吞吐量 (Throughput): 数值。Tokens/second。在满足延迟非硬性约束的前提下，吞吐量越高，单位时间成本越低，性价比越高。",
+      "F5_数据可信度与不确定性 (Data Confidence): 数值/等级。关键数字（价格、显存、性能）的来源可靠性及是否标注了 [待核验]。不确定性越低，决策风险越小。"
+    ],
+    "composition": "Max( F4 / F3 ) subject to ( F1 == True AND F2 == True ) - λ * Uncertainty(F5). 即：在满足容量和质量硬约束的前提下，最大化吞吐量与总成本的比值，并减去因数据不确定性带来的风险惩罚。",
+    "rationale": "本题核心是'性价比最优'，即在满足'跑得动（容量）'和'跑得好（质量）'的硬约束下，追求单位成本下的最高推理效率，同时要求决策过程透明、数据可溯源以降低决策风险。"
+  },
+  "objective_mode": "formula",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "parent_id": "N4",
+      "issues": [
+        "不完备",
+        "有冗余"
+      ],
+      "suggestions": [
+        "将子节点2和3合并或重构：保留一个通用的'硬件实例分析'子节点，将RTX 4090和A100作为该节点下的参数案例，或者将子节点1定义为'理论上限模型'，子节点2和3定义为'具体硬件基准测试'，明确层级关系以减少冗余感。",
+        "增加一个关于'通信开销与并行效率损失'的子节点：父节点明确提到了'多卡并行带来的通信开销'，当前子节点仅提到'未计通信开销'，缺少对All-Reduce等通信机制如何降低实际吞吐量（相对于理论带宽上限）的定量或定性分析，需补充此关键方面。"
+      ],
+      "round": 0
+    },
+    {
+      "parent_id": "N5",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "建议增加一个子节点：'不确定性量化与待核验项管理协议'，专门定义如何标记 [待核验] 项、如何计算综合置信度权重，以及当数据缺失或冲突时的风险应对策略（如降级为保守估计或标记为高风险）。",
+        "或者，将父节点的定义微调，明确其仅关注具体数值维度的溯源，而将通用的不确定性管理方法论移至其他父节点，以匹配当前子节点的粒度。"
+      ],
+      "round": 0
+    },
+    {
+      "node_id": "N9",
+      "claim": "Qwen3-27B 在 4-bit 量化 (GPTQ/AWQ) 下的质量损失基准：MMLU 准确率下降约 1-2 个百分",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（MMLU下降1-2%，HellaSwag<1%）属于特定模型版本（Qwen3-27B）在特定量化方法（GPTQ/AWQ）下的经验性基准数据，无"
+    },
+    {
+      "node_id": "N10",
+      "claim": "消费级显卡 (RTX 4090/5090) 不支持原生 FP8 或 NVFP4 推理加速，仅支持 INT8/INT4 通",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]RTX 4090 (Ada Lovelace架构) 实际上原生支持 FP8 数据格式（通过 Tensor Cores），并非仅支持 INT8/INT4；"
+    },
+    {
+      "node_id": "N12",
+      "claim": "消费级显卡候选集：NVIDIA RTX 4090 (24GB GDDR6X, 1008 GB/s 带宽, $1599),",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]RTX 4090 Ti 并不存在（NVIDIA 未发布该型号，4090 即为旗舰）；RTX 5090 和 AMD RX 8000 系列的具体规格（如 5"
+    },
+    {
+      "node_id": "N13",
+      "claim": "数据中心级显卡候选集：NVIDIA H100 SXM (80GB HBM3, 2039 GB/s, $25,000-30",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]价格数据属于高度波动的市场经验事实，且不同渠道（OEM/零售/现货）差异巨大，缺乏实时市场数据支持具体数值区间；此外，H200和B200的带宽与显存规格"
+    },
+    {
+      "node_id": "N14",
+      "claim": "非典型方案候选集：Mac Studio M2 Ultra (192GB 统一内存, 800 GB/s 带宽, $3999",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]M3 Ultra 的发布状态、具体规格（256GB/1000+ GB/s）及价格均为预测性信息，缺乏官方确认；二手 H100 价格波动范围极大且随时间剧"
+    },
+    {
+      "node_id": "N15",
+      "claim": "单卡 vs 多卡拓扑结构对比：单卡 (如 H100 80GB) 无互联开销，推理延迟最低；多卡 (如 2x RTX 40",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体通信开销比例（5-15%）缺乏通用性，高度依赖模型架构、序列长度及并行策略（如张量并行 vs 流水线并行），且未区分不同互联带宽下的具体影响，属于经"
+    },
+    {
+      "node_id": "N16",
+      "claim": "硬件采购一次性成本 (CapEx)：RTX 4090 $1599, RTX 5090 $1999 [待核验], H100",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]H100/H200 的价格区间（$25k-$35k）属于高度波动的市场经验事实，且不同时期、不同供应商报价差异巨大，缺乏固定标准；此外，RTX 5090"
+    },
+    {
+      "node_id": "N20",
+      "claim": "软件部署与维护隐性成本：消费级显卡 (NVIDIA) 使用 vLLM/TensorRT-LLM，社区支持完善，无额外软件",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]「调试时间成本增加 20-30%」是一个具体的经验性量化指标，缺乏普遍适用的基准测试或行业共识支持，不同工作负载和团队熟练度下差异巨大，该具体数值缺乏可"
+    },
+    {
+      "node_id": "N30",
+      "claim": "决策敏感性分析维度 2（精度容忍度）：若应用对幻觉率敏感（如医疗/法律），则必须使用 BF16/FP8，排除 INT4/",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级存疑：INT4/W4 量化导致的 Perplexity 增加 5-15% 并非普适常数，高度依赖模型规模、量化算法（如 GPTQ/AWQ）及数据"
+    },
+    {
+      "node_id": "N32",
+      "claim": "RTX 4090 (24GB) 单卡在 32K 上下文下的最大可行精度验证：INT4 权重 (13.5GB) + BF1",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N33",
+      "claim": "RTX 5090 (32GB) 单卡在 32K 上下文下的最大可行精度验证：FP8 权重 (27GB) + BF16 K",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N34",
+      "claim": "Mac Studio M2 Ultra (192GB) 单卡在 32K 上下文下的最大可行精度验证：BF16 权重 (5",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N35",
+      "claim": "INT4 量化质量损失的可接受性阈值：在代码生成任务 (HumanEval) 上，Qwen3-27B INT4 (AWQ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N36",
+      "claim": "FP8 量化质量损失的可接受性阈值：在 MMLU-Pro 和 IFEval 基准测试中，Qwen3-27B FP8 (E",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    }
+  ],
+  "contradiction_events": [
+    {
+      "round": 1,
+      "a": "N8",
+      "b": "N28",
+      "a_claim": "32K 上下文窗口下，Qwen3-27B (假设 GQA 8 KV heads, head_dim 128, 64 layers) 的 KV Cache 显存占",
+      "b_claim": "显存占用估算误差：KV Cache 显存占用 = 2 * num_layers * hidden_size * num_heads * context_leng",
+      "desc": "Qwen3-27B 的层数（layers）定义冲突：N8 假设为 64 layers，而 N28 明确指出为 60 layers。",
+      "fixed": false
+    }
+  ],
+  "n_nodes": 34
+}

@@ -1,0 +1,24 @@
+# N320: 在 vLLM 或 TensorRT-LLM 框架下，A100 80GB 运行 Qwen3-27B 进行 32K 长度 Prefill 时的实际 MFU (Mod
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N113
+
+## Claim
+
+在 vLLM 或 TensorRT-LLM 框架下，A100 80GB 运行 Qwen3-27B 进行 32K 长度 Prefill 时的实际 MFU (Model FLOPs Utilization) 实测值通常在 45%-55% 之间，受 FlashAttention 2 实现及 Batch Size=1 的小矩阵效应影响，低于理论峰值 312 TFLOPS。
+
+## Corrected Claim
+
+在 vLLM 或 TensorRT-LLM 框架下，A100 80GB 运行 Qwen3-27B 进行 32K 长度 Prefill 时的实际 MFU 通常低于理论峰值 312 TFLOPS，具体数值受 FlashAttention 实现及 Batch Size 影响，一般处于较高利用率区间（如 40%-60%），但缺乏统一实测标准。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值范围（45%-55%）和特定硬件/模型组合的性能指标，属于经验事实。由于检索无可用来源，无法验证该具体数值区间的准确性，且不同实现细节（如量化、具体算子优化）可能导致MFU波动较大，单一数值范围可能过于绝对。 | 经验事实，逻辑自洽但缺来源支持。A100 80GB FP16理论峰值约为312 TFLOPS，Prefill阶段受限于内存带宽和计算效率，MFU在40%-60%区间符合一般大模型推理/预填充的性能直觉，但具体数值缺乏外部证据直接证实。
+
+## Search Query
+
+A100 80GB vLLM Qwen3-27B prefill MFU benchmark 32k context

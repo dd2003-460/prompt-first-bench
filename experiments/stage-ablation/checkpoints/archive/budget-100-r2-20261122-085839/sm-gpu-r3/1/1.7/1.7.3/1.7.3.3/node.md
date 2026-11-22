@@ -1,0 +1,24 @@
+# N169: GPTQ 与 SmoothQuant 在 Qwen3-27B 上的 GSM8K 得分差异具体数值（数学推理任务对激活值分布敏感度更高，预期差异可能大于 MMLU
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N50
+
+## Claim
+
+GPTQ 与 SmoothQuant 在 Qwen3-27B 上的 GSM8K 得分差异具体数值（数学推理任务对激活值分布敏感度更高，预期差异可能大于 MMLU 的 0.3%）
+
+## Corrected Claim
+
+GPTQ 与 SmoothQuant 在 Qwen3-27B 上的 GSM8K 得分差异具体数值需通过实际实验测定；理论上数学推理任务对激活值分布敏感度较高，但具体差异幅度（如是否大于 MMLU 的 0.3%）无法仅凭逻辑推导确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性预测（'预期差异可能大于 MMLU 的 0.3%'），这属于特定模型（Qwen3-27B）在特定任务（GSM8K）上的量化误差表现，无法从第一性原理或数学公理严格推导得出，且缺乏具体实验数据支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该具体数值差异属于经验观测结果，非理论推导必然结论）
+
+## Search Query
+
+Qwen3-27B GPTQ vs SmoothQuant GSM8K accuracy difference

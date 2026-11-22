@@ -1,0 +1,20 @@
+# N408: 工作点A（理想上限）：A100 80GB (SXM) 在INT8精度下，假设HBM2e带宽利用率100%且无计算瓶颈，理论吞吐上限为 2039 GB/s / (
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N146
+
+## Claim
+
+工作点A（理想上限）：A100 80GB (SXM) 在INT8精度下，假设HBM2e带宽利用率100%且无计算瓶颈，理论吞吐上限为 2039 GB/s / (27GB权重 + 10.7GB KV Cache) ≈ 54.1 tokens/s，此数值仅作为理论天花板，实际部署中因Kernel启动、内存访问延迟及调度开销，通常需乘以0.85-0.95的效率系数。
+
+## Corrected Claim
+
+工作点A（理想上限）：A100 80GB (SXM) 在INT8精度下，假设HBM2e带宽利用率100%且无计算瓶颈，理论吞吐上限为 2039 GB/s / (27GB权重 + 10.7GB KV Cache) ≈ 54.1 tokens/s，此数值仅作为理论天花板，实际部署中因Kernel启动、内存访问延迟及调度开销，通常需乘以0.85-0.95的效率系数。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 SXM HBM2e带宽2039GB/s为公认规格，算术运算2039/37.7≈54.1正确，效率系数范围符合工程常识。

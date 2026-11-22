@@ -1,0 +1,20 @@
+# N43: 高挂价对咨询转化率的提升函数：k_consult(P) = k_consult_base * (1 + β*(P/P_avg - 1)²)，其中β为溢价敏感系数
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N9
+
+## Claim
+
+高挂价对咨询转化率的提升函数：k_consult(P) = k_consult_base * (1 + β*(P/P_avg - 1)²)，其中β为溢价敏感系数（取值0.5-2.0），用于量化15-25%溢价对咨询率的非线性提升效果。
+
+## Corrected Claim
+
+高挂价对咨询转化率的提升函数：k_consult(P) = k_consult_base * (1 + β*(P/P_avg - 1)²)，其中β为溢价敏感系数（取值0.5-2.0），用于量化15-25%溢价对咨询率的非线性提升效果。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

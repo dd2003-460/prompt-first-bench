@@ -1,0 +1,28 @@
+# N12: FP8 精度下 Qwen3-27B 质量损失量化：相对于 BF16 的困惑度增加百分比和下游任务准确率下降幅度，需查 Qwen3 官方或第三方评测数据 [待核验
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N2
+
+## Claim
+
+FP8 精度下 Qwen3-27B 质量损失量化：相对于 BF16 的困惑度增加百分比和下游任务准确率下降幅度，需查 Qwen3 官方或第三方评测数据 [待核验]
+
+## Corrected Claim
+
+Qwen3.8-27B 在 FP8 精度下相对于 BF16 存在性能/质量差异，具体量化指标（困惑度增加百分比、准确率下降幅度）需查阅该测试报告的详细数据部分，当前摘要未提供确切数值。
+
+## Evidence
+
+[质询]来源标题提及的是 'Qwen3.8-27B'，而事实节点询问的是 'Qwen3-27B'。虽然 Qwen3 系列可能包含不同版本，但版本号不匹配可能导致数据不可直接迁移；此外，摘要仅提到测试了 BF16 和 FP8 的表现，未明确给出'困惑度增加百分比'和'下游任务准确率下降幅度'的具体量化数值，可能存在数据缺失或仅定性描述的情况。 | 来源 [1] 主题相关（Qwen3 系列 27B 模型在 BF16 与 FP8 下的对比测试），但摘要未提供具体的量化损失数据（如困惑度增加百分比），且版本号存在细微差异（Qwen3.8 vs Qwen3），属于间接支持且数据不完整，故降级。
+
+## Search Query
+
+Qwen3-27B FP8 quantization quality degradation perplexity accuracy
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2072597504793880030&rut=939cafd07a4e15ae1245f5a339b74e22b7f3b2377110377f185cd50347b447f0', 'type': 'ddg', 'title': 'Qwen3.8-27B 的 BF16、FP8、MTP、单卡表现，以及与 Qwen3.6 MoE 的差距'}

@@ -1,0 +1,24 @@
+# N131: RTX 3090 运行 W4 量化模型时的激活值与框架开销 (Activation/Buffer) 通常为 1-2 GB，取决于 Batch Size=1 且 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N31
+
+## Claim
+
+RTX 3090 运行 W4 量化模型时的激活值与框架开销 (Activation/Buffer) 通常为 1-2 GB，取决于 Batch Size=1 且 Flash Attention 是否启用；若启用 Flash Attention，激活值峰值可降至 <1 GB，否则可能接近 2-3 GB
+
+## Corrected Claim
+
+RTX 3090 运行 W4 量化模型时的激活值与框架开销 (Activation/Buffer) 通常为 1-2 GB，取决于 Batch Size=1 且 Flash Attention 是否启用；若启用 Flash Attention，激活值峰值可降至 <1 GB，否则可能接近 2-3 GB
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+vLLM activation memory overhead W4 quantization flash attention batch size 1

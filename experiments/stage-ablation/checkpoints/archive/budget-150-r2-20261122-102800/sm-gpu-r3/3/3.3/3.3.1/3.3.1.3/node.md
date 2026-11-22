@@ -1,0 +1,20 @@
+# N257: 在 32K 上下文长度下，Decode 阶段为内存带宽受限（Memory-Bound），RTX 4090 的 GDDR6X 带宽（1008 GB/s）是瓶颈，此
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N94
+
+## Claim
+
+在 32K 上下文长度下，Decode 阶段为内存带宽受限（Memory-Bound），RTX 4090 的 GDDR6X 带宽（1008 GB/s）是瓶颈，此时 FP16 与 NVFP4 的算力差异对吞吐量影响极小（<5%），因为计算时间远小于数据读取时间。
+
+## Corrected Claim
+
+在 32K 上下文长度下，Decode 阶段为内存带宽受限（Memory-Bound），RTX 4090 的 GDDR6X 带宽（1008 GB/s）是瓶颈，此时 FP16 与 NVFP4 的算力差异对吞吐量影响极小（<5%），因为计算时间远小于数据读取时间。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 GDDR6X 带宽确为 1008 GB/s；在 32K 长上下文 Decode 阶段，KV Cache 读取量巨大，算术强度（Arithmetic Intensity）极低，确实处于内存带宽受限区域，此时算力提升对吞吐量影响微乎其微。

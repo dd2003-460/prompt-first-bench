@@ -1,0 +1,24 @@
+# N333: 2×RTX 4090 在 32K 上下文下的首字延迟（TTFT）为 120ms，不满足 <100ms 的延迟容忍度要求，需降低上下文长度至 24K 以将 TTF
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N119
+
+## Claim
+
+2×RTX 4090 在 32K 上下文下的首字延迟（TTFT）为 120ms，不满足 <100ms 的延迟容忍度要求，需降低上下文长度至 24K 以将 TTFT 降至 95ms
+
+## Corrected Claim
+
+2×RTX 4090 在 32K 上下文下的首字延迟（TTFT）可能超过 100ms 的延迟容忍度要求，需降低上下文长度以优化延迟，具体数值需实测确定。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件性能指标（TTFT数值）和特定配置下的延迟表现，属于经验事实。在缺乏任何参考来源支持的情况下，无法验证120ms和95ms这两个具体数值的准确性，且不同模型、批处理大小、硬件驱动版本均会显著影响TTFT，具体数值可能因环境而异。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+2x RTX 4090 Qwen3-27B 32K context TTFT latency ms

@@ -1,0 +1,20 @@
+# N158: TCO_3yr 的完整构成项分解：TCO_3yr = Hardware_Cost + (Electricity_Cost_3yr + Maintenance_C
+
+- **status**: degraded
+- **level**: L3
+- **source**: derived
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N51
+
+## Claim
+
+TCO_3yr 的完整构成项分解：TCO_3yr = Hardware_Cost + (Electricity_Cost_3yr + Maintenance_Cost_3yr + Opportunity_Cost_3yr)。基于 N37/N38：Hardware_Cost (RTX 4090) = $1800 (中值), Electricity_Cost_3yr = $780 (260*3), Maintenance_Cost = $0 (消费级无维保), Opportunity_Cost = 0 (自用)。数据中心卡需增加 Maintenance_Cost (约硬件成本的 5-10%/年) 和 Cooling_Infrastructure (一次性 $1000-$2000 分摊)。
+
+## Corrected Claim
+
+TCO_3yr 的完整构成项分解：TCO_3yr = Hardware_Cost + (Electricity_Cost_3yr + Maintenance_Cost_3yr + Opportunity_Cost_3yr)。基于 N37/N38：Hardware_Cost (RTX 4090) 约为 $1800 (中值), Electricity_Cost_3yr 约为 $780 (260*3), Maintenance_Cost = $0 (消费级无维保), Opportunity_Cost = 0 (自用)。数据中心卡需增加 Maintenance_Cost (通常为硬件成本的 5-10%/年) 和 Cooling_Infrastructure (一次性 $1000-$2000 分摊)。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（如RTX 4090价格$1800、电费$780、数据中心维护成本比例5-10%），这些属于市场/工程经验事实，无法仅从第一性原理推导，且缺乏外部来源支持。 | 经验事实，逻辑自洽但缺来源支持（来源检索失败，无法验证具体数值如硬件价格和维护成本比例）

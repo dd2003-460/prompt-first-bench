@@ -1,0 +1,20 @@
+# N200: NVFP4 精度下 KV Cache 显存占用仍为 3.98 GB（KV Cache 通常保持 BF16/FP16 精度以避免注意力计算精度损失，不随权重精度降
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N83, N84, N85
+
+## Claim
+
+NVFP4 精度下 KV Cache 显存占用仍为 3.98 GB（KV Cache 通常保持 BF16/FP16 精度以避免注意力计算精度损失，不随权重精度降低），N84 中的 4.7GB 为高估，需修正为 3.98GB
+
+## Corrected Claim
+
+NVFP4 精度下 KV Cache 显存占用仍为 3.98 GB（KV Cache 通常保持 BF16/FP16 精度以避免注意力计算精度损失，不随权重精度降低），N84 中的 4.7GB 为高估，需修正为 3.98GB
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：KV Cache 通常保持高精度（BF16/FP16）以保障注意力计算稳定性，不随权重精度（如 NVFP4）降低，因此显存占用维持 3.98GB 符合工程惯例与逻辑自洽。

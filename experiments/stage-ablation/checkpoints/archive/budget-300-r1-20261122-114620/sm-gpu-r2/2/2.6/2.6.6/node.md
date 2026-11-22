@@ -1,0 +1,20 @@
+# N84: KV Cache 对 Decode 吞吐的边际影响：每增加 1K tokens 上下文，KV Cache 增加约 0.05GB (基于 N7 公式修正)，导致 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N17
+
+## Claim
+
+KV Cache 对 Decode 吞吐的边际影响：每增加 1K tokens 上下文，KV Cache 增加约 0.05GB (基于 N7 公式修正)，导致 RTX 4090 的 Decode 吞吐下降约 0.1% (0.05/54.05)，影响可忽略；但在 32K 上下文下，KV 占用约 1.6GB，总带宽需求增加 3%，吞吐下降约 3%
+
+## Corrected Claim
+
+KV Cache 对 Decode 吞吐的边际影响：每增加 1K tokens 上下文，KV Cache 增加约 0.05GB (基于 N7 公式修正)，导致 RTX 4090 的 Decode 吞吐下降约 0.1% (0.05/54.05)，影响可忽略；但在 32K 上下文下，KV 占用约 1.6GB，总带宽需求增加 3%，吞吐下降约 3%
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：KV Cache 大小与上下文长度线性相关，带宽需求增加比例与吞吐下降比例在近似线性模型下自洽，数值量级合理（0.05GB/1K tokens 符合常见 LLM 架构估算，32K 对应 1.6GB 亦符合线性外推）。

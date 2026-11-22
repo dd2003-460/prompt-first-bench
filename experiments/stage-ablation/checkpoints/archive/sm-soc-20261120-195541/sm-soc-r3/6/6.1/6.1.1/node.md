@@ -1,0 +1,20 @@
+# N170: 挂价离散度 σ_noise 的操作化定义：σ_noise = std(P_ask_i | V_i, C_verify_i)，即在控制商品内在价值 V 和核验成本
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N58
+
+## Claim
+
+挂价离散度 σ_noise 的操作化定义：σ_noise = std(P_ask_i | V_i, C_verify_i)，即在控制商品内在价值 V 和核验成本 C_verify 后，同一细分市场内卖家挂价的标准差；该指标需在 n≥50 的样本量下计算，且需排除极端离群值（>3σ）以确保统计稳健性。
+
+## Corrected Claim
+
+挂价离散度 σ_noise 的操作化定义：σ_noise = std(P_ask_i | V_i, C_verify_i)，即在控制商品内在价值 V 和核验成本 C_verify 后，同一细分市场内卖家挂价的标准差；该指标需在 n≥50 的样本量下计算，且需排除极端离群值（>3σ）以确保统计稳健性。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

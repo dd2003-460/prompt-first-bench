@@ -1,0 +1,24 @@
+# N57: 前1%对象的平均大小 E[S|H>h_1%] 通过负相关 ρ=-0.3 的联合分布计算，由于热门对象与大小负相关，E[S|H>h_1%] < E[S]_trun
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N17
+
+## Claim
+
+前1%对象的平均大小 E[S|H>h_1%] 通过负相关 ρ=-0.3 的联合分布计算，由于热门对象与大小负相关，E[S|H>h_1%] < E[S]_trunc ≈ 10.5KB，具体值需通过二元 Pareto 分布积分确定，假设约为 5KB。
+
+## Corrected Claim
+
+前1%对象的平均大小 E[S|H>h_1%] 通过负相关 ρ=-0.3 的联合分布计算，由于热门对象与大小负相关，E[S|H>h_1%] < E[S]_trunc ≈ 10.5KB，具体值需通过二元 Pareto 分布积分确定，假设约为 5KB。
+
+## Evidence
+
+父节点级核验未通过：不完备（父节点的核心任务是通过二元Pareto分布积分来确定具体数值，但子节点仅给出了一个基于假设的估算值（5KB）和修正比率，完全缺失了“通过二元Pareto分布积分确定”这一关键计算步骤或数学推导过程，导致信息不完备。）
+
+## Search Query
+
+conditional expectation size given high heat negative correlation Pareto

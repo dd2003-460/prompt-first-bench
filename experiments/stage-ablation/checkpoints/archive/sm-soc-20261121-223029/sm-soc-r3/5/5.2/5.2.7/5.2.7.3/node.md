@@ -1,0 +1,24 @@
+# N319: W_seller（卖家时薪）的估算方法：W_seller = M_hourly_income / H_working_hours。对于兼职个人卖家，M_hour
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N106, N107, N109
+
+## Claim
+
+W_seller（卖家时薪）的估算方法：W_seller = M_hourly_income / H_working_hours。对于兼职个人卖家，M_hourly_income 可参考当地兼职时薪中位数（约 25-40 元/小时）；对于职业二手卖家，需按实际时薪计算。此参数决定了时间成本在总边际成本中的权重。
+
+## Corrected Claim
+
+W_seller（卖家时薪）的估算方法：W_seller = M_hourly_income / H_working_hours。对于兼职个人卖家，M_hourly_income 可参考当地兼职时薪中位数（约 25-40 元/小时）；对于职业二手卖家，需按实际时薪计算。此参数决定了时间成本在总边际成本中的权重。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+average part-time hourly wage China 2023 personal seller opportunity cost

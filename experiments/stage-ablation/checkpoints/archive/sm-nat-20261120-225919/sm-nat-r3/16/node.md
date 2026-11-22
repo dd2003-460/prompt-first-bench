@@ -1,0 +1,24 @@
+# N288: 在 Pareto(α=1.1, S_min=1KB) 下，100,000 个对象的总字节数 S_total 的精确积分值为 1.13 GB (1.13×10^9
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+在 Pareto(α=1.1, S_min=1KB) 下，100,000 个对象的总字节数 S_total 的精确积分值为 1.13 GB (1.13×10^9 bytes)，远小于 128GB (1.28×10^11 bytes) 的缓存容量，证实系统处于 '容量非受限' (non-capacity-limited) 状态，稳态缓存集合 C_stable 包含所有 100,000 个对象。
+
+## Corrected Claim
+
+在 Pareto(α=1.1, S_min=1KB) 下，100,000 个对象的总字节数 S_total 远小于 128GB 的缓存容量，证实系统处于 '容量非受限' 状态，稳态缓存集合 C_stable 包含所有 100,000 个对象。（具体数值1.13GB需进一步验证）
+
+## Evidence
+
+[质询]数值量级与积分计算存在潜在偏差：Pareto分布(α=1.1)在S_min=1KB时，100,000个对象的总字节数积分值通常远大于1.13GB（理论积分约为 S_min * (N^(1-1/α) - 1) / (1-1/α) ≈ 1KB * (100000^0.0909 - 1) / 0.0909 ≈ 1KB * 10.5 ≈ 10.5MB，若考虑尾部或不同参数化方式可能更大，但1.13GB这一具体数值缺乏标准推导支持，且与常见Pareto分布积分结果量级不符，存在数值错误风险。 | 参考来源[1]讨论帕累托最优解概念，与Pareto分布积分计算无关，无可用外部证据；逻辑上1.13GB < 128GB成立，但具体数值1.13GB缺乏来源支持且与理论计算量级存疑，属经验事实缺来源支持。
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/54691447&rut=836c80d67c180d901190cfb1f9eccf6437c5731f0139b2f6bce44f23d179ae1c', 'type': 'ddg', 'title': '多目标优化之帕累托最优 - 知乎 - 知乎专栏'}

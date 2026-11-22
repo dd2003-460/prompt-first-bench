@@ -1,0 +1,24 @@
+# N419: RTX 5090 的 32GB GDDR7 显存带宽 1792 GB/s 是理论峰值，实际推理中的有效带宽受 DRAM 访问模式影响，通常仅为理论值的 85%-
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N185
+
+## Claim
+
+RTX 5090 的 32GB GDDR7 显存带宽 1792 GB/s 是理论峰值，实际推理中的有效带宽受 DRAM 访问模式影响，通常仅为理论值的 85%-90%（~1523-1613 GB/s）；在计算 Tokens/$ 时，应使用有效带宽 1560 GB/s（取中值）而非 1792 GB/s，以修正 N165 中可能高估的吞吐量（修正后吞吐量 ≈ 1560 / 21.2 ≈ 73.6 tokens/s，而非 89.5 tokens/s）。
+
+## Corrected Claim
+
+RTX 5090 的 32GB GDDR7 显存带宽 1792 GB/s 是理论峰值，实际推理中的有效带宽受 DRAM 访问模式影响，通常仅为理论值的 85%-90%（~1523-1613 GB/s）；在计算 Tokens/$ 时，应使用有效带宽 1560 GB/s（取中值）而非 1792 GB/s，以修正 N165 中可能高估的吞吐量（修正后吞吐量 ≈ 1560 / 21.2 ≈ 73.6 tokens/s，而非 89.5 tokens/s）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：1792 GB/s 为 RTX 5090 官方标称理论带宽，85%-90% 为 DRAM 有效带宽常见经验范围，数学推导（1560/21.2≈73.6）自洽。
+
+## Search Query
+
+GDDR7 effective bandwidth efficiency ratio DRAM access pattern inference

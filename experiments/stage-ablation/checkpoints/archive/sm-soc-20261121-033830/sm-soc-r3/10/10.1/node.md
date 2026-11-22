@@ -1,0 +1,24 @@
+# N109: N31中“GMV提升15-20%”的因果归因验证：需排除混杂变量（Confounding Variables），如季节性需求波动或平台整体流量增长；需使用双重差
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N31
+
+## Claim
+
+N31中“GMV提升15-20%”的因果归因验证：需排除混杂变量（Confounding Variables），如季节性需求波动或平台整体流量增长；需使用双重差分法（DID）或断点回归（RDD）比较算法调整前后，高互动高价商品组的GMV变化与对照组（非高价商品）的GMV变化之差，以孤立算法干预对GMV的净效应，验证15-20%的提升是否完全由算法驱动。
+
+## Corrected Claim
+
+N31中“GMV提升15-20%”的因果归因验证：需排除混杂变量（Confounding Variables），如季节性需求波动或平台整体流量增长；需使用双重差分法（DID）或断点回归（RDD）比较算法调整前后，高互动高价商品组的GMV变化与对照组（非高价商品）的GMV变化之差，以孤立算法干预对GMV的净效应，验证15-20%的提升是否完全由算法驱动。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在方法论上基本正交（DID、季节性控制、RDD、IV检验分别处理不同环节）。但存在两个主要问题：1. 完备性不足：父节点明确要求验证“高互动高价商品组”与“非高价商品”的对比，但子节点1和3未明确界定处理组（Treatment）的筛选逻辑（即如何定义‘高互动’与‘高价’的交集），导致因果归因的对象模糊；2. 逻辑瑕疵：子节点4引入IV（工具变量）中的Sargan检验，但父节点核心诉求是DID或RDD以孤立净效应，IV通常用于解决内生性问题，若未明确说明为何需要IV（例如Treat分配并非随机），该子节点显得突兀且与DID/RDD的平行趋势/断点假设逻辑不完全兼容。）
+
+## Search Query
+
+platform algorithm impact on GMV double difference analysis high price items

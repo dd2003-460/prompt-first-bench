@@ -1,0 +1,20 @@
+# N130: 60% 卖家降价无效的验证公式：计算降价幅度分布 F(Δp)，若 F(Δp_min_perception) > 0.6，则假设成立。具体检验为：H0: F(Δp
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N40
+
+## Claim
+
+60% 卖家降价无效的验证公式：计算降价幅度分布 F(Δp)，若 F(Δp_min_perception) > 0.6，则假设成立。具体检验为：H0: F(Δp_min_perception) ≤ 0.6 vs H1: F(Δp_min_perception) > 0.6，使用单样本比例检验 (One-sample proportion test)，Z = (p_hat - 0.6) / sqrt(0.6*0.4/n)。
+
+## Corrected Claim
+
+60% 卖家降价无效的验证公式：计算降价幅度分布 F(Δp)，若 F(Δp_min_perception) > 0.6，则假设成立。具体检验为：H0: F(Δp_min_perception) ≤ 0.6 vs H1: F(Δp_min_perception) > 0.6，使用单样本比例检验 (One-sample proportion test)，Z = (p_hat - 0.6) / sqrt(0.6*0.4/n)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：单样本比例检验的Z统计量公式 Z = (p_hat - p0) / sqrt(p0(1-p0)/n) 符合统计学标准定义，假设设定与检验方向一致。

@@ -1,0 +1,20 @@
+# N367: 预期损失比例 δ_loss 的具体构成：δ_loss 由卖家对商品残值的心理锚定偏差决定。在二手市场中，卖家往往高估商品价值 10-20%（禀赋效应），即 δ_
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N111
+
+## Claim
+
+预期损失比例 δ_loss 的具体构成：δ_loss 由卖家对商品残值的心理锚定偏差决定。在二手市场中，卖家往往高估商品价值 10-20%（禀赋效应），即 δ_loss = (V_seller - V_market) / V_market。若 V_seller 高估 15%，则 δ_loss ≈ 0.15。
+
+## Corrected Claim
+
+预期损失比例 δ_loss 的具体构成：δ_loss 由卖家对商品残值的心理锚定偏差决定。在二手市场中，卖家往往高估商品价值 10-20%（禀赋效应），即 δ_loss = (V_seller - V_market) / V_market。若 V_seller 高估 15%，则 δ_loss ≈ 0.15。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：禀赋效应导致卖家高估价值是行为经济学公认现象，10-20%的量级符合实证研究范围，且数学推导 δ_loss = (1.15-1)/1 = 0.15 逻辑自洽。

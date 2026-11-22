@@ -1,0 +1,26 @@
+# N34: FP8/INT8 量化在 Qwen3 系列上的质量基准：引用 HuggingFace 社区或 NVIDIA TensorRT-LLM 官方发布的 Qwen3-2
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+FP8/INT8 量化在 Qwen3 系列上的质量基准：引用 HuggingFace 社区或 NVIDIA TensorRT-LLM 官方发布的 Qwen3-27B FP8 量化模型在 MMLU-Pro 或 IFEval 上的分数，对比 BF16 基线的具体下降幅度（如 <1% 或 >2%），以提供可检索的质量损失实证数据。
+
+## Corrected Claim
+
+Qwen3 系列模型（如 14B）在 INT8/FP16 量化下显存占用降低且推理速度提升，生成质量通常保持较高水平（近乎无损或轻微下降），但具体到 Qwen3-27B 在 MMLU-Pro/IFEval 上的量化损失幅度需查阅官方技术报告或特定基准测试数据。
+
+## Evidence
+
+[质询]来源与事实节点严重不匹配：节点要求 Qwen3-27B 在 MMLU-Pro/IFEval 上的具体分数对比，但提供的来源 [1][2] 仅涉及 Qwen3-14B 的 FP16/INT8 部署与定性描述（未提供 MMLU-Pro/IFEval 具体分数），来源 [3] 涉及 Qwen3-ASR-1.7B 语音模型，均无法直接支持 27B 模型在特定基准测试上的量化损失数值。 | 逻辑上 FP8/INT8 量化通常导致轻微性能下降，但参考来源 [1][2][3] 均未提供 Qwen3-27B 在 MMLU-Pro 或 IFEval 上的具体基准分数，属于经验事实且缺乏直接来源支持，故降级。
+
+## Retrieval Sources
+
+- {'url': 'https://devpress.csdn.net/v1/article/detail/155368889&rut=7298154fcb0d2cc45fb4de3c8482d3e099ca55024aa130a43666460b013efd6e', 'type': 'ddg', 'title': 'Qwen3-14B量化版本可用吗？INT8/FP16精度实测_薛迟-智能体开发者社区'}
+- {'url': 'https://blog.csdn.net/weixin_31974443/article/details/155368889&rut=189eae9265b5605241824b20163c36d611aed62de367116db12054caa28039a0', 'type': 'ddg', 'title': 'Qwen3-14B量化版本可用吗？INT8/FP16精度实测 - CSDN博客'}
+- {'url': 'https://blog.csdn.net/weixin_30653091/article/details/157894099&rut=30e3e7deb2c1c9724b18269d3d43750217006ad718c84adf85d27317a5c5f464', 'type': 'ddg', 'title': 'Qwen3-ASR-1.7B模型量化实战：FP16/INT8精度对比 - CSDN博客'}

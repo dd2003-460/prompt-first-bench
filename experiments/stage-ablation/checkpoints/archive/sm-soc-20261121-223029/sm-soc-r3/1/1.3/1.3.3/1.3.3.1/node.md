@@ -1,0 +1,20 @@
+# N148: 高支付意愿买家（W > μ_W + 2σ_W）的边际成交概率变化率 dP_deal/dδ：对 P_deal(δ) 求导得到 dP_deal/dδ = (P_re
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N43
+
+## Claim
+
+高支付意愿买家（W > μ_W + 2σ_W）的边际成交概率变化率 dP_deal/dδ：对 P_deal(δ) 求导得到 dP_deal/dδ = (P_ref/σ_W) * φ((P_ref*(1+δ) - W)/σ_W)，其中 φ 为标准正态密度函数，用于量化 δ 每增加 1% 对高意愿买家成交概率的边际提升。
+
+## Corrected Claim
+
+高支付意愿买家（W > μ_W + 2σ_W）的边际成交概率变化率 dP_deal/dδ：对 P_deal(δ) 求导得到 dP_deal/dδ = (P_ref/σ_W) * φ((P_ref*(1+δ) - W)/σ_W)，其中 φ 为标准正态密度函数，用于量化 δ 每增加 1% 对高意愿买家成交概率的边际提升。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该公式符合正态分布下概率密度函数对累积分布函数求导的链式法则推导，量纲与逻辑自洽。

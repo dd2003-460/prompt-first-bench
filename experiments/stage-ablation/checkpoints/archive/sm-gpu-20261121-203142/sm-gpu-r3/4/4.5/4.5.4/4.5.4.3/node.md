@@ -1,0 +1,20 @@
+# N294: 不同上下文长度对 B_crit 的敏感度分析：在短上下文 (S=2K) 下，KV Cache 占比低，B_crit 显著增大（可能 > 8），此时增大 Batc
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N94
+
+## Claim
+
+不同上下文长度对 B_crit 的敏感度分析：在短上下文 (S=2K) 下，KV Cache 占比低，B_crit 显著增大（可能 > 8），此时增大 Batch Size 能有效提升硬件利用率；而在 32K 长上下文下，KV Cache 读取主导带宽消耗，B_crit 极小，增加 Batch Size 反而因显存溢出或 KV 带宽饱和导致 TPS 下降。
+
+## Corrected Claim
+
+不同上下文长度对 B_crit 的敏感度分析：在短上下文 (S=2K) 下，KV Cache 占比低，B_crit 显著增大（可能 > 8），此时增大 Batch Size 能有效提升硬件利用率；而在 32K 长上下文下，KV Cache 读取主导带宽消耗，B_crit 极小，增加 Batch Size 反而因显存溢出或 KV 带宽饱和导致 TPS 下降。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：短上下文下KV Cache占比低，计算/访存比高，B_crit大；长上下文下KV Cache读取主导带宽，B_crit小，符合LLM推理硬件利用率的基本物理直觉。

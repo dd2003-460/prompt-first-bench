@@ -1,0 +1,24 @@
+# N175: 边际搜索成本系数 k 的阈值效应验证：在 δ ∈ [0, 0.20] 区间内，k 是否保持恒定？需通过分段回归（Piecewise Regression）检验 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N52
+
+## Claim
+
+边际搜索成本系数 k 的阈值效应验证：在 δ ∈ [0, 0.20] 区间内，k 是否保持恒定？需通过分段回归（Piecewise Regression）检验 δ=0.20 处是否存在结构性断点；若断点存在，需估计断点前的 k_1 和断点后的 k_2，并计算 k_2/k_1 的比值以量化‘验证成本’的突变幅度。
+
+## Corrected Claim
+
+需通过分段回归检验 δ=0.20 处是否存在结构性断点以验证边际搜索成本系数 k 的阈值效应；若断点存在，应估计 k_1 和 k_2 并计算比值以量化突变幅度。
+
+## Evidence
+
+[质询]该陈述描述的是一个具体的实证检验结果（即k在特定区间是否恒定、断点是否存在及具体比值），属于经验事实。在没有提供具体数据集、回归模型输出或实验报告的情况下，无法从第一性原理推导出k的具体数值行为或断点位置，且检索无可用来源支持该特定结论。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体实证结论）
+
+## Search Query
+
+search cost marginal coefficient price premium threshold structural break regression

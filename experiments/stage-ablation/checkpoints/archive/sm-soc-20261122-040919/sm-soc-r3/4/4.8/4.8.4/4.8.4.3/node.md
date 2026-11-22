@@ -1,0 +1,20 @@
+# N350: 买家福利无差异工作点C（临界点）：当 ΔU_price = ΔC_search 时，ΔW_b = 0，此时 P_ref * 0.15 = C_base * 0.
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N104
+
+## Claim
+
+买家福利无差异工作点C（临界点）：当 ΔU_price = ΔC_search 时，ΔW_b = 0，此时 P_ref * 0.15 = C_base * 0.2，可解出临界客单价 P_ref_crit = (4/3) * C_base。
+
+## Corrected Claim
+
+买家福利无差异工作点C（临界点）：当 ΔU_price = ΔC_search 时，ΔW_b = 0，此时 P_ref * 0.15 = C_base * 0.2，可解出临界客单价 P_ref_crit = (4/3) * C_base。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：由 ΔW_b = 0 推导出 ΔU_price = ΔC_search，代入 P_ref * 0.15 = C_base * 0.2，解得 P_ref = (0.2/0.15) * C_base = (4/3) * C_base，数学推导自洽。

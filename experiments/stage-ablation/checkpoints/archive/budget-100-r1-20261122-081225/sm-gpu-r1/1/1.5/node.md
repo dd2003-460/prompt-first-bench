@@ -1,0 +1,29 @@
+# N10: NVIDIA A100 80GB (SXM/PCIe) 的显存带宽为 2039 GB/s (HBM2e)，单卡二手/租赁折算购买价约为 $9000-$15000
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+NVIDIA A100 80GB (SXM/PCIe) 的显存带宽为 2039 GB/s (HBM2e)，单卡二手/租赁折算购买价约为 $9000-$15000 [时效待核]。
+
+## Corrected Claim
+
+NVIDIA A100 80GB (SXM/PCIe) 的显存带宽约为 2000 GB/s (2 TB/s) (HBM2e)，单卡二手/租赁折算购买价约为 $9000-$15000 [时效待核，价格需实时市场数据验证]。
+
+## Evidence
+
+[质询]显存带宽数值 2039 GB/s 与来源中提到的 '2 terabytes per second' (2000 GB/s) 存在细微差异，且二手/租赁价格属于高度波动的市场经验数据，缺乏实时来源支持。 | 来源[2]直接支持 A100 80GB 的显存带宽约为 2 TB/s (2000 GB/s)，与 2039 GB/s 量级一致且兼容；但价格部分为经验事实，参考来源未覆盖，逻辑自洽但缺来源支持。
+
+## Search Query
+
+NVIDIA A100 80GB HBM2e bandwidth 2039 GB/s price
+
+## Retrieval Sources
+
+- {'url': 'https://www.nvidia.com/en-us/data-center/a100/&rut=b753f5b37602e487e84015943f075e07fbc4770a570ddca234fa478c5243109f', 'type': 'ddg', 'title': 'Nvidia A100 | Nvidia'}
+- {'url': 'https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/a100/pdf/nvidia-a100-datasheet-us-nvidia-1758950-r4-web.pdf&rut=24dbe5291c8930049f157f913b7f7754b21c426449e3fe82c11404204031d24f', 'type': 'ddg', 'title': 'PDF Nvidia A100 Tensor Core Gpu'}

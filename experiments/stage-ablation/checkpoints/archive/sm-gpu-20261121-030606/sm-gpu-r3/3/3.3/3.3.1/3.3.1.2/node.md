@@ -1,0 +1,20 @@
+# N264: 在RTX 4090 24GB显存约束下，运行Qwen3-27B的可行替代方案量化对比：1) NVFP4/W4精度：权重13.5GB，KV Cache (BF16
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N114
+
+## Claim
+
+在RTX 4090 24GB显存约束下，运行Qwen3-27B的可行替代方案量化对比：1) NVFP4/W4精度：权重13.5GB，KV Cache (BF16) 3.98GB，激活2.5GB，开销3GB，总计23.0GB < 24GB，可行。但NVFP4的质量损失较大（HumanEval -4.1% [待核验]），需评估业务容忍度。2) 降低上下文至8K：INT8权重27GB，KV Cache (8K, BF16) ~1GB，激活2.5GB，开销3GB，总计33.5GB > 24GB，仍不可行。3) 使用Offload技术（如llama.cpp的CPU Offload）：将部分权重/KV Cache卸载到系统内存，但推理吞吐量将受PCIe带宽限制（~64GB/s），预计吞吐量下降50%-70%，仅适用于低延迟不敏感场景。
+
+## Corrected Claim
+
+在RTX 4090 24GB显存约束下，运行Qwen3-27B的可行替代方案量化对比：1) NVFP4/W4精度：权重13.5GB，KV Cache (BF16) 3.98GB，激活2.5GB，开销3GB，总计23.0GB < 24GB，可行。但NVFP4的质量损失需具体评估（典型基准测试中可能有数个百分点的下降），需评估业务容忍度。2) 降低上下文至8K：INT8权重27GB，KV Cache (8K, BF16) ~1GB，激活2.5GB，开销3GB，总计33.5GB > 24GB，仍不可行。3) 使用Offload技术（如llama.cpp的CPU Offload）：将部分权重/KV Cache卸载到系统内存，但推理吞吐量将受PCIe带宽限制（~64GB/s），预计吞吐量显著下降，仅适用于低延迟不敏感场景。
+
+## Evidence
+
+[质询]NVFP4精度下Qwen3-27B的HumanEval性能下降幅度（-4.1%）属于具体经验数据，缺乏来源支持且可能因量化实现细节（如校准集、校准方法）不同而存在较大波动，直接引用具体数值存在风险。 | 先验知识/题面给定，逻辑校验通过：显存占用计算（13.5+3.98+2.5+3=23.0GB < 24GB）及INT8方案（27+1+2.5+3=33.5GB > 24GB）在算术和量级上自洽；PCIe带宽限制导致吞吐量下降的定性描述符合硬件常识。但NVFP4的具体精度损失数值（-4.1%）为经验事实，无来源支持，故降级。

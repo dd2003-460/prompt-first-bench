@@ -1,0 +1,20 @@
+# N318: A100/H100 80GB 在 BF16 下的总显存需求 = 权重 54.2GB + KV Cache 12.58GB + 激活值/框架开销 ~10GB ≈ 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N114
+
+## Claim
+
+A100/H100 80GB 在 BF16 下的总显存需求 = 权重 54.2GB + KV Cache 12.58GB + 激活值/框架开销 ~10GB ≈ 76.78GB，剩余显存 3.22GB，不足以支持 Batch>1 或更长上下文，故必须启用 KV Cache 量化 (FP8) 以降低占用
+
+## Corrected Claim
+
+A100/H100 80GB 在 BF16 下的总显存需求 = 权重 54.2GB + KV Cache 12.58GB + 激活值/框架开销 ~10GB ≈ 76.78GB，剩余显存 3.22GB，不足以支持 Batch>1 或更长上下文，故必须启用 KV Cache 量化 (FP8) 以降低占用
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100/H100 80GB 显存容量为 80GB，总需求 76.78GB 小于 80GB，剩余 3.22GB 确实不足以支持 Batch>1 或长上下文，结论符合工程直觉。

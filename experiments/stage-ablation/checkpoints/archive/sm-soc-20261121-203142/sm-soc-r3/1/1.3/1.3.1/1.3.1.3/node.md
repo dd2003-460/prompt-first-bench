@@ -1,0 +1,20 @@
+# N123: 博弈均衡点的稳定性判据：计算雅可比矩阵 J 在均衡点 (P_trigger, T_search) 处的特征值，若所有特征值实部 < 0 则局部稳定，否则存在震荡
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N32
+
+## Claim
+
+博弈均衡点的稳定性判据：计算雅可比矩阵 J 在均衡点 (P_trigger, T_search) 处的特征值，若所有特征值实部 < 0 则局部稳定，否则存在震荡或发散风险
+
+## Corrected Claim
+
+博弈均衡点的稳定性判据：计算雅可比矩阵 J 在均衡点 (P_trigger, T_search) 处的特征值，若所有特征值实部 < 0 则局部稳定，否则存在震荡或发散风险
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：这是非线性动力系统局部稳定性分析的标准线性化判据（Hartman-Grobman 定理推论），逻辑自洽且符合控制论/微分方程基本理论。

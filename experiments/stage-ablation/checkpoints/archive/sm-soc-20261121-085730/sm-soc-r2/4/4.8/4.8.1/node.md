@@ -1,0 +1,28 @@
+# N102: 卖家利润损失 Δπ_seller_B 的修正公式：Δπ_seller_B = (P_avg - P_rec) * Q_avg * a * (1 - ε_p) -
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N25
+
+## Claim
+
+卖家利润损失 Δπ_seller_B 的修正公式：Δπ_seller_B = (P_avg - P_rec) * Q_avg * a * (1 - ε_p) - C_learning，其中ε_p为价格弹性，反映降价后销量增加对利润的补偿效应，通常估计为0.2-0.4[待核验]
+
+## Corrected Claim
+
+卖家利润损失 Δπ_seller_B 的修正公式：Δπ_seller_B = (P_avg - P_rec) * Q_avg * a * (1 - ε_p) - C_learning，其中ε_p为价格弹性，反映降价后销量增加对利润的补偿效应，具体数值需根据实际市场数据估算。
+
+## Evidence
+
+[质询]该公式为特定情境下的经验性估算模型，并非通用经济学第一性原理推导结果；其中参数 a 和 ε_p 的具体取值范围（0.2-0.4）缺乏通用理论支持，属于特定行业或案例的经验参数，且参考来源未提供该特定公式或参数范围。 | 参考来源[1]为亚马逊利润计算器工具，仅涉及基础利润计算，未覆盖该特定修正公式及弹性参数范围，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+price elasticity of demand used goods market second hand platform
+
+## Retrieval Sources
+
+- {'url': 'https://www.sellersprite.com/cn/v3/calculator/&rut=650ca99a394f0f10721fb36d785a0c96c52d6f354e12ccd5f8523864da862729', 'type': 'ddg', 'title': '利润计算器 - 亚马逊利润计算器工具 | 卖家精灵'}

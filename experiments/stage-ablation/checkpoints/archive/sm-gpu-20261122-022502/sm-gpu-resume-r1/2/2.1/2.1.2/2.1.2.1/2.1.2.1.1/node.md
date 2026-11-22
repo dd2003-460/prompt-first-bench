@@ -1,0 +1,20 @@
+# N539: AMD RX 7900 XTX 在 Qwen3-27B INT4 权重下的实际 Decode 吞吐受限于显存带宽，但存在激活内存 (Activations) 与
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N167
+
+## Claim
+
+AMD RX 7900 XTX 在 Qwen3-27B INT4 权重下的实际 Decode 吞吐受限于显存带宽，但存在激活内存 (Activations) 与 KV Cache 的动态分配开销，实际可用带宽效率约为 85-90%，导致有效吞吐上限修正为 71.1 * 0.85 ≈ 60.4 tokens/s 至 71.1 * 0.90 ≈ 64.0 tokens/s。
+
+## Corrected Claim
+
+AMD RX 7900 XTX 在 Qwen3-27B INT4 权重下的实际 Decode 吞吐受限于显存带宽，考虑到激活内存与 KV Cache 的动态分配开销，实际有效吞吐通常低于理论峰值（71.1 tokens/s），具体数值取决于推理框架的内存管理效率。
+
+## Evidence
+
+[质询]85-90% 的带宽效率系数属于经验性估算，缺乏针对 Qwen3-27B 在 RX 7900 XTX 上具体推理框架（如 vLLM, llama.cpp）的实测数据支持，不同实现下激活内存和 KV Cache 的管理策略差异可能导致效率显著偏离此区间。 | 先验知识/题面给定，逻辑校验通过；但作为经验事实，缺乏直接来源支持，且效率系数为估算值，故降级。

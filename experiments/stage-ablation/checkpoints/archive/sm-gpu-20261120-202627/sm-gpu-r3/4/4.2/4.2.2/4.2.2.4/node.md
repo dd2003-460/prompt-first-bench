@@ -1,0 +1,24 @@
+# N337: Apple M3 Ultra (Mac Studio) 在 Qwen3-27B (BF16) Decode 阶段 (Batch=1, 32K context) 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N105
+
+## Claim
+
+Apple M3 Ultra (Mac Studio) 在 Qwen3-27B (BF16) Decode 阶段 (Batch=1, 32K context) 的整机平均功耗 P_avg 约为 200-300W (基于 512GB 统一内存配置)，无独立 TDP，能效比优势显著但吞吐量受限。
+
+## Corrected Claim
+
+Apple M3 Ultra (Mac Studio) 在运行大语言模型（如 Qwen3-27B）Decode 阶段时，整机平均功耗通常在数百瓦级别（具体数值依负载和配置而异），无独立 TDP 限制，能效比相对传统服务器方案有优势，但受限于内存带宽，吞吐量可能低于多卡并行方案。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件功耗数值（200-300W）和特定模型（Qwen3-27B）在特定配置下的性能表现，属于经验事实。由于检索无可用来源，无法验证该具体数值范围是否准确，且不同负载下功耗波动较大，单一数值区间可能缺乏普适性。 | 经验事实，逻辑自洽但缺来源支持。M3 Ultra 整机功耗在 200-300W 范围内符合其高功耗芯片的物理直觉（M3 Ultra TDP 较高，加上内存和主板功耗），但具体到 Qwen3-27B Decode 阶段的精确功耗需实测数据支持，当前无外部证据。
+
+## Search Query
+
+Apple M3 Ultra Mac Studio LLM inference power consumption watts benchmark

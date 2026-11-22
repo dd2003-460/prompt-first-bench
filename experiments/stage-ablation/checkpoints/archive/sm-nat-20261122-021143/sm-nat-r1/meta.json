@@ -1,0 +1,47 @@
+{
+  "qid": "nat",
+  "question": "某边缘 CDN 节点有 128GB 内存做对象缓存，工作负载：10 万对象，大小服从 Pareto(α=1.1)，请求热度也服从 Pareto(β=0.9)，热门对象与大小负相关（ρ≈-0.3）。每天总请求 5000 万次。请估算：(a) LRU 策略下的稳态字节命中率下界；(b) LFU 相比 LRU 最多能提升多少百分点、为什么；(c) 如果对象更新率是 1%/天，LRU 的有效命中率还要再打几折？给出推导链，区分「凭记忆的」和「刚查到的」。",
+  "round": 1,
+  "state": "rework",
+  "dropped_redundant": 3,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "F1: 模型有效性 (Model Validity) - 是否基于 Pareto 分布参数 (α, β, ρ) 构建了正确的缓存容量与请求热度/大小耦合模型。",
+      "F2: 策略区分度 (Strategy Discrimination) - 是否准确区分了 LRU (基于时间局部性) 和 LFU (基于频率局部性) 在负相关场景下的理论边界。",
+      "F3: 动态稳定性 (Dynamic Stability) - 是否量化了更新率 (1%/天) 对缓存状态机造成的‘驱逐惩罚’或‘失效折扣’。",
+      "F4: 推导严谨性 (Derivation Rigor) - 是否明确区分了‘凭记忆的’经典缓存理论（如 Belady 算法、LRU 性质）与‘刚查到的/推导出的’特定参数下的数值估算，且逻辑链无断裂。",
+      "F5: 数值下界准确性 (Numerical Lower Bound Accuracy) - (a) 问是否给出了符合 Pareto 尾部特性的合理下界，而非仅给出平均期望值。"
+    ],
+    "composition": "V_total = F1 * F2 * F3 * F4 * F5 (乘积关系：若模型无效或策略混淆，后续数值推导无论多精细均视为无效答案)",
+    "rationale": "本题核心在于利用非均匀分布（Pareto）和负相关性打破传统缓存直觉，任何单一维度的缺失（如忽略负相关对 LFU 的影响，或忽略更新率对 LRU 稳态的破坏）都会导致结论在工程上不可用。"
+  },
+  "objective_mode": "formula",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "node_id": "N11",
+      "claim": "LRU 命中率偏差项：经典 LRU 假设时间局部性，但 Pareto(β=0.9) 的长尾导致 '扫描效应'（scan ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]公式 Δ ≈ (N - K) / N * (1 - H_ideal) 缺乏严谨的理论推导支持，且量纲/逻辑存疑：(N-K)/N 是冷对象占比，(1-H_"
+    },
+    {
+      "node_id": "N13",
+      "claim": "LFU 增益上限工作点 2（中性价比最优）：考虑更新率 1%/天，LFU 需老化机制（aging），有效频率 R'_k ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性数值范围（20-40%）和特定的数学模型形式（指数衰减），这些并非LFU算法的通用第一性原理推论，而是依赖于特定负载分布和参数设定"
+    },
+    {
+      "node_id": "N16",
+      "claim": "非线性失效模型：当更新率 u 接近对象流行度分布尾部时，LRU 命中率损失呈指数衰减，修正公式 H_eff = H_st",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该公式 H_eff = H_steady × exp(-u × T_p90) 缺乏通用的理论推导支持，属于特定场景下的经验拟合或假设模型，而非普适的物理"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 16
+}

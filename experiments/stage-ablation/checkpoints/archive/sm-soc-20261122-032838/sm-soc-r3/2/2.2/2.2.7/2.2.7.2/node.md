@@ -1,0 +1,20 @@
+# N185: 计算买家对均衡维持的边际贡献度 $C_b = \frac{\partial U_b}{\partial E_{equilibrium}} / \sum_{i} 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N60
+
+## Claim
+
+计算买家对均衡维持的边际贡献度 $C_b = \frac{\partial U_b}{\partial E_{equilibrium}} / \sum_{i} \frac{\partial U_i}{\partial E_{equilibrium}}$。买家效用 $U_b$ 随溢价率 $E$ 增加而线性下降，斜率为 $-1$（每多付1元损失1元效用）。若买家是被动接受者，其“维持”贡献实为“容忍度”：当 $E < E_{max}$ 时，$C_b$ 反映其不退出市场的概率，需结合 N90 的 $\beta$ 值估算容忍上限。
+
+## Corrected Claim
+
+计算买家对均衡维持的边际贡献度 $C_b = \frac{\partial U_b}{\partial E_{equilibrium}} / \sum_{i} \frac{\partial U_i}{\partial E_{equilibrium}}$。买家效用 $U_b$ 随溢价率 $E$ 增加而线性下降，斜率为 $-1$（每多付1元损失1元效用）。若买家是被动接受者，其“维持”贡献实为“容忍度”：当 $E < E_{max}$ 时，$C_b$ 反映其不退出市场的概率，需结合 N90 的 $\beta$ 值估算容忍上限。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：边际贡献度定义符合微积分基本形式，买家效用随溢价线性下降（斜率-1）符合标准经济学假设，被动接受者容忍度与退出概率的逻辑关联自洽。

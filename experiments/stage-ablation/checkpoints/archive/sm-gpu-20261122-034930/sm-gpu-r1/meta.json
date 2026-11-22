@@ -1,0 +1,173 @@
+{
+  "qid": "gpu",
+  "question": "你要在本地工作站上推理 Qwen3-27B 模型，不设硬性延迟指标（延迟是性能变量，由硬件和部署配置决定，不作为前置约束）；上下文窗口 ≥ 32K tokens 作为容量下限保留。权重精度不限（BF16/FP8/INT8/NVFP4/W4 均可），但必须论证所选精度的质量损失是否可接受。候选硬件：自行搜索确定值得考虑的完整候选集——覆盖你认为所有可能影响性价比排序的架构、代际、容量档位和价格区间（包括消费级、数据中心级、以及任何你认为值得纳入比较的非典型方案）。同时评估单卡与多卡方案的 TCO 差异（如 2× 消费卡 vs 1× 数据卡）。给出性价比最优的完整选卡方案。要求：思考必须最完整，确认没有遗漏任何影响决策的维度；每个关键数字标注来源（刚查到的 vs 凭记忆的），不确定的标 [待核验]；最终推荐必须是条件性的，不能给无条件排名。",
+  "round": 1,
+  "state": "rework",
+  "dropped_redundant": 0,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "可行性覆盖率 (Coverage)：候选集是否包含所有可能影响性价比排序的架构、代际、容量档位（含单卡/多卡组合），未覆盖关键选项则此项为0。",
+      "数值准确性 (Accuracy)：关键硬件参数（显存、带宽、价格、功耗）及模型量化后大小、质量损失指标的来源是否可追溯，错误数值越多得分越低。",
+      "约束满足度 (Constraint_Satisfaction)：方案是否严格满足上下文窗口≥32K tokens的硬约束，以及是否完成了所选精度质量损失的论证（未论证视为不满足）。",
+      "性价比最优性 (Cost_Effectiveness)：在满足约束的方案中，TCO（总拥有成本，含硬件、电力、散热等）与性能/质量比的排序是否逻辑严密，是否识别出全局最优解。",
+      "结论条件性 (Conditionality)：最终推荐是否明确列出了依赖的假设条件（如电力成本、散热环境、软件栈兼容性），无条件排名视为不合格。"
+    ],
+    "composition": "GATE(Coverage, Constraint_Satisfaction) × (Accuracy + Cost_Effectiveness) × Conditionality",
+    "rationale": "本题为受约束的优化问题，必须先通过可行性与硬约束的门槛（GATE），在此前提下追求数值准确与成本效益的最大化，且结论必须随环境参数变化而条件化，因此采用乘积组合以确保任一要素缺失或失效即导致整体方案不可用。"
+  },
+  "objective_mode": "formula",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "node_id": "N11",
+      "claim": "消费级GPU候选集：RTX 4090 (24GB), RTX 3090 (24GB), RTX 4080 (16GB),",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的硬件规格（显存大小）和特定量化精度下的内存占用估算（28.2GB），属于经验事实。由于检索失败，无法验证28.2GB这一具体数值是否准确"
+    },
+    {
+      "node_id": "N12",
+      "claim": "数据中心级GPU候选集：A100 40GB, A100 80GB, H100 80GB, L40S 48GB, A600",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]A100 40GB的显存容量（40GB）小于模型在INT8精度下的需求（41.7GB），因此单卡无法容纳，陈述中关于A100 40GB满足单卡需求的隐含"
+    },
+    {
+      "node_id": "N13",
+      "claim": "非典型/混合候选集：Mac Studio M2 Ultra (192GB Unified Memory), Mac St",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的硬件规格（如M2 Ultra 192GB、M3 Ultra 512GB统一内存），属于经验事实。由于检索失败，无法通过外部来源直接验证这"
+    },
+    {
+      "node_id": "N18",
+      "claim": "BF16精度下Qwen3-27B在MMLU基准测试上的准确率损失相对于FP32为0%，因为BF16是训练精度。",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述将‘BF16是训练精度’作为‘MMLU准确率损失为0%’的充分理由，存在逻辑跳跃。虽然BF16常用于训练，但推理时的精度损失取决于模型对数值精度的敏"
+    },
+    {
+      "node_id": "N19",
+      "claim": "INT8精度下Qwen3-27B在MMLU基准测试上的准确率损失约为0.5-1% [待核验]，需查证具体量化方法（如Sm",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述为具体经验事实（特定模型、特定精度、特定基准的量化损失数值），且未指定量化方法（如GPTQ, SmoothQuant等），不同量化算法对MMLU的"
+    },
+    {
+      "node_id": "N20",
+      "claim": "W4精度下Qwen3-27B在MMLU基准测试上的准确率损失约为2-4% [待核验]，需查证具体量化方法（如AWQ, G",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述为经验事实（具体模型在特定基准下的量化精度损失数值），无法从第一性原理推导。且未指定具体的量化算法（如AWQ vs GPTQ vs SmoothQ"
+    },
+    {
+      "node_id": "N21",
+      "claim": "32K上下文长度下，长文本推理任务（如文档总结）的准确率损失在W4精度下可能比短文本任务高1-2% [待核验]，因为长序",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性数值（1-2%准确率损失）和特定条件（W4精度、32K上下文），属于硬件/模型性能相关的经验事实，无法从第一性原理严格推导，且缺乏"
+    },
+    {
+      "node_id": "N22",
+      "claim": "硬件采购成本：RTX 4090单卡价格约为$1600 [待核验]，A100 40GB单卡价格约为$10000 [待核验]",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]硬件市场价格波动剧烈且受地区、渠道、时间影响极大，'约为'的数值缺乏具体时间点（如2023/2024年）和购买渠道（如新品/二手/企业采购）的限定，存在"
+    },
+    {
+      "node_id": "N24",
+      "claim": "散热基础设施成本：消费级GPU（RTX 4090）可使用现有PC机箱，额外散热成本约$0-100；数据中心GPU（A10",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数据中心GPU的额外散热成本高度依赖于部署模式（如风冷vs液冷、自建vs租赁），$5000-10000仅为特定场景下的估算，缺乏通用性；且消费级GPU若"
+    },
+    {
+      "node_id": "N25",
+      "claim": "维护成本：消费级GPU平均故障率低于数据中心GPU，年维护成本约为硬件价格的1-2%；数据中心GPU需要专业维护，年维护",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（1-2% vs 5-10%）缺乏公开权威数据支持，且‘消费级GPU平均故障率低于数据中心GPU’这一前提在特定高负载场景下可能不成立（消费级卡"
+    },
+    {
+      "node_id": "N29",
+      "claim": "推理吞吐量(tokens/s) = 有效显存带宽(GB/s) / (模型大小(GB) + KV缓存大小(GB))，其中K",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]Qwen3-27B的具体架构参数（如层数、KV头数、Head维度）属于经验事实，且当前检索无可用来源支持，无法确认其具体数值是否准确，导致KV缓存大小的"
+    },
+    {
+      "node_id": "N30",
+      "claim": "性价比指标 = 吞吐量(tokens/s) / TCO(3年)(美元)，该指标受电价敏感性影响：电价从0.10美元/kW",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（15%到35%）缺乏来源支持，且未明确TCO中电力成本占比的计算基准（如是否包含折旧、运维等固定成本），不同假设下占比可能显著不同。 | 经验"
+    },
+    {
+      "node_id": "N40",
+      "claim": "推荐反转条件：当硬件价格下降>20%或电价上涨>50%时，原推荐方案的TCO优势可能被其他方案超越，需重新计算性价比指标",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述中的具体阈值（硬件价格下降>20%、电价上涨>50%）缺乏明确的推导依据或行业共识支持，属于经验性参数，不同场景下（如不同硬件类型、不同电价结构）"
+    },
+    {
+      "node_id": "N41",
+      "claim": "AMD Instinct MI300X (192GB HBM3) 作为数据中心级非典型/高端候选，其显存容量远超单卡需求",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N42",
+      "claim": "Apple Silicon M4 Max (128GB Unified Memory) 是比M2 Ultra更新的消费/",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N43",
+      "claim": "NVIDIA RTX 4090 (24GB) 的显存带宽为1008 GB/s，而A100 80GB (SXM) 的HBM",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N44",
+      "claim": "对于Qwen3-27B在32K上下文、Batch=1的推理场景，RTX 4090的实际吞吐率约为20-30 tokens",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    }
+  ],
+  "contradiction_events": [
+    {
+      "round": 1,
+      "a": "N26",
+      "b": "N31",
+      "a_claim": "单卡vs多卡TCO对比：2x RTX 4090 (48GB) 采购成本为$3200，年电力成本为$392，总3年TCO约为$11,376；1x A100 40G",
+      "b_claim": "代表性工作点1（高性低成）：2x RTX 4090（24GB*2）方案，初始成本约$2000，总显存48GB，支持BF16或INT8量化，吞吐量约50-80 t",
+      "desc": "2x RTX 4090 的初始采购成本在 N26 中为 $3200，而在 N31 中为 $2000，数值冲突。",
+      "fixed": false
+    },
+    {
+      "round": 1,
+      "a": "N26",
+      "b": "N31",
+      "a_claim": "单卡vs多卡TCO对比：2x RTX 4090 (48GB) 采购成本为$3200，年电力成本为$392，总3年TCO约为$11,376；1x A100 40G",
+      "b_claim": "代表性工作点1（高性低成）：2x RTX 4090（24GB*2）方案，初始成本约$2000，总显存48GB，支持BF16或INT8量化，吞吐量约50-80 t",
+      "desc": "2x RTX 4090 的 3 年 TCO 在 N26 中约为 $11,376，而在 N31 中约为 $2500，数值严重冲突。",
+      "fixed": false
+    },
+    {
+      "round": 1,
+      "a": "N10",
+      "b": "N16",
+      "a_claim": "硬性可行性过滤阈值：总显存需求 = 模型权重 + KV Cache + 框架开销。在INT8精度下，单卡最小显存需求约为27GB + 10.7GB + 4GB ",
+      "b_claim": "INT8精度下Qwen3-27B的权重显存占用为27GB，KV Cache在FP16下为10.7GB，总显存需求约41.7GB。",
+      "desc": "INT8 精度下的总显存需求计算不一致：N10 包含框架开销（27+10.7+4≈41.7GB），而 N16 仅计算权重+KV Cache（27+10.7=37.7GB，却标注为41.7GB，隐含了未列出的开销或计算错误，导致同一节点内逻辑",
+      "fixed": false
+    }
+  ],
+  "n_nodes": 41
+}

@@ -1,0 +1,20 @@
+# N267: H100 SXM (FP8) 的 TCO_year 工作点：代入 N99 公式，Hardware_Price=$28000, Residual_Value_3y
+
+- **status**: verified
+- **level**: L4
+- **source**: given
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N99
+
+## Claim
+
+H100 SXM (FP8) 的 TCO_year 工作点：代入 N99 公式，Hardware_Price=$28000, Residual_Value_3yr=$11200 (40%残值), TDP=0.7kW, Electricity_Rate=$0.1/kWh, Maintenance=$500。TCO_year = (28000-11200)/3 + 0.7*8760*0.1 + 500 = 5600 + 613.2 + 500 = $6713.2。此为高硬件成本但高吞吐的代表性工作点
+
+## Corrected Claim
+
+H100 SXM (FP8) 的 TCO_year 工作点：代入 N99 公式，Hardware_Price=$28000, Residual_Value_3yr=$11200 (40%残值), TDP=0.7kW, Electricity_Rate=$0.1/kWh, Maintenance=$500。TCO_year = (28000-11200)/3 + 0.7*8760*0.1 + 500 = 5600 + 613.2 + 500 = $6713.2。此为高硬件成本但高吞吐的代表性工作点
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算 (28000-11200)/3=5600, 0.7*8760*0.1=613.2, 总和6713.2 正确；H100 SXM 价格与功耗量级符合工程常识。

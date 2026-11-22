@@ -1,0 +1,24 @@
+# N212: 买家决策时间 τ_decision 的贝叶斯更新模型：买家收到新价格 P_new 后，需更新对卖家急迫度 U_seller 的后验概率 P(U_seller|P
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N67
+
+## Claim
+
+买家决策时间 τ_decision 的贝叶斯更新模型：买家收到新价格 P_new 后，需更新对卖家急迫度 U_seller 的后验概率 P(U_seller|P_new)，决策时间 τ_decision 与后验变化幅度 ΔP_posterior 成反比，即 τ_decision = k_dec / ΔP_posterior，其中 k_dec 为认知处理常数，若 ΔP_posterior < 0.1，则 τ_decision > 48h。
+
+## Corrected Claim
+
+买家决策时间 τ_decision 通常与后验变化幅度 ΔP_posterior 呈负相关关系，具体函数形式及阈值需结合具体市场情境或实证数据确定。
+
+## Evidence
+
+[质询]该模型将复杂的买家决策过程简化为单一变量（后验变化幅度）的线性反比关系，且设定了具体的阈值（0.1）和对应的时间（48h），这属于高度简化的经验性假设，缺乏普遍适用的理论依据或实证数据支持，容易忽略其他影响决策时间的关键因素（如买家自身急迫度、市场流动性等）。 | 先验知识/题面给定，逻辑校验通过（量纲与单调性合理），但作为经验性模型参数缺乏外部来源直接支持，故降级。
+
+## Search Query
+
+bayesian updating decision time price signal urgency seller

@@ -1,0 +1,24 @@
+# N324: FFN 模块在 TP=2 下的 AllReduce 同步数据量主要为中间激活值，每层数据量约为 2 * BatchSize * SeqLen * Interme
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N114
+
+## Claim
+
+FFN 模块在 TP=2 下的 AllReduce 同步数据量主要为中间激活值，每层数据量约为 2 * BatchSize * SeqLen * IntermediateDim * BytesPerParam，Qwen3-27B 的 IntermediateDim 约为 11008 (或类似大值)，64 层总 FFN 同步数据量需单独计算，通常与 Attention 同步量同数量级或略大。
+
+## Corrected Claim
+
+FFN 模块在 TP=2 下的 AllReduce 同步数据量主要为中间激活值，每层数据量约为 2 * BatchSize * SeqLen * IntermediateDim * BytesPerParam。Qwen3-27B 的 IntermediateDim 需查阅具体模型配置（通常与 HiddenSize 成比例），64 层总 FFN 同步数据量需根据具体 BatchSize 和 SeqLen 计算，其相对 Attention 同步量的大小取决于序列长度和批大小，并非固定为同数量级或略大。
+
+## Evidence
+
+[质询]IntermediateDim 数值（11008）属于具体硬件/模型配置的经验事实，且不同模型架构（如 Qwen3 是否采用 SwiGLU 导致中间维度为 2/3 * hidden_size 或其他比例）存在差异，无法仅凭逻辑推导确定具体数值；此外，'通常与 Attention 同步量同数量级或略大'这一结论依赖于具体的 BatchSize 和 SeqLen，在长序列场景下 Attention 通信量可能远超 FFN，该定性描述缺乏普适性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体维度值及通信量对比属于需外部数据验证的经验参数）
+
+## Search Query
+
+Qwen3-27B FFN intermediate dimension size tensor parallelism allreduce data size

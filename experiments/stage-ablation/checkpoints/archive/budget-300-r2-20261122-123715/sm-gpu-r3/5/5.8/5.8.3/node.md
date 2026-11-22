@@ -1,0 +1,24 @@
+# N345: Apple M3 Ultra 的硬件初始成本：Mac Studio M3 Ultra (192GB RAM) 的零售价格约为 $4,000-$5,000（视配置
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N104
+
+## Claim
+
+Apple M3 Ultra 的硬件初始成本：Mac Studio M3 Ultra (192GB RAM) 的零售价格约为 $4,000-$5,000（视配置而定），远低于数据中心 GPU 方案；需确认具体配置价格 P_Apple 以计算 TCO_Apple = P_Apple + E_power_Apple + C_maintenance_Apple。
+
+## Corrected Claim
+
+Mac Studio M3 Ultra (192GB RAM) 的零售价格通常在数千美元量级（具体需视CPU/存储配置而定），显著低于同等算力数据中心GPU集群的初始硬件成本；需查询具体配置实时价格 P_Apple 以计算 TCO_Apple。
+
+## Evidence
+
+[质询]具体零售价格属于经验事实，且不同配置（如CPU核心数、存储容量）价格差异较大，$4,000-$5,000的范围可能未覆盖所有高配版本或随时间波动，缺乏实时市场数据支持。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+Mac Studio M3 Ultra 192GB price retail cost

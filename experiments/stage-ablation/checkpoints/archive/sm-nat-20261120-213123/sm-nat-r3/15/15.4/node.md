@@ -1,0 +1,24 @@
+# N198: LFU 冷启动期间的新对象字节占比 S_new/S_total 的量化：由于热度与大小负相关 (ρ=-0.3)，新出现的热门对象倾向于较小尺寸，其平均大小 E[
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N84
+
+## Claim
+
+LFU 冷启动期间的新对象字节占比 S_new/S_total 的量化：由于热度与大小负相关 (ρ=-0.3)，新出现的热门对象倾向于较小尺寸，其平均大小 E[S_new] ≈ E[S] * (1 - 0.3 * σ_logS * σ_logH) ≈ 11KB * 0.647 ≈ 7.1KB，导致 S_new/S_total ≈ (u * N * 7.1KB) / (N * 11.3KB) ≈ 0.63% * u * T_obj。
+
+## Corrected Claim
+
+LFU 冷启动期间的新对象字节占比 S_new/S_total 的量化：由于热度与大小负相关 (ρ=-0.3)，新出现的热门对象倾向于较小尺寸，其平均大小 E[S_new] ≈ E[S] * (1 - 0.3 * σ_logS * σ_logH) ≈ 11KB * 0.647 ≈ 7.1KB，导致 S_new/S_total ≈ (u * N * 7.1KB) / (N * 11.3KB) ≈ 0.63% * u * T_obj。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+negative correlation between object size and popularity impact on cache

@@ -1,0 +1,17 @@
+{
+  "id": "N122",
+  "claim": "稳态时间 T_stable 的公式修正：N45 中使用的 T_stable ≈ ln(N) * T_resident 是基于单对象指数衰减的近似，但对于 LRU 缓存，稳态建立时间应基于缓存替换链的收敛速度，更准确的估计为 T_stable ≈ N_cache * E[T_resident] / ln(N_total)，其中 N_cache 为缓存中平均对象数；若 N_cache ≈ 1e4（假设平均对象大小 12.8KB），则 T_stable ≈ 1e4 * 1.55e-5 / 11.5 ≈ 1.35e-2 天（约 19 分钟），仍远小于 1 天观察窗口，稳态假设依然成立。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]公式 T_stable ≈ N_cache * E[T_resident] / ln(N_total) 缺乏标准的缓存理论支持，属于经验性估算或特定模型假设，且数值计算中 T_resident (1.55e-5 天) 与 N_cache (1e4) 的乘积量级是否合理取决于具体工作负载，存在口径混淆风险。 | 先验知识/题面给定，逻辑校验通过（数值计算 1e4 * 1.55e-5 / 11.5 ≈ 0.0135 天 ≈ 19.4 分钟，量级合理，结论稳态成立），但公式本身为经验性修正，非第一性原理严格推导，且无外部来源支持，故降级。",
+  "corrected_claim": "稳态时间 T_stable 的估算：基于经验公式 T_stable ≈ N_cache * E[T_resident] / ln(N_total)，在 N_cache ≈ 1e4 且 E[T_resident] ≈ 1.55e-5 天的假设下，T_stable ≈ 1.35e-2 天（约 19 分钟），远小于 1 天观察窗口，稳态假设在工程近似上成立。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N45"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "LRU cache steady state convergence time",
+  "retrieval_sources": []
+}

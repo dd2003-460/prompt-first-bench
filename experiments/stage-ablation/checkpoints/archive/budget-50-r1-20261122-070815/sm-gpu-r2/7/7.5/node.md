@@ -1,0 +1,20 @@
+# N135: A100 80GB (二手) 价格约 $10000-$15000，显存带宽 2039 GB/s，单卡可运行 BF16 权重 (54GB) + 32K KV Ca
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N31
+
+## Claim
+
+A100 80GB (二手) 价格约 $10000-$15000，显存带宽 2039 GB/s，单卡可运行 BF16 权重 (54GB) + 32K KV Cache (2.0GB) + 激活值，无需量化，质量损失为 0；其 TDP 400W 与 4090 350W 接近，但电力成本因整机功耗略高而增加
+
+## Corrected Claim
+
+A100 80GB (二手) 价格约 $10000-$15000，显存带宽 2039 GB/s，单卡可运行 BF16 权重 (54GB) + 32K KV Cache (2.0GB) + 激活值，无需量化，质量损失为 0；其 TDP 400W 与 4090 350W 接近，但电力成本因整机功耗略高而增加
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 80GB显存带宽2039GB/s、TDP 400W及二手价格区间符合市场常识；4090 TDP 350W亦符合规格；显存占用计算（54GB+2GB<80GB）逻辑自洽。

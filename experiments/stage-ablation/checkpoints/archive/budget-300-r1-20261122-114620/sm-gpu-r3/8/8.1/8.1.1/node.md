@@ -1,0 +1,24 @@
+# N361: Qwen3-27B 在 AWQ-INT8 量化下 HumanEval Pass@1 准确率的基准值为 63.5% (假设 BF16 为 65%)，下降幅度为 2
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N127
+
+## Claim
+
+Qwen3-27B 在 AWQ-INT8 量化下 HumanEval Pass@1 准确率的基准值为 63.5% (假设 BF16 为 65%)，下降幅度为 2.3% (绝对值)，该数值基于 HuggingFace 社区发布的 Qwen3-27B-AWQ-INT8 模型评测报告 [待核验]
+
+## Corrected Claim
+
+Qwen3-27B 在 AWQ-INT8 量化下 HumanEval Pass@1 准确率通常会有轻微下降（约 1-3% 绝对值），具体数值需参考官方或权威社区的最新评测报告。
+
+## Evidence
+
+[质询]具体数值（63.5%）及基准对比（BF16 65%）属于特定模型版本的经验性评测数据，缺乏权威来源直接支持，且不同评测集或量化实现可能导致数值波动，存在口径混淆或数据过时的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值）
+
+## Search Query
+
+Qwen3-27B AWQ INT8 HumanEval pass@1 benchmark

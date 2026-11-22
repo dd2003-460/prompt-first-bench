@@ -1,0 +1,20 @@
+# N135: 在 K > N 场景下，字节命中率 H_byte 的下界不再受容量约束，而受对象大小分布截断影响：若最大对象 S_max > C/N，则部分对象无法缓存，H_b
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N40
+
+## Claim
+
+在 K > N 场景下，字节命中率 H_byte 的下界不再受容量约束，而受对象大小分布截断影响：若最大对象 S_max > C/N，则部分对象无法缓存，H_byte = 1 - (S_uncached * R_uncached) / D_byte，其中 S_uncached 为无法缓存对象的总大小，R_uncached 为其请求量，需计算 P(S > C/N) 下的字节占比。
+
+## Corrected Claim
+
+在 K > N 场景下，字节命中率 H_byte 的下界不再受容量约束，而受对象大小分布截断影响：若最大对象 S_max > C/N，则部分对象无法缓存，H_byte = 1 - (S_uncached * R_uncached) / D_byte，其中 S_uncached 为无法缓存对象的总大小，R_uncached 为其请求量，需计算 P(S > C/N) 下的字节占比。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

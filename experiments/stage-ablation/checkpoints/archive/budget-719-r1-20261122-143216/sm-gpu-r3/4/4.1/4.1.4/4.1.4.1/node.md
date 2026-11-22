@@ -1,0 +1,24 @@
+# N269: H100 80GB SXM 在 2025 年 Q1 的现货购买均价为 $28,000（基于 Lambda Labs 和 Vast.ai 等平台的聚合报价），作为
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N95
+
+## Claim
+
+H100 80GB SXM 在 2025 年 Q1 的现货购买均价为 $28,000（基于 Lambda Labs 和 Vast.ai 等平台的聚合报价），作为盈亏平衡计算的固定成本基数
+
+## Corrected Claim
+
+H100 80GB SXM 在 2025 年 Q1 的现货购买均价约为 $28,000（基于 Lambda Labs 和 Vast.ai 等平台的聚合报价估算），作为盈亏平衡计算的固定成本基数参考值
+
+## Evidence
+
+[质询]该陈述包含具体的经验性市场价格数据（$28,000），且声称基于特定平台（Lambda Labs, Vast.ai）的聚合报价。由于缺乏实时市场数据支持，无法验证该具体数值在2025年Q1的准确性，且不同平台、不同时间点的现货价格波动较大，单一固定数值可能具有误导性。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，无法验证具体价格数值）
+
+## Search Query
+
+H100 80GB SXM spot price 2025 Q1 average

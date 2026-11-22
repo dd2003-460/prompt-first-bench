@@ -1,0 +1,24 @@
+# N61: 透明化后均衡价格 P_new 的估算：P_new = P_base * (1 - γ_transparency)，其中 γ_transparency 为价格收敛
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N21
+
+## Claim
+
+透明化后均衡价格 P_new 的估算：P_new = P_base * (1 - γ_transparency)，其中 γ_transparency 为价格收敛率，典型值 0.15
+
+## Corrected Claim
+
+透明化后均衡价格 P_new 的估算：P_new = P_base * (1 - γ_transparency)，其中 γ_transparency 为价格收敛率，典型值 0.15
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点1和2本质上是同一参数（γ_transparency）在不同假设下的两个具体取值，存在冗余；且父节点提到的典型值0.15未被任何子节点覆盖，导致信息缺失。）
+
+## Search Query
+
+price convergence rate after price transparency intervention

@@ -1,0 +1,24 @@
+# N253: 下游投影 B（平台净收益阈值）：干预失效的临界点 $\rho_{urgent}^*$ 满足 $\Delta Net_{platform}(\rho_{urgen
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N78
+
+## Claim
+
+下游投影 B（平台净收益阈值）：干预失效的临界点 $\rho_{urgent}^*$ 满足 $\Delta Net_{platform}(\rho_{urgent}^*) = 0$，其中 $\Delta Net_{platform} = \Delta GMV * Fee_{rate} - C_{intervention}$，需解出使期望收益为零的 $\rho_{urgent}^*$ 值，验证其是否等于 0.5。
+
+## Corrected Claim
+
+下游投影 B（平台净收益阈值）：干预失效的临界点 ρ_urgent^* 满足 Δ Net_platform(ρ_urgent^*) = 0，其中 Δ Net_platform = Δ GMV * Fee_rate - C_intervention。需根据具体的费率、成本及GMV响应函数解出使期望收益为零的 ρ_urgent^* 值，其具体数值（如是否为0.5）取决于模型参数设定，需进一步验证。
+
+## Evidence
+
+[质询]该陈述将具体的数值阈值（0.5）与一个通用的经济学平衡方程（ΔGMV * Fee - Cost = 0）强行关联，但未提供推导该特定数值所需的参数假设（如费率、成本结构、GMV弹性等）。在缺乏具体参数定义的情况下，断言临界点“等于0.5”属于无依据的经验性断言或特定模型下的特例，而非通用逻辑必然。 | 逻辑上，定义净收益为零的临界点是合理的，但具体数值0.5无法从第一性原理直接推出，且检索无可用来源支持该特定数值，属于经验事实/模型参数，缺乏外部证据支持。
+
+## Search Query
+
+platform intervention net revenue break-even point urgent seller ratio threshold

@@ -1,0 +1,24 @@
+# N119: 共享随机源：Null Model 中个体挂价偏差 $\epsilon_{i}$ 的独立性假设：假设 $N_{sample}$ 个卖家的挂价偏差 $\epsilo
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N39
+
+## Claim
+
+共享随机源：Null Model 中个体挂价偏差 $\epsilon_{i}$ 的独立性假设：假设 $N_{sample}$ 个卖家的挂价偏差 $\epsilon_{i} \sim N(0, \sigma_{i}^2)$ 且相互独立，其中 $\sigma_{i}^2$ 为个体层面的定价噪声方差。$H_{null}$ 的推导依赖于样本均值的标准误 $SE = \sigma_{i}/\sqrt{N_{sample}}$，该独立性假设在存在社交网络或算法推荐时会被违反，导致 $H_{obs}$ 系统性偏高。
+
+## Corrected Claim
+
+共享随机源：Null Model 中个体挂价偏差 $\epsilon_{i}$ 的独立性假设：假设 $N_{sample}$ 个卖家的挂价偏差 $\epsilon_{i} \sim N(0, \sigma_{i}^2)$ 且相互独立，其中 $\sigma_{i}^2$ 为个体层面的定价噪声方差。$H_{null}$ 的推导依赖于样本均值的标准误 $SE = \sigma_{i}/\sqrt{N_{sample}}$，该独立性假设在存在社交网络或算法推荐时会被违反，导致 $H_{obs}$ 系统性偏高。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：独立性假设是标准误公式 SE=σ/√N 成立的必要前提，且社交网络/算法推荐确实会引入相关性从而违反该假设，导致观测统计量偏高，逻辑自洽。
+
+## Search Query
+
+null model independence assumption pricing variance sample size central limit theorem

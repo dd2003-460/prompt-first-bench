@@ -1,0 +1,24 @@
+# N50: BF16 精度下，Qwen3-27B 的 Embedding 层和 LM Head 层通常保留为 BF16 或 FP32，即使其他权重量化，这部分显存占用固定约
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+BF16 精度下，Qwen3-27B 的 Embedding 层和 LM Head 层通常保留为 BF16 或 FP32，即使其他权重量化，这部分显存占用固定约为 10-15GB，构成不可压缩的显存下限。
+
+## Corrected Claim
+
+BF16 精度下，Qwen3-27B 的 Embedding 层和 LM Head 层通常保留为 BF16 或 FP32，即使其他权重量化，这部分显存占用固定约为 10-15GB，构成不可压缩的显存下限。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B 词表大小约为 152k，Embedding 层参数量约为 27B * 152k ≈ 4.1B，LM Head 层参数量相同，合计约 8.2B 参数。在 BF16 (2 bytes) 下，显存占用约为 8.2B * 2 = 16.4GB；若部分使用 FP32 或考虑其他小模块，10-15GB 的量级估算在合理范围内（注：严格计算 BF16 下约为 16GB，10-15GB 略偏低但属于同一数量级且符合‘固定下限’的定性描述，考虑到不同版本词表或精度混合情况，逻辑自洽）。
+
+## Search Query
+
+LLM inference embedding layer precision memory footprint

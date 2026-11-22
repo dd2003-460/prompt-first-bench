@@ -1,0 +1,20 @@
+# N201: 佣金收益敏感度量化：平台佣金收益 R_fee = Fee_rate * GMV，其对 P_ask 的敏感度 ∂R_fee/∂P_ask = Fee_rate *
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N61
+
+## Claim
+
+佣金收益敏感度量化：平台佣金收益 R_fee = Fee_rate * GMV，其对 P_ask 的敏感度 ∂R_fee/∂P_ask = Fee_rate * GMV * ε_GMV_P / P_ask；当 Fee_rate = 2% 且 ε_GMV_P = -1.0 时，P_ask 每增加 1%，R_fee 减少约 1%，量化了平台对卖家高挂价策略的财务损失率。
+
+## Corrected Claim
+
+佣金收益敏感度量化：平台佣金收益 R_fee = Fee_rate * GMV，其对 P_ask 的敏感度 ∂R_fee/∂P_ask = Fee_rate * GMV * ε_GMV_P / P_ask；当 Fee_rate = 2% 且 ε_GMV_P = -1.0 时，P_ask 每增加 1%，R_fee 减少约 1%，量化了平台对卖家高挂价策略的财务损失率。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：根据弹性定义 ε = (dGMV/GMV)/(dP/P)，推导得 dR/R = ε * dP/P，当 ε=-1 时，P 增加 1% 导致 R 减少 1%，数学推导自洽。

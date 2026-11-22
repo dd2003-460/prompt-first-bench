@@ -1,0 +1,20 @@
+# N61: 成交周期 T_deal 的量化构成：T_deal = 1 / (Exposure × Conversion_Rate)，其中 Conversion_Rate 为
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N14
+
+## Claim
+
+成交周期 T_deal 的量化构成：T_deal = 1 / (Exposure × Conversion_Rate)，其中 Conversion_Rate 为曝光到成交的转化率；Conversion_Rate 与 P_ask 负相关。
+
+## Corrected Claim
+
+成交周期 T_deal 的量化构成：T_deal = 1 / (Exposure × Conversion_Rate)，其中 Conversion_Rate 为曝光到成交的转化率；Conversion_Rate 与 P_ask 负相关。
+
+## Evidence
+
+父节点级核验未通过：不完备（1. 正交性：子节点1聚焦于转化率的内部结构分解（CTR*CVR），子节点2聚焦于转化率与价格的函数关系（弹性模型），两者维度不同，无重复或矛盾。2. 完备性：父节点明确包含两个核心要素：(a) T_deal的量化构成公式，(b) Conversion_Rate与P_ask的负相关关系。子节点仅覆盖了Conversion_Rate的分解和其与价格的关系，完全缺失了对父节点中第一个关键公式 T_deal = 1 / (Exposure × Conversion_Rate) 的分解或解释（例如Exposure的定义、如何量化等）。因此，子节点未能覆盖父节点的所有关键方面。3. 冗余：两个子节点分别处理转化率的构成和价格敏感度，属于不同层面的参数化，不存在冗余。）

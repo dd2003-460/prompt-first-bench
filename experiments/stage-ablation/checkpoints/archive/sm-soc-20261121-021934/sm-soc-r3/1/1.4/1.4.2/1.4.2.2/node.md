@@ -1,0 +1,28 @@
+# N82: CTR_base 的定义需区分‘曝光位置’：若 CTR_base 取自列表页前 10 位，则 CTR_lift 被高估约 15-20%；若取自全列表平均，则 β
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N33
+
+## Claim
+
+CTR_base 的定义需区分‘曝光位置’：若 CTR_base 取自列表页前 10 位，则 CTR_lift 被高估约 15-20%；若取自全列表平均，则 β_ctr 需重新校准为 0.03-0.04，该差异直接影响短周期机制的量化强度
+
+## Corrected Claim
+
+CTR_base 的定义需区分‘曝光位置’：若 CTR_base 取自列表页前 10 位，通常会导致 CTR_lift 被高估；若取自全列表平均，则相关系数 β_ctr 需重新校准，该差异会影响短周期机制的量化强度。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（高估15-20%、β_ctr校准为0.03-0.04），属于特定业务场景下的统计规律或模型参数，无法从第一性原理推导，且参考来源仅为一个通用的CTR Baseline代码库，未提供关于曝光位置偏差或具体参数校准值的任何数据支持。 | 逻辑上，曝光位置偏差确实会影响CTR基线及后续提升率的计算，方向合理；但具体数值（15-20%、0.03-0.04）缺乏来源支持，且来源[1]与具体参数校准无关，属于经验事实缺来源支持。
+
+## Search Query
+
+click through rate baseline definition listing position bias marketplace
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/creatorwyx/TAAC2026-CTR-Baseline&rut=5df20cb6bbcd18bf6fe062ebef2e0a2cbe33dc16c298524c490626ee8ba84d07', 'type': 'ddg', 'title': 'GitHub - creatorwyx/TAAC2026-CTR-Baseline: 2026腾讯广告算法大赛 CTR 预估 Baseline ...'}

@@ -1,0 +1,24 @@
+# N63: 安慰剂检验阈值：在随机选取的非干预时段或对照组进行伪干预，若伪处理效应 (β_placebo) 的 95% CI 包含 0 且 |β_placebo| < 0.
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N20
+
+## Claim
+
+安慰剂检验阈值：在随机选取的非干预时段或对照组进行伪干预，若伪处理效应 (β_placebo) 的 95% CI 包含 0 且 |β_placebo| < 0.1 * |β_treatment|，则支持真实效应的因果归因置信度 > 0.95。
+
+## Corrected Claim
+
+安慰剂检验阈值：在随机选取的非干预时段或对照组进行伪干预，若伪处理效应 (β_placebo) 的 95% CI 包含 0 且 |β_placebo| < 0.1 * |β_treatment|，则增强了对真实效应因果归因的置信度。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1关注统计量的计算（SE公式）与阈值合理性评估，子节点2关注样本量要求与功效分析，两者在逻辑上是互补的（一个解决'怎么算'，一个解决'样本够不够'），没有直接重复或矛盾，因此正交性成立。但完备性不足：父节点定义了双重判定标准（CI包含0 且 绝对值小于阈值），子节点仅深入探讨了绝对值阈值相关的统计基础（SE和Power），完全缺失了对'95% CI包含0'这一统计显著性检验（即t检验或z检验逻辑）的独立分解或验证逻辑。此外，子节点1中关于'基于历史数据估算σ_outcome以判断阈值是否具备统计显著性'的表述略显模糊，未明确与子节点2中Power计算的逻辑衔接。）
+
+## Search Query
+
+Placebo test causal inference threshold relative effect size

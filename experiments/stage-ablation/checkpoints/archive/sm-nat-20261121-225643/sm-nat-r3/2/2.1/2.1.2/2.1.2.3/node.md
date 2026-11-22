@@ -1,0 +1,20 @@
+# N68: LFU频率计数器老化时间常数τ_LFU与C=0.1工作点的交互：若τ_LFU > T_resident（驻留时间），则频率统计失真，LFU退化为类似LRU的行为
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N24
+
+## Claim
+
+LFU频率计数器老化时间常数τ_LFU与C=0.1工作点的交互：若τ_LFU > T_resident（驻留时间），则频率统计失真，LFU退化为类似LRU的行为；需计算在C=0.1、R=5e7/天下T_resident的量级，并判断τ_LFU是否足以区分头部与长尾对象。
+
+## Corrected Claim
+
+LFU频率计数器老化时间常数τ_LFU与C=0.1工作点的交互：若τ_LFU > T_resident（驻留时间），则频率统计失真，LFU退化为类似LRU的行为；需计算在C=0.1、R=5e7/天下T_resident的量级，并判断τ_LFU是否足以区分头部与长尾对象。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：LFU老化机制中，若时间常数τ大于对象平均驻留时间T_resident，则计数器在对象被替换前无法充分衰减或区分新旧频率，导致频率统计失真，行为趋近于LRU（仅保留最近访问信息而忽略历史频率差异）。该逻辑符合缓存替换算法的基本原理。

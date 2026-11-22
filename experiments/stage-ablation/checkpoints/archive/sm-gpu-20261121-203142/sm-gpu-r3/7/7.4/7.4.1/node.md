@@ -1,0 +1,20 @@
+# N339: CPU Offload 场景下，每生成一个 Token 需从系统内存读取的权重数据量 W_offload 等于总权重大小减去 GPU 显存可容纳权重大小，计算公
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N110
+
+## Claim
+
+CPU Offload 场景下，每生成一个 Token 需从系统内存读取的权重数据量 W_offload 等于总权重大小减去 GPU 显存可容纳权重大小，计算公式为 W_offload = Total_Weights - (VRAM_available - KV_Cache_Size - Activation_Overhead)；对于 RTX 4090 (24GB) 运行 Qwen3-27B INT8 (27GB)，若保留 4GB KV Cache 和 2GB 激活值，则 W_offload = 27GB - (24 - 4 - 2)GB = 9GB
+
+## Corrected Claim
+
+CPU Offload 场景下，每生成一个 Token 需从系统内存读取的权重数据量 W_offload 等于总权重大小减去 GPU 显存可容纳权重大小，计算公式为 W_offload = Total_Weights - (VRAM_available - KV_Cache_Size - Activation_Overhead)；对于 RTX 4090 (24GB) 运行 Qwen3-27B INT8 (27GB)，若保留 4GB KV Cache 和 2GB 激活值，则 W_offload = 27GB - (24 - 4 - 2)GB = 9GB
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式推导符合CPU Offload基本原理，数值计算 27 - (24 - 4 - 2) = 9 正确，量纲一致。

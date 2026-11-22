@@ -1,0 +1,20 @@
+# N391: 边界条件 1 (CapEx 敏感性)：当 A100 采购价 (CapEx_B) 超过 $18,500 时，即使维持 40 tokens/s 吞吐，其 CE_B 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N124
+
+## Claim
+
+边界条件 1 (CapEx 敏感性)：当 A100 采购价 (CapEx_B) 超过 $18,500 时，即使维持 40 tokens/s 吞吐，其 CE_B 将低于 2× RTX 4090 方案 (CE_A ≈ 0.0018)，此时消费级双卡在 3 年持有期内性价比反超。
+
+## Corrected Claim
+
+边界条件 1 (CapEx 敏感性)：当 A100 采购价 (CapEx_B) 超过 $18,500 时，即使维持 40 tokens/s 吞吐，其 CE_B 将低于 2× RTX 4090 方案 (CE_A ≈ 0.0018)，此时消费级双卡在 3 年持有期内性价比反超。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

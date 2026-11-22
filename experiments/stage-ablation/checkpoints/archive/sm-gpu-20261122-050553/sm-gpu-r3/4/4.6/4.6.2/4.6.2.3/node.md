@@ -1,0 +1,24 @@
+# N292: 工作点 3（长文本推理/LongBench）：长上下文任务对 KV Cache 精度更敏感。若采用 INT4 KV Cache（见 N119），在 LongBe
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N96
+
+## Claim
+
+工作点 3（长文本推理/LongBench）：长上下文任务对 KV Cache 精度更敏感。若采用 INT4 KV Cache（见 N119），在 LongBench 等长文本基准上的性能下降可能超过 W4 权重量化本身的损失。预计综合质量损失（权重 W4 + KV INT4）在长文本检索任务上可达 8-12%。此工作点仅适用于对延迟敏感且能容忍轻微信息丢失的场景，如摘要生成而非精确引用。
+
+## Corrected Claim
+
+工作点 3（长文本推理/LongBench）：长上下文任务对 KV Cache 精度更敏感。若采用 INT4 KV Cache（见 N119），在 LongBench 等长文本基准上的性能下降可能超过 W4 权重量化本身的损失。预计综合质量损失（权重 W4 + KV INT4）在长文本检索任务上可达 8-12%。此工作点仅适用于对延迟敏感且能容忍轻微信息丢失的场景，如摘要生成而非精确引用。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+LongBench benchmark LLM quantization KV cache precision impact

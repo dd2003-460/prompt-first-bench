@@ -1,0 +1,24 @@
+# N725: 主板候选价格与可用性验证：ASUS ProArt PA4090 实际市场价为 $1,499-$1,699 [待核验]，Supermicro H12SSL-i 为
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N222
+
+## Claim
+
+主板候选价格与可用性验证：ASUS ProArt PA4090 实际市场价为 $1,499-$1,699 [待核验]，Supermicro H12SSL-i 为 LGA4189 平台，不支持 PCIe 4.0 x16 四路分叉（仅支持 x8/x8/x8/x8），故不满足 4090 全带宽需求，应替换为 Supermicro X13SPY-TN（LGA4677，支持 4x PCIe 4.0 x16，价格 ~$1,800）。
+
+## Corrected Claim
+
+主板候选价格与可用性验证：ASUS ProArt PA4090 实际市场价约为 $1,499-$1,699 [待核验]，Supermicro H12SSL-i 为 LGA4189 平台，其 PCIe 分叉能力可能不满足 4090 全带宽需求（需确认具体插槽配置），建议替换为支持 4x PCIe 4.0 x16 的 LGA4677 平台主板（如 Supermicro X13SPY-TN，价格约 $1,800 [待核验]）。
+
+## Evidence
+
+[质询]该陈述包含多个具体的硬件规格（如Supermicro H12SSL-i的PCIe分叉能力、X13SPY-TN的PCIe 4.0支持及价格）和市场价格（ASUS PA4090价格区间），属于经验事实。由于检索失败，无法验证这些具体参数和价格是否准确，存在规格描述错误或价格过时的风险。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Supermicro X13SPY-TN PCIe 4.0 x16 4-slot price availability 2024

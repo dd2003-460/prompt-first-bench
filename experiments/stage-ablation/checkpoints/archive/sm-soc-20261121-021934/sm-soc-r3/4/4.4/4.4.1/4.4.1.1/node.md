@@ -1,0 +1,20 @@
+# N108: A/B测试中，'成交速度'权重 w_speed 的估计值通过回归模型 β_speed = ln(CTR) ~ w_speed 的系数获得，其标准误 SE(β) 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N46
+
+## Claim
+
+A/B测试中，'成交速度'权重 w_speed 的估计值通过回归模型 β_speed = ln(CTR) ~ w_speed 的系数获得，其标准误 SE(β) = σ²/√n，需满足 n ≥ (1.96*σ/Δβ_min)² 才能区分 w_speed/w_profit > 1.5 的阈值。
+
+## Corrected Claim
+
+A/B测试中，'成交速度'权重 w_speed 的估计值通过回归模型 β_speed = ln(CTR) ~ w_speed 的系数获得，其标准误 SE(β) = σ/√n，需满足 n ≥ (1.96*σ/Δβ_min)² 才能以 95% 置信度区分最小效应量 Δβ_min；若需区分 w_speed/w_profit > 1.5 的阈值，需先建立该比值与 Δβ_min 的映射关系。
+
+## Evidence
+
+[质询]公式 SE(β) = σ²/√n 存在量纲错误，标准误的量纲应与系数 β 一致（即 σ/√n），而非 σ²/√n；此外，将 w_speed/w_profit 的比值阈值直接等同于回归系数 β 的显著性检验在逻辑上缺乏严谨的推导链条，属于经验性假设。 | 先验知识/题面给定，但逻辑校验发现标准误公式量纲错误（σ²/√n 应为 σ/√n），且阈值判定逻辑存在跳跃，故降级。

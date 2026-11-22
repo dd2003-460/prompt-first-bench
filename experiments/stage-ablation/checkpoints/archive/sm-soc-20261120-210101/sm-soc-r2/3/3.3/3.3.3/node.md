@@ -1,0 +1,24 @@
+# N68: 降价商品流量权重衰减量化：定义流量权重衰减率 δ_W = (W_traffic_pre_drop - W_traffic_post_drop) / W_traf
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N16
+
+## Claim
+
+降价商品流量权重衰减量化：定义流量权重衰减率 δ_W = (W_traffic_pre_drop - W_traffic_post_drop) / W_traffic_pre_drop。若 δ_W > 0.15 且显著高于自然流量衰减率（如未降价商品的日衰减率），则证实平台存在对降价行为的惩罚性降权机制（Penalty Mechanism）。
+
+## Corrected Claim
+
+若 δ_W > 0.15 且显著高于自然流量衰减率，则表明降价行为与流量显著下降存在强相关性，可能暗示平台存在对降价行为的降权倾向，但需结合A/B测试或控制变量法进一步验证是否为惩罚性机制。
+
+## Evidence
+
+[质询]该陈述将‘流量权重显著高于自然衰减’直接归因为‘平台惩罚性降权机制’，存在因果推断谬误（相关非因果）。流量下降可能由多种因素导致，如商品竞争力下降、季节性波动、算法自然迭代或用户偏好转移，仅凭统计差异无法确证存在特定的‘惩罚机制’。 | 逻辑自洽，但属于经验事实且缺乏外部来源支持，无法排除其他导致流量衰减的非惩罚性原因，故降级。
+
+## Search Query
+
+marketplace penalty for price drop traffic weight reduction algorithm

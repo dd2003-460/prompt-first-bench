@@ -1,0 +1,30 @@
+# N69: RTX 4090 实际功耗模型 = TDP 450W × 负载率；在 32K 上下文推理中，由于 KV Cache 计算密集，GPU 利用率通常维持在 80-9
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N15
+
+## Claim
+
+RTX 4090 实际功耗模型 = TDP 450W × 负载率；在 32K 上下文推理中，由于 KV Cache 计算密集，GPU 利用率通常维持在 80-90%，实际平均功耗约 360-405W，而非始终满载 450W。
+
+## Corrected Claim
+
+RTX 4090 的 TDP 为 450W。在 32K 上下文 LLM 推理中，实际功耗取决于模型负载、量化精度及推理阶段（Prefill/Decode），通常低于满载 TDP，但具体利用率（如 80-90%）和平均功耗（360-405W）需依据具体模型和配置实测，不能简单由 TDP 乘以固定负载率得出。
+
+## Evidence
+
+[质询]陈述将“KV Cache 计算密集”作为 GPU 利用率维持在 80-90% 的原因，这在技术原理上存在混淆。在 LLM 推理中，KV Cache 主要涉及内存带宽（Memory-Bound），而非计算密集（Compute-Bound）；且 32K 上下文下的 GPU 利用率受模型大小、量化方式及具体推理阶段（Prefill vs Decode）影响极大，并非固定为 80-90%。此外，来源 [2] 暗示通过优化（如 Flash Attention）可显著降低功耗，暗示默认或特定配置下功耗可能低于或高于该线性模型预测，且未提供 32K 上下文下 80-90% 利用率的具体实证数据。 | 来源 [1] 确认 RTX 4090 TDP 为 450W，支持功耗上限；来源 [2] 和 [3] 涉及 LLM 推理功耗与基准测试，但未直接提供 32K 上下文下 80-90% 利用率及 360-405W 平均功耗的直接证据，属于间接相关。
+
+## Search Query
+
+RTX 4090 power consumption LLM inference load average
+
+## Retrieval Sources
+
+- {'url': 'https://www.promptquorum.com/local-llms/local-llm-power-consumption&rut=744598741eda2e47c128a37734a4b506031b9d8ac70a77ff84a8065b57b8bc4d', 'type': 'ddg', 'title': 'Local LLM Power Consumption 2026: RTX 4090 450W = $39/mo'}
+- {'url': 'https://theneuralfeed.com/article/stop-wasting-electricity/1Z3qIyR7&rut=54d62da2746c064e5fcd74951e6282caa55a2686683b68ad263a0f07275d7c81', 'type': 'ddg', 'title': 'RTX 4090 LLM inference consumes 60% less power with this simple'}
+- {'url': 'https://www.hardware-corner.net/gpu-llm-benchmarks/rtx-4090/&rut=b4026eb1210ac5aac72d4d743bc256a1fd11dfc517b729fbddccc5598f786409', 'type': 'ddg', 'title': 'RTX 4090 Local LLM Benchmarks, Context Scaling & Supported Models 2026 ...'}

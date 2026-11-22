@@ -1,0 +1,17 @@
+{
+  "id": "N120",
+  "claim": "A100 80GB 在 FP8 精度下的理论 Tokens/s 估算：显存带宽 2039 GB/s，每 Token 读取权重字节数 27GB，理论峰值 2039/27 ≈ 75 Tokens/s，考虑 MFU 和内存瓶颈，实际预期 30-50 Tokens/s。",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值量级与硬件规格严重不符：A100 80GB 的显存带宽约为 2039 GB/s，但 27GB 的权重大小对应的是约 13.5B 参数的模型（FP8 下 1 字节/参数）。对于 13.5B 模型，A100 的算力（FP16/BF16 约 312 TFLOPS）足以支撑远高于 75 Tokens/s 的吞吐量（通常可达数百甚至上千 Tokens/s，取决于序列长度和 Batch Size）。75 Tokens/s 的估算隐含了极低的计算效率或错误的模型规模假设（例如误将 70B 模型的权重大小 35GB+ 与 A100 的带宽直接相除，但 70B 模型在 A100 80GB 上无法单卡加载 FP8 权重，需多卡或量化至 INT4/INT8 且带宽瓶颈计算方式不同）。此外，FP8 在 A100 上并非原生支持的高精度计算模式（A100 主要优化 FP16/BF16/TF32/INT8），FP8 通常用于 H100/H800 等后续架构，此处存在硬件特性与精度支持的混淆。 | 逻辑校验失败：27GB 权重对应约 13.5B 参数模型，A100 处理该规模模型的推理吞吐量远高于 75 Tokens/s；且 A100 对 FP8 的支持有限，通常以 INT8/FP16 为主，该估算混淆了模型规模、硬件精度支持及算力/带宽瓶颈关系。",
+  "corrected_claim": "A100 80GB 在 FP16/BF16 精度下，若加载约 13.5B 参数模型（权重约 27GB），其理论带宽限制下的吞吐量远高于 75 Tokens/s，实际性能受算力与内存带宽共同制约，通常可达数百 Tokens/s 以上；若指 70B 模型，则需多卡部署，单卡无法容纳 FP8 权重。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N29"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

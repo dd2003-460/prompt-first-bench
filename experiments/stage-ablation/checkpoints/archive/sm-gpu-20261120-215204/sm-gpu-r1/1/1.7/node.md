@@ -1,0 +1,24 @@
+# N12: 多卡互联可行性约束：消费级多卡 (如 2x RTX 4090) 受限于 PCIe 4.0/5.0 带宽 (32-64 GB/s) 和 NVLink 缺失，导致 
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+多卡互联可行性约束：消费级多卡 (如 2x RTX 4090) 受限于 PCIe 4.0/5.0 带宽 (32-64 GB/s) 和 NVLink 缺失，导致 KV Cache 分裂和权重加载效率降低，实际有效吞吐可能仅为单卡的 1.5-1.8 倍 [待核验: 具体模型并行效率]。
+
+## Corrected Claim
+
+多卡互联可行性约束：消费级多卡 (如 2x RTX 4090) 受限于 PCIe 4.0/5.0 带宽 (32-64 GB/s) 和 NVLink 缺失，导致 KV Cache 分裂和权重加载效率降低，实际有效吞吐可能仅为单卡的 1.5-1.8 倍 [待核验: 具体模型并行效率]。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：消费级显卡（如RTX 4090）确实缺乏NVLink，多卡通信依赖PCIe 4.0/5.0（带宽约32-64 GB/s），远低于NVLink带宽，导致KV Cache同步和权重加载成为瓶颈，实际吞吐提升通常低于线性（1.5-1.8倍符合工程经验）。
+
+## Search Query
+
+multi-GPU LLM inference PCIe bandwidth bottleneck efficiency

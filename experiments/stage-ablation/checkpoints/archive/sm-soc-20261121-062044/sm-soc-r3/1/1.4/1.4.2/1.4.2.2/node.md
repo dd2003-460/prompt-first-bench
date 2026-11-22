@@ -1,0 +1,20 @@
+# N117: 信号衰减项 δ_category：C_signal 随商品类目标准化程度变化，标准化程度高的类目（如手机）δ_category ≈ 0.1，非标准化类目（如古董
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N37
+
+## Claim
+
+信号衰减项 δ_category：C_signal 随商品类目标准化程度变化，标准化程度高的类目（如手机）δ_category ≈ 0.1，非标准化类目（如古董）δ_category ≈ 0.3。C_signal_adjusted = C_signal * (1 - δ_category)，若调整后 < 0.5，则信号假设在该类目失效。
+
+## Corrected Claim
+
+信号衰减项 δ_category：C_signal 随商品类目标准化程度变化，标准化程度高的类目（如手机）δ_category ≈ 0.1，非标准化类目（如古董）δ_category ≈ 0.3。C_signal_adjusted = C_signal * (1 - δ_category)，若调整后 < 0.5，则信号假设在该类目失效。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

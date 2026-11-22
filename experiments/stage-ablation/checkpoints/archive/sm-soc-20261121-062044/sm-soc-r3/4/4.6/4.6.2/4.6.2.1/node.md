@@ -1,0 +1,20 @@
+# N234: FPC < 0.8 的最小样本量阈值 n_min_fpc 的解析解：由 √((N-n)/(N-1)) < 0.8 推导得 n > 0.36N + 0.64，即 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N85
+
+## Claim
+
+FPC < 0.8 的最小样本量阈值 n_min_fpc 的解析解：由 √((N-n)/(N-1)) < 0.8 推导得 n > 0.36N + 0.64，即 n_min_fpc = ceil(0.36N + 0.64)，该值随总体 N 线性增长，是触发误差范围修正的硬性边界。
+
+## Corrected Claim
+
+FPC < 0.8 的最小样本量阈值 n_min_fpc 的解析解：由 √((N-n)/(N-1)) < 0.8 推导得 n > 0.36N + 0.64，即 n_min_fpc = ceil(0.36N + 0.64)，该值随总体 N 线性增长，是触发误差范围修正的硬性边界。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：由不等式 √((N-n)/(N-1)) < 0.8 平方得 (N-n)/(N-1) < 0.64，整理得 N-n < 0.64N - 0.64，即 n > 0.36N + 0.64，推导过程数学自洽，量纲合理。

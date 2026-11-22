@@ -1,0 +1,20 @@
+# N65: 排序得分函数形式：Score_i = w_1*ClickRate_i + w_2*PriceReasonableness_i + w_3*Freshness_i
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+排序得分函数形式：Score_i = w_1*ClickRate_i + w_2*PriceReasonableness_i + w_3*Freshness_i，其中 w_2 即为待优化的权重系数 β
+
+## Corrected Claim
+
+排序得分函数形式：Score_i = w_1*ClickRate_i + w_2*PriceReasonableness_i + w_3*Freshness_i，其中 w_2 即为待优化的权重系数 β
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点分别针对 w1, w3, w2 进行了独立的定义和校准逻辑阐述，彼此之间没有重叠或矛盾，正交性良好。然而，完备性不足：父节点明确给出了一个线性加权的得分函数形式 Score = w1*C + w2*P + w3*F，隐含前提是各项已归一化或量纲一致。子节点中仅 w3 提到了具体的衰减函数形式，而 w1 (ClickRate) 和 w2 (PriceReasonableness) 仅讨论了权重系数的确定方法，未定义其底层指标的计算形式（例如 PriceReasonableness 的具体数学定义，是 1/Price 还是 1-(Price/MedianPrice) 等）。缺少对 P 和 C 本身定义或归一化方法的子节点，导致无法完整复现父节点的公式。）

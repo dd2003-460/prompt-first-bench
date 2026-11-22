@@ -1,0 +1,24 @@
+# N43: miss 成本 cost_miss(s) 的函数：cost_miss(s) = t_refill(s) + t_processing，t_processing 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+miss 成本 cost_miss(s) 的函数：cost_miss(s) = t_refill(s) + t_processing，t_processing = 1ms，cost_miss(s) = 6ms + s/100MB/s
+
+## Corrected Claim
+
+miss 成本 cost_miss(s) 的函数：cost_miss(s) = t_refill(s) + t_processing，t_processing = 1ms，cost_miss(s) = 6ms + s/100MB/s
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1聚焦于公式的代数分解及固定开销占比的定性/定量分析，子节点2聚焦于特定边界条件下的数值计算及主导项分析。两者视角不同（结构 vs 实例），无内容重复或矛盾，且共同覆盖了公式定义、参数含义及边界行为，覆盖完整。）
+
+## Search Query
+
+cache miss cost function processing time refill latency

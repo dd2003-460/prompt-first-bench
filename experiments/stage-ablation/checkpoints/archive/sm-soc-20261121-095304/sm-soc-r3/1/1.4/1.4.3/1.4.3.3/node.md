@@ -1,0 +1,29 @@
+# N110: 刷新效应阈值 θ_refresh 的量化定义：θ_refresh 为触发‘无增量’判定所需的最低降价幅度，通常设定为 5%~10% 的市场均价比例，具体值需通过
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N33
+
+## Claim
+
+刷新效应阈值 θ_refresh 的量化定义：θ_refresh 为触发‘无增量’判定所需的最低降价幅度，通常设定为 5%~10% 的市场均价比例，具体值需通过 A/B 测试确定。
+
+## Corrected Claim
+
+刷新效应阈值 θ_refresh 的量化定义：θ_refresh 为触发‘无增量’判定所需的最低降价幅度，具体值需通过 A/B 测试确定，通常参考市场均价的一定比例（如 5%~10%），但无统一标准。
+
+## Evidence
+
+[质询]参考来源完全无关（来源讨论的是DDR内存硬件刷新机制，而非商业定价或营销中的‘刷新效应’），且‘5%~10%’这一具体数值范围缺乏通用理论支持，属于特定场景下的经验参数，无法从第一性原理推导。 | 来源[1][2]均关于DDR内存技术，与商业定价事实主题无关，无可用外部证据；该陈述为经验事实，逻辑自洽但缺来源支持，故降级。
+
+## Search Query
+
+e-commerce platform price drop threshold for search refresh effect
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1919330170420061113&rut=d1f145c1ee4c77ce10f1d56a808d5d814cff86da4c94a254f02f9545ca6ce85b', 'type': 'ddg', 'title': 'DDR的刷新(refresh)机制 - 知乎'}
+- {'url': 'https://zhuanlan.zhihu.com/p/620772884&rut=c7a0c9bbd5d373996669beed6c3770e5daa43fc18e81b3608fef12a9a56136c9', 'type': 'ddg', 'title': 'DDR Refresh - 知乎 - 知乎专栏'}

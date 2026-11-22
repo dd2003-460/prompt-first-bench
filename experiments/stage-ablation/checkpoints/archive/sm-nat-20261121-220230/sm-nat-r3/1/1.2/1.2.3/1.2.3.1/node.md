@@ -1,0 +1,24 @@
+# N120: Pareto(β=0.9) 下热度排名变异系数 CV_rank 的理论推导：由于 β<1，分布极度重尾，CV 并非恒定值，而是依赖于截断样本量 N；对于 N=1
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N39, N40, N41
+
+## Claim
+
+Pareto(β=0.9) 下热度排名变异系数 CV_rank 的理论推导：由于 β<1，分布极度重尾，CV 并非恒定值，而是依赖于截断样本量 N；对于 N=100,000，需计算排名方差的数值积分，预计 CV > 2.0，从而修正 N39 中 CV≈1.2 的低估。
+
+## Corrected Claim
+
+Pareto(β=0.9) 下热度排名变异系数 CV_rank 依赖于截断样本量 N，对于大样本量（如 N=100,000），由于分布极度重尾，CV 值预计显著高于 1.2，具体数值需通过数值积分计算确定。
+
+## Evidence
+
+[质询]该陈述包含具体的数值预测（CV > 2.0）和特定的计算结论，属于经验/数值事实，无法仅通过第一性原理严格推导得出确切阈值，且缺乏来源支持该具体数值。 | 逻辑上，Pareto(β<1) 分布重尾特性确实导致排名变异系数随样本量变化且通常较大，逻辑自洽；但作为 search 节点，具体数值 'CV > 2.0' 属于经验事实，无来源直接支持，故降级。
+
+## Search Query
+
+Pareto distribution rank coefficient of variation heavy tail beta 0.9

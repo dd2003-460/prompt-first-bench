@@ -1,0 +1,20 @@
+# N276: PCIe 5.0 x16 双向带宽为 128 GB/s (64 GB/s 单向)，在 TP=2 场景下，每层 Attention 输出和 FFN 输入需通过 P
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N98
+
+## Claim
+
+PCIe 5.0 x16 双向带宽为 128 GB/s (64 GB/s 单向)，在 TP=2 场景下，每层 Attention 输出和 FFN 输入需通过 PCIe 交换，64 层模型单次 Forward 的数据传输量约为 2 * 64 * 32K * 128 * 2 bytes (假设 hidden dim 128 简化计算，实际需根据 head_dim 调整)，若超过 PCIe 延迟隐藏窗口，将导致 GPU 空闲等待，效率损失量化为 (通信时间 / 计算时间)。
+
+## Corrected Claim
+
+PCIe 5.0 x16 双向带宽为 128 GB/s (64 GB/s 单向)。在 TP=2 场景下，每层 Attention 输出和 FFN 输入需通过 PCIe 交换。数据传输量取决于序列长度 (L)、隐藏层维度 (D) 和数据类型 (B bytes)。例如，若 L=32K, D=128, B=2 (FP16)，则单层单向传输量为 L*D*B = 32768 * 128 * 2 = 8 MB。64 层模型单次 Forward 的总传输量需根据具体并行策略（如 AllReduce 或 AllGather）和通信模式计算，不能简单套用原公式。若通信时间超过计算时间，将导致 GPU 空闲，效率损失量化为 (通信时间 / (计算时间 + 通信时间)) 或类似指标。
+
+## Evidence
+
+[质询]陈述中关于数据传输量的计算公式存在严重的量纲和逻辑错误：1. '32K' 未明确是序列长度还是其他维度，若为序列长度，公式中缺少 Batch Size 或 Token 数，导致量级无法确定；2. '128' 被标注为 hidden dim 简化计算，但前文已假设 hidden dim 为 128，此处重复或混淆了维度定义；3. 最关键的错误是 '2 bytes' 的假设，现代大模型通常使用 FP16/BF16 (2 bytes) 或 FP32 (4 bytes)，但公式中直接乘以 2 bytes 且未说明数据类型，若为 FP32 则量级翻倍；4. 公式结构 '2 * 64 * 32K * 128 * 2' 中，'2' 可能指双向或 TP=2，但 '64' 是层数，'32K' 若是序列长度，'128' 是 hidden dim，那么单层单方向传输量应为 SeqLen * HiddenDim * BytesPerElement，公式中的系数堆砌缺乏清晰的物理意义对应，极易导致数量级误判。 | 先验知识/题面给定，逻辑校验未通过：数据传输量公式存在量纲混乱和参数定义不清（如 32K 和 128 的具体含义及数据类型假设），无法从第一性原理严格推出该特定数值表达式，且缺乏来源支持。

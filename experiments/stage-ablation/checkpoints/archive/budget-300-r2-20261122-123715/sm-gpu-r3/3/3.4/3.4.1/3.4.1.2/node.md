@@ -1,0 +1,24 @@
+# N262: 消费级 GPU 高负载下的主要失效模式为显存颗粒热疲劳 (Thermal Cycling Fatigue)，其寿命遵循 Coffin-Manson 公式 N_f
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N76
+
+## Claim
+
+消费级 GPU 高负载下的主要失效模式为显存颗粒热疲劳 (Thermal Cycling Fatigue)，其寿命遵循 Coffin-Manson 公式 N_f = C * (ΔT)^-n，其中 ΔT 为每次开关机或负载波动引起的显存温度变化幅度 (通常 15-20°C)，n 约为 2.0-2.5；若 ΔT > 25°C，MTBF 将按幂律显著下降，需通过监控显存温度峰值量化此风险。
+
+## Corrected Claim
+
+消费级 GPU 高负载下的主要失效模式为显存颗粒热疲劳 (Thermal Cycling Fatigue)，其寿命遵循 Coffin-Manson 公式 N_f = C * (ΔT)^-n，其中 ΔT 为每次开关机或负载波动引起的显存温度变化幅度 (通常 15-20°C)，n 约为 2.0-2.5；若 ΔT > 25°C，MTBF 将按幂律显著下降，需通过监控显存温度峰值量化此风险。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Coffin-Manson公式是电子元件热疲劳寿命的标准模型，指数n在2.0-2.5范围内符合半导体封装材料特性，ΔT 15-20°C符合消费级GPU典型热波动量级，逻辑自洽且无内部矛盾。
+
+## Search Query
+
+Coffin-Manson equation GPU VRAM thermal cycling fatigue lifetime exponent n

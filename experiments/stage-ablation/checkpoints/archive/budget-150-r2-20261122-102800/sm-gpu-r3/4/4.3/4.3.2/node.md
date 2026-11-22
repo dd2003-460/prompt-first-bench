@@ -1,0 +1,24 @@
+# N105: RX 7900 XTX 不支持原生 BF16 硬件加速，BF16 计算需通过软件模拟或 FP32 路径执行，导致有效 BF16 吞吐量显著低于 FP16 峰值。
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N24, N25, N35
+
+## Claim
+
+RX 7900 XTX 不支持原生 BF16 硬件加速，BF16 计算需通过软件模拟或 FP32 路径执行，导致有效 BF16 吞吐量显著低于 FP16 峰值。
+
+## Corrected Claim
+
+RX 7900 XTX 不支持原生 BF16 硬件加速，BF16 计算需通过软件模拟或 FP32 路径执行，导致有效 BF16 吞吐量显著低于 FP16 峰值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RX 7900 XTX 基于 RDNA 3 架构，其硬件单元原生支持 FP32、FP16 和 INT8，但不包含 BF16 专用硬件单元，因此 BF16 运算需通过软件模拟或转换路径执行，导致吞吐量低于原生 FP16。
+
+## Search Query
+
+RX 7900 XTX BF16 support software emulation

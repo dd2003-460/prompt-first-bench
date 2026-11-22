@@ -1,0 +1,24 @@
+# N134: H100 SXM 在 FP8 精度、batch_size=1 场景下运行 Qwen3-27B 的 Decode 阶段实测吞吐约为 120-150 tokens/
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N43
+
+## Claim
+
+H100 SXM 在 FP8 精度、batch_size=1 场景下运行 Qwen3-27B 的 Decode 阶段实测吞吐约为 120-150 tokens/sec，该数值受限于 HBM3 带宽 (3350 GB/s) 与内存访问模式，而非计算单元算力。
+
+## Corrected Claim
+
+H100 SXM 在 FP8 精度、batch_size=1 场景下运行 Qwen3-27B 的 Decode 阶段吞吐主要受限于 HBM3 带宽 (3350 GB/s)，理论带宽上限约为 120 tokens/sec，实测数值通常在此量级附近波动，具体值取决于软件优化程度。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性能数值（120-150 tokens/sec），属于经验事实而非第一性原理可推导结论。虽然H100 SXM的HBM3带宽（3.35 TB/s）和Qwen3-27B的参数量（约27B）是已知规格，但具体的解码吞吐量受软件栈（如vLLM/TensorRT-LLM版本）、量化实现细节、内存对齐及具体硬件批次影响极大，不同实测环境下的数值可能存在显著差异（例如优化良好的环境可能更高，或受其他进程干扰可能更低）。缺乏具体来源支持该特定数值区间，存在口径混淆或特定环境偏差的风险。 | 经验事实，逻辑自洽（带宽瓶颈分析合理：27B模型FP8权重约27GB，3350GB/s带宽理论上限约124 tokens/s，与120-150区间量级相符），但缺来源直接支持具体数值区间。
+
+## Search Query
+
+H100 SXM Qwen3-27B FP8 decode throughput tokens per second benchmark

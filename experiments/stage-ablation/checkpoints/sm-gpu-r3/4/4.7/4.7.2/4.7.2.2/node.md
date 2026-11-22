@@ -1,0 +1,20 @@
+# N254: Apple M3 Ultra 统一内存带宽 800 GB/s 下，读取 1.0 GB KV Cache 的时间为 1.0 GB / 800 GB/s = 1.2
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N115
+
+## Claim
+
+Apple M3 Ultra 统一内存带宽 800 GB/s 下，读取 1.0 GB KV Cache 的时间为 1.0 GB / 800 GB/s = 1.25 ms；若带宽为 1.2 TB/s，则为 0.83 ms。此时间为纯内存访问延迟，未包含 CPU 调度开销和内存控制器队列延迟，实际端到端延迟可能增加 10-20%。
+
+## Corrected Claim
+
+Apple M3 Ultra 统一内存带宽 800 GB/s 下，读取 1.0 GB KV Cache 的时间为 1.0 GB / 800 GB/s = 1.25 ms；若带宽为 1.2 TB/s，则为 0.83 ms。此时间为纯内存访问延迟，未包含 CPU 调度开销和内存控制器队列延迟，实际端到端延迟可能增加 10-20%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：M3 Ultra 800GB/s 带宽为公开规格，1.0GB/800GB/s=1.25ms 计算正确；1.2TB/s 对应 0.83ms 计算正确；延迟增加 10-20% 的定性描述符合工程直觉。

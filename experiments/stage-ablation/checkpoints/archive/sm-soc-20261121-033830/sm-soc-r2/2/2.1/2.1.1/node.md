@@ -1,0 +1,24 @@
+# N45: 卖家定价变异噪声 ε_p 的方差 σ²_p 可由同类商品（控制品牌/成色/规格）在相同挂牌时长下的挂价标准差计算得出：σ²_p = Var(P_i | x_i,
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N9, N10, N11
+
+## Claim
+
+卖家定价变异噪声 ε_p 的方差 σ²_p 可由同类商品（控制品牌/成色/规格）在相同挂牌时长下的挂价标准差计算得出：σ²_p = Var(P_i | x_i, t_i)，其中 P_i 为第 i 个卖家挂价，x_i 为商品特征向量。
+
+## Corrected Claim
+
+卖家定价变异噪声 ε_p 的方差 σ²_p 可由同类商品（控制品牌/成色/规格）在相同挂牌时长下的挂价标准差计算得出：σ²_p = Var(P_i | x_i, t_i)，其中 P_i 为第 i 个卖家挂价，x_i 为商品特征向量。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在控制商品特征（x_i）和挂牌时长（t_i）后，剩余的价格波动确实反映了卖家定价策略的随机性或噪声，其方差定义为条件方差 Var(P_i | x_i, t_i) 符合统计学定义。
+
+## Search Query
+
+price dispersion variance second hand market standard deviation

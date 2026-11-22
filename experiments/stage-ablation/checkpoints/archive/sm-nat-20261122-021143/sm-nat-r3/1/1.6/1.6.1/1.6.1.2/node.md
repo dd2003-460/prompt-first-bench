@@ -1,0 +1,20 @@
+# N90: 扫描效应的真实来源并非 K 的方差，而是引用序列的‘重引用距离’（reuse distance）分布：对于排名 k > K 的对象，若其两次访问间隔大于缓存中所
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N33
+
+## Claim
+
+扫描效应的真实来源并非 K 的方差，而是引用序列的‘重引用距离’（reuse distance）分布：对于排名 k > K 的对象，若其两次访问间隔大于缓存中所有对象的平均驻留时间 T_res，则必然 miss；偏差量 Δ 等于这些对象的请求占比
+
+## Corrected Claim
+
+扫描效应的真实来源并非 K 的方差，而是引用序列的‘重引用距离’（reuse distance）分布：对于排名 k > K 的对象，若其两次访问间隔大于缓存中所有对象的平均驻留时间 T_res，则必然 miss；偏差量 Δ 等于这些对象的请求占比
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：引用距离（Reuse Distance）理论确实指出，当引用距离大于缓存容量（或等效的驻留时间阈值）时必然发生缺失，且缺失率由超过该阈值的引用占比决定，这与K的方差无直接因果关系。

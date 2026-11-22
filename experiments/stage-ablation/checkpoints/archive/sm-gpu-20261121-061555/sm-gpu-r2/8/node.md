@@ -1,0 +1,26 @@
+# N35: Qwen3-27B 具体架构参数：层数 (num_layers)=64, 隐藏层维度 (hidden_size)=5120, KV头数 (num_key_val
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+Qwen3-27B 具体架构参数：层数 (num_layers)=64, 隐藏层维度 (hidden_size)=5120, KV头数 (num_key_value_heads)=8 (GQA), 每头维度 (head_dim)=128。基于此，32K上下文、Batch=1、FP16精度下，KV Cache 显存占用约为 2 * 64 * 8 * 128 * 32768 * 2 bytes ≈ 1.72 GB。若为 BF16 则相同。若 Batch 增大或精度不同需线性调整。
+
+## Corrected Claim
+
+Qwen3-27B (Qwen3.8-27B) 架构参数：层数=64, 隐藏层维度=5120, KV头数=4 (GQA), 每头维度=128。由于采用混合注意力架构（部分层为Gated DeltaNet），KV Cache显存占用需根据实际Attention层数计算，若假设全层为Attention，32K上下文、Batch=1、FP16下约为 2 * 64 * 4 * 128 * 32768 * 2 bytes ≈ 0.86 GB。
+
+## Evidence
+
+[质询]架构参数与参考来源严重矛盾：来源[3]明确指出Qwen3.8-27B（即Qwen3-27B系列）采用GQA，拥有24个Query头和4个KV头（num_key_value_heads=4），而非陈述中的8个KV头；此外，来源[1]指出该模型采用混合注意力架构（Gated DeltaNet + Attention），并非所有64层都使用标准Attention，因此KV Cache计算不能简单按64层全量Attention计算。 | 来源[3]直接矛盾：KV头数为4而非8；来源[1]指出存在混合注意力，非全层标准Attention。
+
+## Retrieval Sources
+
+- {'url': 'https://happyrock.cloud/zh/blog/2026-08-16_qwen3.8-27b/&rut=112635028da845e604253656e8ffe87e69e82c809e80c20b0cce6a7c8237a7eb', 'type': 'ddg', 'title': 'Qwen3.8-27B混合注意力架构深度解析：48层Gated DeltaNet + 16层Attention如何让270亿参数模型跑在消费级 ...'}
+- {'url': 'https://www.cnblogs.com/sing1ee/p/22498000&rut=014253cab1362304bedfb232983060c3a30c933f269dd0e576935f19f65c4b6e', 'type': 'ddg', 'title': 'Qwen3.8-27B（2026）：Qwen 新 27B 视觉语言模型完整指南 - 见路非道 - 博客园'}
+- {'url': 'https://frontiermlnp.com/models/qwen3-8-27b&rut=2d5641ad0fc10de0244faa2bfec0b7fe0dba0f7efaf4c57fd172fd34135076f7', 'type': 'ddg', 'title': 'Qwen3.8-27B: architecture, parameters and context length | Frontier ML'}

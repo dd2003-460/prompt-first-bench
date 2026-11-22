@@ -1,0 +1,24 @@
+# N142: 工作点 2 的 T_avg_res ≈ 10 天是经验值，需通过 LRU 驻留时间公式 T_res(k) = C / (Σ_{i=1}^{k} λ_i S_i)
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N63
+
+## Claim
+
+工作点 2 的 T_avg_res ≈ 10 天是经验值，需通过 LRU 驻留时间公式 T_res(k) = C / (Σ_{i=1}^{k} λ_i S_i) 验证，其中 k 为混合场景下实际驻留对象数，需结合热度 Pareto(β=0.9) 和大小 Pareto(α=1.1) 的联合分布求解 k 使得 Σ λ_i S_i ≤ C，从而确定 T_avg_res 的精确值。
+
+## Corrected Claim
+
+工作点 2 的 T_avg_res 需通过 LRU 驻留时间公式 T_res(k) = C / (Σ_{i=1}^{k} λ_i S_i) 验证，其中 k 为混合场景下实际驻留对象数，需结合热度 Pareto 和大小 Pareto 的联合分布求解 k 使得 Σ λ_i S_i ≤ C，从而确定 T_avg_res 的精确值。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（T_avg_res ≈ 10 天、Pareto 指数 β=0.9 和 α=1.1），这些属于经验事实而非第一性原理可推导的数学性质。在缺乏外部来源支持的情况下，无法验证这些具体数值和分布假设的准确性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+LRU residence time calculation Pareto size and popularity

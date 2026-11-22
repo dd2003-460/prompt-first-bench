@@ -1,0 +1,20 @@
+# N183: RTX 5090 32GB 显存在 W4 精度 (权重 13.5GB) + 32K 上下文 BF16 KV Cache (17.2GB) 的总显存需求为 30.
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N48, N49, N50
+
+## Claim
+
+RTX 5090 32GB 显存在 W4 精度 (权重 13.5GB) + 32K 上下文 BF16 KV Cache (17.2GB) 的总显存需求为 30.7GB，低于 32GB 物理上限，余量 1.3GB 用于激活值和碎片，结论：单卡 5090 可行，但余量极小，建议 KV 量化为 FP8 (总 22.1GB) 以确保稳定性。
+
+## Corrected Claim
+
+RTX 5090 32GB 显存在 W4 精度 (权重 13.5GB) + 32K 上下文 BF16 KV Cache (17.2GB) 的总显存需求为 30.7GB，低于 32GB 物理上限，余量 1.3GB 用于激活值和碎片，结论：单卡 5090 可行，但余量极小，建议 KV 量化为 FP8 (总 22.1GB) 以确保稳定性。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：13.5GB + 17.2GB = 30.7GB，32GB - 30.7GB = 1.3GB，数值计算自洽且符合显存估算逻辑。

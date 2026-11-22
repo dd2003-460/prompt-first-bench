@@ -1,0 +1,20 @@
+# N148: 搜索成本传导的共享随机源为估值不确定性 U = σ_used²，买家最小化期望总成本 min {C_search(U) + E[Loss | U]}，其中 E[
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N45
+
+## Claim
+
+搜索成本传导的共享随机源为估值不确定性 U = σ_used²，买家最小化期望总成本 min {C_search(U) + E[Loss | U]}，其中 E[Loss] 为购买错误商品的期望损失，与 U 成正比。
+
+## Corrected Claim
+
+搜索成本传导的共享随机源为估值不确定性 U = σ_used²，买家最小化期望总成本 min {C_search(U) + E[Loss | U]}，其中 E[Loss] 为购买错误商品的期望损失，与 U 成正比。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在搜索与匹配理论中，估值不确定性（方差）通常作为共享随机源，且期望损失与不确定性度量（如方差）呈正相关符合基本经济直觉。

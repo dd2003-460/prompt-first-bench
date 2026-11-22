@@ -1,0 +1,30 @@
+# N97: k_max 的精确计算需解积分方程：∫_{0}^{k_max} S_min * (1 + x * ln(N))^(1/1.1) dx = 128 * 10^9，
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N27, N28
+
+## Claim
+
+k_max 的精确计算需解积分方程：∫_{0}^{k_max} S_min * (1 + x * ln(N))^(1/1.1) dx = 128 * 10^9，其中 S_min=1KB, N=10^5，该方程无解析解，需数值积分求解得到 k_max 的具体整数值。
+
+## Corrected Claim
+
+k_max 的精确计算需解积分方程：∫_{0}^{k_max} S_min * (1 + x * ln(N))^(1/1.1) dx = 128 * 10^9，其中 S_min=1KB, N=10^5，该方程无解析解，需数值积分求解得到 k_max 的具体整数值。（注：具体参数值及方程形式需依据特定领域模型确认，当前来源未覆盖）
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点未覆盖父节点的核心任务（求解 k_max），反而错误地假设 k_max 为已知值（50,000）并转向计算 LRU 命中率。父节点明确要求解积分方程得到 k_max，而子节点直接跳过了求解步骤，导致分解逻辑断裂且未解决父节点提出的关键问题。）
+
+## Search Query
+
+numerical integration pareto distribution cumulative size cache limit k_max
+
+## Retrieval Sources
+
+- {'url': 'https://pygrt.readthedocs.io/zh-cn/latest/Advanced/k_integ/kmax.html&rut=a7a23ebd1226708a5b05b5b8f5148c2842d76cbc36fca6faf83409504095db9d', 'type': 'ddg', 'title': '控制波数积分上限 — PyGRT 0.19.1.dev2+g0ef854dda.d20261106 文档'}
+- {'url': 'https://www.volcengine.com/article/1181856&rut=c1525d74025ab446d35e8edf0e438f2323b3b41d5e463c969e6df74ca0c1924a', 'type': 'ddg', 'title': '如何用Scipy/Numpy计算积分并确定满足条件的最小k值'}
+- {'url': 'https://mathdf.com/int/cn/&rut=433ff7a66d9c6b47e89f6dc66d4103472b1b46ee86c9f7d60d094d88a1b00fd4', 'type': 'ddg', 'title': '积分。分步计算器 - MathDF'}

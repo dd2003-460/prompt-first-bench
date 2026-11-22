@@ -1,0 +1,24 @@
+# N111: NVIDIA RTX 4090 当前市场现货均价（USD）及其近30天波动幅度，需查询 Newegg/Amazon 历史价格曲线以确认是否处于价格低谷或峰值。
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N32
+
+## Claim
+
+NVIDIA RTX 4090 当前市场现货均价（USD）及其近30天波动幅度，需查询 Newegg/Amazon 历史价格曲线以确认是否处于价格低谷或峰值。
+
+## Corrected Claim
+
+NVIDIA RTX 4090 的市场价格具有波动性，需通过 Newegg/Amazon 等平台的实时历史价格数据查询当前均价及近期波动情况，以判断其处于价格低谷或峰值。
+
+## Evidence
+
+[质询]该陈述包含具体的实时市场数据（当前均价、近30天波动幅度），属于典型的时间敏感型经验事实。由于缺乏实时数据源，无法验证具体数值，且市场价格随时间剧烈波动，任何静态陈述都可能迅速过时或错误。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，无法提供外部证据验证具体价格数值）。
+
+## Search Query
+
+RTX 4090 price history last 30 days USD Newegg Amazon

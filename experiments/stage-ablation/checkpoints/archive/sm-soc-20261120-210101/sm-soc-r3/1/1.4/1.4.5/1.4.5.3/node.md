@@ -1,0 +1,24 @@
+# N182: 持有成本 C_holding 的分解：C_holding = C_storage + C_opportunity + C_psychological(t)。其中
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N46
+
+## Claim
+
+持有成本 C_holding 的分解：C_holding = C_storage + C_opportunity + C_psychological(t)。其中 C_psychological(t) = λ_t * t * P_ref，λ_t 为时间价值系数（假设 λ_t = 0.01/day）。若商品未成交 30 天，心理持有成本为 30% * P_ref，导致 P* 随时间线性上升。
+
+## Corrected Claim
+
+持有成本 C_holding 的分解：C_holding = C_storage + C_opportunity + C_psychological(t)。其中 C_psychological(t) = λ_t * t * P_ref，λ_t 为时间价值系数（假设 λ_t = 0.01/day）。若商品未成交 30 天，心理持有成本为 30% * P_ref，导致 P* 随时间线性上升。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式定义清晰，数值计算（0.01 * 30 = 0.3 即 30%）准确，线性关系推导符合数学逻辑。
+
+## Search Query
+
+holding cost psychological component inventory time value

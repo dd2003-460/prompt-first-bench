@@ -1,0 +1,17 @@
+{
+  "id": "N88",
+  "claim": "2x RTX 4090 (48GB 总显存) 运行 Qwen3-27B W4A16 权重 + BF16 KV Cache (32K) 时，显存分配为每卡 13.5GB 权重 + 20GB KV Cache = 33.5GB/卡，超出单卡 24GB 上限，故需使用 Tensor Parallelism 将 KV Cache 也切分，每卡 KV Cache 为 10GB，总显存占用 13.5+10+1=24.5GB/卡，仍略超 24GB，需启用 KV Cache 量化或 Offload。",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "pending",
+  "evidence": "父节点级核验未通过：非正交, 有冗余（子节点存在显著冗余和逻辑重叠。节点2、3、5、7、8均围绕'显存计算与可行性'展开，其中节点5和7重复计算了INT8 KV下的显存占用（16.15GB），节点8重复了节点7关于'无需Offload'的结论，节点3和节点4在逻辑上紧密耦合（一个验证可行性，一个解释原错误），未形成正交分解。）",
+  "corrected_claim": "2x RTX 4090 (48GB 总显存) 运行 Qwen3-27B W4A16 权重 (约 13.5GB) + BF16 KV Cache (32K) 时，若采用 Tensor Parallelism，权重每卡约 6.75GB。KV Cache 大小取决于并发数和序列长度，若总 KV Cache 需求超过剩余显存 (24GB - 6.75GB - 1GB overhead ≈ 16.25GB/卡)，则需启用 KV Cache 量化或 Offload。原陈述中每卡 13.5GB 权重的假设与总显存及模型大小不匹配。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N20"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "2x RTX 4090 Tensor Parallel Qwen3 27B 32k context memory split",
+  "retrieval_sources": []
+}

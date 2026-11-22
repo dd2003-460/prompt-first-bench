@@ -1,0 +1,24 @@
+# N380: 2x RTX 3090 方案中，由于缺乏 NVLink，PCIe 4.0 x16 互联带宽为 32 GB/s (单向)，多卡推理时 P2P 通信开销导致吞吐量损
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N133
+
+## Claim
+
+2x RTX 3090 方案中，由于缺乏 NVLink，PCIe 4.0 x16 互联带宽为 32 GB/s (单向)，多卡推理时 P2P 通信开销导致吞吐量损失约 10-15% [待核验: 具体框架下的通信开销占比]，且需额外电源模块和机箱散热，额外开销 C_overhead 约为 $150-$300 [待核验: 具体配置成本]
+
+## Corrected Claim
+
+2x RTX 3090 方案中，由于缺乏 NVLink，PCIe 4.0 x16 互联带宽为 32 GB/s (单向)，多卡推理时 P2P 通信开销导致吞吐量损失约 10-15% [待核验: 具体框架下的通信开销占比]，且需额外电源模块和机箱散热，额外开销 C_overhead 约为 $150-$300 [待核验: 具体配置成本]
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe 4.0 x16 单向带宽 32GB/s 符合规格；RTX 3090 无 NVLink 是事实；多卡推理因 P2P 通信导致的 10-15% 吞吐损失及 $150-$300 的额外硬件开销（电源/散热/机箱）在工程实践中属于合理量级。
+
+## Search Query
+
+dual RTX 3090 PCIe P2P communication overhead multi-GPU inference performance loss

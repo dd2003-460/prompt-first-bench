@@ -1,0 +1,30 @@
+# N204: 季节性混淆控制的量化影响：在回归模型 T_short = β0 + β1*High_Price_Flag + β2*Season_Dummy + ε 中，若未控
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N74
+
+## Claim
+
+季节性混淆控制的量化影响：在回归模型 T_short = β0 + β1*High_Price_Flag + β2*Season_Dummy + ε 中，若未控制季节性，β1 的标准误 SE_β1 会膨胀 1.5-2.0 倍，导致后验置信区间宽度增加 50%-100%。控制季节性后，β1 的 p 值从 0.15 降至 0.03，显著提升因果推断的可靠性。
+
+## Corrected Claim
+
+在回归模型中，若未控制季节性这一重要解释变量，通常会导致β1的估计产生偏差，且其标准误可能因遗漏变量而膨胀，从而降低统计显著性；具体膨胀倍数及p值变化取决于数据特征，一般需通过对比控制与未控制季节性的模型结果来量化。
+
+## Evidence
+
+[质询]该陈述提供了非常具体的量化数值（SE膨胀1.5-2.0倍，p值从0.15降至0.03），这属于特定数据集或模拟实验下的经验结果，而非通用的统计定律。不同数据集的季节性强度、样本量及变量相关性会导致不同的量化影响，直接断言这一固定范围缺乏普遍性依据。 | 逻辑上，遗漏重要解释变量（季节性）确实会导致系数估计偏差及标准误膨胀（Omitted Variable Bias），方向正确；但参考来源[1]讨论伪回归，[2]讨论季节性分解方法，[3]讨论模型平均，均未提供该特定回归模型中SE膨胀倍数或p值变化的具体数值支持，属于经验事实且缺来源直接支持。
+
+## Search Query
+
+seasonal adjustment impact on regression standard error causal inference pricing
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_29043895/article/details/171070168&rut=6d3d21b7edefc97676b64958e6b61a466ad4a460afd8bb6b317f4182272d933f', 'type': 'ddg', 'title': '误差修正模型ECM：协整检验、伪回归规避与Python落地-CSDN博客'}
+- {'url': 'https://southwest.robjhyndman.com/publications/str/&rut=88452233e795c2e88c41dc2c71b1ca4e66f970784e744a3d0c2fdef555b59ab1', 'type': 'ddg', 'title': 'STR: seasonal-trend decomposition using regression - Rob J Hyndman'}
+- {'url': 'https://www.sciencedirect.com/science/article/pii/S0304407620303882&rut=8b290badf443c1d8348445ebe85915de1b7f201c731d0dc71d715c216ae4b317', 'type': 'ddg', 'title': 'Semiparametric model averaging prediction for dichotomous response'}

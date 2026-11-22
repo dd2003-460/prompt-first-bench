@@ -1,0 +1,20 @@
+# N84: 由于 α=1.1 < 2，大小分布的二阶矩（方差）发散，总大小 S_total 的估计对尾部截断极其敏感。实际 S_total 需通过截断积分 ∫_{s_min
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N24
+
+## Claim
+
+由于 α=1.1 < 2，大小分布的二阶矩（方差）发散，总大小 S_total 的估计对尾部截断极其敏感。实际 S_total 需通过截断积分 ∫_{s_min}^{s_max} s * f(s) ds 计算，其中 s_max 为系统允许的最大对象大小（如 100MB）。
+
+## Corrected Claim
+
+由于 α=1.1 < 2，大小分布的二阶矩（方差）发散，总大小 S_total 的估计对尾部截断极其敏感。实际 S_total 需通过截断积分 ∫_{s_min}^{s_max} s * f(s) ds 计算，其中 s_max 为系统允许的最大对象大小（如 100MB）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：幂律分布指数 α < 2 时二阶矩发散是数学定理，截断积分计算总大小符合物理直觉。

@@ -1,0 +1,20 @@
+# N279: 大 Batch Size 下的 PCIe 通信瓶颈修正：当 Batch_Size=32 时，单层通信量 ≈ 512KB，PCIe 传输延迟 ≈ 16μs/层，4
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N92
+
+## Claim
+
+大 Batch Size 下的 PCIe 通信瓶颈修正：当 Batch_Size=32 时，单层通信量 ≈ 512KB，PCIe 传输延迟 ≈ 16μs/层，48 层总延迟 ≈ 0.77ms/step；相比 NVLink (900GB/s) 的 0.025ms，延迟增加 30 倍，导致有效吞吐下降约 15-20%，需计入 TCO 的时间成本修正因子。
+
+## Corrected Claim
+
+大 Batch Size 下的 PCIe 通信瓶颈修正：当 Batch_Size=32 时，单层通信量 ≈ 512KB，PCIe 传输延迟 ≈ 16μs/层，48 层总延迟 ≈ 0.77ms/step；相比 NVLink (900GB/s) 的 0.025ms，延迟增加 30 倍，导致有效吞吐下降约 15-20%，需计入 TCO 的时间成本修正因子。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：512KB/900GB/s≈0.057μs，若考虑PCIe实际有效带宽（约30-50GB/s）及延迟开销，16μs/层量级合理；48层*16μs=0.768ms≈0.77ms，计算自洽；相比NVLink的0.025ms，0.77/0.025≈30.8倍，符合30倍描述；吞吐下降15-20%为合理工程估算。

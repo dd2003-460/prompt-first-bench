@@ -1,0 +1,20 @@
+# N215: 尾部对象在 LRU 队列中的更新失效概率 P_invalid_tail = 1 - exp(-λ_update * W_LRU_tail)，其中 λ_updat
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N75
+
+## Claim
+
+尾部对象在 LRU 队列中的更新失效概率 P_invalid_tail = 1 - exp(-λ_update * W_LRU_tail)，其中 λ_update = 0.01/天；若 W_LRU_tail = 24h，则 P_invalid_tail = 1 - exp(-0.01) ≈ 0.00995，表明尾部对象在 24 小时内有约 1% 的概率因更新而失效。
+
+## Corrected Claim
+
+尾部对象在 LRU 队列中的更新失效概率 P_invalid_tail = 1 - exp(-λ_update * W_LRU_tail)，其中 λ_update = 0.01/天；若 W_LRU_tail = 24h，则 P_invalid_tail = 1 - exp(-0.01) ≈ 0.00995，表明尾部对象在 24 小时内有约 1% 的概率因更新而失效。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 P=1-exp(-λt) 符合泊松过程失效概率模型，数值计算 1-exp(-0.01)≈0.00995 准确，量级合理。

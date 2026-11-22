@@ -1,0 +1,24 @@
+# N248: Qwen3-27B 在 BF16 精度下的 HumanEval (Python) Pass@1 基准准确率具体数值，作为量化方案质量评估的基线参考值，需引用 H
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N85
+
+## Claim
+
+Qwen3-27B 在 BF16 精度下的 HumanEval (Python) Pass@1 基准准确率具体数值，作为量化方案质量评估的基线参考值，需引用 HuggingFace 官方模型卡或 Qwen 技术报告中的最新数据。
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 精度下的 HumanEval (Python) Pass@1 基准准确率具体数值需引用 HuggingFace 官方模型卡或 Qwen 技术报告中的最新数据，当前检索未获取到具体数值，建议人工核实官方文档。
+
+## Evidence
+
+[质询]该陈述要求提供具体的基准准确率数值，但参考来源显示检索失败，无可用外部证据支持该具体数值；且作为经验事实（模型性能指标），无法仅凭逻辑推导得出，存在数值不准确或版本过时的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+Qwen3-27B HumanEval pass@1 baseline accuracy BF16 official benchmark

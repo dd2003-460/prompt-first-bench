@@ -1,0 +1,30 @@
+# N82: 字节加权平均更新失效概率 P_invalidate_bytes 的计算：P_invalidate_bytes = ∫ [1 - exp(-λ_update / 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N25
+
+## Claim
+
+字节加权平均更新失效概率 P_invalidate_bytes 的计算：P_invalidate_bytes = ∫ [1 - exp(-λ_update / q)] * f_freq(q) * f_size(s|q) * s ds dq，其中 s 是对象大小。由于热度与大小负相关 (ρ=-0.3)，高频对象倾向于小大小，低频对象倾向于大大小。大对象在缓存中占据更多字节，其更新失效对字节命中率的影响更大。
+
+## Corrected Claim
+
+P_invalidate_bytes 的计算应基于对象大小 s 进行加权积分，以反映大对象失效对字节命中率的影响；具体公式及热度-大小相关性参数（如 ρ=-0.3）需依据特定数据集或系统实测数据确定，当前缺乏通用来源支持。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（如热度与大小的负相关系数 ρ=-0.3）以及特定的缓存失效概率积分公式，这些属于特定系统或数据集的经验事实，无法从第一性原理直接推导，且参考来源均未提供相关支持。 | 逻辑上，字节加权平均确实需要按对象大小 s 进行加权，且大对象失效对字节命中率影响更大符合直觉；但参考来源 [1][2][3] 分别涉及哈夫曼编码、EWMA 算法和 BPE 编码，均与缓存失效概率计算及热度-大小相关性无关，属于「无可用外部证据」。根据经验事实排除条款，逻辑自洽但缺来源支持，判为 degraded。
+
+## Search Query
+
+Joint distribution of frequency and size with negative correlation cache invalidation
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/2202_75518890/article/details/148509932&rut=700ddb89fd139c26ea778cb17b649bd6b147aab166c15c404443e02dcaa61a01', 'type': 'ddg', 'title': '哈夫曼编码加权平均长度与wpl（带权路径长度）计算_哈夫曼编码加权平均长度怎么算-csdn博客'}
+- {'url': 'https://blog.csdn.net/weixin_28419039/article/details/162887405&rut=e2d8fa9bd11a73bd2255e0757d038f154a8c3221c2774d9c023eced5f5efec95', 'type': 'ddg', 'title': '指数加权移动平均实战：从算法原理到负载均衡应用（附完整代码）-csdn博客'}
+- {'url': 'https://aclanthology.org/2026.acl-long.342/&rut=93cdcc20a3974a9671b5069717d5c447a32eb00a1841e5efc9bd97ff1db8c516', 'type': 'ddg', 'title': 'Parity-Aware Byte-Pair Encoding: Improving Cross-lingual Fairness in ...'}

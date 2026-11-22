@@ -1,0 +1,20 @@
+# N95: INT4/NVFP4量化在NVIDIA Hopper/Blackwell架构上的硬件加速机制：Tensor Core原生支持FP8/FP4计算，无需显式Dequ
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N25
+
+## Claim
+
+INT4/NVFP4量化在NVIDIA Hopper/Blackwell架构上的硬件加速机制：Tensor Core原生支持FP8/FP4计算，无需显式Dequantize步骤，计算延迟增加为0；而在Ampere/Ada架构（如RTX 4090）上，INT4需通过软件库（如vLLM/AWQ）执行Dequantize到FP16再计算，引入额外的内存读取与算术单元占用，导致实际吞吐量低于理论带宽极限的85-90%。
+
+## Corrected Claim
+
+INT4/NVFP4量化在NVIDIA Hopper/Blackwell架构上受益于Tensor Core原生FP8/FP4支持，减少了显式Dequantize开销；而在Ampere/Ada架构上，INT4需通过软件库执行Dequantize，引入额外计算与内存访问开销，导致实际吞吐量通常低于理论带宽极限，具体损失比例取决于模型结构与硬件配置。
+
+## Evidence
+
+[质询]数值量级与具体百分比（85-90%）缺乏通用性，且将INT4量化在Ampere/Ada上的性能损失归因于单一的Dequantize开销可能过于简化，忽略了算子融合、内存带宽瓶颈及具体模型结构的影响；此外，'计算延迟增加为0'在Hopper/Blackwell上虽指Tensor Core原生支持，但整体推理延迟仍受内存带宽和调度影响，表述略显绝对。 | 先验知识/题面给定，逻辑校验通过：Hopper/Blackwell确实引入FP8/FP4 Tensor Core支持，Ampere/Ada需软件Dequantize，但具体吞吐量损失比例（85-90%）为经验性估计，非绝对物理定律，故降级为定性表述。

@@ -1,0 +1,20 @@
+# N328: 在低流动性商品（高 T_hold）工作点：若 T_hold > 30天且 B_signal 固定，则 C_signal * T_hold > B_signal，
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N110
+
+## Claim
+
+在低流动性商品（高 T_hold）工作点：若 T_hold > 30天且 B_signal 固定，则 C_signal * T_hold > B_signal，卖家必须通过降价降低 P_listed 以缩短 T_hold，从而恢复 B_signal > C_signal * T_hold 的均衡条件。
+
+## Corrected Claim
+
+在低流动性商品（高 T_hold）工作点：若 T_hold > 30天且 B_signal 固定，则 C_signal * T_hold > B_signal，卖家必须通过降价降低 P_listed 以缩短 T_hold，从而恢复 B_signal > C_signal * T_hold 的均衡条件。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于均衡条件 B_signal > C_signal * T_hold，若 T_hold 增大导致不等式失效，降低 P_listed 以缩短 T_hold 是恢复均衡的必要逻辑推论。

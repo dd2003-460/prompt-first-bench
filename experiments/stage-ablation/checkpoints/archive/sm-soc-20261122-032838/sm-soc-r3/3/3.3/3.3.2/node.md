@@ -1,0 +1,24 @@
+# N71: 买家福利在算法降权下的不确定性源于‘替代效应’。买家无法看到高溢价商品，转而购买低溢价但可能低质量的商品。设商品质量 $Q$ 与价格 $P$ 弱相关，$Q = 
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N16
+
+## Claim
+
+买家福利在算法降权下的不确定性源于‘替代效应’。买家无法看到高溢价商品，转而购买低溢价但可能低质量的商品。设商品质量 $Q$ 与价格 $P$ 弱相关，$Q = \alpha P + \epsilon$。若买家被迫购买 $P_{low}$ 商品，其预期质量 $E[Q|P_{low}]$ 可能低于 $E[Q|P_{high}]$。买家福利变化 $\Delta U_b = (V_{low} - P_{low}) - (V_{high} - P_{high}) + C_{switch}$，其中 $C_{switch}$ 为寻找替代品的额外成本。若 $V_{high} - V_{low} > P_{high} - P_{low} + C_{switch}$，则买家受损。量化：若质量差异带来的效用差 $\Delta V < 10\% P_{high}$，且 $C_{switch} > 5\% P_{high}$，则买家净福利为负。
+
+## Corrected Claim
+
+买家福利在算法降权下的不确定性源于‘替代效应’。买家无法看到高溢价商品，转而购买低溢价但可能低质量的商品。设商品质量 $Q$ 与价格 $P$ 弱相关，$Q = \alpha P + \epsilon$。若买家被迫购买 $P_{low}$ 商品，其预期质量 $E[Q|P_{low}]$ 可能低于 $E[Q|P_{high}]$。买家福利变化 $\Delta U_b = (V_{low} - P_{low}) - (V_{high} - P_{high}) + C_{switch}$，其中 $C_{switch}$ 为寻找替代品的额外成本。若 $V_{high} - V_{low} > P_{high} - P_{low} + C_{switch}$，则买家受损。量化：若质量差异带来的效用差 $\Delta V < 10\% P_{high}$，且 $C_{switch} > 5\% P_{high}$，则买家净福利为负。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点正交性良好，分别量化了质量-价格相关性（影响预期质量差）、搜索成本（影响转换成本）和买家异质性（影响转换难度/成本），三者维度独立。但完备性不足：父节点公式中的核心变量 $V$（价值/效用）未得到独立分解，子节点1仅讨论了 $Q$（质量）对 $V$ 的影响，忽略了非质量因素（如品牌、审美、稀缺性）对 $V$ 的贡献，导致 $\Delta V$ 的量化不完整。此外，子节点3中关于 $\sigma_{pref}$ 导致 $C_{switch}$ 变化的逻辑与子节点2中 $C_{switch}$ 的分解存在轻微概念重叠（异质性本质上是通过改变搜索成本或匹配概率来起作用，而非直接作为一个独立于搜索成本之外的物理成本项，但在学术分解中通常可接受为行为参数，故不判为冗余，但需注意逻辑边界）。）
+
+## Search Query
+
+buyer welfare loss from algorithmic filtering quality-price correlation search cost substitution effect

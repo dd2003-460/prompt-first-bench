@@ -1,0 +1,20 @@
+# N65: BF16精度下的总显存需求计算：Memory_Weights=54GB, Memory_KV≈0.86GB (基于N35修正后的估算), Overhead≈3.
+
+- **status**: verified
+- **level**: L3
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N15
+
+## Claim
+
+BF16精度下的总显存需求计算：Memory_Weights=54GB, Memory_KV≈0.86GB (基于N35修正后的估算), Overhead≈3.5GB (取中值), 总需求=54+0.86+3.5=58.36GB；加上15%安全余量后，Minimum_VRAM=58.36*1.15≈67.1GB。
+
+## Corrected Claim
+
+BF16精度下的总显存需求计算：Memory_Weights=54GB, Memory_KV≈0.86GB (基于N35修正后的估算), Overhead≈3.5GB (取中值), 总需求=54+0.86+3.5=58.36GB；加上15%安全余量后，Minimum_VRAM=58.36*1.15≈67.1GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：54 + 0.86 + 3.5 = 58.36，58.36 * 1.15 = 67.114 ≈ 67.1，计算无误且量级合理。

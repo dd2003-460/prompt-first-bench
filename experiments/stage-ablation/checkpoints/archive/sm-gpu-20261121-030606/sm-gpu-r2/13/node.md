@@ -1,0 +1,25 @@
+# N185: RTX 5090 的官方发布价格为 $1999 MSRP，但2025年Q1市场现货均价因需求激增已稳定在 $2300-$2600 区间。其显存带宽为 1792 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+RTX 5090 的官方发布价格为 $1999 MSRP，但2025年Q1市场现货均价因需求激增已稳定在 $2300-$2600 区间。其显存带宽为 1792 GB/s (GDDR7)，显存容量 32GB。该数据点用于修正 N104 和 N165 中基于假设价格的TCO计算，确立其作为单卡高端消费级方案的成本基准。
+
+## Corrected Claim
+
+RTX 5090 的官方发布价格为 $1999 MSRP，其显存带宽为 1792 GB/s (GDDR7)，显存容量 32GB。2025年Q1市场现货价格因需求激增显著高于官方定价（具体区间需进一步核实，通常高于$2000）。
+
+## Evidence
+
+[质询]陈述中关于2025年Q1市场现货均价稳定在$2300-$2600的具体数值区间缺乏参考来源的直接支持，属于经验事实且存在波动性，仅凭逻辑自洽不足以确证具体价格区间。 | 来源[1]和[2]直接支持MSRP为$1999，但均未提供2025年Q1现货均价为$2300-$2600的具体数据，仅提及市场现货价格远高于官方定价；显存参数（32GB GDDR7, 1792 GB/s）符合RTX 5090已知规格，逻辑自洽，但价格部分缺乏直接证据支持。
+
+## Retrieval Sources
+
+- {'url': 'https://aiqicha.baidu.com/details/ugknowledge?id=a6a76a4479d0130b5541b2920e9eba7d&rut=2eaf247565b8a5108bf7489163dc7aadec7012068d0495c6a13edd5c70356a09', 'type': 'ddg', 'title': '5090发布价格 - 爱企查'}
+- {'url': 'https://aiqicha.baidu.com/details/ugknowledge?id=b6f8864182bac02199b6a3c8cb3a984f&rut=6f35a1943b40f564cd64286609e9ba57fb82ebbd0cb9e232bd223cd249ee804a', 'type': 'ddg', 'title': '5090原价官方定价 - 爱企查'}

@@ -1,0 +1,20 @@
+# N15: 非典型/低成本方案候选集：Mac Studio M2 Ultra (192GB Unified Memory), Mac Pro M2 Ultra (512GB
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+非典型/低成本方案候选集：Mac Studio M2 Ultra (192GB Unified Memory), Mac Pro M2 Ultra (512GB Unified Memory), 二手 Tesla V100 (32GB HBM2)。
+
+## Corrected Claim
+
+非典型/低成本方案候选集：Mac Studio M2 Ultra (192GB Unified Memory), Mac Pro M2 Ultra (512GB Unified Memory), 二手 Tesla V100 (32GB HBM2)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Mac Studio M2 Ultra 最高支持 192GB 统一内存，Mac Pro M2 Ultra 最高支持 512GB 统一内存，Tesla V100 标准配置为 32GB HBM2，均为真实存在的硬件规格，且符合‘非典型/低成本’（相对于专用AI集群或最新旗舰GPU）的语境描述。

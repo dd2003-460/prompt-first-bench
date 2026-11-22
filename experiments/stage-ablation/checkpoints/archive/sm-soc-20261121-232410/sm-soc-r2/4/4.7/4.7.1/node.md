@@ -1,0 +1,20 @@
+# N73: 买家策略性等待的博弈论模型：买家等待决策基于期望效用比较，U_wait = P(Price Drop) * (V - P_new) - C_wait * T_w
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N25
+
+## Claim
+
+买家策略性等待的博弈论模型：买家等待决策基于期望效用比较，U_wait = P(Price Drop) * (V - P_new) - C_wait * T_wait，其中 P(Price Drop) 为买家预期卖家继续降价的概率，C_wait 为等待成本，T_wait 为等待时间。
+
+## Corrected Claim
+
+买家策略性等待的博弈论模型：买家等待决策基于期望效用比较，U_wait = P(Price Drop) * (V - P_new) - C_wait * T_wait，其中 P(Price Drop) 为买家预期卖家继续降价的概率，C_wait 为等待成本，T_wait 为等待时间。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

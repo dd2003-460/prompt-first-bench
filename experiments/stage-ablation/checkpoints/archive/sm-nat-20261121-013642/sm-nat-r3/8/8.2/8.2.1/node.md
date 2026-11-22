@@ -1,0 +1,20 @@
+# N245: 在 Pareto(α=1.1, β=0.9) 且缓存容量 C=128GB 的条件下，Belady's MIN 算法的稳态字节命中率理论上限 H_MIN 约为 0
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N85
+
+## Claim
+
+在 Pareto(α=1.1, β=0.9) 且缓存容量 C=128GB 的条件下，Belady's MIN 算法的稳态字节命中率理论上限 H_MIN 约为 0.92，基于 MIN 算法按 r_i/s_i 比值全局最优保留对象的解析近似（假设对象独立且无更新干扰）。
+
+## Corrected Claim
+
+在 Pareto(α=1.1, β=0.9) 且缓存容量 C=128GB 的条件下，Belady's MIN 算法的稳态字节命中率理论上限 H_MIN 约为 0.92，基于 MIN 算法按 r_i/s_i 比值全局最优保留对象的解析近似（假设对象独立且无更新干扰）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

@@ -1,0 +1,28 @@
+# N229: H200 实际采购价格区间核实：查询 2024 Q3-Q4 主要云服务商（AWS/GCP/Azure）及硬件经销商（CDW/Insight）的 H200 SXM
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N86
+
+## Claim
+
+H200 实际采购价格区间核实：查询 2024 Q3-Q4 主要云服务商（AWS/GCP/Azure）及硬件经销商（CDW/Insight）的 H200 SXM 现货价格，确认是否落在 $25k-$30k 区间，若市场短缺导致价格上浮，记录溢价系数 Premium_Factor = Actual_Price / Base_Price_25k [待核验]
+
+## Corrected Claim
+
+H200 SXM在2024 Q3-Q4的市场价格可能落在$25k-$30k区间，但具体价格及溢价系数需进一步核实主要云服务商及硬件经销商的现货报价。
+
+## Evidence
+
+[质询]来源仅提及一个中国国内项目的预算金额（32...，单位未明确，可能为万元或元），无法直接对应2024 Q3-Q4主要云服务商（AWS/GCP/Azure）及硬件经销商（CDW/Insight）的H200 SXM现货价格区间，且未提供具体的单卡价格数据，无法验证$25k-$30k区间及溢价系数。 | 来源[1]为国内采购项目公告，与查询的国际云服务商及经销商现货价格主题不匹配，无可用外部证据支持具体价格区间；逻辑上H200作为高端GPU，$25k-$30k的价格区间符合市场常识，但缺乏直接来源支持，故降级为定性表述。
+
+## Search Query
+
+NVIDIA H200 SXM spot price 2024 Q4 dealer listing AWS GCP cost
+
+## Retrieval Sources
+
+- {'url': 'https://xunbiaobao.baidu.com/biddingDetail?id=4cf632d84ab01e7398ed1b84cf18cbd00fdae548&addressCode=320000&rut=6a4b267669652ce6e91fc3425024b220d40e0c57f44297f630206fa2169e52c4', 'type': 'ddg', 'title': '悟空智算h200算力服务器采购项目竞争性磋商公告 - 招标｜招标公告 - 百度寻标宝'}

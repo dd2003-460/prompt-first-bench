@@ -1,0 +1,24 @@
+# N160: 分层抽样修正因子：若平台用户按品类分层（如电子产品、服装、家具），且各层比例不等，则总体样本量需乘以设计效应 DEFF = 1 + (k-1)ρ，其中 k 为层
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N54
+
+## Claim
+
+分层抽样修正因子：若平台用户按品类分层（如电子产品、服装、家具），且各层比例不等，则总体样本量需乘以设计效应 DEFF = 1 + (k-1)ρ，其中 k 为层数，ρ 为层内相关系数（假设 ρ=0.3, k=5），则 n_adjusted = 369 * 1.6 ≈ 590。
+
+## Corrected Claim
+
+分层抽样修正因子：若平台用户按品类分层（如电子产品、服装、家具），且各层比例不等，则总体样本量需乘以设计效应 DEFF = 1 + (k-1)ρ，其中 k 为层数，ρ 为层内相关系数（假设 ρ=0.3, k=5），则 n_adjusted = 369 * 1.6 ≈ 590。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 DEFF = 1 + (k-1)ρ 符合统计学中分层抽样设计效应的标准定义，代入 k=5, ρ=0.3 计算得 1.6，369 * 1.6 = 590.4 ≈ 590，数值与逻辑均自洽。
+
+## Search Query
+
+stratified sampling design effect formula calculation

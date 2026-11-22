@@ -1,0 +1,24 @@
+# N147: 不同Group Size下NVFP4 Scale Factor开销对比：Group Size=64时，Scale Factor大小 = (27.2e9/64)*
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N43
+
+## Claim
+
+不同Group Size下NVFP4 Scale Factor开销对比：Group Size=64时，Scale Factor大小 = (27.2e9/64)*1 = 0.425 GB，开销比例 6.25%；Group Size=128时，Scale Factor = 0.2125 GB，开销比例 3.125%；更粗的Group Size降低显存但增加量化误差
+
+## Corrected Claim
+
+不同Group Size下NVFP4 Scale Factor开销对比：Group Size=64时，Scale Factor大小 = (27.2e9/64)*1 = 0.425 GB，开销比例 6.25%；Group Size=128时，Scale Factor = 0.2125 GB，开销比例 3.125%；更粗的Group Size降低显存但增加量化误差
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27.2e9/64=4.25e8，若Scale Factor为FP8(1字节)则0.425GB，占比6.25%；128组时减半，逻辑自洽。
+
+## Search Query
+
+NVFP4 group size 64 128 scale factor memory tradeoff

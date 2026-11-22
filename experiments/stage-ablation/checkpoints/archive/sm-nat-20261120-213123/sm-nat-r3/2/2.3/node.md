@@ -1,0 +1,24 @@
+# N13: 大小与热度的负相关系数 ρ ≈ -0.3，需通过 Copula 函数（如 Clayton 或 Gumbel）建模联合分布，以修正独立假设下的命中率偏差。
+
+- **status**: pending
+- **level**: L2
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+大小与热度的负相关系数 ρ ≈ -0.3，需通过 Copula 函数（如 Clayton 或 Gumbel）建模联合分布，以修正独立假设下的命中率偏差。
+
+## Corrected Claim
+
+大小与热度的负相关系数 ρ ≈ -0.3，需通过 Copula 函数（如 Clayton 或 Gumbel）建模联合分布，以修正独立假设下的命中率偏差。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（1. 冗余：子节点1和子节点2结构完全相同，仅参数不同，属于同一类计算（对数Pareto分布的标准差），应合并为一个通用子节点或参数化描述。2. 不完备/错误：父节点明确要求使用 Copula 函数（Clayton/Gumbel）建模，但子节点3给出的修正因子公式 $1 + \rho \cdot \sigma_{\log S} \cdot \sigma_{\log H} \dots$ 是线性近似且未体现 Copula 的非线性依赖结构，甚至该公式在数学上缺乏依据（相关系数乘积通常不直接这样用于期望修正）。此外，子节点中 Pareto 分布的标准差公式 $\pi/\alpha$ 是错误的（对数Pareto的标准差通常与形状参数无关或定义不同，取决于具体参数化，且 $\sqrt{\pi^2/\alpha^2}$ 推导无据）。）
+
+## Search Query
+
+Copula function negative correlation Pareto size popularity

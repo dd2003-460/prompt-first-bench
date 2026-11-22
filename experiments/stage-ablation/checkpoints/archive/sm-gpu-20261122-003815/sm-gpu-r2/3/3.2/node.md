@@ -1,0 +1,30 @@
+# N20: Qwen3-27B 在不同精度下的具体 benchmark 表现：MMLU, GSM8K, HumanEval 等任务上 BF16 vs FP8 vs INT8
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N3
+
+## Claim
+
+Qwen3-27B 在不同精度下的具体 benchmark 表现：MMLU, GSM8K, HumanEval 等任务上 BF16 vs FP8 vs INT8 vs INT4 的分数差异。需查证是否有官方或第三方量化评测数据 [待核验]。
+
+## Corrected Claim
+
+现有检索结果未提供 Qwen3-27B 在 BF16、FP8、INT8、INT4 精度下的具体 MMLU/GSM8K/HumanEval 分数对比数据；仅能确认 Qwen 系列 27B 模型在相关基准上有评测记录，但具体量化精度差异需查阅官方技术报告或特定量化评测文章。
+
+## Evidence
+
+[质询]参考来源均指向不存在的模型版本（Qwen3.6/3.8）或特定量化格式（GGUF），未提供 Qwen3-27B 在 BF16/FP8/INT8/INT4 标准精度下的具体分数对比数据，存在版本混淆和数据缺失风险。 | 来源 [1][2][3] 均涉及 Qwen 系列 27B 模型评测，但具体版本（3.6/3.8）与目标（Qwen3-27B）不符，且未涵盖 BF16/FP8/INT8/INT4 的横向对比，属于间接相关但无法直接支持具体数值差异，故降级。
+
+## Search Query
+
+Qwen3-27B quantized benchmark MMLU GSM8K FP8 INT8 INT4 evaluation
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_00935/article/details/157234476&rut=fa2d21f8d8f54dd8082a0eadf38ab46d1ec0374cce052c716aee95fbff9a58d5', 'type': 'ddg', 'title': '实测Qwen3.6-27B性能：77.2% SWE-bench得分超越GPT-4，多模态任务全面领先-CSDN博客'}
+- {'url': 'https://www.datalearner.com/ai-models/pretrained-models/qwen3-6-27b/analysis&rut=d2924d3cb58da1195d6bc00e183732a151b952a67b8c82a1d2b70aa41fbd3b59', 'type': 'ddg', 'title': 'Qwen3.6-27B 评测分析：33 项基准得分与模型对比 | DataLearnerAI'}
+- {'url': 'https://blog.csdn.net/gitblog_00688/article/details/152594884&rut=2ea9d2926423814f0c72df18929bb87fe87fd51d21ec45624adbbec869aadb02', 'type': 'ddg', 'title': '数据说话：Qwen3.8-27B-Uncensored-GGUF 基准评测全解读（MMLU、GSM8K 与安全测试）'}

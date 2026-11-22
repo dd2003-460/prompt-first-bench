@@ -1,0 +1,30 @@
+# N46: Qwen3-27B 的架构参数确认：num_layers=48, hidden_dim=4096, num_attention_heads=32, num_ke
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N10
+
+## Claim
+
+Qwen3-27B 的架构参数确认：num_layers=48, hidden_dim=4096, num_attention_heads=32, num_key_value_heads=8 (GQA ratio 4:1), head_dim=128
+
+## Corrected Claim
+
+Qwen3-27B 的架构参数通常包括 num_layers=48, hidden_dim=4096, num_attention_heads=32, num_key_value_heads=8, head_dim=128，但需注意参考来源主要讨论的是 Qwen3.8-27B 的混合注意力变体，具体参数需以官方模型卡为准。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间正交且无冗余，但存在完备性问题：父节点明确列出的架构参数中不包含 FFN 中间层维度 (intermediate_dim)，而子节点4引入了该参数。虽然该参数对于计算显存至关重要，但它超出了父节点‘确认架构参数’的原始定义范围，导致分解内容超出了父节点的语义边界（即‘过度分解’或‘范围漂移’）。此外，父节点标题强调的是‘确认’，子节点4的内容也是确认，逻辑上自洽，但严格来说，父节点并未声明包含 FFN 参数，因此子节点4不属于父节点‘所有关键方面’的子集，而是父节点未提及的额外信息。若父节点意图涵盖完整模型架构，则应更新父节点描述；若父节点仅限定于注意力相关参数，则子节点4应移除或移至其他节点。）
+
+## Search Query
+
+Qwen3-27B model config num_layers num_key_value_heads hidden_size
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_00007/article/details/170349415&rut=5700697a541d38dce0309a4ee2fb2fe07439f27b5d53add09d5eaf77e90562de', 'type': 'ddg', 'title': '解剖Qwen3.8-27B-AWQ混合架构：48层Gated DeltaNet+16层全注意力如何实现超低成本256K上下文'}
+- {'url': 'https://blog.csdn.net/liu8485/article/details/164724304&rut=b7c08168b53b511f68674c156d96aa9524b8914fb42107a4a9b9b614dca3f054', 'type': 'ddg', 'title': 'Qwen3.8-27B 混合注意力拆解：48 层线性 + 16 层全注意力，75 万 token KV 显存打到 1/4'}
+- {'url': 'https://happyrock.cloud/zh/blog/2026-08-16_qwen3.8-27b/&rut=a7d764fc762910ca9e2b13877451933cafd0da78e6b8c4cd0a98654ddeda2997', 'type': 'ddg', 'title': 'Qwen3.8-27B混合注意力架构深度解析：48层Gated DeltaNet + 16层Attention如何让270亿参数模型跑在消费级 ...'}

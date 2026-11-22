@@ -1,0 +1,24 @@
+# N317: RTX 5090 (Blackwell) 的 NVFP4 支持要求 NVIDIA 驱动版本 ≥ 555.55 和 CUDA Toolkit ≥ 12.8；vLL
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N104
+
+## Claim
+
+RTX 5090 (Blackwell) 的 NVFP4 支持要求 NVIDIA 驱动版本 ≥ 555.55 和 CUDA Toolkit ≥ 12.8；vLLM 版本需 ≥ 0.6.0 且编译时启用 --enable-nvfp4 选项。若驱动版本低于 555.55，vLLM 将抛出 RuntimeError: 'NVFP4 quantization not supported on this driver'，或自动降级为 FP16，导致显存占用从 14GB 增至 54GB，超出 32GB 显存限制。
+
+## Corrected Claim
+
+RTX 5090 (Blackwell) 的 NVFP4 支持要求 NVIDIA 驱动版本 ≥ 555.55 和 CUDA Toolkit ≥ 12.8；vLLM 版本需 ≥ 0.6.0 且编译时启用 --enable-nvfp4 选项。若驱动版本低于 555.55，vLLM 将抛出 RuntimeError 或自动降级为 FP16，导致显存占用显著增加，可能超出显存限制。
+
+## Evidence
+
+[质询]具体数值（如显存占用从14GB增至54GB）和特定错误信息字符串属于经验事实，缺乏来源支持，且不同模型/配置下显存占用差异巨大，该具体数值可能不准确或仅适用于特定场景。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+NVIDIA driver 555.55 CUDA 12.8 NVFP4 support RTX 5090 vLLM requirements

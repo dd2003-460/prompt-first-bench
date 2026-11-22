@@ -1,0 +1,20 @@
+# N88: 冷启动惩罚 P_cold 的正确计算式：P_cold = (n_warmup * f_new) / F_total，其中 f_new 为新对象在预热期内的总请求
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N29
+
+## Claim
+
+冷启动惩罚 P_cold 的正确计算式：P_cold = (n_warmup * f_new) / F_total，其中 f_new 为新对象在预热期内的总请求数，F_total 为总请求数；在 β=0.9 下，若新对象占总请求的 10%，则 P_cold ≈ (12.9 * 0.1 * F_total) / F_total = 1.29%，而非原陈述中的 0.5%。
+
+## Corrected Claim
+
+冷启动惩罚 P_cold 的正确计算式：P_cold = (n_warmup * f_new) / F_total，其中 f_new 为新对象在预热期内的总请求数，F_total 为总请求数；在 β=0.9 下，若新对象占总请求的 10%，则 P_cold ≈ (12.9 * 0.1 * F_total) / F_total = 1.29%，而非原陈述中的 0.5%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 P_cold = (n_warmup * f_new) / F_total 在数学上等价于 n_warmup * (f_new / F_total)。代入 n_warmup=12.9 和占比 10% (0.1)，计算结果为 1.29%，与陈述一致。

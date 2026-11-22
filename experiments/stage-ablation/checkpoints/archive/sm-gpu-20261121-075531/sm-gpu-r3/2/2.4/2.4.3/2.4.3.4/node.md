@@ -1,0 +1,24 @@
+# N206: Mac Studio 方案的隐性 TCO 劣势还包括软件兼容性成本：若需使用 vLLM 等主流推理框架，需通过 Docker 或虚拟机运行，这会引入额外的性能开
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N62
+
+## Claim
+
+Mac Studio 方案的隐性 TCO 劣势还包括软件兼容性成本：若需使用 vLLM 等主流推理框架，需通过 Docker 或虚拟机运行，这会引入额外的性能开销 (约 15-20% TPS 损失) 和复杂性，进一步削弱其性价比。
+
+## Corrected Claim
+
+Mac Studio 方案在软件兼容性上存在一定劣势：部分主流推理框架（如 vLLM）在 Apple Silicon 上的原生支持可能不如 NVIDIA 生态成熟，用户可能需要依赖特定版本或容器化环境，这可能引入额外的配置复杂性和潜在的性能波动，但具体性能损失取决于框架版本和硬件配置，并非固定的 15-20%。
+
+## Evidence
+
+[质询]数值量级存疑：在 Apple Silicon (M1/M2/M3/M4) 上，vLLM 等框架已原生支持 Metal 后端或通过 MPS 运行，无需强制使用 Docker/虚拟机；即使使用 Docker，对于 GPU 密集型任务，容器化带来的性能开销通常远低于 15-20% TPS 损失，该数值缺乏普遍性依据，可能混淆了 CPU 密集型任务或特定旧版驱动场景。 | 经验事实，逻辑自洽但缺来源支持；且该陈述中关于‘必须通过 Docker/虚拟机’及‘15-20% TPS 损失’的具体数值缺乏广泛共识，属于特定场景下的经验估计，无法从第一性原理严格推出，故降级。
+
+## Search Query
+
+vLLM on Mac Studio Docker performance overhead

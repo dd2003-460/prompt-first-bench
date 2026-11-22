@@ -1,0 +1,20 @@
+# N365: 工作点 A（高吞吐/低精度）：假设使用 NVLink 连接（或忽略通信瓶颈的理想情况），Throughput_NVLink = 40 tokens/s。代入 N
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N115
+
+## Claim
+
+工作点 A（高吞吐/低精度）：假设使用 NVLink 连接（或忽略通信瓶颈的理想情况），Throughput_NVLink = 40 tokens/s。代入 N115 公式，若 Throughput_PCIe = 35 tokens/s (下降 12.5%)，则隐性成本增加 = (40-35)/40 × (OpEx_per_hour + CapEx_annualized/8760)。此工作点代表最优性能基准，用于计算其他工作点的相对损失。
+
+## Corrected Claim
+
+工作点 A（高吞吐/低精度）：假设使用 NVLink 连接（或忽略通信瓶颈的理想情况），Throughput_NVLink = 40 tokens/s。代入 N115 公式，若 Throughput_PCIe = 35 tokens/s (下降 12.5%)，则隐性成本增加 = (40-35)/40 × (OpEx_per_hour + CapEx_annualized/8760)。此工作点代表最优性能基准，用于计算其他工作点的相对损失。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算 (40-35)/40 = 12.5% 准确，公式结构符合成本损失定义，且作为假设性工作点基准在逻辑上自洽。

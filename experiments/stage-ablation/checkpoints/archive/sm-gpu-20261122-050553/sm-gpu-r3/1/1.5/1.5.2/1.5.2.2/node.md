@@ -1,0 +1,20 @@
+# N166: PCIe 4.0 x16 理论单向带宽 32 GB/s，实际有效带宽约 28 GB/s (扣除协议开销)，512 KB 通信耗时 T_comm = 512 KB
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N51
+
+## Claim
+
+PCIe 4.0 x16 理论单向带宽 32 GB/s，实际有效带宽约 28 GB/s (扣除协议开销)，512 KB 通信耗时 T_comm = 512 KB / 28 GB/s ≈ 18.3 μs/step，此值与 N121 一致，但需确认是否考虑了 PCIe 事务层开销和流控延迟。
+
+## Corrected Claim
+
+PCIe 4.0 x16 理论单向带宽 32 GB/s，实际有效带宽约 28 GB/s (扣除协议开销)，512 KB 通信耗时 T_comm = 512 KB / 28 GB/s ≈ 18.3 μs/step，此值与 N121 一致，但需确认是否考虑了 PCIe 事务层开销和流控延迟。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe 4.0 x16 理论带宽 32 GB/s，扣除约 12.5% 协议开销后有效带宽约 28 GB/s，512 KB / 28 GB/s ≈ 18.3 μs，计算自洽。

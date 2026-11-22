@@ -1,0 +1,24 @@
+# N264: Qwen3-27B 在 W4A16 (INT4 权重 + FP16 激活) 量化下，MMLU 和 GSM8K 基准测试准确率相比 BF16 基线下降具体数值（预
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N93
+
+## Claim
+
+Qwen3-27B 在 W4A16 (INT4 权重 + FP16 激活) 量化下，MMLU 和 GSM8K 基准测试准确率相比 BF16 基线下降具体数值（预期 1-3%，需区分不同量化算法如 GPTQ vs AWQ 的差异）
+
+## Corrected Claim
+
+Qwen3-27B 在 W4A16 量化下，MMLU 和 GSM8K 基准测试准确率相比 BF16 基线通常会有所下降，具体数值取决于量化算法（如 GPTQ 或 AWQ），一般预期在 1-3% 范围内，但需具体实验数据验证。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（MMLU/GSM8K下降1-3%）及特定模型（Qwen3-27B）在特定量化配置（W4A16）下的性能表现，属于硬件/模型规格类的经验事实，无法从第一性原理推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+Qwen3-27B INT4 W4A16 GPTQ AWQ MMLU GSM8K accuracy drop

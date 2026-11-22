@@ -1,0 +1,20 @@
+# N77: 在‘低机会成本/高耗时’工作点（价格敏感型买家，$w_{time} \in [5, 15]$ 元/小时，$t_{search} \approx 3.0$ 分钟/
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N27
+
+## Claim
+
+在‘低机会成本/高耗时’工作点（价格敏感型买家，$w_{time} \in [5, 15]$ 元/小时，$t_{search} \approx 3.0$ 分钟/次），单次搜索成本 $C_{time} \approx 0.25-0.75$ 元，但该群体通常执行 $N_{search} > 10$ 次的高频搜索，总搜索成本 $C_{total} = N_{search} \times C_{time}$ 迅速超过 5 元，触发其转向信号筛选或放弃交易。
+
+## Corrected Claim
+
+在‘低机会成本/高耗时’工作点（价格敏感型买家，$w_{time} \in [5, 15]$ 元/小时，$t_{search} \approx 3.0$ 分钟/次），单次搜索成本 $C_{time} \approx 0.25-0.75$ 元，但该群体通常执行 $N_{search} > 10$ 次的高频搜索，总搜索成本 $C_{total} = N_{search} \times C_{time}$ 迅速超过 5 元，触发其转向信号筛选或放弃交易。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算显示 10次 * 0.25元 = 2.5元，10次 * 0.75元 = 7.5元，区间 [2.5, 7.5] 确实包含并迅速超过 5 元阈值，数学推导自洽。

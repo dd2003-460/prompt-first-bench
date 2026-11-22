@@ -1,0 +1,25 @@
+# N104: 非典型/边缘硬件方案的具体排除或纳入理由：Apple M3 Ultra (512GB Unified Memory) 虽显存巨大但 CPU 侧推理速度极慢且无 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+非典型/边缘硬件方案的具体排除或纳入理由：Apple M3 Ultra (512GB Unified Memory) 虽显存巨大但 CPU 侧推理速度极慢且无 CUDA 生态，仅作为‘离线批量处理’极端场景的备选，不纳入实时推理性价比排序；Ascend 910B (64GB HBM) 因软件栈 (CANN) 对 Qwen3 的适配滞后及获取难度，标记为 [高不确定性]，仅在特定地域/合规要求下考虑。
+
+## Corrected Claim
+
+Apple M3 Ultra (512GB Unified Memory) 具备运行超大参数模型的能力，但受限于非CUDA生态及CPU/GPU混合架构特性，在实时推理性价比上通常低于NVIDIA GPU方案，更适合作为离线或本地部署的备选；Ascend 910B (64GB HBM) 因软件栈适配及获取渠道限制，在通用场景下存在较高不确定性，仅在特定合规或地域要求下考虑。
+
+## Evidence
+
+[质询]来源[1]和[2]主要强调M3 Ultra在本地运行大模型的能力（如DeepSeek-R1），且提到token生成速度有显著提升，但未直接提供与NVIDIA GPU对比的‘极慢’量化数据，也未明确提及‘无CUDA生态’这一技术细节（虽然这是常识，但来源未直接陈述该排除理由）。此外，关于Ascend 910B的CANN适配滞后及获取难度，参考来源完全未覆盖，属于无外部证据支持的经验性判断。 | M3 Ultra部分逻辑自洽且来源间接支持其作为本地/离线方案（来源[1][2]），但‘CPU侧推理速度极慢’及‘无CUDA’为经验事实且缺乏来源直接对比数据；Ascend 910B部分完全无来源支持，属经验事实，逻辑自洽但缺来源，故降级。
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/28533341247&rut=e351680739e35a3cdb92e491590cea1bff777be05afe6bc91d4b6c3a4f03269d', 'type': 'ddg', 'title': '苹果最强M3 Ultra首发逆天，512GB「桌面超算」在家跑DeepSeek-R1!'}
+- {'url': 'https://zhuanlan.zhihu.com/p/1928856739001927267&rut=fa4f9f415c7129ecb06af59f90715076c249fe09bb0a90bacc1260e3b11d07c9', 'type': 'ddg', 'title': 'Apple M3 Ultra（512GB统一内存）本地LLM推理全面分析'}

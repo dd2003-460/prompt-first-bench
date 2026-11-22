@@ -1,0 +1,20 @@
+# N142: 在 Pareto(β=0.9) 热度分布下，频率排名 r=1（最热）对象的平均驻留时间 T_residence_top = 1 / λ_1，其中 λ_1 = Q
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N44, N45, N46
+
+## Claim
+
+在 Pareto(β=0.9) 热度分布下，频率排名 r=1（最热）对象的平均驻留时间 T_residence_top = 1 / λ_1，其中 λ_1 = Q_total * (1/β - 1/N^(β-1)) / (1 - (1/N)^(β-1)) * (1/N) 的逆序加权值，量化为 T_residence_top ≈ 0.0002 天（约 17 秒），代表高频低延迟工作点。
+
+## Corrected Claim
+
+在 Pareto(β=0.9) 热度分布下，频率排名 r=1 对象的平均驻留时间 T_residence_top 取决于总查询速率 Q_total 和对象总数 N，其具体数值需代入实际系统参数计算，不能直接断言为 0.0002 天。
+
+## Evidence
+
+[质询]公式推导与数值量级存在严重矛盾：若 N 为常规缓存对象数量（如 10^4 或 10^5），且 Q_total 为常规查询速率，计算出的 T_residence_top 远小于 0.0002 天（17秒）；若强行凑出 17 秒，则隐含的 Q_total 或 N 需处于极端非典型量级，且公式中 λ_1 的定义（逆序加权值）表述模糊，缺乏标准 Pareto 分布下头部对象驻留时间的通用解析解支持。 | source=knowledge，但逻辑校验发现公式与数值结果不自洽（量级异常），且无外部来源支持该特定经验参数。

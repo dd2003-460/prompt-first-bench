@@ -1,0 +1,24 @@
+# N345: 平衡吞吐工作点 (RTX 4090 + INT8): 基于 1008 GB/s 带宽，单卡 24GB 显存无法容纳 27B INT8 权重 (27GB)，必须使
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N114
+
+## Claim
+
+平衡吞吐工作点 (RTX 4090 + INT8): 基于 1008 GB/s 带宽，单卡 24GB 显存无法容纳 27B INT8 权重 (27GB)，必须使用 W4 量化 (13.5GB) 或双卡；若采用 W4，TPS 预计为 40-50 tokens/s，但存在 1-3% 的精度损失 [待核验]；若采用 2x4090 INT8，受 PCIe x8 带宽限制，TPS 约为单卡 5090 的 60-70%。
+
+## Corrected Claim
+
+平衡吞吐工作点 (RTX 4090 + INT8): 基于 1008 GB/s 带宽，单卡 24GB 显存无法容纳 27B INT8 权重 (27GB)，必须使用 W4 量化 (13.5GB) 或双卡；若采用 W4，TPS 预计为 40-50 tokens/s（经验估算值，具体取决于模型架构），但存在 1-3% 的精度损失；若采用 2x4090 INT8，受 PCIe x8 带宽限制，TPS 约为单卡 5090 的 60-70%（经验估算值）。
+
+## Evidence
+
+[质询]TPS 40-50 tokens/s 的预测值缺乏具体模型架构（如层数、注意力头数）和硬件微架构细节支持，属于经验性估算，不同模型结构下波动较大；此外，PCIe x8 带宽对双卡推理的具体影响系数（60-70%）也是经验值，非严格推导结果。 | 先验知识/题面给定，逻辑校验通过：显存容量计算（27B INT8=27GB > 24GB，W4=13.5GB < 24GB）正确；带宽与TPS的量级关系符合大模型推理的一般规律；但具体TPS数值和精度损失百分比为经验估算，无来源直接支持，故降级。
+
+## Search Query
+
+RTX 4090 Qwen3 27B W4 AWQ tokens per second benchmark

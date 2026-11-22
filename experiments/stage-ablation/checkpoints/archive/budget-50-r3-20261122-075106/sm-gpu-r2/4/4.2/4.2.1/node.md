@@ -1,0 +1,20 @@
+# N77: RTX 5090 显存带宽为 1792 GB/s (GDDR7)，显存容量为 32 GB，这是计算生成阶段（Memory-bound）理论上限的基础参数
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N28
+
+## Claim
+
+RTX 5090 显存带宽为 1792 GB/s (GDDR7)，显存容量为 32 GB，这是计算生成阶段（Memory-bound）理论上限的基础参数
+
+## Corrected Claim
+
+RTX 5090 显存带宽为 1792 GB/s (GDDR7)，显存容量为 32 GB，这是计算生成阶段（Memory-bound）理论上限的基础参数
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 5090 配备 32GB GDDR7 显存，位宽 512-bit，等效速率 28 Gbps，计算带宽 512 * 28 / 8 = 1792 GB/s，数值与规格一致。

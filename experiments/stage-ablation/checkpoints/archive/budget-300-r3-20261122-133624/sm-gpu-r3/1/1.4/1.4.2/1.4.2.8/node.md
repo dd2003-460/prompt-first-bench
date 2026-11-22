@@ -1,0 +1,24 @@
+# N211: vLLM 默认配置下的 KV Cache 精度：vLLM 在加载模型时，若模型权重为 INT8，默认 KV Cache 数据类型继承自模型的计算精度（通常为 B
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N54, N56, N57
+
+## Claim
+
+vLLM 默认配置下的 KV Cache 精度：vLLM 在加载模型时，若模型权重为 INT8，默认 KV Cache 数据类型继承自模型的计算精度（通常为 BF16 或 FP16），**不会**自动将 KV Cache 量化为 INT8。需显式设置 `--dtype` 或使用特定插件（如 `vllm` 的 `kv_cache_dtype` 参数）才能启用 KV 量化。因此，在标准部署中，KV Cache 占用应按 BF16 计算。
+
+## Corrected Claim
+
+vLLM 默认配置下的 KV Cache 精度：vLLM 在加载模型时，若模型权重为 INT8，默认 KV Cache 数据类型继承自模型的计算精度（通常为 BF16 或 FP16），**不会**自动将 KV Cache 量化为 INT8。需显式设置 `--dtype` 或使用特定插件（如 `vllm` 的 `kv_cache_dtype` 参数）才能启用 KV 量化。因此，在标准部署中，KV Cache 占用应按 BF16 计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+vLLM kv_cache_dtype default configuration

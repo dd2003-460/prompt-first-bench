@@ -1,0 +1,20 @@
+# N133: 信息不对称导致的期望等待时间 E[Δt_wait] 膨胀：若买家需平均 n 次浏览才能识别真实价值，则 E[Δt_wait] = n * T_browse。假设
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N40
+
+## Claim
+
+信息不对称导致的期望等待时间 E[Δt_wait] 膨胀：若买家需平均 n 次浏览才能识别真实价值，则 E[Δt_wait] = n * T_browse。假设 n=3, T_browse=1天，则 E[Δt_wait]=3天。此参数直接决定了临界条件中右侧项的大小，解释了为何信息不透明时高挂价更易存活。
+
+## Corrected Claim
+
+信息不对称导致的期望等待时间 E[Δt_wait] 膨胀：若买家需平均 n 次浏览才能识别真实价值，则 E[Δt_wait] = n * T_browse。假设 n=3, T_browse=1天，则 E[Δt_wait]=3天。此参数直接决定了临界条件中右侧项的大小，解释了为何信息不透明时高挂价更易存活。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：期望等待时间等于浏览次数乘以单次浏览时间的线性关系在定义上自洽，数值量级合理，且符合信息不对称导致交易摩擦增加的经济直觉。

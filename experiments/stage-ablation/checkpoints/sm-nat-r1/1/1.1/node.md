@@ -1,0 +1,20 @@
+# N6: 对象平均大小 E[S] 的计算公式：E[S] = ∫ x · f_Pareto(x; α=1.1, x_min) dx，其中 x_min 为最小对象大小（通常取
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+对象平均大小 E[S] 的计算公式：E[S] = ∫ x · f_Pareto(x; α=1.1, x_min) dx，其中 x_min 为最小对象大小（通常取 1KB 或 4KB），需积分求值或数值近似。
+
+## Corrected Claim
+
+对象平均大小 E[S] 的计算公式：E[S] = ∫ x · f_Pareto(x; α=1.1, x_min) dx，其中 x_min 为最小对象大小（通常取 1KB 或 4KB），需积分求值或数值近似。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：期望值定义正确，Pareto分布参数合理，积分形式符合数学定义

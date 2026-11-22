@@ -1,0 +1,28 @@
+# N25: 推理延迟与吞吐量的基准数据：在候选硬件上，不同精度（BF16/FP8/INT8/W4）下的 Tokens/Second (TPS) 及首字延迟 (TTFT) 实
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4, N5
+
+## Claim
+
+推理延迟与吞吐量的基准数据：在候选硬件上，不同精度（BF16/FP8/INT8/W4）下的 Tokens/Second (TPS) 及首字延迟 (TTFT) 实测或官方标称值。
+
+## Corrected Claim
+
+在候选硬件上，不同精度（BF16/FP8/INT8/W4）下的 Tokens/Second (TPS) 及首字延迟 (TTFT) 存在实测或官方标称值，但具体数值需查阅特定硬件厂商或基准测试报告。
+
+## Evidence
+
+[质询]该陈述声称存在具体的“实测或官方标称值”数据，但参考来源仅提供了精度格式的定义和分类，完全未包含任何具体的性能基准数据（如TPS、TTFT数值），属于来源与事实主题不匹配（来源无关）。 | 参考来源[1]仅介绍精度类型定义，未提供推理延迟或吞吐量的具体基准数据，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+Qwen3-27B inference latency throughput tokens per second FP8 INT8 W4 benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1912129762048074069&rut=cd99ca270274da39f65192a9a274afca703b72cd151eab750eeb2a9f8f7a6731', 'type': 'ddg', 'title': '大模型精度：FP32、TF32、FP16、BF16、FP8、FP4、NF4、INT8'}

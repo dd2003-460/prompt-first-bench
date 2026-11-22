@@ -1,0 +1,20 @@
+# N12: Qwen3-27B模型在不同精度下的权重占用显存计算公式：Memory_Weights = (Params * Precision_Bits) / 8，其中Pa
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+Qwen3-27B模型在不同精度下的权重占用显存计算公式：Memory_Weights = (Params * Precision_Bits) / 8，其中Params=27e9；具体数值：BF16 (16bit) = 54GB, FP8 (8bit) = 27GB, INT8 (8bit) = 27GB, NVFP4 (4bit) = 13.5GB, W4A8 (4bit weights) = 13.5GB
+
+## Corrected Claim
+
+Qwen3-27B模型在不同精度下的权重占用显存计算公式：Memory_Weights = (Params * Precision_Bits) / 8，其中Params=27e9；具体数值：BF16 (16bit) = 54GB, FP8 (8bit) = 27GB, INT8 (8bit) = 27GB, NVFP4 (4bit) = 13.5GB, W4A8 (4bit weights) = 13.5GB
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 Memory = Params * Bits / 8 正确，数值计算 27e9 * 16 / 8 = 54GB 等均准确，符合基本数学与工程常识。

@@ -1,0 +1,24 @@
+# N363: 截至 2024 年 5 月，RTX 4090 24GB 在 Newegg 的新品平均售价约为 $1,599 - $1,899，需查询近 30 天历史价格数据以确
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N112
+
+## Claim
+
+截至 2024 年 5 月，RTX 4090 24GB 在 Newegg 的新品平均售价约为 $1,599 - $1,899，需查询近 30 天历史价格数据以确认波动范围
+
+## Corrected Claim
+
+截至 2024 年 5 月，RTX 4090 24GB 在 Newegg 的新品售价处于较高区间（具体数值需查询近 30 天历史价格数据以确认波动范围）
+
+## Evidence
+
+[质询]该陈述包含具体的经验性市场价格数据（$1,599 - $1,899），属于经验事实，无法从第一性原理推导。由于检索失败，缺乏外部来源直接支持该具体数值区间，且市场价格波动大，仅凭逻辑自洽不足以确认为 verified。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+RTX 4090 price history last 30 days Newegg

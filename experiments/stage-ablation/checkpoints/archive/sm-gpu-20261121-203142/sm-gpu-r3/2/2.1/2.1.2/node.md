@@ -1,0 +1,20 @@
+# N50: 量化精度作为替代基线的 trade-off 定义：若业务允许 MMLU 下降 ≤ 1.5%，则 FP8/INT8 成为新的‘有效基线’。此时 BF16 的 0%
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N11
+
+## Claim
+
+量化精度作为替代基线的 trade-off 定义：若业务允许 MMLU 下降 ≤ 1.5%，则 FP8/INT8 成为新的‘有效基线’。此时 BF16 的 0% 损失不再是唯一参照，而是‘性能上限’，决策重心从‘是否量化’转向‘量化带来的 TCO 节省是否 > 质量损失的业务代价’。
+
+## Corrected Claim
+
+量化精度作为替代基线的 trade-off 定义：若业务允许 MMLU 下降 ≤ 1.5%，则 FP8/INT8 成为新的‘有效基线’。此时 BF16 的 0% 损失不再是唯一参照，而是‘性能上限’，决策重心从‘是否量化’转向‘量化带来的 TCO 节省是否 > 质量损失的业务代价’。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

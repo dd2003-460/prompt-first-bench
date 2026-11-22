@@ -1,0 +1,20 @@
+# N142: 共享随机源 P_dev 的分布参数：P_dev = P_ask/P_market - 1 ~ N(0.20, 0.02²)，即均值偏差 20%，标准差 2%，该
+
+- **status**: verified
+- **level**: L4
+- **source**: given
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N45, N46, N47
+
+## Claim
+
+共享随机源 P_dev 的分布参数：P_dev = P_ask/P_market - 1 ~ N(0.20, 0.02²)，即均值偏差 20%，标准差 2%，该参数组直接来自题面给出的 15-25% 区间假设，用于计算 T_search 延长幅度的期望值。
+
+## Corrected Claim
+
+共享随机源 P_dev 的分布参数：P_dev = P_ask/P_market - 1 ~ N(0.20, 0.02²)，即均值偏差 20%，标准差 2%，该参数组直接来自题面给出的 15-25% 区间假设，用于计算 T_search 延长幅度的期望值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：均值0.20位于15-25%区间内，标准差0.02符合常规分布假设，且source为given，无需外部来源支持。

@@ -1,0 +1,24 @@
+# N752: H100 SXM 在 vLLM 中启用 Tensor Parallelism (TP=2) 时的 NVLink 带宽利用率实测值：理想带宽 900GB/s 下的
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N232
+
+## Claim
+
+H100 SXM 在 vLLM 中启用 Tensor Parallelism (TP=2) 时的 NVLink 带宽利用率实测值：理想带宽 900GB/s 下的实际有效带宽 (GB/s)，以及因 PCIe 瓶颈导致的 TP=2 扩展效率 (scaling efficiency) 百分比（通常低于 90%）
+
+## Corrected Claim
+
+H100 SXM 在 vLLM 中启用 Tensor Parallelism (TP=2) 时，NVLink 的实际有效带宽通常低于理论峰值 900GB/s，TP=2 的扩展效率通常低于 90%，具体数值取决于硬件配置（如是否跨节点、NVLink 拓扑）及软件栈版本。
+
+## Evidence
+
+[质询]该陈述包含具体的实测数值（实际有效带宽GB/s、扩展效率百分比），属于经验事实。由于缺乏具体测试环境（如NVLink版本、驱动版本、vLLM版本、具体模型大小）和数据来源，无法验证其准确性。此外，H100 SXM通常通过NVLink进行GPU间通信，若TP=2且两卡在同一节点内，主要瓶颈通常不是PCIe（除非跨节点或配置错误），因此‘因PCIe瓶颈导致’这一归因可能存在逻辑或配置上的混淆，需具体上下文支持。 | 经验事实，逻辑自洽但缺来源支持。H100 SXM NVLink带宽理论值约900GB/s（NVLink 4.0），实际有效带宽受协议开销影响通常低于理论值，TP扩展效率低于100%符合直觉，但具体数值和瓶颈归因（PCIe vs NVLink）需实测数据支持，当前无可用来源。
+
+## Search Query
+
+H100 SXM NVLink bandwidth utilization vLLM tensor parallelism efficiency

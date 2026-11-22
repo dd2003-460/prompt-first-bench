@@ -1,0 +1,24 @@
+# N134: 下游投影2：买家观测噪声 σ_obs 的来源分解，σ_obs² = σ_photo² + σ_description² + σ_review_noise²，其中
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N33
+
+## Claim
+
+下游投影2：买家观测噪声 σ_obs 的来源分解，σ_obs² = σ_photo² + σ_description² + σ_review_noise²，其中 σ_photo = 0.05 * μ_price，σ_description = 0.03 * μ_price，σ_review_noise = 0.02 * μ_price，总 σ_obs = sqrt(0.05² + 0.03² + 0.02²) * μ_price ≈ 0.0616 * μ_price。
+
+## Corrected Claim
+
+下游投影2：买家观测噪声 σ_obs 的来源分解，σ_obs² = σ_photo² + σ_description² + σ_review_noise²，其中 σ_photo = 0.05 * μ_price，σ_description = 0.03 * μ_price，σ_review_noise = 0.02 * μ_price，总 σ_obs = sqrt(0.05² + 0.03² + 0.02²) * μ_price ≈ 0.0616 * μ_price。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算 sqrt(0.05^2 + 0.03^2 + 0.02^2) = sqrt(0.0025 + 0.0009 + 0.0004) = sqrt(0.0038) ≈ 0.06164，与陈述中的 0.0616 一致，量纲合理（均为价格标准差），逻辑自洽。
+
+## Search Query
+
+online marketplace buyer observation noise photo description review variance

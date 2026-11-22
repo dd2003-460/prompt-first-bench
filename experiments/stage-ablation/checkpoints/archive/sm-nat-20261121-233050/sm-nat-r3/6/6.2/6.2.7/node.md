@@ -1,0 +1,24 @@
+# N155: Gaussian Copula下频率Top 10%对象的平均大小排名 R_S_avg 的精确计算：需数值积分 ∫ P(R_S > s | R_F <= 0.1N
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N59, N60, N61
+
+## Claim
+
+Gaussian Copula下频率Top 10%对象的平均大小排名 R_S_avg 的精确计算：需数值积分 ∫ P(R_S > s | R_F <= 0.1N) ds。在ρ=-0.3下，R_S_avg 应接近中位数排名50,000，而非35,000。35,000的估计可能源于对Copula相关性的误解或计算错误。
+
+## Corrected Claim
+
+在 Gaussian Copula 且 ρ=-0.3 下，频率 Top 10% 对象的平均大小排名 R_S_avg 应显著高于 35,000，更接近中位数排名（如 50,000 左右），具体数值需通过数值积分精确计算确认。
+
+## Evidence
+
+[质询]该陈述包含具体的数值结论（R_S_avg 接近 50,000 而非 35,000），这属于经验/计算事实，无法仅从第一性原理直接推出，且缺乏外部来源支持以验证其数值准确性。 | 逻辑上，负相关（ρ=-0.3）意味着高频率对象倾向于具有较低的大小排名（即排名数值较大，接近中位数或更高），因此 50,000 比 35,000 更符合负相关的直觉方向；但具体数值 50,000 和 35,000 的精确性无法通过逻辑推导验证，且无外部来源支持。
+
+## Search Query
+
+Gaussian Copula rank correlation conditional distribution average rank calculation

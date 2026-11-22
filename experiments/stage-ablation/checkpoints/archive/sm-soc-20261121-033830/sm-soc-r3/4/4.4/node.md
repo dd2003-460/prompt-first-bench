@@ -1,0 +1,24 @@
+# N20: 对买家的伤害量化：干预后买家剩余效用变化 ΔU_buyer = U_buyer(new_equilibrium) - U_buyer(old_equilibri
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N4, N5
+
+## Claim
+
+对买家的伤害量化：干预后买家剩余效用变化 ΔU_buyer = U_buyer(new_equilibrium) - U_buyer(old_equilibrium)，其中 U_buyer = value_of_good - price_paid - search_cost
+
+## Corrected Claim
+
+对买家的伤害量化：干预后买家剩余效用变化 ΔU_buyer = U_buyer(new_equilibrium) - U_buyer(old_equilibrium)，其中 U_buyer = value_of_good - price_paid - search_cost
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点逻辑清晰且正交。子节点1定义基准效用，子节点2和3分别独立量化新均衡下的两个关键变量（价格与搜索成本），子节点4进行最终分解。虽然子节点4的公式依赖于子节点2和3，但这属于标准的“组件-聚合”结构，而非内容冗余或逻辑矛盾。所有关键变量（V, P, S）均被覆盖，且区分了匹配失败（机会成本）和匹配成功（价格/成本变化）的不同维度。）
+
+## Search Query
+
+buyer utility function search cost second-hand market intervention

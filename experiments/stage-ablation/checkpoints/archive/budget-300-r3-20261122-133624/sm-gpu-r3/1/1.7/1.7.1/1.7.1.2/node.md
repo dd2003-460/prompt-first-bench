@@ -1,0 +1,20 @@
+# N231: Qwen3-27B 在 BF16 下 Prefill 阶段在 H100 PCIe 上的实际吞吐量量化：理论峰值 989 TFLOPS / 540 TOPS = 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N63
+
+## Claim
+
+Qwen3-27B 在 BF16 下 Prefill 阶段在 H100 PCIe 上的实际吞吐量量化：理论峰值 989 TFLOPS / 540 TOPS = 1.83 TFLOP/token，考虑 MFU 50% 后，实际吞吐量为 989 * 0.5 / 540 ≈ 915 tokens/s，是 RTX 4090 的 3 倍。
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 下 Prefill 阶段在 H100 PCIe 上的实际吞吐量：假设每 token 计算量约为 54 GFLOP (0.054 TFLOP)，理论峰值 989 TFLOPS，考虑 MFU 50% 后，实际吞吐量约为 989 * 0.5 / 0.054 ≈ 9150 tokens/s (理论上限，实际受内存带宽限制会低得多，通常在 1000-3000 tokens/s 范围)。原陈述中的 540 TOPS 单位或数值有误，且算术结果 915 与 0.915 混淆。
+
+## Evidence
+
+[质询]数值量级与物理直觉严重不符：H100 PCIe 的 BF16 理论峰值约为 989 TFLOPS，若每 token 计算量为 540 TFLOP（即 540 TOPS），则理论最大吞吐仅为 989/540 ≈ 1.83 tokens/s，而非 1.83 TFLOP/token 或 915 tokens/s。陈述中将单位混淆（将 TFLOP/token 误写或误算为导致 915 tokens/s 的结果），且 915 tokens/s 的吞吐量对于 27B 模型在单卡 H100 上是不现实的（通常 Prefill 吞吐在数百 tokens/s 量级，但 915 这个数字来源于错误的除法运算 989*0.5/540 实际上等于 0.915，而非 915，或者如果 540 是 GFLOP 单位，则 989000/540 ≈ 1831，再乘 0.5 约为 915，但此时单位应为 GFLOP/token，而 27B 模型每 token 计算量约为 54 GFLOP 而非 540 GFLOP，因此 540 这个数值本身可能也是错误的，或者单位是 GFLOP 但数值大了 10 倍）。最核心的攻击点是：989 * 0.5 / 540 的算术结果约为 0.915，而非 915。陈述中的算术运算存在数量级错误。 | 逻辑校验失败：算术运算 989 * 0.5 / 540 ≈ 0.915，与陈述中的 915 相差 1000 倍；且 27B 模型每 token 计算量约为 54 GFLOP (0.054 TFLOP)，若按 540 GFLOP 计算则数值过大，若按 540 TFLOP 计算则吞吐量极低。陈述内部数值与单位存在严重矛盾。

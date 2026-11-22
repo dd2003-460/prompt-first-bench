@@ -1,0 +1,24 @@
+# N577: KV Cache 读取量 12.58GB 的计算依据：Qwen3-27B 层数 64，KV 头数 8 (GQA)，head_dim 128，seq_len 32
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N176
+
+## Claim
+
+KV Cache 读取量 12.58GB 的计算依据：Qwen3-27B 层数 64，KV 头数 8 (GQA)，head_dim 128，seq_len 32768，BF16 (2 bytes)；公式为 2 * 64 * 8 * 128 * 32768 * 2 / 1e9 = 13.74GB (修正原 12.58GB 的轻微误差，实际应接近 13.74GB，需核验具体模型配置是否启用 GQA 及具体 head 数)。
+
+## Corrected Claim
+
+KV Cache 读取量约为 13.74GB（基于假设 Qwen3-27B 层数 64，GQA KV 头数 8，head_dim 128，seq_len 32768，BF16 精度；具体数值需以实际模型配置为准）。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件/模型配置参数（Qwen3-27B 的层数、KV头数、head_dim等），属于经验事实。由于检索失败，无法验证 Qwen3-27B 是否确实采用 GQA 且 KV 头数为 8，也无法确认其具体层数是否为 64。若模型配置不同（如使用 MHA 或不同的 GQA 比例），计算结果将显著不同。 | 经验事实，逻辑自洽但缺来源支持。数学计算 2 * 64 * 8 * 128 * 32768 * 2 / 1e9 ≈ 13.74 GB 是正确的，但模型具体配置（GQA头数、层数）未经外部来源验证。
+
+## Search Query
+
+Qwen3-27B config num_key_value_heads num_attention_heads hidden_size

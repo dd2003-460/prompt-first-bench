@@ -1,0 +1,28 @@
+# N83: 工作点A（FP8量化/80GB显存）：1×A100运行Qwen3-27B FP8，权重27GB+KV Cache 4.3GB+Buffer 2GB≈33.3GB
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N34
+
+## Claim
+
+工作点A（FP8量化/80GB显存）：1×A100运行Qwen3-27B FP8，权重27GB+KV Cache 4.3GB+Buffer 2GB≈33.3GB<80GB，可行；A100不支持原生FP8加速（需软件模拟），吞吐量~40-50 tokens/s，相比H100 FP8（~90-100 tokens/s）性能低50-60%，单位token成本高于H100。
+
+## Corrected Claim
+
+工作点A（FP8量化/80GB显存）：1×A100运行Qwen3-27B FP8，权重27GB+KV Cache 4.3GB+Buffer 2GB≈33.3GB<80GB，显存可行；A100不支持原生FP8加速（需软件模拟），吞吐量显著低于H100 FP8，单位token成本高于H100。
+
+## Evidence
+
+[质询]吞吐量数值（40-50 tokens/s）及性能对比比例（低50-60%）属于具体经验性能数据，缺乏直接来源支持，且受具体推理框架、Batch Size、序列长度等参数影响极大，单一来源无法确证该特定数值区间。 | 来源[1]直接支持'A100不支持原生FP8硬件加速'这一核心事实，但未提供具体的吞吐量数值或成本对比数据；经验事实（性能指标）缺来源直接支持，故降级。
+
+## Search Query
+
+A100 FP8 inference performance Qwen3 27B tokens/s
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2080085434516894538&rut=1944ff1c65e0158883e636c9979af36d0206ef059b8c377fb57acb40b1491a81', 'type': 'ddg', 'title': '4×A100 硬啃 FP8 大模型：从 Qwen 到 DeepSeek，我踩过的坑都在这了'}

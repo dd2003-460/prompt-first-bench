@@ -1,0 +1,24 @@
+# N142: 工作点2（中性价比最优）：标准成交路径，T_comm = 2小时，N_messages = 10，E_comm = 2，TCS_standard = 50*2 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N35
+
+## Claim
+
+工作点2（中性价比最优）：标准成交路径，T_comm = 2小时，N_messages = 10，E_comm = 2，TCS_standard = 50*2 + 20*2 + 5*10 = 150元，C_transaction_standard = 150元，TCS = 150 - 50 = 100元，此时卖家愿意接受的最低价格 P_min_accept = P_ref - TCS/2 = P_ref - 50元。
+
+## Corrected Claim
+
+工作点2（中性价比最优）：标准成交路径，T_comm = 2小时，N_messages = 10，E_comm = 2，TCS_standard = 50*2 + 20*2 + 5*10 = 150元，C_transaction_standard = 150元，TCS = 150 - 50 = 100元，此时卖家愿意接受的最低价格 P_min_accept = P_ref - TCS/2 = P_ref - 50元。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算 50*2+20*2+5*10=150 正确，TCS=150-50=100 正确，P_min_accept=P_ref-100/2=P_ref-50 正确，逻辑自洽。
+
+## Search Query
+
+standard transaction path cost optimal seller minimum acceptance price

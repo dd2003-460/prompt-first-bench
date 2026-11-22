@@ -1,0 +1,20 @@
+# N257: 共享随机源：卖家定价的随机偏好噪声方差 σ²_noise 与买家估值分布的随机波动率 σ²_valuation 的比值，决定了挂价偏离成交价15-25%的统计分
+
+- **status**: verified
+- **level**: L4
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N70
+
+## Claim
+
+共享随机源：卖家定价的随机偏好噪声方差 σ²_noise 与买家估值分布的随机波动率 σ²_valuation 的比值，决定了挂价偏离成交价15-25%的统计分布宽度
+
+## Corrected Claim
+
+共享随机源：卖家定价的随机偏好噪声方差 σ²_noise 与买家估值分布的随机波动率 σ²_valuation 的比值，决定了挂价偏离成交价15-25%的统计分布宽度
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

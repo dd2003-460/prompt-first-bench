@@ -1,0 +1,20 @@
+# N26: Token生成速度（Tokens/s）受限于显存带宽而非计算能力，计算公式为 Tokens/s ≈ 显存带宽(GB/s) / 每Token读取权重字节数；例如R
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+Token生成速度（Tokens/s）受限于显存带宽而非计算能力，计算公式为 Tokens/s ≈ 显存带宽(GB/s) / 每Token读取权重字节数；例如RTX 4090（1008 GB/s）运行BF16 Qwen3-27B时，理论峰值约为18.8 Tokens/s（1008/54）。
+
+## Corrected Claim
+
+Token生成速度（Tokens/s）受限于显存带宽而非计算能力，计算公式为 Tokens/s ≈ 显存带宽(GB/s) / 每Token读取权重字节数；例如RTX 4090（1008 GB/s）运行BF16 Qwen3-27B时，理论峰值约为18.8 Tokens/s（1008/54）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Token生成速度受限于显存带宽是LLM推理的基本原理，RTX 4090带宽1008GB/s及27B模型BF16权重约54GB的数值量级符合工程常识，计算逻辑自洽。

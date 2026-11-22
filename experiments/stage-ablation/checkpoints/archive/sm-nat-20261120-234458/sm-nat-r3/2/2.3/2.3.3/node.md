@@ -1,0 +1,24 @@
+# N41: LFU 相比 LRU 的字节命中率增益上限 ΔH_bytes 的精确积分形式：ΔH = ∫_{s_min}^{s_max} [P_LFU_keep(s) - P
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N11
+
+## Claim
+
+LFU 相比 LRU 的字节命中率增益上限 ΔH_bytes 的精确积分形式：ΔH = ∫_{s_min}^{s_max} [P_LFU_keep(s) - P_LRU_keep(s)] * f_size(s) * f_freq(s) ds，其中 P_LFU_keep(s) 取决于对象频率排名，P_LRU_keep(s) 取决于对象最近访问时间间隔。
+
+## Corrected Claim
+
+LFU 相比 LRU 的字节命中率增益上限 ΔH_bytes 的精确积分形式：ΔH = ∫_{s_min}^{s_max} [P_LFU_keep(s) - P_LRU_keep(s)] * f_size(s) * f_freq(s) ds，其中 P_LFU_keep(s) 取决于对象频率排名，P_LRU_keep(s) 取决于对象最近访问时间间隔。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点4和5结构高度重复，本质上是同一类修正逻辑（引入更新率）在两个不同策略上的应用，应合并或抽象为通用形式。此外，父节点关注的是'精确积分形式'及LFU/LRU的具体依赖关系，但子节点仅讨论了K>N的退化情况（增益为0）和更新率引入后的定性修正，未覆盖K<N（容量受限）这一核心场景下P_keep(s)的具体数学表达式或积分求解路径，导致对父节点中'精确积分形式'的分解不完备。）
+
+## Search Query
+
+LFU vs LRU byte hit rate gain integral formula frequency size distribution

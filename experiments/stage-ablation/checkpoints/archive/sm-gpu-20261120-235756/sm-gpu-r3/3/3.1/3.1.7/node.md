@@ -1,0 +1,28 @@
+# N70: 多卡同步开销量化：在 TP=2 场景下，All-Reduce 操作的时间占比通常为总推理时间的 5-15%，需根据模型规模（27B）和硬件带宽（PCIe vs 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N16, N17, N18
+
+## Claim
+
+多卡同步开销量化：在 TP=2 场景下，All-Reduce 操作的时间占比通常为总推理时间的 5-15%，需根据模型规模（27B）和硬件带宽（PCIe vs NVLink）计算具体的同步延迟毫秒数，并折算为吞吐量损失。
+
+## Corrected Claim
+
+在 TP=2 场景下，All-Reduce 操作会引入同步开销，其时间占比取决于模型规模、硬件带宽（PCIe vs NVLink）及通信算法效率，需具体计算同步延迟毫秒数并折算为吞吐量损失，而非固定为 5-15%。
+
+## Evidence
+
+[质询]陈述中给出的“5-15%”具体数值范围属于经验性统计结论，缺乏通用性，且未区分硬件拓扑（PCIe vs NVLink）对占比的巨大影响；参考来源仅讨论AllReduce算法效率，未提供该具体百分比数据，存在以偏概全或数据无源的风险。 | 逻辑上TP=2确实引入AllReduce开销，量级合理；但参考来源[1]仅涉及AllReduce算法原理（CollNet vs Ring），未提供“5-15%”这一具体经验数值，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+All-Reduce overhead multi-GPU inference latency percentage
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1954274548775125348&rut=119166241d799bc4abb9b902854d9c3284b402ea3dd5260b2dce868295453d9a', 'type': 'ddg', 'title': '从 0 实现单机多卡 TP Gemm+AllReduce 优化 - 知乎'}

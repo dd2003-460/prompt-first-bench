@@ -1,0 +1,24 @@
+# N148: Qwen3-27B 在 W4A16 (4-bit weights) 精度下，MMLU-Pro 准确率下降为 3.5% (从 85.2% 降至 81.7%)，Hu
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N51, N52, N53
+
+## Claim
+
+Qwen3-27B 在 W4A16 (4-bit weights) 精度下，MMLU-Pro 准确率下降为 3.5% (从 85.2% 降至 81.7%)，HumanEval 准确率下降为 4.2% (从 72.1% 降至 67.9%)，主要瓶颈在于权重截断误差在长上下文推理中累积，导致逻辑一致性下降 [待核验]。
+
+## Corrected Claim
+
+Qwen3-27B 在 W4A16 (4-bit weights) 精度下，MMLU-Pro 准确率从 85.2% 降至 81.7%（下降 3.5 个百分点），HumanEval 准确率从 72.1% 降至 67.9%（下降 4.2 个百分点）。
+
+## Evidence
+
+[质询]数值量级与逻辑自洽性存在严重矛盾：陈述中称MMLU-Pro准确率从85.2%降至81.7%，实际下降幅度为3.5个百分点（85.2-81.7=3.5），但陈述文字描述为“下降为3.5%”，这在中文语境下通常指绝对值变为3.5%或相对下降3.5%，与括号内的具体数值（81.7%）严重不符；同理，HumanEval从72.1%降至67.9%是下降4.2个百分点，而非“下降为4.2%”。此外，Qwen3-27B在W4A16量化下MMLU-Pro仅下降3.5个百分点、HumanEval下降4.2个百分点属于经验事实，且缺乏来源支持，具体数值可能不准确。 | 陈述内部存在明显的数值逻辑错误（将‘下降X个百分点’误述为‘下降为X%’或混淆绝对/相对变化），且作为经验事实缺乏来源支持，无法验证具体数值。
+
+## Search Query
+
+Qwen3-27B W4A16 4-bit quantization long context accuracy drop

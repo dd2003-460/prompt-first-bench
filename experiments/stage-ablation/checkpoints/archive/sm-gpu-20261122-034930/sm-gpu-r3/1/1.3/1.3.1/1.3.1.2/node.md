@@ -1,0 +1,24 @@
+# N174: 在 A100 (Ampere) 上，TensorRT-LLM 初始化 CUDA Context 的实测显存占用为 1.8 GB，低于 vLLM 的开销，主要因为
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N52
+
+## Claim
+
+在 A100 (Ampere) 上，TensorRT-LLM 初始化 CUDA Context 的实测显存占用为 1.8 GB，低于 vLLM 的开销，主要因为 TensorRT-LLM 采用了更紧凑的内存池管理策略，该差异对 40GB 显存卡型的可行性判断有显著影响。
+
+## Corrected Claim
+
+在 A100 (Ampere) 上，TensorRT-LLM 初始化 CUDA Context 的实测显存占用通常低于 vLLM，主要归因于其内存管理策略差异，该差异对 40GB 显存卡型的可行性判断有显著影响。
+
+## Evidence
+
+[质询]具体数值（1.8 GB）及归因（更紧凑的内存池管理策略）属于经验事实，缺乏来源支持，且不同版本/配置下CUDA Context开销可能波动，归因过于绝对。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+TensorRT-LLM CUDA context overhead A100 memory footprint

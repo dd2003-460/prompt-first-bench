@@ -1,0 +1,20 @@
+# N195: 预算过滤器硬约束的量化：定义买家预算上限 B_max；若 P_new > B_max * (1 + ε_tolerate)，则商品被硬过滤排除；ε_tolera
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N71
+
+## Claim
+
+预算过滤器硬约束的量化：定义买家预算上限 B_max；若 P_new > B_max * (1 + ε_tolerate)，则商品被硬过滤排除；ε_tolerate 为容忍溢价阈值（通常 0-5%）；需计算降价后价格 P_new 落在 [B_max*(1+ε), B_max*(1+δ)] 区间的买家比例，若该比例 < 10%，则说明大部分忽略买家因硬预算限制无法被降价召回，支持‘结构性无咨询’而非‘信息延迟’。
+
+## Corrected Claim
+
+预算过滤器硬约束的量化：定义买家预算上限 B_max；若 P_new > B_max * (1 + ε_tolerate)，则商品被硬过滤排除；ε_tolerate 为容忍溢价阈值（通常 0-5%）；需计算降价后价格 P_new 落在 [B_max*(1+ε), B_max*(1+δ)] 区间的买家比例，若该比例 < 10%，则说明大部分忽略买家因硬预算限制无法被降价召回，支持‘结构性无咨询’而非‘信息延迟’。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

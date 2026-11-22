@@ -1,0 +1,24 @@
+# N199: Mac Studio M3 Ultra 256GB 配置在 2025 年发布时的预期零售价格区间为 $4,999-$5,499，基于 M2 Ultra 同容量配
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N61
+
+## Claim
+
+Mac Studio M3 Ultra 256GB 配置在 2025 年发布时的预期零售价格区间为 $4,999-$5,499，基于 M2 Ultra 同容量配置价格及 Apple 硬件年度调价规律（通常持平或小幅上涨）推算。
+
+## Corrected Claim
+
+Mac Studio M3 Ultra 256GB 配置在 2025 年发布时的预期零售价格区间预计与 M2 Ultra 同容量配置持平或小幅上涨，具体数值需以官方发布为准。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性价格数值（$4,999-$5,499）和特定硬件配置（M3 Ultra 256GB），属于硬件规格与市场价格范畴，无法仅从第一性原理或逻辑推导得出，且缺乏外部来源直接支持其具体数值准确性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Apple Mac Studio M3 Ultra 256GB price prediction 2025

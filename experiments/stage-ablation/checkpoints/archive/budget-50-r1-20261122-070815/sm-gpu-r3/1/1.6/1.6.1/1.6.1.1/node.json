@@ -1,0 +1,17 @@
+{
+  "id": "N202",
+  "claim": "在 2x RTX 4090 方案中，若因显存不足将部分权重 (如 5-10 GB) 卸载至 CPU 内存 (DDR5 6400 MT/s, 带宽 ~51.2 GB/s)，通过 PCIe 4.0 x16 (32 GB/s) 传输，每次推理步中若需从 CPU 读取卸载权重，延迟增加量 Δt = (Data_Size / 32 GB/s) + (Memory_Latency)。对于 10 GB 卸载，理论传输时间 0.3125 秒/步，若每步生成 1 token，则额外延迟 312.5 ms/token，导致吞吐量从 ~65 tokens/s 降至 ~3.2 tokens/s，完全不可接受；因此 CPU 卸载仅适用于极低频率的权重访问或 Batch Size 极大的场景以摊销延迟。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "verified",
+  "evidence": "先验知识/题面给定，逻辑校验通过：10GB数据通过32GB/s带宽传输耗时0.3125s，若每步生成1 token，则单token延迟增加312.5ms，导致吞吐量从65 tokens/s降至约3.2 tokens/s，计算逻辑自洽且符合硬件性能常识。",
+  "corrected_claim": "在 2x RTX 4090 方案中，若因显存不足将部分权重 (如 5-10 GB) 卸载至 CPU 内存 (DDR5 6400 MT/s, 带宽 ~51.2 GB/s)，通过 PCIe 4.0 x16 (32 GB/s) 传输，每次推理步中若需从 CPU 读取卸载权重，延迟增加量 Δt = (Data_Size / 32 GB/s) + (Memory_Latency)。对于 10 GB 卸载，理论传输时间 0.3125 秒/步，若每步生成 1 token，则额外延迟 312.5 ms/token，导致吞吐量从 ~65 tokens/s 降至 ~3.2 tokens/s，完全不可接受；因此 CPU 卸载仅适用于极低频率的权重访问或 Batch Size 极大的场景以摊销延迟。",
+  "rework_count": 0,
+  "parent_ids": [
+    "N52"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "GPU offloading LLM inference latency PCIe bandwidth bottleneck tokens per second",
+  "retrieval_sources": []
+}

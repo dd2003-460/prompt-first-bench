@@ -1,0 +1,20 @@
+# N100: LRU 缓存中对象的平均驻留时间 T_residence_avg 的计算公式：T_residence_avg = (1/N_cache) * Σ_{i∈S_LR
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N33
+
+## Claim
+
+LRU 缓存中对象的平均驻留时间 T_residence_avg 的计算公式：T_residence_avg = (1/N_cache) * Σ_{i∈S_LRU} W_LRU(i)，其中 W_LRU(i) = 1 / (Σ_{j>i} λ_j)，λ_j 为对象 j 的请求速率，N_cache 为缓存中对象总数。
+
+## Corrected Claim
+
+LRU 缓存中对象的平均驻留时间 T_residence_avg 的计算公式：T_residence_avg = (1/N_cache) * Σ_{i∈S_LRU} W_LRU(i)，其中 W_LRU(i) = 1 / (Σ_{j>i} λ_j)，λ_j 为对象 j 的请求速率，N_cache 为缓存中对象总数。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

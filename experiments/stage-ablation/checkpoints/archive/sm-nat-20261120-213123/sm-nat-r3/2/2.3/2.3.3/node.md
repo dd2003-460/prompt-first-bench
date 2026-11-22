@@ -1,0 +1,20 @@
+# N41: 在 $\rho=-0.3$ 的负相关假设下，Top-k 热门对象的平均大小 $E[S|H_{top-k}]$ 相对于独立假设 $E[S]$ 的修正因子为 $1 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+在 $\rho=-0.3$ 的负相关假设下，Top-k 热门对象的平均大小 $E[S|H_{top-k}]$ 相对于独立假设 $E[S]$ 的修正因子为 $1 + \rho \cdot \sigma_{\log S} \cdot \sigma_{\log H} \cdot \frac{1}{k^{1/\beta}}$ 的近似形式，需代入 $\sigma$ 值计算具体偏差百分比。
+
+## Corrected Claim
+
+在 $\rho=-0.3$ 的负相关假设下，Top-k 热门对象的平均大小 $E[S|H_{top-k}]$ 相对于独立假设 $E[S]$ 的修正因子为 $1 + \rho \cdot \sigma_{\log S} \cdot \sigma_{\log H} \cdot \frac{1}{k^{1/\beta}}$ 的近似形式，需代入 $\sigma$ 值计算具体偏差百分比。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1聚焦于公式推导与量纲/结构修正（理论层面），子节点2聚焦于具体参数代入与数值计算（应用层面），两者逻辑层次分明且无内容重叠。子节点2正确利用了子节点1修正后的逻辑进行计算，覆盖了父节点要求的'修正因子'和'计算具体偏差'两个核心任务。）

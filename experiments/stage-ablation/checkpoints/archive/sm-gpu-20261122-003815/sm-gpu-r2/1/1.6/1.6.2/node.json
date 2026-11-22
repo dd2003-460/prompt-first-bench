@@ -1,0 +1,33 @@
+{
+  "id": "N68",
+  "claim": "2x RTX 4090 通过 PCIe 4.0 进行 Tensor Parallelism 时，All-Reduce 通信延迟占 Decode 总时间的比例估算（基于 27B 模型激活值大小）",
+  "level": "L3",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]该陈述声称给出了具体的“比例估算”，但参考来源中并未提供针对 27B 模型在 2x RTX 4090 PCIe 环境下 All-Reduce 延迟占 Decode 总时间的具体数值或明确的比例范围。来源 [3] 虽然提到了 27B 模型和 Tensor Parallelism，但主要对比的是吞吐量（tok/s）和 KV cache 大小，未直接量化通信延迟占比；来源 [1] 讨论的是 70B 模型且未给出具体延迟比例。因此，缺乏直接的数据支持来验证具体的“比例估算”数值。 | 来源 [3] 确认了 2x RTX 4090 通过 PCIe 进行 Tensor Parallelism 处理 27B 模型的可行性及性能优势，但未提供 All-Reduce 延迟占 Decode 总时间的具体比例数据；来源 [1] 提及了无 NVLink 时的 all-reduce overhead 但未给出具体比例。逻辑上，PCIe 带宽限制确实会导致显著的通信开销，但具体比例需实测或更详细的模型推导，现有来源仅能间接支持存在显著开销这一事实，无法支持具体的比例估算值。",
+  "corrected_claim": "2x RTX 4090 通过 PCIe 4.0 进行 Tensor Parallelism 时，由于缺乏 NVLink，All-Reduce 通信开销显著，导致吞吐量提升受限（通常远低于线性扩展），但具体延迟占比需根据模型大小和批次大小实测确定。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N12"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "2x RTX 4090 tensor parallel all-reduce latency LLM inference",
+  "retrieval_sources": [
+    {
+      "url": "https://gigagpu.com/rtx-4090-24gb-multi-card-pairing/&rut=6e9c43143a8c20a269f854b8d69807ed32147696abd486eddc666dc3fbfefd37",
+      "type": "ddg",
+      "title": "2x RTX 4090 24GB Pairing for Tensor Parallel Inference"
+    },
+    {
+      "url": "https://www.promptquorum.com/local-llms/multi-gpu-local-llms&rut=535401e36dc8b030d45ca7c8fd71a65f40afacc223d6c43580e004c83f882ec0",
+      "type": "ddg",
+      "title": "Multi-GPU Local LLMs 2026: 70B on 2 GPUs (vLLM, Ollama)"
+    },
+    {
+      "url": "https://paraloncloud.com/resources/tensor-parallel-vs-data-parallel-2x-rtx-4090&rut=6820858b3bb4c75d1fe52e8adcebe31fb2b3d88a915c75198adb47deece4e8c2",
+      "type": "ddg",
+      "title": "Tensor Parallel vs Data Parallel on 2x RTX 4090 (PCIe): vLLM Benchmarks ..."
+    }
+  ]
+}

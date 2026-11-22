@@ -1,0 +1,24 @@
+# N323: RTX 4090 在 450W TDP 满载且环境温度 25°C 时，GPU 核心温度典型稳定在 78-82°C，显存（GDDR6X）温度典型稳定在 85-92
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N106
+
+## Claim
+
+RTX 4090 在 450W TDP 满载且环境温度 25°C 时，GPU 核心温度典型稳定在 78-82°C，显存（GDDR6X）温度典型稳定在 85-92°C；当显存温度触及 90°C 阈值时，NVIDIA 驱动触发的降频幅度并非固定 5-10%，而是动态调整时钟频率以降低功耗，实测吞吐量波动取决于具体散热条件，通常波动在 ±5-10% 而非 ±15% [待核验：需引用 TechPowerUp 或 NVIDIA 官方热设计文档]。
+
+## Corrected Claim
+
+RTX 4090 在 450W TDP 满载且环境温度 25°C 时，GPU 核心与显存温度通常处于较高水平（具体数值依散热方案而异）；当显存温度触及高温阈值时，NVIDIA 驱动会通过动态调整时钟频率来限制功耗，导致吞吐量出现一定程度的波动，具体幅度取决于散热条件。
+
+## Evidence
+
+[质询]具体温度数值（78-82°C, 85-92°C）及降频波动范围（±5-10%）属于高度依赖具体散热器型号、机箱风道及驱动版本的经验数据，缺乏通用性，且‘动态调整时钟频率’的机制描述虽符合NVLink/Power Limit逻辑，但具体百分比波动无法从第一性原理推导，属于经验事实。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体参数值无法从第一性原理严格推出）
+
+## Search Query
+
+RTX 4090 memory temperature throttle threshold 90C throughput impact vllm benchmark

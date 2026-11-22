@@ -1,0 +1,20 @@
+# N374: MI300X 的 192GB 显存容量远超 32K 上下文需求，允许使用 BF16 精度（权重 54GB）而不牺牲上下文长度，此时 Decode 吞吐量理论值为
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N143
+
+## Claim
+
+MI300X 的 192GB 显存容量远超 32K 上下文需求，允许使用 BF16 精度（权重 54GB）而不牺牲上下文长度，此时 Decode 吞吐量理论值为 5300 GB/s / 54 GB * 0.85 ≈ 83.5 tokens/s，虽低于 INT8 但精度无损，需对比 INT8 的质量损失是否值得 2 倍吞吐提升。
+
+## Corrected Claim
+
+MI300X 的 192GB 显存容量远超 32K 上下文需求，允许使用 BF16 精度（权重 54GB）而不牺牲上下文长度，此时 Decode 吞吐量理论值为 5300 GB/s / 54 GB * 0.85 ≈ 83.5 tokens/s，虽低于 INT8 但精度无损，需对比 INT8 的质量损失是否值得 2 倍吞吐提升。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：MI300X 192GB 显存与 5300 GB/s 带宽符合硬件规格，54GB 权重占用合理，吞吐量计算逻辑自洽。

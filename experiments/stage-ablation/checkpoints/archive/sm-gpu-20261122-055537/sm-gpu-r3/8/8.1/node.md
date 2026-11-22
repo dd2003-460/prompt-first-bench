@@ -1,0 +1,24 @@
+# N108: Qwen3-27B 在 FP8 (E4M3) 精度下，权重张量的绝对值分布统计：需验证权重值是否严格落在 E4M3 的 [-448, 448] 范围内，若存在 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N32
+
+## Claim
+
+Qwen3-27B 在 FP8 (E4M3) 精度下，权重张量的绝对值分布统计：需验证权重值是否严格落在 E4M3 的 [-448, 448] 范围内，若存在 >448 的离群值（Outliers），需引入 Per-channel 或 Per-tensor 缩放因子（Scale Factor），该缩放因子的引入本身不损失精度但需额外存储 1-4 bytes/layer。
+
+## Corrected Claim
+
+Qwen3-27B 在 FP8 (E4M3) 精度下，权重张量的绝对值分布统计：需验证权重值是否严格落在 E4M3 的 [-448, 448] 范围内，若存在 >448 的离群值（Outliers），需引入 Per-channel 或 Per-tensor 缩放因子（Scale Factor），该缩放因子的引入本身不损失精度但需额外存储 1-4 bytes/layer。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件/模型经验参数（如Qwen3-27B的具体权重分布、FP8 E4M3的特定量化行为及存储开销细节），属于经验事实，无法仅凭第一性原理严格推导，且缺乏外部来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Qwen3-27B FP8 E4M3 weight distribution outlier range scale factor

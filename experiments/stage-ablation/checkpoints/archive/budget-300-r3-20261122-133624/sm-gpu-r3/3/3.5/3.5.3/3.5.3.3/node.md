@@ -1,0 +1,24 @@
+# N290: 简单截断量化（Naive Quantization）在 FP8 下对 Qwen3-27B 的 MMLU 准确率损失下界为 1.2%（而非 1.5%），当校准数据
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N92
+
+## Claim
+
+简单截断量化（Naive Quantization）在 FP8 下对 Qwen3-27B 的 MMLU 准确率损失下界为 1.2%（而非 1.5%），当校准数据量 <100 样本时，由于未捕捉到激活值的长尾分布，损失上界可达 2.5%；该结论基于 Qwen2-7B 在相同条件下的实测数据外推，Qwen3-27B 因参数量更大，对量化误差更敏感，损失值可能再增加 0.2-0.3%。
+
+## Corrected Claim
+
+简单截断量化（Naive Quantization）在 FP8 下对 Qwen3-27B 的 MMLU 准确率损失通常高于 1.5%；当校准数据量不足时，由于未捕捉激活值长尾分布，损失可能显著增加。具体数值需依据实测数据确定，但一般认为大模型对量化误差更敏感。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值（1.2%, 2.5%, 0.2-0.3%）和基于小模型（Qwen2-7B）到大模型（Qwen3-27B）的外推假设，属于典型经验事实，无法从第一性原理推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+naive quantization FP8 MMLU accuracy loss large language model benchmark

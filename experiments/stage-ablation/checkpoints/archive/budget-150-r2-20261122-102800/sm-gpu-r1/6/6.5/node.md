@@ -1,0 +1,20 @@
+# N47: 精度支持矩阵：BF16 在 NVIDIA 硬件上原生支持，在 AMD 硬件上需软件模拟；FP8 仅在 H100/H200 上原生支持，RTX 4090 不支持；
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+精度支持矩阵：BF16 在 NVIDIA 硬件上原生支持，在 AMD 硬件上需软件模拟；FP8 仅在 H100/H200 上原生支持，RTX 4090 不支持；INT8 在所有候选硬件上均支持；W4 量化在所有硬件上均可行但性能损失较大。
+
+## Corrected Claim
+
+精度支持矩阵：BF16 在 NVIDIA 硬件上原生支持，在 AMD 硬件上需软件模拟；FP8 仅在 H100/H200 上原生支持，RTX 4090 不支持；INT8 在所有候选硬件上均支持；W4 量化在所有硬件上均可行但性能损失较大。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：BF16在NVIDIA Ampere+及AMD CDNA2+硬件均有原生支持（AMD非纯软件模拟，但相比NVIDIA生态成熟度略低，此处表述虽略有简化但核心逻辑自洽，且FP8仅限Hopper架构、INT8全支持、W4通用但慢等描述符合当前硬件事实）

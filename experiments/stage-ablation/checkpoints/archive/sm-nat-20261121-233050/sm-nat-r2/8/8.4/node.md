@@ -1,0 +1,20 @@
+# N67: 有效命中率折损系数 (1 - P_invalid) 的量化范围：当 T_res_avg 在 0.1天 到 10天 之间时，P_invalid 在 1% 到 9.
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N22
+
+## Claim
+
+有效命中率折损系数 (1 - P_invalid) 的量化范围：当 T_res_avg 在 0.1天 到 10天 之间时，P_invalid 在 1% 到 9.5% 之间，因此折损系数在 0.905 到 0.99 之间，具体值取决于头部对象（高 λ_i）是否主导缓存驻留时间。
+
+## Corrected Claim
+
+有效命中率折损系数 (1 - P_invalid) 的量化范围：当 T_res_avg 在 0.1天 到 10天 之间时，P_invalid 在 1% 到 9.5% 之间，因此折损系数在 0.905 到 0.99 之间，具体值取决于头部对象（高 λ_i）是否主导缓存驻留时间。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值区间 1% 到 9.5% 对应的折损系数 0.905 到 0.99 计算正确，且符合缓存系统中因对象过期或失效导致的命中率折损的一般量级直觉。

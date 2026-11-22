@@ -1,0 +1,28 @@
+# N108: Qwen3-27B 的层数 (num_layers) 和隐藏层维度 (hidden_size) 精确值，用于 KV Cache 公式计算
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N26, N27
+
+## Claim
+
+Qwen3-27B 的层数 (num_layers) 和隐藏层维度 (hidden_size) 精确值，用于 KV Cache 公式计算
+
+## Corrected Claim
+
+Qwen3.5-27B 的层数为 64，隐藏层维度为 5120；Qwen3-27B 的具体参数需进一步确认是否一致。
+
+## Evidence
+
+[质询]来源标题及摘要中明确提及的是 'Qwen3.5-27B' 模型，而待核验事实针对的是 'Qwen3-27B'。虽然两者参数量相同且可能结构相似，但版本号不同（3 vs 3.5），直接引用 3.5 的参数作为 3 的精确值存在版本混淆风险，且未提供 Qwen3-27B 的直接证据。 | 来源[1]提供了 Qwen3.5-27B 的层数(64)和隐藏层维度(5120)，逻辑量级合理，但来源版本与事实节点指定的 Qwen3-27B 不完全匹配，属于间接支持/版本偏差，故降级。
+
+## Search Query
+
+Qwen3-27B model config num_hidden_layers hidden_size
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2010079474104963160&rut=336d25a4988526b6be857ced6e5fc040a0f025afaa4a16b40b3bafb074499abe', 'type': 'ddg', 'title': 'Qwen/Qwen3.5-27B模型结构（dense）分析 - 知乎'}

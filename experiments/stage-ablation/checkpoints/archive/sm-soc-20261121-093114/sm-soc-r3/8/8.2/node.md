@@ -1,0 +1,24 @@
+# N245: 卖家流失率的条件概率模型：P(Churn > 5% | S_min) 需基于 N84 中逻辑回归模型输出的概率值 p_churn(S_min)，计算 P(Chu
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N88
+
+## Claim
+
+卖家流失率的条件概率模型：P(Churn > 5% | S_min) 需基于 N84 中逻辑回归模型输出的概率值 p_churn(S_min)，计算 P(Churn > 5%) = 1 - F_churn(5% | S_min)，其中 F_churn 为流失率的条件累积分布函数，需明确流失率分布形态（如 Beta 或正态截断）以进行尾部概率计算。
+
+## Corrected Claim
+
+卖家流失率的条件概率模型：P(Churn > 5% | S_min) 需基于 N84 中逻辑回归模型输出的概率值 p_churn(S_min)，计算 P(Churn > 5%) = 1 - F_churn(5% | S_min)，其中 F_churn 为流失率的条件累积分布函数，需明确流失率分布形态（如 Beta 或正态截断）以进行尾部概率计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该陈述正确描述了基于条件概率分布计算尾部概率（P(Churn > 5%)）的数学方法，即通过累积分布函数（CDF）的补集计算，且指出需明确分布形态（如Beta或截断正态）以进行积分/查表，逻辑自洽且符合统计学原理。
+
+## Search Query
+
+conditional probability of seller churn threshold exceedance

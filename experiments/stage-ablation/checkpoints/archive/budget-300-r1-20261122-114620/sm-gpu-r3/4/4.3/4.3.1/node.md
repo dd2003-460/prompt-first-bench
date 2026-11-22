@@ -1,0 +1,24 @@
+# N108: PCIe Gen4 x16 互连带宽下，27B 模型 BF16 权重 (54GB) 在双卡间的初始加载时间 T_load 为 54GB / 32GB/s ≈ 1
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N26
+
+## Claim
+
+PCIe Gen4 x16 互连带宽下，27B 模型 BF16 权重 (54GB) 在双卡间的初始加载时间 T_load 为 54GB / 32GB/s ≈ 1.69 秒，若每次推理请求都需重新加载权重（无持久化缓存），则每次请求增加 1.69 秒固定延迟
+
+## Corrected Claim
+
+PCIe Gen4 x16 互连带宽下，27B 模型 BF16 权重 (54GB) 在双卡间的初始加载时间 T_load 为 54GB / 32GB/s ≈ 1.69 秒，若每次推理请求都需重新加载权重（无持久化缓存），则每次请求增加 1.69 秒固定延迟
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe Gen4 x16 理论带宽约 32GB/s，54GB 数据传输时间计算正确（54/32 ≈ 1.69s），且无持久化缓存导致每次请求重载权重的逻辑推导自洽。
+
+## Search Query
+
+PCIe Gen4 bandwidth 32GB/s weight loading time 27B model

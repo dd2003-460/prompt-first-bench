@@ -1,0 +1,24 @@
+# N270: H100 80GB SXM 在 2025 年 Q1 的主流云租赁（如 Lambda, RunPod）平均价格为 $2.80/GPU-hour，作为可变成本变量
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N95
+
+## Claim
+
+H100 80GB SXM 在 2025 年 Q1 的主流云租赁（如 Lambda, RunPod）平均价格为 $2.80/GPU-hour，作为可变成本变量
+
+## Corrected Claim
+
+H100 80GB SXM 在 2025 年 Q1 的主流云租赁价格约为 $2.00-$3.50/GPU-hour，具体取决于服务商和合约类型，作为可变成本变量需根据实际采购价格动态调整。
+
+## Evidence
+
+[质询]具体价格数值（$2.80/GPU-hour）属于经验事实，且不同云服务商（Lambda, RunPod等）及不同时期（2025 Q1）的价格波动较大，单一数值可能无法代表“主流平均”，存在口径混淆或数据时效性风险。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，无法验证具体数值）
+
+## Search Query
+
+H100 GPU rental price per hour 2025 Q1

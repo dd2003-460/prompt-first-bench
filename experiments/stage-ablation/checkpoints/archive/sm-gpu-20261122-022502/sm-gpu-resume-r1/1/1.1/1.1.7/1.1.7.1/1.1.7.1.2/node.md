@@ -1,0 +1,29 @@
+# N484: Qwen3-27B INT4 (AWQ) 在 ARC-Challenge 上的准确率为 82.3%，需区分是否经过针对性校准（calibration set s
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N149, N150, N151
+
+## Claim
+
+Qwen3-27B INT4 (AWQ) 在 ARC-Challenge 上的准确率为 82.3%，需区分是否经过针对性校准（calibration set size 512 vs 2048），不同校准集大小可能导致 ±0.5% 的波动，需检索具体实验配置
+
+## Corrected Claim
+
+Qwen3-27B INT4 (AWQ) 在 ARC-Challenge 上的准确率约为 82.3%（具体数值需依据特定校准配置确认），不同校准集大小可能导致小幅波动。
+
+## Evidence
+
+[质询]具体数值 82.3% 及校准集大小对波动的影响（±0.5%）属于特定实验配置下的经验数据，参考来源仅提供了模型存在及基准测试框架，未包含该具体准确率数值及校准细节，存在数值无法验证的风险。 | 来源 [1] 和 [2] 证实了 Qwen3-27B 系列模型及 ARC-Challenge 基准测试的存在，但均未提供 INT4 AWQ 量化后的具体准确率数值（82.3%）或校准集大小对结果的具体影响数据，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+Qwen3-27B AWQ INT4 ARC-Challenge accuracy calibration set size sensitivity
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/Yunado/qwen3.8-27b-local-bench&rut=aa22bc0e31d12088fbd043e46d67852f2e43e00f5219190583a3a9462bc1dc4e', 'type': 'ddg', 'title': 'Qwen3.8-27B Local Bench — AIME 2026 & ARC-Challenge 500'}
+- {'url': 'https://huggingface.co/amd/Qwen3.8-27B-Quark-AWQ-INT4-W4A16/blob/main/README.md&rut=9d23e5b4cb0584ff08060806bf7514fd8f5ea9951ced47570aa679754f7e9e08', 'type': 'ddg', 'title': 'README.md · amd/Qwen3.8-27B-Quark-AWQ-INT4-W4A16 at main - Hugging Face'}

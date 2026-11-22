@@ -1,0 +1,24 @@
+# N233: μ_wtp 的构成项分解：μ_wtp = P_market * (1 - δ_discount)，其中 δ_discount 为买家平均期望折扣率，实证数据显示
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N79
+
+## Claim
+
+μ_wtp 的构成项分解：μ_wtp = P_market * (1 - δ_discount)，其中 δ_discount 为买家平均期望折扣率，实证数据显示在二手市场 δ_discount 通常稳定在 10%-20% 区间，具体数值随商品稀缺性波动。
+
+## Corrected Claim
+
+μ_wtp 可近似表示为 P_market * (1 - δ_discount)，其中 δ_discount 反映买家期望折扣。实证中该折扣率随商品稀缺性、品类及市场流动性波动，常见区间可能在 10%-30% 之间，但无统一固定值。
+
+## Evidence
+
+[质询]将二手市场复杂的定价机制简化为单一的固定折扣率公式（μ_wtp = P_market * (1 - δ)）在理论上过于简化，忽略了商品异质性、信息不对称及动态博弈等因素；且'10%-20%'这一具体实证区间缺乏普适性，不同品类（如奢侈品vs日用品）差异巨大，属于经验性断言。 | source=knowledge，逻辑结构自洽（价格=基准价*折扣系数），但具体数值区间（10%-20%）及公式的普适性属于经验事实，缺乏来源直接支持，故降级。
+
+## Search Query
+
+willingness to pay distribution second hand market discount rate

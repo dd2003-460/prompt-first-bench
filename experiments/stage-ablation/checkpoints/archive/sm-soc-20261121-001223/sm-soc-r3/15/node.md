@@ -1,0 +1,26 @@
+# N234: 生物演化压力下的‘过度自信偏差’量化：在自然选择中，高估自身商品价值（Overconfidence Bias）的个体在信息不对称市场中具有生存优势；实证显示，该
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+生物演化压力下的‘过度自信偏差’量化：在自然选择中，高估自身商品价值（Overconfidence Bias）的个体在信息不对称市场中具有生存优势；实证显示，该偏差导致卖家初始挂价偏离真实价值的标准差 σ_overconf ≈ 0.12 * V_true，且该偏差与卖家的‘拥有时间’正相关（每持有1年，σ_overconf 增加 0.02 * V_true）。
+
+## Corrected Claim
+
+在行为金融学中，过度自信偏差表现为投资者高估自身判断准确性，可能导致决策失误，但现有参考来源未提供关于生物演化压力下该偏差的具体量化公式（如σ_overconf与V_true的关系）。
+
+## Evidence
+
+[质询]该陈述将行为金融学中的‘过度自信偏差’概念强行套用于‘生物演化压力’和‘自然选择’语境，并给出了极其具体且无来源支持的量化参数（σ_overconf ≈ 0.12 * V_true 及与持有时间的线性关系）。参考来源均讨论的是金融投资领域的认知偏差，完全未涉及生物演化、自然选择或此类具体的统计量化模型，属于典型的‘幻觉’事实或跨领域错误拼接。 | 参考来源[1][2][3]均聚焦于金融投资中的过度自信偏差，与‘生物演化’、‘自然选择’及具体的‘挂价标准差量化公式’无关，无法支持该陈述；且该陈述将金融行为偏差直接等同于生物演化优势并给出精确数值，缺乏逻辑自洽性和科学依据。
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/2502_91590613/article/details/157812692&rut=e364d2180b514d04e8d6fe9804ef2ae01619c1ea9cb515d211999e45856221af', 'type': 'ddg', 'title': '过度自信偏差：如何客观评估投资能力 - Csdn博客'}
+- {'url': 'https://blog.csdn.net/weixin_32175665/article/details/165051904&rut=47001366fd694b6cccaec9023f2864bfe457a1027cabf8d0931d00dc4b65f039', 'type': 'ddg', 'title': '投资中的过度自信偏差：认知陷阱与应对策略 - Csdn博客'}
+- {'url': 'https://max.book118.com/html/2026/1117/7060113130011200.shtm&rut=57085d5cb2da51bb4d5ece1811ed17c815fe8cc30aee38e47956a768d55b679f', 'type': 'ddg', 'title': '过度自信偏差对量化交易策略回测的干扰.docx-原创力文档'}

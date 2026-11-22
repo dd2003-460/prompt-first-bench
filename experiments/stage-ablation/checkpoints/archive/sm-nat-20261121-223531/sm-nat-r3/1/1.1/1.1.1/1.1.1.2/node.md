@@ -1,0 +1,28 @@
+# N91: s_min 的工程上限约束：s_min ≤ P_1(S)_real，其中 P_1(S)_real 为 CDN 实际对象大小第1百分位，行业典型值约 1KB-10
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N27
+
+## Claim
+
+s_min 的工程上限约束：s_min ≤ P_1(S)_real，其中 P_1(S)_real 为 CDN 实际对象大小第1百分位，行业典型值约 1KB-10KB [待核验]，若 s_min > P_1(S)_real 则分布无法覆盖 99% 的实际小对象。
+
+## Corrected Claim
+
+s_min 的工程上限约束：s_min ≤ P_1(S)_real，其中 P_1(S)_real 为 CDN 实际对象大小第 1 百分位。若 s_min > P_1(S)_real 则分布无法覆盖 99% 的实际小对象。（注：行业典型值需根据具体业务场景统计确定，缺乏通用固定值支持）
+
+## Evidence
+
+[质询]行业典型值 1KB-10KB 属于经验事实，缺乏具体数据来源支持，且不同 CDN 业务场景（如静态资源 vs API 响应）差异巨大，该范围可能过于宽泛或特定于某类场景。 | 逻辑自洽：若 s_min 超过第 1 百分位，则无法覆盖 99% 的小对象，推导成立。但参考来源 [1] 关于西门子报文，与 CDN 对象大小完全无关，无外部证据支持 1KB-10KB 这一经验数值。
+
+## Search Query
+
+CDN object size distribution 1st percentile typical value KB
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/717369107&rut=d18c56e5660cb08f856126567122d2e26f1d36f80fdd3b21bfd8a0b2fd8eae18', 'type': 'ddg', 'title': '标准报文1详细说明 - 知乎 - 知乎专栏'}

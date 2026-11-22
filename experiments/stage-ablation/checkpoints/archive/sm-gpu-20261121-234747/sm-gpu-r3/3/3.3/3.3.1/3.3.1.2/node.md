@@ -1,0 +1,24 @@
+# N255: Qwen3-27B张量并行（TP=2）在Decode阶段（Batch=1, 每步生成1 token）的单层All-Reduce通信量计算：通信数据量 = 2 *
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N92
+
+## Claim
+
+Qwen3-27B张量并行（TP=2）在Decode阶段（Batch=1, 每步生成1 token）的单层All-Reduce通信量计算：通信数据量 = 2 * hidden_size (4096) * 1 * bytes_per_element (2 for BF16) = 16 KB/层；总通信量 = 16 KB * 32 layers = 512 KB/步；PCIe 4.0传输512 KB耗时约 512KB / 16GB/s ≈ 32 μs，相对于单步计算时间（~10-20ms）占比 <0.5%，表明Decode阶段通信开销可忽略，瓶颈主要在计算和内存带宽
+
+## Corrected Claim
+
+Qwen3-27B张量并行（TP=2）在Decode阶段（Batch=1, 每步生成1 token）的单层All-Reduce通信量计算：通信数据量 = 2 * hidden_size (4096) * 1 * bytes_per_element (2 for BF16) = 16 KB/层；总通信量 = 16 KB * 32 layers = 512 KB/步；PCIe 4.0传输512 KB耗时约 512KB / 16GB/s ≈ 32 μs，相对于单步计算时间（~10-20ms）占比 <0.5%，表明Decode阶段通信开销可忽略，瓶颈主要在计算和内存带宽
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：TP=2时All-Reduce通信量公式正确（2*hidden*bytes），数值计算准确（16KB/层 * 32层 = 512KB），PCIe 4.0带宽估算合理（~16GB/s），耗时占比计算符合物理直觉。
+
+## Search Query
+
+LLM decode phase tensor parallelism communication overhead microsecond latency PCIe

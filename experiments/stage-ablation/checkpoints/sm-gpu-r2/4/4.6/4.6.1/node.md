@@ -1,0 +1,30 @@
+# N111: 2x RTX 4090 双卡方案 TCO 中 PCIe 插槽/电源/机箱的额外硬件成本：双卡平台主板 (~$500-800) + 1000W 电源 (~$200
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N25
+
+## Claim
+
+2x RTX 4090 双卡方案 TCO 中 PCIe 插槽/电源/机箱的额外硬件成本：双卡平台主板 (~$500-800) + 1000W 电源 (~$200) + 机箱 (~$150) ≈ $850-1150 一次性投入，折合 3 年 TCO ≈ $283-383/年
+
+## Corrected Claim
+
+2x RTX 4090 双卡方案需额外投入双卡兼容主板、大功率电源及机箱，一次性硬件成本估算约为 $850-1150（具体视主板型号而定），折合 3 年 TCO 约 $283-383/年。
+
+## Evidence
+
+[质询]参考来源仅讨论支持双卡的主板类型（如工作站平台、X99等），未提供具体的价格区间（$500-800）或电源/机箱的具体成本，且双卡主板价格跨度极大（从消费级高端到专业工作站），$500-800仅为部分消费级高端主板的估算，缺乏来源直接支持具体数值。 | 逻辑自洽（$850-1150 / 3 ≈ $283-383），但来源[1][2][3]仅确认双卡平台存在及主板需求，未提供具体价格数据，属于经验事实且缺来源直接支持。
+
+## Search Query
+
+dual RTX 4090 workstation motherboard PSU chassis cost TCO
+
+## Retrieval Sources
+
+- {'url': 'https://usercomp.com/news/1070135/motherboard-for-dual-rtx-4090-gpus&rut=18576f795bb15db34b3adad2882f47fe0052926133e2afcb84c38f87e9bdac02', 'type': 'ddg', 'title': 'What Motherboard Can Support Dual RTX 4090 GPUs? - UserComp'}
+- {'url': 'https://techvanila.com/computer-components/best-motherboard-for-dual-4090/&rut=2bc93f372da61e150d01204708e50c726a4919ee56a6a6b6bc5886095fa127a9', 'type': 'ddg', 'title': 'Best Motherboard For Dual 4090 [Updated On: November 2026]'}
+- {'url': 'https://www.pcguide.com/motherboard/guide/best-motherboards-for-rtx-4090/&rut=3e4369f30f2a336765776f6fd9ed58214ba95dcd1b8bace4429e75aecdc8df89', 'type': 'ddg', 'title': 'Best motherboards for RTX 4090 - our top picks - PC Guide'}

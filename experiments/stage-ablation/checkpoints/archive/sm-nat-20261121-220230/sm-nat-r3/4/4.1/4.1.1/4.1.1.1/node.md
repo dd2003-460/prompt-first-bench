@@ -1,0 +1,24 @@
+# N186: 工作点A（Frank Copula, θ=-1.58）：使用 Frank Copula 建模负相关 ρ=-0.3，参数 θ≈-1.58。Frank Copula
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N64
+
+## Claim
+
+工作点A（Frank Copula, θ=-1.58）：使用 Frank Copula 建模负相关 ρ=-0.3，参数 θ≈-1.58。Frank Copula 支持负相关，且在小对象-高热度区域的密度修正因子 Δρ 与 Clayton 正相关假设下的差异约为 0.02-0.05。该工作点计算复杂度低，解析近似误差 <3%，适用于快速估算 LRU 字节命中率下界。
+
+## Corrected Claim
+
+工作点A（Frank Copula, θ=-1.58）：使用 Frank Copula 建模负相关 ρ=-0.3，参数 θ≈-1.58。Frank Copula 支持负相关，且在小对象-高热度区域的密度修正因子 Δρ 与 Clayton 正相关假设下的差异约为 0.02-0.05。该工作点计算复杂度低，解析近似误差 <3%，适用于快速估算 LRU 字节命中率下界。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+Frank Copula negative correlation parameter theta

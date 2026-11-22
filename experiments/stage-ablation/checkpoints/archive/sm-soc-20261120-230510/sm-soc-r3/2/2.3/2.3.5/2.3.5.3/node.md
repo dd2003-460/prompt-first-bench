@@ -1,0 +1,24 @@
+# N179: 认知负荷成本 c_cognitive 的量化：c_cognitive = k_cognitive × N_attributes × N_options，其中 k
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N54
+
+## Claim
+
+认知负荷成本 c_cognitive 的量化：c_cognitive = k_cognitive × N_attributes × N_options，其中 k_cognitive 为单位认知单元成本（元/单元，典型值 0.01-0.05 元），N_attributes 为商品关键属性数量（如成色、品牌、瑕疵，典型值 3-5），N_options 为对比选项数量（典型值 3-10）；需通过眼动追踪或反应时间实验校准 k_cognitive 的数值。
+
+## Corrected Claim
+
+认知负荷成本 c_cognitive 的量化：c_cognitive = k_cognitive × N_attributes × N_options，其中 k_cognitive 为单位认知单元成本（元/单元，典型值 0.01-0.05 元），N_attributes 为商品关键属性数量（如成色、品牌、瑕疵，典型值 3-5），N_options 为对比选项数量（典型值 3-10）；需通过眼动追踪或反应时间实验校准 k_cognitive 的数值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+cognitive load cost e-commerce decision making eye tracking reaction time experiment

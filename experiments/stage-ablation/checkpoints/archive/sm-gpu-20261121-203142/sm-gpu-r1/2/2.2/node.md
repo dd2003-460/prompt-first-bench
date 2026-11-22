@@ -1,0 +1,29 @@
+# N12: FP8精度下的质量损失评估：基于MMLU/GPQA基准测试，FP8量化相比BF16的准确率下降通常在0.5-1.5%范围内 [待核验: 需查找Qwen3-27B
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N2
+
+## Claim
+
+FP8精度下的质量损失评估：基于MMLU/GPQA基准测试，FP8量化相比BF16的准确率下降通常在0.5-1.5%范围内 [待核验: 需查找Qwen3-27B在FP8下的具体基准测试数据]
+
+## Corrected Claim
+
+FP8量化在LLM推理中通常能保持较高的精度，具体在MMLU/GPQA等基准测试中相比BF16的准确率下降幅度需视具体模型和量化实现而定，常见报告指出损失较小（通常在1%左右或更低），但具体数值需参考特定模型的评测报告。
+
+## Evidence
+
+[质询]参考来源主要讨论FP8强化学习训练中的稳定性问题（如train-inference mismatch），并未提供MMLU/GPQA基准测试中FP8量化相比BF16的具体准确率下降数值（0.5-1.5%），且该数值范围属于经验事实，不同模型和量化策略下波动较大，缺乏直接数据支持。 | 来源[1][2]主题相关（FP8 LLM）但仅涉及训练稳定性，未提供推理基准测试的具体精度损失数值，属于间接支持或无关；该事实为经验事实，逻辑自洽但缺直接来源支持。
+
+## Search Query
+
+Qwen3-27B FP8 quantization MMLU GPQA benchmark accuracy drop
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org/abs/2609.22870&rut=b630d1a7809f8e38642ae8352074287aa55c1994821a6dfa3db900c4b87da7d1', 'type': 'ddg', 'title': 'Towards Full Pipeline FP8 Reinforcement Learning for LLMs'}
+- {'url': 'https://arxiv.org/pdf/2609.22870&rut=2083c6e2a10659907e4e56369bad6051ce1f7fd97e3b3a53fc69814c4c1b09b9', 'type': 'ddg', 'title': 'Towards Full Pipeline FP8 Reinforcement Learning for LLMs'}

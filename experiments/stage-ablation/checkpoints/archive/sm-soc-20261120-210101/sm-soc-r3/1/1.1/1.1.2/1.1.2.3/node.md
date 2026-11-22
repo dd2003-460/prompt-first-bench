@@ -1,0 +1,20 @@
+# N126: 下游投影2：买家超付损失厌恶 λ_buyer_overpay 的校准公式，λ_buyer_overpay = λ_base - k_risk * Var(P_m
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N31
+
+## Claim
+
+下游投影2：买家超付损失厌恶 λ_buyer_overpay 的校准公式，λ_buyer_overpay = λ_base - k_risk * Var(P_market)，其中 λ_base=2.0，k_risk 为风险厌恶系数（假设 k_risk=0.5），Var(P_market) 为市场价格波动方差（来自 N111 的 ε_market）。
+
+## Corrected Claim
+
+下游投影2：买家超付损失厌恶 λ_buyer_overpay 的校准公式，λ_buyer_overpay = λ_base - k_risk * Var(P_market)，其中 λ_base=2.0，k_risk 为风险厌恶系数（假设 k_risk=0.5），Var(P_market) 为市场价格波动方差（来自 N111 的 ε_market）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

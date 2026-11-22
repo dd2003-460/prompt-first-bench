@@ -1,0 +1,24 @@
+# N183: Qwen3-27B 从 BF16 量化至 FP8 在 HumanEval 基准上的 Pass@1 下降幅度 Δ_HumanEval 通常高于 MMLU，因为代码
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N58
+
+## Claim
+
+Qwen3-27B 从 BF16 量化至 FP8 在 HumanEval 基准上的 Pass@1 下降幅度 Δ_HumanEval 通常高于 MMLU，因为代码生成对数值精度更敏感；预估 Δ_HumanEval 在 1.0%-3.0% 之间，需验证 FP8 量化是否导致浮点舍入误差累积影响代码逻辑判断，具体数值需实测。
+
+## Corrected Claim
+
+Qwen3-27B 从 BF16 量化至 FP8 在 HumanEval 基准上的 Pass@1 下降幅度通常高于 MMLU，因为代码生成对数值精度更敏感；具体下降幅度需实测验证，预估可能在 1.0%-3.0% 之间。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值预估（1.0%-3.0%）和因果机制（代码生成对精度更敏感），属于硬件/模型性能经验事实，无法从第一性原理严格推导，且缺乏实测数据支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+Qwen3-27B FP8 quantization HumanEval Pass@1 performance degradation

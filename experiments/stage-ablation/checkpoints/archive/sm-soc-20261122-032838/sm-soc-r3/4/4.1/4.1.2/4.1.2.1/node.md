@@ -1,0 +1,20 @@
+# N239: 损失厌恶系数 $\lambda_{loss}=2.25$ 是 Kahneman & Tversky 前景理论的基准值，但在二手交易语境下，卖家面临的‘损失’是相
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N78
+
+## Claim
+
+损失厌恶系数 $\lambda_{loss}=2.25$ 是 Kahneman & Tversky 前景理论的基准值，但在二手交易语境下，卖家面临的‘损失’是相对于心理保留价 $C_{hold}$ 而非市场均价 $P_{ref}$。若 $C_{hold} = 0.8 P_{ref}$（卖家认为商品值 80% 参考价），则基准差值为 $0.2 P_{ref}$，损失厌恶贡献 $\Delta_{loss} = 2.25 \times 0.2 \times \gamma$。
+
+## Corrected Claim
+
+损失厌恶系数 $\lambda_{loss}=2.25$ 是 Kahneman & Tversky 前景理论的基准值，但在二手交易语境下，卖家面临的‘损失’是相对于心理保留价 $C_{hold}$ 而非市场均价 $P_{ref}$。若 $C_{hold} = 0.8 P_{ref}$（卖家认为商品值 80% 参考价），则基准差值为 $0.2 P_{ref}$，损失厌恶贡献 $\Delta_{loss} = 2.25 \times 0.2 \times \gamma$。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：λ=2.25为前景理论标准基准值，损失厌恶贡献计算逻辑（系数×基准差值×权重）自洽且量纲合理。

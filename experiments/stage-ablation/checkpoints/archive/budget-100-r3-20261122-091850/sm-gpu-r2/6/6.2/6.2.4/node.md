@@ -1,0 +1,24 @@
+# N103: 吞吐量约束映射：根据 N17 公式 TPS ≈ min(BW/KV_size, Compute/FLOPs)，计算各候选硬件在 BF16/FP8/W4 下的理论
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N29
+
+## Claim
+
+吞吐量约束映射：根据 N17 公式 TPS ≈ min(BW/KV_size, Compute/FLOPs)，计算各候选硬件在 BF16/FP8/W4 下的理论最大 TPS，并将 '追求最高吞吐量' 量化为 TPS >= X tokens/s (X 需根据用户交互体验阈值确定，通常 >20 TPS 为流畅，>50 TPS 为高效)，以此筛选硬件。
+
+## Corrected Claim
+
+吞吐量约束映射：根据 N17 公式 TPS ≈ min(BW/KV_size, Compute/FLOPs)，计算各候选硬件在 BF16/FP8/W4 下的理论最大 TPS，并将 '追求最高吞吐量' 量化为 TPS >= X tokens/s (X 需根据用户交互体验阈值确定，通常 >20 TPS 为流畅，>50 TPS 为高效)，以此筛选硬件。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：吞吐量受限于带宽或计算能力取最小值符合硬件瓶颈原理，20-50 TPS 为流畅/高效阈值符合 LLM 推理体验常识。
+
+## Search Query
+
+Qwen3 27B inference throughput benchmarks GPU

@@ -1,0 +1,24 @@
+# N344: H100 实际推理框架 (如 vLLM/TensorRT-LLM) 的带宽利用率通常在 70-85% 之间，受限于内核启动开销、内存访问模式非理想性及调度延迟；
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N111
+
+## Claim
+
+H100 实际推理框架 (如 vLLM/TensorRT-LLM) 的带宽利用率通常在 70-85% 之间，受限于内核启动开销、内存访问模式非理想性及调度延迟；因此实际 TPS 约为理论带宽上限 (57.8 tokens/s) 的 75-85%，即 43-49 tokens/s，此范围用于后续 TCO 计算中的吞吐量参数
+
+## Corrected Claim
+
+H100 实际推理框架 (如 vLLM/TensorRT-LLM) 的带宽利用率通常在 70-85% 之间，受限于内核启动开销、内存访问模式非理想性及调度延迟；因此实际 TPS 约为理论带宽上限 (57.8 tokens/s) 的 75-85%，即 43-49 tokens/s，此范围用于后续 TCO 计算中的吞吐量参数
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+vLLM H100 memory bandwidth utilization efficiency LLM inference benchmark

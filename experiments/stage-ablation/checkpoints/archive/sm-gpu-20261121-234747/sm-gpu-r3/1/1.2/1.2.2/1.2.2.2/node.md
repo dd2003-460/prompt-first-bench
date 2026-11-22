@@ -1,0 +1,24 @@
+# N178: NVIDIA H100 80GB 的 TDP 功耗细分：SXM5 版本 TDP 为 700W，PCIe 版本 TDP 为 350W (被动) 或 700W (主
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N38
+
+## Claim
+
+NVIDIA H100 80GB 的 TDP 功耗细分：SXM5 版本 TDP 为 700W，PCIe 版本 TDP 为 350W (被动) 或 700W (主动)，需根据具体部署环境 (数据中心机架供电能力) 选择 SKU，不同 TDP 直接影响 3 年电力成本 TCO 项，差异可达 $500-$1000/年。
+
+## Corrected Claim
+
+NVIDIA H100 80GB 的 TDP 功耗细分：SXM5 版本 TDP 为 700W，PCIe 版本 TDP 为 350W (被动) 或 700W (主动)，需根据具体部署环境 (数据中心机架供电能力) 选择 SKU，不同 TDP 直接影响 3 年电力成本 TCO 项，差异可达 $500-$1000/年。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H100 SXM5 TDP 700W 与 PCIe 版本 TDP 350W/700W 符合 NVIDIA 官方规格，功耗差异导致的 TCO 估算量级合理。
+
+## Search Query
+
+NVIDIA H100 SXM5 vs PCIe TDP power consumption

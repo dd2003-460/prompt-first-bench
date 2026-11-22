@@ -1,0 +1,20 @@
+# N18: 多卡方案可行性：2×RTX 4090 (48GB total) 可运行 BF16 (61.3 GB > 48 GB, 不可行) 或 FP8 (34.3 GB <
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+多卡方案可行性：2×RTX 4090 (48GB total) 可运行 BF16 (61.3 GB > 48 GB, 不可行) 或 FP8 (34.3 GB < 48 GB, 可行)。1×A100 80GB 可运行 BF16 (61.3 GB < 80 GB, 可行)。2×RTX 4090 运行 FP8 时，每卡承载 ~17 GB 权重 + KV Cache 分片。
+
+## Corrected Claim
+
+多卡方案可行性：2×RTX 4090 (48GB total) 可运行 BF16 (61.3 GB > 48 GB, 不可行) 或 FP8 (34.3 GB < 48 GB, 可行)。1×A100 80GB 可运行 BF16 (61.3 GB < 80 GB, 可行)。2×RTX 4090 运行 FP8 时，每卡承载 ~17 GB 权重 + KV Cache 分片。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值比较（61.3>48, 34.3<48, 61.3<80）及分片计算（34.3/2≈17.15）均符合算术逻辑，且符合GPU显存管理的基本工程常识。

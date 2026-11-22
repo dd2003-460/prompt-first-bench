@@ -1,0 +1,20 @@
+# N152: 决策概率 P(buy) 中随机项的影响幅度：在固定 (price, info_quality) 条件下，计算不同 σ_buyer² 取值下 P(buy) 的置信
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N45
+
+## Claim
+
+决策概率 P(buy) 中随机项的影响幅度：在固定 (price, info_quality) 条件下，计算不同 σ_buyer² 取值下 P(buy) 的置信区间宽度；若 σ_buyer² 增加 10%，P(buy) 的 95% CI 宽度增加比例应小于 5% 才视为稳健，否则需引入更多协变量控制异质性。
+
+## Corrected Claim
+
+决策概率 P(buy) 中随机项的影响幅度：在固定 (price, info_quality) 条件下，计算不同 σ_buyer² 取值下 P(buy) 的置信区间宽度；若 σ_buyer² 增加 10%，P(buy) 的 95% CI 宽度增加比例应小于 5% 才视为稳健，否则需引入更多协变量控制异质性。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

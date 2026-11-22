@@ -1,0 +1,24 @@
+# N89: 短期运营（T=30天）：动态调整效应包括卖家策略适应性变化（如从高价试探转向快速成交）和买家行为调整（如减少搜索时间），需通过时间序列模型捕捉 ΔU_selle
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N22
+
+## Claim
+
+短期运营（T=30天）：动态调整效应包括卖家策略适应性变化（如从高价试探转向快速成交）和买家行为调整（如减少搜索时间），需通过时间序列模型捕捉 ΔU_seller(30) 和 ΔU_buyer(30) 的演化路径
+
+## Corrected Claim
+
+短期运营（T=30天）：动态调整效应涉及卖家策略和买家行为的适应性变化，需通过时间序列模型捕捉 ΔU_seller(30) 和 ΔU_buyer(30) 的演化路径，具体行为模式需结合实证数据验证。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性假设（如卖家从高价试探转向快速成交、买家减少搜索时间）和特定的时间窗口（T=30天），这些属于市场微观行为经验事实，无法从第一性原理严格推导，且缺乏来源支持其具体机制和数值路径。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+short-term dynamic adjustment effects in platform interventions

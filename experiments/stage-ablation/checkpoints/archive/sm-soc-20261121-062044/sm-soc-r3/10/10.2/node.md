@@ -1,0 +1,20 @@
+# N272: 平台广告收入权重 γ 的计算：γ = Revenue_ad / (Revenue_ad + Revenue_commission)，其中 Revenue_ad 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N98
+
+## Claim
+
+平台广告收入权重 γ 的计算：γ = Revenue_ad / (Revenue_ad + Revenue_commission)，其中 Revenue_ad 为平台广告收入，Revenue_commission 为交易佣金收入；若 γ > 0.5，则平台有动机通过算法偏向高挂价商品以最大化广告曝光价值，支持平台驱动假设。
+
+## Corrected Claim
+
+平台广告收入权重 γ 的计算：γ = Revenue_ad / (Revenue_ad + Revenue_commission)，其中 Revenue_ad 为平台广告收入，Revenue_commission 为交易佣金收入；若 γ > 0.5，则平台有动机通过算法偏向高挂价商品以最大化广告曝光价值，支持平台驱动假设。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

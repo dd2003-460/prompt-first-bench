@@ -1,0 +1,24 @@
+# N334: NVIDIA L40S FP8 E4M3 精度下，Qwen3-27B 在 WikiText-2 或 C4 数据集上的实测困惑度增加量 ΔPPL 具体数值（需检索
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N100
+
+## Claim
+
+NVIDIA L40S FP8 E4M3 精度下，Qwen3-27B 在 WikiText-2 或 C4 数据集上的实测困惑度增加量 ΔPPL 具体数值（需检索 HuggingFace 社区评测或 NVIDIA 技术白皮书，若缺失则标记 [待核验] 并给出基于 INT8 的保守估计 0.2-0.5）
+
+## Corrected Claim
+
+NVIDIA L40S FP8 E4M3 精度下，Qwen3-27B 在 WikiText-2 或 C4 数据集上的实测困惑度增加量 ΔPPL 具体数值 [待核验]；基于 INT8 的保守估计为 0.2-0.5，但 FP8 实际表现需进一步实测确认。
+
+## Evidence
+
+[质询]该陈述要求提供具体的实测数值（ΔPPL），但参考来源显示检索失败，无可用外部证据支持具体数值；且FP8 E4M3与INT8的精度损失机制不同，直接基于INT8估计可能不准确，属于经验事实且缺乏直接来源支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值，仅能保留定性或保守估计表述）
+
+## Search Query
+
+Qwen3-27B FP8 E4M3 perplexity increase benchmark

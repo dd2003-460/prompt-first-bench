@@ -1,0 +1,20 @@
+# N258: 计算有效缓存容量 C_eff = C * (1 - M_invalidation)，其中 C=128GB，M_invalidation 基于 N90 的泊松失效
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N97, N98
+
+## Claim
+
+计算有效缓存容量 C_eff = C * (1 - M_invalidation)，其中 C=128GB，M_invalidation 基于 N90 的泊松失效模型计算得出（假设 λ=0.01/day, T_res=10天，M≈0.095），从而得出 C_eff ≈ 115.7GB，作为后续计算 K_eff 的输入。
+
+## Corrected Claim
+
+计算有效缓存容量 C_eff = C * (1 - M_invalidation)，其中 C=128GB，M_invalidation 基于 N90 的泊松失效模型计算得出（假设 λ=0.01/day, T_res=10天，M≈0.095），从而得出 C_eff ≈ 115.7GB，作为后续计算 K_eff 的输入。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：泊松分布失效概率 P=1-e^(-λT)≈0.095 与 M≈0.095 一致，C_eff=128*(1-0.095)=115.68≈115.7GB 计算无误

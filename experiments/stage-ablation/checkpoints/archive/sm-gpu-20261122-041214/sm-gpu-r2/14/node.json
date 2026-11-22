@@ -1,0 +1,31 @@
+{
+  "id": "N173",
+  "claim": "Intel Arc A770 16GB 作为非典型低成本方案的排除理由：虽然价格仅 ~$300，但显存带宽仅 512 GB/s，且缺乏对 FP8/INT8 量化内核的成熟支持（OpenVINO 优化有限），在 27B 模型 4-bit 量化下，显存 16GB 不足以容纳权重 (13.5GB) + 32K KV Cache (4.8GB)，总需求 ~18.3GB，超出容量，因此被排除在可行候选集之外。",
+  "level": "L3",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]显存带宽数值错误：Intel Arc A770 16GB 采用 GDDR6 显存，256-bit 位宽，频率通常为 16 Gbps，理论带宽应为 512 GB/s 左右（16Gbps * 256bit / 8 = 512 GB/s），但部分资料或特定驱动/频率下可能略有差异，然而更关键的攻击点在于：27B 模型 4-bit 量化权重约 13.5GB 是合理的（27e9 * 0.5 bytes = 13.5GB），但 32K 上下文的 KV Cache 大小取决于模型架构（如 GQA 头数、层数等）。对于 Llama-3-70B 或类似 27B 模型，32K 上下文的 KV Cache 通常远小于 4.8GB（例如 Llama-3-8B 32K KV Cache 约 1-2GB，27B 若为 GQA 可能 2-4GB，若为 MHA 则更大）。4.8GB 的 KV Cache 估算可能偏高或基于特定非优化配置，导致总需求 18.3GB 的结论可能过于悲观。此外，来源 [2] 提到 A770 是 256-bit 位宽，这与 512 GB/s 带宽（假设 16Gbps GDDR6）一致，但需确认具体频率。若频率为 16Gbps，带宽确实是 512 GB/s。若频率更高（如 18Gbps），带宽会更高。但主要问题在于 KV Cache 的估算是否准确，以及 OpenVINO 对 FP8/INT8 的支持程度是否如陈述所述“缺乏成熟支持”。 | 来源 [2] 确认了 A770 16GB 的 256-bit 位宽，支持带宽量级判断；来源 [1] 和 [3] 讨论了 A770 运行大模型的显存限制和驱动问题，间接支持其作为非典型方案的局限性，但未直接提供 27B 模型 4-bit 量化下 KV Cache 的具体数值或 OpenVINO 对 FP8/INT8 内核支持的具体细节，因此无法完全验证 18.3GB 总需求和量化内核支持的具体陈述。",
+  "corrected_claim": "Intel Arc A770 16GB 作为非典型低成本方案的排除理由：虽然价格仅 ~$300，但显存带宽约 512 GB/s（基于 256-bit GDDR6 16Gbps），且缺乏对 FP8/INT8 量化内核的成熟支持（OpenVINO 优化有限），在 27B 模型 4-bit 量化下，显存 16GB 可能不足以容纳权重 (~13.5GB) + 32K KV Cache (估算值，具体取决于模型架构，可能为 2-5GB)，总需求可能接近或超出容量，因此被排除在可行候选集之外。",
+  "rework_count": 1,
+  "parent_ids": [],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": [
+    {
+      "url": "https://apxml.com/zh/hardware/intel-arc-a770-16gb&rut=d58bd5f8250fa7c46591295f79b3afc7e5e7ca5d2e895951be7cccd1cb7c6dd3",
+      "type": "ddg",
+      "title": "Arc A770 (16GB) 最佳适配与运行大模型 - 显存与速度评测"
+    },
+    {
+      "url": "https://gpuprix.com/zh/insights/intel-arc-a770-market-analysis&rut=e594fcbee4b9a7d1af09f1e8dfec2b7779f075483f59bab54961493e76c7d83f",
+      "type": "ddg",
+      "title": "Intel Arc A770 评测 2026：二手 16GB Arc 还值得买吗？ | GPU PRIX"
+    },
+    {
+      "url": "https://blog.csdn.net/weixin_29190651/article/details/164441206&rut=14764217ede43a1d29ff657c374a325aab78d7ca5a69cbff68078f112ccf1c6a",
+      "type": "ddg",
+      "title": "蓝戟Arc A770 16G实测：16GB显存+AV1编码，千元档显卡的优缺点与场景选择-CSDN博客"
+    }
+  ]
+}

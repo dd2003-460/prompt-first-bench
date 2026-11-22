@@ -1,0 +1,24 @@
+# N136: 2x RTX 4090 双卡系统在 FP8 推理下的 PCIe Gen4 x16 互联带宽瓶颈影响：All-Reduce 通信延迟具体数值（us/token），
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N39
+
+## Claim
+
+2x RTX 4090 双卡系统在 FP8 推理下的 PCIe Gen4 x16 互联带宽瓶颈影响：All-Reduce 通信延迟具体数值（us/token），以及由此导致的吞吐量下降百分比（相比理论线性加速比），用于评估多卡方案的实际有效性能损失是否抵消了部分 TCO 优势。
+
+## Corrected Claim
+
+2x RTX 4090 双卡系统在 FP8 推理下，若仅通过 PCIe Gen4 x16 互联（无 NVLink），All-Reduce 通信将成为显著瓶颈，导致实际吞吐量低于理论线性加速比，具体性能损失取决于模型规模与通信频率，需实测评估其是否抵消 TCO 优势。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在逻辑上分别对应硬件物理极限、数据通信量估算和最终性能结果，彼此正交且不冗余。然而，完备性存在缺失：父节点明确要求提供 'All-Reduce 通信延迟具体数值（us/token）'，但子节点仅提供了带宽上限和通信数据量公式，未给出基于此计算出的具体延迟数值（即缺乏从数据量到延迟的换算结果或实测值），导致无法直接回答父节点关于 '具体数值' 的要求。）
+
+## Search Query
+
+2x RTX 4090 PCIe Gen4 tensor parallelism all-reduce latency overhead LLM inference

@@ -1,0 +1,24 @@
+# N226: Qwen3-27B-Instruct-2507 在 BF16 精度下的 MMLU 基准准确率具体数值（作为计算 ΔAcc 的分子/基准值），需从 Hugging
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N76
+
+## Claim
+
+Qwen3-27B-Instruct-2507 在 BF16 精度下的 MMLU 基准准确率具体数值（作为计算 ΔAcc 的分子/基准值），需从 HuggingFace 官方模型卡片或 Qwen 技术报告获取，若未直接披露，需引用第三方权威评测（如 OpenCompass 最新榜单）中该模型的得分。
+
+## Corrected Claim
+
+Qwen3-27B-Instruct-2507 在 BF16 精度下的 MMLU 基准准确率具体数值需从 HuggingFace 官方模型卡片或 Qwen 技术报告获取，若未直接披露，需引用第三方权威评测（如 OpenCompass 最新榜单）中该模型的得分。
+
+## Evidence
+
+[质询]该陈述要求提供具体的MMLU准确率数值，但参考来源为空，无法验证具体数值是否准确，且不同评测基准（如MMLU-Pro vs MMLU-5-shot）可能导致数值差异，存在口径混淆风险。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Qwen3-27B-Instruct-2507 MMLU accuracy BF16 benchmark OpenCompass

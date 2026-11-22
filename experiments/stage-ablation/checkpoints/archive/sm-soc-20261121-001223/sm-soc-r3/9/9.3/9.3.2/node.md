@@ -1,0 +1,20 @@
+# N216: 在激进信任提升工作点（Trust_Index提升0.2σ，复购率提升10%），用户留存率增量 ΔRetention ≈ 0.10 * Base_Retentio
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N79
+
+## Claim
+
+在激进信任提升工作点（Trust_Index提升0.2σ，复购率提升10%），用户留存率增量 ΔRetention ≈ 0.10 * Base_Retention。假设基础复购率为20%，则 ΔRetention ≈ 2%。此工作点对应干预后信任度显著改善、用户长期价值大幅提升的情景。
+
+## Corrected Claim
+
+在激进信任提升工作点（Trust_Index提升0.2σ，复购率提升10%），用户留存率增量 ΔRetention ≈ 0.10 * Base_Retention。假设基础复购率为20%，则 ΔRetention ≈ 2%。此工作点对应干预后信任度显著改善、用户长期价值大幅提升的情景。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于题面设定的线性关系假设（ΔRetention ≈ 0.10 * Base_Retention）及给定基础复购率20%，计算得出2%在数学上自洽且量级合理。

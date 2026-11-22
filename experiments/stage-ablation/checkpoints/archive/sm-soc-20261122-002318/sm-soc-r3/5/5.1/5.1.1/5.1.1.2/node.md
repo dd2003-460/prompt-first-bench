@@ -1,0 +1,24 @@
+# N216: 样本量 N 的实际观测值与统计功效分析：需确认 N=100 是假设值还是实际数据量；若 N 较小（如 <50），需计算检测出 60% vs 9.07% 差异所需
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N76
+
+## Claim
+
+样本量 N 的实际观测值与统计功效分析：需确认 N=100 是假设值还是实际数据量；若 N 较小（如 <50），需计算检测出 60% vs 9.07% 差异所需的最低样本量（Power Analysis），以验证当前检验是否具备足够的统计功效（Power > 0.8）。
+
+## Corrected Claim
+
+样本量 N 的实际观测值与统计功效分析：需确认 N=100 是假设值还是实际数据量；若 N 较小（如 <50），需计算检测出 60% vs 9.07% 差异所需的最低样本量（Power Analysis），以验证当前检验是否具备足够的统计功效（Power > 0.8）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该陈述准确描述了统计功效分析（Power Analysis）在样本量评估中的标准应用逻辑，即通过计算检测特定效应量（60% vs 9.07%）所需的最小样本量来验证当前检验的功效是否达标（Power > 0.8），符合统计学基本原理。
+
+## Search Query
+
+power analysis sample size required for z-test difference in proportions

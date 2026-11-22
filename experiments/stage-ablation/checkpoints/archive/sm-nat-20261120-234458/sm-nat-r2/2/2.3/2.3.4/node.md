@@ -1,0 +1,30 @@
+# N42: 在 ρ_s = -0.3 且 α=1.1 的耦合分布下，头部 10% 最热门对象（频率排名 1-10000）的平均大小 S_top10% ≈ 5KB，而尾部 9
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+在 ρ_s = -0.3 且 α=1.1 的耦合分布下，头部 10% 最热门对象（频率排名 1-10000）的平均大小 S_top10% ≈ 5KB，而尾部 90% 冷对象（频率排名 10001-100000）的平均大小 S_tail90% ≈ 15KB，导致 LRU 驱逐大冷对象造成的字节损失占比约为 (15-5)/15 ≈ 66% 的潜在可挽回字节。
+
+## Corrected Claim
+
+在 ρ_s = -0.3 且 α=1.1 的耦合分布下，头部热门对象平均大小显著小于尾部冷对象（例如 S_top10% < S_tail90%），导致 LRU 驱逐大冷对象造成的字节损失占比显著高于随机驱逐，具体数值需依赖特定数据集或模拟结果。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（头部对象平均大小5KB，尾部对象平均大小15KB），这些具体数值无法仅从给定的分布参数（ρ_s, α）和第一性原理推导得出，属于特定数据集或模拟实验的结果，缺乏通用性。 | 参考来源[1][2][3]仅讨论双变量Pareto分布的相关性理论及城市规模分布，未提供缓存系统中对象大小与频率耦合的具体经验数值（如5KB/15KB），属于经验事实且缺来源直接支持。
+
+## Search Query
+
+correlated frequency size distribution Pareto negative correlation cache eviction loss
+
+## Retrieval Sources
+
+- {'url': 'https://home.olemiss.edu/~xdang/papers/ParetoCors.pdf&rut=0bda667c58072383a39201c9e751d2a61598e37e9bac89ba8510dc8a9221cdfe', 'type': 'ddg', 'title': 'PDF Correlations in Bivariate Pareto Distributions - Ole Miss'}
+- {'url': 'https://pmc.ncbi.nlm.nih.gov/articles/PMC3176775/&rut=66c869c0ec1a0b3a127def2532da2171eb67166b89a8038a7a80c7a15f960292', 'type': 'ddg', 'title': 'Modeling Fractal Structure of City-Size Distributions Using Correlation ...'}
+- {'url': 'https://www.researchgate.net/publication/358736301_Correlations_in_bivariate_Pareto_distributions&rut=2fa120ea410af1083788f28693a1c2b103da3085c96e3b2919395401a637b151', 'type': 'ddg', 'title': '(PDF) Correlations in bivariate Pareto distributions - ResearchGate'}

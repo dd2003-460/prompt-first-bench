@@ -1,0 +1,20 @@
+# N357: 质量加权性价比指标 (Quality-Adjusted Cost per Token, QACPT)：QACPT = CPT / Quality_Score，其
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+质量加权性价比指标 (Quality-Adjusted Cost per Token, QACPT)：QACPT = CPT / Quality_Score，其中 Quality_Score = (1 - Relative_Accuracy_Loss)；例如，若 W4 量化导致 MMLU 下降 3%，则 Quality_Score = 0.97；此指标用于比较不同精度/硬件组合的真实性价比，避免单纯追求低成本而牺牲模型效用。
+
+## Corrected Claim
+
+质量加权性价比指标 (Quality-Adjusted Cost per Token, QACPT)：QACPT = CPT / Quality_Score，其中 Quality_Score = (1 - Relative_Accuracy_Loss)；例如，若 W4 量化导致 MMLU 下降 3%，则 Quality_Score = 0.97；此指标用于比较不同精度/硬件组合的真实性价比，避免单纯追求低成本而牺牲模型效用。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

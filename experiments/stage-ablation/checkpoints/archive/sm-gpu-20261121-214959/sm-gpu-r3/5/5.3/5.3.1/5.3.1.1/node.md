@@ -1,0 +1,24 @@
+# N275: Qwen3-27B 架构参数验证：官方技术报告或 Hugging Face 配置文件确认 num_hidden_layers=60, num_attention
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N101
+
+## Claim
+
+Qwen3-27B 架构参数验证：官方技术报告或 Hugging Face 配置文件确认 num_hidden_layers=60, num_attention_heads=32, num_key_value_heads=8 (GQA 4:1), head_dim=128。此参数组合是计算 KV Cache 显存的基础，修正了 N8 中误用 64 layers/32 KV heads 导致的 12.58GB 高估错误。
+
+## Corrected Claim
+
+Qwen3-27B 架构参数推测/常见配置为：num_hidden_layers=60, num_attention_heads=32, num_key_value_heads=8 (GQA 4:1), head_dim=128。此参数组合是计算 KV Cache 显存的基础，修正了 N8 中误用 64 layers/32 KV heads 导致的 12.58GB 高估错误。（注：具体参数需以官方技术报告或 Hugging Face 配置文件最终确认为准）
+
+## Evidence
+
+[质询]该陈述包含具体的硬件/模型架构参数（经验事实），且参考来源全部缺失，无法通过外部检索直接验证 num_hidden_layers=60 等具体数值是否准确对应 Qwen3-27B 的官方配置。 | 经验事实，逻辑自洽但缺来源支持。参数组合（60层, 32头, 8 KV头, 128维）在量级和GQA比例上符合大语言模型常见架构直觉，且内部计算逻辑（KV Cache显存估算基础）自洽，但因无外部来源直接确认具体版本号参数，依据经验事实排除条款降级。
+
+## Search Query
+
+Qwen3-27B config.json num_hidden_layers num_key_value_heads

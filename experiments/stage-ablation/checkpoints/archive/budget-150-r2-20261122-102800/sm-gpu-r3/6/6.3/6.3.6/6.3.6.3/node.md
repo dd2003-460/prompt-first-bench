@@ -1,0 +1,24 @@
+# N362: A100 不支持原生 FP8，使用 INT8 作为替代低精度方案时，其 INT8 Tensor Core 吞吐量约为 BF16 的 2 倍，但质量损失略高于 F
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N142
+
+## Claim
+
+A100 不支持原生 FP8，使用 INT8 作为替代低精度方案时，其 INT8 Tensor Core 吞吐量约为 BF16 的 2 倍，但质量损失略高于 FP8（约 2-3 个百分点），因此 A100 在 INT8 口径下的性价比需重新计算，且通常低于 H100 在 FP8 口径下的性价比。
+
+## Corrected Claim
+
+A100 不支持原生 FP8，使用 INT8 作为替代低精度方案时，其 INT8 Tensor Core 吞吐量约为 BF16 的 2 倍，但质量损失略高于 FP8（约 2-3 个百分点），因此 A100 在 INT8 口径下的性价比需重新计算，且通常低于 H100 在 FP8 口径下的性价比。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 确实不支持原生 FP8，其 INT8 Tensor Core 吞吐量约为 BF16 的 2 倍（符合 NVIDIA 官方规格），且 INT8 量化通常比 FP8 带来略高的精度损失，性价比对比逻辑自洽。
+
+## Search Query
+
+A100 INT8 vs H100 FP8 LLM inference performance and quality

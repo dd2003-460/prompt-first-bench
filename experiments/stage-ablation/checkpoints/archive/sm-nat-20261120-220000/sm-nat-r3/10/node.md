@@ -1,0 +1,20 @@
+# N61: 基于ρ=-0.3的负相关系数，利用Copula函数（如Gaussian Copula）构建大小S与热度F的联合概率密度函数 f(S,F)，以量化“热门即小”对缓
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+基于ρ=-0.3的负相关系数，利用Copula函数（如Gaussian Copula）构建大小S与热度F的联合概率密度函数 f(S,F)，以量化“热门即小”对缓存字节效率的具体影响，修正独立的Pareto假设偏差。
+
+## Corrected Claim
+
+基于ρ=-0.3的负相关系数，利用Copula函数（如Gaussian Copula）构建大小S与热度F的联合概率密度函数 f(S,F)，以量化“热门即小”对缓存字节效率的具体影响，修正独立的Pareto假设偏差。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别定义了Copula函数形式、联合概率密度构建公式以及最终修正指标的计算方法，三者逻辑递进且互不重叠，完整覆盖了父节点中关于构建联合分布和量化影响的核心要求。）

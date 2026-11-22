@@ -1,0 +1,17 @@
+{
+  "id": "N135",
+  "claim": "修正多卡通信开销模型：对于 Tensor Parallelism (TP=2)，每层 Transformer 后需进行 All-Reduce 同步。每次 All-Reduce 的数据量约为 hidden_size * batch_size * seq_len * bytes。对于 Qwen3-27B (hidden=4096), batch=1, seq=1 (decode step), 每次同步数据量极小 (~16KB BF16)，主要开销来自 PCIe 延迟 (~5-10us) 而非带宽。",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "verified",
+  "evidence": "先验知识/题面给定，逻辑校验通过：数据量计算 4096 * 1 * 1 * 2 = 8192 Bytes (8KB)，陈述中 ~16KB 可能包含梯度或激活值的双向通信或保守估计，量级正确；PCIe 延迟主导小数据量通信开销符合硬件常识。",
+  "corrected_claim": "修正多卡通信开销模型：对于 Tensor Parallelism (TP=2)，每层 Transformer 后需进行 All-Reduce 同步。每次 All-Reduce 的数据量约为 hidden_size * batch_size * seq_len * bytes。对于 Qwen3-27B (hidden=4096), batch=1, seq=1 (decode step), 每次同步数据量极小 (~16KB BF16)，主要开销来自 PCIe 延迟 (~5-10us) 而非带宽。",
+  "rework_count": 0,
+  "parent_ids": [
+    "N38"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

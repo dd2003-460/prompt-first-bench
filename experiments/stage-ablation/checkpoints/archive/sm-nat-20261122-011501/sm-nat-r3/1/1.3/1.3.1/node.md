@@ -1,0 +1,20 @@
+# N31: 高斯 Copula 变换：将 Pareto 分布转换为标准正态变量 Z_s 和 Z_h，使得 Z_s = Φ^{-1}(CDF_S(s))，Z_h = Φ^{-
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+高斯 Copula 变换：将 Pareto 分布转换为标准正态变量 Z_s 和 Z_h，使得 Z_s = Φ^{-1}(CDF_S(s))，Z_h = Φ^{-1}(CDF_H(h))，其中 Φ 为标准正态 CDF。负相关 ρ=-0.3 意味着 Cov(Z_s, Z_h) = -0.3。
+
+## Corrected Claim
+
+高斯 Copula 变换：将 Pareto 分布转换为标准正态变量 Z_s 和 Z_h，使得 Z_s = Φ^{-1}(CDF_S(s))，Z_h = Φ^{-1}(CDF_H(h))，其中 Φ 为标准正态 CDF。负相关 ρ=-0.3 意味着 Cov(Z_s, Z_h) = -0.3。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：概率积分变换将任意连续分布映射为标准正态，高斯Copula定义下相关系数即为协方差（因变量已标准化），数值量级与定义自洽。

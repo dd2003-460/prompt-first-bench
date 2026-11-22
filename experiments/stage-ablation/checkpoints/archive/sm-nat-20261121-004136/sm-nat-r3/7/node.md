@@ -1,0 +1,20 @@
+# N22: LRU 稳态字节命中率下界 H_LRU_lb 的积分表达式：H_LRU_lb = (∫_0^{K_max} f_size(s) * f_rank(r(s)) *
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+LRU 稳态字节命中率下界 H_LRU_lb 的积分表达式：H_LRU_lb = (∫_0^{K_max} f_size(s) * f_rank(r(s)) * s ds) / (∫_0^∞ f_size(s) * f_rank(r(s)) * s ds)，其中 r(s) 是大小为 s 的对象对应的热度排名，K_max 为容量限制下的最大驻留对象数，分母为总请求字节数。
+
+## Corrected Claim
+
+LRU 稳态字节命中率下界 H_LRU_lb 的积分表达式：H_LRU_lb = (∫_0^{K_max} f_size(s) * f_rank(r(s)) * s ds) / (∫_0^∞ f_size(s) * f_rank(r(s)) * s ds)，其中 r(s) 是大小为 s 的对象对应的热度排名，K_max 为容量限制下的最大驻留对象数，分母为总请求字节数。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点分别处理分子和分母，具有正交性且无冗余。但存在严重完备性问题：子节点1中提到的修正（积分上限变为N）直接导致分子等于分母（均为总请求字节数），使得H_LRU_lb恒等于1，这在数学上忽略了LRU缓存机制的核心逻辑（即只有被访问且未被淘汰的对象才计入命中）。此外，父节点定义中K_max是容量限制，子节点1却假设容量充足（K_max > N）并得出趋近于1的结论，未覆盖一般情况（容量不足）下的非平凡命中率计算，也未解释f_rank(r(s))在积分中的具体物理意义（是访问频率还是排名概率？），导致分解未能完整覆盖父节点表达式的通用适用性。）

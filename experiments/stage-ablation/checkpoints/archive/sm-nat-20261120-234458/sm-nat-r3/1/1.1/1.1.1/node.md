@@ -1,0 +1,20 @@
+# N20: 基于 Pareto(α=1.1) 且 S_min=1KB, S_max=100MB 的截断分布，计算出的对象平均大小 μ_S ≈ 11.1KB，而非 N5 中假
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N5
+
+## Claim
+
+基于 Pareto(α=1.1) 且 S_min=1KB, S_max=100MB 的截断分布，计算出的对象平均大小 μ_S ≈ 11.1KB，而非 N5 中假设的 100KB。
+
+## Corrected Claim
+
+基于 Pareto(α=1.1) 且 S_min=1KB, S_max=100MB 的截断分布，计算出的对象平均大小 μ_S ≈ 11.1KB，而非 N5 中假设的 100KB。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（由于只有一个子节点，不存在子节点间的正交性或冗余问题。该子节点准确指出了父节点中关于平均大小计算的错误，并提供了正确的计算结果和依据，完整覆盖了父节点的核心论点（即对 μ_S 值的质疑和修正）。）

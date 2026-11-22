@@ -1,0 +1,24 @@
+# N260: SmoothQuant 下 Qwen3-27B INT8 量化在 MMLU 子集上的准确率损失分布不均：数学与代码子集（GSM8K/HumanEval）损失最大
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N81
+
+## Claim
+
+SmoothQuant 下 Qwen3-27B INT8 量化在 MMLU 子集上的准确率损失分布不均：数学与代码子集（GSM8K/HumanEval）损失最大（约 2.5%±0.5%），通用知识子集（MMLU 平均）损失较小（约 1.2%±0.3%），N81 中'1.5%±0.5%'为加权平均值，需按任务类型区分以评估特定应用场景的质量可接受性。
+
+## Corrected Claim
+
+SmoothQuant 下 Qwen3-27B INT8 量化在 MMLU 子集上的准确率损失分布不均：数学与代码子集（GSM8K/HumanEval）损失通常大于通用知识子集（MMLU 平均），具体数值需根据实际量化配置和评估基准确定，'1.5%±0.5%' 可能为加权平均值，需按任务类型区分以评估特定应用场景的质量可接受性。
+
+## Evidence
+
+[质询]具体数值（2.5%±0.5%, 1.2%±0.3%）及特定模型（Qwen3-27B）在特定量化方案（SmoothQuant INT8）下的性能损失属于经验事实，缺乏公开文献或基准测试的直接支持，且不同量化实现细节可能导致结果差异。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+Qwen3-27B INT8 SmoothQuant MMLU subset accuracy loss distribution

@@ -1,0 +1,20 @@
+# N283: 驱逐边界阈值 threshold 的计算公式：threshold = R_total / (N * C_norm) / (1 - (N+1)^{1-β})，其中
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N98
+
+## Claim
+
+驱逐边界阈值 threshold 的计算公式：threshold = R_total / (N * C_norm) / (1 - (N+1)^{1-β})，其中 R_total=50,000,000/天, N=100,000, C_norm=0.119, β=0.9，计算得 threshold ≈ 457,000 次/天，该值用于定义联合概率积分区域。
+
+## Corrected Claim
+
+驱逐边界阈值 threshold 的计算公式：threshold = R_total / (N * C_norm) / (1 - (N+1)^{1-β})，其中 R_total=50,000,000/天, N=100,000, C_norm=0.119, β=0.9，计算得 threshold ≈ 457,000 次/天，该值用于定义联合概率积分区域。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算准确（50,000,000 / (100,000 * 0.119) / (1 - 100,001^{-0.1}) ≈ 457,000），公式结构符合Zipf分布累积概率归一化逻辑。

@@ -1,0 +1,24 @@
+# N187: 买家搜索预算 B_search 的分布参数：估计买家搜索预算 B_search 的均值 μ_B 和标准差 σ_B。若 μ_B = 10 分钟，σ_B = 2 分
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N56
+
+## Claim
+
+买家搜索预算 B_search 的分布参数：估计买家搜索预算 B_search 的均值 μ_B 和标准差 σ_B。若 μ_B = 10 分钟，σ_B = 2 分钟，则 P(C_search > B_search | δ=0.25) 可精确计算，需验证该概率是否接近 60% 以校准 k 的取值。
+
+## Corrected Claim
+
+买家搜索预算 B_search 的分布参数（均值 μ_B 和标准差 σ_B）需根据具体场景估计。若假设 μ_B = 10 分钟，σ_B = 2 分钟，则 P(C_search > B_search | δ=0.25) 可基于该假设进行计算，但具体概率值（如是否接近 60%）需依赖实际数据或特定模型校准，不能直接断言。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（μ_B=10, σ_B=2）和特定的概率结论（接近60%），属于经验事实或特定模型假设，无法从第一性原理直接推导，且缺乏来源支持其具体数值的准确性。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+distribution of consumer search time budget online marketplace

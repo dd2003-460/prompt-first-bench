@@ -1,0 +1,24 @@
+# N54: 曝光增量 ΔE 与成交周期 T_close 的非线性关系修正：原公式 ΔE = α × (T_close_base / T_close)^(0.5) 忽略了‘曝
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N14
+
+## Claim
+
+曝光增量 ΔE 与成交周期 T_close 的非线性关系修正：原公式 ΔE = α × (T_close_base / T_close)^(0.5) 忽略了‘曝光饱和效应’，修正后 ΔE = α × (T_close_base / T_close)^(0.5) * (1 - e^(-β_sat * E_current))，其中 E_current 为当前累计曝光量，β_sat ≈ 0.001/次；当商品曝光量超过 1000 次后，边际曝光收益递减 50% 以上，导致高价商品无法无限积累曝光优势。
+
+## Corrected Claim
+
+曝光增量 ΔE 与成交周期 T_close 的非线性关系修正：原公式 ΔE = α × (T_close_base / T_close)^(0.5) 忽略了‘曝光饱和效应’，修正后 ΔE = α × (T_close_base / T_close)^(0.5) * (1 - e^(-β_sat * E_current))，其中 E_current 为当前累计曝光量，β_sat ≈ 0.001/次；当商品曝光量超过 1000 次后，边际曝光收益递减 50% 以上，导致高价商品无法无限积累曝光优势。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+advertising exposure saturation effect diminishing returns e-commerce

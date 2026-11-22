@@ -1,0 +1,20 @@
+# N58: 负相关修正项的量化公式：定义修正因子 K_corr = 1 + |ρ| * (H_small - H_large)，其中 H_small 和 H_large 分
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N21
+
+## Claim
+
+负相关修正项的量化公式：定义修正因子 K_corr = 1 + |ρ| * (H_small - H_large)，其中 H_small 和 H_large 分别为小对象和大对象的字节命中率；需计算 ρ=-0.3 时 K_corr 的具体数值，以验证 '25-35%' 的提升范围是否成立。
+
+## Corrected Claim
+
+负相关修正项的量化公式：定义修正因子 K_corr = 1 + |ρ| * (H_small - H_large)，其中 H_small 和 H_large 分别为小对象和大对象的字节命中率；需计算 ρ=-0.3 时 K_corr 的具体数值，以验证 '25-35%' 的提升范围是否成立。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

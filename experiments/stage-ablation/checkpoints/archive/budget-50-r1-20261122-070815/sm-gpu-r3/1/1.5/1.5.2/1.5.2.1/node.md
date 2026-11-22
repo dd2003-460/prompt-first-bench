@@ -1,0 +1,24 @@
+# N192: Qwen3-27B 在 H100 80GB 上运行 FP8 精度时的实际 Decode 速度约为 50-70 tokens/s (受限于 3350 GB/s 带
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N49
+
+## Claim
+
+Qwen3-27B 在 H100 80GB 上运行 FP8 精度时的实际 Decode 速度约为 50-70 tokens/s (受限于 3350 GB/s 带宽但 FP8 计算加速)，Prefill 速度可达 3000-5000 tokens/s，相比 BF16 在 A100 上，其单用户延迟降低约 2-3 倍，但硬件成本增加约 2.5 倍
+
+## Corrected Claim
+
+Qwen3-27B 在 H100 80GB 上运行 FP8 精度时，Decode 速度通常显著高于 BF16 在 A100 上的表现（具体数值取决于 Batch Size 和序列长度，量级可能在数十至百 tokens/s 之间），Prefill 速度可达数千 tokens/s，单用户延迟相比 BF16/A100 组合有显著降低，但硬件成本相应增加。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件性能指标（Decode/Prefill速度、延迟倍数、成本倍数），属于经验事实。由于检索失败无外部来源支持，且具体数值（如50-70 tokens/s）受量化实现、Batch Size、序列长度等变量影响极大，缺乏上下文限定，存在数值量级偏差或口径混淆的风险。 | 经验事实，逻辑自洽但缺来源支持。H100带宽(3.35TB/s)高于A100(2TB/s)，FP8计算加速符合硬件特性，量级估算在合理范围内，但无直接证据确证具体数值。
+
+## Search Query
+
+H100 80GB Qwen3-27B FP8 vLLM benchmark decode prefill speed

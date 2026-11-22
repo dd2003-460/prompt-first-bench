@@ -1,0 +1,26 @@
+# N32: 非典型方案 Apple Mac Studio M2 Ultra (192GB/256GB Unified Memory) 内存带宽为 800 GB/s，虽低于 
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+非典型方案 Apple Mac Studio M2 Ultra (192GB/256GB Unified Memory) 内存带宽为 800 GB/s，虽低于 H100 但高于 RTX 4090，且支持统一内存无需显存限制；对于 27B 模型 INT4 量化 (13.5GB) + 32K KV Cache，192GB 版本绰绰有余，成本约 $4000-$7000，TCO 需考虑 Mac 生态在 LLM 推理库 (llama.cpp/MLX) 的优化程度
+
+## Corrected Claim
+
+非典型方案 Apple Mac Studio M2 Ultra (192GB/256GB Unified Memory) 内存带宽为 800 GB/s，虽低于 H100 但高于 RTX 4090 显存容量限制，且支持统一内存；对于 27B 模型 INT4 量化 (13.5GB) + 32K KV Cache，192GB 版本容量充足，具体成本需根据市场配置查询，TCO 需考虑 Mac 生态在 LLM 推理库 (llama.cpp/MLX) 的优化程度
+
+## Evidence
+
+[质询]成本区间（$4000-$7000）及TCO具体数值属于经验事实，参考来源未提供价格数据，且不同配置（192GB vs 256GB）价格差异较大，该区间可能不准确或仅覆盖部分配置。 | 来源[2]直接支持内存带宽800GB/s、高于RTX 4090显存限制（24GB）及192GB内存配置；但成本与TCO优化程度缺乏来源支持，属经验事实，逻辑自洽但缺来源直接证实。
+
+## Retrieval Sources
+
+- {'url': 'https://www.apple.com.cn/shop/product/g1805ch/a&rut=d75bcbf6c604c7de0fe9e811d485a3aee9bc894a96025536096e22bb357981a0', 'type': 'ddg', 'title': '翻新 Mac Studio Apple M2 Ultra 芯片 (配备 24 核中央处理器和 60 核图形处理器)'}
+- {'url': 'https://post.smzdm.com/p/a4pmpdlw/&rut=68ec1fb935f19c6461ef7e413e319e7cdb1ad19d55e2d5e5c9b5fd2abd1634e6', 'type': 'ddg', 'title': '要价 5W+!M2 Ultra 性能尽头在 AI？新款苹果 Mac Studio 体验报告'}
+- {'url': 'https://www.apple.com/tw/shop/product/g180mta/a/Mac-Studio-Apple-M2-Ultra-%E6%99%B6%E7%89%87-%E9%85%8D%E5%82%99-24%E2%80%91%E6%A0%B8%E5%BF%83-CPU-%E8%88%87-76%E2%80%91%E6%A0%B8%E5%BF%83-GPU-(%E6%95%B4%E4%BF%AE%E5%93%81)&rut=38bcdfdd5b4ffaf53d336d929f70456993bae02bcd7ca093f7439c11f6ad117b', 'type': 'ddg', 'title': 'Mac Studio Apple M2 Ultra 晶片配備 24 核心 CPU 與 76 核心 GPU (整修品)'}

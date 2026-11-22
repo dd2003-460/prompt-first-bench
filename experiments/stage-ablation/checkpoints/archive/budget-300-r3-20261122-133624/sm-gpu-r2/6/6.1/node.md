@@ -1,0 +1,24 @@
+# N158: RTX 4090 单卡 INT8 部署的 KV Cache 瓶颈量化：24GB 显存 - 27GB 权重 = -3GB（不足），因此必须使用量化权重压缩（如 W
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N39
+
+## Claim
+
+RTX 4090 单卡 INT8 部署的 KV Cache 瓶颈量化：24GB 显存 - 27GB 权重 = -3GB（不足），因此必须使用量化权重压缩（如 W4 或 NVFP4）或启用 PagedAttention 动态管理。若强制使用 INT8，需限制最大上下文至 8K tokens，此时 KV Cache 占用约为 1.0GB，总占用 28GB，仍超出 24GB 物理显存，故 4090 单卡 INT8 在 32K 上下文下不可行，必须限制上下文或使用更激进量化。
+
+## Corrected Claim
+
+RTX 4090 单卡 INT8 部署的 KV Cache 瓶颈量化：24GB 显存无法容纳 27GB 的 INT8 权重，因此必须使用量化权重压缩（如 W4 或 NVFP4）或启用 PagedAttention 动态管理。若强制使用 INT8，需限制最大上下文至 8K tokens，此时 KV Cache 占用约为 1.0GB，总占用 28GB，仍超出 24GB 物理显存，故 4090 单卡 INT8 在 32K 上下文下不可行，必须限制上下文或使用更激进量化。
+
+## Evidence
+
+[质询]数值计算存在内部矛盾：24GB - 27GB = -3GB 是负数，表示显存不足，但后续声称'总占用 28GB'（27GB权重 + 1.0GB KV Cache），这与前文的-3GB差额逻辑不一致（若权重27GB，KV 1GB，总需28GB，超出24GB 4GB，而非-3GB的表述方式，且-3GB通常指剩余空间，此处混淆了'剩余空间'与'总需求'的口径）。此外，RTX 4090 显存为24GB，INT8权重27GB已超出显存，无法加载，因此'强制使用INT8'的前提本身不成立，因为权重无法装入显存。 | 逻辑校验发现内部矛盾：24GB - 27GB = -3GB 表示显存不足，但后续总占用28GB的计算与前文差额逻辑不一致，且INT8权重27GB已超出24GB显存，无法加载，前提不成立。
+
+## Search Query
+
+RTX 4090 24GB INT8 27B model KV cache limit context length

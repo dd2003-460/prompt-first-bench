@@ -1,0 +1,24 @@
+# N304: 更新率对命中率折损的敏感度分析：d(D_eff)/du ≈ -T_avg * exp(-u*T_avg)。在 u=0.01, T_avg=1.0 时，敏感度为 
+
+- **status**: verified
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+更新率对命中率折损的敏感度分析：d(D_eff)/du ≈ -T_avg * exp(-u*T_avg)。在 u=0.01, T_avg=1.0 时，敏感度为 -0.99。这意味着更新率每增加 1%，折损因子下降约 1%。若 T_avg 因重尾分布增大至 3.0 天，敏感度增至 -2.97，折损将显著扩大至约 3%。
+
+## Corrected Claim
+
+更新率对命中率折损的敏感度分析：d(D_eff)/du ≈ -T_avg * exp(-u*T_avg)。在 u=0.01, T_avg=1.0 时，敏感度为 -0.99。这意味着更新率每增加 1%，折损因子下降约 1%。若 T_avg 因重尾分布增大至 3.0 天，敏感度增至 -2.97，折损将显著扩大至约 3%。
+
+## Evidence
+
+[rework-angle r1] 逻辑推导成立，来源未直接覆盖
+
+## Search Query
+
+sensitivity of effective demand to update rate exponential decay

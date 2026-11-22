@@ -1,0 +1,24 @@
+# N212: RTX 4090 的 FP32 峰值算力为 165.2 TFLOPS，约为 BF16/FP16 算力（330.4 TFLOPS）的 50%；在 Prefill 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N64
+
+## Claim
+
+RTX 4090 的 FP32 峰值算力为 165.2 TFLOPS，约为 BF16/FP16 算力（330.4 TFLOPS）的 50%；在 Prefill 阶段若未启用 Tensor Core 加速（如某些纯 CUDA kernel 路径），实际算力将降至 FP32 水平，导致 Prefill 延迟增加约 2 倍，因此在部署 Qwen3-27B 时必须确保使用 Tensor Core 支持的算子（如 cuBLAS GemmEx 或 CUTLASS）以维持 330.4 TFLOPS 的有效算力。
+
+## Corrected Claim
+
+RTX 4090 的 FP32 峰值算力为 165.2 TFLOPS，约为 BF16/FP16 算力（330.4 TFLOPS）的 50%；在 Prefill 阶段若未启用 Tensor Core 加速（如某些纯 CUDA kernel 路径），实际算力将降至 FP32 水平，导致 Prefill 延迟增加约 2 倍，因此在部署 Qwen3-27B 时必须确保使用 Tensor Core 支持的算子（如 cuBLAS GemmEx 或 CUTLASS）以维持 330.4 TFLOPS 的有效算力。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 FP32 165.2 TFLOPS 与 BF16/FP16 330.4 TFLOPS 的 2:1 比例符合 NVIDIA Ada Lovelace 架构 Tensor Core 加速特性，Prefill 阶段算力瓶颈导致延迟倍增的逻辑自洽。
+
+## Search Query
+
+RTX 4090 FP32 vs BF16 tensor core performance ratio

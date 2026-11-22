@@ -1,0 +1,20 @@
+# N95: 在 24GB 显存约束下，Qwen3-27B 唯一可行的量化精度为 W4 (4-bit)，其显存占用计算为：权重 27B * 0.5 bytes = 13.5G
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N25, N26, N27
+
+## Claim
+
+在 24GB 显存约束下，Qwen3-27B 唯一可行的量化精度为 W4 (4-bit)，其显存占用计算为：权重 27B * 0.5 bytes = 13.5GB + KV Cache (32K ctx, BF16) ≈ 16GB = 29.5GB > 24GB，结论是即使 W4 也超出 24GB 限制，必须启用 PagedAttention 或降低上下文至 ~16K 才能单卡运行。
+
+## Corrected Claim
+
+在 24GB 显存约束下，Qwen3-27B 采用 W4 量化后权重占用约 13.5GB。若 KV Cache 估算准确（32K ctx 下通常 < 4GB），总显存占用约 17-18GB，理论上可在 24GB 显存单卡运行，无需强制降低上下文至 16K 或启用 PagedAttention（除非 Batch Size 较大或上下文极长）。
+
+## Evidence
+
+父节点级核验未通过：有冗余（子节点覆盖了父节点中提到的‘降低上下文’和‘启用PagedAttention/溢出’的替代方案，且各工作点参数不同（KV精度与上下文长度组合），逻辑上正交且完备。但存在冗余，因为三个子节点本质上是同一公式（总显存=权重+KV）在不同参数下的计算实例，且父节点结论中隐含的‘必须’条件在子节点中已具体化为可行/不可行的边界。）

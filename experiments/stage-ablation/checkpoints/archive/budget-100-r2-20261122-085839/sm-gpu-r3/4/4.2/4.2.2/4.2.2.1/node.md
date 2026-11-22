@@ -1,0 +1,24 @@
+# N210: RTX 4090 在 BF16 精度下的稀疏（Sparse）Tensor Core 峰值算力为 660.8 TFLOPS，是 Dense 模式（330.4 TF
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N64
+
+## Claim
+
+RTX 4090 在 BF16 精度下的稀疏（Sparse）Tensor Core 峰值算力为 660.8 TFLOPS，是 Dense 模式（330.4 TFLOPS）的 2 倍，但仅在模型支持结构化稀疏（如 2:4 sparsity）且框架（如 vLLM/TensorRT-LLM）启用稀疏 kernel 时可用；对于 Qwen3-27B 这种稠密模型，实际有效算力上限仍为 330.4 TFLOPS，稀疏加速比不适用。
+
+## Corrected Claim
+
+RTX 4090 在 BF16 精度下的稀疏（Sparse）Tensor Core 峰值算力为 660.8 TFLOPS，是 Dense 模式（330.4 TFLOPS）的 2 倍，但仅在模型支持结构化稀疏（如 2:4 sparsity）且框架（如 vLLM/TensorRT-LLM）启用稀疏 kernel 时可用；对于 Qwen3-27B 这种稠密模型，实际有效算力上限仍为 330.4 TFLOPS，稀疏加速比不适用。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 BF16 Dense 算力约为 330 TFLOPS，Sparse 为 2 倍即 660 TFLOPS，符合 NVIDIA 架构规格；稠密模型无法利用稀疏加速的逻辑正确。
+
+## Search Query
+
+NVIDIA RTX 4090 sparse tensor core performance BF16 TFLOPS

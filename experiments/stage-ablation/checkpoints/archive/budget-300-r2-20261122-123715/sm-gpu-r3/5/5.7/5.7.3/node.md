@@ -1,0 +1,20 @@
+# N342: AMD MI300X 的能效比修正：若实际推理功耗 P_avg 低于 750W，则 3 年电力成本 E_power = P_avg * 8760 * 3 * $
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N103
+
+## Claim
+
+AMD MI300X 的能效比修正：若实际推理功耗 P_avg 低于 750W，则 3 年电力成本 E_power = P_avg * 8760 * 3 * $0.10/kWh 将低于 $19,578；需结合 N118 的 P_avg 重新计算单位吞吐成本 Value_MI300X = C_init_MI300X + E_power / Throughput_actual。
+
+## Corrected Claim
+
+AMD MI300X 的能效比修正：若实际推理功耗 P_avg 低于 750W，则 3 年电力成本 E_power = P_avg * 8760 * 3 * $0.10/kWh 将低于 $19,578；需结合 N118 的 P_avg 重新计算单位吞吐成本 Value_MI300X = C_init_MI300X + E_power / Throughput_actual。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：750W * 8760h * 3年 * $0.10/kWh = $19,578，数学推导正确，公式结构符合TCO计算逻辑。

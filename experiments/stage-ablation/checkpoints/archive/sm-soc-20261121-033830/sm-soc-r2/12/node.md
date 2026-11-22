@@ -1,0 +1,20 @@
+# N113: 随机偏好噪声（Stochastic Noise）的强度 σ_noise 通过卖家定价偏离最优策略 ε* 的标准差衡量：σ_noise = std(P_i - P
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+随机偏好噪声（Stochastic Noise）的强度 σ_noise 通过卖家定价偏离最优策略 ε* 的标准差衡量：σ_noise = std(P_i - P*_i)，若 σ_noise < D_p 的 50%，则假设链成立，即定向压力主导均衡；需检索二手市场中卖家定价离散度的实证分布。
+
+## Corrected Claim
+
+随机偏好噪声（Stochastic Noise）的强度 σ_noise 通过卖家定价偏离最优策略 ε* 的标准差衡量：σ_noise = std(P_i - P*_i)，若 σ_noise < D_p 的 50%，则假设链成立，即定向压力主导均衡；需检索二手市场中卖家定价离散度的实证分布。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

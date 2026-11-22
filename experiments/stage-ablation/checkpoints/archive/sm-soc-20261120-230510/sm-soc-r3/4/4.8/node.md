@@ -1,0 +1,30 @@
+# N23: 平台受损量化：若干预导致部分高挂价卖家流失，假设流失率 Δs_churn = 0.1 * r_high，平台佣金收入损失 ΔRev_platform = -Δs
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4, N5
+
+## Claim
+
+平台受损量化：若干预导致部分高挂价卖家流失，假设流失率 Δs_churn = 0.1 * r_high，平台佣金收入损失 ΔRev_platform = -Δs_churn * GMV_high * take_rate，其中 GMV_high 为高挂价商品成交额，take_rate 为平台抽成率（典型值 5-15%），同时成交率提升带来的新增佣金 ΔRev_platform_new = ΔR * GMV_total * take_rate，净效应 = ΔRev_platform_new - |ΔRev_platform|，需计算 break-even ΔR_threshold [待核验]。
+
+## Corrected Claim
+
+平台受损量化模型：若干预导致高挂价卖家流失，平台佣金收入损失可表示为流失卖家成交额乘以抽成率，新增佣金为成交率提升带来的增量成交额乘以抽成率。净效应取决于两者之差，需根据具体市场的流失率敏感度和实际抽成率计算盈亏平衡点。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性参数假设（如流失率公式 Δs_churn = 0.1 * r_high 和 take_rate 典型值 5-15%），这些并非第一性原理可推导的数学事实，而是依赖特定市场环境的经验数据。参考来源仅提供了平台佣金模式的一般性描述，未提供具体的流失率量化公式或确切的抽成率范围数据，因此无法通过外部来源直接验证这些具体数值假设的准确性。 | 逻辑推导自洽（收入损失与新增收入的代数关系正确），但具体参数（流失率系数、抽成率范围）属于经验事实，参考来源[1][2][3]仅间接支持平台佣金机制的存在，未直接支持具体的量化公式和数值范围，故降级为定性表述。
+
+## Search Query
+
+platform commission revenue impact seller churn price intervention marketplace
+
+## Retrieval Sources
+
+- {'url': 'https://www.perceptive-analytics.com/evaluating-the-impact-of-platform-fees-on-revenue-usage-and-churn/&rut=48cfb72b6a3839814d96ee40b7a9b86c2516ba59f29427760233f139c0e28894', 'type': 'ddg', 'title': 'Impact of Platform Fees on Revenue, Usage & Churn:Case Study'}
+- {'url': 'https://flxpoint.com/blog/commission-models-for-multi-vendor-marketplaces&rut=d0681ce770de62f0341a92c148cdbd8054a1f7666909500f40d7d0be86b79fe5', 'type': 'ddg', 'title': 'Top Marketplace Commission Models Compared (2026 Pricing Guide)'}
+- {'url': 'https://www.lowcode.agency/blog/commission-based-marketplace-business-model&rut=7daf93c28613909d0766129cda3b07e7ef0bd8b9ae2d5ef19f6cd4493881ddac', 'type': 'ddg', 'title': 'Commission-Based Marketplace Model Explained | LOW/CODE'}

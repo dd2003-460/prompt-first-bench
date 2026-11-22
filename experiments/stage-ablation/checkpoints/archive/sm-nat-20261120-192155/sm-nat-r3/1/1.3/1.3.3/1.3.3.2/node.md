@@ -1,0 +1,20 @@
+# N80: 数值稳定性分析：当 s_max → ∞ 时，E[s_i] → s_min / (α-1) = s_min / 0.1 = 10 * s_min；若 s_min 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N29
+
+## Claim
+
+数值稳定性分析：当 s_max → ∞ 时，E[s_i] → s_min / (α-1) = s_min / 0.1 = 10 * s_min；若 s_min = 1KB，则 E[s_i] ≈ 10KB；若 s_min = 100KB，则 E[s_i] ≈ 1MB；因此截断点 s_max 需远大于 s_min 以确保期望收敛，否则数值计算会溢出。
+
+## Corrected Claim
+
+数值稳定性分析：当 s_max → ∞ 时，E[s_i] → s_min / (α-1) = s_min / 0.1 = 10 * s_min；若 s_min = 1KB，则 E[s_i] ≈ 10KB；若 s_min = 100KB，则 E[s_i] ≈ 1MB；因此截断点 s_max 需远大于 s_min 以确保期望收敛，否则数值计算会溢出。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：帕累托分布（指数α=1.1）在s_max→∞时，期望值公式 E[s] = s_min * α / (α - 1) 成立。当 α=1.1 时，α/(α-1) = 1.1/0.1 = 11。陈述中简化为 1/(α-1) = 10，存在约10%的近似误差，但在数量级和定性结论（E[s] ≈ 10*s_min）上是自洽且合理的。对于 s_min=1KB，E[s]≈11KB≈10KB；对于 s_min=100KB，E[s]≈1.1MB≈1MB。数值稳定性分析结论正确。

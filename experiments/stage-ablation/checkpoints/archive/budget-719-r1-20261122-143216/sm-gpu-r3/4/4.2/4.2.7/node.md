@@ -1,0 +1,24 @@
+# N104: Qwen3-27B 在 32K 上下文长度下 FP8 量化导致的注意力分数溢出风险，需验证 FP8 精度下注意力分数的数值范围是否超出 FP8 表示范围，预期无
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N22
+
+## Claim
+
+Qwen3-27B 在 32K 上下文长度下 FP8 量化导致的注意力分数溢出风险，需验证 FP8 精度下注意力分数的数值范围是否超出 FP8 表示范围，预期无溢出
+
+## Corrected Claim
+
+Qwen3-27B 在 32K 上下文长度下 FP8 量化可能导致注意力分数溢出，需验证 FP8 精度下注意力分数的数值范围是否超出 FP8 表示范围。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性结论（'预期无溢出'），属于特定模型（Qwen3-27B）在特定配置（32K, FP8）下的数值行为预测，无法从第一性原理直接推导，且缺乏外部来源支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+Qwen3-27B FP8 attention score overflow 32K context

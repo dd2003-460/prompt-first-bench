@@ -1,0 +1,20 @@
+# N82: A100 40GB 在 BF16 精度下 Decode 阶段单用户理论峰值吞吐为 1555 GB/s / 54 GB ≈ 28.8 tokens/sec
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N17
+
+## Claim
+
+A100 40GB 在 BF16 精度下 Decode 阶段单用户理论峰值吞吐为 1555 GB/s / 54 GB ≈ 28.8 tokens/sec
+
+## Corrected Claim
+
+A100 40GB 在 BF16 精度下 Decode 阶段单用户理论峰值吞吐为 1555 GB/s / 54 GB ≈ 28.8 tokens/sec
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 40GB HBM2e 带宽约 1555 GB/s，BF16 下 LLaMA-7B 模型权重约 13.5GB，KV Cache 及激活值开销后总内存占用约 54GB 符合工程估算，算术 1555/54≈28.8 正确。

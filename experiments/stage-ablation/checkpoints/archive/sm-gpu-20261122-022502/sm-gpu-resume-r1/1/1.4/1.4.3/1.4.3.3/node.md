@@ -1,0 +1,20 @@
+# N160: TCO 交叉点修正：N49 声称该系数直接决定 TCO 交叉点，但 TCO 主要受 CapEx（硬件价格）和 OpEx（电力）影响，性能系数仅影响‘每美元性能’
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N49
+
+## Claim
+
+TCO 交叉点修正：N49 声称该系数直接决定 TCO 交叉点，但 TCO 主要受 CapEx（硬件价格）和 OpEx（电力）影响，性能系数仅影响‘每美元性能’或‘单位时间成本’。需建立公式：Cost_per_token_dc = (CapEx_dc + OpEx_dc * T) / (Throughput_dc * T)，其中 Throughput_dc = Throughput_cons * K (K=1.8-2.5)。求解 K 使得两方案 Cost_per_token 相等的临界值，而非直接由 K 决定交叉点年份。
+
+## Corrected Claim
+
+TCO 交叉点修正：N49 声称该系数直接决定 TCO 交叉点，但 TCO 主要受 CapEx（硬件价格）和 OpEx（电力）影响，性能系数仅影响‘每美元性能’或‘单位时间成本’。需建立公式：Cost_per_token_dc = (CapEx_dc + OpEx_dc * T) / (Throughput_dc * T)，其中 Throughput_dc = Throughput_cons * K (K=1.8-2.5)。求解 K 使得两方案 Cost_per_token 相等的临界值，而非直接由 K 决定交叉点年份。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：TCO（总拥有成本）确实由CapEx和OpEx构成，性能系数K仅影响吞吐量从而改变单位成本，而非直接决定交叉点年份，公式推导符合经济学与工程逻辑。

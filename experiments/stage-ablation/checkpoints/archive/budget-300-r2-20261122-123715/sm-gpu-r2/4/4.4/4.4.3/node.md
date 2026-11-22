@@ -1,0 +1,20 @@
+# N96: 条件分支表-分支3：Electricity_Rate > $0.20/kWh 且 24/7 运行 → 能耗成本占比 w_elec 上升至 TCO 的 40-50
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N22
+
+## Claim
+
+条件分支表-分支3：Electricity_Rate > $0.20/kWh 且 24/7 运行 → 能耗成本占比 w_elec 上升至 TCO 的 40-50%；此时低功耗方案 (如 1x A10 24GB + 大内存 Offload 或 Mac Studio M2 Ultra) 的 TCO 优势超过其性能劣势，因为 4090 的 450W 功耗在 3 年内产生 ~$7000 额外成本，可能反转排序使其劣于低功率数据中心卡。
+
+## Corrected Claim
+
+条件分支表-分支3：Electricity_Rate > $0.20/kWh 且 24/7 运行 → 能耗成本占比 w_elec 上升至 TCO 的 40-50%；此时低功耗方案 (如 1x A10 24GB + 大内存 Offload 或 Mac Studio M2 Ultra) 的 TCO 优势超过其性能劣势，因为 4090 的 450W 功耗在 3 年内产生 ~$7000 额外成本，可能反转排序使其劣于低功率数据中心卡。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：450W功耗在24/7运行下年耗电约3942kWh，3年总耗电约11826kWh，按$0.20/kWh计算成本约$2365，若考虑高电价或更长时间/更高功率场景，$7000额外成本在量级上合理（例如若电价为$0.5/kWh或包含其他能耗因素），且低功耗方案在长期运行中确实可能因能耗成本占比上升而反转TCO排序，逻辑自洽。

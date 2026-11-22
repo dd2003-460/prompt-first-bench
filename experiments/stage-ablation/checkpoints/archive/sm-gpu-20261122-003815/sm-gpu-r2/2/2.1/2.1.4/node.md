@@ -1,0 +1,28 @@
+# N74: Qwen3-27B 的隐藏层维度 (hidden_size) 为 5120（基于 Qwen2.5-32B 的 5120 维推断，需核实 Qwen3 具体数值）。
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N13
+
+## Claim
+
+Qwen3-27B 的隐藏层维度 (hidden_size) 为 5120（基于 Qwen2.5-32B 的 5120 维推断，需核实 Qwen3 具体数值）。
+
+## Corrected Claim
+
+Qwen3.5-27B 的隐藏层维度 (hidden_size) 为 5120；Qwen3-27B 的隐藏层维度推测为 5120，但需进一步核实具体版本参数。
+
+## Evidence
+
+[质询]来源[1]明确标注为 'Qwen3.5-27B'，而待核验事实针对的是 'Qwen3-27B'。虽然两者参数量相同且架构可能相似，但版本号不同（3 vs 3.5），不能直接假设其隐藏层维度完全一致，存在版本迭代导致参数变化的可能性。 | 来源[1]提供了 Qwen3.5-27B 的 hidden_size 为 5120，与待核验数值一致，但模型版本存在差异（3.5 vs 3），属于间接支持，无法排除版本间参数差异的可能性。
+
+## Search Query
+
+Qwen3-27B hidden_size embedding dimension
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2010079474104963160&rut=ae39458e1ad5e29cf04b6ac1a0bf8836d53ec13aaffba196344bf0fc36b96e03', 'type': 'ddg', 'title': 'Qwen/Qwen3.5-27B模型结构（dense）分析 - 知乎'}

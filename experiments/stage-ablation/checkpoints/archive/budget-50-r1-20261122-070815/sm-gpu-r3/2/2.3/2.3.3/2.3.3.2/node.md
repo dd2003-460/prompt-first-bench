@@ -1,0 +1,24 @@
+# N221: Qwen3-27B 在 INT8 对称量化下的 Perplexity (PPL) 实测值，需通过搜索社区实测报告获取，以计算相对于 BF16 的 PPL 增加百
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N63
+
+## Claim
+
+Qwen3-27B 在 INT8 对称量化下的 Perplexity (PPL) 实测值，需通过搜索社区实测报告获取，以计算相对于 BF16 的 PPL 增加百分比（% PPL Increase = (PPL_INT8 - PPL_BF16) / PPL_BF16 * 100）。
+
+## Corrected Claim
+
+Qwen3-27B 在 INT8 对称量化下的 Perplexity (PPL) 实测值需通过社区报告获取以计算相对 BF16 的 PPL 增加百分比，当前缺乏具体数值来源，仅保留计算方法论描述。
+
+## Evidence
+
+[质询]该陈述声称需要获取具体的实测数值（PPL_INT8 和 PPL_BF16），但当前检索无可用来源，且具体模型的量化后困惑度属于经验事实，无法通过第一性原理推导得出，存在数值缺失或来源不可靠的风险。 | 经验事实，逻辑自洽但缺来源支持（检索失败，无外部证据验证具体数值）
+
+## Search Query
+
+Qwen3-27B INT8 quantization perplexity increase percentage

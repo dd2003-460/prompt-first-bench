@@ -1,0 +1,30 @@
+# N68: NVFP4 精度下 Qwen3-27B 的 Perplexity (PPL) 绝对值增加量（Delta PPL），需给出具体数值（如从 5.2 增加到 5.5）
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N15, N16, N17
+
+## Claim
+
+NVFP4 精度下 Qwen3-27B 的 Perplexity (PPL) 绝对值增加量（Delta PPL），需给出具体数值（如从 5.2 增加到 5.5），以验证是否超过 N17 中定义的 5% 阈值
+
+## Corrected Claim
+
+NVFP4 精度下 Qwen3-27B 的精度损失较小（MMLU Pro 差距在 ±0.5 内），但具体 Perplexity (PPL) 的 Delta 数值未在参考来源中提供，无法直接验证是否超过 5% 阈值。
+
+## Evidence
+
+[质询]参考来源中未提供具体的 Perplexity (PPL) 绝对值或 Delta PPL 数值，仅提供了 MMLU Pro 等基准测试的分数对比，无法直接验证 PPL 是否超过 5% 阈值。 | 来源 [1] 和 [2] 确认了 NVFP4 量化后精度保持良好（MMLU Pro 差距在 ±0.5 内），间接支持精度损失较小，但缺乏 PPL 具体数值支持，属于经验事实且缺直接来源支持。
+
+## Search Query
+
+Qwen3-27B FP4 NVFP4 perplexity increase value wikitext2
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/chen695969/article/details/162604876&rut=83b2f645f8d3eb7bca0588168465104066fc61b7e0fdcd8c134eb2e096deb4e6', 'type': 'ddg', 'title': 'Qwen3.6-27B-NVFP4 深度评测：英伟达官方量化，27B 长上下文本地部署新选择-CSDN博客'}
+- {'url': 'https://devpress.csdn.net/v1/article/detail/162604876&rut=0da2072520e604542f799f79226bcef08e35f0d0efec6891856316c5de4d26f3', 'type': 'ddg', 'title': 'Qwen3.6-27B-NVFP4 深度评测：英伟达官方量化，27B 长上下文本地部署新选择'}
+- {'url': 'https://blog.csdn.net/gitblog_01140/article/details/168246366&rut=4a9dc020fb4b2736223a13fdb92857fc8d1590fbf9bcd5e90c37e01b1865b79a', 'type': 'ddg', 'title': 'Qwen3.8-27B-NVFP4 部署常见问题全解：显存不足、精度取舍与关键参数调优-CSDN博客'}

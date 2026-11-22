@@ -1,0 +1,24 @@
+# N8: 非典型方案统一内存容量：Apple M2 Ultra 192GB (BF16可行), M3 Ultra 512GB (BF16可行), 但内存带宽~800GB/
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+非典型方案统一内存容量：Apple M2 Ultra 192GB (BF16可行), M3 Ultra 512GB (BF16可行), 但内存带宽~800GB/s vs H100~3.35TB/s，推理吞吐量差距约4-5倍
+
+## Corrected Claim
+
+非典型方案统一内存容量：Apple M2 Ultra 192GB (BF16可行), M3 Ultra 512GB (BF16可行), 但内存带宽~800GB/s vs H100~3.35TB/s，推理吞吐量差距约4-5倍
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别针对 M2 Ultra 和 M3 Ultra 进行了具体的带宽计算和场景分析，两者在硬件规格（192GB vs 512GB）和具体结论（吞吐量基准 vs 容量过剩/性价比）上互不重叠且无矛盾。虽然计算逻辑相似，但针对不同的硬件实例和特定的模型适配场景（27B模型）进行了差异化阐述，不属于简单的参数冗余。父节点中提到的‘非典型方案’和‘BF16可行’等定性描述虽未在子节点中显式重复，但子节点通过具体的带宽和容量数据支撑了父节点的核心论点（即带宽瓶颈和容量差异），覆盖了关键的技术对比维度。）
+
+## Search Query
+
+Apple M2 Ultra memory bandwidth LLM inference throughput comparison H100

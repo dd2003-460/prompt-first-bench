@@ -1,0 +1,20 @@
+# N360: Qwen3-27B 在 FP8 精度下的权重文件大小约为 27GB，在 BF16 下约为 54GB；单卡 24GB (RTX 4090/5090) 或 32GB
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N127
+
+## Claim
+
+Qwen3-27B 在 FP8 精度下的权重文件大小约为 27GB，在 BF16 下约为 54GB；单卡 24GB (RTX 4090/5090) 或 32GB (RTX 5090 假设) 显存均无法同时容纳权重与 32K 上下文 KV Cache (约 1.6-3.2GB)，因此必然触发 CPU Swap 或 Offloading 机制。
+
+## Corrected Claim
+
+Qwen3-27B 在 FP8 精度下的权重文件大小约为 27GB，在 BF16 下约为 54GB；单卡 24GB (RTX 4090/5090) 或 32GB (RTX 5090 假设) 显存均无法同时容纳权重与 32K 上下文 KV Cache (约 1.6-3.2GB)，因此必然触发 CPU Swap 或 Offloading 机制。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数在FP8下约27GB，BF16下约54GB，均远超24GB/32GB显存，且加上KV Cache后必然溢出，推导自洽。

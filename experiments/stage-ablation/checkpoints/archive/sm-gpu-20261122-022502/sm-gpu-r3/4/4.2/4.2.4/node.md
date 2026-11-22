@@ -1,0 +1,24 @@
+# N65: $kWh 电价参数敏感性：美国居民电价中位数约 $0.15/kWh，商业电价约 $0.10-0.12/kWh，不同地区电价差异可达 2-3 倍，需根据用户所在地
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N22
+
+## Claim
+
+$kWh 电价参数敏感性：美国居民电价中位数约 $0.15/kWh，商业电价约 $0.10-0.12/kWh，不同地区电价差异可达 2-3 倍，需根据用户所在地电价调整 TCO_power 计算
+
+## Corrected Claim
+
+$kWh 电价参数敏感性：美国居民电价中位数约 $0.15/kWh，商业电价约 $0.10-0.12/kWh，不同地区电价差异可达 2-3 倍，需根据用户所在地电价调整 TCO_power 计算
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+US residential commercial electricity rate average 2024

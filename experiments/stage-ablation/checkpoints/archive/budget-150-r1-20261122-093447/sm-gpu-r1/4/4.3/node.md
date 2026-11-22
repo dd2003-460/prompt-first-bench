@@ -1,0 +1,29 @@
+# N31: 数据中心级高成本工作点（高成本低性）：NVIDIA A100 80GB 或 H100 80GB 方案，TCO = 硬件一次性成本 ($10000-$25000)
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+数据中心级高成本工作点（高成本低性）：NVIDIA A100 80GB 或 H100 80GB 方案，TCO = 硬件一次性成本 ($10000-$25000) + 年电力成本 (400W × 8h × 365d × $0.15/kWh ≈ $175/年)，性能基准：Qwen3-27B BF16 推理吞吐 ≥ 50 tokens/s (batch=1)，质量损失：BF16 无损，NVFP4 量化后困惑度增加 < 1% [待核验]，支持子问：数据中心级方案是否值得、极端性能需求下的选择
+
+## Corrected Claim
+
+数据中心级高成本工作点：NVIDIA A100 80GB 或 H100 80GB 方案，TCO 包含较高的硬件一次性成本（H100单卡通常高于$25,000）及年电力成本（约$175/年，基于400W负载估算）；性能方面，Qwen3-27B BF16 推理吞吐需根据具体推理框架和硬件配置实测，单卡 batch=1 场景下 50 tokens/s 为待验证目标值；BF16 为无损精度，NVFP4 量化后困惑度增加通常较小但需具体模型验证。
+
+## Evidence
+
+[质询]硬件一次性成本区间（$10000-$25000）严重低估了H100的市场价格（通常单卡$25k-$40k+），且将A100与H100混同处理；此外，Qwen3-27B在单卡A100/H100上达到≥50 tokens/s (batch=1) 的吞吐指标缺乏具体模型版本和推理框架（如vLLM/TensorRT-LLM）的基准测试支持，属于未经证实的经验数据。 | 来源[1]确认了A100/H100为数据中心级GPU及80GB显存规格，但未提供具体TCO数值、电力成本计算或Qwen3-27B的推理吞吐基准；电力成本计算逻辑自洽（400W*8h*365d*0.15 ≈ $175），但硬件成本和性能指标属于经验事实，缺乏直接来源支持，故降级。
+
+## Search Query
+
+NVIDIA A100 80GB H100 80GB Qwen3-27B inference benchmark tokens per second BF16 NVFP4
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1910731560015077860&rut=a9788f10a8e0e8e8deb115dde15d4cafbe5fd40acef7db6110e8861dd063d76d', 'type': 'ddg', 'title': 'Nvidia Gpu芯片：A100、H100、A800、H800、H20的差异'}
+- {'url': 'https://zhuanlan.zhihu.com/p/2030937185046767385&rut=3c1a206e7249feae602309b9bdeac697e675ad6dc5387852b0faaec9fe336481', 'type': 'ddg', 'title': 'GPU服务器全景解读（三）：从A100到GB300，英伟达数据中心级AI芯片的算力演进'}

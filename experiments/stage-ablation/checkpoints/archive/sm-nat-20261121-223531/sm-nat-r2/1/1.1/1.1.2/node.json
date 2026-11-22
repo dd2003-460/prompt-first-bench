@@ -1,0 +1,23 @@
+{
+  "id": "N28",
+  "claim": "对象大小分布上界 s_max 的量化约束：s_max 必须满足 s_max ≥ P_99(S)（第99百分位大小），在 Pareto(α=1.1) 下 P_99(S) = s_min * (0.99)^(-1/(α-1)) ≈ s_min * 1.01，因此 s_max 的选取对截断均值 E[S]_trunc 的影响远小于 s_min，通常取 CDN 最大对象限制（如 100MB 或 1GB）。",
+  "level": "L3",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]数值量级错误：Pareto分布(α=1.1)下，P_99(S)的计算结果远大于 s_min * 1.01。正确计算应为 s_min * (0.99)^(-1/0.1) ≈ s_min * 1.105，而非 1.01。此外，'s_max 选取对截断均值影响远小于 s_min'这一结论在 α 接近 1 时并不绝对，因为尾部极重，s_max 的微小变化可能导致截断均值显著波动，尽管通常 s_min 决定整体尺度。 | 参考来源[1]讨论的是神经网络量化策略，与对象大小分布无关，无可用外部证据。逻辑校验发现数学计算错误：(0.99)^(-10) ≈ 1.105，而非 1.01，导致核心量化约束数值错误。",
+  "corrected_claim": "s_max 必须满足 s_max ≥ P_99(S)。在 Pareto(α=1.1) 下，P_99(S) = s_min * (0.99)^(-1/(α-1)) ≈ s_min * 1.105。因此 s_max 的选取对截断均值 E[S]_trunc 的影响通常小于 s_min，但需确保 s_max 足够大以覆盖长尾，通常取 CDN 最大对象限制。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N6"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "CDN maximum object size limit Pareto distribution upper bound",
+  "retrieval_sources": [
+    {
+      "url": "https://zhuanlan.zhihu.com/p/414647262&rut=75330102ebb79fa04df00911b97a568fcdbc3a33e7fc854906ecb6fa245c7d60",
+      "type": "ddg",
+      "title": "【模型推理】谈谈几种量化策略：MinMax、KLD、ADMM、EQ"
+    }
+  ]
+}

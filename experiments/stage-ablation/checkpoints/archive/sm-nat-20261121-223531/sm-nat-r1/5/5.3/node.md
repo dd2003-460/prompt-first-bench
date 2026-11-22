@@ -1,0 +1,29 @@
+# N21: Pareto分布参数α=1.1和β=0.9的具体数值为题面给定（given），但‘热门对象与大小负相关ρ≈-0.3’这一相关性结构为题面给定。然而，‘负相关对L
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N5
+
+## Claim
+
+Pareto分布参数α=1.1和β=0.9的具体数值为题面给定（given），但‘热门对象与大小负相关ρ≈-0.3’这一相关性结构为题面给定。然而，‘负相关对LRU命中率的具体影响因子’并非通用理论直接给出，需通过蒙特卡洛模拟或特定文献（如Borg et al., 2005 'Web caching: A survey'）中的经验数据支持。此部分属于‘依赖特定经验数据’，需标注为[待核验]或引用具体模拟结果。
+
+## Corrected Claim
+
+Pareto分布参数α=1.1和β=0.9及‘热门对象与大小负相关ρ≈-0.3’为题面给定；‘负相关对LRU命中率的具体影响因子’属于依赖特定经验数据的结论，现有参考来源未提供直接支持，需通过蒙特卡洛模拟或特定文献（如Borg et al., 2005）验证。
+
+## Evidence
+
+[质询]该陈述声称‘负相关对LRU命中率的具体影响因子’需依赖特定经验数据或模拟，但参考来源仅涉及帕累托分布的基础定义和保险应用，完全未涉及LRU缓存命中率、相关性结构或Borg et al. (2005) 文献，无法提供外部支持。 | 逻辑自洽（LRU命中率受访问模式影响，负相关确实需经验数据量化），但参考来源[1][2]仅讨论帕累托分布基础，与LRU缓存性能无关，属于经验事实且缺来源支持。
+
+## Search Query
+
+Pareto distribution size popularity correlation CDN cache hit rate simulation
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/27173875583&rut=813a7dd5764aafafe6763a06f3f8a3572d479be046e39d53beeec4e456801689', 'type': 'ddg', 'title': '帕累托分布 - 知乎 - 知乎专栏'}
+- {'url': 'https://zhuanlan.zhihu.com/p/104103290&rut=99105b9b862d5fc30aeb55c126f58440b0804a60215d75376b93973d917f0c82', 'type': 'ddg', 'title': '2.3 pareto distrbution - 知乎'}

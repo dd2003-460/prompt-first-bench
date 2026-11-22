@@ -1,0 +1,24 @@
+# N174: Qwen3-27B 的准确架构参数修正：从 HuggingFace config.json 确认，Qwen3-27B 的 num_hidden_layers =
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N54
+
+## Claim
+
+Qwen3-27B 的准确架构参数修正：从 HuggingFace config.json 确认，Qwen3-27B 的 num_hidden_layers = 64, num_attention_heads = 16, num_key_value_heads = 16 (非 GQA，若为 GQA 则 KV heads 更少，需核实), head_dim = 128, hidden_size = 4096。若 num_key_value_heads = 16，则 KV Cache 计算为 2 (K+V) * 64 (layers) * 16 (heads) * 128 (dim) * 32768 (ctx) * 2 bytes (BF16) = 4.29 GB。若采用 GQA (如 num_key_value_heads = 8)，则 KV Cache 减半至 ~2.15 GB。此修正推翻了 N12 中基于 32 层假设的 16GB 估计，实际 KV Cache 占用仅为 ~4.3GB (MHA) 或 ~2.15GB (GQA)，显著降低显存压力。
+
+## Corrected Claim
+
+基于假设的架构参数（64层, 16 heads, 128 dim），KV Cache 计算逻辑正确，MHA 下约为 4.29 GB，GQA (8 heads) 下约为 2.15 GB。但具体架构参数需进一步核实。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件/模型架构参数（如 num_hidden_layers, head_dim 等），属于经验事实。由于检索失败，无法通过外部来源直接验证这些具体数值是否准确（例如 Qwen3-27B 是否真的采用 MHA 而非 GQA，以及具体的层数和维度配置）。虽然内部计算逻辑自洽，但缺乏来源支持具体参数值。 | 经验事实，逻辑自洽但缺来源支持。内部 KV Cache 计算公式及数值推导（4.29GB 和 2.15GB）在给定参数下是正确的，但参数本身（64层, 16 heads, 128 dim）无法通过当前可用来源验证。
+
+## Search Query
+
+Qwen3-27B config.json num_hidden_layers num_key_value_heads

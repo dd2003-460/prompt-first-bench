@@ -1,0 +1,24 @@
+# N255: 曝光量减少50%对成交概率的非线性传导中，λ_flow 的实际值受‘替代效应’修正：当高挂价商品降权后，原流量被低价商品吸收，若低价商品转化率 CVR_low 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N84
+
+## Claim
+
+曝光量减少50%对成交概率的非线性传导中，λ_flow 的实际值受‘替代效应’修正：当高挂价商品降权后，原流量被低价商品吸收，若低价商品转化率 CVR_low 显著高于 CVR_high，则平台总成交概率下降幅度小于 λ_flow * 0.5，修正系数 δ_sub = 1 - (CVR_low/CVR_high) * 0.5。
+
+## Corrected Claim
+
+在简化假设下（流量完全转移且仅关注成交笔数而非GMV），曝光量减少50%对成交概率的非线性传导中，λ_flow 的实际值受‘替代效应’修正：当高挂价商品降权后，原流量被低价商品吸收，若低价商品转化率 CVR_low 显著高于 CVR_high，则平台总成交笔数下降幅度小于 λ_flow * 0.5，修正系数 δ_sub 近似为 1 - (CVR_low/CVR_high) * 0.5。
+
+## Evidence
+
+[质询]修正系数 δ_sub 的公式推导存在逻辑漏洞：该公式假设流量完全转移且仅考虑转化率差异，忽略了低价商品可能因价格敏感导致的客单价（AOV）下降对总GMV的影响，且未考虑流量吸收的非线性饱和效应，导致‘总成交概率’与‘总GMV’概念混淆。 | 先验知识/题面给定，逻辑校验通过（公式在特定简化假设下自洽，但缺乏外部来源支持且存在简化假设风险）
+
+## Search Query
+
+market share shift substitution effect in e-commerce search ranking A/B test

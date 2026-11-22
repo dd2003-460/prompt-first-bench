@@ -1,0 +1,24 @@
+# N122: s_min 的数值校准：通过约束 Σ_{k=1}^{10^5} S(k) = 总数据量（或平均对象大小约束），反推 s_min 的精确值，验证 116.36 b
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N47
+
+## Claim
+
+s_min 的数值校准：通过约束 Σ_{k=1}^{10^5} S(k) = 总数据量（或平均对象大小约束），反推 s_min 的精确值，验证 116.36 bytes 是否满足全局质量守恒，而非直接采用 N6 的近似值。
+
+## Corrected Claim
+
+s_min 的数值校准：通过约束 Σ_{k=1}^{10^5} S(k) = 总数据量（或平均对象大小约束），反推 s_min 的精确值，以验证全局质量守恒，而非直接采用 N6 的近似值。
+
+## Evidence
+
+[质询]该陈述描述的是一个具体的数值校准结果（116.36 bytes）及其推导过程，属于经验事实或特定模型参数，无法仅从第一性原理或数学公理中直接推出，必须依赖具体的数据分布假设和计算过程。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，且该数值为具体校准结果，非纯逻辑推导）
+
+## Search Query
+
+Pareto distribution normalization constant sum of sizes constraint CDN cache object size distribution

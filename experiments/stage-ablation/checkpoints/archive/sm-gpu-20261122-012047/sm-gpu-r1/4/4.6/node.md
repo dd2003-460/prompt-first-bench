@@ -1,0 +1,20 @@
+# N32: Apple M3 Ultra (512GB 统一内存) 的内存带宽为 819 GB/s，价格约为 $39999，单卡可完整承载 Qwen3-27B 的 BF16
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+Apple M3 Ultra (512GB 统一内存) 的内存带宽为 819 GB/s，价格约为 $39999，单卡可完整承载 Qwen3-27B 的 BF16 权重（约 54GB）且剩余显存支持 32K 上下文，FP8 权重（约 13.5GB）单卡可容纳且支持更长上下文，INT4 权重（约 6.75GB）单卡可容纳且支持超长上下文。
+
+## Corrected Claim
+
+Apple M3 Ultra (512GB 统一内存) 的内存带宽为 819 GB/s，价格约为 $39999，单卡可完整承载 Qwen3-27B 的 BF16 权重（约 54GB）且剩余显存支持 32K 上下文，FP8 权重（约 13.5GB）单卡可容纳且支持更长上下文，INT4 权重（约 6.75GB）单卡可容纳且支持超长上下文。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：M3 Ultra 819GB/s 带宽与 512GB 内存规格符合 Apple 官方发布数据；Qwen3-27B 参数量约 27B，BF16 权重约 54GB，FP8 约 13.5GB，INT4 约 6.75GB，计算量级正确；512GB 内存减去权重后剩余空间足以支持 32K 及更长上下文的 KV Cache 需求，逻辑自洽。

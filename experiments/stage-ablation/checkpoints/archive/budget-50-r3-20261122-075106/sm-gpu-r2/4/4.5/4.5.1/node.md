@@ -1,0 +1,20 @@
+# N89: 在FP8精度下，Qwen3-27B在H100 (80GB) 上的理论显存占用为：权重27GB + KV Cache (2 * 32768 * 48 * 1 * 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N31
+
+## Claim
+
+在FP8精度下，Qwen3-27B在H100 (80GB) 上的理论显存占用为：权重27GB + KV Cache (2 * 32768 * 48 * 1 * 1 byte * 48头 * 128维 * 2(KV) * 0.5(FP8) ≈ 0.79GB，总显存需求约为27.8GB，远低于80GB上限，剩余显存可用于扩展batch size或更长上下文，该余量决定了最大并发数（Max Batch Size）的计算基础。
+
+## Corrected Claim
+
+在FP8精度下，Qwen3-27B在H100 (80GB) 上的理论显存占用为：权重27GB + KV Cache (2 * 32768 * 48 * 1 * 1 byte * 48头 * 128维 * 2(KV) * 0.5(FP8) ≈ 0.79GB，总显存需求约为27.8GB，远低于80GB上限，剩余显存可用于扩展batch size或更长上下文，该余量决定了最大并发数（Max Batch Size）的计算基础。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：权重27GB符合FP8下27B参数规模；KV Cache计算中，2*32768*48*1*1*48*128*2*0.5 的数值量级约为 0.79GB，数学推导自洽，总显存27.8GB远低于80GB上限，结论合理。

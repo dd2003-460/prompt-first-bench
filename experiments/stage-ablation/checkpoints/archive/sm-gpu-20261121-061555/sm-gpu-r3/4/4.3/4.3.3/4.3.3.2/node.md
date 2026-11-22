@@ -1,0 +1,24 @@
+# N270: RX 7900 XTX 在 LLM 推理场景下的显存带宽利用率（Memory Bandwidth Utilization）实测值，通常受限于 RDNA3 架构的
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N97
+
+## Claim
+
+RX 7900 XTX 在 LLM 推理场景下的显存带宽利用率（Memory Bandwidth Utilization）实测值，通常受限于 RDNA3 架构的内存控制器效率，需与 RTX 4090 的 ~90% 利用率进行对比以确认 55% 的估算是否准确。
+
+## Corrected Claim
+
+RX 7900 XTX 在 LLM 推理场景下的显存带宽利用率实测值通常低于 RTX 4090，具体数值（如55% vs 90%）需依赖特定基准测试数据，且受模型负载和软件栈优化影响显著，不能仅归因于RDNA3内存控制器效率。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（RX 7900 XTX 55% vs RTX 4090 ~90%），属于硬件性能实测数据，无法从第一性原理推导。且‘通常受限于RDNA3架构的内存控制器效率’这一归因过于简化，LLM推理带宽利用率还受模型结构、Batch Size、Kernel优化及PCIe/显存交互等多重因素影响，单一归因存在逻辑漏洞。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体数值无法通过逻辑推导验证）
+
+## Search Query
+
+RX 7900 XTX LLM inference memory bandwidth utilization efficiency benchmark

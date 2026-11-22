@@ -1,0 +1,20 @@
+# N91: 对象在 LRU 缓存中的平均驻留时间 T_residence 的精确计算公式为 T_residence = (C_cache * H_byte_LRU) / R
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+对象在 LRU 缓存中的平均驻留时间 T_residence 的精确计算公式为 T_residence = (C_cache * H_byte_LRU) / R_bytes_miss，其中 C_cache=128GB, R_bytes_miss 为每日缓存未命中的字节流量，需先由 N9/N10 确定 H_byte_LRU 和 R_bytes_miss 的数值。
+
+## Corrected Claim
+
+对象在 LRU 缓存中的平均驻留时间 T_residence 的精确计算公式为 T_residence = (C_cache * H_byte_LRU) / R_bytes_miss，其中 C_cache=128GB, R_bytes_miss 为每日缓存未命中的字节流量，需先由 N9/N10 确定 H_byte_LRU 和 R_bytes_miss 的数值。
+
+## Evidence
+
+父节点级核验未通过：有冗余（子节点在逻辑上是正交的（分别代表高、中、低三种不同场景），且覆盖了公式验证的关键方面。然而，存在严重的冗余：这三个子节点本质上只是同一个公式在不同参数组合下的三个具体计算实例（Case Study），而非结构上独立的子问题。它们共享完全相同的计算逻辑和变量定义，区别仅在于 H_byte_LRU 和 R_bytes 的取值。这种‘枚举式’分解将本应属于‘参数敏感性分析’或‘数值验证’单一节点的内容强行拆分为三个并列节点，导致结构冗余。）

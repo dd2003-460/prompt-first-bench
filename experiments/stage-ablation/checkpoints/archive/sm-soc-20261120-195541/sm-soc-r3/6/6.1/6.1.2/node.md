@@ -1,0 +1,20 @@
+# N171: 控制变量 V 和 C_verify 的具体回归实现：采用多元线性回归 T_deal = β0 + β1*σ_noise + β2*V + β3*C_verify
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N58
+
+## Claim
+
+控制变量 V 和 C_verify 的具体回归实现：采用多元线性回归 T_deal = β0 + β1*σ_noise + β2*V + β3*C_verify + ε，其中 β1 即为偏相关系数的标准化形式；需检验 V 和 C_verify 的共线性（VIF < 5），若 VIF > 5 则需使用岭回归或主成分分析降维，以避免 β1 估计偏差。
+
+## Corrected Claim
+
+控制变量 V 和 C_verify 的具体回归实现：采用多元线性回归 T_deal = β0 + β1*σ_noise + β2*V + β3*C_verify + ε，其中 β1 即为偏相关系数的标准化形式；需检验 V 和 C_verify 的共线性（VIF < 5），若 VIF > 5 则需使用岭回归或主成分分析降维，以避免 β1 估计偏差。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：多元线性回归中控制变量后系数即为偏效应，VIF>5是多重共线性的常用阈值，岭回归/PCA是标准降维手段，逻辑自洽且符合统计学原理。

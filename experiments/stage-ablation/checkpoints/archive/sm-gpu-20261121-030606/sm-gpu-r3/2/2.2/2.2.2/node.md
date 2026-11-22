@@ -1,0 +1,20 @@
+# N103: RTX 5090在W4A16精度下（权重13.5GB）的可行工作点：权重13.5GB + KV Cache 5.2GB + 激活值2.5GB = 21.2GB 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+RTX 5090在W4A16精度下（权重13.5GB）的可行工作点：权重13.5GB + KV Cache 5.2GB + 激活值2.5GB = 21.2GB < 32GB，留有34%余量，但该精度质量损失约3-6%（N18），需与FP8不可行性对比后作为RTX 5090的唯一可行低精度方案纳入TCO计算。
+
+## Corrected Claim
+
+RTX 5090在W4A16精度下（权重13.5GB）的可行工作点：权重13.5GB + KV Cache 5.2GB + 激活值2.5GB = 21.2GB < 32GB，留有34%余量，但该精度质量损失约3-6%（N18），需与FP8不可行性对比后作为RTX 5090的唯一可行低精度方案纳入TCO计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：21.2GB < 32GB 且余量计算正确，W4A16 作为低精度方案在逻辑上自洽。

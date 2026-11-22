@@ -1,0 +1,20 @@
+# N181: 工作点 B（中性价比最优）：INT8 权重 + FP8 KV Cache + Flash Attention，总显存需求 = 27 (权重) + 2.15 (K
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N72
+
+## Claim
+
+工作点 B（中性价比最优）：INT8 权重 + FP8 KV Cache + Flash Attention，总显存需求 = 27 (权重) + 2.15 (KV, 32K) + 1.5 (激活) = 30.65 GB；此配置在 48GB 显存 (2×4090) 下高度可行，余量 17.35 GB 可支持 Batch Size=2 或 64K 上下文 (KV 4.3GB, 总 32.8GB)；相比 BF16 权重节省 27 GB 显存，是消费级多卡方案的最优精度/显存平衡点
+
+## Corrected Claim
+
+工作点 B（中性价比最优）：INT8 权重 + FP8 KV Cache + Flash Attention，总显存需求 = 27 (权重) + 2.15 (KV, 32K) + 1.5 (激活) = 30.65 GB；此配置在 48GB 显存 (2×4090) 下高度可行，余量 17.35 GB 可支持 Batch Size=2 或 64K 上下文 (KV 4.3GB, 总 32.8GB)；相比 BF16 权重节省 27 GB 显存，是消费级多卡方案的最优精度/显存平衡点
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：INT8权重(27GB)+FP8 KV(2.15GB)+激活(1.5GB)=30.65GB，48GB显存下余量17.35GB，数值量级与计算逻辑自洽，符合消费级多卡部署常识。

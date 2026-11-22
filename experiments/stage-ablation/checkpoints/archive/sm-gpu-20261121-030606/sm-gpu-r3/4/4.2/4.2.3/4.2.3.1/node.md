@@ -1,0 +1,30 @@
+# N298: Qwen3-27B的注意力头数(n_heads)与KV头数(n_kv_heads)具体参数核验：根据Hugging Face官方config.json，Qwen
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N127
+
+## Claim
+
+Qwen3-27B的注意力头数(n_heads)与KV头数(n_kv_heads)具体参数核验：根据Hugging Face官方config.json，Qwen3-27B的num_attention_heads=32, num_key_value_heads=8 (GQA), head_dim=128。此参数直接决定Flash Attention中Q/K/V张量的大小。
+
+## Corrected Claim
+
+Qwen3-27B（纯Transformer版本）的注意力头数(n_heads)与KV头数(n_kv_heads)具体参数需以Hugging Face官方config.json为准，参考来源主要涉及Qwen3.6/3.8混合架构，未直接验证此特定版本参数。
+
+## Evidence
+
+[质询]参考来源均指向Qwen3.6/3.8等混合架构版本（含线性注意力层），与Qwen3-27B（纯Transformer架构）存在版本混淆风险；且来源中未直接提供Qwen3-27B的config.json具体数值，无法排除不同版本间参数差异的可能性。 | 逻辑自洽（32头/8KV头/128维符合GQA常见配置），但参考来源[1][2][3]均讨论Qwen3.6/3.8混合架构，未直接覆盖Qwen3-27B纯Transformer版本的config.json参数，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+Qwen3-27B config.json num_attention_heads num_key_value_heads
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_29061997/article/details/163968287&rut=ad6afaea550caa9e464d62cc9a779a7a2f73d43d4e43788b167de40159dfc27c', 'type': 'ddg', 'title': 'Qwen3.8 27B架构解析：75%非Transformer层如何优化KV Cache与长上下文推理-CSDN博客'}
+- {'url': 'https://blog.csdn.net/liu8485/article/details/164724304&rut=6143faec21e24e807e8d0e2eeb0020e9f95da667b5d523357c23d9c331a36495', 'type': 'ddg', 'title': 'Qwen3.8-27B 混合注意力拆解：48 层线性 + 16 层全注意力，75 万 token KV 显存打到 1/4'}
+- {'url': 'https://freedom-lwx.github.io/llm-architecture-handbook/04_Qwen3.6-27B/&rut=91a3e3954842f70e147755574faf6c96080e8c8529cc51d2955e11beb7071bb0', 'type': 'ddg', 'title': '04 · Qwen3.6-27B - 大模型架构学习手册'}

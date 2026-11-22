@@ -1,0 +1,20 @@
+# N230: 量化LFU收敛期命中率损失ΔH_convergence：由于修正后的τ_convergence ≈ 8.6分钟，而观察窗口为100天，LFU在99.99%的时间
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N87
+
+## Claim
+
+量化LFU收敛期命中率损失ΔH_convergence：由于修正后的τ_convergence ≈ 8.6分钟，而观察窗口为100天，LFU在99.99%的时间内处于稳态。因此ΔH_convergence ≈ 0，LFU在收敛期相对于LRU的命中率损失可忽略不计（<0.01%），主要差异来源于稳态下的频率老化效应而非收敛期。
+
+## Corrected Claim
+
+量化LFU收敛期命中率损失ΔH_convergence：由于修正后的τ_convergence ≈ 8.6分钟，而观察窗口为100天，LFU在99.99%的时间内处于稳态。因此ΔH_convergence ≈ 0，LFU在收敛期相对于LRU的命中率损失可忽略不计（<0.01%），主要差异来源于稳态下的频率老化效应而非收敛期。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：收敛时间（8.6分钟）远小于观察窗口（100天），收敛期占比极小，对整体命中率影响可忽略，符合逻辑直觉。

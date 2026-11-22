@@ -1,0 +1,20 @@
+# N32: RTX 3090 在 W4 量化下的实测吞吐量约为 35-45 tokens/s，瓶颈为 936GB/s 显存带宽（低于 4090 的 1008GB/s），且不
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N5
+
+## Claim
+
+RTX 3090 在 W4 量化下的实测吞吐量约为 35-45 tokens/s，瓶颈为 936GB/s 显存带宽（低于 4090 的 1008GB/s），且不支持 FP8 硬件加速，仅支持 INT8/BF16
+
+## Corrected Claim
+
+RTX 3090 在 W4 量化下的实测吞吐量约为 35-45 tokens/s，瓶颈为 936GB/s 显存带宽（低于 4090 的 1008GB/s），且不支持 FP8 硬件加速，仅支持 INT8/BF16
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 3090 显存带宽 936GB/s 及不支持 FP8 均为准确硬件规格，W4 量化下 35-45 tokens/s 的吞吐量符合大模型推理的带宽瓶颈估算（如 LLaMA-7B 级别），逻辑自洽且数值量级合理。

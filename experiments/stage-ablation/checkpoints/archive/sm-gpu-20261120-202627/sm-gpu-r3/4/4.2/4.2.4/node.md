@@ -1,0 +1,30 @@
+# N107: 不同区域/类型的电价 $E_{price}$ 基准值：中国居民电价约 0.5-0.6 CNY/kWh，工业电价约 0.7-0.8 CNY/kWh；美国商业电价约
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N22
+
+## Claim
+
+不同区域/类型的电价 $E_{price}$ 基准值：中国居民电价约 0.5-0.6 CNY/kWh，工业电价约 0.7-0.8 CNY/kWh；美国商业电价约 0.10-0.15 USD/kWh，用于计算 OpEx_energy [search]
+
+## Corrected Claim
+
+中国居民电价约 0.5-0.6 CNY/kWh，工商业电价约 0.5-0.8 CNY/kWh（来源[2]）；美国商业电价约 0.10-0.15 USD/kWh（缺乏直接来源支持，基于一般市场常识保留但标记为未验证）。
+
+## Evidence
+
+[质询]美国商业电价的具体数值（0.10-0.15 USD/kWh）在提供的参考来源中完全缺失，且该数值属于经验事实，无法仅凭逻辑推导验证其准确性；此外，中国工业电价范围（0.7-0.8 CNY/kWh）与来源[2]中提到的部分地区低至0.3-0.5 CNY/kWh存在一定偏差，虽可解释为地区/类型差异，但缺乏针对'典型工业电价'的直接佐证。 | 来源[2]支持中国工商业电价在0.5-0.8 CNY/kWh区间，来源[3]提供全球居民电价背景但无美国商业电价数据；美国商业电价部分缺乏直接来源支持，属经验事实，故降级。
+
+## Search Query
+
+average residential and industrial electricity price China US 2024
+
+## Retrieval Sources
+
+- {'url': 'https://wenku.baidu.com/view/19f2ca0451270722192e453610661ed9ac51555b.html&rut=9d7ba3489a3ba42a4d95d8e482df98f47c98803f69914991cfc89b6815f7b36d', 'type': 'ddg', 'title': '中国电价体系全景解析：2025年最新收费标准与应用指南'}
+- {'url': 'https://report.baidu.com/view/19e5bec9084e767f5acfa1c7aa00b52acec79cd9.html&rut=3acd095c065558dd1d108a1c3e8ffc27e9d621dc925fe9c34896d612ac48c666', 'type': 'ddg', 'title': '中国历年电价一览表 - report.baidu.com'}
+- {'url': 'https://kuku.baidu.com/landing/tscp_doc/7a75c334483e3ec2d0d6e336dd7397ec&rut=4468f7a779c10c6c085056973602b3150f37064958e9f36f2460b02830bfe002', 'type': 'ddg', 'title': '2026全球电力价格排行榜：各国居民电价高低对比一览 - 库库'}

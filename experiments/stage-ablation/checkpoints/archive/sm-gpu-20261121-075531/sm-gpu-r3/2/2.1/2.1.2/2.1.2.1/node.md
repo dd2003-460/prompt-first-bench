@@ -1,0 +1,24 @@
+# N169: A100 80GB 在 W4 量化下，由于 SXM 版本拥有 NVLink 互联，若采用 TP=1（单卡）运行 27B W4（13.5GB + KV），则无通信
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N51
+
+## Claim
+
+A100 80GB 在 W4 量化下，由于 SXM 版本拥有 NVLink 互联，若采用 TP=1（单卡）运行 27B W4（13.5GB + KV），则无通信开销，纯内存带宽限制；理论 TPS ≈ 2039 / 16.5 ≈ 123.6 TPS；但 A100 的 W4 解码支持不如 H100（H100 有原生 FP8/INT4 加速单元），A100 需软件模拟或低效路径，实际 TPS 可能折损 20-30%，即 86-98 TPS。
+
+## Corrected Claim
+
+A100 80GB SXM 在 W4 量化下，理论峰值带宽约为 2039 GB/s，但实际有效带宽通常低于此值。由于 A100 缺乏针对 W4 的原生硬件加速单元，实际推理性能受软件实现效率影响较大，理论 TPS 估算需考虑有效带宽折扣及软件开销，实际 TPS 可能显著低于基于峰值带宽的理论值。
+
+## Evidence
+
+[质询]A100 80GB SXM 的 HBM2e 带宽通常标称为 2039 GB/s，但实际有效带宽受内存控制器效率、访问模式及 ECC 开销影响，通常需打 80-90% 折扣；此外，W4 量化在 A100 上确实缺乏原生硬件加速（如 H100 的 FP8 或特定 INT4 单元），主要依赖 CUDA 内核优化，20-30% 的折损估算缺乏具体基准测试支持，属于经验性推测。 | 先验知识/题面给定，逻辑校验通过；但具体带宽数值及性能折损比例为经验事实，缺乏直接来源支持，故降级。
+
+## Search Query
+
+A100 W4 quantized LLM inference throughput single card memory bandwidth efficiency

@@ -1,0 +1,24 @@
+# N39: 数值积分求解的具体离散化方法：将 Pareto 分布的 s 和 h 维度离散为 1000x1000 网格，利用二元对数正态近似（由 ρ=-0.3 和 α, β 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N10
+
+## Claim
+
+数值积分求解的具体离散化方法：将 Pareto 分布的 s 和 h 维度离散为 1000x1000 网格，利用二元对数正态近似（由 ρ=-0.3 和 α, β 推导协方差矩阵）生成联合概率质量函数 P(s_i, h_j)，然后累加 P(s_i, h_j) * s_i * I(h_j > h_threshold) / E[S]_trunc 得到精确的字节命中率。
+
+## Corrected Claim
+
+数值积分求解的具体离散化方法：将 Pareto 分布的 s 和 h 维度离散为 1000x1000 网格，利用二元对数正态近似（由 ρ=-0.3 和 α, β 推导协方差矩阵）生成联合概率质量函数 P(s_i, h_j)，然后累加 P(s_i, h_j) * s_i * I(h_j > h_threshold) / E[S]_trunc 得到精确的字节命中率。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值积分离散化方法描述符合概率论与数值计算基本原理，量纲与逻辑自洽。
+
+## Search Query
+
+numerical integration bivariate log-normal distribution cache simulation

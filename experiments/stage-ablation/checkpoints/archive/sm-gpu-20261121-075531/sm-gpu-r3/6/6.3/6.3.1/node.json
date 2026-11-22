@@ -1,0 +1,17 @@
+{
+  "id": "N328",
+  "claim": "RTX 4090 24GB 显存运行 27B INT8 模型 (需 ~30GB) 时，若采用 CPU Offload 策略，将约 6GB 权重卸载至 CPU 内存，由于 PCIe 4.0 x16 双向带宽约 31.5 GB/s，每次 Token 生成需额外传输 6GB 数据，导致理论最大 TPS 上限降至 ~5 tokens/s (31.5 / 6)，远低于 GPU 计算能力，因此 Offload 方案在交互式场景下不可行，必须双卡或 W4。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]该陈述存在严重的逻辑与物理直觉错误：1. 混淆了'模型权重总量'与'每Token传输量'。在CPU Offload策略中，通常是将部分层（而非整个6GB权重）放在CPU，或者即使全部权重在CPU，每生成一个Token也只需传输当前激活层的权重（通常几十MB），而非每次传输6GB。若每次传输6GB，意味着每个Token都要重新加载整个模型，这在架构上是不成立的（除非是极特殊的非流式推理，但那样根本没法生成序列）。2. 即使假设极端情况每Token传输6GB，31.5GB/s / 6GB ≈ 5.25 tokens/s 的计算本身没错，但前提'每次Token生成需额外传输6GB数据'是错误的。实际上，Offload的瓶颈在于PCIe带宽限制下的层间权重交换，通常会导致TPS降至1-5之间，但原因不是'每次传6GB'，而是'每步需传输若干层的权重'。因此，核心机制描述错误。 | 逻辑校验失败：'每次Token生成需额外传输6GB数据'违背LLM推理的基本架构原理（Transformer逐层计算，非全量权重每步重传）。虽然结论'Offload在交互式场景下不可行'大致正确，但推导过程存在硬逻辑错误（量级/机制错误）。",
+  "corrected_claim": "RTX 4090 24GB 显存运行 27B INT8 模型 (需 ~30GB) 时，若采用 CPU Offload 策略，将部分权重卸载至 CPU 内存，由于 PCIe 4.0 x16 带宽限制，每生成一个 Token 需多次在 CPU-GPU 间传输激活层的权重，导致 I/O 成为瓶颈，理论最大 TPS 通常降至 1-5 tokens/s 左右，远低于 GPU 纯计算能力，因此 Offload 方案在交互式场景下体验较差，通常建议双卡或量化至 W4。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N108"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "PCIe 4.0 x16 bandwidth offloading LLM inference bottleneck",
+  "retrieval_sources": []
+}

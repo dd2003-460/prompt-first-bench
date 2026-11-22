@@ -1,0 +1,24 @@
+# N67: 单位曝光GMV贡献差异量化：计算高挂价商品与低挂价商品的单位曝光GMV比值 Ratio_GMV = (GMV_high / Impression_high) /
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N16
+
+## Claim
+
+单位曝光GMV贡献差异量化：计算高挂价商品与低挂价商品的单位曝光GMV比值 Ratio_GMV = (GMV_high / Impression_high) / (GMV_low / Impression_low)。若 Ratio_GMV > 1.2，且该差异在控制品类和卖家等级后仍显著（p < 0.05），表明平台算法倾向于将流量导向高溢价商品以最大化单笔佣金。
+
+## Corrected Claim
+
+单位曝光GMV贡献差异量化：计算高挂价商品与低挂价商品的单位曝光GMV比值 Ratio_GMV = (GMV_high / Impression_high) / (GMV_low / Impression_low)。若 Ratio_GMV 显著大于 1（具体阈值需根据业务基线确定，如 > 1.2），且该差异在控制品类和卖家等级后仍具有统计显著性（p < 0.05），则表明高挂价商品在单位曝光下的变现效率更高，可能暗示平台流量分配机制与商品溢价能力存在正相关。
+
+## Evidence
+
+[质询]该陈述包含具体的统计阈值（Ratio > 1.2, p < 0.05）和因果归因（算法倾向于导向高溢价商品以最大化佣金），属于经验事实与业务假设，无法从第一性原理推导，且缺乏外部来源支持其具体数值阈值和因果机制的普适性。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）。
+
+## Search Query
+
+platform algorithm traffic allocation high price items GMV per impression

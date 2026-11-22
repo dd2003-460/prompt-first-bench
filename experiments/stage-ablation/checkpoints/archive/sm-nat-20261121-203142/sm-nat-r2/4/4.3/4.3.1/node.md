@@ -1,0 +1,20 @@
+# N55: 在 u=0.001 的极限下，LRU 有效命中率 H_eff 与静态命中率 H_static 的绝对差值 ΔH = H_static - H_eff 上界为 H
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+在 u=0.001 的极限下，LRU 有效命中率 H_eff 与静态命中率 H_static 的绝对差值 ΔH = H_static - H_eff 上界为 H_static * 0.001，若 H_static≈0.8，则 ΔH ≤ 0.0008 (0.08%)
+
+## Corrected Claim
+
+在 u=0.001 的极限下，LRU 有效命中率 H_eff 与静态命中率 H_static 的绝对差值 ΔH = H_static - H_eff 上界为 H_static * 0.001，若 H_static≈0.8，则 ΔH ≤ 0.0008 (0.08%)
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在 u=0.001 的极限下，LRU 有效命中率与静态命中率的差值上界由更新率 u 决定，数学推导 H_static * u = 0.8 * 0.001 = 0.0008 成立，量纲与数值量级合理。

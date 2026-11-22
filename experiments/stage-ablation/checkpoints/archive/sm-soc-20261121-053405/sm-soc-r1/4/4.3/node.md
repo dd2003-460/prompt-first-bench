@@ -1,0 +1,24 @@
+# N20: 断言A3（干预代价）：最小干预措施M（强制披露近期成交价）对卖家利益的伤害量化为：卖家预期收益损失ΔR = (P_list - P_clear) * Q_los
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+断言A3（干预代价）：最小干预措施M（强制披露近期成交价）对卖家利益的伤害量化为：卖家预期收益损失ΔR = (P_list - P_clear) * Q_loss，其中Q_loss为因透明化导致的咨询量下降比例，若60%卖家降价后48h无咨询，则Q_loss ≈ 0.6 * (1 - P_consult_after_disclosure)，该式需代入P_consult_after_disclosure的估计值[待核验]
+
+## Corrected Claim
+
+断言A3（干预代价）：最小干预措施M对卖家利益的伤害量化为：卖家预期收益损失ΔR = (P_list - P_clear) * Q_base * Q_loss_ratio，其中Q_base为基准咨询量，Q_loss_ratio为因透明化导致的咨询量下降比例。若60%卖家降价后48h无咨询，需进一步估计P_consult_after_disclosure以推导Q_loss_ratio，当前公式量纲需修正。
+
+## Evidence
+
+[质询]公式中 Q_loss 的定义存在量纲和逻辑混淆：Q_loss 被定义为'咨询量下降比例'（无量纲比率），但公式 ΔR = (P_list - P_clear) * Q_loss 暗示 Q_loss 是数量（件数）或金额，导致量纲不匹配；此外，'60%卖家降价后48h无咨询'是卖家层面的二元状态，直接乘以 (1 - P_consult_after_disclosure) 缺乏统计推导依据，属于经验性假设而非严格推导。 | 来源不可用；逻辑校验发现公式量纲不一致（比率 vs 数量/金额）且经验参数缺乏推导基础，属于经验事实且逻辑存在瑕疵，故降级。
+
+## Search Query
+
+price transparency intervention impact on seller inquiry rate second hand market 48 hour window

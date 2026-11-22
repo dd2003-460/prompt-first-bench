@@ -1,0 +1,24 @@
+# N79: N_tail 的选取对 s_max 的敏感度分析：s_max 与 N_tail 的关系为 s_max ∝ N_tail^(-0.909)。若 N_tail 从 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N26
+
+## Claim
+
+N_tail 的选取对 s_max 的敏感度分析：s_max 与 N_tail 的关系为 s_max ∝ N_tail^(-0.909)。若 N_tail 从 1 增加到 10（考虑极端离群值），s_max 将从 44MB 降至约 4.4MB，这将显著改变截断期望 E[S] 的计算边界，进而影响总数据量估算。
+
+## Corrected Claim
+
+N_tail 的选取对 s_max 的敏感度分析：s_max 与 N_tail 的关系为 s_max ∝ N_tail^(-0.909)。若 N_tail 从 1 增加到 10（考虑极端离群值），s_max 将从 44MB 降至约 4.4MB，这将显著改变截断期望 E[S] 的计算边界，进而影响总数据量估算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：指数 -0.909 接近 -1，N_tail 增加 10 倍导致 s_max 下降约 10 倍（44MB -> 4.4MB），量级与数学关系自洽。
+
+## Search Query
+
+Pareto distribution tail sensitivity extreme value theory

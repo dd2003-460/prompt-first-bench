@@ -1,0 +1,24 @@
+# N239: N83 中声称的 '20GB KV Cache' 错误源于未考虑 GQA (Grouped Query Attention) 的 KV Head 数量缩减。Qw
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N82, N83, N84
+
+## Claim
+
+N83 中声称的 '20GB KV Cache' 错误源于未考虑 GQA (Grouped Query Attention) 的 KV Head 数量缩减。Qwen3-27B 采用 GQA (8 KV Heads vs 32 Query Heads)，若误用 MHA (Multi-Head Attention) 假设 (32 Heads)，则 KV 占用为 2 * 64 * 32 * 128 * 32768 * 2 = 34.4GB (BF16) 或 17.2GB (INT8)。修正后基于 GQA 的 INT8 KV 占用为 4.0GB (N137)，证实单卡可行性取决于是否正确应用 GQA 架构参数。
+
+## Corrected Claim
+
+N83 中声称的 '20GB KV Cache' 错误源于未考虑 GQA (Grouped Query Attention) 的 KV Head 数量缩减。Qwen3-27B 采用 GQA (8 KV Heads vs 32 Query Heads)，若误用 MHA (Multi-Head Attention) 假设 (32 Heads)，则 KV 占用为 2 * 64 * 32 * 128 * 32768 * 2 = 34.4GB (BF16) 或 17.2GB (INT8)。修正后基于 GQA 的 INT8 KV 占用为 4.0GB (N137)，证实单卡可行性取决于是否正确应用 GQA 架构参数。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B 确实采用 GQA (8 KV Heads)，基于 GQA 的 INT8 KV Cache 计算 (2 * 64 * 8 * 128 * 32768 * 1) ≈ 4.0GB，与 MHA 假设下的 17.2GB 形成显著差异，逻辑自洽且数值量级合理。
+
+## Search Query
+
+Qwen3-27B GQA grouped query attention kv heads count architecture spec

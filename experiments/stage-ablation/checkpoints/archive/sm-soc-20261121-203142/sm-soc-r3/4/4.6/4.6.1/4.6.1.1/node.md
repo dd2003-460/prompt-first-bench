@@ -1,0 +1,28 @@
+# N217: 保留价值 V 的分布参数：V ~ N(μ_v, σ_v²)，需检索二手平台买家对同类商品价值评估的均值 μ_v 及标准差 σ_v，以计算 k_v = μ_v /
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N72
+
+## Claim
+
+保留价值 V 的分布参数：V ~ N(μ_v, σ_v²)，需检索二手平台买家对同类商品价值评估的均值 μ_v 及标准差 σ_v，以计算 k_v = μ_v / P_market 的具体数值。
+
+## Corrected Claim
+
+保留价值 V 可建模为服从正态分布 V ~ N(μ_v, σ_v²)，其中 μ_v 和 σ_v 需基于特定二手平台同类商品的实际交易数据或买家评估调查进行估计，进而计算 k_v = μ_v / P_market。
+
+## Evidence
+
+[质询]该陈述声称需要检索具体的二手平台买家价值评估均值 μ_v 和标准差 σ_v 以计算 k_v 的具体数值，但参考来源仅提供了正态分布的通用数学定义，完全未包含任何关于二手商品市场的具体统计数据或经验参数。 | 逻辑上，用正态分布建模价值评估并计算均值与市场价之比是合理的；但作为 source=search 节点，具体的 μ_v 和 σ_v 属于经验事实，参考来源 [1] 仅涉及正态分布理论，未提供相关市场数据支持，故降级。
+
+## Search Query
+
+second hand platform buyer value distribution mean standard deviation
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/481760712&rut=f4de003bc8fbb48aa643a8aadd5d0833e0f7c3c589a5745f114432cbf89c5fdb', 'type': 'ddg', 'title': '正态分布（高斯分布）学习笔记 - 知乎'}

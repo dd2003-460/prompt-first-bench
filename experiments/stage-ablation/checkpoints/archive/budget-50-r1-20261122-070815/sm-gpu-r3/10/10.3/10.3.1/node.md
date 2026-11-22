@@ -1,0 +1,24 @@
+# N424: A100 (Ampere) 架构在 vLLM 或 TensorRT-LLM 中加载 FP8 权重时，由于缺乏原生 FP8 Tensor Core，实际执行路径为
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N147
+
+## Claim
+
+A100 (Ampere) 架构在 vLLM 或 TensorRT-LLM 中加载 FP8 权重时，由于缺乏原生 FP8 Tensor Core，实际执行路径为反量化至 FP16/BF16 进行计算，导致吞吐量 (tokens/s) 相比原生 BF16 推理通常下降 10%-20% 或无提升，具体百分比需通过对比 A100 上 Qwen3-27B BF16 与 FP8 模型的实测吞吐率获取。
+
+## Corrected Claim
+
+A100 (Ampere) 架构在 vLLM 或 TensorRT-LLM 中加载 FP8 权重时，由于缺乏原生 FP8 Tensor Core，实际执行路径为反量化至 FP16/BF16 进行计算。这通常会导致计算开销增加，相比原生 BF16 推理，吞吐量可能无提升或出现一定程度的下降，具体性能表现需通过实测获取。
+
+## Evidence
+
+[质询]该陈述包含具体的性能下降百分比（10%-20%），属于经验事实。虽然A100缺乏原生FP8 Tensor Core导致反量化开销的逻辑是正确的，但具体的吞吐量下降幅度高度依赖于模型结构、序列长度、Batch Size以及具体的推理引擎优化策略（如是否使用了特定的Kernel优化来掩盖反量化延迟）。在没有实测数据支持的情况下，断言一个固定的百分比区间（10%-20%）缺乏严谨性，且不同场景下可能出现无提升甚至轻微提升（若内存带宽成为瓶颈且FP8显著减少访存）的情况。 | 经验事实，逻辑自洽但缺来源支持。A100确实无原生FP8 Tensor Core，计算需反量化至FP16/BF16，这引入了额外计算开销。然而，具体吞吐量变化是经验数据，非第一性原理可推导，且检索无可用来源，故降级为定性表述。
+
+## Search Query
+
+A100 FP8 inference performance penalty vLLM Qwen3 benchmark tokens per second

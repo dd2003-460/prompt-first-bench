@@ -1,0 +1,24 @@
+# N86: Apple MLX/Llama.cpp 生态性能量化：MLX 框架针对 Apple Silicon 优化，但缺乏 KV Cache 分页管理（PagedAtte
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N20
+
+## Claim
+
+Apple MLX/Llama.cpp 生态性能量化：MLX 框架针对 Apple Silicon 优化，但缺乏 KV Cache 分页管理（PagedAttention）支持，导致 32K 上下文下的内存碎片率较高，实际有效带宽利用率仅为理论值的 60-70%；Llama.cpp 在 M2 Ultra 上运行 Qwen3-27B INT4 的实测速度约为 12-15 tokens/s（理论上限 14.8 tokens/s），调试时间成本低（无驱动问题），但性能调优空间有限，无法通过 PagedAttention 进一步提升并发。
+
+## Corrected Claim
+
+Apple MLX/Llama.cpp 生态性能量化：MLX 框架针对 Apple Silicon 优化，但缺乏 KV Cache 分页管理（PagedAttention）支持，可能导致长上下文下的内存管理效率降低；Llama.cpp 在 M2 Ultra 上运行 Qwen3-27B INT4 的实测速度通常在 10-15 tokens/s 区间（具体取决于量化精度和系统负载），调试时间成本低，但性能调优空间有限，无法通过 PagedAttention 进一步提升并发。
+
+## Evidence
+
+[质询]数值量级与逻辑矛盾：1. '理论上限 14.8 tokens/s' 与 '实测 12-15 tokens/s' 存在逻辑冲突，实测速度不应显著超过理论上限；2. '内存碎片率较高' 与 '有效带宽利用率 60-70%' 之间缺乏直接因果推导，碎片化通常影响分配效率而非直接决定带宽利用率至特定百分比；3. 具体数值（如 14.8, 60-70%）属于经验事实，缺乏来源支持且易受硬件配置、量化方式影响，存在过度精确化风险。 | 经验事实，逻辑自洽但缺来源支持；且存在实测值超过理论上限的逻辑瑕疵，故降级。
+
+## Search Query
+
+MLX framework Qwen3-27B M2 Ultra benchmark tokens/s PagedAttention support

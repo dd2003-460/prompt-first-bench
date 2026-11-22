@@ -1,0 +1,20 @@
+# N6: 缓存容量 C 的归一化阈值：C_norm = 128GB / (N_obj * E[S])，其中 N_obj=100,000，E[S] 由 Pareto(α=1
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+缓存容量 C 的归一化阈值：C_norm = 128GB / (N_obj * E[S])，其中 N_obj=100,000，E[S] 由 Pareto(α=1.1) 的均值公式 E[S] = α*x_min/(α-1) 计算（需设定 x_min，通常取最小对象大小如 1KB 或 10KB 进行敏感性分析）。
+
+## Corrected Claim
+
+缓存容量 C 的归一化阈值：C_norm = 128GB / (N_obj * E[S])，其中 N_obj=100,000，E[S] 由 Pareto(α=1.1) 的均值公式 E[S] = α*x_min/(α-1) 计算（需设定 x_min，通常取最小对象大小如 1KB 或 10KB 进行敏感性分析）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布均值公式 E[S] = α*x_min/(α-1) 在 α>1 时成立，归一化阈值定义符合缓存容量标准化逻辑。

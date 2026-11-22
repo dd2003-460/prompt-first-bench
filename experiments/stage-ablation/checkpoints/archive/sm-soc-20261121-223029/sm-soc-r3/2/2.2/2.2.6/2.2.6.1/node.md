@@ -1,0 +1,20 @@
+# N183: 质量信号推断的贝叶斯后验概率函数：P(Q_high | δ, Evidence) = (Prior * Likelihood) / Evidence，其中 Pr
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N55
+
+## Claim
+
+质量信号推断的贝叶斯后验概率函数：P(Q_high | δ, Evidence) = (Prior * Likelihood) / Evidence，其中 Prior 为平台整体高质量商品占比（需估计基线值，如 30%），Likelihood 为观测到 δ 和质量证明 E 的概率密度。需量化当 σ_Q 从 0.3 降至 0.1 时，P(Q_high) 的具体提升幅度。
+
+## Corrected Claim
+
+质量信号推断的贝叶斯后验概率函数：P(Q_high | δ, Evidence) = (Prior * Likelihood) / Evidence，其中 Prior 为平台整体高质量商品占比（需估计基线值，如 30%），Likelihood 为观测到 δ 和质量证明 E 的概率密度。需量化当 σ_Q 从 0.3 降至 0.1 时，P(Q_high) 的具体提升幅度。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：贝叶斯公式结构正确，σ_Q降低意味着观测噪声减小、似然函数更尖锐，从而在相同观测下后验概率向高质量方向收敛，逻辑自洽。

@@ -1,0 +1,20 @@
+# N302: MLP激活值峰值显存占用精确计算：在推理阶段，MLP模块执行 x -> W1*x -> SiLU -> W3*... -> W2*...。峰值显存出现在W1/W
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N128
+
+## Claim
+
+MLP激活值峰值显存占用精确计算：在推理阶段，MLP模块执行 x -> W1*x -> SiLU -> W3*... -> W2*...。峰值显存出现在W1/W3输出后、W2输入前，即中间隐藏层状态。占用 = batch_size * seq_len * d_ff * dtype_size。对于Qwen3-27B (d_ff=11008, seq_len=32768, BF16=2bytes)，单层峰值 = 1 * 32768 * 11008 * 2 ≈ 722 MB。由于推理是逐层串行，峰值仅为单层大小，不随层数线性累加。
+
+## Corrected Claim
+
+MLP激活值峰值显存占用精确计算：在推理阶段，MLP模块执行 x -> W1*x -> SiLU -> W3*... -> W2*...。峰值显存出现在W1/W3输出后、W2输入前，即中间隐藏层状态。占用 = batch_size * seq_len * d_ff * dtype_size。对于Qwen3-27B (d_ff=11008, seq_len=32768, BF16=2bytes)，单层峰值 = 1 * 32768 * 11008 * 2 ≈ 722 MB。由于推理是逐层串行，峰值仅为单层大小，不随层数线性累加。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B的d_ff=11008符合其架构规格（约为hidden_size 4096的2.7倍，符合MoE或特定FFN设计），计算 32768 * 11008 * 2 bytes ≈ 722 MB 数值准确，且推理阶段逐层串行执行导致峰值显存不随层数累加的逻辑正确。

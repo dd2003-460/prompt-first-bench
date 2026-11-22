@@ -1,0 +1,24 @@
+# N287: Clayton Copula 参数 θ 与 Spearman 秩相关系数 ρ_s 的精确解析映射为 θ = 2ρ_s / (1 - ρ_s)；对于 Pearso
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N109
+
+## Claim
+
+Clayton Copula 参数 θ 与 Spearman 秩相关系数 ρ_s 的精确解析映射为 θ = 2ρ_s / (1 - ρ_s)；对于 Pearson 相关系数 ρ_p = -0.3，需通过数值积分或近似公式 ρ_s ≈ (2/3)(arcsin(ρ_p/2)) 估算 ρ_s ≈ -0.31，进而求得 θ ≈ 0.09。使用错误的线性映射 θ = (ρ - 0.5)/(0.5 - ρ) 会导致 θ ≈ -1.4，这在 Clayton 分布中无定义（θ > 0），证明该线性映射完全错误。
+
+## Corrected Claim
+
+Clayton Copula 参数 θ 与 Spearman 秩相关系数 ρ_s 的精确解析映射为 θ = 2ρ_s / (1 - ρ_s)；对于 Pearson 相关系数 ρ_p = -0.3，需通过数值积分或近似公式 ρ_s ≈ (2/3)(arcsin(ρ_p/2)) 估算 ρ_s ≈ -0.31，进而求得 θ ≈ 0.09。使用错误的线性映射 θ = (ρ - 0.5)/(0.5 - ρ) 会导致 θ ≈ -1.4，这在 Clayton 分布中无定义（θ > 0），证明该线性映射完全错误。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Clayton Copula 的 Spearman 相关公式 θ=2ρ/(1-ρ) 正确；Pearson 到 Spearman 的近似公式及数值推导（ρ_p=-0.3 → ρ_s≈-0.31 → θ≈0.09）符合数学逻辑；错误映射导致的 θ<0 确实违反 Clayton 分布定义域（θ>0）。
+
+## Search Query
+
+Clayton copula parameter theta Spearman Pearson correlation mapping formula exact

@@ -1,0 +1,20 @@
+# N234: 单卡4090 INT4吞吐量下限推导：基于显存带宽瓶颈模型，Throughput_min = Memory_Bandwidth_GBps / (Weight_S
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N93
+
+## Claim
+
+单卡4090 INT4吞吐量下限推导：基于显存带宽瓶颈模型，Throughput_min = Memory_Bandwidth_GBps / (Weight_Size_GB + KV_Cache_GB_per_token * Seq_Len + Activation_GB)。对于Qwen3-27B INT4 (13.5GB权重)，4090带宽1008 GB/s，若Seq_Len=32K，KV_Cache~4.3GB，Activation~2GB，总读取量~19.8GB。理论峰值吞吐 ≈ 1008 / 19.8 ≈ 50.9 tokens/s。考虑软件开销与缓存未命中，实际可持续吞吐通常为理论峰值的25-30%，即 12.7-15.3 tokens/s。保守取12.5 tokens/s作为P95延迟下的下限。
+
+## Corrected Claim
+
+单卡4090 INT4吞吐量下限推导：基于显存带宽瓶颈模型，Throughput_min = Memory_Bandwidth_GBps / (Weight_Size_GB + KV_Cache_GB_per_token * Seq_Len + Activation_GB)。对于Qwen3-27B INT4 (13.5GB权重)，4090带宽1008 GB/s，若Seq_Len=32K，KV_Cache~4.3GB，Activation~2GB，总读取量~19.8GB。理论峰值吞吐 ≈ 1008 / 19.8 ≈ 50.9 tokens/s。考虑软件开销与缓存未命中，实际可持续吞吐通常为理论峰值的25-30%，即 12.7-15.3 tokens/s。保守取12.5 tokens/s作为P95延迟下的下限。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算正确（1008/19.8≈50.9，50.9*0.25≈12.7），显存带宽瓶颈模型及INT4推理效率经验值（25-30%）符合工程常识。

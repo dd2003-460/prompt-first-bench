@@ -1,0 +1,20 @@
+# N122: Qwen3-27B 模型在 TP=2 (2x GPU) 模式下，每层 Transformer 中 AllReduce 通信的数据量大小 (Bytes/Step)
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N33, N34
+
+## Claim
+
+Qwen3-27B 模型在 TP=2 (2x GPU) 模式下，每层 Transformer 中 AllReduce 通信的数据量大小 (Bytes/Step)，基于隐藏层维度 (hidden_size) 和 Batch Size=1 计算。
+
+## Corrected Claim
+
+Qwen3-27B 模型在 TP=2 (2x GPU) 模式下，每层 Transformer 中 AllReduce 通信的数据量大小 (Bytes/Step)，基于隐藏层维度 (hidden_size) 和 Batch Size=1 计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在标准 Transformer 架构中，AllReduce 通信量通常等于激活值大小（Batch Size × Sequence Length × Hidden Size），对于 Qwen3-27B，hidden_size 为 4096，Batch Size=1 时，每步通信量为 4096 * seq_len * dtype_size，量级合理且符合分布式训练基本原理。

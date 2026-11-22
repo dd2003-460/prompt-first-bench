@@ -1,0 +1,30 @@
+# N132: Qwen3-27B 在 BF16 基准下于 WikiText2 数据集上的困惑度 (Perplexity) 数值 (PPL_BF16_WikiText2)，作为
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N20
+
+## Claim
+
+Qwen3-27B 在 BF16 基准下于 WikiText2 数据集上的困惑度 (Perplexity) 数值 (PPL_BF16_WikiText2)，作为计算 W4 困惑度增加百分比的基准。
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 基准下于 WikiText2 数据集上的困惑度 (Perplexity) 数值需查阅官方技术报告或权威基准测试数据，当前参考来源未提供该具体数值。
+
+## Evidence
+
+[质询]参考来源均未提供 Qwen3-27B 在 WikiText2 数据集上的具体困惑度 (PPL) 数值，且部分来源提及的模型版本（如 Qwen3.5, Qwen3.8）与目标模型（Qwen3-27B）存在版本混淆风险，无法从现有证据中直接提取或验证该具体经验数值。 | 经验事实，逻辑自洽但缺来源支持（来源[1][2][3]仅讨论推理性能/显存/延迟，未提供 WikiText2 PPL 具体数值）
+
+## Search Query
+
+Qwen3-27B WikiText2 perplexity BF16
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_30218749/article/details/159560741&rut=87e59bef10c7c3a681a76b6967ab61f7010ab803e63e2cd38d1f53b052e6b5d5', 'type': 'ddg', 'title': 'Qwen3.5-27B GPU算力优化：4090D下FP16 vs BF16推理延迟与显存对比-CSDN博客'}
+- {'url': 'https://blog.csdn.net/weixin_28222493/article/details/166045357&rut=aacadffd0c54a9ec1460c21410f36a5c6b0ec62189123234d71a5805c64ae37e', 'type': 'ddg', 'title': 'Qwen3.8-27B与Qwen3.6-35B-A3B实测：FP8/BF16部署与选型指南'}
+- {'url': 'https://blog.gitcode.com/c3786b6425c0de3c9d5aba3fc38dbfda.html&rut=497832003a15c2a50f37c485b9696d6e7db052184cb2648d5da0b9d6af1636da', 'type': 'ddg', 'title': 'Qwen3 推理速度基准评测：SGLang 与 Transformers 在 BF16、FP8、GPTQ、AWQ 下的吞吐与显存全景报告'}

@@ -1,0 +1,20 @@
+# N54: LFU 相对 LRU 的字节命中率增益 ΔH_byte = (Σ_{i∈C_LFU} R_i * S_i - Σ_{i∈C_LRU} R_i * S_i) / 
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+LFU 相对 LRU 的字节命中率增益 ΔH_byte = (Σ_{i∈C_LFU} R_i * S_i - Σ_{i∈C_LRU} R_i * S_i) / (Σ_{j=1}^{N} R_j * S_j)，由于大小加权，ΔH_byte 通常小于 ΔH_req。
+
+## Corrected Claim
+
+LFU 相对 LRU 的字节命中率增益 ΔH_byte = (Σ_{i∈C_LFU} R_i * S_i - Σ_{i∈C_LRU} R_i * S_i) / (Σ_{j=1}^{N} R_j * S_j)，由于大小加权，ΔH_byte 通常小于 ΔH_req。
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备, 有冗余（子节点存在逻辑矛盾与维度混淆。1. 矛盾：父节点明确指出由于大小加权，ΔH_byte 通常小于 ΔH_req，但子节点C声称在强负相关下 ΔH_byte > ΔH_req，直接违背了父节点的核心结论（除非父节点结论有误，否则子节点与父节点冲突）。2. 冗余/非正交：子节点A和B主要讨论时间动态性（静态vs动态更新），而子节点C讨论的是大小-热度相关性（ρ）。然而，子节点A中提到的“头部对象的大小-热度负相关”与子节点C的主题重叠，且A和B并未完全正交，因为“静态热点”隐含了特定的ρ分布，而B仅关注更新率，两者耦合。3. 不完备：未覆盖父节点公式中的核心变量 N（对象总数）或 R_i（请求频率）的分布特性对ΔH_byte的独立影响，仅聚焦于ρ和更新率。）

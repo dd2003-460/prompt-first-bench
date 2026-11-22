@@ -1,0 +1,24 @@
+# N249: H100 SXM5 在长上下文 (32K) 解码阶段的功耗瓶颈：Decode 阶段主要受 HBM 带宽限制而非计算单元限制，此时 GPU 计算单元空闲导致功耗低
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N71
+
+## Claim
+
+H100 SXM5 在长上下文 (32K) 解码阶段的功耗瓶颈：Decode 阶段主要受 HBM 带宽限制而非计算单元限制，此时 GPU 计算单元空闲导致功耗低于 TDP，但 HBM 控制器持续高功耗，实测 Decode 平均功耗通常稳定在 550W 左右，不随上下文长度线性增加。
+
+## Corrected Claim
+
+H100 SXM5 在长上下文 (32K) 解码阶段的功耗瓶颈：Decode 阶段主要受 HBM 带宽限制而非计算单元限制，此时 GPU 计算单元空闲导致功耗低于 TDP，但 HBM 控制器持续高功耗，实测 Decode 平均功耗通常稳定在 550W 左右，不随上下文长度线性增加。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Decode阶段为内存带宽受限，计算单元空闲导致功耗低于TDP，HBM控制器高功耗，实测550W左右符合H100 SXM5功耗特性。
+
+## Search Query
+
+H100 decode phase power consumption HBM bandwidth bound

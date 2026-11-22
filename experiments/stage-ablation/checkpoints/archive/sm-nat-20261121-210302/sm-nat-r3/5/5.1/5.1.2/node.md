@@ -1,0 +1,20 @@
+# N192: 在 ρ=-0.3 负相关下，条件期望 E[S | P > P_th] 相对于独立假设 E[S] 的偏差比例 Δ_S = (E[S|P>P_th] - E[S])
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N70
+
+## Claim
+
+在 ρ=-0.3 负相关下，条件期望 E[S | P > P_th] 相对于独立假设 E[S] 的偏差比例 Δ_S = (E[S|P>P_th] - E[S]) / E[S] 的解析近似公式，用于量化'热门即小'导致的缓存空间利用偏差系数。
+
+## Corrected Claim
+
+在 ρ=-0.3 负相关下，条件期望 E[S | P > P_th] 相对于独立假设 E[S] 的偏差比例 Δ_S = (E[S|P>P_th] - E[S]) / E[S] 的解析近似公式，用于量化'热门即小'导致的缓存空间利用偏差系数。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

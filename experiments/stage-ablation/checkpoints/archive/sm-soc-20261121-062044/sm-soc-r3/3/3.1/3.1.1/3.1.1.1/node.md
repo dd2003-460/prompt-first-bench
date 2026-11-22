@@ -1,0 +1,24 @@
+# N165: 季节性波动修正项：σ²_seasonal 需通过历史同期（过去3年同月）GMV标准差计算，若 σ²_seasonal > 0.3 * σ²_total，则需从 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N54
+
+## Claim
+
+季节性波动修正项：σ²_seasonal 需通过历史同期（过去3年同月）GMV标准差计算，若 σ²_seasonal > 0.3 * σ²_total，则需从 σ²_intervention 中扣除该分量以避免高估干预噪声。
+
+## Corrected Claim
+
+季节性波动修正项：σ²_seasonal 通常通过历史同期 GMV 标准差计算；若季节性方差占比显著（如超过特定阈值），需在模型中单独建模或从残差中剔除，以避免高估干预效应，具体阈值需根据业务数据分布确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（0.3）和特定的统计分解方法（从干预噪声中扣除季节性分量），这属于领域特定的建模经验或启发式规则，无法从第一性原理或数学公理中严格推导出来。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该具体阈值和修正逻辑非通用数学定理，属于特定业务场景下的统计建模经验）。
+
+## Search Query
+
+GMV seasonal variance correction A/B test intervention noise

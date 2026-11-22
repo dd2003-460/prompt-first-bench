@@ -1,0 +1,20 @@
+# N368: 在 TP=2 推理中，每层 Transformer 的 AllReduce 通信数据量为 2 * hidden_size * batch_size * byte
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N124
+
+## Claim
+
+在 TP=2 推理中，每层 Transformer 的 AllReduce 通信数据量为 2 * hidden_size * batch_size * bytes_per_element；对于 Qwen3-27B (hidden_size=4096, BF16/INT8)，单层通信量约为 32KB (INT8) 或 64KB (BF16)，总通信量随层数线性累积。
+
+## Corrected Claim
+
+在 TP=2 推理中，每层 Transformer 的 AllReduce 通信数据量为 2 * hidden_size * batch_size * bytes_per_element；对于 Qwen3-27B (hidden_size=4096)，若 batch_size=1，单层通信量约为 8KB (INT8) 或 16KB (BF16)；若 batch_size=4，则约为 32KB (INT8) 或 64KB (BF16)。总通信量随层数和 batch_size 线性累积。
+
+## Evidence
+
+[质询]数值量级严重错误：公式中遗漏了 batch_size 的具体数值（通常至少为1），且 2 * 4096 * 1 * 1 = 8192 Bytes = 8KB，而非 32KB；若 batch_size=4 则为 32KB，但陈述未指定 batch_size 却给出固定值，存在逻辑漏洞。 | 先验知识/题面给定，逻辑校验失败：公式计算结果与陈述数值不符（2*4096*1*1=8KB≠32KB），且未明确 batch_size 取值导致数值不严谨。

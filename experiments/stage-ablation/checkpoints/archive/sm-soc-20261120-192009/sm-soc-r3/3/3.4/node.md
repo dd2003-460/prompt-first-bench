@@ -1,0 +1,20 @@
+# N19: 平台副作用：透明化干预可能降低平台的信息垄断租金，导致平台广告收入或佣金收入下降 ΔRevenue_platform = -k * (info_0_increa
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+平台副作用：透明化干预可能降低平台的信息垄断租金，导致平台广告收入或佣金收入下降 ΔRevenue_platform = -k * (info_0_increase)；同时可能引发卖家对平台公平性的质疑，增加用户流失率 Churn_rate = α * (perceived_unfairness)。
+
+## Corrected Claim
+
+平台副作用：透明化干预可能降低平台的信息垄断租金，导致平台广告收入或佣金收入下降 ΔRevenue_platform = -k * (info_0_increase)；同时可能引发卖家对平台公平性的质疑，增加用户流失率 Churn_rate = α * (perceived_unfairness)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

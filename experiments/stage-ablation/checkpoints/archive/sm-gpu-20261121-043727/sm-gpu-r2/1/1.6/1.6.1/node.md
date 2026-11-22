@@ -1,0 +1,20 @@
+# N54: NVLink 4.0 (H100/A100) 的单向带宽为 900GB/s，双向带宽为 1.8TB/s，而 PCIe 4.0 x16 的单向带宽为 32GB/s
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+NVLink 4.0 (H100/A100) 的单向带宽为 900GB/s，双向带宽为 1.8TB/s，而 PCIe 4.0 x16 的单向带宽为 32GB/s，双向带宽为 64GB/s，NVLink 带宽是 PCIe 4.0 的 14.0625 倍
+
+## Corrected Claim
+
+H100 的 NVLink 4.0 单向带宽为 900GB/s，双向带宽为 1.8TB/s；A100 的 NVLink 3.0 单向带宽为 400GB/s，双向带宽为 800GB/s。PCIe 4.0 x16 的有效单向带宽约为 31.5GB/s，双向约为 63GB/s。H100 NVLink 4.0 带宽约为 PCIe 4.0 x16 的 14.3 倍（单向）或 28.6 倍（双向）。
+
+## Evidence
+
+[质询]数值量级与官方规格存在偏差：H100 NVLink 4.0 官方单向带宽通常为 900GB/s（双向 1.8TB/s），但 A100 使用的是 NVLink 3.0（单向 400GB/s，双向 800GB/s），将 A100 归入 NVLink 4.0 且统一标称 900GB/s 单向带宽在硬件代际对应上不准确；此外，PCIe 4.0 x16 理论单向带宽约为 31.5GB/s（32GT/s * 16 / 8 * 128/130 编码效率），双向约 63GB/s，14.0625 倍是基于 900/64 或类似简化计算的近似值，实际倍数因编码效率略有差异。 | 先验知识/题面给定，逻辑校验通过；但 A100 与 NVLink 4.0 的对应关系存在事实性瑕疵（A100 为 NVLink 3.0），且无外部来源支持，故降级。

@@ -1,0 +1,17 @@
+{
+  "id": "N227",
+  "claim": "RX 7900 XTX (24GB) 运行 Qwen3-27B W4 量化的最大上下文长度：Max_Context_Tokens = (VRAM_Total - Weight_Size_W4 - KV_Overhead) / KV_Cache_Per_Token。代入 VRAM=24GB, Weight_W4≈14GB (N71), KV_Overhead≈2GB, 假设 KV_Cache_Per_Token≈1.0MB (32K context下GQA优化后估算)，计算剩余 8GB 可支持的最大 token 数，验证是否满足 32K 下限 [待核验]",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]KV_Cache_Per_Token 的估算值（1.0MB）缺乏具体模型架构参数（如层数、头数、头维度）的严格推导支持，且不同推理框架（如 vLLM, llama.cpp）对 KV Cache 的管理和量化策略不同，导致实际可用上下文长度存在较大波动，该数值仅为粗略估算。 | 先验知识/题面给定，逻辑校验通过。公式结构正确，量级估算（24GB显存，14GB权重，剩余8GB，1MB/token对应8K tokens，若按32K需求则需4MB/token或更优压缩，此处假设1.0MB可能偏乐观或指代特定压缩后大小，但整体逻辑自洽，无硬逻辑错误。因缺乏外部来源直接支持具体KV Cache大小，且属于经验性估算，降级为degraded。",
+  "corrected_claim": "RX 7900 XTX (24GB) 运行 Qwen3-27B W4 量化时，理论最大上下文长度取决于 KV Cache 每 token 占用大小。若 KV_Cache_Per_Token 约为 0.25MB（基于 GQA 优化及 FP16/BF16 估算），则 8GB 剩余显存可支持约 32K tokens；若按 1.0MB 估算，则仅支持约 8K tokens。需根据具体推理引擎和精度配置确定实际值。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N85"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

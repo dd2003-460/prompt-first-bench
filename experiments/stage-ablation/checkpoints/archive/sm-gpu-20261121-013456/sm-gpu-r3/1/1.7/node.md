@@ -1,0 +1,28 @@
+# N13: 若 Qwen3-27B 采用 GQA (Grouped Query Attention)，KV 头数可能为 8 或 16，这将使 KV Cache 占用降低至 
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+若 Qwen3-27B 采用 GQA (Grouped Query Attention)，KV 头数可能为 8 或 16，这将使 KV Cache 占用降低至 8.6 GB 或 17.2 GB，显著影响总显存需求。
+
+## Corrected Claim
+
+若 Qwen3-27B 采用 GQA，KV 头数通常少于 Q 头数，这将使 KV Cache 占用显著降低，从而影响总显存需求。
+
+## Evidence
+
+[质询]来源仅确认 Qwen3-30B-A3B 使用 GQA，未提供 Qwen3-27B 的具体 KV 头数（8或16）及对应的显存占用数值（8.6GB/17.2GB），属于缺乏直接证据支持的推测性数值。 | 来源[1]证实 Qwen3 系列采用 GQA 机制，逻辑上 GQA 确实能降低 KV Cache 占用，但具体数值（8.6GB/17.2GB）和头数（8/16）在来源中无直接支持，且 Qwen3-27B 的具体架构参数未在来源中明确列出，故降级为定性表述。
+
+## Search Query
+
+Qwen3-27B GQA grouped query attention kv heads
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1905664754569185060&rut=996eead263dea3540db5dd80d1c2d089ec97a6079e18ef49b1c485c5cace2d64', 'type': 'ddg', 'title': '图解Qwen3混合专家模型推理过程--GQA和MoE - 知乎'}

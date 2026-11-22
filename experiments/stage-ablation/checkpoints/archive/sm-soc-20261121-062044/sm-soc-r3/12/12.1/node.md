@@ -1,0 +1,24 @@
+# N275: 低流动性卖家（T_wait > 30天）在实施价格透明化干预后的成交率下降幅度 ΔR = R_base - R_intervention，基于历史数据回归估计，
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N100
+
+## Claim
+
+低流动性卖家（T_wait > 30天）在实施价格透明化干预后的成交率下降幅度 ΔR = R_base - R_intervention，基于历史数据回归估计，预期区间为 10% ≤ ΔR ≤ 15%（即相对降幅），需通过A/B测试验证。
+
+## Corrected Claim
+
+低流动性卖家（T_wait > 30天）在实施价格透明化干预后，基于历史数据回归估计，预期成交率相对降幅（ΔR）可能处于10%至15%区间，该具体数值需通过A/B测试进一步验证。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值区间（10%-15%），属于基于特定历史数据回归得出的统计结论，无法从第一性原理或数学公理中严格推导出来，且缺乏外部来源支持其具体数值量级。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该数值区间非第一性原理可推导范畴）
+
+## Search Query
+
+second hand platform price transparency intervention impact on low liquidity sellers transaction rate drop

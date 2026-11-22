@@ -1,0 +1,24 @@
+# N93: ΔT_seller 的卖家异质性：高信用卖家（信用分 > 90）的 ΔT_seller 比低信用卖家（信用分 < 60）低 30-40%，因买家更依赖信用信号而
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N33
+
+## Claim
+
+ΔT_seller 的卖家异质性：高信用卖家（信用分 > 90）的 ΔT_seller 比低信用卖家（信用分 < 60）低 30-40%，因买家更依赖信用信号而非价格信号，曝光损失对成交周期的影响被信用缓冲部分抵消；量化模型：ΔT_seller(credit) = ΔT_seller_base * (1 - 0.3 * (credit - 60)/30)，credit ∈ [60, 90]。
+
+## Corrected Claim
+
+高信用卖家（信用分 > 90）的 ΔT_seller 通常比低信用卖家（信用分 < 60）低，因买家更依赖信用信号而非价格信号，曝光损失对成交周期的影响被信用缓冲部分抵消；具体降低幅度取决于市场环境和信用体系成熟度，一般认为存在显著的正向缓冲效应。
+
+## Evidence
+
+[质询]该陈述包含具体的量化模型公式（ΔT_seller(credit) = ...）和精确的百分比范围（30-40%），属于经验事实/具体参数。虽然逻辑上信用缓冲机制合理，但具体的系数（0.3）和区间（30-40%）缺乏普遍公认的理论推导或标准数据支持，可能是特定场景下的拟合结果或虚构参数，存在将特定经验数据泛化为通用模型的风险。 | source=knowledge，逻辑自洽（信用高降低对价格/曝光敏感度符合经济学直觉），但具体数值模型（30-40%及公式系数）属于经验事实，无外部来源直接支持，依据经验事实排除条款降级。
+
+## Search Query
+
+seller credit score moderation effect on exposure loss transaction cycle

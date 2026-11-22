@@ -1,0 +1,16 @@
+# N4: 动态更新对缓存效用的折损：评估对象更新率（1%/天）导致的缓存失效（Cache Thrashing/Invalidation）对LRU有效命中率的额外折扣系数。
+
+- **status**: pending
+- **level**: L1
+- **source**: given
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: (root)
+
+## Claim
+
+动态更新对缓存效用的折损：评估对象更新率（1%/天）导致的缓存失效（Cache Thrashing/Invalidation）对LRU有效命中率的额外折扣系数。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在逻辑上正交且无冗余，分别定义了时间模型、更新率参数、折扣因子定义及队列等待时间近似。但存在完备性缺陷：父节点要求评估“额外折扣系数”，子节点仅给出了 D_update 的数学定义（子节点3），却未提供计算 H_eff_dynamic 或 D_update 具体数值的算法、积分公式或数值结果。缺少从基础参数（T_eff, W_LRU）到最终折扣系数（D_update）的推导或计算步骤。）

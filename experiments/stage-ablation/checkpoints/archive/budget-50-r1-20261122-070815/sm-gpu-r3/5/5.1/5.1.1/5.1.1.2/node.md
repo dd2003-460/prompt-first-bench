@@ -1,0 +1,24 @@
+# N338: Qwen3-27B 在 A100 80GB (PCIe) 上运行 BF16 精度、Batch Size=1、32K 上下文时的实测 Decode 吞吐量约为 2
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N120
+
+## Claim
+
+Qwen3-27B 在 A100 80GB (PCIe) 上运行 BF16 精度、Batch Size=1、32K 上下文时的实测 Decode 吞吐量约为 20-35 tokens/s，Prefill 速度约为 2000-4000 tokens/s，该数值基于 A100 2039 GB/s 带宽及 312 TFLOPS BF16 算力推算，需对比 vLLM GitHub Issue #1234 或 Reddit r/LocalLLaMA 2024年Q3的具体实测帖以校准偏差。
+
+## Corrected Claim
+
+Qwen3-27B 在 A100 80GB (PCIe) 上运行 BF16 精度、Batch Size=1、32K 上下文时，Decode 吞吐量通常在 20-40 tokens/s 量级，Prefill 速度通常在 2000-5000 tokens/s 量级（具体数值受软件栈和配置影响较大，需以实际基准测试为准）。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件性能实测数据（Decode/Prefill吞吐量）及特定社区来源（GitHub Issue #1234, Reddit帖子），属于经验事实。虽然基于A100带宽和算力的理论推算在量级上大致合理（Decode受带宽限制，Prefill受算力限制），但具体数值范围（20-35 tokens/s, 2000-4000 tokens/s）高度依赖于具体的软件栈（如vLLM版本、量化方式、KV Cache管理策略）和系统配置，且引用的具体Issue编号和Reddit帖子无法通过当前检索验证其存在性或准确性，存在‘幻觉引用’或‘数值偏差’的风险。 | 经验事实，逻辑自洽（量级符合A100硬件特性）但缺来源支持（检索失败，无法验证具体实测数据及引用来源的真实性）。
+
+## Search Query
+
+Qwen3-27B A100 vLLM benchmark tokens per second BF16 32k context

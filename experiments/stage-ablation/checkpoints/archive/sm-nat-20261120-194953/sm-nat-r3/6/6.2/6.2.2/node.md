@@ -1,0 +1,20 @@
+# N150: LFU 相比 LRU 的最大理论增益上限 $\Delta H_{max} = H_{LFU} - H_{LRU}$。在全量驻留且无更新失效的理想情况下，$H_{
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N70
+
+## Claim
+
+LFU 相比 LRU 的最大理论增益上限 $\Delta H_{max} = H_{LFU} - H_{LRU}$。在全量驻留且无更新失效的理想情况下，$H_{LFU} = H_{LRU} = 100\%$，增益为 0。增益仅来源于更新失效场景：LFU 优先保留高频对象，使其更新失效概率 $P_{inval,hot}$ 对整体命中率的影响被最小化。最大增益 $\Delta H_{max} \approx P_{inval,cold} \cdot S_{cold} - P_{inval,hot} \cdot S_{hot}$ 的差值部分，在全量驻留下主要取决于更新率 $u$ 对头部对象有效性的侵蚀差异，量化值约为 0.5-2 个百分点（基于 N57/N60 数据外推）。
+
+## Corrected Claim
+
+LFU 相比 LRU 的最大理论增益上限 $\Delta H_{max} = H_{LFU} - H_{LRU}$。在全量驻留且无更新失效的理想情况下，$H_{LFU} = H_{LRU} = 100\%$，增益为 0。增益仅来源于更新失效场景：LFU 优先保留高频对象，使其更新失效概率 $P_{inval,hot}$ 对整体命中率的影响被最小化。最大增益 $\Delta H_{max} \approx P_{inval,cold} \cdot S_{cold} - P_{inval,hot} \cdot S_{hot}$ 的差值部分，在全量驻留下主要取决于更新率 $u$ 对头部对象有效性的侵蚀差异，量化值约为 0.5-2 个百分点（基于 N57/N60 数据外推）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

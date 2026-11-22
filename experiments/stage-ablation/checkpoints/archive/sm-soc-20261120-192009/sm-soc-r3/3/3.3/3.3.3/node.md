@@ -1,0 +1,20 @@
+# N69: 速度收益项量化：ΔSpeed * C_holding 的具体计算式，其中 ΔSpeed 体现为周期缩短带来的持有成本节省，C_holding = r_holdi
+
+- **status**: pending
+- **level**: L3
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+速度收益项量化：ΔSpeed * C_holding 的具体计算式，其中 ΔSpeed 体现为周期缩短带来的持有成本节省，C_holding = r_holding * P_initial * T0 * (1 - 30%)，该项代表因周转加快而避免的持有成本支出，数值等于 r_holding * P_initial * T0 * 0.3。
+
+## Corrected Claim
+
+速度收益项量化：ΔSpeed * C_holding 的具体计算式，其中 ΔSpeed 体现为周期缩短带来的持有成本节省，C_holding = r_holding * P_initial * T0 * (1 - 30%)，该项代表因周转加快而避免的持有成本支出，数值等于 r_holding * P_initial * T0 * 0.3。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点本质上是同一计算公式在不同参数组合下的数值示例，存在高度冗余；且仅展示了三个特定工作点，未覆盖公式中其他关键变量（如 P_initial 的变化影响）或边界情况，完备性不足。）

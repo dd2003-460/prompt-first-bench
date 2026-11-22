@@ -1,0 +1,29 @@
+# N121: SXM 版本相对于 PCIe 版本的市场价格溢价系数（具体百分比或绝对差价），用于计算 TCO 中因能效提升而节省的电力成本是否能在硬件生命周期内覆盖溢价。
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N33, N34
+
+## Claim
+
+SXM 版本相对于 PCIe 版本的市场价格溢价系数（具体百分比或绝对差价），用于计算 TCO 中因能效提升而节省的电力成本是否能在硬件生命周期内覆盖溢价。
+
+## Corrected Claim
+
+以NVIDIA H200为例，在2026年10月的现货市场中，SXM版本整机相对于PCIe版本整机的价格溢价约为45%-50%（价差约200万元），具体溢价系数随型号、时间及市场供需波动，需结合具体TCO模型中的电力成本节省进行个案计算。
+
+## Evidence
+
+[质询]来源[2]提供的数据为H200整机的现货报价，且时间标注为“2026年10月”（未来时间或笔误），属于特定时间点、特定型号（H200）且包含整机其他组件（如服务器主板、CPU等）的混合价格，无法直接代表SXM与PCIe GPU芯片本身的通用市场溢价系数，存在口径混淆（整机vs芯片）和时效性/型号特异性问题。 | 来源[2]提供了H200 SXM与PCIe版本的价差数据（约200万元，溢价率约45%-50%），但这是特定型号（H200）在特定时间（2026年）的整机现货价格，属于间接支持且存在口径差异（整机vs GPU本身），无法直接作为通用SXM/PCIe溢价系数的直接证据，故降级。
+
+## Search Query
+
+A100 H100 SXM vs PCIe price difference market premium percentage
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1981673467217741652&rut=ad59287f9dec7b2d03954f785647971f638db447b1249a5773c03d7ad928b480', 'type': 'ddg', 'title': 'NVIDIA A100 SXM4版本和PCIe版本的解析与对比 - 知乎'}
+- {'url': 'https://aiqicha.baidu.com/details/ugknowledge?id=a0e6b6887c4f5f5e4295691546ad95a6&rut=646d64d29bbee0b1ba1c1e6d6e0bd6de375f110ffa2b77a23f58b6510ca95e17', 'type': 'ddg', 'title': 'h200 sxm pcie - 爱企查'}

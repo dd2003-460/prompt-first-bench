@@ -1,0 +1,20 @@
+# N199: Decode 阶段激活缓冲显存占用公式：C_act_decode = B * H * 2 bytes (BF16) * 1 (仅当前 token)，对于 B=3
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N51
+
+## Claim
+
+Decode 阶段激活缓冲显存占用公式：C_act_decode = B * H * 2 bytes (BF16) * 1 (仅当前 token)，对于 B=32, H=4096，计算得 32 * 4096 * 2 = 262 KB，加上注意力头中间状态约 1-2 MB，总开销 < 0.01 GB，远低于 N51 声称的 0.5GB 上限，表明 Decode 阶段激活开销在显存预算中可忽略。
+
+## Corrected Claim
+
+Decode 阶段激活缓冲显存占用公式：C_act_decode = B * H * 2 bytes (BF16) * 1 (仅当前 token)，对于 B=32, H=4096，计算得 32 * 4096 * 2 = 262 KB，加上注意力头中间状态约 1-2 MB，总开销 < 0.01 GB，远低于 N51 声称的 0.5GB 上限，表明 Decode 阶段激活开销在显存预算中可忽略。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算 32*4096*2=262144 bytes=256KB，加上注意力中间状态（通常与序列长度或头数相关，此处估算1-2MB合理），总开销远小于0.5GB，结论成立。

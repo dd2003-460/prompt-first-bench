@@ -1,0 +1,28 @@
+# N88: Qwen3-27B 在 W8A8 精度下，在 MMLU-Pro 或 HumanEval 等代表性基准上的得分，及相对 BF16 的得分下降百分比 (ΔScore
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N21, N22, N23
+
+## Claim
+
+Qwen3-27B 在 W8A8 精度下，在 MMLU-Pro 或 HumanEval 等代表性基准上的得分，及相对 BF16 的得分下降百分比 (ΔScore%)。
+
+## Corrected Claim
+
+Qwen3-27B 在 W8A8 精度下，在 MMLU-Pro 或 HumanEval 等代表性基准上的得分及相对 BF16 的得分下降百分比（ΔScore%）需查阅官方技术报告或权威第三方评测，当前参考来源未提供相关数据。
+
+## Evidence
+
+[质询]参考来源[1]讨论的是Qwen3.8-27B在Mac本地部署（Ollama/MLX/GGUF），而非Qwen3-27B在W8A8精度下的基准测试数据；且来源未提供MMLU-Pro或HumanEval的具体得分及BF16对比数据，属于主题/模型版本/精度配置不匹配。 | 经验事实，逻辑自洽但缺来源支持（来源[1]不相关，未覆盖W8A8精度基准数据）
+
+## Search Query
+
+Qwen3-27B W8A8 MMLU-Pro HumanEval score degradation
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/sif-king/qwen3.8-deployment&rut=a6e724d7b115b8cbf702d27abdbacac3a5abb16493f1765664e5a14912e3a0a6', 'type': 'ddg', 'title': 'Mac 本地部署 Qwen3.8-27B 完整指南（Apple Silicon / Ollama）'}

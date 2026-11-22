@@ -1,0 +1,24 @@
+# N55: N17中买家搜索成本 S_search 降低 30% 的量化机制：S_search = C_att * N_clicks，透明化干预使平均点击数 N_click
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N17
+
+## Claim
+
+N17中买家搜索成本 S_search 降低 30% 的量化机制：S_search = C_att * N_clicks，透明化干预使平均点击数 N_clicks 从 5.0 降至 3.5（-30%），C_att 为单次注意力成本，假设 C_att 恒定，则总成本降幅 ΔS_search/S_search = 1 - (3.5/5.0) = 30%。
+
+## Corrected Claim
+
+N17中买家搜索成本 S_search 降低 30% 的量化机制：S_search = C_att * N_clicks，透明化干预使平均点击数 N_clicks 从 5.0 降至 3.5（-30%），C_att 为单次注意力成本，假设 C_att 恒定，则总成本降幅 ΔS_search/S_search = 1 - (3.5/5.0) = 30%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 S=C*N 中，若 C 恒定且 N 从 5.0 降至 3.5，降幅确为 30%，数学推导自洽。
+
+## Search Query
+
+attention economy search cost reduction click-through rate transparency intervention

@@ -1,0 +1,24 @@
+# N110: 偏差分布参数 μ_ε 和 σ_ε 的估计方法：基于卖家历史成交数据，计算偏差率 r_i = ε_i / P_market_i，假设 r ~ N(μ_r, σ_r
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N36
+
+## Claim
+
+偏差分布参数 μ_ε 和 σ_ε 的估计方法：基于卖家历史成交数据，计算偏差率 r_i = ε_i / P_market_i，假设 r ~ N(μ_r, σ_r^2)，其中 μ_r ≈ 0.20 (对应 20% 平均溢价)，σ_r ≈ 0.15，需通过具体样本量 N=100 计算置信区间。
+
+## Corrected Claim
+
+偏差分布参数 μ_ε 和 σ_ε 的估计方法：基于卖家历史成交数据，计算偏差率 r_i = ε_i / P_market_i，假设 r ~ N(μ_r, σ_r^2)，需通过具体样本量 N=100 计算置信区间以估计 μ_r 和 σ_r 的具体数值。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（μ_r ≈ 0.20, σ_r ≈ 0.15），属于特定市场或数据集下的统计估计值，无法从第一性原理或数学公理中严格推导得出，且缺乏外部来源支持其具体数值。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体统计参数非第一性原理可推导）。
+
+## Search Query
+
+seller overpricing bias distribution mean standard deviation historical transaction data

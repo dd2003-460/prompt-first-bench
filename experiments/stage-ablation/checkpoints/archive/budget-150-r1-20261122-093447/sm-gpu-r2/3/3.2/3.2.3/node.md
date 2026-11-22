@@ -1,0 +1,28 @@
+# N84: SmoothQuant 算法在 Qwen3-27B 上 INT8 量化后的 MMLU 准确率下降值，验证其相对于 W4 方法的精度优势
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N26
+
+## Claim
+
+SmoothQuant 算法在 Qwen3-27B 上 INT8 量化后的 MMLU 准确率下降值，验证其相对于 W4 方法的精度优势
+
+## Corrected Claim
+
+SmoothQuant 算法在 Qwen3 系列 27B 模型（如 Qwen3.8-27B）上 INT8 量化后表现出较低的分布散度（KLD），验证其相对于其他量化方法的精度优势，但具体 MMLU 准确率下降值需参考对应模型的基准测试报告。
+
+## Evidence
+
+[质询]来源[1]针对的是 'Qwen3.8-27B' 模型，而事实节点声称的是 'Qwen3-27B'，存在模型版本/名称不匹配的风险；此外，来源仅提供了 KLD 散度指标，未直接提供 MMLU 准确率的具体下降数值，无法直接验证'准确率下降值'这一具体量化指标。 | 来源[1]间接支持 SmoothQuant 在 Qwen3 系列 27B 模型上用于 INT8 量化且表现优异（低散度），但模型名称存在细微差异（Qwen3.8 vs Qwen3），且缺乏 MMLU 具体数值支持，属于间接支持且存在口径不确定性。
+
+## Search Query
+
+Qwen3-27B SmoothQuant INT8 MMLU accuracy drop
+
+## Retrieval Sources
+
+- {'url': 'https://huggingface.co/Freaksterz/Qwen3.8-27B-SmoothQuant-W8A8-INT8/blob/main/README.md&rut=c0b0d6810e321a8b26ef1af1f3cf04f7ac74da735e86800d3c61b84b842a73d9', 'type': 'ddg', 'title': 'Qwen3.8-27B-SmoothQuant-W8A8-INT8 - Hugging Face'}

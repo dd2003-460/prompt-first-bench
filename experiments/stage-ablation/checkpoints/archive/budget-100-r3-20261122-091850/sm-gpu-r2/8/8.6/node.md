@@ -1,0 +1,24 @@
+# N116: NVIDIA A100 80GB SXM 当前二手市场价格约为 $8,500-$11,000（2024-2025 数据），新卡价格已停产或大幅溢价；其 2039
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N32, N33, N34
+
+## Claim
+
+NVIDIA A100 80GB SXM 当前二手市场价格约为 $8,500-$11,000（2024-2025 数据），新卡价格已停产或大幅溢价；其 2039GB/s 带宽在 BF16 下运行 Qwen3-27B 时，Decode 阶段 TPS 理论峰值约为 30-40 TPS（受限于内存带宽），实际吞吐约为理论值的 60-70%。
+
+## Corrected Claim
+
+NVIDIA A100 80GB SXM 在 2024-2025 年期间二手市场价格波动较大，具体需参考实时交易平台；其 2039GB/s 带宽在 BF16 下运行 Qwen3-27B 时，Decode 阶段受限于内存带宽，理论峰值 TPS 估算在 30-40 区间，实际吞吐通常低于理论值。
+
+## Evidence
+
+[质询]该陈述包含具体的二手市场价格区间（$8,500-$11,000）和特定的性能吞吐估算（30-40 TPS），属于经验事实。由于缺乏实时市场数据源和特定模型在特定硬件上的实测基准数据，无法验证其准确性，且市场价格波动大，具体数值极易过时或偏差。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）。
+
+## Search Query
+
+NVIDIA A100 80GB SXM used price 2024 2025 Qwen3 inference throughput

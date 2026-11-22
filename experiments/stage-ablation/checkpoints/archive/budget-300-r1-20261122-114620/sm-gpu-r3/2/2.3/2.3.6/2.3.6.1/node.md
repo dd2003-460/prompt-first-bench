@@ -1,0 +1,24 @@
+# N219: Intel Arc (Alchemist/Battlemage) 在 vLLM 或 llama.cpp 中运行 Qwen3-27B 时，缺失关键算子（如 Fla
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N67, N68, N69
+
+## Claim
+
+Intel Arc (Alchemist/Battlemage) 在 vLLM 或 llama.cpp 中运行 Qwen3-27B 时，缺失关键算子（如 FlashAttention-2/3, PagedAttention）导致回退 CPU 执行的比例及性能损失量化：假设 10% 的算子回退，单次 Prefill 延迟增加约 2-5 倍，Token/s 吞吐量下降 40-60%。
+
+## Corrected Claim
+
+Intel Arc (Alchemist/Battlemage) 在 vLLM 或 llama.cpp 中运行 Qwen3-27B 时，若缺失关键算子（如 FlashAttention-2/3, PagedAttention）导致部分算子回退至 CPU 执行，通常会显著增加 Prefill 延迟并降低 Token/s 吞吐量，具体性能损失取决于回退算子的比例及 CPU/GPU 带宽瓶颈。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性能数据（10%算子回退、2-5倍延迟增加、40-60%吞吐量下降），这些数值并非第一性原理可推导，且缺乏具体硬件型号、驱动版本及测试基准的限定，属于高度依赖具体实现细节的经验事实，极易因环境不同而产生巨大偏差。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体性能损耗比例无法从第一性原理严格推出，符合经验事实排除条款降级条件）
+
+## Search Query
+
+Intel Arc vLLM missing operators CPU fallback performance degradation Qwen3

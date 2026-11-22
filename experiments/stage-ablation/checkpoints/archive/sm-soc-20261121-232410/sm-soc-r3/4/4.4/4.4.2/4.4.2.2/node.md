@@ -1,0 +1,24 @@
+# N182: 工作点2（高成本/高功能）：实现实时价格预警与个性化推荐，C_dev_high = 50000元, C_maintenance_high = 10000元/月,
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N65
+
+## Claim
+
+工作点2（高成本/高功能）：实现实时价格预警与个性化推荐，C_dev_high = 50000元, C_maintenance_high = 10000元/月, C_support_high = 1.0% of GMV，则首年总成本 ΔC_high = 50000 + 10000*12 + 0.01 * GMV_yearly = 170000 + 0.01 * GMV_yearly，此工作点下透明化效果 α_high = 0.3（最高提升率），需验证 ΔRev_high = (Rev_post_high - Rev_pre) 是否覆盖 ΔC_high，且 ΔRev_high > ΔRev_low。
+
+## Corrected Claim
+
+工作点2（高成本/高功能）：实现实时价格预警与个性化推荐，C_dev_high = 50000元, C_maintenance_high = 10000元/月, C_support_high = 1.0% of GMV，则首年总成本 ΔC_high = 50000 + 10000*12 + 0.01 * GMV_yearly = 170000 + 0.01 * GMV_yearly，此工作点下透明化效果 α_high = 0.3（最高提升率），需验证 ΔRev_high = (Rev_post_high - Rev_pre) 是否覆盖 ΔC_high，且 ΔRev_high > ΔRev_low。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算 50000 + 10000*12 = 170000 正确，公式结构符合成本构成定义，参数设定在合理量级范围内。
+
+## Search Query
+
+advanced price alert system development cost e-commerce platform ROI

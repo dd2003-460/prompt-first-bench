@@ -1,0 +1,20 @@
+# N249: 干预后买家支付价格 P_paid_new 的期望值分解：P_paid_new = P_matched * E[Price | Matched] + P_unma
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N81
+
+## Claim
+
+干预后买家支付价格 P_paid_new 的期望值分解：P_paid_new = P_matched * E[Price | Matched] + P_unmatched * 0，其中 P_matched 为成功匹配概率，E[Price | Matched] 为条件成交均价，若供给减少导致 P_matched 下降，则整体成交均价可能因竞争加剧而上升或维持，需量化 P_matched 的变化幅度。
+
+## Corrected Claim
+
+干预后买家支付价格 P_paid_new 的期望值分解：P_paid_new = P_matched * E[Price | Matched] + P_unmatched * 0，其中 P_matched 为成功匹配概率，E[Price | Matched] 为条件成交均价，若供给减少导致 P_matched 下降，则整体成交均价可能因竞争加剧而上升或维持，需量化 P_matched 的变化幅度。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：期望值分解公式符合全期望公式（Law of Total Expectation），且关于匹配概率下降对均价影响的定性分析符合微观经济学直觉（竞争减少可能导致价格上升或维持）。

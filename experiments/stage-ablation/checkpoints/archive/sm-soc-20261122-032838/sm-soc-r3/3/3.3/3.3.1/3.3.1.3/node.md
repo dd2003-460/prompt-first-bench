@@ -1,0 +1,24 @@
+# N214: 成交概率 $P_{buy}$ 对曝光量 $W$ 的弹性 $\epsilon_{buy}$：$P_{buy} = P_{base} \cdot (W/W_0)^{
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N70
+
+## Claim
+
+成交概率 $P_{buy}$ 对曝光量 $W$ 的弹性 $\epsilon_{buy}$：$P_{buy} = P_{base} \cdot (W/W_0)^{\epsilon_{buy}}$。若 $\epsilon_{buy} < 1$（次线性），则 $\Delta T_{sale}$ 小于 $\delta$；若 $\epsilon_{buy} > 1$（超线性，存在网络效应或从众心理），则 $\Delta T_{sale}$ 大于 $\delta$。需确定 $\epsilon_{buy}$ 的实证区间。
+
+## Corrected Claim
+
+成交概率 $P_{buy}$ 对曝光量 $W$ 的弹性 $\epsilon_{buy}$：$P_{buy} = P_{base} \cdot (W/W_0)^{\epsilon_{buy}}$。若 $\epsilon_{buy} < 1$（次线性），则 $\Delta T_{sale}$ 小于 $\delta$；若 $\epsilon_{buy} > 1$（超线性，存在网络效应或从众心理），则 $\Delta T_{sale}$ 大于 $\delta$。需确定 $\epsilon_{buy}$ 的实证区间。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于幂律模型 $P_{buy} \propto W^{\epsilon}$，成交时间 $T_{sale}$ 与成交概率成反比，故 $T_{sale} \propto W^{-\epsilon}$。当曝光量增加因子 $\delta$ 时，时间变化因子为 $\delta^{-\epsilon}$。若 $\epsilon < 1$，则 $\delta^{-\epsilon} > \delta^{-1}$，即时间缩减幅度小于 $1 - 1/\delta$（或相对变化量小于基准 $\delta$ 对应的线性预期），逻辑自洽。
+
+## Search Query
+
+exposure elasticity purchase probability online marketplace

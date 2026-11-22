@@ -1,0 +1,20 @@
+# N38: 低频交易品类（如奢侈品、古董）与高频交易品类（如手机、图书）在 β_bias 上的差异显著性检验：H0: β_low_freq = β_high_freq，基于
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N14
+
+## Claim
+
+低频交易品类（如奢侈品、古董）与高频交易品类（如手机、图书）在 β_bias 上的差异显著性检验：H0: β_low_freq = β_high_freq，基于元分析数据的Cohen's d 效应量应大于 0.5 且 p < 0.01 才能支持‘显著高于’的结论。
+
+## Corrected Claim
+
+低频交易品类（如奢侈品、古董）与高频交易品类（如手机、图书）在 β_bias 上的差异显著性检验：H0: β_low_freq = β_high_freq，基于元分析数据的Cohen's d 效应量应大于 0.5 且 p < 0.01 才能支持‘显著高于’的结论。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Cohen's d > 0.5 通常被视为中等效应量，结合 p < 0.01 的显著性水平，符合统计学中支持‘显著差异’结论的标准阈值，逻辑自洽且数值量级合理。

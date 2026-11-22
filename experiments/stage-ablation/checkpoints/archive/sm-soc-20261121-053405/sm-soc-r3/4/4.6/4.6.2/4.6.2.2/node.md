@@ -1,0 +1,24 @@
+# N201: 投影2：偏差来源分解：N23 声称的 ±20% 与计算出的 ±29% 之间的差异 \(\Delta W = 9\%\) 可分解为模型误差项 \(\epsilon
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N76
+
+## Claim
+
+投影2：偏差来源分解：N23 声称的 ±20% 与计算出的 ±29% 之间的差异 \(\Delta W = 9\%\) 可分解为模型误差项 \(\epsilon_{model}\) 和参数不确定性项 \(\epsilon_{param}\)。若 \(S < 1.0\)（例如 S=0.7），则 \(W_{\Delta R} = 0.7 \times 28.8\% \approx 20.2\%\)，可解释该偏差。
+
+## Corrected Claim
+
+投影2：偏差来源分解：N23 声称的 ±20% 与计算出的 ±29% 之间的差异 \(\Delta W = 9\%\) 可分解为模型误差项 \(\epsilon_{model}\) 和参数不确定性项 \(\epsilon_{param}\)。若 \(S < 1.0\)（例如 S=0.7），则 \(W_{\Delta R} = 0.7 \times 28.8\% \approx 20.2\%\)，可解释该偏差。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：28.8% * 0.7 = 20.16% ≈ 20.2%，数值计算准确，逻辑自洽。
+
+## Search Query
+
+sensitivity coefficient error propagation confidence interval discrepancy

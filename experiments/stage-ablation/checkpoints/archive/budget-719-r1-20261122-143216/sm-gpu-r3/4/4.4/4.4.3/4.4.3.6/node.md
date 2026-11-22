@@ -1,0 +1,24 @@
+# N320: TensorRT-LLM 对动态 Batch Size 的支持限制：其静态图编译要求预先指定 Max Batch Size，若实际并发数低于该值，未使用的计算资
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N113, N114, N115
+
+## Claim
+
+TensorRT-LLM 对动态 Batch Size 的支持限制：其静态图编译要求预先指定 Max Batch Size，若实际并发数低于该值，未使用的计算资源无法被其他请求复用，导致在低负载（Batch < Max_Batch/2）场景下，其能效比（Tokens/Joule）相比 vLLM 低 10%-15%，因为 vLLM 可动态调度空闲 SM。
+
+## Corrected Claim
+
+TensorRT-LLM 传统静态图编译模式要求预先指定 Max Batch Size，在低负载场景下可能因资源预留导致能效比低于支持动态调度的框架（如 vLLM），但具体性能差距取决于硬件与负载条件，无统一固定数值。
+
+## Evidence
+
+[质询]具体数值（10%-15%能效差距）及特定阈值（Batch < Max_Batch/2）缺乏公开基准测试支持，属于高度依赖具体硬件、模型大小及负载模式的经验性数据，且TensorRT-LLM近年已引入动态批处理优化，静态图限制的描述可能过时或过于绝对。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体性能对比数值无法从第一性原理推导）
+
+## Search Query
+
+TensorRT-LLM static batch size inefficiency vs vLLM dynamic scheduling low load efficiency

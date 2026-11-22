@@ -1,0 +1,24 @@
+# N303: 计算成交周期延长 2.5 天对卖家效用 U_seller 的具体损失值 ΔU_seller = L_time * 2.5，其中 L_time 需代入 N73 中
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N102
+
+## Claim
+
+计算成交周期延长 2.5 天对卖家效用 U_seller 的具体损失值 ΔU_seller = L_time * 2.5，其中 L_time 需代入 N73 中的日均损失率 l_daily * P_market，以量化‘伤害’的绝对金额而非仅时间维度。
+
+## Corrected Claim
+
+计算成交周期延长 2.5 天对卖家效用 U_seller 的具体损失值 ΔU_seller = L_time * 2.5，其中 L_time 需代入 N73 中的日均损失率 l_daily * P_market，以量化‘伤害’的绝对金额而非仅时间维度。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该陈述定义了基于线性假设的效用损失计算公式，量纲（损失率/天 * 天数 = 损失金额）自洽，且符合经济学中时间成本量化的基本逻辑。
+
+## Search Query
+
+seller utility loss calculation based on deal cycle delay daily holding cost

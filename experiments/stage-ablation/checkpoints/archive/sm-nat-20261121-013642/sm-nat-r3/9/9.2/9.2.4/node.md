@@ -1,0 +1,24 @@
+# N257: 工作点3（低局部性/长尾失效）：当缓存容量 C 深入 Pareto 尾部（覆盖 Top-90% 以上）时，对象访问间隔 t_interval >> τ_loca
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N88
+
+## Claim
+
+工作点3（低局部性/长尾失效）：当缓存容量 C 深入 Pareto 尾部（覆盖 Top-90% 以上）时，对象访问间隔 t_interval >> τ_locality，LRU 表现出类似 FIFO 的行为，时间局部性丧失，H_LRU(t) 的衰减不再服从指数规律，而是呈现幂律衰减 H(t) ∝ t^(-γ)，其中 γ 与 β 相关，此时 λ_decay 概念失效，需改用累积分布函数 F(t) 直接计算 miss 率。
+
+## Corrected Claim
+
+工作点3（低局部性/长尾失效）：当缓存容量 C 深入 Pareto 尾部（覆盖 Top-90% 以上）时，对象访问间隔 t_interval >> τ_locality，LRU 表现出类似 FIFO 的行为，时间局部性丧失，H_LRU(t) 的衰减不再服从指数规律，而是呈现幂律衰减 H(t) ∝ t^(-γ)，其中 γ 与 β 相关，此时 λ_decay 概念失效，需改用累积分布函数 F(t) 直接计算 miss 率。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+LRU power law decay hit rate heavy tail long tail

@@ -1,0 +1,24 @@
+# N216: 曝光-成交弹性系数 ε_exposure 的基准估计：在二手非标品市场，ε_exposure 通常在 [0.3, 0.5] 之间，即曝光增加 1% 带来成交量增
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N68
+
+## Claim
+
+曝光-成交弹性系数 ε_exposure 的基准估计：在二手非标品市场，ε_exposure 通常在 [0.3, 0.5] 之间，即曝光增加 1% 带来成交量增加 0.3%-0.5%；若 ε_exposure < 0.2，则高曝光无法抵消价格抑制，[时效待核]
+
+## Corrected Claim
+
+在二手非标品市场，曝光-成交弹性系数 ε_exposure 通常小于 1（即曝光增加带来的成交增长比例低于曝光增长比例），具体数值需依据特定市场数据实证确定；若弹性系数过低，高曝光可能无法抵消价格抑制。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值区间 [0.3, 0.5] 和阈值 0.2，属于二手非标品市场的特定经济参数，无法从第一性原理或数学公理中严格推导得出，且缺乏权威来源支持其精确量级。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该数值区间非第一性原理可推导范畴）
+
+## Search Query
+
+exposure to transaction elasticity coefficient used goods market

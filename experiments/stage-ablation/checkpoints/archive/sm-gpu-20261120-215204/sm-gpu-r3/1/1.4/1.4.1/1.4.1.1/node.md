@@ -1,0 +1,24 @@
+# N171: RTX 4090 在 W4 精度下运行 Qwen3-27B 的内存带宽瓶颈吞吐量理论上限为 74.6 Tokens/s (1008 GB/s / 13.5 GB
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N45
+
+## Claim
+
+RTX 4090 在 W4 精度下运行 Qwen3-27B 的内存带宽瓶颈吞吐量理论上限为 74.6 Tokens/s (1008 GB/s / 13.5 GB)，考虑 80% 实际带宽利用率后为 59.7 Tokens/s，与 N143 声称的 37-40 Tokens/s 存在显著差异，需核验是否受限于计算或内核启动开销。
+
+## Corrected Claim
+
+RTX 4090 在 W4 精度下运行 Qwen3-27B 的内存带宽瓶颈吞吐量理论上限为 74.6 Tokens/s (1008 GB/s / 13.5 GB)，考虑 80% 实际带宽利用率后为 59.7 Tokens/s，与 N143 声称的 37-40 Tokens/s 存在显著差异，需核验是否受限于计算或内核启动开销。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 带宽 1008 GB/s，Qwen3-27B W4 权重约 13.5 GB，理论上限 1008/13.5 ≈ 74.6 Tokens/s，80% 利用率下 74.6 * 0.8 ≈ 59.7 Tokens/s，计算自洽。
+
+## Search Query
+
+RTX 4090 Qwen3-27B W4 tokens per second benchmark

@@ -1,0 +1,20 @@
+# N273: PCIe 5.0 x16 接口的理论单向带宽为 64 GB/s (63 GB/s 有效)，双向理论带宽为 128 GB/s，实际有效带宽约为理论值的 85-90
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N83
+
+## Claim
+
+PCIe 5.0 x16 接口的理论单向带宽为 64 GB/s (63 GB/s 有效)，双向理论带宽为 128 GB/s，实际有效带宽约为理论值的 85-90%，即单向实际可用带宽约 54-57 GB/s，显著高于 PCIe 4.0，但消费级平台 (如 Z790) 与数据中心平台 (如 H100 SXM) 的插槽版本需分别确认
+
+## Corrected Claim
+
+PCIe 5.0 x16 接口的理论单向带宽为 64 GB/s (63 GB/s 有效)，双向理论带宽为 128 GB/s，实际有效带宽约为理论值的 85-90%，即单向实际可用带宽约 54-57 GB/s，显著高于 PCIe 4.0，但消费级平台 (如 Z790) 与数据中心平台 (如 H100 SXM) 的插槽版本需分别确认
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe 5.0 x16 单向理论带宽 64 GB/s (128 GT/s * 16 lanes / 8 bits * 128b/130b overhead ≈ 63.015 GB/s)，双向 128 GB/s，实际效率 85-90% 符合工程常识，数值量级与逻辑自洽。

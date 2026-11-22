@@ -1,0 +1,20 @@
+# N50: 强制显示近期成交均价导致卖家挂价下调幅度 ΔPrice 的量化：ΔPrice = P_ask_initial - P_rec_avg，预估 ΔPrice/P_a
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N19, N20, N21
+
+## Claim
+
+强制显示近期成交均价导致卖家挂价下调幅度 ΔPrice 的量化：ΔPrice = P_ask_initial - P_rec_avg，预估 ΔPrice/P_ask_initial ∈ [0.10, 0.20]，取决于卖家对‘锚定效应’的敏感性及损失厌恶系数 λ 的调整滞后。
+
+## Corrected Claim
+
+强制显示近期成交均价可能导致卖家挂价下调，下调幅度 ΔPrice = P_ask_initial - P_rec_avg，具体幅度取决于卖家对锚定效应的敏感性及损失厌恶系数，通常表现为一定比例的降价，但具体数值区间需实证数据支持。
+
+## Evidence
+
+[质询]该陈述将行为经济学中的定性心理机制（锚定效应、损失厌恶）直接量化为具体的数值区间 [0.10, 0.20]，缺乏实证数据或理论模型推导支持，属于无依据的数值臆测。 | 逻辑上公式定义自洽，但具体数值区间 [0.10, 0.20] 属于经验事实且无来源支持，无法从第一性原理严格推出，故降级。

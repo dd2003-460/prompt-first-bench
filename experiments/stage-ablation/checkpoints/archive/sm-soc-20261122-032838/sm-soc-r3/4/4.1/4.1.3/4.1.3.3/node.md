@@ -1,0 +1,20 @@
+# N243: 买家搜索停止规则改变的量化机制：买家停止搜索的条件为 $V_{current} > C_{search} + U_{regret}$，若平台规则使 $C_{se
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N79
+
+## Claim
+
+买家搜索停止规则改变的量化机制：买家停止搜索的条件为 $V_{current} > C_{search} + U_{regret}$，若平台规则使 $C_{search}$ 降低或 $U_{regret}$ 增加，则 $T_{sale}$ 缩短幅度可达 15-25%。
+
+## Corrected Claim
+
+买家停止搜索的条件为 $V_{current} > C_{search} + U_{regret}$，若平台规则使 $C_{search}$ 降低或 $U_{regret}$ 增加，则 $T_{sale}$ 将缩短（具体幅度取决于参数敏感度，通常估计在 15-25% 左右）。
+
+## Evidence
+
+[质询]数值量级缺乏依据：15-25% 的缩短幅度是一个具体的经验性估计，无法从给定的不等式逻辑中直接推导出来，且缺乏实证数据支持该特定区间。 | 先验知识/题面给定，逻辑校验通过（机制方向正确），但具体数值幅度属于经验事实且无来源支持，故降级。

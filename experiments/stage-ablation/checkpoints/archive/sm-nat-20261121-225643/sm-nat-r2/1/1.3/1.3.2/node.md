@@ -1,0 +1,24 @@
+# N22: 修正后命中率H_corrected的逻辑一致性检查：N7中 H_corrected = H_LRU / K，若K<1（如0.865），则H_corrected 
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N7
+
+## Claim
+
+修正后命中率H_corrected的逻辑一致性检查：N7中 H_corrected = H_LRU / K，若K<1（如0.865），则H_corrected > H_LRU，这意味着负相关提升了命中率。需验证该方向是否正确：热门对象小意味着LRU驱逐大对象（冷对象）的代价更高（字节损失大），因此字节命中率应降低而非提升？若方向相反，则公式应为 H_corrected = H_LRU * K 或其他形式。
+
+## Corrected Claim
+
+需明确 K 的定义及其与对象大小分布的关系。若 K 确实反映热门对象占比小（即冷对象占比大），则 LRU 驱逐冷对象导致的字节损失可能降低字节命中率，此时 H_corrected 应小于 H_LRU，公式方向需重新推导。
+
+## Evidence
+
+[质询]该陈述基于一个未经验证的假设（K<1 代表热门对象小/冷对象大），并据此推导方向错误。然而，K 的定义和物理意义在上下文中未明确。如果 K 是某种归一化因子或修正系数，其小于1并不必然意味着“热门对象小”。此外，LRU 驱逐冷对象导致字节损失大从而降低命中率，这一逻辑链条依赖于具体的缓存策略和对象大小分布，不能仅凭 K<1 就断定公式方向错误。 | 先验知识/题面给定，逻辑校验未通过：陈述内部存在逻辑跳跃，将 K<1 直接等同于“热门对象小”缺乏依据，且对 LRU 字节命中率的影响方向判断依赖于未明确的 K 定义，无法从第一性原理严格推出该方向必然错误。
+
+## Search Query
+
+negative correlation size popularity cache hit rate direction impact

@@ -1,0 +1,24 @@
+# N80: 验证项：对象更新率对缓存命中率的影响模型（Cache Invalidation Model），需检索确认‘泊松失效模型’是否为行业标准，或是否存在更精确的基于版
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N24
+
+## Claim
+
+验证项：对象更新率对缓存命中率的影响模型（Cache Invalidation Model），需检索确认‘泊松失效模型’是否为行业标准，或是否存在更精确的基于版本控制/一致性协议的量化公式，以支撑1%/天更新率的折扣计算。
+
+## Corrected Claim
+
+对象更新率对缓存命中率的影响通常可用失效模型（如泊松过程）进行近似估算，但需进一步确认该模型在特定一致性协议下的行业标准地位及精度。
+
+## Evidence
+
+[质询]该陈述试图验证一个具体的工程/学术模型（泊松失效模型）是否为行业标准，属于经验事实或特定领域知识，无法从第一性原理直接推导；且检索无可用来源，无法确认其行业地位或是否存在更优模型。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证‘泊松失效模型’是否为行业标准或存在更精确公式）
+
+## Search Query
+
+cache invalidation impact hit ratio object update rate poisson model

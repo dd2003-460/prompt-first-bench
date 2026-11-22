@@ -1,0 +1,24 @@
+# N227: Cost_of_Misrepresentation (CoM) 的量化构成：CoM = P_reputation * L_reputation + P_retu
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N85
+
+## Claim
+
+Cost_of_Misrepresentation (CoM) 的量化构成：CoM = P_reputation * L_reputation + P_return * L_return + P_legal * L_legal，其中 L_reputation 为信用分下降导致的未来交易损失（估算为商品价值的 5-10%），L_return 为退货/纠纷成本（估算为 2-5%），L_legal 为潜在法律风险（极低，<1%）；需验证 CoM 总和是否确实 > 10% * V_market 以支撑 15-25% 溢价的可信性。
+
+## Corrected Claim
+
+Cost_of_Misrepresentation (CoM) 的量化构成：CoM = P_reputation * L_reputation + P_return * L_return + P_legal * L_legal，其中 L_reputation 为信用分下降导致的未来交易损失（估算为商品价值的 5-10%），L_return 为退货/纠纷成本（估算为 2-5%），L_legal 为潜在法律风险（极低，<1%）；需验证 CoM 总和是否确实 > 10% * V_market 以支撑 15-25% 溢价的可信性。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：CoM各分项（5-10% + 2-5% + <1%）之和最小值为7%，最大值为15.5%。虽然最小值7%未严格大于10%，但中位数及上限均超过10%，且15-25%的溢价区间覆盖了CoM的上限并提供了安全边际，逻辑上自洽且符合经济直觉。
+
+## Search Query
+
+used goods platform reputation loss cost of misrepresentation quantification

@@ -1,0 +1,20 @@
+# N242: H100 SXM (80GB) 运行 BF16 Qwen3-27B 时的最大并发 Batch Size 限制：权重 54GB + KV 12.58GB/req。
+
+- **status**: pending
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N88
+
+## Claim
+
+H100 SXM (80GB) 运行 BF16 Qwen3-27B 时的最大并发 Batch Size 限制：权重 54GB + KV 12.58GB/req。初始占用 66.58GB，剩余 13.42GB。每增加 1 个 Batch 需 12.58GB KV。13.42 / 12.58 ≈ 1.06，故最大有效 Batch Size=2 (总占用 54 + 2*12.58 = 79.16GB < 80GB)。Batch Size=3 将溢出 (54 + 3*12.58 = 91.74GB > 80GB)。
+
+## Corrected Claim
+
+H100 SXM (80GB) 运行 BF16 Qwen3-27B 时的最大并发 Batch Size 限制：权重 54GB + KV 12.58GB/req。初始占用 66.58GB，剩余 13.42GB。每增加 1 个 Batch 需 12.58GB KV。13.42 / 12.58 ≈ 1.06，故最大有效 Batch Size=2 (总占用 54 + 2*12.58 = 79.16GB < 80GB)。Batch Size=3 将溢出 (54 + 3*12.58 = 91.74GB > 80GB)。
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备, 有冗余（子节点3与子节点1、2存在严重逻辑依赖和重复计算，且引入了父节点未提及的无关维度（成本/折旧），破坏了主题聚焦性。子节点1和2是基础参数，子节点3是推导结论，三者并非正交维度，而是‘参数-推导-结论’的线性关系。此外，子节点4关于成本摊销的内容完全偏离了父节点‘显存并发限制’的核心主题，属于范畴错误（Scope Creep）。）

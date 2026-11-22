@@ -1,0 +1,20 @@
+# N30: RTX 4090 在 W4 量化下的实测吞吐量约为 45-55 tokens/s，瓶颈为 1008GB/s 显存带宽与 4-bit 解码计算开销，该吞吐量满足交
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N5
+
+## Claim
+
+RTX 4090 在 W4 量化下的实测吞吐量约为 45-55 tokens/s，瓶颈为 1008GB/s 显存带宽与 4-bit 解码计算开销，该吞吐量满足交互式推理需求（>20 tokens/s）
+
+## Corrected Claim
+
+RTX 4090 在 W4 量化下的实测吞吐量约为 45-55 tokens/s，瓶颈为 1008GB/s 显存带宽与 4-bit 解码计算开销，该吞吐量满足交互式推理需求（>20 tokens/s）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090显存带宽1008GB/s，W4量化下大模型推理通常受带宽限制，45-55 tokens/s符合高显存带宽GPU在中等规模模型下的典型实测范围，且满足交互式推理阈值。

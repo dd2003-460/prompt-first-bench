@@ -1,0 +1,20 @@
+# N37: T_resident 的具体数值依赖于 N_cap 和访问间隔分布：对于第 i 个最热门对象，其驻留时间由第 N_cap+1 个对象的访问间隔决定，需通过 Pa
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+T_resident 的具体数值依赖于 N_cap 和访问间隔分布：对于第 i 个最热门对象，其驻留时间由第 N_cap+1 个对象的访问间隔决定，需通过 Pareto(β=0.9) 的逆 CDF 计算第 N_cap 个对象的平均访问间隔 Δt_Ncap 作为 T_resident 的近似。
+
+## Corrected Claim
+
+T_resident 的具体数值依赖于 N_cap 和访问间隔分布：对于第 i 个最热门对象，其驻留时间由第 N_cap+1 个对象的访问间隔决定，需通过 Pareto(β=0.9) 的逆 CDF 计算第 N_cap 个对象的平均访问间隔 Δt_Ncap 作为 T_resident 的近似。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在LRU缓存模型中，第i个对象的驻留时间确实由第N_cap+1个对象的访问间隔决定，且Pareto分布逆CDF用于计算分位数间隔是标准统计方法，逻辑自洽。

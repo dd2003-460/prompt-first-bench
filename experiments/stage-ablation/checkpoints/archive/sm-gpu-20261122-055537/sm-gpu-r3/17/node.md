@@ -1,0 +1,20 @@
+# N406: NVIDIA H200 141GB SXM5 在 2024-2025 年的市场采购价格区间为 $35,000 - $42,000 USD，其 HBM3e 显存带
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+NVIDIA H200 141GB SXM5 在 2024-2025 年的市场采购价格区间为 $35,000 - $42,000 USD，其 HBM3e 显存带宽为 4.8 TB/s，相比 H100 (3.35 TB/s) 提升 43%，但价格仅提升约 30-50%，在需要极高吞吐量且显存需求 >80GB 的场景下具有优于 H100 的性价比。
+
+## Corrected Claim
+
+NVIDIA H200 141GB SXM5 在 2024-2025 年的市场采购价格区间为 $35,000 - $42,000 USD，其 HBM3e 显存带宽为 4.8 TB/s，相比 H100 (3.35 TB/s) 提升 43%，但价格仅提升约 30-50%，在需要极高吞吐量且显存需求 >80GB 的场景下具有优于 H100 的性价比。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

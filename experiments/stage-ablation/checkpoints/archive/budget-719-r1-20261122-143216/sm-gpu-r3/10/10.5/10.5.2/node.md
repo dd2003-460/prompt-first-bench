@@ -1,0 +1,20 @@
+# N405: Decode 阶段的 FLOPs 计算需包含 GEMM 操作：对于 27B 模型，每 token 推理约需 2 × Param_Count × batch_si
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N143
+
+## Claim
+
+Decode 阶段的 FLOPs 计算需包含 GEMM 操作：对于 27B 模型，每 token 推理约需 2 × Param_Count × batch_size FLOPs，即 2 × 27e9 = 54 GFLOPs，此值用于计算 Compute_Time，需除以硬件实际 TFLOPS 和 MFU (Memory Bound 场景下 MFU 极低，通常 <10%)。
+
+## Corrected Claim
+
+Decode 阶段的 FLOPs 计算需包含 GEMM 操作：对于 27B 模型，每 token 推理约需 2 × Param_Count × batch_size FLOPs，即 2 × 27e9 = 54 GFLOPs，此值用于计算 Compute_Time，需除以硬件实际 TFLOPS 和 MFU (Memory Bound 场景下 MFU 极低，通常 <10%)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：2×Param_Count是Transformer推理FLOPs的标准估算公式，54 GFLOPs量级正确，MFU在Memory Bound场景下极低的描述符合硬件常识。

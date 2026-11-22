@@ -1,0 +1,24 @@
+# N76: N21 公式 H_LRU ≥ 1 - (C/S_total)^β 假设缓存填充了最热的对象集合，但在 LRU 动态更新下，缓存实际包含的对象集合 C' 受限于最
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N21
+
+## Claim
+
+N21 公式 H_LRU ≥ 1 - (C/S_total)^β 假设缓存填充了最热的对象集合，但在 LRU 动态更新下，缓存实际包含的对象集合 C' 受限于最近访问频率，导致稳态命中率下界需修正为 H_LRU_eff = H_static * (1 - P_eviction)，其中 P_eviction 为对象在驻留期内被淘汰的概率。
+
+## Corrected Claim
+
+在 LRU 动态更新下，缓存实际包含的对象集合受限于最近访问频率，稳态命中率通常低于静态最优下界，需考虑对象驻留期内的淘汰概率影响，但具体修正公式依赖于访问模式假设。
+
+## Evidence
+
+父节点级核验未通过：非正交, 有冗余（子节点并非正交的概念分解，而是同一物理参数（更新率/τ_obj）在不同取值下的具体算例。虽然它们覆盖了从静态到动态的连续谱（完备），但本质上属于“参数敏感性分析”而非“结构分解”。此外，子节点2和3中的计算公式存在逻辑不一致：子节点2使用加权淘汰概率（针对非热门对象），而子节点3突然引入F_hot参数并改变公式结构，缺乏统一的理论框架，导致逻辑不连贯。）
+
+## Search Query
+
+LRU steady state hit ratio eviction probability

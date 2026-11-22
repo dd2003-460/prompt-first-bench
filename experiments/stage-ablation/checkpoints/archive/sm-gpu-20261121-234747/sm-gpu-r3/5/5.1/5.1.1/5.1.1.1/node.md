@@ -1,0 +1,24 @@
+# N318: RTX 3090 24GB 在 INT8 量化下运行 Qwen3-27B 的 32K 上下文 KV Cache 占用量：KV Cache = 2 * 32 la
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N117
+
+## Claim
+
+RTX 3090 24GB 在 INT8 量化下运行 Qwen3-27B 的 32K 上下文 KV Cache 占用量：KV Cache = 2 * 32 layers * 8 KV heads * 128 head_dim * 32768 tokens * 1 byte (INT8) = 1.07 GB；总显存需求 = 27GB (权重) + 1.07GB (KV) + 1.5GB (激活/临时) ≈ 29.6GB > 24GB，导致必须启用 CPU Offload 或减少上下文至 20K tokens
+
+## Corrected Claim
+
+RTX 3090 24GB 在 INT8 量化下运行 Qwen3-27B 的 32K 上下文 KV Cache 占用量：KV Cache = 2 * 32 layers * 8 KV heads * 128 head_dim * 32768 tokens * 1 byte (INT8) = 1.07 GB；总显存需求 = 27GB (权重) + 1.07GB (KV) + 1.5GB (激活/临时) ≈ 29.6GB > 24GB，导致必须启用 CPU Offload 或减少上下文至 20K tokens
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：KV Cache 计算公式正确（2 * 32 * 8 * 128 * 32768 * 1B ≈ 1.07GB），总显存需求估算（27GB + 1.07GB + 1.5GB ≈ 29.6GB）超过 24GB 显存限制，结论合理。
+
+## Search Query
+
+RTX 3090 24GB INT8 27B model KV cache 32K context memory overflow

@@ -1,0 +1,24 @@
+# N263: RTX 3090 (GDDR6) 相比 RTX 4090 (GDDR6X) 在高负载下的加速老化率更低，因为其 GDDR6 工作温度通常低 5-10°C 且功耗
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N76
+
+## Claim
+
+RTX 3090 (GDDR6) 相比 RTX 4090 (GDDR6X) 在高负载下的加速老化率更低，因为其 GDDR6 工作温度通常低 5-10°C 且功耗密度较低 (350W vs 450W)，导致其有效 MTBF 在相同散热条件下比 RTX 4090 长约 20-40% [待核验]，这一差异在 TCO 对比中需作为故障概率 P_fail 的修正项纳入。
+
+## Corrected Claim
+
+RTX 3090 (GDDR6) 相比 RTX 4090 (GDDR6X) 在高负载下的加速老化率更低，因为其 GDDR6 工作温度通常低 5-10°C 且功耗密度较低 (350W vs 450W)，导致其有效 MTBF 在相同散热条件下预计比 RTX 4090 更长，这一差异在 TCO 对比中需作为故障概率 P_fail 的修正项纳入。
+
+## Evidence
+
+[质询]MTBF 延长 20-40% 的具体数值缺乏直接实证支持，且将温度/功耗差异线性映射到 MTBF 的幅度存在不确定性，属于经验性估算而非严格推导。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+RTX 3090 vs 4090 long term reliability MTBF comparison high load thermal degradation

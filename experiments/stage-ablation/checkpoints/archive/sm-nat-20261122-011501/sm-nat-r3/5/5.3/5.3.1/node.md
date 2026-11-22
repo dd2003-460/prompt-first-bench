@@ -1,0 +1,24 @@
+# N62: LFU 增益上限工作点（高热度集中度）：假设访问模式完全遵循 Pareto 热度分布且无时间波动，LFU 驻留集合为 Top-K 最高频率对象，此时 ΔH_lf
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N19
+
+## Claim
+
+LFU 增益上限工作点（高热度集中度）：假设访问模式完全遵循 Pareto 热度分布且无时间波动，LFU 驻留集合为 Top-K 最高频率对象，此时 ΔH_lfu = H_lfu_max - H_lru，量化值为 8%-12%，源于 LFU 能完美保留 Top 1% 极热小对象而 LRU 会因冷启动驱逐部分。
+
+## Corrected Claim
+
+在访问模式遵循高集中度 Pareto 分布且无时间波动的稳态下，LFU 相比 LRU 具有显著的命中率增益（通常表现为保留 Top 极热对象的能力更强），具体增益数值取决于热度分布指数与缓存容量比例，典型场景下可达百分之几至十几。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（三个子节点分别对应理想稳态（理论上限）、硬件限制（计数精度/溢出）和算法变体（时间衰减/LFU-T）三个不同维度的约束条件。它们在逻辑上是正交的：子节点1定义基准，子节点2引入硬件误差参数，子节点3引入时间维度参数。三者共同覆盖了从理论到实际工程实现的关键退化因素，没有重复或矛盾，也不存在简单的参数取值冗余。）
+
+## Search Query
+
+LFU vs LRU cache hit rate improvement pareto workload theoretical upper bound

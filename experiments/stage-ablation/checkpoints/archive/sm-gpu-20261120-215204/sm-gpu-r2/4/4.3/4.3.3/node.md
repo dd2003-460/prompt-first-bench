@@ -1,0 +1,28 @@
+# N103: 长文本生成（>4K tokens）在INT4/W4精度下的质量退化率通常高于短文本基准（如MMLU），主要受累积误差影响；需验证32K上下文下，4-bit量化导
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N24
+
+## Claim
+
+长文本生成（>4K tokens）在INT4/W4精度下的质量退化率通常高于短文本基准（如MMLU），主要受累积误差影响；需验证32K上下文下，4-bit量化导致的困惑度（Perplexity）上升是否超过10%，若超过则长文本一致性受损。
+
+## Corrected Claim
+
+长文本生成在低精度量化（如INT4/W4）下通常面临累积误差导致的质量退化风险，具体退化程度（如困惑度上升幅度）需通过实验验证，不同模型和上下文长度下表现各异。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（困惑度上升超过10%）和特定场景下的量化结论（长文本退化率高于短文本），属于经验事实。参考来源[1]讨论的是生成速度优化（TokenSwift框架）及无损加速，并未涉及INT4/W4量化对长文本质量的具体退化率或困惑度阈值，无法提供直接支持。 | 逻辑上，量化误差在长序列中累积导致质量下降符合直觉，但具体数值阈值（10%）和对比结论缺乏来源[1]的直接支持，来源[1]主题不匹配（关注速度而非量化质量退化细节）。
+
+## Search Query
+
+LLM 4-bit quantization long context perplexity degradation 32k tokens cumulative error
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/29671150338&rut=96dec0dc06f7fef9c68a4ca577fad0465734e13ccd9383ec1aa915e812963e38', 'type': 'ddg', 'title': '90分钟生成10万Token，新框架实现3倍无损加速超长文本生成，支持DeepSeek-R1和QwQ!'}

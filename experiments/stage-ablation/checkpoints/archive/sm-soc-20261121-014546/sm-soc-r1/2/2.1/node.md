@@ -1,0 +1,28 @@
+# N11: 信号失效机制：当卖家降价幅度 ΔP < 0.15·P_ask 时，买家无法将降价与真实质量信号区分（信号噪声比 SNR < 1），导致 60% 的降价事件未触发
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N2
+
+## Claim
+
+信号失效机制：当卖家降价幅度 ΔP < 0.15·P_ask 时，买家无法将降价与真实质量信号区分（信号噪声比 SNR < 1），导致 60% 的降价事件未触发新咨询，因为买家将小幅降价视为常规促销而非质量确认。
+
+## Corrected Claim
+
+当卖家降价幅度较小时，买家可能难以将其与真实质量信号区分，导致部分降价事件未触发新咨询，因为买家可能将其视为常规促销而非质量确认。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值阈值（0.15降价幅度、60%未触发咨询率）和特定的信号处理类比（SNR<1），这些属于市场微观结构或行为经济学的经验事实，无法从第一性原理推导，且参考来源完全无关，缺乏数据支持。 | 参考来源[1]讨论量化策略失效，与二手交易信号机制无关，无可用外部证据；该陈述为经验事实，逻辑自洽但缺来源支持，故降级。
+
+## Search Query
+
+price cut signal failure threshold second-hand market consultation rate
+
+## Retrieval Sources
+
+- {'url': 'https://www.zhihu.com/question/1916191730656569296&rut=3ed728b63063208ede853f13aed57394a8f670f32d154779d6bfe5fcdb408267', 'type': 'ddg', 'title': '量化策略失效的预警信号有哪些？ - 知乎'}

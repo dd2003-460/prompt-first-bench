@@ -1,0 +1,29 @@
+# N155: 2× RTX 4090 多卡方案：总显存 48GB，支持 FP8/INT8 量化 27B 模型，PCIe 4.0 x16 桥接带宽 32 GB/s，All-Re
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N27
+
+## Claim
+
+2× RTX 4090 多卡方案：总显存 48GB，支持 FP8/INT8 量化 27B 模型，PCIe 4.0 x16 桥接带宽 32 GB/s，All-Reduce 通信开销导致吞吐量低于线性加速比，具体效率损失需量化
+
+## Corrected Claim
+
+2× RTX 4090（48GB魔改版）多卡方案：总显存 96GB，支持 FP8/INT8 量化 27B 模型，PCIe 4.0 x16 桥接带宽 32 GB/s，All-Reduce 通信开销导致吞吐量低于线性加速比，具体效率损失需量化
+
+## Evidence
+
+[质询]陈述中“总显存 48GB”与参考来源[1]和[2]中明确提到的“2 x RTX 4090 48GB”（即单卡48GB，总显存96GB）存在严重数值矛盾。虽然标准RTX 4090为24GB（总48GB），但来源明确指向的是48GB魔改卡或特定语境下的48GB单卡配置，若按来源语境，总显存应为96GB；若按标准卡，总显存48GB正确但来源[1][2]的“48GB”描述易引起歧义（是单卡还是总卡）。此外，来源[2]明确提到“合计 ~96GB 显存”，直接反驳了“总显存 48GB”的说法（在48GB单卡语境下）。即使假设是标准24GB卡，来源[1]标题也写的是“dual RTX 4090 48GB”，通常指单卡容量或总容量需澄清，但结合[2]的“48gb *2”，显然指单卡48GB，总96GB。因此“总显存 48GB”与来源[2]直接矛盾。 | 来源[2]明确指出“2× RTX 4090（各 48GB，合计 ~96GB 显存）”，与陈述中的“总显存 48GB”矛盾；来源[1]标题“dual RTX 4090 48GB”结合正文“默认参数面向 2 x RTX 4090 48GB 魔改卡”也暗示单卡48GB。
+
+## Search Query
+
+2x RTX 4090 PCIe 4.0 multi-GPU inference Qwen3-27B throughput
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/huochuanguo/qwen3.8-27b-sglang-dual-4090&rut=5a23218fc7d58719edb483df303beea505650a422e923b1cb0ae1b258e357a48', 'type': 'ddg', 'title': 'Qwen3.8-27B on dual RTX 4090 48GB with SGLang - GitHub'}
+- {'url': 'https://zhuanlan.zhihu.com/p/2061822245857661861&rut=aa8835ac36626bafb34a0b3010566f35b26fccf92534cb1ea22fafdbea8d227e', 'type': 'ddg', 'title': '48gb *2 4090 双卡 可以部署什么大模型 - 知乎'}

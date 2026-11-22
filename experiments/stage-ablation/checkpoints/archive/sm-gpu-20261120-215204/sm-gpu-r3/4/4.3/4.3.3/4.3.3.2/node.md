@@ -1,0 +1,24 @@
+# N293: 长文本质量退化的主要机制是 KV Cache 量化误差累积：若 KV Cache 也采用 W4 量化，32K 上下文中 KV 向量的累积误差会导致注意力权重偏差
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N103
+
+## Claim
+
+长文本质量退化的主要机制是 KV Cache 量化误差累积：若 KV Cache 也采用 W4 量化，32K 上下文中 KV 向量的累积误差会导致注意力权重偏差，进而影响生成一致性；若 KV Cache 保持 BF16，仅权重 W4，则退化率可降低至 5-8%（短文本基准的 1.5-2 倍）。
+
+## Corrected Claim
+
+长文本质量退化的主要机制之一是 KV Cache 量化误差累积：若 KV Cache 采用低比特量化（如 W4），长上下文中的累积误差会导致注意力权重偏差，进而影响生成一致性；若 KV Cache 保持高精度（如 BF16），仅权重量化，则通常能显著降低长文本退化率，具体改善幅度取决于模型与量化策略。
+
+## Evidence
+
+[质询]具体数值（5-8%退化率、1.5-2倍系数）缺乏通用基准支持，属于特定实验条件下的经验数据，易受模型架构、量化算法（如SmoothQuant, AWQ）及数据集影响，存在以偏概全风险。 | 先验知识/题面给定，逻辑校验通过：KV Cache量化确实会引入累积误差，保持BF16可显著降低精度损失，机制描述符合大模型推理原理，但具体数值为经验估计。
+
+## Search Query
+
+KV cache quantization error accumulation long-context LLM inference

@@ -1,0 +1,24 @@
+# N74: N21 中 S_total 的计算依赖于 E[S] 的截断假设：若 S_min=1KB 且 Pareto(α=1.1) 无截断，E[S] 发散；若截断于 100
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N21
+
+## Claim
+
+N21 中 S_total 的计算依赖于 E[S] 的截断假设：若 S_min=1KB 且 Pareto(α=1.1) 无截断，E[S] 发散；若截断于 100KB（覆盖 99% 对象），E[S] ≈ 27KB，则 S_total ≈ 2.7TB，导致 C/S_total ≈ 0.047，H_LRU 下界显著低于 0.82。
+
+## Corrected Claim
+
+N21 中 S_total 的计算依赖于 E[S] 的截断假设：若 S_min=1KB 且 Pareto(α=1.1) 无截断，E[S] 发散；若截断于 100KB（覆盖 99% 对象），E[S] ≈ 27KB，则 S_total ≈ 2.7TB，导致 C/S_total ≈ 0.047，H_LRU 下界显著低于 0.82。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布(α=1.1)在截断上限100KB时，期望值E[S]≈27KB符合数学推导（E[S] = (α * S_min^(α-1) * (S_max^α - S_min^α)) / (α-1) / (S_max^(α-1) - S_min^(α-1)) 的近似计算或积分结果），且S_total与C/S_total的线性关系逻辑自洽。
+
+## Search Query
+
+Pareto distribution truncated mean calculation

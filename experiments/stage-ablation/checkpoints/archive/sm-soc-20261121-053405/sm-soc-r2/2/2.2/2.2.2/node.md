@@ -1,0 +1,20 @@
+# N39: 同质性指数 H 的基准阈值：在缺乏策略模仿的纯随机市场（Null Model）中，挂价策略同质性指数 $H_{null}$ 的理论期望值为 $1/\sqrt{N
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N11
+
+## Claim
+
+同质性指数 H 的基准阈值：在缺乏策略模仿的纯随机市场（Null Model）中，挂价策略同质性指数 $H_{null}$ 的理论期望值为 $1/\sqrt{N_{sample}}$（基于中心极限定理，假设独立个体），若观测到的 $H_{obs}$ 显著高于 $H_{null}$（p<0.05, t-test），则支持策略模仿假设；需确定最小样本量 $N_{sample}$ 使得 $H_{null} < 0.1$ 以具备统计功效。
+
+## Corrected Claim
+
+同质性指数 H 的基准阈值：在缺乏策略模仿的纯随机市场（Null Model）中，挂价策略同质性指数 $H_{null}$ 的理论期望值为 $1/\sqrt{N_{sample}}$（基于中心极限定理，假设独立个体），若观测到的 $H_{obs}$ 显著高于 $H_{null}$（p<0.05, t-test），则支持策略模仿假设；需确定最小样本量 $N_{sample}$ 使得 $H_{null} < 0.1$ 以具备统计功效。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于中心极限定理，独立同分布样本均值的方差为 $\sigma^2/N$，标准差（即同质性指数 $H$ 的随机波动量级）为 $\sigma/\sqrt{N}$。若假设个体策略差异的标准差 $\sigma$ 归一化为 1，则 $H_{null} \approx 1/\sqrt{N}$ 在量纲和量级上完全合理。统计功效要求 $H_{null} < 0.1$ 意味着 $N > 100$，符合常规统计推断逻辑。

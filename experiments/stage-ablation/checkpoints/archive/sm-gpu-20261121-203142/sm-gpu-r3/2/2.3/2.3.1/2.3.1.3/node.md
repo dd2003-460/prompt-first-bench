@@ -1,0 +1,24 @@
+# N187: Qwen3-27B INT8 量化对长上下文 (32K) 推理的影响：INT8 量化主要影响权重精度，对 KV Cache 精度无直接影响 (KV Cache 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N55
+
+## Claim
+
+Qwen3-27B INT8 量化对长上下文 (32K) 推理的影响：INT8 量化主要影响权重精度，对 KV Cache 精度无直接影响 (KV Cache 通常保持 BF16)；但在 32K 上下文下，累积的量化误差可能导致注意力分数分布偏移，进而影响生成质量；社区报告指出，在 >16K 上下文中，INT8 模型的幻觉率比 BF16 高约 0.5-1.5%，需在最终答案中注明此风险。
+
+## Corrected Claim
+
+Qwen3-27B INT8 量化主要影响权重精度，KV Cache 通常保持 BF16 精度；在 32K 长上下文下，累积的量化误差可能导致注意力分数分布偏移，进而轻微影响生成质量（如幻觉率可能略有上升），具体影响程度需视量化算法和评测基准而定。
+
+## Evidence
+
+[质询]「社区报告指出...幻觉率比 BF16 高约 0.5-1.5%」属于具体的经验统计数据，缺乏明确的来源支持，且不同模型、量化实现（如 SmoothQuant, GPTQ）及评测基准下该数值波动极大，直接引用具体百分比区间存在过度精确化风险。 | 先验知识/题面给定，逻辑校验通过：INT8 量化主要作用于权重，KV Cache 通常保持高精度（BF16/FP16）是主流工程实践；长上下文下量化误差累积影响注意力分布符合逻辑直觉。但具体幻觉率增量（0.5-1.5%）为经验事实，无来源支持，故降级。
+
+## Search Query
+
+INT8 quantization long context 32K hallucination rate increase Qwen Llama

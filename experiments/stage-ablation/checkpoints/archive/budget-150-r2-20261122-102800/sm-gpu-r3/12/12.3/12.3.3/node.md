@@ -1,0 +1,24 @@
+# N416: 质量容忍度与硬件选择的映射：若用户要求 MMLU 下降 < 2%，则必须使用 BF16/INT8，RTX 4090 不可行，推荐 A100 80GB 或 H10
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N165
+
+## Claim
+
+质量容忍度与硬件选择的映射：若用户要求 MMLU 下降 < 2%，则必须使用 BF16/INT8，RTX 4090 不可行，推荐 A100 80GB 或 H100 80GB。若允许 MMLU 下降 5-10%，则 W4 量化可行，RTX 4090 成为性价比最优解 (CPR 低 5-10x)。
+
+## Corrected Claim
+
+质量容忍度与硬件选择的映射：若用户要求 MMLU 下降 < 2%，则必须使用 BF16/INT8，RTX 4090 不可行，推荐 A100 80GB 或 H100 80GB。若允许 MMLU 下降 5-10%，则 W4 量化可行，RTX 4090 成为性价比最优解 (CPR 低 5-10x)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：BF16/INT8 精度损失极小（<2% MMLU 合理），需大显存（A100/H100）；W4 量化精度损失较大（5-10% MMLU 合理），显存需求低，RTX 4090 24GB 可承载且成本远低于数据中心卡，符合性价比逻辑。
+
+## Search Query
+
+Qwen3-27B INT8 vs W4 MMLU accuracy comparison

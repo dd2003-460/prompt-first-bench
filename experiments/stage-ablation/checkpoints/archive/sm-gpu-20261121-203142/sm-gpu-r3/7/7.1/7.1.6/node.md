@@ -1,0 +1,24 @@
+# N334: RTX 5090 运行 Qwen3-27B FP8 时的生成阶段理论 TPS 估算：显存带宽假设为 1.792 TB/s (GDDR7)；每 Token 读取权
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N107, N108, N109
+
+## Claim
+
+RTX 5090 运行 Qwen3-27B FP8 时的生成阶段理论 TPS 估算：显存带宽假设为 1.792 TB/s (GDDR7)；每 Token 读取权重 13.5GB + KV Cache 增量 (假设长上下文平均读取 4GB) ≈ 17.5GB；理论 TPS = 1792 GB/s / 17.5 GB ≈ 102 Tokens/s；实际受计算瓶颈影响约为 40-60 Tokens/s [待核验]
+
+## Corrected Claim
+
+RTX 5090 运行 Qwen3-27B FP8 时的生成阶段理论 TPS 估算：显存带宽假设为 1.792 TB/s (GDDR7)；每 Token 读取权重 13.5GB + KV Cache 增量 (假设长上下文平均读取 4GB) ≈ 17.5GB；理论 TPS = 1792 GB/s / 17.5 GB ≈ 102 Tokens/s；实际受计算瓶颈影响约为 40-60 Tokens/s [待核验]
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 5090 GDDR7带宽1.792TB/s及Qwen3-27B FP8权重体积约13.5GB符合硬件与模型规格常识，带宽瓶颈下的理论TPS计算（1792/17.5≈102）及实际受计算瓶颈影响的估算（40-60 TPS）在量级和逻辑上均自洽。
+
+## Search Query
+
+RTX 5090 FP8 LLM inference tokens per second benchmark

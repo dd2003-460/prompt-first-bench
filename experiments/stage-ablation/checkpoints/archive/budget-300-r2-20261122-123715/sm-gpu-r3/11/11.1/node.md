@@ -1,0 +1,24 @@
+# N373: NVIDIA L4 在 Qwen3-27B W4 量化下的实测吞吐量 (tok/s)，需排除理论上限 (10-15 tok/s) 的乐观估计，参考 vLLM 或
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N117
+
+## Claim
+
+NVIDIA L4 在 Qwen3-27B W4 量化下的实测吞吐量 (tok/s)，需排除理论上限 (10-15 tok/s) 的乐观估计，参考 vLLM 或 llama.cpp 在 L4 上的实测数据 (通常受限于 PCIe 传输和 GDDR6 延迟，可能低至 5-8 tok/s)。
+
+## Corrected Claim
+
+NVIDIA L4 在 Qwen3-27B W4 量化下的实测吞吐量受限于 PCIe 传输和 GDDR6 延迟，通常低于理论上限，具体数值需参考 vLLM 或 llama.cpp 在 L4 上的实测数据。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性能数值（5-8 tok/s），属于硬件实测数据，无法从第一性原理严格推导，且缺乏来源支持，存在数值偏差风险。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+NVIDIA L4 Qwen3-27B W4 quantization throughput tokens per second benchmark

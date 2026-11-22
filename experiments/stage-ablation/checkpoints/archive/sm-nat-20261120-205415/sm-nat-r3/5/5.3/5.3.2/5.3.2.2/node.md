@@ -1,0 +1,20 @@
+# N195: 蒙特卡洛仿真收敛所需的样本量 N_samples 估算公式：基于中心极限定理，为使命中率标准误 SE < 0.001，需 N_samples ≥ Var(H)/
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N72
+
+## Claim
+
+蒙特卡洛仿真收敛所需的样本量 N_samples 估算公式：基于中心极限定理，为使命中率标准误 SE < 0.001，需 N_samples ≥ Var(H)/SE^2，其中 Var(H) 需通过 Pilot Run 估计，通常需 10^7 级别请求样本。
+
+## Corrected Claim
+
+蒙特卡洛仿真收敛所需的样本量 N_samples 估算公式：基于中心极限定理，为使命中率标准误 SE < 0.001，需 N_samples ≥ Var(H)/SE^2，其中 Var(H) 需通过 Pilot Run 估计，通常需 10^7 级别请求样本。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于中心极限定理，标准误 SE = sqrt(Var(H)/N)，故 N >= Var(H)/SE^2 推导正确；对于典型命中率（如0.5），Var(H)≈0.25，SE=0.001时 N=250,000，若考虑方差较大或需更高置信度/稳定性，10^7 量级在工程实践中属于合理且保守的估算范围，无逻辑矛盾。

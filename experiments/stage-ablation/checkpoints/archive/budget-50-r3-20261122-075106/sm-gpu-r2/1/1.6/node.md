@@ -1,0 +1,24 @@
+# N12: NVIDIA NVLink互联带宽为900 GB/s（H100 SXM5），PCIe 4.0 x16带宽为32 GB/s，PCIe 5.0 x16带宽为64 G
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+NVIDIA NVLink互联带宽为900 GB/s（H100 SXM5），PCIe 4.0 x16带宽为32 GB/s，PCIe 5.0 x16带宽为64 GB/s，这些是多卡互联拓扑的通信带宽硬指标，影响多卡方案的通信开销
+
+## Corrected Claim
+
+NVIDIA NVLink互联带宽为900 GB/s（H100 SXM5），PCIe 4.0 x16带宽为32 GB/s，PCIe 5.0 x16带宽为64 GB/s，这些是多卡互联拓扑的通信带宽硬指标，影响多卡方案的通信开销
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点正交且完备。节点1和2分别针对具体硬件方案（RTX 4090, A100）进行延迟量化分析，节点3从架构可行性角度排除NVLink在本地场景的适用性，节点4对比PCIe版本差异对决策的影响。各节点侧重点不同（具体案例计算 vs 架构约束 vs 版本对比），无逻辑重复或矛盾。虽然节点1和2都涉及PCIe 4.0带宽，但它们服务于不同的硬件假设和TPOT基准，属于不同场景下的实例化，而非冗余参数。）
+
+## Search Query
+
+NVIDIA NVLink PCIe 4.0 5.0 bandwidth

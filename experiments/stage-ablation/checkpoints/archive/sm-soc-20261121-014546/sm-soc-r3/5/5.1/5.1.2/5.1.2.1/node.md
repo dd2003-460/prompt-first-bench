@@ -1,0 +1,24 @@
+# N314: 持有成本系数 c_hold 的量化分解：c_hold = r_fin * H_years + r_op * 1，其中 r_fin 为年化资金机会成本率（假设 5
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N101, N102, N103
+
+## Claim
+
+持有成本系数 c_hold 的量化分解：c_hold = r_fin * H_years + r_op * 1，其中 r_fin 为年化资金机会成本率（假设 5%），r_op 为年均折旧/维护成本率（假设 2%），H_years 为平均持有年限。在 H_years=1 的典型场景下，c_hold = 0.05 + 0.02 = 0.07，与 N101 中的 0.1 存在偏差，需通过实证数据校准 r_fin 和 r_op 的具体分布。
+
+## Corrected Claim
+
+持有成本系数 c_hold 的量化分解：c_hold = r_fin * H_years + r_op * 1，其中 r_fin 为年化资金机会成本率（假设 5%），r_op 为年均折旧/维护成本率（假设 2%），H_years 为平均持有年限。在 H_years=1 的典型场景下，c_hold = 0.05 + 0.02 = 0.07，与 N101 中的 0.1 存在偏差，需通过实证数据校准 r_fin 和 r_op 的具体分布。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 c_hold = r_fin * H_years + r_op * 1 在 H_years=1 时数值计算正确（0.05+0.02=0.07），且明确指出与 N101 的 0.1 存在偏差需校准，逻辑自洽。
+
+## Search Query
+
+opportunity cost rate for second-hand goods holding period maintenance cost

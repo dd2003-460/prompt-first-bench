@@ -1,0 +1,20 @@
+# N154: 工作点 B (容量受限场景)：若 S_total > 128GB，C'' 仅包含前 K 个最热对象。由于 ρ=-0.3，C'' 中对象平均大小 E[S|C'']
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N49
+
+## Claim
+
+工作点 B (容量受限场景)：若 S_total > 128GB，C'' 仅包含前 K 个最热对象。由于 ρ=-0.3，C'' 中对象平均大小 E[S|C''] < E[S|all]，分子 Σ R_i S_i 占比高于随机采样，H_LRU_low 高于无相关假设下的值，具体需解积分方程确定 K。
+
+## Corrected Claim
+
+工作点 B (容量受限场景)：若 S_total > 128GB，C'' 仅包含前 K 个最热对象。由于 ρ=-0.3，C'' 中对象平均大小 E[S|C''] < E[S|all]，分子 Σ R_i S_i 占比高于随机采样，H_LRU_low 高于无相关假设下的值，具体需解积分方程确定 K。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：负相关系数意味着小对象更热，导致缓存中对象平均大小小于总体平均，且加权分子占比升高，推导符合统计学直觉。

@@ -1,0 +1,25 @@
+# N14: Pareto(α=1.1)分布下对象总大小的精确积分公式为 S_total = N * S_min * (α-1)/(2-α)，当α=1.1时，S_total 
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+Pareto(α=1.1)分布下对象总大小的精确积分公式为 S_total = N * S_min * (α-1)/(2-α)，当α=1.1时，S_total ≈ 1.11 * N * S_min，表明头部10%的对象占据了约90%的存储空间（Zipf-like property），导致缓存空间利用率极低，128GB容量仅能覆盖极小比例的长尾对象。
+
+## Corrected Claim
+
+Pareto(α=1.1)分布具有极长的尾部，总大小对最小对象大小S_min敏感，公式S_total ≈ 1.11 * N * S_min（假设截断于N）表明总大小主要由头部少数对象决定，但具体头部占比需根据截断点计算，通常头部极小部分（如前1%）即占据绝大部分空间，而非头部10%占90%。
+
+## Evidence
+
+[质询]陈述中关于“头部10%的对象占据了约90%的存储空间”的结论与Pareto(α=1.1)分布的数学性质严重不符。在Pareto分布中，α=1.1意味着分布极度长尾，质量高度集中在极小的头部（例如前1%的对象可能占据绝大部分质量），而非头部10%。此外，该陈述将“总大小公式”与“头部占比”混为一谈，且“128GB容量仅能覆盖极小比例”属于特定场景下的经验推断，缺乏通用性。 | 来源[2]确认Pareto分布为幂律分布，但未提供具体α=1.1下的头部占比数据；逻辑校验发现α=1.1时头部集中度远高于10%占90%的描述，且总大小公式推导依赖于截断假设，陈述内部逻辑存在矛盾。
+
+## Retrieval Sources
+
+- {'url': 'https://zh.wikipedia.org/wiki/%E5%B8%95%E7%B4%AF%E6%89%98%E6%B3%95%E5%88%99&rut=d6710147580f4bedb12734df2aa500ddcb8a48300e38f5b1eabc58d143336579', 'type': 'ddg', 'title': '帕累托法则 - 维基百科，自由的百科全书'}
+- {'url': 'https://en.wikipedia.org/wiki/Pareto_distribution&rut=3541c8b3f71fd194fb160deaa36ef23bcf3225d4a84bcccff152370e666d69b5', 'type': 'ddg', 'title': 'Pareto distribution - Wikipedia'}

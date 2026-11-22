@@ -1,0 +1,24 @@
+# N215: 搭载 1x A100/H100 的预集成服务器节点（如 Dell PowerEdge R760xa 或 HPE ProLiant DL380 Gen11）的基础
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N65
+
+## Claim
+
+搭载 1x A100/H100 的预集成服务器节点（如 Dell PowerEdge R760xa 或 HPE ProLiant DL380 Gen11）的基础裸机价格（不含GPU）约为 $6000-$8000，相比自行组装的 EATX 服务器方案（$3300-$5300）溢价约 50%-100%，主要包含冗余电源、RAID 控制器及 5 年 ProSupport 保修。
+
+## Corrected Claim
+
+搭载 1x A100/H100 的预集成服务器节点（如 Dell PowerEdge R760xa 或 HPE ProLiant DL380 Gen11）的基础裸机价格（不含GPU）通常高于自行组装的 EATX 服务器方案，溢价幅度约为 50%-100%，主要包含冗余电源、RAID 控制器及长期保修服务。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件型号（Dell R760xa, HPE DL380 Gen11）及其对应的具体价格区间（$6000-$8000）和溢价比例，属于典型的经验事实（硬件规格与市场价格）。由于缺乏实时市场数据或官方报价单作为直接来源支持，且服务器价格随配置（CPU核心数、内存容量、存储类型）波动极大，固定价格区间可能因配置差异而失效，存在口径混淆风险。 | 经验事实，逻辑自洽但缺来源支持。虽然预集成服务器通常比DIY方案贵50%-100%符合一般市场规律，但具体数值缺乏直接证据。
+
+## Search Query
+
+Dell PowerEdge R760xa base price without GPU 2024 2025

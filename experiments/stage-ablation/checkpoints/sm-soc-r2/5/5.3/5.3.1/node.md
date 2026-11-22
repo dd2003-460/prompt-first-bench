@@ -1,0 +1,20 @@
+# N92: 线性需求假设下的逐利动机强度 η_profit = (P_ask - C_cost) / P_ask，其中 C_cost 为卖家持有成本，该比值在 15-25%
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N27
+
+## Claim
+
+线性需求假设下的逐利动机强度 η_profit = (P_ask - C_cost) / P_ask，其中 C_cost 为卖家持有成本，该比值在 15-25% 溢价区间内通常处于 0.75-0.85 区间，作为置信度基线参考
+
+## Corrected Claim
+
+线性需求假设下的逐利动机强度 η_profit = (P_ask - C_cost) / P_ask，其中 C_cost 为卖家持有成本，该比值在 15-25% 溢价区间内通常处于 0.13-0.20 区间，作为置信度基线参考
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：当溢价率 r = (P_ask - C_cost) / C_cost 在 15%-25% 区间时，η_profit = (P_ask - C_cost) / P_ask = r / (1 + r)。计算边界：r=0.15 时 η≈0.130，r=0.25 时 η≈0.200。此处陈述声称 η 处于 0.75-0.85 区间，存在严重的数值量级错误。等等，让我重新检查公式定义。

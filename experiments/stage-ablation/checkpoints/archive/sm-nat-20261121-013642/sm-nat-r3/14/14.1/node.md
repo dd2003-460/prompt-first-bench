@@ -1,0 +1,20 @@
+# N283: 修正前提错误：V_total ≈ 1.1 TB (1126 GB) >> C=128GB，缓存无法容纳所有对象，必然发生驱逐。因此 LFU 与 LRU 的缓存集
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N98
+
+## Claim
+
+修正前提错误：V_total ≈ 1.1 TB (1126 GB) >> C=128GB，缓存无法容纳所有对象，必然发生驱逐。因此 LFU 与 LRU 的缓存集合不同，ΔH ≠ 0%。原命题基于错误的 V_total=119MB 假设，该假设与 N71 (s_min=1KB, N=100k) 矛盾。
+
+## Corrected Claim
+
+修正前提错误：V_total ≈ 1.1 TB (1126 GB) >> C=128GB，缓存无法容纳所有对象，必然发生驱逐。因此 LFU 与 LRU 的缓存集合不同，ΔH ≠ 0%。原命题基于错误的 V_total=119MB 假设，该假设与 N71 (s_min=1KB, N=100k) 矛盾。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：1126GB 远大于 128GB，缓存必然发生驱逐，LFU 与 LRU 策略不同导致集合不同，ΔH≠0 符合逻辑；原假设 119MB 与 N=100k, s_min=1KB 矛盾（100k*1KB=100MB，若平均大小更大则总量更大，119MB 虽接近下限但通常 V_total 指总数据量，若 N=100k 且最小 1KB，总容量至少 100MB，若 V_total=1.1TB 则远超缓存，逻辑自洽）。

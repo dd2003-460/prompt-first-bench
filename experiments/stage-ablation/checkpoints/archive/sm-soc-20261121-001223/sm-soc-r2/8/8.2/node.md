@@ -1,0 +1,20 @@
+# N76: 卖家预期收益 Π_seller 减少的量化：Π_seller = (P_final - C_cost) * Q_sold。透明度展示导致 P_final 下降 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N25
+
+## Claim
+
+卖家预期收益 Π_seller 减少的量化：Π_seller = (P_final - C_cost) * Q_sold。透明度展示导致 P_final 下降 ΔP_req（10%）且 Q_sold 可能因 T_deal 延长而减少（持有成本增加）。综合效应 ΔΠ_seller/Π_seller ≈ -ΔP_req - C_hold * ΔT_deal / P_final，估算在 8-12% 区间。
+
+## Corrected Claim
+
+卖家预期收益 Π_seller 减少的量化：Π_seller = (P_final - C_cost) * Q_sold。透明度展示导致 P_final 下降 ΔP_req（10%）且 Q_sold 可能因 T_deal 延长而减少（持有成本增加）。综合效应 ΔΠ_seller/Π_seller ≈ -ΔP_req - C_hold * ΔT_deal / P_final，估算在 8-12% 区间。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

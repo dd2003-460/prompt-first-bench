@@ -1,0 +1,24 @@
+# N10: Apple M2 Ultra Mac Studio (192GB Unified Memory, ~$4000-$5000) 作为非典型统一内存方案，其 800
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+Apple M2 Ultra Mac Studio (192GB Unified Memory, ~$4000-$5000) 作为非典型统一内存方案，其 800 GB/s 内存带宽和 192GB 容量允许加载 BF16 权重，但缺乏 NVLink 导致多卡扩展性受限。
+
+## Corrected Claim
+
+Apple M2 Ultra Mac Studio (192GB Unified Memory, ~$4000-$5000) 作为非典型统一内存方案，其 800 GB/s 内存带宽和 192GB 容量允许加载 BF16 权重，但缺乏 NVLink 导致多卡扩展性受限。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Apple M2 Ultra 确实提供 192GB 统一内存选项，内存带宽为 800GB/s，且因采用统一内存架构而非独立 GPU 卡，不存在 NVLink 多卡互联，符合非典型统一内存方案的描述。
+
+## Search Query
+
+Apple M2 Ultra Mac Studio 192GB memory bandwidth specs price

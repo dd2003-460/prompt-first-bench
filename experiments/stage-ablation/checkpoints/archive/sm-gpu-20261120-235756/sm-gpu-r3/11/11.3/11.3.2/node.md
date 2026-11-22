@@ -1,0 +1,24 @@
+# N357: BF16 全精度相比 FP8 量化在 32K 上下文下的幻觉率降低幅度需通过校准数据集量化：参考 Llama-3-70B 基准测试，FP8 量化在 32K 上下
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N135
+
+## Claim
+
+BF16 全精度相比 FP8 量化在 32K 上下文下的幻觉率降低幅度需通过校准数据集量化：参考 Llama-3-70B 基准测试，FP8 量化在 32K 上下文下的困惑度上升约 0.5-1.5%，对应幻觉率增加约 2-5% [待核验]；Qwen3-27B 的具体数值需通过 MMLU 或 HumanEval 基准测试在 M3 Ultra 上实测，重点对比 BF16 vs FP8 在长上下文生成任务中的错误率差异。
+
+## Corrected Claim
+
+BF16 全精度相比 FP8 量化在 32K 上下文下的幻觉率降低幅度需通过校准数据集量化：参考 Llama-3-70B 基准测试，FP8 量化在长上下文下通常会导致困惑度轻微上升及幻觉率增加（具体数值需实测验证）；Qwen3-27B 的具体数值需通过 MMLU 或 HumanEval 基准测试在 M3 Ultra 上实测，重点对比 BF16 vs FP8 在长上下文生成任务中的错误率差异。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（Llama-3-70B在32K上下文下FP8量化导致的困惑度上升0.5-1.5%及幻觉率增加2-5%），属于硬件/模型性能相关的经验事实，无法从第一性原理推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）。
+
+## Search Query
+
+Qwen3-27B FP8 quantization hallucination rate 32K context benchmark MMLU

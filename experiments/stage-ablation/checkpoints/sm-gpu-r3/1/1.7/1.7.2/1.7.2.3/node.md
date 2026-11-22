@@ -1,0 +1,20 @@
+# N185: Qwen3-27B 在 W4 (INT4) 权重 + FP8 KV Cache 配置下的总显存占用：权重 13.5 GB + KV Cache 4 GB = 1
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N93
+
+## Claim
+
+Qwen3-27B 在 W4 (INT4) 权重 + FP8 KV Cache 配置下的总显存占用：权重 13.5 GB + KV Cache 4 GB = 17.5 GB。加上激活值、CUDA 上下文及框架开销（通常 2-4 GB），总占用约为 19.5-21.5 GB。该数值低于 RTX 4090 的 24 GB 显存容量，因此单卡 RTX 4090 在理论上可容纳该配置，无需多卡或 CPU Offload。
+
+## Corrected Claim
+
+Qwen3-27B 在 W4 (INT4) 权重 + FP8 KV Cache 配置下的总显存占用：权重 13.5 GB + KV Cache 4 GB = 17.5 GB。加上激活值、CUDA 上下文及框架开销（通常 2-4 GB），总占用约为 19.5-21.5 GB。该数值低于 RTX 4090 的 24 GB 显存容量，因此单卡 RTX 4090 在理论上可容纳该配置，无需多卡或 CPU Offload。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数在INT4下约13.5GB，加上KV Cache及开销后总显存约19.5-21.5GB，低于RTX 4090的24GB容量，符合工程常识。

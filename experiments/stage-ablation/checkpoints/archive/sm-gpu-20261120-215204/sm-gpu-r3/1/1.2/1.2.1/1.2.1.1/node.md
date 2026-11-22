@@ -1,0 +1,24 @@
+# N161: N41 中关于 'KV Cache 通常不随权重量化而改变精度' 的陈述需要修正：在现代推理框架 (如 vLLM, TensorRT-LLM) 中，KV Cac
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N41
+
+## Claim
+
+N41 中关于 'KV Cache 通常不随权重量化而改变精度' 的陈述需要修正：在现代推理框架 (如 vLLM, TensorRT-LLM) 中，KV Cache 可以独立量化为 FP8 或 INT8，以进一步节省显存。若权重为 INT8 (27 GB)，KV Cache 为 INT8 (4 GB)，总显存需求为 27 + 4 + 3 ≈ 34 GB。这使得 1x RTX 4090 (24GB) 依然不足，但 1x RTX 3090 (24GB) 也不足，而 2x RTX 3090 (48GB) 或 1x A100 40GB 可能可行（需具体计算）。
+
+## Corrected Claim
+
+N41 中关于 'KV Cache 通常不随权重量化而改变精度' 的陈述需要修正：在现代推理框架 (如 vLLM, TensorRT-LLM) 中，KV Cache 可以独立量化为 FP8 或 INT8，以进一步节省显存。若权重为 INT8 (27 GB)，KV Cache 为 INT8 (4 GB)，总显存需求为 27 + 4 + 3 ≈ 34 GB。这使得 1x RTX 4090 (24GB) 依然不足，但 1x RTX 3090 (24GB) 也不足，而 2x RTX 3090 (48GB) 或 1x A100 40GB 可能可行（需具体计算）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：现代推理框架（vLLM/TensorRT-LLM）确实支持KV Cache独立量化（FP8/INT8），且27GB权重+4GB KV Cache+3GB激活/其他开销≈34GB的显存估算符合逻辑，单卡24GB不足、双卡48GB或A100 40GB可行的结论在量级上合理。
+
+## Search Query
+
+KV cache quantization INT8 FP8 vLLM TensorRT-LLM support

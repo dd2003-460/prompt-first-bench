@@ -1,0 +1,24 @@
+# N75: 在缓存容量远超工作集大小（C > W_total）的场景下，LFU与LRU在稳态下的字节命中率理论上均为100%，因此LFU相比LRU的稳态命中率增益 ΔH_s
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+在缓存容量远超工作集大小（C > W_total）的场景下，LFU与LRU在稳态下的字节命中率理论上均为100%，因此LFU相比LRU的稳态命中率增益 ΔH_steady = 0%；LFU的优势仅体现在瞬态响应或缓存未饱和时，本题稳态下增益上限为0个百分点。
+
+## Corrected Claim
+
+在缓存容量远超工作集大小（C > W_total）的场景下，LFU与LRU在稳态下的字节命中率理论上均为100%，因此LFU相比LRU的稳态命中率增益 ΔH_steady = 0%；LFU的优势仅体现在瞬态响应或缓存未饱和时，本题稳态下增益上限为0个百分点。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（父节点核心结论是稳态增益为0，并指出优势仅存在于瞬态。唯一的子节点专门量化了瞬态优势并确认稳态下消失，逻辑上与父节点的主张完全一致且互补。由于只有一个子节点，不存在正交性或冗余问题。虽然父节点提到了'C > W_total'这一前提，但子节点聚焦于解释'为什么稳态增益为0'（即瞬态优势在稳态消失），覆盖了因果逻辑的关键方面。）
+
+## Search Query
+
+LFU vs LRU steady state hit rate when cache capacity exceeds working set size

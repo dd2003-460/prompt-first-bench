@@ -1,0 +1,20 @@
+# N137: 1×NVIDIA L40S 的 TDP 为 350W，相比 2×RTX 4090 (900W) 在功耗上具有显著优势，单卡散热设计更简单，无需复杂的风道规划或液
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N34
+
+## Claim
+
+1×NVIDIA L40S 的 TDP 为 350W，相比 2×RTX 4090 (900W) 在功耗上具有显著优势，单卡散热设计更简单，无需复杂的风道规划或液冷辅助，运维成本更低。
+
+## Corrected Claim
+
+1×NVIDIA L40S 的 TDP 为 350W，相比 2×RTX 4090 (900W) 在功耗上具有显著优势，单卡散热设计更简单，无需复杂的风道规划或液冷辅助，运维成本更低。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：NVIDIA L40S TDP 确为 350W，RTX 4090 TDP 为 450W，2 张合计 900W，数值量级与对比逻辑自洽。

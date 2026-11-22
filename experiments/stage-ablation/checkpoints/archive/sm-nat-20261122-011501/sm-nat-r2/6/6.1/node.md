@@ -1,0 +1,24 @@
+# N64: 截断均值修正项：由于 Pareto(α=1.1) 尾部极重，若存在最大对象大小 S_max（如 100MB），则截断均值 E[S|S<S_max] = [α *
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N20
+
+## Claim
+
+截断均值修正项：由于 Pareto(α=1.1) 尾部极重，若存在最大对象大小 S_max（如 100MB），则截断均值 E[S|S<S_max] = [α * s_min / (α-1)] * [1 - (s_min/S_max)^(α-1)] / [1 - (s_min/S_max)^α]，代入 s_min=1KB, S_max=100MB 得 E[S] ≈ 10.2KB，比无截断值 11KB 低约 7.3%。
+
+## Corrected Claim
+
+截断均值修正项：由于 Pareto(α=1.1) 尾部极重，若存在最大对象大小 S_max（如 100MB），则截断均值 E[S|S<S_max] = [α * s_min / (α-1)] * [1 - (s_min/S_max)^(α-1)] / [1 - (s_min/S_max)^α]，代入 s_min=1KB, S_max=100MB 得 E[S] ≈ 10.2KB，比无截断值 11KB 低约 7.3%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布截断均值公式正确，代入参数计算结果与陈述一致（10.2KB vs 11KB，降幅约7.3%）
+
+## Search Query
+
+truncated pareto distribution mean formula maximum value correction

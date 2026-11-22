@@ -1,0 +1,17 @@
+{
+  "id": "N191",
+  "claim": "高更新率下的非线性折损：当 τ_obj=10天 (更新率 10%/天) 时，若更新对象集中在头部热点（Top 10%），则头部对象的缓存驻留时间 τ_res 受限于更新间隔而非访问间隔，导致头部命中率 H_head 从静态最优值下降至 H_head * (1 - e^(-1/τ_obj))，整体命中率下界需乘以加权因子 W = (Σ R_i S_i / Σ R_j S_j) * (1 - P(update|hot))。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]公式中的加权因子 W 定义存在逻辑冗余和量纲/语义混淆：(Σ R_i S_i / Σ R_j S_j) 在求和索引 i 和 j 遍历同一集合时恒等于 1，导致 W 退化为 (1 - P(update|hot))，这与前文描述的“头部命中率下降至 H_head * (1 - e^(-1/τ_obj))”在数学形式和物理意义上不一致（一个是指数衰减，一个是线性概率扣除），且未明确 R_i, S_i 的具体定义，导致公式缺乏可操作性和自洽性。 | 先验知识/题面给定，逻辑校验发现公式内部存在恒等式冗余及与前述衰减模型的不一致，无法排除定义错误，故降级。",
+  "corrected_claim": "高更新率下的非线性折损：当 τ_obj=10天 (更新率 10%/天) 时，若更新对象集中在头部热点（Top 10%），则头部对象的缓存驻留时间 τ_res 受限于更新间隔而非访问间隔，导致头部命中率 H_head 从静态最优值下降至 H_head * (1 - e^(-1/τ_obj))。整体命中率需根据头部流量占比及更新概率进行加权修正，具体因子需明确 R_i, S_i 定义以消除恒等式冗余。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N69"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "high update rate cache hit rate degradation hot objects",
+  "retrieval_sources": []
+}

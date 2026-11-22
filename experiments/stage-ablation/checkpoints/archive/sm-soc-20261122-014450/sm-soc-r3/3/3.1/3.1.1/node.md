@@ -1,0 +1,29 @@
+# N58: 在二手非标品市场中，买家对商品缺陷概率的后验估计 P(Defective|Price_Drop) 相对于 P(Defective|Price_Stable) 的
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N12
+
+## Claim
+
+在二手非标品市场中，买家对商品缺陷概率的后验估计 P(Defective|Price_Drop) 相对于 P(Defective|Price_Stable) 的增量 ΔP_defect 具体数值范围（通常文献显示为 10%-30% 的相对提升），以及该增量如何直接转化为风险溢价 R_risk 的线性系数 γ 的量化估计值（γ ≈ 0.05-0.15）。
+
+## Corrected Claim
+
+在二手非标品市场中，买家对商品缺陷概率的后验估计 P(Defective|Price_Drop) 通常高于 P(Defective|Price_Stable)，且该增量可转化为风险溢价 R_risk 的线性系数 γ，但具体数值范围（如 10%-30% 或 0.05-0.15）缺乏通用文献支持，需依赖特定市场实证数据。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值范围（ΔP_defect 10%-30%，γ 0.05-0.15），属于二手非标品市场的特定经济/行为学参数，无法从第一性原理或数学公理中严格推导得出，且参考来源仅涉及贝叶斯后验概率的通用定义，未提供该特定市场场景下的实证数据支持。 | 逻辑上，价格下降作为缺陷信号导致后验概率上升及风险溢价线性增加符合贝叶斯推断与风险定价的基本直觉，量纲与方向自洽；但参考来源[1][2]仅解释后验概率概念，与该具体市场事实主题无关，无法提供数值支持，故依据经验事实排除条款降级。
+
+## Search Query
+
+used car market lemon problem price drop signal effect defect probability increase percentage
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1885401977518810245&rut=bdd55bf1d3707a25a0d65f95887e45cb6f756d129012a0a3b7981bf0e15f94d2', 'type': 'ddg', 'title': '什么是先验，后验 - 知乎 - 知乎专栏'}
+- {'url': 'https://zh.wikipedia.org/wiki/%E5%90%8E%E9%AA%8C%E6%A6%82%E7%8E%87&rut=4cdc3c581397a66d57e1b6c3caf763c8a1fcda10922d24409ea1044a524f0dad', 'type': 'ddg', 'title': '后验概率 - 维基百科，自由的百科全书'}

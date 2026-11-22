@@ -1,0 +1,24 @@
+# N265: ‘高挂价包含稀缺暗示’的前提验证：在二手非标品市场中，高挂价主要反映卖家主观估值偏差或信息不对称，而非客观稀缺性。若数据表明高挂价商品的库存深度（Invento
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N95
+
+## Claim
+
+‘高挂价包含稀缺暗示’的前提验证：在二手非标品市场中，高挂价主要反映卖家主观估值偏差或信息不对称，而非客观稀缺性。若数据表明高挂价商品的库存深度（Inventory Depth）与市场价商品无显著差异（即 P(Inventory>1 | HighPrice) ≈ P(Inventory>1 | MarketPrice)），则‘高挂价=稀缺暗示’不成立，β_interaction 应接近 0，稀缺信号的 35% 缩短效应独立于价格效应存在。
+
+## Corrected Claim
+
+在二手非标品市场中，若高挂价商品的库存深度与市场价商品无显著差异，则‘高挂价=稀缺暗示’的前提不成立，此时稀缺信号对交易时长的影响应独立于价格效应存在，但具体效应量级需实证数据支持。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性统计结论（如'35% 缩短效应'、'β_interaction 应接近 0'）以及特定市场行为假设，这些属于经验事实，无法仅从第一性原理推导，且缺乏数据支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值及统计显著性）
+
+## Search Query
+
+relationship between asking price premium and inventory depth in second-hand marketplaces

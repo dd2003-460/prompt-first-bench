@@ -1,0 +1,24 @@
+# N7: Pareto(α=1.1) 分布的二阶矩 E[S^2] 是否有限：由于 α ≤ 2，E[S^2] = ∞，导致 LRU 命中率的方差极大，稳态假设在理论意义上不
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+Pareto(α=1.1) 分布的二阶矩 E[S^2] 是否有限：由于 α ≤ 2，E[S^2] = ∞，导致 LRU 命中率的方差极大，稳态假设在理论意义上不成立，需引入截断或有限样本修正
+
+## Corrected Claim
+
+Pareto(α=1.1) 分布的二阶矩 E[S^2] 是否有限：由于 α ≤ 2，E[S^2] = ∞，导致 LRU 命中率的方差极大，稳态假设在理论意义上不成立，需引入截断或有限样本修正
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别针对父节点提出的两个修正方向（物理截断和有限样本）进行了具体量化，两者解决机制不同（一个是边界截断，一个是统计极值），互不重叠且共同覆盖了‘理论不成立需修正’的所有主要工程解决路径。）
+
+## Search Query
+
+Pareto distribution second moment infinite alpha less than 2

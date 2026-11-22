@@ -1,0 +1,20 @@
+# N104: Mac Studio M2 Ultra 192GB 单卡运行 Qwen3-27B (BF16) 的 OPEX 电力成本：P_gpu = 200W (估算), P
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N15
+
+## Claim
+
+Mac Studio M2 Ultra 192GB 单卡运行 Qwen3-27B (BF16) 的 OPEX 电力成本：P_gpu = 200W (估算), P_auxiliary ≈ 50W, P_total = 250W = 0.25 kW; T_hours = 8760h; E_unit_price = $0.10/kWh; OPEX_power = 0.25 * 8760 * 0.10 ≈ $219.00/年。
+
+## Corrected Claim
+
+Mac Studio M2 Ultra 192GB 单卡运行 Qwen3-27B (BF16) 的 OPEX 电力成本：P_gpu = 200W (估算), P_auxiliary ≈ 50W, P_total = 250W = 0.25 kW; T_hours = 8760h; E_unit_price = $0.10/kWh; OPEX_power = 0.25 * 8760 * 0.10 ≈ $219.00/年。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：功率估算（200W+50W=250W）符合M2 Ultra Mac Studio典型功耗量级，电费计算公式 0.25kW * 8760h * $0.10/kWh = $219.00 数学推导正确。

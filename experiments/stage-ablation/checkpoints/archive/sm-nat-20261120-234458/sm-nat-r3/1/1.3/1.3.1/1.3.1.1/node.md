@@ -1,0 +1,29 @@
+# N84: Pareto(α=1.1) 分布下，Top 10% 热度对象的平均大小 S_hot 的精确数值：S_hot = [∫_{q_top10%}^{q_max} E[
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N26, N27, N28
+
+## Claim
+
+Pareto(α=1.1) 分布下，Top 10% 热度对象的平均大小 S_hot 的精确数值：S_hot = [∫_{q_top10%}^{q_max} E[S|q] f_Q(q) dq] / P(Q ∈ Top 10%)，其中 E[S|q] 需通过 Copula 模型（如 Clayton Copula, ρ=-0.3）计算条件期望，预期值约为 2.5-4.0 MB（显著低于全局均值 7.49 MB）
+
+## Corrected Claim
+
+在Pareto(α=1.1)分布下，Top 10%热度对象的平均大小S_hot需通过Copula模型计算条件期望，其具体数值（如2.5-4.0 MB）依赖于特定的数据分布假设和模型参数，无法仅由Pareto分布性质直接确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（2.5-4.0 MB）和特定的模型参数（Clayton Copula, ρ=-0.3），这些无法从Pareto分布的第一性原理推导得出，且参考来源中完全未提及文件大小、Copula模型或具体数值范围，属于缺乏来源支持的经验事实。 | 经验事实，逻辑自洽但缺来源支持（来源[1][2]仅定义Pareto分布及原理，未涉及具体文件大小数值或Copula模型计算结果）
+
+## Search Query
+
+Pareto distribution conditional expectation size given rank copula model
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Pareto_distribution&rut=3541c8b3f71fd194fb160deaa36ef23bcf3225d4a84bcccff152370e666d69b5', 'type': 'ddg', 'title': 'Pareto distribution - Wikipedia'}
+- {'url': 'https://en.wikipedia.org/wiki/Pareto_principle&rut=62c06c48af6a90b33651b59158134de65e284e39c1e058a4a7396a23303ae5b2', 'type': 'ddg', 'title': 'Pareto principle - Wikipedia'}

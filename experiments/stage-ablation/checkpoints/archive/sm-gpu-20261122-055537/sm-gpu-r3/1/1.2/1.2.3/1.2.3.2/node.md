@@ -1,0 +1,24 @@
+# N147: NVIDIA L40S 在主流云服务商（如AWS, GCP, Azure）或专业GPU租赁平台（如Vast.ai, RunPod）的按需租赁价格约为 $0.80
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N42
+
+## Claim
+
+NVIDIA L40S 在主流云服务商（如AWS, GCP, Azure）或专业GPU租赁平台（如Vast.ai, RunPod）的按需租赁价格约为 $0.80 - $1.20 USD/hour，包月价格约为 $1,500 - $2,000 USD/month。
+
+## Corrected Claim
+
+NVIDIA L40S 在主流云服务商或专业GPU租赁平台的按需租赁价格通常在 $0.80 - $1.50 USD/hour 区间波动，包月价格约为 $1,500 - $2,500 USD/month，具体价格取决于服务商、区域及市场供需情况。
+
+## Evidence
+
+[质询]价格随时间波动剧烈，且不同云服务商（AWS/GCP/Azure）与租赁平台（Vast.ai/RunPod）定价策略差异大，$0.80-$1.20/hour 可能偏低或过时，缺乏实时数据支持。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+NVIDIA L40S rental price per hour 2024

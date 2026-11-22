@@ -1,0 +1,24 @@
+# N142: INT8 精度的 QF 值估算：基于 N13 的描述，INT8 (GPTQ/AWQ) 在复杂推理任务上准确率下降可能在 2-5% 之间，故 QF_INT8 取值
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N32
+
+## Claim
+
+INT8 精度的 QF 值估算：基于 N13 的描述，INT8 (GPTQ/AWQ) 在复杂推理任务上准确率下降可能在 2-5% 之间，故 QF_INT8 取值范围 [0.95, 0.98] [待核验]，需区分不同量化算法的 QF 差异。
+
+## Corrected Claim
+
+INT8 精度的 QF 值估算：基于 N13 的描述，INT8 (GPTQ/AWQ) 在复杂推理任务上准确率通常会有所下降，QF_INT8 通常小于 1.0，具体数值需根据量化算法和任务基准测试确定，一般认为在 0.95 至 0.98 之间，但需区分不同量化算法的 QF 差异。
+
+## Evidence
+
+[质询]该陈述属于经验事实（具体量化算法在特定任务上的准确率下降幅度），无法从第一性原理推导。且不同量化算法（GPTQ vs AWQ）及不同模型/任务下的QF值差异较大，[0.95, 0.98] 的范围缺乏具体实验数据支撑，存在以偏概全或数值量级不准的风险。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，无法验证具体数值范围）。
+
+## Search Query
+
+Qwen3 INT8 GPTQ AWQ accuracy benchmark comparison

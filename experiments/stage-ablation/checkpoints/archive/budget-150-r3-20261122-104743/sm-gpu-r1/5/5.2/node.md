@@ -1,0 +1,29 @@
+# N26: 数据中心级GPU候选集：NVIDIA H100（80GB HBM3，$25000-$30000）、NVIDIA A100（80GB HBM2e，$15000-$
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N5
+
+## Claim
+
+数据中心级GPU候选集：NVIDIA H100（80GB HBM3，$25000-$30000）、NVIDIA A100（80GB HBM2e，$15000-$20000）、AMD MI300X（192GB HBM3，$15000-$20000），单卡即可容纳BF16 27B模型并有充足KV Cache空间
+
+## Corrected Claim
+
+数据中心级GPU候选集：NVIDIA H100（80GB HBM3）、NVIDIA A100（80GB HBM2e）、AMD MI300X（192GB HBM3），单卡可容纳BF16 27B模型权重，剩余显存可用于KV Cache（具体空间充足性取决于上下文长度）。
+
+## Evidence
+
+[质询]价格区间（$25000-$30000等）属于高度波动的市场经验事实，且不同时期、不同渠道（云租赁vs硬件采购）差异巨大，参考来源未提供价格数据，无法验证具体数值；此外，'单卡容纳27B模型'在长上下文场景下KV Cache空间可能并不'充足'，取决于具体序列长度。 | 来源[2]直接支持H100拥有80GB HBM3内存，逻辑上27B BF16模型权重约54GB，剩余26GB可用于KV Cache，技术可行性成立；但价格数据无来源支持，且为经验事实，故降级。
+
+## Search Query
+
+datacenter GPU H100 A100 MI300X price VRAM 2024
+
+## Retrieval Sources
+
+- {'url': 'https://www.nvidia.com/en-us/data-center/h100/&rut=236026056c373303bdeaa3cab55b68e98806c1c9a0f424eedba4b54c6ad71c79', 'type': 'ddg', 'title': 'H100 Gpu | Nvidia'}
+- {'url': 'https://www.techpowerup.com/gpu-specs/h100-sxm5-80-gb.c3900&rut=a3f783cb1be0424d930a4862b4962f967adbea139d94991b1788f15a1b49ec0e', 'type': 'ddg', 'title': 'NVIDIA H100 SXM5 80 GB Specs | TechPowerUp GPU Database'}

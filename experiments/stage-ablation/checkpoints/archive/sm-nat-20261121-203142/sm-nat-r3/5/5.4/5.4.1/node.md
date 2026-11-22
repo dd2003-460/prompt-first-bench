@@ -1,0 +1,24 @@
+# N72: 折损模型适用性边界：在对象更新率 u=0.01/day 且更新事件独立（Poisson过程）时，LRU 命中率折损 δ ≈ 1 - u * (T_residen
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N24
+
+## Claim
+
+折损模型适用性边界：在对象更新率 u=0.01/day 且更新事件独立（Poisson过程）时，LRU 命中率折损 δ ≈ 1 - u * (T_residence / L_object) 的误差界为 <5%；当 u > 0.1/day 或更新存在时间相关性（如批量发布）时，模型失效，需引入版本控制修正项，此时折损 δ < 1 - u * (T_residence / L_object)，具体衰减系数需通过仿真标定 [待核验]
+
+## Corrected Claim
+
+在对象更新率较低且更新事件独立时，LRU 命中率折损可近似为 δ ≈ 1 - u * (T_residence / L_object)；当更新率较高或存在时间相关性时，该线性近似失效，实际折损 δ 小于该近似值，具体衰减系数需通过仿真标定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（u=0.01/day, u>0.1/day）和误差界（<5%），这些属于特定系统或仿真环境下的经验事实，无法从第一性原理严格推导，且缺乏来源支持其具体数值的有效性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Cache invalidation overhead update rate LRU error bound Poisson process

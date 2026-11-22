@@ -1,0 +1,24 @@
+# N257: Mac Studio M3 Ultra 192GB 配置的官方起售价为 $5,999 [待核验]，较M2 Ultra贵 $2,000（+50%），若M3 Ult
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N90
+
+## Claim
+
+Mac Studio M3 Ultra 192GB 配置的官方起售价为 $5,999 [待核验]，较M2 Ultra贵 $2,000（+50%），若M3 Ultra性能提升仅20-30%，则其单位性能成本（$/perf）反而高于M2 Ultra，导致性价比排序下降。
+
+## Corrected Claim
+
+Mac Studio M3 Ultra 192GB 配置的官方起售价据称约为 $5,999，较M2 Ultra显著涨价。若M3 Ultra性能提升幅度低于价格涨幅（例如仅20-30%），则其单位性能成本（$/perf）将高于M2 Ultra，导致性价比排序下降。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件价格（$5,999）和性能提升幅度（20-30%），属于经验事实。由于检索失败，无法验证M3 Ultra 192GB的具体起售价是否确为$5,999，也无法确认M2 Ultra的基准价格及M3 Ultra的实际性能提升比例是否严格落在20-30%区间。若实际价格或性能数据有偏差，结论可能不成立。 | 经验事实，逻辑自洽但缺来源支持。数学推导部分（若价格+50%且性能+20-30%，则单位性能成本上升）在逻辑上是成立的，但前提数据（价格、性能提升率）无法通过外部来源验证。
+
+## Search Query
+
+Mac Studio M3 Ultra 192GB price release date

@@ -1,0 +1,20 @@
+# N644: 2x H100 TP=2 下，每 token All-Reduce 数据量同 N339 为 1 MB；通信延迟 = 1 MB / 540 GB/s ≈ 0.00
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N198
+
+## Claim
+
+2x H100 TP=2 下，每 token All-Reduce 数据量同 N339 为 1 MB；通信延迟 = 1 MB / 540 GB/s ≈ 0.0018 ms；若单 token 生成时间为 10 ms (H100 高算力)，通信占比 0.018%，证实 N198 结论：互联非瓶颈
+
+## Corrected Claim
+
+2x H100 TP=2 下，每 token All-Reduce 数据量同 N339 为 1 MB；通信延迟 = 1 MB / 540 GB/s ≈ 0.0018 ms；若单 token 生成时间为 10 ms (H100 高算力)，通信占比 0.018%，证实 N198 结论：互联非瓶颈
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：1MB/540GB/s ≈ 0.0018ms，占比0.018%计算正确，符合H100 NVLink互联性能常识

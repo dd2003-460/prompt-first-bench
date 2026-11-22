@@ -1,0 +1,20 @@
+# N146: 截断阈值对总大小 S_total 的敏感性：若将最大对象大小截断在 100MB，S_total_truncated = S_total * (1 - (100M
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N54
+
+## Claim
+
+截断阈值对总大小 S_total 的敏感性：若将最大对象大小截断在 100MB，S_total_truncated = S_total * (1 - (100MB/x_max)^{α-1}/(α-1))；由于 α-1=0.1，截断误差项 (100MB/x_max)^0.1 在 x_max 足够大时趋近于 1，导致 S_total 估算偏差可能超过 5%，需引入 x_max 参数。
+
+## Corrected Claim
+
+截断阈值对总大小 S_total 的敏感性：若将最大对象大小截断在 100MB，S_total_truncated = S_total * (1 - (100MB/x_max)^{α-1}/(α-1))；由于 α-1=0.1，截断误差项 (100MB/x_max)^0.1 在 x_max 足够大时趋近于 1，导致 S_total 估算偏差可能超过 5%，需引入 x_max 参数。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于幂律分布截断积分推导，公式结构正确，且当 α-1=0.1 时，截断项 (100MB/x_max)^0.1 确实趋近于 1，导致尾部截断对总大小估算产生显著影响，逻辑自洽。

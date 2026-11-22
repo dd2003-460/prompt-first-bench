@@ -1,0 +1,20 @@
+# N148: β_platform 的估计值需通过 Bootstrap 方法计算 95% 置信区间：从 A/B 测试数据中有放回地抽样 B=1000 次，每次计算 β_pla
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N50
+
+## Claim
+
+β_platform 的估计值需通过 Bootstrap 方法计算 95% 置信区间：从 A/B 测试数据中有放回地抽样 B=1000 次，每次计算 β_platform*，若置信区间下限 > 0.2，则支持平台算法驱动假设。
+
+## Corrected Claim
+
+β_platform 的估计值需通过 Bootstrap 方法计算 95% 置信区间：从 A/B 测试数据中有放回地抽样 B=1000 次，每次计算 β_platform*，若置信区间下限 > 0.2，则支持平台算法驱动假设。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

@@ -1,0 +1,20 @@
+# N116: CTR_high 的品类标准化：不同品类（如手机 vs 图书）的基线 CTR 差异巨大，需计算标准化 CTR $CTR_{std} = CTR_{high} /
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N46
+
+## Claim
+
+CTR_high 的品类标准化：不同品类（如手机 vs 图书）的基线 CTR 差异巨大，需计算标准化 CTR $CTR_{std} = CTR_{high} / CTR_{category\_baseline}$，仅当 $CTR_{std} > 1.1$ 时，才能认为高挂价带来了超额咨询，排除品类固有属性影响。
+
+## Corrected Claim
+
+CTR_high 的品类标准化：不同品类（如手机 vs 图书）的基线 CTR 差异巨大，需计算标准化 CTR $CTR_{std} = CTR_{high} / CTR_{category\_baseline}$，仅当 $CTR_{std} > 1.1$ 时，才能认为高挂价带来了超额咨询，排除品类固有属性影响。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：品类基线差异是推荐系统常识，标准化CTR（CTR/Baseline）是消除品类偏差的标准做法，阈值1.1作为经验值在逻辑上自洽且量级合理。

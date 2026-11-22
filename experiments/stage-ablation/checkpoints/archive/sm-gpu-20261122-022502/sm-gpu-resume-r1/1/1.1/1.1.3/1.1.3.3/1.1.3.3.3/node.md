@@ -1,0 +1,24 @@
+# N450: N139 中声称的 '0.5-1.0 GB' 额外开销在 32K 上下文场景下偏高，实际由 N338 (0.3GB) + N339 (0.25GB) + KV 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N139, N140, N141
+
+## Claim
+
+N139 中声称的 '0.5-1.0 GB' 额外开销在 32K 上下文场景下偏高，实际由 N338 (0.3GB) + N339 (0.25GB) + KV Cache 对齐碎片 (约 0.1-0.2GB) 构成，总非权重开销中不可压缩部分修正为约 0.65-0.75 GB，剩余 0.25-0.35 GB 为 KV Cache 动态分配预留，需从总显存中扣除。
+
+## Corrected Claim
+
+N139 中声称的 '0.5-1.0 GB' 额外开销在 32K 上下文场景下偏高，实际由 N338 (0.3GB) + N339 (0.25GB) + KV Cache 对齐碎片 (约 0.1-0.2GB) 构成，总非权重开销中不可压缩部分修正为约 0.65-0.75 GB，剩余 0.25-0.35 GB 为 KV Cache 动态分配预留，需从总显存中扣除。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值加和（0.3+0.25+0.1~0.2=0.65~0.75）自洽，且符合LLM推理显存开销的工程经验量级。
+
+## Search Query
+
+LLM inference memory overhead breakdown non-weight components

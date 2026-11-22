@@ -1,0 +1,24 @@
+# N338: Qwen3-27B 在 32K 上下文下的 KV Cache 精确占用量计算：KV_cache_size = 2 (K+V) × n_layers × d_he
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N112
+
+## Claim
+
+Qwen3-27B 在 32K 上下文下的 KV Cache 精确占用量计算：KV_cache_size = 2 (K+V) × n_layers × d_head × n_heads × seq_len × bytes_per_token。需获取 Qwen3-27B 的 n_layers, d_head, n_heads 具体数值以验证 N112 中 4.09GB 的估算是否准确（若为 FP16 则需乘 2，INT8 则乘 1）。
+
+## Corrected Claim
+
+Qwen3-27B 在 32K 上下文下的 KV Cache 占用量需依据其具体架构参数（n_layers, d_head, n_heads）及精度格式（FP16/INT8）进行计算，当前缺乏确切参数来源以验证 4.09GB 估算的准确性。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（Qwen3-27B 的 n_layers, d_head, n_heads 等架构细节）及特定条件下的计算结果（4.09GB），属于经验事实，无法仅从第一性原理推导得出，且缺乏来源支持以确认具体数值。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+Qwen3-27B architecture config n_layers num_attention_heads head_dim

@@ -1,0 +1,24 @@
+# N183: RTX 4090 上 FP8 推理的可行性替代路径：若坚持 FP8 精度以平衡质量与速度，需评估将 KV Cache 量化至 INT8 或 FP8 以进一步降低
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N44
+
+## Claim
+
+RTX 4090 上 FP8 推理的可行性替代路径：若坚持 FP8 精度以平衡质量与速度，需评估将 KV Cache 量化至 INT8 或 FP8 以进一步降低显存占用（KV Cache 从 1.0 GB 降至 0.5 GB），但总需求 31.55 GB 仍 > 24 GB，故单卡方案彻底排除；唯一可行路径为双卡 FP8（48 GB 总显存）或切换至 48GB+ 显存卡（如 L40S/A6000）
+
+## Corrected Claim
+
+RTX 4090 上 FP8 推理的可行性替代路径：若坚持 FP8 精度以平衡质量与速度，需评估将 KV Cache 量化至 INT8 或 FP8 以进一步降低显存占用（KV Cache 从 1.0 GB 降至 0.5 GB），但总需求 31.55 GB 仍 > 24 GB，故单卡方案彻底排除；唯一可行路径为双卡 FP8（48 GB 总显存）或切换至 48GB+ 显存卡（如 L40S/A6000）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：24GB < 31.55GB 导致单卡不可行，48GB > 31.55GB 导致双卡可行，数学推导自洽。
+
+## Search Query
+
+vLLM FP8 KV cache quantization memory savings Qwen3

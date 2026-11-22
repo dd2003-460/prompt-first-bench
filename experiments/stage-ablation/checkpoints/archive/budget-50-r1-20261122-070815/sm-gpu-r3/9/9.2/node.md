@@ -1,0 +1,30 @@
+# N142: Qwen3-27B 在 AWQ INT4 量化下 MMLU 基准测试的具体得分及相对于 BF16 的绝对下降值（验证 N33 中 1-3 个百分点的说法是否准确
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N33
+
+## Claim
+
+Qwen3-27B 在 AWQ INT4 量化下 MMLU 基准测试的具体得分及相对于 BF16 的绝对下降值（验证 N33 中 1-3 个百分点的说法是否准确）
+
+## Corrected Claim
+
+Qwen3-27B 在 AWQ INT4 量化下的 MMLU 具体得分及相对于 BF16 的绝对下降值需查阅官方技术报告或独立评测数据，现有来源未提供确切数值。
+
+## Evidence
+
+[质询]参考来源均指向 'Qwen3.6-27B' 而非 'Qwen3-27B'，且未提供 MMLU 基准测试的具体得分及相对于 BF16 的绝对下降值，无法直接验证 N33 中 '1-3 个百分点' 的说法。 | 来源 [1][2][3] 均讨论 Qwen3.6-27B-AWQ-INT4，未提及 Qwen3-27B 的 MMLU 具体分数或量化损失数值，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+Qwen3-27B AWQ INT4 MMLU score degradation vs BF16
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_00778/article/details/170514051&rut=8018f922e4a616afe474624869142cbde02a3a82308f40ea736bf74588b132a5', 'type': 'ddg', 'title': '2026旗舰开源多模态大模型Qwen3.6-27B-AWQ-INT4完全解读：27B稠密模型+INT4量化，为什么它能打'}
+- {'url': 'https://blog.csdn.net/gitblog_01154/article/details/170560848&rut=2e722f00f24f24b41070b73cb42814f8a13d0c0f9c5d2d67bff5164227649528', 'type': 'ddg', 'title': 'Qwen3.6-27B-AWQ-INT4基准测试报告深度解析：SWE-bench 77.2分，对标Claude 4.5'}
+- {'url': 'https://devpress.csdn.net/v1/article/detail/144363894&rut=564913a26628397b2a12ee98cca8713cf2c13f41268294bf2a29e46e501519a2', 'type': 'ddg', 'title': '技术方案：Qwen3.6-27B-AWQ-INT4的高效部署与量化优化实践'}

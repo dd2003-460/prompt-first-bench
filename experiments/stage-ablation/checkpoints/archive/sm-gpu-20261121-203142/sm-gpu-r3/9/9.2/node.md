@@ -1,0 +1,24 @@
+# N115: Apple M2 Ultra 运行 27B 模型的 5 年 TCO 估算：硬件成本约 $3,999 (Mac Studio M2 Ultra 配置) + 电力成
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N32, N33, N34
+
+## Claim
+
+Apple M2 Ultra 运行 27B 模型的 5 年 TCO 估算：硬件成本约 $3,999 (Mac Studio M2 Ultra 配置) + 电力成本 (200W 平均功耗 * 24h * 365d * 5y * $0.10/kWh ≈ $876) ≈ $4,875；对比 2x RTX 4090 ($3,200 + $1,000 电力) ≈ $4,200，M2 Ultra 在 5 年 TCO 上略高但无多卡互联开销。
+
+## Corrected Claim
+
+Apple M2 Ultra 运行 27B 模型的 5 年 TCO 估算：硬件成本约 $3,999 (Mac Studio M2 Ultra 配置) + 电力成本 (200W 平均功耗 * 24h * 365d * 5y * $0.10/kWh ≈ $876) ≈ $4,875；对比 2x RTX 4090 ($3,200 + $1,000 电力) ≈ $4,200，M2 Ultra 在 5 年 TCO 上略高但无多卡互联开销。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别计算了两种硬件方案的单位成本吞吐量（子节点1和2），并进行了量化敏感性分析以对比不同精度下的表现（子节点3）。三者逻辑清晰，分别对应基准对比和变量敏感性，无重叠或矛盾。父节点中提到的'无多卡互联开销'在子节点3中通过稳定性风险（无ECC）进行了隐含的风险对冲讨论，虽未直接复述互联成本，但已覆盖关键决策维度。）
+
+## Search Query
+
+Mac Studio M2 Ultra price 200W power consumption 5 year TCO calculation

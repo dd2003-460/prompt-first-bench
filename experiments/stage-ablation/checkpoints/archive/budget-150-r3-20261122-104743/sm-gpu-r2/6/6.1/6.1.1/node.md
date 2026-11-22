@@ -1,0 +1,30 @@
+# N168: RTX 4090 价格波动数据：2024 Q3 均价 $1,800，2024 Q4 均价 $2,000，波动幅度 +11%，对 3 年 TCO 中 CapEx 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N30
+
+## Claim
+
+RTX 4090 价格波动数据：2024 Q3 均价 $1,800，2024 Q4 均价 $2,000，波动幅度 +11%，对 3 年 TCO 中 CapEx 部分影响约 +11% (假设折旧 3 年，OpEx 不变)
+
+## Corrected Claim
+
+RTX 4090 价格在 2024 年 Q3 至 Q4 期间出现上涨，若均价从约 $1,800 涨至 $2,000（涨幅约 11%），在 3 年折旧且 OpEx 不变的假设下，对 3 年 TCO 中 CapEx 部分的影响约为 +11%。
+
+## Evidence
+
+[质询]具体季度均价数值（$1,800/$2,000）属于经验事实，参考来源仅提供了价格趋势分析的链接和标题，未提供具体的季度均价数据，无法直接验证数值的准确性；此外，RTX 4090 在 2024 年 Q3/Q4 的实际市场均价受供需波动影响较大，不同渠道（如电商、矿场、二手）价格差异显著，单一均价可能具有误导性。 | 逻辑推导成立（(2000-1800)/1800 ≈ 11.1%，且若 OpEx 不变，CapEx 涨幅即 TCO 中 CapEx 部分涨幅），但具体价格数值为经验事实，参考来源 [1][2][3] 仅涉及价格趋势分析或报价列表，未直接提供 2024 Q3/Q4 的具体均价数据，缺乏直接来源支持。
+
+## Search Query
+
+RTX 4090 price history 2024 Q3 Q4 average market price
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_42587866/article/details/152242428&rut=abbb03db0183a7478bea14462cf0cf15bf8ac9e4a6e7d8a1a5c2364dcce2e48f', 'type': 'ddg', 'title': 'Rxt4090显卡的价格走势预测 - Csdn博客'}
+- {'url': 'https://detail.zol.com.cn/vga/s10074/&rut=45365bcb1a51864847485ef296dd3f1a803dcdcc731a24122b9ca70268b194e1', 'type': 'ddg', 'title': '【Rtx 4090显卡】Rtx 4090显卡报价及图片大全-zol中关村在线'}
+- {'url': 'https://www.gpuxianka.com/desktop-cards/nvidia/rtx-4090-price.html&rut=569d1ede3e5a30c58ba124ac85b8606e17c26443b461887f28f0c88600bf952e', 'type': 'ddg', 'title': 'NVIDIA GeForce RTX 4090 24GB GDDR6X 价格分析_历史价格趋势_性价比评估 - GPU显卡库'}

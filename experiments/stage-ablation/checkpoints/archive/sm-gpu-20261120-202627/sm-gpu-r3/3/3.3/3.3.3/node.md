@@ -1,0 +1,24 @@
+# N76: Intel Gaudi 3 (96GB) 在 Qwen3-27B 上的显存带宽为 3728 GB/s，当前单卡采购均价约为 $10000-$12000 [待核验
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N18
+
+## Claim
+
+Intel Gaudi 3 (96GB) 在 Qwen3-27B 上的显存带宽为 3728 GB/s，当前单卡采购均价约为 $10000-$12000 [待核验：实时价格]，其 TDP 为 700W，oneAPI 软件栈对 Qwen 模型的支持需验证 [待核验：Gaudi 3 Qwen3 兼容性]。
+
+## Corrected Claim
+
+Intel Gaudi 3 (96GB) 在 Qwen3-27B 上的显存带宽约为 3.7 TB/s，当前单卡采购均价需实时查询（参考区间可能高于 $10000-$12000），其 TDP 为 700W，oneAPI 软件栈对 Qwen 模型的支持需验证。
+
+## Evidence
+
+[质询]Gaudi 3 的显存带宽通常标称为 3.7 TB/s (3700 GB/s)，3728 GB/s 这一具体数值缺乏官方规格表直接支持，可能存在精度或口径混淆；此外，$10000-$12000 的采购均价属于实时市场波动数据，且 Gaudi 3 作为较新硬件，其单卡价格通常高于此区间（往往在 $15k-$20k+ 或更高，取决于渠道和批量），该价格区间可能过时或偏低。 | 先验知识/题面给定，逻辑校验通过。Gaudi 3 的 96GB HBM2e 和 700W TDP 符合 Intel 官方发布规格，带宽量级合理；但具体带宽数值 3728 GB/s 和实时价格 $10k-$12k 属于经验事实且无来源支持，价格尤其存在不确定性，故降级。
+
+## Search Query
+
+Intel Gaudi 3 memory bandwidth TDP price Qwen support

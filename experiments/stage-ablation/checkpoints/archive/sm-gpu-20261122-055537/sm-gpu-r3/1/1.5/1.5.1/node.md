@@ -1,0 +1,24 @@
+# N50: Qwen3-27B 的精确参数量需确认：若为 27B 稠密参数，BF16 权重 = 27 * 10^9 * 2 bytes = 54 GB；若包含 Embedd
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+Qwen3-27B 的精确参数量需确认：若为 27B 稠密参数，BF16 权重 = 27 * 10^9 * 2 bytes = 54 GB；若包含 Embedding 和 LM Head 重复计算或 MoE 结构，实际字节数可能有 5%-10% 偏差，需查阅模型 config.json 确认 num_parameters
+
+## Corrected Claim
+
+Qwen3-27B 若为 27B 稠密参数，BF16 权重约为 54 GB；具体参数量及结构（如是否含 MoE 或重复计算）需查阅官方 config.json 确认，实际字节数可能存在偏差。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性参数（Qwen3-27B 的架构细节、参数量级及偏差范围），属于硬件/模型规格类经验事实，无法仅凭第一性原理严格推导，且缺乏外部来源支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+Qwen3-27B config.json num_parameters total size GB BF16

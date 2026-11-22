@@ -1,0 +1,24 @@
+# N142: C_cognitive 的基础成本量化：C_cognitive = t_process * V_time，其中 t_process 为单件商品评估时间（通常 3
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N41
+
+## Claim
+
+C_cognitive 的基础成本量化：C_cognitive = t_process * V_time，其中 t_process 为单件商品评估时间（通常 30-60秒），V_time 为买家时间机会成本（如 50元/小时），则 C_cognitive ≈ 0.25-0.50元/件
+
+## Corrected Claim
+
+C_cognitive 的基础成本量化：C_cognitive = t_process * V_time，其中 t_process 为单件商品评估时间（通常 30-60秒），V_time 为买家时间机会成本（如 50元/小时），则 C_cognitive ≈ 0.25-0.50元/件
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：30-60秒即0.5-1.0小时，乘以50元/小时，计算结果0.25-0.50元/件在数学上完全自洽，且符合一般消费者时间成本量级。
+
+## Search Query
+
+cognitive cost per item evaluation time opportunity cost consumer

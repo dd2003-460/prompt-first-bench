@@ -1,0 +1,24 @@
+# N238: ΔCS_buyer 的临界条件量化：ΔCS_buyer = ∫_{P_new}^{P_wtp} (Q_demand(P) - Q_supply(P)) dP；当
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N80
+
+## Claim
+
+ΔCS_buyer 的临界条件量化：ΔCS_buyer = ∫_{P_new}^{P_wtp} (Q_demand(P) - Q_supply(P)) dP；当 P_new 降至 P_wtp 分位数 Q25 以下时，ΔCS_buyer 显著为正；若 P_new 仍高于 Q50，则 ΔCS_buyer 可能为负或接近零。
+
+## Corrected Claim
+
+ΔCS_buyer 的临界条件量化：ΔCS_buyer = ∫_{P_new}^{P_wtp} (Q_demand(P) - Q_supply(P)) dP；当 P_new 降至 P_wtp 分位数 Q25 以下时，ΔCS_buyer 显著为正；若 P_new 仍高于 Q50，则 ΔCS_buyer 可能为负或接近零。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+consumer surplus change price intervention quantile threshold

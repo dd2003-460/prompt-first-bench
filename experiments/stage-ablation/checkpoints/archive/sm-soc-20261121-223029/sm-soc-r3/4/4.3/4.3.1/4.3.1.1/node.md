@@ -1,0 +1,24 @@
+# N249: 流量加权系数 k 对 48 小时咨询量恢复率 R_inquiry 的弹性系数 α：R_inquiry(k, ΔP) = R_base * (k^α) * (ΔP
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N83
+
+## Claim
+
+流量加权系数 k 对 48 小时咨询量恢复率 R_inquiry 的弹性系数 α：R_inquiry(k, ΔP) = R_base * (k^α) * (ΔP^β)，其中 α ∈ [0.5, 1.0]，需通过 A/B 测试数据估计 α 的具体数值。
+
+## Corrected Claim
+
+流量加权系数 k 对 48 小时咨询量恢复率 R_inquiry 的影响可通过弹性系数 α 建模，具体数值需通过 A/B 测试数据估计，当前缺乏可靠来源支持 α ∈ [0.5, 1.0] 的具体范围。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数范围（α ∈ [0.5, 1.0]）和特定的函数形式，属于经验事实。在缺乏任何外部来源支持的情况下，无法验证该弹性系数的具体数值范围是否准确，也无法排除其他函数形式或参数范围的可能性。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+traffic weighting coefficient k effect on inquiry recovery rate alpha elasticity

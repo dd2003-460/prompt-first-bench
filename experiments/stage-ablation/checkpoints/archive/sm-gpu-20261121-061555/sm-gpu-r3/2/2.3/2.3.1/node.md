@@ -1,0 +1,24 @@
+# N62: CUDA上下文及框架运行时基础开销：在vLLM/TensorRT-LLM等主流推理框架中，初始化CUDA Context、PyTorch运行时及基础算子库占用的
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N14
+
+## Claim
+
+CUDA上下文及框架运行时基础开销：在vLLM/TensorRT-LLM等主流推理框架中，初始化CUDA Context、PyTorch运行时及基础算子库占用的固定显存约为0.5-1.5GB，该值不随模型大小线性变化，但随GPU显存总量和驱动版本略有波动。
+
+## Corrected Claim
+
+CUDA上下文及框架运行时基础开销：在vLLM/TensorRT-LLM等主流推理框架中，初始化CUDA Context、PyTorch运行时及基础算子库占用的固定显存约为0.5-1.5GB，该值不随模型大小线性变化，但随GPU显存总量和驱动版本略有波动。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点正交性良好，分别针对vLLM和TensorRT-LLM两个不同框架，无重复或矛盾。但完备性不足：父节点提到该开销也随'GPU显存总量和驱动版本略有波动'，子节点未涵盖此维度；此外，父节点泛指'主流推理框架'，仅列出两个具体框架可能不够全面（如未提及SGLang等），且未解释为何TRT-LLM开销更高（虽在子节点中部分解释，但可更明确作为差异因素）。冗余性方面，两个子节点描述的是不同框架的独立基准值，并非同一参数的不同取值，故不冗余。）
+
+## Search Query
+
+vLLM CUDA context memory overhead GB

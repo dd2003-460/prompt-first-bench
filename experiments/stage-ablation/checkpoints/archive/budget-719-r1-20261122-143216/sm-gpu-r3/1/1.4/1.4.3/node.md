@@ -1,0 +1,20 @@
+# N52: FP8/INT8 量化对 KV Cache 显存占用的影响机制：若 KV Cache 也量化为 FP8/INT8，32K 上下文下的 KV 显存从 BF16 的
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N9
+
+## Claim
+
+FP8/INT8 量化对 KV Cache 显存占用的影响机制：若 KV Cache 也量化为 FP8/INT8，32K 上下文下的 KV 显存从 BF16 的约 10-15 GB 降至 5-7.5 GB，总显存需求下限从 60-75 GB 降至 35-40 GB，从而可能解锁 RTX 4090 24GB 双卡方案
+
+## Corrected Claim
+
+FP8/INT8 量化对 KV Cache 显存占用的影响机制：若 KV Cache 也量化为 FP8/INT8，32K 上下文下的 KV 显存从 BF16 的约 10-15 GB 降至 5-7.5 GB，总显存需求下限从 60-75 GB 降至 35-40 GB，从而可能解锁 RTX 4090 24GB 双卡方案
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：FP8/INT8 相比 BF16 位宽减半，显存占用线性减半符合物理直觉；32K 上下文 KV Cache 在 BF16 下 10-15GB 量级合理，减半后 5-7.5GB 亦合理；总显存从 60-75GB 降至 35-40GB 符合模型权重+KV Cache 的叠加逻辑；RTX 4090 24GB 双卡共 48GB，若总需求降至 35-40GB 则理论上可行（需考虑框架开销，但作为‘可能解锁’的定性判断逻辑自洽）。

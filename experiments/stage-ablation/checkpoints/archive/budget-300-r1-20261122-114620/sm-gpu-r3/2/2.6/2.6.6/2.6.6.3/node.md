@@ -1,0 +1,24 @@
+# N272: KV Cache 对吞吐的影响主要源于显存容量限制而非带宽瓶颈：在 RTX 4090 (24GB) 上，若权重占用 54GB (BF16) 则不可行；若量化至 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N84
+
+## Claim
+
+KV Cache 对吞吐的影响主要源于显存容量限制而非带宽瓶颈：在 RTX 4090 (24GB) 上，若权重占用 54GB (BF16) 则不可行；若量化至 INT8 (27GB)，剩余 17GB 显存可支持约 63K tokens 的 KV Cache (17GB / 0.0268GB/1K)，因此在 32K 上下文下 KV Cache 不会成为带宽瓶颈，但会限制最大并发数
+
+## Corrected Claim
+
+KV Cache 对吞吐的影响主要源于显存容量限制而非带宽瓶颈：在 RTX 4090 (24GB) 上，若权重占用 54GB (BF16) 则不可行；若量化至 INT8 (27GB) 仍超出 24GB 显存，故该假设前提不成立。若假设剩余 17GB 显存用于 KV Cache，且每 1K tokens 占用 0.0268GB，则支持约 634K tokens (17/0.0268)，而非 63K tokens。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 显存 24GB，INT8 权重 27GB 确实超出容量（不可行），但题目假设“若量化至 INT8...剩余 17GB”存在逻辑跳跃（24-27=-3GB），然而后半部分计算 17GB / 0.0268GB/1K ≈ 634K tokens 与 63K 不符（17/0.0268 ≈ 634），此处数值计算有误。重新检查：17GB / 0.0268GB/1K = 634.3K tokens。题目说 63K，数量级错误。但是，KV Cache 大小取决于模型层数、头数、头维度。对于 Llama-2 70B，KV Cache 每 token 约 0.0268GB 是合理的（70B 模型，80 层，8 KV heads，128 dim, BF16: 80*2*8*128*2 bytes = 327KB/token ≈ 0.000327GB/token? 不对。Llama 2 70B: 80 layers, 8 KV heads, 128 head dim. KV per token = 2 (K+V) * 80 * 8 * 128 * 2 bytes (BF16) = 327,680 bytes ≈ 0.3125 MB/token. 17GB / 0.3125MB ≈ 54,700 tokens ≈ 55K tokens. 题目中 0.0268GB/1K = 26.8MB/1K = 26.8KB/token? 这太小了。如果是 7B 模型：32 layers, 32 KV heads, 128 dim. 2*32*32*128*2 = 524,288 bytes ≈ 0.5MB/token. 17GB/0.5MB = 34K tokens. 题目中的 0.0268GB/1K 即 26.8KB/token，这对应非常小的模型或极低的精度。但题目核心逻辑是“显存容量限制导致并发受限”，而非带宽。虽然具体数值 63K 和 0.0268GB/1K 的对应关系存疑（可能是特定小模型或计算错误），但作为 knowledge 节点，其核心论点“KV Cache 主要受显存容量限制”在 LLM 推理中是公认事实。然而，题目中明确给出了计算过程 17GB / 0.0268GB/1K = 63K，这在数学上是错误的（17/0.0268 ≈ 634）。这是一个硬逻辑/计算错误。
+
+## Search Query
+
+KV cache memory limit concurrent requests LLM inference

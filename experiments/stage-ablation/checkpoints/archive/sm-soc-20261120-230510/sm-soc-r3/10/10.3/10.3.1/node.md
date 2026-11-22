@@ -1,0 +1,24 @@
+# N310: 卖家定价偏差方差 Var(ε_seller) 的分解：Var(ε_seller) = Var(ε_systematic) + Var(ε_random)，其中 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N110
+
+## Claim
+
+卖家定价偏差方差 Var(ε_seller) 的分解：Var(ε_seller) = Var(ε_systematic) + Var(ε_random)，其中 Var(ε_systematic) 为系统性偏差方差（如锚定效应、信息滞后），Var(ε_random) 为随机噪声方差（对应 N113 的冲动/情感噪声），需分别量化以验证总和是否在 [0.0001, 0.0003] 区间内。
+
+## Corrected Claim
+
+卖家定价偏差方差 Var(ε_seller) 的分解：Var(ε_seller) = Var(ε_systematic) + Var(ε_random)，其中 Var(ε_systematic) 为系统性偏差方差（如锚定效应、信息滞后），Var(ε_random) 为随机噪声方差（对应 N113 的冲动/情感噪声），需分别量化以验证总和是否在 [0.0001, 0.0003] 区间内。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：方差分解公式符合统计学基本定理（总方差=系统性方差+随机方差，假设两者不相关），量级区间[0.0001, 0.0003]在定价偏差语境下合理。
+
+## Search Query
+
+seller pricing deviation variance decomposition systematic random noise marketplace

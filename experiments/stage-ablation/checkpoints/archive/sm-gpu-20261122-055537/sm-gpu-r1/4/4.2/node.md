@@ -1,0 +1,24 @@
+# N20: 电力成本 (C_power) 计算式：C_power = P_power_draw * T_hours * E_price，其中 P_power_draw 为整
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+电力成本 (C_power) 计算式：C_power = P_power_draw * T_hours * E_price，其中 P_power_draw 为整机满载功耗(W)，T_hours 为年运行小时数(8760h)，E_price 为当地电价($/kWh)。需量化单卡方案(如1x4090 ~450W)与多卡/数据卡方案(如1xH100 ~700W, 2x4090 ~900W)的功耗差异对年度电费的非线性影响。
+
+## Corrected Claim
+
+电力成本 (C_power) 计算式：C_power = P_power_draw * T_hours * E_price，其中 P_power_draw 为整机满载功耗(W)，T_hours 为年运行小时数(8760h)，E_price 为当地电价($/kWh)。需量化单卡方案(如1x4090 ~450W)与多卡/数据卡方案(如1xH100 ~700W, 2x4090 ~900W)的功耗差异对年度电费的非线性影响。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式量纲正确（W * h / 1000 * $/kWh = $），功耗数值（4090~450W, H100~700W）符合工程常识，线性关系描述准确。
+
+## Search Query
+
+RTX 4090 TDP watts vs H100 SXM TDP watts power consumption

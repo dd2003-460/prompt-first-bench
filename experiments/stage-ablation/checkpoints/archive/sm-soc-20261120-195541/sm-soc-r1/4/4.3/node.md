@@ -1,0 +1,28 @@
+# N15: 归因结论‘买家驱动均衡’的置信度：基于买家搜索行为数据（如‘浏览-咨询转化率’在降价后48小时内的变化率），若转化率未显著下降（p > 0.05），则支持买家非
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+归因结论‘买家驱动均衡’的置信度：基于买家搜索行为数据（如‘浏览-咨询转化率’在降价后48小时内的变化率），若转化率未显著下降（p > 0.05），则支持买家非主动方，置信度为低（<0.5）；反之则高。需标注[待核验]因缺乏实时数据。
+
+## Corrected Claim
+
+基于买家搜索行为数据（如‘浏览-咨询转化率’在降价后48小时内的变化率），若转化率未显著下降（p > 0.05），则支持买家非主动方，置信度较低；反之则较高。[待核验：缺乏实时数据及独立来源验证具体统计阈值]
+
+## Evidence
+
+[质询]该陈述属于特定商业场景下的经验性统计推断规则，无法从第一性原理或数学公理中严格推导得出；且参考来源完全无关，缺乏外部证据支持其具体阈值（如p>0.05对应低置信度）的合理性。 | 参考来源[1]关于《通胀削减法案》与买家搜索行为数据无关，无可用外部证据；该陈述为经验事实，逻辑自洽但缺来源支持。
+
+## Search Query
+
+second-hand marketplace buyer behavior price reduction consultation rate 48 hours
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Inflation_Reduction_Act', 'type': 'wikipedia', 'title': 'Inflation Reduction Act'}

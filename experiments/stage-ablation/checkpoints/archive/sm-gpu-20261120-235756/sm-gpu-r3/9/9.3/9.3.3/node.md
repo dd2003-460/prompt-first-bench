@@ -1,0 +1,20 @@
+# N342: RTX 5090 FP8 MoE 推理的实际 Tokens/s 下限估算公式：Throughput_min = (Theoretical_FP8_Through
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N129, N130, N131
+
+## Claim
+
+RTX 5090 FP8 MoE 推理的实际 Tokens/s 下限估算公式：Throughput_min = (Theoretical_FP8_Throughput * Sparse_Activation_Ratio * MoE_Overhead_Factor)，其中 Sparse_Activation_Ratio = 3.3B/27.18B ≈ 0.121，MoE_Overhead_Factor 包含路由计算与内存碎片开销，预计为 0.7-0.8 [待核验]。
+
+## Corrected Claim
+
+RTX 5090 FP8 MoE 推理的实际 Tokens/s 下限估算公式：Throughput_min = (Theoretical_FP8_Throughput * Sparse_Activation_Ratio * MoE_Overhead_Factor)，其中 Sparse_Activation_Ratio = 3.3B/27.18B ≈ 0.121，MoE_Overhead_Factor 包含路由计算与内存碎片开销，通常估算在 0.7-0.8 之间（具体值依赖实现细节）。
+
+## Evidence
+
+[质询]MoE_Overhead_Factor 的取值范围（0.7-0.8）缺乏具体硬件架构和软件栈（如 TensorRT-LLM 版本、Batch Size）的上下文支持，属于经验性估算参数，不同实现下波动较大，直接作为固定下限估算因子存在精度风险。 | source=knowledge，逻辑自洽（稀疏激活比例计算正确，公式结构符合推理吞吐估算常识），但 MoE 开销系数为经验值且无外部来源直接支持具体数值范围，依据经验事实排除条款降级。

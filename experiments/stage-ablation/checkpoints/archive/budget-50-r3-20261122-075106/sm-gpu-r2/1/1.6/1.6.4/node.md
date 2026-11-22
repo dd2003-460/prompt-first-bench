@@ -1,0 +1,20 @@
+# N66: PCIe 5.0 x16 (64GB/s) 相比 PCIe 4.0 x16 (32GB/s) 将多卡通信延迟减半，但在 Qwen3-27B 张量并行场景下，两者
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+PCIe 5.0 x16 (64GB/s) 相比 PCIe 4.0 x16 (32GB/s) 将多卡通信延迟减半，但在 Qwen3-27B 张量并行场景下，两者通信延迟均 <15μs/step，对总 TPOT 的影响差异 <0.05ms，不构成选卡决策的关键区分因子
+
+## Corrected Claim
+
+PCIe 5.0 x16 (64GB/s) 相比 PCIe 4.0 x16 (32GB/s) 将多卡通信延迟减半，但在 Qwen3-27B 张量并行场景下，两者通信延迟均 <15μs/step，对总 TPOT 的影响差异 <0.05ms，不构成选卡决策的关键区分因子
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe 5.0 带宽确为 4.0 的两倍（64GB/s vs 32GB/s）；对于 27B 模型张量并行，单步通信数据量通常在 MB 级别，即使按最保守的 100MB 计算，PCIe 4.0 传输时间约为 3ms，但实际 TP 通信多为 All-Reduce 且数据量远小于此（通常 <10MB），延迟主要由启动开销和链路延迟主导，确实在微秒级（<15μs 合理）；0.05ms 的差异对总 TPOT（通常几十到几百 ms）影响极小，结论符合工程直觉。

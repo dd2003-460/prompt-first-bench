@@ -1,0 +1,20 @@
+# N8: 热度-大小负相关系数 ρ=-0.3 对联合分布的影响量化：在 Copula 模型中，ρ 决定了条件概率 P(size > s | rank = k) 的偏移量，
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+热度-大小负相关系数 ρ=-0.3 对联合分布的影响量化：在 Copula 模型中，ρ 决定了条件概率 P(size > s | rank = k) 的偏移量，具体表现为高排名（高频）对象的大小均值比独立假设下低 ΔS = ρ * σ_size * σ_rank / σ_size，需计算 σ_size 和 σ_rank。
+
+## Corrected Claim
+
+在 Copula 模型中，ρ 决定了条件概率 P(size > s | rank = k) 的偏移量。若假设 size 和 rank 服从联合高斯分布（或高斯 Copula），则给定 rank = k 时，size 的条件均值偏移量 ΔS 应正比于 ρ * σ_size * (k - μ_rank) / σ_rank，具体系数取决于标准化后的排名值，而非简单的 ρ * σ_size * σ_rank / σ_size。
+
+## Evidence
+
+[质询]公式 ΔS = ρ * σ_size * σ_rank / σ_size 在量纲和逻辑上存在严重错误。首先，σ_rank 通常指排名（离散整数）的标准差，其量纲与 σ_size（文件大小）不同，直接相乘并除以 σ_size 得到的结果量纲混乱，无法直接表示大小均值偏移 ΔS（应为大小单位）。其次，在 Copula 模型或高斯相关结构中，条件期望的偏移量通常与相关系数 ρ 及条件变量的标准化值有关，而非简单地乘以两个标准差的乘积再除以一个标准差。该公式缺乏统计学依据，属于错误的经验公式或臆造公式。 | 先验知识/题面给定，逻辑校验失败：公式量纲不一致且不符合 Copula 条件概率的基本推导逻辑。

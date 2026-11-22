@@ -1,0 +1,24 @@
+# N46: 信号强度系数 k 的演化稳定性：在重复博弈中，k 的均衡值由信号发送成本 C_signal 与筛选收益 B_filter 决定，k* = B_filter / 
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N8
+
+## Claim
+
+信号强度系数 k 的演化稳定性：在重复博弈中，k 的均衡值由信号发送成本 C_signal 与筛选收益 B_filter 决定，k* = B_filter / C_signal [待核验]；若平台提供担保（降低 C_signal），k* 会下降，导致 P_list 向 V 收敛，从而打破高挂价均衡。
+
+## Corrected Claim
+
+在特定重复博弈模型中，信号强度系数 k 的均衡值可能由信号发送成本 C_signal 与筛选收益 B_filter 共同决定（如 k* ∝ B_filter / C_signal）；若平台提供担保降低 C_signal，理论上可能削弱信号筛选作用，使价格 P_list 更接近价值 V，从而缓解高挂价均衡。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在逻辑维度上正交（分别对应成本项、收益项、外生冲击效应、动态演化机制），无重复或矛盾。但存在完备性缺陷：父节点核心结论是'k*下降导致P_list向V收敛，从而打破高挂价均衡'，而子节点仅验证了k*的变化（子节点3）和k的动态（子节点4），缺失了关键的传导机制子节点，即'k*变化如何具体映射到P_list'以及'P_list收敛至V如何导致高挂价均衡打破'的量化或逻辑分解。）
+
+## Search Query
+
+signaling equilibrium cost benefit ratio price markup

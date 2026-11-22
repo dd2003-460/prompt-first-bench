@@ -1,0 +1,24 @@
+# N330: Qwen3-27B BF16 基线 MMLU 准确率的权威数值：根据 Qwen3 官方技术报告或 HuggingFace 模型卡片，Qwen3-27B 在 MM
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N105
+
+## Claim
+
+Qwen3-27B BF16 基线 MMLU 准确率的权威数值：根据 Qwen3 官方技术报告或 HuggingFace 模型卡片，Qwen3-27B 在 MMLU 基准上的 BF16 准确率为 78.4%（需确认具体版本，如 Qwen3-27B-Instruct-2507 或 Base 版本，此处以常见 Instruct 版本为例，若为 Base 版本可能略有差异，需标注 [时效待核]）。
+
+## Corrected Claim
+
+Qwen3-27B 在 MMLU 基准上的 BF16 准确率约为 78% 左右（具体数值需查阅官方技术报告或 HuggingFace 模型卡片确认，不同版本可能略有差异）。
+
+## Evidence
+
+[质询]具体数值 78.4% 缺乏来源支持，且 Qwen3-27B 不同版本（Base/Instruct）及不同评测设置下的 MMLU 分数可能存在差异，该精确数值可能不准确或对应特定子集。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值 78.4% 的准确性）
+
+## Search Query
+
+Qwen3-27B MMLU accuracy benchmark BF16

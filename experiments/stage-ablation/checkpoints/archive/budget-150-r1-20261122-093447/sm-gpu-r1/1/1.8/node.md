@@ -1,0 +1,28 @@
+# N14: 消费级 GPU 候选集（2024-2025 在售，显存≥24GB）：RTX 4090 (24GB, $1599, 1008GB/s, 450W), RTX 40
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+消费级 GPU 候选集（2024-2025 在售，显存≥24GB）：RTX 4090 (24GB, $1599, 1008GB/s, 450W), RTX 4080 Super (16GB, $1099, 717GB/s, 320W), RTX 4070 Ti Super (16GB, $799, 672GB/s, 285W), RTX 3090 (24GB, $1999 used, 936GB/s, 350W), RTX 3090 Ti (24GB, $1799 used, 1008GB/s, 450W), RTX 4090 Ti (24GB, $2000, 1008GB/s, 450W) [待核验：4090 Ti 是否正式发售及价格]
+
+## Corrected Claim
+
+消费级 GPU 候选集（2024-2025 在售，显存≥24GB）：RTX 4090 (24GB, ~$1599, 1008GB/s, 450W), RTX 3090 (24GB, ~$1500-2000 used, 936GB/s, 350W), RTX 3090 Ti (24GB, ~$1500-1800 used, 1008GB/s, 450W)。注：RTX 4090 Ti 未正式发售；RTX 4080 Super 和 4070 Ti Super 显存为 16GB，不符合 ≥24GB 条件。
+
+## Evidence
+
+[质询]陈述中包含未正式发售或不存在的产品（如 'RTX 4090 Ti'），且部分价格（如 RTX 3090 二手价 $1999）波动较大，缺乏统一基准；此外，RTX 4080 Super 和 4070 Ti Super 显存为 16GB，不满足标题中 '显存≥24GB' 的筛选条件，存在内部逻辑矛盾。 | 来源 [1] 仅提及 RTX 4070 Super 等，未覆盖 4090 Ti 等具体参数，且无法支持 '4090 Ti 已发售' 这一错误前提；逻辑上，列表包含 16GB 显卡与 '≥24GB' 条件矛盾。
+
+## Search Query
+
+consumer GPU 2024 2025 24GB VRAM price bandwidth list RTX 4090 3090
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/707711549&rut=4694cf32b61e137808a6a0f9b60a233ef3c4662f95885dfe22bda116fb7c5615', 'type': 'ddg', 'title': '2024 年12款最佳显卡 - 知乎'}

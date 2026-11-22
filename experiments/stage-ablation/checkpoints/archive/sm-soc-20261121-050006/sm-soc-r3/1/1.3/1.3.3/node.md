@@ -1,0 +1,28 @@
+# N42: 成交周期 T_close 在 P_ask > P_median + 1.5σ_pref 区间内与 P_ask 的负相关系数 β_negative 的实证估计值及
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N7
+
+## Claim
+
+成交周期 T_close 在 P_ask > P_median + 1.5σ_pref 区间内与 P_ask 的负相关系数 β_negative 的实证估计值及统计显著性水平
+
+## Corrected Claim
+
+在 P_ask > P_median + 1.5σ_pref 区间内，成交周期 T_close 与 P_ask 存在负相关关系，但具体的实证估计值 β_negative 及统计显著性水平需查阅特定的高频交易微观结构实证研究文献。
+
+## Evidence
+
+[质询]该陈述涉及特定金融微观结构模型中的实证参数（β_negative），属于经验事实。参考来源仅讨论股票开盘价与收盘价差异的一般性原因，未提供关于成交周期与问价偏离度之间具体回归系数或统计显著性的任何数据，无法验证具体的数值估计值。 | 经验事实，逻辑自洽但缺来源支持（来源[1]主题不匹配，未覆盖具体实证参数）
+
+## Search Query
+
+negative correlation between asking price and closing time high price interval used goods market
+
+## Retrieval Sources
+
+- {'url': 'https://www.investopedia.com/ask/answers/139.asp&rut=9a3e3d6f408712e60d8f3755920a3daaf21da4150929a0b682757ecce3a70776', 'type': 'ddg', 'title': "Why Stock Opening Prices Differ From Previous Day's Closes"}

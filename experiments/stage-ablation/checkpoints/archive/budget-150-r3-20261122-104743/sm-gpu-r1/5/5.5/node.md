@@ -1,0 +1,20 @@
+# N29: 架构代际筛选：Hopper（H100）支持FP8原生计算和Transformer Engine，Ada Lovelace（RTX 4090）部分支持FP8，Am
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N5
+
+## Claim
+
+架构代际筛选：Hopper（H100）支持FP8原生计算和Transformer Engine，Ada Lovelace（RTX 4090）部分支持FP8，Ampere（RTX 3090/A100）仅支持BF16/INT8，架构代际直接影响量化方案可行性和推理效率
+
+## Corrected Claim
+
+架构代际筛选：Hopper（H100）支持FP8原生计算和Transformer Engine，Ada Lovelace（RTX 4090）部分支持FP8，Ampere（RTX 3090/A100）仅支持BF16/INT8，架构代际直接影响量化方案可行性和推理效率
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Hopper架构确实引入原生FP8支持及Transformer Engine，Ada Lovelace支持FP8（主要用于推理），Ampere架构主要支持BF16/INT8，符合GPU架构演进事实。

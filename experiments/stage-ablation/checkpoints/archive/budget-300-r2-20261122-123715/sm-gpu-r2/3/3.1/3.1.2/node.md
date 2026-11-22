@@ -1,0 +1,24 @@
+# N65: 电力成本子项 = (GPU TDP + CPU/Platform 基础功耗) × 负载率 × 运行时间 × 电价；其中 Platform 基础功耗（CPU+RA
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N14
+
+## Claim
+
+电力成本子项 = (GPU TDP + CPU/Platform 基础功耗) × 负载率 × 运行时间 × 电价；其中 Platform 基础功耗（CPU+RAM+SSD+风扇）通常 50-150W，需从 GPU TDP 中分离以准确计算总系统功耗。
+
+## Corrected Claim
+
+电力成本子项 = (GPU TDP + CPU/Platform 基础功耗) × 负载率 × 运行时间 × 电价；其中 Platform 基础功耗（CPU+RAM+SSD+风扇）通常 50-150W，需从 GPU TDP 中分离以准确计算总系统功耗。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：电力成本计算公式符合物理定义（功率×时间×单价），Platform基础功耗50-150W符合典型服务器硬件工程经验值，且强调分离GPU与平台功耗以准确计算总功耗的逻辑自洽。
+
+## Search Query
+
+workstation base power consumption CPU RAM SSD watts

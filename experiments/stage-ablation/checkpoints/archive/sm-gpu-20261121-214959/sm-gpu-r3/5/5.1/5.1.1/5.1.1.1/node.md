@@ -1,0 +1,24 @@
+# N262: RTX 4090 当前实时市场均价（2024Q4）约为 $1,650，波动范围 $1,500-$1,800，主要受 NVIDIA 驱动更新和竞品发布影响。RTX
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N96
+
+## Claim
+
+RTX 4090 当前实时市场均价（2024Q4）约为 $1,650，波动范围 $1,500-$1,800，主要受 NVIDIA 驱动更新和竞品发布影响。RTX 5090 预售价 $1,999，实际上市初期溢价可能达 20-30% ($2,399-$2,599)，需监控 Newegg/Amazon 价格曲线。
+
+## Corrected Claim
+
+RTX 4090 在 2024Q4 的市场价格通常在 $1,500-$1,800 区间波动，RTX 5090 预售价为 $1,999，上市初期可能存在溢价，具体实时价格需监控 Newegg/Amazon 等渠道。
+
+## Evidence
+
+[质询]该陈述包含具体的实时市场价格数据（2024Q4均价、波动范围、溢价幅度），属于经验事实。由于检索通道失败，缺乏外部来源支持，且市场价格随时间波动，无法仅凭逻辑自洽确认具体数值的准确性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+RTX 4090 current market price 2024 RTX 5090 launch price premium

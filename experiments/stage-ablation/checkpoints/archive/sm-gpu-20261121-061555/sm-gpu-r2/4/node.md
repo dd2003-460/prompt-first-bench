@@ -1,0 +1,16 @@
+# N4: 性能变量评估：量化推理速度、吞吐量等性能指标，作为满足容量约束后比较方案优劣的核心排序键，排除延迟硬性前置约束。
+
+- **status**: pending
+- **level**: L1
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: (root)
+
+## Claim
+
+性能变量评估：量化推理速度、吞吐量等性能指标，作为满足容量约束后比较方案优劣的核心排序键，排除延迟硬性前置约束。
+
+## Evidence
+
+父节点级核验失败（LLM 错误）：Unterminated string starting at: line 8 column 5 (char 869)

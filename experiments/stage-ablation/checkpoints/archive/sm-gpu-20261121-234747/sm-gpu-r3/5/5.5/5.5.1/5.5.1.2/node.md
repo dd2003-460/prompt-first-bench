@@ -1,0 +1,24 @@
+# N391: Qwen3-27B FP8量化版本的MMLU准确率Acc_FP8，需查找官方发布的FP8 checkpoint（如Qwen3-27B-FP8）对应的评测结果；若
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N131
+
+## Claim
+
+Qwen3-27B FP8量化版本的MMLU准确率Acc_FP8，需查找官方发布的FP8 checkpoint（如Qwen3-27B-FP8）对应的评测结果；若官方未提供，需基于AWQ或GPTQ量化工具生成的FP8模型在相同硬件环境下重跑MMLU评测。
+
+## Corrected Claim
+
+Qwen3-27B FP8量化版本的MMLU准确率需查阅官方技术报告或社区基准测试数据；若官方未直接提供FP8评测结果，通常需参考基于AWQ/GPTQ等工具生成的FP8模型在标准硬件环境下的复现评测数据，具体数值以最新公开评测为准。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（MMLU准确率）和特定的技术实现细节（FP8 checkpoint是否存在、具体评测结果），属于经验事实，无法从第一性原理推导，且当前无可用来源支持其具体数值或存在性。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+Qwen3-27B FP8 quantization MMLU score

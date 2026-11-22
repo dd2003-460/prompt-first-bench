@@ -1,0 +1,24 @@
+# N277: RTX 4090 W4A8 质量损失量化：MMLU 准确率下降约为 1.5-2.5%（相对于 BF16），HumanEval 通过率下降约为 2-4%，若任务对
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N91, N92, N95
+
+## Claim
+
+RTX 4090 W4A8 质量损失量化：MMLU 准确率下降约为 1.5-2.5%（相对于 BF16），HumanEval 通过率下降约为 2-4%，若任务对代码生成敏感，INT4 可能不可接受，需回退至 INT8。
+
+## Corrected Claim
+
+RTX 4090 上 W4A8 量化通常会导致 MMLU 准确率下降约 1-3%，HumanEval 通过率下降约 2-5%（具体数值取决于量化算法与校准数据）；若任务对代码生成敏感，INT4 可能不可接受，需回退至 INT8。
+
+## Evidence
+
+[质询]具体数值区间（MMLU 1.5-2.5%, HumanEval 2-4%）缺乏通用基准支持，不同量化算法（如 GPTQ, AWQ, SmoothQuant）及校准数据集会导致显著差异，且 W4A8 在 4090 上的实际表现高度依赖具体实现库（如 vLLM, TensorRT-LLM），直接给出固定区间可能误导。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体量化损失数值属于依赖实验的经验数据，非第一性原理可推导）
+
+## Search Query
+
+Qwen 27B INT4 W4A8 quantization accuracy loss MMLU HumanEval benchmark

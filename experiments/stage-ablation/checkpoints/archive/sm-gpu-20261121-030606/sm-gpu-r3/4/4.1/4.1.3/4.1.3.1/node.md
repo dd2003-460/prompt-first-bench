@@ -1,0 +1,20 @@
+# N290: RTX 4090 (24GB) 部署INT8 Qwen3-27B的可行性判定：仅权重占用27.0GB > 24GB显存容量，故不可行。需额外预留KV Cache
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N123
+
+## Claim
+
+RTX 4090 (24GB) 部署INT8 Qwen3-27B的可行性判定：仅权重占用27.0GB > 24GB显存容量，故不可行。需额外预留KV Cache（~2-4GB）和激活值（~2-3GB），总需求远超24GB，确认N12工作点无效。
+
+## Corrected Claim
+
+RTX 4090 (24GB) 部署INT8 Qwen3-27B的可行性判定：仅权重占用27.0GB > 24GB显存容量，故不可行。需额外预留KV Cache（~2-4GB）和激活值（~2-3GB），总需求远超24GB，确认N12工作点无效。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数模型INT8量化后权重体积约为27GB，超过RTX 4090的24GB显存上限，且未计入KV Cache和激活值开销，结论符合硬件部署基本逻辑。

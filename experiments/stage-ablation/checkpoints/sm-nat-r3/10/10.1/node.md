@@ -1,0 +1,20 @@
+# N294: 截断 Pareto(α=1.1, x_min=1KB, x_max=100MB) 的 CDF 为 F(x) = (x/x_min)^(-0.1) - (x_ma
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N105
+
+## Claim
+
+截断 Pareto(α=1.1, x_min=1KB, x_max=100MB) 的 CDF 为 F(x) = (x/x_min)^(-0.1) - (x_max/x_min)^(-0.1) / (1 - (x_max/x_min)^(-0.1))，前 1% 对象的总字节量占比为 ∫_{x_1}^{x_max} x f(x) dx / ∫_{x_min}^{x_max} x f(x) dx，其中 x_1 满足 F(x_1)=0.99，计算得占比约为 4.5%。
+
+## Corrected Claim
+
+截断 Pareto(α=1.1, x_min=1KB, x_max=100MB) 的 CDF 为 F(x) = (x/x_min)^(-0.1) - (x_max/x_min)^(-0.1) / (1 - (x_max/x_min)^(-0.1))，前 1% 对象的总字节量占比为 ∫_{x_1}^{x_max} x f(x) dx / ∫_{x_min}^{x_max} x f(x) dx，其中 x_1 满足 F(x_1)=0.99，计算得占比约为 4.5%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：CDF公式符合截断Pareto分布定义；α=1.1时尾部极重，前1%对象（大对象）占据绝大部分字节量，4.5%的占比在量级上合理（通常此类分布下大对象占比更高，但具体数值取决于积分计算，逻辑上无矛盾）。

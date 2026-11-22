@@ -1,0 +1,20 @@
+# N54: LFU 相对 LRU 的绝对增益 ΔH_max = H_LFU_max - H_LRU_base，其中 H_LRU_base 为 LRU 在相同容量下的稳态字节
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N15
+
+## Claim
+
+LFU 相对 LRU 的绝对增益 ΔH_max = H_LFU_max - H_LRU_base，其中 H_LRU_base 为 LRU 在相同容量下的稳态字节命中率；在 ρ=-0.3 的 Pareto 分布下，该差值量化了避免缓存低频大对象的收益
+
+## Corrected Claim
+
+LFU 相对 LRU 的绝对增益 ΔH_max = H_LFU_max - H_LRU_base，其中 H_LRU_base 为 LRU 在相同容量下的稳态字节命中率；在 ρ=-0.3 的 Pareto 分布下，该差值量化了避免缓存低频大对象的收益
+
+## Evidence
+
+父节点级核验未通过：非正交, 有冗余（子节点1（集合差异）和子节点2（数值估算）在逻辑上高度耦合且存在潜在矛盾。子节点2直接基于热度与大小的乘积得出负增益结论，而子节点1通过集合差异暗示了潜在的正向或结构性差异，两者未明确区分‘结构差异’与‘净收益’的因果关系，导致解释力重叠。此外，子节点2的计算公式 `(1.2*0.8 - 1.0*1.2) / (1.0*1.0)` 物理意义不明（分母为何是1.0*1.0？），且直接得出负值与父节点‘量化收益’的正面语境存在张力，需澄清是理论上限还是特定假设下的结果。）

@@ -1,0 +1,20 @@
+# N277: 2x RTX 4090 方案在 5 年持有期内的预期维护与故障成本：C_maint = (1 - (1-p_card)^2) * C_replacement *
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N99, N100, N101
+
+## Claim
+
+2x RTX 4090 方案在 5 年持有期内的预期维护与故障成本：C_maint = (1 - (1-p_card)^2) * C_replacement * 5 + C_downtime_loss，其中 p_card 为单卡年故障率 (N107 估计 2-5%)，C_replacement 为单卡更换成本 ($1800)，C_downtime_loss 为停机机会成本，需量化以评估可靠性对 TCO 的影响。
+
+## Corrected Claim
+
+2x RTX 4090 方案在 5 年持有期内的预期维护与故障成本：C_maint = (1 - (1-p_card)^2) * C_replacement * 5 + C_downtime_loss，其中 p_card 为单卡年故障率 (N107 估计 2-5%)，C_replacement 为单卡更换成本 ($1800)，C_downtime_loss 为停机机会成本，需量化以评估可靠性对 TCO 的影响。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

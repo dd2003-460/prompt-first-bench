@@ -1,0 +1,24 @@
+# N332: H2(损失厌恶系数 λ) 的先验分布设定为 N(2.25, 0.15^2)，均值 2.25 基于 Tversky & Kahneman (1992) 的经典实验
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N106
+
+## Claim
+
+H2(损失厌恶系数 λ) 的先验分布设定为 N(2.25, 0.15^2)，均值 2.25 基于 Tversky & Kahneman (1992) 的经典实验估计范围 [2.0, 2.5] 的中位数，标准差 0.15 反映了个体差异及跨文化实验的方差，该分布直接决定卖家对降价损失的敏感度建模。
+
+## Corrected Claim
+
+H2(损失厌恶系数 λ) 的先验分布设定为 N(2.25, 0.15^2)，均值 2.25 基于 Tversky & Kahneman (1992) 的经典实验估计范围 [2.0, 2.5] 的中位数，标准差 0.15 反映了个体差异及跨文化实验的方差，该分布直接决定卖家对降价损失的敏感度建模。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Tversky & Kahneman (1992) 经典实验估计的损失厌恶系数 λ 通常在 2.0-2.5 之间，取中位数 2.25 符合学术共识；标准差 0.15 反映个体差异在贝叶斯先验设定中属于合理量级，逻辑自洽。
+
+## Search Query
+
+loss aversion coefficient lambda distribution meta-analysis behavioral economics

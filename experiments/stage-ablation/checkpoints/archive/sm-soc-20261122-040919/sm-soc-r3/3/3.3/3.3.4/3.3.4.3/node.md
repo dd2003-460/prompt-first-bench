@@ -1,0 +1,29 @@
+# N281: 信号强度变化量 ΔSignal_Strength 的量化公式：ΔSignal_Strength = -β_signal * ΔT / T_0 + ε_S，其中 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N76
+
+## Claim
+
+信号强度变化量 ΔSignal_Strength 的量化公式：ΔSignal_Strength = -β_signal * ΔT / T_0 + ε_S，其中 β_signal 为信号衰减系数（[待核验]，估计范围 0.2-0.5），ε_S ~ N(0, σ_S²) 且 Cov(ε_T, ε_S) = ρ_TS * σ_T * σ_S，ρ_TS 为信任与信号依赖的相关系数。
+
+## Corrected Claim
+
+信号强度变化量 ΔSignal_Strength 的一种可能量化模型为：ΔSignal_Strength = -β_signal * ΔT / T_0 + ε_S，其中 β_signal 为信号衰减系数，ε_S 为随机误差项。具体系数值及误差结构需根据具体场景标定，当前缺乏通用标准支持。
+
+## Evidence
+
+[质询]该公式为特定模型假设下的经验拟合公式，并非通用物理定律；参考来源仅涉及RSSI的基本定义（dBm换算），未提供该特定线性衰减模型、系数β的范围或误差项协方差结构的任何支持，属于缺乏来源支持的特定经验事实。 | 逻辑上量纲自洽（假设ΔT/T_0为无量纲相对变化或T_0为参考温度/时间），但参考来源[1][2]仅解释RSSI基础概念，与该特定量化公式无关，无法提供直接支持，且该公式属于经验事实而非第一性原理可推导结论。
+
+## Search Query
+
+signal decay effect on buyer consultation behavior platform intervention
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/xiaogu0322/article/details/78710006&rut=f26000e0f9385151797bc03fd0c6e9f2bbdf8b94263b721e6b6c15a71408287d', 'type': 'ddg', 'title': '信号强度（Rssi）知识整理-csdn博客'}
+- {'url': 'https://www.cnblogs.com/zhangsenzhen/p/9449396.html&rut=748a2607f0ee4aa07cf761a9275f61c6645672262f2b153e80994e1c443e75c1', 'type': 'ddg', 'title': '信号强度（Rssi）知识整理 - Nov流雨 - 博客园'}

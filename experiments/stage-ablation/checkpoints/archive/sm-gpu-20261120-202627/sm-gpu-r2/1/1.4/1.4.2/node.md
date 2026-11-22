@@ -1,0 +1,20 @@
+# N46: BF16 精度下 Qwen3-27B 的总显存硬性需求为 72.11 GB（权重 54 GB + KV Cache 13.11 GB + 运行时开销 5 GB）
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N10
+
+## Claim
+
+BF16 精度下 Qwen3-27B 的总显存硬性需求为 72.11 GB（权重 54 GB + KV Cache 13.11 GB + 运行时开销 5 GB），导致单卡 80GB (A100/H100) 是唯一满足此精度且无需多卡的可行方案，24GB 消费级显卡完全不可行
+
+## Corrected Claim
+
+在BF16精度、特定序列长度及Batch Size配置下，Qwen3-27B的显存需求约为72.11 GB，单卡80GB（A100/H100）是无需多卡且保持BF16精度的常见可行方案，24GB消费级显卡在BF16下通常不可行。
+
+## Evidence
+
+[质询]KV Cache 13.11 GB 的数值缺乏上下文（如序列长度、Batch Size），属于特定场景下的经验估算而非硬性物理需求；此外，'唯一可行方案'的表述过于绝对，忽略了量化（如 INT8/INT4）或 CPU Offload 等替代技术路径。 | source=knowledge，逻辑自洽（54+13.11+5=72.11，且72.11<80），但KV Cache数值为特定假设下的经验估算，非绝对硬性需求，且'唯一'表述排除了其他工程优化可能性，故降级。

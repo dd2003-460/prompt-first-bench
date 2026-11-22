@@ -1,0 +1,24 @@
+# N272: 卖家策略适应性函数：T=30天内卖家定价策略调整率 λ_seller = (N_switched / N_total) * (1 / T_window)，其中 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N89
+
+## Claim
+
+卖家策略适应性函数：T=30天内卖家定价策略调整率 λ_seller = (N_switched / N_total) * (1 / T_window)，其中 N_switched 为从'高价试探'策略切换至'快速成交'（如降价或加速响应）的卖家数量，N_total 为样本卖家总数，T_window = 30天；需通过对比干预前后30天的卖家定价行为日志计算该比率。
+
+## Corrected Claim
+
+卖家策略适应性函数：T=30天内卖家定价策略调整率 λ_seller = (N_switched / N_total) * (1 / T_window)，其中 N_switched 为从'高价试探'策略切换至'快速成交'（如降价或加速响应）的卖家数量，N_total 为样本卖家总数，T_window = 30天；需通过对比干预前后30天的卖家定价行为日志计算该比率。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+seller strategy adaptation rate short-term market intervention

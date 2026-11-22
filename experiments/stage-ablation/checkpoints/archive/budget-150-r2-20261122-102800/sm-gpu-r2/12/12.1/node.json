@@ -1,0 +1,17 @@
+{
+  "id": "N163",
+  "claim": "高并发短文本 (batch_size=32, seq_len=1024) 下的瓶颈转移量化：此时 KV Cache 占用显著增加 (32 * 4.29GB ≈ 137GB @ BF16)，单卡无法容纳，必须多卡或高显存卡。算力瓶颈：Prefill 阶段计算量 ∝ batch_size * seq_len * model_params。H100 (989 TFLOPS) vs RTX 4090 (82.6 TFLOPS)，算力比 12:1。若显存足够，H100 的 CPR 将因算力优势而远超 RTX 4090。需计算此时 RTX 4090 是否成为显存瓶颈 (24GB < 137GB)，导致其不可行或需 Offload (速度骤降 5-10x)。",
+  "level": "L3",
+  "source": "derived",
+  "status": "degraded",
+  "evidence": "[质询]KV Cache 占用数值（137GB）严重依赖未给定的模型参数量（如层数、头数、隐藏维度），若模型较小（如 7B 或 13B），该数值可能高估；此外，'速度骤降 5-10x' 为经验估计，缺乏具体硬件带宽和模型结构的支撑。 | 逻辑自洽：H100 与 4090 算力比约 12:1 符合公开规格；24GB < 137GB 导致显存瓶颈的逻辑成立。但 KV Cache 具体数值和 Offload 性能损失系数属于经验事实，且无来源支持，故降级。",
+  "corrected_claim": "高并发短文本 (batch_size=32, seq_len=1024) 下，KV Cache 占用随模型规模显著增加，单卡 24GB 显存通常无法容纳大模型（如 70B+）的 KV Cache，需多卡或高显存卡。H100 算力约为 RTX 4090 的 12 倍，若显存充足，H100 吞吐优势显著。RTX 4090 因显存限制可能需 Offload，导致性能大幅下降（具体倍数视模型和带宽而定）。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N53"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

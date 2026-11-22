@@ -1,0 +1,20 @@
+# N174: 质量评分 Quality_Score 的代理变量定义：在二手平台，Quality_Score 可由卖家信用分（Credit_Score）、商品图片清晰度评分（I
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N60
+
+## Claim
+
+质量评分 Quality_Score 的代理变量定义：在二手平台，Quality_Score 可由卖家信用分（Credit_Score）、商品图片清晰度评分（Image_Quality）及历史退货率（Return_Rate）加权构成，公式为 QS = w1*Credit + w2*Image - w3*Return，需确定权重 w1, w2, w3 以标准化至 [0,1] 区间。
+
+## Corrected Claim
+
+质量评分 Quality_Score 的代理变量定义：在二手平台，Quality_Score 可由卖家信用分（Credit_Score）、商品图片清晰度评分（Image_Quality）及历史退货率（Return_Rate）加权构成，公式为 QS = w1*Credit + w2*Image - w3*Return，需确定权重 w1, w2, w3 以标准化至 [0,1] 区间。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

@@ -1,0 +1,30 @@
+# N158: 数据中心卡散热成本细化：A100 SXM 需服务器机箱（如 Supermicro SYS-721P）支持液冷或高效风冷，散热系统成本包括机箱（$500-$100
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N33
+
+## Claim
+
+数据中心卡散热成本细化：A100 SXM 需服务器机箱（如 Supermicro SYS-721P）支持液冷或高效风冷，散热系统成本包括机箱（$500-$1000）、液冷套件（$1000-$2000）或高密度风扇阵列（$500-$800），总散热成本 $1500-$3000。H100 SXM 散热需求更高，液冷成本增加约 20-30%。
+
+## Corrected Claim
+
+数据中心卡散热成本细化：A100 SXM 需服务器机箱支持液冷或高效风冷，散热系统成本包括机箱、液冷套件或高密度风扇阵列，总散热成本通常在 $1500-$3000 范围内（具体视配置而定）。H100 SXM 散热需求更高，液冷方案成本通常高于 A100。
+
+## Evidence
+
+[质询]具体组件价格（如机箱$500-$1000、液冷套件$1000-$2000）及H100液冷成本增加20-30%的具体数值缺乏来源直接支持，属于经验事实且可能因供应商、采购规模及具体配置差异而波动较大。 | 来源[1][2][3]确认了A100/H100服务器存在风冷与液冷方案对比及成本差异，但未提供具体的组件价格区间或H100相对A100液冷成本增加的具体百分比，逻辑自洽但缺来源直接支持。
+
+## Search Query
+
+A100 H100 SXM server chassis cooling cost liquid cooling kit price
+
+## Retrieval Sources
+
+- {'url': 'https://www.bjjinzhao.cn/articles/gpu-server-cooling-8-gpu-a100-h100-liquid-vs-air&rut=3013fde845a67a9f976bca0279b01e6cd3fadd0bb1858e4e4bbf293fa75b6862', 'type': 'ddg', 'title': 'GPU服务器散热方案：8卡A100/H100服务器怎么散热？液冷vs风冷实测 - 今朝恒业'}
+- {'url': 'https://learnku.com/articles/92445&rut=8365556d79bd578559217c2f1d62e4f2459604edca023cbaf119a2e146fec921', 'type': 'ddg', 'title': '2026 整机 GPU 服务器散热架构实测：风冷 / 冷板 / 浸没式运维、成本、算力损耗全对比 | LearnKu 产品论坛'}
+- {'url': 'https://www.idc10000.net/news/content/8294.html&rut=a164038ea0ecf0172324e06491c533cdb7309345a66517196018936673fdfdd1', 'type': 'ddg', 'title': '2026 GPU服务器散热方案深度对比：风冷vs冷板液冷vs浸没液冷全解析'}

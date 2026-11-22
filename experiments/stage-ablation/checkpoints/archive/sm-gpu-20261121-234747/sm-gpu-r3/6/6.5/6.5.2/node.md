@@ -1,0 +1,24 @@
+# N438: W4量化中Zero-point（零点）是否存储及其开销：部分W4实现（如GPTQ）仅存储Scale而不存储Zero-point（假设对称量化），而另一些实现（如
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N142
+
+## Claim
+
+W4量化中Zero-point（零点）是否存储及其开销：部分W4实现（如GPTQ）仅存储Scale而不存储Zero-point（假设对称量化），而另一些实现（如AWQ）可能存储Zero-point；需确认Qwen3-27B常用W4量化库（如AutoGPTQ, AWQ）的默认配置，计算若包含FP16 Zero-point的额外开销（约421.875 MB）
+
+## Corrected Claim
+
+W4量化中Zero-point（零点）是否存储及其开销：部分W4实现（如GPTQ）仅存储Scale而不存储Zero-point（假设对称量化），而另一些实现（如AWQ）可能存储Zero-point；需确认Qwen3-27B常用W4量化库（如AutoGPTQ, AWQ）的默认配置，计算若包含FP16 Zero-point的额外开销（约421.875 MB）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：GPTQ默认对称量化不存Zero-point，AWQ通常存Zero-point；27B参数下FP16 Zero-point开销约421.875MB（27e9 * 2 bytes / 1e6）计算正确。
+
+## Search Query
+
+W4 quantization zero point storage GPTQ AWQ Qwen3-27B

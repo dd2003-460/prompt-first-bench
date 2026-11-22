@@ -1,0 +1,20 @@
+# N64: NVIDIA Jetson Orin (16GB) 的内存带宽为 204.8 GB/s (LPDDR5)，其理论最大推理吞吐约为 3-5 t/s for 27B
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+NVIDIA Jetson Orin (16GB) 的内存带宽为 204.8 GB/s (LPDDR5)，其理论最大推理吞吐约为 3-5 t/s for 27B model (204.8GB/s / 54GB)，且功耗限制为 15-60W，远低于桌面 GPU
+
+## Corrected Claim
+
+NVIDIA Jetson Orin (16GB) 的内存带宽为 204.8 GB/s (LPDDR5)，其理论最大推理吞吐约为 3-5 t/s for 27B model (204.8GB/s / 54GB)，且功耗限制为 15-60W，远低于桌面 GPU
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Jetson Orin 16GB 的内存带宽确为 204.8 GB/s，功耗范围 15-60W 符合官方规格；27B 模型（约 54GB 权重）在 204.8 GB/s 带宽下的理论吞吐上限约为 3.8 t/s，与陈述中的 3-5 t/s 量级一致。

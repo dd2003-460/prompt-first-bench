@@ -1,0 +1,20 @@
+# N112: 基于 N58 原始 s_min=1 KB 假设计算总数据量 S_total：E[S] = 1.1*1KB/0.1 = 11 KB。S_total = 100,0
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N34
+
+## Claim
+
+基于 N58 原始 s_min=1 KB 假设计算总数据量 S_total：E[S] = 1.1*1KB/0.1 = 11 KB。S_total = 100,000 * 11 KB = 1.1 GB。p_cache = 128 GB / 1.1 GB ≈ 116.4。此结果同样表明缓存远超数据量，与 N34 结论一致，进一步证实题设中“边缘节点缓存瓶颈”的前提在 N=10^5 且 α=1.1 时不成立，除非 N 极大或 α 更大。
+
+## Corrected Claim
+
+基于 N58 原始 s_min=1 KB 假设计算总数据量 S_total：E[S] = 1.1*1KB/0.1 = 11 KB。S_total = 100,000 * 11 KB = 1.1 GB。p_cache = 128 GB / 1.1 GB ≈ 116.4。此结果同样表明缓存远超数据量，与 N34 结论一致，进一步证实题设中“边缘节点缓存瓶颈”的前提在 N=10^5 且 α=1.1 时不成立，除非 N 极大或 α 更大。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算 1.1*1/0.1=11 KB 及 100,000*11 KB=1.1 GB 正确，128/1.1≈116.4 正确，结论符合逻辑。

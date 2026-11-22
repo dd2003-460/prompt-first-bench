@@ -1,0 +1,24 @@
+# N13: LFU 策略在稳态下缓存的对象集合由访问频率决定，对于 Pareto(β=0.9) 的请求热度，LFU 缓存命中率的上界近似等于前 k 个最高频率对象覆盖的请求
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+LFU 策略在稳态下缓存的对象集合由访问频率决定，对于 Pareto(β=0.9) 的请求热度，LFU 缓存命中率的上界近似等于前 k 个最高频率对象覆盖的请求比例，其中 k 为缓存能容纳的对象数量（受大小分布影响）
+
+## Corrected Claim
+
+LFU 策略在稳态下缓存的对象集合由访问频率决定，对于 Pareto(β=0.9) 的请求热度，LFU 缓存命中率的上界近似等于前 k 个最高频率对象覆盖的请求比例，其中 k 为缓存能容纳的对象数量（受大小分布影响）
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点仅提供了基于理想 Pareto 分布的数学上限公式，忽略了父节点中明确提到的‘受大小分布影响’这一关键约束。在 LFU 中，缓存容量 k 受对象大小限制，子节点未涵盖对象大小对实际可容纳对象数及命中率的影响，导致分解不完备。）
+
+## Search Query
+
+LFU cache hit rate steady state Pareto request popularity

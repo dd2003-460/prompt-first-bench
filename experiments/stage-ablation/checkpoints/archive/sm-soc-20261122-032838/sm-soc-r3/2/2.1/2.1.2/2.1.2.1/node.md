@@ -1,0 +1,24 @@
+# N160: 流量-价格敏感度系数 $\kappa_{traffic}$ 的定义：$\frac{\partial \ln A_{eff}}{\partial \ln P_{a
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N52
+
+## Claim
+
+流量-价格敏感度系数 $\kappa_{traffic}$ 的定义：$\frac{\partial \ln A_{eff}}{\partial \ln P_{ask}} = \kappa_{traffic}$。若平台算法按 GMV 排序，$\kappa_{traffic} > 0$；若按点击率排序，$\kappa_{traffic} \approx 0$。在 $rac{\partial E[T_{sale}]}{\partial P_{ask}}$ 的计算中，若忽略 $\kappa_{traffic}$，则一阶条件推导失效。需通过平台公开数据或 A/B 测试估计 $\kappa_{traffic}$ 的区间（如 0.1-0.5）。
+
+## Corrected Claim
+
+流量-价格敏感度系数 $\kappa_{traffic}$ 定义为 $\frac{\partial \ln A_{eff}}{\partial \ln P_{ask}}$。其具体数值及符号取决于平台排序算法（如GMV或点击率导向），需通过实证数据（如A/B测试）估计，而非固定为0.1-0.5。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数区间（0.1-0.5）和特定平台算法行为假设（GMV排序导致正敏感度），属于经验事实而非第一性原理可推导的数学性质。在缺乏外部来源支持的情况下，无法验证该系数区间及因果关系的准确性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+marketplace algorithm ranking price bias exposure weight empirical estimate

@@ -1,0 +1,30 @@
+# N239: 在 24GB 显存方案中，KV Cache 精度选择（FP16 vs FP8）对最终推理质量（如 MMLU 准确率）的影响需量化：通常 FP8 KV Cache
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N94
+
+## Claim
+
+在 24GB 显存方案中，KV Cache 精度选择（FP16 vs FP8）对最终推理质量（如 MMLU 准确率）的影响需量化：通常 FP8 KV Cache 带来的准确率损失 < 0.5%，若损失 > 1% 则需回退至 FP16 并放弃 32K 上下文支持或升级显存。
+
+## Corrected Claim
+
+在 24GB 显存方案中，FP8 KV Cache 通常能显著降低显存占用且精度损失极小（如困惑度上升 < 0.1%），具体对 MMLU 等基准测试的准确率影响需根据实际模型和任务量化评估，若发现显著性能下降则需回退至 FP16 或调整上下文长度。
+
+## Evidence
+
+[质询]陈述中关于FP8 KV Cache准确率损失的具体阈值（<0.5%）及回退条件（>1%）属于经验性工程参数，参考来源仅提供了困惑度（Perplexity）上升幅度（如<0.1%），未直接提供MMLU准确率损失的具体数值，且不同模型/任务下损失波动较大，该具体数值缺乏直接来源支持。 | 来源[2]指出FP8 KV Cache几乎无损（困惑度上升<0.1%），支持了FP8精度损失较小的定性结论，但未直接验证MMLU准确率损失<0.5%的具体数值；作为经验事实，逻辑自洽但缺直接来源支持，故降级。
+
+## Search Query
+
+Qwen3 KV cache FP8 accuracy loss benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_01180/article/details/166994585&rut=0e04402cbf56247bcb58b483ef58879995493902e80e0f0af55cbbd9dfcd4b40', 'type': 'ddg', 'title': 'NInfer KV Cache 量化指南：BF16、INT8、FP8、NVFP4 与 K8V4 五种格式怎么选-CSDN'}
+- {'url': 'https://forceinjection.github.io/ai-infra-course/06-kvcache-optimization/visuals/kv-cache-precision.html&rut=089c28771565172f4a40ee6502c415ff3780df285a55631a768b072928dcb76d', 'type': 'ddg', 'title': 'KV Cache 精度 — FP16 · FP8 · INT8 · INT4'}
+- {'url': 'https://blog.csdn.net/weixin_29045001/article/details/169512299&rut=d5a5d4d29274877a01a19eb5e450296efae48d275ef9524cc32fd09c37aa7c13', 'type': 'ddg', 'title': 'KV Cache显存占用原理与FP8量化实战指南 - CSDN博客'}

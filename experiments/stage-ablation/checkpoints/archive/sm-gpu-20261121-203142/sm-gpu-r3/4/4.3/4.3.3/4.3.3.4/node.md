@@ -1,0 +1,24 @@
+# N269: Bit-flip 概率的理论估算模型：基于 DRAM/GPU VRAM 错误率文献，每 bit 每小时错误率约为 10^-15 到 10^-12 (取决于温度与
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N85, N86, N87
+
+## Claim
+
+Bit-flip 概率的理论估算模型：基于 DRAM/GPU VRAM 错误率文献，每 bit 每小时错误率约为 10^-15 到 10^-12 (取决于温度与电压)；对于 24GB VRAM (约 2e11 bits)，在 32K 上下文推理周期 (假设 1 小时) 内，发生至少一次 bit-flip 的概率 P ≈ 1 - exp(-N_bits * rate * time)；若无 ECC，该错误将直接导致 KV Cache 或权重损坏，进而引发输出错误。
+
+## Corrected Claim
+
+Bit-flip 概率的理论估算模型：基于 DRAM/GPU VRAM 错误率文献，每 bit 每小时错误率约为 10^-15 到 10^-12 (取决于温度与电压)；对于 24GB VRAM (约 2e11 bits)，在 32K 上下文推理周期 (假设 1 小时) 内，发生至少一次 bit-flip 的概率 P ≈ 1 - exp(-N_bits * rate * time)；若无 ECC，该错误将直接导致 KV Cache 或权重损坏，进而引发输出错误。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：DRAM/GPU VRAM 的 bit error rate (BER) 量级（10^-15 到 10^-12 per bit per hour）符合硬件可靠性文献常识；24GB 换算为 2e11 bits 量级正确；泊松分布近似公式 P ≈ 1 - exp(-λ) 在低概率事件下逻辑自洽；无 ECC 导致数据损坏进而影响推理结果的因果链条符合计算机体系结构基本原理。
+
+## Search Query
+
+GPU VRAM bit flip rate error correction code ECC probability estimation

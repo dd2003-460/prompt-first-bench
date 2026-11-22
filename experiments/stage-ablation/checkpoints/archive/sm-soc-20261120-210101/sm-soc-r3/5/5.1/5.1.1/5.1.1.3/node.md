@@ -1,0 +1,20 @@
+# N316: λ_seller 的异质性分析：按卖家信用分 μ_credit 分组，高信用卖家（μ_credit > 0.8）的 λ_high 与低信用卖家（μ_credit
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N91
+
+## Claim
+
+λ_seller 的异质性分析：按卖家信用分 μ_credit 分组，高信用卖家（μ_credit > 0.8）的 λ_high 与低信用卖家（μ_credit < 0.5）的 λ_low 差异显著性检验。假设 λ_high = 1.8, λ_low = 2.2，t 检验统计量 t = (λ_high - λ_low) / sqrt(Var_high/n_high + Var_low/n_low)，若 |t| > 1.96，则差异显著。
+
+## Corrected Claim
+
+λ_seller 的异质性分析：按卖家信用分 μ_credit 分组，高信用卖家（μ_credit > 0.8）的 λ_high 与低信用卖家（μ_credit < 0.5）的 λ_low 差异显著性检验。假设 λ_high = 1.8, λ_low = 2.2，t 检验统计量 t = (λ_high - λ_low) / sqrt(Var_high/n_high + Var_low/n_low)，若 |t| > 1.96，则差异显著。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：t检验公式结构正确，双尾检验临界值1.96符合标准正态分布95%置信水平，数值量级合理。

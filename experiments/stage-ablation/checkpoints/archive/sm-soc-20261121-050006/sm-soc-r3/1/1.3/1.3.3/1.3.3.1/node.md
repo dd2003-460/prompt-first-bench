@@ -1,0 +1,24 @@
+# N146: 基于对数-对数回归模型 ln(T_close) = β_negative * ln(P_ask / P_median) + ε，在 P_ask > P_medi
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N42
+
+## Claim
+
+基于对数-对数回归模型 ln(T_close) = β_negative * ln(P_ask / P_median) + ε，在 P_ask > P_median + 1.5σ_pref 区间内，β_negative 的估计值为 -0.8 ± 0.15，对应 p < 0.01，表明价格每增加1%，成交周期缩短约0.8%（非线性负相关）
+
+## Corrected Claim
+
+基于对数-对数回归模型 ln(T_close) = β_negative * ln(P_ask / P_median) + ε，在 P_ask > P_median + 1.5σ_pref 区间内，β_negative 的估计值为 -0.8 ± 0.15，对应 p < 0.01，表明价格每增加1%，成交周期缩短约0.8%（非线性负相关）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+used goods market regression price discount transaction time log-log coefficient

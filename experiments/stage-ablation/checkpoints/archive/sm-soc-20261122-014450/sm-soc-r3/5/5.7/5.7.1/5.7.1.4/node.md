@@ -1,0 +1,24 @@
+# N334: H4(平台算法权重 W) 的逻辑斯蒂分布参数化形式为 W = 1 / (1 + exp(-β(P_list - P_market)))，其中 β 为算法对价格溢
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N106
+
+## Claim
+
+H4(平台算法权重 W) 的逻辑斯蒂分布参数化形式为 W = 1 / (1 + exp(-β(P_list - P_market)))，其中 β 为算法对价格溢价的敏感度系数，需设定 β ~ U(0.5, 2.0) 以覆盖从弱价格导向到强价格导向的平台策略空间，该参数决定了高挂价商品获得额外曝光的概率密度。
+
+## Corrected Claim
+
+H4(平台算法权重 W) 的逻辑斯蒂分布参数化形式为 W = 1 / (1 + exp(-β(P_list - P_market)))，其中 β 为算法对价格溢价的敏感度系数，需设定 β ~ U(0.5, 2.0) 以覆盖从弱价格导向到强价格导向的平台策略空间，该参数决定了高挂价商品获得额外曝光的概率密度。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：逻辑斯蒂函数形式正确，β作为敏感度系数控制曲线陡峭度，U(0.5, 2.0)作为超参数先验分布设定合理，符合平台算法建模的常规逻辑。
+
+## Search Query
+
+marketplace algorithm pricing weight logistic function sensitivity beta parameter

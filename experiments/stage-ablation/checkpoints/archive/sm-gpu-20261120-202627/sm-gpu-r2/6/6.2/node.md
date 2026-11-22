@@ -1,0 +1,24 @@
+# N29: 关键不确定性变量 2：电力价格与使用时长敏感性分析。若电价 E_price > 0.15 USD/kWh 且日均使用 > 8 小时，则高 TDP 消费级方案 (
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+关键不确定性变量 2：电力价格与使用时长敏感性分析。若电价 E_price > 0.15 USD/kWh 且日均使用 > 8 小时，则高 TDP 消费级方案 (4090) 的 OpEx 可能在 18-24 个月内抵消其 CapEx 优势，此时数据中心卡 (A100/L40S) 因能效比 (TFLOPS/W) 更高而成为 TCO 最优。
+
+## Corrected Claim
+
+关键不确定性变量 2：电力价格与使用时长敏感性分析。若电价 E_price > 0.15 USD/kWh 且日均使用 > 8 小时，则高 TDP 消费级方案 (4090) 的 OpEx 可能在 18-24 个月内抵消其 CapEx 优势，此时数据中心卡 (A100/L40S) 因能效比 (TFLOPS/W) 更高而成为 TCO 最优。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：4090 TDP约450W，A100约400W但能效比更高；在电价>0.15 USD/kWh且高负载下，4090的电力成本累积速度确实可能在18-24个月内抵消其较低的初始CapEx，符合TCO分析的基本经济逻辑。
+
+## Search Query
+
+GPU electricity cost break even point high TDP vs datacenter efficiency

@@ -1,0 +1,29 @@
+# N154: A100 40GB SXM 在 LLM 推理时的功耗特征：TDP 400W 为峰值，但 SXM 模块功耗包含基板开销，实际 GPU 核心功耗约 300-350W
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N32
+
+## Claim
+
+A100 40GB SXM 在 LLM 推理时的功耗特征：TDP 400W 为峰值，但 SXM 模块功耗包含基板开销，实际 GPU 核心功耗约 300-350W，且服务器平台（如 DGX A100）整体系统功耗（含 CPU、内存、风扇）约为 1000-1200W，TCO 计算应基于系统级功耗而非仅 GPU TDP。
+
+## Corrected Claim
+
+A100 40GB SXM 的 TDP 为 400W。在 DGX A100 等服务器平台中，系统整体功耗（含 CPU、内存、风扇等）显著高于单卡 TDP，TCO 计算应基于系统级功耗而非仅 GPU TDP。具体核心功耗与系统总功耗数值需参考具体硬件规格书。
+
+## Evidence
+
+[质询]参考来源仅提供了DGX A100的系统级描述和电源电压要求，未提供具体的GPU核心功耗分解（300-350W）或系统总功耗的具体数值（1000-1200W），无法直接验证这些具体数值。 | 经验事实，逻辑自洽但缺来源支持。来源[1]和[2]确认了DGX A100的存在及系统级属性，但未提供具体的功耗数值分解，无法直接支持300-350W核心功耗和1000-1200W系统功耗的具体数值。
+
+## Search Query
+
+A100 SXM system power consumption DGX A100 total watts inference
+
+## Retrieval Sources
+
+- {'url': 'https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/nvidia-dgx-a100-datasheet.pdf&rut=613d34daa90154e4fd51c33a35e55bb7cc830d503a146bef5623fbb2d4f9a34c', 'type': 'ddg', 'title': 'PDF NVIDIA DGX A100 Datasheet'}
+- {'url': 'https://docs.nvidia.com/dgx/dgx-station-a100-user-guide/hardware-specifications-station-a100.html&rut=194b63bbf9e2d4af640d287420f74f97b6f4f9055457696c67d8e145dcbf6deb', 'type': 'ddg', 'title': 'DGX Station A100 Hardware Specifications'}

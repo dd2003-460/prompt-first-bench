@@ -1,0 +1,20 @@
+# N82: 在 INT8 精度下，Qwen3-27B 模型权重占用显存约为 27 GB，超过 RTX 4090 的 24 GB 显存容量，因此无法在单卡上完整加载 INT8
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N29
+
+## Claim
+
+在 INT8 精度下，Qwen3-27B 模型权重占用显存约为 27 GB，超过 RTX 4090 的 24 GB 显存容量，因此无法在单卡上完整加载 INT8 权重，N29 的前提存在物理不可行性，必须采用 W4 量化或 CPU Offload 方案
+
+## Corrected Claim
+
+在 INT8 精度下，Qwen3-27B 模型权重占用显存约为 27 GB，超过 RTX 4090 的 24 GB 显存容量，因此无法在单卡上完整加载 INT8 权重，N29 的前提存在物理不可行性，必须采用 W4 量化或 CPU Offload 方案
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数在INT8下占用约27GB显存，确实超过RTX 4090的24GB显存容量，物理上无法单卡完整加载。

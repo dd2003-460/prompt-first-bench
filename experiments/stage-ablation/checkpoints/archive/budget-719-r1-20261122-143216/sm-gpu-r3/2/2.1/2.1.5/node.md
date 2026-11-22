@@ -1,0 +1,24 @@
+# N60: NVIDIA L40S 48GB 在 2024 年 Q4 至 2025 年 Q1 的市场现货价格区间（美元），作为数据中心级低功耗单卡候选，需对比其 TDP（3
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+NVIDIA L40S 48GB 在 2024 年 Q4 至 2025 年 Q1 的市场现货价格区间（美元），作为数据中心级低功耗单卡候选，需对比其 TDP（350W）与 H100（700W）在 3 年 TCO 中的电力成本差异
+
+## Corrected Claim
+
+NVIDIA L40S 48GB 在 2024 年 Q4 至 2025 年 Q1 的市场现货价格区间需进一步核实；其 TDP 为 350W，H100 为 700W，在相同运行时间下，L40S 的电力成本约为 H100 的一半，但需结合算力性能评估整体 TCO。
+
+## Evidence
+
+[质询]该陈述包含具体的市场价格区间（经验事实），且检索无可用来源，无法验证具体数值是否准确；此外，将L40S与H100进行TCO对比时，仅考虑电力成本差异而忽略算力性能差异（H100 FP16/FP8性能远高于L40S）可能导致TCO结论误导，但作为单纯电力成本对比的逻辑是成立的。 | 经验事实，逻辑自洽但缺来源支持（检索失败，无外部证据）
+
+## Search Query
+
+NVIDIA L40S 48GB market price USD 2024 Q4 2025 Q1 TDP power cost

@@ -1,0 +1,24 @@
+# N281: RTX 4090 单卡方案的实时市场价格区间：Price_range = [Min_Newegg, Max_Amazon]，需查询最近 30 天历史价格数据，若
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N99, N100, N101
+
+## Claim
+
+RTX 4090 单卡方案的实时市场价格区间：Price_range = [Min_Newegg, Max_Amazon]，需查询最近 30 天历史价格数据，若当前价格 > $1900，则 N101 中的 $1800 假设失效，需重新计算 CapEx 并评估对 TCO 排序的影响。
+
+## Corrected Claim
+
+RTX 4090 单卡方案的实时市场价格需查询最近 30 天历史数据以确认是否超过 $1900 阈值；若确认超过，则 N101 中的 $1800 假设失效，需重新计算 CapEx 并评估对 TCO 排序的影响。
+
+## Evidence
+
+[质询]该陈述包含具体的实时市场价格阈值（$1900）和特定平台（Newegg/Amazon）的历史数据要求，属于经验事实。由于检索失败，无法验证当前实际价格是否确实高于$1900，也无法确认最近30天的具体价格区间，因此无法排除当前价格低于阈值或数据源不可用的可能性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证实时价格数据）
+
+## Search Query
+
+RTX 4090 price history last 30 days Newegg Amazon

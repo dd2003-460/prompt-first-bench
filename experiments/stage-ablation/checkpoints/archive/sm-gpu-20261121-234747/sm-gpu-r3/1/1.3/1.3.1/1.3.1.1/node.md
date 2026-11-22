@@ -1,0 +1,24 @@
+# N199: Xeon 8480+ (Sapphire Rapids, 56C) 在 2025-01 的 OEM/零售市场均价区间为 $12,500-$14,500 USD，
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N45
+
+## Claim
+
+Xeon 8480+ (Sapphire Rapids, 56C) 在 2025-01 的 OEM/零售市场均价区间为 $12,500-$14,500 USD，具体取决于批量采购量及渠道（如 Dell/HPE 服务器 vs 独立 CPU 盒装），需核实具体 SKU 链接及查询日期。
+
+## Corrected Claim
+
+Xeon 8480+ (Sapphire Rapids, 56C) 在 2025-01 的 OEM/零售市场均价区间约为 $12,500-$14,500 USD（待核实），具体取决于批量采购量及渠道。
+
+## Evidence
+
+[质询]具体价格区间（$12,500-$14,500）属于高度波动的市场经验数据，且缺乏来源支持，无法验证其准确性；此外，Xeon 8480+ 作为高端 SKU，其实际市场流通量和价格透明度较低，该区间可能基于过时或特定渠道数据。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+Xeon 8480+ price January 2025

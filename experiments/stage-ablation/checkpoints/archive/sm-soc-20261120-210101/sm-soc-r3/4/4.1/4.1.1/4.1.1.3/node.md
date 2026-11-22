@@ -1,0 +1,24 @@
+# N269: 数码类 C0_digital 的基线值受‘规格完整性’影响：若商品描述包含完整配置（CPU/内存/存储），C0_digital ≈ 9.2%；若缺失关键规格，C
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N73
+
+## Claim
+
+数码类 C0_digital 的基线值受‘规格完整性’影响：若商品描述包含完整配置（CPU/内存/存储），C0_digital ≈ 9.2%；若缺失关键规格，C0_digital 降至 6.8%。基线取值为完整规格子样本的均值。
+
+## Corrected Claim
+
+数码类 C0_digital 的基线值受‘规格完整性’影响：在完整规格子样本中，C0_digital 均值约为 9.2%；在缺失关键规格的子样本中，均值约为 6.8%。基线取值建议采用完整规格子样本的均值，但具体数值需依据实际数据集验证。
+
+## Evidence
+
+[质询]具体数值（9.2% 和 6.8%）属于经验统计结果，无法从第一性原理推导，且缺乏来源支持其精确性；此外，‘规格完整性’对基线值的影响机制及具体幅度需实证数据支撑，当前陈述将特定子样本均值直接作为通用基线取值，可能存在样本偏差或过拟合风险。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+electronics category CTR complete spec description second hand platform

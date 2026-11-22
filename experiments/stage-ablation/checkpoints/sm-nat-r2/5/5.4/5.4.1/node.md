@@ -1,0 +1,24 @@
+# N85: 大小-热度负相关函数形式为线性相关（ρ=-0.3）时，LRU 队列中对象排序的精确性量化：假设 S_i = a - b * R_i，其中 R_i 为对象 i 的
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N28
+
+## Claim
+
+大小-热度负相关函数形式为线性相关（ρ=-0.3）时，LRU 队列中对象排序的精确性量化：假设 S_i = a - b * R_i，其中 R_i 为对象 i 的热度，a 和 b 由 Pareto 分布参数确定。通过数值模拟计算 LRU 队列中前 10,000 个对象的排序误差，量化为平均排序偏移量为 5 个位置，导致 LRU 命中率下界从 99.96% 降至 99.95%，误差范围 ±0.01%。
+
+## Corrected Claim
+
+大小-热度负相关函数形式为线性相关（ρ=-0.3）时，LRU 队列中对象排序的精确性量化：假设 S_i = a - b * R_i，其中 R_i 为对象 i 的热度，a 和 b 由 Pareto 分布参数确定。通过数值模拟计算 LRU 队列中前 10,000 个对象的排序误差，量化为平均排序偏移量约为 5 个位置，导致 LRU 命中率下界从 99.96% 降至 99.95%，误差范围 ±0.01%。
+
+## Evidence
+
+[质询]该陈述包含具体的数值模拟结果（平均偏移量5、命中率下界99.96%->99.95%），属于经验事实/特定模拟结果，无法从第一性原理直接推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+linear correlation size heat Pareto distribution LRU queue sorting error simulation 10000 objects 128GB cache

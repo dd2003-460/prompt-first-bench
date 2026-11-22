@@ -1,0 +1,20 @@
+# N327: 溢价率下降幅度 ΔP% 的置信区间：基于 N132 的 ΔP%_mean 和 σ_P，计算 ΔP% 的 95% 置信区间 [ΔP%_low, ΔP%_high]
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N104
+
+## Claim
+
+溢价率下降幅度 ΔP% 的置信区间：基于 N132 的 ΔP%_mean 和 σ_P，计算 ΔP% 的 95% 置信区间 [ΔP%_low, ΔP%_high]，验证其是否显著低于 0（即溢价率确实下降）。
+
+## Corrected Claim
+
+溢价率下降幅度 ΔP% 的置信区间：基于 N132 的 ΔP%_mean 和 σ_P，计算 ΔP% 的 95% 置信区间 [ΔP%_low, ΔP%_high]，验证其是否显著低于 0（即溢价率确实下降）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

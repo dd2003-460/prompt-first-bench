@@ -1,0 +1,20 @@
+# N345: ‘成交周期缩短’的定义基准：ΔT = T_intervention - T_baseline，其中T_baseline为无干预对照组的平均成交周期，需明确对照组
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N101
+
+## Claim
+
+‘成交周期缩短’的定义基准：ΔT = T_intervention - T_baseline，其中T_baseline为无干预对照组的平均成交周期，需明确对照组的时间窗口（如30天）
+
+## Corrected Claim
+
+‘成交周期缩短’的定义基准：ΔT = T_intervention - T_baseline，其中T_baseline为无干预对照组的平均成交周期，需明确对照组的时间窗口（如30天）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

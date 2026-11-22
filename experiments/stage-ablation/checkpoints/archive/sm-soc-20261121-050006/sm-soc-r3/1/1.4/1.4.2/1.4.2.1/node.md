@@ -1,0 +1,24 @@
+# N153: γ_defect 的共享随机源为买家个体层面的信息不对称敏感度 ε_asym，其分布服从 Beta(α, β)，其中 α=4, β=3，均值 μ_ε=0.57，
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N45, N46, N47
+
+## Claim
+
+γ_defect 的共享随机源为买家个体层面的信息不对称敏感度 ε_asym，其分布服从 Beta(α, β)，其中 α=4, β=3，均值 μ_ε=0.57，标准差 σ_ε=0.15；该分布描述了买家在缺乏商品质量信号时的基础怀疑倾向。
+
+## Corrected Claim
+
+γ_defect 的共享随机源为买家个体层面的信息不对称敏感度 ε_asym，其分布服从 Beta(α, β)，其中 α=4, β=3，均值 μ_ε=0.57，标准差 σ_ε=0.15；该分布描述了买家在缺乏商品质量信号时的基础怀疑倾向。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Beta(4,3)分布的均值计算为4/(4+3)=4/7≈0.571，标准差计算为sqrt(4*3/(49*8))≈0.149，与陈述中的0.57和0.15在数值精度上完全一致，逻辑自洽。
+
+## Search Query
+
+information asymmetry sensitivity beta distribution buyer behavior

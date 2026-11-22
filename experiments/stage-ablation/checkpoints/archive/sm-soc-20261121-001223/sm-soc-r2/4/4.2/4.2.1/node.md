@@ -1,0 +1,24 @@
+# N61: DiD 平行趋势假设的检验统计量：计算干预前 4 周卖家挂价溢价率 (ΔP/P) 的差分序列，若 F 统计量 p 值 > 0.10，则平行趋势不成立，DiD 估
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N20
+
+## Claim
+
+DiD 平行趋势假设的检验统计量：计算干预前 4 周卖家挂价溢价率 (ΔP/P) 的差分序列，若 F 统计量 p 值 > 0.10，则平行趋势不成立，DiD 估计量无效，需切换至 IV 框架。
+
+## Corrected Claim
+
+DiD 平行趋势假设的检验统计量：计算干预前 4 周卖家挂价溢价率 (ΔP/P) 的差分序列，若 F 统计量 p 值 < 0.10，则拒绝平行趋势假设，DiD 估计量可能无效，需考虑切换至 IV 框架或其他稳健方法。
+
+## Evidence
+
+[质询]逻辑方向错误：在平行趋势检验中，若 F 统计量 p 值 > 0.10，意味着无法拒绝原假设（即平行趋势成立），而非“平行趋势不成立”。原陈述将统计显著性判断反转，导致结论与统计原理相悖。 | 先验知识/题面给定，逻辑校验失败：p 值大于显著性水平（如 0.10）通常表示不显著，即支持原假设（平行趋势成立），而陈述称其导致“平行趋势不成立”，存在硬逻辑错误。
+
+## Search Query
+
+Difference-in-differences parallel trends test F statistic threshold

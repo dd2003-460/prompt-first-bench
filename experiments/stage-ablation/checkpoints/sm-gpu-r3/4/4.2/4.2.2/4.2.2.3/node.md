@@ -1,0 +1,24 @@
+# N209: Decode 阶段的显存读取总量 R_decode 随上下文长度线性增长，公式为 R_decode = Weight_Size + KV_Cache_per_t
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N100
+
+## Claim
+
+Decode 阶段的显存读取总量 R_decode 随上下文长度线性增长，公式为 R_decode = Weight_Size + KV_Cache_per_token * (Seq_Len - 1)；在 32K 上下文下，BF16 总读取量为 55.07 GB，FP8 总读取量为 28.07 GB，INT4 总读取量为 14.57 GB
+
+## Corrected Claim
+
+Decode 阶段的显存读取总量 R_decode 随上下文长度线性增长，公式为 R_decode = Weight_Size + KV_Cache_per_token * (Seq_Len - 1)；在 32K 上下文下，BF16 总读取量为 55.07 GB，FP8 总读取量为 28.07 GB，INT4 总读取量为 14.57 GB
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式结构符合LLM Decode阶段显存读取规律（权重+KV Cache），数值量级与常见大模型（如7B-13B级别）在32K上下文下的显存占用估算相符，且BF16/FP8/INT4的数值比例（约2:1:0.5）符合位宽减半的线性缩放逻辑。
+
+## Search Query
+
+LLM decode memory bandwidth weight kv cache total read

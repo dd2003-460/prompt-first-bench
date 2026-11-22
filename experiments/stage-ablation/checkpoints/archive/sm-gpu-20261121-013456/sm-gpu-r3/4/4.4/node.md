@@ -1,0 +1,29 @@
+# N34: 工作点3（数据中心级/高吞吐）：代表方案为1×NVIDIA A100 80GB SXM，关键参数：采购价$10999（二手市场$6000-$8000，[时效待核
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+工作点3（数据中心级/高吞吐）：代表方案为1×NVIDIA A100 80GB SXM，关键参数：采购价$10999（二手市场$6000-$8000，[时效待核]），满载功耗~400W，推理吞吐量~45 tokens/s（27B BF16），TCO_3y = ($8000/3) + (0.4kW × 8760h × $0.12/kWh × 3) + ($2000/3) ≈ $2667 + $1343 + $667 = $4677；相比单卡消费级，吞吐量提升200%，TCO增加120%，单位token成本降低约33%
+
+## Corrected Claim
+
+工作点3（数据中心级/高吞吐）：代表方案为1×NVIDIA A100 80GB SXM，关键参数：采购价约$10999（二手市场波动较大），满载功耗~400W，推理吞吐量取决于具体模型与优化（27B BF16下通常高于消费级显卡），TCO_3y估算约为$4600-$4700（基于$0.12/kWh电价及二手价$8000假设）；相比主流消费级单卡，吞吐量显著提升，单位token成本通常更低，但具体提升比例需基于特定基准测试确定。
+
+## Evidence
+
+[质询]TCO计算中电力成本部分存在量级错误：0.4kW × 8760h × $0.12/kWh × 3 应约为 $1273，而非 $1343（差异较小但非主要问题）；主要攻击点在于‘推理吞吐量~45 tokens/s’这一具体数值缺乏通用基准支持，且‘相比单卡消费级’的对比基准（如RTX 4090或3090）未明确，导致‘吞吐量提升200%’和‘单位token成本降低33%’的结论依赖于未定义的假设，属于经验事实且缺乏来源直接支持。 | 来源[1]和[2]确认了A100 80GB SXM的存在及数据中心定位，但未提供具体的二手价格、特定模型（27B BF16）的吞吐量基准或TCO详细计算数据；该节点包含大量经验性参数（价格、功耗、吞吐量），逻辑上自洽但缺乏外部来源直接支持具体数值，符合degraded判定条件。
+
+## Search Query
+
+NVIDIA A100 80GB SXM price power consumption Qwen3 27B inference throughput tokens per second TCO
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2030937185046767385&rut=f452aca4ad19cb150a53894374a50b05f6a6c887c27d0096adc289c4a9f019f7', 'type': 'ddg', 'title': 'GPU服务器全景解读（三）：从A100到GB300，英伟达数据中心级AI芯片的算力演进'}
+- {'url': 'https://www.nvidia.com/en-us/data-center/a100/&rut=38f93d49197975b4d84b18bd45c960940b81d2ad31c34a55d13f0381a35a84dc', 'type': 'ddg', 'title': 'Nvidia A100 | Nvidia'}

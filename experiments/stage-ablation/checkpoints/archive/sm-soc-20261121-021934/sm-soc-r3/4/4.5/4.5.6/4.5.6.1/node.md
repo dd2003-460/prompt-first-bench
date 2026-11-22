@@ -1,0 +1,20 @@
+# N130: 品类标准化程度（标准化指数 S_index）的量化定义：S_index = 1 - (H_sku / H_max)，其中 H_sku 为同一品类下 SKU 参数
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N55
+
+## Claim
+
+品类标准化程度（标准化指数 S_index）的量化定义：S_index = 1 - (H_sku / H_max)，其中 H_sku 为同一品类下 SKU 参数的香农熵，H_max 为理论最大熵；S_index ∈ [0, 1]，值越高表示标品属性越强，该指标用于与 γ 进行回归分析以验证负相关关系。
+
+## Corrected Claim
+
+品类标准化程度（标准化指数 S_index）的量化定义：S_index = 1 - (H_sku / H_max)，其中 H_sku 为同一品类下 SKU 参数的香农熵，H_max 为理论最大熵；S_index ∈ [0, 1]，值越高表示标品属性越强，该指标用于与 γ 进行回归分析以验证负相关关系。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：香农熵归一化定义符合信息论标准，S_index ∈ [0, 1] 且与标准化程度正相关的逻辑自洽。

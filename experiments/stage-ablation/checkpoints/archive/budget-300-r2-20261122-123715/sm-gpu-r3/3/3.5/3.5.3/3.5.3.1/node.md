@@ -1,0 +1,24 @@
+# N282: 2x RTX 4090 在 PCIe 4.0 x16 互联下运行 Qwen3-27B 张量并行 (TP=2) 时，由于 Attention 层每层需跨卡同步 K
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N82
+
+## Claim
+
+2x RTX 4090 在 PCIe 4.0 x16 互联下运行 Qwen3-27B 张量并行 (TP=2) 时，由于 Attention 层每层需跨卡同步 KV 头 (GQA, 4 heads)，通信带宽瓶颈导致并行效率 k_parallel 实测值约为 0.65-0.75 (基于 vLLM 0.5.x 针对 A100/4090 的公开 benchmark 外推)，有效吞吐 Throughput_eff = 2 * 45 tok/s * 0.7 ≈ 63 tok/s。
+
+## Corrected Claim
+
+2x RTX 4090 在 PCIe 4.0 x16 互联下运行 Qwen3-27B 张量并行 (TP=2) 时，受限于 PCIe 带宽，并行效率 k_parallel 通常显著低于 1（具体数值取决于实现与负载，常见范围可能在 0.6-0.8 之间），导致有效吞吐低于单卡理论峰值的 2 倍。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（k_parallel 0.65-0.75, 45 tok/s, 63 tok/s），这些并非第一性原理可推导的数学或物理常数，而是依赖于具体硬件配置、软件版本（vLLM 0.5.x）、模型架构细节及负载情况的经验测量值。虽然逻辑上并行效率低于1是合理的，但具体数值缺乏来源支持，且‘基于A100/4090公开benchmark外推’这一说法本身具有不确定性，不同实现和配置下差异可能较大。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+vLLM tensor parallelism efficiency PCIe vs NVLink benchmark Qwen 27B

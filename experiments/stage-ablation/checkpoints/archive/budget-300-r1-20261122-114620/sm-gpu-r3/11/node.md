@@ -1,0 +1,20 @@
+# N138: 数据中心级GPU候选集补充：NVIDIA H200 (141GB HBM3e, 带宽4.8 TB/s, 价格$30,000+) 和 AMD MI300X (19
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+数据中心级GPU候选集补充：NVIDIA H200 (141GB HBM3e, 带宽4.8 TB/s, 价格$30,000+) 和 AMD MI300X (192GB HBM3, 带宽5.3 TB/s, 价格$15,000-$18,000) 必须纳入比较，因为H200的超大显存可单卡支持BF16 27B + 64K KV Cache + 高并发，MI300X的大显存提供低成本大容量选项，其性能/价格比可能优于H100/A100。
+
+## Corrected Claim
+
+数据中心级GPU候选集补充：NVIDIA H200 (141GB HBM3e, 带宽4.8 TB/s, 价格$30,000+) 和 AMD MI300X (192GB HBM3, 带宽5.3 TB/s, 价格$15,000-$18,000) 必须纳入比较，因为H200的超大显存可单卡支持BF16 27B + 64K KV Cache + 高并发，MI300X的大显存提供低成本大容量选项，其性能/价格比可能优于H100/A100。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

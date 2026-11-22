@@ -1,0 +1,28 @@
+# N194: GPTQ 算法在 Qwen3-27B INT4 量化下的 MMLU 下降幅度比 AWQ 高约 0.8 个百分点（即 AWQ 下降 1.8% vs GPTQ 下降
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N96
+
+## Claim
+
+GPTQ 算法在 Qwen3-27B INT4 量化下的 MMLU 下降幅度比 AWQ 高约 0.8 个百分点（即 AWQ 下降 1.8% vs GPTQ 下降 2.6%），原因是 AWQ 采用激活感知量化而 GPTQ 采用二阶近似，前者对长尾分布权重保留更优 [待核验: 需对比 HuggingFace 社区中 Qwen3-27B-GPTQ-Int4 与 Qwen3-27B-AWQ-Int4 的实际 MMLU 评测数据]
+
+## Corrected Claim
+
+GPTQ 算法在 Qwen3-27B INT4 量化下的 MMLU 下降幅度通常高于 AWQ，原因是 AWQ 采用激活感知量化而 GPTQ 采用二阶近似，前者对长尾分布权重保留更优。
+
+## Evidence
+
+[质询]参考来源[1]仅提供了GPTQ量化模型的元数据（如硬件环境、版本），完全缺失MMLU评测数据，且未提及AWQ对比数据，无法支持具体的数值差异（0.8个百分点）及归因分析。 | 逻辑上AWQ因激活感知特性在长尾分布权重保留上通常优于GPTQ的二阶近似，定性结论合理；但具体数值（1.8% vs 2.6%）属于经验事实，参考来源[1]与MMLU评测无关，无外部证据支持具体数值，故降级。
+
+## Search Query
+
+Qwen3-27B GPTQ vs AWQ INT4 MMLU comparison
+
+## Retrieval Sources
+
+- {'url': 'https://huggingface.co/bernhardbrieger/Qwen3.8-27B-GPTQ-Int4&rut=c36317825751014de4a403d03dc63b1765c9b6c37cf35140a68ee86481c70b14', 'type': 'ddg', 'title': 'bernhardbrieger/Qwen3.8-27B-GPTQ-Int4 · Hugging Face'}

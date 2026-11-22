@@ -1,0 +1,20 @@
+# N307: 在存在搜索摩擦修正项 β_friction=0.75（基于N77）的工作点，实际成交周期 T_actual = T_base * (1 + β_friction
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N91
+
+## Claim
+
+在存在搜索摩擦修正项 β_friction=0.75（基于N77）的工作点，实际成交周期 T_actual = T_base * (1 + β_friction * |P_ask - V|)。若干预使 P_ask 从 1.25V 降至 V，则摩擦项从 0.75*0.25=0.1875 降至 0，导致 T_actual 相对基准 T_base 的变化为 -18.75%，即原7天周期缩短1.31天，此工作点量化了价格偏离度消除对成交周期的直接边际贡献。
+
+## Corrected Claim
+
+在存在搜索摩擦修正项 β_friction=0.75（基于N77）的工作点，实际成交周期 T_actual = T_base * (1 + β_friction * |P_ask - V|)。若干预使 P_ask 从 1.25V 降至 V，则摩擦项从 0.75*0.25=0.1875 降至 0，导致 T_actual 相对基准 T_base 的变化为 -18.75%，即原7天周期缩短1.31天，此工作点量化了价格偏离度消除对成交周期的直接边际贡献。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 T_actual = T_base * (1 + β * |ΔP|) 在 P_ask=1.25V 时摩擦项为 0.75*0.25=0.1875，在 P_ask=V 时为 0，相对变化率 -18.75% 与 7天*18.75%=1.3125天（约1.31天）计算一致，逻辑自洽。

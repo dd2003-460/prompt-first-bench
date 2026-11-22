@@ -1,0 +1,24 @@
+# N62: 2×RTX 4090 24GB 硬件采购成本：单卡市场均价 $1,600 (2024年Q1-Q2数据)，双卡总价 $3,200
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N12, N13, N14
+
+## Claim
+
+2×RTX 4090 24GB 硬件采购成本：单卡市场均价 $1,600 (2024年Q1-Q2数据)，双卡总价 $3,200
+
+## Corrected Claim
+
+2×RTX 4090 24GB 硬件采购成本：单卡市场均价 $1,600 (2024年Q1-Q2数据)，双卡总价 $3,200
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+RTX 4090 market price 2024 Q1 Q2 average USD

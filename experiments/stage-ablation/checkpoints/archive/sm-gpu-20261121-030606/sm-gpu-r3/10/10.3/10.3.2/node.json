@@ -1,0 +1,33 @@
+{
+  "id": "N392",
+  "claim": "RTX 4090在Qwen3-27B FP8精度下，batch_size=1时的实际推理吞吐量为[待核验]，需通过vLLM或llama.cpp实测，预期值为60-75 tokens/s（基于1792 GB/s带宽和27GB权重+5.2GB KV Cache的计算瓶颈），若低于60 tokens/s则FP8优势不明显",
+  "level": "L4",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]预期值60-75 tokens/s与参考来源中实测数据严重不符。来源[2]显示单卡RTX 4090运行Qwen3.6-27B-FP8（同系列27B模型）非MTP模式仅26.5 tok/s，来源[1]显示双卡Q6_K量化仅36.11 tok/s。60-75 tok/s的预测值远高于实际硬件在类似模型规模下的表现，可能高估了带宽利用率或忽略了计算/内存访问开销。 | 逻辑上基于带宽瓶颈的估算自洽，但经验事实层面与来源[2]（单卡FP8实测26.5 tok/s）和来源[1]（双卡Q6_K实测36.11 tok/s）矛盾，来源未支持60-75 tok/s的高吞吐预期，反而显示实际性能远低于此。",
+  "corrected_claim": "RTX 4090在Qwen3-27B FP8精度下，batch_size=1时的实际推理吞吐量预期显著低于60 tokens/s，参考同系列模型实测数据约为25-35 tokens/s（非推测解码模式），若启用MTP等优化技术可能提升至60+ tokens/s，但基础吞吐难以达到60-75 tokens/s。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N160"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "RTX 4090 Qwen3-27B FP8 inference throughput tokens per second benchmark",
+  "retrieval_sources": [
+    {
+      "url": "https://blog.csdn.net/2302_79462688/article/details/159615336&rut=70b8514c1a0796cbc6a47be8794b32b18ac6b9aa076aaa25d90ea90f50e5f96e",
+      "type": "ddg",
+      "title": "Qwen3.5-27B 双RTX 4090部署实战：从环境配置到性能调优全记录_tensorrt-llm qwen3.5"
+    },
+    {
+      "url": "https://juejin.cn/post/7673029031966670900&rut=41e0c949c1ec77cf208049e5cd8fca4f95712c11991de054afe35286bf851184",
+      "type": "ddg",
+      "title": "单卡 RTX 4090 上 Qwen3.6-27B-FP8 极限优化：MTP 推测 ... - 掘金"
+    },
+    {
+      "url": "https://blog.csdn.net/pkyang2004/article/details/164110922&rut=ed3c7b7f1dfdd87c1c11f0af63868b8817ae04cbe66049a0196c503d9b8cfb44",
+      "type": "ddg",
+      "title": "RTX 4090D-48G本地部署 Qwen3.8-27B 经验总结_qwen3.5-27b-fp8的单请求tps-CSDN博客"
+    }
+  ]
+}

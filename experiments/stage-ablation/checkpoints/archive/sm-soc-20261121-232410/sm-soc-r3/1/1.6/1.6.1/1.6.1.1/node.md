@@ -1,0 +1,20 @@
+# N128: 工作点1（高透明/低时间）：T_search_base = 30分钟，对应平台展示历史成交价、卖家信用评分、实时库存等完整信息模块，信息获取成本 C_info 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N45
+
+## Claim
+
+工作点1（高透明/低时间）：T_search_base = 30分钟，对应平台展示历史成交价、卖家信用评分、实时库存等完整信息模块，信息获取成本 C_info = 0.5元/次，买家决策置信度 P_confidence = 0.85，搜索效率提升率 α = 0.33，适用于高价值、低频交易品类。
+
+## Corrected Claim
+
+工作点1（高透明/低时间）：T_search_base = 30分钟，对应平台展示历史成交价、卖家信用评分、实时库存等完整信息模块，信息获取成本 C_info = 0.5元/次，买家决策置信度 P_confidence = 0.85，搜索效率提升率 α = 0.33，适用于高价值、低频交易品类。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

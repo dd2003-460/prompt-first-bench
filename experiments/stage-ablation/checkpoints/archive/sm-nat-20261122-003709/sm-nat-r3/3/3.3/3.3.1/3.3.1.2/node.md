@@ -1,0 +1,20 @@
+# N166: 工作点2（中驻留/中更新）：假设 T_res = 5天（基于 H_static=0.80），计算 M_invalidation = 1 - exp(-0.01 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N55
+
+## Claim
+
+工作点2（中驻留/中更新）：假设 T_res = 5天（基于 H_static=0.80），计算 M_invalidation = 1 - exp(-0.01 * 5) \approx 0.0488，此时 D_eff = 0.9512，命中率折损约5%，适用于典型动态网页场景。
+
+## Corrected Claim
+
+工作点2（中驻留/中更新）：假设 T_res = 5天（基于 H_static=0.80），计算 M_invalidation = 1 - exp(-0.01 * 5) \approx 0.0488，此时 D_eff = 0.9512，命中率折损约5%，适用于典型动态网页场景。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学计算 1 - exp(-0.05) ≈ 0.04877 与陈述一致，D_eff 推导正确，符合指数衰减模型逻辑。

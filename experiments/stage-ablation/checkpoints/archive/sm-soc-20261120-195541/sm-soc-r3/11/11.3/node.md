@@ -1,0 +1,24 @@
+# N208: σ_noise 与 C_verify 交互效应的边界条件：当商品单位价值 V < C_verify / (1 - D_quality) 时，质量怀疑机制主导，噪
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N69
+
+## Claim
+
+σ_noise 与 C_verify 交互效应的边界条件：当商品单位价值 V < C_verify / (1 - D_quality) 时，质量怀疑机制主导，噪声加速效应失效，此时统一假设链断裂，需引入修正项 ε_boundary = (V - C_verify) / C_verify 作为置信度衰减因子
+
+## Corrected Claim
+
+在特定质量怀疑机制模型中，当商品单位价值 V 低于阈值 C_verify / (1 - D_quality) 时，噪声加速效应可能失效，需引入修正项以调整置信度，具体修正系数取决于模型定义。
+
+## Evidence
+
+[质询]该陈述包含具体的数学公式（ε_boundary = (V - C_verify) / C_verify）和特定的边界条件阈值，属于经验性或模型特定的参数设定，而非通用的第一性原理或数学公理。在缺乏具体模型定义或来源支持的情况下，无法验证该特定公式的普适性或正确性，存在将特定模型假设误认为通用真理的风险。 | 先验知识/题面给定，逻辑校验通过（量纲一致，逻辑自洽），但作为经验性模型参数，缺乏外部来源直接支持，依据经验事实排除条款降级。
+
+## Search Query
+
+boundary condition where verification cost exceeds item value in secondhand market

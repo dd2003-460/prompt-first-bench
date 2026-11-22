@@ -1,0 +1,24 @@
+# N303: 硬伤定义与检测阈值：'明显硬伤'需定义为功能失效（如无法开机）或外观严重损坏（如屏幕碎裂面积 > 20%），并建立基于图像识别或卖家自报的 defect_sco
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N103
+
+## Claim
+
+硬伤定义与检测阈值：'明显硬伤'需定义为功能失效（如无法开机）或外观严重损坏（如屏幕碎裂面积 > 20%），并建立基于图像识别或卖家自报的 defect_score ∈ [0,1]，当 defect_score > 0.6 且 P_ask > 1.4 * P_median 时，启发式失效概率 P_fail 从基线 5% 上升至 30%。
+
+## Corrected Claim
+
+硬伤定义与检测阈值：'明显硬伤'需定义为功能失效（如无法开机）或外观严重损坏（如屏幕碎裂面积 > 20%），并建立基于图像识别或卖家自报的 defect_score ∈ [0,1]，当 defect_score > 0.6 且 P_ask > 1.4 * P_median 时，启发式失效概率 P_fail 从基线 5% 上升至 30%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+second hand product defect scoring threshold buyer trust

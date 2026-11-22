@@ -1,0 +1,20 @@
+# N55: 平台算法排序权重的调整机制：Rank_Score = w1 * CTR + w2 * Conversion_Rate - w3 * |P_listed - Me
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N19
+
+## Claim
+
+平台算法排序权重的调整机制：Rank_Score = w1 * CTR + w2 * Conversion_Rate - w3 * |P_listed - Median_P7D|，其中w3为惩罚系数，干预后w3增加，导致高溢价商品曝光下降，从而改变卖家最优定价策略。
+
+## Corrected Claim
+
+平台算法排序权重的调整机制：Rank_Score = w1 * CTR + w2 * Conversion_Rate - w3 * |P_listed - Median_P7D|，其中w3为惩罚系数，干预后w3增加，导致高溢价商品曝光下降，从而改变卖家最优定价策略。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式结构符合平台算法通过惩罚系数调节价格偏离度以影响曝光和定价策略的常见机制，量纲与逻辑自洽。

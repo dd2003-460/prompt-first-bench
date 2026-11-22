@@ -1,0 +1,29 @@
+# N353: 高挂价对 CTR 的弹性系数 ε_ctr：基于 A/B 测试或自然实验数据，计算 ε_ctr = d(ln CTR)/d(ln Price_Premium)；若
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N120
+
+## Claim
+
+高挂价对 CTR 的弹性系数 ε_ctr：基于 A/B 测试或自然实验数据，计算 ε_ctr = d(ln CTR)/d(ln Price_Premium)；若 ε_ctr > 0.3，则 15% 的溢价能带来 >5% 的 CTR 提升，足以触发算法流量倾斜。
+
+## Corrected Claim
+
+高挂价对 CTR 的弹性系数 ε_ctr 需基于具体平台的 A/B 测试数据确定；若实测 ε_ctr > 0.3，则 15% 的溢价理论上能带来约 4.5% 的 CTR 提升，可能触发算法流量倾斜。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（ε_ctr > 0.3）和因果推断（溢价带来CTR提升并触发流量倾斜），这属于特定平台或场景下的经验事实，无法从第一性原理推导，且参考来源均未提供相关数据支持。 | 逻辑上数学推导自洽（0.3 * 15% = 4.5% ≈ 5%），但参考来源[1][2]仅涉及CTR预测模型架构与基准测试，未涉及价格弹性或流量分配机制，属于经验事实且缺来源支持。
+
+## Search Query
+
+price premium impact on click-through rate second-hand goods
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org/abs/2609.37905&rut=92635c23e23b5b03c39df8ca447dbb4f7f0e711afae229683b029b1253de5ebf', 'type': 'ddg', 'title': '[2609.37905] Beyond Interaction Capacity: Estimator Scaling with ...'}
+- {'url': 'https://arxiv.org/pdf/2512.01179&rut=b024e80d9c45d53d717d3023fb3f3680dac9c90f12816152164ec5b8a5c3425c', 'type': 'ddg', 'title': 'Toward a benchmark for CTR prediction in online advertising: datasets ...'}

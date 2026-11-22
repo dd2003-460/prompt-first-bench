@@ -1,0 +1,24 @@
+# N63: α（Relevance）的基线约束：α 通常归一化为 1.0 或主导项，且 Relevance 由文本匹配度决定，与价格无关。因此，W_rec 对价格的敏感性完
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N15, N16, N17
+
+## Claim
+
+α（Relevance）的基线约束：α 通常归一化为 1.0 或主导项，且 Relevance 由文本匹配度决定，与价格无关。因此，W_rec 对价格的敏感性完全由 β 和 γ 决定，α 项不随 δ 变化，可作为控制变量排除干扰。
+
+## Corrected Claim
+
+α（Relevance）的基线约束：α 通常归一化为 1.0 或主导项，且 Relevance 由文本匹配度决定，与价格无关。因此，W_rec 对价格的敏感性完全由 β 和 γ 决定，α 项不随 δ 变化，可作为控制变量排除干扰。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在推荐系统多目标优化中，相关性（Relevance）通常基于文本/语义匹配，与价格无关，因此其权重项不随价格变化率 δ 变化，逻辑自洽。
+
+## Search Query
+
+relevance weight normalization in search ranking algorithms independent of price

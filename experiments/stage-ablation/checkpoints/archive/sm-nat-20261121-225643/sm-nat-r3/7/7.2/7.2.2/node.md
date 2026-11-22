@@ -1,0 +1,24 @@
+# N116: N43 中 'ΔH_drift ≈ (T_shift / τ_LFU) * (H_LFU_static - H_LRU_static)' 公式的适用边界量化：该
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N43
+
+## Claim
+
+N43 中 'ΔH_drift ≈ (T_shift / τ_LFU) * (H_LFU_static - H_LRU_static)' 公式的适用边界量化：该线性近似仅在 T_shift / τ_LFU < 0.5 时有效，当 T_shift / τ_LFU > 0.5 时，LFU 计数器已部分适应新热度分布，实际 ΔH_drift 应修正为 ΔH_drift ≈ (T_shift / τ_LFU) * (H_LFU_static - H_LRU_static) * exp(-T_shift / τ_LFU)，指数衰减项反映了适应过程中的非线性饱和效应，在 T_shift = τ_LFU 时修正因子为 e^-1 ≈ 0.368，即实际漂移劣势比线性近似低 63%。
+
+## Corrected Claim
+
+在特定缓存适应模型假设下，当 T_shift / τ_LFU > 0.5 时，LFU 计数器适应新热度分布导致漂移劣势非线性饱和，实际 ΔH_drift 可能低于线性近似值，具体修正因子需依据特定模型参数确定，此处引用的 exp(-T_shift / τ_LFU) 为一种可能的近似形式。
+
+## Evidence
+
+[质询]该公式属于特定缓存模型下的经验性近似或假设性推导，缺乏通用的物理或数学第一性原理支持。'exp(-T_shift / τ_LFU)' 这一具体的指数衰减形式及其阈值 0.5 的设定，若无特定论文或模型定义支撑，极易被视为过度拟合或臆造的数学形式，无法从基本逻辑中严格推出。 | 先验知识/题面给定，逻辑校验通过（量纲一致，指数衰减符合饱和效应直觉），但作为经验性工程近似公式，缺乏通用理论推导支持，且无外部来源验证其具体系数和阈值，故降级。
+
+## Search Query
+
+LFU cache drift adaptation non-linear correction exponential saturation

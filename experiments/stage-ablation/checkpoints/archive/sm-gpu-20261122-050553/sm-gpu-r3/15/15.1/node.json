@@ -1,0 +1,17 @@
+{
+  "id": "N350",
+  "claim": "RTX 5090 单卡方案失效边界：若用户要求 BF16 权重（54GB）或 FP8 权重 + BF16 KV Cache（43GB），RTX 5090 32GB 显存不足，方案直接失效；此时唯一可行替代为 2×RTX 4090（48GB）或 1×A100 40GB（需 FP8 KV Cache），切换成本差异为 $1200-$13000。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值量级与硬件规格存在明显矛盾：RTX 4090 单卡显存为 24GB，2×RTX 4090 总显存为 48GB，但通常受限于 NVLink 带宽或软件支持，双卡方案在 LLM 推理中往往无法像单卡 A100 那样高效利用全部显存进行 KV Cache 分配，且 48GB 总显存对于 54GB 的 BF16 权重依然不足（除非使用量化或 offload，但陈述未提及），导致‘唯一可行替代’的结论在逻辑上存疑；此外，A100 40GB 版本通常不支持 FP8 原生加速（需 A100 80GB 或 H100 等更新架构），FP8 KV Cache 在 A100 40GB 上的可行性存疑。 | 先验知识/题面给定，逻辑校验发现硬件规格与显存需求不匹配（2x4090=48GB < 54GB 权重），且 A100 40GB 对 FP8 支持有限，存在内部矛盾。",
+  "corrected_claim": "RTX 5090 32GB 显存不足以容纳 54GB BF16 权重或 43GB FP8 权重+BF16 KV Cache。替代方案需考虑显存总量大于模型需求：2×RTX 4090 (48GB) 仍不足以直接加载 54GB BF16 权重，需配合量化或 CPU offload；A100 40GB 同样显存不足，且 FP8 支持有限。更可行的替代可能是 A100 80GB 或 H100 80GB，或采用多卡集群。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N121"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

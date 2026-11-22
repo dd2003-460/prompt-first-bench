@@ -1,0 +1,24 @@
+# N313: RTX 4090 单卡 32K 上下文下，batch_size=4 时的激活值峰值为 2.16GB (0.54GB * 4)，CUDA Context 开销仍为
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N110, N111, N112
+
+## Claim
+
+RTX 4090 单卡 32K 上下文下，batch_size=4 时的激活值峰值为 2.16GB (0.54GB * 4)，CUDA Context 开销仍为 0.8GB，框架缓冲区为 0.5GB，总余量需求 3.46GB < 4.21GB 可用余量，无 OOM 风险，但接近极限，batch_size=5 将导致 OOM。
+
+## Corrected Claim
+
+在特定配置下，RTX 4090 单卡 32K 上下文、batch_size=4 时，若激活值峰值约为 2.16GB，加上 CUDA Context 及框架开销后总需求接近显存上限，存在 OOM 风险，batch_size=5 极大概率导致 OOM。
+
+## Evidence
+
+[质询]激活值峰值与 batch_size 呈线性关系（0.54GB * 4 = 2.16GB）的假设过于简化，忽略了 Transformer 中 Attention 矩阵随序列长度平方增长的特性以及不同层间激活值大小的差异；此外，'可用余量 4.21GB' 和 'CUDA Context 0.8GB' 等具体数值缺乏通用标准，高度依赖具体驱动版本、框架配置及显存碎片化情况，属于特定环境下的经验数据而非普适事实。 | 经验事实，逻辑自洽但缺来源支持；激活值线性缩放假设在长上下文下可能低估实际占用，且具体显存余量数值无通用标准，无法通过第一性原理严格推导，故降级。
+
+## Search Query
+
+RTX 4090 activation memory batch size 4 32k context OOM threshold

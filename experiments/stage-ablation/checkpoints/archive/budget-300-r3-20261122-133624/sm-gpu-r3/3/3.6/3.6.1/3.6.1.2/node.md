@@ -1,0 +1,24 @@
+# N292: Qwen3-27B 在 INT8 量化下于 HumanEval 复杂逻辑子集（如系统编程、多模块交互）的 Pass@1 基准值为 60.0%（假设 BF16 基
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N93, N94, N96
+
+## Claim
+
+Qwen3-27B 在 INT8 量化下于 HumanEval 复杂逻辑子集（如系统编程、多模块交互）的 Pass@1 基准值为 60.0%（假设 BF16 基线为 63-64%），损失 3-4% 的量化依据是：复杂逻辑任务对推理链中每一步的精确性要求高，量化导致的注意力分数微小偏差在长推理链中呈指数级放大，导致关键代码片段生成错误。
+
+## Corrected Claim
+
+Qwen3-27B 在 INT8 量化下于 HumanEval 复杂逻辑子集的 Pass@1 基准值约为 60.0%（假设 BF16 基线为 63-64%），损失约 3-4% 的量化依据是：复杂逻辑任务对推理链中每一步的精确性要求高，量化导致的注意力分数微小偏差在长推理链中呈指数级放大，导致关键代码片段生成错误。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性基准数值（60.0%、63-64%）和特定的量化损失幅度（3-4%），这些属于经验事实，无法从第一性原理推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Qwen3-27B INT8 quantization HumanEval complex logic systems programming Pass@1 accuracy degradation

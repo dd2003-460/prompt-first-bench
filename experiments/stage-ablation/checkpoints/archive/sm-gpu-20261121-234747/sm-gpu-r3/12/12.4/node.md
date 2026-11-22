@@ -1,0 +1,24 @@
+# N505: Apple M3 Max 64GB 的平均功耗需区分峰值功耗（约 100W）与持续推理功耗，在 24/7 连续推理场景下，平均功耗通常为 40-70W，需通过 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N159
+
+## Claim
+
+Apple M3 Max 64GB 的平均功耗需区分峰值功耗（约 100W）与持续推理功耗，在 24/7 连续推理场景下，平均功耗通常为 40-70W，需通过 Apple 官方功耗数据或第三方实测报告验证，具体数值取决于内存访问模式和计算负载 [待核验]
+
+## Corrected Claim
+
+Apple M3 Max 64GB 的功耗需区分峰值与持续负载，在 24/7 连续推理场景下，平均功耗通常低于峰值功耗，具体数值取决于内存访问模式和计算负载，需通过 Apple 官方功耗数据或第三方实测报告验证。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值范围（40-70W），属于硬件功耗规格，无法从第一性原理推导，且缺乏官方或权威第三方实测数据支持，存在数值量级不准确的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+Apple M3 Max average power consumption LLM inference 24/7 watts measured

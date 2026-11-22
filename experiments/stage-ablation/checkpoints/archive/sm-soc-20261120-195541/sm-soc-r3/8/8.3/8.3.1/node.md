@@ -1,0 +1,24 @@
+# N196: 交互项回归模型 Q = β0 + β1*W + β2*V + β3*W*V + ε 的统计显著性检验需设定最小样本量 n_min，基于效应量 f²=0.02 (
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N66
+
+## Claim
+
+交互项回归模型 Q = β0 + β1*W + β2*V + β3*W*V + ε 的统计显著性检验需设定最小样本量 n_min，基于效应量 f²=0.02 (小效应) 和统计功效 1-β=0.8，计算得出 n_min ≈ 786，若实际样本量 n < 786，则 β3 的 p 值不可信，需标记为 [统计功效不足]。
+
+## Corrected Claim
+
+交互项回归模型 Q = β0 + β1*W + β2*V + β3*W*V + ε 的统计显著性检验需设定最小样本量 n_min，基于效应量 f²=0.02 (小效应) 和统计功效 1-β=0.8，计算得出 n_min ≈ 786，若实际样本量 n < 786，则 β3 的 p 值不可信，需标记为 [统计功效不足]。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+power analysis regression interaction term minimum sample size f2 0.02

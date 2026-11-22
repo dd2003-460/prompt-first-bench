@@ -1,0 +1,24 @@
+# N9: 数据中心级GPU候选集（A100 40GB/80GB, H100 80GB, L40S 48GB, A6000 48GB）的显存带宽与FP8/INT8支持能力：
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+数据中心级GPU候选集（A100 40GB/80GB, H100 80GB, L40S 48GB, A6000 48GB）的显存带宽与FP8/INT8支持能力：A100-80GB(80GB, 2039 GB/s, FP8不支持, INT8 312 TOPS), H100-80GB(80GB, 3350 GB/s, FP8 989 TFLOPS, INT8 989 TOPS), L40S(48GB, 864 GB/s, FP8 916 TFLOPS, INT8 916 TOPS), A6000(48GB, 768 GB/s, FP16 38.7 TFLOPS, INT8 77.4 TOPS)，来源：NVIDIA数据手册
+
+## Corrected Claim
+
+数据中心级GPU候选集（A100 40GB/80GB, H100 80GB, L40S 48GB, A6000 48GB）的显存带宽与FP8/INT8支持能力：A100-80GB(80GB, 2039 GB/s, FP8不支持, INT8 312 TOPS), H100-80GB(80GB, 3350 GB/s, FP8 989 TFLOPS, INT8 989 TOPS), L40S(48GB, 864 GB/s, FP8 916 TFLOPS, INT8 916 TOPS), A6000(48GB, 768 GB/s, FP16 38.7 TFLOPS, INT8 77.4 TOPS)，来源：NVIDIA数据手册
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+NVIDIA A100 H100 L40S A6000 memory bandwidth FP8 INT8 TOPS specifications

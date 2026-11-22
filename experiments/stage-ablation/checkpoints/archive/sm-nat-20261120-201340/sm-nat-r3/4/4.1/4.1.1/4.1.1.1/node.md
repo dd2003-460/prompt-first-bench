@@ -1,0 +1,20 @@
+# N117: T_resident 的具体数值由 N19 给出 T_resident = C / (R * S_avg)，其中 C=128GB, R=50M/day 请求率（
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N53
+
+## Claim
+
+T_resident 的具体数值由 N19 给出 T_resident = C / (R * S_avg)，其中 C=128GB, R=50M/day 请求率（需转换为字节率或统一单位），S_avg 为缓存中对象的平均大小；在 N74 指出缓存可容纳所有对象（k=N）且无驱逐的情况下，T_resident 实际上等于对象从进入缓存到被更新/失效的时间，即 T_resident ≈ 1/λ_update = 100天（若更新是随机的）或取决于访问频率分布的逆频率。
+
+## Corrected Claim
+
+T_resident 的具体数值由 N19 给出 T_resident = C / (R * S_avg)，其中 C=128GB, R=50M/day 请求率（需转换为字节率或统一单位），S_avg 为缓存中对象的平均大小；在 N74 指出缓存可容纳所有对象（k=N）且无驱逐的情况下，T_resident 实际上等于对象从进入缓存到被更新/失效的时间，即 T_resident ≈ 1/λ_update = 100天（若更新是随机的）或取决于访问频率分布的逆频率。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在缓存容量足够容纳所有对象（k=N）且无驱逐的假设下，对象驻留时间确实由更新/失效过程决定，若更新服从泊松过程（随机），平均驻留时间即为更新间隔的倒数（1/λ），逻辑自洽。

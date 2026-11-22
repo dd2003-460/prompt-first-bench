@@ -1,0 +1,24 @@
+# N34: 多卡互联成本修正：在消费级平台（如 Z790/X870E 主板）上运行 2x RTX 4090/5090 时，PCIe 通道分配通常为 x8/x8 而非 x16
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+多卡互联成本修正：在消费级平台（如 Z790/X870E 主板）上运行 2x RTX 4090/5090 时，PCIe 通道分配通常为 x8/x8 而非 x16/x16，对于 27B 模型张量并行（TP=2），PCIe 带宽瓶颈对 KV Cache 传输的影响较小（因为 TP 主要拆分权重，KV 通常复制或仅少量通信），但需验证特定框架（如 vLLM）在 x8 带宽下的实际性能损失是否低于 5%。
+
+## Corrected Claim
+
+在消费级平台运行 2x RTX 4090/5090 时，PCIe 通道通常为 x8/x8。对于 27B 模型张量并行（TP=2），由于 TP 主要拆分权重且 KV Cache 通信量较小，PCIe 带宽瓶颈对整体推理性能的影响通常有限，但具体性能损失需根据实际框架和负载验证，不宜直接断言低于 5%。
+
+## Evidence
+
+[质询]该陈述包含具体的性能量化指标（'性能损失是否低于 5%'）和特定框架（vLLM）在特定硬件配置（x8/x8 PCIe）下的行为，属于经验事实。参考来源仅涉及 AMD 显卡的桌面/渲染分工，未提供 NVIDIA 显卡在 LLM 推理框架下的 PCIe 带宽瓶颈量化数据，无法直接支持该具体数值结论。 | 逻辑上 TP=2 主要拆分权重，KV Cache 通信量相对较小，PCIe x8 带宽（约 32GB/s）对于 27B 模型推理通常不构成严重瓶颈，定性逻辑自洽；但来源 [1] 主题不匹配（AMD vs NVIDIA, 渲染 vs LLM），且缺乏支持 '5% 损失' 这一具体经验数值的直接证据，依据经验事实排除条款降级。
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2074059066612175574&rut=c43de1af88a4941cf78ddc605f16dcaf045427f8a25c31af2cdaab01ecb2e541', 'type': 'ddg', 'title': '三块 Gpu 各司其职：我是怎么让7900xtx双卡彻底释放算力的'}

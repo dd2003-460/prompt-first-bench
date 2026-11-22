@@ -1,0 +1,20 @@
+# N38: 期望收益 E[Revenue] 的表达式：E[Revenue] = P(sale | price, t) * price，其中 P(sale | price, 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+期望收益 E[Revenue] 的表达式：E[Revenue] = P(sale | price, t) * price，其中 P(sale | price, t) 是买家购买概率，由 N8 中的 sigmoid 函数决定，随时间 t 和价格偏离度变化。
+
+## Corrected Claim
+
+期望收益 E[Revenue] 的表达式：E[Revenue] = P(sale | price, t) * price，其中 P(sale | price, t) 是买家购买概率，由 N8 中的 sigmoid 函数决定，随时间 t 和价格偏离度变化。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：期望收益定义为概率乘以收益值，公式结构符合基本概率论定义，且与N8中sigmoid函数作为概率输出的逻辑自洽。

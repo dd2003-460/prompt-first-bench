@@ -1,0 +1,20 @@
+# N361: 延迟容忍度（<100ms, 100-500ms, >500ms）在支配判定中应量化为‘最大可接受TPOT’，并考虑Prefill与Decode阶段的分离：支配判
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N124
+
+## Claim
+
+延迟容忍度（<100ms, 100-500ms, >500ms）在支配判定中应量化为‘最大可接受TPOT’，并考虑Prefill与Decode阶段的分离：支配判定应基于Decode阶段TPOT，因为Prefill是一次性开销，对长上下文生成速率影响较小
+
+## Corrected Claim
+
+延迟容忍度（<100ms, 100-500ms, >500ms）在支配判定中应量化为‘最大可接受TPOT’，并考虑Prefill与Decode阶段的分离：支配判定应基于Decode阶段TPOT，因为Prefill是一次性开销，对长上下文生成速率影响较小
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在LLM推理中，Prefill阶段计算密集且一次性，Decode阶段内存带宽受限且决定逐token生成速率（TPOT），因此基于Decode阶段TPOT进行延迟容忍度量化符合系统性能优化原理。

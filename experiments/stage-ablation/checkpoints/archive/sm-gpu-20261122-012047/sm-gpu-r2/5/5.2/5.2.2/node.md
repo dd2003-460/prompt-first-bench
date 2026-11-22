@@ -1,0 +1,30 @@
+# N142: AMD MI300X 上 vLLM 的 FlashAttention-2 算子在 ROCm 6.0+ 中已实现，但针对 GQA (Grouped Query A
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N37
+
+## Claim
+
+AMD MI300X 上 vLLM 的 FlashAttention-2 算子在 ROCm 6.0+ 中已实现，但针对 GQA (Grouped Query Attention) 的优化内核相比 CUDA 版本存在约 15-25% 的吞吐量损失 [待核验]，主要源于 hipBLAS 在特定矩阵形状下的性能瓶颈。
+
+## Corrected Claim
+
+AMD MI300X 上 vLLM 的 FlashAttention-2 算子在 ROCm 中已实现，但针对 GQA 的优化内核相比 CUDA 版本可能存在吞吐量损失，具体数值需实测验证。
+
+## Evidence
+
+[质询]具体数值（15-25%）及归因（hipBLAS瓶颈）缺乏来源支持，且来源主要关注显存/PagedAttention而非FlashAttention内核性能对比 | 来源[1][2][3]均涉及MI300X与vLLM，但摘要未提及FlashAttention-2在ROCm下的具体吞吐量损失数值或GQA优化细节，属于经验事实且缺直接来源支持
+
+## Search Query
+
+vLLM AMD MI300X ROCm FlashAttention-2 GQA performance benchmark vs CUDA
+
+## Retrieval Sources
+
+- {'url': 'https://www.modelscope.cn/posts/436853&rut=6a1ba1e6e5794095c6bd46c67f8ebee4de2ed6c577e5638afdd4290b555d03c1', 'type': 'ddg', 'title': '基于 AMD Instinct MI300X 的 vLLM 高并发推理调优与部署实战'}
+- {'url': 'https://blog.csdn.net/2600_96323235/article/details/162222160&rut=e6f617187e12a2b3b275f48e01fd9b844195ee81b70e33544cd1a555d152fd64', 'type': 'ddg', 'title': 'AMD MI300X 显卡上的显存优化与 PagedAttention 调优实战_mi300x 调优-CSDN博客'}
+- {'url': 'https://blog.csdn.net/2600_96323197/article/details/162310469&rut=afcd347a0b04fb9f99c8374cf53242742eb0d895ee0743d2c6e15db79f211240', 'type': 'ddg', 'title': '大模型推理显存不够用，试试 AMD MI300X 上的 PagedAttention 优化-CSDN博客'}

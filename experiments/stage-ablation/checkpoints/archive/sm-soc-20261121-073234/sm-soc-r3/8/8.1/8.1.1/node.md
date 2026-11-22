@@ -1,0 +1,20 @@
+# N330: 近期成交中位数 P_anchored 的稳健估计：P_anchored = Median(Price_i | Category_i = c, Age_i < 3
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N111
+
+## Claim
+
+近期成交中位数 P_anchored 的稳健估计：P_anchored = Median(Price_i | Category_i = c, Age_i < 30d, Condition_i = cond, Platform_i = p)，需剔除异常低价（< P_5th）和高价（> P_95th）以消除锚定偏差。
+
+## Corrected Claim
+
+近期成交中位数 P_anchored 的稳健估计：P_anchored = Median(Price_i | Category_i = c, Age_i < 30d, Condition_i = cond, Platform_i = p)，需剔除异常低价（< P_5th）和高价（> P_95th）以消除锚定偏差。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：中位数本身对异常值具有鲁棒性，结合IQR或分位数截断（P5-P95）是处理锚定偏差和离群点的标准稳健统计方法，逻辑自洽且符合统计学原理。

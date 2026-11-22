@@ -1,0 +1,20 @@
+# N355: 非典型硬件方案：Apple M2 Ultra (192GB Unified Memory) 的性价比定位：虽然其内存带宽 (800 GB/s) 低于 RTX 4
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+非典型硬件方案：Apple M2 Ultra (192GB Unified Memory) 的性价比定位：虽然其内存带宽 (800 GB/s) 低于 RTX 4090，但 192GB 统一内存允许以 BF16 精度运行 Qwen3-27B 且支持超长上下文，无需量化损失；其 $3999 的硬件成本与 RTX 5090 ($2200) 和 2x4090 ($4150) 形成交叉，需评估在'质量优先于速度'场景下的 TCO 竞争力。
+
+## Corrected Claim
+
+非典型硬件方案：Apple M2 Ultra (192GB Unified Memory) 的性价比定位：虽然其内存带宽 (800 GB/s) 低于 RTX 4090，但 192GB 统一内存允许以 BF16 精度运行 Qwen3-27B 且支持超长上下文，无需量化损失；其 $3999 的硬件成本与 RTX 5090 ($2200) 和 2x4090 ($4150) 形成交叉，需评估在'质量优先于速度'场景下的 TCO 竞争力。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

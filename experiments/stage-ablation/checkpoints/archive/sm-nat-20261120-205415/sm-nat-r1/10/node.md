@@ -1,0 +1,26 @@
+# N27: 对象更新率u=1%/天对LRU缓存有效性的衰减修正因子为(1 - u)^{1/λ}，其中λ为LRU平均驻留时间（天），该因子直接乘以基础命中率H_base得到有
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+对象更新率u=1%/天对LRU缓存有效性的衰减修正因子为(1 - u)^{1/λ}，其中λ为LRU平均驻留时间（天），该因子直接乘以基础命中率H_base得到有效命中率H_eff。
+
+## Corrected Claim
+
+在假设对象失效服从指数分布的特定模型下，对象更新率u=1%/天对LRU缓存有效性的衰减修正因子可近似为(1 - u)^{1/λ}，其中λ为LRU平均驻留时间（天），该因子用于修正基础命中率H_base以估算有效命中率H_eff。
+
+## Evidence
+
+[质询]该公式属于特定的经验性近似模型（通常基于指数衰减假设），并非LRU算法的通用数学定义或第一性原理推导结果；不同负载分布下，命中率衰减与更新率的关系可能呈现非线性或更复杂的形态，直接断言该因子“直接乘以”基础命中率缺乏普适性理论支撑。 | 参考来源[1][2][3]仅涉及LRU的数据结构实现（双向链表+哈希表）及O(1)复杂度，未涉及命中率随对象更新率变化的数学修正模型，属于经验事实且缺乏来源直接支持。
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/2301_79248256/article/details/156195963&rut=3305d49c0c3ec3f68b06407952cf213090042c37e3ae7f9ca048bb771312ed47', 'type': 'ddg', 'title': '【C++数据结构进阶】吃透 LRU Cache缓存算法：O (1) 效率缓存设计全解析-CSDN博客'}
+- {'url': 'https://blog.csdn.net/Yu_Cblog/article/details/136592410&rut=8cc8bff0413cacb71a0c9c8a5430bce760584e9fadb1690dcd66bafd747686e5', 'type': 'ddg', 'title': '一篇搞懂什么是LRU缓存｜一篇搞懂LRU缓存的实现｜LRUCache详解和实现-CSDN博客'}
+- {'url': 'https://cloud.tencent.com/developer/article/2617341&rut=6d38700a95368e7cddd3984b21fe44d1dfe11ff47c85d21a7111de1f5f5379f4', 'type': 'ddg', 'title': '【C++数据结构进阶】吃透 LRU Cache缓存算法：O (1) 效率缓存设计全解析-腾讯云开发者社区-腾讯云'}

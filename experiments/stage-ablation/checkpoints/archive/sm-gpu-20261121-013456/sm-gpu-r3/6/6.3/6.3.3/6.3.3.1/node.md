@@ -1,0 +1,30 @@
+# N265: Apple M3 Ultra 在运行 Qwen3-27B INT4 量化模型时的实测吞吐量基准值，需修正 N103 中 '8 tokens/s' 的保守估计；参
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N103
+
+## Claim
+
+Apple M3 Ultra 在运行 Qwen3-27B INT4 量化模型时的实测吞吐量基准值，需修正 N103 中 '8 tokens/s' 的保守估计；参考 Mac Studio M3 Ultra (192GB) 对 30B 级模型的公开基准，INT4 下吞吐量通常在 15-25 tokens/s 区间，需通过 MLX 或 llama.cpp 实测确认具体数值以重新计算单位 token 成本。
+
+## Corrected Claim
+
+Apple M3 Ultra 在运行 Qwen3-27B INT4 量化模型时的实测吞吐量约为 14 tokens/s（参考 Mac Studio M3 Ultra 实测数据），需修正 N103 中 '8 tokens/s' 的保守估计，并据此重新计算单位 token 成本。
+
+## Evidence
+
+[质询]陈述中声称的 '15-25 tokens/s' 区间与参考来源 [2] 中 Mac Studio M3 Ultra 实测 Qwen3.8-27B (4bit) 的 '14 tokens/s' 存在数值偏差，且来源 [1] 提到的 144 tok/s 是基于 M5 Max 而非 M3 Ultra，不能直接作为 M3 Ultra 的基准，导致具体数值缺乏直接且一致的支持。 | 来源 [2] 直接提供了 Mac Studio M3 Ultra 运行 Qwen3.8-27B 4bit 的实测数据为 14 tokens/s，与陈述中的 15-25 tokens/s 区间接近但略低，属于间接支持/部分矛盾，需修正具体数值范围。
+
+## Search Query
+
+Apple M3 Ultra Qwen3-27B INT4 inference tokens per second benchmark MLX
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_00548/article/details/171105932&rut=f68373d4df253dfc98d3e8c66b8974ab2abedd3ec4f369db2dc3c460a49a7dfc', 'type': 'ddg', 'title': '苹果芯片上跑27B大模型：Qwen3.8-27B-MLX-4bit零门槛本地部署完整指南-CSDN博客'}
+- {'url': 'https://blog.csdn.net/weixin_44262492/article/details/164192004&rut=28683a2d045ea76b6d4356cb238af845d680a9075969ea0187e70174aaca1875', 'type': 'ddg', 'title': 'Qwen3.8-27B本地运行实测：Mac Studio M3 Ultra上的14 tokens每秒与量化取舍'}
+- {'url': 'https://devpress.csdn.net/v1/article/detail/151257060&rut=48ca47590db3211a8a9a3fa444a5dccaa72de0fa25ad06fc9493f124a8124a0f', 'type': 'ddg', 'title': 'mlx-community/Qwen3.8-27B-4bit 入门指南：Mac 上运行 27B 多模态大模型的完整教程'}

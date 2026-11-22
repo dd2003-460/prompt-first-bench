@@ -1,0 +1,17 @@
+{
+  "id": "N50",
+  "claim": "边缘 AI 加速卡（如 Jetson Orin, Coral TPU）在运行 Qwen3-27B INT8 量化版本时的实测吞吐量（单用户，32K 上下文）：约为 0.5-2 tokens/s（来源：vLLM 官方 benchmark 报告 2024-11 或第三方独立评测如 Benchmarks.gg 2025-01），需标注具体测试日志和模型版本。",
+  "level": "L3",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]数值量级与硬件能力严重不符：Jetson Orin (AGX) 算力约 275 TOPS (INT8)，Coral TPU 算力更低（约 4 TOPS）。运行 27B 参数模型时，即使 INT8 量化，显存/内存带宽是主要瓶颈。Orin 的 LPDDR5 带宽约 204.8 GB/s，理论最大吞吐量约为 204.8 / 27 ≈ 7.5 tokens/s（假设无其他开销）。0.5-2 tokens/s 的数值对于 Orin 而言偏低（可能受限于内存容量不足导致频繁交换或仅指低端 Orin Nano/NX），但对于 Coral TPU（内存通常仅 8GB 且带宽极低）来说，27B 模型根本无法完整加载运行，更谈不上 0.5-2 tokens/s 的稳定吞吐。此外，来源标注为 'vLLM 官方 benchmark 2024-11'，但 vLLM 主要支持 NVIDIA GPU 和 AMD ROCm，对 Jetson (ARM) 和 Coral (TPU) 的支持并非其核心官方基准测试范围，且 Coral TPU 通常不支持 vLLM 直接运行大语言模型推理。 | 无可用外部证据。逻辑校验发现硬件规格与声称吞吐量存在矛盾：Coral TPU 内存不足以运行 27B 模型；Jetson Orin 的带宽理论上限高于 2 tokens/s，且 vLLM 并非 Coral TPU 的标准推理框架。",
+  "corrected_claim": "边缘设备运行 Qwen3-27B 极具挑战性。Jetson Orin AGX 在 INT8 下可能达到 5-10 tokens/s（取决于内存配置和上下文长度），而 Coral TPU 因内存和算力限制通常无法直接运行 27B 模型，需使用更小的模型或云端卸载。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N8"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "Jetson Orin Coral TPU Qwen3-27B INT8 inference benchmark tokens per second 32K context",
+  "retrieval_sources": []
+}

@@ -1,0 +1,24 @@
+# N307: RTX 4090 运行 Qwen3-27B INT8 在 32K 上下文下的实测首字延迟 (TTFT) 数据：需检索 vLLM 或 llama.cpp 社区在 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N100
+
+## Claim
+
+RTX 4090 运行 Qwen3-27B INT8 在 32K 上下文下的实测首字延迟 (TTFT) 数据：需检索 vLLM 或 llama.cpp 社区在 2024-2025 年发布的针对 27B 级别模型在 32K 输入长度下的 Prefill 耗时基准，若缺失则标记 [待核验] 并给出基于 Prefill FLOPs (2 * N_params * Seq_Len) 和 GPU TFLOPS 的理论估算。
+
+## Corrected Claim
+
+RTX 4090 运行 Qwen3-27B INT8 在 32K 上下文下的实测首字延迟 (TTFT) 数据缺失 [待核验]；基于 Prefill FLOPs (2 * N_params * Seq_Len) 和 GPU TFLOPS 的理论估算可作为参考，但需补充实际基准测试数据以确认。
+
+## Evidence
+
+[质询]该陈述要求提供具体的实测TTFT数据，但参考来源显示检索失败，无可用外部证据支持具体数值；且TTFT受硬件驱动、软件版本、并发数等多重因素影响，仅凭理论估算无法替代实测数据，存在将理论值误作实测值的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体实测数据，仅能保留理论估算框架）
+
+## Search Query
+
+RTX 4090 Qwen 27B 32k context time to first token TTFT benchmark vLLM llama.cpp

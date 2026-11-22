@@ -1,0 +1,20 @@
+# N333: 基于修正后的计算延迟 (60-70 ms) 和 N131 确定的实际通信延迟 (9.1-10.7 ms)，2× RTX 4090 在 BF16 下的通信开销比例
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N132
+
+## Claim
+
+基于修正后的计算延迟 (60-70 ms) 和 N131 确定的实际通信延迟 (9.1-10.7 ms)，2× RTX 4090 在 BF16 下的通信开销比例 (Communication_Overhead_Ratio) = Comm_Lat / (Calc_Lat + Comm_Lat) ≈ 9.1/(60+9.1) ~ 10.7/(70+10.7)，即约为 13.3% - 13.4%。此比例显著高于 N132 原估计的 5-10%，表明多卡互联瓶颈比预想更严重。
+
+## Corrected Claim
+
+基于修正后的计算延迟 (60-70 ms) 和 N131 确定的实际通信延迟 (9.1-10.7 ms)，2× RTX 4090 在 BF16 下的通信开销比例 (Communication_Overhead_Ratio) = Comm_Lat / (Calc_Lat + Comm_Lat) ≈ 9.1/(60+9.1) ~ 10.7/(70+10.7)，即约为 13.3% - 13.4%。此比例显著高于 N132 原估计的 5-10%，表明多卡互联瓶颈比预想更严重。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算 9.1/(60+9.1)≈13.3% 和 10.7/(70+10.7)≈13.4% 数学正确，且结论与前提数据一致。

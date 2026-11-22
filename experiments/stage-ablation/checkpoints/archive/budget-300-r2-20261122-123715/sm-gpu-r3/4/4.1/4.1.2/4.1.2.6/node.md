@@ -1,0 +1,20 @@
+# N297: 工作点 C (低保真/低成本)：W4 精度下，VRAM_Required ≈ 24GB (权重13.5GB + KV 9GB + 激活1.5GB)，理论上可装入
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N85, N86, N87
+
+## Claim
+
+工作点 C (低保真/低成本)：W4 精度下，VRAM_Required ≈ 24GB (权重13.5GB + KV 9GB + 激活1.5GB)，理论上可装入 24GB 显存（如 1x RTX 4090），但需验证 KV Cache 在 32K 上下文下的实际占用是否溢出，若溢出则需降低上下文或启用分页，此工作点 TCO 最低但质量风险最高。
+
+## Corrected Claim
+
+工作点 C (低保真/低成本)：W4 精度下，VRAM_Required ≈ 24GB (权重13.5GB + KV 9GB + 激活1.5GB)，理论上可装入 24GB 显存（如 1x RTX 4090），但需验证 KV Cache 在 32K 上下文下的实际占用是否溢出，若溢出则需降低上下文或启用分页，此工作点 TCO 最低但质量风险最高。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：W4精度下13B模型权重约6.5-7GB，加上KV Cache和激活值，24GB显存估算在合理量级范围内，且逻辑自洽。

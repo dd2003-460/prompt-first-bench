@@ -1,0 +1,24 @@
+# N10: LRU 驻留集大小偏差效应：由于 ρ=-0.3，LRU 倾向保留小且热的对象，导致实际驻留集的平均大小比理论 Top-K 小 10-15%，使有效容量利用率提升
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+LRU 驻留集大小偏差效应：由于 ρ=-0.3，LRU 倾向保留小且热的对象，导致实际驻留集的平均大小比理论 Top-K 小 10-15%，使有效容量利用率提升约 1.1-1.15 倍，量化为 H_LRU_actual ≈ H_LRU_theoretical × (1 + 0.15×(1-ρ_abs))。
+
+## Corrected Claim
+
+LRU 驻留集大小偏差效应：由于 ρ=-0.3，LRU 倾向保留小且热的对象，导致实际驻留集的平均大小通常比理论 Top-K 小，从而提升有效容量利用率。具体偏差幅度（如10-15%）及量化公式依赖于特定的工作负载分布特征，并非普适常数。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（10-15%偏差、1.1-1.15倍提升）以及一个特定的经验公式（H_LRU_actual ≈ ...），这些并非LRU算法的第一性原理或数学公理推论，而是依赖于具体工作负载分布（如Zipf指数、对象大小分布）的经验观察。在缺乏特定负载假设的情况下，断言固定的百分比偏差和特定公式缺乏普适性逻辑基础，属于经验事实而非逻辑必然。 | source=knowledge，逻辑上LRU确实倾向于保留近期访问的小对象（若小对象更热），但具体的10-15%偏差及特定公式属于经验参数，非第一性原理可严格推导，且无外部来源支持，故降级为定性表述。
+
+## Search Query
+
+LRU cache size bias effect negative correlation popularity size performance improvement

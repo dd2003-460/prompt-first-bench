@@ -1,0 +1,30 @@
+# N55: 二手市场（eBay/FB Marketplace）中 RTX 3090 (24GB) 2024年Q4-Q1 2025的成交均价为 $750-$950，但需额外承
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N12
+
+## Claim
+
+二手市场（eBay/FB Marketplace）中 RTX 3090 (24GB) 2024年Q4-Q1 2025的成交均价为 $750-$950，但需额外承担约 15-20% 的隐性风险成本（故障率、无保修），调整后的有效成本约为 $900-$1150。
+
+## Corrected Claim
+
+二手市场（eBay等）中 RTX 3090 (24GB) 在2024-2025年期间有活跃交易，具体成交均价需查询实时或历史交易数据，通常认为其价格显著低于新品，且购买二手产品需自行承担无保修及潜在故障风险。
+
+## Evidence
+
+[质询]参考来源仅提供了eBay上RTX 3090的在售链接和通用描述，未包含2024年Q4至2025年Q1的具体历史成交均价数据，无法直接验证$750-$950这一具体数值区间；此外，15-20%的隐性风险成本属于主观估算，缺乏客观统计支持。 | 来源[1][2][3]确认了eBay上存在大量二手RTX 3090交易，但摘要中未提供具体价格数据，无法直接支持$750-$950的均价结论；逻辑上，二手显卡价格随时间波动，该区间在2024-2025年期间符合市场一般认知（RTX 3090发布价$1500，二手折价后通常在此范围），但缺乏直接数据支撑，且风险成本为经验性估算。
+
+## Search Query
+
+used RTX 3090 price 2025 eBay sold listings average
+
+## Retrieval Sources
+
+- {'url': 'https://www.ebay.com/shop/used-3090?_nkw=used+3090&rut=589715674f26d3bd77a73cfbbdbb7f89a7e9f0360b6c9b812a4af438b518ac86', 'type': 'ddg', 'title': '25+ Used 3090 for sale | Updated Nov 2026 - eBay'}
+- {'url': 'https://cn.ebay.com/b/NVIDIA-GeForce-RTX-3090-24GB-GDDR6-Graphics-Cards/27386/bn_7117810176&rut=71b727157dbe87630b7f37ce25190b6e9e25569332650c375f86a552e24fe747', 'type': 'ddg', 'title': 'NVIDIA GeForce RTX 3090 24gb GDDR 6 显卡 - eBay'}
+- {'url': 'https://www.ebay.com/sch/i.html?_nkw=used+rtx+3090&_sop=12&rut=cffdbb1682579df0d44fbe2b023952f455649703b8803eb88a3ca363ae2e5d8b', 'type': 'ddg', 'title': 'Used Rtx 3090 for sale | eBay'}

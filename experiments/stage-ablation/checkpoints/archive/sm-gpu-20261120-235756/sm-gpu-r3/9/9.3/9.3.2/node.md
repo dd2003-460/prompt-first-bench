@@ -1,0 +1,24 @@
+# N341: vLLM 在 Blackwell (RTX 5090) 上针对 Qwen3-27B 的 MoE Expert 层，需使用 `torch._scaled_mm` 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N129, N130, N131
+
+## Claim
+
+vLLM 在 Blackwell (RTX 5090) 上针对 Qwen3-27B 的 MoE Expert 层，需使用 `torch._scaled_mm` 或 Triton 自定义 Kernel 实现 Grouped GEMM；若回退到标准 `torch.mm`，FP8 权重需反量化为 BF16 计算，导致显存带宽占用翻倍且失去 FP8 算力优势，性能下降约 40-60% [待核验]。
+
+## Corrected Claim
+
+vLLM 在 Blackwell (RTX 5090) 上针对 Qwen3-27B 的 MoE Expert 层，需使用 `torch._scaled_mm` 或 Triton 自定义 Kernel 实现 Grouped GEMM；若回退到标准 `torch.mm`，FP8 权重需反量化为 BF16 计算，导致显存带宽占用翻倍且失去 FP8 算力优势，性能显著下降。
+
+## Evidence
+
+[质询]性能下降幅度（40-60%）为具体经验数值，缺乏通用理论推导支持，且不同硬件/模型配置下波动较大，易受具体实现细节影响。 | 先验知识/题面给定，逻辑校验通过：FP8 反量化为 BF16 确实会导致显存带宽占用翻倍（2x）并失去 FP8 算力优势，定性结论正确；但具体性能下降百分比属于经验事实，无来源支持，故降级。
+
+## Search Query
+
+vLLM Blackwell FP8 Grouped GEMM Qwen3 MoE performance regression

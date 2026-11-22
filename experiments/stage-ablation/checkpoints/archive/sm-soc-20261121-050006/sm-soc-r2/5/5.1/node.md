@@ -1,0 +1,29 @@
+# N95: ESS 条件中匹配概率 p_match 的具体计算：p_match = ∫_{P_ask}^{∞} f(U_i) di，其中 f(U_i) 为买家保留价格分布（
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N28
+
+## Claim
+
+ESS 条件中匹配概率 p_match 的具体计算：p_match = ∫_{P_ask}^{∞} f(U_i) di，其中 f(U_i) 为买家保留价格分布（重尾，如 Pareto α ∈ [1.5, 3.0]）；当 P_ask = P_median * 1.2 时，p_match 约为 0.1-0.3，具体取决于尾部指数 α，需依据平台历史成交数据拟合确定。
+
+## Corrected Claim
+
+ESS 条件中匹配概率 p_match 的计算公式为 p_match = ∫_{P_ask}^{∞} f(U_i) di，其中 f(U_i) 为买家保留价格分布。当 P_ask = P_median * 1.2 时，p_match 的具体数值取决于尾部指数 α 及分布形态，需依据平台历史成交数据拟合确定，通常处于较低水平（如 0.1-0.3 量级，需实证验证）。
+
+## Evidence
+
+[质询]该陈述属于经验事实（具体数值范围 0.1-0.3 依赖于特定的分布参数和平台数据），无法仅从第一性原理严格推出，且参考来源完全无关，缺乏直接证据支持该特定数值区间。 | 逻辑上积分定义正确，量级在重尾分布下合理；但参考来源[1]讨论倾向性评分匹配，[2]讨论Elasticsearch查询，均与ESS条件或买家保留价格分布无关，无可用外部证据支持具体数值。
+
+## Search Query
+
+buyer willingness to pay distribution fit Pareto alpha parameter used goods marketplace
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/549298344&rut=62a31555b9c2e9e9d4fdc643483940816bd5b6536473024b0585108ed3f6ff81', 'type': 'ddg', 'title': '【笔记整理】倾向性评分匹配（propensity score matching，PSM）'}
+- {'url': 'https://zhuanlan.zhihu.com/p/592767668&rut=2c42a9577795caeb58cc9616166ee840f5aee5007ff02dc393ec5414c592368e', 'type': 'ddg', 'title': 'es笔记三之term，match，match_phrase 等查询方法介绍'}

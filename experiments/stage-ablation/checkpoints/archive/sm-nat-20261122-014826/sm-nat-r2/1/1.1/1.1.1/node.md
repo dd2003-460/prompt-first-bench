@@ -1,0 +1,20 @@
+# N23: Pareto 分布 (α=1.1) 的均值 E[Size] 在 S_min=1KB 时的精确数值计算：E[Size] = S_min * α/(α-1) = 1
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+Pareto 分布 (α=1.1) 的均值 E[Size] 在 S_min=1KB 时的精确数值计算：E[Size] = S_min * α/(α-1) = 1KB * 1.1/0.1 = 11KB。
+
+## Corrected Claim
+
+Pareto 分布 (α=1.1) 的均值 E[Size] 在 S_min=1KB 时的精确数值计算：E[Size] = S_min * α/(α-1) = 1KB * 1.1/0.1 = 11KB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布均值公式 E[X] = S_min * α/(α-1) 在 α>1 时成立，代入 α=1.1, S_min=1KB 计算得 11KB，数值与量纲均正确。

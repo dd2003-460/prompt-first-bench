@@ -1,0 +1,25 @@
+# N84: 随机偏好噪声的方差分解：将买家偏好噪声分解为个体异质性噪声 σ_pref 和情境随机噪声 σ_context。定义总噪声 σ_noise_total = sqr
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+随机偏好噪声的方差分解：将买家偏好噪声分解为个体异质性噪声 σ_pref 和情境随机噪声 σ_context。定义总噪声 σ_noise_total = sqrt(σ_pref² + σ_context²)。实证表明，在二手市场中，σ_pref ≈ 0.15 (标准化单位)，而 σ_context (如情绪、时间紧迫) 贡献约 30% 的方差，用于解释为何同一高挂价商品对不同买家产生不同咨询反应。
+
+## Corrected Claim
+
+随机偏好噪声的方差分解：将买家偏好噪声分解为个体异质性噪声 σ_pref 和情境随机噪声 σ_context。定义总噪声 σ_noise_total = sqrt(σ_pref² + σ_context²)。在二手市场模型中，通常假设 σ_pref 和 σ_context 共同解释同一高挂价商品对不同买家产生不同咨询反应的现象，具体数值需依据特定实证研究确定。
+
+## Evidence
+
+[质询]具体数值（σ_pref ≈ 0.15, σ_context 贡献 30% 方差）属于特定二手市场场景下的经验实证数据，无法从第一性原理或通用数学公理中推导得出，且参考来源未提供该特定领域的实证支持。 | 逻辑上方差分解公式 sqrt(σ_pref² + σ_context²) 自洽，但参考来源 [1][2] 仅讨论机器学习中的偏差-方差分解理论，与二手市场买家偏好噪声的具体实证数值无关，属于经验事实且缺乏直接来源支持。
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/378505937&rut=93bd25b5a0c667742d10c16ed36b44bd28503671561578ada37da764ca51282c', 'type': 'ddg', 'title': '偏差-方差分解（周志华西瓜书解析） - 知乎'}
+- {'url': 'https://zhuanlan.zhihu.com/p/685083771&rut=ff6d2c1e77e780ed1e5ff9f507fe65dda5162083e062b57cf302b7e8d59b7344', 'type': 'ddg', 'title': '偏差方差分解 - 知乎 - 知乎专栏'}

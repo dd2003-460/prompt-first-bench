@@ -1,0 +1,20 @@
+# N203: 48GB 卡 (L40S) 运行 FP8 Qwen3-27B 32K 上下文的并发能力：剩余显存 48 - 31.75 = 16.25 GB 可用于 KV Ca
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N59
+
+## Claim
+
+48GB 卡 (L40S) 运行 FP8 Qwen3-27B 32K 上下文的并发能力：剩余显存 48 - 31.75 = 16.25 GB 可用于 KV Cache 池；单请求 KV Cache 0.95 GB，因此最大并发 batch size ≈ 16.25 / 0.95 ≈ 17 个请求，支持较高吞吐量的在线服务场景。
+
+## Corrected Claim
+
+48GB 卡 (L40S) 运行 FP8 Qwen3-27B 32K 上下文的并发能力：剩余显存 48 - 31.75 = 16.25 GB 可用于 KV Cache 池；单请求 KV Cache 0.95 GB，因此最大并发 batch size ≈ 16.25 / 0.95 ≈ 17 个请求，支持较高吞吐量的在线服务场景。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算 48-31.75=16.25 及 16.25/0.95≈17.1 正确，量级符合 L40S 运行 27B 模型 FP8 精度下的显存分配常识。

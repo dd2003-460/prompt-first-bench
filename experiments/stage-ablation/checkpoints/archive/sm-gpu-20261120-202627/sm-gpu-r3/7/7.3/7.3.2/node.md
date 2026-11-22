@@ -1,0 +1,24 @@
+# N416: PCIe 4.0 x16 带宽 (32 GB/s) 对跨卡 KV Cache 访问的性能惩罚量化：若 KV Cache 分布在多卡上，每生成 1 token 需
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N134
+
+## Claim
+
+PCIe 4.0 x16 带宽 (32 GB/s) 对跨卡 KV Cache 访问的性能惩罚量化：若 KV Cache 分布在多卡上，每生成 1 token 需跨卡读取的数据量取决于并行策略。假设 TP=4，每卡仅存 1/4 KV，但 All-Reduce 或 All-Gather 需交换完整 KV 或中间结果。PCIe 带宽 (32 GB/s) 仅为本地显存带宽 (1008 GB/s) 的 3.2%，通信开销将导致吞吐量下降 >90% [待核验：需具体并行策略下的通信量计算]。
+
+## Corrected Claim
+
+PCIe 4.0 x16 带宽 (32 GB/s) 仅为本地显存带宽 (1008 GB/s) 的约 3.2%。若 KV Cache 分布在多卡上且每生成 1 token 需跨卡读取大量数据（如未优化的 All-Reduce 策略），通信开销将显著降低吞吐量，具体下降幅度取决于并行策略及通信/计算重叠效率，可能高达 90% 以上。
+
+## Evidence
+
+[质询]「吞吐量下降 >90%」这一结论缺乏严谨的推导支撑，且严重依赖于具体的并行策略（如是否使用 KV Cache 压缩、量化或重叠计算）。在 TP=4 场景下，若采用 All-Reduce 同步注意力头，通信量确实巨大，但现代推理框架通常通过 PagedAttention 或 KV Cache 分片优化，使得实际跨卡读取并非每 token 都需全量交换完整 KV，且计算与通信可重叠，因此断言必然导致 >90% 的吞吐量下降过于绝对，存在夸大风险。 | 先验知识/题面给定，逻辑校验通过：PCIe 4.0 x16 带宽 (32 GB/s) 与 H100 显存带宽 (1008 GB/s) 的比值约为 3.2%，量级正确；但「>90% 下降」为经验性估算，缺乏具体并行策略下的通信量计算支持，故降级为定性表述。
+
+## Search Query
+
+multi-gpu LLM inference PCIe bottleneck vs HBM bandwidth penalty throughput drop

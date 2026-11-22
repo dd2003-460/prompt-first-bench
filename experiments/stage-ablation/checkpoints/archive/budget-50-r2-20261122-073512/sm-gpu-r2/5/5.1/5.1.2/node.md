@@ -1,0 +1,30 @@
+# N164: NVIDIA A100 80GB HBM2e 在 2024-05 至 2024-12 期间的市场均价波动率标准差为 8.2%，当前（2024-06）实时二手/现
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N28
+
+## Claim
+
+NVIDIA A100 80GB HBM2e 在 2024-05 至 2024-12 期间的市场均价波动率标准差为 8.2%，当前（2024-06）实时二手/现货均价为 $14,200，较 2024-01 基准价 $15,000 下跌 5.3%，未触发 [时效待核] 标记。
+
+## Corrected Claim
+
+NVIDIA A100 80GB HBM2e 在 2024 年期间二手/现货市场价格呈现波动，具体均价及波动率标准差需依据 2024 年实时市场数据核实，当前参考来源未提供该时段精确统计值。
+
+## Evidence
+
+[质询]具体数值（波动率8.2%、均价$14,200、基准价$15,000）属于高度具体的经验事实，且参考来源[1]和[2]主要覆盖2025年及之后的数据或云租赁价格，来源[3]为2026年数据，均无法直接支持2024年5-12月的具体二手现货均价及波动率统计值，存在来源时间不匹配和具体数值无法验证的风险。 | 逻辑上价格下跌5.3%与基准价及当前价数值自洽，但参考来源[1][2][3]的时间范围（2025-2026）或类型（云租赁/2026二手）与2024年5-12月二手现货市场的具体统计数值不匹配，缺乏直接外部证据支持具体数值，依据经验事实排除条款降级。
+
+## Search Query
+
+NVIDIA A100 80GB price history 2024 average price volatility
+
+## Retrieval Sources
+
+- {'url': 'https://computecomparison.com/gpu-price-history-charts-trends&rut=7bff5c04a6d60138318ac1af6adbacdde737460034f3f746c50b7bee060760df', 'type': 'ddg', 'title': 'GPU Price History — H100, A100 & RTX 4090 Trends | Compute Comparison'}
+- {'url': 'https://gpueconomy.com/gpu/a100-80/history&rut=0e8382c7d5533bcc0132c4044fc412dc1f2fe343a9d7f7f883c79f0d43e21e59', 'type': 'ddg', 'title': 'NVIDIA A100 80GB rental price history — weekly since January 6, 2025'}
+- {'url': 'https://gpudojo.com/a100-80gb&rut=8a3fb049a5bc8cc8a3e7962fd671c1ac077896344a9f7652309161bba580ea4c', 'type': 'ddg', 'title': 'A100 80GB Used Price & History (Nov 2026) | GPUDojo'}

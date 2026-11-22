@@ -1,0 +1,20 @@
+# N137: 字节命中平衡点（Balanced）：在 128GB 容量约束下，LRU 实际驻留集合 K_LRU 由驱逐阈值决定，其总大小 Σs_i = 128GB，对应的请求
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N45
+
+## Claim
+
+字节命中平衡点（Balanced）：在 128GB 容量约束下，LRU 实际驻留集合 K_LRU 由驱逐阈值决定，其总大小 Σs_i = 128GB，对应的请求率占比 P_cached_req 需通过积分 ∫_{i: s_i < threshold} λ_i di 计算，该值介于 N102 和 N103 之间，是估算 H_LRU 的核心中间变量。
+
+## Corrected Claim
+
+字节命中平衡点（Balanced）：在 128GB 容量约束下，LRU 实际驻留集合 K_LRU 由驱逐阈值决定，其总大小 Σs_i = 128GB，对应的请求率占比 P_cached_req 需通过积分 ∫_{i: s_i < threshold} λ_i di 计算，该值介于 N102 和 N103 之间，是估算 H_LRU 的核心中间变量。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：LRU 缓存模型中，在固定容量约束下，驻留集合由驱逐阈值决定，命中概率（请求率占比）确实需通过对驻留集合内对象的请求率进行积分/求和计算，且作为估算命中率的核心中间变量，逻辑自洽且符合缓存理论基本定义。

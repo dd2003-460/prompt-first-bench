@@ -1,0 +1,432 @@
+{
+  "qid": "gpu",
+  "question": "你要在本地工作站上推理 Qwen3-27B 模型，不设硬性延迟指标（延迟是性能变量，由硬件和部署配置决定，不作为前置约束）；上下文窗口 ≥ 32K tokens 作为容量下限保留。权重精度不限（BF16/FP8/INT8/NVFP4/W4 均可），但必须论证所选精度的质量损失是否可接受。候选硬件：自行搜索确定值得考虑的完整候选集——覆盖你认为所有可能影响性价比排序的架构、代际、容量档位和价格区间（包括消费级、数据中心级、以及任何你认为值得纳入比较的非典型方案）。同时评估单卡与多卡方案的 TCO 差异（如 2× 消费卡 vs 1× 数据卡）。给出性价比最优的完整选卡方案。要求：思考必须最完整，确认没有遗漏任何影响决策的维度；每个关键数字标注来源（刚查到的 vs 凭记忆的），不确定的标 [待核验]；最终推荐必须是条件性的，不能给无条件排名。",
+  "round": 2,
+  "state": "rework",
+  "dropped_redundant": 5,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "可行性门控 (Feasibility Gate): 0/1 变量，表示在给定精度和量化方案下，模型权重+KV Cache是否完全装入所选硬件的显存，且满足上下文窗口≥32K tokens的容量下限。不满足此项则方案直接无效。",
+      "总拥有成本 (TCO): 硬件购买成本、多卡方案所需的额外基础设施成本（如PCIe链路、CPU内存、主板插槽）以及后续运行能耗的加权总和。",
+      "质量保留度 (Quality Retention): 所选精度（BF16/FP8/INT8等）相对于BF16基准模型在核心任务（如逻辑推理、代码生成）上的性能衰减程度，需论证该衰减在‘可接受’阈值内。",
+      "推理吞吐/延迟 (Performance Metric): 在满足容量约束的前提下，所选硬件架构（GPU/ASIC/NPU）在特定批处理大小下的Tokens/s生成速度或单Token延迟。"
+    ],
+    "composition": "argmax ( QualityRetained · Throughput / TCO )  subject to FeasibilityGate == 1",
+    "rationale": "本题核心是寻找‘性价比最优’，即在满足‘能跑起来且质量不崩’的硬性门槛（显存容量与质量下限）后，最大化单位成本带来的推理效能（速度/质量）产出。"
+  },
+  "objective_mode": "formula",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "node_id": "N11",
+      "claim": "Qwen3-27B在BF16精度下的基线能力基准：在MMLU、HumanEval、GSM8K等标准基准上的得分。例如，M",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（如MMLU 85.0%）属于经验事实，且不同评测设置（如few-shot vs zero-shot、是否包含CoT）会导致分数波动，单一数值缺"
+    },
+    {
+      "node_id": "N12",
+      "claim": "Qwen3-27B在INT8量化（如SmoothQuant, GPTQ）下的性能损失：通常在MMLU上损失1-2个百分点",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（如MMLU 85.0%降至83.5%）属于特定模型版本在特定量化算法下的经验测量数据，不同量化方法（SmoothQuant vs GPTQ）和"
+    },
+    {
+      "node_id": "N13",
+      "claim": "Qwen3-27B在W4 (4-bit)量化（如AWQ, GPTQ）下的性能损失：通常在MMLU上损失3-5个百分点，在",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（MMLU 85.0%->81.0%, GSM8K 90%->83%）属于特定模型版本和量化配置下的经验测量数据，无法从第一性原理推导，且不同量"
+    },
+    {
+      "node_id": "N23",
+      "claim": "能效比（Performance per Watt）的计算公式为 EER = Throughput_tokens_per_",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于具体硬件（H100 vs RTX 4090）在特定精度（FP8）下的能效比数值对比（2-3倍）属于经验事实，且不同负载（Prefill/Dec"
+    },
+    {
+      "node_id": "N24",
+      "claim": "多卡互联通信开销对总吞吐量的影响系数：当使用 N 张卡进行张量并行（TP）时，有效吞吐量 = Single_Card_T",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述将复杂的通信开销简化为单一固定系数（15%-30%），忽略了通信量与计算量的比例（Arithmetic Intensity）以及模型架构（如Tra"
+    },
+    {
+      "node_id": "N25",
+      "claim": "软件栈兼容性矩阵与适配成本：评估 CUDA 12.x 对 Qwen3-27B 的官方支持状态、ROCm 5.6+ 对 R",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含大量具体的经验性参数（如ONNX Runtime算子覆盖率<80%、具体的人天工时估算），这些属于工程经验事实，无法从第一性原理推导，且缺乏具"
+    },
+    {
+      "node_id": "N26",
+      "claim": "非典型硬件（如 Apple M2 Ultra/M3 Ultra 或 Intel Gaudi 2/3）的可行性风险评估：量",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性性能对比数据（Prefill 性能为 NVIDIA 卡的 1/5-1/10）和特定硬件参数（M3 Ultra 800GB/s），属"
+    },
+    {
+      "node_id": "N27",
+      "claim": "候选硬件全集筛选基准：消费级高端（RTX 4090 24GB, RTX 3090 24GB, RTX 4080 16GB",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N28",
+      "claim": "关键硬件价格基准（2024年Q3-Q4市场均价，需实时核验）：RTX 4090 ≈ $1,600-$1,800; RTX",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N29",
+      "claim": "性价比核心指标定义：Cost_Per_Token = (Hardware_Cost + Electricity_Cost",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N30",
+      "claim": "数据不确定性标记规范：所有价格数据标记为 [Price: 2024-Q4 Est.]；所有性能基准（如MMLU分数）标记",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N31",
+      "claim": "最终推荐的条件性边界：若预算 < $3,000 且接受W4量化（质量损失可接受），推荐 2× RTX 3090/4090",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "parent_id": "N8",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "父节点明确列出了‘CUDA上下文’作为额外开销的一部分，但现有子节点仅涵盖了‘激活值’和‘KV Cache/Batch影响’。建议增加一个子节点专门讨论CUDA上下文（Context）及框架常驻显存（如PyTorch/CUDA workspace）的固定开销估算，以补全父节点中‘5%-10%’估算的来源构成。",
+        "子节点1中提到的‘2 * hidden_size * seq_len * bytes_per_element’公式通常用于计算单层激活，但父节点讨论的是总显存。建议明确该子节点是用于验证‘5%-10%’估算的准确性，还是作为独立项计算，以免与父节点的百分比估算逻辑产生混淆。"
+      ],
+      "round": 1
+    },
+    {
+      "parent_id": "N22",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "补充 FP8 和 INT8 精度下 RTX 4090 的峰值算力参数（例如 FP8 Tensor Core 算力），以覆盖父节点要求的‘不同精度对比’。",
+        "增加一个子节点，明确‘实际有效算力利用率’的具体取值（如设定为 40%）或引用相关基准测试数据，否则公式中的‘实际’吞吐量无法计算。",
+        "建议将‘FLOPs_per_token’的计算通用化，或明确说明在 FP8/INT8 下该值是否变化（通常参数数量不变，FLOPs 理论值不变，但硬件峰值变化，需区分清楚）"
+      ],
+      "round": 1
+    },
+    {
+      "parent_id": "N23",
+      "issues": [
+        "不完备",
+        "有冗余"
+      ],
+      "suggestions": [
+        "补充各硬件在Decode和Prefill阶段的具体Throughput数据（tokens/s），这是计算EER的必要分子。",
+        "删除与父节点核心对比对象（H100 vs RTX 4090）无关或次要的硬件（如A100, RTX 3090），或将其作为背景参考，但需明确主次。",
+        "增加RDNA3架构代表（如RX 7900 XTX）的TDP和Throughput数据，以覆盖父节点提到的架构对比范围。",
+        "明确区分FP8精度下的吞吐量数据，因为父节点特别提到了H100在FP8下的表现，而吞吐量高度依赖精度。"
+      ],
+      "round": 1
+    },
+    {
+      "parent_id": "N24",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "增加子节点：基于通信时间和单步计算时间，推导 Communication_Overhead_Factor 的计算公式（例如：Overhead_Factor = T_comm / (T_compute + T_comm)）。",
+        "增加子节点：补充 NVLink 场景下的通信延迟计算，以便与 PCIe 场景进行对比，量化带宽差异带来的具体性能差异。",
+        "增加子节点：明确单步计算时间（Single_Card_Throughput 对应的 T_compute）或引入该参数，以便最终计算出实际的吞吐量损失百分比，从而验证父节点中'15%-30%'的范围。"
+      ],
+      "round": 1
+    },
+    {
+      "parent_id": "N27",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "增加第三个子节点或扩展现有子节点，明确列出各候选硬件（如RTX 4090, A100等）在显存和互联维度下的具体筛选结论（保留/排除）。",
+        "检查子节点1中的计算逻辑：W4方案权重13.55GB + KV 10.31GB + 开销1.02GB + 10%余量 ≈ 26.5GB，推导至36GB的‘保守取值’缺乏明确依据（如是否考虑了特定Batch Size下的KV Cache线性增长公式），建议补充推导过程或直接标注为经验值。"
+      ],
+      "round": 1
+    },
+    {
+      "parent_id": "N29",
+      "issues": [
+        "非正交",
+        "有冗余"
+      ],
+      "suggestions": [
+        "合并子节点2和子节点4：统一硬件成本的计算口径。建议保留子节点2的‘时间维度折旧’作为基础成本，并明确指出在Cost_Per_Token公式中，Hardware_Cost应指‘每小时/每批次分摊的硬件成本’，而非子节点4中模糊的‘总生命周期产出分摊’，或者明确区分两种场景下的计算公式。",
+        "消除子节点4中的逻辑漏洞：子节点4中‘单token硬件成本 = $426.67 / 1e9’的计算逻辑错误，$426.67是年折旧，1e9是年产出，结果应为‘年单token成本’，需明确时间单位的一致性。",
+        "优化子节点1和2的结构：将具体的硬件型号参数（RTX 4090, A100等）提取为变量示例，避免在多个子节点中重复列举相同硬件的成本计算过程，聚焦于方法论而非具体数值。"
+      ],
+      "round": 1
+    },
+    {
+      "parent_id": "N30",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "增加一个子节点，专门处理'带宽/算力峰值'的不确定性标记规范，例如：'NVIDIA官方数据表中带宽/算力峰值的测量条件（如TDP限制、温度环境）可能导致实际性能偏离标称值±3%-5%，需标记为[Spec: NVIDIA Official Datasheet]并在推荐中注明该偏差对单卡吞吐的影响'。",
+        "在子节点2中，明确补充父节点要求的'最终推荐中说明该范围导致的性价比波动区间'的具体表述，例如：'因此，在最终推荐中，PCIe方案的性价比可能比NVLink方案低15%-25%（基于±15%置信区间及吞吐损失加权计算）'，以严格对齐父节点示例。",
+        "在子节点1和3中，可进一步强调这些不确定性标记如何具体影响最终推荐的置信度表述，以增强与父节点'需在最终推荐中说明'要求的关联性。"
+      ],
+      "round": 1
+    },
+    {
+      "node_id": "N32",
+      "claim": "Qwen3-27B 的精确参数量分解：需从 Hugging Face 配置文件或技术报告获取具体数值，区分 Non-Em",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性数值断言（Embedding/LM Head 占比 10-15%），且声称 27.1B 为估算误差，但缺乏具体来源支持该特定模型的"
+    },
+    {
+      "node_id": "N34",
+      "claim": "Qwen3-27B 的 GQA 架构参数确认：需确认 n_heads（总注意力头数，通常为 32 或 40）、n_kv_",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验参数值（n_heads, n_kv_heads, d_head），属于模型架构的具体规格，无法从第一性原理推导，且当前无可用来源支持"
+    },
+    {
+      "node_id": "N42",
+      "claim": "框架支持矩阵：vLLM 0.4.x+ 和 SGLang 原生支持 FP8 KV Cache (需硬件支持 FP8 Ten",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体版本号（vLLM 0.4.x+）和特定框架（SGLang）的FP8 KV Cache支持状态属于经验事实，且不同版本间可能存在差异，缺乏来源直接证实"
+    },
+    {
+      "node_id": "N44",
+      "claim": "Qwen3-27B 在 BF16 精度下的 MMLU 基准得分约为 85.0% [待核验: 需查阅 Qwen3 官方技术",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值 85.0% 属于经验事实，缺乏官方技术报告或权威第三方评测的直接数据支持，且不同评测集（如 MMLU-Pro, MMLU-Redux）或提示词"
+    },
+    {
+      "node_id": "N45",
+      "claim": "Qwen3-27B 在 BF16 精度下的 HumanEval (代码生成) 基准得分约为 75.0% [待核验: 需查",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值 75.0% 属于经验事实，缺乏官方技术报告或权威第三方评测的直接支持，且不同评测集（如 HumanEval vs MBPP）及提示词工程可能导"
+    },
+    {
+      "node_id": "N46",
+      "claim": "Qwen3-27B 在 BF16 精度下的 GSM8K (数学推理) 基准得分约为 80.0% [待核验: 需查阅 Qw",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值 80.0% 属于经验事实，缺乏官方技术报告或权威第三方评测的直接数据支持，且不同评测设置（如 CoT vs 直接回答）下分数波动较大，该精确数"
+    },
+    {
+      "node_id": "N47",
+      "claim": "Qwen3-27B 在 BF16 精度下的 MATH (复杂数学) 基准得分约为 70.0% [待核验: 需查阅 Qwe",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体基准得分属于经验事实，且不同评测集（如 MATH-500, AIME, GSM8K）及推理设置（CoT vs 直接回答）会导致数值显著波动，70.0"
+    },
+    {
+      "node_id": "N48",
+      "claim": "Qwen3-27B 在 GPTQ (INT8, 1024校准样本) 量化下，MMLU 分数从 BF16 基线 85.0%",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（85.0%, 83.8%, 70.0%, 68.2%）及特定量化配置（GPTQ INT8, 1024校准样本）属于经验事实，缺乏来源支持，且不"
+    },
+    {
+      "node_id": "N49",
+      "claim": "Qwen3-27B 在 SmoothQuant (INT8) 量化下，MMLU 分数从 BF16 基线 85.0% 降至",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（85.0%, 84.1%, 70.0%, 68.5%）属于特定模型版本在特定量化方案下的经验实测数据，无法从第一性原理推导，且当前无可用来源支"
+    },
+    {
+      "node_id": "N50",
+      "claim": "量化方法差异导致的性能方差：在相同 INT8 位宽下，GPTQ 与 SmoothQuant 的 MMLU 得分差异约为 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（0.3个百分点、0.3-0.5个百分点）属于经验事实，且高度依赖于具体的模型规模、校准集大小及数据集版本，缺乏通用性；在无来源支持的情况下，断"
+    },
+    {
+      "node_id": "N51",
+      "claim": "INT8 量化下 GSM8K (数学推理) 性能损失基准：通常损失 2-4 个百分点 (例如从 90% 降至 87-88",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验数值（2-4个百分点损失、90%降至87-88%），属于经验事实而非第一性原理可推导内容。由于检索失败无外部来源支持，且不同模型架构"
+    },
+    {
+      "node_id": "N52",
+      "claim": "Qwen3-27B 在 AWQ (W4A16) 量化下，MMLU 分数从 BF16 基线 85.0% 降至 81.5% ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（85.0%, 81.5%, 90.0%, 84.0%）属于特定实验条件下的经验数据，缺乏公开权威基准测试的直接引用，存在数值虚构或混淆不同量化"
+    },
+    {
+      "node_id": "N53",
+      "claim": "Qwen3-27B 在 GPTQ (W4A16) 量化下，MMLU 分数从 BF16 基线 85.0% 降至 80.8%",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（85.0%, 80.8%, 90.0%, 83.5%）属于特定实验条件下的经验数据，不同量化实现（如 GPTQ 的不同版本、校准集大小、量化粒"
+    },
+    {
+      "node_id": "N54",
+      "claim": "W4 量化下 HumanEval (代码生成) 性能损失基准：通常损失 4-6 个百分点 (例如从 70% 降至 64-",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验数值（4-6个百分点损失，70%降至64-66%），属于经验事实而非第一性原理可推导内容。由于检索失败，无法验证这些具体数值是否准确"
+    },
+    {
+      "node_id": "N55",
+      "claim": "W4 量化下长上下文 (32K) 特有的性能退化机制：由于 KV Cache 若保持 BF16 而权重为 W4，混合精度",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（0.5-1.0个百分点）缺乏来源支持，且混合精度KV Cache对长上下文的具体影响机制及量化损失幅度属于经验事实，无法仅凭逻辑推导得出精确数"
+    },
+    {
+      "node_id": "N56",
+      "claim": "RTX 4090 (24GB, 1008 GB/s) 在 Batch=1, INT8 权重, BF16 KV Cache",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于Decode阶段每token读取量的计算存在逻辑矛盾：一方面声称忽略KV增量读取，另一方面在总显存占用中包含了KV，且未明确说明27.1GB权"
+    },
+    {
+      "node_id": "N59",
+      "claim": "W4 量化对 Decode 吞吐的提升系数：权重显存从 27.1 GB (INT8) 降至 13.55 GB (W4)，",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述隐含假设 Decode 阶段完全受限于权重读取带宽（Memory-Bound），且吞吐量与 Bytes_per_token 成严格反比关系。然而，"
+    },
+    {
+      "node_id": "N60",
+      "claim": "实际带宽利用率修正系数：在 LLM Decode 阶段，由于小批量读取和内存访问模式，实际有效带宽通常仅为理论峰值的 6",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性数值（不同GPU的带宽利用率区间及特定吞吐计算结果），属于经验事实而非第一性原理可推导内容。由于检索失败无外部来源支持，且不同框架"
+    },
+    {
+      "node_id": "N89",
+      "claim": "CUDA 12.x + vLLM 方案部署成本：适配工时为 0.5 人天（官方支持 Qwen3，仅需配置 KV Cach",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]「适配工时为 0.5 人天」和「总成本权重为 0.1」属于高度依赖具体硬件规模、集群配置及业务场景的经验性估算值，并非 CUDA 12.x 或 vLLM"
+    },
+    {
+      "node_id": "N91",
+      "claim": "ONNX Runtime + NPU 方案部署成本：适配工时为 10-20 人天（需导出 ONNX 模型并处理 NPU ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（10-20人天、$5000+、权重1.5-3.0）属于高度依赖具体模型规模、NPU硬件型号及团队效率的经验性估算，缺乏通用标准，存在将特定案例"
+    },
+    {
+      "node_id": "N93",
+      "claim": "Apple M3 Ultra Prefill 阶段性能劣势：缺乏 Tensor Core，Prefill 吞吐约为同等价",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级与具体延迟数据缺乏公开基准测试支持，且将‘缺乏Tensor Core’直接等同于‘1/5至1/10吞吐’及‘50-100秒延迟’属于过度简化的因"
+    },
+    {
+      "node_id": "N94",
+      "claim": "Intel Gaudi 2/3 可行性评估：Gaudi 3 提供 96GB HBM2e 和 1.2 TB/s 带宽，但软",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]Gaudi 3 的 HBM 规格（96GB HBM2e）与公开资料（通常为 96GB HBM2e 或 HBM3，带宽约 1.6TB/s）存在细微出入，且"
+    },
+    {
+      "node_id": "N97",
+      "claim": "RTX 4090 24GB 当前现货均价为 $1,550-$1,700，且受矿潮后遗症及AI需求影响，价格波动系数（标准",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的市场价格区间（$1,550-$1,700）和统计指标（波动系数8%），属于典型的市场经验事实，无法从第一性原理推导。且‘矿潮后遗症’在2"
+    },
+    {
+      "node_id": "N98",
+      "claim": "RTX 3090 24GB 二手市场均价为 $700-$900，但需注意其缺乏FP8支持且功耗较高（350W vs 40",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含多个具体的经验性数据（二手均价、折旧率、能效比对比），属于典型的市场/硬件经验事实，无法从第一性原理推导。且‘2024年残值折旧曲线趋于平缓’"
+    },
+    {
+      "node_id": "N99",
+      "claim": "A6000 Ada 48GB 官方建议零售价（MSRP）为 $6,800，但实际渠道现货价常溢价至 $7,500-$8,",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体价格数值（$6,800 MSRP, $7,500-$8,000 现货价）属于高度波动的市场经验事实，且缺乏来源支持，存在数值过时或偏差的风险。 | "
+    },
+    {
+      "node_id": "N100",
+      "claim": "A100 80GB SXM4 版本因无NVLink桥接（需PCIe或专用底板）导致多卡互联成本增加，单卡现货价约为 $9",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的市场价格区间（$9,000-$11,000）和差价（$500-$800），属于典型的市场经验事实，且标注了[时效待核]。由于缺乏实时市场"
+    },
+    {
+      "node_id": "N101",
+      "claim": "H100 80GB SXM5 单卡价格为 $25,000-$30,000，但构建双卡H100工作站需额外增加 $2,00",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体价格区间（$25,000-$30,000）及边际成本比例（8%-10%）属于随市场波动剧烈的经验事实，且缺乏来源支持，无法排除因时间、渠道不同导致数"
+    },
+    {
+      "node_id": "N110",
+      "claim": "条件分支1（预算<$3,000, W4量化）的硬件可行性验证：2× RTX 3090 (48GB总显存) 在 W4 量化",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的硬件参数（RTX 3090 显存、W4量化后模型大小35.18GB）和推理资源需求（KV Cache、激活值），属于经验事实。由于检索失"
+    },
+    {
+      "node_id": "N111",
+      "claim": "条件分支1（预算<$3,000, W4量化）的延迟量化：2× RTX 3090 PCIe 互联在 W4 量化下的理论 D",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]公式中 Bytes_per_token 的定义存在量纲和逻辑混淆：'13.55GB/1024' 并非标准的每 token 字节数计算方式，且 W4 量化"
+    },
+    {
+      "node_id": "N112",
+      "claim": "条件分支2（预算$5,000-$8,000, INT8量化）的硬件可行性验证：1× A6000 Ada 48GB 在 I",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的显存占用数值（49.74GB）和硬件规格（A6000 Ada 48GB），属于经验事实。由于检索失败，无法验证49.74GB这一具体数值"
+    },
+    {
+      "node_id": "N114",
+      "claim": "条件分支3（预算>$10,000, BF16量化）的硬件可行性验证：1× A100/H100 80GB 在 BF16 量",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的硬件带宽数值（H100 3350GB/s vs A100 2039GB/s）和显存占用计算（78.87GB），属于经验事实。虽然数值量级"
+    },
+    {
+      "node_id": "N118",
+      "claim": "AMD MI300X (192GB HBM3, 5.3 TB/s) 作为非典型高显存/高带宽候选，单卡可容纳 BF16 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N119",
+      "claim": "NVIDIA RTX 6000 Ada (48GB, 960 GB/s) 作为专业工作站卡，其单卡显存 (48GB) 刚",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N120",
+      "claim": "Apple M3 Max (128GB) 作为本地工作站非典型方案，其统一内存架构允许单芯片运行 BF16 Qwen3-",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 92
+}

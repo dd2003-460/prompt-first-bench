@@ -1,0 +1,20 @@
+# N313: 基于信息熵的修正因子：后验不确定性 $H_{post} = -P(H|D)\ln P(H|D) - P(\neg H|D)\ln P(\neg H|D)$。要求
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N90
+
+## Claim
+
+基于信息熵的修正因子：后验不确定性 $H_{post} = -P(H|D)\ln P(H|D) - P(\neg H|D)\ln P(\neg H|D)$。要求后验熵低于阈值 $H_{crit}$（如 $H_{crit} = 0.5$ nats）时，解方程 $-\theta \ln \theta - (1-\theta) \ln (1-\theta) \le H_{crit}$ 得到最小后验概率 $\theta_{min}$。当 $H_{crit}=0.5$ 时，$\theta_{min} \approx 0.77$ 或 $0.23$，这为动态阈值提供了信息论基础，而非简单线性插值。
+
+## Corrected Claim
+
+基于信息熵的修正因子：后验不确定性 $H_{post} = -P(H|D)\ln P(H|D) - P(\neg H|D)\ln P(\neg H|D)$。要求后验熵低于阈值 $H_{crit}$（如 $H_{crit} = 0.5$ nats）时，解方程 $-\theta \ln \theta - (1-\theta) \ln (1-\theta) \le H_{crit}$ 得到最小后验概率 $\theta_{min}$。当 $H_{crit}=0.5$ 时，$\theta_{min} \approx 0.77$ 或 $0.23$，这为动态阈值提供了信息论基础，而非简单线性插值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：二元信息熵函数在 p=0.5 处取最大值 ln(2)≈0.693，当 H=0.5 时，通过数值求解 -p ln p - (1-p) ln(1-p) = 0.5 可得 p ≈ 0.77 或 0.23，数学推导正确且量级合理。

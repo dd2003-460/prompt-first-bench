@@ -1,0 +1,24 @@
+# N73: 短期GMV损失率 ΔGMV_short 的计算公式为 (Σ(Price_high * Qty_high) - Σ(Price_optimized * Qty_o
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N21
+
+## Claim
+
+短期GMV损失率 ΔGMV_short 的计算公式为 (Σ(Price_high * Qty_high) - Σ(Price_optimized * Qty_optimized)) / Σ(Price_high * Qty_high)，其中 Price_optimized 为引入价格合理性权重后的预期成交价，Qty 为成交量，需基于历史A/B测试数据估算弹性。
+
+## Corrected Claim
+
+短期GMV损失率 ΔGMV_short 的计算公式为 (Σ(Price_high * Qty_high) - Σ(Price_optimized * Qty_optimized)) / Σ(Price_high * Qty_high)，其中 Price_optimized 为引入价格合理性权重后的预期成交价，Qty 为成交量，需基于历史A/B测试数据估算弹性。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+second hand marketplace GMV impact of price normalization algorithm A/B test results

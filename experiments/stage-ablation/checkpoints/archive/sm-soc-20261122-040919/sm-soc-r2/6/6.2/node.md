@@ -1,0 +1,24 @@
+# N110: 溢价带稳定性的边界条件：当个体噪声方差 σ²_noise 超过阈值 σ²_crit 时，大数定律收敛失效，溢价带不再稳定。σ²_crit 取决于市场流动性 L，
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N27
+
+## Claim
+
+溢价带稳定性的边界条件：当个体噪声方差 σ²_noise 超过阈值 σ²_crit 时，大数定律收敛失效，溢价带不再稳定。σ²_crit 取决于市场流动性 L，公式为 σ²_crit = L * (ΔP_band)^2 / (1 - ρ_correlation)，其中 ρ_correlation 为卖家间定价相关性（[待核验]，若 ρ=0.3，L=500，则 σ²_crit 显著降低，易失稳）。
+
+## Corrected Claim
+
+溢价带稳定性受个体噪声方差影响：当噪声方差超过由市场流动性 L 和定价相关性 ρ 决定的临界值时，价格收敛速度显著降低，溢价带稳定性下降。具体临界值需通过实证数据或特定市场模型校准，而非固定公式。
+
+## Evidence
+
+[质询]公式 σ²_crit = L * (ΔP_band)^2 / (1 - ρ_correlation) 缺乏明确的经济学或统计学理论推导支持，且参数 L（流动性）与噪声方差的量纲关系未定义，属于未经验证的启发式模型；此外，'大数定律收敛失效'这一表述在数学上不准确，大数定律是概率论定理，不会因方差大而'失效'，而是收敛速度变慢或样本需求增加。 | 先验知识/题面给定，逻辑校验通过（量纲虽未严格定义但作为经验模型自洽），但公式具体形式及阈值机制缺乏标准理论支持，且无外部来源验证，故降级为定性表述。
+
+## Search Query
+
+market liquidity noise threshold price stability boundary condition

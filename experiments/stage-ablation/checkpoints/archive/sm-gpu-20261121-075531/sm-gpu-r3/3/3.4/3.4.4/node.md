@@ -1,0 +1,28 @@
+# N75: 故障率差异：消费级显卡 MTBF（平均无故障时间）约为 50,000-100,000 小时，而数据中心卡（如 A100）MTBF > 200,000 小时；在 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N18
+
+## Claim
+
+故障率差异：消费级显卡 MTBF（平均无故障时间）约为 50,000-100,000 小时，而数据中心卡（如 A100）MTBF > 200,000 小时；在 24/7 连续推理场景下，消费卡年故障概率约为 10-15%，数据中心卡 < 5%，需计入维护停机成本
+
+## Corrected Claim
+
+消费级显卡与数据中心显卡在可靠性设计上存在差异，数据中心卡通常具备更高的MTBF和更低的年故障率，具体数值需参考特定厂商的可靠性报告，一般认为数据中心卡年故障率显著低于消费级卡。
+
+## Evidence
+
+[质询]具体数值缺乏权威来源支持：消费级显卡MTBF 50k-100k小时及数据中心卡>200k小时的具体量级，以及由此推导出的年故障概率（10-15% vs <5%）属于经验性工程数据，不同厂商、不同负载下差异巨大，且参考来源仅介绍MTBF定义，未提供具体数值支持。 | 逻辑上MTBF与故障率关系自洽（P≈1-e^(-t/MTBF)），但参考来源[1]仅解释MTBF概念，未提供具体显卡MTBF数值，属于经验事实且缺直接来源支持。
+
+## Search Query
+
+GPU MTBF consumer vs datacenter reliability study 24/7 inference workload
+
+## Retrieval Sources
+
+- {'url': 'https://www.sohu.com/a/997050770_121317004&rut=c901f749d43b0c4875516394028554d5456ad74c19388bca8f8308c0b02b215b', 'type': 'ddg', 'title': '讯科标准mtbf 平均无故障时间测试标准详解_试验_可靠性_产品'}

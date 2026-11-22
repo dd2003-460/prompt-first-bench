@@ -1,0 +1,20 @@
+# N31: AMD MI300X (192GB HBM3) 的显存带宽为 5300 GB/s，价格约为 $15000-$20000，单卡可完整承载 Qwen3-27B 的 
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+AMD MI300X (192GB HBM3) 的显存带宽为 5300 GB/s，价格约为 $15000-$20000，单卡可完整承载 Qwen3-27B 的 BF16 权重（约 54GB）且剩余显存支持 32K 上下文，FP8 权重（约 13.5GB）单卡可容纳且支持更长上下文，INT4 权重（约 6.75GB）单卡可容纳且支持超长上下文。
+
+## Corrected Claim
+
+AMD MI300X (192GB HBM3) 的显存带宽为 5300 GB/s，价格约为 $15000-$20000，单卡可完整承载 Qwen3-27B 的 BF16 权重（约 54GB）且剩余显存支持 32K 上下文，FP8 权重（约 13.5GB）单卡可容纳且支持更长上下文，INT4 权重（约 6.75GB）单卡可容纳且支持超长上下文。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：MI300X 192GB HBM3 带宽 5.3TB/s 符合规格；Qwen3-27B BF16 权重约 54GB，加上 32K 上下文 KV Cache 及激活值，总占用远低于 192GB，逻辑自洽。

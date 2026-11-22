@@ -1,0 +1,20 @@
+# N139: RTX 4090在INT8精度下的推理延迟计算：(2 * 27e9 * 32768) / (165.2 TFLOPS * 0.8) + (13.5 + 2.5 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N23
+
+## Claim
+
+RTX 4090在INT8精度下的推理延迟计算：(2 * 27e9 * 32768) / (165.2 TFLOPS * 0.8) + (13.5 + 2.5 + 5.2)GB / 1008 GB/s ≈ 17.1 ms + 21.0 ms = 38.1 ms/token
+
+## Corrected Claim
+
+RTX 4090在INT8精度下的推理延迟计算：(2 * 27e9 * 32768) / (165.2 TFLOPS * 0.8) + (13.5 + 2.5 + 5.2)GB / 1008 GB/s ≈ 17.1 ms + 21.0 ms = 38.1 ms/token
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别代表了计算极限、带宽极限和实际综合情况，逻辑上相互独立且互补，共同构成了对父节点延迟计算的完整分解与修正分析，不存在重复或矛盾。）

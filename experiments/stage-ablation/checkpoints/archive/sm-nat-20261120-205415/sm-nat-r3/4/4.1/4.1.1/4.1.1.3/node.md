@@ -1,0 +1,30 @@
+# N157: 在 α=1.1 且 x_min=1MB 的极端重尾分布下，前 K 个最小对象的累积大小达到 128GB 所需的 K 值远小于 N=100,000，具体 K 值依
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N56
+
+## Claim
+
+在 α=1.1 且 x_min=1MB 的极端重尾分布下，前 K 个最小对象的累积大小达到 128GB 所需的 K 值远小于 N=100,000，具体 K 值依赖于 S_max 的数值解，若 S_max 极大则 K 接近 100,000，否则 K 显著小于 N。
+
+## Corrected Claim
+
+在 α=1.1 且 x_min=1MB 的极端重尾分布下，由于尾部极重，前 K 个最小对象的累积大小达到 128GB 所需的 K 值通常显著小于 N=100,000，具体数值需通过数值积分或模拟确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（α=1.1, x_min=1MB, N=100,000, 128GB），属于特定场景下的数值结论，无法仅从第一性原理严格推出具体K值与N的相对关系而不依赖具体分布实现或模拟数据；且参考来源均为通用重尾分布理论或金融实证，未覆盖此特定存储/对象大小场景。 | 逻辑上，α=1.1 的幂律分布具有极重尾部，少数极大对象占据绝大部分总大小，因此累积达到 128GB 所需的 K 值确实可能远小于 N，逻辑自洽；但参考来源 [1][2][3] 仅讨论重尾分布的一般性质或金融应用，未提供该特定参数组合下的数值支持，属于经验事实且缺直接来源支持。
+
+## Search Query
+
+Pareto alpha 1.1 object count for fixed capacity 128GB
+
+## Retrieval Sources
+
+- {'url': 'https://xueshu.baidu.com/usercenter/paper/show?paperid=5ce90f7abe68a63c82955688099c2555&rut=3073e963da451be2238952360659c26dee86d79d11fcf26cdf27fab8672d7637', 'type': 'ddg', 'title': '重尾分布的尾部指数估计及沪深股市实证分析 - 百度学术'}
+- {'url': 'https://xueshu.baidu.com/usercenter/paper/show?paperid=0297522c530e6fc1b7a51c71c5c3699a&site=xueshu_se&rut=002f9e0e8b18c8450f55bb46a3cb4bd7c08f27ffb8b50049471f945577618de2', 'type': 'ddg', 'title': '重尾现象、重尾分布与重尾指数估计 - 百度学术'}
+- {'url': 'https://zhuanlan.zhihu.com/p/267563767&rut=132df34b3cebe5f4cb2e69c34f47ddfdca673f13db0a1810ad95eb265a0ae1c3', 'type': 'ddg', 'title': '幂律分布的参数估计(logarithmic bins) - 知乎'}

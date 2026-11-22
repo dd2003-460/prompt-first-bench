@@ -1,0 +1,24 @@
+# N212: 合规成本 C_compliance 的量化：C_compliance = 受影响卖家数量 × 单个卖家沟通成本 + 法律审查费用。假设受影响卖家为 1000 人
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N74
+
+## Claim
+
+合规成本 C_compliance 的量化：C_compliance = 受影响卖家数量 × 单个卖家沟通成本 + 法律审查费用。假设受影响卖家为 1000 人，单个沟通成本 50 元，法律审查 5000 元，则 C_compliance = 1000×50 + 5000 = 55000 元/月。若 λ 增加 20%，受影响卖家数量可能增加 15%，则 C_compliance 增量 = 55000 × 0.15 = 8250 元/月。
+
+## Corrected Claim
+
+合规成本 C_compliance 的量化模型为：C_compliance = 受影响卖家数量 × 单个卖家沟通成本 + 法律审查费用。若假设受影响卖家为 1000 人，单个沟通成本 50 元，法律审查 5000 元，则 C_compliance = 55000 元/月。若 λ 增加 20% 导致受影响卖家数量增加 15%，则 C_compliance 增量约为 8250 元/月（基于上述假设参数）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性参数（单个卖家沟通成本50元、法律审查费用5000元、受影响卖家数量1000人），这些数值并非第一性原理可推导，且缺乏外部来源支持其合理性或准确性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+platform intervention compliance cost seller communication cost estimation

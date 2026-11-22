@@ -1,0 +1,20 @@
+# N76: 下游投影3：买家信任度与咨询行为的耦合效应。价格透明度可能增强买家对'合理溢价'的信任，但削弱对'快速成交'信号的依赖。咨询概率 P(Consult) = f(
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N16
+
+## Claim
+
+下游投影3：买家信任度与咨询行为的耦合效应。价格透明度可能增强买家对'合理溢价'的信任，但削弱对'快速成交'信号的依赖。咨询概率 P(Consult) = f(Trust, Signal_Strength)。若 Signal_Strength 下降幅度 > Trust 上升幅度，则 P(Consult) 可能短期下降，影响卖家体验，进而间接影响买家未来的购买意愿（网络效应）。
+
+## Corrected Claim
+
+下游投影3：买家信任度与咨询行为的耦合效应。价格透明度可能增强买家对'合理溢价'的信任，但削弱对'快速成交'信号的依赖。咨询概率 P(Consult) = f(Trust, Signal_Strength)。若 Signal_Strength 下降幅度 > Trust 上升幅度，则 P(Consult) 可能短期下降，影响卖家体验，进而间接影响买家未来的购买意愿（网络效应）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

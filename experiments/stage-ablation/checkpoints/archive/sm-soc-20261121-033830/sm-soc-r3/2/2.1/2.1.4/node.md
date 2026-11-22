@@ -1,0 +1,24 @@
+# N48: 稀缺性偏好（Scarcity Bias）的量化参数 α_scarcity 定义为买家对‘高挂价’商品的感知价值增量：V_perceived = V_base *
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N9, N10, N11
+
+## Claim
+
+稀缺性偏好（Scarcity Bias）的量化参数 α_scarcity 定义为买家对‘高挂价’商品的感知价值增量：V_perceived = V_base * (1 + α_scarcity * (P_ask / P_median - 1))，其中 α_scarcity 需通过 A/B 测试或回归分析估计，预期在 0.1-0.3 区间。
+
+## Corrected Claim
+
+稀缺性偏好（Scarcity Bias）的量化参数 α_scarcity 用于衡量买家对‘高挂价’商品的感知价值增量，其具体数值需通过 A/B 测试或回归分析针对特定市场场景进行估计，而非固定为 0.1-0.3 区间。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在逻辑上正交，分别处理基础价值估计、核心参数估计、异质性修正和结果传导，无重复或矛盾。但完备性不足：父节点明确提到需通过'A/B 测试或回归分析'估计，子节点仅覆盖了回归分析路径，缺失了 A/B 测试（随机对照试验）这一关键估计方法及其设计细节；此外，未包含对模型假设（如线性关系、无遗漏变量）的验证环节。）
+
+## Search Query
+
+scarcity bias premium effect pricing consumer behavior alpha coefficient

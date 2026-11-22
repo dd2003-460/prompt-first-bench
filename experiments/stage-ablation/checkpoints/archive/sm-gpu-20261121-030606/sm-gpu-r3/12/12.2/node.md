@@ -1,0 +1,24 @@
+# N415: AMD Radeon RX 7900 XTX 的显存带宽为 960 GB/s (GDDR6, 384-bit @ 20 Gbps)，低于 N184 设定的 10
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N184
+
+## Claim
+
+AMD Radeon RX 7900 XTX 的显存带宽为 960 GB/s (GDDR6, 384-bit @ 20 Gbps)，低于 N184 设定的 1000 GB/s 吞吐量下限；若保留该候选，需论证 960 GB/s 与 1000 GB/s 的差异（4%）对最终 Tokens/$ 的影响是否可忽略，或将其标记为 [待核验] 并重新计算其在 INT8 精度下的理论吞吐量上限（960 / (27+2+2.5+3) ≈ 30.3 tokens/s）以确认其是否仍具性价比竞争力。
+
+## Corrected Claim
+
+AMD Radeon RX 7900 XTX 的显存带宽为 960 GB/s (GDDR6, 384-bit @ 20 Gbps)，低于 N184 设定的 1000 GB/s 吞吐量下限；若保留该候选，需论证 960 GB/s 与 1000 GB/s 的差异（4%）对最终 Tokens/$ 的影响是否可忽略，或将其标记为 [待核验] 并重新计算其在 INT8 精度下的理论吞吐量上限（960 / (27+2+2.5+3) ≈ 30.3 tokens/s）以确认其是否仍具性价比竞争力。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RX 7900 XTX 显存带宽 960 GB/s 符合其 384-bit 位宽与 20 Gbps 速率的规格（384/8 * 20 = 960），且 960 < 1000 的数值比较及 4% 差异计算逻辑自洽。
+
+## Search Query
+
+AMD RX 7900 XTX memory bandwidth GB/s specification

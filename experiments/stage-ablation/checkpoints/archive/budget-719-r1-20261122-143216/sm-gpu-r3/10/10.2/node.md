@@ -1,0 +1,20 @@
+# N140: PCIe Gen4 x16 的双向有效带宽约为 32 GB/s（理论 64 GB/s 扣除协议开销），而 NVLink (A100/H100) 双向带宽为 60
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N35
+
+## Claim
+
+PCIe Gen4 x16 的双向有效带宽约为 32 GB/s（理论 64 GB/s 扣除协议开销），而 NVLink (A100/H100) 双向带宽为 600-900 GB/s，两者带宽比值约为 1:19 至 1:28，该比值决定了通信时间占比的理论上限
+
+## Corrected Claim
+
+PCIe Gen4 x16 的双向有效带宽约为 32 GB/s（理论 64 GB/s 扣除协议开销），而 NVLink (A100/H100) 双向带宽为 600-900 GB/s，两者带宽比值约为 1:19 至 1:28，该比值决定了通信时间占比的理论上限
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe Gen4 x16 理论带宽 64GB/s，扣除开销后有效带宽约 32GB/s 符合工程常识；NVLink A100 为 600GB/s，H100 为 900GB/s，比值计算 600/32≈18.75 (≈19) 和 900/32≈28.125 (≈28) 准确无误。

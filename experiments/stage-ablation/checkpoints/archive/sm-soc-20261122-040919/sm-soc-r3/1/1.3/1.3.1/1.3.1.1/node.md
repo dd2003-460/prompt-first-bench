@@ -1,0 +1,24 @@
+# N151: 共享随机源：平台算法信号噪声 ε_signal，其方差 σ²_signal 源于推荐系统中‘快速成交’标签的误报率（False Positive Rate, F
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N38
+
+## Claim
+
+共享随机源：平台算法信号噪声 ε_signal，其方差 σ²_signal 源于推荐系统中‘快速成交’标签的误报率（False Positive Rate, FPR）。FPR 定义为标记为‘快速成交’的商品中实际未快速成交的比例。若 FPR=0.2，则信号的可信度（Precision）为 0.8，导致买家对该信号的信任度 d 呈负相关。
+
+## Corrected Claim
+
+共享随机源：平台算法信号噪声 ε_signal，其方差 σ²_signal 源于推荐系统中‘快速成交’标签的误报率（False Positive Rate, FPR）。FPR 定义为标记为‘快速成交’的商品中实际未快速成交的比例。若 FPR=0.2，则信号的可信度（Precision）为 0.8，导致买家对该信号的信任度 d 呈负相关。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：FPR定义为假阳性比例，Precision=1-FPR在二分类语境下逻辑自洽，且信号噪声与误报率正相关、信任度与误报率负相关符合基本直觉。
+
+## Search Query
+
+recommendation system false positive rate signal credibility impact

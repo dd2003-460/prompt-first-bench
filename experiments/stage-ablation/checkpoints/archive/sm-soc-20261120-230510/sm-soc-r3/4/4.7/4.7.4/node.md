@@ -1,0 +1,20 @@
+# N86: 卖家净效应 ΔRev_seller_net 的计算公式：ΔRev_seller_net = r_high * ΔRev_seller_high + (1 - r
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N22
+
+## Claim
+
+卖家净效应 ΔRev_seller_net 的计算公式：ΔRev_seller_net = r_high * ΔRev_seller_high + (1 - r_high) * ΔRev_seller_low，其中 ΔRev_seller_high = -0.5 * p_deal_high * P_ask_high，ΔRev_seller_low = +0.2 * p_deal_low * P_ask_low，需代入具体参数求解。
+
+## Corrected Claim
+
+卖家净效应 ΔRev_seller_net 的计算公式：ΔRev_seller_net = r_high * ΔRev_seller_high + (1 - r_high) * ΔRev_seller_low，其中 ΔRev_seller_high = -0.5 * p_deal_high * P_ask_high，ΔRev_seller_low = +0.2 * p_deal_low * P_ask_low，需代入具体参数求解。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（三个子节点分别解释了高挂价项系数、低挂价项系数的微观基础以及整体公式的敏感性分析，三者关注点不同（微观机制 vs 宏观敏感度），逻辑上正交且无重复。父节点要求计算需代入具体参数，子节点提供了参数的推导依据和变化趋势，覆盖了关键方面。）

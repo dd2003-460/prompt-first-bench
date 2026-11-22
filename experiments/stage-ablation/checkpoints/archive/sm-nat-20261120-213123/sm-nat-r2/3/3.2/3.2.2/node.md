@@ -1,0 +1,20 @@
+# N45: 基于 $CV_H^2 \approx 8.02 \times 10^5$ 和 $\rho=-0.3$，理论修正因子 $K(\rho) \approx 1 - 0
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N15
+
+## Claim
+
+基于 $CV_H^2 \approx 8.02 \times 10^5$ 和 $\rho=-0.3$，理论修正因子 $K(\rho) \approx 1 - 0.3 \times 8.02 \times 10^5$ 远小于 0，表明线性近似失效，必须使用非线性 Copula 模型或截断修正项 $K(\rho) = \max(0, 1 + \rho \cdot CV_H^2 \cdot \epsilon)$，其中 $\epsilon$ 为相关结构的有效作用系数。
+
+## Corrected Claim
+
+基于 $CV_H^2 \approx 8.02 \times 10^5$ 和 $\rho=-0.3$，若采用线性修正因子 $K(\rho) \approx 1 + \rho \cdot CV_H^2$，其值远小于 0，表明该线性近似在此高变异系数场景下失效，需引入非线性 Copula 模型或截断修正项以保证物理/统计合理性。
+
+## Evidence
+
+[质询]公式 $K(\rho) \approx 1 - 0.3 \times 8.02 \times 10^5$ 缺乏明确的理论推导依据或标准定义，属于特定模型下的经验性修正项，其系数结构（线性相乘）在一般统计理论中并非普适真理，存在模型假设过强的风险。 | 先验知识/题面给定，逻辑校验通过：数值计算 $1 - 240600 < 0$ 成立，线性近似失效的结论在逻辑上自洽；但作为经验性修正公式，缺乏通用理论支持，故降级。

@@ -1,0 +1,24 @@
+# N87: 成交量价格弹性 ε_Q 的定义及估计方法：ε_Q = (∂Q/∂P_ask) * (P_ask/Q)，需通过历史数据回归 P_ask 与 Q 的对数形式 log
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N36
+
+## Claim
+
+成交量价格弹性 ε_Q 的定义及估计方法：ε_Q = (∂Q/∂P_ask) * (P_ask/Q)，需通过历史数据回归 P_ask 与 Q 的对数形式 log(Q) = α + ε_Q * log(P_ask) 获得。
+
+## Corrected Claim
+
+成交量价格弹性 ε_Q 的定义及估计方法：ε_Q = (∂Q/∂P_ask) * (P_ask/Q)，需通过历史数据回归 P_ask 与 Q 的对数形式 log(Q) = α + ε_Q * log(P_ask) 获得。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：弹性定义符合经济学标准公式，对数线性回归是估计常弹性模型的标准方法，量纲与逻辑自洽。
+
+## Search Query
+
+estimating price elasticity of demand for online marketplace listings

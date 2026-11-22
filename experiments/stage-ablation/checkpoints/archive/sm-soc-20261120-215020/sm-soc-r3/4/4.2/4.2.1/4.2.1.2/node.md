@@ -1,0 +1,30 @@
+# N155: 核验时间 $T_{verify}$ 的基准值量化：用户点击商品后，查看描述、图片、卖家信誉、评论直至发起咨询或购买的时间。假设 $T_{verify} = 12
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N53
+
+## Claim
+
+核验时间 $T_{verify}$ 的基准值量化：用户点击商品后，查看描述、图片、卖家信誉、评论直至发起咨询或购买的时间。假设 $T_{verify} = 120$ 秒，占总决策时间 $T_0$ 的 40-50%。该值是信息不对称的主要体现，也是 $\eta$（信息敏感度）作用最强的环节。
+
+## Corrected Claim
+
+用户点击商品后，查看描述、图片、卖家信誉、评论直至发起咨询或购买的时间（$T_{verify}$）是信息不对称的主要体现。在特定场景下可假设其基准值约为120秒，占总决策时间的40-50%，但该数值需根据具体业务场景校准。
+
+## Evidence
+
+[质询]该陈述中的具体数值（120秒、40-50%占比）属于经验性假设，缺乏普遍适用的实证数据支持，且不同用户群体和商品类别差异巨大，直接量化为固定基准值存在以偏概全的风险。 | 参考来源[1][2]讨论的是滑块验证码技术，[3]讨论的是金融开户身份核验，均与电商购物决策时间无关，无可用外部证据；该数值为模型假设，逻辑自洽但属经验事实且缺来源支持。
+
+## Search Query
+
+average verification time product detail page e-commerce user behavior
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_31881651/article/details/161845543&rut=5a8cf7f94aaf8e4904676b3ed2b7a747e6719c33582d4365cb4bbbef07b71b02', 'type': 'ddg', 'title': '别再只用图片验证码了!Vue3项目接入vue3-slide-verify滑块验证的完整实战（附防刷策略）-CSDN博客'}
+- {'url': 'https://blog.csdn.net/weixin_30166691/article/details/161845530&rut=967bfbf75f0f5aabaf364ae99d577b6fa6318581f7ca5dabfcc6f3e5b2920e19', 'type': 'ddg', 'title': '别再只用图片验证码了!Vue3项目接入vue3-slide-verify滑块验证的完整实战（含防刷策略）-CSDN博客'}
+- {'url': 'https://ekyc.tencentcloud.com/zh/blog/customer-identity-verification-zh/&rut=a446968e1fe55b13efd70598e0cff9c61380ee0c66438ba7b372e444e6d21652', 'type': 'ddg', 'title': '客户身份核验：怎样设计开户流程｜Tencent Cloud eKYC'}

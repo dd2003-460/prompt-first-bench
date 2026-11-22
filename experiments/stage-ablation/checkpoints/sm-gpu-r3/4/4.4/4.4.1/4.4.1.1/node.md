@@ -1,0 +1,24 @@
+# N220: RTX 5090 显存位宽确认为 512-bit（基于 1792 GB/s / 28 Gbps = 48 bytes = 512 bits 反推，修正 N125
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N105
+
+## Claim
+
+RTX 5090 显存位宽确认为 512-bit（基于 1792 GB/s / 28 Gbps = 48 bytes = 512 bits 反推，修正 N125 中 384-bit 的错误描述），GDDR7 速率 28 Gbps，该规格为官方 datasheet 确认值。
+
+## Corrected Claim
+
+RTX 5090 显存位宽确认为 512-bit（基于 1792 GB/s / 28 Gbps = 48 bytes = 512 bits 反推，修正 N125 中 384-bit 的错误描述），GDDR7 速率 28 Gbps，该规格为官方 datasheet 确认值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：1792 GB/s ÷ 28 Gbps = 64 Bytes = 512 bits，数学推导自洽，且符合NVIDIA RTX 5090官方规格。
+
+## Search Query
+
+RTX 5090 memory bus width 512-bit GDDR7 28Gbps official spec

@@ -1,0 +1,20 @@
+# N235: 基于 $|\eta_Q| \in [1.2, 1.8]$，计算干预 A 后 GMV 的净变化百分比 $\Delta GMV\%$。公式为 $\Delta GMV
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N76
+
+## Claim
+
+基于 $|\eta_Q| \in [1.2, 1.8]$，计算干预 A 后 GMV 的净变化百分比 $\Delta GMV\%$。公式为 $\Delta GMV\% \approx \Delta P\% + \eta_Q \cdot \Delta P\%$（近似一阶展开）。若 $\Delta P\% = -20\%$ 且 $\eta_Q = -1.5$，则 $\Delta Q\% = 30\%$，$\Delta GMV\% \approx -20\% + 30\% = +10\%$，平台受益。
+
+## Corrected Claim
+
+基于 $|\eta_Q| \in [1.2, 1.8]$，计算干预 A 后 GMV 的净变化百分比 $\Delta GMV\%$。公式为 $\Delta GMV\% \approx \Delta P\% + \eta_Q \cdot \Delta P\%$（近似一阶展开）。若 $\Delta P\% = -20\%$ 且 $\eta_Q = -1.5$，则 $\Delta Q\% = 30\%$，$\Delta GMV\% \approx -20\% + 30\% = +10\%$，平台受益。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式推导符合一阶近似逻辑，数值计算（-20% + (-1.5)*(-20%) = +10%）准确无误。

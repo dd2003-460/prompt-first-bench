@@ -1,0 +1,28 @@
+# N190: CTR 项对曝光权重的贡献：需计算 d(w_alg)/d(CTR) 的弹性，若弹性 > 1 则 CTR 提升对曝光的边际贡献超过线性，导致高挂价商品因对比效应获
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N57
+
+## Claim
+
+CTR 项对曝光权重的贡献：需计算 d(w_alg)/d(CTR) 的弹性，若弹性 > 1 则 CTR 提升对曝光的边际贡献超过线性，导致高挂价商品因对比效应获得超额曝光。
+
+## Corrected Claim
+
+CTR 项对曝光权重的贡献取决于具体算法中 d(w_alg)/d(CTR) 的弹性；若在该特定算法中弹性 > 1，则 CTR 提升对曝光的边际贡献超过线性，可能导致高挂价商品因对比效应获得超额曝光。
+
+## Evidence
+
+[质询]该陈述包含具体的经济学/算法机制推导（弹性>1导致超额曝光），属于经验性或特定模型假设下的结论，而非通用第一性原理；且参考来源仅涉及CTR模型发展史，未提供关于曝光权重弹性或对比效应的任何数据或理论支持，存在来源无关且缺乏实证支撑的风险。 | 逻辑上弹性定义与边际贡献关系自洽，但参考来源[1]仅讨论CTR模型演进，与该事实主题（曝光权重弹性机制）无关，无可用外部证据支持，且属经验/模型特定事实，故降级。
+
+## Search Query
+
+e-commerce algorithm exposure weight CTR elasticity high-priced items
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/713886944&rut=74f86d8ff2bcb430bb425c9a1045e4bca3cbdf0b497e4fe513132802dea9ca0a', 'type': 'ddg', 'title': '一文讲清楚ctr预估体系（上） - 知乎'}

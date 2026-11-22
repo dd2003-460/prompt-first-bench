@@ -1,0 +1,24 @@
+# N61: β系数的实证估计值：在典型二手平台（如eBay/Craigslist）的A/B测试或日志回归中，β（价格竞争力权重）通常位于 [0.2, 0.4] 区间，且当δ
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N15, N16, N17
+
+## Claim
+
+β系数的实证估计值：在典型二手平台（如eBay/Craigslist）的A/B测试或日志回归中，β（价格竞争力权重）通常位于 [0.2, 0.4] 区间，且当δ > 0.2时，β项对总权重的负向贡献超过 γ项的正向贡献，导致高溢价商品曝光量下降。
+
+## Corrected Claim
+
+在二手平台定价模型中，价格竞争力权重（β）通常对曝光量有显著影响，但具体数值区间（如[0.2, 0.4]）及与δ、γ项的交互效应需依赖特定平台的实证数据验证，缺乏通用定论。
+
+## Evidence
+
+[质询]该陈述包含具体的实证统计数值（β在[0.2, 0.4]区间）及特定平台（eBay/Craigslist）的A/B测试结论，属于经验事实。此类数据无法从第一性原理或数学公理推导，且缺乏公开文献或权威来源支持其具体数值范围和因果机制的普适性。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，且该具体实证数值无法从第一性原理推出，依据经验事实排除条款降级）。
+
+## Search Query
+
+empirical estimate of price weight in recommendation algorithms second-hand marketplace

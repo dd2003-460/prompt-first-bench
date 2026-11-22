@@ -1,0 +1,17 @@
+{
+  "id": "N309",
+  "claim": "RTX 3090 (24GB) 在 BF16 下运行 Qwen3-27B 的显存需求计算：权重 54GB + KV Cache (32K * 2 * 2 * 1.5 * 2 bytes ≈ 384MB) + 激活值缓冲 (~4GB) ≈ 58.4GB，远超 24GB 显存，必须启用 CPU Offload，导致吞吐量降至 2-5 tokens/s 区间，满足'不可控延迟'的排除标准。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]KV Cache 计算存在严重量级错误：32K 上下文下，Qwen3-27B 的 KV Cache 实际大小约为 12-15GB（取决于具体层数和头数配置），而非 384MB；384MB 仅对应极短上下文或极小模型，此处数值与 32K 上下文不匹配。 | 先验知识/题面给定，逻辑校验未通过：KV Cache 计算量级错误（32K 上下文下 27B 模型 KV Cache 应为 GB 级而非 MB 级），但核心结论（显存不足需 Offload）仍成立",
+  "corrected_claim": "RTX 3090 (24GB) 在 BF16 下运行 Qwen3-27B 的显存需求计算：权重 54GB + KV Cache (32K 上下文下约 12-15GB) + 激活值缓冲 (~4GB) ≈ 70-73GB，远超 24GB 显存，必须启用 CPU Offload，导致吞吐量降至 2-5 tokens/s 区间，满足'不可控延迟'的排除标准。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N103"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "Qwen3-27B BF16 memory requirement 24GB GPU offload",
+  "retrieval_sources": []
+}

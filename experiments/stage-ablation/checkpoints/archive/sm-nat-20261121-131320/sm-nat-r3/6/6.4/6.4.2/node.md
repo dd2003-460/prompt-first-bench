@@ -1,0 +1,20 @@
+# N131: LRU 稳态下头部 100 个对象全部驻留的充分条件：S_top100 < C_resident_min，其中 C_resident_min 为 LRU 栈深度
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N51
+
+## Claim
+
+LRU 稳态下头部 100 个对象全部驻留的充分条件：S_top100 < C_resident_min，其中 C_resident_min 为 LRU 栈深度为 100 时的最小缓存占用；若 S_top100 < 128GB 的 1% (1.28GB)，则头部对象几乎必然驻留，此时命中率下限由次头部对象决定
+
+## Corrected Claim
+
+LRU 稳态下头部 100 个对象全部驻留的充分条件：S_top100 < C_resident_min，其中 C_resident_min 为 LRU 栈深度为 100 时的最小缓存占用；若 S_top100 < 128GB 的 1% (1.28GB)，则头部对象几乎必然驻留，此时命中率下限由次头部对象决定
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：LRU 机制下，若头部对象总大小小于缓存最小驻留深度对应的容量，则这些对象在稳态下必然不被淘汰，逻辑自洽。

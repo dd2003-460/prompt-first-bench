@@ -1,0 +1,28 @@
+# N210: 在 FP8 精度下，RTX 3090 因硬件不支持原生 FP8 Tensor Core，必须执行软件模拟或降级为 INT8/BF16，其有效 FP8 吞吐量上限
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N79
+
+## Claim
+
+在 FP8 精度下，RTX 3090 因硬件不支持原生 FP8 Tensor Core，必须执行软件模拟或降级为 INT8/BF16，其有效 FP8 吞吐量上限受限于 CPU/GPU 协同开销，实测 T_decode 通常比原生 FP8 支持硬件慢 2-4 倍 [待核验]
+
+## Corrected Claim
+
+在 FP8 精度下，RTX 3090 因硬件不支持原生 FP8 Tensor Core，必须执行软件模拟或降级为 INT8/BF16，其有效 FP8 吞吐量通常低于原生 FP8 支持硬件，具体性能差距取决于软件优化程度。
+
+## Evidence
+
+[质询]数值量级存疑：'慢 2-4 倍'缺乏普遍性，具体倍数高度依赖模型架构、序列长度及软件栈优化程度（如 FlashInfer 对 KV Cache 的优化），且来源 [1] 显示在特定优化下 RTX 3090 仍能达到较高吞吐，暗示性能差距可能小于或大于该范围，并非固定常数。 | 逻辑自洽（RTX 3090 确无原生 FP8 Tensor Core，需模拟或降级），但来源 [1] 仅证明 RTX 3090 支持 FP8 KV Cache 推理，未提供与原生 FP8 硬件（如 RTX 4090/H100）的对比数据以支持 '2-4 倍' 的具体数值，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+RTX 3090 FP8 inference performance degradation software emulation vs hardware support
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/Atrociel/dual-rtx3090-llm-inference-platform&rut=4be6f20a60502ea29534657b04119201a9fe5bb016b91490f782381b3bbe8951', 'type': 'ddg', 'title': 'Dual RTX 3090 LLM Inference Platform - GitHub'}

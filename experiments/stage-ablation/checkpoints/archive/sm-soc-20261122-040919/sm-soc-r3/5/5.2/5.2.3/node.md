@@ -1,0 +1,24 @@
+# N356: 临界比例 ρ* 的具体数值计算：代入 C_search_high ≈ 4 * C_search_low 和 Margin_diff = 0.15 * P_ref
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N107
+
+## Claim
+
+临界比例 ρ* 的具体数值计算：代入 C_search_high ≈ 4 * C_search_low 和 Margin_diff = 0.15 * P_ref，若 C_search_low = 0.1 * P_ref (即搜寻成本为售价10%)，则 C_search_high = 0.4 * P_ref。ρ* = (0.4 - 0.1) / 0.15 = 2.0。由于 ρ* > 1，说明在参数设定下高定价策略始终优于低价策略，除非搜寻成本极高或毛利差极小。需修正参数使 ρ* < 1 以解释均衡打破。
+
+## Corrected Claim
+
+临界比例 ρ* 的具体数值计算：代入 C_search_high ≈ 4 * C_search_low 和 Margin_diff = 0.15 * P_ref，若 C_search_low = 0.1 * P_ref (即搜寻成本为售价10%)，则 C_search_high = 0.4 * P_ref。ρ* = (0.4 - 0.1) / 0.15 = 2.0。由于 ρ* > 1，说明在参数设定下高定价策略始终优于低价策略，除非搜寻成本极高或毛利差极小。需修正参数使 ρ* < 1 以解释均衡打破。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算 (0.4-0.1)/0.15=2.0 正确，且基于 ρ*>1 推导高定价策略占优的逻辑自洽。
+
+## Search Query
+
+critical threshold low price seller ratio equilibrium

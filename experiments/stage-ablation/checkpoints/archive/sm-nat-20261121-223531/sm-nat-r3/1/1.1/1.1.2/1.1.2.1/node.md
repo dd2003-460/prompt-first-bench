@@ -1,0 +1,30 @@
+# N94: s_max 的理论下界约束：s_max ≥ P_99(S)_real，其中 P_99(S)_real 为 CDN 实际对象大小第99百分位，行业典型值约 10M
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N28
+
+## Claim
+
+s_max 的理论下界约束：s_max ≥ P_99(S)_real，其中 P_99(S)_real 为 CDN 实际对象大小第99百分位，行业典型值约 10MB-100MB [待核验]，若 s_max < P_99(S)_real 则分布截断导致尾部对象丢失。
+
+## Corrected Claim
+
+s_max 的理论下界约束：s_max ≥ P_99(S)_real，其中 P_99(S)_real 为 CDN 实际对象大小第99百分位，若 s_max < P_99(S)_real 则分布截断导致尾部对象丢失。
+
+## Evidence
+
+[质询]行业典型值 10MB-100MB 属于经验事实，缺乏权威来源支持，且不同 CDN 场景（如静态资源 vs 视频流）差异巨大，该数值范围可能过于宽泛或特定于某些非流媒体场景。 | 逻辑上 s_max 必须覆盖 P_99 以避免截断是合理的数学/统计约束；但参考来源 [1][2][3] 均与 CDN 对象大小分布无关，无法提供外部证据支持 10MB-100MB 这一具体数值范围，故降级为定性表述。
+
+## Search Query
+
+CDN object size distribution 99th percentile typical value MB
+
+## Retrieval Sources
+
+- {'url': 'https://www.geeksforgeeks.org/artificial-intelligence/graph-based-semi-supervised-learning/&rut=1391baf41199c59be28cf071ff07886abb72f425a16a080747e7626bc99274d0', 'type': 'ddg', 'title': 'Temperature, Top-K and Top-P Sampling in LLMs - GeeksforGeeks'}
+- {'url': 'https://blog.csdn.net/qq_51458742/article/details/138088846&rut=b4416a96305783c496317fce8f51e1bc278cf77c6b9acca8fa55a1802753cde5', 'type': 'ddg', 'title': 'S参数的含义【新人100%有的疑惑】_szmax (2),zmin (1)-CSDN博客'}
+- {'url': 'https://bbs.csdn.net/weixin_29053577/article/details/100249266&rut=0027b6b93551c0530fd03004e58e194ee145f8d7d202bcd69eaaaaf792498106', 'type': 'ddg', 'title': '机器学习中的上确界与下确界：从数学基础到算法原理'}

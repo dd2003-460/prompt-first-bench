@@ -1,0 +1,20 @@
+# N41: 共享随机源：买家估值噪声方差 σ²_buyer_valuation 与卖家定价噪声方差 σ²_seller_pricing 的联合分布，其协方差矩阵决定了信号'
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+共享随机源：买家估值噪声方差 σ²_buyer_valuation 与卖家定价噪声方差 σ²_seller_pricing 的联合分布，其协方差矩阵决定了信号'快速成交'的信噪比 SNR = (μ_signal - μ_noise) / √(σ²_buyer_valuation + σ²_seller_pricing)
+
+## Corrected Claim
+
+共享随机源：买家估值噪声方差 σ²_buyer_valuation 与卖家定价噪声方差 σ²_seller_pricing 的联合分布，其协方差矩阵决定了信号'快速成交'的信噪比 SNR = (μ_signal - μ_noise) / √(σ²_buyer_valuation + σ²_seller_pricing)
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在标准信号检测理论中，若信号与噪声独立，总噪声方差为各分量方差之和，SNR定义符合物理/统计直觉。

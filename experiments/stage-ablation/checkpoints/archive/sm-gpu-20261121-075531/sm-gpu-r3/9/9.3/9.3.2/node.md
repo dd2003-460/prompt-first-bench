@@ -1,0 +1,24 @@
+# N355: A100 80GB PCIe 版本在 Qwen3-27B INT8 推理下的实测 Decode 吞吐量 (TPS)，受限于 PCIe 4.0 x16 带宽 (3
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N119
+
+## Claim
+
+A100 80GB PCIe 版本在 Qwen3-27B INT8 推理下的实测 Decode 吞吐量 (TPS)，受限于 PCIe 4.0 x16 带宽 (32 GB/s) 和 HBM2e 带宽，典型值比 SXM 版本低 5-10%，具体数值在 75-110 Tokens/s 区间 [待核验]。
+
+## Corrected Claim
+
+A100 80GB PCIe 版本在 Qwen3-27B INT8 推理下的实测 Decode 吞吐量受限于 PCIe 4.0 x16 带宽和 HBM2e 带宽，通常略低于 SXM 版本，具体数值需依据实际测试环境确定。
+
+## Evidence
+
+[质询]具体数值区间（75-110 Tokens/s）及性能差异比例（5-10%）属于特定硬件配置下的经验性实测数据，无法从第一性原理推导，且缺乏来源支持，存在数值偏差风险。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+A100 80GB PCIe Qwen3-27B INT8 decode throughput tokens per second benchmark

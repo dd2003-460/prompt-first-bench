@@ -1,0 +1,20 @@
+# N267: 工作点 A (线性近似有效区): 当 T_residence = 50 天 (N70估算值) 时，U_rate * T_residence = 0.5，线性近似
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N92
+
+## Claim
+
+工作点 A (线性近似有效区): 当 T_residence = 50 天 (N70估算值) 时，U_rate * T_residence = 0.5，线性近似 f_update_lin = 1 - 0.5 = 0.5，指数模型 f_update_exp = exp(-0.5) ≈ 0.607。两者差异 10.7%，表明在 T_residence > 100 天 边界附近，线性近似误差显著，需使用指数模型。
+
+## Corrected Claim
+
+工作点 A (线性近似有效区): 当 T_residence = 50 天 (N70估算值) 时，U_rate * T_residence = 0.5，线性近似 f_update_lin = 1 - 0.5 = 0.5，指数模型 f_update_exp = exp(-0.5) ≈ 0.607。两者差异 10.7%，表明在 T_residence > 100 天 边界附近，线性近似误差显著，需使用指数模型。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学计算正确（1-0.5=0.5, exp(-0.5)≈0.6065, 相对误差≈10.7%），且符合指数衰减与线性近似在参数较大时偏差增大的物理/数学直觉。

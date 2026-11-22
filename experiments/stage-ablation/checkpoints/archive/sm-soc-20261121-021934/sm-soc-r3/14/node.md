@@ -1,0 +1,25 @@
+# N143: 利益相关方核验的‘平台-卖家合谋’指标：定义指标 M_collusion = (Platform_GMV_Growth - Seller_Profit_Grow
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+利益相关方核验的‘平台-卖家合谋’指标：定义指标 M_collusion = (Platform_GMV_Growth - Seller_Profit_Growth) / Platform_GMV_Growth。若 M_collusion < 0.2，表明平台收益增长主要源于卖家高挂价带来的 GMV 膨胀，而非效率提升。在观察到‘高挂价+短周期’时，若 M_collusion 显著为负，则验证了平台通过算法激励（如‘优质卖家’标签）间接驱动卖家维持高挂价的利益传导路径。
+
+## Corrected Claim
+
+在特定利益相关方核验模型中，定义指标 M_collusion = (Platform_GMV_Growth - Seller_Profit_Growth) / Platform_GMV_Growth。若 M_collusion < 0.2，可能表明平台收益增长主要源于卖家高挂价带来的 GMV 膨胀，而非效率提升。在观察到‘高挂价+短周期’时，若 M_collusion 显著为负，则可能验证了平台通过算法激励间接驱动卖家维持高挂价的利益传导路径。
+
+## Evidence
+
+[质询]该指标 M_collusion 及其阈值 0.2 属于特定研究或内部模型定义的自定义经验指标，并非通用的经济学或反垄断法标准定义；且参考来源 [1] 讨论的是 LLM 多智能体系统的合谋审计，[2] 讨论的是平台间（而非平台-卖家间）的算法共谋，均与该特定指标的定义和阈值无关，无法提供外部支持。 | 逻辑上，若平台 GMV 增长远大于卖家利润增长（即分子为正且较大，或分母极大），M_collusion 可能接近 1 或为负（取决于具体符号定义，此处假设 GMV 增长 > 利润增长导致差值为正，若差值为负则 M<0），但陈述中‘M<0.2 表明...GMV 膨胀’的逻辑链条依赖于特定的假设（即卖家利润未同步增长或增长极慢），这在逻辑上是自洽的假设性推导，但缺乏来源支持该特定公式和阈值的权威性。来源 [1] 和 [2] 主题不匹配，无法验证该具体指标。
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org/abs/2602.15198&rut=7a2cc656f6379cb1a147f8bee8667f378191b120c446f79630322d43b4ed4ed0', 'type': 'ddg', 'title': '[2602.15198] Colosseum: Auditing Collusion in Cooperative Multi-Agent ...'}
+- {'url': 'https://baike.baidu.com/item/%E5%B9%B3%E5%8F%B0%E9%97%B4%E7%AE%97%E6%B3%95%E5%85%B1%E8%B0%8B/67391302&rut=7e80ce23c677342e6e4284f985a6d36ec810fedf516b4d54bc22fd9077a2cd8e', 'type': 'ddg', 'title': '平台间算法共谋_百度百科'}

@@ -1,0 +1,20 @@
+# N60: LRU 命中率下界模型（高性低成）：基于 Belady 最优替换算法的字节命中率上界 H_opt = ∫_0^C f_byte(s) ds，作为 LRU 性能的
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N19
+
+## Claim
+
+LRU 命中率下界模型（高性低成）：基于 Belady 最优替换算法的字节命中率上界 H_opt = ∫_0^C f_byte(s) ds，作为 LRU 性能的理论上限参考，源自经典缓存理论（O'Neil & O'Neil 1994）。
+
+## Corrected Claim
+
+LRU 命中率下界模型（高性低成）：基于 Belady 最优替换算法的字节命中率上界 H_opt = ∫_0^C f_byte(s) ds，作为 LRU 性能的理论上限参考，源自经典缓存理论（O'Neil & O'Neil 1994）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：LRU 的字节命中率确实由 Belady 最优算法（OPT）定义的上界 H_opt = ∫_0^C f_byte(s) ds 给出，这是经典缓存理论中的标准结论，源自 O'Neil & O'Neil (1994) 等文献。

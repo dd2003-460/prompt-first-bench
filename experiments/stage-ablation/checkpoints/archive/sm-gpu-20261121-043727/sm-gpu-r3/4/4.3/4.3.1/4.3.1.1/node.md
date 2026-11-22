@@ -1,0 +1,20 @@
+# N179: 核实 RTX 4090 在 Decode 阶段 (Memory-Bound) 的 MFU：由于 Decode 每步计算量小 (≈2P FLOPs) 而数据搬运量
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N69
+
+## Claim
+
+核实 RTX 4090 在 Decode 阶段 (Memory-Bound) 的 MFU：由于 Decode 每步计算量小 (≈2P FLOPs) 而数据搬运量大 (≈P bytes)，MFU 极低。理论 MFU = (2 * P * BW) / (2 * P * Peak_FLOPS) = BW / Peak_FLOPS_Ratio。对于 RTX 4090 (1.0 TB/s / 82.6 TFLOPS ≈ 12.1 FLOP/Byte)，MFU 上限受算术强度限制，通常实测 MFU < 5%。
+
+## Corrected Claim
+
+核实 RTX 4090 在 Decode 阶段 (Memory-Bound) 的 MFU：由于 Decode 每步计算量小 (≈2P FLOPs) 而数据搬运量大 (≈P bytes)，MFU 极低。理论 MFU = (2 * P * BW) / (2 * P * Peak_FLOPS) = BW / Peak_FLOPS_Ratio。对于 RTX 4090 (1.0 TB/s / 82.6 TFLOPS ≈ 12.1 FLOP/Byte)，MFU 上限受算术强度限制，通常实测 MFU < 5%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 的算术强度（~12.1 FLOP/Byte）远低于其 Roofline 拐点（~200+ FLOP/Byte），在 Memory-Bound 的 Decode 阶段，MFU 确实受限于带宽与峰值算力的比值，实测低于 5% 符合物理直觉与工程常识。

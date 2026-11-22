@@ -1,0 +1,20 @@
+# N72: LRU 稳态驻留集合 S_LRU 的边界条件：在 128GB 容量下，驻留对象集合由访问间隔最短的对象组成，其边界大小阈值 s_threshold 满足 ∫_{
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N24
+
+## Claim
+
+LRU 稳态驻留集合 S_LRU 的边界条件：在 128GB 容量下，驻留对象集合由访问间隔最短的对象组成，其边界大小阈值 s_threshold 满足 ∫_{s_min}^{s_threshold} size * f_S(s) ds = 128GB，其中 f_S(s) 为 Pareto(α=1.1) 密度函数，s_min=1KB。
+
+## Corrected Claim
+
+LRU 稳态驻留集合 S_LRU 的边界条件：在 128GB 容量下，驻留对象集合由访问间隔最短的对象组成，其边界大小阈值 s_threshold 满足 ∫_{s_min}^{s_threshold} size * f_S(s) ds = 128GB，其中 f_S(s) 为 Pareto(α=1.1) 密度函数，s_min=1KB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：LRU稳态驻留集合由访问间隔最短的对象组成，其边界条件由容量约束积分方程定义，量纲与逻辑自洽。

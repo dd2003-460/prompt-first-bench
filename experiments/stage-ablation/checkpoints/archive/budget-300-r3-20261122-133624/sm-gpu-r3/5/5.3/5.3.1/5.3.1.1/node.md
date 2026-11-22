@@ -1,0 +1,28 @@
+# N372: AMD MI300X 在 2024-2025 年的市场采购价格约为 $15,000 - $20,000，且主要供应给数据中心，个人工作站获取难度高于 NVIDI
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N143
+
+## Claim
+
+AMD MI300X 在 2024-2025 年的市场采购价格约为 $15,000 - $20,000，且主要供应给数据中心，个人工作站获取难度高于 NVIDIA 消费级/专业卡，需考虑渠道溢价。
+
+## Corrected Claim
+
+AMD MI300X 主要供应给数据中心，个人工作站获取难度高于 NVIDIA 消费级/专业卡，需考虑渠道溢价；具体市场采购价格需参考实时市场报价。
+
+## Evidence
+
+[质询]具体价格区间（$15,000-$20,000）属于经验事实，且参考来源未提供该数据，无法排除价格波动或渠道差异导致的偏差。 | 来源[1]仅提及印度AI行业可获取AMD MI300X，未涉及具体价格或采购难度对比，属于经验事实缺来源支持。
+
+## Search Query
+
+AMD MI300X price 2024 2025 cost USD
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Artificial_intelligence_industry_in_India', 'type': 'wikipedia', 'title': 'Artificial intelligence industry in India'}

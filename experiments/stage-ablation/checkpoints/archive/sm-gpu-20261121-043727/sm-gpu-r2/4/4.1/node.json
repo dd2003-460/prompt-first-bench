@@ -1,0 +1,18 @@
+{
+  "id": "N22",
+  "claim": "Qwen3-27B 在 BF16 精度下的理论 KV Cache 内存占用为 2 * 27B * 32K * 2 bytes = 3.44 TB，远超单卡显存，必须采用 PagedAttention 或 GQA 优化，实际占用需查 HuggingFace 模型卡确认 GQA 头数 [待核验]",
+  "level": "L2",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值计算错误：2 * 27B * 32K * 2 bytes 的实际结果约为 3.44 PB (Petabytes)，而非 3.44 TB (Terabytes)。此外，该公式假设了全注意力机制（Full Attention）且未考虑 GQA（Grouped Query Attention）对 KV 头数的缩减，直接得出'必须采用 PagedAttention 或 GQA'的结论在逻辑上不够严谨，因为 GQA 是模型架构特性，PagedAttention 是推理引擎优化，二者解决不同层面的问题。 | 先验知识/题面给定，逻辑校验发现量级错误（PB vs TB）及公式未包含 GQA 头数因子，导致结论不严谨。",
+  "corrected_claim": "Qwen3-27B 在 BF16 精度下，若采用全注意力机制，理论 KV Cache 内存占用约为 3.44 PB；实际占用需根据模型卡确认的 GQA 头数进行缩减，并依赖 PagedAttention 等推理优化技术管理显存。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N4",
+    "N5"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "Qwen3-27B GQA heads KV cache size 32k context",
+  "retrieval_sources": []
+}

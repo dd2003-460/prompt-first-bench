@@ -1,0 +1,24 @@
+# N129: 工作点A（高灵敏度/低噪声）：定义窗口 T_window = 7天，统计量 = 中位数，适用条件为成交量 N_deals_7d > 50。此时基准价 P_ref
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N35
+
+## Claim
+
+工作点A（高灵敏度/低噪声）：定义窗口 T_window = 7天，统计量 = 中位数，适用条件为成交量 N_deals_7d > 50。此时基准价 P_ref_7d 对短期市场波动反应快，但需验证 N_deals_7d 是否满足中心极限定理以消除小样本偏差。
+
+## Corrected Claim
+
+工作点A（高灵敏度/低噪声）：定义窗口 T_window = 7天，统计量 = 中位数，适用条件为成交量 N_deals_7d > 50。此时基准价 P_ref_7d 对短期市场波动反应快，但需验证 N_deals_7d 是否满足中心极限定理以消除小样本偏差。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：7天窗口配合中位数统计量在金融量化中是合理的降噪策略，且对样本量N>50进行中心极限定理适用性检查符合统计学严谨性要求，无逻辑矛盾。
+
+## Search Query
+
+second-hand market pricing reference window 7 days median vs mean sample size bias

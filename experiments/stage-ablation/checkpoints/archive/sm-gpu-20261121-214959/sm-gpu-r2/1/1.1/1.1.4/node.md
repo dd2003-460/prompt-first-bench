@@ -1,0 +1,20 @@
+# N40: FP8 量化在 H100/MI300 等硬件上的实际显存占用需考虑对齐（Alignment）和元数据（Metadata）开销，通常比理论 27GB 高 1-3%
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N7, N8, N9
+
+## Claim
+
+FP8 量化在 H100/MI300 等硬件上的实际显存占用需考虑对齐（Alignment）和元数据（Metadata）开销，通常比理论 27GB 高 1-3%（约 0.3-0.8GB），即实际占用约为 27.3-27.8GB，需验证是否仍满足 32GB 显存卡的容量下限。
+
+## Corrected Claim
+
+FP8 量化在 H100/MI300 等硬件上的实际显存占用需考虑对齐（Alignment）和元数据（Metadata）开销，通常比理论 27GB 高 1-3%（约 0.3-0.8GB），即实际占用约为 27.3-27.8GB，需验证是否仍满足 32GB 显存卡的容量下限。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：FP8量化理论显存占用为27GB，考虑对齐和元数据开销后增加1-3%（约0.3-0.8GB），实际占用27.3-27.8GB，符合硬件工程常识，且未超过32GB显存卡的容量下限。

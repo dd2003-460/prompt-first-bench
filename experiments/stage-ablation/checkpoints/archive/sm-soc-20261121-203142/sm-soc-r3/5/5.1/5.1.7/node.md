@@ -1,0 +1,28 @@
+# N266: 降价频率 F 对 λ 的弹性系数：基于卖家行为日志，回归 F = α + β_λ * λ + γ * P_gap，计算弹性 ε_Fλ = (∂F/∂λ) * (
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N89, N90, N91
+
+## Claim
+
+降价频率 F 对 λ 的弹性系数：基于卖家行为日志，回归 F = α + β_λ * λ + γ * P_gap，计算弹性 ε_Fλ = (∂F/∂λ) * (λ/F)，若 ε_Fλ < -1 则 λ 的小幅增加会导致降价频率超比例下降。
+
+## Corrected Claim
+
+基于卖家行为日志的回归分析中，若计算出的降价频率对λ的弹性系数 ε_Fλ 小于 -1，则表明λ的小幅增加会导致降价频率超比例下降。
+
+## Evidence
+
+[质询]该陈述描述了一个具体的实证回归模型及其弹性系数阈值（ε_Fλ < -1），属于经验事实。参考来源[1]仅提供了金融学的通用大纲，完全未涉及卖家行为日志、降价频率与λ的具体回归关系或弹性系数定义，无法提供直接支持。此外，'λ'的具体定义（如需求强度、竞争程度等）未在陈述中明确，导致因果机制的解释依赖于未给出的上下文，存在口径混淆的风险。 | 逻辑上，弹性系数公式 ε = (∂F/∂λ) * (λ/F) 定义正确，且 ε < -1 意味着超比例变化的数学推导自洽。但作为经验事实（具体回归结果/阈值），缺乏来源直接支持（来源[1]无关），故降级。
+
+## Search Query
+
+price reduction frequency elasticity loss aversion seller behavior log
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Outline_of_finance', 'type': 'wikipedia', 'title': 'Outline of finance'}

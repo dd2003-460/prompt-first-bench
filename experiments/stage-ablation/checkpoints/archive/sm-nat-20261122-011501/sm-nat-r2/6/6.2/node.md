@@ -1,0 +1,24 @@
+# N65: 缓存容量覆盖率敏感度：总数据量 Total_Bytes = N_objects * E[S]，缓存覆盖率 C_ratio = 128GB / Total_Byt
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N20
+
+## Claim
+
+缓存容量覆盖率敏感度：总数据量 Total_Bytes = N_objects * E[S]，缓存覆盖率 C_ratio = 128GB / Total_Bytes。若 s_min 从 1KB 变为 10KB，E[S] 从 11KB 变为 110KB，Total_Bytes 从 1.1TB 变为 11TB，C_ratio 从 11.6% 降至 1.16%，导致 LRU 驻留对象数 N_resident 从约 5000 降至 500，命中率下界从 60% 降至 20%。
+
+## Corrected Claim
+
+缓存容量覆盖率敏感度：总数据量 Total_Bytes = N_objects * E[S]，缓存覆盖率 C_ratio = 128GB / Total_Bytes。若 s_min 从 1KB 变为 10KB，E[S] 从 11KB 变为 110KB，Total_Bytes 从 1.1TB 变为 11TB，C_ratio 从 11.6% 降至 1.16%，导致 LRU 驻留对象数 N_resident 从约 5000 降至 500，命中率下界从 60% 降至 20%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算自洽（128GB/1.1TB≈11.6%，128GB/11TB≈1.16%），LRU驻留对象数与覆盖率线性关系符合基本缓存原理，命中率随覆盖率下降而降低符合直觉。
+
+## Search Query
+
+cache capacity coverage ratio sensitivity pareto object size distribution minimum size

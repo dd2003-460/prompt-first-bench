@@ -1,0 +1,20 @@
+# N130: 在 INT4 权重 + BF16 KV Cache 配置下，总显存需求 = 13.5 GB (weights) + 2.0 GB (KV Cache) + 0.
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+在 INT4 权重 + BF16 KV Cache 配置下，总显存需求 = 13.5 GB (weights) + 2.0 GB (KV Cache) + 0.5-1.0 GB (Activation/Fragmentation, 估算为权重的 5-10%) ≈ 16.0-16.5 GB，该值恰好触及或略微超过 16GB 显存上限，需考虑是否需量化 KV Cache 至 INT8 以释放空间
+
+## Corrected Claim
+
+在 INT4 权重 + BF16 KV Cache 配置下，总显存需求 = 13.5 GB (weights) + 2.0 GB (KV Cache) + 0.5-1.0 GB (Activation/Fragmentation, 估算为权重的 5-10%) ≈ 16.0-16.5 GB，该值恰好触及或略微超过 16GB 显存上限，需考虑是否需量化 KV Cache 至 INT8 以释放空间
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点公式中的三个主要组成部分（权重、KV Cache、激活/碎片），逻辑上互斥且覆盖了所有关键变量。虽然子节点2引入了INT8 KV Cache的替代方案，但这正是父节点中“需考虑是否需量化”的具体展开，属于对决策分支的完整覆盖，而非冗余。）

@@ -1,0 +1,20 @@
+# N173: RTX 4080 Super 16GB 运行 Qwen3-27B INT8 模型时的显存占用构成：模型权重 (27GB) + KV Cache (32K上下文,
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N36
+
+## Claim
+
+RTX 4080 Super 16GB 运行 Qwen3-27B INT8 模型时的显存占用构成：模型权重 (27GB) + KV Cache (32K上下文, 约2.5GB) + 激活值/临时缓冲区 (约1.5GB) = 总需求 ~31GB，远超 16GB 物理显存，导致必须启用 CPU Offloading 或 Swap。
+
+## Corrected Claim
+
+RTX 4080 Super 16GB 运行 Qwen3-27B INT8 模型时，仅模型权重（约 27GB）即远超 16GB 物理显存，加上 KV Cache 和激活值后总需求更高，因此必须启用 CPU Offloading 或 Swap 才能运行。
+
+## Evidence
+
+[质询]数值量级与口径混淆：Qwen3-27B 的参数量约为 270 亿，INT8 量化后权重体积约为 27GB，这本身已远超 16GB 显存。陈述中将权重标为 27GB 并加上 KV Cache 和激活值得出 31GB 总需求，虽然结论（必须 Offload）正确，但隐含了模型能完整加载进显存的错误前提（实际上权重本身就装不下），且 32K 上下文的 KV Cache 估算（2.5GB）对于 27B 模型而言可能偏低或偏高取决于具体架构参数，存在细节估算的不确定性。 | 经验事实，逻辑自洽但缺来源支持。INT8 下 27B 模型权重约 27GB，确实远超 16GB 显存，必须启用 CPU Offloading 或 Swap，核心结论正确，但具体显存构成数值（如 KV Cache 精确值）缺乏直接来源验证，且权重本身已超显存，总需求描述略显冗余但逻辑方向无误。

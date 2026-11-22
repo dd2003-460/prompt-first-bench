@@ -1,0 +1,20 @@
+# N84: 截断 Pareto 分布的二阶矩 E[S^2]_trunc 计算公式为 E[S^2]_trunc = (2 * S_min^2) / (α-2) * [1 - 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N28
+
+## Claim
+
+截断 Pareto 分布的二阶矩 E[S^2]_trunc 计算公式为 E[S^2]_trunc = (2 * S_min^2) / (α-2) * [1 - (S_min/S_max)^(α-2)] / [1 - (S_min/S_max)^α]，注意当 α=1.1 < 2 时，该积分在无穷区间发散，但在截断区间 [S_min, S_max] 内有限，需直接代入 S_max 计算。
+
+## Corrected Claim
+
+截断 Pareto 分布的二阶矩 E[S^2]_trunc 计算公式为 E[S^2]_trunc = (2 * S_min^2) / (α-2) * [1 - (S_min/S_max)^(α-2)] / [1 - (S_min/S_max)^α]，注意当 α=1.1 < 2 时，该积分在无穷区间发散，但在截断区间 [S_min, S_max] 内有限，需直接代入 S_max 计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

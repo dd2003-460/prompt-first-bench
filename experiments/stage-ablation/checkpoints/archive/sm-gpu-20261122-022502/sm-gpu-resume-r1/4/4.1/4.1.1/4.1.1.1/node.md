@@ -1,0 +1,20 @@
+# N239: RTX 4090 运行 Qwen3-27B INT4 + FP8 KV 时的实际 Decode 吞吐受限于 Tensor Core 计算而非显存带宽（Compu
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N87
+
+## Claim
+
+RTX 4090 运行 Qwen3-27B INT4 + FP8 KV 时的实际 Decode 吞吐受限于 Tensor Core 计算而非显存带宽（Compute-Bound 阈值验证）：当 Batch Size=1 时，INT4 矩阵乘法 (GEMM) 的 FLOPs 需求约为 2 * 27e9 * 2 = 108 GFLOPs/token，4090 INT4 算力约为 165 TFLOPS (稀疏) 或 41 TFLOPS (密集)，计算时间 108/41000 ≈ 2.6ms/token，而带宽限制时间 19.79GB/1008GB/s ≈ 19.6ms/token，故仍为 Bandwidth-Bound，理论上限 50.9 tokens/s 成立，但需扣除 CUDA 内核启动开销 (~10-20%)。
+
+## Corrected Claim
+
+RTX 4090 运行 Qwen3-27B INT4 + FP8 KV 时的实际 Decode 吞吐受限于 Tensor Core 计算而非显存带宽（Compute-Bound 阈值验证）：当 Batch Size=1 时，INT4 矩阵乘法 (GEMM) 的 FLOPs 需求约为 2 * 27e9 * 2 = 108 GFLOPs/token，4090 INT4 算力约为 165 TFLOPS (稀疏) 或 41 TFLOPS (密集)，计算时间 108/41000 ≈ 2.6ms/token，而带宽限制时间 19.79GB/1008GB/s ≈ 19.6ms/token，故仍为 Bandwidth-Bound，理论上限 50.9 tokens/s 成立，但需扣除 CUDA 内核启动开销 (~10-20%)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 显存带宽约 1008 GB/s，Qwen3-27B INT4 权重约 14-15GB，KV Cache 增加后总读取量约 19.79GB 合理；计算时间 2.6ms 远小于带宽限制时间 19.6ms，故判定为 Bandwidth-Bound 符合大模型推理第一性原理（Batch=1 时通常受带宽限制）。

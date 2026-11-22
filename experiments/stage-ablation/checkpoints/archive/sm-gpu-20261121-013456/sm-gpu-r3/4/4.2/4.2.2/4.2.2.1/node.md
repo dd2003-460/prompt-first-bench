@@ -1,0 +1,28 @@
+# N192: Qwen3-27B INT4(AWQ) 权重的实际显存占用需根据 AWQ 量化参数（如 group_size=128）精确计算：13.5GB 为估算值，若 gr
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N79
+
+## Claim
+
+Qwen3-27B INT4(AWQ) 权重的实际显存占用需根据 AWQ 量化参数（如 group_size=128）精确计算：13.5GB 为估算值，若 group_size 不同或包含额外 scale 参数，实际占用可能在 13.2-14.1GB 区间波动，需通过 `torch.tensor` 加载后 `get_device_memory` 实测验证。
+
+## Corrected Claim
+
+Qwen3-27B INT4(AWQ) 权重的理论显存占用约为 13.5GB（基于 27B 参数 * 4bit），实际占用因 group_size 和 scale 参数略有波动，建议实测验证。
+
+## Evidence
+
+[质询]来源标题中的模型名称为 'Qwen3.8-27B'，与陈述中的 'Qwen3-27B' 存在版本/命名不一致，且来源摘要未提供具体的显存占用数值，无法直接验证 13.5GB 或 13.2-14.1GB 的具体区间。 | 逻辑上 INT4 量化 27B 参数约为 13.5GB (27e9 * 0.5 bytes)，加上 AWQ 的 scale 参数开销，13.2-14.1GB 区间合理；但参考来源 [1] 仅提及测试环境，未提供具体显存数据，且模型名称略有出入，属于间接/弱支持。
+
+## Search Query
+
+Qwen3-27B AWQ quantization group size memory footprint exact GB
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2072803835672793378&rut=d88bdab8007605964a71fcda10a25dd0d575fec19e8d87c136f0914490fc44ce', 'type': 'ddg', 'title': '基于 BenchLocal 测试：Qwen3.8-27B-AWQ-int4（本地双 2080Ti 22G）'}

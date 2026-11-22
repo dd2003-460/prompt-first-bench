@@ -1,0 +1,24 @@
+# N320: 信号诚实性机制的边界条件：当商品存在可验证的硬伤（如屏幕划痕）时，高溢价 Q_signal 会被解读为‘掩盖缺陷’而非‘高质量’，此时 Trust_Score 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N110
+
+## Claim
+
+信号诚实性机制的边界条件：当商品存在可验证的硬伤（如屏幕划痕）时，高溢价 Q_signal 会被解读为‘掩盖缺陷’而非‘高质量’，此时 Trust_Score 随 Markup 增加而单调下降，峰值区间消失；需定义‘硬伤’的量化阈值（如图像识别缺陷分数 > 0.7）。
+
+## Corrected Claim
+
+信号诚实性机制的边界条件：当商品存在可验证的硬伤时，高溢价可能被解读为‘掩盖缺陷’，导致信任度随溢价增加而下降；需定义‘硬伤’的量化阈值以区分正常波动与显著缺陷。
+
+## Evidence
+
+[质询]该陈述包含具体的量化阈值（如缺陷分数 > 0.7）和特定的行为模式（单调下降、峰值消失），属于经验事实或特定模型假设，缺乏通用理论支持，且具体数值阈值缺乏来源佐证。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体阈值无法从第一性原理推出）
+
+## Search Query
+
+impact of visible defects on price premium interpretation buyer trust second-hand goods

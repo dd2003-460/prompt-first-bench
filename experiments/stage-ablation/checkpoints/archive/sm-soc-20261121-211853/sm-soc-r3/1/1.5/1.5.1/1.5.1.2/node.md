@@ -1,0 +1,20 @@
+# N81: 在‘绝对价格主导’工作点（$\epsilon_{price} = 10$ 元，$\epsilon_{psych} = 2\%$），对于单价 $P_{item} 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N29
+
+## Claim
+
+在‘绝对价格主导’工作点（$\epsilon_{price} = 10$ 元，$\epsilon_{psych} = 2\%$），对于单价 $P_{item} = 500$ 元的商品，$\Delta P_{min} = \max(10, 10) = 10$ 元；若卖家降价 8%（40 元），则 $\Delta P > \Delta P_{min}$，新咨询率应显著上升；若此时仍无新咨询，则证伪‘心理感知阈值’假设，指向‘曝光不足’或‘买家流失’等其他机制。
+
+## Corrected Claim
+
+在‘绝对价格主导’工作点（$\epsilon_{price} = 10$ 元，$\epsilon_{psych} = 2\%$），对于单价 $P_{item} = 500$ 元的商品，$\Delta P_{min} = \max(10, 10) = 10$ 元；若卖家降价 8%（40 元），则 $\Delta P > \Delta P_{min}$，新咨询率应显著上升；若此时仍无新咨询，则证伪‘心理感知阈值’假设，指向‘曝光不足’或‘买家流失’等其他机制。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于题面定义的参数（ε_price=10, ε_psych=2%, P=500），计算 ΔP_min = max(10, 500*0.02) = 10 元；降价 40 元 > 10 元，符合逻辑推导；无外部来源矛盾。

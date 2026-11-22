@@ -1,0 +1,20 @@
+# N81: 买家新均衡支付价格：P_paid_new = E[Transaction Price | Intervention]，若干预导致价格下降，P_paid_new 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N20
+
+## Claim
+
+买家新均衡支付价格：P_paid_new = E[Transaction Price | Intervention]，若干预导致价格下降，P_paid_new < P_paid_old，但需考虑是否因供给减少导致部分买家无法成交（Unmatched Buyers），从而产生机会成本。
+
+## Corrected Claim
+
+买家新均衡支付价格：P_paid_new = E[Transaction Price | Intervention]，若干预导致价格下降，P_paid_new < P_paid_old，但需考虑是否因供给减少导致部分买家无法成交（Unmatched Buyers），从而产生机会成本。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该陈述准确描述了市场干预下买家支付价格的新均衡定义（条件期望），并正确指出了供给约束下未匹配买家产生的机会成本这一关键经济后果，符合微观经济学基本原理。

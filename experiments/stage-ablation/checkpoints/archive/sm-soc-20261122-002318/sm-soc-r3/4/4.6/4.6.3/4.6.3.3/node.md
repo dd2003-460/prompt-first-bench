@@ -1,0 +1,20 @@
+# N211: 季度营收波动阈值 Threshold_platform 的绝对值换算：Threshold_platform = 3% * Initial_PS。其中 Initi
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N73
+
+## Claim
+
+季度营收波动阈值 Threshold_platform 的绝对值换算：Threshold_platform = 3% * Initial_PS。其中 Initial_PS = TakeRate * GMV_old。若 TakeRate = 3% (参考 N66)，GMV_old = 100 亿元，则 Initial_PS = 3 亿元，Threshold_platform = 900 万元。干预导致的 ΔPS_platform 必须大于 -900 万元才不触发‘受损’判定。
+
+## Corrected Claim
+
+季度营收波动阈值 Threshold_platform 的绝对值换算：Threshold_platform = 3% * Initial_PS。其中 Initial_PS = TakeRate * GMV_old。若 TakeRate = 3% (参考 N66)，GMV_old = 100 亿元，则 Initial_PS = 3 亿元，Threshold_platform = 900 万元。干预导致的 ΔPS_platform 必须大于 -900 万元才不触发‘受损’判定。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：3% * (3% * 100亿) = 3% * 3亿 = 900万，计算无误且量级合理。

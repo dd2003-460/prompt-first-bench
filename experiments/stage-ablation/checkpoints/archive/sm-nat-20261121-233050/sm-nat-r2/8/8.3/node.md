@@ -1,0 +1,20 @@
+# N66: 由更新率 u=1%/天 导致的缓存条目失效概率 P_invalid 的精确积分表达式：P_invalid = 1 - exp(-u * T_res_avg)，其
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N22
+
+## Claim
+
+由更新率 u=1%/天 导致的缓存条目失效概率 P_invalid 的精确积分表达式：P_invalid = 1 - exp(-u * T_res_avg)，其中 T_res_avg 是缓存中所有驻留对象的加权平均驻留时间，权重为对象在缓存中的时间占比，需基于 T_res_i 分布计算。
+
+## Corrected Claim
+
+由更新率 u=1%/天 导致的缓存条目失效概率 P_invalid 的精确积分表达式：P_invalid = 1 - exp(-u * T_res_avg)，其中 T_res_avg 是缓存中所有驻留对象的加权平均驻留时间，权重为对象在缓存中的时间占比，需基于 T_res_i 分布计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在泊松过程假设下，对象在时间 T 内未被更新的概率为 exp(-uT)，对驻留时间分布加权积分即得 1 - exp(-u * T_res_avg)（若 T_res_avg 定义为期望驻留时间），公式推导自洽。

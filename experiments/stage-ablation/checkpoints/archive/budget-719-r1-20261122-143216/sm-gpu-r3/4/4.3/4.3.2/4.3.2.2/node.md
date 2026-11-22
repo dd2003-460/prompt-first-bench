@@ -1,0 +1,24 @@
+# N303: Qwen3-27B 的 head_dim 确认为 128，计算公式为 hidden_size / num_attention_heads = 8192 / 64
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N107, N108, N109
+
+## Claim
+
+Qwen3-27B 的 head_dim 确认为 128，计算公式为 hidden_size / num_attention_heads = 8192 / 64 = 128，需验证 hidden_size 是否为 8192
+
+## Corrected Claim
+
+Qwen3-27B 的 head_dim 计算逻辑为 hidden_size / num_attention_heads。若 hidden_size 为 8192 且 num_attention_heads 为 64，则 head_dim 为 128。需进一步确认该模型具体的 num_attention_heads 配置。
+
+## Evidence
+
+[质询]该陈述包含具体的模型架构参数（hidden_size=8192, num_heads=64），属于经验事实。虽然 Qwen3-27B 的 hidden_size 通常确认为 8192，但 num_attention_heads 在不同版本或配置中可能存在差异（例如某些大模型采用 GQA 或不同的 head 数量），且当前检索无可用来源直接证实该特定组合。 | 经验事实，逻辑自洽但缺来源支持（检索失败，无法外部核验具体参数值）
+
+## Search Query
+
+Qwen3-27B config.json hidden_size num_attention_heads head_dim

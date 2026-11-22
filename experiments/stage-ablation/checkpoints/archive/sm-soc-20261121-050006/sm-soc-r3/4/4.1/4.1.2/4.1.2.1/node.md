@@ -1,0 +1,24 @@
+# N260: 参数 β_anchor（锚定敏感度系数）的实证估计范围及计算方法：β_anchor 定义为卖家挂价 P_ask 相对于参考价格 P_ref 的偏差比例，即 β_
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N81
+
+## Claim
+
+参数 β_anchor（锚定敏感度系数）的实证估计范围及计算方法：β_anchor 定义为卖家挂价 P_ask 相对于参考价格 P_ref 的偏差比例，即 β_anchor = (P_ask - P_ref) / (P_ref - P_min)。基于二手平台 A/B 测试数据，β_anchor 通常服从 Beta(2, 3) 分布，均值约 0.4，标准差 0.15，具体数值需通过回归模型 P_ask = α + β_anchor * (P_ref - P_min) + ε 校准。
+
+## Corrected Claim
+
+参数 β_anchor 定义为卖家挂价 P_ask 相对于参考价格 P_ref 的偏差比例。其具体分布形态（如是否服从 Beta 分布）及参数（均值、标准差）需基于特定二手平台的 A/B 测试数据通过回归模型校准，不同平台或品类可能存在差异，不宜直接断言通常服从 Beta(2,3) 分布。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性统计参数（Beta(2,3)分布、均值0.4、标准差0.15）及特定的回归模型形式，属于无法从第一性原理推导的经验事实。且Beta(2,3)分布的理论均值为0.4，但标准差约为0.154，虽然数值接近，但声称‘通常服从’该特定分布缺乏普遍性证据，可能混淆了特定实验结果与一般规律。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该具体分布参数无法从第一性原理推出）
+
+## Search Query
+
+anchoring effect coefficient beta C2C second-hand market pricing regression analysis

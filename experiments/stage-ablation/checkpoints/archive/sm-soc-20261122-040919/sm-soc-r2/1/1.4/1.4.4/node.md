@@ -1,0 +1,29 @@
+# N44: 均衡稳定性边界：均衡维持的条件是 P(U_buyer > 0) ≥ 0.5，即 (E[U_buyer] / √Var[U_buyer]) ≥ 0；当 σ²_no
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N8
+
+## Claim
+
+均衡稳定性边界：均衡维持的条件是 P(U_buyer > 0) ≥ 0.5，即 (E[U_buyer] / √Var[U_buyer]) ≥ 0；当 σ²_noise 超过临界值 σ²_critical = (E[U_buyer]/0)² 时，均衡失效；具体 σ²_critical 需通过蒙特卡洛模拟计算，[待核验]：需实际市场数据
+
+## Corrected Claim
+
+均衡稳定性边界：均衡维持的条件是 P(U_buyer > 0) ≥ 0.5。当噪声方差 σ²_noise 超过临界值 σ²_critical 时，均衡失效。σ²_critical 的具体数值取决于 U_buyer 的分布形态，需通过蒙特卡洛模拟或解析推导计算，[待核验]：需实际市场数据。
+
+## Evidence
+
+[质询]公式存在硬逻辑错误：临界值公式 σ²_critical = (E[U_buyer]/0)² 分母为0，导致数学上无定义（除以零错误）；且前文条件 (E[U_buyer] / √Var[U_buyer]) ≥ 0 仅要求期望非负，与后文噪声方差超过临界值导致失效的逻辑链条断裂，内部自相矛盾。 | 陈述包含除以零的数学错误，且参考来源[1][2]仅定义一般经济均衡概念，未涉及该特定噪声模型或公式，无法支持该错误表述。
+
+## Search Query
+
+equilibrium stability threshold stochastic noise variance buyer utility
+
+## Retrieval Sources
+
+- {'url': 'https://baike.baidu.com/item/%E6%B6%88%E8%B4%B9%E8%80%85%E5%9D%87%E8%A1%A1/3136443&rut=5371f0faa96c556877550722f2aeda84b8522d350a684d7c9cbe55bc08ac03dd', 'type': 'ddg', 'title': '消费者均衡_百度百科'}
+- {'url': 'https://zh.wikipedia.org/wiki/%E7%B6%93%E6%BF%9F%E5%9D%87%E8%A1%A1&rut=a491853f5c4ac37d1b090da89c85aa9d858e5ad0cd2209973381d65d82d83f38', 'type': 'ddg', 'title': '經濟均衡 - 维基百科，自由的百科全书'}

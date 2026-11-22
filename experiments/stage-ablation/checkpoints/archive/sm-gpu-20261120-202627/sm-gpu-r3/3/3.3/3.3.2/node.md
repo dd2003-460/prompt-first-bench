@@ -1,0 +1,24 @@
+# N75: Apple M2/M3 Ultra (192GB/512GB) 在 Qwen3-27B 上的内存带宽为 800 GB/s (M2 Ultra) 或 800 GB
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N18
+
+## Claim
+
+Apple M2/M3 Ultra (192GB/512GB) 在 Qwen3-27B 上的内存带宽为 800 GB/s (M2 Ultra) 或 800 GB/s (M3 Ultra)，当前单卡/整机采购均价约为 $4000-$9000 [待核验：实时价格]，其功耗极低 (约 100-200W)，但缺乏原生 CUDA 生态，需通过 MLX 或 Core ML 框架运行，吞吐量通常低于同带宽 NVIDIA 卡 30-50% [待核验：实测吞吐对比]。
+
+## Corrected Claim
+
+Apple M2 Ultra (800 GB/s) 和 M3 Ultra (819 GB/s) 在 Qwen3-27B 上的内存带宽分别为 800 GB/s 和 819 GB/s，当前单卡/整机采购均价约为 $4000-$9000，其功耗相对较低（典型负载下约 100-200W），但缺乏原生 CUDA 生态，需通过 MLX 或 Core ML 框架运行，吞吐量通常低于同带宽 NVIDIA 卡（具体差距取决于工作负载，通常在 20-50% 之间）。
+
+## Evidence
+
+[质询]M3 Ultra 的内存带宽并非 800 GB/s，而是 819 GB/s；此外，'吞吐量低于同带宽 NVIDIA 卡 30-50%' 是一个高度依赖具体模型架构、序列长度和批处理大小的经验性结论，缺乏通用性，且 M2/M3 Ultra 的功耗范围（100-200W）在满载推理时可能偏高或偏低，取决于具体负载，表述过于绝对。 | 先验知识/题面给定，逻辑校验通过。M2 Ultra 带宽 800 GB/s 正确，M3 Ultra 为 819 GB/s（近似 800 可接受但不够精确）；价格区间 $4000-$9000 符合 Mac Studio 配置的市场行情；缺乏 CUDA 生态需依赖 MLX/Core ML 是事实；吞吐对比为经验性估计，逻辑自洽但缺乏实时实测数据支持，故降级。
+
+## Search Query
+
+Apple M3 Ultra memory bandwidth price LLM inference performance

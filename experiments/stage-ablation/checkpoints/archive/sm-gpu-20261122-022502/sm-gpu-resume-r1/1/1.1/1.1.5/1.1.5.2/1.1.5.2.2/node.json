@@ -1,0 +1,28 @@
+{
+  "id": "N464",
+  "claim": "TensorRT-LLM FP8 KV Cache 计算加速量化：在 RTX 4090 上，FP8 Tensor Core 吞吐量 1.5x 于 BF16 Tensor Core (根据 NVIDIA 白皮书)，Attention 计算 (QK^T, softmax, V 投影) 可加速 1.5x，但 GEMM 操作 (FFN) 仍使用 BF16，整体吞吐量提升 20-30% [待核验]",
+  "level": "L5",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]数值量级与来源不符：来源[2]明确指出FP8 KV Cache在Thor平台上仅带来9-17%的上下文注意力加速（d=128），而非声称的1.5x（50%）加速；且来源未提及RTX 4090上FP8 Tensor Core吞吐量是BF16的1.5x这一具体硬件指标，该数值缺乏直接证据支持。 | 来源[2]显示FP8 KV Cache加速幅度为9-17%，与claim中'Attention计算可加速1.5x'存在数量级差异；来源[1]仅确认支持FP8 KV Cache但未提供具体加速倍数，无法直接支持1.5x的结论。",
+  "corrected_claim": "在TensorRT-LLM中，启用FP8 KV Cache可减少约50%的KV缓存内存占用，并在特定硬件（如Thor）上带来9-17%的上下文注意力加速；整体吞吐量提升幅度取决于模型架构和硬件配置，通常低于Attention部分的理论加速比。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N144"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "TensorRT-LLM FP8 KV cache RTX 4090 throughput benchmark",
+  "retrieval_sources": [
+    {
+      "url": "https://nvda.org.cn/TensorRT-LLM/performance/performance-tuning-guide/fp8-quantization.html&rut=502fb2156a0bcb1bf9935e868c58b6286b46d2b91210913714d9d3b064f45125",
+      "type": "ddg",
+      "title": "FP8 量化 — TensorRT-LLM"
+    },
+    {
+      "url": "https://nvidia.github.io/TensorRT-Edge-LLM/latest/user_guide/features/FP8KV.html&rut=d4217bfe3f108889589576b9996251349a0a70b207e5bc2e71ab6b7d64e65ad6",
+      "type": "ddg",
+      "title": "FP8 KV Cache — TensorRT Edge-LLM"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+# N63: Pareto(α=1.1) 分布的变异系数 σ_S/μ_S：对于截断 Pareto 分布，σ_S/μ_S = sqrt(α/((α-1)(α-2)))，当 α=
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N17
+
+## Claim
+
+Pareto(α=1.1) 分布的变异系数 σ_S/μ_S：对于截断 Pareto 分布，σ_S/μ_S = sqrt(α/((α-1)(α-2)))，当 α=1.1 时该值发散，需使用截断后的有限方差近似，估计值 > 10 [待核验]
+
+## Corrected Claim
+
+Pareto(α=1.1) 分布的变异系数 σ_S/μ_S：对于截断 Pareto 分布，σ_S/μ_S = sqrt(α/((α-1)(α-2)))，当 α=1.1 时该值发散，需使用截断后的有限方差近似，估计值 > 10 [待核验]
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点本质上是同一公式在截断上限 $S_{max}$ 不同取值下的具体计算实例（10MB, 100MB, 1GB），属于参数扫描而非正交的概念分解。此外，父节点核心是验证截断Pareto分布的变异系数公式及发散特性，子节点仅给出了特定数值结果，未涵盖公式推导、边界条件或通用近似方法，导致完备性不足且存在严重的结构性冗余。）
+
+## Search Query
+
+Pareto distribution coefficient of variation alpha 1.1 truncated

@@ -1,0 +1,24 @@
+# N357: Apple M2 Ultra 在 32K 上下文下，启用 FlashAttention-2 且使用 FP8 量化权重时，Prefill 计算量减半且内存访问优化
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N116
+
+## Claim
+
+Apple M2 Ultra 在 32K 上下文下，启用 FlashAttention-2 且使用 FP8 量化权重时，Prefill 计算量减半且内存访问优化，理论耗时降至约 4-6 秒，此为中等性能平衡工作点，需验证 ROCm/MLX 对 FA2 的支持效率。
+
+## Corrected Claim
+
+Apple M2 Ultra 在 32K 上下文下，启用 FlashAttention-2 且使用 FP8 量化权重时，Prefill 计算量减半且内存访问优化，理论耗时显著降低，此为中等性能平衡工作点，需验证 ROCm/MLX 对 FA2 的支持效率。
+
+## Evidence
+
+[质询]数值量级存疑：M2 Ultra 的内存带宽约为 800GB/s，32K 上下文下即使使用 FP8 量化，Prefill 阶段的计算量（FLOPs）巨大，4-6 秒的理论耗时对于 M2 Ultra 而言可能过于乐观（通常 M2 Ultra 在 32K 上下文下的 Prefill 耗时可能在 10-20 秒量级，取决于具体模型大小和实现效率），且 FA2 在 Apple Silicon 上的支持效率（MLX/ROCm）尚未有广泛公认的基准数据支持此特定数值。 | 先验知识/题面给定，逻辑校验通过，但具体数值缺乏外部来源直接支持，且数值量级存在不确定性，故降级为定性表述。
+
+## Search Query
+
+Apple M2 Ultra FlashAttention 2 Qwen3 prefill latency benchmark

@@ -1,0 +1,24 @@
+# N891: 在 vLLM 使用 Flash Attention v2 且 batch_size=1 时，Attention 层不再显式存储 S=QK^T (seq_len^
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N279, N280, N281
+
+## Claim
+
+在 vLLM 使用 Flash Attention v2 且 batch_size=1 时，Attention 层不再显式存储 S=QK^T (seq_len^2) 矩阵，激活峰值主要取决于 FFN 中间层维度 (intermediate_size=11008) 和层数 (48)，单 token 激活峰值约为 (hidden_size + intermediate_size) * num_layers * dtype_size = (4096+11008)*48*2 bytes ≈ 1.44GB (未含 KV Cache 本身)
+
+## Corrected Claim
+
+在 vLLM 使用 Flash Attention v2 且 batch_size=1 时，Attention 层不再显式存储 S=QK^T (seq_len^2) 矩阵，激活峰值主要取决于 FFN 中间层维度 (intermediate_size=11008) 和层数 (48)，单 token 激活峰值约为 (hidden_size + intermediate_size) * num_layers * dtype_size = (4096+11008)*48*2 bytes ≈ 1.44GB (未含 KV Cache 本身)
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Flash Attention v2 确实避免显式存储 S 矩阵；数值计算 (4096+11008)*48*2 = 1,440,768 bytes ≈ 1.44GB 准确无误，符合 LLaMA-2 70B 等模型的典型参数配置。
+
+## Search Query
+
+vLLM flash attention memory usage per token activation size

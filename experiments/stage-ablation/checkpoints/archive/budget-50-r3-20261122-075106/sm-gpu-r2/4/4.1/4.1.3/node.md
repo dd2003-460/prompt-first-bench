@@ -1,0 +1,30 @@
+# N76: 若 N27 的 15-25 Token/s 数据成立，则必须假设使用了 INT4/W4 量化且权重完全驻留 GPU 显存，此时 13.5GB 权重 + KV C
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N27
+
+## Claim
+
+若 N27 的 15-25 Token/s 数据成立，则必须假设使用了 INT4/W4 量化且权重完全驻留 GPU 显存，此时 13.5GB 权重 + KV Cache < 24GB，需验证该量化方案在 4090 上的实际推理库支持情况（如 llama.cpp 或 vLLM 是否支持 4090 上的 W4A16 加速）
+
+## Corrected Claim
+
+若 N27 的 15-25 Token/s 数据成立，则必须假设使用了 INT4/W4 量化且权重完全驻留 GPU 显存，此时 13.5GB 权重 + KV Cache < 24GB，需验证该量化方案在 4090 上的实际推理库支持情况（如 llama.cpp 或 vLLM 是否支持 4090 上的 W4A16 加速）
+
+## Evidence
+
+[rework-angle r1] 来源[2]明确证实vLLM支持W4A16量化部署，来源[1]证实RTX4090支持INT4量化推理，来源[3]确认27B模型INT4权重约为13.5GB，逻辑与事实均成立
+
+## Search Query
+
+vLLM llama.cpp W4A16 support RTX 4090 inference speed
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_29800471/article/details/167408490&rut=20133f021413e948f054a44878fa2157878e1065da32604722227cf415f93c58', 'type': 'ddg', 'title': '双RTX4090张量并行+int4量化：Strata框架跑出150 tokens/s的推理优化实战-CSDN博客'}
+- {'url': 'https://yololab.net/archives/redhatai-qwen38-27b-int4-current-revision-2026&rut=76bda6821f543031d9a7847c039174c8eab54dbd38768a22fccb7a287380804a', 'type': 'ddg', 'title': 'Qwen3.8-27B-INT4 使用指南：W4A16、Vision、MTP 與 vLLM'}
+- {'url': 'https://blog.csdn.net/gitblog_00623/article/details/171040625&rut=a6fd86e4865af8267bf4714534090e07842b4a755ed09b04edcdee72a638c9b3', 'type': 'ddg', 'title': '单卡 27B 的显存账：INT4、KV cache 与长上下文的三角约束-CSDN博客'}

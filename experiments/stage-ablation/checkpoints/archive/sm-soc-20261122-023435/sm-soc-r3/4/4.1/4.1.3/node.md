@@ -1,0 +1,24 @@
+# N51: 透明化干预对平台 GMV 的净效应：ΔGMV = ΔQ * P_new - Q_old * ΔP，其中 ΔQ 为成交量增加（因搜索成本降低），ΔP 为均价下降（
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N15
+
+## Claim
+
+透明化干预对平台 GMV 的净效应：ΔGMV = ΔQ * P_new - Q_old * ΔP，其中 ΔQ 为成交量增加（因搜索成本降低），ΔP 为均价下降（因溢价压缩），预计 ΔGMV > 0 的条件是价格弹性 ε_b < 1（缺乏弹性市场），具体参数需通过平台模拟计算。
+
+## Corrected Claim
+
+透明化干预对平台 GMV 的净效应：ΔGMV = ΔQ * P_new - Q_old * ΔP，其中 ΔQ 为成交量增加（因搜索成本降低），ΔP 为均价下降（因溢价压缩），预计 ΔGMV > 0 的条件是价格弹性 ε_b < 1（缺乏弹性市场），具体参数需通过平台模拟计算。
+
+## Evidence
+
+父节点级核验未通过：非正交（存在逻辑矛盾与概念混淆：1. 子节点1将需求弹性范围设为1.5-2.5（富有弹性），而子节点3和父节点声称在缺乏弹性（ε<1）时ΔGMV>0，若按子节点1的公式，高弹性会导致ΔGMV<0，与父节点结论冲突；2. 子节点3的临界公式推导错误，GMV变化的一阶近似条件应为 ε_q > ΔP/(-ΔP) 即 ε_q > 1（对于降价），而非给出的复杂阈值，且该公式未考虑成交量变化的正负号逻辑。）
+
+## Search Query
+
+net impact of price transparency intervention on platform GMV elasticity

@@ -1,0 +1,20 @@
+# N131: LFU 在热度漂移下的优势/劣势取决于漂移速率 $dP/dt$ 与计数器时间常数 $\tau_{LFU}$ 的比值：当 $dP/dt \cdot \tau_{L
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N57, N58, N59
+
+## Claim
+
+LFU 在热度漂移下的优势/劣势取决于漂移速率 $dP/dt$ 与计数器时间常数 $\tau_{LFU}$ 的比值：当 $dP/dt \cdot \tau_{LFU} < 0.1$ 时，LFU 表现优于 LRU（$H_{lfu} > H_{lru}$）；当 $dP/dt \cdot \tau_{LFU} > 1$ 时，LFU 表现劣于 LRU（$H_{lfu} < H_{lru}$）；在 $u=1\%/day$ 且 $\tau_{LFU}=1.44days$ 下，$dP/dt \cdot \tau_{LFU} \approx 0.0144 < 0.1$，故 LFU 优于 LRU，优势幅度 $\Delta H_{adv} \approx 0.5 \cdot (dP/dt \cdot \tau_{LFU})^2 \cdot H_{static} \approx 0.5 \cdot 0.0002 \cdot 0.95 \approx 0.0095\%$，可忽略不计。
+
+## Corrected Claim
+
+LFU 在热度漂移下的优势/劣势取决于漂移速率 $dP/dt$ 与计数器时间常数 $\tau_{LFU}$ 的比值：当 $dP/dt \cdot \tau_{LFU} < 0.1$ 时，LFU 表现优于 LRU（$H_{lfu} > H_{lru}$）；当 $dP/dt \cdot \tau_{LFU} > 1$ 时，LFU 表现劣于 LRU（$H_{lfu} < H_{lru}$）；在 $u=1\%/day$ 且 $\tau_{LFU}=1.44days$ 下，$dP/dt \cdot \tau_{LFU} \approx 0.0144 < 0.1$，故 LFU 优于 LRU，优势幅度 $\Delta H_{adv} \approx 0.5 \cdot (dP/dt \cdot \tau_{LFU})^2 \cdot H_{static} \approx 0.5 \cdot 0.0002 \cdot 0.95 \approx 0.0095\%$，可忽略不计。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算正确（0.01*1.44=0.0144，0.5*0.0144^2*0.95≈0.000095即0.0095%），量级合理，符合缓存理论中LFU对慢漂移适应优于LRU的定性结论。

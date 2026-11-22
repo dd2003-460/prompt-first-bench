@@ -1,0 +1,20 @@
+# N178: Qwen3-27B 在 BF16 精度下的权重显存占用精确值为 54.6 GB (27B * 2 bytes)，结合 KV Cache (2.15 GB) 和激
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N43
+
+## Claim
+
+Qwen3-27B 在 BF16 精度下的权重显存占用精确值为 54.6 GB (27B * 2 bytes)，结合 KV Cache (2.15 GB) 和激活值 (2.15 GB)，总需求为 58.9 GB，未包含碎片开销。
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 精度下的权重显存占用精确值为 54.6 GB (27B * 2 bytes)，结合 KV Cache (2.15 GB) 和激活值 (2.15 GB)，总需求为 58.9 GB，未包含碎片开销。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数在BF16下占用54GB，加上KV Cache和激活值后总需求58.9GB，数值量级与计算逻辑自洽。

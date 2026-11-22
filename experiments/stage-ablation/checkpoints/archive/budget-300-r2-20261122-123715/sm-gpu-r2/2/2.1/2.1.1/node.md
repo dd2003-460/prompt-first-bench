@@ -1,0 +1,29 @@
+# N53: Qwen3-27B 在通用对话任务（MT-Bench/AlpacaEval）上，FP8 量化（如 FP8-E4M3）相对于 BF16 基准的困惑度增加量 ΔPP
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+Qwen3-27B 在通用对话任务（MT-Bench/AlpacaEval）上，FP8 量化（如 FP8-E4M3）相对于 BF16 基准的困惑度增加量 ΔPPL 需 < 0.05，且任务通过率下降 < 1% 方可判定为质量损失可接受。
+
+## Corrected Claim
+
+Qwen3-27B 在通用对话任务上，FP8 量化相对于 BF16 基准的质量损失需控制在极小范围内（如困惑度增加和任务通过率下降均低于特定阈值，具体阈值需依据实际评测数据确定，常见工程标准可能为 ΔPPL < 0.05 且通过率下降 < 1%），方可判定为可接受。
+
+## Evidence
+
+[质询]该陈述包含具体的工程经验阈值（ΔPPL < 0.05, 通过率下降 < 1%），属于经验事实而非第一性原理可推导的数学/物理定律。参考来源仅涉及 Qwen3.8-27B 的本地性能测试（速度、稳定性），完全未提及 FP8 量化对困惑度（PPL）或任务通过率的具体影响数值，无法提供直接支持。 | 逻辑上自洽（量化通常导致轻微性能下降，设定严格阈值符合工程直觉），但参考来源 [1][2] 均与量化质量评估无关，且该事实为经验参数，缺乏来源直接支持，依据经验事实排除条款降级。
+
+## Search Query
+
+Qwen3-27B FP8 quantization perplexity increase benchmark MT-Bench
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2076326126692185570&rut=b294a7a4020642765d588720cc9021684c065bd8812f964ef672c8b9dbe729c0', 'type': 'ddg', 'title': '阿里开源 Qwen3.8-27B 本地实测：性能很强，但 Agent 适配仍待补课'}
+- {'url': 'https://zhuanlan.zhihu.com/p/2076744790218225613&rut=27cf876882f93488c70edacadc2f7f889782cc1de743e877d2ecf4fdbfc9d315', 'type': 'ddg', 'title': '跑到 52 t/s，23.3M tokens 不崩不降智：Qwen3.8-27B调优记录'}

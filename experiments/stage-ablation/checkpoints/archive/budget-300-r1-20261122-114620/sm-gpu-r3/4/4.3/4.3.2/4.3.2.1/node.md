@@ -1,0 +1,24 @@
+# N336: A100 SXM4 与 A100 PCIe 版本的 NVLink 互连带宽不同，SXM4 为 600GB/s (单向 300GB/s)，PCIe 版本通常无 N
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N109
+
+## Claim
+
+A100 SXM4 与 A100 PCIe 版本的 NVLink 互连带宽不同，SXM4 为 600GB/s (单向 300GB/s)，PCIe 版本通常无 NVLink 或仅支持有限带宽，需区分具体硬件型号以修正 T_load 计算分母
+
+## Corrected Claim
+
+A100 SXM4 版本支持 600GB/s 双向 NVLink 带宽（单向 300GB/s），而 A100 PCIe 版本的 NVLink 支持情况因具体 SKU 而异（部分型号无 NVLink，部分支持较低带宽），需根据具体硬件型号确认 NVLink 带宽以修正 T_load 计算分母。
+
+## Evidence
+
+[质询]PCIe 版本 A100 并非完全无 NVLink，部分特定型号（如 A100 40GB PCIe）支持 NVLink，但带宽远低于 SXM4，且不同 SKU 差异大，‘通常无 NVLink’的表述可能过于绝对或掩盖了具体型号间的细微差别。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+A100 SXM4 vs PCIe NVLink bandwidth GB/s specification

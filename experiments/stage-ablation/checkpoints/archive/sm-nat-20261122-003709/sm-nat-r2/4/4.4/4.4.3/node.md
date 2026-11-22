@@ -1,0 +1,24 @@
+# N69: 量化LRU策略相对于Optimal算法的驱逐惩罚项 ε_LRU：在β=0.9的幂律分布下，由于请求间隔的长尾特性，LRU的命中率损失 ε_LRU 约为 3-5 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N19
+
+## Claim
+
+量化LRU策略相对于Optimal算法的驱逐惩罚项 ε_LRU：在β=0.9的幂律分布下，由于请求间隔的长尾特性，LRU的命中率损失 ε_LRU 约为 3-5 个百分点，具体值取决于工作负载的时间局部性，需通过离散时间模拟验证。
+
+## Corrected Claim
+
+量化LRU策略相对于Optimal算法的驱逐惩罚项 ε_LRU：在β=0.9的幂律分布下，由于请求间隔的长尾特性，LRU的命中率损失 ε_LRU 通常表现为显著的正值，具体数值取决于工作负载的时间局部性，需通过离散时间模拟验证。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值范围（3-5个百分点），属于硬件/系统性能相关的经验事实，无法从第一性原理或数学公理严格推导得出，且缺乏外部来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+LRU vs Optimal cache replacement penalty zipf distribution simulation

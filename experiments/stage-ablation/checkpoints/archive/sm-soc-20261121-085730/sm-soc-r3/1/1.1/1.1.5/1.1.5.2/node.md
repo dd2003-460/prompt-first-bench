@@ -1,0 +1,24 @@
+# N165: μ（均值估值）的基准定义与漂移：μ 不应简单取近期成交均价，而应剔除异常值后的加权中位数，且存在时间漂移项 μ(t) = μ_0 * exp(β_trend *
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N48
+
+## Claim
+
+μ（均值估值）的基准定义与漂移：μ 不应简单取近期成交均价，而应剔除异常值后的加权中位数，且存在时间漂移项 μ(t) = μ_0 * exp(β_trend * t)，其中 β_trend 为品类折旧率或增值率，对于快速贬值的电子产品，β_trend 约为 -0.01/周，这直接影响 P_upper_tail 的动态阈值。
+
+## Corrected Claim
+
+μ 的基准定义建议采用剔除异常值后的稳健统计量（如截尾均值或加权中位数），并引入时间漂移项 μ(t) = μ_0 * exp(β_trend * t)。其中 β_trend 为品类特定的折旧/增值率，对于快速贬值的电子产品，该参数需根据具体品类数据拟合，典型量级可能在每周 -0.5% 至 -2% 之间，而非固定为 -0.01/周。
+
+## Evidence
+
+[质询]β_trend 的具体数值（-0.01/周）属于经验参数，不同品类、品牌及市场环境下差异巨大，无法从第一性原理严格推导，且缺乏通用性；此外，将均值估值定义为“加权中位数”在统计学术语上存在概念混淆（中位数本身对权重不敏感，通常指加权平均或截尾均值）。 | source=knowledge，逻辑自洽（指数衰减模型符合折旧直觉），但具体数值 -0.01/周 为经验估计值，缺乏普适性，且无外部来源支持，故降级。
+
+## Search Query
+
+asset depreciation rate trend estimation second hand electronics weighted median price

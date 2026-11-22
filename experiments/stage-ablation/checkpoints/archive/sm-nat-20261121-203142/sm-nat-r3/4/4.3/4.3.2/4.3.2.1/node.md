@@ -1,0 +1,20 @@
+# N145: 对象更新事件在时间上均匀分布的假设验证：更新率 u=0.001 对应每天 100 次更新（100000 * 0.001），若更新服从泊松过程，则任意时刻缓存中某
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N56
+
+## Claim
+
+对象更新事件在时间上均匀分布的假设验证：更新率 u=0.001 对应每天 100 次更新（100000 * 0.001），若更新服从泊松过程，则任意时刻缓存中某对象失效的瞬时概率 λ_inval = u / N_objects = 1e-8 / object，稳态失效概率 P_invalidation = 1 - e^{-λ_inval * T_res} ≈ λ_inval * T_res，需量化 T_res 以确认是否远小于 1
+
+## Corrected Claim
+
+对象更新事件在时间上均匀分布的假设验证：更新率 u=0.001 对应每天 100 次更新（100000 * 0.001），若更新服从泊松过程，则任意时刻缓存中某对象失效的瞬时概率 λ_inval = u / N_objects = 1e-8 / object，稳态失效概率 P_invalidation = 1 - e^{-λ_inval * T_res} ≈ λ_inval * T_res，需量化 T_res 以确认是否远小于 1
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：泊松过程假设下，瞬时失效率 λ = u/N 及稳态概率 P ≈ λ*T 的推导符合概率论基本定义，数值量级（1e-8）合理。

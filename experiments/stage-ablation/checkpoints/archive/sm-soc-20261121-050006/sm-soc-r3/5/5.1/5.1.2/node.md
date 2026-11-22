@@ -1,0 +1,24 @@
+# N301: 尾部指数 α 的极大似然估计量：α_MLE = n / Σ_{i=1}^n ln(U_i / U_min)，其中 U_i 为观察到的 n 笔成交价，U_min 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N95
+
+## Claim
+
+尾部指数 α 的极大似然估计量：α_MLE = n / Σ_{i=1}^n ln(U_i / U_min)，其中 U_i 为观察到的 n 笔成交价，U_min 为最小值；需从平台近 90 天同类商品成交数据中提取 n ≥ 100 的样本计算，标准误 SE(α) ≈ 1/√n，用于确定 p_match 的置信区间。
+
+## Corrected Claim
+
+尾部指数 α 的极大似然估计量：α_MLE = n / Σ_{i=1}^n ln(U_i / U_min)，其中 U_i 为观察到的 n 笔成交价，U_min 为最小值；需从平台近 90 天同类商品成交数据中提取 n ≥ 100 的样本计算，标准误 SE(α) ≈ 1/√n，用于确定 p_match 的置信区间。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：帕累托分布尾部指数MLE公式及标准误近似符合统计学原理，样本量要求合理。
+
+## Search Query
+
+maximum likelihood estimation Pareto tail index transaction data

@@ -1,0 +1,20 @@
+# N219: 强制降价触发概率 P_force 的中性工作点：当 D = 15 天且 C_urgency = 0.5 时，P_force ≈ 0.30，此时建议采用渐进式降价
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N71
+
+## Claim
+
+强制降价触发概率 P_force 的中性工作点：当 D = 15 天且 C_urgency = 0.5 时，P_force ≈ 0.30，此时建议采用渐进式降价策略（每次降 2%）而非一次性强制降价，以减少卖家流失风险 ΔChurn ≈ 5%。
+
+## Corrected Claim
+
+强制降价触发概率 P_force 的中性工作点：当 D = 15 天且 C_urgency = 0.5 时，P_force ≈ 0.30，此时建议采用渐进式降价策略（每次降 2%）而非一次性强制降价，以减少卖家流失风险 ΔChurn ≈ 5%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

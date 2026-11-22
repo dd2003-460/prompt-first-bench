@@ -1,0 +1,20 @@
+# N116: 多卡方案额外开销总额 C_overhead 估算：2x RTX 4090 约为 $200-$450，1x A100/H100 约为 $0，需与硬件成本差异对比评
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N25
+
+## Claim
+
+多卡方案额外开销总额 C_overhead 估算：2x RTX 4090 约为 $200-$450，1x A100/H100 约为 $0，需与硬件成本差异对比评估净成本优势
+
+## Corrected Claim
+
+多卡方案额外开销总额 C_overhead 估算：2x RTX 4090 约为 $200-$450，1x A100/H100 约为 $0，需与硬件成本差异对比评估净成本优势
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

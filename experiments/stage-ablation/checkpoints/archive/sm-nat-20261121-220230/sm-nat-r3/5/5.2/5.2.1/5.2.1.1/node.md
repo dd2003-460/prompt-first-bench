@@ -1,0 +1,24 @@
+# N225: 2023-2024年主流CDN（如Cloudflare, Akamai）公开技术报告中关于对象大小分布的实测尾指数 α 中位数及95%置信区间
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N78, N79, N80
+
+## Claim
+
+2023-2024年主流CDN（如Cloudflare, Akamai）公开技术报告中关于对象大小分布的实测尾指数 α 中位数及95%置信区间
+
+## Corrected Claim
+
+2023-2024年主流CDN（如Cloudflare, Akamai）未公开统一的对象大小分布实测尾指数 α 中位数及95%置信区间；相关研究通常基于特定数据集或学术采样，而非CDN官方公开报告。
+
+## Evidence
+
+[质询]该陈述声称存在具体的“实测尾指数 α 中位数及95%置信区间”，但主流CDN（如Cloudflare, Akamai）通常不公开如此细粒度的内部统计分布参数（如具体的α值及其置信区间），且不同CDN、不同时间段、不同业务类型的对象大小分布差异巨大，不存在一个通用的、被广泛引用的“2023-2024年主流CDN”统一实测中位数。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该具体统计数据非公开常识或第一性原理可推导）
+
+## Search Query
+
+CDN object size distribution Pareto alpha parameter 2024 measurement report

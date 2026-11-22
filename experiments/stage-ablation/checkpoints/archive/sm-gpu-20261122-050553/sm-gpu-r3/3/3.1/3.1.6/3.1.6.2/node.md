@@ -1,0 +1,20 @@
+# N211: SmoothQuant 算法对 Qwen3-27B 激活值分布的平滑效果：通过缩放因子 s = (max_x)^alpha / (max_w)^(1-alpha
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N68
+
+## Claim
+
+SmoothQuant 算法对 Qwen3-27B 激活值分布的平滑效果：通过缩放因子 s = (max_x)^alpha / (max_w)^(1-alpha) (alpha=0.5) 重新分配量化难度，将激活值的动态范围压缩至 10^2 以内，使得对称 INT8 量化的信噪比 (SNR) 从 ~15dB 提升至 ~25dB，有效位宽恢复至 > 7.5 bits。
+
+## Corrected Claim
+
+SmoothQuant 算法通过缩放因子 s = (max_x)^alpha / (max_w)^(1-alpha) (alpha=0.5) 重新分配量化难度，旨在压缩激活值的动态范围以改善对称 INT8 量化的信噪比和有效位宽，但具体提升幅度（如SNR、动态范围数值）需依据实际模型测量数据确定。
+
+## Evidence
+
+[质询]具体数值（SNR从15dB提升至25dB、动态范围压缩至10^2以内、有效位宽>7.5 bits）属于特定模型（Qwen3-27B）在特定量化配置下的经验测量结果，无法仅从SmoothQuant算法的第一性原理或数学定义中严格推导得出，且缺乏外部来源支持。 | 经验事实，逻辑自洽但缺来源支持

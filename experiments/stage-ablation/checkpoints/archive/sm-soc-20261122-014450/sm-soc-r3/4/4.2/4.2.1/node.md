@@ -1,0 +1,20 @@
+# N73: 边际效用损失项具体量化为 ΔU_loss = (P_high - P_low) * P(sale|P_high) - (P_high - P_low) * P(
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N17
+
+## Claim
+
+边际效用损失项具体量化为 ΔU_loss = (P_high - P_low) * P(sale|P_high) - (P_high - P_low) * P(sale|P_low)，即降价导致的预期利润减少额，需结合 N11 中的收益函数计算具体数值。
+
+## Corrected Claim
+
+边际效用损失项具体量化为 ΔU_loss = (P_high - P_low) * P(sale|P_high) - (P_high - P_low) * P(sale|P_low)，即降价导致的预期利润减少额，需结合 N11 中的收益函数计算具体数值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该公式正确表达了在两种定价策略下，因价格差异导致的预期利润边际变化（即机会成本或效用损失），量纲与逻辑自洽。

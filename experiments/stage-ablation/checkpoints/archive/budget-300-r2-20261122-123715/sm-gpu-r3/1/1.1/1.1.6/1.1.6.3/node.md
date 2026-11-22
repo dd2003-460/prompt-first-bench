@@ -1,0 +1,24 @@
+# N138: RTX 4060 Ti 16GB 的显存带宽为 272 GB/s (16GB GDDR6 128-bit 17Gbps)，其理论权重加载吞吐上限为 272 GB
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N33
+
+## Claim
+
+RTX 4060 Ti 16GB 的显存带宽为 272 GB/s (16GB GDDR6 128-bit 17Gbps)，其理论权重加载吞吐上限为 272 GB/s / 13.5 GB ≈ 20 tok/s；考虑到计算开销和 Offload 延迟，实际吞吐 15-25 tok/s 仅在无显著 Offload 且计算优化极佳的情况下可能接近上限，但鉴于显存不足必然 Offload，该估计偏乐观
+
+## Corrected Claim
+
+RTX 4060 Ti 16GB 的显存带宽为 272 GB/s (16GB GDDR6 128-bit 17Gbps)，其理论权重加载吞吐上限为 272 GB/s / 13.5 GB ≈ 20 tok/s；考虑到计算开销和 Offload 延迟，实际吞吐 15-25 tok/s 仅在无显著 Offload 且计算优化极佳的情况下可能接近上限，但鉴于显存不足必然 Offload，该估计偏乐观
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4060 Ti 16GB 规格（128-bit, 17Gbps GDDR6）计算带宽为 272 GB/s，除以 13.5GB 模型大小得理论上限约 20 tok/s，逻辑自洽且符合硬件常识。
+
+## Search Query
+
+RTX 4060 Ti 16GB memory bandwidth 272 GB/s theoretical inference limit

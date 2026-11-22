@@ -1,0 +1,24 @@
+# N227: Qwen3-27B 在 AWQ W4A16 量化下的 MMLU 基准准确率具体数值（作为计算 ΔAcc 的分母/量化值），需查阅 HuggingFace 社区中
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N76
+
+## Claim
+
+Qwen3-27B 在 AWQ W4A16 量化下的 MMLU 基准准确率具体数值（作为计算 ΔAcc 的分母/量化值），需查阅 HuggingFace 社区中针对该模型的 AWQ 量化版本（如 unsloth/qwen3-27b-awq）的评测日志或作者提供的基准测试数据。
+
+## Corrected Claim
+
+Qwen3-27B 在 AWQ W4A16 量化下的 MMLU 基准准确率具体数值需查阅 HuggingFace 社区中针对该模型的 AWQ 量化版本（如 unsloth/qwen3-27b-awq）的评测日志或作者提供的基准测试数据，当前无法确认具体数值。
+
+## Evidence
+
+[质询]该陈述声称存在具体的MMLU基准准确率数值，但这是一个经验事实（具体模型的量化后性能指标），无法从第一性原理推导。由于检索失败，无法验证该具体数值是否存在或准确，且不同量化实现（如unsloth vs 其他）可能导致数值差异，存在口径混淆风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值）
+
+## Search Query
+
+Qwen3-27B AWQ W4A16 MMLU accuracy benchmark unsloth huggingface

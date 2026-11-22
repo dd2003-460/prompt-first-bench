@@ -1,0 +1,20 @@
+# N200: 归一化容量比 \( R_C = C / (N \cdot \mu_S) \) 是决定缓存策略有效性的核心无量纲参数；在本题参数下，若 \( \mu_S \app
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+归一化容量比 \( R_C = C / (N \cdot \mu_S) \) 是决定缓存策略有效性的核心无量纲参数；在本题参数下，若 \( \mu_S \approx 8.24 \text{KB} \) (N94)，则 Total Data \( \approx 824 \text{MB} \)，而 \( C = 128 \text{GB} \approx 131072 \text{MB} \)，故 \( R_C \approx 159 \)，表明缓存容量远大于总数据量，处于'容量充足'区域，此时驱逐策略对稳态命中率无影响。
+
+## Corrected Claim
+
+归一化容量比 \( R_C = C / (N \cdot \mu_S) \) 是决定缓存策略有效性的核心无量纲参数；在本题参数下，若 \( \mu_S \approx 8.24 \text{KB} \) (N94)，则 Total Data \( \approx 824 \text{MB} \)，而 \( C = 128 \text{GB} \approx 131072 \text{MB} \)，故 \( R_C \approx 159 \)，表明缓存容量远大于总数据量，处于'容量充足'区域，此时驱逐策略对稳态命中率无影响。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

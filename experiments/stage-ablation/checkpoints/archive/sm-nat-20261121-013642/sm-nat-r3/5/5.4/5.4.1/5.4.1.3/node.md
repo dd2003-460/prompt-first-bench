@@ -1,0 +1,24 @@
+# N217: MIN 命中率与 LRU 命中率的差距 Gap = H_MIN - H_LRU 的量化：在 Pareto(β=0.9) 重尾分布下，Gap 通常为 0.05-0
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N74
+
+## Claim
+
+MIN 命中率与 LRU 命中率的差距 Gap = H_MIN - H_LRU 的量化：在 Pareto(β=0.9) 重尾分布下，Gap 通常为 0.05-0.15，源于 LRU 无法区分高频小对象与低频大对象，而 MIN 能全局最优地保留高 r_i/s_i 比值的对象；具体 Gap 值需通过仿真对比获取，置信区间 [0.03, 0.18]。
+
+## Corrected Claim
+
+在 Pareto(β=0.9) 重尾分布下，MIN 命中率通常高于 LRU 命中率（Gap > 0），源于 LRU 无法区分高频小对象与低频大对象，而 MIN 能全局最优地保留高 r_i/s_i 比值的对象；具体 Gap 值需通过仿真对比获取，典型量级可能在 0.05-0.15 之间，但具体数值取决于工作负载细节。
+
+## Evidence
+
+[质询]具体数值区间 [0.05, 0.15] 和置信区间 [0.03, 0.18] 属于经验事实，缺乏通用理论推导支持，且高度依赖于具体的工作负载特征（如对象大小分布、访问局部性），仅凭 Pareto(β=0.9) 无法唯一确定该数值范围，存在过度具体化的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+Belady MIN vs LRU cache hit rate gap heavy-tailed request distribution

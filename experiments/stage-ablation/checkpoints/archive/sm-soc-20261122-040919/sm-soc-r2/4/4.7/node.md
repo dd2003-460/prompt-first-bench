@@ -1,0 +1,24 @@
+# N24: 利益相关方驱动均衡的置信度评估：比较买家、卖家、平台三方假设的后验概率。若平台假设 H_platform 的后验概率 > 0.6，则标记为[中高置信度]；若卖家
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+利益相关方驱动均衡的置信度评估：比较买家、卖家、平台三方假设的后验概率。若平台假设 H_platform 的后验概率 > 0.6，则标记为[中高置信度]；若卖家假设 H_seller 的后验概率 > 0.6，则标记为[中高置信度]。具体数值依赖于似然度 P(D|H) 的计算结果，[待核验]：需对比三方行为数据。
+
+## Corrected Claim
+
+利益相关方驱动均衡的置信度评估：比较买家、卖家、平台三方假设的后验概率。若平台假设 H_platform 的后验概率 > 0.6，则标记为[中高置信度]；若卖家假设 H_seller 的后验概率 > 0.6，则标记为[中高置信度]。具体数值依赖于似然度 P(D|H) 的计算结果，[待核验]：需对比三方行为数据。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+stakeholder equilibrium driver posterior probability comparison

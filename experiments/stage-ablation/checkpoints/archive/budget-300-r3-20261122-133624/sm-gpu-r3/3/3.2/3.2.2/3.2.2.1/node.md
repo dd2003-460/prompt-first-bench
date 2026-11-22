@@ -1,0 +1,24 @@
+# N262: GPTQ 算法下 Qwen3-27B INT8 量化对极端离群值（Outlier）的处理机制：GPTQ 使用二阶信息（Hessian 矩阵）进行逐列量化，对离群
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N82
+
+## Claim
+
+GPTQ 算法下 Qwen3-27B INT8 量化对极端离群值（Outlier）的处理机制：GPTQ 使用二阶信息（Hessian 矩阵）进行逐列量化，对离群值的容忍度低于 SmoothQuant，导致在输入分布含大量离群值时（如代码生成场景），PPL 增量从 0.25 上升至 0.35-0.40，MMLU 准确率损失从 2.0% 上升至 2.8%±0.4%。
+
+## Corrected Claim
+
+GPTQ 算法下 Qwen3-27B INT8 量化在处理极端离群值时，由于主要依赖二阶信息逐列量化，其性能表现可能受输入分布中离群值影响较大，具体 PPL 和 MMLU 的损失需根据实际实验数据确定，通常建议结合 SmoothQuant 等技术以缓解离群值影响。
+
+## Evidence
+
+[质询]具体数值（PPL增量0.25->0.35-0.40, MMLU损失2.0%->2.8%±0.4%）缺乏来源支持，且GPTQ对离群值的敏感度通常取决于具体实现（如是否结合SmoothQuant或Outlier处理），直接断言其容忍度低于SmoothQuant并给出精确性能下降数据属于经验事实，无检索结果佐证。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+GPTQ Qwen3-27B INT8 outlier sensitivity PPL MMLU degradation

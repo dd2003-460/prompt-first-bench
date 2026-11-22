@@ -1,0 +1,20 @@
+# N318: RTX 5090 运行 FP8 权重 (27GB) + INT4 KV Cache (3.145GB) 时，总显存 30.145GB 占用率为 94.2% (3
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N114
+
+## Claim
+
+RTX 5090 运行 FP8 权重 (27GB) + INT4 KV Cache (3.145GB) 时，总显存 30.145GB 占用率为 94.2% (30.145/32)，剩余 1.855GB 缓冲不足以覆盖 32K 上下文下的激活值峰值 (约 0.54GB) 和 CUDA 开销 (约 1GB)，存在 OOM 风险，需将 KV Cache 进一步压缩或降低 batch_size。
+
+## Corrected Claim
+
+RTX 5090 运行 FP8 权重 (27GB) + INT4 KV Cache (3.145GB) 时，总显存 30.145GB 占用率为 94.2% (30.145/32)，剩余 1.855GB 缓冲不足以覆盖 32K 上下文下的激活值峰值 (约 0.54GB) 和 CUDA 开销 (约 1GB)，存在 OOM 风险，需将 KV Cache 进一步压缩或降低 batch_size。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算正确（27+3.145=30.145, 30.145/32≈94.2%），剩余显存（1.855GB）确实小于激活值与CUDA开销之和（1.54GB），OOM风险推断符合逻辑。

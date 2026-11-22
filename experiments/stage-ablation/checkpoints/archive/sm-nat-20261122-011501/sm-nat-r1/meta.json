@@ -1,0 +1,86 @@
+{
+  "qid": "nat",
+  "question": "某边缘 CDN 节点有 128GB 内存做对象缓存，工作负载：10 万对象，大小服从 Pareto(α=1.1)，请求热度也服从 Pareto(β=0.9)，热门对象与大小负相关（ρ≈-0.3）。每天总请求 5000 万次。请估算：(a) LRU 策略下的稳态字节命中率下界；(b) LFU 相比 LRU 最多能提升多少百分点、为什么；(c) 如果对象更新率是 1%/天，LRU 的有效命中率还要再打几折？给出推导链，区分「凭记忆的」和「刚查到的」。",
+  "round": 1,
+  "state": "rework",
+  "dropped_redundant": 0,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "F1: 数值准确性 (Accuracy) - 最终估算的字节命中率、提升百分点及折扣系数是否与基于给定参数（α, β, ρ, 容量, 请求量）推导出的理论值或保守下界在合理误差范围内一致。",
+      "F2: 逻辑完备性 (Completeness) - 是否覆盖了题目显式要求的三个子问题 (a) LRU下界, (b) LFU增益及原因, (c) 更新率影响，且每个子问题都有明确的结论。",
+      "F3: 推导链透明度 (Derivation Transparency) - 是否清晰展示了从输入参数到最终结果的中间步骤（如：分布截断、缓存占用模型、命中率积分/求和），且区分了假设（凭记忆）与事实（刚查到/给定）。",
+      "F4: 口径一致性 (Consistency) - 在计算 (a), (b), (c) 时，对‘命中率’的定义（字节 vs 请求）和‘稳态’的定义是否保持一致，未出现口径混淆。"
+    ],
+    "composition": "Score = F1 * F2 * F3 * F4 (乘积关系：任何一项为零或极低，整体答案即失效)",
+    "rationale": "本题是定量估算题，核心在于数值结果的可靠性（F1）和覆盖所有显式子问（F2），而由于涉及复杂分布假设，推导过程的可追溯性和口径统一（F3, F4）是判断答案是否严谨的关键，缺一不可。"
+  },
+  "objective_mode": "formula",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "parent_id": "N5",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "补充遗漏的关键假设，例如对象大小分布S_i的具体形式（是否独立同分布）、网络传输时间是否忽略、缓存命中/未命中的具体行为定义等。",
+        "明确区分并列出所有“凭记忆的通用常数/模型”（如LRU/LFU的理论基础、Pareto分布的性质）与“题目给定数据”（如α=1.1, β=0.9等），确保每个假设都有明确的来源标签。",
+        "对子节点2和3中提到的“需验证”或“需仿真验证”的部分，增加具体的验证步骤或预期结果，以增强推导的可复现性。"
+      ],
+      "round": 0
+    },
+    {
+      "node_id": "N8",
+      "claim": "大小-热度相关性结构：给定负相关 ρ≈-0.3，联合分布 P(s,h) 可近似为高斯 Copula 或 Spearman",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级与具体系数（15-20%）缺乏推导依据，且高斯Copula假设在对象大小（通常服从幂律或长尾分布）上可能不成立，导致期望请求率的提升幅度无法仅凭"
+    },
+    {
+      "node_id": "N12",
+      "claim": "LFU 相对 LRU 的最大百分点提升 = HitRate_bytes_LFU - HitRate_bytes_LRU，",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的量化结论（'最大百分点提升'）和特定参数（ρ, β, α）的依赖关系，但提供的参考来源[1]仅涉及Redis中LRU与LFU的通用实现与"
+    },
+    {
+      "node_id": "N15",
+      "claim": "LRU 稳态驻留时间 T_res 的量化：对于 128GB 缓存和 5000 万次/天请求，假设热门对象平均大小 S_h",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]公式量纲与逻辑不自洽：T_res 通常指时间（秒/天），而公式右侧 C/(R*S_hot*(1-H_lru)) 中，若 C 为缓存容量（字节），R 为请"
+    },
+    {
+      "node_id": "N21",
+      "claim": "在 Pareto(α=1.1) 大小分布和 128GB 容量约束下，LRU 稳态驻留的对象数量 N_resident 可",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N22",
+      "claim": "Pareto(β=0.9) 热度分布下，Top-K 对象覆盖的请求比例 P_access(K) = K^(1-β) / ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N23",
+      "claim": "推导链第一步：计算总请求字节数 Total_Bytes = 50,000,000 * E[S]。若 E[S]=11KB，",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N24",
+      "claim": "推导链关键依赖：LRU 命中率下界计算依赖于'稳态驻留集合'的确定。该集合由'最近访问间隔'决定，但在 Pareto 热",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 24
+}

@@ -1,0 +1,20 @@
+# N291: 双机制交互效应：总折扣 $D_{total} = D_{trust} + \frac{C_{risk}}{V_{base}}$。若 $D_{trust}$ 和 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N97
+
+## Claim
+
+双机制交互效应：总折扣 $D_{total} = D_{trust} + \frac{C_{risk}}{V_{base}}$。若 $D_{trust}$ 和 $C_{risk}$ 独立，则 $V_{eff} - C_{risk} = V_{base}(1-D_{trust}) - \beta \sigma_{quality} P_{ref}$。需计算使 $P_{bid} = P_{ask}$ 成立的临界 $D_{trust}$ 值：$D_{trust}^{crit} = 1 - \frac{P_{ask} + \beta \sigma_{quality} P_{ref}}{V_{base}}$。若 $V_{base}=P_{ref}, P_{ask}=1.2 P_{ref}, \beta \sigma_{quality}=0.12$，则 $D_{trust}^{crit} = 1 - 1.32 = -0.32$，表明即使无信任折扣，风险溢价也足以压低出价至参考价以下，从而解释为何高溢价商品仍能成交（因为 $V_{base}$ 实际上分布较宽，部分买家 $V_{base} > P_{ref}$）。
+
+## Corrected Claim
+
+双机制交互效应：总折扣 $D_{total} = D_{trust} + \frac{C_{risk}}{V_{base}}$。若 $D_{trust}$ 和 $C_{risk}$ 独立，则 $V_{eff} - C_{risk} = V_{base}(1-D_{trust}) - \beta \sigma_{quality} P_{ref}$。需计算使 $P_{bid} = P_{ask}$ 成立的临界 $D_{trust}$ 值：$D_{trust}^{crit} = 1 - \frac{P_{ask} + \beta \sigma_{quality} P_{ref}}{V_{base}}$。若 $V_{base}=P_{ref}, P_{ask}=1.2 P_{ref}, \beta \sigma_{quality}=0.12$，则 $D_{trust}^{crit} = 1 - 1.32 = -0.32$，表明即使无信任折扣，风险溢价也足以压低出价至参考价以下，从而解释为何高溢价商品仍能成交（因为 $V_{base}$ 实际上分布较宽，部分买家 $V_{base} > P_{ref}$）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：代数推导 $D_{trust}^{crit} = 1 - \frac{P_{ask} + \beta \sigma_{quality} P_{ref}}{V_{base}}$ 与代入数值 $1 - \frac{1.2 + 0.12}{1} = -0.32$ 均正确，且结论符合经济直觉。

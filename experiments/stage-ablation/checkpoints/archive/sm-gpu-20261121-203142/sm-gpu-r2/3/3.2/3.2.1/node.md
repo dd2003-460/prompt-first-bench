@@ -1,0 +1,20 @@
+# N66: NVIDIA L40S (48GB GDDR6, 864 GB/s) 相比 A100 80GB (HBM2e, 2039 GB/s) 显存带宽低 57%，在 3
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N17
+
+## Claim
+
+NVIDIA L40S (48GB GDDR6, 864 GB/s) 相比 A100 80GB (HBM2e, 2039 GB/s) 显存带宽低 57%，在 32K 长上下文推理中，其生成阶段 TPS 预计仅为 A100 的 40-50%，尽管其购置成本 ($8k-10k) 仅为 A100 ($15k-20k) 的一半，单位 Token 成本优势需通过高并发批处理才能抵消带宽劣势。
+
+## Corrected Claim
+
+NVIDIA L40S (48GB GDDR6, 864 GB/s) 相比 A100 80GB (HBM2e, 2039 GB/s) 显存带宽低 57%，在 32K 长上下文推理中，其生成阶段 TPS 预计仅为 A100 的 40-50%，尽管其购置成本 ($8k-10k) 仅为 A100 ($15k-20k) 的一半，单位 Token 成本优势需通过高并发批处理才能抵消带宽劣势。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：带宽数值(864 vs 2039 GB/s)及成本量级符合NVIDIA官方规格与市场常识，长上下文推理受显存带宽限制导致TPS下降的逻辑符合LLM推理原理。

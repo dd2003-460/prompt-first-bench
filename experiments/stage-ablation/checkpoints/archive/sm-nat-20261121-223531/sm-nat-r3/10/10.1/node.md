@@ -1,0 +1,20 @@
+# N82: 更新率 1%/天 对 LRU 命中率的衰减因子 D 的精确计算：D = 1 - E[P_stale | Byte Weighted]，其中 P_stale(h)
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N26
+
+## Claim
+
+更新率 1%/天 对 LRU 命中率的衰减因子 D 的精确计算：D = 1 - E[P_stale | Byte Weighted]，其中 P_stale(h) = 1 - e^{-λ_upd * T_res(h)}，T_res(h) = 1/h（天），λ_upd = 0.01/天。对于热门对象（h 大），P_stale ≈ λ_upd/h；对于冷门对象（h 小），P_stale 接近 1。
+
+## Corrected Claim
+
+更新率 1%/天 对 LRU 命中率的衰减因子 D 的精确计算：D = 1 - E[P_stale | Byte Weighted]，其中 P_stale(h) = 1 - e^{-λ_upd * T_res(h)}，T_res(h) = 1/h（天），λ_upd = 0.01/天。对于热门对象（h 大），P_stale ≈ λ_upd/h；对于冷门对象（h 小），P_stale 接近 1。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点存在逻辑覆盖缺口。父节点要求计算 D 的精确值，子节点1给出了积分公式框架，子节点2计算了热度均值（h_avg），子节点3仅量化了热门部分的贡献并声称可忽略。然而，子节点2得到的 h_avg 并未被用于子节点1的积分中（积分依赖于联合分布 f_{S,H}，而非简单的均值），且子节点3只排除了热门对象，未提供中冷对象（主要贡献者）的具体数值计算或积分结果。因此，虽然各部分不冲突，但缺乏将 h_avg 或具体分布参数代入积分以得出 D 最终数值的关键步骤，导致无法从子节点直接推导出父节点所需的‘精确计算’结果。）

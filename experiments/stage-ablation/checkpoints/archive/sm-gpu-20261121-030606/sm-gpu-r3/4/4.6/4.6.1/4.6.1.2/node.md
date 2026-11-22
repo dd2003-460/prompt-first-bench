@@ -1,0 +1,29 @@
+# N326: Qwen3-27B FP8量化版本（如W8A8或W8A16）在MMLU、GSM8K、HumanEval上的实测得分，若官方未提供，则引用第三方复现数据（如lla
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N141
+
+## Claim
+
+Qwen3-27B FP8量化版本（如W8A8或W8A16）在MMLU、GSM8K、HumanEval上的实测得分，若官方未提供，则引用第三方复现数据（如llama.cpp或vLLM社区测试），计算与BF16基线的绝对差值。
+
+## Corrected Claim
+
+Qwen3-27B FP8/INT8量化版本（如W8A16）在MMLU、GSM8K、HumanEval上的实测得分需查阅具体量化模型的README或第三方复现报告，当前参考来源未提供具体数值。
+
+## Evidence
+
+[质询]参考来源中未包含具体的MMLU、GSM8K、HumanEval实测得分数值，无法直接验证绝对差值的具体数值；且来源[1]标题为INT8-W8A16，与陈述中的FP8量化版本存在潜在口径混淆（尽管摘要提及FP8 tensor-core，但模型名明确为INT8）。 | 来源[1]和[2]确认了Qwen3.8-27B模型及量化版本的存在，但未提供具体的基准测试得分数据，属于经验事实且缺乏直接数值支持，故降级。
+
+## Search Query
+
+Qwen3-27B FP8 quantization MMLU GSM8K HumanEval accuracy drop
+
+## Retrieval Sources
+
+- {'url': 'https://huggingface.co/lued/Qwen3.8-27B-INT8-W8A16-MTP/blob/main/README.md&rut=73b891185a4154d33efca4b279021a0355c5ae25d981f6926b40c7e118a948f1', 'type': 'ddg', 'title': 'README.md · lued/Qwen3.8-27B-INT8-W8A16-MTP at main'}
+- {'url': 'https://github.com/AlibabaCloud-Official/Qwen3.8-27B&rut=6d7c70e3744b57d57ca293389d2609b017e7839b8d066985052a8b1a95bd84ec', 'type': 'ddg', 'title': 'GitHub - AlibabaCloud-Official/Qwen3.8-27B: Native multimodal dense LLM ...'}

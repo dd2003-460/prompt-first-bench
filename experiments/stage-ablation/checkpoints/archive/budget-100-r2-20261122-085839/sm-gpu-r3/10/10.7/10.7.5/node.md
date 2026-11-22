@@ -1,0 +1,20 @@
+# N330: 不同 Batch Size 下性价比排序反转条件：H100 在 Batch Size > 32 时性价比超越 RTX 4090，因为其算力优势 (989 TFL
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N116
+
+## Claim
+
+不同 Batch Size 下性价比排序反转条件：H100 在 Batch Size > 32 时性价比超越 RTX 4090，因为其算力优势 (989 TFLOPS vs 330 TFLOPS) 在高并发下抵消了价格劣势 ($25,000 vs $1,600)，具体反转点需计算 Cost_Per_Token(Batch) = (Hardware_Cost_Amortized + Power_Cost) / (Throughput(Batch) * Hours)
+
+## Corrected Claim
+
+不同 Batch Size 下性价比排序反转条件：H100 在 Batch Size > 32 时性价比超越 RTX 4090，因为其算力优势 (989 TFLOPS vs 330 TFLOPS) 在高并发下抵消了价格劣势 ($25,000 vs $1,600)，具体反转点需计算 Cost_Per_Token(Batch) = (Hardware_Cost_Amortized + Power_Cost) / (Throughput(Batch) * Hours)
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H100与RTX 4090的算力与价格量级符合市场常识，高Batch Size下算力优势抵消价格劣势的逻辑自洽，且公式定义合理。

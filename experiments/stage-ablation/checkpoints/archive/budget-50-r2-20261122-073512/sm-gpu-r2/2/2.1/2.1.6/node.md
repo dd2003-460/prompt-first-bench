@@ -1,0 +1,20 @@
+# N66: NVIDIA RTX 3090 单卡运行 Qwen3-27B 的显存可行性：BF16 权重 54GB > 24GB 显存容量，物理不可行；INT8 权重 27G
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+NVIDIA RTX 3090 单卡运行 Qwen3-27B 的显存可行性：BF16 权重 54GB > 24GB 显存容量，物理不可行；INT8 权重 27GB > 24GB 显存容量，物理不可行；INT4 权重 13.5GB + KV Cache + Overhead ≈ 15.5GB < 24GB，显存可行。
+
+## Corrected Claim
+
+NVIDIA RTX 3090 单卡运行 Qwen3-27B 的显存可行性：BF16 权重 54GB > 24GB 显存容量，物理不可行；INT8 权重 27GB > 24GB 显存容量，物理不可行；INT4 权重 13.5GB + KV Cache + Overhead ≈ 15.5GB < 24GB，显存可行。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数模型在BF16下权重约54GB，INT8约27GB，INT4约13.5GB，均符合显存容量24GB的物理限制及量化压缩比例。

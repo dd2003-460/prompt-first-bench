@@ -1,0 +1,24 @@
+# N142: 共享随机源：标准化偏离度 Z 的定义。Z = (Price - μ) / σ_noise 服从标准正态分布 N(0, 1)；所有关于偏离幅度 D 的统计推断（如
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N43
+
+## Claim
+
+共享随机源：标准化偏离度 Z 的定义。Z = (Price - μ) / σ_noise 服从标准正态分布 N(0, 1)；所有关于偏离幅度 D 的统计推断（如分位数、概率密度）均基于 Z 的变换 D = Z * (σ_noise / μ) 导出，Z 是连接原始价格与标准化噪声的唯一桥梁。
+
+## Corrected Claim
+
+共享随机源：标准化偏离度 Z 的定义。Z = (Price - μ) / σ_noise 服从标准正态分布 N(0, 1)；所有关于偏离幅度 D 的统计推断（如分位数、概率密度）均基于 Z 的变换 D = Z * (σ_noise / μ) 导出，Z 是连接原始价格与标准化噪声的唯一桥梁。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Z的定义符合标准正态分布标准化公式，D与Z的线性变换关系在数学上自洽且量纲正确。
+
+## Search Query
+
+standardized deviation normal distribution price noise transformation

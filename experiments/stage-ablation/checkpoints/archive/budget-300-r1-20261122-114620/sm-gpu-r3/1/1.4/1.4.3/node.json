@@ -1,0 +1,17 @@
+{
+  "id": "N52",
+  "claim": "推理框架显存开销差异：vLLM 在 RTX 4090 上运行 Qwen3-27B BF16 的 CUDA context + KV cache pool 基础开销为 1.8GB，llama.cpp 相同配置下为 0.4GB；差异源于 vLLM 预分配 32K token 的 PagedAttention 块池 (256 blocks * 128KB = 32MB * 64 layers * 2 heads)",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值量级与内部逻辑存在严重矛盾：1. 算术错误：256 blocks * 128KB = 32MB，但 32MB * 64 layers * 2 heads 的结果是 4GB，而非陈述中的 1.8GB 总开销；2. 物理直觉违背：Qwen3-27B 的 KV Cache 每 token 开销约为 1.3MB（基于 64层*2头*128维*2字节），32K token 的 KV Cache 仅约 40GB，远超 1.8GB 的总基础开销，说明 1.8GB 不可能包含 32K token 的完整 KV 池，更可能是初始最小分配或错误数据；3. 来源缺失：无外部来源支持具体数值。 | 逻辑校验失败：算术推导（32MB*64*2=4GB）与陈述值（1.8GB）矛盾，且 KV Cache 量级估算显示 32K token 开销远超 1.8GB，存在硬逻辑错误。",
+  "corrected_claim": "vLLM 在 RTX 4090 上运行 Qwen3-27B BF16 的基础显存开销（不含完整 KV Cache）约为 1.8GB，llama.cpp 约为 0.4GB；差异主要源于 vLLM 的 PagedAttention 机制预分配及 CUDA context 开销，但具体块池大小需根据实际配置计算，原陈述中的算术推导有误。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N10"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

@@ -1,0 +1,30 @@
+# N115: 二手 A100 矿卡/翻新卡风险量化：A100 多为数据中心退役卡，非矿卡，但存在高负载历史；故障率低于消费卡（约 1-2%），主要风险为 PCIe 插槽接触不
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N30
+
+## Claim
+
+二手 A100 矿卡/翻新卡风险量化：A100 多为数据中心退役卡，非矿卡，但存在高负载历史；故障率低于消费卡（约 1-2%），主要风险为 PCIe 插槽接触不良或 ECC 错误累积；RMA 支持通常缺失，维修需送修第三方，MTTR 约 14-21 天，期望停机成本约为 $1,400-$2,100（按 $100/天计）[待核验]。
+
+## Corrected Claim
+
+二手 A100 多为数据中心退役卡，非矿卡，但存在高负载历史；主要风险为显存/ECC错误累积或核心过热，故障率通常低于消费级显卡；RMA 支持通常缺失，维修需送修第三方，具体 MTTR 和停机成本因供应商和故障类型而异，需单独评估。
+
+## Evidence
+
+[质询]具体数值（故障率1-2%、MTTR 14-21天、停机成本$1400-$2100）缺乏来源支持，属于经验事实且无数据佐证；此外，A100作为数据中心卡，其故障模式更可能是显存或核心过热导致的性能衰减/死机，而非消费卡常见的PCIe接触不良，风险描述存在偏差。 | 来源[1]和[3]支持A100为数据中心退役卡及存在二手市场风险，但未提供具体的故障率、MTTR或成本数值；来源[2]无关。具体量化指标属经验事实，逻辑自洽但缺来源直接支持。
+
+## Search Query
+
+Used A100 datacenter card failure rate repair turnaround time
+
+## Retrieval Sources
+
+- {'url': 'https://www.idcbest.com/idcnews/11016578.html&rut=c55c4f851f577164a770aa8b333048877f42c070954da127f7e1873d94531ed9', 'type': 'ddg', 'title': '二手 A100 模组入门指南：从"怕踩坑"到"会选卡"的完整思路-天下数据'}
+- {'url': 'https://www.chipreclaim.com/en/news-detail-76.html&rut=e6dc2569abf9407fe32ec6268a3e9329b433453c6dda1ec5736ee676a93eddb4', 'type': 'ddg', 'title': 'GPU & AI Accelerator Recycling 2026 H2: NVIDIA A100/H100 Refurbished ...'}
+- {'url': 'https://juejin.cn/post/7574251313882890255&rut=9cceefc299b058761f4f95c518540cf82a0a676b94c345a8bc6f900fa76f60e3', 'type': 'ddg', 'title': '二手a100模组采购指南：避开这5个坑，省钱又省心nvidia A100作为上一代ai算力的"顶梁柱"，依然是众多企业构 - 掘金'}

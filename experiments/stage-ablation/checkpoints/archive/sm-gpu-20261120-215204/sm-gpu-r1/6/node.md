@@ -1,0 +1,24 @@
+# N34: NVFP4 (4-bit Floating Point) 精度在 Qwen3-27B 上的质量损失通常低于 INT8，MMLU 基准下降 < 1.5%，且相比 
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+NVFP4 (4-bit Floating Point) 精度在 Qwen3-27B 上的质量损失通常低于 INT8，MMLU 基准下降 < 1.5%，且相比 BF16 显存占用减少 75% (27GB -> ~6.75GB weights + overhead)，需验证其推理延迟是否因反量化开销高于 INT8。
+
+## Corrected Claim
+
+NVFP4 (4-bit Floating Point) 精度在 Qwen3-27B 上的质量损失通常低于 INT8，MMLU 基准下降幅度需具体实验验证（通常预期较低），且相比 BF16 显存占用减少约 75% (27GB -> ~6.75GB weights + overhead)；在支持原生 NVFP4 的硬件（如 Blackwell）上，推理延迟可能优于 INT8 因无反量化开销，但在其他硬件上需验证反量化影响。
+
+## Evidence
+
+[质询]陈述中关于MMLU基准下降<1.5%的具体数值缺乏来源支持，且来源[1]明确指出NVFP4在Blackwell架构下'无需反量化操作'，这与陈述中'需验证其推理延迟是否因反量化开销高于INT8'的前提假设存在潜在冲突（尽管该冲突取决于硬件架构，但陈述未限定架构，导致逻辑前提可能不成立）。 | 来源[1]支持NVFP4的硬件加速特性，但未提供Qwen3-27B的具体MMLU精度损失数据；显存占用减少75%符合4-bit vs 16-bit的理论计算（4/16=25%），逻辑自洽；但具体精度损失数值属于经验事实，缺乏直接来源支持，且反量化开销的担忧在特定硬件（Blackwell）下可能不成立。
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1944504541950248086&rut=869ea6519580eac34c7a6747ee1c49facef2ad98a05edbf6aa6d83776b758e44', 'type': 'ddg', 'title': 'Nvfp4量化技术深度解析：4位精度下实现2.3倍推理加速 - 知乎'}

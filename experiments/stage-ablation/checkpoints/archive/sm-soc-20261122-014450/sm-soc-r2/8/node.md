@@ -1,0 +1,26 @@
+# N37: 最小干预措施量化：最小干预为在商品详情页强制展示'近7天同类商品成交中位数'作为价格锚点。实证研究显示，该措施可使卖家挂价溢价率从 20% 降至 12%（ΔP 
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+最小干预措施量化：最小干预为在商品详情页强制展示'近7天同类商品成交中位数'作为价格锚点。实证研究显示，该措施可使卖家挂价溢价率从 20% 降至 12%（ΔP = -8%），且成交周期仅延长 2 天（ΔT = +2d），是打破均衡中成本最低（C_intervention ≈ 0）的方案。
+
+## Corrected Claim
+
+最小干预措施为在商品详情页强制展示'近7天同类商品成交中位数'作为价格锚点。理论上该措施可能降低卖家挂价溢价率并轻微延长成交周期，是打破均衡中成本较低（C_intervention ≈ 0）的方案，但具体量化效果（如溢价率降幅和周期延长天数）需依赖特定实证研究数据，当前来源未提供。
+
+## Evidence
+
+[质询]该陈述包含具体的实证数据（溢价率从20%降至12%，成交周期延长2天），属于经验事实。参考来源仅涉及亚马逊Listing的格式规范和模块解析，完全未提及任何关于价格锚点干预的实证研究或具体量化效果数据，无法支持这些具体数值。 | 逻辑上，展示中位数作为锚点确实可能抑制溢价并轻微影响成交速度，量级合理；但参考来源[1][2][3]均与价格干预实证研究无关，无法提供外部证据支持具体数值，且该事实为经验事实，不能仅凭逻辑自洽判verified。
+
+## Retrieval Sources
+
+- {'url': 'https://wiki.itwordsweb.com/page/concepts/amazon/amazon-listing-optimization-complete-guide&rut=2dd66c820e49c3cbb727594c4907d8d05e1e58fe5488156f6ff0b951873fca96', 'type': 'ddg', 'title': 'Amazon Listing 优化全流程 — 标题、商品亮点、五点、描述、A+ 页面'}
+- {'url': 'https://www.superbrowser.com/blog/114.html&rut=22ef5a307d2ec805e88473a10caf3e863b3e80f94a5752e5ba79fefe4e0ea719', 'type': 'ddg', 'title': '亚马逊 Listing 详情页七大核心模块完整解析与优化指南 - SuperBrowser博客'}
+- {'url': 'https://www.ziniao.com/blog/114.html?from=9831&rut=9d778163939e07badd9d9a9cb1b0979f77238ca613ba7ddfc3b16386b8859438', 'type': 'ddg', 'title': '亚马逊 Listing 详情页七大核心模块完整解析与优化指南 - 紫鸟浏览器博客'}

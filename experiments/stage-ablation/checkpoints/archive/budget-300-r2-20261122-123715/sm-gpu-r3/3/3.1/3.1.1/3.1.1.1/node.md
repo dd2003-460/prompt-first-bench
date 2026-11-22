@@ -1,0 +1,28 @@
+# N227: 2×RTX 4090 方案中，支持双 x16 PCIe 4.0 插槽（物理间距≥2槽）且供电接口充足的 ATX/E-ATX 高端主板（如 ASUS ROG St
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N64
+
+## Claim
+
+2×RTX 4090 方案中，支持双 x16 PCIe 4.0 插槽（物理间距≥2槽）且供电接口充足的 ATX/E-ATX 高端主板（如 ASUS ROG Strix Z790-E 或 MSI MEG Z790 ACE）当前市场均价为 $450-$650，需确保主板 BIOS 支持 Resizable BAR 以优化推理延迟。
+
+## Corrected Claim
+
+2×RTX 4090 方案中，支持双 x16 PCIe 4.0 插槽（物理间距≥2槽）且供电接口充足的 ATX/E-ATX 高端主板（如 ASUS ROG Strix Z790-E 或 MSI MEG Z790 ACE）通常具备支持 Resizable BAR 的 BIOS 以优化推理延迟，具体市场价格需实时查询。
+
+## Evidence
+
+[质询]具体主板型号（ASUS ROG Strix Z790-E, MSI MEG Z790 ACE）的市场均价 $450-$650 属于经验事实，且参考来源完全未覆盖该价格信息，无法验证其准确性。 | 逻辑自洽（高端Z790主板价格区间合理，Resizable BAR支持是标准功能），但参考来源[1]仅讨论显卡物理空间问题，与主板价格及具体型号无关，属于经验事实且缺来源支持。
+
+## Search Query
+
+best ATX motherboard dual PCIe 4.0 x16 slots for RTX 4090 price 2024
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Graphics_card', 'type': 'wikipedia', 'title': 'Graphics card'}

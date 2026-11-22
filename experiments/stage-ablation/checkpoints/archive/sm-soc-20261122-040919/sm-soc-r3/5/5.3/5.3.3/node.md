@@ -1,0 +1,24 @@
+# N359: 快速响应策略的边际收益增量 ΔR_response 计算：ΔR_response = P_ref * (1 - r) * ΔP(deal) * (1 - P_e
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N108
+
+## Claim
+
+快速响应策略的边际收益增量 ΔR_response 计算：ΔR_response = P_ref * (1 - r) * ΔP(deal) * (1 - P_exit)。其中 P_exit 为买家在等待期间转向其他卖家的概率。若 ΔP(deal) = 0.15 (由 N129, N130 得出)，P_exit = 0.2，则 ΔR_response ≈ P_ref * 0.9 * 0.15 * 0.8 ≈ 0.108 * P_ref。这意味着快速响应可带来约 10.8% 的额外收入，足以覆盖额外的沟通成本。
+
+## Corrected Claim
+
+快速响应策略的边际收益增量 ΔR_response 计算：ΔR_response = P_ref * (1 - r) * ΔP(deal) * (1 - P_exit)。其中 P_exit 为买家在等待期间转向其他卖家的概率。若 ΔP(deal) = 0.15 (由 N129, N130 得出)，P_exit = 0.2，则 ΔR_response ≈ P_ref * 0.9 * 0.15 * 0.8 ≈ 0.108 * P_ref。这意味着快速响应可带来约 10.8% 的额外收入，足以覆盖额外的沟通成本。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式结构符合概率论中条件期望的乘法原理，数值计算 0.9 * 0.15 * 0.8 = 0.108 准确无误，量纲与逻辑自洽。
+
+## Search Query
+
+marginal revenue fast response seller strategy

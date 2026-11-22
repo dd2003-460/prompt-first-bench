@@ -1,0 +1,24 @@
+# N179: RTX 3090 (24GB) 在 2024-2025 年二手市场（eBay/FB Marketplace）的 30 天滚动成交均价为 $850，标准差约为 $
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N55
+
+## Claim
+
+RTX 3090 (24GB) 在 2024-2025 年二手市场（eBay/FB Marketplace）的 30 天滚动成交均价为 $850，标准差约为 $75，该数值需通过爬取 eBay 'Sold' 列表或 FB Marketplace 历史交易记录进行验证，以校准风险调整后的基准价。
+
+## Corrected Claim
+
+RTX 3090 (24GB) 在 2024-2025 年二手市场（eBay/FB Marketplace）的 30 天滚动成交均价约为 $850（需通过爬取 eBay 'Sold' 列表或 FB Marketplace 历史交易记录进行实时验证以校准风险调整后的基准价）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性市场数据（均价$850，标准差$75），属于硬件市场价格范畴，无法从第一性原理推导，且缺乏实时市场数据支持，数值可能随时间波动或存在地域偏差。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+RTX 3090 average sold price eBay 2024 2025

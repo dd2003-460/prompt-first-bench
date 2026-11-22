@@ -1,0 +1,26 @@
+# N35: 量化TCO中的功耗成本：RTX 4090 TDP 450W, H100 SXM TDP 700W, MI300X TDP 750W；假设电费 $0.1/kWh，
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+量化TCO中的功耗成本：RTX 4090 TDP 450W, H100 SXM TDP 700W, MI300X TDP 750W；假设电费 $0.1/kWh，计算单卡满载运行1年的电力成本差异，公式：Cost = TDP(kW) * 8760h * $0.1
+
+## Corrected Claim
+
+量化TCO中的功耗成本：以桌面版 RTX 4090 (TDP 450W)、H100 SXM (TDP 700W)、MI300X (TDP 750W) 为例，假设电费 $0.1/kWh，单卡满载运行1年的电力成本计算公式为 Cost = TDP(kW) * 8760h * $0.1。注意：实际功耗受版本（桌面/移动）、负载及系统配置影响，此处 TDP 为典型标称值。
+
+## Evidence
+
+[质询]RTX 4090 的 TDP 450W 是桌面版标准值，但参考来源 [3] 指出移动版 TDP 仅为 150-200W，且来源 [2] 实测功耗可达 550W（可能包含系统总功耗或超频），导致“单卡满载”的具体数值存在歧义；此外，H100 SXM 和 MI300X 的 TDP 数值在提供的参考来源中均未直接提及，缺乏直接证据支持。 | 逻辑公式 Cost = TDP(kW) * 8760h * $0.1 正确且量纲合理；RTX 4090 TDP 450W 符合常识但来源 [3] 提及移动版差异，H100/MI300X 数据无来源直接覆盖，属经验事实且缺直接支持。
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/iymei4986533030/article/details/162755500&rut=d39bbec5236af6ab147d9b8c1e9bcb277fe76ebd52d743a6b586366c67c71aa3', 'type': 'ddg', 'title': 'GPU 利用率与 TCO 分析——A100 vs H100 vs 消费级 GPU 成本效益对比-CSDN博客'}
+- {'url': 'https://www.stratat.com/zh/guides/rtx4090-coder&rut=280caf9b7c3314bc91c6f05c49ee4a606a20b718860b097f3e41f14667aec796', 'type': 'ddg', 'title': 'RTX 4090 运行 Coder 量化模型：性能实测与成本分析 · Strata'}
+- {'url': 'https://post.smzdm.com/p/anv7wnqv/&rut=cfdffc82b946423048fdd1225b339238c71c4d289c0fcb2823898e33173cc358', 'type': 'ddg', 'title': 'Rtx 4090根本不用450w!实测功耗和电费曝光_显卡_什么值得买'}

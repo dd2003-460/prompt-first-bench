@@ -1,0 +1,24 @@
+# N404: 买家验证成本 ΔC_verify 的构成分解：ΔC_verify = t_verify * w_time + c_cognitive * p_skeptic，其
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N143
+
+## Claim
+
+买家验证成本 ΔC_verify 的构成分解：ΔC_verify = t_verify * w_time + c_cognitive * p_skeptic，其中 t_verify 为平均验证耗时（分钟），w_time 为买家时间机会成本（元/分钟，基于用户时薪估算），c_cognitive 为单次认知负荷的心理货币等价物（元），p_skeptic 为买家对标签存疑的概率（0-1）。
+
+## Corrected Claim
+
+买家验证成本 ΔC_verify 的构成分解：ΔC_verify = t_verify * w_time + c_cognitive * p_skeptic，其中 t_verify 为平均验证耗时（分钟），w_time 为买家时间机会成本（元/分钟，基于用户时薪估算），c_cognitive 为单次认知负荷的心理货币等价物（元），p_skeptic 为买家对标签存疑的概率（0-1）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+buyer verification cost time opportunity cost cognitive load monetary equivalent

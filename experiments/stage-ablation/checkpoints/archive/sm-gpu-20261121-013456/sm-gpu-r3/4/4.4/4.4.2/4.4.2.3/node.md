@@ -1,0 +1,30 @@
+# N209: H100 80GB PCIe 运行 Qwen3-27B BF16 的实际推理吞吐量基准值，预期 80-100 tokens/s，用于计算升级后的单位 Token
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N84
+
+## Claim
+
+H100 80GB PCIe 运行 Qwen3-27B BF16 的实际推理吞吐量基准值，预期 80-100 tokens/s，用于计算升级后的单位 Token 成本降幅。
+
+## Corrected Claim
+
+H100 80GB PCIe 运行 Qwen3-27B BF16 的实际推理吞吐量预期显著低于量化版本（如Q4_K_M的~80 tokens/s），具体数值需根据上下文长度和推理框架确定，通常远低于80-100 tokens/s。
+
+## Evidence
+
+[质询]参考来源[2]针对的是Q4_K_M量化版本（81 tok/s），而事实节点声称是BF16精度。BF16模型体积约为Q4_K_M的4倍，显存占用更高，且计算量更大，在H100 PCIe上单卡运行BF16 27B模型的吞吐量通常显著低于量化版本（通常预期在20-40 tokens/s左右，取决于具体实现和上下文长度），80-100 tokens/s的数值量级对于BF16单卡推理而言过于乐观，存在混淆量化与全精度性能的风险。 | 来源[2]提供了H100 80GB PCIe运行27B模型（Q4_K_M）约81 tok/s的数据，间接支持了硬件可行性，但未直接支持BF16精度下80-100 tok/s的高吞吐量；来源[1]和[3]涉及不同模型版本或硬件配置（A100/双卡），无法直接佐证单卡H100 PCIe BF16的具体吞吐量。鉴于BF16性能通常远低于量化版本，该数值缺乏直接来源支持且可能偏高，故降级。
+
+## Search Query
+
+H100 80GB PCIe Qwen3-27B BF16 inference throughput tokens per second benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://devpress.csdn.net/v1/article/detail/141946772&rut=7c62ae5163506309b6b4e745450fb238415164cdf6ba0f290efb724618fd4871', 'type': 'ddg', 'title': 'Qwen3.6-27B-AEON-Ultimate-Uncensored-BF16性能测试：在A100/H100上的吞吐量与延迟基准'}
+- {'url': 'https://llmconfigurator.com/en/can-i-run/qwen3-5-27b-on-nvidia-h100-80gb&rut=eaed0961ed32d5bc76881e33b1415b0b8e552ca85163278798a43a7e8338f4ea', 'type': 'ddg', 'title': 'Can I Run Qwen 3.5 27B on H100 80GB PCIe? | LLM Configurator'}
+- {'url': 'https://juejin.cn/post/7641794682348601363&rut=acb672af9e3ba0f897ee3998f6c80bb440188caff6061dbb1bc9cf2c2cd51c55', 'type': 'ddg', 'title': '双A100部署Qwen3.6-27B：两轮vLLM调优，128K吞吐提升20%的完整记录从64K初始部署到128K生产配 - 掘金'}

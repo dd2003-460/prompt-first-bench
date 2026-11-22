@@ -1,0 +1,20 @@
+# N208: 热点对象（Top 10%）的平均驻留时间 T_res_hot 的估计：基于 LRU 队列头部对象的驱逐压力较小（N74），T_res_hot ≈ 1 / (0.
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N71, N72, N73
+
+## Claim
+
+热点对象（Top 10%）的平均驻留时间 T_res_hot 的估计：基于 LRU 队列头部对象的驱逐压力较小（N74），T_res_hot ≈ 1 / (0.9 * λ_total) ≈ 0.2h（若 λ_total 为日均 5000 万次请求的归一化速率），则热点对象的失效概率 P_inval_hot ≈ λ_update * T_res_hot ≈ 0.01 * (0.2/24) ≈ 8.3e-5，量化了热点集中更新下的局部失效风险。
+
+## Corrected Claim
+
+热点对象（Top 10%）的平均驻留时间 T_res_hot 的估计：基于 LRU 队列头部对象的驱逐压力较小（N74），T_res_hot ≈ 1 / (0.9 * λ_total) ≈ 0.2h（若 λ_total 为日均 5000 万次请求的归一化速率），则热点对象的失效概率 P_inval_hot ≈ λ_update * T_res_hot ≈ 0.01 * (0.2/24) ≈ 8.3e-5，量化了热点集中更新下的局部失效风险。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算自洽（1/(0.9*50)≈0.22h，0.01*(0.2/24)≈8.3e-5），量级合理，符合LRU缓存失效概率的估算逻辑。

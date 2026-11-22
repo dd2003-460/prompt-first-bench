@@ -1,0 +1,20 @@
+# N217: RTX 5090 与 RTX 4090 的功耗-性能比量化：RTX 5090 (575W) 理论 Decode 吞吐 132.7 tokens/s，每瓦吞吐 0
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N74
+
+## Claim
+
+RTX 5090 与 RTX 4090 的功耗-性能比量化：RTX 5090 (575W) 理论 Decode 吞吐 132.7 tokens/s，每瓦吞吐 0.231 tokens/s/W；RTX 4090 (450W) 理论 Decode 吞吐 74.6 tokens/s，每瓦吞吐 0.166 tokens/s/W。RTX 5090 的能效比提升 39%，但年电费增加 $1,095 ($5,037 - $3,942)。
+
+## Corrected Claim
+
+RTX 5090 与 RTX 4090 的功耗-性能比量化：RTX 5090 (575W) 理论 Decode 吞吐 132.7 tokens/s，每瓦吞吐 0.231 tokens/s/W；RTX 4090 (450W) 理论 Decode 吞吐 74.6 tokens/s，每瓦吞吐 0.166 tokens/s/W。RTX 5090 的能效比提升 39%，但年电费增加 $1,095 ($5,037 - $3,942)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算自洽（132.7/575≈0.231, 74.6/450≈0.166, (0.231-0.166)/0.166≈39%），且符合硬件能效提升的一般工程直觉。

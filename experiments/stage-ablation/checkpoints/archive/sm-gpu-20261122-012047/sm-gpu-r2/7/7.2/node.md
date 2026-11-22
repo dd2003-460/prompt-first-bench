@@ -1,0 +1,24 @@
+# N160: Ascend 910B 的 HBM2e 显存带宽为 1.6 TB/s (1600 GB/s)，其内存控制器延迟特性导致在小批量推理场景下，有效带宽利用率相比 H
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N43, N44, N45
+
+## Claim
+
+Ascend 910B 的 HBM2e 显存带宽为 1.6 TB/s (1600 GB/s)，其内存控制器延迟特性导致在小批量推理场景下，有效带宽利用率相比 H100 低约 15-20%，主要受限于 CANN 调度器的批处理粒度限制。
+
+## Corrected Claim
+
+Ascend 910B 的 HBM2e 显存带宽约为 1.6 TB/s，在小批量推理场景下，受限于内存控制器延迟及软件栈调度特性，其有效带宽利用率可能低于 H100，具体差距需视具体工作负载而定。
+
+## Evidence
+
+[质询]具体数值（1.6 TB/s）和性能对比数据（低15-20%）属于特定硬件规格和实测经验数据，缺乏公开权威来源直接佐证，且CANN调度器具体导致该比例下降的因果机制缺乏公开技术文档支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Ascend 910B HBM2e memory bandwidth utilization efficiency vs H100

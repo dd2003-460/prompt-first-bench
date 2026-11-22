@@ -1,0 +1,24 @@
+# N50: 短期访问模式波动导致的缓存污染率 P_short_term = P(object accessed in [t, t+δ] but evicted by LRU
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+短期访问模式波动导致的缓存污染率 P_short_term = P(object accessed in [t, t+δ] but evicted by LRU before t+δ)，该值与热度分布的局部性参数 β 负相关，β 越小（尾部越重），污染率越高。
+
+## Corrected Claim
+
+短期访问模式波动导致的缓存污染率 P_short_term = P(object accessed in [t, t+δ] but evicted by LRU before t+δ)，该值与热度分布的局部性参数 β 负相关，β 越小（尾部越重），污染率越高。
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备, 有冗余（1. 严重矛盾：两个子节点均设定 β=0.9，但一个描述为“强局部性”，另一个描述为“弱局部性”，且对同一 β 值得出了截然不同的污染率结论（3-5% vs 10-15%），这在逻辑上是矛盾的。2. 冗余/正交性差：两个子节点本质上是在展示同一公式 P ≈ k * (1-β) * f(δ) 在不同参数下的计算结果，属于参数敏感性分析，而非两个独立的正交概念。3. 不完备：父节点核心论点是“β 越小污染率越高”，但子节点中 β 固定为 0.9，未体现 β 变化带来的影响，未能覆盖父节点关于 β 负相关性的核心机制。）
+
+## Search Query
+
+cache pollution rate short term access pattern Pareto beta

@@ -1,0 +1,24 @@
+# N150: 工作点2（中固定/中可变）：C_fixed = 5元（标准界面），C_variable = 10元/小时（正常注意力），T_wait = 17min（基于N57
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N52
+
+## Claim
+
+工作点2（中固定/中可变）：C_fixed = 5元（标准界面），C_variable = 10元/小时（正常注意力），T_wait = 17min（基于N57），总成本 C_search = 5 + 10*(17/60) ≈ 7.8元，适用于主流二手商品，是平台优化目标。
+
+## Corrected Claim
+
+工作点2（中固定/中可变）：C_fixed = 5元（标准界面），C_variable = 10元/小时（正常注意力），T_wait = 17min（基于N57），总成本 C_search = 5 + 10*(17/60) ≈ 7.8元，适用于主流二手商品，是平台优化目标。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算 5 + 10*(17/60) ≈ 7.83 正确，参数定义与成本模型逻辑自洽。
+
+## Search Query
+
+standard search cost second hand platform

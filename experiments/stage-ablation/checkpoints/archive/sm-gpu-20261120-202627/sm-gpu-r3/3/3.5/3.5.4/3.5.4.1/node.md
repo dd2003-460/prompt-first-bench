@@ -1,0 +1,20 @@
+# N322: 1×A100 80GB (BF16) 在 Batch Size=1, 32K输入/1K输出下的理论解码上限：Throughput_theory = 2039 G
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N90
+
+## Claim
+
+1×A100 80GB (BF16) 在 Batch Size=1, 32K输入/1K输出下的理论解码上限：Throughput_theory = 2039 GB/s / (2 × 64 × 4096 × 2 × 32768 × 2 bytes) ≈ 0.00061 tokens/s。此值远低于父节点预估的40-60 tokens/s，表明瓶颈不在显存带宽而在计算单元（HBM2e带宽充足但计算密度有限）或框架优化。
+
+## Corrected Claim
+
+1×A100 80GB (BF16) 在 Batch Size=1, 32K输入/1K输出下的理论解码上限计算有误。若按 Roofline 模型，瓶颈通常在于显存带宽（Memory Bound），理论上限约为 带宽 / (每token读取的权重字节数)。对于 64 层、4096 维度的模型，每 token 读取约 2 * 64 * 4096 * 2 * 2 bytes (假设 QKV+O 投影等)，具体数值需根据模型架构精确计算，但绝非 0.00061 tokens/s 这种极低值，通常应在 10-100 tokens/s 量级（取决于具体模型大小和带宽利用率）。
+
+## Evidence
+
+[质询]数值量级严重错误：计算结果约为 0.00061 tokens/s，但根据公式 2039 / (2 * 64 * 4096 * 2 * 32768 * 2) 实际计算结果约为 0.00000000061 (6.1e-10) tokens/s，两者相差约 100 万倍。此外，该公式本身逻辑存疑，将总带宽除以整个模型权重的字节数得到的是‘每秒能读取多少次完整模型’，而非‘每秒生成的 token 数’，正确的 Roofline 模型计算应基于每 token 的算术强度（Arithmetic Intensity）与带宽/算力的比值，而非简单除法。 | 逻辑校验失败：公式计算结果与陈述中的数值不符（量级错误），且推导逻辑不符合 Roofline 模型的基本定义。

@@ -1,0 +1,24 @@
+# N402: 质量-退货弹性系数 β_quality 的估算基准：在二手非标品市场中，质量感知每提升 10%（标准化后），退货概率相对下降约 12-18%（即 β_quali
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N142
+
+## Claim
+
+质量-退货弹性系数 β_quality 的估算基准：在二手非标品市场中，质量感知每提升 10%（标准化后），退货概率相对下降约 12-18%（即 β_quality ≈ 1.2-1.8），该系数需根据品类（如服饰 vs 数码）进行修正，服饰类弹性较高，数码类弹性较低。
+
+## Corrected Claim
+
+在二手非标品市场中，质量感知提升通常与退货概率下降呈负相关关系，质量-退货弹性系数（β_quality）需根据具体品类（如服饰 vs 数码）进行修正，一般认为服饰类弹性较高，数码类弹性较低，具体数值需基于实证数据估算。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值区间（β_quality ≈ 1.2-1.8）及品类差异结论，属于典型的市场经验事实，无法从第一性原理或数学公理中严格推导得出；且缺乏任何外部来源支持，数值量级和具体弹性系数缺乏实证依据。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该数值非第一性原理可推导范畴）
+
+## Search Query
+
+quality perception elasticity return rate coefficient second-hand market category specific

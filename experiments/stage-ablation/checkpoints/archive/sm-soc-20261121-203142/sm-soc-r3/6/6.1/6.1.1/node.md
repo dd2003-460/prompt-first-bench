@@ -1,0 +1,24 @@
+# N269: 点击率数据中拟合Beta分布参数(α, β)所需的似然函数形式：L(α, β) = ∏ [C(α_i+β_i-1, α_i-1) * x_i^(α_i-1) *
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N92
+
+## Claim
+
+点击率数据中拟合Beta分布参数(α, β)所需的似然函数形式：L(α, β) = ∏ [C(α_i+β_i-1, α_i-1) * x_i^(α_i-1) * (1-x_i)^(β_i-1)]，其中x_i为第i次曝光的点击概率观测值，需明确是二项分布似然还是Beta-Binomial复合分布似然
+
+## Corrected Claim
+
+点击率数据中拟合Beta分布参数(α, β)所需的似然函数形式：L(α, β) = ∏ [C(α_i+β_i-1, α_i-1) * x_i^(α_i-1) * (1-x_i)^(β_i-1)]，其中x_i为第i次曝光的点击概率观测值，需明确是二项分布似然还是Beta-Binomial复合分布似然
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+beta distribution maximum likelihood estimation click through rate formula

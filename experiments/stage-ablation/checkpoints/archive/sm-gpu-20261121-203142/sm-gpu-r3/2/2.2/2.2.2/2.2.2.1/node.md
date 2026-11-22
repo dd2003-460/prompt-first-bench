@@ -1,0 +1,24 @@
+# N179: RTX 4090 (Ada Lovelace) 的 FP8 Tensor Core 峰值算力为 330 TFLOPS (FP8)，是 BF16 (82.6 TF
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N53
+
+## Claim
+
+RTX 4090 (Ada Lovelace) 的 FP8 Tensor Core 峰值算力为 330 TFLOPS (FP8)，是 BF16 (82.6 TFLOPS) 的 4 倍；在 W8A8 (权重FP8+激活FP8) 模式下，理论计算速度提升上限为 4x，但受限于内存带宽和通信开销，实际 Prefill 阶段加速比通常仅为 1.5-2.0x [待核验: 实测加速比]。
+
+## Corrected Claim
+
+RTX 4090 (Ada Lovelace) 的 FP8 Tensor Core 峰值算力为 330 TFLOPS (FP8)，是 BF16 (82.6 TFLOPS) 的 4 倍；在 W8A8 (权重FP8+激活FP8) 模式下，理论计算速度提升上限为 4x，但受限于内存带宽和通信开销，实际 Prefill 阶段加速比通常仅为 1.5-2.0x [待核验: 实测加速比]。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 FP8 Tensor Core 峰值算力约为 330 TFLOPS，BF16 约为 82.6 TFLOPS，4倍关系符合硬件规格；W8A8 理论加速上限 4x 及实际 Prefill 加速比 1.5-2.0x 符合工程经验与内存带宽限制下的合理范围。
+
+## Search Query
+
+RTX 4090 FP8 tensor core TFLOPS vs BF16 performance benchmark

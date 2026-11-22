@@ -1,0 +1,24 @@
+# N197: 2x RTX 4090 (PCIe 4.0) 运行 FP8 Qwen3-27B 的实际 Decode 吞吐上限修正：由于 TP 通信开销极小，瓶颈回归到单卡有效
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N66
+
+## Claim
+
+2x RTX 4090 (PCIe 4.0) 运行 FP8 Qwen3-27B 的实际 Decode 吞吐上限修正：由于 TP 通信开销极小，瓶颈回归到单卡有效带宽。有效带宽受 PCIe 分片策略影响，若权重均匀分片，每卡读取 13.5GB (FP8 27GB/2)，理论上限 ≈ 1008 GB/s / 13.5 GB ≈ 74.6 tokens/s (理想)；但受限于 PCIe 双向带宽瓶颈及驱动开销，实测通常打 60-70% 折扣，即 45-52 tokens/s。N66 声称的 9.0 tokens/s 严重低估，需通过 nvidia-smi 监控 PCIe 利用率验证 [待核验]。
+
+## Corrected Claim
+
+2x RTX 4090 (PCIe 4.0) 运行 FP8 Qwen3-27B 时，若权重均匀分片，理论 Decode 吞吐上限约为 74.6 tokens/s。实际吞吐受 PCIe 双向带宽瓶颈及驱动开销影响，通常低于理论值，具体数值需通过 nvidia-smi 监控 PCIe 利用率及实际基准测试验证，N66 声称的 9.0 tokens/s 可能严重低估。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件性能参数（RTX 4090 PCIe 4.0 带宽、FP8 模型大小、实测吞吐折扣率），属于经验事实。虽然逻辑推导（带宽/数据量=吞吐）在理想情况下成立，但‘实测通常打 60-70% 折扣’这一具体数值缺乏通用性，受驱动版本、PCIe 拓扑、具体框架（如 vLLM/TensorRT-LLM）及 PCIe 分片策略影响极大，无法仅凭逻辑自洽确认为普遍事实。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体性能折扣率无法从第一性原理严格推出，需实测数据佐证）
+
+## Search Query
+
+dual rtx 4090 tensor parallelism qwen 27b fp8 decode throughput benchmark

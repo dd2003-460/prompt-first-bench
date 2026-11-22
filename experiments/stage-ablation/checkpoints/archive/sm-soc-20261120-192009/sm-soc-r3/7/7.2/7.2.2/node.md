@@ -1,0 +1,28 @@
+# N307: α/β 比例关系的实证基准：在电商推荐系统中，点击率权重 α 通常高于成交速度权重 β，经验比值 α/β 范围在 1.5 至 3.0 之间（基于公开 A/B 测
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N105
+
+## Claim
+
+α/β 比例关系的实证基准：在电商推荐系统中，点击率权重 α 通常高于成交速度权重 β，经验比值 α/β 范围在 1.5 至 3.0 之间（基于公开 A/B 测试案例研究），若实际比值 < 1.5，则平台更侧重转化而非流量。
+
+## Corrected Claim
+
+在电商推荐系统中，点击率权重 α 与成交速度权重 β 的比值通常大于 1，具体数值范围（如 1.5-3.0）需依据特定平台的业务目标和 A/B 测试数据确定，缺乏通用的公开实证基准。
+
+## Evidence
+
+[质询]该陈述声称基于“公开 A/B 测试案例研究”得出 α/β 比值为 1.5-3.0 的实证基准，但参考来源 [1] 讨论的是贝塔分布中控制先验强度的参数 α 和 β，与推荐系统中点击率权重和成交速度权重的业务参数完全无关，属于概念混淆且缺乏有效外部证据支持。 | 参考来源 [1] 讨论的是贝塔分布统计参数，与推荐系统业务权重 α/β 无关，无法提供外部支持；该事实属于经验性业务参数，逻辑上自洽但缺乏来源直接支持，依据经验事实排除条款降级。
+
+## Search Query
+
+ecommerce recommendation algorithm click rate vs conversion weight ratio empirical study
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_31528001/article/details/167372541&rut=058a2022f4b0589401fcd5e3e96187bff4ee10a5d71fe0f880f4da46eb49ebd9', 'type': 'ddg', 'title': '贝塔分布实战：推荐系统冷启动与不确定性量化-csdn博客'}

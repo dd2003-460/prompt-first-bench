@@ -1,0 +1,17 @@
+{
+  "id": "N150",
+  "claim": "每次更新触发的无效化字节量期望值 E[Bytes_Invalidated] = p_invalid * E[S_updated] * F_total_bytes_per_day，其中 F_total_bytes_per_day = 50,000,000 * 11.1KB ≈ 555 TB/天；E[Bytes_Invalidated] ≈ 0.01 * 555 TB ≈ 5.55 TB/天。",
+  "level": "L4",
+  "source": "derived",
+  "status": "degraded",
+  "evidence": "[质询]公式逻辑存在严重量纲错误：E[Bytes_Invalidated] 被定义为每次更新触发的无效化字节量，但右侧乘积 p_invalid * E[S_updated] * F_total_bytes_per_day 的量纲是 [无量纲] * [字节] * [字节/天] = [字节^2/天]，与左侧 [字节] 不符。此外，将“每次更新”的期望值直接乘以“每日总流量”在逻辑上混淆了单次事件与聚合流量的概念，除非 F_total 代表的是“每日更新次数”而非“每日总字节数”，但变量名明确为 bytes_per_day。 | 逻辑校验失败：公式左右两侧量纲不一致（左侧为字节，右侧为字节平方/天），且变量定义与计算逻辑存在内部矛盾。",
+  "corrected_claim": "若 F_total_bytes_per_day 实为每日总更新次数 N_updates_per_day，则公式应为 E[Bytes_Invalidated_per_day] = p_invalid * E[S_updated] * N_updates_per_day。若原意是计算每日总无效化字节量，需明确 F 为更新次数而非字节数。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N64"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "",
+  "retrieval_sources": []
+}

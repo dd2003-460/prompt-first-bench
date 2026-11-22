@@ -1,0 +1,24 @@
+# N256: PCIe 4.0 x16实际有效带宽与理论值对比：理论单向带宽为 16 GT/s * 128b/130b * 8 bits ≈ 15.75 GB/s；实测NCC
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N92
+
+## Claim
+
+PCIe 4.0 x16实际有效带宽与理论值对比：理论单向带宽为 16 GT/s * 128b/130b * 8 bits ≈ 15.75 GB/s；实测NCCL All-Reduce带宽通常仅为理论值的 60%-70%（即 ~9.5-11 GB/s），原因是协议开销、内存控制器延迟及驱动效率；在评估瓶颈时，应使用 10 GB/s 作为保守估计值而非 32 GB/s 双向理论峰值
+
+## Corrected Claim
+
+PCIe 4.0 x16实际有效带宽与理论值对比：理论单向带宽为 16 GT/s * 128b/130b * 8 bits ≈ 15.75 GB/s；实测NCCL All-Reduce带宽通常仅为理论值的 60%-70%（即 ~9.5-11 GB/s），原因是协议开销、内存控制器延迟及驱动效率；在评估瓶颈时，应使用 10 GB/s 作为保守估计值而非 32 GB/s 双向理论峰值
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe 4.0 x16 理论带宽计算正确（16 GT/s * 128/130 * 8 bits ≈ 15.75 GB/s），NCCL 实测带宽受协议开销影响通常为理论值的 60%-70% 符合工程经验，保守估计值 10 GB/s 合理。
+
+## Search Query
+
+PCIe 4.0 x16 NCCL all-reduce effective bandwidth efficiency ratio benchmark

@@ -1,0 +1,20 @@
+# N31: 敏感性分析：电价波动影响。构建 TCO 对电价（E_unit_price）的弹性系数：ΔTCO/ΔE = P_tco_total × T_hours。若电价从 
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+敏感性分析：电价波动影响。构建 TCO 对电价（E_unit_price）的弹性系数：ΔTCO/ΔE = P_tco_total × T_hours。若电价从 $0.10/kWh 涨至 $0.20/kWh，计算各候选方案 TCO 的变化百分比，识别出对电价最不敏感（即能效最高）的方案，作为低电价环境下的备选推荐。
+
+## Corrected Claim
+
+敏感性分析：电价波动影响。构建 TCO 对电价（E_unit_price）的弹性系数：ΔTCO/ΔE = P_tco_total × T_hours。若电价从 $0.10/kWh 涨至 $0.20/kWh，计算各候选方案 TCO 的变化百分比，识别出对电价最不敏感（即能效最高）的方案，作为低电价环境下的备选推荐。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：TCO中电费部分与电价线性相关，弹性系数推导符合基本经济逻辑，且电价翻倍对高能效方案影响较小的结论符合物理直觉。

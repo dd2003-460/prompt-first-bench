@@ -1,0 +1,20 @@
+# N112: 声誉资本 R_rep 的量化定义：R_rep = Σ (ΔTrust_i × DiscountRate^t)，其中 ΔTrust_i 为第i次交易后买家信任度变
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N29
+
+## Claim
+
+声誉资本 R_rep 的量化定义：R_rep = Σ (ΔTrust_i × DiscountRate^t)，其中 ΔTrust_i 为第i次交易后买家信任度变化，需确定信任度变化的测量指标及折现率。
+
+## Corrected Claim
+
+声誉资本 R_rep 的量化定义：R_rep = Σ (ΔTrust_i × DiscountRate^t)，其中 ΔTrust_i 为第i次交易后买家信任度变化，需确定信任度变化的测量指标及折现率。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（父节点明确指出了需要确定的两个关键参数：信任度变化（ΔTrust_i）和折现率（DiscountRate）。两个子节点分别针对这两个独立变量提出了具体的操作化定义和计算逻辑，彼此之间没有重叠（正交），且完全覆盖了父节点提出的所有待解决问题（完备）。每个子节点解决的是不同性质的问题（一个是行为指标映射，一个是财务参数设定），不存在冗余。）

@@ -1,0 +1,24 @@
+# N334: 修正 N115 的架构兼容性断言：RTX 5090 基于 Blackwell 架构 (SM 10.0)，其 FP8 内核支持需要 vLLM 0.6.4+ 或更新
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N115
+
+## Claim
+
+修正 N115 的架构兼容性断言：RTX 5090 基于 Blackwell 架构 (SM 10.0)，其 FP8 内核支持需要 vLLM 0.6.4+ 或更新版本，并依赖 CUDA 12.4+ 驱动栈；Blackwell 架构的 FP8 吞吐量优势需配合特定的 Tensor Core 指令集，旧版 vLLM 可能回退到 FP16 或 INT8 路径，导致性能损失。
+
+## Corrected Claim
+
+RTX 5090 基于 Blackwell 架构，其 FP8 内核支持需要较新版本的 vLLM 和 CUDA 驱动栈；旧版 vLLM 可能因缺乏对 Blackwell Tensor Core 指令集的支持而回退到 FP16 或 INT8 路径，导致性能损失。
+
+## Evidence
+
+[质询]具体版本号（vLLM 0.6.4+）和驱动栈版本（CUDA 12.4+）属于经验事实，且缺乏来源支持，可能存在版本对应关系不准确或过于绝对化的风险。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+vLLM support Blackwell RTX 5090 FP8 inference CUDA version requirement

@@ -1,0 +1,20 @@
+# N136: H100 80GB 价格约 $25000-$30000，显存带宽 3350 GB/s，原生支持 FP8，单卡可运行 FP8 权重 (27GB) + 32K KV
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N31
+
+## Claim
+
+H100 80GB 价格约 $25000-$30000，显存带宽 3350 GB/s，原生支持 FP8，单卡可运行 FP8 权重 (27GB) + 32K KV Cache，其 prefill 速度因 989 TFLOPS (FP8) 远高于 4090，但高价格导致 TCO 在长期持有场景下劣势明显，除非对延迟有极致要求
+
+## Corrected Claim
+
+H100 80GB 价格约 $25000-$30000，显存带宽 3350 GB/s，原生支持 FP8，单卡可运行 FP8 权重 (27GB) + 32K KV Cache，其 prefill 速度因 989 TFLOPS (FP8) 远高于 4090，但高价格导致 TCO 在长期持有场景下劣势明显，除非对延迟有极致要求
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H100 80GB SXM5 显存带宽确为 3.35TB/s，FP8 算力约 989 TFLOPS，价格区间符合市场常识，单卡承载 27GB 权重+32K KV Cache 在 80GB 显存内逻辑自洽。

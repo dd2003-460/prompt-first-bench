@@ -1,0 +1,24 @@
+# N116: 2x RTX 4090 (PCIe 互联) 在 32K 上下文预填充阶段的额外同步开销估算：假设每层同步数据量约 500MB (保守估计)，64 层总同步数据 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N28
+
+## Claim
+
+2x RTX 4090 (PCIe 互联) 在 32K 上下文预填充阶段的额外同步开销估算：假设每层同步数据量约 500MB (保守估计)，64 层总同步数据 32GB，PCIe 64GB/s 双向带宽下理论传输时间 0.5s，加上内核启动延迟，总 TTFT 增加约 0.5-1.0s，相对于单卡计算时间 (若计算时间为 1s) 影响显著，但若计算时间较长 (如 10s)，影响较小。
+
+## Corrected Claim
+
+2x RTX 4090 (PCIe 互联) 在 32K 上下文预填充阶段的额外同步开销估算：假设每层同步数据量约 500MB (保守估计)，64 层总同步数据 32GB，PCIe 64GB/s 双向带宽下理论传输时间 0.5s，加上内核启动延迟，总 TTFT 增加约 0.5-1.0s，相对于单卡计算时间 (若计算时间为 1s) 影响显著，但若计算时间较长 (如 10s)，影响较小。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：500MB/层 * 64层 = 32GB，32GB / 64GB/s = 0.5s，计算量级与逻辑自洽。
+
+## Search Query
+
+PCIe 4.0 bandwidth impact on LLM inference latency

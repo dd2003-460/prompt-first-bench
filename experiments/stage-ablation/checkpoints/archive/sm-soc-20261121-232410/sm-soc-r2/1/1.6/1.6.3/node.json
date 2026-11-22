@@ -1,0 +1,17 @@
+{
+  "id": "N47",
+  "claim": "T_deal 缩短 50% 的量化验证：基线 T_deal_base = T_search * (1 - 0.6) = 0.4 * T_search；高挂价区间 T_deal_high = T_search * (1 - 0.3) = 0.7 * T_search。此处发现 N11 原公式 T_deal = T_search * (1 - P_reject) 存在逻辑矛盾（拒绝率越低，周期应越短，但公式显示拒绝率低则乘数大），正确公式应为 T_deal = T_search / P_accept，其中 P_accept = 1 - P_reject。修正后，P_accept 从 0.4 升至 0.7，T_deal 缩短比例为 (1/0.7 - 1/0.4) / (1/0.4) = -50%，与题面一致。",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "verified",
+  "evidence": "先验知识/题面给定，逻辑校验通过：原公式 T_deal = T_search * (1 - P_reject) 确实存在逻辑矛盾（拒绝率越低，成交概率越高，周期应越短，但原公式显示拒绝率低则乘数大，导致周期变长）。修正后的公式 T_deal = T_search / P_accept 符合排队论/几何分布期望逻辑。数值计算验证：基线 P_accept=0.4 时 T_deal_base = 2.5 * T_search；高挂价区间 P_accept=0.7 时 T_deal_high ≈ 1.43 * T_search。缩短比例 = (2.5 - 1.43) / 2.5 = 1.07 / 2.5 ≈ 42.8%。等等，这里需要仔细检查题面中的计算逻辑。题面称“T_deal 缩短比例为 (1/0.7 - 1/0.4) / (1/0.4) = -50%”。让我们重新计算：\n基线 T_base = 1/0.4 = 2.5\n新 T_new = 1/0.7 ≈ 1.4286\n缩短量 = 2.5 - 1.4286 = 1.0714\n缩短比例 = 1.0714 / 2.5 = 0.42856 ≈ 42.9%。\n题面中声称缩短 50%，且给出的算式 (1/0.7 - 1/0.4) / (1/0.4) 计算结果为 (1.4286 - 2.5) / 2.5 = -1.0714 / 2.5 = -0.42856，即 -42.9%，而非 -50%。\n此外，题面开头说“基线 T_deal_base = T_search * (1 - 0.6) = 0.4 * T_search”，这使用的是错误的旧公式逻辑（或者混淆了 P_accept 和 T_deal 的关系）。如果基线是用旧公式算的 0.4*T_search，而新值是用新公式算的 1/0.7*T_search，那么比较的是两个不同定义下的值，逻辑不自洽。\n但是，节点描述的核心是“发现 N11 原公式...存在逻辑矛盾...正确公式应为...”。\n让我们再看一眼题面中的具体数值断言：“T_deal 缩短 50%”。\n如果 P_accept 从 0.4 变到 0.7：\nT_old = 1/0.4 = 2.5\nT_new = 1/0.7 ≈ 1.43\nReduction = (2.5 - 1.43)/2.5 ≈ 43%。\n这与“50%”不符。\n\n再检查另一种可能性：是否题面中的“缩短 50%”是指 T_deal 本身变成了原来的一半？\n如果 T_new = 0.5 * T_old，则 1/P_new = 0.5 * (1/P_old) => P_new = 2 * P_old。\n如果 P_old = 0.4，则 P_new 应为 0.8。但题面说是 0.7。\n\n是否存在其他解释？\n题面中写道：“基线 T_deal_base = T_search * (1 - 0.6) = 0.4 * T_search”。这行字表明在“基线”状态下，作者可能还在用错误的公式或者错误的参数理解。如果基线 T 是 0.4 * T_search，而新 T 是 1/0.7 * T_search ≈ 1.43 * T_search，那么 T_deal 实际上是**增加**了，而不是缩短。\n\n显然，节点 N47 内部的数值推导存在严重错误：\n1. 它声称修正后 T_deal 缩短 50%。\n2. 它给出的算式 (1/0.7 - 1/0.4) / (1/0.4) 的结果是 -42.9%，不是 -50%。\n3. 它前面的基线定义 T_deal_base = 0.4 * T_search 与后面使用的 T_deal = T_search / P_accept 模型不一致（0.4 * T_search 对应 P_accept=2.5? 不可能，或者对应旧公式 P_reject=0.6）。如果基线用旧公式，新值用新公式，比较无意义。如果基线也用新公式，基线应为 2.5 * T_search。\n\n因此，该陈述包含硬逻辑/数学错误（计算结果与结论不符，且前后模型定义混乱）。",
+  "corrected_claim": "修正后，P_accept 从 0.4 升至 0.7，T_deal 从 2.5*T_search 降至约 1.43*T_search，缩短比例约为 42.9%，而非 50%。",
+  "rework_count": 0,
+  "parent_ids": [
+    "N11"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "",
+  "retrieval_sources": []
+}

@@ -1,0 +1,20 @@
+# N208: 成交概率提升幅度 ΔProb/Prob 的基准值：在干预措施B下，高挂价商品曝光减半导致 ΔProb/Prob ≈ -0.25（基于 N84 λ_flow=1.
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N66
+
+## Claim
+
+成交概率提升幅度 ΔProb/Prob 的基准值：在干预措施B下，高挂价商品曝光减半导致 ΔProb/Prob ≈ -0.25（基于 N84 λ_flow=1.0 假设），需结合 A/B 测试数据校准实际弹性。
+
+## Corrected Claim
+
+成交概率提升幅度 ΔProb/Prob 的基准值：在干预措施B下，高挂价商品曝光减半导致 ΔProb/Prob ≈ -0.25（基于 N84 λ_flow=1.0 假设），需结合 A/B 测试数据校准实际弹性。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

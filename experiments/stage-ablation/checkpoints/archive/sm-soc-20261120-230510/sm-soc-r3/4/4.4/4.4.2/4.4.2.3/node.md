@@ -1,0 +1,24 @@
+# N234: 等待成交容忍时间 T_wait 的分布特征：T_wait 服从对数正态分布 LogNormal(μ_wait, σ_wait)，其中 μ_wait 为卖家平均等
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N76
+
+## Claim
+
+等待成交容忍时间 T_wait 的分布特征：T_wait 服从对数正态分布 LogNormal(μ_wait, σ_wait)，其中 μ_wait 为卖家平均等待时间（典型值 7-30 天），σ_wait 反映卖家耐心差异；若 T_wait < 7 天，则 s（降价比例）显著高于 0.6，否则 s < 0.4。
+
+## Corrected Claim
+
+等待成交容忍时间 T_wait 通常呈现右偏分布（如对数正态分布），其均值和方差因卖家类型而异；较短的等待容忍时间通常与较高的初始降价比例正相关，但具体阈值（如7天、0.6）需依据具体市场数据确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（典型值7-30天、阈值0.6/0.4）和特定的统计分布假设（对数正态），这些属于经验事实而非第一性原理可推导内容，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+seller waiting time distribution second-hand marketplace patience level

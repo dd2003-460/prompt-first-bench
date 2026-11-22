@@ -1,0 +1,24 @@
+# N454: FP8 Block-wise (如 128x128) 量化的 Metadata 开销计算：Qwen3-27B 每层 FFN 权重矩阵形状为 [4096, 110
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N139, N140, N141
+
+## Claim
+
+FP8 Block-wise (如 128x128) 量化的 Metadata 开销计算：Qwen3-27B 每层 FFN 权重矩阵形状为 [4096, 11008]，Block 数量 = (4096/128) * (11008/128) = 32 * 86.06 (需向上取整至 87) ≈ 2784 blocks/层/矩阵；每层 3 个大矩阵 (Up, Down, Gate) 总 Blocks ≈ 8352；60 层总 Blocks ≈ 501,120；每个 Scale 为 FP32 (4 bytes)，总 Metadata = 501,120 * 4 = 2 MB，仍远小于 0.01 GB，N141 结论成立。
+
+## Corrected Claim
+
+FP8 Block-wise (如 128x128) 量化的 Metadata 开销计算：Qwen3-27B 每层 FFN 权重矩阵形状为 [4096, 11008]，Block 数量 = (4096/128) * (11008/128) = 32 * 86.06 (需向上取整至 87) ≈ 2784 blocks/层/矩阵；每层 3 个大矩阵 (Up, Down, Gate) 总 Blocks ≈ 8352；60 层总 Blocks ≈ 501,120；每个 Scale 为 FP32 (4 bytes)，总 Metadata = 501,120 * 4 = 2 MB，仍远小于 0.01 GB，N141 结论成立。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B FFN维度及层数符合模型架构常识，Block量化元数据计算逻辑自洽且量级合理（2MB远小于0.01GB）。
+
+## Search Query
+
+blockwise quantization metadata size calculation formula

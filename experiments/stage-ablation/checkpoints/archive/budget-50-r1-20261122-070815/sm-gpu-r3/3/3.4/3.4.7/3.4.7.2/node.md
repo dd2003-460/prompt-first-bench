@@ -1,0 +1,30 @@
+# N298: 为支持 Qwen3-27B 的 CPU 卸载方案，系统内存需求至少为 27B 权重 (INT4 ~13.5GB) + KV Cache + OS/系统开销，建议
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N92
+
+## Claim
+
+为支持 Qwen3-27B 的 CPU 卸载方案，系统内存需求至少为 27B 权重 (INT4 ~13.5GB) + KV Cache + OS/系统开销，建议配置 64GB DDR5 而非 128GB（因 192GB 是 Mac 方案，Intel 平台 64GB 已足够容纳 27B 模型的大部分层），64GB DDR5 成本约为 $200-$300，修正后的总硬件成本 C_hw_Arc 约为 $500-$700，但需扣除因速度慢导致的低可用性价值
+
+## Corrected Claim
+
+为支持 Qwen3-27B 的 CPU 卸载方案，系统内存需求至少为 27B 权重 (INT4 ~13.5GB) + KV Cache + OS/系统开销，64GB DDR5 在容量上足以容纳该模型的大部分层。具体硬件成本（如 $500-$700）需根据实时市场价格核实，此处仅为估算。
+
+## Evidence
+
+[质询]该陈述包含大量具体的经验性数值（如64GB DDR5成本$200-$300、总硬件成本$500-$700、Qwen3-27B INT4权重13.5GB），这些属于市场价格和具体硬件规格，无法从第一性原理推导。参考来源仅涉及内存品牌、HBM技术背景及某款RISC-V PC，均未提供Qwen3-27B的内存需求细节、Intel平台64GB DDR5的具体市场价格或总硬件成本构成，因此缺乏直接来源支持。 | 逻辑上27B模型INT4量化后约13.5GB权重加上KV Cache和系统开销，64GB内存确实足够容纳，且64GB DDR5在2024-2025年市场价位大致符合$200-$300区间（虽来源未直接证实），但作为经验事实，因缺乏参考来源的直接数据支持，依据经验事实排除条款降级。
+
+## Search Query
+
+64GB DDR5 RAM price 2024
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/G.Skill', 'type': 'wikipedia', 'title': 'G.Skill'}
+- {'url': 'https://en.wikipedia.org/wiki/High_Bandwidth_Memory', 'type': 'wikipedia', 'title': 'High Bandwidth Memory'}
+- {'url': 'https://en.wikipedia.org/wiki/Framework_Computer', 'type': 'wikipedia', 'title': 'Framework Computer'}

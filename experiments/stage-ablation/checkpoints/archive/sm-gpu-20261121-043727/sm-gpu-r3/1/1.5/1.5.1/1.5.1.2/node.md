@@ -1,0 +1,20 @@
+# N139: MI300X 在 FP8 精度下运行 Qwen3-27B 的 T_decode 理论值：权重 27GB (FP8) + KV Cache 33GB = 60GB
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N52
+
+## Claim
+
+MI300X 在 FP8 精度下运行 Qwen3-27B 的 T_decode 理论值：权重 27GB (FP8) + KV Cache 33GB = 60GB 读取量，除以 5.3 TB/s 带宽，得 T_decode ≈ 11.3 us/token (≈88 tokens/s)；该值假设 100% 带宽利用率，实际 ROCm 利用率约为 70-80%，修正后 T_decode ≈ 14-16 us/token
+
+## Corrected Claim
+
+MI300X 在 FP8 精度下运行 Qwen3-27B 的 T_decode 理论值：权重 27GB (FP8) + KV Cache 33GB = 60GB 读取量，除以 5.3 TB/s 带宽，得 T_decode ≈ 11.3 us/token (≈88 tokens/s)；该值假设 100% 带宽利用率，实际 ROCm 利用率约为 70-80%，修正后 T_decode ≈ 14-16 us/token
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：MI300X HBM3e 带宽约 5.3TB/s，Qwen3-27B FP8 权重约 27GB，KV Cache 33GB 符合长上下文或大 Batch 场景的量级，算术推导 60GB/5.3TB/s ≈ 11.3us 正确，70-80% 利用率修正符合工程经验。

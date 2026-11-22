@@ -1,0 +1,28 @@
+# N37: CPU+大内存方案（如128GB RAM + Intel Xeon）在INT8精度下运行 Qwen3-27B 的稳态生成吞吐率（Token/s）约为 5-10，
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N6
+
+## Claim
+
+CPU+大内存方案（如128GB RAM + Intel Xeon）在INT8精度下运行 Qwen3-27B 的稳态生成吞吐率（Token/s）约为 5-10，价格约为 $2,000-$3,000，性价比指数（Token/s per $）约为 1.7-3.3
+
+## Corrected Claim
+
+CPU+大内存方案（如128GB RAM + Intel Xeon）在INT8精度下运行 Qwen3-27B 的稳态生成吞吐率预计较低（具体数值需实测验证），价格约为 $2,000-$3,000，性价比指数相对较低。
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备, 有冗余（子节点1和2本质上是同一公式在不同硬件参数下的取值，存在严重冗余；且子节点3的实际吞吐率估算（1.1-2.3 Token/s）与父节点声称的稳态吞吐率（5-10 Token/s）存在数量级矛盾，未解释差异原因（如是否使用了更高效的推理引擎如llama.cpp的优化、量化策略差异或父节点数据错误），导致逻辑不闭环。）
+
+## Search Query
+
+CPU 128GB RAM Intel Xeon Qwen3-27B INT8 inference throughput tokens per second price
+
+## Retrieval Sources
+
+- {'url': 'https://wenku.baidu.com/view/a0ffd77af38a6529647d27284b73f242336c3127.html&rut=ec24f0ac3ccedca24e08eb109eefec1c4532e65a73c7e7af38704f284b2dbddd', 'type': 'ddg', 'title': 'ME部分禁用支持Xeon和BGA转针吗？128G内存能用吗？'}

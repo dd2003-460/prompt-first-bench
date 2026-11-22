@@ -1,0 +1,24 @@
+# N14: LFU 工作点 1（高性低成）：假设 LFU 完美保留 top-K% 热度对象，K=128GB/E[S]_trunc * 100%，计算 H_LFU_top =
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+LFU 工作点 1（高性低成）：假设 LFU 完美保留 top-K% 热度对象，K=128GB/E[S]_trunc * 100%，计算 H_LFU_top = 1 - (1-K) * E[S|H<h_K] / E[S]_trunc，此工作点忽略 LFU 的淘汰开销和冷启动，提供增益上界，计算简单，误差 [待核验] ±3%。
+
+## Corrected Claim
+
+LFU 工作点 1（高性低成）：假设 LFU 完美保留 top-K% 热度对象，K=128GB/E[S]_trunc * 100%，计算 H_LFU_top = 1 - (1-K) * E[S|H<h_K] / E[S]_trunc，此工作点忽略 LFU 的淘汰开销和冷启动，提供增益上界，计算简单，误差 [待核验] ±3%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+LFU cache top K popular objects hit rate upper bound

@@ -1,0 +1,24 @@
+# N463: Intel Gaudi 2/3 在 2024 Q4 至 2025 Q1 期间，Intel Gaudi 官方软件栈 (Gaudi Software Suite) 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N151, N152, N153
+
+## Claim
+
+Intel Gaudi 2/3 在 2024 Q4 至 2025 Q1 期间，Intel Gaudi 官方软件栈 (Gaudi Software Suite) 或 Hugging Face Transformers 集成中针对 Qwen3-27B 的支持状态：检查 Intel 官方发布说明中是否包含 Qwen3-27B 的推理优化补丁或性能基准数据 [search: Intel Gaudi Qwen3-27B inference benchmark official release notes 2024 2025]
+
+## Corrected Claim
+
+截至2025年初，Intel Gaudi 2/3 对 Qwen3-27B 的官方软件栈支持状态及具体推理优化基准数据缺乏公开的确切证据，需查阅 Intel Gaudi 官方发布说明或 Hugging Face 社区最新集成记录以确认。
+
+## Evidence
+
+[质询]该陈述涉及特定硬件（Intel Gaudi 2/3）与特定模型（Qwen3-27B）在特定时间段（2024 Q4-2025 Q1）的软件支持状态，属于具体的经验事实（软件版本兼容性/发布状态）。由于缺乏官方发布说明或基准测试数据的直接证据，无法确认Intel是否在该时间段内正式发布了针对Qwen3-27B的优化补丁或基准数据。此外，Qwen3系列模型在2024年底至2025年初的发布节奏与Intel Gaudi软件栈的更新周期可能存在时间差，存在‘支持状态未知’或‘仅社区支持而非官方优化’的可能性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体软件栈版本对特定模型的官方支持状态）
+
+## Search Query
+
+Intel Gaudi Qwen3-27B inference support release notes 2024 2025

@@ -1,0 +1,20 @@
+# N151: 共享随机源在 CTR 投影中的具体实现：CTR 差异机制中的 ε_pref_1 和 ε_pref_2 并非独立变量，而是 R_pref 在两个价格区间 [1.1
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N42
+
+## Claim
+
+共享随机源在 CTR 投影中的具体实现：CTR 差异机制中的 ε_pref_1 和 ε_pref_2 并非独立变量，而是 R_pref 在两个价格区间 [1.15, 1.25] 和 [1.0, 1.15] 的条件期望 E[R_pref | P_ask/P_market ∈ Interval]，需计算条件均值差 Δμ_cond = μ_1 - μ_2 以验证是否等于 0.25。
+
+## Corrected Claim
+
+共享随机源在 CTR 投影中的具体实现：CTR 差异机制中的 ε_pref_1 和 ε_pref_2 并非独立变量，而是 R_pref 在两个价格区间 [1.15, 1.25] 和 [1.0, 1.15] 的条件期望 E[R_pref | P_ask/P_market ∈ Interval]，需计算条件均值差 Δμ_cond = μ_1 - μ_2 以验证是否等于 0.25。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：将共享随机源的条件期望差定义为 Δμ_cond 并验证其数值是标准的统计建模逻辑，量纲与定义自洽。

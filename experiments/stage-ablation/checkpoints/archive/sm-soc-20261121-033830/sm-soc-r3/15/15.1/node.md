@@ -1,0 +1,24 @@
+# N365: 平台算法中价格项回归系数 β_price 的估计值及其95%置信区间，通过OLS或Logit模型对平台推荐排序分数与商品挂价 P_list 进行回归得出，需控制
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N116
+
+## Claim
+
+平台算法中价格项回归系数 β_price 的估计值及其95%置信区间，通过OLS或Logit模型对平台推荐排序分数与商品挂价 P_list 进行回归得出，需控制商品热度、卖家信誉等混淆变量。
+
+## Corrected Claim
+
+在平台算法研究中，通常通过OLS或Logit模型对推荐排序分数与商品挂价进行回归以估计价格项系数 β_price，并需控制商品热度、卖家信誉等混淆变量；具体估计值及置信区间取决于数据集与模型设定。
+
+## Evidence
+
+[质询]该陈述描述了一个具体的实证回归结果（β_price 的估计值及置信区间），属于经验事实。然而，陈述中并未提供具体的数值（如 β=0.5, CI=[0.4, 0.6]），仅描述了方法论框架。若将其视为对特定平台算法内部参数的断言，缺乏具体数值导致无法核验其准确性；若视为一般性方法论描述，则‘估计值’一词暗示了具体结果的存在，造成语义上的模糊。 | 经验事实，逻辑自洽但缺来源支持。检索无可用来源，且该陈述涉及具体实证回归结果，无法从第一性原理推出，故降级。
+
+## Search Query
+
+e-commerce platform ranking algorithm price coefficient regression analysis

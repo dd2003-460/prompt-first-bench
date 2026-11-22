@@ -1,0 +1,20 @@
+# N384: 生物演化视角下的‘损失厌恶’定向压力量化：在二手交易情境中，卖家对‘未售出的潜在利润’（Opportunity Cost of Holding）的感知痛苦系数 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+生物演化视角下的‘损失厌恶’定向压力量化：在二手交易情境中，卖家对‘未售出的潜在利润’（Opportunity Cost of Holding）的感知痛苦系数 λ_evolutionary 显著高于经典前景理论中的 λ=2.25，具体表现为当持有时间 T_hold 超过阈值 T_crit（如 7 天）时，卖家心理保留价格 P_min 的上升斜率 dP_min/dT_hold 从 0.5 元/天 跃升至 2.0 元/天，解释了为何高挂价卖家在短期无咨询时更倾向于维持高价而非立即降价。
+
+## Corrected Claim
+
+生物演化视角下的‘损失厌恶’定向压力量化：在二手交易情境中，卖家对‘未售出的潜在利润’（Opportunity Cost of Holding）的感知痛苦系数 λ_evolutionary 显著高于经典前景理论中的 λ=2.25，具体表现为当持有时间 T_hold 超过阈值 T_crit（如 7 天）时，卖家心理保留价格 P_min 的上升斜率 dP_min/dT_hold 从 0.5 元/天 跃升至 2.0 元/天，解释了为何高挂价卖家在短期无咨询时更倾向于维持高价而非立即降价。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

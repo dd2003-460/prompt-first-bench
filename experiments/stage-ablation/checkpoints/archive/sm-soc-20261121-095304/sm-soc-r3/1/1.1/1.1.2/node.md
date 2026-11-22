@@ -1,0 +1,28 @@
+# N21: 锚定效应中的锚点 P_anchor 并非固定为买入成本，而是动态值：P_anchor = α * P_cost + (1-α) * P_recent_max，其
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N5
+
+## Claim
+
+锚定效应中的锚点 P_anchor 并非固定为买入成本，而是动态值：P_anchor = α * P_cost + (1-α) * P_recent_max，其中 α 为成本权重（通常 0.3-0.5），P_recent_max 为近30天同类商品最高成交价，该公式量化了卖家对‘市场高点’的参考偏差。
+
+## Corrected Claim
+
+锚定效应中，卖家的心理锚点通常受买入成本和市场近期高点共同影响，但具体的量化公式（如线性加权模型）及参数（如α值）取决于特定的实证研究或模型假设，并非通用的固定公式。
+
+## Evidence
+
+[质询]该陈述包含具体的数学公式（P_anchor = α * P_cost + (1-α) * P_recent_max）及特定参数范围（α=0.3-0.5、近30天最高价），这属于具体的经验模型或特定研究结论，并非行为经济学中锚定效应的通用定义或第一性原理可推导的数学性质。参考来源仅定性描述了锚定效应（如被成本价束缚），未提供该具体公式或参数支持，存在将特定模型泛化为通用事实的风险。 | 逻辑上公式结构自洽，但参考来源[1]仅定性描述锚定效应，未提供该具体量化公式及参数支持，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+second hand market seller anchoring effect recent highest transaction price weight
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1918926848252945057&rut=3691e0a8095200f77200b1c0c0d24de12cd0645b2d4c36e7dffa4f344f59ea55', 'type': 'ddg', 'title': '锚定效应 - 知乎 - 知乎专栏'}

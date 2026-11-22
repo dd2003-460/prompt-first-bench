@@ -1,0 +1,24 @@
+# N11: Qwen3-27B在BF16精度下的基线能力基准：在MMLU、HumanEval、GSM8K等标准基准上的得分。例如，MMLU得分约为85.0% [待核验: 需
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+Qwen3-27B在BF16精度下的基线能力基准：在MMLU、HumanEval、GSM8K等标准基准上的得分。例如，MMLU得分约为85.0% [待核验: 需查阅Qwen3官方技术报告或第三方评测数据]。此基线是判断质量损失是否可接受的参考点。
+
+## Corrected Claim
+
+Qwen3-27B在BF16精度下的基线能力基准：在MMLU、HumanEval、GSM8K等标准基准上具有特定的得分（具体数值需查阅Qwen3官方技术报告或第三方评测数据确认）。此基线是判断质量损失是否可接受的参考点。
+
+## Evidence
+
+[质询]具体数值（如MMLU 85.0%）属于经验事实，且不同评测设置（如few-shot vs zero-shot、是否包含CoT）会导致分数波动，单一数值缺乏上下文易产生误导。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体基准分数无法从第一性原理推导，需依赖外部数据验证）。
+
+## Search Query
+
+Qwen3-27B MMLU HumanEval GSM8K benchmark score BF16

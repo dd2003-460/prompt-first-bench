@@ -1,0 +1,20 @@
+# N193: Gaussian Copula 参数 ρ=-0.3 对边缘分布独立性的影响：在缓存容量边界 S_max 处，条件分布 H|S<S_max 的期望值 E[H|S<
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N69, N70, N71
+
+## Claim
+
+Gaussian Copula 参数 ρ=-0.3 对边缘分布独立性的影响：在缓存容量边界 S_max 处，条件分布 H|S<S_max 的期望值 E[H|S<S_max] 比无条件 E[H] 低约 5%，导致 LRU 缓存集合的热度贡献率降低，进而使 H_LRU 下降约 0.3-0.5%。
+
+## Corrected Claim
+
+Gaussian Copula 参数 ρ=-0.3 导致在缓存容量边界 S_max 处，条件分布 H|S<S_max 的期望值 E[H|S<S_max] 低于无条件 E[H]，进而使 LRU 缓存集合的热度贡献率及 H_LRU 出现一定程度的下降。
+
+## Evidence
+
+[质询]数值量级缺乏推导依据：从条件期望降低5%直接推导出LRU热度贡献率降低0.3-0.5%缺乏明确的数学或物理机制支撑，属于经验性估算而非严格推导，且未说明缓存容量边界S_max的具体定义及其对分布截断的影响程度。 | 先验知识/题面给定，逻辑校验通过（因果链条方向合理，但具体数值比例缺乏严格推导，故降级为定性表述）

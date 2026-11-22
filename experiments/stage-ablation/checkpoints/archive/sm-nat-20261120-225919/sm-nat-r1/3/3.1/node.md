@@ -1,0 +1,20 @@
+# N13: LFU 相对 LRU 性能增益上限的一个代表性工作点是‘高频率稳定性’场景：假设请求频率分布稳定，LFU 缓存始终保留最高频率对象，增益 = (Σ_{i∈C_L
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+LFU 相对 LRU 性能增益上限的一个代表性工作点是‘高频率稳定性’场景：假设请求频率分布稳定，LFU 缓存始终保留最高频率对象，增益 = (Σ_{i∈C_LFU} R_i - Σ_{i∈C_LRU} R_i) / 5×10^7，其中 C_LFU 和 C_LRU 分别是 LFU 和 LRU 策略下的缓存对象集合。
+
+## Corrected Claim
+
+LFU 相对 LRU 性能增益上限的一个代表性工作点是‘高频率稳定性’场景：假设请求频率分布稳定，LFU 缓存始终保留最高频率对象，增益 = (Σ_{i∈C_LFU} R_i - Σ_{i∈C_LRU} R_i) / 5×10^7，其中 C_LFU 和 C_LRU 分别是 LFU 和 LRU 策略下的缓存对象集合。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

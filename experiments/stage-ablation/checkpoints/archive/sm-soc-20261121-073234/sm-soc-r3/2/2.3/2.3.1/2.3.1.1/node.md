@@ -1,0 +1,20 @@
+# N188: 目标函数 Max Σ (GMV_i / TTS_i) 对高价高周转商品的隐含奖励系数：若 GMV_i = 2 * P_median 且 TTS_i = 0.8 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N59
+
+## Claim
+
+目标函数 Max Σ (GMV_i / TTS_i) 对高价高周转商品的隐含奖励系数：若 GMV_i = 2 * P_median 且 TTS_i = 0.8 * T_baseline，则该项贡献为 2.5 * (P_median/T_baseline)，是基准商品 (1.25) 的 2 倍，证明算法结构性偏向高价快销品。
+
+## Corrected Claim
+
+目标函数 Max Σ (GMV_i / TTS_i) 对高价高周转商品的隐含奖励系数：若 GMV_i = 2 * P_median 且 TTS_i = 0.8 * T_baseline，则该项贡献为 2.5 * (P_median/T_baseline)，是基准商品 (1.25) 的 2 倍，证明算法结构性偏向高价快销品。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算 (2 * P_median) / (0.8 * T_baseline) = 2.5 * (P_median / T_baseline)，基准项为 1.25 * (P_median / T_baseline)，比值确为 2 倍，数学推导自洽。

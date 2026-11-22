@@ -1,0 +1,20 @@
+# N361: NVLink 桥接器的故障率与 MTTR 影响：NVLink 桥接器本身无活动部件，故障率极低（AFR < 0.1%），但若发生物理损坏，更换时间（MTTR）约
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N113
+
+## Claim
+
+NVLink 桥接器的故障率与 MTTR 影响：NVLink 桥接器本身无活动部件，故障率极低（AFR < 0.1%），但若发生物理损坏，更换时间（MTTR）约为 30 分钟，停机成本 = 0.5h × $50/h = $25，远低于 PCIe 插槽故障或 GPU 本身故障的停机成本，故 NVLink 桥接器不显著增加系统整体 TCO 风险。
+
+## Corrected Claim
+
+NVLink 桥接器的故障率与 MTTR 影响：NVLink 桥接器本身无活动部件，故障率极低（AFR < 0.1%），但若发生物理损坏，更换时间（MTTR）约为 30 分钟，停机成本 = 0.5h × $50/h = $25，远低于 PCIe 插槽故障或 GPU 本身故障的停机成本，故 NVLink 桥接器不显著增加系统整体 TCO 风险。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

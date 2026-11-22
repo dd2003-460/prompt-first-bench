@@ -1,0 +1,24 @@
+# N134: 心理损失项量化：心理损失定义为 λ * (V_list - P_new)。假设卖家保留价 V_list = P_market * 1.1（基于市场均价上浮10%
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N40, N41, N42
+
+## Claim
+
+心理损失项量化：心理损失定义为 λ * (V_list - P_new)。假设卖家保留价 V_list = P_market * 1.1（基于市场均价上浮10%），且 λ = 2.25。计算当 P_new 从 P_list 降至 P_market 时，该心理损失的具体金额区间（以 P_market 为单位）。
+
+## Corrected Claim
+
+心理损失项量化：心理损失定义为 λ * (V_list - P_new)。假设卖家保留价 V_list = P_market * 1.1（基于市场均价上浮10%），且 λ = 2.25。计算当 P_new 从 P_list 降至 P_market 时，该心理损失的具体金额区间（以 P_market 为单位）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：根据定义，心理损失 = λ * (V_list - P_new)。代入 V_list = 1.1 * P_market 和 λ = 2.25。当 P_new 从 P_list (即 V_list = 1.1 * P_market) 降至 P_market 时，损失项从 2.25 * (1.1 * P_market - 1.1 * P_market) = 0 变化到 2.25 * (1.1 * P_market - P_market) = 2.25 * 0.1 * P_market = 0.225 * P_market。区间为 [0, 0.225 * P_market]，逻辑自洽且计算无误。
+
+## Search Query
+
+loss aversion coefficient seller reference point valuation used goods

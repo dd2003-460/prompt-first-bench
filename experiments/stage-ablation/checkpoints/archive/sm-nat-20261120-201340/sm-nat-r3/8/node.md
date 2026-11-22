@@ -1,0 +1,20 @@
+# N26: LFU 相比 LRU 的提升机制在于 LFU 不受访问间隔影响而仅受频率影响，在 β=0.9 的长尾热度分布下，LFU 能更稳定地保留头部高频对象，避免 LRU
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+LFU 相比 LRU 的提升机制在于 LFU 不受访问间隔影响而仅受频率影响，在 β=0.9 的长尾热度分布下，LFU 能更稳定地保留头部高频对象，避免 LRU 因突发冷请求导致的热点驱逐（thrashing）；量化提升 ΔH ≈ H_LFU_max - H_LRU，其中 H_LFU_max 近似为前 k_freq 个最高频率对象的请求占比，k_freq 由容量决定。
+
+## Corrected Claim
+
+LFU 相比 LRU 的提升机制在于 LFU 不受访问间隔影响而仅受频率影响，在 β=0.9 的长尾热度分布下，LFU 能更稳定地保留头部高频对象，避免 LRU 因突发冷请求导致的热点驱逐（thrashing）；量化提升 ΔH ≈ H_LFU_max - H_LRU，其中 H_LFU_max 近似为前 k_freq 个最高频率对象的请求占比，k_freq 由容量决定。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点分别描述了LFU的准入机制/特性（子节点1）和LRU的故障机制/损失量化（子节点2），两者在逻辑上是正交的（一个讲LFU怎么工作，一个讲LRU怎么坏）。然而，父节点明确提出了“量化提升 ΔH ≈ H_LFU_max - H_LRU”这一核心结论，并定义了 H_LFU_max。子节点1仅定性描述了LFU的免疫性和滞后性，未给出 H_LFU_max 的量化表达式或推导；子节点2给出了 LRU 的损失项 ΔH_thrash，但父节点中的 H_LRU 是稳态命中率，而 ΔH_thrash 是瞬时波动项，二者概念不完全对应。因此，子节点未能完整覆盖父节点中关于“整体量化提升公式”及“H_LFU_max 具体定义”的关键方面，导致完备性不足。）

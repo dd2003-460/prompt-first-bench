@@ -1,0 +1,24 @@
+# N196: 方案C中每日直接财务成本 $C_{daily}$ 的精确计算：$C_{daily} = DAU \times \text{覆盖率} \times \text{补
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N65
+
+## Claim
+
+方案C中每日直接财务成本 $C_{daily}$ 的精确计算：$C_{daily} = DAU \times \text{覆盖率} \times \text{补贴率} \times \text{单次曝光价值} \times \text{人均曝光次数}$。若DAU=100万，覆盖率=10%（高溢价卖家），补贴率=10%（曝光权重提升），单次曝光价值=0.01元，人均曝光次数=50次（平台平均），则 $C_{daily} = 100万 \times 0.1 \times 0.1 \times 0.01 \times 50 = 50,000$ 元。原估算1000元遗漏了'人均曝光次数'因子，低估50倍。
+
+## Corrected Claim
+
+方案C中每日直接财务成本 $C_{daily}$ 的精确计算：$C_{daily} = DAU \times \text{覆盖率} \times \text{补贴率} \times \text{单次曝光价值} \times \text{人均曝光次数}$。若DAU=100万，覆盖率=10%（高溢价卖家），补贴率=10%（曝光权重提升），单次曝光价值=0.01元，人均曝光次数=50次（平台平均），则 $C_{daily} = 100万 \times 0.1 \times 0.1 \times 0.01 \times 50 = 50,000$ 元。原估算1000元遗漏了'人均曝光次数'因子，低估50倍。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算 1,000,000 * 0.1 * 0.1 * 0.01 * 50 = 50,000 正确，且 50,000 / 1,000 = 50 倍低估的结论与陈述一致。
+
+## Search Query
+
+platform traffic subsidy cost calculation DAU exposure value

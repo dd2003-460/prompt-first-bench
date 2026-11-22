@@ -1,0 +1,20 @@
+# N36: L40S 48GB 在BF16下运行Qwen3-27B不可行，因权重54GB > 48GB显存；若采用INT8量化，权重体积减半至 27GB，加上KV Cach
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N7
+
+## Claim
+
+L40S 48GB 在BF16下运行Qwen3-27B不可行，因权重54GB > 48GB显存；若采用INT8量化，权重体积减半至 27GB，加上KV Cache (~0.4GB, INT8 KV) 和缓冲区，总需求约 29GB，L40S 48GB 显存利用率约 60%，可行
+
+## Corrected Claim
+
+L40S 48GB 在BF16下运行Qwen3-27B不可行，因权重54GB > 48GB显存；若采用INT8量化，权重体积减半至 27GB，加上KV Cache (~0.4GB, INT8 KV) 和缓冲区，总需求约 29GB，L40S 48GB 显存利用率约 60%，可行
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B参数量约27B，BF16权重约54GB（27B*2bytes），超过48GB显存；INT8量化后权重约27GB，加上KV Cache和缓冲区总需求约29GB，显存利用率约60%，计算逻辑自洽且数值量级合理。

@@ -1,0 +1,28 @@
+# N120: Qwen3-27B 在 BF16 精度下，基于 vLLM 框架在 RTX 4090 (Ada) 和 A100 (Ampere) 上的实测推理吞吐量（tokens
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N27
+
+## Claim
+
+Qwen3-27B 在 BF16 精度下，基于 vLLM 框架在 RTX 4090 (Ada) 和 A100 (Ampere) 上的实测推理吞吐量（tokens/s）及与官方宣称值的偏差百分比，需通过搜索社区实测报告（如 Reddit r/LocalLLaMA, GitHub issues）获取具体数值以校准二手数据可靠性。
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 精度下，基于 vLLM 框架在 RTX 4090 (Ada) 和 A100 (Ampere) 上的实测推理吞吐量（tokens/s）及与官方宣称值的偏差百分比，需通过搜索社区实测报告（如 Reddit r/LocalLLaMA, GitHub issues）获取具体数值以校准二手数据可靠性，但当前参考来源未提供直接数值支持。
+
+## Evidence
+
+[质询]参考来源[1]讨论的是 Qwen3.8-27B 在 FP8 精度下的性能，且未提供 BF16 精度下 RTX 4090 和 A100 的具体吞吐量数值及与官方宣称值的偏差百分比，无法直接支持该事实节点中的具体数值需求。 | 来源[1]主题相关但精度和具体数值不匹配，仅能间接支持需通过社区实测报告获取数据的必要性，无法直接验证具体数值。
+
+## Search Query
+
+Qwen3-27B vLLM benchmark RTX 4090 A100 tokens per second measured vs official
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/vllm-project/vllm/issues/68877&rut=d526e2571e9354a0facb45f748360fa0b843b71437906969d2f6e51e61d83e85', 'type': 'ddg', 'title': '[Benchmark] Qwen3.8-27B-FP8 at 256K on one RTX 4090 48GB: 18 ... - GitHub'}

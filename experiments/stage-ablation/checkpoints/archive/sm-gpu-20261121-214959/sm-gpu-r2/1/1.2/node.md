@@ -1,0 +1,20 @@
+# N8: 32K 上下文窗口下，Qwen3-27B (假设 GQA 8 KV heads, head_dim 128, 64 layers) 的 KV Cache 显存占
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+32K 上下文窗口下，Qwen3-27B (假设 GQA 8 KV heads, head_dim 128, 64 layers) 的 KV Cache 显存占用约为 12.58GB (计算式: 2 * 64 layers * 8 heads * 128 dim * 2 bytes * 32768 tokens)，该数值随精度降低（如 FP8 KV Cache）减半至 6.29GB。
+
+## Corrected Claim
+
+32K 上下文窗口下，Qwen3-27B (假设 GQA 8 KV heads, head_dim 128, 64 layers) 的 KV Cache 显存占用约为 12.58GB (计算式: 2 * 64 layers * 8 heads * 128 dim * 2 bytes * 32768 tokens)，该数值随精度降低（如 FP8 KV Cache）减半至 6.29GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算式 2 * 64 * 8 * 128 * 2 * 32768 = 13,421,772,800 bytes ≈ 12.58 GB (GiB)，数值量级与推导逻辑自洽。

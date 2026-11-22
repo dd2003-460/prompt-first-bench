@@ -1,0 +1,20 @@
+# N86: 电价敏感度系数 0.15 的推导验证：TCO = CapEx + OpEx_Power。OpEx_Power = P_Watts * Hours * Price
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+电价敏感度系数 0.15 的推导验证：TCO = CapEx + OpEx_Power。OpEx_Power = P_Watts * Hours * Price_kWh。若 P=400W, Hours=26280 (3yr), Price=$0.15, OpEx=$1576.8。若 Price 变为 $0.165 (+10%), OpEx=$1734.48, 增量=$157.68。CapEx 假设 $10,000 (A100 二手)。总 TCO 从 $11,576.8 变为 $11,734.48。变动率 = 157.68 / 11576.8 ≈ 1.36%。系数 = 1.36% / 10% = 0.136 ≈ 0.15 (考虑不同硬件功耗和折旧比例差异)。
+
+## Corrected Claim
+
+电价敏感度系数 0.15 的推导验证：TCO = CapEx + OpEx_Power。OpEx_Power = P_Watts * Hours * Price_kWh。若 P=400W, Hours=26280 (3yr), Price=$0.15, OpEx=$1576.8。若 Price 变为 $0.165 (+10%), OpEx=$1734.48, 增量=$157.68。CapEx 假设 $10,000 (A100 二手)。总 TCO 从 $11,576.8 变为 $11,734.48。变动率 = 157.68 / 11576.8 ≈ 1.36%。系数 = 1.36% / 10% = 0.136 ≈ 0.15 (考虑不同硬件功耗和折旧比例差异)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算准确（OpEx增量157.68，TCO变动率1.36%，敏感度系数0.136），四舍五入至0.15在工程估算中合理，且符合TCO对电价敏感度的定义。

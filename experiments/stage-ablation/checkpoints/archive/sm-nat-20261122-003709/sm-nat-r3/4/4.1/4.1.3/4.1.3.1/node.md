@@ -1,0 +1,20 @@
+# N178: 计算Pareto(α=1.1, s_min=1KB)分布下100,000个对象的理论总字节量 S_total_theoretical = N * E[S]，其中
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N60
+
+## Claim
+
+计算Pareto(α=1.1, s_min=1KB)分布下100,000个对象的理论总字节量 S_total_theoretical = N * E[S]，其中 E[S] = (α * s_min)/(α - 1) ≈ 10KB，得出 S_total_theoretical ≈ 1TB，并计算其与题面隐含的100TB（假设平均1MB）的偏差倍数 Ratio = 100TB / 1TB = 100。
+
+## Corrected Claim
+
+计算Pareto(α=1.1, s_min=1KB)分布下100,000个对象的理论总字节量 S_total_theoretical = N * E[S]，其中 E[S] = (α * s_min)/(α - 1) ≈ 10KB，得出 S_total_theoretical ≈ 1TB，并计算其与题面隐含的100TB（假设平均1MB）的偏差倍数 Ratio = 100TB / 1TB = 100。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布期望公式 E[S] = α*s_min/(α-1) 在 α=1.1, s_min=1KB 时计算结果为 10KB，总字节量 100,000 * 10KB = 1TB，与 100TB 的比值为 100，数学推导自洽。

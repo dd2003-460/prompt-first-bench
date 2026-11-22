@@ -1,0 +1,24 @@
+# N292: 高时间敏感型买家（30%）的效用变化 ΔU_buyer_A_high 为负值，其下限由流失概率 P_churn 决定，ΔU_buyer_A_high = -P_
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N98
+
+## Claim
+
+高时间敏感型买家（30%）的效用变化 ΔU_buyer_A_high 为负值，其下限由流失概率 P_churn 决定，ΔU_buyer_A_high = -P_churn * (V_item - C_search) - C_search_effort_high，其中 P_churn 与 ΔT_decision 呈线性关系 P_churn = k_time * ΔT_decision，k_time 约为 0.02/分钟，若 ΔT=10分钟，则 P_churn=0.2，效用损失约为商品价值的 20%-25%。
+
+## Corrected Claim
+
+高时间敏感型买家（30%）的效用变化 ΔU_buyer_A_high 为负值，其下限由流失概率 P_churn 决定，ΔU_buyer_A_high = -P_churn * (V_item - C_search) - C_search_effort_high，其中 P_churn 与 ΔT_decision 呈线性关系 P_churn = k_time * ΔT_decision，k_time 约为 0.02/分钟，若 ΔT=10分钟，则 P_churn=0.2，效用损失约为商品价值的 20%-25%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式结构符合效用理论基本框架，数值代入（0.02*10=0.2）计算正确，量级合理。
+
+## Search Query
+
+time sensitive buyer utility loss due to decision delay in online marketplaces

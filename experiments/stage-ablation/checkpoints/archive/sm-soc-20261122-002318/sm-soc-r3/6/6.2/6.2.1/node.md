@@ -1,0 +1,24 @@
+# N250: 市场数据权重 α 的估计：通过回归分析卖家挂价 P_ask 与近期成交均价 P_recent_avg 及自我估值 P_self 的关系，α 通常落在 [0.3,
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N89
+
+## Claim
+
+市场数据权重 α 的估计：通过回归分析卖家挂价 P_ask 与近期成交均价 P_recent_avg 及自我估值 P_self 的关系，α 通常落在 [0.3, 0.6] 区间，表明卖家更多依赖市场数据而非纯主观估值。
+
+## Corrected Claim
+
+市场数据权重 α 的估计：通过回归分析卖家挂价 P_ask 与近期成交均价 P_recent_avg 及自我估值 P_self 的关系，α 通常显著大于 0，表明卖家依赖市场数据而非纯主观估值。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值区间 [0.3, 0.6]，属于市场行为统计规律，无法从第一性原理或数学公理严格推导得出，且缺乏来源支持该特定数值范围。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且数值区间非第一性原理可推导）。
+
+## Search Query
+
+regression weight market price vs self valuation seller pricing behavior alpha

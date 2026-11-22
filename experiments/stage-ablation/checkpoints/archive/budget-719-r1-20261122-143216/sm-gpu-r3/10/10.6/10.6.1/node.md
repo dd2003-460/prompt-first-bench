@@ -1,0 +1,24 @@
+# N407: vLLM 的 custom all-reduce 算子通过利用 GPU 的异步拷贝指令 (Async Copy) 和计算重叠，将通信延迟隐藏在计算过程中，实测数
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N144
+
+## Claim
+
+vLLM 的 custom all-reduce 算子通过利用 GPU 的异步拷贝指令 (Async Copy) 和计算重叠，将通信延迟隐藏在计算过程中，实测数据显示在 PCIe Gen4 互联下，相比原生 NCCL，其端到端吞吐量提升约 10-20% [待核验]，具体提升幅度取决于通信量与计算量的比例。
+
+## Corrected Claim
+
+vLLM 的 custom all-reduce 算子通过利用 GPU 的异步拷贝指令 (Async Copy) 和计算重叠，将通信延迟隐藏在计算过程中，相比原生 NCCL 通常能提升端到端吞吐量，具体提升幅度取决于通信量与计算量的比例及硬件互联带宽。
+
+## Evidence
+
+[质询]具体数值（10-20%）属于经验事实，缺乏来源支持，且不同硬件配置和负载下波动较大，无法仅凭逻辑推导确定具体区间。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+vLLM custom all-reduce performance improvement PCIe

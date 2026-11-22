@@ -1,0 +1,24 @@
+# N16: 有效命中率折损因子：H_eff = H_lru * (1 - P_inval * (1 - H_lru))，当 P_inval < 0.1 时，折损约 10%-
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+有效命中率折损因子：H_eff = H_lru * (1 - P_inval * (1 - H_lru))，当 P_inval < 0.1 时，折损约 10%-20%；当 P_inval > 0.5 时，折损超过 50%。
+
+## Corrected Claim
+
+有效命中率折损因子：H_eff = H_lru * (1 - P_inval * (1 - H_lru))，当 P_inval < 0.1 时，折损约 10%-20%；当 P_inval > 0.5 时，折损超过 50%。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点逻辑清晰且正交：子节点1负责确定核心参数 P_inval 的数值；子节点2探讨公式未直接涵盖的副作用（基线 H_lru 的潜在下降）；子节点3进行最终的综合量化与结论推导。三者分别对应‘参数定值’、‘边界/副作用分析’和‘最终结果评估’，无重复且无矛盾。）
+
+## Search Query
+
+cache hit rate decay due to object updates

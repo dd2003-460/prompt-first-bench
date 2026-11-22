@@ -1,0 +1,20 @@
+# N72: 2×RTX 4090 在 BF16 下运行 Qwen3-27B 的 32K 上下文时，因显存溢出（需 44.4GB > 2×24GB）导致必须启用 CPU Of
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N25
+
+## Claim
+
+2×RTX 4090 在 BF16 下运行 Qwen3-27B 的 32K 上下文时，因显存溢出（需 44.4GB > 2×24GB）导致必须启用 CPU Offload 或 KV Cache 压缩，这使得理论吞吐量从 25-30 tokens/s 骤降至 8-12 tokens/s，TCO/Throughput 从 $0.015 上升至 $0.035/token。
+
+## Corrected Claim
+
+2×RTX 4090 在 BF16 下运行 Qwen3-27B 的 32K 上下文时，因显存溢出（需约 44.4GB > 2×24GB）导致必须启用 CPU Offload 或 KV Cache 压缩，这使得理论吞吐量显著下降（可能从 25-30 tokens/s 降至 8-12 tokens/s 区间），TCO/Throughput 相应上升（可能从 $0.015 上升至 $0.035/token 区间）。
+
+## Evidence
+
+[质询]吞吐量骤降幅度（25-30降至8-12 tokens/s）及TCO具体数值（$0.015至$0.035）缺乏通用基准支持，实际性能高度依赖具体框架（如vLLM/SGLang）、量化策略及CPU内存带宽，直接断言固定数值区间存在过度精确化风险。 | 先验知识/题面给定，逻辑校验通过：显存需求44.4GB确实超过2x24GB=48GB的可用显存（考虑系统占用后更紧张），触发Offload/压缩符合物理约束；但具体吞吐量和成本数值为经验估算，无来源直接支持，故降级。

@@ -1,0 +1,20 @@
+# N119: CUDA 内存分配器碎片化开销公式：Fragmentation_Overhead_GB = (Reserved_GB - Allocated_GB)，其中 Re
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N45
+
+## Claim
+
+CUDA 内存分配器碎片化开销公式：Fragmentation_Overhead_GB = (Reserved_GB - Allocated_GB)，其中 Reserved 为 PyTorch 向 CUDA 申请的总显存，Allocated 为实际张量占用的显存；在长序列推理中，由于 KV Cache 的动态扩展，碎片率通常稳定在 5%-15% 区间，即若 Allocated 为 10GB，Reserved 约为 10.5-11.5GB。
+
+## Corrected Claim
+
+CUDA 内存分配器碎片化开销公式：Fragmentation_Overhead_GB = (Reserved_GB - Allocated_GB)，其中 Reserved 为 PyTorch 向 CUDA 申请的总显存，Allocated 为实际张量占用的显存；在长序列推理中，由于 KV Cache 的动态扩展，碎片率通常存在一定波动，具体数值取决于分配器策略和负载特征，常见场景下可能处于较低百分比区间，但无固定稳定值。
+
+## Evidence
+
+[质询]碎片率并非恒定在5%-15%区间，该数值高度依赖于分配器策略（如PyTorch caching allocator的具体实现）、内存块大小分布及并发请求模式，缺乏普适性；且'稳定'一词暗示了不存在的确定性规律。 | 公式定义逻辑自洽，但'5%-15%'为经验性统计区间，非第一性原理可推导的固定物理/数学常数，且无外部来源支持该具体数值范围，属于经验事实缺来源支持。

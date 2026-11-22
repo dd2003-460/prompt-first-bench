@@ -1,0 +1,20 @@
+# N208: 价格差福利项 $\int (P_{old} - P_{new}) g(P) dP$ 的近似计算：若仅考虑成交买家（$V > P_{new}$），平均节省额约为 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N67, N68, N69
+
+## Claim
+
+价格差福利项 $\int (P_{old} - P_{new}) g(P) dP$ 的近似计算：若仅考虑成交买家（$V > P_{new}$），平均节省额约为 $(P_{old} - P_{new}) \times \frac{1}{2}$（假设线性需求），即 $0.2 P_{ref} \times 0.5 = 0.1 P_{ref}$。若 $P_{ref}=1000$ 元，则价格福利为100元。
+
+## Corrected Claim
+
+价格差福利项 $\int (P_{old} - P_{new}) g(P) dP$ 的近似计算：若仅考虑成交买家（$V > P_{new}$），平均节省额约为 $(P_{old} - P_{new}) \times \frac{1}{2}$（假设线性需求），即 $0.2 P_{ref} \times 0.5 = 0.1 P_{ref}$。若 $P_{ref}=1000$ 元，则价格福利为100元。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在假设线性需求且仅考虑成交买家（V > P_new）的情况下，平均节省额约为价格差的一半，计算过程 0.2 * 0.5 = 0.1 及 1000 * 0.1 = 100 均符合数学逻辑。

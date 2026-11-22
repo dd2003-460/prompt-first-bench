@@ -1,0 +1,20 @@
+# N136: 被驱逐对象集合 Evicted_Set 的组成规则：在 LRU 策略下，Evicted_Set 为缓存中最近访问时间最旧的 k_evict 个对象，其具体身份取
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N70, N71, N72
+
+## Claim
+
+被驱逐对象集合 Evicted_Set 的组成规则：在 LRU 策略下，Evicted_Set 为缓存中最近访问时间最旧的 k_evict 个对象，其具体身份取决于时间局部性，而非频率排序，这导致被驱逐对象的平均大小 E[S|Evicted] 与全局均值 E[S] 存在偏差
+
+## Corrected Claim
+
+被驱逐对象集合 Evicted_Set 的组成规则：在 LRU 策略下，Evicted_Set 为缓存中最近访问时间最旧的 k_evict 个对象，其具体身份取决于时间局部性，而非频率排序，这导致被驱逐对象的平均大小 E[S|Evicted] 与全局均值 E[S] 存在偏差
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：LRU基于访问时间而非频率，驱逐最旧对象导致样本偏差符合缓存理论基本逻辑

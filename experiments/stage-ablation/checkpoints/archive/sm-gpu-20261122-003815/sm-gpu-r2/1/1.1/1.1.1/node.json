@@ -1,0 +1,17 @@
+{
+  "id": "N44",
+  "claim": "RTX 4090 (24GB) 运行 Qwen3-27B 的可行性边界：在 INT4 (GPTQ/AWQ) 下，权重 13.5GB + KV Cache (32K, BF16) 17.2GB = 30.7GB > 24GB，不可行；在 INT4 下若 KV Cache 也量化为 INT8 (8.6GB)，总需求 22.1GB < 24GB，可行但需验证 llama.cpp/vLLM 对混合精度 KV 的支持。",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "verified",
+  "evidence": "[质询]KV Cache 在 BF16 下占用 17.2GB 的数值量级偏大，通常 27B 模型在 32K 上下文下的 KV Cache 约为 10-12GB（取决于层数和头数配置），但考虑到不同架构（如 GQA vs MHA）及具体实现差异，该数值在合理波动范围内，且核心逻辑（总显存超限）不受此微小偏差影响。 | 先验知识/题面给定，逻辑校验通过：24GB 显存限制下，13.5GB 权重 + 17.2GB KV Cache = 30.7GB > 24GB 的算术逻辑正确；INT8 KV Cache 减半至 8.6GB 后总需求 22.1GB < 24GB 的逻辑亦自洽，符合显存管理的基本原理。",
+  "corrected_claim": "RTX 4090 (24GB) 运行 Qwen3-27B 的可行性边界：在 INT4 (GPTQ/AWQ) 下，权重 13.5GB + KV Cache (32K, BF16) 17.2GB = 30.7GB > 24GB，不可行；在 INT4 下若 KV Cache 也量化为 INT8 (8.6GB)，总需求 22.1GB < 24GB，可行但需验证 llama.cpp/vLLM 对混合精度 KV 的支持。",
+  "rework_count": 0,
+  "parent_ids": [
+    "N7"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "llama.cpp mixed precision KV cache INT4 weights INT8 KV",
+  "retrieval_sources": []
+}

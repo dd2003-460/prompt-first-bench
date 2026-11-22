@@ -1,0 +1,24 @@
+# N373: 卖家时间成本系数 η 的量化：η = (Opportunity_Cost_per_day + Holding_Cost_per_day) / Average_T
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N119
+
+## Claim
+
+卖家时间成本系数 η 的量化：η = (Opportunity_Cost_per_day + Holding_Cost_per_day) / Average_Transaction_Value。其中 Opportunity_Cost_per_day 需基于卖家平均时薪或替代交易机会估算，Holding_Cost_per_day 包括仓储/资金占用成本。需确定 η 的中位数及 P10/P90 分位数，以构建 C_time_delta 的置信区间。
+
+## Corrected Claim
+
+卖家时间成本系数 η 可定义为 (Opportunity_Cost_per_day + Holding_Cost_per_day) / Average_Transaction_Value，其中机会成本需基于卖家时薪或替代收益估算，持有成本包括仓储及资金占用；具体中位数及分位数需基于实证数据构建置信区间。
+
+## Evidence
+
+[质询]该公式将时间成本系数定义为货币成本与交易价值的比值，隐含假设卖家时间完全转化为货币机会成本，忽略了非货币效用或时间偏好差异，且缺乏实证数据支持该线性关系在各类卖家群体中的普适性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体量化方法或分位数分布的合理性）
+
+## Search Query
+
+seller holding cost opportunity cost per day second hand goods transaction value

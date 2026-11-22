@@ -1,0 +1,24 @@
+# N136: 工作点 A（低时间成本/高搜索意愿）：μ_v = 10 USD/hr, Var(v) = 4 (USD/hr)²，对应高收入或闲暇时间充裕的买家群体，该群体对价
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N42
+
+## Claim
+
+工作点 A（低时间成本/高搜索意愿）：μ_v = 10 USD/hr, Var(v) = 4 (USD/hr)²，对应高收入或闲暇时间充裕的买家群体，该群体对价格敏感度低，搜索成本占比低，倾向于高挂价成交。
+
+## Corrected Claim
+
+工作点 A（低时间成本/高搜索意愿）：μ_v = 10 USD/hr, Var(v) = 4 (USD/hr)²，对应高收入或闲暇时间充裕的买家群体，该群体对价格敏感度低，搜索成本占比低，倾向于高挂价成交。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：低时间成本（μ_v=10）意味着搜索的边际成本低，根据搜索理论，买家会进行更多搜索以寻找更优价格，从而倾向于高挂价成交，且对价格敏感度相对较低（因为搜索成本低，能容忍更高溢价以换取更优匹配或减少搜索次数），逻辑自洽。
+
+## Search Query
+
+opportunity cost of time high income buyer search behavior

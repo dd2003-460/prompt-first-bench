@@ -1,0 +1,24 @@
+# N269: Qwen3-27B AWQ W4 量化在 WikiText-103 上的 PPL 增量 0.40±0.10 来源于激活感知缩放：AWQ 根据激活值幅值分布调整量
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N83, N84, N85
+
+## Claim
+
+Qwen3-27B AWQ W4 量化在 WikiText-103 上的 PPL 增量 0.40±0.10 来源于激活感知缩放：AWQ 根据激活值幅值分布调整量化粒度，保护了 1% 的关键通道（salient channels），使得权重矩阵的 L2 范数误差降低 25% 相比均匀量化
+
+## Corrected Claim
+
+Qwen3-27B AWQ W4 量化在 WikiText-103 上的 PPL 增量约为 0.40±0.10，该量化方法通过保护显著通道（salient channels）来降低量化误差，相比均匀量化能更有效地保持模型性能。
+
+## Evidence
+
+[质询]具体数值（PPL增量0.40±0.10、L2范数误差降低25%）属于特定实验条件下的经验数据，无法从第一性原理推导，且缺乏来源支持其精确性；此外，AWQ的核心机制通常被描述为保护显著权重（salient weights）而非单纯基于激活值幅值调整粒度，表述可能存在机制归因的细微偏差。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+AWQ activation-aware quantization salient channels L2 norm error reduction Qwen3 27B W4

@@ -1,0 +1,24 @@
+# N294: Qwen3-27B 的 `vocab_size` 为 151936，影响 Embedding 层显存占用 (151936 * 4096 * 2 bytes ≈ 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N99, N100, N101
+
+## Claim
+
+Qwen3-27B 的 `vocab_size` 为 151936，影响 Embedding 层显存占用 (151936 * 4096 * 2 bytes ≈ 1.24 GB in BF16)，需计入总显存下限。
+
+## Corrected Claim
+
+Qwen3-27B 的 Embedding 层显存占用约为 1.24 GB（基于 vocab_size=151936 和 hidden_size=4096 的假设），需计入总显存下限。具体数值需以官方模型配置为准。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件/模型参数（vocab_size=151936, hidden_size=4096），属于经验事实。虽然 Qwen 系列模型通常使用 151936 的词表大小，但 27B 模型的具体 hidden_size 是否为 4096 需要确切来源支持（通常 27B 级别的模型 hidden_size 可能在 4096 或更高，如 5120 或 6144，若 hidden_size 不同，显存计算将偏差）。此外，检索无可用来源，无法直接验证具体数值。 | 经验事实，逻辑自洽但缺来源支持。计算逻辑正确：151936 * 4096 * 2 bytes ≈ 1.24 GB。但 vocab_size 和 hidden_size 的具体数值属于模型架构参数，需来源确认。
+
+## Search Query
+
+Qwen3-27B vocab_size embedding layer memory footprint

@@ -1,0 +1,17 @@
+{
+  "id": "N347",
+  "claim": "在 Batch Parallelism 策略下，2x GPU 处理 batch_size=1 的 32K 请求时，KV Cache 无跨卡通信，仅激活值在层间传递，每层通信量为 2 * 4096 * 2 bytes = 16 KB/layer，总通信量 1.02 MB，PCIe 延迟 < 0.1 ms，通信开销占比 < 1%，吞吐损失可忽略不计。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "verified",
+  "evidence": "先验知识/题面给定，逻辑校验通过：Batch Parallelism 下 KV Cache 分片存储于各卡，无跨卡同步需求；激活值通信量计算 (2 * 4096 * 2 bytes = 16KB/layer) 符合 FP16 精度下隐藏层维度 4096 的量级；总通信量 1.02MB 与 64 层模型 (16KB * 64 = 1MB) 吻合；PCIe 带宽下 1MB 传输延迟远低于 0.1ms，开销占比极低，结论自洽。",
+  "corrected_claim": "在 Batch Parallelism 策略下，2x GPU 处理 batch_size=1 的 32K 请求时，KV Cache 无跨卡通信，仅激活值在层间传递，每层通信量为 2 * 4096 * 2 bytes = 16 KB/layer，总通信量 1.02 MB，PCIe 延迟 < 0.1 ms，通信开销占比 < 1%，吞吐损失可忽略不计。",
+  "rework_count": 0,
+  "parent_ids": [
+    "N112"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

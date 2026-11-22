@@ -1,0 +1,17 @@
+{
+  "id": "N250",
+  "claim": "2x RTX 4090 运行 FP8 Qwen3-27B 时的跨卡分片策略与通信开销量化：FP8 权重 27GB 需分片至两卡 (每卡 13.5GB)，KV Cache 6.29GB 也需分片。每层 Attention 计算需跨卡交换 K/V 向量，通信量 ≈ 2 * num_layers * seq_len * head_dim * dtype_size = 2 * 60 * 32768 * 128 * 1 byte = 503 MB/层。PCIe 4.0 带宽 64 GB/s，通信延迟 ≈ 503 MB / 64 GB/s ≈ 7.86 ms/层，60 层总延迟 ≈ 471.6 ms，严重拖慢 Decode 速度。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]通信量计算存在严重逻辑错误：1. 公式中 `2 * num_layers` 暗示每层通信两次，但通常每层 Attention 仅需一次 K/V 交换（或 P2P 双向并行，总流量不翻倍）；2. 更关键的错误在于将 `seq_len` (32768) 直接用于 Decode 阶段的通信量估算。Decode 阶段每步仅生成 1 个 token，需交换的 K/V 向量长度应为当前已生成的序列长度（逐步增加），而非最大上下文长度。若按最大长度计算，这是 Prefill 阶段的通信量，而非 Decode 阶段的每步开销。Decode 阶段的通信量应远小于此，且随步数线性增长，而非固定为 503MB/层。 | 逻辑校验失败：Decode 阶段通信量不应基于最大 seq_len 计算，且公式系数存疑；来源无可用证据，但逻辑硬伤导致结论不可信。",
+  "corrected_claim": "FP8 权重 27GB 分片至两卡 (每卡 13.5GB) 是合理的。但 Decode 阶段的跨卡通信开销并非固定 503 MB/层。Decode 每步需交换的 K/V 数据量取决于当前序列长度 $L_{current}$，通信量约为 $2 \\times L_{current} \\times d_{head} \\times \\text{bytes}$ (假设双向或特定并行策略)。在长序列 Decode 后期，通信量会接近 Prefill 水平，但初期极低。总延迟并非简单的 471.6 ms，而是随生成步数动态变化，且受 PCIe 延迟和带宽共享影响，不能简单线性累加。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N91"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

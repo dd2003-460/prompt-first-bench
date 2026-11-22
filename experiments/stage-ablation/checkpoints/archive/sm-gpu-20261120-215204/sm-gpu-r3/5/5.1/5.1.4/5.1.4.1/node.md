@@ -1,0 +1,24 @@
+# N340: A100 80GB 在 FP8 精度下，32K 上下文预填充 (Prefill) 阶段的理论计算耗时计算：总 FLOPs = 2 * 27e9 * 32768 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N121
+
+## Claim
+
+A100 80GB 在 FP8 精度下，32K 上下文预填充 (Prefill) 阶段的理论计算耗时计算：总 FLOPs = 2 * 27e9 * 32768 ≈ 1.77 TFLOPs；A100 FP8 峰值算力 312 TFLOPS，考虑 MFU 40% (实际有效 125 TFLOPS)，理论耗时 = 1.77 TFLOPs / 125 TFLOPS ≈ 14.2 ms。
+
+## Corrected Claim
+
+A100 80GB 在 FP8 精度下，32K 上下文预填充 (Prefill) 阶段的理论计算耗时计算：总 FLOPs = 2 * 27e9 * 32768 ≈ 1.77 TFLOPs；A100 FP8 峰值算力 312 TFLOPS，考虑 MFU 40% (实际有效 125 TFLOPS)，理论耗时 = 1.77 TFLOPs / 125 TFLOPS ≈ 14.2 ms。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 80GB 支持 FP8 且峰值算力约 312 TFLOPS，计算过程 2*27e9*32768/125e12 ≈ 14.2ms 数学自洽。
+
+## Search Query
+
+A100 FP8 prefill latency calculation 32k context

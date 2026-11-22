@@ -1,0 +1,30 @@
+# N165: Qwen3-27B 的 GQA 配置参数：Num_Query_Heads = 32, Num_KV_Heads = 8 (即 1:4 比例)。此比例因子直接决定
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N64
+
+## Claim
+
+Qwen3-27B 的 GQA 配置参数：Num_Query_Heads = 32, Num_KV_Heads = 8 (即 1:4 比例)。此比例因子直接决定 KV Cache 缩减系数为 0.25。若假设为 1:8 (如某些 Llama 变体)，系数为 0.125，需以 Qwen3 官方模型卡为准 [待核验]
+
+## Corrected Claim
+
+Qwen3 系列模型（如 32B）通常采用 1:4 的 GQA 配置（Num_KV_Heads = Num_Query_Heads / 4），KV Cache 缩减系数为 0.25；Qwen3-27B 的具体参数需以官方模型卡为准，但大概率遵循相同架构设计。
+
+## Evidence
+
+[质询]参考来源仅覆盖 Qwen3-4B 和 Qwen3-32B 的 GQA 配置，未直接提供 Qwen3-27B 的具体参数（Num_Query_Heads 和 Num_KV_Heads），存在以偏概全或版本差异导致参数不一致的风险。 | 来源 [2] 间接支持 Qwen3 系列（32B）采用 GQA 且分组数为 4（即 1:4 比例），与陈述中的比例因子 0.25 逻辑一致，但缺乏针对 27B 模型的直接证据，属于经验事实且缺直接来源支持。
+
+## Search Query
+
+Qwen3-27B config.json num_key_value_heads num_attention_heads
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_00511/article/details/170241855&rut=2a8ac931710cbd63c69cedc27570725b0c5581711267b0f2596e6718ccaf60d3', 'type': 'ddg', 'title': '如何读懂qwen-3-4B-quark的config.json：GQA、RoPE与quantization_config'}
+- {'url': 'https://blog.csdn.net/weixin_36001279/article/details/157526523&rut=133966462de1aa23ab86990f697bfa0cddc8748bbde0b2dd3d12317c550b83fb', 'type': 'ddg', 'title': 'Clawdbot整合Qwen3-32B参数详解：num_gqa、num_ctx、num_keep等关键配置说明-CSDN'}
+- {'url': 'https://blog.gitcode.com/46538ed956b33470cf874f0b4aa44f5f.html&rut=61e33999c636590eab76ed58a4b7354d8a167adae681fe107df1be5747e0b729', 'type': 'ddg', 'title': '如何读懂qwen-3-4B-quark的config.json：GQA、RoPE与quantization_config等8个关键参数'}

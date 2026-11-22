@@ -1,0 +1,24 @@
+# N76: 卖家总预期收益损失中的‘成交率修正项’具体化：该修正项并非常数，而是成交率对价格偏离度的弹性函数 ε_CVR = dln(CVR)/dln(D)。假设基准成交率
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N19
+
+## Claim
+
+卖家总预期收益损失中的‘成交率修正项’具体化：该修正项并非常数，而是成交率对价格偏离度的弹性函数 ε_CVR = dln(CVR)/dln(D)。假设基准成交率 CVR_0 = 2%，当 D 从 20% 降至 10% 时，CVR 变化为 CVR_1 = CVR_0 * (10/20)^ε_CVR。若 ε_CVR = 0.8，则 CVR 提升约 28%，需代入此动态值计算总损失，而非静态 ΔQ=20%。
+
+## Corrected Claim
+
+卖家总预期收益损失中的‘成交率修正项’具体化：该修正项并非常数，而是成交率对价格偏离度的弹性函数 ε_CVR = dln(CVR)/dln(D)。假设基准成交率 CVR_0 = 2%，当 D 从 20% 降至 10% 时，CVR 变化为 CVR_1 = CVR_0 * (10/20)^ε_CVR。若 ε_CVR = 0.8，则 CVR 提升约 28%，需代入此动态值计算总损失，而非静态 ΔQ=20%。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（三个子节点分别对应弹性系数的‘空间维度’（品类）、‘主体维度’（信用交互）和‘统计维度’（置信区间），彼此正交且无逻辑矛盾。它们共同构成了将父节点中静态弹性 ε_CVR 转化为动态、具体、可计算参数的完整路径，覆盖了从基准值确定到不确定性量化的关键方面，未发现冗余。）
+
+## Search Query
+
+conversion rate elasticity to price deviation second hand goods

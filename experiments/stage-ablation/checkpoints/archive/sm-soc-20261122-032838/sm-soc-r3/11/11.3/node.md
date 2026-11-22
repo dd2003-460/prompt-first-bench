@@ -1,0 +1,20 @@
+# N313: 验证 $\sigma_{pref}$ 的合理性边界：若 $\sigma_{pref} > 0.1 P_{ref}$，意味着买家估值分布极宽，与二手非标品质量方差
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N108
+
+## Claim
+
+验证 $\sigma_{pref}$ 的合理性边界：若 $\sigma_{pref} > 0.1 P_{ref}$，意味着买家估值分布极宽，与二手非标品质量方差 $\sigma_{quality}$（通常0.1-0.2）耦合，需检查是否导致 $P_{inquiry}$ 在低价区间异常升高，从而与60%无咨询现象矛盾。
+
+## Corrected Claim
+
+验证 $\sigma_{pref}$ 的合理性边界：若 $\sigma_{pref} > 0.1 P_{ref}$，意味着买家估值分布极宽，与二手非标品质量方差 $\sigma_{quality}$（通常0.1-0.2）耦合，需检查是否导致 $P_{inquiry}$ 在低价区间异常升高，从而与60%无咨询现象矛盾。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该陈述描述了参数敏感性分析中的合理检查逻辑，即高估值方差与质量方差耦合可能导致询价概率分布偏移，进而与观察到的低咨询率（60%无咨询）产生矛盾，符合经济学直觉和逻辑自洽性。

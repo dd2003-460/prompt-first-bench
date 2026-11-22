@@ -1,0 +1,24 @@
+# N111: RTX 4090 在 W4 量化下运行 Qwen3-27B (32K ctx) 时，因显存溢出 (25.5GB > 24GB) 必须将约 1.5-2GB 权重或
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N32, N33, N34
+
+## Claim
+
+RTX 4090 在 W4 量化下运行 Qwen3-27B (32K ctx) 时，因显存溢出 (25.5GB > 24GB) 必须将约 1.5-2GB 权重或 KV Cache 卸载至 CPU RAM，导致每生成一个 token 需额外进行 PCIe 5.0 数据传输（~64GB/s），该带宽瓶颈使 Decode 阶段 TPS 从理论峰值 (基于 1008GB/s 显存带宽) 下降至 <5 TPS，降幅 >90%。
+
+## Corrected Claim
+
+RTX 4090 在 W4 量化下运行 Qwen3-27B (32K ctx) 时，若显存溢出需卸载部分权重或 KV Cache 至 CPU RAM，将因 PCIe 带宽限制导致 Decode 阶段 TPS 显著下降，但具体降幅取决于卸载比例、Batch Size 及并发策略，通常不会仅因 1.5-2GB 卸载就导致 TPS 降至 <5 且降幅 >90%。
+
+## Evidence
+
+[质询]数值量级与逻辑自洽性存疑：1.5-2GB 的卸载量相对于 24GB 显存和 32K 上下文下的 KV Cache 需求（通常数 GB 至十几 GB）而言过小，难以单独导致 TPS 从理论峰值（通常几十 TPS）暴跌至 <5 TPS 且降幅 >90% 的极端情况；此外，PCIe 5.0 带宽瓶颈通常导致延迟增加而非吞吐量断崖式下跌至个位数，除非涉及极频繁的同步或极小的 batch size，但陈述未提供足够细节支撑这一极端性能损失。 | 先验知识/题面给定，逻辑校验未通过：卸载量与性能降幅之间的因果关系在常规推理场景下不成立，缺乏具体配置（如 batch size、并发数）支持该极端结论。
+
+## Search Query
+
+RTX 4090 24GB offload penalty LLM inference tokens per second

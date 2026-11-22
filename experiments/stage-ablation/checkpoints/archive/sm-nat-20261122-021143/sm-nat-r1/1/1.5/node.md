@@ -1,0 +1,20 @@
+# N10: 有效工作集边界 K 的计算：解 Σ_{k=1}^{K} S_k = 128 * 10^9 bytes，其中 S_k 服从 Pareto(α=1.1) 且与排名 
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+有效工作集边界 K 的计算：解 Σ_{k=1}^{K} S_k = 128 * 10^9 bytes，其中 S_k 服从 Pareto(α=1.1) 且与排名 k 负相关（因 ρ<0，高排名 k 对应小 S），故 S_k ≈ s_max * k^{-δ}，δ > 0 由 ρ 和 α 联合决定；近似为积分 ∫_1^K s_max x^{-δ} dx = 128 * 10^9，解得 K
+
+## Corrected Claim
+
+有效工作集边界 K 的计算：解 Σ_{k=1}^{K} S_k = 128 * 10^9 bytes，其中 S_k 服从 Pareto(α=1.1) 且与排名 k 负相关（因 ρ<0，高排名 k 对应小 S），故 S_k ≈ s_max * k^{-δ}，δ > 0 由 ρ 和 α 联合决定；近似为积分 ∫_1^K s_max x^{-δ} dx = 128 * 10^9，解得 K
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布与负相关排名的数学建模自洽，积分近似求和是标准处理方法，量纲与数值量级合理。

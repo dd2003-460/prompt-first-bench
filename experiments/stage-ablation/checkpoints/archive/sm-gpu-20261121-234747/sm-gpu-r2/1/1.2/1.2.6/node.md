@@ -1,0 +1,24 @@
+# N42: NVIDIA H100 80GB 在运行 Qwen3-27B INT8 量化版本时的实测吞吐量（单用户，32K 上下文）：约为 50-80 tokens/s（来
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N7
+
+## Claim
+
+NVIDIA H100 80GB 在运行 Qwen3-27B INT8 量化版本时的实测吞吐量（单用户，32K 上下文）：约为 50-80 tokens/s（来源：vLLM 官方 benchmark 报告 2024-11 或第三方独立评测如 Benchmarks.gg 2025-01），需标注具体测试日志和模型版本。
+
+## Corrected Claim
+
+NVIDIA H100 80GB 在运行 Qwen3-27B INT8 量化版本时的实测吞吐量（单用户，32K 上下文）预计约为 50-80 tokens/s，具体数值需参考 vLLM 官方 benchmark 报告或第三方独立评测（如 Benchmarks.gg）的实际测试日志，并标注具体模型版本和测试环境。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性性能数值（50-80 tokens/s）和特定的测试条件（32K上下文、INT8、单用户），属于硬件/模型性能的经验事实，无法从第一性原理推导。且引用的来源（vLLM 2024-11, Benchmarks.gg 2025-01）在检索中不可用，无法验证其真实存在或数据准确性。此外，Qwen3-27B 的具体版本和量化实现细节可能影响吞吐量，单一数值范围可能过于绝对。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值和来源真实性）
+
+## Search Query
+
+NVIDIA H100 Qwen3-27B INT8 inference benchmark tokens per second 32K context

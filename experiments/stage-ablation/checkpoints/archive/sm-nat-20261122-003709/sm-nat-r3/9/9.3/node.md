@@ -1,0 +1,20 @@
+# N94: 计算修正因子R_byte = E[S|Hit] / E[S]，并代入H_byte = H_obj * R_byte，给出字节命中率相对于对象命中率的最终修正倍数
+
+- **status**: pending
+- **level**: L3
+- **source**: given
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N29
+
+## Claim
+
+计算修正因子R_byte = E[S|Hit] / E[S]，并代入H_byte = H_obj * R_byte，给出字节命中率相对于对象命中率的最终修正倍数和具体百分比差异。
+
+## Corrected Claim
+
+计算修正因子R_byte = E[S|Hit] / E[S]，并代入H_byte = H_obj * R_byte，给出字节命中率相对于对象命中率的最终修正倍数和具体百分比差异。
+
+## Evidence
+
+父节点级核验未通过：非正交, 有冗余（子节点3（计算R_byte）在逻辑上依赖于子节点1和2，且重复了子节点1中的具体数值（8.5KB），导致内容重叠。此外，子节点1中直接给出了基于经验/假设的E[S|Hit]值，而子节点2计算了E[S]，子节点3仅做除法，这种结构使得子节点3成为了前两者的简单算术结果，而非独立的正交步骤。更严重的是，子节点1中的推导逻辑（基于N65和Spearman转换）与子节点2（基于Pareto分布）在方法论上存在潜在的来源冲突或混合，且子节点3直接引用了子节点1的结果，破坏了正交性。）

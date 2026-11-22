@@ -1,0 +1,20 @@
+# N199: 架构参数对硬件选型的边界影响：若 num_kv_heads 从 8 增加到 16（假设未来模型版本），KV Cache 单 token 大小将翻倍至 512 K
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N97
+
+## Claim
+
+架构参数对硬件选型的边界影响：若 num_kv_heads 从 8 增加到 16（假设未来模型版本），KV Cache 单 token 大小将翻倍至 512 KB，32K 上下文总 KV 需求从 8GB 增至 16GB，可能使 RTX 4090 双卡 (48GB) 在 FP8 权重 (27GB) 下仅剩 21GB 可用，KV 占用 16GB 后剩余 5GB 用于 Batch，可行性急剧下降，因此架构参数是硬件容量规划的核心约束
+
+## Corrected Claim
+
+架构参数对硬件选型的边界影响：若 num_kv_heads 从 8 增加到 16（假设未来模型版本），KV Cache 单 token 大小将翻倍至 512 KB，32K 上下文总 KV 需求从 8GB 增至 16GB，可能使 RTX 4090 双卡 (48GB) 在 FP8 权重 (27GB) 下仅剩 21GB 可用，KV 占用 16GB 后剩余 5GB 用于 Batch，可行性急剧下降，因此架构参数是硬件容量规划的核心约束
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：KV Cache大小与num_kv_heads成正比，翻倍后占用16GB，48GB总显存减去27GB权重和16GB KV后剩余5GB，计算自洽且符合硬件容量规划逻辑。

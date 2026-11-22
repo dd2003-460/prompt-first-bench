@@ -1,0 +1,20 @@
+# N81: TTFT (Time To First Token) 的物理上限公式：TTFT_max ≈ (KV_Cache_Size_bytes) / (Bandwidth
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N28
+
+## Claim
+
+TTFT (Time To First Token) 的物理上限公式：TTFT_max ≈ (KV_Cache_Size_bytes) / (Bandwidth_GBps) * 1000 ms，其中 KV_Cache_Size_bytes = 32768 * 2 * n_layers * d_head * 2 * precision_bytes (Qwen3-27B: n_layers=32, d_head=128, BF16=2bytes) ≈ 1.07 GB，因此 500GB/s 带宽下 TTFT ≈ 2.14s，而 50GB/s (DDR5) 下 TTFT ≈ 21.4s，证实了 500GB/s 作为交互式(<5s)与离线(>5s)的分界阈值。
+
+## Corrected Claim
+
+TTFT受Prefill计算耗时和KV Cache加载/生成带宽共同影响，不能仅由KV Cache大小除以带宽得出。500GB/s带宽下，若仅考虑KV Cache传输，1.07GB数据耗时约2.14ms（非2.14s，单位换算错误：1.07GB / 500GB/s = 0.00214s = 2.14ms），而非2.14s。原陈述中单位换算错误（GB/GBps = s，非ms，且数值量级错误），导致结论无效。
+
+## Evidence
+
+[质询]公式逻辑存在严重缺陷：TTFT（首字延迟）主要取决于Prefill阶段的计算量（FLOPs）和KV Cache的生成/加载时间，而非单纯由KV Cache总大小除以带宽决定。该公式忽略了计算时间（Compute-bound），且将KV Cache总大小（通常随序列长度线性增长）直接作为TTFT上限的分子，混淆了内存容量限制与单次推理延迟。此外，Qwen3-27B的具体参数（如n_layers=32, d_head=128）需核实，若参数错误则数值推导基础崩塌。 | 先验知识/题面给定，逻辑校验未通过：TTFT受计算和内存带宽共同影响，单纯用KV Cache大小除以带宽无法构成物理上限公式，且忽略了Prefill的计算耗时，逻辑不自洽。

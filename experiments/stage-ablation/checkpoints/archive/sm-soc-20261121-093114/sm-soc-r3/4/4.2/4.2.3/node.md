@@ -1,0 +1,20 @@
+# N57: 采纳后成交周期的非线性变化：ΔT_sale 不仅取决于价格降低幅度，还取决于买家对'算法推荐'的信任度 T_trust，量化为 ΔT_sale = -ζ * Δ
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+采纳后成交周期的非线性变化：ΔT_sale 不仅取决于价格降低幅度，还取决于买家对'算法推荐'的信任度 T_trust，量化为 ΔT_sale = -ζ * ΔP_suggest * T_trust，若 T_trust < 0.5，则 ΔT_sale 的缩短效果减半，需通过用户调研量化 T_trust。
+
+## Corrected Claim
+
+采纳后成交周期的非线性变化：ΔT_sale 不仅取决于价格降低幅度，还取决于买家对'算法推荐'的信任度 T_trust，量化为 ΔT_sale = -ζ * ΔP_suggest * T_trust，若 T_trust < 0.5，则 ΔT_sale 的缩短效果减半，需通过用户调研量化 T_trust。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

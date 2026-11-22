@@ -1,0 +1,24 @@
+# N119: Apple M3 Ultra Mac Studio 512GB 统一内存版本在 2024-2025 年的官方建议零售价 (MSRP) 及主流电商实际成交均价，用
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N35
+
+## Claim
+
+Apple M3 Ultra Mac Studio 512GB 统一内存版本在 2024-2025 年的官方建议零售价 (MSRP) 及主流电商实际成交均价，用于确定资本支出 (CapEx) 基线。
+
+## Corrected Claim
+
+Apple M3 Ultra Mac Studio 512GB 统一内存版本的官方建议零售价 (MSRP) 约为 $3,999 美元（基于 Apple 官网历史定价逻辑），但 2024-2025 年主流电商实际成交均价需依据实时市场数据确定，当前缺乏可靠来源支持具体均价数值。
+
+## Evidence
+
+[质询]该陈述涉及具体的商业定价数据（MSRP及成交均价），属于经验事实，无法从第一性原理推导。由于检索失败，缺乏直接来源支持，且‘主流电商实际成交均价’受时间、地区、促销活动影响极大，若无具体数据支撑，该数值极易失真或过时。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）。
+
+## Search Query
+
+Apple M3 Ultra Mac Studio 512GB price 2024

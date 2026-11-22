@@ -1,0 +1,20 @@
+# N363: 带宽敏感阈值 (Bandwidth_Sensitivity_Threshold) 量化：当 PCIe 带宽 < (AllReduce_Comm_Vol / Ta
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N114
+
+## Claim
+
+带宽敏感阈值 (Bandwidth_Sensitivity_Threshold) 量化：当 PCIe 带宽 < (AllReduce_Comm_Vol / Target_Latency_Slice) 时，吞吐量下降超过 5%。对于 Qwen3-27B TP=2，若目标单 token 延迟 < 50ms，所需最小带宽 = 16KB × 64 layers / 0.05s ≈ 20.4 GB/s。PCIe 4.0 x16 (32 GB/s) 接近阈值，而 NVLink (900 GB/s) 远超，解释为何 PCIe 方案吞吐下降 5-15%。
+
+## Corrected Claim
+
+对于 Qwen3-27B TP=2，若目标单 token 延迟 < 50ms，所需最小带宽需根据具体的 AllReduce 通信量（取决于隐藏层维度和批处理大小）计算。PCIe 4.0 x16 (理论 32 GB/s) 可能成为瓶颈，导致吞吐下降，但具体下降幅度（5-15%）需通过实际基准测试验证，而非仅由简化公式推导。
+
+## Evidence
+
+[质询]计算逻辑存在严重缺陷：1. 混淆了通信量与带宽需求，AllReduce 的通信量通常远大于简单的层数乘以固定大小，且未考虑 TP=2 时激活值传输的具体大小；2. 将 PCIe 4.0 x16 的 32 GB/s 称为“接近阈值”（20.4 GB/s）在工程上是不准确的，因为 32 GB/s 显著高于 20.4 GB/s，且 PCIe 的实际有效带宽通常低于理论峰值，但 5-15% 的吞吐下降归因于带宽瓶颈缺乏具体的模型计算支撑，属于经验性断言而非严格推导。 | 先验知识/题面给定，逻辑校验未通过：带宽计算公式过于简化，未包含 AllReduce 算法的实际通信开销（如 Ring AllReduce 的 2(N-1)/N * Size），且 32 GB/s 与 20.4 GB/s 的差距不足以直接解释“接近阈值”的定性描述，数值推导存在内部矛盾。

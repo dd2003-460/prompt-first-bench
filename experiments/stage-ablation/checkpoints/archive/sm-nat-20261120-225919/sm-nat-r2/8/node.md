@@ -1,0 +1,26 @@
+# N26: 推导链步骤1：根据 128GB 容量和 Pareto(α=1.1) 大小分布，计算可缓存对象数量上限 k_max，例如若平均大小为 10KB，则 k_max ≈
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+推导链步骤1：根据 128GB 容量和 Pareto(α=1.1) 大小分布，计算可缓存对象数量上限 k_max，例如若平均大小为 10KB，则 k_max ≈ 1.28×10^7 / 10^4 ≈ 1280 个对象（需具体数值验证）。
+
+## Corrected Claim
+
+根据 128GB 容量和 Pareto(α=1.1) 大小分布，若假设平均对象大小为 10KB，则理论最大可缓存对象数量约为 1.37×10^7 个（128×10^9 / 10^4），而非 1280 个。实际可缓存数量需根据具体大小分布的累积分布函数（CDF）进一步计算。
+
+## Evidence
+
+父节点级核验未通过：非正交（子节点1与子节点2/3存在逻辑矛盾和重叠。子节点1指出基于假设的10KB平均大小计算出的容量上限（1.28×10^7）远超对象总数，因此k_max应为100,000。这实际上涵盖了子节点2中'S_total < 128GB'的情况。子节点2和3是基于S_total与128GB比较的两个互斥分支，但子节点1的结论（k_max=100,000）在逻辑上已经由子节点2的情况覆盖，导致子节点1与子节点2在结论上重复且表述冲突（一个直接给出上限，另一个通过总大小推导）。此外，子节点1的‘错误’定性可能过于绝对，因为父节点中的例子可能旨在展示量级估算，而子节点1将其视为绝对错误并直接给出最终答案，破坏了推导链的步骤性。）
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/luoganttcc/article/details/154403496&rut=feadc4bf451b9ff376681387e9341b7387def803b82a37989e827acb84a07358', 'type': 'ddg', 'title': '介绍一下帕累托分布 包括概率密度函数，概率分布 和 期望计算与证明_恒盛登陆xk7富3.4.6.5.6杏-CSDN博客'}
+- {'url': 'https://blog.csdn.net/Harrytutu_ZuiYue/article/details/163818543&rut=0a724263eccb841f25236a4ed756b5285b804fd9b7f79a7d70caffdac4f6a373', 'type': 'ddg', 'title': '【超详细】帕累托 Pareto 最优是什么？一文大白话吃透概念、经济学到多目标优化附实战案例-CSDN博客'}
+- {'url': 'https://yaoweibin.cn/python%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B8%AD%E7%9A%84%E5%B8%95%E7%B4%AF%E6%89%98%E5%88%86%E5%B8%83%E5%8E%9F%E7%90%86%E3%80%81%E5%BA%94%E7%94%A8%E4%B8%8E%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/&rut=358d5085283bc181e3d72a396c9a76efb0b0e982ae247e12eb7fa173cc559be6', 'type': 'ddg', 'title': 'Python统计学中的帕累托分布:原理、应用与代码实现 - 姚伟斌'}

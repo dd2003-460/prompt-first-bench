@@ -1,0 +1,20 @@
+# N284: 修正 N103 中的带宽下限阈值：基于 Qwen3-27B W4 量化 (权重~14GB) 及 32K 上下文 KV Cache (~30-50GB，取决于 G
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N103
+
+## Claim
+
+修正 N103 中的带宽下限阈值：基于 Qwen3-27B W4 量化 (权重~14GB) 及 32K 上下文 KV Cache (~30-50GB，取决于 GQA 配置)，总内存读取量约 50-60GB。若要求 T_decode < 50ms/token (20 tokens/s)，所需最低带宽 = 60GB / 0.05s = 1.2 TB/s。N103 中的 800GB/s 仅对应 ~10 tokens/s 的理论上限，若作为‘可用’下限应保留，但作为‘高性能’筛选标准应上调至 1.2 TB/s。
+
+## Corrected Claim
+
+修正 N103 中的带宽下限阈值：基于 Qwen3-27B W4 量化 (权重~14GB) 及 32K 上下文 KV Cache (~30-50GB，取决于 GQA 配置)，总内存读取量约 50-60GB。若要求 T_decode < 50ms/token (20 tokens/s)，所需最低带宽 = 60GB / 0.05s = 1.2 TB/s。N103 中的 800GB/s 仅对应 ~10 tokens/s 的理论上限，若作为‘可用’下限应保留，但作为‘高性能’筛选标准应上调至 1.2 TB/s。
+
+## Evidence
+
+[质询]KV Cache 大小估算（30-50GB）可能因 GQA 配置不同而波动较大，且未明确具体模型层数与头数，存在参数假设不透明的风险；但作为量级估算，其逻辑推导过程自洽。 | 先验知识/题面给定，逻辑校验通过：带宽=数据量/时间，60GB/0.05s=1.2TB/s 计算正确；800GB/s 对应 60GB/0.075s≈80ms/token (12.5 tokens/s) 或 50GB/0.0625s=80ms/token，与陈述中 '~10 tokens/s' 量级相符（若按 50GB 算，800GB/s 对应 62.5ms/token 即 16 tokens/s，若按 60GB 算对应 75ms/token 即 13.3 tokens/s，陈述中 10 tokens/s 为保守估计，逻辑自洽）。

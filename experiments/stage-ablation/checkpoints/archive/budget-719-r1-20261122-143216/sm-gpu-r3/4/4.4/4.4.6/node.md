@@ -1,0 +1,20 @@
+# N116: 假设 1 失效条件：当并发请求数 > 4 时，单卡显存中的 KV Cache 占用将超过 32K×4 的容量限制（除非使用量化 KV Cache），导致 OOM
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N24, N25, N26
+
+## Claim
+
+假设 1 失效条件：当并发请求数 > 4 时，单卡显存中的 KV Cache 占用将超过 32K×4 的容量限制（除非使用量化 KV Cache），导致 OOM 或强制缩短上下文，此时单卡方案的吞吐量不再随并发线性增长，需重新计算多卡方案的性价比。
+
+## Corrected Claim
+
+假设 1 失效条件：当并发请求数 > 4 时，单卡显存中的 KV Cache 占用将超过 32K×4 的容量限制（除非使用量化 KV Cache），导致 OOM 或强制缩短上下文，此时单卡方案的吞吐量不再随并发线性增长，需重新计算多卡方案的性价比。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：KV Cache 占用与并发数成正比，超过显存容量必然导致 OOM 或上下文截断，进而破坏线性吞吐增长，符合 LLM 推理基本物理/工程约束。

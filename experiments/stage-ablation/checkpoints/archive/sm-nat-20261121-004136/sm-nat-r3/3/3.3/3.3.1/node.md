@@ -1,0 +1,24 @@
+# N48: 频率遗忘率 λ 的估算：基于 LFU 计数器的位宽或老化机制。若采用指数衰减计数器，λ 通常设置为 1/T_half，其中 T_half 为计数器半衰期。在 1
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N14
+
+## Claim
+
+频率遗忘率 λ 的估算：基于 LFU 计数器的位宽或老化机制。若采用指数衰减计数器，λ 通常设置为 1/T_half，其中 T_half 为计数器半衰期。在 1%/天 更新率下，若 T_update（对象平均更新间隔）= 100 天，则需确定 λ 使得 A_decay 有意义。典型值：λ ∈ [0.01, 0.1] day^-1 [待核验]，需根据具体 LFU 算法变体（如 Count-Min Sketch 或精确计数器）确定。
+
+## Corrected Claim
+
+频率遗忘率 λ 的估算：基于 LFU 计数器的位宽或老化机制。若采用指数衰减计数器，λ 通常设置为 1/T_half，其中 T_half 为计数器半衰期。在 1%/天 更新率下，若 T_update（对象平均更新间隔）= 100 天，则需确定 λ 使得 A_decay 有意义。典型值：λ ∈ [0.01, 0.1] day^-1 [待核验]，需根据具体 LFU 算法变体（如 Count-Min Sketch 或精确计数器）确定。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点本质上是同一参数 λ 的三个离散取值（0.1, 0.01, 0.001），属于‘冗余’而非‘正交’的概念分解。此外，父节点明确提到需根据‘LFU 算法变体（如 Count-Min Sketch 或精确计数器）’确定，但子节点完全未涵盖这一关键维度，导致覆盖不全。）
+
+## Search Query
+
+LFU frequency decay rate lambda exponential decay counter

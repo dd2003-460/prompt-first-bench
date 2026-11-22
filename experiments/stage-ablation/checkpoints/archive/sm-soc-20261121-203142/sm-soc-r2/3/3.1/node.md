@@ -1,0 +1,20 @@
+# N13: 最小干预措施：平台调整曝光加权系数 W_exposure，使其对 P_ask > 1.2 * P_market 的商品降权，即 W_exposure = 1 -
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+最小干预措施：平台调整曝光加权系数 W_exposure，使其对 P_ask > 1.2 * P_market 的商品降权，即 W_exposure = 1 - β * max(0, P_ask/P_market - 1.2)，β = 0.5，以抑制高挂价商品的过度曝光。
+
+## Corrected Claim
+
+最小干预措施：平台调整曝光加权系数 W_exposure，使其对 P_ask > 1.2 * P_market 的商品降权，即 W_exposure = 1 - β * max(0, P_ask/P_market - 1.2)，β = 0.5，以抑制高挂价商品的过度曝光。
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备（1. 主题严重偏离：父节点核心是‘曝光加权系数 W_exposure 的公式及参数 β 对高挂价商品的抑制作用’，但子节点主要讨论‘卖家修改行为信号识别’、‘买家感知概率’以及‘佣金溢价分布’，完全未涉及 W_exposure 的计算逻辑、β 的敏感性分析或该机制对曝光量的具体影响函数。2. 正交性失效：子节点2（算法层）和子节点3（买家层）存在逻辑耦合，且子节点5（佣金随机源）与父节点‘曝光调整’无直接因果或逻辑关联，属于无关变量。3. 完备性缺失：缺少对 W_exposure 如何具体改变商品曝光量、以及该干预措施对市场均衡（如成交量、平均成交价）影响的分析。）

@@ -1,0 +1,24 @@
+# N190: 二手 H100 80GB 的 3 年预期故障率 (Annual Failure Rate, AFR) 约为 15-20%，显著高于新品 H100 的 3-5% 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N63
+
+## Claim
+
+二手 H100 80GB 的 3 年预期故障率 (Annual Failure Rate, AFR) 约为 15-20%，显著高于新品 H100 的 3-5% AFR，该差异导致二手卡在 3 年周期内的预期维护/更换成本增加约 $3,600 (基于 $18k 基数 * 20%)，这是 TCO 计算中风险溢价的主要来源。
+
+## Corrected Claim
+
+二手 H100 80GB 的预期故障率通常显著高于新品，导致其在 3 年周期内的预期维护/更换成本增加，这是 TCO 计算中风险溢价的主要来源。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数据（二手H100 AFR 15-20%、新品 3-5%）及具体的成本计算（$3,600），这些属于硬件可靠性统计和市场定价范畴，无法从第一性原理推导。且二手市场数据波动大，缺乏统一标准，具体数值可能因来源、成色、保修状态而异，存在口径混淆风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该事实属于硬件可靠性统计，不适用第一性原理推导条款）
+
+## Search Query
+
+used H100 GPU annual failure rate vs new H100 MTBF reliability statistics

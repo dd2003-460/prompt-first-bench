@@ -1,0 +1,20 @@
+# N65: NVLink 900GB/s 带宽仅在 H100 SXM5/H200 SXM5 等多卡服务器架构中可用，本地工作站主板 (如 X99/C621) 通常不支持 N
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+NVLink 900GB/s 带宽仅在 H100 SXM5/H200 SXM5 等多卡服务器架构中可用，本地工作站主板 (如 X99/C621) 通常不支持 NVLink，因此 NVLink 带宽指标在本地工作站 TCO 分析中权重为 0，仅 PCIe 带宽相关
+
+## Corrected Claim
+
+NVLink 900GB/s 带宽仅在 H100 SXM5/H200 SXM5 等多卡服务器架构中可用，本地工作站主板 (如 X99/C621) 通常不支持 NVLink，因此 NVLink 带宽指标在本地工作站 TCO 分析中权重为 0，仅 PCIe 带宽相关
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：NVLink 是 NVIDIA 专有互联技术，依赖特定基板（如 HGX 基板）和 GPU 物理接口（SXM 形态），标准工作站主板（如 X99/C621）仅支持 PCIe 插槽，物理上无法实现 NVLink 连接，故在本地工作站 TCO 中权重为 0 符合工程事实。

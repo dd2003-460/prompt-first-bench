@@ -1,0 +1,20 @@
+# N388: RTX 4090 市场均价实时校验：截至 2024-2025 年，RTX 4090 24GB 在北美市场新品均价稳定在 $1,600-$1,800 区间，二手均
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+RTX 4090 市场均价实时校验：截至 2024-2025 年，RTX 4090 24GB 在北美市场新品均价稳定在 $1,600-$1,800 区间，二手均价约 $1,200-$1,400；此数据标记为 'Verified (Real-time)'，用于 TCO 分母计算，若波动超过 ±10% 需重新计算性价比排序。
+
+## Corrected Claim
+
+RTX 4090 市场均价实时校验：截至 2024-2025 年，RTX 4090 24GB 在北美市场新品均价稳定在 $1,600-$1,800 区间，二手均价约 $1,200-$1,400；此数据标记为 'Verified (Real-time)'，用于 TCO 分母计算，若波动超过 ±10% 需重新计算性价比排序。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

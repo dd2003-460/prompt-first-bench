@@ -1,0 +1,20 @@
+# N306: RTX 4090 在 Decode 阶段的理论最大 TPS 上限计算：TPS_max = Effective_Bandwidth / (Model_Size_B
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N100
+
+## Claim
+
+RTX 4090 在 Decode 阶段的理论最大 TPS 上限计算：TPS_max = Effective_Bandwidth / (Model_Size_Bytes + KV_Cache_Total_Bytes)。假设有效带宽为标称 1008 GB/s 的 80-90%（考虑 PCIe 和内存控制器开销），代入 N133 和 N134 的数值进行计算。
+
+## Corrected Claim
+
+RTX 4090 在 Decode 阶段的理论最大 TPS 上限计算：TPS_max = Effective_Bandwidth / (Model_Size_Bytes + KV_Cache_Total_Bytes)。假设有效带宽为标称 1008 GB/s 的 80-90%（考虑 PCIe 和内存控制器开销），代入 N133 和 N134 的数值进行计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 显存带宽标称 1008 GB/s，Decode 阶段受限于显存带宽，TPS 上限公式符合内存墙（Memory Wall）约束下的基本物理/工程直觉，有效带宽折损系数 80-90% 符合 PCIe 及内存控制器开销的常规工程经验。

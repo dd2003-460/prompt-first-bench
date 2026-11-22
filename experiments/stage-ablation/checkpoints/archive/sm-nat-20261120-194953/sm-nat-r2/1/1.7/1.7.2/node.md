@@ -1,0 +1,20 @@
+# N44: 随机替换策略下的单对象命中概率 p_hit 近似为 1/K_cap，其中 K_cap = 128GB / E[S] 为缓存可容纳的对象数量，该概率与对象自身热度
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+随机替换策略下的单对象命中概率 p_hit 近似为 1/K_cap，其中 K_cap = 128GB / E[S] 为缓存可容纳的对象数量，该概率与对象自身热度 R_i 无关，仅取决于缓存容量倒数。
+
+## Corrected Claim
+
+随机替换策略下的单对象命中概率 p_hit 近似为 1/K_cap，其中 K_cap = 128GB / E[S] 为缓存可容纳的对象数量，该概率与对象自身热度 R_i 无关，仅取决于缓存容量倒数。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在随机替换（Random Replacement）策略下，缓存中每个对象被保留的概率均等，因此特定对象存在的概率仅取决于缓存容量 K_cap，即 1/K_cap，与对象热度无关。

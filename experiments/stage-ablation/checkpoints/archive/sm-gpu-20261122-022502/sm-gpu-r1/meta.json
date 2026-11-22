@@ -1,0 +1,116 @@
+{
+  "qid": "gpu",
+  "question": "你要在本地工作站上推理 Qwen3-27B 模型，不设硬性延迟指标（延迟是性能变量，由硬件和部署配置决定，不作为前置约束）；上下文窗口 ≥ 32K tokens 作为容量下限保留。权重精度不限（BF16/FP8/INT8/NVFP4/W4 均可），但必须论证所选精度的质量损失是否可接受。候选硬件：自行搜索确定值得考虑的完整候选集——覆盖你认为所有可能影响性价比排序的架构、代际、容量档位和价格区间（包括消费级、数据中心级、以及任何你认为值得纳入比较的非典型方案）。同时评估单卡与多卡方案的 TCO 差异（如 2× 消费卡 vs 1× 数据卡）。给出性价比最优的完整选卡方案。要求：思考必须最完整，确认没有遗漏任何影响决策的维度；每个关键数字标注来源（刚查到的 vs 凭记忆的），不确定的标 [待核验]；最终推荐必须是条件性的，不能给无条件排名。",
+  "round": 1,
+  "state": "rework",
+  "dropped_redundant": 0,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "可行性约束满足度：是否同时满足模型权重+KV Cache在32K上下文下的最小显存/内存需求，以及硬件生态对Qwen3-27B的兼容性（如vLLM/TensorRT-LLM支持）。不满足则方案直接剔除。",
+      "单位有效吞吐成本（TCO/Throughput）：在给定精度下，每小时处理有效token的总拥有成本（硬件折旧+电费+运维），用于在可行方案中排序。",
+      "精度-质量权衡的论证完备性：所选精度相对于BF16基线的质量损失是否可量化（如PPL/下游任务准确率下降幅度），且损失是否在可接受阈值内。缺失论证则方案无效。",
+      "候选集覆盖度：是否涵盖了所有可能影响性价比排序的架构（消费级/数据中心级/非典型）、代际、容量档位和价格区间，无重大遗漏。"
+    ],
+    "composition": "Coverage × Feasibility × (QualityLossAcceptable) / (TCO_per_effective_token)",
+    "rationale": "本题要求给出条件性最优方案，因此必须首先确保候选集无遗漏（Coverage）、方案物理可行（Feasibility）、精度损失可接受（QualityLossAcceptable），在此基础上以单位有效吞吐成本（TCO/Throughput）作为排序键，三者缺一不可。"
+  },
+  "objective_mode": "formula",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "node_id": "N10",
+      "claim": "二手/租赁市场价格区间：二手RTX 3090 24GB ~$500-700, 二手A100 80GB ~$8,000-1",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]缺乏实时市场数据支持，价格随时间波动大，且不同地区/平台差异显著，具体数值区间可能过时或不准确。 | 经验事实，逻辑自洽但缺来源支持"
+    },
+    {
+      "node_id": "N11",
+      "claim": "BF16基线质量：Qwen3-27B BF16权重在MMLU基准上准确率~85.2% [待核验]，PPL~2.1 [待核",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（85.2%和2.1）缺乏来源支持，且不同评测集/提示词下MMLU准确率波动较大，PPL对分词器敏感，精确到小数点后一位的数值极易因评测配置不同"
+    },
+    {
+      "node_id": "N12",
+      "claim": "INT8量化质量损失：相对于BF16，INT8量化导致MMLU准确率下降~0.5-1.0% [待核验]，PPL上升~0.",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级可能过于乐观或特定于特定模型/数据集：对于某些敏感模型或任务，INT8量化（尤其是非对称或无校准数据时）可能导致MMLU下降超过1%或PPL上升"
+    },
+    {
+      "node_id": "N13",
+      "claim": "W4量化质量损失：相对于BF16，W4量化导致MMLU准确率下降~2-4% [待核验]，PPL上升~0.3-0.5 [待",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值范围（2-4% MMLU下降，0.3-0.5 PPL上升）属于经验事实，具体数值高度依赖于量化算法（如GPTQ, AWQ, SmoothQuant）"
+    },
+    {
+      "node_id": "N21",
+      "claim": "硬件购置成本 (CapEx) 对比：2×RTX 4090 (24GB) 的初始采购价约为 $2,600-$3,000，而",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的硬件市场价格（经验事实），且标注了[时效待核]。由于缺乏实时市场数据支持，无法确认当前（2024-2025年）RTX 4090和A100"
+    },
+    {
+      "node_id": "N25",
+      "claim": "高吞吐低成本工作点（消费级多卡）：在 BF16 精度下，2×RTX 4090 通过张量并行实现约 25-30 token",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级存疑：2×RTX 4090 (共48GB显存) 在32K上下文下运行大模型（通常指7B-13B级别以适配显存），受限于PCIe 4.0带宽（~3"
+    },
+    {
+      "node_id": "N26",
+      "claim": "高稳定性中成本工作点（数据中心单卡）：1×A100 80GB 在 BF16 下生成速度约为 15-20 tokens/s",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级与成本估算存在显著不确定性：A100 80GB 在 BF16 下的生成速度受模型大小、序列长度及具体实现影响极大，15-20 tokens/s "
+    },
+    {
+      "node_id": "N27",
+      "claim": "极致性价比工作点（量化+消费级）：采用 INT8 或 W4A8 量化后，1×RTX 4090 可承载 27B 模型并达到",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级与成本估算存在显著偏差：RTX 4090 的 TCO（总拥有成本）通常按硬件折旧+电力计算，若按 $1600 硬件成本分摊，$0.008-$0."
+    },
+    {
+      "node_id": "N28",
+      "claim": "候选硬件筛选边界：排除显存带宽 < 500GB/s 的GPU（如L4, T4）用于交互式32K上下文推理，因KV Cac",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N29",
+      "claim": "非典型方案纳入标准：仅当 'TCO_per_token < 0.5 * Min(Consumer_TCO, Datace",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N30",
+      "claim": "敏感度分析基准：TCO 对电价敏感度系数为 0.15 (即电价每变动 10%, TCO 变动 1.5%)；对二手卡价格波",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N31",
+      "claim": "代际性能/价格比拐点：RTX 5090 (32GB) 的 FP4 吞吐量/价格比预计比 RTX 4090 高 40%，但",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N32",
+      "claim": "数据源优先级规范：1. 厂商官方规格表 (NVIDIA/AMD/Apple) -> 2. 权威基准测试 (MLPerf,",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 25
+}

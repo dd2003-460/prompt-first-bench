@@ -1,0 +1,28 @@
+# N136: 稀缺性权重 W_scar 的回归系数 β_scar 需通过面板数据模型 W_scar_t = α + β_scar * Drop_Rate_t + γ * P_
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N58
+
+## Claim
+
+稀缺性权重 W_scar 的回归系数 β_scar 需通过面板数据模型 W_scar_t = α + β_scar * Drop_Rate_t + γ * P_ask_t + ε 估计，其中 Drop_Rate_t 为 t 期同类商品成交率下降幅度，若 β_scar > 0.3 且 p < 0.01，则证实稀缺性启发式在需求下降时显著增强卖家维持高挂价的动机。
+
+## Corrected Claim
+
+稀缺性权重 W_scar 的回归系数 β_scar 可通过面板数据模型估计，若 β_scar 显著为正（如 p < 0.01），则表明稀缺性启发式在需求下降时可能增强卖家维持高挂价的动机（具体阈值需依据实证结果确定）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（β_scar > 0.3）和统计显著性标准（p < 0.01），属于经验事实/模型设定参数，无法从第一性原理推导。参考来源仅介绍面板VAR模型的一般性方法，未提供该特定回归系数阈值或具体经济含义的支持，存在来源不匹配及缺乏直接证据的风险。 | 逻辑上回归模型设定自洽，但参考来源[1]仅涉及Panel VAR方法论，未直接支持该特定系数阈值（0.3）或具体经济结论，属于经验事实且缺来源直接支持。
+
+## Search Query
+
+scarcity heuristic weight regression coefficient second-hand market price stability
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1948187605406548903&rut=ce1428997f04b78db8e4916eb697b220dc96c2cc21ff5f8751e4c800012e8cb5', 'type': 'ddg', 'title': '24年官方版! 面板向量自回归模型Panel VAR全面解读, 实例及code, 非常规范真的太好用了'}

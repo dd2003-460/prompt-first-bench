@@ -1,0 +1,24 @@
+# N123: 下游投影1：损失厌恶交互项 I_loss，定义为 λ_loss * P_loss_perception 的乘积，在 T=72h 时，I_loss = 2.25 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N42
+
+## Claim
+
+下游投影1：损失厌恶交互项 I_loss，定义为 λ_loss * P_loss_perception 的乘积，在 T=72h 时，I_loss = 2.25 * 0.6 = 1.35，导致定价偏离额外增加 1.35 * β_risk * σ_market_volatility。
+
+## Corrected Claim
+
+下游投影1：损失厌恶交互项 I_loss，定义为 λ_loss * P_loss_perception 的乘积，在 T=72h 时，I_loss = 2.25 * 0.6 = 1.35，导致定价偏离额外增加 1.35 * β_risk * σ_market_volatility。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算 2.25 * 0.6 = 1.35 正确，公式结构符合定义，无内部矛盾。
+
+## Search Query
+
+loss aversion interaction term pricing deviation 72 hours unsold

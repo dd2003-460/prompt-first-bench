@@ -1,0 +1,29 @@
+# N21: Pareto分布参数α=1.1和β=0.9的具体数值为题面给定（given），但‘热门对象与大小负相关ρ≈-0.3’这一相关性结构为题面给定。然而，‘负相关对L
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N5
+
+## Claim
+
+Pareto分布参数α=1.1和β=0.9的具体数值为题面给定（given），但‘热门对象与大小负相关ρ≈-0.3’这一相关性结构为题面给定。然而，‘负相关对LRU命中率的具体影响因子’并非通用理论直接给出，需通过蒙特卡洛模拟或特定文献（如Borg et al., 2005 'Web caching: A survey'）中的经验数据支持。此部分属于‘依赖特定经验数据’，需标注为[待核验]或引用具体模拟结果。
+
+## Corrected Claim
+
+Pareto分布参数α=1.1和β=0.9及‘热门对象与大小负相关ρ≈-0.3’为题面给定；‘负相关对LRU命中率的具体影响因子’属于依赖特定经验数据的结论，现有参考来源未提供直接支持，需通过蒙特卡洛模拟或特定文献（如Borg et al., 2005）验证。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1和子节点2在逻辑上是正交的（分别处理基线独立假设和负相关修正的边界/量化），不存在重复或矛盾。然而，分解不完备：父节点核心强调‘负相关对LRU命中率的具体影响因子’需通过蒙特卡洛模拟或特定文献支持，并标注[待核验]。子节点2仅分析了‘边界条件’（C远大于或接近工作集）以及一个基于流量占比差的粗略估计，并未涵盖父节点要求的‘一般情况下的具体影响因子’或‘需通过模拟/文献验证’这一关键方法论约束。子节点1中的公式 $1 - \frac{\sum S_i}{\sum S_j H_j}$ 在标准LRU字节命中率定义下也是存疑的（通常分母是总请求字节数，分子是未命中字节数，该公式结构需进一步核实，但这属于内容准确性问题，此处主要评判分解结构）。主要缺失在于未包含‘一般情形下需依赖经验数据/模拟’这一核心论点。）
+
+## Search Query
+
+Pareto distribution size popularity correlation CDN cache hit rate simulation
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/27173875583&rut=813a7dd5764aafafe6763a06f3f8a3572d479be046e39d53beeec4e456801689', 'type': 'ddg', 'title': '帕累托分布 - 知乎 - 知乎专栏'}
+- {'url': 'https://zhuanlan.zhihu.com/p/104103290&rut=99105b9b862d5fc30aeb55c126f58440b0804a60215d75376b93973d917f0c82', 'type': 'ddg', 'title': '2.3 pareto distrbution - 知乎'}

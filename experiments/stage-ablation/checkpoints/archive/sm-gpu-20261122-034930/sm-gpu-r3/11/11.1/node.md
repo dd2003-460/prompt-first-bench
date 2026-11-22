@@ -1,0 +1,20 @@
+# N423: NVFP4精度下Qwen3-27B的权重显存占用计算公式为：27B * 0.5 bytes (FP4) + 27B * 0.125 bytes (Block S
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N153
+
+## Claim
+
+NVFP4精度下Qwen3-27B的权重显存占用计算公式为：27B * 0.5 bytes (FP4) + 27B * 0.125 bytes (Block Scale, 每32个元素1个scale) ≈ 13.5GB + 0.42GB = 13.92GB，加上KV Cache和框架开销后总显存需求约为25-26GB。
+
+## Corrected Claim
+
+NVFP4精度下Qwen3-27B的权重显存占用计算公式为：27B * 0.5 bytes (FP4) + 27B * 0.125 bytes (Block Scale, 每32个元素1个scale) ≈ 13.5GB + 0.42GB = 13.92GB，加上KV Cache和框架开销后总显存需求约为25-26GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：NVFP4权重约0.5字节/参数，27B模型权重约13.5GB，加上Block Scale及KV Cache/框架开销后总显存25-26GB符合工程常识。

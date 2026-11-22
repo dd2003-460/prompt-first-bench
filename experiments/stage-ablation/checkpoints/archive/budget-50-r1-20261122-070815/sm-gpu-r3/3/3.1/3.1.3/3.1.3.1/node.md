@@ -1,0 +1,24 @@
+# N254: A100 80GB 在 Qwen3-27B BF16 权重 (54GB) + 32K BF16 KV Cache (2.0GB) 场景下，显存带宽利用率约为 8
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N76
+
+## Claim
+
+A100 80GB 在 Qwen3-27B BF16 权重 (54GB) + 32K BF16 KV Cache (2.0GB) 场景下，显存带宽利用率约为 80-90% (HBM2e 延迟较低且 L2 Cache 较大)，实际 Decode 速度上限为 2039 * 0.85 / 56 ≈ 31 tokens/s；虽然低于 4090 INT4 的 48.6 tokens/s，但质量损失为 0 (BF16 vs INT4)。
+
+## Corrected Claim
+
+A100 80GB 在 Qwen3-27B BF16 场景下，Decode 速度主要受限于显存带宽。理论峰值约为 HBM2e 带宽 (2039 GB/s) / 每 token 读取数据量 (约 54GB 权重 + KV Cache 增量) ≈ 35-40 tokens/s。实际受限于内存访问模式和计算开销，速度通常在 20-30 tokens/s 之间。
+
+## Evidence
+
+[质询]显存带宽利用率80-90%的假设缺乏依据，且计算逻辑存在混淆：Decode阶段通常受限于显存带宽（Memory-Bound），而非计算单元。若带宽利用率真达80-90%，实际速度应接近理论峰值（带宽/每token读取字节数），而非通过一个模糊的系数（0.85）去修正一个未明确来源的基准值（2039）。此外，2039 tokens/s这一基准值本身极不合理（远超A100单卡Decode能力），暗示该数值可能是误读（如混淆了Prefill速度或总吞吐量）或单位错误。 | source=knowledge，但逻辑校验发现内部矛盾：基准值2039 tokens/s对于单卡A100 Decode Qwen3-27B而言量级错误（通常单卡Decode在10-50 tokens/s范围，Prefill可达数千tokens/s）。若2039是Prefill速度，则不能直接用于计算Decode上限；若2039是理论Decode峰值，则远超A100 HBM2e带宽（~2TB/s）除以模型大小（~54GB）得出的理论极限（~37 tokens/s）。因此，基于错误量级的基准值进行的计算结果（31 tokens/s）虽然数值上看似合理（巧合），但推导过程存在硬逻辑错误（量纲/量级混淆）。
+
+## Search Query
+
+A100 80GB Qwen 27B BF16 inference throughput tokens per second benchmark

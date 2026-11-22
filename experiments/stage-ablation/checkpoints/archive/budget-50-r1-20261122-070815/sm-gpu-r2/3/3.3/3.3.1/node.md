@@ -1,0 +1,20 @@
+# N83: PCIe 4.0 x16 的双向理论带宽为 64 GB/s (32 GB/s 每方向)，PCIe 5.0 x16 的双向理论带宽为 128 GB/s (64 G
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N20
+
+## Claim
+
+PCIe 4.0 x16 的双向理论带宽为 64 GB/s (32 GB/s 每方向)，PCIe 5.0 x16 的双向理论带宽为 128 GB/s (64 GB/s 每方向)，实际有效带宽通常为理论值的 80-90%
+
+## Corrected Claim
+
+PCIe 4.0 x16 的双向理论带宽为 64 GB/s (32 GB/s 每方向)，PCIe 5.0 x16 的双向理论带宽为 128 GB/s (64 GB/s 每方向)，实际有效带宽通常为理论值的 80-90%
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

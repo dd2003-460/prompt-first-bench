@@ -1,0 +1,24 @@
+# N215: 实证数据表明，$w_{rel}$ 与商品标准化程度呈负相关线性关系：$w_{rel} = 0.6 - 0.4 \times S_{std}$，其中 $S_{st
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N75
+
+## Claim
+
+实证数据表明，$w_{rel}$ 与商品标准化程度呈负相关线性关系：$w_{rel} = 0.6 - 0.4 \times S_{std}$，其中 $S_{std} \in [0,1]$ 为标准化指数（1为完全标准化，0为完全非标）。对于二手手机（$S_{std}=0.8$），$w_{rel}=0.28$；对于二手奢侈品（$S_{std}=0.2$），$w_{rel}=0.52$。
+
+## Corrected Claim
+
+实证数据通常表明，$w_{rel}$ 与商品标准化程度呈负相关关系。对于标准化程度较高的二手手机，其相对权重较低；对于标准化程度较低的二手奢侈品，其相对权重较高。具体数值需依据特定研究或数据集确定。
+
+## Evidence
+
+[质询]该陈述声称存在具体的实证线性关系及精确系数（0.6, 0.4），属于具体的经验事实/统计参数。在缺乏任何参考来源支持的情况下，无法验证这些具体数值是否真实存在或准确，且线性关系本身可能过于简化。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体系数及线性关系的实证基础）
+
+## Search Query
+
+relationship between product standardization and status consumption weight relative price utility function

@@ -1,0 +1,24 @@
+# N23: 能效比（Performance per Watt）的计算公式为 EER = Throughput_tokens_per_second / TDP_Watts，需
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+能效比（Performance per Watt）的计算公式为 EER = Throughput_tokens_per_second / TDP_Watts，需分别计算 Decode 阶段和 Prefill 阶段的 EER，因为两者瓶颈不同（带宽 vs 算力），且不同硬件架构（如 Ada Lovelace vs Hopper vs RDNA3）在两种负载下的能效曲线差异显著，需给出具体数值对比（例如 H100 在 FP8 下的 EER 约为 RTX 4090 的 2-3 倍 [待核验]）。
+
+## Corrected Claim
+
+能效比（Performance per Watt）的计算公式为 EER = Throughput_tokens_per_second / TDP_Watts。需分别计算 Decode 阶段和 Prefill 阶段的 EER，因为两者瓶颈不同（带宽 vs 算力）。不同硬件架构在两种负载下的能效表现差异显著，具体数值需根据实际测试条件（如精度、Batch Size）确定，H100 与 RTX 4090 的能效比差异取决于具体工作负载和配置。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点仅列出了部分硬件的TDP，完全缺失了父节点要求的Throughput（吞吐量）数据，导致无法计算EER；且子节点中A100、RTX 3090与父节点强调的Ada/Hopper/RDNA3架构及具体对比对象（H100 vs 4090）不匹配，存在冗余和覆盖不足。）
+
+## Search Query
+
+GPU energy efficiency tokens per second per watt LLM inference decode prefill comparison

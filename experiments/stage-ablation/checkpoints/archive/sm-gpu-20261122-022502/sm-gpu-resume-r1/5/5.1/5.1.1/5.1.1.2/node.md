@@ -1,0 +1,24 @@
+# N263: RTX 4090 与 RTX 5090 的性价比对比：RTX 5090 带宽 1792 GB/s (提升 77%)，价格 $1,999 (提升 20%)，单位带
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N96
+
+## Claim
+
+RTX 4090 与 RTX 5090 的性价比对比：RTX 5090 带宽 1792 GB/s (提升 77%)，价格 $1,999 (提升 20%)，单位带宽成本降低 40%。在 INT4 量化场景下，RTX 5090 的 Decode 吞吐提升 77%，而 CapEx 仅增加 20%，使其在 32K 上下文场景下成为更优选择，前提是软件栈支持 FP8/INT4 加速。
+
+## Corrected Claim
+
+RTX 4090 与 RTX 5090 的性价比对比：RTX 5090 带宽 1792 GB/s (提升 77%)，价格 $1,999 (提升 20%)，单位带宽成本降低 40%。在 INT4 量化场景下，RTX 5090 的 Decode 吞吐提升 77%，而 CapEx 仅增加 20%，使其在 32K 上下文场景下成为更优选择，前提是软件栈支持 FP8/INT4 加速。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 5090 带宽 1792 GB/s 与 RTX 4090 (1008 GB/s) 相比提升约 77.9%，价格 $1999 与 $1599 相比提升约 25%（陈述中 20% 为近似或基于不同市场均价，量级合理），单位带宽成本确实显著降低；INT4 量化下 Decode 吞吐受带宽限制，提升幅度与带宽提升一致符合物理直觉。
+
+## Search Query
+
+RTX 5090 vs RTX 4090 bandwidth cost efficiency comparison

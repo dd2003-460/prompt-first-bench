@@ -1,0 +1,24 @@
+# N72: PCIe 4.0 x8 理论带宽为 4GB/s，而 x16 为 8GB/s；在 TP=2 张量并行中，AllReduce 通信量与中间激活值大小成正比，若通信量
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N18
+
+## Claim
+
+PCIe 4.0 x8 理论带宽为 4GB/s，而 x16 为 8GB/s；在 TP=2 张量并行中，AllReduce 通信量与中间激活值大小成正比，若通信量占比超过总计算时间的 15%，则整体推理延迟将增加 >10%（需实测验证具体阈值）
+
+## Corrected Claim
+
+PCIe 4.0 x8 理论单向带宽为 8GB/s，x16 为 16GB/s；在 TP=2 张量并行中，AllReduce 通信量与中间激活值大小成正比，若通信量占比超过总计算时间的 15%，则整体推理延迟将增加 >10%（需实测验证具体阈值）
+
+## Evidence
+
+[质询]数值量级错误：PCIe 4.0 x8 理论带宽约为 8GB/s（单向），x16 约为 16GB/s，陈述中的 4GB/s 和 8GB/s 仅为实际有效带宽或 PCIe 3.0 的理论值，存在明显的数值量级偏差。 | 先验知识/题面给定，逻辑校验未通过：PCIe 4.0 单通道带宽为 2GB/s，x8 应为 16GB/s（双向）或 8GB/s（单向），x16 应为 32GB/s（双向）或 16GB/s（单向），陈述中的数值与标准规格不符。
+
+## Search Query
+
+PCIe 4.0 x8 bandwidth Tensor Parallelism overhead llama.cpp 27B model

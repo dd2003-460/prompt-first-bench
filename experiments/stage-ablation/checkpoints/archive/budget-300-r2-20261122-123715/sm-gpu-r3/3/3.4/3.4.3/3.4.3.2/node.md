@@ -1,0 +1,24 @@
+# N268: 数据中心级 GPU (A100/H100) 的 C_repair 成本远低于消费级，因为通常包含 3-5 年的 Next Business Day (NBD) 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N78
+
+## Claim
+
+数据中心级 GPU (A100/H100) 的 C_repair 成本远低于消费级，因为通常包含 3-5 年的 Next Business Day (NBD) 保修服务；C_repair ≈ C_shipping + C_admin_overhead (约 $200-$500)，且若故障在保修期内，硬件更换成本为 0；若超出保修期，C_repair 则跃升至 C_replacement ($15k-$25k)，需在 TCO 模型中设置分段函数。
+
+## Corrected Claim
+
+数据中心级 GPU (A100/H100) 的 C_repair 成本远低于消费级，因为通常包含 3-5 年的 Next Business Day (NBD) 保修服务；C_repair ≈ C_shipping + C_admin_overhead (约 $200-$500)，且若故障在保修期内，硬件更换成本为 0；若超出保修期，C_repair 则跃升至 C_replacement ($15k-$25k)，需在 TCO 模型中设置分段函数。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数据中心级GPU通常附带NBD保修，保修期内维修成本主要为物流和管理开销（$200-$500量级合理），超保后需全额更换（$15k-$25k量级符合A100/H100市场价），分段函数逻辑自洽。
+
+## Search Query
+
+NVIDIA A100 H100 warranty repair cost NBD next business day out of warranty replacement cost

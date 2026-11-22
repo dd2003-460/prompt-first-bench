@@ -1,0 +1,20 @@
+# N124: 点击率 CTR 的基准值 CTR_base 的构成：CTR_base = CTR_click / (1 + C_cart / C_click)，需拆解用户从看到
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N41
+
+## Claim
+
+点击率 CTR 的基准值 CTR_base 的构成：CTR_base = CTR_click / (1 + C_cart / C_click)，需拆解用户从看到商品到点击的行为漏斗，量化价格偏离度对‘点击意愿’与‘加购/咨询意愿’的不同影响权重。
+
+## Corrected Claim
+
+点击率 CTR 的基准值 CTR_base 的构成：CTR_base = CTR_click / (1 + C_cart / C_click)，需拆解用户从看到商品到点击的行为漏斗，量化价格偏离度对‘点击意愿’与‘加购/咨询意愿’的不同影响权重。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

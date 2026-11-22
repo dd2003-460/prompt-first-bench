@@ -1,0 +1,20 @@
+# N262: 回升时间 T_revert 与平台流量加权系数 w 的关系函数：假设 T_revert = T_0 / (1 + η_w · w)，其中 T_0 为无干预时的自
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N84
+
+## Claim
+
+回升时间 T_revert 与平台流量加权系数 w 的关系函数：假设 T_revert = T_0 / (1 + η_w · w)，其中 T_0 为无干预时的自然回升时间，η_w 为平台干预强度系数；需量化 η_w 使得 T_revert > 48 小时的最小 w 值。
+
+## Corrected Claim
+
+回升时间 T_revert 与平台流量加权系数 w 的关系函数：假设 T_revert = T_0 / (1 + η_w · w)，其中 T_0 为无干预时的自然回升时间，η_w 为平台干预强度系数；需量化 η_w 使得 T_revert > 48 小时的最小 w 值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

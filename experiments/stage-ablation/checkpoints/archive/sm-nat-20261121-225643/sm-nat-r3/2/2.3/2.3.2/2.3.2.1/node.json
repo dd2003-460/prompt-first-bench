@@ -1,0 +1,17 @@
+{
+  "id": "N81",
+  "claim": "Bottom 50% 对象（冷对象）在 LFU 策略下的平均驻留时间 T_res_LFU_tail 的计算：基于 LFU 驱逐频率优先级，T_res_LFU_tail ≈ M / (R * E[S_tail] * (1 - P_req_tail))，其中 P_req_tail 为冷对象请求占比（约 0.08），需代入 M=1.374e11, R=5e7, E[S_tail] 以量化其比 LRU 驻留时间短的倍数",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]公式 T_res ≈ M / (R * E[S] * (1 - P_req)) 缺乏明确的物理或排队论推导基础，量纲和逻辑自洽性存疑。通常驻留时间与驱逐率成反比，但分母中同时包含总请求率 R、平均大小 E[S] 和请求占比 (1-P_req) 的组合方式不符合标准的 LFU 或 LRU 缓存驱逐模型（如基于频率的驱逐通常与访问频率分布直接相关，而非简单的线性乘积）。此外，'比 LRU 驻留时间短'的结论在 LFU 策略下通常不成立，因为 LFU 倾向于保留高频对象，而冷对象（低频）在 LFU 中往往比在 LRU 中更容易被驱逐（如果 LRU 基于时间且冷对象长期未访问），或者两者差异取决于具体的访问模式，不能一概而论说 LFU 下冷对象驻留时间一定更短且仅由该公式决定。 | source=knowledge，但公式推导逻辑不自洽，且 LFU 与 LRU 对冷对象驻留时间的比较结论缺乏普适性，存在逻辑漏洞。",
+  "corrected_claim": "LFU 策略下冷对象的平均驻留时间取决于其访问频率分布及驱逐阈值，不能简单用 T_res ≈ M / (R * E[S_tail] * (1 - P_req_tail)) 计算，且其相对于 LRU 的驻留时间长短需结合具体访问模式分析，通常 LFU 对低频对象的驱逐更激进，但具体倍数需模拟或基于特定分布模型推导。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N29"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

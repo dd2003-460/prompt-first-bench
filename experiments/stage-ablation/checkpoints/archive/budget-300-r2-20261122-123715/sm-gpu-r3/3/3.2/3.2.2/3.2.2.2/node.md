@@ -1,0 +1,24 @@
+# N247: A100 SXM4 在 200W (50% 负载) 与 280W (70% 负载) 下的能效比 (Performance per Watt) 差异：由于 TDP
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N70
+
+## Claim
+
+A100 SXM4 在 200W (50% 负载) 与 280W (70% 负载) 下的能效比 (Performance per Watt) 差异：由于 TDP 曲线非线性，200W 时的 FLOPS 效率通常高于 280W 时的边际效率，需引用 NVIDIA 官方能效曲线或实测数据确定最佳功耗点 (Sweet Spot)。
+
+## Corrected Claim
+
+A100 SXM4 的能效比随功耗变化呈现非线性特征，通常存在最佳功耗点 (Sweet Spot)，具体数值需引用 NVIDIA 官方能效曲线或实测数据确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性参数（200W/280W对应的负载百分比及能效比关系），属于经验事实而非第一性原理可推导内容，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+A100 power efficiency curve watts vs tflops inference

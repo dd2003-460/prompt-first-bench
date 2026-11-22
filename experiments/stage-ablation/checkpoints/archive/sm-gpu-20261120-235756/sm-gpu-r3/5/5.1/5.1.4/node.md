@@ -1,0 +1,28 @@
+# N102: SGLang RadixAttention 在 32K 长上下文场景下的 KV Cache 复用效率提升，具体量化为：在 Prefix Caching 命中率达
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N25, N26, N27
+
+## Claim
+
+SGLang RadixAttention 在 32K 长上下文场景下的 KV Cache 复用效率提升，具体量化为：在 Prefix Caching 命中率达到 50% 时，TTFT（首字延迟）相比 vLLM PagedAttention 降低的百分比，需检索最新 benchmark 数据（如 2024 Q4 发布的 LLM 推理基准测试）。
+
+## Corrected Claim
+
+SGLang RadixAttention 通过自动 KV 缓存重用优化长上下文推理，在 Prefix Caching 场景下可显著降低 TTFT，但具体在 32K 长上下文、50% 命中率下相比 vLLM PagedAttention 的 TTFT 降低百分比需查阅最新 benchmark 数据（如 2024 Q4 发布的 LLM 推理基准测试）。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1和2在逻辑上是正交的（一个关注增量计算模型，一个关注基线数据估算），无冗余。但是完备性不足：父节点明确要求‘检索最新 benchmark 数据’并给出‘相比 vLLM 降低的百分比’，而子节点仅提供了理论计算公式和基线估算方法，完全缺失了 SGLang 的实际实测 TTFT 数据或 vLLM 的对比实测数据。没有实际数据代入，无法得出父节点要求的最终量化百分比结果。）
+
+## Search Query
+
+SGLang RadixAttention vs vLLM PagedAttention 32k context TTFT benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/678921340&rut=cd98dcb39d5d34dc51e617b4c280f20d6c8d10a641f5fad7c1258af818171b1f', 'type': 'ddg', 'title': 'RadixAttention 和 SGLang 实现的快速而具有表达力的LLM推理'}

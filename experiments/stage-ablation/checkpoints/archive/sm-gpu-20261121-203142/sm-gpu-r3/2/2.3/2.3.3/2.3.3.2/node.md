@@ -1,0 +1,20 @@
+# N191: 代码生成任务中 'Syntax Error' 与 'Logic Error' 对量化精度的不同响应机制：Syntax Error 率对 INT8 量化不敏感（变
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N57
+
+## Claim
+
+代码生成任务中 'Syntax Error' 与 'Logic Error' 对量化精度的不同响应机制：Syntax Error 率对 INT8 量化不敏感（变化 <0.5%），而 Logic Error 率对量化敏感（变化 2.0%-4.0%）；因此 HumanEval 下降主要由 Logic Error 驱动，需单独监控逻辑一致性指标
+
+## Corrected Claim
+
+代码生成任务中 'Syntax Error' 与 'Logic Error' 对量化精度的不同响应机制：Syntax Error 率对 INT8 量化不敏感（变化 <0.5%），而 Logic Error 率对量化敏感（变化 2.0%-4.0%）；因此 HumanEval 下降主要由 Logic Error 驱动，需单独监控逻辑一致性指标
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

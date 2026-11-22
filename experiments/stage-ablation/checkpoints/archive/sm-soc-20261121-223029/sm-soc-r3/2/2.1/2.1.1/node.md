@@ -1,0 +1,24 @@
+# N48: 基础成交周期 T_base = 1 / (λ_buyer * R_search)，其中 λ_buyer 为买家到达率，R_search 为搜索命中率，需量化高溢
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+基础成交周期 T_base = 1 / (λ_buyer * R_search)，其中 λ_buyer 为买家到达率，R_search 为搜索命中率，需量化高溢价下 R_search 的衰减系数 k_search
+
+## Corrected Claim
+
+基础成交周期 T_base 可近似建模为 1 / (λ_buyer * R_search)，其中 λ_buyer 为买家到达率，R_search 为搜索命中率；该模型假设搜索命中是主要瓶颈，需进一步量化高溢价下 R_search 的衰减系数 k_search 以修正模型精度。
+
+## Evidence
+
+[质询]该公式将成交周期定义为到达率与搜索命中率的乘积的倒数，隐含假设买家到达与搜索命中是独立且串联的瓶颈，且忽略了卖家响应时间、谈判时长等其他关键延迟因素，属于过度简化的经验模型而非第一性原理推导。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该公式为特定场景下的经验建模，无法从第一性原理严格推出）
+
+## Search Query
+
+time to sell second hand goods baseline rate search hit ratio decay

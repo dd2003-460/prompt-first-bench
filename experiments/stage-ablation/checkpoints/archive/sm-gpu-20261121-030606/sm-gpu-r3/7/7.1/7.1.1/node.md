@@ -1,0 +1,20 @@
+# N347: H100 SXM 在 32K 上下文、FP8 精度下的实际推理吞吐量受计算与内存带宽双重限制，需取 min(算力限制, 带宽限制)：算力限制 = 989 TFL
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N149
+
+## Claim
+
+H100 SXM 在 32K 上下文、FP8 精度下的实际推理吞吐量受计算与内存带宽双重限制，需取 min(算力限制, 带宽限制)：算力限制 = 989 TFLOPS / (2 * 27e9 * 32768 / 3600) ≈ 205 tokens/s，带宽限制 = 3350 GB/s / (27GB + 5.2GB) ≈ 104 tokens/s，故理论上限为 104 tokens/s，实际值需乘以效率因子 (0.8-0.9)。
+
+## Corrected Claim
+
+H100 SXM 在 32K 上下文、FP8 精度下的实际推理吞吐量受计算与内存带宽双重限制，需取 min(算力限制, 带宽限制)：算力限制 = 989 TFLOPS / (2 * 27e9 * 32768 / 3600) ≈ 205 tokens/s，带宽限制 = 3350 GB/s / (27GB + 5.2GB) ≈ 104 tokens/s，故理论上限为 104 tokens/s，实际值需乘以效率因子 (0.8-0.9)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H100 SXM FP8算力约989 TFLOPS，带宽3.35TB/s，模型参数27B，权重+KV Cache约32.2GB，计算瓶颈约205 tokens/s，带宽瓶颈约104 tokens/s，取最小值符合Roofline模型逻辑。

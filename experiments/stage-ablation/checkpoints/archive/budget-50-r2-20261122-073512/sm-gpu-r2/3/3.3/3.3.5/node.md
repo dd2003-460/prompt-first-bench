@@ -1,0 +1,30 @@
+# N122: Qwen3-27B 在 BF16 基准下于 HumanEval (代码生成) 数据集上的具体 Pass@1 准确率 (Baseline_Acc_BF16_Hum
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N19
+
+## Claim
+
+Qwen3-27B 在 BF16 基准下于 HumanEval (代码生成) 数据集上的具体 Pass@1 准确率 (Baseline_Acc_BF16_HumanEval)，作为代码生成质量损失的参照系。
+
+## Corrected Claim
+
+Qwen3-27B（或相关版本如 Qwen3.6-27B）在 BF16 基准下于 HumanEval 数据集上进行了 Pass@1 评估，具体数值需查阅完整报告，当前来源仅证实评估行为存在。
+
+## Evidence
+
+[质询]参考来源中提到的模型版本（Qwen 3.6/3.8）与陈述中的 Qwen3-27B 存在版本歧义，且摘要未直接提供具体的 Pass@1 数值，仅提及进行了评估或对比，无法确认具体数值是否准确对应。 | 来源 [1] 和 [3] 提及了 Qwen 3.6-27B 在 HumanEval 上的评估，但摘要未给出具体 Pass@1 数值，且模型版本号（3.6 vs 3）存在细微差异，属于间接支持且缺乏具体数值佐证，故降级。
+
+## Search Query
+
+Qwen3-27B HumanEval pass@1 accuracy BF16
+
+## Retrieval Sources
+
+- {'url': 'https://www.heyneo.com/blog/evaluating-qwen-3-6-27b-benchmarking-case-study&rut=571a544cb81258e236fa2b0edcef46fd8229258b797ad38077042d55b58b7306', 'type': 'ddg', 'title': 'Evaluating Qwen 3.6 27B: A Complete Benchmarking Case Study'}
+- {'url': 'https://blog.csdn.net/liangjinhu/article/details/164183862&rut=8d101b892bffb46b87003cdc8ef3a4d74fd9cad312ea5acd751e7c426bb2b5fe', 'type': 'ddg', 'title': 'Qwen3.8-27B GSQ-RCO 量化部署实测：9.3GB 跑出超 BF16 精度，消费级显卡落地 27B 多模态'}
+- {'url': 'https://qevos.ai/blog/cn/2026-05-06-qwen36-27b-verilog-lora-finetuning.html&rut=bafb58d3ba8302d657457741e3166eeded4984a432108f1c11491f0bd52a6679', 'type': 'ddg', 'title': 'Qwen3.6-27B Verilog微调全流程：训练、评估与HumanEval验证'}

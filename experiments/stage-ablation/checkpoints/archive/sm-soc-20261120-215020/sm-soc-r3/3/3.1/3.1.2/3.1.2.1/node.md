@@ -1,0 +1,20 @@
+# N121: 平台收益 R_platform 的完整分解：R_platform = r * (P_final * Pr(Sale) * Q_total) + F_ad + F
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N43
+
+## Claim
+
+平台收益 R_platform 的完整分解：R_platform = r * (P_final * Pr(Sale) * Q_total) + F_ad + F_data，其中 r 为佣金率，Q_total 为总成交量，F_ad 为广告收入，F_data 为数据服务收入。原断言仅关注佣金部分，忽略了广告和数据收入对高溢价流量的依赖。
+
+## Corrected Claim
+
+平台收益 R_platform 的完整分解：R_platform = r * (P_final * Pr(Sale) * Q_total) + F_ad + F_data，其中 r 为佣金率，Q_total 为总成交量，F_ad 为广告收入，F_data 为数据服务收入。原断言仅关注佣金部分，忽略了广告和数据收入对高溢价流量的依赖。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

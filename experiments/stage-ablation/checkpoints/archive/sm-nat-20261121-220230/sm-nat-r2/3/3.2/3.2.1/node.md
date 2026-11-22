@@ -1,0 +1,24 @@
+# N58: 对于高热度对象（λ_i > 1000 req/day），T_resident ≈ 0.3 天。计算：基于 Little's Law，缓存中该对象副本数 L ≈ 
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N15
+
+## Claim
+
+对于高热度对象（λ_i > 1000 req/day），T_resident ≈ 0.3 天。计算：基于 Little's Law，缓存中该对象副本数 L ≈ λ_i * T_resident，由于 LRU 保证至少 1 个副本且无并发副本需求，T_resident 近似等于两次访问的平均间隔 1/λ_i * 24h ≈ 0.024 天，但受限于缓存最小驻留时间（由驱逐竞争决定），实际有效驻留时间约为 0.3 天，此时 P_invalid ≈ 0.3%。
+
+## Corrected Claim
+
+对于高热度对象（λ_i > 1000 req/day），基于 Little's Law 理论驻留时间约为 0.024 天；若考虑缓存驱逐竞争导致的实际最小驻留时间延长至 0.3 天，则 P_invalid ≈ 0.3%。
+
+## Evidence
+
+[质询]逻辑推导存在内部矛盾：陈述先基于 Little's Law 和 LRU 特性推导出 T_resident ≈ 0.024 天，随后却无依据地断言“受限于缓存最小驻留时间...实际有效驻留时间约为 0.3 天”，这 12.5 倍的差异缺乏理论支撑或参数定义，属于强行修正数值以匹配后续 P_invalid 结果，违背了逻辑自洽性。 | 先验知识/题面给定，但逻辑校验发现推导过程存在未解释的数值跳跃（0.024天 vs 0.3天），导致结论缺乏严谨性，降级为定性表述。
+
+## Search Query
+
+LRU resident time high frequency objects Little's law cache

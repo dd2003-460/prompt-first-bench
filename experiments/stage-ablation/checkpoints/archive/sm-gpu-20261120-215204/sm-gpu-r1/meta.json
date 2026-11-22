@@ -1,0 +1,156 @@
+{
+  "qid": "gpu",
+  "question": "你要在本地工作站上推理 Qwen3-27B 模型，不设硬性延迟指标（延迟是性能变量，由硬件和部署配置决定，不作为前置约束）；上下文窗口 ≥ 32K tokens 作为容量下限保留。权重精度不限（BF16/FP8/INT8/NVFP4/W4 均可），但必须论证所选精度的质量损失是否可接受。候选硬件：自行搜索确定值得考虑的完整候选集——覆盖你认为所有可能影响性价比排序的架构、代际、容量档位和价格区间（包括消费级、数据中心级、以及任何你认为值得纳入比较的非典型方案）。同时评估单卡与多卡方案的 TCO 差异（如 2× 消费卡 vs 1× 数据卡）。给出性价比最优的完整选卡方案。要求：思考必须最完整，确认没有遗漏任何影响决策的维度；每个关键数字标注来源（刚查到的 vs 凭记忆的），不确定的标 [待核验]；最终推荐必须是条件性的，不能给无条件排名。",
+  "round": 1,
+  "state": "rework",
+  "dropped_redundant": 0,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": null,
+  "objective_mode": "text",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "node_id": "N9",
+      "claim": "消费级单卡候选集筛选：显存容量必须 >= 24 GB 以支持 4-bit 量化 + 32K 上下文。候选包括 RTX 3",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]RTX 5090 的显存容量为 32GB 属于经验事实（硬件规格），参考来源中未包含该具体数值，且无法仅凭逻辑推导得出，存在来源缺失风险。 | 来源[1"
+    },
+    {
+      "node_id": "N10",
+      "claim": "数据中心级单卡候选集筛选：显存容量必须 >= 40 GB 以支持 BF16/FP8 或大上下文。候选包括 A100 (4",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源未直接提供 A100/H100/L40S/H200 的具体显存数值，且‘>= 40 GB’作为硬性门槛缺乏来源直接支持（例如 L40S 48GB 虽"
+    },
+    {
+      "node_id": "N11",
+      "claim": "非典型/新兴硬件候选集筛选：包括 AMD MI300X (192GB HBM3), MI300A, Apple M4 U",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含多个具体的硬件规格参数（如 MI300X 192GB HBM3, M4 Ultra 128GB）及软件栈支持情况，属于经验事实。参考来源 [1"
+    },
+    {
+      "node_id": "N14",
+      "claim": "FP8 精度质量损失评估：在 H100/H200 上支持，显存占用 27 GB。质量损失通常 < 1% 在主流基准测试 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于'质量损失通常 < 1%'的具体数值缺乏来源支持，且不同模型和基准测试下的量化误差差异较大，该具体阈值可能过于乐观或特定于某些条件，属于经验事"
+    },
+    {
+      "node_id": "N15",
+      "claim": "INT8 精度质量损失评估：显存占用 27 GB。质量损失通常在 1-3% 范围内，取决于量化方法 (GPTQ/AWQ)",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于“显存占用 27 GB”的具体数值缺乏上下文（如模型参数量、Batch Size、序列长度等），属于特定场景下的经验事实，无法从通用原理推导，"
+    },
+    {
+      "node_id": "N16",
+      "claim": "4-bit 精度 (W4A8/W4A16) 质量损失评估：显存占用 ~15-20 GB。质量损失可能在 3-10% 范围",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]显存占用数值（15-20 GB）缺乏模型规模前提，属于经验事实且量级不确定（取决于模型大小，如7B vs 70B）；质量损失范围（3-10%）过于宽泛且"
+    },
+    {
+      "node_id": "N18",
+      "claim": "工作点 1: 极致性价比 (低性能/低成本) - 单卡 RTX 4090 + 4-bit 量化。硬件成本 ~$1600，",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]电力消耗数值存在口径混淆：RTX 4090 的 TDP 为 450W，而 350W 是 RTX 3090 的 TDP（来源[1]明确对比了两者功耗）。虽"
+    },
+    {
+      "node_id": "N19",
+      "claim": "工作点 2: 平衡型 (中性能/中成本) - 单卡 L40S (48GB) + INT8/FP8 量化。硬件成本 ~$8",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]TCO（3年）数值缺乏来源直接支持，且电力消耗350W为峰值功耗而非平均运行功耗，若按峰值计算3年电费将远超TCO区间，存在口径混淆风险。 | 硬件成本"
+    },
+    {
+      "node_id": "N20",
+      "claim": "工作点 3: 高性能 (高成本/高吞吐) - 双卡 RTX 4090 (48GB 总显存) + 4-bit 量化。硬件成",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]硬件规格错误：RTX 4090 标准显存为 24GB，双卡总显存应为 48GB 的前提不成立（实际为 48GB 需两张 24GB 卡，但单卡 4090 "
+    },
+    {
+      "node_id": "N28",
+      "claim": "多卡方案中，NVLink/PCIe互联带宽对TTFT的影响显著：2×RTX 4090通过PCIe 4.0 x16（32 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级与具体倍数（1.2-1.5倍 vs <1.1倍）缺乏通用基准，且将复杂的TTFT影响简化为单一的KV Cache同步开销倍数，忽略了计算重叠、内"
+    },
+    {
+      "node_id": "N29",
+      "claim": "工作点A（高性能低延迟）：1×NVIDIA A100 80GB SXM4，FP8精度，TTFT<5s，Tokens/s>",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的性能指标（TTFT<5s, Tokens/s>30）和价格区间（$15,000-20,000），这些属于经验事实且高度依赖于具体的模型大"
+    },
+    {
+      "node_id": "N30",
+      "claim": "工作点B（性价比最优）：1×NVIDIA RTX 4090 24GB + 2×RTX 4090 24GB（共3卡）或 2",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级与硬件规格严重不符：单张RTX 4090 (24GB) 在INT4精度下通常可运行70B-120B参数模型，其推理速度（Tokens/s）通常在"
+    },
+    {
+      "node_id": "N31",
+      "claim": "工作点C（低成本入门）：1×NVIDIA RTX 4090 24GB，W4精度，TTFT 15-30s，Tokens/s",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体性能指标（TTFT 15-30s, Tokens/s 12-18）和价格区间（$1,600-1,800）属于经验事实，且高度依赖于具体的模型大小（如"
+    },
+    {
+      "node_id": "N32",
+      "claim": "TCO对比：2×消费级GPU（2×RTX 4090，$3,200-3,600）vs 1×数据中心GPU（1×A100 8",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（如TCO低80-85%、TTFT高3-5倍、Tokens/s低50-60%）属于高度依赖具体模型、并发量和硬件配置的经验数据，参考来源仅提供了"
+    },
+    {
+      "node_id": "N33",
+      "claim": "条件性推荐逻辑：若预算<$5,000且TTFT容忍度>15s，推荐1×RTX 4090 + W4；若预算$5,000-1",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]推荐逻辑存在明显的工程常识偏差：1. 在预算$5,000-10,000区间，2×RTX 4090（双卡）通常因PCIe带宽瓶颈和驱动/框架支持问题，在L"
+    },
+    {
+      "node_id": "N34",
+      "claim": "NVFP4 (4-bit Floating Point) 精度在 Qwen3-27B 上的质量损失通常低于 INT8，M",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于MMLU基准下降<1.5%的具体数值缺乏来源支持，且来源[1]明确指出NVFP4在Blackwell架构下'无需反量化操作'，这与陈述中'需验"
+    },
+    {
+      "node_id": "N35",
+      "claim": "性价比量化指标定义为 Cost_Per_Token = (Hardware_Capex + 3*Annual_Opex)",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的硬件性能对比数值（RTX 4090 W4 vs A100 FP8 的成本比 1/5 至 1/8），属于经验事实。参考来源仅讨论了通用的成"
+    },
+    {
+      "node_id": "N36",
+      "claim": "每美元吞吐量 (Tokens/s per Dollar) 计算：RTX 4090 (W4, ~$1600) 提供 ~20",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（RTX 4090 ~20 Tokens/s, A100 ~40 Tokens/s）及价格（$1600, $15000）属于高度依赖具体模型大小"
+    },
+    {
+      "node_id": "N37",
+      "claim": "AMD MI300X (192GB HBM3) 作为非典型候选，其单卡显存足以支持 BF16 Qwen3-27B + 3",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源[1]摘要中存在明显的单位错误（将5.325 TB/s误写为5.325 TFLOPS），且该来源仅确认了硬件规格（192GB HBM3, 5.3TB"
+    },
+    {
+      "node_id": "N38",
+      "claim": "Apple M4 Ultra (128GB Unified Memory) 支持 BF16 Qwen3-27B 全精度推",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级与硬件规格存在严重偏差：Apple M4 Ultra 的内存带宽约为 819 GB/s，但 Qwen3-27B 模型参数量约为 270 亿，BF"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 38
+}

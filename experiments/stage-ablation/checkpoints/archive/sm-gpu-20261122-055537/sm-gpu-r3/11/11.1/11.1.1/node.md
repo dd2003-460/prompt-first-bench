@@ -1,0 +1,20 @@
+# N374: Qwen3-27B TP=2 方案在 batch_size=1, seq_len=32768 时，每层 All-Reduce 的通信数据量 Data_comm 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N117
+
+## Claim
+
+Qwen3-27B TP=2 方案在 batch_size=1, seq_len=32768 时，每层 All-Reduce 的通信数据量 Data_comm = 2 * 1 * 32768 * 4096 * 2 bytes = 524,288 bytes ≈ 0.5 MB。每层 2 次 All-Reduce，总通信量 per layer ≈ 1.0 MB。
+
+## Corrected Claim
+
+Qwen3-27B TP=2 方案在 batch_size=1, seq_len=32768 时，每层 All-Reduce 的通信数据量 Data_comm = 2 * 1 * 32768 * 4096 * 2 bytes = 524,288 bytes ≈ 0.5 MB。每层 2 次 All-Reduce，总通信量 per layer ≈ 1.0 MB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：TP=2下All-Reduce通信量公式为2*batch*seq*hidden*bytes，代入数值2*1*32768*4096*2=524288 bytes，每层2次共1.0 MB，计算无误。

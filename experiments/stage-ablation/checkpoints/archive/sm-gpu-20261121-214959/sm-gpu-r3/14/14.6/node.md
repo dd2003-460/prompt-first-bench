@@ -1,0 +1,20 @@
+# N360: RTX 4070 Ti Super (16GB) 被排除的显存容量硬约束：16GB 显存无法容纳 Qwen3-27B 的任何精度权重 (INT4 13.5GB 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N128, N129
+
+## Claim
+
+RTX 4070 Ti Super (16GB) 被排除的显存容量硬约束：16GB 显存无法容纳 Qwen3-27B 的任何精度权重 (INT4 13.5GB + KV Cache 最小 ~3GB = 16.5GB > 16GB)，即使使用极端量化 (INT3) 也仅余 0.5GB 缓冲，无法支持 32K 上下文下的稳定运行。因此，无论带宽如何，单卡 4070 Ti Super 在容量上直接不可行。
+
+## Corrected Claim
+
+RTX 4070 Ti Super (16GB) 被排除的显存容量硬约束：16GB 显存无法容纳 Qwen3-27B 的任何精度权重 (INT4 13.5GB + KV Cache 最小 ~3GB = 16.5GB > 16GB)，即使使用极端量化 (INT3) 也仅余 0.5GB 缓冲，无法支持 32K 上下文下的稳定运行。因此，无论带宽如何，单卡 4070 Ti Super 在容量上直接不可行。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B INT4权重约13.5GB，加上32K上下文KV Cache（约3GB+）及运行时开销，总需求超过16GB，数学上确实无法容纳。

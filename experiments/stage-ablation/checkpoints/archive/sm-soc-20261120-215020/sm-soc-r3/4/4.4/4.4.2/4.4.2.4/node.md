@@ -1,0 +1,28 @@
+# N175: 高溢价群体中高质量卖家的真实占比 p_high 的验证：N60 假设 p_high=0.7，需通过相关性分析验证高挂价（δ>15%）与高质量评分（QS>0.8）
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N60
+
+## Claim
+
+高溢价群体中高质量卖家的真实占比 p_high 的验证：N60 假设 p_high=0.7，需通过相关性分析验证高挂价（δ>15%）与高质量评分（QS>0.8）之间的条件概率 P(QS>0.8 | δ>15%)，若实际 p_high < 0.5，则加权平均 k 将显著高于预期，导致干预效果被高估。
+
+## Corrected Claim
+
+N60 假设高溢价群体中高质量卖家占比 p_high=0.7，需通过相关性分析验证高挂价（δ>15%）与高质量评分（QS>0.8）之间的条件概率 P(QS>0.8 | δ>15%) 以确认该假设的合理性；若实际 p_high < 0.5，则加权平均 k 将显著高于预期，导致干预效果被高估。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（p_high=0.7, δ>15%, QS>0.8）及因果推断逻辑，属于经验事实而非第一性原理可推导内容，且参考来源仅涉及通用假设检验方法论，未提供该特定市场场景下的数据支持或验证结果。 | 逻辑自洽（条件概率与加权平均的关系符合数学直觉），但参考来源[1]仅讨论假设检验的一般原理，与该具体业务场景（高溢价群体卖家质量占比）无关，无法提供直接支持，故依据经验事实排除条款降级。
+
+## Search Query
+
+correlation between high listing price and seller credit score second hand market
+
+## Retrieval Sources
+
+- {'url': 'https://math.pku.edu.cn/teachers/mwfy/Teaching/ProbabilityStatistics/slide6.pdf&rut=12b88f0a94c6c24dbd2bebecf0102f31ad2ea37e338ddef1a2f1c22f57fc138c', 'type': 'ddg', 'title': 'PDF 概率统计 B 第六章假设检验'}

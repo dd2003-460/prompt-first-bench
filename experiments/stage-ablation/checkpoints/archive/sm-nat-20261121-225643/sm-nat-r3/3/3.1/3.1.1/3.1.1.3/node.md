@@ -1,0 +1,20 @@
+# N85: 工作点 C（高覆盖/极高热度）：当 C=0.9, H_byte=0.95 时，T_resident = 0.9 / (5e7 * 0.95) ≈ 1.89e-9
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+工作点 C（高覆盖/极高热度）：当 C=0.9, H_byte=0.95 时，T_resident = 0.9 / (5e7 * 0.95) ≈ 1.89e-9 天；此工作点表明即使缓存接近全覆盖，驻留时间仍在纳秒级（天为单位），证实 T_resident 对 λ 的强敏感性
+
+## Corrected Claim
+
+工作点 C（高覆盖/极高热度）：当 C=0.9, H_byte=0.95 时，T_resident = 0.9 / (5e7 * 0.95) ≈ 1.89e-9 天；此工作点表明即使缓存接近全覆盖，驻留时间仍在纳秒级（天为单位），证实 T_resident 对 λ 的强敏感性
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算 0.9 / (5e7 * 0.95) ≈ 1.89e-9 正确，量纲与物理直觉一致

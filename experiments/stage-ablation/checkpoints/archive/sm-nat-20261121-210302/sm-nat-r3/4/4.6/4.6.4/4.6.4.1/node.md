@@ -1,0 +1,20 @@
+# N176: 累计缓存字节 Sum_{i=1}^{N_hot} E[S_i] 的解析近似积分：Sum ≈ N * X_min * ∫_{1}^{N_hot} x^{-1/α}
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N62
+
+## Claim
+
+累计缓存字节 Sum_{i=1}^{N_hot} E[S_i] 的解析近似积分：Sum ≈ N * X_min * ∫_{1}^{N_hot} x^{-1/α} dx = N * X_min * (N_hot^{1-1/α} - 1) / (1 - 1/α)，其中 X_min 为对象最小大小基准（需根据 10万对象总大小约束确定，通常设为 1KB 或 10KB [待核验]），α=1.1。
+
+## Corrected Claim
+
+累计缓存字节 Sum_{i=1}^{N_hot} E[S_i] 的解析近似积分：Sum ≈ N * X_min * ∫_{1}^{N_hot} x^{-1/α} dx = N * X_min * (N_hot^{1-1/α} - 1) / (1 - 1/α)，其中 X_min 为对象最小大小基准（需根据 10万对象总大小约束确定，通常设为 1KB 或 10KB [待核验]），α=1.1。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：积分公式 ∫x^{-1/α}dx 在 α≠1 时的解析解正确，量纲与数学推导自洽。

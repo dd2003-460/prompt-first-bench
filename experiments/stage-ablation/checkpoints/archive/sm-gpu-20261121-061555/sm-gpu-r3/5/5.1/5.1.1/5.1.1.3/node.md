@@ -1,0 +1,20 @@
+# N274: RTX 4090 单卡方案在 5 年持有期内的维护成本（Maintenance Cost），包括驱动更新故障、显存 ECC 错误（若支持）及潜在硬件更换概率，需
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N98
+
+## Claim
+
+RTX 4090 单卡方案在 5 年持有期内的维护成本（Maintenance Cost），包括驱动更新故障、显存 ECC 错误（若支持）及潜在硬件更换概率，需量化为年均成本以补充 OpEx 计算。
+
+## Corrected Claim
+
+RTX 4090 单卡方案在 5 年持有期内的维护成本（Maintenance Cost），包括驱动更新故障、显存 ECC 错误（若支持）及潜在硬件更换概率，需量化为年均成本以补充 OpEx 计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

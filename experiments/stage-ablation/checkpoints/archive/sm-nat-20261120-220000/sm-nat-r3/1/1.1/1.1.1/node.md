@@ -1,0 +1,20 @@
+# N19: Pareto(α=1.1) 分布的总大小 S_total 积分公式为 S_total = N * S_min * (α-1)/(α-2) (当 α>2 时收敛)
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N5
+
+## Claim
+
+Pareto(α=1.1) 分布的总大小 S_total 积分公式为 S_total = N * S_min * (α-1)/(α-2) (当 α>2 时收敛)，但题目中 α=1.1 < 2，导致总大小发散（Infinity），因此物理上必须引入最大对象大小 S_max 截断，修正公式为 S_total = N * S_min * ∫_{1}^{S_max/S_min} x^{-(α+1)} dx = N * S_min * (1 - (S_max/S_min)^{-(α-1)})/(α-1)。
+
+## Corrected Claim
+
+Pareto(α=1.1) 分布的总大小 S_total 积分公式为 S_total = N * S_min * (α-1)/(α-2) (当 α>2 时收敛)，但题目中 α=1.1 < 2，导致总大小发散（Infinity），因此物理上必须引入最大对象大小 S_max 截断，修正公式为 S_total = N * S_min * ∫_{1}^{S_max/S_min} x^{-(α+1)} dx = N * S_min * (1 - (S_max/S_min)^{-(α-1)})/(α-1)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布积分推导正确，α=1.1时发散需截断的结论符合数学原理

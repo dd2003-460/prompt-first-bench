@@ -1,0 +1,24 @@
+# N96: Δt 对成交概率的边际影响：成交概率 P(deal | Δt) 随 Δt 增加而指数衰减，P(deal) = P_0 * exp(-κ * Δt)，其中 κ 为
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N29
+
+## Claim
+
+Δt 对成交概率的边际影响：成交概率 P(deal | Δt) 随 Δt 增加而指数衰减，P(deal) = P_0 * exp(-κ * Δt)，其中 κ 为买家耐心衰减系数，需通过历史数据回归估计 κ，以量化缩短 Δt 对成交率的提升幅度（如 Δt 减少 10% 对应成交率提升多少）。
+
+## Corrected Claim
+
+成交概率 P(deal | Δt) 通常随 Δt 增加而衰减，常用指数衰减模型 P(deal) = P_0 * exp(-κ * Δt) 进行近似拟合，其中 κ 为买家耐心衰减系数，需通过历史数据回归估计以量化缩短 Δt 对成交率的提升幅度。
+
+## Evidence
+
+[质询]该陈述将成交概率随时间衰减描述为严格的指数衰减模型（P = P_0 * exp(-κ * Δt)），这属于特定的经验假设而非普适物理/经济定律。实际市场中，成交概率可能遵循幂律、线性或其他非线性衰减，且κ值高度依赖具体品类、价格区间和买家群体，不能仅凭逻辑自洽就断言其必然为指数形式。 | 经验事实，逻辑自洽但缺来源支持。指数衰减是描述耐心/遗忘的常见启发式模型，逻辑上无矛盾，但作为具体量化公式缺乏外部数据验证，且未提供κ的估计方法细节，故降级为定性表述。
+
+## Search Query
+
+deal probability information asymmetry window decay coefficient buyer patience e-commerce

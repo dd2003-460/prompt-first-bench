@@ -1,0 +1,20 @@
+# N38: KV Cache 显存占用的 GQA 修正公式：Qwen3-27B 采用 Grouped Query Attention (GQA)，KV Cache 大小取决
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+KV Cache 显存占用的 GQA 修正公式：Qwen3-27B 采用 Grouped Query Attention (GQA)，KV Cache 大小取决于 num_key_value_heads (8) 而非 num_attention_heads (32)。修正后公式：KV_Cache_GB = 2 * num_layers * hidden_dim * num_key_value_heads * seq_len * bytes_per_element / 1e9。
+
+## Corrected Claim
+
+KV Cache 显存占用的 GQA 修正公式：Qwen3-27B 采用 Grouped Query Attention (GQA)，KV Cache 大小取决于 num_key_value_heads (8) 而非 num_attention_heads (32)。修正后公式：KV_Cache_GB = 2 * num_layers * hidden_dim * num_key_value_heads * seq_len * bytes_per_element / 1e9。
+
+## Evidence
+
+父节点级核验未通过：不完备（父节点的核心内容是具体的显存占用计算公式及参数修正（从32头变为8头），而唯一的子节点讨论的是该修正带来的带宽压力/延迟可行性分析。子节点并未覆盖父节点中关于‘显存占用量’的具体计算逻辑或数值结果，导致父节点的核心信息（公式本身及其直接推导出的显存大小）在子节点中缺失，因此不完备。）

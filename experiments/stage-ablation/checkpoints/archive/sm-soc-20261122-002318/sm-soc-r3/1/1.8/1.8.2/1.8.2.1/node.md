@@ -1,0 +1,24 @@
+# N157: 概率感知扭曲 (Probabilistic Bias) 的量化修正：卖家对 Prob(Loss) 的评估并非客观 0.8-0.9，而是受概率加权函数 w(p) 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N54
+
+## Claim
+
+概率感知扭曲 (Probabilistic Bias) 的量化修正：卖家对 Prob(Loss) 的评估并非客观 0.8-0.9，而是受概率加权函数 w(p) = p^α 影响。在损失域中 α ≈ 0.61 (Prelec 模型)，导致对高概率损失 (p=0.85) 的感知概率被低估，实际心理权重 w(0.85) ≈ 0.89，使得有效心理成本系数从 λ * 0.85 修正为 λ * 0.89，偏差约 4.7%。
+
+## Corrected Claim
+
+概率感知扭曲 (Probabilistic Bias) 的量化修正：卖家对 Prob(Loss) 的评估并非客观 0.8-0.9，而是受概率加权函数 w(p) = p^α 影响。在损失域中 α ≈ 0.61 (Prelec 模型)，导致对高概率损失 (p=0.85) 的感知概率被低估，实际心理权重 w(0.85) ≈ 0.89，使得有效心理成本系数从 λ * 0.85 修正为 λ * 0.89，偏差约 4.7%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Prelec模型在损失域α≈0.61符合学术共识，w(0.85)≈0.89及4.7%偏差计算准确
+
+## Search Query
+
+Prospect Theory probability weighting function alpha loss domain empirical value

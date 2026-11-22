@@ -1,0 +1,26 @@
+# N25: 在Zipf(β=0.9)分布下，缓存容量C=128GB所能覆盖的累积请求概率（即对象级命中率上限H_obj_max）需通过积分计算：H_obj_max ≈ 1 
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+在Zipf(β=0.9)分布下，缓存容量C=128GB所能覆盖的累积请求概率（即对象级命中率上限H_obj_max）需通过积分计算：H_obj_max ≈ 1 - (K/N)^{1-β}，其中K为缓存可容纳的对象数。由于ρ=-0.3，热对象偏小，K值应基于加权平均大小调整，而非简单取最小对象数。
+
+## Corrected Claim
+
+在Zipf(β=0.9)分布下，缓存容量C=128GB所能覆盖的累积请求概率（即对象级命中率上限H_obj_max）可通过Zipf分布的累积分布函数近似计算，通常形式为 H_obj_max ≈ 1 - (K/N)^{1-β}（需结合归一化常数修正）。由于ρ=-0.3表明热对象偏小，K值（缓存可容纳对象数）应基于对象大小的加权分布进行调整，而非简单取最小对象数。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1计算K值时存在严重逻辑错误（将热度平均大小E[S_hot]误用为全局平均，导致K远超N，进而错误得出缓存可容纳所有对象的结论）；子节点2基于此错误前提得出H=1.0，未体现父节点中关于'积分计算'及'ρ=-0.3导致热对象偏小需调整K'的核心逻辑。实际上，由于ρ<0，热对象小，K应接近N，但需通过精确的加权积分确定是否真的覆盖所有对象，而非简单取min。此外，父节点强调'对象级命中率上限'，子节点2最终结论'瓶颈在字节覆盖'偏离了父节点关于'对象级'的限定，且公式推导混乱。）
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/qq_36069590/article/details/83106894&rut=f44a7e9a446189e0ca81000b57bf0000ff3ec2a496facf6c79f401c36bfaa1a0', 'type': 'ddg', 'title': '【扫盲】------Zipf分布-CSDN博客'}
+- {'url': 'https://blog.openacid.com/tech/zipf/&rut=1bd13194534867d619f8a440c25872596a7e16bf2bb7d81bbfc6b10488197a8d', 'type': 'ddg', 'title': '互联网中对象访问频率的91分布 - OpenACID Blog'}
+- {'url': 'https://blog.csdn.net/weixin_53413058/article/details/148613224&rut=15149f44fe60252a2a51ee3997e62f8b6845c0bb57f8f336190395462d1275f2', 'type': 'ddg', 'title': 'Zipf分布的倾斜度理解_zipf 分布中alpha-CSDN博客'}

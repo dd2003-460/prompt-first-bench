@@ -1,0 +1,24 @@
+# N132: 工作点A（薄尾/标准正态近似）：假设支付意愿分布 W ~ N(μ_W, σ_W^2)（薄尾），当 σ_W 增大时，高支付意愿买家比例 P(W > μ_W + 2
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N37
+
+## Claim
+
+工作点A（薄尾/标准正态近似）：假设支付意愿分布 W ~ N(μ_W, σ_W^2)（薄尾），当 σ_W 增大时，高支付意愿买家比例 P(W > μ_W + 2σ_W) 恒定为 2.28%。此时 δ 的上限 0.25 是硬约束，因为即使 σ_W 增大，边际买家匹配率 P(W > P_ask) 不会因尾部变厚而额外增加，δ 上限不放宽。
+
+## Corrected Claim
+
+工作点A（薄尾/标准正态近似）：假设支付意愿分布 W ~ N(μ_W, σ_W^2)（薄尾），当 σ_W 增大时，高支付意愿买家比例 P(W > μ_W + 2σ_W) 恒定为 2.28%。此时 δ 的上限 0.25 是硬约束，因为即使 σ_W 增大，边际买家匹配率 P(W > P_ask) 不会因尾部变厚而额外增加，δ 上限不放宽。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：标准正态分布下 P(Z > 2) ≈ 2.28% 为数学事实，且正态分布薄尾特性导致尾部概率不随 σ 增大而显著增加，逻辑自洽。
+
+## Search Query
+
+normal distribution tail probability constant regardless of sigma increase

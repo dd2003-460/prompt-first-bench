@@ -1,0 +1,20 @@
+# N457: FP8 量化元数据开销：每层存储 scale factor (FP32) 和 zero point (FP32)，Qwen3-27B 有 48 层，每层 12 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N142
+
+## Claim
+
+FP8 量化元数据开销：每层存储 scale factor (FP32) 和 zero point (FP32)，Qwen3-27B 有 48 层，每层 12 个线性层，总元数据 = 48 * 12 * 2 * 4 bytes = 4,608 bytes ≈ 0.0000046GB，可忽略不计，验证 N142 中 0.01GB 估计偏保守
+
+## Corrected Claim
+
+FP8 量化元数据开销：每层存储 scale factor (FP32) 和 zero point (FP32)，Qwen3-27B 有 48 层，每层 12 个线性层，总元数据 = 48 * 12 * 2 * 4 bytes = 4,608 bytes ≈ 0.0000046GB，可忽略不计，验证 N142 中 0.01GB 估计偏保守
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算过程 48层 * 12线性层 * 2参数 * 4字节 = 4608 bytes，量级正确且远小于0.01GB，结论自洽。

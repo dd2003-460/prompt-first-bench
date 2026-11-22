@@ -1,0 +1,24 @@
+# N148: β_prior 的初始值设定：β_prior = 0.15，基于新卖家（< 30 天）的历史成交溢价率分布均值，95% 置信区间为 [0.10, 0.20]，反
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N43
+
+## Claim
+
+β_prior 的初始值设定：β_prior = 0.15，基于新卖家（< 30 天）的历史成交溢价率分布均值，95% 置信区间为 [0.10, 0.20]，反映平台对新卖家的默认信任度。
+
+## Corrected Claim
+
+β_prior 的初始值设定为 0.15，旨在反映平台对新卖家（< 30 天）的默认信任度，具体数值及置信区间需依据实际历史成交溢价率分布数据确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（0.15, [0.10, 0.20]）和特定的业务定义（新卖家<30天），属于经验事实。在缺乏任何参考来源支持的情况下，无法验证这些具体数值是否真实反映了平台的历史数据分布，存在数值臆造或口径不符的风险。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，无法验证具体数值及置信区间的真实性）
+
+## Search Query
+
+new seller prior success rate premium threshold Bayesian update second-hand platform

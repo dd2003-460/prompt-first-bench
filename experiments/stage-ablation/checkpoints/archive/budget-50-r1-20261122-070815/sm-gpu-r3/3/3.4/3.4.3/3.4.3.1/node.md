@@ -1,0 +1,24 @@
+# N287: RTX 4090 在运行 LLM 推理（Decode 阶段）时的实际平均功耗约为 300W-350W，而非 TDP 450W；Prefill 阶段峰值可达 45
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N88, N89, N90
+
+## Claim
+
+RTX 4090 在运行 LLM 推理（Decode 阶段）时的实际平均功耗约为 300W-350W，而非 TDP 450W；Prefill 阶段峰值可达 450W。基于 300W 平均负载修正后的年电力成本计算基准。
+
+## Corrected Claim
+
+RTX 4090 在运行 LLM 推理（Decode 阶段）时的实际平均功耗约为 300W-350W，而非 TDP 450W；Prefill 阶段峰值可达 450W。基于 300W 平均负载修正后的年电力成本计算基准。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 TDP为450W，LLM Decode阶段受限于显存带宽而非计算单元，GPU利用率低，功耗显著低于峰值（300-350W符合工程常识），Prefill阶段计算密集可达峰值，逻辑自洽且数值量级合理。
+
+## Search Query
+
+RTX 4090 LLM inference average power consumption watts llama.cpp vllm

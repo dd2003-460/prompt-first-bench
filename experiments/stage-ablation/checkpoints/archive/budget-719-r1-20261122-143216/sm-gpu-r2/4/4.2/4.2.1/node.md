@@ -1,0 +1,24 @@
+# N98: Qwen3-27B 在 BF16 精度下的 MMLU-Pro 基准分数，需查阅官方技术报告或 HuggingFace 社区评测，预期分数在 70-75 分区间
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N22
+
+## Claim
+
+Qwen3-27B 在 BF16 精度下的 MMLU-Pro 基准分数，需查阅官方技术报告或 HuggingFace 社区评测，预期分数在 70-75 分区间
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 精度下的 MMLU-Pro 基准分数需查阅官方技术报告或 HuggingFace 社区评测，预期分数大致在 70-75 分区间（具体数值取决于评测设置）
+
+## Evidence
+
+[质询]具体基准分数属于经验事实，且不同评测集（如 MMLU-Pro 5-shot vs 10-shot）及模型版本（Instruct vs Base）会导致分数波动，70-75 的区间可能因具体配置不同而偏差，缺乏直接来源支持无法确认精确区间。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+Qwen3-27B BF16 MMLU-Pro benchmark score official

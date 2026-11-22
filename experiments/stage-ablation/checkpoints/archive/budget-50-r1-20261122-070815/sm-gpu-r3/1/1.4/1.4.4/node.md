@@ -1,0 +1,20 @@
+# N46: 2x RTX 4090 双卡方案在 BF16 下的总显存为 48 GB，低于 64.3 GB 的总需求，即使忽略 KV Cache 分片，仍不足以承载完整模型权
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N9
+
+## Claim
+
+2x RTX 4090 双卡方案在 BF16 下的总显存为 48 GB，低于 64.3 GB 的总需求，即使忽略 KV Cache 分片，仍不足以承载完整模型权重与激活，双卡 BF16 不可行；若采用 FP8，总需求 32.4 GB < 48 GB，双卡 FP8 可行但需评估 NVLink/PCIe 通信开销对推理速度的影响
+
+## Corrected Claim
+
+2x RTX 4090 双卡方案在 BF16 下的总显存为 48 GB，低于 64.3 GB 的总需求，即使忽略 KV Cache 分片，仍不足以承载完整模型权重与激活，双卡 BF16 不可行；若采用 FP8，总需求 32.4 GB < 48 GB，双卡 FP8 可行但需评估 NVLink/PCIe 通信开销对推理速度的影响
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：2x RTX 4090 显存为 24GB*2=48GB，BF16 需求 64.3GB > 48GB 故不可行，FP8 需求 32.4GB < 48GB 故可行，数值与逻辑均自洽。

@@ -1,0 +1,24 @@
+# N160: vLLM 框架在 Qwen3-27B 推理中默认保持 KV Cache 为 BF16 精度，不自动应用量化，因此 32K 上下文单请求 KV Cache 占用固
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N46
+
+## Claim
+
+vLLM 框架在 Qwen3-27B 推理中默认保持 KV Cache 为 BF16 精度，不自动应用量化，因此 32K 上下文单请求 KV Cache 占用固定为 1.6GB (2 * 64 layers * 8 kv_heads * 128 head_dim * 2 bytes * 32K / 1024^3)，除非显式启用 --kv-cache-dtype fp8 或 int8
+
+## Corrected Claim
+
+vLLM 框架在 Qwen3-27B 推理中默认保持 KV Cache 为 BF16 精度，不自动应用量化，因此 32K 上下文单请求 KV Cache 占用固定为 1.6GB (2 * 64 layers * 8 kv_heads * 128 head_dim * 2 bytes * 32K / 1024^3)，除非显式启用 --kv-cache-dtype fp8 或 int8
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B 架构参数（64层、8 KV头、128维）与 BF16 精度（2字节）代入公式计算结果准确，且 vLLM 默认行为符合事实。
+
+## Search Query
+
+vLLM Qwen3 KV cache dtype default BF16 quantization

@@ -1,0 +1,20 @@
+# N96: 条件分支表-分支3：Electricity_Rate > $0.20/kWh 且 24/7 运行 → 能耗成本占比 w_elec 上升至 TCO 的 40-50
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N22
+
+## Claim
+
+条件分支表-分支3：Electricity_Rate > $0.20/kWh 且 24/7 运行 → 能耗成本占比 w_elec 上升至 TCO 的 40-50%；此时低功耗方案 (如 1x A10 24GB + 大内存 Offload 或 Mac Studio M2 Ultra) 的 TCO 优势超过其性能劣势，因为 4090 的 450W 功耗在 3 年内产生 ~$7000 额外成本，可能反转排序使其劣于低功率数据中心卡。
+
+## Corrected Claim
+
+条件分支表-分支3：Electricity_Rate > $0.20/kWh 且 24/7 运行 → 能耗成本占比 w_elec 上升至 TCO 的 40-50%；此时低功耗方案 (如 1x A10 24GB + 大内存 Offload 或 Mac Studio M2 Ultra) 的 TCO 优势超过其性能劣势，因为 4090 的 450W 功耗在 3 年内产生 ~$7000 额外成本，可能反转排序使其劣于低功率数据中心卡。
+
+## Evidence
+
+父节点级核验失败（LLM 错误）：Unterminated string starting at: line 7 column 5 (char 786)

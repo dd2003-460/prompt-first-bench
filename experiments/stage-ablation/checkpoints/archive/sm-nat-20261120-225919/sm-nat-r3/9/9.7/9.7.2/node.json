@@ -1,0 +1,17 @@
+{
+  "id": "N272",
+  "claim": "LFU 频率计数器老化效应的量化：在 1%/天 更新率下，对象平均寿命 τ_obj=100天。LFU 计数器需每隔 T_reset 重置。若 T_reset = 10天，则计数器仅反映最近 10 天的频率。对于 Pareto(β=0.9) 分布，频率变化较快，LFU 的滞后导致其命中率在动态负载下低于静态最优。量化滞后代价：ΔH_lag ≈ (1 - e^(-τ_obj/T_reset)) * ΔH_static_max。若 τ_obj=100, T_reset=10, 则 ΔH_lag ≈ (1 - e^-10) * ΔH_static_max ≈ 1 * ΔH_static_max，即 LFU 几乎丧失静态优势",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]公式 ΔH_lag ≈ (1 - e^(-τ_obj/T_reset)) * ΔH_static_max 缺乏理论依据，且量纲/逻辑不自洽：当 T_reset 远小于 τ_obj 时（如本例 10 vs 100），指数项趋近于 1，意味着滞后代价最大；但通常 LFU 在短重置周期下应能更快适应变化，滞后代价应较小。该公式暗示重置周期越短，滞后代价越大，这与直觉相反。此外，'ΔH_static_max' 定义模糊，未说明是相对于什么基准的差值。 | 先验知识/题面给定，但逻辑校验发现公式推导存在严重疑点：指数衰减模型通常用于描述遗忘或老化，此处用于量化滞后代价且方向反直觉，无法从第一性原理严格推出，且无外部来源支持该特定量化公式。",
+  "corrected_claim": "LFU 频率计数器老化效应的量化：在 1%/天 更新率下，对象平均寿命 τ_obj=100天。LFU 计数器需每隔 T_reset 重置。若 T_reset = 10天，则计数器仅反映最近 10 天的频率。对于 Pareto(β=0.9) 分布，频率变化较快，LFU 的滞后导致其命中率在动态负载下低于静态最优。具体滞后代价需通过模拟或更精确的马尔可夫链模型计算，简单指数公式 (1 - e^(-τ_obj/T_reset)) 可能不适用或方向错误。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N103"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "",
+  "retrieval_sources": []
+}

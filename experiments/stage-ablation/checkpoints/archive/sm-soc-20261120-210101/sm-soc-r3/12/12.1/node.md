@@ -1,0 +1,24 @@
+# N388: 开发成本 C_dev 的具体构成项：C_dev = C_engineering + C_design + C_testing。其中 C_engineering 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N117
+
+## Claim
+
+开发成本 C_dev 的具体构成项：C_dev = C_engineering + C_design + C_testing。其中 C_engineering = 3人 * 2周 * $150/人/周 = $900；C_design = 1人 * 1周 * $200/人/周 = $200；C_testing = 500次用户测试 * $2/次 = $1000。总计 C_dev = $2100。
+
+## Corrected Claim
+
+开发成本 C_dev 的具体构成项：C_dev = C_engineering + C_design + C_testing。其中 C_engineering = 3人 * 2周 * $150/人/周 = $900；C_design = 1人 * 1周 * $200/人/周 = $200；C_testing = 500次用户测试 * $2/次 = $1000。总计 C_dev = $2100。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算正确（900+200+1000=2100），量纲一致（人*周*$/人/周=$，次*$/次=$），无内部矛盾。
+
+## Search Query
+
+software feature development cost estimation engineering design testing

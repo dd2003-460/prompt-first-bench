@@ -1,0 +1,20 @@
+# N117: 重填充成本在 S_min=1KB 和 S_max=10MB 处的边界值：cost_refill(1KB) = 5ms + 1KB/100MB/s ≈ 5.01m
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N42
+
+## Claim
+
+重填充成本在 S_min=1KB 和 S_max=10MB 处的边界值：cost_refill(1KB) = 5ms + 1KB/100MB/s ≈ 5.01ms，cost_refill(10MB) = 5ms + 10MB/100MB/s = 5ms + 0.1s = 105ms，表明大对象的重填充延迟主要由传输时间主导，固定开销可忽略。
+
+## Corrected Claim
+
+重填充成本在 S_min=1KB 和 S_max=10MB 处的边界值：cost_refill(1KB) = 5ms + 1KB/100MB/s ≈ 5.01ms，cost_refill(10MB) = 5ms + 10MB/100MB/s = 5ms + 0.1s = 105ms，表明大对象的重填充延迟主要由传输时间主导，固定开销可忽略。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算正确（1KB/100MB/s≈0.01ms，10MB/100MB/s=100ms），量级合理，符合大对象传输延迟主导的物理直觉。

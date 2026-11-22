@@ -1,0 +1,20 @@
+# N80: Gaussian Copula 在 Pareto 尾部依赖上的失效量化：当 S > 10*x_min 且 R > 10*r_min 时，Gaussian Cop
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+Gaussian Copula 在 Pareto 尾部依赖上的失效量化：当 S > 10*x_min 且 R > 10*r_min 时，Gaussian Copula 预测的联合概率 P(S>10x, R>10r) 与 Clayton Copula 预测值的相对误差 > 50%，表明 Gaussian 不适合厚尾联合建模
+
+## Corrected Claim
+
+Gaussian Copula 在 Pareto 尾部依赖上的失效量化：当 S > 10*x_min 且 R > 10*r_min 时，Gaussian Copula 预测的联合概率 P(S>10x, R>10r) 与 Clayton Copula 预测值的相对误差 > 50%，表明 Gaussian 不适合厚尾联合建模
+
+## Evidence
+
+父节点级核验未通过：非正交, 有冗余（子节点2和子节点3存在严重逻辑冲突和冗余。子节点2尝试计算Clayton Copula但自相矛盾（指出参数域限制），子节点3又重复指出Clayton不适用并引入Frank Copula。此外，子节点2中关于Clayton参数反解的推导是错误的（Clayton的Kendall tau与theta关系并非如此，且theta>0确实对应正相关，负相关时Clayton确实不适用，但子节点2仍在强行计算一个无效的参数值），导致信息混乱。）

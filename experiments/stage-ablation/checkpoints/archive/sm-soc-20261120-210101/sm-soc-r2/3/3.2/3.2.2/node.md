@@ -1,0 +1,24 @@
+# N64: 信用-价格相关性量化：计算高挂价组（P > P_ref * 1.15）与低挂价组的卖家平均信用分差值 ΔCredit = Mean(Credit_high) -
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N15
+
+## Claim
+
+信用-价格相关性量化：计算高挂价组（P > P_ref * 1.15）与低挂价组的卖家平均信用分差值 ΔCredit = Mean(Credit_high) - Mean(Credit_low)，并计算皮尔逊相关系数 r = Corr(P_deviation, Seller_Credit)。若 r > 0.3 且 ΔCredit > 0，支持卖家利用高信用背书支撑高价的假设。
+
+## Corrected Claim
+
+信用-价格相关性量化方法：通过计算高挂价组与低挂价组的卖家平均信用分差值 ΔCredit 及皮尔逊相关系数 r = Corr(P_deviation, Seller_Credit) 来检验卖家是否利用高信用背书支撑高价。若实证数据显示 r > 0.3 且 ΔCredit > 0，则支持该假设。
+
+## Evidence
+
+[质询]该陈述描述的是一个具体的实证分析结果（r > 0.3 且 ΔCredit > 0），属于经验事实。在没有具体数据集或研究来源支持的情况下，无法确认该特定数值阈值和正相关关系在一般市场或特定场景中是否成立，存在将假设性分析框架误述为既定事实的风险。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，无法验证具体数值结论）
+
+## Search Query
+
+second hand marketplace seller credit score vs listing price correlation

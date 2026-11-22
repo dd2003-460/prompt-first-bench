@@ -1,0 +1,24 @@
+# N106: 干预 A 对平台 GMV 的净效应：GMV = $\sum P_{buy} \cdot Q_{sold}$。价格下降导致 $P_{buy}$ 降低，但可能因信任
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N32
+
+## Claim
+
+干预 A 对平台 GMV 的净效应：GMV = $\sum P_{buy} \cdot Q_{sold}$。价格下降导致 $P_{buy}$ 降低，但可能因信任提升导致 $Q_{sold}$ 增加。GMV 变化 $\Delta GMV = Q_{sold} \cdot \Delta P + P_{buy} \cdot \Delta Q$。若 $\Delta Q/Q > |\Delta P/P|$，则 GMV 上升。[待核验] 需量化 $\Delta Q/Q$ 的弹性，通常信任提升带来的成交量增加弹性在 0.2-0.5 之间，而价格下降幅度可能在 10-15%。
+
+## Corrected Claim
+
+干预 A 对平台 GMV 的净效应：GMV = $\sum P_{buy} \cdot Q_{sold}$。价格下降导致 $P_{buy}$ 降低，但可能因信任提升导致 $Q_{sold}$ 增加。GMV 变化 $\Delta GMV = Q_{sold} \cdot \Delta P + P_{buy} \cdot \Delta Q$。若 $\Delta Q/Q > |\Delta P/P|$，则 GMV 上升。需量化 $\Delta Q/Q$ 的弹性，其具体数值取决于市场环境和信任机制，通常需通过实证数据估算，而非固定为 0.2-0.5。
+
+## Evidence
+
+[质询]陈述中关于“信任提升带来的成交量增加弹性在 0.2-0.5 之间”属于具体的经验性数值断言，缺乏普遍适用的理论依据或数据支持，且不同平台、品类差异巨大，该数值范围可能不准确或过于具体化。 | 逻辑推导部分（GMV变化公式及弹性比较条件）自洽且正确；但“弹性0.2-0.5”为经验事实，无来源支持且无法从第一性原理推出，依据经验事实排除条款降级。
+
+## Search Query
+
+impact of price transparency on GMV and transaction volume in online marketplaces

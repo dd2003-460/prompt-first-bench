@@ -1,0 +1,20 @@
+# N196: 启用 FP8 KV Cache 后，32K 上下文下的 KV Cache 占用减半至 12.88GB，每 token 读取量相应减半，RTX 5090 的理论 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N60
+
+## Claim
+
+启用 FP8 KV Cache 后，32K 上下文下的 KV Cache 占用减半至 12.88GB，每 token 读取量相应减半，RTX 5090 的理论 TPOT 从 14.4ms 降至 7.2ms（仅KV部分），结合权重读取（3.3GB），总 TPOT 约为 9.1ms，使单卡 32K 长上下文推理在消费级硬件上变得可行。
+
+## Corrected Claim
+
+启用 FP8 KV Cache 后，32K 上下文下的 KV Cache 占用减半至 12.88GB，每 token 读取量相应减半，RTX 5090 的理论 TPOT 从 14.4ms 降至 7.2ms（仅KV部分），结合权重读取（3.3GB），总 TPOT 约为 9.1ms，使单卡 32K 长上下文推理在消费级硬件上变得可行。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：FP8相比FP16/FP32确实使KV Cache体积减半；TPOT计算符合Roofline模型逻辑（KV读取减半+权重读取不变，总时间线性叠加），数值量级合理。

@@ -1,0 +1,30 @@
+# N162: 季节性冲击项 ε_season(t) 的量化公式：ε_season(t) = A_season * sin(2πt/365 + φ)，其中 A_season 为
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N48, N49, N50
+
+## Claim
+
+季节性冲击项 ε_season(t) 的量化公式：ε_season(t) = A_season * sin(2πt/365 + φ)，其中 A_season 为季节性振幅（二手市场典型值约为 P_median 的 5-10%），φ 为相位滞后；该参数需通过历史 3 年成交数据的傅里叶变换提取 A_season 和 φ，用于从 P_clear 中剥离季节性成分。
+
+## Corrected Claim
+
+季节性冲击项 ε_season(t) 的量化公式：ε_season(t) = A_season * sin(2πt/365 + φ)，其中 A_season 为季节性振幅，φ 为相位滞后；该参数需通过历史成交数据的傅里叶变换提取，用于从 P_clear 中剥离季节性成分。
+
+## Evidence
+
+[质询]陈述中关于二手市场季节性振幅的具体数值范围（P_median 的 5-10%）属于特定领域的经验事实，参考来源仅涵盖通用的时间序列分解理论，未提供该特定数值支持，存在缺乏实证依据的风险。 | 逻辑上正弦函数建模季节性冲击及傅里叶变换提取参数符合时间序列分析基本原理（来源[1][2][3]支持方法论），但具体振幅数值（5-10%）为经验事实，来源未直接覆盖，故降级。
+
+## Search Query
+
+second hand market price seasonality amplitude A_season fourier transform
+
+## Retrieval Sources
+
+- {'url': 'https://web.vu.lt/mif/a.buteikis/wp-content/uploads/2019/02/Lecture_03.pdf&rut=540e7612301e13f377fdd4266b142a728385ba8683f16f949af664a5e18f5e04', 'type': 'ddg', 'title': 'PDF 03 Time series with trend and seasonality components'}
+- {'url': 'https://www.lamda.nju.edu.cn/yehj/timeseries2021/8.pdf&rut=fbc49fb85892e4de93207f41db9459fa894f5416afae01fce7283ea646af0bee', 'type': 'ddg', 'title': 'PDF 08 有季节效应的非平稳序列分析'}
+- {'url': 'https://blog.csdn.net/weixin_47442572/article/details/121775154&rut=a877149a7675a87038c0baa5827118d420346f96e50abb0d08b006194f9eba7c', 'type': 'ddg', 'title': '【时序列】时序列数据如何一步步分解成趋势（trend）季节性（seasonality）和误差（residual）- 详细'}

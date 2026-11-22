@@ -1,0 +1,20 @@
+# N29: NVIDIA L40S (48GB GDDR6) 的显存带宽为 864 GB/s，价格约为 $8000-$10000，单卡可承载 Qwen3-27B 的 BF1
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+NVIDIA L40S (48GB GDDR6) 的显存带宽为 864 GB/s，价格约为 $8000-$10000，单卡可承载 Qwen3-27B 的 BF16 权重（约 54GB）需量化，FP8 权重（约 13.5GB）单卡可容纳且剩余显存支持 32K 上下文，BF16 权重需 INT8 量化后单卡可容纳。
+
+## Corrected Claim
+
+NVIDIA L40S (48GB GDDR6) 的显存带宽为 864 GB/s，价格约为 $8000-$10000，单卡可承载 Qwen3-27B 的 BF16 权重（约 54GB）需量化，FP8 权重（约 13.5GB）单卡可容纳且剩余显存支持 32K 上下文，BF16 权重需 INT8 量化后单卡可容纳。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：L40S 48GB GDDR6 带宽 864 GB/s 符合规格；Qwen3-27B BF16 约 54GB 超出 48GB 需量化，FP8 约 13.5GB 可容纳且剩余显存支持长上下文，INT8 约 27GB 可容纳，数值量级与逻辑自洽。

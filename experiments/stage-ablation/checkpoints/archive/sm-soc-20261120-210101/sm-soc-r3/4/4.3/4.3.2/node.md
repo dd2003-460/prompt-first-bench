@@ -1,0 +1,24 @@
+# N80: ‘高溢价’标签的曝光权重惩罚机制量化：当挂价 > P_max 时，平台降低曝光权重 W_exposure。量化为 W_post = W_pre * (1 - δ
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N20
+
+## Claim
+
+‘高溢价’标签的曝光权重惩罚机制量化：当挂价 > P_max 时，平台降低曝光权重 W_exposure。量化为 W_post = W_pre * (1 - δ_tag * (P_list - P_max)/P_max)，其中 δ_tag 为惩罚强度系数。假设 δ_tag = 0.1，则每超出 P_max 10%，曝光权重下降 1%。此惩罚直接导致成交周期 T 延长，需计算 δ_tag 对 T 的边际影响 ∂T/∂δ_tag。
+
+## Corrected Claim
+
+‘高溢价’标签的曝光权重惩罚机制量化：当挂价 > P_max 时，平台降低曝光权重 W_exposure。量化为 W_post = W_pre * (1 - δ_tag * (P_list - P_max)/P_max)，其中 δ_tag 为惩罚强度系数。假设 δ_tag = 0.1，则每超出 P_max 10%，曝光权重下降 1%。此惩罚直接导致成交周期 T 延长，需计算 δ_tag 对 T 的边际影响 ∂T/∂δ_tag。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+search engine ranking penalty for high price listing marketplace

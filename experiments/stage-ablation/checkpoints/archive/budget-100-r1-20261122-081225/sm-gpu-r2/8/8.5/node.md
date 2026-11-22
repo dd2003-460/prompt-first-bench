@@ -1,0 +1,24 @@
+# N146: Qwen3-27B 在 FP8 (E4M3) 精度下，MMLU-Pro 基准测试的准确率下降为 0.3% (从 85.2% 降至 84.9%)，HumanEva
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N51, N52, N53
+
+## Claim
+
+Qwen3-27B 在 FP8 (E4M3) 精度下，MMLU-Pro 基准测试的准确率下降为 0.3% (从 85.2% 降至 84.9%)，HumanEval 准确率下降为 0.5% (从 72.1% 降至 71.6%)，数据来源于 Qwen 官方技术报告或第三方评测 [待核验具体数值]。
+
+## Corrected Claim
+
+Qwen3-27B 在 FP8 (E4M3) 精度下，MMLU-Pro 和 HumanEval 基准测试的准确率出现轻微下降（约 0.3%-0.5%），具体数值需参考 Qwen 官方技术报告或权威第三方评测确认。
+
+## Evidence
+
+[质询]具体数值（85.2%、84.9%、72.1%、71.6%）及基准测试名称（MMLU-Pro, HumanEval）属于经验事实，且标记为[待核验]，缺乏直接来源支持，存在数值虚构或混淆不同模型/版本数据的风险。 | 经验事实，逻辑自洽（FP8量化通常导致微小精度损失，0.3%-0.5%的下降幅度符合工程直觉），但缺来源支持。
+
+## Search Query
+
+Qwen3-27B FP8 quantization MMLU-Pro HumanEval accuracy drop

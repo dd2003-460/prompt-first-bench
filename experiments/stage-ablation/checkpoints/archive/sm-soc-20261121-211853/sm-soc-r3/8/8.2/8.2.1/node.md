@@ -1,0 +1,20 @@
+# N163: ‘下架率’的操作性定义：R_delist = N_delisted_48h / N_listed_48h，其中N_delisted_48h为挂牌后48小时内主动
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N67
+
+## Claim
+
+‘下架率’的操作性定义：R_delist = N_delisted_48h / N_listed_48h，其中N_delisted_48h为挂牌后48小时内主动下架或系统强制下架的商品数。需区分‘主动下架’与‘违规下架’，仅统计主动下架以反映卖家真实行为。
+
+## Corrected Claim
+
+‘下架率’的操作性定义：R_delist = N_delisted_48h / N_listed_48h，其中N_delisted_48h为挂牌后48小时内主动下架或系统强制下架的商品数。需区分‘主动下架’与‘违规下架’，仅统计主动下架以反映卖家真实行为。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

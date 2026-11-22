@@ -1,0 +1,24 @@
+# N222: FP8 (E4M3) 与 INT8 在数学任务（如 GSM8K）上的质量损失差异幅度，通常 FP8 的非对称量化在长尾分布激活值上保留更多精度，预期 FP8 的
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N64
+
+## Claim
+
+FP8 (E4M3) 与 INT8 在数学任务（如 GSM8K）上的质量损失差异幅度，通常 FP8 的非对称量化在长尾分布激活值上保留更多精度，预期 FP8 的 GSM8K 得分下降比 INT8 低 0.5-1.5 个百分点，需通过对比同一模型的 FP8 和 INT8 基准测试数据验证。
+
+## Corrected Claim
+
+FP8 (E4M3) 与 INT8 在数学任务（如 GSM8K）上的质量损失存在差异，通常 FP8 的非对称量化在长尾分布激活值上保留更多精度，预期 FP8 的 GSM8K 得分下降幅度小于 INT8，具体差异幅度需通过对比同一模型的 FP8 和 INT8 基准测试数据验证。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值范围（0.5-1.5个百分点），属于硬件/模型性能的经验事实，无法从第一性原理严格推导；且不同模型架构、量化实现细节（如是否使用校准数据、是否混合精度）会导致差异幅度波动极大，固定区间缺乏普适性。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，且该具体数值区间无法从第一性原理推出，符合经验事实排除条款，故降级）。
+
+## Search Query
+
+FP8 vs INT8 quantization accuracy difference math reasoning LLM benchmark

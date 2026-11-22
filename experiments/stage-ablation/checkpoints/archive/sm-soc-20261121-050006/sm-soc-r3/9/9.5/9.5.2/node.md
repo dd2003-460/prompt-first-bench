@@ -1,0 +1,24 @@
+# N348: 平台推荐列表平均浏览深度 D_avg 的量化：基于用户行为日志，D_avg = E[items_viewed_per_session]，若 D_avg > N_
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N112
+
+## Claim
+
+平台推荐列表平均浏览深度 D_avg 的量化：基于用户行为日志，D_avg = E[items_viewed_per_session]，若 D_avg > N_fatigue_threshold，则搜索疲劳效应显著，平台驱动假设失效概率 P(Invalid) = 1 - exp(-λ_fatigue * (D_avg - N_fatigue_threshold))。
+
+## Corrected Claim
+
+平台推荐列表平均浏览深度 D_avg 定义为 E[items_viewed_per_session]。若 D_avg 超过疲劳阈值 N_fatigue_threshold，通常认为用户疲劳效应显著，但这并不直接等同于‘平台驱动假设失效’，且失效概率的具体量化模型（如指数衰减形式）需依据特定实证研究或业务假设确定，非通用标准。
+
+## Evidence
+
+[质询]该陈述将‘搜索疲劳’与‘推荐列表浏览深度’强行关联，且使用了未定义的特定指数衰减公式（P(Invalid) = 1 - exp(...)）来量化‘平台驱动假设失效概率’。这属于特定的经验性模型假设，而非通用的第一性原理或标准统计定义，缺乏普适性逻辑支撑。 | 经验事实/特定模型假设，逻辑自洽但缺来源支持（本轮检索无可用来源，且该公式非通用公理，无法从第一性原理严格推出）。
+
+## Search Query
+
+average items viewed per session recommendation list e-commerce user behavior

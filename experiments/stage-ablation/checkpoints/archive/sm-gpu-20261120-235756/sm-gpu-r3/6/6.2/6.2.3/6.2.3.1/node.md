@@ -1,0 +1,20 @@
+# N313: 新卡 vs 二手卡的 TCO 交叉点（Break-even Point）持有期计算公式：T_break_even = (P_new - P_used) / (A
+
+- **status**: verified
+- **level**: L4
+- **source**: given
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N116
+
+## Claim
+
+新卡 vs 二手卡的 TCO 交叉点（Break-even Point）持有期计算公式：T_break_even = (P_new - P_used) / (Annual_Risk_Cost_used - Annual_Risk_Cost_new)；其中 Annual_Risk_Cost = P_failure × (Repair_Cost + Downtime_Cost)。若新卡溢价 $500，二手卡年风险成本比新卡高 $100，则 T_break_even = 5 年；若年风险成本差为 $50，则 T_break_even = 10 年。
+
+## Corrected Claim
+
+新卡 vs 二手卡的 TCO 交叉点（Break-even Point）持有期计算公式：T_break_even = (P_new - P_used) / (Annual_Risk_Cost_used - Annual_Risk_Cost_new)；其中 Annual_Risk_Cost = P_failure × (Repair_Cost + Downtime_Cost)。若新卡溢价 $500，二手卡年风险成本比新卡高 $100，则 T_break_even = 5 年；若年风险成本差为 $50，则 T_break_even = 10 年。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式推导符合TCO交叉点定义，数值计算（500/100=5, 500/50=10）准确无误。

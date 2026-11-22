@@ -1,0 +1,20 @@
+# N119: RTX 4090 单卡在 Qwen3-27B BF16 32K 上下文下无法运行完整模型（显存需求 55GB > 24GB），其'单卡'吞吐量数值为 0 tok
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+RTX 4090 单卡在 Qwen3-27B BF16 32K 上下文下无法运行完整模型（显存需求 55GB > 24GB），其'单卡'吞吐量数值为 0 tokens/s；该配置仅在模型量化至 INT4（显存需求约 15GB）或启用 CPU Offload（导致延迟激增）时可行，需标注为 [不可行/需量化]。
+
+## Corrected Claim
+
+RTX 4090 单卡在 Qwen3-27B BF16 32K 上下文下无法运行完整模型（显存需求 55GB > 24GB），其'单卡'吞吐量数值为 0 tokens/s；该配置仅在模型量化至 INT4（显存需求约 15GB）或启用 CPU Offload（导致延迟激增）时可行，需标注为 [不可行/需量化]。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B BF16 权重约 54GB，加上 32K 上下文的 KV Cache 开销，总显存需求远超 RTX 4090 的 24GB 显存，物理上无法运行完整模型，故吞吐量视为 0 或标记为不可行是符合逻辑的。

@@ -1,0 +1,20 @@
+# N69: 下游投影2（议价僵持概率）：当买家出价 P_bid < P_min 时，卖家拒绝概率 P_reject = 1 - exp(-λ_i * (P_min - P_
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N25
+
+## Claim
+
+下游投影2（议价僵持概率）：当买家出价 P_bid < P_min 时，卖家拒绝概率 P_reject = 1 - exp(-λ_i * (P_min - P_bid)/P_min)，λ_i 越大，僵局概率越高，解释了部分高挂价商品无法快速成交。
+
+## Corrected Claim
+
+下游投影2（议价僵持概率）：当买家出价 P_bid < P_min 时，卖家拒绝概率 P_reject = 1 - exp(-λ_i * (P_min - P_bid)/P_min)，λ_i 越大，僵局概率越高，解释了部分高挂价商品无法快速成交。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 P_reject = 1 - exp(-λ_i * (P_min - P_bid)/P_min) 在 P_bid < P_min 时，随着 λ_i 增大，指数项衰减更快，导致 P_reject 趋近于 1，符合“λ_i 越大，僵局概率越高”的定性描述；且该模型常用于描述价格差距导致的交易失败概率，量纲与逻辑自洽。

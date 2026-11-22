@@ -1,0 +1,24 @@
+# N316: 异质性偏好中成色差异与功能差异的相关系数 ρ_cf 的量化：ρ_cf = Cov(σ_condition, σ_function) / (σ_condition
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N101, N102, N103
+
+## Claim
+
+异质性偏好中成色差异与功能差异的相关系数 ρ_cf 的量化：ρ_cf = Cov(σ_condition, σ_function) / (σ_condition * σ_function)。若假设成色与功能独立，ρ_cf = 0；若存在负相关（高成色通常对应低功能损耗），ρ_cf ∈ [-0.3, 0]。该参数影响 σ_trade 的实际值，需通过回归分析估计。
+
+## Corrected Claim
+
+异质性偏好中成色差异与功能差异的相关系数 ρ_cf 的量化：ρ_cf = Cov(σ_condition, σ_function) / (σ_condition * σ_function)。若假设成色与功能独立，ρ_cf = 0；若存在负相关（高成色通常对应低功能损耗），ρ_cf ∈ [-0.3, 0]。该参数影响 σ_trade 的实际值，需通过回归分析估计。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：相关系数定义符合统计学标准，独立假设下为0及负相关区间的设定符合经济直觉（成色好通常意味着磨损少，功能损耗低），且明确指出需通过回归估计，逻辑自洽。
+
+## Search Query
+
+correlation between product condition and functional variance in second-hand market

@@ -1,0 +1,24 @@
+# N95: 显存容量筛选阈值修正：W4 方案最低显存需求为 36 GB（权重 13.55 GB + FP8 KV Cache 10.31 GB + 开销 1.02 GB +
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N27
+
+## Claim
+
+显存容量筛选阈值修正：W4 方案最低显存需求为 36 GB（权重 13.55 GB + FP8 KV Cache 10.31 GB + 开销 1.02 GB + 安全余量 10% ≈ 26.5 GB，但需考虑 Batch Size >1 时的 KV Cache 扩展，故保守取 36 GB）；INT8 方案最低显存需求为 50 GB（权重 27.1 GB + FP8 KV Cache 10.31 GB + 开销 2.03 GB + 安全余量 10% ≈ 41.5 GB，保守取 50 GB）。
+
+## Corrected Claim
+
+显存容量筛选阈值修正：W4 方案最低显存需求为 36 GB（权重 13.55 GB + FP8 KV Cache 10.31 GB + 开销 1.02 GB + 安全余量 10% ≈ 26.5 GB，但需考虑 Batch Size >1 时的 KV Cache 扩展，故保守取 36 GB）；INT8 方案最低显存需求为 50 GB（权重 27.1 GB + FP8 KV Cache 10.31 GB + 开销 2.03 GB + 安全余量 10% ≈ 41.5 GB，保守取 50 GB）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：W4方案基础显存约26.5GB，考虑Batch Size扩展后保守取36GB合理；INT8方案基础显存约41.5GB，保守取50GB合理，数值量级与工程实践一致。
+
+## Search Query
+
+Qwen3-27B minimum VRAM requirement W4 INT8 inference

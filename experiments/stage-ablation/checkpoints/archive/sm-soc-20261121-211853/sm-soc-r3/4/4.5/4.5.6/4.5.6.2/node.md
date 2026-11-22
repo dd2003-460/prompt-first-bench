@@ -1,0 +1,20 @@
+# N120: 曝光量方差 σ² 的估计方法：基于历史数据计算 σ² = Var(Impression_i)，其中 Impression_i 为第 i 个商品的曝光量，需剔除季
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N51
+
+## Claim
+
+曝光量方差 σ² 的估计方法：基于历史数据计算 σ² = Var(Impression_i)，其中 Impression_i 为第 i 个商品的曝光量，需剔除季节性波动（通过时间序列分解）和极端值（通过 Winsorize 处理）。
+
+## Corrected Claim
+
+曝光量方差 σ² 的估计方法：基于历史数据计算 σ² = Var(Impression_i)，其中 Impression_i 为第 i 个商品的曝光量，需剔除季节性波动（通过时间序列分解）和极端值（通过 Winsorize 处理）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

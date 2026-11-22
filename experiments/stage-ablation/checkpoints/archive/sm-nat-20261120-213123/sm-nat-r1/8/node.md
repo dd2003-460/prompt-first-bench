@@ -1,0 +1,24 @@
+# N26: 对于 Pareto(α=1.1) 分布，单个对象的平均大小 E[S] = α*s_min/(α-1) = 1.1*1024/0.1 ≈ 11264 bytes 
+
+- **status**: verified
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+对于 Pareto(α=1.1) 分布，单个对象的平均大小 E[S] = α*s_min/(α-1) = 1.1*1024/0.1 ≈ 11264 bytes (若 s_min=1KB)。归一化容量 c = C/E[S] ≈ 1.28×10^11 / 1.13×10^4 ≈ 1.13×10^7。由于 c >> N=10^5，理论上缓存可容纳所有对象，但受限于 LRU 替换策略，实际驻留对象数受限于访问频率而非仅容量，需结合热度分布确定有效驻留集合大小 k_eff。
+
+## Corrected Claim
+
+对于 Pareto(α=1.1) 分布，单个对象的平均大小 E[S] = α*s_min/(α-1) = 1.1*1024/0.1 ≈ 11264 bytes (若 s_min=1KB)。归一化容量 c = C/E[S] ≈ 1.28×10^11 / 1.13×10^4 ≈ 1.13×10^7。由于 c >> N=10^5，理论上缓存可容纳所有对象，但受限于 LRU 替换策略，实际驻留对象数受限于访问频率而非仅容量，需结合热度分布确定有效驻留集合大小 k_eff。
+
+## Evidence
+
+[rework-angle r1] 逻辑推导成立，来源未直接覆盖
+
+## Search Query
+
+Pareto distribution mean formula alpha s_min

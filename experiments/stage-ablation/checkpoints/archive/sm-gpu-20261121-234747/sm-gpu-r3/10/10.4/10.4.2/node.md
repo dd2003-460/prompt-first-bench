@@ -1,0 +1,24 @@
+# N496: FP8 与 W4 在 MMLU 上的准确率绝对差值 ΔAcc_diff = Acc_FP8 - Acc_W4，该值用于确定精度选择的性价比拐点：若 ΔAcc_d
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N157
+
+## Claim
+
+FP8 与 W4 在 MMLU 上的准确率绝对差值 ΔAcc_diff = Acc_FP8 - Acc_W4，该值用于确定精度选择的性价比拐点：若 ΔAcc_diff > 1%，则 W4 在知识密集型任务上不可接受；若 < 0.5%，则 W4 可视为近似无损 [待核验]
+
+## Corrected Claim
+
+FP8 与 W4 在 MMLU 上的准确率绝对差值 ΔAcc_diff 是评估精度损失的关键指标。在特定模型和量化配置下，若 ΔAcc_diff > 1%，通常认为 W4 在知识密集型任务上存在显著性能下降；若 < 0.5%，可视为近似无损。具体阈值需结合具体模型基准测试结果确定。
+
+## Evidence
+
+[质询]该陈述将具体的准确率差值阈值（1% 和 0.5%）定义为通用的“性价比拐点”或“不可接受/近似无损”的标准，这属于经验性工程判断而非第一性原理可推导的数学或物理事实。不同模型架构、数据集版本及量化算法（如 GPTQ, AWQ, SmoothQuant）对 MMLU 的影响差异巨大，不存在普适的固定阈值。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该阈值非第一性原理可推导，属于特定场景下的经验规则）
+
+## Search Query
+
+Qwen 27B FP8 vs W4 MMLU accuracy difference threshold

@@ -1,0 +1,29 @@
+# N34: 迭代求解收敛性分析：T_resident = M / (R * E[S_hit])，其中 E[S_hit] = E[S | hit]，由于热门对象较小（ρ=-0
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N13
+
+## Claim
+
+迭代求解收敛性分析：T_resident = M / (R * E[S_hit])，其中 E[S_hit] = E[S | hit]，由于热门对象较小（ρ=-0.3），E[S_hit] < E[S]，假设 E[S_hit] ≈ 0.7 * E[S]，则 T_resident ≈ 1.374e11 / (5e7 * 0.7 * 2.5e9) ≈ 1.55e-5 天，P_stale ≈ 1.55e-7，迭代 2 次后收敛，非线性耦合影响微弱
+
+## Corrected Claim
+
+在给定参数 M=1.374e11, R=5e7, E[S]=2.5e9 且假设 E[S_hit] ≈ 0.7 * E[S] 的条件下，计算得 T_resident ≈ 1.55e-5 天，P_stale ≈ 1.55e-7。该数值结果逻辑自洽，但关于‘迭代2次后收敛’及‘非线性耦合影响微弱’的结论缺乏外部来源验证，需结合具体系统仿真或实验数据确认。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（如 M=1.374e11, R=5e7, E[S]=2.5e9, ρ=-0.3）及特定的收敛结论（迭代2次收敛），这些属于特定系统或场景下的经验事实，无法从第一性原理直接推导。参考来源仅涉及通用的数值线性代数和非线性方程迭代法理论，未提供该特定缓存/驻留时间模型的具体参数或验证其收敛性结论，存在来源不匹配且缺乏直接证据支持的风险。 | 逻辑校验通过：数值计算 1.374e11 / (5e7 * 0.7 * 2.5e9) ≈ 1.55e-5 正确，量纲与量级自洽。但参考来源 [1] 和 [2] 均为通用数值方法理论，与该特定应用场景（缓存驻留时间/陈旧度模型）无关，无法提供直接支持。根据经验事实排除条款，缺乏来源直接支持或独立多源一致，故降级。
+
+## Search Query
+
+cache residence time iteration convergence Pareto distribution
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/716733470&rut=a7e87f3c4dcf19fa0e34dce131ddc40ed7d1a81dd7af96d4886daef14d698a37', 'type': 'ddg', 'title': 'Gmres学习笔记 - 知乎 - 知乎专栏'}
+- {'url': 'https://zhuanlan.zhihu.com/p/337437164&rut=bdb216b2b243f2c56c61bbccfa744d3a5a55c3f501377a1e4eb6a111c03df03d', 'type': 'ddg', 'title': '非线性方程迭代解法的收敛性分析 - 知乎'}

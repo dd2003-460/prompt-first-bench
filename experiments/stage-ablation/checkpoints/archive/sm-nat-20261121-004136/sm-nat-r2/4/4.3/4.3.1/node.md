@@ -1,0 +1,20 @@
+# N56: Discount_Factor 的最终数值计算：代入 P_invalid ≈ 0.002655 和 Hit_Rate_Original (例如 0.85)，计算
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N17
+
+## Claim
+
+Discount_Factor 的最终数值计算：代入 P_invalid ≈ 0.002655 和 Hit_Rate_Original (例如 0.85)，计算 Discount_Factor = 1 - 0.002655 * (1 - 0.85) ≈ 1 - 0.000398 ≈ 0.999602。
+
+## Corrected Claim
+
+Discount_Factor 的最终数值计算：代入 P_invalid ≈ 0.002655 和 Hit_Rate_Original (例如 0.85)，计算 Discount_Factor = 1 - 0.002655 * (1 - 0.85) ≈ 1 - 0.000398 ≈ 0.999602。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算 1 - 0.002655 * 0.15 = 1 - 0.00039825 ≈ 0.999602 正确，公式逻辑自洽。

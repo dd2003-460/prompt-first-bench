@@ -1,0 +1,24 @@
+# N46: 买家偏好噪声 ε_b 的方差 σ²_b 可通过同一商品（或高度相似商品）在不同买家群体中的最终成交价方差估计：σ²_b = Var(P_final_j | x_
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N9, N10, N11
+
+## Claim
+
+买家偏好噪声 ε_b 的方差 σ²_b 可通过同一商品（或高度相似商品）在不同买家群体中的最终成交价方差估计：σ²_b = Var(P_final_j | x_j, P_ask_j)，其中 P_final_j 为第 j 笔交易成交价。
+
+## Corrected Claim
+
+买家偏好噪声 ε_b 的方差 σ²_b 可通过同一商品（或高度相似商品）在不同买家群体中的最终成交价方差估计：σ²_b = Var(P_final_j | x_j, P_ask_j)，其中 P_final_j 为第 j 笔交易成交价。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在逻辑上正交，分别涵盖了信号源、转化机制、观测误差和统计修正，无重复或矛盾。但存在完备性问题：父节点公式 σ²_b = Var(P_final | x, P_ask) 隐含假设成交价仅由偏好噪声驱动且无其他混杂因素，而子节点未明确提及‘控制其他市场噪声（如卖家策略噪声、市场供需冲击）’这一关键前提，也未说明如何从总方差中分离出仅由买家偏好引起的方差（即未建立完整的方差分解恒等式，如 σ²_total = β_p²σ²_b + σ²_seller + σ²_obs 等）。）
+
+## Search Query
+
+willingness to pay variance same product different buyers

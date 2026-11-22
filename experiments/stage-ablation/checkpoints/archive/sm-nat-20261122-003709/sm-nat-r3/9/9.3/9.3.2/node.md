@@ -1,0 +1,20 @@
+# N251: 计算全局平均对象大小 E[S]：基于 Pareto(α=1.1, s_min=1KB) 分布，E[S] = α*s_min/(α-1) = 1.1*1KB/0.
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N94
+
+## Claim
+
+计算全局平均对象大小 E[S]：基于 Pareto(α=1.1, s_min=1KB) 分布，E[S] = α*s_min/(α-1) = 1.1*1KB/0.1 = 11KB（若截断于 s_max=34.7MB，需修正为约 10KB）。
+
+## Corrected Claim
+
+计算全局平均对象大小 E[S]：基于 Pareto(α=1.1, s_min=1KB) 分布，E[S] = α*s_min/(α-1) = 1.1*1KB/0.1 = 11KB（若截断于 s_max=34.7MB，需修正为约 10KB）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布均值公式 E[S]=α*s_min/(α-1) 在 α>1 时成立，代入 α=1.1, s_min=1KB 得 11KB，量级合理；截断修正方向正确（截断会略微降低均值）。

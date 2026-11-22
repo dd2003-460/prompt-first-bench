@@ -1,0 +1,20 @@
+# N390: 工作点 B (1× A100 80GB, BF16) 的 3 年 TCO 上限估算：假设 A100 现货溢价导致 CapEx 升至 $15,000，且因机房空调
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N123
+
+## Claim
+
+工作点 B (1× A100 80GB, BF16) 的 3 年 TCO 上限估算：假设 A100 现货溢价导致 CapEx 升至 $15,000，且因机房空调限制导致功耗上限被锁死在 400W (无降频)，OpEx_energy 保持 $1140，OpEx_maintenance 因需专用运维人员升至 $500，Total_TCO_B_max ≈ $15000 + $1140 + $500 = $16640。
+
+## Corrected Claim
+
+工作点 B (1× A100 80GB, BF16) 的 3 年 TCO 上限估算：假设 A100 现货溢价导致 CapEx 升至 $15,000，且因机房空调限制导致功耗上限被锁死在 400W (无降频)，OpEx_energy 保持 $1140，OpEx_maintenance 因需专用运维人员升至 $500，Total_TCO_B_max ≈ $15000 + $1140 + $500 = $16640。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算 15000 + 1140 + 500 = 16640 正确，且各分项假设（CapEx, OpEx_energy, OpEx_maintenance）在题设条件下逻辑自洽。

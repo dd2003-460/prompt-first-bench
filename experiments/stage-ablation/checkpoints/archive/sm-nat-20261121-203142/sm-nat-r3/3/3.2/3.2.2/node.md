@@ -1,0 +1,24 @@
+# N47: LFU 与 Belady 最优算法的差距 H_Belady - H_LFU 在 Pareto(β=0.9) 热度分布下的量化估计：差距源于 LFU 无法预知未来
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N14
+
+## Claim
+
+LFU 与 Belady 最优算法的差距 H_Belady - H_LFU 在 Pareto(β=0.9) 热度分布下的量化估计：差距源于 LFU 无法预知未来请求，具体值需通过模拟已知未来请求序列的 Belady 算法与 LFU 算法对比获得，典型差距在 1-5 个百分点
+
+## Corrected Claim
+
+LFU 与 Belady 最优算法的差距 H_Belady - H_LFU 在 Pareto(β=0.9) 热度分布下的量化估计：差距源于 LFU 无法预知未来请求，具体值需通过模拟已知未来请求序列的 Belady 算法与 LFU 算法对比获得，典型差距在 1-5 个百分点（注：该数值为经验估计，需具体模拟验证）
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值范围（1-5个百分点），属于硬件/算法性能的经验事实，无法从第一性原理严格推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Belady vs LFU hit rate gap simulation Pareto request workload

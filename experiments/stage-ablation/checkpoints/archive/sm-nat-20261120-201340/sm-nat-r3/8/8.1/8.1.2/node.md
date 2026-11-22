@@ -1,0 +1,20 @@
+# N133: LFU 的频率滞后问题导致新热点对象（请求率从 r_old 跃升至 r_new）需要 T_lag = 1/(r_new - r_old) 天才能进入缓存，在 β
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N69
+
+## Claim
+
+LFU 的频率滞后问题导致新热点对象（请求率从 r_old 跃升至 r_new）需要 T_lag = 1/(r_new - r_old) 天才能进入缓存，在 β=0.9 的 Pareto 分布下，若 r_new/r_old > 10，则 T_lag < 0.1 天，滞后损失可忽略；若 r_new/r_old < 2，则 T_lag > 1 天，滞后损失显著。
+
+## Corrected Claim
+
+LFU 的频率滞后问题导致新热点对象需要一定时间才能进入缓存。滞后时间 T_lag 取决于 LFU 的具体实现（如计数器衰减率或时间窗口长度），而非简单地由请求率差值的倒数决定。在典型实现中，若请求率跃升显著，滞后损失可能较小，但具体数值需结合算法参数计算。
+
+## Evidence
+
+[质询]公式 T_lag = 1/(r_new - r_old) 缺乏明确的量纲定义和物理/算法依据。在 LFU 算法中，频率滞后通常与计数器衰减率（如指数移动平均的 alpha 或固定时间窗口的长度）相关，而非直接由请求率差值的倒数决定。若 r 的单位是 '次/天'，则 T_lag 单位为 '天/次'，量纲不匹配；若 r 是归一化概率，则 1/(r_new - r_old) 的量级取决于具体分布，且该公式未体现 LFU 的具体实现机制（如是否使用衰减因子）。此外，'Pareto 分布' 在此处仅作为背景条件，并未参与 T_lag 的推导，逻辑链条断裂。 | source=knowledge，但公式量纲不自洽且缺乏 LFU 算法机制支撑，属于逻辑推导错误。

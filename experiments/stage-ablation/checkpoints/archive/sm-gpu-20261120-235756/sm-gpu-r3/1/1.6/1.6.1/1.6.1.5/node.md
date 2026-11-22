@@ -1,0 +1,24 @@
+# N177: W4A16量化在MoE架构(Qwen3-27B)下的质量损失敏感度高于Dense模型，因为稀疏激活导致未激活专家权重未被校准数据充分覆盖，需评估Router层量
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N51, N52, N53
+
+## Claim
+
+W4A16量化在MoE架构(Qwen3-27B)下的质量损失敏感度高于Dense模型，因为稀疏激活导致未激活专家权重未被校准数据充分覆盖，需评估Router层量化对专家选择准确性的影响，预期Router误差导致Top-K选择错误率增加1-3% [待核验]。
+
+## Corrected Claim
+
+W4A16量化在MoE架构(Qwen3-27B)下的质量损失敏感度通常高于Dense模型，因为稀疏激活导致未激活专家权重未被校准数据充分覆盖，需评估Router层量化对专家选择准确性的影响，Router误差可能导致Top-K选择错误率显著增加（具体幅度取决于量化算法与校准策略）。
+
+## Evidence
+
+[质询]「Top-K选择错误率增加1-3%」这一具体数值缺乏通用理论支撑，属于特定实验条件下的经验数据，不同量化算法（如GPTQ, AWQ）和校准集大小下差异巨大，直接断言固定区间存在过度概括风险。 | 先验知识/题面给定，逻辑校验通过：MoE稀疏激活确实导致校准覆盖不足，Router量化影响专家选择是公认痛点，但具体误差率1-3%为经验估计，无来源支持且非第一性原理可推导，故降级。
+
+## Search Query
+
+MoE W4A16 quantization router layer impact expert selection error

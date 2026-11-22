@@ -1,0 +1,20 @@
+# N236: Qwen3-27B BF16 单 token KV Cache 大小计算：2 * 64 * 8 * 128 * 2 bytes = 262,144 bytes 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N57
+
+## Claim
+
+Qwen3-27B BF16 单 token KV Cache 大小计算：2 * 64 * 8 * 128 * 2 bytes = 262,144 bytes ≈ 0.25 MB
+
+## Corrected Claim
+
+Qwen3-27B BF16 单 token KV Cache 大小计算：2 * 64 * 8 * 128 * 2 bytes = 262,144 bytes ≈ 0.25 MB
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B 架构参数（GQA, 8 KV heads, 128 head_dim）符合主流大模型设计，计算过程 2*64*8*128*2 = 262,144 bytes 数学正确，量级合理。

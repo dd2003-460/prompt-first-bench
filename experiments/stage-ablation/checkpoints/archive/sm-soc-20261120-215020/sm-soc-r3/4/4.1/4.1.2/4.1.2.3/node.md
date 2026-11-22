@@ -1,0 +1,24 @@
+# N150: 误判率 $\%_{misjudge}$ 的计算模型：$\%_{misjudge} = P(\delta_{new} > \theta_{penalty} | \
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N51
+
+## Claim
+
+误判率 $\%_{misjudge}$ 的计算模型：$\%_{misjudge} = P(\delta_{new} > \theta_{penalty} | \text{Market Trend} = \text{Up})$。假设新上架商品真实价值服从正态分布 $N(\mu_{true}, \sigma_{true}^2)$，而 $P_{avg}$ 滞后 $T_{lag}$ 天，若市场日波动率 $\sigma_{daily}=2\%$，则 $P_{avg}$ 与 $\mu_{true}$ 的偏差标准差为 $\sigma_{bias} = \sqrt{T_{lag}} \times \sigma_{daily}$。误判率取决于惩罚阈值 $\theta_{penalty}$ 与 $\sigma_{bias}$ 的比值。
+
+## Corrected Claim
+
+误判率 $\%_{misjudge}$ 的计算模型：$\%_{misjudge} = P(\delta_{new} > \theta_{penalty} | \text{Market Trend} = \text{Up})$。假设新上架商品真实价值服从正态分布 $N(\mu_{true}, \sigma_{true}^2)$，而 $P_{avg}$ 滞后 $T_{lag}$ 天，若市场日波动率 $\sigma_{daily}=2\%$，则 $P_{avg}$ 与 $\mu_{true}$ 的偏差标准差为 $\sigma_{bias} = \sqrt{T_{lag}} \times \sigma_{daily}$。误判率取决于惩罚阈值 $\theta_{penalty}$ 与 $\sigma_{bias}$ 的比值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于随机游走模型，滞后T天的价格偏差标准差确实为√T×日波动率，误判率定义为条件概率，逻辑自洽。
+
+## Search Query
+
+price lag misclassification rate standard deviation market volatility

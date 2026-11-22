@@ -1,0 +1,20 @@
+# N37: 在 128GB 容量下，若采用热度排序缓存策略，缓存的对象数量上限 K_max 由累积大小约束 Σ_{i=1}^{K_max} S_i ≤ 128×10^9 决
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N9
+
+## Claim
+
+在 128GB 容量下，若采用热度排序缓存策略，缓存的对象数量上限 K_max 由累积大小约束 Σ_{i=1}^{K_max} S_i ≤ 128×10^9 决定，需结合 Pareto 分布的累积求和公式 S_cumulative(k) ≈ S_min * (k^(α)/(α-1)) 反解 k。
+
+## Corrected Claim
+
+在 128GB 容量下，若采用热度排序缓存策略，缓存的对象数量上限 K_max 由累积大小约束 Σ_{i=1}^{K_max} S_i ≤ 128×10^9 决定，需结合 Pareto 分布的累积求和公式 S_cumulative(k) ≈ S_min * (k^(α)/(α-1)) 反解 k。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点仅讨论了公式成立的适用条件（rho=0 vs rho=-0.3）及修正方向，但未提供具体的修正因子 C_corr 的计算方法或替代公式，也未展示如何结合该修正后的公式反解 K_max 的具体步骤，因此未能完整覆盖父节点中‘需结合...反解 k’这一核心任务。）

@@ -1,0 +1,24 @@
+# N65: Apple M2 Ultra (192GB) 的统一内存带宽为 800 GB/s，支持 FP8 和 INT8 推理，27B 模型在 FP8 下 (27GB) 可
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N13
+
+## Claim
+
+Apple M2 Ultra (192GB) 的统一内存带宽为 800 GB/s，支持 FP8 和 INT8 推理，27B 模型在 FP8 下 (27GB) 可单卡运行，理论吞吐约为 25-30 t/s (800GB/s / 27GB)，但 CPU-GPU 内存共享架构在高并发下可能产生带宽竞争 [待核验]
+
+## Corrected Claim
+
+Apple M2 Ultra (192GB) 的统一内存带宽为 800 GB/s，支持 FP8 和 INT8 推理。27B 模型在 FP8 下 (约 27GB) 可单卡运行。基于带宽的理论最大吞吐上限约为 25-30 t/s (800GB/s / 27GB)，但实际推理速度受计算延迟和内存访问效率影响，通常低于此值；CPU-GPU 内存共享架构在高并发下可能产生带宽竞争。
+
+## Evidence
+
+[质询]数值量级与口径混淆：M2 Ultra 的 800 GB/s 是统一内存总带宽，并非 GPU 独享带宽；且 25-30 t/s 的吞吐量估算仅基于带宽除以模型大小，忽略了计算延迟、内存访问模式及系统开销，实际推理速度通常远低于此理论上限。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+Apple M2 Ultra 192GB LLM inference benchmark tokens per second

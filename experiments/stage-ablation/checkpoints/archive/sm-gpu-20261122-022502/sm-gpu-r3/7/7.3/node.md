@@ -1,0 +1,24 @@
+# N85: Apple M3 Ultra 达到 TCO < $0.0075/token 所需的最低吞吐量条件：设折旧后硬件成本分摊为 $1000 (3年)，电力成本 $20
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N29
+
+## Claim
+
+Apple M3 Ultra 达到 TCO < $0.0075/token 所需的最低吞吐量条件：设折旧后硬件成本分摊为 $1000 (3年)，电力成本 $20 (3年)，总成本 $1020，若 3 年总运行时间为 26280 小时 (24/7)，则需总生成 Token 数 > $1020 / $0.0075 ≈ 136,000 tokens/hour? 不，是总Token数 > 136,000? 计算修正：$1020 / $0.0075 = 136,000 tokens 是错的，单位是 token。$1020 / 0.0075 $/token = 136,000 tokens。这显然太低。重新计算：$1020 / 0.0075 = 136,000 tokens。如果运行 26280 小时，平均吞吐量需 > 136,000 / 26,280 ≈ 5.17 tokens/s。由于 M3 Ultra 实测吞吐量通常 > 5 tokens/s (27B BF16 可能更低，需量化)，此条件在低利用率下可能不满足，但在高利用率下满足。
+
+## Corrected Claim
+
+若假设3年总硬件及电力成本为 $1020，则需平均吞吐量 > 5.17 tokens/s 方可使 TCO < $0.0075/token；但鉴于 M3 Ultra 实际硬件成本远高于此假设，实际所需的最低吞吐量条件应显著高于 5.17 tokens/s。
+
+## Evidence
+
+[质询]硬件成本假设严重偏离市场实际：Apple M3 Ultra 芯片或搭载该芯片的设备（如 Mac Studio）的3年折旧成本远超 $1000（通常需数千美元），导致总成本基数错误，进而使得推导出的吞吐量阈值（5.17 tokens/s）远低于实际盈亏平衡点。 | 先验知识/题面给定，逻辑校验通过（数学计算 $1020/0.0075=136,000$ 及 $136,000/26,280 \approx 5.17$ 正确），但经验事实（硬件成本）缺乏来源支持且与常识量级不符，故降级。
+
+## Search Query
+
+Apple M3 Ultra LLM inference throughput tokens per second

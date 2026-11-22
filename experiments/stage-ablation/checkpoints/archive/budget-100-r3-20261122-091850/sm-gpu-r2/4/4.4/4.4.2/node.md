@@ -1,0 +1,24 @@
+# N82: 硬件故障率与 MTBF：消费级 GPU (RTX 4090) 平均无故障时间 (MTBF) 约为 5-7 年，数据中心级 (A100/H100) 约为 3-5 
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N22
+
+## Claim
+
+硬件故障率与 MTBF：消费级 GPU (RTX 4090) 平均无故障时间 (MTBF) 约为 5-7 年，数据中心级 (A100/H100) 约为 3-5 年（受散热与负载影响）；假设 3 年生命周期内消费级故障概率为 5%，数据中心级为 10%（因高负载）[待核验]，故障更换成本按硬件原价的 80% 计算。
+
+## Corrected Claim
+
+硬件故障率与 MTBF：消费级 GPU (RTX 4090) 平均无故障时间 (MTBF) 估计约为 5-7 年，数据中心级 (A100/H100) 估计约为 3-5 年（受散热与负载影响）；假设 3 年生命周期内消费级故障概率约为 5%，数据中心级约为 10%（因高负载），故障更换成本按硬件原价的 80% 计算。
+
+## Evidence
+
+[质询]MTBF数值缺乏公开权威数据支持，且消费级GPU在3年生命周期内5%的故障率假设与数据中心级10%的对比缺乏实证依据，属于经验性估算而非可推导事实。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+GPU MTBF data center vs consumer failure rate

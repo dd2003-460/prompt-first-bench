@@ -1,0 +1,24 @@
+# N101: INT4/W4量化下，Qwen3-27B的权重显存占用计算需包含量化组尺度（Scale/Zero-point）开销：若采用Group Size 128，每128
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N24
+
+## Claim
+
+INT4/W4量化下，Qwen3-27B的权重显存占用计算需包含量化组尺度（Scale/Zero-point）开销：若采用Group Size 128，每128个权重需额外1个FP16 scale (2 bytes) 和1个FP16 zero-point (2 bytes)，即每权重额外增加 (4 bytes / 128) = 0.03125 bytes/weight，总权重显存 ≈ 13.5GB + (27B * 0.03125) ≈ 14.34GB。
+
+## Corrected Claim
+
+INT4/W4量化下，Qwen3-27B的权重显存占用计算需包含量化组尺度（Scale/Zero-point）开销：若采用Group Size 128，每128个权重需额外1个FP16 scale (2 bytes) 和1个FP16 zero-point (2 bytes)，即每权重额外增加 (4 bytes / 128) = 0.03125 bytes/weight，总权重显存 ≈ 13.5GB + (27B * 0.03125) ≈ 14.34GB。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1聚焦于基础计算逻辑（Group Size=128的具体数值推导），子节点2聚焦于变量敏感性分析（不同算法/Group Size对结果的影响）。两者在逻辑维度上正交（静态计算 vs 动态变量分析），且共同覆盖了父节点中关于'量化组尺度开销'及'不同配置下显存变化'的所有关键信息。虽然子节点2包含了子节点1的部分背景，但侧重点不同，不构成冗余。）
+
+## Search Query
+
+GPTQ AWQ group size 128 overhead calculation bytes per weight

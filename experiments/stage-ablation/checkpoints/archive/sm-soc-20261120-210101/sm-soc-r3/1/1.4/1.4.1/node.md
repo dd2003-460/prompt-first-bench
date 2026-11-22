@@ -1,0 +1,24 @@
+# N42: 共享随机源量化：买家价值评估噪声 ε ~ N(0, σ_pref²) 的方差分解。σ_pref² = Var(ε) = σ_intrinsic² + σ_inf
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N9, N10, N11
+
+## Claim
+
+共享随机源量化：买家价值评估噪声 ε ~ N(0, σ_pref²) 的方差分解。σ_pref² = Var(ε) = σ_intrinsic² + σ_informational²，其中 σ_intrinsic 为个体偏好固有离散度（由损失厌恶 λ 和锚定 α 决定），σ_informational 为信息不对称导致的估值偏差（与 I_asym 成正比）。需明确该共享噪声如何同时驱动卖家的高挂价策略（通过预期匹配概率）和买家的搜索停止阈值。
+
+## Corrected Claim
+
+共享随机源量化：买家价值评估噪声 ε ~ N(0, σ_pref²) 的方差分解。σ_pref² = Var(ε) = σ_intrinsic² + σ_informational²，其中 σ_intrinsic 为个体偏好固有离散度（由损失厌恶 λ 和锚定 α 决定），σ_informational 为信息不对称导致的估值偏差（与 I_asym 成正比）。需明确该共享噪声如何同时驱动卖家的高挂价策略（通过预期匹配概率）和买家的搜索停止阈值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：方差分解符合统计学基本定理（总方差=固有方差+信息方差），且行为经济学中损失厌恶与锚定效应确实构成偏好噪声的主要来源，逻辑自洽。
+
+## Search Query
+
+stochastic preference noise decomposition in matching markets

@@ -1,0 +1,30 @@
+# N30: 双卡消费级中性价比最优工作点（中性价比）：2× NVIDIA RTX 3090 24GB (48GB 总显存) 方案，TCO = 2 × $900 + 年电力成
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+双卡消费级中性价比最优工作点（中性价比）：2× NVIDIA RTX 3090 24GB (48GB 总显存) 方案，TCO = 2 × $900 + 年电力成本 (2 × 350W × 8h × 365d × $0.15/kWh ≈ $310/年)，性能基准：Qwen3-27B BF16 推理吞吐 ≥ 25 tokens/s (batch=1, tensor parallelism)，质量损失：BF16 无损，FP8 量化后困惑度增加 < 1.5% [待核验]，支持子问：多卡方案 TCO 与单卡差异、32K 上下文容量保障
+
+## Corrected Claim
+
+双卡消费级中性价比最优工作点（中性价比）：2× NVIDIA RTX 3090 24GB (48GB 总显存) 方案，TCO ≈ $1800 + ~$310/年电力成本，支持Qwen3-27B模型推理（具体吞吐取决于量化精度与散热条件，BF16下预计显著低于INT4量化版本），质量损失：BF16无损，FP8量化后困惑度增加 < 1.5% [待核验]，支持子问：多卡方案 TCO 与单卡差异、32K 上下文容量保障
+
+## Evidence
+
+[质询]性能基准数值（≥25 tokens/s）与参考来源[3]中实测数据（130 t/s，虽为INT4量化）存在数量级差异，且来源[2]指出双卡消费级平台存在散热和互联瓶颈导致性能可能低于预期，缺乏BF16精度下具体吞吐的直接证据支持。 | 来源[1]和[3]确认了双RTX 3090硬件配置及NVLink支持的可行性，来源[3]提供了Qwen3-27B在双卡上的运行案例（虽为INT4），但无来源直接支持BF16下≥25 tokens/s的具体数值，且来源[2]提示了实际部署中的性能风险，故降级为定性表述。
+
+## Search Query
+
+2x RTX 3090 48GB Qwen3-27B BF16 inference performance tensor parallelism 32K context
+
+## Retrieval Sources
+
+- {'url': 'https://insiderllm.com/guides/multi-gpu-local-ai/&rut=c524d8a3eea1fe55d412565b1215f5d637fd75e77c22dcd3bd247f953ab3d70b', 'type': 'ddg', 'title': 'Best Dual-GPU Local AI Setup: RTX 3090, 5060 Ti (2026)'}
+- {'url': 'https://www.cnblogs.com/wgwyanfs/p/21101163&rut=7dec49f26b2f3b0cba9aa2ec478ce5e361ac0c66d6847946c615a8f2787e40e1', 'type': 'ddg', 'title': '双RTX 3090本地AI推理踩坑实录：中塔机箱+消费级主板为何让性能1+1＜1？ - wgwyanfs - 博客园'}
+- {'url': 'https://lcz.me/topic/1245&rut=2ca03fb06784d275a7f37343cc318167b71274861643cd8859475b062baf82b8', 'type': 'ddg', 'title': '双 3090 NVLink 跑 Qwen3.8-27B：vLLM + AWQ-INT4 + MTP，工具调用 130 t/s、262K 上下文 ...'}

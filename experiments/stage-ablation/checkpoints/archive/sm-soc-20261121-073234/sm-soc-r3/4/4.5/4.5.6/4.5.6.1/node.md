@@ -1,0 +1,29 @@
+# N297: 二手平台单用户日活跃咨询率基线 λ_base 的估计值及置信区间，用于计算在 n_min=380 组/组约束下，实验所需的最小独立用户数 N_users = n
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N97, N98, N99
+
+## Claim
+
+二手平台单用户日活跃咨询率基线 λ_base 的估计值及置信区间，用于计算在 n_min=380 组/组约束下，实验所需的最小独立用户数 N_users = n_min / λ_base
+
+## Corrected Claim
+
+二手平台单用户日活跃咨询率基线 λ_base 的具体估计值及置信区间需基于实际业务数据计算，当前参考来源未提供该具体数值，仅提供了DAU/MAU的统计口径参考。
+
+## Evidence
+
+[质询]该陈述声称存在一个具体的“估计值及置信区间”，但参考来源仅提供了DAU/MAU的统计口径定义和最大DAU预测方法，并未提供“二手平台单用户日活跃咨询率”这一特定业务指标的具体数值或统计分布数据，属于经验事实缺失具体数据支持。 | 来源[1]和[2]仅涉及DAU/MAU的定义与估算方法，未提供二手平台咨询率的具体数值，无法直接支持该经验事实的具体估计值；逻辑上公式 N_users = n_min / λ_base 自洽，但具体数值缺乏来源支持。
+
+## Search Query
+
+second hand marketplace daily active user consultation rate baseline RCT sample size
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/u011517132/article/details/105551005&rut=19ecbe1b67af13c15ae72be12b2a5d10710688799cca2f184561fb87ca26860a', 'type': 'ddg', 'title': '数据分析系列：如何估计一个产品用户最大量（最大DAU）——附python计算代码_二手房app的dau天花板-CSDN博客'}
+- {'url': 'https://blog.csdn.net/analyse456/article/details/164367657&rut=11568dce2c446aeff8bda965b486ffdd7333584bf2fbbb00d67b76b1735b1963', 'type': 'ddg', 'title': '日活、月活到底怎么算？三种口径和它们各自的适用场景'}

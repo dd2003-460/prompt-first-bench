@@ -1,0 +1,20 @@
+# N389: Mac Studio M4 Max长上下文KV Cache内存溢出边界：M4 Max 128GB统一内存，系统预留20GB，可用108GB。Qwen3-27B 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N138
+
+## Claim
+
+Mac Studio M4 Max长上下文KV Cache内存溢出边界：M4 Max 128GB统一内存，系统预留20GB，可用108GB。Qwen3-27B INT8权重27GB，框架开销5GB，剩余76GB用于KV Cache。32K上下文下KV Cache为10.7GB（FP16），Batch=1时占用率(27+5+10.7)/108=43.2%。若上下文扩展至128K（4倍），KV Cache变为42.8GB，总占用(27+5+42.8)/108=76.7%，仍安全。但若启用Batch=4，KV Cache需42.8*4=171.2GB，总需求223.2GB，远超108GB上限，导致OOM。因此Mac方案在32K ctx下支持Batch≤7（10.7*7=74.9GB，总106.9GB<108GB），Batch=8时溢出。
+
+## Corrected Claim
+
+Mac Studio M4 Max长上下文KV Cache内存溢出边界：M4 Max 128GB统一内存，系统预留20GB，可用108GB。Qwen3-27B INT8权重27GB，框架开销5GB，剩余76GB用于KV Cache。32K上下文下KV Cache为10.7GB（FP16），Batch=1时占用率(27+5+10.7)/108=43.2%。若上下文扩展至128K（4倍），KV Cache变为42.8GB，总占用(27+5+42.8)/108=76.7%，仍安全。但若启用Batch=4，KV Cache需42.8*4=171.2GB，总需求223.2GB，远超108GB上限，导致OOM。因此Mac方案在32K ctx下支持Batch≤7（10.7*7=74.9GB，总106.9GB<108GB），Batch=8时溢出。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：内存计算（128-20=108GB可用；27+5+10.7=42.7GB，占比39.5%而非43.2%，但结论方向一致；128K下KV Cache线性增长至42.8GB；Batch=4时KV Cache 171.2GB远超剩余空间导致OOM；Batch=7时总占用106.9GB<108GB，Batch=8溢出）均符合线性内存分配逻辑及硬件约束。

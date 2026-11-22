@@ -1,0 +1,20 @@
+# N431: BF16权重大小的额外bias参数占用：Qwen3-27B的Transformer层中每个Linear层是否有bias参数需从config.json确认，若存在
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N139
+
+## Claim
+
+BF16权重大小的额外bias参数占用：Qwen3-27B的Transformer层中每个Linear层是否有bias参数需从config.json确认，若存在bias，每层bias参数量为hidden_size（如4096），总bias参数量约为32层 * 4096 * 4（Q/K/V/O）= 524K，BF16下占用约1MB，可忽略不计。
+
+## Corrected Claim
+
+BF16权重大小的额外bias参数占用：Qwen3-27B的Transformer层中每个Linear层是否有bias参数需从config.json确认，若存在bias，每层bias参数量为hidden_size（如4096），总bias参数量约为32层 * 4096 * 4（Q/K/V/O）= 524K，BF16下占用约1MB，可忽略不计。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B基于Qwen2架构，其Linear层通常无bias（bias=false），但即使假设存在bias，计算量级（~1MB）相对于模型总大小（~54GB）确实可忽略，且数值推导逻辑自洽。

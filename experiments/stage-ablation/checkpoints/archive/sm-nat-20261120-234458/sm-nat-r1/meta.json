@@ -1,0 +1,73 @@
+{
+  "qid": "nat",
+  "question": "某边缘 CDN 节点有 128GB 内存做对象缓存，工作负载：10 万对象，大小服从 Pareto(α=1.1)，请求热度也服从 Pareto(β=0.9)，热门对象与大小负相关（ρ≈-0.3）。每天总请求 5000 万次。请估算：(a) LRU 策略下的稳态字节命中率下界；(b) LFU 相比 LRU 最多能提升多少百分点、为什么；(c) 如果对象更新率是 1%/天，LRU 的有效命中率还要再打几折？给出推导链，区分「凭记忆的」和「刚查到的」。",
+  "round": 1,
+  "state": "rework",
+  "dropped_redundant": 1,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": null,
+  "objective_mode": "text",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "parent_id": "N3",
+      "issues": [
+        "非正交",
+        "不完备",
+        "有冗余"
+      ],
+      "suggestions": [
+        "合并子节点1和2：统一为一个基于时间窗口的动态修正因子公式，明确说明稳态假设下的简化形式，避免重复定义相同的物理过程。",
+        "重构子节点3：'LRU需重新加载'的折损应体现为缓存失效后的恢复成本，而非简单的字节比例。建议将其转化为对'有效命中率'的惩罚项，或明确其作为'回源带宽开销'的独立指标，而非直接混入命中率折损系数。",
+        "统一参数定义：将 λ_update 等全局参数提取为前置条件，避免在每个子节点中重复硬编码数值。",
+        "明确整合逻辑：说明三个子节点（或合并后的两个）如何组合成最终的'动态修正因子'，例如：Final_Factor = Base_Hit_Rate * (1 - P_invalidate) * (1 - Cost_Penalty) 等，确保父节点的计算目标有明确的数学落地。"
+      ],
+      "round": 0
+    },
+    {
+      "node_id": "N6",
+      "claim": "LRU 稳态字节命中率下界 = 1 - (1 - C_obj)^N，其中 C_obj 为单对象命中概率，N 为对象总数；",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]公式推导存在逻辑跳跃：LRU 的字节命中率下界通常与缓存容量和访问模式（如 Zipf 分布）相关，而非简单由对象更新率 λ 和时间窗口 T 决定。将 C"
+    },
+    {
+      "node_id": "N11",
+      "claim": "LFU 增益的大小分布特征：当大小分布方差大（α < 1.2）时，LFU 对大对象的保留策略更优；α=1.1 属于高方差",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]公式中的系数 '2' 缺乏理论依据，且将 LFU 增益上限简化为单一线性公式忽略了缓存替换算法的复杂交互效应（如 LRU 与 LFU 在混合负载下的非线"
+    },
+    {
+      "node_id": "N15",
+      "claim": "Pareto(α=1.1) 分布的总字节数收敛性验证：总字节数占比 Top K% 对象 = 1 - (1-K)^(1-1",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]公式推导存在量纲/定义混淆风险：Pareto分布的尾部概率 P(X>x) 通常用于描述对象数量占比，而字节数占比取决于对象大小分布。若对象大小服从 Pa"
+    },
+    {
+      "node_id": "N16",
+      "claim": "LRU 字节命中率下界的精确计算：在容量足以缓存全部对象（K > N）且无更新的情况下，LRU 字节命中率下界为 100",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于“5000万请求/天”导致“稳态下界趋近1”的结论缺乏具体对象数量（N）和访问分布（如Zipf指数）的支持，属于经验事实推断；若对象总数极大或"
+    },
+    {
+      "node_id": "N17",
+      "claim": "LFU 增益上限的定量公式：LFU 相比 LRU 的字节命中率增益 ΔH = H_LFU - H_LRU。在负相关 (ρ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N18",
+      "claim": "更新率对 LRU 命中率的折减量化：有效命中率 H_eff = H_static * (1 - P_update_wit",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述构建了一个特定的数学模型（基于指数分布的更新率折减），但参考来源仅讨论LRU/LFU等算法的基本原理和对比，未提供该特定公式或数值推导，属于缺乏来"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 18
+}

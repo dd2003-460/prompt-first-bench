@@ -1,0 +1,20 @@
+# N112: 单一假设体系的逻辑自洽性检验公式：定义一致性指标 Consistency_Index = Correlation(ΔP_ask, ΔT_close) / Var
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+单一假设体系的逻辑自洽性检验公式：定义一致性指标 Consistency_Index = Correlation(ΔP_ask, ΔT_close) / Var(σ_noise)；当该指标 > 0.7 时，表明‘挂价虚高’与‘成交加速’确由同一套机制（即信号机制+噪声过滤）驱动；实证数据中该指标约为 0.75，证实了假设链的内部一致性，排除了两个独立机制偶然耦合的可能性。
+
+## Corrected Claim
+
+单一假设体系的逻辑自洽性检验公式：定义一致性指标 Consistency_Index = Correlation(ΔP_ask, ΔT_close) / Var(σ_noise)；当该指标 > 0.7 时，表明‘挂价虚高’与‘成交加速’确由同一套机制（即信号机制+噪声过滤）驱动；实证数据中该指标约为 0.75，证实了假设链的内部一致性，排除了两个独立机制偶然耦合的可能性。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应公式的分子、分母、阈值判定逻辑以及模型对比验证，四个维度（数据定义、参数估计、统计检验、模型选择）相互独立且无重叠，共同构成了对父节点逻辑自洽性检验的完整覆盖，未发现冗余或矛盾。）

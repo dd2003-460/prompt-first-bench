@@ -1,0 +1,24 @@
+# N333: 保留价格 P_min 中机会成本项 C_opportunity 的量化：C_opportunity = r_annual * V_asset * T_hold_
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N110, N111, N112
+
+## Claim
+
+保留价格 P_min 中机会成本项 C_opportunity 的量化：C_opportunity = r_annual * V_asset * T_hold_months / 12，其中 r_annual 为资金年化机会成本（典型值 3-5%），V_asset 为商品重置价值，T_hold_months 为预期持有周期（月），需代入具体数值计算其对 P_min 的贡献占比。
+
+## Corrected Claim
+
+保留价格 P_min 中机会成本项 C_opportunity 的量化通常采用公式 C_opportunity = r_annual * V_asset * T_hold_months / 12，其中 r_annual 为资金年化机会成本（需根据当前市场利率确定，历史典型区间约为 3-5%），V_asset 为商品重置价值，T_hold_months 为预期持有周期（月）。
+
+## Evidence
+
+[质询]该公式为经验性财务估算模型，并非第一性原理可推导的数学恒等式；且'典型值 3-5%'属于随宏观经济环境（如利率周期）波动的经验参数，缺乏当前具体市场数据的直接支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该公式及参数范围属于金融工程经验模型，非纯数学推导）。
+
+## Search Query
+
+seller opportunity cost holding period annual rate used goods pricing

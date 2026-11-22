@@ -1,0 +1,24 @@
+# N202: 贝叶斯后验概率 P(High_Price -> Short_Cycle | Data) 的先验分布设定：先验概率 P_prior 服从 Beta(2, 2) 分
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N74
+
+## Claim
+
+贝叶斯后验概率 P(High_Price -> Short_Cycle | Data) 的先验分布设定：先验概率 P_prior 服从 Beta(2, 2) 分布，均值为 0.5，方差为 1/20。该先验反映在无数据情况下，高挂价导致短周期的可能性为中等水平，无强烈倾向。
+
+## Corrected Claim
+
+贝叶斯后验概率 P(High_Price -> Short_Cycle | Data) 的先验分布设定：先验概率 P_prior 服从 Beta(2, 2) 分布，均值为 0.5，方差为 1/20。该先验反映在无数据情况下，高挂价导致短周期的可能性为中等水平，无强烈倾向。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Beta(2,2)分布的均值确为2/(2+2)=0.5，方差确为(2*2)/((2+2)^2*(2+2+1))=4/60=1/15（注：此处需仔细检查方差公式）。Beta(α,β)的方差公式为 αβ / [(α+β)^2 (α+β+1)]。对于Beta(2,2)，α=2, β=2。均值 = 2/4 = 0.5。方差 = (2*2) / [(4)^2 * (5)] = 4 / (16 * 5) = 4/80 = 1/20。计算正确。陈述中关于Beta(2,2)的均值和方差数值准确，且符合“中等水平、无强烈倾向”的定性描述。
+
+## Search Query
+
+bayesian prior distribution beta distribution pricing causality neutral prior

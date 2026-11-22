@@ -1,0 +1,17 @@
+{
+  "id": "N316",
+  "claim": "2×RTX 4090 (FP8) 在 Batch Size=1, 32K输入/1K输出下的理论解码上限：Throughput_theory = 2 × 1008 GB/s / (2 × 64 × 4096 × 2 × 32768 × 1 byte) ≈ 0.00096 tokens/s (单卡)，双卡并行计算但受限于PCIe All-Reduce通信，实际有效吞吐需乘以通信效率因子 η_comm (η_comm ≈ 0.5-0.8 [待核验])，即 Throughput_eff ≈ 0.00096 × 2 × η_comm tokens/s。此值远低于父节点预估的20-30 tokens/s，表明瓶颈不在显存带宽而在计算单元或框架优化。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值量级与物理直觉严重矛盾：0.00096 tokens/s 意味着生成一个 token 需要约 1000 秒，这远低于任何现代 GPU 处理单个 token 的最低延迟（通常毫秒级）。此外，公式中分母包含 32768 (KV Cache 长度)，暗示这是读取整个 KV Cache 的带宽瓶颈，但在 Batch Size=1 且仅生成 1K token 的场景下，若未预填充 32K 上下文，该假设不成立；若已预填充，瓶颈通常在于计算或通信，而非单纯的显存读取带宽导致如此极端的低吞吐。 | 逻辑校验失败：计算出的吞吐量 0.00096 tokens/s 违背基本硬件性能直觉（RTX 4090 单卡 FP8 推理速度通常在数十至数百 tokens/s 量级，即使考虑通信开销也不会低至 0.001 量级）。公式推导可能存在量纲错误或参数误用（如将总显存容量或最大序列长度错误地代入单次解码的带宽计算中）。",
+  "corrected_claim": "2×RTX 4090 (FP8) 在 Batch Size=1, 32K输入/1K输出下的理论解码上限受限于显存带宽和通信开销。若按单卡带宽 1008 GB/s 估算，每生成一个 token 需读取的权重和 KV Cache 数据量决定了延迟。实际有效吞吐通常在 10-50 tokens/s 量级（取决于具体模型大小和通信效率），而非 0.00096 tokens/s。原陈述中的数值计算存在严重错误。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N88"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

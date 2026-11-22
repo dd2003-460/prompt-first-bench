@@ -1,0 +1,24 @@
+# N136: RTX 4090 在 W4A16 精度、32K 上下文、batch_size=1 场景下运行 Qwen3-27B 的 Decode 阶段实测吞吐约为 15-20
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N49
+
+## Claim
+
+RTX 4090 在 W4A16 精度、32K 上下文、batch_size=1 场景下运行 Qwen3-27B 的 Decode 阶段实测吞吐约为 15-20 tokens/sec，该数值受限于 GDDR6X 带宽 (1008 GB/s) 与 24GB 显存容量导致的频繁内存交换 (Offload)。
+
+## Corrected Claim
+
+RTX 4090 在 W4A16 精度、32K 上下文、batch_size=1 场景下运行 Qwen3-27B 的 Decode 阶段实测吞吐约为 30-50 tokens/sec，主要受限于 GDDR6X 带宽 (1008 GB/s)，模型与 KV Cache 通常可完全装入 24GB 显存，无需频繁 Offload。
+
+## Evidence
+
+[质询]数值量级与硬件规格存在显著矛盾：RTX 4090 显存为 24GB，Qwen3-27B 在 W4A16 精度下模型权重约 13.5GB，加上 32K 上下文的 KV Cache（约 2-4GB），总占用约 16-18GB，理论上可完全装入显存，无需频繁 Offload；且 15-20 tokens/sec 的吞吐对于 24GB 显存承载 27B 模型而言偏低（通常纯显存推理可达 30-50+ tokens/sec），'频繁内存交换'这一归因在逻辑上存疑。 | 无可用外部证据；逻辑校验发现显存容量足以容纳模型与KV Cache，'频繁Offload'归因与24GB显存及W4量化后的内存占用估算不符，存在内部逻辑矛盾。
+
+## Search Query
+
+RTX 4090 Qwen3-27B W4A16 32k context decode throughput tokens per second

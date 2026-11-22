@@ -1,0 +1,24 @@
+# N92: 区间边界条件验证：计算 $P_{ask} = 1.25 P_{ref}$ 时所需的 $\beta \cdot \sigma_{quality}$ 组合。若 $\
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N28
+
+## Claim
+
+区间边界条件验证：计算 $P_{ask} = 1.25 P_{ref}$ 时所需的 $\beta \cdot \sigma_{quality}$ 组合。若 $\sigma_{quality}=0.15$，则需 $\beta \approx 0.67$ 才能使 $T_{tol} \ge 1.25 P_{ref}$。若市场实际 $\beta$ 低于此值，则 25% 溢价超出容忍阈值，该假设链在高端溢价区间失效。
+
+## Corrected Claim
+
+区间边界条件验证：计算 $P_{ask} = 1.25 P_{ref}$ 时所需的 $\beta \cdot \sigma_{quality}$ 组合。若 $\sigma_{quality}=0.15$，则需 $\beta \approx 0.67$ 才能使 $T_{tol} \ge 1.25 P_{ref}$。若市场实际 $\beta$ 低于此值，则 25% 溢价超出容忍阈值，该假设链在高端溢价区间失效。
+
+## Evidence
+
+父节点级核验未通过：有冗余（子节点在概念上正交（分别代表临界、安全、过度宽松三种状态），且覆盖了父节点关于边界验证的核心逻辑。然而，从结构分解角度看，这三个子节点本质上是同一连续参数空间（β 和 σ_quality）中的三个离散采样点，属于典型的‘参数扫描’而非‘维度分解’。它们之间是数值递进关系，而非结构性并列关系，因此存在结构性冗余。）
+
+## Search Query
+
+willingness to pay premium threshold quality uncertainty bound

@@ -1,0 +1,30 @@
+# N39: Qwen3-27B 的 n_layers（层数）参数值为 64，这是计算 KV Cache 的基础参数之一 [待核验：需查阅 HuggingFace 配置文件或
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N8
+
+## Claim
+
+Qwen3-27B 的 n_layers（层数）参数值为 64，这是计算 KV Cache 的基础参数之一 [待核验：需查阅 HuggingFace 配置文件或官方技术报告]
+
+## Corrected Claim
+
+Qwen3-27B 的 n_layers 参数值为 64（基于同系列 Qwen3.6/3.8 的架构推断，需以官方 config.json 为准）；需注意该模型可能采用混合注意力机制，并非所有 64 层均产生标准 KV Cache。
+
+## Evidence
+
+[质询]参考来源均指向 Qwen3.6/3.8 版本，而非 Qwen3 原版；且来源显示该系列模型采用混合注意力机制（仅部分层需要 KV Cache），直接断言 n_layers=64 是计算 KV Cache 的基础参数可能忽略了架构细节（如线性注意力层不产生 KV Cache），存在口径混淆风险。 | 来源 [1] 和 [2] 间接支持 27B 模型具有 64 层结构（48+16），但版本标记为 Qwen3.8/3.6，与 Qwen3 存在版本差异；作为经验事实（具体参数值），缺乏针对 Qwen3 原版的直接来源支持，故降级。
+
+## Search Query
+
+Qwen3-27B config.json n_layers num_hidden_layers
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_00238/article/details/151043054&rut=0f72b8b2c932c2232ef0e36e7605b26c9d1df53ffb0a4fb22748ea0abaf691cb', 'type': 'ddg', 'title': 'Qwen3.8-27B-FP8 推理性能调优 10 个技巧：采样参数、输出长度与 KV Cache 优化-CSDN博客'}
+- {'url': 'https://blog.csdn.net/liu8485/article/details/164724304&rut=1bdcd6c4b50648d23c9632a3a25f9fa69810f3f00b8553a696b33746f379f411', 'type': 'ddg', 'title': 'Qwen3.8-27B 混合注意力拆解：48 层线性 + 16 层全注意力，75 万 token KV 显存打到 1/4'}
+- {'url': 'https://freedom-lwx.github.io/llm-architecture-handbook/04_Qwen3.6-27B/&rut=0b10fe0d815af316e8374ea97a2024ed873765fdf7691a90951d7aedc81374a1', 'type': 'ddg', 'title': '04 · Qwen3.6-27B - 大模型架构学习手册'}

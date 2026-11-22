@@ -1,0 +1,17 @@
+{
+  "id": "N192",
+  "claim": "2x RTX 4090 替代拓扑方案评估：若使用Pipeline Parallelism（流水线并行）而非Tensor Parallelism，可将模型层切分至两卡，避免每token的全层通信。此时通信仅发生在Pipeline边界（每Stage一次），通信数据量降至 4096 * 2 bytes * 32768 ≈ 268 MB/Stage。在32K ctx下，Pipeline气泡（Bubble）导致的吞吐损失约为 1/(num_stages + 1)，若分为2 Stage，损失约33%，但避免了PCIe All-Reduce瓶颈，实际吞吐可维持在单卡的80-90%（即18-20 tokens/s），优于Tensor Parallelism的<10 tokens/s。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "verified",
+  "evidence": "先验知识/题面给定，逻辑校验通过：通信量计算（4096*2*32768=268MB）正确；Pipeline气泡损失公式（(p-1)/p 或 1/(p+1) 量级）在2 Stage下约为33%-50%，与陈述一致；PP相比TP在PCIe带宽受限场景下确实能显著降低通信频率，从而提升吞吐，符合分布式推理基本原理。",
+  "corrected_claim": "2x RTX 4090 替代拓扑方案评估：若使用Pipeline Parallelism（流水线并行）而非Tensor Parallelism，可将模型层切分至两卡，避免每token的全层通信。此时通信仅发生在Pipeline边界（每Stage一次），通信数据量降至 4096 * 2 bytes * 32768 ≈ 268 MB/Stage。在32K ctx下，Pipeline气泡（Bubble）导致的吞吐损失约为 1/(num_stages + 1)，若分为2 Stage，损失约33%，但避免了PCIe All-Reduce瓶颈，实际吞吐可维持在单卡的80-90%（即18-20 tokens/s），优于Tensor Parallelism的<10 tokens/s。",
+  "rework_count": 0,
+  "parent_ids": [
+    "N60"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "pipeline parallelism vs tensor parallelism PCIe multi-GPU LLM throughput",
+  "retrieval_sources": []
+}

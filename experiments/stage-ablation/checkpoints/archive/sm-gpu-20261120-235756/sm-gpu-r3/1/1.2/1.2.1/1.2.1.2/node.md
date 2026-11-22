@@ -1,0 +1,20 @@
+# N145: 若将 KV Cache 量化为 FP8，每 token 显存占用减半至 128 KB（计算式：2 * 64 * 8 * 128 * 1 = 131,072 by
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N39
+
+## Claim
+
+若将 KV Cache 量化为 FP8，每 token 显存占用减半至 128 KB（计算式：2 * 64 * 8 * 128 * 1 = 131,072 bytes），相比 BF16 节省 50% 显存，但需评估注意力分数精度损失对长上下文生成质量的影响。
+
+## Corrected Claim
+
+若将 KV Cache 量化为 FP8，每 token 显存占用减半至 128 KB（计算式：2 * 64 * 8 * 128 * 1 = 131,072 bytes），相比 BF16 节省 50% 显存，但需评估注意力分数精度损失对长上下文生成质量的影响。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算式 2 * 64 * 8 * 128 * 1 = 131,072 bytes (128 KB) 数学正确，且 FP8 (8-bit) 相比 BF16 (16-bit) 显存占用减半符合基本事实。

@@ -1,0 +1,24 @@
+# N145: A/B 测试验证失效条件的设计：实验组施加信息透明化干预（降低 Asym），对照组维持现状；需计算最小样本量 n 以检测 E[T] 变化 δ_T 的统计功效，并
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N48
+
+## Claim
+
+A/B 测试验证失效条件的设计：实验组施加信息透明化干预（降低 Asym），对照组维持现状；需计算最小样本量 n 以检测 E[T] 变化 δ_T 的统计功效，并给出 Asym 从 0.3 降至 0.1 时 E[T] 的预期变化幅度。
+
+## Corrected Claim
+
+A/B 测试验证失效条件的设计：实验组施加信息透明化干预（降低 Asym），对照组维持现状；需计算最小样本量 n 以检测 E[T] 变化 δ_T 的统计功效，并基于特定模型或历史数据估算 Asym 从 0.3 降至 0.1 时 E[T] 的预期变化幅度。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（Asym 从 0.3 降至 0.1 时 E[T] 的预期变化幅度），这属于特定系统或模型下的经验事实，无法仅从第一性原理或通用逻辑中严格推导出具体的数值幅度，且缺乏外部来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+A/B test design for information asymmetry effect on transaction duration second hand market

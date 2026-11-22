@@ -1,0 +1,24 @@
+# N166: RTX 4090 的 TDP 450W 在满载 AI 推理负载（如 LLM Decode 阶段）下的实际功耗实测值通常为 420-440W，基于 TechPow
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N31
+
+## Claim
+
+RTX 4090 的 TDP 450W 在满载 AI 推理负载（如 LLM Decode 阶段）下的实际功耗实测值通常为 420-440W，基于 TechPowerUp 或 HWiNFO 在 2024Q4 的实测数据，用于修正 TCO 中的电力成本计算
+
+## Corrected Claim
+
+RTX 4090 的 TDP 为 450W，在满载 AI 推理负载下的实际功耗通常接近其 TDP 上限（约 400-450W 区间），用于修正 TCO 中的电力成本计算。
+
+## Evidence
+
+[质询]具体数值区间（420-440W）及特定时间/工具来源（2024Q4 TechPowerUp/HWiNFO）属于经验事实，缺乏直接来源支持，且不同批次/驱动版本下实测值可能存在波动，无法仅凭逻辑推导确认该精确区间。 | 经验事实，逻辑自洽（满载功耗接近TDP符合物理直觉）但缺来源支持，无法验证具体数值区间及特定出处。
+
+## Search Query
+
+RTX 4090 real world power consumption LLM inference benchmark 2024

@@ -1,0 +1,20 @@
+# N167: 对象更新率λ=1%/天对LRU缓存有效性的影响可通过衰减因子D = exp(-λ * T_resident)量化，其中T_resident为对象在缓存中的平均驻
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+对象更新率λ=1%/天对LRU缓存有效性的影响可通过衰减因子D = exp(-λ * T_resident)量化，其中T_resident为对象在缓存中的平均驻留时间；在稳态下，T_resident ≈ 1/r_i，因此有效命中率H_eff = H_byte_LRU * (1 - P_stale_total)，其中P_stale_total = Σ (r_i * s_i * (1 - exp(-λ / r_i))) / Σ (r_i * s_i)，对于低频对象（r_i < 1/100 day），P_stale_i > 0.63，导致整体命中率打7-8折。
+
+## Corrected Claim
+
+对象更新率λ=1%/天对LRU缓存有效性的影响可通过衰减因子D = exp(-λ * T_resident)量化，其中T_resident为对象在缓存中的平均驻留时间；在稳态下，T_resident ≈ 1/r_i，因此有效命中率H_eff = H_byte_LRU * (1 - P_stale_total)，其中P_stale_total = Σ (r_i * s_i * (1 - exp(-λ / r_i))) / Σ (r_i * s_i)，对于低频对象（r_i < 1/100 day），P_stale_i > 0.63，导致整体命中率打7-8折。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

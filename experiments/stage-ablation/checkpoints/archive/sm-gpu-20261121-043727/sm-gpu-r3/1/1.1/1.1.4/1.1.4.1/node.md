@@ -1,0 +1,28 @@
+# N112: Qwen3-27B 的具体 GQA 配置参数：num_key_value_heads = 4, num_attention_heads = 32, head_d
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N42, N43, N44
+
+## Claim
+
+Qwen3-27B 的具体 GQA 配置参数：num_key_value_heads = 4, num_attention_heads = 32, head_dim = 128 (基于 Qwen3 系列 27B 模型卡及 HuggingFace 配置文件的官方定义，确认其采用 8:1 的 GQA 比例而非 MHA 或标准 2:1 GQA)
+
+## Corrected Claim
+
+Qwen3-27B 采用 GQA 架构，具体配置参数（num_key_value_heads=4, num_attention_heads=32, head_dim=128）需以官方 HuggingFace 配置文件为准，当前来源未直接证实。
+
+## Evidence
+
+[质询]参考来源[1]指向的是 'Qwen3.8-27B' 而非 'Qwen3-27B'，且摘要中未包含具体的 GQA 配置参数（num_key_value_heads, num_attention_heads, head_dim），无法直接证实该特定版本的架构细节。 | 逻辑上 32/4=8 的 GQA 比例符合大模型常见设计且量级合理，但参考来源[1]仅提及模型名称且未提供具体配置参数，属于间接/无关支持，依据经验事实排除条款降级。
+
+## Search Query
+
+Qwen3-27B model config num_key_value_heads num_attention_heads huggingface
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/AlibabaCloud-Official/Qwen3.8-27B&rut=6d7c70e3744b57d57ca293389d2609b017e7839b8d066985052a8b1a95bd84ec', 'type': 'ddg', 'title': 'GitHub - AlibabaCloud-Official/Qwen3.8-27B: Native multimodal dense LLM ...'}

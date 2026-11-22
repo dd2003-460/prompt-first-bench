@@ -1,0 +1,25 @@
+# N333: NVIDIA RTX 5090 (32GB) 预计于 2025 年发布，其显存带宽提升至 1792 GB/s (GDDR7)，价格预计为 $1,999-$2,4
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+NVIDIA RTX 5090 (32GB) 预计于 2025 年发布，其显存带宽提升至 1792 GB/s (GDDR7)，价格预计为 $1,999-$2,499；若发布时点符合本地部署需求，其单卡 FP8 推理性能预计将超越 2x RTX 4090 方案，成为新的性价比基准，需纳入未来 6-12 个月的候选集评估。
+
+## Corrected Claim
+
+NVIDIA RTX 5090 (32GB) 预计于 2025 年发布，其显存带宽提升至约 1.8 TB/s (GDDR7)，价格预计为 $1,999-$2,499；若发布时点符合本地部署需求，其单卡 FP8 推理性能预计将超越 2x RTX 4090 方案，成为新的性价比基准，需纳入未来 6-12 个月的候选集评估。
+
+## Evidence
+
+[质询]显存带宽数值存在量级/单位混淆风险：来源[2]明确标注为'1.8tb带宽'（即1.8 TB/s），而陈述中写为'1792 GB/s'。虽然1.8 TB/s ≈ 1800 GB/s，两者在数量级上接近，但陈述未明确单位换算关系，且1792 GB/s这一具体数值在提供的来源摘要中未直接出现，存在将TB误读为GB或数值不精确的风险。此外，价格区间和性能对比属于预测性经验事实，来源未直接支持。 | 来源[1]确认RTX 5090存在且配备32GB显存；来源[2]确认32GB GDDR7及约1.8TB/s带宽（与1792 GB/s量级兼容但单位表述不同）；价格与性能对比无直接来源支持，属经验预测。
+
+## Retrieval Sources
+
+- {'url': 'https://www.nvidia.com/en-us/geforce/graphics-cards/50-series/rtx-5090/&rut=821bc31f395aac6a20d80f5df46f6eabdb5803f70499d2ab658b296914446118', 'type': 'ddg', 'title': 'GeForce RTX 5090 Graphics Cards | NVIDIA'}
+- {'url': 'https://zhuanlan.zhihu.com/p/16708903339&rut=0b4a3f05056fe1927fe4d6e805a427655c791de9d7fe2aefa9d64bda33861a4d', 'type': 'ddg', 'title': 'Rtx 5090首次实锤：32gb Gddr7显存+1.8tb带宽 - 知乎'}

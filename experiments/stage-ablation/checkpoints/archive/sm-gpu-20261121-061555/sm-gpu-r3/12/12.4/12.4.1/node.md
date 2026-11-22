@@ -1,0 +1,24 @@
+# N389: eBay 'Sold' 列表在 2024 Q4-2025 Q1 期间，80GB A100 (PCIe 版本) 的成交均价约为 $4,200-$4,800，而 S
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N137
+
+## Claim
+
+eBay 'Sold' 列表在 2024 Q4-2025 Q1 期间，80GB A100 (PCIe 版本) 的成交均价约为 $4,200-$4,800，而 SXM 版本因需要专用基板/服务器，二手整机或模组价格波动更大，需区分接口类型。
+
+## Corrected Claim
+
+eBay 'Sold' 列表显示，80GB A100 (PCIe 版本) 的二手价格通常在数千美元区间（具体随市场波动），而 SXM 版本因需要专用基板/服务器，二手整机或模组价格波动更大，需区分接口类型。
+
+## Evidence
+
+[质询]具体价格区间（$4,200-$4,800）属于实时变动的市场经验数据，缺乏来源支持，且不同时期、不同成色、不同卖家导致价格波动极大，该精确区间可能具有时效性或样本偏差。 | 经验事实，逻辑自洽（PCIe版通常比SXM版更通用且价格相对稳定，SXM需专用基板故价格波动大符合市场常识），但缺来源支持。
+
+## Search Query
+
+eBay sold A100 80GB PCIe price history 2024 2025

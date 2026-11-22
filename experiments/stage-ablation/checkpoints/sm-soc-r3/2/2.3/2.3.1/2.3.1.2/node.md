@@ -1,0 +1,24 @@
+# N162: 价格偏离度 D 的非线性修正项：当 D > 30% 时，ΔCTR_halo 出现边际递减，修正公式为 ΔCTR_halo = β_halo * D * (1 -
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N49
+
+## Claim
+
+价格偏离度 D 的非线性修正项：当 D > 30% 时，ΔCTR_halo 出现边际递减，修正公式为 ΔCTR_halo = β_halo * D * (1 - λ * D²)，其中 λ ≈ 0.01-0.02，防止线性模型在极端高价下高估点击率，需基于长尾数据拟合二次项系数。
+
+## Corrected Claim
+
+价格偏离度 D 的非线性修正项：当 D > 30% 时，ΔCTR_halo 出现边际递减，修正公式为 ΔCTR_halo = β_halo * D * (1 - λ * D²)，其中 λ ≈ 0.01-0.02，防止线性模型在极端高价下高估点击率，需基于长尾数据拟合二次项系数。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+nonlinear price premium click-through rate diminishing returns high deviation

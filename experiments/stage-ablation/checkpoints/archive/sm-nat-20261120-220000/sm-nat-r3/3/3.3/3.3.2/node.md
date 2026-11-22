@@ -1,0 +1,24 @@
+# N42: 重填充成本 cost_refill(s) 的函数：cost_refill(s) = t_refill_base + s / bandwidth，t_refill
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+重填充成本 cost_refill(s) 的函数：cost_refill(s) = t_refill_base + s / bandwidth，t_refill_base = 5ms，bandwidth = 100MB/s，cost_refill(s) = 5ms + s/100MB/s
+
+## Corrected Claim
+
+重填充成本 cost_refill(s) 的函数：cost_refill(s) = t_refill_base + s / bandwidth，t_refill_base = 5ms，bandwidth = 100MB/s，cost_refill(s) = 5ms + s/100MB/s
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在正交性上表现良好，分别探讨了边界值和敏感度，没有重复或矛盾。然而，在完备性上存在缺失：父节点定义了具体的函数形式（线性关系）和参数，但子节点仅关注了特定边界和带宽波动，未涵盖函数的一般性质（如单调性、线性特征）或中间值的分布情况，未能完全覆盖函数定义的所有关键方面。）
+
+## Search Query
+
+cache refill cost function object size bandwidth latency

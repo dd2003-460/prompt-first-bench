@@ -1,0 +1,29 @@
+# N94: 稀缺性信号对决策时间缩短系数 (35%) 的实证来源验证：需检索特定实验或平台 A/B 测试数据，确认‘仅剩 1 件’标签在二手交易场景中是否确实导致 35% 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N33
+
+## Claim
+
+稀缺性信号对决策时间缩短系数 (35%) 的实证来源验证：需检索特定实验或平台 A/B 测试数据，确认‘仅剩 1 件’标签在二手交易场景中是否确实导致 35% 的决策时间缩短，或该数值是否源自其他领域（如拍卖、快消品）的外推。
+
+## Corrected Claim
+
+稀缺性信号（如‘仅剩 1 件’标签）在二手交易场景中通常能显著缩短用户决策时间，但具体缩短系数（如35%）缺乏特定场景的实证数据支持，该数值可能源自其他领域的外推或估算。
+
+## Evidence
+
+[质询]该陈述声称‘35%’这一具体数值有实证来源支持，但参考来源[1]仅提供了稀缺性A/B测试的框架和经典实验背景，未提及‘35%’这一具体数据；来源[2]讨论的是社会经济地位与跨期决策，与二手交易场景及具体决策时间缩短系数无关。因此，‘35%’这一精确数值缺乏直接来源支持，极可能是基于一般性心理学效应的估算或外推，而非特定二手交易场景的实证结果。 | 来源[1]间接支持稀缺性策略能影响决策（通过A/B测试框架和经典实验），但未提供‘35%’这一具体数值；来源[2]与主题无关。逻辑上，稀缺性信号缩短决策时间是合理的心理学现象，但具体数值缺乏直接实证支持。
+
+## Search Query
+
+scarcity heuristic impact on decision time reduction percentage second hand marketplace A/B test
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/sunneo/article/details/160534923&rut=07ccecbf25b0277ca2f2d43ce96c48158712a5c9832aa4e3227d9a92936bdf53', 'type': 'ddg', 'title': '专栏b-产品心理学深度-04-稀缺性策略 - Csdn博客'}
+- {'url': 'https://journal.psych.ac.cn/xlxb/CN/10.3724/SP.J.1041.2026.0198&rut=504c695fc05258031a7333db15ec026b56b6a917def30d497afff02bbd796ea5', 'type': 'ddg', 'title': '稀缺威胁下低社会经济地位者的短视决策过程 - 心理学报'}

@@ -1,0 +1,24 @@
+# N192: KV Cache 精度的动态调整影响：虽然权重为 FP8，但 KV Cache 通常以 BF16 (2 bytes) 存储以保持注意力计算的数值稳定性，除非使用
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N81
+
+## Claim
+
+KV Cache 精度的动态调整影响：虽然权重为 FP8，但 KV Cache 通常以 BF16 (2 bytes) 存储以保持注意力计算的数值稳定性，除非使用 FP8 KV Cache 优化（如 vLLM 的 --kv-cache-dtype fp8）。若 KV Cache 也使用 FP8 (1 byte)，则 KV 占用减半为 2.35GB。N81 假设 BF16 KV 是保守估计，符合主流部署默认配置。
+
+## Corrected Claim
+
+KV Cache 精度的动态调整影响：虽然权重为 FP8，但 KV Cache 通常以 BF16 (2 bytes) 存储以保持注意力计算的数值稳定性，除非使用 FP8 KV Cache 优化（如 vLLM 的 --kv-cache-dtype fp8）。若 KV Cache 也使用 FP8 (1 byte)，则 KV 占用减半为 2.35GB。N81 假设 BF16 KV 是保守估计，符合主流部署默认配置。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：BF16 (2 bytes) 与 FP8 (1 byte) 的存储大小对比符合硬件规格常识，KV Cache 默认使用 BF16 以保持数值稳定性是主流推理框架（如 vLLM）的标准配置，减半计算逻辑自洽。
+
+## Search Query
+
+vLLM kv cache dtype fp8 vs bf16 accuracy impact

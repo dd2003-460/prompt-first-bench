@@ -1,0 +1,20 @@
+# N258: INT8 KV Cache 相比 BF16 的质量损失通常在 MMLU 基准上表现为 <1% 的下降，属于可接受范围；若进一步量化为 FP8，损失可能增至 1-
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N88, N89, N90
+
+## Claim
+
+INT8 KV Cache 相比 BF16 的质量损失通常在 MMLU 基准上表现为 <1% 的下降，属于可接受范围；若进一步量化为 FP8，损失可能增至 1-2%，但 INT8 已满足 24GB 显存约束，故无需激进量化。
+
+## Corrected Claim
+
+INT8 KV Cache 相比 BF16 的质量损失通常在 MMLU 基准上表现为 <1% 的下降，属于可接受范围；若进一步量化为 FP8，损失可能增至 1-2%，但 INT8 已满足 24GB 显存约束，故无需激进量化。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

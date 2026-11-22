@@ -1,0 +1,20 @@
+# N121: 推荐方案的条件性边界 1：'RTX 5090 单卡方案'仅在用户接受 'FP8 权重 + INT8 KV Cache' 混合精度且容忍 MMLU 下降 <1.5
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+推荐方案的条件性边界 1：'RTX 5090 单卡方案'仅在用户接受 'FP8 权重 + INT8 KV Cache' 混合精度且容忍 MMLU 下降 <1.5% 时成立；若用户要求 BF16 原生精度或 FP8 全精度，该方案因显存不足（32GB < 43GB）直接失效，必须切换至 '2x RTX 4090' 或 '1x A100 40GB'。
+
+## Corrected Claim
+
+推荐方案的条件性边界 1：'RTX 5090 单卡方案'仅在用户接受 'FP8 权重 + INT8 KV Cache' 混合精度且容忍 MMLU 下降 <1.5% 时成立；若用户要求 BF16 原生精度或 FP8 全精度，该方案因显存不足（32GB < 43GB）直接失效，必须切换至 '2x RTX 4090' 或 '1x A100 40GB'。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

@@ -1,0 +1,28 @@
+# N176: 临界价格离散度 σ_crit 的估计：通过生存分析（Survival Analysis）建模买家决策时间 T_decision 与价格离散度 σ_price 的
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N54
+
+## Claim
+
+临界价格离散度 σ_crit 的估计：通过生存分析（Survival Analysis）建模买家决策时间 T_decision 与价格离散度 σ_price 的关系，识别 T_decision 增长率从线性转为指数的拐点；若 σ_price > σ_crit（如 0.3 或 30%），则 T_decision 呈现指数级延迟，具体 σ_crit 需基于平台历史数据拟合。
+
+## Corrected Claim
+
+临界价格离散度 σ_crit 的估计：可通过生存分析建模买家决策时间 T_decision 与价格离散度 σ_price 的关系，识别 T_decision 增长率发生显著变化的拐点；具体 σ_crit 数值及 T_decision 在超过临界值后的具体增长形态（如是否呈指数级）需基于特定平台的历史数据进行拟合与验证，不存在通用的固定阈值（如 0.3）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（如 σ_crit ≈ 0.3 或 30%）以及特定的行为模式（从线性转为指数），这些属于依赖具体平台数据的经验事实，无法从第一性原理推导，且参考来源仅介绍生存分析通用原理，未提供该特定经济/行为学结论的支持。 | 逻辑上自洽（生存分析可用于建模决策时间，拐点识别是合理方法），但参考来源[1]仅涵盖离散时间生存分析的通用原理，与具体的价格离散度临界值及行为模式无关，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+non-linear impact of price dispersion on buyer decision time survival analysis threshold
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2002854565956047997&rut=e0d72cb063c6c0941f53e7facd9c0d8be401e8ef14b40d7a7e24e4db953d1c6e', 'type': 'ddg', 'title': '离散时间的生存分析（Discrete-Time Survival Analysis）：原理-数据-代码'}

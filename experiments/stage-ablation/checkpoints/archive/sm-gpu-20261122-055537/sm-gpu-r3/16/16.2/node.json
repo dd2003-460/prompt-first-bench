@@ -1,0 +1,17 @@
+{
+  "id": "N404",
+  "claim": "并发数 > 4 时的排队延迟量化：假设单请求处理时间为 T_proc，服务台数为 N，到达率为 λ。当并发 C > 4 时，若 T_proc > 500ms，则队列长度 L = λ * W。根据 Little's Law，若 P99 延迟要求 < 2s，且 T_proc = 1s，则最大并发数 C_max = 2 / 1 = 2。因此，对于带宽 < 500 GB/s 的硬件，若 T_proc > 0.5s，则无法支持并发 > 4 且 P99 < 2s 的场景。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]逻辑推导存在严重错误：Little's Law (L=λW) 用于计算平均队列长度，不能直接用于推导P99延迟下的最大并发数上限；且将'带宽<500GB/s'与'并发数限制'强行关联缺乏因果逻辑，带宽通常影响数据传输时间而非计算处理时间T_proc，除非明确说明瓶颈在I/O且给出了具体数据量，否则该结论不成立。 | 逻辑校验失败：Little's Law 仅描述稳态平均关系，无法直接得出 P99 延迟约束下的最大并发数 C_max=2 的结论；且硬件带宽与并发数的关系推导缺乏必要的前提条件（如每请求数据量），属于硬逻辑错误。",
+  "corrected_claim": "根据 Little's Law，在稳态下平均队列长度 L = λ * W。若要求 P99 延迟 < 2s 且单请求处理时间 T_proc = 1s，需结合具体的服务时间分布和排队模型（如 M/M/c）来估算最大并发数，不能简单通过 2/1 得出 C_max=2。带宽限制对并发的影响取决于每请求的数据传输量，需补充该参数才能量化。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N127"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "Little's law LLM inference queueing theory concurrency latency",
+  "retrieval_sources": []
+}

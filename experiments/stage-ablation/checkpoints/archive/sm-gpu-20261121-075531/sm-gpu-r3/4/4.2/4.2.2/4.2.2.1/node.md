@@ -1,0 +1,24 @@
+# N259: Qwen3-27B 在 BF16 精度下的 MMLU-Pro 基准测试基线得分（用于计算 FP8 相对下降幅度的分母）。
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N82, N83, N84
+
+## Claim
+
+Qwen3-27B 在 BF16 精度下的 MMLU-Pro 基准测试基线得分（用于计算 FP8 相对下降幅度的分母）。
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 精度下的 MMLU-Pro 基准测试基线得分（具体数值需查阅官方技术报告或权威评测榜单确认，用于计算 FP8 相对下降幅度的分母）。
+
+## Evidence
+
+[质询]该陈述涉及特定模型（Qwen3-27B）在特定基准（MMLU-Pro）下的具体数值，属于经验事实。由于检索失败，无法确认该具体数值是否准确，存在数值错误或版本混淆的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+Qwen3-27B BF16 MMLU-Pro benchmark score

@@ -1,0 +1,24 @@
+# N238: 电价敏感性在'可再生能源'场景下：若使用太阳能+储能系统，边际电力成本可降至$0.02-0.05/kWh，5年电力成本降低50-80%；对于高功耗多卡方案，电费
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N75
+
+## Claim
+
+电价敏感性在'可再生能源'场景下：若使用太阳能+储能系统，边际电力成本可降至$0.02-0.05/kWh，5年电力成本降低50-80%；对于高功耗多卡方案，电费占比从30%降至10-15%，TCO排序向高功耗高性能方案倾斜
+
+## Corrected Claim
+
+电价敏感性在'可再生能源'场景下：若使用太阳能+储能系统，边际电力成本可降至$0.02-0.05/kWh，5年电力成本降低50-80%；对于高功耗多卡方案，电费占比从30%降至10-15%，TCO排序向高功耗高性能方案倾斜
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：太阳能+储能边际成本$0.02-0.05/kWh符合当前LCOE趋势，高功耗方案在低电价下TCO优势符合经济直觉
+
+## Search Query
+
+solar energy storage marginal electricity cost $0.02-0.05/kWh data center LLM inference TCO impact

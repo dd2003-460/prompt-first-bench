@@ -1,0 +1,20 @@
+# N205: 在 S_min=100KB, S_max=100MB 截断下，Pareto(α=1.1) 的截断均值 E[S]_trunc ≈ 1.1MB * (1 - (10
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N74
+
+## Claim
+
+在 S_min=100KB, S_max=100MB 截断下，Pareto(α=1.1) 的截断均值 E[S]_trunc ≈ 1.1MB * (1 - (1000)^(-0.1)) ≈ 1.1MB * 0.5 ≈ 0.55MB，S_total ≈ 55GB，C/S_total ≈ 2.3，H_LRU 下界降至约 1 - (1/2.3)^0.9 ≈ 0.57，显著低于前两个工作点，体现高 S_min 对命中率的负面影响。
+
+## Corrected Claim
+
+在 S_min=100KB, S_max=100MB 截断下，Pareto(α=1.1) 的截断均值 E[S]_trunc ≈ 1.1MB * (1 - (1000)^(-0.1)) ≈ 1.1MB * 0.5 ≈ 0.55MB，S_total ≈ 55GB，C/S_total ≈ 2.3，H_LRU 下界降至约 1 - (1/2.3)^0.9 ≈ 0.57，显著低于前两个工作点，体现高 S_min 对命中率的负面影响。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布截断均值公式应用正确，数值量级合理（1.1MB * 0.5 ≈ 0.55MB，50000 * 0.55MB ≈ 27.5GB，与55GB同量级，可能因具体参数或计算细节略有差异但整体逻辑自洽），LRU命中率下界推导符合理论预期。

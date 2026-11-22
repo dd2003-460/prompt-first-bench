@@ -1,0 +1,17 @@
+{
+  "id": "N52",
+  "claim": "2x RTX 4090 的显存分配策略：若使用张量并行，每卡需加载 27GB 权重的一半 (13.5GB) + 完整 KV Cache (16GB) = 29.5GB，超过单卡 24GB 容量，因此纯 TP 不可行；必须采用混合策略（如 TP=1 但 KV Cache 分片，或 TP=2 且权重量化至 INT8/FP8 以减小权重占用），否则需启用 Offloading 至系统内存，导致吞吐量下降 50% 以上。",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]该陈述包含具体的经验性数值（如KV Cache固定为16GB、Offloading导致吞吐量下降50%以上），这些数值高度依赖于具体的模型架构、序列长度、Batch Size及硬件实现细节，并非普适的物理或数学定律。此外，'纯TP不可行'的结论基于特定假设（如KV Cache不分片或权重未量化），若采用更先进的并行策略（如Sequence Parallelism或更细粒度的KV分片），结论可能不同。 | source=knowledge，逻辑自洽（29.5GB > 24GB 导致溢出），但具体数值（16GB KV, 50% 性能损失）为经验估计，缺乏通用性，故降级为定性表述。",
+  "corrected_claim": "2x RTX 4090 在张量并行下，若单卡需承载约 13.5GB 权重和 16GB KV Cache，总显存需求约 29.5GB，超出单卡 24GB 容量，导致纯 TP 策略不可行；需采用混合策略（如 KV Cache 分片、权重量化）或启用 Offloading，后者通常会显著降低吞吐量。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N11"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "2x RTX 4090 24GB memory allocation tensor parallelism KV cache offloading",
+  "retrieval_sources": []
+}

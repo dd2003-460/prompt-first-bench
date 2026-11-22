@@ -1,0 +1,24 @@
+# N773: Qwen3-27B 在 32K 上下文下，KV Cache 采用 FP8 量化时，单个 token 的 KV 占用为 (2 * 27e9 * 2 * 1 byt
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N240
+
+## Claim
+
+Qwen3-27B 在 32K 上下文下，KV Cache 采用 FP8 量化时，单个 token 的 KV 占用为 (2 * 27e9 * 2 * 1 byte / 32) = 1.6875 KB/token，完整 32K 上下文占用 53.75 MB，若采用 INT4 量化则占用 26.875 MB，质量损失主要体现为长距离注意力检索精度下降约 2-5%（基于 PPL 增加量估算）。
+
+## Corrected Claim
+
+Qwen3-27B 在 32K 上下文下，KV Cache 占用量需根据具体层数、注意力头数和头维度计算，通常单 token 占用为 MB 级别，32K 上下文总占用为 GB 级别。FP8 量化相比 FP16 可减少约 50% 存储，INT4 可减少约 75%。具体质量损失需参考官方基准测试，通常长距离注意力精度会有轻微下降，但具体百分比因任务而异。
+
+## Evidence
+
+[质询]数值计算存在严重量级错误：Qwen3-27B 的参数量约为 270 亿（27e9），但 KV Cache 大小取决于层数（L）、头数（H）和头维度（D），而非总参数量。即使假设所有参数都用于 KV（极端错误假设），27e9 * 2 bytes 也是 54GB，而非 KB。正确的 KV Cache 计算应基于 L * H * D * 2 (K+V) * bytes_per_element。对于 27B 模型，通常 L~40-60, H~32-40, D~128，单 token KV 约为几 MB 到几十 MB 量级（取决于具体架构），而非 1.6875 KB。此外，'质量损失 2-5%' 是经验性结论，缺乏具体基准测试支持。 | 逻辑校验失败：公式 (2 * 27e9 * 2 * 1 byte / 32) 将模型总参数量误用为 KV Cache 维度，导致量级错误（应为 MB/GB 级而非 KB 级）；且无外部来源支持具体的质量损失百分比。
+
+## Search Query
+
+Qwen3-27B KV cache FP8 vs INT4 quantization quality loss perplexity long context

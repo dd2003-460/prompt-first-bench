@@ -1,0 +1,20 @@
+# N188: GQA 下 KV Cache 带宽瓶颈修正：在 8 KV heads 配置下，解码阶段每 token 读取的 KV 数据量减少至 MHA 的 1/6（假设 MH
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N50
+
+## Claim
+
+GQA 下 KV Cache 带宽瓶颈修正：在 8 KV heads 配置下，解码阶段每 token 读取的 KV 数据量减少至 MHA 的 1/6（假设 MHA 48 heads），使得 RTX 4090 (1008 GB/s) 在 32K 上下文下的理论吞吐上限提升，需重新计算 k_offload 和有效吞吐。
+
+## Corrected Claim
+
+GQA 下 KV Cache 带宽瓶颈修正：在 8 KV heads 配置下，解码阶段每 token 读取的 KV 数据量减少至 MHA 的 1/6（假设 MHA 48 heads），使得 RTX 4090 (1008 GB/s) 在 32K 上下文下的理论吞吐上限提升，需重新计算 k_offload 和有效吞吐。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：GQA 将 KV heads 从 48 降至 8，KV Cache 大小及读取带宽需求确实按比例减少至 1/6，符合架构定义及硬件带宽逻辑。

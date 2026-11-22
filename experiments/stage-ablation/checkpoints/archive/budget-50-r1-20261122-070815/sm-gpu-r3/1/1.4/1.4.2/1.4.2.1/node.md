@@ -1,0 +1,24 @@
+# N182: Qwen3-27B 在 FP8 精度下的总显存需求修正值：基于 N128 确认的混合注意力架构（假设线性注意力层占比 50%，即 N_full_attn=32）
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N44
+
+## Claim
+
+Qwen3-27B 在 FP8 精度下的总显存需求修正值：基于 N128 确认的混合注意力架构（假设线性注意力层占比 50%，即 N_full_attn=32），KV Cache 显存占用从纯全注意力模型的 2.0 GB 降低至 1.0 GB（公式：2 * 32 * 4 * 128 * 32768 * 2 bytes / 1024^3 ≈ 1.0 GB），加上 FP8 权重 27 GB 及 15% 激活/碎片开销 (4.05 GB)，总需求为 32.05 GB，仍显著超过 RTX 4090 24 GB 上限，确认单卡 FP8 不可行 [修正自矛盾检测：采用 N128 混合架构参数而非 N129 纯全注意力假设]
+
+## Corrected Claim
+
+Qwen3-27B 在 FP8 精度下的总显存需求修正值：基于 N128 确认的混合注意力架构（假设线性注意力层占比 50%，即 N_full_attn=32），KV Cache 显存占用从纯全注意力模型的 2.0 GB 降低至 1.0 GB（公式：2 * 32 * 4 * 128 * 32768 * 2 bytes / 1024^3 ≈ 1.0 GB），加上 FP8 权重 27 GB 及 15% 激活/碎片开销 (4.05 GB)，总需求为 32.05 GB，仍显著超过 RTX 4090 24 GB 上限，确认单卡 FP8 不可行 [修正自矛盾检测：采用 N128 混合架构参数而非 N129 纯全注意力假设]
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：KV Cache 计算 (2*32*4*128*32768*2 bytes ≈ 1.07 GB) 与总显存估算 (27+1.07+4.05 ≈ 32.12 GB) 量级合理且自洽，结论符合硬件限制。
+
+## Search Query
+
+Qwen3-27B config.json num_key_value_heads linear attention layers ratio

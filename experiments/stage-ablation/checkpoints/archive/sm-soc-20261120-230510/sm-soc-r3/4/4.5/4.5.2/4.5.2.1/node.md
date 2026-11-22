@@ -1,0 +1,24 @@
+# N238: 重新上架时间成本 C_time_relist 的折算公式：C_time_relist = t_edit × w_hourly，其中 t_edit 为编辑/重新上
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N78
+
+## Claim
+
+重新上架时间成本 C_time_relist 的折算公式：C_time_relist = t_edit × w_hourly，其中 t_edit 为编辑/重新上架耗时（中位数 7.5 分钟，即 0.125 小时），w_hourly 为卖家个人时薪（假设典型值 15-25 元/小时，取决于品类和卖家类型），计算得出 C_time_relist ≈ 1.875 - 3.125 元/次。
+
+## Corrected Claim
+
+重新上架时间成本 C_time_relist 的折算公式：C_time_relist = t_edit × w_hourly，其中 t_edit 为编辑/重新上架耗时（中位数 7.5 分钟，即 0.125 小时），w_hourly 为卖家个人时薪（假设典型值 15-25 元/小时，取决于品类和卖家类型），计算得出 C_time_relist ≈ 1.875 - 3.125 元/次。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：7.5分钟=0.125小时，0.125*15=1.875，0.125*25=3.125，计算无误且量级合理
+
+## Search Query
+
+typical hourly wage for individual sellers in e-commerce

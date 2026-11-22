@@ -1,0 +1,20 @@
+# N209: 共享随机源：价格发现噪声 ε_price，定义为同类商品成交价的标准差/均值比，典型值 ε_price ~ N(0, 0.08)，该噪声同时影响成交量 ΔG/G
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N67
+
+## Claim
+
+共享随机源：价格发现噪声 ε_price，定义为同类商品成交价的标准差/均值比，典型值 ε_price ~ N(0, 0.08)，该噪声同时影响成交量 ΔG/G 和平均成交价 ΔP_avg/P_avg。
+
+## Corrected Claim
+
+共享随机源：价格发现噪声 ε_price，定义为同类商品成交价的标准差/均值比，典型值 ε_price ~ N(0, 0.08)，该噪声同时影响成交量 ΔG/G 和平均成交价 ΔP_avg/P_avg。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

@@ -1,0 +1,28 @@
+# N110: 高挂价商品 CTR 优势的交互效应模型：CTR_high = CTR_base * (1 + β_longtail * I(P_ask > P_median +
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N32
+
+## Claim
+
+高挂价商品 CTR 优势的交互效应模型：CTR_high = CTR_base * (1 + β_longtail * I(P_ask > P_median + 1.5σ_pref))，其中 β_longtail ∈ [0.1, 0.3] 为长尾匹配带来的点击提升系数，该效应源于高估值买家的低决策摩擦，而非算法直接偏袒，需通过 A/B 测试验证 β_longtail 的具体数值。
+
+## Corrected Claim
+
+高挂价商品可能存在CTR优势，其交互效应可建模为 CTR_high = CTR_base * (1 + β_longtail * I(P_ask > P_median + 1.5σ_pref))，其中 β_longtail 为长尾匹配带来的点击提升系数，具体数值需通过 A/B 测试验证。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数范围（β_longtail ∈ [0.1, 0.3]）和特定的因果归因（源于低决策摩擦而非算法偏袒），这些属于经验事实，无法从第一性原理推导，且参考来源未提供相关数据支持。 | 经验事实，逻辑自洽但缺来源支持；参考来源[1]仅讨论CTR特征交互模型的一般性方法，未涉及高挂价商品的特定交互效应或β系数数值。
+
+## Search Query
+
+high asking price click-through rate second-hand market long tail buyers empirical evidence
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org/pdf/2411.12441&rut=4e3da90d24bfa0e55eebc668eba28c70eb7ae1e15b54cb69bf7add68a9ebb264', 'type': 'ddg', 'title': 'Towards Unifying Feature Interaction Models for Click-Through Rate ...'}

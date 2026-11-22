@@ -1,0 +1,30 @@
+# N273: W4精度下Qwen3-27B的激活值显存占用需估算：激活值通常以BF16存储，占用约2.0-3.0GB（取决于batch_size和中间层大小），需确认N117
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N117
+
+## Claim
+
+W4精度下Qwen3-27B的激活值显存占用需估算：激活值通常以BF16存储，占用约2.0-3.0GB（取决于batch_size和中间层大小），需确认N117中'剩余10.5GB'是否已包含激活值
+
+## Corrected Claim
+
+W4精度下Qwen3-27B的激活值以BF16存储，其显存占用取决于batch_size和序列长度，通常需额外预留数GB显存，需确认N117中'剩余10.5GB'是否已包含此部分动态开销。
+
+## Evidence
+
+[质询]激活值显存占用高度依赖于 batch_size 和序列长度（context length），2.0-3.0GB 的估算缺乏具体的 batch 和 seq_len 前提，且不同推理框架（如 vLLM, llama.cpp）对激活值的优化策略不同，该数值可能偏大或偏小，属于经验性估算而非固定事实。 | 来源[3]确认了 W4A16 量化下激活值为 BF16，支持了存储格式的前提；但所有来源均未提供具体的激活值显存占用数值（2.0-3.0GB），该数值属于经验事实，逻辑上自洽（BF16 下中间层激活确实需要额外显存），但缺乏直接来源支持具体量级，故降级。
+
+## Search Query
+
+LLM inference activation memory size BF16 batch_size=1 32K context
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/Zidian632/article/details/164885586&rut=a8d35e88c916d53bd30d31cda5fd7a228d4207b67719e16216bab369c7324b27', 'type': 'ddg', 'title': 'Qwen3.8-27B 上下文与显存配置对照表：16G-96G 分档计算 + 实测验证（附 KV 占用系数）_qwen3'}
+- {'url': 'https://quantized.uk/zh/quant-hub/qwen3-8-27b/&rut=fe9f619e9d27511983af9b4a2f7201afa035044fe3b6446c4db893c16f8bcef6', 'type': 'ddg', 'title': 'Qwen3.8 27B 量化版本与显存占用 | quantized.uk'}
+- {'url': 'https://blog.csdn.net/gitblog_00133/article/details/168443714&rut=eb8b5a4870d5d0ff898a0e7f8bf963d1d2998e248a8f6f6b6c833784169320ba', 'type': 'ddg', 'title': '单卡部署 Qwen3.8-27B-Quark-Qronos-INT4-W4A16：显存、吞吐与 10 个推理调优技巧'}

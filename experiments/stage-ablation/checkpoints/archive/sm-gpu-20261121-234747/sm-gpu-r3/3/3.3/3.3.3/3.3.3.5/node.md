@@ -1,0 +1,24 @@
+# N264: 2×RTX 3090系统相比1×L40S系统的年均隐性维护成本增量（USD），计算公式：ΔC_maint = (C_maint_L40S * (1 + α_co
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N94, N95, N96
+
+## Claim
+
+2×RTX 3090系统相比1×L40S系统的年均隐性维护成本增量（USD），计算公式：ΔC_maint = (C_maint_L40S * (1 + α_complexity)) - C_maint_3090_1，其中α_complexity为多卡复杂度系数（通常0.1-0.2），假设单卡年均维护成本$50（含驱动更新、风扇清洁），双卡系统因PCIe插槽冲突、散热不均导致故障率增加，年维护成本约为$80-$100，3年增量约为$30-$150，需量化为具体金额以纳入TCO
+
+## Corrected Claim
+
+2×RTX 3090系统相比1×L40S系统的年均隐性维护成本增量（USD），计算公式：ΔC_maint = (C_maint_L40S * (1 + α_complexity)) - C_maint_3090_1，其中α_complexity为多卡复杂度系数（通常0.1-0.2），假设单卡年均维护成本$50（含驱动更新、风扇清洁），双卡系统因PCIe插槽冲突、散热不均导致故障率增加，年维护成本约为$80-$100，3年增量约为$30-$150，需量化为具体金额以纳入TCO
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+multi-GPU server maintenance cost per year vs single GPU

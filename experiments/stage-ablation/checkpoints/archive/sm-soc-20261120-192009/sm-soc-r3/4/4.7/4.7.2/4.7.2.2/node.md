@@ -1,0 +1,20 @@
+# N283: 工作点2（线性插值区/中等成本）：当 0.3 < f_adjust < 0.7 时，C_buyer = 0.5 + 0.5 * (f_adjust / 0.7)
+
+- **status**: verified
+- **level**: L4
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N96
+
+## Claim
+
+工作点2（线性插值区/中等成本）：当 0.3 < f_adjust < 0.7 时，C_buyer = 0.5 + 0.5 * (f_adjust / 0.7)。此区间为决策敏感区，C_buyer 随 f_adjust 线性变化。每增加 0.1 的 f_adjust，C_buyer 增加 0.0714。此工作点适用于大多数实证场景，平衡了数据需求与置信度提升。
+
+## Corrected Claim
+
+工作点2（线性插值区/中等成本）：当 0.3 < f_adjust < 0.7 时，C_buyer = 0.5 + 0.5 * (f_adjust / 0.7)。此区间为决策敏感区，C_buyer 随 f_adjust 线性变化。每增加 0.1 的 f_adjust，C_buyer 增加 0.0714。此工作点适用于大多数实证场景，平衡了数据需求与置信度提升。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 C_buyer = 0.5 + 0.5 * (f_adjust / 0.7) 在区间 (0.3, 0.7) 内线性变化，斜率为 0.5/0.7 ≈ 0.714，故 f_adjust 每增加 0.1，C_buyer 增加 0.1 * 0.714 ≈ 0.0714，数值推导自洽。

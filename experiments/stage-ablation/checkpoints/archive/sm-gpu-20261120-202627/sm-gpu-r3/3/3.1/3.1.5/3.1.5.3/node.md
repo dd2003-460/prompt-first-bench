@@ -1,0 +1,24 @@
+# N256: 2×RTX 3090 支持 NVLink Bridge，带宽为 112.5 GB/s (双向)，相比 PCIe 4.0 x16 (32 GB/s) 带宽提升 3
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N69
+
+## Claim
+
+2×RTX 3090 支持 NVLink Bridge，带宽为 112.5 GB/s (双向)，相比 PCIe 4.0 x16 (32 GB/s) 带宽提升 3.5 倍，但 NVLink Bridge 成本约 $50-$100，且需主板支持双 x16 插槽物理间距，否则 NVLink 桥接器可能无法安装。
+
+## Corrected Claim
+
+2×RTX 3090 支持 NVLink Bridge，带宽为 112.5 GB/s (双向)，相比 PCIe 4.0 x16 (32 GB/s) 带宽提升约 3.5 倍；NVLink Bridge 成本因市场波动而异，且安装需主板具备兼容的双 x16 插槽物理间距。
+
+## Evidence
+
+[质询]NVLink Bridge 的成本（$50-$100）属于经验事实，且不同时期/渠道价格波动较大，缺乏来源支持具体数值区间；此外，'需主板支持双 x16 插槽物理间距'的表述虽逻辑合理，但具体兼容性取决于主板设计，非绝对物理限制，存在过度概括风险。 | 经验事实，逻辑自洽但缺来源支持（带宽数值 112.5 GB/s 与 PCIe 4.0 x16 32 GB/s 的对比符合技术常识，但成本与安装限制为经验性描述，无外部来源验证）
+
+## Search Query
+
+NVIDIA NVLink Bridge RTX 3090 price 2024 dual x16 slot spacing requirement

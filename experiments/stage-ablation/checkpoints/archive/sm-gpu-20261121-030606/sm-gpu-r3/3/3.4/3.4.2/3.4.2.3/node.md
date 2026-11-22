@@ -1,0 +1,24 @@
+# N278: 数学推理准确率阈值≥80.0%的适用场景界定：针对金融建模、科学计算等对数值精度敏感的应用，需量化该阈值下W4方案的不可行性代价（如需回退至INT8/FP8带来
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N118
+
+## Claim
+
+数学推理准确率阈值≥80.0%的适用场景界定：针对金融建模、科学计算等对数值精度敏感的应用，需量化该阈值下W4方案的不可行性代价（如需回退至INT8/FP8带来的显存增加27GB->54GB或成本增加比例）。
+
+## Corrected Claim
+
+数学推理准确率阈值≥80.0%的适用场景界定：针对金融建模、科学计算等对数值精度敏感的应用，需量化该阈值下W4方案的不可行性代价（如需回退至INT8/FP8带来的显存增加27GB->54GB或成本增加比例）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：W4量化通常占用显存约为INT8/FP8的一半，因此从W4回退至INT8/FP8会导致显存占用翻倍（27GB->54GB），符合基本算术逻辑与工程常识。
+
+## Search Query
+
+financial modeling LLM accuracy threshold requirements

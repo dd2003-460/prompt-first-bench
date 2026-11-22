@@ -1,0 +1,24 @@
+# N141: FP8 量化元数据 (Metadata) 开销：每层需存储 Scale (E4M3 或 FP32) 和 Zero-point (若为对称量化则无 Zero-po
+
+- **status**: pending
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N40
+
+## Claim
+
+FP8 量化元数据 (Metadata) 开销：每层需存储 Scale (E4M3 或 FP32) 和 Zero-point (若为对称量化则无 Zero-point)。Qwen3-27B 60 层，每层 hidden=4096，Scale 向量大小 = 4096 * 4 bytes (FP32) = 16KB/层，总 Metadata = 60 * 16KB = 0.96MB，可忽略不计 (<0.01GB)。若使用 Block-wise Quantization (如 128x128 block)，Scale 数量增加至 (4096/128)^2 * 60 * 4 bytes ≈ 1.5MB，仍 <0.01GB。
+
+## Corrected Claim
+
+FP8 量化元数据 (Metadata) 开销：每层需存储 Scale (E4M3 或 FP32) 和 Zero-point (若为对称量化则无 Zero-point)。Qwen3-27B 60 层，每层 hidden=4096，Scale 向量大小 = 4096 * 4 bytes (FP32) = 16KB/层，总 Metadata = 60 * 16KB = 0.96MB，可忽略不计 (<0.01GB)。若使用 Block-wise Quantization (如 128x128 block)，Scale 数量增加至 (4096/128)^2 * 60 * 4 bytes ≈ 1.5MB，仍 <0.01GB。
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备, 有冗余（子节点严重偏离父节点主题（FP8量化元数据开销）。7个子节点中仅2个（子节点6和7）与FP8元数据直接相关，其余5个涉及CUDA Context、KV Cache、INT4对齐、通用Padding等无关或矛盾内容。子节点6和7存在冗余，均论证了FP8元数据开销可忽略，且子节点7的计算细节实际上是对子节点6的细化，可合并。此外，父节点提到的Block-wise量化在子节点7中被详细计算，但子节点6未涵盖，导致覆盖不均。）
+
+## Search Query
+
+FP8 quantization scale factor memory overhead blockwise

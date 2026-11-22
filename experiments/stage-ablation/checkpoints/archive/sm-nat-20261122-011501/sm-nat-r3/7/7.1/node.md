@@ -1,0 +1,20 @@
+# N66: Pareto(α=1.1) 大小分布的期望值 E[S] 在理论上是无穷大（因 α≤2），但在有限对象数 N=100,000 下，截断期望 E[S]_trunc 
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N21
+
+## Claim
+
+Pareto(α=1.1) 大小分布的期望值 E[S] 在理论上是无穷大（因 α≤2），但在有限对象数 N=100,000 下，截断期望 E[S]_trunc ≈ s_min * (N^(α-1) - 1) / (α-1)，当 s_min=1KB 时，该值远大于 11KB，约为 10000 KB (10MB) 量级，这直接修正了 N23 中的总字节数估算。
+
+## Corrected Claim
+
+Pareto(α=1.1) 大小分布的期望值 E[S] 在理论上是无穷大（因 α≤2），但在有限对象数 N=100,000 下，截断期望 E[S]_trunc 约为 20-30 KB 量级（具体取决于精确的离散分布定义和截断方式），远小于 10MB，但仍大于 11KB。
+
+## Evidence
+
+父节点级核验失败（LLM 错误）：Unterminated string starting at: line 9 column 5 (char 785)

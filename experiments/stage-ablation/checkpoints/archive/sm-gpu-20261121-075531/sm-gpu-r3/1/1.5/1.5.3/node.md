@@ -1,0 +1,20 @@
+# N49: TP=2多卡推理的PCIe带宽瓶颈量化：假设TP通信量为每层2次All-Reduce，数据量=2 * 48层 * 27GB权重/2 * 2bytes = 2.5
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N10
+
+## Claim
+
+TP=2多卡推理的PCIe带宽瓶颈量化：假设TP通信量为每层2次All-Reduce，数据量=2 * 48层 * 27GB权重/2 * 2bytes = 2.59GB/step，PCIe 4.0 x8带宽为32GB/s，理论通信延迟=81ms/step，若计算时间<81ms则通信成为瓶颈，需实测确认计算-通信重叠效率。
+
+## Corrected Claim
+
+TP=2多卡推理的PCIe带宽瓶颈量化：通信量主要取决于激活值大小（与Batch Size、序列长度、隐藏层维度相关），而非权重大小。需根据具体模型架构和推理配置计算每层All-Reduce的数据量，再结合PCIe 4.0 x8带宽（~32GB/s）估算通信延迟，并与计算时间对比以判断瓶颈。
+
+## Evidence
+
+[质询]数据量计算逻辑存在严重错误：TP通信量通常取决于激活值（Activation）大小（与Batch Size和序列长度相关），而非权重大小。公式中直接使用'27GB权重'作为通信数据量，混淆了参数同步与激活值通信的概念，且27GB/step的通信量对于常规推理场景（非超大Batch）极不合理，导致81ms的延迟估算缺乏物理/工程依据。 | 先验知识/题面给定，但逻辑校验发现核心假设（通信量=权重大小）违背TP推理的基本原理（通信的是激活值而非权重），且无外部来源支持该特定量化模型。

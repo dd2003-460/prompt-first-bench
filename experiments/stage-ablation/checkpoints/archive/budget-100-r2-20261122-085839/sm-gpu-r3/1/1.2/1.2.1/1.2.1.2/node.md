@@ -1,0 +1,24 @@
+# N129: Qwen3-27B 配置文件中 num_key_value_heads（KV 头数）的具体数值，需从 config.json 获取，常见值为 4 或 8，用于确
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N34
+
+## Claim
+
+Qwen3-27B 配置文件中 num_key_value_heads（KV 头数）的具体数值，需从 config.json 获取，常见值为 4 或 8，用于确定 GQA 的压缩比，直接影响 KV Cache 大小。
+
+## Corrected Claim
+
+Qwen3-27B 配置文件中 num_key_value_heads（KV 头数）的具体数值需从 config.json 获取，该参数用于确定 GQA 的压缩比，直接影响 KV Cache 大小。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（num_key_value_heads 为 4 或 8），属于模型配置细节，无法从第一性原理推导，且当前无可用来源支持具体数值。 | 经验事实，逻辑自洽但缺来源支持（检索失败，无外部证据）
+
+## Search Query
+
+Qwen3-27B config.json num_key_value_heads

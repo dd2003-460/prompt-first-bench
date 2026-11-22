@@ -1,0 +1,30 @@
+# N18: 最小干预方案：平台引入“动态参考价”机制，将历史成交价分布的 50% 分位作为推荐价，使 P_ask 下移 10%，预期成交周期缩短 15%，买家搜索成本降低 
+
+- **status**: verified
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N3
+
+## Claim
+
+最小干预方案：平台引入“动态参考价”机制，将历史成交价分布的 50% 分位作为推荐价，使 P_ask 下移 10%，预期成交周期缩短 15%，买家搜索成本降低 20%，卖家成交概率提升 25%，平台佣金收入短期下降 5% 但长期用户留存提升 8%。
+
+## Corrected Claim
+
+平台引入“动态参考价”机制（基于历史成交价50%分位），理论上可优化价格发现效率，预期能缩短成交周期、降低买家搜索成本并提升卖家成交概率，但具体量化效果（如15%、20%等）需依赖特定平台的A/B测试数据验证。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点中的各个独立量化指标（参考价计算、价格调整幅度、成交周期、搜索成本、成交概率、短期佣金、长期留存）。各子节点在逻辑上相互独立，分别推导父节点中不同的预期结果，不存在逻辑重叠或矛盾。虽然部分指标（如价格下移）是其他指标（如周期缩短）的输入变量，但这是因果链中的不同环节，而非定义上的冗余。所有父节点中的关键数字（10%, 15%, 20%, 25%, -5%, 8%）及机制（动态参考价）均被覆盖。）
+
+## Search Query
+
+dynamic reference price mechanism platform intervention transaction cycle buyer search cost seller probability
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Economics', 'type': 'wikipedia', 'title': 'Economics'}
+- {'url': 'https://en.wikipedia.org/wiki/Subprime_mortgage_crisis', 'type': 'wikipedia', 'title': 'Subprime mortgage crisis'}
+- {'url': 'https://en.wikipedia.org/wiki/History_of_economic_thought', 'type': 'wikipedia', 'title': 'History of economic thought'}

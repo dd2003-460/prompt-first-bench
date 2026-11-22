@@ -1,0 +1,24 @@
+# N42: 时间压力 T_deadline 对容忍度的非线性影响：当剩余决策时间 t < 24h 时，买家对高于 R 15% 的容忍度阈值 T_defect_toleran
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N9, N10, N11
+
+## Claim
+
+时间压力 T_deadline 对容忍度的非线性影响：当剩余决策时间 t < 24h 时，买家对高于 R 15% 的容忍度阈值 T_defect_tolerance 从 20% 急剧下降至 5%，函数形式为 T(t) = T_0 * exp(-λ_t * (1 - t/24))。
+
+## Corrected Claim
+
+时间压力 T_deadline 对容忍度存在非线性影响：当剩余决策时间 t < 24h 时，买家对高于 R 15% 的容忍度阈值 T_defect_tolerance 显著下降（具体数值需依据特定实验数据或模型校准确定）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（如阈值从20%降至5%、指数衰减系数λ_t、24小时临界点），这些属于行为经济学或特定场景下的经验事实，无法从第一性原理或数学公理严格推导得出，且缺乏外部来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+time pressure decision making tolerance threshold price premium

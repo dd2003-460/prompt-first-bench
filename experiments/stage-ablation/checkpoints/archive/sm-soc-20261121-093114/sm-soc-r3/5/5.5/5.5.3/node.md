@@ -1,0 +1,20 @@
+# N85: 均衡移动幅度 ΔEquilibrium 的量化：ΔEquilibrium = |P_market_post - P_market_pre| / P_market
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N26
+
+## Claim
+
+均衡移动幅度 ΔEquilibrium 的量化：ΔEquilibrium = |P_market_post - P_market_pre| / P_market_pre，其中 P_market_pre 和 P_market_post 分别为干预前后同类商品的成交均价，若 ΔEquilibrium < 5%，则表明干预未有效打破原有均衡，策略有效性置信度低。
+
+## Corrected Claim
+
+均衡移动幅度 ΔEquilibrium 的量化：ΔEquilibrium = |P_market_post - P_market_pre| / P_market_pre，其中 P_market_pre 和 P_market_post 分别为干预前后同类商品的成交均价，若 ΔEquilibrium < 5%，则表明干预未有效打破原有均衡，策略有效性置信度低。
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备（子节点4与父节点定义的主题（价格均衡移动 ΔEquilibrium）严重偏离，引入了无关变量 ΔT_deal（交易周期），破坏了正交性；同时，父节点定义的简单公式未包含子节点2中提到的DID反事实调整逻辑，导致父节点公式与子节点估算方法不一致，且缺乏对'同类商品'匹配标准的明确定义，完备性不足。）

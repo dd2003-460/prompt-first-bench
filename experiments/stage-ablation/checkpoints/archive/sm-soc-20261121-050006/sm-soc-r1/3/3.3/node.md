@@ -1,0 +1,24 @@
+# N16: 干预边界条件：最小干预失效的条件为当平台广告收入依赖度 δ_ad > 0.3 * R_platform 时，平台无动力实施；或当卖家群体中“急迫出售”比例 > 
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N3
+
+## Claim
+
+干预边界条件：最小干预失效的条件为当平台广告收入依赖度 δ_ad > 0.3 * R_platform 时，平台无动力实施；或当卖家群体中“急迫出售”比例 > 50% 时，价格警示标签会被忽略（因为买家知道急迫卖家会快速降价）；量化阈值：若 δ_ad > 30% 或急迫卖家比例 > 50%，则干预效果 ΔNet_platform < 0，平台将抵制该措施；此时需引入外部监管或改变平台激励结构（如按成交而非浏览计费）。
+
+## Corrected Claim
+
+干预边界条件：当平台广告收入依赖度过高或急迫卖家比例过高时，平台无动力实施或价格警示标签会被忽略，导致干预效果为负，需引入外部监管或改变平台激励结构。
+
+## Evidence
+
+[质询]阈值具体数值（30%、50%）缺乏实证数据或理论推导支持，属于经验性假设，可能因市场结构不同而失效 | 先验知识/题面给定，逻辑校验通过，但具体阈值缺乏来源支持，降级为定性表述
+
+## Search Query
+
+intervention boundary conditions platform ad dependency urgent seller ratio threshold

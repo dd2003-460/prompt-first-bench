@@ -1,0 +1,20 @@
+# N412: 工作点A（短上下文高利用率）：在seq_len=1K时，KV Cache大小约为 2 * 1K * 4KB = 8MB，占总数据量(27GB权重+8MB KV)
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N148
+
+## Claim
+
+工作点A（短上下文高利用率）：在seq_len=1K时，KV Cache大小约为 2 * 1K * 4KB = 8MB，占总数据量(27GB权重+8MB KV)的0.03%，带宽利用率接近100%（>95%），实际吞吐率偏离理论值<5%，此时Memory-bound假设成立，吞吐率≈理论上限。
+
+## Corrected Claim
+
+工作点A（短上下文高利用率）：在seq_len=1K时，KV Cache大小取决于模型具体架构（层数、隐藏维度、精度），通常远小于总数据量，占比极低（<1%），Memory-bound假设在短上下文下通常成立，但实际吞吐率受硬件效率影响，可能偏离理论值5%-15%。
+
+## Evidence
+
+[质询]KV Cache大小计算存在量级错误：2 * 1K * 4KB = 8MB 的算式隐含每token每层占用4KB，这远超常规Transformer模型（如Llama-7B/13B）中单token KV缓存的实际大小（通常约为几十KB到几百KB，取决于层数和隐藏维度）。若按标准模型估算，1K序列的KV Cache通常在几十MB量级，而非8MB。此外，'带宽利用率接近100%'是理想化假设，实际受限于内存访问模式和硬件效率，难以达到>95%。 | 先验知识/题面给定，逻辑校验未通过：KV Cache大小计算与常见模型架构参数不符，量级偏差较大，且带宽利用率假设过于理想化。

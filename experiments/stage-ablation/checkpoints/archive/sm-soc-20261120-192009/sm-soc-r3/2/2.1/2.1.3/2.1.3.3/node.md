@@ -1,0 +1,29 @@
+# N182: Wait 策略投影：买家在 price > P* 时选择 wait 的概率 P(wait | price > P*) = 0.8 * (1 - 0.2 * in
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N55
+
+## Claim
+
+Wait 策略投影：买家在 price > P* 时选择 wait 的概率 P(wait | price > P*) = 0.8 * (1 - 0.2 * info_quality_normalized)，其中 info_quality_normalized ∈ [0, 1]；需量化 P* 的具体定义（如 P* = P25 + 0.1*P75），并验证 info_quality 对 P(wait) 的边际影响 ∂P(wait)/∂info_quality = -0.16 的显著性（p < 0.05）。
+
+## Corrected Claim
+
+Wait 策略投影模型假设买家在 price > P* 时选择 wait 的概率受 info_quality 影响，具体函数形式为 P(wait | price > P*) = 0.8 * (1 - 0.2 * info_quality_normalized)，需进一步实证验证该系数及显著性。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性参数（如系数0.8、0.2、-0.16）和特定的统计显著性要求（p < 0.05），这些属于经验事实或特定模型假设，无法从第一性原理推导，且参考来源中完全未提及此类具体的量化公式或统计检验结果。 | 逻辑上公式自洽（导数计算正确：0.8 * -0.2 = -0.16），但参考来源[1]和[2]仅涉及消费者行为概述和价格歧视，与该具体量化模型无关，属于经验事实且缺乏来源支持。
+
+## Search Query
+
+buyer wait probability price threshold information quality marginal impact significance test
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Consumer_behaviour', 'type': 'wikipedia', 'title': 'Consumer behaviour'}
+- {'url': 'https://en.wikipedia.org/wiki/Colorism', 'type': 'wikipedia', 'title': 'Colorism'}

@@ -1,0 +1,24 @@
+# N336: RTX 4090 运行 Qwen3-27B W4A8 时的量化质量损失量化：基于 Qwen2-72B 或 Llama-3-70B 的 W4A8 量化基准，MML
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N107, N108, N109
+
+## Claim
+
+RTX 4090 运行 Qwen3-27B W4A8 时的量化质量损失量化：基于 Qwen2-72B 或 Llama-3-70B 的 W4A8 量化基准，MMLU 准确率下降通常在 1-3% 范围内，Perplexity 上升约 0.1-0.5；需验证 Qwen3-27B 在 INT4 权重下的具体退化幅度，若 > 5% 则不可接受 [待核验]
+
+## Corrected Claim
+
+基于 Qwen2-72B 或 Llama-3-70B 的 W4A8 量化基准，MMLU 准确率下降通常在 1-3% 范围内，Perplexity 上升约 0.1-0.5；但 Qwen3-27B 在 INT4 权重下的具体退化幅度需独立验证，不能直接沿用大模型基准数据。
+
+## Evidence
+
+[质询]该陈述将基于 Qwen2-72B 或 Llama-3-70B 的量化基准数据直接外推至 Qwen3-27B，忽略了模型架构差异、参数量级不同以及 W4A8（4-bit 权重，8-bit 激活）与常见 W4A16 或纯 W4 量化在精度损失上的显著差异，属于经验事实的过度泛化。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且无法从第一性原理推导具体量化损失数值）
+
+## Search Query
+
+Qwen3-27B 4-bit quantization MMLU accuracy drop benchmark

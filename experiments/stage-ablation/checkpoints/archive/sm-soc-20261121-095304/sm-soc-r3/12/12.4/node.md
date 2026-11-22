@@ -1,0 +1,24 @@
+# N205: 后验置信度 0.75-0.85 的敏感性分析：若观测到的成交周期缩短幅度 T_short/T_base 从 0.8 变化至 0.7 或 0.9，后验概率 P_p
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N74
+
+## Claim
+
+后验置信度 0.75-0.85 的敏感性分析：若观测到的成交周期缩短幅度 T_short/T_base 从 0.8 变化至 0.7 或 0.9，后验概率 P_posterior 的变化幅度为 ±0.05-0.1。具体地，当 T_short/T_base = 0.7 时，P_posterior ≈ 0.85；当 T_short/T_base = 0.9 时，P_posterior ≈ 0.70。
+
+## Corrected Claim
+
+后验置信度 0.75-0.85 的敏感性分析：若观测到的成交周期缩短幅度 T_short/T_base 从 0.8 变化至 0.7 或 0.9，后验概率 P_posterior 的变化幅度为 ±0.05-0.1。具体地，当 T_short/T_base = 0.7 时，P_posterior ≈ 0.85；当 T_short/T_base = 0.9 时，P_posterior ≈ 0.70。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+sensitivity analysis posterior probability transaction time reduction magnitude

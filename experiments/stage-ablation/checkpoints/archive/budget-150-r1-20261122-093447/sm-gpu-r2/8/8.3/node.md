@@ -1,0 +1,28 @@
+# N118: AMD RX 7900 XTX (24GB, ~$900) 运行 Qwen3-27B 的软件栈兼容性：ROCm 对 PyTorch/vLLM 的支持在 Linu
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N37
+
+## Claim
+
+AMD RX 7900 XTX (24GB, ~$900) 运行 Qwen3-27B 的软件栈兼容性：ROCm 对 PyTorch/vLLM 的支持在 Linux 下稳定，但 Windows 下需 WSL2 或特定驱动；Qwen3 的 Yarn RoPE 实现在 ROCm 中可能存在性能回退或 Bug，需实测验证 [待核验：需查 HuggingFace 社区 Issue 或 AMD 官方支持列表]
+
+## Corrected Claim
+
+AMD ROCm 对 PyTorch/vLLM 的支持在 Linux 下相对成熟，但在 Windows 下通常需依赖 WSL2；在 AMD GPU 上运行 Qwen3 系列模型时，特定配置（如高并发、特定量化）下可能出现精度或性能问题，具体到 RX 7900 XTX 和 Yarn RoPE 的兼容性需针对该硬件和模型版本进行实测验证。
+
+## Evidence
+
+[质询]来源[1]讨论的是MI355X（数据中心GPU）上的Qwen3.8-27B-FP8精度问题，而非RX 7900 XTX（消费级GPU）上的Qwen3-27B；且来源未直接证实Yarn RoPE在ROCm中存在性能回退或Bug，仅展示了特定配置下的精度崩溃问题，无法直接支持原陈述中关于消费级显卡兼容性和Yarn RoPE具体问题的断言。 | 来源[1]间接支持ROCm/vLLM在AMD GPU上存在稳定性问题，但主题（MI355X vs RX 7900 XTX）和具体模型版本（Qwen3.8 vs Qwen3）不完全匹配，且未直接证实Yarn RoPE的特定Bug，属于间接支持且存在口径差异。
+
+## Search Query
+
+AMD ROCm Qwen3-27B vLLM compatibility issues
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/vllm-project/vllm/issues/60160&rut=ad7ba124a5e09150b997ea00dfa11ce92940eb57cb2e813d898ab4d679a4c6df', 'type': 'ddg', 'title': '[Bug][ROCm] Qwen3.8-27B-FP8 (TP4, MI355X) accuracy collapses ... - GitHub'}

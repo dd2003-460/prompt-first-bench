@@ -1,0 +1,24 @@
+# N311: NVIDIA L40S 48GB 显存版本在 Qwen3-27B FP8 权重 + FP8 KV Cache 配置下的显存占用计算：权重 27GB + KV C
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+NVIDIA L40S 48GB 显存版本在 Qwen3-27B FP8 权重 + FP8 KV Cache 配置下的显存占用计算：权重 27GB + KV Cache (32K, FP8) 4.3GB + 激活/缓冲 3.0GB = 34.3GB < 48GB，安全余量 13.7GB，支持 Batch Size=2 或扩展至 64K 上下文；相比 A100 80GB，L40S 在满足 32K 下限的同时硬件成本降低约 50%。
+
+## Corrected Claim
+
+NVIDIA L40S 48GB 显存版本在 Qwen3.8-27B FP8 权重 + FP8 KV Cache 配置下可支持长上下文推理（如 32K 或更高），显存占用在 48GB 范围内，具体数值需根据实际模型架构精确计算，但整体可行性得到验证。
+
+## Evidence
+
+[质询]来源[1]标题及摘要明确提及的是 'Qwen3.8-27B'，而待核验事实节点声称是 'Qwen3-27B'。虽然两者参数量级相同（27B），但版本号不同可能导致模型架构细节（如层数、头数、KV Cache 具体大小）存在差异，从而使得基于 Qwen3.8 的显存计算数据不能直接无保留地应用于 Qwen3。此外，来源主要讨论的是双卡 128K 上下文下的性能优化，对于单卡 32K 上下文下具体的 KV Cache 占用数值（4.3GB）和激活值占用（3.0GB）缺乏直接的逐项数据支持，仅能推断其可行性。 | 来源[1]证实了 48GB 显存可以部署 27B 参数的 FP8 模型并支持长上下文，逻辑上 27B FP8 权重约 27GB 符合常识，但来源未直接提供单卡 32K 上下文下 KV Cache 和激活值的具体数值分解，且模型版本号存在细微差异（Qwen3.8 vs Qwen3），故降级为定性支持。
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2084326492163592989&rut=246fcd3d2ab345de52d18156e13c73d20a926ae7800cee5d1bd3018d798efb59', 'type': 'ddg', 'title': '48GB 显存部署 Qwen3.8-27B FP8：我是怎么把单流从 20 tok/s 拉到 31 tok/s 的'}

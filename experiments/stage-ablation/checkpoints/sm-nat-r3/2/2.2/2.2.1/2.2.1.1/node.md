@@ -1,0 +1,20 @@
+# N144: Pareto(β=0.9) 热度分布下，相对热度 r_i 的累积分布函数 CDF 解析式为 F(r) = 1 - (r_min/r)^{0.9}（r ≥ r_m
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N49
+
+## Claim
+
+Pareto(β=0.9) 热度分布下，相对热度 r_i 的累积分布函数 CDF 解析式为 F(r) = 1 - (r_min/r)^{0.9}（r ≥ r_min），用于将对象排名 k 映射到具体的相对热度值 r_k。
+
+## Corrected Claim
+
+Pareto(β=0.9) 热度分布下，相对热度 r_i 的累积分布函数 CDF 解析式为 F(r) = 1 - (r_min/r)^{0.9}（r ≥ r_min），用于将对象排名 k 映射到具体的相对热度值 r_k。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布（Zipf定律变体）的CDF公式 F(r) = 1 - (r_min/r)^α 在数学上自洽，且符合幂律分布的基本性质。

@@ -1,0 +1,24 @@
+# N199: RTX 4090 加载 54GB BF16 权重的实际耗时并非 53.6ms，而是受限于 PCIe 4.0 x16 主机到显存带宽 (32GB/s)，而非显存内
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N69
+
+## Claim
+
+RTX 4090 加载 54GB BF16 权重的实际耗时并非 53.6ms，而是受限于 PCIe 4.0 x16 主机到显存带宽 (32GB/s)，而非显存内部带宽，实际加载时间 ≈ 54GB / 32GB/s = 1.69s，A100 SXM 因使用 PCIe 5.0 x16 (64GB/s) 加载时间为 0.84s，H100 SXM (PCIe 5.0) 同样为 0.84s，N69 混淆了显存带宽与主机-设备传输带宽。
+
+## Corrected Claim
+
+RTX 4090 加载 54GB BF16 权重的耗时受限于 PCIe 4.0 x16 主机到显存带宽（理论约 32GB/s），理想情况下约为 1.69s，实际耗时通常更长。A100 和 H100 的加载时间取决于其具体主机接口配置（如 PCIe 4.0/5.0 或 NVLink 连接方式），不能简单统一为 0.84s。
+
+## Evidence
+
+[质询]A100 SXM 和 H100 SXM 通常指代 SXM 形态（使用 NVLink 或特定高速互联），其主机到显存的带宽取决于具体服务器配置（如 PCIe 4.0 或 5.0），直接断言 A100 SXM 使用 PCIe 5.0 且带宽为 64GB/s 存在事实错误（A100 发布于 PCIe 4.0 时代，SXM 版本通常不直接通过 PCIe 加载权重，而是通过 NVLink 或特定主机接口，且 A100 不支持 PCIe 5.0）；此外，RTX 4090 的 PCIe 4.0 x16 理论带宽约为 32GB/s，但实际有效带宽通常低于理论值，1.69s 是理想上限，实际耗时会更长。 | 逻辑推导基本成立（加载时间受限于主机-设备带宽而非显存带宽），但 A100 SXM 的接口规格描述存在事实错误（A100 不支持 PCIe 5.0），且缺乏外部来源支持具体数值，属于经验事实且存在细节瑕疵。
+
+## Search Query
+
+GPU weight loading time PCIe bandwidth vs HBM bandwidth

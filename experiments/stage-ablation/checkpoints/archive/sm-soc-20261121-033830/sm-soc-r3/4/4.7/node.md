@@ -1,0 +1,24 @@
+# N23: 断言置信度标定的数学框架：置信度 C = 1 - P(error | evidence)，其中 P(error) 通过贝叶斯后验分布计算，需为每个关键断言定义先
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N4, N5
+
+## Claim
+
+断言置信度标定的数学框架：置信度 C = 1 - P(error | evidence)，其中 P(error) 通过贝叶斯后验分布计算，需为每个关键断言定义先验分布和后验更新规则
+
+## Corrected Claim
+
+断言置信度标定的数学框架：置信度 C = 1 - P(error | evidence)，其中 P(error) 通过贝叶斯后验分布计算，需为每个关键断言定义先验分布和后验更新规则
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应贝叶斯框架的三个核心组成部分：先验（输入）、后验更新（过程）、误差/置信度（输出/评估）。三者逻辑上严格解耦，无重叠，且完整覆盖了父节点中定义的数学公式 C = 1 - P(error|evidence) 的所有计算环节。）
+
+## Search Query
+
+bayesian confidence interval assertion uncertainty quantification

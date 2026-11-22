@@ -1,0 +1,24 @@
+# N39: Gilbert模型中，对象i的驻留概率 x_i 的稳态解为 x_i = min(1, λ_i * T_resident_i)，其中 λ_i 为对象i的请求率，T
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N15
+
+## Claim
+
+Gilbert模型中，对象i的驻留概率 x_i 的稳态解为 x_i = min(1, λ_i * T_resident_i)，其中 λ_i 为对象i的请求率，T_resident_i 为对象i在缓存中的平均驻留时间；对于LRU策略，T_resident_i 取决于对象i在访问序列中的相对位置，需通过求解积分方程 ∫_0^∞ P(no access in [t, t+Δ]) dt 获得。
+
+## Corrected Claim
+
+Gilbert 模型（双状态马尔可夫模型）中，对象 i 处于活跃状态（ON）的稳态概率 p_i 由 ON 到 OFF 的转换率 μ_i 和 OFF 到 ON 的转换率 λ_i 决定，p_i = λ_i / (λ_i + μ_i)。对于 LRU 缓存，对象 i 的驻留概率取决于其访问间隔分布及缓存大小，通常需通过求解积分方程或模拟获得，而非简单的 λ_i * T_resident_i 公式。
+
+## Evidence
+
+[质询]公式 x_i = min(1, λ_i * T_resident_i) 在量纲和逻辑上存在严重问题。λ_i 是请求率（1/时间），T_resident_i 是时间，乘积无量纲，看似合理。但在 Gilbert 模型或标准缓存分析中，驻留概率通常由访问间隔分布决定，而非简单的速率乘以驻留时间。更关键的是，对于 LRU，T_resident_i 本身依赖于缓存状态和访问模式，不能简单定义为'平均驻留时间'后直接代入该线性公式。该公式更像是 M/M/1 队列或简单泊松过程的近似，而非 Gilbert 模型（通常指双状态马尔可夫模型）的稳态解。Gilbert 模型通常涉及 ON/OFF 状态的转换率，其稳态概率由转换率决定，而非 λ*T。 | 先验知识/题面给定，逻辑校验未通过：Gilbert 模型通常指双状态马尔可夫模型，其稳态解由状态转换率决定，而非 λ_i * T_resident_i 这种形式；且 LRU 的驻留时间计算复杂，不能简单用该线性公式表示。
+
+## Search Query
+
+Gilbert model steady state residence probability LRU cache

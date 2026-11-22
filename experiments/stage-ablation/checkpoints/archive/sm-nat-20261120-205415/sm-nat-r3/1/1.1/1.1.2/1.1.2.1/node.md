@@ -1,0 +1,28 @@
+# N91: 工作点A（x_min=1KB, B≈10^4.5 KB）：若取x_min=1KB，为满足总数据量100TB（即E[S]=1MB），需数值求解B使得截断Paret
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N29
+
+## Claim
+
+工作点A（x_min=1KB, B≈10^4.5 KB）：若取x_min=1KB，为满足总数据量100TB（即E[S]=1MB），需数值求解B使得截断Pareto期望等于1MB；典型解约为B≈31623 KB（约30MB），此时CDF F(B)≈1-(10^-3/31623)^0.1≈0.99999，表明绝大多数对象小于30MB
+
+## Corrected Claim
+
+工作点A（x_min=1KB）：若取x_min=1KB，为满足总数据量100TB（即E[S]=1MB），需数值求解B使得截断Pareto期望等于1MB；典型解约为B≈31623 KB（约30MB），此时CDF F(B)≈0.99999，表明绝大多数对象小于30MB。（注：此数值解基于特定Pareto参数假设，需具体模型验证）
+
+## Evidence
+
+[质询]参考来源[1]讨论的是三极管静态工作点（Q点），与存储系统数据分布（Pareto分布、对象大小）完全无关，属于主题不匹配；且该陈述包含具体的数值解（B≈31623 KB），属于经验/计算事实，若无直接来源支持，仅凭逻辑自洽不能判verified。 | 来源[1]与事实主题无关（三极管 vs 数据存储），无可用外部证据；但逻辑上，Pareto分布参数推导及期望值计算在数学上是自洽的，量级合理（100TB总数据量，平均1MB，截断点30MB符合长尾分布特征）。
+
+## Search Query
+
+truncated pareto distribution mean 1MB solve for upper bound alpha 1.1
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2023816632233928271&rut=a2756adfffbd7847130bafb0a8bd1d30f42e76f07f5d7d6fa136d57409242c42', 'type': 'ddg', 'title': '三极管静态工作点 Q 点：从最基础讲起，一遍彻底看懂~三极管的静态工作点到底是什么？为什么要计算它？书本上叽里咕噜一堆，还是不明白，不懂的，都 ...'}

@@ -1,0 +1,20 @@
+# N880: FP8 KV Cache 显存计算：Memory_KV_FP8 = Memory_KV_BF16 / 2 = 1.0066 GB。FP8 (E4M3) 使用 1
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N276, N277, N278
+
+## Claim
+
+FP8 KV Cache 显存计算：Memory_KV_FP8 = Memory_KV_BF16 / 2 = 1.0066 GB。FP8 (E4M3) 使用 1 字节存储，无额外 scale 开销（通常 KV Cache 量化不保留 per-token scale，或 scale 开销可忽略）。
+
+## Corrected Claim
+
+FP8 KV Cache 显存计算：Memory_KV_FP8 = Memory_KV_BF16 / 2 = 1.0066 GB。FP8 (E4M3) 使用 1 字节存储，无额外 scale 开销（通常 KV Cache 量化不保留 per-token scale，或 scale 开销可忽略）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：FP8 (E4M3) 为 8-bit 格式，BF16 为 16-bit 格式，显存占用减半符合数据位宽定义；1.0066 GB 数值量级合理，且无来源矛盾。

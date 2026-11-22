@@ -1,0 +1,20 @@
+# N53: 更新对象在缓存中的期望占比 P_updated_in_cache = λ_u * T_residence，其中 λ_u=0.01/day，T_residence
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+更新对象在缓存中的期望占比 P_updated_in_cache = λ_u * T_residence，其中 λ_u=0.01/day，T_residence 为对象在 LRU 缓存中的平均驻留时间，需结合 N16 的 T_cold 公式计算具体数值
+
+## Corrected Claim
+
+更新对象在缓存中的期望占比 P_updated_in_cache = λ_u * T_residence，其中 λ_u=0.01/day，T_residence 为对象在 LRU 缓存中的平均驻留时间，需结合 N16 的 T_cold 公式计算具体数值
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备, 有冗余（1. 正交性失败：子节点1、2、3本质上是同一参数（T_residence）在不同取值区间的表现，属于连续变量上的分段讨论，而非独立正交的概念维度；且子节点1声称'线性近似成立'，而子节点2指出需使用指数公式，存在方法论上的隐含矛盾（即线性公式在全域是否适用的界定不清）。2. 完备性失败：父节点明确要求'需结合 N16 的 T_cold 公式计算具体数值'，但子节点4仅给出估算值，未展示完整的代入推导过程，且未讨论参数不确定性对最终 P 值的影响。3. 冗余严重：子节点1-3是对同一物理量在不同工作点的重复描述，可合并为一个'参数敏感性分析'节点，通过公式和图表展示 P 随 T_residence 的变化曲线，而非拆分为三个独立子节点。）

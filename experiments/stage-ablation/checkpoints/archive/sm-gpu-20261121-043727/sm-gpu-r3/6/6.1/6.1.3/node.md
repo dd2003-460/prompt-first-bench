@@ -1,0 +1,29 @@
+# N231: H200 的 TDP 700W 对单卡供电及散热设计的约束：确认标准服务器机箱（如 Dell R750/HPE DL380）是否原生支持 700W 单卡散热，若
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N86
+
+## Claim
+
+H200 的 TDP 700W 对单卡供电及散热设计的约束：确认标准服务器机箱（如 Dell R750/HPE DL380）是否原生支持 700W 单卡散热，若需专用散热器或额外风扇，计算额外硬件成本 Extra_Cooling_Cost 及功耗上限对多卡部署密度的影响（如 8卡服务器总功耗 vs 电源冗余） [待核验]
+
+## Corrected Claim
+
+H200 的 TDP 为 700W，这一高功耗对单卡供电及散热设计构成显著约束，传统风冷在持续高负载下可能面临效率瓶颈，高密度部署通常需考虑液冷方案或专用散热增强，具体标准机箱（如 Dell R750/HPE DL380）的原生支持情况及额外成本需依据具体硬件规格书进一步确认。
+
+## Evidence
+
+[质询]陈述中关于“标准服务器机箱（如 Dell R750/HPE DL380）是否原生支持 700W 单卡散热”的具体硬件兼容性结论及“额外硬件成本”的量化计算缺乏来源支持。来源仅指出 H200 700W TDP 对散热提出高要求且液冷成为高密度部署必选项，但未提供具体机型（R750/DL380）的风冷极限数据或具体的额外成本数值。 | 来源 [1] 和 [2] 直接支持 H200 TDP 为 700W 且该功耗对传统风冷散热构成挑战（逻辑自洽），但属于经验事实（具体机型兼容性、成本计算），来源未提供具体机型的原生支持结论或成本数据，故降级。
+
+## Search Query
+
+NVIDIA H200 SXM power consumption 700W server chassis cooling requirements
+
+## Retrieval Sources
+
+- {'url': 'https://wenku.baidu.com/view/591410fe6ddc5022aaea998fcc22bcd127ff426d.html&rut=bbaf327f9e69ed6ad132c134f848273e19bef3a59844095f5ec338f3368fee86', 'type': 'ddg', 'title': '英伟达H200功耗多少瓦？详解700W耗电量及功耗优化方法'}
+- {'url': 'https://wenku.baidu.com/view/a92c00c86ddc5022aaea998fcc22bcd127ff421e.html&rut=8481af8dac5533429d15322d4610588ec8c5b656f966c641485fce0915c12cf8', 'type': 'ddg', 'title': 'H200功耗700W，下一代GPU如何破局？数据中心散热供电全解析'}

@@ -1,0 +1,20 @@
+# N177: 在‘版本失效’口径下（对象 ID/URL 变更导致旧缓存键无效），LRU 命中率的直接折损因子为 (1 - λ_daily)，其中 λ_daily=0.01，即
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N61, N62, N63
+
+## Claim
+
+在‘版本失效’口径下（对象 ID/URL 变更导致旧缓存键无效），LRU 命中率的直接折损因子为 (1 - λ_daily)，其中 λ_daily=0.01，即命中率直接乘以 0.99，该假设忽略内容更新但 ID 不变的情况，是保守下界估计。
+
+## Corrected Claim
+
+在‘版本失效’口径下（对象 ID/URL 变更导致旧缓存键无效），LRU 命中率的直接折损因子为 (1 - λ_daily)，其中 λ_daily=0.01，即命中率直接乘以 0.99，该假设忽略内容更新但 ID 不变的情况，是保守下界估计。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

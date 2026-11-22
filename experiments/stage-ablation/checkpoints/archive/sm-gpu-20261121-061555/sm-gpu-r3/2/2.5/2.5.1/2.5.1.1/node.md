@@ -1,0 +1,20 @@
+# N210: 在 2 卡 Tensor Parallelism (TP=2) 下，FP8 精度方案的单卡显存占用为 17.8 GB，计算公式为：Total_VRAM_FP8(
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N69
+
+## Claim
+
+在 2 卡 Tensor Parallelism (TP=2) 下，FP8 精度方案的单卡显存占用为 17.8 GB，计算公式为：Total_VRAM_FP8(35.6GB) / 2 = 17.8GB。
+
+## Corrected Claim
+
+在 2 卡 Tensor Parallelism (TP=2) 下，FP8 精度方案的单卡显存占用为 17.8 GB，计算公式为：Total_VRAM_FP8(35.6GB) / 2 = 17.8GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：35.6GB除以2等于17.8GB，算术正确且符合TP=2均分显存的逻辑。

@@ -1,0 +1,24 @@
+# N389: N_existing_reviews 的分布特征：在二手平台，卖家评价数量通常服从对数正态分布，均值 μ_reviews 和中位数 M_reviews 存在显著
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N137
+
+## Claim
+
+N_existing_reviews 的分布特征：在二手平台，卖家评价数量通常服从对数正态分布，均值 μ_reviews 和中位数 M_reviews 存在显著差异；使用均值而非中位数进行指数衰减计算会导致对高评价卖家的CTR提升低估，需根据具体商品类别的 μ 和 σ 参数修正公式。
+
+## Corrected Claim
+
+在二手平台，卖家评价数量通常呈现右偏分布（如对数正态或幂律分布），均值与中位数存在差异；使用均值而非中位数进行指数衰减计算可能会影响对高评价卖家CTR的估计，具体影响方向及幅度需根据实际数据分布参数（μ, σ）进行实证修正。
+
+## Evidence
+
+[质询]该陈述包含具体的统计分布假设（对数正态分布）及具体的业务影响结论（均值vs中位数导致CTR低估），属于经验事实。缺乏具体平台、商品类别及数据支撑，且‘对数正态’并非二手平台评价数量的普适公理，不同平台或品类可能呈现幂律或其他分布，直接断言其服从对数正态分布缺乏普遍性证据。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，且该分布假设非第一性原理可推导，需实证数据支持）
+
+## Search Query
+
+distribution of seller review counts on second hand trading platforms

@@ -1,0 +1,24 @@
+# N59: 下游投影 3（策略性拖延阈值）：T_threshold 的临界值由边际收益与边际成本相等决定，即 ∂R/∂T_wait = -C_opportunity；解得 
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+下游投影 3（策略性拖延阈值）：T_threshold 的临界值由边际收益与边际成本相等决定，即 ∂R/∂T_wait = -C_opportunity；解得 T_threshold = (P_ask - P_clear) / (r_capital * V_good + r_time)；当 T_wait 超过此值时，卖家预期收益为负，触发降价行为；该阈值解释了为何卖家在 30 天（典型 T_threshold）前维持高挂价，形成策略性拖延均衡。
+
+## Corrected Claim
+
+下游投影 3（策略性拖延阈值）：T_threshold 的临界值由边际收益与边际成本相等决定。在特定市场模型下，当等待时间超过由资产流动性、资金成本及预期价格变动决定的阈值时，卖家预期收益为负，触发降价行为。该机制解释了卖家在特定周期（如典型市场中的30天）前维持高挂价的现象，但具体阈值数值因市场而异，非固定常数。
+
+## Evidence
+
+[质询]公式推导存在严重的量纲不一致和逻辑漏洞：等式右侧分子 (P_ask - P_clear) 为价格/货币单位，分母 (r_capital * V_good + r_time) 中 r_capital 和 r_time 若为利率/时间比率（无量纲或 1/时间），V_good 若为价值（货币），则分母量纲混乱，无法得出时间单位 T_threshold；此外，'30天'作为典型阈值缺乏普适性，高度依赖具体市场流动性，将其作为通用均衡解释过于武断。 | 先验知识/题面给定，但逻辑校验发现公式量纲不匹配（货币/混合量纲 ≠ 时间），且经验参数（30天）缺乏普适性支持，故降级。
+
+## Search Query
+
+threshold waiting time price reduction seller strategy marginal cost of delay

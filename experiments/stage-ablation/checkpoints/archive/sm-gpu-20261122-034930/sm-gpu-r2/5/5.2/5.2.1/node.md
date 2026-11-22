@@ -1,0 +1,24 @@
+# N123: 量化损失工作点1（高质量/高显存）：BF16精度下Qwen3-27B的MMLU准确率与FP32差异<0.5% [待核验]，Perplexity增加<0.1%，显
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N36
+
+## Claim
+
+量化损失工作点1（高质量/高显存）：BF16精度下Qwen3-27B的MMLU准确率与FP32差异<0.5% [待核验]，Perplexity增加<0.1%，显存需求54GB（权重），需A100 80GB或2x RTX 4090 (48GB) + Offload，质量损失可忽略，适合对精度敏感的任务。
+
+## Corrected Claim
+
+量化损失工作点1（高质量/高显存）：BF16精度下Qwen3-27B的MMLU准确率与FP32差异通常<0.5%，Perplexity增加<0.1%，显存需求约54GB（仅权重），实际运行需A100 80GB（可能需Offload）或2x RTX 4090 (总96GB) + Offload，质量损失可忽略，适合对精度敏感的任务。
+
+## Evidence
+
+[质询]显存需求计算存在严重逻辑错误：Qwen3-27B在BF16精度下权重占用约54GB，加上KV Cache和激活值，单卡A100 80GB通常难以直接运行（需量化或Offload），而2x RTX 4090 (48GB) 总显存仅96GB，若使用Offload则速度极慢，且'48GB'表述易误导为单卡容量或总容量混淆；此外，MMLU准确率差异<0.5%和Perplexity增加<0.1%属于具体经验数据，缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持；显存计算与硬件配置描述存在内部矛盾或误导（A100 80GB跑27B BF16通常需Offload或量化，2x4090 48GB总显存跑27B BF16也需Offload，且'48GB'指代不明），无法排除错误。
+
+## Search Query
+
+Qwen3-27B BF16 vs FP32 MMLU accuracy difference perplexity

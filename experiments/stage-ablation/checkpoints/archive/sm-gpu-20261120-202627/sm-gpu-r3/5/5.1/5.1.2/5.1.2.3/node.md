@@ -1,0 +1,20 @@
+# N372: 2× RTX 4090 方案中因双卡散热需求导致的额外风扇/机箱功耗 (P_chassis) 估算：消费级工作站通常需高转速风扇，额外功耗约为 50-100W，
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N117
+
+## Claim
+
+2× RTX 4090 方案中因双卡散热需求导致的额外风扇/机箱功耗 (P_chassis) 估算：消费级工作站通常需高转速风扇，额外功耗约为 50-100W，需计入总 OpEx_energy，使得系统总功耗 = 2 × P_GPU_avg + P_chassis + P_CPU/Other。
+
+## Corrected Claim
+
+2× RTX 4090 方案中因双卡散热需求导致的额外风扇/机箱功耗 (P_chassis) 估算：消费级工作站通常需高转速风扇，额外功耗约为 50-100W，需计入总 OpEx_energy，使得系统总功耗 = 2 × P_GPU_avg + P_chassis + P_CPU/Other。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：双卡高功耗工作站确实需要强化散热，额外风扇/机箱功耗在50-100W范围内符合工程常识，且总功耗公式逻辑自洽。

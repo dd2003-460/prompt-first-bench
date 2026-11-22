@@ -1,0 +1,24 @@
+# N73: 分母总字节流量 R_byte = Σ_{j=1}^{N} λ_j * S_j 的解析近似：利用 Pareto 分布的矩生成函数，R_byte ≈ N * E[λ
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N27
+
+## Claim
+
+分母总字节流量 R_byte = Σ_{j=1}^{N} λ_j * S_j 的解析近似：利用 Pareto 分布的矩生成函数，R_byte ≈ N * E[λ] * E[S] * (1 + ρ * σ_logS * σ_logH)。其中 E[λ] = R/N = 500，E[S] ≈ 11264 bytes，σ_logS 和 σ_logH 需由 α=1.1 和 β=0.9 推导。此分母是计算命中率 H_byte 的基准，必须独立于分子计算以避免误差抵消。
+
+## Corrected Claim
+
+分母总字节流量 R_byte = Σ_{j=1}^{N} λ_j * S_j 的解析近似：利用 Pareto 分布的矩生成函数，R_byte ≈ N * E[λ] * E[S] * (1 + ρ * σ_logS * σ_logH)。其中 E[λ] = R/N = 500，E[S] ≈ 11264 bytes，σ_logS 和 σ_logH 需由 α=1.1 和 β=0.9 推导。此分母是计算命中率 H_byte 的基准，必须独立于分子计算以避免误差抵消。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+Pareto distribution log-normal variance alpha beta moments

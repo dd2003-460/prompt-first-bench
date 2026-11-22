@@ -1,0 +1,26 @@
+# N116: 假设链完整性检查清单：完整的假设链应包含四个环节：(1) 演化基础（定向压力+随机噪声）-> (2) 个体决策（卖家定价+买家筛选）-> (3) 系统反馈（算法
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+假设链完整性检查清单：完整的假设链应包含四个环节：(1) 演化基础（定向压力+随机噪声）-> (2) 个体决策（卖家定价+买家筛选）-> (3) 系统反馈（算法推荐+成交周期）-> (4) 均衡结果（高溢价稳定+沉默期）。缺失任一环节视为逻辑断裂，需在补充节点中闭合。当前节点已覆盖(2)-(4)，需补充(1)至(2)的映射细节。
+
+## Corrected Claim
+
+在该特定分析框架中，假设链被定义为包含演化基础、个体决策、系统反馈、均衡结果四个环节；当前节点已覆盖后三个环节，需补充第一个环节至第二个环节的映射细节。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点逻辑清晰且分工明确：节点1和2分别量化了演化基础的两个组成部分（定向压力与随机噪声），节点3提供了从基础到决策的核心映射公式，节点4补充了买家侧的阈值定义，节点5给出了整体闭合的验证条件。各节点分别处理定义、参数、映射、边界和验证，无重叠或矛盾，完整覆盖了父节点要求的从(1)到(2)的映射细节及闭环验证。）
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/Domineeringking/article/details/164257891&rut=d1e1d26c52fcc2a4e62ed0292ee71c02c8fe03f88025af29fe5bc513e3b130ef', 'type': 'ddg', 'title': '论文的假设提出到验证路径怎么设计？一篇讲透假设链-csdn博客'}
+- {'url': 'https://blog.csdn.net/Domineeringking/article/details/164219503&rut=af741b1d9d224debb5e1c830dc3224f45ed86657e29972ba6f66b494b10b4304', 'type': 'ddg', 'title': '手把手：论文的研究假设怎么分步验证 - Csdn博客'}
+- {'url': 'https://ones.cn/blog/knowledge/product-hypothesis-validation-323082ba6ac3530f&rut=329252fb044d28ff56a058748a861ba405a395f38244d954756df67e9e15279f', 'type': 'ddg', 'title': '产品假设验证怎么做：四步流程、角色分工与完成检查'}

@@ -1,0 +1,24 @@
+# N377: 若降低上下文长度至 16K，BF16 KV Cache 显存占用从 2.0GB 降至 1.0GB，总需求降至 14.5GB，剩余 1.5GB 显存；但需评估 1
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N132
+
+## Claim
+
+若降低上下文长度至 16K，BF16 KV Cache 显存占用从 2.0GB 降至 1.0GB，总需求降至 14.5GB，剩余 1.5GB 显存；但需评估 16K 上下文对 Qwen3-27B 长文本推理任务（如代码生成、文档摘要）的质量影响，通常导致长上下文任务失败率增加 [待核验: 具体任务类型下的性能衰减百分比]
+
+## Corrected Claim
+
+若降低上下文长度至 16K，BF16 KV Cache 显存占用从 2.0GB 降至 1.0GB，总需求降至 14.5GB，剩余 1.5GB 显存；但需评估 16K 上下文对 Qwen3-27B 长文本推理任务（如代码生成、文档摘要）的质量影响，通常导致长上下文任务失败率增加 [待核验: 具体任务类型下的性能衰减百分比]
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：KV Cache 显存占用与上下文长度成正比，16K 为 32K 的一半，故 2.0GB 降至 1.0GB 符合线性关系；总需求 14.5GB 与剩余 1.5GB 隐含总显存 16GB，数值自洽。
+
+## Search Query
+
+LLM 16k context vs 32k context performance degradation long context tasks

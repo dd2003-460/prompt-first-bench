@@ -1,0 +1,20 @@
+# N105: 修正 N40 中 sensitivity_coeff 的定义：在 LRU 字节命中率模型中，ρ 通过改变缓存驻留集合的大小分布影响命中率，其敏感度系数 sens
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N40
+
+## Claim
+
+修正 N40 中 sensitivity_coeff 的定义：在 LRU 字节命中率模型中，ρ 通过改变缓存驻留集合的大小分布影响命中率，其敏感度系数 sensitivity_coeff = (σ_S / μ_S) * (1 - H_LRU_independent)，其中 σ_S/μ_S 为对象大小的变异系数（基于 Pareto α=1.1 计算为 sqrt(π²/(3*0.1²) - 1) ≈ 1.81），此定义修正了原公式中未显式包含大小分布离散度的错误。
+
+## Corrected Claim
+
+修正 N40 中 sensitivity_coeff 的定义：在 LRU 字节命中率模型中，ρ 通过改变缓存驻留集合的大小分布影响命中率，其敏感度系数 sensitivity_coeff = (σ_S / μ_S) * (1 - H_LRU_independent)，其中 σ_S/μ_S 为对象大小的变异系数（基于 Pareto α=1.1 计算为 sqrt(π²/(3*0.1²) - 1) ≈ 1.81），此定义修正了原公式中未显式包含大小分布离散度的错误。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布(α=1.1)的变异系数计算正确（sqrt(π²/(3*0.1²)-1)≈1.81），且引入大小分布离散度修正LRU命中率敏感度系数符合缓存理论逻辑。

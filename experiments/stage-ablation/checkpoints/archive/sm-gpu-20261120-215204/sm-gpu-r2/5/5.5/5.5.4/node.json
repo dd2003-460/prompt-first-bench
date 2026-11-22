@@ -1,0 +1,30 @@
+{
+  "id": "N134",
+  "claim": "条件分支2 (预算$5,000-$10,000) 的TTFT优化机制：2×RTX 4090 通过 Tensor Parallelism 拆分权重，Prefill 阶段计算并行度提升 2 倍，但跨卡 KV Cache 同步通过 PCIe 4.0 (32 GB/s) 传输 32K 序列的 KV Cache (约 40GB BF16) 需时 40GB/32GB/s = 1.25 秒，叠加计算时间，总 TTFT 预计降至 5-8 秒，满足 '<10s' 约束。",
+  "level": "L3",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]KV Cache 同步机制描述存在技术谬误：在 Tensor Parallelism (TP) 架构下，KV Cache 通常按 Head 维度切分存储在各卡上，Prefill 阶段主要涉及 All-Reduce 通信而非全量 KV Cache 的单向 PCIe 传输；且 40GB 数据通过 PCIe 4.0 传输耗时 1.25s 的计算虽算术正确，但将其直接叠加为 TTFT 的主要瓶颈并得出 5-8s 的结论缺乏对实际推理框架（如 vLLM/TensorRT-LLM）中通信重叠优化及具体模型架构（Head 数、层数）的严谨推导，属于经验性估算而非严格事实。 | 参考来源 [1] 和 [2] 均讨论 CPU 分支预测，与 GPU 大模型推理、Tensor Parallelism 或 KV Cache 传输完全无关，无可用外部证据支持；该陈述为经验事实，逻辑上算术自洽但缺乏来源直接支持且技术细节存疑，故降级。",
+  "corrected_claim": "2×RTX 4090 通过 Tensor Parallelism 拆分权重，Prefill 阶段计算并行度提升，但跨卡通信（如 All-Reduce 或 KV Cache 同步）受限于 PCIe 4.0 带宽，可能成为 TTFT 瓶颈；具体 TTFT 需结合模型架构及推理框架优化情况评估，预计可能在 5-10 秒区间，需实测验证是否满足 '<10s' 约束。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N33",
+    "N34",
+    "N35"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "dual RTX 4090 tensor parallelism 32k context TTFT latency",
+  "retrieval_sources": [
+    {
+      "url": "https://zhuanlan.zhihu.com/p/1931285850886476707&rut=b6adaaf124d168202e020525e62cef16dee3ca15796774bf883260e6296c8550",
+      "type": "ddg",
+      "title": "C++性能优化：分支预测 - 知乎"
+    },
+    {
+      "url": "https://zhuanlan.zhihu.com/p/561643046&rut=548ffeaa7ed8119951d38ca9ff8efbad7d97cddebde4bdefe51336820bd23d73",
+      "type": "ddg",
+      "title": "计算机体系结构学习（5）——分支预测 - 知乎"
+    }
+  ]
+}

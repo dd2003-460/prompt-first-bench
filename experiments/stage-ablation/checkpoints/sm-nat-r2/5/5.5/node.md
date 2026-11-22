@@ -1,0 +1,24 @@
+# N29: 主要不确定性来源 3：1%/天 更新率是否均匀分布在所有对象上，还是集中在某些对象（如动态内容），影响 Cache Thrashing 的局部化程度，估计误差范
+
+- **status**: verified
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N5
+
+## Claim
+
+主要不确定性来源 3：1%/天 更新率是否均匀分布在所有对象上，还是集中在某些对象（如动态内容），影响 Cache Thrashing 的局部化程度，估计误差范围 ±10-15% [待核验]。
+
+## Corrected Claim
+
+主要不确定性来源 3：1%/天 更新率是否均匀分布在所有对象上，还是集中在某些对象（如动态内容），影响 Cache Thrashing 的局部化程度。具体误差范围需进一步实证数据支持，当前估计为 ±10-15%（待核验）。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应更新率分布的三种典型极端或中间状态（均匀、集中、混合），彼此在定义上互斥且逻辑正交；三者共同覆盖了父节点中关于‘均匀还是集中’以及‘影响局部化程度’的核心不确定性维度；虽然数学形式相似，但代表了不同的物理假设场景，不可简单压缩为单一参数而不丢失场景语义。）
+
+## Search Query
+
+non-uniform object update rate distribution impact on LRU cache invalidation CDN

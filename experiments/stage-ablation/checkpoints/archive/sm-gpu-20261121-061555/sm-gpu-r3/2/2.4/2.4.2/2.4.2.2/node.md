@@ -1,0 +1,20 @@
+# N201: Qwen3-27B 在 FP8/INT8 精度、32K 上下文、Batch=1 下的 KV Cache 显存占用精确值：Bytes = 2 * L * num_
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N66
+
+## Claim
+
+Qwen3-27B 在 FP8/INT8 精度、32K 上下文、Batch=1 下的 KV Cache 显存占用精确值：Bytes = 2 * L * num_kv_heads * head_dim * seq_len * batch_size * bytes_per_element，其中 bytes_per_element=1 (FP8)。计算：2 * 64 * 8 * 128 * 32768 * 1 * 1 = 4,294,967,296 bytes ≈ 4.0 GiB (4.29 GB)。
+
+## Corrected Claim
+
+Qwen3-27B 在 FP8/INT8 精度、32K 上下文、Batch=1 下的 KV Cache 显存占用精确值：Bytes = 2 * L * num_kv_heads * head_dim * seq_len * batch_size * bytes_per_element，其中 bytes_per_element=1 (FP8)。计算：2 * 64 * 8 * 128 * 32768 * 1 * 1 = 4,294,967,296 bytes ≈ 4.0 GiB (4.29 GB)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式结构正确（2代表K和V，L=64层，num_kv_heads=8，head_dim=128，seq_len=32768，batch=1，bytes=1），计算结果 2*64*8*128*32768 = 4,294,967,296 bytes 准确无误，且符合 Qwen3-27B 的架构参数（GQA 8 KV heads, 128 head dim, 64 layers）。

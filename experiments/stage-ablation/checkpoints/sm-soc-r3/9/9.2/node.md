@@ -1,0 +1,24 @@
+# N319: Trust_Score（信任度）的非线性函数形式：Trust_Score = Trust_max * exp(-k * |Markup - Markup_opt
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N110
+
+## Claim
+
+Trust_Score（信任度）的非线性函数形式：Trust_Score = Trust_max * exp(-k * |Markup - Markup_optimal|)，其中 Markup_optimal 为信任峰值对应的溢价率（假设 20%），k 为衰减系数；需通过买家调研或 A/B 测试中不同溢价下的退货率/投诉率反向估算 k 值。
+
+## Corrected Claim
+
+Trust_Score 可采用非线性函数形式（如 Trust_Score = Trust_max * exp(-k * |Markup - Markup_optimal|)）来建模，其中 Markup_optimal 和 k 为需通过实证数据（如买家调研或 A/B 测试）估算的参数，而非固定假设值。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（如 Markup_optimal 假设为 20%）和特定的函数形式（指数衰减），这些属于经验事实或模型假设，无法从第一性原理严格推导，且缺乏外部来源支持其普适性或准确性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+nonlinear relationship between price premium and buyer trust score second-hand market empirical data

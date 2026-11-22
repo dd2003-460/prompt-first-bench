@@ -1,0 +1,24 @@
+# N144: NVFP4量化中Group Size对显存的影响：标准NVFP4使用Group Size=16，每个Group包含1个FP8 Scale (1 byte) 和 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N42
+
+## Claim
+
+NVFP4量化中Group Size对显存的影响：标准NVFP4使用Group Size=16，每个Group包含1个FP8 Scale (1 byte) 和 16个FP4 Weights (8 bytes)，总开销 9 bytes/16 params = 0.5625 bytes/param；相比纯4-bit (0.5 bytes/param) 增加 12.5% 开销，总显存 = 27.2e9 * 0.5625 = 15.3 GB
+
+## Corrected Claim
+
+NVFP4量化中Group Size对显存的影响：标准NVFP4使用Group Size=16，每个Group包含1个FP8 Scale (1 byte) 和 16个FP4 Weights (8 bytes)，总开销 9 bytes/16 params = 0.5625 bytes/param；相比纯4-bit (0.5 bytes/param) 增加 12.5% 开销，总显存 = 27.2e9 * 0.5625 = 15.3 GB
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：NVFP4标准配置下，每16个参数需1个FP8 Scale(1B)和16个FP4 Weight(8B)，总9B，即0.5625 B/param；相比纯4-bit(0.5 B/param)增加12.5%开销；27.2e9参数总显存计算正确。
+
+## Search Query
+
+NVIDIA NVFP4 format group size 16 memory overhead

@@ -1,0 +1,20 @@
+# N16: LRU稳态字节命中率下界的理论推导基于Belady's Anomaly和Stack Algorithm，对于独立引用模型，命中率下界 H_LRU >= 1 - 
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+LRU稳态字节命中率下界的理论推导基于Belady's Anomaly和Stack Algorithm，对于独立引用模型，命中率下界 H_LRU >= 1 - (C/S_total)^(1-β) 在均匀分布下成立，但在Pareto分布下需使用累积分布函数CDF的逆函数计算最小缓存集大小，当C >> S_hot时，下界趋近于1 - (1/q*)，其中q*为截断概率。
+
+## Corrected Claim
+
+LRU稳态字节命中率下界的理论推导基于Belady's Anomaly和Stack Algorithm，对于独立引用模型，命中率下界 H_LRU >= 1 - (C/S_total)^(1-β) 在均匀分布下成立，但在Pareto分布下需使用累积分布函数CDF的逆函数计算最小缓存集大小，当C >> S_hot时，下界趋近于1 - (1/q*)，其中q*为截断概率。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

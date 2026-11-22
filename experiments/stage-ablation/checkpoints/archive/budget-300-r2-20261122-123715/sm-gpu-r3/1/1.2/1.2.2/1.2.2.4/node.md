@@ -1,0 +1,24 @@
+# N155: H100 80GB SXM5 在 FP8 量化下运行 Qwen3-27B 32K 上下文时，KV Cache 的显存占用是否采用 FP8 存储（若 KV Cac
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N37, N38, N39
+
+## Claim
+
+H100 80GB SXM5 在 FP8 量化下运行 Qwen3-27B 32K 上下文时，KV Cache 的显存占用是否采用 FP8 存储（若 KV Cache 保持 BF16，则显存占用为 27GB + 36GB + 3GB = 66GB；若 KV Cache 也量化为 FP8，则显存占用为 27GB + 18GB + 3GB = 48GB），需确认主流推理框架（如 vLLM）在 H100 上的默认配置
+
+## Corrected Claim
+
+H100 80GB SXM5 在 FP8 量化下运行 Qwen3-27B 32K 上下文时，KV Cache 的显存占用取决于推理框架配置。若 KV Cache 保持 BF16，显存占用约为 66GB；若 KV Cache 量化为 FP8，显存占用约为 48GB。需确认主流推理框架（如 vLLM）在 H100 上的默认配置是否启用 FP8 KV Cache。
+
+## Evidence
+
+[质询]该陈述包含具体的显存占用数值（27GB, 36GB, 18GB, 3GB）及特定框架（vLLM）在特定硬件（H100）上的默认配置行为，属于经验事实。由于检索失败，无法验证这些具体数值是否准确（例如 Qwen3-27B 的参数量是否精确对应 27GB FP8 权重，KV Cache 计算是否包含所有层和头，以及 vLLM 是否默认启用 FP8 KV Cache），存在数值量级或配置默认值错误的风险。 | 经验事实，逻辑自洽但缺来源支持。虽然 FP8 相比 BF16 显存减半的逻辑正确，但具体数值（如 27GB 权重、36GB/18GB KV Cache）及 vLLM 默认配置无法通过第一性原理严格推导，且无外部来源验证，故降级。
+
+## Search Query
+
+H100 FP8 KV cache quantization vLLM default configuration memory usage

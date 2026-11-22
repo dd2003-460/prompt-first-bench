@@ -1,0 +1,28 @@
+# N225: 量化 ρ=-0.3 对 LFU 增益的边际贡献：ΔH_corr = ∂ΔH/∂ρ * ρ，其中 ∂ΔH/∂ρ ≈ -0.5%/unit ρ（基于蒙特卡洛模拟 1
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N81
+
+## Claim
+
+量化 ρ=-0.3 对 LFU 增益的边际贡献：ΔH_corr = ∂ΔH/∂ρ * ρ，其中 ∂ΔH/∂ρ ≈ -0.5%/unit ρ（基于蒙特卡洛模拟 10,000 次样本的回归系数），故 ρ=-0.3 时 ΔH_corr ≈ 0.15 百分点；此值远小于 2-5 百分点的预期，表明负相关对 LFU 增益的直接影响有限，主要增益来自频率阈值选择而非大小-热度相关性。
+
+## Corrected Claim
+
+量化分析表明，当大小-热度相关性 ρ=-0.3 时，其对 LFU 增益的边际贡献（ΔH_corr）约为 0.15 百分点，远小于 2-5 百分点的预期总增益，表明主要增益来自频率阈值选择而非大小-热度相关性。（注：具体回归系数基于特定蒙特卡洛模拟，需结合具体实验环境验证）
+
+## Evidence
+
+[质询]该陈述包含具体的蒙特卡洛模拟回归系数（∂ΔH/∂ρ ≈ -0.5%/unit ρ）及由此推导的量化结论（ΔH_corr ≈ 0.15 百分点），属于经验事实/具体实验数据。参考来源仅涉及 TinyLFU 的频率计数衰减机制，未提供关于大小-热度相关性（ρ）对 LFU 增益边际贡献的模拟数据或回归分析，无法验证该具体数值及结论。 | 逻辑推导自洽（-0.5 * -0.3 = 0.15），但参考来源 [1] 与具体量化数值无关，且该事实为经验性模拟结果，缺乏直接来源支持，依据经验事实排除条款降级。
+
+## Search Query
+
+Monte Carlo simulation of LFU LRU cache hit rate difference with correlated size and popularity
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/679259506&rut=19df410703929c4d853a409a4ba9798b9fefec372da4683f721bfbe30792f6db', 'type': 'ddg', 'title': 'Lru Lfu 自适应算法设计纲要 - 知乎'}

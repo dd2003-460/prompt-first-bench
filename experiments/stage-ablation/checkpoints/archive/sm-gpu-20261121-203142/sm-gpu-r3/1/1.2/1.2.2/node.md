@@ -1,0 +1,28 @@
+# N40: INT8量化校准常数（Scale/Zeropoint）的显存开销：对于W8A8，通常每个tensor block（如128x128）需要存储scale和zero
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N8
+
+## Claim
+
+INT8量化校准常数（Scale/Zeropoint）的显存开销：对于W8A8，通常每个tensor block（如128x128）需要存储scale和zero point，总开销约为权重显存的1-3%，即0.3-0.8GB，具体取决于量化粒度（per-tensor vs per-channel）
+
+## Corrected Claim
+
+INT8量化校准常数（Scale/Zeropoint）的显存开销取决于量化粒度：per-tensor粒度下开销可忽略不计（<0.1%）；per-channel或block-wise（如128x128）粒度下，开销通常在权重显存的0.1%-1%左右，具体数值随模型规模和粒度变化，并非固定的1-3%或0.3-0.8GB。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别针对Per-Channel和Block-wise两种不同的量化粒度进行了正交拆解，覆盖了父节点中提到的主要粒度类型（虽未显式列出Per-Tensor作为独立节点，但在子节点1中作为对比提及，且Per-Tensor开销极小，不构成核心知识缺失）。两个子节点计算逻辑清晰，无重复或矛盾，且各自独立描述了不同粒度下的显存开销特征，符合正交性要求。）
+
+## Search Query
+
+W8A8 quantization scale zero point memory overhead percentage
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2042253526106165773&rut=3d1eb490d29ac6fe54cafcf8ef65a1d3944f05bee4a762b05533c419202f9a94', 'type': 'ddg', 'title': '榨干 INT8 精度：从原理到硬件，彻底搞懂量化 Scale 与 Zero Point'}

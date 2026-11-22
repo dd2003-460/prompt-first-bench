@@ -1,0 +1,24 @@
+# N271: A100 PCIe 300W TDP 下的 3 年电力成本 C_power_A100_Pcie = 0.3 kW × 8760 h × 3 × E_price；
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N89
+
+## Claim
+
+A100 PCIe 300W TDP 下的 3 年电力成本 C_power_A100_Pcie = 0.3 kW × 8760 h × 3 × E_price；当 E_price = $0.10/kWh 时，C_power = $788.4；当 E_price = $0.15/kWh 时，C_power = $1182.6。此值替代 N45 中基于 400W 计算的 $1051，导致 A100 方案总 TCO 从 $16,051 修正为 $15,788.4 (基准电价 $0.10)。
+
+## Corrected Claim
+
+A100 PCIe 300W TDP 下的 3 年电力成本 C_power_A100_Pcie = 0.3 kW × 8760 h × 3 × E_price；当 E_price = $0.10/kWh 时，C_power = $788.4；当 E_price = $0.15/kWh 时，C_power = $1182.6。此值替代 N45 中基于 400W 计算的 $1051，导致 A100 方案总 TCO 从 $16,051 修正为 $15,788.4 (基准电价 $0.10)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：0.3kW * 8760h * 3 * 0.10 = 788.4，0.3kW * 8760h * 3 * 0.15 = 1182.6，数值计算准确且量纲合理。
+
+## Search Query
+
+A100 PCIe TDP 300W power consumption 3 year cost calculation

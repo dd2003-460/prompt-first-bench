@@ -1,0 +1,24 @@
+# N214: Apple Silicon 方案在 32K 上下文下的 KV Cache 占用与内存压力：Qwen3-27B INT8 权重 27GB + KV Cache 2
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N49
+
+## Claim
+
+Apple Silicon 方案在 32K 上下文下的 KV Cache 占用与内存压力：Qwen3-27B INT8 权重 27GB + KV Cache 2.0 GB = 29GB，M2/M3 Max 64GB 版本剩余 35GB 内存，若使用 Metal 后端，需确保系统保留至少 8-12GB 用于 OS 和 Metal 框架，因此 64GB 版本在 32K 上下文下运行稳定，但 32GB 版本可能因内存交换（Swap）导致吞吐量下降 50% 以上 [待核验]
+
+## Corrected Claim
+
+Apple Silicon 方案在 32K 上下文下，Qwen3-27B INT8 权重约 27GB，KV Cache 占用取决于具体架构（GQA/MQA）及精度，通常在数 GB 至十余 GB 之间。M2/M3 Max 64GB 版本在预留 8-12GB 系统内存后通常可稳定运行；32GB 版本因可用内存紧张，极易触发内存交换（Swap），导致显著的性能下降（具体幅度视负载而定，可能超过 50%）。
+
+## Evidence
+
+[质询]KV Cache 2.0 GB 的数值量级存疑：对于 27B 参数量的模型（假设层数~64，KV头~8，head_dim~128），32K 上下文下的 KV Cache 理论占用通常在 10GB-20GB 量级（取决于具体架构如 GQA/MQA 及精度），2.0GB 可能严重低估，导致剩余内存计算错误；此外，'吞吐量下降 50% 以上'为经验性断言，缺乏具体基准测试支持。 | source=knowledge，逻辑框架自洽（总内存-权重-KV-系统预留=剩余），但 KV Cache 具体数值及性能下降比例属于经验事实且数值量级可能存在偏差，无法通过第一性原理严格推导确切值，故降级。
+
+## Search Query
+
+Apple Silicon 32GB vs 64GB LLM inference performance swap impact 32k context

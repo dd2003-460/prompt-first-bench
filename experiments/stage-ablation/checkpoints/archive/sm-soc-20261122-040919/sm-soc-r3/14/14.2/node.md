@@ -1,0 +1,20 @@
+# N412: 持有成本增加额 ΔC_hold 的计算公式：ΔC_hold = w * (T_1 - T_0) * P_ref。其中 T_1 = T_0 * (1 + 0.12
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N125
+
+## Claim
+
+持有成本增加额 ΔC_hold 的计算公式：ΔC_hold = w * (T_1 - T_0) * P_ref。其中 T_1 = T_0 * (1 + 0.125)（取10-15%中点），则 T_1 - T_0 = 0.125 * T_0。代入得 ΔC_hold = w * 0.125 * T_0 * P_ref。
+
+## Corrected Claim
+
+持有成本增加额 ΔC_hold 的计算公式：ΔC_hold = w * (T_1 - T_0) * P_ref。其中 T_1 = T_0 * (1 + 0.125)（取10-15%中点），则 T_1 - T_0 = 0.125 * T_0。代入得 ΔC_hold = w * 0.125 * T_0 * P_ref。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式推导符合代数恒等式，12.5%为10-15%的算术中点，量纲与逻辑自洽。

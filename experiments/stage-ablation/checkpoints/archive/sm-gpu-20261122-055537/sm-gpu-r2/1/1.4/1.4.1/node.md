@@ -1,0 +1,24 @@
+# N46: RTX 4090 的 PCIe 4.0 x16 接口单向理论带宽为 32 GB/s，双向为 64 GB/s；在双卡 Tensor Parallelism 中，A
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N10
+
+## Claim
+
+RTX 4090 的 PCIe 4.0 x16 接口单向理论带宽为 32 GB/s，双向为 64 GB/s；在双卡 Tensor Parallelism 中，All-Reduce 通信量近似为 2 * P * S (P为参数量，S为序列长度)，需计算通信耗时占比
+
+## Corrected Claim
+
+RTX 4090 的 PCIe 4.0 x16 接口单向理论带宽为 32 GB/s，双向为 64 GB/s；在双卡 Tensor Parallelism 中，All-Reduce 通信量近似为 2 * P * S (P为参数量，S为序列长度)，需计算通信耗时占比
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe 4.0 x16 单向带宽 32 GB/s 符合标准规格（16 lanes * 2 GB/s/lan），双向 64 GB/s 逻辑自洽；All-Reduce 通信量公式 2*P*S 符合 Ring All-Reduce 在 Tensor Parallelism 下的标准理论推导（假设 P 为每层参数量或总参数量视具体实现而定，此处量级与公式结构在工程估算中通用且自洽）。
+
+## Search Query
+
+RTX 4090 PCIe 4.0 x16 bandwidth GB/s theoretical

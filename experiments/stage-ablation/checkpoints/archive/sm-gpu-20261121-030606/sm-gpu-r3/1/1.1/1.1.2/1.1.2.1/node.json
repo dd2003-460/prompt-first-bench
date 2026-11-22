@@ -1,0 +1,23 @@
+{
+  "id": "N191",
+  "claim": "Qwen3-27B 的 GQA (Grouped Query Attention) 配置验证：n_heads=32, n_kv_heads=8。这意味着 4 个 Query Heads 共享 1 组 KV Head。KV Cache 大小仅取决于 n_kv_heads (8) 而非 n_heads (32)，因此相比 MHA (Multi-Head Attention, n_kv_heads=32) 节省 75% 的 KV 显存。若误用 n_heads=32 计算，KV Cache 将膨胀为 18.8GB，导致显存严重高估。",
+  "level": "L4",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]参考来源仅提及 Qwen3-30B-A3B 采用 GQA，未提供 Qwen3-27B 的具体 n_heads/n_kv_heads 数值，也未提供 18.8GB 这一具体显存数值，属于经验事实且缺乏直接来源支持。 | 逻辑推导自洽（GQA 原理及 75% 节省比例计算正确），但参考来源 [1] 仅间接支持 GQA 机制的存在，未直接覆盖 Qwen3-27B 的具体参数配置及显存数值，符合经验事实降级条件。",
+  "corrected_claim": "Qwen3-27B 采用 GQA 机制，若其配置为 n_heads=32, n_kv_heads=8，则相比 MHA 可节省 75% 的 KV 显存；具体显存数值需结合序列长度和精度计算，此处 18.8GB 为特定条件下的估算值。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N81"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "Qwen3-27B GQA num_key_value_heads 8 vs num_attention_heads 32",
+  "retrieval_sources": [
+    {
+      "url": "https://zhuanlan.zhihu.com/p/1905664754569185060&rut=996eead263dea3540db5dd80d1c2d089ec97a6079e18ef49b1c485c5cace2d64",
+      "type": "ddg",
+      "title": "图解Qwen3混合专家模型推理过程--GQA和MoE - 知乎"
+    }
+  ]
+}

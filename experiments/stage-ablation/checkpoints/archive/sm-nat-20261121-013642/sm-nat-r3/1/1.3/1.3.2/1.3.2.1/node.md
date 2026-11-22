@@ -1,0 +1,24 @@
+# N113: 基于 N37 的积分公式，在 ρ=-0.3 的 Gaussian Copula 约束下，条件期望 E[size | freq > f_q] 的数值解：对于热度前
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N37, N38, N39
+
+## Claim
+
+基于 N37 的积分公式，在 ρ=-0.3 的 Gaussian Copula 约束下，条件期望 E[size | freq > f_q] 的数值解：对于热度前 10% 对象 (f_q 为第 90 百分位)，E[size|top10%] ≈ 0.85 * E[size]；对于热度前 1% 对象，E[size|top1%] ≈ 0.65 * E[size]。此比值 k_q 直接作为 N83 修正项 ΔCov 的系数，量化热门对象偏小对 LRU 字节覆盖率的负面影响。
+
+## Corrected Claim
+
+基于 N37 的积分公式，在 ρ=-0.3 的 Gaussian Copula 约束下，条件期望 E[size | freq > f_q] 的数值解依赖于具体的分布假设和参数拟合。对于热度前 10% 和 1% 的对象，E[size|top_q] 通常小于 E[size]，具体比值 k_q 需通过数值积分或模拟获得，并作为 N83 修正项 ΔCov 的系数。
+
+## Evidence
+
+[质询]数值量级与方向存疑：在正相关（ρ=-0.3 为负相关，但通常热度与大小可能正相关或弱相关，若为负相关则热门对象应更小，逻辑上可能成立，但具体系数 0.85 和 0.65 缺乏推导依据，且通常条件期望的衰减不会如此剧烈或特定，除非有特定分布假设。更关键的攻击点是：这些具体数值（0.85, 0.65）是经验拟合值还是理论推导值？若为理论推导，需明确分布假设；若为经验值，则属于经验事实。此外，ρ=-0.3 是负相关，意味着频率越高，size 越小，这与‘热门对象偏小’的描述一致，但具体系数是否准确无法从第一性原理直接推出，属于特定模型下的数值解。 | 经验事实，逻辑自洽但缺来源支持。该陈述包含具体的数值解（0.85, 0.65），属于特定统计模型下的经验/拟合结果，无法从第一性原理严格推出，且本轮检索无可用来源支持，故降级。
+
+## Search Query
+
+Gaussian copula conditional expectation size frequency negative correlation cache hit rate

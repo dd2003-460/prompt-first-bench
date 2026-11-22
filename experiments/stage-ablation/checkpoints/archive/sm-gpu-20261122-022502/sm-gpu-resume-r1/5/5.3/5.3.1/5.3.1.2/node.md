@@ -1,0 +1,20 @@
+# N276: 基于修正架构 (60 layers, 8 KV heads, 128 head_dim) 的 32K 上下文 KV Cache 精确显存计算：公式为 2 (K+
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N101
+
+## Claim
+
+基于修正架构 (60 layers, 8 KV heads, 128 head_dim) 的 32K 上下文 KV Cache 精确显存计算：公式为 2 (K+V) * 60 (layers) * 8 (kv_heads) * 128 (head_dim) * 32768 (seq_len) * 2 (bytes for BF16) / 1e9 = 2.0133 GB。该值与 N101 中的 2.01GB 一致，证实 N8 的 12.58GB 为错误值，实际高估倍数约为 6.25x。
+
+## Corrected Claim
+
+基于修正架构 (60 layers, 8 KV heads, 128 head_dim) 的 32K 上下文 KV Cache 精确显存计算：公式为 2 (K+V) * 60 (layers) * 8 (kv_heads) * 128 (head_dim) * 32768 (seq_len) * 2 (bytes for BF16) / 1e9 = 2.0133 GB。该值与 N101 中的 2.01GB 一致，证实 N8 的 12.58GB 为错误值，实际高估倍数约为 6.25x。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算过程 2*60*8*128*32768*2 / 1e9 = 2.01326592 GB，与陈述中的 2.0133 GB 一致；12.58 / 2.0133 ≈ 6.25，倍数关系成立。

@@ -1,0 +1,24 @@
+# N117: 2× RTX 4090 方案在 3 年持有期内的总能耗成本 (OpEx_A) = 2 × 450W (TDP) × 0.7 (负载因子) × 24h × 365
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N25
+
+## Claim
+
+2× RTX 4090 方案在 3 年持有期内的总能耗成本 (OpEx_A) = 2 × 450W (TDP) × 0.7 (负载因子) × 24h × 365d × 3y × $0.12/kWh ≈ $2070，需根据当地实际电价修正。
+
+## Corrected Claim
+
+2× RTX 4090 方案在 3 年持有期内的总能耗成本 (OpEx_A) = 2 × 450W (TDP) × 0.7 (负载因子) × 24h × 365d × 3y × $0.12/kWh ≈ $2070，需根据当地实际电价修正。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算过程 2 * 450 * 0.7 * 24 * 365 * 3 * 0.12 = 2070.24，数值量级与逻辑自洽。
+
+## Search Query
+
+RTX 4090 power consumption idle load average watts

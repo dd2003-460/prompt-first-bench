@@ -1,0 +1,24 @@
+# N77: 买家机会成本 ΔOpportunityCost_buyer 的具体计算：ΔOC_buyer = V_max_lost - V_new_best，其中 V_max
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N20
+
+## Claim
+
+买家机会成本 ΔOpportunityCost_buyer 的具体计算：ΔOC_buyer = V_max_lost - V_new_best，其中 V_max_lost 为被降权商品中的最高价值，V_new_best 为剩余商品中的最高价值；假设被降权商品占高价值商品（V > P_median * 1.2）的 60%，则 ΔOC_buyer ≈ 0.6 * (V_high_avg - V_low_avg)，需估算 V_high_avg 与 V_low_avg 的差值。
+
+## Corrected Claim
+
+买家机会成本 ΔOpportunityCost_buyer 的具体计算：ΔOC_buyer = V_max_lost - V_new_best，其中 V_max_lost 为被降权商品中的最高价值，V_new_best 为剩余商品中的最高价值；假设被降权商品占高价值商品（V > P_median * 1.2）的 60%，则 ΔOC_buyer ≈ 0.6 * (V_high_avg - V_low_avg)，需估算 V_high_avg 与 V_low_avg 的差值。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点公式 ΔOC_buyer = V_max_lost - V_new_best 中的两个核心变量（V_max_lost 和 V_new_best）的估计方法，以及近似公式 ΔOC_buyer ≈ 0.6 * (V_high_avg - V_low_avg) 中差值项的量化。三者分别处理精确项的两个分量与近似项的核心参数，逻辑上互不重叠且共同覆盖了父节点提出的两种计算路径（精确定义与近似估算）。虽然近似项依赖于前两项的分布参数，但作为独立的知识单元（如何估计 max，如何估计差值），它们保持了正交性。）
+
+## Search Query
+
+consumer surplus loss due to choice set reduction

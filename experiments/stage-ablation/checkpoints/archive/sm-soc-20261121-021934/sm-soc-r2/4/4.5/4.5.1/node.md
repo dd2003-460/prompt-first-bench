@@ -1,0 +1,28 @@
+# N49: 卖家价格弹性系数 ε_price 的实证估计：在二手非标品市场中，价格每下降 1%，成交量 Q 增加约 1.5%-2.5%（即 ε_price ∈ [-2.5,
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N19, N20, N21
+
+## Claim
+
+卖家价格弹性系数 ε_price 的实证估计：在二手非标品市场中，价格每下降 1%，成交量 Q 增加约 1.5%-2.5%（即 ε_price ∈ [-2.5, -1.5]），该系数直接决定 ΔPrice 的幅度及 H_seller 的计算分母。
+
+## Corrected Claim
+
+在二手非标品市场中，卖家价格弹性系数通常表现为负值，具体数值需依据特定实证研究确定，常见估计范围可能在 -1.5 至 -2.5 之间，该系数影响价格调整幅度及卖家效用计算。
+
+## Evidence
+
+[质询]参考来源仅提供了研究主题和一般性结论（定价决策模型、实证分析），未提供具体的价格弹性系数数值区间（-2.5 至 -1.5），属于经验事实缺乏直接数据支持。 | 来源[1]主题相关（C2C二手交易定价实证），但摘要中未包含具体的弹性系数数值，无法直接支持该特定数值区间；该数值属于经验事实，逻辑上合理但缺直接来源支持。
+
+## Search Query
+
+empirical price elasticity of demand used goods marketplace non-standard items
+
+## Retrieval Sources
+
+- {'url': 'https://xueshu.baidu.com/usercenter/paper/show?paperid=16640ak0w4680r20ps2a0rg0gv034050&rut=aa666b53d852ff1d9cf571e35c10876eb9ec49dc4ab5ba9817f6fa3969e05a05', 'type': 'ddg', 'title': 'C2c二手交易平台动态定价行为研究 - 百度学术'}

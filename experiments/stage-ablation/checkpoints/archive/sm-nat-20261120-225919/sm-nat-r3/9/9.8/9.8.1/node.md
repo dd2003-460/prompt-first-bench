@@ -1,0 +1,24 @@
+# N274: LFU 的滞后时间 τ_lag 的量化估计：在指数衰减频率计数器模型下，τ_lag 定义为计数器权重衰减至 1/e 的时间，公式为 τ_lag = 1/λ，其中
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N104
+
+## Claim
+
+LFU 的滞后时间 τ_lag 的量化估计：在指数衰减频率计数器模型下，τ_lag 定义为计数器权重衰减至 1/e 的时间，公式为 τ_lag = 1/λ，其中 λ 为衰减率；对于 1%/天 更新率，若假设 λ 与更新率成正比，则 τ_lag ≈ 100 天，需验证该比例关系是否成立。
+
+## Corrected Claim
+
+LFU 的滞后时间 τ_lag 的量化估计：在指数衰减频率计数器模型下，τ_lag 定义为计数器权重衰减至 1/e 的时间，公式为 τ_lag = 1/λ，其中 λ 为衰减率；对于 1%/天 更新率，若假设 λ 与更新率成正比，则 τ_lag ≈ 100 天，需验证该比例关系是否成立。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：指数衰减模型中时间常数 τ 定义为衰减至 1/e 的时间，数学上严格等于 1/λ；若假设 λ 与更新率（1%/天）成正比且比例系数为 1，则 τ=100 天在量级和逻辑上均自洽。
+
+## Search Query
+
+LFU exponential decay counter lag time estimation

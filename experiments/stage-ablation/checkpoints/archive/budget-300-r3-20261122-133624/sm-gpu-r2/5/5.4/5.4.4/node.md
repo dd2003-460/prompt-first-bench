@@ -1,0 +1,24 @@
+# N154: 机会成本项 C_opp 的精确计算：资金占用成本 = C_hw_purchase * r * t，其中 r 为无风险利率（当前约为 4-5%），t 为使用年限。
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N37
+
+## Claim
+
+机会成本项 C_opp 的精确计算：资金占用成本 = C_hw_purchase * r * t，其中 r 为无风险利率（当前约为 4-5%），t 为使用年限。但更精确的模型应考虑通胀调整后的实际利率，以及如果将资金用于其他投资（如股票指数基金，预期年化 7-10%）的潜在收益差，即 C_opp = C_hw_purchase * (r_invest - r_riskfree) * t。
+
+## Corrected Claim
+
+机会成本项 C_opp 的精确计算：资金占用成本 = C_hw_purchase * r * t，其中 r 为无风险利率（当前约为 4-5%），t 为使用年限。但更精确的模型应考虑通胀调整后的实际利率，以及如果将资金用于其他投资（如股票指数基金，预期年化 7-10%）的潜在收益差，即 C_opp = C_hw_purchase * (r_invest - r_riskfree) * t。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+opportunity cost of capital hardware investment inflation adjusted

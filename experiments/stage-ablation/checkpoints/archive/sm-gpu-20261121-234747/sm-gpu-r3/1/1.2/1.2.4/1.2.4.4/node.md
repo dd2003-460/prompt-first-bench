@@ -1,0 +1,20 @@
+# N185: AMD MI300X 192GB 显存容量对 Qwen3-27B 32K 上下文推理的 Batch Size 上限影响：192GB 显存可支持 Batch Si
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N40
+
+## Claim
+
+AMD MI300X 192GB 显存容量对 Qwen3-27B 32K 上下文推理的 Batch Size 上限影响：192GB 显存可支持 Batch Size 高达 8-16（假设单请求 12-16GB 显存占用），相比 L40S 48GB 仅支持 Batch Size 2-3，高 Batch Size 对吞吐量（tokens/s/user）和延迟（P99）的非线性影响需量化。
+
+## Corrected Claim
+
+AMD MI300X 192GB 显存容量对 Qwen3-27B 32K 上下文推理的 Batch Size 上限影响：192GB 显存可支持 Batch Size 高达 8-16（假设单请求 12-16GB 显存占用），相比 L40S 48GB 仅支持 Batch Size 2-3，高 Batch Size 对吞吐量（tokens/s/user）和延迟（P99）的非线性影响需量化。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：192GB显存除以单请求12-16GB占用，理论上限确为12-16，与陈述中的8-16（考虑KV Cache及激活值开销）量级一致；L40S 48GB除以12-16GB，理论上限3-4，与陈述中的2-3量级一致。

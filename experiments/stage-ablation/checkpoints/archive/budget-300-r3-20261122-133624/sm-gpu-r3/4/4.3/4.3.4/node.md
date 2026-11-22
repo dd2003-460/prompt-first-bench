@@ -1,0 +1,24 @@
+# N105: INT8 量化在消费级 GPU 上的软件开销：GPTQ/SmoothQuant 的 INT8 推理需执行额外的 dequantization 和 scaling
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N31
+
+## Claim
+
+INT8 量化在消费级 GPU 上的软件开销：GPTQ/SmoothQuant 的 INT8 推理需执行额外的 dequantization 和 scaling 操作，相比原生 FP16/BF16 计算，Prefill 阶段算力利用率下降约 10-15%，导致 Prefill 吞吐量从理论 800 tokens/s 降至 680-720 tokens/s。
+
+## Corrected Claim
+
+INT8 量化在消费级 GPU 上的软件开销：GPTQ/SmoothQuant 的 INT8 推理需执行额外的 dequantization 和 scaling 操作，相比原生 FP16/BF16 计算，Prefill 阶段算力利用率通常会有一定程度的下降，导致 Prefill 吞吐量低于理论峰值。
+
+## Evidence
+
+[质询]具体数值（10-15% 利用率下降、800 降至 680-720 tokens/s）高度依赖特定硬件架构、模型规模及实现细节，属于经验事实，缺乏通用性，且无来源支持该特定量级。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+INT8 quantization overhead GPU prefill throughput degradation

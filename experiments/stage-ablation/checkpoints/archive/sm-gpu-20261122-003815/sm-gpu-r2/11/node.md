@@ -1,0 +1,24 @@
+# N191: 候选硬件全集的排除标准：显存带宽 < 800 GB/s 且无 NVLink/Infinity Fabric 多卡互联能力的消费级/数据中心卡（如 RTX 306
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+候选硬件全集的排除标准：显存带宽 < 800 GB/s 且无 NVLink/Infinity Fabric 多卡互联能力的消费级/数据中心卡（如 RTX 3060 12GB, T4 16GB, L4 24GB）被排除，因为其 27B 模型 Decode 理论上限 < 10 tokens/s，低于 24GB 高端卡 50% 以上，不具备性价比竞争力。
+
+## Corrected Claim
+
+候选硬件全集的排除标准：显存带宽 < 800 GB/s 且无 NVLink/Infinity Fabric 多卡互联能力的消费级/数据中心卡（如 T4 16GB, L4 24GB）被排除，因为其 27B 模型 Decode 理论上限显著低于高端卡，不具备性价比竞争力。（注：RTX 3060 12GB 显存带宽约 936 GB/s，不满足 < 800 GB/s 的排除条件，但可能因其他因素如无多卡互联或性价比被排除，原陈述中将其列入带宽排除标准存在事实偏差）
+
+## Evidence
+
+[质询]参考来源仅涉及A100/H100等高端卡及中国特供版差异，完全未覆盖RTX 3060、T4、L4等被排除的低端/中端卡的显存带宽具体数值，也未提供27B模型在这些卡上的Decode理论上限计算依据，属于经验事实且缺乏直接来源支持。 | 逻辑上，27B模型Decode受限于显存带宽，RTX 3060(936GB/s)虽带宽达标但无NVLink，T4(320GB/s)和L4(300GB/s)带宽远低于800GB/s阈值，排除逻辑自洽；但来源[1]与具体排除标准及低端卡参数无关，无法提供直接支持。
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1910731560015077860&rut=3acff7712784b7c529b9a636a4b597a69af9faf1b1b4716855f78a10b215947d', 'type': 'ddg', 'title': 'Nvidia Gpu芯片：A100、H100、A800、H800、H20的差异'}

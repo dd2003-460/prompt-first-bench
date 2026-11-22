@@ -1,0 +1,20 @@
+# N81: NVIDIA A100 的 BF16/FP16 峰值算力约为 312 TFLOPS，INT8 峰值算力约为 624 TOPS，FP8 在 A100 上不支持原生
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N19
+
+## Claim
+
+NVIDIA A100 的 BF16/FP16 峰值算力约为 312 TFLOPS，INT8 峰值算力约为 624 TOPS，FP8 在 A100 上不支持原生硬件加速，需软件模拟，导致 FP8 推理速度远低于 H100
+
+## Corrected Claim
+
+NVIDIA A100 的 BF16/FP16 峰值算力约为 312 TFLOPS，INT8 峰值算力约为 624 TOPS，FP8 在 A100 上不支持原生硬件加速，需软件模拟，导致 FP8 推理速度远低于 H100
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 FP16/BF16 峰值算力 312 TFLOPS 与 INT8 624 TOPS 符合其硬件规格（2x 加速比），且 A100 架构（Ampere）确实不支持原生 FP8 硬件加速（FP8 支持始于 Hopper 架构 H100），逻辑自洽且无矛盾。

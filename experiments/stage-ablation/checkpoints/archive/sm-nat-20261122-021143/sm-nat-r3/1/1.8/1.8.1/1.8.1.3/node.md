@@ -1,0 +1,24 @@
+# N105: λ 的物理意义澄清：λ 并非直接等于更新率 u，而是对象频率衰减常数；在 LRU 中，LRU 本身无显式老化，但 LFU 需通过 aging 机制模拟 LRU 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N39
+
+## Claim
+
+λ 的物理意义澄清：λ 并非直接等于更新率 u，而是对象频率衰减常数；在 LRU 中，LRU 本身无显式老化，但 LFU 需通过 aging 机制模拟 LRU 的时间局部性；标准文献（如 O'Neil & O'Neil 1994）建议 λ 应校准为 1/平均访问间隔，而非直接取 u
+
+## Corrected Claim
+
+λ 通常被定义为对象频率的衰减常数，其物理意义与直接更新率 u 不同。在 LFU 等基于频率的缓存策略中，常通过引入时间衰减（aging）机制来模拟 LRU 的时间局部性。具体 λ 的校准值（如是否严格等于 1/平均访问间隔）需依据特定模型假设和文献定义确定，常见建议是将其与平均访问间隔相关联，但具体数值需根据工作负载特性调整。
+
+## Evidence
+
+[质询]该陈述包含具体的文献引用（O'Neil & O'Neil 1994）及特定的参数校准建议（λ=1/平均访问间隔），属于经验性/规范性知识。由于检索失败，无法验证该特定文献是否确实提出了此建议，且不同缓存模型（如LFU vs LRU近似）对λ的定义可能存在差异，存在口径混淆风险。 | 逻辑上，λ作为衰减常数与更新率u在量纲和物理意义上确实不同，LFU通过aging模拟时间局部性的描述符合缓存理论常识。但作为source=search节点，缺乏外部来源直接支持具体的文献引用和校准公式，依据经验事实排除条款，降级为degraded。
+
+## Search Query
+
+LFU aging parameter lambda calibration CDN cache

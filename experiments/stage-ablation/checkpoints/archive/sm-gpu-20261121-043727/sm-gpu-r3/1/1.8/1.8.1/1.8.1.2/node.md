@@ -1,0 +1,30 @@
+# N153: Qwen3-27B 在 FP8 (E4M3) 精度下 WikiText-2 Perplexity (PPL) 的具体数值（需查找量化后的实测数据；若无官方 FP
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N59
+
+## Claim
+
+Qwen3-27B 在 FP8 (E4M3) 精度下 WikiText-2 Perplexity (PPL) 的具体数值（需查找量化后的实测数据；若无官方 FP8 数据，需基于 Qwen2.5-32B FP8 的 PPL 增量约 0.05-0.15 进行估算，并标注 [待核验]）
+
+## Corrected Claim
+
+Qwen3-27B (或相关版本 Qwen3.8-27B) 在 FP8 (E4M3) 精度下的 WikiText-2 Perplexity 具体数值未在提供的参考来源摘要中直接列出，需查阅来源 [3] 的完整正文以获取实测数据；若无官方数据，可参考 Qwen2.5-32B FP8 的 PPL 增量约 0.05-0.15 进行估算 [待核验]。
+
+## Evidence
+
+[质询]参考来源中提到的模型名称为 'Qwen3.8-27B'，而事实节点询问的是 'Qwen3-27B'。虽然 'Qwen3.8' 极可能是 'Qwen3' 系列中特定版本（如 Qwen3-27B 的后续迭代或笔误）的指代，但来源并未直接提供 'Qwen3-27B' 这一确切名称下的 FP8 PPL 数值，且摘要中未包含具体的 Perplexity 数值，仅描述了测试设置和量化原理。 | 来源 [3] 确认了 Qwen3.8-27B 存在官方 FP8 版本并进行了 BF16/FP8 对比测试，但未在摘要中给出具体 PPL 数值；来源 [1] 和 [2] 仅讨论部署和量化原理，未提供基准测试数据。由于缺乏直接数值支持，且模型名称存在细微差异（Qwen3 vs Qwen3.8），无法直接验证具体数值，故降级。
+
+## Search Query
+
+Qwen3-27B FP8 E4M3 WikiText-2 perplexity
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/lovely_yoshino/article/details/163828474&rut=f6894b90ac7485860ac5f5249184ac86fb627c1a73eb675037becd7558980c4f', 'type': 'ddg', 'title': 'Qwen3.8-27B-FP8 部署实践：从原理到生产 - CSDN博客'}
+- {'url': 'https://blog.csdn.net/gitblog_00439/article/details/155257784&rut=0e8f0dfa7b87216743b85a5d74bfff004ee7d8a8930cbb0be7f745f60a0470f2', 'type': 'ddg', 'title': 'Qwen3.8-27B-FP8 量化原理深度解析：块大小 128 的细粒度 FP8 如何保持精度无损？-CSDN博客'}
+- {'url': 'https://linux.do/t/topic/2821819&rut=21235c15048a7077dfe7a3b57ffaffc49bd7518af4041d1339f170ec02b35ca0', 'type': 'ddg', 'title': 'Qwen3.8-27B BF16 / FP8 / NVFP4 实测 - 开发调优 - LINUX DO'}

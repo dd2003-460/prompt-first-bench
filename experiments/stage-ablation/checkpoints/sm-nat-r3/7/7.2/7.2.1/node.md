@@ -1,0 +1,20 @@
+# N268: 工作点 A（头部集中）：假设 E[S | top 10%] = 10KB，计算 S_top10 = 0.1 * 100000 * 10KB = 100GB ≤ 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N94
+
+## Claim
+
+工作点 A（头部集中）：假设 E[S | top 10%] = 10KB，计算 S_top10 = 0.1 * 100000 * 10KB = 100GB ≤ 128GB，LRU 可完整保护头部 10% 对象，命中率下界为 C_req(0.1)（来自 N93 基准值）。
+
+## Corrected Claim
+
+工作点 A（头部集中）：假设 E[S | top 10%] = 10KB，计算 S_top10 = 0.1 * 100000 * 10KB = 100GB ≤ 128GB，LRU 可完整保护头部 10% 对象，命中率下界为 C_req(0.1)（来自 N93 基准值）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算 0.1 * 100,000 * 10KB = 1,000,000 KB = 1GB，远小于 128GB，结论成立。

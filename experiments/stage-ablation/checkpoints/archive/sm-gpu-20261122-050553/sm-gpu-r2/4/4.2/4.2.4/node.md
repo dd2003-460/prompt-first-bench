@@ -1,0 +1,20 @@
+# N84: 电价敏感性分析：当 E_price = $0.05/kWh 时，2×4090 的 3 年电力成本 C_power_2x4090 = 2 × 400W × 876
+
+- **status**: verified
+- **level**: L3
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N21
+
+## Claim
+
+电价敏感性分析：当 E_price = $0.05/kWh 时，2×4090 的 3 年电力成本 C_power_2x4090 = 2 × 400W × 8760h × 3 × $0.05 = $10512；当 E_price = $0.15/kWh 时，C_power_2x4090 = $31536。
+
+## Corrected Claim
+
+电价敏感性分析：当 E_price = $0.05/kWh 时，2×4090 的 3 年电力成本 C_power_2x4090 = 2 × 400W × 8760h × 3 × $0.05 = $10512；当 E_price = $0.15/kWh 时，C_power_2x4090 = $31536。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：2×400W×8760h×3×0.05 = 10512，2×400W×8760h×3×0.15 = 31536，计算无误。

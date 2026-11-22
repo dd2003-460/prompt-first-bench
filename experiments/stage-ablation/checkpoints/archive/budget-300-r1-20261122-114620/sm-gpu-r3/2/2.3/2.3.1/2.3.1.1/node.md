@@ -1,0 +1,20 @@
+# N203: Intel Arc A770 运行 Qwen3-27B W4 量化模型 (13.5GB) 时，显存带宽 560 GB/s 对应的理论最大吞吐上限 T_max ≈
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N62
+
+## Claim
+
+Intel Arc A770 运行 Qwen3-27B W4 量化模型 (13.5GB) 时，显存带宽 560 GB/s 对应的理论最大吞吐上限 T_max ≈ 560 / 13.5 ≈ 41.5 tokens/s，但受限于计算单元 (XMX 引擎) 和内存控制器延迟，实测上限通常在 10-15 tokens/s
+
+## Corrected Claim
+
+Intel Arc A770 运行 Qwen3-27B W4 量化模型 (13.5GB) 时，显存带宽 560 GB/s 对应的理论最大吞吐上限 T_max ≈ 560 / 13.5 ≈ 41.5 tokens/s，但受限于计算单元 (XMX 引擎) 和内存控制器延迟，实测上限通常在 10-15 tokens/s
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：理论上限计算 560/13.5≈41.5 正确，实测受计算瓶颈限制低于带宽上限符合 LLM 推理物理规律

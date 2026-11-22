@@ -1,0 +1,24 @@
+# N62: 对象更新率 1%/天 对 LRU 命中率的影响需区分‘版本失效’和‘内容更新’：若为版本失效（对象 ID 变化），则缓存命中率直接乘以 (1 - 0.01)；若
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N16
+
+## Claim
+
+对象更新率 1%/天 对 LRU 命中率的影响需区分‘版本失效’和‘内容更新’：若为版本失效（对象 ID 变化），则缓存命中率直接乘以 (1 - 0.01)；若为内容更新（ID 不变但内容变），则需考虑缓存一致性协议开销。
+
+## Corrected Claim
+
+对象更新率 1%/天 对 LRU 命中率的影响需区分‘版本失效’和‘内容更新’：若为版本失效（对象 ID 变化），则缓存命中率直接乘以 (1 - 0.01)；若为内容更新（ID 不变但内容变），则需考虑缓存一致性协议开销。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：版本失效导致键空间变化，命中率线性衰减符合概率论直觉；内容更新涉及一致性协议开销，逻辑自洽。
+
+## Search Query
+
+cache consistency overhead content update vs version invalidation

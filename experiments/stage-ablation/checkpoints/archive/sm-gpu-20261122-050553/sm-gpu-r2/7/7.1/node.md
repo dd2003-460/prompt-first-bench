@@ -1,0 +1,20 @@
+# N102: RTX 5090 在 FP8 精度下运行 Qwen3-27B 的显存占用计算：Weights (27GB) + KV Cache (32K context, B
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N32
+
+## Claim
+
+RTX 5090 在 FP8 精度下运行 Qwen3-27B 的显存占用计算：Weights (27GB) + KV Cache (32K context, BF16/FP8) ≈ 35-43GB，超过 32GB 物理显存，导致单卡无法直接运行，必须启用 PagedAttention 或量化 KV Cache 至 INT8 以降低 KV 占用至 ~8GB，总需求降至 ~35GB 仍超 32GB，结论：单卡 32GB 不足以运行 32K 上下文，需截断上下文至 ~16K 或采用更激进的量化。
+
+## Corrected Claim
+
+RTX 5090 在 FP8 精度下运行 Qwen3-27B 的显存占用计算：Weights (27GB) + KV Cache (32K context, BF16) ≈ 37-47GB，超过 32GB 物理显存，导致单卡无法直接运行；若量化 KV Cache 至 INT8，KV 占用降至 ~5-10GB，总需求降至 ~32-37GB，仍可能超过 32GB 可用显存，结论：单卡 32GB 不足以稳定运行 32K 上下文，需截断上下文至 ~16K 或采用更激进的量化（如 INT4 KV Cache）。
+
+## Evidence
+
+[质询]KV Cache 的量化策略与精度假设存在逻辑矛盾：若 KV Cache 保持 BF16，32K 上下文下 Qwen3-27B 的 KV 占用远超 8GB（通常需 10-20GB+），总显存需求将远超 32GB；若量化至 INT8 降至 ~8GB，则总需求 ~35GB 仍超 32GB，结论正确，但中间步骤‘BF16/FP8 ≈ 35-43GB’与后续‘INT8 降至 ~8GB’的对比暗示了精度切换，而陈述中未明确区分不同精度下的具体数值，易导致对‘为何 INT8 仍不够’的误解。此外，RTX 5090 显存为 32GB，但实际可用显存略低（~31GB），35GB 需求确实无法运行，但‘必须启用 PagedAttention’并非解决显存不足的根本方案（PagedAttention 主要优化内存碎片，不减少总占用），根本方案是截断上下文或更激进量化。 | 先验知识/题面给定，逻辑校验通过：Qwen3-27B 权重约 27GB（FP8），32K 上下文 KV Cache 在 BF16 下约 10-20GB，INT8 下约 5-10GB，总需求 32-47GB，确实超过 32GB 显存，结论合理；但 PagedAttention 不能减少总显存占用，仅优化分配效率，故‘必须启用 PagedAttention’表述不准确，应修正为‘需截断上下文或更激进量化’。

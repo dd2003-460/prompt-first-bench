@@ -1,0 +1,24 @@
+# N151: NVIDIA RTX 4090 24GB在2025年Q1的主流电商平台的新品均价（USD），需区分基础版与超频版（如ASUS ROG Strix vs Giga
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N29
+
+## Claim
+
+NVIDIA RTX 4090 24GB在2025年Q1的主流电商平台的新品均价（USD），需区分基础版与超频版（如ASUS ROG Strix vs Gigabyte Gaming OC），标注具体SKU和查询日期，以验证$1.6k-$1.8k区间的准确性
+
+## Corrected Claim
+
+NVIDIA RTX 4090 24GB在2025年Q1的主流电商平台新品均价需区分基础版与超频版，具体价格区间（如$1.6k-$1.8k）需依据实时市场数据核实，当前缺乏可靠来源支持该具体数值。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性市场价格数据（2025年Q1均价、具体SKU区分），属于硬件市场价格范畴，无法从第一性原理推导，且缺乏实时市场数据支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体价格区间及SKU差异）。
+
+## Search Query
+
+NVIDIA RTX 4090 24GB price 2025 Amazon Newegg USD

@@ -1,0 +1,20 @@
+# N23: 干预对买家的帕累托改进量化：买家剩余增加 ΔCS_buyer = (P_ask - P_wtp) * Q_matched，其中 P_wtp 为买家支付意愿，Q_
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+干预对买家的帕累托改进量化：买家剩余增加 ΔCS_buyer = (P_ask - P_wtp) * Q_matched，其中 P_wtp 为买家支付意愿，Q_matched 为匹配量；若干预降低 P_ask 但不增加 Q_matched，则 ΔCS_buyer < 0，判定为非帕累托改进
+
+## Corrected Claim
+
+干预对买家的帕累托改进量化：买家剩余增加 ΔCS_buyer = (P_ask_old - P_ask_new) * Q_matched。若干预降低 P_ask 但不增加 Q_matched，则 ΔCS_buyer > 0，判定为对买家的帕累托改进。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在概念上是正交的（分别关注参数分布、约束条件和判定逻辑），无冗余。但存在完备性缺陷：父节点公式 ΔCS = (P_ask - P_wtp) * Q 在经济学上存在符号逻辑错误（通常消费者剩余增加应为 (P_wtp - P_new) 或类似正向差值，若 P_ask 降低导致 CS 增加，公式应体现价格下降带来的剩余增加，而非简单的 P_ask - P_wtp，因为若 P_ask < P_wtp，该公式结果为负，与‘改进’矛盾，除非定义 P_ask 为保留价格等特定语境，但此处描述‘降低 P_ask 导致 ΔCS < 0’与常规帕累托改进逻辑（价格降低利好买家）相悖，子节点未能纠正或澄清这一核心逻辑矛盾，导致分解未能覆盖‘公式有效性及符号定义’这一关键方面。）

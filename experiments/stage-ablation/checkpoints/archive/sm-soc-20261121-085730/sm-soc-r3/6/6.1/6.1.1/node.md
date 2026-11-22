@@ -1,0 +1,20 @@
+# N365: k_scarcity 的标准化程度 S 的操作化定义：S = 1 - (CV_price / CV_price_max)，其中 CV_price 为同类商品近期
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N129
+
+## Claim
+
+k_scarcity 的标准化程度 S 的操作化定义：S = 1 - (CV_price / CV_price_max)，其中 CV_price 为同类商品近期成交价变异系数，CV_price_max 为平台所有类别中最大变异系数（通常设为 1.0 进行归一化），S∈[0,1]。
+
+## Corrected Claim
+
+k_scarcity 的标准化程度 S 的操作化定义：S = 1 - (CV_price / CV_price_max)，其中 CV_price 为同类商品近期成交价变异系数，CV_price_max 为平台所有类别中最大变异系数（通常设为 1.0 进行归一化），S∈[0,1]。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

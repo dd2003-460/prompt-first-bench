@@ -1,0 +1,24 @@
+# N37: λ_loss=2.25在二手交易中的适用性修正：二手市场卖家损失厌恶系数λ_loss_used = 1.8，基于Kahneman & Tversky (1999
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N8
+
+## Claim
+
+λ_loss=2.25在二手交易中的适用性修正：二手市场卖家损失厌恶系数λ_loss_used = 1.8，基于Kahneman & Tversky (1999) 二手市场实验数据，n=200，95% CI [1.6, 2.0]。
+
+## Corrected Claim
+
+二手市场卖家损失厌恶系数通常低于标准前景理论中的 λ=2.25，但具体数值（如 1.8）需依赖特定实证研究，当前引用的 Kahneman & Tversky (1999) 数据细节存疑，建议移除具体统计量或替换为可查证的二手市场实证研究。
+
+## Evidence
+
+[质询]Kahneman & Tversky (1999) 并未发表过专门针对二手市场且样本量 n=200、置信区间精确为 [1.6, 2.0] 的实验数据；该具体数值和统计细节极可能是虚构或误引，属于不可靠来源/数据捏造风险。 | 经验事实，逻辑自洽但缺来源支持；且引用的具体实验数据（n=200, CI [1.6, 2.0]）在已知文献中无法核实，存在高概率的引用错误。
+
+## Search Query
+
+loss aversion coefficient used goods market Kahneman Tversky

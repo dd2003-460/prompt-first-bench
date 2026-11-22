@@ -1,0 +1,24 @@
+# N124: FP8 量化的硬件-软件交互约束：FP8 量化必须配合支持 FP8 Tensor Core 的硬件 (如 RTX 4090 Ada, H100, B200) 才
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N36
+
+## Claim
+
+FP8 量化的硬件-软件交互约束：FP8 量化必须配合支持 FP8 Tensor Core 的硬件 (如 RTX 4090 Ada, H100, B200) 才能发挥加速作用；若在仅支持 BF16/INT8 的旧硬件 (如 RTX 3090, A100) 上运行 FP8 权重，需反量化为 BF16 或 INT8，导致显存优势 (27GB) 失效且计算速度无增益，仅保留存储节省。
+
+## Corrected Claim
+
+FP8 量化的硬件-软件交互约束：FP8 量化必须配合支持 FP8 Tensor Core 的硬件 (如 RTX 4090 Ada, H100, B200) 才能发挥加速作用；若在仅支持 BF16/INT8 的旧硬件 (如 RTX 3090, A100) 上运行 FP8 权重，需反量化为 BF16 或 INT8，导致显存优势 (27GB) 失效且计算速度无增益，仅保留存储节省。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点正交性良好，分别描述了不同硬件架构（Ada, Hopper, Ampere）的情况。但存在两个主要问题：1. 完备性缺失：父节点明确提到“RTX 3090”作为旧硬件的例子，但子节点中只涵盖了A100，遗漏了RTX 3090（Ampere架构）的具体说明，尽管其原理与A100相同，但作为独立列出的案例未覆盖；2. 事实性错误：子节点1中称RTX 4090为Ada Lovelace架构，这是正确的，但RTX 3090也是Ampere架构，子节点3仅用A100代表Ampere，若严格对应父节点列举的硬件，应包含RTX 3090或明确说明A100代表Ampere系列。更关键的是，父节点提到“B200”（Blackwell），但子节点完全未涉及B200的情况，导致覆盖不全。）
+
+## Search Query
+
+FP8 quantization hardware support requirement Tensor Core RTX 4090 A100 dequantization overhead

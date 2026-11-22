@@ -1,0 +1,20 @@
+# N5: LRU 稳态字节命中率下界计算模型：H_LRU ≥ (Σ_{i: S_i ≤ C} f_i * S_i) / (Σ_{all} f_i * S_i)，其中 C=
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+LRU 稳态字节命中率下界计算模型：H_LRU ≥ (Σ_{i: S_i ≤ C} f_i * S_i) / (Σ_{all} f_i * S_i)，其中 C=128GB，S_i 为对象大小，f_i 为请求频率，需基于 Pareto 分布积分求解。
+
+## Corrected Claim
+
+LRU 稳态字节命中率下界计算模型：H_LRU ≥ (Σ_{i: S_i ≤ C} f_i * S_i) / (Σ_{all} f_i * S_i)，其中 C=128GB，S_i 为对象大小，f_i 为请求频率，需基于 Pareto 分布积分求解。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间存在正交性（一个关注驻留阈值求解，一个关注分布截断参数），但完备性不足。父节点明确要求基于 Pareto 分布积分求解命中率下界，但子节点仅涵盖了积分定义域的下限（S_threshold）和上限（S_max），缺失了核心部分：即如何在给定分布下具体执行积分计算以得出 H_LRU 的数值结果（例如，如何计算分子和分母的具体积分表达式或数值方法）。）

@@ -1,0 +1,24 @@
+# N230: vLLM 对 RTX 5090 (Blackwell) 的官方支持状态：截至 2024 年中，vLLM 尚未发布原生支持 RTX 5090 的稳定版本，需使用 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N84
+
+## Claim
+
+vLLM 对 RTX 5090 (Blackwell) 的官方支持状态：截至 2024 年中，vLLM 尚未发布原生支持 RTX 5090 的稳定版本，需使用 nightly build 或特定 CUDA 12.8+ 分支，存在 [待核验] 的稳定性风险，预计正式支持滞后约 2-3 个月。
+
+## Corrected Claim
+
+截至 RTX 5090 正式发布前，vLLM 尚未提供针对 Blackwell 架构（RTX 5090）的原生稳定支持，用户需依赖后续版本更新或特定 CUDA 分支，具体支持时间取决于 NVIDIA 驱动及 vLLM 社区的适配进度。
+
+## Evidence
+
+[质询]该陈述包含具体的时间窗口（2024年中）、硬件型号（RTX 5090）及版本支持状态，属于经验事实。RTX 5090 于 2025 年 1 月才正式发布，2024 年中时该硬件尚未上市，vLLM 不可能针对一款未发布的硬件发布“稳定版本”或“nightly build”的特定支持状态，时间线存在逻辑矛盾；且无来源支持具体的滞后时长预测。 | 经验事实，逻辑校验发现时间线矛盾（2024年中RTX 5090未发布），且无可用外部来源支持，无法验证具体支持状态和滞后时长。
+
+## Search Query
+
+vLLM support RTX 5090 Blackwell release date

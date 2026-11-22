@@ -1,0 +1,20 @@
+# N43: 买家停止搜索的临界数量 n* 的计算公式：n* 是使边际搜索成本等于边际期望收益的 n 值，即 k * n*^(γ-1) * γ = ΔP_expected /
+
+- **status**: verified
+- **level**: L3
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N9
+
+## Claim
+
+买家停止搜索的临界数量 n* 的计算公式：n* 是使边际搜索成本等于边际期望收益的 n 值，即 k * n*^(γ-1) * γ = ΔP_expected / t_avg；当挂价溢价在 15-25% 时，n* 显著小于完全信息下的搜索量，量化为 n* ≈ (ΔP_expected / (k*γ*t_avg))^(1/(γ-1))。
+
+## Corrected Claim
+
+买家停止搜索的临界数量 n* 的计算公式：n* 是使边际搜索成本等于边际期望收益的 n 值，即 k * n*^(γ-1) * γ = ΔP_expected / t_avg；当挂价溢价在 15-25% 时，n* 显著小于完全信息下的搜索量，量化为 n* ≈ (ΔP_expected / (k*γ*t_avg))^(1/(γ-1))。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该公式符合搜索理论中边际成本等于边际收益的一阶条件，且代数推导自洽。

@@ -1,0 +1,20 @@
+# N123: 低信号价值品类中信息不对称溢价 β_asym_low 的具体量化：β_asym_low = σ_info / P_value_intrinsic，其中 σ_in
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N52
+
+## Claim
+
+低信号价值品类中信息不对称溢价 β_asym_low 的具体量化：β_asym_low = σ_info / P_value_intrinsic，其中 σ_info 为买家对商品真实质量的估计标准差。在日常家电/图书中，β_status ≈ 0，但 β_asym_low 通常在 0.05-0.10 之间，由信息熵 H_info 决定，H_info 越高，β_asym_low 越大。
+
+## Corrected Claim
+
+低信号价值品类中信息不对称溢价 β_asym_low 可定义为 σ_info / P_value_intrinsic。在日常家电/图书中，β_status 通常接近 0，而 β_asym_low 的具体数值取决于买家对商品质量的估计不确定性（σ_info）及商品内在价值，通常表现为正相关关系，但具体量级需结合特定市场实证数据确定，不宜简单概括为固定的 0.05-0.10 区间。
+
+## Evidence
+
+[质询]该陈述将 β_asym_low 的具体数值范围（0.05-0.10）和其与信息熵 H_info 的单调正相关关系作为普遍规律，但缺乏具体的市场数据或实证研究支持。不同品类（如图书与家电）的信息不对称程度差异巨大，且 β 值受具体市场结构、消费者认知水平等多重因素影响，直接给出一个固定的窄区间（0.05-0.10）并断言其与 H_info 的简单线性/单调关系，存在过度简化和缺乏实证依据的风险。 | source=knowledge，逻辑上公式定义自洽（标准差除以内在价值作为溢价系数在量纲和直觉上合理），但具体数值范围 0.05-0.10 及与 H_info 的特定关系属于经验性量化结论，缺乏来源直接支持或第一性原理严格推导，故降级。

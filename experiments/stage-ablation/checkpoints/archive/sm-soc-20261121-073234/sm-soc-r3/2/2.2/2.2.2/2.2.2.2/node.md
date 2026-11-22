@@ -1,0 +1,20 @@
+# N184: InitialValuation 在公式 c = (OpportunityCostRate * InitialValuation) / ExpectedDays
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N57
+
+## Claim
+
+InitialValuation 在公式 c = (OpportunityCostRate * InitialValuation) / ExpectedDays 中应定义为卖家心理保留价 P_reserve 而非商品市场均价，因为卖家效用函数 U = P - c*T 中的价格项 P 基于其主观估值，若 P_reserve 高于市场中位数 15-25%，则 c 值相应放大，强化了卖家对快速成交的偏好，解释了为何高挂价卖家反而更急于成交。
+
+## Corrected Claim
+
+InitialValuation 在公式 c = (OpportunityCostRate * InitialValuation) / ExpectedDays 中应定义为卖家心理保留价 P_reserve 而非商品市场均价，因为卖家效用函数 U = P - c*T 中的价格项 P 基于其主观估值，若 P_reserve 高于市场中位数 15-25%，则 c 值相应放大，强化了卖家对快速成交的偏好，解释了为何高挂价卖家反而更急于成交。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该陈述基于行为经济学中‘禀赋效应’或‘心理账户’理论，逻辑上自洽地解释了为何基于主观保留价（而非市场均价）计算机会成本会导致高挂价卖家表现出更强的快速成交偏好，符合效用函数 U = P - c*T 的推导逻辑。

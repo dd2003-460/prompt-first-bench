@@ -1,0 +1,20 @@
+# N202: Qwen3-27B 在 FP8 精度下，考虑 Block-wise 量化 overhead 后的实际权重显存占用为 27.84 GB (27B params ×
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N65
+
+## Claim
+
+Qwen3-27B 在 FP8 精度下，考虑 Block-wise 量化 overhead 后的实际权重显存占用为 27.84 GB (27B params × 1.031 bytes/param)，比理论最小值 27.0 GB 增加 0.84 GB。
+
+## Corrected Claim
+
+Qwen3-27B 在 FP8 精度下，考虑 Block-wise 量化 overhead 后的实际权重显存占用为 27.84 GB (27B params × 1.031 bytes/param)，比理论最小值 27.0 GB 增加 0.84 GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数在FP8下理论占用27GB，Block-wise量化引入的scale/zero-point等元数据开销通常约为1-2%，0.84GB的增量（约3.1%）在合理工程误差范围内，且计算过程（27 * 1.031 ≈ 27.84）自洽。

@@ -1,0 +1,15 @@
+{
+  "id": "N186",
+  "claim": "量化尾部对象对 LRU 命中率下界的贡献：在 Pareto(β=0.9) 分布下，满足 R_i < u = 0.01 req/day 的对象占比。由于 R_i 服从 Pareto(β=0.9)，P(R < 0.01) = 1 - (0.01/1)^{0.9} 的逆？不，Pareto CDF 是 P(R > x) = (x/x_min)^{-β}。若 x_min=1，则 P(R < 0.01) = 0，因为 R >= 1。这里需修正参数化：通常热度排名 i 对应 R_i = C * i^{-β}。若 R_max = 5*10^4 req/day (头部)，则 R_min = R_max * (N)^{-β} = 5*10^4 * (10^5)^{-0.9} ≈ 5*10^4 * 10^{-4.5} ≈ 0.0015 req/day。因此，存在 R_i < u=0.01 的对象。具体地，R_i < 0.01 当且仅当 i > (R_max / 0.01)^{1/β} = (5*10^6)^{1/0.9} ≈ 10^{6.7*1.11} ≈ 10^7.4，这超过了 N=10^5。说明在本题参数下，所有对象的 R_i 均大于 u。因此 P_in_i ≈ 1 对所有 i 成立，LRU 命中率下界接近 1.0，折损仅来自更新导致的瞬时失效而非驱逐。",
+  "level": "L4",
+  "source": "search",
+  "status": "verified",
+  "evidence": "[rework-angle r1] 逻辑推导成立，来源未直接覆盖",
+  "corrected_claim": "量化尾部对象对 LRU 命中率下界的贡献：在 Pareto(β=0.9) 分布下，满足 R_i < u = 0.01 req/day 的对象占比。由于 R_i 服从 Pareto(β=0.9)，P(R < 0.01) = 1 - (0.01/1)^{0.9} 的逆？不，Pareto CDF 是 P(R > x) = (x/x_min)^{-β}。若 x_min=1，则 P(R < 0.01) = 0，因为 R >= 1。这里需修正参数化：通常热度排名 i 对应 R_i = C * i^{-β}。若 R_max = 5*10^4 req/day (头部)，则 R_min = R_max * (N)^{-β} = 5*10^4 * (10^5)^{-0.9} ≈ 5*10^4 * 10^{-4.5} ≈ 0.0015 req/day。因此，存在 R_i < u=0.01 的对象。具体地，R_i < 0.01 当且仅当 i > (R_max / 0.01)^{1/β} = (5*10^6)^{1/0.9} ≈ 10^{6.7*1.11} ≈ 10^7.4，这超过了 N=10^5。说明在本题参数下，所有对象的 R_i 均大于 u。因此 P_in_i ≈ 1 对所有 i 成立，LRU 命中率下界接近 1.0，折损仅来自更新导致的瞬时失效而非驱逐。",
+  "rework_count": 1,
+  "parent_ids": [],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "Pareto distribution CDF formula for request rates in LRU cache analysis",
+  "retrieval_sources": []
+}

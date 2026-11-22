@@ -1,0 +1,20 @@
+# N15: 更新导致的缓存失效概率 P_invalid = 1 - exp(-λ_update * τ_LRU)，其中 λ_update = 0.01/day，τ_LRU 
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+更新导致的缓存失效概率 P_invalid = 1 - exp(-λ_update * τ_LRU)，其中 λ_update = 0.01/day，τ_LRU 为对象在 LRU 缓存中的平均驻留时间（取决于缓存容量 C=128GB 与请求速率 R=50M/day 及大小分布）。
+
+## Corrected Claim
+
+更新导致的缓存失效概率 P_invalid = 1 - exp(-λ_update * τ_LRU)，其中 λ_update = 0.01/day，τ_LRU 为对象在 LRU 缓存中的平均驻留时间（取决于缓存容量 C=128GB 与请求速率 R=50M/day 及大小分布）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该公式符合泊松过程下对象在时间τ内未被更新的概率推导（1减去更新概率），量纲与逻辑自洽。

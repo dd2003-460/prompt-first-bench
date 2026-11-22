@@ -1,0 +1,29 @@
+# N58: Qwen3-27B 在 FP8 精度下的 MMLU 基准测试分数及相对于 BF16 的绝对/相对下降幅度（需检索或根据量化误差理论估算）
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N13
+
+## Claim
+
+Qwen3-27B 在 FP8 精度下的 MMLU 基准测试分数及相对于 BF16 的绝对/相对下降幅度（需检索或根据量化误差理论估算）
+
+## Corrected Claim
+
+Qwen3-27B（或 Qwen3.8-27B）在 FP8 精度下存在量化误差，通常会导致 MMLU 等基准测试分数相对于 BF16 出现轻微下降，但具体绝对/相对下降幅度需查阅官方技术报告或基准测试数据，当前来源未提供具体数值。
+
+## Evidence
+
+[质询]参考来源中未包含 MMLU 基准测试的具体分数数值，无法直接验证绝对/相对下降幅度的具体数值；且来源标题提及 'Qwen3.8-27B' 而非 'Qwen3-27B'，存在版本命名混淆或来源不匹配的风险。 | 来源 [1] 和 [2] 确认了 Qwen3.8-27B-FP8 模型的存在及 FP8 量化部署，但未提供 MMLU 具体分数及与 BF16 的对比数据；作为经验事实（具体基准分数），缺乏直接来源支持，故降级。
+
+## Search Query
+
+Qwen3-27B FP8 MMLU benchmark score comparison BF16
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2073193935342679989&rut=61179b1f8d9ae450f1670e7fc3c966ef576f60d91e14e1678c7731079185919a', 'type': 'ddg', 'title': '双 NVIDIA L20 上 Qwen3.8-27B-FP8 + MTP 调优测试报告'}
+- {'url': 'https://huggingface.co/Qwen/Qwen3.8-27B-FP8&rut=4408fbcaa0ecf572370c0e5cd3db753c9aed75101561b2d04fe707b20b2db9c6', 'type': 'ddg', 'title': 'Qwen/Qwen3.8-27B-FP8 · Hugging Face'}

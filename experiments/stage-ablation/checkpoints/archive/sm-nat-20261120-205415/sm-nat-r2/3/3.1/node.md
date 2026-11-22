@@ -1,0 +1,20 @@
+# N13: LFU 最大增益 = (LFU 字节命中率 - LRU 字节命中率) * 100%；LFU 通过频率排序缓存对象，不受时间局部性影响，在 Pareto 热度分布
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+LFU 最大增益 = (LFU 字节命中率 - LRU 字节命中率) * 100%；LFU 通过频率排序缓存对象，不受时间局部性影响，在 Pareto 热度分布下，LFU 缓存对象与 LRU 不同，增益源于避免缓存低频大对象
+
+## Corrected Claim
+
+LFU 最大增益 = (LFU 字节命中率 - LRU 字节命中率) * 100%；LFU 通过频率排序缓存对象，不受时间局部性影响，在 Pareto 热度分布下，LFU 缓存对象与 LRU 不同，增益源于避免缓存低频大对象
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点仅提供了 H_LFU 和 H_LRU 的计算公式，但父节点明确包含了“最大增益”的计算公式以及关于 LFU 在 Pareto 分布下避免缓存低频大对象的机制解释。子节点缺失了增益公式的定义和核心机制/结论部分，导致覆盖不全。）

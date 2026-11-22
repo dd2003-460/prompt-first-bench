@@ -1,0 +1,20 @@
+# N72: 对象 i 的请求频率 f_i 的解析表达式：基于 Pareto(β=0.9) 排名分布，f_i = (R_daily / N) * β * (1 - (i/N)
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N24
+
+## Claim
+
+对象 i 的请求频率 f_i 的解析表达式：基于 Pareto(β=0.9) 排名分布，f_i = (R_daily / N) * β * (1 - (i/N)^(1-β)) / (1 - ((i+1)/N)^(1-β))，其中 R_daily=50,000,000, N=100,000，i 为对象按热度降序排列的索引。
+
+## Corrected Claim
+
+对象 i 的请求频率 f_i 的解析表达式：基于 Pareto(β=0.9) 排名分布，f_i = (R_daily / N) * β * (1 - (i/N)^(1-β)) / (1 - ((i+1)/N)^(1-β))，其中 R_daily=50,000,000, N=100,000，i 为对象按热度降序排列的索引。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

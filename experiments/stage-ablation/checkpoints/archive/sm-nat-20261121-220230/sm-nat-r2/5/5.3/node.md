@@ -1,0 +1,20 @@
+# N24: 相关性系数 ρ=-0.3 的测量方法与误差界：该相关系数是基于线性 Pearson 相关还是 Spearman 秩相关？在重尾分布 (Pareto) 下，Pea
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N5
+
+## Claim
+
+相关性系数 ρ=-0.3 的测量方法与误差界：该相关系数是基于线性 Pearson 相关还是 Spearman 秩相关？在重尾分布 (Pareto) 下，Pearson 相关系数对异常值敏感，可能低估尾部相关性。需说明若使用 Spearman 相关，等效的 Pearson ρ 是多少，以及该测量误差对最终命中率估算的影响幅度（如 ±5% 命中率波动）。
+
+## Corrected Claim
+
+相关性系数 ρ=-0.3 的测量方法需明确是 Pearson 还是 Spearman。在重尾分布 (Pareto) 下，Pearson 相关系数对异常值敏感，可能无法准确反映尾部相关性。若使用 Spearman 相关，其数值通常与 Pearson 不同，且该测量误差对最终命中率估算的影响幅度需通过具体数据验证，不能简单假定为 ±5%。
+
+## Evidence
+
+[质询]该陈述包含具体的数值假设（如±5%命中率波动）和未经验证的因果推断（Pareto下Pearson必然低估尾部相关且影响显著），缺乏具体数据支撑，属于经验性断言而非逻辑必然。 | 先验知识/题面给定，逻辑校验通过：Pearson对重尾分布敏感是统计学常识，但具体误差幅度（±5%）和等效Spearman值需实证数据，无法从第一性原理严格推出，故降级为定性表述。

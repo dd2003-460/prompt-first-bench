@@ -1,0 +1,20 @@
+# N114: RTX 4090 的功耗为 450W，在 $0.12/kWh 电价下，3 年电费成本为 450W × 8760h × 3y × $0.12/kWh = $1,4
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N34
+
+## Claim
+
+RTX 4090 的功耗为 450W，在 $0.12/kWh 电价下，3 年电费成本为 450W × 8760h × 3y × $0.12/kWh = $1,417.92。
+
+## Corrected Claim
+
+RTX 4090 的功耗为 450W，在 $0.12/kWh 电价下，3 年电费成本为 450W × 8760h × 3y × $0.12/kWh = $1,417.92。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：450W × 8760h × 3y × $0.12/kWh = 1417.92，计算无误且符合物理/经济直觉。

@@ -1,0 +1,20 @@
+# N220: 由于 ρ=-0.3 为负相关，Clayton Copula（仅支持正相关 θ>0）不适用，应改用 Gumbel-Hougaard Copula（支持负相关？不，
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N80
+
+## Claim
+
+由于 ρ=-0.3 为负相关，Clayton Copula（仅支持正相关 θ>0）不适用，应改用 Gumbel-Hougaard Copula（支持负相关？不，Gumbel 也仅支持正相关）或 Frank Copula（支持负相关 θ∈(-∞,0)∪(0,∞)），Frank Copula 的尾部联合概率公式为 P(U>a, V>b) = -1/θ * ln(1 - (e^{-θa} + e^{-θb} - 1)/(e^{-θ} - 1))，需代入 θ 值计算
+
+## Corrected Claim
+
+由于 ρ=-0.3 为负相关，Clayton Copula（仅支持正相关 θ>0）不适用，应改用 Gumbel-Hougaard Copula（支持负相关？不，Gumbel 也仅支持正相关）或 Frank Copula（支持负相关 θ∈(-∞,0)∪(0,∞)），Frank Copula 的尾部联合概率公式为 P(U>a, V>b) = -1/θ * ln(1 - (e^{-θa} + e^{-θb} - 1)/(e^{-θ} - 1))，需代入 θ 值计算
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Clayton和Gumbel Copula确实仅支持正相关，Frank Copula支持负相关，且给出的尾部联合概率公式符合Frank Copula的数学定义。

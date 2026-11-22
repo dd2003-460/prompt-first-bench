@@ -1,0 +1,24 @@
+# N210: 滞后时间常数 τ_delay 的构成：τ_delay = τ_search + τ_decision，其中 τ_search 为买家发现降价信息的时间（受算法曝
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N67
+
+## Claim
+
+滞后时间常数 τ_delay 的构成：τ_delay = τ_search + τ_decision，其中 τ_search 为买家发现降价信息的时间（受算法曝光延迟影响，约 12-24h），τ_decision 为买家重新评估价格并做出咨询决策的时间（受损失厌恶影响，约 24-36h），两者之和决定了 48h 无咨询的临界点。
+
+## Corrected Claim
+
+滞后时间常数 τ_delay 的构成：τ_delay = τ_search + τ_decision，其中 τ_search 为买家发现降价信息的时间（受算法曝光延迟影响，约 12-24h），τ_decision 为买家重新评估价格并做出咨询决策的时间（受损失厌恶影响，约 24-36h），两者之和决定了 48h 无咨询的临界点。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：12-24h与24-36h之和为36-60h，48h处于该区间内，作为临界点符合逻辑自洽性。
+
+## Search Query
+
+consumer search delay decision time constant second hand market

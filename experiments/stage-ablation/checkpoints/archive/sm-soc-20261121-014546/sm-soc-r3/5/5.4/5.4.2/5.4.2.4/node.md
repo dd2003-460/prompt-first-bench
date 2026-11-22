@@ -1,0 +1,20 @@
+# N340: 平价商品的点击率 CTR_low 作为基准，其值主要受商品质量信号（如卖家信誉、图片质量）影响，可表示为 CTR_low = CTR_base * f(qual
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N109
+
+## Claim
+
+平价商品的点击率 CTR_low 作为基准，其值主要受商品质量信号（如卖家信誉、图片质量）影响，可表示为 CTR_low = CTR_base * f(quality_signal)，其中 f 为质量信号对点击率的提升函数。
+
+## Corrected Claim
+
+平价商品的点击率 CTR_low 作为基准，其值主要受商品质量信号（如卖家信誉、图片质量）影响，可表示为 CTR_low = CTR_base * f(quality_signal)，其中 f 为质量信号对点击率的提升函数。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

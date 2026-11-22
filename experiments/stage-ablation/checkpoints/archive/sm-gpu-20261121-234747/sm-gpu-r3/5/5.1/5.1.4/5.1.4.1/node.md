@@ -1,0 +1,24 @@
+# N338: H100 在 BF16 精度下运行 Qwen3-27B 的实测 Decode 吞吐量基准值为 50 tokens/s，误差范围 ±5%，基于 vLLM 0.4.
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N120
+
+## Claim
+
+H100 在 BF16 精度下运行 Qwen3-27B 的实测 Decode 吞吐量基准值为 50 tokens/s，误差范围 ±5%，基于 vLLM 0.4.1 版本及 CUDA 12.1 环境
+
+## Corrected Claim
+
+H100 在 BF16 精度下运行 Qwen3-27B 的 Decode 吞吐量约为 50 tokens/s（基于特定 vLLM 0.4.1 及 CUDA 12.1 环境配置，具体数值随硬件批次及负载参数波动）。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件型号（H100）、软件版本（vLLM 0.4.1, CUDA 12.1）及精确的性能指标（50 tokens/s ±5%），属于典型的经验事实。由于缺乏外部来源支持，且不同批次硬件、驱动版本及具体配置（如batch size, context length）会导致吞吐量显著波动，无法仅凭逻辑自洽确认该具体数值为通用基准。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）。
+
+## Search Query
+
+H100 Qwen3-27B BF16 vLLM throughput tokens/s benchmark

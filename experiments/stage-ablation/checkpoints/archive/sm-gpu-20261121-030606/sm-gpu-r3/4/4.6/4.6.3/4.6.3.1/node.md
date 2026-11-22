@@ -1,0 +1,30 @@
+# N331: 通用对话场景下INT8质量损失的量化阈值：定义'可接受'为MMLU下降<1.5%且用户满意度调研无显著差异，需引用具体研究或行业标准（如LLM-as-a-Jud
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N144
+
+## Claim
+
+通用对话场景下INT8质量损失的量化阈值：定义'可接受'为MMLU下降<1.5%且用户满意度调研无显著差异，需引用具体研究或行业标准（如LLM-as-a-Judge评分差值<0.1/5.0）来支撑N144中'1.3%可接受'的判断。
+
+## Corrected Claim
+
+INT8量化在通用任务中通常会导致轻微精度损失，但在通用对话场景下，‘MMLU下降<1.5%且用户满意度无显著差异’作为‘可接受’的量化阈值，目前缺乏统一的行业标准或广泛引用的具体研究直接支撑，需结合具体模型和评估基准进行实证验证。
+
+## Evidence
+
+[质询]该陈述试图将通用的INT8量化精度损失（通常针对分类/回归任务或通用基准）直接映射到特定场景（通用对话）下的具体阈值（MMLU下降<1.5%、LLM-as-a-Judge差值<0.1），并声称需引用具体研究支撑。然而，参考来源仅讨论了INT8量化的通用原理、失效模式及公式推导，并未提供针对‘通用对话场景’下MMLU或用户满意度的具体量化阈值数据，也未提及LLM-as-a-Judge的具体评分标准。将通用量化误差直接等同于特定对话场景下的可接受阈值缺乏直接证据支持，存在口径混淆风险。 | 来源[1][2][3]均涉及INT8量化精度损失的一般性讨论，但未提供‘通用对话场景’下MMLU下降<1.5%或LLM-as-a-Judge差值<0.1的具体实证数据或行业标准，属于间接相关但缺乏直接支持的经验事实。
+
+## Search Query
+
+LLM quantization quality threshold acceptable degradation MMLU
+
+## Retrieval Sources
+
+- {'url': 'https://jishuzhan.net/article/2067884077969141762&rut=cd2a59e90dc57e3dc13f0104c379ebd2bd5de3690a056458db1a6599ff692479', 'type': 'ddg', 'title': 'Int8量化部署实践：从训练后量化到混合精度量化的精度损失控制方案 - 技术栈'}
+- {'url': 'https://blog.csdn.net/2501_91798322/article/details/148398161&rut=fff868268038fd295518568ff892566c88fb84315a936a1fef883712babf1143', 'type': 'ddg', 'title': '模型量化实战：INT8量化的5个精度损失点（模型优化丨模型训练丨人工智能丨机器学习）_int8量化准确率下降多少-CSDN博客'}
+- {'url': 'https://cloud.tencent.com/developer/article/2589122&rut=5070600813fc294e3318050532d1fb8068fe16da01dd43795ea1f723157033e8', 'type': 'ddg', 'title': '129_量化技术：Int8与动态量化 - 推导压缩的精度损失公式'}

@@ -1,0 +1,29 @@
+# N103: 降价信号点击率 CTR 的衰减系数：当商品挂价高于近期成交中位数 15% 以上时，‘降价’标签的点击率相比‘新品’或‘正常价’标签下降约 30%-50%，因为买
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N30
+
+## Claim
+
+降价信号点击率 CTR 的衰减系数：当商品挂价高于近期成交中位数 15% 以上时，‘降价’标签的点击率相比‘新品’或‘正常价’标签下降约 30%-50%，因为买家将大幅降价解读为质量风险或滞销信号 [待核验]
+
+## Corrected Claim
+
+当商品挂价显著高于近期成交中位数时，‘降价’标签的点击率可能低于‘新品’或‘正常价’标签，因为买家可能将大幅降价解读为质量风险或滞销信号，但具体衰减系数需依赖特定平台数据验证。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（15%阈值、30%-50%衰减幅度）和特定的因果机制（买家心理解读），属于电商行为经济学范畴。参考来源仅涉及CTR建模技术和广告指标定义，完全未覆盖二手交易或特定标签对CTR的具体影响数值，缺乏直接证据支持。 | 逻辑上符合消费者行为学中的‘信号理论’（低价可能暗示质量差或滞销），但参考来源[1][2]仅讨论CTR建模原理和广告指标，与该具体电商场景事实无关，无可用外部证据支持具体数值。
+
+## Search Query
+
+price reduction signal negative interpretation click-through rate second-hand market
+
+## Retrieval Sources
+
+- {'url': 'https://cloud.tencent.com/developer/article/1842740&rut=92da3dce70850260a7c393e341ee950ccb4509bf3ff13e83df58f23960d1fbde', 'type': 'ddg', 'title': '你真的懂点击率（Ctr）建模吗？-腾讯云开发者社区-腾讯云'}
+- {'url': 'https://blog.csdn.net/weixin_31742871/article/details/161412342&rut=532bafd6cf01d75f8afd795a60a1977244138e57fba87ac46ee2fc2cf97f9498', 'type': 'ddg', 'title': '【广告指标解码】从CTR、CVR到eCPM：构建你的广告效果评估体系-CSDN博客'}

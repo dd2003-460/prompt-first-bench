@@ -1,0 +1,24 @@
+# N178: 买家时间机会成本 w_buyer 的量化：w_buyer = w_hourly / 60，其中 w_hourly 为买家时薪（元/小时）；在二手交易平台用户群体
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N54
+
+## Claim
+
+买家时间机会成本 w_buyer 的量化：w_buyer = w_hourly / 60，其中 w_hourly 为买家时薪（元/小时）；在二手交易平台用户群体中，w_hourly 的中位数约为 50-100 元/小时，导致 w_buyer 约为 0.8-1.7 元/分钟；需结合用户画像数据（如收入水平、职业类型）对 w_buyer 进行分层估算。
+
+## Corrected Claim
+
+买家时间机会成本 w_buyer 的量化：w_buyer = w_hourly / 60，其中 w_hourly 为买家时薪（元/小时）；在二手交易平台用户群体中，w_hourly 的中位数约为 50-100 元/小时，导致 w_buyer 约为 0.8-1.7 元/分钟；需结合用户画像数据（如收入水平、职业类型）对 w_buyer 进行分层估算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：单位换算 w_buyer = w_hourly / 60 在量纲和数值上均正确（50-100元/小时对应0.83-1.67元/分钟），且分层估算符合经济学常识。
+
+## Search Query
+
+consumer hourly wage opportunity cost online shopping user profile income level

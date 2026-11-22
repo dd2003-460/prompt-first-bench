@@ -1,0 +1,20 @@
+# N24: Pareto(α=1.1) 分布的均值收敛条件：由于 α < 2，期望 E[S] 严格依赖于截断上限 x_max；若 x_max → ∞，E[S] 发散，因此必
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+Pareto(α=1.1) 分布的均值收敛条件：由于 α < 2，期望 E[S] 严格依赖于截断上限 x_max；若 x_max → ∞，E[S] 发散，因此必须引入基于物理存储或业务逻辑的 x_max 才能计算平均大小。
+
+## Corrected Claim
+
+Pareto(α=1.1) 分布的均值收敛条件：由于 α < 2，期望 E[S] 严格依赖于截断上限 x_max；若 x_max → ∞，E[S] 发散，因此必须引入基于物理存储或业务逻辑的 x_max 才能计算平均大小。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布当α<2时矩不存在（发散），截断后期望依赖于截断上限，符合概率论基本性质。

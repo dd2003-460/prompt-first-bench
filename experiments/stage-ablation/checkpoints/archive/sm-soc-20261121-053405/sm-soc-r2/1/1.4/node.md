@@ -1,0 +1,20 @@
+# N8: 短周期投影：成交周期 $T_{cycle}$ 与挂价溢价的非线性关系。假设高挂价筛选出高支付意愿买家（WTP > $P_{ask}^*$），其占比 $\phi 
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+短周期投影：成交周期 $T_{cycle}$ 与挂价溢价的非线性关系。假设高挂价筛选出高支付意愿买家（WTP > $P_{ask}^*$），其占比 $\phi = P(WTP > P_{ask}^*)$ 虽小但决策速度 $V_{decision}$ 快，导致 $T_{cycle} = 1/(\lambda \cdot \phi \cdot V_{decision})$ 缩短，其中 $\lambda$ 是流量。
+
+## Corrected Claim
+
+短周期投影：成交周期 $T_{cycle}$ 与挂价溢价的非线性关系。假设高挂价筛选出高支付意愿买家（WTP > $P_{ask}^*$），其占比 $\phi = P(WTP > P_{ask}^*)$ 虽小但决策速度 $V_{decision}$ 快，导致 $T_{cycle} = 1/(\lambda \cdot \phi \cdot V_{decision})$ 缩短，其中 $\lambda$ 是流量。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该陈述基于排队论/搜索匹配模型的基本假设（高价格筛选高WTP买家，高WTP买家决策速度快），公式 T=1/(λφV) 在量纲和逻辑上自洽，符合微观经济学直觉。

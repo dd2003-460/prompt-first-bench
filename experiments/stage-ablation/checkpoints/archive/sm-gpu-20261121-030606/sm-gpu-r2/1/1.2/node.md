@@ -1,0 +1,24 @@
+# N8: 消费级GPU候选集限定为RTX 4090 (24GB) 和 RTX 5090 (32GB)，因为RTX 4090是目前唯一24GB且具备高带宽（1008 GB/
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+消费级GPU候选集限定为RTX 4090 (24GB) 和 RTX 5090 (32GB)，因为RTX 4090是目前唯一24GB且具备高带宽（1008 GB/s）的消费级卡，RTX 5090作为新一代32GB选项纳入对比，其他24GB卡（如A6000）因价格高于4090且性能无优势被排除。
+
+## Corrected Claim
+
+消费级GPU候选集限定为RTX 4090 (24GB) 和 RTX 5090 (32GB)，因为RTX 4090是目前唯一24GB且具备高带宽（1008 GB/s）的消费级卡，RTX 5090作为新一代32GB选项纳入对比，其他24GB卡（如A6000）因价格高于4090且性能无优势被排除。
+
+## Evidence
+
+父节点级核验失败（LLM 错误）：Unterminated string starting at: line 8 column 5 (char 806)
+
+## Search Query
+
+RTX 4090 vs RTX 5090 LLM inference benchmark 2024

@@ -1,0 +1,24 @@
+# N169: RTX 3090 二手卡的市场价格波动系数：在 2024Q4-2025Q1 期间，由于新品 RTX 5090 发布预期，RTX 3090 二手价月均跌幅约为 3
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N32
+
+## Claim
+
+RTX 3090 二手卡的市场价格波动系数：在 2024Q4-2025Q1 期间，由于新品 RTX 5090 发布预期，RTX 3090 二手价月均跌幅约为 3%-5%，需在 TCO 计算中引入折旧或残值回收项
+
+## Corrected Claim
+
+在 2024Q4-2025Q1 期间，受新品 RTX 5090 发布预期影响，RTX 3090 二手价呈现下行趋势，需在 TCO 计算中引入折旧或残值回收项以反映市场波动风险。
+
+## Evidence
+
+[质询]具体数值（3%-5%）缺乏来源支持，且二手显卡价格受供需、矿潮余波等多重因素影响，波动系数并非固定值，属于经验事实而非第一性原理可推导内容。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+RTX 3090 used price trend 2024 Q4 2025 Q1 depreciation rate

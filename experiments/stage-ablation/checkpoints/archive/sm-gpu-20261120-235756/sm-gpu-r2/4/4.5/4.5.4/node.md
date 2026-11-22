@@ -1,0 +1,24 @@
+# N98: PCIe 带宽瓶颈量化：RTX 5090 使用 PCIe 5.0 x16 (64 GB/s)，H100 SXM 使用 NVLink 4 (900 GB/s)，多
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N24
+
+## Claim
+
+PCIe 带宽瓶颈量化：RTX 5090 使用 PCIe 5.0 x16 (64 GB/s)，H100 SXM 使用 NVLink 4 (900 GB/s)，多卡间 KV Cache 同步或权重分片传输在 PCIe 上可能成为瓶颈，导致多卡 TPOT 效率下降 5-15%。
+
+## Corrected Claim
+
+PCIe 带宽瓶颈量化：RTX 5090 使用 PCIe 5.0 x16 (64 GB/s)，H100 SXM 使用 NVLink 4 (900 GB/s)，多卡间 KV Cache 同步或权重分片传输在 PCIe 上可能成为瓶颈，导致多卡 TPOT 效率下降 5-15%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe 5.0 x16 理论带宽约 64 GB/s，NVLink 4 带宽约 900 GB/s，量级符合硬件规格常识；多卡通信瓶颈导致效率下降 5-15% 符合分布式推理的一般工程经验。
+
+## Search Query
+
+PCIe 5.0 vs NVLink bandwidth multi-gpu inference efficiency loss

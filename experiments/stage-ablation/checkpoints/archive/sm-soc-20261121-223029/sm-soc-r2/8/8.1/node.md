@@ -1,0 +1,24 @@
+# N115: 柠檬市场效应下的咨询意愿衰减函数：C_inquiry(ΔP) = C_base * e^(-λ_lemon * |ΔP| / P_ref)，其中 λ_lemon
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N32
+
+## Claim
+
+柠檬市场效应下的咨询意愿衰减函数：C_inquiry(ΔP) = C_base * e^(-λ_lemon * |ΔP| / P_ref)，其中 λ_lemon 为买家对降价信号的负面解读敏感度；当 C_inquiry < Threshold_notification (如 5%) 时，平台不触发通知，导致卖家感知为‘无咨询’。
+
+## Corrected Claim
+
+柠檬市场效应下的咨询意愿衰减函数：C_inquiry(ΔP) = C_base * e^(-λ_lemon * |ΔP| / P_ref)，其中 λ_lemon 为买家对降价信号的负面解读敏感度；当 C_inquiry < Threshold_notification (如 5%) 时，平台不触发通知，导致卖家感知为‘无咨询’。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+lemon market effect buyer inquiry rate price drop sensitivity

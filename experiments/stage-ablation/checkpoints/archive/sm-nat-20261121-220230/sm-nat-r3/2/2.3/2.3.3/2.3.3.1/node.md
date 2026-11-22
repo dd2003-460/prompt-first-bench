@@ -1,0 +1,24 @@
+# N156: LFU 增益峰值平台期对应的热度排名日变化率 r_rank 的量化定义：r_rank = (1/N) * Σ|rank_i(t) - rank_i(t-1)| 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N54
+
+## Claim
+
+LFU 增益峰值平台期对应的热度排名日变化率 r_rank 的量化定义：r_rank = (1/N) * Σ|rank_i(t) - rank_i(t-1)| / N，在 Pareto(β=0.9) 重尾分布下，该值对头部对象（Top 10%）的敏感度系数为 ∂r_rank/∂β ≈ -0.15，需通过仿真验证 r_rank ∈ [0.10, 0.20] 区间内 LFU 增益 ΔH_LFU 是否稳定在 9-10% 平台期。
+
+## Corrected Claim
+
+在 Pareto(β=0.9) 重尾分布下，LFU 增益峰值平台期对应的热度排名日变化率 r_rank 对头部对象的敏感度及增益稳定性需通过仿真验证，具体数值（如敏感度系数、增益区间）取决于仿真参数，不应作为固定量化定义直接陈述。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（敏感度系数 -0.15、增益区间 9-10%），这些并非数学公理或第一性原理可直接推导的必然结果，而是依赖于特定仿真环境、负载模型和参数设置的实验数据。在无来源支持的情况下，断言这些具体数值为‘量化定义’或既定事实缺乏依据，存在将特定实验结果普遍化的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体数值无法从第一性原理严格推出）
+
+## Search Query
+
+LFU gain saturation threshold rank change rate Pareto distribution simulation

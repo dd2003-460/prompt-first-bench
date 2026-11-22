@@ -1,0 +1,24 @@
+# N308: θ_base = 3% 的实证基础：基于历史数据回归 θ_base = α + β * Liquidity_index，其中 Liquidity_index 为
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N105
+
+## Claim
+
+θ_base = 3% 的实证基础：基于历史数据回归 θ_base = α + β * Liquidity_index，其中 Liquidity_index 为平台整体成交速度指数；3% 对应流动性中性水平，需验证该系数在 2023-2024 年是否稳定或随季节波动（波动幅度 < ±0.5%）。
+
+## Corrected Claim
+
+θ_base 设定为 3% 作为流动性中性水平的基准假设，其具体数值及在 2023-2024 年的稳定性（波动幅度 < ±0.5%）需基于历史数据回归进一步实证验证。
+
+## Evidence
+
+[质询]该陈述包含具体的实证回归系数（θ_base = 3%）及特定的统计稳定性阈值（波动幅度 < ±0.5%），属于经验事实。在缺乏任何参考来源支持的情况下，无法验证该具体数值及其稳定性结论的真实性，存在将假设参数误述为已验证实证结果的风险。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，无法验证具体回归系数及稳定性阈值）。
+
+## Search Query
+
+second hand platform seller price threshold liquidity index regression analysis

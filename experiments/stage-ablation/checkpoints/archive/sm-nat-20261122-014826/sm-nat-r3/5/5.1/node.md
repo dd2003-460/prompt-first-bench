@@ -1,0 +1,20 @@
+# N17: 通用缓存理论参数溯源：Pareto 分布形状参数 α=1.1（对象大小）和 β=0.9（请求热度）属于题目给定（given），而 LRU 稳态命中率下界公式 H
+
+- **status**: verified
+- **level**: L2
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N5
+
+## Claim
+
+通用缓存理论参数溯源：Pareto 分布形状参数 α=1.1（对象大小）和 β=0.9（请求热度）属于题目给定（given），而 LRU 稳态命中率下界公式 H_LRU ≈ 1 - (C/S_total)^(1/α) 中的指数关系及 LFU 对 LRU 的理论优势上限（基于 Zipf 分布下的缓存效率比）属于通用缓存理论（knowledge），需标注为‘凭记忆’的模型先验。
+
+## Corrected Claim
+
+通用缓存理论参数溯源：Pareto 分布形状参数 α=1.1（对象大小）和 β=0.9（请求热度）属于题目给定（given），而 LRU 稳态命中率下界公式 H_LRU ≈ 1 - (C/S_total)^(1/α) 中的指数关系及 LFU 对 LRU 的理论优势上限（基于 Zipf 分布下的缓存效率比）属于通用缓存理论（knowledge），需标注为‘凭记忆’的模型先验。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

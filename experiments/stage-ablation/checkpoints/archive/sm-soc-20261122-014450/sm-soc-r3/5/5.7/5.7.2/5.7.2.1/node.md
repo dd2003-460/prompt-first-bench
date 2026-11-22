@@ -1,0 +1,24 @@
+# N336: Sobol 一阶指数 S_1(H_i) 的计算需对 Y(干预效果) 进行条件方差估计：S_1(H_i) = Var(E[Y|H_i]) / Var(Y)，其中 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N107
+
+## Claim
+
+Sobol 一阶指数 S_1(H_i) 的计算需对 Y(干预效果) 进行条件方差估计：S_1(H_i) = Var(E[Y|H_i]) / Var(Y)，其中 E[Y|H_i] 需通过条件蒙特卡洛积分计算，积分域为 H_i 的先验分布，分母 Var(Y) 为全空间积分，计算复杂度为 O(N * 2^d)，d 为变量维度。
+
+## Corrected Claim
+
+Sobol 一阶指数 S_1(H_i) 的计算需对 Y(干预效果) 进行条件方差估计：S_1(H_i) = Var(E[Y|H_i]) / Var(Y)，其中 E[Y|H_i] 需通过条件蒙特卡洛积分计算，积分域为 H_i 的先验分布，分母 Var(Y) 为全空间积分，计算复杂度通常随样本量 N 和维度 d 线性或低阶增长（如 O(N*d)），而非指数级。
+
+## Evidence
+
+[质询]计算复杂度 O(N * 2^d) 的表述存在严重逻辑和工程直觉错误。Sobol 指数通常通过蒙特卡洛采样（如 Saltelli 方案）估计，其复杂度主要取决于样本量 N 和维度 d 的线性或低阶多项式关系（如 O(N*d) 或 O(N*d^2)），而非指数级 2^d。指数级复杂度通常对应于精确数值积分（如网格法）在维度灾难下的表现，但题目明确提到“条件蒙特卡洛积分”，蒙特卡洛方法的核心优势正是避免维度灾难，因此将蒙特卡洛方法的复杂度标记为 O(N * 2^d) 是概念混淆。 | 先验知识/题面给定，逻辑校验未通过：蒙特卡洛方法的复杂度不随维度呈指数增长，O(N * 2^d) 违背了蒙特卡洛方法的基本原理及高维积分的工程常识。
+
+## Search Query
+
+Sobol first order index calculation conditional variance Monte Carlo integral complexity

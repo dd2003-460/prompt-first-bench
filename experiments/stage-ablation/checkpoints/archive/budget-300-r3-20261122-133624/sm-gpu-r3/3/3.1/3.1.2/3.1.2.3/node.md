@@ -1,0 +1,20 @@
+# N258: BF16 方案在 32K 上下文下的显存总需求（权重 54GB + KV Cache 14.4GB + 激活值/框架开销 ~4GB）约为 72.4GB，该数值直
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N80
+
+## Claim
+
+BF16 方案在 32K 上下文下的显存总需求（权重 54GB + KV Cache 14.4GB + 激活值/框架开销 ~4GB）约为 72.4GB，该数值直接决定硬件选型下限：排除所有单卡显存 < 75GB 的方案（如 H100 80GB 需启用 PagedAttention 或限制并发），确认 H200 (141GB) 或 2xA100 80GB (160GB) 为最小可行 BF16 配置。
+
+## Corrected Claim
+
+BF16 方案在 32K 上下文下的显存总需求（权重 54GB + KV Cache 14.4GB + 激活值/框架开销 ~4GB）约为 72.4GB，该数值直接决定硬件选型下限：排除所有单卡显存 < 75GB 的方案（如 H100 80GB 需启用 PagedAttention 或限制并发），确认 H200 (141GB) 或 2xA100 80GB (160GB) 为最小可行 BF16 配置。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值加和正确（54+14.4+4=72.4），硬件选型逻辑自洽（72.4GB < 75GB 阈值，H100 80GB 余量不足需优化，H200/2xA100 满足需求）。

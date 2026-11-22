@@ -1,0 +1,29 @@
+# N33: 长期维护与故障风险：消费级 GPU 无 ECC 显存，27B 模型在 BF16 下显存占用 ~54GB，双卡各 24GB/27GB，ECC 缺失导致位翻转概率 
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+长期维护与故障风险：消费级 GPU 无 ECC 显存，27B 模型在 BF16 下显存占用 ~54GB，双卡各 24GB/27GB，ECC 缺失导致位翻转概率 ~1e-9/GB/hour，7×24 运行 1 年内预期故障 0.008 次，可接受；但多卡驱动崩溃率比单卡高 3-5 倍 [待核验：NVIDIA 社区统计]，需部署看门狗进程和自动重启脚本，增加运维复杂度 2-4 小时/月。
+
+## Corrected Claim
+
+长期维护与故障风险：消费级 GPU 无 ECC 显存，27B 模型在 BF16 下显存占用 ~54GB，双卡各 24GB/27GB。ECC 缺失可能增加位翻转风险，多卡驱动稳定性通常低于单卡，建议部署看门狗进程和自动重启脚本以应对潜在故障，具体故障率与运维成本需根据实际环境评估。
+
+## Evidence
+
+[质询]关键运维指标（位翻转概率 1e-9/GB/hour、多卡驱动崩溃率 3-5 倍、运维复杂度 2-4 小时/月）缺乏权威来源支持，属于经验估算或推测数据，且参考来源未覆盖这些具体数值。 | 来源[1]直接支持 27B 模型在 FP16/BF16 下显存占用约 54GB 的事实，但其余关于 ECC 缺失风险、故障率及运维成本的具体数值在参考来源中无直接支持，且属于经验事实，无法从第一性原理严格推出。
+
+## Search Query
+
+consumer GPU ECC reliability LLM inference 24/7 uptime failure rate multi-GPU
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_31458015/article/details/164346941&rut=1589d715b7c6f52a958f175e2c90d43ef0a56cacb64b59beeffdb9d5ef8f95f9', 'type': 'ddg', 'title': '24g显存跑27b模型实战：显存预算与推理引擎调优指南-csdn博客'}
+- {'url': 'https://www.shengyayun.com/blog/tech-implementation-2026-08-16/&rut=470f989aac0cbbbc50a02e9a7edb469f2acff9af9df425613db20efa88036c80', 'type': 'ddg', 'title': '技术热点落地：Qwen3.8-27B 本地部署实战——FP8/GGUF/NVFP4 选型与消费级显卡避坑清单（2026-08-16）'}

@@ -1,0 +1,24 @@
+# N173: llama.cpp KV Cache 的动态分配策略导致其基础开销低，但其最大并发能力受限于显存连续碎片化程度；在 24GB 显存下，llama.cpp 运行 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N52
+
+## Claim
+
+llama.cpp KV Cache 的动态分配策略导致其基础开销低，但其最大并发能力受限于显存连续碎片化程度；在 24GB 显存下，llama.cpp 运行 27B INT8 模型时，可用 KV Cache 空间比 vLLM 多约 1.4GB（即 1.8GB - 0.4GB），理论上可支持多 1-2 个 32K 并发请求
+
+## Corrected Claim
+
+llama.cpp KV Cache 的动态分配策略导致其基础开销低，但其最大并发能力受限于显存连续碎片化程度；在 24GB 显存下，llama.cpp 运行 27B INT8 模型时，可用 KV Cache 空间通常比 vLLM 多，理论上可支持更多并发请求
+
+## Evidence
+
+[质询]数值量级与具体参数（1.4GB差异、1-2个并发请求）属于特定硬件和配置下的经验观测值，无法从第一性原理严格推导，且缺乏来源支持具体数值。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+llama.cpp vs vLLM KV cache memory efficiency comparison

@@ -1,0 +1,20 @@
+# N148: RTX 3090 显存带宽为 936 GB/s，显存容量 24GB，不支持 FP8 计算单元（Ampere 架构），仅支持 BF16/INT8 量化，单卡 BF
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N25
+
+## Claim
+
+RTX 3090 显存带宽为 936 GB/s，显存容量 24GB，不支持 FP8 计算单元（Ampere 架构），仅支持 BF16/INT8 量化，单卡 BF16 27B 模型推理不可行（显存不足），需 INT8/4-bit 量化或 CPU Offload
+
+## Corrected Claim
+
+RTX 3090 显存带宽为 936 GB/s，显存容量 24GB，不支持 FP8 计算单元（Ampere 架构），仅支持 BF16/INT8 量化，单卡 BF16 27B 模型推理不可行（显存不足），需 INT8/4-bit 量化或 CPU Offload
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 3090 为 Ampere 架构，显存 24GB GDDR6X，带宽 936 GB/s，不支持 FP8（需 Ada/Hopper 架构），27B 模型 BF16 需约 54GB 显存，超出单卡容量，故需量化或 Offload。

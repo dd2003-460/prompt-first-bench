@@ -1,0 +1,24 @@
+# N495: FP8 与 W4 在 WikiText-103 上的 Perplexity 绝对差值 ΔPPL_diff = PPL_W4 - PPL_FP8，需基于相同 27
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N157
+
+## Claim
+
+FP8 与 W4 在 WikiText-103 上的 Perplexity 绝对差值 ΔPPL_diff = PPL_W4 - PPL_FP8，需基于相同 27B 模型和相同校准集计算，该差值直接反映'无损'与'有损'的边界，预期 FP8 ΔPPL < 0.1 而 W4 ΔPPL > 0.5 [待核验]
+
+## Corrected Claim
+
+FP8 与 W4 在 WikiText-103 上的 Perplexity 绝对差值 ΔPPL_diff = PPL_W4 - PPL_FP8，需基于相同 27B 模型和相同校准集计算，该差值直接反映'无损'与'有损'的边界，预期 FP8 的 ΔPPL 显著小于 W4 的 ΔPPL。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值阈值（FP8 ΔPPL < 0.1, W4 ΔPPL > 0.5），属于硬件/模型量化后的性能指标，无法从第一性原理推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Qwen 27B FP8 vs W4 perplexity difference WikiText103

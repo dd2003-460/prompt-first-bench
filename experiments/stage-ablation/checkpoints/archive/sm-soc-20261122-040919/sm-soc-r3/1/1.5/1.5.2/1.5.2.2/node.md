@@ -1,0 +1,28 @@
+# N179: 参数 α（价格敏感度）的实证估计：α = ∂d/∂(P_drop/P_base)，需通过面板数据回归 d ~ ΔP + σ²_belief 确定。在二手奢侈品市
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N46
+
+## Claim
+
+参数 α（价格敏感度）的实证估计：α = ∂d/∂(P_drop/P_base)，需通过面板数据回归 d ~ ΔP + σ²_belief 确定。在二手奢侈品市场，α 通常介于 0.2 至 0.4 之间，反映买家对 10% 价格变动引起信任度下降 2-4 个单位。
+
+## Corrected Claim
+
+参数 α（价格敏感度）的实证估计需通过面板数据回归确定。在二手奢侈品市场，α 的具体数值范围（如 0.2 至 0.4）需依赖特定实证研究数据支持，当前缺乏直接来源佐证该具体区间。
+
+## Evidence
+
+[质询]该陈述包含具体的实证数值范围（α=0.2-0.4）及特定市场（二手奢侈品）的因果解释，属于经验事实。参考来源[1]仅涉及通用的价格敏感度测试（PSM）方法论，未提供二手奢侈品市场的具体实证数据或α值范围，无法直接支持该具体数值结论。 | 逻辑上α作为价格敏感度系数在0.2-0.4之间符合经济学直觉（弹性小于1），但参考来源[1]与二手奢侈品市场的具体实证数值无关，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+empirical estimation price sensitivity trust coefficient second hand market
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/210562164&rut=a3138c2c2fe3f5d5956183a8cb567373e1642bbefd8135d8b4908d2197cb4622', 'type': 'ddg', 'title': '价格敏感度测试（Psm）操作傻瓜指南 - 知乎'}

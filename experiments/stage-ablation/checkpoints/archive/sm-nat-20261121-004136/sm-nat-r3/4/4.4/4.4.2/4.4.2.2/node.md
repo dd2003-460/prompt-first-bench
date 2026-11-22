@@ -1,0 +1,20 @@
+# N141: 修正 N58 公式中的参数定义：原公式 β_heat 未定义。修正为：β_heat 应替换为热度分布的归一化偏度系数或标准化均值差。具体地，若假设更新概率与排名
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N58
+
+## Claim
+
+修正 N58 公式中的参数定义：原公式 β_heat 未定义。修正为：β_heat 应替换为热度分布的归一化偏度系数或标准化均值差。具体地，若假设更新概率与排名 r 成反比（P(Update|r) ∝ 1/r^γ），则 E[Size | Updated] = ∫ s * f(s|r) * P(Update|r) ds / ∫ P(Update|r) ds，需结合 γ 值（典型 γ ∈ [0.5, 1.5] [待核验]）计算。
+
+## Corrected Claim
+
+修正 N58 公式中的参数定义：原公式 β_heat 未定义。修正为：β_heat 应替换为热度分布的归一化偏度系数或标准化均值差。具体地，若假设更新概率与排名 r 成反比（P(Update|r) ∝ 1/r^γ），则 E[Size | Updated] = ∫ s * f(s|r) * P(Update|r) ds / ∫ P(Update|r) ds，需结合具体场景确定的 γ 值计算。
+
+## Evidence
+
+[质询]γ 的典型取值范围 [0.5, 1.5] 属于经验参数，缺乏通用理论推导支持，且不同系统（如社交网络、搜索引擎）中热度衰减指数差异巨大，该区间可能过于宽泛或不适用于特定场景。 | source=knowledge，逻辑自洽（积分公式定义正确，量纲合理），但 γ 的具体数值范围属于经验事实，无外部来源支持，依据经验事实排除条款降级。

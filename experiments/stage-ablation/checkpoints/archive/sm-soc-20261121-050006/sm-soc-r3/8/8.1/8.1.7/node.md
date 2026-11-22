@@ -1,0 +1,20 @@
+# N334: 卖家预期收益损失 ΔR_seller 的计算：ΔR_seller = (P_ask_old - P_ask_new) * Q_expected - C_wait
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N105, N106, N107
+
+## Claim
+
+卖家预期收益损失 ΔR_seller 的计算：ΔR_seller = (P_ask_old - P_ask_new) * Q_expected - C_wait_delta，其中 Q_expected 为预期成交量，C_wait_delta 为因价格降低导致的等待成本变化，该损失需与 C_conceal 对比以判断卖家是否选择隐藏瑕疵
+
+## Corrected Claim
+
+卖家预期收益损失 ΔR_seller 的计算：ΔR_seller = (P_ask_old - P_ask_new) * Q_expected - C_wait_delta，其中 Q_expected 为预期成交量，C_wait_delta 为因价格降低导致的等待成本变化，该损失需与 C_conceal 对比以判断卖家是否选择隐藏瑕疵
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

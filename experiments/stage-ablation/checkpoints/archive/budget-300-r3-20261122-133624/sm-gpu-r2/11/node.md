@@ -1,0 +1,20 @@
+# N172: AMD Radeon PRO W7900 (32GB GDDR6) 作为工作站级消费替代方案，价格约为 $2000-$2500，显存带宽 512 GB/s，虽低
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+AMD Radeon PRO W7900 (32GB GDDR6) 作为工作站级消费替代方案，价格约为 $2000-$2500，显存带宽 512 GB/s，虽低于 NVIDIA 同级，但在 ROCm 生态成熟度提升后，是 32GB 档位中性价比极高的非典型候选，需验证其对 Qwen3 架构的 vLLM/SGLang 支持情况。
+
+## Corrected Claim
+
+AMD Radeon PRO W7900 (32GB GDDR6) 作为工作站级消费替代方案，价格约为 $2000-$2500，显存带宽 512 GB/s，虽低于 NVIDIA 同级，但在 ROCm 生态成熟度提升后，是 32GB 档位中性价比极高的非典型候选，需验证其对 Qwen3 架构的 vLLM/SGLang 支持情况。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

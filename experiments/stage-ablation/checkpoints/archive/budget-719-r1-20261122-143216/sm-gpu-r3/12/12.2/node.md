@@ -1,0 +1,20 @@
+# N420: 基于 llama.cpp 的 CPU 推理，Qwen3-27B (Q4_K_M) 在 32K 上下文下的 KV Cache 占用量计算公式为 2 × 64 × 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N151
+
+## Claim
+
+基于 llama.cpp 的 CPU 推理，Qwen3-27B (Q4_K_M) 在 32K 上下文下的 KV Cache 占用量计算公式为 2 × 64 × 8 × 128 × 32768 × 1 byte ≈ 5.37 GB，加上模型权重 ~15 GB，总内存需求 ~20.4 GB，远小于 256 GB 内存，因此内存容量不是瓶颈，瓶颈在于内存带宽。
+
+## Corrected Claim
+
+基于 llama.cpp 的 CPU 推理，Qwen3-27B (Q4_K_M) 在 32K 上下文下的 KV Cache 占用量计算公式为 2 × 64 × 8 × 128 × 32768 × 1 byte ≈ 5.37 GB，加上模型权重 ~15 GB，总内存需求 ~20.4 GB，远小于 256 GB 内存，因此内存容量不是瓶颈，瓶颈在于内存带宽。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B 架构参数（64层, 8 KV头, 128维）与 Q4_K_M 量化权重大小（~15GB）符合已知模型规格，KV Cache 计算公式及数值推导正确，内存带宽瓶颈结论符合 CPU 推理常识。

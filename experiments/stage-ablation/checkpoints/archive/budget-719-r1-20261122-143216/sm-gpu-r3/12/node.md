@@ -1,0 +1,20 @@
+# N151: 非典型方案：AMD Ryzen 9 7950X3D + 256GB DDR5 纯 CPU 推理方案，硬件总成本约 $1,500-$2,000。在 llama.c
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+非典型方案：AMD Ryzen 9 7950X3D + 256GB DDR5 纯 CPU 推理方案，硬件总成本约 $1,500-$2,000。在 llama.cpp 下，Qwen3-27B (Q4_K_M) 的 Decode 速度约为 5-10 tokens/s，Pre-fill 速度极低（<50 tokens/s）。该方案仅适用于对延迟无硬性要求且预算极度受限的场景，需将其作为 TCO 下限基准进行对比。
+
+## Corrected Claim
+
+非典型方案：AMD Ryzen 9 7950X3D + 256GB DDR5 纯 CPU 推理方案，硬件总成本约 $1,500-$2,000。在 llama.cpp 下，Qwen3-27B (Q4_K_M) 的 Decode 速度约为 5-10 tokens/s，Pre-fill 速度极低（<50 tokens/s）。该方案仅适用于对延迟无硬性要求且预算极度受限的场景，需将其作为 TCO 下限基准进行对比。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间存在逻辑依赖但主题正交（带宽限制、内存容量验证、TCO计算），无重复或矛盾。然而，完备性不足：父节点明确提到了 'Pre-fill 速度极低 (<50 tokens/s)'，但三个子节点均未解释 Pre-fill 速度慢的原因（通常与计算密集型而非内存带宽密集型有关，涉及 CPU 单核/多核算力瓶颈），也未对 '5-10 tokens/s' 的 Decode 速度进行定量推导验证（仅说明了带宽是上限决定因素，未展示从 80-85 GB/s 到 5-10 tokens/s 的具体换算逻辑）。）

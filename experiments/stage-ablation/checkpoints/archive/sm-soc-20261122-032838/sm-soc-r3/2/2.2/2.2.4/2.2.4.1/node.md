@@ -1,0 +1,20 @@
+# N175: 高溢价GMV增量项 $\Delta GMV_{premium}$ 的量化基准：定义为 $\Delta GMV_{premium} = Q_{base} \tim
+
+- **status**: verified
+- **level**: L4
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N57
+
+## Claim
+
+高溢价GMV增量项 $\Delta GMV_{premium}$ 的量化基准：定义为 $\Delta GMV_{premium} = Q_{base} \times (P_{ask} - P_{ref})$。基于题面给定的15-25%溢价区间，该项量化为 $0.15 \sim 0.25 \times Q_{base} \times P_{ref}$，代表平台从每笔交易中额外抽取的固定溢价部分。
+
+## Corrected Claim
+
+高溢价GMV增量项 $\Delta GMV_{premium}$ 的量化基准：定义为 $\Delta GMV_{premium} = Q_{base} \times (P_{ask} - P_{ref})$。基于题面给定的15-25%溢价区间，该项量化为 $0.15 \sim 0.25 \times Q_{base} \times P_{ref}$，代表平台从每笔交易中额外抽取的固定溢价部分。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

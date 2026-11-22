@@ -1,0 +1,17 @@
+{
+  "id": "N78",
+  "claim": "在 128GB 容量约束下，LRU 缓存保留的对象数量 N_cache 的精确计算：基于 Pareto(α=1.1) 分布，假设 x_min=1KB，通过数值积分求得 E[S]≈1.1KB，从而 N_cache ≈ 128 * 1024^3 / (1.1 * 1024^2) ≈ 119,005 个对象，覆盖 10 万对象中的 119%（即几乎全量缓存），但需考虑对象大小分布的截断效应，实际有效覆盖率需修正为 min(1, N_cache / 100,000) = 1.0，这意味着 LRU 在 128GB 下可缓存全部对象，命中率下界接近 100%（忽略更新失效）。",
+  "level": "L3",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]数值计算存在量级错误：128GB 除以 1.1KB 应约为 1.19 亿（119,000,000）个对象，而非 119,005 个；此外，Pareto(α=1.1) 分布的期望值 E[S] 在 x_min=1KB 时理论值为 1.1KB，但实际对象大小通常有上限或截断，且 LRU 命中率不仅取决于容量覆盖，还受访问局部性影响，仅凭容量覆盖 100% 不能直接得出命中率下界接近 100% 的结论（若访问分布均匀且无局部性，命中率仍可能较低，尽管在缓存全量对象时命中率确实为 100%，但前提计算错误）。 | 逻辑校验发现数值量级错误（128GB/1.1KB ≈ 1.19e8，非 1.19e5），且无外部来源支持该具体计算过程，属于经验事实/计算推导错误。",
+  "corrected_claim": "在 128GB 容量约束下，基于 Pareto(α=1.1, x_min=1KB) 分布，E[S]≈1.1KB，N_cache ≈ 128 * 1024^3 / (1.1 * 1024^2) ≈ 119,000,000 个对象。由于 N_cache 远大于 100,000，LRU 可缓存全部对象，命中率理论上接近 100%（忽略更新失效）。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N26"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "Pareto distribution alpha 1.1 expected value calculation 1KB minimum size 128GB cache capacity object count",
+  "retrieval_sources": []
+}

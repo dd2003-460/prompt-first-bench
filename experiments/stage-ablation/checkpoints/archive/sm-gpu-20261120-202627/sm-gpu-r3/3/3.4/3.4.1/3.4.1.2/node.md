@@ -1,0 +1,20 @@
+# N289: 2x RTX 4090 方案中，FP8 推理的运行时激活值 (Activations) 及框架开销 (Framework Overhead) 显存占用估算：激活
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N79
+
+## Claim
+
+2x RTX 4090 方案中，FP8 推理的运行时激活值 (Activations) 及框架开销 (Framework Overhead) 显存占用估算：激活值随 Batch Size 和序列长度线性增加，Batch=1, Seq=32K 时，激活值约 2-4 GB；框架开销 (CUDA Context, cuDNN, vLLM/SGLang 内部缓冲) 约 1-2 GB；合计约 3-6 GB [待核验：需具体框架实测]。
+
+## Corrected Claim
+
+2x RTX 4090 方案中，FP8 推理的运行时激活值 (Activations) 及框架开销 (Framework Overhead) 显存占用估算：激活值随 Batch Size 和序列长度线性增加，Batch=1, Seq=32K 时，激活值约 2-4 GB；框架开销 (CUDA Context, cuDNN, vLLM/SGLang 内部缓冲) 约 1-2 GB；合计约 3-6 GB [待核验：需具体框架实测]。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Batch=1, Seq=32K 时，Transformer 激活值显存占用主要取决于层数、隐藏维度及注意力头数，2-4 GB 符合主流大模型（如 7B-13B 参数规模）在 FP8 下的量级估算；框架开销 1-2 GB 亦符合 CUDA 上下文及推理引擎缓冲的典型经验值。

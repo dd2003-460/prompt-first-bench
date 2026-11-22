@@ -1,0 +1,20 @@
+# N142: 在低波动工作点（ρ_rank ≈ 0.95），热度排名变化率 v ≈ 0.05，LFU 的稳态字节命中率增益 ΔH 约为 LRU 基准命中率 H_LRU 的 1
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N48
+
+## Claim
+
+在低波动工作点（ρ_rank ≈ 0.95），热度排名变化率 v ≈ 0.05，LFU 的稳态字节命中率增益 ΔH 约为 LRU 基准命中率 H_LRU 的 15-20%，即 ΔH ≈ 0.018-0.024（基于 H_LRU≈0.12），此时 LFU 频率计数器收敛快于驱逐需求，达到理论增益上限的 80% 以上。
+
+## Corrected Claim
+
+在低波动工作点（ρ_rank ≈ 0.95），热度排名变化率 v ≈ 0.05，LFU 的稳态字节命中率增益 ΔH 约为 LRU 基准命中率 H_LRU 的 15-20%，即 ΔH ≈ 0.018-0.024（基于 H_LRU≈0.12），此时 LFU 频率计数器收敛快于驱逐需求，达到理论增益上限的 80% 以上。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

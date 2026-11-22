@@ -1,0 +1,24 @@
+# N206: 贝叶斯后验概率 P(H_unified | Data) 的精确计算公式：P(H|D) = [P(D|H) * P(H)] / [P(D|H) * P(H) + 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N69
+
+## Claim
+
+贝叶斯后验概率 P(H_unified | Data) 的精确计算公式：P(H|D) = [P(D|H) * P(H)] / [P(D|H) * P(H) + P(D|H_comp) * P(H_comp)]，其中 P(H) 基于 N44 的 Cohen's d 元分析设定先验，P(D|H) 需通过 N46 的 r 值与 N58 的偏相关系数 r_partial 联合似然函数计算
+
+## Corrected Claim
+
+贝叶斯后验概率 P(H_unified | Data) 的精确计算公式：P(H|D) = [P(D|H) * P(H)] / [P(D|H) * P(H) + P(D|H_comp) * P(H_comp)]，其中 P(H) 基于 N44 的 Cohen's d 元分析设定先验，P(D|H) 需通过 N46 的 r 值与 N58 的偏相关系数 r_partial 联合似然函数计算
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式符合贝叶斯定理二分类形式，量纲与逻辑自洽，且明确引用了前序节点（N44, N46, N58）作为参数来源，属于内部一致的模型定义。
+
+## Search Query
+
+Bayesian posterior probability formula with multiple independent likelihood sources

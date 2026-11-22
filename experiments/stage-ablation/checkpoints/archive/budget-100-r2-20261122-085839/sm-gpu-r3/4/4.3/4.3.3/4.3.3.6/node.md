@@ -1,0 +1,20 @@
+# N222: PCIe 4.0 x16 双向 64 GB/s 带宽在 Batch>1 Prefill 阶段的瓶颈效应：当 Batch Size 增加到 8 时，每步通信量线性
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N75, N76, N82
+
+## Claim
+
+PCIe 4.0 x16 双向 64 GB/s 带宽在 Batch>1 Prefill 阶段的瓶颈效应：当 Batch Size 增加到 8 时，每步通信量线性增长至 6 MB/层，48 层总通信量 288 MB，理论通信时间 4.5 ms/step，占单步计算时间（~10 ms）的 45%，导致 Prefill 吞吐量损失显著高于 Decode 阶段。
+
+## Corrected Claim
+
+PCIe 4.0 x16 双向 64 GB/s 带宽在 Batch>1 Prefill 阶段的瓶颈效应：当 Batch Size 增加到 8 时，每步通信量线性增长至 6 MB/层，48 层总通信量 288 MB，理论通信时间 4.5 ms/step，占单步计算时间（~10 ms）的 45%，导致 Prefill 吞吐量损失显著高于 Decode 阶段。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe 4.0 x16 双向带宽约 64 GB/s，288 MB 数据传输理论耗时 4.5 ms，占比 45% 计算合理，符合 Prefill 阶段通信密集特性。

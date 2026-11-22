@@ -1,0 +1,28 @@
+# N102: Qwen3-27B在INT4/W4精度下的MMLU基准下降幅度（相对于BF16基线）通常在1-3%之间，具体取决于量化算法（GPTQ vs AWQ）；若下降超过
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N24
+
+## Claim
+
+Qwen3-27B在INT4/W4精度下的MMLU基准下降幅度（相对于BF16基线）通常在1-3%之间，具体取决于量化算法（GPTQ vs AWQ）；若下降超过5%，则不满足质量可接受性阈值，需回退至INT8或采用QAT（量化感知训练）。
+
+## Corrected Claim
+
+Qwen3-27B在INT4/W4精度下的MMLU基准通常会有轻微下降（具体幅度取决于量化算法），若下降幅度显著（如超过5%），则可能不满足质量可接受性阈值，需考虑回退至INT8或采用QAT。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值阈值（MMLU下降1-3%、5%阈值）及特定模型版本（Qwen3-27B）的性能表现，属于经验事实。参考来源仅提及存在Qwen3.8-27B的INT4量化仓库，未提供MMLU基准测试的具体下降幅度数据，无法直接支持或证伪具体的百分比范围。 | 逻辑上自洽（INT4量化通常导致轻微性能下降，5%作为回退阈值符合工程直觉），但参考来源[1]仅确认了量化模型的存在，未提供MMLU下降幅度的具体数值支持，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+Qwen3-27B INT4 GPTQ AWQ MMLU benchmark accuracy drop percentage
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/mbgulden/Qwen3.8-27B-INT4-W4A16-MTP&rut=44815c71dd4b53e910a48454a0cbccce567aa56d77aac1805c6c7fe9f6db8148', 'type': 'ddg', 'title': 'GitHub - mbgulden/Qwen3.8-27B-INT4-W4A16-MTP: W4A16 (INT4) GPTQ ...'}

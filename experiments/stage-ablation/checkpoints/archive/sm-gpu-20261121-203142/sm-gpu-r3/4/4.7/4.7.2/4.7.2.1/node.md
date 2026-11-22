@@ -1,0 +1,20 @@
+# N319: MMLU 准确率下降的量化公式：Delta_MMLU = MMLU_FP16 - MMLU_Quantized；对于 Qwen3-27B，FP16 基线 MML
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N103
+
+## Claim
+
+MMLU 准确率下降的量化公式：Delta_MMLU = MMLU_FP16 - MMLU_Quantized；对于 Qwen3-27B，FP16 基线 MMLU 约为 75-80% [待核验：需官方论文数据]，INT8 量化后通常下降 1-3%，INT4 量化后下降 5-10%；例如 Qwen2-72B 在 INT4 下 MMLU 下降约 7%，可作为代理数据 [待核验：需具体模型和量化方法]。
+
+## Corrected Claim
+
+MMLU 准确率下降的量化公式为 Delta_MMLU = MMLU_FP16 - MMLU_Quantized。对于大语言模型，INT8 量化通常导致 MMLU 下降 1-3%，INT4 量化通常导致下降 5-10%（具体数值取决于量化算法和模型架构，需参考特定模型的官方技术报告或基准测试数据）。
+
+## Evidence
+
+[质询]具体数值（如Qwen3-27B基线75-80%、Qwen2-72B INT4下降7%）属于特定模型和量化方法的经验事实，缺乏官方论文或权威基准测试的直接数据支持，且不同量化算法（如GPTQ, AWQ, SmoothQuant）对精度的影响差异巨大，笼统给出固定区间存在以偏概全的风险。 | 先验知识/题面给定，逻辑校验通过；但作为经验事实，具体数值缺乏来源直接支持，故降级。

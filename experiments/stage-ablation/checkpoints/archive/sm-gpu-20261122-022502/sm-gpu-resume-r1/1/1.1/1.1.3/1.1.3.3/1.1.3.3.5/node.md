@@ -1,0 +1,24 @@
+# N452: Qwen3-27B 的标准层维度 (Hidden=4096, FFN=11008, Attention Heads=32) 均满足 16 倍数对齐要求，因此 N
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N139, N140, N141
+
+## Claim
+
+Qwen3-27B 的标准层维度 (Hidden=4096, FFN=11008, Attention Heads=32) 均满足 16 倍数对齐要求，因此 N140 中声称的 '0.1-0.2GB Padding 开销' 在标准 FP8 存储下为 0 GB；该开销仅在将 FP8 权重转换为 INT4/INT8 且 Group Size 不能整除维度时才出现，此处应修正为 0 GB 以反映真实显存占用。
+
+## Corrected Claim
+
+Qwen3-27B 的标准层维度 (Hidden=4096, FFN=11008, Attention Heads=32) 均满足 16 倍数对齐要求，因此 N140 中声称的 '0.1-0.2GB Padding 开销' 在标准 FP8 存储下为 0 GB；该开销仅在将 FP8 权重转换为 INT4/INT8 且 Group Size 不能整除维度时才出现，此处应修正为 0 GB 以反映真实显存占用。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B 的 Hidden(4096)、FFN(11008)、Heads(32) 均为 16 的倍数，FP8 存储下无需 Padding，开销为 0 符合逻辑。
+
+## Search Query
+
+Qwen3 27B model dimension hidden size ffn size alignment

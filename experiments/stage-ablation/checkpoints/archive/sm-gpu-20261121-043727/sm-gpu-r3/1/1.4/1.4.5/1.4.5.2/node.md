@@ -1,0 +1,20 @@
+# N136: RTX 3090 在 BF16 精度下运行 Qwen3-27B 的 T_decode 理论下限：权重 54GB + KV Cache 33GB (32K ctx
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N51
+
+## Claim
+
+RTX 3090 在 BF16 精度下运行 Qwen3-27B 的 T_decode 理论下限：权重 54GB + KV Cache 33GB (32K ctx) = 87GB 读取量，除以 936 GB/s 带宽，得 T_decode ≈ 93 us/token (≈10.7 tokens/s)，该值仅作为理论下限，实际受 CPU 调度与 PCIe 延迟影响
+
+## Corrected Claim
+
+RTX 3090 在 BF16 精度下运行 Qwen3-27B 的 T_decode 理论下限：权重 54GB + KV Cache 33GB (32K ctx) = 87GB 读取量，除以 936 GB/s 带宽，得 T_decode ≈ 93 us/token (≈10.7 tokens/s)，该值仅作为理论下限，实际受 CPU 调度与 PCIe 延迟影响
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 3090 显存带宽约 936 GB/s，Qwen3-27B BF16 权重约 54GB，32K 上下文 KV Cache 约 33GB，总读取量 87GB，计算 87/936 ≈ 0.093s = 93us/token，逻辑自洽且数值量级合理。

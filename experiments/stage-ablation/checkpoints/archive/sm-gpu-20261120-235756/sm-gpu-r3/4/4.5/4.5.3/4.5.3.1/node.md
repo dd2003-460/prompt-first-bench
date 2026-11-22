@@ -1,0 +1,20 @@
+# N274: 2x RTX 5090 Tensor Parallelism (TP=2) 的 Prefill 算力理论提升：单卡 FP16 Tensor Core 算力约 3
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N97
+
+## Claim
+
+2x RTX 5090 Tensor Parallelism (TP=2) 的 Prefill 算力理论提升：单卡 FP16 Tensor Core 算力约 330 TFLOPS，双卡理论 660 TFLOPS；扣除 PCIe 5.0 通信开销（All-Reduce 延迟约 5-10us/layer，64层共 0.3-0.6ms），有效 Prefill 时间约为单卡的 1/1.8 - 1/1.9，而非理想的 1/2。
+
+## Corrected Claim
+
+2x RTX 5090 Tensor Parallelism (TP=2) 的 Prefill 算力理论提升：单卡 FP16 Tensor Core 算力约为 [需确认具体规格，如 100-150 TFLOPS 或更高]，双卡理论算力翻倍；扣除 PCIe 5.0 通信开销，有效 Prefill 时间约为单卡的 1/1.8 - 1/1.9，而非理想的 1/2，具体效率取决于模型层数和通信优化。
+
+## Evidence
+
+[质询]RTX 5090 的 FP16 Tensor Core 算力数值（330 TFLOPS）与公开规格（通常约为 100-150 TFLOPS 或更高，取决于具体精度和稀疏性支持，但 330 TFLOPS 对于消费级卡片的 FP16 稠密算力而言可能偏高或混淆了 FP8/INT8 算力）存在不确定性；此外，PCIe 5.0 在 TP=2 场景下的 All-Reduce 开销估算（5-10us/layer）可能过于乐观，实际通信延迟受驱动、拓扑和消息大小影响较大，且 Prefill 阶段计算密集，通信占比通常低于 Decode 阶段，1/1.8-1/1.9 的效率提升幅度可能高估了通信瓶颈的影响。 | 先验知识/题面给定，逻辑校验通过。虽然 RTX 5090 的具体 FP16 算力数值需以官方最终规格为准（目前多为推测或基于 Blackwell 架构推算），但 TP=2 因通信开销导致效率低于理想 2x 的逻辑自洽。由于缺乏直接来源支持具体数值（330 TFLOPS 和 5-10us 延迟），且属于经验事实/硬件规格，依据规则降级。

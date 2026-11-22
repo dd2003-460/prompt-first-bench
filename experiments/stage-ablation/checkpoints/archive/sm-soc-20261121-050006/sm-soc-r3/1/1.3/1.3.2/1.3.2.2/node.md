@@ -1,0 +1,30 @@
+# N144: δ_friction 随 P_ask/P_median 比率的非线性函数形式：δ_friction(r) = δ_base + k_f * (r - 1)^2，
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N41
+
+## Claim
+
+δ_friction 随 P_ask/P_median 比率的非线性函数形式：δ_friction(r) = δ_base + k_f * (r - 1)^2，其中 r = P_ask/P_median，k_f 为摩擦敏感度系数；当 r > 1.2 时，二次项主导，导致高挂价商品的匹配概率修正因子 (1 - δ_friction) 急剧下降，具体 k_f 需通过 A/B 测试中不同价格梯度的转化率数据校准。
+
+## Corrected Claim
+
+δ_friction 随 P_ask/P_median 比率呈现非线性关系，通常可建模为二次函数形式 δ_friction(r) = δ_base + k_f * (r - 1)^2 以捕捉高挂价带来的匹配概率下降，其中 k_f 需通过实证数据（如A/B测试）校准。
+
+## Evidence
+
+[质询]该陈述描述的是电商/市场微观经济学中的价格摩擦模型（Price Friction），而参考来源[1]和[3]讨论的是机械工程中的物理摩擦模型（Stribeck/Coulomb/Viscous friction），属于严重的领域混淆（Category Error）。来源[2]涉及p-Median问题，与价格匹配无关。因此，参考来源与该事实主题完全无关，无法提供外部支持。 | 逻辑上，使用二次函数描述偏离中位数的价格惩罚是合理的经济学建模假设，且量纲自洽；但参考来源[1][3]均为物理摩擦模型，与本题的市场摩擦概念无关，来源[2]亦不相关，故无可用外部证据支持具体公式形式及参数校准方法。
+
+## Search Query
+
+price ratio impact on conversion friction coefficient non-linear model
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/zkmrobot/article/details/144021800&rut=2fe53781b340a246cb790679ad86c4275988e042c5db9330ef1e06570619a46c', 'type': 'ddg', 'title': 'Stribeck 摩擦模型_stribeck摩擦模型-CSDN博客'}
+- {'url': 'https://www.sciencedirect.com/science/article/pii/S1569843225001013&rut=8465c35a3d60438db8d32c5f6709608363aa3457e601f936f75af626cb125132', 'type': 'ddg', 'title': 'AIAM: Adaptive interactive attention model for solving p-Median problem ...'}
+- {'url': 'https://www.sciencedirect.com/topics/engineering/friction-model&rut=d565b6866372e90491915a17a490281a494c9794ef0d8871a6770400ce7f1475', 'type': 'ddg', 'title': 'Friction Model - an overview | ScienceDirect Topics'}

@@ -1,0 +1,24 @@
+# N34: 卖家拒绝降价的心理阈值 ΔP_refuse 的计算公式：ΔP_refuse = λ * (P_ask - P_market) * (1 - w_tradeoff
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N6, N7, N8
+
+## Claim
+
+卖家拒绝降价的心理阈值 ΔP_refuse 的计算公式：ΔP_refuse = λ * (P_ask - P_market) * (1 - w_tradeoff)，其中 w_tradeoff 为卖家对'快速成交时间价值'的权重，取值范围 [0, 1]。
+
+## Corrected Claim
+
+卖家拒绝降价的心理阈值 ΔP_refuse 的计算公式：ΔP_refuse = λ * (P_ask - P_market) * (1 - w_tradeoff)，其中 w_tradeoff 为卖家对'快速成交时间价值'的权重，取值范围 [0, 1]。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+loss aversion threshold price reduction weight time value tradeoff

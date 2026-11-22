@@ -1,0 +1,24 @@
+# N454: Qwen3-27B 在 BF16 精度下，32K 上下文长度的权重显存占用：27e9 params * 2 bytes = 54 GB，加上 KV Cache 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N146
+
+## Claim
+
+Qwen3-27B 在 BF16 精度下，32K 上下文长度的权重显存占用：27e9 params * 2 bytes = 54 GB，加上 KV Cache 16 GB，总需求 70 GB，远超单卡 24GB 显存，需量化或分片
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 精度下，32K 上下文长度的权重显存占用：27e9 params * 2 bytes = 54 GB，加上 KV Cache 16 GB，总需求 70 GB，远超单卡 24GB 显存，需量化或分片
+
+## Evidence
+
+[质询]KV Cache 16 GB 的具体数值依赖于具体的注意力头配置和层数，若模型架构参数不同，该数值可能有偏差；但总显存远超 24GB 的结论对 KV Cache 的具体大小不敏感。 | 先验知识/题面给定，逻辑校验通过：27B 参数在 BF16 下权重占用 54GB 是确定的数学事实，加上任何非零的 KV Cache 和激活值，总显存必然远超单卡 24GB，结论稳健。
+
+## Search Query
+
+Qwen3-27B total parameters count

@@ -1,0 +1,17 @@
+{
+  "id": "N19",
+  "claim": "LFU性能劣势边界（工作点：高更新率/冷启动）：当对象热度分布随时间漂移或存在大量新对象时，LFU的滞后性导致命中率低于LRU。量化为：若热度分布变化率 dP/dt > 0，LFU需要 T_lag = 1/λ_min 的时间窗口才能识别新热门对象，期间命中率损失 Δ_loss ≈ (1 - e^(-T_lag/τ)) * (H_lru - H_cold)。",
+  "level": "L2",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]公式中的参数定义模糊且缺乏普适性：'λ_min'（最小衰减率？）和 'τ'（时间常数）未明确定义，且 'H_lru - H_cold' 作为命中率损失的基准假设了 LRU 在冷启动期表现优于 LFU 的特定场景，这在所有高更新率场景下并非绝对真理（例如若新对象立即被访问，LRU 也会失效）。此外，该公式更像是一个启发式模型而非严格的物理/数学定律，其系数和形式可能因具体工作负载而异。 | 先验知识/题面给定，逻辑校验通过。LFU 确实存在滞后性（lag），在热度漂移或冷启动时表现通常不如 LRU，这是缓存领域的共识。但提供的具体量化公式 T_lag = 1/λ_min 和 Δ_loss 表达式属于特定模型假设，缺乏通用来源支持，且参数定义不明确，故降级为定性表述。",
+  "corrected_claim": "当对象热度分布随时间漂移或存在大量新对象时，LFU 的滞后性导致其命中率通常低于 LRU。LFU 需要一定的时间窗口才能识别新热门对象，期间会产生命中率损失，具体损失量取决于热度变化速率和缓存替换策略的细节。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N4"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "LFU cold start penalty frequency decay window dynamic workload",
+  "retrieval_sources": []
+}

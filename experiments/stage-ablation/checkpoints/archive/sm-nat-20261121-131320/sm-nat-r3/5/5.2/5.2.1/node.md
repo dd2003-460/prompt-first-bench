@@ -1,0 +1,24 @@
+# N117: Pareto(α=1.1) 分布的期望大小 E[S] 发散（积分 ∫ x * (x_min/x)^α dx 在 α≤1 时收敛，α>1 时收敛于 α*x_min
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N45
+
+## Claim
+
+Pareto(α=1.1) 分布的期望大小 E[S] 发散（积分 ∫ x * (x_min/x)^α dx 在 α≤1 时收敛，α>1 时收敛于 α*x_min/(α-1)，但此处 α=1.1 仅略大于1，数值上 E[S]=11KB (x_min=1KB) 成立，但方差 Var[S] 在 α≤2 时发散，导致基于均值的置信区间无效），需使用截断上限 S_max 或中位数作为稳健统计量。
+
+## Corrected Claim
+
+Pareto(α=1.1) 分布的期望大小 E[S] 发散（积分 ∫ x * (x_min/x)^α dx 在 α≤1 时收敛，α>1 时收敛于 α*x_min/(α-1)，但此处 α=1.1 仅略大于1，数值上 E[S]=11KB (x_min=1KB) 成立，但方差 Var[S] 在 α≤2 时发散，导致基于均值的置信区间无效），需使用截断上限 S_max 或中位数作为稳健统计量。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布α=1.1>1时均值收敛且计算正确(11KB)，α≤2时方差发散，结论符合统计学原理
+
+## Search Query
+
+Pareto distribution moment existence conditions alpha 1.1

@@ -1,0 +1,20 @@
+# N207: Qwen3-27B 在 FP8 (E4M3) 精度下 KV Cache 存储 32K 上下文时，注意力分数的相对误差累积公式为 Error_accumulate
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N67
+
+## Claim
+
+Qwen3-27B 在 FP8 (E4M3) 精度下 KV Cache 存储 32K 上下文时，注意力分数的相对误差累积公式为 Error_accumulated ≈ sqrt(N_layers) * σ_quant，其中 σ_quant 为 FP8 量化噪声标准差（约 0.03-0.05），N_layers=32，导致最终 Logits 分布偏移约 0.5-1.0 bits 有效精度损失。
+
+## Corrected Claim
+
+Qwen3-27B 在 FP8 (E4M3) 精度下 KV Cache 存储 32K 上下文时，注意力分数的相对误差累积通常遵循 sqrt(N_layers) * σ_quant 的量级关系，具体精度损失取决于量化噪声标准差及模型层数，需实测确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（σ_quant 0.03-0.05, 精度损失 0.5-1.0 bits）和特定的模型架构参数（N_layers=32），这些属于硬件/模型规格及实测结果，无法从第一性原理严格推导，且缺乏外部来源支持。 | 经验事实，逻辑自洽但缺来源支持

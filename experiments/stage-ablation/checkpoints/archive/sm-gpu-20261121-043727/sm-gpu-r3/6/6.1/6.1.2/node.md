@@ -1,0 +1,20 @@
+# N230: H200 vs H100 在 Qwen3-27B 32K 上下文下的 T_decode 实测加速比：基于 N77 公式，理论加速比 = Bandwidth_H2
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N86
+
+## Claim
+
+H200 vs H100 在 Qwen3-27B 32K 上下文下的 T_decode 实测加速比：基于 N77 公式，理论加速比 = Bandwidth_H200 / Bandwidth_H100 = 4.8 / 3.35 ≈ 1.43x；需验证实际 MFU 差异是否抵消带宽优势，计算 Effective_T_decode_H200 = Max(T_memory_H200, T_compute_H200) 并与 H100 对比，确认 43% 带宽提升是否线性转化为吞吐提升 [待核验]
+
+## Corrected Claim
+
+H200 vs H100 在 Qwen3-27B 32K 上下文下的 T_decode 实测加速比：基于 N77 公式，理论加速比 = Bandwidth_H200 / Bandwidth_H100 = 4.8 / 3.35 ≈ 1.43x；需验证实际 MFU 差异是否抵消带宽优势，计算 Effective_T_decode_H200 = Max(T_memory_H200, T_compute_H200) 并与 H100 对比，确认 43% 带宽提升是否线性转化为吞吐提升 [待核验]
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H200与H100带宽比约1.43x符合硬件规格，Decode阶段受内存带宽限制的理论推导逻辑自洽。

@@ -1,0 +1,20 @@
+# N139: 4-bit精度下，RTX 4090 (1008 GB/s) 推理Qwen3-27B的理论Decode吞吐量上限 = 1008 GB/s / 13.5 GB ≈ 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N23
+
+## Claim
+
+4-bit精度下，RTX 4090 (1008 GB/s) 推理Qwen3-27B的理论Decode吞吐量上限 = 1008 GB/s / 13.5 GB ≈ 74.7 tokens/s（单请求，忽略KV Cache增长），但需扣除N42中的反量化开销
+
+## Corrected Claim
+
+4-bit精度下，RTX 4090 (1008 GB/s) 推理Qwen3-27B的理论Decode吞吐量上限 = 1008 GB/s / 13.5 GB ≈ 74.7 tokens/s（单请求，忽略KV Cache增长），但需扣除N42中的反量化开销
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：1008 GB/s 除以 13.5 GB 约等于 74.67 tokens/s，计算正确且符合内存带宽瓶颈下的理论上限推导逻辑。

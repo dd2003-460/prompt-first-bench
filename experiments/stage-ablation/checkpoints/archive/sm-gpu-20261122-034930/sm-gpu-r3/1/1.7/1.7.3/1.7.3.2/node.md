@@ -1,0 +1,20 @@
+# N203: Qwen3-27B BF16 权重大小约为 54GB (27B * 2 bytes)。加上 32K 上下文的 KV Cache (10.7GB) 和框架开销 (
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N66
+
+## Claim
+
+Qwen3-27B BF16 权重大小约为 54GB (27B * 2 bytes)。加上 32K 上下文的 KV Cache (10.7GB) 和框架开销 (4GB)，总需求为 68.7GB。在 192GB 统一内存中，剩余 123.3GB 可用于系统和其他进程。然而，Metal 分配器在分配 >64GB 连续内存块时可能出现碎片化问题，导致分配失败，即使总可用内存充足。建议预留 10% 内存作为安全缓冲，即实际可用上限设为 110GB。
+
+## Corrected Claim
+
+Qwen3-27B BF16 权重大小约为 54GB (27B * 2 bytes)。加上 32K 上下文的 KV Cache (10.7GB) 和框架开销 (4GB)，总需求为 68.7GB。在 192GB 统一内存中，剩余 123.3GB 可用于系统和其他进程。然而，Metal 分配器在分配 >64GB 连续内存块时可能出现碎片化问题，导致分配失败，即使总可用内存充足。建议预留 10% 内存作为安全缓冲，即实际可用上限设为 110GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数BF16精度下权重约54GB，加上KV Cache和框架开销后总需求68.7GB，在192GB统一内存中剩余123.3GB，预留10%缓冲后上限110GB，数值量级和逻辑均合理。

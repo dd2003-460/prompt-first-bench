@@ -1,0 +1,20 @@
+# N245: 广告收入变动项 ΔAd_revenue 的计算公式为 ΔAd_revenue = CPM_new * (Impressions_new / 1000) - CP
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N75, N76, N77
+
+## Claim
+
+广告收入变动项 ΔAd_revenue 的计算公式为 ΔAd_revenue = CPM_new * (Impressions_new / 1000) - CPM_old * (Impressions_old / 1000)，其中 CPM 为千次展示成本，Impressions 为广告曝光量，该变动受 N86 中价格信号权重 w_price 调整后的曝光分配影响，需量化 w_price 变化对 Impressions 的弹性系数。
+
+## Corrected Claim
+
+广告收入变动项 ΔAd_revenue 的计算公式为 ΔAd_revenue = CPM_new * (Impressions_new / 1000) - CPM_old * (Impressions_old / 1000)，其中 CPM 为千次展示成本，Impressions 为广告曝光量，该变动受 N86 中价格信号权重 w_price 调整后的曝光分配影响，需量化 w_price 变化对 Impressions 的弹性系数。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：CPM定义及收入计算公式符合广告行业标准，变量关系逻辑自洽。

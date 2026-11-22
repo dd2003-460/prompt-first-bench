@@ -1,0 +1,28 @@
+# N86: PCIe 4.0 x16 在 LLM 张量并行（TP）中的有效通信带宽受限于协议开销与驱动效率，实测有效带宽约为理论峰值 32 GB/s 的 70-80%，即 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N18
+
+## Claim
+
+PCIe 4.0 x16 在 LLM 张量并行（TP）中的有效通信带宽受限于协议开销与驱动效率，实测有效带宽约为理论峰值 32 GB/s 的 70-80%，即 22.4-25.6 GB/s，而非 N18 中声称的 64 GB/s（双向理论值）或 N36 中的 25 GB/s 需统一口径为单向有效值。
+
+## Corrected Claim
+
+PCIe 4.0 x16 在 LLM 张量并行中的有效通信带宽受限于协议开销与驱动效率，通常低于理论峰值 32 GB/s（单向），具体数值需依据实际硬件与驱动环境实测，一般认为在 20-26 GB/s 范围内。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（70-80%效率、22.4-25.6 GB/s有效带宽），属于硬件性能实测数据，无法从第一性原理严格推导，且参考来源摘要未提供具体数值支持，存在来源覆盖不足的风险。 | 逻辑自洽（PCIe 4.0 x16单向理论带宽32GB/s，考虑协议开销后有效带宽低于理论值是符合工程直觉的），但参考来源[1]仅涉及PCIe带宽对大模型推理影响的定性讨论，未提供具体的有效带宽数值或效率百分比，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+PCIe 4.0 x16 effective bandwidth LLM tensor parallelism overhead measured GB/s
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2020501522807564212&rut=8d222d2443b608194dba4d84a446ab7604a7e6f13188b137d59d7155076e3879', 'type': 'ddg', 'title': '浅谈PCIe带宽对大模型推理性能的影响 - 知乎'}

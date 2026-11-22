@@ -1,0 +1,20 @@
+# N55: 2x RTX 4090 通过 PCIe 4.0 x16 连接时，在 Tensor Parallelism 中 AllReduce 通信时间占比计算公式为：T_c
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+2x RTX 4090 通过 PCIe 4.0 x16 连接时，在 Tensor Parallelism 中 AllReduce 通信时间占比计算公式为：T_comm = (M * L * 2) / (32GB/s * T_latency)，其中 M=32K, L=27B, T_latency 为 PCIe 传输延迟 (约 10-20μs)
+
+## Corrected Claim
+
+2x RTX 4090 通过 PCIe 4.0 x16 连接时，Tensor Parallelism 中 AllReduce 通信时间 T_comm 近似为 (2 * M * L * 2) / (32GB/s) + 2 * T_latency（Ring AllReduce 模型），通信时间占比为 T_comm / (T_comp + T_comm)。
+
+## Evidence
+
+[质询]公式量纲错误且物理模型错误：T_comm 计算结果单位为秒（s），但 AllReduce 通信时间占比应为无量纲比率；此外，AllReduce 在双卡 TP 中的通信量通常为 2*M*L（Ring AllReduce），而非公式隐含的简单除法关系，且 PCIe 带宽与延迟不能通过简单除法直接得出时间占比，需结合计算时间 T_comp 进行对比。 | 逻辑校验失败：公式左侧为时间占比（无量纲），右侧 (M*L*2)/(Bandwidth*Latency) 量纲为 1/时间 或 时间（取决于具体定义，但绝非无量纲），存在硬逻辑错误；且 source=knowledge 节点虽免外部核验，但 challenge 成立且无法排除，故降档。

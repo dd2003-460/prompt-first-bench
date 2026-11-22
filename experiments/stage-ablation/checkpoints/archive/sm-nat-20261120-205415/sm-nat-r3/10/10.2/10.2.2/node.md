@@ -1,0 +1,24 @@
+# N229: 每日总请求字节数 D 的修正工作点（基于Pareto均值）：鉴于对象大小服从 Pareto(α=1.1)，理论均值发散，需截断。若取截断上限 B=100MB，x
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N85
+
+## Claim
+
+每日总请求字节数 D 的修正工作点（基于Pareto均值）：鉴于对象大小服从 Pareto(α=1.1)，理论均值发散，需截断。若取截断上限 B=100MB，x_min=1KB，则 E[S] ≈ (α * x_min) / (α-1) * (1 - (x_min/B)^(α-1)) ≈ 1.1 * 1KB * (1/0.1) ≈ 11KB (近似)，实际截断后均值可能在 10-50MB 之间，若取保守估计 10MB，则 D = 500 TB/天，这将导致 λ 缩小 10 倍。
+
+## Corrected Claim
+
+每日总请求字节数 D 的修正工作点：鉴于对象大小服从 Pareto(α=1.1)，理论均值发散，需截断。若取截断上限 B=100MB，x_min=1KB，则截断后均值 E[S] ≈ 11MB。若取保守估计 10MB，则 D = 500 TB/天，这将导致 λ 缩小 10 倍。
+
+## Evidence
+
+[质询]数值计算存在严重逻辑错误：根据Pareto分布截断均值公式，当α=1.1, x_min=1KB, B=100MB时，理论均值应约为11MB（而非文中声称的11KB），文中将11KB与10-50MB的范围并列且最终取10MB，中间推导过程（11KB近似）与最终取值（10MB）存在数量级矛盾，且11KB的计算结果本身也是错误的（漏掉了量级转换或公式应用错误）。 | 先验知识/题面给定，逻辑校验未通过：Pareto(α=1.1, x_min=1KB, B=100MB)的截断均值计算结果约为11MB，文中声称'≈11KB'为明显计算错误，导致后续'保守估计10MB'缺乏推导支撑，内部逻辑不自洽。
+
+## Search Query
+
+Pareto distribution mean truncated alpha 1.1

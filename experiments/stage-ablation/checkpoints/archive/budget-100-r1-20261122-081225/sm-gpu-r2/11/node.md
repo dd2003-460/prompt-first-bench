@@ -1,0 +1,20 @@
+# N152: NVIDIA RTX 4060 Ti 16GB 在 W4A16 精度下运行 Qwen3-27B (32K ctx) 时，因 16GB 显存不足以容纳权重(13.
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+NVIDIA RTX 4060 Ti 16GB 在 W4A16 精度下运行 Qwen3-27B (32K ctx) 时，因 16GB 显存不足以容纳权重(13.5GB)+KV Cache(6.91GB) 总和(20.41GB)，必须启用 CPU Offload，导致 Decode 延迟增加 5-8 倍，性价比极低，通常被排除在 27B 模型推理的候选集之外。
+
+## Corrected Claim
+
+NVIDIA RTX 4060 Ti 16GB 在 W4A16 精度下运行 Qwen3-27B (32K ctx) 时，因 16GB 显存不足以容纳权重(13.5GB)+KV Cache(6.91GB) 总和(20.41GB)，必须启用 CPU Offload，导致 Decode 延迟增加 5-8 倍，性价比极低，通常被排除在 27B 模型推理的候选集之外。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

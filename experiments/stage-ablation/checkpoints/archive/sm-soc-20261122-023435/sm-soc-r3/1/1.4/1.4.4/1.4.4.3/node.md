@@ -1,0 +1,20 @@
+# N111: 信息不对称与搜索成本的交互效应项：实际弹性 ε_obs 不仅受 C_s 线性影响，还受 N34 中 k_info 的乘数效应，即 ε_obs = (ε_0 - 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N36
+
+## Claim
+
+信息不对称与搜索成本的交互效应项：实际弹性 ε_obs 不仅受 C_s 线性影响，还受 N34 中 k_info 的乘数效应，即 ε_obs = (ε_0 - β*C_s) * k_info，当 C_s 高且 λ_asym 高时，弹性压缩效应呈乘积放大，导致 ε_obs 可能低于 0.5（缺乏弹性）。
+
+## Corrected Claim
+
+信息不对称与搜索成本的交互效应项：实际弹性 ε_obs 不仅受 C_s 线性影响，还受 N34 中 k_info 的乘数效应，即 ε_obs = (ε_0 - β*C_s) * k_info，当 C_s 高且 λ_asym 高时，弹性压缩效应呈乘积放大，导致 ε_obs 可能低于 0.5（缺乏弹性）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

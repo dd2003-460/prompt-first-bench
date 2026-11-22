@@ -1,0 +1,20 @@
+# N272: β_exposure 的置信区间计算：基于 A/B 测试或自然实验数据，β_exposure 的标准误 SE_β = sqrt(Var(β)/n)，需 n ≥ 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N89
+
+## Claim
+
+β_exposure 的置信区间计算：基于 A/B 测试或自然实验数据，β_exposure 的标准误 SE_β = sqrt(Var(β)/n)，需 n ≥ 100 组实验以确保 95% CI 宽度 < 0.2
+
+## Corrected Claim
+
+β_exposure 的置信区间计算：基于 A/B 测试或自然实验数据，β_exposure 的标准误通常估计为 SE_β = sqrt(σ²/n)（其中 σ² 为残差方差），需足够大的样本量 n（如 n ≥ 100 组实验，具体取决于方差和效应量）以确保 95% CI 宽度满足精度要求（如 < 0.2）。
+
+## Evidence
+
+[质询]公式 SE_β = sqrt(Var(β)/n) 存在量纲和统计定义混淆：通常 Var(β) 指估计量的方差（已包含样本量 n 的影响，即 Var(β_hat) ≈ σ²/n），若再除以 n 则量纲错误；若 Var(β) 指总体方差 σ²，则公式成立但表述不严谨。此外，'n ≥ 100 确保 CI < 0.2' 是经验性断言，取决于效应量大小和方差，并非绝对真理。 | 先验知识/题面给定，逻辑校验通过（公式在特定定义下自洽，但表述存在歧义；作为 knowledge 节点，逻辑自洽即视为有效，但因公式表述不够严谨且缺乏外部来源直接支持具体阈值，降级为定性表述以消除歧义）

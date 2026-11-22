@@ -1,0 +1,24 @@
+# N169: 卖家曝光量噪声投影 ΔExposure_noise：ε_traffic 对卖家曝光量的影响 ΔExposure = ε_traffic * Exposure_b
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N56
+
+## Claim
+
+卖家曝光量噪声投影 ΔExposure_noise：ε_traffic 对卖家曝光量的影响 ΔExposure = ε_traffic * Exposure_base，假设曝光量与流量重分配呈正相关，则曝光量波动的标准差为 σ_traffic_abs * Exposure_base，需计算该波动是否显著影响卖家的成交周期 T_deal（基于 N79 的弹性系数 ε_Tw）。
+
+## Corrected Claim
+
+卖家曝光量噪声投影 ΔExposure_noise：ε_traffic 对卖家曝光量的影响 ΔExposure = ε_traffic * Exposure_base，假设曝光量与流量重分配呈正相关，则曝光量波动的标准差为 σ_traffic_abs * Exposure_base，需计算该波动是否显著影响卖家的成交周期 T_deal（基于 N79 的弹性系数 ε_Tw）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：线性投影模型在局部近似下成立，量纲一致（无量纲弹性系数 * 基础曝光量 = 曝光量波动），且明确引用了前置节点 N79 的弹性系数，逻辑自洽。
+
+## Search Query
+
+seller exposure volatility impact on transaction time marketplace

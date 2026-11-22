@@ -1,0 +1,20 @@
+# N40: INT8权重下，Qwen3-27B在32K上下文时，启用FP8/INT8 KV Cache的总显存需求精确计算：27.1 GB (权重) + 10.31 GB 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N9
+
+## Claim
+
+INT8权重下，Qwen3-27B在32K上下文时，启用FP8/INT8 KV Cache的总显存需求精确计算：27.1 GB (权重) + 10.31 GB (KV Cache) + 2.03 GB (激活/开销) = 39.44 GB
+
+## Corrected Claim
+
+INT8权重下，Qwen3-27B在32K上下文时，启用FP8/INT8 KV Cache的总显存需求精确计算：27.1 GB (权重) + 10.31 GB (KV Cache) + 2.03 GB (激活/开销) = 39.44 GB
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B INT8权重约27.1GB，32K上下文KV Cache约10.31GB，激活/开销约2.03GB，总和39.44GB，数值量级与计算逻辑自洽。

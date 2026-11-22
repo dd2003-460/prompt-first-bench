@@ -1,0 +1,30 @@
+# N182: 成交周期下降幅度的基准估计：定义 ΔT/T = (T_new - T_old) / T_old。需检索二手平台平均成交周期 T_old 的基准值（如闲鱼平均成交
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N60
+
+## Claim
+
+成交周期下降幅度的基准估计：定义 ΔT/T = (T_new - T_old) / T_old。需检索二手平台平均成交周期 T_old 的基准值（如闲鱼平均成交天数），并计算若 T_new 缩短 10% 所需的绝对天数变化 ΔT_abs = 0.1 * T_old，作为显著性检验的效应量基础。
+
+## Corrected Claim
+
+成交周期下降幅度的基准估计：定义 ΔT/T = (T_new - T_old) / T_old。需检索二手平台平均成交周期 T_old 的基准值，并计算若 T_new 缩短 10% 所需的绝对天数变化 ΔT_abs = 0.1 * T_old，作为显著性检验的效应量基础。（注：具体 T_old 数值需另行获取，当前来源未提供）
+
+## Evidence
+
+[质询]该陈述声称需检索并计算基于具体基准值（如闲鱼平均成交天数）的绝对天数变化，但参考来源中未包含任何关于二手平台（如闲鱼）平均成交周期的具体数值或行业基准数据，导致无法验证其计算基础或具体效应量。 | 逻辑上定义 ΔT/T 和 ΔT_abs 的数学关系自洽，但来源 [1] 讨论高频交易微观结构，[2] 讨论销售漏斗马尔可夫建模，[3] 讨论算法交易后分析，均与二手平台成交周期基准值无关，无可用外部证据支持具体数值。
+
+## Search Query
+
+average selling time second hand goods platform baseline days
+
+## Retrieval Sources
+
+- {'url': 'https://www.juezhaotrade.com/market-rhythm/high-frequency-data-statistical-analysis.html&rut=2a4a8cb95199be5f1d6628d43ea3a6300133413044c1039cfd0c3100025f4c86', 'type': 'ddg', 'title': '高频数据统计分析：tick数据、波动率与成交量微观分析 | 觉照交易法'}
+- {'url': 'https://blog.csdn.net/weixin_33524659/article/details/161406728&rut=8700318281fbec8af811e1ee35ac20fc02ef7c5acc83c7390b4f89b87d89c693', 'type': 'ddg', 'title': '用马尔可夫链建模销售漏斗：量化状态转移与成交周期-csdn博客'}
+- {'url': 'https://yuanuite.github.io/digital-library/books/algo-trading/ch10.html&rut=14d9ef42becc4ba240a049a6a4f2738fc3d65dd7c9f95ccc0cb4aa9e57f7c98a', 'type': 'ddg', 'title': "第10章 · 交易后分析和算法的选择 • Yuan's Library"}

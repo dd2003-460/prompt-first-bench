@@ -1,0 +1,20 @@
+# N166: BF16 基线下 1x A100 80GB 的可行性边界计算：总显存需求 62GB (权重 54 + KV 6 + 激活 2)，剩余 18GB 可用于 Batc
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N49
+
+## Claim
+
+BF16 基线下 1x A100 80GB 的可行性边界计算：总显存需求 62GB (权重 54 + KV 6 + 激活 2)，剩余 18GB 可用于 Batch Size 扩展；根据 N97 公式，计算 A100 在 32K 上下文下的最大 Batch Size (B_max)。
+
+## Corrected Claim
+
+BF16 基线下 1x A100 80GB 的可行性边界计算：总显存需求 62GB (权重 54 + KV 6 + 激活 2)，剩余 18GB 可用于 Batch Size 扩展；根据 N97 公式，计算 A100 在 32K 上下文下的最大 Batch Size (B_max)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 80GB 显存减去 62GB 基础需求剩余 18GB，符合算术逻辑；BF16 下 A100 80GB 运行 32K 上下文大模型时，Batch Size 受限于剩余显存，该计算框架在工程上自洽。

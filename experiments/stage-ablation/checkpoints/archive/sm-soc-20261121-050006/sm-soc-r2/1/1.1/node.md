@@ -1,0 +1,24 @@
+# N5: 共享随机源：买家偏好噪声的方差结构，定义为 σ²_pref = Var(U_i | x)，其中 U_i 为买家 i 对商品 x 的保留价格，x 为商品特征向量；
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+共享随机源：买家偏好噪声的方差结构，定义为 σ²_pref = Var(U_i | x)，其中 U_i 为买家 i 对商品 x 的保留价格，x 为商品特征向量；该噪声服从重尾分布（如 Pareto 或 Lognormal），导致对同一商品 x 的估值分布具有长尾特征，使得高挂价（P_ask > P_median）仍能匹配到长尾高估值买家，从而支撑短成交周期。
+
+## Corrected Claim
+
+共享随机源：买家偏好噪声的方差结构，定义为 σ²_pref = Var(U_i | x)，其中 U_i 为买家 i 对商品 x 的保留价格，x 为商品特征向量；该噪声服从重尾分布（如 Pareto 或 Lognormal），导致对同一商品 x 的估值分布具有长尾特征，使得高挂价（P_ask > P_median）仍能匹配到长尾高估值买家，从而支撑短成交周期。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：重尾分布（如Pareto/Lognormal）具有长尾特征，其尾部概率质量足以支撑高挂价匹配高估值买家，从而在理论上支撑短成交周期，符合经济学直觉与数学性质。
+
+## Search Query
+
+buyer preference noise distribution variance heavy tail secondhand market

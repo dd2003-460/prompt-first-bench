@@ -1,0 +1,20 @@
+# N93: 误差概率 P(error)：定义为在证据 E 下假设 H 为假的概率，P(error|E) = 1 - P(H|E)，需通过交叉验证或自助法（bootstrap
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N23
+
+## Claim
+
+误差概率 P(error)：定义为在证据 E 下假设 H 为假的概率，P(error|E) = 1 - P(H|E)，需通过交叉验证或自助法（bootstrap）评估模型稳定性，置信度 C = 1 - P(error|E)
+
+## Corrected Claim
+
+误差概率 P(error)：定义为在证据 E 下假设 H 为假的概率，P(error|E) = 1 - P(H|E)，需通过交叉验证或自助法（bootstrap）评估模型稳定性，置信度 C = 1 - P(error|E)
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在方法论上是正交的（分别对应Bootstrap参数、CV策略、稳定性定义），无冗余。但在完备性上存在缺失：父节点核心是'误差概率P(error)'及其'稳定性评估'，子节点1和2仅讨论了评估方法（Bootstrap和CV）的技术细节（如N_boot、k值选择），并未直接关联到如何计算或修正P(error)本身；子节点3定义了稳定性阈值，但缺乏对'置信度C'具体如何根据Bootstrap或CV结果进行量化计算或校准的说明（例如：C是否等于1-SE？还是基于Bootstrap分布的分位数？）。父节点提到C = 1 - P(error|E)，但子节点未解释P(error|E)在统计估计中是如何从模型输出转化为具体数值的（如贝叶斯后验均值 vs 频率派错误率）。）

@@ -1,0 +1,20 @@
+# N64: 统计独立性检验的具体指标：计算高挂价-短周期相关系数r1与降价-咨询减少相关系数r2的协方差Cov(r1, r2)，若|Cov| / (σ_r1 * σ_r2)
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+统计独立性检验的具体指标：计算高挂价-短周期相关系数r1与降价-咨询减少相关系数r2的协方差Cov(r1, r2)，若|Cov| / (σ_r1 * σ_r2) < 0.1则视为独立；同时检验交互项系数β_interaction在回归模型 log(T) ~ Price_Premium + Price_Drop + Price_Premium*Price_Drop 中的p值是否>0.1
+
+## Corrected Claim
+
+统计独立性检验的具体指标：计算高挂价-短周期相关系数r1与降价-咨询减少相关系数r2的协方差Cov(r1, r2)，若|Cov| / (σ_r1 * σ_r2) < 0.1则视为独立；同时检验交互项系数β_interaction在回归模型 log(T) ~ Price_Premium + Price_Drop + Price_Premium*Price_Drop 中的p值是否>0.1
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

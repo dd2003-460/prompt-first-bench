@@ -1,0 +1,24 @@
+# N753: H100 SXM 与 RTX 4090 在相同功耗限制 (700W vs 450W) 下的每瓦吞吐率 (tokens/s/W) 对比：H100 的能效比 (ef
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N232
+
+## Claim
+
+H100 SXM 与 RTX 4090 在相同功耗限制 (700W vs 450W) 下的每瓦吞吐率 (tokens/s/W) 对比：H100 的能效比 (efficiency ratio) 相对于 RTX 4090 的倍数，用于计算长期持有 (3 年) 的电力成本差异 (USD)
+
+## Corrected Claim
+
+H100 SXM (700W TDP) 与 RTX 4090 (450W TDP) 在特定 LLM 推理负载下的每瓦吞吐率对比显示 H100 具有更高的能效比，具体倍数取决于工作负载和软件优化，需通过基准测试确定。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件功耗限制（700W vs 450W）和能效比倍数，属于经验事实。H100 SXM 的标准 TDP 通常为 700W，但 RTX 4090 的标准 TDP 为 450W，然而实际部署中功耗限制可能因具体配置而异。此外，'每瓦吞吐率'的对比高度依赖于具体的工作负载（如 LLM 推理 vs 训练）、软件栈优化（CUDA 版本、TensorRT 等）以及模型大小，不同场景下能效比倍数差异巨大，无法给出一个固定的'倍数'。 | 经验事实，逻辑自洽但缺来源支持。H100 和 RTX 4090 的功耗规格符合常见硬件参数，但能效比倍数是高度依赖负载的经验数据，且无外部来源支持具体数值。
+
+## Search Query
+
+H100 vs RTX 4090 power efficiency tokens per watt inference

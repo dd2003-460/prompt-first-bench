@@ -1,0 +1,29 @@
+# N253: 支持双 RTX 4090 且具备足够供电（2x 12VHPWR 或 6x 8-pin）的主板最低型号及价格：确定满足 PCIe 4.0 x16 x2 物理间距和
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N95
+
+## Claim
+
+支持双 RTX 4090 且具备足够供电（2x 12VHPWR 或 6x 8-pin）的主板最低型号及价格：确定满足 PCIe 4.0 x16 x2 物理间距和供电需求的具体主板型号（如 ASUS ProArt X670E-Creator 或 MSI MEG Z790 ACE）及其当前市场最低售价，修正 N95 中笼统的 $300-$500 区间
+
+## Corrected Claim
+
+支持双 RTX 4090 且具备足够供电（2x 12VHPWR 或 6x 8-pin）的主板需满足 PCIe 4.0 x16 x2 物理间距和供电需求，具体型号（如 ASUS ProArt X670E-Creator 或 MSI MEG Z790 ACE）及其当前市场最低售价需进一步查询实时市场数据，原 $300-$500 区间可能偏低，高端双卡主板通常价格更高。
+
+## Evidence
+
+[质询]参考来源仅包含RTX 4090的GPU规格和PCIe带宽测试，完全未涉及主板型号、供电接口（12VHPWR/8-pin）、物理间距或市场价格，无法支持关于具体主板型号及价格的陈述。 | 经验事实，逻辑自洽但缺来源支持（来源[1][2]仅涉及GPU规格，与主板选型及价格无关）
+
+## Search Query
+
+motherboard supporting two RTX 4090 PCIe 4.0 x16 x2 price 2024 2025
+
+## Retrieval Sources
+
+- {'url': 'https://www.techpowerup.com/gpu-specs/geforce-rtx-4090.c3889&rut=f3fd62fb3a17cf66f8fcdb3e9d0ca3a0d0e7a0001f30460e655c83367db02ebf', 'type': 'ddg', 'title': 'NVIDIA GeForce RTX 4090 Specs | TechPowerUp GPU Database'}
+- {'url': 'https://www.techpowerup.com/review/nvidia-geforce-rtx-4090-pci-express-scaling/&rut=e553962306604843a0c3a99be3fa8b18ade32e18d028c768ae91def9f2b8efe5', 'type': 'ddg', 'title': 'NVIDIA GeForce RTX 4090 PCI-Express Scaling - TechPowerUp'}

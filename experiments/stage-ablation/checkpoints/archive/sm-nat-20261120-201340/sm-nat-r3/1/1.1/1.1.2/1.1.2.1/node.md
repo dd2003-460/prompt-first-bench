@@ -1,0 +1,20 @@
+# N82: W_total 的敏感性分析工作点 A（基于 s_min=1KB）：W_total = 10^5 * 11KB = 1,100,000 KB ≈ 1.05 GB
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+W_total 的敏感性分析工作点 A（基于 s_min=1KB）：W_total = 10^5 * 11KB = 1,100,000 KB ≈ 1.05 GB，表明缓存覆盖率极高（C/W ≈ 121），完全覆盖。
+
+## Corrected Claim
+
+W_total 的敏感性分析工作点 A（基于 s_min=1KB）：W_total = 10^5 * 11KB = 1,100,000 KB ≈ 1.05 GB，表明缓存覆盖率极高（C/W ≈ 121），完全覆盖。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：10^5 * 11KB = 1,100,000 KB ≈ 1.05 GB 计算正确，C/W ≈ 121 与完全覆盖结论逻辑自洽

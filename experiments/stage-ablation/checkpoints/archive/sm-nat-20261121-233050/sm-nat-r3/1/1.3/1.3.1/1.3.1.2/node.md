@@ -1,0 +1,20 @@
+# N83: Gaussian Copula 联合 CDF 的解析表达式：C(u,v; ρ) = Φ_2(u,v; ρ) = Φ(Φ^{-1}(u)) * Φ(Φ^{-1}(
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+Gaussian Copula 联合 CDF 的解析表达式：C(u,v; ρ) = Φ_2(u,v; ρ) = Φ(Φ^{-1}(u)) * Φ(Φ^{-1}(v) * sqrt(1-ρ²) + Φ^{-1}(u) * ρ) 的二维积分形式，其中 ρ=-0.3 决定了联合分布的尾部依赖结构。
+
+## Corrected Claim
+
+Gaussian Copula 联合 CDF 的解析表达式：C(u,v; ρ) = Φ_2(u,v; ρ) = Φ(Φ^{-1}(u)) * Φ(Φ^{-1}(v) * sqrt(1-ρ²) + Φ^{-1}(u) * ρ) 的二维积分形式，其中 ρ=-0.3 决定了联合分布的尾部依赖结构。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Gaussian Copula 的定义即为二元正态分布的 CDF，其解析表达式通过条件概率分解（全概率公式）转化为单变量正态 CDF 的积分形式，公式中 Φ(Φ^{-1}(u)) 恒等于 u，数学推导自洽；ρ=-0.3 作为相关系数在 (-1, 1) 范围内，符合高斯分布参数定义。

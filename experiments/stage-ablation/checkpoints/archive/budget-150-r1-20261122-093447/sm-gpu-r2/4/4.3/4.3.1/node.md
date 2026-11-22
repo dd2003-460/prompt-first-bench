@@ -1,0 +1,16 @@
+# N98: NVIDIA A100 80GB 方案在 Qwen3-27B BF16 精度下的理论解码吞吐上限为 88.9 tokens/s (基于 54GB 权重 / 15
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N31
+
+## Claim
+
+NVIDIA A100 80GB 方案在 Qwen3-27B BF16 精度下的理论解码吞吐上限为 88.9 tokens/s (基于 54GB 权重 / 1555GB/s HBM2e 带宽)，实际 vLLM 实测吞吐约为理论值的 65-75% (约 58-67 tokens/s)，显著高于消费级 4090 的 74 tokens/s 理论值 (13.5GB W4 / 1008GB/s) 但需对比 W4 精度损失后的有效质量分。
+
+## Corrected Claim
+
+NVIDIA A100 80GB 方案在 Qwen3-27B BF16 精度下的理论解码吞吐上限为 88.9 tokens/s (基于 54GB 权重 / 1555GB/s HBM2e 带宽)，实际 vLLM 实测吞吐约为理论值的 65-75% (约 58-67 tokens/s)，显著高于消费级 4090 的 74 tokens/s 理论值 (13.5GB W4 / 1008GB/s) 但需对比 W4 精度损失后的有效质量分。

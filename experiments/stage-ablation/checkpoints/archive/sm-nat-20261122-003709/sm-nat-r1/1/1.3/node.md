@@ -1,0 +1,20 @@
+# N7: 确定LRU缓存容量C=128GB在总数据量S_total中的占比比例 p_cache = C / S_total，该比例决定了LRU能够驻留的对象数量上限，进而
+
+- **status**: verified
+- **level**: L2
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+确定LRU缓存容量C=128GB在总数据量S_total中的占比比例 p_cache = C / S_total，该比例决定了LRU能够驻留的对象数量上限，进而影响稳态命中率的理论上限。
+
+## Corrected Claim
+
+确定LRU缓存容量C=128GB在总数据量S_total中的占比比例 p_cache = C / S_total，该比例决定了LRU能够驻留的对象数量上限，进而影响稳态命中率的理论上限。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

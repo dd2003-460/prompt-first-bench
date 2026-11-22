@@ -1,0 +1,20 @@
+# N47: 验证 LFU 退化幅度公式 D_LFU ≈ (1 - λ_update) * (1 - β) * 5% 的有效性：指出该公式中 5% 为经验常数，缺乏理论推导支
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+验证 LFU 退化幅度公式 D_LFU ≈ (1 - λ_update) * (1 - β) * 5% 的有效性：指出该公式中 5% 为经验常数，缺乏理论推导支撑，实际退化幅度应建模为 D_LFU = 1 - (1 - p_cold_stick) * λ_update，其中 p_cold_stick 为冷对象在 LFU 中滞留的概率，需通过频率计数器老化时间 T_age = 1/λ_update 与请求间隔分布对比计算。
+
+## Corrected Claim
+
+验证 LFU 退化幅度公式 D_LFU ≈ (1 - λ_update) * (1 - β) * 5% 的有效性：指出该公式中 5% 为经验常数，缺乏理论推导支撑，实际退化幅度应建模为 D_LFU = 1 - (1 - p_cold_stick) * λ_update，其中 p_cold_stick 为冷对象在 LFU 中滞留的概率，需通过频率计数器老化时间 T_age = 1/λ_update 与请求间隔分布对比计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

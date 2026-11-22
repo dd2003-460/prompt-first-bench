@@ -1,0 +1,24 @@
+# N178: Qwen3-27B 的 Embedding 层参数量 P_emb = Vocab_Size * Hidden_Size；若 Vocab_Size=151,936
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N55
+
+## Claim
+
+Qwen3-27B 的 Embedding 层参数量 P_emb = Vocab_Size * Hidden_Size；若 Vocab_Size=151,936 且 Hidden_Size=4096，则 P_emb ≈ 622M 参数，在 BF16 下占用约 1.24 GB；需确认该部分是否已计入 27.3B 总参数量中（通常已计入，故 N55 中 '额外增加' 的说法为误）。
+
+## Corrected Claim
+
+Qwen3-27B 的 Embedding 层参数量 P_emb = Vocab_Size * Hidden_Size；若 Vocab_Size=151,936 且 Hidden_Size=4096，则 P_emb ≈ 622M 参数，在 BF16 下占用约 1.24 GB；该部分通常已计入总参数量中，故 '额外增加' 的说法可能为误，但具体数值需进一步核实。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件/模型规格参数（Vocab_Size=151,936, Hidden_Size=4096, 总参数量27.3B），属于经验事实。虽然数学计算（151936*4096≈622M, 622M*2bytes≈1.24GB）逻辑自洽，但缺乏外部来源直接支持这些具体数值是否准确对应 Qwen3-27B 的实际配置，且无法排除其他可能性（如实际 Vocab 或 Hidden 尺寸不同）。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+Qwen3-27B vocab size hidden size embedding parameters count

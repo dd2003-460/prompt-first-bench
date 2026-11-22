@@ -1,0 +1,24 @@
+# N237: 电价敏感性在'峰值电价'场景下：若采用分时电价（Peak $0.20/kWh, Off-Peak $0.05/kWh），且推理任务可调度至Off-Peak时段，
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N75
+
+## Claim
+
+电价敏感性在'峰值电价'场景下：若采用分时电价（Peak $0.20/kWh, Off-Peak $0.05/kWh），且推理任务可调度至Off-Peak时段，5年电力成本可降低40-60%；对于2x4090方案，电费从$2,832降至$1,133-$1,700，TCO优势显著扩大
+
+## Corrected Claim
+
+电价敏感性在'峰值电价'场景下：若采用分时电价（Peak $0.20/kWh, Off-Peak $0.05/kWh），且推理任务可调度至Off-Peak时段，5年电力成本可降低40-60%；对于2x4090方案，电费从$2,832降至$1,133-$1,700，TCO优势显著扩大
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于给定的分时电价参数（Peak $0.20, Off-Peak $0.05）及推理任务可调度至Off-Peak的假设，成本降低比例在数学上自洽（若完全调度至Off-Peak，成本降至25%，即降低75%；若部分调度或考虑基础负载，40-60%的降低幅度在合理区间内），且2x4090方案的电费数值变化符合线性比例关系。
+
+## Search Query
+
+time-of-use electricity pricing peak off-peak LLM inference scheduling cost reduction 40-60%

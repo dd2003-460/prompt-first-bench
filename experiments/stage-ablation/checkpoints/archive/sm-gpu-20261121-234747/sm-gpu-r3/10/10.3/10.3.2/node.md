@@ -1,0 +1,24 @@
+# N492: AWQ (4-bit) 量化在 Qwen3-27B 上的 MMLU 准确率下降 ΔMMLU_AWQ 具体数值，需引用 MIT Han Lab AWQ 官方评测或
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N156
+
+## Claim
+
+AWQ (4-bit) 量化在 Qwen3-27B 上的 MMLU 准确率下降 ΔMMLU_AWQ 具体数值，需引用 MIT Han Lab AWQ 官方评测或第三方对比数据，明确 AWQ 相比 GPTQ 在 27B 模型上的精度优势幅度（通常预期 AWQ 损失略低或持平） [待核验]
+
+## Corrected Claim
+
+AWQ (4-bit) 量化在 Qwen3-27B 上的 MMLU 准确率下降通常预期略低于或持平于 GPTQ，具体数值需查阅最新官方评测或第三方基准测试报告。
+
+## Evidence
+
+[质询]该陈述要求提供具体的数值（ΔMMLU_AWQ）和特定模型（Qwen3-27B）的对比数据，属于具体的经验事实。由于检索失败，无法验证具体数值是否准确，且Qwen3-27B的具体量化评测数据可能尚未广泛公开或存在版本差异，存在数据缺失或口径不一致的风险。 | 经验事实，逻辑自洽但缺来源支持。AWQ通常优于GPTQ的定性结论符合领域共识，但具体数值无法验证。
+
+## Search Query
+
+AWQ 4bit Qwen 27B MMLU accuracy benchmark

@@ -1,0 +1,24 @@
+# N287: δ_tag 对成交周期 T 的传导机制分解：∂T/∂δ_tag = ∂T/∂W_exposure * ∂W_exposure/∂δ_tag。其中 ∂W_expo
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N80
+
+## Claim
+
+δ_tag 对成交周期 T 的传导机制分解：∂T/∂δ_tag = ∂T/∂W_exposure * ∂W_exposure/∂δ_tag。其中 ∂W_exposure/∂δ_tag = -(P_list - P_max)/P_max * W_pre；∂T/∂W_exposure 需通过搜索-匹配模型估计，假设成交周期与曝光量呈反比关系 T = k / W_exposure，则 ∂T/∂W_exposure = -k / W_exposure^2。
+
+## Corrected Claim
+
+δ_tag 对成交周期 T 的传导机制分解：∂T/∂δ_tag = ∂T/∂W_exposure * ∂W_exposure/∂δ_tag。其中 ∂W_exposure/∂δ_tag = -(P_list - P_max)/P_max * W_pre；∂T/∂W_exposure 需通过搜索-匹配模型估计，假设成交周期与曝光量呈反比关系 T = k / W_exposure，则 ∂T/∂W_exposure = -k / W_exposure^2。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：链式法则应用正确，反比关系 T=k/W 的导数推导无误，量纲一致。
+
+## Search Query
+
+marketplace exposure weight impact on time to sale search matching model

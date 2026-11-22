@@ -1,0 +1,20 @@
+# N116: LRU 稳态周转时间 T_LRU 在‘长尾对象主导’工作点（Bottom-90% 对象）的数值：假设剩余 99000 个对象平均大小 10KB，请求率极低，总字
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N47
+
+## Claim
+
+LRU 稳态周转时间 T_LRU 在‘长尾对象主导’工作点（Bottom-90% 对象）的数值：假设剩余 99000 个对象平均大小 10KB，请求率极低，总字节流 R_byte_tail ≈ 5000万 * 0.05 * 10KB = 2.5e10 bytes/天，T_LRU ≈ 128GB / 2.5e10 ≈ 5.2 天，表明长尾对象在缓存中停留时间较长但命中率贡献低。
+
+## Corrected Claim
+
+LRU 稳态周转时间 T_LRU 在‘长尾对象主导’工作点（Bottom-90% 对象）的数值：假设剩余 99000 个对象平均大小 10KB，请求率极低，总字节流 R_byte_tail ≈ 5000万 * 0.05 * 10KB = 2.5e10 bytes/天，T_LRU ≈ 128GB / 2.5e10 ≈ 5.2 天，表明长尾对象在缓存中停留时间较长但命中率贡献低。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算 128GB / 2.5e10 bytes ≈ 5.2 天符合量级，LRU 长尾对象周转时间较长的定性结论符合缓存理论直觉。

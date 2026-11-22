@@ -1,0 +1,20 @@
+# N251: L40S INT8 全量化方案的解码速度与 N86 FP8 方案相同 (均为 27 Tokens/s)，因为权重和 KV Cache 的字节数相同 (均为 1 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N87
+
+## Claim
+
+L40S INT8 全量化方案的解码速度与 N86 FP8 方案相同 (均为 27 Tokens/s)，因为权重和 KV Cache 的字节数相同 (均为 1 byte/param)；但 INT8 方案在 L40S 上的硬件加速支持不如 FP8 成熟 (Ada Lovelace 架构原生支持 FP8 Tensor Core，INT8 需软件模拟或部分硬件加速)，可能导致实际吞吐低 5-10%，即 ~24-26 Tokens/s，进一步降低其性价比优势。
+
+## Corrected Claim
+
+L40S INT8全量化方案的解码速度与N86 FP8方案相近（均为约27 Tokens/s），因为权重和KV Cache的字节数相同（均为1 byte/param）；INT8方案在L40S上的硬件加速支持同样成熟，实际吞吐差异较小，性价比优势主要取决于具体实现优化。
+
+## Evidence
+
+[质询]声称INT8在L40S上需软件模拟或部分硬件加速导致5-10%性能损失，但Ada Lovelace架构对INT8 Tensor Core的支持非常成熟，通常INT8推理效率不低于FP8，该性能损失假设缺乏依据且可能高估了INT8的劣势。 | 先验知识/题面给定，逻辑校验通过，但INT8性能损失的具体数值（5-10%）缺乏直接来源支持，属于经验性估计

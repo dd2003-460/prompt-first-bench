@@ -1,0 +1,24 @@
+# N101: 成交周期缩短的归因分解：ΔT_cycle = ΔT_search + ΔT_negotiation，其中 ΔT_search 为搜索时间变化，ΔT_negoti
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N27, N28, N29
+
+## Claim
+
+成交周期缩短的归因分解：ΔT_cycle = ΔT_search + ΔT_negotiation，其中 ΔT_search 为搜索时间变化，ΔT_negotiation 为议价时间变化；需量化高溢价组中 ΔT_negotiation 是否显著小于 0 以验证噪声机制。
+
+## Corrected Claim
+
+成交周期可分解为搜索时间变化与议价时间变化之和（ΔT_cycle = ΔT_search + ΔT_negotiation）。需通过实证数据量化高溢价组中议价时间变化（ΔT_negotiation）是否显著为负，以检验其是否由噪声机制驱动。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点逻辑清晰且互斥：节点1负责量化搜索时间（作为控制变量/基线），节点2负责基于机制解释议价时间的变化逻辑，节点3负责具体的统计检验方法。三者分别对应‘测量定义’、‘理论机制’、‘统计验证’，无重叠且覆盖了父节点中关于分解公式、量化需求和验证机制的所有关键要素。）
+
+## Search Query
+
+decomposition of transaction cycle time into search and negotiation phases for high premium listings

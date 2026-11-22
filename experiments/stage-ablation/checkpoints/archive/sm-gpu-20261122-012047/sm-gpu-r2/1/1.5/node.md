@@ -1,0 +1,20 @@
+# N10: INT4 量化下 Qwen3-27B 的静态权重显存占用降至 13.5 GB (27B params × 0.5 bytes)，加上 BF16 KV Cache
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+INT4 量化下 Qwen3-27B 的静态权重显存占用降至 13.5 GB (27B params × 0.5 bytes)，加上 BF16 KV Cache (21.7 GB) 后总显存需求为 35.2 GB，使得 48 GB 显存的消费级显卡（如 RTX 4090/5090）成为可行候选。
+
+## Corrected Claim
+
+INT4 量化下 Qwen3-27B 的静态权重显存占用降至 13.5 GB (27B params × 0.5 bytes)，加上 BF16 KV Cache (21.7 GB) 后总显存需求为 35.2 GB，使得 48 GB 显存的消费级显卡（如 RTX 4090/5090）成为可行候选。
+
+## Evidence
+
+父节点级核验失败（LLM 错误）：Unterminated string starting at: line 8 column 5 (char 702)

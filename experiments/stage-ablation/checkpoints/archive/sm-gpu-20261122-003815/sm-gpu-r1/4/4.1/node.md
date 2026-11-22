@@ -1,0 +1,20 @@
+# N22: Qwen3-27B 在 BF16 精度下的最小显存占用计算：weights_size = 27B * 2 bytes = 54GB，加上 32K 上下文 KV 
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+Qwen3-27B 在 BF16 精度下的最小显存占用计算：weights_size = 27B * 2 bytes = 54GB，加上 32K 上下文 KV Cache（假设层数 L=64, heads=8, head_dim=128, batch=1），KV_cache = 2 * 32768 * 64 * 8 * 128 * 2 bytes ≈ 17.2GB，总显存需求 ≈ 71.2GB。
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 精度下的最小显存占用计算：weights_size = 27B * 2 bytes = 54GB，加上 32K 上下文 KV Cache（假设层数 L=64, heads=8, head_dim=128, batch=1），KV_cache = 2 * 32768 * 64 * 8 * 128 * 2 bytes ≈ 17.2GB，总显存需求 ≈ 71.2GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：权重计算 27B*2=54GB 正确；KV Cache 计算 2*32768*64*8*128*2 ≈ 17.18GB 正确；总和 71.2GB 符合算术逻辑。

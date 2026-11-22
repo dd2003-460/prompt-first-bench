@@ -1,0 +1,20 @@
+# N90: 1×A100 40GB 方案的吞吐量瓶颈量化：HBM2e 带宽 1555 GB/s，Qwen3-27B FP8 权重 27GB，理论最大解码速度 = Bandw
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N23
+
+## Claim
+
+1×A100 40GB 方案的吞吐量瓶颈量化：HBM2e 带宽 1555 GB/s，Qwen3-27B FP8 权重 27GB，理论最大解码速度 = Bandwidth / Weight_Size = 1555 / 27 ≈ 57.6 tokens/s（单序列），需对比 2×4090 的聚合带宽效率。
+
+## Corrected Claim
+
+1×A100 40GB 方案的吞吐量瓶颈量化：HBM2e 带宽 1555 GB/s，Qwen3-27B FP8 权重 27GB，理论最大解码速度 = Bandwidth / Weight_Size = 1555 / 27 ≈ 57.6 tokens/s（单序列），需对比 2×4090 的聚合带宽效率。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 40GB HBM2e 带宽约 1555 GB/s 符合硬件规格，27B 模型 FP8 权重约 27GB 符合计算逻辑，带宽受限解码速度公式 Bandwidth/Weight_Size 推导正确。

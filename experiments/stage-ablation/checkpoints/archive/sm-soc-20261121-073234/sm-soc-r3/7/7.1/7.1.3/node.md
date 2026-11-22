@@ -1,0 +1,20 @@
+# N323: 在低流动性市场（T_hold > 30天）工作点：总信号成本 C_total = (C_capital + C_storage) * T_hold 累计值超过商
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N108
+
+## Claim
+
+在低流动性市场（T_hold > 30天）工作点：总信号成本 C_total = (C_capital + C_storage) * T_hold 累计值超过商品价值的 2%-3%，此时维持高挂价的边际成本显著高于预期收益，迫使卖家降价。
+
+## Corrected Claim
+
+在低流动性市场（T_hold > 30天）工作点：总信号成本 C_total = (C_capital + C_storage) * T_hold 累计值超过商品价值的 2%-3%，此时维持高挂价的边际成本显著高于预期收益，迫使卖家降价。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

@@ -1,0 +1,20 @@
+# N8: 32K 上下文下 KV Cache 显存占用计算公式：2 * num_layers * hidden_dim * num_heads * seq_len * b
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+32K 上下文下 KV Cache 显存占用计算公式：2 * num_layers * hidden_dim * num_heads * seq_len * bytes_per_element，需代入 Qwen3-27B 具体架构参数（如 64 层、4096 hidden 等）进行计算
+
+## Corrected Claim
+
+32K 上下文下 KV Cache 显存占用计算公式：2 * num_layers * hidden_dim * num_heads * seq_len * bytes_per_element，需代入 Qwen3-27B 具体架构参数（如 64 层、4096 hidden 等）进行计算
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点逻辑清晰：第一个子节点修正了父节点中关于注意力头数的错误（区分了GQA中的KV heads与Attention heads），提供了正确的公式；后两个子节点分别针对BF16和FP8/INT8两种常见精度进行具体数值计算，覆盖了父节点要求的‘代入参数计算’，且两者互不重叠，分别对应不同的存储精度场景。）

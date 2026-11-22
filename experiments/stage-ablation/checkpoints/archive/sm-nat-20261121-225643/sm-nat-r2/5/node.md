@@ -1,0 +1,24 @@
+# N14: Pareto(α=1.1)分布下，前10%最大对象占据总存储空间的90%以上，导致128GB缓存实际仅能容纳约10,000个大对象，空间利用效率极低
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+Pareto(α=1.1)分布下，前10%最大对象占据总存储空间的90%以上，导致128GB缓存实际仅能容纳约10,000个大对象，空间利用效率极低
+
+## Corrected Claim
+
+Pareto(α=1.1)分布具有重尾特性，理论上前10%最大对象可占据总存储空间的约91%（基于理想连续分布），导致有限缓存（如128GB）主要被少数大对象占据，空间利用效率受限。
+
+## Evidence
+
+父节点级核验未通过：非正交, 有冗余（子节点1和子节点3存在严重冗余和逻辑重叠：两者都试图量化'大对象占据空间'这一核心事实，且子节点3引用的'91%空间'直接依赖于子节点1的计算结果，导致信息重复。此外，子节点2中关于'LRU优先保留热门对象且热门对象较小'的假设与Pareto分布下大对象通常对应高热度或长尾特性的常见场景存在潜在矛盾（需确认ρ=-0.3的具体含义），且该子节点主要讨论容量计算，与父节点强调的'效率低下'核心论点关联度稍弱，更多是背景约束。）
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Pareto_distribution&rut=d1f36e1dcdd328dca36f26158320367e6d6eac92aaea3431d05154d1bb1df302', 'type': 'ddg', 'title': 'Pareto distribution - Wikipedia'}

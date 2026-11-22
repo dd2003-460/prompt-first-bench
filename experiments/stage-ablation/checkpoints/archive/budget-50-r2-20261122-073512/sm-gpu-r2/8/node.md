@@ -1,0 +1,26 @@
+# N35: AMD MI250X 显存带宽为 3276 GB/s (HBM2)，NVIDIA A100 80GB 为 2039 GB/s (HBM2e)，NVIDIA H1
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+AMD MI250X 显存带宽为 3276 GB/s (HBM2)，NVIDIA A100 80GB 为 2039 GB/s (HBM2e)，NVIDIA H100 80GB 为 3350 GB/s (HBM3)；对于 27B BF16 模型 (54GB)，MI250X 理论吞吐上限约为 3276/56 ≈ 58.5 tokens/s，显著高于消费级显卡。
+
+## Corrected Claim
+
+AMD MI250X 显存带宽约为 3276 GB/s (HBM2)，NVIDIA A100 80GB 为 2039 GB/s (HBM2e)，NVIDIA H100 80GB 为 3350 GB/s (HBM3)；对于 27B BF16 模型 (54GB)，基于显存带宽的粗略估算值约为 58.5 tokens/s，实际吞吐受计算和内存访问模式影响。
+
+## Evidence
+
+父节点级核验未通过：有冗余（子节点分别针对 MI250X、A100 和 H100 三款硬件进行独立的性能修正分析，内容互不重叠且无矛盾，正交性良好；覆盖了父节点中提及的所有三款硬件的关键方面，完备性满足。然而，三个子节点的结构高度同构（均为：理论上限计算 -> 效率系数修正 -> 实际吞吐估算 -> 特定生态/量化优势/风险），本质上是同一套‘LLM推理效率修正模型’在不同硬件参数下的实例化，存在结构冗余。）
+
+## Retrieval Sources
+
+- {'url': 'https://www.amd.com/en/products/accelerators/instinct/mi200/mi250x.html&rut=1943c9632f901a33b38d3269a930cc9e228b95e24eab454e6dfb305e0699d828', 'type': 'ddg', 'title': 'AMD Instinct™ MI250X Accelerators'}
+- {'url': 'https://www.techpowerup.com/gpu-specs/instinct-mi250x.c3837&rut=e60f181fd70d3dc4e3408ab6858134b9ecaed6dce2c1610682e266a1a7f3515d', 'type': 'ddg', 'title': 'AMD Instinct MI250X Specs | TechPowerUp GPU Database'}
+- {'url': 'https://www.amd.com/zh-cn/products/accelerators/instinct/mi200/mi250x.html&rut=b55e29b41abf03d6be47e4732824b711343059390d23d36e4cf220836d30896c', 'type': 'ddg', 'title': 'AMD Instinct MI250X 加速器'}

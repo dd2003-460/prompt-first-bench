@@ -1,0 +1,29 @@
+# N20: 干预措施B：对降价后48小时内无新咨询的卖家自动推送'价格竞争力不足'警告及建议降价幅度（基于同类商品成交价分布的P25分位数），计算该措施对卖家降价响应率的提
+
+- **status**: verified
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+干预措施B：对降价后48小时内无新咨询的卖家自动推送'价格竞争力不足'警告及建议降价幅度（基于同类商品成交价分布的P25分位数），计算该措施对卖家降价响应率的提升比例。
+
+## Corrected Claim
+
+干预措施B：对降价后48小时内无新咨询的卖家自动推送'价格竞争力不足'警告及建议降价幅度（基于同类商品成交价分布的P25分位数），计算该措施对卖家降价响应率的提升比例。（注：此为特定实验/策略设计，现有来源未提供其有效性或具体实施细节的支持）
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应触发逻辑、建议算法、效果量化指标及影响因子，维度清晰且无重叠。虽然λ_resistance与Δr_response存在因果联系，但前者是参数估计，后者是结果指标，不构成冗余。）
+
+## Search Query
+
+dynamic pricing alerts seller response rate in second-hand markets
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1913029087976481769&rut=bd2ac20787ba9dda495d1fa3ebf83ec5ab23ad02f12b1b0a90024606172ab0c1', 'type': 'ddg', 'title': '2025亚马逊各种价格报错终极排雷手册+实测解法（附申诉模板）'}
+- {'url': 'https://zhuanlan.zhihu.com/p/2037125292804855584&rut=9492a890185d589e2623e4b6863f755e13f895ba53264b4d8077367e52f58c81', 'type': 'ddg', 'title': '促销折扣一直报错？亚马逊2026年价格新政全解析（附6大实操解法）'}

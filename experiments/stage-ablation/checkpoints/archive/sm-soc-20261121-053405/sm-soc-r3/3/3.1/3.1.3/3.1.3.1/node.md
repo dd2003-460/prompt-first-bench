@@ -1,0 +1,20 @@
+# N152: 共享随机源：定义时间序列分析中的残差项 $\epsilon_{ts}$ 为均值为0、标准差为 $\sigma_{ts}$ 的高斯分布，其中 $\sigma_{t
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N49
+
+## Claim
+
+共享随机源：定义时间序列分析中的残差项 $\epsilon_{ts}$ 为均值为0、标准差为 $\sigma_{ts}$ 的高斯分布，其中 $\sigma_{ts}$ 代表成交周期数据中未被新鲜度权重 $w_{freshness}$ 和价格变量解释的噪声（如季节性、突发事件），该噪声直接影响偏导数 $\partial T_{cycle} / \partial w_{freshness}$ 的估计精度。
+
+## Corrected Claim
+
+共享随机源：定义时间序列分析中的残差项 $\epsilon_{ts}$ 为均值为0、标准差为 $\sigma_{ts}$ 的高斯分布，其中 $\sigma_{ts}$ 代表成交周期数据中未被新鲜度权重 $w_{freshness}$ 和价格变量解释的噪声（如季节性、突发事件），该噪声直接影响偏导数 $\partial T_{cycle} / \partial w_{freshness}$ 的估计精度。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

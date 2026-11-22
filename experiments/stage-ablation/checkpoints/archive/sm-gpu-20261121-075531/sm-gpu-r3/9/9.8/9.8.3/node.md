@@ -1,0 +1,24 @@
+# N370: 理想 NVLink 或无限带宽场景下的理论最大 TPS 基准值需基于单卡计算能力估算：TPS_ideal = (Compute_FLOPS / FLOPs_pe
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N124
+
+## Claim
+
+理想 NVLink 或无限带宽场景下的理论最大 TPS 基准值需基于单卡计算能力估算：TPS_ideal = (Compute_FLOPS / FLOPs_per_token) * Efficiency_Factor；对于 RTX 4090，该值约为 50-60 tokens/s (INT8) [待核验]，作为对比基准。
+
+## Corrected Claim
+
+RTX 4090 在 INT8 精度下的实际推理吞吐或特定效率假设下的估算 TPS 约为 50-60 tokens/s（注：此数值远低于基于纯算力计算的理论峰值，可能反映了内存带宽瓶颈或极低效率假设，建议明确‘理论最大’的具体定义或改为‘典型实测基准’）。
+
+## Evidence
+
+[质询]该数值属于经验事实（硬件性能基准），无法从第一性原理直接推导。RTX 4090 的 INT8 算力约为 330 TOPS，若按典型 LLM 每 token 计算量（如 20-50 GFLOPs）估算，理论峰值 TPS 可达 6000-16000 tokens/s。陈述中的 50-60 tokens/s 远低于理论计算上限，可能混淆了‘理论计算峰值’与‘实际推理吞吐（受内存带宽/架构限制）’，或者使用了极低的效率因子（<1%），导致‘理论最大’这一表述与数值量级存在逻辑矛盾。 | 经验事实，逻辑自洽但缺来源支持；且数值量级与‘理论最大’定义存在潜在冲突（通常理论值远高于实际值），因无外部来源佐证具体口径，降级处理。
+
+## Search Query
+
+RTX 4090 theoretical max tokens per second INT8 inference

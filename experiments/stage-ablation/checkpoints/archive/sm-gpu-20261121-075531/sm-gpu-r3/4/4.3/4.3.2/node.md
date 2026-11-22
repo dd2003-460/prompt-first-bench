@@ -1,0 +1,30 @@
+# N86: Qwen3-27B 在 W8A8 (权重INT8, 激活INT8) 精度下，基于 WikiText2 数据集的困惑度 (PPL) 数值，以及相对 BF16 基线
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N21, N22, N23
+
+## Claim
+
+Qwen3-27B 在 W8A8 (权重INT8, 激活INT8) 精度下，基于 WikiText2 数据集的困惑度 (PPL) 数值，以及相对 BF16 基线的 ΔPPL 值。
+
+## Corrected Claim
+
+Qwen3-27B 在 W8A8 精度下，基于 WikiText2 数据集的困惑度 (PPL) 相对 BF16 基线几乎无显著下降（具体数值需查阅官方技术报告或基准测试数据）。
+
+## Evidence
+
+[质询]参考来源中未提供具体的 WikiText2 困惑度 (PPL) 数值及 ΔPPL 值，仅定性描述精度‘几乎不下降’或提及 GPQA 分数，缺乏具体量化指标支持。 | 来源 [1][2][3] 确认了 Qwen3-27B W8A8 量化的存在及精度保持较好的定性结论，但均未提供 WikiText2 PPL 的具体数值，属于经验事实且缺乏直接数据支持。
+
+## Search Query
+
+Qwen3-27B W8A8 perplexity WikiText2 benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_00993/article/details/167267737&rut=431d8af96af581f4751bb0b4e6b580eada0e613baca7b167b847c3866b5db248', 'type': 'ddg', 'title': '一文读懂Qwen3.8-27B-w8a8：W8A8量化多模态大模型的完整入门指南-CSDN博客'}
+- {'url': 'https://blog.csdn.net/gitblog_01186/article/details/167275194&rut=d4172e4beca6e34bc94eec6fd4440e81b1ee991951c9ebb07fd46ab640e65c22', 'type': 'ddg', 'title': '为什么W8A8量化能让27B大模型轻松落地？Qwen3.8-27B-w8a8量化原理解析-CSDN博客'}
+- {'url': 'https://www.modelscope.cn/models/VerStella/Qwen3.8-27B-W8A8-DCU&rut=94ad229335682ecb4f4405f63f842e1ee71582638da9064ae2c623a909dbb8b6', 'type': 'ddg', 'title': 'Qwen3.8-27B-W8A8-DCU · Models'}

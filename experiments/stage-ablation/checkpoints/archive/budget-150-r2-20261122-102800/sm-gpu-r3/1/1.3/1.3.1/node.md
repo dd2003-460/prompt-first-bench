@@ -1,0 +1,20 @@
+# N60: Apple M2 Ultra (192GB unified) 显存带宽为 800 GB/s，M3 Ultra (256GB unified) 为 819 GB/
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N10
+
+## Claim
+
+Apple M2 Ultra (192GB unified) 显存带宽为 800 GB/s，M3 Ultra (256GB unified) 为 819 GB/s，来源：Apple官方技术规格 [verified]
+
+## Corrected Claim
+
+Apple M2 Ultra (192GB unified) 显存带宽为 800 GB/s，M3 Ultra (256GB unified) 为 819 GB/s，来源：Apple官方技术规格 [verified]
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点之间存在严重的结构性冗余。三个子节点本质上是同一个公式（Bandwidth / Weight_Size）在不同精度参数下的实例化，而非三个独立的正交事实。此外，父节点仅陈述了硬件带宽规格，子节点却引入了父节点未提及的模型（Qwen3-27B）及具体权重大小，导致分解超出了父节点的信息范围（完备性上属于过度延伸，但在逻辑上未覆盖父节点作为独立硬件事实的完整性，反而将其从属于特定模型计算）。）

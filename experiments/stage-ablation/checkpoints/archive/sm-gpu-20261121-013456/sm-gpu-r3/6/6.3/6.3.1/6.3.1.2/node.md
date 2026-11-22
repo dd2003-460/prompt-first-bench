@@ -1,0 +1,20 @@
+# N260: 量化精度切换的吞吐量增益：从 INT8 切换至 INT4（AWQ 量化）可使 RTX 4090 上 Qwen3-27B 的吞吐量提升约 15-20%（来源：量化
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N101
+
+## Claim
+
+量化精度切换的吞吐量增益：从 INT8 切换至 INT4（AWQ 量化）可使 RTX 4090 上 Qwen3-27B 的吞吐量提升约 15-20%（来源：量化推理经验数据，[时效待核]）；例如 INT8 下 13 tokens/s 可提升至 15-15.6 tokens/s，该增益需与精度损失（MMLU 下降 <1%）权衡，作为避免硬件升级的首选优化手段。
+
+## Corrected Claim
+
+量化精度切换的吞吐量增益：从 INT8 切换至 INT4（AWQ 量化）可使 RTX 4090 上 Qwen3-27B 的吞吐量提升约 15-20%（来源：量化推理经验数据，[时效待核]）；例如 INT8 下 13 tokens/s 可提升至 15-15.6 tokens/s，该增益需与精度损失（MMLU 下降 <1%）权衡，作为避免硬件升级的首选优化手段。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

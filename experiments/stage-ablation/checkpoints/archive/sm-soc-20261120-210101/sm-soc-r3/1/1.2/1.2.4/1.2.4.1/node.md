@@ -1,0 +1,24 @@
+# N147: 工作点1（高经验/低β）：对于经验丰富卖家（Experience_years > 5年），β_exp 趋近于下限 β_0。假设 β_0 = 0.5, λ_exp
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N37
+
+## Claim
+
+工作点1（高经验/低β）：对于经验丰富卖家（Experience_years > 5年），β_exp 趋近于下限 β_0。假设 β_0 = 0.5, λ_exp = -0.05（负相关，经验增加降低对时间成本的敏感度，因策略性定价能力增强）。此时 β ≈ 0.25。高经验卖家更倾向于‘等待’而非‘降价’，因为其搜索成本 TCS 的内部化程度更高，愿意承受更长的成交周期以获取更高利润。
+
+## Corrected Claim
+
+工作点1（高经验/低β）：对于经验丰富卖家（Experience_years > 5年），β_exp 趋近于下限 β_0。假设 β_0 = 0.5, λ_exp = -0.05（负相关，经验增加降低对时间成本的敏感度，因策略性定价能力增强）。此时 β ≈ 0.25。高经验卖家更倾向于‘等待’而非‘降价’，因为其搜索成本 TCS 的内部化程度更高，愿意承受更长的成交周期以获取更高利润。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+experienced seller pricing strategy waiting time cost

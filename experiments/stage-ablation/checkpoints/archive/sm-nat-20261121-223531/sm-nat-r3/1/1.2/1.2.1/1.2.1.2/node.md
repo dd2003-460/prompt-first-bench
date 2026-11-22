@@ -1,0 +1,28 @@
+# N98: h_min 的工程上限约束：h_min ≤ P_1(H)_real，其中 P_1(H)_real 为 CDN 实际请求热度第1百分位，基于 Zipf 定律拟合，
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N29
+
+## Claim
+
+h_min 的工程上限约束：h_min ≤ P_1(H)_real，其中 P_1(H)_real 为 CDN 实际请求热度第1百分位，基于 Zipf 定律拟合，典型值约 0.1-1 次/天 [待核验]，若 h_min > P_1(H)_real 则分布无法覆盖 99% 的实际低频对象。
+
+## Corrected Claim
+
+h_min 的工程上限约束：h_min ≤ P_1(H)_real，其中 P_1(H)_real 为 CDN 实际请求热度第1百分位，基于 Zipf 定律拟合，若 h_min > P_1(H)_real 则分布无法覆盖 99% 的实际低频对象。
+
+## Evidence
+
+[质询]典型值 0.1-1 次/天属于经验事实，缺乏通用性，且参考来源完全无关，无法验证该具体数值范围。 | 逻辑自洽（h_min 作为下限不应超过分布的低分位值以保证覆盖），但参考来源 [1] 为 H∞ 鲁棒控制理论，与 CDN 请求热度分布无关，无可用外部证据支持具体数值，属经验事实缺来源支持。
+
+## Search Query
+
+CDN request frequency distribution 1st percentile typical value per day
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/ShangGuanPeiYin/cjl_modelControl/blob/main/robust_control/H%E2%88%9E%20%E9%B2%81%E6%A3%92%E6%8E%A7%E5%88%B6%E7%90%86%E8%AE%BA.md&rut=5640cd58e71ee7e24c3d7248afb43c7923b127f91fd1783b35097272cc12e750', 'type': 'ddg', 'title': 'cjl_modelControl/robust_control/H∞ 鲁棒控制理论.md at main - GitHub'}

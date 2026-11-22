@@ -1,0 +1,24 @@
+# N299: 平台算法权重 w_ctr/w_cvr 的动态调整机制：w_ctr 和 w_cvr 并非固定值，而是随 GMV 目标动态变化，公式为 w_ctr(t) = w_b
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N106
+
+## Claim
+
+平台算法权重 w_ctr/w_cvr 的动态调整机制：w_ctr 和 w_cvr 并非固定值，而是随 GMV 目标动态变化，公式为 w_ctr(t) = w_base_ctr * (1 + β * (GMV_target - GMV_actual)/GMV_target)，其中 β 为调节灵敏度，典型值 β ∈ [0.5, 1.0]，需确定当前平台的 β 值以校准静态权重。
+
+## Corrected Claim
+
+平台算法权重 w_ctr/w_cvr 可能采用动态调整机制，例如基于 GMV 目标偏差进行调节（如 w_ctr(t) = w_base_ctr * (1 + β * ΔGMV/GMV_target)），其中 β 为调节灵敏度。具体公式形式及 β 的典型取值范围（如 [0.5, 1.0]）需依据特定平台的实际配置或内部文档确定，此处仅为一种可能的建模假设。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性参数（β的典型值范围 [0.5, 1.0]）和特定的算法公式结构，属于平台内部实现细节或特定行业经验，无法从第一性原理推导，且缺乏公开权威来源支持其普遍适用性或具体数值范围。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该具体公式及参数范围非通用公理或题面给定，属于特定平台或假设性模型参数）
+
+## Search Query
+
+e-commerce ranking algorithm dynamic weight adjustment GMV target sensitivity beta

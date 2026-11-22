@@ -1,0 +1,30 @@
+# N167: 2x RTX 4090 方案中，支持双槽位且具备足够风道/供电接口的机箱（如 Lian Li O11 Dynamic EVO 或 Fractal Define 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N48, N49, N50
+
+## Claim
+
+2x RTX 4090 方案中，支持双槽位且具备足够风道/供电接口的机箱（如 Lian Li O11 Dynamic EVO 或 Fractal Define 7 XL）的市场价格中位数为 $150，区间为 $100-$300，来源为 2024-2025 年主流电商均价。
+
+## Corrected Claim
+
+2x RTX 4090 方案中，支持双槽位且具备足够风道/供电接口的机箱（如 Lian Li O11 Dynamic EVO 或 Fractal Define 7 XL）的市场价格中位数约为 $150，区间为 $100-$300（基于2024-2025年主流电商均价的估计，缺乏直接来源验证）。
+
+## Evidence
+
+[质询]参考来源均为GPU技术规格或通用定义，完全未涉及机箱（PC Case）的市场价格数据，属于典型的经验事实（市场价格）缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持（来源[1][2][3]均与机箱价格无关）
+
+## Search Query
+
+RTX 4090 dual GPU case price 2024 average
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/GeForce_RTX_40_series', 'type': 'wikipedia', 'title': 'GeForce RTX 40 series'}
+- {'url': 'https://en.wikipedia.org/wiki/Graphics_card', 'type': 'wikipedia', 'title': 'Graphics card'}
+- {'url': 'https://en.wikipedia.org/wiki/Floating_point_operations_per_second', 'type': 'wikipedia', 'title': 'Floating point operations per second'}

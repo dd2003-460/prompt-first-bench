@@ -1,0 +1,28 @@
+# N60: 成交周期缩短幅度的边界条件：当溢价率 (P - C_ref)/C_ref 超过 0.30 时，信号效应失效，成交周期 T 不再缩短反而增加，需通过分段回归确定临
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+成交周期缩短幅度的边界条件：当溢价率 (P - C_ref)/C_ref 超过 0.30 时，信号效应失效，成交周期 T 不再缩短反而增加，需通过分段回归确定临界点。
+
+## Corrected Claim
+
+成交周期缩短幅度可能受溢价率影响，当溢价率超过一定阈值时，信号效应可能失效，具体临界点需通过实证数据回归确定。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1聚焦于临界点（断点）的统计估计与显著性检验（方法论/参数确定），子节点2聚焦于断点右侧（溢价率>0.30）的行为机制与斜率差异检验（经济学解释/模型系数验证）。两者分别对应“找断点”和“解释断点后的行为”，逻辑上正交且无重复。父节点提到的“分段回归确定临界点”和“成交周期增加”两个核心点均被覆盖。）
+
+## Search Query
+
+price premium threshold signal effectiveness boundary condition transaction cycle
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/485561324&rut=e5b18bef3c4187aa84a7ac03c6203ae24a10f961a25d54b3966e8912a9fe6496', 'type': 'ddg', 'title': '一位顶尖操盘手公开分享多年自创的条件选股公式，相当实用!'}

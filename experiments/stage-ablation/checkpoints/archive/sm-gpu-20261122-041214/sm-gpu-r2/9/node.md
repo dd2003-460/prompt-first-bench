@@ -1,0 +1,26 @@
+# N47: 吞吐量基准数据点：RTX 4090 运行 Qwen3-27B (FP8) 在 vLLM 引擎下的典型解码吞吐量约为 15-20 tokens/s (batch=
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+吞吐量基准数据点：RTX 4090 运行 Qwen3-27B (FP8) 在 vLLM 引擎下的典型解码吞吐量约为 15-20 tokens/s (batch=1)，而 A100 80GB (FP8) 约为 40-60 tokens/s。此数据用于代入性价比公式计算单位成本下的推理能力 [待核验]。
+
+## Corrected Claim
+
+RTX 4090 运行 Qwen3-27B (FP8) 在 vLLM 引擎下的典型解码吞吐量约为 15-20 tokens/s (batch=1)，而 A100 80GB (FP8) 约为 30-40 tokens/s（基于显存带宽比例估算，具体数值需实测验证）。
+
+## Evidence
+
+[质询]数值量级与硬件规格严重不符：RTX 4090 显存带宽约 1TB/s，A100 80GB 显存带宽约 2TB/s，理论上 A100 的解码吞吐量应约为 RTX 4090 的 2 倍左右，而非陈述中的 3-4 倍（40-60 vs 15-20）；此外，RTX 4090 24GB 显存通常无法直接以 FP8 格式完整加载 27B 模型（需约 27GB+ 显存），除非使用量化或 offload，这会进一步降低吞吐量，使得 15-20 tokens/s 的 FP8 数据存疑。 | 参考来源 [1][2][3] 主要讨论 Qwen3.8-27B 在 RTX 4090 上的部署可行性及量化方案（如 Q4 GGUF），未提供 vLLM 引擎下 FP8 格式的具体吞吐量基准数据，且来源 [2] 标题提及 FP8 但摘要未给出具体 TPS 数值，无法直接支持或反驳具体数值，但逻辑上 A100 与 4090 的性能差距不支持 3-4 倍的吞吐量差异。
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/student_upupgpu/article/details/164257079&rut=afe815a28c25825585e707dffcd45b240d971a0724dedee6ec06b23f8957f5ed', 'type': 'ddg', 'title': 'RTX 4090 24GB 能跑 Qwen3.8-27B 吗？单卡显存计算与云端部署指南'}
+- {'url': 'https://blog.csdn.net/pkyang2004/article/details/164110922&rut=e3e23b9e8556868c15731db0f8123e681644cd8d6eeb70893c6814a93c2269fe', 'type': 'ddg', 'title': 'RTX 4090D-48G本地部署 Qwen3.8-27B 经验总结_qwen3.5-27b-fp8的单请求tps-CSDN博客'}
+- {'url': 'https://dashen-tech.com/ai-tech/qwen38-27b-deployment-guide/&rut=048529a5e109fbea8948c6d43948935e9c716771f43b5681808e7de1127fc2cb', 'type': 'ddg', 'title': 'Qwen3.8 27B 本地部署：RTX 4090 单卡运行+6方案对比（2026） | Dashen-Tech'}

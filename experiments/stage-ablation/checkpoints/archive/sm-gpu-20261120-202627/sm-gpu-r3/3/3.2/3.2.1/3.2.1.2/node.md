@@ -1,0 +1,20 @@
+# N259: A100 SXM 版本 TDP 400W 与 PCIe 版本 TDP 300W 的差异导致在持续推理负载下，SXM 版本的能效比（Tokens/Joule）理论
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N70
+
+## Claim
+
+A100 SXM 版本 TDP 400W 与 PCIe 版本 TDP 300W 的差异导致在持续推理负载下，SXM 版本的能效比（Tokens/Joule）理论上比 PCIe 版本高约 33%（假设算力利用率相同），需结合实测功耗 P_avg 验证。
+
+## Corrected Claim
+
+A100 SXM 版本 TDP 400W 与 PCIe 版本 TDP 300W 的差异导致在持续推理负载下，SXM 版本的能效比（Tokens/Joule）理论上比 PCIe 版本高约 33%（假设算力利用率相同），需结合实测功耗 P_avg 验证。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在算力利用率相同且输出Token数一致的前提下，能效比（Tokens/Joule）与总功耗成反比，400W与300W的功耗差异确实导致能效比理论差异为 (400/300 - 1) ≈ 33.3%。

@@ -1,0 +1,24 @@
+# N175: MAU 变异系数 CV_UA 的基准值：CV_UA = σ_MAU / μ_MAU，需从平台过去 12 个月 MAU 数据计算；若 CV_UA > 0.15，则
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N65
+
+## Claim
+
+MAU 变异系数 CV_UA 的基准值：CV_UA = σ_MAU / μ_MAU，需从平台过去 12 个月 MAU 数据计算；若 CV_UA > 0.15，则用户活跃度波动显著，GMV 预测需加入季节性修正项，否则视为稳定市场
+
+## Corrected Claim
+
+MAU 变异系数 CV_UA = σ_MAU / μ_MAU，需从平台过去 12 个月 MAU 数据计算；若 CV_UA 超过特定经验阈值（如 0.15，需根据具体业务波动特性校准），则用户活跃度波动显著，GMV 预测需加入季节性修正项，否则视为稳定市场。
+
+## Evidence
+
+[质询]阈值 0.15 为经验性设定，缺乏通用行业标准或第一性原理推导支持，不同业务场景下波动显著性的界定可能不同。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该阈值为业务经验参数，非数学/物理定律，不适用第一性原理验证条款）。
+
+## Search Query
+
+monthly active users volatility coefficient e-commerce platform

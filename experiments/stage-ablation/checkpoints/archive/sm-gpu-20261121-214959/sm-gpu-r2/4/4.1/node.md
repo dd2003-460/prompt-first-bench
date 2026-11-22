@@ -1,0 +1,24 @@
+# N22: 生成阶段（Decode）的吞吐量瓶颈公式为 Throughput (tokens/s) ≈ Memory Bandwidth (GB/s) / Model Si
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+生成阶段（Decode）的吞吐量瓶颈公式为 Throughput (tokens/s) ≈ Memory Bandwidth (GB/s) / Model Size in Memory (GB)，该比值直接决定了在给定显存带宽硬件上的最大生成速度上限。
+
+## Corrected Claim
+
+生成阶段（Decode）的吞吐量瓶颈公式为 Throughput (tokens/s) ≈ Memory Bandwidth (GB/s) / Model Size in Memory (GB)，该比值直接决定了在给定显存带宽硬件上的最大生成速度上限。
+
+## Evidence
+
+父节点级核验未通过：有冗余（子节点在逻辑上正交（分别代表不同硬件架构/场景），且覆盖了公式的核心变量（带宽、模型大小）的多种组合，能够充分解释吞吐量瓶颈。然而，从知识分解的角度看，这三个子节点本质上是同一个公式（Throughput = Bandwidth / Size）在三个不同硬件实例上的具体计算案例，属于‘参数取值’的枚举而非概念维度的拆分。如果父节点旨在阐述‘公式原理’，子节点应侧重于影响 Bandwidth 和 Model Size 的独立因素（如：量化技术对 Size 的影响、硬件架构对 Bandwidth 的决定、KV Cache 对 Size 的动态影响等），而非直接罗列具体硬件的计算结果。）
+
+## Search Query
+
+LLM inference decode phase memory bandwidth bound formula tokens per second

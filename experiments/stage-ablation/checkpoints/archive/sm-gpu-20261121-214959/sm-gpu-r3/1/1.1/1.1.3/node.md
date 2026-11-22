@@ -1,0 +1,20 @@
+# N39: INT4 (AWQ/GPTQ) 量化中 3GB 额外开销的构成：包括 128 个 group 的 scale/zero-point 参数（27B params 
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N7, N8, N9
+
+## Claim
+
+INT4 (AWQ/GPTQ) 量化中 3GB 额外开销的构成：包括 128 个 group 的 scale/zero-point 参数（27B params / 128 * 2 bytes * 2 ≈ 0.84GB）以及量化校准所需的静态查找表或临时缓冲（约 2.16GB），导致总占用从理论 13.5GB 升至 16.5GB（若按 3GB 固定开销计）或需根据具体量化粒度重新计算。
+
+## Corrected Claim
+
+INT4 (AWQ/GPTQ) 量化中 3GB 额外开销的构成：包括 128 个 group 的 scale/zero-point 参数（27B params / 128 * 2 bytes * 2 ≈ 0.84GB）以及量化校准所需的静态查找表或临时缓冲（约 2.16GB），导致总占用从理论 13.5GB 升至 16.5GB（若按 3GB 固定开销计）或需根据具体量化粒度重新计算。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点1和2本质上是同一类参数（Scale/Zero-point开销）在不同group_size下的取值，属于冗余；子节点3将父节点中明确提到的'量化校准所需的静态查找表或临时缓冲'拆解为'运行时临时缓冲区'，且未覆盖'静态查找表'这一关键组成部分，导致完备性缺失。）

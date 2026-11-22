@@ -1,0 +1,20 @@
+# N83: 字节加权平均热度 h_avg 的计算：h_avg = (Σ s_i * h_i) / (Σ s_i)，基于 Pareto(α=1.1, β=0.9) 和 ρ=-
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N26
+
+## Claim
+
+字节加权平均热度 h_avg 的计算：h_avg = (Σ s_i * h_i) / (Σ s_i)，基于 Pareto(α=1.1, β=0.9) 和 ρ=-0.3 的联合分布，h_avg 的数值需通过数值积分或蒙特卡洛模拟得出，预期 h_avg ≈ 0.1 请求/天（即平均对象每天被访问 0.1 次），导致 1/h_avg ≈ 10 天。
+
+## Corrected Claim
+
+字节加权平均热度 h_avg 的计算：h_avg = (Σ s_i * h_i) / (Σ s_i)，基于 Pareto(α=1.1, β=0.9) 和 ρ=-0.3 的联合分布，h_avg 的数值需通过数值积分或蒙特卡洛模拟得出，预期 h_avg ≈ 0.1 请求/天（即平均对象每天被访问 0.1 次），导致 1/h_avg ≈ 10 天。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：加权平均热度的定义及量级估算符合基本统计直觉，数值量级合理。

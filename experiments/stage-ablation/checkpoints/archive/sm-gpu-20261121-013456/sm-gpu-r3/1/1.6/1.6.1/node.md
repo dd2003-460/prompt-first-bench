@@ -1,0 +1,28 @@
+# N65: Qwen3-27B 在 FP8 精度、Batch_Size=1、Seq_Len=32K 条件下，基于 GQA 架构 (Num_KV_Heads=8) 的 KV 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N12
+
+## Claim
+
+Qwen3-27B 在 FP8 精度、Batch_Size=1、Seq_Len=32K 条件下，基于 GQA 架构 (Num_KV_Heads=8) 的 KV Cache 显存占用精确计算值为 2 * 64 * 8 * 128 * 32768 * 1 bytes / (1024^3) ≈ 2.15 GB，需确认 FP8 KV Cache 量化对推理质量的影响阈值。
+
+## Corrected Claim
+
+Qwen3-27B（或 Qwen3.8-27B，需确认具体版本）在 FP8 精度、Batch_Size=1、Seq_Len=32K 条件下，基于 GQA 架构 (Num_KV_Heads=8, Head_Dim=128, Num_Layers=64) 的 KV Cache 显存占用理论计算值约为 2.15 GB。
+
+## Evidence
+
+[质询]来源标题提及的是 'Qwen3.8-27B'，而事实节点声称的是 'Qwen3-27B'，存在模型版本/名称不匹配的风险；此外，来源摘要未提供具体的 KV Cache 显存计算公式或数值，无法直接验证 2.15 GB 这一精确计算值。 | 逻辑校验通过：2 * 64 * 8 * 128 * 32768 * 1 / (1024^3) ≈ 2.147 GB，计算无误。但参考来源 [1] 讨论的是 Qwen3.8-27B 且未提供具体 KV Cache 数值，属于间接/无关支持，且存在版本名称差异，故降级。
+
+## Search Query
+
+Qwen3-27B FP8 KV cache memory usage
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2072597504793880030&rut=939cafd07a4e15ae1245f5a339b74e22b7f3b2377110377f185cd50347b447f0', 'type': 'ddg', 'title': 'Qwen3.8-27B 的 BF16、FP8、MTP、单卡表现，以及与 Qwen3.6 MoE 的差距'}

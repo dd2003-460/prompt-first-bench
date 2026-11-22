@@ -1,0 +1,24 @@
+# N67: 2×消费级卡 vs 单张数据中心卡的额外采购成本差额：(2×消费卡总价 + 主板溢价) - 单张数据卡总价，例如 2×RTX 4090 vs A100 差额为 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N12, N13, N14
+
+## Claim
+
+2×消费级卡 vs 单张数据中心卡的额外采购成本差额：(2×消费卡总价 + 主板溢价) - 单张数据卡总价，例如 2×RTX 4090 vs A100 差额为 $3,400-$3,600 - $10,000 = -$6,400至-$6,600 (消费级方案更便宜)
+
+## Corrected Claim
+
+2×消费级卡 vs 单张数据中心卡的额外采购成本差额：(2×消费卡总价 + 主板溢价) - 单张数据卡总价，例如 2×RTX 4090 vs A100 差额为 $3,400-$3,600 - $10,000 = -$6,400至-$6,600 (消费级方案更便宜)
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：2×RTX 4090（约$3400-$3600）与A100（约$10000）的价格差额计算符合市场常识及算术逻辑，且属于knowledge范畴，无需外部来源支持。
+
+## Search Query
+
+dual consumer GPU vs single datacenter GPU cost difference

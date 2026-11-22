@@ -1,0 +1,24 @@
+# N411: Ascend 910B (64GB) 在中国市场的采购优势量化：价格 P_ascend ≈ $8,000 [待核验]，相比 H100 ($25,000) 低 6
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N139
+
+## Claim
+
+Ascend 910B (64GB) 在中国市场的采购优势量化：价格 P_ascend ≈ $8,000 [待核验]，相比 H100 ($25,000) 低 68%；但 CANN 软件栈对 Qwen3 的支持度 η_ascend ≈ 0.65 [待核验]，实际有效并发能力 = (64GB - 54GB - 5GB) / 1.6GB * 0.65 ≈ 2.4 并发，性价比低于 MI300X
+
+## Corrected Claim
+
+Ascend 910B (64GB) 在中国市场具有显著价格优势（通常低于 H100 约 60-70%），但受限于 CANN 软件栈对特定模型（如 Qwen3）的支持度及显存开销，其实际有效并发能力受限，综合性价比需结合具体业务场景评估，不一定低于 MI300X。
+
+## Evidence
+
+[质询]价格与软件支持度均为经验事实且缺乏来源支持，具体数值（$8,000, 0.65）可能随市场波动或版本更新而变化，无法从第一性原理推导。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+Huawei Ascend 910B Qwen3 CANN support 2024

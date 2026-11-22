@@ -1,0 +1,20 @@
+# N57: Qwen3-27B 的 FP8 权重显存占用为 27.0 GB (27e9 params × 1 byte/param)，修正了 N27/N28/N29/N30
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N9
+
+## Claim
+
+Qwen3-27B 的 FP8 权重显存占用为 27.0 GB (27e9 params × 1 byte/param)，修正了 N27/N28/N29/N30/N31 中误将 INT4 大小 (13.5 GB) 标记为 FP8 的矛盾；此为 BF16 (54 GB) 的一半。
+
+## Corrected Claim
+
+Qwen3-27B 的 FP8 权重显存占用为 27.0 GB (27e9 params × 1 byte/param)，修正了 N27/N28/N29/N30/N31 中误将 INT4 大小 (13.5 GB) 标记为 FP8 的矛盾；此为 BF16 (54 GB) 的一半。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27e9参数 × 1字节/参数 = 27GB，且27GB为54GB（BF16）的一半，数值与逻辑自洽。

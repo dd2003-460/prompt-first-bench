@@ -1,0 +1,20 @@
+# N73: 在多卡 TP 场景中，各卡显存占用需保持均衡，若单卡碎片化差异超过 5%，将导致最慢卡成为瓶颈，整体有效显存容量受限于 min(available_mem_i)
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N14
+
+## Claim
+
+在多卡 TP 场景中，各卡显存占用需保持均衡，若单卡碎片化差异超过 5%，将导致最慢卡成为瓶颈，整体有效显存容量受限于 min(available_mem_i) - safety_margin，其中 safety_margin 通常设为 1GB
+
+## Corrected Claim
+
+在多卡 TP 场景中，各卡显存占用需保持均衡，若单卡碎片化差异过大，将导致最慢卡成为瓶颈，整体有效显存容量受限于 min(available_mem_i) - safety_margin，其中 safety_margin 需根据具体硬件和框架配置设定（常见量级为数百MB至数GB）。
+
+## Evidence
+
+[质询]「碎片化差异超过5%」和「safety_margin通常设为1GB」属于具体的经验阈值/工程参数，缺乏普适性，不同硬件架构、框架版本及负载场景下该数值可能显著不同，将其表述为通用规则存在以偏概全的风险。 | 先验知识/题面给定，逻辑校验通过（TP场景下显存均衡及min容量限制符合分布式推理基本原理），但具体阈值（5%、1GB）为经验参数，无外部来源支持，依据经验事实排除条款降级。

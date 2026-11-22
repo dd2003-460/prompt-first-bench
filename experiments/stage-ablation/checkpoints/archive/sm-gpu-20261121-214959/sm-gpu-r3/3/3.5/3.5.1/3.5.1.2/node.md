@@ -1,0 +1,24 @@
+# N231: TensorRT-LLM 对 RTX 4090/5090 的量化内核支持差异：TensorRT-LLM 对 INT4/AWQ 的内核优化优于 vLLM，在 RT
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N84
+
+## Claim
+
+TensorRT-LLM 对 RTX 4090/5090 的量化内核支持差异：TensorRT-LLM 对 INT4/AWQ 的内核优化优于 vLLM，在 RTX 4090 上 INT4 解码速度比 vLLM 快约 15-20%；但对 FP8 的支持在 RTX 4090 上不如 vLLM 成熟（vLLM 支持 FP8 KV Cache 而 TRT-LLM 早期版本支持有限）。
+
+## Corrected Claim
+
+TensorRT-LLM 在 INT4/AWQ 量化内核优化上通常优于 vLLM，在 RTX 4090 上 INT4 解码速度可能快于 vLLM；但在 FP8 支持方面，vLLM 的 FP8 KV Cache 支持更为成熟，而 TRT-LLM 的 FP8 支持在早期版本中相对有限。
+
+## Evidence
+
+[质询]具体性能数值（15-20%）缺乏来源支持，且FP8支持状态随版本快速变化，'早期版本'表述模糊，易产生误导。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+TensorRT-LLM vs vLLM RTX 4090 INT4 FP8 benchmark

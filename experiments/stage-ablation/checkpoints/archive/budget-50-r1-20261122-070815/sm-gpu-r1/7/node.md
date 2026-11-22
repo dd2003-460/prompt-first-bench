@@ -1,0 +1,25 @@
+# N31: 消费级显卡候选集包括：RTX 4090 (24GB, 1008 GB/s, ~$1600-2000), RTX 4080 Super (16GB, 717 GB
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+消费级显卡候选集包括：RTX 4090 (24GB, 1008 GB/s, ~$1600-2000), RTX 4080 Super (16GB, 717 GB/s, ~$1000), RTX 3090 (24GB, 936 GB/s, ~$700-800 used), RTX A6000 (48GB, 768 GB/s, ~$4000-5000)；数据中心候选集包括：L40S (48GB, 864 GB/s, ~$8000), A100 80GB (80GB, 2039 GB/s, ~$10000-15000 used), H100 80GB (80GB, 3350 GB/s, ~$25000-30000)
+
+## Corrected Claim
+
+消费级显卡候选集包括：RTX 4090 (24GB, 1008 GB/s, ~$1600-2000)；其他显卡（RTX 4080 Super, RTX 3090, RTX A6000）及数据中心显卡（L40S, A100, H100）的规格与价格需进一步核实。
+
+## Evidence
+
+[质询]参考来源仅覆盖RTX 4090，完全未提及RTX 4080 Super、RTX 3090、RTX A6000及所有数据中心显卡（L40S, A100, H100）的规格与价格，无法通过外部来源验证大部分数据点；且RTX 4090价格区间$1600-2000可能受市场波动影响，需确认是否为当前稳定市场价。 | 来源[1][2]仅支持RTX 4090的存在及部分参数，其余显卡数据缺乏来源支持，属于经验事实且缺多源一致证据，故降级。
+
+## Retrieval Sources
+
+- {'url': 'https://detail.zol.com.cn/vga/s10074/&rut=db6edb4911e373f1bffcc789d2ee596bda7868c9fea0782a6247911248cf98c7', 'type': 'ddg', 'title': '【Rtx 4090显卡】Rtx 4090显卡报价及图片大全-zol中关村在线'}
+- {'url': 'https://www.gpuxianka.com/desktop-cards/nvidia/rtx-4090-index.html&rut=589328523ca07ec6f892ca6e407ff5af4f6b558bfa50b0b75975e2a79fe67052', 'type': 'ddg', 'title': 'NVIDIA GeForce RTX 4090 24GB GDDR6X 参数评测_性能天梯排名_显卡综合概述 - GPU显卡库'}

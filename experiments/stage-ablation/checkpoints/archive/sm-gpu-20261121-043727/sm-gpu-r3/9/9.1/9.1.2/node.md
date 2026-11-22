@@ -1,0 +1,24 @@
+# N261: H100 SXM (FP8) 在 32K 上下文、Batch=1 下的理论峰值 Throughput：基于 N77 修正公式，T_decode ≈ (14GB权
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N97
+
+## Claim
+
+H100 SXM (FP8) 在 32K 上下文、Batch=1 下的理论峰值 Throughput：基于 N77 修正公式，T_decode ≈ (14GB权重 + 33GB KV) / 3.35TB/s ≈ 14us/token，理论上限 Throughput ≈ 71,428 tok/s；考虑 Hopper Tensor Core 效率，实际工作点估算为 15,000 - 25,000 tok/s [待核验：需 NVIDIA 官方基准或 SemiAnalysis 数据]
+
+## Corrected Claim
+
+H100 SXM (FP8) 在 32K 上下文、Batch=1 下的理论峰值 Throughput：基于显存带宽限制，理论上限约为 71,000 tok/s（纯带宽计算），但实际工作点受计算和内存访问模式限制，估算为 100 - 1,000 tok/s 量级（具体取决于模型大小和实现效率）。
+
+## Evidence
+
+[质询]数值量级与物理直觉严重冲突：14us/token 对应 71,428 tok/s 的吞吐量在单卡 H100 上是不可能的（H100 显存带宽 3.35TB/s 仅能支撑约 300-500 tok/s 的纯内存受限解码，即使考虑计算重叠，71k tok/s 也远超单卡极限，通常需多卡集群或极低精度/小模型才可能接近此量级，且 14us 延迟对于 32K 上下文 KV Cache 读取而言过于乐观，忽略了 KV Cache 读取的串行依赖和计算开销）。 | 逻辑校验失败：基于 H100 显存带宽 3.35TB/s 和 47GB 数据量，理论最大吞吐约为 3.35e12 / 47e9 ≈ 71,276 tokens/s 是纯带宽上限，但实际解码受限于计算和内存访问模式，且 14us/token 意味着每秒处理 71k token，这在单卡 H100 上对于 LLM 解码是不现实的（通常单卡 H100 解码吞吐在 100-1000 tok/s 量级，取决于模型大小和 batch size）。此外，source 为 knowledge，但逻辑不自洽（量级错误），故不能判 verified。
+
+## Search Query
+
+H100 SXM FP8 LLM inference throughput tokens per second Qwen 27B

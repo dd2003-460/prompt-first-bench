@@ -1,0 +1,24 @@
+# N126: NVIDIA RTX 5090 的 FP8 张量核心峰值吞吐量（TFLOPS）及实测 LLM 推理带宽效率比（Effective_Bandwidth / The
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N35, N36, N37
+
+## Claim
+
+NVIDIA RTX 5090 的 FP8 张量核心峰值吞吐量（TFLOPS）及实测 LLM 推理带宽效率比（Effective_Bandwidth / Theoretical_Bandwidth），用于修正 N21 中基于纯带宽的吞吐量公式，因为 FP8 计算可能成为瓶颈而非带宽。
+
+## Corrected Claim
+
+NVIDIA RTX 5090 的 FP8 张量核心峰值吞吐量及实测 LLM 推理带宽效率比需具体数据支持；在缺乏实测数据的情况下，不能直接断定 FP8 计算必然成为瓶颈，需结合具体模型参数量和内存带宽进行个案分析。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件性能指标（FP8 TFLOPS）和实测效率比，属于经验事实。由于检索失败，无法验证具体数值是否准确，且'FP8计算成为瓶颈'这一结论依赖于具体的模型架构和硬件配置，缺乏数据支持时存在过度概括的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+RTX 5090 FP8 Tensor Core TFLOPS LLM inference bandwidth bound efficiency

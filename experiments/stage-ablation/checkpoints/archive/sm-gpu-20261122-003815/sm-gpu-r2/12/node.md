@@ -1,0 +1,26 @@
+# N192: 非典型方案纳入标准：Apple Silicon (M3/M4 Ultra) 和 AMD MI300X 被纳入候选集，尽管其软件栈非主流，但因其拥有 >100GB
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+非典型方案纳入标准：Apple Silicon (M3/M4 Ultra) 和 AMD MI300X 被纳入候选集，尽管其软件栈非主流，但因其拥有 >100GB 统一/HBM 显存且无需多卡即可运行 BF16 27B 模型，构成了单卡高容量低延迟的独立性价比档位，需单独评估。
+
+## Corrected Claim
+
+非典型方案纳入标准：Apple Silicon (M3 Ultra/M4 Max) 和 AMD MI300X 被纳入候选集。其中 Apple Silicon 凭借统一内存架构（如 M3 Ultra 96GB）提供单卡高容量方案，但需注意 M4 Ultra 目前并不存在；AMD MI300X 拥有 192GB HBM3 显存，可单卡运行 BF16 27B 模型，构成独立性价比档位，需单独评估。
+
+## Evidence
+
+[质询]来源[3]明确指出'M4 Ultra不存在'，且Mac Studio最高配置为M3 Ultra (96GB)，这与陈述中提到的'M4 Ultra'及'>100GB'显存规格存在事实性矛盾或混淆；此外，AMD MI300X虽显存达标，但其软件栈（ROCm）在本地/单卡场景下的成熟度与'低延迟'的定性描述缺乏直接来源支持。 | 来源[3]直接矛盾了'M4 Ultra'的存在及96GB上限（<100GB），来源[1][2]支持Apple Silicon统一内存优势但无法证实M4 Ultra及>100GB规格，AMD部分无来源支持。
+
+## Retrieval Sources
+
+- {'url': 'https://computeforge.cn/2026/08/14/lab/apple-silicon-local-llm-guide/&rut=b314d5daf46ebee3c98d34a59ae7ae83d0f01f592465bb7cd3769508190c48b6', 'type': 'ddg', 'title': 'Apple Silicon 跑本地大模型：M1 到 M4 的完整指南 | 智算工坊'}
+- {'url': 'https://mljourney.com/apple-silicon-for-llms-m3-vs-m4-max-vs-m4-ultra-benchmarks-and-real-world-performance/&rut=9a97b77229c2c1ce29aa6ce93c570c18347b4a95a665e25028828d3a5b903a0d', 'type': 'ddg', 'title': 'Apple Silicon for LLMs: M3 vs M4 Max vs M4 Ultra Benchmarks and Real ...'}
+- {'url': 'https://insiderllm.com/guides/m4-max-ultra-local-llms-apple-silicon/&rut=ce96d3c3b0d7716120714b048c8ebb8cf781da12ac94b467698f8267a845cd6e', 'type': 'ddg', 'title': 'M4 Max and M3 Ultra for Local LLMs: Apple Silicon in 2026'}

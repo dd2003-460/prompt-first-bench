@@ -1,0 +1,24 @@
+# N225: W4-GPTQ 在长链数学推理中错误率增加的量化机制：长链推理 (Chain-of-Thought) 中每一步的误差通过后续步骤放大，总错误概率 P_error
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N72
+
+## Claim
+
+W4-GPTQ 在长链数学推理中错误率增加的量化机制：长链推理 (Chain-of-Thought) 中每一步的误差通过后续步骤放大，总错误概率 P_error_total ≈ 1 - (1 - p_step)^N_steps，其中 p_step 为单步错误率；W4 量化使 p_step 从 BF16 的 0.02 上升至 0.035 [待核验]，导致 10 步推理的错误率从 18.3% 上升至 30.5%，增幅 67%。
+
+## Corrected Claim
+
+W4-GPTQ 在长链数学推理中错误率增加的量化机制：长链推理 (Chain-of-Thought) 中每一步的误差通过后续步骤放大，总错误概率 P_error_total ≈ 1 - (1 - p_step)^N_steps；W4 量化通常会使单步错误率 p_step 上升（例如从 BF16 的约 2% 上升至 3.5% 左右），导致 10 步推理的错误率显著增加（如从 18.3% 上升至 30.5%）。
+
+## Evidence
+
+[质询]具体数值（BF16单步错误率0.02、W4单步错误率0.035）缺乏通用基准支持，属于特定实验条件下的经验数据，不同模型、数据集和量化实现下差异巨大，直接作为通用量化机制的定值存在以偏概全的风险。 | 逻辑推导成立（1-(1-0.02)^10≈18.3%, 1-(1-0.035)^10≈30.5%），但具体p_step数值为经验事实且无来源支持，故降级。
+
+## Search Query
+
+quantization impact on chain of thought reasoning error accumulation

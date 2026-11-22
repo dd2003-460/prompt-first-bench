@@ -1,0 +1,30 @@
+# N23: 量化方案对推理速度的影响：BF16下吞吐量受限于显存带宽，FP8/INT8可提升1.5-2x吞吐量（因数据搬运量减半），但4-bit量化可能因反量化开销抵消部分
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+量化方案对推理速度的影响：BF16下吞吐量受限于显存带宽，FP8/INT8可提升1.5-2x吞吐量（因数据搬运量减半），但4-bit量化可能因反量化开销抵消部分收益，净加速比约为1.2-1.8x
+
+## Corrected Claim
+
+量化方案对推理速度的影响：BF16下吞吐量通常受限于显存带宽，FP8/INT8通过减少数据搬运量可显著提升吞吐量，而4-bit量化虽进一步降低带宽需求，但可能因反量化计算开销抵消部分收益，具体加速比取决于硬件与实现。
+
+## Evidence
+
+父节点级核验未通过：有冗余（子节点在逻辑上是正交的（不同硬件/精度组合），且覆盖了父节点提到的BF16、FP8/INT8、4-bit及带宽限制的核心方面。然而，存在明显的结构性冗余：6个子节点本质上是同一个公式（吞吐量 = 带宽 / 模型大小）在2种硬件 x 3种精度下的参数化展开。这种‘笛卡尔积’式的分解导致信息密度低，且未显式分离出‘反量化开销’这一父节点强调的关键变量，而是将其作为备注附在4-bit节点中，未能独立体现其对净加速比的影响。）
+
+## Search Query
+
+quantized LLM inference speedup ratio FP8 INT8 4-bit dequantization overhead
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_00280/article/details/151886351&rut=711f78cc2a238c31cf1430317d43d8428340e8285302c25454b5ee1b09e75915', 'type': 'ddg', 'title': '最彻底的混合精度推理提速指南：从fp16到fp8的实战优化方法-csdn博客'}
+- {'url': 'https://blog.csdn.net/qq_48379015/article/details/155849573&rut=785c5594b0a6f710bf30325fd05d3d596288c68fb4ab3ba9d90d4dfdc8d4d817', 'type': 'ddg', 'title': 'Fp8 / Fp16 / Bf16 / Int8 / Int4 / 量化 —— 从原理到工程实战（面向部署的大模型）'}
+- {'url': 'https://wiki.hynx.com.cn/entries/llm-quantization-bf16-fp8-int8-int4/&rut=c5b50a7e986cc3d33ec9c470d591a9657e8647dc591b144d4c747597c8fa19e6', 'type': 'ddg', 'title': '大模型推理精度与量化怎么选：BF16、FP8、INT8与INT4'}

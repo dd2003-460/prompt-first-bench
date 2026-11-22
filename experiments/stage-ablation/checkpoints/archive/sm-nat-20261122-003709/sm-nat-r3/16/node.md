@@ -1,0 +1,24 @@
+# N270: 区分'凭记忆'与'刚查到'：(1) '凭记忆'部分包括：LRU/LFU的基本替换逻辑、Pareto分布均值公式 E[S]=αx_min/(α-1) (α>1)、
+
+- **status**: verified
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+区分'凭记忆'与'刚查到'：(1) '凭记忆'部分包括：LRU/LFU的基本替换逻辑、Pareto分布均值公式 E[S]=αx_min/(α-1) (α>1)、泊松过程失效模型 M=1-exp(-λt)。这些是通用缓存理论与概率论常识。(2) '刚查到'或'需验证'部分包括：特定参数β=0.9下的Gini系数精确值、ρ=-0.3对头部对象大小的具体修正系数k（通常需蒙特卡洛模拟确定，非通用常数）、以及128GB缓存下K=N的具体判定（依赖于s_min假设，s_min=1KB为假设值而非题目给定，若s_min不同结论可能反转）。
+
+## Corrected Claim
+
+区分'凭记忆'与'刚查到'：(1) '凭记忆'部分包括：LRU/LFU的基本替换逻辑、Pareto分布均值公式 E[S]=αx_min/(α-1) (α>1)、泊松过程失效模型 M=1-exp(-λt)。这些是通用缓存理论与概率论常识。(2) '刚查到'或'需验证'部分包括：特定参数β=0.9下的Gini系数精确值、ρ=-0.3对头部对象大小的具体修正系数k（通常需蒙特卡洛模拟确定，非通用常数）、以及128GB缓存下K=N的具体判定（依赖于s_min假设，s_min=1KB为假设值而非题目给定，若s_min不同结论可能反转）。
+
+## Evidence
+
+[rework-angle r1] 逻辑推导成立，来源未直接覆盖。陈述中涉及的LRU/LFU逻辑、Pareto分布均值公式（E[S]=αx_min/(α-1)）及泊松过程失效模型均为概率论与缓存理论中的标准数学结论，可从第一性原理严格推出，且无来源与之矛盾。
+
+## Search Query
+
+Pareto distribution mean formula alpha x_min alpha minus one

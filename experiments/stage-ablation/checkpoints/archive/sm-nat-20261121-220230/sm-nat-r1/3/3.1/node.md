@@ -1,0 +1,20 @@
+# N14: 更新率1%/天对LRU有效命中率的折减系数 = 1 - P_invalid，其中P_invalid为对象在缓存驻留期间被更新的概率。若对象平均驻留时间为T_re
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+更新率1%/天对LRU有效命中率的折减系数 = 1 - P_invalid，其中P_invalid为对象在缓存驻留期间被更新的概率。若对象平均驻留时间为T_resident天，则P_invalid = 1 - (1-0.01)^{T_resident} ≈ 0.01 * T_resident（当T_resident<10时近似成立）。
+
+## Corrected Claim
+
+更新率1%/天对LRU有效命中率的折减系数 = 1 - P_invalid，其中P_invalid为对象在缓存驻留期间被更新的概率。若对象平均驻留时间为T_resident天，则P_invalid = 1 - (1-0.01)^{T_resident} ≈ 0.01 * T_resident（当T_resident<10时近似成立）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于独立事件概率模型，P_invalid = 1 - (1-p)^T，当p=0.01且T<10时，利用泰勒展开近似 1-(1-p)^T ≈ Tp 成立，量纲与数值量级合理。

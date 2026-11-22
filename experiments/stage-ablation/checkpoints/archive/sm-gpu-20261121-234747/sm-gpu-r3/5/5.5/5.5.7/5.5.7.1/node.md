@@ -1,0 +1,20 @@
+# N424: 精度阶梯的显存需求差值计算：ΔMem_1step = Size_Quantized - Size_PrevLevel，具体数值为：BF16(54GB)→FP8(
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N137
+
+## Claim
+
+精度阶梯的显存需求差值计算：ΔMem_1step = Size_Quantized - Size_PrevLevel，具体数值为：BF16(54GB)→FP8(27GB)差值27GB；FP8(27GB)→INT8(27GB+1.35GB)差值-1.35GB（INT8因scale因子略大）；INT8(28.35GB)→W4(14.85GB)差值13.5GB；W4(14.85GB)→NVFP4(15.2GB)差值-0.35GB（NVFP4因scale因子略大）。
+
+## Corrected Claim
+
+精度阶梯的显存需求差值计算：ΔMem_1step = Size_Quantized - Size_PrevLevel，具体数值为：BF16(54GB)→FP8(27GB)差值27GB；FP8(27GB)→INT8(27GB+1.35GB)差值-1.35GB（INT8因scale因子略大）；INT8(28.35GB)→W4(14.85GB)差值13.5GB；W4(14.85GB)→NVFP4(15.2GB)差值-0.35GB（NVFP4因scale因子略大）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算自洽（54-27=27, 27-28.35=-1.35, 28.35-14.85=13.5, 14.85-15.2=-0.35），且符合量化精度降低通常伴随显存减少、但引入Scale因子可能导致微小增加的工程常识。

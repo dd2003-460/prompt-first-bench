@@ -1,0 +1,20 @@
+# N104: 头部对象最小访问间隔 T_min_head 的计算：T_min_head = R_total / f_max，其中 R_total=5000万/天，f_max 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N34
+
+## Claim
+
+头部对象最小访问间隔 T_min_head 的计算：T_min_head = R_total / f_max，其中 R_total=5000万/天，f_max 为排名第一对象的请求频率；基于 Pareto(β=0.9) 归一化，f_max ≈ R_total * (1 - (N-1)^(1-β)) / N^(1-β) 的极限形式，需计算具体数值以评估抖动频率。
+
+## Corrected Claim
+
+头部对象最小访问间隔 T_min_head 的计算：T_min_head = R_total / f_max，其中 R_total=5000万/天，f_max 为排名第一对象的请求频率；基于 Pareto(β=0.9) 归一化，f_max ≈ R_total * (1 - (N-1)^(1-β)) / N^(1-β) 的极限形式，需计算具体数值以评估抖动频率。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

@@ -1,0 +1,24 @@
+# N190: 感知成本 C_cost_percept 对初始挂价 P_ask 的传导系数 η_transmission：P_ask = C_cost_percept × (1
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N59
+
+## Claim
+
+感知成本 C_cost_percept 对初始挂价 P_ask 的传导系数 η_transmission：P_ask = C_cost_percept × (1 + η_transmission × Markup_Strategy)，其中 η_transmission 反映卖家将感知成本转化为价格溢价的效率，实证估计值通常在 0.8-1.2 之间，需通过回归 P_ask ~ C_cost_percept + Controls 确定。
+
+## Corrected Claim
+
+感知成本 C_cost_percept 对初始挂价 P_ask 存在正向传导关系，通常可通过回归分析 P_ask ~ C_cost_percept + Controls 估计传导系数 η_transmission，具体数值取决于市场环境和卖家策略，缺乏统一实证定值。
+
+## Evidence
+
+[质询]该陈述包含具体的实证估计值（0.8-1.2）和特定的计量经济学模型设定，属于经验事实。由于检索失败，无法验证该数值区间是否准确，也无法确认该特定公式是否为学界公认的传导系数定义，存在将特定研究结论泛化为通用规律的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值区间及模型设定的普适性）
+
+## Search Query
+
+perceived cost transmission to asking price coefficient regression second hand market

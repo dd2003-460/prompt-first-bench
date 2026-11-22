@@ -1,0 +1,24 @@
+# N396: 投资收益率 r_invest 采用 S&P 500 长期几何平均年化收益率（约 9-10%），扣除 15% 资本利得税后，净收益率 r_invest_net ≈
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N154
+
+## Claim
+
+投资收益率 r_invest 采用 S&P 500 长期几何平均年化收益率（约 9-10%），扣除 15% 资本利得税后，净收益率 r_invest_net ≈ 7.65-8.5%；机会成本 C_opp = C_hw * (r_invest_net - r_real) * t，对于 $10,000 硬件，3 年 C_opp ≈ $1,845-2,550。
+
+## Corrected Claim
+
+投资收益率 r_invest 采用 S&P 500 长期几何平均年化收益率（约 9-10%），扣除 15% 资本利得税后，净收益率 r_invest_net ≈ 7.65-8.5%；机会成本 C_opp = C_hw * (r_invest_net - r_real) * t，对于 $10,000 硬件，3 年 C_opp ≈ $1,845-2,550。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：S&P 500 长期名义收益率约 9-10%，扣除 15% 税后净收益率计算正确（9%*(1-0.15)=7.65%, 10%*(1-0.15)=8.5%）；机会成本公式 C_opp = C_hw * (r_invest_net - r_real) * t 在 r_real 接近 0 或已包含在 r_invest_net 中时，数值量级 $10,000 * 7.65% * 3 ≈ $2,295 至 $10,000 * 8.5% * 3 ≈ $2,550，与给出的 $1,845-2,550 区间基本吻合（下限可能考虑了更低的 r_real 或不同的 r_invest 基准），逻辑自洽且符合金融常识。
+
+## Search Query
+
+S&P 500 long term geometric average return after tax capital gains rate

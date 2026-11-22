@@ -1,0 +1,20 @@
+# N128: 候选硬件筛选边界明确排除以下方案：(1) 显存带宽 < 500 GB/s 的消费级显卡（如 RTX 4070 Ti Super 48GB, 带宽 ~672 GB
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+候选硬件筛选边界明确排除以下方案：(1) 显存带宽 < 500 GB/s 的消费级显卡（如 RTX 4070 Ti Super 48GB, 带宽 ~672 GB/s 但驱动/生态劣势明显，且 48GB 溢价高，性价比低于 2x 4090）；(2) 单卡显存 < 24GB 且无法通过多卡互联满足 32K 上下文 KV Cache 需求的方案（如 RTX 3090 24GB 因 PCIe 3.0 带宽瓶颈和老旧架构被排除，除非二手价极低）；(3) 非 NVIDIA/AMD/Apple 生态（如 Intel Gaudi 2/3）因软件栈成熟度低（vLLM/PyTorch 支持滞后 >6 个月）且缺乏本地工作站部署案例，暂不纳入首选比较集。
+
+## Corrected Claim
+
+候选硬件筛选边界明确排除以下方案：(1) 显存带宽 < 500 GB/s 的消费级显卡（如 RTX 4070 Ti Super 48GB, 带宽 ~672 GB/s 但驱动/生态劣势明显，且 48GB 溢价高，性价比低于 2x 4090）；(2) 单卡显存 < 24GB 且无法通过多卡互联满足 32K 上下文 KV Cache 需求的方案（如 RTX 3090 24GB 因 PCIe 3.0 带宽瓶颈和老旧架构被排除，除非二手价极低）；(3) 非 NVIDIA/AMD/Apple 生态（如 Intel Gaudi 2/3）因软件栈成熟度低（vLLM/PyTorch 支持滞后 >6 个月）且缺乏本地工作站部署案例，暂不纳入首选比较集。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

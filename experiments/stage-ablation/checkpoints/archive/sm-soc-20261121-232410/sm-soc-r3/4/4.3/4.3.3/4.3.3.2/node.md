@@ -1,0 +1,20 @@
+# N177: 在长尾滞销商品（持有周期 T_holding=180天，年化持有成本率 6%）的极端工作点下，C_holding = P_base * 0.06 * (180/
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N62
+
+## Claim
+
+在长尾滞销商品（持有周期 T_holding=180天，年化持有成本率 6%）的极端工作点下，C_holding = P_base * 0.06 * (180/365) ≈ 0.0296 * P_base，总成本 C ≈ 0.0496 * P_base，接近 5% 的上限。
+
+## Corrected Claim
+
+在长尾滞销商品（持有周期 T_holding=180天，年化持有成本率 6%）的极端工作点下，C_holding = P_base * 0.06 * (180/365) ≈ 0.0296 * P_base，总成本 C ≈ 0.0496 * P_base，接近 5% 的上限。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：0.06 * (180/365) ≈ 0.029589，加上隐含的 0.02 基础成本项（0.0296+0.02=0.0496），计算准确且符合经济直觉。

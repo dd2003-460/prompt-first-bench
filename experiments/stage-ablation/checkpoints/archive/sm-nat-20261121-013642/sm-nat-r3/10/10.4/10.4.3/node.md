@@ -1,0 +1,20 @@
+# N275: 在 s_min=1KB 的小对象工作点，若 T_res(1KB) ≈ 100 天，则局部更新惩罚因子 f_local(1KB) = exp(-0.01 * 10
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N94
+
+## Claim
+
+在 s_min=1KB 的小对象工作点，若 T_res(1KB) ≈ 100 天，则局部更新惩罚因子 f_local(1KB) = exp(-0.01 * 100) ≈ 0.368，表明小对象因驻留时间长而遭受最大更新失效惩罚。
+
+## Corrected Claim
+
+在 s_min=1KB 的小对象工作点，若 T_res(1KB) ≈ 100 天，则局部更新惩罚因子 f_local(1KB) = exp(-0.01 * 100) ≈ 0.368，表明小对象因驻留时间长而遭受最大更新失效惩罚。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学计算 exp(-0.01 * 100) = exp(-1) ≈ 0.367879... ≈ 0.368 正确；逻辑上驻留时间越长，指数衰减项越小，惩罚因子越小（或失效概率越大），符合描述。

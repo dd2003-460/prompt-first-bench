@@ -1,0 +1,24 @@
+# N424: ROCm 软件栈在 MI300X 上运行 vLLM 或 SGLang 时的性能折损系数 (Software_Overhead_Factor) 需通过实测确定，通
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N136
+
+## Claim
+
+ROCm 软件栈在 MI300X 上运行 vLLM 或 SGLang 时的性能折损系数 (Software_Overhead_Factor) 需通过实测确定，通常由于算子优化不足导致实际吞吐量远低于理论带宽上限。
+
+## Corrected Claim
+
+ROCm 软件栈在 MI300X 上运行 vLLM 或 SGLang 时的性能折损系数需通过实测确定，实际吞吐量可能受算子优化程度影响而低于理论带宽上限。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性断言（如'通常由于算子优化不足'、'远低于'），属于硬件/软件性能的经验事实，无法从第一性原理严格推导，且缺乏具体量化数据支持'远低于'的程度。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+vLLM SGLang AMD MI300X performance benchmark overhead factor

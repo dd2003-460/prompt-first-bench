@@ -1,0 +1,24 @@
+# N13: LFU 相对增益上限：ΔH_max = H_LFU - H_LRU ≤ ∫_{h>h_threshold} (f_H(h) - f_H_LRU(h)) * E[
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+LFU 相对增益上限：ΔH_max = H_LFU - H_LRU ≤ ∫_{h>h_threshold} (f_H(h) - f_H_LRU(h)) * E[S|H=h] dh，其中 h_threshold 为 LFU 频率阈值，增益机制源于 LFU 优先保留高频对象，即使其大小较大，字节命中率提升取决于大小-热度负相关程度，最大增益 [待核验] 5-10 百分点。
+
+## Corrected Claim
+
+LFU 相对增益上限：ΔH_max = H_LFU - H_LRU ≤ ∫_{h>h_threshold} (f_H(h) - f_H_LRU(h)) * E[S|H=h] dh，其中 h_threshold 为 LFU 频率阈值，增益机制源于 LFU 优先保留高频对象，即使其大小较大，字节命中率提升取决于大小-热度负相关程度，最大增益 [待核验] 5-10 百分点。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点正交，分别讨论了容量充足时的零增益场景和引入动态失效后的非零增益场景，互不重叠。但完备性不足：父节点核心公式依赖于'大小-热度负相关程度'这一关键变量，子节点仅讨论了容量和更新率对积分值的影响，未涉及该负相关程度如何具体量化或限制上限，也未解释为何上限是5-10个百分点而非其他值。）
+
+## Search Query
+
+LFU vs LRU cache hit rate improvement pareto workload correlation

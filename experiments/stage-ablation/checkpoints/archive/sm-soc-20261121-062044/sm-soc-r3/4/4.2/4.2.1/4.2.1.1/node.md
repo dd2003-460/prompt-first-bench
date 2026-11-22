@@ -1,0 +1,24 @@
+# N198: 高性低成工作点：采用 Tversky & Kahneman (1992) 标准 λ=2.25 作为基准，假设 P_markup_max = 25% 时，计算模型
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N71
+
+## Claim
+
+高性低成工作点：采用 Tversky & Kahneman (1992) 标准 λ=2.25 作为基准，假设 P_markup_max = 25% 时，计算模型预测的 λ_model = 1.25，偏差 Δλ = |2.25 - 1.25| = 1.0；若 Δλ > 0.5，则判定模型混淆了 λ 与风险厌恶系数 γ，需引入 γ 作为独立参数，γ = -ln(1 - p_loss) / p_loss，其中 p_loss 为感知损失概率。
+
+## Corrected Claim
+
+高性低成工作点：采用 Tversky & Kahneman (1992) 标准 λ=2.25 作为基准，假设 P_markup_max = 25% 时，计算模型预测的 λ_model = 1.25，偏差 Δλ = |2.25 - 1.25| = 1.0；若 Δλ > 0.5，则判定模型混淆了 λ 与风险厌恶系数 γ，需引入 γ 作为独立参数，γ = -ln(1 - p_loss) / p_loss，其中 p_loss 为感知损失概率。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Tversky & Kahneman (1992) 中 λ=2.25 为公认基准值，算术运算 |2.25-1.25|=1.0 正确，且 1.0 > 0.5 的判定逻辑自洽；γ 的公式定义符合前景理论中损失厌恶与概率权重函数的常见参数化形式。
+
+## Search Query
+
+Tversky Kahneman prospect theory loss aversion lambda 2.25 risk aversion gamma distinction

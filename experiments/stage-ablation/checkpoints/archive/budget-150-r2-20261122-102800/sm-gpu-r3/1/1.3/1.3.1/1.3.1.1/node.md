@@ -1,0 +1,20 @@
+# N185: 在 BF16 精度下，Qwen3-27B (权重 58.29GB) 在 Apple M2 Ultra (192GB, 800 GB/s) 上的理论 Decode
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N60
+
+## Claim
+
+在 BF16 精度下，Qwen3-27B (权重 58.29GB) 在 Apple M2 Ultra (192GB, 800 GB/s) 上的理论 Decode 吞吐量上限为 13.7 tokens/s (800 / 58.29)，在 M3 Ultra (256GB, 819 GB/s) 上为 14.0 tokens/s (819 / 58.29)。
+
+## Corrected Claim
+
+在 BF16 精度下，Qwen3-27B (权重 58.29GB) 在 Apple M2 Ultra (192GB, 800 GB/s) 上的理论 Decode 吞吐量上限为 13.7 tokens/s (800 / 58.29)，在 M3 Ultra (256GB, 819 GB/s) 上为 14.0 tokens/s (819 / 58.29)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：BF16下Decode吞吐量受限于内存带宽，理论上限=带宽/模型大小，计算800/58.29≈13.72，819/58.29≈14.05，数值与逻辑均自洽。

@@ -1,0 +1,20 @@
+# N33: 联合分布的数值积分验证：P(s < s_median, h > h_median) = ∫_{s_min}^{s_median} ∫_{h_median}^{h
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+联合分布的数值积分验证：P(s < s_median, h > h_median) = ∫_{s_min}^{s_median} ∫_{h_median}^{h_max} f_S(s) f_H(h) C(Φ^{-1}(CDF_S(s)), Φ^{-1}(CDF_H(h)); ρ=-0.3) dh ds，其中 C 为二元正态 Copula 密度。该积分值用于量化负相关对热点小对象集中度的影响。
+
+## Corrected Claim
+
+联合分布的数值积分验证：P(s < s_median, h > h_median) = ∫_{s_min}^{s_median} ∫_{h_median}^{h_max} f_S(s) f_H(h) C(Φ^{-1}(CDF_S(s)), Φ^{-1}(CDF_H(h)); ρ=-0.3) dh ds，其中 C 为二元正态 Copula 密度。该积分值用于量化负相关对热点小对象集中度的影响。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1提供了标准正态空间下的解析解，子节点2将其转化为业务指标（下降比例）并关联到具体应用场景（LRU缓存）。两者逻辑递进，无矛盾。但父节点明确要求进行‘数值积分验证’（Numerical Integration Verification），而子节点仅提供了‘解析解’（Analytical Solution）。虽然对于二元正态Copula，解析解是精确的，但父节点强调的‘数值积分’过程（即验证手段）在子节点中缺失，且未明确说明为何用解析解替代数值积分或两者的一致性验证。因此，完备性不足。）

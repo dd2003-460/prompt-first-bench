@@ -1,0 +1,24 @@
+# N143: 双高叠加的非线性修正项：当 Urgency=1 且 Scarcity=1 时，P_max 并非简单相加，而是存在交互效应 γ，即 P_max = P_ref *
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N53
+
+## Claim
+
+双高叠加的非线性修正项：当 Urgency=1 且 Scarcity=1 时，P_max 并非简单相加，而是存在交互效应 γ，即 P_max = P_ref * (1 + α + β + γ*Urgency*Scarcity)；实证数据显示 γ ≈ 0.02-0.03，使得极端情况下的容忍阈值可达 P_ref * 1.15，这与观察到的 15-25% 溢价区间下限吻合，表明均衡仅存在于高紧迫+高稀缺的利基市场。
+
+## Corrected Claim
+
+双高叠加的非线性修正项：当 Urgency=1 且 Scarcity=1 时，P_max 存在交互效应 γ，即 P_max = P_ref * (1 + α + β + γ*Urgency*Scarcity)；理论上该交互项可能显著影响极端情况下的容忍阈值，具体数值需依赖特定市场的实证数据。
+
+## Evidence
+
+[质询]该陈述包含具体的实证数据（γ ≈ 0.02-0.03）和特定的市场观察结论（15-25%溢价区间），属于经验事实。虽然逻辑结构自洽，但缺乏外部来源支持其具体数值和实证结论的准确性，且‘均衡仅存在于...利基市场’这一强结论缺乏充分推导。 | 经验事实，逻辑自洽但缺来源支持（source=knowledge，但涉及具体实证参数，按规则降级为定性表述以保严谨，或视为先验知识中不稳定的具体数值）。注：根据提示，knowledge节点若逻辑自洽通常判verified，但此处涉及具体‘实证数据’数值，若视为模型先验中的稳定工程参数则verified，若视为特定研究结论则degraded。鉴于‘实证数据显示’暗示特定研究背景，且无来源佐证具体数值，降级更稳妥。
+
+## Search Query
+
+interaction effect urgency scarcity price premium non-linear

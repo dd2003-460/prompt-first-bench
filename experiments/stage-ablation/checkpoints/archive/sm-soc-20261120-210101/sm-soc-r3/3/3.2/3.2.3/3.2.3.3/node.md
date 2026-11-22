@@ -1,0 +1,20 @@
+# N240: 基准阈值 Threshold_relist 的统计推导：基于未降价卖家组的 R_relist_control 分布，取 95th 百分位作为阈值；假设未降价卖家
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N65
+
+## Claim
+
+基准阈值 Threshold_relist 的统计推导：基于未降价卖家组的 R_relist_control 分布，取 95th 百分位作为阈值；假设未降价卖家中 5% 会在48h内因误操作或系统重置而修改价格，则 Threshold_relist ≈ 0.05 * 1.96 ≈ 0.10；若降价卖家 R_relist > 0.10，则显著高于基准（p<0.05）。
+
+## Corrected Claim
+
+基于未降价卖家组的 R_relist_control 分布，取 95th 百分位作为阈值 Threshold_relist。若假设该分布近似正态且已知其均值与标准差，则 Threshold_relist = Mean + 1.96 * Std。原陈述中直接通过 0.05 * 1.96 计算阈值的推导过程缺乏统计学支持，需补充具体的分布参数或修正推导逻辑。
+
+## Evidence
+
+[质询]统计推导逻辑存在根本性错误：将'5%的卖家会修改价格'这一离散事件概率（或比例）直接乘以Z分数（1.96）来推导连续变量（如价格变动幅度或比率）的95th百分位阈值，混淆了'发生概率'与'数值分布的分位数'，缺乏统计学依据。 | 逻辑校验失败：陈述中 'Threshold ≈ 0.05 * 1.96' 的推导在统计学上是不成立的。95th百分位阈值取决于分布的形状和尺度（如均值和标准差），而非直接由发生概率乘以Z分数得出。虽然 source 为 knowledge，但 challenge 成立且无法排除（存在硬逻辑/统计错误），故降档。

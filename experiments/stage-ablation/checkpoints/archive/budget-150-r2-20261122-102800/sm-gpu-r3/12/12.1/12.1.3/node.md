@@ -1,0 +1,24 @@
+# N409: 在 batch_size=32 场景下，RTX 4090 因显存不足 (24GB < 55.7GB) 必须使用 W4 量化 (权重 13.5GB + KV 0.
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N163
+
+## Claim
+
+在 batch_size=32 场景下，RTX 4090 因显存不足 (24GB < 55.7GB) 必须使用 W4 量化 (权重 13.5GB + KV 0.5GB ≈ 14GB) 或 Offload。W4 量化下质量损失 (MMLU) 约 5-8% [待核验]，导致 Quality_Score 降至 0.92-0.95。
+
+## Corrected Claim
+
+在 batch_size=32 场景下，RTX 4090 因显存不足 (24GB < 55.7GB) 必须使用 W4 量化 (权重 13.5GB + KV 0.5GB ≈ 14GB) 或 Offload。W4 量化通常会导致一定程度的质量损失（如 MMLU 下降），具体幅度依模型而定，可能导致 Quality_Score 显著降低。
+
+## Evidence
+
+[质询]W4量化下MMLU质量损失5-8%及Quality_Score降至0.92-0.95属于具体经验数值，缺乏通用性，且不同模型/数据集下波动较大，易被质疑为特定实验结果而非普遍规律。 | source=knowledge，逻辑自洽（显存计算合理：13.5+0.5=14GB < 24GB），但具体质量损失数值为经验事实，无外部来源直接支持，依据经验事实排除条款降级。
+
+## Search Query
+
+Qwen3-27B W4 quantization MMLU accuracy drop

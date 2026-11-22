@@ -1,0 +1,24 @@
+# N173: 临界条件3（成本敏感型）：当卖家固定成本 C 接近 P_low 时，(P_low-C) 项趋近于 0，不等式右侧趋近于 0，此时任何 v_high > v_lo
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N55
+
+## Claim
+
+临界条件3（成本敏感型）：当卖家固定成本 C 接近 P_low 时，(P_low-C) 项趋近于 0，不等式右侧趋近于 0，此时任何 v_high > v_low 均满足条件，高溢价策略在低成本区间具有绝对优势。
+
+## Corrected Claim
+
+临界条件3（成本敏感型）：当卖家固定成本 C 接近 P_low 时，(P_low-C) 项趋近于 0，不等式右侧趋近于 0，此时任何 v_high > v_low 均满足条件，高溢价策略在低成本区间具有绝对优势。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：当 C 趋近 P_low 时，(P_low-C) 趋近 0，不等式右侧趋近 0，只要 v_high > v_low，不等式左侧（通常包含正项或主导项）必然大于右侧，逻辑自洽。
+
+## Search Query
+
+low cost break-even condition high premium strategy

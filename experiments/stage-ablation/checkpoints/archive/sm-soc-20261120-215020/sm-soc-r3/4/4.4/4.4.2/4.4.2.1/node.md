@@ -1,0 +1,30 @@
+# N172: 基础转化系数 k_base 的估计值：定义为无质量信号干扰且偏差 δ=0 时的基准转化率，通常等于平台历史数据的平均点击-购买转化率（CVR），需检索特定平台（
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N60
+
+## Claim
+
+基础转化系数 k_base 的估计值：定义为无质量信号干扰且偏差 δ=0 时的基准转化率，通常等于平台历史数据的平均点击-购买转化率（CVR），需检索特定平台（如闲鱼）的公开行业报告或 A/B 测试基准值，假设 k_base ≈ 0.05-0.10。
+
+## Corrected Claim
+
+基础转化系数 k_base 定义为无干扰基准转化率，通常参考平台历史平均CVR。由于缺乏特定平台公开数据，此处假设 k_base 在 0.05-0.10 范围内，需后续通过A/B测试或内部数据校准。
+
+## Evidence
+
+[质询]参考来源全部为射频工程领域的K因子（稳定性因子）内容，与电商转化率（CVR）完全无关，属于严重的主题混淆/检索错误；且0.05-0.10的CVR范围缺乏特定平台（如闲鱼）的公开数据支持，属于未经证实的经验假设。 | 参考来源[1][2][3]均讨论射频放大器稳定性，与电商转化率无关，无法提供外部支持；该数值为经验事实，逻辑上量级合理（电商CVR通常在1%-10%之间），但缺乏来源直接支持，故降级。
+
+## Search Query
+
+second hand marketplace baseline click through rate conversion rate benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_42685438/article/details/160205647&rut=17e3ab9829ab93fa73a36a450ea0731288a83edb1db36160f7c6080d89091d13', 'type': 'ddg', 'title': '超越k因子：基于奈奎斯特判据的ads射频稳定性深度解析-csdn博客'}
+- {'url': 'https://blog.csdn.net/qq_42295125/article/details/126821714&rut=cbf9813c73d17d476d3ccf49f2fde4d137e51f80e90626dd8dbe91356efe0f75', 'type': 'ddg', 'title': '射频功放学习之射频放大器稳定性（二）_csdn 长风弦歌-CSDN博客'}
+- {'url': 'https://resources.pcb.cadence.com/blog/2024-the-rf-stability-factor-explained&rut=0bb11e56dfa940e93b4202410ebbfb93cfbb1f9dbdd356b3ec628eb5b4b35ec7', 'type': 'ddg', 'title': 'Advanced PCB Design Blog | Cadence - Cadence PCB Design & Analysis'}

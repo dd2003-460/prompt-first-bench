@@ -1,0 +1,24 @@
+# N8: 下游投影 2（降价无咨询机制）：降价后新咨询率 ΔQ = g(P_new, P_old, H_info)，其中 H_info 为买家对价格信号的信息解读；当卖家
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+下游投影 2（降价无咨询机制）：降价后新咨询率 ΔQ = g(P_new, P_old, H_info)，其中 H_info 为买家对价格信号的信息解读；当卖家主动降价时，买家触发柠檬市场效应（Lemons Effect），推断商品存在隐藏缺陷（如瑕疵、急迫出售），导致保留价格下修 ΔU = -γ_defect * (P_old - P_new)，其中 γ_defect ∈ [0.3, 0.8]；若 ΔU > 0.5 * σ_pref，则新咨询率 ΔQ < 0，即 60% 卖家无新咨询的阈值条件。
+
+## Corrected Claim
+
+下游投影 2（降价无咨询机制）：降价后新咨询率 ΔQ = g(P_new, P_old, H_info)，其中 H_info 为买家对价格信号的信息解读；当卖家主动降价时，买家触发柠檬市场效应（Lemons Effect），推断商品存在隐藏缺陷（如瑕疵、急迫出售），导致保留价格下修 ΔU = -γ_defect * (P_old - P_new)，其中 γ_defect ∈ [0.3, 0.8]；若 ΔU > 0.5 * σ_pref，则新咨询率 ΔQ < 0，即 60% 卖家无新咨询的阈值条件。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+price cut signaling lemons market effect inquiry rate secondhand

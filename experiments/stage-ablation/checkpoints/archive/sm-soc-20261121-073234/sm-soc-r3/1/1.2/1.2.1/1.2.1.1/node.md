@@ -1,0 +1,24 @@
+# N123: 工作点1（高性低成-核心爆款）：对于头部20%的高流动性商品，样本量 n>50，中位数 P_median 稳定，偏度 Skewness ≈ 0.5-0.8（接近
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N36
+
+## Claim
+
+工作点1（高性低成-核心爆款）：对于头部20%的高流动性商品，样本量 n>50，中位数 P_median 稳定，偏度 Skewness ≈ 0.5-0.8（接近正态），长尾极端值占比<5%，此时'高价快成交'主要由算法曝光权重驱动，而非分布形态扭曲。
+
+## Corrected Claim
+
+工作点1（高性低成-核心爆款）：对于头部20%的高流动性商品，样本量 n>50，中位数 P_median 稳定，偏度 Skewness ≈ 0.5-0.8（接近正态），长尾极端值占比<5%，此时'高价快成交'主要由算法曝光权重驱动，而非分布形态扭曲。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+market liquidity price distribution skewness high volume items

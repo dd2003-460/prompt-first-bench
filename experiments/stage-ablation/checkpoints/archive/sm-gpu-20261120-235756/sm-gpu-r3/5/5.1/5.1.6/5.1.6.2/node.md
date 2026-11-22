@@ -1,0 +1,24 @@
+# N289: SGLang 在高并发下的内存碎片率量化：Fragmentation_Rate = (Allocated_VRAM - Used_VRAM) / Allocat
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N104
+
+## Claim
+
+SGLang 在高并发下的内存碎片率量化：Fragmentation_Rate = (Allocated_VRAM - Used_VRAM) / Allocated_VRAM，需对比 vLLM 和 SGLang 在相同负载（Batch Size=4, 32K 上下文）下的实际显存分配效率，通常 vLLM 的分页机制使碎片率 <5%，而 SGLang 早期版本可能 >10%。
+
+## Corrected Claim
+
+SGLang 在高并发下的内存碎片率量化公式为 Fragmentation_Rate = (Allocated_VRAM - Used_VRAM) / Allocated_VRAM。在相同高负载（如 Batch Size=4, 32K 上下文）下，vLLM 的分页机制通常能维持较低的碎片率，而 SGLang 早期版本在特定场景下碎片率可能高于 vLLM，但具体数值随版本迭代和硬件环境波动较大。
+
+## Evidence
+
+[质询]具体数值阈值（vLLM <5%, SGLang >10%）缺乏通用基准测试支持，且高度依赖具体硬件、模型版本及SGLang的具体迭代版本（如RadixAttention优化后碎片率显著降低），将特定场景下的经验数据固化为通用结论存在以偏概全风险。 | 先验知识/题面给定，逻辑校验通过；但具体百分比数值属于经验事实，缺乏当前检索来源直接支持，且SGLang新版本性能已大幅优化，原表述中'早期版本可能>10%'的对比在缺乏具体版本约束时易产生误导，故降级为定性表述。
+
+## Search Query
+
+SGLang vs vLLM memory fragmentation rate high concurrency benchmark

@@ -1,0 +1,20 @@
+# N94: Gaussian Copula 的联合密度函数 f(S,R) = f_S(S) * f_R(R) * (1/√(1-ρ²)) * exp(-ρ²/(2(1-ρ²
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N31
+
+## Claim
+
+Gaussian Copula 的联合密度函数 f(S,R) = f_S(S) * f_R(R) * (1/√(1-ρ²)) * exp(-ρ²/(2(1-ρ²)) * (Φ^{-1}(F_S(S)) + Φ^{-1}(F_R(R)))²)，在 ρ=-0.3 时，系数 1/√(1-ρ²) ≈ 1.048，该乘性因子对联合概率密度的放大效应需量化以评估对命中率积分的影响 [knowledge: 数学推导]
+
+## Corrected Claim
+
+Gaussian Copula 的联合密度函数 f(S,R) = f_S(S) * f_R(R) * (1/√(1-ρ²)) * exp(-ρ²/(2(1-ρ²)) * (Φ^{-1}(F_S(S)) + Φ^{-1}(F_R(R)))²)，在 ρ=-0.3 时，系数 1/√(1-ρ²) ≈ 1.048，该乘性因子对联合概率密度的放大效应需量化以评估对命中率积分的影响 [knowledge: 数学推导]
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Gaussian Copula 密度公式正确，且 1/√(1-(-0.3)²) = 1/√0.91 ≈ 1.0488，数值计算准确。

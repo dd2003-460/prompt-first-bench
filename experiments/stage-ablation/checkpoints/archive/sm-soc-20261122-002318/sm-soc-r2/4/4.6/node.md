@@ -1,0 +1,24 @@
+# N26: 干预的受损方判定标准：若某方剩余变化 ΔS_i < -Threshold_i (其中 Threshold_i 为该方可接受的短期痛苦阈值，如卖家为 5% 利润下
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+干预的受损方判定标准：若某方剩余变化 ΔS_i < -Threshold_i (其中 Threshold_i 为该方可接受的短期痛苦阈值，如卖家为 5% 利润下降，买家为 10% 搜寻时间增加)，则判定为受损方。需分别计算买家、卖家、平台在该阈值下的临界干预强度。
+
+## Corrected Claim
+
+干预的受损方判定标准：若某方剩余变化 ΔS_i < -Threshold_i (其中 Threshold_i 为该方可接受的短期痛苦阈值，如卖家为 5% 利润下降，买家为 10% 搜寻时间增加)，则判定为受损方。需分别计算买家、卖家、平台在该阈值下的临界干预强度。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点中明确指出的三个受损方（卖家、买家、平台）的独立计算逻辑，且第四节点处理了多约束下的联合判定与无解情况，逻辑上互不重叠且无矛盾。第四节点虽引用前三个节点的结果，但属于系统层面的综合约束，与前三个单体计算节点形成互补而非重复。）
+
+## Search Query
+
+stakeholder pain threshold in market intervention

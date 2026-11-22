@@ -1,0 +1,20 @@
+# N117: NVIDIA RTX 4090 的物理硬件规格：显存带宽 1008 GB/s，TDP 450W，显存容量 24GB GDDR6X，这些参数由 NVIDIA 官方
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N33
+
+## Claim
+
+NVIDIA RTX 4090 的物理硬件规格：显存带宽 1008 GB/s，TDP 450W，显存容量 24GB GDDR6X，这些参数由 NVIDIA 官方规格表定义，不随驱动或软件更新改变。
+
+## Corrected Claim
+
+NVIDIA RTX 4090 的物理硬件规格：显存带宽 1008 GB/s，TDP 450W，显存容量 24GB GDDR6X，这些参数由 NVIDIA 官方规格表定义，不随驱动或软件更新改变。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

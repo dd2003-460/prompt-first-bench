@@ -1,0 +1,20 @@
+# N6: Qwen3-27B 基础权重在 BF16 精度下的显存占用为 54GB (27B * 2 bytes)，在 FP8 下为 27GB，INT8 下为 27GB，N
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+Qwen3-27B 基础权重在 BF16 精度下的显存占用为 54GB (27B * 2 bytes)，在 FP8 下为 27GB，INT8 下为 27GB，NVFP4 下为 13.5GB，W4 下为 13.5GB
+
+## Corrected Claim
+
+Qwen3-27B 基础权重在 BF16 精度下的显存占用为 54GB (27B * 2 bytes)，在 FP8 下为 27GB，INT8 下为 27GB，NVFP4 下为 13.5GB，W4 下为 13.5GB
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数在BF16(2字节)下为54GB，FP8/INT8(1字节)下为27GB，NVFP4/W4(0.5字节)下为13.5GB，数值计算准确且符合量化原理。

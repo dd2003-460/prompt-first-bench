@@ -1,0 +1,20 @@
+# N78: 故障成本模型 C_failure = P_fail * (C_repair + C_downtime)，其中 C_repair 为维修/更换硬件成本（消费级卡通
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N17
+
+## Claim
+
+故障成本模型 C_failure = P_fail * (C_repair + C_downtime)，其中 C_repair 为维修/更换硬件成本（消费级卡通常直接报废，数据中心卡可保修更换），C_downtime 为停机损失（本地工作站通常无 SLA 罚款，但需计算重新部署/数据恢复的时间成本 * 时薪）。
+
+## Corrected Claim
+
+故障成本模型 C_failure = P_fail * (C_repair + C_downtime)，其中 C_repair 为维修/更换硬件成本（消费级卡通常直接报废，数据中心卡可保修更换），C_downtime 为停机损失（本地工作站通常无 SLA 罚款，但需计算重新部署/数据恢复的时间成本 * 时薪）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：故障成本模型公式符合经济学基本逻辑（概率乘以单次故障总成本），且对消费级与数据中心场景的成本构成描述符合行业常识。

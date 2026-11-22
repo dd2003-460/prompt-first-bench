@@ -1,0 +1,20 @@
+# N211: 下游投影1：价格敏感度 ∂P(accept)/∂P_ask 的量化，基于价格弹性 ε_p = -1.5，计算得 ∂P(accept)/∂P_ask = -0.0
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N56
+
+## Claim
+
+下游投影1：价格敏感度 ∂P(accept)/∂P_ask 的量化，基于价格弹性 ε_p = -1.5，计算得 ∂P(accept)/∂P_ask = -0.015（每增加 1% 价格，接受率下降 1.5%）。
+
+## Corrected Claim
+
+下游投影1：价格敏感度 ∂P(accept)/∂P_ask 的量化，基于价格弹性 ε_p = -1.5，计算得 ∂P(accept)/∂P_ask = -0.015（每增加 1% 价格，接受率下降 1.5%）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于价格弹性定义 ε = (ΔP_accept/P_accept) / (ΔP_ask/P_ask)，若假设基准接受率 P_accept ≈ 100%（或该导数表示相对变化率），则 ∂P(accept)/∂P_ask 的相对敏感度为 -1.5，即每增加 1% 价格，接受率相对下降 1.5%，与陈述一致。

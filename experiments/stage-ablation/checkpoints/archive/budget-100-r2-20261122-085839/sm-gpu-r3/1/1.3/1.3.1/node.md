@@ -1,0 +1,20 @@
+# N36: 激活值显存占用的具体构成：在 Decode 阶段（Batch=1），激活值主要包含最后一层的隐藏状态（hidden_states）和注意力中间张量。对于 27B
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+激活值显存占用的具体构成：在 Decode 阶段（Batch=1），激活值主要包含最后一层的隐藏状态（hidden_states）和注意力中间张量。对于 27B 模型，每层激活值大小约为 2 * hidden_size * seq_len * bytes_per_element，48 层总激活值需累加，而非简单的权重百分比估算。
+
+## Corrected Claim
+
+激活值显存占用的具体构成：在 Decode 阶段（Batch=1），激活值主要包含最后一层的隐藏状态（hidden_states）和注意力中间张量。对于 27B 模型，每层激活值大小约为 2 * hidden_size * seq_len * bytes_per_element，48 层总激活值需累加，而非简单的权重百分比估算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在Decode阶段（Batch=1），激活值确实主要由最后一层隐藏状态和注意力中间张量构成，公式 2 * hidden_size * seq_len * bytes_per_element 符合标准Transformer架构中每层激活值的量级估算逻辑（包含QKV投影或中间层激活），且48层累加的描述符合多层网络推理时的显存占用机制。

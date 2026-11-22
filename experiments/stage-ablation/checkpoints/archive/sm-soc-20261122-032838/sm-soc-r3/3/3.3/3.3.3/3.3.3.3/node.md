@@ -1,0 +1,24 @@
+# N220: 长期 GMV 稳定性条件：$\Delta GMV_{long} > 0$ 要求 $\eta_Q > |\eta_P|$，其中 $\eta_P$ 为价格下降幅度。
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N72
+
+## Claim
+
+长期 GMV 稳定性条件：$\Delta GMV_{long} > 0$ 要求 $\eta_Q > |\eta_P|$，其中 $\eta_P$ 为价格下降幅度。若市场进入负反馈循环（买家因低价怀疑质量，导致 $\eta_Q$ 下降），则长期 GMV 可能先升后降。需估算 $\eta_Q$ 随信任度变化的动态路径。
+
+## Corrected Claim
+
+长期 GMV 稳定性条件：$\Delta GMV_{long} > 0$ 要求 $\eta_Q > |\eta_P|$，其中 $\eta_P$ 为价格下降幅度。若市场进入负反馈循环（买家因低价怀疑质量，导致 $\eta_Q$ 下降），则长期 GMV 可能先升后降。需估算 $\eta_Q$ 随信任度变化的动态路径。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：GMV=Q*P，长期增长需数量弹性大于价格弹性，且信任度下降导致需求弹性降低符合经济学直觉。
+
+## Search Query
+
+dynamic price elasticity trust feedback loop marketplace

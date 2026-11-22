@@ -1,0 +1,16 @@
+# N186: KV Cache 量化策略对显存的二次影响：若 KV Cache 采用 INT8 量化（dtype_bytes=1），显存占用减半；若采用 FP8，占用与 BF
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N49
+
+## Claim
+
+KV Cache 量化策略对显存的二次影响：若 KV Cache 采用 INT8 量化（dtype_bytes=1），显存占用减半；若采用 FP8，占用与 BF16 相同但计算精度略低，需评估不同 dtype 对 32K 上下文显存需求的敏感性。
+
+## Corrected Claim
+
+KV Cache 量化策略对显存的二次影响：若 KV Cache 采用 INT8 量化（dtype_bytes=1），显存占用减半；若采用 FP8，占用与 BF16 相同但计算精度略低，需评估不同 dtype 对 32K 上下文显存需求的敏感性。

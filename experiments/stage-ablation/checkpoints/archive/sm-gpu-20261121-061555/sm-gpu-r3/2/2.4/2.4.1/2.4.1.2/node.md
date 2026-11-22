@@ -1,0 +1,20 @@
+# N197: Qwen3-27B 在 BF16 精度、32K 上下文、Batch=1 下的 KV Cache 显存占用精确值：Bytes = 2 * L * num_kv_h
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N65
+
+## Claim
+
+Qwen3-27B 在 BF16 精度、32K 上下文、Batch=1 下的 KV Cache 显存占用精确值：Bytes = 2 * L * num_kv_heads * head_dim * seq_len * batch_size * bytes_per_element，其中 L=64 (假设层数), num_kv_heads=8, head_dim=128, seq_len=32768, batch_size=1, bytes_per_element=2。计算：2 * 64 * 8 * 128 * 32768 * 1 * 2 = 8,589,934,592 bytes ≈ 8.0 GiB (8.59 GB)。注：N65 中 0.86GB 的估算可能存在数量级错误，需重新核验层数或 GQA 配置。
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 精度、32K 上下文、Batch=1 下的 KV Cache 显存占用估算值约为 8.0 GiB（基于假设 L=64, num_kv_heads=8, head_dim=128）。注意：此数值依赖于假设的架构参数，需根据实际模型配置（如 Qwen3 具体的层数和 GQA 头数）进行修正。
+
+## Evidence
+
+[质询]Qwen3-27B 的具体架构参数（层数 L、KV 头数 num_kv_heads）属于经验事实，且 Qwen3 系列模型通常采用 GQA 或 MQA，其具体配置需查阅官方技术报告或模型配置文件，不能仅凭假设 L=64 和 num_kv_heads=8 就断言为“精确值”。若实际层数或头数不同，计算结果将产生数量级偏差。 | 经验事实，逻辑自洽但缺来源支持。公式推导正确，但 Qwen3-27B 的具体架构参数（L, num_kv_heads）未经验证，且无外部来源确认该特定配置下的显存占用。

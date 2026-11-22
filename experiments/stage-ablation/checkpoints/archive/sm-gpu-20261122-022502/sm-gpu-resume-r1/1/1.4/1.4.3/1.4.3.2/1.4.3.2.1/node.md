@@ -1,0 +1,20 @@
+# N519: 在 Decode 阶段（带宽受限），Qwen3-27B (BF16 权重约 54GB) 的 H100 SXM 理论最大 Batch Size 受限于 HBM3 
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N159
+
+## Claim
+
+在 Decode 阶段（带宽受限），Qwen3-27B (BF16 权重约 54GB) 的 H100 SXM 理论最大 Batch Size 受限于 HBM3 容量 80GB，扣除 KV Cache 后有效权重+激活空间约 60GB，限制最大并发请求数；而 RTX 4090 (24GB) 必须使用量化（如 INT8/FP8）才能装载模型，其带宽受限下的 Token/s 上限 = 1008 GB/s / 模型加载字节数，H100 相对优势系数 K_decode = (3350/80GB_eff) / (1008/24GB_quant) [待核验：KV Cache 占用比例]
+
+## Corrected Claim
+
+在 Decode 阶段，H100 SXM (3.35 TB/s 带宽) 运行 Qwen3-27B (BF16, ~54GB) 的理论单流 Token/s 上限约为 3350/54 ≈ 62 Token/s；RTX 4090 (1008 GB/s 带宽, 24GB 显存) 无法直接装载 BF16 或 INT8/FP8 量化的 27B 模型（需 >24GB），必须使用 INT4 量化（~13.5GB）或模型并行/Offloading，其理论单流上限受限于量化后模型大小，例如 INT4 下约为 1008/13.5 ≈ 74 Token/s（理论值，实际受 KV Cache 和计算开销影响显著降低）。
+
+## Evidence
+
+[质询]公式中 H100 部分的分母 '80GB_eff' 存在逻辑错误：H100 的 HBM3 带宽是 3.35 TB/s (3350 GB/s)，而 80GB 是显存容量。Decode 阶段的理论吞吐上限由带宽除以每次推理需读取的权重字节数决定，即 Bandwidth / Weight_Size。若模型为 BF16 (54GB)，H100 的理论上限应为 3350/54 ≈ 62 Token/s (单流)。公式中用 80GB (总容量) 作为分母，混淆了'显存容量'与'模型权重大小'，且未正确反映 BF16 权重实际占用 54GB 的事实。此外，RTX 4090 部分假设量化后模型大小为 24GB 也不准确，INT8 量化 27B 模型约为 27GB，FP8 约为 27GB，均超过 24GB 显存，除非使用更激进的量化（如 INT4）或 offloading，否则无法完整装载。 | 先验知识/题面给定，逻辑校验未通过：H100 带宽利用率计算错误，混淆了显存容量与模型权重大小；RTX 4090 显存不足以装载 INT8/FP8 量化的 27B 模型（约 27GB > 24GB）。

@@ -1,0 +1,20 @@
+# N93: RTX 4090 BF16 推理速度 15 tokens/s 的基准值需验证：基于 RTX 4090 显存带宽 1008 GB/s，Qwen3-27B BF16
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N20
+
+## Claim
+
+RTX 4090 BF16 推理速度 15 tokens/s 的基准值需验证：基于 RTX 4090 显存带宽 1008 GB/s，Qwen3-27B BF16 权重 54 GB，理论最大吞吐量为 1008 GB/s / 54 GB ≈ 18.7 tokens/s（假设计算-访存完全重叠且无其他开销），实际 15 tokens/s 符合 80% 效率假设，该值可作为基准。
+
+## Corrected Claim
+
+RTX 4090 BF16 推理速度 15 tokens/s 的基准值需验证：基于 RTX 4090 显存带宽 1008 GB/s，Qwen3-27B BF16 权重 54 GB，理论最大吞吐量为 1008 GB/s / 54 GB ≈ 18.7 tokens/s（假设计算-访存完全重叠且无其他开销），实际 15 tokens/s 符合 80% 效率假设，该值可作为基准。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 显存带宽 1008 GB/s 与 Qwen3-27B BF16 权重约 54 GB 符合硬件与模型规格常识，理论吞吐 18.7 tokens/s 及 80% 效率下的 15 tokens/s 推导逻辑自洽且量级合理。

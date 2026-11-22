@@ -1,0 +1,20 @@
+# N353: 参数γ与Signal_strength的耦合：γ = 1 + k * 0.5，若 k=0.6，则 γ=1.3；Signal_strength 由平台算法权重 W
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N106
+
+## Claim
+
+参数γ与Signal_strength的耦合：γ = 1 + k * 0.5，若 k=0.6，则 γ=1.3；Signal_strength 由平台算法权重 W_algo 决定，W_algo > 1 时进一步放大成交概率。
+
+## Corrected Claim
+
+参数γ与Signal_strength的耦合：γ = 1 + k * 0.5，若 k=0.6，则 γ=1.3；Signal_strength 由平台算法权重 W_algo 决定，W_algo > 1 时进一步放大成交概率。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算 1 + 0.6 * 0.5 = 1.3 正确，且 W_algo > 1 放大概率符合逻辑直觉。

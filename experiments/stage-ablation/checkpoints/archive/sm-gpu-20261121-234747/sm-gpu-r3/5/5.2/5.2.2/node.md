@@ -1,0 +1,20 @@
+# N122: 延迟容忍度 100ms/1K tokens 分界点的量化依据：基于人类交互感知阈值，100ms 是用户能感知到延迟但不觉得卡顿的上限（参考 Nielsen No
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N22
+
+## Claim
+
+延迟容忍度 100ms/1K tokens 分界点的量化依据：基于人类交互感知阈值，100ms 是用户能感知到延迟但不觉得卡顿的上限（参考 Nielsen Norman Group 的 UX 研究），低于 100ms 时用户体验为‘即时响应’，高于 100ms 时开始产生‘等待感’，该阈值在 LLM 对话场景中对应每生成 1K tokens 的延迟
+
+## Corrected Claim
+
+100ms是用户感知即时响应的通用UX阈值（参考Nielsen Norman Group），在LLM对话中，若首字延迟或交互反馈低于此值，用户感知为即时；但将其直接定义为'每生成1K tokens的延迟分界点'缺乏直接量化依据，应视为交互体验的参考基准而非生成速率的硬性分界。
+
+## Evidence
+
+[质询]将通用的UI交互延迟阈值（100ms）直接等同于LLM生成1K tokens的延迟分界点存在逻辑跳跃和量级混淆。Nielsen Norman Group的100ms阈值通常指用户操作到系统反馈的响应时间（Response Time），而LLM生成1K tokens通常涉及流式输出，其感知延迟取决于首字延迟（TTFT）和生成速度，而非总生成时间。若指总生成时间，100ms生成1K tokens在物理上几乎不可能（需10K tokens/s的极高吞吐）；若指流式体验，100ms并非生成1K tokens的固有阈值，而是交互响应的通用UX标准，直接将其定义为'1K tokens延迟分界点'缺乏严谨的量化依据。 | 先验知识/题面给定，逻辑校验发现量纲与场景匹配存在瑕疵：100ms是通用UI响应阈值，非LLM特定生成速率阈值，且100ms内生成1K tokens在常规硬件下不现实，故降级为定性表述。

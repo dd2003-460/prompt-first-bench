@@ -1,0 +1,24 @@
+# N84: Qwen3-27B在W4A16 AWQ量化方案下，MMLU基准测试的准确率损失具体数值，需查证AWQ算法在27B参数规模上的校准效果，预期损失范围2-4%，若超
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N20
+
+## Claim
+
+Qwen3-27B在W4A16 AWQ量化方案下，MMLU基准测试的准确率损失具体数值，需查证AWQ算法在27B参数规模上的校准效果，预期损失范围2-4%，若超过5%则判定为不可接受，需回退至W8或W6。
+
+## Corrected Claim
+
+Qwen3-27B在W4A16 AWQ量化方案下的MMLU准确率损失需实测验证，预期损失范围约为2-4%，若超过5%则建议回退至W8或W6。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值预测（2-4%损失）和工程决策阈值（5%），属于特定模型（Qwen3-27B）在特定量化方案（W4A16 AWQ）下的性能表现，无法从第一性原理推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+Qwen3-27B AWQ W4A16 MMLU accuracy loss evaluation

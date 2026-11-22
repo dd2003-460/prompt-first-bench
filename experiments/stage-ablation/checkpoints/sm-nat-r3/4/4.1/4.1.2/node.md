@@ -1,0 +1,20 @@
+# N69: 在 W_LRU(i) ≈ T_update 的工作点（中等驻留时间），T_eff(i) = 0.5 * W_LRU(i)，此时更新失效与 LRU 驱逐失效各占 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N19
+
+## Claim
+
+在 W_LRU(i) ≈ T_update 的工作点（中等驻留时间），T_eff(i) = 0.5 * W_LRU(i)，此时更新失效与 LRU 驱逐失效各占 50%，有效命中率 H_eff = 0.5 * H_static_LRU + 0.5 * H_update_affected，量化为 H_eff ≈ 0.5 * 0.79 + 0.5 * 0.75 = 0.77，折损系数 D_update = 0.77/0.79 ≈ 0.975。
+
+## Corrected Claim
+
+在 W_LRU(i) ≈ T_update 的工作点（中等驻留时间），T_eff(i) = 0.5 * W_LRU(i)，此时更新失效与 LRU 驱逐失效各占 50%，有效命中率 H_eff = 0.5 * H_static_LRU + 0.5 * H_update_affected，量化为 H_eff ≈ 0.5 * 0.79 + 0.5 * 0.75 = 0.77，折损系数 D_update = 0.77/0.79 ≈ 0.975。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点N69指出父节点中线性叠加公式缺乏物理基础并给出正确定义，子节点N69（应为N70，原文标号重复但内容独立）基于正确的概率模型计算了特定工作点下的具体数值。两者分别关注方法论修正和具体数值推导，内容互补且不矛盾，覆盖了父节点中公式错误和数值计算错误两个核心方面。）

@@ -1,0 +1,20 @@
+# N57: 主动推送失效 vs 被动过期失效的命中率差异量化：主动推送失效使所有更新对象立即从缓存移除，失效概率 P_active = u * T_res / (1 + u
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N19
+
+## Claim
+
+主动推送失效 vs 被动过期失效的命中率差异量化：主动推送失效使所有更新对象立即从缓存移除，失效概率 P_active = u * T_res / (1 + u * T_res)；被动过期失效（TTL）使失效概率 P_passive = 1 - exp(-T_res / T_TTL)。若 T_res=5天，u=1%/天，T_TTL=24小时，则 P_active ≈ 0.0476，P_passive ≈ 0.1934（若TTL=24h），主动推送失效概率更低，但需额外带宽开销。
+
+## Corrected Claim
+
+主动推送失效概率 P_active ≈ 0.0476；被动过期失效概率 P_passive = 1 - exp(-5/1) ≈ 0.9932。被动过期失效概率远高于主动推送失效概率。
+
+## Evidence
+
+父节点级核验失败（LLM 错误）：Unterminated string starting at: line 9 column 5 (char 873)

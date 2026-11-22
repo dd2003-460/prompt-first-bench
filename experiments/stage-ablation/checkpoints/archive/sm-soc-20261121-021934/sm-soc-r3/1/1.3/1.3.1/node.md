@@ -1,0 +1,24 @@
+# N28: 共享随机源：活跃挂牌数量 N_active_listings 的动态变化率 ΔN/Δt 受卖家退出率 μ_exit 和进入率 μ_entry 影响，其中 μ_e
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N7
+
+## Claim
+
+共享随机源：活跃挂牌数量 N_active_listings 的动态变化率 ΔN/Δt 受卖家退出率 μ_exit 和进入率 μ_entry 影响，其中 μ_exit = f(T_deal, P_ask)，具体为 μ_exit = k_exit * (T_deal/T_max)^γ，k_exit 为退出敏感度，γ 为时间弹性（通常 γ > 1），该动态过程决定了 N_active_listings 的稳态值。
+
+## Corrected Claim
+
+共享随机源：活跃挂牌数量 N_active_listings 的动态变化率 ΔN/Δt 受卖家退出率 μ_exit 和进入率 μ_entry 影响，其中 μ_exit = f(T_deal, P_ask)，具体为 μ_exit = k_exit * (T_deal/T_max)^γ，k_exit 为退出敏感度，γ 为时间弹性（通常 γ > 1），该动态过程决定了 N_active_listings 的稳态值。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点存在冗余（工作点1和2本质上是同一公式在不同参数下的特例，应合并或作为参数表处理）；且不完备（父节点明确提到进入率 μ_entry 影响动态变化，但子节点中完全缺失对 μ_entry 的独立描述或定义，仅在稳态公式中隐含出现，未展开其受哪些因素影响）。）
+
+## Search Query
+
+dynamic listing inventory exit rate marketplace

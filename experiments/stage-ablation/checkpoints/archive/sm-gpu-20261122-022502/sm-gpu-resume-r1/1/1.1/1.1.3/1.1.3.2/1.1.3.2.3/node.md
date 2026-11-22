@@ -1,0 +1,30 @@
+# N447: INT4 (AWQ, group_size=64) 相比 group_size=128，显存开销增加 0.844 GB，但准确率提升约 0.5-1%，需权衡显存
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N138
+
+## Claim
+
+INT4 (AWQ, group_size=64) 相比 group_size=128，显存开销增加 0.844 GB，但准确率提升约 0.5-1%，需权衡显存预算与质量损失 [待核验]。
+
+## Corrected Claim
+
+INT4 (AWQ) 量化中，减小 group_size（如从 128 降至 64）通常会增加显存开销（用于存储更多的 scale/zero 参数）并可能提升准确率，但具体数值（如 0.844 GB 增量或 0.5-1% 精度提升）取决于模型规模与具体实现，需根据实际基准测试权衡。
+
+## Evidence
+
+[质询]具体数值（0.844 GB 显存增量、0.5-1% 准确率提升）缺乏来源直接支持，且高度依赖特定模型规模（如 Qwen3-14b）和硬件环境，属于经验事实，无法从第一性原理严格推导。 | 来源 [1] 和 [3] 确认了 group_size 对精度和体积的影响趋势（间接支持），但未提供具体的 0.844 GB 和 0.5-1% 数值；该事实为经验数据，逻辑自洽但缺直接来源支持。
+
+## Search Query
+
+Qwen3-27B AWQ INT4 group_size=64 vs 128 accuracy comparison
+
+## Retrieval Sources
+
+- {'url': 'https://geek-doc.cn/chip-design/intermediate/int4-awq-group-size-tradeoff&rut=9bfa5676f56836a2c78c5e828649e83f195a7bc150a298717f97e16b4d701c84', 'type': 'ddg', 'title': 'AWQ group size 折中：INT4 分组量化在精度、体积、kernel 效率上的三角取舍与选型经验'}
+- {'url': 'https://blog.csdn.net/weixin_33622085/article/details/159103336&rut=241f46eed94ccf48af2d697243bc7148ccce1efe6e67e966afd4d2f138fe8a54', 'type': 'ddg', 'title': 'Qwen3-14b_int4_awq参数详解：AWQ量化bit数、group_size、zero_point设置说明'}
+- {'url': 'https://blog.csdn.net/weixin_35578748/article/details/159100281&rut=5d6e923911ec8e8a55c1ee99f99562407ea2c575a51196ef4ee887980395f978', 'type': 'ddg', 'title': 'Qwen3-14b_int4_awq参数详解：AWQ量化bit数、group_size对精度与速度的影响-CSDN博客'}

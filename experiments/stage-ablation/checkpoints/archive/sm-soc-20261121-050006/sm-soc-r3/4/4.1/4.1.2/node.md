@@ -1,0 +1,20 @@
+# N81: 损失厌恶对卖家定价的边际修正项量化公式为 P_ask_adjusted = P_ref + β_anchor * (P_ref - P_min) * (1 + 
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N17
+
+## Claim
+
+损失厌恶对卖家定价的边际修正项量化公式为 P_ask_adjusted = P_ref + β_anchor * (P_ref - P_min) * (1 + λ_loss * I_loss_aversion)，其中 I_loss_aversion 为卖家对当前持有商品价值贬损的主观感知强度 (0-1)，该参数在二手非标品中显著高于标品，是置信度0.6的主要来源。
+
+## Corrected Claim
+
+损失厌恶对卖家定价的边际修正通常表现为在参考价格基础上增加一个与主观感知强度相关的正向调整项，具体量化公式因模型而异，无统一标准公式。
+
+## Evidence
+
+[质询]该公式为高度特定的经验性量化模型，缺乏公认的学术或行业标准支持，且参数（如β_anchor, λ_loss）的定义和取值范围未提供，存在过度拟合或虚构具体公式的风险。 | 先验知识/题面给定，逻辑校验通过（量纲自洽，符合行为经济学定性方向），但作为具体量化公式缺乏外部来源直接支持，且属于经验事实范畴，故降级。

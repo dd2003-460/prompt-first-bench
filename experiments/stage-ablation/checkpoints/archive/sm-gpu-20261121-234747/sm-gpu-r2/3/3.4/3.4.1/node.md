@@ -1,0 +1,24 @@
+# N97: 4×A100 80GB在NVLink互联下推理Qwen3-27B BF16精度的实测吞吐量（tokens/s）约为100-150 tokens/s（单用户，32
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N16
+
+## Claim
+
+4×A100 80GB在NVLink互联下推理Qwen3-27B BF16精度的实测吞吐量（tokens/s）约为100-150 tokens/s（单用户，32K上下文），其优势在于NVLink 3.0带宽（600GB/s）远超PCIe 4.0（32GB/s），张量并行通信开销可忽略不计（<5%），但4×A100的硬件成本约为4*$10,000=$40,000，功耗4×400W=1600W，3年电力成本约为$1600W * 24h * 365d * 3y * $0.10/kWh = $42,336，总TCO约为$82,336
+
+## Corrected Claim
+
+4×A100 80GB在NVLink互联下推理Qwen3-27B BF16精度，在32K上下文单用户场景下，实测吞吐量通常在100-150 tokens/s区间（具体取决于推理框架优化程度）；其NVLink 3.0带宽（600GB/s）显著优于PCIe 4.0，通信开销较低；硬件成本约$40,000，3年电力成本约$42,336，总TCO约$82,336。
+
+## Evidence
+
+[质询]吞吐量数值（100-150 tokens/s）属于特定硬件配置下的经验性能指标，受具体推理框架（如vLLM/TensorRT-LLM）、批处理策略及KV Cache管理影响极大，无法仅凭硬件规格从第一性原理严格推导；且32K上下文下显存占用接近上限，实际吞吐可能显著低于理想值。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且吞吐量非第一性原理可推导项）
+
+## Search Query
+
+4x A100 80GB NVLink Qwen 27B BF16 inference benchmark tokens per second

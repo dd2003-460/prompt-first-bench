@@ -1,0 +1,20 @@
+# N72: 均衡打破临界点 $P_{critical}$ 的函数形式：$P_{critical} = P_{avg} \times (1 + \delta(P_{evo})
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N24
+
+## Claim
+
+均衡打破临界点 $P_{critical}$ 的函数形式：$P_{critical} = P_{avg} \times (1 + \delta(P_{evo}))$，当 $P_{evo}=0.5$ 时，$\delta=15\%$，故 $P_{critical} = 1.15 P_{avg}$；需量化当 $\delta$ 变化时，临界点移动的绝对值 $\Delta P_{critical} = P_{avg} \times \Delta \delta$，以确认是否上移。
+
+## Corrected Claim
+
+均衡打破临界点 $P_{critical}$ 的函数形式：$P_{critical} = P_{avg} \times (1 + \delta(P_{evo}))$，当 $P_{evo}=0.5$ 时，$\delta=15\%$，故 $P_{critical} = 1.15 P_{avg}$；需量化当 $\delta$ 变化时，临界点移动的绝对值 $\Delta P_{critical} = P_{avg} \times \Delta \delta$，以确认是否上移。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

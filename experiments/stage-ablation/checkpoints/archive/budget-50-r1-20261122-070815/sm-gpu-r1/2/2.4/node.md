@@ -1,0 +1,30 @@
+# N15: NVFP4 精度下 Qwen3-27B 的质量损失可能显著高于 INT8，需评估在 4-bit 量化下是否仍保持可用质量，显存占用为 BF16 的 1/4
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N2
+
+## Claim
+
+NVFP4 精度下 Qwen3-27B 的质量损失可能显著高于 INT8，需评估在 4-bit 量化下是否仍保持可用质量，显存占用为 BF16 的 1/4
+
+## Corrected Claim
+
+NVFP4 精度下 Qwen3-27B 的显存占用约为 BF16 的 1/4，其质量损失通常大于 FP8，但具体是否显著高于 INT8 需结合具体任务基准评估，目前证据表明其在部分基准上表现良好。
+
+## Evidence
+
+[质询]来源[3]显示NVFP4在MMLU Pro上得分(86.3)甚至略高于FP8(86.1)，且来源[1]仅定性描述'精度损失较大'，缺乏量化数据直接证明其损失'显著高于INT8'，且'可用质量'为模糊主观判断，缺乏客观阈值支持。 | 来源[1]定性支持NVFP4精度损失较大，来源[2]和[3]证实显存占用约为BF16的1/4（54GB->22GB），但缺乏NVFP4与INT8质量损失的直接量化对比数据，且来源[3]暗示NVFP4精度保持良好，与'显著高于INT8'的强断言存在潜在冲突或证据不足。
+
+## Search Query
+
+Qwen3-27B NVFP4 4-bit quantization quality loss
+
+## Retrieval Sources
+
+- {'url': 'https://aishare.jizhiku.net/archives/52380&rut=3b97c9db4a92ffbac07c834f83d51a4650161cae52ace84d846e59bc5a5413a8', 'type': 'ddg', 'title': 'Qwen3.8-27B 实测：BF16/FP8/NVFP4 精度对比与部署优化指南 - AI技能智慧站'}
+- {'url': 'https://blog.csdn.net/gitblog_01106/article/details/168111467&rut=361021651fef8df07d9011fed9d909294d8bbe7a46c63eb79ef4e0ec7cc39cb8', 'type': 'ddg', 'title': 'Qwen3.8-27B-NVFP4完整指南：4位NVFP4量化如何玩转27B多模态大模型-CSDN博客'}
+- {'url': 'https://blog.csdn.net/chen695969/article/details/162604876&rut=83b2f645f8d3eb7bca0588168465104066fc61b7e0fdcd8c134eb2e096deb4e6', 'type': 'ddg', 'title': 'Qwen3.6-27B-NVFP4 深度评测：英伟达官方量化，27B 长上下文本地部署新选择-CSDN博客'}

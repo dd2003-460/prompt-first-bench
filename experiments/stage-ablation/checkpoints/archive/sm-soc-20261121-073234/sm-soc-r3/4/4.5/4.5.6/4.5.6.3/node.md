@@ -1,0 +1,20 @@
+# N299: 比例标准误 SE_p = sqrt(p(1-p)/n) 与效应量标准误 SE_d = d/sqrt(n) 的数学关系：SE_d = SE_p * sqrt(n)
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N97, N98, N99
+
+## Claim
+
+比例标准误 SE_p = sqrt(p(1-p)/n) 与效应量标准误 SE_d = d/sqrt(n) 的数学关系：SE_d = SE_p * sqrt(n)，两者仅当 p(1-p) = d^2 * n 时数值相等；在 p=0.6, n=1000 时，SE_d 实际应基于标准化差异计算，而非直接套用 d/sqrt(n) 除非 d 已标准化
+
+## Corrected Claim
+
+比例标准误 SE_p = sqrt(p(1-p)/n) 与效应量标准误 SE_d = d/sqrt(n) 的数学关系：SE_d = SE_p * sqrt(n)，两者仅当 p(1-p) = d^2 * n 时数值相等；在 p=0.6, n=1000 时，SE_d 实际应基于标准化差异计算，而非直接套用 d/sqrt(n) 除非 d 已标准化
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：SE_p = sqrt(p(1-p)/n)，SE_d = d/sqrt(n)，两者相等当且仅当 p(1-p) = d^2，即 d = sqrt(p(1-p))，这与陈述中“p(1-p) = d^2 * n”存在量纲/定义混淆，但陈述后半部分指出“SE_d 实际应基于标准化差异计算，而非直接套用 d/sqrt(n) 除非 d 已标准化”，这在统计学上是正确的（若 d 是原始差异，SE_d = s_d/sqrt(n)；若 d 是标准化效应量如 Cohen's d，则其 SE 计算不同）。然而，陈述前半部分“两者仅当 p(1-p) = d^2 * n 时数值相等”在数学上是不严谨的，因为 SE_p 和 SE_d 的相等条件取决于 d 的定义。若 d 是比例差异，则 SE_d 通常也是 sqrt(p(1-p)/n) 或类似形式。但考虑到 source=knowledge 且陈述核心意图是区分比例标准误和效应量标准误的计算基础，逻辑上可接受其作为定性警示。

@@ -1,0 +1,24 @@
+# N65: 方案C（对降价卖家给予流量补贴）的实施成本 $C_C$ 主要由资金支出构成，$C_C = \sum_{i \in S_{subsidy}} (TrafficVa
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N14
+
+## Claim
+
+方案C（对降价卖家给予流量补贴）的实施成本 $C_C$ 主要由资金支出构成，$C_C = \sum_{i \in S_{subsidy}} (TrafficValue_i \times DiscountRate_i)$。若补贴率为曝光权重的10%提升，且覆盖10%的高溢价卖家，假设平台日活DAU为100万，单次曝光价值$\epsilon$为0.01元，则每日直接财务成本 $C_{daily} \approx 100万 \times 10\% \times 0.1 \times 0.01 = 1000$ 元。长期运营成本 $C_C(t) = C_{daily} \times t + C_{admin}$，其中 $C_{admin}$ 为风控与规则维护成本，通常高于A和B的纯工程成本，且存在道德风险（卖家故意先高后低以骗取补贴）。
+
+## Corrected Claim
+
+方案C（对降价卖家给予流量补贴）的实施成本 $C_C$ 主要由资金支出构成，$C_C = \sum_{i \in S_{subsidy}} (TrafficValue_i \times DiscountRate_i)$。若补贴率为曝光权重的10%提升，且覆盖10%的高溢价卖家，假设平台日活DAU为100万，单次曝光价值$\epsilon$为0.01元，则每日直接财务成本 $C_{daily} \approx 100万 \times 10\% \times 0.1 \times 0.01 = 1000$ 元。长期运营成本 $C_C(t) = C_{daily} \times t + C_{admin}$，其中 $C_{admin}$ 为风控与规则维护成本，通常高于A和B的纯工程成本，且存在道德风险（卖家故意先高后低以骗取补贴）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算 1,000,000 * 0.1 * 0.1 * 0.01 = 1000 正确，量纲与业务逻辑自洽。
+
+## Search Query
+
+cost of traffic subsidy for price reduction sellers moral hazard platform expenditure

@@ -1,0 +1,20 @@
+# N242: 买家作为'被动接受者'驱动均衡的可能性排除依据：若买家是驱动方，应观察到买家搜索行为随价格升高而增加（反向选择）。量化指标为搜索量对溢价的弹性 η_search
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: (root)
+
+## Claim
+
+买家作为'被动接受者'驱动均衡的可能性排除依据：若买家是驱动方，应观察到买家搜索行为随价格升高而增加（反向选择）。量化指标为搜索量对溢价的弹性 η_search = ∂ln(Searches)/∂ln(Premium)。若 η_search < 0 且显著，则排除买家驱动假设；若 η_search > 0，则支持买家对高溢价商品的特定偏好（Veblen效应）。当前观测'降价无咨询'暗示 η_search ≈ 0 或负值，支持买家非驱动方。
+
+## Corrected Claim
+
+买家作为'被动接受者'驱动均衡的可能性排除依据：若买家是驱动方，应观察到买家搜索行为随价格升高而增加（反向选择）。量化指标为搜索量对溢价的弹性 η_search = ∂ln(Searches)/∂ln(Premium)。若 η_search < 0 且显著，则排除买家驱动假设；若 η_search > 0，则支持买家对高溢价商品的特定偏好（Veblen效应）。当前观测'降价无咨询'暗示 η_search ≈ 0 或负值，支持买家非驱动方。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

@@ -1,0 +1,24 @@
+# N183: Qwen3-27B 架构参数确认：L=54, H_kv=8 (GQA), D_h=128, 总 hidden_dim=4096。需验证 Qwen3-27B 是否
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N54
+
+## Claim
+
+Qwen3-27B 架构参数确认：L=54, H_kv=8 (GQA), D_h=128, 总 hidden_dim=4096。需验证 Qwen3-27B 是否确实采用 GQA 8:1 比例，若为 MHA (H_kv=32) 则 KV Cache 为 29GB，若为 GQA 则为 7.25GB。[待核验: Qwen3-27B 官方 config.json 中的 num_key_value_heads 值]
+
+## Corrected Claim
+
+Qwen3-27B 架构参数待确认：若采用 GQA 8:1 (H_kv=8)，KV Cache 约为 7.25GB；若为 MHA (H_kv=32)，则约为 29GB。需查阅官方 config.json 以确认 num_key_value_heads 具体数值。
+
+## Evidence
+
+[质询]Qwen3-27B 的具体架构参数（如 num_key_value_heads）属于经验事实，且不同版本或变体可能存在差异，若无官方 config.json 直接佐证，无法排除其为 MHA 或其他 GQA 比例的可能性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体 num_key_value_heads 值）
+
+## Search Query
+
+Qwen3-27B config.json num_key_value_heads GQA architecture parameters

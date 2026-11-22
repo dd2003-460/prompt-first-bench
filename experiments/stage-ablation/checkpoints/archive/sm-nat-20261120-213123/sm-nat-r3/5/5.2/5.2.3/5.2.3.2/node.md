@@ -1,0 +1,24 @@
+# N144: 工作点 3 的 T_avg_res ≈ 100 天需验证：大对象驻留时间 T_res_large = C / (Σ_{i∈Top_k} λ_i S_i)，由于大
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N64
+
+## Claim
+
+工作点 3 的 T_avg_res ≈ 100 天需验证：大对象驻留时间 T_res_large = C / (Σ_{i∈Top_k} λ_i S_i)，由于大对象请求频率 λ_i 低（Pareto β=0.9 尾部），分母小，T_res 可能远超 100 天，导致 P_invalidate = 1 - e^(-T_res/100) 接近 1，需重新计算 ΔH_large 的贡献。
+
+## Corrected Claim
+
+工作点 3 的 T_avg_res ≈ 100 天需验证：大对象驻留时间 T_res_large = C / (Σ_{i∈Top_k} λ_i S_i)，若大对象请求频率 λ_i 较低（如 Pareto 分布尾部），分母可能较小，导致 T_res 显著增加，进而使 P_invalidate = 1 - e^(-T_res/100) 接近 1，需重新评估 ΔH_large 的贡献。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（Pareto β=0.9）和特定的系统行为假设（大对象请求频率低导致分母小），这些属于经验事实而非第一性原理可推导的数学性质。在缺乏外部来源支持的情况下，无法确认 β=0.9 的取值合理性或 T_res 是否确实远超 100 天。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+large object LRU residence time update invalidation probability

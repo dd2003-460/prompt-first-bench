@@ -1,0 +1,24 @@
+# N524: 硬件驱动与CUDA版本锁定：指定NVIDIA驱动版本号（如550.54.14）和CUDA Toolkit版本（如12.4），以排除驱动更新带来的性能波动对基准测
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N162
+
+## Claim
+
+硬件驱动与CUDA版本锁定：指定NVIDIA驱动版本号（如550.54.14）和CUDA Toolkit版本（如12.4），以排除驱动更新带来的性能波动对基准测试结果的干扰
+
+## Corrected Claim
+
+在基准测试中，通常建议锁定NVIDIA驱动版本和CUDA Toolkit版本（例如使用特定稳定版如550系列驱动和CUDA 12.x），以排除驱动更新带来的性能波动对结果的干扰，但具体版本选择需根据硬件兼容性和测试环境要求确定。
+
+## Evidence
+
+[质询]该陈述属于经验性工程实践建议，而非第一性原理可推导的绝对真理。虽然锁定版本是标准做法，但具体版本号（如550.54.14）和CUDA版本（如12.4）的举例可能随时间推移变得过时或不再具有代表性，且不同硬件架构对特定驱动版本的兼容性可能存在细微差异，仅凭逻辑无法排除特定版本组合下的潜在兼容性问题或性能异常。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+NVIDIA driver CUDA version compatibility vLLM Qwen3-27B

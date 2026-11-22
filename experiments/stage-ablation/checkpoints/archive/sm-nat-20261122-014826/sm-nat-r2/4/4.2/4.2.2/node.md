@@ -1,0 +1,20 @@
+# N49: 重新验证成功率的量化：P_revalidate_success 并非恒为1，其值取决于回源延迟 T_origin 与客户端超时 T_timeout 的比值，若 
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N16
+
+## Claim
+
+重新验证成功率的量化：P_revalidate_success 并非恒为1，其值取决于回源延迟 T_origin 与客户端超时 T_timeout 的比值，若 T_origin/T_timeout > 0.8，则 P_revalidate_success ≈ 0.5；在典型 CDN 场景下 T_origin≈50ms, T_timeout≈200ms，故 P_revalidate_success ≈ 0.75，导致 H_eff 额外损失 0.25 * P_stale。
+
+## Corrected Claim
+
+P_revalidate_success 取决于回源延迟 T_origin 与客户端超时 T_timeout 的比值，比值越大成功率越低；在典型 CDN 场景下，若 T_origin 显著小于 T_timeout，成功率较高，否则显著下降，导致 H_eff 损失。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值映射（如 T_origin/T_timeout > 0.8 时 P≈0.5，典型值 50ms/200ms 时 P≈0.75），这些并非第一性原理可推导的数学恒等式，而是依赖于特定网络环境、重试策略及超时分布的经验统计值，缺乏通用理论支持。 | source=knowledge，逻辑自洽（比值越大成功率越低，量级合理），但具体数值映射属于经验事实，无来源直接支持，依据经验事实排除条款降级。

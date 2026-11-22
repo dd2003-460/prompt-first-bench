@@ -1,0 +1,30 @@
+# N55: 卖家时间价值 TV 的量化：TV = V_initial * (1 - δ^t)，其中 δ 为卖家对商品价值随时间贬值的感知系数（如 δ = 0.995/天，即
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N12
+
+## Claim
+
+卖家时间价值 TV 的量化：TV = V_initial * (1 - δ^t)，其中 δ 为卖家对商品价值随时间贬值的感知系数（如 δ = 0.995/天，即每天贬值 0.5%），t 为持有天数；需验证 δ 在不同品类（如手机 vs 书籍）中的差异及其对降价阈值的非线性影响。
+
+## Corrected Claim
+
+卖家时间价值损失 TV 可量化为 TV = V_initial * (1 - δ^t)，其中 δ 为每日价值保留系数（如 0.995），t 为持有天数；不同品类的 δ 值差异显著，需根据具体市场数据校准，而非通用固定值。
+
+## Evidence
+
+[质询]该公式 TV = V_initial * (1 - δ^t) 在数学上表示的是“累计贬值总额”而非“剩余价值”，若 TV 指代“时间价值损失”则逻辑成立，但若指代“当前估值”则符号错误（应为 V_initial * δ^t）；此外，δ=0.995/天 意味着年贬值率约 55%，对于书籍等耐用品而言量级过大，且参考来源均未提供该特定公式或参数。 | 逻辑上公式自洽（作为累计损失模型），但属于经验事实/模型假设，参考来源 [1][2][3] 仅涉及房地产、房车折旧及企业盈利，与该特定二手商品卖家时间价值量化公式无关，无直接外部证据支持。
+
+## Search Query
+
+seller time value depreciation rate δ parameter second hand market pricing
+
+## Retrieval Sources
+
+- {'url': 'https://selling-guide.fanniemae.com/sel/b4-1.3-09/adjustments-comparable-sales&rut=849782d00c78e3763638b1ab3887982bb598570a20a43b692d164fa959f560b1', 'type': 'ddg', 'title': 'Adjustments to Comparable Sales | Fannie Mae'}
+- {'url': 'https://truervs.com/blog/rv-depreciation-in-2026-what-your-rv-is-really-worth-and-when-to-sell&rut=9baf5caa2a075100746c9541421dbde0e5f40cac2a082b94e0dd29d8ce942c28', 'type': 'ddg', 'title': 'RV Depreciation in 2026: What Your RV Is Really Worth Now | TrueRVs'}
+- {'url': 'https://www.wallstreetprep.com/knowledge/sde-sellers-discretionary-earnings/&rut=0a8385db1b0a374c4b4c15cc73cb4ad2dde2a8f76c6bca9a18a856aa325d5c5c', 'type': 'ddg', 'title': "Seller's Discretionary Earnings (SDE) | Formula + Calculator"}

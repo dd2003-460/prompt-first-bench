@@ -1,0 +1,20 @@
+# N250: 长文本 Perplexity 增量的主要机制：在 32K 上下文中，KV Cache 的读取量巨大，若 KV Cache 也采用低精度 (如 FP8 或 INT
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N86
+
+## Claim
+
+长文本 Perplexity 增量的主要机制：在 32K 上下文中，KV Cache 的读取量巨大，若 KV Cache 也采用低精度 (如 FP8 或 INT8) 存储，量化误差会在 Attention 计算中累积；若 KV Cache 保持 FP16，则增量主要源于模型权重量化误差在深层 Transformer 块中的传播，每层误差传播系数约为 1.02-1.05。
+
+## Corrected Claim
+
+长文本 Perplexity 增量的主要机制：在 32K 上下文中，KV Cache 的读取量巨大，若 KV Cache 也采用低精度 (如 FP8 或 INT8) 存储，量化误差会在 Attention 计算中累积；若 KV Cache 保持 FP16，则增量主要源于模型权重量化误差在深层 Transformer 块中的传播，每层误差传播系数因模型和量化方法而异，通常在 1.0 附近小幅增长。
+
+## Evidence
+
+[质询]每层误差传播系数约为 1.02-1.05 这一具体数值缺乏普遍适用的理论依据或广泛认可的实验共识，不同模型架构、量化方法和上下文长度下该系数波动较大，将其作为固定范围陈述存在过度概括风险。 | 先验知识/题面给定，逻辑校验通过：KV Cache 量化误差累积与权重量化误差传播是长文本 Perplexity 增量的合理机制，但具体传播系数 1.02-1.05 属于经验性数值，缺乏来源直接支持，故降级为定性表述。

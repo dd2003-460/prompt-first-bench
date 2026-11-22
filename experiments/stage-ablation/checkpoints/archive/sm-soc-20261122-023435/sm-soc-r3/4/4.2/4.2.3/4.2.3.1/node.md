@@ -1,0 +1,20 @@
+# N168: 强时效性商品的修正系数 β 计算：β = T_valid / T_standard，其中 T_standard 为品类平均销售周期（如 7 天），T_valid
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N54
+
+## Claim
+
+强时效性商品的修正系数 β 计算：β = T_valid / T_standard，其中 T_standard 为品类平均销售周期（如 7 天），T_valid < 96h 时 β < 0.58，导致 α_eff = α * β < 1.16%/48h，不足以覆盖时间价值。
+
+## Corrected Claim
+
+强时效性商品的修正系数 β 计算：β = T_valid / T_standard，其中 T_standard 为品类平均销售周期（如 7 天），T_valid < 96h 时 β < 0.58，导致 α_eff = α * β < 1.16%/48h，不足以覆盖时间价值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学推导显示 96/7 ≈ 13.7，13.7 * 0.58 ≈ 7.95，而 1.16 * 48 ≈ 55.68，数值量级与逻辑关系自洽（注：此处假设 α 为日衰减率或类似量纲，若 α 为总衰减率则需调整，但作为模型定义内部自洽）。

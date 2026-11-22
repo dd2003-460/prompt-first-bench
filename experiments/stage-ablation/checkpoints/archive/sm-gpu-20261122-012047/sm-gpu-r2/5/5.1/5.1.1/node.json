@@ -1,0 +1,33 @@
+{
+  "id": "N138",
+  "claim": "2×RTX 4090 在 Qwen3-27B (32K ctx) 推理中，每生成一个 token 所需的跨卡 KV Cache 同步数据量约为 0.1-0.2 MB，在 PCIe 4.0 x16 (25 GB/s 有效带宽) 下，单次同步延迟约为 4-8 微秒，对整体吞吐的影响小于 5%。",
+  "level": "L3",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]数值量级与硬件架构常识存在潜在冲突：RTX 4090 不支持 NVLink，双卡通信必须经过 PCIe 总线。在 32K 上下文下，若采用张量并行（TP），每生成一个 token 需要交换的 KV Cache 数据量通常远大于 0.1-0.2 MB（取决于层数和头数，通常为数 MB 至数十 MB 级别），或者若采用流水线/序列并行，同步频率和数据量也不同。0.1-0.2 MB 的数值可能仅指单层或特定优化后的极小片段，而非整个模型的跨卡同步总量，存在口径混淆或低估风险。 | 参考来源 [1][2][3] 均涉及双 RTX 4090 部署 Qwen 系列 27B 模型，证实了硬件组合和模型规模的可行性，但均未提供具体的跨卡 KV Cache 同步数据量（0.1-0.2 MB）或同步延迟（4-8 μs）的精确实测数据，属于经验事实且缺乏直接来源支持。",
+  "corrected_claim": "2×RTX 4090 在 Qwen3-27B (32K ctx) 推理中，跨卡 KV Cache 同步的具体数据量和延迟取决于并行策略（如 TP/PP）及实现细节，现有公开资料未提供确切的 0.1-0.2 MB 数据量及 <5% 吞吐影响的通用结论，需根据具体框架（如 vLLM/TensorRT-LLM）配置实测。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N36"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "PCIe 4.0 x16 latency KV cache synchronization overhead LLM inference",
+  "retrieval_sources": [
+    {
+      "url": "https://blog.csdn.net/2302_79462688/article/details/159615336&rut=d552fb03c15ea35862652280a05093d896a246280f42a3dbb8653de386a49e6c",
+      "type": "ddg",
+      "title": "Qwen3.5-27B 双RTX 4090部署实战：从环境配置到性能调优全记录_tensorrt-llm qwen3.5"
+    },
+    {
+      "url": "https://blog.csdn.net/weixin_29039773/article/details/163150694&rut=84549e96bca0282bc06f4934e9999af6a3483a6b6821b6a954d18cae5a1bc238",
+      "type": "ddg",
+      "title": "双RTX 4090部署Qwen3.5-27B大模型实战指南 - CSDN博客"
+    },
+    {
+      "url": "https://blog.csdn.net/weixin_29041767/article/details/168671379&rut=8e120e49b5a119cc105cd8bc05457de6694113d99f172bbdec8536aa81daaeb9",
+      "type": "ddg",
+      "title": "双RTX 4090部署Qwen3.8-27B：vLLM+128K上下文实战指南 - CSDN博客"
+    }
+  ]
+}

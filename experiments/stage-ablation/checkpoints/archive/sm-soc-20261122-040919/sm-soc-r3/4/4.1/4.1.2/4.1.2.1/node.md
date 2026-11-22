@@ -1,0 +1,29 @@
+# N302: 实证基准值提取：2023-2024年主流二手平台（闲鱼、eBay、Mercari）公开披露使用‘动态定价’或‘算法推荐’机制的比例 r_disclosure，定
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N82
+
+## Claim
+
+实证基准值提取：2023-2024年主流二手平台（闲鱼、eBay、Mercari）公开披露使用‘动态定价’或‘算法推荐’机制的比例 r_disclosure，定义为 r_disclosure = (N_platforms_disclosed / N_total_major) * 100%。若 r_disclosure = 30%，则 P(H2)_base = 0.3；若 r_disclosure = 50%，则 P(H2)_base = 0.5。
+
+## Corrected Claim
+
+2023-2024年主流二手平台（闲鱼、eBay、Mercari）关于‘动态定价’或‘算法推荐’机制的公开披露比例 r_disclosure 缺乏统一的公开统计数据，需通过具体调研各平台官方文档或第三方审计报告确定，不能直接假定为30%或50%。
+
+## Evidence
+
+[质询]该陈述声称提取了2023-2024年主流二手平台（闲鱼、eBay、Mercari）公开披露使用动态定价/算法推荐机制的具体比例（r_disclosure），并给出了具体的数值映射（30%或50%）。然而，参考来源[1]仅讨论了闲鱼的价格锚点机制，未提供跨平台（eBay, Mercari）的披露比例统计；来源[2]仅为数据采集工具介绍，无实证数据。此外，‘公开披露’这一指标在商业实践中极难量化，且不同平台的披露口径差异巨大，直接断言一个具体的基准值缺乏数据支撑。 | 逻辑上定义自洽，但属于经验事实（具体统计比例），参考来源[1]和[2]均未提供2023-2024年跨平台动态定价披露比例的具体数值，无法直接支持该具体基准值，故降级。
+
+## Search Query
+
+2023 2024 second-hand marketplace algorithmic pricing disclosure rate Xianyu eBay Mercari
+
+## Retrieval Sources
+
+- {'url': 'https://xueshu.baidu.com/usercenter/paper/show?paperid=1j7r0ex0963w0eq06a3u0ev0g2762173&site=xueshu_se&rut=de08e64ad5a4f511c0d208a96753f800eec2f8c8b204781c9b0cb148a63efe1a', 'type': 'ddg', 'title': '二手交易平台上的动态定价研究-基于闲鱼App的实证分析'}
+- {'url': 'https://github.com/larbing/fish-data&rut=521e51bcc8162ef526fdc4aa0b6c5943ad7def17a6d541e0b062365c4e9098bb', 'type': 'ddg', 'title': 'GitHub - larbing/fish-data: 闲鱼数据通是一款专业的闲鱼商品数据采集和分析客户端，通过强大的关键字搜索、多维度排序和 ...'}

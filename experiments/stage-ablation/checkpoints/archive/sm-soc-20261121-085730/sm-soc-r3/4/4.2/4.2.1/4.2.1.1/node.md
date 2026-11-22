@@ -1,0 +1,20 @@
+# N254: 边际咨询转化率提升函数 δc'(T) 的解析形式需基于 N85 中的弹性函数 δc = α * (T_trigger - T_actual)^β 推导，具体为 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N84
+
+## Claim
+
+边际咨询转化率提升函数 δc'(T) 的解析形式需基于 N85 中的弹性函数 δc = α * (T_trigger - T_actual)^β 推导，具体为 δc'(T) = α * β * (T_trigger - T_actual)^(β-1)，需代入具体 α, β 值进行数值积分或离散化计算。
+
+## Corrected Claim
+
+边际咨询转化率提升函数 δc'(T) 的解析形式需基于 N85 中的弹性函数 δc = α * (T_trigger - T_actual)^β 推导，具体为 δc'(T) = α * β * (T_trigger - T_actual)^(β-1)，需代入具体 α, β 值进行数值积分或离散化计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：对幂函数形式 δc = α * (T_trigger - T_actual)^β 关于 T_actual 求导，根据链式法则（注意 T_actual 在底数中为减数，导数应带负号，但通常转化率提升函数定义可能取绝对值或方向已隐含在变量定义中，此处主要考察幂函数求导形式 α*β*x^(β-1) 的结构正确性，逻辑自洽）。

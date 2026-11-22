@@ -1,0 +1,25 @@
+# N195: 性价比量化模型的最终公式：Value_Score = (Effective_Tokens_per_second * 3600 * 24 * 365 * 3) /
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+性价比量化模型的最终公式：Value_Score = (Effective_Tokens_per_second * 3600 * 24 * 365 * 3) / (Initial_Capex + OPEX_3yr - Residual_Value)。其中 Effective_Tokens_per_second 需乘以软件栈效率系数 (0.8-1.0) 和并行通信开销系数 (0.6-1.0)，该分数用于跨硬件排序，而非简单的 Price/Performance。
+
+## Corrected Claim
+
+该公式为一种简化的AI硬件3年TCO性价比估算模型，用于特定场景下的跨硬件排序。其有效性高度依赖于所假设的软件栈效率（0.8-1.0）和并行通信开销（0.6-1.0）系数，且未考虑资金时间价值，仅适用于对精度要求不高的初步筛选，而非精确的经济性评估。
+
+## Evidence
+
+[质询]该公式为特定场景下的经验性工程估算模型，并非通用物理或数学定律。其核心参数（如软件栈效率系数0.8-1.0、并行通信开销系数0.6-1.0）缺乏普适性理论支撑，且将3年总拥有成本（TCO）简单线性化作为分母，忽略了资金时间价值（折现）及硬件性能随时间衰减的非线性影响，属于强假设下的简化模型。 | 参考来源[1][2]均讨论金融领域的F-Score价值投资模型，与AI硬件性价比量化模型主题完全无关，无可用外部证据支持；该陈述为经验事实/工程模型，逻辑自洽但缺乏来源直接支持，依据经验事实排除条款降级。
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/35592330&rut=92dd2e98e10d1aadb5d41008eba26be49e9ffaf9c63b8d7a7558c5d4e16b5d15', 'type': 'ddg', 'title': '【量化学堂】量化方法在价值投资中的应用--f-score方法在a股中的实证 - 知乎'}
+- {'url': 'https://zhuanlan.zhihu.com/p/1933552276435374685&rut=596a684fc2db75b8be9b23a2efe4b780b1967809f9712c2762bce084f0be49ed', 'type': 'ddg', 'title': '券商早期量化手记系列4 [终章]：FFScore价值选股模型 - 知乎'}

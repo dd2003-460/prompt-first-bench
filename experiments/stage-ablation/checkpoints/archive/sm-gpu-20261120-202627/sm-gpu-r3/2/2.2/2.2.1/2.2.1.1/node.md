@@ -1,0 +1,24 @@
+# N211: Qwen3-27B 在 FP8 (E4M3/E5M2) 精度下的 Perplexity (PPL) 具体数值，需检索 vLLM 或 TensorRT-LLM 针
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N52
+
+## Claim
+
+Qwen3-27B 在 FP8 (E4M3/E5M2) 精度下的 Perplexity (PPL) 具体数值，需检索 vLLM 或 TensorRT-LLM 针对 Qwen3 系列的量化评测博客或 GitHub Issue，获取在 WikiText-2 或 C4 数据集上的实测 PPL 值（预期 BF16 PPL 约为 8.5-9.5，FP8 增加 <0.2）
+
+## Corrected Claim
+
+Qwen3-27B 在 FP8 精度下的 Perplexity 具体数值需查阅 vLLM 或 TensorRT-LLM 官方评测报告或社区实测数据；通常 FP8 量化相比 BF16 会带来微小的 PPL 上升（通常 <0.2），但具体数值因数据集（WikiText-2/C4）和实现细节而异，需以实测为准。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（BF16 PPL 8.5-9.5, FP8 增量 <0.2），属于硬件/模型性能指标，无法从第一性原理推导，且检索无可用来源支持，存在数值偏差风险。 | 经验事实，逻辑自洽但缺来源支持（检索失败，无外部证据）
+
+## Search Query
+
+Qwen3-27B FP8 quantization perplexity increase vLLM TensorRT-LLM

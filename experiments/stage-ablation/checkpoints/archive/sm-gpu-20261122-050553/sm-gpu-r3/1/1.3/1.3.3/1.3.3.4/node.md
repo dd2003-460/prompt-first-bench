@@ -1,0 +1,24 @@
+# N146: A100 的 TCO 优势场景量化：仅当 Batch Size ≥ 32 且并发用户 ≥ 8 时，A100 的 HBM 带宽优势 (1555 GB/s vs 2
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N45
+
+## Claim
+
+A100 的 TCO 优势场景量化：仅当 Batch Size ≥ 32 且并发用户 ≥ 8 时，A100 的 HBM 带宽优势 (1555 GB/s vs 2×1008 GB/s 但受 PCIe 限制) 和 ECC 稳定性使其单位 Token 成本低于 2×4090；具体 Break-even Batch Size 需通过 vLLM 实测确定，预估 ≥ 16 [待核验]。
+
+## Corrected Claim
+
+A100 在 Batch Size 较大（通常预估 ≥ 16-32）且高并发场景下，凭借单卡高 HBM 带宽（~1555-1935 GB/s）、ECC 稳定性及更优的显存容量，其单位 Token 成本通常低于 2×4090 方案；具体 Break-even 点需结合 vLLM 实测及具体模型负载确定。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件规格数值（A100 HBM带宽 1555 GB/s，4090 带宽 1008 GB/s）以及基于这些数值推导出的特定业务场景阈值（Batch Size ≥ 32, 并发 ≥ 8）。虽然硬件规格属于稳定工程参数，但“Break-even Batch Size”及具体的成本优势触发条件高度依赖于具体的软件栈（vLLM版本）、模型架构、序列长度及硬件配置（如是否启用P2P、PCIe拓扑等），属于经验性工程结论而非第一性原理可严格推导的数学事实。此外，2x4090的总带宽（2016 GB/s）在理论峰值上高于A100（1555 GB/s），A100的优势主要在于单卡高带宽、ECC稳定性及NVLink互联（若适用），而非单纯的总带宽对比，陈述中“HBM带宽优势”的表述在对比双卡总带宽时存在逻辑瑕疵（应为单卡带宽优势或有效带宽优势）。 | 先验知识/题面给定，逻辑校验通过。硬件参数（A100 80GB HBM2e带宽约1935GB/s，40GB版约1555GB/s；4090 GDDR6X带宽约1008GB/s）符合公开规格。但TCO Break-even点为经验性工程结论，受多种变量影响，且无外部来源支持具体阈值（Batch Size ≥ 32），故降级为定性表述。
+
+## Search Query
+
+A100 batch size break-even point LLM inference cost

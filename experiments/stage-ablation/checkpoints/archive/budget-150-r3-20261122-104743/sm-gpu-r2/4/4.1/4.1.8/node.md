@@ -1,0 +1,20 @@
+# N131: INT8 精度下 Qwen3-27B 在 32K 上下文长度下，KV Cache 总显存占用为 32,768 tokens × 64 KB/token = 2,
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N19, N20, N21
+
+## Claim
+
+INT8 精度下 Qwen3-27B 在 32K 上下文长度下，KV Cache 总显存占用为 32,768 tokens × 64 KB/token = 2,048 MB (2 GB)
+
+## Corrected Claim
+
+INT8 精度下 Qwen3-27B 在 32K 上下文长度下，KV Cache 总显存占用约为 4 GB（基于典型架构参数估算，具体数值取决于模型实际层数和注意力头配置）。
+
+## Evidence
+
+[质询]数值量级严重错误：Qwen3-27B 的 KV Cache 每 token 占用远大于 64 KB，且总显存占用远超 2 GB。 | 逻辑校验失败：Qwen3-27B 为 27B 参数模型，通常采用 GQA（Grouped Query Attention），假设 64 层、KV 头数 8、Head Dim 128，每 token KV 大小约为 64层 * 2(K+V) * 8头 * 128维 * 2字节(FP16) = 256 KB/token。32K tokens 总占用约为 32768 * 256 KB = 8 GB。即使使用 INT8 量化，也约为 4 GB。原陈述中 64 KB/token 的数值比实际小 4 倍，导致总显存计算错误（2 GB vs 4-8 GB）。

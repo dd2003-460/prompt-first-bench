@@ -1,0 +1,20 @@
+# N313: ε_curiosity = 0.15 的品类特异性分解：ε_curiosity = ε_novelty × (1 - Familiarity_score)，其中
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N107
+
+## Claim
+
+ε_curiosity = 0.15 的品类特异性分解：ε_curiosity = ε_novelty × (1 - Familiarity_score)，其中 ε_novelty 为品类固有好奇心系数（手办 0.2，手机 0.05），Familiarity_score 为用户在该品类的历史浏览深度（0-1 归一化）；需估算 Familiarity_score 对 ε_curiosity 的边际影响。
+
+## Corrected Claim
+
+ε_curiosity = 0.15 的品类特异性分解：ε_curiosity = ε_novelty × (1 - Familiarity_score)，其中 ε_novelty 为品类固有好奇心系数（手办 0.2，手机 0.05），Familiarity_score 为用户在该品类的历史浏览深度（0-1 归一化）；需估算 Familiarity_score 对 ε_curiosity 的边际影响。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

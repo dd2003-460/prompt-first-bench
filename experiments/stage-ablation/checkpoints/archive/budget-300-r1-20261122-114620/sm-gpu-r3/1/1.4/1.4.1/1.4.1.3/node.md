@@ -1,0 +1,24 @@
+# N166: vLLM 0.6.4 在 Qwen3-27B INT8 量化推理中，若使用 AWQ 量化模型，需指定 --quantization awq 参数，否则默认加载 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N50
+
+## Claim
+
+vLLM 0.6.4 在 Qwen3-27B INT8 量化推理中，若使用 AWQ 量化模型，需指定 --quantization awq 参数，否则默认加载 BF16 权重导致显存不足；若使用 GPTQ 量化模型，需指定 --quantization gptq，且校准数据需包含 128 个样本，否则量化误差增大，PPL 增加 >5%
+
+## Corrected Claim
+
+vLLM 0.6.4 在 Qwen3-27B INT8 量化推理中，若使用 AWQ 量化模型，需指定 --quantization awq 参数，否则默认加载 BF16 权重导致显存不足；若使用 GPTQ 量化模型，需指定 --quantization gptq，且校准数据样本量不足可能导致量化误差增大，具体 PPL 影响取决于数据分布与模型特性。
+
+## Evidence
+
+[质询]陈述中关于 GPTQ 校准数据需包含 128 个样本否则 PPL 增加 >5% 的具体数值阈值（128 样本、5% PPL 增量）属于高度具体的经验性参数，缺乏通用标准支持，且 vLLM 默认行为描述可能随版本或具体模型架构有所差异，存在将特定实验结果或最佳实践误述为硬性规则的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体量化参数阈值无法从第一性原理推导）
+
+## Search Query
+
+vLLM Qwen3 INT8 AWQ GPTQ quantization parameter calibration data requirement

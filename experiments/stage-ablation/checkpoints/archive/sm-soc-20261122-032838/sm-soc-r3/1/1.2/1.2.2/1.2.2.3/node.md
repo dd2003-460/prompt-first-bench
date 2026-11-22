@@ -1,0 +1,20 @@
+# N124: $\sigma_v$ 与 $T_{sale}$ 的交互效应：估值标准差 $\sigma_v$ 不仅影响咨询概率，还通过‘匹配效率’影响成交周期。当 $\sigm
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N38
+
+## Claim
+
+$\sigma_v$ 与 $T_{sale}$ 的交互效应：估值标准差 $\sigma_v$ 不仅影响咨询概率，还通过‘匹配效率’影响成交周期。当 $\sigma_v$ 较大时，即使 $P_{ask}$ 合理，找到估值高于 $P_{ask}$ 的买家的期望搜索时间 $E[T_{find}]$ 也会增加。公式：$E[T_{find}] \propto \frac{1}{P(V > P_{ask})} = \frac{1}{\Phi(\frac{\mu_v - P_{ask}}{\sigma_v})}$。需计算在 $\sigma_v$ 不同取值下，$T_{sale}$ 的变化幅度。
+
+## Corrected Claim
+
+$\sigma_v$ 与 $T_{sale}$ 的交互效应：估值标准差 $\sigma_v$ 不仅影响咨询概率，还通过‘匹配效率’影响成交周期。当 $\sigma_v$ 较大时，即使 $P_{ask}$ 合理，找到估值高于 $P_{ask}$ 的买家的期望搜索时间 $E[T_{find}]$ 也会增加。公式：$E[T_{find}] \propto \frac{1}{P(V > P_{ask})} = \frac{1}{\Phi(\frac{\mu_v - P_{ask}}{\sigma_v})}$。需计算在 $\sigma_v$ 不同取值下，$T_{sale}$ 的变化幅度。
+
+## Search Query
+
+valuation variance impact on time to sell matching efficiency market search

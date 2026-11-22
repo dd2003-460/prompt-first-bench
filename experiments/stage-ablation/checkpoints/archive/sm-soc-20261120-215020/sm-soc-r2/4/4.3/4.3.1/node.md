@@ -1,0 +1,29 @@
+# N56: 成交量（Volume）在干预前后的变化：假设链中假设成交量不变，但实际中价格虚高消除可能导致部分买家因失去‘捡漏’心理而退出，或者因信任增加而进入。需量化 ΔV
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N19
+
+## Claim
+
+成交量（Volume）在干预前后的变化：假设链中假设成交量不变，但实际中价格虚高消除可能导致部分买家因失去‘捡漏’心理而退出，或者因信任增加而进入。需量化 ΔVolume/Volume，例如假设 ΔVolume = -5% 到 +5% 区间，这将直接修正 ΔEff 的分母/分子项。
+
+## Corrected Claim
+
+成交量（Volume）在干预前后的变化：假设链中假设成交量不变，但实际中价格虚高消除可能导致部分买家因失去‘捡漏’心理而退出，或者因信任增加而进入。需量化 ΔVolume/Volume，其具体数值取决于市场微观结构及投资者行为，通常需通过实证数据估算，而非直接假设为固定区间。
+
+## Evidence
+
+[质询]该陈述中的具体数值区间（ΔVolume = -5% 到 +5%）属于经验性假设，缺乏普遍适用的理论依据或统计支持，且参考来源仅讨论量价关系的定性逻辑，未提供此类具体量化区间的证据，存在‘无据量化’的风险。 | 逻辑上，价格变化确实可能通过心理效应影响成交量，方向不确定（增加或减少）符合经济学直觉；但参考来源[1][2]仅支持成交量与价格存在关联的定性事实，未支持具体的-5%到+5%数值区间，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+price normalization effect on market volume transaction count elasticity
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/502041537&rut=24154a3f2312919faab78e7e6b3ceccd2f356e08074f01ddea9d7a3803b5c20e', 'type': 'ddg', 'title': '【期货】量价关系：成交量、持仓量、价格走势的关系 - 知乎'}
+- {'url': 'https://zhuanlan.zhihu.com/p/610340021&rut=d1d9a02e7313e9beaca3743f74505676697320c7a8b60d07c46bb93a0a07367d', 'type': 'ddg', 'title': '期货交易中成交量、持仓量、价格之间的关系。 - 知乎'}

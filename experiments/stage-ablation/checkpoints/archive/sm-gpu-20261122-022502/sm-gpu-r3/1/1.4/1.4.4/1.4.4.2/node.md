@@ -1,0 +1,24 @@
+# N142: 二手 RTX 3090 24GB 的功耗与散热特性：TDP 350W，与 RTX 4090 (450W) 相比功耗低 22%，但在同等显存容量下，其显存带宽 (
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N44
+
+## Claim
+
+二手 RTX 3090 24GB 的功耗与散热特性：TDP 350W，与 RTX 4090 (450W) 相比功耗低 22%，但在同等显存容量下，其显存带宽 (936 GB/s) 低于 RTX 4090 (1008 GB/s)，导致 LLM 推理吞吐量低约 7-10%；需计算每 token 能耗 (J/token) 以评估 OpEx 差异。
+
+## Corrected Claim
+
+二手 RTX 3090 24GB 的功耗与散热特性：TDP 350W，与 RTX 4090 (450W) 相比功耗低 22%，但在同等显存容量下，其显存带宽 (936 GB/s) 低于 RTX 4090 (1008 GB/s)，导致 LLM 推理吞吐量低约 7-10%；需计算每 token 能耗 (J/token) 以评估 OpEx 差异。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 3090 TDP 350W 与 RTX 4090 450W 的差值计算正确（(450-350)/450 ≈ 22.2%）；显存带宽 936 GB/s (3090) 与 1008 GB/s (4090) 符合硬件规格常识；LLM 推理吞吐量差异与带宽差异及架构效率综合影响在逻辑上自洽。
+
+## Search Query
+
+RTX 3090 vs 4090 LLM inference throughput per watt

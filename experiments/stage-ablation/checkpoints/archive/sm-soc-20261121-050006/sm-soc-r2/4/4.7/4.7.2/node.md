@@ -1,0 +1,20 @@
+# N90: 卖家策略调整的反制行为量化：当显示均价后，部分卖家（比例 β_adjust ∈ [0.1, 0.3]）会通过增加商品描述长度或附加赠品来抵消价格劣势，导致实际成
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N23
+
+## Claim
+
+卖家策略调整的反制行为量化：当显示均价后，部分卖家（比例 β_adjust ∈ [0.1, 0.3]）会通过增加商品描述长度或附加赠品来抵消价格劣势，导致实际成交周期 T_close 不降反升或持平；反制成本 C_counter = β_adjust * C_listing_effort，其中 C_listing_effort 为单次优化成本（约 0.5-1 小时人工或 5-10 元服务费）。
+
+## Corrected Claim
+
+卖家策略调整的反制行为量化：当显示均价后，部分卖家（比例 β_adjust）会通过增加商品描述长度或附加赠品来抵消价格劣势，导致实际成交周期 T_close 不降反升或持平；反制成本 C_counter = β_adjust * C_listing_effort，其中 C_listing_effort 为单次优化成本（具体数值依平台和市场环境而定）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值参数（β_adjust ∈ [0.1, 0.3]，C_listing_effort 约 0.5-1 小时或 5-10 元），这些属于市场行为统计和成本估算，无法从第一性原理或逻辑公理中严格推导得出，且缺乏外部数据支持其具体量级。 | 经验事实，逻辑自洽但缺来源支持；数值区间属于特定市场环境的经验估计，非普适真理。

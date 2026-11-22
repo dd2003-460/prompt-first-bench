@@ -1,0 +1,24 @@
+# N90: 高挂价卖家最终成交价 P_final 的下降幅度计算公式：ΔP_pct = 1 - (P_anchor / P_ask_old) × (1 + (1/ε_s) 
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N21, N22, N23
+
+## Claim
+
+高挂价卖家最终成交价 P_final 的下降幅度计算公式：ΔP_pct = 1 - (P_anchor / P_ask_old) × (1 + (1/ε_s) × ΔQ_pct)，其中 ε_s 为供给价格弹性（假设与需求弹性同区间0.5-0.8），ΔQ_pct 为成交量变化率（假设5-10%）。
+
+## Corrected Claim
+
+高挂价卖家最终成交价 P_final 的下降幅度可近似估算为：ΔP_pct ≈ 1 - (P_anchor / P_ask_old) × (1 + (1/ε_s) × ΔQ_pct)，其中 ε_s 为供给价格弹性（假设0.5-0.8），ΔQ_pct 为成交量变化率（假设5-10%）。注意：此为基于特定假设的近似估算模型，非严格经济学恒等式。
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备, 有冗余（1. 正交性失败：子节点2和3均定义了 lambda_resistance 的计算逻辑（一个是基于遵从率的反推/关系，一个是基于持有成本的直接计算），存在逻辑重叠和潜在矛盾（未说明两者如何统一）。2. 完备性失败：父节点公式依赖 P_anchor, P_ask_old, epsilon_s, delta_Q_pct，但子节点完全未提供 epsilon_s（供给弹性）的推导或来源，也未提供 delta_Q_pct（成交量变化）的独立计算逻辑，反而引入了父节点公式中不存在的成交周期 T 和遵从率 r_compliance，导致子节点与父节点公式脱节。3. 冗余：工作点1和2仅是同一公式在不同参数下的实例化，应合并为参数化描述而非独立节点。）
+
+## Search Query
+
+supply price elasticity seller response to price transparency

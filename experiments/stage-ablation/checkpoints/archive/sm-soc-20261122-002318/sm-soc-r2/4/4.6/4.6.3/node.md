@@ -1,0 +1,24 @@
+# N73: 平台临界干预强度计算：平台剩余变化 ΔPS_platform = α * ΔGMV - β * ΔChurnRate。当价格透明度提升导致 GMV 短期下降 (
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N26
+
+## Claim
+
+平台临界干预强度计算：平台剩余变化 ΔPS_platform = α * ΔGMV - β * ΔChurnRate。当价格透明度提升导致 GMV 短期下降 (因高价商品成交减少) 但长期信任提升时，需计算使 ΔPS_platform / Initial_PS = -Threshold_platform 的干预参数。假设 Threshold_platform 为 3% 季度营收波动，需量化 α (GMV弹性) 和 β (流失率敏感度) 的具体数值。
+
+## Corrected Claim
+
+平台临界干预强度计算：平台剩余变化 ΔPS_platform = α * ΔGMV - β * ΔChurnRate。当价格透明度提升导致 GMV 短期下降 (因高价商品成交减少) 但长期信任提升时，需计算使 ΔPS_platform / Initial_PS = -Threshold_platform 的干预参数。假设 Threshold_platform 为 3% 季度营收波动，需量化 α (GMV弹性) 和 β (流失率敏感度) 的具体数值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+platform revenue impact price transparency churn rate sensitivity analysis

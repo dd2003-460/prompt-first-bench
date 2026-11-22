@@ -1,0 +1,20 @@
+# N126: 单卡方案（如1×RTX 4090）的3年TCO计算公式：TCO_1card = P_card + (W_card * h * r * 3) + C_maint_
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N24
+
+## Claim
+
+单卡方案（如1×RTX 4090）的3年TCO计算公式：TCO_1card = P_card + (W_card * h * r * 3) + C_maint_1card，其中P_card为硬件采购价，W_card为满载功耗(W)，h为年运行小时数，r为电价($/kWh)，C_maint_1card为年均维护成本
+
+## Corrected Claim
+
+单卡方案（如1×RTX 4090）的3年TCO计算公式：TCO_1card = P_card + (W_card * h * r * 3) + C_maint_1card，其中P_card为硬件采购价，W_card为满载功耗(W)，h为年运行小时数，r为电价($/kWh)，C_maint_1card为年均维护成本
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：TCO（总拥有成本）的标准定义即为初始硬件成本加上运营期间的能源成本（功耗×时间×电价）及维护成本，公式结构符合经济学与工程常识，量纲一致。

@@ -1,0 +1,20 @@
+# N73: H100 SXM5 数据中心卡整机 TDP 为 700W，RTX 4090/5090 消费卡 TDP 为 450W/575W，单机柜功率密度差异（700W vs
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N15, N16, N17
+
+## Claim
+
+H100 SXM5 数据中心卡整机 TDP 为 700W，RTX 4090/5090 消费卡 TDP 为 450W/575W，单机柜功率密度差异（700W vs 450W+CPU）直接决定是否需要独立精密空调（CRAC）或水冷（CDU），进而影响散热基础设施一次性投入成本
+
+## Corrected Claim
+
+H100 SXM5 数据中心卡整机 TDP 为 700W，RTX 4090/5090 消费卡 TDP 为 450W/575W，单机柜功率密度差异（700W vs 450W+CPU）直接决定是否需要独立精密空调（CRAC）或水冷（CDU），进而影响散热基础设施一次性投入成本
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H100 SXM5 TDP 700W、RTX 4090 450W、RTX 5090 575W 均为业界公认标准参数，功率密度差异决定散热方案（风冷/液冷）及基础设施成本的逻辑链条符合数据中心工程常识。

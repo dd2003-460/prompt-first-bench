@@ -1,0 +1,20 @@
+# N63: KV Cache 显存占用公式中的 'Seq_Len' 参数在 32K 上下文窗口下固定为 32768 tokens，需确认 Qwen3-27B 是否支持动态长
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N10
+
+## Claim
+
+KV Cache 显存占用公式中的 'Seq_Len' 参数在 32K 上下文窗口下固定为 32768 tokens，需确认 Qwen3-27B 是否支持动态长度调整及 PagedAttention 机制对显存碎片率的影响。
+
+## Corrected Claim
+
+KV Cache显存占用公式中的'Seq_Len'参数在32K上下文窗口下通常设为32768 tokens，但需单独确认Qwen3-27B是否支持动态长度调整，以及PagedAttention机制对显存碎片率的具体影响。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1和子节点2分别回答了动态长度支持和碎片率机制，具备正交性。但父节点中关于'32K下固定为32768'的前提在子节点中未被充分结合：子节点1仅说明支持动态调整，未明确在32K窗口下Seq_Len是否真固定或如何动态变化；子节点3给出了具体数值结论，但未说明该结论是基于Qwen3-27B的具体配置（如Block Size是否为16，KV Cache头数等）得出的，存在假设跳跃。此外，父节点要求确认'是否支持'，子节点1直接断言'原生支持'，缺乏对Qwen3-27B特定版本配置的验证依据，完备性不足。）

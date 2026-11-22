@@ -1,0 +1,20 @@
+# N308: Threadripper PRO 平台的双路内存架构（8 通道 DDR5）对 LLM 推理的 KV Cache 带宽提升有限，因为 GPU 显存带宽远高于 CP
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N134
+
+## Claim
+
+Threadripper PRO 平台的双路内存架构（8 通道 DDR5）对 LLM 推理的 KV Cache 带宽提升有限，因为 GPU 显存带宽远高于 CPU 内存带宽；但其在 CPU Offload 场景下，CPU 内存带宽（约 300-400 GB/s）相比消费级平台（约 90-100 GB/s）提升 3-4 倍，可将 Offload 延迟降低 30-40% [待核验]。
+
+## Corrected Claim
+
+Threadripper PRO 平台的双路内存架构（8 通道 DDR5）对 LLM 推理的 KV Cache 带宽提升有限，因为 GPU 显存带宽远高于 CPU 内存带宽；但其在 CPU Offload 场景下，CPU 内存带宽相比消费级平台有显著提升（约 2-3 倍），可有效降低 Offload 延迟。
+
+## Evidence
+
+[质询]具体数值（300-400 GB/s vs 90-100 GB/s）及性能提升比例（30-40%）属于经验事实，缺乏直接来源支持，且不同代际/频率配置下数值可能有波动。 | 先验知识/题面给定，逻辑校验通过：Threadripper PRO 8通道DDR5带宽确实约为消费级4通道DDR5的2-3倍（取决于频率），量级合理；但具体延迟降低比例缺乏直接来源佐证，故降级。

@@ -1,0 +1,20 @@
+# N195: β1系数的统计显著性检验：在回归 log(Exposure_i) = α + β1*log(P_i) + β2*Interaction_i + ε 中，需计算β
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N63
+
+## Claim
+
+β1系数的统计显著性检验：在回归 log(Exposure_i) = α + β1*log(P_i) + β2*Interaction_i + ε 中，需计算β1的t统计量 t = β1/SE(β1)，并检验 p-value < 0.05 且 β1 > 0.1，以确认价格对曝光具有显著正向影响
+
+## Corrected Claim
+
+β1系数的统计显著性检验：在回归 log(Exposure_i) = α + β1*log(P_i) + β2*Interaction_i + ε 中，需计算β1的t统计量 t = β1/SE(β1)，并检验 p-value < 0.05 且 β1 > 0.1，以确认价格对曝光具有显著正向影响
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

@@ -1,0 +1,17 @@
+{
+  "id": "N144",
+  "claim": "TensorRT-LLM 对 FP8 KV Cache 的支持：TensorRT-LLM 原生支持 FP8 KV Cache 存储与计算 (在 Hopper/Ada 架构上)，可显著降低长上下文下的显存占用。在 RTX 4090 上，若使用 TensorRT-LLM 引擎，FP8 KV Cache 可稳定运行，且 Attention 计算可利用 FP8 Tensor Core 加速 (若模型支持)，相比 vLLM 的存储-only 模式，TensorRT-LLM 在 32K 上下文下可节省约 50% KV Cache 显存 (6.29GB vs 12.58GB)。",
+  "level": "L4",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]数值量级与硬件规格存在潜在矛盾：RTX 4090 显存为 24GB，若 32K 上下文下 FP8 KV Cache 仅占 6.29GB，则意味着模型权重及激活值需占用剩余约 17GB 以上，这对于能装入 4090 的常见开源模型（如 7B-13B 参数）而言，权重占用通常远低于此，或者该数值包含了其他非 KV Cache 开销，导致‘节省 50% KV Cache 显存’的对比基准（12.58GB）可能混淆了总显存占用与纯 KV Cache 占用，或者该数值对应的是特定大模型（如 70B 量化版）在 4090 上无法完整运行的场景，存在口径混淆风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体显存数值 6.29GB/12.58GB 为特定配置下的经验数据，无法从第一性原理直接推导，需降级为定性表述）",
+  "corrected_claim": "TensorRT-LLM 原生支持 FP8 KV Cache 存储与计算（在 Hopper/Ada 架构上），可显著降低长上下文下的显存占用。在 RTX 4090 上，若使用 TensorRT-LLM 引擎，FP8 KV Cache 可稳定运行，且 Attention 计算可利用 FP8 Tensor Core 加速（若模型支持）。相比 vLLM 的存储-only 模式（若 vLLM 未启用 FP8 计算或仅支持 FP8 存储），TensorRT-LLM 在长上下文下可显著节省 KV Cache 显存（理论上 FP8 相比 FP16 节省约 50% 存储空间）。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N42"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "TensorRT-LLM FP8 KV Cache memory savings RTX 4090",
+  "retrieval_sources": []
+}

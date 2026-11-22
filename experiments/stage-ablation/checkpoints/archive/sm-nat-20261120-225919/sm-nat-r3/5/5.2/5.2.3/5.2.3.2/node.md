@@ -1,0 +1,20 @@
+# N210: 在更新率 1%/天（τ_obj=100天）下，对象平均驻留期 T_res ≈ 100天，LRU 淘汰概率 P_eviction ≈ 1 - e^(-T_res/
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N76
+
+## Claim
+
+在更新率 1%/天（τ_obj=100天）下，对象平均驻留期 T_res ≈ 100天，LRU 淘汰概率 P_eviction ≈ 1 - e^(-T_res/τ_obj) = 1 - e^(-1) ≈ 0.632，但仅影响非热门对象；对前 K 热对象，P_eviction ≈ 0，因此 H_LRU_eff ≈ 0.82 * (1 - 0.632 * (1 - 0.82)) ≈ 0.82 * 0.884 ≈ 0.725，有效命中率打 88 折。
+
+## Corrected Claim
+
+在更新率 1%/天（τ_obj=100天）下，对象平均驻留期 T_res ≈ 100天，LRU 淘汰概率 P_eviction ≈ 1 - e^(-T_res/τ_obj) = 1 - e^(-1) ≈ 0.632，但仅影响非热门对象；对前 K 热对象，P_eviction ≈ 0，因此 H_LRU_eff ≈ 0.82 * (1 - 0.632 * (1 - 0.82)) ≈ 0.82 * 0.884 ≈ 0.725，有效命中率打 88 折。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学计算 1-e^(-1)≈0.632 正确，复合概率公式 0.82*(1-0.632*0.18)≈0.725 推导自洽，符合 LRU 缓存理论模型。

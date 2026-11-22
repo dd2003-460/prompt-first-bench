@@ -1,0 +1,28 @@
+# N130: 信任度折扣系数 $\delta_{trust}$ 并非恒定值，而是降价幅度 $\Delta P$ 的函数：$\delta_{trust} = \alpha \c
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N46
+
+## Claim
+
+信任度折扣系数 $\delta_{trust}$ 并非恒定值，而是降价幅度 $\Delta P$ 的函数：$\delta_{trust} = \alpha \cdot \Delta P + \beta$；需通过 A/B 测试数据或历史点击率回归分析，量化在降价 10%、20%、30% 三个档位下，CTR 相对于原价商品的下降斜率 $\alpha$ 和截距 $\beta$。
+
+## Corrected Claim
+
+信任度折扣系数 δ_trust 可能随降价幅度 ΔP 变化，具体函数形式（如线性 δ = αΔP + β）需通过 A/B 测试或历史数据回归分析进行实证验证，而非预设恒定或固定线性关系。
+
+## Evidence
+
+[质询]该陈述将信任度折扣系数定义为降价幅度的线性函数（δ = αΔP + β），并声称需通过CTR回归量化，这属于特定的经验性建模假设。参考来源[1]讨论的是麦肯锡人际信任公式（Trust = Capability × Reliability × Intimacy / Self-centered），与电商定价、CTR及信任度折扣系数完全无关，无法提供外部支持。此外，信任度通常与价格降低呈正相关（或至少非线性），简单线性模型是否成立缺乏普遍理论支持，属于未经证实的经验假设。 | 参考来源[1]主题为人际信任公式，与电商定价及CTR无关，属无关来源；该陈述为经验性建模假设，逻辑自洽但缺乏来源支持，依据经验事实排除条款降级。
+
+## Search Query
+
+second-hand goods price reduction negative signal buyer trust click-through rate drop magnitude
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2043424249076090558&rut=aaa937b848d95fe604a6d1df3b3f233640beb4a772253e00e9ab0bf09d971d6f', 'type': 'ddg', 'title': '麦肯锡信任公式解读 - 知乎 - 知乎专栏'}

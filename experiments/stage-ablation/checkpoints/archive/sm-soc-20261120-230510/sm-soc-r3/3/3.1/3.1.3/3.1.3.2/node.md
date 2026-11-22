@@ -1,0 +1,28 @@
+# N185: 满意度弹性系数 β_sat 的量化：在 Retention = Retention_base * (1 + β_sat * ΔSatisfaction) 中，β
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N57
+
+## Claim
+
+满意度弹性系数 β_sat 的量化：在 Retention = Retention_base * (1 + β_sat * ΔSatisfaction) 中，β_sat 反映用户满意度每变化 1 个单位对留存率的边际影响，需通过用户调研数据回归确定（如 β_sat ∈ [0.5, 1.5]）。
+
+## Corrected Claim
+
+满意度弹性系数 β_sat 的量化：在 Retention = Retention_base * (1 + β_sat * ΔSatisfaction) 中，β_sat 反映用户满意度每变化 1 个单位对留存率的边际影响，需通过特定业务场景下的用户调研数据回归确定，其具体数值范围因行业和产品而异。
+
+## Evidence
+
+[质询]β_sat 的具体数值范围 [0.5, 1.5] 属于经验事实，缺乏通用理论支持，且不同行业/产品差异巨大，直接给出固定区间缺乏依据。 | 参考来源 [1] 讨论的是土壤水分保持曲线（Water retention curve），与用户满意度及留存率完全无关，属于无关来源；该事实为经验性参数，逻辑自洽但缺乏来源支持。
+
+## Search Query
+
+user satisfaction impact on retention rate elasticity coefficient e-commerce
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Water_retention_curve&rut=5ace7ca10411f8971ba7bb4bb9d8f5f9f2c7df6be94fa51d933d87003bc7809d', 'type': 'ddg', 'title': 'Water retention curve - Wikipedia'}

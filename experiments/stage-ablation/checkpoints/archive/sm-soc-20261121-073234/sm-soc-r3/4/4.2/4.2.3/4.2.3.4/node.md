@@ -1,0 +1,30 @@
+# N260: 高信息不对称市场中的锚定效应元分析：检索 2010 年后关于二手/非标品市场的元分析文献，确认效应量衰减比例是否在 50%-70% 区间（即 δ ∈ [0.3,
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N85
+
+## Claim
+
+高信息不对称市场中的锚定效应元分析：检索 2010 年后关于二手/非标品市场的元分析文献，确认效应量衰减比例是否在 50%-70% 区间（即 δ ∈ [0.3, 0.5]），以验证 N83 中的区间估计。
+
+## Corrected Claim
+
+锚定效应在判断与决策领域得到广泛验证，但在高信息不对称市场（如二手/非标品）中效应量衰减的具体比例（δ ∈ [0.3, 0.5]）缺乏当前参考来源的直接数据支持，需进一步检索特定领域元分析文献确认。
+
+## Evidence
+
+[质询]参考来源中缺乏针对‘二手/非标品市场’这一特定领域的元分析数据，且未提供具体的效应量衰减比例数值（δ ∈ [0.3, 0.5]），无法直接验证该具体统计区间。 | 来源[2]确认了锚定效应在判断与决策中的广泛存在及机制，但属于通用心理学综述，未覆盖‘高信息不对称市场’或‘二手/非标品’的具体元分析数值；来源[1]和[3]为平台首页或无关内容，无实质证据支持。
+
+## Search Query
+
+meta-analysis anchoring effect high information asymmetry second hand market effect size
+
+## Retrieval Sources
+
+- {'url': 'https://scholar.google.com/?hl=zh-cn&rut=9ab013d819c8872ef17ae80d51cf2cefa60b62f8fbcbee0b5e864bc3bf6eafc8', 'type': 'ddg', 'title': 'Google 学术搜索'}
+- {'url': 'https://journal.psych.ac.cn/xlkxjz/CN/Y2009/V17/I1/37&rut=d78bd76b13cc0cb4e77a4352356ccb5adcd3bc1289db856eb6cd887be35ace72', 'type': 'ddg', 'title': '判断与决策中的锚定效应 - 心理学报'}
+- {'url': 'https://d.wanfangdata.com.cn/thesis/D02016956&rut=2cd96bc3e5c5e0a89b9351dbc2bab047e8731dc82570984fd35b2c8b01e6df8c', 'type': 'ddg', 'title': '万方数据知识服务平台'}

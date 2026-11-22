@@ -1,0 +1,20 @@
+# N124: R_req_update 的局部敏感性分析：R_req_update = λ_total / (N * u)；若 u 从 0.01/天 增加到 0.1/天（10
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N46
+
+## Claim
+
+R_req_update 的局部敏感性分析：R_req_update = λ_total / (N * u)；若 u 从 0.01/天 增加到 0.1/天（10 倍更新率），R_req_update 降至 5e3，仍远大于 1；若 u 增加到 1/天（100 倍），R_req_update = 500，仍大于 1；只有当 u > λ_total / N = 500/天 时，R_req_update < 1，系统才进入'更新主导'区域；因此，在 u ≤ 0.1/天 的合理范围内，'读密集'结论稳健，F_decay ≈ 1 的假设成立。
+
+## Corrected Claim
+
+R_req_update 的局部敏感性分析：R_req_update = λ_total / (N * u)；若 u 从 0.01/天 增加到 0.1/天（10 倍更新率），R_req_update 降至 5e3，仍远大于 1；若 u 增加到 1/天（100 倍），R_req_update = 500，仍大于 1；只有当 u > λ_total / N = 500/天 时，R_req_update < 1，系统才进入'更新主导'区域；因此，在 u ≤ 0.1/天 的合理范围内，'读密集'结论稳健，F_decay ≈ 1 的假设成立。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 R=λ/(Nu) 线性关系正确，数值代入（500/0.1=5000, 500/1=500, 临界点 u=500）计算无误，结论推导自洽。

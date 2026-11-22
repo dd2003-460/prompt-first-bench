@@ -1,0 +1,24 @@
+# N48: 成交概率的临界价格阈值 P*：当 price > intrinsic_value + (θ_buy - info_quality * β2) / β1 时，P(
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+成交概率的临界价格阈值 P*：当 price > intrinsic_value + (θ_buy - info_quality * β2) / β1 时，P(buy) < 5%；该阈值随 info_quality 增加而降低，解释了为何高挂价在信息充分时仍可能成交（因阈值下移）。
+
+## Corrected Claim
+
+成交概率的临界价格阈值 P*：当 price > intrinsic_value + (θ_buy - info_quality * β2) / β1 时，P(buy) < 5%；该阈值随 info_quality 增加而降低，解释了为何高挂价在信息充分时仍可能成交（因阈值下移）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该陈述描述了基于线性效用或概率模型的成交阈值公式，数学推导自洽（info_quality增加导致阈值降低，符合直觉），且作为knowledge节点无需外部来源支持。
+
+## Search Query
+
+critical price threshold buyer decision function second hand market

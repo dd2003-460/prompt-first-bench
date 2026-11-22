@@ -1,0 +1,24 @@
+# N257: 基于‘服饰/箱包’类目的成交数据，计算残差标准差 σ_apparel。由于非标品主观性更强，预期 σ_apparel > σ_phone，具体比值 Ratio 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N91
+
+## Claim
+
+基于‘服饰/箱包’类目的成交数据，计算残差标准差 σ_apparel。由于非标品主观性更强，预期 σ_apparel > σ_phone，具体比值 Ratio = σ_apparel / σ_phone 需通过双样本 F 检验或 Levene 检验确定显著性，以量化品类异质性对全局 σ 估计的影响。
+
+## Corrected Claim
+
+基于‘服饰/箱包’类目的成交数据，计算残差标准差 σ_apparel。通常预期非标品的主观性导致其残差波动大于标品（如手机），即 σ_apparel 可能大于 σ_phone。具体差异的显著性需通过双样本方差检验（如 F 检验或 Levene 检验）基于实际数据确定，以量化品类异质性的影响。
+
+## Evidence
+
+[质询]该陈述包含具体的统计检验方法（F/Levene）和定性预期（σ_apparel > σ_phone），属于经验事实与具体方法论选择，无法仅从第一性原理严格推出，且缺乏具体数据支持该特定比值或显著性结论。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+second hand clothing price variability coefficient of variation vs electronics market

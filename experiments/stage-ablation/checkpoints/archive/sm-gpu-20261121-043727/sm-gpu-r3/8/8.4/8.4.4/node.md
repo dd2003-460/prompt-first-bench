@@ -1,0 +1,20 @@
+# N259: 数据中心 GPU 故障后的 RMA 流程及备用机策略成本：分析 H100 故障后 NVIDIA RMA 的平均周转时间（Turnaround Time），以及企
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N96
+
+## Claim
+
+数据中心 GPU 故障后的 RMA 流程及备用机策略成本：分析 H100 故障后 NVIDIA RMA 的平均周转时间（Turnaround Time），以及企业通常采用的 N+1 冗余策略（多买 1 张备用卡）对 TCO 的影响，计算备用卡折旧成本
+
+## Corrected Claim
+
+数据中心 GPU 故障后的 RMA 流程及备用机策略成本：分析 H100 故障后 NVIDIA RMA 的周转时间（Turnaround Time）范围，以及企业通常采用的 N+1 冗余策略（多买 1 张备用卡）对 TCO 的定性影响，并说明备用卡折旧成本的计算逻辑。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数据（H100 RMA 平均周转时间、N+1 策略对 TCO 的具体影响数值），这些属于硬件供应链和市场行为的具体参数，无法从第一性原理或数学公理中严格推导得出，且缺乏实时市场数据支持。 | 经验事实，逻辑自洽但缺来源支持

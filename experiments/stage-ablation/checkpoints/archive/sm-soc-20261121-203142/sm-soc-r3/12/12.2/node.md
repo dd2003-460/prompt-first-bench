@@ -1,0 +1,24 @@
+# N302: 验证 A/B 测试中 n=200 组的数据有效性：计算每组平均卖家数 n_per_group，若总样本量 N_total = 200 * n_per_group
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N102
+
+## Claim
+
+验证 A/B 测试中 n=200 组的数据有效性：计算每组平均卖家数 n_per_group，若总样本量 N_total = 200 * n_per_group < 1000，则 SE=0.35 天可能受小样本偏差影响，需检查是否满足中心极限定理条件以支持正态近似置信区间。
+
+## Corrected Claim
+
+验证 A/B 测试中 n=200 组的数据有效性：计算每组平均卖家数 n_per_group，若总样本量 N_total = 200 * n_per_group < 1000，则 SE=0.35 天可能受小样本偏差影响，需检查是否满足中心极限定理条件以支持正态近似置信区间。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：样本量不足1000时，若数据分布非正态，中心极限定理（CLT）可能不成立，导致基于正态近似的标准误（SE）和置信区间失效，该统计推断逻辑自洽。
+
+## Search Query
+
+A/B test sample size validity central limit theorem 200 groups

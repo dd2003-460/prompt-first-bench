@@ -1,0 +1,20 @@
+# N349: 验证 60% 卖家无咨询是否低于阈值的统计检验方法：计算降价后 48 小时内实际咨询率 R_inquiry 与阈值 T 的比值 Ratio = R_inquir
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N116, N117, N118
+
+## Claim
+
+验证 60% 卖家无咨询是否低于阈值的统计检验方法：计算降价后 48 小时内实际咨询率 R_inquiry 与阈值 T 的比值 Ratio = R_inquiry / T，若 Ratio < 1 则触发沉默螺旋；需构建二项分布检验 H0: R_inquiry <= T，基于样本量 n_sellers 计算 p-value，以确认 60% 的观测值是否显著高于‘随机噪声’预期。
+
+## Corrected Claim
+
+验证 60% 卖家无咨询是否低于阈值的统计检验方法：计算降价后 48 小时内实际咨询率 R_inquiry 与阈值 T 的比值 Ratio = R_inquiry / T，若 Ratio < 1 则触发沉默螺旋；需构建二项分布检验 H0: R_inquiry <= T，基于样本量 n_sellers 计算 p-value，以确认 60% 的观测值是否显著高于‘随机噪声’预期。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：二项分布检验是验证比例是否显著偏离阈值的标准统计方法，逻辑自洽且量纲合理。

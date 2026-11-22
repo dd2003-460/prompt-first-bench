@@ -1,0 +1,24 @@
+# N236: 市场冲击因子方差 σ²_market 的估计公式为 σ²_market = Var(ΔD_t)，其中 ΔD_t 为平台总需求量的月度对数差分；在二手非标品市场，
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N72
+
+## Claim
+
+市场冲击因子方差 σ²_market 的估计公式为 σ²_market = Var(ΔD_t)，其中 ΔD_t 为平台总需求量的月度对数差分；在二手非标品市场，该方差通常高于标准化商品市场，经验估计值约为 5-15%（即 σ_market ∈ [0.22, 0.39]），需通过平台历史 GMV 数据回归校准。
+
+## Corrected Claim
+
+市场冲击因子方差 σ²_market 的估计公式为 σ²_market = Var(ΔD_t)，其中 ΔD_t 为平台总需求量的月度对数差分；在二手非标品市场，该方差通常高于标准化商品市场，经验估计值约为 5-15%（即 σ_market ∈ [0.22, 0.39]），需通过平台历史 GMV 数据回归校准。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：对数差分方差与标准差换算关系正确（sqrt(0.05)≈0.22, sqrt(0.15)≈0.39），非标品需求波动大于标品的经济直觉合理。
+
+## Search Query
+
+used goods market demand volatility variance estimation

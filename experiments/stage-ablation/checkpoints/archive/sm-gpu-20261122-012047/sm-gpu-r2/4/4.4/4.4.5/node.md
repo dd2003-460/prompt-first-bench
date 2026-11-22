@@ -1,0 +1,30 @@
+# N127: AMD MI300X 的 FP8 原生推理吞吐量基准：在 32K 上下文下，单用户 tokens/s 约为 200-300 tokens/s [待核验]。MI3
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N30, N31, N32
+
+## Claim
+
+AMD MI300X 的 FP8 原生推理吞吐量基准：在 32K 上下文下，单用户 tokens/s 约为 200-300 tokens/s [待核验]。MI300X 支持 FP8，需确认其相对于 BF16 的加速比是否达到 H100 的水平（1.5-2.0x）。
+
+## Corrected Claim
+
+AMD MI300X 支持 FP8 推理，实测显示其相对于 BF16 的加速比约为 1.8 倍（处于 1.5-2.0x 区间）。关于 32K 上下文下单用户 200-300 tokens/s 的具体吞吐量基准，因缺乏特定模型规模及测试条件的来源支持，暂无法确证，需结合具体模型参数进一步验证。
+
+## Evidence
+
+[质询]陈述中关于'32K上下文下单用户200-300 tokens/s'的具体吞吐量数值缺乏参考来源的直接支持，且该数值高度依赖于具体模型规模（如7B vs 70B）及硬件配置，属于经验事实，无法仅凭逻辑推导验证。 | 来源[1]和[3]直接支持FP8相对于BF16有约1.8倍加速比（符合1.5-2.0x范围），但所有来源均未提供32K上下文下的具体tokens/s吞吐量数据，该部分为经验事实且缺来源支持。
+
+## Search Query
+
+AMD MI300X Qwen3 27B FP8 inference throughput tokens per second 32k context
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/2600_96323227/article/details/162411416&rut=f9c956f2709332a599eba5254353c9fd1642b5e8e0354ffb87f5bdee0e8324b5', 'type': 'ddg', 'title': 'Fp8 精度实战，Amd 显卡上大模型推理的速度与激情-csdn博客'}
+- {'url': 'https://blog.csdn.net/2600_96323197/article/details/162347821&rut=56dd883781f59897966334c497e8d9be8d677770cf8501567d82f04cac0c9cc7', 'type': 'ddg', 'title': '量化加速真香吗，Fp8 精度在 Amd 显卡上的实测 - Csdn博客'}
+- {'url': 'https://devpress.csdn.net/v1/article/detail/162411416&rut=b64a8c845bb74190829a7f0774e1615ac7a9ab3cd7d698e93da224b5cfab6c6e', 'type': 'ddg', 'title': 'Fp8 精度实战，Amd 显卡上大模型推理的速度与激情'}

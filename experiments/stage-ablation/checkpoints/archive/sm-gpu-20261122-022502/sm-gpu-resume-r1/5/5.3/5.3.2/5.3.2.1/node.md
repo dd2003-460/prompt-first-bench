@@ -1,0 +1,20 @@
+# N278: 权重显存精确计算与量化开销修正：Qwen3-27B BF16 权重大小 = 27B * 2 bytes = 54GB。INT4 (AWQ) 权重大小 = 27B
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N102
+
+## Claim
+
+权重显存精确计算与量化开销修正：Qwen3-27B BF16 权重大小 = 27B * 2 bytes = 54GB。INT4 (AWQ) 权重大小 = 27B * 0.5 bytes (4-bit) + 校准开销 (scale/zero-point, 通常每 128 个权重 1 个 float16 scale + 1 个 float16 zero-point，占比约 1/128 * 4 bytes / 0.5 bytes ≈ 6.25% 额外开销) ≈ 13.5GB * 1.0625 ≈ 14.34GB。此前 N90/N111 使用的 13.5GB 未包含校准开销，导致显存余量高估约 0.84GB。
+
+## Corrected Claim
+
+权重显存精确计算与量化开销修正：Qwen3-27B BF16 权重大小 = 27B * 2 bytes = 54GB。INT4 (AWQ) 权重大小 = 27B * 0.5 bytes (4-bit) + 校准开销 (scale/zero-point, 通常每 128 个权重 1 个 float16 scale + 1 个 float16 zero-point，占比约 1/128 * 4 bytes / 0.5 bytes ≈ 6.25% 额外开销) ≈ 13.5GB * 1.0625 ≈ 14.34GB。此前 N90/N111 使用的 13.5GB 未包含校准开销，导致显存余量高估约 0.84GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：BF16计算正确(27B*2=54GB)；INT4基础大小正确(27B*0.5=13.5GB)；校准开销比例计算正确(每128权重1个scale+1个zero-point，即2个FP16=4bytes，相对于128*0.5=64bytes的权重数据，开销为4/64=6.25%)；总大小13.5*1.0625=14.34375GB≈14.34GB；差值14.34-13.5=0.84GB。所有数值量级和逻辑推导均自洽。

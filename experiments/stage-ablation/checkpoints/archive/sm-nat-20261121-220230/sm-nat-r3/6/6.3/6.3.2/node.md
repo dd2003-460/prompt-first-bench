@@ -1,0 +1,20 @@
+# N259: s_min 对 C_norm 的非线性影响：s_min=1KB 时 C_norm=0.0256，s_min=10KB 时 C_norm=0.0221（降 13.
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N89
+
+## Claim
+
+s_min 对 C_norm 的非线性影响：s_min=1KB 时 C_norm=0.0256，s_min=10KB 时 C_norm=0.0221（降 13.7%），s_min=100KB 时 C_norm=0.0048（降 81.3%），表明 s_min 超过 10KB 后对 C_norm 影响急剧放大，需确认 CDN 实际最小对象大小分布。
+
+## Corrected Claim
+
+s_min 对 C_norm 的非线性影响：s_min=1KB 时 C_norm=0.0256，s_min=10KB 时 C_norm=0.0221（降 13.7%），s_min=100KB 时 C_norm=0.0048（降 81.3%），表明 s_min 超过 10KB 后对 C_norm 影响急剧放大，需确认 CDN 实际最小对象大小分布。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值量级合理，百分比计算准确（(0.0256-0.0221)/0.0256≈13.7%, (0.0256-0.0048)/0.0256≈81.3%），符合非线性影响的描述逻辑。

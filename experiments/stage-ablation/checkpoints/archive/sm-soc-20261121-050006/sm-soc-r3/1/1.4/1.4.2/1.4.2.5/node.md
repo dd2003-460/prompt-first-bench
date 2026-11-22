@@ -1,0 +1,30 @@
+# N157: 信号敏感度系数 κ_signal 的估计基于 A/B 测试数据，回归模型 ΔQ = β_0 + β_1 * (ΔU / σ_pref) + ε，其中 β_1 的
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N45, N46, N47
+
+## Claim
+
+信号敏感度系数 κ_signal 的估计基于 A/B 测试数据，回归模型 ΔQ = β_0 + β_1 * (ΔU / σ_pref) + ε，其中 β_1 的 95% 置信区间为 [-1.2, -0.8]；该系数解释了价格变动对咨询率的边际影响。
+
+## Corrected Claim
+
+信号敏感度系数 κ_signal 的估计基于 A/B 测试数据，采用回归模型 ΔQ = β_0 + β_1 * (ΔU / σ_pref) + ε 来量化价格变动对咨询率的边际影响（具体系数数值需依据实际实验数据确定）。
+
+## Evidence
+
+[质询]该陈述包含具体的统计数值（β1的95%置信区间为[-1.2, -0.8]）和特定的业务场景（价格变动对咨询率的影响），属于经验事实。参考来源[2]仅提供了A/B测试的方法论指南，并未包含任何具体的实验数据、回归系数或置信区间数值，无法验证该具体数值的真实性。 | 逻辑上回归模型设定合理，但具体数值（CI: [-1.2, -0.8]）为经验事实，来源[2]仅支持A/B测试方法论，未提供具体数据支持，故降级。
+
+## Search Query
+
+price sensitivity coefficient A/B testing second-hand platform consultation rate
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_42518334/article/details/154331387&rut=0bd56f7dc3337ea27280fdc825390a95310f7873d3f85a47db588664320adbaa', 'type': 'ddg', 'title': 'Matlab信号处理高级实战：检测、估计与调制理论全解析-csdn博客'}
+- {'url': 'https://cloud.tencent.com/developer/article/2732078&rut=12a1dfeb855bd90057a33389355636bd6baad83eec0d5278a72403e3ec619883', 'type': 'ddg', 'title': 'A/B 测试完整指南：从样本量设计到结果解读 - 腾讯云'}
+- {'url': 'https://blog.csdn.net/weixin_45827703/article/details/135223655&rut=53b6a0d599b26d5d9ab7768c26bf133d258d521f0ad2b9940ba18e83df01bc7b', 'type': 'ddg', 'title': '信号检测与估计——知识总结-csdn博客'}

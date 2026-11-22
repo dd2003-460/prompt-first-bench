@@ -1,0 +1,24 @@
+# N291: PCIe 4.0 x16 互联在 TP=2 架构下，AllReduce 操作的固定启动延迟（Launch Latency）具体数值（通常为 5-20 µs 量级
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N108
+
+## Claim
+
+PCIe 4.0 x16 互联在 TP=2 架构下，AllReduce 操作的固定启动延迟（Launch Latency）具体数值（通常为 5-20 µs 量级，取决于驱动版本和拓扑），该延迟在小消息（如 N84 中的 768KB/step）场景下对总步时 T_step 的占比计算。
+
+## Corrected Claim
+
+PCIe 4.0 x16 互联在 TP=2 架构下，AllReduce 操作存在固定启动延迟（通常为微秒级，具体数值取决于驱动版本和拓扑），该延迟在小消息场景下对总步时 T_step 有显著影响，具体占比需根据实际硬件配置和驱动版本实测确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（5-20 µs 延迟量级）和特定场景下的占比计算，属于经验事实而非第一性原理可推导内容；且缺乏具体驱动版本、拓扑结构及硬件型号，导致‘具体数值’和‘占比计算’缺乏唯一确定的依据，存在口径模糊风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值范围及占比计算的准确性）
+
+## Search Query
+
+PCIe 4.0 AllReduce launch latency microseconds TP2 inference

@@ -1,0 +1,24 @@
+# N218: BF16精度下显存需求修正：N72声称总需求68.7GB，但根据N123，BF16仅权重需54GB。加上32K上下文KV Cache（FP16约10.7GB）及
+
+- **status**: verified
+- **level**: L4
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N72
+
+## Claim
+
+BF16精度下显存需求修正：N72声称总需求68.7GB，但根据N123，BF16仅权重需54GB。加上32K上下文KV Cache（FP16约10.7GB）及框架开销（4GB），总需求应为54+10.7+4 = 68.7GB。此数值确认了单卡L40S/A6000（48GB）不可行，但需确认A100 80GB是否需启用PagedAttention以优化碎片。
+
+## Corrected Claim
+
+BF16精度下显存需求修正：N72声称总需求68.7GB，但根据N123，BF16仅权重需54GB。加上32K上下文KV Cache（FP16约10.7GB）及框架开销（4GB），总需求应为54+10.7+4 = 68.7GB。此数值确认了单卡L40S/A6000（48GB）不可行，但需确认A100 80GB是否需启用PagedAttention以优化碎片。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：54GB(权重) + 10.7GB(KV Cache) + 4GB(开销) = 68.7GB，算术正确且符合大模型显存估算常识；48GB显存确实无法容纳68.7GB需求，逻辑自洽。
+
+## Search Query
+
+A100 80GB BF16 27B model memory footprint vLLM

@@ -1,0 +1,24 @@
+# N61: Qwen3-27B 采用混合注意力架构，部分层为 Gated DeltaNet，其 KV Cache 占用与标准 Attention 不同。若假设 50% 层为
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N13
+
+## Claim
+
+Qwen3-27B 采用混合注意力架构，部分层为 Gated DeltaNet，其 KV Cache 占用与标准 Attention 不同。若假设 50% 层为标准 Attention，50% 为 DeltaNet，则 KV Cache 显存占用约为 0.43 GB [待核验-需确认 DeltaNet 层 KV 占用]
+
+## Corrected Claim
+
+Qwen3-27B 采用混合注意力架构，部分层为 Gated DeltaNet，其 KV Cache 占用与标准 Attention 不同。若假设 50% 层为标准 Attention，50% 为 DeltaNet，则 KV Cache 显存占用将显著低于全标准 Attention 架构，具体数值取决于上下文长度和 Batch Size。
+
+## Evidence
+
+[质询]数值量级存疑：对于27B参数量的模型，即使仅50%层使用标准Attention，KV Cache占用0.43GB在常规上下文长度（如4k-8k）下显得过小，且缺乏对上下文长度、Batch Size等关键变量的明确界定，导致该具体数值缺乏严谨性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体显存占用数值依赖于未指定的上下文长度等参数，无法从第一性原理直接推出唯一确定值）
+
+## Search Query
+
+Qwen3-27B Gated DeltaNet KV cache memory usage

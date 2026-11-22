@@ -1,0 +1,24 @@
+# N58: N18中卖家利润空间 Margin 压缩至 10-15% 的具体构成：Margin_new = (P_final - C_cost) / P_final，假设 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+N18中卖家利润空间 Margin 压缩至 10-15% 的具体构成：Margin_new = (P_final - C_cost) / P_final，假设 C_cost 不变，P_final 因自动降价算法从 P_ask * (1+δ) 降至 P_ref * (1+δ/2)，导致 Margin 从 20-25% 线性下降至 10-15%。
+
+## Corrected Claim
+
+N18中卖家利润空间 Margin 压缩至 10-15% 的具体构成：Margin_new = (P_final - C_cost) / P_final，假设 C_cost 不变，P_final 因自动降价算法从 P_ask * (1+δ) 降至 P_ref * (1+δ/2)，导致 Margin 从 20-25% 线性下降至 10-15%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式定义正确，且价格从 P_ask*(1+δ) 降至 P_ref*(1+δ/2) 导致利润率从 20-25% 降至 10-15% 在数学上自洽（例如当 P_ref ≈ 0.5 * P_ask 时，利润率减半符合线性下降描述）。
+
+## Search Query
+
+seller margin compression price adjustment cost structure second hand market

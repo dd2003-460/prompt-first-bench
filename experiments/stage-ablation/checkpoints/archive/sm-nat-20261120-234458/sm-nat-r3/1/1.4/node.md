@@ -1,0 +1,20 @@
+# N8: Pareto(α=1.1) 大小分布的截断均值 μ_S = α * S_min / (α - 1) * (1 - (S_max/S_min)^(1-α))，取 
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+Pareto(α=1.1) 大小分布的截断均值 μ_S = α * S_min / (α - 1) * (1 - (S_max/S_min)^(1-α))，取 S_min=1KB, S_max=100MB，μ_S ≈ 11.1KB；Pareto(β=0.9) 热度分布的累积分布 F(q) = 1 - (q/q_min)^(1-β)，q_min=1 次/天
+
+## Corrected Claim
+
+Pareto(α=1.1) 大小分布的截断均值 μ_S = α * S_min / (α - 1) * (1 - (S_max/S_min)^(1-α))，取 S_min=1KB, S_max=100MB，μ_S ≈ 11.1KB；Pareto(β=0.9) 热度分布的累积分布 F(q) = 1 - (q/q_min)^(1-β)，q_min=1 次/天
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间存在逻辑矛盾（节点1修正了父节点中的错误计算，而节点3基于父节点中未修正的参数进行推导，导致语境不一致）；且父节点明确包含的热度分布定义在子节点中未被直接验证或独立列出，而是隐含在节点3中，导致父节点原始内容未被完全独立覆盖。）

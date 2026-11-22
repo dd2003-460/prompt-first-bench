@@ -1,0 +1,24 @@
+# N178: 在极端信息不对称的工作点，买家可能需要进行 5 次以上对比才能建立可信价格锚点，此时 ΔSearchCost > 1.0 * T_search_base，搜寻成
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N61
+
+## Claim
+
+在极端信息不对称的工作点，买家可能需要进行 5 次以上对比才能建立可信价格锚点，此时 ΔSearchCost > 1.0 * T_search_base，搜寻成本超过基准时间，导致买家退出市场，验证了 15-25% 溢价区间下搜寻成本上限的失效边界。
+
+## Corrected Claim
+
+在极端信息不对称的工作点，买家可能需要多次对比才能建立可信价格锚点，当搜寻成本显著超过基准时间时，可能导致买家退出市场，从而验证了特定溢价区间下搜寻成本约束的失效边界。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值阈值（如“5次以上”、“1.0 * T_search_base”、“15-25%溢价”），这些并非第一性原理可推导的数学或物理常数，而是依赖于特定市场结构、消费者行为模型及实证数据的经验参数。缺乏来源支持时，无法确认这些具体数值在一般情境下的普适性或准确性。 | source=knowledge，逻辑自洽（搜寻成本增加导致退出符合经济学直觉），但具体数值阈值属于经验事实，缺乏外部来源直接支持或验证，故降级。
+
+## Search Query
+
+search cost limit market exit information asymmetry threshold

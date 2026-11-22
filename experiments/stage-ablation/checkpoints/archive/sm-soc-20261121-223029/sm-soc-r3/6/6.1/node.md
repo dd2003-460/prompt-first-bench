@@ -1,0 +1,24 @@
+# N109: 卖家保留价格 P_min 的可计算构成：P_min = C_var + C_fix + C_opportunity，其中 C_opportunity = r_h
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+卖家保留价格 P_min 的可计算构成：P_min = C_var + C_fix + C_opportunity，其中 C_opportunity = r_holding * V_asset * T_hold，r_holding 为年化持有资金成本率（如 5%），V_asset 为商品重置价值，T_hold 为预期持有周期（月），用于量化 P_ask 偏离 P_min 的基准底限。
+
+## Corrected Claim
+
+卖家保留价格 P_min 的可计算构成：P_min = C_var + C_fix + C_opportunity，其中 C_opportunity = r_holding * V_asset * T_hold，r_holding 为年化持有资金成本率（如 5%），V_asset 为商品重置价值，T_hold 为预期持有周期（月），用于量化 P_ask 偏离 P_min 的基准底限。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点覆盖了物流、包装、人工和时间成本，但完全缺失了父节点公式中明确列出的 C_fix（固定成本/折旧）和 C_opportunity（机会成本，即资金占用成本）。虽然子节点之间正交且无冗余，但未能覆盖父节点定义的所有关键变量，导致分解不完备。）
+
+## Search Query
+
+opportunity cost calculation formula for held inventory

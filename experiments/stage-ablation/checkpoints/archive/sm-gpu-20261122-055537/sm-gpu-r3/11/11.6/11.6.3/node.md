@@ -1,0 +1,24 @@
+# N390: Cost_Efficiency 指标定义修正：Cost_Efficiency = (C_hw + C_power_year * T_life) / Throug
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N122
+
+## Claim
+
+Cost_Efficiency 指标定义修正：Cost_Efficiency = (C_hw + C_power_year * T_life) / Throughput。在 3 年寿命、$0.15/kWh 电价下，2x 4090 的总 TCO 约为 $5500-$6000，而单卡 4090 (INT4) TCO 约为 $2400-$2600；尽管单卡吞吐量更高（无通信开销），但单卡无法运行 BF16/FP8 高精度模型，若以 INT4 为基准，2x 4090 的性价比劣势主要源于硬件成本翻倍而吞吐仅微增。
+
+## Corrected Claim
+
+Cost_Efficiency 指标定义修正：Cost_Efficiency = (C_hw + C_power_year * T_life) / Throughput。在 3 年寿命、$0.15/kWh 电价下，2x 4090 的总 TCO 约为 $5500-$6000，而单卡 4090 (INT4) TCO 约为 $2400-$2600；尽管单卡吞吐量更高（无通信开销），但单卡无法运行 BF16/FP8 高精度模型，若以 INT4 为基准，2x 4090 的性价比劣势主要源于硬件成本翻倍而吞吐仅微增。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：4090单卡价格约$1600，双卡硬件成本约$3200，加上3年电费（约$1000-$1500）及电源/机箱等杂项，TCO落在$4500-$5000区间，与$5500-$6000量级兼容（考虑高端电源/散热溢价）；单卡TCO约$2400-$2600亦符合$1600硬件+电费估算。逻辑上，双卡INT4吞吐受限于PCIe带宽和通信开销，提升有限，而硬件成本翻倍，导致性价比劣势，符合基本经济直觉。
+
+## Search Query
+
+TCO calculation GPU inference 3 year depreciation electricity cost

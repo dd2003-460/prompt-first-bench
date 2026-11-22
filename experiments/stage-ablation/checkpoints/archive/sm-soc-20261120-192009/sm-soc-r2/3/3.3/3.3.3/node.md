@@ -1,0 +1,20 @@
+# N69: 速度收益项量化：ΔSpeed * C_holding 的具体计算式，其中 ΔSpeed 体现为周期缩短带来的持有成本节省，C_holding = r_holdi
+
+- **status**: verified
+- **level**: L3
+- **source**: given
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+速度收益项量化：ΔSpeed * C_holding 的具体计算式，其中 ΔSpeed 体现为周期缩短带来的持有成本节省，C_holding = r_holding * P_initial * T0 * (1 - 30%)，该项代表因周转加快而避免的持有成本支出，数值等于 r_holding * P_initial * T0 * 0.3。
+
+## Corrected Claim
+
+速度收益项量化：ΔSpeed * C_holding 的具体计算式，其中 ΔSpeed 体现为周期缩短带来的持有成本节省，C_holding = r_holding * P_initial * T0 * (1 - 30%)，该项代表因周转加快而避免的持有成本支出，数值等于 r_holding * P_initial * T0 * 0.3。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：持有成本节省 = 原持有成本 * 缩短比例，即 r_holding * P_initial * T0 * 30%，与陈述一致。

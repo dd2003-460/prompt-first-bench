@@ -1,0 +1,20 @@
+# N349: 2×RTX 4090 方案 TDP_total 计算：450W×2 + 100W（CPU/主板/风扇）= 1000W，处于风冷临界点，需验证机箱风道是否支持 1
+
+- **status**: verified
+- **level**: L4
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N110
+
+## Claim
+
+2×RTX 4090 方案 TDP_total 计算：450W×2 + 100W（CPU/主板/风扇）= 1000W，处于风冷临界点，需验证机箱风道是否支持 1000W 持续散热。
+
+## Corrected Claim
+
+2×RTX 4090 方案 TDP_total 计算：450W×2 + 100W（CPU/主板/风扇）= 1000W，处于风冷临界点，需验证机箱风道是否支持 1000W 持续散热。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 TDP 450W 为官方规格，双卡加系统开销估算 1000W 符合工程常识，风冷临界点判断合理。

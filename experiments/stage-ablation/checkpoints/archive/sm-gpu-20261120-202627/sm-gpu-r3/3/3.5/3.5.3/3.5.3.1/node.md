@@ -1,0 +1,20 @@
+# N319: 2×RTX 3090 (FP8) 在 Batch Size=1, 32K输入/1K输出下的理论解码上限：Throughput_theory = 2 × 936 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N89
+
+## Claim
+
+2×RTX 3090 (FP8) 在 Batch Size=1, 32K输入/1K输出下的理论解码上限：Throughput_theory = 2 × 936 GB/s / (2 × 64 × 4096 × 2 × 32768 × 1 byte) ≈ 0.00089 tokens/s (单卡)，双卡并行受限于PCIe All-Reduce通信，实际有效吞吐需乘以通信效率因子 η_comm (η_comm ≈ 0.4-0.7 [待核验])，即 Throughput_eff ≈ 0.00089 × 2 × η_comm tokens/s。此值远低于父节点预估的18-25 tokens/s，表明瓶颈不在显存带宽而在计算单元或框架优化。
+
+## Corrected Claim
+
+2×RTX 3090 (FP8) 在 Batch Size=1, 32K输入/1K输出下的理论解码上限受限于显存带宽和计算能力。若仅考虑显存带宽瓶颈，吞吐量应与模型参数量及KV Cache大小相关，而非简单与输入长度成反比。实际吞吐量通常在 10-50 tokens/s 量级（取决于具体模型大小和框架优化），而非 0.00089 tokens/s。瓶颈分析需基于正确的 FLOPs 或 Bytes/token 估算。
+
+## Evidence
+
+[质询]计算逻辑存在严重错误：1. 公式中分母包含了输入长度(32768)，导致吞吐量与序列长度成反比，这违背了Transformer解码阶段每生成一个token的计算/访存量基本恒定（或随KV Cache线性增长但不会导致吞吐量随输入长度指数/线性下降至0.00089）的物理直觉；2. 0.00089 tokens/s (约11分钟/token) 的数值量级极不合理，即使是纯显存带宽瓶颈，RTX 3090在FP8下处理LLM解码通常也能达到数十tokens/s，该数值暗示了错误的量纲或公式结构（如误将总显存容量或总参数量当作单次访存量且未正确归一化）；3. 结论称瓶颈不在显存带宽而在计算单元，但基于错误的带宽计算得出的极低吞吐量无法支撑此结论，且RTX 3090 FP8算力有限，通常确实是计算瓶颈，但前提数据错误。 | 逻辑校验失败：吞吐量公式中分母包含输入长度导致量级错误，0.00089 tokens/s 远低于物理极限，且无外部来源支持该具体数值。

@@ -1,0 +1,20 @@
+# N41: 高频更新场景下静态命中率 H_static_high 的下降量化：H_static_high = H_static_base * (1 - ΔH_update)
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+高频更新场景下静态命中率 H_static_high 的下降量化：H_static_high = H_static_base * (1 - ΔH_update)，其中 ΔH_update 为因更新导致的缓存空间碎片化或对象失效比例，需通过模拟或解析模型估算，通常与更新率 λ 成正比。
+
+## Corrected Claim
+
+高频更新场景下静态命中率 H_static_high 的下降量化：H_static_high = H_static_base * (1 - ΔH_update)，其中 ΔH_update 为因更新导致的缓存空间碎片化或对象失效比例，需通过模拟或解析模型估算，通常与更新率 λ 成正比。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1聚焦于‘空间碎片化’机制及其量化（结论为可忽略），子节点2聚焦于‘内容失效’机制及其量化（结论为主要来源）。两者分别解释了父节点中 ΔH_update 的两个潜在物理成因，且通过定量分析（<0.5% vs >95%）明确了主次关系，逻辑上互斥且互补，无重复或矛盾。）

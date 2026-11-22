@@ -1,0 +1,24 @@
+# N131: RTX 4090 24GB 运行 W4A16 Qwen3-27B (32K ctx) 时，若禁用 KV Cache 量化（保持 BF16），显存占用 27.32
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N42
+
+## Claim
+
+RTX 4090 24GB 运行 W4A16 Qwen3-27B (32K ctx) 时，若禁用 KV Cache 量化（保持 BF16），显存占用 27.32 GB 超出 24GB，必须启用 CPU Offload，导致 Decode 阶段延迟增加 3-5 倍，吞吐量下降约 60-70%，tokens/sec per dollar 估算值 0.05 需修正为 0.02-0.03。
+
+## Corrected Claim
+
+RTX 4090 24GB 运行 W4A16 Qwen3-27B (32K ctx) 时，若禁用 KV Cache 量化（保持 BF16），显存占用可能超出 24GB 限制，从而需要启用 CPU Offload。这将导致 Decode 阶段延迟显著增加（通常数倍），吞吐量大幅下降，进而显著降低单位成本下的吞吐量（tokens/sec per dollar）。
+
+## Evidence
+
+[质询]该陈述包含多个具体的经验性数值（如显存占用27.32GB、延迟增加3-5倍、吞吐量下降60-70%、成本效率修正值），这些数值高度依赖于具体的推理框架（如vLLM, TGI）、批处理大小（batch size）以及硬件驱动版本，并非固定的物理或数学常数。在没有具体上下文（如batch size=1或特定并发数）的情况下，断言具体的倍数和百分比缺乏普适性，且‘tokens/sec per dollar’的修正值更是依赖于实时市场价格，属于典型的经验事实。 | 经验事实，逻辑自洽但缺来源支持。虽然从第一性原理看，禁用KV量化确实会增加显存占用并可能触发Offload从而降低性能，但具体的数值（27.32GB, 3-5x, 60-70%）无法从题面或公理严格推出，且检索无可用来源佐证这些具体数值，故降级为定性表述。
+
+## Search Query
+
+RTX 4090 Qwen3-27B W4A16 CPU offload 32k context latency increase

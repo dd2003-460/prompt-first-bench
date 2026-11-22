@@ -1,0 +1,24 @@
+# N212: Qwen3-27B AWQ-Int8 量化模型在 GSM8K 数学推理任务上的具体准确率（需检索 AWQ 量化后的评测数据）
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N74
+
+## Claim
+
+Qwen3-27B AWQ-Int8 量化模型在 GSM8K 数学推理任务上的具体准确率（需检索 AWQ 量化后的评测数据）
+
+## Corrected Claim
+
+Qwen3-27B AWQ-Int8 量化模型在 GSM8K 数学推理任务上的准确率通常接近全精度模型，但具体数值需查阅官方技术报告或第三方评测基准。
+
+## Evidence
+
+[质询]具体准确率数值属于经验事实，且AWQ-Int8量化对GSM8K性能的影响存在不确定性，缺乏具体评测数据支持无法确定精确数值。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Qwen3-27B AWQ Int8 GSM8K accuracy

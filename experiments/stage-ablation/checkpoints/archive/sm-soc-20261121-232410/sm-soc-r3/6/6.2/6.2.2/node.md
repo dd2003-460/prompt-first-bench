@@ -1,0 +1,24 @@
+# N205: Premium > 20%时W_exposure < 50% Base_W的推导验证：代入公式 W_exposure/Base_W = 1 - 0.45*0.2
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N79
+
+## Claim
+
+Premium > 20%时W_exposure < 50% Base_W的推导验证：代入公式 W_exposure/Base_W = 1 - 0.45*0.20 = 0.91，与断言的0.5矛盾；若断言成立，则隐含存在阈值截断函数或β在Premium>20%时跃升至>0.5，需明确函数形式是否为分段函数。
+
+## Corrected Claim
+
+Premium > 20%时W_exposure < 50% Base_W的推导验证：代入公式 W_exposure/Base_W = 1 - 0.45*0.20 = 0.91，与断言的0.5矛盾；若断言成立，则隐含存在阈值截断函数或β在Premium>20%时跃升至>0.5，需明确函数形式是否为分段函数。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：代入公式 1 - 0.45*0.20 = 0.91 确实不等于 0.5，原断言存在数学矛盾，该节点正确指出了这一逻辑错误并提出了合理的修正假设（分段函数或参数跃升）。
+
+## Search Query
+
+non-linear penalty function threshold exposure weight price premium

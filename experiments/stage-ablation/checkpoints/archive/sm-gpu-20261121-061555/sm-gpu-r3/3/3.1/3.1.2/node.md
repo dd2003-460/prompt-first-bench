@@ -1,0 +1,24 @@
+# N73: Qwen3-27B 模型在 INT8/FP8 精度下的 WikiText-2 PPL 数值，用于计算相对 BF16 的 PPL 增加百分比 ΔPPL = (PP
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N17
+
+## Claim
+
+Qwen3-27B 模型在 INT8/FP8 精度下的 WikiText-2 PPL 数值，用于计算相对 BF16 的 PPL 增加百分比 ΔPPL = (PPL_quant - PPL_bf16) / PPL_bf16 [待核验]
+
+## Corrected Claim
+
+Qwen3-27B 模型在 INT8/FP8 精度下的 WikiText-2 PPL 数值需查阅官方技术报告或基准测试数据以获取具体值，用于计算相对 BF16 的 PPL 增加百分比。
+
+## Evidence
+
+[质询]该陈述涉及特定模型（Qwen3-27B）在特定量化精度（INT8/FP8）下的具体经验数据（WikiText-2 PPL），属于硬件/模型性能经验事实，无法从第一性原理推导，且当前无可用来源支持具体数值。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+Qwen3-27B INT8 FP8 WikiText-2 perplexity

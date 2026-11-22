@@ -1,0 +1,20 @@
+# N8: Pareto(α=1.1) 大小分布的截断均值 μ_S = α * S_min / (α - 1) * (1 - (S_max/S_min)^(1-α))，取 
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+Pareto(α=1.1) 大小分布的截断均值 μ_S = α * S_min / (α - 1) * (1 - (S_max/S_min)^(1-α))，取 S_min=1KB, S_max=100MB，μ_S ≈ 11.1KB；Pareto(β=0.9) 热度分布的累积分布 F(q) = 1 - (q/q_min)^(1-β)，q_min=1 次/天
+
+## Corrected Claim
+
+Pareto(α=1.1) 大小分布的截断均值 μ_S = α * S_min / (α - 1) * (1 - (S_max/S_min)^(1-α))，取 S_min=1KB, S_max=100MB，μ_S ≈ 11.1KB；Pareto(β=0.9) 热度分布的累积分布 F(q) = 1 - (q/q_min)^(1-β)，q_min=1 次/天
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间存在逻辑矛盾和事实错误，且未覆盖父节点中关于热度分布的完整定义（仅修正了大小分布，热度部分存在解释错误）。）

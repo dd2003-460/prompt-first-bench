@@ -1,0 +1,24 @@
+# N27: 平台未将降价行为作为曝光加权因子，导致降价未带来增量流量，具体表现为平台算法中'降价事件'的权重系数 $\omega_{discount}$ 接近于0，而'高挂
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N8, N9, N10
+
+## Claim
+
+平台未将降价行为作为曝光加权因子，导致降价未带来增量流量，具体表现为平台算法中'降价事件'的权重系数 $\omega_{discount}$ 接近于0，而'高挂价'的权重系数 $\omega_{high}$ 显著大于0，使得高挂价商品的曝光率 $E_{high}$ 比降价商品 $E_{low}$ 高出 20%-40%。
+
+## Corrected Claim
+
+平台可能未将降价行为作为显著的曝光加权因子，导致降价未带来预期的增量流量，具体表现为高挂价商品的曝光率可能高于降价商品。
+
+## Evidence
+
+[质询]该陈述包含具体的量化指标（曝光率差异20%-40%）和特定的算法权重假设（ω_discount≈0, ω_high>>0），这些属于特定平台的具体工程实现细节或经验数据，无法从第一性原理或通用逻辑中严格推导得出，且缺乏外部来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+platform algorithm weight discount event vs high price exposure rate

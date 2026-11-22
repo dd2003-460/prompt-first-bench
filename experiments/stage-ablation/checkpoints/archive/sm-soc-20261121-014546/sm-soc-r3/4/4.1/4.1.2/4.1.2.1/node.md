@@ -1,0 +1,24 @@
+# N276: 共享随机源 R_response：卖家价格调整意愿的二元随机变量 X_i ~ Bernoulli(p_adjust)，其中 p_adjust 是卖家在接收到锚点
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N83
+
+## Claim
+
+共享随机源 R_response：卖家价格调整意愿的二元随机变量 X_i ~ Bernoulli(p_adjust)，其中 p_adjust 是卖家在接收到锚点信号后实际调整挂价的概率。该变量受卖家类型（专业/个人）和库存压力共同驱动，是整体市场响应率分布的随机核心。
+
+## Corrected Claim
+
+共享随机源 R_response：卖家价格调整意愿的二元随机变量 X_i ~ Bernoulli(p_adjust)，其中 p_adjust 是卖家在接收到锚点信号后实际调整挂价的概率。该变量受卖家类型（专业/个人）和库存压力共同驱动，是整体市场响应率分布的随机核心。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该陈述定义了共享随机源 R_response 的数学结构（Bernoulli 分布）及其驱动因素（卖家类型、库存压力），符合微观经济学中异质性代理人模型的常规设定，逻辑自洽且量纲合理。
+
+## Search Query
+
+probability distribution of seller price adjustment behavior in response to market signals

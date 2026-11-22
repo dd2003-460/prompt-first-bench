@@ -1,0 +1,20 @@
+# N90: Decode阶段理论吞吐量上限 (Memory-Bound)：公式为 Throughput_Decode ≈ Memory_Bandwidth / (Weigh
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N15
+
+## Claim
+
+Decode阶段理论吞吐量上限 (Memory-Bound)：公式为 Throughput_Decode ≈ Memory_Bandwidth / (Weight_Size + KV_Cache_Size)。以RTX 4090 (1008 GB/s) 为例，BF16 27B (54GB) + 32K KV (6GB) = 60GB，理论上限 ≈ 1008/60 ≈ 16.8 tokens/s/req (Batch=1)；H100 (3350 GB/s) 理论上限 ≈ 3350/60 ≈ 55.8 tokens/s/req。
+
+## Corrected Claim
+
+Decode阶段理论吞吐量上限 (Memory-Bound)：公式为 Throughput_Decode ≈ Memory_Bandwidth / (Weight_Size + KV_Cache_Size)。以RTX 4090 (1008 GB/s) 为例，BF16 27B (54GB) + 32K KV (6GB) = 60GB，理论上限 ≈ 1008/60 ≈ 16.8 tokens/s/req (Batch=1)；H100 (3350 GB/s) 理论上限 ≈ 3350/60 ≈ 55.8 tokens/s/req。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式符合Memory-Bound场景下Decode阶段吞吐量由显存带宽和需读取数据量（权重+KV Cache）决定的基本物理直觉；数值计算（1008/60≈16.8, 3350/60≈55.8）准确；硬件参数（RTX 4090 ~1008GB/s, H100 ~3350GB/s）及模型大小（27B BF16≈54GB）符合工程常识。

@@ -1,0 +1,29 @@
+# N13: FP8 精度下 Qwen3-27B 的质量损失需通过 perplexity 或 benchmark 分数（如 MMLU, GSM8K）与 BF16 对比量化，显
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N2
+
+## Claim
+
+FP8 精度下 Qwen3-27B 的质量损失需通过 perplexity 或 benchmark 分数（如 MMLU, GSM8K）与 BF16 对比量化，显存占用减半
+
+## Corrected Claim
+
+FP8 精度下 Qwen3-27B 的权重显存占用理论上减半，其质量损失通常较小，需通过 perplexity 或 benchmark 分数（如 MMLU, GSM8K）与 BF16 对比进行具体量化验证。
+
+## Evidence
+
+[质询]陈述中关于“显存占用减半”的结论过于绝对，忽略了KV Cache、激活值及非权重部分在总显存占用中的比例，且未区分是权重显存减半还是总显存减半；此外，来源中提到的模型名称为Qwen3.8-27B，与陈述中的Qwen3-27B存在版本/命名不一致的潜在风险。 | 来源[2]间接支持FP8量化可大幅压缩模型体积（权重从2字节降至1字节，理论上权重显存减半），但未直接提供Qwen3-27B在FP8与BF16下的具体perplexity或benchmark对比数据，且来源模型名为Qwen3.8-27B，存在细微差异；作为经验事实，缺乏直接量化损失的数据支持，故降级。
+
+## Search Query
+
+Qwen3-27B FP8 quantization perplexity benchmark comparison BF16
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_00238/article/details/151043054&rut=a8a2abdc0d7f502937225041f83418c16854877c83377a7107677b067d58ae25', 'type': 'ddg', 'title': 'Qwen3.8-27B-FP8 推理性能调优 10 个技巧：采样参数、输出长度与 KV Cache 优化-CSDN博客'}
+- {'url': 'https://blog.csdn.net/weixin_29056781/article/details/166022297&rut=7c73d43c2d312385e48aa0ad557ba2e8eff51baaeb38951c62af550fd88281bf', 'type': 'ddg', 'title': 'Qwen3.8-27B FP8量化部署实战：从显存计算到性能调优-CSDN博客'}

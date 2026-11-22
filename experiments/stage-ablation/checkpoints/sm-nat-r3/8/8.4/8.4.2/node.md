@@ -1,0 +1,24 @@
+# N281: S_cold 的量化定义：尾部 90% 较冷对象（基于 Pareto(β=0.9) 热度分布）的平均大小，在 ρ=-0.3 线性负相关约束下，S_cold = 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N98, N100, N102
+
+## Claim
+
+S_cold 的量化定义：尾部 90% 较冷对象（基于 Pareto(β=0.9) 热度分布）的平均大小，在 ρ=-0.3 线性负相关约束下，S_cold = E[S | Bottom 90%]，其数值同样受 x_min 和 x_max 截断影响，需通过联合分布数值积分计算。
+
+## Corrected Claim
+
+S_cold 定义为尾部 90% 较冷对象的平均大小，其计算依赖于特定的热度分布模型（如 Pareto 分布）及大小-热度相关性假设，需通过联合分布数值积分确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性参数设定（Pareto β=0.9, ρ=-0.3），这些并非第一性原理可推导的数学恒等式，而是特定模型假设或经验事实。在无外部来源支持的情况下，无法验证这些具体数值参数的合理性或来源。 | 逻辑自洽：条件期望 E[S | Bottom 90%] 的定义在数学上是清晰的，且受截断影响需数值积分符合概率论常识。但作为 source=search 节点，具体参数（β=0.9, ρ=-0.3）属于经验事实/模型假设，缺乏来源直接支持，依据经验事实排除条款降级。
+
+## Search Query
+
+Pareto distribution joint correlation average size bottom 90 percent objects CDN cache

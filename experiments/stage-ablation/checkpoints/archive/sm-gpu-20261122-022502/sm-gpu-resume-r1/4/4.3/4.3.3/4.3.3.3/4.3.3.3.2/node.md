@@ -1,0 +1,20 @@
+# N838: H200 SXM 剩余 74.42GB 显存支持的最大 batch_size 计算：batch_size_max = floor(74.42GB / (seq_
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N261
+
+## Claim
+
+H200 SXM 剩余 74.42GB 显存支持的最大 batch_size 计算：batch_size_max = floor(74.42GB / (seq_len * kv_cache_per_token))。对于 32K 上下文，kv_cache_per_token ≈ 1MB，则 batch_size_max = floor(74,420MB / (32,000 * 1MB)) = floor(74,420 / 32,000) ≈ 2.3，即最大 batch_size=2（而非 5）。
+
+## Corrected Claim
+
+H200 SXM 剩余 74.42GB 显存支持的最大 batch_size 计算：batch_size_max = floor(74.42GB / (seq_len * kv_cache_per_token))。对于 32K 上下文，kv_cache_per_token ≈ 1MB，则 batch_size_max = floor(74,420MB / (32,000 * 1MB)) = floor(74,420 / 32,000) ≈ 2.3，即最大 batch_size=2（而非 5）。
+
+## Evidence
+
+[质询]kv_cache_per_token ≈ 1MB 的估算值可能因模型架构（如 GQA/MQA 头数、层数、数据类型）不同而存在较大偏差，若实际值显著小于 1MB，batch_size 上限会更高。 | 先验知识/题面给定，逻辑校验通过：算术运算 floor(74420/32000)=2 正确，且基于给定的 1MB/token 假设，推导过程自洽。

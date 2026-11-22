@@ -1,0 +1,24 @@
+# N129: 若采用混合精度策略（如 Embedding/LM Head 保持 BF16，其余 Linear 层量化为 INT8），Embedding 层参数量约为 151,
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N48
+
+## Claim
+
+若采用混合精度策略（如 Embedding/LM Head 保持 BF16，其余 Linear 层量化为 INT8），Embedding 层参数量约为 151,936 (vocab) * 4096 (hidden) = 622M 参数，占用显存 1.24 GB；INT8 量化后的其余权重占用 27 GB，总显存降至约 28.24 GB，较纯 BF16 节省约 25.76 GB。
+
+## Corrected Claim
+
+若采用混合精度策略（如 Embedding/LM Head 保持 BF16，其余 Linear 层量化为 INT8），Embedding 层参数量约为 151,936 (vocab) * 4096 (hidden) = 622M 参数，占用显存 1.24 GB；INT8 量化后的其余权重占用 27 GB，总显存降至约 28.24 GB，较纯 BF16 节省约 25.76 GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Embedding参数量计算(151936*4096≈622M)及显存占用(622M*2B≈1.24GB)正确；总显存28.24GB与节省量25.76GB隐含纯BF16总显存为54GB，符合大模型量级，数值自洽。
+
+## Search Query
+
+Qwen3-27B embedding size hidden dimension vocabulary size

@@ -1,0 +1,20 @@
+# N95: 利用Copula模型（Gaussian或Clayton）量化ρ=-0.3对联合分布的影响：在Pareto(α=1.1)大小和Pareto(β=0.9)热度分布下
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+利用Copula模型（Gaussian或Clayton）量化ρ=-0.3对联合分布的影响：在Pareto(α=1.1)大小和Pareto(β=0.9)热度分布下，条件期望 E[S|Rank_i] 的解析近似公式为 E[S|Rank_i] ≈ E[S] * (1 - ρ * (i/N - 0.5))，该公式用于修正字节命中率计算中大小与热度的依赖项。
+
+## Corrected Claim
+
+利用Copula模型（Gaussian或Clayton）量化ρ=-0.3对联合分布的影响：在Pareto(α=1.1)大小和Pareto(β=0.9)热度分布下，条件期望 E[S|Rank_i] 的解析近似公式为 E[S|Rank_i] ≈ E[S] * (1 - ρ * (i/N - 0.5))，该公式用于修正字节命中率计算中大小与热度的依赖项。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

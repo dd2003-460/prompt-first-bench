@@ -1,0 +1,20 @@
+# N340: RDD断点处的局部线性回归：以商品价格/中位价比率为运行变量 X，断点为 X=1.15，估计左侧和右侧的GMV斜率，具体公式为 GMV = α + β_1*X 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N109
+
+## Claim
+
+RDD断点处的局部线性回归：以商品价格/中位价比率为运行变量 X，断点为 X=1.15，估计左侧和右侧的GMV斜率，具体公式为 GMV = α + β_1*X + β_2*(X-1.15) + β_3*(X-1.15)*Treat + ε，需计算断点处GMV的跳跃幅度 ΔGMV_jump 及标准误
+
+## Corrected Claim
+
+RDD断点处的局部线性回归：以商品价格/中位价比率为运行变量 X，断点为 X=1.15，估计左侧和右侧的GMV斜率，具体公式为 GMV = α + β_1*X + β_2*(X-1.15) + β_3*(X-1.15)*Treat + ε，需计算断点处GMV的跳跃幅度 ΔGMV_jump 及标准误
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

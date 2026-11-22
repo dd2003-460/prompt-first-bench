@@ -1,0 +1,20 @@
+# N238: 若 AllReduce 通信时间占总推理时间（Prefill+Decode）的比例超过 15%，则整体推理延迟将增加 >10%；对于 27B 模型在 PCIe 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N72
+
+## Claim
+
+若 AllReduce 通信时间占总推理时间（Prefill+Decode）的比例超过 15%，则整体推理延迟将增加 >10%；对于 27B 模型在 PCIe x8 带宽下，该阈值通常在 BatchSize > 4 或 SequenceLen > 8K 时被触发，需实测验证具体临界点。
+
+## Corrected Claim
+
+若 AllReduce 通信时间占总推理时间的比例显著增加（例如超过一定阈值），整体推理延迟将相应增加；对于 27B 模型在 PCIe x8 带宽下，随着 BatchSize 或 SequenceLen 增大，通信开销占比通常会上升，具体临界点需根据实际硬件和软件栈实测确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（15%通信占比导致>10%延迟增加、BatchSize>4或SeqLen>8K触发），这些数值高度依赖于具体的硬件拓扑、网络协议（如NCCL版本）、模型架构细节及并行策略，无法从第一性原理严格推导，且不同场景下临界点差异巨大，属于缺乏通用性的经验断言。 | 先验知识/题面给定，逻辑校验通过（通信开销占比高确实会显著增加延迟，量级关系符合直觉），但具体阈值（15%, 10%, BS>4, 8K）为经验参数，缺乏通用性保证，故降级为定性表述。

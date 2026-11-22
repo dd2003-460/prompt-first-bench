@@ -1,0 +1,20 @@
+# N321: 资金占用成本 C_capital = V_item * r_f / 365，其中 r_f 取无风险利率 3%-5%（年化），V_item 为商品标价，该部分成本
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N108
+
+## Claim
+
+资金占用成本 C_capital = V_item * r_f / 365，其中 r_f 取无风险利率 3%-5%（年化），V_item 为商品标价，该部分成本随持有时间 T 线性增长，是信号成本的主要构成项。
+
+## Corrected Claim
+
+资金占用成本 C_capital = V_item * r_f / 365，其中 r_f 取无风险利率 3%-5%（年化），V_item 为商品标价，该部分成本随持有时间 T 线性增长，是信号成本的主要构成项。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：资金占用成本公式符合财务基本原理，无风险利率3%-5%及线性增长逻辑自洽。

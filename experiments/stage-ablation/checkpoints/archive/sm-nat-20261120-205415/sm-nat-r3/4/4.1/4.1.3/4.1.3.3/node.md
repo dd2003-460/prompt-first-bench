@@ -1,0 +1,30 @@
+# N163: W_s 的具体数值依赖于 K 和 S_max：若 K=1000 且 S_max=1000MB，则 E[S|S≤1000MB] ≈ 1000MB * (α-1)/
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N58
+
+## Claim
+
+W_s 的具体数值依赖于 K 和 S_max：若 K=1000 且 S_max=1000MB，则 E[S|S≤1000MB] ≈ 1000MB * (α-1)/(α-2) * (1 - 1000^{-0.1}) 的修正值，需通过数值积分 ∫_{1}^{1000} s * f_S(s) ds / ∫_{1}^{1000} f_S(s) ds 精确计算。
+
+## Corrected Claim
+
+W_s 的具体数值依赖于 K 和 S_max 及底层分布参数；在给定 K=1000 且 S_max=1000MB 的假设下，需通过数值积分计算截断期望值，具体结果取决于分布形状参数（如 α）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性参数假设（K=1000, S_max=1000MB）及特定的分布模型修正公式，属于经验事实/工程估算范畴，无法仅从第一性原理严格推出，且参考来源未提供该特定场景下的数值支持或公式验证。 | 逻辑上截断期望值的积分表达式形式正确，但具体数值依赖未给定的分布参数α及特定场景假设，参考来源[1][2][3]仅涉及方差定义、统计术语列表及算法列表，未直接支持该具体数值计算或修正公式，属经验事实缺来源支持。
+
+## Search Query
+
+truncated Pareto mean size calculation alpha 1.1
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Variance', 'type': 'wikipedia', 'title': 'Variance'}
+- {'url': 'https://en.wikipedia.org/wiki/List_of_statistics_articles', 'type': 'wikipedia', 'title': 'List of statistics articles'}
+- {'url': 'https://en.wikipedia.org/wiki/List_of_algorithms', 'type': 'wikipedia', 'title': 'List of algorithms'}

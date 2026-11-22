@@ -1,0 +1,20 @@
+# N238: LFU 提升幅度 ΔH 对 x_min 的敏感性：当 x_min 从 1KB 增至 4KB 时，对象平均大小 E[S] 从 1.1KB 增至约 4.4KB，N_
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N84
+
+## Claim
+
+LFU 提升幅度 ΔH 对 x_min 的敏感性：当 x_min 从 1KB 增至 4KB 时，对象平均大小 E[S] 从 1.1KB 增至约 4.4KB，N_cache 从 119,000,000 降至约 29,750,000，但由于 N_cache 仍远大于 100,000，LFU 与 LRU 的保留集合几乎相同，ΔH 应接近 0 而非 -5%，N84 中的数值需重新推导
+
+## Corrected Claim
+
+LFU 提升幅度 ΔH 对 x_min 的敏感性：当 x_min 从 1KB 增至 4KB 时，对象平均大小 E[S] 从 1.1KB 增至约 4.4KB，N_cache 从 119,000,000 降至约 29,750,000，但由于 N_cache 仍远大于 100,000，LFU 与 LRU 的保留集合几乎相同，ΔH 应接近 0 而非 -5%，N84 中的数值需重新推导
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：当缓存对象数量（N_cache）远大于 LFU 算法通常关注的热点对象数量（如 100,000）时，LRU 和 LFU 的保留集合趋于一致，性能差异（ΔH）应趋近于 0，原数值 -5% 在逻辑上不合理。

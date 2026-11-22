@@ -1,0 +1,24 @@
+# N130: AWQ W4A16 量化下 Qwen3-27B 的 MMLU 基准准确率具体数值（如 65.2%）及 BF16 基准数值（如 66.5%），需从 Qwen 官方
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N38
+
+## Claim
+
+AWQ W4A16 量化下 Qwen3-27B 的 MMLU 基准准确率具体数值（如 65.2%）及 BF16 基准数值（如 66.5%），需从 Qwen 官方技术报告或 HuggingFace 社区评测日志中获取具体小数点后一位的数值以验证 0.5-1.5% 下降幅度的真实性。
+
+## Corrected Claim
+
+AWQ W4A16 量化下 Qwen3-27B 的 MMLU 基准准确率通常较 BF16 基准有轻微下降（约 0.5-1.5%），具体数值需查阅 Qwen 官方技术报告或 HuggingFace 社区评测日志确认。
+
+## Evidence
+
+[质询]具体数值（如65.2%、66.5%）属于经验事实，且不同评测集版本、提示词模板及量化实现细节可能导致数值波动，缺乏来源支持无法确认具体小数点后一位的准确性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+Qwen3-27B AWQ W4A16 MMLU benchmark accuracy score vs BF16

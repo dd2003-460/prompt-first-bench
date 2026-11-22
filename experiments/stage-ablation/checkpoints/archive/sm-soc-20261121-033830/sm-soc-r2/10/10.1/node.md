@@ -1,0 +1,24 @@
+# N109: N31中“GMV提升15-20%”的因果归因验证：需排除混杂变量（Confounding Variables），如季节性需求波动或平台整体流量增长；需使用双重差
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N31
+
+## Claim
+
+N31中“GMV提升15-20%”的因果归因验证：需排除混杂变量（Confounding Variables），如季节性需求波动或平台整体流量增长；需使用双重差分法（DID）或断点回归（RDD）比较算法调整前后，高互动高价商品组的GMV变化与对照组（非高价商品）的GMV变化之差，以孤立算法干预对GMV的净效应，验证15-20%的提升是否完全由算法驱动。
+
+## Corrected Claim
+
+N31中“GMV提升15-20%”的因果归因验证：需排除混杂变量（Confounding Variables），如季节性需求波动或平台整体流量增长；需使用双重差分法（DID）或断点回归（RDD）比较算法调整前后，高互动高价商品组的GMV变化与对照组（非高价商品）的GMV变化之差，以孤立算法干预对GMV的净效应，验证15-20%的提升是否完全由算法驱动。
+
+## Evidence
+
+逻辑推导成立，来源未直接覆盖；该陈述描述了因果推断中排除混杂变量、使用DID/RDD方法验证算法净效应的标准方法论，符合计量经济学与因果推断的基本原理，无逻辑矛盾。
+
+## Search Query
+
+platform algorithm impact on GMV double difference analysis high price items

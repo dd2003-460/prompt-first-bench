@@ -1,0 +1,24 @@
+# N62: 买家被动性的量化指标：定义买家主动搜索率 S_active = N_active_searches / N_total_views，若 S_active < 0
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N21
+
+## Claim
+
+买家被动性的量化指标：定义买家主动搜索率 S_active = N_active_searches / N_total_views，若 S_active < 0.2 且降价后48小时咨询量变化率 ΔQ < 5%（p>0.05），则证实买家主要依赖算法推送而非主动搜索，支持平台驱动论。
+
+## Corrected Claim
+
+买家被动性的量化指标：定义买家主动搜索率 S_active = N_active_searches / N_total_views。若 S_active 显著低于行业基准（例如 < 0.2）且降价后48小时咨询量变化率 ΔQ 不显著（p>0.05），则提示买家可能主要依赖算法推送而非主动搜索，需结合其他行为数据进一步验证平台驱动论。
+
+## Evidence
+
+[质询]该陈述定义了一个具体的量化阈值（S_active < 0.2 且 ΔQ < 5%）作为判定“平台驱动论”的标准，这属于经验性统计规律或行业特定参数，无法从第一性原理或数学公理中严格推导出来。此外，将“咨询量变化率”直接等同于“买家依赖算法推送”的证据存在逻辑跳跃，因为咨询量低可能由多种因素（如价格不敏感、产品无吸引力）导致，而非单纯归因于被动性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该阈值非第一性原理可推导）。
+
+## Search Query
+
+buyer active search rate vs algorithmic recommendation dependency online marketplace behavior study

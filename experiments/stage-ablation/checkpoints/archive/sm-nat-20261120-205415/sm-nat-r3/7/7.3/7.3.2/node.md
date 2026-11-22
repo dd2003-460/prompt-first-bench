@@ -1,0 +1,20 @@
+# N208: 数值求解 S_max 的 Newton-Raphson 迭代格式为 S_max^(n+1) = S_max^(n) - [∫_{x_min}^{S_max^(n
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N77
+
+## Claim
+
+数值求解 S_max 的 Newton-Raphson 迭代格式为 S_max^(n+1) = S_max^(n) - [∫_{x_min}^{S_max^(n)} s * f_S(s) ds - C] / [S_max^(n) * f_S(S_max^(n)) * S_max^(n)]，收敛条件为 |S_max^(n+1) - S_max^(n)| < ε，通常 5-10 次迭代即可收敛
+
+## Corrected Claim
+
+数值求解 S_max 的 Newton-Raphson 迭代格式为 S_max^(n+1) = S_max^(n) - [∫_{x_min}^{S_max^(n)} s * f_S(s) ds - C] / [S_max^(n) * f_S(S_max^(n)) * S_max^(n)]，收敛条件为 |S_max^(n+1) - S_max^(n)| < ε，通常 5-10 次迭代即可收敛
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

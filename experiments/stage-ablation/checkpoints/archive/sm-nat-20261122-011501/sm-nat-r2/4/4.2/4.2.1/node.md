@@ -1,0 +1,20 @@
+# N52: LRU 缓存驱逐速率（字节/天）的解析式：Eviction_Rate = (Total_Request_Bytes_per_day * (1 - H_lru))
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N15
+
+## Claim
+
+LRU 缓存驱逐速率（字节/天）的解析式：Eviction_Rate = (Total_Request_Bytes_per_day * (1 - H_lru)) / (1 - H_lru) = Total_Request_Bytes_per_day，即稳态下缓存每小时/每天必须刷新等于未命中请求的总字节量，该值直接决定驻留时间上限。
+
+## Corrected Claim
+
+LRU 缓存的稳态驱逐速率取决于未命中请求的数据量及缓存替换策略，通常近似为未命中请求的总字节量（Total_Request_Bytes_per_day * (1 - H_lru)），但具体数值受缓存大小和访问局部性影响，不存在简单的恒等解析式。
+
+## Evidence
+
+[质询]公式存在严重的代数错误和逻辑矛盾：等式左边 (Total_Request_Bytes_per_day * (1 - H_lru)) / (1 - H_lru) 在数学上恒等于 Total_Request_Bytes_per_day（假设 H_lru != 1），但这与文字描述“等于未命中请求的总字节量”矛盾。未命中请求的总字节量应为 Total_Request_Bytes_per_day * (1 - H_lru)。此外，LRU 缓存的驱逐速率取决于工作集大小和访问模式，并非简单地等于总请求字节量或仅由未命中字节量决定，该解析式缺乏物理/逻辑基础。 | 公式推导存在硬逻辑错误：代数化简结果与文字描述不符，且违背缓存驱逐的基本逻辑（驱逐量应受限于缓存容量和未命中数据量，而非总请求量）。

@@ -1,0 +1,24 @@
+# N327: L40S 在 FP8 推理下的实际功耗 P_actual 通常低于 TDP 350W，在 Decode 阶段（Memory Bound）功耗通常维持在 150-
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N97, N98, N99
+
+## Claim
+
+L40S 在 FP8 推理下的实际功耗 P_actual 通常低于 TDP 350W，在 Decode 阶段（Memory Bound）功耗通常维持在 150-250W 区间，需基于实测功耗数据（而非峰值 TDP）重新计算 3 年电力成本，以修正 N99 中基于 350W 的高估成本。
+
+## Corrected Claim
+
+L40S 在 FP8 推理 Decode 阶段（Memory Bound）的实际功耗通常低于 TDP 350W，具体数值需基于实测数据确定，以修正基于峰值 TDP 的高估成本。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值区间（150-250W）和特定硬件（L40S）在特定场景（FP8 Decode）下的功耗表现，属于经验事实。由于缺乏实测数据或权威来源支持，无法确认该数值区间的准确性，且不同负载、驱动版本及散热条件可能导致功耗波动超出此范围。 | 经验事实，逻辑自洽（Decode阶段Memory Bound通常功耗低于Compute Bound峰值，且低于TDP符合物理直觉），但缺来源支持（本轮检索无可用来源）。
+
+## Search Query
+
+NVIDIA L40S power consumption inference decode phase watts

@@ -1,0 +1,20 @@
+# N222: 日均损失率 l_daily 的计算公式：l_daily = (C_cost + L_time) / P_market，需代入 N106 的 r_h 和 N107
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N73
+
+## Claim
+
+日均损失率 l_daily 的计算公式：l_daily = (C_cost + L_time) / P_market，需代入 N106 的 r_h 和 N107 的 δ_d 计算具体数值，以判断卖家是否因持有成本而被迫加速成交。
+
+## Corrected Claim
+
+日均损失率 l_daily 的计算公式：l_daily = (C_cost + L_time) / P_market，需代入 N106 的 r_h 和 N107 的 δ_d 计算具体数值，以判断卖家是否因持有成本而被迫加速成交。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

@@ -1,0 +1,24 @@
+# N135: 修正自矛盾检测：N44 声称 A100 支持 FP8，但根据 NVIDIA 官方数据，A100 (Ampere 架构) 不支持原生 FP8 Tensor Cor
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N44
+
+## Claim
+
+修正自矛盾检测：N44 声称 A100 支持 FP8，但根据 NVIDIA 官方数据，A100 (Ampere 架构) 不支持原生 FP8 Tensor Core 运算。TensorRT-LLM 在 A100 上运行 FP8 模型需依赖 INT8 模拟或 CPU offload，无法实现 H100 级别的 FP8 加速效果，应标记为“不支持原生 FP8”。
+
+## Corrected Claim
+
+修正自矛盾检测：N44 声称 A100 支持 FP8，但根据 NVIDIA 官方数据，A100 (Ampere 架构) 不支持原生 FP8 Tensor Core 运算。TensorRT-LLM 在 A100 上运行 FP8 模型需依赖 INT8 模拟或 CPU offload，无法实现 H100 级别的 FP8 加速效果，应标记为“不支持原生 FP8”。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 (Ampere) 架构确实不支持原生 FP8 Tensor Core，FP8 是 Hopper (H100) 引入的特性，陈述符合硬件事实。
+
+## Search Query
+
+NVIDIA A100 FP8 support official specifications

@@ -1,0 +1,28 @@
+# N19: Qwen3-27B 在 BF16 精度下的基线困惑度（PPL）及主流基准（如 MMLU、HumanEval、GSM8K）得分，作为质量损失的参照零点。
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4, N5
+
+## Claim
+
+Qwen3-27B 在 BF16 精度下的基线困惑度（PPL）及主流基准（如 MMLU、HumanEval、GSM8K）得分，作为质量损失的参照零点。
+
+## Corrected Claim
+
+Qwen3.8-27B 在 BF16 精度下的基线困惑度（PPL）及主流基准得分（需查阅原文获取具体数值），作为质量损失的参照零点。
+
+## Evidence
+
+[质询]来源标题及摘要明确指向 'Qwen3.8-27B'，而待核验事实节点为 'Qwen3-27B'。版本号存在显著差异（3.8 vs 3），且摘要仅提及部署与性能测试（BF16/FP8/MTP/单卡速度），未明确列出 MMLU、HumanEval、GSM8K 等基准的具体得分数值，存在版本混淆及数据缺失风险。 | 来源 [1] 主题相关但版本号不匹配（Qwen3.8 vs Qwen3），且摘要未提供具体的基准测试得分数值，仅能间接支持存在此类测试，无法直接验证具体数值，故降级。
+
+## Search Query
+
+Qwen3-27B BF16 benchmark MMLU GSM8K HumanEval baseline score
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2072597504793880030&rut=939cafd07a4e15ae1245f5a339b74e22b7f3b2377110377f185cd50347b447f0', 'type': 'ddg', 'title': 'Qwen3.8-27B 的 BF16、FP8、MTP、单卡表现，以及与 Qwen3.6 MoE 的差距'}

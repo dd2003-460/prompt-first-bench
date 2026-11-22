@@ -1,0 +1,28 @@
+# N51: 历史成交均价 $P_{avg}$ 的动态更新机制与滞后效应：$P_{avg}$ 是滑动窗口（如近 30 天）还是指数加权移动平均（EWMA）？若使用滑动窗口，当
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N17
+
+## Claim
+
+历史成交均价 $P_{avg}$ 的动态更新机制与滞后效应：$P_{avg}$ 是滑动窗口（如近 30 天）还是指数加权移动平均（EWMA）？若使用滑动窗口，当市场快速上涨时，$P_{avg}$ 滞后会导致新上架商品被错误惩罚，需量化滞后时间 $T_{lag}$ 及对误判率 $\%_{misjudge}$ 的影响。
+
+## Corrected Claim
+
+在基于历史成交均价 $P_{avg}$ 进行定价或风控的系统中，若采用滑动窗口机制，市场快速波动时确实会产生滞后效应，可能导致对新上架商品的定价偏差；具体滞后时间 $T_{lag}$ 及误判率需根据特定系统的窗口长度和市场波动率进行实证量化，而非通用固定值。
+
+## Evidence
+
+父节点级核验失败（LLM 错误）：Invalid \escape: line 5 column 130 (char 195)
+
+## Search Query
+
+EWMA vs sliding window average price lag effect search ranking accuracy
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1926694507409277492&rut=96b665bb4fc576aeb2351d4c09dc70a9982ee1c9d18682df9a591f0d095be145', 'type': 'ddg', 'title': '成交量加权平均价格（VWAP）因子：知识与研究深度解析'}

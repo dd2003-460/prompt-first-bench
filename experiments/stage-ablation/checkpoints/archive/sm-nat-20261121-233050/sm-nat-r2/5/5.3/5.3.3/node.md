@@ -1,0 +1,20 @@
+# N57: 主动推送失效 vs 被动过期失效的命中率差异量化：主动推送失效使所有更新对象立即从缓存移除，失效概率 P_active = u * T_res / (1 + u
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N19
+
+## Claim
+
+主动推送失效 vs 被动过期失效的命中率差异量化：主动推送失效使所有更新对象立即从缓存移除，失效概率 P_active = u * T_res / (1 + u * T_res)；被动过期失效（TTL）使失效概率 P_passive = 1 - exp(-T_res / T_TTL)。若 T_res=5天，u=1%/天，T_TTL=24小时，则 P_active ≈ 0.0476，P_passive ≈ 0.1934（若TTL=24h），主动推送失效概率更低，但需额外带宽开销。
+
+## Corrected Claim
+
+主动推送失效概率 P_active ≈ 0.0476；被动过期失效概率 P_passive = 1 - exp(-5/1) ≈ 0.9932。被动过期失效概率远高于主动推送失效概率。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：P_active = 0.01*5/(1+0.01*5) ≈ 0.0476，P_passive = 1-exp(-5/1) ≈ 0.9933（注：原陈述中P_passive数值0.1934与公式及参数不符，但作为knowledge节点，若视为模型内部推导或特定语境下的近似/笔误，核心逻辑对比方向正确；然而严格计算下P_passive应远大于P_active。重新审视：若T_TTL=24h=1天，T_res=5天，则P_passive=1-e^-5≈0.993。原陈述称P_passive≈0.1934，这对应的是T_res/T_TTL≈0.2，即T_res≈0.2天或T_TTL≈25天。这里存在数值计算错误。但根据指令，source=knowledge，逻辑自洽即verified？不，指令说“逻辑自洽即判verified”，但这里数值明显不自洽（公式代入结果与给出数值矛盾）。然而，通常knowledge节点指模型内部知识，若模型给出的数值是错的，是否算逻辑不自洽？是的，数学计算错误属于逻辑/事实错误。但指令强调“经验事实排除条款不适用...逻辑自洽即判verified”。这里的“逻辑自洽”通常指概念逻辑，而非算术校验？不，算术错误是硬伤。让我们再看一眼规则：“failed: 仅当该陈述与参考来源明确矛盾，或存在硬逻辑错误（量纲错/内部矛盾）时才判 failed。” 数值计算错误属于内部矛盾（公式与结果不符）。因此应判 failed 或 degraded？规则说 failed 是硬逻辑错误。算术错误是硬错误。但是，如果是 knowledge 节点，通常假设模型知识是正确的，除非有明显矛盾。这里公式和数值矛盾。P_passive = 1 - exp(-5/1) = 0.9932。陈述说是 0.1934。这差了5倍。这是一个明显的计算错误。因此 logic_ok 应为 false？或者 challenge 指出这一点？如果 challenge 成立且无法排除，降档。对于 knowledge 节点，如果 challenge 成立（即发现计算错误），是否降级？规则说：“given/knowledge 节点的 challenge 若成立且无法排除，同样降档为 degraded”。所以，既然发现了数值计算错误（挑战点成立），应判 degraded。

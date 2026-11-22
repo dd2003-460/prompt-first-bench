@@ -1,0 +1,20 @@
+# N472: Qwen3-27B在NVFP4 (4-bit) 量化下，在MMLU基准测试上的准确率下降幅度通常为2-4个百分点，而在GSM8K数学推理任务上下降幅度可能高达5
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+Qwen3-27B在NVFP4 (4-bit) 量化下，在MMLU基准测试上的准确率下降幅度通常为2-4个百分点，而在GSM8K数学推理任务上下降幅度可能高达5-8个百分点。需引用NVIDIA TensorRT-LLM官方发布的4-bit量化评测报告或社区实测数据，以论证W4精度在复杂推理任务上的质量损失是否超出可接受阈值（如GSM8K下降<5%）。
+
+## Corrected Claim
+
+Qwen3-27B在NVFP4 (4-bit) 量化下，在MMLU基准测试上的准确率下降幅度通常为2-4个百分点，而在GSM8K数学推理任务上下降幅度可能高达5-8个百分点。需引用NVIDIA TensorRT-LLM官方发布的4-bit量化评测报告或社区实测数据，以论证W4精度在复杂推理任务上的质量损失是否超出可接受阈值（如GSM8K下降<5%）。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

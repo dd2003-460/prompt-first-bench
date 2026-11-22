@@ -1,0 +1,24 @@
+# N209: SmoothQuant 在 Qwen3-27B INT8 量化下的具体 PPL 增量 (ΔPPL_smooth) 需通过对比 'W8A8-PerChannel'
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N58
+
+## Claim
+
+SmoothQuant 在 Qwen3-27B INT8 量化下的具体 PPL 增量 (ΔPPL_smooth) 需通过对比 'W8A8-PerChannel' (无 SmoothQuant) 与 'W8A8-PerTensor+SmoothQuant' 在 WikiText2 测试集上的困惑度差值确定，预期 ΔPPL_smooth 显著小于 0.2，具体数值 [待核验]。
+
+## Corrected Claim
+
+SmoothQuant 在 Qwen3-27B INT8 量化下的具体 PPL 增量 (ΔPPL_smooth) 需通过对比 'W8A8-PerChannel' 与 'W8A8-PerTensor+SmoothQuant' 在 WikiText2 测试集上的困惑度差值确定，具体数值待实验验证。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值预期（ΔPPL < 0.2）和特定的量化配置对比，属于经验事实，无法从第一性原理推导，且当前无可用来源支持该具体数值范围。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）。
+
+## Search Query
+
+Qwen3-27B SmoothQuant INT8 perplexity benchmark wikiText2

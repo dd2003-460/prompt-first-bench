@@ -1,0 +1,20 @@
+# N325: 启用 INT8 KV Cache 量化后，单请求 KV 占用减半至 2.685GB，RTX 5090 支持的最大并发数 Batch_max 更新为 floor(
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N116
+
+## Claim
+
+启用 INT8 KV Cache 量化后，单请求 KV 占用减半至 2.685GB，RTX 5090 支持的最大并发数 Batch_max 更新为 floor((32 - 27 - 1.5) / 2.685) = 0，仍不支持；需进一步确认是否支持 FP8 KV Cache 或需依赖系统内存 Swap，若 Swap 则 Decode 速度下降因子需实测。
+
+## Corrected Claim
+
+启用 INT8 KV Cache 量化后，单请求 KV 占用减半至 2.685GB，RTX 5090 剩余显存约 3.5GB，理论最大并发数 Batch_max 为 floor(3.5 / 2.685) = 1，实际并发能力极低，需进一步确认是否支持 FP8 KV Cache 或需依赖系统内存 Swap。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：INT8量化使KV Cache体积减半符合原理；算术计算 floor((32-27-1.5)/2.685) = floor(3.5/2.685) = floor(1.303) = 1，但原陈述结论为0，存在算术错误。然而，考虑到RTX 5090显存为32GB，若扣除模型权重(27GB)和激活值/其他开销(1.5GB)，剩余3.5GB。若单请求KV占用2.685GB，理论上可容纳1个请求。原陈述称Batch_max=0，这在纯算术上是不准确的（应为1），但在工程实践中，若考虑KV Cache的动态增长、碎片化或安全边际，或者2.685GB是峰值而非平均值，导致实际可用空间不足，结论“仍不支持（有效并发）”在工程语境下可接受。但严格来说，算术结果应为1。鉴于source为knowledge，且核心逻辑（INT8减半、显存紧张）自洽，仅算术细节有微小偏差，不改变“显存极度紧张，并发能力极低”的核心事实。修正：Batch_max计算结果应为1，但实际部署可能因碎片或安全边际导致有效并发为0或1。

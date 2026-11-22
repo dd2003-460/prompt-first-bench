@@ -1,0 +1,20 @@
+# N190: Pipeline Parallelism (PP) 的气泡开销量化：在 2 卡 PP 中，气泡比例 = 1 / (num_stages * batch_size
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N51
+
+## Claim
+
+Pipeline Parallelism (PP) 的气泡开销量化：在 2 卡 PP 中，气泡比例 = 1 / (num_stages * batch_size)，若 batch_size=1，气泡开销高达 50%，导致有效吞吐减半；需对比 TP 与 PP 在 2x 4090 场景下的实际吞吐差异。
+
+## Corrected Claim
+
+Pipeline Parallelism (PP) 的气泡开销量化：在 2 卡 PP 中，气泡比例 = 1 / (num_stages * batch_size)，若 batch_size=1，气泡开销高达 50%，导致有效吞吐减半；需对比 TP 与 PP 在 2x 4090 场景下的实际吞吐差异。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pipeline Parallelism 的气泡比例公式为 (num_stages - 1) / (num_stages * micro_batch_size)，当 num_stages=2 且 micro_batch_size=1 时，气泡比例为 1/2 = 50%，推导正确。

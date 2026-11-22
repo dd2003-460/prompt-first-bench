@@ -1,0 +1,24 @@
+# N267: 全品类平均 CTR (C0_avg) 的具体数值需通过查询平台近30天全量曝光日志计算：C0_avg = Σ(Unique_Clicks) / Σ(Impres
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N73
+
+## Claim
+
+全品类平均 CTR (C0_avg) 的具体数值需通过查询平台近30天全量曝光日志计算：C0_avg = Σ(Unique_Clicks) / Σ(Impressions)，剔除机器人流量后，假设值需精确到小数点后两位（如 6.32%）。
+
+## Corrected Claim
+
+全品类平均 CTR (C0_avg) 需通过查询平台近30天全量曝光日志计算，公式为 C0_avg = Σ(Unique_Clicks) / Σ(Impressions)，具体数值需根据实际数据确定。
+
+## Evidence
+
+[质询]该陈述包含具体的假设数值（如 6.32%）和特定的计算口径（剔除机器人流量、近30天全量），属于经验事实/业务数据，无法从第一性原理推导，且缺乏来源支持其具体数值或口径的准确性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源），具体数值和口径无法验证。
+
+## Search Query
+
+second hand marketplace average click through rate last 30 days excluding bots

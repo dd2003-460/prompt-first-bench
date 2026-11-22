@@ -1,0 +1,20 @@
+# N128: 在 x_min=4KB 且假设无截断（x_max=∞）的工作点下，E[S] = 44KB 的计算依赖于 α>1 的收敛假设；实际中由于 x_max 有限（如 1
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N43
+
+## Claim
+
+在 x_min=4KB 且假设无截断（x_max=∞）的工作点下，E[S] = 44KB 的计算依赖于 α>1 的收敛假设；实际中由于 x_max 有限（如 1GB），需使用截断 Pareto 均值公式 E[S]_trunc = (α*x_min)/(α-1) * (1 - (x_min/x_max)^(α-1)) / (1 - (x_min/x_max)^α)，当 x_max=1GB 时 E[S] 显著低于 44KB，具体值需数值积分。
+
+## Corrected Claim
+
+在 x_min=4KB 且假设无截断（x_max=∞）的工作点下，E[S] = 44KB 的计算依赖于 α>1 的收敛假设；实际中由于 x_max 有限（如 1GB），需使用截断 Pareto 均值公式 E[S]_trunc = (α*x_min)/(α-1) * (1 - (x_min/x_max)^(α-1)) / (1 - (x_min/x_max)^α)，当 x_max=1GB 时 E[S] 显著低于 44KB，具体值需数值积分。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：截断Pareto分布均值公式正确，且当x_max有限时，截断均值必然小于无限均值（44KB），逻辑自洽。

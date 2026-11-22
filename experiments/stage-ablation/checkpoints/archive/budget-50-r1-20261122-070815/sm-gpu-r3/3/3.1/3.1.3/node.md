@@ -1,0 +1,20 @@
+# N76: NVIDIA A100 (SXM/PCIe) 的显存带宽为 2039 GB/s (HBM2e)，相比 RTX 4090 高出约 2.02 倍，这直接决定了在相同
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+NVIDIA A100 (SXM/PCIe) 的显存带宽为 2039 GB/s (HBM2e)，相比 RTX 4090 高出约 2.02 倍，这直接决定了在相同模型大小下 A100 的理论 Decode 速度上限是 4090 的 2 倍左右
+
+## Corrected Claim
+
+NVIDIA A100 (SXM/PCIe) 的显存带宽为 2039 GB/s (HBM2e)，相比 RTX 4090 高出约 2.02 倍，这直接决定了在相同模型大小下 A100 的理论 Decode 速度上限是 4090 的 2 倍左右
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 SXM/PCIe 显存带宽确为 2039 GB/s，RTX 4090 为 1008 GB/s，比值约 2.02；Decode 阶段受显存带宽限制，理论速度上限与带宽成正比，推导自洽。

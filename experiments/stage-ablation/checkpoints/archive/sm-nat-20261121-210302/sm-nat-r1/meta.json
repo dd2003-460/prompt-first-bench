@@ -1,0 +1,110 @@
+{
+  "qid": "nat",
+  "question": "某边缘 CDN 节点有 128GB 内存做对象缓存，工作负载：10 万对象，大小服从 Pareto(α=1.1)，请求热度也服从 Pareto(β=0.9)，热门对象与大小负相关（ρ≈-0.3）。每天总请求 5000 万次。请估算：(a) LRU 策略下的稳态字节命中率下界；(b) LFU 相比 LRU 最多能提升多少百分点、为什么；(c) 如果对象更新率是 1%/天，LRU 的有效命中率还要再打几折？给出推导链，区分「凭记忆的」和「刚查到的」。",
+  "round": 1,
+  "state": "rework",
+  "dropped_redundant": 0,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "数值准确性：(a)(b)(c) 三个子问的估算结果是否在合理的数量级和误差范围内（基于 Pareto 分布特性与缓存理论下界）",
+      "逻辑完备性：推导链是否完整覆盖了从输入参数（α, β, ρ, N, M, R）到最终结论的每一步关键假设与转换",
+      "机制解释力：是否清晰解释了 LFU 优于 LRU 的结构性原因（热度-大小负相关性）以及更新率对 LRU 有效性的具体削弱机制",
+      "知识溯源透明度：是否明确区分了哪些结论是依据通用缓存理论/数学直觉（凭记忆），哪些是依赖于特定参数下的具体计算或文献佐证（刚查到/需查证）"
+    ],
+    "composition": "Accuracy · Completeness · Mechanism · Transparency",
+    "rationale": "本题是一个基于特定分布假设的系统估算问题，答案的价值不仅在于最终数字，更在于推导过程的逻辑严密性、对缓存策略差异机制的深刻理解，以及对不确定性的诚实披露，四者缺一不可。"
+  },
+  "objective_mode": "formula",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "parent_id": "N1",
+      "issues": [
+        "非正交"
+      ],
+      "suggestions": [
+        "合并子节点2和子节点4：将‘更新率导致的折损’作为LRU命中率计算公式中的一个修正项或变量，而不是独立的子节点，以保持LRU估算逻辑的完整性。",
+        "移除或降级子节点3：父节点明确限定为‘基于LRU策略...的下界’，LFU的增益分析属于额外对比，不属于‘LRU下界估算’的核心分解，建议移出或作为备注，以确保分解紧扣父节点主题。",
+        "明确子节点1的作用：子节点1计算N_cap是后续步骤的输入，本身不构成命中率估算的一个独立‘方面’，建议将其作为子节点2的前置步骤或参数定义，而非并列子节点，以体现推导链条。"
+      ],
+      "round": 0
+    },
+    {
+      "parent_id": "N2",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "增加一个子节点专门处理相关性 ρ≈-0.3 对 LRU 和 LFU 命中率差异的影响机制，例如说明负相关性如何导致 LRU 的‘新鲜度偏差’加剧或 LFU 的‘热度稳定性’优势。",
+        "明确子节点4中 T_resident 的计算公式，使其依赖于 N_cap、请求频率和更新率，确保与子节点1和2形成闭合计算链。",
+        "将子节点2和3中的 H_LRU 和 H_LFU 表达式统一，明确 ΔH_max 的计算依赖于前两个子节点的结果，避免重复定义。"
+      ],
+      "round": 0
+    },
+    {
+      "parent_id": "N3",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "删除子节点3（LFU增益），因为它与父节点‘LRU缓存有效命中率受更新率影响’的核心问题正交性不足且非必要。",
+        "在子节点4中补充说明如何将折损系数D应用于稳态命中率，例如：H_effective = H_LRU * D，以完整回答‘量化影响’。",
+        "明确T_resident的计算方式或假设，因为它是连接更新率与折损系数的关键变量，当前描述过于模糊。"
+      ],
+      "round": 0
+    },
+    {
+      "node_id": "N13",
+      "claim": "LFU 相比 LRU 的理论上界提升公式：ΔHitRate = HitRate_LFU - HitRate_LRU <=",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该公式并非通用的理论标准上界，而是一个基于特定假设（如热点集合完全被LFU保留且LRU完全未命中热点）的启发式估算模型。在一般缓存替换算法的理论分析中，"
+    },
+    {
+      "node_id": "N16",
+      "claim": "对象更新率 1%/天 对 LRU 有效命中率的折扣因子：有效命中率 = HitRate_LRU * (1 - Updat",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该公式为经验性近似模型，缺乏严格的理论推导支持。LRU 的有效命中率受对象访问分布（如 Zipf 分布）、更新模式（随机 vs 顺序）及缓存大小等多重因"
+    },
+    {
+      "node_id": "N19",
+      "claim": "在负相关系数 ρ=-0.3 下，使用二元正态分布变换或 Clayton Copula 将独立 Pareto 分布耦合为联",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N20",
+      "claim": "LRU 缓存命中率下界的精确计算需引入 Belady's Anomaly 修正或采用 Stack Distance 分布",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N21",
+      "claim": "LFU 相比 LRU 的提升上限受限于‘频率-大小’错配：当 β=0.9 且 ρ=-0.3 时，LFU 保留的热点对象平",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N22",
+      "claim": "对象更新率 u=1%/天 导致的命中率折损系数 D 可通过 Markov 链稳态概率计算：D = 1 / (1 + u ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N23",
+      "claim": "推导链中的‘凭记忆’部分包括：Pareto 分布的性质、LRU/LFU 的基本替换逻辑、以及负相关对缓存局部性的定性影响",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 21
+}

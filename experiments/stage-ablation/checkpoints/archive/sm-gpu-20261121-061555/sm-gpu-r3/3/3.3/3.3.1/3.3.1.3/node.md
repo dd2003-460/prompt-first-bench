@@ -1,0 +1,24 @@
+# N250: MBPP (Mostly Basic Python Problems) 数据集上 Qwen3-27B 的 BF16 Pass@1 基准值及量化敏感性与 Huma
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N85
+
+## Claim
+
+MBPP (Mostly Basic Python Problems) 数据集上 Qwen3-27B 的 BF16 Pass@1 基准值及量化敏感性与 HumanEval 的差异：MBPP 题目较短且逻辑简单，量化误差容忍度可能高于 HumanEval，需对比两者在相同量化方案下的 Pass@1 下降幅度以确定更严格的阈值。
+
+## Corrected Claim
+
+MBPP 题目通常较短且逻辑相对简单，理论上量化误差容忍度可能高于 HumanEval，但需通过实验对比两者在相同量化方案下的 Pass@1 下降幅度以确定具体阈值，目前缺乏 Qwen3-27B 在该数据集上的具体基准数据支持。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性断言（Qwen3-27B在MBPP上的BF16基准值及量化敏感性对比），属于硬件/模型性能经验事实，无法从第一性原理推导，且缺乏具体数值支持，仅凭逻辑推测‘容忍度可能更高’存在不确定性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体基准值及量化差异的具体幅度）
+
+## Search Query
+
+Qwen3-27B MBPP pass@1 baseline vs HumanEval quantization sensitivity comparison

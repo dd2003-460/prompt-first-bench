@@ -1,0 +1,20 @@
+# N40: 对象大小 Pareto(α=1.1) 的截断期望 E[S] = α * s_min / (α - 1) * (1 - (s_min/s_max)^{α-1}) 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N9
+
+## Claim
+
+对象大小 Pareto(α=1.1) 的截断期望 E[S] = α * s_min / (α - 1) * (1 - (s_min/s_max)^{α-1}) / (1 - (s_min/s_max)^α)，其中 s_min 为最小对象大小（需假设，如 1KB），s_max 为最大对象大小（需假设，如 1GB），该值用于计算无条件平均大小作为基准。
+
+## Corrected Claim
+
+对象大小 Pareto(α=1.1) 的截断期望 E[S] = α * s_min / (α - 1) * (1 - (s_min/s_max)^{α-1}) / (1 - (s_min/s_max)^α)，其中 s_min 为最小对象大小（需假设，如 1KB），s_max 为最大对象大小（需假设，如 1GB），该值用于计算无条件平均大小作为基准。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该公式是截断帕累托分布（Truncated Pareto Distribution）期望值的正确解析解，量纲与数学推导自洽。

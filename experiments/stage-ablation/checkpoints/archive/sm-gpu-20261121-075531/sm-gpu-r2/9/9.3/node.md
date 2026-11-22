@@ -1,0 +1,30 @@
+# N119: A100 80GB SXM 与 A100 80GB PCIe 版本在 27B 模型 INT8 推理下的实测 TPS 差异百分比，以及对应的单 Token 能耗 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N33, N34
+
+## Claim
+
+A100 80GB SXM 与 A100 80GB PCIe 版本在 27B 模型 INT8 推理下的实测 TPS 差异百分比，以及对应的单 Token 能耗 (mJ/token) 对比，量化 SXM 在集群场景下的能效溢价。
+
+## Corrected Claim
+
+A100 80GB SXM版本通常因更高的内存带宽和互联能力，在LLM推理中表现出优于PCIe版本的吞吐量，但具体在27B模型INT8推理下的TPS差异百分比及单Token能耗需参考特定基准测试数据，现有来源未提供确切数值。
+
+## Evidence
+
+[质询]参考来源中缺乏针对'27B模型'、'INT8精度'以及'单Token能耗(mJ/token)'的具体实测数据，仅提供了通用规格或不同代际GPU的对比，无法直接支持该特定场景下的量化结论。 | 来源[3]确认了A100 PCIe与SXM版本存在性能差异，但所有来源均未提供27B模型INT8推理下的具体TPS差异百分比及能耗对比数据，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+A100 SXM vs PCIe LLM inference benchmark tokens per second efficiency difference
+
+## Retrieval Sources
+
+- {'url': 'https://www.hyperstack.cloud/technical-resources/performance-benchmarks/llm-inference-benchmark-comparing-nvidia-a100-nvlink-vs-nvidia-h100-sxm&rut=9c9c2f7c229348a64b3ee8d77ad885a252ae478b6c6610d2c8986a8d992be714', 'type': 'ddg', 'title': 'LLM Inference Benchmark: NVIDIA A100 NVLink vs NVIDIA H100 SXM'}
+- {'url': 'https://llm-academy.dev/inference/gpu-benchmark-h100-a100-l40/&rut=6d3cb8cbb024c77b023a6a55c40b3f74544b7416ca36a27f3a87368f5aab722e', 'type': 'ddg', 'title': 'LLM Inference GPU Benchmark: H100 vs A100 vs L40 in 2026'}
+- {'url': 'https://www.runpod.io/gpu-compare/a100-pcie-vs-a100-sxm&rut=234c0fbc09a21779a64e7addf46f37fdda454d9bc3e5bab029e34ff56288b747', 'type': 'ddg', 'title': 'A100 PCIe vs A100 SXM | Runpod GPU Benchmarks'}

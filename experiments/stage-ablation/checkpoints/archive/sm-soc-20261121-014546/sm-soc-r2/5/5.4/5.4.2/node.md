@@ -1,0 +1,24 @@
+# N109: 高溢价商品（P_ask ∈ [1.15V, 1.25V]）与平价商品（P_ask ≈ V）在平台推荐流中的点击率差异 ΔCTR，作为算法偏向高溢价商品的直接行为
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N27
+
+## Claim
+
+高溢价商品（P_ask ∈ [1.15V, 1.25V]）与平价商品（P_ask ≈ V）在平台推荐流中的点击率差异 ΔCTR，作为算法偏向高溢价商品的直接行为证据。
+
+## Corrected Claim
+
+高溢价商品（P_ask ∈ [1.15V, 1.25V]）与平价商品（P_ask ≈ V）在平台推荐流中表现出显著的点击率差异 ΔCTR，这一现象可作为算法可能偏向高溢价商品的间接行为线索，但需结合A/B测试或因果推断进一步验证算法权重影响。
+
+## Evidence
+
+[质询]该陈述将‘高溢价商品点击率更高’直接等同于‘算法偏向高溢价商品’的证据，存在因果倒置或混淆相关与因果的风险。高溢价商品可能因本身具有更强的视觉吸引力、稀缺性或用户偏好而获得高CTR，而非算法主动加权。此外，缺乏具体的平台数据或实验对照，无法排除用户自然选择偏差。 | 经验事实，逻辑自洽但缺来源支持。检索无可用来源，且该陈述涉及具体平台行为数据与算法机制归因，属于经验事实，无法从第一性原理严格推出，故降级。
+
+## Search Query
+
+click-through rate difference high price vs fair price items marketplace recommendation system

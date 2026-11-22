@@ -1,0 +1,24 @@
+# N338: A100 80GB 在 FP8 精度下运行 Qwen3-27B 的实际生成速度受限于内存带宽，理论峰值为 2039 GB/s / 27 GB ≈ 75.5 To
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N120
+
+## Claim
+
+A100 80GB 在 FP8 精度下运行 Qwen3-27B 的实际生成速度受限于内存带宽，理论峰值为 2039 GB/s / 27 GB ≈ 75.5 Tokens/s；考虑内存访问效率 (Memory Efficiency) 通常为 80%-90%，实际预期速度为 60-68 Tokens/s，而非 N120 中声称的 30-50 Tokens/s (该范围可能混淆了 BF16 或考虑了更低的计算利用率)。
+
+## Corrected Claim
+
+A100 80GB 在 FP8 精度下运行 Qwen3-27B 的实际生成速度受限于内存带宽，理论峰值为 2039 GB/s / 27 GB ≈ 75.5 Tokens/s；考虑内存访问效率 (Memory Efficiency) 通常为 80%-90%，实际预期速度为 60-68 Tokens/s，而非 N120 中声称的 30-50 Tokens/s (该范围可能混淆了 BF16 或考虑了更低的计算利用率)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 80GB 显存带宽 2039 GB/s，Qwen3-27B FP8 权重约 27GB，理论峰值 2039/27≈75.5 Tokens/s，考虑 80%-90% 内存效率后实际速度 60-68 Tokens/s，逻辑自洽且数值量级合理。
+
+## Search Query
+
+A100 FP8 LLM inference tokens per second memory bandwidth bound

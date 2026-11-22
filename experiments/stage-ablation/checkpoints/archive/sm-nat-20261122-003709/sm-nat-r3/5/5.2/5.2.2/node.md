@@ -1,0 +1,20 @@
+# N223: 量化 LRU 动态驱逐导致的对象级命中率损失 ΔH_obj：当 S_total > C 时，ΔH_obj = 1 - H_obj_LRU，其下界由最冷对象的累积
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N82
+
+## Claim
+
+量化 LRU 动态驱逐导致的对象级命中率损失 ΔH_obj：当 S_total > C 时，ΔH_obj = 1 - H_obj_LRU，其下界由最冷对象的累积请求概率决定，即 ΔH_obj ≥ Σ_{i=K_actual+1}^{N} p_i；在 β=0.9, N=100,000 下，若 K_actual=90,000，则 ΔH_obj ≈ 0.117（引用 N63 尾部概率）。
+
+## Corrected Claim
+
+量化 LRU 动态驱逐导致的对象级命中率损失 ΔH_obj：当 S_total > C 时，ΔH_obj = 1 - H_obj_LRU，其下界由最冷对象的累积请求概率决定，即 ΔH_obj ≥ Σ_{i=K_actual+1}^{N} p_i；在 β=0.9, N=100,000 下，若 K_actual=90,000，则 ΔH_obj ≈ 0.117（引用 N63 尾部概率）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：LRU在S_total>C时驱逐最冷对象，命中率损失等于被驱逐对象的请求概率总和，即尾部概率，数值量级与Zipf分布特性一致。

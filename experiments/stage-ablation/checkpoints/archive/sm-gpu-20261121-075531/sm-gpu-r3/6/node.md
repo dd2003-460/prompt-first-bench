@@ -1,0 +1,25 @@
+# N30: RTX 5090 (32GB GDDR7) 的官方MSRP及市场首发价约为 $1999-$2199，带宽为 1792 GB/s；对比 RTX 4090 (24G
+
+- **status**: verified
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+RTX 5090 (32GB GDDR7) 的官方MSRP及市场首发价约为 $1999-$2199，带宽为 1792 GB/s；对比 RTX 4090 (24GB GDDR6X) 价格 $1599-$1800，带宽 1008 GB/s，需确认5090在INT8/W4推理下的实际吞吐提升是否抵消溢价。
+
+## Corrected Claim
+
+RTX 5090 (32GB GDDR7) 的官方MSRP为 $1999；对比 RTX 4090 (24GB GDDR6X) 价格 $1599-$1800，需确认5090在INT8/W4推理下的实际吞吐提升是否抵消溢价。（注：带宽具体数值需额外来源确认）
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别从性能带宽/计算力（吞吐）、功耗/TCO（成本效率）、显存容量/部署架构（可行性）三个独立维度拆解了父节点的核心问题（溢价是否被抵消）。三者无重叠，且共同覆盖了评估‘实际吞吐提升是否抵消溢价’所需的关键变量（速度、能耗、显存门槛）。）
+
+## Retrieval Sources
+
+- {'url': 'https://aiqicha.baidu.com/details/ugknowledge?id=a6a76a4479d0130b5541b2920e9eba7d&rut=2eaf247565b8a5108bf7489163dc7aadec7012068d0495c6a13edd5c70356a09', 'type': 'ddg', 'title': '5090发布价格 - 爱企查'}
+- {'url': 'https://aiqicha.baidu.com/details/ugknowledge?id=b6f8864182bac02199b6a3c8cb3a984f&rut=6f35a1943b40f564cd64286609e9ba57fb82ebbd0cb9e232bd223cd249ee804a', 'type': 'ddg', 'title': '5090原价官方定价 - 爱企查'}

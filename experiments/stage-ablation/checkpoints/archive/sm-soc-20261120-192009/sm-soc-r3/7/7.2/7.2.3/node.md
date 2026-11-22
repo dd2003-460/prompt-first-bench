@@ -1,0 +1,24 @@
+# N308: 权重参数对均衡的影响敏感度：若 α 增加 10%，高挂价商品的曝光份额变化 ΔExposure ≈ (∂Exposure/∂α)*0.1*α，需计算弹性系数以验
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N105
+
+## Claim
+
+权重参数对均衡的影响敏感度：若 α 增加 10%，高挂价商品的曝光份额变化 ΔExposure ≈ (∂Exposure/∂α)*0.1*α，需计算弹性系数以验证平台是否通过提高 α 来维持高挂价均衡。
+
+## Corrected Claim
+
+权重参数对均衡的影响敏感度：若 α 增加 10%，高挂价商品的曝光份额变化 ΔExposure ≈ (∂Exposure/∂α)*0.1*α，需计算弹性系数以验证平台是否通过提高 α 来维持高挂价均衡。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该陈述基于微积分基本定义（一阶近似变化量=偏导数*变量变化量），数学推导自洽，且符合经济学弹性分析的基本逻辑框架。
+
+## Search Query
+
+sensitivity analysis recommendation algorithm parameter impact on exposure share

@@ -1,0 +1,20 @@
+# N265: 偏差幅度量化公式：定义选择偏差 Bias_selection = E[Y|Reduce=1, NoConsult=1] - E[Y|Reduce=1, NoCo
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N90
+
+## Claim
+
+偏差幅度量化公式：定义选择偏差 Bias_selection = E[Y|Reduce=1, NoConsult=1] - E[Y|Reduce=1, NoConsult=0] - E[Y|Reduce=0, NoConsult=0]；通过 PSM 匹配后的控制组均值差估计该偏差，若 |Bias_selection| > 0.1 * SD(Y) 则原始'60%无咨询'结论受严重偏差影响，需重新计算调整后的无咨询率。
+
+## Corrected Claim
+
+偏差幅度量化公式：定义选择偏差 Bias_selection = E[Y|Reduce=1, NoConsult=1] - E[Y|Reduce=1, NoConsult=0] - E[Y|Reduce=0, NoConsult=0]；通过 PSM 匹配后的控制组均值差估计该偏差，若 |Bias_selection| > 0.1 * SD(Y) 则原始'60%无咨询'结论受严重偏差影响，需重新计算调整后的无咨询率。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

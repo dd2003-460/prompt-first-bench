@@ -1,0 +1,20 @@
+# N211: Markov 链稳态概率 π_Stale 的量纲修正：当 T_avg_resident 以天为单位时，转移概率矩阵应修正为 [[1-u, u], [1/T_av
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N80
+
+## Claim
+
+Markov 链稳态概率 π_Stale 的量纲修正：当 T_avg_resident 以天为单位时，转移概率矩阵应修正为 [[1-u, u], [1/T_avg_resident, 1-1/T_avg_resident]]，稳态概率 π_Stale = u / (u + 1/T_avg_resident)
+
+## Corrected Claim
+
+Markov 链稳态概率 π_Stale 的量纲修正：当 T_avg_resident 以天为单位时，转移概率矩阵应修正为 [[1-u, u], [1/T_avg_resident, 1-1/T_avg_resident]]，稳态概率 π_Stale = u / (u + 1/T_avg_resident)
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：根据马尔可夫链稳态方程 π_Stale * (1 - 1/T) = π_Fresh * u，且 π_Stale + π_Fresh = 1，可推导出 π_Stale = u / (u + 1/T)，与陈述一致。

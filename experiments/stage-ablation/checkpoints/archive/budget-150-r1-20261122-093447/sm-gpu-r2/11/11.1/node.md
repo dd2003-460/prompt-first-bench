@@ -1,0 +1,20 @@
+# N127: 在 BF16 精度（零质量损失）约束下，单卡 RTX 4090 (24GB) 不可行的量化依据：总内存需求 62.3GB (N13) > 显存容量 24GB，且
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N40
+
+## Claim
+
+在 BF16 精度（零质量损失）约束下，单卡 RTX 4090 (24GB) 不可行的量化依据：总内存需求 62.3GB (N13) > 显存容量 24GB，且 62.3GB > 2×24GB=48GB，故 2×RTX 3090 亦无法在 BF16 下运行 32K 上下文，必须采用 1×A100/H100/MI300X 或 Mac Studio 192GB 方案
+
+## Corrected Claim
+
+在 BF16 精度（零质量损失）约束下，单卡 RTX 4090 (24GB) 不可行的量化依据：总内存需求 62.3GB (N13) > 显存容量 24GB，且 62.3GB > 2×24GB=48GB，故 2×RTX 3090 亦无法在 BF16 下运行 32K 上下文，必须采用 1×A100/H100/MI300X 或 Mac Studio 192GB 方案
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：62.3GB > 24GB 且 62.3GB > 48GB，数学比较成立，符合显存容量限制的基本物理/工程约束。

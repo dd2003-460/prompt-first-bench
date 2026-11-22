@@ -1,0 +1,24 @@
+# N51: 干预强度系数 γ 的校准：γ = α * (w_new - w_old) / w_old，其中 α 为平台算法敏感度系数，w_new 和 w_old 为干预前后
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N18, N19, N20
+
+## Claim
+
+干预强度系数 γ 的校准：γ = α * (w_new - w_old) / w_old，其中 α 为平台算法敏感度系数，w_new 和 w_old 为干预前后的 CPI 权重。α 可通过平台内部 A/B 测试数据估计，初步估计 α = 0.5，置信区间 [0.3, 0.7]。
+
+## Corrected Claim
+
+干预强度系数 γ 的校准公式为 γ = α * (w_new - w_old) / w_old，其中 α 为平台算法敏感度系数，需通过平台内部 A/B 测试数据估计，具体数值取决于平台特性。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（α=0.5, CI=[0.3, 0.7]）和特定的工程校准公式，属于平台内部黑盒数据，无法从第一性原理推导，且缺乏外部来源支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+platform algorithm sensitivity coefficient A/B test intervention strength

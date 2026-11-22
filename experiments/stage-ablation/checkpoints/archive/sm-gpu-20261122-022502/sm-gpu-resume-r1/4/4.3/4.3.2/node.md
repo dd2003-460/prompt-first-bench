@@ -1,0 +1,20 @@
+# N94: 工作点 B2 (中性价比/平衡)：1x A100 80GB (HBM2e, 2039 GB/s) 运行 FP8 Qwen3-27B (27GB) + BF16 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N24
+
+## Claim
+
+工作点 B2 (中性价比/平衡)：1x A100 80GB (HBM2e, 2039 GB/s) 运行 FP8 Qwen3-27B (27GB) + BF16 KV Cache (12.58GB) = 39.58GB < 80GB。理论 Decode 上限 ≈ 2039 GB/s / 27 GB ≈ 75.5 tokens/s。CapEx ≈ $15,000 (二手/现货)。
+
+## Corrected Claim
+
+工作点 B2 (中性价比/平衡)：1x A100 80GB (HBM2e, 2039 GB/s) 运行 FP8 Qwen3-27B (27GB) + BF16 KV Cache (12.58GB) = 39.58GB < 80GB。理论 Decode 上限 ≈ 2039 GB/s / 27 GB ≈ 75.5 tokens/s。CapEx ≈ $15,000 (二手/现货)。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1聚焦于硬件兼容性导致的性能/显存修正（技术可行性），子节点2基于修正后的性能进行TCO/性价比评估（经济可行性）。两者维度正交，且共同覆盖了父节点中关于硬件规格、性能上限和成本的声明，没有遗漏关键方面，也不存在冗余。）

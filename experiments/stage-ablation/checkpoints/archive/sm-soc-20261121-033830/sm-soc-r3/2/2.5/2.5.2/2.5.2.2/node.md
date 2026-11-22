@@ -1,0 +1,24 @@
+# N178: 事后损失期望 E[Loss|Buy]_post 的条件计算：E[Loss|Buy]_post = E[ E[Loss|Buy]_pre | T_short ]，
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N57
+
+## Claim
+
+事后损失期望 E[Loss|Buy]_post 的条件计算：E[Loss|Buy]_post = E[ E[Loss|Buy]_pre | T_short ]，即以“快速成交”为条件更新先验后的损失期望；需计算 P(V < P | T_short) 相对于 P(V < P) 的下降幅度，该幅度由 N56 中的后验更新决定。
+
+## Corrected Claim
+
+事后损失期望 E[Loss|Buy]_post 的条件计算：E[Loss|Buy]_post = E[ E[Loss|Buy]_pre | T_short ]，即以“快速成交”为条件更新先验后的损失期望；需计算 P(V < P | T_short) 相对于 P(V < P) 的下降幅度，该幅度由 N56 中的后验更新决定。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该陈述准确描述了贝叶斯后验期望的定义（全期望公式/条件期望），即后验损失期望等于以新信息（快速成交）为条件的先验损失期望的期望值，且后验概率 P(V<P|T_short) 的变化确实由后验更新决定，逻辑自洽且符合概率论基本原理。
+
+## Search Query
+
+conditional expected loss given fast sale signal Bayesian update

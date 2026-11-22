@@ -1,0 +1,28 @@
+# N50: 参数联合分布验证：构建 β_anchor 和 γ_defect 的联合后验分布 P(β_anchor, γ_defect | Data)；通过蒙特卡洛模拟生成 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N9
+
+## Claim
+
+参数联合分布验证：构建 β_anchor 和 γ_defect 的联合后验分布 P(β_anchor, γ_defect | Data)；通过蒙特卡洛模拟生成 10,000 组参数组合，计算每组对应的理论溢价区间 [P_ask_min, P_ask_max] 和无咨询率 P(NoInquiry)；若 15-25% 溢价区间和 60% 无咨询率均落在 95% 置信椭圆内，则假设链在参数层面自洽。
+
+## Corrected Claim
+
+构建 β_anchor 和 γ_defect 的联合后验分布，通过蒙特卡洛模拟验证 15-25% 溢价区间和 60% 无咨询率是否落在 95% 置信椭圆内，以评估假设链在参数层面的自洽性（具体数值需依据实际数据验证）。
+
+## Evidence
+
+[质询]该陈述描述的是一个具体的实证分析流程（涉及特定参数 β_anchor, γ_defect 及具体的经验数值 15-25% 和 60%），属于经验事实或特定研究结论，无法从第一性原理直接推导。参考来源仅涉及贝叶斯后验精度的一般性理论，未提供该特定模型参数或具体数值区间的任何支持，存在来源缺失风险。 | 逻辑上，使用蒙特卡洛模拟构建联合后验分布并检查置信椭圆是标准的贝叶斯统计验证方法，逻辑自洽；但参考来源 [1] 仅讨论贝叶斯后验精度的一般性质，与该特定事实节点中的具体参数、数值区间及假设链自洽性结论无关，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+bayesian calibration anchoring bias lemons effect marketplace parameters
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/437603522&rut=292ab8785e261017e481f67eeb1d3b8c68f80932626e595b135a967641fdfffe', 'type': 'ddg', 'title': '贝叶斯统计（2）——进阶 - 知乎'}

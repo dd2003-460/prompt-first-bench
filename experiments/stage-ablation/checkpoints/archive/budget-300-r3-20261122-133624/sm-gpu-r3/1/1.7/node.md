@@ -1,0 +1,20 @@
+# N12: Qwen3-27B 在 BF16 下 Prefill 阶段（计算密集）的算力需求约为 270 TOPS（2 × 27B 参数），在 Decode 阶段（访存密集
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+Qwen3-27B 在 BF16 下 Prefill 阶段（计算密集）的算力需求约为 270 TOPS（2 × 27B 参数），在 Decode 阶段（访存密集）的带宽需求约为 54GB/s（27B 参数 × 2 bytes）
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 下 Prefill 阶段（计算密集）的算力需求约为 270 TOPS（2 × 27B 参数），在 Decode 阶段（访存密集）的带宽需求约为 54GB/s（27B 参数 × 2 bytes）
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别针对Prefill（算力）和Decode（带宽）两个不同阶段进行修正和扩展，两者关注点不同，无重复或矛盾。父节点的核心信息（27B参数、BF16、Prefill/Decode特性）在子节点中均得到覆盖且进一步细化，未遗漏关键方面。两个子节点分别处理不同维度的性能指标（算力vs带宽），不存在冗余。）

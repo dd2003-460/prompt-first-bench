@@ -1,0 +1,24 @@
+# N177: 成交周期 T_close 与曝光量 E_current 的交互效应：T_close = T_base * (1 - η * ln(E_current + 1))
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N54
+
+## Claim
+
+成交周期 T_close 与曝光量 E_current 的交互效应：T_close = T_base * (1 - η * ln(E_current + 1))，其中 η 为曝光效率系数，η ≈ 0.05；当 E_current 从 100 增至 1000 时，T_close 缩短 11.5%（ln(1001)/ln(101) * η），但边际缩短率从 0.5%/100次曝光降至 0.05%/100次曝光。
+
+## Corrected Claim
+
+成交周期 T_close 与曝光量 E_current 存在交互效应，通常建模为 T_close = T_base * (1 - η * ln(E_current + 1))，其中 η 为曝光效率系数。随着曝光量增加，成交周期的缩短幅度呈现边际递减效应。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（η ≈ 0.05）及基于该参数推导出的具体统计结论（缩短11.5%、边际率变化），属于经验事实而非第一性原理可推导的数学恒等式。在缺乏外部来源支持的情况下，无法验证 η 值的真实性及具体百分比的准确性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+exposure volume impact on closing time second-hand transactions

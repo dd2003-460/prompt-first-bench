@@ -1,0 +1,25 @@
+# N42: Intel Gaudi 2/3 架构在 LLM 推理中的性价比劣势：虽然 Gaudi 2 价格约为 $10,000-$12,000，但其软件栈（Habana S
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+Intel Gaudi 2/3 架构在 LLM 推理中的性价比劣势：虽然 Gaudi 2 价格约为 $10,000-$12,000，但其软件栈（Habana SynapseAI）对 Qwen 系列模型的优化程度低于 CUDA，且显存带宽（Gaudi 2 为 1.6 TB/s）低于 H100，导致在 27B 模型推理中吞吐量比同价位 NVIDIA 卡低 20-40% [待核验]。
+
+## Corrected Claim
+
+Intel Gaudi 2 在 LLM 推理中因软件栈（Habana SynapseAI）对特定模型（如 Qwen）优化不足，可能导致吞吐量低于同价位 NVIDIA 卡，但其显存带宽（1.6 TB/s）实际上高于 H100（3.35 TB/s），价格区间需根据市场波动调整。
+
+## Evidence
+
+[质询]陈述中关于 Gaudi 2 显存带宽为 1.6 TB/s 的数据存在严重事实错误（Gaudi 2 实际 HBM2e 带宽约为 1.6 TB/s 是 H100 的 2 倍左右，Gaudi 2 实际带宽约为 1.6 TB/s 的说法可能混淆了 HBM 容量或特定模式，通常 Gaudi 2 带宽为 1.6 TB/s 是 H100 的 2 倍，H100 为 3.35 TB/s，此处数值量级或对比关系存疑，且 Gaudi 2 价格通常高于 $10k，更接近 $15k-$20k 区间，具体取决于渠道和时期，但 $10k-$12k 偏低）。更关键的是，参考来源仅涉及 Llama 和 Falcon 模型，未提及 Qwen 系列，也未提供与 NVIDIA 同价位卡的具体吞吐量对比数据（20-40% 劣势），属于缺乏直接证据支持的经验性断言。 | 参考来源 [1][2] 仅涵盖 Llama/Falcon 模型基准测试，未涉及 Qwen 模型优化程度及与 NVIDIA 卡的具体吞吐量对比，无法直接支持该陈述中的具体数值和结论；且 Gaudi 2 带宽数据需进一步核实（实际 Gaudi 2 带宽为 1.6 TB/s 是 H100 的 2 倍，H100 为 3.35 TB/s，此处陈述称 Gaudi 2 带宽低于 H100 与公开规格矛盾，Gaudi 2 带宽通常高于 H100，但软件栈优化和实际推理效率可能较低，导致吞吐量劣势，但带宽描述错误）。
+
+## Retrieval Sources
+
+- {'url': 'https://www.intel.com/content/www/us/en/content-details/846172/benchmarking-intel-gaudi-2-ai-accelerator-for-large-language-models.html&rut=2845dc2c6c42e0394f7616532f3ca46b1b5ec133588d9fdf30d9c3eafb8a28b0', 'type': 'ddg', 'title': 'Benchmarking Intel® Gaudi® 2 AI Accelerator for Large Language Models'}
+- {'url': 'https://cdrdv2-public.intel.com/846172/Intel-Open-Innovation-Gaudi-2-White-Paper.pdf&rut=de106e18d916e6c4a3d7f632ff49b3f74b1e1bf675759c1bcddb024c336403bf', 'type': 'ddg', 'title': 'PDF Benchmarking Intel® Gaudi® 2 AI accelerator for Large Language Models'}

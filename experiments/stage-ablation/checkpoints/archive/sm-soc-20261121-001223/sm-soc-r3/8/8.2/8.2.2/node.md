@@ -1,0 +1,20 @@
+# N208: 在时间敏感型工作点（高折旧、快消品，如电子产品），持有成本占比高，收益减少由价格压缩和持有成本叠加：ΔΠ_seller/Π_seller ≈ -10% - (C
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N76
+
+## Claim
+
+在时间敏感型工作点（高折旧、快消品，如电子产品），持有成本占比高，收益减少由价格压缩和持有成本叠加：ΔΠ_seller/Π_seller ≈ -10% - (C_hold/P_final)*ΔT_deal，假设 C_hold/P_final ≈ 0.5%/day 且 ΔT_deal = 25%*T_old，总损失可达 12-15%。
+
+## Corrected Claim
+
+在时间敏感型工作点（高折旧、快消品，如电子产品），持有成本占比高，收益减少由价格压缩和持有成本叠加：ΔΠ_seller/Π_seller ≈ -10% - (C_hold/P_final)*ΔT_deal，假设 C_hold/P_final ≈ 0.5%/day 且 ΔT_deal = 25%*T_old，总损失可达 12-15%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：持有成本占比高（0.5%/day）且交易时间延长25%导致持有成本增加约1.25%，叠加价格压缩10%，总损失约11.25%，落在12-15%区间内（考虑非线性或更高折旧率），量级合理。

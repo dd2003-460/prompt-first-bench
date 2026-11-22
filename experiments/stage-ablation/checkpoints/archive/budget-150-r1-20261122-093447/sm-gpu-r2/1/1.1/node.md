@@ -1,0 +1,20 @@
+# N7: Qwen3-27B 在 32K 上下文窗口下的总内存需求公式：Total_Mem = Weights_MB + KV_Cache_MB + Activation
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+Qwen3-27B 在 32K 上下文窗口下的总内存需求公式：Total_Mem = Weights_MB + KV_Cache_MB + Activation_MB + Runtime_Overhead_MB，其中 Weights_MB = (27e9 * bytes_per_param) / 1e6，KV_Cache_MB = 2 * n_layers * n_kv_heads * head_dim * seq_len * batch_size * bytes_per_elem / 1e6
+
+## Corrected Claim
+
+Qwen3-27B 在 32K 上下文窗口下的总内存需求公式：Total_Mem = Weights_MB + KV_Cache_MB + Activation_MB + Runtime_Overhead_MB，其中 Weights_MB = (27e9 * bytes_per_param) / 1e6，KV_Cache_MB = 2 * n_layers * n_kv_heads * head_dim * seq_len * batch_size * bytes_per_elem / 1e6
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点公式中的四个独立变量（Weights, KV_Cache, Activation, Runtime Overhead）及关键参数细节，彼此之间没有逻辑重叠或矛盾，且共同覆盖了公式的所有组成部分。）

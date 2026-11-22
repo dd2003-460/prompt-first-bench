@@ -1,0 +1,20 @@
+# N224: NVFP4 在 Qwen3-27B 上的主流量化算法为 GPTQ (Generalized Product Quantization) 的变体或 AWQ (Ac
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N65
+
+## Claim
+
+NVFP4 在 Qwen3-27B 上的主流量化算法为 GPTQ (Generalized Product Quantization) 的变体或 AWQ (Activation-aware Weight Quantization)，因为 NVFP4 格式 (E2M1) 动态范围极窄，通常需要逐通道 (per-channel) 或逐组 (per-group) 缩放因子，GPTQ 和 AWQ 提供了成熟的校准数据集选择机制（通常 128-512 样本），而 SmoothQuant 主要用于激活量化，对纯权重 NVFP4 量化贡献较小
+
+## Corrected Claim
+
+NVFP4 在 Qwen3-27B 上的量化可能采用 GPTQ 或 AWQ 等支持校准的算法，以应对 E2M1 格式动态范围窄的问题，通常需要逐通道或逐组缩放因子；SmoothQuant 主要适用于激活量化，对纯权重量化贡献有限。
+
+## Evidence
+
+[质询]NVFP4 (E2M1) 是 NVIDIA 针对 Blackwell 架构引入的特定格式，其官方推荐或主流社区实践通常倾向于使用基于 RTN (Round-To-Nearest) 或特定校准的量化方法，直接断言 GPTQ 或 AWQ 是“主流量化算法”缺乏广泛共识支持，且 GPTQ 在极低比特（4-bit 以下）下的表现和适用性存在争议，可能并非唯一或绝对主流。 | 先验知识/题面给定，逻辑校验通过。虽然 NVFP4 的具体主流算法在公开文献中不如 FP8/INT8 明确，但 GPTQ/AWQ 作为成熟的低比特量化框架，在需要校准数据的场景下逻辑上可行，且 SmoothQuant 确实主要关注激活量化，逻辑自洽。但因缺乏直接来源支持其“主流”地位，降级为定性表述。

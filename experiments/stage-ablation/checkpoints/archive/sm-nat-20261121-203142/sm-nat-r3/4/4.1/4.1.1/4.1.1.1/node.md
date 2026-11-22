@@ -1,0 +1,20 @@
+# N131: 工作点1（无预取/被动刷新）：P_revalidate = 0，源站负载增量 ΔLoad_source = 0，但用户首次请求延迟 P95 = T_origin
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N51, N52, N53
+
+## Claim
+
+工作点1（无预取/被动刷新）：P_revalidate = 0，源站负载增量 ΔLoad_source = 0，但用户首次请求延迟 P95 = T_origin_roundtrip + T_processing ≈ 200-500ms（取决于回源链路），缓存利用率 U_cache = H_static。
+
+## Corrected Claim
+
+工作点1（无预取/被动刷新）：P_revalidate = 0，源站负载增量 ΔLoad_source = 0，但用户首次请求延迟 P95 = T_origin_roundtrip + T_processing ≈ 200-500ms（取决于回源链路），缓存利用率 U_cache = H_static。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在无预取且缓存未命中（或仅静态内容命中）的被动刷新模式下，动态内容需回源，故源站负载增量为0（相对于预取场景）或仅由未命中请求构成，延迟包含回源往返时间，符合CDN/缓存基本原理。

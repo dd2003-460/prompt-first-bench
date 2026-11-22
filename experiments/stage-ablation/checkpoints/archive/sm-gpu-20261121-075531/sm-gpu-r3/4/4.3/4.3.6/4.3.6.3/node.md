@@ -1,0 +1,24 @@
+# N282: Qwen3-27B 在 NVFP4/W4 精度下，长上下文（32K）场景下 PPL 累积误差系数 k = ΔPPL_32K / ΔPPL_4K 的具体数值，用于
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N90
+
+## Claim
+
+Qwen3-27B 在 NVFP4/W4 精度下，长上下文（32K）场景下 PPL 累积误差系数 k = ΔPPL_32K / ΔPPL_4K 的具体数值，用于量化长文本一致性下降幅度，需通过实际基准测试获取。
+
+## Corrected Claim
+
+Qwen3-27B 在 NVFP4/W4 精度下，长上下文（32K）场景下 PPL 累积误差系数 k = ΔPPL_32K / ΔPPL_4K 的具体数值需通过实际基准测试获取，当前缺乏公开数据支持其具体量级。
+
+## Evidence
+
+[质询]该陈述声称存在一个具体的数值 k，但明确说明该数值需通过实际基准测试获取，且当前无可用来源提供该具体数值。作为经验事实（特定模型在特定精度和上下文长度下的性能指标），无法从第一性原理推导，且缺乏外部数据支持其具体数值或存在性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值 k 的存在或大小）
+
+## Search Query
+
+Qwen3-27B 4-bit quantization long context perplexity degradation factor

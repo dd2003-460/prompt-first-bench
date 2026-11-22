@@ -1,0 +1,24 @@
+# N311: 目标用户池缩小效应（N_target_eff < N_target）：若平台算法仅向‘近期搜索过同类商品且预算匹配’的窄众推送，则有效目标用户数 N_targe
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N104
+
+## Claim
+
+目标用户池缩小效应（N_target_eff < N_target）：若平台算法仅向‘近期搜索过同类商品且预算匹配’的窄众推送，则有效目标用户数 N_target_eff 可能仅为总用户的 5%-10%（如 50-100 人）。在此条件下，即使 R=0.7, CTR=0.05，E[N] = 0.7 * 0.05 * 100 * 2 = 7，P(N=0) = e^-7 ≈ 0.0009，仍低；但若 CTR 进一步降至 0.02，E[N] = 2.8，P(N=0) ≈ 0.06，接近 60% 无咨询的临界值，说明‘精准但小众’的推送策略是关键变量。
+
+## Corrected Claim
+
+目标用户池缩小效应（N_target_eff < N_target）：若平台算法仅向‘近期搜索过同类商品且预算匹配’的窄众推送，则有效目标用户数 N_target_eff 可能仅为总用户的 5%-10%（如 50-100 人）。在此条件下，即使 R=0.7, CTR=0.05，E[N] = 0.7 * 0.05 * 100 * 2 = 7，P(N=0) = e^-7 ≈ 0.0009，仍低；但若 CTR 进一步降至 0.02，E[N] = 2.8，P(N=0) ≈ 0.06，接近 60% 无咨询的临界值，说明‘精准但小众’的推送策略是关键变量。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：泊松分布计算 E[N]=λ 及 P(N=0)=e^-λ 的数值推导准确（e^-7≈0.0009, e^-2.8≈0.06），量级与逻辑自洽。
+
+## Search Query
+
+narrow audience targeting push notification conversion rate zero consultation

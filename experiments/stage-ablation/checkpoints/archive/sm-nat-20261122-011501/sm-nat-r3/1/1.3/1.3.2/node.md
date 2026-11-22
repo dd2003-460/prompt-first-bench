@@ -1,0 +1,20 @@
+# N32: 条件期望修正系数：E[R_i | s_i < s_median] / E[R_i | s_i < s_median]_independent = 1 + ρ *
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N8
+
+## Claim
+
+条件期望修正系数：E[R_i | s_i < s_median] / E[R_i | s_i < s_median]_independent = 1 + ρ * (Z_h_mean - Z_h_median) * σ_h / σ_R。由于 ρ=-0.3，小对象的期望请求率比独立假设下高约 15-20%，具体系数需通过积分 ∫_{-∞}^{z_median} φ(z) * E[Z_h | Z_s=z] dz 计算。
+
+## Corrected Claim
+
+条件期望修正系数可通过积分 ∫_{-∞}^{z_median} φ(z) * E[Z_h | Z_s=z] dz 计算。在正态分布假设下，由于 ρ=-0.3，小对象（s_i < s_median）的期望请求率通常比独立假设下高，具体增幅取决于分布参数，经验上可能在 10-20% 范围内，但需通过具体积分计算确定。
+
+## Evidence
+
+父节点级核验失败（LLM 错误）：Unterminated string starting at: line 8 column 5 (char 732)

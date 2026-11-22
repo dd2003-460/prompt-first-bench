@@ -1,0 +1,20 @@
+# N59: 缓存容量 128GB 能覆盖的头部对象比例 P_cov 的积分计算：P_cov = P(S ≤ 128GB / K_objects)，其中 K_objects 
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N16
+
+## Claim
+
+缓存容量 128GB 能覆盖的头部对象比例 P_cov 的积分计算：P_cov = P(S ≤ 128GB / K_objects)，其中 K_objects 为缓存可容纳的对象数量。由于对象大小服从 Pareto(α=1.1)，P_cov 需通过累积分布函数 CDF(x) = 1 - (x_min/x)^(α-1) 在 x = 128GB/K_objects 处求值。
+
+## Corrected Claim
+
+缓存容量 128GB 能覆盖的头部对象比例 P_cov 的积分计算：P_cov = P(S ≤ 128GB / K_objects)，其中 K_objects 为缓存可容纳的对象数量。由于对象大小服从 Pareto(α=1.1)，P_cov 需通过累积分布函数 CDF(x) = 1 - (x_min/x)^(α-1) 在 x = 128GB/K_objects 处求值。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1关注K的取值决策，子节点2关注基于特定K值的计算示例，两者逻辑上正交（决策 vs 执行）。然而，父节点的核心是“积分计算”和“P_cov的求值”，子节点2仅给出了一个具体数值示例（K=50,000），并未完整覆盖父节点中隐含的“一般性计算方法”或“不同K值下的结果对比”这一关键方面。此外，父节点提到“覆盖的字节量需通过∫ x dF(x)另行计算”，但子节点中未明确将此作为独立任务或参数进行分解，仅作为子节点2末尾的备注，导致完备性不足。）

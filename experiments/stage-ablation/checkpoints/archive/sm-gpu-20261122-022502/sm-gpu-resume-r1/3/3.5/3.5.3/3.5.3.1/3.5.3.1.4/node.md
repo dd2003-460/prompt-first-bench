@@ -1,0 +1,24 @@
+# N767: 在高并发（Batch > 4）或动态长度场景下，Llama.cpp 的内存碎片率可升至 20-30%，导致可用显存上限从理论 128GB 降至 ~90-100G
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N236, N237, N238
+
+## Claim
+
+在高并发（Batch > 4）或动态长度场景下，Llama.cpp 的内存碎片率可升至 20-30%，导致可用显存上限从理论 128GB 降至 ~90-100GB，此时需对比 MLX/vLLM 的 PagedAttention 实现，其碎片率 <2%，从而在同等硬件下多支持 10-15% 的并发请求或更长的上下文
+
+## Corrected Claim
+
+在高并发或动态长度场景下，Llama.cpp 可能因内存管理策略导致较高的内存碎片率，从而降低有效显存利用率；相比之下，采用 PagedAttention 机制的框架（如 vLLM/MLX）通常能显著降低碎片率，提升同等硬件下的并发能力或上下文长度支持。
+
+## Evidence
+
+[质询]具体数值（20-30%碎片率、90-100GB上限、10-15%并发提升）缺乏通用基准测试支持，且高度依赖具体硬件配置、模型大小及Llama.cpp版本，属于经验事实而非第一性原理可推导结论。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源），具体数值无法从第一性原理严格推出，故降级为定性表述。
+
+## Search Query
+
+paged attention vs continuous allocation memory fragmentation rate high concurrency apple silicon vllm mlx

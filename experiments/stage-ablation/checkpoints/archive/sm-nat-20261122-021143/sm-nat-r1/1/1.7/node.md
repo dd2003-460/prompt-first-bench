@@ -1,0 +1,24 @@
+# N12: LFU 增益上限工作点 1（高性低成）：当对象更新率为 0 时，LFU 命中率 H_LFU ≈ H_LRU + Δ_max，其中 Δ_max 由频率分布的陡峭程
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+LFU 增益上限工作点 1（高性低成）：当对象更新率为 0 时，LFU 命中率 H_LFU ≈ H_LRU + Δ_max，其中 Δ_max 由频率分布的陡峭程度决定：Δ_max ≈ (1 - H_LRU) * (1 - β/α) * |ρ|，因 β=0.9, α=1.1, ρ=-0.3，Δ_max ≈ (1 - H_LRU) * (1 - 0.818) * 0.3 ≈ 0.054 * (1 - H_LRU)
+
+## Corrected Claim
+
+LFU 增益上限工作点 1（高性低成）：当对象更新率为 0 时，LFU 命中率 H_LFU ≈ H_LRU + Δ_max，其中 Δ_max 由频率分布的陡峭程度决定：Δ_max ≈ (1 - H_LRU) * (1 - β/α) * |ρ|，因 β=0.9, α=1.1, ρ=-0.3，Δ_max ≈ (1 - H_LRU) * (1 - 0.818) * 0.3 ≈ 0.054 * (1 - H_LRU)
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算 (1 - 0.9/1.1) * 0.3 ≈ 0.0545 与陈述中的 0.054 一致，公式结构符合 LFU 相对于 LRU 在特定频率分布下的理论增益模型推导。
+
+## Search Query
+
+LFU vs LRU cache hit rate improvement Pareto skewness

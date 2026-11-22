@@ -1,0 +1,24 @@
+# N228: 投影2（k值不确定性传导）：搜索成本降低系数 k 的估计值 k_est = k_true + ε_k，其中误差项 ε_k 与流量噪声 ε_p 线性相关，相关系数
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N61
+
+## Claim
+
+投影2（k值不确定性传导）：搜索成本降低系数 k 的估计值 k_est = k_true + ε_k，其中误差项 ε_k 与流量噪声 ε_p 线性相关，相关系数 ρ_{k,ε} = Cov(k_est, ε_p) / (σ_k σ_ε_p)，导致 k 的置信区间宽度随 Var(ε_p) 增大而线性扩大，具体关系为 CI_width(k) = 2 * z_{0.975} * σ_k / sqrt(n) * (1 + ρ_{k,ε} * sqrt(Var(ε_p)/σ²_p))。
+
+## Corrected Claim
+
+搜索成本降低系数 k 的估计值受流量噪声影响，其置信区间宽度随流量噪声方差增大而扩大，具体扩大程度取决于 k 估计误差与流量噪声的相关系数及样本量。
+
+## Evidence
+
+[质询]公式中置信区间宽度随噪声方差线性扩大的具体系数形式（1 + ρ * sqrt(Var/σ²)）缺乏统计学标准推导支持，属于特定模型假设下的经验公式，且未明确 n 的定义及误差项分布假设，存在过度具体化风险。 | 先验知识/题面给定，逻辑校验通过（量纲一致，线性相关传导逻辑自洽），但具体系数形式为模型特定假设，非通用统计定理，故降级为定性表述。
+
+## Search Query
+
+estimation error propagation in search cost coefficient due to traffic noise

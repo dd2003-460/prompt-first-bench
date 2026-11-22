@@ -1,0 +1,31 @@
+{
+  "id": "N22",
+  "claim": "对于更新率u=1%/天，若采用LRU且无主动失效机制，对象平均驻留时间T_res由缓存命中率决定。假设静态命中率H=0.8，则T_res ≈ 1/(u*(1-H)) 是错误的，正确推导为：对象被驱逐前平均经历 1/(1-H) 次未命中请求间隔。若日均请求5000万，未命中500万，假设均匀分布，单个对象更新后重新进入缓存的平均等待时间需结合具体对象频率分布。更简单的下界估计是：若对象更新后必须重新被请求才能缓存，则有效命中率折损系数约为 (1 - u * T_cache_lifetime)，其中T_cache_lifetime为对象在缓存中的平均存活时间（秒/天）。",
+  "level": "L2",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]陈述中提出的公式 T_res ≈ 1/(u*(1-H)) 和折损系数 (1 - u * T_cache_lifetime) 缺乏严格的数学推导支持，且将“命中率H”直接作为决定“驻留时间”或“驱逐间隔”的独立变量在逻辑上存在混淆（命中率是结果，驻留时间是原因或状态，二者关系取决于访问分布而非简单代数变换）。此外，'1/(1-H) 次未命中请求间隔'这一表述在量纲和物理意义上模糊，未命中请求间隔通常由总请求率和未命中率决定，而非直接等于 1/(1-H)。 | 参考来源[1][2][3]仅介绍LRU算法的基本原理、实现结构（链表+哈希表）及通用性能指标，未涉及更新率(u)、静态命中率(H)与驻留时间(T_res)之间的具体定量推导公式，无法支持该特定经验公式的正确性。",
+  "corrected_claim": "对于更新率u=1%/天，若采用LRU且无主动失效机制，对象平均驻留时间T_res主要取决于缓存容量、对象访问频率分布（Zipf指数等）以及更新策略，不能简单由静态命中率H通过 T_res ≈ 1/(u*(1-H)) 推导得出。命中率H是系统整体性能指标，受T_res和访问模式共同影响，而非T_res的直接决定因子。",
+  "rework_count": 1,
+  "parent_ids": [],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": [
+    {
+      "url": "https://blog.csdn.net/belongtocode/article/details/102989685&rut=a031d491fef2e9d3cf9833b3472915257a701d8969f25ddea15a9b89ce4a4dc0",
+      "type": "ddg",
+      "title": "Lru算法详解-csdn博客"
+    },
+    {
+      "url": "https://blog.csdn.net/Yu_Cblog/article/details/136592410&rut=3101a50665f18b06efe9b40fe6af562a2f99d89f4664c3dba411a217aa6e9d7e",
+      "type": "ddg",
+      "title": "一篇搞懂什么是LRU缓存｜一篇搞懂LRU缓存的实现｜LRUCache详解和实现-CSDN博客"
+    },
+    {
+      "url": "https://cloud.tencent.com/developer/article/2018325&rut=eb4607e60dc6d5d971d06e4b2f38932495c24b554b7c76428de1fce180c35fdf",
+      "type": "ddg",
+      "title": "Lru算法-腾讯云开发者社区-腾讯云"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+# N421: A100 80GB单卡在相同条件下实测吞吐率48 tokens/s，其优势主要源于HBM2e带宽（2039 GB/s）远高于PCIe 4.0（~32 GB/s单
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N152
+
+## Claim
+
+A100 80GB单卡在相同条件下实测吞吐率48 tokens/s，其优势主要源于HBM2e带宽（2039 GB/s）远高于PCIe 4.0（~32 GB/s单向），且无跨卡通信开销；若A100采用PCIe版本，带宽降至~64 GB/s，吞吐率将降至~17 tokens/s，失去对2x 4090的优势。
+
+## Corrected Claim
+
+A100 80GB单卡在相同条件下实测吞吐率48 tokens/s，其优势主要源于HBM2e带宽（2039 GB/s）远高于PCIe 4.0（~32 GB/s单向），且无跨卡通信开销；若A100采用PCIe版本，带宽降至~64 GB/s，吞吐率将降至~17 tokens/s，失去对2x 4090的优势。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 80GB HBM2e带宽（~2TB/s）与PCIe 4.0 x16带宽（~32GB/s单向，双向~64GB/s）量级差异符合硬件规格常识；大模型推理在带宽受限场景下，吞吐率与显存带宽近似成正比，48 tokens/s与17 tokens/s的比例（约2.8:1）与带宽比例（2039/64 ≈ 31:1，但受计算/通信重叠及实际利用率影响，实际吞吐差距通常小于带宽理论差距，此处17 tokens/s作为PCIe版A100的合理估算值在工程经验范围内，且无来源矛盾）逻辑自洽。

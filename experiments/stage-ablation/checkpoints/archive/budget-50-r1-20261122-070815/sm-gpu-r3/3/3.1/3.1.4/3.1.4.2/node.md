@@ -1,0 +1,24 @@
+# N258: H100 80GB 在 Qwen3-27B BF16 权重 (54GB) 场景下，显存带宽利用率约为 85-90%，实际 Decode 速度上限为 3350 *
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N77
+
+## Claim
+
+H100 80GB 在 Qwen3-27B BF16 权重 (54GB) 场景下，显存带宽利用率约为 85-90%，实际 Decode 速度上限为 3350 * 0.85 / 56 ≈ 51 tokens/s，与 RTX 4090 INT4 (48.6 tokens/s) 相当，但 H100 价格 ($25000+) 是 RTX 4090 ($1600) 的 15 倍以上，TCO 劣势显著，除非对延迟有极致要求。
+
+## Corrected Claim
+
+H100 80GB 在 Qwen3-27B BF16 权重场景下，若显存带宽利用率约为 85-90%，理论 Decode 速度上限约为 51 tokens/s，与 RTX 4090 INT4 相当；但 H100 单卡价格远高于 RTX 4090，单卡 TCO 劣势显著，需结合并发需求与延迟要求综合评估。
+
+## Evidence
+
+[质询]显存带宽利用率85-90%的假设过于乐观，且未考虑Qwen3-27B在H100上通常采用量化或更优内核优化，实际Decode速度往往高于此线性估算值；此外，H100与4090的TCO对比忽略了H100在并发处理和多卡扩展上的优势，单纯单卡对比存在口径偏差。 | 经验事实，逻辑自洽但缺来源支持；带宽利用率假设及具体速度估算属于工程经验值，无外部来源直接验证，且TCO对比维度单一。
+
+## Search Query
+
+H100 BF16 inference throughput Qwen 27B comparison RTX 4090 INT4

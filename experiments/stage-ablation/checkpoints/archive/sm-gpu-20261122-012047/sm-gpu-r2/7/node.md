@@ -1,0 +1,25 @@
+# N43: 华为 Ascend 910B 作为非典型候选的可行性分析：单卡显存 64GB HBM2e，价格约为 $12,000 (国内市场价波动大 [待核验])，但受限于 
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+华为 Ascend 910B 作为非典型候选的可行性分析：单卡显存 64GB HBM2e，价格约为 $12,000 (国内市场价波动大 [待核验])，但受限于 CANN 软件栈生态，Qwen3-27B 需通过 vLLM-Ascend 插件支持，推理速度约为同代 NVIDIA A100 的 60-70% [待核验]，主要适用于特定地域或合规场景。
+
+## Corrected Claim
+
+华为 Ascend 910B 单卡显存为 64GB HBM2e，受限于 CANN 软件栈生态，Qwen3-27B 需通过 vLLM-Ascend 插件支持，主要适用于特定地域或合规场景。（价格与具体推理速度对比数据待进一步权威来源核验）
+
+## Evidence
+
+[质询]价格（$12,000）和推理速度（A100的60-70%）属于具体经验数据，且来源中未提供直接证据支持这两个特定数值，存在口径混淆或数据过时的风险。 | 来源[2]直接支持单卡显存64GB HBM的事实；但价格与推理速度对比数据在提供的参考来源中缺乏直接支持，属于经验事实且缺来源佐证，故降级。
+
+## Retrieval Sources
+
+- {'url': 'https://jishuzhan.net/article/2069227057103597570&rut=d648bac3b6d2a185f56f3ec39042ebe5036a1b470950f167cb18108cc89eb2be', 'type': 'ddg', 'title': '昇腾910B系列芯片完全指南：四款型号对比、服务器选型与大模型部署实战'}
+- {'url': 'https://blog.csdn.net/weixin_28729331/article/details/166124829&rut=73f6266cd830b91b84f73f62c6f15b2a51657d01a78c1ec14d27b581e7571d39', 'type': 'ddg', 'title': '八机八卡910b集群大模型选型：算力、显存与并行策略全解析-csdn博客'}

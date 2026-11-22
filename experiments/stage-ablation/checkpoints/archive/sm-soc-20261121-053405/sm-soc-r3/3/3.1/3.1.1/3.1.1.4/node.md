@@ -1,0 +1,20 @@
+# N148: 投影1：实际调整量分布：$\Delta w_{price}^{actual} \sim \mathcal{N}(\Delta w_{price}^{min}, 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N47
+
+## Claim
+
+投影1：实际调整量分布：$\Delta w_{price}^{actual} \sim \mathcal{N}(\Delta w_{price}^{min}, \sigma_{\Delta,price}^2)$，其中 $\sigma_{\Delta,price} = \sigma_{\Delta} \cdot \frac{\partial \Delta w_{price}^{min}}{\partial \Delta \theta}$；若 $\sigma_{\Delta,price} > 0.2 \cdot |\Delta w_{price}^{min}|$，则最小调整量的统计显著性需重新评估。
+
+## Corrected Claim
+
+投影1：实际调整量分布：$\Delta w_{price}^{actual} \sim \mathcal{N}(\Delta w_{price}^{min}, \sigma_{\Delta,price}^2)$，其中 $\sigma_{\Delta,price} = \sigma_{\Delta} \cdot \frac{\partial \Delta w_{price}^{min}}{\partial \Delta \theta}$；若 $\sigma_{\Delta,price} > 0.2 \cdot |\Delta w_{price}^{min}|$，则最小调整量的统计显著性需重新评估。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

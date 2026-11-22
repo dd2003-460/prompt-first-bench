@@ -1,0 +1,20 @@
+# N235: 单卡4090 INT4吞吐量上限推导：基于计算瓶颈模型（当batch size较大或KV Cache命中率高时），Throughput_max = FLOPS 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N93
+
+## Claim
+
+单卡4090 INT4吞吐量上限推导：基于计算瓶颈模型（当batch size较大或KV Cache命中率高时），Throughput_max = FLOPS / (2 * Num_Parameters * Seq_Len)。Qwen3-27B参数量27B，4090 FP16 FLOPS ~82.6 TFLOPS。若Seq_Len=32K，每token计算量 ≈ 2 * 27e9 * 32768 ≈ 1.76e15 FLOPs。理论峰值 ≈ 82.6e12 / 1.76e15 ≈ 46.9 tokens/s。实际受内存带宽与软件栈限制，上限通常为理论计算峰值的30-40%，即 14-18 tokens/s。取15 tokens/s作为上限。
+
+## Corrected Claim
+
+单卡4090 INT4吞吐量上限推导：基于计算瓶颈模型（当batch size较大或KV Cache命中率高时），Throughput_max = FLOPS / (2 * Num_Parameters * Seq_Len)。Qwen3-27B参数量27B，4090 FP16 FLOPS ~82.6 TFLOPS。若Seq_Len=32K，每token计算量 ≈ 2 * 27e9 * 32768 ≈ 1.76e15 FLOPs。理论峰值 ≈ 82.6e12 / 1.76e15 ≈ 46.9 tokens/s。实际受内存带宽与软件栈限制，上限通常为理论计算峰值的30-40%，即 14-18 tokens/s。取15 tokens/s作为上限。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：4090 FP16算力约82.6 TFLOPS，Qwen3-27B在32K序列长度下每token计算量约1.76e15 FLOPs，理论峰值约46.9 tokens/s，考虑实际效率30-40%后取15 tokens/s合理。

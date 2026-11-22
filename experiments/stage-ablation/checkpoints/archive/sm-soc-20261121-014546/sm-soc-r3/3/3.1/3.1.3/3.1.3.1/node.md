@@ -1,0 +1,24 @@
+# N219: 共享随机源 Var(P_hist)：历史成交价分布的方差 Var(P_hist) = σ_hist²，其值取决于样本窗口 W 和商品异质性，σ_hist = k
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N65
+
+## Claim
+
+共享随机源 Var(P_hist)：历史成交价分布的方差 Var(P_hist) = σ_hist²，其值取决于样本窗口 W 和商品异质性，σ_hist = k_het · μ_V，其中 k_het 为异质性系数（通常 0.1-0.3）。
+
+## Corrected Claim
+
+共享随机源 Var(P_hist)：历史成交价分布的方差 Var(P_hist) = σ_hist²，其值取决于样本窗口 W 和商品异质性，σ_hist = k_het · μ_V，其中 k_het 为异质性系数（通常 0.1-0.3）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+variance of historical transaction prices second-hand market

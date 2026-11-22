@@ -1,0 +1,24 @@
+# N254: 在 PCIe 4.0 x16 互联 (64 GB/s 双向) 且 Batch Size=1 的 Decode 阶段工作点下，每步通信量为 768 KB (N84
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N96
+
+## Claim
+
+在 PCIe 4.0 x16 互联 (64 GB/s 双向) 且 Batch Size=1 的 Decode 阶段工作点下，每步通信量为 768 KB (N84)，通信时间 = 768 KB / 64 GB/s = 12 µs。若单步计算时间为 50 ms (基于 4090 带宽估算)，则通信开销占比 = 12 µs / 50 ms = 0.024%，远低于 N96 中声称的 15%-30%。这表明在低 Batch 解码场景下，PCIe 带宽瓶颈可忽略，多卡吞吐损失主要源于同步等待而非带宽本身，N96 的高估源于混淆了 Prefill 和 Decode 阶段。
+
+## Corrected Claim
+
+在 PCIe 4.0 x16 互联 (64 GB/s 双向) 且 Batch Size=1 的 Decode 阶段工作点下，每步通信量为 768 KB (N84)，通信时间 = 768 KB / 64 GB/s = 12 µs。若单步计算时间为 50 ms (基于 4090 带宽估算)，则通信开销占比 = 12 µs / 50 ms = 0.024%，远低于 N96 中声称的 15%-30%。这表明在低 Batch 解码场景下，PCIe 带宽瓶颈可忽略，多卡吞吐损失主要源于同步等待而非带宽本身，N96 的高估源于混淆了 Prefill 和 Decode 阶段。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe 4.0 x16 带宽约 64 GB/s，768 KB 传输耗时约 12 µs，相对于 50 ms 计算时间占比极低，符合 Decode 阶段通信开销小的物理直觉。
+
+## Search Query
+
+Tensor Parallelism decode phase communication overhead ratio PCIe vs compute time

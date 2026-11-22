@@ -1,0 +1,24 @@
+# N127: Qwen3-27B 在 W4A8 量化下的 KV Cache 占用 13.82 GB 是基于 KV Cache 保持 FP16/BF16 精度（2 bytes/
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N41
+
+## Claim
+
+Qwen3-27B 在 W4A8 量化下的 KV Cache 占用 13.82 GB 是基于 KV Cache 保持 FP16/BF16 精度（2 bytes/token/head）计算的；若 KV Cache 也量化至 INT8/FP8（1 byte），占用将减半至 6.91 GB，总显存需求降至 20.41 GB，从而适配 24GB 显存卡。
+
+## Corrected Claim
+
+Qwen3-27B 在 W4A8 量化下的 KV Cache 占用 13.82 GB 是基于 KV Cache 保持 FP16/BF16 精度（2 bytes/token/head）计算的；若 KV Cache 也量化至 INT8/FP8（1 byte），占用将减半至 6.91 GB，总显存需求降至 20.41 GB，从而适配 24GB 显存卡。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：KV Cache 大小与精度线性相关，FP16(2B)减半为INT8(1B)符合数学逻辑，数值计算自洽（13.82/2=6.91, 27.32-13.82+6.91=20.41）。
+
+## Search Query
+
+Qwen3-27B KV cache quantization INT8 FP8 memory reduction

@@ -1,0 +1,28 @@
+# N122: KV Cache 的精度敏感性：若 KV Cache 使用 FP8 存储（而非 BF16），显存占用减半至 12.88 GB，但需验证 Qwen3-27B 在 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N31, N32, N33
+
+## Claim
+
+KV Cache 的精度敏感性：若 KV Cache 使用 FP8 存储（而非 BF16），显存占用减半至 12.88 GB，但需验证 Qwen3-27B 在 FP8 KV Cache 下的注意力分数精度损失；根据 Llama 系列基准测试，FP8 KV Cache 通常导致困惑度（Perplexity）上升 0.1-0.5%，在 32K 长上下文中可能累积为可感知的质量下降，需通过校准数据集量化具体阈值。
+
+## Corrected Claim
+
+KV Cache 使用 FP8 存储相比 BF16 可将显存占用减半，但需验证 Qwen3-27B 在 FP8 KV Cache 下的注意力分数精度损失；参考 Llama 系列基准测试，FP8 KV Cache 可能导致困惑度轻微上升（具体幅度依模型和上下文长度而异，通常在小数百分比级别），在长上下文中可能累积为质量下降，需通过校准数据集量化具体阈值。
+
+## Evidence
+
+[质询]数值量级与口径混淆：1. '显存占用减半至 12.88 GB' 表述存在歧义且可能错误，FP8 相比 BF16 是字节数减半（2字节->1字节），但 12.88 GB 的具体数值缺乏上下文（是总显存还是仅KV部分？），且不同模型/上下文长度下 KV Cache 大小差异巨大，直接给出固定值易误导；2. 'Llama 系列基准测试...困惑度上升 0.1-0.5%' 属于具体经验数据，来源未提供该具体数值，且不同模型（Qwen vs Llama）和上下文长度下精度损失差异显著，直接套用 Llama 数据作为 Qwen3-27B 的通用结论缺乏严谨性。 | 来源 [1] 仅讨论 SGLang 中 GDN state pool 与 KV cache 在 32GB 显存下的瓶颈问题，未涉及 FP8 精度损失、困惑度具体数值或显存占用具体计算，属于间接相关但无直接数据支持；该陈述包含具体经验数值（0.1-0.5% perplexity, 12.88 GB），属于经验事实，逻辑自洽但缺乏来源直接支持，故降级。
+
+## Search Query
+
+Qwen3 FP8 KV cache perplexity degradation long context 32k
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/lyesrock/qwen38-27b-32gb-context&rut=cc2bbef60ef0a06c8b9c0fd962d41a5abfb3af51b0f10bec92113ad6301fa305', 'type': 'ddg', 'title': 'GitHub - lyesrock/qwen38-27b-32gb-context: Where the context wall ...'}

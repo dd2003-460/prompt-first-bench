@@ -1,0 +1,24 @@
+# N91: TPOT 理论加速比公式：Speedup_Ratio = BW_BF16 / BW_Quantized，其中 BW_Quantized 受限于量化后权重读取带宽
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N23
+
+## Claim
+
+TPOT 理论加速比公式：Speedup_Ratio = BW_BF16 / BW_Quantized，其中 BW_Quantized 受限于量化后权重读取带宽及反量化计算开销，实际加速比通常低于理论 2x (BF16->FP8/INT8)。
+
+## Corrected Claim
+
+TPOT 理论加速比公式：Speedup_Ratio = BW_BF16 / BW_Quantized，其中 BW_Quantized 受限于量化后权重读取带宽及反量化计算开销，实际加速比通常低于理论 2x (BF16->FP8/INT8)。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1聚焦于硬件层面的带宽利用率修正（通用物理限制），子节点2聚焦于模型架构（MoE）对带宽读取的实际影响（特定场景限制）。两者分别解释了'为何实际低于理论值'的两个不同维度（硬件效率 vs 架构稀疏性），互不重叠且互补，共同覆盖了父节点中'受限于...及...开销'导致的'实际加速比低于理论值'这一核心论点。）
+
+## Search Query
+
+quantization inference speedup ratio theoretical vs actual

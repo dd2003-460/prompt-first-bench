@@ -1,0 +1,20 @@
+# N121: 最小可检测效应 δ 的设定标准：δ = MDE × AvgImpression，其中 MDE 为业务可接受的最小相对变化（如 5%），AvgImpression
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N51
+
+## Claim
+
+最小可检测效应 δ 的设定标准：δ = MDE × AvgImpression，其中 MDE 为业务可接受的最小相对变化（如 5%），AvgImpression 为平均曝光量，需结合平台流量波动标准差确定。
+
+## Corrected Claim
+
+最小可检测效应 δ 的设定通常基于统计功效分析，公式一般为 δ = (Z_{α/2} + Z_{β}) × σ / √n，其中 σ 为指标标准差，n 为样本量。若以相对变化表示，MDE 需结合基线均值和流量波动（标准差）共同确定，而非简单的 MDE × AvgImpression。
+
+## Evidence
+
+[质询]公式 δ = MDE × AvgImpression 在统计学上存在量纲和逻辑混淆。MDE (Minimum Detectable Effect) 通常定义为相对于基线均值的最小可检测绝对差异或相对差异。若 MDE 是相对变化（如 5%），则 δ 应为 MDE × Baseline_Mean。将 AvgImpression（平均曝光量）直接作为乘数，隐含假设了基线均值等于平均曝光量，且忽略了方差（标准差）对 MDE 计算的核心影响（通常 MDE ∝ σ/√n）。此外，陈述后半部分提到“需结合平台流量波动标准差确定”，这与前半部分的简单乘法公式存在逻辑矛盾，因为标准差并未出现在公式中。 | 先验知识/题面给定，逻辑校验发现公式与统计学定义存在量纲及逻辑矛盾（MDE 计算通常依赖标准差和样本量，而非简单的均值乘法），且内部表述自相矛盾（公式未含标准差但文字提及需结合标准差）。

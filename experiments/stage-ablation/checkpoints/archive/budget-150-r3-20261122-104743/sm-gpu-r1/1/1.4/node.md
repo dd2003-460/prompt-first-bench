@@ -1,0 +1,28 @@
+# N10: 硬件候选集显存规格映射：列出所有候选硬件（如 RTX 4090/5090, A100/H100, L40S, MI300X 等）的显存容量（GB）及显存带宽（G
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+硬件候选集显存规格映射：列出所有候选硬件（如 RTX 4090/5090, A100/H100, L40S, MI300X 等）的显存容量（GB）及显存带宽（GB/s），作为 N9 约束的判定基准
+
+## Corrected Claim
+
+硬件候选集显存规格映射：列出所有候选硬件（如 RTX 4090/5090, A100/H100, L40S, MI300X 等）的显存容量（GB）及显存带宽（GB/s），作为 N9 约束的判定基准（注：当前参考来源未提供专业硬件具体数值，需补充权威硬件规格表）
+
+## Evidence
+
+[质询]参考来源仅讨论消费级显卡（8-48GB）的模型运行能力，完全未覆盖专业/数据中心级硬件（如A100/H100/MI300X）的显存容量与带宽具体数值，无法提供直接支持。 | 经验事实，逻辑自洽但缺来源支持（来源[1]仅涉及消费级显卡，未覆盖N10要求的专业硬件规格映射）
+
+## Search Query
+
+GPU VRAM capacity bandwidth list RTX 4090 5090 A100 H100 L40S MI300X
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2080280290241660666&rut=f7f38263b8e78759e50e701759b538e71b88fc805022824c5e4e3f629eb880a1', 'type': 'ddg', 'title': '2026年本地大模型，显存需要表，8gb、12gb、16gb、24gb到底分别能跑什么？ - 知乎'}

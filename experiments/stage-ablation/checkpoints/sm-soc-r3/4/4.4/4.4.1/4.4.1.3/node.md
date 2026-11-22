@@ -1,0 +1,24 @@
+# N232: 泊松假设失效的边界条件：当 (P_market - P_ask)/P_market > 30% 时，咨询到达过程不再符合泊松分布，而呈现聚集性（Clusteri
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N77
+
+## Claim
+
+泊松假设失效的边界条件：当 (P_market - P_ask)/P_market > 30% 时，咨询到达过程不再符合泊松分布，而呈现聚集性（Clustering），需引入负二项分布修正参数 r，其中 r 反映过度离散程度。
+
+## Corrected Claim
+
+当市场波动导致咨询到达过程呈现显著聚集性（如 (P_market - P_ask)/P_market 偏差较大）时，泊松假设可能失效，需引入能描述过度离散的分布（如负二项分布）进行修正，具体阈值与模型选择需基于实证数据确定。
+
+## Evidence
+
+[质询]阈值 30% 为经验性参数，缺乏普适理论推导支持，且负二项分布并非修正聚集性到达过程的唯一或必然选择（如 Hawkes 过程、混合泊松过程等也可描述聚集性），具体分布形式及参数 r 的引入需依赖具体场景的实证拟合，而非仅由偏差比例决定。 | 先验知识/题面给定，逻辑校验通过：泊松分布假设独立性与平稳性，当市场波动导致到达率显著变化（聚集性）时，泊松假设确实失效，负二项分布是常见的过度离散修正模型，但 30% 阈值及特定分布选择属于经验性建模假设，非第一性原理严格推导，故降级为定性表述。
+
+## Search Query
+
+poisson process overdispersion boundary condition price deviation

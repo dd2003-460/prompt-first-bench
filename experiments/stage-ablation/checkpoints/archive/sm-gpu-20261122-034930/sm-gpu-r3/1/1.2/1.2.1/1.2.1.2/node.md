@@ -1,0 +1,20 @@
+# N163: 若 Qwen3-27B 采用 MHA (num_key_value_heads=32) 而非 GQA (num_key_value_heads=8)，KV Ca
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N48
+
+## Claim
+
+若 Qwen3-27B 采用 MHA (num_key_value_heads=32) 而非 GQA (num_key_value_heads=8)，KV Cache 单 token 大小将增至 $2 \times 32 \times 128 \times 2 \text{ bytes} = 16384 \text{ bytes} = 16 \text{ KB}$，是 GQA 方案的 4 倍，导致 32K 上下文下 KV Cache 总占用从 128 MB 增至 512 MB，显著影响显存预算。
+
+## Corrected Claim
+
+若 Qwen3-27B 采用 MHA (num_key_value_heads=32) 而非 GQA (num_key_value_heads=8)，KV Cache 单 token 大小将增至 $2 \times 32 \times 128 \times 2 \text{ bytes} = 16384 \text{ bytes} = 16 \text{ KB}$，是 GQA 方案的 4 倍，导致 32K 上下文下 KV Cache 总占用从 128 MB 增至 512 MB，显著影响显存预算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：MHA下KV头数为32，GQA下为8，比例4倍；单token大小计算 2*32*128*2=16384 bytes 正确；总占用 16KB * 32768 tokens = 512MB 正确，且 512MB / 4 = 128MB 与GQA方案一致。

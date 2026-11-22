@@ -1,0 +1,20 @@
+# N148: 在右偏分布下，当挂价溢价 Premium=15% 时，匹配率 M_rate 的基准工作点计算：假设买家保留价 R 服从对数正态分布，以市场价 P_market 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N51
+
+## Claim
+
+在右偏分布下，当挂价溢价 Premium=15% 时，匹配率 M_rate 的基准工作点计算：假设买家保留价 R 服从对数正态分布，以市场价 P_market 为几何中位数，σ_log=0.18，则 M_rate = 1 - LogNormalCDF(ln(P_market*1.15), ln(P_market), 0.18)，该值显著低于正态假设下的尾部概率，需通过具体分布参数计算得出。
+
+## Corrected Claim
+
+在右偏分布下，当挂价溢价 Premium=15% 时，匹配率 M_rate 的基准工作点计算：假设买家保留价 R 服从对数正态分布，以市场价 P_market 为几何中位数，σ_log=0.18，则 M_rate = 1 - LogNormalCDF(ln(P_market*1.15), ln(P_market), 0.18)，该值显著低于正态假设下的尾部概率，需通过具体分布参数计算得出。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：对数正态分布下，匹配率定义为买家保留价低于挂价（P_market*1.15）的概率，即 1 - CDF(ln(P_market*1.15))，公式推导正确；右偏分布（对数正态）相比正态分布，在均值附近右侧尾部更厚，但此处计算的是左侧累积概率（低于挂价的比例），由于几何中位数等于 P_market，ln(P_market*1.15) 位于均值右侧 0.15/0.18 ≈ 0.83 个标准差处，该概率值确实需通过具体参数计算，且对数正态假设下的尾部行为与正态不同，陈述逻辑自洽。

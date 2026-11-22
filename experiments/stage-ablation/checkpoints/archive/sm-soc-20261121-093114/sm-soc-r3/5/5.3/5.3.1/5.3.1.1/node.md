@@ -1,0 +1,24 @@
+# N215: 共享随机源：买家搜索与浏览行为的时间戳流，建模为泊松过程，其强度函数 λ_base(t) 受时间 t（小时/天）、商品类别 C 和卖家信用评分 S_seller
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N77
+
+## Claim
+
+共享随机源：买家搜索与浏览行为的时间戳流，建模为泊松过程，其强度函数 λ_base(t) 受时间 t（小时/天）、商品类别 C 和卖家信用评分 S_seller 共同驱动，基础到达率 λ_base = λ_0 * f(C) * g(S_seller)。
+
+## Corrected Claim
+
+共享随机源：买家搜索与浏览行为的时间戳流，建模为泊松过程，其强度函数 λ_base(t) 受时间 t（小时/天）、商品类别 C 和卖家信用评分 S_seller 共同驱动，基础到达率 λ_base = λ_0 * f(C) * g(S_seller)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+poisson process buyer consultation rate baseline e-commerce platform

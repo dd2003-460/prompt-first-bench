@@ -1,0 +1,24 @@
+# N382: 成交周期 T_cycle 缩短幅度的量化预测：ΔT_cycle/T_cycle_base = -ε_transparency * Δσ_δ/σ_δ_base，其
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N128
+
+## Claim
+
+成交周期 T_cycle 缩短幅度的量化预测：ΔT_cycle/T_cycle_base = -ε_transparency * Δσ_δ/σ_δ_base，其中 ε_transparency 为价格方差降低对成交速度的弹性系数；需基于历史数据回归估计 ε_transparency（例如，若 δ 标准差降低 1%，T_cycle 缩短 0.5%），以验证是否满足 >10% 缩短条件。
+
+## Corrected Claim
+
+成交周期 T_cycle 缩短幅度的量化预测需基于历史数据回归估计价格方差降低对成交速度的弹性系数 ε_transparency，以验证是否满足 >10% 缩短条件。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性参数示例（如弹性系数0.5）和特定的线性回归模型假设，属于经验事实范畴，缺乏外部数据支持其具体数值或模型形式的普适性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+elasticity of time to sell with respect to price variance in online marketplaces

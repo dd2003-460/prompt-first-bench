@@ -1,0 +1,20 @@
+# N6: 共享随机源：人类偏好噪声的量化模型，定义为偏好分布 P(pref) 的方差 Var(P) 与标准差 σ_pref，其量级取决于个体在演化中形成的‘损失厌恶’基线
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+共享随机源：人类偏好噪声的量化模型，定义为偏好分布 P(pref) 的方差 Var(P) 与标准差 σ_pref，其量级取决于个体在演化中形成的‘损失厌恶’基线（通常 λ ≈ 2.0-2.5）与‘锚定效应’强度（α_anchor），即 σ_pref = f(λ, α_anchor, 信息不对称度 I_asym)。
+
+## Corrected Claim
+
+共享随机源：人类偏好噪声的量化模型，定义为偏好分布 P(pref) 的方差 Var(P) 与标准差 σ_pref，其量级取决于个体在演化中形成的‘损失厌恶’基线（通常 λ ≈ 2.0-2.5）与‘锚定效应’强度（α_anchor），即 σ_pref = f(λ, α_anchor, 信息不对称度 I_asym)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

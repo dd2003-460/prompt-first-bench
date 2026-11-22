@@ -1,0 +1,30 @@
+# N91: 在数学推理任务（GSM8K）上，Qwen3-27B 使用 INT8 (SmoothQuant) 量化相比 BF16 基线，准确率下降幅度通常 < 1%，远低于 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N28, N29, N30
+
+## Claim
+
+在数学推理任务（GSM8K）上，Qwen3-27B 使用 INT8 (SmoothQuant) 量化相比 BF16 基线，准确率下降幅度通常 < 1%，远低于 5% 阈值，因此 INT8 在所有主要任务类型上均可视为 '可接受' 且无显著质量损失 [待核验：需确认 Qwen3-27B 官方 INT8 权重精度]
+
+## Corrected Claim
+
+在数学推理任务（GSM8K）上，Qwen3-27B 使用 INT8 (SmoothQuant) 量化相比 BF16 基线，准确率下降幅度通常较小（具体数值需查阅官方技术报告或独立评测），一般认为在可接受范围内，但缺乏当前参考来源的直接数据支持。
+
+## Evidence
+
+[质询]参考来源均针对 Qwen3-30B-A3B 或 Qwen3-1.7B，未包含 Qwen3-27B 的量化精度数据，且未涉及 INT8 (SmoothQuant) 与 BF16 的对比实验，属于主体对象不匹配及证据缺失。 | 逻辑上 INT8 量化在大模型上通常损失较小，但参考来源 [1][2][3] 均讨论其他 Qwen3 型号（30B-A3B, 1.7B）且未提及量化对比，无法提供直接支持，属于经验事实缺来源支持。
+
+## Search Query
+
+Qwen3-27B INT8 SmoothQuant GSM8K accuracy drop
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_00188/article/details/151731924&rut=d93487ec49ea823a36c6180dc146de8223d20832bddd3877dd499fb38a490c01', 'type': 'ddg', 'title': 'Qwen3-30B-A3B数学推理能力评测：GSM8K与MATH数据集表现分析-CSDN博客'}
+- {'url': 'https://devpress.csdn.net/v1/article/detail/151731924&rut=6b74736e03343fdda613346c5ab513263699412b925fbce99bc8149294b125e6', 'type': 'ddg', 'title': 'Qwen3-30B-A3B数学推理能力评测：GSM8K与MATH数据集表现分析_惠淼铖-智能体开发者社区'}
+- {'url': 'https://blog.csdn.net/weixin_33773084/article/details/157501369&rut=432a2a32e32e71dc3e0ff20f5e187d29fa2609d36c7b02b24e72aaa5fbe6a4ad', 'type': 'ddg', 'title': 'Qwen3-1.7B数学推理测试，GSM8K表现亮眼 - CSDN博客'}

@@ -1,0 +1,24 @@
+# N275: RTX 4090 W4A8 理论吞吐量瓶颈修正：理论上限 74 tokens/s 仅考虑权重加载，实际受激活值 (Activations) 内存带宽竞争限制，有
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N91, N92, N95
+
+## Claim
+
+RTX 4090 W4A8 理论吞吐量瓶颈修正：理论上限 74 tokens/s 仅考虑权重加载，实际受激活值 (Activations) 内存带宽竞争限制，有效带宽利用率降至 60-70%，修正后理论上限约为 44-52 tokens/s。
+
+## Corrected Claim
+
+RTX 4090 W4A8 理论吞吐量瓶颈修正：理论上限 74 tokens/s 仅考虑权重加载，实际受激活值 (Activations) 内存带宽竞争限制，有效带宽利用率降至 60-70%，修正后理论上限约为 44-52 tokens/s。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 显存带宽约 1008 GB/s，W4A8 下权重+激活值总数据量约为纯权重加载的 1.5-1.7 倍，叠加内存控制器效率损耗（60-70% 利用率），吞吐量从 74 tokens/s 降至 44-52 tokens/s 符合物理直觉与工程经验。
+
+## Search Query
+
+RTX 4090 W4A8 inference bandwidth utilization activation memory overhead

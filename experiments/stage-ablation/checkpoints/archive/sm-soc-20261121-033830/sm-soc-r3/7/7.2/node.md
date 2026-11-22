@@ -1,0 +1,24 @@
+# N101: 弹性系数的异质性：在二手市场中，价格弹性系数 ε_b 随商品类型显著变化，奢侈品 ε_b ≈ -0.3，普通商品 ε_b ≈ -0.5，具体数值需通过分组回归验
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N28
+
+## Claim
+
+弹性系数的异质性：在二手市场中，价格弹性系数 ε_b 随商品类型显著变化，奢侈品 ε_b ≈ -0.3，普通商品 ε_b ≈ -0.5，具体数值需通过分组回归验证 [时效待核]
+
+## Corrected Claim
+
+在二手市场中，价格弹性系数 ε_b 随商品类型显著变化，奢侈品通常比普通商品具有更低的弹性（绝对值更小），具体数值需通过分组回归验证。
+
+## Evidence
+
+[质询]具体数值（-0.3 和 -0.5）属于经验事实，缺乏来源支持，且不同研究对奢侈品和普通商品的弹性估计可能存在差异，无法仅凭逻辑推导确定具体数值。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+price elasticity heterogeneity second hand luxury vs regular goods

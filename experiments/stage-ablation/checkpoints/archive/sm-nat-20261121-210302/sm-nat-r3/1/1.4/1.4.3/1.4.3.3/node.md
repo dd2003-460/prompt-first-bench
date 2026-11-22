@@ -1,0 +1,20 @@
+# N118: 在 T_resident = 100天（低频极长尾对象）的工作点下，P_stale = 1 - exp(-0.01 * 100) ≈ 0.632，有效命中率折损
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N36
+
+## Claim
+
+在 T_resident = 100天（低频极长尾对象）的工作点下，P_stale = 1 - exp(-0.01 * 100) ≈ 0.632，有效命中率折损因子 (1 - P_stale) ≈ 0.368，折损约 63.2%
+
+## Corrected Claim
+
+在 T_resident = 100天（低频极长尾对象）的工作点下，P_stale = 1 - exp(-0.01 * 100) ≈ 0.632，有效命中率折损因子 (1 - P_stale) ≈ 0.368，折损约 63.2%
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算 1 - exp(-1) ≈ 0.6321 及 1 - 0.6321 ≈ 0.3679 符合数学事实，数值量级与逻辑自洽。

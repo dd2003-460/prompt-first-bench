@@ -1,0 +1,20 @@
+# N124: Frank Copula 参数 θ 的可行域为 θ ∈ R \ {0}，其 Pearson 相关系数 ρ 与 θ 的关系为 ρ = (1 - θ^2 / (4(
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N41
+
+## Claim
+
+Frank Copula 参数 θ 的可行域为 θ ∈ R \ {0}，其 Pearson 相关系数 ρ 与 θ 的关系为 ρ = (1 - θ^2 / (4(\sinh(θ/2))^2))，该函数为偶函数且值域覆盖 (-1, 1)，因此 Frank Copula 是建模 ρ ≈ -0.3 负相关的可行替代方案之一。
+
+## Corrected Claim
+
+Frank Copula 参数 θ 的可行域为 θ ∈ R \ {0}，其 Pearson 相关系数 ρ 与 θ 的关系为 ρ = (1 - θ^2 / (4(\sinh(θ/2))^2))，该函数为偶函数且值域覆盖 (-1, 1)，因此 Frank Copula 是建模 ρ ≈ -0.3 负相关的可行替代方案之一。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Frank Copula 的 Pearson 相关系数公式正确，函数为偶函数且值域为 (-1, 1)，能够覆盖 -0.3 的负相关系数。

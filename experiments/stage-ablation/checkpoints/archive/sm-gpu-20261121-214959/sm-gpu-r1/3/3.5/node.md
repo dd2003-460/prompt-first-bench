@@ -1,0 +1,20 @@
+# N20: 软件部署与维护隐性成本：消费级显卡 (NVIDIA) 使用 vLLM/TensorRT-LLM，社区支持完善，无额外软件许可费；AMD 显卡 (RX 7900/
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N3
+
+## Claim
+
+软件部署与维护隐性成本：消费级显卡 (NVIDIA) 使用 vLLM/TensorRT-LLM，社区支持完善，无额外软件许可费；AMD 显卡 (RX 7900/MI300) 使用 ROCm，驱动稳定性较差，调试时间成本增加 20-30% [待核验：具体调试时间比例]；Mac (Apple Silicon) 使用 MLX/Llama.cpp，生态较新，性能优化空间有限，但无驱动兼容性问题。
+
+## Corrected Claim
+
+软件部署与维护隐性成本：消费级显卡 (NVIDIA) 使用 vLLM/TensorRT-LLM，社区支持完善，无额外软件许可费；AMD 显卡 (RX 7900/MI300) 使用 ROCm，驱动稳定性相对较差，可能增加调试时间成本；Mac (Apple Silicon) 使用 MLX/Llama.cpp，生态较新，性能优化空间有限，但无驱动兼容性问题。
+
+## Evidence
+
+[质询]「调试时间成本增加 20-30%」是一个具体的经验性量化指标，缺乏普遍适用的基准测试或行业共识支持，不同工作负载和团队熟练度下差异巨大，该具体数值缺乏可靠来源支撑。 | 先验知识/题面给定，逻辑校验通过；但具体数值（20-30%）属于经验事实且无来源支持，故降级。

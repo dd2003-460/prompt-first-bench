@@ -1,0 +1,24 @@
+# N24: 架构影响：NVIDIA Ampere (A100/3090) 支持 FP8 和 INT8 高效推理；Hopper (H100) 原生支持 FP8 和 NVFP4
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N2
+
+## Claim
+
+架构影响：NVIDIA Ampere (A100/3090) 支持 FP8 和 INT8 高效推理；Hopper (H100) 原生支持 FP8 和 NVFP4；Ada Lovelace (4090) 支持 FP8 但不支持 NVFP4；AMD CDNA 架构对 FP8 支持较弱 [待核验]。
+
+## Corrected Claim
+
+架构影响：NVIDIA Ampere (A100/3090) 支持 INT8 高效推理，但不原生支持 FP8；Hopper (H100) 原生支持 FP8 和 NVFP4；Ada Lovelace (4090) 支持 FP8 但不支持 NVFP4；AMD CDNA 架构对 FP8 支持较弱。
+
+## Evidence
+
+[质询]Ampere架构（A100/3090）原生硬件并不支持FP8，FP8是Hopper架构引入的特性；Ampere主要支持INT8和FP16/BF16。虽然可以通过软件模拟或后续驱动更新支持FP8推理，但称其'支持FP8高效推理'且与Hopper的'原生支持'并列，存在技术口径混淆，容易误导认为Ampere有原生FP8 Tensor Core。 | 先验知识/题面给定，逻辑校验发现Ampere原生不支持FP8，存在技术细节偏差，故降级。
+
+## Search Query
+
+NVIDIA Ampere Hopper Ada Lovelace FP8 NVFP4 support

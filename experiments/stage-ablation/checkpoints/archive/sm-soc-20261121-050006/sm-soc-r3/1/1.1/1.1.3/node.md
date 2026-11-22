@@ -1,0 +1,30 @@
+# N35: 重尾分布假设（Pareto vs Lognormal）对高挂价匹配概率 p_match 的预测差异量化：在 P_ask = 1.2 * P_median 时，两
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N5
+
+## Claim
+
+重尾分布假设（Pareto vs Lognormal）对高挂价匹配概率 p_match 的预测差异量化：在 P_ask = 1.2 * P_median 时，两种分布模型下 p_match 的具体数值差 Δp_match
+
+## Corrected Claim
+
+在 P_ask = 1.2 * P_median 时，Pareto 分布与 Lognormal 分布对高挂价匹配概率 p_match 的预测存在差异，具体数值差 Δp_match 取决于分布的具体参数（如尾部指数或方差），通常 Pareto 分布在极端尾部赋予更高的概率质量，但需具体参数才能量化。
+
+## Evidence
+
+[质询]该陈述声称给出了具体的数值差 Δp_match，但参考来源仅讨论了 Pareto 与 Lognormal 分布的统计区分方法（如最大熵检验、似然比检验），并未提供在特定条件（P_ask = 1.2 * P_median）下针对“高挂价匹配概率”这一特定经济/交易场景的具体数值计算结果。此外，p_match 的具体数值高度依赖于分布的具体参数（如 Pareto 的 alpha 或 Lognormal 的 sigma），仅凭分布类型无法确定唯一的数值差，除非假设了特定的参数值，而陈述中未提及这些参数假设，导致“具体数值”缺乏定义基础。 | 来源 [1][2][3] 均涉及 Pareto 与 Lognormal 的区分，但属于统计方法论，未提供特定交易场景下的 p_match 数值对比，属于间接相关但无直接数据支持；逻辑上，不同重尾分布在尾部概率质量上确实存在差异，但具体数值需依赖参数，故降级为定性表述。
+
+## Search Query
+
+Pareto vs lognormal distribution match probability high price listing used goods market
+
+## Retrieval Sources
+
+- {'url': 'https://www.researchgate.net/publication/51653455_Pareto_Versus_Lognormal_a_Maximum_Entropy_Test&rut=7cb8c4a05b4c99b0f35f69a1fc1899eae2d31ed7c6b3dd54028aeda8c3778c2f', 'type': 'ddg', 'title': '(PDF) Pareto Versus Lognormal: a Maximum Entropy Test'}
+- {'url': 'https://link.springer.com/article/10.1007/s11634-022-00497-4&rut=829d736047062f0917faf6c754f84d4cc3d03f71703befde942705b2807c4cf9', 'type': 'ddg', 'title': 'On discriminating between lognormal and Pareto tail: an ... - Springer'}
+- {'url': 'https://metricgate.com/blogs/power-law-vs-lognormal-fitting/&rut=b82f18aa15f769677aff3d47371dc4a17bd72181fc30a63598dc9851fdb7a857', 'type': 'ddg', 'title': 'Power Law vs Lognormal for Heavy Tails | MetricGate'}

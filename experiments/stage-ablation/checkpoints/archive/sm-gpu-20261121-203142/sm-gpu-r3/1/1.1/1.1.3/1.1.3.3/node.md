@@ -1,0 +1,20 @@
+# N133: KV Cache 精度对显存占用的影响量化：若 KV Cache 采用 FP8 存储 (1 byte/element)，总占用减半为 4.0 GB；若采用 IN
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N37
+
+## Claim
+
+KV Cache 精度对显存占用的影响量化：若 KV Cache 采用 FP8 存储 (1 byte/element)，总占用减半为 4.0 GB；若采用 INT8，同样为 4.0 GB，此差异直接影响单卡 24GB 显存下的最大并发 Batch Size (B_max)
+
+## Corrected Claim
+
+KV Cache 精度对显存占用的影响量化：若 KV Cache 采用 FP8 存储 (1 byte/element)，总占用减半为 4.0 GB；若采用 INT8，同样为 4.0 GB，此差异直接影响单卡 24GB 显存下的最大并发 Batch Size (B_max)
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：FP8和INT8均为8位（1字节）精度，相比FP16/BF16（2字节）确实使显存占用减半，数学推导自洽。

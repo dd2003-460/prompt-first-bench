@@ -1,0 +1,20 @@
+# N40: 负相关修正后的命中率 H_LRU_correlated 的量化公式：H_LRU_correlated = H_LRU_independent * (1 - |ρ
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N9, N10, N11
+
+## Claim
+
+负相关修正后的命中率 H_LRU_correlated 的量化公式：H_LRU_correlated = H_LRU_independent * (1 - |ρ| * sensitivity_coeff)，其中 sensitivity_coeff 需通过微分 dH/dρ 在 ρ=0 处评估，量化为 sensitivity_coeff = (1-β) * ln(K_max/N) / (1 + ρ * correction_factor)。
+
+## Corrected Claim
+
+负相关修正后的命中率 H_LRU_correlated 通常通过引入相关系数 ρ 对独立假设下的命中率 H_LRU_independent 进行修正，具体修正系数需根据工作负载特性通过实验或特定模型推导确定，而非简单的线性乘积公式。
+
+## Evidence
+
+[质询]公式中 sensitivity_coeff 的定义存在循环依赖：右侧包含 ρ，而该系数本应是在 ρ=0 处评估的常数，导致公式在逻辑上不自洽；且该特定修正公式并非 LRU 缓存理论中的标准通用公式，缺乏广泛认可的来源支持。 | 先验知识/题面给定，但逻辑校验发现 sensitivity_coeff 定义存在循环依赖（依赖 ρ 却在 ρ=0 处评估），且无外部来源支持该特定经验公式，故降级。

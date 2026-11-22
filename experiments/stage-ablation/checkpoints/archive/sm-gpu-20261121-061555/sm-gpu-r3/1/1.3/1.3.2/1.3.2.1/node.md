@@ -1,0 +1,24 @@
+# N162: Mac Studio M2 Ultra 在 BF16 精度下推理 Qwen3-27B 的实测吞吐量约为 8-12 tokens/s，受限于统一内存带宽 (800
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N47
+
+## Claim
+
+Mac Studio M2 Ultra 在 BF16 精度下推理 Qwen3-27B 的实测吞吐量约为 8-12 tokens/s，受限于统一内存带宽 (800 GB/s) 及缺乏专用张量核心对大模型矩阵乘法的优化，显著低于 NVIDIA 消费级 GPU。
+
+## Corrected Claim
+
+Mac Studio M2 Ultra 在 BF16 精度下推理 Qwen3-27B 的吞吐量受限于统一内存带宽 (800 GB/s)，典型实测值可能在 8-15 tokens/s 区间（取决于推理框架与量化策略），其算力效率与专用张量核心相比存在差异，具体性能对比需参照特定 NVIDIA GPU 型号。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件规格（800 GB/s带宽）和实测性能数据（8-12 tokens/s），属于经验事实。虽然M2 Ultra的800 GB/s带宽是已知事实，但Qwen3-27B在BF16下的具体吞吐量受量化方式、推理框架（如llama.cpp, MLX）、上下文长度及系统负载影响极大，8-12 tokens/s仅为特定条件下的估算值，缺乏通用性，且‘显著低于NVIDIA消费级GPU’的结论需对比具体型号（如RTX 4090 vs M2 Ultra）才严谨，笼统对比存在口径模糊风险。 | 经验事实，逻辑自洽但缺来源支持。M2 Ultra带宽800GB/s符合已知规格，大模型推理受内存带宽限制符合物理直觉，但具体吞吐量数值为经验估算，无检索来源直接证实该特定区间。
+
+## Search Query
+
+Mac Studio M2 Ultra Qwen 27B BF16 inference speed tokens per second

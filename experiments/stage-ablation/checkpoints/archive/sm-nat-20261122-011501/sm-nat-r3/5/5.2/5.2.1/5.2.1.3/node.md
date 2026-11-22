@@ -1,0 +1,24 @@
+# N145: 独立假设失效的微观机制：独立假设假设每次请求是独立同分布（i.i.d.），忽略了自回归过程。在 Pareto 热度下，请求流呈现‘突发’（bursty）特征。量
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N60
+
+## Claim
+
+独立假设失效的微观机制：独立假设假设每次请求是独立同分布（i.i.d.），忽略了自回归过程。在 Pareto 热度下，请求流呈现‘突发’（bursty）特征。量化指标为 Fano 因子 F = Var(Count)/E[Count]。对于 Poisson 过程 F=1；对于具有时间局部性的过程，F > 1。对于 β=0.9 的 Zipf 负载，F 通常与 β 相关，经验上 F ≈ 1/(1-β) ≈ 10。这意味着方差远大于均值，独立假设低估了峰值期间的缓存压力和高频对象的重复命中率。
+
+## Corrected Claim
+
+独立假设失效的微观机制：独立假设假设每次请求是独立同分布（i.i.d.），忽略了自回归过程。在 Pareto 热度下，请求流呈现‘突发’（bursty）特征。量化指标为 Fano 因子 F = Var(Count)/E[Count]。对于 Poisson 过程 F=1；对于具有时间局部性的过程，F > 1。对于高 Zipf 指数（如 β=0.9）的负载，F 通常显著大于 1，表明方差远大于均值，独立假设低估了峰值期间的缓存压力和高频对象的重复命中率。
+
+## Evidence
+
+[质询]公式 F ≈ 1/(1-β) 缺乏严格的理论推导支持，且将 Zipf 指数 β 直接映射到 Fano 因子 F 的线性倒数关系属于过度简化的经验拟合，不同负载模型（如 Markovian 或 AR(1)）下 F 与 β 的关系并非固定为 1/(1-β)，该具体数值关系可能不准确。 | 先验知识/题面给定，逻辑校验通过：独立假设失效导致突发性的定性描述正确，Fano 因子定义及 Poisson 过程 F=1 正确，但具体经验公式 F ≈ 1/(1-β) 缺乏普适性，属于特定经验拟合，故降级为定性表述。
+
+## Search Query
+
+Fano factor network traffic burstiness Zipf distribution

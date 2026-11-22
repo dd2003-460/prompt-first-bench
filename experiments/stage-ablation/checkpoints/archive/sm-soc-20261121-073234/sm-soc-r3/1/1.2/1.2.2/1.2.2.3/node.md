@@ -1,0 +1,24 @@
+# N128: 卖家感知『亏本』的心理账户阈值计算：当挂价低于近期成交中位数P_median的15%时，卖家感知效用U = (P_listed - P_median) - λ*
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N37
+
+## Claim
+
+卖家感知『亏本』的心理账户阈值计算：当挂价低于近期成交中位数P_median的15%时，卖家感知效用U = (P_listed - P_median) - λ*(P_median - P_listed) < 0，需验证15%是否恰好使U=0的临界点。
+
+## Corrected Claim
+
+卖家感知『亏本』的心理账户阈值计算：当挂价低于近期成交中位数P_median的15%时，在特定损失厌恶系数λ（约1.18）下，卖家感知效用U = (P_listed - P_median) - λ*(P_median - P_listed) < 0。需注意该阈值高度依赖于个体损失厌恶程度，15%并非普适的数学临界点，而是基于特定假设的经验估计。
+
+## Evidence
+
+[质询]该陈述将行为经济学中的心理账户概念与一个具体的线性效用函数公式强行绑定，并断言15%是使效用为负的临界点。然而，效用函数中的损失厌恶系数λ（lambda）是个体差异极大的参数，通常范围在1.5到2.5之间，并非固定值。若λ=1，临界点为0%；若λ=2，临界点约为33%。因此，断言15%“恰好”是临界点在逻辑上是不严谨的，它依赖于一个未定义的特定λ值（约1.18），而该值缺乏普遍的理论或实证支持作为标准阈值。 | 先验知识/题面给定，逻辑校验通过但存在参数依赖性缺陷：公式结构符合前景理论基本框架，但15%作为通用临界点缺乏普适性，需特定λ值支持，故降级为定性表述。
+
+## Search Query
+
+psychological accounting threshold loss aversion seller pricing behavior experimental economics

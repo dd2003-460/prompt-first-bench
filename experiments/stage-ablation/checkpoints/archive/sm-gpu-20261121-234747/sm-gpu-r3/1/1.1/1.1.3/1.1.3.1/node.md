@@ -1,0 +1,24 @@
+# N170: RTX 4080 Super 16GB 在 2025-01-15 Newegg 上的具体 SKU 链接及当日实时报价为 $1,099.99，需排除第三方卖家溢价
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N33
+
+## Claim
+
+RTX 4080 Super 16GB 在 2025-01-15 Newegg 上的具体 SKU 链接及当日实时报价为 $1,099.99，需排除第三方卖家溢价，仅统计官方渠道或一级经销商价格
+
+## Corrected Claim
+
+RTX 4080 Super 16GB 在 2025-01-15 Newegg 上的官方渠道或一级经销商价格约为 $1,099.99（需排除第三方卖家溢价，具体价格以当日实时查询为准）
+
+## Evidence
+
+[质询]该陈述包含具体的实时价格（$1,099.99）和特定日期的SKU链接，属于高度易变的经验事实。由于缺乏任何参考来源支持，且实时价格随市场波动，无法验证其准确性，存在将某一时刻的价格误认为固定事实或来源不可靠的风险。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，无法验证具体价格数值）
+
+## Search Query
+
+site:newegg.com RTX 4080 Super 16GB price 2025-01-15

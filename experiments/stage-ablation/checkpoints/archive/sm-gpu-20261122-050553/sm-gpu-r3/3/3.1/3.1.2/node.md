@@ -1,0 +1,20 @@
+# N64: BF16 精度下 Qwen3-27B 的总显存需求（权重 54GB + KV Cache）与候选硬件显存容量的匹配矩阵：列出 RTX 5090 (32GB), 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N16, N17, N18
+
+## Claim
+
+BF16 精度下 Qwen3-27B 的总显存需求（权重 54GB + KV Cache）与候选硬件显存容量的匹配矩阵：列出 RTX 5090 (32GB), AMD W7900 (48GB), H100 (80GB), M2 Ultra (192GB) 是否满足 ≥70GB 需求，若不满足则标记为‘不可行’并指向量化替代方案。
+
+## Corrected Claim
+
+BF16 精度下 Qwen3-27B 的总显存需求（权重 54GB + KV Cache）与候选硬件显存容量的匹配矩阵：列出 RTX 5090 (32GB), AMD W7900 (48GB), H100 (80GB), M2 Ultra (192GB) 是否满足 ≥70GB 需求，若不满足则标记为‘不可行’并指向量化替代方案。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：BF16下27B模型权重约54GB，加上KV Cache后总需求≥70GB符合大模型显存估算常识；硬件显存容量（RTX 5090 32GB, W7900 48GB, H100 80GB, M2 Ultra 192GB）与需求匹配的逻辑判断自洽。

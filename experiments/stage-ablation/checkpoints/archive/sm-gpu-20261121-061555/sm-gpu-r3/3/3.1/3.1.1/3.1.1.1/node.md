@@ -1,0 +1,24 @@
+# N218: Qwen3-27B 官方技术报告中列出的 BF16 基线 WikiText-2 Perplexity 具体数值，若报告未直接提供，需通过 HuggingFace
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N72
+
+## Claim
+
+Qwen3-27B 官方技术报告中列出的 BF16 基线 WikiText-2 Perplexity 具体数值，若报告未直接提供，需通过 HuggingFace 社区高信誉评测（如 EleutherAI 或 LMSYS）获取，作为量化损失计算的基准分母。
+
+## Corrected Claim
+
+Qwen3-27B 的 BF16 基线 WikiText-2 Perplexity 具体数值需查阅官方技术报告或 HuggingFace 社区高信誉评测（如 EleutherAI 或 LMSYS）获取，作为量化损失计算的基准分母。
+
+## Evidence
+
+[质询]该陈述包含具体的经验事实（Qwen3-27B 的 BF16 WikiText-2 PPL 数值），且声称若官方报告未提供则需通过特定社区获取。由于缺乏官方报告或高信誉社区评测的直接数据支持，无法验证该具体数值或获取路径的准确性，属于经验事实缺来源支持。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，无法验证具体数值或官方报告内容）
+
+## Search Query
+
+Qwen3-27B BF16 WikiText-2 Perplexity PPL baseline benchmark

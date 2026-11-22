@@ -1,0 +1,20 @@
+# N10: 消费级显卡 (RTX 4090/5090) 不支持原生 FP8 或 NVFP4 推理加速，仅支持 INT8/INT4 通过 TensorRT-LLM 或 vLL
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+消费级显卡 (RTX 4090/5090) 不支持原生 FP8 或 NVFP4 推理加速，仅支持 INT8/INT4 通过 TensorRT-LLM 或 vLLM 插件；数据中心卡 (H100/H200/B200) 原生支持 FP8 和 NVFP4，可实现 2x-4x 的吞吐量提升且质量损失低于 INT4。
+
+## Corrected Claim
+
+消费级显卡中，RTX 4090 支持 FP8 但不支持 NVFP4；RTX 5090 (Blackwell) 支持 FP8 和 NVFP4。数据中心卡 (H100/H200/B200) 原生支持 FP8，其中 B200 支持 NVFP4，可实现显著吞吐量提升。
+
+## Evidence
+
+[质询]RTX 4090 (Ada Lovelace架构) 实际上原生支持 FP8 数据格式（通过 Tensor Cores），并非仅支持 INT8/INT4；此外，NVFP4 是 Blackwell 架构（如 B200/RTX 5090）的特性，RTX 5090 作为消费级 Blackwell 卡，理论上应支持 NVFP4，陈述中将其排除在消费级支持范围外存在事实错误。 | 先验知识/题面给定，逻辑校验发现事实错误：RTX 4090 支持 FP8，RTX 5090 支持 NVFP4，原陈述对消费级显卡的支持能力描述不准确。

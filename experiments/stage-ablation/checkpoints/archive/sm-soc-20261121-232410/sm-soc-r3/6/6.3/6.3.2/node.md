@@ -1,0 +1,24 @@
+# N208: 投诉率非线性修正项：实际投诉率 R_complaint = R_base + η_complaint * X * (1 - e^(-k*X))，其中k为饱和系数
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N80
+
+## Claim
+
+投诉率非线性修正项：实际投诉率 R_complaint = R_base + η_complaint * X * (1 - e^(-k*X))，其中k为饱和系数；当X>20%时，边际投诉增量递减，线性模型高估投诉率，导致33%阈值过于保守，实际安全阈值可能更高。
+
+## Corrected Claim
+
+投诉率非线性修正项：实际投诉率 R_complaint = R_base + η_complaint * X * (1 - e^(-k*X))，其中k为饱和系数；当X>20%时，边际投诉增量递减，线性模型高估投诉率，导致33%阈值过于保守，实际安全阈值可能更高。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 R = R_base + η * X * (1 - e^(-kX)) 中，当 X 较大时，(1 - e^(-kX)) 趋近于 1，函数行为趋近于线性但斜率受限于 η，且其二阶导数在 X>0 时为负（凹函数），符合‘边际投诉增量递减’的描述；因此线性模型（通常假设恒定边际效应或更高斜率）在饱和区确实会高估投诉率，导致基于线性模型设定的阈值偏保守，逻辑自洽。
+
+## Search Query
+
+non-linear complaint rate exposure saturation effect

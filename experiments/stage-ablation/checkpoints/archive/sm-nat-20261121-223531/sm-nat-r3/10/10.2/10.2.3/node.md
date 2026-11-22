@@ -1,0 +1,20 @@
+# N232: h_avg 的蒙特卡洛模拟基准值：通过生成 100k 个 (S, H) 样本，S~Pareto(1.1, 1KB), H~Pareto(0.9, 1/day)，
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N83
+
+## Claim
+
+h_avg 的蒙特卡洛模拟基准值：通过生成 100k 个 (S, H) 样本，S~Pareto(1.1, 1KB), H~Pareto(0.9, 1/day)，Copula 相关系数 ρ=-0.3，计算 h_avg = mean(S*H)/mean(S)，预期结果在 0.08-0.12 请求/天区间。
+
+## Corrected Claim
+
+h_avg 的蒙特卡洛模拟基准值：通过生成 100k 个 (S, H) 样本，S~Pareto(1.1, 1KB), H~Pareto(0.9, 1/day)，Copula 相关系数 ρ=-0.3，计算 h_avg = mean(S*H)/mean(S)，预期结果在 0.08-0.12 请求/天区间。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

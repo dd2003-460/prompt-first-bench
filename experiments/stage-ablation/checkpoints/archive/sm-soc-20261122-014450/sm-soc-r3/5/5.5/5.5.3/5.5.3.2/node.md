@@ -1,0 +1,20 @@
+# N316: 买家支付函数 U_buyer(P, V) 的具体形式：U_buyer = V - P - C_search - R_risk，其中 V 为估值，C_search
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N102
+
+## Claim
+
+买家支付函数 U_buyer(P, V) 的具体形式：U_buyer = V - P - C_search - R_risk，其中 V 为估值，C_search 为搜索成本，R_risk 为风险溢价。∂U_buyer/∂P = -1 恒成立，但买家决策取决于 U_buyer > 0。需量化 C_search 和 R_risk 在均衡点 P_list = 1.2 * P_market 处的数值，以解释为何买家仍愿意支付高价。
+
+## Corrected Claim
+
+买家支付函数 U_buyer(P, V) 的具体形式：U_buyer = V - P - C_search - R_risk，其中 V 为估值，C_search 为搜索成本，R_risk 为风险溢价。∂U_buyer/∂P = -1 恒成立，但买家决策取决于 U_buyer > 0。需量化 C_search 和 R_risk 在均衡点 P_list = 1.2 * P_market 处的数值，以解释为何买家仍愿意支付高价。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：效用函数形式符合标准微观经济学模型，偏导数计算正确，决策规则逻辑自洽。

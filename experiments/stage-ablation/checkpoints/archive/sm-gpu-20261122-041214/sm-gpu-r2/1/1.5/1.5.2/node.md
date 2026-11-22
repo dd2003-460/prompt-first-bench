@@ -1,0 +1,24 @@
+# N60: 32K 上下文 BF16 KV Cache 精确计算：KV_GB = (2 * 64 * 8 * 128 * 2 * 32768) / 1024^3 ≈ 7.8
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N10
+
+## Claim
+
+32K 上下文 BF16 KV Cache 精确计算：KV_GB = (2 * 64 * 8 * 128 * 2 * 32768) / 1024^3 ≈ 7.8 GB。注意：N10 原估算 20-30GB 偏高，可能是误将 hidden_dim (4096) 当作 head_dim 或层数错误。若 n_layers=48, 则为 5.8 GB。
+
+## Corrected Claim
+
+32K 上下文 BF16 KV Cache 精确计算：KV_GB = (2 * 64 * 8 * 128 * 2 * 32768) / 1024^3 ≈ 7.8 GB。注意：N10 原估算 20-30GB 偏高，可能是误将 hidden_dim (4096) 当作 head_dim 或层数错误。若 n_layers=48, 则为 5.8 GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 (2 * 64 * 8 * 128 * 2 * 32768) / 1024^3 计算结果确为 7.8125 GB，量纲与数值均正确。
+
+## Search Query
+
+KV cache size calculation 32k context 27B model layers heads

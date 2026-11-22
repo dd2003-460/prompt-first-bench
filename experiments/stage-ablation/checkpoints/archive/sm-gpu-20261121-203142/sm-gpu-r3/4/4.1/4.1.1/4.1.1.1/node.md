@@ -1,0 +1,24 @@
+# N239: 高可靠性/高带宽工作点（PCIe 5.0 x16 双槽位）：需支持 2x 4090 的高功耗主板（如 ASUS ProArt Z790 Creator，$400
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N76
+
+## Claim
+
+高可靠性/高带宽工作点（PCIe 5.0 x16 双槽位）：需支持 2x 4090 的高功耗主板（如 ASUS ProArt Z790 Creator，$400）+ 1600W 80Plus Titanium 电源（$300），总附加 CapEx ≈ $700；该配置消除 PCIe 带宽瓶颈，使 2x 4090 的 Tensor Parallel 通信开销降低约 20%，但 CapEx 增加 $200 导致 5 年 TCO 增加 $40（摊销后），仅在高频多卡推理场景下 ROI 为正。
+
+## Corrected Claim
+
+高可靠性/高带宽工作点（PCIe 5.0 x16 双槽位）：需支持 2x 4090 的高功耗主板及 1600W 80Plus Titanium 电源，总附加 CapEx 约 $700；该配置旨在消除 PCIe 带宽瓶颈，理论上可降低多卡并行通信开销，但具体性能增益（如 20%）及 TCO 影响需依据实际基准测试与当前市场价格验证。
+
+## Evidence
+
+[质询]该陈述包含大量具体的经验性参数（如特定主板型号及价格、电源价格、PCIe 5.0 对 Tensor Parallel 通信开销降低 20% 的具体量化影响、TCO 摊销计算），这些均属于硬件规格、市场价格及特定场景下的性能基准，无法从第一性原理或数学公理中严格推导得出。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且涉及具体硬件价格与性能增益，不适用第一性原理推导条款）
+
+## Search Query
+
+ASUS ProArt Z790 Creator price 1600W 80Plus Titanium PSU price

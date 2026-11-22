@@ -1,0 +1,20 @@
+# N378: ‘通知阈值’机制的竞争性检验指标：计算降价后 48 小时内实际咨询次数 N_inquiry 的分布，若 N_inquiry 呈零膨胀泊松分布（Zero-Infl
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N125, N126, N127
+
+## Claim
+
+‘通知阈值’机制的竞争性检验指标：计算降价后 48 小时内实际咨询次数 N_inquiry 的分布，若 N_inquiry 呈零膨胀泊松分布（Zero-Inflated Poisson），则需估计零膨胀概率 P(N=0)；若 P(N=0) 显著高于纯泊松分布预测值（似然比检验 p < 0.05），则表明存在阈值截断效应，此时 ε_inquiry 的估计值可能偏误，柠檬市场断言置信度需根据截断比例调整。
+
+## Corrected Claim
+
+‘通知阈值’机制的竞争性检验指标：计算降价后 48 小时内实际咨询次数 N_inquiry 的分布，若 N_inquiry 呈零膨胀泊松分布（Zero-Inflated Poisson），则需估计零膨胀概率 P(N=0)；若 P(N=0) 显著高于纯泊松分布预测值（似然比检验 p < 0.05），则表明存在阈值截断效应，此时 ε_inquiry 的估计值可能偏误，柠檬市场断言置信度需根据截断比例调整。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：零膨胀泊松分布（ZIP）是处理过度零值计数数据的标准统计模型，似然比检验（LRT）是检验分布拟合优度及零膨胀效应的标准方法，逻辑自洽且符合统计学原理。

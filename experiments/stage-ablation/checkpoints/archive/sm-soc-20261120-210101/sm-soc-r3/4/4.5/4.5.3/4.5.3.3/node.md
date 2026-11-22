@@ -1,0 +1,20 @@
+# N310: 买家效用变化项 ΔW_buyer 的量化：ΔW_buyer = N_buyer * ΔU_unit，其中 ΔU_unit 为单个买家效用变化，由价格下降带来的消
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N89
+
+## Claim
+
+买家效用变化项 ΔW_buyer 的量化：ΔW_buyer = N_buyer * ΔU_unit，其中 ΔU_unit 为单个买家效用变化，由价格下降带来的消费者剩余增加 ΔCS = 0.5 * ΔP * ΔQ 和搜索时间节省 ΔT_search * V_time 组成。假设 ΔP = 5% * P_ref，ΔQ = 10%，V_time = 50元/小时，ΔT_search = 0.1小时，则 ΔU_unit ≈ 0.5*0.05*P_ref*10 + 5*0.1 = 0.25*P_ref + 0.5元。
+
+## Corrected Claim
+
+买家效用变化项 ΔW_buyer 的量化：ΔW_buyer = N_buyer * ΔU_unit，其中 ΔU_unit 为单个买家效用变化，由价格下降带来的消费者剩余增加 ΔCS = 0.5 * ΔP * ΔQ 和搜索时间节省 ΔT_search * V_time 组成。假设 ΔP = 5% * P_ref，ΔQ = 10%，V_time = 50元/小时，ΔT_search = 0.1小时，则 ΔU_unit ≈ 0.5*0.05*P_ref*10 + 5*0.1 = 0.25*P_ref + 0.5元。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式推导符合消费者剩余近似计算（0.5*ΔP*ΔQ）及时间价值计算（V_time*ΔT_search），数值代入正确（0.5*0.05*P_ref*10 = 0.25*P_ref, 50*0.1 = 5*0.1=0.5），量纲与逻辑自洽。

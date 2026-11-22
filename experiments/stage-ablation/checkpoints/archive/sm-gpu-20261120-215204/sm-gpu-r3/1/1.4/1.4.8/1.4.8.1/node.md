@@ -1,0 +1,20 @@
+# N189: L40S 在 FP8 精度下运行 Qwen3-27B 的显存占用校验：权重 27 GB + KV Cache (32K, FP8) 约 20 GB + 激活/碎
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N52
+
+## Claim
+
+L40S 在 FP8 精度下运行 Qwen3-27B 的显存占用校验：权重 27 GB + KV Cache (32K, FP8) 约 20 GB + 激活/碎片 3 GB = 50 GB > 48 GB 物理上限，结论：单卡 L40S 无法在 32K 上下文下完整加载 FP8 Qwen3-27B，必须使用 W4 量化 (权重 13.5 GB + KV 20 GB = 33.5 GB < 48 GB) 或降低上下文至 ~24K。
+
+## Corrected Claim
+
+L40S 在 FP8 精度下运行 Qwen3-27B 的显存占用校验：权重 27 GB + KV Cache (32K, FP8) 约 20 GB + 激活/碎片 3 GB = 50 GB > 48 GB 物理上限，结论：单卡 L40S 无法在 32K 上下文下完整加载 FP8 Qwen3-27B，必须使用 W4 量化 (权重 13.5 GB + KV 20 GB = 33.5 GB < 48 GB) 或降低上下文至 ~24K。
+
+## Evidence
+
+[质询]KV Cache 20GB 的估算可能偏高（取决于具体层数和头数配置），但即使按更保守的 15GB 计算，总显存仍超过 48GB，结论方向不变；权重 27GB 符合 27B 参数在 FP8 下的理论值（27e9 * 1 byte）。 | 先验知识/题面给定，逻辑校验通过：FP8 权重 27GB + KV Cache (32K) 估算 20GB + 开销 3GB = 50GB > 48GB，单卡无法容纳；W4 量化后 13.5GB + 20GB = 33.5GB < 48GB，逻辑自洽。

@@ -1,0 +1,24 @@
+# N457: Qwen3-27B 在 W4 权重量化且 KV Cache 使用 FP8 时，32K 上下文长度的总显存占用：权重 13.5 GB + KV Cache 8 G
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N146
+
+## Claim
+
+Qwen3-27B 在 W4 权重量化且 KV Cache 使用 FP8 时，32K 上下文长度的总显存占用：权重 13.5 GB + KV Cache 8 GB = 21.5 GB，在单卡 24GB 显存内可容纳，剩余 2.5 GB 用于激活值和其他开销，需验证是否溢出
+
+## Corrected Claim
+
+Qwen3-27B 在 W4 权重量化且 KV Cache 使用 FP8 时，32K 上下文长度的总显存占用：权重 13.5 GB + KV Cache 8 GB = 21.5 GB，在单卡 24GB 显存内可容纳，剩余 2.5 GB 用于激活值和其他开销，需验证是否溢出
+
+## Evidence
+
+[质询]KV Cache 8 GB 的估算可能偏乐观，取决于具体的注意力头配置和精度实现细节，但在工程估算中属于合理量级；剩余 2.5 GB 用于激活值在 32K 长上下文下确实非常紧张，存在溢出风险，但陈述本身已指出‘需验证’，逻辑上自洽。 | 先验知识/题面给定，逻辑校验通过：Qwen3-27B 参数量约 27B，W4 量化后权重约 13.5GB (27e9 * 0.5 bytes) 合理；KV Cache 8GB 在 32K 长度下符合常见大模型显存占用量级；总显存 21.5GB < 24GB，数学计算正确。
+
+## Search Query
+
+GPTQ W4 quantization memory overhead activation values

@@ -1,0 +1,20 @@
+# N143: LFU 与 LRU 对象数差 ΔK 的量化计算：基于工作点 A（最优 LFU）和工作点 C（最差 LRU），ΔK = K_LFU_A - K_LRU_C = 2
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N52
+
+## Claim
+
+LFU 与 LRU 对象数差 ΔK 的量化计算：基于工作点 A（最优 LFU）和工作点 C（最差 LRU），ΔK = K_LFU_A - K_LRU_C = 262,144 - 87,381 ≈ 174,763。此差值量化了 LFU 在理想负相关下可多缓存的对象数量。
+
+## Corrected Claim
+
+LFU 与 LRU 对象数差 ΔK 的量化计算：基于工作点 A（最优 LFU）和工作点 C（最差 LRU），ΔK = K_LFU_A - K_LRU_C = 262,144 - 87,381 ≈ 174,763。此差值量化了 LFU 在理想负相关下可多缓存的对象数量。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：262,144 - 87,381 = 174,763，算术正确，量级合理（2^18 vs ~8.7万），符合缓存对象数量级。

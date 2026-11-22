@@ -1,0 +1,17 @@
+{
+  "id": "N304",
+  "claim": "128K 上下文下 KV Cache 量化至 INT4 的可行性与质量损失：INT4 KV Cache 显存占用减半 (从 25.16GB 降至 12.58GB)，使 24GB 单卡 (13.5GB 权重 + 12.58GB KV = 26.08GB) 仍溢出，但 32GB 单卡 (RTX 5090) 变为可行 (26.08GB < 32GB)；INT4 KV Cache 在长上下文下的注意力权重精度损失需验证，通常导致长距离依赖任务 (如 RULER) 性能下降 5-10%。",
+  "level": "L4",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]数值计算存在内部矛盾：25.16GB 减半应为 12.58GB，但 13.5GB + 12.58GB = 26.08GB，而 26.08GB 并未小于 32GB 的阈值（虽然 26.08 < 32 成立，但通常显存占用需预留 CUDA 上下文等开销，直接比较总显存与卡容量过于理想化；更关键的攻击点是：25.16GB 的 KV Cache 对应 128K 上下文，若模型权重仅 13.5GB，这暗示模型参数量较小或精度较低，但 128K 上下文的 KV Cache 通常远大于此，除非是极小模型或特定架构，数值量级存疑。此外，'性能下降 5-10%' 是经验性断言，缺乏具体模型和任务基准支持。 | 来源不可用，且数值逻辑存在疑点（KV Cache 大小与模型权重比例、显存预留未考虑），经验事实缺乏来源支持。",
+  "corrected_claim": "128K 上下文下 KV Cache 量化至 INT4 可显著降低显存占用（理论上减半），但具体数值（如 25.16GB 降至 12.58GB）需结合具体模型架构和精度验证；在 24GB 单卡上可能因显存碎片和 CUDA 开销仍不可行，32GB 单卡可行性需实测确认；INT4 量化对长距离依赖任务的性能影响因模型而异，通常有轻微下降，但 5-10% 的具体范围缺乏通用基准支持。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N108"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "INT4 KV cache quantization long context attention precision loss RULER",
+  "retrieval_sources": []
+}

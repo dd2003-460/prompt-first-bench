@@ -1,0 +1,26 @@
+# N127: 能效比指标 Tokens/Watt 的计算需区分 Idle 和 Active 状态，对于本地工作站，若日均使用 8 小时，加权平均功耗 P_avg = (P_i
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+能效比指标 Tokens/Watt 的计算需区分 Idle 和 Active 状态，对于本地工作站，若日均使用 8 小时，加权平均功耗 P_avg = (P_idle * 16h + P_active * 8h) / 24h，最终能效指标为 TPS_active / P_avg，用于对比不同架构（如 Mac Studio 低待机功耗 vs GPU 高待机功耗）的长期经济性。
+
+## Corrected Claim
+
+能效比指标 Tokens/Watt 的计算需区分 Idle 和 Active 状态。对于本地工作站，若已知日均活跃时间，可通过加权平均计算总功耗 P_avg，进而计算长期能效指标 TPS_active / P_avg，以评估不同架构（如低待机功耗 vs 高待机功耗设备）的长期经济性。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点逻辑清晰且正交：子节点1聚焦Idle功耗参数，子节点2聚焦Active功耗参数，子节点3基于前两者进行加权计算与对比。三者共同构成了父节点中'区分Idle/Active'、'加权平均公式'及'架构对比'的全部关键要素，无重复或矛盾。）
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_29061425/article/details/165402269&rut=ecfebc96d2a5ee440fb5b33fa267f5ca9639252b07f931d7f098ed64606e0e3d', 'type': 'ddg', 'title': 'AI基础设施能效革命：从算力竞赛到每瓦Token优化-CSDN博客'}
+- {'url': 'https://blog.csdn.net/weixin_29038303/article/details/167336293&rut=644c129fb38edc895750ddae436116923730dcb54a245e26a7485290be3d0a52', 'type': 'ddg', 'title': '从PUE到TPW：算电协同Agent如何优化每瓦Token产出 - CSDN博客'}
+- {'url': 'https://wattthe.net/tools/inference-tokens-per-watt-calculator/&rut=8e1b92e80387e885a6f83fbc482fbd2143fdff350fb6d28ecb88091824c3849b', 'type': 'ddg', 'title': 'Inference Tokens-per-Watt Calculator: AI Efficiency'}

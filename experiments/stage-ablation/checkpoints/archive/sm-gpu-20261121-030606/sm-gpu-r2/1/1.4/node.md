@@ -1,0 +1,24 @@
+# N10: 非典型方案包括Mac Studio M2 Ultra (192GB统一内存) 和 双RTX 4090 (48GB总显存)，Mac Studio提供1.2TB/s
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+非典型方案包括Mac Studio M2 Ultra (192GB统一内存) 和 双RTX 4090 (48GB总显存)，Mac Studio提供1.2TB/s内存带宽但无CUDA支持，需通过MLX或llama.cpp推理，双4090需PCIe 4.0 x16 x2支持且KV Cache分片带来通信开销，两者作为高容量/低算力或高带宽/低算力对比项纳入。
+
+## Corrected Claim
+
+非典型方案包括Mac Studio M2 Ultra (192GB统一内存) 和 双RTX 4090 (48GB总显存)，Mac Studio提供1.2TB/s内存带宽但无CUDA支持，需通过MLX或llama.cpp推理，双4090需PCIe 4.0 x16 x2支持且KV Cache分片带来通信开销，两者作为高容量/低算力或高带宽/低算力对比项纳入。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：M2 Ultra 192GB 统一内存带宽约 1.2TB/s 且无 CUDA 支持需依赖 MLX/llama.cpp，双 RTX 4090 显存共 48GB 且需 PCIe 4.0 x16 x2 支持，KV Cache 分片存在通信开销，描述符合硬件事实与推理逻辑。
+
+## Search Query
+
+Mac Studio M2 Ultra LLM inference benchmark Qwen

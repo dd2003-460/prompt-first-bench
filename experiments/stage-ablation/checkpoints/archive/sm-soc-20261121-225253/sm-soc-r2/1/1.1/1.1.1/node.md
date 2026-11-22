@@ -1,0 +1,28 @@
+# N18: Kahneman, Knetsch & Thaler (1990) 实验测得的禀赋效应基础溢价中位数为 2.7 倍（即 170%），在二手交易平台语境下，需量化
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N5
+
+## Claim
+
+Kahneman, Knetsch & Thaler (1990) 实验测得的禀赋效应基础溢价中位数为 2.7 倍（即 170%），在二手交易平台语境下，需量化'所有权时间'（持有天数）对溢价系数 $\beta_{endow}$ 的衰减函数，具体公式为 $\beta_{endow}(t) = \beta_0 \times e^{-\lambda t}$，其中 $\beta_0$ 为初始溢价，$\lambda$ 为时间衰减率。
+
+## Corrected Claim
+
+Kahneman, Knetsch & Thaler (1990) 的实验证实了禀赋效应的存在，显示卖方保留价显著高于买方支付价（通常比值在2-3倍之间）。在二手交易平台语境下，可假设所有权时间对溢价系数存在衰减作用，例如采用指数衰减模型 β_endow(t) = β0 × e^(-λt) 进行量化，但具体参数 β0 和 λ 需基于特定平台数据拟合，而非直接由该经典实验得出。
+
+## Evidence
+
+[质询]陈述中关于'所有权时间'对溢价系数衰减的具体指数公式（β_endow(t) = β0 × e^(-λt)）属于作者提出的理论模型或假设，并非Kahneman, Knetsch & Thaler (1990) 实验直接测得的实证结论；此外，'中位数为2.7倍'这一具体数值需精确核对原文数据分布，通常文献引用的是平均保留价与平均支付价的比值（约2-3倍），直接断言中位数为2.7倍可能存在统计口径偏差。 | 来源[1]确认了Kahneman, Knetsch & Thaler关于禀赋效应的研究背景及存在性，但未提供具体的'2.7倍中位数'数据或'指数衰减公式'的实证支持；该公式为经验性建模假设，非第一性原理可推导，且缺乏直接来源支持具体参数，故降级。
+
+## Search Query
+
+Kahneman Knetsch Thaler 1990 endowment effect magnitude 2.7x decay over time holding period
+
+## Retrieval Sources
+
+- {'url': 'https://www.nsd.pku.edu.cn/attachments/8e3121e6ac564b9180c61402ae5dcbba.pdf&rut=837a3f79575fcb5f3fdf4f8af3b805085307485405bcd6f387ba2d5b8821fab4', 'type': 'ddg', 'title': 'PDF Experimental Tests of the Endowment Effect and the Coase Theorem'}

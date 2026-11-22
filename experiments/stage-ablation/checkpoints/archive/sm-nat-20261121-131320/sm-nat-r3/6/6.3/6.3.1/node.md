@@ -1,0 +1,20 @@
+# N127: LRU 策略下，对象 i 的稳态命中率贡献项 h_i = min(1, C / (S_i * f_i / R)) 在头部对象（i=1, 2, ..., K_ma
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N50
+
+## Claim
+
+LRU 策略下，对象 i 的稳态命中率贡献项 h_i = min(1, C / (S_i * f_i / R)) 在头部对象（i=1, 2, ..., K_max）处恒等于 1，因为 C / (S_i * f_i / R) >> 1；该公式仅在长尾对象（f_i 极小或 S_i 极大）处小于 1，构成 H_LRU 下界的积分下限。
+
+## Corrected Claim
+
+LRU 策略下，对象 i 的稳态命中率贡献项 h_i = min(1, C / (S_i * f_i / R)) 在头部对象（i=1, 2, ..., K_max）处恒等于 1，因为 C / (S_i * f_i / R) >> 1；该公式仅在长尾对象（f_i 极小或 S_i 极大）处小于 1，构成 H_LRU 下界的积分下限。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：LRU 缓存中头部对象访问频率高且大小适中，其需求容量远小于缓存总容量 C，故 min(1, ...) 恒为 1；长尾对象因频率低或体积大导致需求容量超过 C，命中率受限，符合 LRU 稳态分析的基本原理。

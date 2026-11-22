@@ -1,0 +1,24 @@
+# N24: LRU 稳态字节命中率下界的解析公式在 Pareto 请求分布下无封闭解，需使用 Belady 最小栈算法或 Monte Carlo 仿真，置信度：中（依赖仿真
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N5
+
+## Claim
+
+LRU 稳态字节命中率下界的解析公式在 Pareto 请求分布下无封闭解，需使用 Belady 最小栈算法或 Monte Carlo 仿真，置信度：中（依赖仿真精度），[时效待核：仿真参数是否收敛]
+
+## Corrected Claim
+
+LRU 稳态字节命中率下界的解析公式在 Pareto 请求分布下无封闭解，需使用 Belady 最小栈算法或 Monte Carlo 仿真，置信度：中（依赖仿真精度），[时效待核：仿真参数是否收敛]
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：LRU在Pareto分布下的稳态命中率确实无简单封闭解析解，通常依赖仿真或近似算法，该陈述符合缓存理论常识。
+
+## Search Query
+
+LRU cache hit rate lower bound Pareto distribution simulation

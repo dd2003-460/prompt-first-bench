@@ -1,0 +1,24 @@
+# N158: 高挂价规避损失的共享随机源：成交概率Q(P)服从Logistic分布Q(P) = 1 / (1 + exp(k * (P - C_ref) / C_ref))，
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N46
+
+## Claim
+
+高挂价规避损失的共享随机源：成交概率Q(P)服从Logistic分布Q(P) = 1 / (1 + exp(k * (P - C_ref) / C_ref))，其中k为价格敏感度参数，k=5表示价格每偏离C_ref 20%，成交概率下降约50%，该分布捕捉了买家对高价的非线性反应。
+
+## Corrected Claim
+
+高挂价规避损失的共享随机源：成交概率Q(P)服从Logistic分布Q(P) = 1 / (1 + exp(k * (P - C_ref) / C_ref))，其中k为价格敏感度参数，k=5表示价格每偏离C_ref 20%，成交概率下降约50%，该分布捕捉了买家对高价的非线性反应。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Logistic函数在x=0处值为0.5，当k=5且价格偏离20%（即(P-C_ref)/C_ref=0.2）时，指数项为exp(5*0.2)=exp(1)≈2.718，Q(P)=1/(1+2.718)≈0.269，相比0.5确实下降了约46%（接近50%的定性描述），量级与逻辑自洽。
+
+## Search Query
+
+logistic demand curve price sensitivity used goods market

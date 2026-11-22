@@ -1,0 +1,20 @@
+# N34: 缓存容量占比 p_cache = C / S_total 的具体数值：若 S_total 由 N31 修正后计算得出（假设 E[S] ≈ 10KB 作为合理估计
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N7
+
+## Claim
+
+缓存容量占比 p_cache = C / S_total 的具体数值：若 S_total 由 N31 修正后计算得出（假设 E[S] ≈ 10KB 作为合理估计），则 S_total = 100,000 * 10KB = 1GB，p_cache = 128GB / 1GB = 128。这表明缓存容量远超总数据量，命中率理论上限为 100%，与题设“边缘节点”场景不符，需重新审视 s_min/s_max 假设或 N 值。
+
+## Corrected Claim
+
+缓存容量占比 p_cache = C / S_total 的具体数值：若 S_total 由 N31 修正后计算得出（假设 E[S] ≈ 10KB 作为合理估计），则 S_total = 100,000 * 10KB = 1GB，p_cache = 128GB / 1GB = 128。这表明缓存容量远超总数据量，命中率理论上限为 100%，与题设“边缘节点”场景不符，需重新审视 s_min/s_max 假设或 N 值。
+
+## Evidence
+
+父节点级核验未通过：有冗余（子节点分别基于不同的参数假设（N96修正值 vs N58原始值）计算同一指标，逻辑上互斥且覆盖了主要假设分支，正交性良好。但两个子节点本质上是同一计算逻辑在不同参数下的实例化，属于参数敏感性分析，存在结构性冗余。）

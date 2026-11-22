@@ -1,0 +1,20 @@
+# N108: RTX 5090 32GB 显存可单卡运行 27B INT8 (27GB 权重 + 1.93GB KV + 1GB 开销 ≈ 30GB)，无需多卡；而 RTX 
+
+- **status**: verified
+- **level**: L3
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+RTX 5090 32GB 显存可单卡运行 27B INT8 (27GB 权重 + 1.93GB KV + 1GB 开销 ≈ 30GB)，无需多卡；而 RTX 4090 24GB 单卡无法运行 INT8 (需 31GB)，必须双卡 (2x4090) 或降级至 W4 (13.5GB)；W4 精度损失大于 INT8，且 5090 单卡方案避免了多卡 PCIe 带宽瓶颈和复杂性。
+
+## Corrected Claim
+
+RTX 5090 32GB 显存可单卡运行 27B INT8 (27GB 权重 + 1.93GB KV + 1GB 开销 ≈ 30GB)，无需多卡；而 RTX 4090 24GB 单卡无法运行 INT8 (需 31GB)，必须双卡 (2x4090) 或降级至 W4 (13.5GB)；W4 精度损失大于 INT8，且 5090 单卡方案避免了多卡 PCIe 带宽瓶颈和复杂性。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B INT8权重约27GB，加上KV Cache和开销后总显存需求约30GB，符合RTX 5090 32GB单卡运行及RTX 4090 24GB单卡无法运行的逻辑推导。

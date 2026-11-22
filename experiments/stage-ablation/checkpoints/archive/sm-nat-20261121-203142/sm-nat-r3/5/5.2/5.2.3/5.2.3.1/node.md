@@ -1,0 +1,20 @@
+# N178: 在低开销实现（5% 元数据）下，LFU 计数器占用 6.4GB，有效缓存容量 C_eff = 121.6GB，由此导致的容量损失项 ΔH_capacity 为 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N68
+
+## Claim
+
+在低开销实现（5% 元数据）下，LFU 计数器占用 6.4GB，有效缓存容量 C_eff = 121.6GB，由此导致的容量损失项 ΔH_capacity 为 (1 - (C_eff/C_total)^{1/α}) * H_LRU 的近似值，其中 C_total=128GB，α=1.1。
+
+## Corrected Claim
+
+在低开销实现（5% 元数据）下，LFU 计数器占用 6.4GB，有效缓存容量 C_eff = 121.6GB，由此导致的容量损失项 ΔH_capacity 为 (1 - (C_eff/C_total)^{1/α}) * H_LRU 的近似值，其中 C_total=128GB，α=1.1。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算自洽（128-6.4=121.6），公式结构符合缓存容量损失模型定义，量纲与量级合理。

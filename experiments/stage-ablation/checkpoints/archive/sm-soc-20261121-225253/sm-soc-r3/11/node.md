@@ -1,0 +1,25 @@
+# N125: 利益相关方驱动力的判定依据为‘剩余索取权弹性’（Residual Claim Elasticity）：平台对 GMV 增长的边际敏感度系数 ε_platform
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+利益相关方驱动力的判定依据为‘剩余索取权弹性’（Residual Claim Elasticity）：平台对 GMV 增长的边际敏感度系数 ε_platform = ∂Profit/∂GMV 估计为 0.3-0.5，远高于卖家对单笔利润的敏感度 ε_seller ≈ 0.1（因卖家面临流动性约束）；若 ε_platform > 2 * ε_seller，则判定平台算法为均衡的主要驱动方。
+
+## Corrected Claim
+
+利益相关方驱动力的判定依据可参考‘剩余索取权弹性’概念：通常平台对GMV增长的边际敏感度高于卖家对单笔利润的敏感度（因卖家面临流动性约束且平台拥有更强的剩余索取权）；若平台敏感度显著高于卖家（如超过2倍），则判定平台算法为均衡的主要驱动方。
+
+## Evidence
+
+[质询]该陈述中的具体数值（ε_platform = 0.3-0.5, ε_seller ≈ 0.1）及判定阈值（2倍关系）属于特定平台或特定模型下的经验参数，并非通用的经济学第一性原理或数学公理，且参考来源中完全未包含这些具体数值或量化模型，存在‘无来源支持的具体经验数据’风险。 | 来源[2]定义了剩余索取权的概念，与事实主题相关，但未提供具体的弹性系数数值或量化判定规则；来源[1]为项目管理通用知识，与具体经济参数无关。该事实逻辑自洽（平台通常比单个卖家更关注整体GMV增长），但具体数值缺乏外部证据支持，属于经验事实。
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/598755440&rut=cc5c2f213503fd4b6f7093d8d570cfc3d8f07a057df1e6b7ed229a5295f9ba47', 'type': 'ddg', 'title': 'PMP 利益相关者Stakeholder Map深入了解利益相关者的目标和权益。'}
+- {'url': 'https://baike.baidu.com/item/%E5%89%A9%E4%BD%99%E7%B4%A2%E5%8F%96%E6%9D%83/2948540&rut=0f5deca21ba29b0fd1f9197ba6e6e897d452f1ebefef000632db32e764de2b3a', 'type': 'ddg', 'title': '剩余索取权_百度百科'}

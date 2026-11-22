@@ -1,0 +1,24 @@
+# N188: Qwen3-27B 在 INT8 量化下 GPQA (Diamond) 基准的绝对准确率数值 [待核验: 需查找 Qwen3 技术报告或 HuggingFace
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N56
+
+## Claim
+
+Qwen3-27B 在 INT8 量化下 GPQA (Diamond) 基准的绝对准确率数值 [待核验: 需查找 Qwen3 技术报告或 HuggingFace 社区量化评测帖]；若缺失，采用 Llama-3-70B INT8 在 GPQA 上的得分 (约 30-35%) 作为代理上限，并应用模型规模惩罚系数 (27B/70B ≈ 0.38) 估算为 20-25% 区间
+
+## Corrected Claim
+
+Qwen3-27B 在 INT8 量化下 GPQA (Diamond) 基准的绝对准确率数值暂无确切公开数据；基于 Llama-3-70B INT8 得分及模型规模差异的粗略估算区间约为 20-25%，但该估算方法存在较大不确定性，仅供参考。
+
+## Evidence
+
+[质询]该陈述包含具体的经验事实（Qwen3-27B INT8 在 GPQA 上的准确率），且提供的估算方法（基于 Llama-3-70B 的代理上限乘以规模惩罚系数）缺乏严谨的实证支持，属于主观推测而非客观事实。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该数值无法从第一性原理推导，属于特定模型在特定基准下的经验数据）
+
+## Search Query
+
+Qwen3-27B INT8 GPQA Diamond accuracy score benchmark

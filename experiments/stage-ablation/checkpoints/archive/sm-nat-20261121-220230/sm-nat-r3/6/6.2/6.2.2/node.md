@@ -1,0 +1,20 @@
+# N256: C_norm 修正对命中率下界的影响：使用 C_norm=0.0256 替代 0.119，Belady MIN 近似公式 H_lower = 1 - (1 - 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N88
+
+## Claim
+
+C_norm 修正对命中率下界的影响：使用 C_norm=0.0256 替代 0.119，Belady MIN 近似公式 H_lower = 1 - (1 - C_norm)^{1/α_eff} 计算得 H_lower ≈ 1 - (0.9744)^{0.952} ≈ 0.0261，相比原估算 0.12 降低 78%，需验证该公式在小 C_norm 下的适用性。
+
+## Corrected Claim
+
+C_norm 修正对命中率下界的影响：使用 C_norm=0.0256 替代 0.119，Belady MIN 近似公式 H_lower = 1 - (1 - C_norm)^{1/α_eff} 计算得 H_lower ≈ 1 - (0.9744)^{0.952} ≈ 0.0261，相比原估算 0.12 降低 78%，需验证该公式在小 C_norm 下的适用性。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算 1 - (0.9744)^0.952 ≈ 0.0261 准确，降幅 (0.12-0.0261)/0.12 ≈ 78% 准确，公式逻辑自洽。

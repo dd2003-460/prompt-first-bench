@@ -1,0 +1,24 @@
+# N108: 信息不对称下‘快速响应’策略的边际收益贡献：快速响应（Response_time < T_fast）带来的额外成交概率增量 ΔP(deal) = δ * (1 
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N26
+
+## Claim
+
+信息不对称下‘快速响应’策略的边际收益贡献：快速响应（Response_time < T_fast）带来的额外成交概率增量 ΔP(deal) = δ * (1 - e^(-λ_response / T_fast))，其中 δ 为响应速度对买家的效用权重（[待核验]，估计 δ≈0.1-0.2），λ_response 为买家耐心衰减率。
+
+## Corrected Claim
+
+在特定信息不对称模型中，快速响应带来的额外成交概率增量可建模为 ΔP(deal) = δ * (1 - e^(-λ_response / T_fast))，其中 δ 和 λ_response 为需根据具体市场数据校准的经验参数。
+
+## Evidence
+
+[质询]该公式为特定理论模型下的假设性推导，并非普适的经济或物理定律；且参数 δ 和 λ_response 的具体数值范围（如 δ≈0.1-0.2）缺乏通用实证支持，属于特定场景下的经验估计，存在将特定模型结论泛化为通用事实的风险。 | 先验知识/题面给定，逻辑校验通过（公式量纲自洽，指数衰减形式符合耐心衰减的直觉），但作为经验性参数估计，缺乏通用来源直接支持，故降级。
+
+## Search Query
+
+response time impact on conversion rate e-commerce second hand

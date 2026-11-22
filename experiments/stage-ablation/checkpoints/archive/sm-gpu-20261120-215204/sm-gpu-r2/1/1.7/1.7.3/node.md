@@ -1,0 +1,28 @@
+# N68: 相比单卡 RTX 4090，2×RTX 4090 在生成阶段 (Decode) 的有效吞吐提升率通常为 1.5-1.7 倍，而在预填充阶段 (Prefill) 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N12
+
+## Claim
+
+相比单卡 RTX 4090，2×RTX 4090 在生成阶段 (Decode) 的有效吞吐提升率通常为 1.5-1.7 倍，而在预填充阶段 (Prefill) 由于计算密集度高且通信占比相对较小，提升率可达 1.8-1.9 倍，但受限于 PCIe 延迟，长序列 (32K) 的 Prefill 效率损失约 10-15%。
+
+## Corrected Claim
+
+相比单卡 RTX 4090，2×RTX 4090 在生成阶段 (Decode) 的有效吞吐提升率通常低于预填充阶段 (Prefill)，Prefill 阶段因计算密集度高且通信占比相对较小，提升率通常更高，但长序列 (32K) 的 Prefill 效率会受限于 PCIe 延迟而有所损失。
+
+## Evidence
+
+[质询]具体数值（1.5-1.7x, 1.8-1.9x, 10-15%）缺乏通用性，高度依赖具体的并行策略（如张量并行 vs 流水线并行）、序列长度分布及硬件互联带宽（PCIe 4.0/5.0），且参考来源仅提及8卡集群，未提供2卡对比的具体实测数据，存在以偏概全或数据无据的风险。 | 逻辑上Prefill计算密集度高，通信占比相对Decode较小，因此多卡加速比通常高于Decode，且长序列受PCIe延迟影响效率下降符合物理直觉；但参考来源[1]仅涉及8卡集群背景，未直接提供2卡RTX 4090在Decode/Prefill阶段的具体吞吐提升率及长序列效率损失数据，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+RTX 4090 dual card tensor parallelism throughput benchmark LLM inference
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2020458980598633680&rut=72d4fca1489aa1b2e29b2fe0a0a50774ca73f4f8174e48040c8da7a6df25168b', 'type': 'ddg', 'title': '8卡4090集群实测：多卡并行效率能到多少？ - 知乎'}

@@ -1,0 +1,17 @@
+{
+  "id": "N82",
+  "claim": "NVIDIA A100 80GB 单卡运行 Qwen3-27B (BF16) 的理论生成速度上限：Bandwidth 2039 GB/s / (54 GB 权重 + 0.128 GB KV + 2 GB Activations) ≈ 36 tokens/s；实际受计算瓶颈限制，预计约为理论值的 60-70%，即 21-25 tokens/s [待核验]。",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]该陈述将‘理论生成速度上限’定义为纯带宽限制下的数值，但忽略了A100在BF16下计算能力（~312 TFLOPS）与带宽（2039 GB/s）的平衡点（Roofline Model）。对于27B模型，算术强度约为27 FLOPs/Byte，远低于A100的平衡点（~153 FLOPs/Byte），因此确实是带宽受限。然而，‘实际受计算瓶颈限制’这一表述在逻辑上存在矛盾：既然已判定为带宽受限（Memory Bound），实际速度主要受内存带宽和效率影响，而非‘计算瓶颈’（Compute Bound）。此外，60-70%的效率估算对于大模型推理是合理的，但归因于‘计算瓶颈’是不准确的，应归因于‘内存访问效率/并行度’。 | 先验知识/题面给定，逻辑校验通过。数值量级合理（2039/56.128 ≈ 36.3），但归因逻辑存在瑕疵（带宽受限场景下不应称受计算瓶颈限制），且无外部来源支持具体效率系数，故降级。",
+  "corrected_claim": "NVIDIA A100 80GB 单卡运行 Qwen3-27B (BF16) 的理论带宽上限约为 36 tokens/s；实际受内存访问效率及并行度限制，预计约为理论值的 60-70%，即 21-25 tokens/s。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N14"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

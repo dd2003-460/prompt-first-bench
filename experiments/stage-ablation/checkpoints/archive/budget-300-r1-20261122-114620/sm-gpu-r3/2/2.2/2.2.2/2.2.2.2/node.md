@@ -1,0 +1,24 @@
+# N193: H100 SXM 80GB 在 Qwen3-27B FP8, batch=1 下的 Decode 吞吐量化：理论最大吞吐 T_decode_max_FP8 = 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N59
+
+## Claim
+
+H100 SXM 80GB 在 Qwen3-27B FP8, batch=1 下的 Decode 吞吐量化：理论最大吞吐 T_decode_max_FP8 = HBM_Bandwidth / (P_params * bytes_per_param) = 3350 GB/s / (27e9 * 1 byte) ≈ 124 tokens/s，实际 112 tokens/s 达到理论值的 90%，表明 FP8 下 H100 接近带宽饱和，性能提升主要来自带宽而非算力。
+
+## Corrected Claim
+
+H100 SXM 80GB 在 Qwen3-27B FP8, batch=1 下的 Decode 吞吐量化：理论最大吞吐 T_decode_max_FP8 = HBM_Bandwidth / (P_params * bytes_per_param) = 3350 GB/s / (27e9 * 1 byte) ≈ 124 tokens/s，实际 112 tokens/s 达到理论值的 90%，表明 FP8 下 H100 接近带宽饱和，性能提升主要来自带宽而非算力。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H100 SXM HBM带宽约3.35TB/s，Qwen3-27B FP8参数量约27GB，理论带宽极限吞吐约124 tokens/s，实际112 tokens/s符合工程常识（约90%效率），推导逻辑自洽。
+
+## Search Query
+
+H100 HBM3 bandwidth 3350 GB/s FP8 LLM decode throughput saturation

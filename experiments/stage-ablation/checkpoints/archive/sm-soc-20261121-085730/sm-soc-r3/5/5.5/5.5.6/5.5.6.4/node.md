@@ -1,0 +1,20 @@
+# N356: 历史效应量元分析的合并统计量：计算平均采纳率 a_mean = Σa_i / 3，平均咨询提升 δc_mean = Σδc_i / 3，以及标准差 σ_a, σ
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N122
+
+## Claim
+
+历史效应量元分析的合并统计量：计算平均采纳率 a_mean = Σa_i / 3，平均咨询提升 δc_mean = Σδc_i / 3，以及标准差 σ_a, σ_δc，用于构建 C_intervention 的先验正态分布 N(μ_prior, σ_prior^2)
+
+## Corrected Claim
+
+历史效应量元分析的合并统计量：计算平均采纳率 a_mean = Σa_i / 3，平均咨询提升 δc_mean = Σδc_i / 3，以及标准差 σ_a, σ_δc，用于构建 C_intervention 的先验正态分布 N(μ_prior, σ_prior^2)
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于3个历史效应量计算均值和标准差以构建正态先验分布，符合贝叶斯元分析的标准统计流程，量纲与逻辑自洽。

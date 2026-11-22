@@ -1,0 +1,20 @@
+# N40: 对于 Pareto(β=0.9) 分布，对数热度 $\log H$ 的标准差 $\sigma_{\log H}$ 为 $\sqrt{\pi^2/\beta^2}
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+对于 Pareto(β=0.9) 分布，对数热度 $\log H$ 的标准差 $\sigma_{\log H}$ 为 $\sqrt{\pi^2/\beta^2} = \pi/0.9 \approx 3.491$，该值用于量化负相关修正项中的离散度。
+
+## Corrected Claim
+
+对于 Pareto(β=0.9) 分布，对数热度 $\log H$ 的标准差 $\sigma_{\log H}$ 为 $\sqrt{\pi^2/\beta^2} = \pi/0.9 \approx 3.491$，该值用于量化负相关修正项中的离散度。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布的对数形式服从指数分布，其标准差公式推导正确且数值计算无误

@@ -1,0 +1,24 @@
+# N34: 卖家响应速度 v 的操作化定义：v = 1 / T_response，其中 T_response 为卖家首次回复买家咨询的平均时间（单位：小时），v 的提升幅度
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+卖家响应速度 v 的操作化定义：v = 1 / T_response，其中 T_response 为卖家首次回复买家咨询的平均时间（单位：小时），v 的提升幅度 Δv 需量化为百分比变化。
+
+## Corrected Claim
+
+卖家响应速度 v 的操作化定义：v = 1 / T_response，其中 T_response 为卖家首次回复买家咨询的平均时间（单位：小时），v 的提升幅度 Δv 需量化为百分比变化。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点实质上是同一参数 v（或 T_response）的两个离散取值（工作点），属于冗余分解而非正交维度的分解。此外，父节点强调的是 v 的‘操作化定义’及 Δv 的量化方式（百分比变化），但子节点仅列举了静态状态，未涵盖 Δv 的动态计算逻辑或不同区间的一般性定义，导致对父节点核心意图（定义与量化方法）的覆盖不完备。）
+
+## Search Query
+
+seller response time impact on transaction speed online marketplace

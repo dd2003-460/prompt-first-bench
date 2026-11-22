@@ -1,0 +1,24 @@
+# N151: 碎片化开销（Fragmentation Overhead）的量化：假设对象在内存中以固定块大小 B_block（如64KB或1MB）分配，实际占用空间 S_al
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N59, N60, N61
+
+## Claim
+
+碎片化开销（Fragmentation Overhead）的量化：假设对象在内存中以固定块大小 B_block（如64KB或1MB）分配，实际占用空间 S_alloc_i = ceil(S_i / B_block) * B_block。总有效容量 C_eff = 128GB - Overhead。对于平均大小1.31MB的对象，若B_block=1MB，平均碎片率约为 (B_block - S_i)/B_block，需计算加权平均碎片率对 K_max 的影响。
+
+## Corrected Claim
+
+碎片化开销（Fragmentation Overhead）的量化：假设对象在内存中以固定块大小 B_block（如64KB或1MB）分配，实际占用空间 S_alloc_i = ceil(S_i / B_block) * B_block。总有效容量 C_eff = 128GB - Overhead。对于平均大小1.31MB的对象，若B_block=1MB，平均碎片率约为 (B_block - S_i)/B_block，需计算加权平均碎片率对 K_max 的影响。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+CDN object cache memory fragmentation overhead block size allocation efficiency

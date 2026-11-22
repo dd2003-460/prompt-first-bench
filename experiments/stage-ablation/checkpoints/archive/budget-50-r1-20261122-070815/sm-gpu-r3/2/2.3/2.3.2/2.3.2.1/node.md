@@ -1,0 +1,24 @@
+# N218: Qwen3-27B 在 BF16 精度下的 GSM8K 基准测试基准得分（Base Score），作为计算 INT8 下降幅度的分母，需查阅 Qwen3 官方技
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N62
+
+## Claim
+
+Qwen3-27B 在 BF16 精度下的 GSM8K 基准测试基准得分（Base Score），作为计算 INT8 下降幅度的分母，需查阅 Qwen3 官方技术报告或 HuggingFace 模型卡获取确切数值。
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 精度下的 GSM8K 基准测试基准得分（Base Score）需查阅 Qwen3 官方技术报告或 HuggingFace 模型卡获取确切数值，当前无法提供具体数值。
+
+## Evidence
+
+[质询]该陈述声称需要查阅特定来源获取确切数值，属于经验事实（具体基准得分），且未提供实际数值，仅描述了获取途径。由于缺乏实际数值，无法验证其作为分母的合理性或具体数值是否正确，且检索无可用来源支持该具体数值的存在或准确性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值）
+
+## Search Query
+
+Qwen3-27B GSM8K benchmark score BF16 official report

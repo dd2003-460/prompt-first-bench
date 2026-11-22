@@ -1,0 +1,20 @@
+# N151: 共享随机源 R_price 对 δ_γ 的投影系数 k_γ 定义为 Cov(δ_γ, R_price) / Var(R_price)，其数值范围通常在 0.2-
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N42
+
+## Claim
+
+共享随机源 R_price 对 δ_γ 的投影系数 k_γ 定义为 Cov(δ_γ, R_price) / Var(R_price)，其数值范围通常在 0.2-0.4 之间，反映市场噪音对个体风险规避态度的驱动强度。
+
+## Corrected Claim
+
+共享随机源 R_price 对 δ_γ 的投影系数 k_γ 定义为 Cov(δ_γ, R_price) / Var(R_price)，其数值取决于具体市场环境和资产特性，反映市场噪音对个体风险规避态度的驱动强度。
+
+## Evidence
+
+[质询]数值范围 0.2-0.4 属于具体的经验统计结论，缺乏普遍适用的理论推导基础，且不同市场、不同资产类别下该系数波动极大，直接断言‘通常’在此区间存在过度概括的风险。 | source=knowledge，逻辑定义自洽（投影系数公式正确），但具体数值范围 0.2-0.4 为经验事实，无来源支持且无法从第一性原理严格推出，依据经验事实排除条款降级。

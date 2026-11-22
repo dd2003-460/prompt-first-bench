@@ -1,0 +1,20 @@
+# N150: A100 80GB SXM4 的 TDP 为 400W，在 $0.1/kWh 电价下 3 年 24/7 运行电力成本 ≈ 400W * 24h * 365d *
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N36
+
+## Claim
+
+A100 80GB SXM4 的 TDP 为 400W，在 $0.1/kWh 电价下 3 年 24/7 运行电力成本 ≈ 400W * 24h * 365d * 3y * $0.1/kWh ≈ $10,512，需计入 SXM4 基板与散热基础设施的额外成本。
+
+## Corrected Claim
+
+A100 80GB SXM4 的 TDP 为 400W，在 $0.1/kWh 电价下 3 年 24/7 运行电力成本 ≈ 400W * 24h * 365d * 3y * $0.1/kWh ≈ $10,512，需计入 SXM4 基板与散热基础设施的额外成本。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 80GB SXM4 TDP 400W 符合官方规格；电力成本计算 400W * 24h * 365d * 3y * $0.1/kWh = 10512 美元，数值量级与算术逻辑自洽。

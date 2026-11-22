@@ -1,0 +1,88 @@
+{
+  "qid": "nat",
+  "question": "某边缘 CDN 节点有 128GB 内存做对象缓存，工作负载：10 万对象，大小服从 Pareto(α=1.1)，请求热度也服从 Pareto(β=0.9)，热门对象与大小负相关（ρ≈-0.3）。每天总请求 5000 万次。请估算：(a) LRU 策略下的稳态字节命中率下界；(b) LFU 相比 LRU 最多能提升多少百分点、为什么；(c) 如果对象更新率是 1%/天，LRU 的有效命中率还要再打几折？给出推导链，区分「凭记忆的」和「刚查到的」。",
+  "round": 1,
+  "state": "rework",
+  "dropped_redundant": 0,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "数值准确性：(a)(b)(c)三个子问的估算值是否基于正确的分布模型（Pareto）和缓存替换算法（LRU/LFU）的稳态特性进行推导，且量级合理。",
+      "逻辑完备性：推导链是否显式区分了『凭记忆的』通用理论与『刚查到的/特定假设』的局部参数，是否涵盖了题目给出的所有约束（128GB, 10万对象, Pareto参数, 相关性, 更新率）。",
+      "因果解释力：对于(b)和(c)，是否清晰阐述了LFU相对LRU的提升机制（热度稳定性 vs 大小偏差）以及更新率对LRU有效命中率的具体折损机制（污染/失效）。",
+      "边界条件处理：是否识别并处理了Pareto尾部的无界性对缓存容量约束的影响，以及负相关系数ρ对LRU效率的具体影响方向。"
+    ],
+    "composition": "Score = Accuracy * Completeness * Explanation_Clarity * Boundary_Handling (乘积表示缺一不可)",
+    "rationale": "本题为定量估算与机制解释相结合的问题，若数值推导错误则答案无效（Accuracy），若未区分假设来源或未覆盖所有约束则逻辑断裂（Completeness），若无法解释为何LFU更优或更新率如何折损则缺乏深度（Explanation_Clarity），若忽略分布尾部或相关性则模型失真（Boundary_Handling）。"
+  },
+  "objective_mode": "formula",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "node_id": "N6",
+      "claim": "缓存容量占比 (Cache-to-Data Ratio) C/D = 128GB / (100,000 × E[Size",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]公式中 E[Size] 的推导逻辑存在严重缺陷：若 α 为 Zipf 分布参数（通常 α > 1），则 (α-1)/(α-1.1) 在 α 接近 1.1"
+    },
+    {
+      "node_id": "N10",
+      "claim": "LRU 驻留集大小偏差效应：由于 ρ=-0.3，LRU 倾向保留小且热的对象，导致实际驻留集的平均大小比理论 Top-K",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性数值（10-15%偏差、1.1-1.15倍提升）以及一个特定的经验公式（H_LRU_actual ≈ ...），这些并非LRU算法"
+    },
+    {
+      "node_id": "N11",
+      "claim": "LFU 最大提升幅度上界：ΔH = H_LFU_max - H_LRU ≈ [Σ_{i∈C_LFU} r_i s_i /",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级与具体百分比（5-8%）缺乏普适性，高度依赖工作负载特征（如Zipf指数、缓存大小），将其作为通用上界陈述存在以偏概全的风险；且公式中ΔH定义为"
+    },
+    {
+      "node_id": "N12",
+      "claim": "LFU 频率稳定性机制量化：LFU 驱逐阈值基于频率计数，在 β=0.9 下，Top-10% 对象的频率方差低于 LRU",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的量化数值（方差降低40%、换手率0.6、命中率提升3-5%），这些属于经验性统计结果，高度依赖于具体的工作负载（Workload）特征（"
+    },
+    {
+      "node_id": "N18",
+      "claim": "特定参数推断与不确定性界定：负相关系数 ρ≈-0.3 对命中率的影响修正项属于基于题目特定参数的推断（刚查到/假设），其",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性数值（±5% 波动、±2% 不确定性、1.3KB 平均对象大小），这些并非第一性原理可推导的数学或物理常数，而是依赖于具体负载分布"
+    },
+    {
+      "node_id": "N19",
+      "claim": "对象总数据量 S_total 的精确计算：基于 Pareto(α=1.1) 分布，总大小 S_total = N * S",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N20",
+      "claim": "稳态时间窗口 T_stable 估算：LRU 达到稳态所需时间取决于缓存中对象的平均驻留时间（Average Resid",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N21",
+      "claim": "基于修正后缓存覆盖率 (C/S ≈ 14%) 的 LRU 字节命中率下界修正：使用经典缓存模型 H ≈ 1 - (1 -",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N22",
+      "claim": "总请求量对 LFU 频率计数器精度的影响：5000 万请求/天的高吞吐量使得 LFU 的频率统计具有极高的信噪比。在如此",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 21
+}

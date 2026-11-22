@@ -1,0 +1,20 @@
+# N139: 高波动负载工作点（Low-Stability/Low-Gain）：假设负载存在显著时间局部性破坏（如周期性扫描），LFU 的计数老化导致 β_eff 退化至接近
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N46
+
+## Claim
+
+高波动负载工作点（Low-Stability/Low-Gain）：假设负载存在显著时间局部性破坏（如周期性扫描），LFU 的计数老化导致 β_eff 退化至接近 1.0（分布更平坦），H_LFU ≈ 1 - (1 - 0.119)^{1/1.0} ≈ 0.119，相比 LRU 提升几乎为 0，代表 LFU 在动态环境下的性能下限。
+
+## Corrected Claim
+
+高波动负载工作点（Low-Stability/Low-Gain）：假设负载存在显著时间局部性破坏（如周期性扫描），LFU 的计数老化导致 β_eff 退化至接近 1.0（分布更平坦），H_LFU ≈ 1 - (1 - 0.119)^{1/1.0} ≈ 0.119，相比 LRU 提升几乎为 0，代表 LFU 在动态环境下的性能下限。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学计算 1 - (1 - 0.119)^(1/1.0) = 0.119 正确，且符合 LFU 在计数老化导致频率分布平坦化（β_eff→1）时性能退化的理论预期。

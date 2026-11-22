@@ -1,0 +1,20 @@
+# N80: 基于实际参数 (GQA 4 heads) 修正后的 KV Cache 显存占用：BF16 = 2 * 32 * 4 * 128 * 32768 * 2 / 1e
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N14
+
+## Claim
+
+基于实际参数 (GQA 4 heads) 修正后的 KV Cache 显存占用：BF16 = 2 * 32 * 4 * 128 * 32768 * 2 / 1e9 ≈ 2.15 GB；INT8/FP8 ≈ 1.07 GB；W4 ≈ 0.54 GB。修正自 N14 中基于假设参数 (8 heads) 计算的 4.29 GB 高估错误。
+
+## Corrected Claim
+
+基于实际参数 (GQA 4 heads) 修正后的 KV Cache 显存占用：BF16 = 2 * 32 * 4 * 128 * 32768 * 2 / 1e9 ≈ 2.15 GB；INT8/FP8 ≈ 1.07 GB；W4 ≈ 0.54 GB。修正自 N14 中基于假设参数 (8 heads) 计算的 4.29 GB 高估错误。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点仅覆盖了计算逻辑和公式，遗漏了父节点中关键的‘修正背景’信息（即指出这是对N14中基于8 heads假设导致的4.29GB高估错误的修正）。在学术分解中，‘修正自某错误’是一个重要的元数据/上下文信息，不应被忽略。）

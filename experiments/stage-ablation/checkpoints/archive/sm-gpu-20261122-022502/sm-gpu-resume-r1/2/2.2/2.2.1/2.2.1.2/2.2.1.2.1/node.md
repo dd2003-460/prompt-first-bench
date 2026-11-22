@@ -1,0 +1,20 @@
+# N579: 激活值峰值显存占用 0.54GB 的计算仅考虑了最后一层的 hidden state，未包含中间层激活值（若框架未优化内存复用）。在 batch_size=1 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N177
+
+## Claim
+
+激活值峰值显存占用 0.54GB 的计算仅考虑了最后一层的 hidden state，未包含中间层激活值（若框架未优化内存复用）。在 batch_size=1 且使用 FlashAttention 的情况下，中间激活值可被释放，峰值确实接近单层 hidden state 大小；但需确认推理框架 (如 vLLM) 是否启用 PagedAttention 以进一步降低 KV 碎片化开销。
+
+## Corrected Claim
+
+激活值峰值显存占用 0.54GB 的计算仅考虑了最后一层的 hidden state，未包含中间层激活值（若框架未优化内存复用）。在 batch_size=1 且使用 FlashAttention 的情况下，中间激活值可被释放，峰值确实接近单层 hidden state 大小；但需确认推理框架 (如 vLLM) 是否启用 PagedAttention 以进一步降低 KV 碎片化开销。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在 batch_size=1 且使用 FlashAttention 的推理场景下，中间层激活值确实可被即时释放，峰值显存占用主要取决于最后一层 hidden state 及 KV Cache，该陈述符合大模型推理显存管理的工程原理。

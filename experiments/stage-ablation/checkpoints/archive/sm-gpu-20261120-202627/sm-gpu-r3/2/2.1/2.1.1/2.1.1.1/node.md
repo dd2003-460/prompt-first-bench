@@ -1,0 +1,24 @@
+# N205: Qwen3-27B 在官方技术报告中披露的基准困惑度（Perplexity）具体数值，需在 WikiText-2 或 C4 数据集上验证，若官方未披露，需引用第
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N49
+
+## Claim
+
+Qwen3-27B 在官方技术报告中披露的基准困惑度（Perplexity）具体数值，需在 WikiText-2 或 C4 数据集上验证，若官方未披露，需引用第三方评测（如 OpenCompass, HELM）的实测数据
+
+## Corrected Claim
+
+Qwen3-27B 在 WikiText-2 或 C4 数据集上的具体困惑度数值需查阅官方技术报告或 OpenCompass/HELM 等第三方评测平台的最新实测数据，当前检索未获取到具体数值。
+
+## Evidence
+
+[质询]该陈述要求提供具体的基准困惑度数值，属于经验事实（模型性能指标）。由于检索失败，无法获取官方技术报告或第三方评测（OpenCompass/HELM）的具体数据，且不同数据集（WikiText-2 vs C4）及评测框架下的困惑度数值差异巨大，无法通过逻辑推导得出唯一确定的数值。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值）
+
+## Search Query
+
+Qwen3-27B official perplexity WikiText-2 C4 benchmark

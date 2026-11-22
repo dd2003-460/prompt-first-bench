@@ -1,0 +1,20 @@
+# N38: 非稳态或动态负载下 LFU 提升的上界：ΔH_max = (Σ_{i∈C_LFU \ C_LRU} r_i s_i - Σ_{i∈C_LRU \ C_LFU} 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N11
+
+## Claim
+
+非稳态或动态负载下 LFU 提升的上界：ΔH_max = (Σ_{i∈C_LFU \ C_LRU} r_i s_i - Σ_{i∈C_LRU \ C_LFU} r_i s_i) / D。在 Pareto(β=0.9) 下，头部对象（i 小）的 r_i s_i 占主导。若 LRU 因访问模式波动驱逐了头部对象而保留了尾部对象，ΔH 达到最大。量化上界：ΔH_max ≤ (r_1 s_1 - r_{k+1} s_{k+1}) / D，假设仅一个对象交换。
+
+## Corrected Claim
+
+非稳态或动态负载下 LFU 提升的上界：ΔH_max = (Σ_{i∈C_LFU \ C_LRU} r_i s_i - Σ_{i∈C_LRU \ C_LFU} r_i s_i) / D。在 Pareto(β=0.9) 下，头部对象（i 小）的 r_i s_i 占主导。若 LRU 因访问模式波动驱逐了头部对象而保留了尾部对象，ΔH 达到最大。量化上界：ΔH_max ≤ (r_1 s_1 - r_{k+1} s_{k+1}) / D，假设仅一个对象交换。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

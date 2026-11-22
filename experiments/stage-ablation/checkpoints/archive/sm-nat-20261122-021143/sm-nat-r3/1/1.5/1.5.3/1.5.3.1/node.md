@@ -1,0 +1,20 @@
+# N85: 修正积分方程形式：由于 δ = -0.27，积分 ∫_1^K s_max x^{-0.27} dx 的原函数为 s_max * [x^{0.73} / 0.73
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N32
+
+## Claim
+
+修正积分方程形式：由于 δ = -0.27，积分 ∫_1^K s_max x^{-0.27} dx 的原函数为 s_max * [x^{0.73} / 0.73]_1^K = (s_max / 0.73) * (K^{0.73} - 1)。
+
+## Corrected Claim
+
+修正积分方程形式：由于 δ = -0.27，积分 ∫_1^K s_max x^{-0.27} dx 的原函数为 s_max * [x^{0.73} / 0.73]_1^K = (s_max / 0.73) * (K^{0.73} - 1)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：幂函数积分公式 ∫x^n dx = x^(n+1)/(n+1) 应用正确，n=-0.27 时 n+1=0.73，计算无误。

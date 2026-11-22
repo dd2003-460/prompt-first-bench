@@ -1,0 +1,20 @@
+# N428: 512GB 统一内存中，扣除 macOS 系统占用 (约 20-30GB) 和 Qwen3-27B BF16 权重 (54GB) 后，剩余可用内存约 430GB
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N137
+
+## Claim
+
+512GB 统一内存中，扣除 macOS 系统占用 (约 20-30GB) 和 Qwen3-27B BF16 权重 (54GB) 后，剩余可用内存约 430GB，足以支持 32K 上下文的 KV Cache 及多批次并发，无显存溢出风险。
+
+## Corrected Claim
+
+512GB 统一内存中，扣除 macOS 系统占用 (约 20-30GB) 和 Qwen3-27B BF16 权重 (54GB) 后，剩余可用内存约 430GB，足以支持 32K 上下文的 KV Cache 及多批次并发，无显存溢出风险。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：512GB总内存减去系统占用(20-30GB)和模型权重(54GB)后，剩余约430GB，对于32K上下文及多批次并发而言，内存容量充足，无溢出风险。

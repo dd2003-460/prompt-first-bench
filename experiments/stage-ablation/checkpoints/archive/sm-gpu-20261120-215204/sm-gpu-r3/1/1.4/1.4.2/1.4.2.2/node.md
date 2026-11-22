@@ -1,0 +1,24 @@
+# N175: RTX 3090 的 NVLink 互联带宽为 112.5 GB/s (双向)，在 2 卡 Tensor Parallelism 下，32K 上下文预填充阶段的
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N46
+
+## Claim
+
+RTX 3090 的 NVLink 互联带宽为 112.5 GB/s (双向)，在 2 卡 Tensor Parallelism 下，32K 上下文预填充阶段的跨卡同步数据量约 32 GB (N114)，理论同步时间为 0.28 秒 (32 GB / 112.5 GB/s)，加上延迟后总 TTFT 增加约 0.3-0.5 秒，低于 PCIe 4.0 的 0.5-1.0 秒 (N116)。
+
+## Corrected Claim
+
+RTX 3090 的 NVLink 互联带宽为 112.5 GB/s (双向)，在 2 卡 Tensor Parallelism 下，32K 上下文预填充阶段的跨卡同步数据量约 32 GB (N114)，理论同步时间为 0.28 秒 (32 GB / 112.5 GB/s)，加上延迟后总 TTFT 增加约 0.3-0.5 秒，低于 PCIe 4.0 的 0.5-1.0 秒 (N116)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 3090 NVLink 带宽 112.5 GB/s 符合硬件规格，32GB 数据量除以带宽得 0.28s 计算正确，且 NVLink 延迟低于 PCIe 符合物理直觉。
+
+## Search Query
+
+RTX 3090 NVLink tensor parallelism Qwen3-27B prefill overhead

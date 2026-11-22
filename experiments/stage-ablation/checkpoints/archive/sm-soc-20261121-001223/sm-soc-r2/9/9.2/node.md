@@ -1,0 +1,24 @@
+# N78: 高溢价卖家流失率 (1 - Retention_Sellers) 的量化估计：基于价格敏感度弹性 E_price，假设卖家对价格透明度干预的退出概率 P_exi
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N26
+
+## Claim
+
+高溢价卖家流失率 (1 - Retention_Sellers) 的量化估计：基于价格敏感度弹性 E_price，假设卖家对价格透明度干预的退出概率 P_exit 服从逻辑斯蒂分布 P_exit = 1 / (1 + e^(-β*(Price_Premium - Threshold)))，其中 β 为敏感度系数，Threshold 为卖家心理底价阈值（通常设为 10% 溢价率），需通过历史数据回归校准 β 值。
+
+## Corrected Claim
+
+高溢价卖家流失率 (1 - Retention_Sellers) 的量化估计：基于价格敏感度弹性 E_price，假设卖家对价格透明度干预的退出概率 P_exit 服从逻辑斯蒂分布 P_exit = 1 / (1 + e^(-β*(Price_Premium - Threshold)))，其中 β 为敏感度系数，Threshold 为卖家心理底价阈值（通常设为 10% 溢价率），需通过历史数据回归校准 β 值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+seller churn rate price transparency intervention elasticity

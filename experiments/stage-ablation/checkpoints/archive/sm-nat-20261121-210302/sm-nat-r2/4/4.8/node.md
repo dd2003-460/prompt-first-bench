@@ -1,0 +1,24 @@
+# N16: 对象更新率 1%/天 对 LRU 有效命中率的折扣因子：有效命中率 = HitRate_LRU * (1 - UpdateRate * T_evict / T_
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+对象更新率 1%/天 对 LRU 有效命中率的折扣因子：有效命中率 = HitRate_LRU * (1 - UpdateRate * T_evict / T_update)，其中 T_evict 为 LRU 驱逐周期，T_update 为更新间隔，需计算 T_evict 与 T_update 的比值
+
+## Corrected Claim
+
+在特定简化假设下，对象更新率对 LRU 有效命中率的影响可近似表示为 HitRate_LRU * (1 - UpdateRate * T_evict / T_update)，但该公式为经验估算，实际命中率需结合访问分布和更新模式综合评估。
+
+## Evidence
+
+[质询]该公式为经验性近似模型，缺乏严格的理论推导支持。LRU 的有效命中率受对象访问分布（如 Zipf 分布）、更新模式（随机 vs 顺序）及缓存大小等多重因素影响，简单的线性折扣因子 (1 - UpdateRate * T_evict / T_update) 仅在特定理想化假设下（如均匀分布、独立更新）近似成立，直接作为通用公式存在过度简化的风险。 | 先验知识/题面给定，逻辑校验通过（量纲一致，折扣因子在 0-1 之间合理），但作为经验性工程估算公式，缺乏通用理论证明，且无外部来源支持其普适性，故降级为定性表述。
+
+## Search Query
+
+LRU cache hit rate discount factor object update rate eviction time

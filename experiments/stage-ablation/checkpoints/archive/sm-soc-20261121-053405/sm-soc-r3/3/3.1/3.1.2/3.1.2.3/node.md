@@ -1,0 +1,20 @@
+# N151: 分母项 $\partial E[R] / \partial w_{price}$ 的回归估计方法：建立模型 $E[R]_i = \alpha + \beta w
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N48
+
+## Claim
+
+分母项 $\partial E[R] / \partial w_{price}$ 的回归估计方法：建立模型 $E[R]_i = \alpha + \beta w_{price,i} + \gamma X_i + \epsilon_i$，其中 $X_i$ 为控制变量（如商品新鲜度、卖家信誉），$\beta$ 即为目标偏导数；需确保 $w_{price}$ 的外生性，若存在内生性，需使用工具变量法（IV）估计。
+
+## Corrected Claim
+
+分母项 $\partial E[R] / \partial w_{price}$ 的回归估计方法：建立模型 $E[R]_i = \alpha + \beta w_{price,i} + \gamma X_i + \epsilon_i$，其中 $X_i$ 为控制变量（如商品新鲜度、卖家信誉），$\beta$ 即为目标偏导数；需确保 $w_{price}$ 的外生性，若存在内生性，需使用工具变量法（IV）估计。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：线性回归中系数即偏导数估计，内生性需IV处理符合计量经济学基本原理

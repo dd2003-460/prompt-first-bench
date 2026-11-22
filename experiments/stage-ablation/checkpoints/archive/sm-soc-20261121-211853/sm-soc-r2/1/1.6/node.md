@@ -1,0 +1,24 @@
+# N11: 平台作为利益相关方的效用函数为：平台收益 = 佣金收入 + 用户活跃度 * 留存率；平台有动机维持‘高价短周期’均衡，因为高价提升单笔佣金，短周期提升用户活跃度
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+平台作为利益相关方的效用函数为：平台收益 = 佣金收入 + 用户活跃度 * 留存率；平台有动机维持‘高价短周期’均衡，因为高价提升单笔佣金，短周期提升用户活跃度，量化为：平台对卖家降价的激励 = 0，对维持高价的隐性激励 > 0。
+
+## Corrected Claim
+
+在特定简化模型假设下（忽略价格对活跃度的负反馈及短周期对留存的长期损害），平台可能倾向于维持‘高价短周期’均衡以最大化短期佣金与活跃度指标，但该结论依赖于具体参数设定，并非普适规律。
+
+## Evidence
+
+父节点级核验失败（LLM 错误）：Invalid \escape: line 9 column 20 (char 626)
+
+## Search Query
+
+platform incentive structure commission revenue user activity second hand market

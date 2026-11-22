@@ -1,0 +1,26 @@
+# N32: Qwen3-27B在FP8 (E4M3) 精度下，由于动态范围较大，在复杂推理任务（如GSM8K数学推理）上的性能退化通常小于0.5%，被视为“几乎无损”的精度
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+Qwen3-27B在FP8 (E4M3) 精度下，由于动态范围较大，在复杂推理任务（如GSM8K数学推理）上的性能退化通常小于0.5%，被视为“几乎无损”的精度档位，适合作为质量敏感型场景的首选量化方案。
+
+## Corrected Claim
+
+Qwen3系列27B模型在FP8 (E4M3) 精度下，由于动态范围较大，在复杂推理任务上的性能退化通常极小，被视为“几乎无损”的精度档位，适合作为质量敏感型场景的首选量化方案。
+
+## Evidence
+
+[质询]模型版本混淆：参考来源均指向 Qwen3.5-27B 或 Qwen3.8-27B，而非 Qwen3-27B；且来源未提供 GSM8K 具体退化数值（<0.5%），仅定性描述为'保持精度'或'无损'，无法直接支持具体数值断言。 | 来源[1][2]证实 FP8 (E4M3) 在 27B 级别模型上通常被视为高精度/近无损方案，逻辑上支持'几乎无损'的定性结论，但缺乏针对 Qwen3-27B 在 GSM8K 上具体退化小于 0.5% 的直接数据支持，且存在版本名称不匹配问题。
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_29062255/article/details/162589846&rut=28fb6ef4cf9c8798ccd97ca5655083698b7bbc00335634176317ea4bd80f6763', 'type': 'ddg', 'title': 'FP8精度优化Qwen3.5-27B大模型推理实战 - CSDN博客'}
+- {'url': 'https://blog.csdn.net/gitblog_00439/article/details/155257784&rut=38c3d28b2f617adcd95228f7c0a93d16cfa32b5cc1c5530e9ed068e83d44195f', 'type': 'ddg', 'title': 'Qwen3.8-27B-FP8 量化原理深度解析：块大小 128 的细粒度 FP8 如何保持精度无损？-CSDN博客'}
+- {'url': 'https://www.cnblogs.com/zhangmingcheng/p/22824330&rut=e4747b332f23394b92848167777804165de358c4e23f95b245038461fae10a8e', 'type': 'ddg', 'title': '从 Qwen3.8-27B 到 FP8、NVFP4、MoE：一次搞懂几个常见大模型概念 - 人艰不拆_zmc - 博客园'}

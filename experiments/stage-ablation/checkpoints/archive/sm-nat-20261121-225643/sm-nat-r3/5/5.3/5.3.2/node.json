@@ -1,0 +1,17 @@
+{
+  "id": "N103",
+  "claim": "缓存内平均对象大小 E[S|in_cache] 的解析计算：基于N47确定的截断上限S_max_cache=1.37GB和Pareto(α=1.1)分布，E[S|in_cache] = S_min * (α-1)/(α-2) * (1 - (S_max_cache/S_min)^{1-α}) / (1 - (S_max_cache/S_min)^{1-α}) 的截断期望公式，代入α=1.1, S_min=1KB, S_max=1.37GB，计算得 E[S|in_cache] ≈ 1.1 * 1KB * (1 - (1.37e6)^{-0.1}) / (1 - (1.37e6)^{-0.1}) 的数值结果，需验证其是否显著小于全局均值2.5GB。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]公式存在严重的逻辑与数学错误：1. 截断Pareto分布的期望公式中，分子分母不应完全相同（导致结果恒为1或S_min，这显然不符合物理直觉）；2. 代入数值时，将系数(α-1)/(α-2)错误地简化为1.1（实际应为负数或无穷大，因为α=1.1<2，截断Pareto的期望在α<2时由上限主导，而非简单的线性关系）；3. 计算结果声称需验证是否小于2.5GB，但基于错误的公式推导出的数值逻辑不自洽。 | 逻辑校验失败：截断Pareto分布期望公式书写错误（分子分母相同导致无意义），且α=1.1时期望值主要由S_max决定，而非简单的S_min倍数，存在硬逻辑错误。",
+  "corrected_claim": "基于截断Pareto分布(α=1.1, S_min=1KB, S_max=1.37GB)，由于α<2，期望值E[S|in_cache]主要由上限S_max决定，近似为 S_max * (α-1)/(α-2) * [1 - (S_min/S_max)^(α-1)] / [1 - (S_min/S_max)^(α-2)] 的修正形式，其数值应接近但小于S_max (1.37GB)，因此显著小于全局均值2.5GB。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N38"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "",
+  "retrieval_sources": []
+}

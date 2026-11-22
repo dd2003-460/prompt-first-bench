@@ -1,0 +1,24 @@
+# N314: RTX 4090 INT8 多卡互联开销量化：在 2x4090 配置下，每 token 28 层 AllReduce 通信量 224KB，PCIe 5.0 有效
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N134
+
+## Claim
+
+RTX 4090 INT8 多卡互联开销量化：在 2x4090 配置下，每 token 28 层 AllReduce 通信量 224KB，PCIe 5.0 有效带宽 63GB/s 导致通信时间 ≈ 3.6μs/层，总通信时间 ≈ 100μs/token，占理论推理时间 21ms 的 0.47%，对吞吐影响可忽略，但增加延迟抖动
+
+## Corrected Claim
+
+RTX 4090 INT8 多卡互联开销量化：在 2x4090 配置下，每 token 28 层 AllReduce 通信量 224KB，PCIe 5.0 有效带宽 63GB/s 导致通信时间 ≈ 3.6μs/层，总通信时间 ≈ 100μs/token，占理论推理时间 21ms 的 0.47%，对吞吐影响可忽略，但增加延迟抖动
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：28层×8KB/层=224KB，224KB/63GB/s≈3.55μs，28×3.55μs≈100μs，100μs/21ms≈0.47%，数值量级与计算逻辑自洽。
+
+## Search Query
+
+multi-GPU PCIe AllReduce latency LLM inference overhead

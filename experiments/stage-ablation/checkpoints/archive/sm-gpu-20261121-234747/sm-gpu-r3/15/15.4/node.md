@@ -1,0 +1,24 @@
+# N523: 软件栈版本锁定：指定vLLM或llama.cpp的具体Git Commit Hash或Release Tag，以确保推理引擎的优化算法、CUDA内核版本和内存管
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N162
+
+## Claim
+
+软件栈版本锁定：指定vLLM或llama.cpp的具体Git Commit Hash或Release Tag，以确保推理引擎的优化算法、CUDA内核版本和内存管理策略在所有对比实验中完全一致
+
+## Corrected Claim
+
+软件栈版本锁定：建议指定vLLM或llama.cpp的具体Git Commit Hash或Release Tag，以最大程度确保推理引擎的优化算法、CUDA内核版本和内存管理策略在所有对比实验中保持一致，减少版本差异带来的干扰。
+
+## Evidence
+
+[质询]该陈述属于最佳实践建议而非客观事实，且“完全一致”的表述过于绝对，忽略了不同版本间可能存在的细微行为差异或环境依赖，但作为实验控制变量的方法论建议，其核心逻辑是成立的。 | 经验事实/方法论建议，逻辑自洽（控制变量法要求固定软件版本），但无外部来源直接支持具体操作细节，且属于工程实践规范而非第一性原理可推导的数学/物理事实。
+
+## Search Query
+
+vLLM stable release version for Qwen3-27B inference benchmark

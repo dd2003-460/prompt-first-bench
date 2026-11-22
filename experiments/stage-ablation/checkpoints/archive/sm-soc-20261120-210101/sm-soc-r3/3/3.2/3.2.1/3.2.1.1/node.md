@@ -1,0 +1,24 @@
+# N232: 共享随机源：卖家策略异质性噪声 σ_seller，定义为同一市场信号下不同卖家定价偏离度 D_i 的标准差，需通过聚类分析卖家定价行为估计，假设 σ_selle
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N63
+
+## Claim
+
+共享随机源：卖家策略异质性噪声 σ_seller，定义为同一市场信号下不同卖家定价偏离度 D_i 的标准差，需通过聚类分析卖家定价行为估计，假设 σ_seller ≈ 5% [待核验]。
+
+## Corrected Claim
+
+共享随机源：卖家策略异质性噪声 σ_seller，定义为同一市场信号下不同卖家定价偏离度 D_i 的标准差，需通过聚类分析卖家定价行为估计，其具体数值需根据实际市场数据校准，此处暂设为 5% 作为基准假设。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（σ_seller ≈ 5%），属于市场微观结构中的经验事实，无法从第一性原理或数学公理中严格推导得出，且缺乏外部数据支持其具体数值量级。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该参数非第一性原理可推导范畴）
+
+## Search Query
+
+seller pricing heterogeneity standard deviation clustering analysis

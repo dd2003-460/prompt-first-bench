@@ -1,0 +1,24 @@
+# N136: 热门对象（Top 10% 热度）的平均大小 E[S|F∈Top10%] 的蒙特卡洛模拟结果：基于 N52 的 Copula 模型生成 100,000 个样本，计
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N53
+
+## Claim
+
+热门对象（Top 10% 热度）的平均大小 E[S|F∈Top10%] 的蒙特卡洛模拟结果：基于 N52 的 Copula 模型生成 100,000 个样本，计算 Top 10% 热度对象的平均大小，预期值约为 8-9KB（相比全局平均 11KB 缩减 18-27%），具体数值需运行模拟确认
+
+## Corrected Claim
+
+基于N52的Copula模型，热门对象（Top 10% 热度）的平均大小预期显著低于全局平均（11KB），具体数值（如8-9KB）需通过蒙特卡洛模拟运行确认。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值预测（8-9KB，缩减18-27%），这依赖于特定的Copula模型参数和底层数据分布假设，无法从第一性原理严格推导，且缺乏外部来源验证其数值准确性。 | 经验事实，逻辑自洽（热门对象通常较小符合直觉，且数值在合理量级内），但缺来源支持（本轮检索无可用来源）。
+
+## Search Query
+
+Monte Carlo simulation Pareto distribution Gaussian Copula conditional mean size

@@ -1,0 +1,20 @@
+# N263: 卖家净收益方差变化：Var(R_seller) = (1 - r)² * Var(P_final) + (∂C_hold/∂T)² * Var(T) - 2 *
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N71
+
+## Claim
+
+卖家净收益方差变化：Var(R_seller) = (1 - r)² * Var(P_final) + (∂C_hold/∂T)² * Var(T) - 2 * (1 - r) * (∂C_hold/∂T) * Cov(P_final, T)。需计算各分量的方差和协方差，判断风险是否增加。
+
+## Corrected Claim
+
+卖家净收益方差变化：Var(R_seller) = (1 - r)² * Var(P_final) + (∂C_hold/∂T)² * Var(T) - 2 * (1 - r) * (∂C_hold/∂T) * Cov(P_final, T)。需计算各分量的方差和协方差，判断风险是否增加。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该公式符合方差传播定律（Delta Method）在二元函数下的标准展开形式，量纲与符号逻辑自洽。

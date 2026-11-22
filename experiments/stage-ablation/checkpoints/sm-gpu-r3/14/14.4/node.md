@@ -1,0 +1,20 @@
+# N320: Quality_Factor 的量化映射表：BF16 -> 1.0 (基准)，FP8 -> 0.98 (基于 N95 的 PPL 损失 < 0.1 假设)，IN
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N137
+
+## Claim
+
+Quality_Factor 的量化映射表：BF16 -> 1.0 (基准)，FP8 -> 0.98 (基于 N95 的 PPL 损失 < 0.1 假设)，INT4 -> 0.95 (基于 N135 的 PPL 损失 0.5-1.5 假设)；该因子直接乘在吞吐量上，意味着 INT4 方案的有效吞吐量需打 95 折，而 FP8 方案打 98 折，这一差异在 H100 与 4090 双卡的性价比反转阈值计算中至关重要。
+
+## Corrected Claim
+
+Quality_Factor 的量化映射表：BF16 -> 1.0 (基准)，FP8 -> 0.98 (基于 N95 的 PPL 损失 < 0.1 假设)，INT4 -> 0.95 (基于 N135 的 PPL 损失 0.5-1.5 假设)；该因子直接乘在吞吐量上，意味着 INT4 方案的有效吞吐量需打 95 折，而 FP8 方案打 98 折，这一差异在 H100 与 4090 双卡的性价比反转阈值计算中至关重要。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

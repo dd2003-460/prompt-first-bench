@@ -1,0 +1,20 @@
+# N110: ∂S_eq/∂P_ask 的解析解：对 S_eq 关于 P_ask 求导，考虑到 Var(ΔP_ask) 随 P_ask 增加而增加（假设线性关系 Var(ΔP
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N38
+
+## Claim
+
+∂S_eq/∂P_ask 的解析解：对 S_eq 关于 P_ask 求导，考虑到 Var(ΔP_ask) 随 P_ask 增加而增加（假设线性关系 Var(ΔP_ask) = c1 * P_ask），推导得 ∂S_eq/∂P_ask = -c1 / (1 + Var(ΔP_ask) + Var(ΔT_deal))^2，数值上约为 -0.05 / day per unit price。
+
+## Corrected Claim
+
+∂S_eq/∂P_ask 的解析解形式为 -c1 / (1 + Var(ΔP_ask) + Var(ΔT_deal))^2，具体数值取决于参数 c1 及方差项的取值。
+
+## Evidence
+
+[质询]该陈述包含具体的数值量级（-0.05 / day per unit price）和特定的函数形式（分母为平方），这属于经验事实或特定模型参数，无法仅从第一性原理或题面条件严格推导得出。虽然逻辑结构自洽，但缺乏外部来源支持该具体数值和系数 c1 的取值。 | 经验事实，逻辑自洽但缺来源支持

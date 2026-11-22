@@ -1,0 +1,20 @@
+# N51: 买家质量价值期望值E[V_quality]的贝叶斯计算：E[V] = P(Q=High|P_listed) * 100 + P(Q=Low|P_listed) 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+买家质量价值期望值E[V_quality]的贝叶斯计算：E[V] = P(Q=High|P_listed) * 100 + P(Q=Low|P_listed) * 50，其中P(Q=High|P_listed)由N10公式得出（约0.525），故E[V] = 0.525*100 + 0.475*50 = 76.25，与题面给定的80存在偏差，需校准。
+
+## Corrected Claim
+
+买家质量价值期望值E[V_quality]的贝叶斯计算：E[V] = P(Q=High|P_listed) * 100 + P(Q=Low|P_listed) * 50，其中P(Q=High|P_listed)由N10公式得出（约0.525），故E[V] = 0.525*100 + 0.475*50 = 76.25，与题面给定的80存在偏差，需校准。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算 0.525*100 + 0.475*50 = 76.25 正确，且与题面给定值 80 的偏差描述符合逻辑。

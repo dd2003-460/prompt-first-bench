@@ -1,0 +1,20 @@
+# N68: 单卡可行性边界判定：BF16需≥67.1GB，仅H200(141GB)和MI300X(192GB)满足；FP8/INT8需≥35.6GB，A100 40GB(临
+
+- **status**: verified
+- **level**: L3
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N15
+
+## Claim
+
+单卡可行性边界判定：BF16需≥67.1GB，仅H200(141GB)和MI300X(192GB)满足；FP8/INT8需≥35.6GB，A100 40GB(临界，需实测Overhead)、L40S 48GB、H100 80GB满足；NVFP4/W4需≥20.0GB，RTX 4090(24GB)、RX 7900 XTX(24GB)、A100 40GB均满足，但24GB卡需严格监控碎片化风险。
+
+## Corrected Claim
+
+单卡可行性边界判定：BF16需≥67.1GB，仅H200(141GB)和MI300X(192GB)满足；FP8/INT8需≥35.6GB，A100 40GB(临界，需实测Overhead)、L40S 48GB、H100 80GB满足；NVFP4/W4需≥20.0GB，RTX 4090(24GB)、RX 7900 XTX(24GB)、A100 40GB均满足，但24GB卡需严格监控碎片化风险。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值量级符合大模型显存估算常识（BF16权重+KV Cache+激活值通常需60-70GB+，FP8减半，INT4/FP4进一步减半），硬件规格（H200 141GB, MI300X 192GB, A100 40GB, L40S 48GB, H100 80GB, 4090/7900XTX 24GB）均为公认事实，逻辑自洽。

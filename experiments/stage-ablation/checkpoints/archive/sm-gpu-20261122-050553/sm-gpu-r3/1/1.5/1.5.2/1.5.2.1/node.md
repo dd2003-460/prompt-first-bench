@@ -1,0 +1,24 @@
+# N165: Qwen3-27B 的实际 Hidden Dim 为 4096 (需从模型 config.json 确认)，层数 L=32 (需确认)，每层 All-Reduc
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N51
+
+## Claim
+
+Qwen3-27B 的实际 Hidden Dim 为 4096 (需从模型 config.json 确认)，层数 L=32 (需确认)，每层 All-Reduce 通信量 C_layer = 2 * B * H * S，对于 B=1, H=4096, S=2 (BF16)，C_layer = 16 KB，L=32 层总通信量 C_total = 512 KB/step，此值与 N120 一致。
+
+## Corrected Claim
+
+Qwen3-27B 的每层 All-Reduce 通信量公式为 C_layer = 2 * B * H * S。若 Hidden Dim H=4096 且 B=1, S=2 (BF16)，则 C_layer = 16 KB。总通信量取决于实际层数 L，若 L=32，则 C_total = 512 KB/step。具体 H 和 L 值需以官方 config.json 为准。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件/模型架构参数（Hidden Dim=4096, L=32），属于经验事实。虽然通信量计算公式（2*B*H*S）在逻辑上自洽且量级合理（16KB/层，512KB/总），但缺乏外部来源直接确认 Qwen3-27B 的具体配置参数（如层数是否为32，Hidden Dim是否为4096）。若实际层数或维度不同，总通信量将发生变化。 | 经验事实，逻辑自洽但缺来源支持。通信量计算逻辑正确（2*1*4096*2 bytes = 16KB），但模型具体架构参数（L=32, H=4096）未获外部来源验证。
+
+## Search Query
+
+Qwen3-27B model config hidden size num layers

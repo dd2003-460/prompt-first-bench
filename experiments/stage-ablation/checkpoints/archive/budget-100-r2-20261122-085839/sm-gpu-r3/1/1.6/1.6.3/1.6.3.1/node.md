@@ -1,0 +1,24 @@
+# N159: Qwen3-27B 在 BF16 精度下，使用 vLLM 框架（默认解码参数）在 GSM8K 数学推理基准（8-shot 评测，Pass@1 指标）中的确切得分
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N46
+
+## Claim
+
+Qwen3-27B 在 BF16 精度下，使用 vLLM 框架（默认解码参数）在 GSM8K 数学推理基准（8-shot 评测，Pass@1 指标）中的确切得分，需检索 Qwen3 官方技术报告或第三方评测数据。
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 精度下，使用 vLLM 框架在 GSM8K 数学推理基准（8-shot 评测，Pass@1 指标）中的得分需参考 Qwen3 官方技术报告或第三方评测数据，具体数值因评测环境而异。
+
+## Evidence
+
+[质询]该陈述声称存在一个“确切得分”，但缺乏具体数值，且不同评测环境（如具体vLLM版本、硬件、随机种子）可能导致微小差异，若无官方固定基准值，‘确切’一词可能过于绝对；此外，检索失败导致无法验证该具体数值是否存在或准确。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值）
+
+## Search Query
+
+Qwen3-27B GSM8K 8-shot score BF16 technical report

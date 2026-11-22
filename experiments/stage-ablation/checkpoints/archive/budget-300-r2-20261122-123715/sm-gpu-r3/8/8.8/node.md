@@ -1,0 +1,29 @@
+# N114: Qwen3-27B INT8/AWQ 量化模型在 HuggingFace 或 GitHub 上的基准测试困惑度 (Perplexity) 增加量 (ΔPPL) 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N26, N27
+
+## Claim
+
+Qwen3-27B INT8/AWQ 量化模型在 HuggingFace 或 GitHub 上的基准测试困惑度 (Perplexity) 增加量 (ΔPPL) 数据
+
+## Corrected Claim
+
+Qwen3-27B INT8/AWQ 量化模型在 HuggingFace 或 GitHub 上的基准测试困惑度 (Perplexity) 增加量 (ΔPPL) 数据需查阅具体量化模型仓库的 README 或技术报告，当前参考来源未提供该数值。
+
+## Evidence
+
+[质询]参考来源中未包含任何关于 INT8/AWQ 量化模型困惑度 (Perplexity) 增加量 (ΔPPL) 的具体数值或基准测试数据，且来源 [1] 提及的是 INT4 量化而非 INT8/AWQ，来源 [2] 是基础模型页面，均无法直接支持该具体经验事实。 | 经验事实，逻辑自洽但缺来源支持（来源 [1] 和 [2] 均未提供 ΔPPL 数据，且 [1] 涉及 INT4 而非 INT8/AWQ）
+
+## Search Query
+
+Qwen3-27B INT8 AWQ quantization perplexity benchmark HuggingFace
+
+## Retrieval Sources
+
+- {'url': 'https://huggingface.co/cyankiwi/Qwen3.8-27B-AWQ-INT4&rut=860b2cacb4460ccd87e584f367dcf0abe4d3681dc692ef04add9867cb7bc6485', 'type': 'ddg', 'title': 'cyankiwi/Qwen3.8-27B-AWQ-INT4 · Hugging Face'}
+- {'url': 'https://huggingface.co/Qwen/Qwen3.8-27B&rut=f4a8505e184453f0072dff61003e506186593cb27e55fa60c3183db1cee66710', 'type': 'ddg', 'title': 'Qwen/Qwen3.8-27B · Hugging Face'}

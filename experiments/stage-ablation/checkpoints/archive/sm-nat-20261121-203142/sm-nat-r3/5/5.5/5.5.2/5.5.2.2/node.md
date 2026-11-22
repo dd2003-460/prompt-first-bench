@@ -1,0 +1,24 @@
+# N203: 有效缓存容量 C_eff 的计算：C_eff = 128GB - 元数据开销 - 系统保留内存（通常 2-4GB），若元数据开销为 4.8MB，则 C_eff 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N76
+
+## Claim
+
+有效缓存容量 C_eff 的计算：C_eff = 128GB - 元数据开销 - 系统保留内存（通常 2-4GB），若元数据开销为 4.8MB，则 C_eff ≈ 124-126GB，缓存覆盖率 C/M 的变化量 ΔC = (C_eff - 128GB)/128GB ≈ -1.6% 至 -2.8%；[待核验：系统保留内存的具体数值需根据 OS 配置确定]
+
+## Corrected Claim
+
+有效缓存容量 C_eff = 128GB - 元数据开销 - 系统保留内存。若系统保留内存为 2-4GB，元数据开销相对较小（如 MB 级），则 C_eff 约为 124-126GB，缓存覆盖率变化量 ΔC 约为 -1.6% 至 -2.8%。具体数值需根据实际 OS 配置和文件系统元数据规模确定。
+
+## Evidence
+
+[质询]元数据开销 4.8MB 与系统保留内存 2-4GB 的量级差异巨大，导致计算出的 C_eff 范围（124-126GB）主要受系统保留内存影响，而元数据开销对总容量的影响微乎其微（<0.01%），陈述中将两者并列作为主要扣除项在逻辑权重上存在误导，且 4.8MB 这一具体数值缺乏通用标准支持，属于特定场景下的经验数据。 | 经验事实，逻辑自洽但缺来源支持；无可用外部证据，且具体数值（如4.8MB元数据）无法从第一性原理推出，符合 degraded 判定条件。
+
+## Search Query
+
+CDN edge node memory allocation system reserved memory GB

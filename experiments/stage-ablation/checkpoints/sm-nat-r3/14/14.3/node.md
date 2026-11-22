@@ -1,0 +1,20 @@
+# N308: 整体加权折损 0.3-0.5% 的分解：总折损 = Σ_{i∈S_LRU} (r_i * S_i / Σ_{all} r_i * S_i) * (1 - D_u
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N109
+
+## Claim
+
+整体加权折损 0.3-0.5% 的分解：总折损 = Σ_{i∈S_LRU} (r_i * S_i / Σ_{all} r_i * S_i) * (1 - D_update(i))，其中 D_update(i) = 1 / (1 + λ_update * T_res(i))；需分别计算头部 10%、中部 80%、尾部 10% 对象的加权贡献，以验证 0.3-0.5% 的估计是否合理。
+
+## Corrected Claim
+
+整体加权折损 0.3-0.5% 的分解：总折损 = Σ_{i∈S_LRU} (r_i * S_i / Σ_{all} r_i * S_i) * (1 - D_update(i))，其中 D_update(i) = 1 / (1 + λ_update * T_res(i))；需分别计算头部 10%、中部 80%、尾部 10% 对象的加权贡献，以验证 0.3-0.5% 的估计是否合理。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式结构符合加权平均折损的定义，D_update(i) 为标准的指数衰减/更新概率模型，量纲与逻辑自洽。

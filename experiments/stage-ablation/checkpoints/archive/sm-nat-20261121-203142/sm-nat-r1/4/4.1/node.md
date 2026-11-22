@@ -1,0 +1,20 @@
+# N16: 对象更新率 u=0.01/day 转化为缓存失效率 λ_invalidation = u * (1 - H_static)，其中 H_static 是静态 LR
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+对象更新率 u=0.01/day 转化为缓存失效率 λ_invalidation = u * (1 - H_static)，其中 H_static 是静态 LRU 命中率；在稳态下，LRU 有效命中率 H_effective = H_static * (1 - u) + (1 - H_static) * P_revalidate，其中 P_revalidate 是更新后重新命中的概率（通常近似为 0 或极小，取决于更新是否触发预取）。
+
+## Corrected Claim
+
+对象更新率 u=0.01/day 转化为缓存失效率 λ_invalidation = u * (1 - H_static)，其中 H_static 是静态 LRU 命中率；在稳态下，LRU 有效命中率 H_effective = H_static * (1 - u) + (1 - H_static) * P_revalidate，其中 P_revalidate 是更新后重新命中的概率（通常近似为 0 或极小，取决于更新是否触发预取）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

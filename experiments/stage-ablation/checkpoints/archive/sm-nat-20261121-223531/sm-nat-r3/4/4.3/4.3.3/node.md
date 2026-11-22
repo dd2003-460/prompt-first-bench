@@ -1,0 +1,20 @@
+# N61: 缓存污染（Stale Data）概率 $P_{stale}$ 的精确计算式：$P_{stale} = \int_{0}^{\infty} P(T_{res} >
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+缓存污染（Stale Data）概率 $P_{stale}$ 的精确计算式：$P_{stale} = \int_{0}^{\infty} P(T_{res} > t_{upd}) f_{T_{res}}(t) dt$，其中 $t_{upd}$ 是两次更新间隔，服从指数分布 $Exp(\lambda_{upd})$。对于热门对象（高 $h$），$T_{res}$ 短，$P_{stale}$ 低；对于冷门对象，$T_{res}$ 长，$P_{stale}$ 高。在1%/天更新率下，若平均 $T_{res} = 1$ 天，则 $P_{stale} \approx 1 - e^{-1} \approx 63.2\%$；若 $T_{res} = 0.1$ 天，则 $P_{stale} \approx 6.4\%$。
+
+## Corrected Claim
+
+缓存污染（Stale Data）概率 $P_{stale}$ 的精确计算式：$P_{stale} = \int_{0}^{\infty} P(T_{res} > t_{upd}) f_{T_{res}}(t) dt$，其中 $t_{upd}$ 是两次更新间隔，服从指数分布 $Exp(\lambda_{upd})$。对于热门对象（高 $h$），$T_{res}$ 短，$P_{stale}$ 低；对于冷门对象，$T_{res}$ 长，$P_{stale}$ 高。在1%/天更新率下，若平均 $T_{res} = 1$ 天，则 $P_{stale} \approx 1 - e^{-1} \approx 63.2\%$；若 $T_{res} = 0.1$ 天，则 $P_{stale} \approx 6.4\%$。
+
+## Evidence
+
+父节点级核验未通过：非正交（子节点2和子节点3存在严重的逻辑矛盾和重复。子节点2声称热门对象P_stale极低（1e-7），而子节点3在计算最终值时却引入了“其余99%对象... T_res=10天... P_stale=9.5%”这一与子节点2结论看似矛盾但未解释如何抵消的中间步骤，且子节点3直接给出了最终D_eff值，导致子节点2的简化公式在子节点3的计算中未被正确应用或解释（子节点3中9.5%的P_stale若加权70%字节，不可能得出1-1e-7的结果，存在数学逻辑错误）。此外，子节点2和子节点3都涉及P_stale的具体数值计算，职责重叠。）

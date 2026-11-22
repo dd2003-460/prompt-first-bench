@@ -1,0 +1,24 @@
+# N97: 信号成本与卖家效用损失：卖家降价 ΔP 导致的效用损失 ΔU_seller = ΔP * (1 - λ)，需计算该损失是否超过卖家的保留效用阈值，以验证‘高成本
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N25
+
+## Claim
+
+信号成本与卖家效用损失：卖家降价 ΔP 导致的效用损失 ΔU_seller = ΔP * (1 - λ)，需计算该损失是否超过卖家的保留效用阈值，以验证‘高成本信号’假设的合理性。
+
+## Corrected Claim
+
+信号成本与卖家效用损失：卖家降价 ΔP 导致的效用损失 ΔU_seller = ΔP * (1 - λ)，需计算该损失是否超过卖家的保留效用阈值，以验证‘高成本信号’假设的合理性。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+costly signaling seller utility loss threshold loss aversion

@@ -1,0 +1,20 @@
+# N179: P_hot_bytes 下界公式的适用性修正：原公式 1 - (1-0.01)^{1/α} 假设头部 1% 对象独立且大小服从标准 Pareto，但 α=1.1
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N63
+
+## Claim
+
+P_hot_bytes 下界公式的适用性修正：原公式 1 - (1-0.01)^{1/α} 假设头部 1% 对象独立且大小服从标准 Pareto，但 α=1.1 < 2 导致方差发散，需使用截断 Pareto 的累积分布函数 CDF 计算：P_hot_bytes_lower = 1 - F_{Pareto}(S_threshold / S_max)，其中 S_threshold 为头部 1% 对象的最小大小分位数。
+
+## Corrected Claim
+
+P_hot_bytes 下界公式的适用性修正：原公式 1 - (1-0.01)^{1/α} 假设头部 1% 对象独立且大小服从标准 Pareto，但 α=1.1 < 2 导致方差发散，需使用截断 Pareto 的累积分布函数 CDF 计算：P_hot_bytes_lower = 1 - F_{Pareto}(S_threshold / S_max)，其中 S_threshold 为头部 1% 对象的最小大小分位数。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：α=1.1 < 2 时标准 Pareto 分布方差确实发散，使用截断 Pareto 的 CDF 计算尾部概率在数学上是自洽且必要的修正。

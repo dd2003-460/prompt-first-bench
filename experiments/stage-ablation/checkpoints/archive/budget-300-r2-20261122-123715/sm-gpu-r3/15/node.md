@@ -1,0 +1,20 @@
+# N385: 非典型方案纳入标准：将 Apple M2/M3 Ultra (统一内存) 和 AMD MI300X 纳入比较的前提是存在可复现的第三方 Benchmark 数据
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+非典型方案纳入标准：将 Apple M2/M3 Ultra (统一内存) 和 AMD MI300X 纳入比较的前提是存在可复现的第三方 Benchmark 数据（如 MLX 或 ROCm 社区实测），且其单位吞吐成本 (TCO/Throughput) 在理论估算上低于 NVIDIA 同级方案 10% 以上，否则仅作为备选参考。
+
+## Corrected Claim
+
+非典型方案纳入标准：将 Apple M2/M3 Ultra (统一内存) 和 AMD MI300X 纳入比较的前提是存在可复现的第三方 Benchmark 数据（如 MLX 或 ROCm 社区实测），且其单位吞吐成本 (TCO/Throughput) 在理论估算上低于 NVIDIA 同级方案 10% 以上，否则仅作为备选参考。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

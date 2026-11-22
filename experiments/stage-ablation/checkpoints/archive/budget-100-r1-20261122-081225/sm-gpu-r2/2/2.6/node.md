@@ -1,0 +1,30 @@
+# N21: 32K tokens 上下文窗口在 Qwen3-27B (假设每 token KV Cache 占用约 4 KB, 具体取决于 head_dim 和 num_l
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N2
+
+## Claim
+
+32K tokens 上下文窗口在 Qwen3-27B (假设每 token KV Cache 占用约 4 KB, 具体取决于 head_dim 和 num_layers) 下所需的 KV Cache 显存约为 128 MB (32K * 4 KB) [待核验]。
+
+## Corrected Claim
+
+32K tokens 上下文窗口在 Qwen3-27B 下所需的 KV Cache 显存取决于具体架构参数（层数、KV头数、头维度及精度），若假设每 token 占用 4 KB，则计算值为 128 MB，但该假设值需根据实际模型配置验证。
+
+## Evidence
+
+[质询]该陈述中的核心参数“每 token KV Cache 占用约 4 KB”属于经验事实，且未提供 Qwen3-27B 的具体架构参数（如层数、头数、头维度、数据类型）作为推导依据。虽然 32K * 4KB = 128MB 的算术正确，但 4KB/token 这一假设值缺乏来源支持，且不同模型架构下该值差异巨大（例如 Qwen3-32B 在 FP16 下每 token KV 占用通常远高于 4KB，具体取决于 num_layers * num_kv_heads * head_dim * 2 * 2bytes）。 | 参考来源 [1][2][3] 均讨论 Qwen3 系列（8B/32B）的 32K 上下文支持及部署优化，但未提供 Qwen3-27B 的具体 KV Cache 显存计算公式或每 token 占用数值。该事实为经验参数，逻辑自洽但缺来源直接支持，依据经验事实排除条款降级。
+
+## Search Query
+
+Qwen3-27B KV cache size per token 32k context
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_42518334/article/details/155940842&rut=339dae7d0f1b3e1f1c8e23a580a2cb2500c6da42c3d0fe3108c65fcbb0552aaa', 'type': 'ddg', 'title': '解锁Qwen3-8B全部潜力：32K上下文窗口的实际应用场景解析-CSDN博客'}
+- {'url': 'https://blog.csdn.net/qq_33043025/article/details/157645516&rut=f2a14a91ce6a4f59b4a5ffdfd838e82b53b3792e4ba4bd2c154fcd6a8a93b8e1', 'type': 'ddg', 'title': 'qwen3-32B的maxTokens设置_qwen32b-CSDN博客'}
+- {'url': 'https://devpress.csdn.net/v1/article/detail/151729497&rut=4da24efa99e56bdbe206ac6d0073c0734606c8aecf0b28dd4c4cb845c9d3ce96', 'type': 'ddg', 'title': '突破32K上下文!Qwen3-32B长文本处理技术深度解析_邬千旻Herman-智能体开发者社区'}

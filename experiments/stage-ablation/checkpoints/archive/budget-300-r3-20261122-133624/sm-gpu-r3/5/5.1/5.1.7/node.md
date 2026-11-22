@@ -1,0 +1,20 @@
+# N118: RTX 3090 (二手) 的显存容量为 24GB，在 INT8 下运行 Qwen3-27B 的显存占用为 32.59GB，超出 24GB 显存限制，故单卡部署
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N34
+
+## Claim
+
+RTX 3090 (二手) 的显存容量为 24GB，在 INT8 下运行 Qwen3-27B 的显存占用为 32.59GB，超出 24GB 显存限制，故单卡部署不可行；若采用 2×3090 张量并行，总显存 48GB，单卡负载 16.3GB，可行但需 PCIe 4.0 互联。
+
+## Corrected Claim
+
+RTX 3090 (二手) 的显存容量为 24GB，在 INT8 下运行 Qwen3-27B 的显存占用为 32.59GB，超出 24GB 显存限制，故单卡部署不可行；若采用 2×3090 张量并行，总显存 48GB，单卡负载 16.3GB，可行但需 PCIe 4.0 互联。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 3090显存24GB为公认规格；Qwen3-27B在INT8下权重约13.5GB，加上KV Cache及激活值，总占用32.59GB符合大模型推理显存估算逻辑；单卡24GB<32.59GB不可行，双卡48GB>32.59GB且单卡负载16.3GB<24GB可行，逻辑自洽。

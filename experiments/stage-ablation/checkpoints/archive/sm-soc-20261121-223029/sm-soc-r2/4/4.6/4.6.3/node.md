@@ -1,0 +1,20 @@
+# N95: 补贴成本量化：ΔCost_Subsidy_t = Subsidy_per_deal * N_deals_post。若 MVI 包含对降价卖家的流量加权，其机会成
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N25
+
+## Claim
+
+补贴成本量化：ΔCost_Subsidy_t = Subsidy_per_deal * N_deals_post。若 MVI 包含对降价卖家的流量加权，其机会成本为将流量分配给低质商品导致的长期声誉损失，可折算为未来 N 期的用户流失率增加 ΔChurn_rate，进而影响 ΔRev_Retention。
+
+## Corrected Claim
+
+补贴成本量化：ΔCost_Subsidy_t = Subsidy_per_deal * N_deals_post。若 MVI 包含对降价卖家的流量加权，其机会成本为将流量分配给低质商品导致的长期声誉损失，可折算为未来 N 期的用户流失率增加 ΔChurn_rate，进而影响 ΔRev_Retention。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

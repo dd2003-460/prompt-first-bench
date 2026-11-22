@@ -1,0 +1,24 @@
+# N205: RTX 4090 单卡市场均价在 2024 年 Q1-Q2 期间为 $1,600 USD，该价格为零售渠道（如 Best Buy、Amazon）的官方建议零售价
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N62
+
+## Claim
+
+RTX 4090 单卡市场均价在 2024 年 Q1-Q2 期间为 $1,600 USD，该价格为零售渠道（如 Best Buy、Amazon）的官方建议零售价，实际现货价格可能因供需波动在 $1,500-$1,700 USD 之间
+
+## Corrected Claim
+
+RTX 4090 单卡市场均价在 2024 年 Q1-Q2 期间约为 $1,600 USD 左右，实际现货价格可能因供需波动在 $1,500-$1,700 USD 之间（具体数值需依据实时市场数据核实）
+
+## Evidence
+
+[质询]该陈述包含具体的经验性市场价格数据（$1,600 USD 均价及波动范围），属于经验事实，无法从第一性原理推导。由于检索通道失败，缺乏外部来源直接支持该具体数值，且不同时期、不同地区（如美国 vs 全球）的价格波动可能导致该具体数值不准确。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+RTX 4090 market price 2024 Q1 Q2 USD retail average price

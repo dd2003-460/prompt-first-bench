@@ -1,0 +1,20 @@
+# N232: 数据清洗成本 C_data 的量化估计：包括历史交易数据去重、异常值处理及中位数滚动窗口计算的资源消耗，参考数据工程团队处理百万级 SKU 的边际成本（如 $0
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N77
+
+## Claim
+
+数据清洗成本 C_data 的量化估计：包括历史交易数据去重、异常值处理及中位数滚动窗口计算的资源消耗，参考数据工程团队处理百万级 SKU 的边际成本（如 $0.01-$0.05/SKU/月），乘以平台活跃 SKU 数量 N_sku 得出 C_data。
+
+## Corrected Claim
+
+数据清洗成本 C_data 的量化估计：包括历史交易数据去重、异常值处理及中位数滚动窗口计算的资源消耗，参考数据工程团队处理百万级 SKU 的边际成本（如 $0.01-$0.05/SKU/月），乘以平台活跃 SKU 数量 N_sku 得出 C_data。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

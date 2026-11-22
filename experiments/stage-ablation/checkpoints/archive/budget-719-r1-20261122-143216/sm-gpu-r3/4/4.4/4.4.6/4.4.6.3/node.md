@@ -1,0 +1,20 @@
+# N326: 单卡方案在并发数超过 Batch_max 时的吞吐量退化曲线：当请求排队时，平均延迟 Latency_avg = Queue_Time + Service_Ti
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N116
+
+## Claim
+
+单卡方案在并发数超过 Batch_max 时的吞吐量退化曲线：当请求排队时，平均延迟 Latency_avg = Queue_Time + Service_Time，其中 Queue_Time = (N_requests - Batch_max) / Throughput_single，导致 P99 延迟呈非线性指数增长，具体阈值需基于 M/M/1 排队模型计算。
+
+## Corrected Claim
+
+单卡方案在并发数超过 Batch_max 时，请求进入排队状态。根据 M/M/1 排队模型，平均等待时间 Queue_Time 随负载因子 ρ (λ/μ) 的增加呈非线性增长，具体公式为 W_q = ρ / (μ(1-ρ))，导致 P99 延迟显著上升。
+
+## Evidence
+
+[质询]公式 Queue_Time = (N_requests - Batch_max) / Throughput_single 在量纲和逻辑上存在严重错误。Queue_Time 是时间量纲，而 (N_requests - Batch_max) 是数量量纲，Throughput_single 是 数量/时间 量纲，相除后得到的是 时间^2/数量 或类似错误量纲，无法直接等于时间。此外，M/M/1 模型的等待时间公式通常涉及服务率 μ 和到达率 λ，而非简单的 (N-Batch)/Throughput。 | 先验知识/题面给定，逻辑校验失败：公式量纲不一致，且 M/M/1 排队论公式引用错误。

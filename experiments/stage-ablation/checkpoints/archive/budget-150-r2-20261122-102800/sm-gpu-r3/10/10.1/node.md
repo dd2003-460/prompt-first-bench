@@ -1,0 +1,20 @@
+# N155: Normalized Throughput 的分母 max(tokens/s) 的基准值：基于 N18/N19/N20 的实测/估算峰值，max(tokens/
+
+- **status**: pending
+- **level**: L3
+- **source**: derived
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N51
+
+## Claim
+
+Normalized Throughput 的分母 max(tokens/s) 的基准值：基于 N18/N19/N20 的实测/估算峰值，max(tokens/s) = 57.4 (H100-80GB @ BF16, 3350/58.29)；若考虑 W4 量化下的峰值，max 可能升至 69.2 (RTX 4090 @ W4, 1008/14.57)。需明确 Normalization 是在同一精度下比较，还是跨精度归一化（跨精度归一化会扭曲质量权重，建议限定在同一精度工作点内归一化，或引入精度惩罚项）。
+
+## Corrected Claim
+
+Normalized Throughput 的分母 max(tokens/s) 应基于特定精度下的实测峰值确定。例如，在 BF16 精度下，H100-80GB 的峰值约为 57.4 tokens/s；在 W4 量化下，RTX 4090 的峰值可能升至 69.2 tokens/s。建议明确 Normalization 是在同一精度下比较，或引入精度惩罚项以避免跨精度归一化扭曲质量权重。
+
+## Evidence
+
+父节点级核验未通过：有冗余（子节点在硬件/精度组合上互斥（正交），且覆盖了父节点提到的关键基准点（H100/BF16和RTX4090/W4）及中间态（A100/INT8），满足完备性。然而，三个子节点本质上只是同一公式 'Normalized Throughput = Throughput / max_tokens_s' 在不同硬件/精度参数下的实例化，存在结构性冗余，未将‘归一化基准定义’与‘具体工作点数据’分离。）

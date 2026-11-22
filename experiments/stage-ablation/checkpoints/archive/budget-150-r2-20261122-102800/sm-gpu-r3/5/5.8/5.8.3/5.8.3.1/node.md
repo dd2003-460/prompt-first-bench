@@ -1,0 +1,20 @@
+# N332: 2× RTX 4090 运行 Qwen3-27B BF16 (batch_size=1) 时的单步计算延迟 (Compute_Latency) 需重新估算：原 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N132
+
+## Claim
+
+2× RTX 4090 运行 Qwen3-27B BF16 (batch_size=1) 时的单步计算延迟 (Compute_Latency) 需重新估算：原 N132 假设 100-150ms 存在量级错误。根据 N164 数据，RTX 4090 带宽为 1008 GB/s，模型大小约 58.29 GB，理论 Decode 吞吐 ≈ 17.3 tokens/s，故单 token 计算延迟 ≈ 1/17.3 ≈ 57.8 ms。若考虑 Kernel Launch Overhead 和内存访问非理想性，实际单步延迟约为 60-70 ms。
+
+## Corrected Claim
+
+2× RTX 4090 运行 Qwen3-27B BF16 (batch_size=1) 时的单步计算延迟 (Compute_Latency) 需重新估算：原 N132 假设 100-150ms 存在量级错误。根据 N164 数据，RTX 4090 带宽为 1008 GB/s，模型大小约 58.29 GB，理论 Decode 吞吐 ≈ 17.3 tokens/s，故单 token 计算延迟 ≈ 1/17.3 ≈ 57.8 ms。若考虑 Kernel Launch Overhead 和内存访问非理想性，实际单步延迟约为 60-70 ms。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：58.29GB / 1008GB/s ≈ 57.8ms，符合内存带宽瓶颈下的理论延迟下限，且考虑开销后60-70ms的量级合理。

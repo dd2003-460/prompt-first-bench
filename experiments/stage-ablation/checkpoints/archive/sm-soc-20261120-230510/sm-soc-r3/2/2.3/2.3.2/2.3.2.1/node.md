@@ -1,0 +1,30 @@
+# N169: 平均咨询耗时 t_consult 的量化：t_consult = t_base + α_item * N_questions，其中 t_base 为基础沟通耗时
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N51
+
+## Claim
+
+平均咨询耗时 t_consult 的量化：t_consult = t_base + α_item * N_questions，其中 t_base 为基础沟通耗时（典型值 2-5 分钟），α_item 为商品复杂度系数（非标品典型值 1-2 分钟/问），N_questions 为平均咨询问题数（典型值 2-4 个）。
+
+## Corrected Claim
+
+平均咨询耗时 t_consult 可量化为 t_consult = t_base + α_item * N_questions，其中 t_base 为基础沟通耗时，α_item 为商品复杂度系数，N_questions 为平均咨询问题数。具体数值需根据实际业务数据校准。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值参数（如基础耗时2-5分钟、复杂度系数1-2分钟/问等），属于电商运营领域的经验事实，无法从第一性原理或数学公理中严格推导得出，且参考来源均为无关的咨询公司主页，无法提供数据支持。 | 逻辑上公式结构自洽且量纲合理（时间=时间+时间/问*问），但作为经验事实，参考来源[1][2][3]均与电商咨询耗时无关，缺乏外部数据支持，故降级。
+
+## Search Query
+
+online marketplace average consultation duration minutes used goods platform
+
+## Retrieval Sources
+
+- {'url': 'https://t-consultonline.com/&rut=e10bb4399482ea89dffefabd7849afb0c1af15bd965398d9990efde7b7f5c86f', 'type': 'ddg', 'title': 'Home - t-Consult'}
+- {'url': 'https://t-consult.com/&rut=3c6cf70c4bed765a00170d927e3f48731037bc469c88ec591de9b747b7984b4a', 'type': 'ddg', 'title': 'T-Consult'}
+- {'url': 'https://tconsult-ltd.com/&rut=8f945cc4ee65c154f0667c6fd77860db8dfe30ae62f1056d17bd2f76b4ef63f4', 'type': 'ddg', 'title': 'Home - TConsult'}

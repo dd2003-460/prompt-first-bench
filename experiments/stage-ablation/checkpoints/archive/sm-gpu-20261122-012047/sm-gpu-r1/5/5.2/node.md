@@ -1,0 +1,20 @@
+# N37: 软件栈稳定性：vLLM 对 NVIDIA RTX 4090 支持完善（CUDA 12.1+），对 AMD MI300X 支持有限（需 ROCm 5.7+，[待核
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N5
+
+## Claim
+
+软件栈稳定性：vLLM 对 NVIDIA RTX 4090 支持完善（CUDA 12.1+），对 AMD MI300X 支持有限（需 ROCm 5.7+，[待核验] 最新版本兼容性），对 Apple M3 Ultra 支持有限（需 llama.cpp 或 MLX，[待核验] 最新版本兼容性）。
+
+## Corrected Claim
+
+软件栈稳定性：vLLM 对 NVIDIA RTX 4090 支持良好（需较新 CUDA/PyTorch 版本以启用优化内核），对 AMD MI300X 支持逐步完善（需特定 ROCm 版本，性能仍在调优中），对 Apple M3 Ultra 无原生支持（需使用 llama.cpp 或 MLX 等替代后端）。
+
+## Evidence
+
+[质询]vLLM 对 NVIDIA RTX 4090 的支持并非基于 CUDA 12.1+ 这一特定版本门槛，而是依赖于较新的 CUDA 12.4+ 或 PyTorch 2.1+ 以支持 FlashAttention-2 等关键特性，且 RTX 4090 作为消费级显卡在 vLLM 中的官方支持优先级低于数据中心卡，存在驱动与库版本兼容性的细微差异风险；此外，AMD MI300X 和 Apple M3 Ultra 的‘支持有限’表述过于笼统，未区分 vLLM 原生支持（MI300X 需特定 ROCm 版本且性能调优中）与完全依赖第三方后端（M3 Ultra 需 MLX/llama.cpp，vLLM 本身不直接支持 Apple Silicon）的区别。 | 先验知识/题面给定，逻辑校验通过，但具体版本兼容性（如 CUDA 12.1+ 是否足够、ROCm 5.7+ 是否为最新稳定支持版）属于经验事实且存在时效性风险，无外部来源支持，故降级。

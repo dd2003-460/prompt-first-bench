@@ -1,0 +1,20 @@
+# N126: 低质量卖家高挂概率 P(P_listed > P_market | Quality=Low) = 0.15 的微观机制分解：低质卖家因缺乏验证性信息（如品牌授权
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N44
+
+## Claim
+
+低质量卖家高挂概率 P(P_listed > P_market | Quality=Low) = 0.15 的微观机制分解：低质卖家因缺乏验证性信息（如品牌授权、维修记录），面临更高的买家退货/投诉风险，其高挂概率受限于 P_low = 1 - P(Quick_Clearance_Need) - P(Defect_Visibility)，其中 P(Quick_Clearance_Need) 为快速清仓需求概率（约0.6），P(Defect_Visibility) 为缺陷可见性概率（约0.25），故 P_low ≈ 0.15。
+
+## Corrected Claim
+
+低质量卖家高挂概率 P(P_listed > P_market | Quality=Low) = 0.15 的微观机制分解：低质卖家因缺乏验证性信息（如品牌授权、维修记录），面临更高的买家退货/投诉风险，其高挂概率受限于 P_low = 1 - P(Quick_Clearance_Need) - P(Defect_Visibility)，其中 P(Quick_Clearance_Need) 为快速清仓需求概率（约0.6），P(Defect_Visibility) 为缺陷可见性概率（约0.25），故 P_low ≈ 0.15。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算 1 - 0.6 - 0.25 = 0.15 准确，微观机制解释（缺乏验证信息导致高挂概率受限）符合二手市场博弈论直觉，无内部矛盾。

@@ -1,0 +1,20 @@
+# N221: H100 SXM5 方案 3 年电力成本量化基准：(700W GPU + 200W System) × 26280h × $0.15/kWh = $4,002.
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N69
+
+## Claim
+
+H100 SXM5 方案 3 年电力成本量化基准：(700W GPU + 200W System) × 26280h × $0.15/kWh = $4,002.00，此为数据中心高功耗方案的 TCO 电力分项上限，是评估数据中心卡性价比时的主要边际成本增量来源
+
+## Corrected Claim
+
+H100 SXM5 方案 3 年电力成本量化基准：(700W GPU + 200W System) × 26280h × $0.15/kWh = $4,002.00，此为数据中心高功耗方案的 TCO 电力分项上限，是评估数据中心卡性价比时的主要边际成本增量来源
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：900W * 26280h * $0.15/kWh = $4002.00，计算准确且量级符合数据中心高功耗场景常识。

@@ -1,0 +1,24 @@
+# N263: Cohen's d = 0.2 对应的绝对效应量校准：d = (μ_post - μ_pre) / σ_pooled，其中 σ_pooled 为降价前后咨询率合
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N95
+
+## Claim
+
+Cohen's d = 0.2 对应的绝对效应量校准：d = (μ_post - μ_pre) / σ_pooled，其中 σ_pooled 为降价前后咨询率合并标准差。若平台历史数据中咨询率 σ ≈ 0.05（即5%），则 d=0.2 对应绝对提升 Δμ = 0.2 * 0.05 = 0.01（即1个百分点的咨询率提升），此为最小可检测效应 (MDE) 的基准。
+
+## Corrected Claim
+
+Cohen's d = 0.2 对应的绝对效应量校准：d = (μ_post - μ_pre) / σ_pooled，其中 σ_pooled 为降价前后咨询率合并标准差。若平台历史数据中咨询率 σ ≈ 0.05（即5%），则 d=0.2 对应绝对提升 Δμ = 0.2 * 0.05 = 0.01（即1个百分点的咨询率提升），此为最小可检测效应 (MDE) 的基准。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Cohen's d 定义及数值计算（0.2 * 0.05 = 0.01）符合统计学第一性原理，无逻辑矛盾。
+
+## Search Query
+
+Cohen's d effect size conversion to absolute percentage point difference in conversion rates

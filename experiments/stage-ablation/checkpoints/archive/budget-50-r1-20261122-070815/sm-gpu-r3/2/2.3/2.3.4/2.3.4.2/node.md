@@ -1,0 +1,24 @@
+# N223: FP8 (E4M3) 与 INT8 在通用语言建模任务（如 PPL）上的质量损失差异幅度，通常 FP8 的 PPL 增加百分比比 INT8 低 0.1-0.3%
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N64
+
+## Claim
+
+FP8 (E4M3) 与 INT8 在通用语言建模任务（如 PPL）上的质量损失差异幅度，通常 FP8 的 PPL 增加百分比比 INT8 低 0.1-0.3%，需通过对比同一模型的 FP8 和 INT8 PPL 数据验证。
+
+## Corrected Claim
+
+FP8 (E4M3) 与 INT8 在通用语言建模任务上的质量损失存在差异，通常 FP8 的 PPL 增加幅度低于 INT8，具体数值需通过对比同一模型的量化数据验证。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值范围（0.1-0.3%），属于硬件/模型量化性能的经验事实，无法从第一性原理推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+FP8 vs INT8 quantization perplexity difference LLM benchmark

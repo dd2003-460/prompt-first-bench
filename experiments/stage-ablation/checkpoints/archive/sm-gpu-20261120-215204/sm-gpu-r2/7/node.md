@@ -1,0 +1,26 @@
+# N35: 性价比量化指标定义为 Cost_Per_Token = (Hardware_Capex + 3*Annual_Opex) / Total_Tokens_Gene
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+性价比量化指标定义为 Cost_Per_Token = (Hardware_Capex + 3*Annual_Opex) / Total_Tokens_Generated_Over_3_Years; 对于 Qwen3-27B，RTX 4090 (W4) 的每 token 成本约为 A100 80GB (FP8) 的 1/5 至 1/8，具体取决于利用率 (Utilization Rate)。
+
+## Corrected Claim
+
+性价比量化指标定义为 Cost_Per_Token = (Hardware_Capex + 3*Annual_Opex) / Total_Tokens_Generated_Over_3_Years; 对于 Qwen3-27B，RTX 4090 (W4) 的每 token 成本通常显著低于 A100 80GB (FP8)，具体比率取决于利用率及硬件折旧模型，但缺乏特定基准数据支持确切的 1/5 至 1/8 范围。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件性能对比数值（RTX 4090 W4 vs A100 FP8 的成本比 1/5 至 1/8），属于经验事实。参考来源仅讨论了通用的成本计算概念（Cost per Task/Token），未提供针对 Qwen3-27B 在特定硬件组合下的具体性能基准或成本比率数据，无法直接支持该具体数值结论。 | 逻辑上，消费级显卡（RTX 4090）在低精度量化（W4）下确实可能比数据中心卡（A100）在 FP8 下具有更高的性价比，量级合理；但参考来源 [1][2][3] 仅涉及成本定义和通用 ROI 分析，未覆盖具体硬件对比数据，属于经验事实且缺乏直接来源支持。
+
+## Retrieval Sources
+
+- {'url': 'https://www.taskade.com/blog/ai-cost-per-task&rut=5cb811bfbd561ec5edcb4e28666f624d195d99214b65cd9750bf80d330ff05cc', 'type': 'ddg', 'title': 'AI Cost per Task (2026): What AI Work Really Costs to Run'}
+- {'url': 'https://wavect.io/zh/blog/cost-per-token-vs-cost-per-task/&rut=492e72015bb4f19baa488d1f6d144c5ce63d43302a7105b322dbd869b7234817', 'type': 'ddg', 'title': '每任务成本：当前价格与实际用量 | Wavect'}
+- {'url': 'https://aijourn.com/cost-per-token-vs-cost-per-task-what-really-determines-ai-roi/&rut=6c5cec23c30078e4f96d4c45f805dff3245ead7c4479f0da6a84ac594eac84a8', 'type': 'ddg', 'title': 'Cost per Token vs. Cost per Task: What Really Determines AI ROI'}

@@ -1,0 +1,20 @@
+# N52: 采用 Gaussian Copula 模型，对象大小 S 与热度 F 的联合分布密度函数为 f(S,F) = f_S(S) * f_F(F) * C_ρ(F_S
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N16
+
+## Claim
+
+采用 Gaussian Copula 模型，对象大小 S 与热度 F 的联合分布密度函数为 f(S,F) = f_S(S) * f_F(F) * C_ρ(F_S(S), F_F(F))，其中 C_ρ 是相关系数 ρ=-0.3 的 Gaussian Copula 密度，用于计算联合概率。
+
+## Corrected Claim
+
+采用 Gaussian Copula 模型，对象大小 S 与热度 F 的联合分布密度函数为 f(S,F) = f_S(S) * f_F(F) * C_ρ(F_S(S), F_F(F))，其中 C_ρ 是相关系数 ρ=-0.3 的 Gaussian Copula 密度，用于计算联合概率。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间存在逻辑矛盾：父节点定义联合分布为 f(S,F) = f_S(S) * f_F(F) * C_ρ(F_S(S), F_F(F))，其中 F_S 和 F_F 应为边缘分布的 CDF。然而，子节点2和3定义的是逆 CDF (Inverse CDF) S^{-1}(p) 和 F^{-1}(q)，用于从概率空间映射回样本空间，这与父节点公式中直接使用的边缘 CDF 函数 F_S(S) 和 F_F(F) 在方向上相反，且未明确说明如何从逆 CDF 推导或直接使用正向 CDF 来计算 Copula 输入 u 和 v。此外，父节点核心是联合概率密度计算，而子节点4引入了条件期望 E[S|F > F_th]，这超出了父节点“用于计算联合概率”的范围，属于衍生应用而非父节点定义的核心组成部分，导致完备性覆盖不均（缺少正向 CDF 或明确 u/v 的计算步骤，却包含了额外的条件期望）。）

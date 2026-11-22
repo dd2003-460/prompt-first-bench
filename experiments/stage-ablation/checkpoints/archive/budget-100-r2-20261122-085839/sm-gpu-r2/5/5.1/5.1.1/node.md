@@ -1,0 +1,24 @@
+# N89: CUDA 12.x + vLLM 方案部署成本：适配工时为 0.5 人天（官方支持 Qwen3，仅需配置 KV Cache 量化参数），Bug 修复成本为 $0
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N25
+
+## Claim
+
+CUDA 12.x + vLLM 方案部署成本：适配工时为 0.5 人天（官方支持 Qwen3，仅需配置 KV Cache 量化参数），Bug 修复成本为 $0（成熟框架），总成本权重为 0.1（基准线）。
+
+## Corrected Claim
+
+CUDA 12.x + vLLM 方案部署成本较低：由于官方支持 Qwen3 且框架成熟，适配工时极短（通常仅需配置 KV Cache 等参数），Bug 修复成本接近 $0，总成本权重在基准线中处于低位。
+
+## Evidence
+
+[质询]「适配工时为 0.5 人天」和「总成本权重为 0.1」属于高度依赖具体硬件规模、集群配置及业务场景的经验性估算值，并非 CUDA 12.x 或 vLLM 框架的固有属性或第一性原理可推导的常数，存在因场景不同而数值偏差巨大的风险。 | source=knowledge，逻辑自洽（vLLM 对主流模型支持良好，Bug 修复成本趋近于 0 符合成熟框架特征），但具体工时和权重系数为经验事实，缺乏通用性，故降级为定性表述。
+
+## Search Query
+
+vLLM Qwen3-27B deployment time estimate

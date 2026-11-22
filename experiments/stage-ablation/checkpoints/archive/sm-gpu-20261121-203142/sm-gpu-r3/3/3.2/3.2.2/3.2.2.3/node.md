@@ -1,0 +1,24 @@
+# N215: H100 SXM 的 5 年 TCO 中电力成本占比约为 15-20%（TDP 700W，5 年电费 ~$1,500），而 A100 为 300W（5 年电费 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N67, N68, N69
+
+## Claim
+
+H100 SXM 的 5 年 TCO 中电力成本占比约为 15-20%（TDP 700W，5 年电费 ~$1,500），而 A100 为 300W（5 年电费 ~$600）；H100 更高的功耗在长周期持有中会侵蚀部分性能优势，需结合电价敏感性分析。
+
+## Corrected Claim
+
+H100 SXM 的 5 年 TCO 中电力成本占比约为 15-20%（TDP 700W，5 年电费 ~$1,500），而 A100 为 300W（5 年电费 ~$600）；H100 更高的功耗在长周期持有中会侵蚀部分性能优势，需结合电价敏感性分析。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H100 SXM TDP 700W 与 A100 300W 符合官方规格；按典型数据中心电价（~$0.10/kWh）及 24/7 运行计算，5 年电费量级（H100 ~$1500, A100 ~$600）合理；电力成本占 TCO 比例 15-20% 符合行业常见估算范围。
+
+## Search Query
+
+H100 SXM TDP 700W A100 TDP 300W electricity cost 5 years

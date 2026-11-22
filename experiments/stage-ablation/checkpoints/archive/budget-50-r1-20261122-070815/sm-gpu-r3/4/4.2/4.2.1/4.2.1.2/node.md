@@ -1,0 +1,24 @@
+# N303: RTX 4090 方案的系统基础功耗（CPU/内存/主板/风扇）估算为 100W-150W，加上 GPU 推理功耗后，整机 P_avg 在 Decode 阶段约
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N105
+
+## Claim
+
+RTX 4090 方案的系统基础功耗（CPU/内存/主板/风扇）估算为 100W-150W，加上 GPU 推理功耗后，整机 P_avg 在 Decode 阶段约为 350W-500W，用于计算年电费
+
+## Corrected Claim
+
+RTX 4090 方案的系统基础功耗（CPU/内存/主板/风扇）估算为 100W-150W，加上 GPU 推理功耗后，整机 P_avg 在 Decode 阶段约为 350W-500W，用于计算年电费
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 TDP为450W，系统基础功耗100-150W符合常规配置，总功耗350-500W量级合理
+
+## Search Query
+
+high-end gaming PC system idle and load power consumption watts

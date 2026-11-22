@@ -1,0 +1,20 @@
+# N121: KV Cache 显存占用的精确计算需区分 K 和 V 两部分：K_cache = 64 layers * 8 heads * 128 dim * 2 byte
+
+- **status**: verified
+- **level**: L3
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N31, N32, N33
+
+## Claim
+
+KV Cache 显存占用的精确计算需区分 K 和 V 两部分：K_cache = 64 layers * 8 heads * 128 dim * 2 bytes * 32768 tokens = 12.88 GB；V_cache 同 K_cache = 12.88 GB；总 KV Cache = 25.76 GB。此数值是静态上限，实际运行时若启用 PagedAttention 或 RadixAttention，峰值显存占用可能低于此值，但需预留 10-15% 的安全边际以应对突发长序列。
+
+## Corrected Claim
+
+KV Cache 显存占用的精确计算需区分 K 和 V 两部分：K_cache = 64 layers * 8 heads * 128 dim * 2 bytes * 32768 tokens = 12.88 GB；V_cache 同 K_cache = 12.88 GB；总 KV Cache = 25.76 GB。此数值是静态上限，实际运行时若启用 PagedAttention 或 RadixAttention，峰值显存占用可能低于此值，但需预留 10-15% 的安全边际以应对突发长序列。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（三个子节点分别处理了数值修正（纠正父节点错误）、机制分析（Paged/RadixAttention的影响）和边际量化（安全边际的来源），逻辑上互不重叠且互补。子节点1指出了父节点的计算错误（将MHA误算或数据错误），子节点2和3基于修正后的逻辑或独立维度进行展开，没有矛盾。虽然子节点1修正了数值，但这属于对父节点前提的纠错，而非子节点间的内部矛盾。）

@@ -1,0 +1,24 @@
+# N491: GPTQ (4-bit) 量化在 Qwen3-27B 上的 MMLU 准确率下降 ΔMMLU_GPTQ 具体数值，需引用 GPTQ 官方仓库或社区针对 20B+
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N156
+
+## Claim
+
+GPTQ (4-bit) 量化在 Qwen3-27B 上的 MMLU 准确率下降 ΔMMLU_GPTQ 具体数值，需引用 GPTQ 官方仓库或社区针对 20B+ 规模模型的评测报告，重点区分 group_size=128 与 group_size=64 对精度的边际影响 [待核验]
+
+## Corrected Claim
+
+GPTQ (4-bit) 量化在 Qwen3-27B 上的 MMLU 准确率下降具体数值及 group_size 对精度的影响需查阅 GPTQ 官方仓库或针对该规模模型的社区评测报告，当前缺乏具体数据支持。
+
+## Evidence
+
+[质询]该陈述要求提供具体的数值（ΔMMLU_GPTQ）及特定配置（group_size）下的边际影响，属于具体的经验事实/评测数据。由于缺乏任何参考来源支持，且无法从第一性原理推导出具体模型的量化精度损失数值，存在数据缺失或无法验证的风险。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，无法验证具体数值及group_size影响）。
+
+## Search Query
+
+GPTQ 4bit Qwen 27B MMLU accuracy drop group_size 128

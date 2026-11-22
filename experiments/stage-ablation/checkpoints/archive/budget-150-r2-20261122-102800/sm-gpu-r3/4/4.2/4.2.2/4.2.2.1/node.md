@@ -1,0 +1,24 @@
+# N272: A100 40GB SXM4 在 BF16 精度下运行 Qwen3-27B 时，ECC 内存访问导致的性能开销约为 5%-10%，具体取决于内存访问模式（如 K
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N100
+
+## Claim
+
+A100 40GB SXM4 在 BF16 精度下运行 Qwen3-27B 时，ECC 内存访问导致的性能开销约为 5%-10%，具体取决于内存访问模式（如 KV Cache 读取）
+
+## Corrected Claim
+
+A100 40GB SXM4 在 BF16 精度下运行 Qwen3-27B 时，ECC 内存访问会导致一定的性能开销，具体比例取决于内存访问模式（如 KV Cache 读取），通常在个位数百分比范围内。
+
+## Evidence
+
+[质询]ECC 开销的具体数值（5%-10%）属于高度依赖具体硬件微架构、内存控制器实现及访问模式（如突发长度、行冲突率）的经验性数据，并非固定常数；且 A100 SXM4 的 ECC 开销在不同负载下波动较大，直接断言一个固定区间缺乏普适性依据。 | source=knowledge，逻辑自洽（ECC 确实引入额外内存访问开销，量级在个位数百分比符合工程直觉），但具体数值 5%-10% 为经验估计，无来源直接支持，依据经验事实排除条款降级。
+
+## Search Query
+
+A100 SXM4 ECC memory overhead performance impact BF16 inference

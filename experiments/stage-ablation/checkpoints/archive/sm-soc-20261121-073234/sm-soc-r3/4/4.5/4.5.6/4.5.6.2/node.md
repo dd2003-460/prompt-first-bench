@@ -1,0 +1,20 @@
+# N298: 基于平台历史流量数据，支持 n_min=380 组/组 随机对照实验所需的实验持续时间 T_exp（天）的估算公式：T_exp = n_min / (DAU *
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N97, N98, N99
+
+## Claim
+
+基于平台历史流量数据，支持 n_min=380 组/组 随机对照实验所需的实验持续时间 T_exp（天）的估算公式：T_exp = n_min / (DAU * λ_base * 0.5)，其中0.5为实验组分配比例
+
+## Corrected Claim
+
+基于平台历史流量数据，支持 n_min=380 组/组 随机对照实验所需的实验持续时间 T_exp（天）的估算公式：T_exp = n_min / (DAU * λ_base * 0.5)，其中0.5为实验组分配比例
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 T_exp = n_min / (DAU * λ_base * 0.5) 符合 A/B 测试样本量估算的基本逻辑，其中分母代表每日进入实验组的用户数（DAU * 基础转化率 * 分流比例），分子为所需最小样本量，量纲与逻辑自洽。

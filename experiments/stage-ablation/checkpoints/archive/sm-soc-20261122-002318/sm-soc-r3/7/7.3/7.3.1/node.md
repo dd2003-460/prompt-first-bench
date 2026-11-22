@@ -1,0 +1,20 @@
+# N260: 基于 Log-normal 分布的偏态修正项计算：假设对数偏差 ln(Noise) ~ N(μ_ln, σ_ln^2)。利用 Edgeworth 展开式或数值积
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N93
+
+## Claim
+
+基于 Log-normal 分布的偏态修正项计算：假设对数偏差 ln(Noise) ~ N(μ_ln, σ_ln^2)。利用 Edgeworth 展开式或数值积分计算 Skewness (偏态系数) 对 P(Noise > 0.15*μ) 的一阶修正项 ΔP_skew ≈ (γ/6) * (Z^2 - 1) * φ(Z)，其中 γ 为偏态系数，Z 为标准正态分位数，量化非正态性带来的概率偏差幅度。
+
+## Corrected Claim
+
+基于 Log-normal 分布的偏态修正项计算：假设对数偏差 ln(Noise) ~ N(μ_ln, σ_ln^2)。利用 Edgeworth 展开式或数值积分计算 Skewness (偏态系数) 对 P(Noise > 0.15*μ) 的一阶修正项 ΔP_skew ≈ (γ/6) * (Z^2 - 1) * φ(Z)，其中 γ 为偏态系数，Z 为标准正态分位数，量化非正态性带来的概率偏差幅度。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Edgeworth 展开式的一阶修正项公式 (γ/6)(Z^2-1)φ(Z) 符合统计学标准推导，量纲与逻辑自洽。

@@ -1,0 +1,20 @@
+# N186: β→0 时缓存容量匹配度的量化：在 P_head 趋近于 k/N 的条件下，计算 128GB 缓存能覆盖的头部对象比例 N_cache/N，并量化 LFU 与 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N64
+
+## Claim
+
+β→0 时缓存容量匹配度的量化：在 P_head 趋近于 k/N 的条件下，计算 128GB 缓存能覆盖的头部对象比例 N_cache/N，并量化 LFU 与 LRU 在该匹配度下的命中率差异 ΔH_max。
+
+## Corrected Claim
+
+β→0 时缓存容量匹配度的量化：在 P_head 趋近于 k/N 的条件下，计算 128GB 缓存能覆盖的头部对象比例 N_cache/N，并量化 LFU 与 LRU 在该匹配度下的命中率差异 ΔH_max。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

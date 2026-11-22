@@ -1,0 +1,28 @@
+# N105: 干预效果持续时间量化：政策实施后均衡参数恢复至原水平的时间 [T_revert]，若 T_revert < 30天，则干预无效；若 T_revert > 90天
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N32
+
+## Claim
+
+干预效果持续时间量化：政策实施后均衡参数恢复至原水平的时间 [T_revert]，若 T_revert < 30天，则干预无效；若 T_revert > 90天，则干预有效且持久，置信度提升。
+
+## Corrected Claim
+
+干预效果持续时间可通过政策实施后均衡参数恢复至原水平的时间 [T_revert] 来量化。通常，较短的 T_revert 暗示干预效果短暂或无效，而较长的 T_revert 暗示干预效果持久。具体判定阈值需根据特定政策领域的基线波动性和预期效应持续时间确定，而非固定为30天或90天。
+
+## Evidence
+
+父节点级核验未通过：不完备（父节点定义了T_revert的计算及其作为有效性判据（无效/有效）的逻辑，但唯一的子节点仅描述了基于T_revert对置信度的修正。子节点缺失了父节点中核心的‘有效性判定’逻辑（即如何根据T_revert判断干预是无效还是有效），导致分解未覆盖父节点的所有关键方面。）
+
+## Search Query
+
+sustainability of marketplace policy changes on pricing equilibrium and transaction dynamics
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/605175087&rut=c0b2c2376a920e04f446b9f049ce03ecb4eaaba946031d1829c4ff78b81e2fc8', 'type': 'ddg', 'title': '论文复现：基于组级纵向数据评估政策的试验模拟方法 - 知乎'}

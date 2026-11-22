@@ -1,0 +1,24 @@
+# N14: 平台算法对成交周期的影响：平台推荐算法权重 w_algo 中‘近期成交速度’占 20%-30%，导致高价但快速成交的商品获得更高曝光，形成正反馈循环；曝光增量 
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N2
+
+## Claim
+
+平台算法对成交周期的影响：平台推荐算法权重 w_algo 中‘近期成交速度’占 20%-30%，导致高价但快速成交的商品获得更高曝光，形成正反馈循环；曝光增量 ΔE = α × (T_close_base / T_close)^(0.5)，其中 α 为曝光弹性系数（α ≈ 0.3-0.5）。
+
+## Corrected Claim
+
+平台推荐算法通常会将近期成交速度作为重要权重因子，导致高价但快速成交的商品获得更高曝光，形成正反馈循环；曝光增量与成交速度呈正相关关系，具体系数因平台而异。
+
+## Evidence
+
+[质询]该陈述包含具体的算法权重（20%-30%）和精确的数学公式（ΔE = α × ...），属于特定平台内部机制的经验事实。由于缺乏公开权威来源证实具体平台的算法参数及公式形式，且不同平台算法差异巨大，无法验证其普适性或具体数值的准确性。 | 经验事实，逻辑自洽但缺来源支持（source=knowledge，但涉及具体未公开算法参数，无法仅凭逻辑推导确认具体数值和公式，故降级）
+
+## Search Query
+
+platform recommendation algorithm transaction speed exposure weighting marketplace

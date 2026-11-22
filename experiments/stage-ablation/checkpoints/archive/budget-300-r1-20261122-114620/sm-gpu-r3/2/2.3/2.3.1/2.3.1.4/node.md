@@ -1,0 +1,20 @@
+# N206: Intel Arc A770 在 W4 量化下运行 Qwen3-27B 的 32K 上下文推理时，由于显存带宽受限和计算单元效率低，Prefill 阶段延迟预计
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N62
+
+## Claim
+
+Intel Arc A770 在 W4 量化下运行 Qwen3-27B 的 32K 上下文推理时，由于显存带宽受限和计算单元效率低，Prefill 阶段延迟预计超过 30 秒 (54GB 权重加载 + 32K tokens 计算)，远超交互式应用可接受范围
+
+## Corrected Claim
+
+Intel Arc A770 在 W4 量化下运行 Qwen3-27B 的 32K 上下文推理时，受限于显存带宽和计算单元效率，Prefill 阶段延迟预计显著高于交互式应用可接受范围（可能达到数十秒量级）。
+
+## Evidence
+
+[质询]数值量级存疑：A770 显存带宽约 512 GB/s，54GB 权重加载理论下限约 0.1s，32K tokens 的 Prefill 计算量虽大，但 30 秒延迟（即 1000+ tokens/s 的极低吞吐）对于 27B 模型在消费级显卡上是否必然发生缺乏精确基准支持，可能高估了延迟或低估了硬件效率。 | 先验知识/题面给定，逻辑校验通过（显存带宽和计算单元限制是合理瓶颈），但具体 30 秒延迟为经验估算，无来源直接支持，且数值精度较高，故降级。

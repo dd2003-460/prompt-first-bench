@@ -1,0 +1,24 @@
+# N172: 约束条件3：电力供应 Power_Supply_Max。本地工作站通常 PSU 为 850W-1200W。2x RTX 4090 (900W GPU + 200
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N37
+
+## Claim
+
+约束条件3：电力供应 Power_Supply_Max。本地工作站通常 PSU 为 850W-1200W。2x RTX 4090 (900W GPU + 200W CPU/Other) 需 >= 1200W PSU；1x H100 (700W) 需 >= 1000W PSU。若 PSU 不足，需额外硬件成本 ~$200-400。
+
+## Corrected Claim
+
+约束条件3：电力供应 Power_Supply_Max。本地工作站通常 PSU 为 850W-1200W。2x RTX 4090 (900W GPU + 200W CPU/Other) 需 >= 1200W PSU；1x H100 (700W) 需 >= 1000W PSU。若 PSU 不足，需额外硬件成本 ~$200-400。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 TDP 450W，双卡加CPU/其他组件总功耗约1100W，需1200W+ PSU符合工程常识；H100 SXM TDP 700W，需1000W+ PSU合理；PSU升级成本$200-400符合市场价位。
+
+## Search Query
+
+GPU power supply requirement workstation LLM inference

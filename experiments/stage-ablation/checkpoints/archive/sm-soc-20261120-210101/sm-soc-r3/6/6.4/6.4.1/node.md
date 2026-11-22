@@ -1,0 +1,24 @@
+# N359: 双样本 t 检验的自由度与分布假设：ΔE = E_high - E_drop 的 t 统计量 t = ΔE / SE(ΔE) 服从自由度 df = n_high
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N106
+
+## Claim
+
+双样本 t 检验的自由度与分布假设：ΔE = E_high - E_drop 的 t 统计量 t = ΔE / SE(ΔE) 服从自由度 df = n_high + n_drop - 2 的 t 分布。若 n_high = n_drop = 100，则 df = 198，临界值 t_{0.025, 198} ≈ 1.972。需验证 E_high 和 E_drop 的样本方差是否齐性（Levene's test），若方差比 > 4，则需使用 Welch's t 检验，自由度 df_welch = (Var1/n1 + Var2/n2)^2 / [(Var1/n1)^2/(n1-1) + (Var2/n2)^2/(n2-1)]。
+
+## Corrected Claim
+
+双样本 t 检验的自由度与分布假设：ΔE = E_high - E_drop 的 t 统计量 t = ΔE / SE(ΔE) 服从自由度 df = n_high + n_drop - 2 的 t 分布。若 n_high = n_drop = 100，则 df = 198，临界值 t_{0.025, 198} ≈ 1.972。需验证 E_high 和 E_drop 的样本方差是否齐性（Levene's test），若方差比 > 4，则需使用 Welch's t 检验，自由度 df_welch = (Var1/n1 + Var2/n2)^2 / [(Var1/n1)^2/(n1-1) + (Var2/n2)^2/(n2-1)]。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：双样本t检验自由度公式、临界值近似及Welch校正公式均符合统计学标准定义。
+
+## Search Query
+
+two-sample t-test degrees of freedom welch correction

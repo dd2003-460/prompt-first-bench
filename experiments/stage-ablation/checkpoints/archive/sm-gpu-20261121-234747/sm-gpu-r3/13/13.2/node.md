@@ -1,0 +1,24 @@
+# N509: NVIDIA RTX 5090 的 TDP 和能效比需基于 NVIDIA 官方规格表验证，TDP 预计为 575W，能效比（GFLOPS/W）需结合 FP4/F
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N160
+
+## Claim
+
+NVIDIA RTX 5090 的 TDP 和能效比需基于 NVIDIA 官方规格表验证，TDP 预计为 575W，能效比（GFLOPS/W）需结合 FP4/FP8 算力（如 1.79 TFLOPS/W）计算，具体数值需引用 NVIDIA 官方技术白皮书或第三方评测报告 [待核验]
+
+## Corrected Claim
+
+NVIDIA RTX 5090 的 TDP 和能效比需基于 NVIDIA 官方规格表验证，目前缺乏官方确认的具体数值，第三方推测 TDP 约为 575W，能效比需结合具体算力规格计算。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件规格数值（TDP 575W, 能效比 1.79 TFLOPS/W），属于经验事实。由于检索失败，无法通过外部来源验证这些具体数值的准确性，且‘预计’一词表明这是推测而非已确认的官方数据，存在数值偏差风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体TDP和能效比数值）
+
+## Search Query
+
+NVIDIA RTX 5090 TDP 575W FP4 FP8 performance efficiency specs

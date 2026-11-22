@@ -1,0 +1,20 @@
+# N15: 更新导致的缓存失效概率 P_invalid = 1 - exp(-λ_update * τ_LRU)，其中 λ_update = 0.01/day，τ_LRU 
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+更新导致的缓存失效概率 P_invalid = 1 - exp(-λ_update * τ_LRU)，其中 λ_update = 0.01/day，τ_LRU 为对象在 LRU 缓存中的平均驻留时间（取决于缓存容量 C=128GB 与请求速率 R=50M/day 及大小分布）。
+
+## Corrected Claim
+
+更新导致的缓存失效概率 P_invalid = 1 - exp(-λ_update * τ_LRU)，其中 λ_update = 0.01/day，τ_LRU 为对象在 LRU 缓存中的平均驻留时间（取决于缓存容量 C=128GB 与请求速率 R=50M/day 及大小分布）。
+
+## Evidence
+
+父节点级核验未通过：不完备（父节点定义了概率公式及其参数（λ_update, τ_LRU），并指出 τ_LRU 依赖于缓存容量、请求速率等系统参数。然而，唯一的子节点仅提供了基于特定 τ_LRU 值的数值计算结果，完全缺失了对 τ_LRU 如何从 C、R 和大小分布推导出来的分解。这导致父节点中关于 τ_LRU 依赖关系的关键方面未被覆盖。）

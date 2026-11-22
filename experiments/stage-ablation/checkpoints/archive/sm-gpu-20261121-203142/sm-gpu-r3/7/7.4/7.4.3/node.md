@@ -1,0 +1,24 @@
+# N341: PCIe 4.0 x16 接口在持续高负载下的有效单向带宽通常低于理论峰值 32 GB/s，实测有效带宽约为 25-28 GB/s，受限于 TLP 包头部开销、
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N110
+
+## Claim
+
+PCIe 4.0 x16 接口在持续高负载下的有效单向带宽通常低于理论峰值 32 GB/s，实测有效带宽约为 25-28 GB/s，受限于 TLP 包头部开销、链路重训练及驱动调度延迟；该数值是计算 Offload 延迟的关键参数，需采用保守值 25 GB/s 进行 TCO 估算
+
+## Corrected Claim
+
+PCIe 4.0 x16 接口在持续高负载下的有效单向带宽通常低于理论峰值 32 GB/s，实测有效带宽约为 25-28 GB/s，受限于 TLP 包头部开销、链路重训练及驱动调度延迟；该数值是计算 Offload 延迟的关键参数，需采用保守值 25 GB/s 进行 TCO 估算
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe 4.0 x16 理论带宽 32 GB/s，受协议开销（TLP头、DLLP等）及实际调度影响，有效带宽 25-28 GB/s 符合工程常识，25 GB/s 作为保守估算值合理。
+
+## Search Query
+
+PCIe 4.0 x16 effective bandwidth sustained transfer rate GB/s

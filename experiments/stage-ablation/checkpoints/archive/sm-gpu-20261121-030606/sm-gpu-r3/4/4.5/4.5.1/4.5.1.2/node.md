@@ -1,0 +1,20 @@
+# N318: 修正N139中RTX 4090 INT8权重大小错误：根据N161已验证事实，27B参数INT8精度权重占用应为27GB（27e9 * 1 byte），而非N1
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N138
+
+## Claim
+
+修正N139中RTX 4090 INT8权重大小错误：根据N161已验证事实，27B参数INT8精度权重占用应为27GB（27e9 * 1 byte），而非N139中使用的13.5GB（13.5GB对应INT4/NVFP4）；此修正导致RTX 4090 INT8方案的带宽瓶颈项分母数据量翻倍。
+
+## Corrected Claim
+
+修正N139中RTX 4090 INT8权重大小错误：根据N161已验证事实，27B参数INT8精度权重占用应为27GB（27e9 * 1 byte），而非N139中使用的13.5GB（13.5GB对应INT4/NVFP4）；此修正导致RTX 4090 INT8方案的带宽瓶颈项分母数据量翻倍。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数在INT8精度下每参数占1字节，总大小确为27GB，与N139中13.5GB（对应INT4）形成正确对比，修正逻辑自洽。

@@ -1,0 +1,24 @@
+# N198: 2×RTX 4090 在 Prefill 阶段 (SeqLen=32K) 的计算并行效率：单卡计算时间 25.7s (N132)，双卡理想并行 12.85s，但
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N68
+
+## Claim
+
+2×RTX 4090 在 Prefill 阶段 (SeqLen=32K) 的计算并行效率：单卡计算时间 25.7s (N132)，双卡理想并行 12.85s，但每层 All-Reduce 通信量 32GB/64层=0.5GB/层，PCIe 传输时间 0.5GB/64GB/s=7.8ms/层，64层总通信 0.5s，总时间 13.35s，效率损失 3.9%，与 N68 声称的 10-15% 不符，表明长序列 Prefill 中通信占比确实较小，主要瓶颈仍是计算。
+
+## Corrected Claim
+
+2×RTX 4090 在 Prefill 阶段 (SeqLen=32K) 的计算并行效率：单卡计算时间 25.7s (N132)，双卡理想并行 12.85s，但每层 All-Reduce 通信量 32GB/64层=0.5GB/层，PCIe 传输时间 0.5GB/64GB/s=7.8ms/层，64层总通信 0.5s，总时间 13.35s，效率损失 3.9%，与 N68 声称的 10-15% 不符，表明长序列 Prefill 中通信占比确实较小，主要瓶颈仍是计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算过程自洽（25.7/2=12.85s，通信开销0.5s，总耗时13.35s，效率损失约3.9%），符合长序列Prefill阶段计算密集型特征，通信占比低符合PCIe带宽与数据量级的物理直觉。
+
+## Search Query
+
+RTX 4090 tensor parallel prefill efficiency 32k context

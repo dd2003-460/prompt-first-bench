@@ -1,0 +1,20 @@
+# N58: 典型 CDN 场景中 T_residence/L_object ≈ 0.5 的假设意味着对象平均在缓存中停留的时间是其总生命周期的一半，该比值受缓存容量 C 与
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N19
+
+## Claim
+
+典型 CDN 场景中 T_residence/L_object ≈ 0.5 的假设意味着对象平均在缓存中停留的时间是其总生命周期的一半，该比值受缓存容量 C 与对象大小 S 的比值影响，具体关系为 T_res ≈ C/S * (1/H_miss)
+
+## Corrected Claim
+
+典型 CDN 场景中 T_residence/L_object ≈ 0.5 是一个经验假设，具体驻留时间受缓存容量、对象大小、访问频率及替换策略等多因素影响，不存在简单的 T_res ≈ C/S * (1/H_miss) 通用公式。
+
+## Evidence
+
+[质询]公式 T_res ≈ C/S * (1/H_miss) 缺乏明确的物理或数学推导支持，且量纲/逻辑不自洽：C/S 是容量与对象大小的比值（无量纲或数量级极大），而 T_res 是时间，两者直接相乘在量纲上不成立；此外，T_residence/L_object ≈ 0.5 是一个经验假设，不能直接推导出该特定公式，且 H_miss（未命中率）与驻留时间的关系通常更复杂，受访问频率、替换策略等影响，该公式过于简化且可能错误。 | 先验知识/题面给定，逻辑校验未通过：公式量纲不一致（时间 vs 无量纲比值），且推导逻辑不严谨，属于经验事实但缺乏可靠来源支持且存在逻辑缺陷。

@@ -1,0 +1,30 @@
+# N104: 点击率 CTR 的具体量化：CTR = Clicks / Impressions；需验证高挂价商品（Price > μ*1.15）的 CTR 是否显著高于正常定
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N30
+
+## Claim
+
+点击率 CTR 的具体量化：CTR = Clicks / Impressions；需验证高挂价商品（Price > μ*1.15）的 CTR 是否显著高于正常定价商品，具体差异幅度 ΔCTR 及置信区间。
+
+## Corrected Claim
+
+点击率 CTR 定义为 Clicks / Impressions。关于高挂价商品（Price > μ*1.15）的 CTR 是否显著高于正常定价商品及其具体差异幅度 ΔCTR 和置信区间，需基于具体数据集进行统计检验，当前缺乏实证数据支持该具体结论。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性假设（高挂价商品CTR显著高于正常定价）及未提供的具体数值（ΔCTR及置信区间），这属于需要实证数据支持的经验事实，无法仅从定义或逻辑推导得出，且参考来源未提供相关实证数据。 | 来源[1][2][3]直接支持CTR的定义（Clicks/Impressions），但均未提供关于价格与CTR关系的实证数据或具体差异幅度，属于经验事实缺来源支持。
+
+## Search Query
+
+second hand marketplace high pricing click through rate CTR comparison
+
+## Retrieval Sources
+
+- {'url': 'https://cloud.tencent.com/developer/article/2605698&rut=b21f792134a6efb2169b18a93105df93e5af7903dd6df1c63b9f9653a8e9254b', 'type': 'ddg', 'title': '点击率（Ctr）：衡量广告吸引力的"炼金术指标"-腾讯云开发者社区-腾讯云'}
+- {'url': 'https://www.cnblogs.com/BlogNetSpace/p/19330283&rut=fb240d12ac65c1a922fdf33c143fabd8a30615743d0c51dcddc4387bd2fb4c47', 'type': 'ddg', 'title': '点击率（CTR）：衡量广告吸引力的"炼金术指标" - JackYang - 博客园'}
+- {'url': 'https://blog.csdn.net/qq_15821487/article/details/127247019&rut=df392f4df40d92e83d9b389a3a8046630763f76f62df37f4651bee771a920eb2', 'type': 'ddg', 'title': 'CTR（Click-Through-Rate）即点击通过率 - CSDN博客'}

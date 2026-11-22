@@ -1,0 +1,20 @@
+# N59: All-Reduce 通信开销量化：Comm_Overhead_ms = (2 × Model_Slice_GB / PCIe_Bandwidth) × 100
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+All-Reduce 通信开销量化：Comm_Overhead_ms = (2 × Model_Slice_GB / PCIe_Bandwidth) × 1000，对于 2 卡切分，Model_Slice_GB = 27 GB (BF16 下每卡一半)，PCIe_Bandwidth = 32 GB/s，则单次 All-Reduce 延迟约为 2 × 27 / 32 × 1000 ≈ 1687 ms，此值需与计算时间对比以确定开销占比。
+
+## Corrected Claim
+
+All-Reduce 通信开销量化：Comm_Overhead_ms = (2 × Model_Slice_GB / PCIe_Bandwidth) × 1000，对于 2 卡切分，Model_Slice_GB = 27 GB (BF16 下每卡一半)，PCIe_Bandwidth = 32 GB/s，则单次 All-Reduce 延迟约为 2 × 27 / 32 × 1000 ≈ 1687 ms，此值需与计算时间对比以确定开销占比。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式推导正确（2*27/32*1000=1687.5），量纲与数值量级合理，符合All-Reduce通信开销估算逻辑。

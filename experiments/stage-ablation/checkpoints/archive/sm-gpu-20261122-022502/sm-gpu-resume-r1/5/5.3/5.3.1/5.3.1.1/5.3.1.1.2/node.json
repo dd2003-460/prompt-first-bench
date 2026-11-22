@@ -1,0 +1,17 @@
+{
+  "id": "N876",
+  "claim": "基于 N343 的参数，32K 上下文下单个请求的 KV Cache 显存占用 = 0.12 MB/token * 32,768 tokens = 3,932 MB ≈ 3.84 GB。N272 中引用的 6.29GB/req 是基于 BF16 KV Cache (2 bytes/token) 计算的 (3.84GB * 2 = 7.68GB，仍与 6.29GB 有出入，可能 N272 使用了不同的层数或精度假设)。若使用 FP8 KV Cache，显存占用减半，为 3.84 GB，这将显著增加最大 batch_size 的可能性。",
+  "level": "L5",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值计算存在内部矛盾：0.12 MB/token * 32,768 tokens 应等于 3,932.16 MB (约 3.84 GB)，但陈述中声称 BF16 (2 bytes/token) 计算结果为 7.68GB 却与 N272 的 6.29GB 有出入，且未解释为何 0.12 MB/token 对应 BF16 还是 FP8。若 0.12 MB/token 是 BF16 值，则 FP8 应为 0.06 MB/token，总占用 1.92 GB，而非陈述中的 3.84 GB。 | 逻辑校验发现数值推导不一致：0.12 MB/token * 32768 = 3932 MB ≈ 3.84 GB，若此为 BF16 值，则 FP8 应减半为 1.92 GB，而非陈述中的 3.84 GB；若 3.84 GB 为 FP8 值，则 BF16 应为 7.68 GB，与 N272 的 6.29 GB 差异过大且未合理解释。",
+  "corrected_claim": "基于 N343 的参数，若 0.12 MB/token 为 BF16 精度下的 KV Cache 占用，则 32K 上下文下单个请求占用约 3.84 GB；若使用 FP8 精度，占用减半为约 1.92 GB。N272 中 6.29 GB 的数据可能基于不同的模型层数或精度假设，需进一步核实具体参数。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N275"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "KV cache memory calculation FP8 vs BF16 Qwen3",
+  "retrieval_sources": []
+}

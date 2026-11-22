@@ -1,0 +1,28 @@
+# N175: 确定 RTX 4090 在 LLM Prefill 阶段的有效 MFU 范围：基于公开基准（如 vLLM 在 RTX 4090 上运行 Llama-70B 或 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N67
+
+## Claim
+
+确定 RTX 4090 在 LLM Prefill 阶段的有效 MFU 范围：基于公开基准（如 vLLM 在 RTX 4090 上运行 Llama-70B 或 Qwen-72B 的 Prefill 吞吐），有效算力通常在峰值 (82.6 TFLOPS) 的 35%-45% 之间，取保守值 35% (28.9 TFLOPS) 和乐观值 45% (37.2 TFLOPS) 作为计算边界。
+
+## Corrected Claim
+
+RTX 4090在LLM Prefill阶段的有效MFU通常处于峰值算力的35%-45%区间（基于典型工程经验估算，具体数值需依赖特定模型和框架的实测基准）。
+
+## Evidence
+
+[质询]参考来源仅包含RTX 4090的基础硬件规格（如制程、架构、发布日期），完全未涉及LLM推理性能、vLLM基准测试或MFU（模型浮点利用率）数据，无法支持35%-45%这一具体经验数值范围。 | 逻辑上35%-45%的MFU范围符合大模型Prefill阶段受内存带宽和计算效率制约的工程直觉，且数值量级合理；但作为经验事实，缺乏直接来源支持（来源[1]仅确认硬件存在，未提供性能基准），故降级。
+
+## Search Query
+
+RTX 4090 vLLM prefill throughput TFLOPS utilization benchmark LLM
+
+## Retrieval Sources
+
+- {'url': 'https://www.techpowerup.com/gpu-specs/geforce-rtx-4090.c3889&rut=f3fd62fb3a17cf66f8fcdb3e9d0ca3a0d0e7a0001f30460e655c83367db02ebf', 'type': 'ddg', 'title': 'NVIDIA GeForce RTX 4090 Specs | TechPowerUp GPU Database'}

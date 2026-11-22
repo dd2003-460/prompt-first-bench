@@ -1,0 +1,30 @@
+# N30: 单卡方案 (1x H100 80GB) 的硬件采购成本约为 $25000-$30000 [时效待核]。
+
+- **status**: verified
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+单卡方案 (1x H100 80GB) 的硬件采购成本约为 $25000-$30000 [时效待核]。
+
+## Corrected Claim
+
+单卡方案 (1x H100 80GB) 的硬件采购成本约为 $25000-$30000 [时效待核]。
+
+## Evidence
+
+[质询]价格随时间波动大，且SXM与PCIe版本价差显著，需确认是否混淆了版本或时效性。 | 来源[3]直接支持2026年3月H100 80GB PCIe单卡价格约为$25,000-$30,000+，与陈述一致；来源[1]和[2]提供背景但无具体数值，来源[3]为直接证据。
+
+## Search Query
+
+NVIDIA H100 80GB price 2024
+
+## Retrieval Sources
+
+- {'url': 'https://www.bjjinzhao.cn/articles/h100-single-card-price-guide&rut=2c185ab2474f7506c348b3e4568a03217d0b1042dde9d035c1aadddc154c0618', 'type': 'ddg', 'title': 'H100显卡多少钱一张？单卡行情与替代方案 - 今朝恒业'}
+- {'url': 'https://www.cubecoretech.com/zh/product/h100-gpu-80gb-singlecard/&rut=087ee1c163c75baf8faac9fb0f3be43709b419d35a87efa2193bbe4568773bb6', 'type': 'ddg', 'title': 'H100 80GB GPU 卡采购 - cubecoretech.com'}
+- {'url': 'https://electronics.alibaba.com/question/nvidia-h100-price-guide-buy-vs-rent-in-2026&rut=2448d26ea6d05cc5505c02f15c17975920e74461efbe1ed82da3ad12e6ddf228', 'type': 'ddg', 'title': 'How Much Does an NVIDIA H100 GPU Cost in 2026?'}

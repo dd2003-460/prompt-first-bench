@@ -1,0 +1,24 @@
+# N322: llama.cpp 在 32K 上下文下，由于 KV Cache 在 CPU 和 GPU 间分布（若显存不足）或 CPU 内存碎片化，其 KV Cache 读取
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N113, N114, N115
+
+## Claim
+
+llama.cpp 在 32K 上下文下，由于 KV Cache 在 CPU 和 GPU 间分布（若显存不足）或 CPU 内存碎片化，其 KV Cache 读取延迟比 vLLM 的 GPU 内 PagedAttention 高 2-5 倍，导致单 Token 生成时间增加 150-300ms，这是其比 vLLM 慢 30%-50% 的主要机制来源。
+
+## Corrected Claim
+
+llama.cpp 在 32K 上下文下，若 KV Cache 分布在 CPU/GPU 间或存在内存碎片，其 KV Cache 读取效率通常低于 vLLM 的 GPU 内 PagedAttention，这可能是导致其单 Token 生成时间增加及整体吞吐量低于 vLLM 的因素之一，但具体性能差距取决于硬件配置、模型大小及是否处于计算瓶颈阶段。
+
+## Evidence
+
+[质询]数值量级与因果归因缺乏实证支持：'2-5倍延迟'、'150-300ms单Token增加'及'30%-50%总慢'均为具体经验参数，且将性能差异完全归因于KV Cache机制忽略了计算瓶颈（Compute-bound）在长上下文下的主导作用，属于过度简化的因果推断。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体性能数值无法从第一性原理严格推出）
+
+## Search Query
+
+llama.cpp KV cache memory fragmentation penalty long context 32k vs vLLM paged attention

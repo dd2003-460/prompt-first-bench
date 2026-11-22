@@ -1,0 +1,30 @@
+# N34: 消费级候选集：RTX 4090 (24GB, $1599, 450W), RTX 5090 (32GB, $1999 [待核验], 575W), RTX 309
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N5
+
+## Claim
+
+消费级候选集：RTX 4090 (24GB, $1599, 450W), RTX 5090 (32GB, $1999 [待核验], 575W), RTX 3090 (24GB, $899 二手, 350W), RTX A5000 (24GB, $1200, 230W), RTX 6000 Ada (48GB, $6800, 300W)；关键参数：显存带宽 (1008 GB/s for 4090), FP8 支持 (Ada 架构), 功耗效率 (TFLOPS/W)。
+
+## Corrected Claim
+
+消费级候选集：RTX 4090 (24GB, ~$1599, 450W), RTX 5090 (32GB, 价格与功耗待官方确认, 预计高功耗), RTX 3090 (24GB, 二手价格波动, 350W), RTX A5000 (24GB, ~$1200, 230W), RTX 6000 Ada (48GB, ~$6800, 300W)；关键参数：显存带宽 (1008 GB/s for 4090), FP8 支持 (Ada 架构), 功耗效率 (TFLOPS/W)。
+
+## Evidence
+
+[质询]RTX 5090 的价格（$1999）和功耗（575W）属于具体经验参数，且标注为[待核验]，参考来源中未提供该型号的确切官方定价或TDP数据，存在数值不准确的风险；此外，RTX 3090 的 $899 二手价格具有高度时效性和市场波动性，非固定事实。 | 来源[2]间接支持了RTX 4090/5090系列在显存带宽和功耗维度的对比逻辑，但未直接提供RTX 5090的具体价格$1999和功耗575W的数值证据；RTX 4090的24GB显存和1008GB/s带宽在来源[1][3]中隐含或常识性一致，但5090的具体参数缺乏直接来源支持，故降级。
+
+## Search Query
+
+NVIDIA RTX 4090 5090 3090 A5000 6000 Ada price specs FP8 support 2024
+
+## Retrieval Sources
+
+- {'url': 'https://detail.zol.com.cn/vga/s10074/&rut=45365bcb1a51864847485ef296dd3f1a803dcdcc731a24122b9ca70268b194e1', 'type': 'ddg', 'title': '【Rtx 4090显卡】Rtx 4090显卡报价及图片大全-zol中关村在线'}
+- {'url': 'https://xasun.com/article/213/3709.html&rut=204947f3cf50e1fa3cba00872a3faaacac2cadfb88af5dd4bc9f0f3d8dbf0e3d', 'type': 'ddg', 'title': '24GB显卡怎么选？RTX 4090 / RTX 5090D v2 / RTX Pro 4000 大模型部署全对比'}
+- {'url': 'https://rentgpu.link/gpu/rtx-4090&rut=e9aa3be7ca6cc0710b6383dd6d02c0a828cfbcca432753f0b6dc85ba3dd1aca9', 'type': 'ddg', 'title': 'Rtx 4090 租用多少钱一小时？各平台价格对比（24gb）| Gpu算力雷达'}

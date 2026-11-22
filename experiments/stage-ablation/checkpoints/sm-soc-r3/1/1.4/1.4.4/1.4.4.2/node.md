@@ -1,0 +1,28 @@
+# N146: 时间压力衰减系数 λ_t = 2.5 的推导依据：基于 Kahneman 双系统理论及 2020 年消费者行为实验，当剩余时间从 24h 降至 0h 时，Sys
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N42
+
+## Claim
+
+时间压力衰减系数 λ_t = 2.5 的推导依据：基于 Kahneman 双系统理论及 2020 年消费者行为实验，当剩余时间从 24h 降至 0h 时，System 1 启发式权重从 0.3 升至 0.8，导致容忍度呈指数衰减，拟合得到 λ_t = 2.5（R² = 0.87, p < 0.01）。
+
+## Corrected Claim
+
+基于Kahneman双系统理论，时间压力可能导致System 1启发式权重增加，从而引起容忍度衰减，但具体衰减系数λ_t=2.5及统计指标需依赖特定实验数据验证。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性参数（λ_t=2.5, R²=0.87）及特定年份（2020）的实验引用，属于经验事实而非第一性原理可推导内容；且参考来源与主题完全无关，无法验证其具体数值和统计显著性的真实性。 | 参考来源[1]关于深度学习，与消费者行为或时间压力系数无关，无可用外部证据；该事实为经验参数，逻辑自洽但缺乏来源支持，依据经验事实排除条款降级。
+
+## Search Query
+
+time pressure heuristic processing System 1 weight consumer decision making exponential decay coefficient
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Deep_learning', 'type': 'wikipedia', 'title': 'Deep learning'}

@@ -1,0 +1,20 @@
+# N250: RTX 3090 在 Qwen3-27B INT4 推理下的理论吞吐量上限受限于显存带宽 936 GB/s，根据 Roofline 模型，每 token 解码需
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N67
+
+## Claim
+
+RTX 3090 在 Qwen3-27B INT4 推理下的理论吞吐量上限受限于显存带宽 936 GB/s，根据 Roofline 模型，每 token 解码需读取约 13.5GB 权重数据（假设无 KV Cache 瓶颈），理论峰值吞吐量约为 936 / 13.5 ≈ 69 tokens/s，实际受算力和内存访问模式影响通常降至 30-50 tokens/s [待核验：实测数据]。
+
+## Corrected Claim
+
+RTX 3090 在 Qwen3-27B INT4 推理下的理论吞吐量上限受限于显存带宽 936 GB/s，根据 Roofline 模型，每 token 解码需读取约 13.5GB 权重数据（假设无 KV Cache 瓶颈），理论峰值吞吐量约为 936 / 13.5 ≈ 69 tokens/s，实际受算力和内存访问模式影响通常降至 30-50 tokens/s [待核验：实测数据]。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 3090 显存带宽 936 GB/s 为已知硬件规格，Qwen3-27B INT4 权重约 13.5GB 符合 27B 参数 * 0.5 bytes/param 的量级估算，Roofline 模型计算 936/13.5 ≈ 69 tokens/s 逻辑自洽，实际吞吐量受内存访问模式影响降至 30-50 tokens/s 符合工程经验。

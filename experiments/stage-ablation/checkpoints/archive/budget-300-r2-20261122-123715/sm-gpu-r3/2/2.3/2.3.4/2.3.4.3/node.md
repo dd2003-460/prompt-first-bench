@@ -1,0 +1,24 @@
+# N226: AMD RX 7900 XTX 的 24GB 显存运行 Qwen3-27B INT8 (27GB) 存在 3GB 缺口，需启用 CPU Offload 或降低上
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N63
+
+## Claim
+
+AMD RX 7900 XTX 的 24GB 显存运行 Qwen3-27B INT8 (27GB) 存在 3GB 缺口，需启用 CPU Offload 或降低上下文至 24K (KV 约 13.5GB, 总占用 40.5GB, 仍超 24GB)，因此必须量化至 W4 (13.5GB) + 32K KV (INT8, 18GB) = 31.5GB，仍超 24GB，需进一步量化 KV Cache 至 FP8 (9GB) 或 W4 (4.5GB)，总占用 22.5GB，方可运行，但量化损失需验证。
+
+## Corrected Claim
+
+AMD RX 7900 XTX 的 24GB 显存无法直接运行 Qwen3-27B INT8 (27GB)，需启用 CPU Offload 或降低模型精度（如 W4 量化）以适配显存；若需支持长上下文，KV Cache 的显存占用需根据具体推理框架的量化策略（如 FP8/INT8）进行动态评估，总占用需控制在 24GB 以内。
+
+## Evidence
+
+[质询]KV Cache 的量化方案（FP8 或 W4）及其对应的显存占用数值（9GB/4.5GB）属于具体工程实现参数，不同推理框架（如 vLLM, llama.cpp）对 KV Cache 的量化支持及精度损失表现存在差异，且 24K 上下文下 KV 占用 13.5GB 的估算可能因注意力头数、层数及具体实现优化而存在偏差，缺乏通用性。 | 先验知识/题面给定，逻辑校验通过：24GB 显存确实无法容纳 27GB 的 INT8 模型，必须通过量化或 Offload 解决；但具体的 KV Cache 量化数值（如 FP8 占 9GB）为经验性工程参数，非第一性原理可严格推导，且无外部来源支持，故降级。
+
+## Search Query
+
+RX 7900 XTX 24GB Qwen 27B W4 32K context memory requirement

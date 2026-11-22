@@ -1,0 +1,24 @@
+# N39: 缓存字节覆盖率上限 Cov_byte 的解析表达式为 Cov_byte = 1 - (C / (x_min * N))^(1-α)，其中 C 为缓存容量，x_m
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N9
+
+## Claim
+
+缓存字节覆盖率上限 Cov_byte 的解析表达式为 Cov_byte = 1 - (C / (x_min * N))^(1-α)，其中 C 为缓存容量，x_min 为 Pareto 最小值，N 为对象总数，α 为形状参数；该公式假设缓存恰好装满最大的 K 个对象或前缀对象（取决于具体缓存策略假设，此处指理论最大覆盖）。
+
+## Corrected Claim
+
+缓存字节覆盖率上限 Cov_byte 的解析表达式为 Cov_byte = 1 - (C / (x_min * N))^(1-α)，其中 C 为缓存容量，x_min 为 Pareto 最小值，N 为对象总数，α 为形状参数；该公式假设缓存恰好装满最大的 K 个对象或前缀对象（取决于具体缓存策略假设，此处指理论最大覆盖）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+Pareto distribution cumulative distribution function tail probability

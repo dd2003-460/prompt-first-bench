@@ -1,0 +1,20 @@
+# N164: 保守估计工作点（高置信度）：假设买家保留价分布 F(R) 在 P_actual 处的截断概率为 0.85（即 15% 的买家因信号失效流失），TS_conser
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N57
+
+## Claim
+
+保守估计工作点（高置信度）：假设买家保留价分布 F(R) 在 P_actual 处的截断概率为 0.85（即 15% 的买家因信号失效流失），TS_conservative = 0.85 * ∫_{P_actual}^{∞} (R - P_actual) dF(R)，该值对应 60% 无咨询假设下的下限剩余。
+
+## Corrected Claim
+
+保守估计工作点（高置信度）：假设买家保留价分布 F(R) 在 P_actual 处的截断概率为 0.85（即 15% 的买家因信号失效流失），TS_conservative = 0.85 * ∫_{P_actual}^{∞} (R - P_actual) dF(R)，该值对应 60% 无咨询假设下的下限剩余。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

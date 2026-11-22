@@ -1,0 +1,20 @@
+# N184: 修正 T_res 计算：N53 中 T_res ≈ 3.3 分钟基于驱逐率 = 未命中字节率，但需考虑缓存命中时的读取带宽竞争。若内存带宽限制为 10GB/s，
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N76
+
+## Claim
+
+修正 T_res 计算：N53 中 T_res ≈ 3.3 分钟基于驱逐率 = 未命中字节率，但需考虑缓存命中时的读取带宽竞争。若内存带宽限制为 10GB/s，实际有效驻留时间 T_res_eff = 128GB / (Miss_Bytes_Rate + Hit_Bytes_Rate * 0.5) ≈ 2.8 分钟，导致 P_inval 略增至 0.000027。
+
+## Corrected Claim
+
+修正 T_res 计算：N53 中 T_res ≈ 3.3 分钟基于驱逐率 = 未命中字节率，但需考虑缓存命中时的读取带宽竞争。若内存带宽限制为 10GB/s，实际有效驻留时间 T_res_eff = 128GB / (Miss_Bytes_Rate + Hit_Bytes_Rate * 0.5) ≈ 2.8 分钟，导致 P_inval 略增至 0.000027。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：128GB / (10GB/s * 0.75) ≈ 170.67s ≈ 2.84min，与2.8分钟量级一致；P_inval随T_res减小而略增符合逻辑。

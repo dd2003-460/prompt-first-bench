@@ -1,0 +1,24 @@
+# N288: 运行 2x RTX 4090 的工作站系统基础功耗 P_sys_overhead 约为 200W-250W（含 CPU、RAM、SSD、风扇及主板待机），而非估
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N88, N89, N90
+
+## Claim
+
+运行 2x RTX 4090 的工作站系统基础功耗 P_sys_overhead 约为 200W-250W（含 CPU、RAM、SSD、风扇及主板待机），而非估算的 300W；此数值直接影响总功耗计算。
+
+## Corrected Claim
+
+运行 2x RTX 4090 的工作站系统基础功耗 P_sys_overhead 约为 200W-250W（含 CPU、RAM、SSD、风扇及主板待机），而非估算的 300W；此数值直接影响总功耗计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：200W-250W符合双卡工作站平台（CPU+主板+内存+存储+风扇）在负载下的典型功耗范围，且明确排除了GPU功耗，数值量级合理。
+
+## Search Query
+
+high-end gaming workstation idle and load power consumption watts CPU RAM SSD

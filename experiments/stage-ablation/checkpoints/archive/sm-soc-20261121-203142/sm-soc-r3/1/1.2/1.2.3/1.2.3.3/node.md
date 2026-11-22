@@ -1,0 +1,30 @@
+# N120: 噪声异质性对均衡的影响：不同买家群体的 σ_buyer 存在异质性（如专家买家 σ_low vs 新手买家 σ_high），需计算加权平均 σ_buyer = 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N31
+
+## Claim
+
+噪声异质性对均衡的影响：不同买家群体的 σ_buyer 存在异质性（如专家买家 σ_low vs 新手买家 σ_high），需计算加权平均 σ_buyer = w_expert * σ_low + (1-w_expert) * σ_high，若新手买家占比高且 σ_high 大，则整体噪声掩盖价格信号，导致 60% 无咨询现象加剧。
+
+## Corrected Claim
+
+噪声异质性（如不同买家群体的σ_buyer差异）可能通过加权平均影响整体噪声水平，进而掩盖价格信号，但具体对“60%无咨询现象”的影响需依赖特定模型或实证数据支持，现有来源未提供直接证据。
+
+## Evidence
+
+[质询]该陈述将具体的市场现象（60%无咨询）与噪声异质性建立因果联系，并给出了特定的加权平均公式，但参考来源仅提供了异质性分析的方法论（来源[1][2]）和噪声交易的一般理论（来源[3]），均未涉及“买家咨询行为”、“专家/新手买家分类”或“60%无咨询”这一具体经验事实，属于缺乏来源支持的特定模型假设或经验结论。 | 来源[1][2]仅讨论异质性分析方法，来源[3]讨论噪声交易理论，均无直接证据支持“60%无咨询”这一具体数值及特定加权公式对均衡的影响，属经验事实且缺来源支持。
+
+## Search Query
+
+buyer expertise heterogeneity price perception noise second hand market
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1916448463350134618&rut=41bae74e9a96658f16f91b11c3c3b6c78325923dcb5d607f8c4d205bf47eb55a', 'type': 'ddg', 'title': '硬核总结丨《经济学（季刊）》2025年异质性分析方法：分组回归、交互项分析、分位数回归 - 知乎'}
+- {'url': 'https://zhuanlan.zhihu.com/p/1918684785267671854&rut=2c2000b3b2cb8e6855207d172b7ef05cf812ae1e2ef4d34c4daf2e15b2f3e9d6', 'type': 'ddg', 'title': '最新更新丨《经济研究》异质性分析方法汇总 - 知乎'}
+- {'url': 'https://baike.baidu.com/item/%E5%99%AA%E5%A3%B0%E4%BA%A4%E6%98%93%E7%90%86%E8%AE%BA/326097&rut=e640bad7b6bbdecca27dfbd188475e547616db237b787600f23a984baf19bf45', 'type': 'ddg', 'title': '噪声交易理论 - 百度百科'}

@@ -1,0 +1,24 @@
+# N49: 反推 N5 中 E[S]=2.5GB 所需的隐含边界条件：若 N=1e5，则总空间 2.5e14 bytes，平均对象大小 2.5GB。在 Pareto(α=1
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N17
+
+## Claim
+
+反推 N5 中 E[S]=2.5GB 所需的隐含边界条件：若 N=1e5，则总空间 2.5e14 bytes，平均对象大小 2.5GB。在 Pareto(α=1.1) 下，这需要 S_min 约为 2.5GB * (α-1)/(α-2) * (1 - ratio^{1-α}) 的反解值，通常意味着 S_min 在百 GB 量级，这与 CDN 常见对象大小不符，证实 N5 的 E[S] 估计存在数量级错误。
+
+## Corrected Claim
+
+在 Pareto(α=1.1) 分布下，若 E[S]=2.5GB 且 N=1e5，反推得到的 S_min 确实可能处于较大量级（如百 GB 级），这暗示 N5 中的 E[S] 估计可能隐含了不合理的边界条件或存在数量级偏差，需结合具体 CDN 对象大小分布进一步验证。
+
+## Evidence
+
+[质询]该陈述包含具体的数值推导结论（S_min 在百 GB 量级）和定性判断（与 CDN 常见对象大小不符），属于经验事实与具体计算结果的混合。虽然逻辑框架（Pareto 分布反推）在数学上是自洽的，但具体的量级结论依赖于对 'CDN 常见对象大小' 这一经验分布的假设，且未提供 N5 的具体上下文以验证 '数量级错误' 这一最终定性判断是否绝对成立。 | 先验知识/题面给定，逻辑校验通过。Pareto 分布反推逻辑自洽，但具体量级结论（百 GB）及与 CDN 实际分布的对比属于经验判断，缺乏外部来源直接支持，故降级。
+
+## Search Query
+
+reverse engineering Pareto mean to min size

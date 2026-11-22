@@ -1,0 +1,24 @@
+# N325: ROCm 软件栈中针对 RDNA3 架构（RX 7900 XTX）的 LLM 关键算子性能回归状态：查询 AMD 官方 Release Notes 或社区 Be
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N114, N115, N117
+
+## Claim
+
+ROCm 软件栈中针对 RDNA3 架构（RX 7900 XTX）的 LLM 关键算子性能回归状态：查询 AMD 官方 Release Notes 或社区 Benchmark，确认最近一次 ROCm 更新是否修复了 GEMM 或 Attention 算子中的精度/性能回归，若存在未修复回归，量化其对 Qwen3-27B 推理吞吐量的具体影响（如 Tokens/s 下降幅度）。
+
+## Corrected Claim
+
+ROCm 软件栈在 RDNA3 架构（RX 7900 XTX）上的 LLM 关键算子（GEMM/Attention）性能与精度表现随版本迭代存在波动，具体回归状态及量化影响需查阅对应 ROCm 版本的官方 Release Notes 或最新社区 Benchmark 数据确认。
+
+## Evidence
+
+[质询]该陈述要求确认具体的软件版本修复状态及量化性能影响（如 Tokens/s 下降幅度），属于高度依赖具体时间点、软件版本和硬件环境的经验事实。由于缺乏实时数据源，无法验证“最近一次更新”的具体内容或是否存在未修复回归，且不同 ROCm 版本间性能波动可能极大，直接断言具体影响幅度缺乏依据。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体版本修复状态及量化性能影响）
+
+## Search Query
+
+ROCm RDNA3 RX 7900 XTX LLM inference performance regression fix release notes

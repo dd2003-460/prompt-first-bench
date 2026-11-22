@@ -1,0 +1,20 @@
+# N45: Qwen3-27B 在 INT4/W4 精度下的权重显存占用为 13.5 GB，加上 32K 上下文 KV Cache (约 1.07 GB，假设 KV 保持 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N9
+
+## Claim
+
+Qwen3-27B 在 INT4/W4 精度下的权重显存占用为 13.5 GB，加上 32K 上下文 KV Cache (约 1.07 GB，假设 KV 保持 BF16/FP16) 及 15% 开销，总需求约 17.2 GB，低于 RTX 4090 的 24 GB 显存上限，单卡 INT4 方案可行且余量约 6.8 GB
+
+## Corrected Claim
+
+Qwen3-27B 在 INT4/W4 精度下的权重显存占用为 13.5 GB，加上 32K 上下文 KV Cache (约 1.07 GB，假设 KV 保持 BF16/FP16) 及 15% 开销，总需求约 17.2 GB，低于 RTX 4090 的 24 GB 显存上限，单卡 INT4 方案可行且余量约 6.8 GB
+
+## Evidence
+
+[质询]KV Cache 的 1.07 GB 估算可能偏低（取决于具体层数和头数配置，若为 64 层/128 头/128 维，32K 上下文 KV Cache 可能接近 2-3 GB），但即使按 3 GB 计算，总显存占用约 18.5 GB，仍低于 24 GB 上限，结论不变。 | 先验知识/题面给定，逻辑校验通过：27B 参数 INT4 权重约 13.5 GB 符合 0.5 bytes/param 量级；KV Cache 与开销估算在合理范围内；总显存需求 < 24 GB 的结论稳健。

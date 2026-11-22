@@ -1,0 +1,20 @@
+# N313: AMD RX 7900 XTX 24GB 显存在 Qwen3-27B INT4 权重下的 32K 上下文可行性边界：权重 13.5GB + KV Cache (
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+AMD RX 7900 XTX 24GB 显存在 Qwen3-27B INT4 权重下的 32K 上下文可行性边界：权重 13.5GB + KV Cache (32K, FP16) 8.6GB + 激活 3.0GB = 25.1GB > 24GB，不可行；若启用 FP8 KV Cache (4.3GB)，总占用 20.8GB < 24GB，可行但余量仅 3.2GB，无法支持 Batch Size > 1 或更长上下文，因此单卡 7900 XTX 仅适合低并发短任务，多卡 2×7900 XTX (48GB) 才是稳定方案。
+
+## Corrected Claim
+
+AMD RX 7900 XTX 24GB 显存在 Qwen3-27B INT4 权重下的 32K 上下文可行性边界：权重 13.5GB + KV Cache (32K, FP16) 8.6GB + 激活 3.0GB = 25.1GB > 24GB，不可行；若启用 FP8 KV Cache (4.3GB)，总占用 20.8GB < 24GB，可行但余量仅 3.2GB，无法支持 Batch Size > 1 或更长上下文，因此单卡 7900 XTX 仅适合低并发短任务，多卡 2×7900 XTX (48GB) 才是稳定方案。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

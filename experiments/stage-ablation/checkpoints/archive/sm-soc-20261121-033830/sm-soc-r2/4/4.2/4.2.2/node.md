@@ -1,0 +1,20 @@
+# N71: 候选A对成交概率的修正：实施上限后，卖家实际定价 P_actual = min(P_ask, P_max)，导致价格分布左移，成交概率 P(Sale|P_act
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+候选A对成交概率的修正：实施上限后，卖家实际定价 P_actual = min(P_ask, P_max)，导致价格分布左移，成交概率 P(Sale|P_actual) 的积分下限从 P_median*(1.15) 降至 P_median*(1-k)，预期提升成交率 ΔP_sale = ∫_{P_median*(1-k)}^{∞} f(P) dP - ∫_{P_median*1.15}^{∞} f(P) dP。
+
+## Corrected Claim
+
+候选A对成交概率的修正：实施上限后，卖家实际定价 P_actual = min(P_ask, P_max)，导致价格分布左移，成交概率 P(Sale|P_actual) 的积分下限从 P_median*(1.15) 降至 P_median*(1-k)，预期提升成交率 ΔP_sale = ∫_{P_median*(1-k)}^{∞} f(P) dP - ∫_{P_median*1.15}^{∞} f(P) dP。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：上限机制导致价格分布左移，积分下限降低，成交概率积分区间扩大，推导自洽。

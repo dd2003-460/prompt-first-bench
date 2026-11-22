@@ -1,0 +1,24 @@
+# N31: 基准价 $P_{avg}$ 的计算窗口与偏差修正：若采用过去30天成交均价，需引入通胀/季节性修正因子 $\beta$，即 $P_{avg} = \frac{1
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N11
+
+## Claim
+
+基准价 $P_{avg}$ 的计算窗口与偏差修正：若采用过去30天成交均价，需引入通胀/季节性修正因子 $\beta$，即 $P_{avg} = \frac{1}{N}\sum P_{deal,i} \times \beta$；若 $\beta$ 偏差超过 5%，惩罚项将产生系统性误判，导致正常卖家被错误降权。
+
+## Corrected Claim
+
+基准价 $P_{avg}$ 的计算窗口与偏差修正：若采用过去30天成交均价，需引入通胀/季节性修正因子 $\beta$，即 $P_{avg} = \frac{1}{N}\sum P_{deal,i} \times \beta$；若 $\beta$ 偏差超过 5%，惩罚项将产生系统性误判，导致正常卖家被错误降权。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+dynamic pricing baseline calculation window seasonality correction

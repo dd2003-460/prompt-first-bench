@@ -1,0 +1,24 @@
+# N398: Estimated 级别数据的误差量化标准：基于社区基准测试（如 vLLM 官方 GitHub Issue 中的用户报告、Reddit/知乎高赞实测），误差范围
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N125
+
+## Claim
+
+Estimated 级别数据的误差量化标准：基于社区基准测试（如 vLLM 官方 GitHub Issue 中的用户报告、Reddit/知乎高赞实测），误差范围 10-20%；判定条件为数据源非官方但具有可复现性（提供完整配置脚本），且样本量 N >= 3，标准差在 10-20% 区间内。
+
+## Corrected Claim
+
+Estimated 级别数据的误差量化标准：基于社区基准测试（如 vLLM 官方 GitHub Issue 中的用户报告、Reddit/知乎高赞实测），误差范围 10-20%；判定条件为数据源非官方但具有可复现性（提供完整配置脚本），且样本量 N >= 3，标准差在 10-20% 区间内。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+community benchmark variance standard deviation LLM inference

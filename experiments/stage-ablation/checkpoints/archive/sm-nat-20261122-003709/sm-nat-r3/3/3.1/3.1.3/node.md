@@ -1,0 +1,24 @@
+# N51: 验证正交分解公式 M_total = M_capacity + M_invalidation - M_capacity * M_invalidation 的适用
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N13
+
+## Claim
+
+验证正交分解公式 M_total = M_capacity + M_invalidation - M_capacity * M_invalidation 的适用前提：该公式假设容量未命中与一致性未命中事件独立，但在 LRU 中，热点对象更易被更新（如果更新率与热度相关）或更易被保留（如果更新率独立），需评估独立性假设在 ρ=-0.3 场景下的偏差项 δ_independence，通常偏差 < 0.5% 可忽略。
+
+## Corrected Claim
+
+验证正交分解公式 M_total = M_capacity + M_invalidation - M_capacity * M_invalidation 的适用前提：该公式假设容量未命中与一致性未命中事件独立。在 LRU 中，热点对象的行为可能影响独立性假设。需评估独立性假设在特定相关性场景（如 ρ=-0.3）下的偏差项 δ_independence，若偏差较小（具体阈值需根据系统敏感度确定，通常经验上 < 0.5% 可忽略）则可近似使用。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点存在显著冗余，两个子节点本质上都是在不同参数（ρ=-0.3 和 ρ=-0.5）下计算同一个偏差项 δ_independence。此外，父节点明确提到需要评估“更新率与热度相关”和“更新率独立”两种场景，但子节点仅覆盖了“正相关”场景，遗漏了“独立”场景下的偏差评估，导致不完备。）
+
+## Search Query
+
+cache invalidation independence assumption LRU hit rate model

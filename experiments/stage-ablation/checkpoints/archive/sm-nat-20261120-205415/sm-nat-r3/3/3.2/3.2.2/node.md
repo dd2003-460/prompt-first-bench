@@ -1,0 +1,20 @@
+# N51: LRU可缓存对象数 K_LRU 的计算：K_LRU = C / E[S | T_recency ≥ T_threshold_l]，其中 T_recency 为对
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N14
+
+## Claim
+
+LRU可缓存对象数 K_LRU 的计算：K_LRU = C / E[S | T_recency ≥ T_threshold_l]，其中 T_recency 为对象最近访问时间，需通过迭代求解使得 ∑_{i=1}^{K_LRU} s_i ≤ C
+
+## Corrected Claim
+
+LRU可缓存对象数 K_LRU 的计算：K_LRU = C / E[S | T_recency ≥ T_threshold_l]，其中 T_recency 为对象最近访问时间，需通过迭代求解使得 ∑_{i=1}^{K_LRU} s_i ≤ C
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备, 有冗余（1. 正交性/冗余问题：子节点2、3、4本质上是同一公式（K_LRU = C / E[S]）在不同参数假设下的具体数值计算实例，而非独立的逻辑分支。它们共享相同的计算逻辑，仅输入参数不同，属于高度冗余，应合并为一个‘参数敏感性分析’或‘不同工作点下的K_LRU估算’节点。2. 完备性/逻辑缺失：父节点明确指出需通过‘迭代求解’使得 ∑s_i ≤ C，这暗示了对象大小是离散且具体的，需要排序累加。然而，子节点1给出的 T_threshold_l ≈ λ（基于Little's Law）在量纲和逻辑上存疑（时间阈值近似于到达率？通常阈值是时间，λ是频率，二者倒数关系才合理，且Little's Law用于队列论，直接推导LRU时间阈值缺乏严谨性）。此外，子节点2-4使用‘平均大小’直接除法，忽略了父节点强调的‘迭代/排序’过程（即并非所有近期对象都能被缓存，而是按大小填充），导致子节点未能覆盖父节点中‘迭代求解’这一关键算法步骤，仅做了简化的平均化近似。）

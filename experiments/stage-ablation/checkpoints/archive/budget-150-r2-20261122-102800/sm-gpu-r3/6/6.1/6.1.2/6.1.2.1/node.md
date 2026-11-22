@@ -1,0 +1,24 @@
+# N337: vLLM 在 AMD RX 7900 XTX (ROCm 6.1+) 上运行 Qwen3-27B BF16 的实测吞吐基准：根据社区报告 (HuggingFac
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N134
+
+## Claim
+
+vLLM 在 AMD RX 7900 XTX (ROCm 6.1+) 上运行 Qwen3-27B BF16 的实测吞吐基准：根据社区报告 (HuggingFace/Reddit)，RX 7900 XTX (24GB) 因显存容量限制 (24GB < 58GB BF16)，无法直接运行 BF16 Qwen3-27B，必须使用 INT8 (~29GB, 仍需 Offload) 或 W4 (~14.5GB, 可行)。若强制 BF16，需启用 CPU Offload，导致 Decode 吞吐降至 <5 tokens/s。因此，'BF16 推理可行' 的前提是模型较小或开启 Offload，对于 Qwen3-27B BF16，RX 7900 XTX 实际上不可行或性能极差。
+
+## Corrected Claim
+
+vLLM 在 AMD RX 7900 XTX (24GB) 上运行 Qwen3-27B BF16 时，因显存不足（模型约54-58GB），必须启用 CPU Offload。这将导致 Decode 吞吐显著下降（通常远低于原生GPU推理速度），使得 BF16 推理在实际应用中性能极差或不可行，建议使用量化版本（如 INT8 或 W4）以获得更好的性能。
+
+## Evidence
+
+[质询]该陈述包含具体的性能数值（如'<5 tokens/s'）和特定的社区报告来源（HuggingFace/Reddit），属于经验事实。由于检索失败，无法验证这些具体数值和来源的真实性，且'不可行'的结论可能因具体Offload策略（如CPU Offload vs Swap）的不同而有较大差异，存在过度概括的风险。 | 逻辑校验通过：Qwen3-27B BF16模型大小约54-58GB，远超RX 7900 XTX的24GB显存，必须依赖Offload，导致性能大幅下降符合物理直觉。但具体吞吐数值'<5 tokens/s'及'社区报告'细节缺乏外部来源支持，且属于经验事实，无法从第一性原理严格推出具体数值，故降级。
+
+## Search Query
+
+vLLM AMD RX 7900 XTX Qwen3 27B BF16 performance offload

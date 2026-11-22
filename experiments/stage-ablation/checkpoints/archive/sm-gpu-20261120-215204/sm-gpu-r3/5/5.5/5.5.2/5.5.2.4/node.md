@@ -1,0 +1,20 @@
+# N371: 工作点 D (FlashAttention + W4 + Chunked Prefill)：将 32K 序列拆分为 4 个 8K 块并行处理，每块 TTFT ≈
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N132
+
+## Claim
+
+工作点 D (FlashAttention + W4 + Chunked Prefill)：将 32K 序列拆分为 4 个 8K 块并行处理，每块 TTFT ≈ 18.4s / 4 ≈ 4.6s，总 TTFT ≈ 4.6s * 1.2 (调度开销) ≈ 5.5s；约束：显著低于 15s 阈值，但需推理框架支持动态批处理，vLLM 0.6+ 已支持。
+
+## Corrected Claim
+
+工作点 D (FlashAttention + W4 + Chunked Prefill)：将 32K 序列拆分为 4 个 8K 块并行处理，预计总 TTFT 显著低于 15s 阈值（估算约 5.5s，基于线性近似与调度开销系数 1.2），需推理框架支持动态批处理，vLLM 0.6+ 已支持。
+
+## Evidence
+
+[质询]数值推导存在逻辑跳跃：将总TTFT简单除以4并乘以固定系数1.2，忽略了Chunked Prefill中各块并行处理时的资源竞争、内存带宽瓶颈以及非线性的调度开销，且18.4s/4=4.6s的线性假设在GPU计算密集型任务中通常不成立（并行度增加往往导致单块耗时增加或总耗时非线性下降）。 | 先验知识/题面给定，逻辑校验通过（量级合理，无硬逻辑错误），但具体数值推导依赖经验假设，缺乏来源直接支持，故降级。

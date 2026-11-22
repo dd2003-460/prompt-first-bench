@@ -1,0 +1,24 @@
+# N212: Deviation 计算中的基准价 P50 存在定义歧义：若取全市场 P50，则 β_info 估计值约为 -0.05；若取同类目近期成交 P50，则 β_in
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N69
+
+## Claim
+
+Deviation 计算中的基准价 P50 存在定义歧义：若取全市场 P50，则 β_info 估计值约为 -0.05；若取同类目近期成交 P50，则 β_info 估计值约为 -0.12，两者差异源于长尾商品分布右偏导致的基准偏移。
+
+## Corrected Claim
+
+Deviation 计算中的基准价 P50 存在定义歧义：若取全市场 P50 与同类目近期成交 P50，会导致 β_info 估计值出现显著差异，这种差异通常源于长尾商品分布右偏导致的基准偏移。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（β_info 估计值 -0.05 和 -0.12），属于特定数据集或模型下的实证结果，无法从第一性原理或通用逻辑中严格推导得出，且缺乏来源支持其具体数值的准确性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+secondhand marketplace ask price deviation baseline P50 vs P_median regression coefficient

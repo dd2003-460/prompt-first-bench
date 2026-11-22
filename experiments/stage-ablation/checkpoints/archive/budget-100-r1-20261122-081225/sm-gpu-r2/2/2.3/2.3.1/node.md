@@ -1,0 +1,20 @@
+# N90: INT8 对称量化 (Symmetric) 下，权重文件大小 27 GB 不包含 8-bit scale 因子（每层每通道 1 byte），Qwen3-27B 
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N18
+
+## Claim
+
+INT8 对称量化 (Symmetric) 下，权重文件大小 27 GB 不包含 8-bit scale 因子（每层每通道 1 byte），Qwen3-27B 共有 64 层，每层 10 个主要线性层，总 scale 开销约为 640 bytes，可忽略不计；但若采用 GPTQ/AWQ 等算法，需额外存储 2-4 bits 的 codebook 或 lookup table，增加约 50-200 MB。
+
+## Corrected Claim
+
+INT8 对称量化下，权重文件大小 27 GB 不包含 8-bit scale 因子（每层每通道 1 byte），Qwen3-27B 共有 64 层，每层 10 个主要线性层，总 scale 开销约为 640 bytes，可忽略不计；GPTQ 算法需存储量化后的权重和少量校准数据（通常几 MB 到几十 MB），AWQ 算法主要存储缩放因子（KB 级别），两者均无 50-200 MB 的 codebook 或 lookup table 开销。
+
+## Evidence
+
+[质询]GPTQ/AWQ 等算法通常不存储额外的 2-4 bits codebook 或 lookup table 导致 50-200 MB 开销；GPTQ 主要存储量化后的权重和少量校准数据（通常几 MB 到几十 MB，取决于校准集大小，而非固定的 50-200 MB 且非 codebook），AWQ 通常只存储缩放因子（scale factors），开销极小（KB 级别）。该陈述对 GPTQ/AWQ 的额外存储开销描述存在事实性错误，混淆了不同量化方法的存储结构。 | 先验知识/题面给定，逻辑校验发现 GPTQ/AWQ 存储开销描述与主流实现不符（GPTQ 无固定 50-200MB codebook，AWQ 无 lookup table），存在事实错误。

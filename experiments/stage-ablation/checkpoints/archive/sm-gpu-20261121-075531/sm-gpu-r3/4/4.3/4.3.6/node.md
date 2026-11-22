@@ -1,0 +1,28 @@
+# N90: Qwen3-27B 在 NVFP4/W4 (4-bit) 精度下，基于 WikiText2 数据集的困惑度 (PPL) 数值，以及相对 BF16 基线的 ΔPP
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N21, N22, N23
+
+## Claim
+
+Qwen3-27B 在 NVFP4/W4 (4-bit) 精度下，基于 WikiText2 数据集的困惑度 (PPL) 数值，以及相对 BF16 基线的 ΔPPL 值。
+
+## Corrected Claim
+
+Qwen3-27B 存在 NVFP4 (4-bit) 量化版本，但具体 WikiText2 PPL 数值及 ΔPPL 需查阅完整模型卡片或评估报告，当前来源未提供具体数值。
+
+## Evidence
+
+[质询]参考来源仅提供了模型名称和量化方法（NVFP4），未包含具体的 WikiText2 困惑度 (PPL) 数值或相对 BF16 的 ΔPPL 数据，无法从现有来源直接验证具体数值。 | 来源 [1] 确认了 Qwen3-27B 存在 NVFP4 量化版本，但摘要中缺失具体的 PPL 评估指标，属于经验事实且缺乏直接数值支持。
+
+## Search Query
+
+Qwen3-27B W4 NVFP4 perplexity WikiText2 benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://huggingface.co/nvidia/Qwen3.8-27B-NVFP4&rut=8619c6f7e5f11d335c66ffe0751c944d8b4eaa41fab91e35dcba7c4f04699719', 'type': 'ddg', 'title': 'nvidia/Qwen3.8-27B-NVFP4 · Hugging Face'}

@@ -1,0 +1,20 @@
+# N84: 步骤5的具体计算：H_eff = H_base * D_validity = 1.0 * (1 - P_inval_avg)；P_inval_avg 需加权计算
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N27
+
+## Claim
+
+步骤5的具体计算：H_eff = H_base * D_validity = 1.0 * (1 - P_inval_avg)；P_inval_avg 需加权计算：P_inval_avg = (Σ_{i=1}^{10^5} R_i S_i * P_inval_i) / (Σ_{i=1}^{10^5} R_i S_i)，其中 P_inval_i = 1 - (1-u)^T_i，T_i 为对象 i 的平均驻留时间；在全量驻留下 T_i 由更新率主导，需进一步分解 T_i 的分布
+
+## Corrected Claim
+
+步骤5的具体计算：H_eff = H_base * D_validity = 1.0 * (1 - P_inval_avg)；P_inval_avg 需加权计算：P_inval_avg = (Σ_{i=1}^{10^5} R_i S_i * P_inval_i) / (Σ_{i=1}^{10^5} R_i S_i)，其中 P_inval_i = 1 - (1-u)^T_i，T_i 为对象 i 的平均驻留时间；在全量驻留下 T_i 由更新率主导，需进一步分解 T_i 的分布
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

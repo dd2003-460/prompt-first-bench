@@ -1,0 +1,24 @@
+# N20: 电力成本计算：RTX 4090 TDP=450W，A100 80GB TDP=400W，假设24/7运行，电价$0.10/kWh，5年电力成本 = TDP * 
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+电力成本计算：RTX 4090 TDP=450W，A100 80GB TDP=400W，假设24/7运行，电价$0.10/kWh，5年电力成本 = TDP * 24h * 365d * 5y * $0.10/kWh
+
+## Corrected Claim
+
+电力成本计算：RTX 4090 TDP=450W，A100 80GB TDP=400W，假设24/7运行，电价$0.10/kWh，5年电力成本 = TDP * 24h * 365d * 5y * $0.10/kWh
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点分别关注‘实际功耗修正’和‘电价敏感性’，两者维度不同（硬件负载 vs 经济参数），无重复或矛盾，故正交。但父节点明确提及‘RTX 4090 TDP=450W’和‘A100 80GB TDP=400W’两种不同硬件，而子节点仅针对‘2×RTX 4090’进行了功耗修正示例，完全缺失对A100的功耗修正分析，也未涵盖不同硬件组合下的电力成本差异，因此不完备。）
+
+## Search Query
+
+RTX 4090 TDP 450W A100 TDP 400W electricity cost calculation

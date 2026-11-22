@@ -1,0 +1,20 @@
+# N130: 条件性决策框架中的关键变量“环境噪音容忍度”：若部署环境为开放式办公室或居家且对噪音敏感（<50 dBA），则排除双卡风冷方案（>70 dBA）和高负载单卡风冷
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+条件性决策框架中的关键变量“环境噪音容忍度”：若部署环境为开放式办公室或居家且对噪音敏感（<50 dBA），则排除双卡风冷方案（>70 dBA）和高负载单卡风冷方案（>55 dBA），强制选择 Mac Studio（<30 dBA）或单卡水冷方案（成本增加 $200-$500），这将显著改变性价比排名。
+
+## Corrected Claim
+
+条件性决策框架中的关键变量“环境噪音容忍度”：若部署环境为开放式办公室或居家且对噪音敏感（<50 dBA），则排除双卡风冷方案（>70 dBA）和高负载单卡风冷方案（>55 dBA），强制选择 Mac Studio（<30 dBA）或单卡水冷方案（成本增加 $200-$500），这将显著改变性价比排名。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

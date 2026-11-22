@@ -1,0 +1,20 @@
+# N79: 单卡方案的5年总电力成本计算公式：Cost_electricity_single = TDP_gpu * 1.1 (PSU效率损耗) * 24h * 365d 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N22
+
+## Claim
+
+单卡方案的5年总电力成本计算公式：Cost_electricity_single = TDP_gpu * 1.1 (PSU效率损耗) * 24h * 365d * 5y * 0.10 (USD/kWh)；以RTX 4090 (450W)为例，计算结果约为 $1,001.25。
+
+## Corrected Claim
+
+单卡方案的5年总电力成本计算公式：Cost_electricity_single = TDP_gpu * 1.1 (PSU效率损耗) * 24h * 365d * 5y * 0.10 (USD/kWh)；以RTX 4090 (450W)为例，计算结果约为 $1,001.25。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：450W * 1.1 * 24 * 365 * 5 * 0.1 = 1001.25，计算无误且量级合理。

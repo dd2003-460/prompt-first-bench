@@ -1,0 +1,28 @@
+# N69: AMD ROCm 平台中 FlashAttention-2 算子在 MI300X 上的内核实现效率约为 CUDA 平台同等硬件（H100）的 70-85%，导致
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N12, N13, N14
+
+## Claim
+
+AMD ROCm 平台中 FlashAttention-2 算子在 MI300X 上的内核实现效率约为 CUDA 平台同等硬件（H100）的 70-85%，导致在 Attention 密集型负载下整体推理延迟增加 15-30% [待核验]，这是 ROCm 成熟度落后的主要技术瓶颈。
+
+## Corrected Claim
+
+AMD ROCm 平台中 FlashAttention-2 算子在 MI300X 上的内核实现效率通常低于 CUDA 平台同等硬件（H100），导致在 Attention 密集型负载下整体推理延迟可能增加，这是 ROCm 成熟度落后的技术瓶颈之一。
+
+## Evidence
+
+[质询]具体数值区间（70-85%效率，15-30%延迟增加）缺乏权威基准测试支持，且将单一算子效率直接等同于整体推理延迟增加存在逻辑跳跃（整体延迟还受其他算子、通信、内存带宽等影响），属于经验事实且缺乏直接来源佐证。 | 来源[1]仅确认存在FlashAttention-2的ROCm实现，未提供与CUDA/H100的性能对比数据或具体效率百分比，无法直接支持具体数值区间；该陈述为经验事实，逻辑自洽但缺来源支持。
+
+## Search Query
+
+ROCm FlashAttention-2 MI300X performance comparison CUDA H100 kernel efficiency gap
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/kailums/flash-attention-rocm&rut=01f20d7d9d265dd1677360814d1f3183a8b0e1b69bcbe8f34acaf43441bec97a', 'type': 'ddg', 'title': 'GitHub - kailums/flash-attention-rocm: Fast and memory-efficient exact ...'}

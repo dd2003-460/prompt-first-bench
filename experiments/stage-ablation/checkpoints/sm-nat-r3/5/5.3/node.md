@@ -1,0 +1,24 @@
+# N27: 主要不确定性来源 1：Pareto 分布的截断点（最小/最大对象大小和最小/最大请求频率）未指定，影响尾部对象的贡献度，估计误差范围 ±5-10% [待核验]。
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N5
+
+## Claim
+
+主要不确定性来源 1：Pareto 分布的截断点（最小/最大对象大小和最小/最大请求频率）未指定，影响尾部对象的贡献度，估计误差范围 ±5-10% [待核验]。
+
+## Corrected Claim
+
+主要不确定性来源 1：Pareto 分布的截断点（最小/最大对象大小和最小/最大请求频率）未指定，显著影响尾部对象的贡献度，具体误差范围取决于分布参数，通常估计在 ±5-10% 量级。
+
+## Evidence
+
+[质询]±5-10% 的误差范围缺乏具体分布参数（如 Pareto 指数 alpha 值）和截断点的具体数值支撑，属于经验性估计，不同参数组合下尾部贡献度变化可能远超此范围。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体误差幅度无法从第一性原理严格推导，需依赖具体参数模拟）
+
+## Search Query
+
+Pareto distribution truncation points CDN object size request frequency impact on cache hit rate

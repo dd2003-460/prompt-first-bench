@@ -1,0 +1,24 @@
+# N64: 反事实均衡偏移量的计算：ΔEquilibrium = E[Outcome | Treat=1] - E[Outcome | Treat=0]，其中 Outcom
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N21
+
+## Claim
+
+反事实均衡偏移量的计算：ΔEquilibrium = E[Outcome | Treat=1] - E[Outcome | Treat=0]，其中 Outcome 为成交周期 T_deal 或溢价率 ΔP/P；使用倾向得分匹配 (PSM) 估计反事实均值，标准误 SE 用于构建置信区间。
+
+## Corrected Claim
+
+反事实均衡偏移量的计算：ΔEquilibrium = E[Outcome | Treat=1] - E[Outcome | Treat=0]，其中 Outcome 为成交周期 T_deal 或溢价率 ΔP/P；使用倾向得分匹配 (PSM) 估计反事实均值，标准误 SE 用于构建置信区间。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间逻辑清晰且正交，分别对应模型设定、质量检验和估计量计算。但存在不完备性：父节点明确提及“标准误 SE 用于构建置信区间”，而三个子节点均未涵盖标准误的计算方法（如 Bootstrap 或方差稳定化），导致无法完成父节点定义的完整统计推断流程。）
+
+## Search Query
+
+Propensity score matching counterfactual equilibrium shift calculation

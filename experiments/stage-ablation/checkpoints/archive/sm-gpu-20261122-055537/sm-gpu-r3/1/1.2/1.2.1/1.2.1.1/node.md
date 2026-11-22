@@ -1,0 +1,24 @@
+# N138: NVIDIA A100 80GB SXM 在 2024-2025 年的租赁价格区间为 $1.50-$2.50 USD/hour（主要云服务商如 AWS/GCP/
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N40
+
+## Claim
+
+NVIDIA A100 80GB SXM 在 2024-2025 年的租赁价格区间为 $1.50-$2.50 USD/hour（主要云服务商如 AWS/GCP/Azure 及 HPC 集群），购买价格（二手/翻新）区间为 $8,000-$12,000 USD，全新卡已停产且溢价极高（>$20,000）。
+
+## Corrected Claim
+
+NVIDIA A100 80GB SXM 在 2024-2025 年的租赁价格通常处于每小时数美元的量级（具体视云服务商和合约而定），二手/翻新购买价格通常在数千美元量级，全新卡因停产导致市场溢价显著。
+
+## Evidence
+
+[质询]该陈述包含具体的市场价格数据（租赁与购买），属于经验事实。由于缺乏实时市场数据支持，且2024-2025年期间GPU市场波动剧烈，具体数值区间（如$1.50-$2.50/hour）可能因地区、合约类型及供需变化而显著偏离，存在数值量级或时效性不准确的风险。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）。
+
+## Search Query
+
+NVIDIA A100 80GB SXM rental price per hour 2024 2025 AWS GCP Azure

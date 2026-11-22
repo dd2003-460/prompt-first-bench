@@ -1,0 +1,20 @@
+# N395: 总置信度 C_total 的加权几何平均公式：C_total = Π(C_i ^ w_i)，其中 C_i 为各断言的当前置信度（如 N125 的 0.70，N1
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N127
+
+## Claim
+
+总置信度 C_total 的加权几何平均公式：C_total = Π(C_i ^ w_i)，其中 C_i 为各断言的当前置信度（如 N125 的 0.70，N126 的 0.65 等），w_i 来自 N137；需代入所有关键断言的置信度数值计算基准 C_total。
+
+## Corrected Claim
+
+总置信度 C_total 的加权几何平均公式：C_total = Π(C_i ^ w_i)，其中 C_i 为各断言的当前置信度（如 N125 的 0.70，N126 的 0.65 等），w_i 来自 N137；需代入所有关键断言的置信度数值计算基准 C_total。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

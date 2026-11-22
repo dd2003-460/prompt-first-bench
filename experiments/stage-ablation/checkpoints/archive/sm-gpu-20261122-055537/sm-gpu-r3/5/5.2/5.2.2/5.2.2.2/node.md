@@ -1,0 +1,24 @@
+# N274: vLLM/llama.cpp 在 RTX 4090 上运行 INT4 模型的实测效率系数 (Efficiency Factor)：由于 Kernel 启动开销、
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N83
+
+## Claim
+
+vLLM/llama.cpp 在 RTX 4090 上运行 INT4 模型的实测效率系数 (Efficiency Factor)：由于 Kernel 启动开销、数据搬运及非最优 INT4 算子支持，实测吞吐量通常为理论带宽上限 (72 tok/s) 的 50-65%，即约 36-47 tokens/s，而非父节点所述的 60-80%。
+
+## Corrected Claim
+
+vLLM/llama.cpp 在 RTX 4090 上运行 INT4 模型时，受 Kernel 启动开销、数据搬运及算子优化程度影响，实测吞吐量通常显著低于理论带宽上限，效率系数一般在 50%-70% 区间波动，具体数值取决于模型架构与实现版本。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值范围（50-65%效率系数，36-47 tok/s），属于硬件性能实测数据，无法从第一性原理严格推导，且不同模型、序列长度及具体实现版本下波动较大，缺乏通用性保证。 | source=knowledge，逻辑自洽（INT4量化在消费级GPU上受限于算子优化和内存带宽，效率低于理论峰值符合工程直觉），但具体数值区间属于经验事实，无外部来源直接支持，依据经验事实排除条款降级。
+
+## Search Query
+
+RTX 4090 Qwen3-27B INT4 AWQ vLLM benchmark tokens per second

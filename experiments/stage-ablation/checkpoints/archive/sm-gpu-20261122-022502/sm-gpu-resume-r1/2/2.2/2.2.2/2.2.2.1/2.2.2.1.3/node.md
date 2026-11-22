@@ -1,0 +1,20 @@
+# N584: H200 运行 BF16 Qwen3-27B 时，KV Cache 读取量与 H100 相同 (12.58GB)，因为 KV Cache 大小仅取决于模型结构和
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N178
+
+## Claim
+
+H200 运行 BF16 Qwen3-27B 时，KV Cache 读取量与 H100 相同 (12.58GB)，因为 KV Cache 大小仅取决于模型结构和上下文长度，与硬件无关。因此 H200 的总读取量仍为 66.58GB，修正后的理论上限 72.1 tokens/s 成立。
+
+## Corrected Claim
+
+H200 运行 BF16 Qwen3-27B 时，KV Cache 读取量与 H100 相同 (12.58GB)，因为 KV Cache 大小仅取决于模型结构和上下文长度，与硬件无关。因此 H200 的总读取量仍为 66.58GB，修正后的理论上限 72.1 tokens/s 成立。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：KV Cache 大小由模型结构和上下文长度决定，与硬件无关，H200 与 H100 的 KV Cache 读取量相同符合逻辑。

@@ -1,0 +1,20 @@
+# N112: CPU Offload 的每 Token 延迟模型：Latency_per_token ≈ (Offloaded_Weight_Size_GB / CPU_Me
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N35
+
+## Claim
+
+CPU Offload 的每 Token 延迟模型：Latency_per_token ≈ (Offloaded_Weight_Size_GB / CPU_Memory_Bandwidth_GBps) + GPU_Compute_Time。若 Offload 26.65 GB 权重，CPU 带宽 100 GB/s，则纯读取延迟为 266.5 ms，加上 GPU 计算 (约 50-100 ms)，总延迟 > 300 ms/token (即 < 3.3 tokens/s)
+
+## Corrected Claim
+
+CPU Offload 的每 Token 延迟模型：Latency_per_token ≈ (Offloaded_Weight_Size_GB / CPU_Memory_Bandwidth_GBps) + GPU_Compute_Time。若 Offload 26.65 GB 权重，CPU 带宽 100 GB/s，则纯读取延迟为 266.5 ms，加上 GPU 计算 (约 50-100 ms)，总延迟 > 300 ms/token (即 < 3.3 tokens/s)
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算正确（26.65/100=0.2665s），延迟模型符合CPU Offload瓶颈原理（内存带宽受限），量级合理。

@@ -1,0 +1,24 @@
+# N107: α_SCS 与价格偏离度 δ 的交互惩罚项：推荐算法中存在隐性的价格偏离惩罚因子 k_price = 1 / (1 + λ * |δ|)，其中 λ 为惩罚强度系
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N29, N31, N32
+
+## Claim
+
+α_SCS 与价格偏离度 δ 的交互惩罚项：推荐算法中存在隐性的价格偏离惩罚因子 k_price = 1 / (1 + λ * |δ|)，其中 λ 为惩罚强度系数（通常 0.1-0.2）。最终曝光权重 W = W_base * (1 + α_SCS * ΔSCS/10) * k_price。当 δ = 20% 时，k_price ≈ 0.83（若 λ=0.1），意味着即使信用分提升带来的权重增加被部分抵消，高信用卖家仍需 δ < 15% 才能保持 W > W_base，这构成了均衡的约束边界。
+
+## Corrected Claim
+
+在假设的推荐算法模型中，若存在价格偏离惩罚因子 k_price = 1 / (1 + λ * |δ|) 且 λ=0.1，则当 δ=20% 时 k_price≈0.83；该模型设定下，高信用卖家需控制 δ<15% 以维持基础权重优势。
+
+## Evidence
+
+[质询]该陈述包含具体的工程参数（λ=0.1-0.2）和特定的算法公式结构，属于经验事实/特定系统实现细节，无法从第一性原理推导，且缺乏外部来源支持其具体数值和公式形式的普适性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+price deviation penalty factor recommendation algorithm seller credit score interaction

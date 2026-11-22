@@ -1,0 +1,24 @@
+# N94: Mac Studio M2 Ultra 在 LLM 推理负载下的平均功耗约为 120-140W（TDP 200W 的 60-70%）[待核验]，年电力成本约为 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N23
+
+## Claim
+
+Mac Studio M2 Ultra 在 LLM 推理负载下的平均功耗约为 120-140W（TDP 200W 的 60-70%）[待核验]，年电力成本约为 $52-$61（基于 $0.1/kWh），其能效比（Performance/Watt）在低精度量化下可能优于 NVIDIA GPU，但需结合吞吐量综合评估。
+
+## Corrected Claim
+
+Mac Studio M2 Ultra 在 LLM 推理负载下的平均功耗通常在 100-150W 范围内（具体取决于模型大小和量化方式），年电力成本取决于实际使用时长和电价。其能效比在特定低精度量化场景下可能具有优势，但需结合具体吞吐量指标综合评估。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件功耗数值（120-140W）和成本计算，属于经验事实。虽然逻辑上自洽（120-140W在200W TDP范围内，成本计算数学正确），但缺乏外部来源直接支持具体功耗数值，且'能效比优于NVIDIA GPU'的结论高度依赖具体模型大小、量化方式和对比的GPU型号，未限定条件时该比较可能不成立。 | 经验事实，逻辑自洽但缺来源支持。功耗数值在合理范围内，成本计算数学正确（120W*24h*365d*0.1$/kWh≈$105，但实际LLM推理非24h满载，若按50%利用率则约$52，逻辑上可自洽但需假设利用率）。
+
+## Search Query
+
+Mac Studio M2 Ultra power consumption LLM inference benchmark

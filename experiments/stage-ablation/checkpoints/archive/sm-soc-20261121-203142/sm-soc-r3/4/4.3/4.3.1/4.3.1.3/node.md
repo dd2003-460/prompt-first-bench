@@ -1,0 +1,28 @@
+# N201: 工作点3（低曝光-高成本）：假设降价未触发任何算法响应，48小时内曝光量保持不变 R_none = 1.0，E_exp_new = E_exp_old，对应开发
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N65
+
+## Claim
+
+工作点3（低曝光-高成本）：假设降价未触发任何算法响应，48小时内曝光量保持不变 R_none = 1.0，E_exp_new = E_exp_old，对应开发成本 C_dev = 50000元，适用于算法无响应场景。
+
+## Corrected Claim
+
+工作点3（低曝光-高成本）：假设降价未触发任何算法响应，48小时内曝光量保持不变 R_none = 1.0，E_exp_new = E_exp_old，对应开发成本 C_dev 为特定项目设定值（如50000元），适用于算法无响应场景。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（开发成本 C_dev = 50000元）和特定的业务假设（48小时曝光不变），这些属于具体项目参数或经验事实，无法从第一性原理推导，且参考来源未提供该具体数值的支持。 | 逻辑上自洽（无算法响应则曝光不变是合理假设），但参考来源[1]仅讨论亚马逊竞价策略的一般性原理，未涉及具体开发成本数值或该特定工作点的参数，属于经验事实缺来源支持。
+
+## Search Query
+
+Xianyu Zzhuan price reduction no algorithm response exposure constant 48 hours
+
+## Retrieval Sources
+
+- {'url': 'https://www.toutiao.com/article/7526900530455511593/&rut=ad81ee5fb7c1b1ae4fe8cf4b8beba355e5381feb1073fb343e3343f62002ca53', 'type': 'ddg', 'title': '深度解析亚马逊关键词竞价策略：提曝光还是降曝光 - 今日头条'}

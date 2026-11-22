@@ -1,0 +1,20 @@
+# N175: 缓存容量 C_obj 与对象总数 N_total 的比值对 LRU 命中率下界的量化影响：在 C_obj = 128GB 且总数据量 S_total ≈ 1.1
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N62
+
+## Claim
+
+缓存容量 C_obj 与对象总数 N_total 的比值对 LRU 命中率下界的量化影响：在 C_obj = 128GB 且总数据量 S_total ≈ 1.15GB (N76/N79) 的条件下，C_obj/S_total ≈ 111，计算此时 h_threshold 对应的对象比例 K_th = C_obj/S_total 归一化后的值，验证 K_th = 1.0 时 H_LRU = 100% 的边界条件是否成立，并给出 C_obj 需降至多少 GB 才会使 H_LRU < 99%。
+
+## Corrected Claim
+
+缓存容量 C_obj 与对象总数 N_total 的比值对 LRU 命中率下界的量化影响：在 C_obj = 128GB 且总数据量 S_total ≈ 1.15GB (N76/N79) 的条件下，C_obj/S_total ≈ 111，计算此时 h_threshold 对应的对象比例 K_th = C_obj/S_total 归一化后的值，验证 K_th = 1.0 时 H_LRU = 100% 的边界条件是否成立，并给出 C_obj 需降至多少 GB 才会使 H_LRU < 99%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：LRU在缓存容量大于等于工作集大小时命中率为100%，边界条件成立；C_obj/S_total≈111量级合理，符合逻辑推导。

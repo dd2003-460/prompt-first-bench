@@ -1,0 +1,28 @@
+# N114: 买家侧利益核验假设的置信度 $C_{buyer, verify}$ 为 [待核验]，基于买家咨询行为与价格信号一致性的统计检验
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N35
+
+## Claim
+
+买家侧利益核验假设的置信度 $C_{buyer, verify}$ 为 [待核验]，基于买家咨询行为与价格信号一致性的统计检验
+
+## Corrected Claim
+
+买家侧利益核验假设的置信度 $C_{buyer, verify}$ 需通过具体的统计检验确定，当前缺乏基于买家咨询行为与价格信号一致性检验的具体数值支持。
+
+## Evidence
+
+[质询]该陈述包含一个未定义的占位符 [待核验]，且参考来源仅描述了一个通用的外贸买家背景调查工具，并未提供具体的统计检验方法、置信度数值或关于“咨询行为与价格信号一致性”的特定统计模型，无法验证具体的置信度值或统计检验细节。 | 来源 [1] 仅涉及买家背景调查工具的功能描述，与“基于咨询行为与价格信号一致性的统计检验”这一具体量化假设无直接关联，属于无关来源；该事实为经验性统计假设，缺乏直接来源支持，故降级。
+
+## Search Query
+
+buyer price signal consistency inquiry behavior statistical test
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/MysticRichard/buyer-check&rut=4e87d6f8e9d9b1309420827fd286ad986cd8e8a2fba753b0a4b0172ac71c291c', 'type': 'ddg', 'title': 'GitHub - MysticRichard/buyer-check'}

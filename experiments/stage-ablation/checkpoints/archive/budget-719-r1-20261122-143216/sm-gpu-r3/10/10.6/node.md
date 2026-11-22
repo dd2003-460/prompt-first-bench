@@ -1,0 +1,24 @@
+# N144: vLLM 框架中 custom all-reduce 算子对 PCIe 互联的优化效果：通过重叠通信与计算，可将 PCIe 带宽瓶颈的吞吐量损失降低 5-10 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N35
+
+## Claim
+
+vLLM 框架中 custom all-reduce 算子对 PCIe 互联的优化效果：通过重叠通信与计算，可将 PCIe 带宽瓶颈的吞吐量损失降低 5-10 个百分点，相比原生 NCCL 实现有显著改善，具体数值需查阅 vLLM 技术博客或基准测试报告
+
+## Corrected Claim
+
+vLLM 框架中 custom all-reduce 算子通过重叠通信与计算，可优化 PCIe 互联的吞吐量损失，相比原生 NCCL 实现有改善，具体数值需查阅 vLLM 技术博客或基准测试报告
+
+## Evidence
+
+[质询]具体数值（5-10个百分点）缺乏来源支持，且PCIe带宽瓶颈下通信计算重叠的收益高度依赖具体硬件配置和模型规模，该数值可能过于具体或具有误导性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+vLLM custom all-reduce PCIe optimization throughput improvement

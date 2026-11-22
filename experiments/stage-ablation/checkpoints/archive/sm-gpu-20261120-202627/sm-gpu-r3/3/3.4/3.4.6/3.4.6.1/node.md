@@ -1,0 +1,24 @@
+# N306: 2×RTX 3090 方案的 CapEx 修正：需核实 RTX 3090 二手/全新市场价是否稳定在 $800，以及双卡机箱和电源成本；RTX 3090 为 2
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N84
+
+## Claim
+
+2×RTX 3090 方案的 CapEx 修正：需核实 RTX 3090 二手/全新市场价是否稳定在 $800，以及双卡机箱和电源成本；RTX 3090 为 24GB 显存，2 卡共 48GB，需确认在 BF16 下运行 Qwen3-27B (54GB 权重) 是否可行，若不可行则需量化至 INT8 (27GB 权重) 才能运行，这将影响质量因子 QF。
+
+## Corrected Claim
+
+2×RTX 3090 方案显存共 48GB，无法直接运行 BF16 下的 Qwen3-27B (54GB 权重)，需量化至 INT8 (约 27GB) 才能运行；RTX 3090 市场价格需实时核实，不宜固定为 $800。
+
+## Evidence
+
+[质询]RTX 3090 二手/全新市场价是否稳定在 $800 属于经验事实，且受市场波动影响大，无法仅凭逻辑推导确认；此外，BF16 下 54GB 权重确实无法装入 48GB 显存，但需确认是否包含 KV Cache 等额外开销，若仅看权重，INT8 量化后 27GB 确实可行，但价格假设缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持（RTX 3090 显存 24GB×2=48GB < 54GB BF16 权重，故需 INT8 量化至 27GB 可行；但 $800 价格无来源佐证）
+
+## Search Query
+
+RTX 3090 used price 2024 2025 Qwen3-27B INT8 memory requirement

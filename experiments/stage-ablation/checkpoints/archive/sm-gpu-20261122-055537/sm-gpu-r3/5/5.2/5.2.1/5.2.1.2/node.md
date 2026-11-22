@@ -1,0 +1,20 @@
+# N270: Qwen3-27B 在 seq_len=32768, batch_size=1, BF16 KV Cache 下的精确显存占用：基于 GQA 架构 (8 KV 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N82
+
+## Claim
+
+Qwen3-27B 在 seq_len=32768, batch_size=1, BF16 KV Cache 下的精确显存占用：基于 GQA 架构 (8 KV heads, 128 head_dim, 54 layers)，计算为 2 * 54 * 8 * 128 * 32768 * 2 bytes ≈ 9.23 GB (Key + Value)，而非父节点中估算的 6GB。
+
+## Corrected Claim
+
+Qwen3-27B 在 seq_len=32768, batch_size=1, BF16 KV Cache 下的精确显存占用：基于 GQA 架构 (8 KV heads, 128 head_dim, 54 layers)，计算为 2 * 54 * 8 * 128 * 32768 * 2 bytes ≈ 9.23 GB (Key + Value)，而非父节点中估算的 6GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算公式 2(KV) * 54(layers) * 8(heads) * 128(dim) * 32768(seq) * 2(BF16) = 9,227,468,800 bytes ≈ 9.23 GB，数值推导准确且量级合理。

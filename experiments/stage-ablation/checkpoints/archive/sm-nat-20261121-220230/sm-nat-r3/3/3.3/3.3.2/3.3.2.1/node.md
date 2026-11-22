@@ -1,0 +1,24 @@
+# N180: LRU 策略下 T_avg_resident 的修正计算：原公式 T_avg_resident ≈ (C_norm / (1 - C_norm)) * (1/λ
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N62
+
+## Claim
+
+LRU 策略下 T_avg_resident 的修正计算：原公式 T_avg_resident ≈ (C_norm / (1 - C_norm)) * (1/λ_avg) * (1/β) 在 C_norm=0.119, β=0.9, λ_avg=500/day 下计算得 0.0029 天，但该公式未考虑对象大小分布，需引入大小修正因子 K_size 以反映大对象驻留时间更长的特性。
+
+## Corrected Claim
+
+LRU 策略下 T_avg_resident 的修正计算：原公式 T_avg_resident ≈ (C_norm / (1 - C_norm)) * (1/λ_avg) * (1/β) 在 C_norm=0.119, β=0.9, λ_avg=500/day 下计算得 0.0029 天，但该公式未考虑对象大小分布，需引入大小修正因子 K_size 以反映大对象驻留时间更长的特性。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算 (0.119/0.881)*(1/500)*(1/0.9) ≈ 0.0029 天准确无误，且引入大小修正因子符合 LRU 缓存理论中对象大小对驻留时间影响的逻辑。
+
+## Search Query
+
+LRU mean residence time size distribution correction

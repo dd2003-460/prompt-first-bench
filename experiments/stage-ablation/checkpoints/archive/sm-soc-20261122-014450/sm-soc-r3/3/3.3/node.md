@@ -1,0 +1,24 @@
+# N14: 平台收益函数 U_platform = Fee * GMV + Data_Value - C_trust_maintenance。GMV (总成交额) = P 
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+平台收益函数 U_platform = Fee * GMV + Data_Value - C_trust_maintenance。GMV (总成交额) = P * Q。高挂价策略虽然 Q 略低，但 P 高15-25%，导致 GMV 上升，从而直接提升平台佣金收入 Fee * GMV。同时，高信号卖家留存率提升，降低 C_trust_maintenance (信任维护成本，如纠纷处理)。
+
+## Corrected Claim
+
+平台收益函数 U_platform = Fee * GMV + Data_Value - C_trust_maintenance。GMV (总成交额) = P * Q。高挂价策略虽然 Q 略低，但 P 高15-25%，导致 GMV 上升，从而直接提升平台佣金收入 Fee * GMV。同时，高信号卖家留存率提升，降低 C_trust_maintenance (信任维护成本，如纠纷处理)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：收益函数结构符合平台经济基本模型，GMV=P*Q定义正确，高挂价策略通过提升P来增加GMV进而增加佣金收入的逻辑链条自洽，且信任成本降低的机制在逻辑上合理。
+
+## Search Query
+
+platform revenue model GMV commission high price strategy trust cost

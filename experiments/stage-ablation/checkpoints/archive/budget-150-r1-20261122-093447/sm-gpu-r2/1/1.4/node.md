@@ -1,0 +1,20 @@
+# N10: 32K 上下文下 KV Cache 内存占用（BF16, batch_size=1）：2 * 64 layers * 8 kv_heads * 128 dim 
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+32K 上下文下 KV Cache 内存占用（BF16, batch_size=1）：2 * 64 layers * 8 kv_heads * 128 dim * 32768 tokens * 2 bytes / 1e9 = 2.147GB；INT8 减半为 1.074GB；FP8 减半为 1.074GB
+
+## Corrected Claim
+
+32K 上下文下 KV Cache 内存占用（BF16, batch_size=1）：2 * 64 layers * 8 kv_heads * 128 dim * 32768 tokens * 2 bytes / 1e9 = 2.147GB；INT8 减半为 1.074GB；FP8 减半为 1.074GB
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1提供了更精确的PagedAttention内存计算公式（含block对齐和预留），与父节点的粗略估算正交；子节点2澄清了FlashAttention对KV Cache本身无影响的误解，两者不冲突。但父节点明确提到了INT8和FP8量化后的内存减半情况，而子节点中均未包含关于量化（Quantization）对KV Cache内存影响的分解，导致关键方面缺失。）

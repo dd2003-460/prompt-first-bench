@@ -1,0 +1,30 @@
+# N93: RTX 4090 在3年后的二手市场残值率约为35-40%（基于2024年Q4 eBay/TB历史成交均价与首发价$1599的比值），计算公式：Deprecia
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N36
+
+## Claim
+
+RTX 4090 在3年后的二手市场残值率约为35-40%（基于2024年Q4 eBay/TB历史成交均价与首发价$1599的比值），计算公式：Depreciation_4090 = Purchase_Price * (1 - Resale_Rate_4090) / 3
+
+## Corrected Claim
+
+RTX 4090 在3年后的二手市场残值率存在较大争议，部分分析预测其可维持54%以上（来源[2]），而陈述中的35-40%缺乏直接数据支持且与部分来源预测不符。
+
+## Evidence
+
+[质询]来源[2]明确预测三年内残值在54%以上，与陈述中的35-40%存在显著数值矛盾；且来源[1]仅定性描述'较强保值韧性'，未提供具体数值支持35-40%这一特定区间，属于经验事实缺乏直接数据支撑。 | 来源[2]指出残值>54%，与claim的35-40%矛盾；来源[1]仅定性支持保值性，无具体数值；作为经验事实（二手市场价格），逻辑自洽但缺乏直接来源支持且存在来源间数值冲突，故降级。
+
+## Search Query
+
+RTX 4090 used price 2024 resale value depreciation rate
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_31419153/article/details/152219158&rut=88c07c00887fed16db7c6deb249af044c08b365165f14055eb75474e63ada7c9', 'type': 'ddg', 'title': 'Rxt4090显卡的二手保值能力如何？ - Csdn博客'}
+- {'url': 'https://devpress.csdn.net/v1/article/detail/152244393&rut=63219306fe0481ffb363c56e939dc012cbf43af1ec6b78c708e4988b2802c5b0', 'type': 'ddg', 'title': 'RXT4090显卡的未来保值能力分析_微尘-黄含驰-openvela'}
+- {'url': 'https://bk.taobao.com/k/qiyejixianka_11597/2754edc636543a5b069a330fae2f8f27.html&rut=a26ace0fc96fff3e8bf088e15e05c389abf443c4e7b870a779d97f87299ee26e', 'type': 'ddg', 'title': '2026年实价收闲置二手显卡，如何判断4090与30系主机真实残值？'}

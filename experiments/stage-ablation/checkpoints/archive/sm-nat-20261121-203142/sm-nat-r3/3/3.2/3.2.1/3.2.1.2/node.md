@@ -1,0 +1,20 @@
+# N118: Belady 下界数值代入：H_Belady ≥ 1 - (C/M)^{1/1.1}；若 C/M=1（假设 M≥C 且取保守值），H_Belady ≥ 1 - 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N46
+
+## Claim
+
+Belady 下界数值代入：H_Belady ≥ 1 - (C/M)^{1/1.1}；若 C/M=1（假设 M≥C 且取保守值），H_Belady ≥ 1 - 1^{0.909} = 0，该公式在 C/M≥1 时失效，需修正为 H_Belady ≈ 1 - (M/C)^{1/α} 或指出公式仅适用于 C<M 场景
+
+## Corrected Claim
+
+Belady 下界数值代入：H_Belady ≥ 1 - (C/M)^{1/1.1}；若 C/M=1（假设 M≥C 且取保守值），H_Belady ≥ 1 - 1^{0.909} = 0，该公式在 C/M≥1 时失效，需修正为 H_Belady ≈ 1 - (M/C)^{1/α} 或指出公式仅适用于 C<M 场景
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学上 1-1^k=0 成立，且指出原公式在 C/M>=1 时失效并给出修正方向符合缓存理论常识。

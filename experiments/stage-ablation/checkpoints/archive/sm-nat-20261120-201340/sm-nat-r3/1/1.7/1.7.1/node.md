@@ -1,0 +1,20 @@
+# N47: Pareto(α=1.1) 分布的截断期望值 E[S|S≤s_max] = (α * s_min) / (α - 1) * (1 - (s_min/s_max)
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+Pareto(α=1.1) 分布的截断期望值 E[S|S≤s_max] = (α * s_min) / (α - 1) * (1 - (s_min/s_max)^(α-1)) / (1 - (s_min/s_max)^α)，用于计算缓存中对象的平均大小 S_avg，其中 s_max 由容量 C 和对象数 k 隐含决定
+
+## Corrected Claim
+
+Pareto(α=1.1) 分布的截断期望值 E[S|S≤s_max] = (α * s_min) / (α - 1) * (1 - (s_min/s_max)^(α-1)) / (1 - (s_min/s_max)^α)，用于计算缓存中对象的平均大小 S_avg，其中 s_max 由容量 C 和对象数 k 隐含决定
+
+## Evidence
+
+父节点级核验未通过：非正交, 有冗余（子节点2和3存在严重冗余，且逻辑上子节点2的计算依赖于子节点1的结果，导致分解层级混乱。子节点2不仅计算了期望值，还直接使用了子节点1确定的s_max，且子节点3进一步基于子节点2的结果进行推导，这使得三个节点形成了串行依赖链而非正交分解。此外，子节点2和3的核心内容（数值代入与结果推导）高度重叠，可合并为一个‘数值计算与验证’节点。）

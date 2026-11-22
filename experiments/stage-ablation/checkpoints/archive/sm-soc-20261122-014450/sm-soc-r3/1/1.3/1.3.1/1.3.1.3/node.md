@@ -1,0 +1,24 @@
+# N153: 平台担保对 C_signal 的边际降低效应：若平台提供交易担保，C_signal' = C_signal * (1 - η_guarantee)，其中 η_g
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N46
+
+## Claim
+
+平台担保对 C_signal 的边际降低效应：若平台提供交易担保，C_signal' = C_signal * (1 - η_guarantee)，其中 η_guarantee ∈ [0.3, 0.5] 为担保降低纠纷风险的比例；需计算 k* 的变化量 Δk* = k*(1 - 1/(1-η_guarantee)) 是否足以使 P_list 下降超过 5%。
+
+## Corrected Claim
+
+平台担保对 C_signal 的边际降低效应：若平台提供交易担保，C_signal' = C_signal * (1 - η_guarantee)，其中 η_guarantee ∈ [0.3, 0.5] 为担保降低纠纷风险的比例；需计算 k* 的变化量 Δk* = k*(1 - 1/(1-η_guarantee)) 是否足以使 P_list 下降超过 5%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+impact of platform guarantee on seller signaling cost

@@ -1,0 +1,24 @@
+# N379: MMLU 准确率下降 3-5% 对下游任务可用性的量化影响阈值：定义‘任务不可用’的具体标准，例如在代码生成（HumanEval）或数学推理（GSM8K）等敏感
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N133
+
+## Claim
+
+MMLU 准确率下降 3-5% 对下游任务可用性的量化影响阈值：定义‘任务不可用’的具体标准，例如在代码生成（HumanEval）或数学推理（GSM8K）等敏感子集上，准确率下降是否导致 Pass@1 低于业务最低容忍线（如 60%），需检索 W4A4 在敏感子任务上的具体性能衰减数据。
+
+## Corrected Claim
+
+MMLU准确率下降3-5%对下游任务可用性的影响需具体评估：在代码生成（HumanEval）或数学推理（GSM8K）等敏感子集上，需验证W4A4量化是否导致Pass@1低于业务最低容忍线（如60%），当前缺乏具体衰减数据支持该阈值的有效性。
+
+## Evidence
+
+[质询]该陈述试图定义一个具体的量化阈值（如60%），但缺乏针对W4A4量化在HumanEval/GSM8K等特定敏感子集上的具体性能衰减数据支持，属于未经验证的经验性假设。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+W4A4 quantization impact on HumanEval GSM8K pass rate threshold

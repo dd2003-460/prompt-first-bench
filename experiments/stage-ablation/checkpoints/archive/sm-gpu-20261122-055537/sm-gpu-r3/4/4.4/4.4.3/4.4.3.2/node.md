@@ -1,0 +1,20 @@
+# N250: 故障停机成本 C_downtime 的精确计算公式：C_downtime = P_fail_annual * T_outage_avg * V_service_
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N74
+
+## Claim
+
+故障停机成本 C_downtime 的精确计算公式：C_downtime = P_fail_annual * T_outage_avg * V_service_hourly；其中 T_outage_avg 为平均修复时间（MTTR），对于消费级 GPU 更换，MTTR 通常包含等待备件时间（3-7 天）和重装时间（2-4 小时），需将 MTTR 从小时级扩展到天级以反映真实损失。
+
+## Corrected Claim
+
+故障停机成本 C_downtime 的精确计算公式：C_downtime = P_fail_annual * T_outage_avg * V_service_hourly；其中 T_outage_avg 为平均修复时间（MTTR），对于消费级 GPU 更换，MTTR 通常包含等待备件时间（3-7 天）和重装时间（2-4 小时），需将 MTTR 从小时级扩展到天级以反映真实损失。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

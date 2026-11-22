@@ -1,0 +1,24 @@
+# N198: Apple Silicon 的内存访问延迟 (Latency) 约为 100-150 ns，显著高于 HBM2e (A100) 的 ~100 ns 但低于 GD
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N64
+
+## Claim
+
+Apple Silicon 的内存访问延迟 (Latency) 约为 100-150 ns，显著高于 HBM2e (A100) 的 ~100 ns 但低于 GDDR6X (RTX 4090) 的 ~150-200 ns。然而，由于 Apple 的 GPU 核心数量较少且调度机制不同，实际有效带宽利用率 (Effective Bandwidth Utilization) 通常仅为理论峰值的 60-70%，导致实测吞吐低于理论值 21.2 tokens/s。
+
+## Corrected Claim
+
+Apple Silicon 的内存访问延迟约为 100-150 ns，通常高于 HBM2e (A100) 的延迟（约 50-80 ns），但低于 GDDR6X (RTX 4090) 的延迟（约 150-200 ns）。由于 Apple GPU 核心数量较少且调度机制不同，实际有效带宽利用率通常低于理论峰值，但具体吞吐量（如 21.2 tokens/s）取决于模型大小、序列长度及推理框架，无法仅由带宽利用率直接推导。
+
+## Evidence
+
+[质询]数值量级与逻辑矛盾：1. Apple Silicon (如M1/M2/M3) 的内存延迟通常在 100-150ns 范围内，但将其与 HBM2e (A100) 的 ~100ns 进行直接对比并声称'显著高于'是不准确的，因为 HBM 的延迟通常更低（约 50-80ns），且 A100 使用的是 HBM2e，其延迟特性与 Apple 的统一内存架构不同；2. 更严重的逻辑错误在于：'有效带宽利用率 60-70%' 与 '实测吞吐 21.2 tokens/s' 之间缺乏直接的因果或数值关联。21.2 tokens/s 是一个极低的吞吐量，通常对应于小模型或特定推理场景，而带宽利用率是硬件性能指标，两者不能直接通过简单的百分比关系推导出来，且 21.2 tokens/s 的具体数值缺乏上下文（模型大小、序列长度等），属于无依据的经验数据。 | 经验事实，逻辑自洽但缺来源支持；且存在内部逻辑矛盾（带宽利用率与具体吞吐量数值无直接推导关系，且延迟对比口径模糊）。
+
+## Search Query
+
+Apple M2 Ultra memory latency ns vs RTX 4090 GDDR6X latency

@@ -1,0 +1,24 @@
+# N65: 电力成本子项 = (GPU TDP + CPU/Platform 基础功耗) × 负载率 × 运行时间 × 电价；其中 Platform 基础功耗（CPU+RA
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N14
+
+## Claim
+
+电力成本子项 = (GPU TDP + CPU/Platform 基础功耗) × 负载率 × 运行时间 × 电价；其中 Platform 基础功耗（CPU+RAM+SSD+风扇）通常 50-150W，需从 GPU TDP 中分离以准确计算总系统功耗。
+
+## Corrected Claim
+
+电力成本子项 = (GPU TDP + CPU/Platform 基础功耗) × 负载率 × 运行时间 × 电价；其中 Platform 基础功耗（CPU+RAM+SSD+风扇）通常 50-150W，需从 GPU TDP 中分离以准确计算总系统功耗。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点3和子节点4存在逻辑重叠，均涉及负载率/运行时间对总成本的影响计算，且子节点4隐含了满载假设，与子节点3的负载修正逻辑未完全解耦；此外，父节点明确包含‘运行时间’和‘GPU TDP’，但子节点仅聚焦于平台基础功耗和特定场景的成本推演，缺乏对GPU TDP本身（如4090 vs A100 vs L4的具体TDP数值）的独立分解节点，导致公式中的关键变量缺失。）
+
+## Search Query
+
+workstation base power consumption CPU RAM SSD watts

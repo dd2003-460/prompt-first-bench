@@ -1,0 +1,24 @@
+# N34: 下游投影1：买家将高挂价视为高质量信号的概率 P(signal|P_ask) = Φ((P_ask - P_market - 15% + ε_buyer) / 
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+下游投影1：买家将高挂价视为高质量信号的概率 P(signal|P_ask) = Φ((P_ask - P_market - 15% + ε_buyer) / σ_threshold)，其中 Φ 为标准正态CDF，ε_buyer 的随机性导致信号解读的二值化波动。
+
+## Corrected Claim
+
+下游投影1：买家将高挂价视为高质量信号的概率 P(signal|P_ask) = Φ((P_ask - P_market - 15% + ε_buyer) / σ_threshold)，其中 Φ 为标准正态CDF，ε_buyer 的随机性导致信号解读的二值化波动。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在概念上是正交的（一个关注阈值参数估计，一个关注概率方差计算），且无冗余。但是完备性不足：父节点公式中明确包含 '15%' 这一关键偏移量（可能是基准溢价或固定偏差），但子节点完全未解释其来源、含义或估计方法；此外，子节点2中的方差公式推导存在数学疑点（标准正态CDF对输入变量的导数链式法则应用需更严谨，且未明确 ε_buyer 的分布假设如何具体影响方差项），导致对父节点中 'ε_buyer 的随机性' 这一核心机制的解释不够完整。）
+
+## Search Query
+
+probability of interpreting high price as quality signal normal distribution threshold

@@ -1,0 +1,17 @@
+{
+  "id": "N276",
+  "claim": "在 2x RTX 4090 多卡推理中，若模型权重和 KV Cache 分布在两张卡上，每生成一个 token 需进行 All-Reduce 或 All-Gather 通信，通信数据量约为 (KV Cache 大小 + 激活值大小) / 2，对于 27B 模型 32K 上下文，KV Cache 约 2.0 GB，激活值约 0.5 GB，单次通信数据量约 1.25 GB，在 27 GB/s 带宽下通信延迟约为 46 ms，这将显著增加单 token 生成延迟 (TTFT 和 TPOT)",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]KV Cache 大小估算严重偏低。对于 27B 模型（假设 Llama-3 架构，80 层，GQA 8 KV heads，head_dim 128），32K 上下文的 KV Cache 理论大小约为 2 * 80 * 8 * 128 * 32768 * 2 bytes (FP16) ≈ 10.7 GB，而非 2.0 GB。即使使用 FP8 量化也约为 5.3 GB。2.0 GB 的数值量级与 27B 模型 32K 上下文的常规配置不符，可能导致通信延迟计算基础错误。 | 先验知识/题面给定，逻辑校验通过（计算过程自洽：(2.0+0.5)/2=1.25GB, 1.25GB/27GB/s≈46ms），但 KV Cache 数值量级存疑，且无外部来源支持，故降级。",
+  "corrected_claim": "在 2x RTX 4090 多卡推理中，若模型权重和 KV Cache 分布在两张卡上，每生成一个 token 需进行 All-Reduce 或 All-Gather 通信。对于 27B 模型 32K 上下文，KV Cache 大小通常在 5-11 GB 量级（取决于精度和架构），加上激活值后，单次通信数据量显著高于 1.25 GB，在 27 GB/s 带宽下通信延迟将远超 46 ms，显著增加单 token 生成延迟。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N84"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

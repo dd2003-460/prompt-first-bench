@@ -1,0 +1,24 @@
+# N7: 下游投影 1（高挂价短周期机制）：成交周期 T_close = f(P_ask, σ²_pref, λ_search)，其中 λ_search 为买家搜索强度；
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+下游投影 1（高挂价短周期机制）：成交周期 T_close = f(P_ask, σ²_pref, λ_search)，其中 λ_search 为买家搜索强度；当 P_ask 位于偏好噪声长尾区间时，匹配概率 p_match = Φ((P_max - P_ask)/σ_pref) 下降，但一旦匹配，买家支付意愿高，决策摩擦低，导致 T_close 缩短；具体表现为 T_close 与 P_ask 在 P_ask > P_median + 1.5σ_pref 区间内呈负相关。
+
+## Corrected Claim
+
+下游投影 1（高挂价短周期机制）：成交周期 T_close = f(P_ask, σ²_pref, λ_search)，其中 λ_search 为买家搜索强度；当 P_ask 位于偏好噪声长尾区间时，匹配概率 p_match = Φ((P_max - P_ask)/σ_pref) 下降，但一旦匹配，买家支付意愿高，决策摩擦低，导致 T_close 缩短；具体表现为 T_close 与 P_ask 在 P_ask > P_median + 1.5σ_pref 区间内呈负相关。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+matching time price dispersion long tail preferences market clearing speed

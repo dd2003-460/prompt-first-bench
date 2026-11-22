@@ -1,0 +1,20 @@
+# N142: 容量约束下的 K 值差异量化：定义 K_R 为按 R_i 排序满足 Σ S_i ≤ C 的最大索引，K_RS 为按 R_i/S_i 排序满足 Σ S_i ≤ C
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N43
+
+## Claim
+
+容量约束下的 K 值差异量化：定义 K_R 为按 R_i 排序满足 Σ S_i ≤ C 的最大索引，K_RS 为按 R_i/S_i 排序满足 Σ S_i ≤ C 的最大索引。在 C=128GB, N=10^5, E[S]=215KB 场景下，由于 S_total < C，K_R = K_RS = 100,000，两者差异为 0；仅当 S_total > C 时，K_RS > K_R，差异 ΔK = K_RS - K_R 可通过数值积分求解，反映 LFU 相对 LRU 的潜在对象覆盖增益。
+
+## Corrected Claim
+
+容量约束下的 K 值差异量化：定义 K_R 为按 R_i 排序满足 Σ S_i ≤ C 的最大索引，K_RS 为按 R_i/S_i 排序满足 Σ S_i ≤ C 的最大索引。在 C=128GB, N=10^5, E[S]=215KB 场景下，由于 S_total < C，K_R = K_RS = 100,000，两者差异为 0；仅当 S_total > C 时，K_RS > K_R，差异 ΔK = K_RS - K_R 可通过数值积分求解，反映 LFU 相对 LRU 的潜在对象覆盖增益。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在 C=128GB 且 N=10^5, E[S]=215KB 时，总数据量 S_total ≈ 21.5GB < C，因此无论排序策略如何，所有对象均可装入缓存，K_R 和 K_RS 均等于 N，差异为 0 的结论符合逻辑。

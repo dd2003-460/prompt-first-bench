@@ -1,0 +1,29 @@
+# N17: 数据中心级GPU候选集：NVIDIA A100 80GB ($15000-20000 [待核验: 当前市场价])、NVIDIA H100 80GB ($2500
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N3
+
+## Claim
+
+数据中心级GPU候选集：NVIDIA A100 80GB ($15000-20000 [待核验: 当前市场价])、NVIDIA H100 80GB ($25000-30000 [待核验: 当前市场价])、NVIDIA L40S 48GB ($8000-10000 [待核验: 当前市场价])
+
+## Corrected Claim
+
+数据中心级GPU候选集：NVIDIA A100 80GB、NVIDIA H100 80GB、NVIDIA L40S 48GB（具体市场价格需实时查询，参考来源未提供）
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点分别对比了 L40S 和 H100 与 A100 的性能/成本关系，两者互不重叠且无矛盾，正交性良好。但父节点明确列出了 A100、H100、L40S 三款候选，子节点仅作为对比基准隐含了 A100 的信息，却未独立阐述 A100 自身的绝对性能指标或基准地位，导致对父节点中 A100 这一关键候选项的直接覆盖缺失，完备性不足。）
+
+## Search Query
+
+NVIDIA A100 H100 L40S price 2024 2025 data center GPU
+
+## Retrieval Sources
+
+- {'url': 'https://www.nvidia.com/en-us/data-center/a100/&rut=38f93d49197975b4d84b18bd45c960940b81d2ad31c34a55d13f0381a35a84dc', 'type': 'ddg', 'title': 'NVIDIA A100 Tensor Core GPU'}
+- {'url': 'https://www.nvidia.com/zh-tw/data-center/a100/&rut=fdae98c462764a045881e8eb3ec620add76f1d306cdf42db92c65ab9cd32c2c4', 'type': 'ddg', 'title': 'Nvidia A100 | Nvidia'}

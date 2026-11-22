@@ -1,0 +1,20 @@
+# N51: 逻辑自洽性阈值检验：若假设成立，则 48 小时内无咨询的概率 P(0) = exp(-λ_consult_after * 48h) 应等于 0.6，由此解得 λ
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+逻辑自洽性阈值检验：若假设成立，则 48 小时内无咨询的概率 P(0) = exp(-λ_consult_after * 48h) 应等于 0.6，由此解得 λ_consult_after ≈ 0.0144/小时，需验证该值是否显著低于市场基线咨询率 λ_baseline，以确认'负面信号'假设的统计显著性。
+
+## Corrected Claim
+
+逻辑自洽性阈值检验：若假设成立，则 48 小时内无咨询的概率 P(0) = exp(-λ_consult_after * 48h) 应等于 0.6，由此解得 λ_consult_after ≈ 0.0144/小时，需验证该值是否显著低于市场基线咨询率 λ_baseline，以确认'负面信号'假设的统计显著性。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学推导 exp(-48λ)=0.6 解得 λ≈0.0144 正确，且该节点旨在描述验证逻辑而非断言市场基线数值，内部自洽。

@@ -1,0 +1,24 @@
+# N323: 同源性检验的混淆变量控制：若平台在同期实施了促销活动（如双11），则 P(ShortCycle | HighPrice) 和 P(NoInquiry | Pri
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N102, N103, N104
+
+## Claim
+
+同源性检验的混淆变量控制：若平台在同期实施了促销活动（如双11），则 P(ShortCycle | HighPrice) 和 P(NoInquiry | PriceDrop) 的波动可能由共同外生冲击驱动，而非内生机制；需通过加入平台促销虚拟变量（Promo_dummy）进行回归分析，若控制 Promo_dummy 后 ρ 仍 > 0.3，则同源性假设稳健；否则 ρ 的显著性归因于外部事件，置信度应下调至 0.4。
+
+## Corrected Claim
+
+同源性检验的混淆变量控制：若平台在同期实施了促销活动（如双11），则 P(ShortCycle | HighPrice) 和 P(NoInquiry | PriceDrop) 的波动可能由共同外生冲击驱动，而非内生机制；需通过加入平台促销虚拟变量（Promo_dummy）进行回归分析，若控制 Promo_dummy 后 ρ 仍 > 0.3，则同源性假设稳健；否则 ρ 的显著性归因于外部事件，置信度应下调至 0.4。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该陈述描述了标准的计量经济学混淆变量控制方法（引入虚拟变量进行回归分析），逻辑自洽且符合因果推断的基本原理。
+
+## Search Query
+
+confounding variable control time series correlation promotion dummy

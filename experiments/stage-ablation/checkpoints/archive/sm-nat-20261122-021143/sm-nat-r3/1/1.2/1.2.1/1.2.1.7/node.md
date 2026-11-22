@@ -1,0 +1,20 @@
+# N74: 修正 N29 中的 W_eff 定义：在字节命中率语境下，H_byte = (命中字节数) / (总请求字节数)。总请求字节数 B_total = Σ_{k=1
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N25, N26, N29
+
+## Claim
+
+修正 N29 中的 W_eff 定义：在字节命中率语境下，H_byte = (命中字节数) / (总请求字节数)。总请求字节数 B_total = Σ_{k=1}^{N} R_k * S_k。命中字节数 B_hit = Σ_{k=1}^{K} R_k * S_k。因此 H_byte = B_hit / B_total。W_eff 在此语境下应定义为 B_total，而非工作集大小。
+
+## Corrected Claim
+
+修正 N29 中的 W_eff 定义：在字节命中率语境下，H_byte = (命中字节数) / (总请求字节数)。总请求字节数 B_total = Σ_{k=1}^{N} R_k * S_k。命中字节数 B_hit = Σ_{k=1}^{K} R_k * S_k。因此 H_byte = B_hit / B_total。W_eff 在此语境下应定义为 B_total，而非工作集大小。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

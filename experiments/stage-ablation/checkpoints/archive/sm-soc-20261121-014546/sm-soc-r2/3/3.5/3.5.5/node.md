@@ -1,0 +1,20 @@
+# N79: 卖家成交概率提升率 Δp：成交概率 p 随价格接近真实价值 V 而增加，假设 p = p_0 * exp(-γ_price * (P_ask - V))。当 P
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+卖家成交概率提升率 Δp：成交概率 p 随价格接近真实价值 V 而增加，假设 p = p_0 * exp(-γ_price * (P_ask - V))。当 P_ask 下移 10% V，Δp/p = 1 - exp(-γ_price * 0.1)。若 γ_price = 2.5，则 Δp ≈ 22%，接近预期的 25%。
+
+## Corrected Claim
+
+卖家成交概率提升率 Δp：成交概率 p 随价格接近真实价值 V 而增加，假设 p = p_0 * exp(-γ_price * (P_ask - V))。当 P_ask 下移 10% V，Δp/p = 1 - exp(-γ_price * 0.1)。若 γ_price = 2.5，则 Δp ≈ 22%，接近预期的 25%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算 1 - exp(-2.5 * 0.1) ≈ 1 - 0.7788 = 0.2212，即 22.12%，与陈述中的 22% 一致，且符合“接近 25%”的定性描述。

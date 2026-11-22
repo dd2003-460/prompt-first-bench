@@ -1,0 +1,20 @@
+# N113: 单卡GPU硬件年均故障率λ_single的量化估算：基于MTBF=50,000小时，λ_single = 1/50000 = 2e-5 failures/hou
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N27, N34, N35
+
+## Claim
+
+单卡GPU硬件年均故障率λ_single的量化估算：基于MTBF=50,000小时，λ_single = 1/50000 = 2e-5 failures/hour，对应年均故障次数 = λ_single * 8760 = 0.1752次/年
+
+## Corrected Claim
+
+单卡GPU硬件年均故障率λ_single的量化估算：基于MTBF=50,000小时，λ_single = 1/50000 = 2e-5 failures/hour，对应年均故障次数 = λ_single * 8760 = 0.1752次/年
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：MTBF与故障率互为倒数，8760小时/年的换算标准正确，计算结果0.1752次/年准确。

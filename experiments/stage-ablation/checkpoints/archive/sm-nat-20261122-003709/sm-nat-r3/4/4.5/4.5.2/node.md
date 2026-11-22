@@ -1,0 +1,24 @@
+# N71: LFU在Pareto(β=0.9)分布下的频率老化滞后损失ε_LFU，定义为因频率计数器未收敛或历史权重过高导致的误驱逐率，其量级与更新率λ_update和平均
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N20, N21, N22
+
+## Claim
+
+LFU在Pareto(β=0.9)分布下的频率老化滞后损失ε_LFU，定义为因频率计数器未收敛或历史权重过高导致的误驱逐率，其量级与更新率λ_update和平均驻留时间T_resident的乘积λ*T_resident成正比，当λ*T_resident<0.1时ε_LFU≈0。
+
+## Corrected Claim
+
+LFU在Pareto(β=0.9)分布下的频率老化滞后损失ε_LFU通常与更新率λ_update和平均驻留时间T_resident的乘积λ*T_resident正相关，当该乘积较小时（如<0.1），ε_LFU显著降低，但具体数值关系需依赖实验或特定模型验证。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点本质上是同一连续函数（ε_LFU随λ_update变化）在两个极端取值下的特例，属于参数扫描而非正交维度分解；且父节点定义的阈值条件（λ*T_resident<0.1）与子节点2的条件（<0.01）不一致，导致逻辑覆盖存在间隙和矛盾。）
+
+## Search Query
+
+LFU frequency aging lag loss Pareto distribution update rate lambda T_resident convergence

@@ -1,0 +1,20 @@
+# N33: H_effective 的准确值：H_effective = H_corrected * F_decay ≈ 0.679 * 0.99999999994 ≈ 0
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+H_effective 的准确值：H_effective = H_corrected * F_decay ≈ 0.679 * 0.99999999994 ≈ 0.679，与 N7 的修正后命中率一致，表明在 1%/天更新率下，LRU 有效命中率基本等于静态命中率，更新率影响可忽略
+
+## Corrected Claim
+
+H_effective 的准确值：H_effective = H_corrected * F_decay ≈ 0.679 * 0.99999999994 ≈ 0.679，与 N7 的修正后命中率一致，表明在 1%/天更新率下，LRU 有效命中率基本等于静态命中率，更新率影响可忽略
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1聚焦于数值计算与精度验证（定量），子节点2聚焦于误差来源与不确定性归因（定性/统计），两者角度不同且互补，无逻辑矛盾或重复。父节点的核心结论（H_effective≈0.679，影响可忽略）被两个子节点共同支撑：子节点1证明数值上差异极小，子节点2解释为何该差异在误差分析中可忽略。覆盖完整。）

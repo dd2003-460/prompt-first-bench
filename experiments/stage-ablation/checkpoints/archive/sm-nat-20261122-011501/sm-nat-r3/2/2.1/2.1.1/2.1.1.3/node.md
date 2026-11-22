@@ -1,0 +1,20 @@
+# N98: 基于修正后的 C_α=2.42，LRU 驻留对象数 N_resident 的精确估算：假设 s_min=1KB，则 N_resident ≈ 128 * 102
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N34
+
+## Claim
+
+基于修正后的 C_α=2.42，LRU 驻留对象数 N_resident 的精确估算：假设 s_min=1KB，则 N_resident ≈ 128 * 1024 * 1024 KB / (1 KB * 2.42) ≈ 5.4 * 10^7 个对象，但这超过了总对象数 100,000，说明 128GB 容量足以缓存所有对象（若 s_min 较大则不同），需重新校准 s_min 或指出该公式在容量充足时失效，转而使用 N_resident = N_total = 100,000。
+
+## Corrected Claim
+
+基于修正后的 C_α=2.42，LRU 驻留对象数 N_resident 的精确估算：假设 s_min=1KB，则 N_resident ≈ 128 * 1024 * 1024 KB / (1 KB * 2.42) ≈ 5.4 * 10^7 个对象，但这超过了总对象数 100,000，说明 128GB 容量足以缓存所有对象（若 s_min 较大则不同），需重新校准 s_min 或指出该公式在容量充足时失效，转而使用 N_resident = N_total = 100,000。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：128GB容量远大于100,000个1KB对象所需的100MB，数学推导显示缓存可容纳所有对象，结论自洽。

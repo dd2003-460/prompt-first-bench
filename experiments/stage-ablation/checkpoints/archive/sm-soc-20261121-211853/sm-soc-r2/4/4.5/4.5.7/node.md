@@ -1,0 +1,30 @@
+# N52: 替代解释的量化检验：‘降价后曝光不足’假设的检验指标为 ΔExposure = Exposure_post - Exposure_pre，若 ΔExposure
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N18, N19, N20
+
+## Claim
+
+替代解释的量化检验：‘降价后曝光不足’假设的检验指标为 ΔExposure = Exposure_post - Exposure_pre，若 ΔExposure < -10% 且 ΔInquiry ≈ 0，则支持该假设；‘买家已流失’假设的检验指标为 ΔBuyerPool = BuyerPool_post - BuyerPool_pre，若 ΔBuyerPool < -5% 且 ΔInquiry ≈ 0，则支持该假设。需通过平台数据面板回归验证。
+
+## Corrected Claim
+
+替代解释的量化检验：‘降价后曝光不足’假设可通过监测 ΔExposure 显著为负且 ΔInquiry 无显著变化来初步支持；‘买家已流失’假设可通过监测 ΔBuyerPool 显著为负且 ΔInquiry 无显著变化来初步支持。具体阈值（如-10%、-5%）需根据历史数据波动率或业务基准动态确定，并通过平台数据面板回归验证。
+
+## Evidence
+
+[质询]该陈述属于具体的业务分析假设与量化阈值设定（经验事实/方法论设计），并非可从第一性原理推导的数学或物理定律。参考来源完全无关，无法提供外部支持。此外，-10%和-5%的具体阈值缺乏行业通用标准或数据支撑，属于主观设定的分析框架，存在口径混淆或阈值任意性的风险。 | 经验事实，逻辑自洽但缺来源支持（参考来源[1][2][3]均与电商数据分析无关）
+
+## Search Query
+
+panel data regression test alternative explanations post-price-drop inquiry drop
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Parapsychology', 'type': 'wikipedia', 'title': 'Parapsychology'}
+- {'url': 'https://en.wikipedia.org/wiki/Intelligence_quotient', 'type': 'wikipedia', 'title': 'Intelligence quotient'}
+- {'url': 'https://en.wikipedia.org/wiki/Evidence_and_efficacy_of_homeopathy', 'type': 'wikipedia', 'title': 'Evidence and efficacy of homeopathy'}

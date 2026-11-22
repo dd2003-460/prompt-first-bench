@@ -1,0 +1,30 @@
+# N115: Qwen3-27B 在 FP8 (E4M3) 量化下，困惑度增加 1.2%-2.5%，MMLU 准确率下降 0.5%-1.0%，基于 GPTQ 算法，需具体模型
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N18
+
+## Claim
+
+Qwen3-27B 在 FP8 (E4M3) 量化下，困惑度增加 1.2%-2.5%，MMLU 准确率下降 0.5%-1.0%，基于 GPTQ 算法，需具体模型验证。
+
+## Corrected Claim
+
+Qwen3-27B 支持 FP8 (E4M3) 量化，通常能保持与原始模型相近的性能，但具体精度损失（如困惑度增加、MMLU 下降幅度）需根据具体量化实现和评估基准验证。
+
+## Evidence
+
+[质询]来源中提到的模型版本（Qwen3.8/3.6-27B）与陈述中的 Qwen3-27B 存在版本不一致，且来源主要强调 FP8 量化“保持精度无损”或“几乎相同性能”，未提供具体的困惑度增加 1.2%-2.5% 或 MMLU 下降 0.5%-1.0% 的量化数据，具体数值缺乏直接证据支持。 | 来源 [1][2][3] 证实了 Qwen3 系列 27B 模型存在 FP8 (E4M3) 量化版本且旨在保持性能，但未提供具体的精度损失数值（困惑度/MMLU 下降幅度），属于经验事实且缺乏直接数值支持。
+
+## Search Query
+
+Qwen3-27B FP8 quantization perplexity MMLU accuracy drop
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_00439/article/details/155257784&rut=38c3d28b2f617adcd95228f7c0a93d16cfa32b5cc1c5530e9ed068e83d44195f', 'type': 'ddg', 'title': 'Qwen3.8-27B-FP8 量化原理深度解析：块大小 128 的细粒度 FP8 如何保持精度无损？-CSDN博客'}
+- {'url': 'https://blog.csdn.net/weixin_29056781/article/details/166022297&rut=7c73d43c2d312385e48aa0ad557ba2e8eff51baaeb38951c62af550fd88281bf', 'type': 'ddg', 'title': 'Qwen3.8-27B FP8量化部署实战：从显存计算到性能调优-CSDN博客'}
+- {'url': 'https://devpress.csdn.net/v1/article/detail/143005510&rut=f4b577e22f414c2d16990423aa12368f520af829b692d433ec1b6910e2e0d79e', 'type': 'ddg', 'title': 'Qwen3.6-27B-FP8 FP8量化技术深度剖析：如何保持性能的同时减小模型体积？_滑杏舒-智能体开发者社区'}

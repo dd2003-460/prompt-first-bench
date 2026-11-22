@@ -1,0 +1,24 @@
+# N70: 搜索排序参数 Δγ_search：定义为排序算法中‘成交概率’权重与‘点击率’权重的比值变化，当前 γ_0 = w_CTR/w_Prob，干预后 γ_1 = w
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N16
+
+## Claim
+
+搜索排序参数 Δγ_search：定义为排序算法中‘成交概率’权重与‘点击率’权重的比值变化，当前 γ_0 = w_CTR/w_Prob，干预后 γ_1 = w_Prob/w_CTR，Δγ 反映排序逻辑从流量导向向转化导向的偏移幅度。
+
+## Corrected Claim
+
+搜索排序参数 Δγ_search：定义为排序算法中‘成交概率’权重与‘点击率’权重的比值变化，当前 γ_0 = w_CTR/w_Prob，干预后 γ_1 = w_Prob/w_CTR，Δγ 反映排序逻辑从流量导向向转化导向的偏移幅度。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+search ranking conversion rate vs click rate weight

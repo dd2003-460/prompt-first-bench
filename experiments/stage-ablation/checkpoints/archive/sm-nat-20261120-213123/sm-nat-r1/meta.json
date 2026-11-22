@@ -1,0 +1,65 @@
+{
+  "qid": "nat",
+  "question": "某边缘 CDN 节点有 128GB 内存做对象缓存，工作负载：10 万对象，大小服从 Pareto(α=1.1)，请求热度也服从 Pareto(β=0.9)，热门对象与大小负相关（ρ≈-0.3）。每天总请求 5000 万次。请估算：(a) LRU 策略下的稳态字节命中率下界；(b) LFU 相比 LRU 最多能提升多少百分点、为什么；(c) 如果对象更新率是 1%/天，LRU 的有效命中率还要再打几折？给出推导链，区分「凭记忆的」和「刚查到的」。",
+  "round": 1,
+  "state": "rework",
+  "dropped_redundant": 2,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": null,
+  "objective_mode": "text",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "node_id": "N15",
+      "claim": "在 ρ=-0.3 的负相关下，LRU 命中率需乘以修正因子 K(ρ) ≈ 1 + ρ * (Var(H)/E[H]^2)",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该公式 K(ρ) ≈ 1 + ρ * (Var(H)/E[H]^2) 缺乏公认的学术或工程标准支持，属于高度可疑的特定模型假设或杜撰公式；LRU命中率与"
+    },
+    {
+      "node_id": "N16",
+      "claim": "更新率 u=1%/天 导致 LRU 有效命中率打折因子 D = 1 - u * T_LRU，其中 T_LRU 为对象在 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]公式 D = 1 - u * T_LRU 是一个线性近似，仅在更新率 u 极小且 T_LRU 有限时成立；若 u * T_LRU 接近或超过 1，该公式"
+    },
+    {
+      "node_id": "N19",
+      "claim": "LFU性能劣势边界（工作点：高更新率/冷启动）：当对象热度分布随时间漂移或存在大量新对象时，LFU的滞后性导致命中率低于",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]公式中的参数定义模糊且缺乏普适性：'λ_min'（最小衰减率？）和 'τ'（时间常数）未明确定义，且 'H_lru - H_cold' 作为命中率损失的"
+    },
+    {
+      "node_id": "N25",
+      "claim": "在对象大小服从 Pareto(α=1.1) 且最小大小 s_min=1KB 的假设下，128GB 缓存容量 C=1.28",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N26",
+      "claim": "对于 Pareto(α=1.1) 分布，单个对象的平均大小 E[S] = α*s_min/(α-1) = 1.1*102",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N27",
+      "claim": "在热门-大小负相关 (ρ=-0.3) 下，命中请求对应的对象集合并非单纯的热度 Top-k，而是热度加权后的字节覆盖集合",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N28",
+      "claim": "量化负相关对字节命中率的影响：若独立假设下 Top-k 对象覆盖字节占比为 B_indep，引入 ρ=-0.3 后，由于",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 26
+}

@@ -1,0 +1,20 @@
+# N69: 工作点 C（极端敏感性）：取 x_min = 100KB，此时 E[S] = 1.1MB，该值用于计算 C_norm = 1.22，适用于大对象主导的场景。
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N21
+
+## Claim
+
+工作点 C（极端敏感性）：取 x_min = 100KB，此时 E[S] = 1.1MB，该值用于计算 C_norm = 1.22，适用于大对象主导的场景。
+
+## Corrected Claim
+
+工作点 C（极端敏感性）：取 x_min = 100KB，此时 E[S] = 1.1MB，该值用于计算 C_norm = 1.22，适用于大对象主导的场景。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

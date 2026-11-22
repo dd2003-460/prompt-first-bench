@@ -1,0 +1,20 @@
+# N98: 吞吐量公式展开：Tokens_per_second_per_card = (Memory_Bandwidth_GBps / (Weight_Size_GB + 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N25, N26, N27
+
+## Claim
+
+吞吐量公式展开：Tokens_per_second_per_card = (Memory_Bandwidth_GBps / (Weight_Size_GB + KV_Cache_Size_GB)) * Attention_Efficiency_Factor；对于 RTX 4090 (1008 GB/s) 和 W4 模型 (13.5GB)，理论最大吞吐 ≈ 1008 / (13.5 + 16) * 0.6 (效率因子) ≈ 20.5 tokens/s/card，实际需乘以批处理增益。
+
+## Corrected Claim
+
+吞吐量公式展开：Tokens_per_second_per_card = (Memory_Bandwidth_GBps / (Weight_Size_GB + KV_Cache_Size_GB)) * Attention_Efficiency_Factor；对于 RTX 4090 (1008 GB/s) 和 W4 模型 (13.5GB)，理论最大吞吐 ≈ 1008 / (13.5 + 16) * 0.6 (效率因子) ≈ 20.5 tokens/s/card，实际需乘以批处理增益。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090带宽1008GB/s与W4模型13.5GB+KV Cache 16GB的算术运算正确（1008/29.5*0.6≈20.5），符合LLM推理吞吐量的基本物理直觉。

@@ -1,0 +1,20 @@
+# N17: 缓存驻留时间 T_residence 与对象生命周期 L_object 的交互项：当 u 较小时，有效折损系数 δ ≈ 1 - u * (T_residence
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+缓存驻留时间 T_residence 与对象生命周期 L_object 的交互项：当 u 较小时，有效折损系数 δ ≈ 1 - u * (T_residence / L_object)^γ，其中 γ 是衰减指数（通常 γ=1 表示线性失效，γ>1 表示早期失效主导）；对于 Pareto(β=0.9) 热度分布，T_residence 对头部对象显著长于尾部，导致折损不均匀。
+
+## Corrected Claim
+
+缓存驻留时间 T_residence 与对象生命周期 L_object 的交互项：当 u 较小时，有效折损系数 δ ≈ 1 - u * (T_residence / L_object)^γ，其中 γ 是衰减指数（通常 γ=1 表示线性失效，γ>1 表示早期失效主导）；对于 Pareto(β=0.9) 热度分布，T_residence 对头部对象显著长于尾部，导致折损不均匀。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

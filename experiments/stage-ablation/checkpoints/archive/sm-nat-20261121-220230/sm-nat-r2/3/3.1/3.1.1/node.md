@@ -1,0 +1,24 @@
+# N55: 在热门对象（Top 10% 热度）工作点下，平均驻留时间 T_resident ≈ 0.5 天，失效概率 P_invalid = 1 - (0.99)^0.5 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N14
+
+## Claim
+
+在热门对象（Top 10% 热度）工作点下，平均驻留时间 T_resident ≈ 0.5 天，失效概率 P_invalid = 1 - (0.99)^0.5 ≈ 0.005，折减系数 (1 - P_invalid) ≈ 0.995。依据：Top 10% 对象占用约 90% 请求量，平均访问间隔极短，LRU 队列中这些对象几乎永不离开，驻留时间由缓存满溢前的最后访问间隔决定，在 5000万请求/天负载下约为半天。
+
+## Corrected Claim
+
+在热门对象（Top 10% 热度）工作点下，平均驻留时间 T_resident ≈ 0.5 天，失效概率 P_invalid = 1 - (0.99)^0.5 ≈ 0.005，折减系数 (1 - P_invalid) ≈ 0.995。依据：Top 10% 对象占用约 90% 请求量，平均访问间隔极短，LRU 队列中这些对象几乎永不离开，驻留时间由缓存满溢前的最后访问间隔决定，在 5000万请求/天负载下约为半天。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学计算 1-(0.99)^0.5≈0.005 正确，且基于 Top 10% 对象高热度、短访问间隔的缓存驻留逻辑自洽，符合 LRU 缓存行为特征。
+
+## Search Query
+
+LRU cache resident time hot objects high frequency access interval

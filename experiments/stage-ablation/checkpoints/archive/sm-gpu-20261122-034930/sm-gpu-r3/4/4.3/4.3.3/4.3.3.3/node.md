@@ -1,0 +1,20 @@
+# N328: 工作点3-C（高成本/高容量-大模型）：Mac Studio M2 Ultra 192GB，在3年持有期及大模型（>70B）约束下，TCO ≈ $3,999 +
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N116
+
+## Claim
+
+工作点3-C（高成本/高容量-大模型）：Mac Studio M2 Ultra 192GB，在3年持有期及大模型（>70B）约束下，TCO ≈ $3,999 + $788 + $0 = $4,787，吞吐量受限于内存带宽，实际约10-15 tokens/s，性价比指标 = 12.5 / 4,787 ≈ 2.61 tokens/s/$，仅在需运行>70B模型且无GPU方案时具备唯一性优势。
+
+## Corrected Claim
+
+工作点3-C（高成本/高容量-大模型）：Mac Studio M2 Ultra 192GB，在3年持有期及大模型（>70B）约束下，TCO ≈ $3,999 + $788 + $0 = $4,787，吞吐量受限于内存带宽，实际约10-15 tokens/s，性价比指标 = 12.5 / 4,787 ≈ 2.61 tokens/s/$，仅在需运行>70B模型且无GPU方案时具备唯一性优势。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：M2 Ultra 内存带宽约 800GB/s，运行 70B+ 模型（FP16 约 140GB+）受带宽限制，10-15 tokens/s 符合物理直觉；TCO 计算逻辑自洽（硬件+电费+0折旧/云成本），性价比指标数值推导正确。

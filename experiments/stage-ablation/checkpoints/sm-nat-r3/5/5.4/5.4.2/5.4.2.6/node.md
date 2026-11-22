@@ -1,0 +1,24 @@
+# N249: 强负相关（ρ=-0.5）下 LFU 劣势幅度 ΔH_strong 的解析推导：ΔH_strong = H_LRU - H_LFU ≈ -0.5%，其机制归因为大
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N86, N87, N88
+
+## Claim
+
+强负相关（ρ=-0.5）下 LFU 劣势幅度 ΔH_strong 的解析推导：ΔH_strong = H_LRU - H_LFU ≈ -0.5%，其机制归因为大小-热度强耦合导致 LFU 的频率统计与字节命中率目标严重背离，LRU 因时间局部性反而更优；该值可通过调整相关系数 ρ 在数值模拟中验证，误差范围 ±0.1%。
+
+## Corrected Claim
+
+在强负相关（ρ=-0.5）的大小-热度耦合场景下，LFU 的字节命中率通常低于 LRU（ΔH_strong < 0），其机制归因为 LFU 的频率统计与字节命中率目标背离，而 LRU 利用时间局部性更优；具体劣势幅度需通过数值模拟验证，典型值约为 -0.5%。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值结论（ΔH_strong ≈ -0.5%）和误差范围（±0.1%），这属于特定系统配置下的模拟结果或经验事实，无法仅从第一性原理或逻辑推导中严格得出。虽然机制解释（大小-热度耦合导致LFU劣势）在逻辑上合理，但具体数值缺乏来源支持，且不同工作负载下该数值可能显著波动。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+strong negative correlation size popularity LFU LRU cache hit rate

@@ -1,0 +1,29 @@
+# N169: 信号噪声方差 σ²_signal_noise 的量化估计：'快速成交'信号带来的质量高估噪声，需通过对比有/无信号标签商品的买家估值差异计算，假设 σ_sign
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N43
+
+## Claim
+
+信号噪声方差 σ²_signal_noise 的量化估计：'快速成交'信号带来的质量高估噪声，需通过对比有/无信号标签商品的买家估值差异计算，假设 σ_signal_noise ≈ 5%（[待核验]）
+
+## Corrected Claim
+
+信号噪声方差 σ²_signal_noise 的量化估计：'快速成交'信号带来的质量高估噪声，需通过对比有/无信号标签商品的买家估值差异计算，具体数值需基于实际市场数据回归分析确定（原假设值5%缺乏来源支持，仅作定性参考）。
+
+## Evidence
+
+[质询]该陈述中的具体数值（σ_signal_noise ≈ 5%）属于特定市场场景下的经验参数，无法从第一性原理或通用数学公理中推导得出，且参考来源完全未涉及该特定业务场景，缺乏直接数据支持。 | 参考来源[1][2]讨论的是信号处理中的均匀量化噪声（SNR公式），与本题中‘快速成交’信号带来的买家估值差异噪声在主题和领域上完全不相关，属于无关来源；该数值为经验事实，逻辑上自洽（方差作为噪声度量合理）但缺乏来源支持，故降级。
+
+## Search Query
+
+market signal noise variance fast transaction quality perception
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1888571409996961345&rut=b2ab000a48835cfb00b79d7ef5c234af4d1c9caf32929c7ea84d53fd7146a74b', 'type': 'ddg', 'title': '量化噪声（均匀量化）功率为什么用方差计算？ - 知乎'}
+- {'url': 'https://zhuanlan.zhihu.com/p/1937528234137875880&rut=0f6d9bb784d734ea74ee251f91bb9f39464cee17d3192e366a3bc9e2a41bf2c5', 'type': 'ddg', 'title': '量化 & 量化噪声 - 知乎 - 知乎专栏'}

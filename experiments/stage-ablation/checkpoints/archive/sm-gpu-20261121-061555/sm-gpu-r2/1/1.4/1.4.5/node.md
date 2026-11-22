@@ -1,0 +1,24 @@
+# N53: Mac Studio M2 Ultra (192GB Unified Memory) 在 2025Q1 的官方售价为 $3,999-$4,499 USD，M3 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+Mac Studio M2 Ultra (192GB Unified Memory) 在 2025Q1 的官方售价为 $3,999-$4,499 USD，M3 Ultra 尚未发布或价格未定，需对比其每 GB 显存成本 ($20-25/GB) 与 GPU 显存成本 ($60-80/GB) 的差异 [实时查询-2025-01]
+
+## Corrected Claim
+
+Mac Studio M2 Ultra (192GB Unified Memory) 的官方售价通常在 $3,999 左右（具体价格需实时查询确认），M3 Ultra 截至检索时点尚未发布或价格未定；统一内存的每 GB 成本显著低于独立 GPU 显存成本，但具体数值（$20-25/GB vs $60-80/GB）需进一步核实。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件价格（$3,999-$4,499）和成本估算（$20-25/GB vs $60-80/GB），属于经验事实。由于检索失败，无法验证2025Q1的具体官方售价是否准确，且M3 Ultra的状态（未发布/价格未定）随时间动态变化，缺乏实时数据支持。 | 经验事实，逻辑自洽但缺来源支持。M2 Ultra 192GB 配置在 M2 Ultra 发布时（2023）起售价约为 $3,999，后续价格波动或促销可能导致区间变化，但量级合理；统一内存成本低于独立显存符合技术常识，但具体数值缺乏来源佐证。
+
+## Search Query
+
+Mac Studio M2 Ultra 192GB price cost per GB memory

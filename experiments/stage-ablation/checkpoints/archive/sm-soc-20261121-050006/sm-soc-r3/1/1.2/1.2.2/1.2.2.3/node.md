@@ -1,0 +1,28 @@
+# N132: 商品类别（标准化程度 S_std）与噪声 ε_seller 的交互效应：ε_seller = ε_base + δ_std * (1 - S_std)，其中 δ
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N37
+
+## Claim
+
+商品类别（标准化程度 S_std）与噪声 ε_seller 的交互效应：ε_seller = ε_base + δ_std * (1 - S_std)，其中 δ_std 为非标准化商品的额外噪声系数，预期 δ_std ∈ [0.05, 0.15]，需通过分组回归验证。
+
+## Corrected Claim
+
+商品类别（标准化程度 S_std）与噪声 ε_seller 存在交互效应，非标准化商品通常伴随更高噪声，具体系数 δ_std 需通过实证数据回归确定，预期量级可能在 0.05-0.15 之间（待验证）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数范围（δ_std ∈ [0.05, 0.15]）和特定的统计模型结构，属于经验事实而非第一性原理可推导内容，且参考来源完全未涉及此特定领域或数值。 | 逻辑上公式结构自洽（非标准化商品噪声更大符合直觉），但参考来源[1]仅讨论标准差/标准误概念，与该特定交互效应模型及数值范围无关，属经验事实缺来源支持。
+
+## Search Query
+
+impact of product standardization on seller pricing noise interaction effect
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/622928127&rut=4692f28d299b849e31d9ac849492a4ef73a45cf9153e0a9c80f7c1461274432c', 'type': 'ddg', 'title': '误差棒选谁——Sd，Se，Sem傻傻分不清？ - 知乎'}

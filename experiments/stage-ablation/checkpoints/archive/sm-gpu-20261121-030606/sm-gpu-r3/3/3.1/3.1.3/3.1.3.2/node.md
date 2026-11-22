@@ -1,0 +1,29 @@
+# N251: Qwen3-27B在INT8精度下HumanEval基准测试得分需通过量化后实测获得，当前66.1%为模型先验估计 [待核验]，该数值直接决定INT8方案在代码
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N110
+
+## Claim
+
+Qwen3-27B在INT8精度下HumanEval基准测试得分需通过量化后实测获得，当前66.1%为模型先验估计 [待核验]，该数值直接决定INT8方案在代码生成场景下的可用性阈值
+
+## Corrected Claim
+
+Qwen3-27B（或Qwen3.8-27B）在INT8精度下的HumanEval基准测试得分需通过量化后实测获得，具体数值（如66.1%）为估计值或特定量化方案下的结果，该数值直接决定INT8方案在代码生成场景下的可用性阈值。
+
+## Evidence
+
+[质询]该陈述中的具体数值“66.1%”属于经验事实（模型基准测试得分），无法从第一性原理推导。虽然来源[2]证实了Qwen 3.8-27B在INT8量化下进行了HumanEval测试，但摘要中并未提供具体的66.1%这一数值，仅指出AWQ-INT4综合性能优于GPTQ-INT8。因此，该具体数值缺乏直接来源支持，且“先验估计”这一说法在缺乏具体量化方法（如GPTQ/AWQ）和具体模型版本（Qwen3 vs Qwen3.8）对应关系的情况下，存在口径混淆的风险。 | 来源[2]间接支持了Qwen 3.8-27B在INT8量化下存在HumanEval测试及精度保留率对比，但未直接提供66.1%这一具体数值；作为经验事实，缺乏直接来源支持具体数值，故降级。
+
+## Search Query
+
+Qwen3-27B INT8 quantization HumanEval pass@1 accuracy
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_33708633/article/details/164129685&rut=60be4ef97cf2d4a352afd78d6004a55e4d831c21d758794d378d23916f481613', 'type': 'ddg', 'title': 'Qwen3.8 27B接入Optima基准测试：从加载到跑分的完整指南-CSDN博客'}
+- {'url': 'https://blog.csdn.net/weixin_33708633/article/details/163959731&rut=d1c1df3befce516d290190b3d2771cbd7a1b8fa19b7f057af18bfe2e0d543cdf', 'type': 'ddg', 'title': '大模型量化实战：Qwen 3.8-27B压缩评测与Ollama部署指南-CSDN博客'}

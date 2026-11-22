@@ -1,0 +1,20 @@
+# N369: 通用对话/摘要任务中，W4 (NVFP4) 量化导致 Perplexity 增加通常为 3.2% (BF16 PPL 5.6 -> W4 PPL 5.78)，高
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N129
+
+## Claim
+
+通用对话/摘要任务中，W4 (NVFP4) 量化导致 Perplexity 增加通常为 3.2% (BF16 PPL 5.6 -> W4 PPL 5.78)，高于 2% 的可接受阈值，表明 W4 在通用任务中可能引入可察觉的质量退化。
+
+## Corrected Claim
+
+通用对话/摘要任务中，W4 (NVFP4) 量化导致 Perplexity 增加通常为 3.2% (BF16 PPL 5.6 -> W4 PPL 5.78)，高于 2% 的可接受阈值，表明 W4 在通用任务中可能引入可察觉的质量退化。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：BF16 PPL 5.6 到 W4 PPL 5.78 的增幅计算为 (5.78-5.6)/5.6 ≈ 3.21%，与陈述中的 3.2% 一致，且高于 2% 阈值，逻辑自洽。

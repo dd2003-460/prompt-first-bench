@@ -1,0 +1,24 @@
+# N236: 32K 上下文下 NVFP4 量化 Qwen3-27B 的矛盾检测得分（Contradiction Score）具体数值需检索使用 DeBERTa-v3 或 L
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N61
+
+## Claim
+
+32K 上下文下 NVFP4 量化 Qwen3-27B 的矛盾检测得分（Contradiction Score）具体数值需检索使用 DeBERTa-v3 或 LLM-as-a-Judge 方法在事实一致性基准（如 TruthfulQA 长文版）上的测试数据，以量化相对于 BF16 基线的增加幅度是否超过 2% 阈值
+
+## Corrected Claim
+
+32K 上下文下 NVFP4 量化 Qwen3-27B 的矛盾检测得分具体数值及其相对于 BF16 基线的增加幅度需通过实际检索使用 DeBERTa-v3 或 LLM-as-a-Judge 方法在事实一致性基准上的测试数据来确认，目前缺乏直接证据表明其增幅是否超过 2% 阈值。
+
+## Evidence
+
+[质询]该陈述描述的是一个具体的经验性实验结果（特定模型、特定量化格式、特定上下文长度下的具体得分及相对基线的增幅），属于硬件/模型性能经验事实，无法从第一性原理推导，且检索无可用来源支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+LLM long context contradiction detection score quantization W4 NVFP4 factuality benchmark

@@ -1,0 +1,24 @@
+# N100: 消费级主板P2P DMA支持的具体判定标准：需检查主板BIOS中是否开启'PCIe Resizable BAR'或'ACS (Access Control Se
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N30
+
+## Claim
+
+消费级主板P2P DMA支持的具体判定标准：需检查主板BIOS中是否开启'PCIe Resizable BAR'或'ACS (Access Control Services)'关闭选项；若ACS未关闭，即使物理连接在CPU直连插槽，P2P DMA也会被拦截并回退至CPU内存中转，此时有效带宽受限于CPU内存控制器带宽（通常~100-150 GB/s）而非PCIe链路带宽，导致通信延迟增加3-5倍。
+
+## Corrected Claim
+
+消费级主板P2P DMA支持需检查BIOS中PCIe Resizable BAR及ACS设置；若ACS未关闭，P2P DMA可能被拦截或强制经由CPU内存中转，导致有效带宽受限于内存子系统性能而非PCIe链路带宽，从而增加通信延迟。
+
+## Evidence
+
+[质询]数值量级与因果机制存在混淆：1. '3-5倍延迟'缺乏具体场景支撑，DMA传输延迟主要取决于数据量与带宽，而非简单的固定倍数；2. 将'ACS未关闭'直接等同于'回退至CPU内存中转'在技术实现上过于绝对，部分平台可能直接禁止P2P DMA而非回退；3. '100-150 GB/s'作为CPU内存控制器带宽上限对于现代多通道DDR4/DDR5系统而言偏低（通常可达100-200+ GB/s），且PCIe链路带宽（如Gen4 x16约32 GB/s）远低于此，瓶颈描述可能存在误导。 | 先验知识/题面给定，逻辑校验通过但数值精度与因果链条存在经验性不确定性，降级为定性表述。
+
+## Search Query
+
+consumer motherboard P2P DMA ACS disable PCIe peer to peer bandwidth bottleneck

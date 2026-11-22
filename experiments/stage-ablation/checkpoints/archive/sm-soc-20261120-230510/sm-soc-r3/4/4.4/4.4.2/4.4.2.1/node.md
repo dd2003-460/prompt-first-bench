@@ -1,0 +1,20 @@
+# N232: 触发降价的最小幅度 δ_min 的量化：δ_min = (C_reprice + C_psychological) / (P_median * T_wait *
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N76
+
+## Claim
+
+触发降价的最小幅度 δ_min 的量化：δ_min = (C_reprice + C_psychological) / (P_median * T_wait * r_profit)，其中 r_profit 为预期利润率，若 C_reprice 固定为 5-10 分钟机会成本，则 δ_min 与 T_wait 成反比，T_wait 越短，卖家越倾向于小幅降价而非大幅降价。
+
+## Corrected Claim
+
+触发降价的最小幅度 δ_min 的量化：δ_min = (C_reprice + C_psychological) / (P_median * T_wait * r_profit)，其中 r_profit 为预期利润率，若 C_reprice 固定为 5-10 分钟机会成本，则 δ_min 与 T_wait 成反比，T_wait 越短，卖家越倾向于小幅降价而非大幅降价。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式推导显示 δ_min 与 T_wait 成反比，符合经济学直觉（等待时间越短，卖家对价格调整的敏感度越高，倾向于更小幅度降价以快速成交），且 source 为 knowledge，无需外部来源支持。

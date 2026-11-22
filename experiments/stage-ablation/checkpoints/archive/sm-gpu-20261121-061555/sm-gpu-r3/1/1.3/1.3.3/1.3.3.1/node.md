@@ -1,0 +1,24 @@
+# N165: Intel Arc A770 在 W4A16 量化下推理 Qwen3-27B 的实测吞吐量约为 5-8 tokens/s，主要瓶颈在于 Intel 驱动栈 (O
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N48
+
+## Claim
+
+Intel Arc A770 在 W4A16 量化下推理 Qwen3-27B 的实测吞吐量约为 5-8 tokens/s，主要瓶颈在于 Intel 驱动栈 (ONEAPI/IPEX) 对 LLM 内核优化的滞后及 560 GB/s 带宽限制，性能约为 RTX 4090 的 20-25%。
+
+## Corrected Claim
+
+Intel Arc A770 在 W4A16 量化下推理 Qwen3-27B 的吞吐量受限于 560 GB/s 带宽及驱动栈优化程度，性能显著低于 RTX 4090（约为其 20-25% 量级），具体实测值需视驱动版本和配置而定。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件性能实测数据（吞吐量、带宽、相对性能比），属于经验事实。由于检索失败无外部来源支持，且具体数值（如5-8 tokens/s）可能因驱动版本、量化实现细节（如是否使用IPEX-LLM特定优化）及系统配置不同而有较大波动，无法仅凭逻辑自洽确认为普适事实。 | 经验事实，逻辑自洽但缺来源支持。Intel Arc A770 带宽确为 560 GB/s，且其 LLM 推理性能通常显著低于高端 NVIDIA 显卡（如 RTX 4090），量级和相对比例在逻辑上合理，但具体吞吐量数值缺乏直接证据。
+
+## Search Query
+
+Intel Arc A770 Qwen 27B W4A16 inference benchmark tokens per second

@@ -1,0 +1,20 @@
+# N45: 共享随机源：买家效用评估的随机扰动项 ε_buyer ~ N(0, σ_buyer²)，其中 σ_buyer² 取决于买家个体异质性（如专业程度、信息获取能力）
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+共享随机源：买家效用评估的随机扰动项 ε_buyer ~ N(0, σ_buyer²)，其中 σ_buyer² 取决于买家个体异质性（如专业程度、信息获取能力），是 P(buy) 中唯一的随机输入，导致同一 (price, info_quality) 下不同买家决策概率不同。
+
+## Corrected Claim
+
+共享随机源：买家效用评估的随机扰动项 ε_buyer ~ N(0, σ_buyer²)，其中 σ_buyer² 取决于买家个体异质性（如专业程度、信息获取能力），是 P(buy) 中唯一的随机输入，导致同一 (price, info_quality) 下不同买家决策概率不同。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该陈述描述了基于随机效用模型（Random Utility Model）的买家决策机制，其中效用函数包含确定性部分（价格、信息质量）和随机扰动项（正态分布），这是微观经济学和计算社会科学中解释个体异质性和概率性决策的标准建模方法，逻辑自洽且符合领域常识。

@@ -1,0 +1,33 @@
+{
+  "id": "N51",
+  "claim": "未命中惩罚字节数 S_miss_penalty 的量化定义：S_miss_penalty = R_miss * (1 - H_byte) * S_obj，其中 R_miss 为回源带宽成本相对于本地读取带宽成本的倍数（通常 R_miss=10-100），H_byte 为稳态字节命中率，需明确成本折算系数",
+  "level": "L3",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]该公式将“未命中惩罚”定义为带宽成本倍数与字节命中率的乘积，混淆了“时间延迟（Latency/Penalty）”与“经济成本（Cost）”两个不同维度的概念。在计算机体系结构中，Miss Penalty 通常指时间（周期数或秒），而 R_miss 作为带宽成本倍数属于经济或资源消耗指标，二者量纲不匹配，且参考来源均未支持此特定公式。 | 参考来源 [1][2][3] 均定义 Miss Penalty 为时间/周期数（如 CPU 等待的额外周期数），未涉及带宽成本倍数 R_miss 或字节命中率 H_byte 的成本折算公式，来源与事实主题（时间惩罚 vs 成本模型）存在维度偏差，且无来源直接支持该特定量化定义。",
+  "corrected_claim": "S_miss_penalty 通常指未命中时的额外时间延迟（如周期数或秒数），其计算依赖于下级存储的访问延迟和未命中率；若需量化带宽成本，应单独建立成本模型，而非直接定义为时间惩罚。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N14"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "CDN cache miss penalty bandwidth cost ratio local read",
+  "retrieval_sources": [
+    {
+      "url": "https://smlcoke.com/microelectronics/processors/memory/multilevel-cache-performance/&rut=c3281892b74b2f89735a1b930cc3ae4618a886584a7b8efbf0affcc617b4972c",
+      "type": "ddg",
+      "title": "多级缓存结构的 Miss Penalty 和 CPI 计算方法 - SmlCoke Home"
+    },
+    {
+      "url": "https://blog.csdn.net/xiong_xin/article/details/143723955&rut=821f78e317b6650a51b3ba7cb2afb8869ca0f7a7f6979a1881594ef75b084ae3",
+      "type": "ddg",
+      "title": "缓存（四）指标_miss penalty-CSDN博客"
+    },
+    {
+      "url": "https://www.doc.ic.ac.uk/~phjk/AdvancedCompArchitecture/Lectures/pdfs/Ch04-part3-MoreOnCaches-MissPenaltyReduction.pdf&rut=1009c8ee9dbad78afd820b868d20198d462fda000437d9a7e4ea2d542d2fc7e0",
+      "type": "ddg",
+      "title": "PDF Lecture 3: R4000 + Intro to ILP - Imperial College London"
+    }
+  ]
+}

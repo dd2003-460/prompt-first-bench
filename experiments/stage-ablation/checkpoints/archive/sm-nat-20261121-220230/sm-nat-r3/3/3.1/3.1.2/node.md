@@ -1,0 +1,24 @@
+# N56: 在冷门对象（Bottom 50% 热度）工作点下，平均驻留时间 T_resident ≈ 3.0 天，失效概率 P_invalid = 1 - (0.99)^3
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N14
+
+## Claim
+
+在冷门对象（Bottom 50% 热度）工作点下，平均驻留时间 T_resident ≈ 3.0 天，失效概率 P_invalid = 1 - (0.99)^3.0 ≈ 0.0297，折减系数 (1 - P_invalid) ≈ 0.970。依据：冷门对象访问间隔长，LRU 驱逐主要发生在这些对象上，其驻留时间由缓存容量剩余空间与访问频率决定，平均约 3 天，导致约 3% 的缓存条目在命中前失效。
+
+## Corrected Claim
+
+在冷门对象（Bottom 50% 热度）工作点下，平均驻留时间 T_resident ≈ 3.0 天，失效概率 P_invalid = 1 - (0.99)^3.0 ≈ 0.0297，折减系数 (1 - P_invalid) ≈ 0.970。依据：冷门对象访问间隔长，LRU 驱逐主要发生在这些对象上，其驻留时间由缓存容量剩余空间与访问频率决定，平均约 3 天，导致约 3% 的缓存条目在命中前失效。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学计算 1-(0.99)^3 ≈ 0.0297 正确，折减系数 0.970 合理，符合缓存失效概率的基本逻辑。
+
+## Search Query
+
+LRU cache resident time cold objects low frequency eviction rate

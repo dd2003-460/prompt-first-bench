@@ -1,0 +1,24 @@
+# N145: T_defect_tolerance 的基准值 T_0 = 20% 的实证来源：基于 2019-2021 年二手平台 A/B 测试数据，在 t > 24h 且无
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N42
+
+## Claim
+
+T_defect_tolerance 的基准值 T_0 = 20% 的实证来源：基于 2019-2021 年二手平台 A/B 测试数据，在 t > 24h 且无时间压力的对照组中，买家接受 15% 溢价商品的平均瑕疵容忍度中位数为 20.4%（95% CI: [18.2%, 22.6%]），标准误 0.8%。
+
+## Corrected Claim
+
+T_defect_tolerance 的基准值 T_0 设定为 20%。该数值通常基于二手平台买家对瑕疵商品的容忍度经验估计，具体实证数据（如20.4%中位数）需进一步核实原始研究来源。
+
+## Evidence
+
+[质询]该陈述包含极其具体的实证数据（2019-2021年特定A/B测试、精确的中位数20.4%、置信区间及标准误），属于典型的经验事实。在缺乏任何可用外部来源（检索失败）的情况下，无法验证这些具体数值的真实性，存在编造或幻觉风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体实证数据）
+
+## Search Query
+
+empirical data defect tolerance threshold high premium second-hand goods A/B test 2019-2021

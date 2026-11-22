@@ -1,0 +1,24 @@
+# N12: 推理时的激活值 (Activations) 峰值显存占用约为 2-5GB，取决于 Batch Size 和序列长度，需从总显存中预留。
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+推理时的激活值 (Activations) 峰值显存占用约为 2-5GB，取决于 Batch Size 和序列长度，需从总显存中预留。
+
+## Corrected Claim
+
+推理时的激活值 (Activations) 峰值显存占用约为 2-5GB，取决于 Batch Size 和序列长度，需从总显存中预留。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点结构清晰，分别对应父节点公式中的三个主要组成部分（Attention, MLP, Residual）以及整体线性缩放规律。各子节点定义互斥且无逻辑矛盾。虽然'Batch Size影响'看似独立，但它是对前三个组件总和的宏观约束描述，不属于重复计算，而是必要的边界条件说明。）
+
+## Search Query
+
+LLM inference activation memory overhead 27B

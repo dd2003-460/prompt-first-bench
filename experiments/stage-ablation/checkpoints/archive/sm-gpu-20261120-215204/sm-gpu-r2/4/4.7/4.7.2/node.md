@@ -1,0 +1,20 @@
+# N115: PCIe 4.0 x16 单向带宽为 32 GB/s，双向为 64 GB/s；NVLink 4.0 (A100/H100) 单向带宽为 400-900 GB/s
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N28
+
+## Claim
+
+PCIe 4.0 x16 单向带宽为 32 GB/s，双向为 64 GB/s；NVLink 4.0 (A100/H100) 单向带宽为 400-900 GB/s (取决于具体版本，A100 SXM 为 600 GB/s 双向)。同步延迟 T_sync = DataSize / Bandwidth + Latency。
+
+## Corrected Claim
+
+PCIe 4.0 x16 单向带宽为 32 GB/s，双向为 64 GB/s；NVLink 4.0 (A100/H100) 单向带宽为 400-900 GB/s (取决于具体版本，A100 SXM 为 600 GB/s 双向)。同步延迟 T_sync = DataSize / Bandwidth + Latency。
+
+## Evidence
+
+[质询]NVLink 4.0 单向带宽范围 400-900 GB/s 的表述略显宽泛，因为 A100 和 H100 的 NVLink 版本不同（A100 为 NVLink 3.0，H100 为 NVLink 4.0），且 H100 SXM 的总带宽为 900 GB/s（双向），单向为 450 GB/s，而非 900 GB/s 单向。但陈述中括号内补充了 'A100 SXM 为 600 GB/s 双向'，且整体量级符合工程常识，未构成硬逻辑错误。 | 先验知识/题面给定，逻辑校验通过。PCIe 4.0 x16 带宽计算正确（~32 GB/s 单向）；NVLink 带宽量级符合 NVIDIA 官方规格（A100 600 GB/s 双向，H100 900 GB/s 双向）；同步延迟公式符合基本物理直觉。

@@ -1,0 +1,20 @@
+# N75: 共享随机源 R_price：历史成交价分布 F(P_hist) 的 50% 分位数（中位数）M_50 的计算依赖于样本窗口 W（如近30天）和样本量 N_sam
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+共享随机源 R_price：历史成交价分布 F(P_hist) 的 50% 分位数（中位数）M_50 的计算依赖于样本窗口 W（如近30天）和样本量 N_sample，其标准误 SE = 1.2533 * σ_hist / sqrt(N_sample)，其中 σ_hist 为历史成交价标准差。
+
+## Corrected Claim
+
+共享随机源 R_price：历史成交价分布 F(P_hist) 的 50% 分位数（中位数）M_50 的计算依赖于样本窗口 W（如近30天）和样本量 N_sample，其标准误 SE = 1.2533 * σ_hist / sqrt(N_sample)，其中 σ_hist 为历史成交价标准差。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：中位数标准误公式 SE = 1.2533 * σ / sqrt(N) 符合统计学原理（1.2533 ≈ 1/sqrt(2*ln(2))，对应正态分布中位数估计的渐近方差系数），量纲与数值量级合理。

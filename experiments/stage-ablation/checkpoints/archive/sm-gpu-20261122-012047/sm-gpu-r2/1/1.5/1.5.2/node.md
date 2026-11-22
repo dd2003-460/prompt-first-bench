@@ -1,0 +1,20 @@
+# N63: INT4 权重 + BF16 KV Cache 的总显存需求为 35.2 GB (13.5 GB + 21.7 GB)，加上激活值缓冲后约 37-38 GB，使
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N10
+
+## Claim
+
+INT4 权重 + BF16 KV Cache 的总显存需求为 35.2 GB (13.5 GB + 21.7 GB)，加上激活值缓冲后约 37-38 GB，使得 24 GB 显存的 RTX 4090 单卡不可行，但 32 GB 显存的 RTX 5090 或 48 GB 显存的 L40S 单卡可行。
+
+## Corrected Claim
+
+INT4 权重 + BF16 KV Cache 的总显存需求为 35.2 GB (13.5 GB + 21.7 GB)，加上激活值缓冲后约 37-38 GB，使得 24 GB 显存的 RTX 4090 单卡不可行，但 32 GB 显存的 RTX 5090 或 48 GB 显存的 L40S 单卡可行。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：INT4权重(13.5GB)与BF16 KV Cache(21.7GB)之和为35.2GB，加上激活值缓冲后37-38GB的估算符合大模型推理显存占用规律；24GB显存确实无法容纳37-38GB需求，而32GB(5090)和48GB(L40S)显存足以覆盖该需求，数值量级与硬件规格匹配。

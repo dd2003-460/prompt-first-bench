@@ -1,0 +1,24 @@
+# N104: 库存持有成本 H_pressure 的具体构成：H_pressure = C_storage + C_liquidity + C_opportunity，其中 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N30, N31, N32
+
+## Claim
+
+库存持有成本 H_pressure 的具体构成：H_pressure = C_storage + C_liquidity + C_opportunity，其中 C_liquidity 为资金占用成本（年化利率 r × 持有天数/365），C_opportunity 为错过其他交易机会的成本。在二手电商语境下，C_liquidity 是主要驱动项，当 r=5% 且持有 30 天时，H_pressure 约为商品价值的 0.4%，远低于 5% 阈值，说明心理持有成本（焦虑）可能主导而非纯财务成本。
+
+## Corrected Claim
+
+库存持有成本 H_pressure 的具体构成：H_pressure = C_storage + C_liquidity + C_opportunity，其中 C_liquidity 为资金占用成本（年化利率 r × 持有天数/365），C_opportunity 为错过其他交易机会的成本。在二手电商语境下，C_liquidity 是主要驱动项，当 r=5% 且持有 30 天时，H_pressure 约为商品价值的 0.4%，远低于 5% 阈值，说明心理持有成本（焦虑）可能主导而非纯财务成本。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式定义清晰，数值计算（5% * 30/365 ≈ 0.41%）准确，且符合二手电商低周转率下的成本结构常识。
+
+## Search Query
+
+holding cost components liquidity opportunity cost seller psychology anxiety valuation

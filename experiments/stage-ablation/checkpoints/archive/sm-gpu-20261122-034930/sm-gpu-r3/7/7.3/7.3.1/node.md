@@ -1,0 +1,24 @@
+# N395: AMD MI300X ROCm软件栈性能折损工作点1（vLLM/PyTorch原生支持）：在ROCm 6.0+环境下，Qwen3-27B INT8推理吞吐量约为
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N141
+
+## Claim
+
+AMD MI300X ROCm软件栈性能折损工作点1（vLLM/PyTorch原生支持）：在ROCm 6.0+环境下，Qwen3-27B INT8推理吞吐量约为同规格CUDA方案的85-90%（即折损10-15%），主要瓶颈在于ROCm HIP kernel在HBM3访问模式下的优化不足，该折损系数直接用于TCO性价比计算（分母不变，分子吞吐量*0.875）。
+
+## Corrected Claim
+
+在ROCm环境下，AMD MI300X运行Qwen3-27B INT8推理的吞吐量通常低于同规格CUDA方案，存在一定性能折损，具体折损系数需根据实际基准测试确定，不能直接假定为0.875。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性性能数据（85-90%吞吐量、10-15%折损、0.875系数）及特定硬件/软件版本（ROCm 6.0+, MI300X, Qwen3-27B INT8），属于经验事实，无法从第一性原理推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+ROCm 6.0 vLLM throughput benchmark vs CUDA 2024

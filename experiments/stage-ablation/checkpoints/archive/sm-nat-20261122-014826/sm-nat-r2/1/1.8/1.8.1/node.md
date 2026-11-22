@@ -1,0 +1,20 @@
+# N43: 更新对象在 LRU 驻留集中的概率 P[updated object in LRU set] 的精确计算：基于 LRU 堆栈深度分布，P[updated obj
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N13
+
+## Claim
+
+更新对象在 LRU 驻留集中的概率 P[updated object in LRU set] 的精确计算：基于 LRU 堆栈深度分布，P[updated object in LRU set] = (Σ_{i∈LRU} P(update_i)) / N，其中 P(update_i) 与对象热度正相关；在 ρ=-0.3 和 β=0.9 条件下，Top-10% 对象的更新概率占比约为 60%，因此 P[updated object in LRU set] ≈ 0.3-0.4，而非简单的 0.3 常数，需根据具体热度-更新相关性调整。
+
+## Corrected Claim
+
+更新对象在 LRU 驻留集中的概率 P[updated object in LRU set] 需基于 LRU 堆栈深度分布计算，其值与对象热度-更新相关性正相关，具体数值取决于热度分布参数（如 Zipf 指数）及缓存配置，不能简单视为常数。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值结论（如'ρ=-0.3 和 β=0.9 条件下...占比约为 60%'、'P ≈ 0.3-0.4'），这些数值依赖于特定的热度分布模型（如 Zipf 指数）和 LRU 缓存大小等未明确给出的参数，无法仅从第一性原理严格推导得出，属于经验事实。 | 经验事实，逻辑自洽但缺来源支持；公式结构符合 LRU 堆栈模型的基本逻辑，但具体数值缺乏外部证据或题面给定条件支撑。

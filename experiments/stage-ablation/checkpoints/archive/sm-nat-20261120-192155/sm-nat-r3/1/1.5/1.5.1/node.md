@@ -1,0 +1,20 @@
+# N33: 总请求字节分母的离散求和形式：D = Σ_{i=1}^{100000} r_i * s_i = C_r * C_s * Σ_{i=1}^{100000} i^{
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N9
+
+## Claim
+
+总请求字节分母的离散求和形式：D = Σ_{i=1}^{100000} r_i * s_i = C_r * C_s * Σ_{i=1}^{100000} i^{-0.9} * i^{-1.1} = C_r * C_s * Σ_{i=1}^{100000} i^{-2.0}。
+
+## Corrected Claim
+
+总请求字节分母的离散求和形式：D = Σ_{i=1}^{100000} r_i * s_i = C_r * C_s * Σ_{i=1}^{100000} i^{-0.9} * i^{-1.1} = C_r * C_s * Σ_{i=1}^{100000} i^{-2.0}。
+
+## Evidence
+
+父节点级核验失败（LLM 错误）：Unterminated string starting at: line 9 column 5 (char 734)

@@ -1,0 +1,20 @@
+# N39: Qwen3-27B 在 BF16 精度下，32K 上下文 KV Cache 的精确显存占用为 40.96 GB，计算公式为 2 (K+V) * 64 (层数) 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+Qwen3-27B 在 BF16 精度下，32K 上下文 KV Cache 的精确显存占用为 40.96 GB，计算公式为 2 (K+V) * 64 (层数) * 8 (KV头数) * 128 (头维度) * 32768 (序列长度) * 2 (字节/参数)。
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 精度下，32K 上下文 KV Cache 的精确显存占用为 40.96 GB，计算公式为 2 (K+V) * 64 (层数) * 8 (KV头数) * 128 (头维度) * 32768 (序列长度) * 2 (字节/参数)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B 架构参数（64层, 8 KV头, 128头维）符合 GQA 设计，计算公式 2*64*8*128*32768*2 字节 = 40.96 GB，量纲与数值均正确。

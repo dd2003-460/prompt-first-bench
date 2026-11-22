@@ -1,0 +1,20 @@
+# N116: 工作点2（LRU 时间局部性最优）：在 β=0.9 平缓热度下，LRU 缓存集合由最近访问对象组成，其频率分布接近整体分布但略偏高 (E[r|LRU] ≈ 1.
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N37, N38, N39
+
+## Claim
+
+工作点2（LRU 时间局部性最优）：在 β=0.9 平缓热度下，LRU 缓存集合由最近访问对象组成，其频率分布接近整体分布但略偏高 (E[r|LRU] ≈ 1.5 * E[r|global])，大小分布受驱逐策略影响略偏小 (E[s|LRU] ≈ 0.8 * E[s|global])，分子 Σ(r*s) ≈ 0.75 * Total_Bytes。此工作点代表 LRU 在缺乏全局知识下的实际稳态表现。
+
+## Corrected Claim
+
+工作点2（LRU 时间局部性最优）：在 β=0.9 平缓热度下，LRU 缓存集合由最近访问对象组成，其频率分布接近整体分布但略偏高 (E[r|LRU] ≈ 1.5 * E[r|global])，大小分布受驱逐策略影响略偏小 (E[s|LRU] ≈ 0.8 * E[s|global])，分子 Σ(r*s) ≈ 0.75 * Total_Bytes。此工作点代表 LRU 在缺乏全局知识下的实际稳态表现。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

@@ -1,0 +1,24 @@
+# N35: 卖家剩余 PS_seller 的感知偏差 ΔPS = PS_perceived - PS_actual 定义为卖家基于 V_true_perceived 计算的
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N9
+
+## Claim
+
+卖家剩余 PS_seller 的感知偏差 ΔPS = PS_perceived - PS_actual 定义为卖家基于 V_true_perceived 计算的剩余减去基于 V_true_actual 计算的剩余；由于损失厌恶系数 λ ≈ 2.25，卖家高估 V_true 的比例约为 λ * (V_true - P_market) / P_market，导致 ΔPS > 0，具体数值需通过卖家心理定价调查量化。
+
+## Corrected Claim
+
+卖家剩余 PS_seller 的感知偏差 ΔPS = PS_perceived - PS_actual 定义为卖家基于 V_true_perceived 计算的剩余减去基于 V_true_actual 计算的剩余；由于损失厌恶效应（通常 λ ≈ 2.25），卖家倾向于高估 V_true，导致 ΔPS > 0，具体数值需通过卖家心理定价调查量化。
+
+## Evidence
+
+父节点级核验未通过：非正交, 有冗余（子节点1和子节点2内容高度重复，均给出了相同的解析公式 δ_V = λ * max(0, V_true - P_market) 且声称 ΔPS = δ_V，缺乏正交性；子节点3仅为该公式的具体数值实例，属于子节点2的特例，存在冗余。）
+
+## Search Query
+
+seller surplus perception bias loss aversion overvaluation secondhand goods

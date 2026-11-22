@@ -1,0 +1,20 @@
+# N235: 被降权商品最高价值 V_max_lost 的估计：V_max_lost = P_median * 1.2 * (1 + z_high * σ_high)，其中 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N77
+
+## Claim
+
+被降权商品最高价值 V_max_lost 的估计：V_max_lost = P_median * 1.2 * (1 + z_high * σ_high)，其中 z_high 为高价值商品在截断正态分布中的分位数（典型值 z=1.5-2.0），σ_high 为高价值商品估值标准差（典型值 0.1-0.2），需基于历史成交数据计算分位数。
+
+## Corrected Claim
+
+被降权商品最高价值 V_max_lost 的估计：V_max_lost = P_median * 1.2 * (1 + z_high * σ_high)，其中 z_high 为高价值商品在截断正态分布中的分位数（典型值 z=1.5-2.0），σ_high 为高价值商品估值标准差（典型值 0.1-0.2），需基于历史成交数据计算分位数。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

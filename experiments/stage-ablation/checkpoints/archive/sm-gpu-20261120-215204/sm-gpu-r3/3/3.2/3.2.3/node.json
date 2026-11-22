@@ -1,0 +1,17 @@
+{
+  "id": "N87",
+  "claim": "L40S 48GB 运行 Qwen3-27B INT8 权重 + INT8 KV Cache (32K) 时，显存占用为 27GB (权重) + 20GB (KV) + 2GB (开销) = 49GB，同样略微超出 48GB，故 L40S 在 32K 上下文下仅能勉强支持 FP8/INT8 全量化方案，且需严格限制并发请求数为 1。",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]KV Cache 20GB 的估算可能偏高或偏低，取决于具体的注意力头配置和精度；此外，'勉强支持'和'严格限制并发为1'属于工程经验判断，缺乏精确的基准测试数据支持，且未考虑激活值（Activations）在长上下文下的显存占用，可能导致总显存需求被低估。 | 先验知识/题面给定，逻辑校验通过。权重27GB（27B*1byte）合理，KV Cache 20GB在32K上下文下量级合理（取决于模型结构），总显存49GB略超48GB符合逻辑。但作为经验事实，缺乏具体模型架构参数（如层数、头数、头维度）的精确计算支持，且未包含激活值开销，故降级为定性表述。",
+  "corrected_claim": "L40S 48GB 运行 Qwen3-27B INT8 权重 + INT8 KV Cache (32K) 时，显存占用约为 27GB (权重) + 20GB (KV) + 2GB (开销) = 49GB，略微超出 48GB。因此，L40S 在 32K 上下文下难以稳定支持全量化方案，若强行运行需极度限制并发（如1）并可能面临OOM风险，建议降低上下文长度或采用更激进的量化策略。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N19"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "L40S INT8 KV cache Qwen3 27B 32k context concurrency limit",
+  "retrieval_sources": []
+}

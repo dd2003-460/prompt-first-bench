@@ -1,0 +1,20 @@
+# N145: RTX 4090在INT8精度下推理Qwen3-27B (Batch=1, 32K ctx) 的理论吞吐上限为 1008 GB/s / 37.7 GB ≈ 26
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N43
+
+## Claim
+
+RTX 4090在INT8精度下推理Qwen3-27B (Batch=1, 32K ctx) 的理论吞吐上限为 1008 GB/s / 37.7 GB ≈ 26.7 tokens/s，该值由显存带宽除以单次token生成需读取的数据量（权重27GB + KV Cache 10.7GB）决定。
+
+## Corrected Claim
+
+RTX 4090在INT8精度下推理Qwen3-27B (Batch=1, 32K ctx) 的理论吞吐上限为 1008 GB/s / 37.7 GB ≈ 26.7 tokens/s，该值由显存带宽除以单次token生成需读取的数据量（权重27GB + KV Cache 10.7GB）决定。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别从‘假设修正与实际偏差’、‘参数敏感性（上下文长度）’、‘实证验证与故障排查’三个维度展开，彼此独立且无逻辑矛盾。子节点2虽然引入了新场景（1K ctx），但作为对父节点结论（带宽瓶颈）的对比验证，有助于理解父节点中KV Cache占比的影响，不属于冗余。）

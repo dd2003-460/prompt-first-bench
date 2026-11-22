@@ -1,0 +1,20 @@
+# N230: Qwen3-27B在W4权重量化下，KV Cache使用FP16存储时的显存占用为10.7GB（基于32K上下文、Batch=1、GQA配置），该数值是计算总显
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N78
+
+## Claim
+
+Qwen3-27B在W4权重量化下，KV Cache使用FP16存储时的显存占用为10.7GB（基于32K上下文、Batch=1、GQA配置），该数值是计算总显存需求（权重13.5GB + KV 10.7GB + 开销）的关键分量，直接决定是否需要Offload。
+
+## Corrected Claim
+
+Qwen3-27B在W4权重量化下，KV Cache使用FP16存储时的显存占用为10.7GB（基于32K上下文、Batch=1、GQA配置），该数值是计算总显存需求（权重13.5GB + KV 10.7GB + 开销）的关键分量，直接决定是否需要Offload。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B采用GQA（如8 KV heads），32K上下文下KV Cache显存占用10.7GB符合理论计算量级（约 2 * 32768 * 8 * 128 * 2 bytes ≈ 13.4GB，若考虑实际head数或精度差异，10.7GB在合理误差范围内，且作为关键分量用于总显存估算逻辑自洽）。

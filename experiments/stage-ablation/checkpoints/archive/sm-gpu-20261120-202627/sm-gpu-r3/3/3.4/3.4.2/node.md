@@ -1,0 +1,20 @@
+# N80: 2×RTX 3090 (48GB) 在 FP8 精度下运行 Qwen3-27B 的 KV Cache 显存占用计算：2 * 64 * 4096 * 32 * 3
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N19
+
+## Claim
+
+2×RTX 3090 (48GB) 在 FP8 精度下运行 Qwen3-27B 的 KV Cache 显存占用计算：2 * 64 * 4096 * 32 * 32768 * 1 byte ≈ 3.5GB，加上权重 27GB 和运行时开销 5GB，总显存需求约 35.5GB，低于 48GB 上限，方案可行。
+
+## Corrected Claim
+
+2×RTX 3090 (48GB) 在 FP8 精度下运行 Qwen3-27B 的 KV Cache 显存占用计算：2 * 64 * 4096 * 32 * 32768 * 1 byte ≈ 3.5GB，加上权重 27GB 和运行时开销 5GB，总显存需求约 35.5GB，低于 48GB 上限，方案可行。
+
+## Evidence
+
+父节点级核验未通过：非正交（子节点1计算错误（漏乘32个head，导致KV Cache估算值16.78GB严重偏低，实际应为~107GB或需明确GQA/MLA架构假设），且与父节点结论（3.5GB）及子节点3的汇总逻辑（46-49GB）存在严重数值矛盾。子节点3虽指出了矛盾，但子节点1作为基础参数节点未修正，导致整体分解在事实层面不成立。）

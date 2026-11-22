@@ -1,0 +1,24 @@
+# N386: Batch Size 对吞吐量影响的非线性阈值：对于 RTX 5090，当 Batch Size > 4 时，KV Cache 读取成为主要带宽消耗源，权重读取
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N135
+
+## Claim
+
+Batch Size 对吞吐量影响的非线性阈值：对于 RTX 5090，当 Batch Size > 4 时，KV Cache 读取成为主要带宽消耗源，权重读取占比下降，吞吐量增长曲线出现拐点；对于 H100，由于带宽冗余大，拐点出现在 Batch Size > 16。此阈值决定了在低并发（<4）场景下，消费卡与数据中心卡的性能差距最小化。
+
+## Corrected Claim
+
+Batch Size 对吞吐量影响的非线性阈值取决于模型规模与序列长度：对于 RTX 5090，当 Batch Size 超过特定小值（如4）时，KV Cache 读取成为主要带宽消耗源；对于 H100，由于带宽冗余大，拐点出现在更大的 Batch Size（如16）。此阈值决定了在低并发场景下，消费卡与数据中心卡的性能差距最小化。
+
+## Evidence
+
+[质询]具体阈值数值（RTX 5090 > 4, H100 > 16）属于高度依赖模型架构（层数、头数、隐藏维度）和序列长度的经验参数，并非硬件固有属性；不同模型下拐点位置差异巨大，直接断言固定数值缺乏普适性且易产生误导。 | 先验知识/题面给定，逻辑校验通过：带宽瓶颈从权重读取转向KV Cache读取的机制符合LLM推理原理，但具体阈值数值为经验事实，缺乏通用性，故降级。
+
+## Search Query
+
+LLM inference batch size throughput knee point memory bandwidth

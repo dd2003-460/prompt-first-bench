@@ -1,0 +1,20 @@
+# N182: BF16 总权重显存修正值：基础 53.4GB + LayerNorm 0.0007GB + Embedding 1.17GB (若独立) = 54.57GB；
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N43, N44, N45
+
+## Claim
+
+BF16 总权重显存修正值：基础 53.4GB + LayerNorm 0.0007GB + Embedding 1.17GB (若独立) = 54.57GB；若 Embedding 共享，则为 53.4GB + 0.0007GB ≈ 53.4GB。N44 中 53.5-53.6GB 的估算未计入 Embedding 独立占用，需根据 Qwen3 具体配置确认是否共享。
+
+## Corrected Claim
+
+BF16 总权重显存修正值：基础 53.4GB + LayerNorm 0.0007GB + Embedding 1.17GB (若独立) = 54.57GB；若 Embedding 共享，则为 53.4GB + 0.0007GB ≈ 53.4GB。N44 中 53.5-53.6GB 的估算未计入 Embedding 独立占用，需根据 Qwen3 具体配置确认是否共享。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：BF16下参数显存计算逻辑自洽，LayerNorm参数量级（~0.0007GB）与Embedding独立/共享对总显存的影响（~1.17GB）符合大模型架构常识，数值量级合理。

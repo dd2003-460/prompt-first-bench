@@ -1,0 +1,24 @@
+# N598: vLLM 框架在 MI300X 上的静态开销（CUDA Context, cuDNN handle, PyTorch allocator overhead）实测
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N183
+
+## Claim
+
+vLLM 框架在 MI300X 上的静态开销（CUDA Context, cuDNN handle, PyTorch allocator overhead）实测基线约为 2.5 GB，其中 CUDA Context 占用 1.2 GB，PyTorch 缓存池预留 1.3 GB，该值随并发 Batch Size 线性增长。
+
+## Corrected Claim
+
+vLLM 框架在 MI300X 上的基础静态开销（CUDA Context, cuDNN handle, PyTorch allocator overhead）实测基线约为 2.5 GB（具体数值随软件栈版本波动），其中 CUDA Context 和 PyTorch 缓存池为主要组成部分；此外，随着并发 Batch Size 增加，动态内存开销（如 KV Cache）会线性增长，但基础静态开销本身保持相对稳定。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件实测数值（2.5 GB, 1.2 GB, 1.3 GB）及性能行为描述（随并发线性增长），属于经验事实。首先，'静态开销'通常指固定基础开销，不应随并发 Batch Size 线性增长，线性增长部分通常属于动态激活值或 KV Cache 开销，此处存在概念混淆或表述不严谨；其次，具体数值缺乏来源支持，不同 vLLM 版本、PyTorch 版本及 MI300X 驱动配置下，CUDA Context 和 Allocator 的具体占用量会有显著差异，直接断言固定数值缺乏普适性。 | 经验事实，逻辑自洽但缺来源支持；且'静态开销随并发线性增长'在术语定义上存在潜在矛盾（静态通常指固定，动态才随负载变化），具体数值无外部证据佐证。
+
+## Search Query
+
+vLLM static memory overhead AMD MI300X CUDA context pytorch allocator size

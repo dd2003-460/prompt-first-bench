@@ -1,0 +1,20 @@
+# N49: 相关系数 ρ_phenomena 的统计显著性检验：在样本量 N > 1000 的二手交易数据集中，计算 ρ_phenomena 的 95% 置信区间 [ρ_l
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N9
+
+## Claim
+
+相关系数 ρ_phenomena 的统计显著性检验：在样本量 N > 1000 的二手交易数据集中，计算 ρ_phenomena 的 95% 置信区间 [ρ_lower, ρ_upper]；若 ρ_lower < -0.3 且 p-value < 0.05，则拒绝‘两现象独立’的原假设，支持统一假设；具体检验需使用 Pearson 或 Spearman 相关系数，取决于 T_close 和 ΔQ 的分布形态（偏态数据建议 Spearman）。
+
+## Corrected Claim
+
+相关系数 ρ_phenomena 的统计显著性检验：在样本量 N > 1000 的二手交易数据集中，计算 ρ_phenomena 的 95% 置信区间 [ρ_lower, ρ_upper]；若 ρ_lower < -0.3 且 p-value < 0.05，则拒绝‘两现象独立’的原假设，支持统一假设；具体检验需使用 Pearson 或 Spearman 相关系数，取决于 T_close 和 ΔQ 的分布形态（偏态数据建议 Spearman）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

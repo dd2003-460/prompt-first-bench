@@ -1,0 +1,20 @@
+# N325: 高预算方案 (H100) 在延迟敏感场景下的实际收益：若用户要求 P99 延迟 < 50ms/token，则需吞吐 > 20 tokens/s。A100 (22
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N115
+
+## Claim
+
+高预算方案 (H100) 在延迟敏感场景下的实际收益：若用户要求 P99 延迟 < 50ms/token，则需吞吐 > 20 tokens/s。A100 (22,500-31,900) 和 H100 (37,000-52,500) 均满足，但 H100 在高并发 (Batch>8) 下因算力优势 (670 TFLOPS BF16 vs 312 TFLOPS) 可支持更高 Batch Size，从而降低单 token 成本
+
+## Corrected Claim
+
+高预算方案 (H100) 在延迟敏感场景下的实际收益：若用户要求 P99 延迟 < 50ms/token，则需吞吐 > 20 tokens/s。A100 (22,500-31,900) 和 H100 (37,000-52,500) 均满足，但 H100 在高并发 (Batch>8) 下因算力优势 (670 TFLOPS BF16 vs 312 TFLOPS) 可支持更高 Batch Size，从而降低单 token 成本
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H100 BF16算力（~670 TFLOPS）确实显著高于A100（~312 TFLOPS），高算力支持更大Batch Size从而降低单token成本符合LLM推理经济学原理；延迟与吞吐的换算逻辑自洽。

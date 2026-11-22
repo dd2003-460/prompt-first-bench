@@ -1,0 +1,24 @@
+# N137: 价格敏感度系数 β 的实证估计方法：通过 OLS 回归 ln(T) = ln(T_base) + β * δ_ask + ε 估计 β，需报告 β 的 95% 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N46
+
+## Claim
+
+价格敏感度系数 β 的实证估计方法：通过 OLS 回归 ln(T) = ln(T_base) + β * δ_ask + ε 估计 β，需报告 β 的 95% 置信区间及标准误，以验证其是否显著异于 0 且为负值（β ≈ -0.5 至 -0.8）。
+
+## Corrected Claim
+
+价格敏感度系数 β 的实证估计方法：通过 OLS 回归 ln(T) = ln(T_base) + β * δ_ask + ε 估计 β，需报告 β 的 95% 置信区间及标准误，以验证其是否显著异于 0 且为负值。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值范围（β ≈ -0.5 至 -0.8），这属于实证研究结果而非第一性原理可推导的数学或逻辑事实。在缺乏具体文献来源支持该特定数值区间的情况下，无法验证其准确性，且不同市场、不同资产类别的实证结果可能存在显著差异。 | 经验事实，逻辑自洽但缺来源支持。OLS回归方法在计量经济学中是标准做法，但具体的系数范围（-0.5至-0.8）属于特定实证结论，无外部来源佐证，故降级。
+
+## Search Query
+
+empirical estimation of price sensitivity coefficient beta second hand market duration regression

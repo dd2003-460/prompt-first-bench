@@ -1,0 +1,29 @@
+# N35: 二手交易场景中损失厌恶系数 λ 的上下文修正因子 f_context：λ_effective = λ_base * (1 + β_liquidity * (1 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N6, N7, N8
+
+## Claim
+
+二手交易场景中损失厌恶系数 λ 的上下文修正因子 f_context：λ_effective = λ_base * (1 + β_liquidity * (1 - Liquidity_index))，其中 β_liquidity 量化了低流动性市场放大了损失厌恶，Liquidity_index 为市场流动性指标。
+
+## Corrected Claim
+
+在特定行为金融模型中，可能引入流动性指标来修正损失厌恶系数，例如假设低流动性市场会放大损失厌恶效应，但具体的修正公式 λ_effective = λ_base * (1 + β_liquidity * (1 - Liquidity_index)) 并非通用标准，需依据具体模型设定而定。
+
+## Evidence
+
+[质询]该公式属于特定模型假设或理论推导，并非行为经济学中公认的通用标准公式；参考来源仅涉及损失厌恶的一般测量和交易成本，未提供该特定上下文修正因子的实证支持或理论定义，存在将特定模型设定误认为通用事实的风险。 | 来源[2]确认了损失厌恶概念及前景理论背景，但未提及流动性对λ的具体修正公式；来源[1]讨论交易成本与流动性相关概念但无关损失厌恶系数修正；逻辑上公式自洽（低流动性放大损失厌恶符合直觉），但作为经验/模型事实缺乏直接来源支持，依据经验事实排除条款降级。
+
+## Search Query
+
+context dependent loss aversion coefficient illiquid market correction factor
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2019541860633330954&rut=067b6e5de4a1db1329533dd13e2c54b3b033b68d6d7f7b635afff60776b3ac8a', 'type': 'ddg', 'title': '被低估的因子交易成本：机器学习策略的换手率控制 - 知乎'}
+- {'url': 'https://zhuanlan.zhihu.com/p/2037969346610319770&rut=9a70962219a42a66575d64dde1987b011fc59cd86a5da8f87ce40dcac1e7e926', 'type': 'ddg', 'title': '损失厌恶（loss aversion）测量方式归纳 - 知乎'}

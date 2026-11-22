@@ -1,0 +1,29 @@
+# N213: Qwen3-27B 在 MMLU 上的 BF16 基准分数具体数值：需检索官方评测报告，当前假设值 75% 为估计值，实际可能在 72%-78% 区间，该值作为
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N80
+
+## Claim
+
+Qwen3-27B 在 MMLU 上的 BF16 基准分数具体数值：需检索官方评测报告，当前假设值 75% 为估计值，实际可能在 72%-78% 区间，该值作为后续量化质量损失计算的归一化基准 [待核验]
+
+## Corrected Claim
+
+Qwen3-27B 在 MMLU 上的 BF16 基准分数具体数值需检索官方评测报告确认，当前假设值 75% 为估计值，实际可能在 72%-78% 区间，该值作为后续量化质量损失计算的归一化基准 [待核验]
+
+## Evidence
+
+[质询]该陈述中的具体数值（75%）及区间（72%-78%）属于经验事实，且参考来源均未提供 Qwen3-27B 在 MMLU 上的 BF16 基准分数，无法通过外部证据直接验证或排除该估计值的准确性。 | 经验事实，逻辑自洽但缺来源支持（来源[1]讨论Qwen3.5-9B，来源[2]讨论Qwen3.8-27B视觉能力，均与Qwen3-27B MMLU基准无关）
+
+## Search Query
+
+Qwen3-27B MMLU score BF16 benchmark official
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_00417/article/details/166004049&rut=756a163fc1032625c17495faef3ee685489696e62b202991afd8dea0869a6acd', 'type': 'ddg', 'title': 'Qwen3.5-9B-GGUF基准测试深度解读：MMLU-Pro 82.5与LiveCodeBench 65.6背后的能'}
+- {'url': 'https://blog.csdn.net/gitblog_00245/article/details/168110959&rut=ebfc18038c04fbd483d69e72ed18a7082fd7428dfc54ba8ec55b9d827c949aac', 'type': 'ddg', 'title': '如何开启Qwen3.8-27B-AP-GGUF视觉能力:mmproj-BF16实战教程与踩坑清单-CSDN博客'}

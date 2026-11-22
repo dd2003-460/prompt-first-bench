@@ -1,0 +1,20 @@
+# N139: 物理失效折损系数的精确计算：折损系数 = 1 - p_invalid * P_hit_on_updated，其中 p_invalid = 0.01，P_hit_
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N56
+
+## Claim
+
+物理失效折损系数的精确计算：折损系数 = 1 - p_invalid * P_hit_on_updated，其中 p_invalid = 0.01，P_hit_on_updated = H_LRU(C)（修正自 N55 的错误推导），若 H_LRU ≈ 0.95，则折损系数 ≈ 1 - 0.01 * 0.95 = 0.9905。
+
+## Corrected Claim
+
+物理失效折损系数的精确计算：折损系数 = 1 - p_invalid * P_hit_on_updated，其中 p_invalid = 0.01，P_hit_on_updated = H_LRU(C)（修正自 N55 的错误推导），若 H_LRU ≈ 0.95，则折损系数 ≈ 1 - 0.01 * 0.95 = 0.9905。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式定义清晰，数值代入计算正确（1 - 0.01 * 0.95 = 0.9905），量纲与逻辑自洽。

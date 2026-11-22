@@ -1,0 +1,28 @@
+# N85: 咨询转化率提升 δc 的弹性函数为 δc = α * (T_trigger - T_actual)^β，其中 α 为基准提升系数（约 0.1-0.2），β 为弹
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N19
+
+## Claim
+
+咨询转化率提升 δc 的弹性函数为 δc = α * (T_trigger - T_actual)^β，其中 α 为基准提升系数（约 0.1-0.2），β 为弹性指数（约 1.5-2.0），需基于历史降价数据回归 [待核验]
+
+## Corrected Claim
+
+咨询转化率提升 δc 的弹性函数可建模为 δc = α * (T_trigger - T_actual)^β，其中 α 和 β 为需基于历史数据回归确定的经验参数。
+
+## Evidence
+
+[质询]该陈述描述的是特定业务场景下的经验性回归模型参数（α和β的具体数值范围），属于经验事实，无法从第一性原理或数学公理中严格推导出来，且参考来源仅涉及通用的价格弹性定义，未提供该特定公式或参数范围的支持。 | 经验事实，逻辑自洽但缺来源支持（来源[1]仅定义价格弹性，未涉及具体回归系数范围）
+
+## Search Query
+
+price reduction elasticity on buyer inquiry rate secondhand platform
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Price_elasticity_of_demand&rut=17df58bb7d71ff388564fad52272468ce4c60052d340fcd23ae4196561ee2861', 'type': 'ddg', 'title': 'Price elasticity of demand - Wikipedia'}

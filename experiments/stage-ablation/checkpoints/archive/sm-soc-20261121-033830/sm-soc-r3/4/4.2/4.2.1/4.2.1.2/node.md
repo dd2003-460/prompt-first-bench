@@ -1,0 +1,20 @@
+# N221: k (折价率) 的最优值需通过求解 max ΔU_platform s.t. ΔU_seller ≥ -ε 得到，其中 ε 为可接受的卖家效用损失阈值；若 k 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N70
+
+## Claim
+
+k (折价率) 的最优值需通过求解 max ΔU_platform s.t. ΔU_seller ≥ -ε 得到，其中 ε 为可接受的卖家效用损失阈值；若 k 过大（如0.15），P_max 过低，导致大量卖家无法挂牌，ΔU_seller 急剧下降；若 k 过小（如0.05），P_max 接近市场价，对高价挂单约束力弱，均衡难以打破
+
+## Corrected Claim
+
+k (折价率) 的最优值需通过求解 max ΔU_platform s.t. ΔU_seller ≥ -ε 得到，其中 ε 为可接受的卖家效用损失阈值；若 k 过大（如0.15），P_max 过低，导致大量卖家无法挂牌，ΔU_seller 急剧下降；若 k 过小（如0.05），P_max 接近市场价，对高价挂单约束力弱，均衡难以打破
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该陈述描述了平台机制设计中典型的约束优化问题，k值过大导致卖家效用损失过大（违反约束），k值过小导致平台收益或均衡打破效果不佳（目标函数未最大化），符合经济学直觉与逻辑自洽性。

@@ -1,0 +1,20 @@
+# N372: 损失规避系数 λ 的个体分布方差 σ_λ² 对总效用方差 Var(ΔU) 的贡献项为 (0.5*ΔU_perception)^2 * σ_λ²，若假设 σ_λ 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N131
+
+## Claim
+
+损失规避系数 λ 的个体分布方差 σ_λ² 对总效用方差 Var(ΔU) 的贡献项为 (0.5*ΔU_perception)^2 * σ_λ²，若假设 σ_λ ≈ 0.5，则该项系数为 0.25*(ΔU_perception)^2。
+
+## Corrected Claim
+
+损失规避系数 λ 的个体分布方差 σ_λ² 对总效用方差 Var(ΔU) 的贡献项为 (0.5*ΔU_perception)^2 * σ_λ²，若假设 σ_λ ≈ 0.5，则该项系数为 0.25*(ΔU_perception)^2。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：根据方差公式 Var(aX) = a²Var(X)，若效用变化 ΔU 与 λ 呈线性关系且系数为 0.5*ΔU_perception，则方差贡献项确为 (0.5*ΔU_perception)² * σ_λ²；代入 σ_λ=0.5 后系数计算正确。

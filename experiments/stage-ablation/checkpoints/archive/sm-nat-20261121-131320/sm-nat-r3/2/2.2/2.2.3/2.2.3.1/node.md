@@ -1,0 +1,20 @@
+# N103: LRU 动态命中率 H_LRU_dynamic 的量化模型：H_LRU_dynamic = H_LRU_static * (1 - P_evict_head)，
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N34
+
+## Claim
+
+LRU 动态命中率 H_LRU_dynamic 的量化模型：H_LRU_dynamic = H_LRU_static * (1 - P_evict_head)，其中 P_evict_head 是头部对象（Top-K）在单位时间窗口内被低频大对象挤出缓存的概率；该概率取决于头部对象最小访问间隔 T_min_head 与缓存平均填充时间 T_fill 的比值，P_evict_head ≈ 1 - exp(-T_fill / T_min_head)。
+
+## Corrected Claim
+
+LRU 动态命中率 H_LRU_dynamic 可近似表示为 H_LRU_static 与头部对象保留概率的乘积，其中头部对象保留概率受访问间隔与缓存填充时间的比值影响，具体形式依赖于访问模式的统计特性。
+
+## Evidence
+
+[质询]该公式为高度简化的经验模型，缺乏通用理论支持。LRU 的命中率受访问模式（如 Zipf 分布）、缓存大小及对象大小分布共同影响，并非仅由头部对象被挤出的概率线性决定。此外，P_evict_head 的指数衰减模型假设了泊松过程，这在非均匀访问模式下可能不成立，且忽略了 LRU 算法中‘最近使用’这一核心机制对非头部对象的保护效应。 | 先验知识/题面给定，逻辑校验通过（量纲一致，概率范围合理），但作为经验事实模型，缺乏通用性证明，且无外部来源支持其普适性，故降级为定性表述。

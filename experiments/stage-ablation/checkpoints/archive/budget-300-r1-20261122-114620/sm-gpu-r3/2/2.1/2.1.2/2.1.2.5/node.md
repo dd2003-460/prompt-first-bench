@@ -1,0 +1,24 @@
+# N184: RX 7900 XTX 显存带宽 960 GB/s 与 RTX 3090 (936 GB/s) 对比：理论吞吐差距仅为 2.6% (960/936)，但实测吞吐
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N55, N56, N57
+
+## Claim
+
+RX 7900 XTX 显存带宽 960 GB/s 与 RTX 3090 (936 GB/s) 对比：理论吞吐差距仅为 2.6% (960/936)，但实测吞吐差距达 21% (19 vs 15 tokens/s)，表明 18.4% 的性能损失来自软件栈优化不足（ROCm vs CUDA），而非硬件带宽限制，这验证了软件生态对推理性能的主导作用。
+
+## Corrected Claim
+
+RX 7900 XTX 显存带宽（960 GB/s）略高于 RTX 3090（936 GB/s），理论带宽差距仅约 2.6%。但在实际推理任务中，RX 7900 XTX 的吞吐性能往往低于 RTX 3090，这主要归因于 ROCm 软件栈在算子优化和生态成熟度上落后于 CUDA，而非硬件带宽限制。
+
+## Evidence
+
+[质询]将实测吞吐差距（21%）与理论带宽差距（2.6%）的差值直接归因为“软件栈优化不足”存在逻辑跳跃，忽略了计算密度、内存延迟、内核调度等其他潜在瓶颈；且“19 vs 15 tokens/s”为特定场景下的经验数据，缺乏通用性。 | 先验知识/题面给定，逻辑校验通过：硬件带宽差距确实极小，而实测性能差距显著，归因于软件生态（ROCm vs CUDA）符合当前AI硬件领域的普遍共识，但具体数值（19/15）及归因比例（18.4%）属于特定经验事实，缺乏通用来源支持，故降级。
+
+## Search Query
+
+RX 7900 XTX vs RTX 3090 inference performance gap software stack overhead

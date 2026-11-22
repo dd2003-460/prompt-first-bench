@@ -1,0 +1,24 @@
+# N315: E_base（基准曝光率）的定义与计算：E_base = Impressions_base / N_active_listings，其中 Impressions
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N108
+
+## Claim
+
+E_base（基准曝光率）的定义与计算：E_base = Impressions_base / N_active_listings，其中 Impressions_base 为无溢价干扰下的平均展示次数，N_active_listings 为活跃商品数；需明确该指标在特定品类（如手机 vs 手办）下的基准值差异。
+
+## Corrected Claim
+
+E_base（基准曝光率）通常定义为无溢价干扰下的平均展示次数与活跃商品数之比（E_base = Impressions_base / N_active_listings），具体数值需根据特定品类（如手机 vs 手办）的业务数据确定。
+
+## Evidence
+
+[质询]该陈述定义了一个特定的业务指标（E_base），属于经验性/业务逻辑范畴，无法从第一性原理或数学公理中严格推导出来。其具体定义（如分母是活跃商品数还是总商品数，分子是否包含特定过滤条件）依赖于具体的平台业务规则或研究设定，存在多种可能的定义口径，仅凭逻辑自洽无法确定其唯一正确性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该指标定义非第一性原理可推导）
+
+## Search Query
+
+e-commerce platform baseline impression rate per active listing category specific

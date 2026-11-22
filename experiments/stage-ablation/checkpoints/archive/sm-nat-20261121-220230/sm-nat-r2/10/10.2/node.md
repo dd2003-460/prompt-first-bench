@@ -1,0 +1,20 @@
+# N100: 公式 H_lower ≈ 1 - (1 - C_norm)^{1/α_eff} 在 C_norm=0.119, α_eff=1.05 时计算结果为 1 - (0
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+公式 H_lower ≈ 1 - (1 - C_norm)^{1/α_eff} 在 C_norm=0.119, α_eff=1.05 时计算结果为 1 - (0.881)^{0.952} ≈ 0.120，但该公式是 Belady's MIN 算法在独立假设下的近似，未包含相关性修正项 Δρ，因此 0.12 是独立假设下的下界而非最终值
+
+## Corrected Claim
+
+公式 H_lower ≈ 1 - (1 - C_norm)^{1/α_eff} 在 C_norm=0.119, α_eff=1.05 时计算结果为 1 - (0.881)^{0.952} ≈ 0.120，但该公式是 Belady's MIN 算法在独立假设下的近似，未包含相关性修正项 Δρ，因此 0.12 是独立假设下的下界而非最终值
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算 1 - (0.881)^(1/1.05) ≈ 0.120 准确，且 Belady's MIN 算法在独立假设下作为下界的理论描述符合缓存理论常识。

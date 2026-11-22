@@ -1,0 +1,20 @@
+# N192: Qwen3-27B 在标准 Attention 机制下的 QKV 投影中间激活峰值显存占用：Bytes = 3 * seq_len * d_model * by
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N64
+
+## Claim
+
+Qwen3-27B 在标准 Attention 机制下的 QKV 投影中间激活峰值显存占用：Bytes = 3 * seq_len * d_model * bytes_per_element，其中 d_model=5120, seq_len=32768, bytes_per_element=2 (BF16) 或 1 (FP8)，计算得出 BF16 下为 3 * 32768 * 5120 * 2 = 1,006,632,960 bytes ≈ 958.7 MB。
+
+## Corrected Claim
+
+Qwen3-27B 在标准 Attention 机制下的 QKV 投影中间激活峰值显存占用：Bytes = 3 * seq_len * d_model * bytes_per_element，其中 d_model=5120, seq_len=32768, bytes_per_element=2 (BF16) 或 1 (FP8)，计算得出 BF16 下为 3 * 32768 * 5120 * 2 = 1,006,632,960 bytes ≈ 958.7 MB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 3 * 32768 * 5120 * 2 计算结果为 1,006,632,960 bytes，换算为 MB (除以 1024*1024) 约为 958.7 MB，数值与逻辑均自洽。

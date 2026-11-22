@@ -1,0 +1,24 @@
+# N259: RTX 4090 的显存带宽 Bandwidth 官方规格为 1008 GB/s (基于 GDDR6X 21 Gbps * 384-bit bus width)
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N80
+
+## Claim
+
+RTX 4090 的显存带宽 Bandwidth 官方规格为 1008 GB/s (基于 GDDR6X 21 Gbps * 384-bit bus width)，这是 Decode 阶段吞吐量的物理上限约束。
+
+## Corrected Claim
+
+RTX 4090 的显存带宽 Bandwidth 官方规格为 1008 GB/s (基于 GDDR6X 21 Gbps * 384-bit bus width)，这是 Decode 阶段吞吐量的物理上限约束。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 采用 384-bit 位宽 GDDR6X 显存，等效速率 21 Gbps，计算带宽 384 * 21 / 8 = 1008 GB/s，数值与物理公式自洽。
+
+## Search Query
+
+RTX 4090 memory bandwidth 1008 GB/s spec

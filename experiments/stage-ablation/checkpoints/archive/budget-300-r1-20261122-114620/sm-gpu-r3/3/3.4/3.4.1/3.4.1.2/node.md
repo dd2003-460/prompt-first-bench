@@ -1,0 +1,24 @@
+# N299: Qwen3-27B 在 GPTQ-INT4 量化下，MMLU 综合基准准确率通常从 BF16 的 ~70% 下降至 ~62-65%，下降幅度约 5-8 个百分点
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N95
+
+## Claim
+
+Qwen3-27B 在 GPTQ-INT4 量化下，MMLU 综合基准准确率通常从 BF16 的 ~70% 下降至 ~62-65%，下降幅度约 5-8 个百分点，超过 N99 定义的 3% 相对阈值，表明 4-bit 精度在通用知识任务上不可接受。
+
+## Corrected Claim
+
+Qwen3-27B 在 GPTQ-INT4 量化下，MMLU 综合基准准确率通常会有所下降，具体幅度取决于量化实现和校准数据，但通常认为 4-bit 精度在通用知识任务上会引入一定性能损失。
+
+## Evidence
+
+[质询]具体数值（~70%降至~62-65%）属于经验事实，不同量化实现（如GPTQ vs AWQ）和校准数据集可能导致结果波动，且缺乏直接来源支持该特定量级。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Qwen3-27B GPTQ INT4 MMLU accuracy drop percentage

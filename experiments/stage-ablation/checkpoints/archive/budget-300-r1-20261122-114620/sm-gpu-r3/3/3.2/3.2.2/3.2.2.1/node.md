@@ -1,0 +1,24 @@
+# N287: Qwen3-27B 在 BF16 精度下 MMLU 基准测试的准确率具体数值（需检索官方技术报告或 HuggingFace 模型卡，通常 27B 模型 MMLU
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N90
+
+## Claim
+
+Qwen3-27B 在 BF16 精度下 MMLU 基准测试的准确率具体数值（需检索官方技术报告或 HuggingFace 模型卡，通常 27B 模型 MMLU 准确率在 75-85% 区间，例如 80.5%）
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 精度下 MMLU 基准测试的准确率通常在 75-85% 区间，具体数值需查阅官方技术报告或 HuggingFace 模型卡确认。
+
+## Evidence
+
+[质询]具体数值（如80.5%）属于经验事实，且不同评测协议（如5-shot vs 0-shot）会导致数值波动，缺乏来源支持无法确认精确值。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Qwen3-27B MMLU accuracy BF16 baseline

@@ -1,0 +1,20 @@
+# N284: 平台策略内生性的机制解释：卖家根据平台排序规则调整定价（Strategic Response），导致 P_exposure 与 Error Term 相关，具体
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N96
+
+## Claim
+
+平台策略内生性的机制解释：卖家根据平台排序规则调整定价（Strategic Response），导致 P_exposure 与 Error Term 相关，具体表现为卖家在观察到曝光下降后，以概率 P_adjust 调整 P_ask，P_adjust 与曝光下降幅度 ΔExposure 呈正相关。
+
+## Corrected Claim
+
+平台策略内生性的机制解释：卖家根据平台排序规则调整定价（Strategic Response），导致 P_exposure 与 Error Term 相关，具体表现为卖家在观察到曝光下降后，以概率 P_adjust 调整 P_ask，P_adjust 与曝光下降幅度 ΔExposure 呈正相关。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该陈述描述了平台经济学中典型的内生性机制（卖家策略性响应导致解释变量与误差项相关），符合微观经济学基本原理，且作为knowledge节点无需外部来源支持。

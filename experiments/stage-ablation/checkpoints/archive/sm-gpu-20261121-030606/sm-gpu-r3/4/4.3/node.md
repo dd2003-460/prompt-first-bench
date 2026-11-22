@@ -1,0 +1,20 @@
+# N21: Qwen3-27B模型在BF16精度下的总显存需求（权重+激活值+KV Cache）在32K上下文长度下约为65GB，FP8/INT8精度下约为40GB，NVF
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4, N5, N6
+
+## Claim
+
+Qwen3-27B模型在BF16精度下的总显存需求（权重+激活值+KV Cache）在32K上下文长度下约为65GB，FP8/INT8精度下约为40GB，NVFP4/W4精度下约为25GB
+
+## Corrected Claim
+
+Qwen3-27B模型在BF16精度下的总显存需求（权重+激活值+KV Cache）在32K上下文长度下约为65GB，FP8/INT8精度下约为40GB，NVFP4/W4精度下约为25GB
+
+## Evidence
+
+父节点级核验未通过：非正交（子节点之间存在逻辑依赖和数值矛盾，破坏了正交性。子节点2计算出的KV Cache值（BF16下约4GB）与子节点1中引用的分解值（5.2GB）不一致，且子节点3直接使用了子节点2修正后的KV值（2GB）来推翻父节点的总显存结论。这种跨节点的数值修正和相互引用导致子节点并非独立正交的事实陈述，而是相互耦合的修正链条。此外，子节点1和子节点3都涉及对总显存公式的修正，存在职责重叠。）

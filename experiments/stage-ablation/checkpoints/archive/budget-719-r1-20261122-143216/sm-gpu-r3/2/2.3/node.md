@@ -1,0 +1,20 @@
+# N13: 单卡方案 3 年 TCO 中的电力成本，计算公式为 (GPU TDP + CPU/内存 TDP) × 24h × 365d × 3y × 电价，需代入具体显卡 
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+单卡方案 3 年 TCO 中的电力成本，计算公式为 (GPU TDP + CPU/内存 TDP) × 24h × 365d × 3y × 电价，需代入具体显卡 TDP 值和当地电价（如 $0.1/kWh）
+
+## Corrected Claim
+
+单卡方案 3 年 TCO 中的电力成本，计算公式为 (GPU TDP + CPU/内存 TDP) × 24h × 365d × 3y × 电价，需代入具体显卡 TDP 值和当地电价（如 $0.1/kWh）
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备, 有冗余（父节点明确限定为'单卡方案'的电力成本计算，但子节点中前6个涉及'双卡方案'及'数据中心卡对比'的硬件采购成本，严重偏离主题（Scope Creep）。此外，子节点7和8存在逻辑包含关系（8是7的具体实例化），且子节点6中的差额计算依赖于前5个节点，导致结构松散。）

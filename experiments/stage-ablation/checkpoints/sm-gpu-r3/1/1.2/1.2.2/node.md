@@ -1,0 +1,30 @@
+# N38: Qwen3-27B 采用 GQA (Grouped Query Attention)，其 KV Head 数量 (num_kv_heads) 为 8，而 Que
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N8
+
+## Claim
+
+Qwen3-27B 采用 GQA (Grouped Query Attention)，其 KV Head 数量 (num_kv_heads) 为 8，而 Query Head 数量为 32，KV Cache 大小仅取决于 num_kv_heads 而非 num_query_heads，这一架构特性显著降低了长上下文下的显存需求。
+
+## Corrected Claim
+
+Qwen3-27B 采用 GQA (Grouped Query Attention) 架构，其 KV Cache 大小仅取决于 num_kv_heads 而非 num_query_heads，这一架构特性显著降低了长上下文下的显存需求。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点仅覆盖了父节点中关于GQA参数比例（32/8）及其对显存影响的部分，遗漏了父节点中明确陈述的绝对数值（num_kv_heads=8, num_query_heads=32）以及“KV Cache大小仅取决于num_kv_heads”这一核心机制描述。此外，子节点中关于MQA的描述存在逻辑瑕疵（MQA通常指1:1，即num_kv_heads=1，若对比MQA，Qwen3的KV头是MQA的8倍，而非保持4倍优势，且MQA的KV容量是MHA的1/32，此处对比逻辑混乱）。）
+
+## Search Query
+
+Qwen3-27B GQA num_key_value_heads 8 num_attention_heads 32
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_42186387/article/details/157352554&rut=a7f7105b7291b31a8651a1424fc042322b8d6adba9f985249c9747498309686c', 'type': 'ddg', 'title': '注意力头配置解读：Qwen3-1.7B为何选GQA架构 - CSDN博客'}
+- {'url': 'https://www.geeksforgeeks.org/deep-learning/grouped-query-attention-gqa/&rut=3cb1a6df58486b4c31e3b5b357da9d23e980b660b2e528fa989d50108918392b', 'type': 'ddg', 'title': 'Grouped Query Attention (GQA) - GeeksforGeeks'}
+- {'url': 'https://blog.csdn.net/gitblog_00033/article/details/151733507&rut=846674eec5e651f1be84ea0c521eb32dd20754549d6280297fcf5139d2f43350', 'type': 'ddg', 'title': 'Qwen3-32B模型结构解析：64层Transformer与GQA注意力机制详解-CSDN博客'}

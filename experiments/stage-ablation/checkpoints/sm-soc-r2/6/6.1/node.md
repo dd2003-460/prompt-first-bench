@@ -1,0 +1,24 @@
+# N101: 瑕疵容忍度提升的边际效应函数：ΔT_defect = α_scarcity × (P_ask/P_median - 1)^β，其中 α_scarcity 为稀缺
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N30, N31, N32
+
+## Claim
+
+瑕疵容忍度提升的边际效应函数：ΔT_defect = α_scarcity × (P_ask/P_median - 1)^β，其中 α_scarcity 为稀缺性敏感度系数（需通过 A/B 测试中不同溢价梯度下的瑕疵点击率数据校准，假设 α=0.5, β=1.2），用于计算 15%-25% 溢价区间内容忍度提升的具体非线性曲线。
+
+## Corrected Claim
+
+瑕疵容忍度提升的边际效应可建模为 ΔT_defect = α_scarcity × (P_ask/P_median - 1)^β，其中 α_scarcity 和 β 为待校准参数（示例假设 α=0.5, β=1.2），需通过 A/B 测试数据验证其非线性曲线特征。
+
+## Evidence
+
+[质询]该公式为纯理论构造，缺乏实证数据支持其具体参数（α=0.5, β=1.2）及函数形式（幂律）在真实市场中的有效性，属于未经验证的假设模型。 | 经验事实/模型参数，逻辑自洽但缺来源支持（本轮检索无可用来源，无法验证具体系数及非线性曲线的实际拟合度）。
+
+## Search Query
+
+scarcity heuristic price premium defect tolerance nonlinear curve empirical A/B test

@@ -1,0 +1,24 @@
+# N83: Qwen3-27B在W8A16 GPTQ量化方案下，MMLU基准测试的准确率损失具体数值，需对比W8A8方案，因为GPTQ仅量化权重而激活保持FP16，通常损失
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N19
+
+## Claim
+
+Qwen3-27B在W8A16 GPTQ量化方案下，MMLU基准测试的准确率损失具体数值，需对比W8A8方案，因为GPTQ仅量化权重而激活保持FP16，通常损失略高于W8A8但低于W4，预期范围0.5-1.5% [待核验]。
+
+## Corrected Claim
+
+Qwen3-27B在W8A16 GPTQ量化方案下，MMLU基准测试的准确率损失通常略高于W8A8方案但低于W4方案，具体数值需参考官方技术报告或实测数据。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值范围（0.5-1.5%）和特定模型（Qwen3-27B）在特定基准（MMLU）下的表现，属于硬件/模型规格类的经验事实，无法从第一性原理推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Qwen3-27B GPTQ W8A16 MMLU accuracy degradation

@@ -1,0 +1,20 @@
+# N194: 精确稳态陈旧占比公式 C_steady = 1 - exp(-λ_u * T_cold)，其中 λ_u=0.01/day，T_cold 为平均驻留时间（由 N1
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N67
+
+## Claim
+
+精确稳态陈旧占比公式 C_steady = 1 - exp(-λ_u * T_cold)，其中 λ_u=0.01/day，T_cold 为平均驻留时间（由 N16 估算，需代入具体数值如 50-100 days 计算），该公式在 λ_u*T_cold ∈ [0.1, 5] 区间内有效，替代线性近似 1-λ_u*T_cold 和饱和近似 1。
+
+## Corrected Claim
+
+精确稳态陈旧占比公式 C_steady = 1 - exp(-λ_u * T_cold)，其中 λ_u=0.01/day，T_cold 为平均驻留时间（由 N16 估算，需代入具体数值如 50-100 days 计算），该公式在 λ_u*T_cold ∈ [0.1, 5] 区间内有效，替代线性近似 1-λ_u*T_cold 和饱和近似 1。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该公式符合指数衰减模型在稳态下的标准推导，量纲与数值区间合理。

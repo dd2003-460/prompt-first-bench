@@ -1,0 +1,24 @@
+# N77: P_consult_after_disclosure 的稳定性量化：当 P_consult 服从正态分布 N(0.2, 0.02^2) 时，相对标准差 σ_re
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N23, N24, N25
+
+## Claim
+
+P_consult_after_disclosure 的稳定性量化：当 P_consult 服从正态分布 N(0.2, 0.02^2) 时，相对标准差 σ_rel = 0.02/0.2 = 10%。若 S=1.0，预测 ΔR 置信区间宽度为 ±10%（与 N23 声称的 ±5% 存在偏差，表明 S 可能小于 1.0 或存在其他抵消项）。
+
+## Corrected Claim
+
+P_consult_after_disclosure 的稳定性量化：当 P_consult 服从正态分布 N(0.2, 0.02^2) 时，相对标准差 σ_rel = 0.02/0.2 = 10%。若 S=1.0，预测 ΔR 置信区间宽度为 ±10%（与 N23 声称的 ±5% 存在偏差，表明 S 可能小于 1.0 或存在其他抵消项）。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在概念上是正交的（一个关注测量噪声源，一个关注业务抵消机制），且无冗余。然而，完备性不足：父节点核心结论是“S可能小于1.0或存在其他抵消项”，子节点2仅量化了“抵消项”（C_offset），但完全缺失了对“S可能小于1.0”这一假设的独立分解或验证节点。此外，子节点1引入的测量噪声（ε_meas）并未在父节点的最终偏差分析中明确体现其对总不确定度的贡献（是叠加到σ_P还是独立项？），导致逻辑链条在“噪声”与“偏差归因”之间存在断点。）
+
+## Search Query
+
+normal distribution relative standard deviation error propagation

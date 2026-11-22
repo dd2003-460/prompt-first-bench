@@ -1,0 +1,30 @@
+# N75: INT8 量化在长上下文（32K tokens）场景下的累积误差机制：由于 KV Cache 也需量化或保持高精度，需量化评估长文本生成中的幻觉率（Halluc
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N15
+
+## Claim
+
+INT8 量化在长上下文（32K tokens）场景下的累积误差机制：由于 KV Cache 也需量化或保持高精度，需量化评估长文本生成中的幻觉率（Hallucination Rate）相比 BF16 的增加比例，通常通过 LongBench 或自定义长文本一致性测试衡量。
+
+## Corrected Claim
+
+INT8 量化在长上下文（32K tokens）场景下，由于 KV Cache 量化导致的误差累积，通常表现为困惑度（Perplexity）显著上升，这可能间接导致长文本生成中的幻觉率增加。需通过 LongBench 等长文本基准测试或自定义一致性测试来评估生成质量下降的程度，而非直接量化幻觉率相比 BF16 的固定增加比例。
+
+## Evidence
+
+[质询]陈述中关于“幻觉率（Hallucination Rate）相比 BF16 的增加比例”的具体量化指标及“通常通过 LongBench 衡量”的断言缺乏直接来源支持。参考来源主要讨论的是“困惑度（Perplexity）”上升和显存/带宽开销，虽然困惑度上升与幻觉率增加在逻辑上正相关，但来源并未直接提供幻觉率的具体增加比例或明确将 LongBench 作为衡量幻觉率的标准基准（LongBench 通常用于评估长文本理解/生成质量，而非专门针对幻觉率的单一指标）。此外，将“困惑度上升”直接等同于“幻觉率增加比例”存在指标口径混淆的风险。 | 来源 [1] 和 [2] 直接支持 INT8 量化在长上下文下会导致误差累积和困惑度（Perplexity）上升，逻辑上自洽；但来源未直接覆盖“幻觉率增加比例”这一具体经验指标，属于间接支持，且该指标为经验事实，无法从第一性原理严格推出，故降级。
+
+## Search Query
+
+LLM INT8 quantization long context hallucination rate increase 32K
+
+## Retrieval Sources
+
+- {'url': 'https://www.wiblog.cn/articles/ai/2026/09/kv-cache-quantization-perplexity-impact/&rut=e1f24bb71f4f10e34518135e9dcd00ca8116cf94baaa7ed9020f7669394ac378', 'type': 'ddg', 'title': 'KV Cache 量化为何在长上下文下推高困惑度：INT8 的误差累积与缓解路径 · wiblog'}
+- {'url': 'https://hd9568.github.io/blog/inference-kv-cache-quantization/&rut=d1f40708a49554864c44bc0436953274228985c021d74518b6cab234370292e4', 'type': 'ddg', 'title': 'KV Cache 量化：用 FP8、INT8 与 INT4 降低长上下文成本 | 霍墨墨 | AI Infra Notes'}
+- {'url': 'https://www.oh-bug.com/zh/posts/kv-cache-quantization-production-fp8-int8/&rut=cb88e85bdb2f008f69d8df16061470630553ca48714b927d247b3845b8c7f534', 'type': 'ddg', 'title': 'KV Cache 量化生产实战：用 FP8/INT8 降低长上下文推理显存压力 | LLM Pioneer Hub'}

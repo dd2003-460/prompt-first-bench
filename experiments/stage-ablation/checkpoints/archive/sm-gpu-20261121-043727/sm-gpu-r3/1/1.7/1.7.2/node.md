@@ -1,0 +1,30 @@
+# N58: Qwen3-27B (Instruct Model) 在 BF16 精度下，MMLU (Massive Multitask Language Understan
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N12
+
+## Claim
+
+Qwen3-27B (Instruct Model) 在 BF16 精度下，MMLU (Massive Multitask Language Understanding) 基准测试总分及 CMMLU 分数具体数值为 [待核验]，用于定义 Value Score 公式中的 Quality_Score 基线。
+
+## Corrected Claim
+
+Qwen3-27B (Instruct Model) 在 BF16 精度下，MMLU 和 CMMLU 基准测试的具体分数需查阅官方技术报告或权威评测榜单，当前参考来源未提供该数据。
+
+## Evidence
+
+[质询]参考来源均未提供 Qwen3-27B 在 MMLU 和 CMMLU 基准测试中的具体分数，且来源 [1] 和 [3] 讨论的是 Qwen3.5-27B 或 Qwen3.6-27B，与目标模型 Qwen3-27B 版本不符，无法验证具体数值。 | 经验事实，逻辑自洽但缺来源支持（来源 [1][2][3] 均未包含 Qwen3-27B 的 MMLU/CMMLU 具体分数，且部分来源涉及不同版本模型）
+
+## Search Query
+
+Qwen3-27B instruct MMLU CMMLU score benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_30218749/article/details/159560741&rut=835dfb608d57d6c3bfc0c6ffb1ac71d378386a9b61ffc661db7c7ad3b427a7ba', 'type': 'ddg', 'title': 'Qwen3.5-27B GPU算力优化：4090D下FP16 vs BF16推理延迟与显存对比-CSDN博客'}
+- {'url': 'https://devpress.csdn.net/v1/article/detail/155545949&rut=7fa311b1270962857dc60c3fa0e9488fd2f8bfd1115c9348736b136ed4f74ecc', 'type': 'ddg', 'title': 'Qwen3-4B-Instruct参数详解：bfloat16精度、256K原生上下文与1M扩展方案'}
+- {'url': 'https://blog.csdn.net/xx_nm98/article/details/162528337&rut=a1f28e4c92eb7df4d5c97a0f40be11948cfd704d4f79a0012877625040139f70', 'type': 'ddg', 'title': 'Qwen3.6-27B 实操指南：下载渠道、部署方式、微调方法与模型测试一网打尽-CSDN博客'}

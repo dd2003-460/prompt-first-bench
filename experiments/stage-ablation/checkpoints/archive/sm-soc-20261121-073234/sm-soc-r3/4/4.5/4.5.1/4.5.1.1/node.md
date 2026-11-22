@@ -1,0 +1,28 @@
+# N281: 基线 CTR 需通过平台历史数据计算，具体为展示历史降价轨迹前的商品点击率均值，需控制商品类别和卖家信用等级。
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N92
+
+## Claim
+
+基线 CTR 需通过平台历史数据计算，具体为展示历史降价轨迹前的商品点击率均值，需控制商品类别和卖家信用等级。
+
+## Corrected Claim
+
+基线 CTR 通常需通过平台历史数据计算，一般做法是选取特定时间窗口（如降价前）的商品点击率均值，并控制商品类别、卖家信用等级等混淆变量以消除偏差。
+
+## Evidence
+
+[质询]该陈述包含具体的业务定义（如“展示历史降价轨迹前”、“控制卖家信用等级”），属于特定场景下的经验性操作规范，而非通用CTR预估原理。参考来源仅涉及CTR预估技术体系概览，未提供此特定基线计算方法的直接支持，且该具体口径可能因平台而异，存在以偏概全或来源不匹配的风险。 | 逻辑上自洽（控制变量以消除偏差符合统计学直觉），但参考来源[1]仅介绍CTR预估通用技术，未直接支持该特定基线计算口径，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+baseline click-through rate for used goods listings without price history
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/559651754&rut=ba7e690ddb086d91936c7eba60ad9ef2468c62ccfcf3f3d71787acbfc4c759f0', 'type': 'ddg', 'title': '一文梳理ctr预估技术体系（算法+架构） - 知乎'}

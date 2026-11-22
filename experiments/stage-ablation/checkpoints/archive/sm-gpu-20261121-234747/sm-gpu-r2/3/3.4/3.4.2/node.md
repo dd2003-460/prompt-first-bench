@@ -1,0 +1,24 @@
+# N98: 4×A100 80GB在PCIe互联（无NVLink）下推理Qwen3-27B BF16精度的实测吞吐量（tokens/s）约为60-90 tokens/s，相
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N16
+
+## Claim
+
+4×A100 80GB在PCIe互联（无NVLink）下推理Qwen3-27B BF16精度的实测吞吐量（tokens/s）约为60-90 tokens/s，相比NVLink方案下降30-50%，原因是PCIe带宽瓶颈导致张量并行通信延迟显著增加；该差异需基于NVIDIA官方NVLink vs PCIe性能对比报告或第三方独立评测（如MLPerf）的具体数据
+
+## Corrected Claim
+
+4×A100 80GB在PCIe互联（无NVLink）下推理Qwen3-27B BF16精度的吞吐量通常低于NVLink方案，具体数值需参考实测数据。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性性能数值（60-90 tokens/s）和百分比差异（30-50%），属于硬件性能实测数据，无法从第一性原理推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+A100 NVLink vs PCIe tensor parallelism performance degradation LLM inference

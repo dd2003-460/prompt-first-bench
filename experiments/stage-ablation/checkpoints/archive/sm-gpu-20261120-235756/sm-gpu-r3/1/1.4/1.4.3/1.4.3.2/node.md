@@ -1,0 +1,24 @@
+# N161: RTX 4090 (Ada) 上 FP8 相比 BF16 的理论 TPOT 加速比：Ada 架构支持 FP8 Tensor Core，理论加速比受限于内存带宽（
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N46
+
+## Claim
+
+RTX 4090 (Ada) 上 FP8 相比 BF16 的理论 TPOT 加速比：Ada 架构支持 FP8 Tensor Core，理论加速比受限于内存带宽（FP8 读取字节数减半）和计算效率；假设 FP8 GEMM 效率为 BF16 的 1.2x-1.5x，实际综合加速比约为 1.2x - 1.5x，需验证 vLLM 在 RTX 4090 上 FP8 推理的实际 tokens/s 提升幅度。
+
+## Corrected Claim
+
+RTX 4090 (Ada) 上 FP8 相比 BF16 的理论 TPOT 加速比：Ada 架构支持 FP8 Tensor Core，理论加速比受限于内存带宽（FP8 读取字节数减半）和计算效率；假设 FP8 GEMM 效率为 BF16 的 1.2x-1.5x，实际综合加速比约为 1.2x - 1.5x，需验证 vLLM 在 RTX 4090 上 FP8 推理的实际 tokens/s 提升幅度。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Ada架构支持FP8，内存带宽减半及计算效率提升（1.2x-1.5x）符合硬件特性与理论推导，无内部矛盾。
+
+## Search Query
+
+RTX 4090 Ada FP8 vs BF16 inference speedup ratio vLLM benchmark

@@ -1,0 +1,24 @@
+# N24: 单卡 vs 多卡推理效率差异：多卡张量并行（TP）引入 All-Reduce 通信开销，理论加速比 η = N / (1 + (N-1)*T_comm/T_co
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+单卡 vs 多卡推理效率差异：多卡张量并行（TP）引入 All-Reduce 通信开销，理论加速比 η = N / (1 + (N-1)*T_comm/T_comp)，其中 T_comm 为跨卡通信延迟，消费级 PCIe 互联 vs NVLink 互联的 T_comm 差异需量化
+
+## Corrected Claim
+
+单卡 vs 多卡推理效率差异：多卡张量并行（TP）引入 All-Reduce 通信开销，理论加速比 η = N / (1 + (N-1)*T_comm/T_comp)，其中 T_comm 为跨卡通信延迟，消费级 PCIe 互联 vs NVLink 互联的 T_comm 差异需量化
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+tensor parallelism efficiency penalty PCIe vs NVLink LLM inference

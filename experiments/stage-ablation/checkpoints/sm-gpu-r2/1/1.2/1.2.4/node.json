@@ -1,0 +1,17 @@
+{
+  "id": "N40",
+  "claim": "在 32K tokens 上下文长度下，Qwen3-27B 的 KV Cache 总显存占用精确计算为 32,768 tokens × 256 KB/token = 8 GB (BF16)，若使用 FP8 KV Cache 量化则减半至 4 GB，这是判断单卡 24GB 显存是否足够的关键阈值。",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值量级与具体模型架构参数不符：Qwen3-27B 并非拥有 256 KB/token 的 KV Cache 占用量。根据 Qwen 系列模型（如 Qwen2.5-32B 或 Qwen3-32B）的典型架构（GQA, 64 heads, head_dim 128, 64 layers），BF16 下每 token 的 KV Cache 约为 2MB，32K tokens 总占用约为 64GB，远超 24GB 单卡显存。即使假设是更小的模型或特定量化配置，256 KB/token 这一数值也缺乏该特定模型（Qwen3-27B）的公开架构支持，极可能是混淆了不同模型或计算错误。 | 先验知识/题面给定，逻辑校验未通过：Qwen3-27B 的 KV Cache 占用量级与陈述中的 256 KB/token 严重不符，导致总显存计算错误，无法作为判断 24GB 显存是否足够的正确阈值。",
+  "corrected_claim": "在 32K tokens 上下文长度下，Qwen3-27B（假设其架构与 Qwen2.5-32B 类似，采用 GQA）的 KV Cache 总显存占用远高于 8 GB（通常约为 60-70 GB BF16），单卡 24GB 显存不足以容纳该模型在 32K 上下文下的完整 KV Cache，需使用 PagedAttention 或更激进的量化/卸载策略。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N8"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "Qwen3-27B 32k context KV cache memory usage 8GB BF16",
+  "retrieval_sources": []
+}

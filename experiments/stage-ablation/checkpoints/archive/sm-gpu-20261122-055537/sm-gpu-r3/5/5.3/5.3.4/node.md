@@ -1,0 +1,24 @@
+# N88: L4/A10 在 FP8 精度下的质量损失量化：在 MMLU 基准测试中，Qwen3-27B FP8 的准确率相比 BF16 基线下降幅度通常 < 0.5% (
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N26
+
+## Claim
+
+L4/A10 在 FP8 精度下的质量损失量化：在 MMLU 基准测试中，Qwen3-27B FP8 的准确率相比 BF16 基线下降幅度通常 < 0.5% (即 Q_score > 0.995)；在 HumanEval 代码生成任务中，Pass@1 下降幅度通常 < 1% (即 Q_score > 0.99)。此数据基于 NVIDIA TensorRT-LLM 官方文档及社区基准测试平均值 [待核验]。
+
+## Corrected Claim
+
+在 MMLU 和 HumanEval 等基准测试中，Qwen3-27B 采用 FP8 精度量化后，其准确率相比 BF16 基线通常仅有轻微下降（具体幅度取决于量化策略与校准数据，一般认为在 1% 以内），表明 FP8 在保持模型质量方面具有较高保真度。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值阈值（MMLU下降<0.5%，HumanEval下降<1%），属于硬件/模型性能的经验事实，无法从第一性原理推导。且‘通常’一词掩盖了不同量化算法（如SmoothQuant, FP8 E4M3 vs E5M2）和校准数据集带来的显著方差，缺乏具体实验条件支撑，存在以偏概全的风险。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，且该数值属于具体模型在特定基准下的经验测量值，不适用第一性原理推导条款）。
+
+## Search Query
+
+Qwen3 27B FP8 quantization MMLU HumanEval accuracy drop

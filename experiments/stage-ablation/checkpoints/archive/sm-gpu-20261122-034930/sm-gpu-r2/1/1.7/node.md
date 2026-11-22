@@ -1,0 +1,24 @@
+# N13: 非典型/混合候选集：Mac Studio M2 Ultra (192GB Unified Memory), Mac Studio M3 Ultra (512GB
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+非典型/混合候选集：Mac Studio M2 Ultra (192GB Unified Memory), Mac Studio M3 Ultra (512GB Unified Memory)。统一内存可视为显存，但带宽和延迟特性与GPU不同，需单独评估。
+
+## Corrected Claim
+
+非典型/混合候选集：Apple Silicon Mac Studio系列（如M2 Ultra/M3 Ultra）采用统一内存架构，其内存可被GPU作为显存使用，但带宽和延迟特性与独立GPU显存不同，需单独评估。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件规格（如M2 Ultra 192GB、M3 Ultra 512GB统一内存），属于经验事实。由于检索失败，无法通过外部来源直接验证这些具体数值和型号配置的准确性，存在规格记忆偏差或混淆的风险。 | 经验事实，逻辑自洽但缺来源支持。统一内存架构在Apple Silicon中确实允许CPU/GPU共享内存，且其带宽/延迟特性与独立显存不同，需单独评估，这一技术逻辑成立；但具体型号与内存配置（M2 Ultra 192GB, M3 Ultra 512GB）因无外部来源佐证，无法确认为绝对准确，故降级。
+
+## Search Query
+
+Mac Studio M2 Ultra 192GB price 2024

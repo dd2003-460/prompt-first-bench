@@ -1,0 +1,24 @@
+# N430: 27e9参数是否包含embedding和lm_head层的验证：Qwen3-27B的embedding层参数量为vocab_size * hidden_size
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N139
+
+## Claim
+
+27e9参数是否包含embedding和lm_head层的验证：Qwen3-27B的embedding层参数量为vocab_size * hidden_size（如152064 * 4096 ≈ 622M），lm_head层参数量相同（若tie_word_embeddings=False），总参数量27e9需减去这两层后得到Transformer层参数量，具体数值需从config.json的num_parameters字段确认。
+
+## Corrected Claim
+
+Qwen3-27B的总参数量27e9包含embedding和lm_head层。若tie_word_embeddings=False，embedding和lm_head参数量均为vocab_size * hidden_size。具体数值需查阅官方config.json确认，而非仅依赖估算。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件/模型架构参数（vocab_size=152064, hidden_size=4096），属于经验事实。虽然逻辑推导（总参数=Embedding+LM Head+Transformer层）在数学上自洽，但缺乏外部来源验证Qwen3-27B的具体配置数值（如vocab size和hidden size是否确为所述值），且未提供config.json的实际数据支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+Qwen3-27B num_parameters embedding lm_head tie_word_embeddings

@@ -1,0 +1,28 @@
+# N128: 买家估值波动投影系数 β_buyer：ε_buyer = β_buyer * ε_t + η_buyer，其中 β_buyer 为买家支付意愿对流动性冲击的敏感
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N31
+
+## Claim
+
+买家估值波动投影系数 β_buyer：ε_buyer = β_buyer * ε_t + η_buyer，其中 β_buyer 为买家支付意愿对流动性冲击的敏感度，可通过回归分析买家成交价分布方差与流动性指数的月度数据估计，预期 β_buyer > 0。
+
+## Corrected Claim
+
+买家估值波动投影系数 β_buyer 定义为买家支付意愿对流动性冲击的敏感度，理论上预期 β_buyer > 0，具体数值需通过回归分析买家成交价分布方差与流动性指数的月度数据估计。
+
+## Evidence
+
+[质询]来源[1]讨论的是金融投资中资产相对于市场波动的Beta系数，而该事实节点讨论的是特定交易场景下买家估值对流动性冲击的敏感度（β_buyer），两者语境不同，来源未直接支持该特定定义及估计方法。 | 逻辑自洽，但参考来源[1]仅涉及通用金融Beta概念，未直接支持该特定买家估值波动投影系数的定义或估计方法，属于间接相关或无关，依据经验事实排除条款降级。
+
+## Search Query
+
+regression coefficient buyer valuation volatility to market liquidity index
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/8986145005&rut=ea3eeca6a486a93c893622f074236dbcc8532e3c93bab9b8fd488cf0e1c9788c', 'type': 'ddg', 'title': 'β值与市场波动：你真的理解这对投资的意义吗？ - 知乎'}

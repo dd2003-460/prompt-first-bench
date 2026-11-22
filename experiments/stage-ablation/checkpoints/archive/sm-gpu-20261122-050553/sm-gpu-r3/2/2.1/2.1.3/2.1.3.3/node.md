@@ -1,0 +1,20 @@
+# N181: BF16 精度下 Qwen3-27B 的总显存需求修正公式：Total_Mem = W_bf16 (54.6 GB) + KV_Cache (8.6 GB, 基
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N56
+
+## Claim
+
+BF16 精度下 Qwen3-27B 的总显存需求修正公式：Total_Mem = W_bf16 (54.6 GB) + KV_Cache (8.6 GB, 基于 32K ctx) + A_peak (2 GB, 取 FlashAttention 保守上限) + Framework_Overhead (1-2 GB) ≈ 66-67 GB；因此 N56 声称的 85 GB 需求被高估，实际上 80 GB 单卡 (如 A100 80GB) 可容纳，但余量极小 (< 14 GB)，Batch Size > 1 时需重新计算 KV Cache 增长。
+
+## Corrected Claim
+
+BF16 精度下 Qwen3-27B 的总显存需求修正公式：Total_Mem = W_bf16 (54.6 GB) + KV_Cache (8.6 GB, 基于 32K ctx) + A_peak (2 GB, 取 FlashAttention 保守上限) + Framework_Overhead (1-2 GB) ≈ 66-67 GB；因此 N56 声称的 85 GB 需求被高估，实际上 80 GB 单卡 (如 A100 80GB) 可容纳，但余量极小 (< 14 GB)，Batch Size > 1 时需重新计算 KV Cache 增长。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B参数量约27B，BF16权重约54GB，加上KV Cache及框架开销，总显存需求在66-67GB范围内，80GB单卡可容纳，逻辑自洽且数值量级合理。

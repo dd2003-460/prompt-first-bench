@@ -1,0 +1,24 @@
+# N174: FP8 E4M3 量化在 HuggingFace/Transformers 标准实现中通常采用 Per-Tensor 量化（即每个 Tensor 一个 Scal
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N51
+
+## Claim
+
+FP8 E4M3 量化在 HuggingFace/Transformers 标准实现中通常采用 Per-Tensor 量化（即每个 Tensor 一个 Scale），而非 N51 假设的 Per-Channel/Group（每 128 元素一个），因此 Scale 因子总开销极小（约 27B 个 Tensor * 4 bytes ≈ 100KB），可忽略不计。
+
+## Corrected Claim
+
+FP8 E4M3 量化在主流实现（如 HuggingFace/Transformers 配合 bitsandbytes 等库）中常采用 Per-Tensor 量化，Scale 因子总开销通常极小（KB 级别），可忽略不计；但具体量化粒度（Per-Tensor/Per-Channel/Group）取决于具体库和配置，并非绝对固定。
+
+## Evidence
+
+[质询]陈述中关于 HuggingFace/Transformers 标准实现具体采用 Per-Tensor 而非 Per-Channel/Group 的断言属于特定软件版本的经验事实，且不同量化库（如 bitsandbytes, GPTQ, AutoGPTQ）或不同模型架构（如 LLaMA vs Mistral）在 FP8 实现上可能存在差异，并非所有情况都严格遵循 Per-Tensor；此外，27B 参数模型通常包含数千个 Tensor，100KB 的估算依赖于具体的 Tensor 数量假设，若 Tensor 数量更多，开销会相应增加，虽仍小但具体数值需视模型结构而定。 | 经验事实，逻辑自洽但缺来源支持；Per-Tensor 量化在 FP8 中确实常见且开销极小，但具体实现细节依赖库和版本，无法仅凭逻辑推导确认为唯一标准。
+
+## Search Query
+
+HuggingFace transformers fp8 e4m3 quantization scale factor granularity per-tensor

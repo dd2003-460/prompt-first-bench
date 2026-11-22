@@ -1,0 +1,20 @@
+# N201: NVFP4 精度下 Qwen3-27B 总显存下限修正为 20.0 GB（计算式：13.5 GB 权重 + 3.98 GB KV + 2.5 GB 激活），N8
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N83, N84, N85
+
+## Claim
+
+NVFP4 精度下 Qwen3-27B 总显存下限修正为 20.0 GB（计算式：13.5 GB 权重 + 3.98 GB KV + 2.5 GB 激活），N84 声称的 20.7 GB 因 KV Cache 高估而偏高，24GB 显存余量修正为 16.7%（(24-20)/24），仍可行
+
+## Corrected Claim
+
+NVFP4 精度下 Qwen3-27B 总显存下限修正为 20.0 GB（计算式：13.5 GB 权重 + 3.98 GB KV + 2.5 GB 激活），N84 声称的 20.7 GB 因 KV Cache 高估而偏高，24GB 显存余量修正为 16.7%（(24-20)/24），仍可行
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：NVFP4权重约13.5GB，KV Cache与激活值估算合理，总显存20.0GB及余量16.7%计算自洽

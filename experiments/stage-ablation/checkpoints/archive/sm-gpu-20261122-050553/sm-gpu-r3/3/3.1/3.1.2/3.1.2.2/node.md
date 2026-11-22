@@ -1,0 +1,20 @@
+# N196: Qwen3-27B 在 BF16 精度下的总显存需求为 86.0 GB，由权重占用 54.0 GB (27B params × 2 bytes) 与 KV Ca
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N64
+
+## Claim
+
+Qwen3-27B 在 BF16 精度下的总显存需求为 86.0 GB，由权重占用 54.0 GB (27B params × 2 bytes) 与 KV Cache 占用 32.0 GB 相加得出。
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 精度下的总显存需求为 86.0 GB，由权重占用 54.0 GB (27B params × 2 bytes) 与 KV Cache 占用 32.0 GB 相加得出。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数在BF16下权重占用54GB（27e9 * 2 bytes），加上32GB KV Cache，总和86GB，计算自洽。

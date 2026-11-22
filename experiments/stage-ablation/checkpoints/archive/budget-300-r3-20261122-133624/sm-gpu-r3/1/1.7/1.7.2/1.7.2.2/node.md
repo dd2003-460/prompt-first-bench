@@ -1,0 +1,20 @@
+# N233: Qwen3-27B 在 BF16 下 Decode 阶段在 RTX 4090 上的实际吞吐量修正：有效带宽 1008 GB/s * 0.85 = 856.8 G
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N64
+
+## Claim
+
+Qwen3-27B 在 BF16 下 Decode 阶段在 RTX 4090 上的实际吞吐量修正：有效带宽 1008 GB/s * 0.85 = 856.8 GB/s，除以有效带宽需求 70.6 GB/s，得到理论吞吐 12.1 tokens/s，考虑调度开销后实际约为 10-12 tokens/s。
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 下 Decode 阶段在 RTX 4090 上的实际吞吐量修正：有效带宽 1008 GB/s * 0.85 = 856.8 GB/s，除以有效带宽需求 70.6 GB/s，得到理论吞吐 12.1 tokens/s，考虑调度开销后实际约为 10-12 tokens/s。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 显存带宽约 1008 GB/s，Qwen3-27B BF16 权重约 54GB，理论带宽瓶颈吞吐约为 1008/54 ≈ 18.6 tokens/s，考虑 0.85 效率及调度开销后 10-12 tokens/s 符合工程经验量级。

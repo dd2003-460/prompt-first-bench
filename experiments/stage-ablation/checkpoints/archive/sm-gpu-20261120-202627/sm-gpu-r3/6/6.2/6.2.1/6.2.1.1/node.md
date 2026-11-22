@@ -1,0 +1,24 @@
+# N399: RTX 4090 在持续运行 Qwen3-27B (BF16/FP8, Batch Size=1, 32K context) 自回归解码阶段的稳态平均功耗 (P
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N128
+
+## Claim
+
+RTX 4090 在持续运行 Qwen3-27B (BF16/FP8, Batch Size=1, 32K context) 自回归解码阶段的稳态平均功耗 (P_avg, 单位: W)，需引用 MLPerf Inference 数据集、TechPowerUp 实测或 vLLM 官方性能报告中的具体功耗曲线数据，而非仅引用 TDP。
+
+## Corrected Claim
+
+RTX 4090 在持续运行 Qwen3-27B (BF16/FP8, Batch Size=1, 32K context) 自回归解码阶段的稳态平均功耗 (P_avg) 需通过实测获取，通常低于其 TDP (450W)，具体数值需参考 TechPowerUp 或 vLLM 官方报告中的实测功耗曲线，而非仅引用 TDP。
+
+## Evidence
+
+[质询]该陈述要求引用特定数据集（MLPerf/TechPowerUp/vLLM）中的具体功耗曲线数据，但当前检索无可用来源，且该数值属于高度依赖具体驱动版本、散热条件及负载细节的经验事实，无法从第一性原理推导，存在因缺乏实证数据而数值不准确的风险。 | 经验事实，逻辑自洽但缺来源支持（检索失败，无外部证据覆盖具体功耗数值）
+
+## Search Query
+
+RTX 4090 sustained LLM inference power consumption watts Qwen3-27B vLLM benchmark

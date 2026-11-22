@@ -1,0 +1,24 @@
+# N368: 新卖家 μ_credit=0 的贝叶斯先验修正：硬编码 0 会导致新卖家被系统性低估，建议采用经验贝叶斯估计 μ_credit_new = (K * μ_pri
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N108
+
+## Claim
+
+新卖家 μ_credit=0 的贝叶斯先验修正：硬编码 0 会导致新卖家被系统性低估，建议采用经验贝叶斯估计 μ_credit_new = (K * μ_prior + n * μ_observed) / (K + n)，其中 K=10 为伪样本量，μ_prior=0.8 为品类平均信用分，n 为新卖家订单数。
+
+## Corrected Claim
+
+新卖家 μ_credit=0 的贝叶斯先验修正：硬编码 0 会导致新卖家被系统性低估，建议采用经验贝叶斯估计 μ_credit_new = (K * μ_prior + n * μ_observed) / (K + n)，其中 K=10 为伪样本量，μ_prior=0.8 为品类平均信用分，n 为新卖家订单数。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：经验贝叶斯公式结构正确，伪样本量K=10和先验均值0.8在信用评分场景中量级合理，无内部矛盾。
+
+## Search Query
+
+empirical bayes estimation for new seller credit score

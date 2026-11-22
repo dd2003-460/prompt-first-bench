@@ -1,0 +1,24 @@
+# N127: LFU 频率计数器的半衰期 $T_{counter}$ 在标准 LFU 实现（如 Redis 或 Apache JMeter）中并非固定为 1 天，而是通常以时
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N57, N58, N59
+
+## Claim
+
+LFU 频率计数器的半衰期 $T_{counter}$ 在标准 LFU 实现（如 Redis 或 Apache JMeter）中并非固定为 1 天，而是通常以时间戳位宽（如 8 位或 10 位）决定的指数衰减窗口，典型值范围在 1 小时至 24 小时之间；若设定 $T_{counter}=24h$，则 $P_{lfu\_invalidate} = 1 - e^{-(24h / 2400h)} \approx 0.995\%$，与 N57 结论一致，但若 $T_{counter}=1h$，则 $P_{lfu\_invalidate} = 1 - e^{-(1/100)} \approx 0.995\%$ 的推导需修正为基于实际计数器重置周期 $T_{reset}$ 的函数，需确认具体 LFU 变体（如 LFU-2 或 Weighted LFU）的 $T_{counter}$ 定义。
+
+## Corrected Claim
+
+LFU 频率计数器的衰减机制因实现而异（如 Redis 采用定期采样重置而非连续指数衰减），不存在统一的‘标准半衰期’；若采用指数衰减模型，半衰期 $T_{counter}$ 需根据具体算法变体定义，不能简单由计数器位宽推导。
+
+## Evidence
+
+[质询]陈述中关于 Redis 等标准 LFU 实现的半衰期定义及具体数值范围（1-24小时）属于经验事实，且不同实现（如 Redis 的 5 分钟采样 vs 理论指数衰减）差异巨大，缺乏统一标准；此外，将计数器位宽直接等同于指数衰减窗口在逻辑上存在混淆，位宽决定的是计数上限而非时间常数。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源），且具体实现细节存在争议，无法验证其普遍性。
+
+## Search Query
+
+LFU frequency counter half-life default value Redis Apache JMeter implementation

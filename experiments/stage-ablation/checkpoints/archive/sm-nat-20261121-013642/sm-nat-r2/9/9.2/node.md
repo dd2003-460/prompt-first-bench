@@ -1,0 +1,24 @@
+# N88: LRU 时间局部性稳健性的量化指标：在 Poisson 到达过程下，LRU 的命中概率 H_LRU(t) 随时间间隔 t 的衰减率 λ_decay ≈ 1/τ_
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N29
+
+## Claim
+
+LRU 时间局部性稳健性的量化指标：在 Poisson 到达过程下，LRU 的命中概率 H_LRU(t) 随时间间隔 t 的衰减率 λ_decay ≈ 1/τ_locality，其中 τ_locality 为局部性时间常数，对于 β=0.9 的工作负载，τ_locality ≈ 1000 秒
+
+## Corrected Claim
+
+在 Poisson 到达过程下，LRU 的命中概率 H_LRU(t) 随时间间隔 t 的衰减率 λ_decay 与局部性时间常数 τ_locality 成反比（λ_decay ≈ 1/τ_locality）。对于具有强局部性的工作负载（如 β=0.9），τ_locality 通常较大，具体数值需根据实际负载特征确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（β=0.9 对应 τ_locality ≈ 1000 秒），这属于特定工作负载下的经验事实，无法从第一性原理或数学公理严格推导得出，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+LRU time locality decay rate Poisson arrival process cache hit probability

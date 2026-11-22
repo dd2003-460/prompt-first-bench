@@ -1,0 +1,24 @@
+# N96: Activation Buffer (临时激活值) 显存占用量化：在 Decode 阶段 (Batch Size=1)，激活值通常小于 1 GB。在 Prefi
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N16
+
+## Claim
+
+Activation Buffer (临时激活值) 显存占用量化：在 Decode 阶段 (Batch Size=1)，激活值通常小于 1 GB。在 Prefill 阶段 (长上下文)，激活值随序列长度线性增长，公式约为 Seq_Len * Hidden_Dim * Bytes_per_param * Num_Activation_Tensors。对于 32K 上下文，Hidden_Dim=4096 (假设)，BF16 下 Prefill 激活峰值可能达到 2-4 GB。
+
+## Corrected Claim
+
+Activation Buffer (临时激活值) 显存占用量化：在 Decode 阶段 (Batch Size=1)，激活值通常小于 1 GB。在 Prefill 阶段 (长上下文)，激活值随序列长度线性增长，公式约为 Seq_Len * Hidden_Dim * Bytes_per_param * Num_Activation_Tensors。对于 32K 上下文，Hidden_Dim=4096 (假设)，BF16 下 Prefill 激活峰值可能达到 2-4 GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Decode阶段Batch=1激活值极小（<1GB）符合直觉；Prefill阶段激活值随序列长度线性增长，32K上下文、Hidden_Dim=4096、BF16下，单个激活张量约256MB，多个激活张量（如LayerNorm、Attention中间结果等）累积至2-4GB量级合理，无内部矛盾。
+
+## Search Query
+
+LLM inference activation memory footprint prefill vs decode batch size 1

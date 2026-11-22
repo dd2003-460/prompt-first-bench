@@ -1,0 +1,17 @@
+{
+  "id": "N75",
+  "claim": "2x RTX 4090 (BF16) Tensor Parallelism 下 AllReduce 通信时间占比计算：在 T_decode 阶段，每层需交换激活值，通信数据量 = 2 * BatchSize * HiddenDim * BytesPerParam * LayersPerStep。假设 BatchSize=1, HiddenDim=4096, Layers=64, BytesPerParam=2 (BF16)，总通信量 ≈ 104.8 MB/step。PCIe 4.0 x16 有效带宽 ≈ 50 GB/s (理论64GB/s扣除开销)，单次 AllReduce 耗时 ≈ 104.8MB / 50GB/s ≈ 2.1 ms。若 T_decode 计算耗时 ≈ 5 ms (基于4090算力估算)，通信占比 ≈ 2.1/5 = 42%。若采用 FP8 量化，通信量减半，占比降至 ≈ 21%。",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "pending",
+  "evidence": "父节点级核验未通过：非正交, 有冗余（子节点1（修正数据量）和子节点2（修正时间占比）存在严重逻辑重叠和依赖关系，并非正交：子节点2完全依赖于子节点1的修正结果，且两者都在处理同一个核心计算错误的不同阶段（输入修正 vs 输出修正）。此外，子节点2内部存在逻辑矛盾（先算出单次0.02ms，又突然得出64层总耗时1.28ms，中间缺乏推导，且1.28ms与1MB/50GBs的数量级不符，疑似混淆了层数或带宽单位）。子节点3是基于子节点2结论的延伸，虽有一定独立性，但前两个节点应合并。）",
+  "corrected_claim": "通信数据量计算错误：2 * 1 * 4096 * 2 * 64 = 1 MB，而非 104.8 MB。因此单次 AllReduce 耗时 ≈ 1MB / 50GB/s ≈ 0.02 ms。若 T_decode 计算耗时 ≈ 5 ms，通信占比 ≈ 0.02/5 = 0.4%。",
+  "rework_count": 0,
+  "parent_ids": [
+    "N26"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "",
+  "retrieval_sources": []
+}

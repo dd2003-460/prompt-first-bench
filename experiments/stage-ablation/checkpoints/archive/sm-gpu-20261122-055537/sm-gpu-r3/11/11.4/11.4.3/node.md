@@ -1,0 +1,20 @@
+# N384: TP=2 方案仅在短上下文（如 seq_len < 2048）且使用 NVLink 互联（如数据中心 GPU）时才具有正收益。在消费级 PCIe 互联下，当 s
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N120
+
+## Claim
+
+TP=2 方案仅在短上下文（如 seq_len < 2048）且使用 NVLink 互联（如数据中心 GPU）时才具有正收益。在消费级 PCIe 互联下，当 seq_len > 1024 时，All-Reduce 通信时间超过计算时间，导致吞吐量随序列长度增加而急剧下降。对于 32K 上下文，PCIe 互联的 TP=2 方案应被排除，唯一可行的多卡消费级方案是 Pipeline Parallelism (PP) 或 CPU Offload 混合，但其效率仍低于单卡 INT4。
+
+## Corrected Claim
+
+TP=2 方案仅在短上下文（如 seq_len < 2048）且使用 NVLink 互联（如数据中心 GPU）时才具有正收益。在消费级 PCIe 互联下，当 seq_len > 1024 时，All-Reduce 通信时间超过计算时间，导致吞吐量随序列长度增加而急剧下降。对于 32K 上下文，PCIe 互联的 TP=2 方案应被排除，唯一可行的多卡消费级方案是 Pipeline Parallelism (PP) 或 CPU Offload 混合，但其效率仍低于单卡 INT4。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe带宽远低于NVLink，TP通信开销随序列长度线性增加，在长上下文下确实会导致通信瓶颈，PP或Offload是更合理的替代方案。

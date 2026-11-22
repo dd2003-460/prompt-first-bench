@@ -1,0 +1,20 @@
+# N237: 基于 N90 计算出的 E[S] ≈ 100KB，100,000 个对象的总数据量 S_total = N_obj * E[S] = 100,000 * 100
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N86
+
+## Claim
+
+基于 N90 计算出的 E[S] ≈ 100KB，100,000 个对象的总数据量 S_total = N_obj * E[S] = 100,000 * 100KB = 10GB。由于 10GB < 128GB (缓存容量)，证实缓存覆盖率 k=1.0，所有对象均可常驻内存，支撑 LRU 稳态命中率下界为 100% 的结论。
+
+## Corrected Claim
+
+基于 N90 计算出的 E[S] ≈ 100KB，100,000 个对象的总数据量 S_total = N_obj * E[S] = 100,000 * 100KB = 10GB。由于 10GB < 128GB (缓存容量)，证实缓存覆盖率 k=1.0，所有对象均可常驻内存，支撑 LRU 稳态命中率下界为 100% 的结论。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：100,000 * 100KB = 10GB < 128GB，数学推导正确，且符合LRU缓存全覆盖时命中率100%的逻辑。

@@ -1,0 +1,24 @@
+# N11: 买家筛选行为的最优停止规则 (Optimal Stopping Rule)：买家设定一个保留价格 R，当遇到第一个价格 P < R 的商品时立即购买。由于 R 
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+买家筛选行为的最优停止规则 (Optimal Stopping Rule)：买家设定一个保留价格 R，当遇到第一个价格 P < R 的商品时立即购买。由于 R 受噪声影响且分布右偏，部分买家的 R 会高于市场均价，导致高价商品也能被快速吸收。
+
+## Corrected Claim
+
+买家筛选行为的最优停止规则 (Optimal Stopping Rule)：买家设定一个保留价格 R，当遇到第一个价格 P < R 的商品时立即购买。由于 R 受噪声影响且分布右偏，部分买家的 R 会高于市场均价，导致高价商品也能被快速吸收。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点分别对应分布参数、结果概率和等待时间，逻辑上正且不重复。但存在两处主要缺陷：1. 完备性不足，父节点强调‘右偏’导致高价吸收，但子节点1假设基础分布为‘正态’（对称），仅靠偏度系数κ无法在子节点2的正态CDF公式Φ中体现，导致逻辑断裂；2. 子节点3公式错误，最优停止的期望等待时间应为 1/(λ * q_target)，而非 -ln(1-q)/λ（后者是几何分布期望的近似或错误推导），且未明确q_target与P、R的具体函数关系。）
+
+## Search Query
+
+optimal stopping rule buyer reservation price distribution right-skewed

@@ -1,0 +1,24 @@
+# N146: 修正参数 λ 的推导：λ 不应是经验常数 0.2-0.4，而应关联于局部性强度 F。修正公式 H_corrected = H_independent * (1 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N61
+
+## Claim
+
+修正参数 λ 的推导：λ 不应是经验常数 0.2-0.4，而应关联于局部性强度 F。修正公式 H_corrected = H_independent * (1 + (F-1) * (1 - H_independent)) / F 的变体。若 F=10，且 H_independent=0.55，则修正项显著。更精确地，λ 应定义为 λ = (1 - 1/F) * (1 - P_cold)，其中 P_cold 为冷启动概率。对于高热度集中负载，P_cold 极低，λ 接近 0.9，导致命中率修正幅度远超 5-15 个百分点，可能高达 20-30 个百分点。
+
+## Corrected Claim
+
+在特定局部性模型假设下，修正参数 λ 可定义为 λ = (1 - 1/F) * (1 - P_cold)。对于高热度集中负载（F=10, P_cold≈0），λ 接近 0.9，理论上可带来显著的命中率修正（20-30 个百分点），但该结论依赖于具体的负载分布模型假设。
+
+## Evidence
+
+[质询]该陈述中的修正公式及 λ 的定义属于特定模型假设下的推导，并非通用的物理定律或数学恒等式。其核心假设（如局部性强度 F 与命中率修正的线性/特定函数关系）缺乏普适性，且“P_cold 极低导致 λ 接近 0.9”这一结论高度依赖于具体的负载分布模型，若模型假设不成立，数值结论将失效。 | 先验知识/题面给定，逻辑校验通过（公式内部自洽，量级合理），但作为经验性模型参数推导，缺乏通用性证明，且无外部来源支持其普适性。
+
+## Search Query
+
+cache hit rate correction factor bursty traffic Fano factor

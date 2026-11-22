@@ -1,0 +1,20 @@
+# N166: Spearman 秩相关系数在偏态数据下的适用性检验：若 T_close 和 ΔQ 的偏度 |Skew| > 0.5 或峰度 |Kurt| > 1，则使用 Sp
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N48, N49, N50
+
+## Claim
+
+Spearman 秩相关系数在偏态数据下的适用性检验：若 T_close 和 ΔQ 的偏度 |Skew| > 0.5 或峰度 |Kurt| > 1，则使用 Spearman ρ_s；其标准误差 SE_ρs ≈ 1.061 / sqrt(N-1)，对于 N=1000，SE_ρs ≈ 0.0334；该判据用于选择正确的统计检验方法，避免正态假设失效。
+
+## Corrected Claim
+
+Spearman 秩相关系数在偏态数据下的适用性检验：若 T_close 和 ΔQ 的偏度 |Skew| > 0.5 或峰度 |Kurt| > 1，则使用 Spearman ρ_s；其标准误差 SE_ρs ≈ 1.061 / sqrt(N-1)，对于 N=1000，SE_ρs ≈ 0.0334；该判据用于选择正确的统计检验方法，避免正态假设失效。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Spearman 秩相关系数适用于非正态/偏态数据；标准误差公式 SE ≈ 1.061/√(N-1) 是 Spearman 相关系数渐近标准误的常用近似（基于 Fisher z 变换或大样本正态近似），N=1000 时计算结果 1.061/√999 ≈ 0.0334 数值正确；偏度/峰度阈值作为启发式判据在统计实践中常见，逻辑自洽。

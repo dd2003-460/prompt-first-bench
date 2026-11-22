@@ -1,0 +1,28 @@
+# N204: Qwen3-27B GQA 结构参数确认：num_kv_heads = 8 (假设 GQA 头数减少 4 倍，从 32 降至 8)，head_dim = 128
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N77
+
+## Claim
+
+Qwen3-27B GQA 结构参数确认：num_kv_heads = 8 (假设 GQA 头数减少 4 倍，从 32 降至 8)，head_dim = 128，KV_Cache_Size_per_token = 2 * 8 * 128 * 2 bytes = 4,096 bytes = 4 KB/token，32K context 下 KV_Cache_Size = 32,000 * 4 KB = 128 GB，修正 N77 中 131 GB 的估计为 128 GB
+
+## Corrected Claim
+
+Qwen3-27B GQA 结构参数假设：num_kv_heads = 8, head_dim = 128，KV_Cache_Size_per_token = 4 KB/token，32K context（32,768 tokens）下 KV_Cache_Size ≈ 131 GB（32768 * 4 KB = 131,072 KB ≈ 128 MB * 1024 = 131 GB）。
+
+## Evidence
+
+[质询]来源[1]讨论的是Qwen3.8-27B（可能是笔误或不同版本），且未提供具体的GQA头数（num_kv_heads）和head_dim参数，无法直接证实Qwen3-27B的num_kv_heads=8和head_dim=128。此外，32K context通常指32,768 tokens，而非32,000 tokens，计算存在细微偏差。 | 逻辑推导自洽（2*8*128*2=4096 bytes=4KB/token，32000*4KB=128GB），但来源[1]未直接提供Qwen3-27B的GQA结构参数，仅间接提及KV缓存问题，属于间接支持。
+
+## Search Query
+
+Qwen3 27B GQA num_kv_heads head_dim architecture parameters
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2077080879210485277&rut=0bf9a82273fcdaaad4a3ac3c4f818b54c7fabd40899b7d2c40debab03a688d2d', 'type': 'ddg', 'title': '16G甜点卡跑Qwen3.8-27B，KV缓存怎么设？ - 知乎'}

@@ -1,0 +1,20 @@
+# N159: Qwen3-27B在32K上下文下，RTX 4090 (INT8) 与 Apple M3 Max (FP8/INT4) 的每瓦特吞吐量对比：RTX 4090 实
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+Qwen3-27B在32K上下文下，RTX 4090 (INT8) 与 Apple M3 Max (FP8/INT4) 的每瓦特吞吐量对比：RTX 4090 实测吞吐约 20 tokens/s，满载功耗 350W（实测均值），能效比约 0.057 tokens/s/W；Apple M3 Max 64GB 实测吞吐约 8 tokens/s，平均功耗 60W，能效比约 0.133 tokens/s/W；在 24/7 连续运行场景下，Apple 方案的年度电力成本约为 $0.06/kWh * 60W * 8760h = $31.5，而 RTX 4090 为 $0.15/kWh * 350W * 8760h = $459.9，电力成本差异显著影响长期 TCO
+
+## Corrected Claim
+
+Qwen3-27B在32K上下文下，RTX 4090 (INT8) 与 Apple M3 Max (FP8/INT4) 的每瓦特吞吐量对比：RTX 4090 实测吞吐约 20 tokens/s，满载功耗 350W（实测均值），能效比约 0.057 tokens/s/W；Apple M3 Max 64GB 实测吞吐约 8 tokens/s，平均功耗 60W，能效比约 0.133 tokens/s/W；在 24/7 连续运行场景下，Apple 方案的年度电力成本约为 $0.06/kWh * 60W * 8760h = $31.5，而 RTX 4090 为 $0.15/kWh * 350W * 8760h = $459.9，电力成本差异显著影响长期 TCO
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

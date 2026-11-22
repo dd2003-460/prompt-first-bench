@@ -1,0 +1,20 @@
+# N106: 卖家边际成本 C_marginal 的具体构成：C_marginal = C_logistics + C_packaging + C_time_cost，其中 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N27, N28, N29
+
+## Claim
+
+卖家边际成本 C_marginal 的具体构成：C_marginal = C_logistics + C_packaging + C_time_cost，其中 C_time_cost = W_seller * T_handling，W_seller 为卖家时薪，T_handling 为处理时间；需给出各分项的典型数值范围。
+
+## Corrected Claim
+
+卖家边际成本 C_marginal 的具体构成：C_marginal = C_logistics + C_packaging + C_time_cost，其中 C_time_cost = W_seller * T_handling，W_seller 为卖家时薪，T_handling 为处理时间；需给出各分项的典型数值范围。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点公式中的 C_logistics、C_packaging 以及 C_time_cost 的两个核心变量 W_seller 和 T_handling。各节点内容互不重叠（正交），且完整覆盖了公式中的所有分项及其数值范围/估算方法（完备）。虽然 W_seller 和 T_handling 共同构成 C_time_cost，但将其拆分为两个独立节点以便分别定义估算方法和典型值，符合学术分解中“变量定义”与“参数取值”的逻辑，不属于冗余。）

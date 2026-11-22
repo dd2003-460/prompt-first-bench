@@ -1,0 +1,24 @@
+# N157: RTX 5090 32GB 显存容量约束：运行 Qwen3-27B FP8 (27GB) + BF16 KV Cache (12.58GB for 32K) =
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N48
+
+## Claim
+
+RTX 5090 32GB 显存容量约束：运行 Qwen3-27B FP8 (27GB) + BF16 KV Cache (12.58GB for 32K) = 39.58GB > 32GB，溢出 7.58GB。必须使用 FP8 KV Cache (6.29GB) 或 INT4 KV Cache (3.145GB) 才能可行。若使用 FP8 KV Cache，总占用 33.29GB > 32GB，仍溢出 1.29GB (与 N114 一致)。因此，RTX 5090 单卡运行 32K 上下文 Qwen3-27B 必须使用 INT4 权重 (13.5GB) + FP8 KV (6.29GB) = 19.79GB，或 FP8 权重 (27GB) + INT4 KV (3.145GB) = 30.145GB。N48 仅指出‘适用于量化模型’，未明确量化深度必须达到 INT4 权重或混合精度。
+
+## Corrected Claim
+
+RTX 5090 32GB 显存容量约束：运行 Qwen3-27B FP8 (27GB) + BF16 KV Cache (12.58GB for 32K) = 39.58GB > 32GB，溢出 7.58GB。必须使用 FP8 KV Cache (6.29GB) 或 INT4 KV Cache (3.145GB) 才能可行。若使用 FP8 KV Cache，总占用 33.29GB > 32GB，仍溢出 1.29GB (与 N114 一致)。因此，RTX 5090 单卡运行 32K 上下文 Qwen3-27B 必须使用 INT4 权重 (13.5GB) + FP8 KV (6.29GB) = 19.79GB，或 FP8 权重 (27GB) + INT4 KV (3.145GB) = 30.145GB。N48 仅指出‘适用于量化模型’，未明确量化深度必须达到 INT4 权重或混合精度。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算正确（27+12.58=39.58, 39.58-32=7.58; 27+6.29=33.29, 33.29-32=1.29; 13.5+6.29=19.79; 27+3.145=30.145），且符合显存容量约束的基本逻辑。
+
+## Search Query
+
+RTX 5090 32GB VRAM Qwen3-27B 32K context memory footprint

@@ -1,0 +1,20 @@
+# N114: 2x RTX 4090 方案中，PCIe 4.0 互联带宽为 32 GB/s (单向)，无额外硬件成本 C_interconnect = $0，但需评估多卡通信
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N25
+
+## Claim
+
+2x RTX 4090 方案中，PCIe 4.0 互联带宽为 32 GB/s (单向)，无额外硬件成本 C_interconnect = $0，但需评估多卡通信开销对推理延迟的影响
+
+## Corrected Claim
+
+2x RTX 4090 方案中，PCIe 4.0 互联带宽为 32 GB/s (单向)，无额外硬件成本 C_interconnect = $0，但需评估多卡通信开销对推理延迟的影响
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1聚焦于硬件带宽事实的修正（带宽上限），子节点2聚焦于基于该带宽的通信开销量化评估（延迟影响），两者逻辑层层递进且互不重叠，完整覆盖了父节点中‘带宽确认’与‘延迟评估’两个核心任务。）

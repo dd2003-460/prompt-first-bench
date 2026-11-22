@@ -1,0 +1,24 @@
+# N66: 双重机制交互效应：总咨询量 Q_consult = f(W_shadow, V_quality) 需进行交互项回归 Q = β0 + β1*W + β2*V +
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N22
+
+## Claim
+
+双重机制交互效应：总咨询量 Q_consult = f(W_shadow, V_quality) 需进行交互项回归 Q = β0 + β1*W + β2*V + β3*W*V + ε，若交互项系数 β3 显著为负（p<0.05），则证明曝光下降与质量怀疑存在协同抑制效应，单独任一机制不足以解释60%无咨询现象。
+
+## Corrected Claim
+
+双重机制交互效应：总咨询量 Q_consult 受 W_shadow 和 V_quality 共同影响。通过包含交互项的回归模型 Q = β0 + β1*W + β2*V + β3*W*V + ε 进行检验，若交互项系数 β3 显著为负，则提示曝光下降与质量怀疑可能存在协同抑制效应，表明单一机制可能无法完全解释无咨询现象。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点分别关注统计功效（样本量）、经济显著性（效应阈值）和多重共线性（模型诊断），三者维度不同且无逻辑冲突，正交性良好；无冗余。但完备性不足：父节点明确要求“解释60%无咨询现象”，这通常涉及模型解释力（R²）或分类预测能力（如Logistic回归的AUC/准确率），而现有子节点仅关注回归系数β3的显著性和稳定性，未涵盖对“60%”这一具体业务指标的验证方法（如模型拟合优度检验或分类阈值设定）。）
+
+## Search Query
+
+interaction effect exposure quality signal consultation rate regression analysis marketplace

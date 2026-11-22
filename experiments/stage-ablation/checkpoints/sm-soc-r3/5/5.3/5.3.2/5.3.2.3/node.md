@@ -1,0 +1,24 @@
+# N275: 在高弹性敏感工作点 (ε_price = -2.5, ΔP = 15%) 下，δ_nonlinear ≈ -0.15，线性模型严重高估逐利动机，导致基于线性模型
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N93
+
+## Claim
+
+在高弹性敏感工作点 (ε_price = -2.5, ΔP = 15%) 下，δ_nonlinear ≈ -0.15，线性模型严重高估逐利动机，导致基于线性模型的降价建议阈值 ΔP_min 失效概率增加约 20%。
+
+## Corrected Claim
+
+在高弹性敏感工作点 (ε_price = -2.5, ΔP = 15%) 下，非线性效应显著，线性模型可能高估逐利动机，导致基于线性模型的降价建议阈值 ΔP_min 失效风险增加。
+
+## Evidence
+
+[质询]数值量级与具体系数缺乏理论或经验支撑：在价格弹性为-2.5且价格变动15%的线性近似下，非线性修正项（δ_nonlinear）通常远小于0.15（除非涉及极端非线性如断崖式需求或库存约束），且‘失效概率增加约20%’这一具体统计结论无法从给定的弹性参数直接推导，属于缺乏依据的经验性断言。 | 先验知识/题面给定，逻辑校验通过（方向性合理：非线性确实会导致线性模型偏差），但具体数值（-0.15, 20%）缺乏来源支持且量级存疑，故降级。
+
+## Search Query
+
+high price elasticity nonlinear revenue loss estimation bias

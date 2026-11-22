@@ -1,0 +1,20 @@
+# N230: 平台算法解释的权重 W_platform_algo = 0.15 * (1 + η_platform * ξ_s)，其中 η_platform 为平台算法对信号
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N75
+
+## Claim
+
+平台算法解释的权重 W_platform_algo = 0.15 * (1 + η_platform * ξ_s)，其中 η_platform 为平台算法对信号敏感度波动的响应系数（预期 0.05，因算法参数调整滞后），导致 W_platform_algo 在 [0.14, 0.16] 区间内随机波动，且三者权重之和恒等于 1.0。
+
+## Corrected Claim
+
+平台算法解释的权重 W_platform_algo = 0.15 * (1 + η_platform * ξ_s)，其中 η_platform 为平台算法对信号敏感度波动的响应系数（预期 0.05，因算法参数调整滞后），导致 W_platform_algo 在 [0.14, 0.16] 区间内随机波动，且三者权重之和恒等于 1.0。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算 0.15*(1±0.05) 确实落在 [0.1425, 0.1575] 区间，与声称的 [0.14, 0.16] 兼容；权重和为1是归一化约束，逻辑自洽。

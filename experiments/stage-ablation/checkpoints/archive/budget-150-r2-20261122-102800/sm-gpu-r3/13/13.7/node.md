@@ -1,0 +1,24 @@
+# N423: Intel Arc A770显存带宽与容量瓶颈：A770 (16GB GDDR6) 显存带宽为 512 GB/s，显存容量16GB完全无法容纳Qwen3-27B
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N166, N167, N168
+
+## Claim
+
+Intel Arc A770显存带宽与容量瓶颈：A770 (16GB GDDR6) 显存带宽为 512 GB/s，显存容量16GB完全无法容纳Qwen3-27B权重 (BF16 54.6GB / INT8 27.3GB)，即使W4量化 (13.65GB) 也仅剩~2.35GB显存，不足以支撑32K KV Cache (需~20GB+)，故A770在32K上下文场景下直接不可行，无需进一步CPR计算。
+
+## Corrected Claim
+
+Intel Arc A770显存带宽与容量瓶颈：A770 (16GB GDDR6) 显存带宽为 512 GB/s，显存容量16GB完全无法容纳Qwen3-27B权重 (BF16 54.6GB / INT8 27.3GB)，即使W4量化 (13.65GB) 也仅剩~2.35GB显存，不足以支撑32K KV Cache (需~20GB+)，故A770在32K上下文场景下直接不可行，无需进一步CPR计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A770 16GB显存确实无法容纳27B模型权重（即使W4量化后剩余显存不足2.35GB，远小于32K上下文所需的KV Cache空间），结论符合硬件规格与推理资源需求的基本逻辑。
+
+## Search Query
+
+Intel Arc A770 memory capacity bandwidth spec

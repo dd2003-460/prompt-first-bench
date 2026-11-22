@@ -1,0 +1,30 @@
+# N95: H100 SXM5 与 A100 SXM4 的 2024-2025 年市场均价比为 1.5-2.0 倍 (H100 ~$25k-$30k vs A100 ~$1
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N25
+
+## Claim
+
+H100 SXM5 与 A100 SXM4 的 2024-2025 年市场均价比为 1.5-2.0 倍 (H100 ~$25k-$30k vs A100 ~$15k-$18k)，结合 H100 更高的功耗 (700W vs 400W)，在电价 $0.15/kWh 下，3 年 TCO 中 OpEx 占比使得 H100 的性价比优势在利用率 >70% 时才显现。
+
+## Corrected Claim
+
+H100 SXM5 与 A100 SXM4 在 2024-2025 年的市场均价比约为 1.5-2.5 倍（H100 价格随时间显著下降，A100 亦大幅贬值），结合 H100 更高的功耗 (700W vs 400W)，在电价 $0.15/kWh 下，3 年 TCO 中 OpEx 占比使得 H100 的性价比优势在高利用率场景下才显现。
+
+## Evidence
+
+[质询]陈述中的具体价格数值（H100 ~$25k-$30k, A100 ~$15k-$18k）与2024-2025年实际市场均价存在偏差。根据行业报告，2024-2025年H100 SXM5的现货/租赁均价通常在$20k-$25k区间（随时间下降），而A100 SXM4在2024-2025年已大幅贬值，均价多在$10k-$15k区间，而非$15k-$18k。因此，1.5-2.0倍的价格比可能偏高，且基于此计算的TCO结论对价格假设敏感。 | 来源[2]和[3]确认了2024-2025年H100和A100的价格趋势及H100价格下降的事实，间接支持了H100价格高于A100的逻辑，但未提供陈述中具体的绝对价格数值以直接验证1.5-2.0倍的比例；经验事实（具体价格）缺乏直接来源支持，故降级。
+
+## Search Query
+
+H100 vs A100 price 2024 2025 TCO electricity cost utilization threshold
+
+## Retrieval Sources
+
+- {'url': 'https://computecomparison.com/gpu-price-history-charts-trends&rut=7bff5c04a6d60138318ac1af6adbacdde737460034f3f746c50b7bee060760df', 'type': 'ddg', 'title': 'GPU Price History — H100, A100 & RTX 4090 Trends | Compute Comparison'}
+- {'url': 'https://cast.ai/reports/gpu-price/&rut=d2eabee9b9b5b5f2951b48efe4771c4e6af11f2189c4b30ccac536e29924fc05', 'type': 'ddg', 'title': 'GPU Price 2025 Report - Cloud GPU Cost & Trends - Cast AI'}
+- {'url': 'https://www.gridstackhub.ai/learn/gpu-pricing-trends-2024-2026&rut=76dd7903a39ac4d0aaedd131de11ac71290456264cb27cd983a1e632ab697c48', 'type': 'ddg', 'title': 'GPU Cloud Pricing Trends 2024-2026: H100 Price Decline & B200 Impact'}

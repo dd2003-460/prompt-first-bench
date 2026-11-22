@@ -1,0 +1,20 @@
+# N119: γ_trust 的量化估算：信任缺失导致的核验时间增加。假设原核验时间为 T_verify_old=0.5小时，移除信号后买家需额外查看卖家信用分、历史评价等，
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N42
+
+## Claim
+
+γ_trust 的量化估算：信任缺失导致的核验时间增加。假设原核验时间为 T_verify_old=0.5小时，移除信号后买家需额外查看卖家信用分、历史评价等，T_verify_new=1.5小时，则 γ_trust = (1.5-0.5)/0.5 = 2.0。若原周期中核验占比 w_verify=20%，则对总周期的贡献为 2.0 * 20% = 40% 的额外时间。
+
+## Corrected Claim
+
+γ_trust 的量化估算：信任缺失导致的核验时间增加。假设原核验时间为 T_verify_old=0.5小时，移除信号后买家需额外查看卖家信用分、历史评价等，T_verify_new=1.5小时，则 γ_trust = (1.5-0.5)/0.5 = 2.0。若原周期中核验占比 w_verify=20%，则对总周期的贡献为 2.0 * 20% = 40% 的额外时间。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

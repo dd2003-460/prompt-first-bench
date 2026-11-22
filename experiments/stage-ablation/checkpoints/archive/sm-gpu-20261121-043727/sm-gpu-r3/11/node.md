@@ -1,0 +1,24 @@
+# N103: 候选硬件全集的筛选标准定义：显存容量下限为 32GB（以容纳 W4 量化权重+32K KV Cache），带宽下限为 800GB/s（以保障 T_decode 
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+候选硬件全集的筛选标准定义：显存容量下限为 32GB（以容纳 W4 量化权重+32K KV Cache），带宽下限为 800GB/s（以保障 T_decode < 50ms/token），架构代际限定为支持 FP8 或 INT8 硬件加速的 Ada/Hopper/MI300 系列；排除显存 <24GB 或带宽 <500GB/s 的旧代消费卡（如 RTX 3060/4070）及不支持主流 LLM 推理框架的非典型方案。
+
+## Corrected Claim
+
+候选硬件筛选通常考虑显存容量（需容纳量化权重及KV Cache）和内存带宽（影响解码速度），具体阈值（如32GB/800GB/s）取决于特定模型规模与延迟要求，需结合具体场景验证。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（三个子节点分别针对父节点中定义的三个核心筛选维度（带宽、显存、架构代际）进行了独立的验证与修正。内容上互不重叠（正交），且完整覆盖了父节点的所有关键约束条件（完备）。每个子节点解决的是不同硬件指标下的具体逻辑矛盾或边界问题，不存在冗余。）
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2082070983989642366&rut=9939b93a1121a7915715deba5de8c768354a599047087fdccbde9a48fd18e146', 'type': 'ddg', 'title': '《显存决定一切!2026大模型本地部署配置表：32GB/48GB/96GB怎么选？看完不花冤枉钱》'}

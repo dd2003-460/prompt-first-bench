@@ -1,0 +1,24 @@
+# N9: 降价无效投影：降价后48小时无咨询概率 P_no_inquiry = h(σ²_pref, λ_loss)，模型预测当降价幅度低于买家感知阈值 (Δp < 5%
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+降价无效投影：降价后48小时无咨询概率 P_no_inquiry = h(σ²_pref, λ_loss)，模型预测当降价幅度低于买家感知阈值 (Δp < 5%) 时，P_no_inquiry > 0.6，与观测值 60% 吻合，需验证 Δp 分布。
+
+## Corrected Claim
+
+降价无效投影：降价后48小时无咨询概率 P_no_inquiry 受偏好方差和损失厌恶影响，模型预测当降价幅度低于买家感知阈值时，无咨询概率显著升高，具体阈值与概率需通过数据验证。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（Δp < 5%）和概率数值（P > 0.6, 观测值 60%），这些属于市场行为统计规律，无法从第一性原理或数学公理严格推导，且缺乏外部来源支持其具体数值的准确性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+price cut ineffective buyer indifference threshold online auction

@@ -1,0 +1,30 @@
+# N186: 算法惩罚机制的触发阈值具体参数：在7天滚动窗口内，价格变动次数 N_change > 3 或 累计降幅 ΔP_cum > 15% 时，触发风控标记；该阈值需通过
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N66
+
+## Claim
+
+算法惩罚机制的触发阈值具体参数：在7天滚动窗口内，价格变动次数 N_change > 3 或 累计降幅 ΔP_cum > 15% 时，触发风控标记；该阈值需通过平台A/B测试数据或公开规则文档核实，当前为假设值。
+
+## Corrected Claim
+
+算法惩罚机制的触发阈值通常基于价格变动频率和累计降幅设定（如7天窗口内变动次数或降幅超过一定比例），具体参数（如N_change > 3 或 ΔP_cum > 15%）需依据特定平台的公开规则或A/B测试数据确定，当前数值为基于行业惯例的假设值。
+
+## Evidence
+
+[质询]该陈述明确承认具体参数（N_change > 3, ΔP_cum > 15%）为“假设值”，且参考来源均未提供电商平台风控的具体阈值数据，属于缺乏实证支持的经验性假设。 | 逻辑自洽（7天窗口、变动次数与降幅阈值在风控逻辑上合理），但参考来源[1][2][3]仅讨论动态阈值算法原理或量化交易滚动训练，未涉及电商价格风控的具体参数，无法提供直接支持；依据经验事实排除条款，判为degraded。
+
+## Search Query
+
+second-hand platform algorithm price change penalty threshold 7 days 15%
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_41429382/article/details/145400562&rut=e609746b9523348d6762a5de5cc85331dd645c64723c8b7acbefdd79f26a7620', 'type': 'ddg', 'title': '动态调整阈值的方法具体如何实现？_动态阈值算法-csdn博客'}
+- {'url': 'https://blog.csdn.net/fengidea/article/details/144648837&rut=07991d78a11276f0099eaf87193dce1f20a8bc60f19790c570722ec5c4734c83', 'type': 'ddg', 'title': '动态阈值和滑动窗口自适应 - Csdn博客'}
+- {'url': 'https://bigquant.com/wiki/doc/xVqIPu6RoI&rut=65e944f0665f1e1e81cfabcafc188cabdce0e0034ba84fa2181742492e520407', 'type': 'ddg', 'title': 'AI量化策略滚动训练最佳实践 - BigQuant量化交易'}

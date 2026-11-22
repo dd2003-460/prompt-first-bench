@@ -1,0 +1,20 @@
+# N395: 修正N163中总显存占用：若权重=27.0GB，KV Cache=1.99GB，激活值=2.5GB，则总显存占用为31.49GB。Mac Studio M2 U
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N163
+
+## Claim
+
+修正N163中总显存占用：若权重=27.0GB，KV Cache=1.99GB，激活值=2.5GB，则总显存占用为31.49GB。Mac Studio M2 Ultra统一内存带宽为1200 GB/s，理论吞吐上限 = 1200 / 31.49 ≈ 38.1 tokens/s。
+
+## Corrected Claim
+
+修正N163中总显存占用：若权重=27.0GB，KV Cache=1.99GB，激活值=2.5GB，则总显存占用为31.49GB。Mac Studio M2 Ultra统一内存带宽为1200 GB/s，理论吞吐上限 = 1200 / 31.49 ≈ 38.1 tokens/s。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算 27.0+1.99+2.5=31.49 正确，1200/31.49≈38.1 正确，M2 Ultra 带宽 1200GB/s 符合已知规格。

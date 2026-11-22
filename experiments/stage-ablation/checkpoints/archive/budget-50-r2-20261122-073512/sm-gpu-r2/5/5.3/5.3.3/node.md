@@ -1,0 +1,28 @@
+# N173: 若 Qwen3-27B 无官方量化评测数据，则引用 Llama-3-70B 的量化退化曲线作为代理指标：Llama-3-70B 在 BF16 到 INT8 量化
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N30
+
+## Claim
+
+若 Qwen3-27B 无官方量化评测数据，则引用 Llama-3-70B 的量化退化曲线作为代理指标：Llama-3-70B 在 BF16 到 INT8 量化下的 MMLU 准确率下降为 1.2 个百分点，到 FP8 量化下的 GSM8K 准确率下降为 0.6 个百分点，假设 Qwen3-27B 的退化曲线与 Llama-3-70B 相似。
+
+## Corrected Claim
+
+若 Qwen3-27B 无官方量化评测数据，可参考 Llama-3-70B 的量化退化趋势作为定性参考，但具体退化幅度（如 MMLU 下降 1.2 个百分点等）需依据实际测试数据确认，不同规模模型的量化敏感性可能存在差异。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值（Llama-3-70B 在 BF16 到 INT8 的 MMLU 下降 1.2 个百分点，FP8 的 GSM8K 下降 0.6 个百分点），这些具体参数值属于经验事实，无法从第一性原理推导。此外，将 70B 模型的量化退化曲线直接假设为 27B 模型的代理指标，忽略了模型规模、架构差异对量化敏感性的影响，存在逻辑上的过度简化。 | 参考来源 [1] 仅涉及 Qwen 3.6-27B 的编程能力评测，未提及任何量化退化数据或 Llama-3-70B 的相关指标，属于无关来源。该事实为经验事实，逻辑上虽自洽（假设相似性），但缺乏来源直接支持具体数值，故降级。
+
+## Search Query
+
+Llama-3-70B INT8 FP8 quantization MMLU GSM8K accuracy drop
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2055287697623856945&rut=14f87529b9ee7d395b6406d38356557f40dc59fc1805db48752b3d5db17634e8', 'type': 'ddg', 'title': 'Qwen 3.6 27B深度评测：27B参数单挑397B，本地跑AI编程的时代来了'}

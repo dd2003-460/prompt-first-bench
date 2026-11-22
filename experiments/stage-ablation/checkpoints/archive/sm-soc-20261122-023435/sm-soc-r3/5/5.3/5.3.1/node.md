@@ -1,0 +1,24 @@
+# N66: 主动降价与被动降价的行为区分指标：定义主动降价概率 P_active = (N_manual_price_cut / N_total_price_cut)，若 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N21
+
+## Claim
+
+主动降价与被动降价的行为区分指标：定义主动降价概率 P_active = (N_manual_price_cut / N_total_price_cut)，若 P_active > 0.8，则‘60%无咨询’归因于买家等待心理（Price Stability Expectation），置信度升至 0.9；若 P_active < 0.5，则归因于平台算法降权，置信度降至 0.5。
+
+## Corrected Claim
+
+主动降价与被动降价的行为区分指标：定义主动降价概率 P_active = (N_manual_price_cut / N_total_price_cut)。通常认为较高的 P_active 倾向于归因于买家等待心理（Price Stability Expectation），而较低的 P_active 倾向于归因于平台算法降权，具体阈值需根据数据分布确定。
+
+## Evidence
+
+[质询]该陈述定义了具体的阈值（0.8, 0.5）和置信度数值（0.9, 0.5），属于经验性统计规律或特定模型参数，无法从第一性原理或数学公理中严格推导出来，且缺乏外部来源支持其具体数值的合理性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+proactive vs passive price reduction buyer inquiry rate e-commerce

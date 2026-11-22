@@ -1,0 +1,20 @@
+# N82: RTX 4090 (24GB) 运行 Qwen3-27B INT4 的显存占用验证：模型权重 (~14GB) + KV Cache (32K, BF16, ~6
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N25
+
+## Claim
+
+RTX 4090 (24GB) 运行 Qwen3-27B INT4 的显存占用验证：模型权重 (~14GB) + KV Cache (32K, BF16, ~6GB) + 激活值/框架开销 (~2GB) = 22GB，低于 24GB 上限，剩余 2GB 缓冲，确认可行。
+
+## Corrected Claim
+
+RTX 4090 (24GB) 运行 Qwen3-27B INT4 的显存占用验证：模型权重 (~14GB) + KV Cache (32K, BF16, ~6GB) + 激活值/框架开销 (~2GB) = 22GB，低于 24GB 上限，剩余 2GB 缓冲，确认可行。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点逻辑清晰且正交：节点1修正权重估算，节点2修正KV Cache估算（指出父节点低估），节点3基于修正值重新计算总显存并推翻父节点结论，节点4提供替代方案（FP8）验证可行性。各节点分别处理不同组件（权重、KV Cache、总账、优化方案），无内容重复或矛盾。完备性方面，覆盖了显存占用的所有主要组成部分及可行性判断，并提供了必要的修正和替代路径。）

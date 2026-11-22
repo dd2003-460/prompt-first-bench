@@ -1,0 +1,30 @@
+# N14: W4 (4-bit weight-only) 精度下，Qwen3-27B 的量化误差指标需检索相关评测，通常比 NVFP4 稳定但仍有 3-5% 的质量损失风险
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N2
+
+## Claim
+
+W4 (4-bit weight-only) 精度下，Qwen3-27B 的量化误差指标需检索相关评测，通常比 NVFP4 稳定但仍有 3-5% 的质量损失风险，需对比 NVFP4。
+
+## Corrected Claim
+
+W4 (4-bit weight-only) 精度下，Qwen3-27B 的量化误差通常较小（实测显示几乎无损或轻微退化），具体质量损失需结合基准测试评估，且需与 NVFP4 等其他量化格式进行对比以确认稳定性优势。
+
+## Evidence
+
+[质询]陈述中“通常比 NVFP4 稳定”属于缺乏普遍理论支持的强对比结论，且“3-5% 的质量损失风险”为具体经验数值，参考来源仅证实 4-bit 量化“几乎无损”或“无感”，未提供与 NVFP4 的对比数据或具体的 3-5% 误差区间，存在将特定模型/场景的“无感”泛化为具体百分比损失及跨格式优劣对比的风险。 | 来源 [3] 支持 4-bit 量化在 Qwen3.8-27B 上“几乎无损/无感”，逻辑上兼容“仍有少量损失”的定性描述，但所有来源均未提及 NVFP4 对比或具体的 3-5% 数值，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+Qwen3-27B W4 weight-only quantization benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_00393/article/details/165341184&rut=0342d368eea13f119217e58929856d6318ea586cb0361988494568b26d1bb082', 'type': 'ddg', 'title': '如何快速理解 GPTQ 4-bit 量化？Qwen3.8-27B-GPTQ-Int4 用 W4A16 把 27B 压进'}
+- {'url': 'https://blog.csdn.net/patrickstar231/article/details/163851680&rut=5015e90108e515c59340b302f9e4e6abde45768219ccddef447878c06773bba8', 'type': 'ddg', 'title': 'Qwen3.8-27B 本地部署实战：4-bit 量化后 17GB 显存跑起 27B 开源模型_本地运行qwen3.8'}
+- {'url': 'https://aibsz.com/2026/09/09/qwen38-27b-quantization-benchmark-2026/&rut=475ddd7303b528d3ed97c659dbef66d541bae1c4ccfd671c114030319d265b1f', 'type': 'ddg', 'title': 'Qwen3.8 27B量化实测：4-bit无感、1-bit崩盘，本地跑大模型的临界线终于画清楚了'}

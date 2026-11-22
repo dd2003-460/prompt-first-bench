@@ -1,0 +1,24 @@
+# N173: BF16 精度下权重显存占用计算：Qwen3-27B 参数量约 27B，BF16 (2 bytes/param) 下权重占用 = 27e9 * 2 / 1e9 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N39
+
+## Claim
+
+BF16 精度下权重显存占用计算：Qwen3-27B 参数量约 27B，BF16 (2 bytes/param) 下权重占用 = 27e9 * 2 / 1e9 = 54 GB。总显存需求 = 权重 (54 GB) + KV Cache (2.8 GB) + 激活值/框架开销 (估计 2-4 GB) ≈ 59-61 GB，这直接排除了单张 RTX 4090 (24GB) 运行 BF16 模型的可能性，强制要求多卡或量化。
+
+## Corrected Claim
+
+BF16 精度下权重显存占用计算：Qwen3-27B 参数量约 27B，BF16 (2 bytes/param) 下权重占用 = 27e9 * 2 / 1e9 = 54 GB。总显存需求 = 权重 (54 GB) + KV Cache (2.8 GB) + 激活值/框架开销 (估计 2-4 GB) ≈ 59-61 GB，这直接排除了单张 RTX 4090 (24GB) 运行 BF16 模型的可能性，强制要求多卡或量化。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数在BF16下占用54GB显存，加上KV Cache和激活值开销，总需求远超单张RTX 4090的24GB显存，结论符合硬件规格与计算逻辑。
+
+## Search Query
+
+Qwen3-27B parameter count BF16 memory footprint

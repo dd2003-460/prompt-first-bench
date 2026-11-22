@@ -1,0 +1,20 @@
+# N61: 修正公式推导：字节命中率 H_bytes = H_req * (E[S_hit]/E[S_miss])。由于 ρ<0，E[S_hit] < E[S_miss]，
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N22
+
+## Claim
+
+修正公式推导：字节命中率 H_bytes = H_req * (E[S_hit]/E[S_miss])。由于 ρ<0，E[S_hit] < E[S_miss]，故 H_bytes < H_req。若 K 定义为 E[S_hit]/E[S_miss]，则 K < 1，H_bytes = H_req * K。因此，N7 中的 H_corrected = H_LRU / K 方向错误，应为 H_corrected = H_LRU * K，其中 K = E[S_hit]/E[S_miss] < 1。
+
+## Corrected Claim
+
+修正公式推导：字节命中率 H_bytes = H_req * (E[S_hit]/E[S_miss])。由于 ρ<0，E[S_hit] < E[S_miss]，故 H_bytes < H_req。若 K 定义为 E[S_hit]/E[S_miss]，则 K < 1，H_bytes = H_req * K。因此，N7 中的 H_corrected = H_LRU / K 方向错误，应为 H_corrected = H_LRU * K，其中 K = E[S_hit]/E[S_miss] < 1。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：字节命中率定义为命中字节数与总请求字节数之比，即 H_bytes = (H_req * E[S_hit]) / (H_req * E[S_miss]) = H_req * (E[S_hit]/E[S_miss])。若定义 K = E[S_hit]/E[S_miss]，则 H_bytes = H_req * K。原陈述中关于方向错误的修正逻辑（从除以K变为乘以K，且K<1）在数学推导上是自洽且正确的。

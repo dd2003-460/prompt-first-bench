@@ -1,0 +1,24 @@
+# N217: RTX 4090 的 INT8 吞吐量 660 TOPS 是 FP8 的 2 倍，但 INT8 量化在 Qwen3-27B 上通常需要 SmoothQuant 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N60
+
+## Claim
+
+RTX 4090 的 INT8 吞吐量 660 TOPS 是 FP8 的 2 倍，但 INT8 量化在 Qwen3-27B 上通常需要 SmoothQuant 或 AWQ 处理激活值离群值，而 FP8 原生支持动态范围更大，因此在相同精度约束下，FP8 的硬件利用率可能高于 INT8，导致实际 FP8 吞吐可能接近或超过 INT8 [待核验]。
+
+## Corrected Claim
+
+RTX 4090 支持 FP8 和 INT8 量化，FP8 具有更大的动态范围，可能在某些场景下提供更高的精度或效率，但具体吞吐量对比取决于实现细节和软件优化，需参考具体基准测试数据。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件性能数值（660 TOPS）和复杂的量化算法行为对比（SmoothQuant/AWQ vs FP8动态范围），属于经验事实。虽然RTX 4090的INT8/FP8理论峰值确实存在2倍关系（基于Ada Lovelace架构的Tensor Core特性），但‘FP8硬件利用率可能高于INT8’这一结论依赖于具体的模型结构、量化实现细节及软件栈优化，并非绝对真理，且缺乏来源支持其具体数值和因果推断。 | 先验知识/题面给定，逻辑校验通过：RTX 4090基于Ada Lovelace架构，其Tensor Core对FP8和INT8的支持确实存在理论峰值差异（通常FP8峰值约为INT8的2倍，或INT8为FP8的2倍，需具体查证，但此处陈述称INT8是FP8的2倍，这与常见认知（FP8通常比INT8更宽动态范围但位宽相同，吞吐量通常相近或FP8略高/持平，具体取决于是否使用稀疏性）可能存在偏差。然而，根据NVIDIA官方数据，RTX 4090的FP8 Tensor Core吞吐量通常被宣传为比INT8更高或相当，因为FP8是原生支持的更现代格式。若INT8是660 TOPS，FP8通常也是660 TOPS或更高（如1320 TOPS if sparse）。陈述称INT8是FP8的2倍，这在逻辑上可能存疑，因为FP8通常被视为更高效的格式。但鉴于source为knowledge，且无外部来源矛盾，主要降级原因是缺乏来源支持具体数值和复杂因果链。
+
+## Search Query
+
+RTX 4090 FP8 vs INT8 actual throughput comparison LLM inference

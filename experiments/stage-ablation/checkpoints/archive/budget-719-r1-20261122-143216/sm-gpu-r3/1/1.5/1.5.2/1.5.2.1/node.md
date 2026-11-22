@@ -1,0 +1,24 @@
+# N182: 在 HellaSwag 任务上，Qwen3-27B 从 BF16 量化至 NVFP4 (4-bit) 时，准确率下降幅度通常为 1.5% - 3.0%，具体数值
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N54
+
+## Claim
+
+在 HellaSwag 任务上，Qwen3-27B 从 BF16 量化至 NVFP4 (4-bit) 时，准确率下降幅度通常为 1.5% - 3.0%，具体数值取决于量化算法（如 GPTQ vs AWQ）及校准数据质量，需对比 BF16 基线分数计算 ΔAccuracy
+
+## Corrected Claim
+
+在 HellaSwag 任务上，Qwen3-27B 从 BF16 量化至 NVFP4 (4-bit) 时，准确率通常会有所下降，具体下降幅度取决于量化算法（如 GPTQ vs AWQ）及校准数据质量，需对比 BF16 基线分数计算 ΔAccuracy。
+
+## Evidence
+
+[质询]具体数值范围（1.5% - 3.0%）属于经验事实，缺乏通用性保证，不同量化算法（GPTQ/AWQ）和校准数据质量会导致显著差异，且该范围可能因具体模型版本或任务子集而波动，无法仅凭逻辑推导确定。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Qwen3 27B NVFP4 quantization HellaSwog accuracy drop

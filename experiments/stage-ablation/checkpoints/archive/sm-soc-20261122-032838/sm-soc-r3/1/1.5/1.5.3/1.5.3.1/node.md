@@ -1,0 +1,24 @@
+# N154: 参数独立性检验：α 与 P_threshold 是否独立？若平台算法（决定 α）基于用户行为数据（决定 P_threshold 的观测值）进行优化，则两者可能存
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N50
+
+## Claim
+
+参数独立性检验：α 与 P_threshold 是否独立？若平台算法（决定 α）基于用户行为数据（决定 P_threshold 的观测值）进行优化，则两者可能存在内生性相关。例如，若平台发现高溢价商品停留时间长（DwellTime），可能同时提高 α 并容忍更高的 P_threshold。需计算 α 与 μ_th 的 Spearman 相关系数 ρ_αθ。若 ρ_αθ > 0.3，则‘独立’假设失效，联合判定需引入协方差项，参数空间可能为空。
+
+## Corrected Claim
+
+参数独立性检验：α 与 P_threshold 可能存在内生性相关。若平台算法基于用户行为数据优化，两者可能非独立。需计算 α 与 μ_th 的 Spearman 相关系数 ρ_αθ。若 ρ_αθ 显著不为零（具体阈值需根据业务场景确定，如 > 0.3），则‘独立’假设失效，联合判定需引入协方差项。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（ρ_αθ > 0.3）和特定的业务逻辑假设（平台算法同时调整α和P_threshold），这些属于经验事实或特定场景假设，无法从第一性原理严格推导，且缺乏外部来源支持其普适性或具体数值阈值的合理性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+endogeneity platform algorithm parameters user behavior threshold correlation

@@ -1,0 +1,29 @@
+# N66: TakeRate 的基准值：平台当前对二手交易收取的技术服务费/佣金比例，通常在 2%-5% 区间（参考闲鱼、转转等平台公开数据），需确认具体品类的费率。
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N24
+
+## Claim
+
+TakeRate 的基准值：平台当前对二手交易收取的技术服务费/佣金比例，通常在 2%-5% 区间（参考闲鱼、转转等平台公开数据），需确认具体品类的费率。
+
+## Corrected Claim
+
+TakeRate 的基准值：平台当前对二手交易收取的技术服务费/佣金比例，具体数值需参考闲鱼、转转等平台最新公开数据，通常处于较低区间（如 2%-5% 左右，需进一步核实）。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点将父节点中客观存在的'基准值/当前费率'分解为了两个假设性的'工作点/策略场景'（2%和5%），这混淆了'现状描述'与'策略推演'。父节点强调的是'确认当前具体费率的基准值'，而子节点变成了'不同费率策略下的市场反应分析'，未能直接回答'当前具体是多少'或'如何确定当前基准'。此外，这两个子节点本质上是同一参数（TakeRate）在不同取值下的表现，存在冗余，且未涵盖父节点提到的'需确认具体品类费率'这一关键执行步骤。）
+
+## Search Query
+
+second-hand platform take rate commission fee benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://www.wallstreetmojo.com/take-rate/&rut=e477d863bb28de758a8c14edcf5232db1bdf45d6f386b03c20b28eb2c444e60f', 'type': 'ddg', 'title': 'Take Rate - What It Is, Explained, Formula, Calculation, Examples'}
+- {'url': 'https://portfolioiq.ai/databook/take-rate&rut=7737080cb2079dd8efe04220dfc8d992b7b50fd5358bde778886108de17f6380', 'type': 'ddg', 'title': 'PortfolioIQ Metric Dictionary - Take Rate %'}

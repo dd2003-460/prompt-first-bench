@@ -1,0 +1,20 @@
+# N176: 快速成交GMV增量项 $\Delta GMV_{volume}$ 的弹性推导：定义为 $\Delta GMV_{volume} = P_{ref} \times
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N57
+
+## Claim
+
+快速成交GMV增量项 $\Delta GMV_{volume}$ 的弹性推导：定义为 $\Delta GMV_{volume} = P_{ref} \times \Delta Q$，其中 $\Delta Q = Q_{base} \times \epsilon_d \times \frac{\Delta T_{sale}}{T_{base}}$。若成交周期缩短导致交易量增加，该项数值取决于需求弹性 $\epsilon_d$ 和成交周期缩短比例，是打破均衡后平台可能损失的GMV来源。
+
+## Corrected Claim
+
+快速成交GMV增量项 $\Delta GMV_{volume}$ 的弹性推导：定义为 $\Delta GMV_{volume} = P_{ref} \times \Delta Q$，其中 $\Delta Q = Q_{base} \times \epsilon_d \times \frac{\Delta T_{sale}}{T_{base}}$。若成交周期缩短导致交易量增加，该项数值取决于需求弹性 $\epsilon_d$ 和成交周期缩短比例，是打破均衡后平台可能损失的GMV来源。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

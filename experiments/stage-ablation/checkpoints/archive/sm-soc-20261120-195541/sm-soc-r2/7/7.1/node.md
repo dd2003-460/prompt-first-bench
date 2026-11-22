@@ -1,0 +1,24 @@
+# N61: β_platform ≈ 0.3 的一手来源验证：需检索平台A/B测试报告或算法日志，验证曝光权重 W 对价格偏差 ΔP 的弹性 ∂ln(W)/∂ln(ΔP) 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N21
+
+## Claim
+
+β_platform ≈ 0.3 的一手来源验证：需检索平台A/B测试报告或算法日志，验证曝光权重 W 对价格偏差 ΔP 的弹性 ∂ln(W)/∂ln(ΔP) 是否在 0.3±0.05 区间内，若缺乏公开数据则标记为[待核验]并基于竞品逆向工程估计。
+
+## Corrected Claim
+
+β_platform 的具体数值（如 0.3）缺乏公开数据支持，应标记为[待核验]，建议基于竞品逆向工程或内部 A/B 测试数据进行估计，而非直接断言其值在 0.3±0.05 区间内。
+
+## Evidence
+
+[质询]该陈述声称存在一个具体的弹性系数 β_platform ≈ 0.3，但缺乏任何公开数据或一手来源支持，属于未经证实的经验性数值假设。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值 0.3±0.05 的真实性）
+
+## Search Query
+
+e-commerce platform recommendation algorithm price elasticity exposure weight A/B test results

@@ -1,0 +1,28 @@
+# N11: 非典型/新兴硬件候选集筛选：包括 AMD MI300X (192GB HBM3), MI300A, Apple M4 Ultra (128GB Unified 
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+非典型/新兴硬件候选集筛选：包括 AMD MI300X (192GB HBM3), MI300A, Apple M4 Ultra (128GB Unified Memory), Intel Gaudi 3。需评估其软件栈对 Qwen3 的支持程度及实际可用显存比例。
+
+## Corrected Claim
+
+非典型/新兴硬件候选集筛选：包括 AMD MI300X, MI300A, Apple M4 Ultra, Intel Gaudi 3 等。需评估其软件栈对 Qwen3 的支持程度及实际可用显存比例。（注：具体显存容量需进一步核实官方规格书）
+
+## Evidence
+
+[质询]该陈述包含多个具体的硬件规格参数（如 MI300X 192GB HBM3, M4 Ultra 128GB）及软件栈支持情况，属于经验事实。参考来源 [1] 仅确认了 MI300X 的存在及其面向生成式 AI 的定位，但未提供具体的显存容量数值，也未涵盖 Apple M4 Ultra、Intel Gaudi 3 等其他硬件，更未涉及 Qwen3 的软件栈支持细节。因此，无法通过现有来源直接验证所有具体数值和兼容性断言。 | 来源 [1] 间接支持 MI300X 作为 AI 加速器的身份，但缺乏具体显存数值及其他硬件（M4 Ultra, Gaudi 3）的证据；作为经验事实，逻辑自洽但缺充分来源支持，故降级。
+
+## Search Query
+
+AMD MI300X Apple M4 Ultra LLM inference performance Qwen3 support
+
+## Retrieval Sources
+
+- {'url': 'https://www.amd.com/en/products/accelerators/instinct/mi300/mi300x.html&rut=6bd1d4a5b76525d5cf51f2f1fddd8511344271395216d7375ac569e93a84ee85', 'type': 'ddg', 'title': 'AMD Instinct™ MI300X Accelerators'}

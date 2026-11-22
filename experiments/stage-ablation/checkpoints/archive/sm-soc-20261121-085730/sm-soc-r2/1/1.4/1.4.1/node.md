@@ -1,0 +1,28 @@
+# N53: 买家核验阈值 T_trigger 的实证分布：在二手非标品市场中，买家触发‘高估’认知或放弃购买的溢价率阈值并非固定1.25，而是服从截断正态分布，其均值μ_t
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N9
+
+## Claim
+
+买家核验阈值 T_trigger 的实证分布：在二手非标品市场中，买家触发‘高估’认知或放弃购买的溢价率阈值并非固定1.25，而是服从截断正态分布，其均值μ_trigger约为1.18，标准差σ_trigger约为0.08，需通过历史成交与放弃咨询数据回归确定。
+
+## Corrected Claim
+
+买家核验阈值 T_trigger 在二手非标品市场中并非固定值，而是服从某种概率分布（如正态分布），其具体均值和标准差需通过历史成交与放弃咨询数据回归确定，而非直接断定为均值1.18、标准差0.08。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性统计参数（均值1.18，标准差0.08）和特定的分布假设（截断正态），这些属于二手非标品市场的特定实证数据，无法从第一性原理推导，且参考来源仅提供了通用定义，未提供具体数值支持，存在数据无据的风险。 | 逻辑自洽（阈值服从分布符合行为经济学直觉），但参考来源[1]仅定义概念，未提供具体数值或分布参数，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+second hand market price threshold buyer perception overpricing distribution regression
+
+## Retrieval Sources
+
+- {'url': 'https://kaidian.idocdown.com/app/articles/blogs/detail/2959&rut=48701ffd6ee8ffcf09a3e274c49b53dab50fde0e8cdb649869b9d14e37cdc21b', 'type': 'ddg', 'title': '顾客行为触发阈值（Customer Behavior Trigger Threshold）的量化、干预与商业应用'}

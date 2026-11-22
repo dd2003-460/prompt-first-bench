@@ -1,0 +1,20 @@
+# N171: 工作点 B（重尾修正）：采用截断期望 E[S]_trunc = 10MB (N70 假设)，Total_Bytes = 50,000,000 * 10 * 10
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N69, N70, N72
+
+## Claim
+
+工作点 B（重尾修正）：采用截断期望 E[S]_trunc = 10MB (N70 假设)，Total_Bytes = 50,000,000 * 10 * 1024² ≈ 5.2 * 10^14 bytes/day，对应缓存覆盖率 C_ratio ≈ 0.25%，命中率下界 H_lru ≈ 55%（因热点对象更小，字节命中率略升）。
+
+## Corrected Claim
+
+工作点 B（重尾修正）：采用截断期望 E[S]_trunc = 10MB (N70 假设)，Total_Bytes = 50,000,000 * 10 * 1024² ≈ 5.2 * 10^14 bytes/day，对应缓存覆盖率 C_ratio ≈ 0.25%，命中率下界 H_lru ≈ 55%（因热点对象更小，字节命中率略升）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算 50,000,000 * 10 * 1024^2 ≈ 5.24 * 10^14 正确；缓存覆盖率与命中率的定性关系符合重尾分布下热点对象更小的直觉。

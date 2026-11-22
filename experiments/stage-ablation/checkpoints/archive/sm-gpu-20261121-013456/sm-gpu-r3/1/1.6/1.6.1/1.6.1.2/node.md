@@ -1,0 +1,30 @@
+# N169: FP8 KV Cache 对长文本逻辑连贯性（Perplexity）的影响量化：在 WikiText-103 长文本片段上，FP8 KV Cache 相比 BF
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N65
+
+## Claim
+
+FP8 KV Cache 对长文本逻辑连贯性（Perplexity）的影响量化：在 WikiText-103 长文本片段上，FP8 KV Cache 相比 BF16 的 Perplexity 增加量（ΔPPL）若 >0.05，则表明量化误差累积显著，需检查特定层（如最后8层）是否应保留 BF16 混合精度。
+
+## Corrected Claim
+
+FP8 KV Cache 在长文本场景下相比 BF16 会导致 Perplexity 增加（精度下降），具体增加量取决于模型和上下文长度，需通过实验确定是否需要采用混合精度策略（如保留部分层为 BF16）以平衡显存与精度。
+
+## Evidence
+
+[质询]陈述中提出的具体阈值（ΔPPL > 0.05）及对应的特定层保留策略（最后8层）属于经验性工程参数，参考来源仅定性描述了FP8 KV Cache在长上下文下存在精度损耗，但未提供WikiText-103上的具体Perplexity增量数值或该特定阈值的实证支持，存在将定性结论量化为具体数值标准且缺乏来源直接佐证的风险。 | 来源[1]和[2]直接支持FP8 KV Cache在长上下文场景下会导致精度下降（Perplexity增加）这一逻辑前提，但均未提供ΔPPL>0.05的具体数值阈值或最后8层混合精度的具体建议，属于间接支持定性结论，缺乏对具体量化指标的验证。
+
+## Search Query
+
+FP8 KV cache perplexity increase long text generation Qwen3 27B
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_29045585/article/details/169788624&rut=3223651e989802aee120797f6c72dd7ac5e8177dcc4795cb11c83e652baf5c9d', 'type': 'ddg', 'title': 'FP8 KV Cache实测：显存减半但吞吐提升有限，长上下文精度有损-CSDN博客'}
+- {'url': 'https://blog.csdn.net/weixin_29041195/article/details/168530628&rut=ec9345c3e2e45363ded1575664f8d162e0cd11d0141dfd72340adb79c6da25a0', 'type': 'ddg', 'title': 'FP8量化与长上下文推理：从权重压缩到KV Cache优化的工程实践-CSDN博客'}
+- {'url': 'https://www.oh-bug.com/zh/posts/kv-cache-quantization-production-fp8-int8/&rut=cb88e85bdb2f008f69d8df16061470630553ca48714b927d247b3845b8c7f534', 'type': 'ddg', 'title': 'KV Cache 量化生产实战：用 FP8/INT8 降低长上下文推理显存压力 | LLM Pioneer Hub'}

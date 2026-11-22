@@ -1,0 +1,20 @@
+# N203: 在 S_min=1KB, S_max=100MB 截断下，Pareto(α=1.1) 的截断均值 E[S]_trunc = 1KB * 1.1/0.1 * [1
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N74
+
+## Claim
+
+在 S_min=1KB, S_max=100MB 截断下，Pareto(α=1.1) 的截断均值 E[S]_trunc = 1KB * 1.1/0.1 * [1 - (100000)^(-0.1)] / [1 - (100000)^(-0.1)] ≈ 11KB * (1 - 0.0316) ≈ 10.65KB，修正后 S_total ≈ 1.065GB，C/S_total ≈ 120，此时 H_LRU 下界由容量约束主导而非大小分布主导。
+
+## Corrected Claim
+
+在 S_min=1KB, S_max=100MB 截断下，Pareto(α=1.1) 的截断均值需通过积分 E[S]_trunc = ∫_{S_min}^{S_max} s * f(s) ds / ∫_{S_min}^{S_max} f(s) ds 计算，其中 f(s) 为截断后的归一化密度函数，原公式中分母分子相同导致修正项无效，实际截断均值应显著高于10.65KB，S_total 和 C/S_total 需重新估算。
+
+## Evidence
+
+[质询]截断Pareto分布的均值公式应用存在逻辑瑕疵：标准截断Pareto分布（在[S_min, S_max]均匀截断）的均值并非简单的 S_min * α/(α-1) * [1-(S_max/S_min)^{1-α}]/[1-(S_max/S_min)^{1-α}]，该公式分母分子相同导致比值恒为1，忽略了截断对概率密度的归一化影响，实际截断均值应通过积分计算，且对于α=1.1，截断上限100MB对均值的影响远大于0.0316的修正量，导致S_total估算偏低。 | 先验知识/题面给定，逻辑校验发现截断均值公式推导错误，分母分子相同导致修正项无效，实际截断Pareto分布均值需重新积分计算，原公式无法正确反映截断效应。

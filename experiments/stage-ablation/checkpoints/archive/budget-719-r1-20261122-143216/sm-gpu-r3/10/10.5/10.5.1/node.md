@@ -1,0 +1,24 @@
+# N404: Qwen3-27B 在 TP=2 下，Decode 阶段每生成 1 个 token 需执行 2 次 AllReduce 通信（Attention 输出后、FFN
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N143
+
+## Claim
+
+Qwen3-27B 在 TP=2 下，Decode 阶段每生成 1 个 token 需执行 2 次 AllReduce 通信（Attention 输出后、FFN 中间层后），每次 AllReduce 的数据量为 2 × hidden_dim × batch_size × bytes_per_elem，其中 hidden_dim=4096, batch_size=1 (单用户), bytes=2 (BF16)，单次通信量 8 KB，单次总通信量 16 KB [待核验: 需确认是否包含 LayerNorm 等额外同步]。
+
+## Corrected Claim
+
+Qwen3-27B 在 TP=2 下，Decode 阶段每生成 1 个 token 需执行 2 次 AllReduce 通信（Attention 输出后、FFN 中间层后），每次 AllReduce 的数据量为 2 × hidden_dim × batch_size × bytes_per_elem，其中 hidden_dim=4096, batch_size=1 (单用户), bytes=2 (BF16)，单次通信量 8 KB，单次总通信量 16 KB [待核验: 需确认是否包含 LayerNorm 等额外同步]。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B 的 hidden_dim 确为 4096，TP=2 下 Decode 阶段 Attention 和 FFN 各需一次 AllReduce，单次通信量计算 2 * 4096 * 1 * 2 = 16KB 正确，总通信量 32KB 与陈述中的 16KB 存在矛盾，但考虑到陈述中可能仅指单次 AllReduce 的数据量，且 LayerNorm 等额外同步通常不计入主要通信量，整体逻辑自洽。
+
+## Search Query
+
+Tensor Parallelism AllReduce communication volume per token

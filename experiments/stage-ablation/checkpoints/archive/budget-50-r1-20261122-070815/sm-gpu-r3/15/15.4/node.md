@@ -1,0 +1,24 @@
+# N445: RTX 5090 与 RTX 4090 在 Qwen3-27B INT4 推理下的吞吐量比值 R_perf = T_5090 / T_4090，需基于实测 to
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N153
+
+## Claim
+
+RTX 5090 与 RTX 4090 在 Qwen3-27B INT4 推理下的吞吐量比值 R_perf = T_5090 / T_4090，需基于实测 tokens/s 数据计算，若 R_perf < 1.5 则 5090 的性能溢价不足以抵消其潜在价格劣势或 4090 的残值优势
+
+## Corrected Claim
+
+RTX 5090 与 RTX 4090 在 Qwen3-27B INT4 推理下的吞吐量比值 R_perf 需基于实测数据计算；若 R_perf 低于特定阈值（如 1.5），则 5090 的性能溢价可能不足以抵消其价格劣势或 4090 的残值优势（具体阈值需结合市场价格动态确定）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（R_perf < 1.5）和未提供的实测数据前提，属于经验事实，无法从第一性原理推导，且缺乏来源支持具体的比值或阈值合理性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该事实涉及具体硬件性能对比及经济决策阈值，非纯逻辑推导）。
+
+## Search Query
+
+RTX 5090 vs RTX 4090 LLM inference benchmark tokens/s Qwen

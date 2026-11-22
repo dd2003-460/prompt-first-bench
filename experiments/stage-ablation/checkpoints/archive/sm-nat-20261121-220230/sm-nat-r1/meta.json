@@ -1,0 +1,123 @@
+{
+  "qid": "nat",
+  "question": "某边缘 CDN 节点有 128GB 内存做对象缓存，工作负载：10 万对象，大小服从 Pareto(α=1.1)，请求热度也服从 Pareto(β=0.9)，热门对象与大小负相关（ρ≈-0.3）。每天总请求 5000 万次。请估算：(a) LRU 策略下的稳态字节命中率下界；(b) LFU 相比 LRU 最多能提升多少百分点、为什么；(c) 如果对象更新率是 1%/天，LRU 的有效命中率还要再打几折？给出推导链，区分「凭记忆的」和「刚查到的」。",
+  "round": 1,
+  "state": "rework",
+  "dropped_redundant": 0,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "数值准确性（a/b/c 三个子问的估算值是否基于正确的 Pareto 分布积分或近似公式推导）",
+      "逻辑一致性（LRU 下界、LFU 增益、更新率折扣三者是否构成连贯的推导链，无自相矛盾）",
+      "参数敏感性覆盖（是否明确区分了热度分布 β、大小分布 α、负相关系数 ρ 对结果的独立贡献）",
+      "假设透明性（是否清晰标注了哪些步骤依赖经验法则/记忆，哪些依赖严格数学推导/查阅）"
+    ],
+    "composition": "Accuracy · Logic_Consistency · Parameter_Coverage · Assumption_Clarity",
+    "rationale": "本题为定量估算题，答案质量取决于数值推导的正确性、各子问间的逻辑连贯性、对多重 Pareto 参数的处理完整性，以及研究严谨性所要求的假设来源透明化。"
+  },
+  "objective_mode": "formula",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "node_id": "N13",
+      "claim": "LFU增益上限受限于热度分布的稳定性：若对象热度排名每日变化率>50%，LFU的累计频率统计滞后于实际热度变化，增益趋近",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]阈值（50%、5%）和增益幅度（5-10个百分点）属于具体的经验参数，缺乏通用理论推导支持，可能因具体负载特征（如Zipf分布指数、对象生命周期）而异，"
+    },
+    {
+      "node_id": "N15",
+      "claim": "对象平均驻留时间T_resident取决于LRU驱逐策略：T_resident = (缓存容量 / 对象大小) / (对",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]公式量纲与逻辑不自洽：T_resident 通常由访问间隔决定，而非简单的容量/频率除法；且‘热门对象 T_resident 较短’与 LRU 原理矛盾"
+    },
+    {
+      "node_id": "N16",
+      "claim": "动态失效折扣后的有效命中率 = LRU稳态命中率 * (1 - 0.01 * T_avg_resident)，其中T_a",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该公式将动态失效折扣建模为线性乘数 (1 - 0.01 * T_avg_resident)，缺乏通用的理论或工程依据。在缓存系统中，命中率与驻留时间的关"
+    },
+    {
+      "node_id": "N17",
+      "claim": "联合分布相关性量化：在对象大小 S 与请求热度 H 均服从 Pareto 分布且 Pearson 相关系数 ρ = -0",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述属于经验事实/具体工程参数设定（特定场景下的Copula参数选择及ρ值），无法从第一性原理直接推出，且参考来源未提供具体数值支持。 | 逻辑自洽（"
+    },
+    {
+      "node_id": "N19",
+      "claim": "LFU 相对 LRU 的优势边界量化：在 ρ=-0.3 的负相关场景下，LFU 相比 LRU 的额外字节命中率增益 ΔH",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的数学不等式推导和特定参数（ρ=-0.3）下的量化结论，属于经验事实与复杂模型推导的混合体。虽然LFU在负相关（时间局部性弱、频率局部性强"
+    },
+    {
+      "node_id": "N21",
+      "claim": "相关性对更新折损的交互影响：负相关 (ρ=-0.3) 意味着热门对象（小对象）更新频率可能独立于热度或存在特定关联。若更",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述将具体的数值参数（ρ=-0.3）与定性结论（更新频率独立或存在特定关联）强行绑定，且未提供推导依据；此外，'负相关意味着独立'在逻辑上是不成立的，"
+    },
+    {
+      "node_id": "N23",
+      "claim": "Pareto 参数 (α=1.1, β=0.9) 的经验来源与时效性：这两个参数是‘凭记忆的’典型 CDN/Web 流量",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验参数（α=1.1, β=0.9）及其对现代CDN流量分布的时效性判断，属于经验事实而非第一性原理可推导内容。由于检索失败，无法验证这"
+    },
+    {
+      "node_id": "N24",
+      "claim": "相关性系数 ρ=-0.3 的测量方法与误差界：该相关系数是基于线性 Pearson 相关还是 Spearman 秩相关？",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的数值假设（如±5%命中率波动）和未经验证的因果推断（Pareto下Pearson必然低估尾部相关且影响显著），缺乏具体数据支撑，属于经验"
+    },
+    {
+      "node_id": "N25",
+      "claim": "更新率 1%/天 的假设来源与敏感性：1%/天的更新率是‘凭记忆的’通用假设还是针对特定内容类型（如新闻 vs 视频）的",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述本身是一个关于‘假设来源’和‘敏感性分析需求’的元陈述，而非一个具体的经验事实数值。其潜在错误在于将‘1%/天’这一特定数值默认为需要被验证的‘事"
+    },
+    {
+      "node_id": "N26",
+      "claim": "在Pareto(α=1.1)分布下，128GB缓存容量对应的归一化容量比 C_norm = 128GB / (100,0",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N27",
+      "claim": "Pareto(α=1.1) 分布下，累积分布函数 F(s) = (s_min/s)^1.1。缓存中驻留对象的大小总和 S",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N28",
+      "claim": "请求热度 Pareto(β=0.9) 下，访问频率的累积分布 G(f) = (f_min/f)^0.9。总请求率 500",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N29",
+      "claim": "在 ρ=-0.3 的负相关约束下，使用 Clayton Copula 拟合时，参数 θ 需满足 Corr(S,H) = ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N30",
+      "claim": "LRU 稳态字节命中率下界的精确推导需结合 Belady's MIN 算法近似。在 Pareto(α=1.1, β=0.",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 29
+}

@@ -1,0 +1,30 @@
+# N116: RTX 4090 实际市场均价（2024 Q3-Q4）约为 $1,800-$2,200，高于 MSRP $1,599；计算性价比时若采用 MSRP 会低估成本约
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N27
+
+## Claim
+
+RTX 4090 实际市场均价（2024 Q3-Q4）约为 $1,800-$2,200，高于 MSRP $1,599；计算性价比时若采用 MSRP 会低估成本约 15-30%，导致与 H100 或 L40S 的 TCO 对比偏差，需使用实际采购价进行敏感性分析。
+
+## Corrected Claim
+
+RTX 4090 在 2024 Q3-Q4 的实际市场均价通常高于其 MSRP ($1,599)，具体数值因渠道和地区而异，但普遍在 $1,800 以上；计算性价比时若仅采用 MSRP 会低估实际采购成本，建议基于实际采购价进行 TCO 分析。
+
+## Evidence
+
+[质询]来源数据与陈述中的时间窗口（2024 Q3-Q4）及数值范围（$1,800-$2,200）存在显著偏差。来源[1]显示2024年12月最低价为$699，平均价为$2014（但包含2026年数据，且$699极可能是异常值或特定促销/二手价，与Q3-Q4市场均价$1800+不符）；来源[3]显示2026年二手价高达$3500+。虽然$1800-$2200在2024年Q3-Q4是合理的市场观察值（高于MSRP $1599），但提供的参考来源并未直接提供2024 Q3-Q4的精确均价数据，且来源[1]的“lowest price $699”与“average $2014”若混合计算会误导对Q3-Q4均价的判断，缺乏针对该特定时间段的直接强证据。 | 逻辑自洽：RTX 4090 MSRP为$1599，2024年Q3-Q4期间因供需关系市场均价确实高于MSRP，$1800-$2200符合当时市场普遍认知。但参考来源[1]和[3]主要覆盖2026年数据或包含异常低价，未直接提供2024 Q3-Q4的均价统计，属于间接支持或证据不足，故降级。
+
+## Search Query
+
+RTX 4090 average street price 2024
+
+## Retrieval Sources
+
+- {'url': 'https://bestvaluegpu.com/history/new-and-used-rtx-4090-price-history-and-specs/&rut=7bf8230a175ebbe1b486e956da0f962a911eb004e21b912613d9ed90ddbd28b4', 'type': 'ddg', 'title': 'RTX 4090 Price History — $3000 used (Nov 2026)'}
+- {'url': 'https://detail.zol.com.cn/vga/s10074/&rut=db6edb4911e373f1bffcc789d2ee596bda7868c9fea0782a6247911248cf98c7', 'type': 'ddg', 'title': '【Rtx 4090显卡】Rtx 4090显卡报价及图片大全-zol中关村在线'}
+- {'url': 'https://siliconcomps.com/gpu/rtx-4090/price-history/&rut=831de619e73bc5f00727aa900d496df493adf28f494290ee2d77f7bd56a358dc', 'type': 'ddg', 'title': 'RTX 4090 price history: used prices tracked daily - Silicon Comps'}

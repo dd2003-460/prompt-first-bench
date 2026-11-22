@@ -1,0 +1,20 @@
+# N164: 低并发长文本 (batch_size=1, seq_len=32768) 下的带宽瓶颈量化：Decode 阶段为带宽受限。Throughput ≈ Memory
+
+- **status**: verified
+- **level**: L3
+- **source**: derived
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N53
+
+## Claim
+
+低并发长文本 (batch_size=1, seq_len=32768) 下的带宽瓶颈量化：Decode 阶段为带宽受限。Throughput ≈ Memory_Bandwidth / Model_Size_Bytes。RTX 4090 (1008 GB/s, 58.29GB @ BF16) → 17.3 tokens/s; A100 (2039 GB/s, 58.29GB @ BF16) → 35.0 tokens/s; H100 (3350 GB/s, 58.29GB @ BF16) → 57.5 tokens/s。CPR 计算：RTX 4090 (17.3 * 1.0) / 2580 ≈ 0.0067; A100 (35.0 * 1.0) / 11690 ≈ 0.0030; H100 (57.5 * 1.0) / 25690 ≈ 0.0022。在此场景下，RTX 4090 的 CPR 确实高于 A100 和 H100，验证了 N53 的结论。
+
+## Corrected Claim
+
+低并发长文本 (batch_size=1, seq_len=32768) 下的带宽瓶颈量化：Decode 阶段为带宽受限。Throughput ≈ Memory_Bandwidth / Model_Size_Bytes。RTX 4090 (1008 GB/s, 58.29GB @ BF16) → 17.3 tokens/s; A100 (2039 GB/s, 58.29GB @ BF16) → 35.0 tokens/s; H100 (3350 GB/s, 58.29GB @ BF16) → 57.5 tokens/s。CPR 计算：RTX 4090 (17.3 * 1.0) / 2580 ≈ 0.0067; A100 (35.0 * 1.0) / 11690 ≈ 0.0030; H100 (57.5 * 1.0) / 25690 ≈ 0.0022。在此场景下，RTX 4090 的 CPR 确实高于 A100 和 H100，验证了 N53 的结论。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：带宽瓶颈公式推导正确，数值计算（1008/58.29≈17.3, 2039/58.29≈35.0, 3350/58.29≈57.5）及CPR比值计算均准确，符合低并发长文本Decode阶段的物理直觉。

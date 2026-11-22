@@ -1,0 +1,24 @@
+# N466: vLLM 在 2 卡 PCIe 4.0 互联下，Decode 阶段的扩展效率 (Speedup Ratio)：通常为 1.5-1.7 [待核验]，受限于 All
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N148
+
+## Claim
+
+vLLM 在 2 卡 PCIe 4.0 互联下，Decode 阶段的扩展效率 (Speedup Ratio)：通常为 1.5-1.7 [待核验]，受限于 All-Reduce 通信开销和内存访问模式，效率低于 Prefill
+
+## Corrected Claim
+
+vLLM 在 2 卡 PCIe 4.0 互联下，Decode 阶段的扩展效率通常低于 Prefill，具体 Speedup Ratio 取决于模型规模与序列长度，一般显著低于理想线性加速比（如 2.0），常见范围可能在 1.5-1.8 之间，受限于 All-Reduce 通信开销。
+
+## Evidence
+
+[质询]数值范围（1.5-1.7）缺乏具体硬件型号、模型大小及序列长度等上下文，且PCIe 4.0带宽瓶颈下该效率值可能因配置不同而波动较大，属于经验事实而非普适常数。 | 经验事实，逻辑自洽（PCIe带宽限制导致通信开销大，效率低于Prefill符合直觉），但检索无可用来源支持具体数值范围，故降级。
+
+## Search Query
+
+vLLM tensor parallelism decode speedup ratio 2 GPU

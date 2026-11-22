@@ -1,0 +1,20 @@
+# N34: Gaussian Copula 参数 ρ=-0.3 对应的 Spearman 秩相关系数 ρ_s ≈ 2/π * arcsin(ρ) ≈ -0.303，用于量化
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+Gaussian Copula 参数 ρ=-0.3 对应的 Spearman 秩相关系数 ρ_s ≈ 2/π * arcsin(ρ) ≈ -0.303，用于量化大小-热度负相关对联合分布的影响幅度
+
+## Corrected Claim
+
+Gaussian Copula 参数 ρ=-0.3 对应的 Spearman 秩相关系数 ρ_s ≈ 2/π * arcsin(ρ) ≈ -0.303，用于量化大小-热度负相关对联合分布的影响幅度
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1聚焦于Spearman系数的解析推导与数值计算，子节点2聚焦于Spearman与Copula参数（即Pearson相关）之间的偏差分析及误差来源，两者侧重点不同（计算值 vs. 偏差/误差分析），因此正交且无冗余。然而，父节点明确提到该系数用于'量化大小-热度负相关对联合分布的影响幅度'，子节点仅覆盖了数学计算和偏差分析，完全缺失了对'如何量化影响幅度'或'对联合分布具体影响机制'的解释，导致不完备。）

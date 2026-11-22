@@ -1,0 +1,20 @@
+# N188: 对象更新率 λ_update=1%/天 对 LRU 有效命中率的影响机制并非简单的乘法折扣因子，而是通过‘失效对象重新填充延迟’导致的时间窗口内 Miss 率增
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+对象更新率 λ_update=1%/天 对 LRU 有效命中率的影响机制并非简单的乘法折扣因子，而是通过‘失效对象重新填充延迟’导致的时间窗口内 Miss 率增加。若更新后对象立即从缓存移除（Invalidate），则有效命中率 H_eff = 1 - P_update_in_window。在稳态全驻留假设下，P_update_in_window 取决于观察窗口 T_obs 内的更新概率。若 T_obs 为平均访问间隔，则 H_eff ≈ 1 - λ_update * T_obs。对于高频对象，T_obs 极小，折损可忽略；对于低频对象，T_obs 大，折损显著，需加权平均。
+
+## Corrected Claim
+
+对象更新率 λ_update=1%/天 对 LRU 有效命中率的影响机制并非简单的乘法折扣因子，而是通过‘失效对象重新填充延迟’导致的时间窗口内 Miss 率增加。若更新后对象立即从缓存移除（Invalidate），则有效命中率 H_eff = 1 - P_update_in_window。在稳态全驻留假设下，P_update_in_window 取决于观察窗口 T_obs 内的更新概率。若 T_obs 为平均访问间隔，则 H_eff ≈ 1 - λ_update * T_obs。对于高频对象，T_obs 极小，折损可忽略；对于低频对象，T_obs 大，折损显著，需加权平均。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

@@ -1,0 +1,24 @@
+# N72: 买家临界干预强度计算：展示中位价后，买家搜寻成本变化 ΔSearchCost_buyer 取决于信息获取是否替代了部分搜寻行为。若信息展示使平均搜寻次数从 N_
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N26
+
+## Claim
+
+买家临界干预强度计算：展示中位价后，买家搜寻成本变化 ΔSearchCost_buyer 取决于信息获取是否替代了部分搜寻行为。若信息展示使平均搜寻次数从 N_old 降至 N_new，则 ΔBS_buyer = -(N_new - N_old) * k_search + (P_old - P_new)。设定 Threshold_buyer = 10% 搜寻时间增加，需计算使 ΔBS_buyer / Initial_BS = -0.10 的信息展示精度阈值。
+
+## Corrected Claim
+
+买家临界干预强度计算：展示中位价后，买家搜寻成本变化 ΔSearchCost_buyer 取决于信息获取是否替代了部分搜寻行为。若信息展示使平均搜寻次数从 N_old 降至 N_new，则 ΔBS_buyer = -(N_new - N_old) * k_search + (P_old - P_new)。设定 Threshold_buyer = 10% 搜寻时间增加，需计算使 ΔBS_buyer / Initial_BS = -0.10 的信息展示精度阈值。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点分别定义了公式中的独立变量（ΔN, k_search, 价格项, Initial_BS），彼此正交且无冗余。但存在完备性缺失：父节点要求计算“信息展示精度阈值”以使 ΔBS/Initial_BS = -0.10，而子节点仅提供了基于固定假设（方差降低50%）的静态参数值，未建立信息精度与 ΔN 或价格项之间的函数关系，导致无法解出阈值。）
+
+## Search Query
+
+buyer search cost reduction information display threshold 10 percent

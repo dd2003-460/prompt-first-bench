@@ -1,0 +1,20 @@
+# N290: LFU 相对 LRU 的理论增益上限量化：ΔH_max = H_LFU_ideal - H_LRU。H_LFU_ideal 假设完美保留频率最高的 K_lfu 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+LFU 相对 LRU 的理论增益上限量化：ΔH_max = H_LFU_ideal - H_LRU。H_LFU_ideal 假设完美保留频率最高的 K_lfu 个对象。由于 ρ=-0.3，高频对象偏小，LFU 保留的对象集合字节量 Σ(r_i*s_i)_LFU 略低于 LRU 保留的近期热门对象集合（因为 LRU 可能意外保留了一些近期变热的大对象）。理论上限 ΔH_max ≈ 2.5% (基于 N262)，但在此特定参数下，由于 LRU 已经能较好捕获头部小对象，实际 ΔH 可能收敛至 0.5-1.0%。
+
+## Corrected Claim
+
+LFU 相对 LRU 的理论增益上限量化：ΔH_max = H_LFU_ideal - H_LRU。H_LFU_ideal 假设完美保留频率最高的 K_lfu 个对象。由于 ρ=-0.3，高频对象偏小，LFU 保留的对象集合字节量 Σ(r_i*s_i)_LFU 略低于 LRU 保留的近期热门对象集合（因为 LRU 可能意外保留了一些近期变热的大对象）。理论上限 ΔH_max ≈ 2.5% (基于 N262)，但在此特定参数下，由于 LRU 已经能较好捕获头部小对象，实际 ΔH 可能收敛至 0.5-1.0%。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

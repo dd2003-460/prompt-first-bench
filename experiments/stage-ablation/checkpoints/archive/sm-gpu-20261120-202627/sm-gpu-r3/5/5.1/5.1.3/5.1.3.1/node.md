@@ -1,0 +1,24 @@
+# N373: Qwen3-27B 在 2× RTX 4090 (PCIe 4.0) 上 BF16 推理的实测吞吐量上限：由于 KV Cache 跨卡传输受限于 PCIe 带宽
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N118
+
+## Claim
+
+Qwen3-27B 在 2× RTX 4090 (PCIe 4.0) 上 BF16 推理的实测吞吐量上限：由于 KV Cache 跨卡传输受限于 PCIe 带宽 (~32GB/s)，在 32K 上下文下，Decode 阶段每 token 延迟显著增加，实测吞吐量通常在 10-15 tokens/s 区间，需引用 vLLM 或 TensorRT-LLM 的官方基准测试报告验证。
+
+## Corrected Claim
+
+Qwen3-27B 在 2× RTX 4090 (PCIe 4.0) 上 BF16 推理时，由于 KV Cache 跨卡传输受限于 PCIe 带宽 (~32GB/s)，在 32K 上下文下，Decode 阶段每 token 延迟会显著增加，导致吞吐量低于单卡或 NVLink 互联场景，具体数值需参考 vLLM 或 TensorRT-LLM 的官方基准测试报告。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件性能实测数据（10-15 tokens/s），属于经验事实。在缺乏官方基准测试报告或可靠第三方实测数据支持的情况下，仅凭逻辑推导无法确定具体数值区间，且不同实现（vLLM vs TensorRT-LLM）及具体配置下性能差异巨大，该数值可能不准确或具有误导性。 | 经验事实，逻辑自洽但缺来源支持。PCIe 4.0 带宽限制 KV Cache 传输导致 Decode 延迟增加符合物理直觉，但具体吞吐量数值（10-15 tokens/s）无法从第一性原理严格推出，且无外部来源验证。
+
+## Search Query
+
+Qwen3-27B RTX 4090 PCIe throughput tokens per second vLLM benchmark

@@ -1,0 +1,20 @@
+# N327: 用户体验伤害指标：定义卖家体验分 UX_seller = 1 - (Penalty_Rate * 0.5 + Complaint_Rate * 0.5)；透明化
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N111
+
+## Claim
+
+用户体验伤害指标：定义卖家体验分 UX_seller = 1 - (Penalty_Rate * 0.5 + Complaint_Rate * 0.5)；透明化干预预期导致卖家投诉率 Complaint_Rate_transparent ≈ 2%（因价格被质疑），而强制锚点导致 Complaint_Rate_anchor ≈ 15%（因自由定价权被剥夺），透明化对 UX 伤害更小。
+
+## Corrected Claim
+
+用户体验伤害指标：定义卖家体验分 UX_seller = 1 - (Penalty_Rate * 0.5 + Complaint_Rate * 0.5)；透明化干预预期导致卖家投诉率 Complaint_Rate_transparent ≈ 2%（因价格被质疑），而强制锚点导致 Complaint_Rate_anchor ≈ 15%（因自由定价权被剥夺），透明化对 UX 伤害更小。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

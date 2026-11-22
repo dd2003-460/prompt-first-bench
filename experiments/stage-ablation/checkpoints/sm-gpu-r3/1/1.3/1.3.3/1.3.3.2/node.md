@@ -1,0 +1,30 @@
+# N157: Fractal Design Torrent 机箱支持最多 4 张全尺寸 GPU，其 PCIe 插槽间距设计为支持 3 槽 GPU 的双卡安装（第一张卡位于 C
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N43
+
+## Claim
+
+Fractal Design Torrent 机箱支持最多 4 张全尺寸 GPU，其 PCIe 插槽间距设计为支持 3 槽 GPU 的双卡安装（第一张卡位于 CPU 直连插槽，第二张卡位于下方插槽），但若安装 3.5 槽 GPU，需确认第二张卡是否与机箱前部风扇或硬盘架发生物理冲突；实测数据表明，安装 2 张 3.5 槽 GPU 时，第二张卡的风量减少约 15-20%，导致 GPU 核心温度升高 5-10°C，可能触发降频。
+
+## Corrected Claim
+
+Fractal Design Torrent 机箱支持多张全尺寸 GPU，其内部布局旨在最大化气流。安装多张大型（如3.5槽）GPU时，需确认第二张卡是否与机箱前部组件发生物理冲突；虽然机箱设计有利于散热，但具体双卡安装下的风量衰减和温度升高数值需根据具体硬件配置实测确定，通用数据可能因配置而异。
+
+## Evidence
+
+[质询]陈述中关于“实测数据表明...风量减少约 15-20%...温度升高 5-10°C”的具体数值缺乏来源支持，且此类具体性能衰减数据高度依赖具体GPU型号、风扇转速及环境温度，属于特定条件下的经验事实，无法从通用机箱规格中直接推导。 | 来源[1][2][3]仅确认Torrent机箱主打高气流设计和内部布局优化，未提供关于3.5槽GPU双卡安装的具体物理冲突细节或量化热性能衰减数据（15-20%风量/5-10°C温升），属于经验事实缺来源支持。
+
+## Search Query
+
+Fractal Design Torrent 2x 3.5 slot GPU clearance thermal performance
+
+## Retrieval Sources
+
+- {'url': 'https://www.fractal-design.com/zh-hans/products/cases/torrent-series/&rut=7c0c57403a164bae6000c4b04d8233906f8fbd2017c05cb643abc56fdec4bdfb', 'type': 'ddg', 'title': 'Torrent 系列 - Fractal Design'}
+- {'url': 'https://www.fractal-design.com/products/cases/torrent-series/&rut=b1a1a8ee018ef4b57e03f3e7c187fe7d5becf2bb6028e18afdbf560ddb44cead', 'type': 'ddg', 'title': 'Torrent Series - Fractal Design'}
+- {'url': 'https://www.fractal-design.cn/products/cases/torrent/&rut=de86b96e19c76d5ae8774dc22a51bba7deba5a8ab5954ed4b6c724da80db716a', 'type': 'ddg', 'title': 'Torrent — Fractal Design'}

@@ -1,0 +1,20 @@
+# N157: 在 24/7 推理场景下，Qwen3-27B 模型权重 (27GB) 和 KV Cache (16GB) 的总内存访问量为 43GB，假设每个 token 生成
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N49
+
+## Claim
+
+在 24/7 推理场景下，Qwen3-27B 模型权重 (27GB) 和 KV Cache (16GB) 的总内存访问量为 43GB，假设每个 token 生成需读取全量权重一次，则每小时内存访问次数为 (3600s / 0.05s/token) = 72,000 次，每次访问 43GB，总数据量 D_hour = 72,000 * 43GB = 3,096 TB/hour。
+
+## Corrected Claim
+
+在 24/7 推理场景下，Qwen3-27B 模型权重 (27GB) 和 KV Cache (16GB) 的总内存访问量为 43GB，假设每个 token 生成需读取全量权重一次，则每小时内存访问次数为 (3600s / 0.05s/token) = 72,000 次，每次访问 43GB，总数据量 D_hour = 72,000 * 43GB = 3,096 TB/hour。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算 72,000 * 43GB = 3,096,000 GB = 3,096 TB 正确，单位换算无误，假设条件明确。

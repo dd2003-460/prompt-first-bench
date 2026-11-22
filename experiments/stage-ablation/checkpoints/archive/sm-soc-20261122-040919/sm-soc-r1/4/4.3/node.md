@@ -1,0 +1,24 @@
+# N20: 似然度 P(D|H) 的量化指标：对于假设H1（信息不对称），似然度由'挂价偏差与成交周期的相关性系数 r'决定；对于假设H2（平台操纵），似然度由'降价后48
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+似然度 P(D|H) 的量化指标：对于假设H1（信息不对称），似然度由'挂价偏差与成交周期的相关性系数 r'决定；对于假设H2（平台操纵），似然度由'降价后48小时无咨询率与平台流量分配机制的相关性'决定。具体数值需通过卡方检验或逻辑回归计算得出，[待核验]：需具体平台数据。
+
+## Corrected Claim
+
+似然度 P(D|H) 的量化指标：对于假设H1（信息不对称），似然度由'挂价偏差与成交周期的相关性系数 r'决定；对于假设H2（平台操纵），似然度由'降价后48小时无咨询率与平台流量分配机制的相关性'决定。具体数值需通过卡方检验或逻辑回归计算得出，[待核验]：需具体平台数据。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+likelihood ratio test pricing deviation correlation coefficient second hand market

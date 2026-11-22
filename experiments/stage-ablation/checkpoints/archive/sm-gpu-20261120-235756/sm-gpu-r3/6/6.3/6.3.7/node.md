@@ -1,0 +1,24 @@
+# N123: KV Cache 的并发扩展性：在 80GB 显存（如 A100 80GB）下，扣除权重 54.36GB 和 KV Cache 25.76GB 后，剩余 19.
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N31, N32, N33
+
+## Claim
+
+KV Cache 的并发扩展性：在 80GB 显存（如 A100 80GB）下，扣除权重 54.36GB 和 KV Cache 25.76GB 后，剩余 19.88GB 可用于激活值和框架开销；若单请求 KV Cache 占用 25.76GB，则最大并发 Batch Size 为 1（即仅支持单流）；若 Batch Size > 1，需启用 KV Cache 共享或压缩策略，否则必须降低上下文长度或量化 KV Cache。
+
+## Corrected Claim
+
+KV Cache 的并发扩展性：在 80GB 显存（如 A100 80GB）下，扣除权重 54.36GB 和 KV Cache 25.76GB 后，剩余 19.88GB 可用于激活值和框架开销；若单请求 KV Cache 占用 25.76GB，则最大并发 Batch Size 为 1（即仅支持单流）；若 Batch Size > 1，需启用 KV Cache 共享或压缩策略，否则必须降低上下文长度或量化 KV Cache。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在逻辑上是正交的（分别针对修正后的基线、量化精度、缓存共享策略三个不同维度）。但存在严重的问题：1. 子节点1修正了父节点中的事实错误（父节点称单请求KV Cache为25.76GB，子节点1修正为8.0GB），导致父节点本身的描述与子节点结论矛盾，父节点作为‘前提’是不成立的，因此分解虽然内部逻辑自洽，但未能正确承接父节点的语境（父节点是基于错误数据推导的，子节点是修正后的正确数据，这构成了事实层面的冲突而非简单的子集关系）。2. 完备性不足：父节点提到了‘降低上下文长度’作为替代策略，子节点未覆盖此方面；父节点提到的‘量化KV Cache’仅由子节点2部分覆盖（FP8同时量化了权重和KV，未单独讨论仅量化KV的情况）。）
+
+## Search Query
+
+vLLM max batch size 80GB GPU 32k context KV cache memory allocation

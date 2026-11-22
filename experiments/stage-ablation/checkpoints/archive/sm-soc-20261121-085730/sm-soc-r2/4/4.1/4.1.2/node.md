@@ -1,0 +1,20 @@
+# N79: 买家效用变动量 Δ买家效用 = (V_item - P_new) - (V_item - P_old) - ΔC_search，其中 ΔC_search 为搜索
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+买家效用变动量 Δ买家效用 = (V_item - P_new) - (V_item - P_old) - ΔC_search，其中 ΔC_search 为搜索成本变化，V_item 为买家对商品的估值
+
+## Corrected Claim
+
+买家效用变动量 Δ买家效用 = (V_item - P_new) - (V_item - P_old) - ΔC_search，其中 ΔC_search 为搜索成本变化，V_item 为买家对商品的估值
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

@@ -1,0 +1,29 @@
+# N21: 干预效果'最小干预打破均衡'的置信度，需基于反事实推理（counterfactual reasoning）估计干预前后均衡点偏移量，置信度量化为预测区间（如 9
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+干预效果'最小干预打破均衡'的置信度，需基于反事实推理（counterfactual reasoning）估计干预前后均衡点偏移量，置信度量化为预测区间（如 95% CI）包含 0 的概率，若区间不跨 0 则标记为高置信度，否则标记为[待核验]并给出最小可检测效应量（MDE）。
+
+## Corrected Claim
+
+干预效果的评估需基于反事实推理估计均衡点偏移量。通常通过构建预测区间（如95% CI）来评估显著性：若区间不跨0，可认为效应显著（高置信度）；若区间跨0，则效应不显著，需结合最小可检测效应量（MDE）进一步分析。
+
+## Evidence
+
+[质询]该陈述将‘置信度’量化为‘预测区间包含0的概率’，这在统计学上存在概念混淆。通常，置信区间（CI）本身不直接提供‘包含0的概率’（除非使用贝叶斯后验分布），且‘高置信度’通常对应区间不跨0（即统计显著），而‘待核验’对应区间跨0。虽然逻辑上可通，但将‘置信度’直接定义为‘包含0的概率’并非标准统计术语，且‘最小干预打破均衡’这一具体场景下的MDE计算依赖于具体的效应量分布假设，来源未提供此特定应用的支持。 | 来源[1]和[2]仅介绍了反事实推理的基本概念，未涉及具体的置信度量化方法、预测区间与0的关系或MDE计算，属于间接支持（仅支持使用反事实推理这一前提），缺乏对具体量化指标的直接支持。
+
+## Search Query
+
+counterfactual reasoning minimum intervention equilibrium shift confidence interval minimum detectable effect
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/612511199&rut=bb3e9d5fc6e027eb5df1e5cae3e56204f85025a48f72b9f42bd763410b573c36', 'type': 'ddg', 'title': '因果推断入门 - 4 反事实及其应用 - 知乎'}
+- {'url': 'https://zhuanlan.zhihu.com/p/357183135&rut=49dd79f903d53dc8962f075b1b5ebe10efb13e77dc230797c307059deefe7d5f', 'type': 'ddg', 'title': '反事实因果(Counterfactual)简介 - 知乎'}

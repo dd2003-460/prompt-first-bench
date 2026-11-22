@@ -1,0 +1,24 @@
+# N79: 平台机会成本 ΔOpportunityCost_platform 的量化：ΔOC_platform = ΔUser_LTV * N_users_churned，
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N20
+
+## Claim
+
+平台机会成本 ΔOpportunityCost_platform 的量化：ΔOC_platform = ΔUser_LTV * N_users_churned，其中 ΔUser_LTV 为单个用户生命周期价值变化，N_users_churned 为因体验下降而流失的用户数；若高挂价商品曝光减少导致买家点击率下降 10%，则 N_users_churned ≈ N_total * 0.1 * P(churn|click_drop)，需估算流失概率。
+
+## Corrected Claim
+
+平台机会成本 ΔOpportunityCost_platform 的量化：ΔOC_platform = ΔUser_LTV * N_users_churned，其中 ΔUser_LTV 为单个用户生命周期价值变化，N_users_churned 为因体验下降而流失的用户数；若高挂价商品曝光减少导致买家点击率下降 10%，则 N_users_churned ≈ N_total * 0.1 * P(churn|click_drop)，需估算流失概率。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+user lifetime value churn rate impact of reduced exposure marketplace

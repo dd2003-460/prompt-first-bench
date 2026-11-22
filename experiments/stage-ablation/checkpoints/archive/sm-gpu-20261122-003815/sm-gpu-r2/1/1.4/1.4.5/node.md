@@ -1,0 +1,30 @@
+# N59: Apple M3 Ultra Mac Studio (192GB/256GB) 官方定价及第三方经销商折扣情况，以及内存升级对总成本的边际影响
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N10
+
+## Claim
+
+Apple M3 Ultra Mac Studio (192GB/256GB) 官方定价及第三方经销商折扣情况，以及内存升级对总成本的边际影响
+
+## Corrected Claim
+
+Apple M3 Ultra Mac Studio 官方定价较高，Apple 官方翻新机提供最高 15% 的折扣，但具体配置（192GB/256GB）的精确价格及第三方经销商折扣需查询实时市场数据。
+
+## Evidence
+
+[质询]参考来源仅提供了产品对比、翻新折扣（最高15%）及定性评价（价格高），完全缺失具体的官方定价数值（如192GB/256GB配置的具体美元/人民币价格）以及第三方经销商的具体折扣幅度，无法验证‘官方定价’及‘边际影响’的具体数值。 | 来源[1]提及翻新机最高15%折扣，来源[3]定性指出价格高，但均无具体定价数据支持该事实节点中的数值部分；作为经验事实（硬件价格），缺乏直接来源支持，故降级。
+
+## Search Query
+
+Mac Studio M3 Ultra 192GB 256GB price 2024 2025
+
+## Retrieval Sources
+
+- {'url': 'https://www.apple.com/shop/product/fu973ll/a/Refurbished-Mac-Studio-Apple-M3-Ultra-chip-with-28%E2%80%91Core-CPU-and-60%E2%80%91Core-GPU&rut=42a79167019592e53cceaca17dd6e8c1358213d02d70ffc0f9f6e39d254dc43d', 'type': 'ddg', 'title': 'Refurbished Mac Studio Apple M3 Ultra chip with 28‑Core CPU and 60‑Core GPU'}
+- {'url': 'https://www.apple.com/mac-studio/compare/?modelList=Mac-Studio-M3-Ultra,Mac-Studio-M4-Max&rut=19bcbe59886b55bd5f0e400dff752c7f3a4a92bae02dff73602e50f628eb8aa0', 'type': 'ddg', 'title': 'Mac Studio (M3 Ultra) vs Mac Studio (M4 Max) - Apple'}
+- {'url': 'https://www.pcmag.com/reviews/apple-mac-studio-2025-m3-ultra&rut=1be61de5bc6cf398eb87e2bdc9948e06e20ea16681fb5c1da4a28d10575e1313', 'type': 'ddg', 'title': 'Apple Mac Studio (2025, M3 Ultra) Review - PCMag'}

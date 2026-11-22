@@ -1,0 +1,20 @@
+# N314: NVIDIA RTX 6000 Ada (48GB) 与 L40S (48GB) 在本地工作站部署中的 TCO 差异：RTX 6000 Ada 功耗更低 (30
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+NVIDIA RTX 6000 Ada (48GB) 与 L40S (48GB) 在本地工作站部署中的 TCO 差异：RTX 6000 Ada 功耗更低 (300W vs 350W) 且拥有更高显存带宽 (960 GB/s vs 864 GB/s)，但价格通常高出 20-30%，需计算其每 token 成本优势是否足以抵消 CapEx 溢价。
+
+## Corrected Claim
+
+NVIDIA RTX 6000 Ada (48GB) 与 L40S (48GB) 在本地工作站部署中的 TCO 差异：RTX 6000 Ada 功耗更低 (300W vs 350W) 且拥有更高显存带宽 (960 GB/s vs 864 GB/s)，但价格通常高出 20-30%，需计算其每 token 成本优势是否足以抵消 CapEx 溢价。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

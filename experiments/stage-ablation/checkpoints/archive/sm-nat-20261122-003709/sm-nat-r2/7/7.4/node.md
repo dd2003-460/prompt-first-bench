@@ -1,0 +1,24 @@
+# N88: 推导ρ=-0.3条件下LFU与LRU稳态命中率差异的解析表达式，基于热对象平均大小E[S|Hot]与冷对象平均大小E[S|Cold]的比值，计算ΔH_max的具
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N27
+
+## Claim
+
+推导ρ=-0.3条件下LFU与LRU稳态命中率差异的解析表达式，基于热对象平均大小E[S|Hot]与冷对象平均大小E[S|Cold]的比值，计算ΔH_max的具体上限值。
+
+## Corrected Claim
+
+推导ρ=-0.3条件下LFU与LRU稳态命中率差异的解析表达式，该表达式基于热对象平均大小E[S|Hot]与冷对象平均大小E[S|Cold]的比值，从而确定ΔH_max的符号化上限形式。
+
+## Evidence
+
+[质询]该陈述声称计算出了具体的数值上限（ΔH_max），但在缺乏具体对象大小分布参数（如E[S|Hot]和E[S|Cold]的具体数值或比值）的情况下，仅凭ρ=-0.3无法得出唯一的数值解，只能得出依赖于这些参数的解析表达式或符号化上限。 | 经验事实/具体数值计算，逻辑自洽但缺来源支持且缺乏必要输入参数以得出具体数值，故降级为定性表述。
+
+## Search Query
+
+LFU LRU steady state hit rate difference size correlation

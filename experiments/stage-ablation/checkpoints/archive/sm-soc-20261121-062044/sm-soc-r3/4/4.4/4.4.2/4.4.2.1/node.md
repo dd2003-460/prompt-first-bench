@@ -1,0 +1,24 @@
+# N219: β_high 标准误 SE(β_high) 的计算公式：基于 Fisher 信息矩阵的逆，SE(β_high) = √[(X'X)^{-1}_{hh}]，其中 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N78
+
+## Claim
+
+β_high 标准误 SE(β_high) 的计算公式：基于 Fisher 信息矩阵的逆，SE(β_high) = √[(X'X)^{-1}_{hh}]，其中 h 为挂价溢价率特征对应的列索引；若样本存在聚类效应（如同一卖家多商品），需使用聚类稳健标准误 SE_cluster，SE_cluster/SE_classical 通常 > 1.1，导致 t-statistic 下降。
+
+## Corrected Claim
+
+β_high 标准误 SE(β_high) 的计算公式：基于 Fisher 信息矩阵的逆，SE(β_high) = √[(X'X)^{-1}_{hh}]，其中 h 为挂价溢价率特征对应的列索引；若样本存在聚类效应（如同一卖家多商品），需使用聚类稳健标准误 SE_cluster，SE_cluster/SE_classical 通常 > 1.1，导致 t-statistic 下降。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式符合OLS标准误定义，聚类稳健标准误通常大于经典标准误（因忽略组内相关性导致经典标准误低估），进而导致t统计量下降，逻辑自洽且符合计量经济学常识。
+
+## Search Query
+
+standard error regression coefficient Fisher information matrix clustered robust standard error

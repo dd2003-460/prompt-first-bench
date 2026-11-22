@@ -1,0 +1,24 @@
+# N356: AWS/Azure等云服务商的定价模型中，推理API通常按Token计费而非按延迟分级；不存在公开的‘500ms延迟对应特定价格档位’的官方数据，500ms阈值
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N123
+
+## Claim
+
+AWS/Azure等云服务商的定价模型中，推理API通常按Token计费而非按延迟分级；不存在公开的‘500ms延迟对应特定价格档位’的官方数据，500ms阈值应视为内部SLA设计参数而非外部市场标准
+
+## Corrected Claim
+
+主流云服务商的推理API通常采用按Token计费模式，公开文档中较少见基于延迟分级的定价标准；500ms延迟阈值通常作为内部SLA设计参考，而非公开市场定价的直接依据。
+
+## Evidence
+
+[质询]该陈述包含具体的市场定价机制断言（按Token计费而非延迟分级）及特定阈值（500ms）的性质界定，属于经验事实。虽然逻辑上合理，但缺乏直接来源证明所有主流云服务商均无延迟分级定价，且500ms作为内部SLA参数的普遍性无法从第一性原理推导。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+AWS SageMaker inference pricing latency tiers 500ms threshold

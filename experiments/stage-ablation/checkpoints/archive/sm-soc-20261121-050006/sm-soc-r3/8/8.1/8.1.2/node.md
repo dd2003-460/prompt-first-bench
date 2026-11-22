@@ -1,0 +1,20 @@
+# N329: 透明化干预的短期运营成本 C_transparency：C_transparency = C_dev * T_dev + C_data * V_daily，其中
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N105, N106, N107
+
+## Claim
+
+透明化干预的短期运营成本 C_transparency：C_transparency = C_dev * T_dev + C_data * V_daily，其中 C_dev 为开发成本（固定），C_data 为每日数据更新成本，V_daily 为日活跃用户数，该成本需与干预带来的GMV增量收益 R_incremental 对比以计算ROI
+
+## Corrected Claim
+
+透明化干预的短期运营成本 C_transparency：C_transparency = C_dev * T_dev + C_data * V_daily，其中 C_dev 为开发成本（固定），C_data 为每日数据更新成本，V_daily 为日活跃用户数，该成本需与干预带来的GMV增量收益 R_incremental 对比以计算ROI
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

@@ -1,0 +1,20 @@
+# N153: 在典型CDN场景（S_max=100MB, N=10^5, α=1.1）下，128GB缓存容量约束下的有效覆盖对象数 k 约为 1,500 至 2,000 个对
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+在典型CDN场景（S_max=100MB, N=10^5, α=1.1）下，128GB缓存容量约束下的有效覆盖对象数 k 约为 1,500 至 2,000 个对象，而非全量缓存；对应的理论最大字节命中率上限 H_opt ≈ 99.99%（基于 Σ_{i=1}^{k} i^{-2.0}/ζ(2)），且该值对 S_max 的假设不敏感，因为头部对象字节占比极高。
+
+## Corrected Claim
+
+在典型CDN场景（S_max=100MB, N=10^5, α=1.1）下，128GB缓存容量约束下的有效覆盖对象数 k 约为 1,500 至 2,000 个对象，而非全量缓存；对应的理论最大字节命中率上限 H_opt ≈ 99.99%（基于 Σ_{i=1}^{k} i^{-2.0}/ζ(2)），且该值对 S_max 的假设不敏感，因为头部对象字节占比极高。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

@@ -1,0 +1,24 @@
+# N396: Qwen3-27B 在 FP8 精度下，相对于 BF16 基线在 GSM8K (数学推理) 和 MMLU (通用知识) 基准测试上的准确率绝对下降点数 (ΔAc
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N126
+
+## Claim
+
+Qwen3-27B 在 FP8 精度下，相对于 BF16 基线在 GSM8K (数学推理) 和 MMLU (通用知识) 基准测试上的准确率绝对下降点数 (ΔAccuracy, 单位: %)，用于校准 N141 中的 QF_FP8 具体数值。
+
+## Corrected Claim
+
+Qwen3-27B 在 FP8 精度下，相对于 BF16 基线在 GSM8K 和 MMLU 基准测试上存在轻微的准确率下降（具体数值需参考官方技术报告或权威评测数据，通常量化损失在 1-3% 范围内，但具体 ΔAccuracy 未经验证）。
+
+## Evidence
+
+[质询]该陈述涉及特定模型（Qwen3-27B）在特定精度（FP8）下的具体基准测试数值（GSM8K/MMLU准确率下降点数），属于经验事实。由于缺乏官方技术报告或可靠第三方评测的直接数据支持，无法确认具体的绝对下降点数（ΔAccuracy）是否准确，存在数值偏差或口径混淆的风险。 | 经验事实，逻辑自洽（FP8量化通常会导致轻微精度损失，量级合理）但缺来源支持（本轮检索无可用来源）。
+
+## Search Query
+
+Qwen3-27B FP8 GSM8K MMLU accuracy drop vs BF16 baseline

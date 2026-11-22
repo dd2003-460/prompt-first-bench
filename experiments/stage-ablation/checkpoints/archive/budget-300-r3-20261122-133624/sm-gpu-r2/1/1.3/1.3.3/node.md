@@ -1,0 +1,24 @@
+# N51: 算子缓冲 (Activation Buffers) 在 Prefill 阶段峰值可达 1.0-2.0GB，取决于 Batch Size 和序列长度；在 Deco
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N8
+
+## Claim
+
+算子缓冲 (Activation Buffers) 在 Prefill 阶段峰值可达 1.0-2.0GB，取决于 Batch Size 和序列长度；在 Decode 阶段通常 <0.5GB。N8 的 1.5-2.5GB 范围主要覆盖了 Prefill 阶段的峰值开销。
+
+## Corrected Claim
+
+算子缓冲 (Activation Buffers) 在 Prefill 阶段的峰值开销通常显著高于 Decode 阶段，具体数值（如 1.0-2.0GB）高度依赖于模型架构参数（如隐藏层维度、层数）及 Batch Size 和序列长度，需结合具体模型配置确定。
+
+## Evidence
+
+[质询]数值量级缺乏具体模型规模（如参数量、层数、隐藏维度）和硬件配置作为前提，1.0-2.0GB 的峰值范围对于不同规模的 LLM 差异巨大，属于经验事实而非普适物理定律，且无来源支持该特定数值区间。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+vLLM prefill activation buffer memory peak GB batch size sequence length

@@ -1,0 +1,20 @@
+# N216: 下游投影2：计算成本项 C_computation(W) 的量化，假设平台每次权重调整触发的重排序计算成本为 C_fixed + C_var * W，其中 C_
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N58
+
+## Claim
+
+下游投影2：计算成本项 C_computation(W) 的量化，假设平台每次权重调整触发的重排序计算成本为 C_fixed + C_var * W，其中 C_fixed 为服务器固定开销，C_var 为单位权重调整的计算资源消耗（如 CPU 周期/元）。
+
+## Corrected Claim
+
+下游投影2：计算成本项 C_computation(W) 的量化，假设平台每次权重调整触发的重排序计算成本为 C_fixed + C_var * W，其中 C_fixed 为服务器固定开销，C_var 为单位权重调整的计算资源消耗（如 CPU 周期/元）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

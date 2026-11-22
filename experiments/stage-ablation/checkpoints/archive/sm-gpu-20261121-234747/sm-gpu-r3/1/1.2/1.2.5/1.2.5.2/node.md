@@ -1,0 +1,24 @@
+# N187: NVIDIA A100 80GB 在运行 Qwen3-27B INT8 32K 上下文时的实测吞吐量基准：单用户 Decode 阶段吞吐量（tokens/s）受
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N41
+
+## Claim
+
+NVIDIA A100 80GB 在运行 Qwen3-27B INT8 32K 上下文时的实测吞吐量基准：单用户 Decode 阶段吞吐量（tokens/s）受显存带宽（2039 GB/s）限制，理论最大 Decode 速度 ≈ 2039 GB/s / 27GB 权重 ≈ 75 tokens/s，实际受计算瓶颈和通信开销影响，典型值在 40-60 tokens/s，需引用 vLLM 官方 benchmark 或第三方测试数据验证。
+
+## Corrected Claim
+
+NVIDIA A100 80GB 在运行 Qwen3-27B INT8 32K 上下文时，单用户 Decode 阶段吞吐量受显存带宽限制。理论上限约为 75 tokens/s（基于 2039 GB/s 带宽和 27GB 权重估算），实际吞吐量因 KV Cache 占用、计算开销及具体实现而异，通常低于理论值，具体数值需参考 vLLM 官方 benchmark 或第三方实测数据。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性性能数据（40-60 tokens/s）和硬件规格（2039 GB/s），属于经验事实。虽然理论计算（2039/27≈75）在逻辑上自洽，但实际吞吐量受KV Cache大小、Batch Size、具体硬件配置（H100/A100差异）及软件栈影响极大，仅凭带宽除以权重大小无法精确推导实际值，且缺乏来源支持具体数值范围。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+NVIDIA A100 80GB Qwen3-27B INT8 32K context throughput tokens/s benchmark

@@ -1,0 +1,24 @@
+# N263: RTX 5090 32GB 在 2025年Q1 的现货市场均价为 $2,400-$2,800，相对于 MSRP ($1999) 的溢价率计算公式为 (Marke
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N93
+
+## Claim
+
+RTX 5090 32GB 在 2025年Q1 的现货市场均价为 $2,400-$2,800，相对于 MSRP ($1999) 的溢价率计算公式为 (Market_Price - MSRP) / MSRP × 100%，当前溢价率约为 20%-40%
+
+## Corrected Claim
+
+RTX 5090 32GB 在 2025年Q1 的现货市场均价预计高于 MSRP ($1999)，溢价率计算公式为 (Market_Price - MSRP) / MSRP × 100%，具体溢价幅度需参考实时市场数据。
+
+## Evidence
+
+[质询]具体市场价格（$2,400-$2,800）属于经验事实，且2025年Q1为未来/近期时间点，缺乏实时市场数据支持，数值可能随供需波动剧烈变化，无法仅凭逻辑推导确定具体区间。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体价格非第一性原理可推导）
+
+## Search Query
+
+RTX 5090 street price Q1 2025 premium over MSRP

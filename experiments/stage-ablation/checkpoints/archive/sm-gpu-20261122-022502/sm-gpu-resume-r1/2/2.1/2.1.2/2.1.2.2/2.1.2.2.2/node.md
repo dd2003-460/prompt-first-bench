@@ -1,0 +1,29 @@
+# N542: 在 ROCm 5.x 环境下，使用 llama.cpp 进行 Qwen3-27B INT4 推理时，软件栈损耗系数较高，约为 70-75%，实际吞吐约为 60.
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N168
+
+## Claim
+
+在 ROCm 5.x 环境下，使用 llama.cpp 进行 Qwen3-27B INT4 推理时，软件栈损耗系数较高，约为 70-75%，实际吞吐约为 60.4 * 0.70 ≈ 42.3 tokens/s 至 64.0 * 0.75 ≈ 48.0 tokens/s。
+
+## Corrected Claim
+
+在 ROCm 环境下使用 llama.cpp 进行 Qwen3-27B INT4 推理时，软件栈存在显著损耗，实际吞吐通常显著低于理论峰值，具体数值需依据特定硬件型号（如 MI50/MI250/MI300）及 ROCm 版本实测确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（70-75%损耗系数、42.3-48.0 tokens/s），属于硬件/软件性能实测数据，无法从第一性原理推导。参考来源[1]和[2]虽然涉及相关主题（ROCm, llama.cpp, Qwen3, AMD GPU），但摘要中未提供具体的吞吐数值或损耗系数，无法直接支持该特定数值结论。此外，来源[1]提及ROCm 6.1.3，与陈述中的5.x版本存在潜在环境差异，虽不直接矛盾但削弱了直接相关性。 | 逻辑自洽（计算过程正确，量级符合AMD MI系列GPU在ROCm下运行大模型INT4推理的典型性能范围），但参考来源[1][2]仅覆盖部署指南，未提供具体性能基准数据，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+ROCm 5 llama.cpp Qwen3-27B INT4 throughput performance
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_29047545/article/details/166571290&rut=60dd7d06bfd427c7776fe505c0519f239fbe4197469f34fef1771941c5a34d63', 'type': 'ddg', 'title': 'MI50部署Qwen3：llama.cpp ROCm编译与优化全指南 - CSDN博客'}
+- {'url': 'https://blog.csdn.net/weixin_32495691/article/details/163809701&rut=d346b2c27b0b21862daa15c5891118d8edf3fa0eafb59ab956ca6ced8d4bf4e1', 'type': 'ddg', 'title': 'AMD GPU本地部署Qwen3.8-27B：从ROCm到OpenCL的完整实践指南-CSDN博客'}

@@ -1,0 +1,20 @@
+# N58: 冷对象（后 90%）的 T_cold=720h 是否合理：若缓存容量足够容纳所有对象，冷对象驻留时间由访问频率决定，T_cold ≈ 1/f_cold，对于 β
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N19
+
+## Claim
+
+冷对象（后 90%）的 T_cold=720h 是否合理：若缓存容量足够容纳所有对象，冷对象驻留时间由访问频率决定，T_cold ≈ 1/f_cold，对于 β=0.9 的尾部对象，f_cold 极低，T_cold 可能远超 720h，导致 P_inval_cold ≈ 1。
+
+## Corrected Claim
+
+冷对象（后 90%）的 T_cold=720h 是否合理：若缓存容量足够容纳所有对象，冷对象驻留时间由访问频率决定，T_cold ≈ 1/f_cold，对于 β=0.9 的尾部对象，f_cold 极低，T_cold 可能远超 720h，导致 P_inval_cold ≈ 1。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：根据缓存理论，冷对象访问频率极低，其驻留时间（或失效时间）确实远大于热对象，720h作为冷对象的时间尺度在逻辑上是自洽且合理的。

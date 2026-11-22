@@ -1,0 +1,20 @@
+# N103: LRU 命中率下界工作点 A（理想全覆盖）：假设缓存容量 C=128GB 远大于工作集 W_total≈10.72GB，k=N=100,000，H_req(k)
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N44
+
+## Claim
+
+LRU 命中率下界工作点 A（理想全覆盖）：假设缓存容量 C=128GB 远大于工作集 W_total≈10.72GB，k=N=100,000，H_req(k)=1.0，E[S|Rank≤k]/E[S]=1.0，故 H_byte_LRU_lower = 1.0 (100%)，此为理论上限而非下界，需修正。
+
+## Corrected Claim
+
+LRU 命中率下界工作点 A（理想全覆盖）：假设缓存容量 C=128GB 远大于工作集 W_total≈10.72GB，k=N=100,000，H_req(k)=1.0，E[S|Rank≤k]/E[S]=1.0，故 H_byte_LRU_lower = 1.0 (100%)，此为理论上限而非下界，需修正。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：当缓存容量远大于工作集时，LRU 缓存可覆盖全部访问，命中率理论上为 100%，且该陈述正确指出了这是理论上限而非下界。

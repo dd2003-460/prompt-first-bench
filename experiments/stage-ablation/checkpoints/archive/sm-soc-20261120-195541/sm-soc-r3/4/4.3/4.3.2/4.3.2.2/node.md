@@ -1,0 +1,20 @@
+# N145: 核心属性词库的构建需基于 TF-IDF 算法从该商品历史成交的买家搜索日志中提取 Top-K 高频词，K 值通常设为 5-10，以确保 Q_intentiona
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N49
+
+## Claim
+
+核心属性词库的构建需基于 TF-IDF 算法从该商品历史成交的买家搜索日志中提取 Top-K 高频词，K 值通常设为 5-10，以确保 Q_intentional 的判定标准具有商品特异性而非类目通用性。
+
+## Corrected Claim
+
+核心属性词库的构建需基于 TF-IDF 算法从该商品历史成交的买家搜索日志中提取 Top-K 高频词，K 值通常设为 5-10，以确保 Q_intentional 的判定标准具有商品特异性而非类目通用性。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：TF-IDF是提取特征词的标准算法，K=5-10符合高频词提取的常规量级，且基于历史成交日志确实能增强商品特异性，逻辑自洽。

@@ -1,0 +1,20 @@
+# N277: 若坚持使用 BF16 权重（54GB），A100 40GB 显存完全不可行（54GB > 40GB），必须采用 FP8/INT8 权重量化；若采用 W4 量化（
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N91
+
+## Claim
+
+若坚持使用 BF16 权重（54GB），A100 40GB 显存完全不可行（54GB > 40GB），必须采用 FP8/INT8 权重量化；若采用 W4 量化（~13.5GB），则 KV Cache 可放宽至 BF16 且支持更大 Batch Size，显存利用率提升 50% 以上。
+
+## Corrected Claim
+
+若坚持使用 BF16 权重（54GB），A100 40GB 显存完全不可行（54GB > 40GB），必须采用 FP8/INT8 权重量化；若采用 W4 量化（~13.5GB），则 KV Cache 可放宽至 BF16 且支持更大 Batch Size，显存利用率提升 50% 以上。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：54GB > 40GB 显存溢出成立；W4量化后权重约13.5GB，剩余显存约26.5GB，相比BF16不可行状态，KV Cache空间显著增加，支持更大Batch Size及利用率提升的结论符合工程直觉。

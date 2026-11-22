@@ -1,0 +1,24 @@
+# N196: H100 80GB SXM 在 BF16 精度下运行 Qwen3-27B 的实测 decode 吞吐量 (tokens/s) 约为 75-90 tokens/s
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N50
+
+## Claim
+
+H100 80GB SXM 在 BF16 精度下运行 Qwen3-27B 的实测 decode 吞吐量 (tokens/s) 约为 75-90 tokens/s，其 3350 GB/s 显存带宽和 Hopper 架构的 TMA (Tensor Memory Accelerator) 使得实际吞吐显著高于理论带宽限制值 (3350/54 ≈ 62 tokens/s)，需对比 A100 实测值以验证 1.64 倍的理论加速比是否在实际推理中成立。
+
+## Corrected Claim
+
+H100 80GB SXM 在 BF16 精度下运行 Qwen3-27B 的 decode 吞吐量受具体推理框架和配置影响较大，其 3350 GB/s 显存带宽提供了较高的理论上限（约 62 tokens/s 基于纯带宽估算），实际性能通常优于 A100，但具体数值（如 75-90 tokens/s）需依赖特定基准测试数据验证，TMA 对 decode 阶段的直接加速效果需结合具体 kernel 实现评估。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件规格（H100 80GB SXM 显存带宽 3350 GB/s）和具体的实测性能数据（75-90 tokens/s），属于经验事实。虽然 H100 SXM 的带宽 3350 GB/s 是公开且准确的规格，但具体的 decode 吞吐量高度依赖于具体的推理框架（如 vLLM, TensorRT-LLM）、批处理大小（batch size）、序列长度以及是否使用了量化或特定的优化内核。仅凭架构和带宽无法唯一确定 75-90 tokens/s 这一具体区间，且‘显著高于理论带宽限制值’的归因于 TMA 在单流 decode 场景下是否为主要瓶颈突破点存在争议（通常 decode 是 memory-bound，TMA 主要优化 GEMM 的加载效率，对纯 memory-bound 的 KV cache 读取提升有限，除非涉及特定的 kernel 优化）。 | 经验事实，逻辑自洽但缺来源支持。H100 SXM 带宽 3350 GB/s 为已知规格，理论计算 3350/54≈62 tokens/s 符合数学逻辑，但具体实测值 75-90 tokens/s 及 TMA 的具体贡献比例缺乏本轮检索来源支持，且受多种工程变量影响，无法仅凭第一性原理严格推出该具体数值区间。
+
+## Search Query
+
+H100 80GB Qwen3-27B BF16 vLLM inference throughput tokens per second benchmark

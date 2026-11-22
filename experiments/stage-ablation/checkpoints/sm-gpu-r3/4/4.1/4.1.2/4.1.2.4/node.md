@@ -1,0 +1,20 @@
+# N203: 显存需求敏感性分析：若上下文长度从 32K 增至 64K，KV Cache 需求从 8GB 翻倍至 16GB，总需求增至 43GB (FP8 权重)，此时 2x
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N98
+
+## Claim
+
+显存需求敏感性分析：若上下文长度从 32K 增至 64K，KV Cache 需求从 8GB 翻倍至 16GB，总需求增至 43GB (FP8 权重)，此时 2x RTX 4090 (48GB) 剩余仅 5GB (Batch=0.28，不可行)，而 H100 (80GB) 剩余 37GB (Batch=2.1，可行)，表明长上下文场景下数据中心卡优势显著，消费级双卡方案在 64K 上下文下失效
+
+## Corrected Claim
+
+显存需求敏感性分析：若上下文长度从 32K 增至 64K，KV Cache 需求从 8GB 翻倍至 16GB，总需求增至 43GB (FP8 权重)，此时 2x RTX 4090 (48GB) 剩余仅 5GB (Batch=0.28，不可行)，而 H100 (80GB) 剩余 37GB (Batch=2.1，可行)，表明长上下文场景下数据中心卡优势显著，消费级双卡方案在 64K 上下文下失效
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：KV Cache 随上下文线性增长，8GB 翻倍至 16GB 符合逻辑；总显存 43GB 在 48GB 双卡下剩余 5GB，在 80GB H100 下剩余 37GB，数值计算自洽，且符合长上下文对显存敏感性的工程常识。

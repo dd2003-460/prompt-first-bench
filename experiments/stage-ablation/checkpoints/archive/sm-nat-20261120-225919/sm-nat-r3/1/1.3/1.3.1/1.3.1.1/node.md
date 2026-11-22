@@ -1,0 +1,30 @@
+# N120: Clayton Copula 参数 θ 的正确推导：题目给出的 θ = (ρ - 0.5) / (0.5 - ρ) 是错误公式；正确方法是通过数值求解 Spea
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N34
+
+## Claim
+
+Clayton Copula 参数 θ 的正确推导：题目给出的 θ = (ρ - 0.5) / (0.5 - ρ) 是错误公式；正确方法是通过数值求解 Spearman 秩相关 ρ_s(θ) = θ/(θ+2) 与 Pearson 相关 ρ=-0.3 的映射，或利用 Gaussian Copula 近似 θ ≈ 2.5 需重新核验其对应的 Pearson 相关系数是否匹配 -0.3。
+
+## Corrected Claim
+
+Clayton Copula 参数 θ 的推导需通过数值方法求解 Spearman 秩相关与 Pearson 相关的映射关系；题目给出的线性公式 θ = (ρ - 0.5) / (0.5 - ρ) 缺乏理论依据，通常被视为错误。具体 θ 值（如 2.5）需通过数值积分或特定近似方法验证，不能仅凭逻辑推导确定。
+
+## Evidence
+
+[质询]该陈述包含具体的数值结论（θ ≈ 2.5）和特定的推导路径（Gaussian Copula 近似），属于经验/计算事实。参考来源仅提供了 Clayton Copula 的一般性定义和计算器链接，未提供针对 ρ=-0.3 的具体参数推导过程或验证 θ=2.5 的正确性，无法排除该数值是错误计算或特定近似下的结果。 | 逻辑上，Clayton Copula 的 Spearman 相关公式 ρ_s = θ/(θ+2) 是标准数学性质，但将 Pearson 相关 ρ=-0.3 映射到 θ≈2.5 需要具体的数值积分或近似方法，参考来源 [1][2][3] 仅涵盖 Clayton Copula 的一般理论，未直接支持该特定数值推导，属于经验事实缺来源支持。
+
+## Search Query
+
+Clayton copula theta parameter pearson correlation -0.3 mapping
+
+## Retrieval Sources
+
+- {'url': 'https://metricgate.com/docs/clayton-copula/&rut=d295f09bcc2d595f0d06c21de1a0992a9f7aed64184a6732f94fd86706455c9f', 'type': 'ddg', 'title': 'Clayton Copula Dependence Analysis Calculator | MetricGate'}
+- {'url': 'https://thewallstreetbulls.com/models/clayton-copula/&rut=078b7bf15bb797f61e8f90343d79617bee62a579fa965dc194116a8479d7758f', 'type': 'ddg', 'title': 'Clayton Copula - Models | The Wall Street Bulls'}
+- {'url': 'https://metricgate.com/docs/copula-tail-dependence/&rut=c59884b0291f4bb07a905ead487af1a5f1e4e5a3a54f6b3098fd1262f2daeea2', 'type': 'ddg', 'title': 'Copula Tail Dependence Coefficients Calculator | MetricGate'}

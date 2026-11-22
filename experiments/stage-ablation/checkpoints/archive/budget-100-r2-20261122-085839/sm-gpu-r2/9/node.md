@@ -1,0 +1,20 @@
+# N30: 数据不确定性标记规范：所有价格数据标记为 [Price: 2024-Q4 Est.]；所有性能基准（如MMLU分数）标记为 [Bench: Qwen3-27B 
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+数据不确定性标记规范：所有价格数据标记为 [Price: 2024-Q4 Est.]；所有性能基准（如MMLU分数）标记为 [Bench: Qwen3-27B Report v1]；所有带宽/算力峰值标记为 [Spec: NVIDIA Official Datasheet]。对于多卡互联开销（N24中的15%-30%），标记为 [Est: Empirical Range]，需在最终推荐中说明该范围导致的性价比波动区间（例如：PCIe方案性价比可能比NVLink方案低20%-30%）。
+
+## Corrected Claim
+
+数据不确定性标记规范：所有价格数据标记为 [Price: 2024-Q4 Est.]；所有性能基准（如MMLU分数）标记为 [Bench: Qwen3-27B Report v1]；所有带宽/算力峰值标记为 [Spec: NVIDIA Official Datasheet]。对于多卡互联开销（N24中的15%-30%），标记为 [Est: Empirical Range]，需在最终推荐中说明该范围导致的性价比波动区间（例如：PCIe方案性价比可能比NVLink方案低20%-30%）。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间主题正交（分别对应性能、互联开销、价格），无重复或矛盾。但存在完备性缺陷：父节点明确列出的三类标记规范中，'所有带宽/算力峰值标记为 [Spec: NVIDIA Official Datasheet]' 这一关键方面在子节点中完全缺失，未被覆盖。此外，子节点虽涉及不确定性区间，但未明确对应父节点要求的最终推荐中需说明的'性价比波动区间'的具体推导逻辑（如子节点2仅给出置信区间宽度，未直接对应父节点示例中的'低20%-30%'的具体场景说明，但这属于细节，主要问题仍是Spec类数据缺失）。）

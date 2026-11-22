@@ -1,0 +1,24 @@
+# N49: NVIDIA RTX 4090 24GB GDDR6X 在 2024Q4-2025Q1 的北美/中国零售市场均价区间为 $1,599-$1,899 USD，二手
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+NVIDIA RTX 4090 24GB GDDR6X 在 2024Q4-2025Q1 的北美/中国零售市场均价区间为 $1,599-$1,899 USD，二手市场价格为 $1,200-$1,500 USD [实时查询-2025-01]
+
+## Corrected Claim
+
+NVIDIA RTX 4090 24GB GDDR6X 在 2024Q4-2025Q1 的北美/中国零售市场均价显著高于其 $1,599 的 MSRP，二手市场价格低于零售均价，具体数值需实时查询确认。
+
+## Evidence
+
+[质询]该陈述包含具体的市场价格区间（$1,599-$1,899 和 $1,200-$1,500），属于典型的市场经验事实。由于缺乏实时数据源支持，无法验证这些具体数值在 2024Q4-2025Q1 期间的准确性，且 GPU 市场价格波动剧烈，具体区间极易过时或偏差。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，无法验证具体价格区间）
+
+## Search Query
+
+RTX 4090 price January 2025 USD new used

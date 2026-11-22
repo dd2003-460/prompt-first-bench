@@ -1,0 +1,24 @@
+# N127: 在 ρ=-0.3 负相关约束下，Bottom 10% 热度对象的条件平均大小 E[s|H∈Bottom10%] 的精确数值为 28.5KB，该值通过截断 Par
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N42, N43, N44
+
+## Claim
+
+在 ρ=-0.3 负相关约束下，Bottom 10% 热度对象的条件平均大小 E[s|H∈Bottom10%] 的精确数值为 28.5KB，该值通过截断 Pareto 分布的条件矩计算得出，高于 N42 中估计的 25KB，表明冷对象更大，加剧了 LRU 缓存的大对象驱逐压力。
+
+## Corrected Claim
+
+在 ρ=-0.3 负相关约束下，Bottom 10% 热度对象的条件平均大小 E[s|H∈Bottom10%] 估计约为 28.5KB（基于截断 Pareto 分布假设），高于 N42 中估计的 25KB，表明冷对象可能更大，加剧了 LRU 缓存的大对象驱逐压力。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值（28.5KB）和特定分布假设（截断Pareto），属于经验事实而非第一性原理可推导的数学恒等式。在缺乏外部来源支持的情况下，无法验证该具体数值的准确性，且'冷对象更大'这一结论依赖于特定的数据分布假设，可能存在口径混淆或假设偏差。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+Frank copula conditional expectation Pareto negative correlation bottom 10 percent size

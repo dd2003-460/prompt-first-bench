@@ -1,0 +1,20 @@
+# N210: 基础咨询率 a 的时间衰减函数：a(t) = a_0 * e^(-λ_decay * t)，其中 t 为商品上架时间，需估计 λ_decay 的典型值（如 0.
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N67
+
+## Claim
+
+基础咨询率 a 的时间衰减函数：a(t) = a_0 * e^(-λ_decay * t)，其中 t 为商品上架时间，需估计 λ_decay 的典型值（如 0.05/day），以量化‘新鲜度’对基础咨询率的边际影响，解释为何新上架商品的 a 高于长期未成交商品。
+
+## Corrected Claim
+
+基础咨询率 a 的时间衰减函数：a(t) = a_0 * e^(-λ_decay * t)，其中 t 为商品上架时间，需估计 λ_decay 的典型值（如 0.05/day），以量化‘新鲜度’对基础咨询率的边际影响，解释为何新上架商品的 a 高于长期未成交商品。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

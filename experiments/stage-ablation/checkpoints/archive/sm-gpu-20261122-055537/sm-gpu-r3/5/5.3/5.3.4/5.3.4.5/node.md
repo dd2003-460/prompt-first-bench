@@ -1,0 +1,20 @@
+# N290: 2x RTX 4090 运行 Qwen3-27B INT8 在 32K 上下文下的可行性验证：INT8 权重大小约 27GB，分布在 2 卡上每卡 13.5GB
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N88, N89, N90
+
+## Claim
+
+2x RTX 4090 运行 Qwen3-27B INT8 在 32K 上下文下的可行性验证：INT8 权重大小约 27GB，分布在 2 卡上每卡 13.5GB；32K 上下文 KV Cache (BF16) 约 10-15GB，分布在 2 卡上每卡 5-7.5GB；总需求每卡约 18.5-21GB < 24GB，因此 INT8 + 32K 在 2x 4090 上可行，且无需 CPU Offload。
+
+## Corrected Claim
+
+2x RTX 4090 运行 Qwen3-27B INT8 在 32K 上下文下的可行性验证：INT8 权重大小约 27GB，分布在 2 卡上每卡 13.5GB；32K 上下文 KV Cache (BF16) 约 10-15GB，分布在 2 卡上每卡 5-7.5GB；总需求每卡约 18.5-21GB < 24GB，因此 INT8 + 32K 在 2x 4090 上可行，且无需 CPU Offload。
+
+## Evidence
+
+[质询]KV Cache 的估算值（10-15GB）可能因 Qwen3-27B 的具体架构参数（如层数、头数、GQA 比例）不同而存在偏差，若实际 KV Cache 显著大于 15GB，则总显存需求可能超过 24GB。 | 先验知识/题面给定，逻辑校验通过：INT8 权重 27GB 分摊至 2 卡为 13.5GB/卡；KV Cache 10-15GB 分摊至 2 卡为 5-7.5GB/卡；总和 18.5-21GB 小于 24GB 显存上限，计算自洽且符合工程常识。

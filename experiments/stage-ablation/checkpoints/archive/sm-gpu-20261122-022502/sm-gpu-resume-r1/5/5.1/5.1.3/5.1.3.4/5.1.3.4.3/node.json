@@ -1,0 +1,17 @@
+{
+  "id": "N863",
+  "claim": "vLLM 实际 Decode 吞吐公式修正：实际吞吐 = (理论带宽 * η_vllm) / (模型大小 + KV Cache 大小)，其中 KV Cache 大小 = 2 * n_layers * n_heads * head_dim * dtype_size * context_len，对于 Qwen3-27B (n_layers=48, n_heads=32, head_dim=128, BF16)，KV Cache 大小 = 2 * 48 * 32 * 128 * 2 * 32768 = 25.1 GB，该值需从分母中扣除以反映真实带宽竞争 [待核验层数/头数]",
+  "level": "L5",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]Qwen3-27B 的具体架构参数（n_layers=48, n_heads=32, head_dim=128）属于经验事实，且该模型可能采用 GQA（Grouped Query Attention）而非 MHA，若为 GQA 则 KV Cache 大小会显著小于计算值，导致分母估算偏差。 | source=knowledge，逻辑公式自洽且量级合理，但具体模型参数（层数/头数）缺乏来源直接支持，且存在 GQA 架构导致参数不符的风险，故降级。",
+  "corrected_claim": "vLLM 实际 Decode 吞吐公式修正：实际吞吐 = (理论带宽 * η_vllm) / (模型大小 + KV Cache 大小)，其中 KV Cache 大小取决于具体模型的注意力机制（MHA/GQA）及层数/头数配置，需根据 Qwen3-27B 实际架构参数计算，而非固定为 25.1 GB。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N269"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "",
+  "retrieval_sources": []
+}

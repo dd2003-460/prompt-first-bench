@@ -1,0 +1,20 @@
+# N25: 多卡方案额外开销 (C_overhead) = C_psu_extra + C_chassis + C_interconnect + C_cooling_del
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+多卡方案额外开销 (C_overhead) = C_psu_extra + C_chassis + C_interconnect + C_cooling_delta，包括额外电源模块、机箱/机柜租赁或购买费、NVLink/PCIe 交换成本及散热升级成本。
+
+## Corrected Claim
+
+多卡方案额外开销 (C_overhead) = C_psu_extra + C_chassis + C_interconnect + C_cooling_delta，包括额外电源模块、机箱/机柜租赁或购买费、NVLink/PCIe 交换成本及散热升级成本。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1-4分别对应公式中的四个独立变量（PSU、Chassis、Interconnect、Cooling），彼此无重叠且逻辑清晰。子节点5是对前四项的汇总计算，符合分解树中‘结果/汇总’节点的常见结构，不构成冗余。所有关键成本项均已覆盖，且明确指出了单卡方案为0的情况，逻辑完备。）

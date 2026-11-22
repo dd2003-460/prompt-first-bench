@@ -1,0 +1,20 @@
+# N119: Miss 成本 cost_miss(s) 的组成分解：cost_miss(s) = t_refill(s) + t_processing = (5ms + s/
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N43
+
+## Claim
+
+Miss 成本 cost_miss(s) 的组成分解：cost_miss(s) = t_refill(s) + t_processing = (5ms + s/100MB/s) + 1ms = 6ms + s/100MB/s，其中 t_processing=1ms 为固定处理开销，占小对象 miss 成本的 16.7% (1ms/6ms)，占大对象 miss 成本的 5.7% (1ms/17.5ms)。
+
+## Corrected Claim
+
+Miss 成本 cost_miss(s) 的组成分解：cost_miss(s) = t_refill(s) + t_processing = (5ms + s/100MB/s) + 1ms = 6ms + s/100MB/s，其中 t_processing=1ms 为固定处理开销，占小对象 miss 成本的 16.7% (1ms/6ms)，占大对象 miss 成本的 5.7% (1ms/17.5ms)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式推导 5+1=6ms 正确，百分比计算 1/6≈16.7% 和 1/17.5≈5.7% 均准确，量纲与数值自洽。

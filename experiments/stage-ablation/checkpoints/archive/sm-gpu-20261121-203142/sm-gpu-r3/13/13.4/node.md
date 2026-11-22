@@ -1,0 +1,24 @@
+# N366: Intel Gaudi 2 运行 Qwen3-27B 的软件栈成熟度量化指标：检查 PyTorch/XCCL 对 Qwen 架构（如 FlashAttentio
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N124
+
+## Claim
+
+Intel Gaudi 2 运行 Qwen3-27B 的软件栈成熟度量化指标：检查 PyTorch/XCCL 对 Qwen 架构（如 FlashAttention-2/3 支持、PagedAttention 支持）的兼容性；若缺乏原生 FlashAttention 优化，Prefill 阶段性能将下降 30-50% [待核验]，需通过 benchmark 对比 HuggingFace Transformers 默认实现与优化后的推理引擎（如 vLLM 对 Gaudi 的支持状态）来确认实际可用性。
+
+## Corrected Claim
+
+Intel Gaudi 2 运行 Qwen3-27B 的软件栈成熟度需通过 benchmark 确认。若缺乏原生 FlashAttention 优化，Prefill 阶段性能可能显著下降（具体幅度需实测），需对比 HuggingFace Transformers 默认实现与优化推理引擎（如 vLLM）在 Gaudi 上的实际支持状态与性能表现。
+
+## Evidence
+
+[质询]该陈述包含具体的性能下降数值（30-50%）和特定的软件栈兼容性断言（如 vLLM 对 Gaudi 的支持状态、FlashAttention 支持情况），属于经验事实。由于缺乏外部来源支持，且不同硬件架构和模型规模下性能差异巨大，该具体数值缺乏普适性依据，存在过度具体化导致的准确性风险。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）。
+
+## Search Query
+
+Intel Gaudi 2 vLLM support Qwen3 inference optimization

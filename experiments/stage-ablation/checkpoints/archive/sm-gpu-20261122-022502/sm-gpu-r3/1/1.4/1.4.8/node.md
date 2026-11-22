@@ -1,0 +1,24 @@
+# N48: 量化质量损失量化模型：Accuracy_Loss(%) = α * (1 - Quantization_Factor) + β * Model_Size_Sen
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N9, N10, N11
+
+## Claim
+
+量化质量损失量化模型：Accuracy_Loss(%) = α * (1 - Quantization_Factor) + β * Model_Size_Sensitivity；其中 α 为量化算法系数 (INT8 α=0.5, W4 α=1.2)，β 为模型大小敏感度 (27B β=0.02)；对于 INT8，预期 MMLU 损失 = 0.5 * (1-0.5) + 0.02 ≈ 0.27%；对于 W4，预期损失 = 1.2 * (1-0.25) + 0.02 ≈ 0.92%，均在 <2% 可接受阈值内。
+
+## Corrected Claim
+
+量化质量损失通常随量化位宽降低而增加。在特定经验模型估算下，INT8量化预期MMLU损失约为0.27%，W4量化约为0.92%，均低于2%的可接受阈值，但实际损失取决于具体模型架构与量化算法。
+
+## Evidence
+
+[质询]该公式为经验拟合模型而非第一性原理推导，且参数（如α=0.5, β=0.02）缺乏通用性，不同模型架构和量化方法下损失差异巨大，直接套用此特定公式得出的精确百分比（0.27%, 0.92%）在缺乏具体模型上下文时属于过度精确的经验断言。 | source=knowledge，逻辑自洽（算术计算正确：0.5*0.5+0.02=0.27, 1.2*0.75+0.02=0.92），但作为经验事实模型，其参数和结论的普适性无法仅凭逻辑校验完全确认，且无外部来源支持，故降级为定性表述。
+
+## Search Query
+
+LLM quantization accuracy loss model INT8 W4 MMLU degradation formula

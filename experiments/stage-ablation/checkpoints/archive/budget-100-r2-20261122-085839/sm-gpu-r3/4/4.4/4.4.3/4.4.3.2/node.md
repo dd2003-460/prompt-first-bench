@@ -1,0 +1,20 @@
+# N224: Batch_Size 对通信量的线性影响：当 Batch_Size=1 时，每层通信量为 16 KB；当 Batch_Size=8 时，每层通信量增至 128 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N84
+
+## Claim
+
+Batch_Size 对通信量的线性影响：当 Batch_Size=1 时，每层通信量为 16 KB；当 Batch_Size=8 时，每层通信量增至 128 KB，总通信量增至 6 MB/step，通信延迟占比显著上升，需评估高并发下 TP=2 的通信瓶颈是否超过计算瓶颈。
+
+## Corrected Claim
+
+Batch_Size 对通信量的线性影响：当 Batch_Size=1 时，每层通信量为 16 KB；当 Batch_Size=8 时，每层通信量增至 128 KB，总通信量增至 6 MB/step，通信延迟占比显著上升，需评估高并发下 TP=2 的通信瓶颈是否超过计算瓶颈。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Batch_Size 从 1 增至 8（8倍），通信量从 16KB 增至 128KB（8倍），符合线性关系；总通信量 6MB/step 与每层 128KB 在典型层数（如 48 层左右）下量级吻合，逻辑自洽。

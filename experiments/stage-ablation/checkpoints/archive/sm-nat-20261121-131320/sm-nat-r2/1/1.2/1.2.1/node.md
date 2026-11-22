@@ -1,0 +1,20 @@
+# N21: Pareto(α=1.1, x_min=1KB) 的期望大小 E[S]：E[S] = α * x_min / (α - 1) = 1.1 * 1KB / 0.1
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+Pareto(α=1.1, x_min=1KB) 的期望大小 E[S]：E[S] = α * x_min / (α - 1) = 1.1 * 1KB / 0.1 = 11KB，基于给定的 α=1.1 和 x_min=1KB 计算。
+
+## Corrected Claim
+
+Pareto(α=1.1, x_min=1KB) 的期望大小 E[S]：E[S] = α * x_min / (α - 1) = 1.1 * 1KB / 0.1 = 11KB，基于给定的 α=1.1 和 x_min=1KB 计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布期望公式 E[S] = α*x_min/(α-1) 在 α>1 时成立，代入 α=1.1, x_min=1KB 计算得 11KB，数值量级合理。

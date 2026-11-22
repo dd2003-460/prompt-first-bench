@@ -1,0 +1,20 @@
+# N294: 多源一致性判定标准：对于关键参数 X，若来源 S1（如 NVIDIA 官方）和 S2（如 AnandTech）的数值偏差 |X1 - X2| / X_avg <
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N105
+
+## Claim
+
+多源一致性判定标准：对于关键参数 X，若来源 S1（如 NVIDIA 官方）和 S2（如 AnandTech）的数值偏差 |X1 - X2| / X_avg < 5%，且两个来源的发布日期均在最近 12 个月内，则判定为 [高置信]；若偏差 >5% 或任一来源超过 12 个月，则判定为 [中置信] 并在最终报告中注明不确定性范围
+
+## Corrected Claim
+
+多源一致性判定标准：对于关键参数 X，若来源 S1（如 NVIDIA 官方）和 S2（如 AnandTech）的数值偏差 |X1 - X2| / X_avg < 5%，且两个来源的发布日期均在最近 12 个月内，则判定为 [高置信]；若偏差 >5% 或任一来源超过 12 个月，则判定为 [中置信] 并在最终报告中注明不确定性范围
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

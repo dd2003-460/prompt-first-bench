@@ -1,0 +1,29 @@
+# N23: 隐性维护与故障成本：消费级卡（无ECC、无冗余、驱动支持周期短）与数据中心级卡（ECC、高可用性、长期驱动支持）在3年持有期内的预期故障率（AFR）及停机损失估
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4, N5, N6
+
+## Claim
+
+隐性维护与故障成本：消费级卡（无ECC、无冗余、驱动支持周期短）与数据中心级卡（ECC、高可用性、长期驱动支持）在3年持有期内的预期故障率（AFR）及停机损失估算。
+
+## Corrected Claim
+
+消费级GPU（无ECC、无冗余、驱动支持周期短）与数据中心级GPU（ECC、高可用性、长期驱动支持）相比，在3年持有期内通常具有更高的预期故障率（AFR）和潜在的停机损失，但具体数值需参考特定硬件型号的可靠性报告。
+
+## Evidence
+
+[质询]参考来源讨论的是物联网通信卡（SIM卡）而非GPU/计算卡，存在严重的主题混淆（口径错误）；且来源中未提供消费级与数据中心级GPU在3年持有期内的具体AFR数值或停机损失估算数据，无法直接支持该事实节点的具体量化结论。 | 来源[1]和[2]均讨论物联网卡（IoT SIM cards），与事实节点中的GPU/计算卡（Consumer vs Datacenter GPUs）主题不匹配，属于无关来源；但事实陈述本身关于ECC、冗余及驱动支持对故障率和停机成本影响的逻辑符合工程常识，逻辑自洽。
+
+## Search Query
+
+consumer GPU vs datacenter GPU failure rate AFR inference workload
+
+## Retrieval Sources
+
+- {'url': 'https://www.sohu.com/a/973308177_121339809&rut=bfd7cb7ce1ffaa8b46d7708a8f445b446d0fb4065e6586cd4ad24cfe9fd8995d', 'type': 'ddg', 'title': '一张物联网卡的成本账：流量、资费与隐性成本的深度拆解'}
+- {'url': 'https://www.sohu.com/a/991707243_122074584&rut=9327230163fd51e109e06431b6c693c24026a3b4760c63b19f2d7f553ac81550', 'type': 'ddg', 'title': '别再选错!物联网卡4大类型拆解，工业级/消费级/插拔卡/贴片卡避坑指南_设备_场景_选型'}

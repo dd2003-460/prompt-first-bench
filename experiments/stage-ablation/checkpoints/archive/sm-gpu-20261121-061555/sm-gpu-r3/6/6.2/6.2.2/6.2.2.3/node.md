@@ -1,0 +1,24 @@
+# N317: 主流二手服务器硬件平台（如 ServerMonkey, GoFastGPU）当前 A100 80GB 的挂牌均价与 eBay 成交价的价差百分比，以识别渠道套利
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N112
+
+## Claim
+
+主流二手服务器硬件平台（如 ServerMonkey, GoFastGPU）当前 A100 80GB 的挂牌均价与 eBay 成交价的价差百分比，以识别渠道套利空间或市场分割
+
+## Corrected Claim
+
+主流二手服务器硬件平台（如 ServerMonkey, GoFastGPU）与 eBay 在 A100 80GB 的挂牌价与成交价之间存在显著价差，具体百分比随市场供需波动，需实时查询最新数据以识别套利空间。
+
+## Evidence
+
+[质询]该陈述要求提供具体的“价差百分比”数值，属于实时变动的市场经验数据。由于缺乏具体时间点、样本量和统计口径（如是否包含运费、保修、成色差异），任何静态数值都可能因市场波动而失效，且不同平台（ServerMonkey vs eBay）的定价策略差异巨大，无法通过逻辑推导得出固定百分比。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，无法验证具体价差数值）
+
+## Search Query
+
+A100 80GB price difference eBay vs ServerMonkey GoFastGPU

@@ -1,0 +1,20 @@
+# N157: LRU 稳态字节命中率下界的解析表达式为 H_LRU_lower = 1 - (D_cold / D_total)，其中 D_cold 是未被缓存对象（排名 k
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+LRU 稳态字节命中率下界的解析表达式为 H_LRU_lower = 1 - (D_cold / D_total)，其中 D_cold 是未被缓存对象（排名 k > K）的总字节流量。在 K=N 的情况下（即缓存可容纳所有对象），H_LRU_lower = 100%。若因负相关导致部分大对象无法缓存，则 D_cold = Σ_{k=K+1}^{N} R_k S_k，需通过积分 ∫_{K}^{N} x^{-1.0} dx 量化该损失，从而给出严格下界而非近似值。
+
+## Corrected Claim
+
+LRU 稳态字节命中率下界的解析表达式为 H_LRU_lower = 1 - (D_cold / D_total)，其中 D_cold 是未被缓存对象（排名 k > K）的总字节流量。在 K=N 的情况下（即缓存可容纳所有对象），H_LRU_lower = 100%。若因负相关导致部分大对象无法缓存，则 D_cold = Σ_{k=K+1}^{N} R_k S_k，需通过积分 ∫_{K}^{N} x^{-1.0} dx 量化该损失，从而给出严格下界而非近似值。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

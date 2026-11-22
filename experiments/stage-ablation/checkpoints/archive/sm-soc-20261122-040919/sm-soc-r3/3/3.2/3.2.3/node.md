@@ -1,0 +1,20 @@
+# N71: 下游投影2：卖家净收益 R_seller 的均值与方差变化。R_seller = P_final * (1 - r) - C_hold(T)。干预后，P_fin
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N15
+
+## Claim
+
+下游投影2：卖家净收益 R_seller 的均值与方差变化。R_seller = P_final * (1 - r) - C_hold(T)。干预后，P_final 下降导致均值收入降低，但 T 延长导致持有成本 C_hold 增加。方差 Var(R_seller) 的变化取决于 Var(P) 和 Var(T) 的相对变化。若 Var(T) 增加幅度 > Var(P) 减小幅度，则卖家风险偏好者将受损更重。
+
+## Corrected Claim
+
+下游投影2：卖家净收益 R_seller 的均值与方差变化。R_seller = P_final * (1 - r) - C_hold(T)。干预后，P_final 下降导致均值收入降低，但 T 延长导致持有成本 C_hold 增加。方差 Var(R_seller) 的变化取决于 Var(P) 和 Var(T) 的相对变化。若 Var(T) 增加幅度 > Var(P) 减小幅度，则卖家风险偏好者将受损更重。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点逻辑清晰且正交：子节点1定义了随机性来源（输入分布），子节点2和3分别独立处理均值和方差的数学推导（核心计算逻辑），子节点4定义了具体的成本函数形式（参数化模型）。四者分别对应了'随机源'、'均值计算'、'方差计算'和'成本定义'，无重叠且共同覆盖了父节点中关于均值、方差及成本变化的所有关键方面。）

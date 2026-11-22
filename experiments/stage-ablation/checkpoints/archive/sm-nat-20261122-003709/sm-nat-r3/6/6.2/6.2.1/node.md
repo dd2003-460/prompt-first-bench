@@ -1,0 +1,24 @@
+# N226: 计算 H_byte_Optimal 的精确值：H_byte_Optimal = (Σ_{i=1}^{K} p_i * s_i) / S_total。由于 ρ=-
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N84
+
+## Claim
+
+计算 H_byte_Optimal 的精确值：H_byte_Optimal = (Σ_{i=1}^{K} p_i * s_i) / S_total。由于 ρ=-0.3，头部对象（i 小）大小 s_i 较小，导致分子中 p_i*s_i 的权重偏向小对象，而分母 S_total 包含大对象，因此 H_byte_Optimal < H_obj_Optimal。具体数值需通过联合分布积分计算，预计比 H_obj_Optimal 低 5-15%。
+
+## Corrected Claim
+
+H_byte_Optimal = (Σ_{i=1}^{K} p_i * s_i) / S_total。由于 ρ=-0.3，头部对象（i 小）大小 s_i 较小，导致分子中 p_i*s_i 的权重偏向小对象，而分母 S_total 包含大对象，因此 H_byte_Optimal < H_obj_Optimal。具体数值需通过联合分布积分计算，通常低于 H_obj_Optimal，具体降幅取决于分布参数。
+
+## Evidence
+
+[质询]数值区间「5-15%」缺乏推导依据，属于经验估计而非严格数学结论；且该比例高度依赖于具体的分布参数（如Zipf指数、大小分布方差），仅凭ρ=-0.3无法唯一确定该区间。 | 先验知识/题面给定，逻辑校验通过：公式定义正确，ρ<0导致大小与概率负相关，使得字节加权熵低于对象加权熵的逻辑推导成立；但具体数值区间为经验估计，缺乏严格推导或来源支持，故降级。
+
+## Search Query
+
+byte hit rate vs object hit rate correlation size popularity Pareto distribution

@@ -1,0 +1,24 @@
+# N224: 精确二项检验 vs 卡方近似误差：当 λ_post * 48h < 5 时，泊松分布近似正态分布失效，必须使用精确二项检验或泊松精确检验，此时 p 值可能比卡方
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N79
+
+## Claim
+
+精确二项检验 vs 卡方近似误差：当 λ_post * 48h < 5 时，泊松分布近似正态分布失效，必须使用精确二项检验或泊松精确检验，此时 p 值可能比卡方近似小 10-20%，需计算两种方法 p 值的差异 Δp 以判断结论稳健性。
+
+## Corrected Claim
+
+当 λ_post * 48h < 5 时，泊松分布近似正态分布失效，必须使用精确二项检验或泊松精确检验，此时 p 值可能与卡方近似存在显著差异，需计算两种方法 p 值的差异 Δp 以判断结论稳健性。
+
+## Evidence
+
+[质询]「p 值可能比卡方近似小 10-20%」这一具体数值范围缺乏普遍适用的统计理论支持，属于经验性断言，不同样本量和效应量下差异幅度波动极大，无法作为通用规则。 | 先验知识/题面给定，逻辑校验通过：小样本下卡方近似确实失效，需使用精确检验，但具体误差百分比为经验估计，非严格推导结论。
+
+## Search Query
+
+exact binomial test vs chi-square approximation small sample Poisson rate

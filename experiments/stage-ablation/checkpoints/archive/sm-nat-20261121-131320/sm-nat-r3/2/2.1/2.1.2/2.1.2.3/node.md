@@ -1,0 +1,24 @@
+# N91: LRU 抖动惩罚 Jitter_Penalty 的量化：Jitter_Penalty = 1 - (H_LRU_dynamic / H_LRU_static)；
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N29
+
+## Claim
+
+LRU 抖动惩罚 Jitter_Penalty 的量化：Jitter_Penalty = 1 - (H_LRU_dynamic / H_LRU_static)；H_LRU_static 为假设缓存始终保留最优 TopK 的命中率，H_LRU_dynamic 为考虑时间局部性波动后的实际命中率；通过蒙特卡洛模拟估算 Jitter_Penalty 的具体数值（预期 2-5%）。
+
+## Corrected Claim
+
+LRU 抖动惩罚 Jitter_Penalty 的量化定义为 1 - (H_LRU_dynamic / H_LRU_static)，其中 H_LRU_static 为假设缓存始终保留最优 TopK 的命中率，H_LRU_dynamic 为考虑时间局部性波动后的实际命中率；具体数值需通过蒙特卡洛模拟针对特定负载估算，通常表现为较小的百分比损失。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值预期（2-5%），这属于依赖具体工作负载、缓存大小和访问模式的经验事实，无法从第一性原理或数学公理中严格推导得出。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且数值预期非第一性原理可推导）
+
+## Search Query
+
+LRU cache jitter penalty dynamic vs static hit rate simulation

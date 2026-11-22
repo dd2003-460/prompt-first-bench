@@ -1,0 +1,28 @@
+# N93: 低质量商品概率 $Pr(q < q^*)$ 的条件估计：$L_{lemon}$ 的期望值需乘以低质量商品在挂价池中的概率。基于二手平台数据，高挂价（$>15\%
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N33
+
+## Claim
+
+低质量商品概率 $Pr(q < q^*)$ 的条件估计：$L_{lemon}$ 的期望值需乘以低质量商品在挂价池中的概率。基于二手平台数据，高挂价（$>15\%$）商品中低质量占比 $Pr(q < q^* | \delta > 0.15)$ 显著高于低挂价商品。量化：若 $Pr(q < q^* | \delta > 0.15) = 0.4$，而 $Pr(q < q^* | \delta < 0.05) = 0.1$，则高挂价商品的期望柠檬损失 $E[L_{lemon}]$ 约为低挂价商品的 4 倍。此概率差异是解释为何高挂价能维持成交（买家已内化更高 $L_{lemon}$ 并支付溢价）的关键机制参数。
+
+## Corrected Claim
+
+在二手平台中，高挂价商品中低质量占比通常高于低挂价商品，导致高挂价商品的期望柠檬损失更高。具体概率值需依据实际平台数据确定，而非固定为0.4和0.1。
+
+## Evidence
+
+[质询]陈述中引用的具体数值（如 Pr(q < q* | δ > 0.15) = 0.4 和 Pr(q < q* | δ < 0.05) = 0.1）属于经验事实，缺乏来源直接支持，且‘高挂价能维持成交’的因果机制解释过于简化，忽略了逆向选择导致市场萎缩或消失的经典柠檬市场结论。 | 来源[1]仅介绍柠檬市场理论背景，未提供具体概率数据或挂价与质量关联的量化证据；该事实为经验性量化描述，逻辑自洽但缺来源支持，故降级。
+
+## Search Query
+
+probability of low quality goods in high-priced used listings empirical analysis
+
+## Retrieval Sources
+
+- {'url': 'https://baike.baidu.com/item/%E6%9F%A0%E6%AA%AC%E5%B8%82%E5%9C%BA%E7%90%86%E8%AE%BA/4267529&rut=87510c424ed6cf99aed569d6f6f6a644b9576272713734d54b18125eae56a846', 'type': 'ddg', 'title': '柠檬市场_百度百科'}

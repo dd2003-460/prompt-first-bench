@@ -1,0 +1,24 @@
+# N255: A100 80GB 在 Qwen3-27B FP8 权重 (27GB) 场景下，由于 Ampere 架构缺乏原生 FP8 Tensor Core，软件模拟 FP
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N76
+
+## Claim
+
+A100 80GB 在 Qwen3-27B FP8 权重 (27GB) 场景下，由于 Ampere 架构缺乏原生 FP8 Tensor Core，软件模拟 FP8 推理的带宽利用率降至 50-60% (需反量化至 BF16 或 INT8 计算)，实际 Decode 速度上限为 2039 * 0.55 / 29 ≈ 38.5 tokens/s，优于 BF16 但劣于 H100 FP8。
+
+## Corrected Claim
+
+A100 80GB 在 Qwen3-27B FP8 权重 (27GB) 场景下，由于 Ampere 架构缺乏原生 FP8 Tensor Core，软件模拟 FP8 推理的带宽利用率降至 50-60% (需反量化至 BF16 或 INT8 计算)，实际 Decode 速度上限为 2039 * 0.55 / 29 ≈ 38.5 tokens/s，优于 BF16 但劣于 H100 FP8。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 (Ampere) 确实缺乏原生 FP8 Tensor Core，需软件模拟或反量化，导致带宽利用率下降；计算逻辑 2039 * 0.55 / 29 ≈ 38.5 正确，且符合 FP8 优于 BF16 但劣于 H100 原生 FP8 的性能直觉。
+
+## Search Query
+
+A100 FP8 inference performance penalty software emulation Ampere

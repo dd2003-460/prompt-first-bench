@@ -1,0 +1,24 @@
+# N109: FP8 量化对 GSM8K 数学推理任务的具体准确率退化数值：在 BF16 基线（假设 ~85-90%）下，FP8 量化后的准确率下降幅度（Delta Accu
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N32
+
+## Claim
+
+FP8 量化对 GSM8K 数学推理任务的具体准确率退化数值：在 BF16 基线（假设 ~85-90%）下，FP8 量化后的准确率下降幅度（Delta Accuracy），需区分 Per-tensor 与 Per-channel 量化策略对 Delta 的影响，预期 Delta < 0.5% 需通过具体基准测试数据验证。
+
+## Corrected Claim
+
+FP8 量化在 GSM8K 数学推理任务中通常表现出较低的准确率退化，Per-channel 量化策略通常优于 Per-tensor，具体 Delta 数值需依赖特定模型架构和量化实现的基准测试数据验证，一般预期在 0.5% 以内但非绝对保证。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值预期（Delta < 0.5%）和特定任务（GSM8K）的性能表现，属于硬件/模型量化领域的经验事实，无法从第一性原理严格推导，且缺乏具体基准测试数据支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该数值为经验性预期而非数学推导结果）
+
+## Search Query
+
+Qwen3-27B FP8 GSM8K accuracy drop benchmark BF16 vs FP8

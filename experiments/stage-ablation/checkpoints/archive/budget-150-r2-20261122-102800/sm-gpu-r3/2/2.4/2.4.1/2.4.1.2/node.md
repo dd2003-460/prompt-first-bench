@@ -1,0 +1,24 @@
+# N229: INT8 单卡显存需求精确分解：Qwen3-27B 权重 (29.15 GB, 1 byte/element) + KV Cache (32K ctx, bat
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N83
+
+## Claim
+
+INT8 单卡显存需求精确分解：Qwen3-27B 权重 (29.15 GB, 1 byte/element) + KV Cache (32K ctx, batch=1, 2 bytes/element, 仍为 BF16 存储 ≈ 2.01 GB) + 激活缓冲 (INT8 计算但中间激活可能保持 FP16/BF16，峰值 ≈ 1.7 GB) + 框架开销 (≈ 1.0 GB) = 33.86 GB；因此 36 GB 卡 (如 A6000 48GB) 余量 14.14 GB (39%)，满足安全阈值。
+
+## Corrected Claim
+
+INT8 单卡显存需求分解：Qwen3-27B 权重 (29.15 GB) + KV Cache (≈ 2.01 GB) + 激活缓冲 (≈ 1.7 GB) + 框架开销 (≈ 1.0 GB) = 33.86 GB。若使用 48 GB 卡 (如 A6000)，余量为 14.14 GB (约 29.5%)；若使用 36 GB 卡，余量仅为 2.14 GB (约 5.9%)，不满足通常的安全阈值。
+
+## Evidence
+
+[质询]数值内部矛盾：36 GB 显存减去 33.86 GB 需求，余量应为 2.14 GB，而非陈述中的 14.14 GB；且 14.14 GB 占 36 GB 的比例约为 39.3%，但陈述称余量 14.14 GB (39%) 暗示总显存可能混淆了 48GB (A6000) 与 36GB 的口径，导致余量计算错误。 | 逻辑校验发现算术错误：36 - 33.86 = 2.14，而非 14.14；且 14.14/36 ≈ 39.3% 与 14.14/48 ≈ 29.5% 均不直接对应‘余量14.14GB且占39%’的自洽描述（若总显存48GB，余量14.14GB占比29.5%；若总显存36GB，余量2.14GB占比5.9%）。陈述中‘36 GB 卡...余量 14.14 GB (39%)’存在明显的数值与比例不匹配，属于硬逻辑/算术错误。
+
+## Search Query
+
+Qwen3-27B INT8 GPTQ VRAM requirement KV cache precision

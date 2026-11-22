@@ -1,0 +1,20 @@
+# N28: 对象更新率1%/天对LRU有效命中率的折扣因子D_eff具体计算：D_eff = 1 - (1 - e^{-λ*T_res})。其中T_res为对象平均驻留时间
+
+- **status**: verified
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+对象更新率1%/天对LRU有效命中率的折扣因子D_eff具体计算：D_eff = 1 - (1 - e^{-λ*T_res})。其中T_res为对象平均驻留时间，T_res ≈ C / (R * (1-H))。若H_static=0.8, R=50M/day, C=128GB, 则T_res需先计算得出，进而代入泊松失效模型计算M_invalidation。
+
+## Corrected Claim
+
+对象更新率1%/天对LRU有效命中率的折扣因子D_eff具体计算：D_eff = 1 - (1 - e^{-λ*T_res})。其中T_res为对象平均驻留时间，T_res ≈ C / (R * (1-H))。若H_static=0.8, R=50M/day, C=128GB, 则T_res需先计算得出，进而代入泊松失效模型计算M_invalidation。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点严格遵循了父节点定义的逻辑链条（T_res -> M_invalidation -> D_eff/H_eff），三个步骤分别对应计算驻留时间、计算失效概率、计算最终折扣因子及有效命中率，彼此之间是严格的串行依赖关系，无重叠或矛盾。）

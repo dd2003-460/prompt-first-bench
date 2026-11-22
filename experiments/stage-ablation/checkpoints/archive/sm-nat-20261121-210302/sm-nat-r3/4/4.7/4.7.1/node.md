@@ -1,0 +1,20 @@
+# N63: LFU 热点集合的字节覆盖率 P_hot_bytes 的理论下界：P_hot_bytes >= 1 - (1 - 0.01)^{1/α}，基于头部 1% 对象占
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N15
+
+## Claim
+
+LFU 热点集合的字节覆盖率 P_hot_bytes 的理论下界：P_hot_bytes >= 1 - (1 - 0.01)^{1/α}，基于头部 1% 对象占总体积的比例估算
+
+## Corrected Claim
+
+LFU 热点集合的字节覆盖率 P_hot_bytes 的理论下界：P_hot_bytes >= 1 - (1 - 0.01)^{1/α}，基于头部 1% 对象占总体积的比例估算
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1聚焦于方法论修正（从错误公式到截断Pareto CDF的正确推导逻辑），子节点2聚焦于基于该修正方法的具体数值量化结果。两者分别解决‘如何计算’和‘结果是多少’的问题，逻辑层层递进且互不重叠，无冗余参数。）

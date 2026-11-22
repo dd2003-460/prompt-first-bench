@@ -1,0 +1,24 @@
+# N96: 置信度映射函数：买家驱动假设置信度 C_buyer = 0.5 + 0.5 * (f_adjust / 0.7)，其中 f_adjust 为观测到的调整预算比例
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N26
+
+## Claim
+
+置信度映射函数：买家驱动假设置信度 C_buyer = 0.5 + 0.5 * (f_adjust / 0.7)，其中 f_adjust 为观测到的调整预算比例；若 f_adjust < 0.3，则 C_buyer < 0.55，视为弱证据；若 f_adjust > 0.7，则 C_buyer > 0.7，视为强证据；中间值线性插值。
+
+## Corrected Claim
+
+置信度映射函数：买家驱动假设置信度 C_buyer = 0.5 + 0.5 * (f_adjust / 0.7)，其中 f_adjust 为观测到的调整预算比例；若 f_adjust < 0.3，则 C_buyer < 0.55，视为弱证据；若 f_adjust > 0.7，则 C_buyer > 0.7，视为强证据；中间值线性插值。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点基于 f_adjust 的数值区间（<0.3, 0.3-0.7, >0.7）进行了互斥且全覆盖的划分，逻辑上正交且完备。虽然本质上是同一函数的分段，但各区间对应不同的统计推断要求、样本量成本和决策意义（强/中/弱证据），构成了不同维度的分析视角，因此不视为冗余。）
+
+## Search Query
+
+Confidence mapping function for buyer-driven hypothesis based on behavioral metrics

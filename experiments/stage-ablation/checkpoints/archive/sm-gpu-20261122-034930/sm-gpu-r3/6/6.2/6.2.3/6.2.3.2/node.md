@@ -1,0 +1,20 @@
+# N379: A100 PCIe版 vs SXM版带宽损失量化：PCIe 4.0 x16单向带宽31.5 GB/s，SXM NVLink 3.0单向带宽900 GB/s；在单
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N134
+
+## Claim
+
+A100 PCIe版 vs SXM版带宽损失量化：PCIe 4.0 x16单向带宽31.5 GB/s，SXM NVLink 3.0单向带宽900 GB/s；在单卡推理中，PCIe版A100的Memory-bound吞吐率约为SXM版的95%（因本地HBM带宽相同，仅影响CPU-GPU数据搬运）；在多卡并行中，PCIe版通信开销导致有效吞吐率下降约20-30% [待核验：多卡PCIe A100实测数据]。
+
+## Corrected Claim
+
+A100 PCIe版 vs SXM版带宽损失量化：PCIe 4.0 x16单向带宽31.5 GB/s，SXM NVLink 3.0单向带宽900 GB/s；在单卡推理中，PCIe版A100的Memory-bound吞吐率约为SXM版的95%（因本地HBM带宽相同，仅影响CPU-GPU数据搬运）；在多卡并行中，PCIe版通信开销显著，有效吞吐率下降幅度取决于通信频率与数据量，通常在20%-50%或更高，具体需实测。
+
+## Evidence
+
+[质询]多卡并行中PCIe版A100有效吞吐率下降20-30%的量化数据缺乏通用性，该数值高度依赖于具体模型架构、通信模式（AllReduce/AllGather）及网络拓扑，且PCIe 4.0 x16带宽（~31.5 GB/s）远低于NVLink（900 GB/s），在通信密集型任务中性能损失可能远超30%，甚至导致系统不可用，该区间过于乐观且未限定场景。 | 先验知识/题面给定，逻辑校验通过：单卡Memory-bound场景下PCIe带宽瓶颈影响较小（95%合理），但多卡通信开销量化值（20-30%）为经验事实且缺乏来源支持，存在场景依赖性风险，故降级。

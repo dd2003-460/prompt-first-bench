@@ -1,0 +1,24 @@
+# N64: 方案B（算法降低高溢价商品曝光权重）的实施成本 $C_B$ 包含特征工程、模型重训与A/B测试周期。$C_B = C_{feat} + C_{train} + 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N14
+
+## Claim
+
+方案B（算法降低高溢价商品曝光权重）的实施成本 $C_B$ 包含特征工程、模型重训与A/B测试周期。$C_B = C_{feat} + C_{train} + C_{test}$。通常 $C_{feat} \approx 3-5$ 人日，$C_{train}$ 取决于模型复杂度（LR vs DNN），若为简单规则调整则 $\approx 1-2$ 人日，若为深度模型重训则 $\approx 5-15$ 人日。$C_{test}$ 至少需覆盖一个完整业务周期（7-14天）以观察长尾效应，人力投入 $\approx 2-4$ 人日。总成本 $C_B \in [6, 24]$ 人日，但存在模型性能回退风险。
+
+## Corrected Claim
+
+方案B（算法降低高溢价商品曝光权重）的实施成本 $C_B$ 包含特征工程、模型重训与A/B测试周期。$C_B = C_{feat} + C_{train} + C_{test}$。通常 $C_{feat} \approx 3-5$ 人日，$C_{train}$ 取决于模型复杂度（LR vs DNN），若为简单规则调整则 $\approx 1-2$ 人日，若为深度模型重训则 $\approx 5-15$ 人日。$C_{test}$ 至少需覆盖一个完整业务周期（7-14天）以观察长尾效应，人力投入 $\approx 2-4$ 人日。总成本 $C_B \in [6, 24]$ 人日，但存在模型性能回退风险。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：成本分解项（特征、训练、测试）符合工程常识，数值量级（人日）与总区间[6,24]计算自洽（最小3+1+2=6，最大5+15+4=24），无内部矛盾。
+
+## Search Query
+
+cost of retraining recommendation algorithm for price bias adjustment A/B test duration

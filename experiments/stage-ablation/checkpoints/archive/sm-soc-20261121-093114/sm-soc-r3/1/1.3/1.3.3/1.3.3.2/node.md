@@ -1,0 +1,24 @@
+# N111: 高支付意愿买家筛选效率 η_filter 与市场均衡的关系：η_filter 决定了高价商品的成交占比 Q_high_share，量化为 Q_high_shar
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N35
+
+## Claim
+
+高支付意愿买家筛选效率 η_filter 与市场均衡的关系：η_filter 决定了高价商品的成交占比 Q_high_share，量化为 Q_high_share = η_filter * (P_ask > P_market * 1.15) / (P_ask > P_market * 1.0)，其中 1.15 和 1.0 分别为高挂价和市场价的倍数。
+
+## Corrected Claim
+
+高支付意愿买家筛选效率 η_filter 与市场均衡存在正相关关系，通常用于解释高价商品成交占比 Q_high_share 的提升，但具体量化关系取决于市场微观结构，不宜简单表述为固定线性公式。
+
+## Evidence
+
+[质询]该公式将复杂的微观市场均衡机制简化为简单的线性乘积关系，忽略了价格弹性、供需曲线形状及非价格因素对成交占比的影响，属于过度简化的经验模型而非严谨的理论推导。 | 先验知识/题面给定，逻辑校验通过（量纲一致，定义清晰），但作为经验性量化模型，缺乏外部来源直接支持其线性关系的普适性，故降级为定性表述。
+
+## Search Query
+
+high willingness to pay buyer screening efficiency market equilibrium share

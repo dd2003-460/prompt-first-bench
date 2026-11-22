@@ -1,0 +1,20 @@
+# N98: R_threshold 的计算：R_threshold = C_bytes / T_cycle，其中 T_cycle 为平均请求间隔；更精确地，对于对象 k，若
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N35
+
+## Claim
+
+R_threshold 的计算：R_threshold = C_bytes / T_cycle，其中 T_cycle 为平均请求间隔；更精确地，对于对象 k，若其重用距离（以字节计）D_k > C，则 LRU miss；D_k ≈ S_k / R_k * R_total_bytes/day；代入 S_k=116.36 k^{-0.1}, R_k ∝ k^{-0.9}，D_k ∝ k^{-0.1} / k^{-0.9} * k^0 = k^{0.8}；解 D_k = C 得 k_crit，k > k_crit 的对象贡献差距
+
+## Corrected Claim
+
+R_threshold 的计算：R_threshold = C_bytes / T_cycle，其中 T_cycle 为平均请求间隔；更精确地，对于对象 k，若其重用距离（以字节计）D_k > C，则 LRU miss；D_k ≈ S_k / R_k * R_total_bytes/day；代入 S_k=116.36 k^{-0.1}, R_k ∝ k^{-0.9}，D_k ∝ k^{-0.1} / k^{-0.9} * k^0 = k^{0.8}；解 D_k = C 得 k_crit，k > k_crit 的对象贡献差距
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：代数推导 D_k ∝ k^{0.8} 正确（k^{-0.1}/k^{-0.9} = k^{0.8}），且符合 LRU 缓存中重用距离与频率/大小关系的物理直觉。

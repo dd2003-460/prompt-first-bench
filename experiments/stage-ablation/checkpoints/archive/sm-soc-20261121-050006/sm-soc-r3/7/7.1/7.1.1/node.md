@@ -1,0 +1,24 @@
+# N318: 二元逻辑回归模型 P(NoInquiry | ΔP) = 1 / (1 + exp(-β_0 - β_1 * ΔP)) 中，系数 β_1（价格敏感度斜率）的估计
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N102, N103, N104
+
+## Claim
+
+二元逻辑回归模型 P(NoInquiry | ΔP) = 1 / (1 + exp(-β_0 - β_1 * ΔP)) 中，系数 β_1（价格敏感度斜率）的估计公式为 β_1 = (ln(Odds_2) - ln(Odds_1)) / (ΔP_2 - ΔP_1)，其中 Odds 为无咨询与有咨询的比例；需通过历史数据分箱（如 ΔP 每 5% 一档）计算各档 Odds 后回归得到，预期 β_1 ∈ [-3.0, -5.0]（即 ΔP 每增加 10%，无咨询 Odds 增加 2-15 倍）。
+
+## Corrected Claim
+
+二元逻辑回归模型 P(NoInquiry | ΔP) = 1 / (1 + exp(-β_0 - β_1 * ΔP)) 中，系数 β_1（价格敏感度斜率）的估计公式为 β_1 = (ln(Odds_2) - ln(Odds_1)) / (ΔP_2 - ΔP_1)，其中 Odds 为无咨询与有咨询的比例；需通过历史数据分箱（如 ΔP 每 5% 一档）计算各档 Odds 后回归得到，预期 β_1 ∈ [-3.0, -5.0]（即 ΔP 每增加 10%，无咨询 Odds 增加 2-15 倍）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式推导符合二元逻辑回归定义，数值量级（β1∈[-3.0, -5.0]对应Odds变化2-15倍）在数学上自洽且符合经济直觉。
+
+## Search Query
+
+logistic regression price sensitivity coefficient estimation C2C marketplace

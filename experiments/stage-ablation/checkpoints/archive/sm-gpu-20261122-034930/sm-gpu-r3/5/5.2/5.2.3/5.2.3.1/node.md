@@ -1,0 +1,24 @@
+# N348: W4精度下Qwen3-27B的MMLU准确率损失基准值为4.2%，置信区间[3.5%, 5.0%]，数据来源于Qwen-3技术报告附录A（Table A3: Q
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N125, N126, N127
+
+## Claim
+
+W4精度下Qwen3-27B的MMLU准确率损失基准值为4.2%，置信区间[3.5%, 5.0%]，数据来源于Qwen-3技术报告附录A（Table A3: Quantization Impact）及Llama.cpp社区对27B模型的独立复测（n=3次平均）。
+
+## Corrected Claim
+
+W4精度下Qwen3-27B的MMLU准确率存在一定损失（通常约为几个百分点），具体数值需查阅Qwen-3技术报告附录A或独立复测数据确认。
+
+## Evidence
+
+[质询]具体数值（4.2%）及置信区间（[3.5%, 5.0%]）属于高度具体的经验事实，且声称来源于特定技术报告附录及社区复测，缺乏可验证的公开直接证据支持，存在编造或记忆偏差风险。 | 逻辑自洽（W4量化导致少量精度损失符合直觉），但作为经验事实，无可用外部来源直接支持具体数值，依据经验事实排除条款降级。
+
+## Search Query
+
+Qwen3-27B W4 quantization MMLU accuracy loss benchmark

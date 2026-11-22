@@ -1,0 +1,24 @@
+# N137: H100 SXM 在 W4A16 精度、32K 上下文、batch_size=1 场景下运行 Qwen3-27B 的 Decode 阶段实测吞吐约为 100-1
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N49
+
+## Claim
+
+H100 SXM 在 W4A16 精度、32K 上下文、batch_size=1 场景下运行 Qwen3-27B 的 Decode 阶段实测吞吐约为 100-150 tokens/sec，其相对于 RTX 4090 的性能提升倍数约为 6-8 倍，主要源于 HBM3 带宽优势 (3350 GB/s vs 1008 GB/s) 及更大显存容量避免 Offload。
+
+## Corrected Claim
+
+H100 SXM 在 W4A16 精度、32K 上下文、batch_size=1 场景下运行 Qwen3-27B 的 Decode 阶段，由于 HBM3 带宽优势 (3350 GB/s vs 1008 GB/s) 及更大显存容量避免 Offload，其性能通常显著优于 RTX 4090，但具体吞吐数值（如 100-150 tokens/sec）和倍数（6-8 倍）需依赖特定软件栈和测试环境，缺乏通用来源支持。
+
+## Evidence
+
+[质询]该陈述包含具体的实测性能数值（100-150 tokens/sec）和倍数（6-8倍），属于经验事实。虽然H100 SXM的HBM3带宽（~3.35TB/s）和RTX 4090的GDDR6X带宽（~1TB/s）是公开规格，但具体到Qwen3-27B在W4A16、32K上下文、batch_size=1下的Decode吞吐受软件栈（如vLLM/TensorRT-LLM版本）、量化实现细节、KV Cache管理策略等影响极大，不同测试环境结果差异可能显著，且缺乏来源支持具体数值。 | 经验事实，逻辑自洽但缺来源支持。H100 SXM带宽优势确实能带来显著性能提升，但具体吞吐数值和倍数缺乏外部来源直接验证，且受软件实现影响大，无法仅凭逻辑推导确定具体区间。
+
+## Search Query
+
+H100 Qwen3-27B W4A16 32k context decode throughput tokens per second

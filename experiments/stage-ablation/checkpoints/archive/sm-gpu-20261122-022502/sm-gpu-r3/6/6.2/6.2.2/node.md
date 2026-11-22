@@ -1,0 +1,20 @@
+# N253: 在 1×RTX 4090 (带宽 1.0 TB/s) 运行 Qwen3-27B BF16 (权重 54GB) 且启用 CPU Offload 的场景下，有效带宽
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N82
+
+## Claim
+
+在 1×RTX 4090 (带宽 1.0 TB/s) 运行 Qwen3-27B BF16 (权重 54GB) 且启用 CPU Offload 的场景下，有效带宽受限于 PCIe 4.0 x16 (理论 32 GB/s, 实际 ~25 GB/s) 而非显存带宽，理论吞吐上限降至 25 GB/s / 54 GB ≈ 0.46 tokens/s (纯权重加载)，加上计算延迟，实际工作点吞吐约为 2-5 tokens/s，远低于 5 tokens/s 可用性阈值，验证了该配置不可行。
+
+## Corrected Claim
+
+在 1×RTX 4090 运行 Qwen3-27B BF16 (权重 54GB) 且启用 CPU Offload 的场景下，Decode 阶段的有效带宽受限于 PCIe 4.0 x16 (实际 ~25 GB/s)，理论 Decode 吞吐上限约为 25 GB/s / 54 GB ≈ 0.46 tokens/s。实际工作点吞吐通常低于此理论值（约 0.3-0.5 tokens/s），远低于 5 tokens/s 的可用性阈值，验证了该配置在 Decode 阶段不可行。
+
+## Evidence
+
+[质询]该陈述将‘纯权重加载’的理论上限（0.46 tokens/s）与‘实际工作点吞吐’（2-5 tokens/s）混为一谈，且未明确区分‘Prefill’（计算密集，受显存带宽限制）与‘Decode’（访存密集，受PCIe限制）阶段。若指Decode阶段，2-5 tokens/s是合理的经验估计；但若指整体或Prefill，则逻辑不成立。此外，‘远低于5 tokens/s可用性阈值’的结论依赖于对‘可用性’的定义，若仅看Decode，2-5 tokens/s可能勉强可用或不可用，取决于具体应用，此处断言‘不可行’略显绝对，但核心瓶颈分析（PCIe限制Decode）在逻辑上是成立的。主要攻击点在于数值推导的严谨性：0.46是纯加载极限，实际2-5是经验值，两者不能直接通过简单加法或对比来验证‘不可行’，而是需要分别评估。 | 先验知识/题面给定，逻辑校验通过。RTX 4090显存带宽1.0TB/s，PCIe 4.0 x16实际带宽约25GB/s。Qwen3-27B BF16权重约54GB。在CPU Offload场景下，Decode阶段每生成一个token需从CPU/PCIe加载全部权重（或大部分），因此Decode吞吐上限受限于PCIe带宽：25GB/s / 54GB ≈ 0.46 tokens/s（理论极限）。实际中由于KV Cache、激活值等开销及PCIe效率，实际吞吐通常低于理论极限，但2-5 tokens/s的估计对于27B模型在PCIe 4.0下的Decode阶段是偏乐观但量级合理的经验值（通常会更低，接近1-2 tokens/s）。然而，陈述中‘理论吞吐上限降至0.46...实际工作点2-5’存在逻辑矛盾：实际值不可能高于理论上限。因此，逻辑上存在瑕疵，但核心结论（PCIe是瓶颈，吞吐低）正确。鉴于source为knowledge，且核心物理瓶颈分析正确，但数值推导存在内部矛盾（实际>理论），判定为degraded。

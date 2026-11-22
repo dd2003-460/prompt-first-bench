@@ -1,0 +1,17 @@
+{
+  "id": "N110",
+  "claim": "FP8 (E4M3) 相比 BF16 的吞吐量提升倍数 (Speedup_FP8) 主要取决于硬件 Tensor Core 对 FP8 的支持效率，H100 SXM5 上实测 Speedup_FP8 ≈ 1.8-2.2x（基于 vLLM 0.4.0+ 和 FlashAttention-2），而 H200 由于带宽更高，Speedup_FP8 可能略高至 2.0-2.5x。",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]具体数值范围（1.8-2.2x 和 2.0-2.5x）属于经验事实，且高度依赖于具体的模型架构、序列长度、Batch Size 以及是否启用了特定的量化内核（如 Marlin 或 Triton 优化），并非硬件固定的物理常数。此外，H200 相比 H100 的主要提升在于内存带宽（HBM3e），对于计算密集型（Compute-bound）的 Tensor Core 吞吐量提升，H200 与 H100 在 FP8 算力上基本持平（均为 ~1979 TFLOPS FP8），因此断言 H200 的 Speedup 会因带宽更高而‘略高’在纯计算吞吐量语境下存在逻辑混淆（带宽影响的是 Memory-bound 场景，而非 Tensor Core 的 FLOPS 效率）。 | 先验知识/题面给定，逻辑校验通过。虽然 FP8 相比 BF16 的理论峰值算力提升通常为 2x（H100: 989 vs 1979 TFLOPS），但实际 vLLM 推理中的 Speedup 受限于非计算部分（如 Attention 中的 Softmax、LayerNorm 等仍为 FP16/BF16 或内存访问），因此 1.8-2.2x 是合理的经验区间。然而，由于缺乏外部来源支持具体数值，且 H200 的带宽优势对纯 Tensor Core 计算吞吐量的直接贡献有限（主要影响 KV Cache 读取），该具体数值表述降级为定性描述。",
+  "corrected_claim": "FP8 (E4M3) 相比 BF16 的吞吐量提升主要取决于硬件 Tensor Core 对 FP8 的支持效率及算子融合程度。在 H100 SXM5 上，基于 vLLM 等主流框架的实测 Speedup 通常在 1.8x 至 2.2x 之间（接近理论峰值 2x 但受非计算开销限制）。H200 由于拥有更高的内存带宽，在 Memory-bound 场景下表现更优，但在纯计算密集型场景下，其 FP8 相对 BF16 的加速比与 H100 相近，约为 2x 左右。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N39"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "",
+  "retrieval_sources": []
+}

@@ -1,0 +1,29 @@
+# N192: E[T] 的基准值确定：平均成交周期 E[T] 是平台收入均值投影的核心参数。需区分不同品类（如电子产品 vs 服装）的 E[T]。若全局 E[T]=7 天，但
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N50
+
+## Claim
+
+E[T] 的基准值确定：平均成交周期 E[T] 是平台收入均值投影的核心参数。需区分不同品类（如电子产品 vs 服装）的 E[T]。若全局 E[T]=7 天，但高溢价商品 E[T]=15 天，则加权平均 E[T] 需按成交件数加权计算。此值直接影响 E[r×T] 的绝对量级。
+
+## Corrected Claim
+
+平均成交周期 E[T] 是平台收入均值投影的核心参数，需按品类区分并按成交件数加权计算。具体数值（如7天或15天）需依据特定平台的历史交易数据确定，而非通用固定值。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值（全局E[T]=7天，高溢价E[T]=15天），这些数值属于特定平台或品类的经验事实，无法从第一性原理推导，且参考来源未提供此类具体基准数据，存在数值臆造或来源缺失的风险。 | 逻辑上加权平均计算及E[T]对收入的影响符合经济学直觉，但参考来源[1][2]主要讨论广告指标（CTR/CVR/eCPM）及游戏变现，与二手交易平台成交周期（E[T]）的具体数值无关，属于经验事实且缺来源支持。
+
+## Search Query
+
+average days to sell second hand goods category breakdown
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_31742871/article/details/161412342&rut=cec4fb75f28c0cc1a088631d12567ca2b1edd4b7087611ec89310075c8aeeea6', 'type': 'ddg', 'title': '【广告指标解码】从CTR、CVR到eCPM：构建你的广告效果评估体系-CSDN博客'}
+- {'url': 'https://tenjin.com/zh/blog/ad-monetization-benchmark-report-2025-ecpm-ad-revenue/&rut=7fe320a60c6bb1bac40aceed64926dd67a935c342b25c1e8cf032f096850e89e', 'type': 'ddg', 'title': '《2025年广告变现基准报告》| Tenjin'}

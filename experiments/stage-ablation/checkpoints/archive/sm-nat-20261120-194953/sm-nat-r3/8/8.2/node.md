@@ -1,0 +1,20 @@
+# N75: 在 $\rho=-0.3$ 负相关约束下，热门对象（前10%热度）的平均大小 $E[S|Top10\%] = E[S] \cdot (1 - 0.3 \cdot
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N25
+
+## Claim
+
+在 $\rho=-0.3$ 负相关约束下，热门对象（前10%热度）的平均大小 $E[S|Top10\%] = E[S] \cdot (1 - 0.3 \cdot \frac{\sigma_S}{\mu_S})$，其中 $\sigma_S$ 和 $\mu_S$ 为Pareto(α=1.1)分布的标准差和均值，需先计算这两个参数
+
+## Corrected Claim
+
+在 $\rho=-0.3$ 负相关约束下，热门对象（前10%热度）的平均大小需通过联合分布积分或模拟计算，不能简单使用 $E[S] \cdot (1 - 0.3 \cdot \frac{\sigma_S}{\mu_S})$ 这一线性近似公式。
+
+## Evidence
+
+[质询]公式 $E[S|Top10\%] = E[S] \cdot (1 - 0.3 \cdot \frac{\sigma_S}{\mu_S})$ 缺乏统计学依据。在负相关（$\rho=-0.3$）下，热门对象（高热度）通常对应较小的大小（若热度与大小负相关），但简单的线性修正公式 $1 - \rho \cdot CV$ 并非条件期望的标准推导结果，且未考虑截断分布（Top 10%）的非线性影响。该公式更像是启发式近似而非严格数学推导。 | 先验知识/题面给定，逻辑校验发现公式推导缺乏严谨性，负相关下的条件期望不能简单用线性CV修正表示，且Top10%截断会显著改变分布形态，故降级。

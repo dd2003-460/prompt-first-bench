@@ -1,0 +1,24 @@
+# N669: NVLink 900GB/s 互联带宽在张量并行通信中占用的时间比例约为 5-10%（取决于序列长度和 batch size），相比 PCIe 4.0 (64G
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N206
+
+## Claim
+
+NVLink 900GB/s 互联带宽在张量并行通信中占用的时间比例约为 5-10%（取决于序列长度和 batch size），相比 PCIe 4.0 (64GB/s) 的 15-20% 开销，NVLink 将通信瓶颈降低 3-4 倍，使得多卡扩展效率在 TP=8 时保持在 85-90%，而 PCIe 方案仅能达到 60-70%。
+
+## Corrected Claim
+
+NVLink 900GB/s 互联带宽相比 PCIe 4.0 (64GB/s) 具有显著更高的带宽，通常能将张量并行通信开销降低数倍，从而在 TP=8 等场景下显著提升多卡扩展效率（具体效率取决于模型结构和负载特征，通常优于 PCIe 方案）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性性能数据（如5-10%通信占比、85-90%扩展效率），这些数值高度依赖于具体的模型架构（如Transformer层数、注意力头数）、硬件实现细节（如NVLink版本、PCIe拓扑）以及软件栈优化程度，并非固定的物理常数或第一性原理可推导的数学事实。不同场景下（如长序列vs短序列，不同batch size）波动极大，直接断言固定区间存在以偏概全的风险。 | 经验事实，逻辑自洽但缺来源支持。NVLink带宽（~900GB/s）确实远高于PCIe 4.0（~64GB/s），量级对比合理（约14倍带宽差异），因此通信开销降低3-4倍及扩展效率提升的逻辑方向正确，但具体百分比数值缺乏通用性，属于特定条件下的经验观测值。
+
+## Search Query
+
+NVLink vs PCIe tensor parallelism communication overhead LLM inference efficiency

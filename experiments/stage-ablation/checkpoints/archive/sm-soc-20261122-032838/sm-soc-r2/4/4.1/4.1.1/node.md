@@ -1,0 +1,24 @@
+# N77: 锚定效应解释高挂价的元分析效应量：基于Kahneman & Tversky后续实证研究，锚定效应在定价行为中的平均Cohen's d为0.45（95% CI [
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N18
+
+## Claim
+
+锚定效应解释高挂价的元分析效应量：基于Kahneman & Tversky后续实证研究，锚定效应在定价行为中的平均Cohen's d为0.45（95% CI [0.38, 0.52]），但此效应量仅解释价格偏差的方向，不直接解释15-25%的具体幅度，需结合参照点分布 $P_{ref}$ 的离散度 $\sigma_{ref}$ 计算
+
+## Corrected Claim
+
+锚定效应在定价行为中通常表现为中等程度的效应（Cohen's d 约为 0.4-0.5 量级），该效应量主要解释价格偏差的方向性，具体幅度需结合参照点分布的离散度计算。
+
+## Evidence
+
+[质询]该陈述包含具体的元分析统计数值（Cohen's d=0.45, 95% CI [0.38, 0.52]），属于经验事实。在缺乏任何参考来源支持的情况下，无法验证该具体数值是否准确对应于“Kahneman & Tversky后续实证研究”的元分析结果，存在数值虚构或张冠李戴的风险。 | 经验事实，逻辑自洽但缺来源支持。锚定效应确实存在且通常表现为中等效应量，但具体数值0.45及置信区间无法从第一性原理推出，且无外部来源佐证。
+
+## Search Query
+
+meta-analysis anchoring effect pricing behavior Cohen's d second-hand markets

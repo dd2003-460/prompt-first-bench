@@ -1,0 +1,17 @@
+{
+  "id": "N344",
+  "claim": "Apple M3 Max (128GB) 在 INT8 精度下运行 Qwen3-27B (权重 27.1GB) 时，理论 Decode 吞吐量上限 = (400 GB/s * 0.85) / 27.1 GB * 1024 ≈ 12.72 tokens/s，此时剩余 100.9GB 内存可支持约 9.8K tokens 的 FP8 KV Cache (假设每 token 10KB)，满足 32K 上下文需求但需启用 KV Cache 量化。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]KV Cache 容量估算存在严重逻辑错误：假设每 token 10KB 的 KV Cache 大小对于 27B 模型而言极不合理（通常 27B 模型每 token KV Cache 在 100KB-200KB 量级，取决于层数和头数），导致 100.9GB 内存仅能支持约 10K tokens，远不足以支持 32K 上下文，即使启用量化也难以直接满足，且未考虑量化对精度的影响及实际带宽效率。 | 先验知识/题面给定，逻辑校验未通过：KV Cache 每 token 大小假设（10KB）与 27B 模型规模不匹配，导致上下文支持能力计算错误。",
+  "corrected_claim": "Apple M3 Max (128GB) 在 INT8 精度下运行 Qwen3-27B (权重 27.1GB) 时，理论 Decode 吞吐量上限约为 12.72 tokens/s。剩余 100.9GB 内存若按每 token 100KB 估算 KV Cache，仅支持约 10K tokens 上下文；若需支持 32K 上下文，必须启用更激进的 KV Cache 量化（如 FP8 或 INT4）并优化内存布局，否则内存不足。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N120"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

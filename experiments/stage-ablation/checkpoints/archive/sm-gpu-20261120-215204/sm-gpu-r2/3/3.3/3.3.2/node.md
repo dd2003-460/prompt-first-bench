@@ -1,0 +1,24 @@
+# N89: 2x RTX 4090 运行 Qwen3-27B W4A16 权重 + INT8 KV Cache (32K) 且启用 Tensor Parallelism 时
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N20
+
+## Claim
+
+2x RTX 4090 运行 Qwen3-27B W4A16 权重 + INT8 KV Cache (32K) 且启用 Tensor Parallelism 时，每卡显存占用为 13.5GB (权重) + 10GB (KV) + 1GB (开销) = 24.5GB，仍略超 24GB，故需将 KV Cache 量化为 FP8 或 INT4，每卡 KV 降至 5-10GB，总显存 19.5-24.5GB，方可在 24GB 单卡内运行，但跨卡通信开销增加。
+
+## Corrected Claim
+
+2x RTX 4090 运行 Qwen3-27B W4A16 权重 + INT8 KV Cache (32K) 且启用 Tensor Parallelism 时，每卡权重占用约 6.75GB，KV Cache 占用约 5-10GB（取决于具体实现），加上 1GB 开销，总显存约 12.75-17.75GB，可在 24GB 单卡内运行，无需强制将 KV Cache 量化为 FP8 或 INT4。
+
+## Evidence
+
+[质询]数值量级与逻辑自洽性存疑：1. Qwen3-27B W4A16 权重每卡约 6.75GB，加上 10GB KV 和 1GB 开销，总和为 17.75GB，远小于 24GB，陈述中‘24.5GB 略超 24GB’的计算逻辑错误（13.5+10+1=24.5，但 27B W4 权重不应高达 13.5GB/卡，除非是未量化或更高精度，与 W4A16 矛盾）；2. 若权重确为 13.5GB/卡，则总权重 27GB，对应约 8-bit 或更高精度，与 W4 不符；3. KV Cache 10GB 对于 32K 上下文在 27B 模型上可能偏高或偏低，取决于具体实现，但主要矛盾在于权重显存计算与量化精度不匹配。 | 先验知识/题面给定，逻辑校验未通过：W4A16 量化下 27B 模型权重显存估算与陈述中的 13.5GB/卡 不符，导致总显存计算逻辑错误。
+
+## Search Query
+
+2x RTX 4090 FP8 KV cache Tensor Parallel Qwen3 27B

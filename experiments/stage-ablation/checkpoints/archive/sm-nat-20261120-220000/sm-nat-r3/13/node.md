@@ -1,0 +1,20 @@
+# N152: ρ=-0.3 的负相关修正：由于热门对象较小，LRU 在有限容量下会优先保留小且热的对象。但在 C >> S_total 时，该相关性对命中率下界的影响趋近于零
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+ρ=-0.3 的负相关修正：由于热门对象较小，LRU 在有限容量下会优先保留小且热的对象。但在 C >> S_total 时，该相关性对命中率下界的影响趋近于零，因为所有对象均驻留。若容量受限（如 C < S_total），ρ 通过 Copula 联合分布影响驻留集合的热度占比 q*，使 H_LRU 略高于独立假设值。
+
+## Corrected Claim
+
+ρ=-0.3 的负相关修正：由于热门对象较小，LRU 在有限容量下会优先保留小且热的对象。但在 C >> S_total 时，该相关性对命中率下界的影响趋近于零，因为所有对象均驻留。若容量受限（如 C < S_total），ρ 通过 Copula 联合分布影响驻留集合的热度占比 q*，使 H_LRU 略高于独立假设值。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

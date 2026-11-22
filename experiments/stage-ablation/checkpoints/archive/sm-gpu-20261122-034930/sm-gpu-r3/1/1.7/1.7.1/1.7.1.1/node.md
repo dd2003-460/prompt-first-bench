@@ -1,0 +1,20 @@
+# N196: Apple M2 Ultra (192GB) 的内存带宽为 800 GB/s，M3 Ultra (256GB) 为 819 GB/s，而 RTX 4090 为 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N64
+
+## Claim
+
+Apple M2 Ultra (192GB) 的内存带宽为 800 GB/s，M3 Ultra (256GB) 为 819 GB/s，而 RTX 4090 为 1008 GB/s，A100 80GB (SXM) 为 2039 GB/s。在 Memory-bound 场景下，M2 Ultra 的理论峰值吞吐仅为 RTX 4090 的 79.4% (800/1008)，A100 的 39.2% (800/2039)。
+
+## Corrected Claim
+
+Apple M2 Ultra (192GB) 的内存带宽为 800 GB/s，M3 Ultra (256GB) 为 819 GB/s，而 RTX 4090 为 1008 GB/s，A100 80GB (SXM) 为 2039 GB/s。在 Memory-bound 场景下，M2 Ultra 的理论峰值吞吐仅为 RTX 4090 的 79.4% (800/1008)，A100 的 39.2% (800/2039)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：M2 Ultra (800GB/s)、RTX 4090 (1008GB/s)、A100 SXM (2039GB/s) 均为公开且稳定的硬件规格参数；计算 800/1008 ≈ 79.36% (四舍五入为 79.4%) 和 800/2039 ≈ 39.23% (四舍五入为 39.2%) 均准确无误。

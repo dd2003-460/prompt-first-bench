@@ -1,0 +1,24 @@
+# N197: 缓存内对象平均大小 S_mean 的精确计算式：S_mean = E[S | Popularity > P_threshold]，其中 P_threshold 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N73
+
+## Claim
+
+缓存内对象平均大小 S_mean 的精确计算式：S_mean = E[S | Popularity > P_threshold]，其中 P_threshold 由缓存容量 C=128GB 和对象总数 N=10万 通过 Pareto(β=0.9) 热度分布反解得到，需结合 ρ=-0.3 的 Copula 模型计算条件期望。
+
+## Corrected Claim
+
+缓存内对象平均大小 S_mean 可通过条件期望 S_mean = E[S | Popularity > P_threshold] 估算，其中 P_threshold 需结合缓存容量 C=128GB、对象总数 N=10万、Pareto(β=0.9) 热度分布及 ρ=-0.3 的 Copula 模型进行数值求解，具体数值依赖于对象大小 S 的分布假设。
+
+## Evidence
+
+[质询]该陈述声称存在一个‘精确计算式’，但给出的公式 S_mean = E[S | Popularity > P_threshold] 仅定义了条件期望的数学形式，并未提供具体的数值解或可执行的解析/数值求解步骤。此外，Pareto(β=0.9) 和 Copula(ρ=-0.3) 的具体参数组合是否足以唯一确定 P_threshold 和最终的 S_mean 数值，取决于未给出的对象大小分布 S 的具体形式（如是否独立、具体分布类型等），因此‘精确计算式’这一表述在缺乏完整分布假设的情况下显得过于绝对，且‘反解’过程未展示。 | 逻辑上，基于热度分布确定缓存驻留对象集合并计算其平均大小是合理的缓存分析框架，公式结构自洽；但作为‘精确计算式’，它依赖于未明确给出的对象大小分布 S 的完整统计特性，且无外部来源支持该特定参数组合下的具体推导结果，属于经验/模型依赖事实，缺乏直接来源支持。
+
+## Search Query
+
+conditional expectation size given popularity threshold Pareto distribution negative correlation

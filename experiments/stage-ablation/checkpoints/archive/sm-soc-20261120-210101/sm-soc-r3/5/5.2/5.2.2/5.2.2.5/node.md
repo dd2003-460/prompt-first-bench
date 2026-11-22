@@ -1,0 +1,20 @@
+# N329: 抽样数据 n≥300 且抽样比例≥10% 的约束需通过设计效应（Design Effect）修正：若抽样为分层或聚类抽样，有效样本量 n_eff = n / D
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N95, N96, N97
+
+## Claim
+
+抽样数据 n≥300 且抽样比例≥10% 的约束需通过设计效应（Design Effect）修正：若抽样为分层或聚类抽样，有效样本量 n_eff = n / DEFF，DEFF = 1 + (m-1)*ICC，其中m为簇大小，ICC为组内相关系数；若n_eff<300，则置信度降级，需重新计算DEFF。
+
+## Corrected Claim
+
+抽样数据 n≥300 且抽样比例≥10% 的约束需通过设计效应（Design Effect）修正：若抽样为分层或聚类抽样，有效样本量 n_eff = n / DEFF，DEFF = 1 + (m-1)*ICC，其中m为簇大小，ICC为组内相关系数；若n_eff<300，则置信度降级，需重新计算DEFF。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：DEFF公式及有效样本量计算符合统计学标准定义，逻辑自洽。

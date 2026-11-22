@@ -1,0 +1,20 @@
+# N152: 工作点2（弱时间局部性，低 LRU 独占率/高字节量）：在 τ_locality = 10 天（弱局部性）下，LRU 保留的‘最近但非高频’对象占比 ≈ 10%
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N51
+
+## Claim
+
+工作点2（弱时间局部性，低 LRU 独占率/高字节量）：在 τ_locality = 10 天（弱局部性）下，LRU 保留的‘最近但非高频’对象占比 ≈ 10%（缓存容量的 10% 用于非热点对象），s_avg_small ≈ 0.7 * E[size]（近期对象尺寸分布更均匀），则 B_LRU_only ≈ 0.1 * C_cache * 0.7 * E[size]，此工作点量化了 LRU 在弱时间局部性下独占的对象字节量，显示 LRU 独占率下降但单对象字节量增加。
+
+## Corrected Claim
+
+工作点2（弱时间局部性，低 LRU 独占率/高字节量）：在 τ_locality = 10 天（弱局部性）下，LRU 保留的‘最近但非高频’对象占比 ≈ 10%（缓存容量的 10% 用于非热点对象），s_avg_small ≈ 0.7 * E[size]（近期对象尺寸分布更均匀），则 B_LRU_only ≈ 0.1 * C_cache * 0.7 * E[size]，此工作点量化了 LRU 在弱时间局部性下独占的对象字节量，显示 LRU 独占率下降但单对象字节量增加。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 B_LRU_only = 占比 * 容量 * 平均尺寸系数 * 期望尺寸 在量纲和逻辑上自洽，且符合弱局部性下 LRU 缓存非热点对象占比低但单对象尺寸较大的定性描述。

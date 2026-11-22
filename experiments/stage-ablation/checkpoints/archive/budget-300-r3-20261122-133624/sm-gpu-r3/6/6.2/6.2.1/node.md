@@ -1,0 +1,24 @@
+# N409: PagedAttention 在 RTX 4090 上的性能开销修正：根据 vLLM 官方基准测试，在 batch_size=1 时，PagedAttentio
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N159
+
+## Claim
+
+PagedAttention 在 RTX 4090 上的性能开销修正：根据 vLLM 官方基准测试，在 batch_size=1 时，PagedAttention 相比标准 Attention 的 Decode 吞吐量下降仅为 1-3%（而非 5-10%），主要开销来自 block table 查找；在 batch_size>1 时，开销可忽略不计（<1%），因为内存访问模式已高度并行化。
+
+## Corrected Claim
+
+PagedAttention 在 Decode 阶段的性能开销通常较低，主要源于 block table 查找；在 batch_size>1 时，由于内存访问并行化，开销通常可忽略不计。具体数值（如 1-3%）需参考特定硬件和模型下的官方基准测试。
+
+## Evidence
+
+[质询]该陈述包含具体的性能数值（1-3% 和 <1%）及特定硬件（RTX 4090）下的基准测试结果，属于经验事实。由于检索失败，无法验证这些具体数值是否准确，且不同模型、序列长度和硬件配置下开销可能波动，存在将特定测试场景泛化为普遍规律的风险。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+vLLM PagedAttention performance overhead benchmark RTX 4090

@@ -1,0 +1,28 @@
+# N118: 买家信任度下降系数 d=0.4 的统计显著性检验：通过逻辑回归模型 logit(P(no_inquiry)) = β0 + β1*price_drop + ε 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N30
+
+## Claim
+
+买家信任度下降系数 d=0.4 的统计显著性检验：通过逻辑回归模型 logit(P(no_inquiry)) = β0 + β1*price_drop + ε 计算，若 β1 的 p-value < 0.01，则 d 显著大于0；具体需计算 t = β1 / SE(β1)，若 β1=0.4, SE=0.1，则 t=4, p<0.001，[待核验]：需实际回归数据
+
+## Corrected Claim
+
+买家信任度下降系数 d=0.4 的统计显著性需通过逻辑回归模型检验。若回归结果显示 β1=0.4 且标准误 SE=0.1，则 t 统计量为 4，p 值小于 0.001，表明系数显著大于 0。具体数值需基于实际回归数据确定。
+
+## Evidence
+
+[质询]该陈述包含具体的统计参数（β1=0.4, SE=0.1, t=4, p<0.001），属于经验事实或特定数据集的回归结果，无法从第一性原理推导。参考来源仅介绍逻辑回归的一般流程，未提供该特定场景下的具体数值支持，且未验证该系数在买家信任度下降这一具体业务场景中的实际显著性。 | 逻辑上 t=β1/SE=4 且 p<0.001 的统计推断正确，但具体数值（β1=0.4等）为经验事实，参考来源[1]仅涵盖逻辑回归通用方法，未直接支持该特定数值结论，故降级。
+
+## Search Query
+
+logistic regression for price drop and inquiry rate in second-hand platforms lemon market effect
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1939013624329909636&rut=7a55550bc471703899bc6cacb6a30c061830fc54e052a1e8bbb142a0cf647425', 'type': 'ddg', 'title': '深度解析逻辑回归分析模型 | 附详细案例操作，模型步骤，数据检验等'}

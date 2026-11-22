@@ -1,0 +1,30 @@
+# N68: 损失厌恶效应量 d 的元分析基准：引用Kahneman & Tversky及后续二手市场实证研究，确定损失厌恶系数λ在定价行为中的标准化效应量d，确认其是否显著
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N18
+
+## Claim
+
+损失厌恶效应量 d 的元分析基准：引用Kahneman & Tversky及后续二手市场实证研究，确定损失厌恶系数λ在定价行为中的标准化效应量d，确认其是否显著大于0.2（Cohen's d），以排除随机噪声假设。
+
+## Corrected Claim
+
+损失厌恶效应显著存在，Kahneman & Tversky 的理论及后续实证研究支持损失厌恶系数 λ 显著大于 1，但具体标准化效应量 d 的数值需参考专门的元分析文献，现有来源未直接提供 d > 0.2 的统计证据。
+
+## Evidence
+
+[质询]该陈述声称确定了具体的标准化效应量 d 并确认其大于 0.2，但提供的参考来源仅涉及损失厌恶系数 λ 的理论模型、参数范围或定性描述，并未提供元分析得出的具体 Cohen's d 数值，属于将理论参数估计混淆为统计效应量验证，且缺乏直接数据支持。 | 来源 [1] 和 [2] 讨论了损失厌恶系数 λ 的理论基础和取值范围，但未提供元分析得出的标准化效应量 d 的具体数值，无法直接支持 'd > 0.2' 这一具体统计结论，属于间接支持。
+
+## Search Query
+
+loss aversion effect size meta-analysis pricing behavior Cohen's d second hand market
+
+## Retrieval Sources
+
+- {'url': 'https://jmsc.tju.edu.cn/jmsc/article/abstract/20160505&rut=bd3cc3e2b4b3c2ac7c9d773ac94fc6e6b433c9f296cacea00a2c12261a742519', 'type': 'ddg', 'title': '基于资产配置的损失厌恶效用参数研究'}
+- {'url': 'https://www.jstor.org/stable/2937956&rut=b3a04da19203b0510670c3fbeccaaaf277758b825fb6ab101da9122c5af66e91', 'type': 'ddg', 'title': 'Loss Aversion in Riskless Choice: A Reference-Dependent Model'}
+- {'url': 'https://ideas.repec.org/a/oup/qjecon/v106y1991i4p1039-1061..html&rut=f53f6cbda22826b8810bc890ac17718fc04e06ef9bd4ccf365e40b0abc5a935c', 'type': 'ddg', 'title': 'Loss Aversion in Riskless Choice: A Reference-Dependent Model'}

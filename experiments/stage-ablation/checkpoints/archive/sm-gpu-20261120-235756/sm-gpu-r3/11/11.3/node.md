@@ -1,0 +1,30 @@
+# N135: Apple M3 Ultra 运行 Qwen3-27B 时，BF16 全精度相比 FP8/INT8 量化的质量优势在长上下文 (32K) 推理中表现为幻觉率降低
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N36
+
+## Claim
+
+Apple M3 Ultra 运行 Qwen3-27B 时，BF16 全精度相比 FP8/INT8 量化的质量优势在长上下文 (32K) 推理中表现为幻觉率降低 5-10% [待核验]，该优势需与吞吐量损失 (16-66 倍) 进行权衡；若应用场景为高精度代码生成或复杂推理，质量优势可能抵消吞吐量劣势，否则量化方案更优。
+
+## Corrected Claim
+
+Apple M3 Ultra 运行 Qwen3-27B 时，BF16 全精度相比 FP8/INT8 量化在长上下文推理中通常具有更高的生成质量（如更低的幻觉率），但会显著降低吞吐量；具体质量提升幅度和吞吐量损失倍数需根据实际基准测试确定，高精度场景下质量优势可能抵消吞吐量劣势。
+
+## Evidence
+
+[质询]陈述中关于“幻觉率降低 5-10%”的具体数值缺乏来源支持，且“吞吐量损失 16-66 倍”的量级在 M3 Ultra 上运行 27B 模型时显得过大（通常 BF16 与 INT8 的吞吐差距在 2-4 倍左右，除非涉及极端的内存带宽瓶颈或特定量化实现缺陷，但 16-66 倍更接近 FP32 与 INT4 或不同架构间的差距，而非同硬件下 BF16 vs FP8/INT8 的典型差距），存在数值量级可疑或口径混淆的风险。 | 来源 [2] 确认了 M3 Ultra 运行 Qwen3.8-27B 的场景及量化取舍的存在，但未提供具体的幻觉率降低百分比或 16-66 倍的吞吐量损失数据；该事实属于经验性性能指标，逻辑上自洽（高精度通常伴随低吞吐和高质量），但具体数值缺乏直接证据支持，故降级。
+
+## Search Query
+
+BF16 vs FP8 quantization quality loss long context LLM inference
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_00968/article/details/168241265&rut=11cbb6d33bb1e72a29ddae6547cd25b45edc3faabcdc49d69d7b413bc41ed278', 'type': 'ddg', 'title': 'Qwen3.8-27B-MTP-bf16部署全指南：内存需求、Apache-2.0许可与Apple Silicon本地部'}
+- {'url': 'https://blog.csdn.net/weixin_35751412/article/details/169344115&rut=2939bb91d7897f5548f70b1470b5765a098e485921c492469e60ede40759ec72', 'type': 'ddg', 'title': 'Qwen3.8-27B 本地运行实测：Mac Studio M3 Ultra 上 14 tokens/s 的量化取舍与'}
+- {'url': 'https://codepick.dev/zh/guides/qwen3-27b-mac-local/&rut=e0e55407e526578dc8717101acc94c8bc089acee2bf4ae2b124d4a13fa4f61f6', 'type': 'ddg', 'title': 'Mac 本地部署 Qwen3.8 27B 方案（2026）：内存选型 + GGUF + oMLX/MTPLX/Ollama'}

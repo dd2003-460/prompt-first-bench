@@ -1,0 +1,24 @@
+# N103: RTX 4090 (24GB) 单卡方案总硬件成本 C_single_4090 为 $1900-$2050，计算公式为 P_gpu_4090 ($1600) +
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N24
+
+## Claim
+
+RTX 4090 (24GB) 单卡方案总硬件成本 C_single_4090 为 $1900-$2050，计算公式为 P_gpu_4090 ($1600) + C_infra_4090 ($300-$450)，注意 RTX 4090 显存仅 24GB，无法容纳 BF16 权重的 54GB，因此该节点实际指向的是量化后或不可行状态，需修正为 RTX 3090 或 A100 对比
+
+## Corrected Claim
+
+RTX 4090 (24GB) 单卡方案总硬件成本 C_single_4090 为 $1900-$2050，计算公式为 P_gpu_4090 ($1600) + C_infra_4090 ($300-$450)，注意 RTX 4090 显存仅 24GB，无法容纳 BF16 权重的 54GB，因此该节点实际指向的是量化后或不可行状态，需修正为 RTX 3090 或 A100 对比
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 显存确为 24GB，无法容纳 54GB BF16 权重，且 $1600+$300-$450 的成本计算逻辑自洽，符合硬件市场常识。
+
+## Search Query
+
+RTX 4090 24GB vs Qwen3 27B BF16 memory requirement feasibility

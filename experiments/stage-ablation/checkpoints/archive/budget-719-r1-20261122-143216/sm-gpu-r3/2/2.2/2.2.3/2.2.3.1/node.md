@@ -1,0 +1,24 @@
+# N208: 支持双 PCIe x16 插槽且具备足够供电能力（如 16+1+1 相供电）以稳定运行双 RTX 5090 (450W TDP each) 的高端消费级主板（如
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N64
+
+## Claim
+
+支持双 PCIe x16 插槽且具备足够供电能力（如 16+1+1 相供电）以稳定运行双 RTX 5090 (450W TDP each) 的高端消费级主板（如 ASUS ROG Maximus Z790 Hero 或 MSI MEG X670E Ace）的市场均价约为 $600-$800，相比支持单卡的中端主板（$300-$400）溢价约 $300-$400
+
+## Corrected Claim
+
+支持双 PCIe x16 插槽且具备足够供电能力以稳定运行双 RTX 5090 的高端消费级主板，其市场均价通常显著高于支持单卡的中端主板，溢价幅度约为 $300-$400，具体价格需参考实时市场行情。
+
+## Evidence
+
+[质询]具体型号（如 ASUS ROG Maximus Z790 Hero）的市场均价随时间波动较大，且不同地区/渠道价格差异显著，$600-$800 的区间可能因促销或汇率变动而失效；此外，'高端消费级主板'的定义边界模糊，部分竞品可能低于或高于此区间。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体价格区间及型号对应关系）
+
+## Search Query
+
+Z790 X670E motherboard price dual PCIe x16 support high power delivery 2025

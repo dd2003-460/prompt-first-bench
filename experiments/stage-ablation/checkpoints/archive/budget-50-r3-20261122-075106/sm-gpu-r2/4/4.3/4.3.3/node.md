@@ -1,0 +1,20 @@
+# N83: 若采用 W4 (INT4) 量化，Qwen3-27B 权重占用约 13.5 GB，加上 32K 上下文 KV Cache (约 1.57 GB) 及激活值，总显
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N29
+
+## Claim
+
+若采用 W4 (INT4) 量化，Qwen3-27B 权重占用约 13.5 GB，加上 32K 上下文 KV Cache (约 1.57 GB) 及激活值，总显存占用约 16-18 GB，可装入 RTX 4090，理论最大吞吐率为 1008 GB/s / 13.5 GB ≈ 74.7 Token/s，实际吞吐率预计为 45-60 Token/s
+
+## Corrected Claim
+
+若采用 W4 (INT4) 量化，Qwen3-27B 权重占用约 13.5 GB，加上 32K 上下文 KV Cache (约 1.57 GB) 及激活值，总显存占用约 16-18 GB，可装入 RTX 4090，理论最大吞吐率为 1008 GB/s / 13.5 GB ≈ 74.7 Token/s，实际吞吐率预计为 45-60 Token/s
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B INT4权重约13.5GB，KV Cache及激活值估算合理，总显存16-18GB符合RTX 4090容量；理论吞吐基于带宽/权重大小计算（1008/13.5≈74.7），实际吞吐考虑效率折损后45-60 Token/s符合工程经验。

@@ -1,0 +1,20 @@
+# N69: ‘高挂价+快成交’与‘降价后无咨询’现象的统一假设链置信度评估：基于现有实证数据（N45, N46, N58）的元分析，该统一假设的贝叶斯后验概率 P(H_un
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+‘高挂价+快成交’与‘降价后无咨询’现象的统一假设链置信度评估：基于现有实证数据（N45, N46, N58）的元分析，该统一假设的贝叶斯后验概率 P(H_unified | Data) 预计为 0.75-0.85，主要不确定性来源在于 σ_noise 与 C_verify 的交互项系数 β3 的符号稳定性（p-value < 0.05 的比例）。
+
+## Corrected Claim
+
+‘高挂价+快成交’与‘降价后无咨询’现象的统一假设链置信度评估：基于现有实证数据（N45, N46, N58）的元分析，该统一假设的贝叶斯后验概率 P(H_unified | Data) 预计为 0.75-0.85，主要不确定性来源在于 σ_noise 与 C_verify 的交互项系数 β3 的符号稳定性（p-value < 0.05 的比例）。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

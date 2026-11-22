@@ -1,0 +1,20 @@
+# N410: 16K 上下文下 4090 单卡 INT8 的显存再核算：权重 27 GB + KV Cache (16K * 64 KB = 1 GB) + 框架 2 GB 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N159
+
+## Claim
+
+16K 上下文下 4090 单卡 INT8 的显存再核算：权重 27 GB + KV Cache (16K * 64 KB = 1 GB) + 框架 2 GB = 30 GB > 24 GB，确认不可行；即使启用 PagedAttention 的内存优化，也无法解决权重本身超出的问题，必须使用 W4 量化或双卡。
+
+## Corrected Claim
+
+16K 上下文下 4090 单卡 INT8 的显存再核算：权重 27 GB + KV Cache (16K * 64 KB = 1 GB) + 框架 2 GB = 30 GB > 24 GB，确认不可行；即使启用 PagedAttention 的内存优化，也无法解决权重本身超出的问题，必须使用 W4 量化或双卡。
+
+## Evidence
+
+[质询]KV Cache 的估算值（1 GB）可能因具体模型架构（如层数、头数、是否使用 GQA/MQA）而存在偏差，但即使 KV Cache 为 0，仅权重 27 GB 已超出 24 GB 显存，核心结论（不可行）依然成立。 | 先验知识/题面给定，逻辑校验通过：27GB 权重 > 24GB 显存，物理上无法加载，结论自洽。

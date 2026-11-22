@@ -1,0 +1,24 @@
+# N184: RTX 4090 (24GB)在INT8权重+INT8 KV Cache配置下，总显存需求36.35GB仍远超24GB容量，即使使用INT8 KV Cache，
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N56
+
+## Claim
+
+RTX 4090 (24GB)在INT8权重+INT8 KV Cache配置下，总显存需求36.35GB仍远超24GB容量，即使使用INT8 KV Cache，单卡4090依然不可行，必须依赖CPU Offload或双卡方案，这与N19中W4精度的结论一致，但INT8方案因质量损失较小而更具吸引力。
+
+## Corrected Claim
+
+RTX 4090 (24GB)在INT8权重+INT8 KV Cache配置下，总显存需求36.35GB仍远超24GB容量，即使使用INT8 KV Cache，单卡4090依然不可行，必须依赖CPU Offload或双卡方案，这与N19中W4精度的结论一致，但INT8方案因质量损失较小而更具吸引力。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：24GB显存无法容纳36.35GB的模型权重与KV Cache总和，物理上必然溢出，结论自洽。
+
+## Search Query
+
+RTX 4090 24GB INT8 weight INT8 KV cache infeasibility 27B model

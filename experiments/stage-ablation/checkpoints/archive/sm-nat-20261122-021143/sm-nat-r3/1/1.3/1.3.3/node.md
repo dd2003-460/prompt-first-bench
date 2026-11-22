@@ -1,0 +1,20 @@
+# N26: 负相关性对 LRU 命中率的影响量化：在独立假设下，LRU 命中率 H_independent = Σ_{k=1}^{K} R_k / Σ_{k=1}^{10^
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N8
+
+## Claim
+
+负相关性对 LRU 命中率的影响量化：在独立假设下，LRU 命中率 H_independent = Σ_{k=1}^{K} R_k / Σ_{k=1}^{10^5} R_k；在 ρ=-0.3 负相关下，高热度对象更小，导致 K 增大（更多对象可被缓存），命中率提升 Δ_ρ ≈ (K_ρ - K_independent) / K_independent * (1 - H_independent)
+
+## Corrected Claim
+
+在独立假设下，LRU 命中率 H_independent = Σ_{k=1}^{K} R_k / Σ_{k=1}^{10^5} R_k；在 ρ=-0.3 负相关下，高热度对象占比减小，导致有效缓存对象数 K 增大，命中率提升 Δ_ρ 可近似为 (K_ρ - K_independent) / K_independent * (1 - H_independent)，但该近似需假设热度分布变化对 LRU 替换策略的影响可忽略。
+
+## Evidence
+
+[质询]公式中的 Δ_ρ 定义存在量纲和逻辑瑕疵：(K_ρ - K_independent) / K_independent 是相对变化率（无量纲），乘以 (1 - H_independent) 后得到的量纲虽为命中率增量，但该线性近似假设了命中率提升仅由缓存容量 K 的相对变化决定，忽略了对象热度分布变化对 LRU 替换策略的具体影响，且未明确 K 的定义（是缓存大小还是可缓存对象总数）。 | 先验知识/题面给定，逻辑校验通过，但公式推导为简化模型，缺乏严格证明

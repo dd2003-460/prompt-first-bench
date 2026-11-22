@@ -1,0 +1,24 @@
+# N16: 工作点3-高成本低性：多卡数据中心方案（如4×A100 80GB）在BF16精度下的TCO与性能，适用于高并发、企业级场景，需标注NVLink vs PCIe的
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+工作点3-高成本低性：多卡数据中心方案（如4×A100 80GB）在BF16精度下的TCO与性能，适用于高并发、企业级场景，需标注NVLink vs PCIe的吞吐差异及3年TCO
+
+## Corrected Claim
+
+工作点3-高成本低性：多卡数据中心方案（如4×A100 80GB）在BF16精度下的TCO与性能，适用于高并发、企业级场景，需标注NVLink vs PCIe的吞吐差异及3年TCO
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+4x A100 80GB NVLink TCO 3 year enterprise inference cost

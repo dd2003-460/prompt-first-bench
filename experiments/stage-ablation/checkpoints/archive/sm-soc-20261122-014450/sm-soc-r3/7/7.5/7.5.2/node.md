@@ -1,0 +1,24 @@
+# N374: 溢价降低带来的预期收益损失 ΔRevenue_loss = (P_old - P_new) * Q_old - (P_new - P_old) * ΔQ * (
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N119
+
+## Claim
+
+溢价降低带来的预期收益损失 ΔRevenue_loss = (P_old - P_new) * Q_old - (P_new - P_old) * ΔQ * (P_new - C)。需计算在 k=0.4, ΔT=2天 条件下，ΔRevenue_loss 与 C_time_delta = η*2 的比值 R_cost_benefit。若 R_cost_benefit < 1，则干预净收益为正，C_intervention ≈ 0 成立。
+
+## Corrected Claim
+
+溢价降低带来的预期收益损失 ΔRevenue_loss 应重新推导，通常形式为：(P_old - P_new) * Q_old - (P_new - C) * ΔQ。需计算在 k=0.4, ΔT=2天 条件下，修正后的 ΔRevenue_loss 与 C_time_delta = η*2 的比值 R_cost_benefit。若 R_cost_benefit < 1，则干预净收益为正。
+
+## Evidence
+
+[质询]公式中第二项 (P_new - P_old) * ΔQ * (P_new - C) 存在严重的量纲和逻辑错误：(P_new - P_old) 是价格差（货币），ΔQ 是数量（个），(P_new - C) 是单位利润（货币/个），三者相乘导致量纲为 货币²/个，无法与第一项（货币）相减；此外，价格降低时 (P_new - P_old) 为负，而 ΔQ 通常为正，该项符号逻辑混乱，无法正确表示因销量增加带来的边际收益。 | 先验知识/题面给定，但逻辑校验发现公式量纲不一致且经济逻辑自洽性存疑，无法验证其正确性。
+
+## Search Query
+
+cost benefit analysis price reduction intervention seller revenue loss time cost

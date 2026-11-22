@@ -1,0 +1,26 @@
+{
+  "id": "N89",
+  "claim": "若采用写回（Write-Back）策略且缓存容量受限，更新率 1%/天 导致的折损系数 D_eff 取决于脏页淘汰概率。在Pareto(β=0.9)分布下，热门对象更新频繁但驻留时间长，冷门对象更新少但易被淘汰。量化公式为 D_eff = 1 - (λ_upd / λ_acc_avg) * P(Evict|Dirty)，其中 λ_acc_avg 为平均访问率。在本题容量充足前提下，P(Evict|Dirty)=0，故 D_eff=1.0。",
+  "level": "L3",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]公式 D_eff = 1 - (λ_upd / λ_acc_avg) * P(Evict|Dirty) 缺乏标准理论支持，且量纲/逻辑存疑：若 P(Evict|Dirty)=0，则 D_eff=1 意味着无折损，这与 Write-Back 策略下脏页可能因断电或淘汰导致数据丢失/不一致的风险直觉相悖（通常 Write-Back 的风险在于持久性而非单纯的访问折损，且折损系数定义模糊）。此外，参考来源仅讨论 RAID 缓存模式的一般性权衡，未提供该特定量化公式或 Pareto 分布下的具体推导。 | 逻辑上在 P(Evict|Dirty)=0 时 D_eff=1 自洽，但该公式为特定场景下的经验/自定义模型，非通用第一性原理；参考来源 [1][2] 仅涉及 Write-Back 与 Write-Through 的通用性能与安全权衡，未覆盖该具体量化公式及 Pareto 分布下的推导，属于间接相关但无直接支持。",
+  "corrected_claim": "在 Write-Back 策略且缓存容量充足（P(Evict|Dirty)≈0）的前提下，若定义折损系数 D_eff 仅由脏页淘汰概率引起，则 D_eff 趋近于 1.0；但该公式为特定模型假设，非通用标准。",
+  "rework_count": 1,
+  "parent_ids": [],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "",
+  "retrieval_sources": [
+    {
+      "url": "https://blog.csdn.net/weixin_30702441/article/details/163768523&rut=3c77aa1325df38e8447b6e38b83ab01839e69f29eebbd1864b78ee78042512ee",
+      "type": "ddg",
+      "title": "RAID缓存模式深度解析：Write Through与Write Back的性能与安全权衡-CSDN博客"
+    },
+    {
+      "url": "https://blog.csdn.net/weixin_31220401/article/details/163768528&rut=5f9dca608f8b30424d2e4de5f5c3b03ee2a37952ea11ea410db6c3bcf17b239b",
+      "type": "ddg",
+      "title": "RAID缓存模式深度解析：Write Through与Write Back的性能与安全权衡-CSDN博客"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+# N107: 截断 Pareto 分布 (α=1.1, s_min=1KB, s_max=100MB) 的精确期望值 E[s]_truncated：通过积分 ∫_{1KB}^
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N32
+
+## Claim
+
+截断 Pareto 分布 (α=1.1, s_min=1KB, s_max=100MB) 的精确期望值 E[s]_truncated：通过积分 ∫_{1KB}^{100MB} s * (α * s_min^α / s^{α+1}) ds 计算，替代 N32 中使用的 11KB 近似值，以修正分母精度。
+
+## Corrected Claim
+
+截断 Pareto 分布 (α=1.1, s_min=1KB, s_max=100MB) 的精确期望值 E[s]_truncated：通过积分 ∫_{1KB}^{100MB} s * (α * s_min^α / s^{α+1}) ds 计算，替代 N32 中使用的 11KB 近似值，以修正分母精度。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：截断Pareto分布的期望值公式推导正确，积分区间与参数定义自洽，且作为对近似值的修正，其数学定义明确。

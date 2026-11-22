@@ -1,0 +1,20 @@
+# N60: 当 u=0.1 时，线性折损模型 δ = 1 - u * (T_res/L_object) 失效的临界条件是 u * T_res > 1，此时需引入非线性修正项
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N20
+
+## Claim
+
+当 u=0.1 时，线性折损模型 δ = 1 - u * (T_res/L_object) 失效的临界条件是 u * T_res > 1，此时需引入非线性修正项 δ_corrected = exp(-u * T_res)，对于 T_res/L_object=0.5，δ_corrected ≈ exp(-0.05) ≈ 0.951
+
+## Corrected Claim
+
+当 u=0.1 时，线性折损模型 δ = 1 - u * (T_res/L_object) 失效的临界条件是 u * T_res > 1，此时需引入非线性修正项 δ_corrected = exp(-u * T_res)，对于 T_res/L_object=0.5，δ_corrected ≈ exp(-0.05) ≈ 0.951
+
+## Evidence
+
+父节点级核验未通过：有冗余（子节点本质上是同一数学关系（线性 vs 指数误差随 u 变化）在不同参数点（u=0.1, 0.5, 2.0）的实例化，存在严重的参数化冗余。虽然覆盖了父节点的关键方面（临界条件验证、模型对比），但三个子节点并非独立的概念维度，而是同一规律的不同采样点。）

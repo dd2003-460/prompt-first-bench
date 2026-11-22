@@ -1,0 +1,24 @@
+# N117: 下游投影2：新品发布冲击因子 I_new_release，定义为新品发布后7天内二手同类商品价格波动率的增量，对于主流智能手机，I_new_release中位数
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N40
+
+## Claim
+
+下游投影2：新品发布冲击因子 I_new_release，定义为新品发布后7天内二手同类商品价格波动率的增量，对于主流智能手机，I_new_release中位数为0.20，对于非旗舰款为0.05。
+
+## Corrected Claim
+
+下游投影2：新品发布冲击因子 I_new_release，定义为新品发布后7天内二手同类商品价格波动率的增量，对于主流智能手机，I_new_release中位数显著高于非旗舰款（具体数值需实证数据支持）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性统计数值（中位数0.20和0.05），属于市场微观结构数据，无法从第一性原理或逻辑公理中严格推导得出，且缺乏外部来源支持其具体数值的准确性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+impact of new product launch on used market price volatility 7-day window

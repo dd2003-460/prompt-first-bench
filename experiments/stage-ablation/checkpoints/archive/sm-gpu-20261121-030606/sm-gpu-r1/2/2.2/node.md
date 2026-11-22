@@ -1,0 +1,24 @@
+# N13: 工作点2（中容量中精度）：RTX 5090 32GB + FP8精度，Qwen3-27B权重占用约13.5GB，剩余18.5GB用于KV Cache，32K上下
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+工作点2（中容量中精度）：RTX 5090 32GB + FP8精度，Qwen3-27B权重占用约13.5GB，剩余18.5GB用于KV Cache，32K上下文下KV Cache占用约5.2GB，总占用18.7GB < 32GB，可行且留有40%余量，可支持更长上下文或批量推理。
+
+## Corrected Claim
+
+工作点2（中容量中精度）：RTX 5090 32GB + FP8精度，Qwen3-27B权重占用约13.5GB，剩余18.5GB用于KV Cache，32K上下文下KV Cache占用约5.2GB，总占用18.7GB < 32GB，可行且留有40%余量，可支持更长上下文或批量推理。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B FP8权重约13.5GB，32K上下文KV Cache约5.2GB，总占用18.7GB小于32GB显存，余量计算正确。
+
+## Search Query
+
+RTX 5090 FP8 inference Qwen3 27B memory usage

@@ -1,0 +1,20 @@
+# N15: LFU 理论上限公式：H_byte_LFU_max = 1 - (Σ_{i∉Cache_LFU} p_i · s_i) / (Σ_{all} p_i · s_i
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+LFU 理论上限公式：H_byte_LFU_max = 1 - (Σ_{i∉Cache_LFU} p_i · s_i) / (Σ_{all} p_i · s_i)，其中 Cache_LFU 为 LFU 保留的对象集合，需确定 LFU 在长尾负载下的保留策略。
+
+## Corrected Claim
+
+LFU 理论上限公式：H_byte_LFU_max = 1 - (Σ_{i∉Cache_LFU} p_i · s_i) / (Σ_{all} p_i · s_i)，其中 Cache_LFU 为 LFU 保留的对象集合，需确定 LFU 在长尾负载下的保留策略。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1关注缓存集合的确定逻辑（定义域），子节点2关注基于该集合的性能指标计算（值域），两者在逻辑上是正交的。然而，父节点核心是“理论上限公式”及“长尾负载下的保留策略”。子节点仅覆盖了“稳态下按频率保留”这一特定情形，未涵盖长尾负载中频率分布不稳定或动态变化时的策略细节（如老化机制、阈值调整等），且未直接关联到父节点公式中涉及的 s_i (大小) 维度，仅讨论了 p_i (概率) 维度，导致对父节点中 H_byte (字节命中率) 的推导不完整。）

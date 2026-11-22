@@ -1,0 +1,20 @@
+# N438: NVIDIA RTX 4090 与 RTX 3090 在 vLLM 0.6.x 版本中均原生支持 PagedAttention 及 AWQ/GPTQ INT8 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+NVIDIA RTX 4090 与 RTX 3090 在 vLLM 0.6.x 版本中均原生支持 PagedAttention 及 AWQ/GPTQ INT8 推理内核，但 RTX 3090 缺乏 FP8 硬件加速且显存带宽 (936 GB/s) 仅为 RTX 4090 (1008 GB/s) 的 93%，在 Memory-bound 场景下理论吞吐上限低约 7%，故在同等价格区间下 RTX 3090 被 RTX 4090 支配，不予纳入最终候选集。
+
+## Corrected Claim
+
+NVIDIA RTX 4090 与 RTX 3090 在 vLLM 0.6.x 版本中均原生支持 PagedAttention 及 AWQ/GPTQ INT8 推理内核，但 RTX 3090 缺乏 FP8 硬件加速且显存带宽 (936 GB/s) 仅为 RTX 4090 (1008 GB/s) 的 93%，在 Memory-bound 场景下理论吞吐上限低约 7%，故在同等价格区间下 RTX 3090 被 RTX 4090 支配，不予纳入最终候选集。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

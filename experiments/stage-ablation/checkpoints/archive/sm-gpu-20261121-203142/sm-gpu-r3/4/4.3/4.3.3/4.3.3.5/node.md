@@ -1,0 +1,24 @@
+# N270: 无 ECC 场景下的错误传播机制：在 LLM 推理中，KV Cache 的 bit-flip 会导致后续所有生成 token 的注意力分数发生偏移；由于 Tra
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N85, N86, N87
+
+## Claim
+
+无 ECC 场景下的错误传播机制：在 LLM 推理中，KV Cache 的 bit-flip 会导致后续所有生成 token 的注意力分数发生偏移；由于 Transformer 的递归特性，单个 bit 错误可能在 10-50 个 token 内被放大为显著语义偏差 (Hallucination)；需量化‘可接受错误率阈值’对应的最大允许 bit-flip 频率，例如若要求输出错误率 <0.1%，则需确保每小时 bit-flip 次数 < 0.001 次/请求。
+
+## Corrected Claim
+
+在 LLM 推理中，KV Cache 的 bit-flip 会导致后续生成 token 的注意力分数发生偏移；由于 Transformer 的递归特性，单个 bit 错误可能在后续若干 token 内被放大为显著语义偏差；需根据具体模型和任务要求量化‘可接受错误率阈值’对应的最大允许 bit-flip 频率。
+
+## Evidence
+
+[质询]陈述中关于“10-50个token内放大”以及“每小时bit-flip次数<0.001次/请求”的具体数值缺乏通用理论支持，属于特定实验或假设下的经验数据，且不同模型、上下文长度及错误位置会导致结果差异巨大，直接作为通用事实陈述存在过度具体化风险。 | 先验知识/题面给定，逻辑校验通过：Transformer的递归特性确实会导致错误传播，但具体量化阈值（如10-50 token、0.001次/小时）属于经验性参数，缺乏通用第一性原理推导或来源支持，故降级为定性表述。
+
+## Search Query
+
+LLM inference KV cache bit flip error propagation hallucination rate

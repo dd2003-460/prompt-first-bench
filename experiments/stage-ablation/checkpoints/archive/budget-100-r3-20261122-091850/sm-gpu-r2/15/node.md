@@ -1,0 +1,20 @@
+# N128: 在决策矩阵中，建议分配权重如下：吞吐量 (TPS) 占 40%，3年TCO 占 30%，质量损失 (Accuracy Drop) 占 20%，运维复杂度 (Op
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+在决策矩阵中，建议分配权重如下：吞吐量 (TPS) 占 40%，3年TCO 占 30%，质量损失 (Accuracy Drop) 占 20%，运维复杂度 (Ops Complexity) 占 10%；若用户无硬性延迟指标但关注并发，则吞吐量权重应提升至 50%，TCO 降至 25%。
+
+## Corrected Claim
+
+在决策矩阵中，建议分配权重如下：吞吐量 (TPS) 占 40%，3年TCO 占 30%，质量损失 (Accuracy Drop) 占 20%，运维复杂度 (Ops Complexity) 占 10%；若用户无硬性延迟指标但关注并发，则吞吐量权重应提升至 50%，TCO 降至 25%。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

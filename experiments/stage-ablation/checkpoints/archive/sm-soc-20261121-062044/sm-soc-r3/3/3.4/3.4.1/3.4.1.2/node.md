@@ -1,0 +1,24 @@
+# N176: MAU 与 GMV 的相关性强度 ρ_MAU_GMV：计算 Pearson 相关系数，若 |ρ| > 0.7 且 p < 0.01，则 MAU 是 GMV 的强
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N65
+
+## Claim
+
+MAU 与 GMV 的相关性强度 ρ_MAU_GMV：计算 Pearson 相关系数，若 |ρ| > 0.7 且 p < 0.01，则 MAU 是 GMV 的强驱动因子，干预需优先稳定 MAU；若 |ρ| < 0.3，则 MAU 波动对 GMV 影响有限，可忽略该随机源
+
+## Corrected Claim
+
+MAU 与 GMV 的相关性强度 ρ_MAU_GMV 需通过计算 Pearson 相关系数确定；通常若 |ρ| > 0.7 且 p < 0.01，可视为强相关，提示 MAU 可能是 GMV 的重要关联因子；若 |ρ| < 0.3，则线性相关性较弱，但需结合业务逻辑判断是否可忽略。
+
+## Evidence
+
+[质询]该陈述将具体的统计阈值（|ρ|>0.7, p<0.01）和定性结论（强驱动因子/可忽略）作为既定事实，但相关性强度及业务影响程度高度依赖于具体数据集和业务场景，不存在普适的数学或物理定律支持这些特定阈值能直接推导出“强驱动”或“可忽略”的因果/业务结论。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该陈述包含特定业务经验阈值，非第一性原理可推导）
+
+## Search Query
+
+MAU GMV correlation e-commerce platform

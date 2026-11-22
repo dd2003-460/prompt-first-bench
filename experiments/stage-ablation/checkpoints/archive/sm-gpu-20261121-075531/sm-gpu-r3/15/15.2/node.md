@@ -1,0 +1,20 @@
+# N382: 满足 <50 dBA 噪音约束的可行硬件方案集合：1. Mac Studio (M2/M3 Ultra, 统一内存 192GB+); 2. 单卡水冷工作站 (R
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N130
+
+## Claim
+
+满足 <50 dBA 噪音约束的可行硬件方案集合：1. Mac Studio (M2/M3 Ultra, 统一内存 192GB+); 2. 单卡水冷工作站 (RTX 4090/5090 + 360mm AIO, 噪音 <45 dBA); 3. 被动散热服务器 (如 Supermicro 被动散热机箱, 需静音风扇或无风扇, 噪音 <35 dBA)。
+
+## Corrected Claim
+
+满足 <50 dBA 噪音约束的可行硬件方案集合：1. Mac Studio (M2/M3 Ultra, 统一内存 192GB+); 2. 单卡水冷工作站 (RTX 4090/5090 + 360mm AIO, 噪音 <45 dBA); 3. 被动散热服务器 (如 Supermicro 被动散热机箱, 需静音风扇或无风扇, 噪音 <35 dBA)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Mac Studio M2/M3 Ultra 在低负载下噪音极低（<30 dBA），RTX 4090/5090 配合 360mm 水冷在静音模式下可控制在 45 dBA 以下，被动散热服务器在低负载或特定设计下噪音极低（<35 dBA），均符合 <50 dBA 的约束条件。

@@ -1,0 +1,24 @@
+# N86: 大小-热度负相关函数形式为对数相关（log S_i = a - b * log R_i，ρ=-0.3）时，LRU 队列中对象排序的精确性量化：通过对数变换后的相
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N28
+
+## Claim
+
+大小-热度负相关函数形式为对数相关（log S_i = a - b * log R_i，ρ=-0.3）时，LRU 队列中对象排序的精确性量化：通过对数变换后的相关性分析，计算 LRU 队列中前 10,000 个对象的排序误差，量化为平均排序偏移量为 8 个位置，导致 LRU 命中率下界从 99.96% 降至 99.94%，误差范围 ±0.02%。
+
+## Corrected Claim
+
+在大小-热度呈对数负相关（ρ=-0.3）的场景下，LRU队列前10,000个对象的排序误差会导致命中率下界出现微小下降（如从99.96%降至99.94%左右），具体数值取决于工作负载特征。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（平均排序偏移量8、命中率下界99.96%至99.94%），这些数值高度依赖于具体的工作负载分布、缓存大小及对象访问模式，无法仅从“对数相关”这一函数形式和ρ值通过第一性原理严格推导得出，属于特定实验或模拟下的经验事实。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且数值无法从第一性原理唯一推出）
+
+## Search Query
+
+logarithmic correlation size heat Pareto distribution LRU queue sorting error simulation 10000 objects 128GB cache

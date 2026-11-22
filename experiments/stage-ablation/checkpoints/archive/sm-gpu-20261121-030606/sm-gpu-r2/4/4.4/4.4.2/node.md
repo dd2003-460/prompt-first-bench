@@ -1,0 +1,20 @@
+# N134: RTX 4090在INT8精度下的理论吞吐量计算：带宽1008 GB/s / (13.5GB权重 + 2.5GB激活 + 5.2GB KV Cache) = 1
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N22
+
+## Claim
+
+RTX 4090在INT8精度下的理论吞吐量计算：带宽1008 GB/s / (13.5GB权重 + 2.5GB激活 + 5.2GB KV Cache) = 1008 / 21.2 ≈ 47.5 tokens/s（batch=1）
+
+## Corrected Claim
+
+RTX 4090在INT8精度下，若严格受限于内存带宽（1008 GB/s）且总数据量为21.2GB，理论上限约为47.5 tokens/s；但实际吞吐量通常受计算能力影响，可能高于此值。
+
+## Evidence
+
+[质询]该计算仅基于内存带宽瓶颈（Memory-Bound）假设，忽略了RTX 4090强大的计算能力（Compute-Bound）在INT8精度下可能带来的更高吞吐量；此外，21.2GB的总内存占用对于7B-13B级别的模型在INT8下是合理的，但47.5 tokens/s的数值偏低，通常RTX 4090在类似配置下可达60-100+ tokens/s，说明该估算可能过于保守或忽略了计算并行性。 | 经验事实，逻辑自洽但缺来源支持；带宽除以总数据量是内存瓶颈下的标准估算方法，但实际性能受计算单元影响，单一来源缺失且数值可能偏低。

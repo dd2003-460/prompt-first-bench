@@ -1,0 +1,20 @@
+# N326: Batch Size = 1 时，Decode 阶段每 token 内存读取量 Bytes_per_token = 模型权重总字节数 (W4: 13.55GB 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N116
+
+## Claim
+
+Batch Size = 1 时，Decode 阶段每 token 内存读取量 Bytes_per_token = 模型权重总字节数 (W4: 13.55GB / INT8: 27.1GB / BF16: 54.2GB) + KV Cache 每 token 增量 (2 * Num_Heads_KV * Head_Dim * Bytes_per_element * Num_Layers)，其中 Qwen3-27B KV Cache 增量约 0.05-0.1 MB/token，权重读取占主导 (>99%)
+
+## Corrected Claim
+
+Batch Size = 1 时，Decode 阶段每 token 内存读取量 Bytes_per_token = 模型权重总字节数 (W4: 13.55GB / INT8: 27.1GB / BF16: 54.2GB) + KV Cache 每 token 增量 (2 * Num_Heads_KV * Head_Dim * Bytes_per_element * Num_Layers)，其中 Qwen3-27B KV Cache 增量约 0.05-0.1 MB/token，权重读取占主导 (>99%)
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Batch Size=1时Decode阶段主要瓶颈为读取模型权重，KV Cache增量相对权重总量极小，数值量级符合大模型推理常识。

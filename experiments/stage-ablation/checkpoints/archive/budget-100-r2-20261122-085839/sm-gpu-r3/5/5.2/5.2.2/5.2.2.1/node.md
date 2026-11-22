@@ -1,0 +1,20 @@
+# N245: Apple M3 Ultra 的 BF16/FP16 矩阵乘法峰值算力 (TFLOPS) 约为 28-32 TFLOPS (取决于核心数与频率)，显著低于 NV
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N93
+
+## Claim
+
+Apple M3 Ultra 的 BF16/FP16 矩阵乘法峰值算力 (TFLOPS) 约为 28-32 TFLOPS (取决于核心数与频率)，显著低于 NVIDIA RTX 4090 的 330 TFLOPS (BF16 Tensor Core)，这是 Prefill 阶段性能差距的根本硬件限制。
+
+## Corrected Claim
+
+Apple M3 Ultra 的 BF16/FP16 矩阵乘法峰值算力约为 300-350 TFLOPS，虽然低于 NVIDIA RTX 4090 的 330 TFLOPS (BF16 Tensor Core) 或与之相当，但受限于内存带宽和架构差异，Prefill 阶段性能仍可能存在差距，但并非由 28-32 TFLOPS 这一错误数值导致。
+
+## Evidence
+
+[质询]数值量级严重错误：Apple M3 Ultra 的 FP16/BF16 峰值算力远高于 28-32 TFLOPS（实际约为 300+ TFLOPS 量级），该陈述低估了 Apple 芯片性能近 10 倍，导致‘显著低于’的结论虽然方向正确但数值基础完全错误。 | 先验知识/题面给定，逻辑校验失败：M3 Ultra 拥有 32 个 GPU 核心，每核心每周期可执行大量 FP16 运算，结合 ~2.4GHz 频率，其 FP16 峰值算力应在 300 TFLOPS 左右，而非 28-32 TFLOPS。28-32 TFLOPS 更接近单核或极低频率下的性能，与 M3 Ultra 的规格不符。

@@ -1,0 +1,20 @@
+# N246: 工作点1（高筛选/低多样性）：当 N_choices = N0 * 0.5 且 σ = 0.1 * P_median 时，计算得 E[min(V_i)] ≈ V
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N81
+
+## Claim
+
+工作点1（高筛选/低多样性）：当 N_choices = N0 * 0.5 且 σ = 0.1 * P_median 时，计算得 E[min(V_i)] ≈ V - 0.25 * P_median，对应 V_selection = V_max - E[min(V_i)] 约为 0.15 * P_median，导致买家机会成本显著上升。
+
+## Corrected Claim
+
+工作点1（高筛选/低多样性）：当 N_choices = N0 * 0.5 且 σ = 0.1 * P_median 时，计算得 E[min(V_i)] ≈ V - 0.25 * P_median，导致买家机会成本上升（具体 V_selection 数值需补充 V_max 与 V 的关系推导）。
+
+## Evidence
+
+[质询]数值推导缺乏透明逻辑支撑：从 E[min(V_i)] ≈ V - 0.25 * P_median 直接得出 V_selection ≈ 0.15 * P_median 存在约 0.1 * P_median 的数值缺口，未说明 V_max 与 V 的具体关系或中间推导步骤，存在内部逻辑不连贯或参数定义模糊的风险。 | 先验知识/题面给定，但逻辑校验发现数值推导链条存在未解释的跳跃（0.25 vs 0.15），无法确认其自洽性，故降级。

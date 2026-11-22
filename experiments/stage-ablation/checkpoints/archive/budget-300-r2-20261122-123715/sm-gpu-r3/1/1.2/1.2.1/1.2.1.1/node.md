@@ -1,0 +1,20 @@
+# N147: A100 80GB SXM4 在 BF16 精度下运行 Qwen3-27B 32K 上下文时，总显存需求 (54GB 权重 + 36GB KV + 5GB 激活
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N36
+
+## Claim
+
+A100 80GB SXM4 在 BF16 精度下运行 Qwen3-27B 32K 上下文时，总显存需求 (54GB 权重 + 36GB KV + 5GB 激活) ≈ 95GB，超出 80GB 物理显存 15GB，必须启用 CPU Offload 或降低精度。
+
+## Corrected Claim
+
+A100 80GB SXM4 在 BF16 精度下运行 Qwen3-27B 32K 上下文时，总显存需求 (54GB 权重 + 36GB KV + 5GB 激活) ≈ 95GB，超出 80GB 物理显存 15GB，必须启用 CPU Offload 或降低精度。
+
+## Evidence
+
+[质询]KV Cache 36GB 的估算可能偏高（取决于具体实现如 FlashAttention 或 PagedAttention 的优化程度），但总显存需求 95GB 远超 80GB 的结论在量级上是稳健的，即使 KV 减半，总需求仍超 80GB。 | 先验知识/题面给定，逻辑校验通过：Qwen3-27B 权重约 54GB (BF16)，32K 上下文 KV Cache 估算合理，总需求 95GB > 80GB，必须 Offload 或降精度，符合物理限制。

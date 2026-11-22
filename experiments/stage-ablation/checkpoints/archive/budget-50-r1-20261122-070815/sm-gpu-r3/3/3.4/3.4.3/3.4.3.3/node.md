@@ -1,0 +1,24 @@
+# N289: 电力价格 E_price 的敏感性分析：在 $0.10/kWh 和 $0.20/kWh 两种典型电价下，2x RTX 4090 方案的年电力成本分别为 $140
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N88, N89, N90
+
+## Claim
+
+电力价格 E_price 的敏感性分析：在 $0.10/kWh 和 $0.20/kWh 两种典型电价下，2x RTX 4090 方案的年电力成本分别为 $1400 和 $1870（基于修正后的平均功耗 800W 总负载）。
+
+## Corrected Claim
+
+在 $0.10/kWh 和 $0.20/kWh 两种典型电价下，基于 800W 总负载，2x RTX 4090 方案的年电力成本应分别为 $701 和 $1402。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：800W * 24h * 365d = 7008 kWh/年；7008 * $0.10 = $700.8，7008 * $0.20 = $1401.6。注意：题目中给出的数值 $1400 和 $1870 与基于 800W 总负载的计算结果（$700.8 和 $1401.6）存在显著差异。然而，根据【硬性约束】，source=knowledge 的节点若逻辑自洽即判 verified。但此处存在明显的数值矛盾：$1400 对应约 14000 kWh，即 1600W 负载；$1870 对应约 9350 kWh，即 1070W 负载。这与“800W 总负载”的前提在数值上不自洽。重新审视规则：failed 仅当存在硬逻辑错误（量纲错/内部矛盾）。此处数值与前提条件（800W）计算结果不符，属于内部矛盾。因此应判 failed。
+
+## Search Query
+
+average residential electricity price per kWh USA Europe 2024

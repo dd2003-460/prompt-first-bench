@@ -1,0 +1,20 @@
+# N162: Byte_Coverage_128 的分子 ∫_{0}^{S_128} s · f_S(s) ds 在截断 Pareto 分布下等价于条件期望 E[S | S 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N56
+
+## Claim
+
+Byte_Coverage_128 的分子 ∫_{0}^{S_128} s · f_S(s) ds 在截断 Pareto 分布下等价于条件期望 E[S | S ≤ S_128] * P(S ≤ S_128) * E[S]，其中 P(S ≤ S_128) = 1 - (x_min/S_128)^{α-1}（注意 α<1 时符号处理需修正为 1 - (S_128/x_min)^{1-α} 的倒数形式），需先确定 S_128 的具体数值。
+
+## Corrected Claim
+
+Byte_Coverage_128 的分子 ∫_{0}^{S_128} s · f_S(s) ds 在截断 Pareto 分布下等于 E[S] * P(S ≤ S_128) * (E[S | S ≤ S_128] / E[S])，或者更直接地表示为 E[S] * P(S ≤ S_128) * C，其中 C 为与分布参数相关的修正因子；原式中直接乘以 E[S] 导致量纲错误。
+
+## Evidence
+
+[质询]公式推导存在量纲和逻辑错误：分子 ∫ s·f(s)ds 是截断分布下的部分期望（Partial Expectation），其量纲为 [S]，而右侧 E[S|S≤S_128] * P(S≤S_128) * E[S] 的量纲为 [S]^2（因为 E[S] 是全局期望，量纲为 [S]，前两项乘积量纲为 [S]）。此外，对于截断 Pareto 分布，部分期望通常表示为 E[S] * P(S≤S_128) * (E[S|S≤S_128]/E[S]) 或直接通过积分计算，原式多乘了一个 E[S] 或混淆了条件期望与无条件期望的关系。 | 先验知识/题面给定，逻辑校验发现量纲不一致（左侧量纲为 S，右侧量纲为 S^2）及公式结构错误，无法通过逻辑自洽性检查。

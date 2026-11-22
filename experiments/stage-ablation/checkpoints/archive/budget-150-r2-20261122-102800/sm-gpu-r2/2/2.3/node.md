@@ -1,0 +1,24 @@
+# N15: 总显存需求 = 权重显存 + KV Cache显存 + 激活值缓冲(~2-5 GB) + CUDA上下文(~1-2 GB)。BF16: 54 + 4.29 + 
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+总显存需求 = 权重显存 + KV Cache显存 + 激活值缓冲(~2-5 GB) + CUDA上下文(~1-2 GB)。BF16: 54 + 4.29 + 3.5 ≈ 61.8 GB；FP8: 27 + 2.15 + 3.5 ≈ 32.65 GB；INT8: 27 + 2.15 + 3.5 ≈ 32.65 GB；NVFP4: 13.5 + 1.07 + 3.5 ≈ 18.07 GB；W4: 13.5 + 1.07 + 3.5 ≈ 18.07 GB
+
+## Corrected Claim
+
+总显存需求 = 权重显存 + KV Cache显存 + 激活值缓冲(~2-5 GB) + CUDA上下文(~1-2 GB)。BF16: 54 + 4.29 + 3.5 ≈ 61.8 GB；FP8: 27 + 2.15 + 3.5 ≈ 32.65 GB；INT8: 27 + 2.15 + 3.5 ≈ 32.65 GB；NVFP4: 13.5 + 1.07 + 3.5 ≈ 18.07 GB；W4: 13.5 + 1.07 + 3.5 ≈ 18.07 GB
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1提供了修正后的具体数值结果，子节点2解释了激活值缓冲的估算逻辑，两者在内容上正交（一个给结果，一个给方法）。但是，父节点中明确列出了“权重显存”和“KV Cache显存”的具体数值（如BF16下权重54GB，KV 4.29GB），而子节点中仅隐含在总和中，未独立拆解或解释权重和KV Cache的计算依据（例如参数量、精度系数、上下文长度对KV的影响），导致父节点中的关键组成部分在子节点中缺乏独立的解释或验证，完备性不足。）
+
+## Search Query
+
+LLM inference total VRAM requirement weights KV cache activation buffer CUDA context

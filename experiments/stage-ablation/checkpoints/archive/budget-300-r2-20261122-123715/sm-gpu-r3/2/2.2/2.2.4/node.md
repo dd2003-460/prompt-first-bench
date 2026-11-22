@@ -1,0 +1,30 @@
+# N59: 量化算法选择对硬件推理吞吐的影响：GPTQ 量化后的权重格式在 NVIDIA TensorRT-LLM 中需进行额外的 Kernel 融合优化，若未优化，推理吞
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N12
+
+## Claim
+
+量化算法选择对硬件推理吞吐的影响：GPTQ 量化后的权重格式在 NVIDIA TensorRT-LLM 中需进行额外的 Kernel 融合优化，若未优化，推理吞吐量可能下降 15-20%；AWQ 格式在 vLLM 中支持更成熟，吞吐量损失 < 5%。
+
+## Corrected Claim
+
+GPTQ 量化后的权重格式在 NVIDIA TensorRT-LLM 中若未进行额外的 Kernel 融合优化，推理吞吐量可能显著下降；AWQ 格式在 vLLM 中支持较为成熟，通常能保持较高的推理效率，具体损失幅度取决于实现细节。
+
+## Evidence
+
+[质询]具体数值（15-20% 和 <5%）缺乏通用性，高度依赖具体模型架构、硬件型号及软件版本，且来源未提供这些精确的基准测试数据，存在以偏概全或数据虚构的风险。 | 来源[1]和[3]确认了量化算法与内核优化对性能的影响机制，但未提供具体的吞吐量损失百分比，属于经验事实且缺乏直接数值支持。
+
+## Search Query
+
+TensorRT-LLM GPTQ vs AWQ kernel optimization performance loss
+
+## Retrieval Sources
+
+- {'url': 'https://juejin.cn/post/7654022301878091826&rut=ef9a8609fac79f6099cc23ce37f068a88fd2c346418474ef136aa7a2711f1be8', 'type': 'ddg', 'title': '万字深度：LLM 量化技术全景对比——GPTQ vs AWQ vs GGUF vs Bitsandbytes 的原理、Benchmark 与 ...'}
+- {'url': 'https://blog.csdn.net/weixin_29081163/article/details/168148214&rut=3af4fa357a15b27ee2171d630e129dadcd25e64d00469606b3b684a5fdda1456', 'type': 'ddg', 'title': 'GPTQ量化实战：从GPU显存瓶颈到4bit推理部署的完整指南-CSDN博客'}
+- {'url': 'https://developer.nvidia.cn/blog/optimizing-llms-for-performance-and-accuracy-with-post-training-quantization/&rut=44646aea75f06abd8114138d64f2aa9ae52a2d5225866b9a7bad4e177ee4ae90', 'type': 'ddg', 'title': '通过训练后量化优化 Llm 的性能和准确性 - Nvidia 技术博客'}

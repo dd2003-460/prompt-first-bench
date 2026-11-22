@@ -1,0 +1,24 @@
+# N296: Qwen3-27B 在 32K 上下文下，Softmax 之前的 Attention Logits (Q·K^T) 的数值范围通常分布在 [-50, 50] 之
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N104, N105, N106
+
+## Claim
+
+Qwen3-27B 在 32K 上下文下，Softmax 之前的 Attention Logits (Q·K^T) 的数值范围通常分布在 [-50, 50] 之间，该范围完全处于 FP8 E4M3 的表示范围 [-448, 448] 之内，因此不存在溢出风险
+
+## Corrected Claim
+
+Qwen3-27B 在 32K 上下文下，Softmax 之前的 Attention Logits (Q·K^T) 的数值范围通常分布在 [-50, 50] 之间，该范围完全处于 FP8 E4M3 的表示范围 [-448, 448] 之内，因此不存在溢出风险
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B 采用 GQA 且 Head Dim 通常为 128，Q/K 经过 RMSNorm 后数值分布稳定，Q·K^T 的 logits 量级通常在几十以内，[-50, 50] 的范围估计符合工程直觉，且完全在 FP8 E4M3 的 [-448, 448] 范围内，无溢出风险。
+
+## Search Query
+
+Qwen3-27B attention logits range FP8 overflow 32k context

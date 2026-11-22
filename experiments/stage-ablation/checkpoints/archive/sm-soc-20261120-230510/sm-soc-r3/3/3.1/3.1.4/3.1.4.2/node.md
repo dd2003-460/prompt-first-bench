@@ -1,0 +1,29 @@
+# N188: 算法系数 β（点击率权重）的量化：在 W = α·P_ask + β·CTR + γ·Retention + ε_W 中，β 反映 CTR 对推荐权重的贡献，需
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N58
+
+## Claim
+
+算法系数 β（点击率权重）的量化：在 W = α·P_ask + β·CTR + γ·Retention + ε_W 中，β 反映 CTR 对推荐权重的贡献，需通过 A/B 测试中调整 CTR 归一化值后的排序变化反推（典型值 β ∈ [1.0, 2.0]）。
+
+## Corrected Claim
+
+在 W = α·P_ask + β·CTR + γ·Retention + ε_W 中，β 反映 CTR 对推荐权重的贡献，其具体数值需通过 A/B 测试或离线评估确定，不同业务场景下取值范围可能差异较大。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（β的典型值范围 [1.0, 2.0] 及特定的反推方法），这属于工程实践中的经验事实，无法从第一性原理推导，且参考来源中未包含任何关于该特定公式系数取值或A/B测试反推细节的信息。 | 逻辑上自洽（权重系数通常为正且量级合理），但属于经验事实，参考来源[1][2]仅涉及CTR预测模型架构，未覆盖该特定加权公式的系数量化细节，缺乏直接来源支持。
+
+## Search Query
+
+recommendation algorithm CTR weight coefficient ranking A/B test
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org/pdf/2506.12756v1&rut=7810467a245550fc9b5dcf2a06eb4a52e3b6e4ed83dc76c71aee157e6a247b60', 'type': 'ddg', 'title': 'Hierarchical Group-wise Ranking Framework for Recommendation Models'}
+- {'url': 'https://arxiv.org/pdf/2511.21394&rut=2377399065695de5a680bcfa90c42cb8778f115c0b5c5617bc559e8b2abfae15', 'type': 'ddg', 'title': 'RIA: A Ranking-Infused Approach for Optimized listwise CTR Prediction'}

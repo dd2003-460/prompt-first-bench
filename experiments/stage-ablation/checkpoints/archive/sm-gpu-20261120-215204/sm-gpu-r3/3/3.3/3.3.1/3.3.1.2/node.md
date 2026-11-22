@@ -1,0 +1,20 @@
+# N254: 2x RTX 4090 运行 W4A16 Qwen3-27B 时，每卡权重占用 13.5 GB，剩余可用显存约 10.5 GB (24GB - 13.5GB -
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N88, N89, N90
+
+## Claim
+
+2x RTX 4090 运行 W4A16 Qwen3-27B 时，每卡权重占用 13.5 GB，剩余可用显存约 10.5 GB (24GB - 13.5GB - 0.5GB驱动/框架开销)，因此每卡可容纳的最大 BF16 KV Cache 大小约为 4.3 GB，对应最大上下文长度约为 14K tokens，无法直接支持 32K BF16 KV。
+
+## Corrected Claim
+
+2x RTX 4090 运行 W4A16 Qwen3-27B 时，每卡权重占用 13.5 GB，剩余可用显存约 10.5 GB (24GB - 13.5GB - 0.5GB驱动/框架开销)，因此每卡可容纳的最大 BF16 KV Cache 大小约为 4.3 GB，对应最大上下文长度约为 14K tokens，无法直接支持 32K BF16 KV。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B模型W4量化权重约13.5GB，24GB显存扣除权重及开销后剩余约10.5GB，按BF16 KV Cache每token约0.75MB估算，10.5GB可容纳约14K tokens，与陈述一致。

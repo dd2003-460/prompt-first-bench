@@ -1,0 +1,20 @@
+# N414: RTX 4090 显存瓶颈阈值计算：BF16 权重 54.6GB，KV Cache 每 token 0.52MB。当 batch_size * seq_len 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N165
+
+## Claim
+
+RTX 4090 显存瓶颈阈值计算：BF16 权重 54.6GB，KV Cache 每 token 0.52MB。当 batch_size * seq_len > (24GB - 54.6GB)/0.52MB 时不可行。由于权重已超 24GB，任何 batch_size > 0 的 BF16 推理在 RTX 4090 上均不可行，必须量化至 INT8 (27.3GB) 或 W4 (13.5GB)。
+
+## Corrected Claim
+
+RTX 4090 显存瓶颈阈值计算：BF16 权重 54.6GB，KV Cache 每 token 0.52MB。当 batch_size * seq_len > (24GB - 54.6GB)/0.52MB 时不可行。由于权重已超 24GB，任何 batch_size > 0 的 BF16 推理在 RTX 4090 上均不可行，必须量化至 INT8 (27.3GB) 或 W4 (13.5GB)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：54.6GB > 24GB，显存溢出导致推理不可行，结论符合物理约束

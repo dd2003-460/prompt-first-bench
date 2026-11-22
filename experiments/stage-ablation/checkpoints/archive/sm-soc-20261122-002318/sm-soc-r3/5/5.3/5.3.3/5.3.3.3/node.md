@@ -1,0 +1,20 @@
+# N237: 买家异质性与平台算法的交互效应排除：若 Skewness > 0.5 且 Top 10% 占比 > 30%，需进一步检验‘高保留价买家’是否更倾向于快速成交（即
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N84
+
+## Claim
+
+买家异质性与平台算法的交互效应排除：若 Skewness > 0.5 且 Top 10% 占比 > 30%，需进一步检验‘高保留价买家’是否更倾向于快速成交（即 T_cycle 更短）。计算条件期望 E[T_cycle | R_i > P_90] 与 E[T_cycle | R_i <= P_90] 的差异，若差异显著 (t-test p < 0.05)，则支持买家异质性解释，否则需回归算法因素。
+
+## Corrected Claim
+
+买家异质性与平台算法的交互效应排除：若 Skewness > 0.5 且 Top 10% 占比 > 30%，需进一步检验‘高保留价买家’是否更倾向于快速成交（即 T_cycle 更短）。计算条件期望 E[T_cycle | R_i > P_90] 与 E[T_cycle | R_i <= P_90] 的差异，若差异显著 (t-test p < 0.05)，则支持买家异质性解释，否则需回归算法因素。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

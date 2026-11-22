@@ -1,0 +1,24 @@
+# N106: 基准决策时间 T_base 的量化：定义为在溢价率 r=0 时，高支付意愿买家从首次浏览到发起咨询或购买的平均时间，通常假设服从指数分布，均值 T_base 可
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N31
+
+## Claim
+
+基准决策时间 T_base 的量化：定义为在溢价率 r=0 时，高支付意愿买家从首次浏览到发起咨询或购买的平均时间，通常假设服从指数分布，均值 T_base 可通过历史成交数据中位决策时间估计（例如 24 小时）。
+
+## Corrected Claim
+
+基准决策时间 T_base 的量化：定义为在溢价率 r=0 时，高支付意愿买家从首次浏览到发起咨询或购买的平均时间，通常假设服从指数分布，均值 T_base 可通过历史成交数据中位决策时间估计（例如 24 小时）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：指数分布常用于建模等待时间/决策时间，均值与中位数的关系（T_base ≈ Median / ln(2)）在量级上合理，且作为模型假设的定义在逻辑上自洽。
+
+## Search Query
+
+average decision time to purchase online marketplace baseline

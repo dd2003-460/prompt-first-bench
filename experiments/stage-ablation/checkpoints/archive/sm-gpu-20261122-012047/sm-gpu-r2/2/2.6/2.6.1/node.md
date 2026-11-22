@@ -1,0 +1,28 @@
+# N90: 1× H100 SXM5 的 3 年 TCO 计算中，散热基础设施成本 $3,000 为估算值，实际液冷系统（如 CDU + 管路）单节点分摊成本通常在 $5,
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N19
+
+## Claim
+
+1× H100 SXM5 的 3 年 TCO 计算中，散热基础设施成本 $3,000 为估算值，实际液冷系统（如 CDU + 管路）单节点分摊成本通常在 $5,000-$10,000 区间，且需考虑机房 PUE 系数（通常 1.3-1.5），修正后 3 年电费应为 $914 × PUE = $1,188-$1,371，总 TCO 修正为 $30,000 + 3×$1,188 + $5,000 = $38,564（取中值）。
+
+## Corrected Claim
+
+1× H100 SXM5 的 3 年 TCO 计算中，散热基础设施成本 $3,000 为估算值，实际液冷系统单节点分摊成本及 PUE 修正后的电费需根据具体机房配置确定，通常需考虑 PUE 系数（1.3-1.5）对基础电费的放大效应。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件散热成本估算（$5,000-$10,000）和电费修正计算，属于经验事实。参考来源 [1] 仅涉及 DGX SuperPOD 的设计指南概述，未提供具体的单节点散热分摊成本或 PUE 修正后的电费数值，无法直接支持或反驳具体的金额区间。 | 逻辑推导自洽（$914 * 1.3 ≈ $1188, $914 * 1.5 ≈ $1371, 总和计算正确），但作为经验事实（硬件成本/电费），缺乏参考来源的直接数据支持，依据经验事实排除条款降级。
+
+## Search Query
+
+H100 SXM liquid cooling infrastructure cost per node PUE datacenter
+
+## Retrieval Sources
+
+- {'url': 'https://docs.nvidia.com/dgx-superpod/design-guides/dgx-superpod-data-center-design-h100/latest/index.html&rut=decaac101349d8163921b3a6e4e3565d30d8cf55f8dbfff27ff487b1b371d28f', 'type': 'ddg', 'title': 'NVIDIA DGX SuperPOD: Data Center Design Featuring NVIDIA DGX H100 ...'}

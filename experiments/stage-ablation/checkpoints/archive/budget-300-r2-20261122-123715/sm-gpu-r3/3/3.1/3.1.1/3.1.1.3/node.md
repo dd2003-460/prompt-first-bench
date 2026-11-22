@@ -1,0 +1,24 @@
+# N229: 1×A100 80GB PCIe 方案的基础设施增量成本：需支持 PCIe 4.0 x16 的高端工作站主板（如 Supermicro X13 系列，~$800
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N64
+
+## Claim
+
+1×A100 80GB PCIe 方案的基础设施增量成本：需支持 PCIe 4.0 x16 的高端工作站主板（如 Supermicro X13 系列，~$800-$1200）及 2000W 冗余电源（~$400-$500），相比消费级双卡方案的主板+电源组合（~$700-$900），A100 方案的基础设施溢价 ΔP_infra 约为 $500-$800，主要源于服务器级主板的 ECC 内存支持与冗余设计。
+
+## Corrected Claim
+
+1×A100 80GB PCIe 方案的基础设施增量成本通常高于消费级双卡方案，主要源于服务器级主板（支持 ECC 内存、冗余设计）及高功率冗余电源的溢价，具体金额随市场波动，通常估算在数百美元量级。
+
+## Evidence
+
+[质询]具体硬件型号（Supermicro X13）及价格区间（$800-$1200, $400-$500）属于经验事实，且不同时期、不同供应商的价格波动较大，缺乏实时市场数据支持，存在数值偏差风险。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）。
+
+## Search Query
+
+Supermicro X13 motherboard price 2000W redundant PSU price A100 PCIe

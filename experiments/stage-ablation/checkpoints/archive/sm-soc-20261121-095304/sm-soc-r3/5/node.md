@@ -1,0 +1,25 @@
+# N15: 生物演化定向压力具体化为‘地位信号理论’（Status Signaling Theory）：在二手交易市场中，卖家维持高于市场均价15-25%的挂价并非单纯的非
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+生物演化定向压力具体化为‘地位信号理论’（Status Signaling Theory）：在二手交易市场中，卖家维持高于市场均价15-25%的挂价并非单纯的非理性错误，而是一种演化适应策略，旨在通过‘拒绝低价’来展示资源的充裕性（Signaling Wealth），以筛选出高信任度、高支付意愿的买家，从而降低事后纠纷风险。
+
+## Corrected Claim
+
+在二手交易市场中，卖家维持高于市场均价的挂价可能被视为一种‘地位信号’（Status Signaling），旨在展示资源充裕性以筛选高支付意愿买家，但这属于社会学或行为经济学范畴的文化适应策略，而非生物学意义上的‘演化定向压力’。
+
+## Evidence
+
+[质询]该陈述将‘地位信号理论’（Status Signaling Theory）错误地归类为‘生物演化定向压力’的具体化，并声称卖家维持高挂价是‘演化适应策略’。这混淆了‘生物进化’（Biological Evolution）与‘文化/经济行为’（Cultural/Economic Behavior）。地位信号理论属于社会学、经济学或进化心理学中的文化适应范畴，而非生物学意义上的自然选择压力（如基因突变、生存竞争）。此外，‘15-25%’这一具体数值缺乏普遍的科学共识或来源支持，属于过度具体的经验断言。 | 参考来源[1]和[2]均定义‘演化压力/进化压力’为生物在自然选择下产生的遗传/形态变化驱动力，与二手市场定价策略无关；该陈述存在概念范畴错误（将文化行为强行归为生物演化压力）且缺乏来源支持。
+
+## Retrieval Sources
+
+- {'url': 'https://zh.wikipedia.org/wiki/%E6%BC%94%E5%8C%96%E5%A3%93%E5%8A%9B&rut=9dca34fdb57fa71fd1f9337b7c4104974a72c5dd297b3ede53fc3e576fac1799', 'type': 'ddg', 'title': '演化壓力 - 维基百科，自由的百科全书'}
+- {'url': 'https://baike.baidu.com/item/%E8%BF%9B%E5%8C%96%E5%8E%8B%E5%8A%9B/15574782&rut=e219d83e92e47377a3c56e3367ddb54ff3dda132606199a915b6288825d002d6', 'type': 'ddg', 'title': '进化压力_百度百科'}

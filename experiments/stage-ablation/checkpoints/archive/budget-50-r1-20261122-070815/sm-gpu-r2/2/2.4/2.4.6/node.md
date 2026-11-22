@@ -1,0 +1,28 @@
+# N70: W4 (INT4) 量化在长上下文（32K）场景下的退化率，即随着上下文长度从 2K 增加到 32K，INT4 相对 BF16 的性能差距是否扩大（量化误差在长
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N15, N16, N17
+
+## Claim
+
+W4 (INT4) 量化在长上下文（32K）场景下的退化率，即随着上下文长度从 2K 增加到 32K，INT4 相对 BF16 的性能差距是否扩大（量化误差在长序列中的累积效应），需具体量化该斜率或差距扩大比例
+
+## Corrected Claim
+
+INT4量化在长上下文场景下可能存在性能退化，但具体退化率需依赖特定模型与硬件的实测数据，当前来源未提供32K上下文下的具体量化斜率。
+
+## Evidence
+
+[质询]该陈述要求提供具体的量化斜率或差距扩大比例，但参考来源仅涉及INT4量化的通用可行性与效率，未提供32K长上下文场景下相对于BF16的具体性能退化数据或累积效应数值，属于经验事实且缺乏直接数据支持。 | 逻辑上量化误差随序列长度累积是合理的（逻辑自洽），但作为经验事实，参考来源[1]仅讨论INT4量化的一般优势，未提供32K上下文下的具体退化率数值，无法直接支持具体量化结论，故降级。
+
+## Search Query
+
+Qwen3-27B INT4 quantization long context 32k performance degradation accumulation error
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org/abs/2301.12017&rut=4f94e6ae7b733bf302807b981930cc5a531d92676a7b7a4111bc71fbee477468', 'type': 'ddg', 'title': '[2301.12017] Understanding INT4 Quantization for Transformer Models ...'}

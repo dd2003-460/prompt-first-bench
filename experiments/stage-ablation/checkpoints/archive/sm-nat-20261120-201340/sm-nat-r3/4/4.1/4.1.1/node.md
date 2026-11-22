@@ -1,0 +1,20 @@
+# N53: 更新导致缓存失效的稳态概率 P_stale = 1 - exp(-0.01 * T_resident)，当 T_resident=100 小时时 P_stale
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N18
+
+## Claim
+
+更新导致缓存失效的稳态概率 P_stale = 1 - exp(-0.01 * T_resident)，当 T_resident=100 小时时 P_stale≈0.04，当 T_resident=1000 小时时 P_stale≈0.33，此值直接决定静态命中率 H_static 的折损系数
+
+## Corrected Claim
+
+更新导致缓存失效的稳态概率 P_stale = 1 - exp(-0.01 * T_resident)，当 T_resident=100 小时时 P_stale≈0.04，当 T_resident=1000 小时时 P_stale≈0.33，此值直接决定静态命中率 H_static 的折损系数
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备, 有冗余（子节点存在逻辑矛盾与覆盖缺失。1. 正交性/矛盾：子节点1中假设 T_resident=100天（即7200小时），而父节点示例使用 T_resident=100小时和1000小时，且子节点1中 T_resident 的定义（对象生命周期）与父节点公式中的 T_resident（驻留时间/更新间隔）在物理意义上需要严格对齐，目前表述略显混乱。2. 完备性：父节点强调 P_stale 直接决定 H_static 的折损系数，但子节点仅讨论了 P_stale 的计算，未涉及 H_static 如何具体被折损（例如 H_static' = H_static * (1-P_stale) 或其他模型），缺失了从概率到命中率的关键映射步骤。3. 冗余：子节点2和3都在讨论基于请求频率 r_i 的加权平均和阈值判断，本质上都是 P_stale 在不同对象粒度下的展开，可以合并为“P_stale 的加权计算模型”，无需拆分为两个独立节点。）

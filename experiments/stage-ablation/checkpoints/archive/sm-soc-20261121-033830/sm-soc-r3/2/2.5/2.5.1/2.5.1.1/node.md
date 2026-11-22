@@ -1,0 +1,24 @@
+# N174: 先验分布 P(V) 的具体参数化形式：P(V) 近似服从对数正态分布 Log-N(μ_V, σ_V²)，其中 μ_V 和 σ_V² 需基于平台该品类近90天的成
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N56
+
+## Claim
+
+先验分布 P(V) 的具体参数化形式：P(V) 近似服从对数正态分布 Log-N(μ_V, σ_V²)，其中 μ_V 和 σ_V² 需基于平台该品类近90天的成交均价及离散度计算，例如 μ_V = ln(P_median)，σ_V² = ln(1 + CV²)，CV为变异系数。
+
+## Corrected Claim
+
+先验分布 P(V) 的具体参数化形式：P(V) 近似服从对数正态分布 Log-N(μ_V, σ_V²)，其中 μ_V 和 σ_V² 需基于平台该品类近90天的成交均价及离散度计算，例如 μ_V = ln(P_median)，σ_V² = ln(1 + CV²)，CV为变异系数。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：对数正态分布常用于建模价格等正偏态变量，且给出的参数化公式（μ=ln(median), σ²=ln(1+CV²)）在数学上严格成立，量纲与逻辑自洽。
+
+## Search Query
+
+log-normal distribution price prior parameter estimation

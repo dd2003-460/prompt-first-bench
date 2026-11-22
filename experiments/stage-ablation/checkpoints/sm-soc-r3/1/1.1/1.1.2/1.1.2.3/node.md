@@ -1,0 +1,24 @@
+# N120: 工作点C（低框架权重 θ=0.2，市场锚定型）：当卖家高度关注近期成交价（Market Anchor）时，θ_loss_frame 降低至 0.2 或以下。此时
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N34
+
+## Claim
+
+工作点C（低框架权重 θ=0.2，市场锚定型）：当卖家高度关注近期成交价（Market Anchor）时，θ_loss_frame 降低至 0.2 或以下。此时 P_floor 接近 C_acq * (1 + 0.2 * λ)，即仅比成本价高 10-15%。这类卖家是‘早期降价者’，他们的存在为平台提供了价格发现的基准，但占比低，不足以单独打破整体高挂价均衡。
+
+## Corrected Claim
+
+工作点C（低框架权重 θ=0.2，市场锚定型）：当卖家高度关注近期成交价（Market Anchor）时，θ_loss_frame 降低至 0.2 或以下。此时 P_floor 接近 C_acq * (1 + 0.2 * λ)，即仅比成本价高 10-15%。这类卖家是‘早期降价者’，他们的存在为平台提供了价格发现的基准，但占比低，不足以单独打破整体高挂价均衡。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：θ=0.2时，P_floor = C_acq * (1 + 0.2λ)，若λ在0.5-0.75区间，则溢价10-15%，符合低框架权重卖家行为特征及市场均衡逻辑。
+
+## Search Query
+
+market anchor effect seller price adjustment early movers low loss frame

@@ -1,0 +1,24 @@
+# N126: 工作点 B（中成本/中保真）：1× L40S 48GB 运行 BF16 Qwen3-27B 无法容纳 81.65 GB 显存需求，需采用 W8A8 或 FP8 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N40
+
+## Claim
+
+工作点 B（中成本/中保真）：1× L40S 48GB 运行 BF16 Qwen3-27B 无法容纳 81.65 GB 显存需求，需采用 W8A8 或 FP8 权重+KV 量化（总显存降至 ~27-40 GB），单卡 TCO 约 $8k-$10k + $400/年电力，吞吐受限于 864 GB/s 带宽。
+
+## Corrected Claim
+
+工作点 B（中成本/中保真）：1× L40S 48GB 运行 BF16 Qwen3-27B 无法容纳 81.65 GB 显存需求，需采用 W8A8 或 FP8 权重+KV 量化（总显存降至 ~27-40 GB），单卡 TCO 及电力成本需根据具体采购渠道和电价估算，吞吐受限于 864 GB/s 带宽。
+
+## Evidence
+
+[质询]该陈述包含多个具体的经验性参数（如L40S具体TCO价格、电力成本、特定量化后的显存占用范围），这些属于市场/硬件规格事实，无法仅从第一性原理推导。由于检索失败，缺乏外部来源直接支持这些具体数值，存在数值偏差或过时风险。 | 逻辑校验通过：BF16下27B模型权重约54GB，加上KV Cache和激活值，81.65GB需求超过L40S 48GB显存，故需量化；W8A8/FP8量化后权重降至约27GB，总显存27-40GB在48GB卡上可行；L40S带宽864GB/s符合其规格。但具体TCO和电力成本为经验事实，缺来源支持。
+
+## Search Query
+
+L40S 48GB Qwen3-27B FP8 32k context throughput tokens per second

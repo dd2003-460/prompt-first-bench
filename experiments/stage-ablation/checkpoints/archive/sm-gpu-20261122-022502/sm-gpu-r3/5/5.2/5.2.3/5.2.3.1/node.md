@@ -1,0 +1,24 @@
+# N237: A100 80GB 3年自购 TCO 的折旧成本精确计算：CapEx_New = $11,000 (新品均价), Residual_Value_3yr = $3
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N77
+
+## Claim
+
+A100 80GB 3年自购 TCO 的折旧成本精确计算：CapEx_New = $11,000 (新品均价), Residual_Value_3yr = $3,000 (残值率 27.3%, 基于二手市场数据), Depreciation_Cost = ($11,000 - $3,000) = $8,000; 若采用直线折旧，年均折旧 = $2,667。
+
+## Corrected Claim
+
+A100 80GB 3年自购 TCO 的折旧成本估算：假设新品均价约 $11,000，3年残值约 $3,000，则总折旧成本约为 $8,000；若采用直线折旧，年均折旧约为 $2,667。（注：具体数值需根据实际采购价格和市场残值调整）
+
+## Evidence
+
+[质询]A100 80GB 新品均价 $11,000 及 3 年残值 $3,000 属于具体市场经验数据，缺乏实时市场报价支持，且不同时期/渠道价格波动较大，数值精确性存疑。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体市场数值）
+
+## Search Query
+
+A100 80GB used price 2024 3 year depreciation

@@ -1,0 +1,24 @@
+# N251: PagedAttention/RadixAttention 对 KV Cache 实际显存占用的优化因子：在启用分页机制后，实际峰值显存占用可能低于理论最大值（
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N88
+
+## Claim
+
+PagedAttention/RadixAttention 对 KV Cache 实际显存占用的优化因子：在启用分页机制后，实际峰值显存占用可能低于理论最大值（N88 计算的 8.0 GB 或修正后的 4.0 GB），优化因子通常在 0.8-0.95 之间，取决于前缀缓存命中率和内存碎片率；需量化该因子对最大并发 Batch Size 的具体影响幅度。
+
+## Corrected Claim
+
+PagedAttention/RadixAttention 对 KV Cache 实际显存占用的优化因子：在启用分页机制后，实际峰值显存占用可能低于理论最大值（N88 计算的 8.0 GB 或修正后的 4.0 GB），优化因子通常在 0.8-0.95 之间，取决于前缀缓存命中率和内存碎片率；需量化该因子对最大并发 Batch Size 的具体影响幅度。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+vLLM PagedAttention memory fragmentation overhead factor benchmark

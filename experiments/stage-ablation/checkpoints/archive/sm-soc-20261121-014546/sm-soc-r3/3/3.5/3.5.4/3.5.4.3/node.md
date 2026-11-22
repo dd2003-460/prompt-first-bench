@@ -1,0 +1,24 @@
+# N263: 当挂价偏离度从 20% 降至 10% 时，买家搜索成本降低 20% 的保守估计对应于买家对价格离散的感知阈值 σ_percept=0.05，即买家仅对超过 5%
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N78
+
+## Claim
+
+当挂价偏离度从 20% 降至 10% 时，买家搜索成本降低 20% 的保守估计对应于买家对价格离散的感知阈值 σ_percept=0.05，即买家仅对超过 5% 的价格差异产生额外搜索行为，低于该阈值的离散度变化不显著影响 C_search。
+
+## Corrected Claim
+
+当挂价偏离度从 20% 降至 10% 时，买家搜索成本降低 20% 的保守估计对应于买家对价格离散的感知阈值 σ_percept=0.05，即买家仅对超过 5% 的价格差异产生额外搜索行为，低于该阈值的离散度变化不显著影响 C_search。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+buyer perception threshold price dispersion search cost 5 percent threshold

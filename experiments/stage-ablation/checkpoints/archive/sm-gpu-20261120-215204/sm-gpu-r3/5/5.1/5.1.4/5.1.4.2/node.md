@@ -1,0 +1,24 @@
+# N341: 实际 TTFT (Time To First Token) 包含内存加载权重和 KV Cache 初始化的开销：权重 27GB 从 HBM 加载到计算单元的时间
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N121
+
+## Claim
+
+实际 TTFT (Time To First Token) 包含内存加载权重和 KV Cache 初始化的开销：权重 27GB 从 HBM 加载到计算单元的时间通常包含在计算流水线中，但框架启动和内核编译 (JIT) 可能在首次请求时增加 50-200ms 的固定开销，因此实际首次 TTFT 可能在 60-250ms 之间，而非简单的 14ms。
+
+## Corrected Claim
+
+实际 TTFT (Time To First Token) 包含内存加载权重和 KV Cache 初始化的开销：权重 27GB 从 HBM 加载到计算单元的时间通常包含在计算流水线中，但框架启动和内核编译 (JIT) 可能在首次请求时增加 50-200ms 的固定开销，因此实际首次 TTFT 可能在 60-250ms 之间，而非简单的 14ms。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+vLLM A100 first token latency overhead kernel compilation

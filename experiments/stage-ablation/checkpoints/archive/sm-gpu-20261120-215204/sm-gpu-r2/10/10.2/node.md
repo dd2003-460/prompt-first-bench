@@ -1,0 +1,29 @@
+# N150: Apple Silicon 运行 Qwen3-27B 的主要瓶颈是缺乏 CUDA 生态：MLX 框架对 Qwen3 的支持需通过 llama.cpp 或 MLX
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N38
+
+## Claim
+
+Apple Silicon 运行 Qwen3-27B 的主要瓶颈是缺乏 CUDA 生态：MLX 框架对 Qwen3 的支持需通过 llama.cpp 或 MLX-LM 实现，后者在 27B 规模模型上的优化程度低于 NVIDIA CUDA，导致实际吞吐量比理论带宽限制低 30-40%
+
+## Corrected Claim
+
+Apple Silicon 运行 Qwen3-27B 时，MLX 框架（通过 llama.cpp 或 MLX-LM 实现）在 27B 规模模型上的优化程度通常低于 NVIDIA CUDA 生态，导致实际吞吐量可能低于理论带宽限制，但具体损耗比例需视具体硬件和量化方案而定。
+
+## Evidence
+
+[质询]陈述中关于“实际吞吐量比理论带宽限制低 30-40%”的具体数值缺乏来源支持，且将瓶颈简单归结为“缺乏CUDA生态”可能忽略了MLX框架针对Apple Silicon统一内存架构的特定优化（如Metal引擎），该具体性能损耗比例属于经验事实，未在参考来源中体现。 | 来源[1]和[2]证实了Qwen3-27B在Apple Silicon上通过MLX/Ollama等工具部署的可行性及优化路径，间接支持了“存在优化差异”的逻辑，但未提供“低30-40%”的具体数据，且未明确将瓶颈定性为“缺乏CUDA生态”导致的特定百分比损耗，属于经验事实缺来源直接支持。
+
+## Search Query
+
+MLX-LM Qwen3 27B performance comparison llama.cpp Apple Silicon
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_29061425/article/details/171056759&rut=703cedc26122ec4fb072521d62539da4e9d2d45fcf05f13a63039d03737485aa', 'type': 'ddg', 'title': 'Qwen3.8本地部署指南：Apple Silicon上跑通27B大模型 - CSDN博客'}
+- {'url': 'https://codepick.dev/zh/guides/qwen3-27b-mac-local/&rut=e0e55407e526578dc8717101acc94c8bc089acee2bf4ae2b124d4a13fa4f61f6', 'type': 'ddg', 'title': 'Mac 本地部署 Qwen3.8 27B 方案（2026）：内存选型 + GGUF + oMLX/MTPLX/Ollama'}

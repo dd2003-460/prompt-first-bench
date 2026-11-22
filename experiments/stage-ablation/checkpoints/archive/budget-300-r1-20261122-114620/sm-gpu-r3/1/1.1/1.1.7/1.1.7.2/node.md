@@ -1,0 +1,24 @@
+# N161: llama.cpp 框架在 Qwen3-27B 推理中 KV Cache 精度跟随模型量化类型：若加载 Q8_0 模型，KV Cache 默认为 F16 (1.
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N46
+
+## Claim
+
+llama.cpp 框架在 Qwen3-27B 推理中 KV Cache 精度跟随模型量化类型：若加载 Q8_0 模型，KV Cache 默认为 F16 (1.6GB/32K)；若加载 Q4_K_M 模型，KV Cache 仍默认为 F16 而非 Q4，需手动设置 --cache-type-k q4_0 才能将 KV Cache 降至 0.4GB/32K，否则显存占用不随权重精度降低
+
+## Corrected Claim
+
+llama.cpp 框架在 Qwen3-27B 推理中 KV Cache 精度跟随模型量化类型：若加载 Q8_0 模型，KV Cache 默认为 F16 (1.6GB/32K)；若加载 Q4_K_M 模型，KV Cache 仍默认为 F16 而非 Q4，需手动设置 --cache-type-k q4_0 才能将 KV Cache 降至 0.4GB/32K，否则显存占用不随权重精度降低
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+llama.cpp Qwen3 KV cache quantization default type F16 vs Q4

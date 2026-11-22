@@ -1,0 +1,29 @@
+# N173: 信息不对称程度 α_info 的量化：α_info = 1 + (σ_buyer_hidden / σ_buyer_observed)，其中 σ_buyer_h
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N61
+
+## Claim
+
+信息不对称程度 α_info 的量化：α_info = 1 + (σ_buyer_hidden / σ_buyer_observed)，其中 σ_buyer_hidden 为买家未公开估值方差，σ_buyer_observed 为卖家可观测到的方差。在二手市场中，σ_buyer_hidden 通常约为 σ_buyer_observed 的 0.5-1.0 倍。
+
+## Corrected Claim
+
+信息不对称程度 α_info 的量化模型中，σ_buyer_hidden 与 σ_buyer_observed 的具体比例关系（如0.5-1.0倍）需依据特定二手市场实证数据或模型假设确定，现有通用来源未提供统一标准值。
+
+## Evidence
+
+[质询]该公式及具体数值范围（0.5-1.0倍）缺乏公认的经济学或统计学标准定义，属于特定模型假设或经验估计，且参考来源完全未覆盖二手市场买家估值方差的具体量化关系，存在口径混淆或来源不可靠的风险。 | 参考来源[1][2]均讨论上市公司股票市场的信息不对称指标（ASY），与二手市场买家估值方差无关，无可用外部证据支持该具体数值范围；逻辑上公式自洽，但作为经验事实缺乏来源支持。
+
+## Search Query
+
+seller buyer valuation variance information asymmetry secondhand market
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/zxwk01/article/details/141087753&rut=403526d06b6c7b2bbc30b4d5911510f911adfbad5f75ea7ab0699de8e00f4a9e', 'type': 'ddg', 'title': '2000-2023年信息不对称指标ASY (stata计算)-CSDN博客'}
+- {'url': 'https://blog.csdn.net/zxwk01/article/details/138398005&rut=2a7e1b8fbcb0e4a9da8c35cf972acc8fe1f949a61075e61b0d9cf3eddd26789c', 'type': 'ddg', 'title': '2000-2022年信息不对称指标ASY(stata计算) - CSDN博客'}

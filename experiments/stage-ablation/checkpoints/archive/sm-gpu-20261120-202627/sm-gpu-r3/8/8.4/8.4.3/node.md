@@ -1,0 +1,24 @@
+# N431: AMD MI300X 在 ROCm 5.7+ 或 6.0 环境下运行 Qwen3-27B (BF16, 32K context) 的实测吞吐量基准值，需引用 H
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N138, N139, N140
+
+## Claim
+
+AMD MI300X 在 ROCm 5.7+ 或 6.0 环境下运行 Qwen3-27B (BF16, 32K context) 的实测吞吐量基准值，需引用 Hugging Face 社区或 AMD 官方白皮书中的具体 tokens/s 数据，以消除 N136 中的估算不确定性。
+
+## Corrected Claim
+
+AMD MI300X 在 ROCm 5.7+ 或 6.0 环境下运行 Qwen3-27B (BF16, 32K context) 的实测吞吐量基准值需参考 Hugging Face 社区或 AMD 官方白皮书，当前缺乏具体 tokens/s 数据支持。
+
+## Evidence
+
+[质询]该陈述要求提供具体的实测吞吐量数据（tokens/s），属于经验事实。由于检索失败，无法验证具体数值是否存在或准确，且不同硬件配置、软件版本及测试方法可能导致数据差异，缺乏直接来源支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+AMD MI300X Qwen3-27B inference benchmark tokens per second ROCm

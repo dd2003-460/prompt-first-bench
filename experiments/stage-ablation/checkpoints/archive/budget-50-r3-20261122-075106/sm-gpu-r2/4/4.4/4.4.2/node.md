@@ -1,0 +1,20 @@
+# N86: 在 BF16 精度下，Qwen3-27B 模型权重占用显存为 54 GB，加上 32K 上下文 KV Cache (约 1.57 GB) 及激活值开销，总显存占
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+在 BF16 精度下，Qwen3-27B 模型权重占用显存为 54 GB，加上 32K 上下文 KV Cache (约 1.57 GB) 及激活值开销，总显存占用约 57-60 GB，可装入 A100 80GB 显存中，无容量瓶颈
+
+## Corrected Claim
+
+在 BF16 精度下，Qwen3-27B 模型权重占用显存为 54 GB，加上 32K 上下文 KV Cache (约 1.57 GB) 及激活值开销，总显存占用约 57-60 GB，可装入 A100 80GB 显存中，无容量瓶颈
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数在BF16下权重约54GB，32K上下文KV Cache约1.57GB，加上激活值开销，总显存占用约57-60GB，符合A100 80GB显存容量

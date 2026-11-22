@@ -1,0 +1,20 @@
+# N433: 1× H100 方案的有效吞吐量 T_eff 修正：理论 Decode 吞吐 64.2 tokens/s (BF16/INT8 混合)。考虑 H100 单卡无通
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N170
+
+## Claim
+
+1× H100 方案的有效吞吐量 T_eff 修正：理论 Decode 吞吐 64.2 tokens/s (BF16/INT8 混合)。考虑 H100 单卡无通信开销，但框架调度及内存拷贝开销约 5%，实际有效吞吐 T_eff = 64.2 * 0.95 = 60.99 tokens/s。
+
+## Corrected Claim
+
+1× H100 方案的有效吞吐量 T_eff 修正：理论 Decode 吞吐 64.2 tokens/s (BF16/INT8 混合)。考虑 H100 单卡无通信开销，但框架调度及内存拷贝开销约 5%，实际有效吞吐 T_eff = 64.2 * 0.95 = 60.99 tokens/s。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：64.2 * 0.95 = 60.99 计算正确，5% 开销假设在工程上合理

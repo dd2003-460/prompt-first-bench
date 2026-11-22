@@ -1,0 +1,24 @@
+# N211: 买家验证成本 C_verify(θ) 的随机投影：C_verify(θ) = C_base + C_noise * |ε_S|，其中 C_base 为基准验证成
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N57
+
+## Claim
+
+买家验证成本 C_verify(θ) 的随机投影：C_verify(θ) = C_base + C_noise * |ε_S|，其中 C_base 为基准验证成本，C_noise 为噪声成本系数，|ε_S| 为共享随机源的绝对值。
+
+## Corrected Claim
+
+买家验证成本 C_verify(θ) 的随机投影：C_verify(θ) = C_base + C_noise * |ε_S|，其中 C_base 为基准验证成本，C_noise 为噪声成本系数，|ε_S| 为共享随机源的绝对值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+buyer verification cost stochastic projection noise magnitude

@@ -1,0 +1,29 @@
+# N102: AMD MI210 W4A16中性价比工作点：稳态吞吐率约40-60 Token/s（因显存占用减半，带宽压力降低），价格$10,000-$12,000，性价比
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N35
+
+## Claim
+
+AMD MI210 W4A16中性价比工作点：稳态吞吐率约40-60 Token/s（因显存占用减半，带宽压力降低），价格$10,000-$12,000，性价比指数3.3-6.0 Token/s per $，适用于量化推理且质量损失可接受的场景。
+
+## Corrected Claim
+
+AMD MI210在单卡部署大语言模型（如Qwen-27B）时，经优化后稳态吞吐率可达25-63 Token/s；价格约$10,000-$12,000，具体性价比取决于模型规模与量化策略。
+
+## Evidence
+
+[质询]吞吐率数值与来源存在显著偏差：来源[2]显示单卡MI210运行Qwen-27B（非W4A16特定量化，且为27B大模型）优化后最高可达63.0 tok/s，起始为25.4 tok/s。陈述中的40-60 tok/s范围虽在来源范围内，但上限60低于来源实测峰值63，且未明确具体模型规模（不同模型吞吐差异巨大），属于经验事实且缺乏针对'W4A16'特定量化格式的直接数据支持。 | 来源[2]提供了MI210单卡推理吞吐的实测数据（25.4-63.0 tok/s），与陈述中的40-60 tok/s量级兼容但非直接对应（模型不同、量化格式未明确匹配），属于间接支持；价格与性价比指数为经验事实，无来源直接覆盖，逻辑自洽但缺直接证据。
+
+## Search Query
+
+AMD MI210 Qwen3-27B W4A16 inference throughput
+
+## Retrieval Sources
+
+- {'url': 'https://www.amd.com/en/products/accelerators/instinct/mi200/mi210.html&rut=88b388f8bf13c05b1b36c507e2728feccc6bb2a5cab070005ba96cea0bd1bcce', 'type': 'ddg', 'title': 'AMD Instinct™ MI210 Accelerators'}
+- {'url': 'https://zhuanlan.zhihu.com/p/2104002916730286722&rut=8dbd118ba967a4fa6a7fbd0039f23c06c4c446333aa331cf959cb8741f31f123', 'type': 'ddg', 'title': '单卡 AMD MI210 榨干 Qwen3.8-27B：从 25.4 到 63.0 tok/s 的 llama.cpp 底层内核调优与踩坑实录'}

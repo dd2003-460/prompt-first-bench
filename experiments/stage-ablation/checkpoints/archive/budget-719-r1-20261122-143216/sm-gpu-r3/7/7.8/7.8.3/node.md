@@ -1,0 +1,24 @@
+# N389: FP8 量化质量损失的敏感性分析：若 MMLU-Pro 分数下降超过 2%（即 <71.6），则被视为不可接受，需回退至 BF16 或采用更精细的量化策略（如 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N136
+
+## Claim
+
+FP8 量化质量损失的敏感性分析：若 MMLU-Pro 分数下降超过 2%（即 <71.6），则被视为不可接受，需回退至 BF16 或采用更精细的量化策略（如 SmoothQuant）；若下降在 1%-2% 之间，需结合具体业务对幻觉率的容忍度进行决策，通常 1% 以内的基准下降在生产环境中可接受。
+
+## Corrected Claim
+
+FP8 量化质量损失的敏感性分析：若 MMLU-Pro 分数下降超过 2%（即 <71.6），则被视为不可接受，需回退至 BF16 或采用更精细的量化策略（如 SmoothQuant）；若下降在 1%-2% 之间，需结合具体业务对幻觉率的容忍度进行决策，通常 1% 以内的基准下降在生产环境中可接受。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+FP8 quantization quality loss threshold LLM production deployment

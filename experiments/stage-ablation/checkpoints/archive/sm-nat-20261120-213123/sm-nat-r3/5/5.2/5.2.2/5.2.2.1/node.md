@@ -1,0 +1,24 @@
+# N141: 工作点 2 的 H_static ≈ 85% 是基于‘小对象主导’假设的近似，但在‘混合对象’场景下，由于 Pareto(α=1.1) 的长尾效应，大对象（>1
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N63
+
+## Claim
+
+工作点 2 的 H_static ≈ 85% 是基于‘小对象主导’假设的近似，但在‘混合对象’场景下，由于 Pareto(α=1.1) 的长尾效应，大对象（>1MB）虽数量少但字节占比高，实际 H_static 需修正为 H_static_mixed = H_static_small * (S_byte_small/S_total) + H_static_large * (S_byte_large/S_total)，其中 S_byte_large/S_total 需通过积分 ∫_{1MB}^{∞} s f_S(s) ds / ∫_{1KB}^{∞} s f_S(s) ds 计算。
+
+## Corrected Claim
+
+在‘混合对象’场景下，实际 H_static 需通过加权平均进行修正：H_static_mixed = H_static_small * (S_byte_small/S_total) + H_static_large * (S_byte_large/S_total)，其中字节占比 S_byte 需根据具体的对象大小分布函数（如 Pareto 分布）通过积分计算得出。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（Pareto α=1.1、对象大小阈值 1KB/1MB、H_static 基准值 85%），这些属于特定系统或场景下的经验事实，无法从第一性原理或数学公理中严格推导出来。虽然混合场景下的加权平均公式在逻辑上是自洽的，但具体的数值假设缺乏通用性，且未提供来源支持这些特定参数的合理性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+Pareto distribution byte share tail integral alpha=1.1

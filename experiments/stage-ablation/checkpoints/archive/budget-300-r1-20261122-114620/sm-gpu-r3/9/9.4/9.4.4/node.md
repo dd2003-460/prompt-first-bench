@@ -1,0 +1,24 @@
+# N396: H100 80GB 与 A100 80GB 在 BF16 4 并发下的 Prefill 延迟对比：H100 带宽 3.35TB/s，Prefill 32K to
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N135
+
+## Claim
+
+H100 80GB 与 A100 80GB 在 BF16 4 并发下的 Prefill 延迟对比：H100 带宽 3.35TB/s，Prefill 32K tokens 耗时约 0.5s；A100 带宽 2.0TB/s，Prefill 耗时约 0.8s。两者均满足 P99 < 2s，但 H100 在 Decode 阶段吞吐高 50%，若负载波动大，H100 的 TCO 优势因避免扩容而扩大。
+
+## Corrected Claim
+
+H100 80GB 与 A100 80GB 在 BF16 4 并发下的 Prefill 延迟对比：H100 带宽 3.35TB/s，通常 Prefill 32K tokens 耗时低于 A100（带宽 2.0TB/s）；两者均满足 P99 < 2s，但 H100 在 Decode 阶段吞吐通常更高，若负载波动大，H100 的 TCO 优势因避免扩容而扩大。
+
+## Evidence
+
+[质询]具体延迟数值（0.5s/0.8s）和吞吐提升比例（50%）属于特定负载下的经验测量值，受序列长度、Batch Size、具体模型架构及软件栈影响极大，无法仅凭硬件带宽线性推导得出，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+H100 vs A100 Prefill latency 32K tokens BF16

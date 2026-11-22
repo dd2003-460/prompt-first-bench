@@ -1,0 +1,24 @@
+# N18: 访问局部性优势来源量化：LFU通过频率计数抑制'一次性'大对象的缓存驻留。量化指标为'污染代价' Reduction = (LRU中被一次性对象占用的缓存空间字
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+访问局部性优势来源量化：LFU通过频率计数抑制'一次性'大对象的缓存驻留。量化指标为'污染代价' Reduction = (LRU中被一次性对象占用的缓存空间字节数 / 总缓存空间) - (LFU中对应值)。在Pareto(β=0.9)热度分布下，一次性对象占请求次数比例高但字节占比低，LFU在此维度的收益有限，主要收益来自避免频繁替换热门小对象。
+
+## Corrected Claim
+
+访问局部性优势来源量化：LFU通过频率计数抑制'一次性'大对象的缓存驻留。量化指标为'污染代价' Reduction = (LRU中被一次性对象占用的缓存空间字节数 / 总缓存空间) - (LFU中对应值)。在Pareto(β=0.9)热度分布下，一次性对象占请求次数比例高但字节占比低，LFU在此维度的收益有限，主要收益来自避免频繁替换热门小对象。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：LFU利用频率计数确实能区分一次性访问与高频访问，在Pareto分布下，虽然一次性对象请求占比高但字节占比低（长尾效应），LFU通过抑制其驻留避免了对高频小对象的频繁替换，符合缓存局部性原理。
+
+## Search Query
+
+cache pollution cost LFU frequency threshold one-time objects

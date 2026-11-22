@@ -1,0 +1,20 @@
+# N300: 注意力激活值与KV Cache的显存隔离性验证：KV Cache存储的是历史Token的K/V向量，大小为 2 * n_layers * n_kv_heads 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N127
+
+## Claim
+
+注意力激活值与KV Cache的显存隔离性验证：KV Cache存储的是历史Token的K/V向量，大小为 2 * n_layers * n_kv_heads * head_dim * seq_len * dtype_size (见N130)。而注意力激活值（Attention Activations）是当前Batch内Q/K/V投影后的临时张量。两者在显存中是独立分配的，N20的2.5GB若包含KV Cache则严重高估，因为KV Cache在32K BF16下已单独占用~4GB (N130修正后为3.98GB)。
+
+## Corrected Claim
+
+注意力激活值与KV Cache的显存隔离性验证：KV Cache存储的是历史Token的K/V向量，大小为 2 * n_layers * n_kv_heads * head_dim * seq_len * dtype_size (见N130)。而注意力激活值（Attention Activations）是当前Batch内Q/K/V投影后的临时张量。两者在显存中是独立分配的，N20的2.5GB若包含KV Cache则严重高估，因为KV Cache在32K BF16下已单独占用~4GB (N130修正后为3.98GB)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：KV Cache与注意力激活值在显存管理中确实是独立分配的张量，且KV Cache随序列长度线性增长，32K长度下占用数GB量级符合工程常识，与N20的2.5GB（通常指激活值或权重部分）不重叠。

@@ -1,0 +1,24 @@
+# N16: 有效命中率折损系数的量化：有效命中率 H_eff = H_static * (1 - P_stale) + P_stale * P_revalidate_suc
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+有效命中率折损系数的量化：有效命中率 H_eff = H_static * (1 - P_stale) + P_stale * P_revalidate_success，假设重新验证成功率为 1（即更新后仍能命中内容但需回源验证头），则折损系数 Delta_H = H_static * P_stale。若 H_static=0.9，P_stale=0.01，则 Delta_H=0.009，即命中率下降约 0.9 个百分点，折损倍数约为 0.99 倍（打 99 折）。
+
+## Corrected Claim
+
+有效命中率折损系数的量化：有效命中率 H_eff = H_static * (1 - P_stale) + P_stale * P_revalidate_success，假设重新验证成功率为 1（即更新后仍能命中内容但需回源验证头），则折损系数 Delta_H = H_static * P_stale。若 H_static=0.9，P_stale=0.01，则 Delta_H=0.009，即命中率下降约 0.9 个百分点，折损倍数约为 0.99 倍（打 99 折）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式推导 H_eff = 0.9 * (1 - 0.01) + 0.01 * 1 = 0.891 + 0.01 = 0.901，Delta_H = 0.9 - 0.901 = 0.009，折损倍数 0.901/0.9 ≈ 0.99，数值与逻辑均自洽。
+
+## Search Query
+
+cache hit rate degradation due to content update invalidation factor

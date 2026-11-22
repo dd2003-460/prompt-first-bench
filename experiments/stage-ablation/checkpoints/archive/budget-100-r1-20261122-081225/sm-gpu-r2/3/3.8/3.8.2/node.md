@@ -1,0 +1,24 @@
+# N122: H100 SXM 通常部署在 DGX H100 或类似 8-GPU 服务器中，单 GPU 分摊的服务器整体功耗（含 CPU、内存、NVLink 交换机、散热）约
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N34
+
+## Claim
+
+H100 SXM 通常部署在 DGX H100 或类似 8-GPU 服务器中，单 GPU 分摊的服务器整体功耗（含 CPU、内存、NVLink 交换机、散热）约为 1000W-1200W，远高于单卡 700W 的估算。
+
+## Corrected Claim
+
+H100 SXM 通常部署在 DGX H100 或类似 8-GPU 服务器中，单 GPU 分摊的服务器整体功耗（含 CPU、内存、NVLink 交换机、散热）约为 1000W-1200W，远高于单卡 700W 的估算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：DGX H100 整机功耗约 10.2kW，除以 8 卡得 1275W/卡，与 1000W-1200W 量级相符且高于单卡 700W，符合物理直觉。
+
+## Search Query
+
+DGX H100 total power consumption per GPU watts

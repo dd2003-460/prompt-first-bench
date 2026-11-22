@@ -1,0 +1,30 @@
+# N299: 2×RX 7900 XTX (48GB) 在 Qwen3-27B INT4 下的预期吞吐量为 25-30 tokens/s，TCO 为 $2958，单位 tok
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N124
+
+## Claim
+
+2×RX 7900 XTX (48GB) 在 Qwen3-27B INT4 下的预期吞吐量为 25-30 tokens/s，TCO 为 $2958，单位 token 成本约为 $0.004，是 24GB 显存方案中性价比最高的多卡组合，但需解决 ROCm 多卡通信开销问题。
+
+## Corrected Claim
+
+RX 7900 XTX (24GB) 在 Qwen3-27B INT4 下的预期吞吐量约为 36 tokens/s，单卡即可运行，无需多卡组合。
+
+## Evidence
+
+[质询]来源[2]显示单张24GB RX 7900 XTX在Q4量化下即可运行Qwen3 27B且速度约为36 tok/s，而该陈述声称需要2×48GB（实际RX 7900 XTX为24GB，此处存在硬件规格错误）且速度仅为25-30 tok/s，这与单卡性能数据矛盾，且多卡通常用于更大模型或更长上下文，而非为了提升小模型吞吐；此外，RX 7900 XTX显存为24GB而非48GB，陈述中硬件规格错误。 | 来源[2]直接矛盾：单卡24GB即可运行且速度更高（36 tok/s），而陈述中硬件规格（48GB）错误且性能预期不合理。
+
+## Search Query
+
+2x AMD RX 7900 XTX multi-GPU Qwen3-27B INT4 inference throughput ROCm
+
+## Retrieval Sources
+
+- {'url': 'https://llmrequirements.com/model/qwen3-6-27b-dense&rut=4fbff0508ee8815ee2362af83b2cef8136dc30e120f818a40bbc89e390e433c6', 'type': 'ddg', 'title': 'Qwen 3.6 27B VRAM & GPU Requirements (2026)'}
+- {'url': 'https://willitrunai.com/can-run/qwen-3.8-27b-on-rx-7900-xtx-24gb&rut=ffd54ebe5dd8fee20247f55ab48b708d473c2ad900757fbb5705537c9fa2f401', 'type': 'ddg', 'title': 'Qwen3.8 27B on RX 7900 XTX 24GB: TIGHT FIT, ~36 tok/s'}
+- {'url': 'https://smeltcore.com/recipes/qwen3-8-27b-on-rx-7900-xtx-128k-context-vision-chat-on-rocm-with-llama-cpp/&rut=f1a6871c1f913f0237cca7e4f362e3ed49a018f95b616e5a50d6e2b4ac0fe636', 'type': 'ddg', 'title': 'Qwen3.8-27B on RX 7900 XTX: 128K-context vision chat on ROCm with llama.cpp'}

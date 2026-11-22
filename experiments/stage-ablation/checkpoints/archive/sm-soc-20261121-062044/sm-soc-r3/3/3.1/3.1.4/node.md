@@ -1,0 +1,20 @@
+# N57: 佣金调整 Δc 的计算：Δc = c_new - c_old，其中 c_old 为当前佣金率（如5%），c_new 为调整后佣金率，设定 Δc_max = -2
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N15, N16, N17
+
+## Claim
+
+佣金调整 Δc 的计算：Δc = c_new - c_old，其中 c_old 为当前佣金率（如5%），c_new 为调整后佣金率，设定 Δc_max = -2%（降低佣金）以激励卖家降价，过高调整将损害平台收入。
+
+## Corrected Claim
+
+佣金调整 Δc 的计算：Δc = c_new - c_old，其中 c_old 为当前佣金率（如5%），c_new 为调整后佣金率，设定 Δc_max = -2%（降低佣金）以激励卖家降价，过高调整将损害平台收入。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

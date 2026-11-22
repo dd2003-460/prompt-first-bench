@@ -1,0 +1,20 @@
+# N344: β_longtail 与买家搜索疲劳 N_browse 的交互项：修正后的 CTR 模型为 CTR_high = CTR_base * (1 + β_longt
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N110
+
+## Claim
+
+β_longtail 与买家搜索疲劳 N_browse 的交互项：修正后的 CTR 模型为 CTR_high = CTR_base * (1 + β_longtail * I(...) * (1 - N_browse / N_fatigue_threshold))，表明随着买家浏览数量增加，高挂价商品的点击优势逐渐被疲劳效应抵消，当 N_browse 接近阈值时，CTR 优势趋近于 0。
+
+## Corrected Claim
+
+β_longtail 与买家搜索疲劳 N_browse 的交互项：修正后的 CTR 模型为 CTR_high = CTR_base * (1 + β_longtail * I(...) * (1 - N_browse / N_fatigue_threshold))，表明随着买家浏览数量增加，高挂价商品的点击优势逐渐被疲劳效应抵消，当 N_browse 接近阈值时，CTR 优势趋近于 0。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式结构符合线性衰减逻辑，当 N_browse 接近阈值时交互项趋近于0，推导自洽。

@@ -1,0 +1,28 @@
+# N28: 量化格式（FP8/INT8）在推理框架中的算子支持度：确认 vLLM/SGLang 是否支持 Qwen3-27B 的 FP8 权重加载及对应的 GEMM 算子加
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N5
+
+## Claim
+
+量化格式（FP8/INT8）在推理框架中的算子支持度：确认 vLLM/SGLang 是否支持 Qwen3-27B 的 FP8 权重加载及对应的 GEMM 算子加速，若仅支持 BF16，则需量化因无法利用 FP8 导致的显存浪费（约 50%）及对应的成本增加。
+
+## Corrected Claim
+
+FP8格式相比BF16理论上可节省约50%显存，但vLLM/SGLang对Qwen3-27B的FP8权重加载及GEMM算子加速支持需查阅具体框架文档或实测确认，当前来源未提供直接证据。
+
+## Evidence
+
+[质询]该陈述包含具体的工程实现细节（vLLM/SGLang对Qwen3-27B FP8的支持状态）及量化后的显存节省比例（约50%），属于经验事实。参考来源仅讨论了FP8/INT8的理论格式区别，未涉及具体框架支持度或特定模型（Qwen3-27B）的实测数据，无法直接支持或证伪该具体结论。 | 逻辑上FP8（8位）相比BF16（16位）确实能节省约50%显存，量级合理；但参考来源[1]仅介绍FP8格式定义，未覆盖vLLM/SGLang对Qwen3-27B的具体支持情况，属经验事实且缺直接来源支持。
+
+## Search Query
+
+vLLM FP8 quantization support Qwen3 GEMM kernel
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/694120813&rut=b050f10cd52322a967cd5925571a176c796887b5ab743e23b9f10f91c7f84dac', 'type': 'ddg', 'title': 'LLM推理量化：FP8 versus INT8 - 知乎'}

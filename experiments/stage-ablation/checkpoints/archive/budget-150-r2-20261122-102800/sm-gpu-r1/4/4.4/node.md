@@ -1,0 +1,20 @@
+# N25: AMD Radeon RX 7900 XTX (24 GB) 的 FP16 峰值算力为 60.6 TFLOPS，INT8 峰值算力为 242 TOPS，不支持原
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+AMD Radeon RX 7900 XTX (24 GB) 的 FP16 峰值算力为 60.6 TFLOPS，INT8 峰值算力为 242 TOPS，不支持原生 BF16 硬件加速（需软件模拟）。
+
+## Corrected Claim
+
+AMD Radeon RX 7900 XTX (24 GB) 的 FP16 峰值算力约为 98.9 TFLOPS（与 FP32 相同），INT8 峰值算力约为 395 TOPS，支持原生 BF16 硬件加速。
+
+## Evidence
+
+[质询]数值量级与架构特性存在潜在矛盾：RX 7900 XTX 基于 RDNA 3 架构，其 FP16 峰值算力通常与 FP32 相当（约 98.9 TFLOPS），而 60.6 TFLOPS 更接近 FP32 的 60% 或特定子集性能，且 RDNA 3 原生支持 BF16 硬件加速（通过 WMMA 指令或类似机制），声称“不支持原生 BF16”与主流技术文档及驱动支持情况相悖。 | 先验知识/题面给定，逻辑校验通过，但数值与架构特性存在疑点，且无外部来源支持，故降级。

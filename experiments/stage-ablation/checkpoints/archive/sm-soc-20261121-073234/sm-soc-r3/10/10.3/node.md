@@ -1,0 +1,20 @@
+# N349: 模糊带宽度 W_fuzzy 的计算：W_fuzzy ≈ 2 * sqrt(σ_subj² + σ_info²) / P_median。若 σ_subj² + σ
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N116
+
+## Claim
+
+模糊带宽度 W_fuzzy 的计算：W_fuzzy ≈ 2 * sqrt(σ_subj² + σ_info²) / P_median。若 σ_subj² + σ_info² 的平方根约为 P_median 的 5%-7.5%，则 W_fuzzy 约为 10%-15%。在此区间内，买家咨询概率 P_consult 从 0 平滑过渡到 1，而非阶跃变化。
+
+## Corrected Claim
+
+模糊带宽度 W_fuzzy 的计算：W_fuzzy ≈ 2 * sqrt(σ_subj² + σ_info²) / P_median。若 σ_subj² + σ_info² 的平方根约为 P_median 的 5%-7.5%，则 W_fuzzy 约为 10%-15%。在此区间内，买家咨询概率 P_consult 从 0 平滑过渡到 1，而非阶跃变化。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学推导正确（2 * 5% = 10%, 2 * 7.5% = 15%），且模糊带平滑过渡符合概率分布的基本直觉。

@@ -1,0 +1,26 @@
+# N27: 数据溯源机制：所有硬件价格（如RTX 4090 $1600, A100 $15000）标记为 [记忆/波动大]，需引用近30天电商平台（Amazon/Neweg
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+数据溯源机制：所有硬件价格（如RTX 4090 $1600, A100 $15000）标记为 [记忆/波动大]，需引用近30天电商平台（Amazon/Newegg）或企业报价单作为 [实时查询] 证据；所有性能指标（TDP, Bandwidth）标记为 [官方规格]，需引用 NVIDIA Datasheet 或 AMD Specs 链接；量化损失数据标记为 [论文/社区基准]，需引用具体 HuggingFace Space 或 GitHub Repo 的评测结果。
+
+## Corrected Claim
+
+数据溯源机制：所有硬件价格标记为 [记忆/波动大]，需引用近30天电商平台或企业报价单作为 [实时查询] 证据（具体价格如RTX 4090和A100需实时核实）；所有性能指标标记为 [官方规格]，需引用 NVIDIA Datasheet 或 AMD Specs 链接；量化损失数据标记为 [论文/社区基准]，需引用具体 HuggingFace Space 或 GitHub Repo 的评测结果。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性价格数值（RTX 4090 $1600, A100 $15000），属于易变的市场数据，参考来源仅提供了相对性能对比和定性价格区间，未提供具体的实时价格数值以直接支持这些特定数字，且价格随时间波动大，无法从第一性原理推导。 | 逻辑自洽，但具体价格数值属于经验事实，参考来源[1][2][3]仅涉及性能对比和定性描述，未直接支持具体的$1600/$15000价格点，故降级。
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2031047155020984925&rut=fbe865195fa841bd4de5df86332d53c260f6ff4f2753eea384fb9fb426267ea3', 'type': 'ddg', 'title': '2026 年高端与平价 Gpu 租用对比：A100 与 Rtx4090 之选'}
+- {'url': 'https://zhuanlan.zhihu.com/p/1905982846260211828&rut=58bc5a0fe8810563ce2d32b14ba64e2300ef99c9a4cc76c9b3830191e7af71dd', 'type': 'ddg', 'title': '从训练到推理：A100、4090、RTX 6000 Ada、RTX 4000 Ada 的 AI 性能全解析'}
+- {'url': 'https://zhuanlan.zhihu.com/p/2036456292395520197&rut=049ee2b3231546978cc0573cbcf2032a59d0c973075d1910974784812f1b83d7', 'type': 'ddg', 'title': '2026年h100/A100/4090 算力租用横向对比'}

@@ -1,0 +1,29 @@
+# N178: 卖家降价幅度 ΔP/P 的经验分布密度函数 f(ΔP/P) 的核密度估计（KDE）带宽 h 及峰值位置，基于平台近90天降价行为日志数据计算，用于在积分 ∫ P
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N54
+
+## Claim
+
+卖家降价幅度 ΔP/P 的经验分布密度函数 f(ΔP/P) 的核密度估计（KDE）带宽 h 及峰值位置，基于平台近90天降价行为日志数据计算，用于在积分 ∫ P(ε_buyer < 0 | ΔP/P) f(ΔP/P) d(ΔP/P) 中作为权重函数。
+
+## Corrected Claim
+
+卖家降价幅度 ΔP/P 的经验分布密度函数 f(ΔP/P) 可通过核密度估计（KDE）进行建模，其带宽 h 及峰值位置需基于平台近90天降价行为日志数据具体计算得出，用于在积分 ∫ P(ε_buyer < 0 | ΔP/P) f(ΔP/P) d(ΔP/P) 中作为权重函数。
+
+## Evidence
+
+[质询]该陈述声称基于特定平台近90天数据计算出了具体的KDE带宽h及峰值位置，但参考来源仅提供了KDE的通用理论和方法，未包含任何具体平台的实证数据、计算结果或特定数值，属于将通用方法描述误用为具体实证结论。 | 来源[1][2]仅支持KDE作为估计分布密度函数的方法（间接支持方法论），但未提供该特定场景下的具体数值（带宽h、峰值位置），且该事实属于经验数据结果，无法从第一性原理推出，故降级。
+
+## Search Query
+
+seller price reduction magnitude distribution density kernel density estimation e-commerce
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/671141343&rut=5558ea7341bd1ad328dc0d6d56bc209c105f97364564194fdbe7e08a163450a0', 'type': 'ddg', 'title': '核密度估计KDE（kernel density estimation）理论及python实现'}
+- {'url': 'https://zhuanlan.zhihu.com/p/360982296&rut=85d1289442f97e4712c9f917f0f0f4e721b9460e8f2f854d0fee014eae8d66fd', 'type': 'ddg', 'title': '核密度估计Kernel Density Estimation (KDE)及python代码'}

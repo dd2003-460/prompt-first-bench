@@ -1,0 +1,24 @@
+# N439: INT8 GPTQ 量化下 Qwen3-27B 在 MMLU 基准测试上的准确率绝对值及相对于 BF16 基线的下降幅度（Delta_MMLU_GPTQ），用于
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N142
+
+## Claim
+
+INT8 GPTQ 量化下 Qwen3-27B 在 MMLU 基准测试上的准确率绝对值及相对于 BF16 基线的下降幅度（Delta_MMLU_GPTQ），用于计算特定算法下的 QF_MMLU = Acc_GPTQ / Acc_BF16。
+
+## Corrected Claim
+
+INT8 GPTQ 量化下 Qwen3-27B 在 MMLU 基准测试上的准确率通常略低于 BF16 基线，具体绝对值及下降幅度需查阅官方技术报告或权威第三方评测数据。
+
+## Evidence
+
+[质询]该陈述涉及特定模型（Qwen3-27B）在特定量化方法（INT8 GPTQ）下的具体基准测试数值（MMLU准确率及Delta），属于经验事实。由于缺乏具体来源支持，无法确认其数值准确性，且不同量化实现或数据集版本可能导致结果差异。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+Qwen3-27B INT8 GPTQ MMLU accuracy benchmark comparison BF16

@@ -1,0 +1,24 @@
+# N220: 买家搜索成本 C_search(δ) 的量化分解：C_search = T_search * W_buyer + C_cognitive，其中 T_search
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N74
+
+## Claim
+
+买家搜索成本 C_search(δ) 的量化分解：C_search = T_search * W_buyer + C_cognitive，其中 T_search 为在高溢价商品上花费的比价时间，W_buyer 为买家时薪，C_cognitive 为决策疲劳的心理成本，需量化 δ 对 T_search 的弹性系数 ε_search。
+
+## Corrected Claim
+
+买家搜索成本 C_search(δ) 的量化分解：C_search = T_search * W_buyer + C_cognitive，其中 T_search 为在高溢价商品上花费的比价时间，W_buyer 为买家时薪，C_cognitive 为决策疲劳的心理成本，需量化 δ 对 T_search 的弹性系数 ε_search。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+consumer search cost price premium decision fatigue

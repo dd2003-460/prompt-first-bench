@@ -1,0 +1,30 @@
+# N85: Kahneman & Tversky (1974) 及后续元分析中，锚定效应在高信息不对称市场（如二手商品）中的效应量衰减比例，即相比标准实验环境，实际市场中的
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N24
+
+## Claim
+
+Kahneman & Tversky (1974) 及后续元分析中，锚定效应在高信息不对称市场（如二手商品）中的效应量衰减比例，即相比标准实验环境，实际市场中的 k_anchor 需乘以折扣因子 δ，δ 的估计值及置信区间。
+
+## Corrected Claim
+
+Kahneman & Tversky (1974) 提出了锚定效应，指出人们在判断时会过度依赖初始信息（锚点）。虽然后续研究探讨了不同情境下锚定效应的强度变化，但并未确立一个通用的、适用于高信息不对称市场（如二手商品）的固定折扣因子 δ 及其置信区间。
+
+## Evidence
+
+[质询]该陈述声称存在一个具体的“效应量衰减比例”及“折扣因子 δ 的估计值及置信区间”，这属于非常具体的量化经验数据。然而，Kahneman & Tversky (1974) 的原始论文主要定性描述了锚定效应（Anchoring Effect）的存在及其机制（如调整不足），并未提供针对“高信息不对称市场（如二手商品）”与“标准实验环境”之间效应量差异的具体量化折扣因子 δ 及其统计置信区间。此外，后续元分析通常报告的是效应量（effect size, 如 d 或 r）的均值和区间，而非定义一个通用的、跨市场的“折扣因子 δ”。该陈述极有可能是将定性理论或特定情境下的推测性模型参数错误地表述为已确立的、具有明确统计置信区间的通用事实。 | 参考来源 [1][2][3] 均为 Kahneman & Tversky (1974) 的原始论文，其中仅定性讨论了锚定效应，未包含针对二手商品市场的效应量衰减比例或折扣因子 δ 的量化估计及置信区间。
+
+## Search Query
+
+anchoring effect meta-analysis information asymmetry market discount factor
+
+## Retrieval Sources
+
+- {'url': 'https://www.cebma.org/assets/Uploads/Tversky_Kahneman_1974.pdf&rut=2c22faf8cf09b3ac50cc9c132910f0e346df4c6c565d41b87591239b8351fc63', 'type': 'ddg', 'title': 'PDF Judgment under Uncertainty: Heuristics and Biases Amos Tversky; Daniel ...'}
+- {'url': 'https://www.science.org/doi/10.1126/science.185.4157.1124&rut=0efbbe22069566bdb95d30a0dc9d76f6fd8ffd39a033befca7933a0f737cee96', 'type': 'ddg', 'title': 'Judgment under Uncertainty: Heuristics and Biases | Science'}
+- {'url': 'https://sites.socsci.uci.edu/~bskyrms/bio/readings/tversky_k_heuristics_biases.pdf&rut=0e0f937ed9932364cf9a6563036584d8e352df85194b8091f21ae7aea9eb24e0', 'type': 'ddg', 'title': 'PDF Judgment under Uncertainty: Heuristics and Biases'}

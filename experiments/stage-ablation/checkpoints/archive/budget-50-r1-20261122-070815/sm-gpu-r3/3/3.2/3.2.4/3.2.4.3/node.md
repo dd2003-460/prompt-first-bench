@@ -1,0 +1,20 @@
+# N270: H100 SXM5 在 INT8 精度下的峰值算力 (Peak TOPS) 为 1979 TOPS (非稠密) 或 3958 TOPS (稀疏)，该算力主要用于
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N82
+
+## Claim
+
+H100 SXM5 在 INT8 精度下的峰值算力 (Peak TOPS) 为 1979 TOPS (非稠密) 或 3958 TOPS (稀疏)，该算力主要用于量化模型 (如 INT8/AWQ) 的 Prefill 阶段加速，但 Decode 阶段通常受限于显存带宽而非算力
+
+## Corrected Claim
+
+H100 SXM5 在 INT8 精度下的峰值算力 (Peak TOPS) 为 1979 TOPS (非稠密) 或 3958 TOPS (稀疏)，该算力主要用于量化模型 (如 INT8/AWQ) 的 Prefill 阶段加速，但 Decode 阶段通常受限于显存带宽而非算力
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H100 SXM5 INT8 非稠密算力 1979 TOPS 与稀疏 3958 TOPS 符合 NVIDIA 官方规格（1979.2 TFLOPS/TFLOPS 对应 INT8），且 Decode 阶段受显存带宽限制是 LLM 推理的基本物理/工程常识。

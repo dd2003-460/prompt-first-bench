@@ -1,0 +1,20 @@
+# N94: f_threshold 和 S_threshold 的敏感性分析：f_threshold 随累计频率比例（90%, 95%, 99%）变化，S_threshol
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+f_threshold 和 S_threshold 的敏感性分析：f_threshold 随累计频率比例（90%, 95%, 99%）变化，S_threshold 随缓存容量 C 变化；计算不同参数组合下的 B_tail，评估其对 ΔH_max 估计的鲁棒性，确定 B_tail 的波动范围。
+
+## Corrected Claim
+
+f_threshold 和 S_threshold 的敏感性分析：f_threshold 随累计频率比例（90%, 95%, 99%）变化，S_threshold 随缓存容量 C 变化；计算不同参数组合下的 B_tail，评估其对 ΔH_max 估计的鲁棒性，确定 B_tail 的波动范围。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

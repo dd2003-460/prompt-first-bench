@@ -1,0 +1,24 @@
+# N112: RTX 4090 在 FP16/BF16 下的理论峰值算力为 82.6 TFLOPS，考虑到 MFU (取 40% 估算)，实际有效算力约为 33 TFLOPS
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N27
+
+## Claim
+
+RTX 4090 在 FP16/BF16 下的理论峰值算力为 82.6 TFLOPS，考虑到 MFU (取 40% 估算)，实际有效算力约为 33 TFLOPS，据此计算的 32K Prefill 理论耗时约为 54ms (1.77 TFLOPs / 33 TFLOPS)，这与 N27 中提到的 15-30 秒存在巨大差异，表明 N27 的估计可能未考虑批处理或存在严重错误，需重新核验单 token 逐字生成 vs 批量预填充的区别。
+
+## Corrected Claim
+
+RTX 4090 在 FP16/BF16 下的理论峰值算力为 82.6 TFLOPS，考虑到 MFU (取 40% 估算)，实际有效算力约为 33 TFLOPS，据此计算的 32K Prefill 理论耗时约为 54ms (1.77 TFLOPs / 33 TFLOPS)，这与 N27 中提到的 15-30 秒存在巨大差异，表明 N27 的估计可能未考虑批处理或存在严重错误，需重新核验单 token 逐字生成 vs 批量预填充的区别。
+
+## Evidence
+
+[质询]RTX 4090 的 FP16/BF16 理论峰值算力通常引用为 82.6 TFLOPS (无稀疏) 或 165.2 TFLOPS (稀疏)，但实际有效算力受内存带宽和架构限制，40% MFU 的估算可能过于乐观或悲观，且 32K Prefill 的耗时计算依赖于具体的模型架构（如 Attention 的 O(N^2) 复杂度）和批处理大小，仅凭 FLOPS 估算可能忽略内存瓶颈。 | 先验知识/题面给定，逻辑校验通过：RTX 4090 FP16 峰值算力 82.6 TFLOPS 是公开规格，40% MFU 估算 33 TFLOPS 合理，1.77 TFLOPs / 33 TFLOPS ≈ 54ms 计算正确，但与 N27 的 15-30 秒差异巨大，表明 N27 可能包含其他开销或错误，需进一步核验。
+
+## Search Query
+
+RTX 4090 LLM prefill latency 32k tokens actual measurement

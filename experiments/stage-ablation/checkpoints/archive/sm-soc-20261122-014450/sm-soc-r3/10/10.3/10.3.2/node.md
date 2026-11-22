@@ -1,0 +1,24 @@
+# N391: 高信号卖家价格弹性系数 E_high 的实证估计：基于高信号卖家群体的历史价格变动与销量响应数据，回归得到 E_high 的点估计值及标准误，验证其是否显著低于
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N126
+
+## Claim
+
+高信号卖家价格弹性系数 E_high 的实证估计：基于高信号卖家群体的历史价格变动与销量响应数据，回归得到 E_high 的点估计值及标准误，验证其是否显著低于低信号卖家弹性 E_low（即 |E_high| < |E_low|）。
+
+## Corrected Claim
+
+高信号卖家价格弹性系数 E_high 的实证估计需基于具体历史数据回归得出，目前缺乏公开来源证实其点估计值及与 E_low 的显著差异。
+
+## Evidence
+
+[质询]该陈述声称存在具体的实证估计值（点估计及标准误）并验证了显著性差异，但缺乏具体的数据集、回归模型设定及统计检验结果支持，属于未经验证的经验性结论。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值及显著性）
+
+## Search Query
+
+price elasticity of demand high quality sellers vs low quality sellers second-hand market

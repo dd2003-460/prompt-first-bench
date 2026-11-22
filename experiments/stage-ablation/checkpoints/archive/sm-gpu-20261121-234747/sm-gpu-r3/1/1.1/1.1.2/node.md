@@ -1,0 +1,24 @@
+# N32: RTX 3090 (24GB) 在 2024Q4-2025Q1 的二手市场均价及功耗数据：二手均价 $800-$1,000 USD（来源：eBay 2025-0
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N6
+
+## Claim
+
+RTX 3090 (24GB) 在 2024Q4-2025Q1 的二手市场均价及功耗数据：二手均价 $800-$1,000 USD（来源：eBay 2025-01-15 成交记录，需区分矿卡与非矿卡），TDP 350W（来源：NVIDIA 官方规格表），需标注具体卖家类型和查询日期。
+
+## Corrected Claim
+
+RTX 3090 (24GB) TDP 为 350W（NVIDIA 官方规格）；2024Q4-2025Q1 二手市场均价需实时查询，参考区间约为 $800-$1,000 USD（需区分矿卡与非矿卡，具体价格随市场波动）。
+
+## Evidence
+
+[质询]二手市场价格属于高度波动的经验事实，且受矿卡/非矿卡、地区、具体型号（FE/非公版）影响极大，$800-$1,000 的区间在 2024Q4-2025Q1 期间可能因市场波动而失效，且缺乏实时数据支持。 | TDP 350W 为 NVIDIA 官方规格，逻辑自洽；但二手均价为经验事实，本轮检索无可用来源，无法验证具体价格区间，依据经验事实排除条款降级。
+
+## Search Query
+
+RTX 3090 used price 2025 eBay average cost mining card

@@ -1,0 +1,20 @@
+# N96: 双卡中性价比工作点：2× RTX 3090 24GB (48GB 总显存) 运行 Qwen3-27B BF16 (54GB 权重)，单卡 27GB > 24GB
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N28, N29, N30
+
+## Claim
+
+双卡中性价比工作点：2× RTX 3090 24GB (48GB 总显存) 运行 Qwen3-27B BF16 (54GB 权重)，单卡 27GB > 24GB，不可行；若运行 FP8 (27GB 权重)，单卡 13.5GB 可行，理论吞吐 ≈ 27GB / (2*936GB/s) ≈ 14.4ms/token (≈69 tok/s)，TCO_5yr ≈ 2*$1000 + 5 * (1100W * 8h * 365d * $0.15) ≈ $2000 + $2413 ≈ $4413
+
+## Corrected Claim
+
+双卡中性价比工作点：2× RTX 3090 24GB (48GB 总显存) 运行 Qwen3-27B BF16 (54GB 权重)，单卡 27GB > 24GB，不可行；若运行 FP8 (27GB 权重)，单卡 13.5GB 可行，理论吞吐 ≈ 27GB / (2*936GB/s) ≈ 14.4ms/token (≈69 tok/s)，TCO_5yr ≈ 2*$1000 + 5 * (1100W * 8h * 365d * $0.15) ≈ $2000 + $2413 ≈ $4413
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：1. 显存计算正确（27B BF16约54GB，单卡27GB>24GB不可行；FP8约27GB，单卡13.5GB<24GB可行）；2. 带宽计算合理（RTX 3090带宽约936GB/s，双卡1872GB/s，27GB/1872GB/s≈14.4ms）；3. TCO计算逻辑自洽（硬件成本+电费估算符合量级）。

@@ -1,0 +1,28 @@
+# N134: 心理参考价权重 w_max（同类最高价权重）的估计值：预期 w_max ∈ [0.2, 0.4]，且受平台展示策略影响（如是否显示‘最高成交价’标签），当标签存
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N38
+
+## Claim
+
+心理参考价权重 w_max（同类最高价权重）的估计值：预期 w_max ∈ [0.2, 0.4]，且受平台展示策略影响（如是否显示‘最高成交价’标签），当标签存在时 w_max 提升 0.1-0.2，需通过 A/B 测试数据量化。
+
+## Corrected Claim
+
+心理参考价权重 w_max 受平台展示策略影响，具体数值需通过 A/B 测试数据量化，预期受参照依赖效应显著影响。
+
+## Evidence
+
+[质询]具体数值区间 [0.2, 0.4] 及标签影响幅度 0.1-0.2 属于特定实验或模型设定下的经验参数，缺乏普适性理论推导支持，且参考来源仅提及建模框架，未提供该具体数值证据。 | 来源[1]仅涉及心理账户与参照依赖的动态定价模型构建，未提供 w_max 的具体估计值或 A/B 测试量化数据，属于间接相关但无直接数值支持；该陈述为经验事实，逻辑自洽但缺来源直接支持。
+
+## Search Query
+
+impact of displaying maximum transaction price on seller reference price weight w_max
+
+## Retrieval Sources
+
+- {'url': 'https://xueshu.baidu.com/usercenter/paper/show?paperid=061755a54a61a1eef36cdc923fa6de57&rut=463faf8c1896fea8201355a0e7e728897bd8dedfcaeb62bdd902798d4122561d', 'type': 'ddg', 'title': '考虑消费者参照依赖和心理账户的动态定价模型 - 百度学术'}

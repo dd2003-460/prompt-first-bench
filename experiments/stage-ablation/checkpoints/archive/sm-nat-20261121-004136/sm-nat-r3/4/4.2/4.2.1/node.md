@@ -1,0 +1,24 @@
+# N52: E[Size] 的精确数值计算：利用截断 Pareto 分布 (α=1.1, S_min=1KB, S_max=100MB) 的一阶矩公式 E[S] = (α 
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N16
+
+## Claim
+
+E[Size] 的精确数值计算：利用截断 Pareto 分布 (α=1.1, S_min=1KB, S_max=100MB) 的一阶矩公式 E[S] = (α * S_min) / (α-1) * (1 - (S_min/S_max)^(α-1)) / (1 - (S_min/S_max)^α)，代入参数计算得出 E[Size] ≈ 10.1 KB (具体数值需通过计算器精确得出，此处为估算值，用于后续 τ_LRU 计算)。
+
+## Corrected Claim
+
+E[Size] 的精确数值计算：利用截断 Pareto 分布 (α=1.1, S_min=1KB, S_max=100MB) 的一阶矩公式 E[S] = (α * S_min) / (α-1) * (1 - (S_min/S_max)^(α-1)) / (1 - (S_min/S_max)^α)，代入参数计算得出 E[Size] ≈ 10.1 KB (具体数值需通过计算器精确得出，此处为估算值，用于后续 τ_LRU 计算)。
+
+## Evidence
+
+父节点级核验未通过：不完备（父节点明确指定了 S_max=100MB 并给出特定公式计算，子节点却改为 S_max=10MB，属于参数变更而非对父节点任务的分解。此外，仅有一个子节点且改变了前提条件，未能覆盖父节点要求的“S_max=100MB”下的精确计算，导致逻辑断层和不完备。）
+
+## Search Query
+
+truncated Pareto distribution mean formula calculation

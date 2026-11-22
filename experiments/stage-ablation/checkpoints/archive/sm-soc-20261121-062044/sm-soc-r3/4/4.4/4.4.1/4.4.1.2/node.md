@@ -1,0 +1,24 @@
+# N217: 混杂变量控制的量化约束：为消除卖家信誉的混杂效应，需将卖家信誉分 S_cred 标准化为 Z_cred = (S_cred - μ)/σ，并检验其与挂价溢价率的
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N77
+
+## Claim
+
+混杂变量控制的量化约束：为消除卖家信誉的混杂效应，需将卖家信誉分 S_cred 标准化为 Z_cred = (S_cred - μ)/σ，并检验其与挂价溢价率的相关系数 r < 0.3；若 r > 0.3，需引入交互项 β_int * (Z_cred * Markup) 以分离主效应与交互效应，否则 β_high 存在遗漏变量偏误。
+
+## Corrected Claim
+
+混杂变量控制的量化约束：为消除卖家信誉的混杂效应，需将卖家信誉分 S_cred 标准化为 Z_cred = (S_cred - μ)/σ，并检验其与挂价溢价率的相关系数 r < 0.3；若 r > 0.3，需引入交互项 β_int * (Z_cred * Markup) 以分离主效应与交互效应，否则 β_high 存在遗漏变量偏误。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：标准化处理、相关系数阈值设定及引入交互项以控制混杂变量符合计量经济学中处理遗漏变量偏误的标准方法论。
+
+## Search Query
+
+confounding variable control interaction term seller reputation markup premium CTR

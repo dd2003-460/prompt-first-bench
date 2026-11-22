@@ -1,0 +1,20 @@
+# N43: FP8/INT8 精度下的总显存下限：27 GB (权重) + 1.4 GB (KV Cache) + 5-10 GB (运行时开销) = 33.4 - 38.
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N9
+
+## Claim
+
+FP8/INT8 精度下的总显存下限：27 GB (权重) + 1.4 GB (KV Cache) + 5-10 GB (运行时开销) = 33.4 - 38.4 GB。此下限要求单卡显存 ≥ 39GB 或多卡总显存 ≥ 39GB。
+
+## Corrected Claim
+
+FP8/INT8 精度下的总显存下限：27 GB (权重) + 1.4 GB (KV Cache) + 5-10 GB (运行时开销) = 33.4 - 38.4 GB。此下限要求单卡显存 ≥ 39GB 或多卡总显存 ≥ 39GB。
+
+## Evidence
+
+父节点级核验未通过：非正交, 有冗余（子节点1和子节点2分别详细计算了KV Cache和运行时开销，而子节点3直接引用了前两者的结果进行求和，导致内容高度重叠。此外，子节点3中的结论（47.69 GB）与父节点中的估算范围（33.4-38.4 GB）存在严重矛盾，未解释差异来源，破坏了逻辑一致性。）

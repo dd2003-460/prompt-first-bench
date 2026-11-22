@@ -1,0 +1,20 @@
+# N160: Qwen3-27B 在 W4 量化下，Group-wise Quantization (group_size=128) 的 Scale/Zero-point 开
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N47
+
+## Claim
+
+Qwen3-27B 在 W4 量化下，Group-wise Quantization (group_size=128) 的 Scale/Zero-point 开销计算公式为：$C_{meta} = \frac{27 \times 10^9}{128} \times (4 + 4) \text{ bytes} \approx 1.69 \text{ GB}$，故实际权重显存占用为 $13.5 \text{ GB} + 1.69 \text{ GB} = 15.19 \text{ GB}$，而非 N47 中估算的 13.65-13.77 GB。
+
+## Corrected Claim
+
+Qwen3-27B 在 W4 量化下，Group-wise Quantization (group_size=128) 的 Scale/Zero-point 开销计算公式为：$C_{meta} = \frac{27 \times 10^9}{128} \times (4 + 4) \text{ bytes} \approx 1.69 \text{ GB}$，故实际权重显存占用为 $13.5 \text{ GB} + 1.69 \text{ GB} = 15.19 \text{ GB}$，而非 N47 中估算的 13.65-13.77 GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27e9/128*8 ≈ 1.6875 GB，13.5+1.69=15.19 GB，计算无误

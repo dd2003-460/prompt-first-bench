@@ -1,0 +1,24 @@
+# N160: A10 在 W4 量化下的实际推理吞吐受限于 Tensor Core 对 INT4/W4 算子的优化程度；由于 A10 不支持 FP8，W4 通常通过 INT4
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N40
+
+## Claim
+
+A10 在 W4 量化下的实际推理吞吐受限于 Tensor Core 对 INT4/W4 算子的优化程度；由于 A10 不支持 FP8，W4 通常通过 INT4 或 AWQ 实现，vLLM 在 A10 上的实测 W4 吞吐通常在 15-25 tokens/s 区间，低于基于显存带宽的理论上限。
+
+## Corrected Claim
+
+A10 在 W4 量化下的实际推理吞吐受限于 Tensor Core 对 INT4/W4 算子的优化程度；由于 A10 不支持 FP8，W4 通常通过 INT4 或 AWQ 实现，其实际吞吐通常低于基于显存带宽的理论上限。
+
+## Evidence
+
+[质询]具体吞吐数值（15-25 tokens/s）属于高度依赖模型规模、序列长度及并发数的经验事实，缺乏通用性，且无来源支持该特定区间。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+NVIDIA A10 W4 quantization inference benchmark tokens per second vLLM

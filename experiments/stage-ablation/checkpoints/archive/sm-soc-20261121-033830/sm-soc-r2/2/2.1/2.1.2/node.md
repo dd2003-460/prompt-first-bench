@@ -1,0 +1,24 @@
+# N46: 买家偏好噪声 ε_b 的方差 σ²_b 可通过同一商品（或高度相似商品）在不同买家群体中的最终成交价方差估计：σ²_b = Var(P_final_j | x_
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N9, N10, N11
+
+## Claim
+
+买家偏好噪声 ε_b 的方差 σ²_b 可通过同一商品（或高度相似商品）在不同买家群体中的最终成交价方差估计：σ²_b = Var(P_final_j | x_j, P_ask_j)，其中 P_final_j 为第 j 笔交易成交价。
+
+## Corrected Claim
+
+买家偏好噪声 ε_b 的方差 σ²_b 可通过同一商品（或高度相似商品）在不同买家群体中的最终成交价方差估计：σ²_b = Var(P_final_j | x_j, P_ask_j)，其中 P_final_j 为第 j 笔交易成交价。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+willingness to pay variance same product different buyers

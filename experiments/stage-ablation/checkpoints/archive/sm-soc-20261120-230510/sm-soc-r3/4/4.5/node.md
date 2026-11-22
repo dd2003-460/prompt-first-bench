@@ -1,0 +1,20 @@
+# N20: 伤害方评估框架：对每个利益相关方 i ∈ {buyer, seller, platform}，定义受损函数 Harm_i = ΔRevenue_i + ΔCos
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4, N5
+
+## Claim
+
+伤害方评估框架：对每个利益相关方 i ∈ {buyer, seller, platform}，定义受损函数 Harm_i = ΔRevenue_i + ΔCost_i + ΔOpportunityCost_i，其中 ΔRevenue 为收入变化，ΔCost 为新增成本，ΔOpportunityCost 为机会成本变化，所有项需量化为货币单位或时间单位。
+
+## Corrected Claim
+
+伤害方评估框架：对每个利益相关方 i ∈ {buyer, seller, platform}，定义受损函数 Harm_i = ΔRevenue_i + ΔCost_i + ΔOpportunityCost_i，其中 ΔRevenue 为收入变化，ΔCost 为新增成本，ΔOpportunityCost 为机会成本变化，所有项需量化为货币单位或时间单位。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点分别针对买家、卖家和平台的机会成本/新增成本进行了量化，三者主体不同，内容不重复且无矛盾，正交性良好；但父节点定义的框架包含 ΔRevenue（收入变化）和 ΔCost（新增成本）以及 ΔOpportunityCost（机会成本）三个维度，且针对三个主体。子节点中：1. 买家只覆盖了 ΔOpportunityCost，缺失 ΔRevenue（如支付价格变化带来的直接财务收益/损失）和 ΔCost（如搜索时间成本等）；2. 卖家覆盖了 ΔCost，但缺失 ΔRevenue（如销量下降导致的收入减少）和 ΔOpportunityCost；3. 平台覆盖了 ΔOpportunityCost，但缺失 ΔRevenue（如佣金收入变化）和 ΔCost（如客服成本、技术维护成本等）。因此，子节点未能覆盖父节点中所有主体在所有维度上的关键方面，完备性不足。）

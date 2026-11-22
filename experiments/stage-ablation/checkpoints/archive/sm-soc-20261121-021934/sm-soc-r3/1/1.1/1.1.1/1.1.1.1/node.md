@@ -1,0 +1,20 @@
+# N60: 信息熵 H_info 的量化操作定义：H_info = log2(N_distinct_features) + (1 - C_description)，其中 N
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N22
+
+## Claim
+
+信息熵 H_info 的量化操作定义：H_info = log2(N_distinct_features) + (1 - C_description)，其中 N_distinct_features 为同类商品中可区分特征的数量，C_description 为卖家描述文本覆盖的特征比例（0-1），该值需通过 NLP 提取或人工标注获取。
+
+## Corrected Claim
+
+在特定电商场景下，可定义一个综合信息量指标 H_info = log2(N_distinct_features) + (1 - C_description)，其中 N_distinct_features 为同类商品中可区分特征的数量，C_description 为卖家描述文本覆盖的特征比例（0-1），该值需通过 NLP 提取或人工标注获取。注意：此非标准信息熵定义，而是自定义的特征丰富度与描述完整度综合指标。
+
+## Evidence
+
+[质询]该公式缺乏公认的学术或行业标准支持，属于特定场景下的自定义启发式指标，而非通用的信息熵量化操作定义；将‘描述覆盖比例’直接以线性方式从对数特征数中减去，在信息论上缺乏严谨的理论推导基础，且‘同类商品’的界定模糊，导致该定义的可复现性和普适性存疑。 | 先验知识/题面给定，逻辑校验通过（公式结构自洽，量纲为比特/无量纲混合但作为自定义指标可接受），但作为‘信息熵’的通用量化定义缺乏外部权威来源支持，且存在概念混淆风险（信息熵通常指随机变量不确定性，此处混入了特征覆盖度），故降级为特定场景下的自定义指标。

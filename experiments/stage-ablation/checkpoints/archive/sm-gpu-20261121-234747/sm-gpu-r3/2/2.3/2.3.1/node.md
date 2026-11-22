@@ -1,0 +1,24 @@
+# N77: H100 SXM5 GPU 原生支持 FP8 E4M3/E5M2 数据格式，其 FP8 Tensor Core 理论峰值算力为 3958 TFLOPS，相比其 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N12, N13, N14
+
+## Claim
+
+H100 SXM5 GPU 原生支持 FP8 E4M3/E5M2 数据格式，其 FP8 Tensor Core 理论峰值算力为 3958 TFLOPS，相比其 BF16 峰值 (1979 TFLOPS) 提供 2x 的理论加速比；此数据源自 NVIDIA H100 官方 Datasheet (2022)。
+
+## Corrected Claim
+
+H100 SXM5 GPU 原生支持 FP8 E4M3/E5M2 数据格式，其 FP8 Tensor Core 理论峰值算力为 3958 TFLOPS，相比其 BF16 峰值 (1979 TFLOPS) 提供 2x 的理论加速比；此数据源自 NVIDIA H100 官方 Datasheet (2022)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H100 SXM5 FP8 Tensor Core 峰值算力确为 3958 TFLOPS，BF16 为 1979 TFLOPS，2x 加速比符合 FP8 相比 BF16 位宽减半的理论预期，数值量级与 NVIDIA 官方 Datasheet 一致。
+
+## Search Query
+
+NVIDIA H100 datasheet FP8 tensor core TFLOPS

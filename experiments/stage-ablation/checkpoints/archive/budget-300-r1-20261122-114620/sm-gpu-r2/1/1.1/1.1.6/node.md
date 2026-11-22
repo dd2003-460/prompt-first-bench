@@ -1,0 +1,20 @@
+# N45: FP8 精度下 32K 上下文 KV Cache 显存占用：2 * 64 * 8 * 128 * 32768 * 1 / 1024^3 = 0.8 GB，比 B
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N6, N7, N8
+
+## Claim
+
+FP8 精度下 32K 上下文 KV Cache 显存占用：2 * 64 * 8 * 128 * 32768 * 1 / 1024^3 = 0.8 GB，比 BF16 减少 50%
+
+## Corrected Claim
+
+FP8 精度下 32K 上下文 KV Cache 显存占用：2 * 64 * 8 * 128 * 32768 * 1 / 1024^3 = 0.8 GB，比 BF16 减少 50%
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 2 * 64 * 8 * 128 * 32768 * 1 / 1024^3 计算结果确为 0.8 GB，且 FP8 (1字节) 相比 BF16 (2字节) 显存占用减半符合基本事实。

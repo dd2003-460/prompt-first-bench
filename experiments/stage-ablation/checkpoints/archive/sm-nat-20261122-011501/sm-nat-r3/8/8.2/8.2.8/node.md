@@ -1,0 +1,20 @@
+# N173: s_threshold 的解析解：对于 Pareto(α=1.1)，∫_{s_min}^{s_threshold} s * f_S(s) ds = 128GB 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N69, N70, N72
+
+## Claim
+
+s_threshold 的解析解：对于 Pareto(α=1.1)，∫_{s_min}^{s_threshold} s * f_S(s) ds = 128GB 的解为 s_threshold = s_min * [1 - (128GB / (N * s_min * C_α))]^{1/(α-1)}，其中 C_α 为归一化常数，代入 s_min=1KB, N=100,000，得 s_threshold ≈ 1KB * [1 - 0.0022]^{10} ≈ 0.978KB（若 C_α 修正后）。
+
+## Corrected Claim
+
+s_threshold 的解析解公式形式可能正确，但代入数值后的结果 s_threshold ≈ 0.978KB 存在严重错误，因为该值小于 s_min (1KB)，导致积分区间无效。正确的 s_threshold 应大于 s_min，具体数值需重新计算积分方程 ∫_{s_min}^{s_threshold} s * f_S(s) ds = 128GB。
+
+## Evidence
+
+[质询]数值量级与逻辑严重矛盾：若 s_threshold ≈ 0.978KB 且 s_min = 1KB，则积分区间 [s_min, s_threshold] 为空或负值（上限小于下限），导致积分值为 0，不可能等于 128GB。此外，Pareto 分布通常定义在 s_min 以上，若 s_threshold < s_min，则物理意义不成立。 | 逻辑校验失败：积分上限小于下限导致积分值为零，与目标值 128GB 矛盾；且 0.978KB < 1KB 违背 Pareto 分布定义域 s >= s_min 的基本约束。

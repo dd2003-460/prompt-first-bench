@@ -1,0 +1,24 @@
+# N177: 在单卡推理场景下，显存碎片 (Fragmentation) 的保守预留比例应设为总可用显存的 10-15%，而非 N42 声称的 5-10%，以覆盖 CUDA 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N42
+
+## Claim
+
+在单卡推理场景下，显存碎片 (Fragmentation) 的保守预留比例应设为总可用显存的 10-15%，而非 N42 声称的 5-10%，以覆盖 CUDA 分配器 (Caching Allocator) 的回收滞后效应。
+
+## Corrected Claim
+
+在单卡推理场景下，显存碎片 (Fragmentation) 的保守预留比例通常建议设为总可用显存的 10-15% 左右（具体数值依 CUDA 分配器行为和负载波动而定），以覆盖 CUDA 分配器 (Caching Allocator) 的回收滞后效应。
+
+## Evidence
+
+[质询]该陈述包含具体的工程经验参数（10-15%），属于经验事实而非第一性原理可推导的数学/物理定律。虽然逻辑上自洽（碎片预留确实需要覆盖分配器滞后），但缺乏外部来源直接支持该具体数值范围，且不同框架/场景下最佳实践可能不同，无法排除其他合理区间（如5-20%）的可能性。 | 经验事实，逻辑自洽但缺来源支持；source=knowledge 节点虽不适用硬性排除条款，但反方质询指出具体数值缺乏普适性证据，故降级为定性表述。
+
+## Search Query
+
+PyTorch CUDA caching allocator fragmentation overhead percentage

@@ -1,0 +1,30 @@
+# N85: 信息透明度提升系数 η 的估计：η = 1 - (C_search' / C_search)，基于实验数据，显示历史降价频率 F_decrease 和平均成交时
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N22
+
+## Claim
+
+信息透明度提升系数 η 的估计：η = 1 - (C_search' / C_search)，基于实验数据，显示历史降价频率 F_decrease 和平均成交时长 T_avg 后，买家平均搜索时间减少比例，通常 η ∈ [0.15, 0.30]
+
+## Corrected Claim
+
+信息透明度提升系数 η 定义为 η = 1 - (C_search' / C_search)，用于衡量信息透明度提升后买家平均搜索时间的减少比例。具体数值范围需依据特定实验数据确定，通常认为在合理范围内（如 [0.15, 0.30]），但缺乏通用标准。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值范围（η ∈ [0.15, 0.30]）和特定的经济学/行为学模型参数，属于经验事实。参考来源均为无关主题（ChatGPT、在线赌博、Google公司），无法提供外部证据支持该具体数值区间。 | 逻辑上公式定义自洽，但作为经验事实，缺乏来源支持具体数值范围，且参考来源与主题完全无关。
+
+## Search Query
+
+information transparency impact on search cost online marketplace A/B test
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/ChatGPT', 'type': 'wikipedia', 'title': 'ChatGPT'}
+- {'url': 'https://en.wikipedia.org/wiki/Online_gambling', 'type': 'wikipedia', 'title': 'Online gambling'}
+- {'url': 'https://en.wikipedia.org/wiki/Google', 'type': 'wikipedia', 'title': 'Google'}

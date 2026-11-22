@@ -1,0 +1,30 @@
+# N36: Qwen3-27B 的具体架构超参数实例化：num_layers = 64, hidden_dim = 4096, num_attention_heads = 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N7
+
+## Claim
+
+Qwen3-27B 的具体架构超参数实例化：num_layers = 64, hidden_dim = 4096, num_attention_heads = 32, num_key_value_heads = 8 (GQA), intermediate_dim = 11008。[待核验：需确认 Qwen3-27B 是否完全沿用 Qwen2.5-32B 的架构参数或有所调整]
+
+## Corrected Claim
+
+Qwen3-27B 的架构参数（num_layers=64, hidden_dim=4096 等）在逻辑上合理，但参考来源主要覆盖 Qwen3.6/3.8-27B，需进一步确认 Qwen3-27B 是否沿用相同配置。
+
+## Evidence
+
+[质询]参考来源均指向 Qwen3.6 或 Qwen3.8 版本的 27B 模型，而非 Qwen3-27B；且 Qwen3.8 被描述为视觉语言模型（VLM）并采用混合注意力架构，其架构参数（如层数、维度）可能与纯文本的 Qwen3-27B 不同，存在版本混淆和参数不匹配的风险。 | 来源 [1][2][3] 均涉及 Qwen3.6/3.8-27B，未直接提供 Qwen3-27B 的架构参数；虽然数值量级（64层, 4096维）符合 27B 参数规模的常见配置，但缺乏针对 Qwen3-27B 的直接来源支持，且来源指向不同版本，无法排除参数差异。
+
+## Search Query
+
+Qwen3-27B architecture parameters layers hidden size heads
+
+## Retrieval Sources
+
+- {'url': 'https://www.cnblogs.com/sing1ee/p/22498000&rut=014253cab1362304bedfb232983060c3a30c933f269dd0e576935f19f65c4b6e', 'type': 'ddg', 'title': 'Qwen3.8-27B（2026）：Qwen 新 27B 视觉语言模型完整指南 - 见路非道 - 博客园'}
+- {'url': 'https://freedom-lwx.github.io/llm-architecture-handbook/04_Qwen3.6-27B/&rut=91a3e3954842f70e147755574faf6c96080e8c8529cc51d2955e11beb7071bb0', 'type': 'ddg', 'title': '04 · Qwen3.6-27B - 大模型架构学习手册'}
+- {'url': 'https://blog.csdn.net/weixin_29057237/article/details/163968271&rut=9a730155bf493a23a53c0c848d13744043e632721c6f669b13b741549db63c7f', 'type': 'ddg', 'title': 'Qwen3.8 27B架构解析：线性注意力与混合设计如何实现百万级上下文-CSDN博客'}

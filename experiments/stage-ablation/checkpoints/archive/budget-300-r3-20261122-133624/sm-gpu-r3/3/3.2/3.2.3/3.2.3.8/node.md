@@ -1,0 +1,24 @@
+# N272: GPTQ 算法在 Qwen3-27B W4 量化下的 PPL 增量 0.50±0.10 高于 AWQ 的 0.40±0.10，主要因为 GPTQ 使用 OBS（
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N83, N84, N85
+
+## Claim
+
+GPTQ 算法在 Qwen3-27B W4 量化下的 PPL 增量 0.50±0.10 高于 AWQ 的 0.40±0.10，主要因为 GPTQ 使用 OBS（Optimal Brain Surgeon）近似计算 Hessian 矩阵，在 27B 参数规模下 Hessian 估计误差累积导致量化校准偏差，具体表现为校准数据集（Calibration Set）分布与推理分布不匹配时的性能下降
+
+## Corrected Claim
+
+GPTQ 算法在 Qwen3-27B W4 量化下的 PPL 增量可能高于 AWQ，主要因为 GPTQ 使用 OBS（Optimal Brain Surgeon）近似计算 Hessian 矩阵，在大规模参数下 Hessian 估计误差可能累积导致量化校准偏差，具体表现为校准数据集分布与推理分布不匹配时的性能下降。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值（PPL增量 0.50±0.10 vs 0.40±0.10）和特定的因果归因（Hessian估计误差累积导致校准偏差），属于经验事实。由于检索无可用来源，无法验证这些具体数值是否真实存在或准确，且GPTQ与AWQ在不同模型和量化位宽下的表现可能因实现细节、校准集大小等因素而异，不能仅凭逻辑自洽确认具体数值。 | 经验事实，逻辑自洽但缺来源支持。GPTQ基于OBS近似Hessian，AWQ基于激活感知缩放，两者机制不同，在特定条件下GPTQ可能因Hessian估计误差导致性能差异，但具体PPL数值无法从第一性原理推出，且无外部来源佐证。
+
+## Search Query
+
+GPTQ OBS Hessian approximation error accumulation 27B model W4 quantization PPL loss

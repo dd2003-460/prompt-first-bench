@@ -1,0 +1,20 @@
+# N215: 2× RTX 4090 (总显存 48 GB) 部署该混合精度模型时，扣除 KV Cache (32K context, batch=1, BF16) 约 4.
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N77
+
+## Claim
+
+2× RTX 4090 (总显存 48 GB) 部署该混合精度模型时，扣除 KV Cache (32K context, batch=1, BF16) 约 4.3 GB 和激活值/临时缓冲区约 2-3 GB，剩余可用显存约 40.7 GB，足以容纳 27.54 GB 权重，显存瓶颈判定为‘可行’。
+
+## Corrected Claim
+
+2× RTX 4090 (总显存 48 GB) 部署该混合精度模型时，扣除 KV Cache (32K context, batch=1, BF16) 约 4.3 GB 和激活值/临时缓冲区约 2-3 GB，剩余可用显存约 40.7 GB，足以容纳 27.54 GB 权重，显存瓶颈判定为‘可行’。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：2x48GB=96GB总显存，扣除KV Cache(4.3GB)和激活值(2-3GB)后剩余约88-89GB，远大于27.54GB权重，显存充足判定合理。

@@ -1,0 +1,26 @@
+# N114: 随机偏好噪声的演化稳定性阈值：买家偏好噪声方差 σ²_pref 的演化稳定策略（ESS）边界由自然选择压力下的信息获取成本 C_info 决定；当 σ²_pre
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+随机偏好噪声的演化稳定性阈值：买家偏好噪声方差 σ²_pref 的演化稳定策略（ESS）边界由自然选择压力下的信息获取成本 C_info 决定；当 σ²_pref > C_info / (2 * V_match) 时，随机偏好导致的匹配失败率超过生存/收益阈值，导致该偏好分布不稳定；量化为 σ²_pref_ess = C_info / (2 * V_match)，其中 V_match 为单次成功匹配的期望效用值。
+
+## Corrected Claim
+
+在演化博弈模型中，随机偏好噪声（如高斯白噪声）会影响策略的稳定性，通常通过随机微分方程分析其对ESS稳定性的影响，但不存在通用的 σ²_pref_ess = C_info / (2 * V_match) 这一特定阈值公式。
+
+## Evidence
+
+[质询]该陈述将演化博弈论（Evolutionary Game Theory）中的ESS概念与RLHF/匹配市场中的“偏好噪声方差”强行结合，并给出了一个具体的代数公式 σ²_pref_ess = C_info / (2 * V_match)。然而，标准的演化博弈论中，ESS的稳定性通常由复制者动态方程的雅可比矩阵特征值决定，或者在随机扰动下由Fokker-Planck方程的稳态分布决定，并不存在一个通用的、仅由信息成本C_info和匹配效用V_match决定的简单方差阈值公式。该公式缺乏理论推导基础，属于典型的“伪科学”或“幻觉”公式，混淆了不同领域的概念。 | 参考来源[1]和[2]讨论的是供应链演化博弈中的随机干扰（高斯白噪声）对策略稳定性的影响，使用的是随机微分方程（SDE）和Itô引理，并未涉及“买家偏好噪声方差”与“信息获取成本”之间的这种特定代数阈值关系；来源[3]讨论RLHF中的偏好数据噪声，但未涉及演化稳定策略（ESS）或此类量化阈值。所有来源均不支持该特定公式，且该公式在逻辑上缺乏标准演化博弈论的理论支撑。
+
+## Retrieval Sources
+
+- {'url': 'https://pdf.hanspub.org/ORF20240200000_24339369.pdf&rut=71302cf2fea79e0da83af2998078e6e25e8d737580a3f7b0dd51c0f7aa81505b', 'type': 'ddg', 'title': 'PDF 基于生鲜农产品供应链上的随机演化博弈分析'}
+- {'url': 'https://www.x-mol.com/paper/1247925539705131008/t?recommendPaper=1268624170846547968&rut=62ca98c41adf0c82a5bbc1c3673e5cab5201af8dda6811d9c7ba20acb316cba7', 'type': 'ddg', 'title': '基于非线性微分方程稳定性理论的演化博弈供应链稳定性分析,Alexandria Engineering Journal - X-MOL'}
+- {'url': 'https://blog.csdn.net/weixin_29046611/article/details/168620621&rut=3757b50fcd6f8c3c67b944950cb64e59b6b6d03332ab6b972b814ce84af5c5a1', 'type': 'ddg', 'title': 'Rlhf工程避坑指南：从偏好数据噪声到奖励模型坍缩的实战解析-csdn博客'}

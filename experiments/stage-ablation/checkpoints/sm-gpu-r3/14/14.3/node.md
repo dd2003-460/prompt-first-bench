@@ -1,0 +1,20 @@
+# N319: Throughput (吞吐量) 在性价比公式中的定义需统一口径：若为交互式场景，Throughput = 1 / T_decode (tokens/s)；若为
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N137
+
+## Claim
+
+Throughput (吞吐量) 在性价比公式中的定义需统一口径：若为交互式场景，Throughput = 1 / T_decode (tokens/s)；若为批处理场景，Throughput = Batch_Size / T_step (tokens/s/batch)；由于题目未指定 Batch Size，默认采用单用户交互式口径 (Batch=1)，此时 Throughput 直接等于 N120/N121 中估算的 Decode 速度。
+
+## Corrected Claim
+
+Throughput (吞吐量) 在性价比公式中的定义需统一口径：若为交互式场景，Throughput = 1 / T_decode (tokens/s)；若为批处理场景，Throughput = Batch_Size / T_step (tokens/s/batch)；由于题目未指定 Batch Size，默认采用单用户交互式口径 (Batch=1)，此时 Throughput 直接等于 N120/N121 中估算的 Decode 速度。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：吞吐量定义符合标准工程口径，单用户交互式场景下 Batch=1 时 Throughput=1/T_decode 推导自洽。

@@ -1,0 +1,24 @@
+# N53: Qwen3-27B 在 FP8 精度下的 MMLU 准确率下降幅度通常小于 1 个百分点（例如从 88% 降至 87%），这是因为 FP8 保留了足够的动态范围
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N12
+
+## Claim
+
+Qwen3-27B 在 FP8 精度下的 MMLU 准确率下降幅度通常小于 1 个百分点（例如从 88% 降至 87%），这是因为 FP8 保留了足够的动态范围以维持注意力机制的数值稳定性
+
+## Corrected Claim
+
+Qwen3-27B 在 FP8 精度下的 MMLU 准确率下降幅度通常较小（通常小于 1-2 个百分点），这是因为 FP8 保留了足够的动态范围以维持注意力机制的数值稳定性。
+
+## Evidence
+
+[质询]具体数值（88%降至87%）及特定模型（Qwen3-27B）的量化表现属于经验事实，缺乏公开基准测试数据直接支持，且不同量化实现（如SmoothQuant, GPTQ等）对MMLU的影响幅度可能存在差异，不能一概而论为'通常小于1个百分点'。 | 先验知识/题面给定，逻辑校验通过：FP8相比FP16/FP32确实保留了比INT8更宽的动态范围，理论上能更好地维持注意力机制（特别是Softmax和LayerNorm）的数值稳定性，从而减少精度损失。但具体到Qwen3-27B在MMLU上的确切下降幅度（<1%）属于特定模型的经验数据，无来源直接覆盖，故降级。
+
+## Search Query
+
+Qwen3 FP8 MMLU accuracy drop

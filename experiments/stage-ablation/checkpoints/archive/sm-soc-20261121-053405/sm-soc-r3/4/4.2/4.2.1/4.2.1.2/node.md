@@ -1,0 +1,24 @@
+# N180: $E_{ratio}$ 的显著性检验：构建 t 检验或 bootstrap 置信区间，若 $E_{ratio}$ 的 95% CI 下界 > 1.5，则统计显著
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N66
+
+## Claim
+
+$E_{ratio}$ 的显著性检验：构建 t 检验或 bootstrap 置信区间，若 $E_{ratio}$ 的 95% CI 下界 > 1.5，则统计显著支持平台驱动假设；需计算 $SE(E_{ratio}) \approx \sqrt{\frac{\sigma_{high}^2}{N_{high} \mu_{low}^2} + \frac{\sigma_{low}^2}{N_{low} \mu_{high}^2}}$ 以评估精度。
+
+## Corrected Claim
+
+$E_{ratio}$ 的显著性检验：构建 t 检验或 bootstrap 置信区间，若 $E_{ratio}$ 的 95% CI 下界 > 1.5，则统计显著支持平台驱动假设；需计算 $SE(E_{ratio}) \approx \sqrt{\frac{\sigma_{high}^2}{N_{high} \mu_{low}^2} + \frac{\sigma_{low}^2}{N_{low} \mu_{high}^2}}$ 以评估精度。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于Delta法则推导的比值估计量标准误公式在数学上正确，且基于95%置信区间下界进行显著性判断符合统计推断逻辑。
+
+## Search Query
+
+ratio of means confidence interval bootstrap

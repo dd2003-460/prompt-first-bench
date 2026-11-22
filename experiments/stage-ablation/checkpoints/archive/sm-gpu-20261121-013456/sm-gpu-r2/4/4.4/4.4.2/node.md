@@ -1,0 +1,28 @@
+# N84: 工作点B（BF16量化/80GB显存）：1×A100运行Qwen3-27B BF16，权重54GB+KV Cache 4.3GB+Buffer 2GB≈60.3
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N34
+
+## Claim
+
+工作点B（BF16量化/80GB显存）：1×A100运行Qwen3-27B BF16，权重54GB+KV Cache 4.3GB+Buffer 2GB≈60.3GB<80GB，可行；吞吐量~45 tokens/s（基准），TCO_3y≈$4677；若升级为H100（二手$6000-$8000），BF16吞吐量~80-90 tokens/s，TCO_3y≈$4200-$4600，单位token成本降低30-40%。
+
+## Corrected Claim
+
+工作点B（BF16量化/80GB显存）：1×A100运行Qwen3-27B BF16，权重54GB+KV Cache 4.3GB+Buffer 2GB≈60.3GB<80GB，显存占用逻辑可行；吞吐量与TCO数值（~45 tokens/s, ~$4677）及H100升级后的性能/成本数据（~80-90 tokens/s, ~$4200-$4600）为经验估算，缺乏直接来源支持，需进一步实测或权威基准验证。
+
+## Evidence
+
+[质询]来源[1]测试的是L20显卡且模型版本为Qwen3.8-27B，与陈述中的A100/H100及Qwen3-27B硬件/版本不匹配，无法直接支持A100/H100的具体吞吐量（45/80-90 tokens/s）和TCO数值；此外，二手H100价格$6000-$8000及TCO计算属于经验市场数据，缺乏来源直接佐证。 | 逻辑上BF16权重54GB+KV Cache+Buffer<80GB显存自洽，但来源[1]仅涉及L20显卡，与A100/H100无关，无法提供外部支持；经验事实（吞吐量、TCO、二手价格）缺来源直接支持，依据经验事实排除条款降级。
+
+## Search Query
+
+H100 vs A100 BF16 inference Qwen3 27B price 2024
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2072597504793880030&rut=939cafd07a4e15ae1245f5a339b74e22b7f3b2377110377f185cd50347b447f0', 'type': 'ddg', 'title': 'Qwen3.8-27B 的 BF16、FP8、MTP、单卡表现，以及与 Qwen3.6 MoE 的差距'}

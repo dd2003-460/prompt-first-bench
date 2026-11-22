@@ -1,0 +1,19 @@
+{
+  "id": "N178",
+  "claim": "Qwen3-27B 非 Attention/FFN 部分（Embedding + LM Head + LayerNorms）参数量：总参数量 26.7B - (4.005B + 22.695B) = 0，表明 15%/85% 估算已隐含将 Embedding/LMHead 归入 FFN 或存在舍入误差，实际 Embedding 矩阵 (vocab_size × hidden_size) 需单独核算以修正权重总显存。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值计算存在明显舍入误差或口径混淆：Qwen3-27B 的总参数量通常约为 27B，而 4.005B + 22.695B = 26.7B，两者相差 0.3B。若声称差值为 0，则忽略了这 0.3B 的差距，或者错误地假设总参数量恰好为 26.7B。此外，Embedding 和 LM Head 通常共享权重（tied embeddings），其参数量约为 vocab_size * hidden_size，对于 27B 模型，这部分参数量通常在 0.2B-0.5B 之间，并非严格为 0。 | 逻辑校验发现数值矛盾：4.005 + 22.695 = 26.7，但 Qwen3-27B 总参数量约为 27B，差值不为 0。且 Embedding/LM Head 参数量非零，原陈述中‘=0’的结论在数学和工程事实上均不成立。",
+  "corrected_claim": "Qwen3-27B 总参数量约为 27B，Attention/FFN 部分估算为 26.7B，剩余约 0.3B 参数量主要对应 Embedding 和 LM Head（若未共享权重则需单独核算，若共享则计入总参数量但不在 Attention/FFN 模块内）。原陈述中‘差值为 0’的结论错误，实际存在约 0.3B 的参数量差异，需单独核算 Embedding/LM Head 以修正显存估算。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N43",
+    "N44",
+    "N45"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

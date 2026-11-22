@@ -1,0 +1,20 @@
+# N256: 基准方案 2×4090 (W4A8) 的 TCO_per_token 敏感性分析：在吞吐量为 60 tokens/s (N99 中值) 且 3 年运行 50% 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N84
+
+## Claim
+
+基准方案 2×4090 (W4A8) 的 TCO_per_token 敏感性分析：在吞吐量为 60 tokens/s (N99 中值) 且 3 年运行 50% 利用率 (13,140 小时) 条件下，总生成 Token 数为 2.86 亿，CapEx 摊销 ($1,000/yr * 3 = $3,000) 加电力成本 ($0.45kW * 13,140h * $0.15/kWh = $887)，总成本 $3,887，TCO/token = $0.0136，低于 $0.0075 阈值需吞吐量 > 122 tokens/s，这在 2×4090 上物理不可达，因此 $0.0075 阈值对非典型方案而言过于严苛，应修正为 0.8 * Min(Consumer, Datacenter)。
+
+## Corrected Claim
+
+基准方案 2×4090 (W4A8) 的 TCO_per_token 敏感性分析：在吞吐量为 60 tokens/s (N99 中值) 且 3 年运行 50% 利用率 (13,140 小时) 条件下，总生成 Token 数为 2.86 亿，CapEx 摊销 ($1,000/yr * 3 = $3,000) 加电力成本 ($0.45kW * 13,140h * $0.15/kWh = $887)，总成本 $3,887，TCO/token = $0.0136，低于 $0.0075 阈值需吞吐量 > 122 tokens/s，这在 2×4090 上物理不可达，因此 $0.0075 阈值对非典型方案而言过于严苛，应修正为 0.8 * Min(Consumer, Datacenter)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术推导（2.86亿token, $3887总成本, $0.0136/token）与物理约束（2x4090无法达到122 tokens/s）均自洽，结论合理。

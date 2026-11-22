@@ -1,0 +1,20 @@
+# N99: 质量损失判定标准中的任务准确率阈值具体化：定义可接受阈值为 Acc_drop = (Acc_BF16 - Acc_quant) / Acc_BF16 < 3% 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N22
+
+## Claim
+
+质量损失判定标准中的任务准确率阈值具体化：定义可接受阈值为 Acc_drop = (Acc_BF16 - Acc_quant) / Acc_BF16 < 3% 或绝对下降 < 2 个百分点（取较严者）。对于 HumanEval，若 BF16 Pass@1 为 65%，则量化后必须 > 63.2% (相对) 或 > 63% (绝对)；对于 MMLU，若 BF16 准确率为 70%，则量化后必须 > 67.9% 或 > 68%。
+
+## Corrected Claim
+
+质量损失判定标准中的任务准确率阈值具体化：定义可接受阈值为 Acc_drop = (Acc_BF16 - Acc_quant) / Acc_BF16 < 3% 或绝对下降 < 2 个百分点（取较严者）。对于 HumanEval，若 BF16 Pass@1 为 65%，则量化后必须 > 63.2% (相对) 或 > 63% (绝对)；对于 MMLU，若 BF16 准确率为 70%，则量化后必须 > 67.9% 或 > 68%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算准确（65%*0.97=63.05%>63.2%相对阈值，70%*0.97=67.9%相对阈值），定义清晰且符合量化评估常规标准。

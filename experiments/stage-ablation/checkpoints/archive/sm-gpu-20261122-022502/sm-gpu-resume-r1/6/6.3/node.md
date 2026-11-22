@@ -1,0 +1,24 @@
+# N31: 替代方案切换阈值：当上下文长度从 32K 增加到 128K 时，KV Cache 显存增加 4 倍，导致 24GB 消费级显卡即使使用 INT4 也可能溢出（1
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+替代方案切换阈值：当上下文长度从 32K 增加到 128K 时，KV Cache 显存增加 4 倍，导致 24GB 消费级显卡即使使用 INT4 也可能溢出（13.5GB 权重 + 10GB KV Cache > 24GB），此时必须切换至 48GB+ 显存的方案（如 2x 3090/4090 或单卡 A6000），导致性价比排序反转。
+
+## Corrected Claim
+
+替代方案切换阈值：当上下文长度从 32K 增加到 128K 时，KV Cache 显存增加 4 倍，导致 24GB 消费级显卡即使使用 INT4 也可能溢出（13.5GB 权重 + 10GB KV Cache > 24GB），此时必须切换至 48GB+ 显存的方案（如 2x 3090/4090 或单卡 A6000），导致性价比排序反转。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别针对三种不同的硬件架构（24GB单卡、48GB双卡、80GB单卡大容量）进行了正交的分析，涵盖了父节点中提到的‘溢出验证’、‘切换至48GB+方案’以及‘性价比/可行性边界’等关键方面。虽然都基于128K上下文，但硬件配置不同导致计算逻辑和结论不同，不存在冗余。）
+
+## Search Query
+
+long context inference memory requirement 128k tokens KV cache overflow consumer GPU

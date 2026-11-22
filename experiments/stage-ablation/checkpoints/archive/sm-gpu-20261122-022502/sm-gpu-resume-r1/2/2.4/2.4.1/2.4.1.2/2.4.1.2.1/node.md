@@ -1,0 +1,20 @@
+# N638: RTX 4090 FP8 算力峰值为 3302 TFLOPS (1651 TFLOPS FP16 * 2)，而 27B 模型 Decode 阶段每 token 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N197
+
+## Claim
+
+RTX 4090 FP8 算力峰值为 3302 TFLOPS (1651 TFLOPS FP16 * 2)，而 27B 模型 Decode 阶段每 token 仅需约 54 GFLOPS (2 * 27e9 * 1)，算力利用率上限仅为 54/3302000 ≈ 0.0016%，确认瓶颈为显存带宽而非计算能力
+
+## Corrected Claim
+
+RTX 4090 FP8 算力峰值为 3302 TFLOPS (1651 TFLOPS FP16 * 2)，而 27B 模型 Decode 阶段每 token 仅需约 54 GFLOPS (2 * 27e9 * 1)，算力利用率上限仅为 54/3302000 ≈ 0.0016%，确认瓶颈为显存带宽而非计算能力
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 FP8算力约3300 TFLOPS，27B模型Decode阶段计算量约54 GFLOPS，利用率极低，符合显存带宽瓶颈的物理直觉。

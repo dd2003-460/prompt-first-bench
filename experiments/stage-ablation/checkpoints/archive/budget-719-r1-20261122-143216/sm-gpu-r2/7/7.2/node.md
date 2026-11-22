@@ -1,0 +1,24 @@
+# N130: Intel Gaudi 2/3 在 HuggingFace Transformers 和 vLLM 中的原生支持状态：Gaudi 3 已支持 FP8 推理，但生
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N32, N33, N34
+
+## Claim
+
+Intel Gaudi 2/3 在 HuggingFace Transformers 和 vLLM 中的原生支持状态：Gaudi 3 已支持 FP8 推理，但生态成熟度低于 CUDA 栈，导致部署时间成本增加约 2-4 周 [待核验]，且缺乏针对 Qwen3 架构的优化内核。
+
+## Corrected Claim
+
+Intel Gaudi 2/3 在 HuggingFace Transformers 和 vLLM 中已具备原生支持，Gaudi 3 支持 FP8 推理，但生态成熟度低于 CUDA 栈，通常导致部署调试周期延长，且缺乏针对 Qwen3 架构的特定优化内核。
+
+## Evidence
+
+[质询]「部署时间成本增加约 2-4 周」属于具体的经验性工程估算，缺乏通用标准或第一性原理支持，且不同项目规模差异巨大，该具体数值范围极易因上下文缺失而失真。 | 无可用外部证据；逻辑上 Gaudi 生态成熟度低于 CUDA 是公认事实，但具体耗时为经验事实，缺来源支持，故降级。
+
+## Search Query
+
+Intel Gaudi 3 LLM inference ecosystem maturity vLLM support Qwen

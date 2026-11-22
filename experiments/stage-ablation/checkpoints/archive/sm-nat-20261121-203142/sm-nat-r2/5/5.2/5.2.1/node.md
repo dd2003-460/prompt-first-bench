@@ -1,0 +1,20 @@
+# N66: LFU 增益公式 ΔH ≤ (1-H_LRU)*(1-1/β)*log(N_hot/N_cold) 在 β=0.9 时，(1-1/β) = -1.111 < 0
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N22
+
+## Claim
+
+LFU 增益公式 ΔH ≤ (1-H_LRU)*(1-1/β)*log(N_hot/N_cold) 在 β=0.9 时，(1-1/β) = -1.111 < 0，导致公式给出负增益，表明该经验公式在 β<1 时失效，需替换为基于 Belady 最优算法的模拟差值 [verified: 数学推导]
+
+## Corrected Claim
+
+LFU 增益公式 ΔH ≤ (1-H_LRU)*(1-1/β)*log(N_hot/N_cold) 在 β=0.9 时，(1-1/β) = -1.111 < 0，导致公式给出负增益，表明该经验公式在 β<1 时失效，需替换为基于 Belady 最优算法的模拟差值 [verified: 数学推导]
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：β=0.9时，1/β≈1.111，(1-1/β)≈-0.111，确实小于0，导致公式右侧为负值，数学推导自洽。

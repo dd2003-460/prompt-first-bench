@@ -1,0 +1,24 @@
+# N273: AMD Radeon PRO W7900 在 ROCm 生态下的 3 年维护与兼容性风险成本估算为 $500-$1000，主要源于驱动更新频率较低及社区支持规模
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N106
+
+## Claim
+
+AMD Radeon PRO W7900 在 ROCm 生态下的 3 年维护与兼容性风险成本估算为 $500-$1000，主要源于驱动更新频率较低及社区支持规模小于 CUDA，该成本需作为独立项加入 TCO 模型。
+
+## Corrected Claim
+
+AMD Radeon PRO W7900 在 ROCm 生态下存在因驱动更新频率较低及社区支持规模小于 CUDA 而导致的维护与兼容性风险，建议在 TCO 模型中将其作为独立的风险成本项进行评估，具体金额需根据实际业务场景估算。
+
+## Evidence
+
+[质询]该成本估算（$500-$1000）缺乏具体的量化依据或行业标准支持，属于主观经验判断，且将‘维护风险’直接货币化并设定固定区间在逻辑上缺乏严谨的推导过程，容易受到具体业务场景（如团队规模、故障容忍度）的巨大影响。 | 先验知识/题面给定，逻辑校验通过（量级在IT运维成本中合理），但作为经验事实缺乏来源直接支持，故降级。
+
+## Search Query
+
+ROCm maintenance cost risk vs CUDA ecosystem

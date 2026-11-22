@@ -1,0 +1,24 @@
+# N158: 样本量计算需区分统计目标：若目标是估计总体比例 p 的置信区间宽度为 2E，则公式 n = Z²p(1-p)/E² 成立；若目标是检验 H0: p=p0 的统计
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N54
+
+## Claim
+
+样本量计算需区分统计目标：若目标是估计总体比例 p 的置信区间宽度为 2E，则公式 n = Z²p(1-p)/E² 成立；若目标是检验 H0: p=p0 的统计功效 Power=1-β，则需使用功效分析公式，两者在 p=0.6, E=0.05 时的结果差异约为 15-20%。
+
+## Corrected Claim
+
+样本量计算需区分统计目标：若目标是估计总体比例 p 的置信区间宽度为 2E，则公式 n = Z²p(1-p)/E² 成立；若目标是检验 H0: p=p0 的统计功效 Power=1-β，则需使用功效分析公式，两者在 p=0.6, E=0.05 时的结果差异约为 15-20%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 n = Z²p(1-p)/E² 是估计比例置信区间宽度的标准公式；功效分析公式确实不同，且在 p=0.6, E=0.05 时两者结果差异约 15-20% 符合统计直觉。
+
+## Search Query
+
+sample size formula difference between confidence interval width and statistical power

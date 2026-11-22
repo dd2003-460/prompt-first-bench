@@ -1,0 +1,24 @@
+# N40: 综合折损比例的精确计算：折损 = p_invalid * P(miss | refill) = 0.01 * 0.951 ≈ 0.00951，即 0.951%，
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+综合折损比例的精确计算：折损 = p_invalid * P(miss | refill) = 0.01 * 0.951 ≈ 0.00951，即 0.951%，与 N12 的 1.1% 估算一致
+
+## Corrected Claim
+
+综合折损比例的精确计算：折损 = p_invalid * P(miss | refill) = 0.01 * 0.951 ≈ 0.00951，即 0.951%，与 N12 的 1.1% 估算一致
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1讨论的是基于对象热度分布的折损修正（空间/频率维度），子节点2讨论的是基于验证机制（ETag）的折损替代方案（机制维度），两者在逻辑上是正交的，不重复也不矛盾。但是，父节点的核心是“精确计算”及与N12的一致性验证，两个子节点均引入了新的假设参数（如H_hit_updated, t_refill_short, P(miss_verify)）并得出了与父节点基准值（0.951%）不同的结果（0.872%和0.23%），却未解释这些偏差是否被包含在父节点的“精确计算”中，也未明确说明父节点的0.951%是基准情况还是已包含这些修正的情况，导致子节点未能完全覆盖父节点关于“精确性”和“一致性”的解释需求，存在逻辑断层。）
+
+## Search Query
+
+cache hit rate loss update invalidation concurrent request refill delay

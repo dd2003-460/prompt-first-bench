@@ -1,0 +1,20 @@
+# N75: 下游投影 3（平台净收入分布）：ΔNet_platform = -ΔGMV * Fee_rate + ΔAd_revenue + ε_platform_spec
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N15
+
+## Claim
+
+下游投影 3（平台净收入分布）：ΔNet_platform = -ΔGMV * Fee_rate + ΔAd_revenue + ε_platform_specific，其中 ε_platform_specific ~ N(0, σ²_platform) 为平台运营噪声；GMV 下降 2%（约 -100 万元/月），广告收入增加 5%（约 +50 万元/月），净收入中位数为 +4.5%，95% 置信区间为 [+3%, +6%]。
+
+## Corrected Claim
+
+下游投影 3（平台净收入分布）：ΔNet_platform = -ΔGMV * Fee_rate + ΔAd_revenue + ε_platform_specific，其中 ε_platform_specific ~ N(0, σ²_platform) 为平台运营噪声；GMV 下降 2%（约 -100 万元/月），广告收入增加 5%（约 +50 万元/月），净收入中位数为 +4.5%，95% 置信区间为 [+3%, +6%]。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式结构符合平台收入构成逻辑（GMV佣金+广告），数值量级（-100万 vs +50万）与百分比变化（-2% vs +5%）在合理假设下自洽，且source为knowledge，无需外部来源支持。

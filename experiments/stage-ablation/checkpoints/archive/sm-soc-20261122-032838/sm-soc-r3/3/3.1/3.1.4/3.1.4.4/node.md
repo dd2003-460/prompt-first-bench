@@ -1,0 +1,24 @@
+# N202: 风险折现系数 $\gamma$ 的校准方法：$\gamma$ 反映平台对'不可逆损失'的敏感度，可通过平台历史干预决策反向推断。若平台过去5次干预中，3次选择了
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N66
+
+## Claim
+
+风险折现系数 $\gamma$ 的校准方法：$\gamma$ 反映平台对'不可逆损失'的敏感度，可通过平台历史干预决策反向推断。若平台过去5次干预中，3次选择了高可逆性方案（B/C）而非低可逆性方案（A），则 $\gamma > 0.5$；若2次选择A，则 $\gamma < 0.5$。量化公式：$\gamma = \frac{N_{reversible}}{N_{total}} \times \frac{1}{\Delta C_{int}}$，其中 $\Delta C_{int}$ 为可逆与不可逆方案的初始成本差。若 $\Delta C_{int}=5$ 人日，$N_{reversible}=3$，$N_{total}=5$，则 $\gamma \approx 0.6/5 = 0.12$，低于0.5，表明平台实际更看重初始成本而非可逆性。
+
+## Corrected Claim
+
+需重新校准γ的定义与计算公式，确保定性阈值判断与定量计算结果在相同输入条件下保持一致。
+
+## Evidence
+
+[质询]内部逻辑矛盾：陈述前半部分定义若3/5选择可逆方案则γ>0.5，但后半部分计算示例中相同条件（3/5）算出γ=0.12，直接违背了前半部分的阈值判断逻辑。 | 陈述内部存在硬性逻辑错误：同一组输入数据（N_reversible=3, N_total=5）在定性规则中对应γ>0.5，在定量公式中对应γ=0.12，两者互斥且无法同时成立。
+
+## Search Query
+
+risk discount coefficient calibration platform intervention decision history

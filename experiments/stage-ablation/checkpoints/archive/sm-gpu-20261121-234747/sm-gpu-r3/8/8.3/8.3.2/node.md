@@ -1,0 +1,20 @@
+# N470: Sequence Parallelism策略下，每步Decode跨卡传输的数据量主要取决于激活值（Activations）和注意力分数的交换，计算公式为：Siz
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N149
+
+## Claim
+
+Sequence Parallelism策略下，每步Decode跨卡传输的数据量主要取决于激活值（Activations）和注意力分数的交换，计算公式为：Size_Act = 2 * num_layers * hidden_size * seq_len * dtype_size * (1/num_gpus)，代入参数得：2 * 32 * 4096 * 32768 * 2 bytes / 2 ≈ 8.6 GB（注意：此估算假设全序列激活需交换，实际框架如Megatron-LM可能仅交换部分，需根据具体实现修正）。
+
+## Corrected Claim
+
+Sequence Parallelism策略下，每步Decode跨卡传输的数据量主要取决于激活值（Activations）和注意力分数的交换，计算公式为：Size_Act = 2 * num_layers * hidden_size * seq_len * dtype_size * (1/num_gpus)，代入参数得：2 * 32 * 4096 * 32768 * 2 bytes / 2 ≈ 8.6 GB（注意：此估算假设全序列激活需交换，实际框架如Megatron-LM可能仅交换部分，需根据具体实现修正）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算准确（2*32*4096*32768*2/2 = 8.59GB），量纲正确，且明确标注了假设条件（全序列激活交换）及实际框架差异，符合Sequence Parallelism的基本原理。

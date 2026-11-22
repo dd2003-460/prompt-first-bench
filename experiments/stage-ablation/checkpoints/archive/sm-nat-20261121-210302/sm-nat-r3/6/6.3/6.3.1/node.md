@@ -1,0 +1,24 @@
+# N199: Belady's Anomaly 在字节级缓存中的修正项 Δ_Belady 的具体计算式：Δ_Belady = ∫[C, C+ΔC] (H_byte(C+ΔC)
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N74
+
+## Claim
+
+Belady's Anomaly 在字节级缓存中的修正项 Δ_Belady 的具体计算式：Δ_Belady = ∫[C, C+ΔC] (H_byte(C+ΔC) - H_byte(C)) dc / ΔC，其中 H_byte(C) 是字节命中率，需通过仿真验证在 ρ=-0.3 时 Δ_Belady 是否为负。
+
+## Corrected Claim
+
+在特定仿真场景下，定义 Δ_Belady 为字节命中率在容量区间 [C, C+ΔC] 上的平均变化率，需通过仿真验证在参数 ρ=-0.3 时该值是否为负，以量化 Belady 异常的影响。
+
+## Evidence
+
+[质询]该公式将 Belady 异常（通常指增加缓存容量导致命中率下降的反直觉现象）量化为命中率在区间 [C, C+ΔC] 上的平均变化率。然而，Belady 异常是一个离散的、依赖于特定访问序列和替换算法（如 FIFO）的非单调现象，通常表现为在特定容量点出现局部峰值或谷值，而非一个平滑的积分平均值。用积分平均来定义“修正项”在物理/逻辑上可能掩盖了异常的具体发生机制，且“ρ=-0.3”这一参数在标准缓存理论中无明确定义，属于特定仿真场景下的经验参数，缺乏通用理论支持。 | 经验事实，逻辑自洽但缺来源支持；公式在数学上定义了平均变化率，但将其命名为 Belady 修正项并关联特定参数 ρ 缺乏通用理论依据，且无外部来源验证该特定仿真结论。
+
+## Search Query
+
+Belady anomaly byte-level cache negative correlation size popularity

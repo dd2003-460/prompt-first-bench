@@ -1,0 +1,20 @@
+# N809: 2x 4090 FP8 跨卡 Decode 的实际吞吐修正公式为 T_actual = 1 / (T_compute + T_transfer + T_sync
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N251, N252, N253
+
+## Claim
+
+2x 4090 FP8 跨卡 Decode 的实际吞吐修正公式为 T_actual = 1 / (T_compute + T_transfer + T_sync)，其中 T_sync 为 GPU 间同步开销（通常 1-5 ms），代入 T_compute=0.327 ms, T_transfer=844 ms, T_sync=2 ms，得 T_actual ≈ 1 / 0.846 s ≈ 1.18 tokens/s，证实 N251 中 2.12 tokens/s 的估算偏高，实际更低。
+
+## Corrected Claim
+
+2x 4090 FP8 跨卡 Decode 的实际吞吐修正公式为 T_actual = 1 / (T_compute + T_transfer + T_sync)。若 T_transfer 确为 844 ms，则 T_actual ≈ 1.18 tokens/s；但鉴于 844 ms 的传输延迟在常规 Decode 场景中极不寻常，建议核实 T_transfer 的单位或数值来源。
+
+## Evidence
+
+[质询]数值量级严重违背物理直觉：T_transfer=844 ms 对于 2x 4090 跨卡 Decode 场景极不合理。通常 NVLink 或 PCIe 传输少量 KV Cache 或激活值的延迟在微秒到毫秒级（<10ms），844ms 的传输延迟意味着带宽极低或数据量巨大，这与 'Decode' 阶段（通常数据量小、延迟敏感）的特征矛盾，极可能是单位错误（如将 us 误写为 ms）或混淆了其他指标。 | 逻辑校验失败：T_transfer=844ms 导致总延迟被传输项主导，使得计算项 T_compute=0.327ms 变得微不足道，这与 GPU 集群 Decode 通常受计算或同步限制而非如此极端传输限制的常识不符；且 source 为 knowledge，但存在硬逻辑/量级错误。

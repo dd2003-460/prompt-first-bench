@@ -1,0 +1,26 @@
+# N34: 数据可信度分级规则：所有标注 [待核验] 的价格和吞吐量数据，必须在最终推荐前通过至少两个独立来源（如官方规格表 + 第三方基准测试如 MLPerf 或 Hug
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+数据可信度分级规则：所有标注 [待核验] 的价格和吞吐量数据，必须在最终推荐前通过至少两个独立来源（如官方规格表 + 第三方基准测试如 MLPerf 或 HuggingFace 社区实测）交叉验证；若来源冲突，取保守值（较高成本/较低吞吐）作为计算基准，并在报告中明确标注数据冲突情况。
+
+## Corrected Claim
+
+数据可信度分级规则建议：对于标注 [待核验] 的价格和吞吐量数据，建议在最终推荐前通过至少两个独立来源（如官方规格表 + 第三方基准测试）进行交叉验证；若来源冲突，建议取保守值（较高成本/较低吞吐）作为计算基准，并在报告中明确标注数据冲突情况。
+
+## Evidence
+
+[质询]该陈述属于具体的项目管理或数据治理流程规范（SOP），而非客观存在的通用事实或第一性原理。参考来源[1]虽然涉及数据置信度分级，但针对的是特定项目（real-api-pricing）的high/medium/low定义，并未直接支持本节点中关于“必须通过至少两个独立来源交叉验证”及“取保守值”的具体规则；来源[2]和[3]涉及数据标注合规与质量评估标准，与本节点具体的价格/吞吐量数据核验流程无直接对应关系。因此，该规则缺乏直接的外部来源支持，属于经验性/规范性陈述。 | 逻辑自洽，符合数据工程最佳实践（交叉验证与保守估计），但参考来源未直接覆盖该具体规则，属于经验事实/规范，缺来源直接支持。
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_00186/article/details/155185968&rut=8b0e7bcd0dfd6af44f9d6b9af032e1ef9facf071bf5eebcc9ce2f8a41a2fd05e', 'type': 'ddg', 'title': '实测、口述还是官方派生？real-api-pricing置信度分级high/medium/low的7条裁定规则全解析'}
+- {'url': 'https://www.ttbz.org.cn/upload/file/20250813/6389069487651182916942058.pdf&rut=6775139a1d4d1d3632cfcd0272095ee750302249ab70155057226298fa06605d', 'type': 'ddg', 'title': 'PDF 面向人工智能的数据标注合规指南 - Ccs a 00 团体标准'}
+- {'url': 'https://www.caict.ac.cn/kxyj/qwfb/ztbg/202508/P020260706480252557893.pdf&rut=c4b50b5943cc8fb97ab09a751c5a577ac587f5310e3ae19670a888eeb46a2d5b', 'type': 'ddg', 'title': 'PDF 人工智能高质量数据集 建设指南'}

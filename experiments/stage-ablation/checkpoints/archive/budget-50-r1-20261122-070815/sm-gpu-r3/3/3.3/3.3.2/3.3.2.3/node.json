@@ -1,0 +1,17 @@
+{
+  "id": "N277",
+  "claim": "对比 1x H100 SXM5 (NVLink 900 GB/s) 与 2x RTX 4090 (PCIe 4.0 ~27 GB/s)，NVLink 的带宽是 PCIe 的 33 倍，因此在多卡并行推理 (如 Tensor Parallelism) 中，H100 的通信开销几乎可忽略不计，而 4090 的通信开销将成为主要瓶颈，导致实际吞吐量远低于理论值，尤其在 Batch Size 较大时",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]陈述中关于'通信开销几乎可忽略不计'和'成为主要瓶颈'的定性结论过于绝对，忽略了计算密度（Compute-to-Bandwidth Ratio）的影响。在低Batch Size或特定算子下，计算时间可能远大于通信时间，此时带宽差异并非瓶颈；此外，'33倍'是峰值带宽对比，实际有效带宽受协议开销影响，且4090通过PCIe P2P或NVLink Bridge（若存在）的带宽可能高于纯PCIe 4.0 x16单向理论值，但即便按27GB/s计算，其是否'主要瓶颈'取决于具体模型结构和并行策略，不能一概而论。 | 先验知识/题面给定，逻辑校验通过。数值量级（900 vs 27 GB/s）符合硬件规格常识，倍数关系（33x）计算正确。但'几乎可忽略'和'主要瓶颈'属于经验性定性判断，缺乏具体场景（如Batch Size、模型大小、算子类型）的量化支撑，且无外部来源支持该绝对化结论，故降级为定性表述。",
+  "corrected_claim": "对比 1x H100 SXM5 (NVLink 900 GB/s) 与 2x RTX 4090 (PCIe 4.0 ~27 GB/s)，NVLink 的峰值带宽约为 PCIe 的 33 倍。在多卡并行推理 (如 Tensor Parallelism) 中，H100 的通信延迟显著低于 4090，因此在通信密集型场景或大 Batch Size 下，4090 的通信开销更可能成为性能瓶颈，导致实际吞吐量相对理论值下降更明显。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N84"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

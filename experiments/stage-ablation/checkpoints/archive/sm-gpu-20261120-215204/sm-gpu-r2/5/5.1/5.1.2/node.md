@@ -1,0 +1,20 @@
+# N119: A100 80GB 在 FP8 精度下支持 Qwen3-27B 推理，权重占用 27GB，KV Cache (32K, FP8) 占用约 20GB (假设 KV
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N29
+
+## Claim
+
+A100 80GB 在 FP8 精度下支持 Qwen3-27B 推理，权重占用 27GB，KV Cache (32K, FP8) 占用约 20GB (假设 KV 也量化)，总显存占用约 47GB，低于 80GB 上限，可行。
+
+## Corrected Claim
+
+A100 80GB 在 FP8 精度下支持 Qwen3-27B 推理，权重占用 27GB，KV Cache (32K, FP8) 占用约 20GB (假设 KV 也量化)，总显存占用约 47GB，低于 80GB 上限，可行。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B FP8权重约27GB，32K上下文KV Cache在FP8下估算约20GB，总占用47GB低于A100 80GB显存上限，符合工程常识。

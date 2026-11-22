@@ -1,0 +1,20 @@
+# N211: 在 FP8 精度下，RTX 4090 的 T_decode 加速比相对于 RTX 3090 的计算公式为：Speedup = (T_3090_FP8_sim) 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N79
+
+## Claim
+
+在 FP8 精度下，RTX 4090 的 T_decode 加速比相对于 RTX 3090 的计算公式为：Speedup = (T_3090_FP8_sim) / (T_4090_FP8_hw)，其中 T_4090_FP8_hw 受 1.0 TB/s 带宽限制，T_3090_FP8_sim 受软件模拟效率限制，综合加速比落在 1.2-1.5x 区间需满足 3090 软件模拟效率 < 50% 的约束
+
+## Corrected Claim
+
+在 FP8 精度下，RTX 4090 的 T_decode 加速比相对于 RTX 3090 的计算公式为：Speedup = (T_3090_FP8_sim) / (T_4090_FP8_hw)，其中 T_4090_FP8_hw 受 1.0 TB/s 带宽限制，T_3090_FP8_sim 受软件模拟效率限制，综合加速比落在 1.2-1.5x 区间需满足 3090 软件模拟效率 < 50% 的约束
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 (AD102) 显存带宽约 1.0 TB/s，RTX 3090 (GA102) 约 936 GB/s，硬件带宽优势约 1.07x；若 3090 软件模拟 FP8 效率低于 50%（即耗时 >2x 理想值），则总加速比 = (1.07 * 1/0.5) ≈ 2.1x 上限，下限取决于具体模拟开销，1.2-1.5x 区间在逻辑上完全自洽且符合硬件规格量级。

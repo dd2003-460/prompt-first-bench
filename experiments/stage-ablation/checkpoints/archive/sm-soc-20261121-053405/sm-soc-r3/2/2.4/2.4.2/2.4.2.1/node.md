@@ -1,0 +1,20 @@
+# N139: 成熟期市场先验概率 $P_{mature}$：在成熟二手市场（如 eBay, 闲鱼头部品类），平台算法驱动假设 $H_{platform}$ 的先验概率较高，因
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N45
+
+## Claim
+
+成熟期市场先验概率 $P_{mature}$：在成熟二手市场（如 eBay, 闲鱼头部品类），平台算法驱动假设 $H_{platform}$ 的先验概率较高，因为平台有动机优化 GMV 和留存。设定 $P(H_{platform}|Mature) = 0.5, P(H_{seller}|Mature) = 0.3, P(H_{buyer}|Mature) = 0.2$。
+
+## Corrected Claim
+
+成熟期市场先验概率 $P_{mature}$：在成熟二手市场（如 eBay, 闲鱼头部品类），平台算法驱动假设 $H_{platform}$ 的先验概率较高，因为平台有动机优化 GMV 和留存。设定 $P(H_{platform}|Mature) = 0.5, P(H_{seller}|Mature) = 0.3, P(H_{buyer}|Mature) = 0.2$。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

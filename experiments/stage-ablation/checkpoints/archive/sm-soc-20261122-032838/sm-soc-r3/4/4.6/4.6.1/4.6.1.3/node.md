@@ -1,0 +1,24 @@
+# N252: P_max 的时间衰减因子：定义 P_max_eff = P_max * e^(-λ_t * Δt)，其中 Δt 为距最高成交价的时间（天），λ_t 为记忆衰减
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N82, N83, N84
+
+## Claim
+
+P_max 的时间衰减因子：定义 P_max_eff = P_max * e^(-λ_t * Δt)，其中 Δt 为距最高成交价的时间（天），λ_t 为记忆衰减率。实证显示二手市场卖家记忆半衰期约为 30-60 天，即 λ_t ≈ 0.012-0.023，导致 I_anchor 随时间自然下降。
+
+## Corrected Claim
+
+P_max 的时间衰减因子：定义 P_max_eff = P_max * e^(-λ_t * Δt)，其中 Δt 为距最高成交价的时间（天），λ_t 为记忆衰减率。实证显示二手市场卖家记忆半衰期约为 30-60 天，即 λ_t ≈ 0.012-0.023，导致 I_anchor 随时间自然下降。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：半衰期公式 λ = ln(2)/T_half 计算正确（ln(2)/30 ≈ 0.0231, ln(2)/60 ≈ 0.0116），数值量级与定义自洽。
+
+## Search Query
+
+memory decay rate historical price anchoring time half-life behavioral finance

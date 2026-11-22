@@ -1,0 +1,20 @@
+# N98: 头部集中度主导项：在 k=1000 (Top 1%) 的工作点，H_req(k) ≈ 0.99 (由 N50 给出)，且由于 ρ=-0.3，E[S|Rank≤k
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N42
+
+## Claim
+
+头部集中度主导项：在 k=1000 (Top 1%) 的工作点，H_req(k) ≈ 0.99 (由 N50 给出)，且由于 ρ=-0.3，E[S|Rank≤k] ≈ 0.7 * E[S]，因此分子 ≈ 0.99 * 0.7 * Total_Byte_Traffic ≈ 0.69 * Total_Byte_Traffic，表明仅 1% 的对象贡献了约 69% 的字节流量，这是 LRU 命中率的主要来源。
+
+## Corrected Claim
+
+头部集中度主导项：在 k=1000 (Top 1%) 的工作点，H_req(k) ≈ 0.99 (由 N50 给出)，且由于 ρ=-0.3，E[S|Rank≤k] ≈ 0.7 * E[S]，因此分子 ≈ 0.99 * 0.7 * Total_Byte_Traffic ≈ 0.69 * Total_Byte_Traffic，表明仅 1% 的对象贡献了约 69% 的字节流量，这是 LRU 命中率的主要来源。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算 0.99 * 0.7 ≈ 0.693 准确，且符合头部集中度主导流量分布的常规逻辑。

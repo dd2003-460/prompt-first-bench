@@ -1,0 +1,24 @@
+# N247: 工作点3（MoE 路由开销/实际性能瓶颈）：在 32K 上下文 Prefill 阶段，MoE 路由开销（Expert Selection）占实际计算时间的 15
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N77
+
+## Claim
+
+工作点3（MoE 路由开销/实际性能瓶颈）：在 32K 上下文 Prefill 阶段，MoE 路由开销（Expert Selection）占实际计算时间的 15-20%，导致有效 FLOPs 利用率降至 80-85%，实际 TTFT 比理论值高 20-25%，需通过实测校准 MoE 路由开销对 TTFT 的影响系数。
+
+## Corrected Claim
+
+在32K上下文Prefill阶段，MoE路由开销（Expert Selection）通常占实际计算时间的显著比例（具体数值依架构和实现而异，常见范围约10-25%），导致有效FLOPs利用率下降，实际TTFT高于理论值，需通过实测校准具体影响系数。
+
+## Evidence
+
+[质询]数值量级与具体比例缺乏普适性：MoE路由开销占比及TTFT增加幅度高度依赖于模型架构（如专家数量、Top-K值）、硬件实现（如AllReduce优化、专家并行策略）及具体框架，15-20%和20-25%并非固定物理常数，而是特定实验条件下的经验观测值，直接作为通用事实陈述存在以偏概全的风险。 | 经验事实，逻辑自洽但缺来源支持（source=knowledge，但数值为特定场景经验值，非第一性原理可推导的恒定参数，且无外部来源佐证具体数值范围）
+
+## Search Query
+
+MoE routing overhead prefill TTFT impact factor

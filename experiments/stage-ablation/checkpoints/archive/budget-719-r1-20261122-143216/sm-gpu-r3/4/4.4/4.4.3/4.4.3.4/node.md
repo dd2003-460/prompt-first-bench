@@ -1,0 +1,24 @@
+# N318: TensorRT-LLM 针对 RTX 4090 (Ada) 架构编译 Qwen3-27B 引擎时，Kernel Fusion（如 GEMM + Bias + 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N113, N114, N115
+
+## Claim
+
+TensorRT-LLM 针对 RTX 4090 (Ada) 架构编译 Qwen3-27B 引擎时，Kernel Fusion（如 GEMM + Bias + Activation 融合）相比 vLLM 的算子分离执行，可将单 Token 的访存次数减少约 15%-20%，从而在 BF16 精度下带来 5%-10% 的 Decode 速度提升，但该提升在 FP8 精度下因量化解量化开销抵消而缩小至 2%-5%。
+
+## Corrected Claim
+
+TensorRT-LLM 针对 RTX 4090 (Ada) 架构编译 Qwen3-27B 引擎时，Kernel Fusion（如 GEMM + Bias + Activation 融合）相比 vLLM 的算子分离执行，通常能减少单 Token 的访存次数并带来一定的 Decode 速度提升；但在 FP8 精度下，量化解量化开销可能会部分抵消融合带来的性能增益。
+
+## Evidence
+
+[质询]具体数值（15%-20%访存减少、5%-10%速度提升）缺乏公开基准测试支持，且FP8下量化开销抵消融合收益的具体比例（2%-5%）属于高度依赖具体实现和硬件微架构的经验性推测，不同Kernel实现差异巨大，难以给出如此精确的通用区间。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+TensorRT-LLM kernel fusion benefit vs vLLM RTX 4090 BF16 FP8 decode speedup

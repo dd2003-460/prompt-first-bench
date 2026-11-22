@@ -1,0 +1,20 @@
+# N228: 基于 N136 和 N137 的计算，RTX 4090 在 12K 上下文约束下，INT8 相对 BF16 的吞吐量比值为 24.1 / 14.3 ≈ 1.68
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N79
+
+## Claim
+
+基于 N136 和 N137 的计算，RTX 4090 在 12K 上下文约束下，INT8 相对 BF16 的吞吐量比值为 24.1 / 14.3 ≈ 1.68 倍，该比值主要受限于显存带宽与权重大小之比，而非 Tensor Core 计算加速，因为 LLM 解码阶段是 Memory-Bound。
+
+## Corrected Claim
+
+基于 N136 和 N137 的计算，RTX 4090 在 12K 上下文约束下，INT8 相对 BF16 的吞吐量比值为 24.1 / 14.3 ≈ 1.68 倍，该比值主要受限于显存带宽与权重大小之比，而非 Tensor Core 计算加速，因为 LLM 解码阶段是 Memory-Bound。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：INT8相对BF16的2倍理论加速比在Memory-Bound场景下因带宽限制和计算开销折损至1.68倍符合工程直觉，且LLM解码阶段确为Memory-Bound。

@@ -1,0 +1,24 @@
+# N147: 修正项的适用边界：H_corrected 公式仅在稳态且无突发流量切换时有效。若存在 20% 的突发流量（见 N63），独立假设失效不仅因为局部性，还因为热度分
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N61
+
+## Claim
+
+修正项的适用边界：H_corrected 公式仅在稳态且无突发流量切换时有效。若存在 20% 的突发流量（见 N63），独立假设失效不仅因为局部性，还因为热度分布的动态变化。此时，H_corrected 应拆分为 H_steady * (1 - P_burst) + H_burst * P_burst。在突发期间，LRU 命中率会因新热点对象未驻留而下降，抵消部分局部性带来的增益。因此，净修正量 ΔH_net = ΔH_locality - ΔH_burst_penalty，需分别量化。
+
+## Corrected Claim
+
+修正项的适用边界：H_corrected 公式仅在稳态且无突发流量切换时有效。若存在 20% 的突发流量（见 N63），独立假设失效不仅因为局部性，还因为热度分布的动态变化。此时，H_corrected 应拆分为 H_steady * (1 - P_burst) + H_burst * P_burst。在突发期间，LRU 命中率会因新热点对象未驻留而下降，抵消部分局部性带来的增益。因此，净修正量 ΔH_net = ΔH_locality - ΔH_burst_penalty，需分别量化。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该陈述基于排队论与缓存替换算法的基本原理，将稳态与突发状态分离处理符合线性叠加原理，且指出LRU在突发流量下因冷启动导致的命中率下降符合物理直觉，无逻辑矛盾。
+
+## Search Query
+
+cache performance bursty workload steady state vs transient hit rate

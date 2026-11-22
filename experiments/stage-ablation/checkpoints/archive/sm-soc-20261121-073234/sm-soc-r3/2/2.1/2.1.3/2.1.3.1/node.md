@@ -1,0 +1,29 @@
+# N178: 在二手市场高溢价场景下，买家等待策略的预期收益 ΔP_wait 主要来源于价格向市场均衡回归的概率加权值，具体计算需结合历史价格波动率 σ_price 设定：Δ
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N55
+
+## Claim
+
+在二手市场高溢价场景下，买家等待策略的预期收益 ΔP_wait 主要来源于价格向市场均衡回归的概率加权值，具体计算需结合历史价格波动率 σ_price 设定：ΔP_wait = P_current * σ_price * t_wait^0.5，其中 t_wait 为等待时长（天），该公式需基于平台同类商品历史价格序列拟合验证。
+
+## Corrected Claim
+
+在二手市场高溢价场景下，买家等待策略的预期收益 ΔP_wait 应基于价格向市场均衡回归的概率加权值计算，通常涉及溢价衰减模型（如指数衰减）及机会成本，而非简单的 P_current * σ_price * t_wait^0.5。
+
+## Evidence
+
+[质询]公式存在严重的量纲错误和逻辑谬误：ΔP_wait（价格/货币单位）= P_current（价格/货币单位）* σ_price（无量纲波动率）* t_wait^0.5（时间单位）。等式左边是货币单位，右边是货币*时间单位，量纲不匹配。此外，该公式暗示等待时间越长预期收益越高（正相关），这违背了二手市场高溢价回归均衡的基本经济直觉（通常溢价会随时间衰减，等待可能面临机会成本或商品贬值风险，而非线性/平方根增长收益）。 | 公式量纲错误（货币 vs 货币*时间），且逻辑违背经济直觉（等待时间增加不应导致预期收益单调增加，尤其是溢价回归场景）。参考来源[1]讨论拍卖理论，[2]讨论期权策略，均未支持该特定错误公式。
+
+## Search Query
+
+second hand market price convergence rate standard deviation expected waiting gain formula
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/450461959&rut=7bfc841abba5cb7750ec0a42e96debc55845b80aae2080f3e6c723d386397a37', 'type': 'ddg', 'title': '不完全信息静态博弈--拍卖理论 - 知乎'}
+- {'url': 'https://zhuanlan.zhihu.com/p/665462983&rut=19a74e55cab5f442aa0243e9dd46e075ae129d0582a1324ea3732bfb598d0110', 'type': 'ddg', 'title': '值得收藏!19种期权策略的应用场景，一文到位! - 知乎'}

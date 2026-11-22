@@ -1,0 +1,24 @@
+# N238: 验证T_res公式的适用性：T_res ≈ C / (R * (1-H)) 假设缓存字节周转率恒定，需确认在H_static=0.8时，分母 R*(1-H) 是
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N89
+
+## Claim
+
+验证T_res公式的适用性：T_res ≈ C / (R * (1-H)) 假设缓存字节周转率恒定，需确认在H_static=0.8时，分母 R*(1-H) 是否代表未命中请求的字节流速率，若H为对象命中率而非字节命中率，需引入R_byte修正。
+
+## Corrected Claim
+
+验证T_res公式的适用性：T_res ≈ C / (R * (1-H)) 假设缓存字节周转率恒定，需确认在H_static=0.8时，分母 R*(1-H) 是否代表未命中请求的字节流速率，若H为对象命中率而非字节命中率，需引入R_byte修正。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 T_res ≈ C / (R * (1-H)) 在 H 为字节命中率时逻辑自洽；若 H 为对象命中率，确实需引入字节修正因子，该验证逻辑符合缓存系统基本原理。
+
+## Search Query
+
+Validate cache residence time formula using miss request byte rate versus object miss rate

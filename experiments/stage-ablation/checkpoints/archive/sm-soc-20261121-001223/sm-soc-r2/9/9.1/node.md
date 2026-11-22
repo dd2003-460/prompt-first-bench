@@ -1,0 +1,20 @@
+# N77: 平台佣金收入损失 ΔR_platform 的计算公式定义为：ΔR_platform = (1 - Retention_Sellers) * GMV_Baseli
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N26
+
+## Claim
+
+平台佣金收入损失 ΔR_platform 的计算公式定义为：ΔR_platform = (1 - Retention_Sellers) * GMV_Baseline * Commission_Rate，其中 Retention_Sellers 为干预后高溢价卖家留存率，GMV_Baseline 为干预前月 GMV，Commission_Rate 为平台平均抽成比例（通常 3%-5%）。
+
+## Corrected Claim
+
+平台佣金收入损失 ΔR_platform 的计算公式定义为：ΔR_platform = (1 - Retention_Sellers) * GMV_Baseline * Commission_Rate，其中 Retention_Sellers 为干预后高溢价卖家留存率，GMV_Baseline 为干预前月 GMV，Commission_Rate 为平台平均抽成比例（通常 3%-5%）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

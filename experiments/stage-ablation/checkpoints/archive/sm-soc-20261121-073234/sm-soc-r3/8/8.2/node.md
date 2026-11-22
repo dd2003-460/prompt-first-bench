@@ -1,0 +1,24 @@
+# N112: 停止搜索阈值 Threshold_stop 的量化定义：买家停止搜索并询价的条件是 P_listed <= P_reserve * (1 - Threshold
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N33
+
+## Claim
+
+停止搜索阈值 Threshold_stop 的量化定义：买家停止搜索并询价的条件是 P_listed <= P_reserve * (1 - Threshold_stop)，其中 Threshold_stop 代表买家愿意接受的‘最大折扣深度’，若 Threshold_stop < 15%（即要求折扣>15%），则小幅降价（<15%）无法触发咨询，这与题面 60% 卖家降价后无咨询现象一致。
+
+## Corrected Claim
+
+停止搜索阈值 Threshold_stop 的量化定义：买家停止搜索并询价的条件是 P_listed <= P_reserve * (1 - Threshold_stop)，其中 Threshold_stop 代表买家愿意接受的‘最大折扣深度’，若 Threshold_stop < 15%（即要求折扣>15%），则小幅降价（<15%）无法触发咨询，这与题面 60% 卖家降价后无咨询现象一致。
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备（子节点2和3讨论的是搜索成本(L_search)和错过损失(L_miss)，这些是决策模型中的独立变量，而非对父节点中定义的特定停止阈值公式(Threshold_stop)的分解。父节点仅关注停止条件的数学定义，而子节点2和3引入了父节点未包含的额外概念，导致正交性破坏（子节点2/3与父节点定义的正交性不足，因为它们不属于该公式的组成部分）和完备性不足（子节点1试图推导阈值，但引入了父节点未定义的Uncertainty_Premium，且未覆盖父节点中提到的'最大折扣深度'语义解释）。）
+
+## Search Query
+
+consumer search theory stopping rule threshold discount rate second hand market

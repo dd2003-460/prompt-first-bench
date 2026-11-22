@@ -1,0 +1,24 @@
+# N112: 条件分支2（预算$5,000-$8,000, INT8量化）的硬件可行性验证：1× A6000 Ada 48GB 在 INT8 量化下总显存需求为 49.74G
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N31
+
+## Claim
+
+条件分支2（预算$5,000-$8,000, INT8量化）的硬件可行性验证：1× A6000 Ada 48GB 在 INT8 量化下总显存需求为 49.74GB (N8)，超出 48GB 显存容量 1.74GB，需验证是否可通过 KV Cache 量化（FP8/INT8）或框架优化（如 PagedAttention）降低占用至 48GB 以内，否则该方案不可行，需降级至 W4 或升级至 80GB 卡。
+
+## Corrected Claim
+
+条件分支2（预算$5,000-$8,000, INT8量化）的硬件可行性验证：若1× A6000 Ada 48GB 在 INT8 量化下总显存需求超出 48GB 显存容量（如计算值为 49.74GB），需验证是否可通过 KV Cache 量化或框架优化降低占用，否则该方案不可行，需降级至 W4 或升级至 80GB 卡。
+
+## Evidence
+
+[质询]该陈述包含具体的显存占用数值（49.74GB）和硬件规格（A6000 Ada 48GB），属于经验事实。由于检索失败，无法验证49.74GB这一具体数值的准确性，也无法确认A6000 Ada是否存在48GB版本（通常A6000为48GB，但Ada系列命名和规格需核实，且49.74GB的精确计算依赖于未提供的模型参数细节）。 | 逻辑上，49.74GB > 48GB 导致不可行并建议降级或升级是合理的工程推断；但作为经验事实，缺乏来源支持具体数值和硬件兼容性细节，故降级。
+
+## Search Query
+
+A6000 Ada 48GB INT8 quantization Qwen3-27B 32K context memory overflow optimization

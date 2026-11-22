@@ -1,0 +1,24 @@
+# N168: ROCm 软件栈在 LLM 推理上的性能损耗系数：实测数据显示，在同等硬件带宽下，ROCm 的 vLLM/llama.cpp 实现效率通常仅为 CUDA 栈的 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N54
+
+## Claim
+
+ROCm 软件栈在 LLM 推理上的性能损耗系数：实测数据显示，在同等硬件带宽下，ROCm 的 vLLM/llama.cpp 实现效率通常仅为 CUDA 栈的 70-80% [待核验：最新 ROCm 6.1 优化数据]，导致实际吞吐约为理论值的 0.75 倍，即 71.1 * 0.75 ≈ 53.3 tokens/s。
+
+## Corrected Claim
+
+ROCm 软件栈在 LLM 推理上的性能通常低于 CUDA 栈，具体损耗系数取决于硬件配置、软件版本及优化程度，需参考最新基准测试数据。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性性能损耗系数（70-80%）和特定软件版本（ROCm 6.1）的优化数据，属于硬件/软件性能经验事实，无法从第一性原理推导；且参考来源全部缺失，无法验证该具体数值范围的准确性及最新版本的实际表现。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体损耗系数及版本数据）
+
+## Search Query
+
+ROCm vs CUDA LLM inference benchmark 2024 performance ratio vLLM

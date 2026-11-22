@@ -1,0 +1,28 @@
+# N317: ‘算法高曝光位’的操作化定义与量化指标：定义为商品在搜索结果页排名前 10 位或首页推荐流中，曝光量 E_impressions > 500 次/天；需验证在该
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N106
+
+## Claim
+
+‘算法高曝光位’的操作化定义与量化指标：定义为商品在搜索结果页排名前 10 位或首页推荐流中，曝光量 E_impressions > 500 次/天；需验证在该阈值下 b 值的显著性（p < 0.05），以及在自然流量（E < 50）下 b 值是否趋近于 0。
+
+## Corrected Claim
+
+‘算法高曝光位’通常指商品在搜索结果页排名前列或首页推荐流中，具有显著高于自然流量的曝光量；具体量化阈值（如曝光量>500次/天）需根据特定平台数据分布及统计检验结果（如b值显著性p<0.05）进行实证确定，而非固定通用标准。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（曝光量>500次/天、E<50）和统计显著性要求（p<0.05），这些属于特定平台（如亚马逊）的运营经验参数，无法从第一性原理推导，且参考来源未提供这些具体数值的支持。 | 逻辑自洽，但参考来源[1]仅讨论广告位调整策略，未提供‘高曝光位’的具体量化定义（如500次/天阈值）或b值显著性验证数据，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+definition of high exposure ranking in e-commerce search results threshold impressions per day impact on price elasticity
+
+## Retrieval Sources
+
+- {'url': 'https://ask.cocoloop.cn/news/amazon-ad-placement-2026&rut=f5fd2d02ab039f3a8065a3a3e62adc1b956614212dcd8f59e77e04f323f12322', 'type': 'ddg', 'title': '2026广告曝光集中在商品页面怎么调？三步拉回顶部流量 | CocoLoop'}

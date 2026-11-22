@@ -1,0 +1,20 @@
+# N33: RTX 5090 (32GB) 单卡在 32K 上下文下的最大可行精度验证：FP8 权重 (27GB) + BF16 KV Cache (12.58GB) = 
+
+- **status**: verified
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+RTX 5090 (32GB) 单卡在 32K 上下文下的最大可行精度验证：FP8 权重 (27GB) + BF16 KV Cache (12.58GB) = 39.58GB > 32GB (溢出)；INT4 权重 (13.5GB) + BF16 KV Cache (12.58GB) = 26.08GB < 32GB (可行，剩余 ~5.9GB 缓冲)。结论：单卡 5090 可使用 INT4 权重配合 BF16 KV Cache，或 FP8 权重配合 FP8 KV Cache (27+6.29=33.29GB > 32GB 溢出，故 FP8 权重不可行，必须 INT4 或更低)。
+
+## Corrected Claim
+
+RTX 5090 (32GB) 单卡在 32K 上下文下的最大可行精度验证：FP8 权重 (27GB) + BF16 KV Cache (12.58GB) = 39.58GB > 32GB (溢出)；INT4 权重 (13.5GB) + BF16 KV Cache (12.58GB) = 26.08GB < 32GB (可行，剩余 ~5.9GB 缓冲)。结论：单卡 5090 可使用 INT4 权重配合 BF16 KV Cache，或 FP8 权重配合 FP8 KV Cache (27+6.29=33.29GB > 32GB 溢出，故 FP8 权重不可行，必须 INT4 或更低)。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别聚焦于硬件参数修正（带宽）、INT4方案性能推导、FP8方案溢出后的补救策略及可行性验证。三者逻辑独立，无重复或矛盾，且共同覆盖了父节点中关于显存限制、精度选择及性能对比的所有关键方面。）

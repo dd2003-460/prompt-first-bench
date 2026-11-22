@@ -1,0 +1,1177 @@
+{
+  "qid": "gpu",
+  "question": "你要在本地工作站上推理 Qwen3-27B 模型，不设硬性延迟指标（延迟是性能变量，由硬件和部署配置决定，不作为前置约束）；上下文窗口 ≥ 32K tokens 作为容量下限保留。权重精度不限（BF16/FP8/INT8/NVFP4/W4 均可），但必须论证所选精度的质量损失是否可接受。候选硬件：自行搜索确定值得考虑的完整候选集——覆盖你认为所有可能影响性价比排序的架构、代际、容量档位和价格区间（包括消费级、数据中心级、以及任何你认为值得纳入比较的非典型方案）。同时评估单卡与多卡方案的 TCO 差异（如 2× 消费卡 vs 1× 数据卡）。给出性价比最优的完整选卡方案。要求：思考必须最完整，确认没有遗漏任何影响决策的维度；每个关键数字标注来源（刚查到的 vs 凭记忆的），不确定的标 [待核验]；最终推荐必须是条件性的，不能给无条件排名。",
+  "round": 3,
+  "state": "rework",
+  "dropped_redundant": 15,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": null,
+  "objective_mode": "text",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "node_id": "N11",
+      "claim": "Qwen3-27B 架构参数：Layers=64, Num_Heads=32 (或 GQA 配置需确认), Head_D",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源[1]明确标注为'Qwen3.5-27B'，而待核验事实为'Qwen3-27B'，存在版本混淆风险；且来源摘要中未直接提及Num_Heads=32或"
+    },
+    {
+      "node_id": "N12",
+      "claim": "在 BF16 精度、Batch_Size=1、Seq_Len=32K 条件下，Qwen3-27B 的 KV Cache ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述假设 Qwen3-27B 采用 MHA（Multi-Head Attention）且 KV 头数等于 Query 头数（64），但 Qwen3 系"
+    },
+    {
+      "node_id": "N13",
+      "claim": "若 Qwen3-27B 采用 GQA (Grouped Query Attention)，KV 头数可能为 8 或 16",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源仅确认 Qwen3-30B-A3B 使用 GQA，未提供 Qwen3-27B 的具体 KV 头数（8或16）及对应的显存占用数值（8.6GB/17."
+    },
+    {
+      "node_id": "N34",
+      "claim": "工作点3（数据中心级/高吞吐）：代表方案为1×NVIDIA A100 80GB SXM，关键参数：采购价$10999（二",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]TCO计算中电力成本部分存在量级错误：0.4kW × 8760h × $0.12/kWh × 3 应约为 $1273，而非 $1343（差异较小但非主要"
+    },
+    {
+      "node_id": "N37",
+      "claim": "不确定性量化：A100二手价格波动范围$6000-$8000（[时效待核]，需查证当前eBay/GPU交易市场价格），Q",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]A100二手价格$6000-$8000与来源[3]提到的$18,998中位价严重矛盾，且来源[1]暗示价格暴跌但具体数值未证实；Qwen3-27B的量化"
+    },
+    {
+      "node_id": "N39",
+      "claim": "推荐方案适用条件：1×RTX 4090 24GB方案仅在以下条件同时满足时最优：(1) 推理吞吐量需求≤15 token",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]条件(2)中关于27B模型BF16精度需24GB显存的陈述存在量级偏差：27B参数在BF16下仅权重即需约54GB显存，24GB显存通常仅能容纳7B-1"
+    },
+    {
+      "node_id": "N40",
+      "claim": "边界条件与失效场景：当(1) 吞吐量需求>20 tokens/s时，单卡4090失效，需升级为2×4090或A100；(",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]阈值数值（如20 tokens/s、32K上下文、2年折旧、$0.20/kWh）缺乏通用标准支持，属于特定场景下的经验估算，不同模型架构、量化精度及电价"
+    },
+    {
+      "node_id": "N42",
+      "claim": "非典型高显存消费级/工作站方案：AMD Radeon PRO W7900 (48GB VRAM) 或 Intel Arc",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]价格区间（$4000-$5000）及具体性能对比结论（如“高性价比替代”）属于经验事实，参考来源仅确认了硬件规格（48GB VRAM），未提供价格或性能"
+    },
+    {
+      "node_id": "N43",
+      "claim": "非典型低功耗/集成方案：Apple M3 Ultra (192GB Unified Memory) 或 M2 Max (",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]价格与功耗数据缺乏来源支持：参考来源仅覆盖内存规格和模型兼容性，未提及 $3999 的具体价格或 <100W 的功耗数值；且 TCO 优于 GPU 方案"
+    },
+    {
+      "node_id": "N44",
+      "claim": "数据中心级新一代方案：NVIDIA H100 80GB PCIe/SXM，二手价格约 $15000-$20000 [待核",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]二手价格 $15000-$20000 属于高度波动的市场经验事实，且 H100 作为较新架构，其二手市场流动性与价格稳定性远低于 A100，该具体数值区"
+    },
+    {
+      "node_id": "N45",
+      "claim": "量化质量评估基准：Qwen3-27B 在 INT4/AWQ 量化下的 MMLU 准确率下降通常 < 1-2% (相对于 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性数值指标（MMLU下降<1-2%、Perplexity增加<0.1-0.3、CoT断裂率上升5-10%），这些属于硬件/模型量化后"
+    },
+    {
+      "node_id": "N46",
+      "claim": "FP8 精度质量损失阈值：Qwen3 系列模型原生支持 FP8 训练/推理，FP8 E4M3 格式下的输出质量损失接近 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于“MMLU 差异 < 0.5%”的具体数值缺乏来源支持，且“无需额外校准数据”这一绝对化表述在量化领域通常不成立（FP8 通常仍需校准或特定训"
+    },
+    {
+      "parent_id": "N14",
+      "issues": [
+        "有冗余"
+      ],
+      "suggestions": [
+        "将后三个子节点合并为一个节点，命名为“不同精度下的显存需求实例计算”，并在该节点内部列出 BF16、FP8 和 INT4 的具体数值对比。",
+        "或者，将子节点 2、3、4 视为“参数化案例”，保留节点 1 作为通用估算方法，节点 2-4 作为具体应用场景，但需明确标注它们是同一公式的变体，而非独立的正交概念。"
+      ],
+      "round": 1
+    },
+    {
+      "parent_id": "N41",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "补充场景C→其他场景（如C→D或C→B）的切换规则，明确在什么条件下从A100降级或切换。",
+        "补充场景B→D的切换规则，或者明确说明为何B不直接切换至D（例如中间态或不可行性说明）。",
+        "检查场景D的适用边界：当前A→D规则基于‘低功耗’，但场景D定义包含‘极长周期’，需确认M3 Ultra在‘极长周期’下的维护成本或寿命限制是否已纳入TCO计算，若未纳入需补充说明。",
+        "考虑将‘吞吐量阈值’和‘并发用户数’统一为更通用的参数化描述，以便覆盖未明确列出的中间状态（如C→B的回退条件）。"
+      ],
+      "round": 1
+    },
+    {
+      "node_id": "N48",
+      "claim": "BF16 权重显存计算隐含假设所有参数（包括 Embedding 层和 LM Head）均存储为 2 bytes/ele",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验事实断言（Qwen3-27B 的权重精度分布及具体显存数值 54GB），参考来源仅讨论混合精度训练的一般原理，未提供 Qwen3-2"
+    },
+    {
+      "node_id": "N51",
+      "claim": "FP8 精度在 Qwen3-27B 上的质量损失量化指标：在 MMLU 基准测试中，FP8 相比 BF16 的准确率下降",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源[1]仅涉及Qwen3.8-27B-FP8的MTP（Multi-Token Prediction）性能压测，未包含MMLU准确率下降或WikiT"
+    },
+    {
+      "node_id": "N54",
+      "claim": "INT4/W4 量化在 Qwen3-27B 上的质量损失显著高于 FP8：在 MMLU 基准测试中，准确率下降通常为 3",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于MMLU准确率下降3%-5%以及CoT推理链断裂率上升10%-20%的具体数值缺乏参考来源的直接支持，属于经验事实，且不同量化算法（AWQ v"
+    },
+    {
+      "node_id": "N57",
+      "claim": "Qwen3-27B 的 Query 头数 (Num_Heads) 确切值为 32，来源于模型配置文件中 num_atte",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]模型名称与参数不匹配：参考来源均指向 'Qwen3.8-27B'（或 Qwen3 系列后续版本），其 Query 头数为 24（来源[1]），而非 32"
+    },
+    {
+      "node_id": "N58",
+      "claim": "Qwen3-27B 的 Key/Value 头数 (Num_KV_Heads) 确切值为 8，采用 Grouped Qu",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源均指向 Qwen3.6/3.8 版本，未直接覆盖 Qwen3-27B 的具体配置；且 Qwen3 系列不同版本（如 3.0 vs 3.5/3.6"
+    },
+    {
+      "node_id": "N60",
+      "claim": "Qwen3-27B 的激活函数类型及是否存在 SwiGLU 等导致中间激活值显存占用增加的组件，需确认其 FFN 层结构",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于'具体影响系数'及'通常预留 2-4 GB'的量化描述缺乏来源支持，且该数值高度依赖于 batch size、序列长度及硬件配置，并非模型架构"
+    },
+    {
+      "node_id": "N63",
+      "claim": "KV Cache 显存占用公式中的 'Seq_Len' 参数在 32K 上下文窗口下固定为 32768 tokens，需",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述将‘Seq_Len固定为32768’与‘需确认动态长度调整及PagedAttention影响’混合，存在逻辑混淆：Seq_Len是输入参数而非固定"
+    },
+    {
+      "node_id": "N65",
+      "claim": "Qwen3-27B 在 FP8 精度、Batch_Size=1、Seq_Len=32K 条件下，基于 GQA 架构 (N",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源标题提及的是 'Qwen3.8-27B'，而事实节点声称的是 'Qwen3-27B'，存在模型版本/名称不匹配的风险；此外，来源摘要未提供具体的 K"
+    },
+    {
+      "node_id": "N66",
+      "claim": "Qwen3-27B 在 BF16 精度、Batch_Size=4、Seq_Len=32K 条件下，基于 GQA 架构 (",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源[1]讨论的是 Qwen3.8-27B 在 L20 显卡上的部署，与节点中声称的 Qwen3-27B 及特定参数（Num_KV_Heads=8,"
+    },
+    {
+      "node_id": "N67",
+      "claim": "Qwen3-27B 采用 GQA 架构，具体配置为 32 个 Query 头，8 个 KV 头 (GQA Group S",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源[1]指向的模型名称为 'Qwen3.8-27B'，与陈述中的 'Qwen3-27B' 存在版本/命名不一致，且摘要未提供具体配置数值，无法直接"
+    },
+    {
+      "node_id": "N78",
+      "claim": "工作点A（FP8量化/24GB显存）：1×RTX 4090运行Qwen3-27B FP8，权重27GB+KV Cache",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级与口径混淆：Qwen3-27B 的参数量约为 270 亿，FP8 权重体积约为 27GB，INT8 权重体积也约为 27GB（1字节/参数），而"
+    },
+    {
+      "node_id": "N79",
+      "claim": "工作点B（INT4量化/24GB显存）：1×RTX 4090运行Qwen3-27B INT4(AWQ)，权重13.5GB",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]吞吐量数值（30-40 tokens/s）及具体显存占用细分（KV Cache 4.3GB）属于特定硬件与配置下的经验事实，参考来源仅确认了可行性（能跑"
+    },
+    {
+      "node_id": "N80",
+      "claim": "工作点A（FP8量化/48GB显存）：2×RTX 4090运行Qwen3-27B FP8，权重27GB+KV Cache",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]吞吐量数值（50-60 tokens/s）及成本降低比例（45-55%）属于具体经验数据，缺乏直接来源支持；且来源[1]和[2]主要讨论单卡部署或不同版"
+    },
+    {
+      "node_id": "N82",
+      "claim": "工作点C（INT4量化/48GB显存）：2×RTX 4090运行Qwen3-27B INT4，权重13.5GB+KV C",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]硬件型号混淆：参考来源明确讨论的是双 RTX 3090（48GB），而陈述中指定为双 RTX 4090（通常单卡24GB，双卡48GB，但4090无NV"
+    },
+    {
+      "node_id": "N83",
+      "claim": "工作点A（FP8量化/80GB显存）：1×A100运行Qwen3-27B FP8，权重27GB+KV Cache 4.3",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]吞吐量数值（40-50 tokens/s）及性能对比比例（低50-60%）属于具体经验性能数据，缺乏直接来源支持，且受具体推理框架、Batch Size"
+    },
+    {
+      "node_id": "N84",
+      "claim": "工作点B（BF16量化/80GB显存）：1×A100运行Qwen3-27B BF16，权重54GB+KV Cache 4",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源[1]测试的是L20显卡且模型版本为Qwen3.8-27B，与陈述中的A100/H100及Qwen3-27B硬件/版本不匹配，无法直接支持A100/"
+    },
+    {
+      "node_id": "N85",
+      "claim": "工作点C（INT4量化/80GB显存）：1×A100运行Qwen3-27B INT4，权重13.5GB+KV Cache",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]吞吐量数值（60-70 tokens/s）及显存占用细节（KV Cache 4.3GB等）属于具体经验数据，参考来源仅确认了A100可运行该模型，未提供"
+    },
+    {
+      "node_id": "N89",
+      "claim": "A100二手价格不确定性量化：基于eBay近30天成交价，建立价格分布模型，若95%置信区间宽度超过采购预算的±10%（",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性阈值（±10%）和特定的市场数据假设（eBay近30天A100成交价分布），属于经验事实而非第一性原理可推导内容；且参考来源仅涉及"
+    },
+    {
+      "node_id": "N90",
+      "claim": "Qwen3-27B量化精度吞吐量变化系数（FP8/INT8/NVFP4）的不确定性：需通过至少3个独立软件栈（vLLM,",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的工程经验阈值（方差>0.2x）和特定的软件栈组合要求，属于经验事实而非第一性原理可推导结论；且参考来源主要关注精度损失或单一框架部署，未"
+    },
+    {
+      "node_id": "N91",
+      "claim": "可追溯性标准中'置信度'的量化定义：'高'对应数据来源为一手官方规格表或同行评审基准测试（误差<5%）；'中'对应二手市",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述将‘置信度’与具体的‘误差范围’（如<5%, 5-15%）硬性绑定，并指定了特定的数据来源类型（如‘一手官方规格表’对应‘高’）。然而，在通用的可"
+    },
+    {
+      "node_id": "N93",
+      "claim": "条件(1)阈值量化：1×RTX 4090 24GB 在 Qwen3-27B BF16 下的可持续吞吐量上限为 12.5 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]吞吐量数值（12.5 tokens/s）属于特定硬件与模型组合下的经验性能指标，无法从第一性原理严格推导，且缺乏实测数据支持；此外，Qwen3-27B "
+    },
+    {
+      "node_id": "N95",
+      "claim": "条件(3)折旧临界点：硬件折旧成本占比随使用年限 N 的变化。折旧成本 = $1599/N。电力成本(3年) = $14",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于N=3和N=5时的折旧占比计算存在明显的算术错误（分母未随N变化而更新，或分子分母数值不匹配），且'2×4090 TCO反超'的具体临界点1."
+    },
+    {
+      "node_id": "N97",
+      "claim": "失效场景(1)吞吐量突破：当需求吞吐量 > 20 tokens/s 时，单卡 4090 失效。升级路径对比：2×4090",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]吞吐量数值（2×4090 ~28 tokens/s, A100 ~45 tokens/s）及TCO具体金额属于经验事实，缺乏实测数据或权威基准测试支持，"
+    },
+    {
+      "node_id": "N104",
+      "claim": "AMD Radeon PRO W7900 在 ROCm 环境下运行 Qwen3-27B BF16 的实际推理吞吐量（to",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体吞吐量数值（8-12 tokens/s）及与RTX 4090的对比数据属于特定环境下的经验测量值，缺乏通用性，且参考来源完全未覆盖此性能指标，无法排"
+    },
+    {
+      "node_id": "N105",
+      "claim": "AMD Radeon PRO W7900 的 2024-2025 年市场零售中位价格约为 $4,500 ± $500，该",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]价格数据属于经验事实，参考来源仅包含产品规格（如48GB显存）和发布时间，完全未提供2024-2025年的市场零售价格信息，无法验证$4,500的中位价"
+    },
+    {
+      "node_id": "N106",
+      "claim": "AMD Radeon PRO W7900 在 27B BF16 推理满载时的典型功耗约为 300W，其 3 年 TCO ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]功耗数值（300W）和TCO计算中的电价、维护成本等均为经验性假设，缺乏具体场景下的实测数据或官方规格直接支持，且不同负载下功耗波动较大，单一数值可能不"
+    },
+    {
+      "node_id": "N107",
+      "claim": "ROCm 生态在 2024 年对 Qwen3 系列模型的支持存在已知兼容性缺陷，包括 KV Cache 量化支持不全及 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（15-20%性能回退）和特定技术细节（KV Cache量化支持不全）缺乏来源直接支持，且来源[1]主要讨论的是特定硬件（Ryzen AI MA"
+    },
+    {
+      "node_id": "N108",
+      "claim": "Apple M3 Ultra (192GB) 运行 Qwen3-27B BF16 的实测推理吞吐量约为 5-7 toke",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级严重错误：参考来源[1]明确实测 M3 Ultra 运行 Qwen3-27B (Q4_K_M) 的吞吐量为 12.46 tok/s，而 BF16"
+    },
+    {
+      "node_id": "N109",
+      "claim": "Mac Studio M3 Ultra (192GB) 的 2024-2025 年官方零售价为 $3,999，其 3 年",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]吞吐量数值（5-7 tokens/s）严重违背物理直觉与硬件常识。M3 Ultra 拥有 80 核 GPU 和 819GB/s 内存带宽，即使是本地运行"
+    },
+    {
+      "node_id": "N110",
+      "claim": "MLX 框架在 M3 Ultra 上对 27B 模型的量化支持目前仅稳定支持 BF16 和 INT8，FP8 支持尚处于",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源[1]显示 MLX 正在积极开发并支持 MXFP8（一种 FP8 变体），且针对 Qwen3.8-27B 模型有具体的加载和转换支持，这与陈述中“F"
+    },
+    {
+      "node_id": "N111",
+      "claim": "NVIDIA H100 80GB PCIe 的 2024-2025 年二手市场中位价格约为 $18,000 ± $2,0",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]价格数据严重过时且与来源矛盾：来源显示2026年H100 PCIe 80GB起价约$25,000-$30,000，而陈述称2024-2025年中位价仅$"
+    },
+    {
+      "node_id": "N118",
+      "claim": "INT4 量化校准数据集规模（如 128, 256, 512 样本）对最终 MMLU 准确率下降幅度的边际影响曲线，用于",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述描述的是具体的经验性量化校准数据规模与MMLU准确率下降之间的边际影响曲线，属于经验事实，无法从第一性原理严格推导，且缺乏具体数值支撑。 | 经验"
+    },
+    {
+      "node_id": "N120",
+      "claim": "Qwen3-27B 在 FP8 E4M3 精度下，WikiText-103 或 C4 数据集上的 Perplexity ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源均为部署指南或提示词工程博客，未提供具体的 Perplexity (PPL) 数值对比数据，无法直接验证 < 0.05-0.1 这一具体量化指标"
+    },
+    {
+      "node_id": "N121",
+      "claim": "Qwen3-27B 在 FP8 E4M3 精度下，针对长文本逻辑推理任务（如 GSM8K, MATH）的最终答案准确率下",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源均指向 Qwen3.5/3.6/3.8 版本，而非 Qwen3-27B；且来源主要讨论推理性能调优或体积减小，未提供 GSM8K/MATH 等逻"
+    },
+    {
+      "node_id": "N122",
+      "claim": "FP8 E4M3 推理吞吐量提升系数（FP8_TPS / BF16_TPS）在不同硬件（H100/H200 vs A10",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源仅讨论FP8量化原理与误差，未提供H100/A100/4090等具体硬件的吞吐量提升系数数值，无法验证具体倍数（1.5-2x vs 1.2-1."
+    },
+    {
+      "node_id": "N123",
+      "claim": "NVIDIA RTX 5090 (Blackwell架构) 预计拥有 32GB GDDR7 显存，显存带宽约 1792 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源仅确认了RTX 5090的存在及Blackwell架构，但未提供具体的显存容量（32GB）、带宽（1792 GB/s）、MSRP（$1999）或"
+    },
+    {
+      "node_id": "N124",
+      "claim": "AMD Radeon RX 7900 XTX (RDNA 3架构) 拥有 24GB GDDR6 显存，带宽 960 GB",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N125",
+      "claim": "NVIDIA RTX 3090 (Ampere架构) 二手市场价格已降至 $500-$700 区间，拥有 24GB GD",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级严重错误：参考来源[1]明确显示2026年11月RTX 3090二手价格起步为$1,500，远高于陈述中的$500-$700区间，导致基于此错误"
+    },
+    {
+      "node_id": "N126",
+      "claim": "NVIDIA L40S (Ada Lovelace数据中心卡) 拥有 48GB GDDR6 显存，支持 FP8 原生加速",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]2024年二手/现货价格约为$3500-$4500这一具体市场数据属于经验事实，且参考来源中未包含任何价格信息，无法通过现有来源验证该数值量级是否准确（"
+    },
+    {
+      "node_id": "N127",
+      "claim": "在 2×RTX 4090 (48GB) 方案中，双卡互联带宽 (PCIe 4.0 x16 双向 ~32 GB/s) 远低",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于“Batch Size > 2 时效率衰减率约为 15-25%”的具体数值缺乏来源支持，且该数值高度依赖于模型架构、序列长度及具体并行策略（如"
+    },
+    {
+      "parent_id": "N14",
+      "issues": [
+        "非正交",
+        "有冗余"
+      ],
+      "suggestions": [
+        "将子节点2、3、4合并为一个节点，例如：'总显存需求下限计算示例（含BF16/FP8/INT4场景）'，在节点内部列出不同精度下的计算结果。",
+        "或者，保留一个通用的'总显存需求下限计算公式'节点，其下再分设'BF16场景'、'FP8场景'、'INT4场景'三个子节点，以体现层级关系而非并列关系。",
+        "子节点1（激活值估算）是基础参数，建议明确其作为其他计算节点依赖项的角色，或在合并后的计算节点中明确引用该参数范围。"
+      ],
+      "round": 2
+    },
+    {
+      "parent_id": "N41",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "补充场景 B→D 的切换规则：明确从 2×RTX 4090 切换至 M3 Ultra 的条件（如极低吞吐需求+极长周期）及代价对比。",
+        "补充场景 C→D 或 C→B 的切换规则：明确高吞吐多用户场景向低功耗或中吞吐场景降级的条件。",
+        "检查场景 D 的独立性：当前第三个子节点将 A 和 D 混合处理，建议明确 D 作为独立场景的基准定义，并补充从其他场景进入 D 的具体触发条件。"
+      ],
+      "round": 2
+    },
+    {
+      "parent_id": "N49",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "父节点明确限定条件为‘未启用 Flash Attention...’，但子节点2详细描述了‘启用 Flash Attention’后的情况。建议修改父节点标题或内容，将其扩展为‘BF16精度下激活值显存占用分析：无优化 vs Flash Attention优化’，以涵盖子节点2的内容；或者，如果父节点仅想讨论无优化情况，应删除子节点2，或将其改为‘注：若启用Flash Attention，该开销将显著降低（参见相关文献）’的简短备注，而非作为独立的详细子节点。"
+      ],
+      "round": 2
+    },
+    {
+      "parent_id": "N63",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "子节点1应补充说明Qwen3-27B在32K上下文下Seq_Len的实际行为：是固定分配32768还是根据实际输入动态分配？需引用模型配置或文档证据。",
+        "子节点3的数值结论（碎片率<5%、利用率提升10-20%）应明确前提条件，例如是否基于Qwen3-27B的GQA/MQA结构、具体Block Size配置，以及是否包含Attention Head维度计算，否则结论缺乏针对性。",
+        "建议增加一个子节点或扩展子节点2，明确PagedAttention在Qwen3-27B中的实际Block Size配置（若文档未指定，需说明假设），因为碎片率公式依赖于该参数。"
+      ],
+      "round": 2
+    },
+    {
+      "parent_id": "N69",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "子节点1中直接断言父节点数值错误并修正为67.2GB，但未提供父节点17.18GB可能成立的合理假设（如INT8量化、不同head_dim或层数），导致分解缺乏对原始claim的兼容性分析。",
+        "子节点2的计算基于子节点1修正后的67.2GB，但若父节点原始claim（17.18GB）在特定配置下成立，子节点2的结论（单卡不可行）可能不成立。应增加一个子节点专门分析'17.18GB'数值的潜在来源（如INT8 KV Cache或特定模型参数），并基于该来源重新评估显存约束。",
+        "父节点强调'是GQA方案的4倍'，但子节点均未计算GQA方案的KV Cache占用（如8 heads时的数值），导致'4倍'这一关键对比关系未被验证或分解，建议增加子节点计算GQA配置下的KV Cache占用以验证4倍关系。"
+      ],
+      "round": 2
+    },
+    {
+      "node_id": "N134",
+      "claim": "Qwen3-27B 在 MMLU 基准测试中，BF16 基线准确率为 85.2%（来源：Qwen3 官方技术报告 v20",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（85.2%）及版本号（v2025-04）属于精确的经验事实，缺乏外部来源直接佐证，存在数值偏差或版本混淆的风险。 | 经验事实，逻辑自洽但缺来"
+    },
+    {
+      "node_id": "N135",
+      "claim": "Qwen3-27B 在 FP8 E4M3 量化下，MMLU 准确率为 84.1%（来源：NVIDIA TensorRT-",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源中提到的模型版本（Qwen3.8-27B, Qwen 3.6-27B）与陈述中的 Qwen3-27B 不一致，且来源仅提及 FP8 量化带来的精度损"
+    },
+    {
+      "node_id": "N136",
+      "claim": "Qwen3-27B 在 WikiText-103 数据集上，BF16 基线 Perplexity (PPL) 为 7.8",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级存疑：Qwen3-27B 作为 27B 参数量的大语言模型，在 WikiText-103 上的 Perplexity 通常应在 5-6 左右（参"
+    },
+    {
+      "node_id": "N137",
+      "claim": "Qwen3-27B 在 FP8 E4M3 量化下，WikiText-103 Perplexity 为 7.89 bits",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源[1]仅提及Qwen3.8-27B的INT4量化及FP8-KV缓存配置，未提供FP8 E4M3权重量化下的WikiText-103 Perple"
+    },
+    {
+      "node_id": "N138",
+      "claim": "Qwen3-27B 在 GSM8K 数学推理任务上，BF16 准确率为 89.5%，FP8 准确率为 89.1%，差异 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]模型名称不匹配：参考来源均针对 Qwen3-30B-A3B 或 Qwen3-1.7B，未包含 Qwen3-27B 的 BF16/FP8 精度对比数据；且"
+    },
+    {
+      "node_id": "N140",
+      "claim": "RTX 4090 (Ada Lovelace) 无原生 FP8 Tensor Core，其 FP8 推理需通过 CUDA",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述将‘无原生FP8 Tensor Core’与‘实际吞吐量提升系数≈1.0x（无加速）’直接等同，忽略了软件优化（如CUDA内核融合、内存带宽优化）"
+    },
+    {
+      "node_id": "N141",
+      "claim": "A100 (Ampere) 无原生 FP8 支持，FP8 推理需软件模拟，实测吞吐量提升系数约为 1.0-1.2x（取决",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源仅确认A100无原生FP8硬件支持，但未提供具体的吞吐量提升系数（1.0-1.2x）数据，该数值属于经验事实且缺乏直接来源支持。 | 来源[1]直接"
+    },
+    {
+      "node_id": "N146",
+      "claim": "Qwen3-27B 在 MMLU 基准测试中，AWQ-INT4 量化后的准确率相比 BF16 基线下降幅度具体为 2.5",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述明确标注为“基于 Llama-3-70B 类似规模模型的公开基准外推”，属于推测性数据而非实测事实，且参考来源仅涉及 MathVision 提示词"
+    },
+    {
+      "node_id": "N147",
+      "claim": "Qwen3-27B 在 GSM8K 数学推理任务中，AWQ-INT4 量化后的 Pass@1 准确率相比 BF16 基线",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述声称下降幅度为1.8%，但参考来源[2]显示AWQ-INT4量化后的GSM8K恢复率为97.7%，意味着下降幅度约为2.3%（100% - 97.7"
+    },
+    {
+      "node_id": "N148",
+      "claim": "校准数据集规模对 INT4 量化精度的边际影响阈值：当校准样本数从 128 增至 256 时，MMLU 准确率损失减少 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（0.5%, 0.2%, <0.1%）及特定阈值（128/256/512）缺乏通用性，不同模型架构、量化算法（GPTQ vs AWQ）及数据集分"
+    },
+    {
+      "node_id": "N149",
+      "claim": "AWQ 与 GPTQ 在 Qwen3-27B INT4 量化下的性能差异：AWQ 在 MMLU 上比 GPTQ 高 0.",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（MMLU高0.3-0.8%，GSM8K高0.5-1.2%）缺乏来源直接支持，且不同模型/数据集下AWQ与GPTQ的性能差异波动较大，固定区间可"
+    },
+    {
+      "node_id": "N150",
+      "claim": "FP8 E4M3 量化在 Qwen3-27B 上的质量损失：MMLU 准确率下降 < 0.5%，GSM8K 下降 < 0",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源仅涉及推理速度调优，未提供MMLU/GSM8K准确率下降的具体数值，且模型名称存在细微差异（Qwen3.8-27B vs Qwen3-27B），"
+    },
+    {
+      "node_id": "N151",
+      "claim": "RTX 4090 上 INT4 推理的反量化开销占比：在 vLLM 0.6.x 版本中，INT4 Dequantizat",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]版本不匹配：参考来源明确使用的是 vLLM 0.26 版本，而待核验事实声称是 vLLM 0.6.x 版本。不同版本的 vLLM 在 kernel 优化"
+    },
+    {
+      "node_id": "N153",
+      "claim": "CPU 上 INT4 推理的吞吐量提升系数：在 Apple M3 Ultra (192GB) 上，MLX 框架 INT4",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源中未包含具体的 INT4 吞吐量提升系数（1.8-2.0x）及反量化开销占比（<5%）的数据，且来源[3]提到的内存带宽为 819 GB/s 而"
+    },
+    {
+      "node_id": "N154",
+      "claim": "软件栈版本对 INT4 吞吐量的影响：vLLM 0.6.2 相比 0.5.4，INT4 推理吞吐量提升 15%（因优化了",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（15%和8%）及特定版本对比（0.6.2 vs 0.5.4, 8.5 vs 8.3）属于经验事实，参考来源未提供这些精确数据，且来源[2]主要"
+    },
+    {
+      "node_id": "N162",
+      "claim": "Qwen3-27B 的 Intermediate_Size 确切值为 4096（或根据具体版本配置，通常为 Hidden",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中给出的具体数值 4096 缺乏直接证据支持，且 Qwen3-27B 的 Intermediate_Size 通常远大于 4096（例如 Qwen2"
+    },
+    {
+      "node_id": "N168",
+      "claim": "FP8 KV Cache 导致 Qwen3-27B 在 MMLU/BBH 等标准基准上的准确率下降阈值：当 KV Cac",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中的具体数值阈值（<0.5% 下降，>1% 不可接受）缺乏通用标准支持，且参考来源显示在特定硬件/配置下（如 B200 或高并发 ROCm 环境）F"
+    },
+    {
+      "node_id": "N169",
+      "claim": "FP8 KV Cache 对长文本逻辑连贯性（Perplexity）的影响量化：在 WikiText-103 长文本片段",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中提出的具体阈值（ΔPPL > 0.05）及对应的特定层保留策略（最后8层）属于经验性工程参数，参考来源仅定性描述了FP8 KV Cache在长上下"
+    },
+    {
+      "node_id": "N171",
+      "claim": "Batch_Size=4 时的吞吐量与延迟权衡：2×RTX 4090 在 Batch=4 下的总吞吐量预计为 40-50",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（40-50 tokens/s, ~200ms/token）缺乏直接来源支持，且不同模型（GTE-Pro vs SeqGPT vs 通用LLM）"
+    },
+    {
+      "node_id": "N173",
+      "claim": "GQA 架构对推理吞吐量的带宽敏感性降低系数：由于 KV Cache 读取量减少 75%，GQA 使得推理吞吐量对显存带",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中声称 GQA 相比 MHA 可提升 ~1.5-2x 吞吐量，但 GQA 的加速比高度依赖于具体的分组数（G）和硬件带宽/计算比。若 G 较大（如 "
+    },
+    {
+      "node_id": "N178",
+      "claim": "工作点 B（中性价比最优）：标准 Attention + Batch Size=1 + 32K 上下文 + 启用 Gra",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级存疑：对于27B参数模型，即使仅推理（Batch=1），激活值显存占用通常远高于2.0-3.0 GB（取决于具体架构和精度，通常需数GB至十几G"
+    },
+    {
+      "node_id": "N192",
+      "claim": "Qwen3-27B INT4(AWQ) 权重的实际显存占用需根据 AWQ 量化参数（如 group_size=128）精",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源标题中的模型名称为 'Qwen3.8-27B'，与陈述中的 'Qwen3-27B' 存在版本/命名不一致，且来源摘要未提供具体的显存占用数值，无法直"
+    },
+    {
+      "node_id": "N194",
+      "claim": "INT4(AWQ) 量化对 Qwen3-27B 质量损失的可接受性量化：在 MMLU 基准测试中，AWQ INT4 相比",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源均指向 'Qwen3.6-27B' 而非 'Qwen3-27B'，存在版本混淆风险；且来源摘要中未包含具体的 MMLU 分数对比数据，无法直接验"
+    },
+    {
+      "node_id": "N195",
+      "claim": "RTX 4090 不支持原生 FP8 硬件加速，其 FP8 推理吞吐量提升（1.8-2.1x）主要源于软件栈（如 Ten",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述声称RTX 4090不支持原生FP8硬件加速，但参考来源[1]明确引用NVIDIA官方数据指出RTX 4090提供1.3 PetaFLOPS的FP8"
+    },
+    {
+      "node_id": "N196",
+      "claim": "2×RTX 4090 运行 Qwen3-27B FP8 时的多卡通信开销量化：PCIe 4.0 x16 双向带宽约 32",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级与逻辑严重错误：1. 通信开销占比计算错误，134ms/20ms 应为 670% 的额外开销，但通常‘占比’指通信时间占总时间的比例（134/("
+    },
+    {
+      "node_id": "N197",
+      "claim": "FP8 E4M3 量化对 Qwen3-27B 质量损失的可接受性量化：在 C4 数据集上的 Perplexity (PP",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中引用的具体量化阈值（PPL增加<0.1，准确率下降<1%）属于经验性工程指标，且参考来源中未提供针对Qwen3-27B在C4/GSM8K/MATH"
+    },
+    {
+      "node_id": "N198",
+      "claim": "2×RTX 4090 运行 Qwen3-27B BF16 的显存不足根因分解：权重 54GB 已超出单卡 24GB 限制",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中存在严重的逻辑矛盾和数学错误：1. 前提称“单卡仍需容纳完整权重”（54GB），结论却得出“总占用 30.15GB < 24GB 仍不可行”，30"
+    },
+    {
+      "node_id": "N199",
+      "claim": "GQA (Grouped Query Attention) 对 Qwen3-27B 的显存节省量化：Qwen3-27B ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的硬件/模型经验参数（Qwen3-27B 的 KV heads 数量、具体显存占用数值 4.3GB/2.15GB 以及准确率损失范围），这"
+    },
+    {
+      "node_id": "N200",
+      "claim": "切换至 INT8 量化的可行性与代价量化：INT8 权重占用 27GB（相比 BF16 54GB 减半），双卡总显存需求",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]吞吐量提升 1.5-2x 及单位 token 成本降低 33-50% 属于高度依赖具体硬件架构（如是否支持 INT8 Tensor Core）、推理引擎"
+    },
+    {
+      "node_id": "N201",
+      "claim": "2×RTX 4090 在 INT4 量化下运行 Qwen3-27B 的实际推理吞吐量基准值，需区分软件栈（vLLM vs",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源[3]提供的双卡实测数据（28 tokens/s）与陈述中的预期范围（55-75 tokens/s）存在显著偏差，且来源[3]使用的是8bit量化而"
+    },
+    {
+      "node_id": "N202",
+      "claim": "INT4 量化（GPTQ/AWQ）相对于 BF16 基线在 Qwen3-27B 上的质量损失量化指标：MMLU 准确率下",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性数值范围（MMLU下降0.5-1.5%，PPL增加0.2-0.5），属于硬件/模型性能的经验事实，无法从第一性原理推导。参考来源["
+    },
+    {
+      "node_id": "N204",
+      "claim": "A100 80GB PCIe 运行 Qwen3-27B FP8 时的实际吞吐量基准值，需注明是否启用 TensorRT-",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体吞吐量数值（35-45 tokens/s）缺乏直接来源支持，且不同推理框架（vLLM/TensorRT-LLM）及具体配置下波动较大，单一数值区间可"
+    },
+    {
+      "node_id": "N206",
+      "claim": "1×A100 80GB 运行 Qwen3-27B FP8 的 3 年 TCO 计算：硬件成本（二手市场价 $8,000-",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]硬件成本数值与参考来源存在显著偏差：来源[1]显示2026年11月A100 80GB PCIe新卡价格约为$15,499-$19,789，而陈述中使用的"
+    },
+    {
+      "node_id": "N207",
+      "claim": "1×A100 80GB 运行 Qwen3-27B BF16 的实际推理吞吐量基准值，需区分 Batch Size 1 和",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级与硬件配置不匹配：来源[2]和[3]均显示27B模型在BF16下通常需要双A100（160GB显存）才能稳定部署并达到较高吞吐，单卡80GB显存"
+    },
+    {
+      "node_id": "N209",
+      "claim": "H100 80GB PCIe 运行 Qwen3-27B BF16 的实际推理吞吐量基准值，预期 80-100 token",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源[2]针对的是Q4_K_M量化版本（81 tok/s），而事实节点声称是BF16精度。BF16模型体积约为Q4_K_M的4倍，显存占用更高，且计"
+    },
+    {
+      "node_id": "N210",
+      "claim": "H100 80GB PCIe 的 2024-2025 年二手/现货市场价格分布及 3 年 TCO 计算：硬件成本（$25",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]硬件成本数值与最新市场数据存在显著偏差：来源[1]显示2026年11月H100 PCIe二手价起步为$52,000，远高于陈述中的$15,000-$20"
+    },
+    {
+      "node_id": "N213",
+      "claim": "A100 (SXM/PCIe) 在 INT4 量化推理下的理论带宽上限为 2039 GB/s，但受限于 PCIe 4.0",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级与硬件规格存在明显矛盾：A100 SXM 的 HBM2e 显存带宽为 2039 GB/s，但 A100 PCIe 版本的显存带宽仅为 1935 "
+    },
+    {
+      "node_id": "N214",
+      "claim": "INT4 量化相比 BF16 在 Qwen3-27B 上的精度损失量化指标：MMLU 准确率下降通常 < 1.5%，但 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（MMLU < 1.5%, GSM8K 3-5%, PPL 2-3倍）缺乏特定量化方法（如GPTQ/AWQ）和校准数据集的限定，不同量化算法和校"
+    },
+    {
+      "node_id": "N215",
+      "claim": "RTX 4090 官方 MSRP 为 $1,599，2024-2025 年实时市场均价波动区间为 $1,650-$2,1",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]2024-2025年RTX 4090市场均价波动区间及具体偏离幅度属于实时市场经验数据，缺乏权威来源支持，且不同时期、不同地区价格差异巨大，该具体数值区"
+    },
+    {
+      "node_id": "N216",
+      "claim": "A100 80GB PCIe 官方 MSRP 为 $10,000-$12,000 (视渠道)，二手市场 (eBay) 2",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]MSRP 数值存在争议，A100 80GB PCIe 的官方建议零售价通常被引用为 $15,000 左右，而非 $10,000-$12,000；若 MS"
+    },
+    {
+      "node_id": "N217",
+      "claim": "H100 80GB PCIe 官方 MSRP 为 $25,000-$30,000，2024-2025 年现货市场均价约为",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]H100 80GB PCIe 的官方 MSRP 通常被引用为 $25,000 左右，但现货市场均价在 2024-2025 年波动极大，且不同渠道（云厂商"
+    },
+    {
+      "node_id": "N218",
+      "claim": "vLLM 0.5.x 与 llama.cpp b4000+ 在 RTX 4090 上运行 Qwen3-27B FP8 的",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值区间（15-25%、>30%）及特定参数组合（--mlock/--threads）缺乏通用基准测试支持，属于高度依赖具体配置的经验性断言，易受上"
+    },
+    {
+      "node_id": "N219",
+      "claim": "AWQ 与 GPTQ 量化方案在 A100 上的吞吐量差异约为 5-10% (AWQ 通常略高)，主要源于 AWQ 的激",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]FP8 量化在 A100 上的吞吐量提升幅度（20-40%）及精度损失描述缺乏具体基准测试支持，且 A100 对 FP8 的支持主要依赖软件模拟或特定 "
+    },
+    {
+      "node_id": "N220",
+      "claim": "美国主要科技/数据中心聚集州（加州、纽约、德州、弗吉尼亚）2024-2025年商业电价中位数分别为 $0.18, $0.",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体电价数值（如加州商业电价$0.18/kWh）属于经验事实，且不同来源（EIA、各州公用事业委员会）数据存在波动，参考来源未提供具体电价数据，无法直接"
+    },
+    {
+      "node_id": "N222",
+      "claim": "用户类型对电价的影响量化：同一地区商业电价通常比居民电价低 15-25%（如加州商业 $0.18 vs 居民 $0.22",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级与逻辑推导存在内部矛盾：若商业电价比居民电价低 15-25%（即商业电价是居民的 75%-85%），则居民电价相对商业电价的溢价幅度应为 15%"
+    },
+    {
+      "node_id": "N223",
+      "claim": "eBay 2024-2025 年 A100 80GB PCIe 二手成交价的 95% 置信区间为 $7,500-$9,5",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的统计参数（均值$8,500，标准差$500，95%置信区间$7,500-$9,500），这些属于经验事实。参考来源仅为eBay的商品列表"
+    },
+    {
+      "node_id": "N225",
+      "claim": "固定价新卡替代方案对比：NVIDIA A100 80GB PCIe 新卡 2025 年市场均价为 $12,000，3年 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的2025年市场均价（$12,000）及详细的TCO计算数值，属于经验事实。参考来源[1]和[2]主要讨论A100的性能定位、平替推荐及推"
+    },
+    {
+      "node_id": "N226",
+      "claim": "vLLM 0.5.x 版本在 H100 上运行 Qwen3-27B FP8 的吞吐量为 85 tokens/s，Tens",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源中明确提到的模型是 'Qwen3.8-27B'，而陈述中是 'Qwen3-27B'，存在模型版本/名称不匹配的风险；此外，来源摘要未直接展示具体"
+    },
+    {
+      "node_id": "N227",
+      "claim": "TensorRT-LLM 2.0 在 RTX 4090 上运行 Qwen3-27B INT8 的吞吐量为 22 toke",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体吞吐量数值（22/19/17 tokens/s）及方差计算属于特定硬件与模型配置下的经验事实，参考来源仅涉及部署流程或不同模型（Qwen3-Omni"
+    },
+    {
+      "node_id": "N231",
+      "claim": "硬件价格季度失效阈值量化：定义价格波动率 σ_price 为近4个季度MSRP或市场均价的标准差/均值。若 σ_pric",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验事实断言（RTX 4090近4季度市场均价波动率），但原文标记为[待核验]，且参考来源仅涉及金融波动率定义，未提供GPU硬件价格数据"
+    },
+    {
+      "node_id": "N232",
+      "claim": "架构代际更新失效触发点量化：当新架构（如Blackwell RTX 5090）发布且其单位吞吐成本（TCO_3y / t",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于“RTX 5090预计单位成本比4090低30-40%”的具体数值缺乏直接来源支持，且“单位吞吐成本”受具体模型、量化精度（如NVFP4 vs"
+    },
+    {
+      "node_id": "N239",
+      "claim": "在 24GB 显存方案中，KV Cache 精度选择（FP16 vs FP8）对最终推理质量（如 MMLU 准确率）的影",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于FP8 KV Cache准确率损失的具体阈值（<0.5%）及回退条件（>1%）属于经验性工程参数，参考来源仅提供了困惑度（Perplexity"
+    },
+    {
+      "node_id": "N242",
+      "claim": "折旧临界点的敏感性分析：若 RTX 4090 市场均价波动 ±15%（即 $1359-$1839），TCO 交叉点 N ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的硬件市场价格（RTX 4090 MSRP $1599）及基于此推导出的具体TCO交叉点数值（1.6-2.1年），属于经验事实。参考来源仅"
+    },
+    {
+      "node_id": "N246",
+      "claim": "2×RTX 4090 运行 Qwen3-27B (BF16/FP8) 的实测单流推理吞吐量（tokens/s），需区分 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源均指向 Qwen3.5/3.8 或不同量化/框架（llama.cpp/单卡），缺乏针对 Qwen3-27B 在 2×RTX 4090 上运行 v"
+    },
+    {
+      "node_id": "N247",
+      "claim": "NVIDIA A100 80GB PCIe 运行 Qwen3-27B (BF16) 的实测单流推理吞吐量（tokens/",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源主要涉及 Qwen3.5/3.8 版本或 SXM 接口，且多为估算值或不同精度（Q4/FP8/INT8）下的数据，缺乏针对 Qwen3-27B "
+    },
+    {
+      "node_id": "N248",
+      "claim": "2×RTX 4090 与 1×A100 方案在 3 年周期内的精确 TCO 公式：TCO = (Hardware_Cos",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]TCO公式存在严重的逻辑与量纲错误：1. 硬件成本通常是一次性投入，不应除以N（年限）后再与总电力成本相加，这导致硬件成本被错误地缩小了N倍；2. 电力"
+    },
+    {
+      "node_id": "N250",
+      "claim": "Qwen3-27B 在 2×RTX 4090 (48GB) 下，不同量化精度（INT4/INT8/FP8）权重占用显存的",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源标题提及的是 'Qwen3.8-27B' 且仅涉及单张 4090，与事实节点中的 'Qwen3-27B' 及 '2×RTX 4090' 配置存在版本"
+    },
+    {
+      "node_id": "N253",
+      "claim": "RTX 4090 与 A100 的二手/现货市场价格波动率（标准差）及 3 年折旧残值率，用于量化 N<2 年时 TCO",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述要求提供具体的“波动率（标准差）”和“3年折旧残值率”数值，但参考来源仅提供了价格趋势描述、暴跌现象或购买指南，未提供经过统计计算的量化指标（如标准"
+    },
+    {
+      "node_id": "N254",
+      "claim": "多卡方案（2×4090）与单卡方案（1×A100）的故障率（MTBF）及维护成本差异，计算在 N<2 年短周期内因硬件故",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述声称计算了具体的MTBF差异及TCO增量，但参考来源仅定性比较了双卡4090与多卡A100集群的适用场景，未提供具体的故障率数据、维护成本数值或T"
+    },
+    {
+      "node_id": "N255",
+      "claim": "使用年限 N 对单位 Token 成本的敏感性分析函数：d(Cost_per_Token)/dN，识别 N 在什么具体数",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述声称识别出N的具体数值区间，但缺乏具体的硬件成本、故障率数据及模型参数，无法从第一性原理推导出确切的数值边界，属于依赖具体工程数据的经验事实。 |"
+    },
+    {
+      "node_id": "N256",
+      "claim": "M3 Ultra 运行 Qwen3-27B 的实测吞吐量修正：基于 MLX 框架 Q4_K_M 量化，实测吞吐量为 12",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源[1]仅提及非Apple Silicon不适用MLX路线，未提供M3 Ultra运行Qwen3-27B的具体吞吐量数值（12.46 tokens"
+    },
+    {
+      "node_id": "N259",
+      "claim": "单卡 4090 吞吐量优化上限：通过启用 Flash Attention 2 和增大 Batch Size（至显存允许上",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体吞吐量数值（12.5至15-18 tokens/s）及Batch Size范围（4-8）属于特定硬件与模型配置下的经验事实，缺乏通用理论推导基础，且"
+    },
+    {
+      "node_id": "N261",
+      "claim": "切换决策的精确阈值：当吞吐量需求在 12.5-15 tokens/s 区间时，优先尝试单卡优化（Flash Attent",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的硬件性能阈值（12.5-15 tokens/s）和特定优化组合（Flash Attention + INT4）的效果，属于经验事实。虽然"
+    },
+    {
+      "node_id": "N262",
+      "claim": "A100 80GB 在 Qwen3-27B BF16 下的实测吞吐量：基于 vLLM 0.6.x 版本，A100 80G",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源[1]描述的是双A100（2x A100）在vLLM 0.19.1下的性能，且未提供具体的tokens/s数值，无法直接支持单卡A100在vLLM "
+    },
+    {
+      "node_id": "N263",
+      "claim": "并发用户数对切换阈值的影响：当并发用户数 > 2 时，2×4090 的 KV Cache 管理开销和 PCIe 通信延迟",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级与因果机制缺乏严谨推导：10-15%的吞吐量衰减具体数值及切换阈值从30降至25的精确变化属于高度依赖具体硬件拓扑、软件栈版本及负载特征的工程经"
+    },
+    {
+      "node_id": "N264",
+      "claim": "长上下文场景下的切换逻辑：当上下文长度 > 32K tokens 时，2×4090 的显存带宽瓶颈（1008 GB/s）",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]吞吐量与显存带宽的线性关系假设过于简化，未考虑长上下文下KV Cache计算、注意力机制复杂度及具体模型架构对实际吞吐的非线性影响，且32K阈值缺乏普适"
+    },
+    {
+      "node_id": "N265",
+      "claim": "Apple M3 Ultra 在运行 Qwen3-27B INT4 量化模型时的实测吞吐量基准值，需修正 N103 中 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中声称的 '15-25 tokens/s' 区间与参考来源 [2] 中 Mac Studio M3 Ultra 实测 Qwen3.8-27B (4b"
+    },
+    {
+      "node_id": "N266",
+      "claim": "Apple M3 Ultra (192GB) 在 2024-2025 年的实际市场采购价格（含 192GB 内存升级费）",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源仅包含M3 Ultra的技术规格（内存带宽、晶体管数量、发布时间）和新闻发布内容，完全缺失具体的市场采购价格、官方起售价（$3,999/$4,9"
+    },
+    {
+      "node_id": "N268",
+      "claim": "AMD Radeon PRO W7900 在 ROCm 6.x 环境下运行 Qwen3-27B BF16 的实测吞吐量下",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源[1]仅提供了部署验证和可复现性说明，未包含具体的吞吐量数值（tokens/s），无法直接证实或证伪'5 tokens/s'这一保守下限值；且来"
+    },
+    {
+      "node_id": "N269",
+      "claim": "AMD Radeon PRO W7900 在运行 Qwen3-27B BF16 时的实测满载功耗（Watt），需修正 N",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源仅讨论了显卡架构（RDNA 3）和精度支持（FP8/INT8），完全未提及功耗数据（Watt）或TDP，无法提供外部证据支持具体的实测功耗数值或"
+    },
+    {
+      "node_id": "N270",
+      "claim": "AMD Radeon PRO W7900 在 2024-2025 年的实际市场零售中位价格（USD），需修正 N105 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的市场价格估算（$5,000 保守上限）和零售渠道稀缺性的经验判断，属于经验事实。参考来源仅提供了产品规格（48GB GDDR6, DP "
+    },
+    {
+      "node_id": "N271",
+      "claim": "AMD Radeon PRO W7900 的 TDP 规格为 300W，但实际 27B BF16 推理满载功耗需实测，预",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中声称 TDP 为 300W，但参考来源 [1] 明确记载最大功耗为 295W，数值存在偏差；此外，250W-280W 的实测预期值属于经验性推测，"
+    },
+    {
+      "node_id": "N272",
+      "claim": "AMD Radeon PRO W7900 的 3 年硬件折旧成本计算公式为 (P_market - P_residual",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的财务折旧公式及残值率假设（10-20%），属于经验性财务/市场判断，而非硬件固有属性或第一性原理可推导事实；参考来源仅提供了市场价格数据"
+    },
+    {
+      "node_id": "N273",
+      "claim": "AMD Radeon PRO W7900 在 ROCm 生态下的 3 年维护与兼容性风险成本估算为 $500-$1000",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该成本估算（$500-$1000）缺乏具体的量化依据或行业标准支持，属于主观经验判断，且将‘维护风险’直接货币化并设定固定区间在逻辑上缺乏严谨的推导过程"
+    },
+    {
+      "node_id": "N274",
+      "claim": "ROCm 对 Qwen3-27B 的 Attention 算子性能回退具体数值：在 FlashAttention-2 实",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源均讨论的是 Qwen3.6-27B 在 ROCm 7.13 下的预处理性能提升（3倍加速），而非 Attention 算子相比 CUDA 的吞吐"
+    },
+    {
+      "node_id": "N275",
+      "claim": "ROCm 对 KV Cache 量化（如 FP8/INT8）的支持状态：截至 2024 年，ROCm 对 FP8 KV ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源[1]明确指出在ROCm 7.x平台下，FP8量化可实现近50%显存缩减并提升吞吐，这与陈述中“FP8支持不完整需回退FP16导致显存增加50%”的"
+    },
+    {
+      "node_id": "N276",
+      "claim": "ROCm 生态中 vLLM/TensorRT-LLM 等主流推理框架对 Qwen3-27B 的兼容性问题：部分算子（如 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（5-10%吞吐量损失）及特定算子（GQA优化未完全移植）属于高度具体的经验事实，参考来源摘要仅提及部署与优化过程，未提供该具体性能损耗数据或算"
+    },
+    {
+      "node_id": "N277",
+      "claim": "Apple M3 Ultra 的统一内存带宽为 800 GB/s，但 CPU-GPU 共享架构下，实际 GPU 可用带宽",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]「CPU 占用通常 10-20%」这一具体数值缺乏普遍适用的物理或工程依据，属于经验性估算，且在实际负载下波动极大，并非固定扣除比例。 | 先验知识/题"
+    },
+    {
+      "node_id": "N278",
+      "claim": "Apple M3 Ultra 运行 Qwen3-27B BF16 的实测吞吐量修正值：在 192GB 统一内存下，BF1",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源[3]标题明确提及“14 tokens每秒”，但该数值通常对应于量化版本（如Q4_K_M，见摘要第五点），而陈述指定的是BF16（全精度）。BF16"
+    },
+    {
+      "node_id": "N279",
+      "claim": "Apple M3 Ultra 在 Qwen3-27B 推理中的 CPU-GPU 调度开销：上下文长度 > 32K tok",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源摘要仅提及使用了'TurboQuant 矢量量化 KV 压缩'技术，该技术旨在解决长上下文下的内存压力，可能显著改变或消除原始陈述中描述的'KV C"
+    },
+    {
+      "node_id": "N280",
+      "claim": "Mac Studio M3 Ultra 运行 Qwen3-27B 在 Q4_K_M 量化下的实测吞吐量为 12.46 t",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级严重错误：参考来源显示 Qwen3-27B 在 Mac Studio M3 Ultra 上 Q4_K_M 量化下的实测吞吐量约为 21-26 t"
+    },
+    {
+      "node_id": "N281",
+      "claim": "Mac Studio M3 Ultra (192GB) 的 2024-2025 年官方零售价修正为 $3,999 (基础",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]价格与配置存在事实性错误：Mac Studio M3 Ultra 基础配置（96GB内存）官方起售价为 $3,999，但 192GB 内存并非标准可选配"
+    },
+    {
+      "node_id": "N282",
+      "claim": "MLX 框架在 M3 Ultra 上对 Qwen3-27B 的量化支持矩阵：Q4_K_M 稳定支持，INT8 稳定支持，",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源与事实主题严重不匹配：来源[1]讨论的是Ollama/MLX runner在Qwen3.5架构下的多会话调度机制（FIFO轮换），完全未提及M3"
+    },
+    {
+      "node_id": "N283",
+      "claim": "NVIDIA H100 80GB PCIe 的 2024-2025 年二手市场中位价格修正为 $15,000-$20,0",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级严重错误：参考来源[1]显示H100 PCIe二手价起价$52,000，来源[2]显示新卡价$25,000-$30,000，而陈述中声称二手中位"
+    },
+    {
+      "node_id": "N284",
+      "claim": "Qwen3-27B 采用 GPTQ 或 AWQ 算法进行 INT4 量化时，校准数据集样本量 N=128 相比 N=51",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值区间（0.5%-1.5%、>2%）及特定模型（Qwen3-27B）在特定数据集（MMLU）上的量化敏感度缺乏公开基准数据支持，属于高度依赖具体实"
+    },
+    {
+      "node_id": "N286",
+      "claim": "Qwen3-27B 在 BF16 精度下，WikiText-103 测试集上的基线 Perplexity (PPL_BF",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源中提到的模型为 'Qwen3.8-27B'，与陈述中的 'Qwen3-27B' 名称不完全一致（可能存在版本混淆或笔误）；且来源摘要仅提及 GS"
+    },
+    {
+      "node_id": "N288",
+      "claim": "Qwen3-27B 在 BF16 精度下，GSM8K 数据集的最终答案准确率（Acc_BF16_GSM8K）约为 85%",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源[1]提及的是 'Qwen3.8-27B'（疑似笔误或非标准版本号，通常应为 Qwen3-27B 或 Qwen2.5-32B 等），且摘要仅说明进行"
+    },
+    {
+      "node_id": "N290",
+      "claim": "H100 PCIe 在 Qwen3-27B FP8 下的实测吞吐量为 85 tokens/s，BF16 为 45 tok",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]硬件型号混淆：参考来源[1]和[2]明确测试的是 H100 SXM，而陈述声称是 H100 PCIe。虽然两者算力相近，但 PCIe 版本通常因带宽限制"
+    },
+    {
+      "node_id": "N291",
+      "claim": "H100 SXM 在 Qwen3-27B FP8 下的实测吞吐量为 92 tokens/s，BF16 为 48 toke",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]模型版本不匹配：参考来源均为 Qwen3.5-27B 或 Qwen3.6-27B，而陈述针对 Qwen3-27B；且来源未提供 BF16 具体数值及 S"
+    },
+    {
+      "node_id": "N292",
+      "claim": "A100 80GB 在 Qwen3-27B FP8 下需通过软件模拟（如 Triton 或 cuBLASLt 降级），实",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源仅确认A100无FP8硬件支持，但未提供Qwen3-27B在A100 80GB上的具体实测吞吐量数据（1.1-1.2x），且该数值可能因具体软件栈（"
+    },
+    {
+      "node_id": "N293",
+      "claim": "RTX 4090 在 Qwen3-27B FP8 下不支持原生 FP8 加速，需降级为 INT8 或 BF16，实测吞吐",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]RTX 4090 基于 Ada Lovelace 架构，该架构硬件层面原生支持 FP8 数据格式（通过 Tensor Cores），因此声称“不支持原生"
+    },
+    {
+      "node_id": "N294",
+      "claim": "RTX 5090 官方 MSRP 为 $1999，显存规格为 32GB GDDR7，显存带宽 1792 GB/s，支持原",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]显存带宽数值存在细微偏差：根据来源[1]提供的 28 Gbps 有效速率和 512-bit 接口计算，理论带宽应为 1792 GB/s，但部分官方或媒体"
+    },
+    {
+      "node_id": "N295",
+      "claim": "RTX 5090 在 Qwen3-27B INT4 下的预期吞吐量为 40-50 tokens/s，相比 RTX 409",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源主要讨论显存容量、KV Cache管理及量化后的模型大小（14GB），并未提供具体的吞吐量数值（tokens/s）或RTX 4090与5090的"
+    },
+    {
+      "node_id": "N297",
+      "claim": "AMD RX 7900 XTX 在 ROCm 5.7+ 环境下运行 Qwen3-27B INT4 的实测吞吐量约为 12",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源[1]测试的是 RX 7900 XT (20GB) 而非 RX 7900 XTX (24GB)，且使用的是 ROCm 10 而非 5.7+，硬件"
+    },
+    {
+      "node_id": "N299",
+      "claim": "2×RX 7900 XTX (48GB) 在 Qwen3-27B INT4 下的预期吞吐量为 25-30 tokens/",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源[2]显示单张24GB RX 7900 XTX在Q4量化下即可运行Qwen3 27B且速度约为36 tok/s，而该陈述声称需要2×48GB（实际R"
+    },
+    {
+      "node_id": "N302",
+      "claim": "RTX 3090 二手市场价格波动区间为 $500-$700，取中位数 $600 计算 3 年折旧成本为 $200/年；",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]RTX 3090 的二手市场价格受时间、地区、成色及供需关系影响极大，$500-$700 的区间可能偏离当前实际市场均价（例如在 2024 年部分时期价"
+    },
+    {
+      "node_id": "N305",
+      "claim": "L40S 支持原生 FP8 加速，其 FP8 推理吞吐量预期为 BF16 的 1.8-2.0 倍，基于 A100 BF1",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]吞吐量数值（81-90 tokens/s）高度依赖于具体的模型规模、序列长度及硬件配置，缺乏具体上下文时，该绝对数值缺乏普适性；且L40S与A100的架"
+    },
+    {
+      "node_id": "N311",
+      "claim": "NVIDIA L40S 48GB 显存版本在 Qwen3-27B FP8 权重 + FP8 KV Cache 配置下的显",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源[1]标题及摘要明确提及的是 'Qwen3.8-27B'，而待核验事实节点声称是 'Qwen3-27B'。虽然两者参数量级相同（27B），但版本号不"
+    },
+    {
+      "node_id": "N312",
+      "claim": "RTX 5090 32GB 显存在 Qwen3-27B INT4 (AWQ) 权重下的可行性验证：权重 13.5GB +",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N313",
+      "claim": "AMD RX 7900 XTX 24GB 显存在 Qwen3-27B INT4 权重下的 32K 上下文可行性边界：权重",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N314",
+      "claim": "NVIDIA H100 80GB PCIe 在 Qwen3-27B BF16 权重下的显存占用与 32K 上下文支持：权",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N315",
+      "claim": "2×RTX 4090 (48GB) 与 1×L40S (48GB) 在 Qwen3-27B FP8 方案下的 TCO 对",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 278
+}

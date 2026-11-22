@@ -1,0 +1,28 @@
+# N39: Qwen3-27B 的精确参数量为 27,186,000,000 (27.186B)，来源为 HuggingFace 官方模型卡或 GitHub 仓库的 con
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N6, N7, N8
+
+## Claim
+
+Qwen3-27B 的精确参数量为 27,186,000,000 (27.186B)，来源为 HuggingFace 官方模型卡或 GitHub 仓库的 config.json (num_hidden_layers=64, hidden_size=4096 等参数推导)，用于替代 N6 中粗略的 27.2B 以计算精确权重体积。
+
+## Corrected Claim
+
+Qwen3-27B（或 Qwen3.8-27B）的参数量约为 27.2B，精确值需依据官方 config.json 中的架构参数（如层数、隐藏层维度等）计算得出，当前来源未直接提供该精确数值。
+
+## Evidence
+
+[质询]参考来源[1]指向的是 'Qwen3.8-27B' 而非 'Qwen3-27B'，且摘要中未提供 config.json 的具体参数（如 num_hidden_layers, hidden_size）或精确参数量数值，无法直接支持该精确数值。此外，'Qwen3-27B' 与 'Qwen3.8-27B' 是否为同一模型或不同版本存在歧义，来源标题与事实节点中的模型名称不完全匹配。 | 来源[1]主题相关但仅提及模型名称，未提供推导精确参数量所需的架构参数或具体数值，属于间接支持且存在版本名称不一致的疑点，故降级。
+
+## Search Query
+
+Qwen3-27B config.json num_params exact size huggingface
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/AlibabaCloud-Official/Qwen3.8-27B&rut=6d7c70e3744b57d57ca293389d2609b017e7839b8d066985052a8b1a95bd84ec', 'type': 'ddg', 'title': 'GitHub - AlibabaCloud-Official/Qwen3.8-27B: Native multimodal dense LLM ...'}

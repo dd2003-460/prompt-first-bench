@@ -1,0 +1,24 @@
+# N405: 若未来需运行更大模型（如 Qwen3-70B BF16 ~140GB），192GB 内存仍可容纳（140GB + KV Cache < 150GB），而 256
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N140
+
+## Claim
+
+若未来需运行更大模型（如 Qwen3-70B BF16 ~140GB），192GB 内存仍可容纳（140GB + KV Cache < 150GB），而 256GB 版本提供更大余量；但考虑到 Qwen3-27B 是本题目标模型，192GB 已满足需求，256GB 的溢价 $1000 在 3 年 TCO 中占比约 5-7%，不构成性价比优势。
+
+## Corrected Claim
+
+若未来需运行更大模型（如 Qwen3-70B BF16 ~140GB），192GB 内存仍可容纳（140GB + KV Cache < 150GB），而 256GB 版本提供更大余量；但考虑到 Qwen3-27B 是本题目标模型，192GB 已满足需求，256GB 的溢价 $1000 在 3 年 TCO 中占比约 5-7%，不构成性价比优势。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-70B BF16 权重约 140GB，192GB 内存可容纳；256GB 溢价 $1000 在 3 年 TCO 中占比 5-7% 符合常规硬件成本估算逻辑。
+
+## Search Query
+
+Mac Studio M2 Ultra 192GB vs 256GB TCO analysis for LLM inference 3 year cost

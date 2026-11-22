@@ -1,0 +1,20 @@
+# N739: PCIe 4.0 x16 的实际有效带宽约为理论峰值 32 GB/s 的 85-90%，即约 27-29 GB/s。理论通信延迟 15 μs/token 应修正
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N228
+
+## Claim
+
+PCIe 4.0 x16 的实际有效带宽约为理论峰值 32 GB/s 的 85-90%，即约 27-29 GB/s。理论通信延迟 15 μs/token 应修正为 $480 \text{ KB} / 28 \text{ GB/s} \approx 17.1 \mu s$，仍远低于计算时间。
+
+## Corrected Claim
+
+PCIe 4.0 x16 的实际有效带宽约为理论峰值 32 GB/s 的 85-90%，即约 27-29 GB/s。理论通信延迟 15 μs/token 应修正为 $480 \text{ KB} / 28 \text{ GB/s} \approx 17.1 \mu s$，仍远低于计算时间。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe 4.0 x16 理论带宽 32 GB/s，实际有效带宽 85-90% 符合工程常识；480KB / 28GB/s ≈ 17.1μs 计算正确。

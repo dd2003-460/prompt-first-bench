@@ -1,0 +1,24 @@
+# N171: Offloading 至系统内存 (CPU RAM) 的吞吐量惩罚量化：若采用 2x4090 但显存不足而将部分 KV Cache 或权重 Offload 到 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N52
+
+## Claim
+
+Offloading 至系统内存 (CPU RAM) 的吞吐量惩罚量化：若采用 2x4090 但显存不足而将部分 KV Cache 或权重 Offload 到 64GB DDR5 (带宽 ~50-100 GB/s)，由于 GPU 显存带宽 (1008 GB/s) 与 CPU 内存带宽存在 10-20 倍差距，Offloaded 部分的访问延迟将主导推理速度；经验法则表明，每 10% 的权重/KV Offload 会导致解码速度下降 15-20%；若 Offload 比例超过 30%，吞吐量将降至纯 GPU 方案的 50% 以下，且首 Token 延迟 (TTFT) 将增加 2-5 秒，严重破坏用户体验，因此 Offloading 仅作为显存极度受限时的最后手段，不推荐作为常规部署策略。
+
+## Corrected Claim
+
+Offloading 至系统内存 (CPU RAM) 会因 GPU 显存带宽 (1008 GB/s) 与 CPU 内存带宽 (~50-100 GB/s) 的巨大差距（10-20倍）导致显著的性能惩罚。Offloaded 部分的访问延迟将主导推理速度，通常会导致解码速度大幅下降（具体幅度取决于Offload比例和策略，经验上10% Offload可能带来两位数百分比的速度损失），且首 Token 延迟 (TTFT) 显著增加。因此，Offloading 仅作为显存极度受限时的最后手段，不推荐作为常规部署策略。
+
+## Evidence
+
+[质询]经验法则中的具体数值（如'每10% Offload导致15-20%速度下降'、'TTFT增加2-5秒'）缺乏普适性，实际性能损失高度依赖于模型架构、Offload策略（如PagedAttention、量化）、PCIe版本及具体硬件配置，直接给出固定百分比和秒数过于绝对，存在以偏概全的风险。 | 先验知识/题面给定，逻辑校验通过：带宽差距（1008 vs 50-100 GB/s）确实会导致显著瓶颈，定性结论（Offload严重降低性能，仅作为最后手段）符合工程直觉；但具体量化数值（15-20%、2-5s）属于经验估算，缺乏统一标准，故降级为定性表述。
+
+## Search Query
+
+LLM inference offloading CPU RAM throughput penalty percentage

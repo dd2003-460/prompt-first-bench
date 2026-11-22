@@ -1,0 +1,30 @@
+# N160: RTX 4090 的 MTBF（平均无故障时间）在持续高负载（>80% 利用率）下约为 50,000-80,000 小时，低于数据中心卡 H100 的 >100
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N27
+
+## Claim
+
+RTX 4090 的 MTBF（平均无故障时间）在持续高负载（>80% 利用率）下约为 50,000-80,000 小时，低于数据中心卡 H100 的 >100,000 小时；若按 8760 小时/年计算，4090 的年故障概率约为 11-18%，而 H100 约为 <9%。
+
+## Corrected Claim
+
+RTX 4090 作为消费级显卡，其设计寿命和可靠性指标通常低于数据中心级显卡（如 H100），在持续高负载下故障率可能高于后者，但具体 MTBF 数值需参考大规模运维统计数据，现有来源未提供确切数值。
+
+## Evidence
+
+[质询]MTBF（平均无故障时间）是统计量，通常基于大规模样本或加速寿命测试得出，而非单次或少数几次“长时间稳定性测试”能直接测得的精确数值。CSDN博客等来源多为个人或小规模测试，缺乏统计学意义上的大样本支持，且“50,000-80,000小时”这一具体区间缺乏权威行业数据（如NVIDIA官方或大型数据中心运维报告）的直接背书，存在将个案经验泛化为统计规律的风险。 | 逻辑上，消费级显卡（RTX 4090）因散热设计、用料及冗余度通常低于数据中心级显卡（H100），其MTBF低于数据中心卡符合工程直觉；但参考来源[1][2][3]仅提供了稳定性测试的定性描述或一般性分析，未提供具体的MTBF数值或故障率统计，属于间接支持或无关，无法直接证实具体数值区间。
+
+## Search Query
+
+RTX 4090 MTBF hours vs H100 reliability data
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_32047493/article/details/152190679&rut=eedfaf37c216d684a9720cbef7678d5ad7233adb50a63716364b60ddb24e5894', 'type': 'ddg', 'title': '我测试了rtx4090显卡的长时间稳定性 - Csdn博客'}
+- {'url': 'https://blog.csdn.net/weixin_42629522/article/details/152265026&rut=18a5d6342581cb5fdcd12dce32b4808180aa0a11812c09114c647652165f5dcb', 'type': 'ddg', 'title': '云端 Rtx4090 Gpu 的稳定性测试结果 - Csdn博客'}
+- {'url': 'https://openvela.csdn.net/69c4883f0a2f6a37c59a6c40.html&rut=02a9281698f98910d62aa55848b1046054d56a4667439f920aa0c03e8bf0a3b0', 'type': 'ddg', 'title': '为什么RTX4090显卡比竞品更耐用_媛源啊-openvela'}

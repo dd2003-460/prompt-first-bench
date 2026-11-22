@@ -1,0 +1,24 @@
+# N117: 下游投影1：挂价分布的偏度修正：由于卖家倾向于高估价值（损失厌恶导致对低价锚定不敏感），$\epsilon_{strat}$ 实际服从右偏分布（如偏态 Gamm
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N38
+
+## Claim
+
+下游投影1：挂价分布的偏度修正：由于卖家倾向于高估价值（损失厌恶导致对低价锚定不敏感），$\epsilon_{strat}$ 实际服从右偏分布（如偏态 Gamma 分布）。偏度系数 $\gamma_1 = 2\sqrt{k}/(k+1)$（Gamma 参数 $k$ 待估）。若 $CV=5.8\%$ 且假设偏度 $\gamma_1 \approx 0.5$（中等右偏），则挂价分布的 95 分位数 $P_{95} = \mu_{list} + 1.645 \times \sigma_{strat} \times (1 + \gamma_1/2) \approx \mu_{list} + 1.645 \times 0.058 \times 1.25 \approx \mu_{list} + 11.9\%$，解释了为何 15-25% 的溢价区间集中在分布右尾而非中心。
+
+## Corrected Claim
+
+下游投影1：挂价分布的偏度修正：由于卖家倾向于高估价值，$\epsilon_{strat}$ 实际服从右偏分布（如 Gamma 分布）。若 $CV=5.8\%$ 且假设偏度 $\gamma_1 \approx 0.5$，基于启发式修正公式估算，挂价分布的 95 分位数 $P_{95}$ 约为 $\mu_{list} + 11.9\%$，解释了溢价区间集中在分布右尾的现象。
+
+## Evidence
+
+[质询]公式 $P_{95} = \mu + 1.645 \sigma (1 + \gamma_1/2)$ 并非标准的 Gamma 分布分位数计算公式，而是一个经验性的启发式修正项。对于 Gamma 分布，分位数与均值、方差、偏度的关系是非线性的，且取决于形状参数 $k$。虽然当 $k$ 较大时（接近正态），该近似可能成立，但直接将其作为通用公式陈述缺乏严格的数学推导支持，且 $1.645$ 是正态分布的 95% 分位数，直接乘以偏度修正因子在统计上并不严谨。 | 先验知识/题面给定，逻辑校验通过。虽然公式为启发式近似而非严格推导，但在工程估算语境下量级合理（11.9% 的右尾偏移符合中等右偏分布的特征），且无外部来源矛盾。鉴于 source 为 knowledge，逻辑自洽即视为有效，但考虑到公式的近似性质，标记为 degraded 以提示其非严格数学事实。
+
+## Search Query
+
+right-skewed pricing distribution seller overvaluation gamma distribution marketplace

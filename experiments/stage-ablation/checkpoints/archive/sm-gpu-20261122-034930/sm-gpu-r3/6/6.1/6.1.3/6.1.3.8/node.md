@@ -1,0 +1,24 @@
+# N373: 降级方案1（1x RTX 4090）的显存瓶颈量化：单卡24GB显存无法容纳Qwen3-27B INT8权重（27GB）+ KV Cache（10.7GB）+ 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N131, N132, N133
+
+## Claim
+
+降级方案1（1x RTX 4090）的显存瓶颈量化：单卡24GB显存无法容纳Qwen3-27B INT8权重（27GB）+ KV Cache（10.7GB）+ 框架开销（4GB），总需求41.7GB。必须启用CPU Offload，将部分KV Cache或权重移至系统内存。Offload带宽受限于DDR5（约50-100 GB/s）而非PCIe，导致吞吐量从22 tokens/s降至约5-8 tokens/s [待核验：需实测Offload性能]，性能损失超过60%。
+
+## Corrected Claim
+
+单卡24GB显存无法容纳Qwen3-27B INT8权重（27GB）+ KV Cache（10.7GB）+ 框架开销（4GB），总需求41.7GB。必须启用CPU Offload。由于Offload带宽受限于DDR5（约50-100 GB/s）而非HBM，吞吐量将显著下降（预计损失超过60%，具体数值取决于Offload策略，可能降至5-8 tokens/s量级）。
+
+## Evidence
+
+[质询]KV Cache 10.7GB 的数值缺乏上下文（如序列长度、并发数），且 Offload 后吞吐量降至 5-8 tokens/s 属于高度依赖具体实现（如 Offload 粒度、预取策略）的经验数据，存在将特定极端场景泛化为普遍结论的风险。 | 先验知识/题面给定，逻辑校验通过：24GB < 41.7GB 显存溢出逻辑成立；DDR5 带宽（~50-100GB/s）远低于 HBM（~1TB/s），导致计算受限转为带宽受限，吞吐量大幅下降符合物理直觉。但具体吞吐量数值为经验估计，无来源直接支持，故降级。
+
+## Search Query
+
+LLM inference CPU offload performance penalty DDR5 bandwidth

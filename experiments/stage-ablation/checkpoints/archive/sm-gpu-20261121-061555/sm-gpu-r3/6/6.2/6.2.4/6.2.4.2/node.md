@@ -1,0 +1,24 @@
+# N322: TensorRT-LLM 对 Qwen3-27B 在 FP8 量化下的算子支持完整性：需验证 FlashAttention-3 或类似高效 Attention 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N114, N115, N117
+
+## Claim
+
+TensorRT-LLM 对 Qwen3-27B 在 FP8 量化下的算子支持完整性：需验证 FlashAttention-3 或类似高效 Attention 内核是否对 Qwen3 的特定 Head 配置（num_kv_heads=8, head_dim=128）进行了优化，若未优化，估算回退到通用 Attention 内核导致的吞吐量性能损失百分比（通常 10-20%）。
+
+## Corrected Claim
+
+TensorRT-LLM 对 Qwen3-27B 在 FP8 量化下的算子支持完整性需验证 FlashAttention-3 或类似高效 Attention 内核是否对 Qwen3 的特定 Head 配置（num_kv_heads=8, head_dim=128）进行了优化；若未优化，回退到通用 Attention 内核可能导致吞吐量性能损失，具体百分比需实测确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性性能损失数值（10-20%）和特定的硬件/软件优化状态（FlashAttention-3对Qwen3特定配置的优化情况），这些属于经验事实，无法从第一性原理推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+TensorRT-LLM Qwen3 FP8 FlashAttention performance overhead regression

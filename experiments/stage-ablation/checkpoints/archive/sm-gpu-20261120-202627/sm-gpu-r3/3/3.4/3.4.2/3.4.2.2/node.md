@@ -1,0 +1,20 @@
+# N293: 2x RTX 3090 方案中，FP8 推理的运行时激活值 (Activations) 及框架开销 (Framework Overhead) 显存占用估算：激活
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N80
+
+## Claim
+
+2x RTX 3090 方案中，FP8 推理的运行时激活值 (Activations) 及框架开销 (Framework Overhead) 显存占用估算：激活值 Batch=1, Seq=32K 时约 2-4 GB；框架开销约 1-2 GB；合计约 3-6 GB [待核验：需具体框架实测]。
+
+## Corrected Claim
+
+2x RTX 3090 方案中，FP8 推理的运行时激活值 (Activations) 及框架开销 (Framework Overhead) 显存占用估算：激活值 Batch=1, Seq=32K 时约 2-4 GB；框架开销约 1-2 GB；合计约 3-6 GB [待核验：需具体框架实测]。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Batch=1, Seq=32K 的激活值显存占用在 2-4 GB 范围内符合大模型推理的一般量级估算，框架开销 1-2 GB 亦属合理范围，合计 3-6 GB 逻辑自洽。

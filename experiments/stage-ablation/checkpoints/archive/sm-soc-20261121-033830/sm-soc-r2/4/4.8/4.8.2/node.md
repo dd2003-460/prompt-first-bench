@@ -1,0 +1,20 @@
+# N95: 被排除的替代假设数量 N_alt 及其影响：N_alt = 3（纯理性比价模型、纯信息不对称模型、纯平台算法操纵模型），C_hypothesis 随 N_alt
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N24
+
+## Claim
+
+被排除的替代假设数量 N_alt 及其影响：N_alt = 3（纯理性比价模型、纯信息不对称模型、纯平台算法操纵模型），C_hypothesis 随 N_alt 增加而指数衰减，具体衰减系数需基于 AIC/BIC 比较确定
+
+## Corrected Claim
+
+被排除的替代假设数量 N_alt 及其影响：N_alt = 3（纯理性比价模型、纯信息不对称模型、纯平台算法操纵模型），C_hypothesis 随 N_alt 增加而指数衰减，具体衰减系数需基于 AIC/BIC 比较确定
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

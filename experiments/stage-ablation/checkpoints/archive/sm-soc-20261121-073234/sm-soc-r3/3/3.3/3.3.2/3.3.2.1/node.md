@@ -1,0 +1,24 @@
+# N217: 个性化推荐系数 K 反映平台算法将无限库存过滤为用户‘决策集’的效率，通常定义为 N_options = K * sqrt(1/σ²_pref) 中的常数项。在
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N71
+
+## Claim
+
+个性化推荐系数 K 反映平台算法将无限库存过滤为用户‘决策集’的效率，通常定义为 N_options = K * sqrt(1/σ²_pref) 中的常数项。在主流协同过滤算法中，K 值与推荐列表长度正相关，需通过分析用户实际浏览深度与系统推荐上限的比值来估算，一般 K ∈ [1.5, 3.0]。
+
+## Corrected Claim
+
+在特定基于偏好方差的推荐效率模型中，系数 K 可能用于描述决策集大小与偏好不确定性的关系，其值需根据具体模型校准，并非所有主流协同过滤算法的通用固定常数。
+
+## Evidence
+
+[质询]该陈述将‘个性化推荐系数 K’定义为一个具有特定物理/数学含义（与偏好方差倒数平方根成正比）且范围固定为 [1.5, 3.0] 的通用常数，这在主流协同过滤算法（如 Item-based CF, Matrix Factorization）中缺乏标准定义支持。主流算法中推荐列表长度通常由系统参数（如 top-N）直接决定，而非通过一个与用户偏好方差相关的‘效率系数 K’推导得出。该定义更像是特定理论模型或论文中的局部变量，而非行业通用的‘主流算法’标准参数。 | source=knowledge，逻辑上公式量纲自洽，但该特定定义及数值范围 [1.5, 3.0] 并非协同过滤领域的通用公理或第一性原理推论，属于特定模型的经验参数或局部定义，缺乏广泛共识支持，故降级。
+
+## Search Query
+
+collaborative filtering recommendation list length coefficient K value

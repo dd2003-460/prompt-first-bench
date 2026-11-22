@@ -1,0 +1,24 @@
+# N264: 工作点1（低成本/低COP）：家用/小型办公室风冷环境，COP ≈ 3.0-3.5，此时 C_infra 约为直接电力成本的 1/3 至 1/4，适用于单卡或双
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N86
+
+## Claim
+
+工作点1（低成本/低COP）：家用/小型办公室风冷环境，COP ≈ 3.0-3.5，此时 C_infra 约为直接电力成本的 1/3 至 1/4，适用于单卡或双卡消费级部署。
+
+## Corrected Claim
+
+工作点1（低成本/低COP）：家用/小型办公室风冷环境，COP ≈ 3.0-3.5，此时 C_infra 约为直接电力成本的 1/3 至 1/4，适用于单卡或双卡消费级部署。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：风冷家用/小型办公室环境COP 3.0-3.5符合物理常识，基础设施成本占比1/3-1/4在消费级部署中量级合理
+
+## Search Query
+
+ASHRAE cooling COP office environment

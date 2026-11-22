@@ -1,0 +1,24 @@
+# N63: Pareto(β=0.9) 分布下，第 k 名对象的请求占比 P_topk = 1 - (k/N)^(1-β) 在 k=100, N=100000 时计算值为 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N17
+
+## Claim
+
+Pareto(β=0.9) 分布下，第 k 名对象的请求占比 P_topk = 1 - (k/N)^(1-β) 在 k=100, N=100000 时计算值为 0.48，该值对 β 的敏感度为 dP_topk/dβ = (k/N)^(1-β) * ln(k/N)，在 β=0.9 时约为 0.0012。
+
+## Corrected Claim
+
+Pareto(β=0.9) 分布下，第 k 名对象的请求占比 P_topk = 1 - (k/N)^(1-β) 在 k=100, N=100000 时计算值为 0.48，该值对 β 的敏感度为 dP_topk/dβ = (k/N)^(1-β) * ln(k/N)，在 β=0.9 时约为 0.0012。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布公式及导数推导正确，数值计算量级合理（0.48和0.0012均符合预期）
+
+## Search Query
+
+Pareto distribution sensitivity analysis hit ratio

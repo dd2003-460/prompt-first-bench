@@ -1,0 +1,20 @@
+# N347: 咨询率 Q 对搜索成本的弹性系数 E_Q,C = (ΔQ/Q)/(ΔC/C)，假设 Q 与 C 呈负相关关系（如 Q = Q_0 * (C_base/C)^δ）
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N110
+
+## Claim
+
+咨询率 Q 对搜索成本的弹性系数 E_Q,C = (ΔQ/Q)/(ΔC/C)，假设 Q 与 C 呈负相关关系（如 Q = Q_0 * (C_base/C)^δ），计算 δ 的值，并验证其是否在合理范围内（如 δ ∈ [0.5, 2.0]）。
+
+## Corrected Claim
+
+咨询率 Q 对搜索成本的弹性系数 E_Q,C = (ΔQ/Q)/(ΔC/C)，假设 Q 与 C 呈负相关关系（如 Q = Q_0 * (C_base/C)^δ），计算 δ 的值，并验证其是否在合理范围内（如 δ ∈ [0.5, 2.0]）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

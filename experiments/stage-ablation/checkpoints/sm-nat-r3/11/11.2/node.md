@@ -1,0 +1,20 @@
+# N299: 按热度排序保留时，LRU 实际能完整保留的对象大小上限 S_max_LRU 由累积字节量积分确定：∫_{0}^{N_retain} s_i di = 128GB
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N106
+
+## Claim
+
+按热度排序保留时，LRU 实际能完整保留的对象大小上限 S_max_LRU 由累积字节量积分确定：∫_{0}^{N_retain} s_i di = 128GB，其中 s_i 按热度排序后的对象大小，N_retain 为保留对象数；由于热度-大小负相关，S_max_LRU > 1.31MB，具体值需通过联合分布数值积分计算。
+
+## Corrected Claim
+
+按热度排序保留时，LRU 实际能完整保留的对象大小上限 S_max_LRU 由累积字节量积分确定：∫_{0}^{N_retain} s_i di = 128GB，其中 s_i 按热度排序后的对象大小，N_retain 为保留对象数；由于热度-大小负相关，S_max_LRU > 1.31MB，具体值需通过联合分布数值积分计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：LRU按热度排序保留时，保留对象总大小上限确实由累积字节量积分确定，且热度-大小负相关会导致保留对象平均大小偏大，S_max_LRU > 1.31MB的结论在逻辑上自洽。

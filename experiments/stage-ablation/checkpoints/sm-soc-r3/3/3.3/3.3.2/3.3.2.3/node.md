@@ -1,0 +1,24 @@
+# N200: T_close 与 W_exposure 的负相关系数 δ_t：δ_t = ∂W_exposure/∂T_close < 0，具体数值需通过多元回归 W_exp
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N64
+
+## Claim
+
+T_close 与 W_exposure 的负相关系数 δ_t：δ_t = ∂W_exposure/∂T_close < 0，具体数值需通过多元回归 W_exposure = α + β1×T_close + β2×Margin + ε 估算，β1 即为 δ_t。
+
+## Corrected Claim
+
+T_close 与 W_exposure 的相关性系数 δ_t 定义为 ∂W_exposure/∂T_close，可通过多元回归 W_exposure = α + β1×T_close + β2×Margin + ε 中的 β1 进行估算，其具体符号和数值需依赖实证数据。
+
+## Evidence
+
+[质询]该陈述将具体的统计回归系数（β1）直接等同于偏导数（δ_t），并断言其符号为负。虽然多元回归系数在数学上确实估计偏导数，但断言其符号为负（<0）属于经验性假设，缺乏理论必然性（例如，若T_close代表某种正面信号，W_exposure可能正相关）。此外，具体数值需通过数据估算，陈述本身未提供数据支持，属于未经验证的经验事实。 | 逻辑上，多元回归系数确实对应偏导数的估计，量纲和定义自洽；但作为经验事实（具体符号和数值），缺乏来源支持，且符号方向无法从第一性原理严格推出，故降级。
+
+## Search Query
+
+regression exposure weight T_close margin coefficient beta1

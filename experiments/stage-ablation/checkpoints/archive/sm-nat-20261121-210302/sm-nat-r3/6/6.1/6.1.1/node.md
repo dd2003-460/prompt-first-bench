@@ -1,0 +1,20 @@
+# N195: 在 IRM 模型下，单个对象的引用间隔（Inter-reference Time）服从指数分布，其概率密度函数为 f(t) = λ_i * exp(-λ_i *
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N72
+
+## Claim
+
+在 IRM 模型下，单个对象的引用间隔（Inter-reference Time）服从指数分布，其概率密度函数为 f(t) = λ_i * exp(-λ_i * t)，其中 λ_i 是该对象的平均访问频率，对应 Pareto 热度分布的第 i 个分位值。
+
+## Corrected Claim
+
+在 IRM 模型下，单个对象的引用间隔（Inter-reference Time）服从指数分布，其概率密度函数为 f(t) = λ_i * exp(-λ_i * t)，其中 λ_i 是该对象的平均访问频率，对应 Pareto 热度分布的第 i 个分位值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：IRM（Independent Reference Model）的核心假设即为引用间隔服从指数分布，且参数与对象热度（Pareto分布）相关，符合缓存理论标准定义。

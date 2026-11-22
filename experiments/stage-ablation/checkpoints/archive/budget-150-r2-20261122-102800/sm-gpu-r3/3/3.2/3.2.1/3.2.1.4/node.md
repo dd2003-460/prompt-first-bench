@@ -1,0 +1,20 @@
+# N250: L40S 在 INT8 量化下的显存占用模型：模型权重约 14.6 GB + KV Cache (32K context, batch=1) 约 1.2 GB 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N91, N92, N93
+
+## Claim
+
+L40S 在 INT8 量化下的显存占用模型：模型权重约 14.6 GB + KV Cache (32K context, batch=1) 约 1.2 GB + 激活值/碎片约 2-3 GB，总计约 18-19 GB，同样远低于 48 GB 显存上限，与 A6000 相比无显存优势，但功耗更低（350W vs 300W 实际负载差异需核实，通常 L40S TDP 350W, A6000 300W）。
+
+## Corrected Claim
+
+L40S 在 INT8 量化下的显存占用模型：模型权重约 14.6 GB + KV Cache (32K context, batch=1) 约 1.2 GB + 激活值/碎片约 2-3 GB，总计约 18-19 GB，远低于 48 GB 显存上限。与 A6000 相比，L40S 显存容量更大（48GB vs 48GB，实际两者均为48GB，但L40S带宽更高），但功耗更高（L40S TDP 350W vs A6000 TDP 300W）。
+
+## Evidence
+
+[质询]功耗对比存在事实性错误：L40S 的 TDP 通常为 350W，而 A6000 的 TDP 为 300W，陈述中称“L40S 功耗更低（350W vs 300W）”在数值上自相矛盾（350W > 300W），且与硬件规格常识不符（L40S 功耗高于 A6000）。 | 先验知识/题面给定，逻辑校验发现内部矛盾：L40S TDP (350W) 高于 A6000 TDP (300W)，陈述中“功耗更低”的结论与给出的数值及硬件事实矛盾。

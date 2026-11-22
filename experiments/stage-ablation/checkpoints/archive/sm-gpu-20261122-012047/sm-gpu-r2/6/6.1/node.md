@@ -1,0 +1,28 @@
+# N156: Intel Gaudi 2 在 Qwen3-27B 推理中的吞吐量约为 15-20 tokens/s，比同价位 NVIDIA H100 低 30-40%，主要受
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N42
+
+## Claim
+
+Intel Gaudi 2 在 Qwen3-27B 推理中的吞吐量约为 15-20 tokens/s，比同价位 NVIDIA H100 低 30-40%，主要受限于 Habana SynapseAI 软件栈对 GQA 架构优化不足，具体数值需以实际基准测试为准。
+
+## Corrected Claim
+
+Intel Gaudi 2 在 Qwen3-27B 推理中的吞吐量通常低于同价位 NVIDIA H100，主要受限于 Habana SynapseAI 软件栈对 GQA 架构优化不足，具体数值需以实际基准测试为准。
+
+## Evidence
+
+[质询]具体数值（15-20 tokens/s）及与H100的对比比例（低30-40%）属于特定硬件和模型组合下的经验事实，且参考来源[1]仅涵盖Llama-3.1-8B和Falcon3-10B，未包含Qwen3-27B的基准测试数据，无法直接支持该具体数值。 | 逻辑上自洽（Gaudi 2性能通常低于H100，软件栈优化不足是已知瓶颈），但参考来源[1]主题相关却未覆盖Qwen3-27B的具体数据，属于经验事实且缺乏直接来源支持，故降级。
+
+## Search Query
+
+Intel Gaudi 2 Qwen3-27B inference performance Habana SynapseAI benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://www.intel.com/content/www/us/en/content-details/846154/intel-gaudi-2-ai-accelerator-open-innovation-white-paper.html&rut=1a0e8b8bfff4c44cffa1ed36da34e3b730ac897da6e891b5a92cd602d35e46df', 'type': 'ddg', 'title': 'Intel® Gaudi® 2 AI Accelerator Open Innovation White Paper'}

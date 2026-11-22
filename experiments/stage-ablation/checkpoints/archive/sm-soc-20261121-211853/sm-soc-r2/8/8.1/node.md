@@ -1,0 +1,24 @@
+# N66: ‘5%极端高溢价卖家’的量化定义：指挂价偏离度 $D = (Ask - AvgDeal)/AvgDeal$ 超过第95百分位阈值 $P_{95}$ 的卖家群体。
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N25
+
+## Claim
+
+‘5%极端高溢价卖家’的量化定义：指挂价偏离度 $D = (Ask - AvgDeal)/AvgDeal$ 超过第95百分位阈值 $P_{95}$ 的卖家群体。需通过平台历史数据回归确定 $P_{95}$ 的具体数值（例如，若 $P_{95} = 25\%$，则 $w_{min}$ 对应的触发线应为 $25\%$ 而非固定 $20\%$）。
+
+## Corrected Claim
+
+‘5%极端高溢价卖家’的量化定义通常指挂价偏离度 D = (Ask - AvgDeal)/AvgDeal 超过第95百分位阈值 P95 的卖家群体。P95 的具体数值需通过平台历史数据回归确定，不应固定为单一数值（如20%），而应依据实际分布动态调整。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性参数示例（如 P95=25%）和特定的统计定义方法，属于经验事实而非第一性原理可推导的数学恒等式；且缺乏外部来源验证该特定阈值或定义在行业中的通用性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+second hand marketplace price deviation percentile distribution high premium sellers

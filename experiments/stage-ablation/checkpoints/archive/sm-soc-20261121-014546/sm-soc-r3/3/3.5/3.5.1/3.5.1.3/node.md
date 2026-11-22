@@ -1,0 +1,20 @@
+# N254: 样本量 N_sample 的最小有效阈值 N_min，当 N_sample < N_min（如 30）时，中位数 M_50 的标准误 SE 显著增大，导致价格锚
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N75
+
+## Claim
+
+样本量 N_sample 的最小有效阈值 N_min，当 N_sample < N_min（如 30）时，中位数 M_50 的标准误 SE 显著增大，导致价格锚点不稳定，需通过 Monte Carlo 模拟确定使 SE < 5% * M_50 的最小 N_sample 值。
+
+## Corrected Claim
+
+样本量 N_sample 的最小有效阈值 N_min，当 N_sample < N_min（如 30）时，中位数 M_50 的标准误 SE 显著增大，导致价格锚点不稳定，需通过 Monte Carlo 模拟确定使 SE < 5% * M_50 的最小 N_sample 值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：样本量不足导致统计量标准误增大是统计学基本规律，Monte Carlo 模拟用于确定满足精度要求的样本量是标准工程实践，逻辑自洽且量级合理。

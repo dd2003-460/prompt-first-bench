@@ -1,0 +1,20 @@
+# N187: 基于 T_res_cap_avg ≈ 100天 的失效概率 P_invalid 计算：P_invalid = 1 - exp(-u * T_res_cap_av
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N72
+
+## Claim
+
+基于 T_res_cap_avg ≈ 100天 的失效概率 P_invalid 计算：P_invalid = 1 - exp(-u * T_res_cap_avg) = 1 - exp(-0.01 * 100) = 1 - exp(-1) ≈ 0.632。这意味着 63.2% 的缓存条目在平均驻留期间会经历一次更新。但是，命中率折扣并非直接乘以 (1-P_invalid)，因为更新后对象可能立即被重新缓存（如果仍在缓存中且采用 ETag 验证，则不失效；如果采用主动失效，则失效）。在 LRU + 被动验证（ETag）模式下，更新本身不导致缓存失效，只有客户端请求时验证失败才导致 miss。因此，有效折扣系数应为 P_miss_due_to_update = P_invalid * P_verify_fail。若 P_verify_fail ≈ 1（每次请求都验证），则折扣系数为 1 - P_invalid * P_reuse。更准确的模型：H_eff = H_static * (1 - P_update_between_requests)。对于平均驻留 100 天的对象，若请求间隔 Δt_avg = 1/F_i，则 P_update_between_requests ≈ u * Δt_avg。对于头部对象，Δt_avg 极小，P_update 极小；对于尾部对象，Δt_avg 极大，P_update ≈ 1。
+
+## Corrected Claim
+
+基于 T_res_cap_avg ≈ 100天 的失效概率 P_invalid 计算：P_invalid = 1 - exp(-u * T_res_cap_avg) = 1 - exp(-0.01 * 100) = 1 - exp(-1) ≈ 0.632。这意味着 63.2% 的缓存条目在平均驻留期间会经历一次更新。但是，命中率折扣并非直接乘以 (1-P_invalid)，因为更新后对象可能立即被重新缓存（如果仍在缓存中且采用 ETag 验证，则不失效；如果采用主动失效，则失效）。在 LRU + 被动验证（ETag）模式下，更新本身不导致缓存失效，只有客户端请求时验证失败才导致 miss。因此，有效折扣系数应为 P_miss_due_to_update = P_invalid * P_verify_fail。若 P_verify_fail ≈ 1（每次请求都验证），则折扣系数为 1 - P_invalid * P_reuse。更准确的模型：H_eff = H_static * (1 - P_update_between_requests)。对于平均驻留 100 天的对象，若请求间隔 Δt_avg = 1/F_i，则 P_update_between_requests ≈ u * Δt_avg。对于头部对象，Δt_avg 极小，P_update 极小；对于尾部对象，Δt_avg 极大，P_update ≈ 1。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：指数分布失效概率计算正确（1-e^-1≈0.632），LRU+ETag机制下更新不直接导致失效的逻辑推导自洽，符合缓存理论基本模型。

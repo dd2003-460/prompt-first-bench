@@ -1,0 +1,20 @@
+# N159: H_base 的下界近似公式为 H_base ≈ H_head(K) * W_s，其中 H_head(K) 由 N91 给出，W_s 由 N58 定义，该乘积形
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N57
+
+## Claim
+
+H_base 的下界近似公式为 H_base ≈ H_head(K) * W_s，其中 H_head(K) 由 N91 给出，W_s 由 N58 定义，该乘积形式假设热度与大小在统计上独立（ρ=0），作为相关性修正前的基准。
+
+## Corrected Claim
+
+H_base 的下界近似公式为 H_base ≈ H_head(K) * W_s，其中 H_head(K) 由 N91 给出，W_s 由 N58 定义，该乘积形式假设热度与大小在统计上独立（ρ=0），作为相关性修正前的基准。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在统计独立假设下，联合熵或期望值分解为各分量乘积是标准的基准近似形式，量纲与逻辑自洽。

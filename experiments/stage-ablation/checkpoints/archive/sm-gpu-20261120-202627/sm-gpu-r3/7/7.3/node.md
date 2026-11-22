@@ -1,0 +1,24 @@
+# N134: 低显存卡（<16GB）多卡聚合可行性分析：评估 RTX 4080 (16GB) 或 RTX 3080 (10GB) 通过 PCIe/NVLink 聚合显存至 ≥
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N30
+
+## Claim
+
+低显存卡（<16GB）多卡聚合可行性分析：评估 RTX 4080 (16GB) 或 RTX 3080 (10GB) 通过 PCIe/NVLink 聚合显存至 ≥30GB 的技术可行性与性能代价。重点分析 PCIe 5.0/4.0 带宽（64/32 GB/s）对跨卡 KV Cache 访问的延迟影响，量化其相对于 HBM 带宽的性能下降百分比，判断是否值得纳入候选集。
+
+## Corrected Claim
+
+低显存卡（如 RTX 4080/3080）通过 PCIe 聚合显存至 ≥30GB 在技术上可行，但受限于 PCIe 带宽（远低于 HBM），跨卡 KV Cache 访问延迟显著增加，性能代价较高，通常不推荐用于对延迟敏感的大模型推理场景，具体可行性需结合实际负载测试评估。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件规格（RTX 4080/3080 显存大小、PCIe 带宽数值）及特定的技术可行性结论，属于经验事实。由于检索失败，无法验证这些具体数值（如 PCIe 5.0 实际有效带宽、NVLink 在消费级卡上的可用性）是否准确，且‘是否值得纳入候选集’是一个依赖具体应用场景的经验性判断，缺乏数据支撑。 | 经验事实，逻辑自洽但缺来源支持。虽然 PCIe 带宽远低于 HBM 是已知物理事实，但具体卡型规格及聚合后的性能代价量化缺乏外部证据验证。
+
+## Search Query
+
+multi-GPU PCIe bandwidth penalty LLM inference KV cache split performance loss

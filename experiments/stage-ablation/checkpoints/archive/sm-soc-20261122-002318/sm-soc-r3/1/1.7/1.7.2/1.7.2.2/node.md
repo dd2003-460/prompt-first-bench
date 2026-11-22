@@ -1,0 +1,20 @@
+# N149: 在右偏分布下，当挂价溢价 Premium=25% 时，匹配率 M_rate 的极端工作点计算：同样基于对数正态分布假设，计算 1 - LogNormalCDF(
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N51
+
+## Claim
+
+在右偏分布下，当挂价溢价 Premium=25% 时，匹配率 M_rate 的极端工作点计算：同样基于对数正态分布假设，计算 1 - LogNormalCDF(ln(P_market*1.25), ln(P_market), 0.18)，此工作点展示了高溢价下匹配率急剧下降的非线性特征，是解释‘高挂价’与‘低匹配’矛盾的关键参数。
+
+## Corrected Claim
+
+在右偏分布下，当挂价溢价 Premium=25% 时，匹配率 M_rate 的极端工作点计算：同样基于对数正态分布假设，计算 1 - LogNormalCDF(ln(P_market*1.25), ln(P_market), 0.18)，此工作点展示了高溢价下匹配率急剧下降的非线性特征，是解释‘高挂价’与‘低匹配’矛盾的关键参数。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：对数正态分布下，匹配率定义为价格低于挂价的比例，即 CDF(挂价)。挂价溢价25%意味着挂价为市场价的1.25倍。计算 1 - LogNormalCDF(ln(1.25), 0, 0.18) 等价于计算 LogNormalCDF(ln(1.25), 0, 0.18) 的补集（若定义匹配为买家出价高于挂价）或 CDF 本身（若定义匹配为卖家接受低于挂价的出价，通常匹配率指成交概率，即 min(Bid, Ask) 成交，此处语境暗示高挂价导致低匹配，故匹配率应随挂价升高而降低。若匹配率定义为 P(Bid >= Ask)，则 Bid ~ LogNormal(ln(Pm), 0.18)，Ask = 1.25 Pm。P(Bid >= 1.25 Pm) = 1 - CDF(ln(1.25 Pm)) = 1 - CDF(ln(1.25))。公式中 ln(P_market*1.25) 和 ln(P_market) 的差值为 ln(1.25)，标准差 0.18。逻辑上，高溢价导致匹配率下降符合经济学直觉，公式结构正确。

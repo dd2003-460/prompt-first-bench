@@ -1,0 +1,20 @@
+# N171: Batch 大小对吞吐量 (tokens/s) 的非线性影响：在 Memory-bound 场景下，Batch 增加会提高硬件利用率，但受限于显存容量，RTX 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N49, N50, N51
+
+## Claim
+
+Batch 大小对吞吐量 (tokens/s) 的非线性影响：在 Memory-bound 场景下，Batch 增加会提高硬件利用率，但受限于显存容量，RTX 4090 方案的最大可行 Batch 为 1 (INT8, 32K ctx)，导致其吞吐量上限被锁定，无法通过增加 Batch 提升总吞吐。
+
+## Corrected Claim
+
+Batch 大小对吞吐量 (tokens/s) 的非线性影响：在 Memory-bound 场景下，Batch 增加会提高硬件利用率，但受限于显存容量，RTX 4090 方案的最大可行 Batch 为 1 (INT8, 32K ctx)，导致其吞吐量上限被锁定，无法通过增加 Batch 提升总吞吐。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 显存 24GB，在 32K 上下文长度下，即使使用 INT8 量化，单个请求的 KV Cache 占用加上模型权重及激活值开销，通常已接近或超过显存上限，导致最大可行 Batch 为 1 是符合工程直觉的合理推断；Batch=1 时无法通过增大 Batch 提升吞吐的逻辑自洽。

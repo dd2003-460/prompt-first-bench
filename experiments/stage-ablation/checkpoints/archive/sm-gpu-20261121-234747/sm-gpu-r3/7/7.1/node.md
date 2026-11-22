@@ -1,0 +1,24 @@
+# N144: RTX 4090 24GB在运行Qwen3-27B INT8量化模型（使用llama.cpp或vLLM后端）时，在32K上下文长度下的实测吞吐量（tokens/
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N27
+
+## Claim
+
+RTX 4090 24GB在运行Qwen3-27B INT8量化模型（使用llama.cpp或vLLM后端）时，在32K上下文长度下的实测吞吐量（tokens/s）具体数值，需区分Prefill阶段和Decode阶段，并标注测试时的Batch Size（通常为1）和KV Cache占用显存比例
+
+## Corrected Claim
+
+RTX 4090 24GB在运行Qwen3-27B INT8量化模型时，由于模型权重（~27GB）已接近显存上限，32K上下文下的KV Cache占用可能导致显存溢出或严重性能瓶颈。具体吞吐量（Prefill/Decode）和KV Cache占比需根据特定软件栈（llama.cpp/vLLM版本）、量化方法及测试环境实测确定，无通用固定数值。
+
+## Evidence
+
+[质询]该陈述要求提供具体的实测吞吐量数值（tokens/s）及KV Cache显存占比，属于高度依赖具体硬件环境、软件版本、量化实现细节及测试脚本的经验性数据。不同来源（如llama.cpp vs vLLM，不同CUDA版本，不同量化库）测得的数值可能存在显著差异，且‘具体数值’若无特定测试条件约束（如具体prompt长度分布、并发数等），其唯一性和准确性难以保证。此外，24GB显存运行27B INT8模型（模型权重约27GB）在32K上下文下，KV Cache占用极大，可能导致OOM或严重Swap，使得‘实测吞吐量’这一指标在标准配置下可能无法稳定复现或数值极低，存在前提条件不成立的风险。 | 经验事实，逻辑自洽但缺来源支持。RTX 4090 24GB显存运行27B INT8模型（权重~27GB）在32K上下文下，KV Cache占用显存比例极高，甚至可能超出剩余显存导致无法运行或性能急剧下降，具体吞吐量数值高度依赖具体实现和测试环境，无通用固定值。
+
+## Search Query
+
+RTX 4090 Qwen3-27B INT8 32k context tokens/s benchmark llama.cpp vLLM

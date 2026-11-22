@@ -1,0 +1,24 @@
+# N60: M_max 截断条件的合理性校验：M_max ≈ 34.7 MB 是否合理？若实际 CDN 对象平均大小为 1MB，则 10 万对象的总数据量约为 100TB，
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N16
+
+## Claim
+
+M_max 截断条件的合理性校验：M_max ≈ 34.7 MB 是否合理？若实际 CDN 对象平均大小为 1MB，则 10 万对象的总数据量约为 100TB，远大于 128GB 缓存。M_max 公式可能不适用于离散对象集合，需改用经验截断或统计截断。[待核验] 需对比题面隐含的总数据量与 M_max 推导的一致性。
+
+## Corrected Claim
+
+在假设CDN对象平均大小为1MB且数量为10万的特定场景下，总数据量约为100TB，远超128GB缓存，此时M_max ≈ 34.7 MB的截断条件可能不适用，需结合具体分布进行经验或统计截断。
+
+## Evidence
+
+[质询]该陈述包含具体的数值推导（10万对象 * 1MB = 100TB）和工程判断（M_max公式不适用），属于经验事实与具体场景假设，无法从第一性原理严格推出，且缺乏外部来源支持其具体数值和结论的普适性。 | 逻辑自洽：100,000 * 1MB = 100,000MB ≈ 100TB，确实远大于128GB，推导无误。但作为search节点，此为经验事实/具体场景假设，无来源直接支持，故降级。
+
+## Search Query
+
+Pareto distribution truncation for object size distribution CDN

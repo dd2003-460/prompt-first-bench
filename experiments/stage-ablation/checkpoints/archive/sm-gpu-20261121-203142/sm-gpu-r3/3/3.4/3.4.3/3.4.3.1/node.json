@@ -1,0 +1,17 @@
+{
+  "id": "N228",
+  "claim": "1×H100 80GB BF16 方案的显存容量与 Batch Size 上限：H100 显存 80GB，BF16 权重 54GB，剩余 26GB 用于 KV Cache 和激活值；32K 上下文下单请求 KV Cache 约 2.1GB，理论 B_max ≈ 26 / 2.1 ≈ 12 个请求；实际受 HBM3 带宽（3.35 TB/s）限制，Decode 阶段带宽利用率约 80%，有效 TPS ≈ (3.35 TB/s * 0.8) / (54GB/2) ≈ 99 TPS/请求，若 B_max=12，总吞吐量 ≈ 1188 Tokens/s，单 Token 成本需基于此吞吐量重新计算。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]TPS计算公式存在严重的量纲和逻辑错误：公式 `(3.35 TB/s * 0.8) / (54GB/2)` 将总带宽除以权重大小的一半，这在物理上是不成立的。Decode阶段的瓶颈通常是读取KV Cache和权重，但吞吐量计算不能简单用总带宽除以权重大小，且忽略了KV Cache读取对带宽的占用（随着Batch Size增加，KV Cache读取量线性增加，会显著降低单请求TPS）。此外，26GB剩余显存用于12个请求的KV Cache（12 * 2.1GB = 25.2GB）几乎耗尽，未预留激活值空间，实际B_max应更小。 | 先验知识/题面给定，逻辑校验发现TPS计算公式量纲错误且忽略KV Cache带宽占用，显存分配未预留激活值空间，存在硬逻辑错误。",
+  "corrected_claim": "H100 80GB BF16方案：权重54GB，剩余26GB。32K上下文单请求KV Cache约2.1GB，若预留激活值空间，实际B_max约为10-11个请求。Decode阶段TPS受HBM3带宽限制，需综合考虑权重和KV Cache读取，单请求TPS随Batch Size增加而下降，总吞吐量需通过更复杂的带宽模型计算，而非简单公式。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N72"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

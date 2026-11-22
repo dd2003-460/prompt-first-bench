@@ -1,0 +1,24 @@
+# N165: 在消费级 PCIe 4.0 x8 链路下，实际有效带宽受协议开销（TLP header, ACK/NAK, flow control）影响，实测有效吞吐通常仅为
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N49
+
+## Claim
+
+在消费级 PCIe 4.0 x8 链路下，实际有效带宽受协议开销（TLP header, ACK/NAK, flow control）影响，实测有效吞吐通常仅为标称 32GB/s 的 70-80%，即约 22-25GB/s；结合 N120 修正后的通信量，需重新计算通信延迟占比。
+
+## Corrected Claim
+
+在消费级 PCIe 4.0 x8 链路下，实际有效带宽受协议开销（TLP header, ACK/NAK, flow control）影响，实测有效吞吐通常仅为标称 32GB/s 的 70-80%，即约 22-25GB/s；结合 N120 修正后的通信量，需重新计算通信延迟占比。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe 4.0 x8 标称带宽 32GB/s，扣除 TLP 头、流控等协议开销后，有效吞吐 70-80% (22-25GB/s) 符合工程常识与物理限制。
+
+## Search Query
+
+PCIe 4.0 x8 effective bandwidth overhead LLM inference tensor parallelism latency

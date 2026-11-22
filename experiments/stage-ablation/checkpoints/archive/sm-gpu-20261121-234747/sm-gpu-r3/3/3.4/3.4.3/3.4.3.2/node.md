@@ -1,0 +1,24 @@
+# N277: 延迟要求L_req对方案选择的影响：若L_req < 100ms/1K tokens，仅高吞吐硬件（如A100/H100）可通过增加batch size来满足，
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N99
+
+## Claim
+
+延迟要求L_req对方案选择的影响：若L_req < 100ms/1K tokens，仅高吞吐硬件（如A100/H100）可通过增加batch size来满足，此时4×A100因高吞吐优势占据主导地位；若L_req > 500ms/1K tokens，低吞吐硬件（如RTX 3090）因更低TCO而成为更优选择，具体阈值L*可通过吞吐-延迟曲线与成本曲线的交点确定
+
+## Corrected Claim
+
+延迟要求L_req对方案选择的影响：若L_req < 100ms/1K tokens，仅高吞吐硬件（如A100/H100）可通过增加batch size来满足，此时4×A100因高吞吐优势占据主导地位；若L_req > 500ms/1K tokens，低吞吐硬件（如RTX 3090）因更低TCO而成为更优选择，具体阈值L*可通过吞吐-延迟曲线与成本曲线的交点确定
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：高吞吐硬件（A100/H100）在低延迟要求下通过大Batch Size提升效率符合推理经济学原理，低吞吐硬件（RTX 3090）在高延迟容忍度下因TCO优势胜出符合成本-性能权衡逻辑，阈值L*的定义在数学上自洽。
+
+## Search Query
+
+latency requirement threshold GPU selection inference cost optimization

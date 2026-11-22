@@ -1,0 +1,24 @@
+# N231: NVFP4 量化下 Qwen3-27B 在短上下文（<4K）的困惑度增加具体数值需检索 NVIDIA TensorRT-LLM 官方发布博客或 GitHub R
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N59
+
+## Claim
+
+NVFP4 量化下 Qwen3-27B 在短上下文（<4K）的困惑度增加具体数值需检索 NVIDIA TensorRT-LLM 官方发布博客或 GitHub Release Notes 中针对 27B 级别模型的 Perplexity 对比数据，预期区间 [1.5%, 3.0%] 需被具体引用源证实或修正
+
+## Corrected Claim
+
+NVFP4 量化下 Qwen3-27B 在短上下文（<4K）的困惑度增加具体数值需检索 NVIDIA TensorRT-LLM 官方发布博客或 GitHub Release Notes 中针对 27B 级别模型的 Perplexity 对比数据以确认具体增幅，预期区间 [1.5%, 3.0%] 待证实。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值区间 [1.5%, 3.0%]，属于硬件/模型性能指标，无法从第一性原理推导，且当前无可用来源证实该具体数值区间是否准确，存在数值偏差风险。 | 经验事实，逻辑自洽但缺来源支持（检索失败，无外部证据）
+
+## Search Query
+
+NVIDIA TensorRT-LLM NVFP4 Qwen3-27B perplexity increase short context benchmark

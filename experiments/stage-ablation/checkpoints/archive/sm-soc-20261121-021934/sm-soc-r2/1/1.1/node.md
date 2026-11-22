@@ -1,0 +1,24 @@
+# N5: 共享随机源定义：卖家个体价值评估误差项 ε_i ~ N(0, σ_ε²)，其中 σ_ε² 由品类信息不对称度决定（二手非标品 σ_ε² ≈ 10-15%²，标品
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+共享随机源定义：卖家个体价值评估误差项 ε_i ~ N(0, σ_ε²)，其中 σ_ε² 由品类信息不对称度决定（二手非标品 σ_ε² ≈ 10-15%²，标品 σ_ε² ≈ 5%²），该噪声独立于演化压力，构成挂价偏离基准的随机基础。
+
+## Corrected Claim
+
+共享随机源定义：卖家个体价值评估误差项 ε_i ~ N(0, σ_ε²)，其中 σ_ε² 由品类信息不对称度决定（二手非标品 σ_ε² ≈ 10-15%²，标品 σ_ε² ≈ 5%²），该噪声独立于演化压力，构成挂价偏离基准的随机基础。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+used goods price variance noise standard deviation behavioral economics

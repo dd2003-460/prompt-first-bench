@@ -1,0 +1,24 @@
+# N16: 更新率 u=1%/天 导致 LRU 有效命中率打折因子 D = 1 - u * T_LRU，其中 T_LRU 为对象在 LRU 缓存中的平均驻留时间（天），需通
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N3
+
+## Claim
+
+更新率 u=1%/天 导致 LRU 有效命中率打折因子 D = 1 - u * T_LRU，其中 T_LRU 为对象在 LRU 缓存中的平均驻留时间（天），需通过热度分布和容量计算 T_LRU。
+
+## Corrected Claim
+
+在更新率 u 较小（u * T_LRU << 1）的近似条件下，LRU 有效命中率打折因子可近似为 D ≈ 1 - u * T_LRU，其中 T_LRU 为对象在 LRU 缓存中的平均驻留时间。
+
+## Evidence
+
+[质询]公式 D = 1 - u * T_LRU 是一个线性近似，仅在更新率 u 极小且 T_LRU 有限时成立；若 u * T_LRU 接近或超过 1，该公式将导致命中率因子为负或无意义，且未考虑 LRU 替换策略下的具体驱逐概率分布，属于简化模型而非严格物理/数学恒等式。 | 先验知识/题面给定，逻辑校验通过（作为小概率近似模型自洽），但缺乏来源直接支持其作为通用精确公式的适用性，且存在边界条件未说明的问题。
+
+## Search Query
+
+LRU cache update rate hit rate reduction factor

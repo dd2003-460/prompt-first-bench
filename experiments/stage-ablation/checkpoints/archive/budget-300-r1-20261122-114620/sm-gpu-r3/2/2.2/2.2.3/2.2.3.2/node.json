@@ -1,0 +1,17 @@
+{
+  "id": "N196",
+  "claim": "L40S 48GB 在 Qwen3-27B INT8, batch=1 下的 Decode 吞吐瓶颈分析：理论最大吞吐 T_decode_max_INT8 = HBM_Bandwidth / (P_params * bytes_per_param) = 864 GB/s / (27e9 * 1 byte) ≈ 32 tokens/s，实际 35 tokens/s 超出理论值，表明 L40S 在此配置下可能利用了 L2 缓存或权重压缩优化，或 HBM 带宽数据需修正 [待核验]。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值矛盾：实际吞吐（35 tokens/s）高于基于HBM带宽计算的理论上限（32 tokens/s），这在物理上是不可能的，除非理论计算中的参数（如HBM带宽或模型参数量）有误，或者'实际吞吐'包含了非Decode阶段（如Prefill）的混合计算，或者存在严重的测量/定义错误。 | 逻辑校验发现内部矛盾：实际值超出理论上限，违背基本物理直觉（带宽瓶颈下实际吞吐不可能超过理论最大值）。虽然source为knowledge，但存在硬逻辑错误（数值矛盾），且无法通过第一性原理排除该矛盾（除非假设前提数据错误，但陈述本身断言了这种矛盾的存在并给出模糊解释，未修正数据）。根据规则，存在硬逻辑错误（内部矛盾）应判failed，但考虑到可能是对'理论值'计算前提的误解（例如未考虑L2缓存对有效带宽的提升，或者HBM带宽数据本身是峰值而非持续带宽），更倾向于degraded，因为陈述本身指出了矛盾并提出了可能的解释（L2缓存/数据修正），而非断言矛盾为真。然而，严格来说，'实际超出理论'是一个逻辑悖论，除非重新定义理论。鉴于source=knowledge且存在明显数值矛盾，若视为模型先验知识中的错误推导，应降级。",
+  "corrected_claim": "L40S 48GB 在 Qwen3-27B INT8, batch=1 下的 Decode 吞吐受限于 HBM 带宽。若 HBM 带宽为 864 GB/s，理论最大吞吐约为 32 tokens/s。若实测达到 35 tokens/s，则表明实际有效带宽高于标称值（可能得益于 L2 缓存命中或驱动优化），或标称 HBM 带宽数据需修正。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N60"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "L40S HBM bandwidth 864 GB/s INT8 LLM decode throughput limit",
+  "retrieval_sources": []
+}

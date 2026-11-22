@@ -1,0 +1,24 @@
+# N255: 在二手平台市场中，卖家对价格调整系数 α 的实证分布均值约为 0.65，标准差为 0.15，该系数通过回归 P_t = P_{t-1} + α(P_target
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N76
+
+## Claim
+
+在二手平台市场中，卖家对价格调整系数 α 的实证分布均值约为 0.65，标准差为 0.15，该系数通过回归 P_t = P_{t-1} + α(P_target - P_{t-1}) + ε 估计得出。
+
+## Corrected Claim
+
+在二手平台市场中，卖家价格调整行为通常可用一阶误差修正模型（ECM）描述，即 P_t = P_{t-1} + α(P_target - P_{t-1}) + ε，其中调整系数 α 通常小于1，具体数值因市场环境和卖家策略而异。
+
+## Evidence
+
+[质询]该陈述包含具体的实证统计数值（均值0.65，标准差0.15），属于经验事实。虽然回归模型形式在经济学中常见，但具体的参数分布数值无法从第一性原理推导，且缺乏特定数据集或研究背景的限定，存在将特定小样本研究结果泛化为普遍市场规律的风险。 | 经验事实，逻辑自洽但缺来源支持（source=knowledge，但具体实证数值无法仅凭逻辑校验确认为普适真理，且无外部来源佐证具体数值，故降级为定性表述以保留核心逻辑）。
+
+## Search Query
+
+price adjustment coefficient alpha used goods market empirical distribution

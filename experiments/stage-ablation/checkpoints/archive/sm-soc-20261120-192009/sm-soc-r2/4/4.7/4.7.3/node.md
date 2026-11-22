@@ -1,0 +1,24 @@
+# N97: 数据可得性降级方案：若平台未公开 f_adjust 数据，则使用替代指标'收藏率变化'（收藏后24小时内价格敏感度系数变化）作为代理，其信噪比 SNR 预计降低
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N26
+
+## Claim
+
+数据可得性降级方案：若平台未公开 f_adjust 数据，则使用替代指标'收藏率变化'（收藏后24小时内价格敏感度系数变化）作为代理，其信噪比 SNR 预计降低 50%（即标准误加倍），此时置信度上限强制封顶为 0.6，并标记为 [间接证据]。
+
+## Corrected Claim
+
+数据可得性降级方案：若平台未公开 f_adjust 数据，则使用替代指标'收藏率变化'（收藏后24小时内价格敏感度系数变化）作为代理，其信噪比 SNR 预计降低 50%（即标准误加倍），此时置信度上限强制封顶为 0.6，并标记为 [间接证据]。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+Proxy metric for buyer price sensitivity when direct behavioral data is unavailable

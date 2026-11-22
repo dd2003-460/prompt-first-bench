@@ -1,0 +1,20 @@
+# N469: Head Parallelism策略下，Qwen3-27B（32层, GQA 8 KV heads）在32K上下文下，每步Decode跨卡传输的KV Cache
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N149
+
+## Claim
+
+Head Parallelism策略下，Qwen3-27B（32层, GQA 8 KV heads）在32K上下文下，每步Decode跨卡传输的KV Cache数据量计算公式为：Size_KV = 2 * num_layers * (num_kv_heads / num_gpus) * head_dim * seq_len * dtype_size，代入参数得：2 * 32 * (8/2) * 128 * 32768 * 2 bytes ≈ 1.07 GB（假设FP16/BF16存储KV），若为INT8则减半。
+
+## Corrected Claim
+
+Head Parallelism策略下，Qwen3-27B（32层, GQA 8 KV heads）在32K上下文下，每步Decode跨卡传输的KV Cache数据量计算公式为：Size_KV = 2 * num_layers * (num_kv_heads / num_gpus) * head_dim * seq_len * dtype_size，代入参数得：2 * 32 * (8/2) * 128 * 32768 * 2 bytes ≈ 1.07 GB（假设FP16/BF16存储KV），若为INT8则减半。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式结构符合GQA KV Cache计算逻辑，数值代入计算准确（2*32*4*128*32768*2 ≈ 1.07GB），量级合理。

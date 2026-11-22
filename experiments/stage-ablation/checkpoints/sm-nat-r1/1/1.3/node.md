@@ -1,0 +1,20 @@
+# N8: 联合分布形态：大小 S 与热度 R 的负相关 (ρ≈-0.3) 意味着热门对象倾向于较小，需定义联合 CDF F(S,R) 或通过 Copula 函数（如 Cl
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+联合分布形态：大小 S 与热度 R 的负相关 (ρ≈-0.3) 意味着热门对象倾向于较小，需定义联合 CDF F(S,R) 或通过 Copula 函数（如 Clayton Copula）量化依赖结构。
+
+## Corrected Claim
+
+联合分布形态：大小 S 与热度 R 的负相关 (ρ≈-0.3) 意味着热门对象倾向于较小，需定义联合 CDF F(S,R) 或通过 Copula 函数（如 Clayton Copula）量化依赖结构。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：负相关系数（ρ≈-0.3）在统计学上确实指示变量间的反向依赖关系，使用联合CDF或Copula函数（如Clayton Copula，常用于建模尾部依赖）来量化这种依赖结构是标准且逻辑自洽的统计建模方法。

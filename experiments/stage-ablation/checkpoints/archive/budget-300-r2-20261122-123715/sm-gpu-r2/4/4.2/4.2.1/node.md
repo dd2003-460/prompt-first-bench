@@ -1,0 +1,20 @@
+# N87: RTX 4090 (24GB) 在 INT8 精度下运行 Qwen3-27B (27GB) 的显存缺口 = 27GB - 24GB = 3GB，必须通过 CPU
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N20
+
+## Claim
+
+RTX 4090 (24GB) 在 INT8 精度下运行 Qwen3-27B (27GB) 的显存缺口 = 27GB - 24GB = 3GB，必须通过 CPU Offload 或降低 KV Cache 序列长度至 ~28K tokens 来弥补，此时 32K 约束被破坏，方案失效。
+
+## Corrected Claim
+
+RTX 4090 (24GB) 在 INT8 精度下运行 Qwen3-27B 时，仅模型权重即占用约27GB，已超出24GB显存上限，必须通过 CPU Offload 或量化至更低精度（如INT4）才能运行；单纯降低 KV Cache 序列长度无法解决权重显存不足的问题。
+
+## Evidence
+
+[质询]数值量级与逻辑推导存在严重错误：1. 27B参数模型在INT8精度下权重占用约27GB，加上KV Cache和激活值，总显存需求远超24GB，缺口远大于3GB（通常需40-50GB+）；2. 即使假设缺口仅为3GB，降低KV Cache长度至28K tokens（从32K降低12.5%）仅能节省KV Cache部分的显存，而KV Cache通常只占总显存的一小部分（取决于batch size和head数），无法弥补3GB的权重/激活值缺口；3. '32K约束被破坏'的因果关系不成立，降低序列长度是缓解显存压力的手段，而非导致方案失效的根本原因，根本原因是显存不足。 | 逻辑校验失败：INT8下27B模型显存需求估算错误，且KV Cache调整对总显存缺口的弥补能力被高估，内部逻辑不自洽。

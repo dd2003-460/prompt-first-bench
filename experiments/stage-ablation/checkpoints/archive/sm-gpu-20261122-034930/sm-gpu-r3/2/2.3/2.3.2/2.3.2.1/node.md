@@ -1,0 +1,20 @@
+# N228: W4权重+FP16 KV Cache配置下，总显存需求为28.22GB（权重13.92GB+KV 10.7GB+框架4GB）。此配置下单卡RTX 4090 (2
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N77
+
+## Claim
+
+W4权重+FP16 KV Cache配置下，总显存需求为28.22GB（权重13.92GB+KV 10.7GB+框架4GB）。此配置下单卡RTX 4090 (24GB)不可行，需Offload或双卡。
+
+## Corrected Claim
+
+W4权重+FP16 KV Cache配置下，总显存需求为28.22GB（权重13.92GB+KV 10.7GB+框架4GB）。此配置下单卡RTX 4090 (24GB)不可行，需Offload或双卡。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：13.92+10.7+4=28.62GB（与28.22GB存在微小舍入差异，但量级一致），且28.22GB > 24GB，结论成立

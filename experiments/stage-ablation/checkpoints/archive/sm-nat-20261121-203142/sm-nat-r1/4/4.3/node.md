@@ -1,0 +1,20 @@
+# N18: 量化工作点 1（低更新率 u=0.001）：δ ≈ 1 - 0.001 * (T_residence / L_object) ≈ 0.995-0.999，折损 
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+量化工作点 1（低更新率 u=0.001）：δ ≈ 1 - 0.001 * (T_residence / L_object) ≈ 0.995-0.999，折损 <0.5%，可忽略；此时 LRU 有效命中率 ≈ H_static。
+
+## Corrected Claim
+
+量化工作点 1（低更新率 u=0.001）：δ ≈ 1 - 0.001 * (T_residence / L_object) ≈ 0.995-0.999，折损 <0.5%，可忽略；此时 LRU 有效命中率 ≈ H_static。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：当更新率 u 极小（0.001）时，对象在缓存中的驻留时间远大于更新周期，导致状态变化概率极低，折损可忽略，LRU 命中率趋近于静态命中率，符合缓存理论基本直觉。

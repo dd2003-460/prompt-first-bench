@@ -1,0 +1,24 @@
+# N105: RTX 5090 显存带宽为 1792 GB/s (GDDR7, 32GB, 512-bit bus, 28 Gbps)。其 BF16 权重占用仍为 54GB 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N23
+
+## Claim
+
+RTX 5090 显存带宽为 1792 GB/s (GDDR7, 32GB, 512-bit bus, 28 Gbps)。其 BF16 权重占用仍为 54GB (超出 32GB 显存)，因此单卡无法运行 BF16 全量模型，必须使用量化 (如 FP8 或 INT4) 或启用 CPU offload。
+
+## Corrected Claim
+
+RTX 5090 显存带宽为 1792 GB/s (GDDR7, 32GB, 512-bit bus, 28 Gbps)。其 BF16 权重占用仍为 54GB (超出 32GB 显存)，因此单卡无法运行 BF16 全量模型，必须使用量化 (如 FP8 或 INT4) 或启用 CPU offload。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 5090 规格（512-bit @ 28 Gbps = 1792 GB/s）符合物理计算逻辑；54GB 权重超出 32GB 显存导致单卡无法运行 BF16 全量模型的结论在算术和工程逻辑上自洽。
+
+## Search Query
+
+RTX 5090 GDDR7 bandwidth 1792 GB/s 32GB VRAM Qwen3-27B fit

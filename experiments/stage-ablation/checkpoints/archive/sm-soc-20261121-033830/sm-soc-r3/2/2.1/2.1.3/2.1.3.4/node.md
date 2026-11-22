@@ -1,0 +1,24 @@
+# N158: R_stoch 对均衡稳定性的影响系数 κ_stability：定义均衡价格收敛速度 λ_convergence 与 R_stoch 的关系为 λ_conver
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N47
+
+## Claim
+
+R_stoch 对均衡稳定性的影响系数 κ_stability：定义均衡价格收敛速度 λ_convergence 与 R_stoch 的关系为 λ_convergence = 1 - κ_stability * R_stoch，其中 κ_stability 为市场调整系数，需通过历史数据中价格冲击后的恢复时间序列估计。
+
+## Corrected Claim
+
+R_stoch 对均衡稳定性的影响系数 κ_stability：定义均衡价格收敛速度 λ_convergence 与 R_stoch 的关系为 λ_convergence = 1 - κ_stability * R_stoch，其中 κ_stability 为市场调整系数，需通过历史数据中价格冲击后的恢复时间序列估计。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+market price convergence speed stochastic noise impact estimation

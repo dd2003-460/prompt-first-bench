@@ -1,0 +1,20 @@
+# N97: 构建高挂价-短周期均衡的动态系统微分方程组：d(P_list)/dt = α_seller(P_market - P_list) + β_platform(P_
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+构建高挂价-短周期均衡的动态系统微分方程组：d(P_list)/dt = α_seller(P_market - P_list) + β_platform(P_list) - γ_buyer(V_buyer - P_list)，其中 α, β, γ 分别为卖家、平台、买家对价格偏差的响应系数。
+
+## Corrected Claim
+
+构建高挂价-短周期均衡的动态系统微分方程组：d(P_list)/dt = α_seller(P_market - P_list) + β_platform(P_list) - γ_buyer(V_buyer - P_list)，其中 α, β, γ 分别为卖家、平台、买家对价格偏差的响应系数。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应微分方程组中的三个系数（α, β, γ）的量化定义以及平衡点的解析解，彼此之间无重叠或矛盾，且完整覆盖了父节点中提到的所有关键组成部分（三个系数及最终求解目标）。每个子节点都是独立的参数定义或推导步骤，不存在冗余。）

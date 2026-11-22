@@ -1,0 +1,26 @@
+# N115: 演化压力与随机噪声的耦合机制公式：定义演化定向压力项 E_dir 为卖家对短期收益最大化的适应度函数梯度 ∂Fitness/∂P_ask，随机噪声项 ε_ran
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+演化压力与随机噪声的耦合机制公式：定义演化定向压力项 E_dir 为卖家对短期收益最大化的适应度函数梯度 ∂Fitness/∂P_ask，随机噪声项 ε_rand 为服从 N(0, σ²_pref) 的偏好扰动；均衡挂价 P_ask* 满足 ∂Fitness/∂P_ask + λ_noise * ε_rand = 0，其中 λ_noise 为噪声敏感度系数（估计值 0.2-0.5），该方程解释了为何高挂价（定向压力）与短周期（噪声匹配）能共存于同一均衡点。
+
+## Corrected Claim
+
+在特定的演化博弈或随机优化模型中，可定义演化定向压力项与随机噪声项的耦合机制，均衡挂价满足 ∂Fitness/∂P_ask + λ_noise * ε_rand = 0，其中 λ_noise 为噪声敏感度系数，该方程在特定参数设定下可解释高挂价与短周期共存的均衡现象。
+
+## Evidence
+
+[质询]该公式为特定模型下的理论构造，缺乏通用性；且参考来源仅涉及演化博弈的一般框架或生鲜供应链，未提供该特定耦合机制公式及其参数（λ_noise 0.2-0.5）的直接支持，属于经验/模型特定事实，无法从第一性原理直接推出。 | 逻辑上自洽（梯度+噪声项=0是随机优化/均衡的常见形式），但来源[1][2][3]均未直接提及该具体公式或参数范围，属于间接相关或无关，依据经验事实排除条款降级。
+
+## Retrieval Sources
+
+- {'url': 'https://pdf.hanspub.org/ORF20240200000_24339369.pdf&rut=71302cf2fea79e0da83af2998078e6e25e8d737580a3f7b0dd51c0f7aa81505b', 'type': 'ddg', 'title': 'PDF 基于生鲜农产品供应链上的随机演化博弈分析'}
+- {'url': 'https://blog.csdn.net/weixin_31960565/article/details/168256883&rut=e4bdf3744c1ffe5a1d469105a2e24c20c0e77d0528fddb64818debf8c17e8bda', 'type': 'ddg', 'title': 'Matlab演化博弈仿真基座：复制动态建模与噪声鲁棒性验证-csdn博客'}
+- {'url': 'https://blog.csdn.net/weixin_29053383/article/details/164444156&rut=91f5669f60cad74acdfaa84c826de5c8936e5253a4a695536c965ab6626d4167', 'type': 'ddg', 'title': '演化博弈仿真代码包详解：从复制者动态到参数调优-csdn博客'}

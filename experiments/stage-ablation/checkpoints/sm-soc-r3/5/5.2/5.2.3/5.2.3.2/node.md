@@ -1,0 +1,24 @@
+# N269: 预测误差 ΔError 的置信区间宽度：ΔError_CI = 2 * t_(0.975, df) * SE(ΔError)，其中 SE(ΔError) 取决于
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N91
+
+## Claim
+
+预测误差 ΔError 的置信区间宽度：ΔError_CI = 2 * t_(0.975, df) * SE(ΔError)，其中 SE(ΔError) 取决于样本量 n 和残差方差；若 n < 500，CI 宽度将超过 ΔError 点估计值的 50%，导致置信度 80% 的结论不可靠。
+
+## Corrected Claim
+
+预测误差 ΔError 的置信区间宽度由 ΔError_CI = 2 * t_(0.975, df) * SE(ΔError) 决定。随着样本量 n 减小，t 值增大且 SE 增大，导致 CI 宽度显著增加。在 n < 500 且效应量不显著的情况下，CI 宽度往往较大，可能降低统计推断的精度。
+
+## Evidence
+
+[质询]陈述中关于样本量 n < 500 时置信区间宽度必然超过点估计值 50% 的断言缺乏普适性，其成立高度依赖于效应量（Effect Size）与残差方差的比值（即 t 统计量的大小）。若效应量极大（t 值很大），即使 n 较小，CI 宽度也可能小于点估计值的 50%。此外，'置信度 80% 的结论不可靠'这一表述在统计学上定义模糊，通常置信区间宽度反映的是精度而非结论的可靠性（Validity）。 | 先验知识/题面给定，逻辑校验通过。公式 ΔError_CI = 2 * t * SE 符合统计学标准定义（近似正态分布下的 95% CI）。虽然 n<500 时 CI 变宽是统计规律，但具体阈值（50%）和结论可靠性判断属于经验性概括，缺乏绝对普适性，故降级为定性表述。
+
+## Search Query
+
+confidence interval width for sensitivity analysis in small sample regression

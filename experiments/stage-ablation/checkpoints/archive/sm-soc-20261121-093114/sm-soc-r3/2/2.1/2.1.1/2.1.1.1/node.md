@@ -1,0 +1,24 @@
+# N135: 共享随机源：市场信号强度 S_signal 的分布参数，μ_S = μ_rarity * Scarcity_perception + μ_trend * Tre
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N44
+
+## Claim
+
+共享随机源：市场信号强度 S_signal 的分布参数，μ_S = μ_rarity * Scarcity_perception + μ_trend * Trend_momentum，σ_S^2 = σ_rarity^2 + σ_trend^2 + 2 * ρ_st * σ_rarity * σ_trend，其中 Scarcity_perception 和 Trend_momentum 为可观测变量，ρ_st 为稀缺性与趋势的相关系数，需通过商品类别数据估计 μ_rarity、μ_trend、σ_rarity、σ_trend 和 ρ_st。
+
+## Corrected Claim
+
+共享随机源：市场信号强度 S_signal 的分布参数，μ_S = μ_rarity * Scarcity_perception + μ_trend * Trend_momentum，σ_S^2 = σ_rarity^2 + σ_trend^2 + 2 * ρ_st * σ_rarity * σ_trend，其中 Scarcity_perception 和 Trend_momentum 为可观测变量，ρ_st 为稀缺性与趋势的相关系数，需通过商品类别数据估计 μ_rarity、μ_trend、σ_rarity、σ_trend 和 ρ_st。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式符合线性组合的均值与方差定义（含协方差项），量纲一致，无内部矛盾。
+
+## Search Query
+
+market signal strength distribution parameters scarcity perception trend momentum correlation

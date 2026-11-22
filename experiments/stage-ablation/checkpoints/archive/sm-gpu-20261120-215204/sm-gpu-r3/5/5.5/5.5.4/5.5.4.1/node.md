@@ -1,0 +1,20 @@
+# N375: 工作点A (高性低成/计算瓶颈型)：2×RTX 4090 在 Batch Size=1, 32K 上下文下，Prefill 阶段受限于计算而非带宽，理论耗时 =
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N134
+
+## Claim
+
+工作点A (高性低成/计算瓶颈型)：2×RTX 4090 在 Batch Size=1, 32K 上下文下，Prefill 阶段受限于计算而非带宽，理论耗时 = 1.77 TFLOPs / (2 * 82.6 TFLOPS * 0.4 MFU) ≈ 54ms，叠加 PCIe 同步开销 (估算 0.5s) 后，总 TTFT 约为 0.55s，远低于 10s 约束，此时 PCIe 带宽不是瓶颈。
+
+## Corrected Claim
+
+工作点A (高性低成/计算瓶颈型)：2×RTX 4090 在 Batch Size=1, 32K 上下文下，Prefill 阶段受限于计算而非带宽，理论耗时 = 1.77 TFLOPs / (2 * 82.6 TFLOPS * 0.4 MFU) ≈ 54ms，叠加 PCIe 同步开销 (估算 0.5s) 后，总 TTFT 约为 0.55s，远低于 10s 约束，此时 PCIe 带宽不是瓶颈。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 FP16算力约82.6 TFLOPS，2卡并行计算耗时约54ms，叠加PCIe同步开销后总耗时远低于10s约束，符合计算瓶颈型工作点特征。

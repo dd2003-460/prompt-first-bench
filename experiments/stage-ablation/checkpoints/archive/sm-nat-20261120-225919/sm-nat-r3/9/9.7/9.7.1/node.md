@@ -1,0 +1,20 @@
+# N271: LFU 与 LRU 在静态负载下的字节命中率差值 ΔH_static：由于 ρ=-0.3，LFU 倾向于保留高频（小）对象，LRU 倾向于保留最近访问（可能包含
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N103
+
+## Claim
+
+LFU 与 LRU 在静态负载下的字节命中率差值 ΔH_static：由于 ρ=-0.3，LFU 倾向于保留高频（小）对象，LRU 倾向于保留最近访问（可能包含较大冷对象）。在稳态下，若 LFU 保留前 K 个最热对象，LRU 保留最近 K 个访问对象。由于热度分布 Pareto(β=0.9) 陡峭，前 K 个最热对象贡献了大部分请求。ΔH_static = H_LFU - H_LRU ≈ (Σ_{i=1}^K R_i * S_i / D_byte)_LFU - (Σ_{i=1}^K R_i * S_i / D_byte)_LRU。由于 LFU 的 K 个对象频率更高但大小更小，而 LRU 的 K 个对象频率较低但大小可能更大，ΔH_static 的正负取决于 S_i 与 R_i 的耦合。估算 ΔH_static ∈ [0.01, 0.05] (1-5%)
+
+## Corrected Claim
+
+LFU 与 LRU 在静态负载下的字节命中率差值 ΔH_static：由于 ρ=-0.3，LFU 倾向于保留高频（小）对象，LRU 倾向于保留最近访问（可能包含较大冷对象）。在稳态下，若 LFU 保留前 K 个最热对象，LRU 保留最近 K 个访问对象。由于热度分布 Pareto(β=0.9) 陡峭，前 K 个最热对象贡献了大部分请求。ΔH_static = H_LFU - H_LRU ≈ (Σ_{i=1}^K R_i * S_i / D_byte)_LFU - (Σ_{i=1}^K R_i * S_i / D_byte)_LRU。由于 LFU 的 K 个对象频率更高但大小更小，而 LRU 的 K 个对象频率较低但大小可能更大，ΔH_static 的正负取决于 S_i 与 R_i 的耦合。估算 ΔH_static ∈ [0.01, 0.05] (1-5%)
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

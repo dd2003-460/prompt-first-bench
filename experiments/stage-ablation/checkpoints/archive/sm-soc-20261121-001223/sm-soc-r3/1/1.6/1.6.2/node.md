@@ -1,0 +1,20 @@
+# N48: 基准分布的定义：P(Short Cycle | Baseline) = 1 - e^(-k_deal_base * T_observation)，其中k_dea
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N10
+
+## Claim
+
+基准分布的定义：P(Short Cycle | Baseline) = 1 - e^(-k_deal_base * T_observation)，其中k_deal_base为基准咨询到成交转化率（0.3-0.5），用于对比高挂价+高咨询情况下的成交周期缩短概率是否显著高于基准。
+
+## Corrected Claim
+
+基准分布的定义：P(Short Cycle | Baseline) = 1 - e^(-k_deal_base * T_observation)，其中k_deal_base为基准咨询到成交转化率（0.3-0.5），用于对比高挂价+高咨询情况下的成交周期缩短概率是否显著高于基准。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（两个子节点分别针对公式中的两个独立变量（k_deal_base 和 T_observation）进行定义和校准，彼此正交且无矛盾。它们共同覆盖了父节点中定义基准分布所需的所有关键参数，没有遗漏。每个子节点都是独立的参数定义，不属于同一参数的不同取值，因此不存在冗余。）

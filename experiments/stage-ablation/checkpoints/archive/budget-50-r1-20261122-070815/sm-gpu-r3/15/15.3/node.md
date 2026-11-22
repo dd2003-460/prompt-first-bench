@@ -1,0 +1,24 @@
+# N444: RTX 4090 在 RTX 5090 发布前 3 个月与发布后 3 个月的二手市场平均价格差值（USD），用于计算冲击系数 K_price = (P_4090
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N153
+
+## Claim
+
+RTX 4090 在 RTX 5090 发布前 3 个月与发布后 3 个月的二手市场平均价格差值（USD），用于计算冲击系数 K_price = (P_4090_pre - P_4090_post) / P_4090_pre，量化对 TCO 中 C_hw 项的直接冲击
+
+## Corrected Claim
+
+RTX 4090 在 RTX 5090 发布前后的二手市场价格波动可用于计算冲击系数 K_price，具体数值需依赖实时市场数据。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（二手市场平均价格差值），属于硬件市场价格数据，无法从第一性原理推导，且缺乏具体数值支撑，仅作为定义性描述存在，但作为事实节点缺乏具体数据支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且属于市场价格经验数据，不适用第一性原理推导）
+
+## Search Query
+
+RTX 4090 used price drop after RTX 5090 release

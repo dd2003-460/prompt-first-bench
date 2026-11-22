@@ -1,0 +1,28 @@
+# N29: 在INT8精度下，NVIDIA RTX 4090 (24GB) 运行 Qwen3-27B 的稳态生成吞吐率（Token/s）约为 20-30，首Token延迟（
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+在INT8精度下，NVIDIA RTX 4090 (24GB) 运行 Qwen3-27B 的稳态生成吞吐率（Token/s）约为 20-30，首Token延迟（TTFT）约为 2-4s，每Token生成时间（TPOT）约为 33-50ms
+
+## Corrected Claim
+
+在INT8精度下，NVIDIA RTX 4090 (24GB) 运行 Qwen3-27B 的稳态生成吞吐率（Token/s）约为 20-30，首Token延迟（TTFT）约为 2-4s，每Token生成时间（TPOT）约为 33-50ms（注：参考来源针对 Qwen3.8-27B，数值需以具体模型版本实测为准）
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间存在逻辑断层：子节点2指出INT8方案物理不可行，子节点3和4分别提供了W4和Offload两种替代方案的估算，但父节点明确声称在INT8下吞吐率为20-30 Token/s。子节点并未解释为何在INT8不可行的情况下，父节点仍给出INT8的性能数据（例如是否隐含了混合精度、KV Cache量化或父节点本身错误），导致对父节点中'INT8'这一核心前提的覆盖和解释不完整。此外，子节点3和4是对不同配置（W4 vs Offload）的独立分析，属于正交情况，不冗余。）
+
+## Search Query
+
+NVIDIA RTX 4090 Qwen3-27B INT8 inference throughput tokens per second TTFT TPOT
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2083555506732512359&rut=cfac76ade0bcbc3ce835d2eeb7969c8fad6071731337957cc1a252fb3f9a50d1', 'type': 'ddg', 'title': '24GB 显存榨干指南：RTX 4090D 部署 Qwen3.8-27B 全流程实测'}

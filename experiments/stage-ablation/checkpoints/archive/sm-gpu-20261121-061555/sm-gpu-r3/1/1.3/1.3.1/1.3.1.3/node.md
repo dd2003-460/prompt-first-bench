@@ -1,0 +1,24 @@
+# N161: Tesla P40 的 24GB 显存容量在 INT8 量化下足以容纳 Qwen3-27B 权重 (~14GB) 及 32K 上下文 KV Cache (~4-
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N46
+
+## Claim
+
+Tesla P40 的 24GB 显存容量在 INT8 量化下足以容纳 Qwen3-27B 权重 (~14GB) 及 32K 上下文 KV Cache (~4-6GB)，满足容量硬性约束，但其 GDDR5 显存无 ECC 支持，长期运行数据完整性风险需通过软件校验层弥补。
+
+## Corrected Claim
+
+Tesla P40 的 24GB 显存容量在 INT8 量化下足以容纳 Qwen3-27B 权重 (~14GB) 及 32K 上下文 KV Cache (~4-6GB)，满足容量硬性约束，但其 GDDR5 显存无 ECC 支持，长期运行数据完整性风险需通过软件校验层弥补。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数INT8量化约13.5GB，32K上下文KV Cache估算在4-6GB范围内，总显存占用约18-20GB，小于24GB容量；Tesla P40确实使用GDDR5且无ECC支持，需软件层保障数据完整性。
+
+## Search Query
+
+Tesla P40 24GB Qwen 27B INT8 memory footprint KV cache size

@@ -1,0 +1,20 @@
+# N239: 在候选A（强制价格上限）下，价格分布发生截断效应：所有 P > P_max 的密度被截断至 0，导致 E[P_new] 的上限被硬性约束为 P_max = P_
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N77
+
+## Claim
+
+在候选A（强制价格上限）下，价格分布发生截断效应：所有 P > P_max 的密度被截断至 0，导致 E[P_new] 的上限被硬性约束为 P_max = P_median * (1 - k)，具体数值取决于 k 的设定（如 k=0.1 时上限为 0.9*P_median）。
+
+## Corrected Claim
+
+在候选A（强制价格上限）下，价格分布发生截断效应：所有 P > P_max 的密度被截断至 0，导致 E[P_new] 的上限被硬性约束为 P_max = P_median * (1 - k)，具体数值取决于 k 的设定（如 k=0.1 时上限为 0.9*P_median）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：强制价格上限（Price Cap）在数学定义上确实将高于上限的价格密度截断为0，且期望值上限受限于该上限值，公式推导自洽。

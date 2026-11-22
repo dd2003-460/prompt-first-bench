@@ -1,0 +1,20 @@
+# N241: ONNX Runtime + NPU 方案的总成本权重 1.5-3.0 区间下限 1.5 对应算子覆盖率 80% 且无严重性能瓶颈，上限 3.0 对应算子覆盖率
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N91
+
+## Claim
+
+ONNX Runtime + NPU 方案的总成本权重 1.5-3.0 区间下限 1.5 对应算子覆盖率 80% 且无严重性能瓶颈，上限 3.0 对应算子覆盖率 <70% 且需大量 NPU 专用算子开发，权重计算公式为 (适配工时 * $500 + Bug 成本) / $5000。
+
+## Corrected Claim
+
+ONNX Runtime + NPU 方案的总成本权重 1.5-3.0 区间下限 1.5 对应算子覆盖率 80% 且无严重性能瓶颈，上限 3.0 对应算子覆盖率 <70% 且需大量 NPU 专用算子开发，权重计算公式为 (适配工时 * $500 + Bug 成本) / $5000。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

@@ -1,0 +1,24 @@
+# N286: Apple M3 Ultra 在 llama.cpp 框架下的 Qwen3-27B 推理支持状态需验证，若缺乏原生优化或需手动配置，维护成本 (OpEx_Mai
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N78
+
+## Claim
+
+Apple M3 Ultra 在 llama.cpp 框架下的 Qwen3-27B 推理支持状态需验证，若缺乏原生优化或需手动配置，维护成本 (OpEx_Maintenance) 增加 20-50%，具体金额需基于基准维护成本估算。
+
+## Corrected Claim
+
+Apple M3 Ultra 在 llama.cpp 框架下对 Qwen3-27B 的推理支持状态及潜在维护成本影响需进一步验证，具体成本增加比例缺乏公开基准数据支持。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（维护成本增加20-50%）和特定技术兼容性断言（M3 Ultra + llama.cpp + Qwen3-27B），这些属于硬件/软件生态的经验事实，无法从第一性原理推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体百分比及兼容性状态）
+
+## Search Query
+
+Apple M3 Ultra llama.cpp Qwen3-27B support compatibility

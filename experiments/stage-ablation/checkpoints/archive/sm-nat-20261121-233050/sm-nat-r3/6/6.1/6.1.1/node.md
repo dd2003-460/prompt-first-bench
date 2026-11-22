@@ -1,0 +1,20 @@
+# N147: Top-K 对象大小占比公式的离散化修正项：连续 Pareto 分布下 F(K) = 1 - (1-K/N)^(1-α)，离散化后需引入有限样本修正 δ_dis
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N58
+
+## Claim
+
+Top-K 对象大小占比公式的离散化修正项：连续 Pareto 分布下 F(K) = 1 - (1-K/N)^(1-α)，离散化后需引入有限样本修正 δ_discrete ≈ O(1/N)。在 N=100,000, α=1.1 下，δ_discrete 对 K=1% 的影响约为 0.1%，对 K=50% 的影响可忽略。
+
+## Corrected Claim
+
+Top-K 对象大小占比公式的离散化修正项：连续 Pareto 分布下 F(K) = 1 - (1-K/N)^(1-α)，离散化后需引入有限样本修正 δ_discrete ≈ O(1/N)。在 N=100,000, α=1.1 下，δ_discrete 对 K=1% 的影响约为 0.1%，对 K=50% 的影响可忽略。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：连续Pareto分布的CDF公式正确，离散化修正项量级O(1/N)符合有限样本统计规律，N=100,000时0.1%的影响量级合理

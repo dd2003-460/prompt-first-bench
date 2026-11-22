@@ -1,0 +1,24 @@
+# N101: 修正自矛盾检测：Qwen3-27B 实际架构参数为 60 layers, hidden_size=4096, num_kv_heads=8 (GQA), hea
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N28
+
+## Claim
+
+修正自矛盾检测：Qwen3-27B 实际架构参数为 60 layers, hidden_size=4096, num_kv_heads=8 (GQA), head_dim=128 (非 N8 所述的 64 layers/32 heads)。基于此，32K 上下文 BF16 KV Cache 精确计算为 2 * 60 * 8 * 128 * 32768 * 2 bytes / 1e9 = 2.01 GB。N8 中 12.58GB 的数值错误源于误用 num_heads=32 且 layer=64，导致高估 6.25 倍。
+
+## Corrected Claim
+
+Qwen3-27B 的架构参数需以官方技术报告为准；若确认为 60 layers, hidden_size=4096, num_kv_heads=8, head_dim=128，则 32K 上下文 BF16 KV Cache 约为 2.01 GB。
+
+## Evidence
+
+[质询]Qwen3-27B 的具体架构参数（如层数、KV头数、隐藏维度）属于经验事实，且不同版本或配置可能存在差异，仅凭逻辑推导无法确证其唯一性，存在参数记忆偏差或版本混淆的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体架构参数及N8错误归因）
+
+## Search Query
+
+Qwen3-27B architecture config num_layers num_kv_heads head_dim huggingface config.json

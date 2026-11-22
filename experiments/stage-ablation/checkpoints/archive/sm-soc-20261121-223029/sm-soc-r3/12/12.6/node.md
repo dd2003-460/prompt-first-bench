@@ -1,0 +1,20 @@
+# N376: ‘买家高支付意愿噪声’替代假设的判别式：计算高溢价组中非理性成交（无议价直接支付）的比例 P_irrational 与低溢价组的差值 ΔP_irrational
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N125, N126, N127
+
+## Claim
+
+‘买家高支付意愿噪声’替代假设的判别式：计算高溢价组中非理性成交（无议价直接支付）的比例 P_irrational 与低溢价组的差值 ΔP_irrational；若 β_exp 不显著且 ΔP_irrational > 10%，则支持买家噪声假设，此时平台驱动断言置信度降至低，并需报告 P_irrational 的 95% 置信区间以量化噪声强度。
+
+## Corrected Claim
+
+‘买家高支付意愿噪声’替代假设的判别式：计算高溢价组中非理性成交（无议价直接支付）的比例 P_irrational 与低溢价组的差值 ΔP_irrational；若 β_exp 不显著且 ΔP_irrational > 10%，则支持买家噪声假设，此时平台驱动断言置信度降至低，并需报告 P_irrational 的 95% 置信区间以量化噪声强度。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

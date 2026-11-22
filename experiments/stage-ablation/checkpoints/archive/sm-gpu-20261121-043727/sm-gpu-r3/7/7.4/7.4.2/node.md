@@ -1,0 +1,30 @@
+# N246: H100 的硬件成本 ~$28,000 存在较大波动（2024-2025 市场均价可能在 $25,000-$35,000 之间），需使用 2024 Q4 的实际
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N92
+
+## Claim
+
+H100 的硬件成本 ~$28,000 存在较大波动（2024-2025 市场均价可能在 $25,000-$35,000 之间），需使用 2024 Q4 的实际采购均价重新计算其 3 年折旧，以验证电力成本占比 5.3% 的结论是否稳健。
+
+## Corrected Claim
+
+H100 的硬件成本存在显著市场波动（2024年二手/翻新价格曾高达$50,000，随后大幅下跌），原估算的~$28,000可能不准确，需使用2024 Q4的实际采购均价重新计算其3年折旧，以验证电力成本占比5.3%的结论是否稳健。
+
+## Evidence
+
+[质询]来源[1]指出2024年中二手/翻新H100价格高达$50,000，且市场波动剧烈，这与陈述中“2024-2025市场均价可能在$25,000-$35,000之间”的区间存在显著偏差，尤其是对于非全新或特定渠道的硬件，该价格区间可能低估了实际成本波动范围。 | 来源[1]直接证实了H100市场价格存在剧烈波动（从$50,000下跌），支持了“存在较大波动”及“需重新计算”的逻辑必要性，但具体均价区间$25k-$35k与来源中提到的$50k高点不完全一致，且来源未直接提供2024 Q4的确切采购均价，故降级为定性表述。
+
+## Search Query
+
+NVIDIA H100 SXM price 2024 average market cost
+
+## Retrieval Sources
+
+- {'url': 'https://www.silicondata.com/use-cases/h100-gpu-market-value-trends&rut=6bb893ed3a9776884c585cde7f9962862f053f6018e74a6b29e873d68bd0fc64', 'type': 'ddg', 'title': 'The Illusion of Stability: Unpacking H100 GPU Market Value Trends'}
+- {'url': 'https://www.gmicloud.ai/en/blog/how-much-does-the-nvidia-h100-gpu-cost-in-2025-buy-vs-rent-analysis&rut=08a71014804103b3c9413f15119578bd521b2093b5bd41f363c41bc969182293', 'type': 'ddg', 'title': 'How Much Does the NVIDIA H100 GPU Cost in 2025? Buy vs. Rent'}
+- {'url': 'https://www.silicondata.com/blog/h100-rental-price-over-time&rut=ae46e82623cdd222c531e23533f5b23cef50858d61bd912c5cb481569c50a838', 'type': 'ddg', 'title': 'H100 Rental Price Over Time (2023-2025): A Complete Market Analysis'}

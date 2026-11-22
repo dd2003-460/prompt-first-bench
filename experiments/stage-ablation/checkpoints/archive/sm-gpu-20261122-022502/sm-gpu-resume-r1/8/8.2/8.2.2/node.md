@@ -1,0 +1,24 @@
+# N316: RTX 5090 运行 INT4 权重时，由于 Blackwell 架构对 INT4 Tensor Core 的原生支持，实际 Decode 吞吐可能突破纯带宽
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N113
+
+## Claim
+
+RTX 5090 运行 INT4 权重时，由于 Blackwell 架构对 INT4 Tensor Core 的原生支持，实际 Decode 吞吐可能突破纯带宽上限 (132.7 tokens/s)，预计提升幅度为 10-20%，需参考 RTX 50 系列官方白皮书或第三方实测数据 [时效待核]。
+
+## Corrected Claim
+
+RTX 5090 运行 INT4 权重时，Blackwell 架构对 INT4 Tensor Core 的原生支持可能提升 Decode 吞吐，具体提升幅度需参考官方白皮书或第三方实测数据。
+
+## Evidence
+
+[质询]该陈述包含具体的性能提升幅度（10-20%）和特定硬件行为（INT4原生支持突破带宽上限），属于经验事实。由于检索无可用来源，无法验证该具体数值范围及架构特性的实际表现，存在将理论潜力误判为确定事实的风险。 | 经验事实，逻辑自洽但缺来源支持（检索失败，无外部证据佐证具体提升幅度）
+
+## Search Query
+
+RTX 5090 INT4 inference benchmark tokens per second vs bandwidth limit

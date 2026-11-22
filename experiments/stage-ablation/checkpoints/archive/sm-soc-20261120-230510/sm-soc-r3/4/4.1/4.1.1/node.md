@@ -1,0 +1,28 @@
+# N68: 价格权重参数 Δα_price：定义为搜索排序函数中 P_ask 的系数变化量，当前 α_0 > 0（正相关），干预目标为 α_1 = 0 或负值，Δα = α
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N16
+
+## Claim
+
+价格权重参数 Δα_price：定义为搜索排序函数中 P_ask 的系数变化量，当前 α_0 > 0（正相关），干预目标为 α_1 = 0 或负值，Δα = α_1 - α_0，需通过 A/B 测试校准当前 α_0 的具体数值。
+
+## Corrected Claim
+
+价格权重参数 Δα_price 定义为搜索排序函数中 P_ask 的系数变化量（Δα = α_1 - α_0），其中当前 α_0 > 0，干预目标为 α_1 ≤ 0；具体数值需通过 A/B 测试校准。
+
+## Evidence
+
+[质询]该陈述定义了具体的算法参数（Δα_price）及干预目标，属于特定系统或假设模型中的经验性/设计性事实，而非通用物理或数学定律。参考来源仅讨论微观价格（Microprice）概念，未涉及任何排序函数权重参数或A/B测试校准细节，无法提供外部支持。 | 逻辑自洽（参数定义与干预目标在数学上无矛盾），但参考来源[1]仅涉及微观价格理论，与搜索排序权重参数无关，属于经验事实且缺乏来源支持。
+
+## Search Query
+
+search ranking algorithm price weight coefficient ecommerce
+
+## Retrieval Sources
+
+- {'url': 'https://www.zhihu.com/question/513782601&rut=66d2aa8b4d04447b74803f0a88002af64fbda71ce2f1bbe88659f5dcf6a074dd', 'type': 'ddg', 'title': '什么是microprice？ - 知乎'}

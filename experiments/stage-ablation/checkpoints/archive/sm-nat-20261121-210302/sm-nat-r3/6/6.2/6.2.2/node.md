@@ -1,0 +1,24 @@
+# N198: Stack Distance 分布 P(stack distance > c) 在 Pareto(β=0.9) 热度下的数值积分下限：积分下限 0 对应的 mi
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N73
+
+## Claim
+
+Stack Distance 分布 P(stack distance > c) 在 Pareto(β=0.9) 热度下的数值积分下限：积分下限 0 对应的 miss rate 为 0，积分上限 C 对应的 miss rate 为 1 - H_max，H_max 为理论最大命中率，需通过 Monte Carlo 模拟验证积分收敛性。
+
+## Corrected Claim
+
+在Pareto(β=0.9)热度模型下，Stack Distance分布的数值积分需通过Monte Carlo模拟验证收敛性；积分边界与miss rate的对应关系（如下限0对应0，上限C对应1-H_max）依赖于具体的缓存模型定义和归一化方式，需结合具体实验设定确认。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（Pareto β=0.9）和特定的数值积分边界定义，属于经验事实而非第一性原理可推导的数学恒等式；且‘积分下限0对应miss rate为0’这一表述在标准Stack Distance定义中通常指代理想情况或特定归一化，缺乏通用理论支持，存在口径混淆风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且非第一性原理可推导范畴）
+
+## Search Query
+
+stack distance distribution Pareto popularity LRU hit rate integration bounds

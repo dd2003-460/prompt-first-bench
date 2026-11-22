@@ -1,0 +1,29 @@
+# N93: 2x RTX 4090 双卡方案的散热升级成本 C_cooling_2x4090 包括机箱风道优化、额外风扇及可能的液冷改造，一次性投入约为 $200-$500
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N21, N22, N23
+
+## Claim
+
+2x RTX 4090 双卡方案的散热升级成本 C_cooling_2x4090 包括机箱风道优化、额外风扇及可能的液冷改造，一次性投入约为 $200-$500，若采用被动散热或小型机箱则可能更高
+
+## Corrected Claim
+
+2x RTX 4090 双卡方案的散热升级成本包括机箱风道优化、额外风扇及可能的液冷改造，具体金额视方案而定，通常需数百美元投入，若采用被动散热或小型机箱则可能更高
+
+## Evidence
+
+[质询]参考来源未提供具体的散热升级成本数值（$200-$500），属于经验事实，缺乏直接数据支持；且双卡4090通常需高端机箱或定制风道，成本可能高于该区间下限。 | 经验事实，逻辑自洽但缺来源支持（来源[1][2]仅提及散热需求与搭建案例，未提供具体成本数据）
+
+## Search Query
+
+dual RTX 4090 cooling solution cost
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1929588992854172878&rut=5a40fb6efaab347296524d4829cfcf8fb399cb86c2d463bb3cb57ea9f25cca15', 'type': 'ddg', 'title': 'ToneCooling 4090双宽液冷板：双槽全覆盖设计，极致释放RTX 4090性能潜能! - 知乎'}
+- {'url': 'https://zhuanlan.zhihu.com/p/16864316403&rut=35bf424984418c94012228904908f69344c7f1b2f80d961e6dda0e6b4d6d6adb', 'type': 'ddg', 'title': '基于双卡 Rtx 4090 搭建家用深度学习主机 - 知乎'}

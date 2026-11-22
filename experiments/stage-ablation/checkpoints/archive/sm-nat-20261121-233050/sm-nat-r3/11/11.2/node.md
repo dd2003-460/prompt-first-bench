@@ -1,0 +1,20 @@
+# N184: M/C=0.982 时 LFU vs LRU 的字节命中率差异量化：在存在 2.4GB 驱逐空间的情况下，LRU 和 LFU 的驱逐集合不同。LRU 驱逐最久未
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N71
+
+## Claim
+
+M/C=0.982 时 LFU vs LRU 的字节命中率差异量化：在存在 2.4GB 驱逐空间的情况下，LRU 和 LFU 的驱逐集合不同。LRU 驱逐最久未访问的对象（通常包含部分低频大对象和少量高频对象），LFU 驱逐频率最低的对象。差异 ΔH = (Bytes_FLU_miss - Bytes_LRU_miss) / Total_Bytes。由于 Top 98.5% 对象已被缓存，被驱逐的 2.4GB 主要来自长尾。需计算长尾对象中 LRU 与 LFU 保留策略导致的字节损失差。假设长尾对象平均大小 S_tail_avg = 2.4GB/1500 ≈ 1.6MB，总请求量占比 < 0.1%，则 ΔH < 0.001 * (S_tail_avg/S_avg) * (F_diff/F_avg)。量化估计 ΔH ≈ 0.05% - 0.15% 百分点。
+
+## Corrected Claim
+
+M/C=0.982 时 LFU vs LRU 的字节命中率差异量化：在存在 2.4GB 驱逐空间的情况下，LRU 和 LFU 的驱逐集合不同。LRU 驱逐最久未访问的对象（通常包含部分低频大对象和少量高频对象），LFU 驱逐频率最低的对象。差异 ΔH = (Bytes_FLU_miss - Bytes_LRU_miss) / Total_Bytes。由于 Top 98.5% 对象已被缓存，被驱逐的 2.4GB 主要来自长尾。需计算长尾对象中 LRU 与 LFU 保留策略导致的字节损失差。假设长尾对象平均大小 S_tail_avg = 2.4GB/1500 ≈ 1.6MB，总请求量占比 < 0.1%，则 ΔH < 0.001 * (S_tail_avg/S_avg) * (F_diff/F_avg)。量化估计 ΔH ≈ 0.05% - 0.15% 百分点。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

@@ -1,0 +1,24 @@
+# N10: ‘降价无响应’机制：主动降价触发‘柠檬市场’逆向选择信号。买家模型更新：P(Defective | Price_Drop) > P(Defective | Pr
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N2
+
+## Claim
+
+‘降价无响应’机制：主动降价触发‘柠檬市场’逆向选择信号。买家模型更新：P(Defective | Price_Drop) > P(Defective | Price_Stable)。具体表现为，降价后48小时内新咨询量 ΔQ_consult ≈ -β * (P_drop / P_initial)，其中 β 为价格敏感度系数，且 β 在二手非标品中显著大于标准化品。
+
+## Corrected Claim
+
+‘降价无响应’机制：主动降价可能触发‘柠檬市场’逆向选择信号，导致买家对商品缺陷概率的后验估计上升（P(Defective | Price_Drop) > P(Defective | Price_Stable)）。在二手非标品市场中，这种负面信号效应通常比标准化品更显著，可能导致咨询量或成交意愿下降，但具体下降幅度取决于价格敏感度及市场结构，无统一固定公式。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（三个子节点分别对应父节点中的三个核心组成部分：1. 价格敏感度系数 β 的量化模型（对应父节点中的 β 定义及非标品特性）；2. 买家心理模型中的贝叶斯后验更新公式（对应父节点中的 P(Defective|...) 更新逻辑）；3. 宏观市场反应阈值与验证条件（对应父节点中的 ΔQ_consult 具体表现及 48 小时窗口）。三者分别聚焦于‘参数定义’、‘微观机制’和‘宏观验证/边界条件’，逻辑层次分明，无重叠且无矛盾，共同构成了完整的机制解释闭环。）
+
+## Search Query
+
+price drop negative signal lemon market second-hand goods consultation drop

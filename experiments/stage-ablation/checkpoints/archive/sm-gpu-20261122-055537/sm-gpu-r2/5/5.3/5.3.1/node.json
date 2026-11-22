@@ -1,0 +1,17 @@
+{
+  "id": "N85",
+  "claim": "NVIDIA L4 运行 Qwen3-27B (FP8) 在 32K 上下文下的理论最大吞吐量上限为 48.75 tokens/s，计算公式为：T_max = Bandwidth (300 GB/s) / Model_Size_FP8 (27 GB) = 11.11 * 4.4 (KV Cache 占比修正系数，基于 32K 序列长度下 KV Cache 占用约 5-6GB 导致的带宽竞争衰减)。",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]计算公式逻辑不自洽且数值来源不明：1) 基础带宽限制计算 300/27 ≈ 11.11 tokens/s 是纯权重读取的理论上限，但引入 '4.4' 作为 'KV Cache 占比修正系数' 缺乏物理或工程依据，KV Cache 通常增加内存占用从而降低吞吐量，而非通过一个无定义的乘数来修正带宽竞争；2) 48.75 这一具体数值无法从给定的简单公式直接推导得出（11.11 * 4.4 = 48.884，存在舍入差异，且 4.4 系数本身无解释）；3) 对于 27B 模型在 32K 上下文下，KV Cache 占用 5-6GB 的估计可能偏低（取决于具体架构和精度），且该修正方式不符合标准的 LLM 推理吞吐量估算模型（通常需考虑 Attention 计算开销和 Memory Bandwidth 的复杂交互）。 | 先验知识/题面给定，但逻辑校验发现公式推导存在内部矛盾（修正系数定义模糊且计算结果与声称值不完全匹配），且缺乏外部来源支持该特定经验参数。",
+  "corrected_claim": "NVIDIA L4 运行 Qwen3-27B (FP8) 在 32K 上下文下的理论最大吞吐量上限约为 11.11 tokens/s（基于纯权重带宽限制 300GB/s / 27GB），实际吞吐量受 KV Cache 内存占用和计算开销影响会显著低于此值，具体数值需通过基准测试确定，原陈述中的 48.75 tokens/s 及 4.4 修正系数缺乏可靠依据。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N26"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

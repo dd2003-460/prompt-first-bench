@@ -1,0 +1,20 @@
+# N277: 置信度与VOI的映射函数：干预有效性置信度 C_conf 不应直接设为0.75，而应建模为 C_conf = P(VOI > Cost_of_Intervent
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N100
+
+## Claim
+
+置信度与VOI的映射函数：干预有效性置信度 C_conf 不应直接设为0.75，而应建模为 C_conf = P(VOI > Cost_of_Intervention | Data)。若 VOI 的95%置信区间下限 > 实施成本，则 C_conf 接近 1；若区间跨越0，则 C_conf 需依据似然比重新计算，0.75仅为在特定参数下的点估计。
+
+## Corrected Claim
+
+置信度与VOI的映射函数：干预有效性置信度 C_conf 不应直接设为0.75，而应建模为 C_conf = P(VOI > Cost_of_Intervention | Data)。若 VOI 的95%置信区间下限 > 实施成本，则 C_conf 接近 1；若区间跨越0，则 C_conf 需依据似然比重新计算，0.75仅为在特定参数下的点估计。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该陈述符合决策理论中基于价值（VOI）的贝叶斯决策框架，将置信度建模为概率分布而非固定常数在逻辑上自洽且优于固定值假设。

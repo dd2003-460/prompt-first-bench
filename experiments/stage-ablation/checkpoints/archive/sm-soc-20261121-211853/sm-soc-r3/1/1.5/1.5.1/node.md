@@ -1,0 +1,24 @@
+# N29: 买家心理感知阈值 $\Delta P_{min}$ 的量化模型：$\Delta P_{min} = \max(\epsilon_{price}, \epsilo
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N10
+
+## Claim
+
+买家心理感知阈值 $\Delta P_{min}$ 的量化模型：$\Delta P_{min} = \max(\epsilon_{price}, \epsilon_{psych})$，其中 $\epsilon_{price}$ 为最小可感知价格差（如 1-5 元），$\epsilon_{psych}$ 为心理账户阈值（如 5-10%）；若卖家降价幅度 $\Delta P < \Delta P_{min}$，则新咨询率 $R_{new} \approx R_{base}$，不产生显著增量。
+
+## Corrected Claim
+
+买家心理感知阈值 $\Delta P_{min}$ 的量化模型：$\Delta P_{min} = \max(\epsilon_{price}, \epsilon_{psych})$，其中 $\epsilon_{price}$ 为最小可感知价格差（如 1-5 元），$\epsilon_{psych}$ 为心理账户阈值（如 5-10%）；若卖家降价幅度 $\Delta P < \Delta P_{min}$，则新咨询率 $R_{new} \approx R_{base}$，不产生显著增量。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+psychological price threshold minimum perceptible price change consumer behavior

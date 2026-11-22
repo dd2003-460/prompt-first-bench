@@ -1,0 +1,28 @@
+# N61: RTX 5090 32GB 发布后的实际市场定价（非预估）及首批供货价格，验证其作为2025年高性能推理候选的成本基准
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N10
+
+## Claim
+
+RTX 5090 32GB 发布后的实际市场定价（非预估）及首批供货价格，验证其作为2025年高性能推理候选的成本基准
+
+## Corrected Claim
+
+RTX 5090 32GB 发布后市场定价受AI算力需求及供货紧张影响出现波动，具体实际市场定价及首批供货价格需参考实时市场报价，现有来源未提供确切数值。
+
+## Evidence
+
+[质询]来源仅描述了价格波动趋势和市场传闻（如停产传闻、双11促销），未提供具体的“实际市场定价”或“首批供货价格”的明确数值，无法直接验证具体的成本基准数值。 | 来源[1]确认了RTX 5090的市场存在及价格受供需和传闻影响而波动，但未提供具体定价数据，属于间接支持；作为经验事实（具体价格），缺乏直接数值支持，故降级。
+
+## Search Query
+
+RTX 5090 32GB actual market price launch 2025
+
+## Retrieval Sources
+
+- {'url': 'https://aiqicha.baidu.com/details/ugknowledge?id=997938f0180263458b83a2697ae3bd10&rut=162471579a7bbe6e3764ed145339f9f4c4222fb6c157f75e53b291a467f304c5', 'type': 'ddg', 'title': '显卡5090价格走势图 - 爱企查'}

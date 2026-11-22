@@ -1,0 +1,24 @@
+# N82: 电源效率 (PSU Efficiency) 对电费的影响：消费级 850W 金牌 PSU 在 50% 负载下效率约为 90%，数据中心级 2000W 钛金 PS
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N16
+
+## Claim
+
+电源效率 (PSU Efficiency) 对电费的影响：消费级 850W 金牌 PSU 在 50% 负载下效率约为 90%，数据中心级 2000W 钛金 PSU 在 50% 负载下效率约为 96%。因此，数据中心卡的实际电网取电功率 = TDP / 0.96，消费级卡 = TDP / 0.90，导致数据中心卡的电费略低于基于 TDP 直接计算的值。
+
+## Corrected Claim
+
+电源效率 (PSU Efficiency) 对电费的影响：消费级 850W 金牌 PSU 在 50% 负载下效率约为 90%，数据中心级 2000W 钛金 PSU 在 50% 负载下效率约为 96%。因此，数据中心卡的实际电网取电功率 = TDP / 0.96，消费级卡 = TDP / 0.90，导致数据中心卡的电费略低于基于 TDP 直接计算的值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：850W金牌PSU在50%负载下效率约90%、2000W钛金PSU在50%负载下效率约96%符合80 PLUS认证标准及行业常识；电网取电功率=TDP/效率的公式推导正确，且96%效率确实导致实际取电略低于TDP/0.90的消费级场景，逻辑自洽。
+
+## Search Query
+
+PSU efficiency 80 Plus Gold Titanium 50% load LLM workstation

@@ -1,0 +1,24 @@
+# N178: 复杂推理任务对量化误差的敏感性系数 S_reasoning = ΔAcc_reasoning / ΔAcc_general ≈ 2.0 (4.0% / 2.0%
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N57
+
+## Claim
+
+复杂推理任务对量化误差的敏感性系数 S_reasoning = ΔAcc_reasoning / ΔAcc_general ≈ 2.0 (4.0% / 2.0%)，表明推理任务的准确率下降是通用任务的 2 倍，此系数可用于预测其他推理基准 (如 HumanEval) 的量化损失。
+
+## Corrected Claim
+
+在特定实验条件下，复杂推理任务对量化误差的敏感性系数约为 2.0（基于 4.0% 与 2.0% 的准确率下降对比），该系数可作为参考，但需结合具体模型和任务场景验证其适用性。
+
+## Evidence
+
+[质询]该系数 S_reasoning ≈ 2.0 是基于特定实验数据（4.0%/2.0%）得出的经验性统计结果，并非物理定律或数学公理，无法从第一性原理严格推导。不同模型架构、量化位宽及具体任务分布下，该比值可能显著波动，将其作为通用预测系数缺乏普适性保证。 | source=knowledge，逻辑自洽（比值计算正确，量纲合理），但属于经验事实，缺乏外部来源直接支持其普适性，故降级。
+
+## Search Query
+
+quantization sensitivity coefficient reasoning vs general tasks LLM

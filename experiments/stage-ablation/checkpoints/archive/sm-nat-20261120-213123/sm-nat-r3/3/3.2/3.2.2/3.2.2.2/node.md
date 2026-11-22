@@ -1,0 +1,24 @@
+# N111: 工作点 2（中等负相关/截断离散度）：假设引入截断使有效 CV_H^2_eff 降至 1000（对应 h_max 限制），则 K(ρ) = max(0, 1 -
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N45
+
+## Claim
+
+工作点 2（中等负相关/截断离散度）：假设引入截断使有效 CV_H^2_eff 降至 1000（对应 h_max 限制），则 K(ρ) = max(0, 1 - 0.3*1000*ε)。若 ε=1，K(ρ) 仍为负；若 ε 需调整为 0.001（表示相关性仅影响头部 0.1% 对象），则 K(ρ) ≈ 0.7，对应命中率下界惩罚约 30%。
+
+## Corrected Claim
+
+工作点 2（中等负相关/截断离散度）：假设引入截断使有效 CV_H^2_eff 降至 1000（对应 h_max 限制），则 K(ρ) = max(0, 1 - 0.3*1000*ε)。若 ε=1，K(ρ) 仍为负；若 ε 需调整为 0.001（表示相关性仅影响头部 0.1% 对象），则 K(ρ) ≈ 0.7，对应命中率下界惩罚约 30%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：K(ρ) = max(0, 1 - 0.3*1000*0.001) = max(0, 0.7) = 0.7，计算无误，且符合截断离散度降低后相关性影响范围缩小、惩罚减小的直觉。
+
+## Search Query
+
+effective correlation coefficient epsilon in truncated Pareto cache models

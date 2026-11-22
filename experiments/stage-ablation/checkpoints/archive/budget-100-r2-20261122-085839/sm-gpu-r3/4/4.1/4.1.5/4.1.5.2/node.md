@@ -1,0 +1,24 @@
+# N205: A100 80GB在TensorRT-LLM框架下Decode阶段的实测带宽利用率：A100 SXM版本理论带宽2039 GB/s，在TensorRT-LLM优
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N60
+
+## Claim
+
+A100 80GB在TensorRT-LLM框架下Decode阶段的实测带宽利用率：A100 SXM版本理论带宽2039 GB/s，在TensorRT-LLM优化下，Batch Size=1时的实际有效带宽利用率可达75%-82%（即1529-1672 GB/s），显著高于消费级卡，主要得益于HBM3的高并发访问能力及TensorRT对算子融合的深度优化。
+
+## Corrected Claim
+
+A100 80GB在TensorRT-LLM框架下Decode阶段的实测带宽利用率通常较高，得益于HBM3的高并发访问能力及TensorRT对算子融合的深度优化，但具体数值（如75%-82%）需视具体模型和配置而定。
+
+## Evidence
+
+[质询]具体数值（75%-82%利用率）属于经验事实，缺乏来源支持，且不同模型/序列长度下波动较大，该区间可能过于精确或特定于未指明的测试条件。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+TensorRT-LLM A100 decode bandwidth utilization efficiency benchmark

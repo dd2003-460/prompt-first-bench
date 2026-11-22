@@ -1,0 +1,20 @@
+# N242: 下游投影1：k_new 的期望值 E[k_new] 计算。E[k_new] = k_old * (1 - E[η] * ΔH_info)。若 k_old = 0
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N66
+
+## Claim
+
+下游投影1：k_new 的期望值 E[k_new] 计算。E[k_new] = k_old * (1 - E[η] * ΔH_info)。若 k_old = 0.6, E[η] = 0.75, ΔH_info = 0.287 (来自 N128)，则 E[k_new] = 0.6 * (1 - 0.75 * 0.287) ≈ 0.6 * 0.785 ≈ 0.471。这表明信息熵冲击显著降低了搜索成本系数。
+
+## Corrected Claim
+
+下游投影1：k_new 的期望值 E[k_new] 计算。E[k_new] = k_old * (1 - E[η] * ΔH_info)。若 k_old = 0.6, E[η] = 0.75, ΔH_info = 0.287 (来自 N128)，则 E[k_new] = 0.6 * (1 - 0.75 * 0.287) ≈ 0.6 * 0.785 ≈ 0.471。这表明信息熵冲击显著降低了搜索成本系数。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算 0.6 * (1 - 0.75 * 0.287) = 0.6 * (1 - 0.21525) = 0.6 * 0.78475 ≈ 0.47085，与陈述中的 0.471 一致，且符合线性衰减模型的逻辑推导。

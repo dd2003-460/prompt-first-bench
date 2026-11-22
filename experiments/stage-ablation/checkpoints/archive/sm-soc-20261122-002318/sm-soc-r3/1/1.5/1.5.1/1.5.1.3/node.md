@@ -1,0 +1,24 @@
+# N131: α 的交互项检验：α 与卖家信用评分（Seller_Credit）存在交互效应：高信用卖家（Credit > 90）的 α 降低约 15-20%，因为买家对高价
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N44
+
+## Claim
+
+α 的交互项检验：α 与卖家信用评分（Seller_Credit）存在交互效应：高信用卖家（Credit > 90）的 α 降低约 15-20%，因为买家对高价商品的瑕疵担忧减少；低信用卖家的 α 升高约 10-15%，需通过回归系数 β_interaction 量化。
+
+## Corrected Claim
+
+α 与卖家信用评分（Seller_Credit）可能存在交互效应：高信用卖家（Credit > 90）的 α 可能降低，低信用卖家的 α 可能升高，具体幅度需通过回归系数 β_interaction 量化。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（15-20%、10-15%）和特定的因果机制（买家担忧减少导致α降低），这些属于经验事实而非第一性原理可推导的数学或逻辑结论。在缺乏外部来源支持的情况下，无法验证这些具体数值和机制的准确性，存在将假设当作既定事实的风险。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+seller credit score price sensitivity interaction effect

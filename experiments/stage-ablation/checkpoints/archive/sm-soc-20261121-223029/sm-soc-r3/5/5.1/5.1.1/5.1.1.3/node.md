@@ -1,0 +1,24 @@
+# N291: 二手交易情境下买家锚定基准 P_ref 的来源分布权重：P_ref = w1*P_last_sold + w2*P_average_list + w3*P_ex
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N97
+
+## Claim
+
+二手交易情境下买家锚定基准 P_ref 的来源分布权重：P_ref = w1*P_last_sold + w2*P_average_list + w3*P_external_market，其中 w1+w2+w3=1。由于二手商品唯一性，w1（最近成交价）通常显著高于 w2/w3，导致锚定效应强度 d 受 w1 的波动率影响，需计算 w1 的估计误差对 d 的传导系数。
+
+## Corrected Claim
+
+在二手交易情境下，买家锚定基准 P_ref 通常受多种因素影响，包括最近成交价、平均挂牌价及外部市场价。由于二手商品的唯一性，最近成交价（P_last_sold）往往对买家心理预期有较强影响，但具体的权重分布（w1, w2, w3）及锚定效应强度 d 受 w1 波动率影响的传导系数需通过实证数据或特定市场模型进行估算，而非固定公式。
+
+## Evidence
+
+[质询]该陈述将行为经济学中的锚定效应（Anchoring）具体化为一个包含特定权重（w1, w2, w3）的线性加权公式，并断言 w1 显著高于 w2/w3。然而，二手交易中的锚定基准来源分布并非由第一性原理或数学公理严格推导出的固定公式，而是依赖于具体市场结构、买家心理及商品类别的经验性统计规律。缺乏实证数据支持该特定线性模型及权重排序的普适性，属于将特定情境下的经验观察过度概括为通用理论模型。 | 经验事实，逻辑自洽但缺来源支持。该陈述描述了二手交易锚定效应的一个可能机制，但具体的线性加权公式及权重排序（w1 > w2/w3）属于经验性假设，无法从第一性原理严格推出，且无外部来源验证其普适性。
+
+## Search Query
+
+anchoring effect second-hand goods reference price source weight last sold price average listing

@@ -1,0 +1,29 @@
+# N73: 收入弹性系数 k 的估计：k = ∂ΔRevenue_platform / ∂info_0_increase，表示信息透明度每增加一个单位，平台收入下降的比例；
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N19
+
+## Claim
+
+收入弹性系数 k 的估计：k = ∂ΔRevenue_platform / ∂info_0_increase，表示信息透明度每增加一个单位，平台收入下降的比例；需基于历史A/B测试数据或行业类比（如房产平台透明化后的收入变化）估算 k ∈ [0.05, 0.2]。
+
+## Corrected Claim
+
+收入弹性系数 k 的估计：k = ∂ΔRevenue_platform / ∂info_0_increase，表示信息透明度每增加一个单位，平台收入下降的比例；需基于历史A/B测试数据或行业类比估算，具体数值范围需根据实际数据确定（原估计范围 [0.05, 0.2] 缺乏直接来源支持）。
+
+## Evidence
+
+[质询]该陈述中的 k 值范围 [0.05, 0.2] 属于特定商业场景下的经验估计值，无法从第一性原理或通用经济学定义中推导得出，且参考来源仅提供了通用收入弹性的定义，未提供该特定系数（信息透明度对平台收入影响）的具体数值支持。 | 参考来源 [1][2] 仅定义了通用的需求收入弹性概念，与本题中特定的“信息透明度-平台收入”弹性系数 k 的主题不直接相关，无法提供数值支持；该数值为经验事实，逻辑自洽但缺来源支持。
+
+## Search Query
+
+platform revenue elasticity to price transparency A/B test
+
+## Retrieval Sources
+
+- {'url': 'https://baike.baidu.com/item/%E9%9C%80%E6%B1%82%E6%94%B6%E5%85%A5%E5%BC%B9%E6%80%A7/8014821&rut=d4ad7c10f0f3d3a72a6e0a7d0c7c7f2e132e1f595a3dbaded5ad19529dbfa5d8', 'type': 'ddg', 'title': '需求收入弹性_百度百科'}
+- {'url': 'https://baike.baidu.com/item/%E6%94%B6%E5%85%A5%E5%BC%B9%E6%80%A7/5228339&rut=98190de7d5091a5ea7e8ff7f193452c97f1923980a0a16094106c840e046317a', 'type': 'ddg', 'title': '收入弹性_百度百科'}

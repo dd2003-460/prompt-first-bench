@@ -1,0 +1,24 @@
+# N309: 32K上下文下KV Cache量化误差累积导致的任务准确率下降幅度 ΔAcc_32K 的量化公式：ΔAcc_32K ≈ ΔAcc_1K * (1 + k * l
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N100
+
+## Claim
+
+32K上下文下KV Cache量化误差累积导致的任务准确率下降幅度 ΔAcc_32K 的量化公式：ΔAcc_32K ≈ ΔAcc_1K * (1 + k * log2(L/1024))，其中 L=32768，k为经验累积系数（通常0.1-0.2），需基于Qwen3-27B在INT8/FP4下的长文本基准测试数据校准 k 值。
+
+## Corrected Claim
+
+32K上下文下KV Cache量化误差累积导致的任务准确率下降幅度 ΔAcc_32K 可通过经验公式 ΔAcc_32K ≈ ΔAcc_1K * (1 + k * log2(L/1024)) 进行估算，其中 L=32768，k为需基于特定模型（如Qwen3-27B）在INT8/FP4量化下的长文本基准测试数据校准的经验累积系数（典型范围0.1-0.2），该公式需结合具体实验数据验证。
+
+## Evidence
+
+[质询]该公式为纯经验拟合模型，缺乏理论推导支持，且系数k的范围（0.1-0.2）及具体校准方法（基于Qwen3-27B INT8/FP4）属于特定实验条件下的经验参数，无法从第一性原理推出，且当前无外部来源验证其普适性或准确性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该公式非数学公理或物理定律推论，属特定模型量化误差的经验拟合公式）
+
+## Search Query
+
+Qwen3-27B long context 32k quantization accuracy degradation perplexity vs 1k context

@@ -1,0 +1,20 @@
+# N185: N68中 E[S|S≤S_max] 的计算需先确定 S_max，而 S_max 由缓存容量约束 ∫_{x_min}^{S_max} x f_S(x) dx = 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N68
+
+## Claim
+
+N68中 E[S|S≤S_max] 的计算需先确定 S_max，而 S_max 由缓存容量约束 ∫_{x_min}^{S_max} x f_S(x) dx = 128GB 决定；对于 Pareto(α=1.1, x_min=1MB)，该积分解析解为 S_max = x_min * (1 + (α-1) * (128GB/x_min)^{1/(α-1)})^{1/(α-1)}，需数值计算
+
+## Corrected Claim
+
+N68中 E[S|S≤S_max] 的计算需先确定 S_max，而 S_max 由缓存容量约束 ∫_{x_min}^{S_max} x f_S(x) dx = 128GB 决定；对于 Pareto(α=1.1, x_min=1MB)，该积分解析解为 S_max = x_min * (1 + (α-1) * (128GB/x_min)^{1/(α-1)})^{1/(α-1)}，需数值计算
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布的截断积分解析解推导正确，量纲与数值量级合理

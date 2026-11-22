@@ -1,0 +1,24 @@
+# N111: 参数 x_min 的物理意义与典型取值：在 CDN 边缘节点场景中，x_min 代表对象存储的最小粒度或最小压缩单元，通常由文件系统块大小（如 4KB）或对象存
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N34, N35, N36
+
+## Claim
+
+参数 x_min 的物理意义与典型取值：在 CDN 边缘节点场景中，x_min 代表对象存储的最小粒度或最小压缩单元，通常由文件系统块大小（如 4KB）或对象存储 API 限制决定；若 x_min < 4KB，需考虑元数据开销对有效缓存容量的侵蚀。
+
+## Corrected Claim
+
+参数 x_min 的物理意义与典型取值：在 CDN 边缘节点场景中，x_min 代表对象存储的最小粒度或最小压缩单元，通常由文件系统块大小（如 4KB）或对象存储 API 限制决定；若 x_min < 4KB，需考虑元数据开销对有效缓存容量的侵蚀。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+CDN minimum object size storage block size

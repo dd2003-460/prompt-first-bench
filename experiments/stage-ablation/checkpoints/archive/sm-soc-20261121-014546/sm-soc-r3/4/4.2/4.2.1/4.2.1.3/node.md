@@ -1,0 +1,24 @@
+# N284: 价格敏感度系数 β_price：量化降价幅度 ΔP 对咨询强度 λ 的对数线性影响，即 ∂ln(λ)/∂ΔP = β_price，需通过回归分析历史降价事件前后
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N85
+
+## Claim
+
+价格敏感度系数 β_price：量化降价幅度 ΔP 对咨询强度 λ 的对数线性影响，即 ∂ln(λ)/∂ΔP = β_price，需通过回归分析历史降价事件前后的咨询变化率估计，典型取值范围 1.5-3.0。
+
+## Corrected Claim
+
+价格敏感度系数 β_price 用于量化降价幅度 ΔP 对咨询强度 λ 的对数线性影响（∂ln(λ)/∂ΔP = β_price），需通过回归分析历史数据估计，其具体数值高度依赖业务场景与历史数据，无通用固定范围。
+
+## Evidence
+
+[质询]该系数为特定业务场景下的经验参数，缺乏通用理论推导基础，且‘典型取值范围 1.5-3.0’属于未经证实的经验断言，不同行业或产品线的价格敏感度差异巨大，直接给出固定范围缺乏普适性依据。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该参数非第一性原理可推导，属特定场景回归结果）
+
+## Search Query
+
+price elasticity of demand for online marketplace inquiries beta price sensitivity

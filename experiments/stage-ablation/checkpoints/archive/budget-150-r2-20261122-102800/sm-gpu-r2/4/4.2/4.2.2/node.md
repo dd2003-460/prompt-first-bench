@@ -1,0 +1,30 @@
+# N100: A100 40GB SXM4 BF16 312 TFLOPS 为理论峰值，在 vLLM 或 TensorRT-LLM 框架下运行 Qwen3-27B 时，由于 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N23
+
+## Claim
+
+A100 40GB SXM4 BF16 312 TFLOPS 为理论峰值，在 vLLM 或 TensorRT-LLM 框架下运行 Qwen3-27B 时，由于 SXM4 互联和 ECC 内存开销，实际持续算力约为 250-280 TFLOPS，此数值用于高并发 batch_size>32 场景的吞吐估算。
+
+## Corrected Claim
+
+A100 40GB SXM4 BF16 312 TFLOPS 为理论峰值，在 vLLM 或 TensorRT-LLM 框架下运行 Qwen3-27B 时，受互联、ECC 及软件栈开销影响，实际持续算力通常低于理论峰值，具体数值需根据实际负载和框架版本实测确定，不宜直接固定为 250-280 TFLOPS 用于精确估算。
+
+## Evidence
+
+[质询]具体数值范围（250-280 TFLOPS）缺乏来源支持，且将SXM4互联和ECC开销直接量化为固定算力损失在逻辑上过于简化，实际性能受框架优化、算子融合及内存带宽瓶颈影响极大，并非简单的线性扣除。 | 来源[1][2]直接支持A100 40GB SXM4 BF16理论峰值为312 TFLOPS，但所有来源均未提供vLLM/TensorRT-LLM下Qwen3-27B的实际持续算力具体数值，该经验事实逻辑自洽但缺来源支持。
+
+## Search Query
+
+A100 SXM4 actual BF16 throughput LLM inference
+
+## Retrieval Sources
+
+- {'url': 'https://computecomparison.com/gpu/a100-sxm-80gb&rut=ead1e4a0fd50d3aa799d2371fa0c45d154b2f53b74812501e19854a357059914', 'type': 'ddg', 'title': 'A100 SXM4 80GB Specs: 400W TDP, 312 TFLOPS, 80GB VRAM'}
+- {'url': 'https://computecomparison.com/gpu/a100-sxm-40gb&rut=3ef6b66e611b4e37542a57bc9721c240f9460c80dc5b63dd66d921ee375a260d', 'type': 'ddg', 'title': 'A100 SXM4 40GB Specs: 300W TDP, 312 TFLOPS, 40GB VRAM'}
+- {'url': 'https://www.thundercompute.com/blog/nvidia-a100-specs-full-guide&rut=67f92d77b764bcd5d286306ccc348516c611f0efa3a86c2b060572f7cd246d93', 'type': 'ddg', 'title': 'NVIDIA A100 Specs: 40GB vs 80GB, PCIe vs SXM (2026)'}

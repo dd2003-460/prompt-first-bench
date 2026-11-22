@@ -1,0 +1,20 @@
+# N53: 降价惩罚系数 δ_penalty 的量化：δ_penalty = f(ΔP_drop, Time_since_listing, Historical_Credi
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N12
+
+## Claim
+
+降价惩罚系数 δ_penalty 的量化：δ_penalty = f(ΔP_drop, Time_since_listing, Historical_Credit)。假设 ΔP_drop > 5% 且 Time_since_listing < 7天，则 δ_penalty ≈ 0.2-0.4；若 ΔP_drop < 5%，则 δ_penalty ≈ 0。W_post_drop = W_pre_drop * (1 - δ_penalty) 导致48小时内咨询量下降。
+
+## Corrected Claim
+
+降价惩罚系数 δ_penalty 通常与降价幅度、上架时间及历史信用相关。在显著降价（如超过一定阈值）且上架时间较短的情况下，δ_penalty 可能呈现非零值（具体数值依平台策略而定），导致权重下降及咨询量减少。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值阈值（如5%降价幅度、7天时间窗口）及对应的惩罚系数范围（0.2-0.4），这些属于特定平台或市场环境的经验参数，无法从第一性原理或通用逻辑中严格推导得出，且缺乏外部来源支持其具体数值的准确性。 | 逻辑自洽（公式结构合理，量纲一致），但作为经验事实，缺乏来源直接支持具体数值参数，依据经验事实排除条款降级。

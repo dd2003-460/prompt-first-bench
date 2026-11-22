@@ -1,0 +1,28 @@
+# N23: FP8 精度下 Qwen3-27B 的质量损失通常小于 1% (在 MMLU 等基准测试中) [待核验]。
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N2
+
+## Claim
+
+FP8 精度下 Qwen3-27B 的质量损失通常小于 1% (在 MMLU 等基准测试中) [待核验]。
+
+## Corrected Claim
+
+FP8 精度下 Qwen3 系列模型（如 Qwen3-30B-A3B）的质量损失通常小于 1%；Qwen3-27B 的具体数据需单独验证，但预期表现相似。
+
+## Evidence
+
+[质询]模型名称不匹配：参考来源针对的是 Qwen3-30B-A3B-Instruct-2507（MoE 架构），而待核验事实针对的是 Qwen3-27B（通常指 Dense 架构或不同版本），两者并非同一模型，来源数据不能直接支持该特定模型的结论。 | 来源 [1] 提供了 Qwen3-30B-A3B 的 FP8 量化基准，虽未直接覆盖 Qwen3-27B，但 FP8 量化通常损失极小（<1%）符合一般工程经验，逻辑自洽，但因模型不匹配且缺乏针对 Qwen3-27B 的直接来源支持，依据经验事实排除条款降级。
+
+## Search Query
+
+Qwen3-27B FP8 quantization quality loss MMLU
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/mengni-w/qwen3-quantization-benchmark&rut=0f0092c803c1854848e88a371c35d1fcb87ff1476e6f3af4d91ab11a3d7f2efa', 'type': 'ddg', 'title': 'GitHub - mengni-w/qwen3-quantization-benchmark: Provides a ...'}

@@ -1,0 +1,24 @@
+# N249: 逆向工程卖家评分权重 γ 的代理指标：计算卖家历史成交均价（ASP）与当前挂价（P_list）的偏离度对曝光排名（Rank）的回归系数，若 Rank = α +
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N79
+
+## Claim
+
+逆向工程卖家评分权重 γ 的代理指标：计算卖家历史成交均价（ASP）与当前挂价（P_list）的偏离度对曝光排名（Rank）的回归系数，若 Rank = α + γ * (ASP/P_list) + ε，则 γ 的估计值即为权重；需验证 γ 在二手非标品类目中是否显著大于标准化品（如 γ_non-standard > 1.2 * γ_standard）。
+
+## Corrected Claim
+
+逆向工程中，可通过计算卖家历史成交均价（ASP）与当前挂价（P_list）的偏离度对曝光排名（Rank）的回归系数，来量化‘价格竞争力’这一特征对排名的影响权重。需注意该系数反映的是价格因素而非卖家信誉本身的权重；关于非标品类目中该系数是否显著大于标准化品（如 >1.2倍），需通过实证数据验证，目前仅为待检验假设。
+
+## Evidence
+
+[质询]该陈述将‘卖家评分权重’与‘价格偏离度对排名的回归系数’直接等同，存在概念混淆风险。在推荐系统中，价格竞争力（Price Competitiveness）通常是独立于卖家信誉（Seller Reputation/Score）的特征变量。回归系数 γ 反映的是价格因素对排名的边际贡献，而非卖家评分本身的权重。此外，‘γ_non-standard > 1.2 * γ_standard’这一具体阈值缺乏理论或实证依据，属于任意设定的经验假设。 | 逻辑上回归分析是估计特征权重的标准方法，量纲和方向合理；但‘价格偏离度系数’直接代理‘卖家评分权重’在因果机制上存在混淆（价格 vs 信誉），且缺乏外部来源支持该特定代理指标的有效性，属于经验性假设，故降级。
+
+## Search Query
+
+reverse engineering marketplace seller rating weight exposure rank regression ASP price list

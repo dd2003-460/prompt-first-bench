@@ -1,0 +1,24 @@
+# N102: 张量并行 (TP) 下，每生成一个 token 需执行一次 All-Reduce 通信，通信数据量 D_comm = batch_size * hidden_d
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N22
+
+## Claim
+
+张量并行 (TP) 下，每生成一个 token 需执行一次 All-Reduce 通信，通信数据量 D_comm = batch_size * hidden_dim * bytes_per_element。对于 Qwen3-27B (hidden_dim=4096, BF16=2 bytes)，单 token batch=1 时 D_comm = 8KB。
+
+## Corrected Claim
+
+张量并行 (TP) 下，每生成一个 token 需执行一次 All-Reduce 通信，通信数据量 D_comm = batch_size * hidden_dim * bytes_per_element。对于 Qwen3-27B (hidden_dim=4096, BF16=2 bytes)，单 token batch=1 时 D_comm = 8KB。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1仅修正了单token基础通信量（8KB -> 8.192KB），子节点2基于此推导了TP=2下的总通信量。两者逻辑上正交（一个是基础参数，一个是特定配置下的推导结果），无冗余。然而，父节点明确定义了通用的通信公式 D_comm = batch_size * hidden_dim * bytes_per_element，子节点仅涵盖了 batch=1 的特例，完全忽略了 batch_size > 1 的情况，也未涵盖其他 TP 配置（如 TP=4, TP=8）的通信量变化，因此不具备完备性。）
+
+## Search Query
+
+tensor parallel all-reduce data size per token hidden dim

@@ -1,0 +1,24 @@
+# N7: 信号传递模型中，高挂价 ($P_{high}$) 作为质量信号的阈值条件：只有高质量商品 ($q > q^*$) 的卖家才愿意承担‘高挂价导致流拍’的期望损失 
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+信号传递模型中，高挂价 ($P_{high}$) 作为质量信号的阈值条件：只有高质量商品 ($q > q^*$) 的卖家才愿意承担‘高挂价导致流拍’的期望损失 $E[Loss] = (P_{high} - V) \times (1 - \Pr(Sale))$，而低质量卖家因无法承受该损失会选择低价快速出手，从而使得买家将‘高挂价’解读为‘高质量/低瑕疵’，缩短搜索时间。
+
+## Corrected Claim
+
+信号传递模型中，高挂价 ($P_{high}$) 作为质量信号的阈值条件：只有高质量商品 ($q > q^*$) 的卖家才愿意承担‘高挂价导致流拍’的期望损失 $E[Loss] = (P_{high} - V) \times (1 - \Pr(Sale))$，而低质量卖家因无法承受该损失会选择低价快速出手，从而使得买家将‘高挂价’解读为‘高质量/低瑕疵’，缩短搜索时间。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该陈述准确描述了信号传递模型（Signaling Model）中分离均衡（Separating Equilibrium）的核心机制，即高质量卖家通过承担高价格带来的流拍风险（期望损失）来区分自身类型，逻辑自洽且符合经济学原理。
+
+## Search Query
+
+signaling model used goods market high price quality signal Spence

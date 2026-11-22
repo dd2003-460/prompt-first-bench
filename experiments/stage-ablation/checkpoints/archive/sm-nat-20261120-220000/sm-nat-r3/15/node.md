@@ -1,0 +1,20 @@
+# N154: 更新率 1%/天 对有效命中率的衰减系数：H_eff = H_steady * (1 - p_update * P_miss_on_update)。由于 H_s
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+更新率 1%/天 对有效命中率的衰减系数：H_eff = H_steady * (1 - p_update * P_miss_on_update)。由于 H_steady ≈ 1.0，且更新对象在缓存中（全缓存假设），P_miss_on_update ≈ 0（更新前已命中，更新后需重填但逻辑上算作一次 miss 或一致性开销）。若定义有效命中率为‘无需源站请求’，则折损约为 p_update * 100% = 1%。即 H_eff ≈ 99%。
+
+## Corrected Claim
+
+更新率 1%/天 对有效命中率的衰减系数：H_eff = H_steady * (1 - p_update * P_miss_on_update)。由于 H_steady ≈ 1.0，且更新对象在缓存中（全缓存假设），P_miss_on_update ≈ 0（更新前已命中，更新后需重填但逻辑上算作一次 miss 或一致性开销）。若定义有效命中率为‘无需源站请求’，则折损约为 p_update * 100% = 1%。即 H_eff ≈ 99%。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

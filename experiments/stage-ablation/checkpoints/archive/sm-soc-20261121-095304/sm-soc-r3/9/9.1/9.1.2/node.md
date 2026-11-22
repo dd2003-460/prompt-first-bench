@@ -1,0 +1,24 @@
+# N193: 策略可行性阈值 P_min_gap：当 P_ask - P_market > Cost_Effort / Subsidy_Rate 时，道德风险策略可行。若 S
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N69
+
+## Claim
+
+策略可行性阈值 P_min_gap：当 P_ask - P_market > Cost_Effort / Subsidy_Rate 时，道德风险策略可行。若 Subsidy_Rate = 5% (N46)，且 Cost_Effort 估算为 100元，则 P_min_gap = 100 / 0.05 = 2000元。即只有价差超过2000元的商品，卖家才有意愿高挂价套取补贴。
+
+## Corrected Claim
+
+策略可行性阈值 P_min_gap：当 P_ask - P_market > Cost_Effort / Subsidy_Rate 时，道德风险策略可行。若 Subsidy_Rate = 5% (N46)，且 Cost_Effort 估算为 100元，则 P_min_gap = 100 / 0.05 = 2000元。即只有价差超过2000元的商品，卖家才有意愿高挂价套取补贴。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 P_min_gap = Cost_Effort / Subsidy_Rate 在经济学激励相容约束下逻辑自洽，数值计算 100 / 0.05 = 2000 正确，量纲（元）一致。
+
+## Search Query
+
+threshold for subsidy arbitrage in marketplace platforms

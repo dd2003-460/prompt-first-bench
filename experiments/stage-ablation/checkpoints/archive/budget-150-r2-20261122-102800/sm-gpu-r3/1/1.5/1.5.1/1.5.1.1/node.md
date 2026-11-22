@@ -1,0 +1,24 @@
+# N197: RTX 4090 24GB 在 2025 Q1 美国市场实际成交均价（Street Price）约为 $2,100 - $2,300，高于 MSRP $1,89
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N69
+
+## Claim
+
+RTX 4090 24GB 在 2025 Q1 美国市场实际成交均价（Street Price）约为 $2,100 - $2,300，高于 MSRP $1,899，主要受 AI 需求激增及二手市场溢价影响。
+
+## Corrected Claim
+
+RTX 4090 24GB 在 2025 Q1 美国市场实际成交均价高于 MSRP $1,899，主要受 AI 需求激增及二手市场溢价影响。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性市场数据（2025 Q1 美国市场实际成交均价），属于经验事实，无法从第一性原理推导。由于检索失败无可用来源，无法验证具体数值区间（$2,100 - $2,300）的准确性，且市场波动可能导致该区间偏离实际。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+RTX 4090 average street price USA Q1 2025

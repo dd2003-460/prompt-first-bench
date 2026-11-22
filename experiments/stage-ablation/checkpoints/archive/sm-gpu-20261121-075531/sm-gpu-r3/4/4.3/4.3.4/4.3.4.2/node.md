@@ -1,0 +1,24 @@
+# N274: Qwen3-27B BF16 基线在 HumanEval (或 MBPP) 上的具体得分（作为计算 ΔScore% 的分母），需查阅 Qwen3 官方技术报告或
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N88
+
+## Claim
+
+Qwen3-27B BF16 基线在 HumanEval (或 MBPP) 上的具体得分（作为计算 ΔScore% 的分母），需查阅 Qwen3 官方技术报告或第三方代码能力评测基准。
+
+## Corrected Claim
+
+Qwen3-27B BF16 基线在 HumanEval (或 MBPP) 上的具体得分需查阅 Qwen3 官方技术报告或第三方代码能力评测基准以获取准确数值。
+
+## Evidence
+
+[质询]该陈述要求提供具体的数值得分，但参考来源为空，无法验证具体数值是否准确；且Qwen3-27B的具体基准分数属于经验事实，需依赖外部数据支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Qwen3-27B BF16 HumanEval pass@1 score

@@ -1,0 +1,24 @@
+# N260: RTX 4090 (FP8) 在 32K 上下文、Batch=1 下的理论峰值 Throughput：基于 N77 修正公式，T_decode ≈ (14GB权
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N97
+
+## Claim
+
+RTX 4090 (FP8) 在 32K 上下文、Batch=1 下的理论峰值 Throughput：基于 N77 修正公式，T_decode ≈ (14GB权重 + 33GB KV) / 1.0TB/s ≈ 47us/token，理论上限 Throughput ≈ 21,276 tok/s；考虑 40% MFU 及 KV Cache 读取开销，实际工作点估算为 5,000 - 8,000 tok/s [待核验：需 llama.cpp/vLLM 实测修正]
+
+## Corrected Claim
+
+RTX 4090 (FP8) 在 32K 上下文、Batch=1 下的理论峰值 Throughput：基于 N77 修正公式，T_decode ≈ (14GB权重 + 33GB KV) / 1.0TB/s ≈ 47ms/token，理论上限 Throughput ≈ 21 tok/s；考虑 40% MFU 及 KV Cache 读取开销，实际工作点估算为 5 - 10 tok/s [待核验：需 llama.cpp/vLLM 实测修正]
+
+## Evidence
+
+[质询]数值量级与物理直觉严重不符：RTX 4090 显存带宽约 1TB/s，解码 47GB 数据（权重+KV）理论延迟应为 ~47ms/token，对应理论峰值吞吐约 21 tok/s，而非 21,276 tok/s（相差约 1000 倍）。陈述中 '47us/token' 与 '21,276 tok/s' 存在内部逻辑矛盾（1/47us ≈ 21,276 tok/s 是纯数学倒数，但 47us 的延迟本身是错误的，应为 47ms）。此外，32K 上下文下 KV Cache 大小估算为 33GB 也偏高（通常 Llama-2 70B 32K KV 约 10-20GB，取决于精度和层数），但主要错误在于将毫秒级延迟误算为微秒级，导致吞吐上限虚高三个数量级。 | 逻辑校验失败：显存带宽 1TB/s 读取 47GB 数据耗时应为 47ms，而非 47us；理论峰值吞吐应为 ~21 tok/s，而非 21,276 tok/s。陈述内部存在量纲/量级错误（ms vs us），导致结论违背基本物理直觉。
+
+## Search Query
+
+RTX 4090 Qwen 27B FP8 inference throughput tokens per second 32k context

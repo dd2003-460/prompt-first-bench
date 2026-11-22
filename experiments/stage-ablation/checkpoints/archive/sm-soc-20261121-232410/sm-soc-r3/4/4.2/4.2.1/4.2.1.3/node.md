@@ -1,0 +1,28 @@
+# N163: T_negotiate (议价时间) 的触发概率 P_neg：并非所有交易都进入议价阶段，P_neg ≈ 0.6（基于二手平台议价率统计），故期望 T_nego
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N57, N58, N59
+
+## Claim
+
+T_negotiate (议价时间) 的触发概率 P_neg：并非所有交易都进入议价阶段，P_neg ≈ 0.6（基于二手平台议价率统计），故期望 T_negotiate = 10min * 0.6 = 6min，修正 T0 期望值。
+
+## Corrected Claim
+
+T_negotiate 的触发概率 P_neg 因平台而异，若假设 P_neg ≈ 0.6，则期望 T_negotiate = 6min；但该概率需根据具体平台数据校准。
+
+## Evidence
+
+[质询]P_neg ≈ 0.6 是一个具体的经验统计数值，声称基于二手平台议价率统计，但缺乏公开、权威且可复现的数据来源支持，且不同平台（如闲鱼、eBay、Craigslist）的议价率差异巨大，该数值可能具有特定语境依赖性，不能直接作为通用常数。 | 参考来源[1]讨论的是LLM在议价中的强化学习策略，与二手平台实际交易中的议价触发概率统计无关，属于无关来源；该事实为经验数据，逻辑自洽但缺乏直接来源支持。
+
+## Search Query
+
+negotiation rate percentage used goods marketplace transactions
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org/abs/2604.09855&rut=1092c3ef344cca065bc81ed47239e60eefc98cad38e93d08d606cbab15d689dc', 'type': 'ddg', 'title': 'Instructing LLMs to Negotiate using Reinforcement Learning with ...'}

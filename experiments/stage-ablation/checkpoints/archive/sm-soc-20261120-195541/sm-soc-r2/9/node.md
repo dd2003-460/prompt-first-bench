@@ -1,0 +1,20 @@
+# N67: 演化压力下的‘高挂价’策略在ESS框架下成立的临界条件：当市场流动性 L 满足 L > L_crit 时，高挂价带来的筛选效应（排除低意愿买家）导致的成交周期缩
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+演化压力下的‘高挂价’策略在ESS框架下成立的临界条件：当市场流动性 L 满足 L > L_crit 时，高挂价带来的筛选效应（排除低意愿买家）导致的成交周期缩短量 ΔT_shorten 必须大于价格劣势导致的成交概率损失 ΔP_loss，即 ΔT_shorten / T_base > ΔP_loss / P_base，该不等式是统一解释‘高价快成交’现象的核心数学约束。
+
+## Corrected Claim
+
+演化压力下的‘高挂价’策略在ESS框架下成立的临界条件：当市场流动性 L 满足 L > L_crit 时，高挂价带来的筛选效应（排除低意愿买家）导致的成交周期缩短量 ΔT_shorten 必须大于价格劣势导致的成交概率损失 ΔP_loss，即 ΔT_shorten / T_base > ΔP_loss / P_base，该不等式是统一解释‘高价快成交’现象的核心数学约束。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

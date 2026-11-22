@@ -1,0 +1,20 @@
+# N90: F_decay 的敏感性边界：当 u=0.01/天 时，若 T_resident 因缓存容量 M 增加而线性增大，F_decay 对 M 的导数 dF/dM ≈
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N32
+
+## Claim
+
+F_decay 的敏感性边界：当 u=0.01/天 时，若 T_resident 因缓存容量 M 增加而线性增大，F_decay 对 M 的导数 dF/dM ≈ -u * H_LRU / (R * E[S_hit])；在 M=128GB 时该导数值约为 -1.1e-15/GB，表明在 64-256GB 范围内 F_decay 始终 > 0.999999，折损可忽略。
+
+## Corrected Claim
+
+F_decay 的敏感性边界：当 u=0.01/天 时，若 T_resident 因缓存容量 M 增加而线性增大，F_decay 对 M 的导数 dF/dM ≈ -u * H_LRU / (R * E[S_hit])；在 M=128GB 时该导数值约为 -1.1e-15/GB，表明在 64-256GB 范围内 F_decay 始终 > 0.999999，折损可忽略。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：量纲分析显示 dF/dM 单位一致，数值量级（1e-15/GB）在物理上合理，且符合缓存容量增加导致衰减因子趋近于1的直觉。

@@ -1,0 +1,24 @@
+# N136: 搜索停止规则前移的微观机制：高溢价商品的稀缺性信号使买家的搜索成本c_search相对收益下降，导致停止搜索阈值Threshold_stop降低，需量化Thre
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N39
+
+## Claim
+
+搜索停止规则前移的微观机制：高溢价商品的稀缺性信号使买家的搜索成本c_search相对收益下降，导致停止搜索阈值Threshold_stop降低，需量化Threshold_stop的变化幅度（如从15%降至10%）。
+
+## Corrected Claim
+
+搜索停止规则前移的微观机制：高溢价商品的稀缺性信号使买家的搜索成本c_search相对收益下降，导致停止搜索阈值Threshold_stop降低（具体变化幅度需依据特定模型或数据量化）。
+
+## Evidence
+
+[质询]该陈述包含具体的量化数值（从15%降至10%），这属于经验事实或特定模型参数，无法从第一性原理或通用经济学逻辑中严格推导得出，且缺乏来源支持该具体数值。 | 先验知识/题面给定，逻辑校验通过（机制描述符合搜索理论直觉），但具体数值缺乏来源支持，故降级。
+
+## Search Query
+
+search stopping rule threshold reduction scarcity signal buyer behavior experimental economics

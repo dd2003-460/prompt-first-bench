@@ -1,0 +1,24 @@
+# N642: FP8 (E4M3/E5M2) 量化 Qwen3-27B 的质量损失评估：Perplexity 增加通常 < 0.1 (BF16 基线约 5.2-5.5)，MM
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N197
+
+## Claim
+
+FP8 (E4M3/E5M2) 量化 Qwen3-27B 的质量损失评估：Perplexity 增加通常 < 0.1 (BF16 基线约 5.2-5.5)，MMLU 准确率下降 < 1%，HumanEval 代码生成通过率下降 < 2%；若使用 GPTQ 或 AWQ 校准集优化，损失可进一步控制在 0.5% 以内，满足'可接受'标准
+
+## Corrected Claim
+
+FP8 (E4M3/E5M2) 量化 Qwen3-27B 通常能保持较高的模型质量，Perplexity 和主流基准测试（如 MMLU, HumanEval）的性能损失通常较小（一般在 1%-2% 以内或更低），具体数值取决于量化算法（如 GPTQ/AWQ）及校准集质量，通常满足'可接受'标准。
+
+## Evidence
+
+[质询]具体数值（Perplexity < 0.1, MMLU < 1%, HumanEval < 2%）属于特定模型、特定量化算法及特定校准集下的经验测量结果，无法从第一性原理推导，且不同实现（如GPTQ vs AWQ vs SmoothQuant）及校准数据差异可能导致结果波动，缺乏通用性保证。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该事实为具体模型量化后的经验性能指标，不适用第一性原理推导条款）
+
+## Search Query
+
+FP8 quantization Qwen 27B perplexity MMLU accuracy loss benchmark

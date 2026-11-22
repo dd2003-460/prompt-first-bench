@@ -1,0 +1,24 @@
+# N110: GQA 对显存带宽的交互影响：分析 GQA (num_kv_heads < num_attention_heads) 如何降低 KV Cache 读写带宽需求，
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N31
+
+## Claim
+
+GQA 对显存带宽的交互影响：分析 GQA (num_kv_heads < num_attention_heads) 如何降低 KV Cache 读写带宽需求，从而在 N17 公式中提高 Memory_Bandwidth / KV_Cache_Size_Per_Token 项的值，量化 GQA 相比 MHA (Multi-Head Attention) 在相同显存容量下能支持的上下文长度提升倍数 (Factor = num_heads / num_kv_heads)。
+
+## Corrected Claim
+
+GQA 对显存带宽的交互影响：分析 GQA (num_kv_heads < num_attention_heads) 如何降低 KV Cache 读写带宽需求，从而在 N17 公式中提高 Memory_Bandwidth / KV_Cache_Size_Per_Token 项的值，量化 GQA 相比 MHA (Multi-Head Attention) 在相同显存容量下能支持的上下文长度提升倍数 (Factor = num_heads / num_kv_heads)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：GQA通过共享KV头减少KV Cache大小，带宽需求降低，支持上下文长度提升倍数确实为num_heads/num_kv_heads
+
+## Search Query
+
+Grouped Query Attention KV cache memory bandwidth benefit

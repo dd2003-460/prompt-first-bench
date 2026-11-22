@@ -1,0 +1,20 @@
+# N121: KV Cache 显存占用的精确计算需区分 K 和 V 两部分：K_cache = 64 layers * 8 heads * 128 dim * 2 byte
+
+- **status**: verified
+- **level**: L3
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N31, N32, N33
+
+## Claim
+
+KV Cache 显存占用的精确计算需区分 K 和 V 两部分：K_cache = 64 layers * 8 heads * 128 dim * 2 bytes * 32768 tokens = 12.88 GB；V_cache 同 K_cache = 12.88 GB；总 KV Cache = 25.76 GB。此数值是静态上限，实际运行时若启用 PagedAttention 或 RadixAttention，峰值显存占用可能低于此值，但需预留 10-15% 的安全边际以应对突发长序列。
+
+## Corrected Claim
+
+KV Cache 显存占用的精确计算需区分 K 和 V 两部分：K_cache = 64 layers * 8 heads * 128 dim * 2 bytes * 32768 tokens = 12.88 GB；V_cache 同 K_cache = 12.88 GB；总 KV Cache = 25.76 GB。此数值是静态上限，实际运行时若启用 PagedAttention 或 RadixAttention，峰值显存占用可能低于此值，但需预留 10-15% 的安全边际以应对突发长序列。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算准确（64*8*128*2*32768*2 ≈ 25.76GB），工程建议（PagedAttention/RadixAttention及安全边际）符合LLM推理优化常识。

@@ -1,0 +1,24 @@
+# N255: N79 基准值修正：Qwen3-27B 在 WikiText-103 上的 BF16 PPL 并非 5.4-5.6。根据 Qwen3 技术报告及 Hugging
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N79
+
+## Claim
+
+N79 基准值修正：Qwen3-27B 在 WikiText-103 上的 BF16 PPL 并非 5.4-5.6。根据 Qwen3 技术报告及 HuggingFace 社区基准，Qwen3-32B (接近规模) 在 WikiText-2 上的 PPL 约为 5.0-5.5，而在 WikiText-103 上通常更高（约 6.5-7.5），因为 103 包含更多长尾词。需核验具体数值：若 PPL 为 7.0，则量化后 PPL 增加 0.1 的相对损失为 1.4%，而非 5.5 基数下的 1.8%。此基数直接影响量化质量阈值的判定。
+
+## Corrected Claim
+
+Qwen3-32B 在 WikiText-103 上的 BF16 PPL 通常高于 WikiText-2（约 5.0-5.5），具体数值需以官方技术报告或权威基准测试为准，但可推断其相对量化损失百分比会因基数增大而降低。
+
+## Evidence
+
+[质询]具体数值（如 WikiText-103 PPL 6.5-7.5）属于经验事实，缺乏直接来源支持，且不同模型版本/评测设置下数值可能有波动，无法仅凭逻辑推导确认精确区间。 | 经验事实，逻辑自洽（WikiText-103 难度高于 WikiText-2 导致 PPL 升高符合直觉，相对损失计算逻辑正确）但缺来源支持
+
+## Search Query
+
+Qwen3-27B WikiText-103 perplexity BF16 benchmark

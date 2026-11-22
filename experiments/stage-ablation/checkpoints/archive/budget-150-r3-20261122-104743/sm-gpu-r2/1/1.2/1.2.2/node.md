@@ -1,0 +1,30 @@
+# N40: Qwen3-27B 的 n_kv_heads（KV 头数）参数值为 8，若采用 GQA（Grouped Query Attention）则 n_kv_heads
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N8
+
+## Claim
+
+Qwen3-27B 的 n_kv_heads（KV 头数）参数值为 8，若采用 GQA（Grouped Query Attention）则 n_kv_heads < n_heads，直接影响 KV Cache 大小 [待核验：需查阅 HuggingFace 配置文件或官方技术报告]
+
+## Corrected Claim
+
+Qwen3-27B 采用 GQA 架构，其 n_kv_heads 小于 n_heads，从而减小 KV Cache 大小；具体 n_kv_heads 值需查阅官方 config.json 确认（参考来源主要涉及 Qwen3.8 混合架构，未直接提供 Qwen3-27B 的该参数值）。
+
+## Evidence
+
+[质询]参考来源均指向 'Qwen3.8-27B'（混合架构/线性注意力），而待核验事实针对 'Qwen3-27B'（标准 Transformer 架构）。来源中的架构描述（如 Gated DeltaNet 层）与标准 Qwen3 的 GQA 架构不符，存在模型版本混淆或来源不匹配的风险，无法直接证实 Qwen3-27B 的具体 n_kv_heads 数值。 | 来源 [1][2][3] 均讨论 Qwen3.8-27B 的混合架构，与 Qwen3-27B 的标准 GQA 架构主题不完全匹配，无法提供直接数值支持；但 GQA 中 n_kv_heads < n_heads 且影响 KV Cache 的逻辑自洽，且 8 是常见配置值，故降级为定性表述。
+
+## Search Query
+
+Qwen3-27B config.json num_key_value_heads
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_00238/article/details/151043054&rut=0f72b8b2c932c2232ef0e36e7605b26c9d1df53ffb0a4fb22748ea0abaf691cb', 'type': 'ddg', 'title': 'Qwen3.8-27B-FP8 推理性能调优 10 个技巧：采样参数、输出长度与 KV Cache 优化-CSDN博客'}
+- {'url': 'https://blog.csdn.net/weixin_29061997/article/details/163968287&rut=d8bcdaad59c325dd9cad4b0f2c92c1c5099f1710ea83e3806ae5b07aec6e1d03', 'type': 'ddg', 'title': 'Qwen3.8 27B架构解析：75%非Transformer层如何优化KV Cache与长上下文推理-CSDN博客'}
+- {'url': 'https://www.aieev.com/post/qwen3-8-27b-benchmark&rut=c09bee931b9ecc6edd7643b2b3993bcc415dbc9bf5be42327678ebe390e8d39e', 'type': 'ddg', 'title': 'Qwen3.8-27B Benchmarks: Throughput, Latency and KV Cache'}

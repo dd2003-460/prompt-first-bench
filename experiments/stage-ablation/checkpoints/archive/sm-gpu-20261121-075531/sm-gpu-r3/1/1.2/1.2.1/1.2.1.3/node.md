@@ -1,0 +1,24 @@
+# N140: Qwen3-27B 的 Head Dimension (head_dim) 确认为 128 维，结合 hidden_size 1024 和 8 个 Query 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N38
+
+## Claim
+
+Qwen3-27B 的 Head Dimension (head_dim) 确认为 128 维，结合 hidden_size 1024 和 8 个 Query Heads，用于计算单头 KV 缓存大小。
+
+## Corrected Claim
+
+Qwen3-27B 的 hidden_size 并非 1024（该值通常对应小模型），需核实具体架构参数；若 head_dim 为 128，则 hidden_size 应为 128 的倍数且符合 27B 模型的规模（如 4096 或 5120 等）。
+
+## Evidence
+
+[质询]数值量级与内部逻辑存在严重矛盾：若 hidden_size 为 1024 且 head_dim 为 128，则 Query Heads 数量应为 8 (1024/128)，这与陈述一致；但 Qwen3-27B 作为 27B 参数量的大模型，其 hidden_size 通常远大于 1024（例如 Qwen2.5-32B 的 hidden_size 为 5120，Qwen2-72B 为 8192）。hidden_size 1024 通常对应 1B-3B 量级的小模型（如 Qwen2-1.5B 或 Qwen2-0.5B）。因此，'Qwen3-27B' 与 'hidden_size 1024' 的组合极大概率是型号混淆或参数错误。 | 经验事实，逻辑自洽但缺来源支持；且 hidden_size 1024 与 27B 参数量级严重不符，存在型号/参数混淆嫌疑。
+
+## Search Query
+
+Qwen3-27B config.json head_dim hidden_size

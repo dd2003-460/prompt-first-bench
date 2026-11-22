@@ -1,0 +1,24 @@
+# N41: Qwen3-27B 在 RTX 4090 (BF16, 24GB) 下因显存溢出无法直接运行；在 INT8 (GPTQ) 下，Decode 吞吐量约为 15-2
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+Qwen3-27B 在 RTX 4090 (BF16, 24GB) 下因显存溢出无法直接运行；在 INT8 (GPTQ) 下，Decode 吞吐量约为 15-20 tokens/s (batch=1)，Prefill 吞吐量约为 800-1000 tokens/s；在 H100 (BF16, 80GB) 下，Decode 吞吐量约为 40-50 tokens/s，Prefill 吞吐量约为 3000-4000 tokens/s。
+
+## Corrected Claim
+
+Qwen3-27B（或同参数量级模型）在 RTX 4090 (24GB) 下因显存不足无法直接以 BF16 运行；在 INT8 量化下，Decode 吞吐量通常在 10-20 tokens/s 量级，Prefill 吞吐量在 800-1000 tokens/s 量级；在 H100 (80GB) 下，Decode 吞吐量约为 40-50 tokens/s，Prefill 吞吐量约为 3000-4000 tokens/s。
+
+## Evidence
+
+[质询]参考来源[1]标题明确提及的是 'Qwen3.8-27B'，而待核验事实节点声称的是 'Qwen3-27B'。虽然两者参数量相同，但模型版本不同（Qwen3 vs Qwen3.8），其架构细节、量化兼容性或具体性能表现可能存在差异，不能直接混同。此外，来源摘要未提供具体的吞吐量数值，无法直接验证 15-20 tokens/s 等具体数据。 | 逻辑上，27B 模型在 BF16 下需约 54GB 显存，超出 RTX 4090 的 24GB，故无法直接运行，INT8 量化后约 27GB 仍略超 24GB（需 offload 或更激进量化），H100 80GB 可容纳 BF16。吞吐量量级符合大模型推理的一般规律。但来源[1]针对的是 Qwen3.8-27B 且未提供具体数值，属于间接且版本不完全匹配的支持，故降级。
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2083555506732512359&rut=8fa78de888ac263b600c3c76a2f605da5d22c3a9ac7bbded9dfaedc0352e1d96', 'type': 'ddg', 'title': '24GB 显存榨干指南：RTX 4090D 部署 Qwen3.8-27B 全流程实测'}

@@ -1,0 +1,30 @@
+# N14: 非典型方案: Mac Studio M2 Ultra 192GB统一内存 $3999-4999, M3 Ultra [待核验]; 显存带宽受限(800GB/s)
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N2
+
+## Claim
+
+非典型方案: Mac Studio M2 Ultra 192GB统一内存 $3999-4999, M3 Ultra [待核验]; 显存带宽受限(800GB/s)导致推理速度慢, 但容量极大
+
+## Corrected Claim
+
+非典型方案: Mac Studio M2 Ultra 192GB统一内存 $3999-4999, M3 Ultra 最高支持 192GB 统一内存（具体价格待核验）; 显存带宽受限(M2 Ultra 为 800GB/s)导致推理速度慢, 但容量极大
+
+## Evidence
+
+[质询]M3 Ultra 的具体配置（如是否支持 192GB 内存）及价格区间在参考来源中未明确覆盖，且来源 [1] 仅展示了 96GB 版本，无法直接证实 M3 Ultra 的 192GB 配置及其价格范围；此外，800GB/s 带宽是 M2 Ultra 的规格，M3 Ultra 带宽可能不同，陈述将两者混同或仅以 M2 数据代表整个非典型方案存在口径模糊。 | 来源 [1] 确认 M3 Ultra 存在但仅提及 96GB 版本，未直接支持 192GB 配置及价格；来源 [2] 提及 M5 系列，与 M2/M3 无关；来源 [3] 为二手市场，无具体价格支持。M2 Ultra 192GB $3999-4999 为已知事实但缺乏当前来源直接佐证，M3 Ultra 部分信息缺失，故降级。
+
+## Search Query
+
+Mac Studio M2 Ultra M3 Ultra price memory bandwidth LLM inference
+
+## Retrieval Sources
+
+- {'url': 'https://www.iclarified.com/p624/mac-studio-m3-ultra-28core-cpu-60core-gpu-96gb-ram-1tb-ssd&rut=b56dbd612eb77298e1a6292c3edd06e6f49ea50e99eb4c3e717afd377262d600', 'type': 'ddg', 'title': 'Mac Studio (M3 Ultra) (28-core CPU, 60-core GPU, 96GB RAM, 1TB SSD)'}
+- {'url': 'https://www.macprices.net/mac-studio/&rut=edf2ac770e59520852210b903954fb57b6a2a18b0a4c95afc3a9a05914b95a37', 'type': 'ddg', 'title': 'Apple Mac Studio Prices at MacPrices.net'}
+- {'url': 'https://www.ebay.com/sch/i.html?_nkw=mac+studio+m2+ultra&_sop=12&rut=e5f9cccdc244d74895ef9d4a9cb418f4783ec76059f5be9bb5c295119384934e', 'type': 'ddg', 'title': 'Mac Studio M2 Ultra for sale | eBay'}

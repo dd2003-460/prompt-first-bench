@@ -1,0 +1,30 @@
+# N118: Lognormal 分布对数标准差 σ_log 的估计值为 0.45，置信区间为 [0.40, 0.50]（基于 95% 置信水平）。
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N33
+
+## Claim
+
+Lognormal 分布对数标准差 σ_log 的估计值为 0.45，置信区间为 [0.40, 0.50]（基于 95% 置信水平）。
+
+## Corrected Claim
+
+Lognormal 分布对数标准差 σ_log 的估计值约为 0.45（置信区间 [0.40, 0.50]），具体数值需依据原始数据验证。
+
+## Evidence
+
+[质询]该陈述包含具体的统计估计值（0.45）和置信区间，属于特定数据集的经验事实，参考来源仅提供了对数正态分布的一般定义和性质，未包含任何具体数值或该特定估计结果，无法验证其准确性。 | 经验事实，逻辑自洽但缺来源支持（来源[1][2][3]仅描述分布性质，未提供具体数值）
+
+## Search Query
+
+Lognormal distribution parameter estimation buyer willingness to pay
+
+## Retrieval Sources
+
+- {'url': 'https://zh.wikipedia.org/wiki/%E5%AF%B9%E6%95%B0%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83&rut=a48be4cbaa506e2c150b472739d526c962e8064661427b940f389e032991b0f8', 'type': 'ddg', 'title': '对数正态分布 - 维基百科，自由的百科全书'}
+- {'url': 'https://zhuanlan.zhihu.com/p/490650039&rut=04086b2244a195c5aea25bfeaa044b99da0b2506d695509448c0559ab03e39e0', 'type': 'ddg', 'title': '对数正态分布（Log-Normal Distribution） - 知乎'}
+- {'url': 'https://zh.wikipedia.org/zh-tw/%E5%AF%B9%E6%95%B0%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83&rut=5c2f868502381e1d8a640a5a19755e127a2c585b88c5ed749e318eff5537131b', 'type': 'ddg', 'title': '對數常態分布 - 維基百科，自由的百科全書'}

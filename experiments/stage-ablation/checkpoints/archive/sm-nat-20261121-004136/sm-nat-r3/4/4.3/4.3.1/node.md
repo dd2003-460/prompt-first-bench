@@ -1,0 +1,20 @@
+# N56: Discount_Factor 的最终数值计算：代入 P_invalid ≈ 0.002655 和 Hit_Rate_Original (例如 0.85)，计算
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N17
+
+## Claim
+
+Discount_Factor 的最终数值计算：代入 P_invalid ≈ 0.002655 和 Hit_Rate_Original (例如 0.85)，计算 Discount_Factor = 1 - 0.002655 * (1 - 0.85) ≈ 1 - 0.000398 ≈ 0.999602。
+
+## Corrected Claim
+
+Discount_Factor 的最终数值计算：代入 P_invalid ≈ 0.002655 和 Hit_Rate_Original (例如 0.85)，计算 Discount_Factor = 1 - 0.002655 * (1 - 0.85) ≈ 1 - 0.000398 ≈ 0.999602。
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备（子节点之间存在逻辑矛盾与概念混淆。父节点明确基于 Hit_Rate=0.85 计算 Discount_Factor≈0.999602，而子节点1声称修正后 Discount_Factor=1.0，两者结果不一致且未解释为何父节点未采用修正值。此外，子节点2混淆了 Discount_Factor 与最终有效命中率 H_eff 的概念，将折损项直接等同于命中率，逻辑不严谨。）

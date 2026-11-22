@@ -1,0 +1,24 @@
+# N158: H100 SXM 在 FP8 精度下的峰值 Tensor Core 算力为 3958 TFLOPS (Dense)，而 RTX 4090 在 FP8 精度下因缺
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N49
+
+## Claim
+
+H100 SXM 在 FP8 精度下的峰值 Tensor Core 算力为 3958 TFLOPS (Dense)，而 RTX 4090 在 FP8 精度下因缺乏原生 FP8 Tensor Core 支持，需通过软件模拟（如转换为 INT8 或 BF16 计算）或仅利用 BF16 路径，其有效 FP8 等效算力需根据具体框架（如 TensorRT-LLM 的 dequantize 开销）估算，通常认为其 FP8 有效吞吐效率仅为原生硬件的 40-60% [待核验：具体框架下的效率系数]。
+
+## Corrected Claim
+
+H100 SXM 在 FP8 精度下的峰值 Tensor Core 算力为 3958 TFLOPS (Dense)。RTX 4090 基于 Ada Lovelace 架构，原生支持 FP8 精度，但其 FP8 峰值算力（约 165 TFLOPS）远低于 H100 SXM，且缺乏 Hopper 架构特有的 Transformer Engine 等优化特性，导致在特定 LLM 推理场景下的有效吞吐效率显著低于 H100。
+
+## Evidence
+
+[质询]RTX 4090 (Ada Lovelace架构) 实际上原生支持 FP8 精度（通过 Tensor Core 的 FP8 指令集），并非‘缺乏原生 FP8 Tensor Core 支持’。虽然其 FP8 峰值算力远低于 H100 SXM，但将其描述为需要‘软件模拟’或‘仅利用 BF16 路径’是事实性错误，混淆了架构代际差异（Ada vs Hopper）。 | 逻辑校验发现内部矛盾：RTX 4090 基于 Ada Lovelace 架构，该架构明确引入了 FP8 支持（如 FP8 E4M3/E5M2），因此‘缺乏原生 FP8 支持’的前提错误。由于 source=search 且无可用来源，但存在明显的硬件规格事实错误（经验事实），无法判定为 verified。
+
+## Search Query
+
+H100 FP8 peak TFLOPS vs RTX 4090 FP8 emulation efficiency TensorRT

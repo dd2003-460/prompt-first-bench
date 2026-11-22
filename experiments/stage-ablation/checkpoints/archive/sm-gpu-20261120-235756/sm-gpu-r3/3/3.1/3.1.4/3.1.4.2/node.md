@@ -1,0 +1,20 @@
+# N223: 2×A100 40GB SXM4 方案的硬件购置成本为 $10,000，计算公式为：2 × (二手均价 $5,000) + NVLink Bridge 成本 $
+
+- **status**: degraded
+- **level**: L4
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N67, N68, N69
+
+## Claim
+
+2×A100 40GB SXM4 方案的硬件购置成本为 $10,000，计算公式为：2 × (二手均价 $5,000) + NVLink Bridge 成本 $0 (SXM4 模组内置 NVLink，无需额外购买桥接件)。
+
+## Corrected Claim
+
+2×A100 40GB SXM4 方案的硬件购置成本约为 $10,000（基于二手均价 $5,000/卡估算），计算公式为：2 × (二手均价 $5,000) + NVLink Bridge 成本 $0 (假设SXM4模组内置NVLink，无需额外购买桥接件)。
+
+## Evidence
+
+[质询]二手A100 40GB SXM4的市场价格波动较大，$5,000仅为特定时间点的估算值，且NVLink Bridge成本为0的前提依赖于SXM4模组的具体集成方式，不同厂商或批次可能存在差异，属于经验事实而非绝对真理。 | 经验事实，逻辑自洽但缺来源支持

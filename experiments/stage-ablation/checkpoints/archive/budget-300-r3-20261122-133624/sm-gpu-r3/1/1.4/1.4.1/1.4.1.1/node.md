@@ -1,0 +1,24 @@
+# N201: Qwen3-27B 的 KV Cache 参数验证：查阅 Qwen3-27B 模型配置 (config.json)，确认 N_layers=32, N_kv_h
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N52
+
+## Claim
+
+Qwen3-27B 的 KV Cache 参数验证：查阅 Qwen3-27B 模型配置 (config.json)，确认 N_layers=32, N_kv_heads=8 (GQA 配置，非 N52 声称的 4), d_head=128, head_dim=128。修正后的 KV Cache 公式为 2 * 32 * 8 * 128 * L_ctx * 2 bytes。对于 L_ctx=32768，计算得 2 * 32 * 8 * 128 * 32768 * 2 = 4,294,967,296 bytes = 4.0 GB，证实 N52 的 4.09GB 估算基本准确，但需修正 N_kv_heads 为 8。
+
+## Corrected Claim
+
+基于假设 Qwen3-27B 配置为 N_layers=32, N_kv_heads=8, d_head=128，KV Cache 大小计算为 4.0 GB；需进一步核实模型实际配置以确认参数准确性。
+
+## Evidence
+
+[质询]该陈述包含具体的模型架构参数（N_layers=32, N_kv_heads=8, d_head=128），属于经验事实。虽然数学计算逻辑自洽（2*32*8*128*32768*2 = 4,294,967,296 bytes ≈ 4.0 GB），但缺乏外部来源直接验证 Qwen3-27B 的具体配置参数是否确实如此（例如 N_kv_heads 是否为 8 而非其他值，层数是否为 32）。若参数有误，结论即错。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体模型配置参数）
+
+## Search Query
+
+Qwen3-27B config.json num_key_value_heads

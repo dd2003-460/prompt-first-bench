@@ -1,0 +1,24 @@
+# N274: 短期效用演化路径：ΔU_seller(30) 和 ΔU_buyer(30) 可通过 AR(1) 时间序列模型捕捉：U_t = ρ * U_{t-1} + ε_t
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N89
+
+## Claim
+
+短期效用演化路径：ΔU_seller(30) 和 ΔU_buyer(30) 可通过 AR(1) 时间序列模型捕捉：U_t = ρ * U_{t-1} + ε_t，其中 ρ 为自相关系数（反映策略调整的惯性），ε_t 为随机扰动项；需基于历史数据估计 ρ 和 ε_t 的方差，以预测 30 天内的效用轨迹。
+
+## Corrected Claim
+
+短期效用演化路径：ΔU_seller(30) 和 ΔU_buyer(30) 可通过 AR(1) 时间序列模型捕捉：U_t = ρ * U_{t-1} + ε_t，其中 ρ 为自相关系数（反映策略调整的惯性），ε_t 为随机扰动项；需基于历史数据估计 ρ 和 ε_t 的方差，以预测 30 天内的效用轨迹。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：AR(1) 是捕捉时间序列自相关性的标准统计模型，公式 U_t = ρ * U_{t-1} + ε_t 符合定义，参数估计方法（基于历史数据）在统计学上合理且自洽。
+
+## Search Query
+
+AR(1) time series model utility evolution short-term market

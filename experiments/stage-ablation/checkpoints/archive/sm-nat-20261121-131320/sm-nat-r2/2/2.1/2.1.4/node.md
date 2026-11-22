@@ -1,0 +1,20 @@
+# N31: 耦合修正因子 K_ρ 的量化估算：基于双变量对数正态分布近似，ln(S) 与 ln(f) 的相关系数 ρ=-0.3 导致有效缓存容量 C_eff = C * e
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+耦合修正因子 K_ρ 的量化估算：基于双变量对数正态分布近似，ln(S) 与 ln(f) 的相关系数 ρ=-0.3 导致有效缓存容量 C_eff = C * exp(0.5 * ρ * (σ_lnS - σ_lnf)^2)；需计算 Pareto(α=1.1) 和 Pareto(β=0.9) 的对数方差 σ_lnS 和 σ_lnf，进而得出 K_ρ 的具体数值（预期在 1.05-1.15 之间）。
+
+## Corrected Claim
+
+耦合修正因子 K_ρ 的量化估算：基于双变量对数正态分布近似，ln(S) 与 ln(f) 的相关系数 ρ=-0.3 导致有效缓存容量 C_eff = C * exp(0.5 * ρ * (σ_lnS - σ_lnf)^2)；需计算 Pareto(α=1.1) 和 Pareto(β=0.9) 的对数方差 σ_lnS 和 σ_lnf，进而得出 K_ρ 的具体数值（预期在 1.05-1.15 之间）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

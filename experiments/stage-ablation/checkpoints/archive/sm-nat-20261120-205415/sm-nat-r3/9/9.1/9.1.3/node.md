@@ -1,0 +1,28 @@
+# N221: LFU与LRU稳态集合差异的悲观工作点：在Clayton Copula(ρ=-0.3, θ≈1.83)下，尾部相关性导致F△L显著增大，|F△L|中的对象主要为
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N81
+
+## Claim
+
+LFU与LRU稳态集合差异的悲观工作点：在Clayton Copula(ρ=-0.3, θ≈1.83)下，尾部相关性导致F△L显著增大，|F△L|中的对象主要为高频小对象（LFU保留）与低频大对象（LRU保留），量化该极端情况下的最大集合差异。
+
+## Corrected Claim
+
+在引入负相关尾部依赖（如Clayton Copula）的悲观工作点假设下，LFU与LRU的稳态集合差异（F△L）可能显著增大，差异对象主要体现为LFU保留的高频小对象与LRU保留的低频大对象。
+
+## Evidence
+
+[质询]该陈述包含具体的统计模型参数（Clayton Copula, ρ=-0.3, θ≈1.83）及由此推导出的特定量化结论（F△L显著增大、对象特征分布），属于高度专业化的经验/模拟事实。参考来源仅涉及Redis缓存策略的通用科普，完全未覆盖Copula模型、尾部相关性或具体的集合差异量化数据，无法提供外部支持。 | 逻辑上，负相关Copula确实可能放大尾部依赖从而增加策略差异，且高频小对象/低频大对象的描述符合LFU/LRU的基本行为直觉，逻辑自洽；但参考来源[1]与Copula模型及具体数值无关，属于经验事实且缺乏直接来源支持，故降级。
+
+## Search Query
+
+Clayton Copula tail dependence cache replacement LFU LRU set difference quantification
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2069556046839001951&rut=7d58a4a126ac95d842e1a792f5b31de9d44ec9b6d2a091d938002417e9278387', 'type': 'ddg', 'title': '吃透Redis缓存核心：淘汰策略、LRU/LFU区别与四大缓存问题全解'}

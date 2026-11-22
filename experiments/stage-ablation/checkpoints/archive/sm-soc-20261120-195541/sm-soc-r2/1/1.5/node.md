@@ -1,0 +1,24 @@
+# N9: 买家/卖家/平台三方策略互动矩阵：定义买家策略空间 S_B={搜索, 核验, 购买, 放弃}，卖家策略空间 S_S={高挂价, 降价, 维持}，平台策略空间 S
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+买家/卖家/平台三方策略互动矩阵：定义买家策略空间 S_B={搜索, 核验, 购买, 放弃}，卖家策略空间 S_S={高挂价, 降价, 维持}，平台策略空间 S_P={默认展示, 流量倾斜, 干预}，纳什均衡点 E* 满足 P_ask > P_market 且 T_deal < T_baseline，其中 T_baseline 为无高挂价时的基准成交周期。
+
+## Corrected Claim
+
+买家/卖家/平台三方策略互动矩阵：定义买家策略空间 S_B={搜索, 核验, 购买, 放弃}，卖家策略空间 S_S={高挂价, 降价, 维持}，平台策略空间 S_P={默认展示, 流量倾斜, 干预}，纳什均衡点 E* 满足 P_ask > P_market 且 T_deal < T_baseline，其中 T_baseline 为无高挂价时的基准成交周期。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点分别描述了买家（需求侧）和平台（供给侧/中介侧）的行为函数，二者维度不同，无逻辑冲突，故正交性合格。但父节点明确定义了“三方策略互动”及包含卖家策略空间 S_S={高挂价, 降价, 维持} 的纳什均衡条件，而现有两个子节点完全缺失对卖家策略行为的数学建模或定性描述，导致无法闭环推导父节点中提到的均衡点 E*，因此完备性不合格。）
+
+## Search Query
+
+game theory strategy interaction marketplace equilibrium pricing

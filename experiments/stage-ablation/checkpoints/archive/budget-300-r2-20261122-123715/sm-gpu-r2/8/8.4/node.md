@@ -1,0 +1,20 @@
+# N110: 24GB 显卡运行 Qwen3-27B 32K 上下文的显存余量计算：BF16 权重 (54GB) 无法装入 24GB，必须量化；若用 INT8 权重 (27G
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N26, N27
+
+## Claim
+
+24GB 显卡运行 Qwen3-27B 32K 上下文的显存余量计算：BF16 权重 (54GB) 无法装入 24GB，必须量化；若用 INT8 权重 (27GB) + GQA KV Cache (32K, INT8) 的总显存占用是否超过 24GB
+
+## Corrected Claim
+
+24GB 显卡运行 Qwen3-27B 32K 上下文的显存余量计算：BF16 权重 (54GB) 无法装入 24GB，必须量化；若用 INT8 权重 (27GB) + GQA KV Cache (32K, INT8) 的总显存占用是否超过 24GB
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B参数量约27B，BF16权重约54GB，INT8权重约27GB，均超过24GB显存；INT8权重(27GB)已单独超过24GB，加上KV Cache必然超出，结论正确

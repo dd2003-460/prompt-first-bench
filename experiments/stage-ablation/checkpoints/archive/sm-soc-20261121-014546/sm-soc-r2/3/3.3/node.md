@@ -1,0 +1,28 @@
+# N16: 平台收益量化：平台在均衡下的佣金收入 R_platform = f·P_ask*·N_transactions，其中 f 为佣金率。在 P_ask* = 1.2
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N3
+
+## Claim
+
+平台收益量化：平台在均衡下的佣金收入 R_platform = f·P_ask*·N_transactions，其中 f 为佣金率。在 P_ask* = 1.2V 时，R_platform 比在 P_ask = V 时高 20%，但用户流失率增加 5%，长期收益净提升 10%。
+
+## Corrected Claim
+
+平台在均衡下的佣金收入 R_platform = f·P_ask*·N_transactions。在 P_ask* = 1.2V 时，若交易量不变，R_platform 比在 P_ask = V 时高 20%。关于用户流失率及长期净收益的具体数值（如流失率增加5%、净提升10%）需依赖特定市场模型假设，缺乏通用来源支持。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（如流失率增加5%、净提升10%），这些并非数学恒等式或第一性原理可推导的必然结果，而是依赖于特定市场模型假设的经验事实；且参考来源与平台佣金机制完全无关，无法提供外部支持。 | 逻辑上，若佣金率f和交易量N不变，价格从V升至1.2V确实使收入增加20%；但‘流失率增加5%’及‘长期净提升10%’属于经验假设，参考来源[1]讨论的是风险平价策略，与该事实主题无关，故无外部证据支持，依据经验事实排除条款降级。
+
+## Search Query
+
+platform commission revenue user churn rate pricing equilibrium online marketplace
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_01163/article/details/156259528&rut=06530d5c757de29d5b5a07757a26114f1cb6d87fb07e274a0db73b991f239e17', 'type': 'ddg', 'title': 'bt ERC算法：风险平价策略的完整Python实现指南-CSDN博客'}

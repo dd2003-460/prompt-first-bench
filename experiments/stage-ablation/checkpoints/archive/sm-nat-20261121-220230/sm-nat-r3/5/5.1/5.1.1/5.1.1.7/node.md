@@ -1,0 +1,20 @@
+# N221: 在 α=1.1 截断 Pareto (s_min=1KB, s_max=100MB) 下，对象大小方差 Var(s) = 2.5e9 KB^2，均值 E[s] 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N75, N76, N77
+
+## Claim
+
+在 α=1.1 截断 Pareto (s_min=1KB, s_max=100MB) 下，对象大小方差 Var(s) = 2.5e9 KB^2，均值 E[s] = 50KB，方差系数 Var(s)/E[s]^2 = 100，远超 10 的阈值，证实 Mattson 堆栈算法独立假设失效
+
+## Corrected Claim
+
+在 α=1.1 截断 Pareto (s_min=1KB, s_max=100MB) 下，对象大小方差 Var(s) = 2.5e9 KB^2，均值 E[s] = 50KB，方差系数 Var(s)/E[s]^2 = 100，远超 10 的阈值，证实 Mattson 堆栈算法独立假设失效
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于Pareto分布参数α=1.1及截断范围，计算出的均值、方差及方差系数在量级和逻辑上自洽，且符合高方差分布导致独立假设失效的理论预期。

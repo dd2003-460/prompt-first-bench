@@ -1,0 +1,24 @@
+# N152: MoE 架构下 FP8 量化的实际计算加速比受限于路由（Routing）开销：虽然 GEMM 计算量从 27.18B 降至 3.3B 参数，但路由矩阵计算和 T
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N41
+
+## Claim
+
+MoE 架构下 FP8 量化的实际计算加速比受限于路由（Routing）开销：虽然 GEMM 计算量从 27.18B 降至 3.3B 参数，但路由矩阵计算和 Token 分配逻辑在 Blackwell/Ada 架构上的 Tensor Core 利用率仅约 40-60%，导致实际 TPOT 降低幅度低于理论参数比（8.2x），预计实际加速比为 3-5x 相比 BF16 全量计算。
+
+## Corrected Claim
+
+MoE 架构下 FP8 量化的实际计算加速比受限于路由（Routing）开销及通信延迟：虽然 GEMM 计算量因稀疏激活而显著降低，但路由矩阵计算、Token 分配逻辑及专家间通信在特定硬件架构上会引入额外开销，导致实际 TPOT 降低幅度低于理论参数比，实际加速比通常低于理论最大值，具体数值取决于模型规模、硬件实现及路由策略。
+
+## Evidence
+
+[质询]数值量级与逻辑自洽性存疑：1. 参数比 8.2x (27.18/3.3) 与声称的加速比 3-5x 之间缺乏明确的数学推导支撑，通常 MoE 的加速比受激活参数比例和路由开销共同影响，直接断言 3-5x 缺乏严谨推导；2. 'Tensor Core 利用率仅约 40-60%' 用于解释路由开销导致加速比下降，存在因果归因模糊，路由开销通常体现为额外的 All-to-All 通信或索引计算，而非直接降低 GEMM 的 Tensor Core 利用率；3. 具体数值（27.18B, 3.3B, 40-60%）缺乏通用性，疑似特定模型或实验数据，作为通用事实陈述不够严谨。 | 先验知识/题面给定，逻辑校验通过但数值推导链条不完整，且无外部来源支持具体数值，故降级为定性表述。
+
+## Search Query
+
+MoE routing overhead Tensor Core utilization FP8 inference speedup

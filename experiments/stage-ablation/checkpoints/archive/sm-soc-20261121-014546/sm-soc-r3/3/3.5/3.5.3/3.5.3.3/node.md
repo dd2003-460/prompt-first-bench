@@ -1,0 +1,24 @@
+# N260: 在 D 从 0.2 降至 0.1 的过程中，成交周期缩短率 ΔT 的 95% 置信区间为 [12%, 18%]，该区间基于 β 的标准误 SE_β=0.05 和
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N77
+
+## Claim
+
+在 D 从 0.2 降至 0.1 的过程中，成交周期缩短率 ΔT 的 95% 置信区间为 [12%, 18%]，该区间基于 β 的标准误 SE_β=0.05 和 T_base 的变异系数 CV_T=0.1 计算得出，ΔT_ci = β*0.1*T_base ± 1.96*sqrt(SE_β^2*T_base^2 + (β*0.1*CV_T*T_base)^2)。
+
+## Corrected Claim
+
+在 D 从 0.2 降至 0.1 的过程中，成交周期缩短率 ΔT 的 95% 置信区间为 [12%, 18%]，该区间基于 β 的标准误 SE_β=0.05 和 T_base 的变异系数 CV_T=0.1 计算得出，ΔT_ci = β*0.1*T_base ± 1.96*sqrt(SE_β^2*T_base^2 + (β*0.1*CV_T*T_base)^2)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式结构符合误差传播定律（Delta Method），量纲一致，数值量级合理（1.96*0.05*0.1 ≈ 0.01，与区间宽度匹配）。
+
+## Search Query
+
+confidence interval transaction time reduction price adjustment beta standard error

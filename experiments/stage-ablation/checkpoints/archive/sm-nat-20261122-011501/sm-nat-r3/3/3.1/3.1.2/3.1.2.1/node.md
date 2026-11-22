@@ -1,0 +1,20 @@
+# N112: LFU 与 LRU 命中率差值 ΔH 的量化：ΔH = H_lfu - H_lru ≈ (P_access_LFU * E[S|S_LFU]/E[S]) - (
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N40
+
+## Claim
+
+LFU 与 LRU 命中率差值 ΔH 的量化：ΔH = H_lfu - H_lru ≈ (P_access_LFU * E[S|S_LFU]/E[S]) - (P_access_LRU * E[S|S_LRU]/E[S])。若 P_access_LFU=0.90, E[S|S_LFU]=4KB, P_access_LRU=0.85, E[S|S_LRU]=8KB, E[S]=11KB，则 H_lfu≈0.90*0.36=32.4%?? 需修正：字节命中率是命中字节/总请求字节。H_lfu ≈ (0.90 * 4KB) / 11KB ≈ 32.7%?? 不对，总请求字节是 ∑r_j s_j，不是 N*E[S]。正确计算：H_lfu = ∑_{i∈S_LFU} r_i s_i / Total_Bytes。
+
+## Corrected Claim
+
+LFU 与 LRU 的字节命中率差值 ΔH 应定义为：ΔH = (∑_{i∈S_LFU} r_i s_i - ∑_{i∈S_LRU} r_i s_i) / Total_Bytes。其中 Total_Bytes = ∑_{j} r_j s_j。不能简单用 P_access * E[S|S] / E[S] 近似，除非假设所有请求大小相同或特定分布。
+
+## Evidence
+
+[质询]陈述中给出的具体数值计算（如 0.90*4KB/11KB ≈ 32.7%）在逻辑上存在严重错误：分子是命中字节数，分母是平均请求大小，量纲不匹配（结果应为无量纲比率，但 4KB/11KB 是比率，乘以概率后数值本身虽为比率，但物理意义混淆了‘命中概率’与‘字节命中率’的定义，且 0.9*4/11 ≈ 0.327 并非标准的字节命中率公式，标准公式应为 Sum(hit_bytes)/Sum(total_bytes)。此外，陈述内部自相矛盾，先给出错误公式，再自我否定，最后给出正确定义但未完成计算，导致最终结论缺失且过程混乱。 | 先验知识/题面给定，逻辑校验失败：数值计算量纲与定义混淆，且陈述内部存在未解决的矛盾和错误推导。

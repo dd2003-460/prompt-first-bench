@@ -1,0 +1,24 @@
+# N298: 买家噪声 σ_W 的构成分解：σ_W = σ_market + σ_individual，其中 σ_market 为市场整体支付意愿波动（受经济周期影响），σ_
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N99
+
+## Claim
+
+买家噪声 σ_W 的构成分解：σ_W = σ_market + σ_individual，其中 σ_market 为市场整体支付意愿波动（受经济周期影响），σ_individual 为个体偏好噪声（随机性）。需分别估计两者的方差贡献率，若 σ_individual 占比 > 80%，则‘随机偏好噪声’假设主导，高溢价策略的失效主要源于个体不可预测性而非市场系统性风险。
+
+## Corrected Claim
+
+买家噪声 σ_W 可分解为市场整体波动 σ_market 和个体偏好噪声 σ_individual。需分别估计两者的方差贡献率。若 σ_individual 占比显著高于 σ_market（例如超过 80%），则表明‘随机偏好噪声’假设占主导，此时高溢价策略的失效更可能归因于个体层面的不可预测性，而非市场系统性风险。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（80%）和特定的因果归因逻辑（高溢价策略失效主要源于个体不可预测性），这些属于经验事实或特定模型假设，无法从第一性原理严格推导，且缺乏来源支持其普适性或具体数值的有效性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+buyer willingness to pay noise decomposition market volatility individual preference variance second-hand platform

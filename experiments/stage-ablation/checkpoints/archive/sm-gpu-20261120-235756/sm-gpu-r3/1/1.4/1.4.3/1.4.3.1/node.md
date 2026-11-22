@@ -1,0 +1,24 @@
+# N160: RTX 5090 (Blackwell) 上 FP8 相比 BF16 的理论 TPOT 加速比：由于 FP8 权重体积减半，内存带宽瓶颈下的理论 TPOT 降低
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N46
+
+## Claim
+
+RTX 5090 (Blackwell) 上 FP8 相比 BF16 的理论 TPOT 加速比：由于 FP8 权重体积减半，内存带宽瓶颈下的理论 TPOT 降低 50%（即加速 2x）；但需扣除 FP8 Tensor Core 计算效率因子，假设 FP8 GEMM 效率为 BF16 的 1.5x-2x（基于 Blackwell 架构特性），实际综合加速比约为 1.5x - 1.8x，具体数值需实测 vLLM 在 RTX 5090 上的 FP8 vs BF16 吞吐对比。
+
+## Corrected Claim
+
+RTX 5090 (Blackwell) 上 FP8 相比 BF16 的理论 TPOT 加速比：由于 FP8 权重体积减半，内存带宽瓶颈下的理论 TPOT 降低 50%（即加速 2x）；但需扣除 FP8 Tensor Core 计算效率因子，假设 FP8 GEMM 效率为 BF16 的 1.5x-2x（基于 Blackwell 架构特性），实际综合加速比约为 1.5x - 1.8x，具体数值需实测 vLLM 在 RTX 5090 上的 FP8 vs BF16 吞吐对比。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：FP8相比BF16内存占用减半，在带宽瓶颈下理论加速2x；结合Blackwell架构FP8 Tensor Core计算效率提升（通常高于BF16），综合加速比1.5x-1.8x符合硬件架构逻辑与工程经验。
+
+## Search Query
+
+RTX 5090 Blackwell FP8 vs BF16 inference throughput speedup ratio vLLM

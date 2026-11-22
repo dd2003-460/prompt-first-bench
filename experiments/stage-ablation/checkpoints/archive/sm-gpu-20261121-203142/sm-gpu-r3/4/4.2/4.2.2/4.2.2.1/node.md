@@ -1,0 +1,20 @@
+# N251: CPU 功耗的精确量化：现代 8-16 核 CPU (如 Ryzen 9 7950X) 在 GPU 推理负载下通常处于低负载状态，功耗约 30-50W，而非估算
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N80
+
+## Claim
+
+CPU 功耗的精确量化：现代 8-16 核 CPU (如 Ryzen 9 7950X) 在 GPU 推理负载下通常处于低负载状态，功耗约 30-50W，而非估算的 100-150W；若采用低功耗 CPU (如 Ryzen 5 7600X)，功耗可降至 20-30W
+
+## Corrected Claim
+
+CPU 功耗的精确量化：现代 8-16 核 CPU (如 Ryzen 9 7950X) 在 GPU 推理负载下通常处于低负载状态，功耗约 30-50W，而非估算的 100-150W；若采用低功耗 CPU (如 Ryzen 5 7600X)，功耗可降至 20-30W
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在GPU推理场景下，CPU主要承担数据预处理和调度，负载极低，30-50W（高功耗CPU）及20-30W（低功耗CPU）的功耗范围符合物理直觉与工程经验，且无来源矛盾。

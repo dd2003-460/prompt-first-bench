@@ -1,0 +1,24 @@
+# N43: 信号过滤机制的参数化：P_match(ΔP) = P_base * exp(- (ΔP - μ_signal)^2 / 2σ_pref^2) 中，μ_signa
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N9, N10, N11
+
+## Claim
+
+信号过滤机制的参数化：P_match(ΔP) = P_base * exp(- (ΔP - μ_signal)^2 / 2σ_pref^2) 中，μ_signal 并非市场均价，而是‘高信用卖家’的加权均价。具体地，μ_signal = Σ(w_i * P_i)，其中 w_i 为卖家 i 的信用分归一化权重。若高信用卖家占比 H_credit > 0.6，则 μ_signal 向上偏移 δ_offset，导致 ΔP ∈ [15%, 25%] 区间落在高匹配概率的‘峰顶’附近，而非‘尾部’。
+
+## Corrected Claim
+
+在特定的信号过滤机制模型中，若定义 μ_signal 为高信用卖家的加权均价，且高信用卖家占比超过特定阈值（如 0.6），则可能导致匹配概率峰值向特定价格区间偏移。
+
+## Evidence
+
+父节点级核验未通过：非正交, 有冗余（子节点2和子节点3存在逻辑矛盾与冗余。子节点2通过加权平均直接计算出 μ_signal ≈ P_ref * 1.06（隐含偏移6%），而子节点3却定义了一个额外的 δ_offset 公式，计算出的偏移仅为1%（导致 μ_signal ≈ P_ref * 1.01 或 1.07，取决于基准），两者对 μ_signal 最终值的推导不一致且重叠。此外，子节点4基于子节点2的结论（6%偏移）进行后续推导，与子节点3的结论（1%偏移）冲突，导致整个分解在数值逻辑上不自洽。）
+
+## Search Query
+
+signal filtering effect in second-hand market pricing

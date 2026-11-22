@@ -1,0 +1,24 @@
+# N137: 二手 A100 80GB 的当前市场均价及价格波动趋势：具体 USD 价格区间（如 $3,500-$4,500），以及来源可靠性（如 eBay 已售出记录 vs
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N39
+
+## Claim
+
+二手 A100 80GB 的当前市场均价及价格波动趋势：具体 USD 价格区间（如 $3,500-$4,500），以及来源可靠性（如 eBay 已售出记录 vs 代理商报价），以验证 CapEx $4000 假设的准确性及风险。
+
+## Corrected Claim
+
+二手 A100 80GB 的市场价格受渠道和成色影响较大，$3,500-$4,500 为常见参考区间，但实际成交价需以实时市场数据为准，CapEx $4000 假设存在一定市场波动风险。
+
+## Evidence
+
+[质询]二手GPU市场价格波动剧烈且高度依赖具体渠道（eBay vs 代理商）和成色，单一价格区间可能无法代表当前实时市场均价，且缺乏实时数据支持。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+Used NVIDIA A100 80GB price USD market average 2024

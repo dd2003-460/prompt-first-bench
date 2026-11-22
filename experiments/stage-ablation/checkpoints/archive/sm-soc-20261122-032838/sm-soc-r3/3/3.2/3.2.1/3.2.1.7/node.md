@@ -1,0 +1,20 @@
+# N209: GMV变化二阶交叉项 $\Delta P \Delta Q$ 的量化：当 $\Delta P = -10\%$ 且 $\Delta Q = 15\%$ 时，交叉
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N67, N68, N69
+
+## Claim
+
+GMV变化二阶交叉项 $\Delta P \Delta Q$ 的量化：当 $\Delta P = -10\%$ 且 $\Delta Q = 15\%$ 时，交叉项为 $(-0.1) \times (0.15) = -0.015$ 即 -1.5%。该负项抵消了部分一阶正效应，导致净GMV增幅从25%降至3.5%。
+
+## Corrected Claim
+
+GMV变化二阶交叉项 $\Delta P \Delta Q$ 的量化：当 $\Delta P = -10\%$ 且 $\Delta Q = 15\%$ 时，交叉项为 $(-0.1) \times (0.15) = -0.015$ 即 -1.5%。该负项抵消了部分一阶正效应，导致净GMV增幅从25%降至3.5%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：GMV = P * Q，变化率近似为 ΔP + ΔQ + ΔPΔQ。代入数值：-10% + 15% + (-0.1 * 0.15) = 5% - 1.5% = 3.5%。计算过程与结论完全自洽。

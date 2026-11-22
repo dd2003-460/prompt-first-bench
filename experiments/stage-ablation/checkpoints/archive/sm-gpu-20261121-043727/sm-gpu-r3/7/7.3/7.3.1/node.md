@@ -1,0 +1,28 @@
+# N243: MI300X 在 LLM 推理（Decode 阶段）下的平均功耗利用率（Load Factor）并非恒定的 80%，而是随 Batch Size 和 KV Ca
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N91
+
+## Claim
+
+MI300X 在 LLM 推理（Decode 阶段）下的平均功耗利用率（Load Factor）并非恒定的 80%，而是随 Batch Size 和 KV Cache 深度变化；在 Batch=1 长上下文场景下，功耗可能降至 TDP 的 60-70%，需修正年电费计算。
+
+## Corrected Claim
+
+MI300X 在 LLM 推理（Decode 阶段）下的平均功耗利用率随 Batch Size 和 KV Cache 深度变化，在 Batch=1 长上下文场景下通常低于 TDP 的 80%，需根据实际负载修正年电费计算。
+
+## Evidence
+
+[质询]具体数值区间（60-70%）缺乏直接来源支持，且不同模型架构、序列长度及硬件配置下功耗波动范围可能更大，该具体百分比可能过于精确或仅适用于特定测试场景。 | 来源[1]主题相关（MI300X LLM性能分析），但摘要未提供具体功耗数据，属于间接支持；经验事实（具体功耗百分比）逻辑自洽但缺直接来源支持，依据经验事实排除条款降级。
+
+## Search Query
+
+AMD MI300X power consumption LLM inference benchmark watts
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org/pdf/2510.27583&rut=b38c13adcefec25877344840039ebd0bc41a8f1c162af2de5323e36a5da5a2b9', 'type': 'ddg', 'title': 'AMD MI300X GPU Performance Analysis - arXiv.org'}

@@ -1,0 +1,24 @@
+# N14: 驱动者判定逻辑：通过反事实推理，若平台移除‘价格-质量’相关性权重（即打破信号机制），则高挂价商品的成交周期将延长至 $T_{new} > T_{old}$，且
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+驱动者判定逻辑：通过反事实推理，若平台移除‘价格-质量’相关性权重（即打破信号机制），则高挂价商品的成交周期将延长至 $T_{new} > T_{old}$，且成交率下降 $\Delta Q_{sales} < -10\%$；若买家改变偏好，影响面较小；若卖家集体降价，平台佣金总额 $R_{platform}$ 下降。因此，平台是均衡的‘结构性驱动者’。
+
+## Corrected Claim
+
+驱动者判定逻辑：通过反事实推理，若平台移除‘价格-质量’相关性权重（即打破信号机制），则高挂价商品的成交周期将延长至 $T_{new} > T_{old}$，且成交率下降 $\Delta Q_{sales} < -10\%$；若买家改变偏好，影响面较小；若卖家集体降价，平台佣金总额 $R_{platform}$ 下降。因此，平台是均衡的‘结构性驱动者’。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：反事实推理框架符合博弈论中平台作为机制设计者（Mechanism Designer）的定义，移除信号机制导致信息不对称增加，进而延长搜索成本（成交周期）并降低匹配效率（成交率），逻辑自洽且量级合理。
+
+## Search Query
+
+counterfactual analysis equilibrium driver platform algorithm role in signaling

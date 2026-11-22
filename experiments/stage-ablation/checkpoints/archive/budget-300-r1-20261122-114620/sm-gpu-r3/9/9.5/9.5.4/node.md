@@ -1,0 +1,20 @@
+# N401: 低并发 (N=1) 下双卡 RTX 4090 (BF16 Offload) 的 5 年 TCO：若需 BF16 精度，48GB 显存不足 65.6GB 需求，需
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N136
+
+## Claim
+
+低并发 (N=1) 下双卡 RTX 4090 (BF16 Offload) 的 5 年 TCO：若需 BF16 精度，48GB 显存不足 65.6GB 需求，需 Offload 部分权重至 CPU RAM，导致 Prefill 延迟增加 50-100%。TCO 硬件同 N126 ($3,700)，但性能下降可能需增加卡数或接受延迟，若接受延迟，TCO 仍为 $8,840；若不满足延迟要求，需升级至 A100 80GB，TCO 跃升至 $36,600+。
+
+## Corrected Claim
+
+低并发 (N=1) 下双卡 RTX 4090 (BF16 Offload) 的 5 年 TCO：若需 BF16 精度，48GB 显存不足 65.6GB 需求，需 Offload 部分权重至 CPU RAM，导致 Prefill 延迟增加 50-100%。TCO 硬件同 N126 ($3,700)，但性能下降可能需增加卡数或接受延迟，若接受延迟，TCO 仍为 $8,840；若不满足延迟要求，需升级至 A100 80GB，TCO 跃升至 $36,600+。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：48GB < 65.6GB 需 Offload 符合物理约束；TCO 数值 ($8,840 vs $36,600) 符合硬件成本量级逻辑；source=knowledge 节点逻辑自洽即判 verified。

@@ -1,0 +1,24 @@
+# N12: 对象大小 Pareto(α=1.1) 的累积分布函数 CDF(s) = (s_min/s)^α，前 k 个最小对象的总大小占比 = 1 - (k/N)^α（近似
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+对象大小 Pareto(α=1.1) 的累积分布函数 CDF(s) = (s_min/s)^α，前 k 个最小对象的总大小占比 = 1 - (k/N)^α（近似，假设对象按大小排序）
+
+## Corrected Claim
+
+对象大小 Pareto(α=1.1) 的累积分布函数 CDF(s) = (s_min/s)^α，前 k 个最小对象的总大小占比 = 1 - (k/N)^α（近似，假设对象按大小排序）
+
+## Evidence
+
+父节点级核验未通过：不完备（父节点明确描述了对象大小的累积分布函数（CDF）以及前k个最小对象的总大小占比公式。子节点仅讨论了截断期望值（平均大小），完全缺失了父节点中关于CDF定义和累积占比计算的核心内容，导致信息覆盖严重不全。）
+
+## Search Query
+
+Pareto distribution CDF object size cache

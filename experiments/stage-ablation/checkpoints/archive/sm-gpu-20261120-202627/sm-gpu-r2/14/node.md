@@ -1,0 +1,20 @@
+# N152: 性价比综合评分公式定义：Score = w1 * (Throughput / Cost_3yr_TCO) + w2 * (Quality_Factor) + w
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+性价比综合评分公式定义：Score = w1 * (Throughput / Cost_3yr_TCO) + w2 * (Quality_Factor) + w3 * (1 - Failure_Rate)。其中 w1=0.6 (性能/成本), w2=0.3 (质量), w3=0.1 (可靠性)。所有变量需归一化至 [0,1] 区间后加权求和。
+
+## Corrected Claim
+
+性价比综合评分公式定义：Score = w1 * (Throughput / Cost_3yr_TCO) + w2 * (Quality_Factor) + w3 * (1 - Failure_Rate)。其中 w1=0.6 (性能/成本), w2=0.3 (质量), w3=0.1 (可靠性)。所有变量需归一化至 [0,1] 区间后加权求和。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

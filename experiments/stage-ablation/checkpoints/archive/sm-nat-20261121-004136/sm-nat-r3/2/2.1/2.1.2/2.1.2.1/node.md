@@ -1,0 +1,30 @@
+# N101: 容量充足假设的脆弱性检验：虽然 E[S] 较小，但 Pareto(α=1.1) 的方差极大。需计算前 10 个最大对象的总大小是否可能超过 128GB 的某个显
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N37
+
+## Claim
+
+容量充足假设的脆弱性检验：虽然 E[S] 较小，但 Pareto(α=1.1) 的方差极大。需计算前 10 个最大对象的总大小是否可能超过 128GB 的某个显著比例（如 10%），导致 LRU 因驱逐小对象而频繁 miss 大对象请求，从而实际命中率低于 100%。量化指标：P(∑_{i=1}^{10} S_i > 0.1 * 128GB)。
+
+## Corrected Claim
+
+Pareto(α=1.1)分布具有重尾特性，前10个最大对象的总大小有显著概率超过128GB容量的10%，这可能导致LRU缓存命中率低于100%。具体概率值P(∑_{i=1}^{10} S_i > 12.8GB)需结合分布的最小值参数x_min及样本量N进行精确计算。
+
+## Evidence
+
+[质询]该陈述是一个具体的概率计算任务（P(∑S_i > 12.8GB)），其结果高度依赖于Pareto分布的具体参数（如最小值x_min）以及样本量N。仅凭α=1.1无法唯一确定该概率值，且参考来源完全未涉及此具体计算或LRU缓存场景，属于缺乏外部证据支持的具体数值/概率断言。 | 逻辑上，Pareto(α=1.1)确实具有重尾特性，前几个最大对象可能占据总容量的显著比例，导致LRU失效，逻辑自洽。但参考来源[1][2][3]均与该具体缓存场景及概率计算无关，无法提供直接支持。作为经验/计算事实，缺乏来源支持，故降级。
+
+## Search Query
+
+pareto distribution alpha 1.1 top 10 largest values sum probability
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/List_of_algorithms', 'type': 'wikipedia', 'title': 'List of algorithms'}
+- {'url': 'https://en.wikipedia.org/wiki/John_von_Neumann', 'type': 'wikipedia', 'title': 'John von Neumann'}
+- {'url': 'https://en.wikipedia.org/wiki/Appeasement', 'type': 'wikipedia', 'title': 'Appeasement'}

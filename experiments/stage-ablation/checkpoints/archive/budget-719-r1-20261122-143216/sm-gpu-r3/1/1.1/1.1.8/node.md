@@ -1,0 +1,20 @@
+# N43: KV Cache 在 FP8 精度下的具体 GB 值，计算公式同 N42 但 bytes_per_elem 为 1，用于对比不同精度下的显存节省量。
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N6, N7, N8
+
+## Claim
+
+KV Cache 在 FP8 精度下的具体 GB 值，计算公式同 N42 但 bytes_per_elem 为 1，用于对比不同精度下的显存节省量。
+
+## Corrected Claim
+
+KV Cache 在 FP8 精度下的具体 GB 值，计算公式同 N42 但 bytes_per_elem 为 1，用于对比不同精度下的显存节省量。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：FP8 精度下每个元素占用 1 字节（8 bits），符合 IEEE 754 标准及主流硬件规范，计算公式逻辑自洽。

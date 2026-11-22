@@ -1,0 +1,20 @@
+# N101: 卖家福利 W_s 的分解式：W_s = E[Revenue] - E[Cost] = E[P_sold × (1-r)] - C_search - C_wait
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N25
+
+## Claim
+
+卖家福利 W_s 的分解式：W_s = E[Revenue] - E[Cost] = E[P_sold × (1-r)] - C_search - C_wait。其中 P_sold 为成交价，r 为佣金率（5-10%），C_search 为搜寻成本，C_wait 为等待成本（与 T 成正比，系数为 w）。
+
+## Corrected Claim
+
+卖家福利 W_s 的分解式：W_s = E[Revenue] - E[Cost] = E[P_sold × (1-r)] - C_search - C_wait。其中 P_sold 为成交价，r 为佣金率（5-10%），C_search 为搜寻成本，C_wait 为等待成本（与 T 成正比，系数为 w）。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1和2是同一函数在不同参数下的具体实例，属于场景对比而非正交维度；子节点3是敏感性分析。三者共同覆盖了基准、干预后果及阈值，逻辑上互补。但‘完备性’存疑，因为卖家福利还受佣金率r波动、搜寻成本C_search变化等因素影响，仅聚焦于P和T（及w）可能遗漏其他关键变量。此外，节点1和2本质上是W_s(P,T)的两个采样点，若视为独立概念略显牵强，但作为‘状态对比’是合理的。主要问题在于未涵盖r和C_search的敏感性，导致对W_s全貌的覆盖不完整。）

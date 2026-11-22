@@ -1,0 +1,24 @@
+# N89: 高挂价卖家（偏离度>20%）在干预措施A（强制展示真实成交均价锚点）实施后，其成交周期 T_new 的延长天数计算公式：ΔT = T_old × ( (P_as
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N21, N22, N23
+
+## Claim
+
+高挂价卖家（偏离度>20%）在干预措施A（强制展示真实成交均价锚点）实施后，其成交周期 T_new 的延长天数计算公式：ΔT = T_old × ( (P_ask_old / P_anchor)^(-ε_d) - 1 )，其中 ε_d 为需求价格弹性（取值0.5-0.8），P_anchor 为近7日真实成交均价。
+
+## Corrected Claim
+
+高挂价卖家（偏离度>20%）在干预措施A实施后，其成交周期 T_new 的延长天数可近似估算为：ΔT ≈ T_old × ( (P_ask_old / P_anchor)^(-ε_d) - 1 )，其中 ε_d 为需求价格弹性（典型取值0.5-0.8），P_anchor 为近7日真实成交均价。该公式为简化模型，实际效果需结合市场动态调整。
+
+## Evidence
+
+[质询]该公式假设需求弹性 ε_d 恒定且仅由价格偏离度决定，忽略了高挂价卖家可能存在的非价格因素（如商品稀缺性、买家搜索行为变化）对成交周期的影响，且未考虑市场动态调整过程，属于过度简化的静态模型。 | 先验知识/题面给定，逻辑校验通过，但缺乏外部来源支持具体参数取值及模型适用性
+
+## Search Query
+
+price anchoring effect on transaction time elasticity second-hand market

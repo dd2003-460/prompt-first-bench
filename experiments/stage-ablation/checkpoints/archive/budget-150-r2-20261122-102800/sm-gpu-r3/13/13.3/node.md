@@ -1,0 +1,24 @@
+# N419: RTX 5090性价比修正：假设W4量化下质量损失因子Q_norm=0.85 (基于N152/N153趋势)，硬件成本$2000，电力成本3年~$600 (30
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N166, N167, N168
+
+## Claim
+
+RTX 5090性价比修正：假设W4量化下质量损失因子Q_norm=0.85 (基于N152/N153趋势)，硬件成本$2000，电力成本3年~$600 (300W负载)，TCO_3yr≈$2600；CPR (Cost-Per-Performance) = (30.7 tokens/s * 0.85) / $2600 ≈ 0.010，显著优于RTX 4090 (CPR≈0.0067, 见N164)，前提是W4质量损失可接受。
+
+## Corrected Claim
+
+RTX 5090性价比修正：假设W4量化下质量损失因子Q_norm=0.85 (基于N152/N153趋势)，硬件成本$2000，电力成本3年~$600 (300W负载)，TCO_3yr≈$2600；CPR (Cost-Per-Performance) = (30.7 tokens/s * 0.85) / $2600 ≈ 0.010，显著优于RTX 4090 (CPR≈0.0067, 见N164)，前提是W4质量损失可接受。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：TCO计算（2000+600=2600）及CPR推导（30.7*0.85/2600≈0.010）数值准确，量级合理，符合RTX 5090性能与成本预期。
+
+## Search Query
+
+RTX 5090 price 2025 Q1

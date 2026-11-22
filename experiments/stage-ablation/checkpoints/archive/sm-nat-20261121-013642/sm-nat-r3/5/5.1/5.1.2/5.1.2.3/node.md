@@ -1,0 +1,20 @@
+# N202: SimPy 离散事件仿真配置：缓存容量 128GB，对象大小服从 Pareto(α=1.1, s_min=1KB, s_max=10GB)，请求热度服从 Par
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N69
+
+## Claim
+
+SimPy 离散事件仿真配置：缓存容量 128GB，对象大小服从 Pareto(α=1.1, s_min=1KB, s_max=10GB)，请求热度服从 Pareto(β=0.9, r_min=0.1/day)，联合分布使用 Gaussian Copula (ρ=-0.3)，仿真时长 30 天（覆盖 1.5 个 T_cold），记录字节命中率均值及 95% 置信区间，预估计算耗时 2-4 小时（单线程）。
+
+## Corrected Claim
+
+SimPy 离散事件仿真配置：缓存容量 128GB，对象大小服从 Pareto(α=1.1, s_min=1KB, s_max=10GB)，请求热度服从 Pareto(β=0.9, r_min=0.1/day)，联合分布使用 Gaussian Copula (ρ=-0.3)，仿真时长 30 天（覆盖 1.5 个 T_cold），记录字节命中率均值及 95% 置信区间，预估计算耗时 2-4 小时（单线程）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：参数量级合理（Pareto指数、Copula相关系数、仿真时长与冷启动周期关系均符合离散事件仿真常规设定），无内部矛盾。

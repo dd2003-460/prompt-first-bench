@@ -1,0 +1,20 @@
+# N44: 成交周期 $T_{sale}$ 与注意力 $A_{eff}$ 的反比关系常数：$T_{sale} = \frac{K}{A_{eff}}$，其中 $K$ 为市场
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N7
+
+## Claim
+
+成交周期 $T_{sale}$ 与注意力 $A_{eff}$ 的反比关系常数：$T_{sale} = \frac{K}{A_{eff}}$，其中 $K$ 为市场流动性常数，可通过历史数据回归 $T_{sale,i} = \frac{K}{A_{eff,i}} + \epsilon_i$ 估计 $K$ 的值。
+
+## Corrected Claim
+
+成交周期 $T_{sale}$ 与注意力 $A_{eff}$ 的反比关系常数：$T_{sale} = \frac{K}{A_{eff}}$，其中 $K$ 为市场流动性常数，可通过历史数据回归 $T_{sale,i} = \frac{K}{A_{eff,i}} + \epsilon_i$ 估计 $K$ 的值。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1关注常数K的估计方法，子节点2关注变量A_eff的构成，两者维度不同（参数估计 vs 变量定义），正交性好。但父节点核心是T_sale与A_eff的关系及K的估计，子节点2深入A_eff内部结构虽有用，但并非父节点公式成立的必要前置条件（A_eff可视为黑箱输入），且父节点未明确要求分解A_eff。更关键的是，父节点强调K通过T_sale和A_eff回归估计，子节点1仅给出对数变换后的OLS，未提及原方程的非线性最小二乘或稳健性检验，且未涵盖误差项ε的分布假设或异方差处理，导致K估计方法的完备性不足。）

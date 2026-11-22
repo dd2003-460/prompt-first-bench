@@ -1,0 +1,20 @@
+# N135: P_hit_on_updated 的精确计算式修正：在更新均匀分布假设下，P_hit_on_updated 等于缓存命中率 H_LRU，即 P_hit_on_u
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N55
+
+## Claim
+
+P_hit_on_updated 的精确计算式修正：在更新均匀分布假设下，P_hit_on_updated 等于缓存命中率 H_LRU，即 P_hit_on_updated = H_LRU(C) = (Σ_{i∈Cache} S_i F_i) / Σ_{j=1}^{N} S_j F_j，而非 1/N 或 1/N² 的简单算术平均。
+
+## Corrected Claim
+
+P_hit_on_updated 的精确计算式修正：在更新均匀分布假设下，P_hit_on_updated 等于缓存命中率 H_LRU，即 P_hit_on_updated = H_LRU(C) = (Σ_{i∈Cache} S_i F_i) / Σ_{j=1}^{N} S_j F_j，而非 1/N 或 1/N² 的简单算术平均。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

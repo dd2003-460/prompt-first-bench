@@ -1,0 +1,20 @@
+# N105: 医疗/法律高风险场景（幻觉率敏感）的精度下限约束：必须使用 FP8 或 BF16。量化依据：FP8 (E4M3) 在 Qwen3-27B 上的 MMLU-Pro
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N30
+
+## Claim
+
+医疗/法律高风险场景（幻觉率敏感）的精度下限约束：必须使用 FP8 或 BF16。量化依据：FP8 (E4M3) 在 Qwen3-27B 上的 MMLU-Pro 准确率下降 <0.5%，Perplexity 增加 <1%；BF16 为基准无损失。INT4 (AWQ) 在此类场景下 Perplexity 增加约 5-15% [待核验]，且长尾事实性错误率显著上升，因此排除 INT4/W4。
+
+## Corrected Claim
+
+医疗/法律高风险场景建议优先使用 FP8 或 BF16 以保证精度。虽然 FP8 (E4M3) 在部分大模型上精度损失极小，但具体数值因模型和数据集而异；INT4 量化通常会导致显著的精度下降和长尾错误率上升，故在此类场景下通常被排除。
+
+## Evidence
+
+[质询]具体数值（MMLU-Pro下降<0.5%, Perplexity增加<1%）及特定模型（Qwen3-27B）的量化表现属于经验事实，缺乏通用性，且不同数据集/模型下波动可能较大，存在以偏概全风险。 | source=knowledge，逻辑自洽（高精度需求对应低量化位宽），但具体数值为经验事实，无外部来源直接支持，依据经验事实排除条款降级。

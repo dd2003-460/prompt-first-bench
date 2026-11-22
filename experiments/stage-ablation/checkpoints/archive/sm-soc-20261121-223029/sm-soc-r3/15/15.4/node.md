@@ -1,0 +1,24 @@
+# N383: 心理锚定惯性的量化阈值：若干预后 σ_δ_post / σ_δ_base > 0.7（即下降 <30%），则判定锚定惯性极强，此时需计算转向‘补贴降价’策略所需
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N128
+
+## Claim
+
+心理锚定惯性的量化阈值：若干预后 σ_δ_post / σ_δ_base > 0.7（即下降 <30%），则判定锚定惯性极强，此时需计算转向‘补贴降价’策略所需的最低补贴金额 S_min，使得 S_min > (P_ask - P_mid) * (1 - η_anchor) 以覆盖卖家的心理损失厌恶成本，从而打破均衡。
+
+## Corrected Claim
+
+心理锚定惯性的量化阈值：若后验 σ_δ_post / σ_δ_base 高于特定阈值（如 0.7，即下降 <30%），则判定锚定惯性极强，此时需计算转向‘补贴降价’策略所需的最低补贴金额 S_min，以覆盖卖家的心理损失厌恶成本，从而打破均衡。
+
+## Evidence
+
+[质询]该陈述包含具体的量化阈值（0.7）和特定的数学公式（S_min > (P_ask - P_mid) * (1 - η_anchor)），这些属于经验性参数或特定模型假设，并非从第一性原理或通用经济学公理中严格推导出的普适真理。缺乏来源支持其具体数值和公式形式的唯一正确性。 | 经验事实/模型参数，逻辑自洽但缺来源支持
+
+## Search Query
+
+minimum subsidy required to overcome loss aversion in pricing decisions marketplace intervention

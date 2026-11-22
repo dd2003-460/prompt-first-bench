@@ -1,0 +1,24 @@
+# N335: Qwen3-27B INT4 (AWQ) 量化在 HumanEval (Pass@1) 上的具体准确率数值，用于验证其是否低于 N107 设定的 55% 阈值，
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N107, N108, N109
+
+## Claim
+
+Qwen3-27B INT4 (AWQ) 量化在 HumanEval (Pass@1) 上的具体准确率数值，用于验证其是否低于 N107 设定的 55% 阈值，需获取特定量化实现 (如 AutoAWQ/GPTQ) 的实测数据。
+
+## Corrected Claim
+
+Qwen3-27B INT4 (AWQ) 量化在 HumanEval (Pass@1) 上的具体准确率数值需通过实测获取以验证是否低于 55% 阈值，当前缺乏具体数据支持。
+
+## Evidence
+
+[质询]该陈述要求获取特定量化实现（AWQ）在特定基准（HumanEval）上的具体实测数值，属于经验事实。由于检索失败，无法确认具体数值是否低于55%阈值，且不同量化实现（AutoAWQ vs GPTQ）及具体模型版本可能导致结果差异，存在口径混淆风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值及阈值对比结果）
+
+## Search Query
+
+Qwen3-27B INT4 AWQ HumanEval Pass@1 accuracy

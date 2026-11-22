@@ -1,0 +1,20 @@
+# N208: 工作点1（高驻留/低折损）：设定 T_resident = 1.0 天，基于 N71 公式代入 P_eviction≈0.15（由 C_norm=0.119 和
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N72
+
+## Claim
+
+工作点1（高驻留/低折损）：设定 T_resident = 1.0 天，基于 N71 公式代入 P_eviction≈0.15（由 C_norm=0.119 和访问集中度估算），计算得 P_invalid = 1 - exp(-0.01) ≈ 0.995%，折损因子 D ≈ 0.99005
+
+## Corrected Claim
+
+工作点1（高驻留/低折损）：设定 T_resident = 1.0 天，基于 N71 公式代入 P_eviction≈0.15（由 C_norm=0.119 和访问集中度估算），计算得 P_invalid = 1 - exp(-0.01) ≈ 0.995%，折损因子 D ≈ 0.99005
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学计算 1 - exp(-0.01) ≈ 0.00995 (0.995%) 正确，折损因子 1 - 0.00995 = 0.99005 正确，量级与逻辑自洽。

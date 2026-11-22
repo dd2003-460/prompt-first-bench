@@ -1,0 +1,20 @@
+# N49: 信号崩溃阈值θ_signal_threshold的推导：θ = C_signal_loss / (V_high - V_low)，其中C_signal_loss
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+信号崩溃阈值θ_signal_threshold的推导：θ = C_signal_loss / (V_high - V_low)，其中C_signal_loss为买家因无法区分质量而增加的预期搜索成本，V_high - V_low为质量价值差（50），若C_signal_loss=5，则θ=0.1。
+
+## Corrected Claim
+
+信号崩溃阈值θ_signal_threshold的推导：θ = C_signal_loss / (V_high - V_low)，其中C_signal_loss为买家因无法区分质量而增加的预期搜索成本，V_high - V_low为质量价值差（50），若C_signal_loss=5，则θ=0.1。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点分别探讨了阈值对参数变化的敏感性（子节点1）、分子项C_signal_loss的具体构成（子节点2）以及阈值在价格信号失效场景下的应用/临界点（子节点3），三者角度不同，无逻辑重叠或矛盾，故正交。然而，父节点核心是θ的推导公式及示例，子节点2中计算的C_signal_loss≈6.3元与父节点给定的C_signal_loss=5元存在数值不一致，且未解释该差异，导致对父节点参数定义的覆盖不严谨（完备性不足）。此外，子节点3引入了“溢价率”这一父节点未明确定义的新变量，虽相关但略超出单纯“推导”范畴，属于应用延伸，若严格限定在“推导”本身，则略偏题，但通常可接受。主要问题在于子节点2的数值与父节点基准值冲突且未澄清。）

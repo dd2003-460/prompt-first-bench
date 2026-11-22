@@ -1,0 +1,20 @@
+# N44: LRU 有效命中率折扣因子的二阶修正：H_LRU_eff = H_LRU * (1 - u * P_in_LRU) + u * P_in_LRU * H_rev
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+LRU 有效命中率折扣因子的二阶修正：H_LRU_eff = H_LRU * (1 - u * P_in_LRU) + u * P_in_LRU * H_revalidate，其中 H_revalidate 为重新验证后的命中率（假设为 1，即内容未变仅版本更新），因此折扣因子为 (1 - u * P_in_LRU)；在 u=0.01 和 P_in_LRU=0.35 时，折扣因子为 0.9965，即命中率下降 0.35 个百分点，而非 0.3 个百分点。
+
+## Corrected Claim
+
+LRU 有效命中率折扣因子的二阶修正：H_LRU_eff = H_LRU * (1 - u * P_in_LRU) + u * P_in_LRU * H_revalidate，其中 H_revalidate 为重新验证后的命中率（假设为 1，即内容未变仅版本更新），因此折扣因子为 (1 - u * P_in_LRU)；在 u=0.01 和 P_in_LRU=0.35 时，折扣因子为 0.9965，即命中率下降 0.35 个百分点，而非 0.3 个百分点。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式推导自洽，数值计算 1 - 0.01 * 0.35 = 0.9965 正确，对应下降 0.35 个百分点。

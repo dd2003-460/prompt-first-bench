@@ -1,0 +1,30 @@
+# N57: 在 GSM8K 数学推理任务上，INT8 量化（GPTQ/AWQ）导致 Qwen3-27B 的准确率下降幅度通常小于 1%，因为数学推理对数值精度的敏感度低于长
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N13, N14, N15
+
+## Claim
+
+在 GSM8K 数学推理任务上，INT8 量化（GPTQ/AWQ）导致 Qwen3-27B 的准确率下降幅度通常小于 1%，因为数学推理对数值精度的敏感度低于长文本生成 [待核验：需查阅 Qwen3 技术报告中的量化章节]
+
+## Corrected Claim
+
+在 GSM8K 数学推理任务上，INT8 量化（GPTQ/AWQ）通常会导致 Qwen3-27B 的准确率出现轻微下降，具体幅度需查阅 Qwen3 技术报告或相关基准测试数据确认，但通常认为 INT8 量化对大模型推理能力的损害较小。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值结论（下降幅度<1%）和特定模型（Qwen3-27B）的性能表现，属于经验事实。参考来源均为通用的量化技术科普文章，未提供 Qwen3-27B 在 GSM8K 上的具体量化实验数据，无法证实“小于1%”这一具体阈值，且“数学推理对数值精度敏感度低于长文本生成”这一因果解释缺乏普遍共识支持（通常认为数学推理对中间步骤的数值精度要求极高，量化误差可能通过链式推理放大）。 | 经验事实，逻辑自洽但缺来源支持。参考来源[1][2][3]仅介绍量化原理，未覆盖 Qwen3-27B 在 GSM8K 上的具体量化精度损失数据，无法直接支持“<1%”的具体数值断言。
+
+## Search Query
+
+Qwen3-27B INT8 quantization GSM8K accuracy drop benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_37647148/article/details/161776271&rut=3992b1c8c9cdee9a1f8c7aef9e7f7dc46b9101f1e70c6e9decd3b37c359ab505', 'type': 'ddg', 'title': '量化压缩实战：Int8 / Int4 / Awq / Gptq 全面对比 - Csdn博客'}
+- {'url': 'https://blog.csdn.net/qq_73472828/article/details/160634277&rut=7cccbb8d50d4d5b691e37bdf882aebe793a83749294e1b9b3b38712433b27a32', 'type': 'ddg', 'title': '【Ai】【大模型】量化全解int8/Int4/Fp8/Gptq/Awq 怎么选？一篇讲透【大模型推理】的"压缩术"'}
+- {'url': 'https://www.cnblogs.com/SCCQ/p/19964636&rut=a41eb37d1b739f43098dba358cc353dd3b3aed5ce046aa08ba38f50fb24b2247', 'type': 'ddg', 'title': '大模型量化技术全景解析——从 INT8/FP8 到 GPTQ/AWQ/SmoothQuant，工程师必知的精度压缩之'}

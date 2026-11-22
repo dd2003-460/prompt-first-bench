@@ -1,0 +1,24 @@
+# N110: 重新检索触发概率 P(trigger | ΔP, t) 的模型：定义为 P(trigger) = 1 - exp(-λ_trigger * ΔP * exp(-
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N32
+
+## Claim
+
+重新检索触发概率 P(trigger | ΔP, t) 的模型：定义为 P(trigger) = 1 - exp(-λ_trigger * ΔP * exp(-t/τ_patience))，其中 λ_trigger 为触发强度，τ_patience 为搜索耐心时间常数。该模型捕捉降价幅度越大、时间越早，触发新搜索的概率越高。
+
+## Corrected Claim
+
+重新检索触发概率 P(trigger | ΔP, t) 的模型：定义为 P(trigger) = 1 - exp(-λ_trigger * ΔP * exp(-t/τ_patience))，其中 λ_trigger 为触发强度，τ_patience 为搜索耐心时间常数。该模型捕捉降价幅度越大、时间越早，触发新搜索的概率越高。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：模型形式符合指数衰减与累积概率分布特征，变量方向（ΔP越大、t越小，P越高）与直觉一致，无内部矛盾。
+
+## Search Query
+
+probability of re-search after price drop exponential decay model

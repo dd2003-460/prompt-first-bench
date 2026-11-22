@@ -1,0 +1,24 @@
+# N54: SNR < 1 的临界条件：信号噪声比 SNR = ΔP / σ_buyer，当 ΔP < 0.15·P_ask 且 σ_buyer = 0.5·σ_selle
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+SNR < 1 的临界条件：信号噪声比 SNR = ΔP / σ_buyer，当 ΔP < 0.15·P_ask 且 σ_buyer = 0.5·σ_seller (≈0.1·P_ask) 时，SNR < 1.5，此时买家无法区分降价是质量信号还是促销噪声，导致咨询率不升反降。
+
+## Corrected Claim
+
+在特定市场模型假设下（如 σ_buyer ≈ 0.1·P_ask），当 ΔP < 0.15·P_ask 时，SNR 可能低于 1.5，导致买家难以区分信号与噪声，从而抑制咨询率。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（如 σ_buyer = 0.5·σ_seller ≈ 0.1·P_ask 以及临界阈值 0.15），这些并非第一性原理可推导的数学恒等式，而是依赖于特定市场微观结构的经验假设。若缺乏具体实证数据或模型设定支持，这些具体数值可能不准确或仅适用于特定情境。 | source=knowledge，逻辑自洽（SNR定义及不等式推导无误），但具体参数值属于经验事实，无外部来源直接支持，依据经验事实排除条款降级。
+
+## Search Query
+
+signal to noise ratio threshold price reduction buyer response

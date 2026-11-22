@@ -1,0 +1,28 @@
+# N20: 电力消耗成本（OPEX）：单卡方案与多卡方案的 TDP（热设计功耗）对比，例如 2× RTX 4090 (450W each) vs 1× A100 (400W
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+电力消耗成本（OPEX）：单卡方案与多卡方案的 TDP（热设计功耗）对比，例如 2× RTX 4090 (450W each) vs 1× A100 (400W) vs 1× H100 (700W)；计算每小时电费 = (TDP * 1.2 [PSU效率] * 单位电价) * 小时数，假设电价 $0.10/kWh [待核验：需根据地区调整]。
+
+## Corrected Claim
+
+电力消耗成本（OPEX）估算需基于具体GPU型号及接口类型（SXM/PCIe）的TDP（如H100 SXM 700W, H100 PCIe 350W, A100 400W/650W, RTX 4090 450W），结合电源转换效率（通常80%-90%）及当地实际电价计算，公式为：电费 = (TDP / PSU效率 * 电价 * 小时数)。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点之间互斥且无矛盾（正交性合格）；但父节点明确指定了 1x H100 (700W) 的对比场景，子节点中完全缺失该案例，导致覆盖不全（完备性不合格）；三个子节点本质上是同一计算公式（电费=TDP/效率*电价）在不同硬件参数下的实例化，属于高度结构化的冗余（冗余性判定为是）。）
+
+## Search Query
+
+RTX 4090 A100 H100 TDP power consumption watts electricity cost per hour
+
+## Retrieval Sources
+
+- {'url': 'https://cloud.baidu.com/article/3826301&rut=38dd17135be2a42e0550c5e6af98322ead4d220cdc4b4e4f36ce5c293a360ddb', 'type': 'ddg', 'title': '大模型一体机TCO全解析：千卡集群与单机方案成本矩阵对比'}

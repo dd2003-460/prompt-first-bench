@@ -1,0 +1,24 @@
+# N294: SGLang 在 FP8 模式下对 GQA 的优化策略：若使用 CUTLASS 内核，需启用 split-K 或 fused GEMM 以合并 K/V 投影；若
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N109
+
+## Claim
+
+SGLang 在 FP8 模式下对 GQA 的优化策略：若使用 CUTLASS 内核，需启用 split-K 或 fused GEMM 以合并 K/V 投影；若未优化，每次 Attention 计算需额外进行 FP8 到 BF16 的反量化/量化转换，增加约 10-15% 的内存带宽开销（估算：每次 GEMM 额外读写 2 * 13.5GB 权重数据，耗时约 7.5ms @ 1792GB/s），导致 TPOT 增加约 5-8ms。
+
+## Corrected Claim
+
+SGLang 在 FP8 模式下对 GQA 的优化策略：若使用 CUTLASS 内核，需启用 split-K 或 fused GEMM 以合并 K/V 投影；若未优化，每次 Attention 计算需额外进行 FP8 到 BF16 的反量化/量化转换，增加显著的内存带宽开销（具体数值取决于模型规模，估算量级为毫秒级），导致 TPOT 增加。
+
+## Evidence
+
+[质询]数值估算缺乏具体模型规模（如参数量、层数、头数）作为前提，导致'13.5GB权重'和'7.5ms耗时'等具体数值无法从通用原理推导，属于特定场景下的经验估算，存在口径混淆风险。 | 先验知识/题面给定，逻辑校验通过：FP8到BF16的反量化确实会增加内存带宽开销，量级估算（13.5GB * 2 / 1792GB/s ≈ 15ms，若考虑重叠或优化可能降至7.5ms）在物理上自洽，但具体数值依赖未给出的模型参数，故降级为定性表述。
+
+## Search Query
+
+SGLang FP8 GQA optimization CUTLASS Triton kernel overhead

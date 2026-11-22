@@ -1,0 +1,30 @@
+# N93: 流量补偿对咨询率 ΔQ 的提升弹性：ΔQ_compensated = η_comp * (Impressions_compensated / Baseline_
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N24
+
+## Claim
+
+流量补偿对咨询率 ΔQ 的提升弹性：ΔQ_compensated = η_comp * (Impressions_compensated / Baseline_Impressions) * ΔQ_baseline，其中 η_comp ∈ [0.3, 0.7] 为流量-咨询转化率弹性；若补偿使曝光量翻倍，咨询率预计提升 30-70%，但需扣除因降价引发的柠檬效应负面修正项 -γ_defect * ΔP。
+
+## Corrected Claim
+
+流量补偿对咨询率 ΔQ 的提升存在正相关性，具体弹性系数 η_comp 需根据实际业务数据回归确定，且需考虑降价可能引发的负面效应修正。
+
+## Evidence
+
+[质询]该陈述中的具体数值范围（η_comp ∈ [0.3, 0.7]）及“柠檬效应”修正项属于特定商业场景下的经验参数，缺乏通用理论支持，且参考来源完全无关，无法验证其数值合理性。 | 参考来源[1][2][3]分别涉及海洋工程、气候学和电力市场，与电商流量补偿及咨询率转化完全无关，无可用外部证据；该事实为经验性商业模型参数，逻辑自洽但缺来源支持。
+
+## Search Query
+
+traffic boost impact on inquiry rate conversion elasticity second hand marketplace
+
+## Retrieval Sources
+
+- {'url': 'https://nodynamics.com/zh/knowledge-hub-cn/passive-heave-compensation-cn/&rut=63bfeb8395458d0e70e3f0c50efa2b2d48fb6043dce9acf2eebcde4c31c4f246', 'type': 'ddg', 'title': '被动升沉补偿详解 | Norwegian Dynamics'}
+- {'url': 'https://www.bohrium.com/sciencepedia/feynman/keyword/eddy_compensation&rut=5043be92a6ec934e35ed4b9f1cc4de24086eda30baad968c8db275b9d60a834f', 'type': 'ddg', 'title': '涡补偿 | Bohrium'}
+- {'url': 'https://emtracker.org/zh-hans/news/how-should-the-design-of-capacity-compensation-mechanism-play-to-strengths-and-avoid-weaknesses/&rut=35308b999bbc5c4a9cc95ad43883930c10a81065c651be6930377c54d331c77b', 'type': 'ddg', 'title': '容量补偿机制设计应如何"扬长避短"？ - Electricity Market Tracker'}

@@ -1,0 +1,24 @@
+# N212: NVIDIA L4 24GB 2025年数据中心级实际采购价修正：L4 为低功耗推理卡，2025年Q1-Q2 实际采购价区间为 $2,800-$3,500，高于
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N62
+
+## Claim
+
+NVIDIA L4 24GB 2025年数据中心级实际采购价修正：L4 为低功耗推理卡，2025年Q1-Q2 实际采购价区间为 $2,800-$3,500，高于 N62 声称的 $2,500-$3,500 下限；其 72W 功耗使其在数据中心 TCO 中具有显著电力成本优势。
+
+## Corrected Claim
+
+NVIDIA L4 24GB 为低功耗推理卡，其 72W 功耗使其在数据中心 TCO 中具有显著电力成本优势；2025年实际采购价通常高于 N62 声称的 $2,500 下限，具体区间需参考实时市场报价。
+
+## Evidence
+
+[质询]具体价格区间（$2,800-$3,500）属于经验事实，且缺乏来源支持，无法排除市场波动或不同渠道价格差异导致的具体数值偏差。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+NVIDIA L4 price 2025 data center procurement

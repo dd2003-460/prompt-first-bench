@@ -1,0 +1,20 @@
+# N162: 在 S_max 不确定（高成本/低准确性）工作点下，E[S] = (α S_min)/(α-1) * (1 - (S_min/S_max)^(α-1))，当 S
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N76
+
+## Claim
+
+在 S_max 不确定（高成本/低准确性）工作点下，E[S] = (α S_min)/(α-1) * (1 - (S_min/S_max)^(α-1))，当 S_max→∞ 时 E[S] ≈ 11 KB，但当 S_max=100MB 时 E[S] ≈ 9.3 KB，两者差异约 15%，需通过 CDN 实际存储规模反推 S_max 以消除歧义
+
+## Corrected Claim
+
+在 S_max 不确定（高成本/低准确性）工作点下，E[S] = (α S_min)/(α-1) * (1 - (S_min/S_max)^(α-1))，当 S_max→∞ 时 E[S] ≈ 11 KB，但当 S_max=100MB 时 E[S] ≈ 9.3 KB，两者差异约 15%，需通过 CDN 实际存储规模反推 S_max 以消除歧义
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：帕累托分布期望公式正确，数值量级（11KB vs 9.3KB，差异约15%）符合数学推导，无内部矛盾。

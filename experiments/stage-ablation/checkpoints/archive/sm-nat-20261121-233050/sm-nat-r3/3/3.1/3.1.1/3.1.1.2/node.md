@@ -1,0 +1,20 @@
+# N104: LFU 与 LRU 命中率差异的边界条件分析：当 M/C ≥ 1.0 时，LFU 和 LRU 均能缓存所有对象，ΔH = 0；当 M/C < 0.9 时，LFU
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N39
+
+## Claim
+
+LFU 与 LRU 命中率差异的边界条件分析：当 M/C ≥ 1.0 时，LFU 和 LRU 均能缓存所有对象，ΔH = 0；当 M/C < 0.9 时，LFU 增益最大，ΔH ≈ (E[S|F_high] - E[S|F_low]) * (F_high - F_low) / TotalBytes。
+
+## Corrected Claim
+
+当 M/C ≥ 1.0 时，LFU 和 LRU 均能缓存所有对象，ΔH = 0；当 M/C < 0.9 时，LFU 增益最大，具体增益取决于访问频率分布的偏斜度（Skewness）和局部性特征，无法用简单的线性公式 ΔH ≈ (E[S|F_high] - E[S|F_low]) * (F_high - F_low) / TotalBytes 准确描述。
+
+## Evidence
+
+[质询]公式 ΔH ≈ (E[S|F_high] - E[S|F_low]) * (F_high - F_low) / TotalBytes 在量纲和逻辑上存在严重问题：1. 量纲不匹配：E[S] 通常指大小（Bytes），F 指频率（次/时间或次/请求），乘积除以 TotalBytes 得到的单位是 (Bytes * Freq) / Bytes = Freq，而命中率 ΔH 应为无量纲比例（0-1）或百分点，量纲错误。2. 逻辑缺陷：LFU 与 LRU 的差异主要源于访问局部性（Temporal Locality）和频率分布的偏斜度，而非简单的频率差值乘以大小差值。该公式缺乏理论依据，属于臆造公式。 | 先验知识/题面给定，逻辑校验失败：公式量纲错误且缺乏理论支撑，属于硬逻辑错误。

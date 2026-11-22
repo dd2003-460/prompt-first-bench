@@ -1,0 +1,24 @@
+# N20: W4精度下Qwen3-27B在MMLU基准测试上的准确率损失约为2-4% [待核验]，需查证具体量化方法（如AWQ, GPTQ）的影响。
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N2
+
+## Claim
+
+W4精度下Qwen3-27B在MMLU基准测试上的准确率损失约为2-4% [待核验]，需查证具体量化方法（如AWQ, GPTQ）的影响。
+
+## Corrected Claim
+
+W4精度下Qwen3-27B在MMLU基准测试上的准确率损失通常在2-4%范围内（具体数值取决于量化算法如AWQ或GPTQ及校准数据集），需结合具体量化配置查证。
+
+## Evidence
+
+[质询]该陈述为经验事实（具体模型在特定基准下的量化精度损失数值），无法从第一性原理推导。且未指定具体的量化算法（如AWQ vs GPTQ vs SmoothQuant），不同算法导致的精度损失差异显著，笼统给出2-4%区间缺乏特定上下文支持，存在口径混淆风险。 | 经验事实，逻辑自洽（W4量化通常伴随少量精度损失，2-4%在合理量级内），但检索无可用来源，且属于具体硬件/模型性能参数，不适用第一性原理豁免条款，故降级。
+
+## Search Query
+
+Qwen3-27B W4 quantization MMLU accuracy loss

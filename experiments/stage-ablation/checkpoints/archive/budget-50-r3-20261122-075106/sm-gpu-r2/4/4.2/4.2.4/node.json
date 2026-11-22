@@ -1,0 +1,17 @@
+{
+  "id": "N80",
+  "claim": "RTX 5090 在 FP8 精度下 Qwen3-27B 的每 Token 生成时间（TPOT）理论下限为 1 / 66.4 ≈ 15 ms，实际 TPOT 预计为 19-25 ms，N28 中 22-33 ms 的范围偏高，可能未充分利用 FP8 加速或考虑了过多的上下文长度开销",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]理论下限计算存在逻辑瑕疵：1/66.4 ≈ 15ms 仅基于峰值算力（Roofline Model 的 Compute-bound 极限），未考虑内存带宽瓶颈（Memory-bound）及实际硬件利用率（通常远低于100%）。对于 27B 模型，即使 FP8 下权重加载约 27GB，若显存带宽为 1.5TB/s，仅加载权重需 ~18ms，因此 15ms 的理论下限在物理上可能不可达（取决于具体显存带宽，若带宽极高则可能成立，但通常 TPOT 下限受限于 max(compute_time, memory_time)）。此外，'实际 TPOT 预计为 19-25 ms' 与 'N28 中 22-33 ms 偏高' 的对比缺乏具体上下文（如 Batch Size、序列长度），不同负载下 TPOT 差异巨大，直接断言 N28 偏高可能忽略了对比条件不一致的问题。 | 先验知识/题面给定，逻辑校验通过。虽然理论下限 15ms 基于理想峰值算力，未完全考虑内存带宽瓶颈（对于 27B 模型，内存带宽往往是瓶颈），但作为‘理论计算上限’的参考值，其量级（15ms）与后续实际预测（19-25ms）及对比范围（22-33ms）在数量级上自洽。由于 source 为 knowledge，且无外部来源矛盾，但考虑到理论下限计算的简化假设（忽略内存瓶颈）可能使其过于乐观，故降级为 degraded 以反映其作为‘理论参考’而非‘绝对物理下限’的性质。",
+  "corrected_claim": "RTX 5090 在 FP8 精度下 Qwen3-27B 的每 Token 生成时间（TPOT）基于峰值算力的理论参考值约为 15 ms，实际 TPOT 预计为 19-25 ms；N28 中 22-33 ms 的范围可能因未充分利用 FP8 加速或考虑了较长上下文开销而偏高，但需结合具体 Batch Size 和序列长度对比。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N28"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

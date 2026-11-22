@@ -1,0 +1,20 @@
+# N197: 修正 N75 中通信数据量计算错误：N75 声称 '总通信量 ≈ 104.8 MB/step' 是错误的。正确计算：AllReduce 通信量 = 2 * Ba
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N75
+
+## Claim
+
+修正 N75 中通信数据量计算错误：N75 声称 '总通信量 ≈ 104.8 MB/step' 是错误的。正确计算：AllReduce 通信量 = 2 * BatchSize * HiddenDim * BytesPerParam * LayersPerStep。对于 BatchSize=1, HiddenDim=4096, Layers=64, BF16 (2 bytes)，每层通信量 = 2 * 1 * 4096 * 2 = 16 KB。64 层总通信量 = 64 * 16 KB = 1 MB，而非 104.8 MB。错误源于将 'LayersPerStep' 误算为 64 且未除以 1024 转换单位，或混淆了 'Per Layer' 与 'Total' 的计算
+
+## Corrected Claim
+
+修正 N75 中通信数据量计算错误：N75 声称 '总通信量 ≈ 104.8 MB/step' 是错误的。正确计算：AllReduce 通信量 = 2 * BatchSize * HiddenDim * BytesPerParam * LayersPerStep。对于 BatchSize=1, HiddenDim=4096, Layers=64, BF16 (2 bytes)，每层通信量 = 2 * 1 * 4096 * 2 = 16 KB。64 层总通信量 = 64 * 16 KB = 1 MB，而非 104.8 MB。错误源于将 'LayersPerStep' 误算为 64 且未除以 1024 转换单位，或混淆了 'Per Layer' 与 'Total' 的计算
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：AllReduce 通信量公式及数值计算（64层 * 16KB/层 = 1MB）符合分布式训练通信原理，量纲与量级合理。

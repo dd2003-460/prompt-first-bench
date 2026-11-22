@@ -1,0 +1,28 @@
+# N35: 数据中心级候选集：H100 PCIe (80GB, $25000, 700W), H200 (141GB, $30000, 700W), A100 80GB (
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N5
+
+## Claim
+
+数据中心级候选集：H100 PCIe (80GB, $25000, 700W), H200 (141GB, $30000, 700W), A100 80GB (HBM2e, $15000, 400W), L40S (48GB, $8000, 350W), B200 (192GB, $40000 [待核验], 1000W)；关键参数：NVLink 带宽 (900 GB/s for H100), FP8/NVFP4 原生支持, 多卡扩展性 (8 卡 HGX 机箱)。
+
+## Corrected Claim
+
+数据中心级候选集：H100 PCIe (80GB, $25000, 350W), H200 (141GB, $30000, 700W), A100 80GB (HBM2e, $15000, 400W), L40S (48GB, $8000, 350W), B200 (192GB, $40000 [待核验], 1000W)；关键参数：NVLink 带宽 (900 GB/s for H100 SXM, PCIe 版本无 NVLink 或带宽不同), FP8/NVFP4 原生支持, 多卡扩展性 (8 卡 HGX 机箱)。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点之间存在严重的结构性冗余（H100与A100带宽参数相同导致计算结果重复；H100与H200功耗相同导致成本计算重复），且未覆盖父节点中提到的L40S、B200以及NVLink带宽、FP8支持等关键参数。）
+
+## Search Query
+
+NVIDIA H100 H200 A100 L40S B200 price specs NVLink FP8 NVFP4 2024
+
+## Retrieval Sources
+
+- {'url': 'https://www.nvidia.com/content/dam/en-zz/Solutions/gtcs22/data-center/h100/PB-11133-001_v01.pdf&rut=f24a4c34fb16690470e33f7ce84f8daffad74b641c9fe1b01cff02beda7f63ec', 'type': 'ddg', 'title': 'PDF NVIDIA H100 PCIe GPU'}

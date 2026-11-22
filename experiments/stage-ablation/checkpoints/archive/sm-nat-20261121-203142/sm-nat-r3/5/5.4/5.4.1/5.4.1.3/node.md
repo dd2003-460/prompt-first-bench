@@ -1,0 +1,24 @@
+# N189: 版本控制修正项（Versioning Overhead）对有效缓存容量的量化影响：每支持一个版本额外占用元数据空间 ΔM_version，导致有效容量 C_ef
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N72
+
+## Claim
+
+版本控制修正项（Versioning Overhead）对有效缓存容量的量化影响：每支持一个版本额外占用元数据空间 ΔM_version，导致有效容量 C_eff = C - N_versions * ΔM_version，需给出典型 CDN 系统中 ΔM_version 的字节数估计
+
+## Corrected Claim
+
+版本控制修正项（Versioning Overhead）对有效缓存容量的量化影响：每支持一个版本额外占用元数据空间 ΔM_version，导致有效容量 C_eff = C - N_versions * ΔM_version。ΔM_version 的具体数值取决于 CDN 系统的元数据结构设计（如哈希表大小、指针开销等），通常在几十字节到几百字节量级，需根据具体实现确定。
+
+## Evidence
+
+[质询]该陈述要求给出具体数值估计（ΔM_version 的字节数），但参考来源全部缺失，且该数值属于特定系统实现的经验参数，无法从第一性原理严格推导，存在因缺乏数据支持而导致数值不准确的风险。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+CDN cache versioning metadata overhead bytes per version effective capacity reduction

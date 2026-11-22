@@ -1,0 +1,30 @@
+# N136: 权重约束条件检验：w_purchase + w_max + w_inflation = 1 的残差方差 Var(Residual) 应 < 0.05，若残差显著
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N38
+
+## Claim
+
+权重约束条件检验：w_purchase + w_max + w_inflation = 1 的残差方差 Var(Residual) 应 < 0.05，若残差显著，则需引入第四项 w_social（社会比较权重），预期 w_social ∈ [0.05, 0.15]，需通过约束回归模型验证。
+
+## Corrected Claim
+
+权重约束条件检验：若 w_purchase + w_max + w_inflation = 1 的残差显著，则需引入第四项 w_social（社会比较权重）以改善模型拟合，具体数值范围需通过约束回归模型基于实际数据验证。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（残差方差<0.05）和参数范围（w_social ∈ [0.05, 0.15]），这些数值并非数学公理或第一性原理可推导的必然结果，而是依赖于特定数据集、模型设定或经验假设。若缺乏具体上下文（如特定论文或数据集），这些具体数值缺乏普适性依据，属于经验事实。 | 逻辑上，引入第四项以解释残差是合理的建模策略，且权重和为1的约束在归一化模型中自洽。但参考来源[1]讨论PSO算法惯性权重，[2]讨论投资组合夏普比率，[3]讨论线性回归基础，均与“购买/通胀/社会比较权重”这一特定经济/行为模型无关，无法提供外部支持。根据经验事实排除条款，逻辑自洽但缺来源支持，判为degraded。
+
+## Search Query
+
+constraint violation in reference price weight decomposition social comparison term
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/qq_17226531/article/details/163910719&rut=feb5a5c14bd2744c12d864d0f34e05d38ac561f914e1318c232b1a429c11860c', 'type': 'ddg', 'title': '惯性权重对粒子群优化算法（Pso）性能的影响——详解与实验-csdn博客'}
+- {'url': 'https://quant.stackexchange.com/questions/79785/proof-of-weights-maximizing-sharpe-of-a-portfolio&rut=e3243c6f366ce7497337fc53aa4e16bca1e81c08e64d17cf60c395536b8daea0', 'type': 'ddg', 'title': 'Proof of weights maximizing sharpe of a portfolio'}
+- {'url': 'https://edu.51cto.com/article/note/57448.html&rut=99a04c893795f64e47b2d179a5a62b76467f503cdc1864db94cf92338ed43939', 'type': 'ddg', 'title': '线性回归拟合难懂？3步拆解权重W与误差计算核心逻辑_51CTO学堂_专业的IT技能学习平台'}

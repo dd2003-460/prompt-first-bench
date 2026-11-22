@@ -1,0 +1,24 @@
+# N554: RX 9000 系列旗舰型号 (RX 9070 XT 以上) 是否存在 32GB 显存版本：截至 2025 年 6 月，AMD 未发布 32GB 显存的 RDN
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N170
+
+## Claim
+
+RX 9000 系列旗舰型号 (RX 9070 XT 以上) 是否存在 32GB 显存版本：截至 2025 年 6 月，AMD 未发布 32GB 显存的 RDNA 4 消费级显卡，RX 9070 XT 最高为 16GB [时效待核]
+
+## Corrected Claim
+
+截至 2025 年 6 月，据公开资料，AMD 未发布 32GB 显存的 RDNA 4 消费级显卡，RX 9070 XT 最高为 16GB（待进一步核实）
+
+## Evidence
+
+[质询]该陈述属于具体的硬件规格经验事实（显存容量、发布时间），无法通过第一性原理推导。由于检索通道失败，缺乏外部来源直接证实或证伪，存在信息滞后或遗漏特定小众型号/非官方版本的可能性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+AMD RX 9000 series 32GB VRAM model 2025 RDNA 4 flagship

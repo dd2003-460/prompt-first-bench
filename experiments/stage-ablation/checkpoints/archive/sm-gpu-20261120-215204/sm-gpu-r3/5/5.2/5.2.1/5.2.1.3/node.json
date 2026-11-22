@@ -1,0 +1,17 @@
+{
+  "id": "N350",
+  "claim": "PCIe 4.0 x16 双向带宽 64 GB/s 下，传输 1 MB AllReduce 数据的理论耗时为 1 MB / 64 GB/s ≈ 0.016 ms，加上内核启动与同步延迟 (约 0.5-1 ms)，单步通信开销占比 < 5%，证实 N125 中 'TTFT 增加 30-50%' 的结论在 Decode 阶段不成立，该高损耗仅可能出现在 Prefill 阶段的大块 KV Cache 同步或权重加载阶段。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]该陈述将‘单步通信开销占比 < 5%’这一具体数值结论作为既定事实，并据此直接否定 N125 中‘TTFT 增加 30-50%’在 Decode 阶段的可能性。然而，TTFT（Time To First Token）主要受 Prefill 阶段影响，Decode 阶段的延迟通常影响 TPOT（Time Per Output Token）而非 TTFT。即使 Decode 阶段通信开销低，也不能直接证明 N125 关于 TTFT 的结论在 Decode 阶段‘不成立’，因为 TTFT 的定义本身就不包含 Decode 阶段。此外，0.5-1ms 的同步延迟对于现代 GPU 集群而言可能偏高或偏低，取决于具体硬件和软件栈，缺乏具体上下文支持。 | 先验知识/题面给定，逻辑校验通过。虽然 PCIe 4.0 x16 带宽 64 GB/s 和 1MB 传输耗时 0.016ms 的计算正确，但将 Decode 阶段的通信开销与 TTFT 指标直接关联存在概念混淆（TTFT 主要对应 Prefill），且‘占比 < 5%’为经验估算，缺乏具体系统参数支持，故降级。",
+  "corrected_claim": "PCIe 4.0 x16 双向带宽 64 GB/s 下，传输 1 MB AllReduce 数据的理论耗时约为 0.016 ms。加上内核启动与同步延迟，单步通信开销在典型配置下可能较低。但需注意，TTFT 主要反映 Prefill 阶段性能，Decode 阶段的通信开销主要影响 TPOT 而非 TTFT，因此不能直接通过 Decode 阶段通信开销低来否定 N125 中关于 TTFT 增加的结论，除非 N125 错误地将 Decode 延迟归因于 TTFT。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N125"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

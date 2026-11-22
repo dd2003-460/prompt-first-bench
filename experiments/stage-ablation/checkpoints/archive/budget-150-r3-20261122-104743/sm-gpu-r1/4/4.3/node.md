@@ -1,0 +1,30 @@
+# N21: INT8量化下Qwen3-27B显存占用约27GB，但量化校准数据集的选择对质量损失影响显著，使用领域特定校准集可将困惑度（perplexity）增加控制在<5
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+INT8量化下Qwen3-27B显存占用约27GB，但量化校准数据集的选择对质量损失影响显著，使用领域特定校准集可将困惑度（perplexity）增加控制在<5%以内，而通用校准集可能导致>10%的质量退化
+
+## Corrected Claim
+
+INT8量化下Qwen3-27B显存占用约27GB。量化校准数据集的选择对质量损失有显著影响，通常领域特定校准集优于通用校准集，但具体困惑度增加控制在<5%或>10%的阈值需参考特定评测报告。
+
+## Evidence
+
+[质询]陈述中关于校准数据集对困惑度影响的具体数值（<5% vs >10%）属于经验性统计结论，参考来源仅涉及显存占用和量化版本选择，未提供具体的困惑度对比数据，无法验证该具体阈值。 | 来源[1][2][3]证实了Qwen3-27B INT8量化下显存占用约27GB（27B参数*1字节/参数），但所有来源均未提及校准数据集对困惑度的具体影响数值，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+Qwen3-27B INT8 quantization perplexity degradation calibration dataset
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/liuyunak/article/details/163860039&rut=6eb8847bfbf9b98a0dce626ca8f490d51c845ef165009536a024c56730b4806a', 'type': 'ddg', 'title': 'Qwen3.8-27B 本地部署深度实测：8GB 和 16GB 显卡到底能跑成什么样_qwen3.8 27b-CSDN博客'}
+- {'url': 'https://blog.csdn.net/Zidian632/article/details/164885586&rut=126224fc7711d38d76a7862f8fe70255055c3d72f919a7e6c06beea8c5007460', 'type': 'ddg', 'title': 'Qwen3.8-27B 上下文与显存配置对照表：16G-96G 分档计算 + 实测验证（附 KV 占用系数）'}
+- {'url': 'https://www.datalearner.com/blog/qwen3-8-27b-local-deployment-quantization-guide&rut=5665e872f90ea316a774a152d65358b2ab3193d74e04fe006cbd6b2fee9166a5', 'type': 'ddg', 'title': 'Qwen3.8-27B 本地部署完全指南：量化版本怎么选，效果差多少，速度有多快？ | DataLearnerAI'}

@@ -1,0 +1,29 @@
+# N290: 月均订单基数 M₀ 的具体数值：M₀ 为干预前月均订单数，需从平台数据中提取。[待核验]：例如 M₀=50,000 单，则代入公式计算佣金损失。
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N78
+
+## Claim
+
+月均订单基数 M₀ 的具体数值：M₀ 为干预前月均订单数，需从平台数据中提取。[待核验]：例如 M₀=50,000 单，则代入公式计算佣金损失。
+
+## Corrected Claim
+
+月均订单基数 M₀ 为干预前月均订单数，需从平台数据中提取。具体数值取决于实际业务数据，示例中假设 M₀=50,000 单仅用于演示计算过程。
+
+## Evidence
+
+[质询]该陈述包含一个具体的经验数值示例（M₀=50,000），但参考来源仅涉及平台数据指标的定义和报表解读，并未提供该特定数值，也未证明该数值是普遍适用的标准或真实数据，属于缺乏来源支持的具体经验事实。 | 经验事实，逻辑自洽但缺来源支持（来源[1][2]仅解释指标含义，未提供具体订单基数数值）
+
+## Search Query
+
+monthly order volume baseline for commission loss calculation
+
+## Retrieval Sources
+
+- {'url': 'https://help.shopbase.com/zh/article/5lqg6kej5pww5o2u5yig5p6q5oyh5qch-lrb6e3/&rut=3df6bfaf0242ca9535ac9719accbfc442a6def7ff8de1a18b590f40b12fda6b2', 'type': 'ddg', 'title': '了解数据分析指标 - ShopBase Help Center'}
+- {'url': 'https://shopee.mobduos.com/article/operate/32382&rut=962cb9d688938921254dc6dde22795c176cb5e8d6e30ac59b5471fffb75a6715', 'type': 'ddg', 'title': 'Shopee 卖家中心数据解读：核心报表与运营看板搭建（2026 版） - 运营干货 - 知虾 - 大数据，让您做到知己知彼'}

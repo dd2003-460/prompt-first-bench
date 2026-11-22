@@ -1,0 +1,24 @@
+# N234: 对于截断 Pareto 分布 (α=1.1, s_min=1KB, s_max=100MB)，log(s) 的期望值 E[log(s)] 的精确数值需通过积分 
+
+- **status**: verified
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N81, N82, N83
+
+## Claim
+
+对于截断 Pareto 分布 (α=1.1, s_min=1KB, s_max=100MB)，log(s) 的期望值 E[log(s)] 的精确数值需通过积分 ∫_{ln(s_min)}^{ln(s_max)} x * f_ln(x) dx 计算，该值是计算方差修正项的基础参数
+
+## Corrected Claim
+
+对于截断 Pareto 分布 (α=1.1, s_min=1KB, s_max=100MB)，log(s) 的期望值 E[log(s)] 的精确数值需通过积分 ∫_{ln(s_min)}^{ln(s_max)} x * f_ln(x) dx 计算，该值是计算方差修正项的基础参数
+
+## Evidence
+
+逻辑推导成立，来源未直接覆盖。该陈述描述了截断Pareto分布在对数域下的期望值计算定义，符合概率论基本定义（E[X]=∫x f(x)dx），且作为方差修正的基础参数在逻辑上自洽。
+
+## Search Query
+
+truncated Pareto distribution log mean integral alpha 1.1

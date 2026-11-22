@@ -1,0 +1,28 @@
+# N55: 未命中对象平均大小 E[S_miss] 的计算：E[S_miss] = ∫ s * f_pop(s) * f_size(s|miss) ds / ∫ f_pop
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N20
+
+## Claim
+
+未命中对象平均大小 E[S_miss] 的计算：E[S_miss] = ∫ s * f_pop(s) * f_size(s|miss) ds / ∫ f_pop(s) * f_size(s|miss) ds；由于 LRU 驱逐的是长期未访问的大对象（因 ρ=-0.3，大对象通常较冷），f_size(s|miss) 偏向大值，需基于 LRU 驱逐策略下的稳态驻留概率分布 p_i 来定义 miss 条件，计算比值 R_size = E[S_hit] / E[S_miss]。
+
+## Corrected Claim
+
+在LRU驱逐策略下，若大对象通常较冷（如ρ=-0.3），未命中对象平均大小E[S_miss]会偏向大值，需基于稳态驻留概率分布计算，进而影响R_size = E[S_hit] / E[S_miss]的比值。
+
+## Evidence
+
+[质询]参考来源与事实主题完全无关（来源为显著性目标检测算法，事实为缓存/存储系统LRU驱逐策略下的对象大小统计），无法提供外部支持；且该陈述包含具体的经验参数（ρ=-0.3）和特定场景假设，属于经验事实，不能仅凭逻辑自洽判定为verified。 | 逻辑上，LRU驱逐冷对象（大对象通常较冷）导致未命中对象偏向大值，从而E[S_miss]较大，R_size较小，推导自洽；但参考来源[1]与缓存/存储系统无关，且该事实涉及具体经验参数（ρ=-0.3），属于经验事实，缺乏直接来源支持，故降级。
+
+## Search Query
+
+LRU cache eviction bias large objects miss size distribution Pareto correlation mean size miss
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/YeeZ93/Evaluation-on-salient-object-detection&rut=3dae060840ab4b348d5daae9460614861888d974d8916b83fd2b74df65bc9e38', 'type': 'ddg', 'title': 'GitHub - YeeZ93/Evaluation-on-salient-object-detection: A python ...'}

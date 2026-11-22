@@ -1,0 +1,28 @@
+# N76: GPTQ-4bit (Group Size 128) 量化下 Qwen3-27B 的 MMLU 基准测试分数相对于 BF16 基线的绝对下降幅度，需检索具体数据
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N16
+
+## Claim
+
+GPTQ-4bit (Group Size 128) 量化下 Qwen3-27B 的 MMLU 基准测试分数相对于 BF16 基线的绝对下降幅度，需检索具体数据（预期 2-5 分下降，取决于校准数据集大小）。
+
+## Corrected Claim
+
+GPTQ-4bit (Group Size 128) 量化下 Qwen3-27B 的 MMLU 基准测试分数相对于 BF16 基线通常会有小幅下降（预期 2-5 分），具体数值需查阅特定量化模型的评测报告。
+
+## Evidence
+
+[质询]参考来源[1]仅描述了量化压缩流程（W4A16/INT4），并未提供具体的MMLU基准测试分数或相对于BF16基线的绝对下降幅度数据，属于经验事实且缺乏直接来源支持。 | 经验事实，逻辑自洽但缺来源支持（来源[1]仅涉及量化方法，未提供具体MMLU分数下降数据）
+
+## Search Query
+
+Qwen3-27B GPTQ 4bit MMLU score drop
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/mbgulden/Qwen3.8-27B-INT4-W4A16-MTP/tree/master&rut=0566621c41873b4692103bdfec54401279a07d8c554f5e802a1c27afc433430b', 'type': 'ddg', 'title': 'GitHub - mbgulden/Qwen3.8-27B-INT4-W4A16-MTP: W4A16 (INT4) GPTQ ...'}

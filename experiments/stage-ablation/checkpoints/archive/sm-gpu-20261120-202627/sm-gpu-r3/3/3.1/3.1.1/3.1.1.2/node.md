@@ -1,0 +1,20 @@
+# N242: RTX 4090 在 32K 上下文、Batch Size=1 自回归解码阶段的理论最小延迟 (Latency_min) = KV Cache 读取量 / 显存
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N65
+
+## Claim
+
+RTX 4090 在 32K 上下文、Batch Size=1 自回归解码阶段的理论最小延迟 (Latency_min) = KV Cache 读取量 / 显存带宽 = 34.36 GB / 1008 GB/s ≈ 34.1 ms/token，对应理论最大吞吐量 ≈ 29.3 tokens/s [计算推导]
+
+## Corrected Claim
+
+RTX 4090 在 32K 上下文、Batch Size=1 自回归解码阶段的理论最小延迟 (Latency_min) = KV Cache 读取量 / 显存带宽 = 34.36 GB / 1008 GB/s ≈ 34.1 ms/token，对应理论最大吞吐量 ≈ 29.3 tokens/s [计算推导]
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 显存带宽约 1008 GB/s，34.36 GB / 1008 GB/s ≈ 34.1 ms，1/0.0341 s ≈ 29.3 tokens/s，计算自洽。

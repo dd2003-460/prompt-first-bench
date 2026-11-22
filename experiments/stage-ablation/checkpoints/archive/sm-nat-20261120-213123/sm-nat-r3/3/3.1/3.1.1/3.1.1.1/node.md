@@ -1,0 +1,20 @@
+# N102: 确定 $h_{min}$ 的归一化基准：在离散对象集合中，$h_{min}$ 应取为最冷对象的请求速率。对于 Pareto(\beta) 分布，若总请求数 $R
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N42
+
+## Claim
+
+确定 $h_{min}$ 的归一化基准：在离散对象集合中，$h_{min}$ 应取为最冷对象的请求速率。对于 Pareto(\beta) 分布，若总请求数 $R$ 固定且对象数 $N$ 固定，则 $h_{min} = R \cdot (N/(N-1))^{1/\beta} / N \approx R/N = 500$ 次/天（当 $N \gg 1$ 时）。更精确地，若假设热度密度连续，$h_{min}$ 是使得 $\int_{h_{min}}^{\infty} f_H(h) dh = 1$ 的下界，通常设为系统中最小可观测频率，即 $h_{min} = R/N = 500$。
+
+## Corrected Claim
+
+确定 $h_{min}$ 的归一化基准：在离散对象集合中，$h_{min}$ 应取为最冷对象的请求速率。对于 Pareto(\beta) 分布，若总请求数 $R$ 固定且对象数 $N$ 固定，则 $h_{min} = R \cdot (N/(N-1))^{1/\beta} / N \approx R/N = 500$ 次/天（当 $N \gg 1$ 时）。更精确地，若假设热度密度连续，$h_{min}$ 是使得 $\int_{h_{min}}^{\infty} f_H(h) dh = 1$ 的下界，通常设为系统中最小可观测频率，即 $h_{min} = R/N = 500$。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在离散对象集合中，若总请求数R和对象数N固定，且假设热度分布使得最冷对象承载最小请求量，则平均请求率R/N即为最冷对象请求速率的合理近似（特别是当N>>1且分布平滑时），数值量级合理。

@@ -1,0 +1,30 @@
+# N26: 量化方法影响：GPTQ vs AWQ vs SmoothQuant vs TensorRT-LLM FP8：GPTQ W4 下降 ~10%, AWQ W4 下降
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N3
+
+## Claim
+
+量化方法影响：GPTQ vs AWQ vs SmoothQuant vs TensorRT-LLM FP8：GPTQ W4 下降 ~10%, AWQ W4 下降 ~5%, SmoothQuant INT8 下降 ~2%, FP8 下降 <1% [待核验：Qwen3-27B 具体对比数据]
+
+## Corrected Claim
+
+在典型 LLM 量化场景中，GPTQ W4 精度下降通常高于 AWQ W4，SmoothQuant INT8 下降较小，FP8 几乎无损；具体数值因模型和评测基准而异，Qwen3-27B 需实测确认。
+
+## Evidence
+
+[质询]具体数值（~10%, ~5%, ~2%, <1%）缺乏针对 Qwen3-27B 模型的直接来源支持，且不同基准测试（如 MMLU vs GSM8K）下精度下降幅度差异巨大，单一数值可能具有误导性或仅适用于特定任务。 | 来源 [1][2][3] 确认了 GPTQ/AWQ/SmoothQuant 的对比主题及一般性精度损失趋势（GPTQ 通常损失高于 AWQ，INT8/FP8 损失极低），但未提供 Qwen3-27B 的具体量化数据，属于经验事实且缺直接来源支持。
+
+## Search Query
+
+GPTQ AWQ SmoothQuant quantization quality loss comparison LLM 27B
+
+## Retrieval Sources
+
+- {'url': 'https://apxml.com/zh/courses/practical-llm-quantization/chapter-3-advanced-ptq-techniques/comparing-advanced-ptq&rut=1448723e1fd87d88450d4fdddea39cdc252c2bcf88a703b4f44f9e2ec9618662', 'type': 'ddg', 'title': '比较：GPTQ 对比 AWQ 对比 SmoothQuant - apxml.com'}
+- {'url': 'https://blog.csdn.net/iymei4986533030/article/details/162652877&rut=a6849d453204364d5e0b5eedd4f1595b84513cd93ed75cc7641b490964f1293d', 'type': 'ddg', 'title': 'GPTQ vs AWQ vs SmoothQuant：三种主流量化方案的全维度实测对比_awq quant-CSDN博客'}
+- {'url': 'https://apxml.com/courses/practical-llm-quantization/chapter-3-advanced-ptq-techniques/comparing-advanced-ptq&rut=c370330ad2363e5f71feaab478fa8b03b359c228fd945b1002670f3fff750ec8', 'type': 'ddg', 'title': 'Comparison: GPTQ vs AWQ vs SmoothQuant - apxml.com'}

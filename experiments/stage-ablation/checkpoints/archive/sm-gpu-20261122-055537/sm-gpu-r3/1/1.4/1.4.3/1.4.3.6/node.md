@@ -1,0 +1,24 @@
+# N172: Qwen3-27B 的精确参数量需查阅官方 config.json 或 HuggingFace 模型卡：若为稠密 Transformer 架构，总参数量 N_p
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N48, N49, N50
+
+## Claim
+
+Qwen3-27B 的精确参数量需查阅官方 config.json 或 HuggingFace 模型卡：若为稠密 Transformer 架构，总参数量 N_params 应接近 27.0B，BF16 权重大小 = N_params * 2 bytes；若存在 Embedding 层与 LM Head 共享权重（Tied Embeddings），则实际存储字节数会略小于 54GB，偏差通常 < 1%。
+
+## Corrected Claim
+
+Qwen3-27B 的参数量约为 27B，BF16 权重大小约为 54GB。具体精确值及是否因 Tied Embeddings 导致存储略小于 54GB，需查阅官方 config.json 或 HuggingFace 模型卡确认。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件/模型规格参数（27.0B参数量、54GB大小），属于经验事实。虽然逻辑推导（参数量*2字节）在数学上自洽，但缺乏外部来源直接证实Qwen3-27B的具体架构细节（如是否Tied Embeddings）及精确参数量，无法排除因架构差异导致的偏差。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+Qwen3-27B config.json num_parameters tied embeddings

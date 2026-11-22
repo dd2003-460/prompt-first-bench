@@ -1,0 +1,24 @@
+# N402: RTX 5090 的 FP16/BF16 Tensor Core 峰值算力约为 200-250 TFLOPS [待核验]，相比 RTX 4090 (82.6 T
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N142
+
+## Claim
+
+RTX 5090 的 FP16/BF16 Tensor Core 峰值算力约为 200-250 TFLOPS [待核验]，相比 RTX 4090 (82.6 TFLOPS) 提升约 2.5-3 倍，导致 Compute_Time 显著缩短，使得在总时间 (Compute + Comm) 中通信占比进一步降低，从而使得整体吞吐量损失率低于 4090 方案。
+
+## Corrected Claim
+
+RTX 5090 的 FP16/BF16 Tensor Core 峰值算力预计相比 RTX 4090 有显著提升（约 2-3 倍量级），在计算密集型任务中，Compute_Time 的缩短可能导致通信占比相对降低，从而可能改善整体吞吐量损失率，但具体数值需依据官方规格及实际基准测试确认。
+
+## Evidence
+
+[质询]RTX 5090 的 FP16/BF16 Tensor Core 峰值算力具体数值（200-250 TFLOPS）属于经验事实，且不同来源对是否包含稀疏加速（Sparsity）或特定精度（FP16 vs BF16）的口径可能存在差异，导致数值量级存在不确定性；此外，通信占比降低的结论依赖于具体的通信带宽和计算通信比，缺乏具体场景数据支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+RTX 5090 BF16 TFLOPS specification vs RTX 4090

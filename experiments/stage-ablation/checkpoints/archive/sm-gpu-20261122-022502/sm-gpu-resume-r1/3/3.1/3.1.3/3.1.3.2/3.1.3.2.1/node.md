@@ -1,0 +1,24 @@
+# N667: H100 SXM 80GB 在 BF16 精度下运行 Qwen3-27B 的显存占用约为 54GB（27B * 2 bytes），加上 KV Cache 和激活
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N206
+
+## Claim
+
+H100 SXM 80GB 在 BF16 精度下运行 Qwen3-27B 的显存占用约为 54GB（27B * 2 bytes），加上 KV Cache 和激活值开销，总显存需求在 32K 上下文下约为 65-70GB，逼近 80GB 上限，导致批量推理时的最大并发 batch size 受限于剩余显存而非计算能力。
+
+## Corrected Claim
+
+H100 SXM 80GB 在 BF16 精度下运行 Qwen3-27B 的显存占用约为 54GB（27B * 2 bytes），加上 KV Cache 和激活值开销，总显存需求在 32K 上下文下约为 65-70GB，逼近 80GB 上限，导致批量推理时的最大并发 batch size 受限于剩余显存而非计算能力。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数在BF16下占用约54GB，加上KV Cache和激活值开销后总显存需求在65-70GB范围内，符合H100 80GB显存限制下的推理场景。
+
+## Search Query
+
+Qwen3-27B BF16 memory footprint 32k context KV cache size

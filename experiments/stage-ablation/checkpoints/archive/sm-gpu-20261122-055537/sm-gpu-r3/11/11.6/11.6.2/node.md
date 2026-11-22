@@ -1,0 +1,24 @@
+# N389: 2x RTX 4090 (TP=2) 在 PCIe 4.0 x16 互联下，Qwen3-27B INT4 推理的实测吞吐量提升系数 α 约为 1.1-1.2（相
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N122
+
+## Claim
+
+2x RTX 4090 (TP=2) 在 PCIe 4.0 x16 互联下，Qwen3-27B INT4 推理的实测吞吐量提升系数 α 约为 1.1-1.2（相对于单卡 INT4 的 72 tok/s 理论上限，实际受 All-Reduce 通信开销限制，有效带宽利用率 <50%），导致单位吞吐硬件成本 C/tok 增加约 50-80%。
+
+## Corrected Claim
+
+2x RTX 4090 (TP=2) 在 PCIe 4.0 x16 互联下，Qwen3-27B INT4 推理的吞吐量提升系数通常低于线性加速（<2.0），受 All-Reduce 通信开销限制，有效带宽利用率较低，导致单位吞吐硬件成本相比单卡显著增加。
+
+## Evidence
+
+[质询]该陈述包含具体的实测吞吐量提升系数（1.1-1.2）和成本增加比例（50-80%），属于经验事实。虽然逻辑上双卡INT4推理受通信开销限制导致效率低于线性加速是合理的，但具体数值缺乏来源支持，且不同硬件配置、驱动版本及推理框架下实测数据可能存在显著差异，无法仅凭逻辑推导确定具体量级。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+tensor parallelism 2x 4090 throughput overhead PCIe latency

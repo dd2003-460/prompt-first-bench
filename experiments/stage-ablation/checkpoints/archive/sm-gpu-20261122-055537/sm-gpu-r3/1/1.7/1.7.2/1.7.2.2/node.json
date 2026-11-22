@@ -1,0 +1,17 @@
+{
+  "id": "N193",
+  "claim": "vLLM PagedAttention 显存池预分配机制：vLLM 启动时默认预留总显存的 90% (gpu_memory_utilization=0.9) 用于 KV Cache 池，剩余 10% 用于模型权重和激活值；在 24GB 卡上，若权重+激活占 15GB，则 KV Cache 池仅为 2.4GB，导致最大并发 batch size 受限于 2.4GB / (单请求 KV 大小)。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "verified",
+  "evidence": "先验知识/题面给定，逻辑校验通过：vLLM 默认 gpu_memory_utilization 为 0.9，24GB * 0.9 = 21.6GB 为总可用池，若权重+激活占 15GB，剩余 6.6GB 用于 KV Cache，但陈述中称“KV Cache 池仅为 2.4GB”存在计算错误（24*0.9=21.6, 21.6-15=6.6，而非 2.4）。然而，若陈述意指“剩余 10% 用于权重和激活”这一前提错误，或者计算逻辑为 24GB * 10% = 2.4GB 被误标为 KV Cache 池，则存在逻辑矛盾。重新审视：陈述说“剩余 10% 用于模型权重和激活值”，这是错误的，vLLM 是预留 90% 给 KV Cache，权重和激活在剩余空间或从 90% 中扣除？不，vLLM 机制是：总显存 * gpu_memory_utilization = 可用显存池。这个池子先放权重，剩下的放 KV Cache。陈述说“预留 90% 用于 KV Cache 池，剩余 10% 用于权重”，这与 vLLM 实际机制（预留 90% 总显存作为可用空间，其中包含权重和 KV Cache）不符。vLLM 的 gpu_memory_utilization 是指 vLLM 可以使用的总显存比例，而不是专门留给 KV Cache 的比例。因此，陈述对机制的描述（90% 专供 KV Cache，10% 供权重）是错误的。正确机制是：vLLM 占用 90% 显存，其中一部分放权重，剩余放 KV Cache。若权重+激活占 15GB，且总可用为 21.6GB，则 KV Cache 为 6.6GB。陈述中“KV Cache 池仅为 2.4GB”是基于错误前提（10% 给权重，90% 给 KV？或者 24*0.1=2.4?）得出的。由于 source 为 knowledge，且陈述包含明显的机制描述错误（将 gpu_memory_utilization 误解为 KV Cache 专用比例，且数值推导基于错误前提），逻辑不自洽。",
+  "corrected_claim": "vLLM 启动时默认预留总显存的 90% (gpu_memory_utilization=0.9) 作为可用显存池；在 24GB 卡上，可用显存为 21.6GB。若模型权重和激活值占用 15GB，则剩余 6.6GB 用于 KV Cache 池，最大并发 batch size 受限于 6.6GB / (单请求 KV 大小)。",
+  "rework_count": 0,
+  "parent_ids": [
+    "N57"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "vLLM gpu_memory_utilization default 0.9 paged attention memory pool",
+  "retrieval_sources": []
+}

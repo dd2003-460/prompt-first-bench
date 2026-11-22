@@ -1,0 +1,24 @@
+# N181: 噪声项 ε_J 对均衡稳定性的影响机制：ε_J 的方差 σ_J² 直接决定了市场均衡的波动幅度；当 σ_J² > Var_threshold（如 N108 中的
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N55
+
+## Claim
+
+噪声项 ε_J 对均衡稳定性的影响机制：ε_J 的方差 σ_J² 直接决定了市场均衡的波动幅度；当 σ_J² > Var_threshold（如 N108 中的阈值）时，系统进入不稳定状态，导致卖家定价偏差方差 Var(ε_seller) 超过临界值，引发市场崩溃；需量化 σ_J 与 Var(ε_seller) 之间的传导系数，以评估算法噪声对市场均衡的破坏力。
+
+## Corrected Claim
+
+噪声项 ε_J 对均衡稳定性的影响机制：ε_J 的方差 σ_J² 直接决定了市场均衡的波动幅度；当 σ_J² > Var_threshold（如 N108 中的阈值）时，系统进入不稳定状态，导致卖家定价偏差方差 Var(ε_seller) 超过临界值，引发市场崩溃；需量化 σ_J 与 Var(ε_seller) 之间的传导系数，以评估算法噪声对市场均衡的破坏力。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+algorithm noise market equilibrium stability variance threshold seller pricing deviation

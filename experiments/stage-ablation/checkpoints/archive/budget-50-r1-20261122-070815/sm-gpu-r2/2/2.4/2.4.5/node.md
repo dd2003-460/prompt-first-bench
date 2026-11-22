@@ -1,0 +1,30 @@
+# N69: W4 (INT4) 量化在通用知识基准（MMLU, C-Eval）上的分数下降幅度（Delta %）具体数值，用于评估基础能力保留程度，这是判断是否‘可用’的最
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N15, N16, N17
+
+## Claim
+
+W4 (INT4) 量化在通用知识基准（MMLU, C-Eval）上的分数下降幅度（Delta %）具体数值，用于评估基础能力保留程度，这是判断是否‘可用’的最宽口径
+
+## Corrected Claim
+
+W4 (INT4) 量化在通用知识基准（MMLU, C-Eval）上通常会导致分数下降，具体下降幅度（Delta %）取决于模型规模、量化算法（如 GPTQ/AWQ）及校准数据集，一般在 1%-5% 左右，需查阅具体模型的官方评估报告获取精确数值。
+
+## Evidence
+
+[质询]陈述要求提供具体的数值（Delta %），但参考来源仅提供了定性描述或不同模型/精度的绝对分数，未直接给出 W4 量化相对于 BF16 在 MMLU/C-Eval 上的具体下降幅度数值，且不同模型（Qwen2 vs Qwen3）和量化方法（GPTQ vs AWQ）的 Delta 值差异较大，无法从现有摘要中提取出唯一确定的具体数值。 | 来源 [1] 提及了 Qwen2 系列在 GPTQ-Int4 下的评估，但未在摘要中提供具体的 Delta % 数值；来源 [2] 和 [3] 主要讨论 Qwen3-4B 的绝对分数，未直接对比量化前后的具体下降幅度。逻辑上 W4 量化确实会导致分数下降，但具体数值属于经验事实，缺乏直接来源支持具体数字。
+
+## Search Query
+
+Qwen3-27B INT4 AWQ GPTQ MMLU C-Eval benchmark score drop percentage
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_00568/article/details/164881488&rut=b11994857050d05a3a67235b04c5a98c661c0b4e366ed4217c376f19d095549f', 'type': 'ddg', 'title': 'Qwen 量化模型性能评估实战指南：Qwen2 系列 GPTQ 与 AWQ 的 MMLU/C-Eval/IFEval 基准详解'}
+- {'url': 'https://blog.csdn.net/weixin_42443533/article/details/157491932&rut=3f805ba1f24c0c51e606ec21c1e3c9ba995c0972f33b8f294aca6f348380a844', 'type': 'ddg', 'title': 'Qwen3-4B性能实测：MMLU/C-Eval全面超越闭源小模型对比-CSDN博客'}
+- {'url': 'https://devpress.csdn.net/v1/article/detail/156997869&rut=a53b850e9b6984519c297603f552fcbff93a53df809318d423fd3d981417bcd5', 'type': 'ddg', 'title': '通义千问3-4B性能测试：MMLU和C-Eval基准详解_腾讯天美工作室群-DAMO开发者矩阵'}

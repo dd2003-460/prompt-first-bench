@@ -1,0 +1,20 @@
+# N18: 显存带宽（GB/s）是推理速度（tokens/s）的主要瓶颈，尤其在大上下文场景，需列出各候选硬件的显存带宽数值
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+显存带宽（GB/s）是推理速度（tokens/s）的主要瓶颈，尤其在大上下文场景，需列出各候选硬件的显存带宽数值
+
+## Corrected Claim
+
+显存带宽（GB/s）是推理速度（tokens/s）的主要瓶颈，尤其在大上下文场景，需列出各候选硬件的显存带宽数值
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在大模型推理（尤其是Decode阶段）中，每生成一个token需读取全部模型权重，计算密度低，因此显存带宽是主要瓶颈；大上下文场景下KV Cache占用增加进一步加剧带宽压力，该陈述符合硬件架构基本原理。

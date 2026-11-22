@@ -1,0 +1,20 @@
+# N72: BF16 精度下的硬件可行性筛选：基于 68.7GB 的总显存需求，单卡候选中只有 A100 80GB (80GB > 68.7GB) 和 H100 80GB 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N15
+
+## Claim
+
+BF16 精度下的硬件可行性筛选：基于 68.7GB 的总显存需求，单卡候选中只有 A100 80GB (80GB > 68.7GB) 和 H100 80GB (80GB > 68.7GB) 满足条件。L40S 48GB 和 A6000 48GB 均不足（48GB < 68.7GB）。多卡候选中，2x RTX 4090 (48GB) 不足，2x A100 40GB (80GB) 满足，2x L40S 48GB (96GB) 满足。Apple M2 Ultra 192GB 满足。因此，BF16 精度下，消费级单卡完全不可行，数据中心级单卡仅 A100/H100 可行，多卡需至少 2x 40GB+ 规格。
+
+## Corrected Claim
+
+BF16 精度下的硬件可行性筛选：基于 68.7GB 的总显存需求，单卡候选中只有 A100 80GB (80GB > 68.7GB) 和 H100 80GB (80GB > 68.7GB) 满足条件。L40S 48GB 和 A6000 48GB 均不足（48GB < 68.7GB）。多卡候选中，2x RTX 4090 (48GB) 不足，2x A100 40GB (80GB) 满足，2x L40S 48GB (96GB) 满足。Apple M2 Ultra 192GB 满足。因此，BF16 精度下，消费级单卡完全不可行，数据中心级单卡仅 A100/H100 可行，多卡需至少 2x 40GB+ 规格。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：68.7GB显存需求下，80GB单卡（A100/H100）满足，48GB单卡（L40S/A6000）及2x48GB多卡（96GB）满足，2x40GB（80GB）满足，2x24GB（48GB）不满足，结论与硬件规格及算术逻辑一致。

@@ -1,0 +1,24 @@
+# N112: 工作点 3（弱负相关/局部修正）：若负相关仅存在于 Top-1% 的热门对象中，而其余 99% 对象独立，则全局修正因子 K(ρ_global) ≈ 0.99 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N45
+
+## Claim
+
+工作点 3（弱负相关/局部修正）：若负相关仅存在于 Top-1% 的热门对象中，而其余 99% 对象独立，则全局修正因子 K(ρ_global) ≈ 0.99 * 1 + 0.01 * K(ρ_local)。若 K(ρ_local) 取 0.5，则 K(ρ_global) ≈ 0.995，表明局部强负相关对全局命中率的影响被稀释至 <0.5%，此时线性近似在局部子集内失效但全局近似有效。
+
+## Corrected Claim
+
+工作点 3（弱负相关/局部修正）：若负相关仅存在于 Top-1% 的热门对象中，而其余 99% 对象独立，则全局修正因子 K(ρ_global) ≈ 0.99 * 1 + 0.01 * K(ρ_local)。若 K(ρ_local) 取 0.5，则 K(ρ_global) ≈ 0.995，表明局部强负相关对全局命中率的影响被稀释至 <0.5%，此时线性近似在局部子集内失效但全局近似有效。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：加权平均计算正确（0.99*1 + 0.01*0.5 = 0.995），符合线性近似在局部失效但全局有效的逻辑推导。
+
+## Search Query
+
+global vs local correlation impact on cache hit rate in heavy-tailed distributions

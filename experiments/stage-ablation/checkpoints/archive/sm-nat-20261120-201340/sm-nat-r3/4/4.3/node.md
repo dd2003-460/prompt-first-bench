@@ -1,0 +1,20 @@
+# N20: 有效命中率 H_effective = H_static * (1 - P_stale) + H_static * P_stale * H_refill，其中 
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+有效命中率 H_effective = H_static * (1 - P_stale) + H_static * P_stale * H_refill，其中 H_refill 是更新后重新获取数据的命中率（通常为 0 或取决于回源策略），该公式量化了更新率对 LRU 有效命中率的非线性折损。
+
+## Corrected Claim
+
+有效命中率 H_effective = H_static * (1 - P_stale) + H_static * P_stale * H_refill，其中 H_refill 是更新后重新获取数据的命中率（通常为 0 或取决于回源策略），该公式量化了更新率对 LRU 有效命中率的非线性折损。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式基于全概率分解（命中分为静态命中且未过期、静态命中但过期且回源命中），量纲与逻辑自洽，符合缓存失效模型的基本原理。

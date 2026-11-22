@@ -1,0 +1,20 @@
+# N161: KV Cache 显存占用的修正公式：若模型采用 GQA (Grouped Query Attention) 而非 MHA，每层 KV Cache 占用应基于 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N47
+
+## Claim
+
+KV Cache 显存占用的修正公式：若模型采用 GQA (Grouped Query Attention) 而非 MHA，每层 KV Cache 占用应基于 num_kv_heads 而非 num_attention_heads 计算；若 Qwen3-27B 使用 MHA (num_kv_heads = num_heads)，则 N47 计算正确；若使用 GQA，占用量将按比例减少。
+
+## Corrected Claim
+
+KV Cache 显存占用的修正公式：若模型采用 GQA (Grouped Query Attention) 而非 MHA，每层 KV Cache 占用应基于 num_kv_heads 而非 num_attention_heads 计算；若 Qwen3-27B 使用 MHA (num_kv_heads = num_heads)，则 N47 计算正确；若使用 GQA，占用量将按比例减少。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：KV Cache 显存占用确实取决于 KV 头数（num_kv_heads），GQA 通过减少 KV 头数降低显存占用，MHA 下两者相等，逻辑自洽且符合 Transformer 架构基本原理。

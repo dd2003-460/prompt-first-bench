@@ -1,0 +1,20 @@
+# N198: 2×RTX 4090 运行 Qwen3-27B BF16 的显存不足根因分解：权重 54GB 已超出单卡 24GB 限制，即使双卡总显存 48GB，由于 BF1
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N81
+
+## Claim
+
+2×RTX 4090 运行 Qwen3-27B BF16 的显存不足根因分解：权重 54GB 已超出单卡 24GB 限制，即使双卡总显存 48GB，由于 BF16 权重无法跨卡分割（除非使用 tensor parallelism），单卡仍需容纳完整权重；若启用 tensor parallelism，每卡权重减半为 27GB，但 KV Cache 和激活值仍需额外显存，总占用 27GB + 2.15GB (KV) + 1GB (Buffer) = 30.15GB < 24GB 仍不可行，需进一步压缩 KV Cache 至 FP8 或 INT8。
+
+## Corrected Claim
+
+2×RTX 4090 运行 Qwen3-27B BF16 显存不足根因：权重 54GB 超出单卡 24GB 限制。若启用 Tensor Parallelism，每卡权重 27GB 仍超出单卡 24GB 物理上限，直接导致 OOM，无法运行。即使假设权重能装入（如使用更小的模型或量化），KV Cache 和激活值也会进一步增加显存占用，但核心瓶颈在于 BF16 权重在 TP=2 下每卡 27GB 已超 24GB 限制。
+
+## Evidence
+
+[质询]陈述中存在严重的逻辑矛盾和数学错误：1. 前提称“单卡仍需容纳完整权重”（54GB），结论却得出“总占用 30.15GB < 24GB 仍不可行”，30.15GB 远大于 24GB，逻辑上应直接判定为“不可行”，但陈述将其描述为“需进一步压缩...”，暗示当前状态是“勉强可行但需优化”或“接近可行”，这与 30.15GB > 24GB 的事实严重不符；2. 若启用 Tensor Parallelism，每卡权重 27GB 已超出单卡 24GB 物理限制，根本无需计算 KV Cache 和 Buffer，直接 OOM，陈述中“27GB + ... = 30.15GB < 24GB”的表述在数学上自相矛盾（30.15 不小于 24），且混淆了“总显存需求”与“单卡显存限制”的比较逻辑。 | 逻辑校验失败：陈述中“30.15GB < 24GB”为明显数学错误，且 27GB 权重已超单卡 24GB 限制，无需累加 KV Cache 即可判定不可行，内部逻辑自相矛盾。

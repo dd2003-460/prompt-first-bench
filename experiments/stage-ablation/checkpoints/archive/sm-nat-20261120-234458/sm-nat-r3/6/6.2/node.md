@@ -1,0 +1,24 @@
+# N58: 冷启动概率 P(cold start) 的计算：P(cold start) = 1 - e^(-λ_arrival * T_cold)，其中 λ_arrival
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N16
+
+## Claim
+
+冷启动概率 P(cold start) 的计算：P(cold start) = 1 - e^(-λ_arrival * T_cold)，其中 λ_arrival 为对象首次被请求的到达率，T_cold 为冷启动窗口期（如 1 小时），需估算 λ_arrival 基于 5000 万请求/天和 10 万对象
+
+## Corrected Claim
+
+冷启动概率 P(cold start) 的计算：P(cold start) = 1 - e^(-λ_arrival * T_cold)，其中 λ_arrival 为对象首次被请求的到达率，T_cold 为冷启动窗口期（如 1 小时），需估算 λ_arrival 基于 5000 万请求/天和 10 万对象
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应公式中的两个关键变量 λ_arrival 和 T_cold，两者定义独立且无重叠（正交）。父节点明确要求估算这两个参数，子节点完整覆盖了这两个方面（完备）。虽然 T_cold 提到了多个典型值，但这属于参数取值范围的说明，而非子节点间的冗余（不冗余）。）
+
+## Search Query
+
+cache cold start probability Poisson arrival rate

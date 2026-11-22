@@ -1,0 +1,24 @@
+# N210: 电源选择需满足 GPU TDP 加上平台功耗 (约 200W) 的总需求；RTX 5090 (575W) 需要至少 850W 80Plus Gold 电源 ($
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N63
+
+## Claim
+
+电源选择需满足 GPU TDP 加上平台功耗 (约 200W) 的总需求；RTX 5090 (575W) 需要至少 850W 80Plus Gold 电源 ($150-$200)，如 Corsair RM850x 或 Seasonic Focus GX-850；RTX 4090 (450W) 可使用 750W 电源。
+
+## Corrected Claim
+
+电源选择需满足 GPU TDP 加上平台功耗 (约 200W) 的总需求；RTX 5090 (575W) 需要至少 850W 80Plus Gold 电源 ($150-$200)，如 Corsair RM850x 或 Seasonic Focus GX-850；RTX 4090 (450W) 可使用 750W 电源。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 5090 TDP 575W + 平台 200W = 775W，850W 电源符合 80% 负载建议；RTX 4090 TDP 450W + 200W = 650W，750W 电源符合常规配置逻辑。
+
+## Search Query
+
+850W 80Plus Gold power supply price RTX 5090 requirement

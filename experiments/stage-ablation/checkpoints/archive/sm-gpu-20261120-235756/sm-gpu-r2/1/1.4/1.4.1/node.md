@@ -1,0 +1,29 @@
+# N44: FP8权重的实际字节大小需考虑Block-wise量化带来的Scale因子开销（通常每128或256个元素增加1-2个FP16/FP32 Scale），导致实际
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N10
+
+## Claim
+
+FP8权重的实际字节大小需考虑Block-wise量化带来的Scale因子开销（通常每128或256个元素增加1-2个FP16/FP32 Scale），导致实际存储略大于理论值27.18GB。
+
+## Corrected Claim
+
+FP8权重的实际字节大小需考虑Block-wise量化带来的Scale因子开销（通常每128或256个元素增加1-2个FP16/FP32 Scale），导致实际存储略大于理论值27.18GB。
+
+## Evidence
+
+来源[1]和[2]直接支持FP8 Blockwise Scaling机制，确认其为每个元素块分配独立的缩放因子（scaling factor），这必然导致额外存储开销，使得实际大小略大于纯FP8理论值。
+
+## Search Query
+
+FP8 block-wise quantization scale overhead size calculation
+
+## Retrieval Sources
+
+- {'url': 'https://docs.nvidia.com/deeplearning/transformer-engine/features/low_precision_training/fp8_blockwise_scaling/fp8_blockwise_scaling.html&rut=6fc27cfe8002d07cd714649cee81d067139a8521988b45d6177753fc5b1e6f4b', 'type': 'ddg', 'title': 'FP8 Blockwise Scaling — Transformer Engine 2.20.2'}
+- {'url': 'https://docs.nvidia.com/deeplearning/transformer-engine-releases/release-2.19/features/low_precision_training/fp8_blockwise_scaling/fp8_blockwise_scaling.html&rut=2e27d3887eab26bac83be8efe7976ff5fcd8ed738ae42806346440cda84cefcc', 'type': 'ddg', 'title': 'FP8 Blockwise Scaling — Transformer Engine 2.19.0'}

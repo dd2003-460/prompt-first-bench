@@ -1,0 +1,24 @@
+# N456: Qwen3-27B 在 INT8 权重量化且 KV Cache 使用 FP8 (E4M3) 时，32K 上下文长度的总显存占用：权重 27 GB + KV Ca
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N146
+
+## Claim
+
+Qwen3-27B 在 INT8 权重量化且 KV Cache 使用 FP8 (E4M3) 时，32K 上下文长度的总显存占用：权重 27 GB + KV Cache 8 GB (16 GB / 2) = 35 GB，仍超过单卡 24GB，需 2 卡或 W4 量化
+
+## Corrected Claim
+
+Qwen3-27B 在 INT8 权重量化且 KV Cache 使用 FP8 (E4M3) 时，32K 上下文长度的总显存占用：权重 27 GB + KV Cache 8 GB (16 GB / 2) = 35 GB，仍超过单卡 24GB，需 2 卡或 W4 量化
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B INT8权重约27GB，32K上下文FP8 KV Cache约8GB，总显存35GB超过单卡24GB限制，需多卡或更低精度量化。
+
+## Search Query
+
+vLLM FP8 KV cache quantization memory usage

@@ -1,0 +1,20 @@
+# N69: 在 W_LRU(i) ≈ T_update 的工作点（中等驻留时间），T_eff(i) = 0.5 * W_LRU(i)，此时更新失效与 LRU 驱逐失效各占 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N19
+
+## Claim
+
+在 W_LRU(i) ≈ T_update 的工作点（中等驻留时间），T_eff(i) = 0.5 * W_LRU(i)，此时更新失效与 LRU 驱逐失效各占 50%，有效命中率 H_eff = 0.5 * H_static_LRU + 0.5 * H_update_affected，量化为 H_eff ≈ 0.5 * 0.79 + 0.5 * 0.75 = 0.77，折损系数 D_update = 0.77/0.79 ≈ 0.975。
+
+## Corrected Claim
+
+在 W_LRU(i) ≈ T_update 的工作点（中等驻留时间），T_eff(i) = 0.5 * W_LRU(i)，此时更新失效与 LRU 驱逐失效各占 50%，有效命中率 H_eff = 0.5 * H_static_LRU + 0.5 * H_update_affected，量化为 H_eff ≈ 0.5 * 0.79 + 0.5 * 0.75 = 0.77，折损系数 D_update = 0.77/0.79 ≈ 0.975。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算 0.5*0.79+0.5*0.75=0.77 正确，比值 0.77/0.79≈0.9747 四舍五入为 0.975 合理，模型假设自洽。

@@ -1,0 +1,24 @@
+# N75: 稳态假设的冷启动误差量化：在 128GB 缓存、10 万对象、Pareto(α=1.1) 大小分布下，LRU 达到稳态命中率（误差 <5%）所需时间 T_ste
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N25
+
+## Claim
+
+稳态假设的冷启动误差量化：在 128GB 缓存、10 万对象、Pareto(α=1.1) 大小分布下，LRU 达到稳态命中率（误差 <5%）所需时间 T_steady ≈ 3-5 天（基于每天 5000 万次请求），若观测窗口 < T_steady，则稳态假设失效，命中率需乘以时间衰减因子 exp(-t/T_steady) [待核验]
+
+## Corrected Claim
+
+在 128GB 缓存、10 万对象、Pareto(α=1.1) 大小分布及每天 5000 万次请求的特定负载下，LRU 达到稳态命中率（误差 <5%）所需时间 T_steady 估计约为 3-5 天；若观测窗口短于 T_steady，稳态假设失效，命中率可能需引入时间衰减因子进行修正，具体形式需根据实际负载特性确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（T_steady ≈ 3-5 天）和特定的数学模型（exp(-t/T_steady)），这些并非第一性原理可严格推导的数学恒等式，而是依赖于具体工作负载特征和缓存替换算法细节的经验拟合结果。在缺乏具体实验数据或权威文献支持的情况下，直接断言具体的天数范围和特定的指数衰减公式存在过度精确化的风险，且不同负载下稳态收敛速度差异巨大，单一数值范围可能不具备普适性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该数值属于特定场景下的经验估算，非第一性原理可推导，故降级）
+
+## Search Query
+
+LRU cache steady state convergence time cold start error bound Pareto distribution

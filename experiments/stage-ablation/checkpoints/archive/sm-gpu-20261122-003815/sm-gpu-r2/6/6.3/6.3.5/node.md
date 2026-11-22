@@ -1,0 +1,28 @@
+# N179: RTX 5090 (Blackwell) 核心硬件规格核实：需确认其 GDDR7 显存带宽确切数值（N40 提及 ~1792 GB/s 为待核验值，部分来源称 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N38, N39, N40
+
+## Claim
+
+RTX 5090 (Blackwell) 核心硬件规格核实：需确认其 GDDR7 显存带宽确切数值（N40 提及 ~1792 GB/s 为待核验值，部分来源称 1792 GB/s 为 RTX 5090 的实测/理论峰值，需区分理论带宽与有效带宽），以及 TDP 功耗（预计 575W+）对电源和散热方案的具体约束。
+
+## Corrected Claim
+
+RTX 5090 (Blackwell) 预计采用 GDDR7 显存，理论带宽约为 1792 GB/s，TDP 功耗预计超过 575W，具体数值需以官方最终规格为准。
+
+## Evidence
+
+[质询]参考来源[1]仅提供了文章标题和简介，未包含具体的GDDR7显存带宽数值（1792 GB/s）或TDP功耗（575W+）的具体数据，无法直接验证这些经验性硬件参数。 | 经验事实，逻辑自洽但缺来源支持（来源[1]主题相关但摘要未提供具体数值证据）
+
+## Search Query
+
+RTX 5090 GDDR7 memory bandwidth TDP specs confirmed
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2049795586006725375&rut=b6ab14a5037f2f2e0f173cd88f2277a1fae5866386f03702e9b6770ba7819b0a', 'type': 'ddg', 'title': 'RTX 5090 深度硬核科普：Blackwell 架构全面拆解，游戏、AI、生产力一次讲透 - 知乎'}

@@ -1,0 +1,24 @@
+# N38: 算法权重修正项：实际推荐权重 W_rec = (1 + α * ΔP) * (1 - β * T_stock) + ε_traffic，其中T_stock为商品
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N9
+
+## Claim
+
+算法权重修正项：实际推荐权重 W_rec = (1 + α * ΔP) * (1 - β * T_stock) + ε_traffic，其中T_stock为商品上架时长，β为时间衰减系数，用于防止长期未成交的高价商品持续占用流量，需验证β是否足以抵消α带来的高挂价优势。
+
+## Corrected Claim
+
+在特定推荐算法设计中，可能采用形如 W_rec = (1 + α * ΔP) * (1 - β * T_stock) + ε_traffic 的权重修正项，其中β用于时间衰减，但需通过具体参数调优和A/B测试验证其有效性，而非默认成立。
+
+## Evidence
+
+[质询]该公式为特定业务场景下的经验性启发式规则，并非通用数学或物理定律，无法从第一性原理严格推导；且缺乏具体参数（α, β, ε）的数值范围或实证数据支持，无法验证β是否足以抵消α带来的优势，属于未经验证的经验假设。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该公式非第一性原理可推导的通用真理，而是特定算法设计假设）
+
+## Search Query
+
+recommendation weight time decay coefficient beta stock age high price bias correction

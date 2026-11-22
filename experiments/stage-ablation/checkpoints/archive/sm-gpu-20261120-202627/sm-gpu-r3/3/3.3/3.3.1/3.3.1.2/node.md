@@ -1,0 +1,24 @@
+# N272: AMD MI300X 在 ROCm 5.7+ 及 vLLM 0.6+ 版本下对 Qwen3-27B 的支持状态：需验证是否支持 FlashAttention-2
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N74
+
+## Claim
+
+AMD MI300X 在 ROCm 5.7+ 及 vLLM 0.6+ 版本下对 Qwen3-27B 的支持状态：需验证是否支持 FlashAttention-2 优化及 PagedAttention，若不支持，吞吐量将下降 20-30%，预计实际吞吐量为理论峰值 (基于 5300 GB/s) 的 50-70%，即 20-35 tokens/s。
+
+## Corrected Claim
+
+AMD MI300X 在 ROCm 5.7+ 及 vLLM 0.6+ 版本下对 Qwen3-27B 的支持状态需进一步验证。若未启用 FlashAttention-2 及 PagedAttention 优化，吞吐量可能显著下降（预计为理论峰值的 50-70%），具体数值需实测确认。
+
+## Evidence
+
+[质询]该陈述包含多个具体的经验性参数（如ROCm/vLLM特定版本对Qwen3-27B的支持状态、FlashAttention-2/PagedAttention的兼容性、以及由此推导出的具体吞吐量数值20-35 tokens/s），这些属于硬件/软件生态的经验事实，无法从第一性原理推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+vLLM ROCm MI300X Qwen3-27B support FlashAttention PagedAttention

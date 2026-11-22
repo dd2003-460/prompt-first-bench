@@ -1,0 +1,24 @@
+# N193: 共享随机源 R_noise：市场噪声标准差 σ_noise 的分布，σ_noise 来源于其他卖家的价格调整行为及平台推荐算法的随机性，假设 σ_noise =
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N55
+
+## Claim
+
+共享随机源 R_noise：市场噪声标准差 σ_noise 的分布，σ_noise 来源于其他卖家的价格调整行为及平台推荐算法的随机性，假设 σ_noise = 0.2·σ_buyer，需通过时间序列分解估计。
+
+## Corrected Claim
+
+共享随机源 R_noise：市场噪声标准差 σ_noise 的分布，σ_noise 来源于其他卖家的价格调整行为及平台推荐算法的随机性，假设 σ_noise = 0.2·σ_buyer，需通过时间序列分解估计。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+market noise standard deviation recommendation algorithm randomness

@@ -1,0 +1,20 @@
+# N247: 长期留存收益 B_long 的量化：B_long = ΔGMV * r * f_retention * (1 / (1 - d)), 其中 d 为月流失率（如 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N81
+
+## Claim
+
+长期留存收益 B_long 的量化：B_long = ΔGMV * r * f_retention * (1 / (1 - d)), 其中 d 为月流失率（如 d=0.1），代表基于用户生命周期价值（LTV）折现的长期收益部分，需假设干预措施对留存率的边际影响 Δf_retention。
+
+## Corrected Claim
+
+长期留存收益 B_long 的量化：B_long = ΔGMV * r * f_retention * (1 / (1 - d)), 其中 d 为月流失率（如 d=0.1），代表基于用户生命周期价值（LTV）折现的长期收益部分，需假设干预措施对留存率的边际影响 Δf_retention。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式结构符合LTV折现模型的基本逻辑（即时收益乘以留存带来的长期倍数），量纲与变量定义自洽。

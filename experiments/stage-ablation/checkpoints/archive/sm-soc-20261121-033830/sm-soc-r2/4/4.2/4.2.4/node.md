@@ -1,0 +1,20 @@
+# N73: 候选B的采纳弹性：卖家采纳建议价的概率 P(Adopt|P_suggest) 取决于建议价与卖家心理底价 P_floor 的距离，若 P_suggest < P
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+候选B的采纳弹性：卖家采纳建议价的概率 P(Adopt|P_suggest) 取决于建议价与卖家心理底价 P_floor 的距离，若 P_suggest < P_floor，则采纳率为0；若 P_suggest >= P_floor，采纳率随 (P_suggest - P_floor) 增大而递减，函数形式为 P(Adopt) = exp(-β*(P_suggest - P_floor))。
+
+## Corrected Claim
+
+候选B的采纳弹性：卖家采纳建议价的概率 P(Adopt|P_suggest) 取决于建议价与卖家心理底价 P_floor 的距离，若 P_suggest < P_floor，则采纳率为0；若 P_suggest >= P_floor，采纳率随 (P_suggest - P_floor) 增大而递减，函数形式为 P(Adopt) = exp(-β*(P_suggest - P_floor))。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

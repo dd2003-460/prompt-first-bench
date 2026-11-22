@@ -1,0 +1,20 @@
+# N56: RTX 4090 (24GB, 1008 GB/s) 在 Batch=1, INT8 权重, BF16 KV Cache, 32K 上下文下的 Decode 理
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N21
+
+## Claim
+
+RTX 4090 (24GB, 1008 GB/s) 在 Batch=1, INT8 权重, BF16 KV Cache, 32K 上下文下的 Decode 理论上限吞吐：Bytes_per_token ≈ 27.1 (权重) + 20.61 (KV) + 2.03 (激活) = 49.74 GB (总模型显存占用，但 Decode 时主要读取权重和 KV)，实际每 token 读取量 ≈ 27.1 (权重) + (20.61/32768)*1 (近似) ≈ 27.1 GB (忽略 KV 增量读取，因 Decode 步长小)，Throughput_max ≈ 1008 / 27.1 ≈ 37.2 tokens/s [待核验: 需确认 Decode 阶段是否读取全部权重及 KV 读取模式]
+
+## Corrected Claim
+
+RTX 4090 (24GB, 1008 GB/s) 在 Batch=1, INT8 权重, BF16 KV Cache, 32K 上下文下的 Decode 理论上限吞吐：Bytes_per_token ≈ 27.1 (权重) + 20.61 (KV) = 47.71 GB (总模型显存占用，Decode 时主要读取权重和 KV)，实际每 token 读取量 ≈ 47.71 GB，Throughput_max ≈ 1008 / 47.71 ≈ 21.1 tokens/s
+
+## Evidence
+
+[质询]陈述中关于Decode阶段每token读取量的计算存在逻辑矛盾：一方面声称忽略KV增量读取，另一方面在总显存占用中包含了KV，且未明确说明27.1GB权重是否包含所有层（通常LLM Decode每步需读取全部权重，但KV Cache的读取量随上下文长度线性增长，32K上下文下KV读取量不可忽略，尤其是对于长上下文场景，KV读取可能显著影响带宽瓶颈）。 | 先验知识/题面给定，逻辑校验未通过：Decode阶段每token读取量应包含权重和KV Cache的读取，32K上下文下KV读取量约为20.61GB/32768*32768=20.61GB（若每步读取全部KV），而非近似为0，因此实际每token读取量应约为27.1+20.61=47.71GB，理论上限吞吐应约为1008/47.71≈21.1 tokens/s，而非37.2 tokens/s。

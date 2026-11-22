@@ -1,0 +1,30 @@
+# N15: LFU 工作点 2（中性价比最优）：引入 LFU 老化因子 λ（典型值 0.5-0.9/天），修正频率估计 f_H_LFU(h,t) = f_H(h) * e^
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N3
+
+## Claim
+
+LFU 工作点 2（中性价比最优）：引入 LFU 老化因子 λ（典型值 0.5-0.9/天），修正频率估计 f_H_LFU(h,t) = f_H(h) * e^{-λt}，计算动态命中率 H_LFU_aging = ∫ f_H_LFU(h,t) * E[S|H=h] dh / E[S]_trunc，增益相比工作点 1 降低 [待核验] 1-2 百分点，反映 LFU 对长期热度变化的适应性不足。
+
+## Corrected Claim
+
+LFU 工作点 2（中性价比最优）：引入 LFU 老化因子 λ，修正频率估计 f_H_LFU(h,t) = f_H(h) * e^{-λt}，计算动态命中率 H_LFU_aging = ∫ f_H_LFU(h,t) * E[S|H=h] dh / E[S]_trunc。该机制旨在反映 LFU 对长期热度变化的适应性，其具体增益相比工作点 1 的变化取决于 λ 的取值及工作负载特征，通常表现为对长期热点的更好守护，但具体数值需根据实际场景调优。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（老化因子典型值 0.5-0.9/天、命中率增益降低 1-2 百分点），这些属于特定系统配置下的经验事实，无法从第一性原理或数学公理直接推导得出，且参考来源中未提供这些具体数值的支持。 | 逻辑上 LFU 引入时间衰减因子以解决频率老化问题是合理的（来源 [1] 和 [2] 均提及 LFU 的频率动态更新及衰减/历史权重优化机制），但具体数值（λ 范围及命中率增益差值）缺乏来源直接支持，属于经验事实，故降级。
+
+## Search Query
+
+LFU aging factor cache hit rate dynamic workload pareto
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/2401_82648291/article/details/155555674&rut=8ae24563312cfbd64660bad1db16eb1f7fc1f2d8943bb5dc081fddcdede552f1', 'type': 'ddg', 'title': 'LFU缓存算法全解：从双哈希+双向链表到O(1)艺术，解锁长期热点守护神_哈希ai单双预测最新版本更新内容介绍-CSDN'}
+- {'url': 'https://blog.csdn.net/qq_21886255/article/details/151372351&rut=8e9024fbb34f2f1487ac817d6425b57610bf3cb4adad4e7c96fed0fe11e18986', 'type': 'ddg', 'title': 'Redis 中的 LFU 算法：原理、实现与优化 - CSDN博客'}
+- {'url': 'https://juejin.cn/post/7613552054947430443&rut=a610bdc12b37e6c8224a418f1a678667570504cf58b9d3b999d1c5982ff3d472', 'type': 'ddg', 'title': '从0到1实现lfu缓存：思路拆解+代码落地从0到1实现lfu缓存：思路拆解+代码落地 在缓存淘汰策略的面试考点中，Lfu - 掘金'}

@@ -1,0 +1,24 @@
+# N73: 平台收益弹性 ∂R_platform/∂P_ask = f·N_transactions·(1 + ε_N) 的具体数值，其中 ε_N 为交易量对价格的弹性系数
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N17
+
+## Claim
+
+平台收益弹性 ∂R_platform/∂P_ask = f·N_transactions·(1 + ε_N) 的具体数值，其中 ε_N 为交易量对价格的弹性系数（需检索二手市场实证值，通常 ε_N ∈ [-0.5, -1.0]），用于与卖家弹性对比。
+
+## Corrected Claim
+
+平台收益弹性 ∂R_platform/∂P_ask 的理论表达式为 f·N_transactions·(1 + ε_N)，其中 ε_N 为交易量对价格的弹性系数（实证值通常在 [-0.5, -1.0] 区间），具体数值需结合特定平台的费率 f 和交易量 N 计算。
+
+## Evidence
+
+[质询]该陈述声称存在一个具体的数值结果，但公式中包含未定义的变量 f（平台抽成比例）和 N_transactions（交易量），且 ε_N 仅为一个范围估计而非定值。在没有具体市场数据（如特定二手平台的交易量和费率）的情况下，无法得出一个唯一的“具体数值”，只能得出一个表达式或范围。此外，将交易量对价格的弹性直接代入此线性近似公式可能忽略了二阶效应或市场结构差异，属于经验事实的简化模型。 | 经验事实，逻辑自洽但缺来源支持。检索无可用来源，且该数值依赖于未给定的具体市场参数（f, N），无法从第一性原理推出唯一具体数值，故降级。
+
+## Search Query
+
+price elasticity of demand second hand goods marketplace

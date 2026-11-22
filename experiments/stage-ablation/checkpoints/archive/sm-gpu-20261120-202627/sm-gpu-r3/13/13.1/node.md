@@ -1,0 +1,24 @@
+# N461: Apple Silicon (M3 Ultra) 在 2024 Q4 至 2025 Q1 期间，llama.cpp 仓库中针对 Qwen3-27B 的官方支持状
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N151, N152, N153
+
+## Claim
+
+Apple Silicon (M3 Ultra) 在 2024 Q4 至 2025 Q1 期间，llama.cpp 仓库中针对 Qwen3-27B 的官方支持状态：检查是否存在标记为 'closed' 且包含 'Qwen3-27B' 或 '27B' 关键字的 Issue/PR，若无则标记为不可行 [search: github.com/ggerganov/llama.cpp issues Qwen3-27B closed 2024-2025]
+
+## Corrected Claim
+
+在 2024 Q4 至 2025 Q1 期间，llama.cpp 仓库中针对 Qwen3-27B 的支持状态需进一步核实，当前无法确认是否存在标记为 'closed' 且包含 'Qwen3-27B' 的 Issue/PR。
+
+## Evidence
+
+[质询]该陈述依赖于特定时间段内 GitHub 仓库的具体 Issue/PR 状态，属于动态变化的经验事实。由于检索失败，无法确认在 2024 Q4 至 2025 Q1 期间是否真的不存在标记为 'closed' 且包含 'Qwen3-27B' 的 Issue/PR。此外，'官方支持状态' 的定义模糊，仅凭 Issue 关闭状态不足以完全判定支持状态（可能通过代码合并而非 Issue 关闭体现）。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证 GitHub 具体 Issue 状态）
+
+## Search Query
+
+github llama.cpp Qwen3-27B support issue closed 2024 2025

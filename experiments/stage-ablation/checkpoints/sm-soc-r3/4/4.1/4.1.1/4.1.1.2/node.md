@@ -1,0 +1,24 @@
+# N210: 挂价分布右偏度 Skewness 的变化估算：Skewness_new = Skewness_old × (1 - γ_skew × β_info)，其中 γ_
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N68
+
+## Claim
+
+挂价分布右偏度 Skewness 的变化估算：Skewness_new = Skewness_old × (1 - γ_skew × β_info)，其中 γ_skew 为偏度修正系数（假设 0.2-0.4），信息透明化通常压缩分布右尾（减少极端高价挂价），导致右偏度下降 20%-40%，需基于历史挂价分布拟合验证。
+
+## Corrected Claim
+
+挂价分布右偏度 Skewness 的变化估算模型：Skewness_new = Skewness_old × (1 - γ_skew × β_info)，其中 γ_skew 为偏度修正系数（假设 0.2-0.4）。理论上信息透明化可能压缩分布右尾，但具体下降幅度（如20%-40%）需基于历史挂价分布拟合验证，不可直接作为确定事实。
+
+## Evidence
+
+[质询]该公式为经验性启发式模型，缺乏严格的经济学或统计学理论推导支持；且'信息透明化导致右偏度下降20%-40%'属于具体的经验量化结论，无法从第一性原理直接推出，属于经验事实。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该具体数值区间及公式形式无法从公理推导，需实证验证）
+
+## Search Query
+
+price distribution skewness change information transparency second hand goods

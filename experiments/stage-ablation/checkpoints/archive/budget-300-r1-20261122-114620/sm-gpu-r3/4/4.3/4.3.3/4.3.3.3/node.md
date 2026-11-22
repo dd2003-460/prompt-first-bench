@@ -1,0 +1,20 @@
+# N341: 在 batch_size=1 时，T_compute 主要由 Prefill 阶段决定，对于 32K 上下文，RTX 4090 的 Prefill 计算时间约为
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N110
+
+## Claim
+
+在 batch_size=1 时，T_compute 主要由 Prefill 阶段决定，对于 32K 上下文，RTX 4090 的 Prefill 计算时间约为 2-3 秒，而 T_comm (PCIe) 约为 128 * 16KB / 32GB/s ≈ 0.064 秒，η_comm ≈ 0.064 / (2.5 + 0.064) ≈ 2.5%，远低于 15-30% 的估计，需重新评估通信开销占比
+
+## Corrected Claim
+
+在 batch_size=1 时，T_compute 主要由 Prefill 阶段决定，对于 32K 上下文，RTX 4090 的 Prefill 计算时间约为 2-3 秒，而 T_comm (PCIe) 约为 128 * 16KB / 32GB/s ≈ 0.064 秒，η_comm ≈ 0.064 / (2.5 + 0.064) ≈ 2.5%，远低于 15-30% 的估计，需重新评估通信开销占比
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 在 32K 上下文下的 Prefill 耗时（2-3s）与 PCIe 传输耗时（~0.064s）量级符合硬件性能常识，计算逻辑自洽。

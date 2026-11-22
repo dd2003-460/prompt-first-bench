@@ -1,0 +1,24 @@
+# N55: W4 量化下长上下文 (32K) 特有的性能退化机制：由于 KV Cache 若保持 BF16 而权重为 W4，混合精度推理可能导致注意力分数计算精度下降，在 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N13
+
+## Claim
+
+W4 量化下长上下文 (32K) 特有的性能退化机制：由于 KV Cache 若保持 BF16 而权重为 W4，混合精度推理可能导致注意力分数计算精度下降，在 32K 长度下 MMLU 额外损失约 0.5-1.0 个百分点，相比短上下文 (2K) 损失更大 [待核验: 需验证混合精度 KV Cache 对长上下文推理的具体影响]
+
+## Corrected Claim
+
+W4 量化下长上下文 (32K) 特有的性能退化机制：由于 KV Cache 若保持 BF16 而权重为 W4，混合精度推理可能导致注意力分数计算精度下降，在 32K 长度下 MMLU 可能产生额外损失，相比短上下文 (2K) 损失更大。
+
+## Evidence
+
+[质询]具体数值（0.5-1.0个百分点）缺乏来源支持，且混合精度KV Cache对长上下文的具体影响机制及量化损失幅度属于经验事实，无法仅凭逻辑推导得出精确数值。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+W4A16 long context 32K KV cache BF16 performance degradation LLM

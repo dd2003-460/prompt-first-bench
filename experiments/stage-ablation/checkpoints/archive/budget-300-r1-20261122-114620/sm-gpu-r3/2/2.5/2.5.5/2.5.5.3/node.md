@@ -1,0 +1,24 @@
+# N252: GPU 功耗与推理吞吐的非线性关系量化：H100 700W 功耗下 Qwen3-27B 推理吞吐约为 80 tokens/s，而 L40S 350W 下约为 5
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N77
+
+## Claim
+
+GPU 功耗与推理吞吐的非线性关系量化：H100 700W 功耗下 Qwen3-27B 推理吞吐约为 80 tokens/s，而 L40S 350W 下约为 50 tokens/s，单位功耗吞吐（tokens/s/W）H100 为 0.114，L40S 为 0.143，L40S 在能效比上优于 H100，但绝对吞吐低 37.5%
+
+## Corrected Claim
+
+在特定配置下，H100（700W）与L40S（350W）运行Qwen3-27B时，H100绝对吞吐更高，但L40S单位功耗吞吐（能效比）可能优于H100，具体数值需依据实际部署环境测定。
+
+## Evidence
+
+[质询]具体数值（80 tokens/s, 50 tokens/s）属于高度依赖具体硬件配置、软件栈版本、Batch Size及量化策略的经验事实，缺乏通用标准，且H100与L40S的能效比对比在不同负载下结论可能反转，此处直接断言L40S能效更优存在以偏概全风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体吞吐数值无法从第一性原理严格推导，属于特定场景下的经验数据）
+
+## Search Query
+
+H100 vs L40S Qwen 27B inference throughput tokens per second watts efficiency benchmark

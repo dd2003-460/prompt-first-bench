@@ -1,0 +1,20 @@
+# N255: 流量加权模型中，非补贴商品曝光占比下降幅度 ΔE_share 的精确计算：ΔE_share = (k - 1) * (N_subsidized / N_tota
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N85
+
+## Claim
+
+流量加权模型中，非补贴商品曝光占比下降幅度 ΔE_share 的精确计算：ΔE_share = (k - 1) * (N_subsidized / N_total)，其中 N_total 为总商品池规模，需确定 N_total 与 N_subsidized 的比例关系以量化具体百分比。
+
+## Corrected Claim
+
+在假设补贴商品获得固定曝光权重k且总曝光量守恒的简化模型下，非补贴商品曝光占比的下降幅度可近似表示为 ΔE_share ≈ (k - 1) * (N_subsidized / N_total)，具体数值需结合平台实际流量分配策略确定。
+
+## Evidence
+
+[质询]公式推导隐含了强假设（如补贴商品获得固定额外曝光权重k且非补贴商品曝光被均匀稀释），未明确界定k的定义及流量分配机制，直接给出精确公式可能过于简化，忽略了平台算法中复杂的竞争与动态调整因素。 | 先验知识/题面给定，逻辑校验通过（代数推导自洽），但作为经验性流量模型的具体参数化公式，缺乏外部来源直接支持其普适性，故降级。

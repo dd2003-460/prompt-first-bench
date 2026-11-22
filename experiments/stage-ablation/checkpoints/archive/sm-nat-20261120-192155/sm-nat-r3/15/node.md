@@ -1,0 +1,20 @@
+# N154: LRU稳态字节命中率下界的推导链：1. 确定k值（由容量约束）；2. 计算独立假设下命中率 H_indep = Σ_{i=1}^{k} i^{-(α+β)} /
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+LRU稳态字节命中率下界的推导链：1. 确定k值（由容量约束）；2. 计算独立假设下命中率 H_indep = Σ_{i=1}^{k} i^{-(α+β)} / Σ_{i=1}^{N} i^{-(α+β)}；3. 应用负相关修正因子 M_ρ ≈ 0.95-0.98（头部对象变小导致分子略减，但分母影响更小）；4. 最终下界 H_LRU_lower ≈ H_indep * M_ρ - ε_eviction，其中 ε_eviction 为LRU驱逐滞后损失，在稳态下近似为0。
+
+## Corrected Claim
+
+LRU稳态字节命中率下界的推导链：1. 确定k值（由容量约束）；2. 计算独立假设下命中率 H_indep = Σ_{i=1}^{k} i^{-(α+β)} / Σ_{i=1}^{N} i^{-(α+β)}；3. 应用负相关修正因子 M_ρ ≈ 0.95-0.98（头部对象变小导致分子略减，但分母影响更小）；4. 最终下界 H_LRU_lower ≈ H_indep * M_ρ - ε_eviction，其中 ε_eviction 为LRU驱逐滞后损失，在稳态下近似为0。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

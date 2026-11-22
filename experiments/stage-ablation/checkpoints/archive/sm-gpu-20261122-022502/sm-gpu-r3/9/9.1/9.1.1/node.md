@@ -1,0 +1,20 @@
+# N270: 工作点 B (中性价比/平衡)：Qwen3-27B 在 INT8 量化下，权重占用 27GB，KV Cache 约 96MB，激活缓冲 3-5GB，总显存占用 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N89
+
+## Claim
+
+工作点 B (中性价比/平衡)：Qwen3-27B 在 INT8 量化下，权重占用 27GB，KV Cache 约 96MB，激活缓冲 3-5GB，总显存占用 30.1-32.1GB，接近 32GB 上限，需精细管理激活缓冲以避免 OOM，吞吐量约为 FP4 的 50-60% (受带宽减半影响)。
+
+## Corrected Claim
+
+工作点 B (中性价比/平衡)：Qwen3-27B 在 INT8 量化下，权重占用约 27GB，总显存占用 30.1-32.1GB，接近 32GB 上限，需精细管理激活缓冲及 KV Cache 以避免 OOM，吞吐量约为 FP4 的 50-60%。
+
+## Evidence
+
+[质询]KV Cache 数值量级存疑：对于 27B 参数量的模型，96MB 的 KV Cache 仅能支持极短的上下文（如 128 tokens 左右），通常推理场景下 KV Cache 会随序列长度线性增长，固定为 96MB 缺乏上下文长度假设，且与 30GB 总显存中权重占 27GB 的比例相比，该数值显得过小，可能混淆了单 token 或极短序列的缓存大小与常规推理缓存大小。 | 先验知识/题面给定，逻辑校验通过（权重 27GB 符合 INT8 量化 27B 模型预期，总显存 30-32GB 符合 32GB 卡限制），但 KV Cache 具体数值缺乏上下文长度定义，且无外部来源支持，故降级。

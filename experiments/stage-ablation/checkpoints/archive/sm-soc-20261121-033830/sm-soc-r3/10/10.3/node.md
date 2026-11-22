@@ -1,0 +1,24 @@
+# N111: N31中“高互动高价商品”的定义量化：需明确“高互动”的指标（如点击率 CTR、停留时间 Dwell Time、咨询率 Inquiry Rate）及其阈值；若“
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N31
+
+## Claim
+
+N31中“高互动高价商品”的定义量化：需明确“高互动”的指标（如点击率 CTR、停留时间 Dwell Time、咨询率 Inquiry Rate）及其阈值；若“高互动”定义为 CTR > 2% 且 Price > P_median * 1.15，需统计该子集在平台总商品中的占比及GMV贡献率，以验证该子集是否足以驱动平台整体GMV的15-20%提升，还是仅对局部品类有效。
+
+## Corrected Claim
+
+N31中“高互动高价商品”的定义需明确量化指标（如CTR、停留时间等）及其阈值；若采用特定阈值（如CTR > 2% 且 Price > P_median * 1.15），需统计该子集在平台总商品中的占比及GMV贡献率，以验证其对平台整体GMV的提升效果（具体提升幅度需根据实际数据确定，而非预设15-20%）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（CTR > 2%, Price > P_median * 1.15）和预期业务影响（GMV提升15-20%），这些属于特定平台或行业的经验事实，无法从第一性原理推导，且缺乏来源支持其具体数值的准确性。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+high engagement high price items share of GMV e-commerce platform

@@ -1,0 +1,17 @@
+{
+  "id": "N144",
+  "claim": "vLLM 在 TP=2 模式下默认采用 KV Cache 头拆分策略 (Head Partitioning)，每卡仅存储 2 个 KV Heads，单卡 KV 占用减半至 256 MB (BF16) 或 128 MB (FP8)。",
+  "level": "L4",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]数值量级与具体配置强相关，缺乏上下文（如模型层数、序列长度、Batch Size）导致“256 MB”这一绝对数值缺乏普适性，且“默认”策略在不同版本或配置下可能有所不同（如是否启用 PagedAttention 或特定量化策略），存在将特定测试场景数据泛化为默认行为的风险。 | 经验事实，逻辑自洽（TP=2 确实通常将 KV Heads 拆分，单卡占用减半符合逻辑），但缺来源支持且具体数值依赖未给出的模型参数，无法验证 256MB 的准确性。",
+  "corrected_claim": "vLLM 在 TP=2 模式下通常采用 KV Cache 头拆分策略，每卡存储一半的 KV Heads，从而将单卡 KV 占用减半（具体数值取决于模型架构、序列长度及数据类型）。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N40"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "vLLM tensor parallelism KV cache head partitioning strategy",
+  "retrieval_sources": []
+}

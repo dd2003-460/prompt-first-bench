@@ -1,0 +1,16 @@
+# N3: 推理性能度量 (Inference Performance Metric)：覆盖不同硬件架构与配置下的推理吞吐量（Tokens/s）及带宽瓶颈分析，作为性价比计
+
+- **status**: verified
+- **level**: L1
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: (root)
+
+## Claim
+
+推理性能度量 (Inference Performance Metric)：覆盖不同硬件架构与配置下的推理吞吐量（Tokens/s）及带宽瓶颈分析，作为性价比计算的分子。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点逻辑清晰，分别对应推理过程中的不同瓶颈阶段（Decode带宽、Prefill计算）以及多卡扩展的工程损耗，彼此正交且共同构成了对推理性能度量及瓶颈分析的完整覆盖，无冗余。）

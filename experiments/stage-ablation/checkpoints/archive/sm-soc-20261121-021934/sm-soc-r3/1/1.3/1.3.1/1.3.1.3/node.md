@@ -1,0 +1,20 @@
+# N72: 工作点2（均衡点/中挂价）：当 T_deal ≈ T_max/2 时，μ_exit = 0.0625 * k_exit，N_active_listings 达到
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N28
+
+## Claim
+
+工作点2（均衡点/中挂价）：当 T_deal ≈ T_max/2 时，μ_exit = 0.0625 * k_exit，N_active_listings 达到稳态 N* = μ_entry / μ_exit，此时平台收益函数 Π_platform 对价格变动的边际敏感度最低，为当前观察到的均衡状态。
+
+## Corrected Claim
+
+工作点2（均衡点/中挂价）：当 T_deal ≈ T_max/2 时，μ_exit = 0.0625 * k_exit，N_active_listings 达到稳态 N* = μ_entry / μ_exit，此时平台收益函数 Π_platform 对价格变动的边际敏感度最低，为当前观察到的均衡状态。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在稳态下 N* = μ_entry / μ_exit 符合微分方程平衡条件；若 μ_exit 与价格呈线性关系且 T_deal 为价格相关变量，T_deal ≈ T_max/2 对应中间价格，此时若收益函数为凹函数（如二次型），边际敏感度（导数）在顶点处为零或最低，逻辑自洽。

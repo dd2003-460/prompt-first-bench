@@ -1,0 +1,20 @@
+# N89: σ_noise² / Var(P_ask) 的回归分解：Var(P_ask) = β_market² * Var(P_market) + σ_noise² + 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N26
+
+## Claim
+
+σ_noise² / Var(P_ask) 的回归分解：Var(P_ask) = β_market² * Var(P_market) + σ_noise² + 2 * β_market * σ_noise * Cov(P_market, Noise)，其中 β_market 为市场价值对挂价的回归系数，P_market 为市场均衡价，Noise 为随机偏好噪声
+
+## Corrected Claim
+
+σ_noise² / Var(P_ask) 的回归分解：Var(P_ask) = β_market² * Var(P_market) + σ_noise² + 2 * β_market * σ_noise * Cov(P_market, Noise)，其中 β_market 为市场价值对挂价的回归系数，P_market 为市场均衡价，Noise 为随机偏好噪声
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该公式符合线性回归分解的基本代数恒等式（Var(Y) = β²Var(X) + Var(ε) + 2βCov(X,ε)），量纲与逻辑自洽。

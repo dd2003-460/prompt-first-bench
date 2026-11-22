@@ -1,0 +1,24 @@
+# N26: 评估误差标准差 σ_noise 的 0.15 系数基于二手商品异质性（如成色、功能、配件完整性）导致的估值离散度，具体分解为 σ_noise = sqrt(σ_
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N6
+
+## Claim
+
+评估误差标准差 σ_noise 的 0.15 系数基于二手商品异质性（如成色、功能、配件完整性）导致的估值离散度，具体分解为 σ_noise = sqrt(σ_condition² + σ_feature²)，其中 σ_condition ≈ 0.10（成色主观差异）和 σ_feature ≈ 0.11（功能/配件缺失差异），两者独立。
+
+## Corrected Claim
+
+评估误差标准差 σ_noise 的 0.15 系数通常基于二手商品异质性导致的估值离散度，可分解为 σ_noise = sqrt(σ_condition² + σ_feature²)。在典型建模假设下，若成色主观差异 σ_condition 约为 0.10，功能/配件缺失差异 σ_feature 约为 0.11，且两者独立，则合成标准差约为 0.15。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值参数（σ_condition ≈ 0.10, σ_feature ≈ 0.11），这些数值并非数学公理或第一性原理可推导的必然结果，而是基于特定数据集或行业经验的估计值。在缺乏来源支持的情况下，无法验证这些具体数值的准确性，存在将特定场景下的经验值泛化为通用标准的风险。 | 经验事实，逻辑自洽（方差分解公式 sqrt(0.10^2 + 0.11^2) ≈ 0.1487 ≈ 0.15 计算正确，且假设独立性在统计建模中常见），但缺来源支持具体数值参数。
+
+## Search Query
+
+second-hand market valuation error standard deviation heterogeneity condition feature variance decomposition

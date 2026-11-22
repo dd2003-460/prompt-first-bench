@@ -1,0 +1,24 @@
+# N125: γ 的动态调整项 Δγ_time：随着单次会话内搜索次数增加，γ 并非恒定，而是随时间线性增长：γ(t) = γ_0 + β_t * t_session，其中 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N42
+
+## Claim
+
+γ 的动态调整项 Δγ_time：随着单次会话内搜索次数增加，γ 并非恒定，而是随时间线性增长：γ(t) = γ_0 + β_t * t_session，其中 β_t ≈ 0.05-0.10/hour，需量化会话时长对疲劳指数的累积效应。
+
+## Corrected Claim
+
+γ 的动态调整项 Δγ_time：随着单次会话内搜索次数增加，γ 并非恒定，而是随时间增长，需量化会话时长对疲劳指数的累积效应（具体增长模型和系数需根据实际数据校准）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（β_t ≈ 0.05-0.10/hour）和特定的线性增长模型，属于经验事实而非第一性原理可推导的数学/物理定律。虽然逻辑上自洽（线性增长符合累积效应直觉），但缺乏外部来源支持该具体数值范围和线性假设的普适性。 | 经验事实，逻辑自洽但缺来源支持（source=knowledge，但涉及具体经验参数，按规则降级）
+
+## Search Query
+
+dynamic cognitive load fatigue time session

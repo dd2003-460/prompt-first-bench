@@ -1,0 +1,116 @@
+{
+  "qid": "nat",
+  "question": "某边缘 CDN 节点有 128GB 内存做对象缓存，工作负载：10 万对象，大小服从 Pareto(α=1.1)，请求热度也服从 Pareto(β=0.9)，热门对象与大小负相关（ρ≈-0.3）。每天总请求 5000 万次。请估算：(a) LRU 策略下的稳态字节命中率下界；(b) LFU 相比 LRU 最多能提升多少百分点、为什么；(c) 如果对象更新率是 1%/天，LRU 的有效命中率还要再打几折？给出推导链，区分「凭记忆的」和「刚查到的」。",
+  "round": 1,
+  "state": "rework",
+  "dropped_redundant": 0,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "模型一致性：推导是否严格基于给定的 Pareto 分布参数 (α, β, ρ) 及 LRU/LFU 缓存算法的稳态理论模型（如 Belady 曲线、LRU 命中率下界公式、LFU 优势上限推导）。",
+      "逻辑闭环性：(a) 下界估算、(b) 提升幅度、(c) 更新率折扣三个子问的推导链条是否完整，且 (b) 和 (c) 的结论是否依赖于 (a) 的基准或与之逻辑自洽。",
+      "认知透明度：是否明确区分了『凭记忆的』通用缓存理论常数/经验法则（如 LRU 下界系数、LFU 对长尾的敏感度）与『刚查到的』特定于本题参数（如 128GB 容量比、5000 万次请求频率）的计算结果。",
+      "边界条件处理：是否显式处理了『热门与大小负相关 (ρ≈-0.3)』这一约束对字节命中率（而非对象命中率）的具体影响机制（即小对象更热，LRU 对字节命中的惩罚是否被部分抵消或放大）。"
+    ],
+    "composition": "C_model · C_logic · C_transparency · C_constraint，其中任一要素为 0 则整体不可接受；C_transparency 作为横切因子，要求所有数值结论必须打上来源标签。",
+    "rationale": "本题是典型的『理论模型 + 特定参数』估算题，核心价值在于推导的严谨性（是否用对公式）、逻辑的自洽性（三个子问是否割裂）以及研究诚信（区分记忆与查得），因此目标函数必须是这四个可判定要素的合取。"
+  },
+  "objective_mode": "formula",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "node_id": "N10",
+      "claim": "LFU理论优势上限的边界条件：当热度分布β<1.5且存在长尾时，LFU相比LRU的最大提升百分点 ΔH_max 受限于热",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该公式缺乏公认的缓存理论支持，属于经验拟合或特定场景下的近似，且'热度分布β'的定义未标准化，不同文献中β可能指代Zipf指数或其他参数，直接套用该公式"
+    },
+    {
+      "node_id": "N11",
+      "claim": "负相关系数 ρ≈-0.3 对LFU-LRU差距的调制机制：由于热门对象较小，LFU能更频繁地更新小热对象，而LRU因容量",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]公式 M_ρ = 1 + |ρ| * (S_hot_avg / S_cold_avg) 缺乏明确的物理或数学推导基础，属于经验性启发式公式；且前提“热门"
+    },
+    {
+      "node_id": "N12",
+      "claim": "LFU在长尾分布下的性能退化风险：当对象更新率较低时，LFU可能因历史频率权重过高而滞留过期冷对象，导致有效命中率下降，",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]公式 D_LFU ≈ (1 - λ_update) * (1 - β) * 5% 缺乏明确的理论推导或广泛认可的实证基准支持，属于经验性估算模型，其中常"
+    },
+    {
+      "node_id": "N16",
+      "claim": "Pareto分布参数α=1.1对应的尾部指数截断条件：在10万对象规模下，最大对象大小需满足M_max = (N * x",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]公式推导存在逻辑瑕疵：P_cov 的表达式 (x_min / M_max)^(α-1) * (N-1)^(α-1) 量纲和逻辑不自洽。在 Pareto "
+    },
+    {
+      "node_id": "N18",
+      "claim": "大小与热度负相关系数ρ≈-0.3的量化建模：采用Copula函数或线性回归S_i = μ_S + ρ * σ_S * Z",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于修正项的具体公式 δ_ρ ≈ ρ * (∂H/∂ρ) 缺乏通用理论支持，属于特定模型下的经验性或局部近似，且未指明 H 的具体定义（是命中率函"
+    },
+    {
+      "node_id": "N19",
+      "claim": "LRU稳态字节命中率下界H_LRU = (Σ_{i=1}^{K} p_i * s_i) / (Σ_{i=1}^{N} p",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]偏差项 ε_LRU ≈ O(1/√N) 缺乏理论依据，LRU 的稳态性能偏差通常取决于访问序列的局部性特征（如 Zipf 指数）而非对象总数 N 的平方"
+    },
+    {
+      "node_id": "N20",
+      "claim": "LFU相比LRU的提升上限ΔH_LFU = H_LFU - H_LRU，其中H_LFU基于频率而非时间最近性，理论最大提",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中声称ΔH_LFU的上界由Bellman方程或动态规划求解，且具体数值取决于β=0.9和ρ=-0.3的耦合效应，这属于高度特定的模型假设或内部推导参"
+    },
+    {
+      "node_id": "N21",
+      "claim": "LFU提升机制的量化解释：LFU通过保留高频对象避免LRU的‘cache pollution’，提升幅度正比于热度分布的",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述将LFU相对于LRU的性能提升幅度量化为与基尼系数G_β成正比的线性关系（2*G_β*ε_LRU），并给出了具体的数值近似（β=0.9时G_β≈0"
+    },
+    {
+      "node_id": "N25",
+      "claim": "在Zipf(β=0.9)分布下，缓存容量C=128GB所能覆盖的累积请求概率（即对象级命中率上限H_obj_max）需通",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]公式 H_obj_max ≈ 1 - (K/N)^{1-β} 是 Zipf 分布累积概率的近似形式，通常适用于 β < 1 且 N 较大的情况，但严格推"
+    },
+    {
+      "node_id": "N26",
+      "claim": "LRU在Pareto(β=0.9)请求分布下的稳态字节命中率下界H_byte_LRU_lower，可通过假设LRU完美保",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N27",
+      "claim": "LFU相比LRU在β=0.9且ρ=-0.3条件下的最大提升百分点ΔH_max，受限于LFU的‘频率老化’滞后。当更新率1",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N28",
+      "claim": "对象更新率1%/天对LRU有效命中率的折扣因子D_eff具体计算：D_eff = 1 - (1 - e^{-λ*T_re",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N29",
+      "claim": "在ρ=-0.3（热小冷大）场景下，LRU的字节命中率H_byte会比对象命中率H_obj高，因为命中集中在小对象上。具体",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 28
+}

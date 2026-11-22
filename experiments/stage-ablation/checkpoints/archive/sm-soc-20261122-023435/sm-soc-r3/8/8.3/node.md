@@ -1,0 +1,24 @@
+# N76: 均衡稳定性的纳什均衡验证：在给定 W_boost 和 T_penalty 下，卖家维持高价的策略是纳什均衡，因为单方面降价的收益 ΔProfit_low < 0
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N24
+
+## Claim
+
+均衡稳定性的纳什均衡验证：在给定 W_boost 和 T_penalty 下，卖家维持高价的策略是纳什均衡，因为单方面降价的收益 ΔProfit_low < 0（由于损失 W_boost 带来的流量损失大于降价带来的转化率提升），而维持高价的收益 ΔProfit_high > 0（由于获得 W_boost 流量加权）。
+
+## Corrected Claim
+
+均衡稳定性的纳什均衡验证：在给定 W_boost 和 T_penalty 下，卖家维持高价的策略是纳什均衡，因为单方面降价的收益 ΔProfit_low < 0（由于损失 W_boost 带来的流量损失大于降价带来的转化率提升），而维持高价的收益 ΔProfit_high > 0（由于获得 W_boost 流量加权）。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在逻辑上正交（分别定义损失项、增益项和最终判定条件），无冗余。但在完备性上存在缺失：父节点明确指出验证的是“在给定 W_boost 和 T_penalty 下”的均衡，且提到“损失 W_boost 带来的流量损失”，但子节点公式中完全缺失了 T_penalty（惩罚成本）这一关键变量。如果存在惩罚机制，ΔProfit_low 的计算必须包含该成本，否则无法完整验证父节点所述的特定约束条件下的纳什均衡。）
+
+## Search Query
+
+nash equilibrium pricing strategy platform algorithm incentive

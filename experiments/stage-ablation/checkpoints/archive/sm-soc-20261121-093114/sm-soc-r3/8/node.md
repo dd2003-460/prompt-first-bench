@@ -1,0 +1,20 @@
+# N88: 最小干预措施有效性断言的置信度量化：基于N83策略强度S_min与N85均衡移动幅度ΔEquilibrium，定义置信度 C3 = P(ΔEquilibrium
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+最小干预措施有效性断言的置信度量化：基于N83策略强度S_min与N85均衡移动幅度ΔEquilibrium，定义置信度 C3 = P(ΔEquilibrium > 5% | S_min) * (1 - P(Churn > 5% | S_min))，结合N84的逻辑回归输出，若C3 > 0.7，则干预策略可行性置信度高，否则需重新评估风险。
+
+## Corrected Claim
+
+最小干预措施有效性断言的置信度量化：基于N83策略强度S_min与N85均衡移动幅度ΔEquilibrium，定义置信度 C3 = P(ΔEquilibrium > 5% | S_min) * (1 - P(Churn > 5% | S_min))，结合N84的逻辑回归输出，若C3 > 0.7，则干预策略可行性置信度高，否则需重新评估风险。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（三个子节点分别对应公式中的两个概率项（均衡移动、流失率）和最终的决策逻辑（敏感性分析），彼此独立且无重叠，完整覆盖了置信度计算与评估的所有关键环节。）

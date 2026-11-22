@@ -1,0 +1,24 @@
+# N33: 买家估值波动率分解：$\text{Var}(\epsilon_{buyer}) = \sigma^2_{\text{preference}} + \sigma^
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N5
+
+## Claim
+
+买家估值波动率分解：$\text{Var}(\epsilon_{buyer}) = \sigma^2_{\text{preference}} + \sigma^2_{\text{signal}}$，其中 $\sigma^2_{\text{preference}}$ 反映异质性偏好的离散程度，$\sigma^2_{\text{signal}}$ 反映对平台‘快速成交’信号解读的不确定性，该分解决定了买家愿意支付的溢价上限分布。
+
+## Corrected Claim
+
+买家估值波动率分解：$\text{Var}(\epsilon_{buyer}) = \sigma^2_{\text{preference}} + \sigma^2_{\text{signal}}$，其中 $\sigma^2_{\text{preference}}$ 反映异质性偏好的离散程度，$\sigma^2_{\text{signal}}$ 反映对平台‘快速成交’信号解读的不确定性，该分解决定了买家愿意支付的溢价上限分布。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该分解符合方差可加性原理（假设偏好与信号误差独立），量纲一致，且符合微观经济学中买家估值不确定性的标准建模逻辑。
+
+## Search Query
+
+buyer valuation volatility decomposition preference heterogeneity and signal noise

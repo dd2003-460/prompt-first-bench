@@ -1,0 +1,24 @@
+# N369: Qwen3-27B INT8 量化在特定代码生成基准 (如 HumanEval 或 MBPP) 上的通过率 (Pass@1) 下降幅度 (ΔPassRate)，
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N114
+
+## Claim
+
+Qwen3-27B INT8 量化在特定代码生成基准 (如 HumanEval 或 MBPP) 上的通过率 (Pass@1) 下降幅度 (ΔPassRate)，以验证 N93 中 'High Sensitivity 下 INT8 可能不可接受' 的假设是否成立。
+
+## Corrected Claim
+
+Qwen3-27B INT8 量化在代码生成基准上的通过率下降幅度需具体实验数据验证，不同量化算法和基准下表现存在差异，不能一概而论为‘不可接受’。
+
+## Evidence
+
+[质询]该陈述声称存在具体的量化数据（ΔPassRate）以验证假设，但缺乏具体数值支撑，且不同基准（HumanEval vs MBPP）及不同量化实现（GPTQ vs AWQ）下的敏感度差异巨大，直接断言‘INT8可能不可接受’缺乏普适性证据，属于经验事实且无来源支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体下降幅度及是否达到‘不可接受’阈值）
+
+## Search Query
+
+Qwen3-27B INT8 quantization HumanEval pass rate degradation

@@ -1,0 +1,20 @@
+# N202: K 的精确计算需解累积大小方程 ∫_{x_min}^{S_max} s * f_S(s) ds = C，其中 f_S(s) = α * x_min^α / s^
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N75
+
+## Claim
+
+K 的精确计算需解累积大小方程 ∫_{x_min}^{S_max} s * f_S(s) ds = C，其中 f_S(s) = α * x_min^α / s^(α+1)，该积分无闭合形式解，需数值求解 S_max 后再计算 K = N * [1 - (x_min/S_max)^(α-1)]
+
+## Corrected Claim
+
+K 的精确计算需解累积大小方程 ∫_{x_min}^{S_max} s * f_S(s) ds = C，其中 f_S(s) = α * x_min^α / s^(α+1)，该积分无闭合形式解，需数值求解 S_max 后再计算 K = N * [1 - (x_min/S_max)^(α-1)]
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：帕累托分布截断后的累积大小方程及归一化常数推导符合数学定义，积分无闭合解需数值求解符合常规处理。

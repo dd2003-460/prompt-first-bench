@@ -1,0 +1,30 @@
+# N122: 条件异方差函数 σ²_pref(x) 的拟合优度 R² 为 0.75，表明商品特征向量 x 解释了 75% 的偏好噪声方差变异。
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N34
+
+## Claim
+
+条件异方差函数 σ²_pref(x) 的拟合优度 R² 为 0.75，表明商品特征向量 x 解释了 75% 的偏好噪声方差变异。
+
+## Corrected Claim
+
+条件异方差函数 σ²_pref(x) 的拟合优度 R² 为 0.75（待验证），表明商品特征向量 x 解释了 75% 的偏好噪声方差变异。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值（R²=0.75）和特定的模型设定（条件异方差函数），属于经验事实。参考来源仅提供了R²的一般定义和回归评价指标的通用介绍，未包含任何关于“商品特征向量”、“偏好噪声”或具体R²数值为0.75的信息，无法验证该具体数值的真实性。 | 经验事实，逻辑自洽但缺来源支持（来源[1][3]仅解释R²定义，未覆盖具体数值）
+
+## Search Query
+
+R-squared conditional heteroscedasticity preference noise model
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/u012735708/article/details/84337262&rut=2d27b3d5a742f6d0aca22a63cdd5e970ff42fe6bbb2acc038af40c25e4dceb4f', 'type': 'ddg', 'title': '回归评价指标：MSE、RMSE、MAE、R2、Adjusted R2_rmse和r2公式-CSDN博客'}
+- {'url': 'https://support.minitab.com/zh-cn/minitab/help-and-how-to/statistical-modeling/anova/how-to/predict-for-mixed-effects-model/methods-and-formulas/conditional-statistics/&rut=4817692c3469445283d4f0d579b309878e0ae1173061bd5eff4e5b373711bc79', 'type': 'ddg', 'title': '拟合混合效应模型的预测中的条件统计量的方法和公式 - Minitab'}
+- {'url': 'https://blog.csdn.net/u011204487/article/details/105788153&rut=e27047d9f15dff25c3cfcdf882a306c5658654cfcbb35079ddc734be53a038ec', 'type': 'ddg', 'title': '回归评价指标（MSE、RMSE、MAE、R-Squared、拟合优度）-CSDN博客'}

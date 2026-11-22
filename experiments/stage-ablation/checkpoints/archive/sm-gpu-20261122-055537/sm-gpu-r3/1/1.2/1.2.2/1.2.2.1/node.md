@@ -1,0 +1,24 @@
+# N142: NVIDIA H100 80GB SXM 在 2024-2025 年的租赁价格区间为 $2.50-$4.00 USD/hour（主要云服务商），购买价格（全新）
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N41
+
+## Claim
+
+NVIDIA H100 80GB SXM 在 2024-2025 年的租赁价格区间为 $2.50-$4.00 USD/hour（主要云服务商），购买价格（全新）区间为 $25,000-$30,000 USD；典型功耗为 700W (TDP)。
+
+## Corrected Claim
+
+NVIDIA H100 80GB SXM 的典型功耗为 700W (TDP)。在 2024-2025 年期间，其主要云服务商的租赁价格大致处于 $2.50-$4.00 USD/hour 区间，全新购买价格大致处于 $25,000-$30,000 USD 区间（具体价格随市场波动）。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件规格（TDP 700W）和市场经验数据（租赁/购买价格区间），属于经验事实。虽然 700W TDP 是 H100 SXM 的公认标准参数，但 2024-2025 年的具体租赁价格（$2.50-$4.00/hour）和购买价格（$25k-$30k）受市场波动、地区、供应商及时间窗口影响极大，且缺乏实时来源支持，存在数值偏差风险。 | 经验事实，逻辑自洽但缺来源支持。H100 SXM 的 700W TDP 符合公开技术规格；价格区间虽在合理量级内，但作为动态市场数据，在无外部来源直接验证的情况下，依据经验事实排除条款降级。
+
+## Search Query
+
+NVIDIA H100 80GB SXM rental price per hour 2024 2025 AWS GCP Azure purchase price

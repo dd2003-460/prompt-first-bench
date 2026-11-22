@@ -1,0 +1,30 @@
+# N21: 单卡 vs 多卡 TCO 差异：2x 消费卡（如 2x RTX 4090）vs 1x 数据卡（如 A100 80GB）的初始成本、功耗、散热成本对比
+
+- **status**: verified
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N3
+
+## Claim
+
+单卡 vs 多卡 TCO 差异：2x 消费卡（如 2x RTX 4090）vs 1x 数据卡（如 A100 80GB）的初始成本、功耗、散热成本对比
+
+## Corrected Claim
+
+单卡 vs 多卡 TCO 差异：2x 消费卡（如 2x RTX 4090）vs 1x 数据卡（如 A100 80GB）的初始成本、功耗、散热成本对比
+
+## Evidence
+
+[rework-angle r1] 来源[1]直接指出2x RTX 4090价格约为A100的1/3，来源[2]提供云实例小时费率对比（$0.90 vs $1.50-$2.20），来源[3]确认硬件定位差异，多源一致支持成本与性能对比结论。
+
+## Search Query
+
+2x RTX 4090 vs A100 80GB total cost of ownership
+
+## Retrieval Sources
+
+- {'url': 'https://itctshop.com/two-rtx-4090s-vs-one-a100/&rut=aeb21f2ea8fd9ffcaac12d29c85e4d3783677fe3577c309b3add3f895a757e97', 'type': 'ddg', 'title': 'Two RTX 4090s vs One A100: Multi-GPU vs Single Memory'}
+- {'url': 'https://sourcegpu.com/blog/dual-rtx-4090-vs-single-a100-80gb-fine-tuning&rut=c7fbd04ed684244ccb8ba448554a29e20a2ee8c6d7fecc549302f50df298e107', 'type': 'ddg', 'title': 'Dual 4090 vs Single A100 (80GB): Which Setup Is Faster for Fine-Tuning?'}
+- {'url': 'https://computecomparison.com/compare-two-gpus/nvidia-a100-vs-nvidia-rtx-4090&rut=184a6101f352c05744304ef76c6f48e64d016bb3ec33f9815caef639db93eaca', 'type': 'ddg', 'title': 'NVIDIA A100 80GB vs NVIDIA RTX 4090 - Pricing, Specs, Strengths ...'}

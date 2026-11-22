@@ -1,0 +1,20 @@
+# N14: 维护与折旧成本 (Maintenance & Depreciation) = (Hardware_Cost / Useful_Life_Years) + Ann
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+维护与折旧成本 (Maintenance & Depreciation) = (Hardware_Cost / Useful_Life_Years) + Annual_Maintenance_Fee，其中 Useful_Life_Years 通常假设为 3-5 年，Maintenance_Fee 包含故障更换风险溢价
+
+## Corrected Claim
+
+维护与折旧成本 (Maintenance & Depreciation) = (Hardware_Cost / Useful_Life_Years) + Annual_Maintenance_Fee，其中 Useful_Life_Years 通常假设为 3-5 年，Maintenance_Fee 包含故障更换风险溢价
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

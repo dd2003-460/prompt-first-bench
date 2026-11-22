@@ -1,0 +1,24 @@
+# N178: 在 σ_logS=0.909, σ_logH=1.425, ρ=-0.3, k/N=0.067 (z_k≈1.48) 的参数下，通过数值积分计算条件期望比 K(
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N78
+
+## Claim
+
+在 σ_logS=0.909, σ_logH=1.425, ρ=-0.3, k/N=0.067 (z_k≈1.48) 的参数下，通过数值积分计算条件期望比 K(ρ)。由于负相关，E[S|H>h_k] < E[S]，具体数值约为 0.75-0.85 倍的全局均值，需通过蒙特卡洛模拟或高斯积分表确定精确值。
+
+## Corrected Claim
+
+在给定参数下，由于负相关，E[S|H>h_k] 小于 E[S]，具体数值需通过数值积分或蒙特卡洛模拟确定，预期显著低于全局均值。
+
+## Evidence
+
+[质询]具体数值范围（0.75-0.85）缺乏来源支持，且未提供具体的积分计算过程或模拟代码，属于经验性数值断言，无法仅凭逻辑推导验证其精确区间。 | 逻辑上，负相关系数 ρ=-0.3 确实导致条件期望 E[S|H>h_k] 低于全局均值 E[S]，方向正确；但具体数值 0.75-0.85 为经验事实，检索无可用来源支持，且无法从第一性原理严格推出该特定区间，故降级。
+
+## Search Query
+
+conditional expectation of lognormal distribution with correlation coefficient

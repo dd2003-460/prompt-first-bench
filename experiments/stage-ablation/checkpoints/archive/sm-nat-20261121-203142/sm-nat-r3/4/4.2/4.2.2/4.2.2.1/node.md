@@ -1,0 +1,20 @@
+# N140: 头部对象（Top 10%）在 LRU 缓存中的平均驻留时间 T_res_head 的解析表达式：T_res_head = (C / N_head) * (1 /
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N54
+
+## Claim
+
+头部对象（Top 10%）在 LRU 缓存中的平均驻留时间 T_res_head 的解析表达式：T_res_head = (C / N_head) * (1 / H_miss_head)，其中 C=128GB，N_head=10000，H_miss_head 为头部对象的缺失率，需基于 Pareto(β=0.9) 计算头部对象的累积请求占比与缺失率关系
+
+## Corrected Claim
+
+头部对象在 LRU 缓存中的平均驻留时间 T_res_head 不能仅由 (C / N_head) * (1 / H_miss_head) 给出，该表达式量纲错误。正确的驻留时间模型需引入请求速率 R 或时间窗口，例如 T_res_head ≈ (C / N_head) / (R * H_hit_head) 或其他基于替换策略的推导，具体形式取决于 LRU 的替换机制和访问模型假设。
+
+## Evidence
+
+[质询]该解析表达式 T_res_head = (C / N_head) * (1 / H_miss_head) 在量纲和逻辑上存在严重缺陷。首先，C/N_head 代表的是每个头部对象平均占用的缓存空间（字节/对象），而 1/H_miss_head 代表的是平均访问次数（次/缺失），两者相乘得到的量纲是“字节·次/缺失”，并非时间单位（秒/毫秒）。其次，驻留时间（Residence Time）通常取决于对象被替换出缓存的时间，这与缓存总容量、对象大小以及访问频率有关，但简单的乘法关系忽略了时间尺度（如请求速率 R），正确的量纲应包含时间因子（例如 T ~ Size / (Rate * HitProb) 或类似形式，取决于具体定义）。此外，Pareto(β=0.9) 用于计算缺失率是合理的，但将其直接代入一个量纲错误的公式中无法得出正确的物理量。 | 逻辑校验失败：公式量纲错误（空间×频率倒数 ≠ 时间），且缺乏时间尺度参数（如请求速率），无法从第一性原理推出该特定形式的解析表达式。

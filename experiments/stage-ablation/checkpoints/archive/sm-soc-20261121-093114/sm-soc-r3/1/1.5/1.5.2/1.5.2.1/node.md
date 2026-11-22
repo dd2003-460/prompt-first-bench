@@ -1,0 +1,20 @@
+# N124: 共享随机源：买家在等待期间搜索其他同类商品的预期收益 E[Benefit_search] = ∫(P_market - P_alt) * f_alt(t) dt
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N41
+
+## Claim
+
+共享随机源：买家在等待期间搜索其他同类商品的预期收益 E[Benefit_search] = ∫(P_market - P_alt) * f_alt(t) dt，其中 f_alt(t) 为替代商品分布密度，P_alt 为替代商品价格，需通过市场数据估计 f_alt(t) 的参数。
+
+## Corrected Claim
+
+共享随机源：买家在等待期间搜索其他同类商品的预期收益 E[Benefit_search] = ∫(P_market - P_alt) * f_alt(t) dt，其中 f_alt(t) 为替代商品分布密度，P_alt 为替代商品价格，需通过市场数据估计 f_alt(t) 的参数。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

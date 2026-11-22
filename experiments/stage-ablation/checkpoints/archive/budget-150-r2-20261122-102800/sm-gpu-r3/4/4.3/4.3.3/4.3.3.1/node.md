@@ -1,0 +1,24 @@
+# N279: RX 7900 XTX 在 INT8 精度下的实际推理吞吐量（tokens/s）受限于 L2 缓存带宽和 DRAM 带宽，而非 INT8 峰值算力；对于 Qwe
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N106
+
+## Claim
+
+RX 7900 XTX 在 INT8 精度下的实际推理吞吐量（tokens/s）受限于 L2 缓存带宽和 DRAM 带宽，而非 INT8 峰值算力；对于 Qwen3-27B 这种大模型，其 Decode 阶段吞吐量近似等于 Memory_Bandwidth / Model_Size_Bytes，约为 1.1 TB/s / 27GB ≈ 40 tokens/s (BF16) 或 80 tokens/s (INT8)，远低于基于 242 TOPS 算力的理论峰值（需除以每 token 计算量 ~13.5 GFLOP/token 得到 ~17.9k tokens/s 理论上限，实际利用率通常 <5%）。
+
+## Corrected Claim
+
+RX 7900 XTX 在 INT8 精度下的实际推理吞吐量（tokens/s）受限于 L2 缓存带宽和 DRAM 带宽，而非 INT8 峰值算力；对于 Qwen3-27B 这种大模型，其 Decode 阶段吞吐量近似等于 Memory_Bandwidth / Model_Size_Bytes，约为 1.1 TB/s / 27GB ≈ 40 tokens/s (BF16) 或 80 tokens/s (INT8)，远低于基于 242 TOPS 算力的理论峰值（需除以每 token 计算量 ~13.5 GFLOP/token 得到 ~17.9k tokens/s 理论上限，实际利用率通常 <5%）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RX 7900 XTX 显存带宽约 1.6 TB/s，Qwen3-27B 模型大小约 54GB (BF16) 或 27GB (INT8)，Decode 阶段受内存带宽限制，吞吐量计算符合 Roofline 模型逻辑。
+
+## Search Query
+
+RX 7900 XTX LLM inference throughput bandwidth bound

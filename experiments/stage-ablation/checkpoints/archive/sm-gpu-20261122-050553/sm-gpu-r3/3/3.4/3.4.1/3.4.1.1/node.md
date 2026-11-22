@@ -1,0 +1,24 @@
+# N220: Qwen3-27B BF16 在 HumanEval (标准 164 题) 上的 Pass@1 准确率为 72.3% [待核验，需引用 Qwen3 官方技术报告
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N71
+
+## Claim
+
+Qwen3-27B BF16 在 HumanEval (标准 164 题) 上的 Pass@1 准确率为 72.3% [待核验，需引用 Qwen3 官方技术报告 Table X 或 HuggingFace 模型卡]，该值作为量化损失计算的基准分子。
+
+## Corrected Claim
+
+Qwen3-27B BF16 在 HumanEval (标准 164 题) 上的 Pass@1 准确率约为 72%（具体数值需引用 Qwen3 官方技术报告或 HuggingFace 模型卡确认），该值作为量化损失计算的基准分子。
+
+## Evidence
+
+[质询]具体数值 72.3% 属于经验事实（模型基准测试成绩），无法从第一性原理推导，且当前无可用来源支持该精确数值，存在数值偏差或版本混淆的风险。 | 经验事实，逻辑自洽但缺来源支持（检索失败，无法验证具体数值 72.3% 的准确性）
+
+## Search Query
+
+Qwen3-27B HumanEval Pass@1 BF16 benchmark score

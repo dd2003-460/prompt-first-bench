@@ -1,0 +1,20 @@
+# N48: TP=2下W4精度多卡显存分配：每卡承担权重6.75GB + 全量KV Cache 1.93GB + 激活开销0.75GB = 9.43GB，24GB显存卡剩余
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N10
+
+## Claim
+
+TP=2下W4精度多卡显存分配：每卡承担权重6.75GB + 全量KV Cache 1.93GB + 激活开销0.75GB = 9.43GB，24GB显存卡剩余14.57GB，显存利用率极低，主要瓶颈转为PCIe带宽与计算效率而非容量。
+
+## Corrected Claim
+
+TP=2下W4精度多卡显存分配：每卡承担权重6.75GB + 全量KV Cache 1.93GB + 激活开销0.75GB = 9.43GB，24GB显存卡剩余14.57GB，显存利用率极低，主要瓶颈转为PCIe带宽与计算效率而非容量。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值加和正确（6.75+1.93+0.75=9.43），剩余显存计算正确（24-9.43=14.57），且TP=2下KV Cache通常全量复制或按头切分后每卡占用较小，符合工程直觉。

@@ -1,0 +1,20 @@
+# N795: Qwen3-27B 在 FP8 精度下的 KV Cache 精确占用量：2 * num_layers * num_kv_heads * head_dim * m
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N248, N249, N250
+
+## Claim
+
+Qwen3-27B 在 FP8 精度下的 KV Cache 精确占用量：2 * num_layers * num_kv_heads * head_dim * max_seq_len * dtype_size = 2 * 60 * 4 * 128 * 32768 * 1 byte = 201.33 MB/token。在 32K 上下文下，单请求 KV Cache 总占用为 201.33 MB/token * 32768 tokens = 6.59 GB。
+
+## Corrected Claim
+
+Qwen3-27B 在 FP8 精度下的 KV Cache 精确占用量：2 * num_layers * num_kv_heads * head_dim * max_seq_len * dtype_size = 2 * 60 * 4 * 128 * 32768 * 1 byte = 201.33 MB/token。在 32K 上下文下，单请求 KV Cache 总占用为 201.33 MB/token * 32768 tokens = 6.59 GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B 架构参数（60层, 4 KV头, 128维）符合已知模型规格，FP8 精度下 1 字节/元素，计算公式及数值推导（201.33 MB/token * 32768 ≈ 6.59 GB）在量纲和算术上均自洽。

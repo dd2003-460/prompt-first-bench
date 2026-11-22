@@ -1,0 +1,24 @@
+# N105: 有效归一化容量 c_eff 的计算公式为 C / E[S|H_top-c] = 1.28×10^11 / 7612 ≈ 1.68×10^7，该值比独立假设下的 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N43
+
+## Claim
+
+有效归一化容量 c_eff 的计算公式为 C / E[S|H_top-c] = 1.28×10^11 / 7612 ≈ 1.68×10^7，该值比独立假设下的 c_indep (1.13×10^7) 高出约 48.7%，表明负相关显著提升了缓存的‘有效对象容纳能力’。
+
+## Corrected Claim
+
+有效归一化容量 c_eff 的计算公式为 C / E[S|H_top-c] = 1.28×10^11 / 7612 ≈ 1.68×10^7，该值比独立假设下的 c_indep (1.13×10^7) 高出约 48.7%，表明负相关显著提升了缓存的‘有效对象容纳能力’。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算 1.28e11 / 7612 ≈ 1.68e7 正确，且 (1.68e7 - 1.13e7) / 1.13e7 ≈ 48.7% 符合算术逻辑，概念上负相关降低平均服务时间从而提升有效容量符合缓存理论直觉。
+
+## Search Query
+
+effective cache capacity adjustment for negative size-hotness correlation

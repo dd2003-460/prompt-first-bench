@@ -1,0 +1,28 @@
+# N22: 平台算法将挂价作为排序权重的量化验证：需计算'高挂价商品'（溢价>15%）与'低挂价商品'（溢价<5%）在相同搜索关键词下的曝光量比 $R_{exp} = \f
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N7
+
+## Claim
+
+平台算法将挂价作为排序权重的量化验证：需计算'高挂价商品'（溢价>15%）与'低挂价商品'（溢价<5%）在相同搜索关键词下的曝光量比 $R_{exp} = \frac{Exp_{high}}{Exp_{low}}$，若 $R_{exp} > 1.2$ 且统计显著（p<0.05），则证实平台算法存在'高挂价偏好'，该比值是判断均衡驱动方的核心指标。
+
+## Corrected Claim
+
+平台算法可能将挂价作为排序权重之一，需通过对比不同溢价区间商品在相同关键词下的曝光量比来验证是否存在'高挂价偏好'，具体阈值和统计显著性标准需根据实际数据分布和平台特性确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（溢价>15%、<5%）和统计判定标准（R_exp > 1.2, p<0.05），这些并非第一性原理可推导的数学或物理事实，而是基于特定平台（如Shopee）运营经验或假设的实证参数。参考来源仅提及Shopee存在权重算法影响曝光，但未提供具体的溢价阈值或曝光比验证方法，无法直接支持这些具体数值。 | 逻辑自洽，但属于经验事实（具体阈值和统计标准），参考来源[1]仅间接支持平台存在权重算法，未覆盖具体验证指标，故降级。
+
+## Search Query
+
+platform algorithm ranking bias high asking price vs low asking price exposure ratio marketplace
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/6510381594&rut=a5caf962059259311c269bd7e19f3789ce7c454b4e4f79299e01d27e84c3a505', 'type': 'ddg', 'title': '虾皮的算法和权重 - 知乎 - 知乎专栏'}

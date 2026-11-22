@@ -1,0 +1,24 @@
+# N284: 反制行为对成交周期的边际影响系数 β_cycle：T_close_final = T_close_base * (1 + β_cycle * I(Counter
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N90
+
+## Claim
+
+反制行为对成交周期的边际影响系数 β_cycle：T_close_final = T_close_base * (1 + β_cycle * I(Countermeasure))，其中 I(Countermeasure) 为是否采取反制措施（0/1），β_cycle 量化反制措施导致周期延长的百分比，预期值在 [0.05, 0.15] 之间，需通过 A/B 测试中处理组（有反制）与控制组（无干预）的周期差值回归确定。
+
+## Corrected Claim
+
+反制行为对成交周期的边际影响系数 β_cycle：T_close_final = T_close_base * (1 + β_cycle * I(Countermeasure))，其中 I(Countermeasure) 为是否采取反制措施（0/1），β_cycle 量化反制措施导致周期延长的百分比，预期值在 [0.05, 0.15] 之间，需通过 A/B 测试中处理组（有反制）与控制组（无干预）的周期差值回归确定。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+A/B test countermeasure effect on closing time C2C platform

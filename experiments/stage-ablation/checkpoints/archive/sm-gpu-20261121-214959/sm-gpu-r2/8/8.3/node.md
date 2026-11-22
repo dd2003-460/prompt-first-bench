@@ -1,0 +1,24 @@
+# N114: RTX 5090 单卡运行 FP8 权重 (27GB) + FP8 KV Cache (6.29GB) 时总显存 33.29GB > 32GB，溢出 1.29G
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N33
+
+## Claim
+
+RTX 5090 单卡运行 FP8 权重 (27GB) + FP8 KV Cache (6.29GB) 时总显存 33.29GB > 32GB，溢出 1.29GB；若强制使用 FP8 权重，必须将 KV Cache 量化至 INT4 (3.145GB) 或采用 PagedAttention 动态管理，此时总显存 30.145GB < 32GB 可行，但需验证 INT4 KV Cache 对长上下文准确性的影响 [待核验]。
+
+## Corrected Claim
+
+RTX 5090 单卡运行 FP8 权重 (27GB) + FP8 KV Cache (6.29GB) 时总显存 33.29GB > 32GB，溢出 1.29GB；若强制使用 FP8 权重，必须将 KV Cache 量化至 INT4 (3.145GB) 或采用 PagedAttention 动态管理，此时总显存 30.145GB < 32GB 可行，但需验证 INT4 KV Cache 对长上下文准确性的影响 [待核验]。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27GB + 6.29GB = 33.29GB > 32GB，溢出1.29GB；27GB + 3.145GB = 30.145GB < 32GB，数值计算准确，符合显存管理逻辑。
+
+## Search Query
+
+FP8 KV cache quantization accuracy impact long context

@@ -1,0 +1,20 @@
+# N56: 逻辑失效与物理失效的区分量化：逻辑失效（内容哈希变更但ID不变）导致缓存行标记为 stale，需重新验证，折损系数为 (1 - p_invalid * P_ve
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N17
+
+## Claim
+
+逻辑失效与物理失效的区分量化：逻辑失效（内容哈希变更但ID不变）导致缓存行标记为 stale，需重新验证，折损系数为 (1 - p_invalid * P_verify_miss)，其中 P_verify_miss 为验证请求未命中的概率，通常约为 0.1；物理失效（对象ID变更）导致缓存行直接删除，折损系数为 (1 - p_invalid * P_hit_on_updated)，其中 P_hit_on_updated 约为 0.005，因此物理失效折损约为 0.99995，逻辑失效折损约为 0.999。
+
+## Corrected Claim
+
+逻辑失效与物理失效的区分量化：逻辑失效（内容哈希变更但ID不变）导致缓存行标记为 stale，需重新验证，折损系数为 (1 - p_invalid * P_verify_miss)，其中 P_verify_miss 为验证请求未命中的概率，通常约为 0.1；物理失效（对象ID变更）导致缓存行直接删除，折损系数为 (1 - p_invalid * P_hit_on_updated)，其中 P_hit_on_updated 约为 0.005，因此物理失效折损约为 0.99995，逻辑失效折损约为 0.999。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

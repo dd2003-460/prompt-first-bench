@@ -1,0 +1,24 @@
+# N275: ε_CVR 的品类分化基准值：基于历史数据回归，服装类商品成交率对价格偏离度的弹性 ε_CVR_cloth = 0.6，数码类 ε_CVR_digital = 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N76
+
+## Claim
+
+ε_CVR 的品类分化基准值：基于历史数据回归，服装类商品成交率对价格偏离度的弹性 ε_CVR_cloth = 0.6，数码类 ε_CVR_digital = 1.1；混合弹性 ε_CVR_mix = w_cloth*0.6 + w_digital*1.1，其中 w 为品类成交占比。
+
+## Corrected Claim
+
+ε_CVR 的品类分化基准值：基于历史数据回归，服装类商品成交率对价格偏离度的弹性 ε_CVR_cloth = 0.6，数码类 ε_CVR_digital = 1.1；混合弹性 ε_CVR_mix = w_cloth*0.6 + w_digital*1.1，其中 w 为品类成交占比。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+second hand marketplace conversion rate elasticity price deviation category specific

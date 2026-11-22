@@ -1,0 +1,30 @@
+# N147: A100 80GB租赁市场2024年均价稳定在$1.75/hr，波动范围$1.5-2.0/hr，低于H100约45%，反映代际性能差距及市场供需平衡。
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N45
+
+## Claim
+
+A100 80GB租赁市场2024年均价稳定在$1.75/hr，波动范围$1.5-2.0/hr，低于H100约45%，反映代际性能差距及市场供需平衡。
+
+## Corrected Claim
+
+A100 80GB租赁市场2024年均价通常低于H100，具体价格随市场供需波动，缺乏统一固定均价。
+
+## Evidence
+
+[质询]该陈述包含具体的2024年市场价格数据（$1.75/hr）及与H100的精确价差（45%），属于经验事实。参考来源中仅[1]提及Nvidia A100，但仅涉及新闻标题，未提供租赁价格或市场供需数据；[2]和[3]与GPU租赁市场完全无关。缺乏直接来源支持具体数值。 | 逻辑上A100作为上一代旗舰GPU，价格低于H100符合市场规律，量级合理；但参考来源[1]仅确认A100存在，未提供价格数据，[2][3]无关，故无法验证具体数值，依据经验事实排除条款降级。
+
+## Search Query
+
+A100 rental price per hour 2024
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Nvidia', 'type': 'wikipedia', 'title': 'Nvidia'}
+- {'url': 'https://en.wikipedia.org/wiki/LaserDisc', 'type': 'wikipedia', 'title': 'LaserDisc'}
+- {'url': 'https://en.wikipedia.org/wiki/Berlin_Brandenburg_Airport', 'type': 'wikipedia', 'title': 'Berlin Brandenburg Airport'}

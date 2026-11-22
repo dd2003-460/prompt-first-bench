@@ -1,0 +1,20 @@
+# N49: LRU 低容量利用率场景下的字节命中率下界 H_LRU_low = Σ_{i∈C''} R_i * S_i * P_valid(i) / (Σ_{j=1}^{N
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+LRU 低容量利用率场景下的字节命中率下界 H_LRU_low = Σ_{i∈C''} R_i * S_i * P_valid(i) / (Σ_{j=1}^{N} R_j * S_j)，其中 C'' 为满足 Σ S_i ≤ 128GB 且按 LRU 动态保留规则筛选的对象集合。
+
+## Corrected Claim
+
+LRU 低容量利用率场景下的字节命中率下界 H_LRU_low = Σ_{i∈C''} R_i * S_i * P_valid(i) / (Σ_{j=1}^{N} R_j * S_j)，其中 C'' 为满足 Σ S_i ≤ 128GB 且按 LRU 动态保留规则筛选的对象集合。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

@@ -1,0 +1,25 @@
+# N29: 解释力评估指标：该演化-行为假设链对观测现象的解释力（Explanatory Power）可通过贝叶斯因子（Bayes Factor, BF）量化。若 BF >
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+解释力评估指标：该演化-行为假设链对观测现象的解释力（Explanatory Power）可通过贝叶斯因子（Bayes Factor, BF）量化。若 BF > 10，则强支持‘演化压力+信号机制’假设优于‘纯理性定价’假设。当前数据（15-25%溢价+60%降价无效）预计产生 BF ≈ 5-8，支持度为‘中等偏强’，需补充长期纵向数据以排除季节性干扰
+
+## Corrected Claim
+
+解释力评估指标：该演化-行为假设链对观测现象的解释力可通过贝叶斯因子（BF）量化。若 BF > 10，则强支持‘演化压力+信号机制’假设优于‘纯理性定价’假设。基于当前观测到的溢价与降价无效现象，预计支持度为‘中等偏强’（具体BF数值需通过统计模型计算得出），需补充长期纵向数据以排除季节性干扰。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值预测（BF ≈ 5-8）和特定市场数据（15-25%溢价+60%降价无效），这些属于经验事实，无法从第一性原理推导，且参考来源中完全缺失相关金融/演化经济学数据支持，存在‘无源数据’风险。 | 来源[2]仅定义了解释力概念，未提供贝叶斯因子具体阈值或该特定假设链的量化结果；来源[1]无关。该事实为经验性预测，逻辑自洽但缺乏外部来源直接支持或数据验证，依据经验事实排除条款降级。
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org/abs/2501.08514&rut=0725adcb2fb4053abc5e8bec1d0c802c34419a9bb6c6482787b65ee4669a7b15', 'type': 'ddg', 'title': '[2501.08514] Multimodal Fake News Video Explanation: Dataset, Analysis ...'}
+- {'url': 'https://zh.wikipedia.org/wiki/%E8%A7%A3%E9%87%8A%E5%8A%9B&rut=a7910849f699a4b3c04fd406689d8442f888d2649a608be8efa49830000c99f2', 'type': 'ddg', 'title': '解释力 - 维基百科，自由的百科全书'}

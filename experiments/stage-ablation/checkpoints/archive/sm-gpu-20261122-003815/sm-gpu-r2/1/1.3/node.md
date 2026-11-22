@@ -1,0 +1,24 @@
+# N9: 非典型/替代方案：AMD Radeon RX 7900 XTX (24GB, ROCm支持), Intel Arc A770 (16GB, 性能较弱), App
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+非典型/替代方案：AMD Radeon RX 7900 XTX (24GB, ROCm支持), Intel Arc A770 (16GB, 性能较弱), Apple M2 Ultra/M3 Ultra Mac Studio (统一内存 64GB/128GB/192GB/256GB)。
+
+## Corrected Claim
+
+非典型/替代方案：AMD Radeon RX 7900 XTX (24GB, ROCm支持), Intel Arc A770 (16GB, 性能较弱), Apple M2 Ultra/M3 Ultra Mac Studio (统一内存 64GB/128GB/192GB/256GB)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+AMD RX 7900 XTX ROCm LLM inference performance vs NVIDIA

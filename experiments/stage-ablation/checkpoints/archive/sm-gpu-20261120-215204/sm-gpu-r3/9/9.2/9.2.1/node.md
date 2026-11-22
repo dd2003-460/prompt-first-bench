@@ -1,0 +1,24 @@
+# N390: ROCm对Qwen3-27B的Flash Attention支持状态：截至ROCm 6.1，Qwen3系列的Flash Attention内核已支持，但性能比N
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N147
+
+## Claim
+
+ROCm对Qwen3-27B的Flash Attention支持状态：截至ROCm 6.1，Qwen3系列的Flash Attention内核已支持，但性能比NVIDIA CUDA实现低约15-25%；若使用ROCm 6.0或更早版本，可能回退到通用Attention实现，性能损失扩大至30-40%。
+
+## Corrected Claim
+
+ROCm对Qwen3-27B的Flash Attention支持状态：在较新的ROCm版本（如6.1及以上）中，Qwen3系列通常已支持Flash Attention内核，但性能通常低于NVIDIA CUDA实现；在较旧版本（如6.0或更早）中，可能因内核缺失或兼容性问题回退到通用Attention实现，导致性能损失更大。具体性能差距取决于硬件配置和软件栈版本。
+
+## Evidence
+
+[质询]具体性能损失百分比（15-25% vs 30-40%）及特定版本（ROCm 6.1）的支持状态属于高度依赖具体硬件配置、模型量化方式及软件栈微调的经验性数据，缺乏通用性，且极易随补丁更新而变化，难以作为固定事实陈述。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体性能数值无法从第一性原理推导）
+
+## Search Query
+
+ROCm 6.1 Qwen3 Flash Attention support performance benchmark

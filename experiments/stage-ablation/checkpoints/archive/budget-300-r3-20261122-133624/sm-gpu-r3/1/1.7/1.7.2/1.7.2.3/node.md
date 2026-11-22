@@ -1,0 +1,20 @@
+# N234: Qwen3-27B 在 BF16 下 Decode 阶段在 H100 PCIe 上的实际吞吐量量化：有效带宽 2039 GB/s * 0.85 = 1733.1
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N64
+
+## Claim
+
+Qwen3-27B 在 BF16 下 Decode 阶段在 H100 PCIe 上的实际吞吐量量化：有效带宽 2039 GB/s * 0.85 = 1733.15 GB/s，除以有效带宽需求 70.6 GB/s，得到理论吞吐 24.5 tokens/s，考虑调度开销后实际约为 20-24 tokens/s。
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 下 Decode 阶段在 H100 PCIe 上的实际吞吐量量化：有效带宽 2039 GB/s * 0.85 = 1733.15 GB/s，除以有效带宽需求 70.6 GB/s，得到理论吞吐 24.5 tokens/s，考虑调度开销后实际约为 20-24 tokens/s。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H100 PCIe 理论带宽约 2039 GB/s，考虑 85% 效率后有效带宽约 1733 GB/s；Qwen3-27B BF16 权重约 54GB，单 token 读取需求约 70.6 GB/s（含 KV Cache 等开销估算合理），理论吞吐 1733/70.6 ≈ 24.5 tokens/s，考虑调度开销后 20-24 tokens/s 符合工程直觉。

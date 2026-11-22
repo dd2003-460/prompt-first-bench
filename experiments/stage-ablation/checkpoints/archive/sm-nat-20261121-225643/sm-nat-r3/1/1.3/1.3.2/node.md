@@ -1,0 +1,24 @@
+# N22: 修正后命中率H_corrected的逻辑一致性检查：N7中 H_corrected = H_LRU / K，若K<1（如0.865），则H_corrected 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N7
+
+## Claim
+
+修正后命中率H_corrected的逻辑一致性检查：N7中 H_corrected = H_LRU / K，若K<1（如0.865），则H_corrected > H_LRU，这意味着负相关提升了命中率。需验证该方向是否正确：热门对象小意味着LRU驱逐大对象（冷对象）的代价更高（字节损失大），因此字节命中率应降低而非提升？若方向相反，则公式应为 H_corrected = H_LRU * K 或其他形式。
+
+## Corrected Claim
+
+需明确 K 的定义及其与对象大小分布的关系。若 K 确实反映热门对象占比小（即冷对象占比大），则 LRU 驱逐冷对象导致的字节损失可能降低字节命中率，此时 H_corrected 应小于 H_LRU，公式方向需重新推导。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别聚焦于逻辑方向验证、数学公式推导和数值一致性检查，三者维度不同且互补，无重复或矛盾，覆盖了父节点提出的所有关键问题。）
+
+## Search Query
+
+negative correlation size popularity cache hit rate direction impact

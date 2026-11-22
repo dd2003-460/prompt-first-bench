@@ -1,0 +1,20 @@
+# N197: PagedAttention 中 KV Cache 物理块 (Physical Blocks) 的管理开销：每个块分配一个指针和状态标志，假设块大小 16 to
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N50
+
+## Claim
+
+PagedAttention 中 KV Cache 物理块 (Physical Blocks) 的管理开销：每个块分配一个指针和状态标志，假设块大小 16 tokens，每块元数据约 8 bytes，总块数 = (N_max_seqs * L_ctx) / block_size。对于 256 序列 * 32768 上下文 / 16 = 524,288 块，元数据开销约 4 MB。结合 N137，PagedAttention 总管理开销（块表+元数据+调度器）在标准配置下 < 10 MB，证实 N50 的 0.1-0.3GB 范围错误，实际开销可忽略。
+
+## Corrected Claim
+
+PagedAttention 中 KV Cache 物理块 (Physical Blocks) 的管理开销：每个块分配一个指针和状态标志，假设块大小 16 tokens，每块元数据约 8 bytes，总块数 = (N_max_seqs * L_ctx) / block_size。对于 256 序列 * 32768 上下文 / 16 = 524,288 块，元数据开销约 4 MB。结合 N137，PagedAttention 总管理开销（块表+元数据+调度器）在标准配置下 < 10 MB，证实 N50 的 0.1-0.3GB 范围错误，实际开销可忽略。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：524,288块 * 8 bytes = 4 MB，量级计算正确，符合PagedAttention元数据开销极小的工程事实。

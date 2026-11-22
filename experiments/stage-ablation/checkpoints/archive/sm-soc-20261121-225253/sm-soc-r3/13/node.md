@@ -1,0 +1,26 @@
+# N127: 干预措施的‘伤害者’识别基于福利损失阈值：若卖家因价格回归导致的单均利润下降 Δπ_seller > 10% 且无法通过销量增加弥补（即弹性 η_qty < 1
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+干预措施的‘伤害者’识别基于福利损失阈值：若卖家因价格回归导致的单均利润下降 Δπ_seller > 10% 且无法通过销量增加弥补（即弹性 η_qty < 1），则卖家为净受损方；反之，若买家节省的搜寻成本 C_search_saved > 20 分钟/单，则买家为净受益方。量化模型需结合平台数据验证 Δπ_seller 的实际分布。
+
+## Corrected Claim
+
+干预措施的‘伤害者’识别通常基于福利损失分析：若卖家因价格回归导致的单均利润下降显著且无法通过销量增加弥补（即缺乏足够的价格弹性），则卖家可能为净受损方；反之，若买家节省的搜寻成本显著，则买家为净受益方。具体阈值（如10%利润下降或20分钟成本节省）需结合特定平台数据验证，而非通用固定标准。
+
+## Evidence
+
+[质询]该陈述中的具体阈值（Δπ_seller > 10%, C_search_saved > 20分钟/单）及特定弹性条件（η_qty < 1）属于经验性参数或特定模型假设，并非经济学第一性原理或通用数学公理，无法仅凭逻辑推导得出其普适正确性。 | 来源[3]仅定义了净福利损失的概念，未提供具体的量化阈值或识别标准；来源[1]和[2]与主题无关。该陈述逻辑自洽，但作为经验事实缺乏直接来源支持，故降级。
+
+## Retrieval Sources
+
+- {'url': 'https://www.datacaciques.com/blog/industry/102908&rut=1059bc42f8cf401bccec39c8add0a45cccbedd2e194e74a74cef27de4b422a31', 'type': 'ddg', 'title': '亚马逊erp退货率超标预警设置 原因分析与降低实操方法'}
+- {'url': 'https://d.wanfangdata.com.cn/thesis/D01096166&rut=b6d1870fafb6b7a380b7c0915c95d20f93f2f07c8841ae908a9c8577a277ed66', 'type': 'ddg', 'title': '万方数据知识服务平台'}
+- {'url': 'https://knowecon.com/wiki/%E5%87%80%E7%A6%8F%E5%88%A9%E6%8D%9F%E5%A4%B1&rut=a6ee91f5570bc635aacc9674aad937748a895a0f6818c82b0bf794b413599f4d', 'type': 'ddg', 'title': '净福利损失｜知经 Knowecon'}

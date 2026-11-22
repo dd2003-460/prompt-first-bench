@@ -1,0 +1,20 @@
+# N213: 买家期望效用 E[U_buyer] 的解析式：E[U_buyer] = E[q] * V - E[C_search]，其中 E[q] = 0.4，E[C_sea
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N63
+
+## Claim
+
+买家期望效用 E[U_buyer] 的解析式：E[U_buyer] = E[q] * V - E[C_search]，其中 E[q] = 0.4，E[C_search] = exp(ln(50) + 0.2²/2) ≈ 51.0，因此 E[U_buyer] ≈ 0.4V - 51.0，该值决定了买家的参与约束。
+
+## Corrected Claim
+
+买家期望效用 E[U_buyer] 的解析式：E[U_buyer] = E[q] * V - E[C_search]，其中 E[q] = 0.4，E[C_search] = exp(ln(50) + 0.2²/2) ≈ 51.0，因此 E[U_buyer] ≈ 0.4V - 51.0，该值决定了买家的参与约束。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：对数正态分布期望公式 E[X]=exp(μ+σ²/2) 应用正确，数值计算 50*exp(0.02)≈51.0 准确，效用函数结构符合经济学直觉。

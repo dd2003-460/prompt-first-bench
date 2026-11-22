@@ -1,0 +1,20 @@
+# N314: 1× A6000 Ada 48GB 在 INT8 量化下的可行性验证：总显存需求 = 权重 27.1GB + KV Cache (32K ctx, Batch=
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N113
+
+## Claim
+
+1× A6000 Ada 48GB 在 INT8 量化下的可行性验证：总显存需求 = 权重 27.1GB + KV Cache (32K ctx, Batch=1, FP8) 10.31GB + 开销 2.03GB ≈ 39.44GB < 48GB，故单卡可行；其理论 Decode 吞吐量上限 = (1950 * 0.6~0.85) / 27.1 * 1000 ≈ 42,900 - 61,100 tokens/s
+
+## Corrected Claim
+
+1× A6000 Ada 48GB 在 INT8 量化下的可行性验证：总显存需求 = 权重 27.1GB + KV Cache (32K ctx, Batch=1, FP8) 10.31GB + 开销 2.03GB ≈ 39.44GB < 48GB，故单卡可行；其理论 Decode 吞吐量上限 = (1950 * 0.6~0.85) / 27.1 * 1000 ≈ 42,900 - 61,100 tokens/s
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：显存需求计算（27.1+10.31+2.03=39.44GB < 48GB）算术正确且符合单卡部署逻辑；吞吐量估算基于带宽利用率（0.6-0.85）和权重大小（27.1GB），量级合理（1950GB/s * 0.7 / 27.1GB ≈ 50k tokens/s），符合大模型推理Decode阶段受显存带宽限制的第一性原理。

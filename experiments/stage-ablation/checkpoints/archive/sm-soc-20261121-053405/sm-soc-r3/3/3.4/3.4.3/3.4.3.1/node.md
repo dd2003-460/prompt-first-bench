@@ -1,0 +1,20 @@
+# N164: 信任指数变化 ΔTrust 的操作化定义与测量误差：ΔTrust 定义为干预后复购率提升幅度 ΔRepeat 与 NPS 提升幅度 ΔNPS 的加权组合：ΔTr
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N61
+
+## Claim
+
+信任指数变化 ΔTrust 的操作化定义与测量误差：ΔTrust 定义为干预后复购率提升幅度 ΔRepeat 与 NPS 提升幅度 ΔNPS 的加权组合：ΔTrust = α * (ΔRepeat / Repeat_base) + (1-α) * (ΔNPS / 100)。其中 α=0.6（复购率权重更高，因更直接反映经济价值）。测量误差 ε_trust 主要来源于 NPS 样本偏差，标准差估计为 σ_NPS ≈ 0.05，导致 ΔTrust 的 95% 置信区间宽度约为 ±0.1。
+
+## Corrected Claim
+
+信任指数变化 ΔTrust 的操作化定义与测量误差：ΔTrust 定义为干预后复购率提升幅度 ΔRepeat 与 NPS 提升幅度 ΔNPS 的加权组合：ΔTrust = α * (ΔRepeat / Repeat_base) + (1-α) * (ΔNPS / 100)。其中 α=0.6（复购率权重更高，因更直接反映经济价值）。测量误差 ε_trust 主要来源于 NPS 样本偏差，标准差估计为 σ_NPS ≈ 0.05，导致 ΔTrust 的 95% 置信区间宽度约为 ±0.1。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

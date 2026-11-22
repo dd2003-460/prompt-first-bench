@@ -1,0 +1,20 @@
+# N120: 曝光量增加对成交周期的缩短效应量化为 ΔT_exposure = -κ * ln(Exposure_ratio)，其中 Exposure_ratio 为曝光量倍
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N39
+
+## Claim
+
+曝光量增加对成交周期的缩短效应量化为 ΔT_exposure = -κ * ln(Exposure_ratio)，其中 Exposure_ratio 为曝光量倍数，κ 为曝光-转化弹性系数，需通过平台 A/B 测试数据估计 κ 的值，以验证曝光增加是否足以抵消高挂价导致的决策延迟。
+
+## Corrected Claim
+
+曝光量增加对成交周期的缩短效应量化为 ΔT_exposure = -κ * ln(Exposure_ratio)，其中 Exposure_ratio 为曝光量倍数，κ 为曝光-转化弹性系数，需通过平台 A/B 测试数据估计 κ 的值，以验证曝光增加是否足以抵消高挂价导致的决策延迟。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

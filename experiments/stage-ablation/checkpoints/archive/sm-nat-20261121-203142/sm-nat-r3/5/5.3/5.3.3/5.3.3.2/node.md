@@ -1,0 +1,24 @@
+# N185: 若原论文不存在，替代的可复现开源模拟工具（如 ns-3 cache 模块、Memcached benchmark suite 或专用 Python 库）在 α=
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N71
+
+## Claim
+
+若原论文不存在，替代的可复现开源模拟工具（如 ns-3 cache 模块、Memcached benchmark suite 或专用 Python 库）在 α=1.1, β=0.9, ρ=-0.3 参数下的标准配置脚本及运行命令
+
+## Corrected Claim
+
+若原论文不存在，可使用 ns-3 cache 模块、Memcached benchmark suite 或专用 Python 库，通过自定义配置脚本设置 α=1.1, β=0.9, ρ=-0.3 参数进行模拟，但需自行编写或查找社区共享的配置示例，而非依赖官方“标准”脚本。
+
+## Evidence
+
+[质询]该陈述假设存在针对特定参数组合（α=1.1, β=0.9, ρ=-0.3）的“标准配置脚本”，但通用开源工具（如 ns-3, Memcached）通常不包含针对特定未发表论文参数的预置标准脚本，需用户自行编写配置，因此“标准配置脚本”这一表述可能不准确或不存在。 | 经验事实，逻辑自洽但缺来源支持；通用工具支持自定义参数，但无证据表明存在针对该特定参数组合的官方“标准”脚本。
+
+## Search Query
+
+open source cache simulator Pareto alpha 1.1 beta 0.9 correlation simulation script

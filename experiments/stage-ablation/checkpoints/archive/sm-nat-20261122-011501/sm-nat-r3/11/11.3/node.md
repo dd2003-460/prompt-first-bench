@@ -1,0 +1,20 @@
+# N182: 理论命中率上限 H_upper = P_access(K_max) * (Σ_{i=1}^{K_max} S_i * H_i) / (K_max * E[S])
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N75
+
+## Claim
+
+理论命中率上限 H_upper = P_access(K_max) * (Σ_{i=1}^{K_max} S_i * H_i) / (K_max * E[S])，其中 H_i 为第 i 个对象的请求频率占比。在 Pareto(β=0.9) 下，H_upper ≈ 0.55 * 0.85 ≈ 46.75%，低于 N37 估算的 52%-55%，表明 N37 可能高估了驻留对象的热度集中度。
+
+## Corrected Claim
+
+理论命中率上限 H_upper 由访问概率与热度集中度共同决定。在 Pareto(β=0.9) 假设下，若取典型参数值，H_upper 估算约为 46.75%，低于 N37 的 52%-55% 区间，提示 N37 可能高估了热度集中度，但该结论依赖于未明确披露的具体参数假设。
+
+## Evidence
+
+[质询]数值推导存在逻辑跳跃：公式中 P_access(K_max) 与加权平均热度 (Σ S_i H_i)/(K_max E[S]) 的乘积直接得出 0.55 * 0.85 缺乏明确的中间推导步骤，且 0.55 和 0.85 这两个具体系数在 Pareto(β=0.9) 分布下的来源不明，可能存在参数假设未披露或计算错误。 | 先验知识/题面给定，逻辑校验通过（量纲与公式结构自洽），但具体数值系数缺乏来源支持且推导过程不透明，无法完全排除参数假设偏差。

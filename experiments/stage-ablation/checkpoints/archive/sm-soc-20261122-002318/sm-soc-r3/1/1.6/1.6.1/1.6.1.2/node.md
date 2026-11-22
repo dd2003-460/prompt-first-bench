@@ -1,0 +1,20 @@
+# N139: 标准差参数 σ_R 的分解：σ_R = σ_subjective + σ_information，其中 σ_subjective 为买家主观价值差异（假设 0.
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N47
+
+## Claim
+
+标准差参数 σ_R 的分解：σ_R = σ_subjective + σ_information，其中 σ_subjective 为买家主观价值差异（假设 0.10 * P_market），σ_information 为信息不对称导致的估值不确定性（假设 0.08 * P_market），两者独立，故 σ_R = sqrt(0.10^2 + 0.08^2) * P_market ≈ 0.128 * P_market，与 N91 的 0.18 存在差异，需验证是否包含品类异质性。
+
+## Corrected Claim
+
+标准差参数 σ_R 的分解：σ_R = σ_subjective + σ_information，其中 σ_subjective 为买家主观价值差异（假设 0.10 * P_market），σ_information 为信息不对称导致的估值不确定性（假设 0.08 * P_market），两者独立，故 σ_R = sqrt(0.10^2 + 0.08^2) * P_market ≈ 0.128 * P_market，与 N91 的 0.18 存在差异，需验证是否包含品类异质性。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：独立方差相加原理应用正确，sqrt(0.01+0.0064)=sqrt(0.0164)≈0.128，数值计算无误，且明确指出了与N91的差异及需验证项，逻辑自洽。

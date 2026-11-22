@@ -1,0 +1,24 @@
+# N251: Qwen3-27B W4量化下，长文本（32K）与短文本（2K）的MMLU准确率损失差值（Delta_Loss）具体数值，用于判断是否需混合精度；预期Delta
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N87
+
+## Claim
+
+Qwen3-27B W4量化下，长文本（32K）与短文本（2K）的MMLU准确率损失差值（Delta_Loss）具体数值，用于判断是否需混合精度；预期Delta_Loss在1-3%区间，需检索具体基准测试数据。
+
+## Corrected Claim
+
+Qwen3-27B W4量化下，长文本（32K）与短文本（2K）的MMLU准确率损失差值（Delta_Loss）的具体数值需通过实际基准测试确定，预期可能在1-3%区间，用于判断是否需混合精度。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值预测（Delta_Loss在1-3%区间），属于硬件/模型量化后的性能表现，无法从第一性原理严格推导，且缺乏具体基准测试数据支持，存在数值量级不准确的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值区间）
+
+## Search Query
+
+Qwen3-27B W4 quantization MMLU accuracy loss long context vs short context 32K 2K

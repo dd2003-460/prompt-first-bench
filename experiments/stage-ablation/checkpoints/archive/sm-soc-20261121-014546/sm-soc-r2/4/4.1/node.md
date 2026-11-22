@@ -1,0 +1,30 @@
+# N19: 干预措施A：强制展示'同类商品近7日真实成交均价'作为价格锚点，计算该措施对卖家挂价偏离度（15-25%）的压缩幅度，预期将挂价偏离度降低至5-10%区间。
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+干预措施A：强制展示'同类商品近7日真实成交均价'作为价格锚点，计算该措施对卖家挂价偏离度（15-25%）的压缩幅度，预期将挂价偏离度降低至5-10%区间。
+
+## Corrected Claim
+
+干预措施A：强制展示'同类商品近7日真实成交均价'作为价格锚点，预期将显著压缩卖家挂价偏离度，使其向真实市场均价靠拢。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在逻辑上相互独立（正交），且涵盖了效应强度、响应率和受损量化三个维度。但存在严重的不完备性：父节点明确提到‘强制展示’，但子节点缺失了对‘合规/执行率’（Compliance/Adoption）的建模。如果部分卖家未遵守强制展示规则，仅用 r_seller（响应率）无法区分‘看到了锚点但没改价’和‘根本没展示锚点’的情况，导致模型无法准确评估干预措施的实际落地效果。）
+
+## Search Query
+
+e-commerce price anchoring effect on listing price deviation
+
+## Retrieval Sources
+
+- {'url': 'https://www.sohu.com/a/1034233856_122569143&rut=e9ccc9d9ecb2153e6168911a660a206d24285edaa5afb9a25d4f3eb8d25b5560', 'type': 'ddg', 'title': '亚马逊划线价新规深度解读!5月落地虚高折扣失效，卖家定价应对方案_Price_促销_零售价'}
+- {'url': 'https://www.sohu.com/a/1007746274_121990322&rut=9a71871057ada9b662ee197bf8e472bca5241093517befcdc0abe0d7e2288bcb', 'type': 'ddg', 'title': '洗牌开始!亚马逊定价收紧+AI对比上线，卖家玩法彻底变了'}
+- {'url': 'https://zhuanlan.zhihu.com/p/2038321060383303138&rut=7e3ba9f8fb990d7f373632c82d40218c575ff30e32db1d68b57b1ffb9ff1ca8c', 'type': 'ddg', 'title': '90% 卖家踩坑!新规下 List Price 与 Typical Price 避坑 + 解决方案'}

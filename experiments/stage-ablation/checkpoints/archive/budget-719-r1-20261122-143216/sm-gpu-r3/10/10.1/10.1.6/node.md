@@ -1,0 +1,20 @@
+# N396: PCIe Gen4 与 NVLink (H100) 的有效带宽比值为 32/900 ≈ 1:28.1，该比值直接决定通信时间占比的理论上限差异。
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N139, N140, N141
+
+## Claim
+
+PCIe Gen4 与 NVLink (H100) 的有效带宽比值为 32/900 ≈ 1:28.1，该比值直接决定通信时间占比的理论上限差异。
+
+## Corrected Claim
+
+PCIe Gen4 与 NVLink (H100) 的有效带宽比值为 32/900 ≈ 1:28.1，该比值直接决定通信时间占比的理论上限差异。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe Gen4 x16 双向带宽约 64GB/s（单向32GB/s），H100 NVLink 总带宽 900GB/s，比值 32/900 ≈ 1:28.1 符合硬件规格事实，且带宽比直接决定通信时间占比的理论上限差异（在数据量相同的情况下，时间反比于带宽）。

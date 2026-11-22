@@ -1,0 +1,20 @@
+# N190: LFU 计数器收敛时间 T_conv 的量化公式：T_conv ≈ K / λ_avg，其中 K 为计数器收敛常数（通常 K≈10-100，取决于计数器位宽和衰
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N66
+
+## Claim
+
+LFU 计数器收敛时间 T_conv 的量化公式：T_conv ≈ K / λ_avg，其中 K 为计数器收敛常数（通常 K≈10-100，取决于计数器位宽和衰减因子），λ_avg 为系统平均请求速率。对于 5000 万次/天的负载，λ_avg ≈ 578 req/s，若 K=50，则 T_conv ≈ 86 秒。
+
+## Corrected Claim
+
+LFU 计数器收敛时间 T_conv 的量化公式：T_conv ≈ K / λ_avg，其中 K 为计数器收敛常数（通常 K≈10-100，取决于计数器位宽和衰减因子），λ_avg 为系统平均请求速率。对于 5000 万次/天的负载，λ_avg ≈ 578 req/s，若 K=50，则 T_conv ≈ 86 秒。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：5000万/天换算为秒级速率约578.7 req/s，K=50时T_conv≈86.4s，数值量级与逻辑自洽。

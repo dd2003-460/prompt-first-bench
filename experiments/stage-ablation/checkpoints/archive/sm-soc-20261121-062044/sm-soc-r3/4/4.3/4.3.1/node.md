@@ -1,0 +1,20 @@
+# N73: 分解总方差项：计算 Var(Price) = Var(Signal) + Var(Noise)，其中 Signal 定义为同类商品基础价值（由近期成交量加权平均
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N21
+
+## Claim
+
+分解总方差项：计算 Var(Price) = Var(Signal) + Var(Noise)，其中 Signal 定义为同类商品基础价值（由近期成交量加权平均价 P_avg 决定），Noise 定义为 P_actual - P_avg 的残差。
+
+## Corrected Claim
+
+分解总方差项：计算 Var(Price) = Var(Signal) + Var(Noise)，其中 Signal 定义为同类商品基础价值（由近期成交量加权平均价 P_avg 决定），Noise 定义为 P_actual - P_avg 的残差。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点公式中的两个核心组成部分（信号方差、噪声方差）以及分解有效性的验证步骤，三者逻辑独立且互不重叠，共同完整覆盖了方差分解的计算与校验流程，不存在冗余。）

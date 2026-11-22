@@ -1,0 +1,20 @@
+# N26: 互连带宽开销对推理吞吐的影响量化：PCIe Gen4 x16 带宽为 32 GB/s，NVLink 带宽为 900 GB/s (A100)，在 27B 模型 B
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4, N5
+
+## Claim
+
+互连带宽开销对推理吞吐的影响量化：PCIe Gen4 x16 带宽为 32 GB/s，NVLink 带宽为 900 GB/s (A100)，在 27B 模型 BF16 权重下，多卡推理的 all-reduce 通信时间占比约为 (2 * 54GB / 32GB/s) / T_compute，需计算通信瓶颈导致的吞吐损失百分比
+
+## Corrected Claim
+
+互连带宽开销对推理吞吐的影响量化：PCIe Gen4 x16 带宽为 32 GB/s，NVLink 带宽为 900 GB/s (A100)，在 27B 模型 BF16 权重下，多卡推理的 all-reduce 通信时间占比约为 (2 * 54GB / 32GB/s) / T_compute，需计算通信瓶颈导致的吞吐损失百分比
+
+## Evidence
+
+父节点级核验未通过：非正交, 有冗余（子节点1和2本质上是同一公式（T=Data/BW）在两个不同带宽参数下的实例化，属于冗余；子节点4给出的具体百分比（15-30%等）缺乏严谨推导，且与子节点3的通用公式存在逻辑重叠，属于对同一变量的不同场景取值而非独立维度。）

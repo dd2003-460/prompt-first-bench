@@ -1,0 +1,20 @@
+# N82: 锚点效应强度 k_anchor：卖家挂价 P_ask = P_anchor + ε，其中 P_anchor 为展示的历史均价。价格锚定效应使 ε 的均值向 0 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N19
+
+## Claim
+
+锚点效应强度 k_anchor：卖家挂价 P_ask = P_anchor + ε，其中 P_anchor 为展示的历史均价。价格锚定效应使 ε 的均值向 0 收缩，收缩比例 k = 1 - (σ_new / σ_old)，预期偏离度从 20% 降至 7.5%，则 k = 0.625。
+
+## Corrected Claim
+
+锚点效应强度 k_anchor：卖家挂价 P_ask = P_anchor + ε，其中 P_anchor 为展示的历史均价。价格锚定效应使 ε 的均值向 0 收缩，收缩比例 k = 1 - (σ_new / σ_old)，预期偏离度从 20% 降至 7.5%，则 k = 0.625。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：根据定义 k = 1 - (σ_new / σ_old)，代入数值 1 - (7.5/20) = 1 - 0.375 = 0.625，计算无误且逻辑自洽。

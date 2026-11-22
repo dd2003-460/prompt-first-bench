@@ -1,0 +1,20 @@
+# N60: 共享随机源：干预参数的不确定性分布，包括技术实施成本 C_tech ~ U(C_min, C_max)、用户行为响应弹性 ε ~ N(ε_0, σ_ε²)、以及
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N15, N16, N17
+
+## Claim
+
+共享随机源：干预参数的不确定性分布，包括技术实施成本 C_tech ~ U(C_min, C_max)、用户行为响应弹性 ε ~ N(ε_0, σ_ε²)、以及平台政策阻力系数 β_resist；这些参数共同决定 C_intervention 和 ΔE 的联合分布。
+
+## Corrected Claim
+
+共享随机源：干预参数的不确定性分布，包括技术实施成本 C_tech ~ U(C_min, C_max)、用户行为响应弹性 ε ~ N(ε_0, σ_ε²)、以及平台政策阻力系数 β_resist；这些参数共同决定 C_intervention 和 ΔE 的联合分布。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

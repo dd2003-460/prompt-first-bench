@@ -1,0 +1,20 @@
+# N366: 显存带宽瓶颈修正：RX 7900 XTX 显存带宽 960 GB/s，RTX 4090 为 1008 GB/s。在内存受限（Memory-Bound）的 LLM
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N129
+
+## Claim
+
+显存带宽瓶颈修正：RX 7900 XTX 显存带宽 960 GB/s，RTX 4090 为 1008 GB/s。在内存受限（Memory-Bound）的 LLM 解码阶段，理论最大吞吐量正比于显存带宽。带宽比 = 960/1008 ≈ 0.952。若实测性能比显著低于 0.952，则说明计算单元或软件栈存在额外瓶颈。
+
+## Corrected Claim
+
+显存带宽瓶颈修正：RX 7900 XTX 显存带宽 960 GB/s，RTX 4090 为 1008 GB/s。在内存受限（Memory-Bound）的 LLM 解码阶段，理论最大吞吐量正比于显存带宽。带宽比 = 960/1008 ≈ 0.952。若实测性能比显著低于 0.952，则说明计算单元或软件栈存在额外瓶颈。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RX 7900 XTX (384-bit GDDR6 @ 20 Gbps) 带宽为 960 GB/s，RTX 4090 (384-bit GDDR6X @ 21 Gbps) 带宽为 1008 GB/s，数值准确；Memory-Bound 场景下吞吐量正比于带宽的理论推导符合第一性原理。

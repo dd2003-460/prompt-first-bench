@@ -1,0 +1,30 @@
+# N174: 买家先验概率 π_b 的量化：买家在观察到商品后的初始策略选择先验为 P(buy)=0.2, P(wait)=0.5, P(inspect)=0.3；该概率受 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N53
+
+## Claim
+
+买家先验概率 π_b 的量化：买家在观察到商品后的初始策略选择先验为 P(buy)=0.2, P(wait)=0.5, P(inspect)=0.3；该概率受 info_quality 调节，当 info_quality > θ_verify 时，P(wait) 下降至 0.3，P(buy) 上升至 0.4；需验证此转移矩阵在蒙特卡洛模拟中的收敛性。
+
+## Corrected Claim
+
+买家先验概率 π_b 的量化：买家在观察到商品后的初始策略选择先验设定为 P(buy)=0.2, P(wait)=0.5, P(inspect)=0.3；该概率受 info_quality 调节，当 info_quality > θ_verify 时，P(wait) 下降至 0.3，P(buy) 上升至 0.4；需验证此转移矩阵在蒙特卡洛模拟中的收敛性。（注：具体数值为模型假设，需结合具体业务数据校准）
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值参数（如 P(buy)=0.2, P(wait)=0.5 等）及特定的阈值行为（info_quality > θ_verify 时的概率转移），这些属于特定模型设定或经验事实，无法从第一性原理或通用贝叶斯公式中直接推导得出，且参考来源仅涵盖通用贝叶斯理论，未提供该具体场景下的数值支持。 | 逻辑上概率分布归一（0.2+0.5+0.3=1，0.4+0.3+0.3=1）且符合贝叶斯更新的一般逻辑（来源[1][2][3]支持先验/后验概念），但具体数值为经验设定，缺乏直接来源支持，故降级。
+
+## Search Query
+
+buyer strategy transition matrix information quality threshold second hand market
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/fortune_cookie/article/details/127110358&rut=a35587a420e5d209d70ec45153f1779f2db337811b7928584379eece0ca7ce02', 'type': 'ddg', 'title': '机器学习——先验概率、后验概率、全概率公式、贝叶斯公式-csdn博客'}
+- {'url': 'https://probability.visualized.fun/bayes-theorem/&rut=7d67a151280a30038ed4cfc924fb0fde79dbfb9794a6afc96c83b2c84f37a2fd', 'type': 'ddg', 'title': '贝叶斯定理详解 - 概率推理的艺术 | 用可视化工具掌握条件概率'}
+- {'url': 'https://blog.csdn.net/weixin_41432734/article/details/111317678&rut=2a56433843fd4407c64c46019e5c24071d53b6af77dcc47c655764eb1723b067', 'type': 'ddg', 'title': '【图解贝叶斯】用最简单的方法教会你用贝叶斯推理分辨"买东西的人"和"随便逛逛的人"...-csdn博客'}

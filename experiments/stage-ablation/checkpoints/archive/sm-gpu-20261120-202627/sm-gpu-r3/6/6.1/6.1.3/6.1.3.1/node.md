@@ -1,0 +1,24 @@
+# N397: 在 32K 上下文长度下，Qwen3-27B 使用 FP8 量化 KV Cache 时的生成文本困惑度 (Perplexity) 与 2K 上下文长度下的困惑度
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N127
+
+## Claim
+
+在 32K 上下文长度下，Qwen3-27B 使用 FP8 量化 KV Cache 时的生成文本困惑度 (Perplexity) 与 2K 上下文长度下的困惑度差异 (ΔPPL_32K - ΔPPL_2K)，以量化长序列下 KV Cache 量化误差的累积放大效应。
+
+## Corrected Claim
+
+在 32K 上下文长度下，Qwen3-27B 使用 FP8 量化 KV Cache 时的生成文本困惑度通常高于 2K 上下文长度下的困惑度，体现了长序列下 KV Cache 量化误差的累积效应。
+
+## Evidence
+
+[质询]该陈述描述了一个具体的经验性测量结果（特定模型、特定量化方式、特定上下文长度下的困惑度差异），属于硬件/模型性能经验事实，无法从第一性原理推导，且缺乏具体数值支撑，仅作为定性描述存在。 | 经验事实，逻辑自洽（长序列下量化误差累积符合直觉）但缺来源支持，且无具体数值，降级为定性表述。
+
+## Search Query
+
+LLM long context 32k FP8 KV cache quantization perplexity degradation accumulation

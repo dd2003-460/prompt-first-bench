@@ -1,0 +1,20 @@
+# N124: w 对命中率的影响：H_byte_LRU_lower = H_req(k) * (E[S | Rank_r ≤ k] / E[S]) * w。当 w=1.06 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N65
+
+## Claim
+
+w 对命中率的影响：H_byte_LRU_lower = H_req(k) * (E[S | Rank_r ≤ k] / E[S]) * w。当 w=1.06 时，命中率提升 6%；当 w=0.99 时，命中率下降 1%。w 的符号和大小直接决定负相关对命中率的增益或损耗。
+
+## Corrected Claim
+
+w 对命中率的影响：H_byte_LRU_lower = H_req(k) * (E[S | Rank_r ≤ k] / E[S]) * w。当 w=1.06 时，命中率提升 6%；当 w=0.99 时，命中率下降 1%。w 的符号和大小直接决定负相关对命中率的增益或损耗。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式中 w 作为线性乘数，w=1.06 对应 6% 提升，w=0.99 对应 1% 下降，数值与逻辑自洽。

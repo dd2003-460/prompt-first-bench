@@ -1,0 +1,24 @@
+# N161: RTX 4090 不支持 NVLink 的硬件原因：Ada Lovelace 架构 (AD102) 未集成 NVLink 控制器和物理接口，仅保留 PCIe 接
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N50
+
+## Claim
+
+RTX 4090 不支持 NVLink 的硬件原因：Ada Lovelace 架构 (AD102) 未集成 NVLink 控制器和物理接口，仅保留 PCIe 接口；对比 RTX 3090 (Ampere, GA102) 支持 NVLink 2.0 (双向 112.5 GB/s)，需确认 NVIDIA 是否在消费级 Ada 架构中故意移除 NVLink 以降低成本或定位差异。
+
+## Corrected Claim
+
+RTX 4090 不支持 NVLink 的硬件原因：Ada Lovelace 架构 (AD102) 未集成 NVLink 控制器和物理接口，仅保留 PCIe 接口；对比 RTX 3090 (Ampere, GA102) 支持 NVLink 2.0 (双向 112.5 GB/s)，需确认 NVIDIA 是否在消费级 Ada 架构中故意移除 NVLink 以降低成本或定位差异。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 (AD102) 确实移除了 NVLink 接口，而 RTX 3090 (GA102) 支持 NVLink 2.0，符合 NVIDIA 在 Ada 架构消费级显卡上的硬件设计事实。
+
+## Search Query
+
+NVIDIA RTX 4090 no NVLink reason Ada Lovelace architecture design decision

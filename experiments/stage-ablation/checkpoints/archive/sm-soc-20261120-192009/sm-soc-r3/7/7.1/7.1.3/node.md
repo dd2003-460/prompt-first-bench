@@ -1,0 +1,24 @@
+# N305: 高挂价阈值定义的具体化：μ 为同类商品（Category+Brand+Condition）过去 30 天成交均价，若 μ 的标准差 σ_μ > 0，则 Pric
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N104
+
+## Claim
+
+高挂价阈值定义的具体化：μ 为同类商品（Category+Brand+Condition）过去 30 天成交均价，若 μ 的标准差 σ_μ > 0，则 Price > μ*1.15 的判定需考虑 μ 的估计误差，修正阈值为 μ*1.15 + z_{0.975}*SE(μ)。
+
+## Corrected Claim
+
+高挂价阈值定义的具体化：μ 为同类商品（Category+Brand+Condition）过去 30 天成交均价，若 μ 的标准差 σ_μ > 0，则 Price > μ*1.15 的判定需考虑 μ 的估计误差，修正阈值为 μ*1.15 + z_{0.975}*SE(μ)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+statistical threshold adjustment for estimated mean standard error

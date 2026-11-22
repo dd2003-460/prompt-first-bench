@@ -1,0 +1,20 @@
+# N361: N129 基于 $12,000 A100 价格的临界频率重算：H_critical = (12000 - 3500) / ((1000 - 1200) * 0.
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N129
+
+## Claim
+
+N129 基于 $12,000 A100 价格的临界频率重算：H_critical = (12000 - 3500) / ((1000 - 1200) * 0.15 / 1000) -> 注意功耗差为负值，需修正公式为 (Capex_diff) / (P_diff * Price)；若 P_dc > P_cons，则消费级永远 TCO 更低，除非考虑维护/可用性成本。
+
+## Corrected Claim
+
+N129 基于 $12,000 A100 价格的临界频率重算：H_critical = (12000 - 3500) / ((1000 - 1200) * 0.15 / 1000) -> 注意功耗差为负值，需修正公式为 (Capex_diff) / (P_diff * Price)；若 P_dc > P_cons，则消费级永远 TCO 更低，除非考虑维护/可用性成本。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：TCO模型中若消费级硬件功耗更低且无显著维护成本差异，长期运行成本确实更低，逻辑自洽。

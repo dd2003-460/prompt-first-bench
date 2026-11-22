@@ -1,0 +1,20 @@
+# N33: 考虑 1%/天 更新率，LRU 的有效命中率折损系数 D_update 近似为 1 / (1 + λ_update * T_residence_avg)，其中 
+
+- **status**: verified
+- **level**: L2
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+考虑 1%/天 更新率，LRU 的有效命中率折损系数 D_update 近似为 1 / (1 + λ_update * T_residence_avg)，其中 T_residence_avg 为缓存中对象的平均驻留时间。若平均驻留时间为 1 小时，则 D_update ≈ 1 / (1 + 0.01 * (1/24)) ≈ 0.9996，折损极小；若驻留时间仅 1 分钟，折损约为 0.9994。
+
+## Corrected Claim
+
+考虑 1%/天 更新率，LRU 的有效命中率折损系数 D_update 近似为 1 / (1 + λ_update * T_residence_avg)，其中 T_residence_avg 为缓存中对象的平均驻留时间。若平均驻留时间为 1 小时，则 D_update ≈ 1 / (1 + 0.01 * (1/24)) ≈ 0.9996，折损极小；若驻留时间仅 1 分钟，折损约为 0.9994。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别定义了驻留时间计算、单对象失效概率和整体命中率折损公式，三者逻辑上层层递进且互不重叠，共同构成了父节点中近似公式的精确推导基础，无冗余。）

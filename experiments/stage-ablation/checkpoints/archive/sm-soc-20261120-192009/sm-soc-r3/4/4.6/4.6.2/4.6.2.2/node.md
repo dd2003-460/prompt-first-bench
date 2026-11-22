@@ -1,0 +1,20 @@
+# N274: 卖家流失率计算表达式：Churn_rate = N_churn / N_seller_total * 100%，其中 N_churn 为干预后 30 天内停止发
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N93
+
+## Claim
+
+卖家流失率计算表达式：Churn_rate = N_churn / N_seller_total * 100%，其中 N_churn 为干预后 30 天内停止发布的卖家数，N_seller_total 为干预前活跃卖家总数；需基于模拟中的卖家效用损失 ΔU_seller 预测 N_churn，若 Churn_rate > 5% 则判定该路径不满足帕累托改进条件。
+
+## Corrected Claim
+
+卖家流失率计算表达式：Churn_rate = N_churn / N_seller_total * 100%，其中 N_churn 为干预后 30 天内停止发布的卖家数，N_seller_total 为干预前活跃卖家总数；需基于模拟中的卖家效用损失 ΔU_seller 预测 N_churn，若 Churn_rate > 5% 则判定该路径不满足帕累托改进条件。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

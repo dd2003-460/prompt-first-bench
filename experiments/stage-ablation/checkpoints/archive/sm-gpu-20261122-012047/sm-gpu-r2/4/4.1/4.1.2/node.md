@@ -1,0 +1,20 @@
+# N115: RTX 4090 在 24GB 显存下运行 Qwen3-27B 的显存预算分配：INT8 权重 27GB + KV Cache 21.7GB = 48.7GB 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N27
+
+## Claim
+
+RTX 4090 在 24GB 显存下运行 Qwen3-27B 的显存预算分配：INT8 权重 27GB + KV Cache 21.7GB = 48.7GB > 24GB，因此 N27 中声称'INT8 可容纳'存在算术错误，实际不可行；仅 INT4 (13.5GB) + KV Cache (21.7GB) = 35.2GB 同样超过 24GB，故单卡 4090 在 32K 上下文下无论何种精度均无法容纳完整 KV Cache，除非大幅降低上下文长度或采用分页/卸载技术。
+
+## Corrected Claim
+
+RTX 4090 在 24GB 显存下运行 Qwen3-27B 的显存预算分配：INT8 权重 27GB + KV Cache 21.7GB = 48.7GB > 24GB，因此 N27 中声称'INT8 可容纳'存在算术错误，实际不可行；仅 INT4 (13.5GB) + KV Cache (21.7GB) = 35.2GB 同样超过 24GB，故单卡 4090 在 32K 上下文下无论何种精度均无法容纳完整 KV Cache，除非大幅降低上下文长度或采用分页/卸载技术。
+
+## Evidence
+
+[质询]KV Cache 21.7GB 的数值可能偏高（取决于具体模型架构参数如层数、头数、head_dim 及精度），但即便按更保守的估算，INT8 权重 27GB 已超出 24GB 显存，导致'INT8 可容纳'的结论必然错误；INT4 权重 13.5GB 加上任何非零 KV Cache 在 32K 长上下文下极大概率超过 24GB，核心逻辑（单卡 4090 无法在 32K 下完整容纳大模型）成立。 | 先验知识/题面给定，逻辑校验通过：RTX 4090 显存为 24GB，Qwen3-27B INT8 权重约 27GB 已超显存上限，INT4 权重 13.5GB 加上 32K 上下文的 KV Cache 通常也会超出 24GB，算术与逻辑自洽。

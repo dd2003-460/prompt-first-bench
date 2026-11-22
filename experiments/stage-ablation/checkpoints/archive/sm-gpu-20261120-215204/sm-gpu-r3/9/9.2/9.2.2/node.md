@@ -1,0 +1,24 @@
+# N391: ROCm兼容性风险量化：若Flash Attention回退到通用实现，MI300X实际速度将从53 Tokens/s（N140）降至约37 Tokens/s（
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N147
+
+## Claim
+
+ROCm兼容性风险量化：若Flash Attention回退到通用实现，MI300X实际速度将从53 Tokens/s（N140）降至约37 Tokens/s（53 * 0.7），与RTX 4090 W4的37 Tokens/s持平；此时MI300X的每美元吞吐量降至0.0017 Tokens/s/$，完全丧失性能优势，仅保留显存容量优势。
+
+## Corrected Claim
+
+ROCm兼容性风险量化：若Flash Attention回退到通用实现，MI300X实际速度将从53 Tokens/s（N140）降至约37 Tokens/s（53 * 0.7），与RTX 4090 W4的37 Tokens/s持平；此时MI300X的每美元吞吐量降至0.0017 Tokens/s/$，完全丧失性能优势，仅保留显存容量优势。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：53 * 0.7 = 37.1 ≈ 37，数值计算自洽；MI300X与RTX 4090价格差异导致每美元吞吐量下降的推导符合经济逻辑。
+
+## Search Query
+
+ROCm Flash Attention fallback performance loss Qwen3

@@ -1,0 +1,30 @@
+# N80: 假设 H2 (质量信号) 下，观测数据 D (高挂价+短周期) 的似然 P(D|H2) = 0.3 的反直觉修正：在二手市场中，高质量商品通常伴随更高的信息验证
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N28
+
+## Claim
+
+假设 H2 (质量信号) 下，观测数据 D (高挂价+短周期) 的似然 P(D|H2) = 0.3 的反直觉修正：在二手市场中，高质量商品通常伴随更高的信息验证成本，导致买家搜索时间增加而非减少，因此 P(D|H2) 应基于‘高质高价’商品的平均成交周期分布 P(T_cycle < T_threshold | Quality=High) 计算，需检索具体分布参数。
+
+## Corrected Claim
+
+在二手市场中，高质量商品可能伴随更高的信息验证成本，导致买家决策周期变化；P(D|H2)的具体数值（如0.3）需基于特定市场的成交周期分布数据 P(T_cycle < T_threshold | Quality=High) 进行实证估算，而非直接假设。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（P(D|H2)=0.3）和特定的市场行为假设（高质量导致搜索时间增加），属于经验事实。参考来源均未提供二手市场成交周期分布的具体参数或支持该特定似然值的证据，且来源主题（捆绑销售、拍卖定义、奥迪A4）与该微观计量经济学假设不直接相关。 | 逻辑上自洽（基于信息不对称理论推导），但作为经验事实，缺乏来源直接支持具体数值0.3及分布参数，来源[1][2][3]均无关或仅间接提及二手/拍卖概念，无法验证具体统计量。
+
+## Search Query
+
+high quality high price clearance speed second hand goods distribution
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Product_bundling', 'type': 'wikipedia', 'title': 'Product bundling'}
+- {'url': 'https://en.wikipedia.org/wiki/Auction', 'type': 'wikipedia', 'title': 'Auction'}
+- {'url': 'https://en.wikipedia.org/wiki/Audi_A4', 'type': 'wikipedia', 'title': 'Audi A4'}

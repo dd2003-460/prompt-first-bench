@@ -1,0 +1,24 @@
+# N172: vLLM PagedAttention KV Cache 池的预分配大小计算公式为 C_kv_pool = num_blocks * block_size * 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N52
+
+## Claim
+
+vLLM PagedAttention KV Cache 池的预分配大小计算公式为 C_kv_pool = num_blocks * block_size * num_kv_heads * head_dim * 2 * bytes_per_elem，其中 num_blocks 由 max_num_seqs 和 max_model_len 决定，对于 32K 上下文单请求，该池大小通常为显存剩余空间的 80-90%
+
+## Corrected Claim
+
+vLLM PagedAttention KV Cache 池的预分配大小计算公式为 C_kv_pool = num_blocks * block_size * num_kv_heads * head_dim * 2 * bytes_per_elem，其中 num_blocks 由 max_num_seqs 和 max_model_len 决定，对于 32K 上下文单请求，该池大小通常为显存剩余空间的 80-90%
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+vLLM PagedAttention memory pool size calculation formula

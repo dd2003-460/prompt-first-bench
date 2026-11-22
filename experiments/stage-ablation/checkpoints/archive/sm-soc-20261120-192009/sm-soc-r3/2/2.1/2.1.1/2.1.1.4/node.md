@@ -1,0 +1,28 @@
+# N175: 平台先验概率 π_p 的量化：平台算法调整曝光权重的策略空间为 {Increase_Exposure, Maintain, Decrease}，其先验概率取决于
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N53
+
+## Claim
+
+平台先验概率 π_p 的量化：平台算法调整曝光权重的策略空间为 {Increase_Exposure, Maintain, Decrease}，其先验概率取决于当前市场供需比 R_supply_demand；若 R > 1.2，π_p(Increase) = 0.7；若 R < 0.8，π_p(Decrease) = 0.6；需建立 π_p 与 R 的线性回归模型 π_p = α + β*R + ε，其中 β 为平台响应灵敏度。
+
+## Corrected Claim
+
+平台算法调整曝光权重的策略通常与市场供需状况相关，但具体的先验概率数值（如0.7/0.6）及线性回归模型参数需基于特定平台的实际数据拟合，无法仅凭通用逻辑确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性参数（如阈值1.2/0.8、概率0.7/0.6）和特定的线性回归模型假设，这些属于平台内部策略或特定市场环境的经验事实，无法从第一性原理推导，且参考来源未提供相关数据支持。 | 逻辑上自洽（供需比高时增加曝光符合直觉），但参考来源[1]仅讨论曝光率下滑的宏观现象，未涉及具体的算法策略空间、先验概率量化或线性回归模型参数，属于经验事实且缺来源支持。
+
+## Search Query
+
+platform algorithm exposure adjustment strategy supply demand ratio prior probability
+
+## Retrieval Sources
+
+- {'url': 'https://www.sohu.com/a/942093776_122491068&rut=ad7a045d0711fe68c44e86ab9d07810418330db9cc024b5cbc6634817ce76bcf', 'type': 'ddg', 'title': '社交媒体曝光｜3大算法突围策略与品牌增长路径解析_内容_企业_平台'}

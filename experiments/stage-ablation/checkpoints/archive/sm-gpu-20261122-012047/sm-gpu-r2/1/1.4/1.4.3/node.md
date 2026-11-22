@@ -1,0 +1,20 @@
+# N59: FP8 权重 + FP8 KV Cache 的总显存需求为 37.85 GB (27.0 GB + 10.85 GB)，加上约 1-2 GB 的激活值/工作内存
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N9
+
+## Claim
+
+FP8 权重 + FP8 KV Cache 的总显存需求为 37.85 GB (27.0 GB + 10.85 GB)，加上约 1-2 GB 的激活值/工作内存缓冲后，实际占用约 39-40 GB，使得 48 GB 显存显卡 (如 L40S/MI300X 部分配置) 在单卡下具备可行性。
+
+## Corrected Claim
+
+FP8 权重 + FP8 KV Cache 的总显存需求为 37.85 GB (27.0 GB + 10.85 GB)，加上约 1-2 GB 的激活值/工作内存缓冲后，实际占用约 39-40 GB，使得 48 GB 显存显卡 (如 L40S/MI300X 部分配置) 在单卡下具备可行性。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27.0 + 10.85 = 37.85 GB，加上1-2 GB缓冲后为38.85-39.85 GB，四舍五入或保守估计为39-40 GB，小于48 GB显存，逻辑自洽且数值量级合理。

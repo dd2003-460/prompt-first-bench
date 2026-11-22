@@ -1,0 +1,24 @@
+# N96: 24GB 显存档位 (RTX 4090) 仅能容纳 Qwen3-27B 的 4-bit 量化权重 (~13.5-17GB) + 32K 上下文 KV Cache
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N26
+
+## Claim
+
+24GB 显存档位 (RTX 4090) 仅能容纳 Qwen3-27B 的 4-bit 量化权重 (~13.5-17GB) + 32K 上下文 KV Cache (~4.8-10GB)，总占用接近 24GB 上限，需启用 PagedAttention 或限制 batch size 为 1，且无冗余空间应对激活值峰值。
+
+## Corrected Claim
+
+24GB 显存档位 (RTX 4090) 仅能容纳 Qwen3-27B 的 4-bit 量化权重 (~13.5-17GB) + 32K 上下文 KV Cache (~4.8-10GB)，总占用接近 24GB 上限，需启用 PagedAttention 或限制 batch size 为 1，且无冗余空间应对激活值峰值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B 4-bit 权重约 13.5-17GB，32K 上下文 KV Cache 约 4.8-10GB，总和接近 24GB 上限，符合显存占用逻辑。
+
+## Search Query
+
+RTX 4090 24GB Qwen3-27B 4bit quantization 32k context KV cache memory limit

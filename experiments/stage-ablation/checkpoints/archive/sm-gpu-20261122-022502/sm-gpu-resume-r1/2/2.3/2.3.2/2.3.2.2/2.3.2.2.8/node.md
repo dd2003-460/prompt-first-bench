@@ -1,0 +1,20 @@
+# N627: 4x RTX 4090 在 PP=4 下，若增加 micro-batch 至 batch_size=2 并采用 interleaved pipeline sch
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N191, N192, N193
+
+## Claim
+
+4x RTX 4090 在 PP=4 下，若增加 micro-batch 至 batch_size=2 并采用 interleaved pipeline scheduling，气泡占比可降至 (PP-1)/(PP*m) = 75%/2 = 37.5%，实际有效吞吐提升至理论峰值的 62.5%，即 10.1 tokens/s，接近 TP 方案修正后的 8.9-9.7 tokens/s，但需额外 2x 显存用于 KV Cache（32K 上下文下约 1.2 GB），总显存占用从 28 GB 升至 30.4 GB，仍在 4x 24 GB=96 GB 范围内可行。
+
+## Corrected Claim
+
+4x RTX 4090 在 PP=4 下，若增加 micro-batch 至 batch_size=2 并采用 interleaved pipeline scheduling，气泡占比可降至 (PP-1)/(PP*m) = 75%/2 = 37.5%，实际有效吞吐提升至理论峰值的 62.5%，即 10.1 tokens/s，接近 TP 方案修正后的 8.9-9.7 tokens/s，但需额外 2x 显存用于 KV Cache（32K 上下文下约 1.2 GB），总显存占用从 28 GB 升至 30.4 GB，仍在 4x 24 GB=96 GB 范围内可行。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：气泡占比公式 (PP-1)/(PP*m) 计算正确 (3/8=37.5%)，有效吞吐 62.5% 与 10.1 tokens/s 数值自洽，显存估算量级合理。

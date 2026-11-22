@@ -1,0 +1,20 @@
+# N49: D 的边界条件：当 u * T_LRU > 0.1 时，线性近似 D = 1 - u * T_LRU 失效，需使用指数形式 D = 1 - (1 - e^(-u
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N16, N17, N18
+
+## Claim
+
+D 的边界条件：当 u * T_LRU > 0.1 时，线性近似 D = 1 - u * T_LRU 失效，需使用指数形式 D = 1 - (1 - e^(-u * T_LRU)) * (S_hot/S_total)，其中 S_hot/S_total 为热门对象字节占比。
+
+## Corrected Claim
+
+D 的边界条件：当 u * T_LRU > 0.1 时，线性近似 D = 1 - u * T_LRU 失效，需使用指数形式 D = 1 - (1 - e^(-u * T_LRU)) * (S_hot/S_total)，其中 S_hot/S_total 为热门对象字节占比。
+
+## Evidence
+
+父节点级核验未通过：有冗余（子节点通过三个典型工作点（线性有效、边界、指数主导）清晰地覆盖了父节点中线性近似失效的边界条件及指数修正公式的应用场景，逻辑上互斥且无矛盾（正交性好），且涵盖了从有效到失效的全过程（完备性好）。然而，这三个子节点本质上是同一数学模型（D = f(u, T_LRU, S_ratio)）在不同参数值下的特例计算，属于“参数扫描”而非独立的结构性分解，存在形式上的冗余。）

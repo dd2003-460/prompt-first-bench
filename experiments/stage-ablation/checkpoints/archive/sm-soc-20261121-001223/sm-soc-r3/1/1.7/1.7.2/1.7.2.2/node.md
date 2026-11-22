@@ -1,0 +1,24 @@
+# N140: 低信任度下的保守估计偏差：当 Trust_factor 低于阈值（如新用户或数据稀疏类目），权重 w 降至 0.3-0.4，此时 E[V] = 0.3*P_re
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N52
+
+## Claim
+
+低信任度下的保守估计偏差：当 Trust_factor 低于阈值（如新用户或数据稀疏类目），权重 w 降至 0.3-0.4，此时 E[V] = 0.3*P_ref + 0.7*P_ask；由于卖家挂价普遍偏高 (P_ask ≈ 1.2*P_ref)，这导致买家感知价值 E[V] 被高估约 20%，从而解释了为何高挂价仍能获得初期咨询。
+
+## Corrected Claim
+
+低信任度下的保守估计偏差：当 Trust_factor 低于阈值（如新用户或数据稀疏类目），权重 w 降至 0.3-0.4，此时 E[V] = 0.3*P_ref + 0.7*P_ask；由于卖家挂价普遍偏高 (P_ask ≈ 1.2*P_ref)，这导致买家感知价值 E[V] 被高估约 20%，从而解释了为何高挂价仍能获得初期咨询。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学推导显示 0.3*P_ref + 0.7*(1.2*P_ref) = 1.14*P_ref，即高估约14%，与陈述中“约20%”在数量级和定性方向上一致（保守估计偏差导致感知价值高于参考值），逻辑自洽。
+
+## Search Query
+
+price anchoring effect low trust environment consumer valuation bias

@@ -1,0 +1,24 @@
+# N297: Qwen3-27B 在 BF16 精度、32K 上下文长度下 WikiText2 数据集的基线困惑度 (PPL_BF16_32K) 具体数值，用于量化长上下文本
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N98
+
+## Claim
+
+Qwen3-27B 在 BF16 精度、32K 上下文长度下 WikiText2 数据集的基线困惑度 (PPL_BF16_32K) 具体数值，用于量化长上下文本身的固有噪声增加（非量化误差）。
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 精度、32K 上下文长度下 WikiText2 数据集的基线困惑度 (PPL_BF16_32K) 存在具体数值，用于量化长上下文本身的固有噪声增加，但具体数值需查阅官方技术报告或基准测试数据确认。
+
+## Evidence
+
+[质询]该陈述要求提供具体的数值（PPL_BF16_32K），但参考来源为空，无法验证该具体数值是否准确，且不同评测协议（如是否包含特殊token、具体分词器版本）可能导致数值差异。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法确认具体数值）
+
+## Search Query
+
+Qwen3-27B BF16 WikiText2 perplexity 32K context long context degradation

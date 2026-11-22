@@ -1,0 +1,17 @@
+{
+  "id": "N257",
+  "claim": "1x A100 80GB 运行 FP8 Qwen3-27B 的硬件兼容性修正：A100 (Ampere) 不支持原生 FP8 Tensor Core 加速。若加载 FP8 权重，软件栈 (如 vLLM/TensorRT) 必须将其反量化为 BF16 或 INT8 进行计算。反量化为 BF16 后，显存占用恢复为 54GB (权重) + 12.58GB (KV) = 66.58GB < 80GB (可行)，但计算速度受限于 Ampere 的 BF16 算力 (312 TFLOPS) 而非 H100 的 FP8 算力。因此，N94 中声称的 'FP8 权重' 在 A100 上实际运行的是 BF16 精度，理论 Decode 上限仍由带宽决定 (2039 GB/s / 54 GB ≈ 37.7 tokens/s)，而非 75.5 tokens/s。此修正导致 A100 性能减半。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "verified",
+  "evidence": "先验知识/题面给定，逻辑校验通过：A100 (Ampere) 架构确实不支持原生 FP8 Tensor Core，FP8 权重需反量化为 BF16 计算；显存占用 54GB (权重) + 12.58GB (KV) = 66.58GB < 80GB 符合逻辑；带宽限制计算 2039 GB/s / 54 GB ≈ 37.7 tokens/s 数学正确，且符合 Ampere 架构特性。",
+  "corrected_claim": "1x A100 80GB 运行 FP8 Qwen3-27B 的硬件兼容性修正：A100 (Ampere) 不支持原生 FP8 Tensor Core 加速。若加载 FP8 权重，软件栈 (如 vLLM/TensorRT) 必须将其反量化为 BF16 或 INT8 进行计算。反量化为 BF16 后，显存占用恢复为 54GB (权重) + 12.58GB (KV) = 66.58GB < 80GB (可行)，但计算速度受限于 Ampere 的 BF16 算力 (312 TFLOPS) 而非 H100 的 FP8 算力。因此，N94 中声称的 'FP8 权重' 在 A100 上实际运行的是 BF16 精度，理论 Decode 上限仍由带宽决定 (2039 GB/s / 54 GB ≈ 37.7 tokens/s)，而非 75.5 tokens/s。此修正导致 A100 性能减半。",
+  "rework_count": 0,
+  "parent_ids": [
+    "N94"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "A100 FP8 support emulation BF16 performance penalty",
+  "retrieval_sources": []
+}

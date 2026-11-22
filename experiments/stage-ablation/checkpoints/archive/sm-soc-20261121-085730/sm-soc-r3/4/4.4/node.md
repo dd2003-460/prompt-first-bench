@@ -1,0 +1,28 @@
+# N21: 候选干预措施C：买家侧激励补贴，参数为补贴比例 s = 10%（针对高挂价商品），预期影响参数为成交周期缩短 δt = 20% [待核验]
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+候选干预措施C：买家侧激励补贴，参数为补贴比例 s = 10%（针对高挂价商品），预期影响参数为成交周期缩短 δt = 20% [待核验]
+
+## Corrected Claim
+
+候选干预措施C：买家侧激励补贴，预期通过降低买家成本缩短高挂价商品的成交周期（具体补贴比例与缩短幅度需基于Uplift建模或A/B测试确定，参考来源未提供具体数值）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（补贴比例10%、成交周期缩短20%），属于经验事实而非第一性原理可推导内容。参考来源仅讨论因果效应建模的方法论（Uplift Modeling），未提供针对“买家侧激励补贴”这一具体干预措施在“高挂价商品”场景下的具体参数值或量化效果数据，存在来源与具体数值不匹配的问题。 | 逻辑上，买家侧补贴降低购买门槛从而缩短成交周期符合经济直觉，量级合理；但参考来源[1]仅涉及方法论，未直接支持具体的s=10%和δt=20%数值，属于经验事实缺来源直接支持。
+
+## Search Query
+
+buyer subsidy effect on transaction time in online marketplaces
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_00723/article/details/158834821&rut=e333a8f438dd9049ec9cec0342ec54887711736a249cd09ac8587b12ae8ed382', 'type': 'ddg', 'title': '因果效应建模与干预策略优化：scikit-uplift全流程实战指南-CSDN博客'}

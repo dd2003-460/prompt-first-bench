@@ -1,0 +1,20 @@
+# N91: LRU 缓存中驻留的大对象数量 K_large 受限于 128GB 容量，若前 1% 对象平均大小为 50MB，则 K_large ≈ 128GB / 50MB
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N27
+
+## Claim
+
+LRU 缓存中驻留的大对象数量 K_large 受限于 128GB 容量，若前 1% 对象平均大小为 50MB，则 K_large ≈ 128GB / 50MB ≈ 2560 个，但这些对象仅占总对象数的 2.56%，导致字节命中率高度依赖这 2560 个对象的访问频率。
+
+## Corrected Claim
+
+LRU 缓存中驻留的大对象数量 K_large 受限于 128GB 容量，若前 1% 对象平均大小为 50MB，则 K_large ≈ 128GB / 50MB ≈ 2560 个，但这些对象仅占总对象数的 2.56%，导致字节命中率高度依赖这 2560 个对象的访问频率。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：128GB/50MB=2560，2560/100=25.6，25.6/1000=2.56%，计算无误且逻辑自洽

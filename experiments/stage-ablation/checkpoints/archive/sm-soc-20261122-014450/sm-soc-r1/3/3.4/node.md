@@ -1,0 +1,24 @@
+# N15: 利益相关方控制力比较：平台拥有‘规则制定权’，可通过算法调整搜索权重 W_search。若平台算法偏好高GMV商品，则 W_search ∝ P_list，从而
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+利益相关方控制力比较：平台拥有‘规则制定权’，可通过算法调整搜索权重 W_search。若平台算法偏好高GMV商品，则 W_search ∝ P_list，从而系统性提升高挂价商品的曝光率，这是维持均衡的最大控制力来源。
+
+## Corrected Claim
+
+利益相关方控制力比较：平台拥有‘规则制定权’，可通过算法调整搜索权重 W_search。若平台算法偏好高GMV商品，则 W_search ∝ P_list，从而系统性提升高挂价商品的曝光率，这是维持均衡的最大控制力来源。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：平台作为规则制定者拥有算法调整权，若算法目标函数包含GMV且GMV与挂价正相关，则搜索权重与挂价正相关符合平台经济学的控制力逻辑。
+
+## Search Query
+
+platform algorithm search weight price bias marketplace equilibrium

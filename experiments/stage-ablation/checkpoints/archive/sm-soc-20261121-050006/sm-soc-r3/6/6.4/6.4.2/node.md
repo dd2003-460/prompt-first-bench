@@ -1,0 +1,20 @@
+# N316: 当 WTP_matched >> P_ask 时，Δt_decision < 1 hour 的条件成立的前提是 WTP_matched / P_ask > ex
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N101
+
+## Claim
+
+当 WTP_matched >> P_ask 时，Δt_decision < 1 hour 的条件成立的前提是 WTP_matched / P_ask > exp(1/k)，若 k = 1.0，则需 WTP_matched > 2.718 * P_ask；若 k = 0.5，则需 WTP_matched > 7.389 * P_ask，表明高溢价下决策时间极短。
+
+## Corrected Claim
+
+当 WTP_matched >> P_ask 时，Δt_decision < 1 hour 的条件成立的前提是 WTP_matched / P_ask > exp(1/k)，若 k = 1.0，则需 WTP_matched > 2.718 * P_ask；若 k = 0.5，则需 WTP_matched > 7.389 * P_ask，表明高溢价下决策时间极短。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学计算正确（e^1≈2.718, e^2≈7.389），符合指数函数性质

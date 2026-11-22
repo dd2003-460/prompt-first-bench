@@ -1,0 +1,24 @@
+# N184: A30 24GB 支持 FP8/INT8 硬件加速，架构类似 A100，Qwen3-27B FP8 推理吞吐量约为 RTX 4090 的 50-60%，24GB
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N54
+
+## Claim
+
+A30 24GB 支持 FP8/INT8 硬件加速，架构类似 A100，Qwen3-27B FP8 推理吞吐量约为 RTX 4090 的 50-60%，24GB 显存不足以容纳 32K 上下文下的 BF16 权重+KV Cache，需使用 INT4 量化或限制上下文至 16K，存在容量风险
+
+## Corrected Claim
+
+A30 24GB 支持 FP8/INT8 硬件加速，24GB 显存不足以容纳 32K 上下文下的 BF16 权重+KV Cache，需使用 INT4 量化或限制上下文至 16K，存在容量风险；其推理吞吐量与 RTX 4090 的具体比例需实测验证，不宜直接断定为 50-60%。
+
+## Evidence
+
+[质询]将A30与A100架构类比并给出具体吞吐量比例（50-60%）属于经验性工程估算，缺乏公开基准测试支持，且A30实际为A100的裁剪版（无NVLink，PCIe带宽受限），直接类比可能高估其在大模型推理中的表现。 | 先验知识/题面给定，逻辑校验通过：24GB显存确实难以容纳32K上下文下的BF16权重+KV Cache（Qwen3-27B BF16权重约54GB，远超24GB，即使INT8也需27GB，故需INT4或限制上下文），但吞吐量对比数据为经验估算，无来源直接支持。
+
+## Search Query
+
+NVIDIA A30 24GB LLM inference performance FP8

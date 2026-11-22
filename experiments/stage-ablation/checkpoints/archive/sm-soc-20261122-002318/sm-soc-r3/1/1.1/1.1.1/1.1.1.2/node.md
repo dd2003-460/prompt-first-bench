@@ -1,0 +1,24 @@
+# N102: w_tradeoff 的先验超参数 α_t 和 β_t 的估计方法：基于卖家历史行为数据（如挂价后主动降价的时间间隔 T_delay 与最终成交周期 T_cyc
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N34
+
+## Claim
+
+w_tradeoff 的先验超参数 α_t 和 β_t 的估计方法：基于卖家历史行为数据（如挂价后主动降价的时间间隔 T_delay 与最终成交周期 T_cycle 的比值），通过最大似然估计 (MLE) 拟合 Beta 分布，其中 T_delay/T_cycle 作为 w_tradeoff 的代理观测值。
+
+## Corrected Claim
+
+w_tradeoff 的先验超参数 α_t 和 β_t 可能基于卖家历史行为数据（如 T_delay 与 T_cycle 的比值）通过最大似然估计拟合 Beta 分布，但具体是否采用 T_delay/T_cycle 作为代理观测值需依据特定系统文档或论文确认。
+
+## Evidence
+
+[质询]该陈述描述了一种具体的统计建模方法（使用 T_delay/T_cycle 作为 Beta 分布的代理观测值进行 MLE 拟合），这属于经验性的工程实现细节或特定论文/系统的设定，而非通用的第一性原理或数学公理。若无特定来源支持，无法确认这是该领域公认的标准做法或该特定系统的真实配置，存在将特定假设当作普遍事实的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该具体建模方法非第一性原理可推导）
+
+## Search Query
+
+seller price adjustment delay ratio beta distribution MLE estimation second hand market

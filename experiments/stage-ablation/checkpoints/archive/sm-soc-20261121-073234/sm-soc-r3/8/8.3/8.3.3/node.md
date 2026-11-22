@@ -1,0 +1,20 @@
+# N339: ESS 条件推导：保守策略成为 ESS 的临界条件是 F_conservative > F_aggressive，即 (R_success - C_search
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N113
+
+## Claim
+
+ESS 条件推导：保守策略成为 ESS 的临界条件是 F_conservative > F_aggressive，即 (R_success - C_search * N_search_conservative) > (R_success * (1 + Bonus_Rapid) - C_search * N_search_aggressive * (1 + Fatigue_Coeff))，化简得 C_search / L_miss > 1 / (1 + Threshold_stop)^2。
+
+## Corrected Claim
+
+ESS 条件推导：保守策略成为 ESS 的临界条件是 F_conservative > F_aggressive，即 (R_success - C_search * N_search_conservative) > (R_success * (1 + Bonus_Rapid) - C_search * N_search_aggressive * (1 + Fatigue_Coeff))。具体化简结果需补充中间推导步骤以验证 C_search / L_miss > 1 / (1 + Threshold_stop)^2 的正确性。
+
+## Evidence
+
+[质询]代数推导存在量纲与逻辑不自洽：左侧 C_search/L_miss 与右侧 1/(1+Threshold_stop)^2 在量纲上可能不匹配（取决于 L_miss 定义），且从给定的线性不等式直接化简出平方项阈值缺乏中间推导步骤支持，疑似跳步或公式错误。 | 先验知识/题面给定，但逻辑校验发现代数化简过程存在疑点，无法确认推导正确性，故降级。

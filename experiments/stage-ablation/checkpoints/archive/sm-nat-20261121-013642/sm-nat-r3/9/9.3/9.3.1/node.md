@@ -1,0 +1,24 @@
+# N258: P_LRU_miss_on_hot 的解析近似：在稳态下，LRU 对热门对象（请求频率 r_i > 1/τ_residence）的 miss 率近似为 P_LR
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N89
+
+## Claim
+
+P_LRU_miss_on_hot 的解析近似：在稳态下，LRU 对热门对象（请求频率 r_i > 1/τ_residence）的 miss 率近似为 P_LRU_miss_on_hot ≈ exp(-r_i * τ_residence)，其中 τ_residence 为该对象在缓存中的平均驻留时间，该值取决于缓存竞争程度，而非对象本身的大小。
+
+## Corrected Claim
+
+在稳态下，LRU 对热门对象的 miss 率通常与访问间隔分布及缓存容量相关，简单的指数近似 P ≈ exp(-r_i * τ_residence) 缺乏严格理论支持，建议采用基于访问间隔分布的更精确模型或经验拟合。
+
+## Evidence
+
+[质询]该解析近似公式 P ≈ exp(-r_i * τ_residence) 在逻辑上存在量纲和物理直觉上的矛盾。首先，LRU 的 miss 率通常与缓存容量、访问间隔分布有关，而非简单的指数衰减形式；其次，若 r_i 是频率（1/时间），τ_residence 是时间，乘积无量纲，但 exp(-无量纲) 作为概率在 r_i 很大时趋近于 0，这符合直觉，但 LRU 的 miss 机制是“最近最少使用”，其 miss 概率更依赖于访问间隔是否超过缓存中其他对象的访问间隔，而非简单的泊松过程假设下的指数分布。此外，τ_residence 定义为“平均驻留时间”且“取决于缓存竞争程度”是合理的，但将其直接代入指数公式缺乏严格的推导支持，可能混淆了 LRU 与 FIFO 或随机替换策略的行为。 | 先验知识/题面给定，逻辑校验发现公式形式与 LRU 标准理论模型（如基于访问间隔的 miss 概率）不完全自洽，且无外部来源支持该特定解析近似。
+
+## Search Query
+
+LRU miss probability exponential approximation steady state

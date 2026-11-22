@@ -1,0 +1,24 @@
+# N32: 边际收益平衡点的具体数值解：在固定佣金率 $r=5\%$ 下，当成交周期 $T$ 从 30 天缩短至 20 天（降幅 33%），若导致平均成交价 $P_{fin
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N10
+
+## Claim
+
+边际收益平衡点的具体数值解：在固定佣金率 $r=5\%$ 下，当成交周期 $T$ 从 30 天缩短至 20 天（降幅 33%），若导致平均成交价 $P_{final}$ 下降 5%（从 100 降至 95），平台总收益变化 $\Delta R = (0.05 \times 95 \times 1.33) - (0.05 \times 100 \times 1) + \Delta C_{capital} + \Delta R_{retention}$，需计算 $\Delta C_{capital}$ 和留存收益是否覆盖价格损失。
+
+## Corrected Claim
+
+边际收益平衡点的具体数值解：在固定佣金率 $r=5\%$ 下，当成交周期 $T$ 从 30 天缩短至 20 天（降幅 33%），若导致平均成交价 $P_{final}$ 下降 5%（从 100 降至 95），平台总收益变化 $\Delta R = (0.05 \times 95 \times 1.33) - (0.05 \times 100 \times 1) + \Delta C_{capital} + \Delta R_{retention}$，需计算 $\Delta C_{capital}$ 和留存收益是否覆盖价格损失。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+optimal pricing vs speed tradeoff platform revenue calculation

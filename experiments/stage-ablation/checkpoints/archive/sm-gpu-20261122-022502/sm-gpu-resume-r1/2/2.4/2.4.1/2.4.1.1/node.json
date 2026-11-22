@@ -1,0 +1,17 @@
+{
+  "id": "N196",
+  "claim": "修正 N66 中 T_comm 计算错误：在标准 vLLM/llama.cpp 张量并行 (TP) 架构下，Decode 阶段每步需传输的是当前 Token 的 KV 头 (Head Dim=128, 8 heads, BF16/FP8) 或 Attention 输出，而非整个 KV Cache (6.29GB)。实际每步通信数据量 D_step ≈ 1-4 KB (取决于实现)，T_comm = D_step / 64 GB/s ≈ 10^-7 s (可忽略)。N66 中 0.098s 的延迟仅存在于极端错误的‘全量 KV 同步’假设下，实际瓶颈应为 T_compute (带宽受限) 和 T_sync (内核启动/调度开销 ~0.1-0.5ms)。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "verified",
+  "evidence": "先验知识/题面给定，逻辑校验通过：在标准张量并行（TP）架构中，Decode阶段每步仅需同步当前Token的KV头或Attention输出（量级为KB），而非整个KV Cache（GB级），因此通信延迟可忽略，主要瓶颈确为计算与同步开销。",
+  "corrected_claim": "修正 N66 中 T_comm 计算错误：在标准 vLLM/llama.cpp 张量并行 (TP) 架构下，Decode 阶段每步需传输的是当前 Token 的 KV 头 (Head Dim=128, 8 heads, BF16/FP8) 或 Attention 输出，而非整个 KV Cache (6.29GB)。实际每步通信数据量 D_step ≈ 1-4 KB (取决于实现)，T_comm = D_step / 64 GB/s ≈ 10^-7 s (可忽略)。N66 中 0.098s 的延迟仅存在于极端错误的‘全量 KV 同步’假设下，实际瓶颈应为 T_compute (带宽受限) 和 T_sync (内核启动/调度开销 ~0.1-0.5ms)。",
+  "rework_count": 0,
+  "parent_ids": [
+    "N66"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "tensor parallelism decode communication overhead kv cache transfer size per token",
+  "retrieval_sources": []
+}

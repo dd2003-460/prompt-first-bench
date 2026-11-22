@@ -1,0 +1,29 @@
+# N12: NVIDIA L40S 48GB (GDDR6) 的显存带宽为 864 GB/s，单卡市场均价约为 $8000-$10000 [时效待核]。
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+NVIDIA L40S 48GB (GDDR6) 的显存带宽为 864 GB/s，单卡市场均价约为 $8000-$10000 [时效待核]。
+
+## Corrected Claim
+
+NVIDIA L40S 48GB (GDDR6) 的显存带宽为 864 GB/s；单卡市场均价随市场波动，需实时查询，历史参考区间约为 $8000-$10000。
+
+## Evidence
+
+[质询]市场均价属于动态变化的经验事实，且不同渠道（如云租赁、现货、合约价）差异巨大，$8000-$10000 的区间可能因时间波动或特定市场供需而失效，缺乏实时数据支持。 | 来源[2]直接支持显存带宽计算（18 Gbps * 384-bit / 8 = 864 GB/s），但所有来源均未提供当前市场均价数据，价格部分为经验事实且缺来源支持。
+
+## Search Query
+
+NVIDIA L40S 48GB GDDR6 bandwidth 864 GB/s price
+
+## Retrieval Sources
+
+- {'url': 'https://www.nvidia.com/en-us/data-center/l40s/&rut=a0899475aae1f3294fa95112be63929e9c4069c71415b1bcc62e1a74376f58be', 'type': 'ddg', 'title': 'L40S GPU for AI and Graphics Performance | NVIDIA'}
+- {'url': 'https://www.techpowerup.com/gpu-specs/l40s.c4173&rut=1fafad65477c2b0015674501fc1ba0c276c282954626c107b6544e264d6438e7', 'type': 'ddg', 'title': 'NVIDIA L40S Specs | TechPowerUp GPU Database'}

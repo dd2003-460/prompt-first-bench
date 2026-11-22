@@ -1,0 +1,30 @@
+# N312: Qwen3-27B 在 INT4 (AWQ/GPTQ) 精度下的实测 Perplexity (PPL) 为 [待核验: 需查 AutoGPTQ/AWQ 官方基准
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N135
+
+## Claim
+
+Qwen3-27B 在 INT4 (AWQ/GPTQ) 精度下的实测 Perplexity (PPL) 为 [待核验: 需查 AutoGPTQ/AWQ 官方基准测试或 HuggingFace 社区模型卡]，MMLU 得分为 [待核验]；需明确区分 GPTQ (对称量化) 与 AWQ (非对称/激活感知量化) 在 27B 模型上的具体差异，通常 AWQ 的 PPL 损失比 GPTQ 低 0.1-0.3。
+
+## Corrected Claim
+
+Qwen3-27B 在 INT4 (AWQ/GPTQ) 精度下的实测 Perplexity (PPL) 和 MMLU 得分需查阅具体模型卡或基准测试报告；通常 AWQ 的 PPL 损失比 GPTQ 低，但具体差异数值（如 0.1-0.3）需依据特定数据集和校准过程确定，不同实现可能存在差异。
+
+## Evidence
+
+[质询]陈述中关于 AWQ 与 GPTQ 在 27B 模型上 PPL 损失差异的具体数值（0.1-0.3）属于经验事实，且参考来源中未提供具体的 PPL 或 MMLU 实测数据，仅涉及部署指南和量化方法介绍，无法直接支持该具体数值范围。 | 来源 [1][2][3] 确认了 Qwen3.6-27B 存在 AWQ-INT4 量化版本及 GPTQ/AWQ 的技术区别，但未提供具体的 PPL/MMLU 基准测试数值，属于经验事实缺来源直接支持。
+
+## Search Query
+
+Qwen3-27B AWQ GPTQ INT4 quantization perplexity MMLU drop
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_00399/article/details/161864324&rut=e41dd7130426540450710d99dba426bbd4b95636ce279ab07451cbfa9a07eac5', 'type': 'ddg', 'title': 'Qwen3.6-27B-AWQ-INT4 模型部署与使用指南：高效量化模型实践手册-CSDN博客'}
+- {'url': 'https://blog.csdn.net/weixin_34169322/article/details/162159549&rut=eee949dff956d360b8e228b21c3bbb922151a9ddd008d247ddfeaf185ef0e839', 'type': 'ddg', 'title': 'Qwen 3.6 27B INT4量化部署实战：vLLM加速300%工程指南-CSDN博客'}
+- {'url': 'https://devpress.csdn.net/v1/article/detail/144363894&rut=d8d13fce48d64b01f2c84ed83ec4b0f3fbce4c90d623d88fb01ac908009d8ae4', 'type': 'ddg', 'title': '技术方案：Qwen3.6-27B-AWQ-INT4的高效部署与量化优化实践'}

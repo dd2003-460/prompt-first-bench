@@ -1,0 +1,24 @@
+# N112: 停止搜索阈值 Threshold_stop 的量化定义：买家停止搜索并询价的条件是 P_listed <= P_reserve * (1 - Threshold
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N33
+
+## Claim
+
+停止搜索阈值 Threshold_stop 的量化定义：买家停止搜索并询价的条件是 P_listed <= P_reserve * (1 - Threshold_stop)，其中 Threshold_stop 代表买家愿意接受的‘最大折扣深度’，若 Threshold_stop < 15%（即要求折扣>15%），则小幅降价（<15%）无法触发咨询，这与题面 60% 卖家降价后无咨询现象一致。
+
+## Corrected Claim
+
+停止搜索阈值 Threshold_stop 的量化定义：买家停止搜索并询价的条件是 P_listed <= P_reserve * (1 - Threshold_stop)，其中 Threshold_stop 代表买家愿意接受的‘最大折扣深度’，若 Threshold_stop < 15%（即要求折扣>15%），则小幅降价（<15%）无法触发咨询，这与题面 60% 卖家降价后无咨询现象一致。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该定义在数学上自洽，且与题面中‘60%卖家降价后无咨询’的现象在逻辑上兼容（即若阈值设为15%，则小于15%的降价确实不会触发咨询，解释了部分无咨询现象）。
+
+## Search Query
+
+consumer search theory stopping rule threshold discount rate second hand market

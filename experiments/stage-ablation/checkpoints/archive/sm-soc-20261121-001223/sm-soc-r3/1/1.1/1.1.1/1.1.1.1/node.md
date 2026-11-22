@@ -1,0 +1,29 @@
+# N87: 在二手交易/一般商品定价实验中，风险厌恶系数 λ 的实证基准值需通过 Arrow-Pratt 绝对风险厌恶指标 A(r) = -u''(r)/u'(r) 在卖家
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N27
+
+## Claim
+
+在二手交易/一般商品定价实验中，风险厌恶系数 λ 的实证基准值需通过 Arrow-Pratt 绝对风险厌恶指标 A(r) = -u''(r)/u'(r) 在卖家初始财富水平 W_0 处计算得出；典型实证文献（如 Einav et al. 2010, Brown & Finkelstein 2008）显示个体间 λ 的均值约为 1.0，标准差约为 0.5，但需注明该数值是基于保险购买行为或彩票偏好推断的代理变量，直接用于二手定价实验时需进行场景修正。
+
+## Corrected Claim
+
+在二手交易/一般商品定价实验中，风险厌恶系数 λ 的实证基准值需通过 Arrow-Pratt 绝对风险厌恶指标 A(r) = -u''(r)/u'(r) 在卖家初始财富水平 W_0 处计算得出；典型实证文献（如 Einav et al. 2010, Brown & Finkelstein 2008）显示个体间 λ 的均值和标准差因场景和样本而异，需注明该数值是基于保险购买行为或彩票偏好推断的代理变量，直接用于二手定价实验时需进行场景修正，且具体数值应参考针对二手交易或类似小额交易场景的最新实证研究。
+
+## Evidence
+
+[质询]该陈述将基于保险购买行为（Brown & Finkelstein 2008）和彩票偏好（Einav et al. 2010）推断出的风险厌恶系数直接作为二手交易定价实验的基准值，且声称均值约为1.0、标准差约为0.5。然而，不同场景下的风险厌恶程度存在显著差异（场景依赖性），且具体数值（均值1.0，标准差0.5）在不同文献和样本中波动较大，并非一个普适的固定常数。此外，参考来源仅提供了Arrow-Pratt系数的定义和一般性实证方法，并未提供针对二手交易场景的具体数值支持，也未证实该特定均值和标准差是二手交易领域的公认基准。 | 来源[1]和[2]仅支持Arrow-Pratt系数的定义和一般性实证推导方法，未提供二手交易场景下λ的具体数值（均值1.0，标准差0.5）的直接支持，属于经验事实且缺乏特定场景下的来源直接支持。
+
+## Search Query
+
+empirical estimation of risk aversion coefficient lambda Arrow-Pratt index second-hand market pricing experiments
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1962627575919675077&rut=d0e7bed35265beccea2ac478f51265f4d1b6e275594116172d171bb23a37b3ed', 'type': 'ddg', 'title': 'Arrow-Pratt 绝对风险厌恶系数 - 知乎'}
+- {'url': 'https://wenku.baidu.com/view/70ea35b369dc5022aaea0016.html&rut=12bcc851564be9f33cecd7b488df39a9a9921b04a93a91d165245b681f25514a', 'type': 'ddg', 'title': '风险厌恶程度的度量及投资组合理论_基于实证调查分析'}

@@ -1,0 +1,24 @@
+# N44: Qwen3-27B 的 Activation Buffer 显存占用估算：在推理阶段（非训练），Activation Buffer 主要指中间激活值的缓存。对于
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N6, N7, N8
+
+## Claim
+
+Qwen3-27B 的 Activation Buffer 显存占用估算：在推理阶段（非训练），Activation Buffer 主要指中间激活值的缓存。对于单 token 生成（decode 阶段），激活值占用极小（<100MB）；对于 prefill 阶段（处理 32K 上下文），激活值占用与 batch_size 和 seq_len 成正比。假设 batch_size=1，prefill 阶段激活值约占 2-5 GB（取决于具体实现和是否使用 FlashAttention 优化）。
+
+## Corrected Claim
+
+Qwen3-27B 的 Activation Buffer 显存占用估算：在推理阶段（非训练），Activation Buffer 主要指中间激活值的缓存。对于单 token 生成（decode 阶段），激活值占用极小（<100MB）；对于 prefill 阶段（处理 32K 上下文），激活值占用与 batch_size 和 seq_len 成正比。假设 batch_size=1，prefill 阶段激活值约占 2-5 GB（取决于具体实现和是否使用 FlashAttention 优化）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+LLM inference activation memory footprint prefill decode batch size 1

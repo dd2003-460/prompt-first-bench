@@ -1,0 +1,20 @@
+# N133: IA > 1.0 阈值下的筛选效应强度量化：当 $IA = \sigma_{quality}^2 / \sigma_{observed}^2 > 1.0$ 时，
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N43
+
+## Claim
+
+IA > 1.0 阈值下的筛选效应强度量化：当 $IA = \sigma_{quality}^2 / \sigma_{observed}^2 > 1.0$ 时，价格信号的信噪比 $SNR_{price} = 1/IA$ 低于 1。此时高溢价（>15%）商品被买家视为“高风险高回报”信号，导致咨询转化率 $CVR_{high}$ 下降，但成交单价 $P_{clear}$ 上升。需计算 $CVR_{high}$ 相对于 $CVR_{low}$ 的衰减系数 $\delta_{cvr}$，假设 $\delta_{cvr} \approx 0.2 \times (IA - 1)$。
+
+## Corrected Claim
+
+当 IA > 1.0 时，价格信号信噪比降低，高溢价商品可能被视为高风险信号，导致咨询转化率下降而成交单价上升。具体衰减系数 δ_cvr 需根据实际市场数据拟合，而非固定为 0.2 × (IA - 1)。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性参数假设（如高溢价阈值>15%、衰减系数公式 δ_cvr ≈ 0.2 × (IA - 1)），这些并非第一性原理或数学公理可推导的必然结论，而是基于特定市场行为的经验拟合或假设，缺乏普遍适用的理论依据。 | 先验知识/题面给定，逻辑校验通过（量纲与方向自洽），但具体数值系数属于经验事实，无来源支持且不可由第一性原理严格推出，故降级。

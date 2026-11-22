@@ -1,0 +1,24 @@
+# N167: Qwen3-27B W4 (AWQ/GPTQ) 权重在 Mac Studio M2 Ultra 上的实测吞吐区间为 45-65 tok/s，该数值受内存带宽 (
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N43
+
+## Claim
+
+Qwen3-27B W4 (AWQ/GPTQ) 权重在 Mac Studio M2 Ultra 上的实测吞吐区间为 45-65 tok/s，该数值受内存带宽 (800GB/s) 限制，实际值需扣除内存控制器开销 (约 10-15%)，即有效带宽 ~680-720 GB/s
+
+## Corrected Claim
+
+Qwen3-27B W4 量化模型在 Mac Studio M2 Ultra 上的理论最大吞吐受内存带宽限制，有效带宽约为 680-720 GB/s，实际吞吐需根据具体推理框架和量化实现进行实测，通常处于数十 tok/s 量级。
+
+## Evidence
+
+[质询]该陈述包含具体的实测吞吐数值（45-65 tok/s）和特定的硬件/模型配置组合，属于经验事实。由于检索无可用来源，无法验证该特定配置下的实测数据是否准确，且不同量化实现（AWQ vs GPTQ）及具体推理框架（如 llama.cpp, MLX, vLLM）对带宽利用率和计算效率的影响差异较大，单一数值区间可能不具备普适性或准确性。 | 经验事实，逻辑自洽但缺来源支持。M2 Ultra 内存带宽 800GB/s 是已知规格，扣除开销后有效带宽估算合理，但具体吞吐数值缺乏外部证据直接支持。
+
+## Search Query
+
+Mac Studio M2 Ultra Qwen3 27B W4 AWQ throughput tokens per second benchmark

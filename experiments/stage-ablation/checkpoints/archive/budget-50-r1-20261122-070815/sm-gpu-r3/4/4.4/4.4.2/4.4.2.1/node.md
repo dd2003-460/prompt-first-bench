@@ -1,0 +1,24 @@
+# N331: 消费级 GPU (RTX 4090) 保修期 W_cons = 2 年 (NVIDIA 标准)，超出保修期后 (第 3-5 年) 的年维修基金 C_warran
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N118
+
+## Claim
+
+消费级 GPU (RTX 4090) 保修期 W_cons = 2 年 (NVIDIA 标准)，超出保修期后 (第 3-5 年) 的年维修基金 C_warranty_cons 估算为硬件成本的 5-8% (基于故障率 MTBF 数据，RTX 4090 MTBF 约 50,000 小时，年运行 2000 小时下故障概率约 4%)
+
+## Corrected Claim
+
+消费级 GPU (RTX 4090) 保修期 W_cons = 2 年 (NVIDIA 标准)，超出保修期后 (第 3-5 年) 的年维修基金 C_warranty_cons 估算为硬件成本的 5-8% (基于典型消费级显卡故障率估算，具体 MTBF 数据需参考厂商或第三方可靠性报告)
+
+## Evidence
+
+[质询]RTX 4090 的 MTBF 数据（50,000 小时）及由此推导的故障率（4%）属于具体硬件的经验性统计参数，并非第一性原理可推导的数学或物理常数，且不同来源或批次可能存在差异，缺乏权威公开数据直接佐证该特定数值。 | source=knowledge，逻辑自洽（2000/50000=4%），但涉及具体硬件 MTBF 经验参数，无外部来源直接支持，依据经验事实排除条款降级。
+
+## Search Query
+
+RTX 4090 MTBF mean time between failures GPU

@@ -1,0 +1,20 @@
+# N270: 数据中心级单卡方案 (A100) 的 3 年总 TCO 公式修正：TCO_B = CapEx_GPU ($10,000) + CapEx_Base ($2,00
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N73
+
+## Claim
+
+数据中心级单卡方案 (A100) 的 3 年总 TCO 公式修正：TCO_B = CapEx_GPU ($10,000) + CapEx_Base ($2,000) + OpEx_energy ($797) + OpEx_maintenance ($100) ≈ $12,897，对比消费级 2x4090 的 TCO_A ≈ $5,920，单卡数据中心方案在 3 年周期内的绝对成本高出约 $6,977。
+
+## Corrected Claim
+
+数据中心级单卡方案 (A100) 的 3 年总 TCO 公式修正：TCO_B = CapEx_GPU ($10,000) + CapEx_Base ($2,000) + OpEx_energy ($797) + OpEx_maintenance ($100) ≈ $12,897，对比消费级 2x4090 的 TCO_A ≈ $5,920，单卡数据中心方案在 3 年周期内的绝对成本高出约 $6,977。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：各项成本数值量级符合数据中心硬件TCO估算常识，算术加和（10000+2000+797+100=12897）及差值计算（12897-5920=6977）准确无误。

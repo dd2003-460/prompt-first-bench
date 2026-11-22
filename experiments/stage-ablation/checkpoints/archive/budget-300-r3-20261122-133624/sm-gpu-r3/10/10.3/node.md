@@ -1,0 +1,20 @@
+# N437: RTX 5090 的 TDP 修正：官方 TDP 575W 为峰值功耗，Decode 阶段（带宽受限）实际平均功耗约为 350-400W (61-70% TDP
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N171
+
+## Claim
+
+RTX 5090 的 TDP 修正：官方 TDP 575W 为峰值功耗，Decode 阶段（带宽受限）实际平均功耗约为 350-400W (61-70% TDP)，Prefill 阶段接近 575W。在 24/7 负载下，若 Decode/Prefill 时间比为 90:10，加权平均功耗 P_avg ≈ 0.9*375W + 0.1*575W = 400W，3 年电费修正为 400W * 8760h * 3y * $0.12/kWh = $1,261.44，较 N117 的 $1,816.44 降低 30.6%。
+
+## Corrected Claim
+
+RTX 5090 的 TDP 为 575W。在典型 LLM 推理负载下，Decode 阶段功耗低于峰值，Prefill 阶段接近峰值。若假设 Decode/Prefill 时间比为 90:10，且 Decode 平均功耗约为 375W，Prefill 为 575W，则加权平均功耗约为 400W。据此估算的 3 年电费约为 $1,261.44，较 N117 的 $1,816.44 降低约 30.6%。
+
+## Evidence
+
+[质询]RTX 5090 的官方 TDP 通常被引用为 575W，但将其简单划分为 Decode 350-400W 和 Prefill 575W 并据此计算加权平均功耗，缺乏具体的负载模型和实测数据支持，属于经验性估算而非严格推导。 | 先验知识/题面给定，逻辑校验通过，但具体功耗分布为经验估算，缺乏直接来源支持，故降级。

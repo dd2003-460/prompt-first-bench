@@ -1,0 +1,28 @@
+# N187: 算法系数 α（价格权重）的量化：在 W = α·P_ask + β·CTR + γ·Retention + ε_W 中，α 反映价格对推荐权重的直接影响，需通过
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N58
+
+## Claim
+
+算法系数 α（价格权重）的量化：在 W = α·P_ask + β·CTR + γ·Retention + ε_W 中，α 反映价格对推荐权重的直接影响，需通过平台算法文档或黑盒测试反推（典型值可能为负，表示高价惩罚，如 α ∈ [-0.5, 0.5]）。
+
+## Corrected Claim
+
+在简化的线性推荐权重模型 W = α·P_ask + β·CTR + γ·Retention + ε_W 中，α 反映价格对推荐权重的影响，通常需通过黑盒测试反推。α 的符号和量级取决于具体平台策略，高价通常受到惩罚（α < 0），但具体数值范围因平台而异，无通用典型值。
+
+## Evidence
+
+[质询]该陈述声称存在一个具体的线性加权公式 W = α·P_ask + ... 并给出了 α 的具体数值范围 [-0.5, 0.5]，这属于对特定平台黑盒算法的过度具体化假设。实际上，推荐算法通常是复杂的非线性模型（如深度学习排序模型），并不一定遵循简单的线性加权形式，且不同平台、不同时期的系数差异巨大，不存在通用的“典型值”范围。 | 参考来源 [1] 讨论的是算法推荐与战略定价的理论模型，并未提供具体的线性权重公式或 α 的数值范围，属于间接相关但无法直接支持具体数值断言；该事实为经验性/工程性假设，逻辑上自洽（作为简化模型）但缺乏来源直接支持具体数值。
+
+## Search Query
+
+recommendation algorithm price weight coefficient marketplace ranking
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org/pdf/2309.12122&rut=4565c35e46c13991f8b16b3ff6a8aabd30a222f1298b031e14af8ef2dda3c4bc', 'type': 'ddg', 'title': 'Algorithmic Recommendations and Strategic Pricing - arXiv.org'}

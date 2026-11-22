@@ -1,0 +1,30 @@
+# N113: 工作点 2（中性价比/工程典型值）：假设 s_max = 100MB（常见 CDN 最大对象限制阈值），计算截断均值 E[S]_typical ≈ 10.5KB
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N33, N34, N36
+
+## Claim
+
+工作点 2（中性价比/工程典型值）：假设 s_max = 100MB（常见 CDN 最大对象限制阈值），计算截断均值 E[S]_typical ≈ 10.5KB（基于 α=1.1 积分），总数据量 S_total ≈ 1.05GB，小于 128GB，LRU 命中率仍接近 100%，此工作点代表大多数生产环境的配置上限。
+
+## Corrected Claim
+
+在假设 s_max = 100MB 且对象大小服从 α=1.1 的幂律分布（截断于 s_max）的前提下，计算得出的截断均值约为 10.5KB，总数据量约 1.05GB。在此假设下，若缓存容量为 128GB，LRU 命中率理论上接近 100%。注意：s_max 和 α 的具体数值需依据实际生产环境数据验证。
+
+## Evidence
+
+[质询]该陈述包含具体的工程经验参数（如 s_max=100MB, α=1.1, E[S]≈10.5KB），这些属于经验事实而非第一性原理可推导的数学/物理定律。参考来源均为 CSMA/CD 协议相关，与该 CDN/LRU 缓存场景完全无关，无法提供外部支持。虽然逻辑上若接受其假设前提则推导自洽，但缺乏来源验证其假设参数的真实性。 | 参考来源 [1][2][3] 均讨论 CSMA/CD 最小帧长计算，与 CDN 对象大小分布及 LRU 命中率无关，属于无关来源。该节点为 search 类型，涉及经验事实（硬件/配置参数），逻辑自洽但缺来源支持，依据规则判为 degraded。
+
+## Search Query
+
+CDN max object size limit 100MB engineering typical value
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_40163242/article/details/109849622&rut=c3c9bc56eeb219ae03a646325c6294d3eaafe0aea11e1da4c745592a0f9585e3', 'type': 'ddg', 'title': '计算机网络习题：Csma/Cd系列_单向传播时延-csdn博客'}
+- {'url': 'https://blog.csdn.net/weixin_52593633/article/details/127493778&rut=25078c7546a647916e1acea85dad7c73c8ab6ae2584f350fce64dcba4dab0c5e', 'type': 'ddg', 'title': 'Csma/Cd协议总结&最短帧长计算 - Csdn博客'}
+- {'url': 'https://rk.51cto.com/article/379230.html&rut=67b6049f387c797b80477249eecb9bc54152514f8583dc540bbb7b85926f5e33', 'type': 'ddg', 'title': 'Csma/Cd协议最小帧长题目分步解析 -51cto软考-软考在线教育培训'}

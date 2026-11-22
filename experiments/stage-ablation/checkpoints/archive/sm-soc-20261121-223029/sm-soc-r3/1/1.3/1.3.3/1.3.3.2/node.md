@@ -1,0 +1,20 @@
+# N149: 阈值跳跃的临界溢价 δ_crit：当 P_ask = W_high_threshold（即高意愿买家的最低支付意愿）时，P_deal 发生结构性跳变，δ_cri
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N43
+
+## Claim
+
+阈值跳跃的临界溢价 δ_crit：当 P_ask = W_high_threshold（即高意愿买家的最低支付意愿）时，P_deal 发生结构性跳变，δ_crit = (W_high_threshold / P_ref) - 1，需结合 N112 中 2.28% 分位数的具体 W 值计算 δ_crit 的数值。
+
+## Corrected Claim
+
+阈值跳跃的临界溢价 δ_crit：当 P_ask = W_high_threshold（即高意愿买家的最低支付意愿）时，P_deal 发生结构性跳变，δ_crit = (W_high_threshold / P_ref) - 1，需结合 N112 中 2.28% 分位数的具体 W 值计算 δ_crit 的数值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 δ_crit = (W_high_threshold / P_ref) - 1 符合溢价定义的数学逻辑，量纲一致，且作为 knowledge 节点无需外部来源支持。

@@ -1,0 +1,24 @@
+# N50: FP8 量化 Qwen3-27B 在 WikiText-2 数据集上的困惑度（Perplexity）绝对值增量具体数值，需通过对比 BF16 基线（通常约 5.
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N9
+
+## Claim
+
+FP8 量化 Qwen3-27B 在 WikiText-2 数据集上的困惑度（Perplexity）绝对值增量具体数值，需通过对比 BF16 基线（通常约 5.5-6.0）与 FP8 实测值（通常约 5.8-6.5）得出，若增量超过 0.3 (约 5%) 则标记为质量损失显著
+
+## Corrected Claim
+
+FP8 量化 Qwen3-27B 在 WikiText-2 数据集上的困惑度（Perplexity）通常会有轻微上升，具体增量需通过对比 BF16 基线与 FP8 实测值得出；若增量显著（如超过 0.3 或 5%），则标记为质量损失显著。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值范围（BF16基线5.5-6.0，FP8实测5.8-6.5）及阈值（0.3），属于经验事实。由于检索无可用来源，无法验证这些具体数值是否准确对应Qwen3-27B在WikiText-2上的实际表现，存在数值偏差或口径混淆的风险。 | 经验事实，逻辑自洽但缺来源支持。数值量级符合大语言模型量化评估的一般规律，但具体数值无法通过第一性原理推导，且无外部来源佐证。
+
+## Search Query
+
+Qwen3-27B FP8 quantization perplexity WikiText-2 benchmark vs BF16

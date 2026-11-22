@@ -1,0 +1,28 @@
+# N125: 断言'最小干预为价格锚点'的置信度量化依据：置信度 0.70 来源于类比案例（如 Airbnb 显示'每晚最低价'后房源定价策略变化），需计算该案例中价格锚点导
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N39
+
+## Claim
+
+断言'最小干预为价格锚点'的置信度量化依据：置信度 0.70 来源于类比案例（如 Airbnb 显示'每晚最低价'后房源定价策略变化），需计算该案例中价格锚点导致平均挂牌价下降幅度 ΔP% 与当前平台假设的 k 值（敏感度系数）的误差范围，若误差 <10% 则维持 0.70，否则下调。
+
+## Corrected Claim
+
+置信度 0.70 基于类比 Airbnb 价格锚点案例的定性推断，需进一步获取该案例中平均挂牌价下降幅度 ΔP% 与当前平台敏感度系数 k 的具体数值，并验证其误差是否小于 10% 以确认该置信度。
+
+## Evidence
+
+[质询]该陈述将置信度 0.70 的量化依据建立在类比案例（Airbnb）与当前平台假设参数（k值）的误差比对上，但缺乏对 Airbnb 案例中 ΔP% 具体数值、当前平台 k 值具体数值以及两者误差计算过程的实证数据支持，属于未经验证的经验性假设推导。 | 参考来源 [1] 仅讨论置信区间的通用定义，未涉及 Airbnb 价格锚点案例或具体敏感度系数 k 的误差计算，无法提供直接支持；该事实为经验性量化逻辑，逻辑自洽但缺乏具体数据支撑，故降级。
+
+## Search Query
+
+Airbnb price anching effect on listing price reduction magnitude case study
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/9819886375&rut=2ea27f2b4f8ab1a2914d0ebfaad9475529d88174d2a1d8052acd69eaa4d886ff', 'type': 'ddg', 'title': '置信区间与预测区间：数据科学中的不确定性量化技术深度解读'}

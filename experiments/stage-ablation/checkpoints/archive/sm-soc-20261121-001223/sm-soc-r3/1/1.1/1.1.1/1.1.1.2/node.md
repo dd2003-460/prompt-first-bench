@@ -1,0 +1,29 @@
+# N88: 风险厌恶系数 λ 的财富依赖性修正：λ 并非常数，而是初始财富 W_0 的函数，通常建模为 λ(W_0) = λ_0 * (W_0/W_ref)^(-γ)，其中
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N27
+
+## Claim
+
+风险厌恶系数 λ 的财富依赖性修正：λ 并非常数，而是初始财富 W_0 的函数，通常建模为 λ(W_0) = λ_0 * (W_0/W_ref)^(-γ)，其中 γ 为财富弹性参数（实证估计通常在 0.5-1.0 之间）；对于低净值卖家（W_0 < W_ref），λ 显著高于基准值 1.0，需根据平台卖家财富分布（如中位数财富）校准 γ 值以得到平台特定的 λ 分布。
+
+## Corrected Claim
+
+风险厌恶系数 λ 通常被建模为初始财富 W_0 的递减函数（如 λ(W_0) = λ_0 * (W_0/W_ref)^(-γ)），其中 γ 为财富弹性参数。对于低净值卖家，λ 显著高于基准值，需根据平台卖家财富分布校准 γ 值。
+
+## Evidence
+
+[质询]该陈述包含具体的实证估计数值（γ在0.5-1.0之间）和特定的函数形式（λ(W_0) = λ_0 * (W_0/W_ref)^(-γ)），属于经验事实。参考来源仅讨论了风险偏好与财富的一般关系，未提供该具体公式或实证参数范围，无法直接支持该特定建模细节。 | 逻辑自洽（财富越少风险厌恶越高符合经济学直觉），但参考来源[1][2]仅定性支持财富与风险偏好的关系，未提供具体公式或γ的实证范围，属于经验事实缺来源直接支持。
+
+## Search Query
+
+wealth dependence of risk aversion coefficient lambda estimation gamma parameter
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/581096080&rut=095a7f10d1c262a2801203b51abffa7711e8d00b4eded5b6cf789256064150d7', 'type': 'ddg', 'title': '投资学笔记（二）：风险厌恶与资产配置线 - 知乎'}
+- {'url': 'https://zhuanlan.zhihu.com/p/614215062&rut=f2262c165c41819d974da395364f4c3a66b16e890cbd2e3a132ff05cb06df07b', 'type': 'ddg', 'title': '金融经济学 | 第9讲：风险偏好与投资储蓄行为（Ⅲ） - 知乎'}

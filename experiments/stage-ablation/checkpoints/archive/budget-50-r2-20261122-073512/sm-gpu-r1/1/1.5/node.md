@@ -1,0 +1,20 @@
+# N11: 内存带宽瓶颈量化：生成速度 (tokens/s) ≈ 内存带宽 (GB/s) / (模型大小 (GB) + KV Cache 增量 (GB))，例如 24GB 
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+内存带宽瓶颈量化：生成速度 (tokens/s) ≈ 内存带宽 (GB/s) / (模型大小 (GB) + KV Cache 增量 (GB))，例如 24GB 显存卡若带宽 900GB/s，理论上限约为 900/56 ≈ 16 tokens/s (BF16)。
+
+## Corrected Claim
+
+内存带宽瓶颈量化：生成速度 (tokens/s) ≈ 内存带宽 (GB/s) / (模型大小 (GB) + KV Cache 增量 (GB))，例如 24GB 显存卡若带宽 900GB/s，理论上限约为 900/56 ≈ 16 tokens/s (BF16)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该公式符合LLM推理中内存带宽瓶颈（Memory-Bandwidth Bound）的基本物理直觉，数值量级（900GB/s带宽除以56GB数据量）计算正确且符合典型硬件参数。

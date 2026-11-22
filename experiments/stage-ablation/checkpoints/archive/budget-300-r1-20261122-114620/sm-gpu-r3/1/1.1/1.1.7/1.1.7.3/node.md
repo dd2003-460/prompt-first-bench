@@ -1,0 +1,24 @@
+# N162: 在 vLLM 中启用 --kv-cache-dtype fp8 后，32K 上下文 KV Cache 占用从 1.6GB 降至 0.8GB，但根据 Qwen3 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N46
+
+## Claim
+
+在 vLLM 中启用 --kv-cache-dtype fp8 后，32K 上下文 KV Cache 占用从 1.6GB 降至 0.8GB，但根据 Qwen3 官方技术报告，FP8 KV Cache 在长上下文 (>16K) 场景下会导致 Perplexity 增加约 2-5%，且 MMLU 准确率下降 1-2%，需权衡显存节省与精度损失
+
+## Corrected Claim
+
+在 vLLM 中启用 --kv-cache-dtype fp8 后，32K 上下文 KV Cache 占用从 1.6GB 降至 0.8GB。根据相关技术报告，FP8 KV Cache 在长上下文场景下可能导致 Perplexity 增加和 MMLU 准确率下降，需权衡显存节省与精度损失。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（Perplexity增加2-5%，MMLU下降1-2%），这些具体数值无法从第一性原理推导，且参考来源缺失，无法验证其准确性；此外，'Qwen3官方技术报告'的具体内容未提供，存在引用不可靠或数值夸大/缩小的风险。 | 经验事实，逻辑自洽（FP8量化确实会节省显存并可能带来精度损失，量级合理）但缺来源支持，且具体精度损失数值无法通过逻辑推导得出。
+
+## Search Query
+
+vLLM Qwen3 FP8 KV cache perplexity accuracy drop long context

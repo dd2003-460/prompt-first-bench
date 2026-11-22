@@ -1,0 +1,24 @@
+# N72: 在对象更新率均匀分布且驻留时间 T_res 远小于平均更新间隔 E[T_update]=24h 的极端保守工作点下，失效概率 P_inval ≈ λ_updat
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N21
+
+## Claim
+
+在对象更新率均匀分布且驻留时间 T_res 远小于平均更新间隔 E[T_update]=24h 的极端保守工作点下，失效概率 P_inval ≈ λ_update * T_res，折损因子 D_update ≈ 1 - λ_update * T_res；若 T_res = 1min，则 D_update ≈ 0.999996，量化了更新率对高频小对象命中率的微弱线性折损。
+
+## Corrected Claim
+
+在对象更新率均匀分布且驻留时间 T_res 远小于平均更新间隔 E[T_update]=24h 的极端保守工作点下，失效概率 P_inval ≈ λ_update * T_res，折损因子 D_update ≈ 1 - λ_update * T_res；若 T_res = 1min，则 D_update ≈ 0.999996，量化了更新率对高频小对象命中率的微弱线性折损。
+
+## Evidence
+
+[rework-angle r1] 逻辑推导成立，来源未直接覆盖
+
+## Search Query
+
+cache invalidation probability update rate residence time linear approximation

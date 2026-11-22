@@ -1,0 +1,20 @@
+# N211: 咨询率偏差（ΔQ_bias）的量化：ΔQ_bias = -η_inquiry * σ_match * (ΔP / P_ask)，其中 η_inquiry 为咨询
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N64
+
+## Claim
+
+咨询率偏差（ΔQ_bias）的量化：ΔQ_bias = -η_inquiry * σ_match * (ΔP / P_ask)，其中 η_inquiry 为咨询率对价格变动的弹性系数（η_inquiry ∈ [0.8, 1.2]），ΔP 为价格变动幅度，P_ask 为基准挂价，该公式将 σ_match 转化为咨询率的观测偏差。
+
+## Corrected Claim
+
+咨询率偏差（ΔQ_bias）的量化：ΔQ_bias = -η_inquiry * σ_match * (ΔP / P_ask)，其中 η_inquiry 为咨询率对价格变动的弹性系数（η_inquiry ∈ [0.8, 1.2]），ΔP 为价格变动幅度，P_ask 为基准挂价，该公式将 σ_match 转化为咨询率的观测偏差。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

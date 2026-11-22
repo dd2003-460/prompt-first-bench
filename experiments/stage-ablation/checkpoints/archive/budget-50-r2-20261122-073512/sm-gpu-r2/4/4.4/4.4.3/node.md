@@ -1,0 +1,30 @@
+# N159: CUDA 兼容性降级损失：若消费级显卡（如 RTX 4090）因驱动版本限制无法使用最新的 FP8 或 NVFP4 量化内核（如 FlashAttention-
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N26
+
+## Claim
+
+CUDA 兼容性降级损失：若消费级显卡（如 RTX 4090）因驱动版本限制无法使用最新的 FP8 或 NVFP4 量化内核（如 FlashAttention-3 或特定 TensorRT 优化），推理速度可能较理论峰值下降 10-20%，这导致在相同硬件成本下，实际吞吐能力降低，从而在 TCO 计算中需将硬件效率折减 10-20%。
+
+## Corrected Claim
+
+CUDA 兼容性降级损失：若消费级显卡（如 RTX 4090）因驱动或软件栈版本限制无法充分利用最新的 FP8 量化内核，推理速度可能低于理论峰值，导致实际吞吐能力降低，从而在 TCO 计算中需考虑硬件效率折减（具体折减比例需根据实际基准测试确定，通常显著但未必固定为 10-20%）。
+
+## Evidence
+
+[质询]数值量级缺乏依据：10-20% 的 TCO 折减系数属于经验估算，参考来源仅证实了硬件支持 FP8 及早期软件兼容性问题，未提供具体的性能下降数据或 TCO 计算模型支持该特定百分比。 | 来源 [1] 和 [3] 证实 RTX 4090 硬件支持 FP8，但来源 [3] 显示早期软件（TransformerEngine）存在兼容性问题，逻辑上支持存在效率损失，但无法从来源中推导出具体的 10-20% 数值，属于经验事实且缺直接来源支持。
+
+## Search Query
+
+RTX 4090 FP8 kernel support CUDA version requirement performance penalty
+
+## Retrieval Sources
+
+- {'url': 'https://forums.developer.nvidia.com/t/4090-doesnt-have-fp8-compute/232256&rut=abcef42d1f68f7c3b3f56e9fcd4a36865268d696ae9dd8b33bc0eecdaf470139', 'type': 'ddg', 'title': "4090 doesn't have fp8 compute? - CUDA Programming and Performance ..."}
+- {'url': 'https://forums.developer.nvidia.com/t/4090-doesnt-have-fp8-compute/232256?page=2&rut=91d3125708c4c5a532bbba158757fd6a9a2c46b549a782902094a7c9619ef5b1', 'type': 'ddg', 'title': "4090 doesn't have fp8 compute? - Page 2 - CUDA Programming and ..."}
+- {'url': 'https://github.com/NVIDIA/TransformerEngine/issues/15&rut=710fc926165ad240d06fdaa723cc6090dcff9dea872bb9c4dc4c7aeb272232e4', 'type': 'ddg', 'title': "It doesn't support the latest RTX 40-series card - GitHub"}

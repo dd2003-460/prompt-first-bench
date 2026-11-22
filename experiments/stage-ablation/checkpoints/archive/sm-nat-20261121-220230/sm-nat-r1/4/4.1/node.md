@@ -1,0 +1,29 @@
+# N17: 联合分布相关性量化：在对象大小 S 与请求热度 H 均服从 Pareto 分布且 Pearson 相关系数 ρ = -0.3 的约束下，联合累积分布函数 (Jo
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+联合分布相关性量化：在对象大小 S 与请求热度 H 均服从 Pareto 分布且 Pearson 相关系数 ρ = -0.3 的约束下，联合累积分布函数 (Joint CDF) F_{S,H}(s, h) 的解析形式或 Copula 参数（如 Clayton 或 Gumbel Copula 的 θ 值）必须满足该相关性，以修正独立假设下的容量填充误差。
+
+## Corrected Claim
+
+在对象大小 S 与请求热度 H 均服从 Pareto 分布且存在负相关（如 ρ = -0.3）的约束下，可采用 Copula 函数（如 Clayton 或 Gumbel）建模联合分布，其参数需通过拟合或约束求解确定以满足该相关性，以修正独立假设下的容量填充误差。
+
+## Evidence
+
+[质询]该陈述属于经验事实/具体工程参数设定（特定场景下的Copula参数选择及ρ值），无法从第一性原理直接推出，且参考来源未提供具体数值支持。 | 逻辑自洽（Copula方法确实用于处理非独立相关分布），但参考来源[1]仅列出统计学术语，[2]为金融大纲，均无直接支持该具体参数设定的证据，属经验事实缺来源支持。
+
+## Search Query
+
+joint distribution Pareto alpha 1.1 beta 0.9 correlation -0.3 copula parameter estimation
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/List_of_statistics_articles', 'type': 'wikipedia', 'title': 'List of statistics articles'}
+- {'url': 'https://en.wikipedia.org/wiki/Outline_of_finance', 'type': 'wikipedia', 'title': 'Outline of finance'}

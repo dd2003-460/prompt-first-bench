@@ -1,0 +1,24 @@
+# N53: γ 参数的估计：对于 Pareto(β=0.9) 热度分布，头部对象（Top 10%）的 T_residence/L_object ≈ 2-5，尾部对象 ≈ 0
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N17
+
+## Claim
+
+γ 参数的估计：对于 Pareto(β=0.9) 热度分布，头部对象（Top 10%）的 T_residence/L_object ≈ 2-5，尾部对象 ≈ 0.1-0.5，加权平均 γ ≈ 1.2-1.5，导致折损系数 δ 对头部对象更敏感，需分段计算 δ_head 和 δ_tail。
+
+## Corrected Claim
+
+对于 Pareto(β=0.9) 热度分布，头部对象通常具有更长的驻留时间相对于对象大小（T_residence/L_object 较高），而尾部对象较低，导致加权平均 γ 受头部影响较大，建议分段计算折损系数以反映这种异质性。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值（如 T_residence/L_object 的比值范围、加权平均 γ 的具体区间），这些数值高度依赖于具体的系统负载、对象大小分布及缓存策略，无法仅从 Pareto(β=0.9) 这一分布参数通过第一性原理严格推导得出。缺乏具体实验数据或理论模型支持，数值可能因场景不同而显著波动。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且数值非第一性原理可推导）
+
+## Search Query
+
+cache residence time vs object lifecycle Pareto distribution head tail objects CDN

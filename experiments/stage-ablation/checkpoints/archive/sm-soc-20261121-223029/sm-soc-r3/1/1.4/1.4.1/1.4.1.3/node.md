@@ -1,0 +1,20 @@
+# N152: 卖家利润最大化的一阶条件 dE[Profit]/dP_ask = 0：展开为 (P_ask - P_min) * Q'(P_ask) - Q(P_ask) = 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N44
+
+## Claim
+
+卖家利润最大化的一阶条件 dE[Profit]/dP_ask = 0：展开为 (P_ask - P_min) * Q'(P_ask) - Q(P_ask) = 0，结合 N130 的弹性形式，解得最优挂价 P_ask* = P_min * ε_price / (ε_price - 1)，用于判断当前 15-25% 溢价是否偏离最优定价。
+
+## Corrected Claim
+
+卖家利润最大化的一阶条件 dE[Profit]/dP_ask = 0：展开为 (P_ask - P_min) * Q'(P_ask) - Q(P_ask) = 0，结合 N130 的弹性形式，解得最优挂价 P_ask* = P_min * ε_price / (ε_price - 1)，用于判断当前 15-25% 溢价是否偏离最优定价。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于标准微观经济学利润最大化模型，一阶条件推导及弹性形式下的最优定价公式在数学上自洽且量纲正确。

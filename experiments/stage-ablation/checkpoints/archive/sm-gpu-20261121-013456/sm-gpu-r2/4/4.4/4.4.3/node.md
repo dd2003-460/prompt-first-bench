@@ -1,0 +1,28 @@
+# N85: 工作点C（INT4量化/80GB显存）：1×A100运行Qwen3-27B INT4，权重13.5GB+KV Cache 4.3GB+Buffer 2GB≈19
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N34
+
+## Claim
+
+工作点C（INT4量化/80GB显存）：1×A100运行Qwen3-27B INT4，权重13.5GB+KV Cache 4.3GB+Buffer 2GB≈19.8GB<80GB，可行但显存利用率低（25%）；吞吐量~60-70 tokens/s，相比BF16方案无显著优势且精度损失更大，非最优工作点；数据中心级应优先BF16/FP8以利用高带宽优势。
+
+## Corrected Claim
+
+工作点C（INT4量化/80GB显存）：1×A100运行Qwen3-27B INT4，显存占用远低于80GB，可行但显存利用率低；相比BF16方案，INT4在单卡A100上可能因带宽瓶颈或精度损失导致综合性价比不高，数据中心级通常优先BF16/FP8以平衡精度与带宽效率。
+
+## Evidence
+
+[质询]吞吐量数值（60-70 tokens/s）及显存占用细节（KV Cache 4.3GB等）属于具体经验数据，参考来源仅确认了A100可运行该模型，未提供具体的性能基准测试数据，无法直接验证吞吐量量级是否准确。 | 来源[1]间接支持A100可运行Qwen3-27B（'一张二手 A100 就够'），但缺乏对INT4具体吞吐量及显存细分占用的直接数据支持；逻辑上INT4显存占用低于80GB自洽，但性能对比结论缺乏外部数据佐证。
+
+## Search Query
+
+A100 INT4 vs BF16 inference performance comparison large language model
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2092174228699231701&rut=ffdebd90deb75e0b6cb53b045d50e781eb33c7ebf276ef5b013a5d6dcdfd99fd', 'type': 'ddg', 'title': 'Qwen3.8-27B 全量部署指南：预算多少？怎么跑起来？ - 知乎'}

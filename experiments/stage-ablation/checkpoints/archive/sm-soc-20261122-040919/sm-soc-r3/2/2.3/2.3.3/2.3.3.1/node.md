@@ -1,0 +1,24 @@
+# N220: 共享随机源：卖家对周期缩短的响应噪声 ε_t，定义为在控制价格不变时，卖家调整挂价的随机波动，假设 ε_t ~ N(0, σ_t²)，σ_t 需通过面板数据回归
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N59
+
+## Claim
+
+共享随机源：卖家对周期缩短的响应噪声 ε_t，定义为在控制价格不变时，卖家调整挂价的随机波动，假设 ε_t ~ N(0, σ_t²)，σ_t 需通过面板数据回归估计
+
+## Corrected Claim
+
+共享随机源：卖家对周期缩短的响应噪声 ε_t，定义为在控制价格不变时，卖家调整挂价的随机波动，假设 ε_t ~ N(0, σ_t²)，σ_t 需通过面板数据回归估计
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+seller response to listing duration noise panel data

@@ -1,0 +1,29 @@
+# N60: 基准搜寻时间 T_search_base 的估计值：基于平台用户行为数据，买家从进入品类页到完成首次咨询/购买的平均时间，通常在 15-45 分钟区间，需通过日
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N22
+
+## Claim
+
+基准搜寻时间 T_search_base 的估计值：基于平台用户行为数据，买家从进入品类页到完成首次咨询/购买的平均时间，通常在 15-45 分钟区间，需通过日志数据验证具体中位数。
+
+## Corrected Claim
+
+基准搜寻时间 T_search_base 的估计值：基于平台用户行为数据，买家从进入品类页到完成首次咨询/购买的平均时间需通过日志数据验证具体中位数，通常可能在数十分钟量级（具体区间如15-45分钟需实证数据支持）。
+
+## Evidence
+
+[质询]该陈述属于具体的经验性业务数据（用户行为时长），无法从第一性原理推导，且参考来源均讨论搜索引擎技术性能指标，与电商用户行为时长无关，缺乏直接证据支持。 | 逻辑上15-45分钟符合一般电商决策时长直觉，但参考来源[1][2]均关于搜索引擎技术性能，与该事实主题无关，无可用外部证据支持具体数值区间。
+
+## Search Query
+
+second-hand platform average search time to first inquiry benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://cloud.baidu.com/article/3573824&rut=1aac07b220e77338820c1e650e89b7d9e23a4b45c3ca03e777aab3e79077884e', 'type': 'ddg', 'title': '衡量搜索引擎性能：多维参数解析与技术实践指南'}
+- {'url': 'https://cloud.baidu.com/article/3753336&rut=4070859d26d94ef2496821258388478e7b7e4bee2ea543991915f05ca89c35a3', 'type': 'ddg', 'title': '深度解析：衡量搜索引擎性能的核心参数与技术指标'}

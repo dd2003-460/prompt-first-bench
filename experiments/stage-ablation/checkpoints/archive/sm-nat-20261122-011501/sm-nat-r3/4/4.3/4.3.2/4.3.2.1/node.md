@@ -1,0 +1,20 @@
+# N134: 热点对象更新占比 P_update_hot 的量化：假设更新均匀分布，P_update_hot = 1%。若更新偏向热点（例如热门对象更新率是全局 2 倍），则
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N56
+
+## Claim
+
+热点对象更新占比 P_update_hot 的量化：假设更新均匀分布，P_update_hot = 1%。若更新偏向热点（例如热门对象更新率是全局 2 倍），则 P_update_hot ≈ 2% * (Top-K 请求覆盖率 / 全局请求覆盖率)。对于 Top 10% 对象（覆盖 85% 请求），P_update_hot ≈ 2% * 8.5 ≈ 17%。
+
+## Corrected Claim
+
+热点对象更新占比 P_update_hot 的量化：假设更新均匀分布，P_update_hot = 1%。若更新偏向热点（例如热门对象更新率是全局 2 倍），则 P_update_hot ≈ 2% * (Top-K 请求覆盖率 / 全局请求覆盖率)。对于 Top 10% 对象（覆盖 85% 请求），P_update_hot ≈ 2% * 8.5 ≈ 17%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

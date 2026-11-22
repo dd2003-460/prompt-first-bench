@@ -1,0 +1,24 @@
+# N207: Qwen3-27B 在 MMLU 5-shot CoT 评测下的 BF16 基准准确率具体数值，需检索 Qwen3 官方技术报告或 Hugging Face M
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N50
+
+## Claim
+
+Qwen3-27B 在 MMLU 5-shot CoT 评测下的 BF16 基准准确率具体数值，需检索 Qwen3 官方技术报告或 Hugging Face Model Card 中的 Benchmark 表格获取精确值（预期在 82%-86% 区间，需确认是否包含 Chain-of-Thought 提示）
+
+## Corrected Claim
+
+Qwen3-27B 在 MMLU 5-shot CoT 评测下的 BF16 基准准确率具体数值需查阅 Qwen3 官方技术报告或 Hugging Face Model Card 确认，预期在 82%-86% 区间（待验证）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值区间（82%-86%）和特定评测条件（MMLU 5-shot CoT, BF16），属于硬件/模型性能经验事实，无法从第一性原理推导。由于检索失败，缺乏官方技术报告或 Model Card 的直接证据支持该具体数值区间，存在数值偏差或评测口径（如是否包含 CoT 提示、具体版本）不一致的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值区间）
+
+## Search Query
+
+Qwen3-27B MMLU benchmark accuracy BF16 technical report

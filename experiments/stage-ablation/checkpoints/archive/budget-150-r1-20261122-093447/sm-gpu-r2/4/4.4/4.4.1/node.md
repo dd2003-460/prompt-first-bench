@@ -1,0 +1,20 @@
+# N101: 性能/质量比 (Performance-Quality Ratio, PQR) 的量化定义：PQR = (Effective_Tokens_per_second
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N32
+
+## Claim
+
+性能/质量比 (Performance-Quality Ratio, PQR) 的量化定义：PQR = (Effective_Tokens_per_second / TCO_5yr) * Quality_Score，其中 Effective_Tokens_per_second 需根据精度调整 (BF16=1.0, FP8=0.95, INT8=0.90, W4=0.75 [待核验：基于 MMLU 下降幅度折算])，Quality_Score = 1 - (Perplexity_Increase / 10)；该公式用于在最终答案中对比不同硬件-精度组合的性价比，例如 4090+W4 的 PQR 通常高于 A100+BF16。
+
+## Corrected Claim
+
+PQR 是一种用于评估硬件-精度组合性价比的经验性指标，其具体数值依赖于精度调整系数和质量评分模型的定义。在特定假设下（如 W4 精度系数为 0.75），4090+W4 可能在某些场景下表现出比 A100+BF16 更高的 PQR，但该结论并非绝对，需结合具体模型和任务验证。
+
+## Evidence
+
+[质询]该公式为特定场景下的经验性工程估算模型，而非通用物理或数学定律。其中精度调整系数（如 W4=0.75）和 Quality_Score 的计算方式（Perplexity_Increase / 10）均为经验参数，缺乏普适性理论支撑，且不同模型/任务下这些系数波动极大，直接断言'4090+W4 的 PQR 通常高于 A100+BF16'存在以偏概全的风险。 | source=knowledge，逻辑自洽（量纲合理，公式结构符合性价比评估直觉），但作为经验事实，其具体系数和结论依赖于特定假设，无外部来源直接支持其普适性，故降级为定性表述。

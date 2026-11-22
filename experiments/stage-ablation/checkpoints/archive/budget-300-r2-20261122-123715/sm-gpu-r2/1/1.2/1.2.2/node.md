@@ -1,0 +1,20 @@
+# N37: A100 80GB SXM4 单卡在 FP8/INT8 量化下运行 Qwen3-27B 32K 上下文的显存占用为 27GB(权重) + 18GB(KV Cac
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+A100 80GB SXM4 单卡在 FP8/INT8 量化下运行 Qwen3-27B 32K 上下文的显存占用为 27GB(权重) + 18GB(KV Cache) + 3GB(激活/框架) ≈ 48GB，小于 80GB 物理显存，无需 Offload，可完整驻留 GPU
+
+## Corrected Claim
+
+A100 80GB SXM4 单卡在 FP8/INT8 量化下运行 Qwen3-27B 32K 上下文的显存占用为 27GB(权重) + 18GB(KV Cache) + 3GB(激活/框架) ≈ 48GB，小于 80GB 物理显存，无需 Offload，可完整驻留 GPU
+
+## Evidence
+
+[质询]KV Cache 估算可能偏乐观：若采用 GQA (Grouped Query Attention) 且 head_dim 为 128，32K 上下文的 KV Cache 实际占用可能低于 18GB（例如 Qwen2/3 系列通常使用 GQA，KV 头数少于 Q 头数，导致显存占用显著降低，18GB 可能是基于 MHA 的保守上限或特定配置下的估算，但即便按此估算，总显存 48GB 仍远小于 80GB，结论不变）。 | 先验知识/题面给定，逻辑校验通过：27B 模型 FP8/INT8 权重约 13.5-27GB（取决于具体量化精度和框架开销，27GB 为合理上限估算），32K 上下文 KV Cache 在 18GB 量级合理，总显存 48GB < 80GB，无需 Offload 的结论在逻辑和工程经验上均成立。

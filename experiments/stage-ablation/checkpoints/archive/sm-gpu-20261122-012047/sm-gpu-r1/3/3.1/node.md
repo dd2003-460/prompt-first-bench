@@ -1,0 +1,30 @@
+# N20: BF16 精度下 Qwen3-27B 的推理速度基准为 15 tokens/s (在 RTX 4090 上) [待核验]，这是计算其他精度加速比的基准值。
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N3
+
+## Claim
+
+BF16 精度下 Qwen3-27B 的推理速度基准为 15 tokens/s (在 RTX 4090 上) [待核验]，这是计算其他精度加速比的基准值。
+
+## Corrected Claim
+
+BF16 精度下 Qwen3-27B 在 RTX 4090 上的推理速度约为 15 tokens/s（基于同类模型及硬件配置的间接推断，具体数值需以实际基准测试为准）。
+
+## Evidence
+
+[质询]来源[1]测试的是Qwen3.5-27B且使用4张4090D，来源[2]和[3]测试的是Qwen3.8-27B，均非Qwen3-27B；且来源[2]提到的14 tok/s未明确是BF16精度，来源[1]未提供单卡BF16具体数值，无法直接证实15 tokens/s这一特定基准值。 | 经验事实，逻辑自洽但缺来源支持。参考来源涉及不同版本模型（Qwen3.5/3.8）或不同硬件配置（4卡），未直接提供Qwen3-27B在单张RTX 4090上BF16精度为15 tokens/s的直接证据。
+
+## Search Query
+
+Qwen3-27B inference speed RTX 4090 BF16 tokens per second
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_30218749/article/details/159560741&rut=87e59bef10c7c3a681a76b6967ab61f7010ab803e63e2cd38d1f53b052e6b5d5', 'type': 'ddg', 'title': 'Qwen3.5-27B GPU算力优化：4090D下FP16 vs BF16推理延迟与显存对比-CSDN博客'}
+- {'url': 'https://juejin.cn/post/7694474763449516074&rut=014e5e4ad2fda3e25625f2b3fe1728c73835a7fdd786c2c78ae3924149d04522', 'type': 'ddg', 'title': 'Qwen3.8-27B 本地推理实测：从 14 tok/s 到 159 tok/s 的投机解码调优解析 Qwen3.8- - 掘金'}
+- {'url': 'https://blog.csdn.net/liangjinhu/article/details/164183862&rut=8d101b892bffb46b87003cdc8ef3a4d74fd9cad312ea5acd751e7c426bb2b5fe', 'type': 'ddg', 'title': 'Qwen3.8-27B GSQ-RCO 量化部署实测：9.3GB 跑出超 BF16 精度，消费级显卡落地 27B 多模态'}

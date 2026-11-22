@@ -1,0 +1,24 @@
+# N324: 模仿强度系数α的取值范围及具体数值需基于特定市场数据估计，α = ΔP_ask / (ρ * (P_high - P_avg))，其中ΔP_ask为均衡挂价上移
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N104, N105, N106
+
+## Claim
+
+模仿强度系数α的取值范围及具体数值需基于特定市场数据估计，α = ΔP_ask / (ρ * (P_high - P_avg))，其中ΔP_ask为均衡挂价上移幅度，ρ为快速成交案例比例，P_high和P_avg分别为高溢价和平价商品的挂价。
+
+## Corrected Claim
+
+模仿强度系数α的取值需基于特定市场数据估计，其计算公式（如 α = ΔP_ask / (ρ * (P_high - P_avg))）依赖于特定模型假设和数据口径，并非通用标准。
+
+## Evidence
+
+[质询]该公式属于特定模型假设下的经验性定义，并非通用物理或数学定律，其具体形式（如分母中ρ与价格差的乘积关系）缺乏普适性理论支撑，可能仅适用于特定数据集或论文设定，存在过拟合或口径混淆风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该公式为特定模型参数定义，非第一性原理可推导的通用事实）
+
+## Search Query
+
+seller imitation behavior price adjustment coefficient alpha estimation second-hand market

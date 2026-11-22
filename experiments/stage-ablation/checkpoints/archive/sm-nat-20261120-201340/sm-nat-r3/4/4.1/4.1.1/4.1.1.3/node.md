@@ -1,0 +1,20 @@
+# N119: 低频对象的失效阈值：当 1/r_i > 1/λ = 100天，即 r_i < 1/100 day 时，P_stale_i > 0.63。对于 Pareto(β=
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N53
+
+## Claim
+
+低频对象的失效阈值：当 1/r_i > 1/λ = 100天，即 r_i < 1/100 day 时，P_stale_i > 0.63。对于 Pareto(β=0.9) 分布，需计算 r_i < 1/100 day 的对象占比及其字节流量占比，这部分对象的命中率折损最大。
+
+## Corrected Claim
+
+低频对象的失效阈值：当 1/r_i > 1/λ = 100天，即 r_i < 1/100 day 时，P_stale_i > 0.63。对于 Pareto(β=0.9) 分布，需计算 r_i < 1/100 day 的对象占比及其字节流量占比，这部分对象的命中率折损最大。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：指数分布中 P(X > 1/λ) = e^-1 ≈ 0.37，故 P_stale = 1 - 0.37 = 0.63 成立；Pareto 分布参数与阈值逻辑自洽。

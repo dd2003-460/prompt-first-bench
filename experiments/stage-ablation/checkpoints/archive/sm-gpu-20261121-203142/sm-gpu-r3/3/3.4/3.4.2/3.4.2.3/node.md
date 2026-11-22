@@ -1,0 +1,20 @@
+# N227: 1×L40S 48GB FP8 方案的延迟-吞吐权衡：L40S 无 NVLink，单卡无跨卡通信开销，TTFT 主要受计算限制（~30 TFLOPS BF16）
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N71
+
+## Claim
+
+1×L40S 48GB FP8 方案的延迟-吞吐权衡：L40S 无 NVLink，单卡无跨卡通信开销，TTFT 主要受计算限制（~30 TFLOPS BF16），32K 上下文 Prefill 时间 ≈ 5-8 秒；Decode 阶段因高 B_max 可实现高吞吐，但单请求延迟（Latency per Token）受带宽限制约为 320ms/Token（1/3.1 TPS）；若应用场景对单请求延迟敏感（如实时对话），L40S 不如 H100，但对批量处理（如离线摘要）更具性价比。
+
+## Corrected Claim
+
+1×L40S 48GB FP8 方案的延迟-吞吐权衡：L40S 无 NVLink，单卡无跨卡通信开销，TTFT 主要受计算限制（~30 TFLOPS BF16），32K 上下文 Prefill 时间 ≈ 5-8 秒；Decode 阶段因高 B_max 可实现高吞吐，但单请求延迟（Latency per Token）受带宽限制约为 320ms/Token（1/3.1 TPS）；若应用场景对单请求延迟敏感（如实时对话），L40S 不如 H100，但对批量处理（如离线摘要）更具性价比。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：L40S 48GB 显存与 ~30 TFLOPS BF16 算力符合硬件规格；Prefill 计算量与时间估算量级合理；Decode 阶段受带宽限制导致低 TPS（~3.1 TPS）符合单卡无 NVLink 且显存带宽有限的物理直觉；结论逻辑自洽。

@@ -1,0 +1,20 @@
+# N34: NVIDIA A100 80GB SXM 价格约 $10,000-$12,000 (二手/新) [待核验]，带宽 2039GB/s。相比 H100 ($25,0
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+NVIDIA A100 80GB SXM 价格约 $10,000-$12,000 (二手/新) [待核验]，带宽 2039GB/s。相比 H100 ($25,000+)，A100 在 BF16 下可完整加载 Qwen3-27B (54GB) + 32K KV (8GB) = 62GB，剩余 18GB 用于激活。A100 的能效比 (Performance/Watt) 通常高于消费级 4090，且驱动稳定性高。若预算允许，1x A100 80GB 是比 2x 4090 更稳健的单卡数据中心方案，TCO 优势来自更低的故障率和更高的有效算力利用率。
+
+## Corrected Claim
+
+NVIDIA A100 80GB SXM 价格约 $10,000-$12,000 (二手/新) [待核验]，带宽 2039GB/s。相比 H100 ($25,000+)，A100 在 BF16 下可完整加载 Qwen3-27B (54GB) + 32K KV (8GB) = 62GB，剩余 18GB 用于激活。A100 的能效比 (Performance/Watt) 通常高于消费级 4090，且驱动稳定性高。若预算允许，1x A100 80GB 是比 2x 4090 更稳健的单卡数据中心方案，TCO 优势来自更低的故障率和更高的有效算力利用率。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

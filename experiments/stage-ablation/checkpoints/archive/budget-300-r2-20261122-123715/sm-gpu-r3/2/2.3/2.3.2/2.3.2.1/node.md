@@ -1,0 +1,24 @@
+# N218: NVIDIA A100 (40GB/80GB) 在 INT8 (TensorRT-LLM/vLLM) 精度下运行 Qwen3-27B 的实测吞吐量约为 40-6
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N61
+
+## Claim
+
+NVIDIA A100 (40GB/80GB) 在 INT8 (TensorRT-LLM/vLLM) 精度下运行 Qwen3-27B 的实测吞吐量约为 40-60 tokens/s (单卡, 32K上下文)，该数值基于 Hopper/Ampere 架构 Tensor Core 对 INT8 的支持效率 (通常为 FP16 的 2 倍) 及 1.55TB/s (HBM2e) 带宽推算。
+
+## Corrected Claim
+
+NVIDIA A100 (40GB/80GB) 在 INT8 精度下运行 Qwen3-27B 的吞吐量受限于 HBM2e 带宽（1.55TB/s）及 Tensor Core 加速效率，具体实测值需依赖基准测试，理论估算范围较宽，不宜直接断定为 40-60 tokens/s。
+
+## Evidence
+
+[质询]吞吐量数值（40-60 tokens/s）属于具体经验性能指标，无法仅从架构特性（INT8支持、带宽）通过第一性原理严格推导得出，且缺乏实测数据支持；此外，32K上下文下的解码阶段通常受限于内存带宽而非计算能力，简单用'2倍效率'推算可能忽略KV Cache对带宽的占用及实际调度开销，导致估算偏差。 | 先验知识/题面给定，逻辑校验通过（量级合理，INT8加速与带宽限制符合物理直觉），但具体吞吐量数值为经验事实，缺乏直接来源支持，故降级。
+
+## Search Query
+
+A100 Qwen 27B INT8 inference benchmark tokens per second

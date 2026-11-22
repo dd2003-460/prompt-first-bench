@@ -1,0 +1,24 @@
+# N304: A100 80GB 二手卡的核心故障风险集中在 ECC 显存错误累积（Bit Error Rate 上升）和 PCIe 插槽信号完整性退化，而非消费级显卡常见的
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N112
+
+## Claim
+
+A100 80GB 二手卡的核心故障风险集中在 ECC 显存错误累积（Bit Error Rate 上升）和 PCIe 插槽信号完整性退化，而非消费级显卡常见的显存颗粒老化；在 12 个月持有期内，因高负载历史导致的不可逆硬件故障概率预估为 1.5%-2.5% [待核验]，远低于消费级卡。
+
+## Corrected Claim
+
+A100 80GB 二手卡的核心故障风险通常被认为集中在 ECC 显存错误累积和 PCIe 信号完整性退化，其整体可靠性通常高于消费级显卡，但具体故障概率因使用历史而异，缺乏统一统计标准。
+
+## Evidence
+
+[质询]具体数值（1.5%-2.5%）缺乏公开权威数据支持，属于经验事实且无来源佐证；此外，将故障风险完全归因于ECC和PCIe而排除显存颗粒老化在逻辑上过于绝对，高负载下显存颗粒老化仍是潜在风险之一。 | 经验事实，逻辑自洽但缺来源支持；检索无可用来源，无法验证具体概率数值及故障归因的排他性。
+
+## Search Query
+
+A100 80GB used failure rate ECC errors data center retirement risk

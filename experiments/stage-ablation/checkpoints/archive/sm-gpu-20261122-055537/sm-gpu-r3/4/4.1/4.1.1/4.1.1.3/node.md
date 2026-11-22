@@ -1,0 +1,24 @@
+# N210: AMD RX 7900 XTX 24GB 2025年价格与兼容性修正：全新卡价格区间为 $899-$1,100，低于 NVIDIA 同级卡；但 AMD 卡不支持
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N61
+
+## Claim
+
+AMD RX 7900 XTX 24GB 2025年价格与兼容性修正：全新卡价格区间为 $899-$1,100，低于 NVIDIA 同级卡；但 AMD 卡不支持 TensorRT-LLM 原生优化，主要依赖 ROCm 或 llama.cpp，其推理吞吐量通常比同显存 NVIDIA 卡低 15-25%，需考虑软件生态兼容性成本。
+
+## Corrected Claim
+
+AMD RX 7900 XTX 24GB 在2025年的价格通常低于同级NVIDIA显卡；由于缺乏TensorRT-LLM原生优化，主要依赖ROCm或llama.cpp，其推理吞吐量通常低于同显存NVIDIA卡，需考虑软件生态兼容性成本。
+
+## Evidence
+
+[质询]该陈述包含具体的2025年市场价格区间（$899-$1,100）和具体的性能损耗百分比（15-25%），属于经验事实。由于检索失败无外部来源支持，且这些具体数值无法从第一性原理推导，存在数值过时或口径偏差的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）。AMD ROCm生态在LLM推理上确实通常落后于NVIDIA CUDA/TensorRT，但具体价格区间和15-25%的性能差距缺乏实时数据佐证，故降级为定性表述。
+
+## Search Query
+
+AMD RX 7900 XTX price 2025 ROCm inference performance vs NVIDIA

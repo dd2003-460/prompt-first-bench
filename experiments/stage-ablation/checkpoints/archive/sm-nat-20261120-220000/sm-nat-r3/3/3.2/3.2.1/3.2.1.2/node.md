@@ -1,0 +1,20 @@
+# N106: 重填充延迟的尾部分布影响：P(t_refill > 50ms) ≈ 0.001 意味着千分之一的请求会经历长尾延迟。这些长尾请求对P(miss|refill)的
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N37
+
+## Claim
+
+重填充延迟的尾部分布影响：P(t_refill > 50ms) ≈ 0.001 意味着千分之一的请求会经历长尾延迟。这些长尾请求对P(miss|refill)的贡献最大，因为 λ*t 更大。若忽略长尾，P(miss)估算偏低；若包含长尾，P(miss)可能升至0.96-0.97。
+
+## Corrected Claim
+
+重填充延迟的尾部分布影响：P(t_refill > 50ms) ≈ 0.001 意味着千分之一的请求会经历长尾延迟。这些长尾请求对P(miss|refill)的贡献最大，因为 λ*t 更大。若忽略长尾，P(miss)估算偏低；若包含长尾，P(miss)可能升至0.96-0.97。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：长尾延迟导致暴露时间t增大，根据P(miss)=1-exp(-λt)，t越大P(miss)越接近1，故长尾请求对miss贡献最大，忽略长尾会导致整体P(miss)估算偏低，逻辑自洽。

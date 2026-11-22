@@ -1,0 +1,30 @@
+# N104: 事件 ID 'product_view' 的埋点触发条件需明确：是页面加载完成（load event）还是用户停留超过 3 秒（dwell time > 3s）
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N43
+
+## Claim
+
+事件 ID 'product_view' 的埋点触发条件需明确：是页面加载完成（load event）还是用户停留超过 3 秒（dwell time > 3s）？若为后者，需统计实际停留时间分布，计算 P(dwell > 3s | click) 作为修正系数 k_dwell，Conv_corrected = Conv_raw * k_dwell，以排除误触导致的虚高分母。
+
+## Corrected Claim
+
+事件 ID 'product_view' 的埋点触发条件需明确区分页面加载完成与用户有效停留（如设定一定时长的 dwell time）。若采用停留时间作为有效浏览标准，需统计实际停留时间分布，并据此计算修正系数以排除误触或无效浏览导致的虚高分母，从而获得更准确的转化率。
+
+## Evidence
+
+[质询]该陈述包含具体的工程实现细节（如3秒阈值、特定修正公式），属于经验性设计决策而非通用事实，且参考来源中未包含关于‘停留时间修正系数’的具体定义或支持证据，存在过度具体化且缺乏来源支撑的风险。 | 逻辑上，区分页面加载与有效停留以修正转化率是合理的数据分析思路，但参考来源[1][2][3]仅涉及埋点基础定义和通用原则，未直接支持‘3秒阈值’或‘k_dwell修正公式’这一具体经验事实，故降级。
+
+## Search Query
+
+e-commerce product view event definition dwell time threshold analytics
+
+## Retrieval Sources
+
+- {'url': 'https://www.volcengine.com/article/1532041&rut=285b4a762916364ba89154a54296fe015d397066cefa2f20ae7d9b9191c1da74', 'type': 'ddg', 'title': '如何在GA4中追踪带产品ID参数的PAGEVIEW事件并创建自定义受众'}
+- {'url': 'https://blog.csdn.net/tuposky/article/details/136281833&rut=2830f323bd9817c829690fd91dfb161699d89d365e2a46fe9ad049264fd06dd5', 'type': 'ddg', 'title': '埋点事件属性设计方案_数据埋点事件定义 公共参数-csdn博客'}
+- {'url': 'https://juejin.cn/post/7348709938024398888&rut=4110400b7823988f9e45041982f028883e3fa3075821fa91cc4304f3c88dc06d', 'type': 'ddg', 'title': '埋点此文总结如何埋点，包含哪些埋点方式，怎么选择，怎么设计埋点事件，还有对应的采集方法论，同时做了一些实例理解 - 掘金'}

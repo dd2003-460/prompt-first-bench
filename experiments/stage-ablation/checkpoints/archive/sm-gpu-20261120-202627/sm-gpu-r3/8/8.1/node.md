@@ -1,0 +1,24 @@
+# N135: Apple M3 Ultra 在 llama.cpp 框架下推理 Qwen3-27B (BF16, 32K context) 的实测吞吐量 (tokens/s)
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N31
+
+## Claim
+
+Apple M3 Ultra 在 llama.cpp 框架下推理 Qwen3-27B (BF16, 32K context) 的实测吞吐量 (tokens/s) 需通过检索 2024-2025 年社区基准测试确定，预期值在 5-15 tokens/s 区间 [待核验]，该值直接决定其单位时间产出能力。
+
+## Corrected Claim
+
+Apple M3 Ultra 在 llama.cpp 框架下推理 Qwen3-27B (BF16, 32K context) 的实测吞吐量需通过具体基准测试确定，预期值可能在 5-15 tokens/s 区间，但缺乏当前检索来源的直接验证。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件性能数值（5-15 tokens/s），属于经验事实。由于检索失败，缺乏外部基准测试数据支持，且不同量化精度、上下文长度及具体实现优化可能导致吞吐量波动较大，无法仅凭逻辑推导确定具体区间。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+Apple M3 Ultra Qwen3-27B llama.cpp benchmark tokens per second

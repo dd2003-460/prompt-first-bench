@@ -1,0 +1,20 @@
+# N57: LRU 策略在对象内容更新场景下的“陈旧惩罚”（Staleness Penalty）量化公式为 H_eff = H_LRU * exp(-λ * T_res_a
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+LRU 策略在对象内容更新场景下的“陈旧惩罚”（Staleness Penalty）量化公式为 H_eff = H_LRU * exp(-λ * T_res_avg)，其中 T_res_avg 是缓存内对象的加权平均驻留时间；当 λ=0.01/day 且 T_res_avg=10 days 时，衰减因子为 exp(-0.1) ≈ 0.9048，意味着命中率损失约 9.5%。
+
+## Corrected Claim
+
+LRU 策略在对象内容更新场景下的“陈旧惩罚”（Staleness Penalty）量化公式为 H_eff = H_LRU * exp(-λ * T_res_avg)，其中 T_res_avg 是缓存内对象的加权平均驻留时间；当 λ=0.01/day 且 T_res_avg=10 days 时，衰减因子为 exp(-0.1) ≈ 0.9048，意味着命中率损失约 9.5%。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

@@ -1,0 +1,20 @@
+# N158: 在无硬性延迟约束下，衡量性价比的核心指标定义为 $/Token（美元/令牌），计算公式为 TCO_annual / Total_Tokens_Generated
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+在无硬性延迟约束下，衡量性价比的核心指标定义为 $/Token（美元/令牌），计算公式为 TCO_annual / Total_Tokens_Generated_Annual；对于单用户本地工作站场景，需引入'每瓦特吞吐量'（Tokens/s/W）作为能效辅助指标，以区分高功耗低吞吐方案与低功耗高吞吐方案（如 Apple Silicon vs RTX 4090）
+
+## Corrected Claim
+
+在无硬性延迟约束下，衡量性价比的核心指标定义为 $/Token（美元/令牌），计算公式为 TCO_annual / Total_Tokens_Generated_Annual；对于单用户本地工作站场景，需引入'每瓦特吞吐量'（Tokens/s/W）作为能效辅助指标，以区分高功耗低吞吐方案与低功耗高吞吐方案（如 Apple Silicon vs RTX 4090）
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

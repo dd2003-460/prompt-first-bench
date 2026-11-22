@@ -1,0 +1,20 @@
+# N320: GPQA 准确率下降的量化公式：Delta_GPQA = GPQA_FP16 - GPQA_Quantized；GPQA 对量化更敏感，因为涉及复杂推理；对于 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N103
+
+## Claim
+
+GPQA 准确率下降的量化公式：Delta_GPQA = GPQA_FP16 - GPQA_Quantized；GPQA 对量化更敏感，因为涉及复杂推理；对于 Qwen3-27B，FP16 基线 GPQA 约为 50-60% [待核验：需官方论文数据]，INT8 量化后下降 2-5%，INT4 量化后下降 8-15%；例如 Qwen2-72B 在 INT4 下 GPQA 下降约 12%，可作为代理数据 [待核验：需具体模型和量化方法]。
+
+## Corrected Claim
+
+GPQA 准确率下降的量化公式：Delta_GPQA = GPQA_FP16 - GPQA_Quantized；GPQA 对量化更敏感，因为涉及复杂推理。对于大语言模型，INT8 量化通常导致轻微下降，而 INT4 量化可能导致显著下降（具体幅度取决于模型规模和量化算法，通常 INT4 下降幅度大于 INT8）。
+
+## Evidence
+
+[质询]具体数值（如Qwen3-27B基线50-60%、INT4下降8-15%）属于经验事实，缺乏官方论文或权威基准测试的直接支持，且不同量化方法（如GPTQ, AWQ, SmoothQuant）对GPQA的影响差异巨大，笼统给出区间可能误导。 | 先验知识/题面给定，逻辑校验通过：GPQA作为高难度推理基准，对量化误差确实比简单问答更敏感，INT4量化导致显著性能下降符合大模型量化的一般规律；但具体数值缺乏来源直接支持，故降级。

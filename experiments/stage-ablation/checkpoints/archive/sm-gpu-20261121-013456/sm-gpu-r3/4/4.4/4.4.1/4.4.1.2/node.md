@@ -1,0 +1,24 @@
+# N205: A100 不支持原生 FP8 硬件加速导致的性能惩罚系数：相比 H100 原生 FP8 吞吐量（~90-100 tokens/s），A100 模拟 FP8 的吞
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N83
+
+## Claim
+
+A100 不支持原生 FP8 硬件加速导致的性能惩罚系数：相比 H100 原生 FP8 吞吐量（~90-100 tokens/s），A100 模拟 FP8 的吞吐量衰减比例及原因（缺乏 FP8 Tensor Core 单元，依赖 BF16/FP16 计算模拟）。
+
+## Corrected Claim
+
+A100 不支持原生 FP8 硬件加速导致的性能惩罚系数：相比 H100 原生 FP8 吞吐量（~90-100 tokens/s），A100 模拟 FP8 的吞吐量衰减比例及原因（缺乏 FP8 Tensor Core 单元，依赖 BF16/FP16 计算模拟）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 架构确实缺乏原生 FP8 Tensor Core 支持，需通过软件模拟或降精度至 BF16/FP16 计算，导致相比 H100 原生 FP8 存在显著性能差距，符合硬件架构事实。
+
+## Search Query
+
+A100 vs H100 FP8 inference performance gap tensor core support software emulation overhead

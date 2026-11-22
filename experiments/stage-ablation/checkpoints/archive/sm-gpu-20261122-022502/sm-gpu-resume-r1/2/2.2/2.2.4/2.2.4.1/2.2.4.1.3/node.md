@@ -1,0 +1,24 @@
+# N595: MI300X 上 HBM 带宽效率随上下文长度（Seq Len）变化的非线性阈值：当 Seq Len > 8K 时，由于 KV Cache 读取块大小增加，内存
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N182
+
+## Claim
+
+MI300X 上 HBM 带宽效率随上下文长度（Seq Len）变化的非线性阈值：当 Seq Len > 8K 时，由于 KV Cache 读取块大小增加，内存控制器效率从 95% 降至 88%，导致实际吞吐下降约 7%。
+
+## Corrected Claim
+
+在MI300X上，随着上下文长度（Seq Len）增加（例如超过8K），KV Cache的读取模式变化可能导致HBM带宽利用效率下降，进而影响实际吞吐，但具体的效率降幅（如从95%降至88%）和阈值需依据特定测试环境确定。
+
+## Evidence
+
+[质询]该陈述包含极其具体的经验性数值（效率从95%降至88%，吞吐下降7%）和特定的硬件行为机制（KV Cache读取块大小增加导致内存控制器效率非线性下降）。这些具体数值和微观机制并非MI300X的公开标准规格或第一性原理可推导的数学/物理定律，属于高度特定的经验事实。在缺乏任何外部来源支持的情况下，无法验证这些具体数值的准确性，且‘非线性阈值’的具体表现（如确切的8K界限和7%降幅）可能因软件栈、具体实现或测试条件而异，存在将特定测试场景下的观察结果泛化为通用硬件特性的风险。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，且该具体数值与机制无法从第一性原理严格推出，符合经验事实排除条款，故降级）。
+
+## Search Query
+
+MI300X HBM bandwidth efficiency vs sequence length KV cache access pattern degradation

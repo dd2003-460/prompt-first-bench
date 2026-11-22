@@ -1,0 +1,17 @@
+{
+  "id": "N47",
+  "claim": "RTX 4090 (Ada Lovelace) 架构不支持原生 FP8 硬件指令集，使用 FP8 权重需通过 TensorRT-LLM 或 vLLM 进行软件模拟 (dequantize to FP32/BF16 for compute)，导致 Decode 吞吐量相比原生 FP8 硬件 (H100) 下降约 40-50% [待核验：具体框架版本下的实测吞吐对比]。",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]RTX 4090 基于 Ada Lovelace 架构，其 Tensor Core 确实原生支持 FP8 数据格式（用于存储和加载），但缺乏像 Hopper (H100) 那样针对 FP8 矩阵乘法（GEMM）的原生硬件加速指令路径。虽然可以通过软件模拟或特定库支持实现 FP8 推理，但声称‘不支持原生 FP8 硬件指令集’在技术细节上存在歧义（支持 FP8 格式但不支持 FP8 原生计算加速），且‘下降约 40-50%’的具体数值缺乏通用基准测试支持，可能因模型大小、序列长度和具体实现而异。 | 先验知识/题面给定，逻辑校验通过。RTX 4090 (Ada) 确实不支持 Hopper 架构特有的 FP8 原生 Tensor Core 计算加速，需依赖软件层处理或降精度计算，导致性能低于 H100 原生 FP8 是符合硬件架构差异的逻辑推断，但具体 40-50% 的降幅为经验估计，无来源直接支持。",
+  "corrected_claim": "RTX 4090 (Ada Lovelace) 架构的 Tensor Core 不支持 Hopper 架构原生的 FP8 矩阵乘法硬件加速指令，使用 FP8 权重通常需通过软件库（如 TensorRT-LLM）进行支持，其 Decode 吞吐量相比 H100 原生 FP8 硬件存在显著差距（具体幅度依工作负载而定，通常估计在 30-50% 区间）。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N10"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "RTX 4090 FP8 inference performance penalty TensorRT-LLM",
+  "retrieval_sources": []
+}

@@ -1,0 +1,24 @@
+# N27: 买家单次搜索的时间成本 $C_{time}$ 量化为：$C_{time} = w_{time} \times t_{search}$，其中 $w_{time}$
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N9
+
+## Claim
+
+买家单次搜索的时间成本 $C_{time}$ 量化为：$C_{time} = w_{time} \times t_{search}$，其中 $w_{time}$ 为买家时间机会成本（元/小时），$t_{search}$ 为平均单次比价耗时（分钟/次），二手平台典型值需结合用户画像调研确定。
+
+## Corrected Claim
+
+买家单次搜索的时间成本可初步建模为 $C_{time} = w_{time} \times t_{search}$，其中 $w_{time}$ 为买家时间机会成本（元/小时），$t_{search}$ 为平均单次比价耗时（分钟/次）；该线性模型为简化假设，实际应用中需结合用户画像调研及行为数据校准，并考虑非线性因素。
+
+## Evidence
+
+[质询]该陈述将时间成本量化为线性乘积模型，但未考虑搜索行为中的非线性因素（如边际效用递减、注意力分散导致的效率降低）或心理成本（如决策疲劳），且‘典型值需结合调研确定’属于经验性断言，缺乏理论推导支持，存在将复杂行为简化为单一线性关系的逻辑风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该公式为经验性建模假设，非第一性原理可严格推导）
+
+## Search Query
+
+second hand marketplace buyer time cost of comparison shopping average time per search

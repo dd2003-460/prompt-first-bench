@@ -1,0 +1,28 @@
+# N15: 卖家收益量化：卖家在均衡下的期望利润 π_seller = p(P_ask*)·(P_ask* - C)，其中 p(P_ask*) 为成交概率。在 P_ask*
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N3
+
+## Claim
+
+卖家收益量化：卖家在均衡下的期望利润 π_seller = p(P_ask*)·(P_ask* - C)，其中 p(P_ask*) 为成交概率。在 P_ask* = 1.2V 时，π_seller 比在 P_ask = V 时高 8%，但成交周期延长 20%，时间成本抵消部分收益，净收益提升 3%。
+
+## Corrected Claim
+
+卖家在均衡下的期望利润 π_seller = p(P_ask*)·(P_ask* - C)。在特定模型参数下（如 P_ask* = 1.2V），卖家名义利润可能提升，但需考虑成交周期延长带来的时间成本，净收益提升幅度取决于具体参数设定。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在逻辑上是正交的，分别定义了随机源、概率模型和时间成本模型。但是存在严重的完备性问题：父节点明确给出了一个具体的定量结论（收益高8%，周期长20%，净收益提升3%），而子节点仅提供了计算所需的公式和参数，却缺失了核心的‘数值求解与验证’步骤。子节点未包含如何从公式推导出父节点中具体百分比数据的逻辑或结果，导致分解无法复现父节点的结论。）
+
+## Search Query
+
+seller expected profit transaction time cost pricing equilibrium
+
+## Retrieval Sources
+
+- {'url': 'https://www.tutorzone.com.hk/cn-tutor-prep-s5-economics-profit-maximisation-mr-mc/&rut=fa1784fdaa3dc2a4098c3d97a2c3b70262616292754867540381fe3c737dffa2', 'type': 'ddg', 'title': '中五经济｜厂商利润极大化：Mr = Mc 定量计算与收支平衡点（需求 P = 100 − 2q 实例）备课指引（导师用）｜45 分钟流程、讲解 ...'}

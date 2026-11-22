@@ -1,0 +1,24 @@
+# N264: GPTQ 与 SmoothQuant 在 32K 长上下文场景下的质量退化对比：GPTQ 因离线量化未考虑长序列激活值分布漂移，32K 上下文下 MMLU 准确
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N82
+
+## Claim
+
+GPTQ 与 SmoothQuant 在 32K 长上下文场景下的质量退化对比：GPTQ 因离线量化未考虑长序列激活值分布漂移，32K 上下文下 MMLU 准确率额外损失 0.3-0.5%（相对 4K 上下文），而 SmoothQuant 因在线平滑因子适配，额外损失 < 0.1%，故长文本场景下 SmoothQuant 质量优势扩大至 0.4-0.6% 准确率差距。
+
+## Corrected Claim
+
+GPTQ 与 SmoothQuant 在 32K 长上下文场景下的质量退化对比：GPTQ 因离线量化未考虑长序列激活值分布漂移，在长上下文下可能产生比短上下文更显著的精度损失；而 SmoothQuant 通过平滑因子缓解激活值离群点问题，理论上在长文本场景下能保持相对更稳定的量化质量，但具体准确率差距需依赖特定模型和基准测试验证。
+
+## Evidence
+
+[质询]具体数值（0.3-0.5% vs <0.1%）缺乏公开基准测试支持，且SmoothQuant通常作为预处理与GPTQ联合使用，单独对比二者在长上下文下的'额外损失'存在方法论混淆风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+GPTQ vs SmoothQuant long context 32k accuracy degradation Qwen3-27B

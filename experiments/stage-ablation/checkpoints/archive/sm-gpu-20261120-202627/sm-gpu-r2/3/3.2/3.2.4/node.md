@@ -1,0 +1,24 @@
+# N73: 数据中心级显卡单卡方案的 TCO 构成：除卡价外，需计入专用服务器机箱/电源成本 ($1000-$3000) 及更高的平均功耗 (A100/H100 推理平均功
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N17
+
+## Claim
+
+数据中心级显卡单卡方案的 TCO 构成：除卡价外，需计入专用服务器机箱/电源成本 ($1000-$3000) 及更高的平均功耗 (A100/H100 推理平均功耗约为 TDP 的 70-80%)，导致 OpEx 高于消费级方案。
+
+## Corrected Claim
+
+数据中心级显卡单卡方案的 TCO 构成：除卡价外，需计入专用服务器机箱/电源成本 ($1000-$3000) 及更高的平均功耗 (A100/H100 推理平均功耗约为 TDP 的 70-80%)，导致 OpEx 高于消费级方案。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+Data center GPU server chassis power cost A100 H100

@@ -1,0 +1,24 @@
+# N194: L40S 在 Qwen3-27B FP8 推理下的实测 TPS 约为 50-60 tokens/s，主要受限于 864 GB/s 的 GDDR6 带宽（低于 H
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N59
+
+## Claim
+
+L40S 在 Qwen3-27B FP8 推理下的实测 TPS 约为 50-60 tokens/s，主要受限于 864 GB/s 的 GDDR6 带宽（低于 H100 但高于 RTX 4090 的 1008 GB/s 等效值需修正：L40S 带宽实为 864 GB/s，低于 4090 的 1008 GB/s，故 TPS 预计低于 4090 FP8 方案），需通过 vLLM 基准测试验证具体数值。
+
+## Corrected Claim
+
+L40S 的显存带宽为 864 GB/s，低于 RTX 4090 的 1008 GB/s。在 Qwen3-27B FP8 推理下，由于带宽限制，其 TPS 预计低于 RTX 4090 方案，具体数值（如 50-60 tokens/s）需通过 vLLM 等基准测试在特定配置下验证，不能一概而论。
+
+## Evidence
+
+[质询]陈述内部存在逻辑矛盾与事实错误：1. 文本中声称 L40S 带宽（864 GB/s）'高于 RTX 4090 的 1008 GB/s 等效值'，这在数值上明显错误（864 < 1008）；2. 随后虽自我修正称'低于 4090'，但前半句的错误表述导致整体陈述逻辑混乱；3. 具体 TPS 数值（50-60 tokens/s）属于经验事实，缺乏来源支持，且不同模型版本、上下文长度、批处理大小下 TPS 波动极大，单一区间表述过于绝对。 | 来源不可用。逻辑校验发现陈述内部存在数值比较错误（864 > 1008 为假）及自我修正导致的表述矛盾。TPS 为经验事实，无来源支持，且受多种变量影响，无法仅凭逻辑推导确定具体区间。
+
+## Search Query
+
+NVIDIA L40S 27B LLM inference tokens per second benchmark FP8

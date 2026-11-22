@@ -1,0 +1,30 @@
+# N27: 对象大小分布下界 s_min 的量化约束：s_min 必须满足 s_min ≤ P_1(S)（第1百分位大小），在 Pareto(α=1.1) 下 P_1(S)
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N6
+
+## Claim
+
+对象大小分布下界 s_min 的量化约束：s_min 必须满足 s_min ≤ P_1(S)（第1百分位大小），在 Pareto(α=1.1) 下 P_1(S) = s_min * (0.01)^(-1/(α-1)) = s_min * 100，因此 s_min 的选取直接决定均值 E[S] 和缓存容量 K 的比例关系，需通过 CDN 实际对象大小统计或行业标准（如 RFC 标准媒体文件大小分布）确定。
+
+## Corrected Claim
+
+s_min 必须满足 s_min ≤ P_1(S)，在 Pareto(α=1.1) 下 P_1(S) ≈ 100 * s_min。s_min 的选取需基于 CDN 实际对象大小统计或行业标准确定，以决定均值 E[S] 和缓存容量 K 的比例关系。
+
+## Evidence
+
+[质询]来源完全无关：提供的参考来源均涉及机器学习模型量化（Quantization）或无关的统计拟合工具，与CDN对象大小分布、Pareto分布参数或RFC媒体文件标准毫无关系，无法提供外部证据支持。 | 逻辑推导成立（Pareto分布第1百分位公式正确），但属于经验事实/工程参数，且参考来源[1][2][3]均与主题无关，无法提供直接支持，故降级。
+
+## Search Query
+
+CDN object size distribution minimum size percentile Pareto
+
+## Retrieval Sources
+
+- {'url': 'https://sedfitsedphat.github.io/sedfit_help_cs.htm&rut=8ea191f7b6cef7f5fcefaa18f6942a93b70d9714a275f2df9858a92f46bf9864', 'type': 'ddg', 'title': 'c (s) - GitHub Pages'}
+- {'url': 'https://luoboask.github.io/fde-learning/04-inference-optimization/quantization-basics/&rut=64997bc1579490503642cbd634221222beac3d09cd85218bfab4dcc7a2ebd883', 'type': 'ddg', 'title': '模型量化基础 | Fde 学习中心'}
+- {'url': 'https://caaatch22.github.io/posts/tinyml-quantization/&rut=a3f346ab30090bf4596387a7496fae67096b09feb3a8ea8147ff80192087c77e', 'type': 'ddg', 'title': "TinyMl —— 模型量化 (quantization) | Mingjie's Home"}

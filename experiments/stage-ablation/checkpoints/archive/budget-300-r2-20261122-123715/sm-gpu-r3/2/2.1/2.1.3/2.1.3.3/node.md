@@ -1,0 +1,20 @@
+# N203: W4 量化不可接受时的回退代价量化：从 W4 回退至 INT8 导致显存占用增加约 13.5GB (27B params * (1-0.5) bytes)，若当
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N55
+
+## Claim
+
+W4 量化不可接受时的回退代价量化：从 W4 回退至 INT8 导致显存占用增加约 13.5GB (27B params * (1-0.5) bytes)，若当前硬件显存余量 < 13.5GB，则需进一步降低上下文长度或增加 CPU Offload 比例，Offload 引入的吞吐下降系数 k_offload ≈ MemBW_GDDR/MemBW_DDR ≈ 10-20x 性能损失。
+
+## Corrected Claim
+
+W4 量化不可接受时的回退代价量化：从 W4 回退至 INT8 导致显存占用增加约 13.5GB (27B params * (1-0.5) bytes)，若当前硬件显存余量 < 13.5GB，则需进一步降低上下文长度或增加 CPU Offload 比例，Offload 引入的吞吐下降系数 k_offload ≈ MemBW_GDDR/MemBW_DDR ≈ 10-20x 性能损失。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数从W4(0.5B/param)回退至INT8(1B/param)显存增加量计算正确(27*0.5=13.5GB)；GDDR与DDR带宽比导致10-20x性能损失符合硬件常识。

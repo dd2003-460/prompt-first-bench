@@ -1,0 +1,20 @@
+# N247: M3 Ultra 与 RTX 4090 的 Prefill 理论延迟比值 = (FLOPs / M3_Ultra_FLOPS) / (FLOPs / RTX40
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N93
+
+## Claim
+
+M3 Ultra 与 RTX 4090 的 Prefill 理论延迟比值 = (FLOPs / M3_Ultra_FLOPS) / (FLOPs / RTX4090_FLOPS) = RTX4090_FLOPS / M3_Ultra_FLOPS ≈ 330 / 30 ≈ 11x，证实 M3 Ultra Prefill 速度约为 4090 的 1/10，需结合能效比评估总成本。
+
+## Corrected Claim
+
+M3 Ultra 与 RTX 4090 的 Prefill 理论性能差异需综合考量算力与内存带宽。若仅看 FP16 算力，RTX 4090 (~165 TFLOPS) 约为 M3 Ultra (~30 TFLOPS) 的 5.5 倍；但实际 Prefill 延迟还受内存带宽限制，M3 Ultra 的高带宽优势可能缩小差距，不能简单得出 1/10 的结论。
+
+## Evidence
+
+[质询]数值量级错误：M3 Ultra 的 FP16/BF16 算力约为 30 TFLOPS，而 RTX 4090 的 FP16 Tensor Core 算力约为 165 TFLOPS（FP32 约为 82 TFLOPS）。陈述中使用的 330 TFLOPS 可能是混淆了 FP8 或 INT8 算力，或者是将 RTX 4090 的峰值算力夸大/误记。即使按 FP16 计算，比值也仅为 5.5x 左右，而非 11x。此外，Prefill 阶段受内存带宽影响极大，单纯用 FLOPS 比值推导延迟比值在逻辑上过于简化，忽略了内存墙（Memory Wall）的影响，尤其是对于大模型 Prefill，带宽往往比算力更关键。 | 先验知识/题面给定，逻辑校验未通过：RTX 4090 的 FP16 算力并非 330 TFLOPS（通常为 ~165 TFLOPS），且 Prefill 延迟不能仅由 FLOPS 比值直接推导，需考虑内存带宽瓶颈。

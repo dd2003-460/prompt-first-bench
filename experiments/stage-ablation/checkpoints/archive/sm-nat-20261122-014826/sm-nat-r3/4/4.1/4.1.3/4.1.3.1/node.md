@@ -1,0 +1,20 @@
+# N129: H_revalidate 的精确分解：H_revalidate = P(origin_content_unchanged) * 1 + P(origin_con
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N47
+
+## Claim
+
+H_revalidate 的精确分解：H_revalidate = P(origin_content_unchanged) * 1 + P(origin_content_changed) * 0。对于 u=0.01/天 且驻留时间 T_res 的对象，P(origin_content_unchanged) = exp(-u * T_res)。在 T_res=1.9h 时，P(unchanged)=0.9992，故 H_revalidate ≈ 0.9992（而非 N47 假设的 0.9），导致 H_eff 的折损系数从 0.9995 修正为 0.999992。
+
+## Corrected Claim
+
+H_revalidate 的精确分解：H_revalidate = P(origin_content_unchanged) * 1 + P(origin_content_changed) * 0。对于 u=0.01/天 且驻留时间 T_res 的对象，P(origin_content_unchanged) = exp(-u * T_res)。在 T_res=1.9h 时，P(unchanged)=0.9992，故 H_revalidate ≈ 0.9992（而非 N47 假设的 0.9），导致 H_eff 的折损系数从 0.9995 修正为 0.999992。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：泊松过程下内容未变更概率公式 exp(-u*T) 正确，数值计算 0.9992 及后续折损系数推导符合数学逻辑。

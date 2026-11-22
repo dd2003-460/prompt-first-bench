@@ -1,0 +1,20 @@
+# N123: 截断 Pareto(α=1.1, S_min=1KB, S_max=100MB) 的二阶矩 E[S^2] 的解析公式：E[S^2] = (2α * S_min^
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N39
+
+## Claim
+
+截断 Pareto(α=1.1, S_min=1KB, S_max=100MB) 的二阶矩 E[S^2] 的解析公式：E[S^2] = (2α * S_min^2) / ((α-1)(2α-1)) * (1 - (S_max/S_min)^(1-2α))，用于计算截断方差
+
+## Corrected Claim
+
+截断 Pareto(α=1.1, S_min=1KB, S_max=100MB) 的二阶矩 E[S^2] 的解析公式：E[S^2] = (2α * S_min^2) / ((α-1)(2α-1)) * (1 - (S_max/S_min)^(1-2α))，用于计算截断方差
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

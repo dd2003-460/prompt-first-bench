@@ -1,0 +1,24 @@
+# N358: 阈值 D_p 的具体定义与校准：D_p 应定义为市场基准价格波动幅度，例如 D_p = 1.4826 * IQR(P_i)（基于四分位距的稳健标准差估计）或 D
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N113
+
+## Claim
+
+阈值 D_p 的具体定义与校准：D_p 应定义为市场基准价格波动幅度，例如 D_p = 1.4826 * IQR(P_i)（基于四分位距的稳健标准差估计）或 D_p = σ_market（全市场价格标准差）。若采用 IQR 方法，需计算特定品类下 IQR 的具体数值；若采用 σ_market，需区分不同品类（如奢侈品 vs 普通商品）的 D_p 差异，因为高价值商品的价格离散度通常更大，直接使用全市场平均值会导致对高价值商品噪声强度的误判。
+
+## Corrected Claim
+
+阈值 D_p 的具体定义与校准：D_p 应定义为市场基准价格波动幅度，例如 D_p = 1.4826 * IQR(P_i)（基于四分位距的稳健标准差估计）或 D_p = σ_market（全市场价格标准差）。若采用 IQR 方法，需计算特定品类下 IQR 的具体数值；若采用 σ_market，需区分不同品类（如奢侈品 vs 普通商品）的 D_p 差异，因为高价值商品的价格离散度通常更大，直接使用全市场平均值会导致对高价值商品噪声强度的误判。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：1.4826是IQR估计标准差的正确系数（基于正态分布假设），逻辑自洽；区分品类价格离散度符合统计学常识。
+
+## Search Query
+
+robust standard deviation IQR market price volatility threshold calibration

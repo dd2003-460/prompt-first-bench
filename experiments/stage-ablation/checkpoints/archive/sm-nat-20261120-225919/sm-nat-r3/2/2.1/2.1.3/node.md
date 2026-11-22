@@ -1,0 +1,20 @@
+# N41: 修正后的 K 应为 min(K_capacity, N_total)。由于 N_total=10^5 < K_capacity≈3.5×10^6，缓存容量足以容
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N10
+
+## Claim
+
+修正后的 K 应为 min(K_capacity, N_total)。由于 N_total=10^5 < K_capacity≈3.5×10^6，缓存容量足以容纳所有 10 万个对象（若平均大小允许），此时理论最大请求命中率为 100%，但字节命中率受限于大对象的缓存覆盖。
+
+## Corrected Claim
+
+修正后的 K 应为 min(K_capacity, N_total)。由于 N_total=10^5 < K_capacity≈3.5×10^6，缓存容量足以容纳所有 10 万个对象（若平均大小允许），此时理论最大请求命中率为 100%，但字节命中率受限于大对象的缓存覆盖。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应‘理想/全缓存’、‘中等约束/动态失效’、‘极端分布/容量受限’三种不同的物理场景或假设边界，逻辑上互斥且覆盖了从理论上限到实际瓶颈的主要维度，无重复或矛盾。）

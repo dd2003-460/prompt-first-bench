@@ -1,0 +1,17 @@
+{
+  "id": "N268",
+  "claim": "INT4 量化下 Dequantize 操作对计算单元（ALU/Tensor Core）的额外占用率，导致有效计算吞吐量下降比例，需量化为相对于 FP16 基线的性能损失百分比（通常 5-15%）。",
+  "level": "L4",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]该陈述将“Dequantize 操作对计算单元的额外占用率”与“有效计算吞吐量下降”直接挂钩，并给出一个固定的经验范围（5-15%）。然而，INT4 量化的性能收益或损失高度依赖于硬件架构（如是否支持原生 INT4 Tensor Core）、算子融合策略（如 Dequantize 是否被融合进 GEMM 或 Conv 中）以及模型结构。在许多现代硬件（如 NVIDIA Ampere/Hopper）上，INT4 量化通常旨在提升吞吐量而非降低，或者 Dequantize 开销被完全隐藏。因此，断言存在“通常 5-15% 的性能损失”缺乏普适性，且容易与“量化加速”的常见认知混淆，属于将特定场景下的开销泛化为普遍规律。 | 经验事实，逻辑自洽但缺来源支持。检索无可用来源，且该数值范围（5-15% 损失）并非第一性原理可推导的恒定值，而是受硬件和软件栈强烈影响的经验参数，不同场景下可能为负值（即加速）或更高，故降级为定性表述。",
+  "corrected_claim": "INT4 量化下 Dequantize 操作可能引入额外的计算开销，其对有效计算吞吐量的影响取决于硬件对低精度运算的原生支持程度及算子融合效率，具体性能变化（损失或增益）需针对特定硬件和模型实测确定，不存在通用的固定损失百分比。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N96"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "INT4 dequantization overhead compute utilization loss RTX 4090",
+  "retrieval_sources": []
+}

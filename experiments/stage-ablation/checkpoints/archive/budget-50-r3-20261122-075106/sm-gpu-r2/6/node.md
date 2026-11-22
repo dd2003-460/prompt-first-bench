@@ -1,0 +1,12 @@
+# N6: 候选集完备性与非典型方案评估：覆盖对候选硬件集的搜索逻辑，包括被主流忽略但可能具备性价比优势的架构（如AMD MI系列、Intel Gaudi、消费级多卡聚合、
+
+- **status**: pending
+- **level**: L1
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: (root)
+
+## Claim
+
+候选集完备性与非典型方案评估：覆盖对候选硬件集的搜索逻辑，包括被主流忽略但可能具备性价比优势的架构（如AMD MI系列、Intel Gaudi、消费级多卡聚合、甚至CPU+大内存方案），确保比较基准不遗漏关键变量，作为方案空间定义的元维度。

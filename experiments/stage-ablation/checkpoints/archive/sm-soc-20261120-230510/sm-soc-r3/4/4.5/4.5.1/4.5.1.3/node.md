@@ -1,0 +1,20 @@
+# N237: 高/低价值商品估值差值 (V_high_avg - V_low_avg) 的量化：V_high_avg - V_low_avg = P_median * (1.
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N77
+
+## Claim
+
+高/低价值商品估值差值 (V_high_avg - V_low_avg) 的量化：V_high_avg - V_low_avg = P_median * (1.2 - 1.05) + (z_high * σ_high - z_low * σ_low) * P_median，典型值约为 P_median * 0.15-0.25，需代入具体分位数和标准差计算精确差值以估算 ΔOC_buyer。
+
+## Corrected Claim
+
+高/低价值商品估值差值 (V_high_avg - V_low_avg) 的量化：V_high_avg - V_low_avg = P_median * (1.2 - 1.05) + (z_high * σ_high - z_low * σ_low) * P_median，典型值约为 P_median * 0.15-0.25，需代入具体分位数和标准差计算精确差值以估算 ΔOC_buyer。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

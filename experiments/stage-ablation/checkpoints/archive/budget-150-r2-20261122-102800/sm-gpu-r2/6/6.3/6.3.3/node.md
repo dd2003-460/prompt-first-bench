@@ -1,0 +1,28 @@
+# N139: NVIDIA 驱动版本兼容性：RTX 4090 需要驱动版本 ≥ 550.54.14 以支持 CUDA 12.4 及 vLLM 0.5+ 版本；A100 支持驱
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N45, N46, N47
+
+## Claim
+
+NVIDIA 驱动版本兼容性：RTX 4090 需要驱动版本 ≥ 550.54.14 以支持 CUDA 12.4 及 vLLM 0.5+ 版本；A100 支持驱动版本 ≥ 470.00，但 FP8 功能需 ≥ 535.54.03；H100 需 ≥ 535.54.03 以启用 FP8 和 NVFP4 支持。
+
+## Corrected Claim
+
+NVIDIA 驱动版本兼容性：RTX 4090 需要较新驱动以支持 CUDA 12.4 及 vLLM 0.5+ 版本；A100 支持较旧驱动，但 FP8 功能需较新驱动；H100 需较新驱动以启用 FP8 和 NVFP4 支持。
+
+## Evidence
+
+[质询]参考来源仅涉及驱动分支定义，未提供具体GPU型号与驱动版本/CUDA/FP8支持的具体数值映射，无法验证具体版本号（如550.54.14, 535.54.03）的准确性。 | 逻辑自洽（驱动版本随功能增强递增，FP8需较新驱动），但参考来源[1]与具体版本数值无关，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+NVIDIA driver version requirements RTX 4090 A100 H100 CUDA 12.4 FP8 support
+
+## Retrieval Sources
+
+- {'url': 'https://www.nvidia.com/Download/index.aspx/drivers/&rut=53c31c3780970b2ccec1038768b05394f9871f848367494a332eff00e6233c7f', 'type': 'ddg', 'title': 'Official Drivers | NVIDIA'}

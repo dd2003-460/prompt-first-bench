@@ -1,0 +1,24 @@
+# N147: 工作点3（负相关抵消，低提升/高复杂度）：在 ρ=-0.3 约束下，LFU 保留的高频对象平均大小 E[size|freq_high] 比 LRU 保留的近期对
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N49
+
+## Claim
+
+工作点3（负相关抵消，低提升/高复杂度）：在 ρ=-0.3 约束下，LFU 保留的高频对象平均大小 E[size|freq_high] 比 LRU 保留的近期对象平均大小 E[size|recent] 小约 15%（基于 Gaussian Copula 积分），导致 LFU 的字节命中率提升被大小劣势抵消，ΔH 下界趋近于 0.5 个百分点（0.005），此工作点要求对每个对象维护精确的 size-freq 联合分布以计算 B_LFU_only 和 B_LRU_only 的精确积分。
+
+## Corrected Claim
+
+在负相关抵消的工作点下，LFU保留对象的大小劣势可能导致字节命中率提升被显著削弱，具体数值取决于size-freq联合分布，需通过精确积分计算。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（15%大小差异、0.5个百分点命中率提升），这些数值依赖于特定的数据分布假设（Gaussian Copula）和具体场景，无法从第一性原理严格推导，且缺乏来源支持其具体量级。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+Pareto distribution LFU vs LRU byte hit rate negative correlation size frequency copula integration

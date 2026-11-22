@@ -1,0 +1,24 @@
+# N416: A100 80GB INT8推理Qwen3-27B (32K ctx)的实测吞吐率48 tokens/s基于TensorRT-LLM v8.0+优化，若使用vL
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N150
+
+## Claim
+
+A100 80GB INT8推理Qwen3-27B (32K ctx)的实测吞吐率48 tokens/s基于TensorRT-LLM v8.0+优化，若使用vLLM框架，由于缺乏针对A100 HBM2e的特定Kernel优化（如FP8/INT8混合精度算子融合），实测吞吐率通常下降10-15%，约为40-43 tokens/s。
+
+## Corrected Claim
+
+A100 80GB INT8推理Qwen3-27B (32K ctx)在TensorRT-LLM优化下吞吐率较高，若使用vLLM框架，由于可能缺乏针对A100 HBM2e的特定Kernel优化，实测吞吐率通常会有所下降，具体数值取决于并发配置，一般估计下降幅度在10-15%左右。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件性能数值（48 tokens/s, 40-43 tokens/s）和特定框架版本（TensorRT-LLM v8.0+）的对比结论，属于经验事实。缺乏针对A100 HBM2e在vLLM中特定Kernel优化缺失导致10-15%性能下降的通用基准数据支持，且具体吞吐率高度依赖并发数、Batch Size等未提及的上下文参数，数值精确度存疑。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）。
+
+## Search Query
+
+A100 80GB Qwen3-27B INT8 vLLM vs TensorRT-LLM throughput comparison

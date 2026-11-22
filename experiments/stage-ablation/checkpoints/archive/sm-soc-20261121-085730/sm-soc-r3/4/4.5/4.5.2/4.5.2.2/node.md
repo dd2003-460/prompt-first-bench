@@ -1,0 +1,24 @@
+# N289: 在激进工作点（T_trigger = 1.30），触发频率 f_trigger 显著上升（预计为1.10阈值的2-3倍），导致误报率 q_false_posit
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N96
+
+## Claim
+
+在激进工作点（T_trigger = 1.30），触发频率 f_trigger 显著上升（预计为1.10阈值的2-3倍），导致误报率 q_false_positive 从 5% 升至 15%，此时 ΔW_platform 中因优质高溢价商品被错误限流造成的长期用户流失成本 L_churn 需纳入目标函数，修正后的最优阈值 T_opt 将向 1.15 偏移，偏移量 ΔT = k_sensitivity * (q_fp_1.3 - q_fp_1.1)。
+
+## Corrected Claim
+
+在激进工作点（T_trigger = 1.30），触发频率 f_trigger 上升，导致误报率 q_false_positive 升高，此时需将因错误限流造成的长期用户流失成本 L_churn 纳入目标函数，修正后的最优阈值 T_opt 将向更高值（如1.15附近）偏移，偏移量与误报率变化相关。
+
+## Evidence
+
+[质询]该陈述包含大量未定义的经验参数（如具体的触发频率倍数2-3倍、误报率从5%升至15%、阈值偏移至1.15），这些数值缺乏通用物理或数学定律支持，属于特定系统调优的经验数据，无法从第一性原理严格推导。 | 逻辑自洽（降低阈值通常增加触发频率和误报，进而影响成本函数导致最优阈值回调），但具体数值（2-3倍、5%->15%、1.15）为经验事实，无来源支持且不可由公理推出，依据经验事实排除条款降级。
+
+## Search Query
+
+false positive rate impact on platform long term user churn threshold adjustment

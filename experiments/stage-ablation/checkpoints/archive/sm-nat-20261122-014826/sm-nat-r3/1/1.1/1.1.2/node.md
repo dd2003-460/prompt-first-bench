@@ -1,0 +1,20 @@
+# N24: 基于 E[Size]=11KB 的总数据量 S_total 修正计算：S_total = N * E[Size] = 100,000 * 11KB = 1.1T
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+基于 E[Size]=11KB 的总数据量 S_total 修正计算：S_total = N * E[Size] = 100,000 * 11KB = 1.1TB (1126.4GB)。
+
+## Corrected Claim
+
+S_total = N * E[Size] = 100,000 * 11KB = 1,100,000KB ≈ 1.05GB (1074.22MB)。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1关注基于精确截断均值（固定参数α=1.1隐含或具体值）的修正计算及与父节点结果的对比，子节点2关注参数α变化对S_total的敏感性分析。两者维度不同（具体数值修正 vs 参数敏感性），无重复或矛盾，且共同覆盖了父节点中'修正计算'的核心逻辑（即从粗略估计到精确估计，以及该估计对底层分布参数的依赖性）。）

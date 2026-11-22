@@ -1,0 +1,20 @@
+# N100: 三方博弈的纳什均衡存在性需验证策略空间是否为凸集：卖家策略空间 S_seller = [P_min, P_max]，买家策略空间 S_buyer = [0, 1
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N31
+
+## Claim
+
+三方博弈的纳什均衡存在性需验证策略空间是否为凸集：卖家策略空间 S_seller = [P_min, P_max]，买家策略空间 S_buyer = [0, 1] (购买概率)，平台策略空间 S_platform = [0, 1] (曝光权重)，均为紧凸集。
+
+## Corrected Claim
+
+三方博弈的纳什均衡存在性需验证策略空间是否为凸集：卖家策略空间 S_seller = [P_min, P_max]，买家策略空间 S_buyer = [0, 1] (购买概率)，平台策略空间 S_platform = [0, 1] (曝光权重)，均为紧凸集。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：闭区间 [a, b] 在实数空间中既是紧集（有界闭集）也是凸集，陈述符合数学定义。

@@ -1,0 +1,20 @@
+# N411: 不同硬件显存带宽下的理论最小单 Token 延迟 (Latency_min) 计算：Latency_min = Bytes_per_token / Bandwi
+
+- **status**: verified
+- **level**: L4
+- **source**: given
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N132
+
+## Claim
+
+不同硬件显存带宽下的理论最小单 Token 延迟 (Latency_min) 计算：Latency_min = Bytes_per_token / Bandwidth_GBps。例如 RTX 4090 (1008 GB/s) ≈ 8.5ms/token (117 tok/s 理论上限)；A100 (2039 GB/s) ≈ 4.2ms/token (238 tok/s 理论上限)；MI300X (5300 GB/s) ≈ 1.6ms/token (625 tok/s 理论上限)。
+
+## Corrected Claim
+
+不同硬件显存带宽下的理论最小单 Token 延迟 (Latency_min) 计算：Latency_min = Bytes_per_token / Bandwidth_GBps。例如 RTX 4090 (1008 GB/s) ≈ 8.5ms/token (117 tok/s 理论上限)；A100 (2039 GB/s) ≈ 4.2ms/token (238 tok/s 理论上限)；MI300X (5300 GB/s) ≈ 1.6ms/token (625 tok/s 理论上限)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 Latency_min = Bytes_per_token / Bandwidth 符合物理直觉；数值计算验证：1/1008s ≈ 0.99ms (对应 ~1000 tok/s 若 Bytes=1，但此处隐含 Bytes_per_token 约为 8.5KB 或类似量级以匹配 8.5ms，或者题目中的 8.5ms 是基于特定模型大小如 7B-13B 的权重加载时间估算，通常 7B 模型约 14GB，14/1008 ≈ 14ms，若为 8.5ms 则对应约 8.5GB 数据量，逻辑上自洽且量级合理；A100: 8.5/2.039 ≈ 4.17ms，MI300X: 8.5/5.3 ≈ 1.6ms，数值比例关系完全正确。

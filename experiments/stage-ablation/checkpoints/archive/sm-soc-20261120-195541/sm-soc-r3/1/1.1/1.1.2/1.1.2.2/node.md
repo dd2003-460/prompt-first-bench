@@ -1,0 +1,24 @@
+# N76: 电子产品年折旧率 D_amort 的实证分布：基于二手平台历史成交数据，计算不同品类（手机/电脑/游戏机）的月均价格衰减率，若手机类 D_amort_month
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N24
+
+## Claim
+
+电子产品年折旧率 D_amort 的实证分布：基于二手平台历史成交数据，计算不同品类（手机/电脑/游戏机）的月均价格衰减率，若手机类 D_amort_monthly ≈ 1.5-2.0%，则年折旧率 D_amort_annual ≈ 18-24%，该参数直接决定 C_acq 在持有期 T_hold 后的剩余价值，进而影响卖家挂价 P_ask = C_acq * (1 + Markup) 的下限。
+
+## Corrected Claim
+
+电子产品年折旧率 D_amort 的实证分布需基于特定品类（如手机）的二手平台历史成交数据计算。若手机类月均价格衰减率约为 1.5-2.0%，则其年折旧率约为 18-24%。该参数决定 C_acq 在持有期 T_hold 后的剩余价值，进而影响卖家挂价 P_ask 的下限。注意不同品类折旧率存在显著差异，不可直接混用。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（手机月折旧率1.5-2.0%），属于硬件/市场经验事实，无法从第一性原理推导。且不同品类（手机/电脑/游戏机）折旧率差异巨大，笼统引用手机数据作为通用参数存在口径混淆风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且数值属于市场经验数据，不适用第一性原理推导条款）
+
+## Search Query
+
+consumer electronics depreciation rate monthly second-hand market data

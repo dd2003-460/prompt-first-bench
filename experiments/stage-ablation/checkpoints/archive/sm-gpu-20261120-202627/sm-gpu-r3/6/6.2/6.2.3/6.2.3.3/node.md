@@ -1,0 +1,20 @@
+# N406: 电价敏感性分析斜率 (Sensitivity_Slope)：定义每 $0.01/kWh 电价变动对 3 年 TCO 的影响金额，公式为 Delta_TCO_3y
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N130
+
+## Claim
+
+电价敏感性分析斜率 (Sensitivity_Slope)：定义每 $0.01/kWh 电价变动对 3 年 TCO 的影响金额，公式为 Delta_TCO_3yr = Delta_E_price * P_avg * 8760h * 3y，用于量化电价不确定性对最终性价比排名的扰动幅度。
+
+## Corrected Claim
+
+电价敏感性分析斜率 (Sensitivity_Slope)：定义每 $0.01/kWh 电价变动对 3 年 TCO 的影响金额，公式为 Delta_TCO_3yr = Delta_E_price * P_avg * 8760h * 3y，用于量化电价不确定性对最终性价比排名的扰动幅度。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 Delta_TCO = Delta_P * P_avg * H * T 量纲正确（$/kWh * kW * h * y = $），符合基本物理与经济直觉。

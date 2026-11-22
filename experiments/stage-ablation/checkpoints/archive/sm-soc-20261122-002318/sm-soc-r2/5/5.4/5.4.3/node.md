@@ -1,0 +1,20 @@
+# N87: 总剩余变化置信区间 [-15%, +10%] 的不对称性来源：负区间 (-15%) 大于正区间 (+10%) 是因为信息不对称消除后，原本被高估的高价商品交易消
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+总剩余变化置信区间 [-15%, +10%] 的不对称性来源：负区间 (-15%) 大于正区间 (+10%) 是因为信息不对称消除后，原本被高估的高价商品交易消失 (Deadweight Loss)，而新增的低价交易 (Gains from Trade) 不足以完全抵消。需量化 Deadweight Loss 与 Gains from Trade 的相对比例，例如假设 DWL = 1.5 * GFT，则净效应为负。
+
+## Corrected Claim
+
+总剩余变化置信区间 [-15%, +10%] 的不对称性来源：负区间 (-15%) 大于正区间 (+10%) 是因为信息不对称消除后，原本被高估的高价商品交易消失 (Deadweight Loss)，而新增的低价交易 (Gains from Trade) 不足以完全抵消。需量化 Deadweight Loss 与 Gains from Trade 的相对比例，例如假设 DWL = 1.5 * GFT，则净效应为负。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：信息不对称消除导致高估商品交易消失（DWL）与新增低价交易（GFT）的净效应取决于两者相对大小，若DWL>GFT则净效应为负，逻辑自洽且符合经济学直觉。

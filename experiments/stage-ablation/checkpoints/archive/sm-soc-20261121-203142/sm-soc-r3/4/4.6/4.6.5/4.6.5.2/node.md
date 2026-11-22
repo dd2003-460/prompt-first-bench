@@ -1,0 +1,24 @@
+# N230: 时间折损系数 L_time 的日均损失率 l_daily：基于卖家持有成本（如资金占用利息、仓储心理成本），假设 l_daily = r_interest/36
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N76
+
+## Claim
+
+时间折损系数 L_time 的日均损失率 l_daily：基于卖家持有成本（如资金占用利息、仓储心理成本），假设 l_daily = r_interest/365 + ψ，其中 r_interest 为年化利率（如 3%），ψ 为心理折损系数（需实证，如 0.01%/day），计算 l_daily 的具体数值。
+
+## Corrected Claim
+
+时间折损系数 L_time 的日均损失率 l_daily：基于卖家持有成本（如资金占用利息、仓储心理成本），假设 l_daily = r_interest/365 + ψ，其中 r_interest 为年化利率（如 3%），ψ 为心理折损系数（需实证，如 0.01%/day），计算 l_daily 的具体数值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+seller holding cost daily depreciation rate used goods

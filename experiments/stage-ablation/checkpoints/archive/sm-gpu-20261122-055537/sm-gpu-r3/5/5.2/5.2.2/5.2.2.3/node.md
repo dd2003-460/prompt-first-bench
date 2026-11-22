@@ -1,0 +1,20 @@
+# N275: FlashAttention-2/3 在 RTX 4090 (Ada 架构) 上的加速比：相比标准 Attention，FA2 在长上下文 (32K) 下可将 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N83
+
+## Claim
+
+FlashAttention-2/3 在 RTX 4090 (Ada 架构) 上的加速比：相比标准 Attention，FA2 在长上下文 (32K) 下可将 Attention 部分延迟降低 2-4 倍，使整体吞吐量在 32K 序列下提升约 15-30%，从而将实测吞吐量从 ~40 tok/s 提升至 ~45-52 tok/s。
+
+## Corrected Claim
+
+FlashAttention-2/3 在 RTX 4090 (Ada 架构) 上的加速比：相比标准 Attention，FA2 在长上下文 (32K) 下可将 Attention 部分延迟降低 2-4 倍，使整体吞吐量在 32K 序列下提升约 15-30%，从而将实测吞吐量从 ~40 tok/s 提升至 ~45-52 tok/s。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

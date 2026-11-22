@@ -1,0 +1,20 @@
+# N101: 边界条件分析：若更新仅发生在冷对象（尾部99%），则P_hit_updated ≈ 0；若更新仅发生在热对象（头部1%），则P_hit_updated ≈ 1（
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N35
+
+## Claim
+
+边界条件分析：若更新仅发生在冷对象（尾部99%），则P_hit_updated ≈ 0；若更新仅发生在热对象（头部1%），则P_hit_updated ≈ 1（假设头部全缓存）。实际分布取决于更新策略与热度分布的耦合度，ρ_update_heat ≈ 0时取中间值。
+
+## Corrected Claim
+
+边界条件分析：若更新仅发生在冷对象（尾部99%），则P_hit_updated ≈ 0；若更新仅发生在热对象（头部1%），则P_hit_updated ≈ 1（假设头部全缓存）。实际分布取决于更新策略与热度分布的耦合度，ρ_update_heat ≈ 0时取中间值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

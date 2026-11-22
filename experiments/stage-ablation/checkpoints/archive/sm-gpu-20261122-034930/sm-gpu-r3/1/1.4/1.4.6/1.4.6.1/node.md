@@ -1,0 +1,20 @@
+# N193: A100 40GB INT8精度下的显存安全边际：总需求36.35GB（权重27GB + KV Cache INT8 5.35GB + 框架4GB），剩余显存 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N61
+
+## Claim
+
+A100 40GB INT8精度下的显存安全边际：总需求36.35GB（权重27GB + KV Cache INT8 5.35GB + 框架4GB），剩余显存 40 - 36.35 = 3.65GB。该边际仅能容纳Batch=1时的临时激活值缓冲；若Batch=2，KV Cache需求翻倍至10.7GB，总需求升至41.7GB，超出40GB容量。因此A100 40GB仅在Batch=1且严格限制上下文长度≤32K时可行，无扩容能力。
+
+## Corrected Claim
+
+A100 40GB INT8精度下的显存安全边际：总需求36.35GB（权重27GB + KV Cache INT8 5.35GB + 框架4GB），剩余显存 40 - 36.35 = 3.65GB。该边际仅能容纳Batch=1时的临时激活值缓冲；若Batch=2，KV Cache需求翻倍至10.7GB，总需求升至41.7GB，超出40GB容量。因此A100 40GB仅在Batch=1且严格限制上下文长度≤32K时可行，无扩容能力。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算（36.35+10.7-27=19.7? 不，是总需求变化。原总需求36.35，其中KV 5.35。Batch=2时KV翻倍为10.7，增加5.35。新总需求36.35+5.35=41.7。41.7>40，逻辑自洽。数值量级符合A100 40GB显存限制的工程常识。

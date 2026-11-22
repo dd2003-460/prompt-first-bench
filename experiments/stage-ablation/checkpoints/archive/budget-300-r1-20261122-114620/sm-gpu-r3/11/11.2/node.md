@@ -1,0 +1,24 @@
+# N407: AMD MI300X (192GB) 运行 Qwen3-27B BF16 的并发能力 N_conc = (192GB - 54GB - 10GB) / 1.6G
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N138
+
+## Claim
+
+AMD MI300X (192GB) 运行 Qwen3-27B BF16 的并发能力 N_conc = (192GB - 54GB - 10GB) / 1.6GB = 77.5，支持 77 个并发；但其 ROCm 软件栈对 Qwen3 架构的算子支持度 η_software ≈ 0.85 [待核验]，实际有效吞吐需乘以 η_software，即 77 * 0.85 ≈ 65.5 并发等效
+
+## Corrected Claim
+
+AMD MI300X (192GB) 运行 Qwen3-27B BF16 的理论并发能力约为 77 个；考虑到 ROCm 软件栈对 Qwen3 架构的算子支持效率（估算 η_software ≈ 0.85），实际有效吞吐等效并发约为 65.5 个，但该效率系数需根据具体软件版本和算子优化情况进一步验证。
+
+## Evidence
+
+[质询]η_software ≈ 0.85 是一个缺乏明确来源支持的经验估算值，且 ROCm 对 Qwen3 的支持度并非固定常数，可能随模型版本、算子优化程度及具体硬件配置波动，直接将其作为固定乘数存在口径混淆风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，η_software 为估算值）
+
+## Search Query
+
+AMD MI300X ROCm Qwen3 support efficiency 2024

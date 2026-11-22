@@ -1,0 +1,20 @@
+# N215: 演化压力下的‘损失厌恶’阈值修正：在资源稀缺高压力环境下，卖家的心理底价 P_reserve 上浮系数 λ_pressure 预期为 1.1-1.2 倍于基准 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+演化压力下的‘损失厌恶’阈值修正：在资源稀缺高压力环境下，卖家的心理底价 P_reserve 上浮系数 λ_pressure 预期为 1.1-1.2 倍于基准 λ，即 P_reserve_stressed = 1.15 * P_reserve_base，该系数需通过压力情境实验（如限时拍卖 vs 自由挂牌）的差异检验确定。
+
+## Corrected Claim
+
+演化压力下的‘损失厌恶’阈值修正：在资源稀缺高压力环境下，卖家的心理底价 P_reserve 上浮系数 λ_pressure 预期为 1.1-1.2 倍于基准 λ，即 P_reserve_stressed = 1.15 * P_reserve_base，该系数需通过压力情境实验（如限时拍卖 vs 自由挂牌）的差异检验确定。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

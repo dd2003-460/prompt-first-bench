@@ -1,0 +1,24 @@
+# N60: W4A16 与 NVFP4 在相同参数量下的精度差异对比公式：Delta_Accuracy = Acc_NVFP4 - Acc_W4A16，需检索同一模型在两种
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N14
+
+## Claim
+
+W4A16 与 NVFP4 在相同参数量下的精度差异对比公式：Delta_Accuracy = Acc_NVFP4 - Acc_W4A16，需检索同一模型在两种格式下的同基准测试结果以量化格式带来的额外增益或损失。
+
+## Corrected Claim
+
+W4A16 与 NVFP4 在相同参数量下的精度差异需通过同一模型在两种格式下的同基准测试结果量化，Delta_Accuracy = Acc_NVFP4 - Acc_W4A16，具体数值因模型和量化算法而异。
+
+## Evidence
+
+[质询]该陈述定义了一个通用的精度差异计算公式，但缺乏具体的实证数据支持。W4A16（4-bit权重，16-bit激活）与NVFP4（NVIDIA 4-bit浮点格式）的具体精度表现高度依赖于模型架构、数据集及量化算法（如GPTQ, AWQ, SmoothQuant等），不存在一个普适的固定数值或简单的线性关系。此外，NVFP4通常涉及更复杂的硬件加速和校准流程，直接对比可能混淆了量化方法本身的差异而非单纯位宽差异。 | 逻辑自洽，公式定义合理，但属于经验事实范畴，且本轮检索无可用来源支持具体数值或普遍规律，无法排除特定场景下的例外情况。
+
+## Search Query
+
+NVFP4 vs W4A16 quantization accuracy comparison LLM

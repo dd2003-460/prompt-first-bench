@@ -1,0 +1,24 @@
+# N186: 工作点C（低成交量弹性/高价格弹性）：假设成交量弹性 ε_V = 0.5，价格弹性 ε_P = -2.0。在干预导致平均价格下降5%的场景下，成交量上升2.5%
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N64
+
+## Claim
+
+工作点C（低成交量弹性/高价格弹性）：假设成交量弹性 ε_V = 0.5，价格弹性 ε_P = -2.0。在干预导致平均价格下降5%的场景下，成交量上升2.5%，ΔGMV = (1.025*V_old - V_old)*P_old*0.95 + V_old*(-0.05*P_old) = 0.025*V_old*P_old*0.95 - 0.05*V_old*P_old = -0.02625*GMV_old，即GMV净减2.625%。
+
+## Corrected Claim
+
+工作点C（低成交量弹性/高价格弹性）：假设成交量弹性 ε_V = 0.5，价格弹性 ε_P = -2.0。在干预导致平均价格下降5%的场景下，成交量上升2.5%，ΔGMV = (1.025*V_old - V_old)*P_old*0.95 + V_old*(-0.05*P_old) = 0.025*V_old*P_old*0.95 - 0.05*V_old*P_old = -0.02625*GMV_old，即GMV净减2.625%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：GMV变化率 = (1+ΔP)(1+ΔV)-1 = 1.025*0.95 - 1 = -0.02625，计算无误
+
+## Search Query
+
+negative GMV impact high price elasticity low volume elasticity

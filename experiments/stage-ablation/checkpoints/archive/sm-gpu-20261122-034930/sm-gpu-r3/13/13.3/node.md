@@ -1,0 +1,24 @@
+# N431: KV Cache 量化为 FP8 对 32K 上下文推理的质量累积损失机制：在长序列生成中，KV Cache 的量化误差随序列长度线性累积，导致 32K 上下文
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N155
+
+## Claim
+
+KV Cache 量化为 FP8 对 32K 上下文推理的质量累积损失机制：在长序列生成中，KV Cache 的量化误差随序列长度线性累积，导致 32K 上下文下的 Perplexity 增加量约为短文本 (2K) 场景的 1.5-2.0 倍，具体增量约为 0.5-1.0% [待核验]，需通过困惑度测试验证。
+
+## Corrected Claim
+
+KV Cache 量化为 FP8 在长序列生成中，量化误差随序列长度累积，导致 32K 上下文下的 Perplexity 增加量通常高于短文本场景，具体增量需通过困惑度测试验证。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（Perplexity 增加量 0.5-1.0% 及 1.5-2.0 倍关系），属于硬件/模型性能相关的经验事实，无法从第一性原理严格推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+FP8 KV cache quantization perplexity increase long context 32k LLM

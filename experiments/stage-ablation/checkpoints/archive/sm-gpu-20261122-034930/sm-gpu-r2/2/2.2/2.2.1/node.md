@@ -1,0 +1,20 @@
+# N74: INT8量化下的KV Cache精度策略：若KV Cache保持FP16，则占用10.7GB；若KV Cache也量化为INT8，则占用5.35GB，总显存需求
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N16
+
+## Claim
+
+INT8量化下的KV Cache精度策略：若KV Cache保持FP16，则占用10.7GB；若KV Cache也量化为INT8，则占用5.35GB，总显存需求降至36.35GB（27.0 + 5.35 + 4.0框架开销）
+
+## Corrected Claim
+
+INT8量化下的KV Cache精度策略：若KV Cache保持FP16，则占用10.7GB；若KV Cache也量化为INT8，则占用5.35GB，总显存需求降至36.35GB（27.0 + 5.35 + 4.0框架开销）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：INT8量化通常使显存占用减半（10.7GB/2≈5.35GB），总显存计算（27.0+5.35+4.0=36.35GB）算术正确且量级合理。

@@ -1,0 +1,20 @@
+# N65: 大小-热度负相关强（ρ→-1）时，LFU 的驱逐错误率最低。具体而言，LRU 的驱逐错误率 E_evict_LRU 定义为 LRU 驱逐头部对象的概率，而 LF
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N17
+
+## Claim
+
+大小-热度负相关强（ρ→-1）时，LFU 的驱逐错误率最低。具体而言，LRU 的驱逐错误率 E_evict_LRU 定义为 LRU 驱逐头部对象的概率，而 LFU 的驱逐错误率 E_evict_LFU 趋近于 0。ΔH 的上限可近似为 ΔH_max ≈ E_evict_LRU × (P_head - P_tail)，其中 P_tail 为尾部对象的请求概率。
+
+## Corrected Claim
+
+大小-热度负相关强（ρ→-1）时，LFU 的驱逐错误率最低。具体而言，LRU 的驱逐错误率 E_evict_LRU 定义为 LRU 驱逐头部对象的概率，而 LFU 的驱逐错误率 E_evict_LFU 趋近于 0。ΔH 的上限可近似为 ΔH_max ≈ E_evict_LRU × (P_head - P_tail)，其中 P_tail 为尾部对象的请求概率。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在大小-热度强负相关（ρ→-1）场景下，头部对象（小且热）被LRU驱逐的概率高（E_evict_LRU大），而LFU因保留高频对象，驱逐错误率趋近于0，公式量纲与逻辑自洽。

@@ -1,0 +1,20 @@
+# N28: Pareto(α=1.1) 分布在截断点 B 处的累积分布函数 (CDF) 表达式为 F(B) = 1 - (x_min/B)^{α-1}，其中 x_min 为
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+Pareto(α=1.1) 分布在截断点 B 处的累积分布函数 (CDF) 表达式为 F(B) = 1 - (x_min/B)^{α-1}，其中 x_min 为最小对象大小（题面未给，需设为 1KB 或 1B 以进行数值计算）
+
+## Corrected Claim
+
+Pareto(α=1.1) 分布在截断点 B 处的累积分布函数 (CDF) 表达式为 F(B) = 1 - (x_min/B)^{α-1}，其中 x_min 为最小对象大小（题面未给，需设为 1KB 或 1B 以进行数值计算）
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点仅是父节点中参数 x_min 的两个特定取值实例，存在高度冗余；且父节点明确指出的‘题面未给需设为...’这一关键约束/假设过程未被子节点完整覆盖，子节点直接跳过了假设选择的过程，导致完备性不足。）

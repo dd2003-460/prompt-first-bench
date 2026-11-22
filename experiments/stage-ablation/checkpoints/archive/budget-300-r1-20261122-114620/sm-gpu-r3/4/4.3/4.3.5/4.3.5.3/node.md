@@ -1,0 +1,20 @@
+# N348: Sequence Parallelism 策略在 batch_size >= 4 时的通信开销修正：由于 KV 同步量随 seq_len 线性增长但计算时间随 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N112
+
+## Claim
+
+Sequence Parallelism 策略在 batch_size >= 4 时的通信开销修正：由于 KV 同步量随 seq_len 线性增长但计算时间随 batch_size 线性增长，当 batch_size=4 时，每层通信时间占比从 batch_size=1 时的 ~100% 降至 ~25%（假设计算时间增加 4 倍而通信时间不变），此时 Sequence Parallelism 的吞吐劣势缩小至 Batch Parallelism 的 1.5 倍以内。
+
+## Corrected Claim
+
+Sequence Parallelism 策略在 batch_size 增大时，由于计算时间随 batch_size 线性增长而通信时间相对固定或增长较慢，每层通信时间占比会显著降低，从而缩小与 Batch Parallelism 的吞吐差距，但具体改善幅度取决于模型规模和硬件配置。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（如'~100%'降至'~25%'、'1.5倍以内'），这些数值高度依赖于具体的模型架构（如Transformer层数、隐藏层维度）、硬件配置（如NVLink带宽、计算单元FLOPS）以及序列长度，并非从第一性原理可严格推导出的普适常数。此外，'通信时间不变'的假设在大规模并行中可能因同步机制（如All-Reduce vs All-Gather）的不同而失效，且KV同步量是否严格随seq_len线性增长也取决于具体的并行策略实现（如是否使用Ring All-Reduce等优化）。 | source=knowledge，逻辑上通信占比随batch_size增加而降低的趋势符合直觉（计算时间线性增加，通信时间相对固定或增长较慢），但具体数值（25%、1.5倍）属于经验事实，缺乏通用性，且无外部来源支持，故降级为定性表述。

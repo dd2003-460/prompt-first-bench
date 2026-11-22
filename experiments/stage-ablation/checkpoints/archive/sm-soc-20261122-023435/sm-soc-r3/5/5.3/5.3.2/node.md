@@ -1,0 +1,24 @@
+# N67: 搜索行为滞后性的时间衰减模型：买家咨询率 R_inquiry(t) 在降价后遵循 R_inquiry(t) = R_max * (1 - e^(-t/τ_del
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N21
+
+## Claim
+
+搜索行为滞后性的时间衰减模型：买家咨询率 R_inquiry(t) 在降价后遵循 R_inquiry(t) = R_max * (1 - e^(-t/τ_delay))，其中 τ_delay 为滞后时间常数。若实测 τ_delay ≈ 48h，则支持 0.7 的置信度；若 τ_delay > 72h，则置信度降至 0.5，需重新评估买家耐心阈值。
+
+## Corrected Claim
+
+搜索行为滞后性通常可用时间衰减模型描述，如 R_inquiry(t) = R_max * (1 - e^(-t/τ_delay))。具体滞后时间常数 τ_delay 及其对应的置信度阈值需基于实测数据确定，不同市场或品类可能存在显著差异。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（τ_delay ≈ 48h 对应 0.7 置信度，>72h 对应 0.5 置信度），这些数值并非数学公理或第一性原理可推导的必然结果，而是依赖于特定数据集的统计拟合结果。缺乏来源支持时，无法验证这些具体阈值和置信度映射关系的准确性。 | 经验事实，逻辑自洽但缺来源支持。模型形式（指数饱和）符合一般滞后效应直觉，但具体参数阈值（48h/72h）及对应的置信度数值（0.7/0.5）属于经验统计结论，无外部来源佐证，故降级。
+
+## Search Query
+
+buyer inquiry lag time price change exponential decay model

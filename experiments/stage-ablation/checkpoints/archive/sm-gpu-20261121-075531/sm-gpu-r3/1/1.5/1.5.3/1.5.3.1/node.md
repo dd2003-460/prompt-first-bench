@@ -1,0 +1,24 @@
+# N164: Qwen3-27B 在 TP=2 模式下，每层 AllReduce 通信的实际数据量并非 2.59GB/step，而是取决于激活值维度（hidden_size 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N49
+
+## Claim
+
+Qwen3-27B 在 TP=2 模式下，每层 AllReduce 通信的实际数据量并非 2.59GB/step，而是取决于激活值维度（hidden_size * batch_size * seq_len * dtype_size）；对于 batch_size=1, seq_len=32K, hidden_size=4096 (假设), BF16 数据量约为 256MB/layer，48层总通信量约 12.2GB/step，与 N49 中基于权重切分的估算存在数量级差异，需修正通信量计算模型。
+
+## Corrected Claim
+
+在假设 Qwen3-27B 具有 48 层且 hidden_size 为 4096 的条件下，TP=2 模式下每层 AllReduce 通信量约为 256MB，总通信量约为 12.2GB/step。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件/模型参数假设（如 hidden_size=4096, 48层），这些属于经验事实或特定配置参数，并非第一性原理可推导的绝对真理；且 AllReduce 通信量通常指每步总通信量或每层通信量，此处将“每层”与“总通信量”混用或需明确上下文，存在口径模糊风险。 | 先验知识/题面给定，逻辑校验通过：计算过程 4096 * 1 * 32768 * 2 bytes = 256MB/layer，48 * 256MB = 12.288GB，数学逻辑自洽；但作为经验事实（具体模型参数），缺乏外部来源直接支持，故降级。
+
+## Search Query
+
+Qwen3-27B hidden_size architecture parameters tensor parallelism communication volume calculation

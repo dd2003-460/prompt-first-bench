@@ -1,0 +1,24 @@
+# N134: p 值计算的统计检验方法选择：采用双样本 t 检验比较 T_deal_baseline 与 T_deal_high_price 的均值差异；若数据非正态分布（通
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N49
+
+## Claim
+
+p 值计算的统计检验方法选择：采用双样本 t 检验比较 T_deal_baseline 与 T_deal_high_price 的均值差异；若数据非正态分布（通过 Shapiro-Wilk 检验 p < 0.05 判断），则改用 Mann-Whitney U 检验，并报告效应量 r 而非仅 p 值。
+
+## Corrected Claim
+
+p 值计算的统计检验方法选择：采用双样本 t 检验比较 T_deal_baseline 与 T_deal_high_price 的均值差异；若数据非正态分布（通过 Shapiro-Wilk 检验 p < 0.05 判断），则改用 Mann-Whitney U 检验，并报告效应量 r 而非仅 p 值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：双样本t检验适用于正态分布均值比较，Shapiro-Wilk检验用于正态性判断，Mann-Whitney U检验适用于非正态分布，效应量r是Mann-Whitney U检验的标准效应量指标，整个统计检验流程逻辑自洽且符合统计学规范
+
+## Search Query
+
+t-test vs mann-whitney u test for non-normal transaction time data

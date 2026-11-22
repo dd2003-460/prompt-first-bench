@@ -1,0 +1,20 @@
+# N51: 共享随机源：平台算法的‘特征噪声’与‘反馈延迟’。算法对商品特征的感知存在随机误差 ε_algo ~ N(0, σ_algo²)，且曝光权重更新存在时间滞后 τ
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+共享随机源：平台算法的‘特征噪声’与‘反馈延迟’。算法对商品特征的感知存在随机误差 ε_algo ~ N(0, σ_algo²)，且曝光权重更新存在时间滞后 τ_lag（通常24-72小时），导致 W_exposure 的实际值 W_actual(t) 与理论目标值 W_target(t) 存在偏差，该偏差是连接卖家行为与买家感知的随机耦合项。
+
+## Corrected Claim
+
+共享随机源：平台算法的‘特征噪声’与‘反馈延迟’。算法对商品特征的感知存在随机误差 ε_algo ~ N(0, σ_algo²)，且曝光权重更新存在时间滞后 τ_lag（通常24-72小时），导致 W_exposure 的实际值 W_actual(t) 与理论目标值 W_target(t) 存在偏差，该偏差是连接卖家行为与买家感知的随机耦合项。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

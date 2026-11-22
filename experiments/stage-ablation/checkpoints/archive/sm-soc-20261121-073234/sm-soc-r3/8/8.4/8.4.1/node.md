@@ -1,0 +1,20 @@
+# N341: 总降幅 ΔP_total 的精确计算：当 Threshold_stop = 20% 且溢价率 Premium = 15% 时，ΔP_total = (1 + 0
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N114
+
+## Claim
+
+总降幅 ΔP_total 的精确计算：当 Threshold_stop = 20% 且溢价率 Premium = 15% 时，ΔP_total = (1 + 0.15) * (1 + 0.20) - 1 = 38%；当 Premium = 25% 时，ΔP_total = (1 + 0.25) * (1 + 0.20) - 1 = 50%。这修正了 N114 中“总降幅需超过 45%”的定性描述，给出 38%-50% 的精确区间。
+
+## Corrected Claim
+
+总降幅 ΔP_total 的精确计算：当 Threshold_stop = 20% 且溢价率 Premium = 15% 时，ΔP_total = (1 + 0.15) * (1 + 0.20) - 1 = 38%；当 Premium = 25% 时，ΔP_total = (1 + 0.25) * (1 + 0.20) - 1 = 50%。这修正了 N114 中“总降幅需超过 45%”的定性描述，给出 38%-50% 的精确区间。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学计算 (1.15*1.2-1=0.38, 1.25*1.2-1=0.50) 准确无误，且符合复合增长率/降幅的乘法逻辑。

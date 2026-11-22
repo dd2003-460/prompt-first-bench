@@ -1,0 +1,28 @@
+# N177: 买家对降价幅度 ΔP 的无咨询概率函数 P(NoInquiry | ΔP) 的实证拟合参数 β_0 和 β_1，通过逻辑回归 P(NoInquiry | ΔP)
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N54
+
+## Claim
+
+买家对降价幅度 ΔP 的无咨询概率函数 P(NoInquiry | ΔP) 的实证拟合参数 β_0 和 β_1，通过逻辑回归 P(NoInquiry | ΔP) = 1 / (1 + exp(-β_0 - β_1 * ΔP)) 确定，其中 β_1 的符号和大小直接决定 ε_buyer 在 ΔP 区间内的负向积分值。
+
+## Corrected Claim
+
+买家对降价幅度 ΔP 的无咨询概率函数 P(NoInquiry | ΔP) 可通过逻辑回归模型 P(NoInquiry | ΔP) = 1 / (1 + exp(-β_0 - β_1 * ΔP)) 进行拟合，其中参数 β_0 和 β_1 需基于具体数据集确定，β_1 的符号和大小影响模型预测值在 ΔP 区间内的变化趋势。
+
+## Evidence
+
+[质询]该陈述包含具体的实证拟合参数（β_0, β_1）及特定的业务逻辑关联（ε_buyer 积分），属于经验事实或特定模型设定，无法从第一性原理推导，且参考来源完全无关，缺乏直接证据支持其具体数值或逻辑关系的真实性。 | 参考来源[1]为量子力学不确定性原理，与电商买家行为建模完全无关，无可用外部证据；该陈述为经验事实，逻辑结构自洽但缺来源支持。
+
+## Search Query
+
+C2C marketplace price drop inquiry response logistic regression beta coefficients
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Uncertainty_principle&rut=929ffaf2005dfaf552538752103a309b93117b479c922cc76ece6ee2c3fbe973', 'type': 'ddg', 'title': 'Uncertainty principle - Wikipedia'}

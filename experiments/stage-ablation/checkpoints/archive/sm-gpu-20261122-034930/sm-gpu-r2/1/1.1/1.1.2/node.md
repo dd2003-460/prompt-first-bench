@@ -1,0 +1,20 @@
+# N47: Qwen3-27B 在 W4 (4-bit) 精度下的权重显存占用计算：27,000,000,000 params * 0.5 bytes/param = 13
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N7
+
+## Claim
+
+Qwen3-27B 在 W4 (4-bit) 精度下的权重显存占用计算：27,000,000,000 params * 0.5 bytes/param = 13.5 GB；注意：AWQ/GPTQ 等算法通常使用 Group-wise Quantization (group_size=128)，Scale 和 Zero-point 的额外开销约为权重体积的 1-2% (约 0.15-0.27 GB)，故实际占用约为 13.65-13.77 GB。
+
+## Corrected Claim
+
+Qwen3-27B 在 W4 (4-bit) 精度下的权重显存占用计算：27,000,000,000 params * 0.5 bytes/param = 13.5 GB；注意：AWQ/GPTQ 等算法通常使用 Group-wise Quantization (group_size=128)，Scale 和 Zero-point 的额外开销约为权重体积的 1-2% (约 0.15-0.27 GB)，故实际占用约为 13.65-13.77 GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数在4-bit下基础占用13.5GB，Group-wise量化额外开销1-2%符合工程常识，计算自洽。

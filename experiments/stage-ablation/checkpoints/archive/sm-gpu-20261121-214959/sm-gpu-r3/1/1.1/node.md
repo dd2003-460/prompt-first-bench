@@ -1,0 +1,20 @@
+# N7: Qwen3-27B 在 BF16 精度下的显存占用为 54GB (27B * 2 bytes/param)，在 INT4 (GPTQ/AWQ) 精度下为 13.
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+Qwen3-27B 在 BF16 精度下的显存占用为 54GB (27B * 2 bytes/param)，在 INT4 (GPTQ/AWQ) 精度下为 13.5GB (27B * 0.5 bytes/param + 3GB 校准/结构开销)，在 FP8 精度下为 27GB (27B * 1 byte/param)。
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 精度下的显存占用为 54GB (27B * 2 bytes/param)，在 INT4 (GPTQ/AWQ) 精度下为 13.5GB (27B * 0.5 bytes/param + 3GB 校准/结构开销)，在 FP8 精度下为 27GB (27B * 1 byte/param)。
+
+## Evidence
+
+[质询]INT4 精度下 13.5GB 的估算中，3GB 的校准/结构开销对于 27B 模型而言可能偏高（通常 GPTQ/AWQ 的额外开销在 1-2GB 左右，取决于量化组大小和校准数据），但这属于工程估算的合理波动范围，且总显存占用量级正确，不构成硬逻辑错误。 | 先验知识/题面给定，逻辑校验通过：BF16 (2 bytes/param) 和 FP8 (1 byte/param) 的计算完全准确；INT4 (0.5 bytes/param) 加上合理的结构开销后，13.5GB 的量级符合工程实际，无内部矛盾。

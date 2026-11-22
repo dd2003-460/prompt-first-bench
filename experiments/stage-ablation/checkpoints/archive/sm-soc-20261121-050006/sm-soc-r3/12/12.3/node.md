@@ -1,0 +1,24 @@
+# N357: 噪声敏感度系数 λ_noise 的估计方法：通过回归分析 P_ask_observed = P_ask_ideal + λ_noise * ε_rand + η
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N115
+
+## Claim
+
+噪声敏感度系数 λ_noise 的估计方法：通过回归分析 P_ask_observed = P_ask_ideal + λ_noise * ε_rand + η，其中 P_ask_ideal 为无噪声最优价格，ε_rand 为模拟噪声，η 为残差；λ_noise 的置信区间需基于历史挂牌价偏离理论最优价的残差方差计算。
+
+## Corrected Claim
+
+噪声敏感度系数 λ_noise 可通过回归分析进行估计，例如构建模型 P_ask_observed = P_ask_ideal + λ_noise * ε_rand + η，其中各项定义需结合具体噪声模拟场景确定；其置信区间通常基于残差方差计算。
+
+## Evidence
+
+[质询]该陈述描述了一种特定的统计估计方法（回归分析），属于经验性方法论或特定模型设定，无法从第一性原理或数学公理中严格推导得出其唯一正确性；且参考来源缺失，无法验证该具体公式是否为领域内公认标准或特定文献中的定义。 | 经验事实/方法论设定，逻辑自洽（回归框架在统计上合理），但缺乏来源直接支持，且属于具体模型参数估计方法，不适用第一性原理推导条款。
+
+## Search Query
+
+estimating noise sensitivity coefficient lambda noise seller pricing deviation regression C2C

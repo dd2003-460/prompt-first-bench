@@ -1,0 +1,24 @@
+# N9: LRU 稳态字节命中率下界的理论下界公式：HitRate_LRU >= 1 - (TotalByteMiss / TotalByteRequest)，其中 To
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+LRU 稳态字节命中率下界的理论下界公式：HitRate_LRU >= 1 - (TotalByteMiss / TotalByteRequest)，其中 TotalByteMiss 由 LRU 缓存替换策略下的驱逐字节数决定，需通过工作集大小与缓存容量的比值估算
+
+## Corrected Claim
+
+LRU 稳态字节命中率下界的理论下界公式：HitRate_LRU >= 1 - (TotalByteMiss / TotalByteRequest)，其中 TotalByteMiss 由 LRU 缓存替换策略下的驱逐字节数决定，需通过工作集大小与缓存容量的比值估算
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间存在逻辑断层且不完备。父节点核心公式为 HitRate >= 1 - (TotalByteMiss / TotalByteRequest)。子节点1定义了分母 TotalByteRequest，子节点2定义了估算分子 TotalByteMiss 所需的参数 R_ws 及其近似 MissRate 公式。然而，子节点2直接给出了 MissRate 的近似下界，而未明确将其映射回父节点公式中的 TotalByteMiss（即 TotalByteMiss ≈ MissRate * TotalByteRequest）。此外，父节点强调需通过“工作集大小与缓存容量比值估算”，子节点2提供了该比值及一个近似公式，但该近似公式（max(0, 1-1/R)）在 R<1 时为0，这可能过于乐观，且未说明该近似公式在何种条件下严格成立或如何与 LRU 特性精确关联，导致从子节点到父节点公式的推导链条不完整。）
+
+## Search Query
+
+LRU cache hit rate lower bound formula steady state

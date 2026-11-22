@@ -1,0 +1,24 @@
+# N51: Qwen3-27B 在 BF16 精度下的 GSM8K 数学推理准确率约为 90%-95%（基于 27B 参数量级模型在 GSM8K 测试集上的典型表现估算，需
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+Qwen3-27B 在 BF16 精度下的 GSM8K 数学推理准确率约为 90%-95%（基于 27B 参数量级模型在 GSM8K 测试集上的典型表现估算，需以官方技术报告为准）
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 精度下的 GSM8K 数学推理准确率表现优异，具体数值需以官方技术报告或标准基准测试结果为准。
+
+## Evidence
+
+[质询]具体数值区间（90%-95%）属于经验事实，缺乏官方技术报告或权威基准测试的直接数据支持，且不同评测协议（如 few-shot vs zero-shot, CoT vs non-CoT）下结果波动较大，该区间可能过于乐观或特定于某种未指明的推理策略。 | 经验事实，逻辑自洽但缺来源支持（source=knowledge，但具体数值区间无直接证据，且检索无可用来源，依据经验事实排除条款及保守原则降级）
+
+## Search Query
+
+Qwen3-27B GSM8K accuracy benchmark

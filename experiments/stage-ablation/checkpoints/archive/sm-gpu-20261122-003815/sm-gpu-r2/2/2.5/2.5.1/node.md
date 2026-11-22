@@ -1,0 +1,20 @@
+# N98: RTX 4090 (24GB) 运行 Qwen3-27B 的临界可行性分析：INT4 权重 (13.5 GB) + KV Cache (32K, BF16 8.
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N17
+
+## Claim
+
+RTX 4090 (24GB) 运行 Qwen3-27B 的临界可行性分析：INT4 权重 (13.5 GB) + KV Cache (32K, BF16 8.6 GB 或 FP8 4.3 GB) + 激活 (1 GB) + 运行时 (1 GB)。若 KV 用 BF16，总计 ≈ 24.1 GB，超出 24 GB 限制；若 KV 用 FP8/INT8，总计 ≈ 19.8 GB，可行。结论：RTX 4090 仅能在 KV Cache 量化至 8-bit 或以下时运行 32K 上下文。
+
+## Corrected Claim
+
+RTX 4090 (24GB) 运行 Qwen3-27B 的临界可行性分析：INT4 权重 (13.5 GB) + KV Cache (32K, BF16 8.6 GB 或 FP8 4.3 GB) + 激活 (1 GB) + 运行时 (1 GB)。若 KV 用 BF16，总计 ≈ 24.1 GB，超出 24 GB 限制；若 KV 用 FP8/INT8，总计 ≈ 19.8 GB，可行。结论：RTX 4090 仅能在 KV Cache 量化至 8-bit 或以下时运行 32K 上下文。
+
+## Evidence
+
+[质询]KV Cache 的精确大小取决于具体的注意力头配置（GQA/MQA）和序列长度，不同实现（如 vLLM, llama.cpp）可能有细微差异，但量级估算合理。 | 先验知识/题面给定，逻辑校验通过：24GB 显存限制下，INT4 权重约 13.5GB，剩余空间约 10.5GB。BF16 KV Cache 8.6GB + 激活/运行时 2GB = 10.6GB，略超 10.5GB 可用空间（总 24.1GB > 24GB），故不可行；FP8 KV Cache 4.3GB + 2GB = 6.3GB，总 19.8GB < 24GB，可行。计算逻辑自洽，符合硬件显存管理常识。

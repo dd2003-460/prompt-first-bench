@@ -1,0 +1,20 @@
+# N281: 工作点A（交互式低利用率）：Utilization_Factor = 0.3，对应单用户 Batch=1 突发请求。此时 Effective_Tokens_Pe
+
+- **status**: verified
+- **level**: L4
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N105
+
+## Claim
+
+工作点A（交互式低利用率）：Utilization_Factor = 0.3，对应单用户 Batch=1 突发请求。此时 Effective_Tokens_Per_Dollar 仅为峰值的 30%，若 RTX 4090 峰值吞吐 15 tokens/s，有效吞吐仅 4.5 tokens/s，硬件闲置率高，TCO 中折旧占比 >80%。
+
+## Corrected Claim
+
+工作点A（交互式低利用率）：Utilization_Factor = 0.3，对应单用户 Batch=1 突发请求。此时 Effective_Tokens_Per_Dollar 仅为峰值的 30%，若 RTX 4090 峰值吞吐 15 tokens/s，有效吞吐仅 4.5 tokens/s，硬件闲置率高，TCO 中折旧占比 >80%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：0.3 * 15 = 4.5 计算正确；低利用率下固定成本（折旧）占比高符合经济学直觉。

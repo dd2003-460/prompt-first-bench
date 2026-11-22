@@ -1,0 +1,24 @@
+# N841: INT4 量化对 Qwen3-27B 的质量损失评估：基于 LLM.int8() 及 GPTQ 基准测试，INT4 量化在 MMLU/HELM 等基准上准确率下
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N261
+
+## Claim
+
+INT4 量化对 Qwen3-27B 的质量损失评估：基于 LLM.int8() 及 GPTQ 基准测试，INT4 量化在 MMLU/HELM 等基准上准确率下降约 2-5%（[search]），对于本地工作站推理场景，该损失通常可接受，但需对比 BF16 基线验证。
+
+## Corrected Claim
+
+INT4 量化对 Qwen3-27B 的质量损失评估：基于 GPTQ 等基准测试，INT4 量化在 MMLU/HELM 等基准上准确率下降通常小于 2%（具体取决于量化配置），对于本地工作站推理场景，该损失通常可接受，但需对比 BF16 基线验证。
+
+## Evidence
+
+[质询]数值量级与模型规模不匹配：2-5%的准确率下降通常适用于7B-13B小模型或特定任务，对于27B及以上的大模型，INT4量化（尤其是GPTQ）在MMLU等基准上的损失通常显著低于2%（往往<1%或接近无损），该陈述可能混淆了不同规模模型或不同量化方法（如LLM.int8()主要针对8-bit，而非4-bit）的性能表现。 | 经验事实，逻辑自洽但缺来源支持；且基于大模型量化常识，2-5%的损失估计偏高，缺乏具体来源佐证。
+
+## Search Query
+
+Qwen3-27B INT4 quantization accuracy loss benchmark MMLU

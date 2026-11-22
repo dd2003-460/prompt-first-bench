@@ -1,0 +1,24 @@
+# N404: 中国居民用电峰谷电价结构参数：峰时电价 (0.5-0.6 CNY/kWh) 与谷时电价 (0.3-0.4 CNY/kWh) 的具体时段划分及占比，用于计算若工作
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N130
+
+## Claim
+
+中国居民用电峰谷电价结构参数：峰时电价 (0.5-0.6 CNY/kWh) 与谷时电价 (0.3-0.4 CNY/kWh) 的具体时段划分及占比，用于计算若工作站 24/7 运行时的加权平均电价 E_price_weighted。
+
+## Corrected Claim
+
+中国部分实行分时电价地区的居民用电峰时电价约为 0.5-0.6 CNY/kWh，谷时电价约为 0.3-0.4 CNY/kWh，具体时段划分及占比需依据当地电力公司规定确定。
+
+## Evidence
+
+[质询]中国居民用电峰谷电价因省份、城市及是否执行分时电价政策而异，且具体时段划分（如峰时、谷时、平时的具体小时数）各地不同，无法用单一的全国通用数值范围（0.5-0.6 CNY/kWh 和 0.3-0.4 CNY/kWh）准确概括所有情况，存在以偏概全的风险。 | 经验事实，逻辑自洽但缺来源支持。虽然数值量级符合中国居民电价的一般水平，但缺乏具体地域限定和来源佐证，且峰谷时段占比因地区而异，无法验证其普适性。
+
+## Search Query
+
+China residential electricity tariff peak valley price schedule 2024

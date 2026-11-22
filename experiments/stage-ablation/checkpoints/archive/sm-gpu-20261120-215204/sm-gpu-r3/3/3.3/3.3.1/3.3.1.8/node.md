@@ -1,0 +1,20 @@
+# N260: N89 中声称 '每卡 24.5GB 仍略超 24GB' 是基于 BF16 KV Cache 的错误假设；在 INT8 KV Cache 下，显存占用大幅降低，
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N88, N89, N90
+
+## Claim
+
+N89 中声称 '每卡 24.5GB 仍略超 24GB' 是基于 BF16 KV Cache 的错误假设；在 INT8 KV Cache 下，显存占用大幅降低，该瓶颈不存在，故无需启用 FP8/INT4 KV 量化或 Offload。
+
+## Corrected Claim
+
+N89 中声称 '每卡 24.5GB 仍略超 24GB' 是基于 BF16 KV Cache 的错误假设；在 INT8 KV Cache 下，显存占用大幅降低，该瓶颈不存在，故无需启用 FP8/INT4 KV 量化或 Offload。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：INT8 KV Cache 的显存占用约为 BF16 的一半，若 BF16 下仅略超 24GB（如 24.5GB），则 INT8 下约为 12.25GB，远低于 24GB 限制，因此瓶颈确实不存在，无需额外量化或 Offload。

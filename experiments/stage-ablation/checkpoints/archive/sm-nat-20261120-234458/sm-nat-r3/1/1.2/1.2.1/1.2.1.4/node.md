@@ -1,0 +1,28 @@
+# N77: 空间缺失概率 P_miss_spatial 的具体数值：根据已确认事实 N5，缓存容量 C=128GB 远大于总数据量 Total_Bytes ≈ 100,00
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N23
+
+## Claim
+
+空间缺失概率 P_miss_spatial 的具体数值：根据已确认事实 N5，缓存容量 C=128GB 远大于总数据量 Total_Bytes ≈ 100,000 * 7.49MB ≈ 738TB? 不，重新计算：100,000 * 7.49KB ≈ 749MB (若 S_mean=7.49KB) 或 100,000 * 7.49MB ≈ 749TB (若 S_mean=7.49MB)。根据 N29，μ_S ≈ 7490KB ≈ 7.3MB。Total_Bytes ≈ 100,000 * 7.3MB ≈ 730TB。128GB < 730TB，因此容量不足，P_miss_spatial > 0。需重新评估 N5 的结论。
+
+## Corrected Claim
+
+若总数据量（约730TB）确实大于缓存容量（128GB），则空间缺失概率 P_miss_spatial 大于 0；具体数值需基于确认后的数据量参数计算。
+
+## Evidence
+
+[质询]该陈述依赖于未在当前参考来源中确认的前置事实（N5, N29）的具体数值（如 S_mean=7.3MB, Total_Bytes=730TB），且参考来源[1]与缓存容量/空间缺失概率完全无关，无法提供外部证据支持具体的数值推导结论。 | 逻辑上，若总数据量（730TB）确实远大于缓存容量（128GB），则 P_miss_spatial > 0 的结论在逻辑上自洽；但参考来源[1]主题为VLM空间方向评分，与本事实（缓存空间缺失概率）无关，属于经验事实且缺乏来源支持。
+
+## Search Query
+
+Pareto distribution alpha 1.1 mean size 7MB total data size 100k objects
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/zitalk/PaperClaw/issues/833&rut=cdf68eee3a2b83062bed957cf37cf134e93ae9d07befe26e8840e971e7f84acb', 'type': 'ddg', 'title': '[20261005] Readout Blindness: VLM Scores Miss the Spatial ... - GitHub'}

@@ -1,0 +1,24 @@
+# N63: 平台算法曝光权重 w_i 的实证估计：通过回归 log(Exposure_i) = α + β1*log(P_i) + β2*Interaction_i + ε
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N16
+
+## Claim
+
+平台算法曝光权重 w_i 的实证估计：通过回归 log(Exposure_i) = α + β1*log(P_i) + β2*Interaction_i + ε，检验 β1 是否显著为正（>0.1）且 β1*Interaction 交互项是否放大高价高互动商品的曝光，以确认算法是否主动偏向高价。
+
+## Corrected Claim
+
+一种常见的实证分析方法是回归 log(Exposure_i) = α + β1*log(P_i) + β2*Interaction_i + ε，通过检验 β1 的显著性及交互项的影响，来探讨价格与曝光之间的统计关联，但需注意内生性问题以区分算法偏向与商品自身属性影响。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在逻辑上正交且无冗余，分别对应系数显著性、边际效应量化和稳健性检验。但存在完备性缺陷：父节点明确要求检验'β1*Interaction 交互项'（即价格与互动的交互作用，通常记为 β3），而子节点2仅量化了主效应交互项 β2 的边际贡献，且子节点1的回归方程中完全缺失了价格与互动的交互项（log(P_i)*Interaction_i），导致无法验证父节点中'算法是否主动偏向高价（通过放大高互动高价商品曝光）'这一核心假设。）
+
+## Search Query
+
+marketplace algorithm exposure bias high price high engagement GMV optimization regression coefficient

@@ -1,0 +1,24 @@
+# N259: 折扣因子 δ 的理论推导：在贝叶斯更新框架下，δ ≈ σ_prior² / (σ_prior² + σ_anchor²)，其中 σ_anchor² 为锚点信息的
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N85
+
+## Claim
+
+折扣因子 δ 的理论推导：在贝叶斯更新框架下，δ ≈ σ_prior² / (σ_prior² + σ_anchor²)，其中 σ_anchor² 为锚点信息的方差。若 σ_prior² 较大，δ 趋近于 0，意味着锚定效应被稀释；具体数值需代入 N119 的 CV 数据计算。
+
+## Corrected Claim
+
+折扣因子 δ 的理论推导：在贝叶斯更新框架下，δ ≈ σ_prior² / (σ_prior² + σ_anchor²)，其中 σ_anchor² 为锚点信息的方差。若 σ_prior² 较大，δ 趋近于 0，意味着锚定效应被稀释；具体数值需代入 N119 的 CV 数据计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该公式符合贝叶斯更新中后验均值权重与先验方差/似然方差关系的推导逻辑（权重正比于先验方差，即先验越不确定，新信息权重越大，此处δ定义为锚点影响或稀释程度，逻辑自洽）。
+
+## Search Query
+
+Bayesian update anchoring effect attenuation prior variance formula

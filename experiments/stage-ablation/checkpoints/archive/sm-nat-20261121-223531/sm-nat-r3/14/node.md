@@ -1,0 +1,24 @@
+# N88: 对象更新率 1%/天 对LRU有效命中率的折损系数 D_eff 在缓存容量充足（无淘汰）且采用写穿透（Write-Through）策略时，D_eff = 1.0
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+对象更新率 1%/天 对LRU有效命中率的折损系数 D_eff 在缓存容量充足（无淘汰）且采用写穿透（Write-Through）策略时，D_eff = 1.0。因为所有对象始终驻留内存，更新操作仅刷新数据而不导致缓存失效（Invalidation），因此不存在因容量不足导致的Stale Eviction，命中率不折损。
+
+## Corrected Claim
+
+在理想化的写穿透（Write-Through）且缓存容量充足（无淘汰）的模型中，对象更新仅刷新数据而不导致缓存失效，因此理论上不存在因容量不足导致的Stale Eviction，LRU有效命中率折损系数D_eff可视为1.0。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（父节点的核心结论是 D_eff = 1.0 且原因为无失效。子节点提供了量化证据，证明写操作产生的带宽极小，不会导致容量挤占或间接失效，从而逻辑上支撑了父节点的结论。由于只有一个子节点，不存在正交性冲突或冗余问题。该子节点准确覆盖了“为什么在写穿透下命中率不折损”这一关键机制（即排除带宽挤占导致的隐性失效风险），逻辑闭环完整。）
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2069556046839001951&rut=97716e9723be89c2057c60394c504a982bd8057fe5623f618fe4d716aa98f22f', 'type': 'ddg', 'title': '吃透Redis缓存核心：淘汰策略、LRU/LFU区别与四大缓存问题全解'}

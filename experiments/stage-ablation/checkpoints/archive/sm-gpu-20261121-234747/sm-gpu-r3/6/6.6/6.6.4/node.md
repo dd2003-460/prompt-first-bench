@@ -1,0 +1,24 @@
+# N443: NVFP4 量化在 Qwen3-27B 上的 GSM8K 数学推理准确率下降 ΔGSM8K_NVFP4 需单独评估，因数学任务对低比特精度敏感，预期下降幅度可能
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N143
+
+## Claim
+
+NVFP4 量化在 Qwen3-27B 上的 GSM8K 数学推理准确率下降 ΔGSM8K_NVFP4 需单独评估，因数学任务对低比特精度敏感，预期下降幅度可能高于 MMLU，需查证具体实测数据 [待核验]
+
+## Corrected Claim
+
+NVFP4 量化在 Qwen3-27B 上的 GSM8K 数学推理准确率下降需单独评估，因数学任务通常对低比特精度敏感，具体下降幅度需查证实测数据。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性预测（'预期下降幅度可能高于 MMLU'）和待查证的实测数据需求，属于经验事实，无法从第一性原理严格推导，且缺乏具体数值支持。 | 经验事实，逻辑自洽（数学任务通常对精度敏感）但缺来源支持，且无可用外部证据。
+
+## Search Query
+
+Qwen3-27B NVFP4 quantization GSM8K math reasoning accuracy drop

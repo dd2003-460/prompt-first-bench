@@ -1,0 +1,24 @@
+# N267: 在 RTX 4090 上运行 FP8 量化模型需依赖 CPU Offload 或 CUDA 内核软件模拟，导致有效吞吐量下降至 BF16 原生的 10%-30%
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N97
+
+## Claim
+
+在 RTX 4090 上运行 FP8 量化模型需依赖 CPU Offload 或 CUDA 内核软件模拟，导致有效吞吐量下降至 BF16 原生的 10%-30% 区间，且内存带宽成为主要瓶颈而非算力。
+
+## Corrected Claim
+
+在 RTX 4090 上运行 FP8 量化模型需依赖 CPU Offload 或 CUDA 内核软件模拟，导致有效吞吐量显著低于 BF16 原生性能，且内存带宽或计算开销成为主要瓶颈。
+
+## Evidence
+
+[质询]数值量级存疑：RTX 4090 的显存带宽高达 1008 GB/s，远高于 CPU 内存带宽（通常 < 100 GB/s）。若主要瓶颈是内存带宽且依赖 CPU Offload，吞吐量下降幅度通常远超 70%-90%（即降至 10%-30% 以下），除非模型极小或计算密集度极高，否则 10%-30% 的区间可能过于乐观或混淆了不同量化/推理框架的性能表现。 | 先验知识/题面给定，逻辑校验通过（FP8 在消费级 GPU 上确实缺乏原生硬件支持，需软件模拟或 offload，导致性能显著下降；但具体数值区间 10%-30% 为经验估计，缺乏直接来源支持，故降级）。
+
+## Search Query
+
+RTX 4090 FP8 emulation performance penalty vLLM

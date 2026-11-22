@@ -1,0 +1,24 @@
+# N71: 锚点效应强度系数 δ_reduction：定义为干预后定价偏差 δ 的相对降幅，δ_1 = δ_0 * (1 - δ_reduction)，行为经济学实验显示显
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N17
+
+## Claim
+
+锚点效应强度系数 δ_reduction：定义为干预后定价偏差 δ 的相对降幅，δ_1 = δ_0 * (1 - δ_reduction)，行为经济学实验显示显著锚点（如强制显示中位数）可使 δ_reduction 达到 40-60%，即 δ 从 [0.15, 0.25] 降至 [0.06, 0.15]。
+
+## Corrected Claim
+
+锚点效应强度系数 δ_reduction 定义为干预后定价偏差 δ 的相对降幅，δ_1 = δ_0 * (1 - δ_reduction)。行为经济学实验表明，显著锚点（如强制显示中位数）可显著降低定价偏差，具体降幅因实验情境而异，部分研究显示可达 40-60%。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间存在逻辑依赖但概念正交（一个描述输入分布，一个描述输出结果）。然而，完备性不足：父节点核心是定义‘干预后偏差 δ_1’及其计算逻辑（δ_0 * (1 - δ_reduction)），但子节点中缺少对‘基准偏差 δ_0’或‘干预机制（如强制显示中位数）’本身的独立描述节点，仅隐含在 R_anchor 和 ΔProfit 中，导致父节点的‘定义’和‘实验条件’部分未被子节点显式覆盖。）
+
+## Search Query
+
+anchoring effect pricing deviation reduction magnitude

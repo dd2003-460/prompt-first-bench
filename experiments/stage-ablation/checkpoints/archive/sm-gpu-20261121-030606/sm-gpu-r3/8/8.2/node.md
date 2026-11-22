@@ -1,0 +1,29 @@
+# N153: RTX 4090间PCIe 5.0 x16理论带宽为64 GB/s，但实际有效带宽受协议开销影响约为理论值的80%，即51.2 GB/s；双卡间单向延迟约为1-
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N76
+
+## Claim
+
+RTX 4090间PCIe 5.0 x16理论带宽为64 GB/s，但实际有效带宽受协议开销影响约为理论值的80%，即51.2 GB/s；双卡间单向延迟约为1-2微秒，导致小消息（<64KB）的AllReduce效率极低，通信时间占比高达30-50%。
+
+## Corrected Claim
+
+RTX 4090间PCIe 5.0 x16理论带宽为64 GB/s，实际有效带宽受协议开销影响，实测/推导值约为63 GB/s（来源[1]）；双卡间单向延迟约为1-2微秒，导致小消息（<64KB）的AllReduce效率较低，通信时间占比显著（具体比例视拓扑和负载而定，通常较高）。
+
+## Evidence
+
+[质询]数值精度与来源存在细微偏差：来源[1]指出PCIe 5.0 x16单向有效带宽约为63 GB/s，而陈述中基于80%效率推算的51.2 GB/s（基于64 GB/s理论值）与来源给出的实测/推导值（63 GB/s）存在约18%的差距，且来源未直接支持“小消息通信时间占比高达30-50%”这一具体经验数值。 | 来源[1]直接支持PCIe 5.0 x16带宽量级（~63 GB/s）及RTX 4090不支持NVLink的事实，但陈述中的具体效率折算值（51.2 GB/s）和通信占比（30-50%）缺乏直接来源支持，属于经验事实且与来源数值不完全一致，故降级。
+
+## Search Query
+
+RTX 4090 PCIe 5.0 x16 effective bandwidth latency AllReduce small message performance vLLM
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_31220401/article/details/164531290&rut=236857488d674f8f21481a0f7b8759e188b1e9b400492cd6c086d15c6ca9247f', 'type': 'ddg', 'title': 'RTX 4090多卡互联带宽解析：PCIe 5.0与NVLink实战对比-CSDN博客'}
+- {'url': 'https://blog.csdn.net/weixin_29164843/article/details/165141223&rut=a53563dbd4547415c14890470be06763bb18c045d1f80750138c3b1a449141a2', 'type': 'ddg', 'title': 'RTX 4090多卡互联：PCIe 5.0与NVLink带宽之争实测解析-CSDN博客'}

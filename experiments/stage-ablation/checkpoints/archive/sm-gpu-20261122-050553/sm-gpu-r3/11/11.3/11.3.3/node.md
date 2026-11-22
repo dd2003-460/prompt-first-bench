@@ -1,0 +1,24 @@
+# N340: W7900 运行 vLLM 的最低驱动与库版本约束：需 ROCm 6.0.2+ 驱动、PyTorch 2.3.0+ rocm-build 版本、以及 vLLM 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N117
+
+## Claim
+
+W7900 运行 vLLM 的最低驱动与库版本约束：需 ROCm 6.0.2+ 驱动、PyTorch 2.3.0+ rocm-build 版本、以及 vLLM 0.4.1+（含 ROCm 后端修复）；若使用 ROCm 5.x，则 vLLM 无法加载 Qwen3 的 `GQA` (Grouped Query Attention) 内核，导致模型加载失败或严重降级至 MHA 模拟，性能下降 >50%。
+
+## Corrected Claim
+
+W7900 运行 vLLM 需特定版本的 ROCm 驱动、PyTorch 及 vLLM 库以支持 Qwen3 的 GQA 内核；若使用过旧的 ROCm 版本（如 5.x），可能导致 GQA 内核加载失败或性能显著下降，具体最低版本需参考官方兼容性列表。
+
+## Evidence
+
+[质询]具体版本号（ROCm 6.0.2, PyTorch 2.3.0, vLLM 0.4.1）及性能下降幅度（>50%）属于精确的经验事实，缺乏来源支持，且不同硬件/软件组合下的最低版本要求可能随时间快速变化，存在版本不匹配或数据过时的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+vLLM ROCm 6.0 minimum version Qwen3 GQA kernel support RDNA3

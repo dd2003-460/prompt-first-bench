@@ -1,0 +1,24 @@
+# N127: 修正 N39 的电力成本计算以反映真实负载：LLM 推理并非 24/7 满载，假设平均利用率 (Duty Cycle) 为 30% (即 70% 时间空闲/低负
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N39
+
+## Claim
+
+修正 N39 的电力成本计算以反映真实负载：LLM 推理并非 24/7 满载，假设平均利用率 (Duty Cycle) 为 30% (即 70% 时间空闲/低负载)，RTX 4090 平均功耗修正为 P_avg = 0.3 * 450W + 0.7 * 30W ≈ 141W；3年电力成本 = 0.141kW * 8760h * 3 * $0.10/kWh ≈ $371；对比原假设满载 $1183，修正后 TCO 降低 ~68%，显著改变与 5090/A100 的性价比排序。
+
+## Corrected Claim
+
+修正 N39 的电力成本计算以反映真实负载：LLM 推理并非 24/7 满载，假设平均利用率 (Duty Cycle) 为 30% (即 70% 时间空闲/低负载)，RTX 4090 平均功耗修正为 P_avg = 0.3 * 450W + 0.7 * 30W ≈ 141W；3年电力成本 = 0.141kW * 8760h * 3 * $0.10/kWh ≈ $371；对比原假设满载 $1183，修正后 TCO 降低 ~68%，显著改变与 5090/A100 的性价比排序。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算正确（0.141kW * 8760h * 3 * $0.10 ≈ $371），对比原值 $1183 降幅约 68% 符合逻辑，且 30% 利用率假设在 LLM 推理场景中属于合理的工程经验估计。
+
+## Search Query
+
+GPU idle power consumption vs load LLM inference duty cycle TCO calculation

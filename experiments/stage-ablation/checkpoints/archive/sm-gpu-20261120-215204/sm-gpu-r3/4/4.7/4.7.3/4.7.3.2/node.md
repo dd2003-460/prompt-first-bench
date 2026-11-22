@@ -1,0 +1,20 @@
+# N328: Qwen3-27B 在 Tensor Parallelism (TP=2) 下，每层 FFN (MLP) 中间层 (Intermediate Dim 通常约为 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N116
+
+## Claim
+
+Qwen3-27B 在 Tensor Parallelism (TP=2) 下，每层 FFN (MLP) 中间层 (Intermediate Dim 通常约为 4*HiddenDim=16384 或具体架构值) 产生的 AllReduce 同步数据量为 2 * BatchSize * SeqLen * InterDim * BytesPerParam，若 InterDim=16384，单层 FFN 同步量约为 2.1 GB。
+
+## Corrected Claim
+
+Qwen3-27B 在 Tensor Parallelism (TP=2) 下，每层 FFN 中间层产生的 AllReduce 同步数据量取决于 BatchSize、SeqLen 和 InterDim。若 InterDim 约为 16384，且假设 BatchSize * SeqLen 约为 1024（例如 BatchSize=1, SeqLen=1024 或 BatchSize=4, SeqLen=256 等组合），单层 FFN 同步量约为 2.1 GB。具体数值需根据实际推理/训练配置确定。
+
+## Evidence
+
+[质询]该陈述将具体的 BatchSize 和 SeqLen 隐含在计算中（反推约为 1024 或 2048），但 Qwen3-27B 的默认或典型推理/训练配置并未固定为这些值，且 InterDim 具体数值需查证（Qwen2/3 系列 27B 模型 InterDim 通常为 14336 或 18432 等，而非简单的 4*HiddenDim=16384，因为 27B 的 HiddenDim 约为 4096，4*4096=16384 是近似值，但实际架构可能不同）。此外，AllReduce 的数据量通常指通信量，在 Ring AllReduce 中，每层通信量约为 2 * N * D * B（N为节点数，D为数据量），但这里表述为“同步数据量”，若指单卡发送/接收总量，公式 2 * BatchSize * SeqLen * InterDim * BytesPerParam 是合理的（一次前向一次反向或两次 AllReduce），但具体数值 2.1GB 依赖于未明确给出的 BatchSize 和 SeqLen 假设，属于经验事实且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持；InterDim 具体值及 BatchSize/SeqLen 假设未明确，无法从第一性原理严格推出具体数值 2.1GB。

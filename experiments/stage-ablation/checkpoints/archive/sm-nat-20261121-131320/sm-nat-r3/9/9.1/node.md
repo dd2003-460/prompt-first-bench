@@ -1,0 +1,20 @@
+# N148: 在 α=1.1 且 C_norm=122.0 (x_min=1KB) 的条件下，LRU 字节命中率 H_LRU 对缓存容量 C 的弹性系数 E_C 定义为 ∂l
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N58
+
+## Claim
+
+在 α=1.1 且 C_norm=122.0 (x_min=1KB) 的条件下，LRU 字节命中率 H_LRU 对缓存容量 C 的弹性系数 E_C 定义为 ∂ln(H_LRU)/∂ln(C)，其解析近似值为 α-1=0.1，意味着容量增加 10% 仅提升命中率约 1%。
+
+## Corrected Claim
+
+在 α=1.1 且 C_norm=122.0 (x_min=1KB) 的条件下，LRU 字节命中率 H_LRU 对缓存容量 C 的弹性系数 E_C 定义为 ∂ln(H_LRU)/∂ln(C)，其解析近似值为 α-1=0.1，意味着容量增加 10% 仅提升命中率约 1%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

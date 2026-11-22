@@ -1,0 +1,30 @@
+# N15: KV Cache 显存占用计算：KV_Cache_Size = 2 × num_layers × num_kv_heads × head_dim × seq_l
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N2
+
+## Claim
+
+KV Cache 显存占用计算：KV_Cache_Size = 2 × num_layers × num_kv_heads × head_dim × seq_len × Bytes_per_token。Qwen3-27B 具体层数、KV head 数、head dim 需查证 [待核验]。假设 num_layers=32, num_kv_heads=8, head_dim=128, seq_len=32768, BF16: 2 × 32 × 8 × 128 × 32768 × 2 bytes ≈ 4.3 GB。
+
+## Corrected Claim
+
+KV Cache 显存占用通用公式为 2 × num_layers × num_kv_heads × head_dim × seq_len × Bytes_per_token。若 Qwen3-27B 采用标准 GQA 架构且参数为 32层/8 KV头/128维，则 32K 上下文 BF16 占用约 4.3 GB；但需核实 Qwen3-27B 实际架构参数（如是否使用 MLA 等优化技术）以获取精确值。
+
+## Evidence
+
+[质询]Qwen3-27B 的具体架构参数（层数、KV头数、Head Dim）属于经验事实，且该模型可能采用 MLA (Multi-head Latent Attention) 或其他非标准 GQA 结构，直接套用标准 GQA 公式及假设参数（32层/8头/128维）可能导致数值偏差，且参考来源未提供 Qwen3-27B 的具体配置以验证这些假设。 | 公式逻辑自洽且来源[1][2]支持通用 KV Cache 计算公式，但 Qwen3-27B 的具体参数为经验事实，缺乏直接来源支持其特定架构参数，故降级。
+
+## Search Query
+
+Qwen3-27B architecture num_layers num_kv_heads head_dim config
+
+## Retrieval Sources
+
+- {'url': 'https://developer.aliyun.com/article/1668044&rut=04c625fc61a768d65ab70f6ba57077004ef1fa84fac391d99cd3e9d35dcb236e', 'type': 'ddg', 'title': '估算大模型推理KVCache显存占用与计算量-开发者社区-阿里云'}
+- {'url': 'https://bigolab.com/guides/5620-llm-kv-cache-vram-formula-32k-context-16gb-oom-guide&rut=11222b656da712c6ad6f244d39224c9d57411259de04630621b357c388a47e75', 'type': 'ddg', 'title': '大模型上下文 KV Cache 显存计算公式详解：为什么 32K 上下文一开 16GB 显卡就 OOM'}
+- {'url': 'https://blog.csdn.net/weixin_29031057/article/details/171072796&rut=5ba34c6aa1aba3c76a7a86e485f36b737fc78b633051b533ded10c4d716a9ccf', 'type': 'ddg', 'title': 'KV Cache详解：从原理到显存计算的LLM推理优化指南-CSDN博客'}

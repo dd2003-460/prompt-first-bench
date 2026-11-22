@@ -1,0 +1,29 @@
+# N139: k 值实证拟合方法：利用横截面数据回归 ln(σ_noise²) = ln(k) - ln(1+SI) + ε。通过最大似然估计（MLE）提取 ln(k) 的点
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N42
+
+## Claim
+
+k 值实证拟合方法：利用横截面数据回归 ln(σ_noise²) = ln(k) - ln(1+SI) + ε。通过最大似然估计（MLE）提取 ln(k) 的点估计值及其标准误；若拟合优度 R² < 0.6，则表明存在未观测的异质性因子，需引入品类虚拟变量进行扩展回归。
+
+## Corrected Claim
+
+k 值实证拟合方法：利用横截面数据回归 ln(σ_noise²) = ln(k) - ln(1+SI) + ε。通过最大似然估计（MLE）提取 ln(k) 的点估计值及其标准误；若拟合优度 R² 较低（具体阈值需依据特定领域文献或先验研究确定，如 < 0.6），则表明存在未观测的异质性因子，需引入品类虚拟变量进行扩展回归。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（R² < 0.6）和特定的模型设定（ln(σ_noise²) = ln(k) - ln(1+SI)），这属于特定研究领域的经验事实或方法论约定，无法从第一性原理或通用计量经济学公理中严格推导出来。参考来源仅涉及通用的横截面回归基础，未提供该特定模型或阈值的直接支持。 | 逻辑上，对数线性回归和MLE是标准的计量经济学方法，量纲和逻辑自洽；但参考来源[1][2]仅介绍通用横截面回归，未覆盖该特定噪声模型及R²阈值，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+maximum likelihood estimation noise variance regression cross-sectional data
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/640012304&rut=0df013fd734fe6e095c917dbe58fc5815050a7123b7159a011c958b92c2e2ac7', 'type': 'ddg', 'title': '计量经济学·第一篇 横截面数据的回归分析 - 知乎'}
+- {'url': 'https://zhuanlan.zhihu.com/p/705338911&rut=54a1d3f998683bb3ce22414830acbda875ba0795ee8839237018777397183d5c', 'type': 'ddg', 'title': '【小菲stata】横截面数据的一套实证分析，附上stata代码 - 知乎'}

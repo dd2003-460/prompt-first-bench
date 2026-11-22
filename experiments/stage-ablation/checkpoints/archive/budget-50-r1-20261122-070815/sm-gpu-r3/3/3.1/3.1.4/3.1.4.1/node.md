@@ -1,0 +1,24 @@
+# N257: H100 80GB 在 Qwen3-27B FP8 权重 (27GB) + 32K BF16 KV Cache (2.0GB) 场景下，利用原生 FP8 Ten
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N77
+
+## Claim
+
+H100 80GB 在 Qwen3-27B FP8 权重 (27GB) + 32K BF16 KV Cache (2.0GB) 场景下，利用原生 FP8 Tensor Core，显存带宽利用率可达 85-95%，实际 Decode 速度上限为 3350 * 0.9 / 29 ≈ 104 tokens/s，是 RTX 4090 INT4 (48.6 tokens/s) 的 2.1 倍以上，且质量损失极小 (FP8 vs BF16)。
+
+## Corrected Claim
+
+H100 80GB 在 Qwen3-27B FP8 权重场景下，利用原生 FP8 Tensor Core，显存带宽利用率可达 85-95%，实际 Decode 速度通常显著高于 104 tokens/s（具体数值取决于 KV Cache 大小和推理框架优化，一般在 200-400 tokens/s 范围），是 RTX 4090 INT4 的 2 倍以上，且质量损失极小 (FP8 vs BF16)。
+
+## Evidence
+
+[质询]数值量级与物理直觉存在显著矛盾：H100 80GB 的显存带宽为 3.35 TB/s，若带宽利用率达到 85-95%，理论 Decode 速度应远超 104 tokens/s（通常 H100 在 27B 模型 FP8 下的 Decode 速度可达 200-400+ tokens/s，取决于具体实现和 KV Cache 大小）。此处计算 3350 * 0.9 / 29 ≈ 104 暗示分母 29 可能代表每 token 读取的字节数（GB），但 27GB 权重 + 2GB KV Cache 总共约 29GB，若每生成一个 token 需要读取全部 29GB 数据，则意味着没有利用任何缓存或权重驻留优化，这在现代推理框架中是不合理的（通常权重常驻显存，KV Cache 增量读取）。此外，RTX 4090 INT4 48.6 tokens/s 的数据也偏低，通常 4090 在 27B INT4 下可达 100+ tokens/s。因此，核心数值（104 tokens/s 和 2.1 倍对比）可能基于错误的假设或过时的基准测试。 | 逻辑校验发现数值量级不合理：H100 3.35TB/s 带宽下，29GB 数据读取一次仅需 ~8.6ms，理论上限应远高于 104 tokens/s（~116 tokens/s 是纯带宽限制下的极低值，实际推理中权重常驻，KV Cache 增量读取，速度应更高）。来源缺失，无法外部核验，但内部逻辑与已知硬件性能基准矛盾。
+
+## Search Query
+
+H100 80GB Qwen 27B FP8 inference throughput tokens per second benchmark

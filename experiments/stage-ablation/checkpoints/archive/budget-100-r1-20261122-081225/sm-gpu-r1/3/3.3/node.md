@@ -1,0 +1,30 @@
+# N29: 单卡方案 (1x A100 80GB) 的硬件采购成本约为 $9000-$15000 [时效待核]。
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N3
+
+## Claim
+
+单卡方案 (1x A100 80GB) 的硬件采购成本约为 $9000-$15000 [时效待核]。
+
+## Corrected Claim
+
+单卡方案 (1x A100 80GB) 的硬件采购成本约为 $9000-$15000（注：此为历史/典型市场估价，具体价格随供需波动，来源未提供实时单卡采购报价）
+
+## Evidence
+
+[质询]来源主要提供租赁价格（$0.61-$1.71/小时）或整机服务器价格，缺乏单卡硬件采购成本（$9000-$15000）的直接数据支持，且该价格区间随市场波动较大，属于经验事实。 | 经验事实，逻辑自洽但缺来源支持（来源[1][2][3]主要涉及租赁或整机价格，未直接给出单卡采购成本区间）
+
+## Search Query
+
+NVIDIA A100 80GB price 2024
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_29531177/article/details/165247521&rut=5d41e21dede37298bcf746ca32f1976db40dce58fa40998d6b66acd930717ac7', 'type': 'ddg', 'title': 'A100 80g服务器多少钱？买/租/云按量价格与配置避坑指南-csdn博客'}
+- {'url': 'https://blog.csdn.net/student_upupgpu/article/details/167915396&rut=019ec1f9cd00055377f272b5d8c9b41ab0d18160e2da2f2854239e1d3e0dbef6', 'type': 'ddg', 'title': 'A100 SXM4 80GB 租赁价格对比：10 家平台库存、配置与长租成本分析_a100求租-CSDN博客'}
+- {'url': 'https://www.suanli.ai/gpus/A100-SXM-80GB&rut=f96d8bca55dd6def136d09b299ce92cec6d73f221f1bedce1299f9c208c774b6', 'type': 'ddg', 'title': 'NVIDIA A100 80GB SXM4 租用价格:最低 $0.610/卡·时,73 家服务商实时比价 | 算力.ai'}

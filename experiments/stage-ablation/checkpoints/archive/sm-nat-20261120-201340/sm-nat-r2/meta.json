@@ -1,0 +1,192 @@
+{
+  "qid": "nat",
+  "question": "某边缘 CDN 节点有 128GB 内存做对象缓存，工作负载：10 万对象，大小服从 Pareto(α=1.1)，请求热度也服从 Pareto(β=0.9)，热门对象与大小负相关（ρ≈-0.3）。每天总请求 5000 万次。请估算：(a) LRU 策略下的稳态字节命中率下界；(b) LFU 相比 LRU 最多能提升多少百分点、为什么；(c) 如果对象更新率是 1%/天，LRU 的有效命中率还要再打几折？给出推导链，区分「凭记忆的」和「刚查到的」。",
+  "round": 2,
+  "state": "rework",
+  "dropped_redundant": 22,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": null,
+  "objective_mode": "text",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "node_id": "N10",
+      "claim": "LRU 稳态字节命中率下界 = (Σ_{i=1}^{k} r_i · s_i) / (Σ_{i=1}^{N} r_i ·",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该公式将LRU稳态字节命中率简化为静态容量约束下的对象集合求和，忽略了LRU算法的动态替换特性（如访问间隔、时间局部性）以及对象大小与缓存容量之间的复杂"
+    },
+    {
+      "node_id": "N24",
+      "claim": "Pareto(α=1.1) 分布下，前 k 个最小对象的总大小占总体大小的比例公式为 (1 - (k/N)^{α-1})",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N25",
+      "claim": "在热度-大小负相关 (ρ=-0.3) 的联合分布下，LRU 的字节命中率下界可通过将热度排序与大小排序解耦近似计算：H_",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N26",
+      "claim": "LFU 相比 LRU 的提升机制在于 LFU 不受访问间隔影响而仅受频率影响，在 β=0.9 的长尾热度分布下，LFU ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N27",
+      "claim": "在 ρ=-0.3 的场景下，LFU 的优势被放大，因为高频对象倾向于更小，LFU 能在相同容量 C 下容纳更多高频对象（",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "parent_id": "N5",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "增加一个子节点，明确描述逻辑推导的具体步骤，例如：'基于ρ≈-0.3的负相关性，推导LFU相比LRU在对象淘汰策略上的优势机制，并建立从Pareto参数到命中率H的解析或模拟模型'。",
+        "将子节点1中的'典型提升在5-15个百分点'作为推导链的一个具体实例或验证结果，而不是独立的结论，确保推导路径的完整性。"
+      ],
+      "round": 1
+    },
+    {
+      "parent_id": "N11",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "修正子节点1中的累积质量占比公式，确保数学正确性（注意β<1时幂次符号），并明确其与父节点中简化近似公式 1-(k/N)^β 的关系或适用条件。",
+        "增加一个子节点或扩展现有子节点，明确说明CDF(r) = (r_min/r)^β 如何从Pareto分布推导而来，或验证该CDF形式与请求率分布的一致性。",
+        "澄清父节点中‘前k个最热门对象的请求占比’的两种表达（简化近似 vs 精确累积质量）之间的差异及何时适用，避免混淆。"
+      ],
+      "round": 1
+    },
+    {
+      "parent_id": "N12",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "补充子节点：前k个最小对象的总大小 S_total(k) 的精确或近似计算公式（基于CDF积分或求和），以直接对应父节点中的‘总大小占比’。",
+        "明确说明截断期望 E[S|S≤s_max] 如何用于推导父节点中的占比公式，例如指出 S_total(k) ≈ k * E[S|S≤s_k]，从而建立子节点与父节点的逻辑闭环。",
+        "考虑增加一个子节点专门处理离散情况下的求和近似与连续积分近似之间的误差项（如果学术严谨性要求高）。"
+      ],
+      "round": 1
+    },
+    {
+      "parent_id": "N13",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "增加一个子节点，讨论对象大小分布（如 Zipf 或均匀分布）如何影响缓存实际能容纳的对象数量 k_eff，以及 k_eff 与理论 k 的差异。",
+        "或者在现有子节点中明确说明该公式假设对象大小均匀或忽略大小约束，并补充大小分布对命中率上界的修正因子。"
+      ],
+      "round": 1
+    },
+    {
+      "parent_id": "N26",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "建议增加第三个子节点，专门描述 LFU 在稳态下的命中率上限 H_LFU_max 的推导或定义，以及它如何对应到前 k_freq 个高频对象的请求占比，从而直接支撑父节点中的量化提升公式。",
+        "或者，可以将子节点2修改为对比视角，不仅描述 LRU 的损失，还明确在 β=0.9 分布下 LFU 如何通过避免该损失获得具体的 ΔH 增益，以更好地覆盖父节点中的“量化提升”部分。"
+      ],
+      "round": 1
+    },
+    {
+      "node_id": "N36",
+      "claim": "在 ρ=-0.3 的联合分布下，最热门的 10% 对象（前 10,000 个）的平均大小约为总体均值的 0.7 倍（基于",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述隐含假设了对象大小服从对数正态分布（或类似右偏分布），且 Pearson 相关系数 ρ=-0.3 能直接映射到条件期望的 0.7 倍关系。然而，P"
+    },
+    {
+      "node_id": "N39",
+      "claim": "联合分布修正系数 f(ρ, α, β) 的解析近似：在双 Pareto 分布且 Pearson 相关系数 ρ=-0.3 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该解析近似公式缺乏通用的理论推导支持，且系数 c 的定义（c ≈ 1/√(α-1)）与双 Pareto 分布的标准矩性质及 Pearson 相关系数的定"
+    },
+    {
+      "node_id": "N53",
+      "claim": "更新导致缓存失效的稳态概率 P_stale = 1 - exp(-0.01 * T_resident)，当 T_resi",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": ""
+    },
+    {
+      "node_id": "N63",
+      "claim": "「刚查到的」本题参数下的缓存覆盖率C/W_total：W_total = 10^5 × E[S]，其中E[S]需假设s_",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]E[S]的计算公式 `1.1·1KB/0.1` 缺乏明确的理论或题面依据，属于任意假设；且将 `s_min` 直接代入该公式推导平均大小在逻辑上存在跳跃"
+    },
+    {
+      "node_id": "N65",
+      "claim": "ρ=-0.3耦合修正项：缓存优先容纳的小对象在字节命中率计算中的权重调整因子w = 1 + ρ·(log(k/N))/l",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该公式属于特定模型假设下的经验性修正项，并非通用物理或数学定律，缺乏通用标准支持，且具体系数ρ=-0.3的选取依据不明。 | 经验事实/模型参数，逻辑自"
+    },
+    {
+      "node_id": "N66",
+      "claim": "LRU字节命中率下界公式中k的确定：k = C / E[S_cached]，其中E[S_cached] = E[S|S≤",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该公式属于特定缓存模型（如基于Zipf分布的LRU近似）的经验性推导，并非通用物理或数学定律。其核心假设（如访问频率分布严格遵循Zipf且参数α固定、缓"
+    },
+    {
+      "node_id": "N73",
+      "claim": "LFU 相比 LRU 的字节命中率提升百分点 ΔH_pp = (H_LFU_byte - H_LRU_byte) * 1",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]公式中 Error_LRU 的定义存在循环论证或量纲模糊风险：将误差定义为'大小-热度相关性系数对累积字节覆盖率的边际影响'在数学上并不直接等同于'次优"
+    },
+    {
+      "node_id": "N74",
+      "claim": "LRU稳态字节命中率的精确下界计算需修正现有节点N67的错误（N67中k≈12,000与缓存覆盖率矛盾），正确逻辑为：由",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N75",
+      "claim": "在缓存容量远超工作集大小（C > W_total）的场景下，LFU与LRU在稳态下的字节命中率理论上均为100%，因此L",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N76",
+      "claim": "对象更新率1%/天意味着对象的平均有效期 T_valid = 1/0.01 = 100天。若LRU稳态命中率H_stat",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N77",
+      "claim": "对于服从Pareto(β=0.9)分布的请求频率，对象i的平均请求间隔 T_i = 1/r_i。若 T_i > T_va",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N78",
+      "claim": "计算低频对象占比：Pareto(β=0.9)中，请求率 r < 1/100 day 的对象比例。设 r_min 为最小请",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 52
+}

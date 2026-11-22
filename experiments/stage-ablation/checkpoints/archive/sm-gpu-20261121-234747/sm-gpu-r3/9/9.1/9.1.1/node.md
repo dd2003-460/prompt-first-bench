@@ -1,0 +1,24 @@
+# N473: NVIDIA L40S 48GB 在 2025 年 Q1 的官方建议零售价（MSRP）约为 $8,700 - $9,500 USD，但市场新品均价因供需关系和经
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N150
+
+## Claim
+
+NVIDIA L40S 48GB 在 2025 年 Q1 的官方建议零售价（MSRP）约为 $8,700 - $9,500 USD，但市场新品均价因供需关系和经销商加价通常高于 MSRP，需查询 Amazon US、Newegg 等平台的实时 listing 价格以确认实际成交均价。
+
+## Corrected Claim
+
+NVIDIA L40S 48GB 的官方建议零售价（MSRP）通常在 $8,000 - $9,000 USD 区间，但市场实际成交价受供需影响波动较大，需查询实时平台价格以确认。
+
+## Evidence
+
+[质询]具体价格数值（$8,700 - $9,500）属于易变的市场经验事实，缺乏实时数据支持，且不同时期/渠道波动较大，单一静态数值可能不准确。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+NVIDIA L40S 48GB price 2025 Q1 Amazon Newegg average cost

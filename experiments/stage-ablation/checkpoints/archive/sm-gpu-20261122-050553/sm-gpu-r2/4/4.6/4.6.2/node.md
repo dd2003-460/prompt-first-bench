@@ -1,0 +1,24 @@
+# N96: W4 量化 (AWQ/GPTQ) 对 Qwen3-27B 的质量损失量化基准：在 MMLU 基准上，BF16 得分约 85%，W4-AWQ 得分预计下降 2-4
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N25, N26, N27
+
+## Claim
+
+W4 量化 (AWQ/GPTQ) 对 Qwen3-27B 的质量损失量化基准：在 MMLU 基准上，BF16 得分约 85%，W4-AWQ 得分预计下降 2-4 个百分点至 81-83%；在 HumanEval (代码生成) 上，通过率下降幅度可能达 5-8%，需标记 [待核验] 以获取 Qwen 官方技术报告具体数据。
+
+## Corrected Claim
+
+W4 量化 (AWQ/GPTQ) 通常会导致 Qwen3-27B 在 MMLU 和 HumanEval 等基准上出现一定程度的性能下降，具体数值需参考 Qwen 官方技术报告或最新第三方评测数据，一般预期 MMLU 下降 2-4 个百分点，HumanEval 下降幅度可能更大。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值预测（MMLU下降2-4%，HumanEval下降5-8%），属于硬件/模型量化后的性能表现，无法从第一性原理推导，且缺乏Qwen3-27B官方技术报告或权威第三方评测的直接数据支持，存在将通用量化经验值直接套用于特定模型版本的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且属于具体模型量化性能的经验数据，不适用第一性原理推导条款）
+
+## Search Query
+
+Qwen3-27B W4 AWQ GPTQ MMLU HumanEval accuracy drop benchmark

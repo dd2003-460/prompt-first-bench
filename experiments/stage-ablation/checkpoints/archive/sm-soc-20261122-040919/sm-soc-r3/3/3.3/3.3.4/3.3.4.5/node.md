@@ -1,0 +1,29 @@
+# N283: 网络效应反馈项：卖家体验恶化导致的买家未来购买意愿变化 ΔW_future = η_network * ΔP(Consult)_t * (1 - e^(-λ_f
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N76
+
+## Claim
+
+网络效应反馈项：卖家体验恶化导致的买家未来购买意愿变化 ΔW_future = η_network * ΔP(Consult)_t * (1 - e^(-λ_feedback / T_delay))，其中 η_network 为网络效应系数（[待核验]，估计范围 0.1-0.2），λ_feedback 为反馈延迟参数，T_delay 为观察窗口（如 30 天）。
+
+## Corrected Claim
+
+网络效应反馈项可建模为 ΔW_future = η_network * ΔP(Consult)_t * (1 - e^(-λ_feedback / T_delay))，其中 η_network 为网络效应系数，其具体数值（如 0.1-0.2）需根据特定平台数据校准，非通用常数。
+
+## Evidence
+
+[质询]该公式为特定场景下的经验性建模假设，并非经济学或物理学中的通用定律或第一性原理推导结果；η_network 的具体数值范围（0.1-0.2）及反馈延迟参数 λ_feedback 缺乏通用理论支持，属于特定数据集或模型校准下的经验参数，无法从通用网络效应定义中直接推出。 | 参考来源 [1] 和 [2] 仅定义了网络效应的概念（直接/间接外部性），未提供具体的量化公式或参数估计范围，属于间接支持概念存在但无法支持具体数值和函数形式；该事实为经验建模参数，逻辑自洽但缺来源直接支持。
+
+## Search Query
+
+network effect on buyer retention after seller experience degradation
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/550634924&rut=4ccabbd8f1ac8fa8e9c0bd6af79241a8d28a7b233a251175a001a85e40abd4be', 'type': 'ddg', 'title': '经济学中的网络效应（network effect）和网络外部性 (network externality) - 知乎'}
+- {'url': 'https://zh.wikipedia.org/zh-hans/%E7%BD%91%E7%BB%9C%E5%A4%96%E9%83%A8%E6%80%A7&rut=30fb4a872a445dcb1ad0aff8cda7d70cfaf35aa0f9d6adfcf563597c60a089fe', 'type': 'ddg', 'title': '网络外部性 - 维基百科，自由的百科全书'}

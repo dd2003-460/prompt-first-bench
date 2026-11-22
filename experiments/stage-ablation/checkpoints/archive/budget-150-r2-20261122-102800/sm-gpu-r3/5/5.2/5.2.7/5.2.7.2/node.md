@@ -1,0 +1,24 @@
+# N302: RX 7900 XTX 在 ROCm 生态下运行 LLM 推理的年度预期故障排查/调优工时为 10-20 小时（因驱动更新、内核兼容性问题），按 $50-$10
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N117
+
+## Claim
+
+RX 7900 XTX 在 ROCm 生态下运行 LLM 推理的年度预期故障排查/调优工时为 10-20 小时（因驱动更新、内核兼容性问题），按 $50-$100/小时计算，年度维护人力成本为 $500-$2000，显著高于 NVIDIA 方案的 $0-$200。
+
+## Corrected Claim
+
+RX 7900 XTX 在 ROCm 生态下运行 LLM 推理通常面临比 NVIDIA 方案更高的维护成本，主要源于驱动更新和内核兼容性问题，具体年度工时和费用需根据实际部署环境评估。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（10-20小时/年，$50-$100/小时），属于经验事实而非第一性原理可推导内容。由于缺乏外部来源支持，无法验证这些具体数值是否准确反映了当前ROCm生态的实际维护成本，存在数值量级偏差或口径混淆的风险。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+AMD ROCm LLM inference maintenance overhead hours annual cost

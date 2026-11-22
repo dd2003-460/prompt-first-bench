@@ -1,0 +1,24 @@
+# N254: Qwen3-27B张量并行（TP=2）在Prefill阶段（Seq_len=32K, Batch=1）的单层All-Reduce通信量计算：通信数据量 = 2 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N92
+
+## Claim
+
+Qwen3-27B张量并行（TP=2）在Prefill阶段（Seq_len=32K, Batch=1）的单层All-Reduce通信量计算：通信数据量 = 2 * hidden_size (4096) * seq_len (32768) * bytes_per_element (2 for BF16) = 536.9 MB/层；总通信量 = 536.9 MB * 32 layers = 17.18 GB；该数值远超PCIe 4.0 x16单向带宽（~16 GB/s）在1ms内的传输能力，表明Prefill阶段通信将成为主要瓶颈
+
+## Corrected Claim
+
+Qwen3-27B张量并行（TP=2）在Prefill阶段（Seq_len=32K, Batch=1）的单层All-Reduce通信量计算：通信数据量 = 2 * hidden_size (4096) * seq_len (32768) * bytes_per_element (2 for BF16) = 536.9 MB/层；总通信量 = 536.9 MB * 32 layers = 17.18 GB；该数值远超PCIe 4.0 x16单向带宽（~16 GB/s）在1ms内的传输能力，表明Prefill阶段通信将成为主要瓶颈
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B hidden_size为4096，层数为32，BF16精度下单层All-Reduce通信量计算（2*4096*32768*2 bytes ≈ 536.9MB）及总量（17.18GB）符合数学推导与硬件常识，PCIe 4.0带宽瓶颈判断合理。
+
+## Search Query
+
+Qwen3-27B hidden size 4096 tensor parallelism communication volume calculation

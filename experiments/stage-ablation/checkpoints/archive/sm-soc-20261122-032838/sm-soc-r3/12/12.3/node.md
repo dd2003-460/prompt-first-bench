@@ -1,0 +1,24 @@
+# N316: 量化状态收益项 $\mu \text{StatusGain}$ 的具体数值。$\mu$ 由平台算法赋予高溢价商品的额外曝光权重 $W_{boost}$ 决定。$
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N109
+
+## Claim
+
+量化状态收益项 $\mu \text{StatusGain}$ 的具体数值。$\mu$ 由平台算法赋予高溢价商品的额外曝光权重 $W_{boost}$ 决定。$\mu = \Delta Exposure \times P_{click} \times V_{impression}$。若 $W_{boost} = 1.5$（高溢价商品曝光量是正常商品的1.5倍），且单次曝光价值 $V_{impression} = 0.01$ 元，则需计算 $\Delta Exposure$ 对应的绝对增量。[待核验] 需获取平台算法对高溢价商品的加权系数。
+
+## Corrected Claim
+
+量化状态收益项 μ StatusGain 由平台算法赋予高溢价商品的额外曝光权重 W_boost 决定，公式为 μ = Δ Exposure × P_click × V_impression。具体数值需依据实际平台算法参数确定，当前假设 W_boost=1.5 和 V_impression=0.01 元仅为示例，未经证实。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性参数（如 W_boost=1.5, V_impression=0.01元），这些数值并非第一性原理可推导，且缺乏任何外部来源支持，属于未经证实的假设性数值。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值）
+
+## Search Query
+
+platform algorithm exposure boost high priced items e-commerce

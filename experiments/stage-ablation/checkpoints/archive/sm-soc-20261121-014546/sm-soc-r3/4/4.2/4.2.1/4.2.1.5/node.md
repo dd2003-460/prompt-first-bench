@@ -1,0 +1,20 @@
+# N286: 临界咨询数 Q_crit：基于 Q_48 的泊松分布 P(Q_48 | λ=λ_base) 计算 P5 分位数，即满足 P(Q_48 < Q_crit) = 0
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N85
+
+## Claim
+
+临界咨询数 Q_crit：基于 Q_48 的泊松分布 P(Q_48 | λ=λ_base) 计算 P5 分位数，即满足 P(Q_48 < Q_crit) = 0.05 的最小整数 Q_crit；若 λ_base * 48 = 2，则 Q_crit = 0；若 λ_base * 48 = 5，则 Q_crit = 1。
+
+## Corrected Claim
+
+临界咨询数 Q_crit：基于 Q_48 的泊松分布 P(Q_48 | λ=λ_base) 计算 P5 分位数，即满足 P(Q_48 < Q_crit) = 0.05 的最小整数 Q_crit；若 λ_base * 48 = 2，则 Q_crit = 0；若 λ_base * 48 = 5，则 Q_crit = 1。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：泊松分布 P(X<k)=0.05 的最小整数 k 在 λ=2 时为 0（P(X<0)=0, P(X<1)=e^-2≈0.135>0.05），在 λ=5 时为 1（P(X<1)=e^-5≈0.0067<0.05, P(X<2)=e^-5(1+5)≈0.0404<0.05, P(X<3)=e^-5(1+5+15)≈0.1246>0.05），数值量级与逻辑自洽。

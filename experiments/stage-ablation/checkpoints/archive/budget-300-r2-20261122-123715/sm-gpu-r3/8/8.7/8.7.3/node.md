@@ -1,0 +1,24 @@
+# N367: A100 80GB PCIe 与 SXM4 版本的价格差值 ΔP_A100 = P_SXM4 - P_PCIe 通常为 $2,000 - $3,000，SXM4
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N113
+
+## Claim
+
+A100 80GB PCIe 与 SXM4 版本的价格差值 ΔP_A100 = P_SXM4 - P_PCIe 通常为 $2,000 - $3,000，SXM4 版本需额外计入服务器基板成本，PCIe 版本可直接插入标准工作站主板
+
+## Corrected Claim
+
+A100 80GB SXM4 版本通常比 PCIe 版本价格更高，具体差价随市场波动，且 SXM4 版本需配合专用基板使用，PCIe 版本可直接插入标准主板。
+
+## Evidence
+
+[质询]具体价格差值（$2,000-$3,000）属于随市场波动的时间敏感型经验事实，且不同时期、不同供应商报价差异巨大，该固定区间缺乏普遍适用性，易因市场变化而失效。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源），具体数值无法从第一性原理推出，故降级。
+
+## Search Query
+
+A100 PCIe vs SXM4 price difference enterprise channel

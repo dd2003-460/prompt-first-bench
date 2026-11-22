@@ -1,0 +1,24 @@
+# N106: RTX 5090 的 GDDR7 带宽为 1792 GB/s，RTX 4090 的 GDDR6X 带宽为 1008 GB/s，带宽比值为 1.778x；在 27
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+RTX 5090 的 GDDR7 带宽为 1792 GB/s，RTX 4090 的 GDDR6X 带宽为 1008 GB/s，带宽比值为 1.778x；在 27B INT8 推理中，理论峰值 TPS 提升上限受限于带宽比值，但实际受计算单元 (SM) 效率和 CUDA Core 数量 (Blackwell 21760 vs Ada 16384) 的交互影响，需实测确认是否达到 1.5x-1.8x 区间。
+
+## Corrected Claim
+
+RTX 5090 的 GDDR7 带宽为 1792 GB/s，RTX 4090 的 GDDR6X 带宽为 1008 GB/s，带宽比值为 1.778x；在 27B INT8 推理中，理论峰值 TPS 提升上限受限于带宽比值，但实际受计算单元 (SM) 效率和 CUDA Core 数量 (Blackwell 21760 vs Ada 16384) 的交互影响，需实测确认是否达到 1.5x-1.8x 区间。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 5090 (32GB GDDR7, 512-bit, 28Gbps) 带宽计算为 1792 GB/s，RTX 4090 (24GB GDDR6X, 384-bit, 21Gbps) 带宽计算为 1008 GB/s，比值 1.778x 准确；SM 数量对比 (21760 vs 16384) 符合 Blackwell 与 Ada 架构公开规格；推理性能受带宽与计算单元交互影响的逻辑自洽。
+
+## Search Query
+
+RTX 5090 vs 4090 LLM inference benchmark INT8 tokens per second

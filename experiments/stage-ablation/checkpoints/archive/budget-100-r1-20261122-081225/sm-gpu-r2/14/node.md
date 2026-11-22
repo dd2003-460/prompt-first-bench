@@ -1,0 +1,20 @@
+# N155: 在单用户低并发 (Batch Size=1) 且延迟敏感的场景下，性价比权重中 'Latency' (延迟) 的权重应高于 'Throughput' (吞吐)，
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+在单用户低并发 (Batch Size=1) 且延迟敏感的场景下，性价比权重中 'Latency' (延迟) 的权重应高于 'Throughput' (吞吐)，此时 RTX 4090 (15-20 t/s) 的性价比优于 H100 (100-150 t/s)，因为用户感知延迟差异 (100ms vs 10ms) 对业务价值的影响大于总吞吐量的差异；反之，在高并发生产环境 (Batch Size>8) 中，吞吐量权重主导，H100 或 A100 更具优势。
+
+## Corrected Claim
+
+在单用户低并发 (Batch Size=1) 且延迟敏感的场景下，性价比权重中 'Latency' (延迟) 的权重应高于 'Throughput' (吞吐)，此时 RTX 4090 (15-20 t/s) 的性价比优于 H100 (100-150 t/s)，因为用户感知延迟差异 (100ms vs 10ms) 对业务价值的影响大于总吞吐量的差异；反之，在高并发生产环境 (Batch Size>8) 中，吞吐量权重主导，H100 或 A100 更具优势。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

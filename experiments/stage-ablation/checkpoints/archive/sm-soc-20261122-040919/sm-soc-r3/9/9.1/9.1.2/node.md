@@ -1,0 +1,20 @@
+# N389: 逻辑回归模型中 price_drop 的边际效应 ME = β1 * P * (1-P)，若 P=0.5，则 ME = 0.4 * 0.5 * 0.5 = 0.
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N118
+
+## Claim
+
+逻辑回归模型中 price_drop 的边际效应 ME = β1 * P * (1-P)，若 P=0.5，则 ME = 0.4 * 0.5 * 0.5 = 0.1。
+
+## Corrected Claim
+
+逻辑回归模型中 price_drop 的边际效应 ME = β1 * P * (1-P)，若 P=0.5，则 ME = 0.4 * 0.5 * 0.5 = 0.1。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：逻辑回归中连续变量的边际效应公式为 β * P * (1-P)，代入 β=0.4, P=0.5 计算得 0.1，数学推导正确。

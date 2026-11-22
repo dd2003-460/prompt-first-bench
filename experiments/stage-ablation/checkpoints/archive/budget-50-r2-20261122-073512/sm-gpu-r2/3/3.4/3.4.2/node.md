@@ -1,0 +1,30 @@
+# N127: Qwen3-27B 在 NVFP4/W4 量化下于 MMLU 数据集上的具体准确率数值 (Acc_W4_MMLU)，用于与 N47 对比得出实际下降百分点。
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N20
+
+## Claim
+
+Qwen3-27B 在 NVFP4/W4 量化下于 MMLU 数据集上的具体准确率数值 (Acc_W4_MMLU)，用于与 N47 对比得出实际下降百分点。
+
+## Corrected Claim
+
+Qwen3-27B 在 NVFP4/W4 量化下于 MMLU 数据集上的准确率与 FP8/BF16 基线相比下降幅度极小（通常小于 0.5 个百分点），具体数值需查阅 Qwen3-27B 官方技术报告或特定评测基准，现有来源仅提供了 Qwen3.6-27B 在 MMLU Pro 上的近似数据（86.3）。
+
+## Evidence
+
+[质询]参考来源主要讨论的是 Qwen3.6-27B 或 Qwen3.8-27B 的 NVFP4 量化表现，且提供的具体数值是 MMLU Pro (86.3) 而非标准 MMLU，无法直接证实 Qwen3-27B 在标准 MMLU 上的具体 W4 准确率数值。 | 来源 [1] 和 [2] 提供了 Qwen3.6-27B-NVFP4 在 MMLU Pro 上的数据（86.3），间接支持 NVFP4 量化后精度损失极小（<0.5%）的逻辑，但缺乏 Qwen3-27B 在标准 MMLU 上的直接数值支持，属于经验事实且缺直接来源。
+
+## Search Query
+
+Qwen3-27B NVFP4 W4 MMLU accuracy
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/chen695969/article/details/162604876&rut=83b2f645f8d3eb7bca0588168465104066fc61b7e0fdcd8c134eb2e096deb4e6', 'type': 'ddg', 'title': 'Qwen3.6-27B-NVFP4 深度评测：英伟达官方量化，27B 长上下文本地部署新选择-CSDN博客'}
+- {'url': 'https://devpress.csdn.net/v1/article/detail/162604876&rut=0da2072520e604542f799f79226bcef08e35f0d0efec6891856316c5de4d26f3', 'type': 'ddg', 'title': 'Qwen3.6-27B-NVFP4 深度评测：英伟达官方量化，27B 长上下文本地部署新选择'}
+- {'url': 'https://blog.csdn.net/gitblog_01106/article/details/168111467&rut=361021651fef8df07d9011fed9d909294d8bbe7a46c63eb79ef4e0ec7cc39cb8', 'type': 'ddg', 'title': 'Qwen3.8-27B-NVFP4完整指南：4位NVFP4量化如何玩转27B多模态大模型-CSDN博客'}

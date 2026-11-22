@@ -1,0 +1,20 @@
+# N226: 验证总噪声公式 σ_noise_total = sqrt(σ_pref² + σ_context²) 的适用性：假设 σ_pref 和 σ_context 相互
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N84
+
+## Claim
+
+验证总噪声公式 σ_noise_total = sqrt(σ_pref² + σ_context²) 的适用性：假设 σ_pref 和 σ_context 相互独立，需通过协方差矩阵检验两者是否正交，若存在相关性（如情绪影响个体偏好），则需引入交叉项 2*ρ*σ_pref*σ_context 进行修正。
+
+## Corrected Claim
+
+验证总噪声公式 σ_noise_total = sqrt(σ_pref² + σ_context²) 的适用性：假设 σ_pref 和 σ_context 相互独立，需通过协方差矩阵检验两者是否正交，若存在相关性（如情绪影响个体偏好），则需引入交叉项 2*ρ*σ_pref*σ_context 进行修正。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于误差传播定律，若两个噪声源独立（协方差为0），总方差为方差之和，标准差为平方和开根号；若存在相关性，需引入协方差项（即2*ρ*σ1*σ2），推导符合统计学基本原理。

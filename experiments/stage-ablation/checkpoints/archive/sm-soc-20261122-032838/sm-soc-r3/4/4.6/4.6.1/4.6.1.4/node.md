@@ -1,0 +1,24 @@
+# N253: ∂T_sale/∂P_ask 的微观结构分解：在自然流量下，∂T_sale/∂P_ask = -k_search * (1 - P_deal)，其中 k_sea
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N82, N83, N84
+
+## Claim
+
+∂T_sale/∂P_ask 的微观结构分解：在自然流量下，∂T_sale/∂P_ask = -k_search * (1 - P_deal)，其中 k_search 为搜索摩擦系数。若 P_deal 低（高溢价），该导数为负（降价加速成交）；但若平台算法对高溢价商品给予曝光加权 W_boost > 1，则 ∂T_sale/∂P_ask 可能转为正（高溢价反而更快成交），需量化 W_boost 的临界值。
+
+## Corrected Claim
+
+在自然流量下，降价通常加速成交（导数为负）；但若平台算法对高溢价商品给予显著曝光加权，高溢价可能反而更快成交，需量化该加权效应的临界值。
+
+## Evidence
+
+[质询]该陈述包含具体的微观结构分解公式（∂T_sale/∂P_ask = -k_search * (1 - P_deal)）及特定参数（k_search, W_boost），属于经验事实或特定模型假设，无法从第一性原理严格推导，且缺乏来源支持其具体形式和临界值存在的必然性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+platform algorithm exposure boost high price listing sales velocity correlation

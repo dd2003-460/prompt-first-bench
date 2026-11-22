@@ -1,0 +1,29 @@
+# N27: 有效缓存容量 C_eff 的修正公式：C_eff = C * (1 + k * |ρ|)，其中 k 为耦合系数，基于矩匹配或蒙特卡洛模拟估算，预期 k ≈ 0.
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N7
+
+## Claim
+
+有效缓存容量 C_eff 的修正公式：C_eff = C * (1 + k * |ρ|)，其中 k 为耦合系数，基于矩匹配或蒙特卡洛模拟估算，预期 k ≈ 0.1-0.2 对于 ρ=-0.3 的 Pareto 联合分布。
+
+## Corrected Claim
+
+有效缓存容量 C_eff 的修正公式可能为 C_eff = C * (1 + k * |ρ|)，其中 k 为耦合系数，具体数值需基于特定分布的模拟估算，当前缺乏通用来源支持 k≈0.1-0.2 的结论。
+
+## Evidence
+
+[质询]该公式及具体数值（k≈0.1-0.2）属于特定研究或工程经验中的经验事实，无法从第一性原理直接推导，且参考来源中未包含任何关于缓存容量修正公式或耦合系数k的内容，缺乏外部证据支持。 | 逻辑上公式结构自洽（容量随相关性绝对值增加而修正），但参考来源[1]讨论扩散模型缓存，[2]讨论负缓存，均与该特定修正公式无关，属于经验事实且缺来源支持。
+
+## Search Query
+
+cache effective capacity correction factor negative correlation size frequency copula
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org/pdf/2602.13357&rut=464d199a87e96821234f45fd385d0443f3df394db3b4aca63a93d3649199b8fd', 'type': 'ddg', 'title': 'AdaCorrection: Adaptive Offset Cache Correction for Accurate Diffusion ...'}
+- {'url': 'https://en.wikipedia.org/wiki/Negative_cache&rut=32bfa279afda36d730c0327f689d5442ae330253ea2644c84945a3fbc20c51b9', 'type': 'ddg', 'title': 'Negative cache - Wikipedia'}

@@ -1,0 +1,20 @@
+# N106: LRU 稳态命中率的通用理论下界公式 H ≈ 1 - (C/M)^β 源自 Belady 最优算法的近似推导，属于通用理论记忆（General Theory）；
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+LRU 稳态命中率的通用理论下界公式 H ≈ 1 - (C/M)^β 源自 Belady 最优算法的近似推导，属于通用理论记忆（General Theory）；但在本题中，由于引入了负相关 ρ=-0.3，该公式不再直接适用，需通过 Copula 模型进行修正，修正系数 K_corr 的计算依赖于具体的联合分布积分，属于需外部验证或数值模拟的特定数据（Specific Data）。
+
+## Corrected Claim
+
+LRU 稳态命中率的通用理论下界公式 H ≈ 1 - (C/M)^β 源自 Belady 最优算法的近似推导，属于通用理论记忆（General Theory）；但在本题中，由于引入了负相关 ρ=-0.3，该公式不再直接适用，需通过 Copula 模型进行修正，修正系数 K_corr 的计算依赖于具体的联合分布积分，属于需外部验证或数值模拟的特定数据（Specific Data）。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

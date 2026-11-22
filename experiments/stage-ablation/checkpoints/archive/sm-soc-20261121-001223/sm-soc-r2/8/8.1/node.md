@@ -1,0 +1,20 @@
+# N75: 成交周期延长 T_deal 的机制分解：T_deal_new = T_deal_old * (1 + α)，其中 α 为延长比例。α 源于‘高价值信号’红利消失
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N25
+
+## Claim
+
+成交周期延长 T_deal 的机制分解：T_deal_new = T_deal_old * (1 + α)，其中 α 为延长比例。α 源于‘高价值信号’红利消失，导致咨询转化率 k_consult 下降。假设 k_consult_new = k_consult_old * (1 - β)，则 α ≈ β / (1 - β)，需量化 β 对 α 的非线性影响。
+
+## Corrected Claim
+
+成交周期延长 T_deal 的机制分解：T_deal_new = T_deal_old * (1 + α)，其中 α 为延长比例。α 源于‘高价值信号’红利消失，导致咨询转化率 k_consult 下降。假设 k_consult_new = k_consult_old * (1 - β)，则 α ≈ β / (1 - β)，需量化 β 对 α 的非线性影响。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：假设成交周期与咨询转化率成反比（T ∝ 1/k），则 T_new/T_old = k_old/k_new = 1/(1-β)，故 1+α = 1/(1-β)，解得 α = β/(1-β)，推导自洽且量纲正确。

@@ -1,0 +1,17 @@
+{
+  "id": "N197",
+  "claim": "在 Qwen3-27B INT8 精度下，单次 Token 生成需读取的数据量为权重 (27GB) + KV Cache (10.7GB) = 37.7GB。M2 Ultra 的理论理论吞吐上限为 800 GB/s / 37.7 GB ≈ 21.2 tokens/s；RTX 4090 为 1008 GB/s / 37.7 GB ≈ 26.7 tokens/s。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]KV Cache 大小（10.7GB）是高度依赖上下文长度（Context Length）和批处理大小（Batch Size）的变量，并非固定值。在单次 Token 生成的典型推理场景（如短上下文或单用户）下，KV Cache 通常远小于 10.7GB，因此 37.7GB 的总读取量被高估，导致计算出的吞吐上限（21.2/26.7 tokens/s）偏低。此外，M2 Ultra 的内存带宽通常标称为 400GB/s（统一内存），800GB/s 可能是特定配置或理论峰值，需确认口径。 | source=knowledge，逻辑自洽（算术正确：800/37.7≈21.2, 1008/37.7≈26.7），但 KV Cache 数值为经验假设且未指定上下文长度，属于可变参数，缺乏固定来源支持，故降级。",
+  "corrected_claim": "在 Qwen3-27B INT8 精度下，若假设 KV Cache 占用 10.7GB（对应特定长上下文场景），单次 Token 生成需读取的数据量约为 37.7GB。基于此假设，M2 Ultra (800 GB/s) 的理论吞吐上限约为 21.2 tokens/s；RTX 4090 (1008 GB/s) 约为 26.7 tokens/s。实际吞吐受上下文长度影响显著。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N64"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

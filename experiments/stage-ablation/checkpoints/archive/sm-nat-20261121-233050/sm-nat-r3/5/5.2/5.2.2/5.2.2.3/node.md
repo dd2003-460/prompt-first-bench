@@ -1,0 +1,24 @@
+# N137: 联合修正因子 γ_total 的边界条件：γ_total = γ_temporal * γ_spatial，在 τ=30min 和 λ_ip=0.2 的极端高相
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N53, N54, N55
+
+## Claim
+
+联合修正因子 γ_total 的边界条件：γ_total = γ_temporal * γ_spatial，在 τ=30min 和 λ_ip=0.2 的极端高相关性场景下，γ_total ≈ 1.38，超出 [0.8, 1.2] 范围，表明独立性假设严重失效。
+
+## Corrected Claim
+
+联合修正因子 γ_total 的边界条件：γ_total = γ_temporal * γ_spatial，在 τ=30min 和 λ_ip=0.2 的极端高相关性场景下，γ_total ≈ 1.38，超出 [0.8, 1.2] 范围，表明独立性假设严重失效。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：1.38 在数学上等于 1.1 * 1.25（或类似组合），符合乘积定义；2. 1.38 确实超出 [0.8, 1.2] 区间；3. 高相关性导致修正因子偏离 1 符合统计直觉。
+
+## Search Query
+
+combined temporal and spatial locality cache hit rate bound

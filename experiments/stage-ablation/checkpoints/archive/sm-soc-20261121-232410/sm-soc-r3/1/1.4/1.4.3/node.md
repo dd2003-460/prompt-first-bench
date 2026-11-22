@@ -1,0 +1,20 @@
+# N42: ΔP% 公式的修正项：实际定价偏离 ΔP_actual = β_risk * σ_market_volatility * (1 + λ_loss * P_los
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N9
+
+## Claim
+
+ΔP% 公式的修正项：实际定价偏离 ΔP_actual = β_risk * σ_market_volatility * (1 + λ_loss * P_loss_perception)，其中 P_loss_perception 为卖家感知未成交概率，当商品挂出超过72小时未成交时，P_loss_perception 从0.2上升至0.6，导致 ΔP_actual 在后期额外增加约 33%（0.6*2.25*0.2 / 1）。
+
+## Corrected Claim
+
+ΔP% 公式的修正项：实际定价偏离 ΔP_actual = β_risk * σ_market_volatility * (1 + λ_loss * P_loss_perception)，其中 P_loss_perception 为卖家感知未成交概率，当商品挂出超过72小时未成交时，P_loss_perception 从0.2上升至0.6，导致 ΔP_actual 在后期额外增加约 200%（假设其他参数不变）。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应公式中的三个核心组成部分：时间动态函数（P_loss_perception）、损失厌恶交互项（I_loss）和市场波动耦合项（C_volatility）。这三者在逻辑上相互独立（正交），且共同构成了父节点公式的完整定义与计算示例（完备）。虽然数值上存在依赖关系（如I_loss依赖于P_loss_perception），但作为结构分解，它们代表了不同的建模维度，不属于冗余。）

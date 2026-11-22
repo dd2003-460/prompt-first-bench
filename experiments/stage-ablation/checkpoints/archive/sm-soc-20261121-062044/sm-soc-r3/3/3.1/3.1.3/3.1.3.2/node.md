@@ -1,0 +1,24 @@
+# N170: Δt_min = 7 天的行为经济学依据：7 天对应卖家注意力衰减阈值，若 Δt < 7 天，卖家重新定价概率 P(reprice) < 10%；需通过生存分析
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N56
+
+## Claim
+
+Δt_min = 7 天的行为经济学依据：7 天对应卖家注意力衰减阈值，若 Δt < 7 天，卖家重新定价概率 P(reprice) < 10%；需通过生存分析（Survival Analysis）验证该阈值的 Kaplan-Meier 估计值。
+
+## Corrected Claim
+
+Δt_min 的设定通常基于卖家注意力衰减或重新定价频率的经验观察，具体阈值（如7天）及对应的重新定价概率需通过生存分析（如 Kaplan-Meier 估计）在特定数据集上验证，而非通用固定值。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值阈值（7天、10%概率），属于行为经济学/市场微观结构中的经验事实，无法从第一性原理或数学公理严格推导得出，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该具体阈值非第一性原理可推导范畴）
+
+## Search Query
+
+seller repricing behavior time decay threshold survival analysis

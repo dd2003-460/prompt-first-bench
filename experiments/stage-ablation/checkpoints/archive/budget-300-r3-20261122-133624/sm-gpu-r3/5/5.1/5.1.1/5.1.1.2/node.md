@@ -1,0 +1,20 @@
+# N339: 2×RTX 4090 通过 PCIe 5.0 x16 互联进行张量并行时，每层 All-Reduce 通信延迟量化：Latency_TP = (Data_Siz
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N112
+
+## Claim
+
+2×RTX 4090 通过 PCIe 5.0 x16 互联进行张量并行时，每层 All-Reduce 通信延迟量化：Latency_TP = (Data_Size_AllReduce / PCIe_BW) + Latency_Overhead。PCIe 5.0 x16 单向带宽约 64GB/s，双向聚合约 128GB/s。若每层激活值大小为 A_bytes，总层数 L，则每 step 通信时间 = L * A_bytes / 128GB/s。需对比此时间与单卡计算时间以确定 TP 效率损失百分比。
+
+## Corrected Claim
+
+2×RTX 4090 通过 PCIe 5.0 x16 互联进行张量并行时，每层 All-Reduce 通信延迟量化：Latency_TP = (Data_Size_AllReduce / PCIe_BW) + Latency_Overhead。PCIe 5.0 x16 单向带宽约 64GB/s，双向聚合约 128GB/s。若每层激活值大小为 A_bytes，总层数 L，则每 step 通信时间 = L * A_bytes / 128GB/s。需对比此时间与单卡计算时间以确定 TP 效率损失百分比。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe 5.0 x16 单向带宽约 64GB/s（64GT/s * 128b/130b * 8bit/8bit ≈ 63.02GB/s，工程上常取 64GB/s 或 63GB/s，此处取 64GB/s 为合理近似），双向聚合 128GB/s 符合物理直觉；All-Reduce 通信时间公式逻辑自洽。

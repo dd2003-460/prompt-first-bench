@@ -1,0 +1,28 @@
+# N207: 价格敏感度函数 f(ΔP) 的具体参数化形式：假设 f(ΔP) = exp(ε_p * ΔP/P_market)，其中 ε_p 为价格弹性系数，需基于历史降价事
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N75
+
+## Claim
+
+价格敏感度函数 f(ΔP) 的具体参数化形式：假设 f(ΔP) = exp(ε_p * ΔP/P_market)，其中 ε_p 为价格弹性系数，需基于历史降价事件回归得出 ε_p 的具体数值（如 -1.2 至 -2.0 之间），以计算理论期望值 E[Consult|NoPenalty]。
+
+## Corrected Claim
+
+价格敏感度函数 f(ΔP) 可参数化为 f(ΔP) = exp(ε_p * ΔP/P_market)，其中 ε_p 为价格弹性系数，需基于历史数据回归得出具体数值（通常经验值为负数，量级视行业而定）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（ε_p 在 -1.2 至 -2.0 之间）和特定的函数形式（指数形式），属于经验事实。参考来源仅提及使用 F 检验评估价格敏感度，并未提供具体的参数化形式或数值范围，无法直接支持该具体数值区间。 | 逻辑上价格弹性通常为负值且量级在 1-2 之间符合经济学直觉，但具体数值区间 -1.2 至 -2.0 及特定函数形式属于经验事实，参考来源 [1] 仅涉及检验方法而非具体参数值，缺乏直接来源支持。
+
+## Search Query
+
+price elasticity of demand for second-hand goods regression analysis historical price cuts
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2032066484214686061&rut=56f1cddd49d4fc0be14be06568a573b807d8af9110c4b17c1f8b86901dca9ba7', 'type': 'ddg', 'title': '使用f检验评估价格敏感度的指南 - 知乎'}

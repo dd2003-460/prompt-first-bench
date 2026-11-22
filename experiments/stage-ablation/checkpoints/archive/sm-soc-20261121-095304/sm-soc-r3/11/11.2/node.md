@@ -1,0 +1,30 @@
+# N200: 买家心理阈值 θ_buyer 的分布特征：买家对价格波动的容忍阈值 θ_buyer 服从对数正态分布，中位数约为 5%，75 分位数为 10%。当实际价格波动 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N73
+
+## Claim
+
+买家心理阈值 θ_buyer 的分布特征：买家对价格波动的容忍阈值 θ_buyer 服从对数正态分布，中位数约为 5%，75 分位数为 10%。当实际价格波动 |ΔP| > θ_buyer 时，买家流失概率 P_churn = 1 - exp(-(|ΔP| - θ_buyer) / k_sensitivity)，其中 k_sensitivity 为敏感系数（估计值 0.05-0.1）。
+
+## Corrected Claim
+
+买家心理阈值 θ_buyer 通常随情境动态变化，其分布特征及流失概率模型需基于具体市场数据拟合，常见建模假设包括对数正态分布及指数衰减函数，但具体参数（如中位数、敏感系数）因品类和渠道而异，无统一固定值。
+
+## Evidence
+
+[质询]具体数值（中位数5%、75分位数10%、k_sensitivity 0.05-0.1）及特定函数形式（对数正态分布、指数流失模型）缺乏通用实证支持，属于特定场景下的经验参数或假设，而非普适事实。 | 来源[1][2][3]仅定性讨论了心理阈值和价格敏感度（PSM），未提供具体的分布参数或流失概率公式，属于经验事实且缺来源直接支持。
+
+## Search Query
+
+buyer price sensitivity threshold distribution log-normal churn probability model
+
+## Retrieval Sources
+
+- {'url': 'https://creator.idocdown.com/app/articles/blogs/detail/8670&rut=e77ccf5442c7c42e9ff1026b85c228497223a82e7f99b1f0f9c7be6452ff1bda', 'type': 'ddg', 'title': '预测性全渠道动态定价中的"心理阈值弹性"建模'}
+- {'url': 'https://blog.csdn.net/weixin_28365523/article/details/157748938&rut=b86bf47e9b41c2e1d8e6c1d2692de252f783fa71f6d227612ecf028895bcddcd', 'type': 'ddg', 'title': '从心理学到定价策略：揭秘psm模型如何捕捉消费者的价格心理-csdn博客'}
+- {'url': 'https://blog.csdn.net/weixin_29199873/article/details/157622858&rut=cc803c783dc161033de1a45cfd03240655f30af51bd0f2cf409d505a4f514777', 'type': 'ddg', 'title': '【2025-02更新】Psm价格敏感度测试：如何精准定位消费者心理价位区间-csdn博客'}

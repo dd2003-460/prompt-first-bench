@@ -1,0 +1,20 @@
+# N86: C_infra 公式中 COP (Coefficient of Performance) 的取值需根据部署环境区分：家用/小型办公室空调环境 COP ≈ 3.0
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N22
+
+## Claim
+
+C_infra 公式中 COP (Coefficient of Performance) 的取值需根据部署环境区分：家用/小型办公室空调环境 COP ≈ 3.0-3.5，而多卡高密度部署若需局部风冷或液冷，有效 COP 可能降至 1.5-2.0；需引用 ASHRAE 或具体散热器规格确定修正系数。
+
+## Corrected Claim
+
+C_infra 公式中 COP (Coefficient of Performance) 的取值需根据部署环境区分：家用/小型办公室空调环境 COP ≈ 3.0-3.5，而多卡高密度部署若需局部风冷或液冷，有效 COP 可能降至 1.5-2.0；需引用 ASHRAE 或具体散热器规格确定修正系数。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（1. 完备性缺失：父节点明确提到需引用 ASHRAE 或具体散热器规格来确定修正系数，但子节点中完全未涉及该标准引用或具体规格确定的方法。2. 冗余与逻辑矛盾：子节点2（家用/小办公室）和子节点3（数据中心/液冷）实质上是 COP_effective 的两个不同取值场景，属于同一参数的不同实例，存在结构性冗余。此外，子节点3标题为“高成本/高COP”，但内容描述 COP 为 1.5-2.0（数值更低），且通常液冷效率高于风冷，此处“高COP”与低数值及“高成本”的对应关系表述混乱，容易引发歧义。）

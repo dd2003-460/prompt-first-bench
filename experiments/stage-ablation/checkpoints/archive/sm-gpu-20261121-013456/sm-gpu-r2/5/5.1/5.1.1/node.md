@@ -1,0 +1,24 @@
+# N86: 硬件采购价格（RTX 4090/A100/H100）的溯源必须区分'官方MSRP'与'实时市场均价'，并定义失效阈值：若市场均价偏离MSRP超过±15%，原TC
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N36
+
+## Claim
+
+硬件采购价格（RTX 4090/A100/H100）的溯源必须区分'官方MSRP'与'实时市场均价'，并定义失效阈值：若市场均价偏离MSRP超过±15%，原TCO模型中的折旧项必须重新计算，否则误差将超过置信区间。
+
+## Corrected Claim
+
+硬件采购价格（RTX 4090/A100/H100）的溯源必须区分'官方MSRP'与'实时市场均价'，并定义失效阈值：若市场均价偏离MSRP超过±15%，原TCO模型中的折旧项必须重新计算，否则误差将超过置信区间。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：区分MSRP与市场均价是TCO建模的基本前提，±15%作为触发重算的阈值在工程实践中属于合理的敏感性分析边界，逻辑自洽且无内部矛盾。
+
+## Search Query
+
+RTX 4090 A100 H100 current market price vs MSRP deviation threshold

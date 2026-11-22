@@ -1,0 +1,24 @@
+# N51: P_revalidate 的量化：在 CDN 场景下，对象更新后若未触发预取，P_revalidate ≈ 0；若触发预取，P_revalidate = P(p
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N16
+
+## Claim
+
+P_revalidate 的量化：在 CDN 场景下，对象更新后若未触发预取，P_revalidate ≈ 0；若触发预取，P_revalidate = P(prefetch_hit) ≈ 0.05-0.15，取决于源站响应时间与预取策略，需通过 A/B 测试或日志分析确定具体值。
+
+## Corrected Claim
+
+在 CDN 场景下，对象更新后若未触发预取，P_revalidate 通常较低（接近 0 或仅包含少量自然流量验证）；若触发预取，P_revalidate 与预取命中率相关，具体数值（如 0.05-0.15）需通过 A/B 测试或日志分析根据实际源站响应时间与预取策略确定，无通用固定值。
+
+## Evidence
+
+[质询]P_revalidate 的具体数值范围（0.05-0.15）属于高度依赖具体业务场景、缓存策略及源站性能的经验参数，缺乏通用理论支撑，且‘未触发预取则 P≈0’的假设忽略了缓存过期后的强制回源验证机制，存在逻辑简化风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该数值为特定场景下的经验估计，非第一性原理可推导）
+
+## Search Query
+
+CDN cache revalidation probability after object update prefetch strategy hit rate

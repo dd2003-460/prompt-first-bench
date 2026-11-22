@@ -1,0 +1,17 @@
+{
+  "id": "N339",
+  "claim": "RTX 5090 32GB 显存在 FP8 精度下运行 Qwen3-27B 时，KV Cache 的显存占用并非简单的 BF16 值减半，因为 vLLM 等框架通常默认以 BF16 存储 KV Cache 以保证注意力精度，除非显式启用 FP8 KV Cache 功能。若 KV Cache 保持 BF16，则占用为 25.76GB，总显存需求为 27.18GB (权重) + 25.76GB (KV) + 2GB (激活/框架) = 54.94GB，远超 32GB 显存，导致必然 OOM；若启用 FP8 KV Cache，占用降至 12.88GB，总需求为 42.06GB，仍超出 32GB 显存，因此单卡 32GB 无法同时容纳 FP8 权重和 32K BF16/FP8 KV Cache。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "verified",
+  "evidence": "先验知识/题面给定，逻辑校验通过：Qwen3-27B 权重约 27GB，32K 上下文 KV Cache 在 BF16 下约 25.76GB，总和远超 32GB 显存，OOM 结论符合物理限制与工程常识。",
+  "corrected_claim": "RTX 5090 32GB 显存在 FP8 精度下运行 Qwen3-27B 时，KV Cache 的显存占用并非简单的 BF16 值减半，因为 vLLM 等框架通常默认以 BF16 存储 KV Cache 以保证注意力精度，除非显式启用 FP8 KV Cache 功能。若 KV Cache 保持 BF16，则占用为 25.76GB，总显存需求为 27.18GB (权重) + 25.76GB (KV) + 2GB (激活/框架) = 54.94GB，远超 32GB 显存，导致必然 OOM；若启用 FP8 KV Cache，占用降至 12.88GB，总需求为 42.06GB，仍超出 32GB 显存，因此单卡 32GB 无法同时容纳 FP8 权重和 32K BF16/FP8 KV Cache。",
+  "rework_count": 0,
+  "parent_ids": [
+    "N128"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "vLLM KV cache precision default BF16 vs FP8 memory usage Qwen3-27B",
+  "retrieval_sources": []
+}

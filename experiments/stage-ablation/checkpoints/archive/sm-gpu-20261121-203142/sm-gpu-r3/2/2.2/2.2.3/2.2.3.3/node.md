@@ -1,0 +1,24 @@
+# N184: FP8 量化质量损失的边界条件修正：当模型参数量 > 30B 且采用 Per-Channel 或 Per-Block 量化策略时，FP8 的精度损失显著低于 P
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N54
+
+## Claim
+
+FP8 量化质量损失的边界条件修正：当模型参数量 > 30B 且采用 Per-Channel 或 Per-Block 量化策略时，FP8 的精度损失显著低于 Per-Tensor 量化；对于 Qwen3-27B (接近 30B 阈值)，若使用 vLLM 或 TensorRT-LLM 推荐的 FP8 Per-Channel 量化，HumanEval 下降可控制在 1% 以内，此时 FP8 在代码辅助场景下也可接受，无需回退至 INT8 或 BF16。
+
+## Corrected Claim
+
+FP8 量化质量损失的边界条件修正：当模型参数量较大（如 > 30B）且采用 Per-Channel 或 Per-Block 量化策略时，FP8 的精度损失通常显著低于 Per-Tensor 量化；对于 Qwen3-27B 等接近该量级的模型，若使用 vLLM 或 TensorRT-LLM 推荐的 FP8 Per-Channel 量化，HumanEval 下降通常可控制在较低水平（具体数值需视具体实现和评估基准而定，通常优于 Per-Tensor），此时 FP8 在代码辅助场景下通常可接受，无需回退至 INT8 或 BF16。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（30B参数量）和具体的性能指标（HumanEval下降<1%），这些属于经验事实而非第一性原理可推导内容。虽然FP8 Per-Channel量化通常优于Per-Tensor是已知趋势，但‘30B’作为显著改善的硬性边界以及‘1%以内’的具体数值缺乏通用共识或标准文献支持，不同模型架构和任务分布下表现差异较大，存在过度具体化导致误导的风险。 | 经验事实，逻辑自洽但缺来源支持；FP8 Per-Channel优于Per-Tensor符合量化原理，但具体阈值和精度损失数值缺乏外部证据验证。
+
+## Search Query
+
+FP8 per-channel quantization quality loss threshold 30B model code generation

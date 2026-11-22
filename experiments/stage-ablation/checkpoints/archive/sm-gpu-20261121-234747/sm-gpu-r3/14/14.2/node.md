@@ -1,0 +1,28 @@
+# N516: 双卡方案（2x PCIe）相对于单卡方案的故障率增加系数 ΔAFR_ratio 的量化依据，需验证'15-20%'这一经验值的来源，或基于PCIe插槽接触不良率
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N161
+
+## Claim
+
+双卡方案（2x PCIe）相对于单卡方案的故障率增加系数 ΔAFR_ratio 的量化依据，需验证'15-20%'这一经验值的来源，或基于PCIe插槽接触不良率、散热不均导致的额外应力因子计算得出
+
+## Corrected Claim
+
+双卡方案相对于单卡方案的故障率增加系数 ΔAFR_ratio 的具体量化依据（如'15-20%'）缺乏公开权威来源的直接支持，需进一步查阅硬件可靠性工程报告或基于特定环境下的PCIe插槽接触不良率及散热应力模型进行推导验证。
+
+## Evidence
+
+[质询]该陈述声称需要验证'15-20%'这一具体经验值的来源或基于特定物理因子（接触不良率、散热应力）计算得出，但参考来源仅涉及主板PCIe插槽的物理存在和数量，完全未涉及故障率（AFR）、双卡与单卡的可靠性对比数据或具体的量化依据，属于典型的经验事实缺乏直接证据支持。 | 经验事实，逻辑自洽但缺来源支持（来源[1]仅描述主板硬件结构，未提供故障率量化数据或计算依据）
+
+## Search Query
+
+multi-GPU system failure rate increase PCIe slot reliability study
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Motherboard', 'type': 'wikipedia', 'title': 'Motherboard'}

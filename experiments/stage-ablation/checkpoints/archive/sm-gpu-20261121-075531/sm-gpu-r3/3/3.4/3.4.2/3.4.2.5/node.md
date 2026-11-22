@@ -1,0 +1,24 @@
+# N243: CUDA 12.4 引入的 FP8 Tensor Core 支持在消费级显卡 (RTX 40/50 系列) 上需要驱动版本 >= 550.54.14 才能启用；
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N73, N74, N75
+
+## Claim
+
+CUDA 12.4 引入的 FP8 Tensor Core 支持在消费级显卡 (RTX 40/50 系列) 上需要驱动版本 >= 550.54.14 才能启用；截至 2024 年中，NVIDIA 数据中心驱动 (R535/R550 分支) 已原生支持，而消费级驱动通常在发布后 2-4 周才推送包含完整 FP8 支持的热修复版本，存在 1-2 个月的适配空窗期。
+
+## Corrected Claim
+
+CUDA 12.4 引入的 FP8 Tensor Core 支持在消费级显卡上需要特定版本的驱动才能启用；截至 2024 年中，NVIDIA 数据中心驱动已原生支持，而消费级驱动通常存在一定时间的适配空窗期。
+
+## Evidence
+
+[质询]具体驱动版本号（550.54.14）及“2-4周/1-2个月”的适配空窗期属于高度具体的经验事实，且缺乏来源支持，极易因版本迭代或具体硬件型号差异而失实。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+NVIDIA driver 550 FP8 support RTX 4090 release date vs data center driver

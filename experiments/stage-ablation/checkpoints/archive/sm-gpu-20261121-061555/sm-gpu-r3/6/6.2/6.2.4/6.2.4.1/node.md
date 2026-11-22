@@ -1,0 +1,24 @@
+# N321: TensorRT-LLM 当前最新稳定版（如 v0.15+）对 Qwen3 系列模型的支持状态：需确认是否已原生支持 Qwen3-27B 的混合注意力架构（Ga
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N114, N115, N117
+
+## Claim
+
+TensorRT-LLM 当前最新稳定版（如 v0.15+）对 Qwen3 系列模型的支持状态：需确认是否已原生支持 Qwen3-27B 的混合注意力架构（Gated DeltaNet），若不支持，需确认是否可通过自定义 Plugin 或回退到标准 MHA 近似实现，以及由此带来的性能/精度损失量化（如吞吐量下降比例或 PPL 增量）。
+
+## Corrected Claim
+
+TensorRT-LLM 对 Qwen3 系列模型（特别是 Qwen3-27B 的混合注意力架构）的支持状态需进一步确认。若当前稳定版未原生支持 Gated DeltaNet，可能需通过自定义 Plugin 或回退到标准 MHA 实现，具体性能/精度损失需实测量化。
+
+## Evidence
+
+[质询]该陈述包含具体的版本号（v0.15+）、特定模型架构支持状态（Qwen3-27B Gated DeltaNet）及性能量化指标，属于典型的经验事实。由于检索失败，无法验证TensorRT-LLM当前版本是否原生支持该架构，也无法确认具体的性能损失数据，存在版本滞后或架构支持状态描述不准确的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体版本支持状态及性能数据）
+
+## Search Query
+
+TensorRT-LLM Qwen3-27B Gated DeltaNet support version bug list

@@ -1,0 +1,28 @@
+# N24: 精度对上下文窗口有效性的影响：在 32K+ 长上下文场景下，低精度（FP8/INT8/W4）导致的注意力分数累积误差是否显著高于短上下文场景，提供长文本一致性测
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4, N5
+
+## Claim
+
+精度对上下文窗口有效性的影响：在 32K+ 长上下文场景下，低精度（FP8/INT8/W4）导致的注意力分数累积误差是否显著高于短上下文场景，提供长文本一致性测试数据。
+
+## Corrected Claim
+
+在32K+长上下文场景下，低精度（FP8/INT8/W4）可能引入注意力分数累积误差，但现有来源未提供证明其显著高于短上下文场景的具体一致性测试数据。
+
+## Evidence
+
+[质询]来源仅提及FP8用于保持长上下文能力，未提供具体的‘累积误差显著高于短上下文’的量化对比数据或一致性测试指标，无法证实‘显著高于’这一具体结论。 | 来源[1]间接支持FP8在长上下文场景的应用可行性，但未提供证明误差显著增加的直接数据，属于间接支持且缺乏具体量化证据。
+
+## Search Query
+
+quantization impact long context 32K token attention score error accumulation LLM
+
+## Retrieval Sources
+
+- {'url': 'https://wenku.baidu.com/view/ceff1186bdf3f90f76c66137ee06eff9aff84903.html&rut=a36b55d721cf0935589562d8d08ed33a53311ddbb4fd8f4b5eb9805d9f42e865', 'type': 'ddg', 'title': 'GLM 5.2 FP8精度影响上下文长度吗？100万Token窗口核心解析'}

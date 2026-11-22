@@ -1,0 +1,24 @@
+# N190: 基准咨询到达率 λ_base 的估算公式：λ_base = Q_consult_30d / (N_active_listings * 30)，其中 Q_cons
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N68
+
+## Claim
+
+基准咨询到达率 λ_base 的估算公式：λ_base = Q_consult_30d / (N_active_listings * 30)，其中 Q_consult_30d 为过去30天同类商品总咨询数，N_active_listings 为平均在线挂牌数。该值代表无干预状态下的自然流量基线。
+
+## Corrected Claim
+
+基准咨询到达率 λ_base 的估算公式：λ_base = Q_consult_30d / (N_active_listings * 30)，其中 Q_consult_30d 为过去30天同类商品总咨询数，N_active_listings 为平均在线挂牌数。该值代表无干预状态下的自然流量基线。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式量纲正确（次数/（数量*天数）= 次/件/天），符合基准到达率的定义逻辑。
+
+## Search Query
+
+baseline inquiry rate estimation for e-commerce listings

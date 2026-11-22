@@ -1,0 +1,20 @@
+# N389: H100 80GB 运行 Qwen3-27B FP8 权重 (27GB) 时的显存占用详细分解：Weight (27GB) + KV Cache (基于 N12
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N136
+
+## Claim
+
+H100 80GB 运行 Qwen3-27B FP8 权重 (27GB) 时的显存占用详细分解：Weight (27GB) + KV Cache (基于 N128 混合架构计算的 FP8 或 BF16 KV 大小) + Activation (1-2GB) + 框架开销 (vLLM/PyTorch ~2-3GB)，总和需 < 80GB 以确认单卡可行性，并计算剩余显存对 Batch Size 的支持上限。
+
+## Corrected Claim
+
+H100 80GB 运行 Qwen3-27B FP8 权重 (27GB) 时的显存占用详细分解：Weight (27GB) + KV Cache (基于 N128 混合架构计算的 FP8 或 BF16 KV 大小) + Activation (1-2GB) + 框架开销 (vLLM/PyTorch ~2-3GB)，总和需 < 80GB 以确认单卡可行性，并计算剩余显存对 Batch Size 的支持上限。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H100 80GB 显存下，27GB 权重 + 约 2-3GB 框架开销 + 1-2GB 激活值，剩余约 45-50GB 用于 KV Cache，单卡运行 Qwen3-27B FP8 在逻辑和量级上完全可行。

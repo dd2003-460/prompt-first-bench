@@ -1,0 +1,24 @@
+# N77: Qwen3-27B 的 MoE 架构特性导致 Prefill 阶段的有效计算量并非全参数 27B，而是仅激活部分专家（约 3.3B 激活参数 + 共享层），因此
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N19, N20, N21
+
+## Claim
+
+Qwen3-27B 的 MoE 架构特性导致 Prefill 阶段的有效计算量并非全参数 27B，而是仅激活部分专家（约 3.3B 激活参数 + 共享层），因此 T_prefill 计算中的 N_params 应替换为 Effective_Activated_Params ≈ 3.3e9，而非 27e9，这将显著降低理论 TTFT。
+
+## Corrected Claim
+
+Qwen3-27B 的 MoE 架构特性导致 Prefill 阶段的有效计算量并非全参数 27B，而是仅激活部分专家（约 3.3B 激活参数 + 共享层），因此 T_prefill 计算中的 N_params 应替换为 Effective_Activated_Params ≈ 3.3e9，而非 27e9，这将显著降低理论 TTFT。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B 确为 MoE 架构，激活参数约 3.3B，Prefill 阶段计算量取决于激活参数而非总参数，符合 MoE 基本原理。
+
+## Search Query
+
+Qwen3 MoE activated parameters prefill computation cost

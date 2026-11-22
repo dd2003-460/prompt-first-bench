@@ -1,0 +1,24 @@
+# N249: RTX 4090 在 LLM Decode 阶段（内存密集）执行 INT8 推理时，INT8 权重读取量减半（27GB vs 54GB），显存带宽利用率提升，实
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N79
+
+## Claim
+
+RTX 4090 在 LLM Decode 阶段（内存密集）执行 INT8 推理时，INT8 权重读取量减半（27GB vs 54GB），显存带宽利用率提升，实际 Decode 吞吐提升为 BF16 的 1.4-1.6x（而非理论 2x），受限于显存带宽 1008 GB/s 和 PCIe 带宽（若存在 offload）
+
+## Corrected Claim
+
+RTX 4090 在 LLM Decode 阶段执行 INT8 推理时，相比 BF16 权重读取量减半，理论上可提升显存带宽利用率。实际 Decode 吞吐提升通常低于理论 2x，具体倍数（如 1.4-1.6x）取决于模型是否完全驻留显存、Offload 策略及 PCIe 带宽瓶颈。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件规格（RTX 4090 显存带宽 1008 GB/s）和具体的性能提升倍数（1.4-1.6x），属于经验事实。虽然 1008 GB/s 是 RTX 4090 的准确规格，且 INT8 相比 BF16 在内存受限场景下理论加速比接近 2x 但受其他开销限制而低于 2x 符合逻辑，但具体的 1.4-1.6x 范围缺乏通用基准测试支持，可能因具体模型大小、Batch Size 和实现细节（如是否使用 Tensor Core 加速 INT8）而异。此外，'27GB vs 54GB' 暗示模型权重为 54GB (BF16)，这在单卡 24GB 显存下无法完全驻留，必然涉及 Offload 或量化混合，此时 PCIe 带宽成为主要瓶颈，1.4-1.6x 的提升幅度在 PCIe 4.0/5.0 瓶颈下是否成立需具体验证，存在口径混淆风险（纯显存带宽限制 vs PCIe 限制）。 | 经验事实，逻辑自洽但缺来源支持。RTX 4090 带宽 1008 GB/s 正确，INT8 减半权重读取量逻辑正确，但具体吞吐提升倍数 1.4-1.6x 为经验数据，无来源直接覆盖，且受 Offload 策略影响大，故降级。
+
+## Search Query
+
+RTX 4090 INT8 vs BF16 LLM decode throughput memory bandwidth bound benchmark

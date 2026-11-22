@@ -1,0 +1,20 @@
+# N324: 在单卡 RTX 5090 (32GB) 部署 Qwen3-27B (FP8, 权重27GB) 时，支持的最大并发数 Batch_max 计算公式为 floor(
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N116
+
+## Claim
+
+在单卡 RTX 5090 (32GB) 部署 Qwen3-27B (FP8, 权重27GB) 时，支持的最大并发数 Batch_max 计算公式为 floor((32 - 27 - 1.5) / (5.37/32768 × 32768))，由于 KV Cache 单请求占用 5.37GB 且剩余显存仅 3.5GB，Batch_max = 0，表明纯 FP8 单卡无法支持任何 32K 上下文请求，必须采用 INT8 KV Cache 或更低精度权重。
+
+## Corrected Claim
+
+在单卡 RTX 5090 (32GB) 部署 Qwen3-27B (FP8, 权重27GB) 时，支持的最大并发数 Batch_max 计算公式为 floor((32 - 27 - 1.5) / (5.37/32768 × 32768))，由于 KV Cache 单请求占用 5.37GB 且剩余显存仅 3.5GB，Batch_max = 0，表明纯 FP8 单卡无法支持任何 32K 上下文请求，必须采用 INT8 KV Cache 或更低精度权重。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 5090 显存 32GB，Qwen3-27B FP8 权重约 27GB，剩余 5GB 扣除 1.5GB 开销后剩 3.5GB；单请求 32K 上下文 KV Cache 占用 5.37GB，3.5 < 5.37，故 Batch_max = 0，结论自洽。

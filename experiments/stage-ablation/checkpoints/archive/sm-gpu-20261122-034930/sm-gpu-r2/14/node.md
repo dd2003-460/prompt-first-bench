@@ -1,0 +1,20 @@
+# N156: 性价比排序模型的关键假设修正：现有节点仅基于 'tokens/s / $' 进行排序，忽略了 '质量损失系数'。建议引入加权性价比指标 $V = \frac{\
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+性价比排序模型的关键假设修正：现有节点仅基于 'tokens/s / $' 进行排序，忽略了 '质量损失系数'。建议引入加权性价比指标 $V = \frac{\text{Throughput} \times (1 - \text{QualityLoss})}{\text{TCO}}$。例如，若 W4 方案吞吐量提升 50% 但质量损失 3% (权重 0.97)，而 INT8 方案吞吐量基准为 1.0 且质量损失 1% (权重 0.99)，需计算临界吞吐量提升倍数才能抵消质量损失，通常需吞吐量提升 >1.5 倍 W4 才优于 INT8。
+
+## Corrected Claim
+
+性价比排序模型的关键假设修正：现有节点仅基于 'tokens/s / $' 进行排序，忽略了 '质量损失系数'。建议引入加权性价比指标 $V = \frac{\text{Throughput} \times (1 - \text{QualityLoss})}{\text{TCO}}$。例如，若 W4 方案吞吐量提升 50% 但质量损失 3% (权重 0.97)，而 INT8 方案吞吐量基准为 1.0 且质量损失 1% (权重 0.99)，需计算临界吞吐量提升倍数才能抵消质量损失，通常需吞吐量提升 >1.5 倍 W4 才优于 INT8。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

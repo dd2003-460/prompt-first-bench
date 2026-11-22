@@ -1,0 +1,24 @@
+# N32: 锚定效应强度参数 α_anchor 的量化：定义为当前参考价 P_ref 对最终估值 V_final 的回归系数，即 V_final = β_0 + α_anc
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N6
+
+## Claim
+
+锚定效应强度参数 α_anchor 的量化：定义为当前参考价 P_ref 对最终估值 V_final 的回归系数，即 V_final = β_0 + α_anchor * P_ref + ε。α_anchor 的取值范围通常在 0.3-0.7 之间，具体取决于参考价的显著性（如‘近期成交’标签是否可见）。
+
+## Corrected Claim
+
+锚定效应强度参数 α_anchor 定义为当前参考价 P_ref 对最终估值 V_final 的回归系数。其具体数值取决于实验情境、参考价的显著性及样本特征，通常在实证研究中表现为显著的正向影响，但无固定统一的数值区间。
+
+## Evidence
+
+[质询]α_anchor 的取值范围（0.3-0.7）缺乏统一的实证标准，不同实验范式（如房产估价、股票定价）和样本特征会导致系数显著波动，将其概括为固定区间属于过度简化。 | 先验知识/题面给定，逻辑校验通过；但作为经验事实，具体数值范围缺乏普适性，降级为定性表述。
+
+## Search Query
+
+anchoring effect regression coefficient price estimation empirical study

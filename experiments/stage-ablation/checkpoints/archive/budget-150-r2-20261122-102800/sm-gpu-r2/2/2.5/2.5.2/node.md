@@ -1,0 +1,20 @@
+# N86: 2×RTX 4090 运行 INT8 Qwen3-27B (32K context) 的可行性与显存余量：每卡权重分片 13.5GB + KV Cache 1.
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N17
+
+## Claim
+
+2×RTX 4090 运行 INT8 Qwen3-27B (32K context) 的可行性与显存余量：每卡权重分片 13.5GB + KV Cache 1.075GB (TP=2) + 激活/CUDA 开销 3.5GB = 18.075GB/卡，低于 24GB 上限，剩余 5.925GB (24.7%) 用于 batch>1 扩展或更长上下文，单卡利用率 75.3%，确认可行且留有性能余量。
+
+## Corrected Claim
+
+2×RTX 4090 运行 INT8 Qwen3-27B (32K context) 的可行性与显存余量：每卡权重分片 13.5GB + KV Cache 1.075GB (TP=2) + 激活/CUDA 开销 3.5GB = 18.075GB/卡，低于 24GB 上限，剩余 5.925GB (24.7%) 用于 batch>1 扩展或更长上下文，单卡利用率 75.3%，确认可行且留有性能余量。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B INT8权重约13.5GB，TP=2分片后每卡6.75GB（注：原陈述中'每卡权重分片13.5GB'表述可能有歧义，若指总权重13.5GB则分片后为6.75GB；若指每卡13.5GB则总权重27GB，与INT8 27B模型大小不符。但根据后续计算18.075GB/卡，反推权重分片应为13.5GB-1.075GB-3.5GB=8.925GB? 不对，重新计算：18.075 - 1.075 - 3.5 = 13.5GB。这意味着原陈述认为每卡权重占用13.5GB。27B参数INT8约为27GB总大小。TP=2时每卡应为13.5GB。逻辑自洽。KV Cache 1.075GB对于32K context在27B模型上合理。总占用18.075GB < 24GB，余量5.925GB，计算正确。

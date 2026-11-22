@@ -1,0 +1,20 @@
+# N127: 最终推荐方案的条件性边界定义1：'低延迟/高并发'场景（要求P99延迟<2s且并发>4）下，若硬件显存带宽<500 GB/s，则直接排除该方案，无论其TCO多低
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+最终推荐方案的条件性边界定义1：'低延迟/高并发'场景（要求P99延迟<2s且并发>4）下，若硬件显存带宽<500 GB/s，则直接排除该方案，无论其TCO多低；此边界基于LLM推理延迟与带宽的非线性关系。
+
+## Corrected Claim
+
+最终推荐方案的条件性边界定义1：'低延迟/高并发'场景（要求P99延迟<2s且并发>4）下，若硬件显存带宽<500 GB/s，则直接排除该方案，无论其TCO多低；此边界基于LLM推理延迟与带宽的非线性关系。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

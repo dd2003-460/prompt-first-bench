@@ -1,0 +1,20 @@
+# N267: 下游投影 1：比价效率损失率 L_compare 的具体数值计算。当 P_ask = 1.2 * P_median 时，(P_median - P_ask) /
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N83
+
+## Claim
+
+下游投影 1：比价效率损失率 L_compare 的具体数值计算。当 P_ask = 1.2 * P_median 时，(P_median - P_ask) / σ_pref = -0.2 / 0.18 = -1.111，Φ(-1.111) ≈ 0.133，因此 L_compare = 1 - 0.133 = 0.867。这表明在 20% 高挂价下，86.7% 的买家因比价效率损失而放弃搜索，远高于 0.4 的阈值，验证了低比价效率假设。
+
+## Corrected Claim
+
+下游投影 1：比价效率损失率 L_compare 的具体数值计算。当 P_ask = 1.2 * P_median 时，(P_median - P_ask) / σ_pref = -0.2 / 0.18 = -1.111，Φ(-1.111) ≈ 0.133，因此 L_compare = 1 - 0.133 = 0.867。这表明在 20% 高挂价下，86.7% 的买家因比价效率损失而放弃搜索，远高于 0.4 的阈值，验证了低比价效率假设。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算 (1.2-1)*1/0.18 ≈ 1.111，标准正态分布 Φ(-1.111) ≈ 0.133，1-0.133=0.867，推导自洽。

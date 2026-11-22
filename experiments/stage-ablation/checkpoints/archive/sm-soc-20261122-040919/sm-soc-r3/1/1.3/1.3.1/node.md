@@ -1,0 +1,24 @@
+# N38: 共享随机源：平台算法推荐的‘快速成交’信号质量波动 $\epsilon_{signal}$，其方差 $\sigma^2_{signal}$ 决定了买家将该信号解
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N7
+
+## Claim
+
+共享随机源：平台算法推荐的‘快速成交’信号质量波动 $\epsilon_{signal}$，其方差 $\sigma^2_{signal}$ 决定了买家将该信号解读为‘质量背书’的可信度，信号越嘈杂，买家对稀缺性启发式的依赖程度越高，导致 $k$ 值的不确定性增加。
+
+## Corrected Claim
+
+共享随机源：平台算法推荐的‘快速成交’信号质量波动 $\epsilon_{signal}$，其方差 $\sigma^2_{signal}$ 决定了买家将该信号解读为‘质量背书’的可信度，信号越嘈杂，买家对稀缺性启发式的依赖程度越高，导致 $k$ 值的不确定性增加。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别覆盖了信号噪声的来源定义（FPR）、贝叶斯推断机制（可信度量化）、对核心变量k的直接数学耦合、以及信任度d的函数关系与稳定性分析。四个维度（来源、推断、核心效应、辅助效应/稳定性）逻辑清晰且互不重叠，共同完整解释了父节点中'信号质量波动导致k值不确定性增加'的因果链条。）
+
+## Search Query
+
+platform algorithm signal quality variance and buyer heuristic reliance

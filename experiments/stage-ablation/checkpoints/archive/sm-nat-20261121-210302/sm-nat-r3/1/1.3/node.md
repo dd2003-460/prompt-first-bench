@@ -1,0 +1,20 @@
+# N7: LFU 相比 LRU 的最大理论增益 ΔH_max = H_LFU - H_LRU，取决于热度分布的重尾程度（β=0.9）与 LRU 的‘新鲜度偏差’程度，需通
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+LFU 相比 LRU 的最大理论增益 ΔH_max = H_LFU - H_LRU，取决于热度分布的重尾程度（β=0.9）与 LRU 的‘新鲜度偏差’程度，需通过模拟或解析近似计算
+
+## Corrected Claim
+
+LFU 相比 LRU 的最大理论增益 ΔH_max = H_LFU - H_LRU，取决于热度分布的重尾程度（β=0.9）与 LRU 的‘新鲜度偏差’程度，需通过模拟或解析近似计算
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点仅分析了热度分布的集中度（重尾特性），而父节点明确指出生成ΔH_max还取决于LRU的'新鲜度偏差'程度，且需通过模拟或解析近似计算。当前分解缺失了LRU行为分析及计算/模拟方法这两个关键方面，导致不完备。）

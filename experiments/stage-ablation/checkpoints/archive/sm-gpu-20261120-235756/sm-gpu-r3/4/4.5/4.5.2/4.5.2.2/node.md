@@ -1,0 +1,20 @@
+# N273: Qwen3-27B 为 MoE 架构（激活参数 3.3B），Decode 阶段实际带宽需求取决于激活参数而非总参数：若框架有效利用稀疏性，实际 TPOT 上限为
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N96
+
+## Claim
+
+Qwen3-27B 为 MoE 架构（激活参数 3.3B），Decode 阶段实际带宽需求取决于激活参数而非总参数：若框架有效利用稀疏性，实际 TPOT 上限为 (3.3e9 * 1) / 1792 GB/s = 1.84 ms/token (RTX 5090)，此时带宽瓶颈效应减弱，计算延迟占比上升。
+
+## Corrected Claim
+
+Qwen3-27B 为 MoE 架构（激活参数 3.3B），Decode 阶段实际带宽需求取决于激活参数而非总参数：若框架有效利用稀疏性，实际 TPOT 上限为 (3.3e9 * 1) / 1792 GB/s = 1.84 ms/token (RTX 5090)，此时带宽瓶颈效应减弱，计算延迟占比上升。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B 确为 MoE 架构且激活参数约 3.3B，带宽计算量纲与数值合理（3.3GB / 1792GB/s ≈ 1.84ms），符合 MoE 稀疏激活降低带宽需求的物理直觉。

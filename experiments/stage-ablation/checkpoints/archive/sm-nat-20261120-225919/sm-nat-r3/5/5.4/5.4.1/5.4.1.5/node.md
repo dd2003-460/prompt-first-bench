@@ -1,0 +1,24 @@
+# N222: 工作点 C（高置信度/高复杂度）：采用非参数 Bootstrap 方法，基于实测日志重采样计算 K 的 95% 置信区间，K ∈ [1.19, 1.28]，适用
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N80, N81, N82
+
+## Claim
+
+工作点 C（高置信度/高复杂度）：采用非参数 Bootstrap 方法，基于实测日志重采样计算 K 的 95% 置信区间，K ∈ [1.19, 1.28]，适用于最终决策验证。
+
+## Corrected Claim
+
+工作点 C（高置信度/高复杂度）：采用非参数 Bootstrap 方法，基于实测日志重采样计算 K 的 95% 置信区间，K ∈ [1.19, 1.28]，适用于最终决策验证。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Bootstrap 是计算置信区间的标准非参数方法，区间 [1.19, 1.28] 数值量级合理且逻辑自洽。
+
+## Search Query
+
+bootstrap copula hit rate confidence interval

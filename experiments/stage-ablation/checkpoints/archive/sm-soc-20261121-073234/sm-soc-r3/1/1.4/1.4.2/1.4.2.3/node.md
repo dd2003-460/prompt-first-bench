@@ -1,0 +1,24 @@
+# N143: 指数衰减函数 exp(-k * ΔP/P_old) 在 ΔP/P_old > 0.5 时失效，因为此时买家感知从'优惠'转为'风险'，CTR 反而可能上升或出现
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N41
+
+## Claim
+
+指数衰减函数 exp(-k * ΔP/P_old) 在 ΔP/P_old > 0.5 时失效，因为此时买家感知从'优惠'转为'风险'，CTR 反而可能上升或出现非线性跳变，需引入分段函数或加入风险惩罚项修正。
+
+## Corrected Claim
+
+指数衰减函数 exp(-k * ΔP/P_old) 在 ΔP/P_old > 0.5 时可能因用户行为非线性（如价格敏感度突变或感知风险增加）而拟合效果变差，建议引入分段函数或非线性修正项以捕捉潜在的行为跳变，具体影响方向（CTR上升或下降）需依赖具体业务数据验证。
+
+## Evidence
+
+[质询]该陈述将‘指数衰减函数失效’归因于买家心理感知的转变（从优惠到风险），并断言此时CTR会上升或非线性跳变。这属于经验性的行为经济学假设，缺乏普适的理论基础或第一性原理支持。在大多数电商场景中，价格大幅上涨（ΔP/P_old > 0.5）通常会导致CTR显著下降而非上升，‘风险’导致CTR上升的逻辑链条在常规语境下不成立，且‘失效’的定义模糊（是数学模型拟合度差，还是预测方向错误？）。 | source=knowledge，逻辑上自洽（分段函数确实是处理非线性行为的常见工程手段），但‘CTR反而可能上升’这一具体经验断言缺乏普遍性，且无外部来源支持，属于特定场景下的经验假设，故降级。
+
+## Search Query
+
+non-linear price effect on click through rate threshold discount psychology

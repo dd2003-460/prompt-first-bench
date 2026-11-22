@@ -1,0 +1,24 @@
+# N147: Apple M2 Ultra 在 LLM 推理 Decode 阶段的实际有效内存带宽利用率 (Memory_Bandwidth_Efficiency) 约为 6
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N46
+
+## Claim
+
+Apple M2 Ultra 在 LLM 推理 Decode 阶段的实际有效内存带宽利用率 (Memory_Bandwidth_Efficiency) 约为 60-75% (即 480-600 GB/s)，受限于 DRAM 控制器调度与 Page Table 开销，需对比 NVIDIA HBM 的 ~85-90% 利用率来修正理论吞吐上限。
+
+## Corrected Claim
+
+Apple M2 Ultra 在 LLM 推理 Decode 阶段的实际有效内存带宽利用率通常受限于 DRAM 控制器调度与 Page Table 开销，具体数值随模型大小和实现优化而异，一般认为低于理论峰值，需结合具体基准测试数据评估，而非固定为 60-75%。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（60-75%利用率及对应的480-600 GB/s带宽），属于硬件性能实测数据，无法从第一性原理推导。且M2 Ultra的内存带宽为800 GB/s，60-75%利用率对应480-600 GB/s在算术上自洽，但缺乏公开权威基准测试直接证实这一特定区间为“实际有效”利用率，不同模型和实现下波动较大，存在将特定场景数据泛化为通用指标的风险。 | 经验事实，逻辑自洽（800GB/s * 0.6-0.75 = 480-600GB/s）但缺来源支持，且无可用外部证据验证具体数值区间。
+
+## Search Query
+
+Apple M2 Ultra memory bandwidth efficiency LLM inference benchmark effective bandwidth

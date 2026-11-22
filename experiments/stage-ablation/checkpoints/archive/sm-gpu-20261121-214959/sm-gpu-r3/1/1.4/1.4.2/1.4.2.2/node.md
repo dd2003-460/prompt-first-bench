@@ -1,0 +1,24 @@
+# N156: RTX 5090 在 Decode 阶段 (Memory-Bound) 的实际性能上限受限于显存带宽 1792 GB/s。对于 Qwen3-27B FP8 (2
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N48
+
+## Claim
+
+RTX 5090 在 Decode 阶段 (Memory-Bound) 的实际性能上限受限于显存带宽 1792 GB/s。对于 Qwen3-27B FP8 (27GB)，理论最大 Decode 吞吐 = 1792 / 27 ≈ 66.4 tokens/s。对比 H100 (2039 GB/s) 的 75.5 tokens/s，RTX 5090 的实际 Decode 吞吐约为 H100 的 87.9% (1792/2039)，这与 N48 的 60-80% 区间上沿接近，但更接近 88%。因此，在纯 Decode 场景下，N48 的 60-80% 低估了性能，而在 Prefill (Compute-Bound) 场景下，N48 高估了性能。
+
+## Corrected Claim
+
+RTX 5090 在 Decode 阶段的理论性能上限受限于显存带宽（约 1792 GB/s）。对于 Qwen3-27B FP8，理论最大 Decode 吞吐约为 66.4 tokens/s，约为 H100 理论值的 87.9%。但实际吞吐受 KV Cache 和计算开销影响，通常低于理论值；N48 的 60-80% 区间可能低估了纯 Decode 的理论上限，但需结合实际负载评估。
+
+## Evidence
+
+[质询]RTX 5090 的显存带宽 1792 GB/s 是经验事实（硬件规格），且该数值在公开资料中通常对应 GDDR7 的理论峰值或特定配置，实际有效带宽可能因协议开销略低；此外，将理论带宽直接除以模型大小得出的 66.4 tokens/s 是理想上限，未考虑 KV Cache 增长、Attention 计算开销及内存访问模式，实际吞吐通常显著低于此理论值。 | source=knowledge，逻辑推导自洽（1792/27≈66.4, 1792/2039≈87.9%），但涉及具体硬件带宽参数及性能对比结论，属于经验事实，缺乏外部来源直接支持，故降级。
+
+## Search Query
+
+RTX 5090 decode throughput bandwidth bound calculation

@@ -1,0 +1,24 @@
+# N124: A100 SXM4 在 Qwen3-27B (BF16) 32K 上下文下的 T_decode 理论下限为 87ms/token，基于公式 T_decode =
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N48
+
+## Claim
+
+A100 SXM4 在 Qwen3-27B (BF16) 32K 上下文下的 T_decode 理论下限为 87ms/token，基于公式 T_decode = (54GB Weight + 33GB KV_Cache) / 2.0TB/s = 87GB / 2.0TB/s；此值显著低于 H100 (26ms) 但高于 RTX 4090 (87ms，因带宽相近但A100无FP8加速优势在纯BF16下体现为同等带宽限制，此处需注意A100带宽2.0TB/s实为HBM2e峰值，实际利用率需乘MFU因子，修正后有效带宽约1.5TB/s，T_decode修正为58ms)
+
+## Corrected Claim
+
+A100 SXM4 在 Qwen3-27B (BF16) 32K 上下文下的 T_decode 理论下限约为 43.5ms/token（基于 87GB 总数据量 / 2.0TB/s 峰值带宽）。若考虑实际利用率（如有效带宽 1.5TB/s），则约为 58ms/token。该值高于 H100 (26ms) 但低于或接近 RTX 4090 的同等带宽限制下的表现（需具体对比 4090 带宽与数据量）。
+
+## Evidence
+
+[质询]陈述内部存在严重的逻辑矛盾和数值错误：1. 标题/结论声称 T_decode 为 87ms，但正文计算 87GB / 2.0TB/s 实际结果约为 43.5ms，数值量级错误；2. 正文自相矛盾，先称 87ms 显著低于 H100 (26ms)，这在逻辑上不可能（87 > 26）；3. 修正部分声称有效带宽 1.5TB/s 时 T_decode 修正为 58ms，但 87GB / 1.5TB/s 实际约为 58ms 这一计算虽对，却与前述 87ms 的基准完全脱节，且 87ms 的原始来源不明（可能是误将 174GB 或带宽 1.0TB/s 算错）。 | 逻辑校验失败：87GB / 2.0TB/s ≈ 43.5ms ≠ 87ms；且 87ms 不可能低于 26ms。
+
+## Search Query
+
+NVIDIA A100 HBM2e effective bandwidth LLM inference benchmark

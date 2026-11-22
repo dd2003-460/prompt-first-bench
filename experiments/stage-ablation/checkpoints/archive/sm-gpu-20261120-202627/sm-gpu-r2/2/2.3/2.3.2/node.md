@@ -1,0 +1,28 @@
+# N56: AWQ (Activation-aware Weight Quantization) 算法在 8-bit 量化 Qwen3-27B 时，由于对激活值敏感的权重通
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N13, N14, N15
+
+## Claim
+
+AWQ (Activation-aware Weight Quantization) 算法在 8-bit 量化 Qwen3-27B 时，由于对激活值敏感的权重通道进行保护，其困惑度增加幅度通常比 GPTQ 低 0.2-0.5 个百分点，约为 0.3% - 1.0% [待核验：需对比具体 benchmark 数据]
+
+## Corrected Claim
+
+AWQ (Activation-aware Weight Quantization) 算法在 8-bit 量化 Qwen3-27B 时，由于对激活值敏感的权重通道进行保护，其困惑度增加幅度通常比 GPTQ 低，具体数值需参考针对该模型的特定基准测试数据。
+
+## Evidence
+
+[质询]陈述中关于 AWQ 与 GPTQ 在 8-bit 量化 Qwen3-27B 时困惑度增加幅度的具体数值对比（低 0.2-0.5 个百分点，约为 0.3%-1.0%）属于特定模型、特定量化位宽下的经验性数据，且 Qwen3-27B 是较新的模型，参考来源 [1] 为 AWQ 原始论文（2023年），主要关注 4-bit 量化及早期 LLM（如 LLaMA），并未包含 Qwen3-27B 的 8-bit 量化基准测试数据，因此该具体数值缺乏直接来源支持。 | 逻辑上 AWQ 通过保护敏感通道通常优于 GPTQ，但具体数值（0.2-0.5 ppl 差异）为经验事实，参考来源 [1] 仅支持 AWQ 算法原理及在 4-bit 下的优势，未覆盖 Qwen3-27B 8-bit 的具体量化误差数据，故降级为定性表述。
+
+## Search Query
+
+Qwen3-27B AWQ INT8 quantization perplexity degradation comparison GPTQ
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org/abs/2306.00978&rut=f1b142a9d2575ec8577e33640ecc988b5a169c1e8f22c46eb2c5820246f90313', 'type': 'ddg', 'title': '[2306.00978] AWQ: Activation-aware Weight Quantization for LLM ...'}

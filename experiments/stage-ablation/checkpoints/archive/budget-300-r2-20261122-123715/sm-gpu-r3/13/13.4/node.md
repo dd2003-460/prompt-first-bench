@@ -1,0 +1,24 @@
+# N383: 2x RTX 4090 (PCIe 4.0) 方案的并行效率 k_parallel_efficiency 实证值需通过 vLLM 或 TensorRT-LLM 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N119
+
+## Claim
+
+2x RTX 4090 (PCIe 4.0) 方案的并行效率 k_parallel_efficiency 实证值需通过 vLLM 或 TensorRT-LLM 在 Qwen3-27B 上的实测 benchmark 获取，理论值 0.7-0.8 需修正为实际值 k_empirical，以计算实际 TPOT = TPOT_single / (2 * k_empirical)。
+
+## Corrected Claim
+
+2x RTX 4090 (PCIe 4.0) 方案的并行效率 k_parallel_efficiency 需通过 vLLM 或 TensorRT-LLM 在 Qwen3-27B 上的实测 benchmark 获取实际值 k_empirical，以计算实际 TPOT = TPOT_single / (2 * k_empirical)。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（理论值 0.7-0.8）和特定的工程实现细节（vLLM/TensorRT-LLM 在 Qwen3-27B 上的表现），这些属于经验事实，无法仅从第一性原理推导，且缺乏外部来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+2x RTX 4090 Tensor Parallelism Qwen3-27B benchmark throughput

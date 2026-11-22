@@ -1,0 +1,28 @@
+# N87: Qwen3-27B 采用 GQA（Grouped Query Attention），KV Cache 头数为 8，在 32K 上下文下每层每 token 的 K
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N18
+
+## Claim
+
+Qwen3-27B 采用 GQA（Grouped Query Attention），KV Cache 头数为 8，在 32K 上下文下每层每 token 的 KV 数据量为 8 heads × 128 dim × 2 bytes = 2048 bytes，总 KV 缓存大小为 48 layers × 32768 tokens × 2048 bytes ≈ 32.2 GB（修正 N7 中可能存在的层数或头数假设偏差，需确认 Qwen3-27B 具体层数为 48 或 64，若为 64 层则 KV 为 42.9 GB）。
+
+## Corrected Claim
+
+Qwen3-27B 采用 GQA，KV Cache 头数及层数需依据官方模型卡确认；若层数为 48 且 KV 头数为 8，则 32K 上下文下 KV 缓存约为 32.2 GB；若层数为 64，则约为 42.9 GB。
+
+## Evidence
+
+[质询]参考来源仅提及 Qwen3-30B-A3B 采用 GQA，未提供 Qwen3-27B 的具体架构参数（层数、KV头数、维度），且 Qwen3-27B 是否为 MoE 模型或具体层数（48 vs 64）在来源中无直接证据，属于经验事实且缺乏直接来源支持。 | 来源[1]仅确认 Qwen3 系列使用 GQA，但未提供 Qwen3-27B 的具体层数和 KV 头数，无法直接支持 48 层或 8 KV 头的具体数值，逻辑计算自洽但缺乏外部直接证据。
+
+## Search Query
+
+Qwen3-27B model architecture layers num_kv_heads head_dim parameters
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1905664754569185060&rut=a479adfb4cb9fbaaae483b89cc564a7cd457474ee14598d0727c6309d076623b', 'type': 'ddg', 'title': '图解Qwen3混合专家模型推理过程--GQA和MoE - 知乎'}

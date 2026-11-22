@@ -1,0 +1,24 @@
+# N120: 消费级显卡 (RTX 4090) 的 RMA 平均返修周期 (Turnaround Time) 为 14-30 天，导致单卡故障期间系统可用性下降 100%，而
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N33
+
+## Claim
+
+消费级显卡 (RTX 4090) 的 RMA 平均返修周期 (Turnaround Time) 为 14-30 天，导致单卡故障期间系统可用性下降 100%，而数据中心卡 (A100) 通常享有 NBD (Next Business Day) 备件服务，平均停机时间 < 24 小时。
+
+## Corrected Claim
+
+消费级显卡 (RTX 4090) 的 RMA 平均返修周期通常为 14-30 天，若无冗余备份，单卡故障将导致系统完全不可用；而数据中心卡 (A100) 通常享有 NBD (Next Business Day) 备件服务，平均停机时间可控制在 24 小时以内。
+
+## Evidence
+
+[质询]将消费级显卡的RMA周期（14-30天）与数据中心卡的NBD服务（<24小时）进行直接对比，隐含了消费级用户无法通过购买第三方延保或备用卡来降低停机时间的假设，且‘单卡故障期间系统可用性下降100%’这一表述忽略了冗余架构（如多卡并行、热备）的可能性，属于过度简化的因果推断。 | 先验知识/题面给定，逻辑校验通过：消费级显卡通常无NBD服务，RMA周期较长；数据中心卡通常有NBD服务，停机时间短。但‘可用性下降100%’在存在冗余配置时不成立，故降级为定性表述。
+
+## Search Query
+
+RTX 4090 RMA turnaround time vs A100 NBD support

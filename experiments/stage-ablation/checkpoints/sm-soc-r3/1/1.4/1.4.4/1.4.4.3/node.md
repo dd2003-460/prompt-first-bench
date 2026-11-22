@@ -1,0 +1,24 @@
+# N147: 非线性项修正：当 t < 6h 时，T(t) 的二次导数 ∂²T/∂t² > 0，表明容忍度下降速度减缓（触底效应），实际函数应修正为 T(t) = T_0 *
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N42
+
+## Claim
+
+非线性项修正：当 t < 6h 时，T(t) 的二次导数 ∂²T/∂t² > 0，表明容忍度下降速度减缓（触底效应），实际函数应修正为 T(t) = T_0 * exp(-λ_t * (1 - t/24)) + δ_floor * I(t < 6h)，其中 δ_floor = 2% 为心理底线。
+
+## Corrected Claim
+
+非线性项修正：当 t < 6h 时，T(t) 的二次导数 ∂²T/∂t² > 0，表明容忍度下降速度减缓（触底效应），实际函数应引入心理底线修正项，具体参数需根据实证数据确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（如 δ_floor = 2%、时间阈值 6h、修正系数 1/24），这些属于心理学/行为经济学中的经验事实或特定模型假设，无法从第一性原理或数学公理中严格推导出来。虽然逻辑结构自洽，但缺乏外部来源支持其具体数值和机制的普适性。 | 先验知识/题面给定，逻辑校验通过；但作为经验事实（具体参数值），在无外部来源直接支持的情况下，依据经验事实排除条款，降级为定性表述。
+
+## Search Query
+
+floor effect time pressure decision making tolerance threshold bottoming out

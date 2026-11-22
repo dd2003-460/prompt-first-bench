@@ -1,0 +1,29 @@
+# N66: 散热成本子项 = 散热设备折旧 + 额外电力消耗；消费级工作站散热主要依赖机箱风扇，额外电力消耗可忽略（<5W），但静音改造（如 Noctua 风扇组）一次性成
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N14
+
+## Claim
+
+散热成本子项 = 散热设备折旧 + 额外电力消耗；消费级工作站散热主要依赖机箱风扇，额外电力消耗可忽略（<5W），但静音改造（如 Noctua 风扇组）一次性成本约 $50-100，数据中心级则包含机柜空调分摊成本。
+
+## Corrected Claim
+
+散热成本子项 = 散热设备折旧 + 额外电力消耗；消费级工作站散热主要依赖机箱风扇，额外电力消耗通常较低，静音改造涉及一次性硬件成本；数据中心级则包含机柜空调及电力分摊成本。
+
+## Evidence
+
+[质询]陈述中关于消费级工作站静音改造的具体品牌（Noctua）及具体价格区间（$50-100）属于具体的经验市场数据，参考来源仅涵盖数据中心宏观成本结构，未提供消费级硬件的具体价格或功耗细节，存在来源覆盖不足的风险。 | 来源[1][2]间接支持数据中心包含电力/基础设施成本，但均未覆盖消费级工作站的具体散热成本细节（如Noctua风扇价格），属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+high performance PC cooling fan cost noise reduction
+
+## Retrieval Sources
+
+- {'url': 'https://www.sohu.com/a/1008639170_121124371&rut=e093c229c49b32a12fa90713b71529697a03221c6566134efcbe3caccc39e49f', 'type': 'ddg', 'title': '数据中心成本：从建设到运营的全面拆解_系统_电力_支出'}
+- {'url': 'https://www.toutiao.com/article/7480806436650467891/&rut=241f86f9df92c3d3d41d3e433addd7453ec5cb4eec91844c4fa1bef3b6f93548', 'type': 'ddg', 'title': '数据中心成本分析：看趋势与机会 - 今日头条'}

@@ -1,0 +1,24 @@
+# N252: 量化损失量化：W4A16 (AWQ) 量化下 Qwen3-27B 在 GSM8K 上的准确率下降幅度通常小于 1.0%，具体数值约为 0.5-0.8% [待核验
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N86, N87, N88
+
+## Claim
+
+量化损失量化：W4A16 (AWQ) 量化下 Qwen3-27B 在 GSM8K 上的准确率下降幅度通常小于 1.0%，具体数值约为 0.5-0.8% [待核验]，需确认是否严格低于 1.5% 阈值。
+
+## Corrected Claim
+
+W4A16 (AWQ) 量化下 Qwen3-27B 在 GSM8K 上的准确率下降幅度通常较小，一般认为低于 1.5% 阈值，具体数值需参考特定评测报告。
+
+## Evidence
+
+[质询]具体数值范围（0.5-0.8%）属于经验事实，缺乏直接来源支持，且不同量化实现或评测设置下可能存在波动，无法仅凭逻辑推导确定精确区间。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Qwen3-27B AWQ W4A16 GSM8K accuracy drop

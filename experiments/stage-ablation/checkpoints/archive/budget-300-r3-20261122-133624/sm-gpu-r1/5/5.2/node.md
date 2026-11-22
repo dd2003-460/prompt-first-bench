@@ -1,0 +1,28 @@
+# N35: 数据中心级候选集：H100 PCIe (80GB, $25000, 700W), H200 (141GB, $30000, 700W), A100 80GB (
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N5
+
+## Claim
+
+数据中心级候选集：H100 PCIe (80GB, $25000, 700W), H200 (141GB, $30000, 700W), A100 80GB (HBM2e, $15000, 400W), L40S (48GB, $8000, 350W), B200 (192GB, $40000 [待核验], 1000W)；关键参数：NVLink 带宽 (900 GB/s for H100), FP8/NVFP4 原生支持, 多卡扩展性 (8 卡 HGX 机箱)。
+
+## Corrected Claim
+
+数据中心级候选集：H100 PCIe (80GB, $25000, 350W), H200 (141GB, $30000, 700W), A100 80GB (HBM2e, $15000, 400W), L40S (48GB, $8000, 350W), B200 (192GB, $40000 [待核验], 1000W)；关键参数：NVLink 带宽 (900 GB/s for H100 SXM, PCIe 版本无 NVLink 或带宽不同), FP8/NVFP4 原生支持, 多卡扩展性 (8 卡 HGX 机箱)。
+
+## Evidence
+
+[质询]H100 PCIe 的 TDP 数值错误：陈述中称 H100 PCIe 为 700W，但参考来源 [1] 明确指出 H100 PCIe 的最大 TDP 为 350W（700W 通常是 H100 SXM 版本的功耗）。此外，B200 的价格标注为待核验，且 L40S 的功耗通常标称在 350W 左右，但 H100 PCIe 的功耗错误属于关键硬件参数的事实性错误。 | 参考来源 [1] 直接矛盾：H100 PCIe 的 TDP 为 350W，而非陈述中的 700W。
+
+## Search Query
+
+NVIDIA H100 H200 A100 L40S B200 price specs NVLink FP8 NVFP4 2024
+
+## Retrieval Sources
+
+- {'url': 'https://www.nvidia.com/content/dam/en-zz/Solutions/gtcs22/data-center/h100/PB-11133-001_v01.pdf&rut=f24a4c34fb16690470e33f7ce84f8daffad74b641c9fe1b01cff02beda7f63ec', 'type': 'ddg', 'title': 'PDF NVIDIA H100 PCIe GPU'}

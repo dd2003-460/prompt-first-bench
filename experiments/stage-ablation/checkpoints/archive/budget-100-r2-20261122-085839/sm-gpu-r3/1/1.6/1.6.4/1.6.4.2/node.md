@@ -1,0 +1,24 @@
+# N162: Qwen3-27B 在 BF16 精度下的 MMLU 基准得分需查阅 Qwen3 官方技术报告或第三方评测（如 LMSYS Chatbot Arena 或 Op
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N47
+
+## Claim
+
+Qwen3-27B 在 BF16 精度下的 MMLU 基准得分需查阅 Qwen3 官方技术报告或第三方评测（如 LMSYS Chatbot Arena 或 OpenCompass），以确认 N48/N49 中使用的基线值 85.0% 是否准确，若实际基线为 86.5% 或 84.2%，需同步修正量化损失计算的分母。
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 精度下的 MMLU 基准得分需查阅 Qwen3 官方技术报告或第三方评测以确认基线值，若基线值与 N48/N49 中使用的数值不一致，需同步修正量化损失计算的分母。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（85.0%, 86.5%, 84.2%）和特定模型（Qwen3-27B）的基准测试数据，属于经验事实，无法从第一性原理推导，且当前无可用外部来源验证这些具体数值的准确性。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+Qwen3-27B MMLU benchmark score BF16 official technical report

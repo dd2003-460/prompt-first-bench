@@ -1,0 +1,28 @@
+# N35: LRU 下界公式修正项：N14 中的公式 H_LRU_lower = 1 - (1 - M/C)^β * (1 + α*β/(α-1)) 忽略了负相关性 ρ=-
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N9
+
+## Claim
+
+LRU 下界公式修正项：N14 中的公式 H_LRU_lower = 1 - (1 - M/C)^β * (1 + α*β/(α-1)) 忽略了负相关性 ρ=-0.3，需引入 Copula 修正因子 C_ρ，使得当 ρ<0 时，热门对象更小，导致 LRU 在固定容量下能容纳更多热门对象，从而提升命中率下界约 5-10%（需量化）。
+
+## Corrected Claim
+
+LRU 下界公式需引入考虑负相关性 ρ=-0.3 的修正项（如 Copula 修正因子），理论上该修正会提升命中率下界，但具体提升幅度需通过实证数据量化，而非直接断定为 5-10%。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1聚焦于修正因子的解析推导与数值量化，子节点2聚焦于该修正项在特定容量约束下的适用边界与失效条件，两者分别对应‘公式如何计算’与‘公式何时有效’，逻辑正交且互补。两者共同覆盖了父节点中关于‘引入Copula修正’、‘量化提升幅度’以及隐含的‘适用性’要求，无冗余。）
+
+## Search Query
+
+LRU cache hit rate lower bound negative correlation size frequency Pareto
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Cache_replacement_policies&rut=2231834c94737ba3733d46daf479ebf979f82867d264089e046e50af38a37bd6', 'type': 'ddg', 'title': 'Cache replacement policies - Wikipedia'}

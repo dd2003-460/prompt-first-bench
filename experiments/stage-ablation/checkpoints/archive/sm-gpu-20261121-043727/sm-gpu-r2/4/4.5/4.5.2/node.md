@@ -1,0 +1,20 @@
+# N75: 2x RTX 4090 (BF16) Tensor Parallelism 下 AllReduce 通信时间占比计算：在 T_decode 阶段，每层需交换激活
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N26
+
+## Claim
+
+2x RTX 4090 (BF16) Tensor Parallelism 下 AllReduce 通信时间占比计算：在 T_decode 阶段，每层需交换激活值，通信数据量 = 2 * BatchSize * HiddenDim * BytesPerParam * LayersPerStep。假设 BatchSize=1, HiddenDim=4096, Layers=64, BytesPerParam=2 (BF16)，总通信量 ≈ 104.8 MB/step。PCIe 4.0 x16 有效带宽 ≈ 50 GB/s (理论64GB/s扣除开销)，单次 AllReduce 耗时 ≈ 104.8MB / 50GB/s ≈ 2.1 ms。若 T_decode 计算耗时 ≈ 5 ms (基于4090算力估算)，通信占比 ≈ 2.1/5 = 42%。若采用 FP8 量化，通信量减半，占比降至 ≈ 21%。
+
+## Corrected Claim
+
+通信数据量计算错误：2 * 1 * 4096 * 2 * 64 = 1 MB，而非 104.8 MB。因此单次 AllReduce 耗时 ≈ 1MB / 50GB/s ≈ 0.02 ms。若 T_decode 计算耗时 ≈ 5 ms，通信占比 ≈ 0.02/5 = 0.4%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：通信量计算 (2*1*4096*2*64=1MB/layer, 64 layers=64MB? 等等，题目说104.8MB。让我们重新检查计算。2 * 1 * 4096 * 2 * 64 = 1,048,576 Bytes = 1 MB。题目中声称 104.8 MB。这里有一个数量级错误。1 MB vs 104.8 MB。104.8 MB 是 100 MB 左右。1 MB 是 1,000,000 Bytes。104.8 MB 是 104,800,000 Bytes。差距是 100 倍。让我们仔细看公式：2 * BatchSize * HiddenDim * BytesPerParam * LayersPerStep。2 * 1 * 4096 * 2 * 64 = 1,048,576 Bytes = 1 MB。题目说 104.8 MB。这明显是计算错误。1 MB 除以 50 GB/s = 0.02 ms。而不是 2.1 ms。因此，逻辑校验失败，存在硬逻辑错误（数值计算错误）。

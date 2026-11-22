@@ -1,0 +1,29 @@
+# N35: Pareto(α=1.1) 分布下对象大小的理论均值 E[S] 为无穷大，必须引入截断上限 S_max 才能计算有限均值，实际 E[S]_truncated 需
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N9
+
+## Claim
+
+Pareto(α=1.1) 分布下对象大小的理论均值 E[S] 为无穷大，必须引入截断上限 S_max 才能计算有限均值，实际 E[S]_truncated 需通过积分 ∫_{S_min}^{S_max} s * f(s) ds 计算。
+
+## Corrected Claim
+
+Pareto(α=1.1) 分布下对象大小的理论均值 E[S] 是有限的（E[S] = 11*S_min），但方差为无穷大；若需计算截断均值，需引入截断上限 S_max 并通过积分计算。
+
+## Evidence
+
+父节点级核验未通过：不完备（父节点包含两个核心任务：1. 定义截断均值的计算公式（积分）；2. 进行敏感性分析以验证结论。子节点仅覆盖了第二个任务（敏感性分析），完全缺失了对第一个关键方面（即如何根据 Pareto 参数和 S_min/S_max 具体计算 E[S]_truncated 的数学推导或公式化表达）的分解。虽然单个子节点不存在内部正交性或冗余问题，但相对于父节点是不完备的。）
+
+## Search Query
+
+Pareto distribution alpha 1.1 truncated mean calculation
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Pareto_distribution&rut=3541c8b3f71fd194fb160deaa36ef23bcf3225d4a84bcccff152370e666d69b5', 'type': 'ddg', 'title': 'Pareto distribution - Wikipedia'}
+- {'url': 'https://zh.wikipedia.org/wiki/%E5%B8%95%E7%B4%AF%E6%89%98%E5%88%86%E5%B8%83&rut=91134896ab05b53f585edeb3a097a30f9edf0fa7dafb66749cede7728abb67cb', 'type': 'ddg', 'title': '帕累托分布 - 维基百科，自由的百科全书'}

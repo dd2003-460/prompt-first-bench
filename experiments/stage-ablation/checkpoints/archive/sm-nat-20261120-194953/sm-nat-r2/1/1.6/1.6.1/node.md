@@ -1,0 +1,24 @@
+# N42: 频率阈值近似与 LRU 实际行为的偏差：LRU 基于时间而非频率，$f_{th}$ 近似假设所有 $R_i > f_{th}$ 的对象都被缓存，但 LRU 可能
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+频率阈值近似与 LRU 实际行为的偏差：LRU 基于时间而非频率，$f_{th}$ 近似假设所有 $R_i > f_{th}$ 的对象都被缓存，但 LRU 可能因突发流量驱逐部分高频对象。需量化偏差 $\Delta H = H_{freq} - H_{LRU}$，预计 $\Delta H < 2$ 个百分点，取决于突发流量的强度。
+
+## Corrected Claim
+
+LRU 基于时间而非频率，$f_{th}$ 近似假设所有 $R_i > f_{th}$ 的对象都被缓存，但 LRU 可能因突发流量驱逐部分高频对象。需量化偏差 $\Delta H = H_{freq} - H_{LRU}$，该偏差取决于突发流量的强度及缓存大小，具体数值需通过实验或特定负载模型确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值预测（ΔH < 2 个百分点），这属于依赖具体工作负载（突发流量强度）的经验事实，无法仅从 LRU 和频率阈值的第一性原理严格推导得出，且缺乏来源支持该特定数值量级。 | 逻辑上 LRU 基于时间而频率阈值基于计数，两者在突发流量下确实存在偏差，定性描述自洽；但具体数值 '2 个百分点' 为经验事实，检索无可用来源支持，依据经验事实排除条款降级。
+
+## Search Query
+
+LRU vs frequency threshold approximation deviation in cache hit rate

@@ -1,0 +1,20 @@
+# N66: 截断 Pareto 分布的均值 E[S] 数值计算：代入 S_min=1KB, S_max=100MB, α=1.1，计算 E[S] ≈ 11.11 KB（注：
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N21
+
+## Claim
+
+截断 Pareto 分布的均值 E[S] 数值计算：代入 S_min=1KB, S_max=100MB, α=1.1，计算 E[S] ≈ 11.11 KB（注：因 α<2，均值由截断上限主导，实际值需精确计算截断项，此处为量级估计，精确值约为 11.11 * (1 - (1/100000)^0.1) / (1 - (1/100000)^1.1) KB，由于 α-1=0.1 极小，(S_min/S_max)^(α-1) ≈ 0.158，(S_min/S_max)^α ≈ 0.00001，故 E[S] ≈ 11.11 * (1-0.158)/(1-0) ≈ 9.35 KB）
+
+## Corrected Claim
+
+截断 Pareto 分布的均值 E[S] 数值计算：代入 S_min=1KB, S_max=100MB, α=1.1，计算 E[S] ≈ 11.11 KB（注：因 α<2，均值由截断上限主导，实际值需精确计算截断项，此处为量级估计，精确值约为 11.11 * (1 - (1/100000)^0.1) / (1 - (1/100000)^1.1) KB，由于 α-1=0.1 极小，(S_min/S_max)^(α-1) ≈ 0.158，(S_min/S_max)^α ≈ 0.00001，故 E[S] ≈ 11.11 * (1-0.158)/(1-0) ≈ 9.35 KB）
+
+## Evidence
+
+父节点级核验失败（LLM 错误）：Unterminated string starting at: line 10 column 5 (char 659)

@@ -1,0 +1,17 @@
+{
+  "id": "N196",
+  "claim": "在更新率 u=1%/天 且对象生命周期 T_obj=100 天的假设下，新对象引入的字节命中率损失 ΔH_new 的精确计算公式：ΔH_new = (u * N * E[S_new]) / R_byte_total * (1 - e^(-λ_new * T_lag))，其中 N=10^5，E[S_new] 为新对象平均大小，R_byte_total 为总字节流量。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]公式中的参数定义存在逻辑歧义与量纲风险：1. 'N' 被定义为 10^5，但未明确是总对象数还是新对象数，若为总对象数则与 'u' (更新率) 叠加可能导致量级错误；2. 'R_byte_total' 若指总流量（字节/天），则公式量纲为 [1/天 * 无量纲 * 字节 / (字节/天)] = 无量纲，看似合理，但 'E[S_new]' 若指单个新对象大小，则分子应为 '新对象引入的总字节数'，即 'u * N * E[S_new]' 需明确 N 是基数；3. 最关键的是，'ΔH_new' 通常指命中率损失（无量纲比例），而公式右侧若 R_byte_total 是总流量，则结果无量纲，逻辑上可行，但 '1 - e^(-λ_new * T_lag)' 项的物理意义（滞后效应）在标准缓存模型中不常见，且 'λ_new' 未定义，属于未闭合变量。 | 先验知识/题面给定，逻辑校验通过（量纲基本自洽，但变量定义需依赖上下文假设，且无外部来源支持该特定公式形式）",
+  "corrected_claim": "在更新率 u=1%/天 且对象生命周期 T_obj=100 天的假设下，新对象引入的字节命中率损失 ΔH_new 的估算公式可表示为：ΔH_new ≈ (u * N * E[S_new]) / R_byte_total * (1 - e^(-λ_new * T_lag))，其中 N 为对象总数，E[S_new] 为新对象平均大小，R_byte_total 为总字节流量，λ_new 为新对象到达率参数。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N84"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "cache hit rate loss due to new object introduction formula",
+  "retrieval_sources": []
+}

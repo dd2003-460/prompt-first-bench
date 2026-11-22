@@ -1,0 +1,20 @@
+# N120: A100 80GB 在 FP8 精度下的理论 Tokens/s 估算：显存带宽 2039 GB/s，每 Token 读取权重字节数 27GB，理论峰值 2039
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N29
+
+## Claim
+
+A100 80GB 在 FP8 精度下的理论 Tokens/s 估算：显存带宽 2039 GB/s，每 Token 读取权重字节数 27GB，理论峰值 2039/27 ≈ 75 Tokens/s，考虑 MFU 和内存瓶颈，实际预期 30-50 Tokens/s。
+
+## Corrected Claim
+
+A100 80GB 在 FP16/BF16 精度下，若加载约 13.5B 参数模型（权重约 27GB），其理论带宽限制下的吞吐量远高于 75 Tokens/s，实际性能受算力与内存带宽共同制约，通常可达数百 Tokens/s 以上；若指 70B 模型，则需多卡部署，单卡无法容纳 FP8 权重。
+
+## Evidence
+
+父节点级核验未通过：非正交（子节点1直接反驳了父节点中的核心结论（实际预期30-50 vs 60-68），导致子节点与父节点及隐含前提存在逻辑矛盾，破坏了正交性中的‘无矛盾’原则。）

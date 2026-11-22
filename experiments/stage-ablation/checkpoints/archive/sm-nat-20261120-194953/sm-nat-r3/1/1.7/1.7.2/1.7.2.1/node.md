@@ -1,0 +1,24 @@
+# N107: 在随机替换（Random Replacement）策略下，单对象 $i$ 的命中概率 $p_{hit, i}$ 并非简单的 $1/K_{cap}$，而是取决于其
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N44
+
+## Claim
+
+在随机替换（Random Replacement）策略下，单对象 $i$ 的命中概率 $p_{hit, i}$ 并非简单的 $1/K_{cap}$，而是取决于其访问频率 $R_i$ 与缓存容量 $K_{cap}$ 的比值，精确公式为 $p_{hit, i} = 1 - e^{-R_i \tau_{res}}$，其中 $\tau_{res}$ 为平均驻留时间；在稳态且 $K_{cap} \gg N_{obj}$ 时，若忽略自相关，$p_{hit, i} \approx R_i / \lambda_{total} \times K_{cap}$（需修正）或更准确地由生灭过程推导，此处核心矛盾是 N44 声称与 $R_i$ 无关，这在非均匀访问分布（Pareto）下是错误的，应修正为 $p_{hit, i}$ 正比于 $R_i$。
+
+## Corrected Claim
+
+在随机替换策略下，单对象 $i$ 的稳态命中率 $p_{hit, i}$ 确实与其访问频率 $R_i$ 正相关，而非与 $R_i$ 无关。具体数值需通过生灭过程或 Markov 链求解，通常近似为 $p_{hit, i} \approx \frac{R_i}{\lambda_{total}} \min(1, K_{cap} \cdot \text{efficiency})$ 或类似形式，确保概率值在 [0,1] 区间内。
+
+## Evidence
+
+[质询]公式 $p_{hit, i} = 1 - e^{-R_i \tau_{res}}$ 在量纲和物理意义上存在严重问题：$R_i$ 是频率（1/时间），$\tau_{res}$ 是时间，乘积无量纲，但 $1-e^{-x}$ 通常用于描述指数衰减或泊松过程中的累积概率，直接作为稳态命中率公式缺乏标准缓存理论（如 LRU 或 Random Replacement 的 Markov 链分析）支持。此外，Random Replacement 策略下，单个对象的命中率确实与其访问频率正相关，但精确推导通常涉及生灭过程或排队论，简单的指数形式并非标准结论，且 $K_{cap} \gg N_{obj}$ 时命中率应趋近于 1 或接近 1，而非简单的线性比例关系，该近似公式 $R_i / \lambda_{total} \times K_{cap}$ 在 $K_{cap}$ 很大时可能超过 1，逻辑不自洽。 | 先验知识/题面给定，逻辑校验发现公式量纲及极限情况（$K_{cap} \gg N_{obj}$）存在矛盾，且缺乏标准理论支持该特定指数形式，故降级。
+
+## Search Query
+
+random replacement cache hit probability non-uniform workload formula

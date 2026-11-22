@@ -1,0 +1,20 @@
+# N28: 量化负相关对字节命中率的影响：若独立假设下 Top-k 对象覆盖字节占比为 B_indep，引入 ρ=-0.3 后，由于热门对象变小，同样数量的对象覆盖的字节占
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+量化负相关对字节命中率的影响：若独立假设下 Top-k 对象覆盖字节占比为 B_indep，引入 ρ=-0.3 后，由于热门对象变小，同样数量的对象覆盖的字节占比 B_corr < B_indep。修正因子可近似为 B_corr ≈ B_indep * (1 + ρ * σ_logS * σ_logH)，其中 σ_logS 和 σ_logH 分别为大小和热度对数分布的标准差。对于 Pareto(α=1.1, β=0.9)，σ_logS 和 σ_logH 较大，负相关将显著降低 LRU 的字节命中率下界。
+
+## Corrected Claim
+
+量化负相关对字节命中率的影响：若独立假设下 Top-k 对象覆盖字节占比为 B_indep，引入 ρ=-0.3 后，由于热门对象变小，同样数量的对象覆盖的字节占比 B_corr < B_indep。修正因子可近似为 B_corr ≈ B_indep * (1 + ρ * σ_logS * σ_logH)，其中 σ_logS 和 σ_logH 分别为大小和热度对数分布的标准差。对于 Pareto(α=1.1, β=0.9)，σ_logS 和 σ_logH 较大，负相关将显著降低 LRU 的字节命中率下界。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

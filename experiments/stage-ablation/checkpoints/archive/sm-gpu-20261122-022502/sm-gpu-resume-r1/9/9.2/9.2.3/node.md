@@ -1,0 +1,20 @@
+# N323: 修正 N116 中的 TTFT 估算：基于 M2 Ultra 实际 Prefill 吞吐 10-15 K tokens/s (N119)，32K 上下文的 TT
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N116
+
+## Claim
+
+修正 N116 中的 TTFT 估算：基于 M2 Ultra 实际 Prefill 吞吐 10-15 K tokens/s (N119)，32K 上下文的 TTFT = 32768 / 10000 ≈ 3.3 秒 (乐观) 至 32768 / 15000 ≈ 2.2 秒 (保守)，而非 N116 声称的 40-64 秒；N116 的错误源于将 Decode 阶段的带宽瓶颈错误地应用于 Prefill 阶段，或混淆了 tokens/s 与 ms/token 单位。RTX 4090 在 32K Prefill 下因算力更强且带宽更高，TTFT 约为 1-2 秒。
+
+## Corrected Claim
+
+修正 N116 中的 TTFT 估算：基于 M2 Ultra 实际 Prefill 吞吐 10-15 K tokens/s (N119)，32K 上下文的 TTFT = 32768 / 10000 ≈ 3.3 秒 (乐观) 至 32768 / 15000 ≈ 2.2 秒 (保守)，而非 N116 声称的 40-64 秒；N116 的错误源于将 Decode 阶段的带宽瓶颈错误地应用于 Prefill 阶段，或混淆了 tokens/s 与 ms/token 单位。RTX 4090 在 32K Prefill 下因算力更强且带宽更高，TTFT 约为 1-2 秒。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：TTFT计算基于Prefill吞吐（tokens/s）与上下文长度（tokens）的除法，量纲正确；M2 Ultra与RTX 4090的算力/带宽差异导致Prefill速度差异符合硬件常识；N116错误归因于混淆Decode（带宽受限，ms/token）与Prefill（算力受限，tokens/s）阶段，逻辑自洽。

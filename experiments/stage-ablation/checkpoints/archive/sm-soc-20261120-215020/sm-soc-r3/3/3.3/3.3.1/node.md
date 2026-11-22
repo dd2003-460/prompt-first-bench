@@ -1,0 +1,30 @@
+# N48: 降价阈值从 5% 降至 2% 的边际成本与收益：计算平台因增加曝光权重 $w_{boost}=1.2$ 而增加的服务器带宽与推荐算力成本 $\Delta C_{
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N16
+
+## Claim
+
+降价阈值从 5% 降至 2% 的边际成本与收益：计算平台因增加曝光权重 $w_{boost}=1.2$ 而增加的服务器带宽与推荐算力成本 $\Delta C_{infra}$，需量化每降低 1% 阈值所增加的索引更新频率及对应的算力开销，以评估该干预的 ROI 是否大于 1。
+
+## Corrected Claim
+
+降价阈值调整对基础设施成本的影响需通过量化索引更新频率与算力开销来评估，具体参数（如曝光权重）需依据实际系统配置确定，以评估ROI。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间存在逻辑依赖但概念正交（频率增量、单次成本、总成本、收益）。然而，父节点明确提到‘增加曝光权重 w_boost=1.2’带来的成本，但子节点仅计算了索引更新频率增加带来的算力成本，完全遗漏了因 w_boost 导致的额外推荐算力/带宽成本（如更频繁的特征计算或更复杂的排序模型调用），导致覆盖不完备。）
+
+## Search Query
+
+algorithmic recommendation infrastructure cost increase exposure boost ROI calculation
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/Algorhythm/article/details/158268171&rut=5abaaea6df92b5c4fb7510ce48c49be0e6b9b4557518769f9d500a6c1429a64a', 'type': 'ddg', 'title': '【Seedance 2.0算力成本优化白皮书】：20年实战验证的7大降本配置路径与ROI实测数据-CSDN博客'}
+- {'url': 'https://blog.csdn.net/Algorhythm/article/details/162867102&rut=1978cefe42aed990a9991961362217b996e669d39ec7202ca4deed02ee1a239a', 'type': 'ddg', 'title': '【ChatGPT定价策略深度解密】：20年SaaS产品老兵拆解OpenAI 5次调价背后的成本模型、客户分层与ARPU阈值'}
+- {'url': 'https://blog.51cto.com/u_16213704/14795801&rut=f394e28bbdc2029dbd0581eae2329120a9b9748b30eda2cd173712f7a4117287', 'type': 'ddg', 'title': '三分钟教你提升应用推送的roi - 51cto博客'}

@@ -1,0 +1,24 @@
+# N98: 抽样误差SE的具体计算：SE = sqrt(0.6*0.4/n)，当n=500时SE=0.022，n=100时SE=0.049，n=50时SE=0.069；置信
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N25
+
+## Claim
+
+抽样误差SE的具体计算：SE = sqrt(0.6*0.4/n)，当n=500时SE=0.022，n=100时SE=0.049，n=50时SE=0.069；置信度判定阈值为SE≤0.03（高）、0.03<SE≤0.05（中）、SE>0.05（低）
+
+## Corrected Claim
+
+抽样误差SE的具体计算：SE = sqrt(0.6*0.4/n)，当n=500时SE=0.022，n=100时SE=0.049，n=50时SE=0.069；置信度判定阈值为SE≤0.03（高）、0.03<SE≤0.05（中）、SE>0.05（低）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：抽样误差公式 SE=sqrt(p(1-p)/n) 在 p=0.6 时数值计算正确（n=500, 100, 50 对应 SE 分别为 0.022, 0.049, 0.069），置信度阈值设定符合统计学常规经验。
+
+## Search Query
+
+sampling error standard error proportion formula confidence level threshold

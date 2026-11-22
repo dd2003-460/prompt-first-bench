@@ -1,0 +1,24 @@
+# N793: 4090 不支持 NVLink，但支持 P2P (Peer-to-Peer) 通信，若主板支持且驱动配置正确，P2P 带宽可达 32 GB/s (PCIe 4.
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N247
+
+## Claim
+
+4090 不支持 NVLink，但支持 P2P (Peer-to-Peer) 通信，若主板支持且驱动配置正确，P2P 带宽可达 32 GB/s (PCIe 4.0 x8 等效)。这比 CPU 中转快，但仍远低于 H100 的 NVLink 900 GB/s。因此，2x 4090 的 Decode 吞吐瓶颈主要在 PCIe 而非计算，实际性能提升有限，建议优先使用单卡 INT4 或 FP8 方案以避免多卡通信开销。
+
+## Corrected Claim
+
+4090 不支持 NVLink，但支持 P2P (Peer-to-Peer) 通信，若主板支持且驱动配置正确，P2P 带宽可达 32 GB/s (PCIe 4.0 x8 等效)。这比 CPU 中转快，但仍远低于 H100 的 NVLink 900 GB/s。因此，2x 4090 的 Decode 吞吐瓶颈主要在 PCIe 而非计算，实际性能提升有限，建议优先使用单卡 INT4 或 FP8 方案以避免多卡通信开销。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 确实无 NVLink，PCIe 4.0 x16 双向带宽约 64GB/s，单向约 32GB/s，符合物理规格；H100 NVLink 带宽 900GB/s 亦符合事实；多卡 Decode 受限于 PCIe 带宽是已知工程瓶颈。
+
+## Search Query
+
+RTX 4090 P2P bandwidth PCIe 4.0 LLM inference

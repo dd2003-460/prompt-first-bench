@@ -1,0 +1,20 @@
+# N61: 修正硬件兼容性事实：FP8 (E4M3) 原生计算支持仅限于 NVIDIA Hopper 架构 (H100/H200) 及 Ada Lovelace 架构 (R
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+修正硬件兼容性事实：FP8 (E4M3) 原生计算支持仅限于 NVIDIA Hopper 架构 (H100/H200) 及 Ada Lovelace 架构 (RTX 4090/4080)；Ampere 架构 (A100) 不支持原生 FP8 硬件加速，若使用 A100 需通过软件模拟或回退至 INT8，此约束直接影响候选硬件排序。
+
+## Corrected Claim
+
+修正硬件兼容性事实：FP8 (E4M3) 原生计算支持仅限于 NVIDIA Hopper 架构 (H100/H200) 及 Ada Lovelace 架构 (RTX 4090/4080)；Ampere 架构 (A100) 不支持原生 FP8 硬件加速，若使用 A100 需通过软件模拟或回退至 INT8，此约束直接影响候选硬件排序。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：NVIDIA Hopper (H100/H200) 和 Ada Lovelace (RTX 40系列) 架构确实引入了原生 FP8 (E4M3/E5M2) 硬件支持，而 Ampere (A100) 架构仅支持 FP16/BF16/INT8/TF32，不支持原生 FP8，需软件模拟或回退，符合硬件架构演进事实。

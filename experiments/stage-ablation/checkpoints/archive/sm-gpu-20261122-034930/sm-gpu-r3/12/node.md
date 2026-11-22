@@ -1,0 +1,20 @@
+# N154: Qwen3-27B 在 W4-AWQ 量化下的 MMLU 准确率损失基准值：参考 Llama-3-8B/70B 在 AWQ W4 下的 MMLU 下降约为 1.
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+Qwen3-27B 在 W4-AWQ 量化下的 MMLU 准确率损失基准值：参考 Llama-3-8B/70B 在 AWQ W4 下的 MMLU 下降约为 1.5-3.0%，对于 27B 中等规模模型，预期损失区间为 2.0-4.0% [待核验：需查找 Qwen3-27B 具体 AWQ 量化版在 HuggingFace 上的 MMLU 评测脚本输出]；若损失 >5%，则判定为不可接受，必须使用 W8 或 BF16。
+
+## Corrected Claim
+
+Qwen3-27B 在 W4-AWQ 量化下的 MMLU 准确率损失基准值：参考 Llama-3-8B/70B 在 AWQ W4 下的 MMLU 下降约为 1.5-3.0%，对于 27B 中等规模模型，预期损失区间为 2.0-4.0% [待核验：需查找 Qwen3-27B 具体 AWQ 量化版在 HuggingFace 上的 MMLU 评测脚本输出]；若损失 >5%，则判定为不可接受，必须使用 W8 或 BF16。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

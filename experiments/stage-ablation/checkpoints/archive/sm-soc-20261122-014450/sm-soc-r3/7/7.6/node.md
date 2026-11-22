@@ -1,0 +1,30 @@
+# N120: 高信号卖家群体的界定标准为过往 90 天成交率 > 80% 且平均溢价率 > 20%，该群体在平台总卖家中的占比 S_high 约为 15-20%。
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N36, N37, N38
+
+## Claim
+
+高信号卖家群体的界定标准为过往 90 天成交率 > 80% 且平均溢价率 > 20%，该群体在平台总卖家中的占比 S_high 约为 15-20%。
+
+## Corrected Claim
+
+高信号卖家群体通常被界定为过往90天成交率>80%且平均溢价率>20%的卖家，该群体在平台总卖家中的占比S_high约为15-20%（具体数值需依据特定平台数据验证）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性统计数值（90天、80%、20%、15-20%），属于特定平台或行业的经验事实，无法从第一性原理或通用经济学理论中严格推导得出，且参考来源未提供此类具体数据支持。 | 经验事实，逻辑自洽但缺来源支持（参考来源[1][2][3]仅涉及价格歧视、CDS和定价的一般理论，未覆盖具体卖家群体界定标准及占比数据）。
+
+## Search Query
+
+high signal seller definition high transaction rate premium rate share marketplace
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Price_discrimination', 'type': 'wikipedia', 'title': 'Price discrimination'}
+- {'url': 'https://en.wikipedia.org/wiki/Credit_default_swap', 'type': 'wikipedia', 'title': 'Credit default swap'}
+- {'url': 'https://en.wikipedia.org/wiki/Pricing', 'type': 'wikipedia', 'title': 'Pricing'}

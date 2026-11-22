@@ -1,0 +1,24 @@
+# N231: 投影2（卖家策略响应）：卖家感知到的'快速成交'信号强度 S_perceived = S_true * (1 + ε_w)，其中 ε_w ~ N(0, σ²_w
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N62
+
+## Claim
+
+投影2（卖家策略响应）：卖家感知到的'快速成交'信号强度 S_perceived = S_true * (1 + ε_w)，其中 ε_w ~ N(0, σ²_w)，导致卖家最优挂价 P_ask* = P_ref * (1 + λ_loss_aversion * δ_loss + β_s * S_perceived) 的方差 Var(P_ask*) = β_s² * σ²_w * P_ref²，进而导致市场整体挂价分布的宽度增加 ΔWidth = sqrt(Var(P_ask*))。
+
+## Corrected Claim
+
+投影2（卖家策略响应）：卖家感知到的'快速成交'信号强度 S_perceived = S_true * (1 + ε_w)，其中 ε_w ~ N(0, σ²_w)，导致卖家最优挂价 P_ask* = P_ref * (1 + λ_loss_aversion * δ_loss + β_s * S_perceived) 的方差 Var(P_ask*) = β_s² * σ²_w * P_ref²，进而导致市场整体挂价分布的宽度增加 ΔWidth = sqrt(Var(P_ask*))。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于线性模型 P_ask* = A + B*S_perceived 且 S_perceived 含噪声项，推导 Var(P_ask*) = B²*Var(S_perceived) 符合统计学基本性质，量纲与逻辑自洽。
+
+## Search Query
+
+seller pricing strategy response to noisy platform signals variance

@@ -1,0 +1,20 @@
+# N154: 共享随机源在 CVR 投影中的具体实现：CVR 差异机制中的 η_deal_1 和 η_deal_2 是 R_pref 经过‘决策过滤’后的残差噪声，即 η_d
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N43
+
+## Claim
+
+共享随机源在 CVR 投影中的具体实现：CVR 差异机制中的 η_deal_1 和 η_deal_2 是 R_pref 经过‘决策过滤’后的残差噪声，即 η_deal = R_pref - C_decision_cost，需量化决策成本 C_decision_cost 对噪声方差的削减比例，以解释为何 CVR 差异 (1.2x) 小于 CTR 差异 (1.5x)。
+
+## Corrected Claim
+
+在特定的 CVR 投影模型中，若假设 CVR 差异机制中的噪声项 η_deal 是偏好噪声 R_pref 减去决策成本 C_decision_cost 后的残差，则决策成本对噪声方差的削减可能解释 CVR 差异 (1.2x) 小于 CTR 差异 (1.5x) 的现象；但该机制需具体模型验证，非通用结论。
+
+## Evidence
+
+[质询]该陈述将 CVR 与 CTR 的差异归因于一个特定的数学残差机制（η_deal = R_pref - C_decision_cost），并声称需量化决策成本对噪声方差的削减比例。然而，CVR 低于 CTR 通常源于漏斗效应（用户点击后未转化）及转化意图的固有差异，而非简单的‘决策成本削减噪声方差’这一特定物理/统计模型。该具体公式和机制缺乏通用理论支持，属于特定假设下的推导，存在将特定模型假设当作普遍事实的风险。 | source=knowledge，逻辑上自洽（方差削减可解释差异缩小），但该具体实现机制（η_deal 定义及 C_decision_cost 作用）属于特定模型假设，非通用第一性原理，且无外部来源验证其普适性，故降级为定性表述。

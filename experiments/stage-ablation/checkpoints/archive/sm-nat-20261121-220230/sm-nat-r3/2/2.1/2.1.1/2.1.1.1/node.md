@@ -1,0 +1,20 @@
+# N138: 理想稳定负载工作点（High-Stability/High-Gain）：假设负载完全平稳（无突发），LFU 能完美区分冷热，β_eff ≈ β = 0.9，此时
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N46
+
+## Claim
+
+理想稳定负载工作点（High-Stability/High-Gain）：假设负载完全平稳（无突发），LFU 能完美区分冷热，β_eff ≈ β = 0.9，此时 H_LFU ≈ 1 - (1 - 0.119)^{1/0.9} ≈ 0.14，相比 LRU 的 0.12 提升约 2 个百分点，代表 LFU 的理论最大增益上限。
+
+## Corrected Claim
+
+理想稳定负载工作点（High-Stability/High-Gain）：假设负载完全平稳（无突发），LFU 能完美区分冷热，β_eff ≈ β = 0.9，此时 H_LFU ≈ 1 - (1 - 0.119)^{1/0.9} ≈ 0.14，相比 LRU 的 0.12 提升约 2 个百分点，代表 LFU 的理论最大增益上限。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算 1 - (1 - 0.119)^(1/0.9) ≈ 1 - 0.881^1.111 ≈ 1 - 0.86 = 0.14，数值量级与逻辑推导自洽，符合 LFU 在理想稳定负载下的理论增益上限描述。

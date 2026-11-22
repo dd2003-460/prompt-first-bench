@@ -1,0 +1,20 @@
+# N176: H100 SXM5 运行 BF16 Qwen3-27B 时，Decode 阶段每 token 需从 HBM 读取的总数据量 = 权重大小 (54GB) + KV
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N57
+
+## Claim
+
+H100 SXM5 运行 BF16 Qwen3-27B 时，Decode 阶段每 token 需从 HBM 读取的总数据量 = 权重大小 (54GB) + KV Cache 读取量 (12.58GB) = 66.58GB，修正父节点 N57 仅用权重大小 (54GB) 计算带宽瓶颈的错误，导致理论上限从 37.76 tokens/s 修正为 2039 / 66.58 ≈ 30.6 tokens/s。
+
+## Corrected Claim
+
+H100 SXM5 运行 BF16 Qwen3-27B 时，Decode 阶段每 token 需从 HBM 读取的总数据量 = 权重大小 (54GB) + KV Cache 读取量 (12.58GB) = 66.58GB，修正父节点 N57 仅用权重大小 (54GB) 计算带宽瓶颈的错误，导致理论上限从 37.76 tokens/s 修正为 2039 / 66.58 ≈ 30.6 tokens/s。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Decode阶段带宽瓶颈由权重+KV Cache决定，算术运算 2039/66.58 ≈ 30.6 正确，符合LLM推理基本物理直觉。

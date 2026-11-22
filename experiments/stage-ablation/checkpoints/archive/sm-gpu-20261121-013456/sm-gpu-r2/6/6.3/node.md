@@ -1,0 +1,24 @@
+# N41: 条件性推荐矩阵：(场景A: 单用户/低吞吐/长周期) → 1×RTX 4090；(场景B: 单用户/中吞吐/长周期) → 2×RTX 4090；(场景C: 多用
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+条件性推荐矩阵：(场景A: 单用户/低吞吐/长周期) → 1×RTX 4090；(场景B: 单用户/中吞吐/长周期) → 2×RTX 4090；(场景C: 多用户/高吞吐/中周期) → 1×A100 80GB；(场景D: 单用户/低功耗/极长周期) → 1×M3 Ultra；每个推荐必须附带'如果条件X变化，则推荐切换为Y'的切换规则
+
+## Corrected Claim
+
+条件性推荐矩阵：(场景A: 单用户/低吞吐/长周期) → 1×RTX 4090；(场景B: 单用户/中吞吐/长周期) → 2×RTX 4090；(场景C: 多用户/高吞吐/中周期) → 1×A100 80GB；(场景D: 单用户/低功耗/极长周期) → 1×M3 Ultra；每个推荐必须附带'如果条件X变化，则推荐切换为Y'的切换规则
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点覆盖了场景A、B、C、D中主要的硬件切换逻辑，但存在覆盖缺口：1. 场景C（A100）到场景D（M3 Ultra）或场景C到其他高吞吐场景的切换规则缺失；2. 场景B（2x4090）直接切换到场景D（M3 Ultra）的规则缺失（当前仅提供了A/D切换）；3. 场景C（A100）作为高吞吐代表，其向其他场景（如更低功耗或更高吞吐）的切换条件未明确，导致条件矩阵不完整。）
+
+## Search Query
+
+conditional recommendation matrix GPU selection decision tree use case scenarios

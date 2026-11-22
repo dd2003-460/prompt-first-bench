@@ -1,0 +1,24 @@
+# N317: 冲动消费噪声的量化构成：Var(ε_impulse) = Var(ε_time_pressure) + Var(ε_visual_trigger)，其中 Var
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N113
+
+## Claim
+
+冲动消费噪声的量化构成：Var(ε_impulse) = Var(ε_time_pressure) + Var(ε_visual_trigger)，其中 Var(ε_time_pressure) 源于限时促销或库存告急引发的决策紧迫性，典型值约为总随机噪声方差的 40%-60% [待核验]。
+
+## Corrected Claim
+
+冲动消费噪声的量化构成：Var(ε_impulse) = Var(ε_time_pressure) + Var(ε_visual_trigger)，其中 Var(ε_time_pressure) 源于限时促销或库存告急引发的决策紧迫性，其占比因具体场景而异，缺乏通用典型值。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值范围（40%-60%），属于经验事实而非第一性原理可推导的数学性质。在缺乏任何参考来源支持的情况下，无法验证该具体比例是否准确，存在将特定场景下的统计结果泛化为通用典型值的风险。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，无法验证具体数值范围）
+
+## Search Query
+
+impulse buying variance time pressure visual trigger behavioral economics model

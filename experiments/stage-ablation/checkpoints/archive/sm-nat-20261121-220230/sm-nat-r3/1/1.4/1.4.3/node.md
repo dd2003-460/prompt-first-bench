@@ -1,0 +1,24 @@
+# N45: LRU 缓存驻留的 Top K 对象（K 由容量 128GB 决定）的总请求率占比 P_cached_req = (Σ_{i=1}^{K} i^{-0.9}) 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N9
+
+## Claim
+
+LRU 缓存驻留的 Top K 对象（K 由容量 128GB 决定）的总请求率占比 P_cached_req = (Σ_{i=1}^{K} i^{-0.9}) / D，该比值是请求命中率的基础，但字节命中率还需加权对象大小 s_i。
+
+## Corrected Claim
+
+LRU 缓存驻留的 Top K 对象（K 由容量 128GB 决定）的总请求率占比 P_cached_req = (Σ_{i=1}^{K} i^{-0.9}) / D，该比值是请求命中率的基础，但字节命中率还需加权对象大小 s_i。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别描述了容量受限下的三种不同极端/平衡状态（大对象低热度、小对象高热度、LRU实际平衡点），在概念上是正交的，且共同覆盖了从请求率到字节命中率估算的关键路径，没有明显的冗余。）
+
+## Search Query
+
+cache hit rate top K objects Pareto request distribution

@@ -1,0 +1,24 @@
+# N302: 24GB 单卡在 128K 上下文下的最小可行硬件替代集：1x RTX 5090 (32GB) 在 INT4 权重 + FP8 KV Cache 配置下总显存 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N108
+
+## Claim
+
+24GB 单卡在 128K 上下文下的最小可行硬件替代集：1x RTX 5090 (32GB) 在 INT4 权重 + FP8 KV Cache 配置下总显存 38.66GB > 32GB 仍溢出，故 32GB 单卡亦不可行；必须升级至 48GB+ 显存 (如 2x 4090 或 1x H100 80GB) 或采用 KV Cache 压缩技术 (如 PagedAttention + INT4 KV)。
+
+## Corrected Claim
+
+24GB 单卡在 128K 上下文下的最小可行硬件替代集：1x RTX 5090 (32GB) 在 INT4 权重 + FP8 KV Cache 配置下总显存 38.66GB > 32GB 仍溢出，故 32GB 单卡亦不可行；必须升级至 48GB+ 显存 (如 2x 4090 或 1x H100 80GB) 或采用 KV Cache 压缩技术 (如 PagedAttention + INT4 KV)。
+
+## Evidence
+
+[质询]数值计算存在严重逻辑矛盾：若总显存需求为38.66GB，则32GB显存确实不足，但陈述中称'1x RTX 5090 (32GB)'，而RTX 5090实际显存为32GB GDDR7，此处数值自洽；然而，若INT4权重+FP8 KV Cache在128K上下文下总需求真为38.66GB，则32GB单卡不可行是合理的。但问题在于：RTX 5090是32GB，而H100 80GB是80GB，2x 4090是48GB（24GB x 2），这些替代方案在显存容量上确实大于38.66GB，逻辑上可行。但陈述中'38.66GB > 32GB'的计算是否准确？若模型权重为INT4，假设模型参数量为N，权重占用N/2 GB（INT4=0.5字节/参数），KV Cache在128K上下文下，假设每token KV占用为C字节，则KV Cache占用128K * C。若总显存为38.66GB，则N/2 + 128K * C = 38.66。若N为典型大模型（如70B参数），则权重占用35GB，KV Cache占用3.66GB，这在128K上下文下是合理的（每token KV约28字节，即FP8下每token KV约28字节，128K * 28B = 3.58GB，接近3.66GB）。因此，数值量级合理。但陈述中'1x RTX 5090 (32GB)'的显存为32GB，而总需求38.66GB，确实溢出。因此，逻辑自洽。但问题在于：RTX 5090的显存是32GB，而H100 80GB是80GB，2x 4090是48GB，这些替代方案在显存容量上确实大于38.66GB，逻辑上可行。因此，无可信攻击点。 | 先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+128K context minimum VRAM requirement INT4 weights FP8 KV cache

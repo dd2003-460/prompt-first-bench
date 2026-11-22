@@ -1,0 +1,24 @@
+# N282: 工作点 1（高放大因子）：当 S_hot/S_cold 比值极大（例如 >10，即热门对象显著小于冷门对象）时，A_ρ = 1 + |ρ| * (S_hot/S
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N98, N100, N102
+
+## Claim
+
+工作点 1（高放大因子）：当 S_hot/S_cold 比值极大（例如 >10，即热门对象显著小于冷门对象）时，A_ρ = 1 + |ρ| * (S_hot/S_cold - 1) ≈ 1 + 0.3 * 9 = 3.7，此时 LFU 对热门小对象的保留优势被显著放大，ΔH 可能达到 +5% 以上，但前提是 LFU 能准确区分热度并避免统计滞后。
+
+## Corrected Claim
+
+工作点 1（高放大因子）：当 S_hot/S_cold 比值极大（例如 >10，即热门对象显著小于冷门对象）时，A_ρ = 1 + |ρ| * (S_hot/S_cold - 1) ≈ 1 + 0.3 * 9 = 3.7，此时 LFU 对热门小对象的保留优势被显著放大，ΔH 可能达到 +5% 以上，但前提是 LFU 能准确区分热度并避免统计滞后。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 A_ρ = 1 + |ρ| * (S_hot/S_cold - 1) 在 S_hot/S_cold > 10 且 |ρ|=0.3 时，计算结果 1 + 0.3 * 9 = 3.7 数学上正确；LFU 机制在大小差异显著时确实能放大对热门小对象的保留优势，逻辑自洽。
+
+## Search Query
+
+LFU vs LRU cache hit rate improvement skewness factor Pareto workload

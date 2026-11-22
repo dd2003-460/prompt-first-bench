@@ -1,0 +1,29 @@
+# N93: 噪声分布的非正态性修正：买家价值评估偏差可能服从偏态分布（如 Beta 或 Log-normal），特别是对于高价值商品，右尾更厚，需计算偏态系数 Skewne
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N32
+
+## Claim
+
+噪声分布的非正态性修正：买家价值评估偏差可能服从偏态分布（如 Beta 或 Log-normal），特别是对于高价值商品，右尾更厚，需计算偏态系数 Skewness 对‘支付 15% 以上溢价’概率的修正项 ΔP_skew。
+
+## Corrected Claim
+
+在买家价值评估中，若偏差数据呈现非正态特征（如右偏），建议采用偏态系数（Skewness）或分布拟合（如Log-normal）来修正‘支付15%以上溢价’的概率估计，而非默认正态分布。
+
+## Evidence
+
+[质询]该陈述属于特定业务场景（买家价值评估）下的经验性假设，声称偏差服从Beta或Log-normal分布且右尾更厚，这并非第一性原理可推导的数学事实，而是依赖具体数据分布的经验结论。参考来源仅讨论了非正态数据的一般性处理方法（如Box-Cox、对数变换），并未提供该特定场景下分布形态的直接证据或统计验证。 | 逻辑上，高价值商品溢价确实常呈现右偏特征，使用偏态系数修正概率在统计学上是合理的；但来源[1][2]仅涉及通用的非正态数据处理方法，未直接支持该特定业务场景下的分布假设，属于间接相关。
+
+## Search Query
+
+skewness of consumer valuation distribution impact on willingness to pay premium empirical evidence
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2000584090873796223&rut=1e596effc3844ea99496b59127d040570b8e208fd9730d6d9320acf72a0262e8', 'type': 'ddg', 'title': '将"非正态"数据"正态"化：理解Johnson与Box-Cox变换的本质'}
+- {'url': 'https://wenku.baidu.com/noteview/4f51273e0322192e453610661ed9ad51f01d540e.html&rut=a9dace848e892d72173adb380db124434c1274d91cb6b3034fb3ce8ddd625894', 'type': 'ddg', 'title': '非正态数据转为正态分布的5种实用方法（精选）'}

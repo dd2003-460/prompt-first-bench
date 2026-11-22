@@ -1,0 +1,20 @@
+# N370: 工作点 C (FlashAttention + W4 量化)：权重量化至 W4 (13.5GB)，KV Cache 保持 BF16，Prefill 计算量不变但
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N132
+
+## Claim
+
+工作点 C (FlashAttention + W4 量化)：权重量化至 W4 (13.5GB)，KV Cache 保持 BF16，Prefill 计算量不变但内存带宽瓶颈缓解，MFU 提升至 70%，TTFT ≈ 25.7s * (0.5/0.7) ≈ 18.4s；约束：接近 15s 边界，需实测验证是否满足 '<15s' 或 '≤15s' 的严格定义。
+
+## Corrected Claim
+
+工作点 C (FlashAttention + W4 量化)：权重量化至 W4 (13.5GB)，KV Cache 保持 BF16。Prefill 阶段计算量不变，但内存带宽瓶颈缓解可能带来一定性能提升。假设 MFU 提升至 70%，估算 TTFT ≈ 18.4s。注意：该估算基于线性假设，实际性能需实测验证是否满足 '<15s' 或 '≤15s' 的严格定义。
+
+## Evidence
+
+[质询]MFU 从 50% 提升至 70% 的假设缺乏依据，且 W4 量化对 Prefill 阶段（计算密集型）的加速效果通常有限，主要收益在 Decode 阶段；此外，TTFT 与 MFU 成反比的线性假设忽略了计算延迟与内存延迟的非线性关系及固定开销。 | source=knowledge，逻辑自洽但 MFU 提升幅度及线性缩放假设属于经验性工程估算，缺乏第一性原理严格推导支持，且无外部来源验证，故降级为定性表述。

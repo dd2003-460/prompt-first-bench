@@ -1,0 +1,24 @@
+# N199: Margin 与 W_exposure 的相关性 ρ ≈ 0.4-0.6 的统计检验：ρ = Cov(Margin, W_exposure) / (σ_Marg
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N64
+
+## Claim
+
+Margin 与 W_exposure 的相关性 ρ ≈ 0.4-0.6 的统计检验：ρ = Cov(Margin, W_exposure) / (σ_Margin × σ_W_exposure)，需基于 3 个月以上的历史数据计算，并检验显著性水平 p < 0.05。
+
+## Corrected Claim
+
+Margin 与 W_exposure 的相关性 ρ 的统计检验公式为 ρ = Cov(Margin, W_exposure) / (σ_Margin × σ_W_exposure)，需基于 3 个月以上的历史数据计算，并检验显著性水平 p < 0.05。具体相关性数值需根据实际市场数据确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性统计参数（相关性系数范围 0.4-0.6 及显著性水平 p<0.05），属于金融实证研究中的经验事实，无法从第一性原理或数学公理中严格推导得出，且缺乏外部来源支持其具体数值范围。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+correlation margin exposure weight statistical significance p-value

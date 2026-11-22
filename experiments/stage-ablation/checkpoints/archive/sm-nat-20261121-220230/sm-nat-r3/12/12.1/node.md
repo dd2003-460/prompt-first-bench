@@ -1,0 +1,20 @@
+# N298: 分子项（缓存内字节流量）的积分表达式：Num_Hit = ∑_{i∈C_LRU} λ_i * s_i ≈ ∫_{s_min}^{s_K} λ(s) * s * 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N103
+
+## Claim
+
+分子项（缓存内字节流量）的积分表达式：Num_Hit = ∑_{i∈C_LRU} λ_i * s_i ≈ ∫_{s_min}^{s_K} λ(s) * s * f_{S|H}(s|h) ds，其中 λ(s) 为大小 s 对应的请求率密度，f_{S|H} 为条件分布，需利用 Frank Copula(θ≈-1.58) 将热度分布映射到大小分布上以计算加权字节量。
+
+## Corrected Claim
+
+分子项（缓存内字节流量）的积分表达式：Num_Hit = ∑_{i∈C_LRU} λ_i * s_i ≈ ∫_{s_min}^{s_K} λ(s) * s * f_{S|H}(s|h) ds，其中 λ(s) 为大小 s 对应的请求率密度，f_{S|H} 为条件分布，需利用 Frank Copula(θ≈-1.58) 将热度分布映射到大小分布上以计算加权字节量。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：积分表达式正确描述了缓存内字节流量的期望值计算，Copula用于关联热度与大小分布符合统计建模逻辑。

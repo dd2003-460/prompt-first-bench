@@ -1,0 +1,20 @@
+# N56: 对象更新率U=1%/天导致LRU有效命中率衰减的折扣因子为 D = 1 - U * T_res_avg / (T_res_avg + 1/U)，其中T_res_
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+对象更新率U=1%/天导致LRU有效命中率衰减的折扣因子为 D = 1 - U * T_res_avg / (T_res_avg + 1/U)，其中T_res_avg为缓存内对象的平均驻留时间。若T_res_avg=1小时，则D ≈ 1 - 0.01*(1/24) / (1/24 + 1) ≈ 0.9996，即衰减极小，主要因为更新率远低于访问率。
+
+## Corrected Claim
+
+对象更新率U=1%/天导致LRU有效命中率衰减的折扣因子为 D = 1 - U * T_res_avg / (T_res_avg + 1/U)，其中T_res_avg为缓存内对象的平均驻留时间。若T_res_avg=1小时，则D ≈ 1 - 0.01*(1/24) / (1/24 + 1) ≈ 0.9996，即衰减极小，主要因为更新率远低于访问率。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

@@ -1,0 +1,24 @@
+# N220: Qwen3-27B 层数核验：若 Qwen3-27B 实际层数为 64 层（常见于 27B 规模模型），则上述 4.29GB 计算成立；若层数为 48 层，则 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N60
+
+## Claim
+
+Qwen3-27B 层数核验：若 Qwen3-27B 实际层数为 64 层（常见于 27B 规模模型），则上述 4.29GB 计算成立；若层数为 48 层，则 KV 占用降至 3.22GB。需确认 Qwen3-27B 具体层数以精确计算 KV Cache 瓶颈。
+
+## Corrected Claim
+
+Qwen3-27B 的 KV Cache 占用取决于其具体层数：若为 64 层，占用约 4.29GB；若为 48 层，占用约 3.22GB。需查阅官方技术报告确认确切层数以精确计算。
+
+## Evidence
+
+[质询]Qwen3-27B 的具体架构参数（如层数）属于经验事实，无法从第一性原理推导，且当前无可用来源验证其具体数值（64层或48层），存在参数不确定性。 | 经验事实，逻辑自洽但缺来源支持（检索失败，无法确认具体层数）
+
+## Search Query
+
+Qwen3 27B number of layers transformer depth

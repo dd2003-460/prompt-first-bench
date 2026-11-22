@@ -1,0 +1,24 @@
+# N150: 共享随机源定义：买家认知噪声方差 σ²_signal = Var(H_info | ΔP) = σ²_base + σ²_extreme，其中 H_info 为
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N44
+
+## Claim
+
+共享随机源定义：买家认知噪声方差 σ²_signal = Var(H_info | ΔP) = σ²_base + σ²_extreme，其中 H_info 为买家对降价的解读变量；σ²_base 对应正态分布的基础噪声（均值 0，标准差 0.1 * ΔP），σ²_extreme 对应重尾分布的极端怀疑噪声（尾部指数 α_signal = 1.8），两者混合权重为 0.9:0.1
+
+## Corrected Claim
+
+共享随机源定义：买家认知噪声方差 σ²_signal = Var(H_info | ΔP) = σ²_base + σ²_extreme，其中 H_info 为买家对降价的解读变量；σ²_base 对应正态分布的基础噪声（均值 0，标准差 0.1 * ΔP），σ²_extreme 对应重尾分布的极端怀疑噪声（尾部指数 α_signal = 1.8），两者混合权重为 0.9:0.1
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+mixed distribution cognitive noise price change interpretation base normal extreme heavy-tail

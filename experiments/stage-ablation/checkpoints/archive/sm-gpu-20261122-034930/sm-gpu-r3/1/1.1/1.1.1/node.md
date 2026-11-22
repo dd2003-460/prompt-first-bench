@@ -1,0 +1,20 @@
+# N46: Qwen3-27B 在 INT8 精度下的权重显存占用计算：27,000,000,000 params * 1 byte/param = 27 GB (基础值)
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N7
+
+## Claim
+
+Qwen3-27B 在 INT8 精度下的权重显存占用计算：27,000,000,000 params * 1 byte/param = 27 GB (基础值)；若采用混合精度量化（如 SmoothQuant 保留部分层为 FP16 或 INT4 混合），实际占用可能波动在 26-28 GB 之间，取决于量化策略中保留的高精度层比例（通常 <5%）。
+
+## Corrected Claim
+
+Qwen3-27B 在 INT8 精度下的权重显存占用计算：27,000,000,000 params * 1 byte/param = 27 GB (基础值)；若采用混合精度量化（如 SmoothQuant 保留部分层为 FP16 或 INT4 混合），实际占用可能波动在 26-28 GB 之间，取决于量化策略中保留的高精度层比例（通常 <5%）。
+
+## Evidence
+
+父节点级核验未通过：有冗余（子节点分别针对'Embedding/LM Head保留FP16'和'LayerNorm保留FP32'两种特定量化策略下的额外开销进行计算，两者在策略上互斥（正交），且共同覆盖了父节点提到的'混合精度'及'波动范围'的来源（完备）。然而，两个子节点本质上是同一类计算（额外精度层带来的显存增量）在不同参数配置下的实例，属于同一逻辑分支的不同取值，存在结构上的冗余。）

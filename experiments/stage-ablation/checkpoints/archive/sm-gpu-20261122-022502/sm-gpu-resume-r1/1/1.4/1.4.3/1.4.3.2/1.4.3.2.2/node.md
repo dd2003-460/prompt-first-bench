@@ -1,0 +1,20 @@
+# N520: 在 Prefill 阶段（计算受限），H100 SXM 与 RTX 4090 的相对性能比 K_prefill 主要取决于算力比而非带宽比，K_prefill 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N159
+
+## Claim
+
+在 Prefill 阶段（计算受限），H100 SXM 与 RTX 4090 的相对性能比 K_prefill 主要取决于算力比而非带宽比，K_prefill = (H100_FP8_TFLOPS * MFU_h100) / (4090_FP8_Equiv_TFLOPS * MFU_4090)，由于 4090 的 FP8 等效算力大幅低于 H100，K_prefill 远大于带宽比 3.32x，通常可达 5-10x [待核验：具体框架下的 Prefill 吞吐基准]
+
+## Corrected Claim
+
+在 Prefill 阶段（计算受限），H100 SXM 与 RTX 4090 的相对性能比 K_prefill 主要取决于算力比而非带宽比，K_prefill = (H100_FP8_TFLOPS * MFU_h100) / (4090_FP8_Equiv_TFLOPS * MFU_4090)，由于 4090 的 FP8 等效算力大幅低于 H100，K_prefill 远大于带宽比 3.32x，通常可达 5-10x [待核验：具体框架下的 Prefill 吞吐基准]
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Prefill阶段为计算受限（Compute-bound），性能主要取决于FLOPS而非带宽；H100 SXM FP8算力（~989 TFLOPS）远高于RTX 4090 FP8等效算力（~165 TFLOPS），理论算力比约6x，考虑MFU差异后5-10x的范围合理且符合物理直觉。

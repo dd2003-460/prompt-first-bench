@@ -1,0 +1,20 @@
+# N243: 1×RTX 4090 INT8 方案的显存占用精确计算：权重 (27B * 1 byte = 27GB) + KV Cache (32K * 2 * 32 * 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N79
+
+## Claim
+
+1×RTX 4090 INT8 方案的显存占用精确计算：权重 (27B * 1 byte = 27GB) + KV Cache (32K * 2 * 32 * 128 * 1 byte ≈ 268MB) + 激活缓冲 (~2GB) ≈ 29.3GB，超出 24GB 显存限制，必须启用 PagedAttention 或 CPU Offload，导致吞吐量从理论 35-40 tokens/s 降至 25-30 tokens/s，TCO/Throughput 修正为 $0.012-$0.015/token
+
+## Corrected Claim
+
+1×RTX 4090 INT8 方案显存占用估算：权重 (27B * 1 byte = 27GB) + KV Cache (32K序列下通常需 4-8GB 或更多，取决于具体架构参数) + 激活缓冲 (~2GB) >> 24GB 显存限制，必须启用 PagedAttention 或 CPU Offload，导致吞吐量显著下降，TCO/Throughput 需重新评估。
+
+## Evidence
+
+[质询]KV Cache 计算存在严重量级错误：32K序列长度下，KV Cache 占用远超 268MB（通常需数GB至数十GB），且 27B 模型 INT8 权重加 KV Cache 必然远超 24GB 显存，导致‘29.3GB’的总显存估算严重低估，进而影响对吞吐量下降幅度和 TCO 修正的精确性。 | 先验知识/题面给定，逻辑校验未通过：KV Cache 计算量级错误（32K序列下 268MB 明显偏低），导致总显存估算失真，虽结论（需 Offload/PagedAttention）方向正确，但具体数值和推导逻辑存在硬伤。

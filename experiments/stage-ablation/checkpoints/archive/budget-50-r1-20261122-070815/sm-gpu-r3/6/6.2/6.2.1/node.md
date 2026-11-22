@@ -1,0 +1,24 @@
+# N363: Qwen3-27B 在 64 层中，采用标准 Full Attention (GQA) 的层数 N_full_attn 的具体数值，需查阅 Qwen3 官方技术
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N128
+
+## Claim
+
+Qwen3-27B 在 64 层中，采用标准 Full Attention (GQA) 的层数 N_full_attn 的具体数值，需查阅 Qwen3 官方技术报告或模型卡中关于 'Hybrid Attention' 或 'Sliding Window' 架构的描述，以确认哪些层使用全注意力。
+
+## Corrected Claim
+
+Qwen3-27B 的注意力架构细节（包括是否采用混合注意力及具体层数分布）需查阅 Qwen3 官方技术报告或模型卡进行确认。
+
+## Evidence
+
+[质询]该陈述本身是一个‘待查证’的元陈述，而非具体事实结论。其潜在错误在于预设了Qwen3-27B存在‘Hybrid Attention’或‘Sliding Window’架构，并假设其中部分层使用Full Attention。若Qwen3-27B实际采用全层标准GQA（无混合架构），则该前提错误。此外，‘需查阅...以确认’这一表述本身无法被验证为真或假，它只是一个行动建议。 | 经验事实，逻辑自洽但缺来源支持。检索无可用来源，无法确认Qwen3-27B的具体注意力架构细节（是否为混合注意力及具体层数分布）。
+
+## Search Query
+
+Qwen3-27B hybrid attention full attention layers count technical report

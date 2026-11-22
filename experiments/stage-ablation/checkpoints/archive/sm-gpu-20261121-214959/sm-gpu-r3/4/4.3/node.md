@@ -1,0 +1,24 @@
+# N24: 代表工作点 B（数据中心高容量）：以 NVIDIA A100 40GB (1.6 TB/s) 为例，单卡无法容纳 BF16 Qwen3-27B (54GB)，需
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+代表工作点 B（数据中心高容量）：以 NVIDIA A100 40GB (1.6 TB/s) 为例，单卡无法容纳 BF16 Qwen3-27B (54GB)，需 2 卡；若使用 FP8 (27GB) 单卡可容纳，理论 Decode 吞吐上限约为 1600 / 27 ≈ 59.3 tokens/s，展示高带宽数据中心卡的优势。
+
+## Corrected Claim
+
+代表工作点 B（数据中心高容量）：以 NVIDIA A100 40GB (1.6 TB/s) 为例，单卡无法容纳 BF16 Qwen3-27B (54GB)，需 2 卡；若使用 FP8 (27GB) 单卡可容纳，理论 Decode 吞吐上限约为 1600 / 27 ≈ 59.3 tokens/s，展示高带宽数据中心卡的优势。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点基于硬件代际、显存容量、带宽及成本构成了清晰的正交分类（前沿/平衡/冗余），无重叠或矛盾。父节点核心观点（A100 40GB 局限性 vs 高带宽卡优势）已通过子节点中更高规格硬件（H100/A100 80GB/H200）的性能对比得到充分覆盖和验证。虽然子节点数值高度结构化，但它们代表了不同的硬件实体（SKU），属于离散的工作点选择，而非单一连续参数的简单取值，因此不构成冗余。）
+
+## Search Query
+
+NVIDIA A100 40GB memory bandwidth GB/s FP8 inference throughput

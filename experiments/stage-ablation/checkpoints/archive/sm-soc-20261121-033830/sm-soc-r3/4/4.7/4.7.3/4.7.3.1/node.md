@@ -1,0 +1,24 @@
+# N284: 自助法（Bootstrap）重抽样次数 N_boot 与标准误关系：置信区间宽度由标准误 SE 决定，SE 随 N_boot 增加按 1/sqrt(N_boot
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N93
+
+## Claim
+
+自助法（Bootstrap）重抽样次数 N_boot 与标准误关系：置信区间宽度由标准误 SE 决定，SE 随 N_boot 增加按 1/sqrt(N_boot) 收敛；为将 SE 控制在 0.01 以内，需设定 N_boot ≥ 10,000，且需报告重抽样分布的偏度以判断正态近似是否有效。
+
+## Corrected Claim
+
+自助法（Bootstrap）重抽样次数 N_boot 与标准误关系：置信区间宽度由标准误 SE 决定，SE 随 N_boot 增加按 1/sqrt(N_boot) 收敛；为将 SE 控制在 0.01 以内，需设定 N_boot ≥ 10,000，且需报告重抽样分布的偏度以判断正态近似是否有效。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Bootstrap标准误的蒙特卡洛误差确实随重抽样次数N_boot按1/sqrt(N_boot)收敛，且报告偏度以评估正态近似有效性是标准统计实践。
+
+## Search Query
+
+Bootstrap resampling size standard error convergence rate

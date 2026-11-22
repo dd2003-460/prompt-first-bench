@@ -1,0 +1,29 @@
+# N54: 信息不对称对决策时间的非线性影响：当信息不对称程度（以价格离散度 σ_price 衡量）超过临界值 σ_crit 时，买家决策时间 T_decision 从线性
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N14
+
+## Claim
+
+信息不对称对决策时间的非线性影响：当信息不对称程度（以价格离散度 σ_price 衡量）超过临界值 σ_crit 时，买家决策时间 T_decision 从线性增长转为指数增长，需估算 σ_crit 的具体数值（如价格离散度超过 30% 时触发等待行为）。
+
+## Corrected Claim
+
+信息不对称程度（以价格离散度衡量）增加通常会延长买家决策时间，但具体的临界值（如30%）及从线性到指数增长的转变机制需依赖特定市场模型或实证数据支持，并非通用常数。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（σ_crit ≈ 30%）和特定的动力学行为（从线性转为指数增长），这属于经验事实而非第一性原理可推导的数学性质。现有来源未提供该具体数值或机制的直接证据，且‘指数增长’这一强非线性特征在缺乏具体模型假设下缺乏普遍性支持。 | 来源[1]仅定义非对称信息博弈论，来源[2]讨论时滞分叉但未提供具体价格离散度阈值或决策时间增长模式，均无法直接支持‘30%临界值’及‘指数增长’的具体结论；作为经验事实，逻辑自洽但缺来源支持。
+
+## Search Query
+
+information asymmetry decision time non-linear threshold price dispersion second hand goods
+
+## Retrieval Sources
+
+- {'url': 'https://baike.baidu.com/item/%E9%9D%9E%E5%AF%B9%E7%A7%B0%E4%BF%A1%E6%81%AF%E5%8D%9A%E5%BC%88%E8%AE%BA/12803579&rut=bff68c306fc50a22568b6ba379745b2ac7093fb9106f4f6f5fc856123752a35e', 'type': 'ddg', 'title': '非对称信息博弈论 - 百度百科'}
+- {'url': 'https://www.zhihu.com/question/627316978&rut=e1a3d3bc0b6ab3a2dd766225dfc6861de6fde72abec366b2b47262392b487ce7', 'type': 'ddg', 'title': '用非线性动力学中的时滞分叉理论解释市场经济中信息等效不对称所致的决策失误？ - 知乎'}

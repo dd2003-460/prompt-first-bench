@@ -1,0 +1,20 @@
+# N68: 对象更新后重新进入缓存并再次命中的概率 H_dynamic_hit 的上界：H_dynamic_hit ≤ P_invalid * H_reentry，其中 H
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N22
+
+## Claim
+
+对象更新后重新进入缓存并再次命中的概率 H_dynamic_hit 的上界：H_dynamic_hit ≤ P_invalid * H_reentry，其中 H_reentry 是更新后的对象在下次请求前被重新缓存的概率，取决于更新对象的热度排名和缓存驱逐策略，通常 < 10%。
+
+## Corrected Claim
+
+对象更新后重新进入缓存并再次命中的概率 H_dynamic_hit 的上界：H_dynamic_hit ≤ P_invalid * H_reentry，其中 H_reentry 是更新后的对象在下次请求前被重新缓存的概率，取决于更新对象的热度排名和缓存驱逐策略，通常 < 10%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该不等式在概率论上成立（条件概率分解），且'通常<10%'符合缓存系统中冷对象重入率的工程经验量级。

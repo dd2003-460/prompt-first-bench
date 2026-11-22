@@ -1,0 +1,20 @@
+# N68: LRU 队列中对象 i 的等待时间 W_LRU(i) 与更新间隔 T_update 的并联公式 T_eff(i) = (W_LRU(i) * T_update)
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N19
+
+## Claim
+
+LRU 队列中对象 i 的等待时间 W_LRU(i) 与更新间隔 T_update 的并联公式 T_eff(i) = (W_LRU(i) * T_update) / (W_LRU(i) + T_update) 在 W_LRU(i) >> T_update 时退化为 T_eff(i) ≈ T_update，此时更新率主导失效，命中率折损 D_update ≈ T_update / (W_LRU(i) + T_update) ≈ 1 - W_LRU(i)/T_update，量化为 D_update ≈ 0.99 当 W_LRU(i) = 100 * T_update。
+
+## Corrected Claim
+
+LRU 队列中对象 i 的有效时间 T_eff(i) = (W_LRU(i) * T_update) / (W_LRU(i) + T_update)。当 W_LRU(i) >> T_update 时，T_eff(i) ≈ T_update。此时命中率折损率 D_update ≈ T_update / (W_LRU(i) + T_update) ≈ T_update / W_LRU(i)。当 W_LRU(i) = 100 * T_update 时，D_update ≈ 0.01。
+
+## Evidence
+
+[质询]公式推导存在严重的逻辑和数学错误：1. 并联公式 T_eff = (W*T)/(W+T) 在 W>>T 时确实退化为 T，但此时更新率主导失效的说法与后续命中率折损公式矛盾；2. 命中率折损 D_update ≈ 1 - W/T 在 W=100*T 时计算结果为 1 - 100 = -99，而非 0.99，且折损率不可能为负数或超过1；3. 正确的折损率应为 T/(W+T) ≈ 0.01 或 1 - T/(W+T) ≈ 0.99，但原文混淆了折损率与保留率的概念，且数值代入错误。 | 逻辑校验失败：当 W_LRU(i) = 100 * T_update 时，公式 D_update ≈ 1 - W_LRU(i)/T_update 计算结果为 -99，与声称的 0.99 严重矛盾，且折损率定义与数值不符，存在硬逻辑错误。

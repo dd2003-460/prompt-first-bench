@@ -1,0 +1,20 @@
+# N16: LFU 相对 LRU 的提升幅度：ΔH = H_byte_LFU - H_byte_LRU，需计算两者在相同容量下的命中率差异，并分析负相关 (ρ≈-0.3) 
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+LFU 相对 LRU 的提升幅度：ΔH = H_byte_LFU - H_byte_LRU，需计算两者在相同容量下的命中率差异，并分析负相关 (ρ≈-0.3) 对 ΔH 的影响机制。
+
+## Corrected Claim
+
+LFU 相对 LRU 的提升幅度：ΔH = H_byte_LFU - H_byte_LRU，需计算两者在相同容量下的命中率差异，并分析负相关 (ρ≈-0.3) 对 ΔH 的影响机制。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1聚焦于ΔH的数学分解与计算定义，子节点2聚焦于负相关机制对ΔH的影响及量化指标（Δs_avg），两者在逻辑上正交（一个算式，一个机制/解释），且共同覆盖了父节点要求的‘计算差异’和‘分析影响机制’两个方面，无冗余。）

@@ -1,0 +1,30 @@
+# N56: RTX 3090 24GB 二手市场（eBay/FB Marketplace）平均成交价位及成色/保修对价格的折损系数
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N10
+
+## Claim
+
+RTX 3090 24GB 二手市场（eBay/FB Marketplace）平均成交价位及成色/保修对价格的折损系数
+
+## Corrected Claim
+
+eBay等二手市场存在RTX 3090 24GB的交易，但具体平均成交价及成色/保修折损系数需实时查询具体商品数据，当前来源未提供确切数值。
+
+## Evidence
+
+[质询]参考来源仅提供了商品列表页面链接和通用营销摘要，未包含具体的平均成交价格数值，也未提供关于成色/保修对价格折损系数的任何数据或分析，无法验证具体的量化指标。 | 来源[1][2][3]确认了eBay上存在RTX 3090二手交易，但摘要中缺乏具体价格数据和折损系数分析，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+used RTX 3090 24GB price eBay 2024 2025
+
+## Retrieval Sources
+
+- {'url': 'https://www.ebay.com/sch/i.html?_nkw=used+rtx+3090&_sop=12&rut=1e09fe4943150668f06e4bf98fac4b5914d6a3c58061242222fe3c4e6aae2a5b', 'type': 'ddg', 'title': 'Used Rtx 3090 for sale | eBay'}
+- {'url': 'https://www.ebay.com/shop/used-3090?_nkw=used+3090&rut=9f5156230c6f4d57beb6331fa76bc9d3f39c55d2d3ff9962c68b3bddd49ae2cd', 'type': 'ddg', 'title': '25+ Used 3090 for sale | Updated Nov 2026 - eBay'}
+- {'url': 'https://cn.ebay.com/b/NVIDIA-GeForce-RTX-3090-24GB-GDDR6-Graphics-Cards/27386/bn_7117810176&rut=667338496824f496afd44dddcb8d566cf19ab93ef551a7bd984682b8526755e8', 'type': 'ddg', 'title': 'NVIDIA GeForce RTX 3090 24gb GDDR 6 显卡 - eBay'}

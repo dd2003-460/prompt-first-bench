@@ -1,0 +1,28 @@
+{
+  "id": "N40",
+  "claim": "多卡张量并行（TP）下 KV Cache 显存分布策略：在 TP=2 场景下，KV Cache 是否被拆分取决于框架实现。vLLM 默认在 TP 下拆分 KV Cache（每卡存 1/TP 的 KV Head 或数据），若拆分，单卡 KV 占用减半（≈0.96GB）；若未拆分（每卡存全量），则单卡 KV 占用不变（≈1.93GB）。需确认 llama.cpp 和 vLLM 在 Qwen3-27B TP=2 下的具体行为。",
+  "level": "L3",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]陈述中关于 vLLM 默认行为的具体数值（0.96GB/1.93GB）及 llama.cpp 的具体行为属于特定模型（Qwen3-27B）和特定框架版本的经验事实，参考来源仅提供了 TP 下 KV Cache 拆分的一般性原理（每卡存部分 head），未提供该特定模型在 TP=2 下的具体显存占用数值，也未明确区分 vLLM 与 llama.cpp 在默认配置下的具体差异，存在将一般原理直接映射到具体数值且缺乏特定来源支持的风险。 | 来源[1]直接支持 TP 下 KV Cache 按 head 拆分（每卡存 1/TP）的原理，逻辑上支持拆分后显存减半的结论；但来源未覆盖 Qwen3-27B 的具体数值及 llama.cpp 的行为，属于经验事实缺具体来源支持。",
+  "corrected_claim": "在 TP=2 场景下，若框架采用 KV Cache 头拆分策略（如 vLLM 默认行为），单卡 KV 占用约为全量的一半；若采用全量复制策略，单卡占用不变。具体数值（如 0.96GB/1.93GB）需依据 Qwen3-27B 的具体配置及框架版本实测确认。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N7"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "vLLM llama.cpp tensor parallel KV cache sharding strategy multi-GPU",
+  "retrieval_sources": [
+    {
+      "url": "https://zhuanlan.zhihu.com/p/2055312961711891555&rut=f0e0d14c16b87a0062b81d3e9d7f671bb577db8981fb88bb9f6080cdc9350fd7",
+      "type": "ddg",
+      "title": "KV Cache 从入门到精通 · 第7章：多卡并行与分布式 KV Cache——TP/PP/EP 下的缓存策略"
+    },
+    {
+      "url": "https://zhuanlan.zhihu.com/p/2016843212178882587&rut=c17b1634b43d178d64e32116889ffc34e75823edf49d0b32a5da87b0335f4de3",
+      "type": "ddg",
+      "title": "KV Cache 深度解析：从原理到工程优化的完整指南 - 知乎"
+    }
+  ]
+}

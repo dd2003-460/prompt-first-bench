@@ -1,0 +1,20 @@
+# N26: LRU在Pareto(β=0.9)请求分布下的稳态字节命中率下界H_byte_LRU_lower，可通过假设LRU完美保留前K个最热对象（Optimal近似）减
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+LRU在Pareto(β=0.9)请求分布下的稳态字节命中率下界H_byte_LRU_lower，可通过假设LRU完美保留前K个最热对象（Optimal近似）减去LRU特有的驱逐惩罚项ε_lru估算。ε_lru与请求间隔方差成正比，对于β<1.5的分布，ε_lru通常导致命中率比Optimal低2-5个百分点。
+
+## Corrected Claim
+
+LRU在Pareto(β=0.9)请求分布下的稳态字节命中率下界H_byte_LRU_lower，可通过假设LRU完美保留前K个最热对象（Optimal近似）减去LRU特有的驱逐惩罚项ε_lru估算。ε_lru与请求间隔方差成正比，对于β<1.5的分布，ε_lru通常导致命中率比Optimal低2-5个百分点。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

@@ -1,0 +1,24 @@
+# N155: RTX 5090 (Blackwell) 原生支持 FP8 和 NVFP4，其理论 FP8 计算峰值约为 512 TFLOPS (FP8) 或 1024 TFL
+
+- **status**: pending
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N48
+
+## Claim
+
+RTX 5090 (Blackwell) 原生支持 FP8 和 NVFP4，其理论 FP8 计算峰值约为 512 TFLOPS (FP8) 或 1024 TFLOPS (NVFP4)。对比 H100 SXM 的 989 TFLOPS (FP8)，RTX 5090 的 FP8 计算峰值仅为 H100 的 ~52% (512/989)，而非 N48 声称的 60-80%。N48 的 60-80% 估计可能混淆了带宽比 (1792/2039=87.9%) 与计算能力比。
+
+## Corrected Claim
+
+RTX 5090 (Blackwell) 原生支持 FP8 和 NVFP4，其理论 FP8 计算峰值约为 512 TFLOPS (FP8) 或 1024 TFLOPS (NVFP4)。对比 H100 SXM 的 989 TFLOPS (FP8)，RTX 5090 的 FP8 计算峰值仅为 H100 的 ~52% (512/989)，而非 N48 声称的 60-80%。N48 的 60-80% 估计可能混淆了带宽比 (1792/2039=87.9%) 与计算能力比。
+
+## Evidence
+
+父节点级核验未通过：非正交（子节点3与子节点1、2存在逻辑依赖和重复：子节点3的结论（105.9%）完全由子节点1和2的数据推导得出，且直接否定了父节点的核心主张（~52%），导致父节点与子节点在事实认定上产生严重冲突（父节点称52%，子节点称105.9%）。此外，父节点提到的'带宽混淆'问题在子节点中未被单独拆解，而是隐含在错误来源分析中，正交性不足。）
+
+## Search Query
+
+RTX 5090 Blackwell FP8 TFLOPS vs H100 SXM FP8 TFLOPS

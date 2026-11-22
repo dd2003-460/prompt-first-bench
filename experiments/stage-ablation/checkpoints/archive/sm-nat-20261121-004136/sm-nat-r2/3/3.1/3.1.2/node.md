@@ -1,0 +1,24 @@
+# N44: LFU 理论上限命中率的归一化分母项：总请求字节数 B_total，在独立假设下近似为 N * E[S]，其中 E[S] 为对象平均大小，需结合截断 Paret
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+LFU 理论上限命中率的归一化分母项：总请求字节数 B_total，在独立假设下近似为 N * E[S]，其中 E[S] 为对象平均大小，需结合截断 Pareto(α=1.1) 的具体数值（如 E[S] ≈ 10-50KB 量级，需根据 S_min/S_max 确定）进行代入。
+
+## Corrected Claim
+
+LFU 理论上限命中率的归一化分母项：总请求字节数 B_total，在独立假设下近似为 N * E[S]，其中 E[S] 为对象平均大小，需结合截断 Pareto(α=1.1) 的具体数值（如 E[S] ≈ 10-50KB 量级，需根据 S_min/S_max 确定）进行代入。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：总请求字节数在独立同分布假设下确实近似为请求次数乘以平均对象大小，且截断Pareto分布(α=1.1)在典型Web对象大小范围内（如1KB-10MB）的期望值确实在10-50KB量级，符合基本统计与网络流量特征。
+
+## Search Query
+
+average object size truncated Pareto distribution CDN

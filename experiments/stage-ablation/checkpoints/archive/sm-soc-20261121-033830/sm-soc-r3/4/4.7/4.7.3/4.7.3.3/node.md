@@ -1,0 +1,24 @@
+# N286: 模型稳定性阈值定义：定义 P(error|E) 的波动范围 ΔP_error 为不同子样本（如按时间或品类分割）下后验概率的标准差；若 ΔP_error > 0
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N93
+
+## Claim
+
+模型稳定性阈值定义：定义 P(error|E) 的波动范围 ΔP_error 为不同子样本（如按时间或品类分割）下后验概率的标准差；若 ΔP_error > 0.05，则判定模型不稳定，置信度 C 需下调或标记为 [待核验]，不可直接用于决策。
+
+## Corrected Claim
+
+模型稳定性阈值定义：定义 P(error|E) 的波动范围 ΔP_error 为不同子样本（如按时间或品类分割）下后验概率的标准差；若 ΔP_error > 0.05，则判定模型不稳定，置信度 C 需下调或标记为 [待核验]，不可直接用于决策。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+model stability threshold posterior probability variance subsample

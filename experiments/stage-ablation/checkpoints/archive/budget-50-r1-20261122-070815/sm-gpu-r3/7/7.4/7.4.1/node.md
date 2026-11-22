@@ -1,0 +1,24 @@
+# N381: RTX A6000 48GB 显存带宽 768 GB/s，运行 Qwen3-27B FP8 权重 (27GB) + 32K BF16 KV Cache (2.0
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N134
+
+## Claim
+
+RTX A6000 48GB 显存带宽 768 GB/s，运行 Qwen3-27B FP8 权重 (27GB) + 32K BF16 KV Cache (2.0GB) 时，理论 decode 速度上限为 768 / 29.0 ≈ 26.5 tokens/s，实际受计算瓶颈限制通常为理论值的 70-80%，即约 18-21 tokens/s [待核验: 实测吞吐量及 FP8 在 Ampere 架构上的支持情况]
+
+## Corrected Claim
+
+RTX A6000 48GB 显存带宽 768 GB/s，运行 Qwen3-27B BF16 权重 (54GB，需多卡或量化) 或 INT8 权重 (27GB) 时，理论 decode 速度上限受带宽限制，但 Ampere 架构不支持 FP8，实际需使用 BF16/INT8 等支持格式，且 27GB 权重在 48GB 显存中可容纳，但 KV Cache 空间受限，实际吞吐量需根据具体量化格式和架构支持重新计算。
+
+## Evidence
+
+[质询]RTX A6000 基于 Ampere 架构，原生不支持 FP8 数据格式（FP8 支持始于 Ada Lovelace/Hopper 架构），因此‘运行 FP8 权重’在硬件层面不成立，且 27B 模型 FP8 权重体积约为 27GB 而非 13.5GB，存在架构兼容性与数值量级双重错误。 | 先验知识/题面给定，逻辑校验未通过：Ampere 架构不支持 FP8，且 FP8 权重体积计算错误（27B 参数 FP8 应为 ~13.5GB，非 27GB），导致带宽瓶颈计算基础错误。
+
+## Search Query
+
+RTX A6000 FP8 inference Qwen3 27B speed tokens per second benchmark

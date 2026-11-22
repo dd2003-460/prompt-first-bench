@@ -1,0 +1,24 @@
+# N340: FP8 (E4M3) 量化在 MMLU-Pro 子集（如 STEM 类题目）上的准确率下降值通常比整体下降值高 0.1-0.2%，具体数值需通过子集拆解验证，例
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N122
+
+## Claim
+
+FP8 (E4M3) 量化在 MMLU-Pro 子集（如 STEM 类题目）上的准确率下降值通常比整体下降值高 0.1-0.2%，具体数值需通过子集拆解验证，例如从 78.0% 降至 77.7%。
+
+## Corrected Claim
+
+FP8 (E4M3) 量化在 MMLU-Pro 子集（如 STEM 类题目）上的准确率下降值通常比整体下降值略高，具体数值需通过子集拆解验证。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（0.1-0.2%的差值及具体分数示例），属于硬件/模型性能的经验事实，无法从第一性原理推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）。
+
+## Search Query
+
+FP8 quantization impact on STEM subset MMLU-Pro accuracy degradation

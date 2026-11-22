@@ -1,0 +1,20 @@
+# N195: 在 2 路并发、32K 上下文条件下，INT4 量化方案的 KV Cache 总显存占用为 256 MB (128 MB/seq × 2)，此数值基于 BF16
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N37, N38
+
+## Claim
+
+在 2 路并发、32K 上下文条件下，INT4 量化方案的 KV Cache 总显存占用为 256 MB (128 MB/seq × 2)，此数值基于 BF16 KV Cache 存储假设，若 KV 也量化则减半。
+
+## Corrected Claim
+
+在 2 路并发、32K 上下文条件下，INT4 量化方案的 KV Cache 总显存占用为 256 MB (128 MB/seq × 2)，此数值基于 BF16 KV Cache 存储假设，若 KV 也量化则减半。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：256MB = 128MB/seq × 2，且INT4量化后KV Cache显存占用减半的推导符合基本算术与量化原理。

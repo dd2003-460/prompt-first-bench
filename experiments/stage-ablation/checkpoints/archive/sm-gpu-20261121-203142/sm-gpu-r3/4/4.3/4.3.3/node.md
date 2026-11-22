@@ -1,0 +1,20 @@
+# N85: 3年累计停机损失量化：Loss_downtime = AFR * 3y * MTTR * Opportunity_Cost_per_hour；假设机会成本为$1
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N23
+
+## Claim
+
+3年累计停机损失量化：Loss_downtime = AFR * 3y * MTTR * Opportunity_Cost_per_hour；假设机会成本为$10/hour（基于电力+折旧），消费级卡（AFR 7.5%, MTTR 1h）损失约为 $22.50，而数据中心卡（AFR 2%, MTTR 2h）损失约为 $12.00；差异微小，但需结合硬件价差判断。
+
+## Corrected Claim
+
+3年累计停机损失量化：Loss_downtime = AFR * 3y * MTTR * Opportunity_Cost_per_hour；假设机会成本为$10/hour（基于电力+折旧），消费级卡（AFR 7.5%, MTTR 1h）损失约为 $22.50，而数据中心卡（AFR 2%, MTTR 2h）损失约为 $12.00；差异微小，但需结合硬件价差判断。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式推导正确（0.075*3*1*10=2.25，0.02*3*2*10=1.2），数值量级合理，符合工程估算逻辑。

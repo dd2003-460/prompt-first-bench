@@ -1,0 +1,20 @@
+# N8: 热度与大小的负相关性 ρ≈-0.3 可通过 Copula 函数建模，例如使用 Clayton Copula 或 Gaussian Copula 将边际 Pare
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+热度与大小的负相关性 ρ≈-0.3 可通过 Copula 函数建模，例如使用 Clayton Copula 或 Gaussian Copula 将边际 Pareto 分布耦合为联合分布，ρ 值决定了联合概率密度函数 P(S,R) 的形状。
+
+## Corrected Claim
+
+热度与大小的负相关性 ρ≈-0.3 可通过 Copula 函数建模，例如使用 Clayton Copula 或 Gaussian Copula 将边际 Pareto 分布耦合为联合分布，ρ 值决定了联合概率密度函数 P(S,R) 的形状。
+
+## Evidence
+
+父节点级核验未通过：不完备（父节点明确提到了两种建模方法（Clayton Copula 或 Gaussian Copula），但子节点仅详细展开了 Clayton Copula 的情况，完全遗漏了 Gaussian Copula 的建模细节及其在负相关场景下的适用性分析，导致覆盖不全。）

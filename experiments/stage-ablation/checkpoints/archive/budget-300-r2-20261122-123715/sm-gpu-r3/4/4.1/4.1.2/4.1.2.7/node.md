@@ -1,0 +1,20 @@
+# N299: RTX 4090 运行 Qwen3-27B INT8 时的上下文压缩策略量化：若强制保留 32K 上下文，需将 KV Cache 量化至 INT4 或使用 Pa
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N85, N86, N87
+
+## Claim
+
+RTX 4090 运行 Qwen3-27B INT8 时的上下文压缩策略量化：若强制保留 32K 上下文，需将 KV Cache 量化至 INT4 或使用 PagedAttention 动态管理，计算 INT4 KV Cache 显存占用 (9GB) 与 INT8 (18GB) 的差异，确认即使压缩 KV 也无法弥补 3GB 权重缺口，证明必须升级硬件至 48GB+ 或降低模型精度至 W4。
+
+## Corrected Claim
+
+RTX 4090 运行 Qwen3-27B INT8 时的上下文压缩策略量化：若强制保留 32K 上下文，需将 KV Cache 量化至 INT4 或使用 PagedAttention 动态管理，计算 INT4 KV Cache 显存占用 (9GB) 与 INT8 (18GB) 的差异，确认即使压缩 KV 也无法弥补 3GB 权重缺口，证明必须升级硬件至 48GB+ 或降低模型精度至 W4。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B INT8权重约27GB，RTX 4090显存24GB，存在3GB缺口；KV Cache量化（INT4/INT8）仅影响动态显存，无法弥补静态权重缺口，结论符合显存计算逻辑。

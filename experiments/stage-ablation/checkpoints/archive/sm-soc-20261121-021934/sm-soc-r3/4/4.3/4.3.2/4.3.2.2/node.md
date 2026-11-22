@@ -1,0 +1,20 @@
+# N107: 二项分布置信区间在 p̂=0.6 时的正态近似有效性：当 n*p̂ < 5 或 n*(1-p̂) < 5 时，正态近似失效，需改用 Wilson 区间或 Clo
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N44
+
+## Claim
+
+二项分布置信区间在 p̂=0.6 时的正态近似有效性：当 n*p̂ < 5 或 n*(1-p̂) < 5 时，正态近似失效，需改用 Wilson 区间或 Clopper-Pearson 区间。若 n=10，则 n*p̂=6, n*(1-p̂)=4，后者 <5，需使用 Wilson 区间公式：[p̂ + z²/2n - z√(p̂(1-p̂)/n + z²/4n²)] / (1 + z²/n)，其中 z=1.96。
+
+## Corrected Claim
+
+二项分布置信区间在 p̂=0.6 时的正态近似有效性：当 n*p̂ < 5 或 n*(1-p̂) < 5 时，正态近似失效，需改用 Wilson 区间或 Clopper-Pearson 区间。若 n=10，则 n*p̂=6, n*(1-p̂)=4，后者 <5，需使用 Wilson 区间公式：[p̂ + z²/2n - z√(p̂(1-p̂)/n + z²/4n²)] / (1 + z²/n)，其中 z=1.96。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：二项分布正态近似失效条件（np<5或n(1-p)<5）及Wilson区间公式均为统计学标准结论，数值计算（n=10, p=0.6时n(1-p)=4<5）逻辑自洽。

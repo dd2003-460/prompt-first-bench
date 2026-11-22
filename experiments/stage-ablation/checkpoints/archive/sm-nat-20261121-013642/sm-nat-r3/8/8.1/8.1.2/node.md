@@ -1,0 +1,20 @@
+# N244: 修正后的 LRU 字节命中率公式应为 H_LRU ≈ 1 - (1/R_total) * Σ_{i: s_i > C} (r_i * s_i)，其中求和项仅包含
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N84
+
+## Claim
+
+修正后的 LRU 字节命中率公式应为 H_LRU ≈ 1 - (1/R_total) * Σ_{i: s_i > C} (r_i * s_i)，其中求和项仅包含 s_i > C 的对象，在 C=128GB 且 s_max=10GB 时，求和项为空，H_LRU ≈ 1，表明缓存容量足以覆盖所有对象，命中率上限为 100%
+
+## Corrected Claim
+
+修正后的 LRU 字节命中率公式应为 H_LRU ≈ 1 - (1/R_total) * Σ_{i: s_i > C} (r_i * s_i)，其中求和项仅包含 s_i > C 的对象，在 C=128GB 且 s_max=10GB 时，求和项为空，H_LRU ≈ 1，表明缓存容量足以覆盖所有对象，命中率上限为 100%
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：LRU 缓存命中率在缓存容量 C 大于等于所有对象大小之和（或最大对象大小，若对象互斥/独立访问）时，所有对象均可被缓存，未命中率为 0，命中率趋近于 1。公式中求和项仅包含 s_i > C 的对象，当 C=128GB 且 s_max=10GB 时，无对象满足 s_i > C，求和项为 0，H_LRU ≈ 1，逻辑自洽。

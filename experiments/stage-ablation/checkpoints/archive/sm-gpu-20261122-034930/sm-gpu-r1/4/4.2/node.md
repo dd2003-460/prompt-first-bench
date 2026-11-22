@@ -1,0 +1,20 @@
+# N29: 推理吞吐量(tokens/s) = 有效显存带宽(GB/s) / (模型大小(GB) + KV缓存大小(GB))，其中KV缓存大小 = 2 * num_laye
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+推理吞吐量(tokens/s) = 有效显存带宽(GB/s) / (模型大小(GB) + KV缓存大小(GB))，其中KV缓存大小 = 2 * num_layers * num_kv_heads * head_dim * seq_len * batch_size * dtype_size，对于Qwen3-27B（假设64层，8 KV heads，128 head_dim），32K上下文下KV缓存约为1.5-3GB（取决于batch size和精度）[待核验：Qwen3-27B具体架构参数]
+
+## Corrected Claim
+
+推理吞吐量(tokens/s) ≈ 有效显存带宽(GB/s) / (模型大小(GB) + KV缓存大小(GB))，其中KV缓存大小 = 2 * num_layers * num_kv_heads * head_dim * seq_len * batch_size * dtype_size。对于Qwen3-27B，在32K上下文下，KV缓存大小需根据具体架构参数（层数、KV头数等）和batch size、精度进行计算，通常范围可能在1.5-3GB或更高，具体数值待架构参数确认。
+
+## Evidence
+
+[质询]Qwen3-27B的具体架构参数（如层数、KV头数、Head维度）属于经验事实，且当前检索无可用来源支持，无法确认其具体数值是否准确，导致KV缓存大小的估算缺乏确切依据。 | 经验事实，逻辑自洽但缺来源支持

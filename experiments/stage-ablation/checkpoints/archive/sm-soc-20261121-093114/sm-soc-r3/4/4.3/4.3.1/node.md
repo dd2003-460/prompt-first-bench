@@ -1,0 +1,28 @@
+# N58: 曝光量下降比例 ΔE_seller_high = f(推荐权重函数 W_rec, 价格惩罚项 P_penalty)，其中 W_rec 是平台算法对GMV的敏感度
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N19, N20, N21
+
+## Claim
+
+曝光量下降比例 ΔE_seller_high = f(推荐权重函数 W_rec, 价格惩罚项 P_penalty)，其中 W_rec 是平台算法对GMV的敏感度，P_penalty 是信息透明化后高溢价商品在搜索排序中的降权系数，需检索具体平台的算法参数或A/B测试数据。
+
+## Corrected Claim
+
+曝光量下降通常受推荐权重函数及价格惩罚项影响，具体量化关系需依赖特定平台的算法参数或A/B测试数据，无法通过通用逻辑直接推导。
+
+## Evidence
+
+[质询]该陈述将曝光量下降描述为特定算法参数（W_rec, P_penalty）的函数，属于具体的平台工程实现细节或经验事实，而非可从第一性原理推导的通用逻辑或数学性质。此外，参考来源与电商推荐算法完全无关，无法提供外部支持。 | 经验事实，逻辑自洽但缺来源支持（来源[1]无关）
+
+## Search Query
+
+e-commerce platform recommendation algorithm price penalty factor high markup items A/B test results
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Fuzzy_concept', 'type': 'wikipedia', 'title': 'Fuzzy concept'}

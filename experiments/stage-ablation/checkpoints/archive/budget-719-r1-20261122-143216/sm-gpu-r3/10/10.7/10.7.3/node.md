@@ -1,0 +1,20 @@
+# N412: Batch Size 对 KV Cache 显存占用的线性叠加效应：每增加 1 个并发请求，显存占用增加 ~5.37 GB (FP8) 或 ~10.74 GB 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N145
+
+## Claim
+
+Batch Size 对 KV Cache 显存占用的线性叠加效应：每增加 1 个并发请求，显存占用增加 ~5.37 GB (FP8) 或 ~10.74 GB (BF16) (基于 N107/N109)，这限制了 Batch Size 的上限，进而限制了通过增大 Batch Size 来缓解通信开销的最大收益空间。
+
+## Corrected Claim
+
+Batch Size 对 KV Cache 显存占用的线性叠加效应：每增加 1 个并发请求，显存占用增加 ~5.37 GB (FP8) 或 ~10.74 GB (BF16) (基于 N107/N109)，这限制了 Batch Size 的上限，进而限制了通过增大 Batch Size 来缓解通信开销的最大收益空间。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：KV Cache 显存占用与 Batch Size 呈线性关系，数值量级（~5-10GB/请求）符合大模型长上下文场景下的典型工程经验，且 source 为 knowledge，无需外部来源支持。

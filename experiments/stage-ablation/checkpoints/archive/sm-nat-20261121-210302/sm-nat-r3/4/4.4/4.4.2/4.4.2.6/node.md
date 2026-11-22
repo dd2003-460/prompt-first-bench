@@ -1,0 +1,20 @@
+# N152: LRU驱逐阈值 threshold 的量化定义：threshold 对应缓存中第 N_cap 个对象的访问频率 f_Ncap，其中 N_cap 是满足 Sum_
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N49, N50, N51
+
+## Claim
+
+LRU驱逐阈值 threshold 的量化定义：threshold 对应缓存中第 N_cap 个对象的访问频率 f_Ncap，其中 N_cap 是满足 Sum_{i=1}^{N_cap} S_i <= 128GB 的最大整数，需结合N60的频率公式和N61的大小公式迭代求解
+
+## Corrected Claim
+
+LRU驱逐阈值 threshold 的量化定义：threshold 对应缓存中第 N_cap 个对象的访问频率 f_Ncap，其中 N_cap 是满足 Sum_{i=1}^{N_cap} S_i <= 128GB 的最大整数，需结合N60的频率公式和N61的大小公式迭代求解
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

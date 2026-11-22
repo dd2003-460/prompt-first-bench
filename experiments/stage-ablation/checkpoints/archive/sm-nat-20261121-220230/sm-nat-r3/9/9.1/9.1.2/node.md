@@ -1,0 +1,20 @@
+# N279: Gumbel-Hougaard Copula 只能生成正相关，其参数 θ ≥ 1，相关系数 ρ = (θ-1)/(θ+1) 恒为正，因此无法用于建模 ρ=-0.
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N96
+
+## Claim
+
+Gumbel-Hougaard Copula 只能生成正相关，其参数 θ ≥ 1，相关系数 ρ = (θ-1)/(θ+1) 恒为正，因此无法用于建模 ρ=-0.3 的负相关关系，N96 中建议改用 Gumbel 变体是错误的。
+
+## Corrected Claim
+
+Gumbel-Hougaard Copula 只能生成正相关，其参数 θ ≥ 1，相关系数 ρ = (θ-1)/(θ+1) 恒为正，因此无法用于建模 ρ=-0.3 的负相关关系，N96 中建议改用 Gumbel 变体是错误的。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Gumbel-Hougaard Copula 的参数 θ 定义域为 [1, +∞)，其 Kendall 相关系数 τ = (θ-1)/(θ+1) 的值域为 [0, 1)，Spearman 相关系数 ρ 同样非负，因此该 Copula 族确实只能建模正相关或独立关系，无法建模负相关（如 ρ=-0.3）。

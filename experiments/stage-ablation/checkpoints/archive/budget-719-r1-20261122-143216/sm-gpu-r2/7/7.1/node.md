@@ -1,0 +1,24 @@
+# N129: AMD MI300X 单卡显存容量为 192 GB HBM3，支持 FP8/INT8 精度，其二手市场参考价约为 $3,500-$4,500 [待核验]，需对比
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N32, N33, N34
+
+## Claim
+
+AMD MI300X 单卡显存容量为 192 GB HBM3，支持 FP8/INT8 精度，其二手市场参考价约为 $3,500-$4,500 [待核验]，需对比 NVIDIA A100 80GB 的二手价以评估性价比。
+
+## Corrected Claim
+
+AMD MI300X 单卡显存容量为 192 GB HBM3，支持 FP8/INT8 精度；其二手市场参考价需根据实时行情查询，历史参考区间约为 $3,500-$4,500，需对比 NVIDIA A100 80GB 的实时二手价以评估性价比。
+
+## Evidence
+
+[质询]二手市场价格属于高度波动的经验事实，且缺乏具体交易时间、渠道和成色限定，$3,500-$4,500 的区间可能因市场供需变化而失效，无法从第一性原理推导。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且价格属经验数据，不适用第一性原理推导条款）
+
+## Search Query
+
+AMD MI300X used price 2024 LLM inference benchmark

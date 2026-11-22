@@ -1,0 +1,24 @@
+# N126: Apple M2 Ultra 192GB 在 BF16 精度下运行 Qwen3-27B 32K 上下文时，因 800GB/s 带宽限制，实测解码吞吐量为 4.5
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N39
+
+## Claim
+
+Apple M2 Ultra 192GB 在 BF16 精度下运行 Qwen3-27B 32K 上下文时，因 800GB/s 带宽限制，实测解码吞吐量为 4.5-5.5 tokens/s，TCO_per_token 约为 $0.045-$0.055，高于 2x4090 INT8 方案（$0.015-$0.020）。
+
+## Corrected Claim
+
+Apple M2 Ultra 192GB 在 BF16 精度下运行 Qwen3-27B 32K 上下文时，受 800GB/s 带宽限制，解码吞吐量预计显著低于 INT8 方案，TCO_per_token 预计高于 2x4090 INT8 方案，但具体数值需实测验证。
+
+## Evidence
+
+[质询]该陈述包含具体的实测吞吐量（4.5-5.5 tokens/s）和TCO数值，属于经验事实。虽然M2 Ultra 800GB/s带宽和Qwen3-27B模型大小（约54GB BF16）在逻辑上支持带宽受限的推断，但具体吞吐量和成本数值缺乏来源支持，且不同实现（如llama.cpp vs MLX）可能导致显著差异。 | 经验事实，逻辑自洽但缺来源支持。M2 Ultra 800GB/s带宽和Qwen3-27B BF16模型大小（约54GB）在逻辑上支持带宽受限的推断，但具体吞吐量和TCO数值缺乏来源直接支持。
+
+## Search Query
+
+Apple M2 Ultra LLM inference throughput tokens per second Qwen 27B 32K context

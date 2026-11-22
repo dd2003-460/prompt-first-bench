@@ -1,0 +1,24 @@
+# N248: 泊松分布参数 λ 的设定：在 H2 成立且 ε > 1 时，降价后 48h 内咨询量 ΔConsult 服从 Poisson(λ)，其中 λ = ε * δ *
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N84
+
+## Claim
+
+泊松分布参数 λ 的设定：在 H2 成立且 ε > 1 时，降价后 48h 内咨询量 ΔConsult 服从 Poisson(λ)，其中 λ = ε * δ * Consult_base_48h；若 Consult_base_48h = 10 且 ε=1.25, δ=5%，则 λ = 0.625，P(ΔConsult=0) = e^{-0.625} ≈ 0.535，与观测值 0.6 接近，表明 H2 可能未被强烈拒绝。
+
+## Corrected Claim
+
+泊松分布参数 λ 的设定：在 H2 成立且 ε > 1 时，降价后 48h 内咨询量 ΔConsult 服从 Poisson(λ)，其中 λ = ε * δ * Consult_base_48h；若 Consult_base_48h = 10 且 ε=1.25, δ=5%，则 λ = 0.625，P(ΔConsult=0) = e^{-0.625} ≈ 0.535，与观测值 0.6 接近，表明 H2 可能未被强烈拒绝。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：λ=1.25*0.05*10=0.625，P(0)=e^-0.625≈0.535，计算无误且与观测值0.6量级一致
+
+## Search Query
+
+Poisson distribution probability of zero events

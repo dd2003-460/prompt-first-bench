@@ -1,0 +1,24 @@
+# N67: 平台广告收入损失 R_advertising 下降 3%-5% 的机制量化：标签警示导致买家点击率 CTR 下降 ΔCTR，进而影响广告展示价值 eCPM = 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+平台广告收入损失 R_advertising 下降 3%-5% 的机制量化：标签警示导致买家点击率 CTR 下降 ΔCTR，进而影响广告展示价值 eCPM = (CTR × CPC) × 1000，需估算 ΔCTR 对 eCPM 的传导系数。
+
+## Corrected Claim
+
+平台广告收入损失 R_advertising 下降 3%-5% 的机制量化：标签警示导致买家点击率 CTR 下降 ΔCTR，进而影响广告展示价值 eCPM = (CTR × CPC) × 1000，需估算 ΔCTR 对 eCPM 的传导系数。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：eCPM公式定义正确，CTR下降导致eCPM线性下降的传导机制符合广告经济学基本原理，量级估算逻辑自洽。
+
+## Search Query
+
+price warning label impact on click-through rate and eCPM advertising revenue

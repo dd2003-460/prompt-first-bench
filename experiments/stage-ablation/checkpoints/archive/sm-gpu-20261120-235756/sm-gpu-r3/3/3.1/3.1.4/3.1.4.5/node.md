@@ -1,0 +1,20 @@
+# N226: 2×RTX 4090 方案的系统总功耗为 1050W，计算公式为：(450W TDP × 2 卡) + 150W 系统基础功耗 (CPU/内存/硬盘/风扇)，该
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N67, N68, N69
+
+## Claim
+
+2×RTX 4090 方案的系统总功耗为 1050W，计算公式为：(450W TDP × 2 卡) + 150W 系统基础功耗 (CPU/内存/硬盘/风扇)，该数值用于代入 TCO 电费计算。
+
+## Corrected Claim
+
+2×RTX 4090 方案的系统总功耗为 1050W，计算公式为：(450W TDP × 2 卡) + 150W 系统基础功耗 (CPU/内存/硬盘/风扇)，该数值用于代入 TCO 电费计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 TDP 450W 符合官方规格，双卡 900W 加 150W 基础功耗得 1050W 量级合理，无内部矛盾。

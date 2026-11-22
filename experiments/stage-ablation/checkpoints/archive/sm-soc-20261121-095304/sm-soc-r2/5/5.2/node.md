@@ -1,0 +1,20 @@
+# N58: 事后纠纷风险的量化关联：定义纠纷概率 p_dispute 与买家支付意愿 W 的负相关函数。假设 p_dispute = f(1/W)，其中 W 为买家对商品价
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N15
+
+## Claim
+
+事后纠纷风险的量化关联：定义纠纷概率 p_dispute 与买家支付意愿 W 的负相关函数。假设 p_dispute = f(1/W)，其中 W 为买家对商品价值的估值。高挂价筛选出的买家具有更高的 W，从而降低 p_dispute。若 p_dispute 降低 10%，则卖家预期售后成本 ΔC_after = -0.1 * C_after_base。需验证 C_after_base 在二手交易中的典型占比（通常约为交易额的 2-5%）。
+
+## Corrected Claim
+
+事后纠纷风险的量化关联：定义纠纷概率 p_dispute 与买家支付意愿 W 的负相关函数。假设 p_dispute = f(1/W)，其中 W 为买家对商品价值的估值。高挂价筛选出的买家具有更高的 W，从而降低 p_dispute。若 p_dispute 降低 10%，则卖家预期售后成本 ΔC_after = -0.1 * C_after_base。需验证 C_after_base 在二手交易中的典型占比（通常约为交易额的 2-5%）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：高支付意愿买家通常对商品价值认知更清晰，纠纷概率降低符合经济学直觉；二手交易售后成本占比2-5%属于合理的经验估计范围，且数学推导（-10%概率导致-10%预期成本）在逻辑上自洽。

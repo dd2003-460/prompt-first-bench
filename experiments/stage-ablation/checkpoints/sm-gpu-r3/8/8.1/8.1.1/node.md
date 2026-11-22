@@ -1,0 +1,28 @@
+# N275: Apple M3 Ultra 的内存带宽规格需精确区分：官方标称 800 GB/s 为 LPDDR5X 理论峰值，实测有效带宽通常在 720-750 GB/s 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N123
+
+## Claim
+
+Apple M3 Ultra 的内存带宽规格需精确区分：官方标称 800 GB/s 为 LPDDR5X 理论峰值，实测有效带宽通常在 720-750 GB/s (利用率 90-94%)，需确认该利用率在 Qwen3-27B 大模型加载下的实际表现
+
+## Corrected Claim
+
+Apple M3 Ultra 官方标称内存带宽为 800 GB/s，实测有效带宽通常低于理论峰值，具体数值需参考独立基准测试数据。
+
+## Evidence
+
+[质询]参考来源仅提及M3 Ultra可运行大模型及官方宣传，未提供800GB/s理论峰值、720-750GB/s实测带宽或90-94%利用率的具体数据，无法验证具体数值。 | 逻辑上内存带宽利用率低于100%符合物理直觉，但具体数值（800GB/s, 720-750GB/s）属于经验事实，参考来源[1]未提供相关数据支持，仅间接提及硬件能力。
+
+## Search Query
+
+Apple M3 Ultra memory bandwidth effective vs theoretical LPDDR5X utilization
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1928856739001927267&rut=775a54444b51b70495ba270473a6ca196910881b5685a6f52fc0c9ecb5308433', 'type': 'ddg', 'title': 'Apple M3 Ultra（512GB统一内存）本地LLM推理全面分析'}

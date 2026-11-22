@@ -1,0 +1,20 @@
+# N138: 被驱逐对象的平均请求率 E[r|Evicted] 的估计值：由于 LRU 驱逐低频对象，E[r|Evicted] 显著低于全局平均请求率 E[r] = R_to
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N70, N71, N72
+
+## Claim
+
+被驱逐对象的平均请求率 E[r|Evicted] 的估计值：由于 LRU 驱逐低频对象，E[r|Evicted] 显著低于全局平均请求率 E[r] = R_total/N，具体关系为 E[r|Evicted] ≈ E[r] * (1 - p_cold * (1 - H_req(k_evict)))，其中 H_req(k_evict) 为前 k_evict 个最热门对象的请求占比
+
+## Corrected Claim
+
+被驱逐对象的平均请求率 E[r|Evicted] 显著低于全局平均请求率 E[r]，具体数值取决于缓存策略、工作负载的访问分布（如Zipf指数）及缓存大小，通常需通过模拟或特定分布假设下的解析模型估算，而非简单线性公式。
+
+## Evidence
+
+[质询]公式中的项 (1 - p_cold * (1 - H_req(k_evict))) 在逻辑上存在严重缺陷：若 p_cold 和 H_req 均为概率/占比（0到1之间），则 (1 - H_req) 为正，乘积 p_cold * (1 - H_req) 为正，导致整个因子 (1 - 正数) 小于 1。虽然方向正确（低于全局平均），但该公式缺乏明确的物理或统计推导基础，且变量定义模糊（p_cold 未定义，H_req 与 k_evict 的关系未明确），属于经验性拟合公式而非严谨推导，易产生误导。 | 先验知识/题面给定，逻辑校验未通过：公式结构缺乏严谨推导，变量定义不清，且作为经验事实（缓存驱逐行为的具体量化关系）在无来源支持且逻辑存疑时，应降级。

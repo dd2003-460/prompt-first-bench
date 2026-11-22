@@ -1,0 +1,24 @@
+# N391: NVIDIA RTX 5090 的官方显存带宽为 1792 GB/s (GDDR7 256-bit @ 28 Gbps)，较 RTX 4090 (1008 GB
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N123
+
+## Claim
+
+NVIDIA RTX 5090 的官方显存带宽为 1792 GB/s (GDDR7 256-bit @ 28 Gbps)，较 RTX 4090 (1008 GB/s) 提升 78%；若 Qwen3-27B INT4 理论解码速度正比于带宽，则 5090 理论上限约为 128 tok/s (1792/14)，实际效率系数 (60-80%) 下约为 77-102 tok/s。
+
+## Corrected Claim
+
+NVIDIA RTX 5090 的官方显存带宽据称约为 1792 GB/s (GDDR7 256-bit @ 28 Gbps)，较 RTX 4090 (1008 GB/s) 有显著提升；若 Qwen3-27B INT4 理论解码速度正比于带宽，则 5090 理论上限约为 128 tok/s，实际效率系数 (60-80%) 下约为 77-102 tok/s。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件规格参数（RTX 5090 显存带宽 1792 GB/s、RTX 4090 带宽 1008 GB/s）以及基于特定模型（Qwen3-27B）的性能预测，属于经验事实。由于检索失败，无法通过外部来源验证这些具体数值（如 28 Gbps 速率、256-bit 位宽）的准确性，且理论解码速度的线性假设在实际中受多种因素影响，存在不确定性。 | 经验事实，逻辑自洽但缺来源支持。数学计算部分（1792/14≈128, 128*0.6-0.8≈77-102）正确，但硬件参数无法通过当前可用来源验证。
+
+## Search Query
+
+RTX 5090 memory bandwidth GDDR7 specs 1792 GB/s

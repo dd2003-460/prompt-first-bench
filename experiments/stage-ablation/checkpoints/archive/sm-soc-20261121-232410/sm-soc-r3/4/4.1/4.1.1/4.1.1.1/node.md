@@ -1,0 +1,28 @@
+# N152: 卖家调整敏感度系数 β_transparency 的实证分布：基于二手交易平台AB测试数据，β_transparency 服从正态分布 N(0.4, 0.05²
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N54
+
+## Claim
+
+卖家调整敏感度系数 β_transparency 的实证分布：基于二手交易平台AB测试数据，β_transparency 服从正态分布 N(0.4, 0.05²)，其中均值0.4代表平均敏感度，标准差0.05代表个体差异；该参数直接决定价格收敛速度，若β<0.2则视为低敏感群体，需额外激励。
+
+## Corrected Claim
+
+参考来源未提供关于卖家调整敏感度系数β_transparency的具体实证分布数据，无法确认其服从N(0.4, 0.05²)分布或存在β<0.2的低敏感群体阈值。
+
+## Evidence
+
+[质询]该陈述声称基于“二手交易平台AB测试数据”得出特定正态分布参数（N(0.4, 0.05²)），但参考来源[1]是关于“北京二手房信息扩散程度测算”的计量经济学研究，并未提及任何AB测试、卖家敏感度系数β_transparency的具体分布参数或阈值设定，属于无中生有的具体数值断言。 | 参考来源[1]主题虽涉及二手房市场，但内容为信息效率检验，未包含关于卖家敏感度系数β_transparency的实证分布数据或AB测试结论，无法支持该具体数值断言，且该具体参数缺乏通用理论支持，视为无依据的虚构数据。
+
+## Search Query
+
+empirical distribution of seller price adjustment sensitivity coefficient beta transparency in second-hand e-commerce platforms AB test
+
+## Retrieval Sources
+
+- {'url': 'https://jst.tsinghuajournals.com/article/2014/1000-0054/1000-0054-54-5-602.html&rut=9ce07055854d07036120745f7dde62a9a99d1b2ca315a8219dcd0642aaa11cf6', 'type': 'ddg', 'title': '基于经济学实验的信息传递过程中北京二手房信息扩散程度测算'}

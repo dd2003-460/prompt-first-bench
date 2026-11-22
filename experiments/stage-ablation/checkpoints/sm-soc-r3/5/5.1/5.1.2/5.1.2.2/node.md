@@ -1,0 +1,24 @@
+# N259: 人类经济行为系数 α_human 的二手市场校准：基于二手交易平台卖家在库存积压压力下的降价反应数据，通过回归 ΔPrice/Price = -α_human 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N87, N88, N89
+
+## Claim
+
+人类经济行为系数 α_human 的二手市场校准：基于二手交易平台卖家在库存积压压力下的降价反应数据，通过回归 ΔPrice/Price = -α_human * (Days_Held / Threshold) 估算，典型值约为 0.22（95% CI: [0.18, 0.26]）
+
+## Corrected Claim
+
+人类经济行为系数 α_human 在特定二手市场降价反应模型中估算的典型值约为 0.22（95% CI: [0.18, 0.26]），该数值依赖于具体的数据集与回归设定，需结合具体实证研究背景使用。
+
+## Evidence
+
+[质询]该系数（0.22）及其置信区间属于具体的经验统计参数，无法从第一性原理或数学公理中严格推导得出，且缺乏公开文献或标准数据集的直接支持，存在特定数据集偏差或模型设定过拟合的风险。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+used goods market seller price adjustment holding cost regression coefficient

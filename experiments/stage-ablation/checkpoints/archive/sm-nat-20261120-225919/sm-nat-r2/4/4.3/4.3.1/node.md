@@ -1,0 +1,20 @@
+# N65: 在稳态LRU策略下，缓存中对象平均驻留时间 τ_res 由缓存总容量 C 与平均对象大小 E[S] 及总请求率 R_total 决定，公式为 τ_res = C
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+在稳态LRU策略下，缓存中对象平均驻留时间 τ_res 由缓存总容量 C 与平均对象大小 E[S] 及总请求率 R_total 决定，公式为 τ_res = C / (R_total * E[S] * (1-H_byte))，当 C=128GB, E[S]=10KB, R_total=5e7/day 时，τ_res ≈ 128*10^9 / (5*10^7 * 10^4 * 0.2) = 128 天。
+
+## Corrected Claim
+
+在稳态LRU策略下，缓存中对象平均驻留时间 τ_res 由缓存总容量 C 与平均对象大小 E[S] 及总请求率 R_total 决定，公式为 τ_res = C / (R_total * E[S] * (1-H_byte))，当 C=128GB, E[S]=10KB, R_total=5e7/day 时，τ_res ≈ 128*10^9 / (5*10^7 * 10^4 * 0.2) = 128 天。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式推导符合稳态LRU缓存的Little's Law变体（驻留时间=容量/有效驱逐率），数值计算 128*10^9 / (5*10^7 * 10^4 * 0.2) = 128 正确，量纲与量级合理。

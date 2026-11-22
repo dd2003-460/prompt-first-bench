@@ -1,0 +1,20 @@
+# N136: 版本更新导致的命中率折损下界：H_eff_lower = H_lru * (1 - P_inval_total)，其中 P_inval_total = 1 - 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N57
+
+## Claim
+
+版本更新导致的命中率折损下界：H_eff_lower = H_lru * (1 - P_inval_total)，其中 P_inval_total = 1 - exp(-λ_update * T_res)。基于 N55 修正值 T_res ≈ 3.3 分钟 (0.0023 天) 和 λ_update = 0.01/天，计算得 P_inval_total ≈ 2.3e-5，折损因子为 0.999977。
+
+## Corrected Claim
+
+版本更新导致的命中率折损下界：H_eff_lower = H_lru * (1 - P_inval_total)，其中 P_inval_total = 1 - exp(-λ_update * T_res)。基于 N55 修正值 T_res ≈ 3.3 分钟 (0.0023 天) 和 λ_update = 0.01/天，计算得 P_inval_total ≈ 2.3e-5，折损因子为 0.999977。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式推导符合指数衰减模型，数值计算 1 - exp(-0.01 * 0.0023) ≈ 2.3e-5 准确，折损因子 0.999977 合理。

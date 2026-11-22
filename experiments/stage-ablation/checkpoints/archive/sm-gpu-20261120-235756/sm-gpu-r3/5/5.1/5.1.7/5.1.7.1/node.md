@@ -1,0 +1,24 @@
+# N290: PyTorch 2.3.0 首次引入 torch.float8_e4m3fn 数据类型的最低 CUDA 版本要求为 CUDA 12.4，该版本支持 FP8 GE
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N105, N106, N108
+
+## Claim
+
+PyTorch 2.3.0 首次引入 torch.float8_e4m3fn 数据类型的最低 CUDA 版本要求为 CUDA 12.4，该版本支持 FP8 GEMM 内核在 Ada/Blackwell 架构上的编译与执行，低于 12.4 的版本（如 12.1）在运行时抛出 'CUDA error: no kernel image is available for execution on the device' 或静默回退至 CPU 计算。
+
+## Corrected Claim
+
+PyTorch 2.3.0 引入了 torch.float8_e4m3fn 数据类型，其 FP8 GEMM 内核在 Ada/Blackwell 架构上的最佳支持通常关联 CUDA 12.4 及以上版本；在较低 CUDA 版本（如 12.1）上，若未正确配置或内核不可用，可能导致运行时错误（如 'no kernel image'）或性能下降，具体行为取决于构建配置和硬件驱动。
+
+## Evidence
+
+[质询]PyTorch 2.3.0 官方发布说明中并未明确将 CUDA 12.4 列为 torch.float8_e4m3fn 的硬性最低版本要求，且 FP8 支持在 CUDA 12.1+ 的特定硬件（如 Ada）上可能通过其他后端或补丁实现，'静默回退至 CPU' 的行为描述缺乏官方文档直接支持，属于经验性推断。 | 先验知识/题面给定，逻辑校验通过，但缺乏直接来源支持具体版本绑定及错误行为细节，故降级。
+
+## Search Query
+
+PyTorch 2.3.0 release notes CUDA 12.4 requirement torch.float8_e4m3fn

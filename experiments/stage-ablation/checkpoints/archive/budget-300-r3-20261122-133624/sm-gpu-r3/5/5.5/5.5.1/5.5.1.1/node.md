@@ -1,0 +1,24 @@
+# N397: Qwen3-27B 在 BF16 基线下的 MMLU 准确率为 79.2% [待核验：需查阅 Qwen3 技术报告或 HuggingFace 模型卡]，Huma
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N155
+
+## Claim
+
+Qwen3-27B 在 BF16 基线下的 MMLU 准确率为 79.2% [待核验：需查阅 Qwen3 技术报告或 HuggingFace 模型卡]，HumanEval Pass@1 为 85.0% [待核验]；FP8 量化后的性能下降需通过量化感知训练（QAT）或校准集（Calibration Set）大小（如 512 样本）来最小化。
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 基线下的 MMLU 准确率和 HumanEval Pass@1 具体数值需查阅官方技术报告确认；FP8 量化后的性能下降通常需通过量化感知训练（QAT）或调整校准集大小来最小化。
+
+## Evidence
+
+[质询]具体数值（MMLU 79.2%, HumanEval 85.0%）属于经验事实，且缺乏来源支持，无法排除数值偏差或版本混淆（如不同量化精度或评测集版本导致的差异）。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值）。
+
+## Search Query
+
+Qwen3-27B MMLU HumanEval benchmark BF16 baseline FP8 quantization performance drop

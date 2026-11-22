@@ -1,0 +1,24 @@
+# N99: Qwen3-27B (dense) 在 FP8 (E4M3) 精度下于 MMLU-Pro 基准的准确率绝对值 [待核验，预期约 78-82%，需查 Huggin
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N23
+
+## Claim
+
+Qwen3-27B (dense) 在 FP8 (E4M3) 精度下于 MMLU-Pro 基准的准确率绝对值 [待核验，预期约 78-82%，需查 HuggingFace 或 ModelScope 官方发布]。
+
+## Corrected Claim
+
+Qwen3-27B (dense) 在 FP8 (E4M3) 精度下于 MMLU-Pro 基准的准确率约为 78-82%（待官方数据确认）
+
+## Evidence
+
+[质询]具体数值（78-82%）属于经验事实，缺乏官方发布数据直接支持，且不同评测设置（如是否使用CoT、具体prompt模板）可能导致结果波动，无法仅凭逻辑推导确定精确区间。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值）
+
+## Search Query
+
+Qwen3-27B FP8 MMLU-Pro accuracy benchmark

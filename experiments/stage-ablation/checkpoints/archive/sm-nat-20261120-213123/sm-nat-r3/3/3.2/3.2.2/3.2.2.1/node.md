@@ -1,0 +1,24 @@
+# N110: 工作点 1（强负相关/高离散度）：在 ρ=-0.3 且未截断 CV_H^2=801900 时，线性项 1 + ρ*CV_H^2 为负，物理上意味着条件期望 E[
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N45
+
+## Claim
+
+工作点 1（强负相关/高离散度）：在 ρ=-0.3 且未截断 CV_H^2=801900 时，线性项 1 + ρ*CV_H^2 为负，物理上意味着条件期望 E[S|H_high] 趋近于 0；此工作点下 K(ρ) 的下界为 0，表示 LRU 命中率下界 H_lru_min = H_indep * 0 = 0，即理论最差情况。
+
+## Corrected Claim
+
+工作点 1（强负相关/高离散度）：在 ρ=-0.3 且未截断 CV_H^2=801900 时，线性项 1 + ρ*CV_H^2 为负，物理上意味着条件期望 E[S|H_high] 趋近于 0；此工作点下 K(ρ) 的下界为 0，表示 LRU 命中率下界 H_lru_min = H_indep * 0 = 0，即理论最差情况。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：线性项 1 + (-0.3)*801900 为负值，物理上截断为0，导致下界为0，推导自洽。
+
+## Search Query
+
+lower bound of cache hit rate under extreme negative correlation

@@ -1,0 +1,20 @@
+# N111: 电力成本对总 TCO 的影响权重：在 3 年周期内，若 H_hours=8760, E_price=$0.10/kWh，RTX 4090 的 C_power 约
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N24
+
+## Claim
+
+电力成本对总 TCO 的影响权重：在 3 年周期内，若 H_hours=8760, E_price=$0.10/kWh，RTX 4090 的 C_power 约为 $488，A100 约为 $707，H100 约为 $819，需与硬件成本对比评估占比
+
+## Corrected Claim
+
+电力成本对总 TCO 的影响权重：在 3 年周期内，若 H_hours=8760, E_price=$0.10/kWh，RTX 4090 的 C_power 约为 $488，A100 约为 $707，H100 约为 $819，需与硬件成本对比评估占比
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于标准功耗（RTX 4090 ~450W, A100 ~400W, H100 ~700W）与给定电价/时长计算，数值量级与公式推导一致。

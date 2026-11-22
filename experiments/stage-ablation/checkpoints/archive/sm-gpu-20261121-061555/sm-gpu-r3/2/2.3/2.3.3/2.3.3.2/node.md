@@ -1,0 +1,20 @@
+# N193: Qwen3-27B 在 Attention Score 矩阵计算阶段的峰值显存占用：Bytes = num_heads * seq_len * seq_len 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N64
+
+## Claim
+
+Qwen3-27B 在 Attention Score 矩阵计算阶段的峰值显存占用：Bytes = num_heads * seq_len * seq_len * bytes_per_element，其中 num_heads=40 (假设), seq_len=32768, bytes_per_element=2 (BF16)，计算得出 40 * 32768 * 32768 * 2 = 85,899,345,920 bytes ≈ 80 GB。注：此数值远超单卡显存，证明在 32K 上下文下必须使用 FlashAttention 类算法以避免显存溢出，此时该部分显存占用被优化至 O(seq_len) 级别。
+
+## Corrected Claim
+
+Qwen3-27B 在 Attention Score 矩阵计算阶段的峰值显存占用：Bytes = num_heads * seq_len * seq_len * bytes_per_element，其中 num_heads=40 (假设), seq_len=32768, bytes_per_element=2 (BF16)，计算得出 40 * 32768 * 32768 * 2 = 85,899,345,920 bytes ≈ 80 GB。注：此数值远超单卡显存，证明在 32K 上下文下必须使用 FlashAttention 类算法以避免显存溢出，此时该部分显存占用被优化至 O(seq_len) 级别。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学计算 40 * 32768 * 32768 * 2 = 85,899,345,920 bytes ≈ 80 GB 正确，且符合 FlashAttention 优化 O(N^2) 显存至 O(N) 的理论原理。

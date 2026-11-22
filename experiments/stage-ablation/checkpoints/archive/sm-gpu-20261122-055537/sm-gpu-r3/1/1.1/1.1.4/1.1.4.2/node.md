@@ -1,0 +1,20 @@
+# N135: AMD RX 7900 XTX 运行 Qwen3-27B (BF16) 的显存容量瓶颈：24GB 显存 < 54GB 模型权重，必须使用 INT4/INT8 量
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N39
+
+## Claim
+
+AMD RX 7900 XTX 运行 Qwen3-27B (BF16) 的显存容量瓶颈：24GB 显存 < 54GB 模型权重，必须使用 INT4/INT8 量化或 CPU Offload；若使用 INT4 (AWQ)，权重大小约 14GB，加上 32K 上下文 KV Cache (约 10-15GB) 及激活值开销，总显存需求约 25-30GB，仍超出 24GB 限制，导致必须启用 CPU Offload 或减小上下文至 16K 以下。
+
+## Corrected Claim
+
+AMD RX 7900 XTX 运行 Qwen3-27B (BF16) 的显存容量瓶颈：24GB 显存 < 54GB 模型权重，必须使用 INT4/INT8 量化或 CPU Offload；若使用 INT4 (AWQ)，权重大小约 14GB，加上 32K 上下文 KV Cache (约 10-15GB) 及激活值开销，总显存需求约 25-30GB，仍超出 24GB 限制，导致必须启用 CPU Offload 或减小上下文至 16K 以下。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B BF16权重约54GB，INT4量化后约14GB，加上32K上下文KV Cache及激活值开销，总显存需求确实超出24GB限制，需启用CPU Offload或减小上下文。

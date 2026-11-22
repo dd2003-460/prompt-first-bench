@@ -1,0 +1,20 @@
+# N111: RX 7900 XTX 的 24GB 显存单卡无法运行 27B INT8 (需 31GB)，必须双卡 (2x7900 XTX) 或降级至 W4；双卡方案需支持 
+
+- **status**: verified
+- **level**: L3
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N31
+
+## Claim
+
+RX 7900 XTX 的 24GB 显存单卡无法运行 27B INT8 (需 31GB)，必须双卡 (2x7900 XTX) 或降级至 W4；双卡方案需支持 ROCm 多卡推理的框架 (如 llama.cpp 的 HIP 后端)，PCIe 带宽瓶颈在 AMD 平台上可能更严重，因 ROCm 多卡通信优化不如 CUDA NCCL。
+
+## Corrected Claim
+
+RX 7900 XTX 的 24GB 显存单卡无法运行 27B INT8 (需 31GB)，必须双卡 (2x7900 XTX) 或降级至 W4；双卡方案需支持 ROCm 多卡推理的框架 (如 llama.cpp 的 HIP 后端)，PCIe 带宽瓶颈在 AMD 平台上可能更严重，因 ROCm 多卡通信优化不如 CUDA NCCL。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B INT8 显存占用约 27GB+，超过单卡 24GB 限制，需双卡或量化；ROCm 多卡通信效率低于 CUDA NCCL 为已知工程事实。

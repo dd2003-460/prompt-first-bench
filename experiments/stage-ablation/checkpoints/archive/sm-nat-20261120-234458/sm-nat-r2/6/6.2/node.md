@@ -1,0 +1,24 @@
+# N58: 冷启动概率 P(cold start) 的计算：P(cold start) = 1 - e^(-λ_arrival * T_cold)，其中 λ_arrival
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N16
+
+## Claim
+
+冷启动概率 P(cold start) 的计算：P(cold start) = 1 - e^(-λ_arrival * T_cold)，其中 λ_arrival 为对象首次被请求的到达率，T_cold 为冷启动窗口期（如 1 小时），需估算 λ_arrival 基于 5000 万请求/天和 10 万对象
+
+## Corrected Claim
+
+冷启动概率 P(cold start) 的计算：P(cold start) = 1 - e^(-λ_arrival * T_cold)，其中 λ_arrival 为对象首次被请求的到达率，T_cold 为冷启动窗口期（如 1 小时），需估算 λ_arrival 基于 5000 万请求/天和 10 万对象
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：泊松过程下首次到达时间服从指数分布，P(T > t) = e^(-λt)，故冷启动概率（即窗口期内未发生请求）为 1 - e^(-λT) 的补集逻辑需澄清，通常冷启动指“尚未被请求过”，若定义为“在T_cold内未收到请求”，则概率为 e^(-λT)；若定义为“系统启动后首次请求发生在T_cold之后”，则概率为 e^(-λT)。此处陈述 P(cold start) = 1 - e^(-λT) 通常对应“在T内至少发生一次请求”的概率，即“非冷启动”或“已预热”的概率。若“冷启动”定义为“对象在T_cold窗口内未被访问”，则公式应为 e^(-λT)。若“冷启动”定义为“对象在T_cold窗口内被首次访问”（即从冷变热），则公式为 1 - e^(-λT)。鉴于工程语境中“冷启动概率”常指“需要执行冷启动操作的概率”（即之前未被缓存/未被访问），若T_cold是观察窗口，且对象初始状态为冷，则“在T_cold内保持冷”的概率是 e^(-λT)。然而，许多系统定义“冷启动事件”为“首次请求到达”，其发生概率（在T内）确实是 1 - e^(-λT)。考虑到 source=knowledge 且逻辑上该公式是泊松过程首达时间分布的标准形式（CDF），只要定义明确（即“在T_cold内发生首次请求的概率”），逻辑自洽。
+
+## Search Query
+
+cache cold start probability Poisson arrival rate

@@ -1,0 +1,24 @@
+# N129: Apple M3 Ultra 512GB 在 BF16 精度下运行 Qwen3-27B 32K 上下文时，因 819GB/s 带宽限制，实测解码吞吐量为 4.8
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N40
+
+## Claim
+
+Apple M3 Ultra 512GB 在 BF16 精度下运行 Qwen3-27B 32K 上下文时，因 819GB/s 带宽限制，实测解码吞吐量为 4.8-5.8 tokens/s，TCO_per_token 约为 $0.055-$0.065，虽略优于 M2 Ultra，但远高于 GPU 方案。
+
+## Corrected Claim
+
+Apple M3 Ultra 512GB 在 BF16 精度下运行 Qwen3-27B 32K 上下文时，受限于约 819GB/s 的内存带宽，解码吞吐量预计处于 4-6 tokens/s 量级，TCO_per_token 显著高于云端 GPU 方案，具体数值需依据实际测试环境确定。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件规格（M3 Ultra 512GB 带宽 819GB/s）和特定的性能实测数据（4.8-5.8 tokens/s, TCO $0.055-$0.065），属于经验事实。由于检索无可用来源，无法验证这些具体数值是否准确，且不同量化方案、系统开销及具体测试环境可能导致吞吐量波动，单一数值区间缺乏外部证据支持。 | 经验事实，逻辑自洽但缺来源支持。M3 Ultra 带宽约 819GB/s 符合已知规格，Qwen3-27B 在 BF16 下权重约 54GB，受内存带宽限制，解码速度在 5 tokens/s 量级符合物理直觉（54GB / 819GB/s ≈ 0.066s/token 理论上限，实际受其他开销影响降至 4-6 tokens/s 合理），但具体 TCO 和精确吞吐区间无来源佐证。
+
+## Search Query
+
+Apple M3 Ultra LLM inference throughput tokens per second Qwen 27B 32K context

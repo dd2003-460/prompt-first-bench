@@ -1,0 +1,20 @@
+# N349: 2× RTX 4090 通过 PCIe 4.0 x16 互联时的有效带宽约为 48-56 GB/s（理论峰值 64 GB/s，实测折扣率 75-87%），导致 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N138
+
+## Claim
+
+2× RTX 4090 通过 PCIe 4.0 x16 互联时的有效带宽约为 48-56 GB/s（理论峰值 64 GB/s，实测折扣率 75-87%），导致 512 MB 通信量的纯传输延迟为 512MB / 48GB/s ≈ 10.67 ms 至 512MB / 56GB/s ≈ 9.14 ms
+
+## Corrected Claim
+
+2× RTX 4090 通过 PCIe 4.0 x16 互联时的有效带宽约为 48-56 GB/s（理论峰值 64 GB/s，实测折扣率 75-87%），导致 512 MB 通信量的纯传输延迟为 512MB / 48GB/s ≈ 10.67 ms 至 512MB / 56GB/s ≈ 9.14 ms
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe 4.0 x16 理论带宽 64 GB/s，实测有效带宽 48-56 GB/s 符合工程常识（折扣率 75-87%），延迟计算 512MB/48GB/s≈10.67ms 和 512MB/56GB/s≈9.14ms 数学正确

@@ -1,0 +1,20 @@
+# N163: 工作点2（负相关修正）：引入热度-大小负相关 ρ=-0.3，利用 Copula 模型或矩修正计算 E[Size_requested] = E[S] * (1 -
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N69
+
+## Claim
+
+工作点2（负相关修正）：引入热度-大小负相关 ρ=-0.3，利用 Copula 模型或矩修正计算 E[Size_requested] = E[S] * (1 - ρ * σ_lnS * σ_lnRank)，量化因热门对象较小而导致的总请求字节数减少比例，进而修正命中率分母。
+
+## Corrected Claim
+
+工作点2（负相关修正）：引入热度-大小负相关 ρ=-0.3，利用 Copula 模型或矩修正计算 E[Size_requested] = E[S] * (1 - ρ * σ_lnS * σ_lnRank)，量化因热门对象较小而导致的总请求字节数减少比例，进而修正命中率分母。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

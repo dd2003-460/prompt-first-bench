@@ -1,0 +1,24 @@
+# N381: 2x RTX 4090 (NVLink) Tensor Parallelism 下 Token 生成速度 (TPOT) 的通信开销公式为 T_comm_per_
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N119
+
+## Claim
+
+2x RTX 4090 (NVLink) Tensor Parallelism 下 Token 生成速度 (TPOT) 的通信开销公式为 T_comm_per_token = (num_layers * hidden_dim * dtype_size_bytes * 2) / NVLink_Bandwidth_GBps，其中 NVLink_Bandwidth_GBps 为 900 GB/s (A100/H100) 或需确认 4090 NVLink 桥接的实际带宽 (通常较低，如 64 GB/s)，以对比 PCIe 方案的延迟差异。
+
+## Corrected Claim
+
+2x RTX 4090 不支持 NVLink，仅能通过 PCIe 4.0 x16 互联（双向带宽约 32 GB/s）。Tensor Parallelism 下 Token 生成速度 (TPOT) 的通信开销公式为 T_comm_per_token = (num_layers * hidden_dim * dtype_size_bytes * 2) / PCIe_Bandwidth_GBps。若对比 A100/H100，其 NVLink 带宽分别为 600 GB/s 和 900 GB/s（双向），通信延迟显著低于 PCIe 方案。
+
+## Evidence
+
+[质询]NVLink 带宽数值存在严重事实错误：A100/H100 的 NVLink 带宽并非 900 GB/s（A100 为 600 GB/s，H100 为 900 GB/s 是单向或双向总和的混淆，且通常指 H100 SXM 的 900 GB/s 双向，但表述不严谨）；更关键的是，RTX 4090 不支持 NVLink，因此不存在 '4090 NVLink 桥接' 这一硬件配置，其互联带宽仅能通过 PCIe 4.0 x16 实现（约 32 GB/s 双向），而非 64 GB/s。 | 经验事实，逻辑自洽但缺来源支持；且核心硬件前提（4090 支持 NVLink）与已知硬件规格矛盾，导致具体数值（64 GB/s NVLink）无效。
+
+## Search Query
+
+RTX 4090 NVLink bridge bandwidth Tensor Parallelism

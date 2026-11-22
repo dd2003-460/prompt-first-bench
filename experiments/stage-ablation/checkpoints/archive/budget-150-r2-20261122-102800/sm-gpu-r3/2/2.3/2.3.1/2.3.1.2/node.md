@@ -1,0 +1,20 @@
+# N223: 工作点2（中显存/中延迟/INT8）：总显存需求 31.07 GB，需 RTX 4090 (24GB 不够，需 2x 或 A100-40GB)，单卡 A100-
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N81
+
+## Claim
+
+工作点2（中显存/中延迟/INT8）：总显存需求 31.07 GB，需 RTX 4090 (24GB 不够，需 2x 或 A100-40GB)，单卡 A100-40GB 可行，RTX 4090 不可行，需 2x RTX 4090 (48GB) 或 H100-80GB。
+
+## Corrected Claim
+
+工作点2（中显存/中延迟/INT8）：总显存需求 31.07 GB，需 RTX 4090 (24GB 不够，需 2x 或 A100-40GB)，单卡 A100-40GB 可行，RTX 4090 不可行，需 2x RTX 4090 (48GB) 或 H100-80GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：31.07GB显存需求确实超过单张RTX 4090 (24GB)容量，但小于单张A100-40GB (40GB)容量，且小于双张RTX 4090 (48GB)或单张H100-80GB (80GB)容量，数值量级与硬件规格匹配。

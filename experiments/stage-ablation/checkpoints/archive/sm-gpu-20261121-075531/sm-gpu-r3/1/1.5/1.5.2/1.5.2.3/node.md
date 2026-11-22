@@ -1,0 +1,24 @@
+# N163: TP=2 W4 模式下，2x NVIDIA L4 (24GB) 或 2x A100 40GB 的显存冗余极大 (L4 剩余 14.57GB, A100 剩余 3
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N48
+
+## Claim
+
+TP=2 W4 模式下，2x NVIDIA L4 (24GB) 或 2x A100 40GB 的显存冗余极大 (L4 剩余 14.57GB, A100 剩余 30.57GB)；L4 带宽 300 GB/s 远低于消费卡，TPS 极低，不适合高吞吐场景；A100 40GB 在 W4 下显存浪费严重，Capex 高，仅在需要极高可靠性或特定企业合规时考虑，性价比通常低于消费级方案。
+
+## Corrected Claim
+
+TP=2 W4 模式下，2x NVIDIA L4 (24GB) 或 2x A100 40GB 的显存冗余极大 (L4 剩余 14.57GB, A100 剩余 30.57GB)；L4 带宽 300 GB/s 远低于消费卡，TPS 极低，不适合高吞吐场景；A100 40GB 在 W4 下显存浪费严重，Capex 高，仅在需要极高可靠性或特定企业合规时考虑，性价比通常低于消费级方案。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：L4 (24GB) 和 A100 (40GB) 在 TP=2 W4 模式下剩余显存计算符合逻辑（假设模型权重占用约 9.43GB/卡），L4 带宽 300GB/s 远低于 A100 (1.6TB/s) 导致 TPS 低符合硬件特性，A100 高成本低性价比符合市场常识。
+
+## Search Query
+
+NVIDIA L4 A100 40GB W4 quantization LLM inference throughput comparison

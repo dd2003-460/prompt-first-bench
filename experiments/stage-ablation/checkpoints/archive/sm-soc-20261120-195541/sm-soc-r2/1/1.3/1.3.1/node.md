@@ -1,0 +1,24 @@
+# N28: 时间贴现率 α = 0.01/day 的校准依据：基于二手平台卖家行为数据，当 T_deal 从 10天 增加到 20天 时，卖家接受价格的下调幅度 ΔP/P 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N7
+
+## Claim
+
+时间贴现率 α = 0.01/day 的校准依据：基于二手平台卖家行为数据，当 T_deal 从 10天 增加到 20天 时，卖家接受价格的下调幅度 ΔP/P ≈ 10%，符合 exp(-0.01*10) ≈ 0.905 的效用衰减，该参数在季节性波动期间（如节假日）可能上升至 α = 0.02/day。
+
+## Corrected Claim
+
+时间贴现率 α 的校准通常基于卖家行为数据，例如当交易周期 T_deal 从 10天 增加到 20天 时，卖家接受价格的下调幅度 ΔP/P 约为 10%，这符合 exp(-0.01*10) ≈ 0.905 的效用衰减模型；在季节性波动期间（如节假日），该参数可能上升至 α = 0.02/day。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性参数（α=0.01/day）及基于特定二手平台卖家行为数据的校准结论，属于经验事实。在缺乏任何参考来源支持的情况下，无法验证该具体数值及其与季节性波动关系的真实性，存在将特定小样本数据泛化为通用规律的风险。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）。数学计算 exp(-0.01*10)≈0.905 正确，但参数校准依据无法通过外部证据核验。
+
+## Search Query
+
+seller time discount rate calibration second-hand platform deal duration price adjustment empirical data

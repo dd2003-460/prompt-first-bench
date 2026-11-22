@@ -1,0 +1,20 @@
+# N180: P_inval_avg 的加权分解：P_inval_avg = (Σ R_i S_i * (1 - (1-u)^T_i)) / (Σ R_i S_i)，其中 T
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N83, N84
+
+## Claim
+
+P_inval_avg 的加权分解：P_inval_avg = (Σ R_i S_i * (1 - (1-u)^T_i)) / (Σ R_i S_i)，其中 T_i 为对象 i 的驻留时间；在全量驻留且无驱逐场景下，T_i 由对象更新周期决定，需将 T_i 分布与热度分布 R_i 耦合计算，不能简单假设 T_i 为常数
+
+## Corrected Claim
+
+P_inval_avg 的加权分解：P_inval_avg = (Σ R_i S_i * (1 - (1-u)^T_i)) / (Σ R_i S_i)，其中 T_i 为对象 i 的驻留时间；在全量驻留且无驱逐场景下，T_i 由对象更新周期决定，需将 T_i 分布与热度分布 R_i 耦合计算，不能简单假设 T_i 为常数
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式结构符合加权平均定义，分母为总权重，分子为加权后的失效概率；关于T_i与热度耦合的论述符合缓存/存储系统中对象生命周期与访问频率相关的工程直觉，无逻辑矛盾。

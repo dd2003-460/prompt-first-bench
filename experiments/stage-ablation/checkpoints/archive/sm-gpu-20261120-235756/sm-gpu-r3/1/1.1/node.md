@@ -1,0 +1,24 @@
+# N7: Qwen3-27B模型总参数量为27.18B（其中激活参数约3.3B，基于MoE架构），该数值直接决定权重存储基线。
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+Qwen3-27B模型总参数量为27.18B（其中激活参数约3.3B，基于MoE架构），该数值直接决定权重存储基线。
+
+## Corrected Claim
+
+Qwen3-27B模型总参数量为27.18B（其中激活参数约3.3B，基于MoE架构），该数值直接决定权重存储基线。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（仅有一个子节点，不存在正交性或冗余问题。该子节点准确地将父节点中的总参数量（27.18B）和激活参数量（3.3B）转化为具体的存储占用（54.36 GB）和占比分析，逻辑自洽且覆盖了父节点关于‘权重存储基线’的核心含义，信息完整。）
+
+## Search Query
+
+Qwen3-27B total parameters MoE active parameters

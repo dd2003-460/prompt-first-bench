@@ -1,0 +1,20 @@
+# N213: RTX 5090 (32GB) 在 FP8 下运行 Qwen3-27B 的总显存需求：权重 13.5GB (FP8与INT8权重大小相近) + KV Cache
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N58
+
+## Claim
+
+RTX 5090 (32GB) 在 FP8 下运行 Qwen3-27B 的总显存需求：权重 13.5GB (FP8与INT8权重大小相近) + KV Cache (约4GB) + 框架开销 (约2-4GB) = 19.5-21.5GB，可行；若使用 BF16 则权重 27GB + KV 4GB + 开销 3GB = 34GB > 32GB，不可行，故 5090 单卡必须使用 INT8 或 FP8 量化。
+
+## Corrected Claim
+
+RTX 5090 (32GB) 在 FP8 下运行 Qwen3-27B 的总显存需求：权重 13.5GB (FP8与INT8权重大小相近) + KV Cache (约4GB) + 框架开销 (约2-4GB) = 19.5-21.5GB，可行；若使用 BF16 则权重 27GB + KV 4GB + 开销 3GB = 34GB > 32GB，不可行，故 5090 单卡必须使用 INT8 或 FP8 量化。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B参数量约27B，FP8/INT8权重约13.5GB，BF16权重约27GB，显存计算符合基本算术与工程常识，无来源矛盾。

@@ -1,0 +1,20 @@
+# N222: 2×RTX 4090 FP8 方案的显存容量瓶颈量化：单卡 24GB，双卡总 48GB；Qwen3-27B FP8 权重约 13.5GB/卡（Tensor Pa
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N70
+
+## Claim
+
+2×RTX 4090 FP8 方案的显存容量瓶颈量化：单卡 24GB，双卡总 48GB；Qwen3-27B FP8 权重约 13.5GB/卡（Tensor Parallel 切分），剩余显存用于 KV Cache；在 32K 上下文下，单请求 KV Cache 占用约 2.1GB（基于 GQA 配置估算），单卡可支持最大并发 Batch Size ≈ (24GB - 13.5GB - 1GB 激活/缓冲) / 2.1GB ≈ 4-5 个请求，总系统 B_max ≈ 8-10，若超过此值需启用 CPU Offload 或降低精度至 INT4。
+
+## Corrected Claim
+
+2×RTX 4090 FP8 方案的显存容量瓶颈量化：单卡 24GB，双卡总 48GB；Qwen3-27B FP8 权重约 13.5GB/卡（Tensor Parallel 切分），剩余显存用于 KV Cache；在 32K 上下文下，单请求 KV Cache 占用约 2.1GB（基于 GQA 配置估算），单卡可支持最大并发 Batch Size ≈ (24GB - 13.5GB - 1GB 激活/缓冲) / 2.1GB ≈ 4-5 个请求，总系统 B_max ≈ 8-10，若超过此值需启用 CPU Offload 或降低精度至 INT4。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 显存 24GB 为已知硬件规格；Qwen3-27B FP8 权重约 13.5GB 符合参数量与精度换算（27B * 1 byte ≈ 27GB，双卡 TP 切分后单卡约 13.5GB）；KV Cache 估算及 Batch Size 推导在量级和算术上自洽（(24-13.5-1)/2.1 ≈ 4.05，取整 4-5 合理）。

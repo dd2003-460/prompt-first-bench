@@ -1,0 +1,28 @@
+# N45: 卖家保留价R的分布特征：R ~ N(μ_R, σ_R²)，其中μ_R ≈ 0.85 * C_ref（近期成交价），σ_R ≈ 0.15 * C_ref，导致高估
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N6, N7, N8
+
+## Claim
+
+卖家保留价R的分布特征：R ~ N(μ_R, σ_R²)，其中μ_R ≈ 0.85 * C_ref（近期成交价），σ_R ≈ 0.15 * C_ref，导致高估保留价源于分布右偏而非单纯系数放大。
+
+## Corrected Claim
+
+卖家保留价R的分布特征通常被建模为围绕近期成交价的分布，具体均值和标准差系数（如0.85和0.15）及右偏成因需依据特定市场数据或模型假设确定，当前缺乏通用来源支持该具体数值。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（μ_R ≈ 0.85 * C_ref, σ_R ≈ 0.15 * C_ref）及分布形态结论（右偏源于分布特性而非系数放大），属于特定市场或模型的经验事实，无法从第一性原理推导，且参考来源完全无关，缺乏直接证据支持。 | 参考来源[1]讨论决定系数R²，与卖家保留价分布无关，无可用外部证据；该陈述为经验事实，逻辑自洽但缺来源支持，依据经验事实排除条款降级。
+
+## Search Query
+
+used goods market seller reservation price distribution relative to recent transaction price
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Coefficient_of_determination&rut=072a1dfa8feb84c3dfb42aa299ec67cd0ebd908733115afcb5f9a4ddc7ac1b7c', 'type': 'ddg', 'title': 'Coefficient of determination - Wikipedia'}

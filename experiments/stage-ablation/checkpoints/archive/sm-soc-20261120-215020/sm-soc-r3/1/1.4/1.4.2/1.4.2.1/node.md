@@ -1,0 +1,28 @@
+# N87: 流量敏感度系数 k 的实证拟合值：在假设 k=2.0 的基础上，需通过平台历史 A/B 测试数据（对比不同降价幅度组的曝光量变化）拟合出真实的 k 值；若 k 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N28
+
+## Claim
+
+流量敏感度系数 k 的实证拟合值：在假设 k=2.0 的基础上，需通过平台历史 A/B 测试数据（对比不同降价幅度组的曝光量变化）拟合出真实的 k 值；若 k 实际值为 1.0，则降价 10% 的流量增量仅为最大值的 63%（1-e^-1），远低于假设的 86%。
+
+## Corrected Claim
+
+在假设流量增量遵循指数饱和模型（1-e^-kx）的前提下，若 k=1.0，降价 10% 的理论流量增量比例为 63%；若 k=2.0，则为 86%。具体 k 值需通过平台历史 A/B 测试数据拟合确定，当前陈述中的 k 值仅为假设示例，非实证定论。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性参数（k=2.0, k=1.0）及基于特定模型（指数衰减）的推导结论，属于经验事实或特定业务假设，无法从第一性原理直接推出，且参考来源未提供相关实证数据支持。 | 逻辑校验通过：若模型为流量增量比例 = 1 - e^(-k * price_change)，则 k=1.0 时 1-e^-1 ≈ 0.632 (63%)，k=2.0 时 1-e^-2 ≈ 0.865 (86%)，数学推导自洽。但参考来源 [1] 讨论的是微服务全链路压测与流量模拟，与本节点关于电商/平台降价流量敏感度系数 k 的实证拟合完全无关，无外部证据支持。根据经验事实排除条款，判为 degraded。
+
+## Search Query
+
+price elasticity traffic search exposure incremental lift A/B test coefficient k exponential decay fit
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org/pdf/2301.06530v2&rut=278c0cc95762855f9b6f08da3154b3e0fbafad5f715322c8d41ac061a058a473', 'type': 'ddg', 'title': '中文模板 - arXiv.org'}

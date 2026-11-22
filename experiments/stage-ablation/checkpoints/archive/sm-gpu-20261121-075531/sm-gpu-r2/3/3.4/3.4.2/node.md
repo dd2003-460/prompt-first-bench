@@ -1,0 +1,28 @@
+# N73: 消费级显卡（如 RTX 4090/5090）在双卡配置下，主板通常提供 1 个 x16 + 1 个 x8 插槽，导致第二张卡带宽减半；实测显示在 27B INT
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N18
+
+## Claim
+
+消费级显卡（如 RTX 4090/5090）在双卡配置下，主板通常提供 1 个 x16 + 1 个 x8 插槽，导致第二张卡带宽减半；实测显示在 27B INT8 模型上，TP=2 相比单卡 BF16 的吞吐损失约为 12-18%，主要源于 PCIe 瓶颈而非计算能力
+
+## Corrected Claim
+
+消费级显卡（如 RTX 4090/5090）在双卡配置下，主板通常提供 1 个 x16 + 1 个 x8 插槽（或双 x16 但受限于PCIe通道分配），导致第二张卡带宽受限；实测显示在 27B INT8 模型上，TP=2 相比单卡 BF16 的吞吐存在一定损失，主要源于 PCIe 瓶颈而非计算能力。
+
+## Evidence
+
+[质询]来源[1]仅提及主板需配备双PCIe 5.0 x16插槽，未提供关于TP=2在27B INT8模型上具体吞吐损失（12-18%）的实测数据，且该具体数值属于经验事实，缺乏直接来源支持。 | 逻辑自洽：双卡配置下PCIe带宽减半确实会导致TP通信开销增加，从而降低吞吐；但具体损失比例12-18%为经验数据，来源[1]仅确认硬件配置需求，未提供性能实测数据，故降级。
+
+## Search Query
+
+dual RTX 4090 tensor parallelism performance loss 27B model PCIe bottleneck
+
+## Retrieval Sources
+
+- {'url': 'https://wenku.baidu.com/noteview/701ef933f06527d3240c844769eae009591ba268.html&rut=3ba848087782b9d0a0d709b81505d63a713d8239bb0f6c6ecf9edf3169403d2b', 'type': 'ddg', 'title': '双rtx 5090显卡配置全攻略：主板、电源、散热需求详解'}

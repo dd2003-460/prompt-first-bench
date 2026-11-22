@@ -1,0 +1,20 @@
+# N119: 单卡（如RTX 5090）在 Qwen3-27B 模型上的最大有效并发数（Max Batch Size）计算公式为：Batch_max = floor((VRA
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N27
+
+## Claim
+
+单卡（如RTX 5090）在 Qwen3-27B 模型上的最大有效并发数（Max Batch Size）计算公式为：Batch_max = floor((VRAM_total - VRAM_weights - VRAM_overhead) / VRAM_per_request_32K)，其中 VRAM_per_request_32K 需结合 N31 确定的架构参数计算得出，该值即为单卡失效的并发阈值。
+
+## Corrected Claim
+
+单卡（如RTX 5090）在 Qwen3-27B 模型上的最大有效并发数（Max Batch Size）计算公式为：Batch_max = floor((VRAM_total - VRAM_weights - VRAM_overhead) / VRAM_per_request_32K)，其中 VRAM_per_request_32K 需结合 N31 确定的架构参数计算得出，该值即为单卡失效的并发阈值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该公式符合显存容量约束下并发数计算的基本逻辑（总显存减去固定开销后除以单请求显存），量纲与数值逻辑自洽。

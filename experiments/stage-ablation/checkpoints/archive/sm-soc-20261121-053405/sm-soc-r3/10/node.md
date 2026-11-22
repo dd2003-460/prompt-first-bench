@@ -1,0 +1,20 @@
+# N97: 随机偏好噪声量化：定义买家支付意愿（WTP）的随机扰动项 $\epsilon_{pref}$ 服从均值为0、标准差为 $\sigma_{pref} = 0.15
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+随机偏好噪声量化：定义买家支付意愿（WTP）的随机扰动项 $\epsilon_{pref}$ 服从均值为0、标准差为 $\sigma_{pref} = 0.15 \mu_{WTP}$ 的正态分布，其中 $\mu_{WTP}$ 为同类商品平均成交价。该噪声导致买家决策时间 $T_{decision}$ 的方差 $Var(T) = \sigma_{pref}^2 / \lambda_{search}$，解释了为何即使高溢价也能通过随机偏好匹配实现短周期成交。
+
+## Corrected Claim
+
+随机偏好噪声量化：定义买家支付意愿（WTP）的随机扰动项 $\epsilon_{pref}$ 服从均值为0、标准差为 $\sigma_{pref} = 0.15 \mu_{WTP}$ 的正态分布，其中 $\mu_{WTP}$ 为同类商品平均成交价。该噪声导致买家决策时间 $T_{decision}$ 的方差 $Var(T) = \sigma_{pref}^2 / \lambda_{search}$，解释了为何即使高溢价也能通过随机偏好匹配实现短周期成交。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点公式中的三个核心变量（σ_pref, λ_search）及最终结果（Var(T)），内容互不重叠且逻辑独立。子节点1和2提供了父节点中简化常数（0.15, λ）的具体构成或量化依据，子节点3提供了综合计算示例，三者共同构成了对父节点完整且无冗余的分解。）

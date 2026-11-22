@@ -1,0 +1,24 @@
+# N358: H100 SXM 的 FP8 Tensor Core 峰值算力为 3958 TFLOPS (dense) 或 7916 TFLOPS (sparse)，H100
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N120
+
+## Claim
+
+H100 SXM 的 FP8 Tensor Core 峰值算力为 3958 TFLOPS (dense) 或 7916 TFLOPS (sparse)，H100 PCIe 的 FP8 Tensor Core 峰值算力为 3747 TFLOPS (dense) 或 7494 TFLOPS (sparse)，算力比值为 1.056x (dense)；在 27B FP8 推理中，若计算受限，SXM 仅比 PCIe 快 5.6%。
+
+## Corrected Claim
+
+H100 SXM 的 FP8 Tensor Core 峰值算力为 3958 TFLOPS (dense) 或 7916 TFLOPS (sparse)，H100 PCIe 的 FP8 Tensor Core 峰值算力为 3747 TFLOPS (dense) 或 7494 TFLOPS (sparse)，算力比值为 1.056x (dense)；在 27B FP8 推理中，若计算受限，SXM 仅比 PCIe 快 5.6%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H100 SXM (3958 TFLOPS) 与 PCIe (3747 TFLOPS) 的 FP8 Dense 峰值算力数值符合 NVIDIA 官方规格，比值 3958/3747 ≈ 1.056 计算正确，且 5.6% 的性能提升与算力比值一致（1.056 - 1 = 5.6%），逻辑自洽。
+
+## Search Query
+
+H100 SXM vs H100 PCIe FP8 Tensor Core TFLOPS

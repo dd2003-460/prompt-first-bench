@@ -1,0 +1,20 @@
+# N61: 缓存污染（Stale Data）概率 $P_{stale}$ 的精确计算式：$P_{stale} = \int_{0}^{\infty} P(T_{res} >
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+缓存污染（Stale Data）概率 $P_{stale}$ 的精确计算式：$P_{stale} = \int_{0}^{\infty} P(T_{res} > t_{upd}) f_{T_{res}}(t) dt$，其中 $t_{upd}$ 是两次更新间隔，服从指数分布 $Exp(\lambda_{upd})$。对于热门对象（高 $h$），$T_{res}$ 短，$P_{stale}$ 低；对于冷门对象，$T_{res}$ 长，$P_{stale}$ 高。在1%/天更新率下，若平均 $T_{res} = 1$ 天，则 $P_{stale} \approx 1 - e^{-1} \approx 63.2\%$；若 $T_{res} = 0.1$ 天，则 $P_{stale} \approx 6.4\%$。
+
+## Corrected Claim
+
+缓存污染（Stale Data）概率 $P_{stale}$ 的精确计算式：$P_{stale} = \int_{0}^{\infty} P(T_{res} > t_{upd}) f_{T_{res}}(t) dt$，其中 $t_{upd}$ 是两次更新间隔，服从指数分布 $Exp(\lambda_{upd})$。对于热门对象（高 $h$），$T_{res}$ 短，$P_{stale}$ 低；对于冷门对象，$T_{res}$ 长，$P_{stale}$ 高。在1%/天更新率下，若平均 $T_{res} = 1$ 天，则 $P_{stale} \approx 1 - e^{-1} \approx 63.2\%$；若 $T_{res} = 0.1$ 天，则 $P_{stale} \approx 6.4\%$。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：积分公式符合概率论定义，指数分布与常数时间的卷积/积分推导结果（1-e^{-λt}）与数值示例（63.2%, 6.4%）完全一致，量级合理。

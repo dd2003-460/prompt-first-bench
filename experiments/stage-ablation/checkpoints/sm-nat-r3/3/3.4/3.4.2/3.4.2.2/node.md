@@ -1,0 +1,20 @@
+# N194: 在热度分布平坦（β→1）条件下，LFU 相对 LRU 的净提升 ΔH_net 下限：当 β→1 时，对象热度差异减小，LFU 的频率统计优势减弱。量化形式为 Δ
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N67
+
+## Claim
+
+在热度分布平坦（β→1）条件下，LFU 相对 LRU 的净提升 ΔH_net 下限：当 β→1 时，对象热度差异减小，LFU 的频率统计优势减弱。量化形式为 ΔH_net ≈ (H_byte_LFU - H_byte_LRU) - ΔH_lag。若 H_byte_LFU ≈ H_byte_LRU（因热度平坦），则 ΔH_net ≈ -ΔH_lag ≈ -0.012%。
+
+## Corrected Claim
+
+在热度分布平坦（β→1）条件下，LFU 相对 LRU 的净提升 ΔH_net 下限：当 β→1 时，对象热度差异减小，LFU 的频率统计优势减弱。量化形式为 ΔH_net ≈ (H_byte_LFU - H_byte_LRU) - ΔH_lag。若 H_byte_LFU ≈ H_byte_LRU（因热度平坦），则 ΔH_net ≈ -ΔH_lag ≈ -0.012%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

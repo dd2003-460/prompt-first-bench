@@ -1,0 +1,20 @@
+# N126: 在“无硬性延迟约束”下，性价比的核心量化指标定义为 Cost_Per_Million_Tokens = (Capex / Lifespan_Hours + Po
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+在“无硬性延迟约束”下，性价比的核心量化指标定义为 Cost_Per_Million_Tokens = (Capex / Lifespan_Hours + Power_Cost_Per_Hour) * 3600 / (TPS * 10^6) * 1000，其中 Capex 包含硬件全生命周期摊销，Power_Cost 需基于实测平均功耗而非 TDP，TPS 取 Decode 阶段稳态值。
+
+## Corrected Claim
+
+在“无硬性延迟约束”下，性价比的核心量化指标定义为 Cost_Per_Million_Tokens = (Capex / Lifespan_Hours + Power_Cost_Per_Hour) * 3600 / (TPS * 10^6) * 1000，其中 Capex 包含硬件全生命周期摊销，Power_Cost 需基于实测平均功耗而非 TDP，TPS 取 Decode 阶段稳态值。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

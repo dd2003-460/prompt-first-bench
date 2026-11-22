@@ -1,0 +1,17 @@
+{
+  "id": "N189",
+  "claim": "在 RTX 4090 (24GB) 上运行 Qwen3-27B INT8 (权重 13.5GB) 时，若保留 1GB 给 CUDA Context 和框架开销，剩余 19.5GB 可用于 KV Cache，支持的最大并发序列数 (max_num_seqs) 为 4，计算公式：floor((24GB - 13.5GB - 1GB) / 4.27GB) = 2，但考虑到 Prefill 峰值显存波动，安全上限设为 2-4。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]陈述内部存在逻辑矛盾：公式计算结果为2，但结论却称支持的最大并发序列数为4，且将2-4称为安全上限，这与公式推导出的硬性限制（2）相悖；此外，4.27GB/seq的KV Cache占用量对于27B模型在INT8精度下显得过大（通常取决于上下文长度，若为4k-8k context，该数值偏高，导致并发数极低），缺乏具体上下文长度参数支持。 | 先验知识/题面给定，逻辑校验发现内部矛盾（公式结果2与结论4不一致），且KV Cache单序列占用量缺乏上下文长度依据，无法确认为稳定工程参数。",
+  "corrected_claim": "在 RTX 4090 (24GB) 上运行 Qwen3-27B INT8 (权重 13.5GB) 时，若保留 1GB 给 CUDA Context 和框架开销，剩余 19.5GB 可用于 KV Cache。若单序列 KV Cache 占用约 4.27GB，则理论最大并发序列数为 floor(19.5 / 4.27) = 4。考虑到 Prefill 峰值显存波动，建议安全上限设为 2-4。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N48"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

@@ -1,0 +1,30 @@
+# N103: 等待成本系数 w 的估计：w = (卖家保留价格 - 心理预期价格) / T。若卖家对时间敏感，w 较大；若商品为耐用品，w 较小。需通过回归分析 T 与卖家放
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N25
+
+## Claim
+
+等待成本系数 w 的估计：w = (卖家保留价格 - 心理预期价格) / T。若卖家对时间敏感，w 较大；若商品为耐用品，w 较小。需通过回归分析 T 与卖家放弃率的关系估计 w 的数值范围，[待核验]：需平台放弃率数据。
+
+## Corrected Claim
+
+等待成本系数 w 的估计需通过回归分析 T 与卖家放弃率的关系确定，具体数值范围依赖于平台数据，当前缺乏直接来源支持。
+
+## Evidence
+
+[质询]该陈述属于经验事实/模型参数估计，无法从第一性原理直接推出具体数值或公式的普适性，且参考来源均与等待成本系数估计无关，缺乏外部数据支持。 | 逻辑自洽（时间敏感度高则等待成本高，耐用品反之），但参考来源[1][2][3]均为拍卖费用计算器，与等待成本系数估计无关，无可用外部证据支持具体数值范围。
+
+## Search Query
+
+seller waiting cost estimation online auction time to sell
+
+## Retrieval Sources
+
+- {'url': 'https://auctionplugin.net/auction-fee-calculator/&rut=43e4c0ea01c3545f02a660e2f4f247fdb783c604405e4d13eddb722a2d846b8c', 'type': 'ddg', 'title': 'Auction Fee Calculator - Free Seller Fee Estimator Tool'}
+- {'url': 'https://calculator.academy/auction-cost-calculator/&rut=7739bdfa23df55d5fb89eaeb2c6bc59ba1a4de673da4b65772b271ae77acf707', 'type': 'ddg', 'title': 'Auction Cost Calculator (Fees & Maximum Bid)'}
+- {'url': 'https://circuitauction.com/auction-marketplace-fees&rut=1ca4e6f46f08597c54b8d2e08a69b9bcae087cf0ff1373cbcc475aedbb5a6f10', 'type': 'ddg', 'title': 'Auction Marketplace Fees 2026 + Premium Calculator | Circuit'}

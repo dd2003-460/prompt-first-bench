@@ -1,0 +1,24 @@
+# N155: RTX 3090 (24GB) 与 RTX 4090 (24GB) 运行 Qwen3-27B W4 时的吞吐量差异：3090 带宽 936 GB/s vs 40
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N45
+
+## Claim
+
+RTX 3090 (24GB) 与 RTX 4090 (24GB) 运行 Qwen3-27B W4 时的吞吐量差异：3090 带宽 936 GB/s vs 4090 1008 GB/s (比值 0.928)，理论 TPS 上限降低约 7.2%；考虑到 3090 价格约为 4090 的 60-70%，其性价比在 W4 场景下可能优于 4090，需对比具体二手/新品价格。
+
+## Corrected Claim
+
+RTX 3090 (24GB) 与 RTX 4090 (24GB) 运行 Qwen3-27B W4 时的吞吐量差异：3090 带宽 936 GB/s vs 4090 1008 GB/s (比值 0.928)，理论 TPS 上限降低约 7.2%；考虑到 3090 价格约为 4090 的 60-70%，其性价比在 W4 场景下可能优于 4090，需对比具体二手/新品价格。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 3090 (936 GB/s) 与 RTX 4090 (1008 GB/s) 的带宽比值约为 0.928，理论吞吐量差异约 7.2% 符合物理直觉；价格比例 60-70% 符合市场常识，性价比推导逻辑自洽。
+
+## Search Query
+
+RTX 3090 vs RTX 4090 LLM inference throughput comparison W4 quantization

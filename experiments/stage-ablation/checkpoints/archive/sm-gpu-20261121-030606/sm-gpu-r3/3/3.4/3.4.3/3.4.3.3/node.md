@@ -1,0 +1,24 @@
+# N281: 代码生成Pass@1≥65.0%阈值的商业场景界定：针对自动化代码审查、CI/CD集成等场景，需量化W4不可行时的替代方案成本（如INT8方案在RTX 4090
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N119
+
+## Claim
+
+代码生成Pass@1≥65.0%阈值的商业场景界定：针对自动化代码审查、CI/CD集成等场景，需量化W4不可行时的替代方案成本（如INT8方案在RTX 4090上的显存占用27GB vs W4的13.5GB，导致可行性边界变化）。
+
+## Corrected Claim
+
+代码生成Pass@1≥65.0%阈值的商业场景界定：针对自动化代码审查、CI/CD集成等场景，需量化W4不可行时的替代方案成本（如INT8方案在RTX 4090上的显存占用可能超出单卡容量或接近上限，而W4方案显存占用约为其一半，导致可行性边界变化）。
+
+## Evidence
+
+[质询]数值量级与硬件规格存在潜在矛盾：RTX 4090 显存为 24GB，若 INT8 方案占用 27GB 则物理上不可行（除非指多卡或包含其他开销，但表述易引起歧义）；且 W4 与 INT8 的显存占用比例（13.5 vs 27）暗示模型参数量约为 27B（27GB/1byte），但 27B 模型在 4090 上即使 W4 也需配合量化技术，具体数值高度依赖模型大小，缺乏上下文导致数值可能不准确。 | 先验知识/题面给定，逻辑校验通过，但具体显存数值（27GB/13.5GB）与 RTX 4090 24GB 显存存在表面冲突，且无外部来源支持具体数值，故降级。
+
+## Search Query
+
+code generation LLM production threshold CI/CD integration

@@ -1,0 +1,30 @@
+# N224: ΔH分子项∑_{i∈F}(h_i*s_i)的悲观估算：在Clayton Copula(ρ=-0.3)下，F集合因负相关包含更多高频小对象，∑_{i∈F}(h_i
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N82
+
+## Claim
+
+ΔH分子项∑_{i∈F}(h_i*s_i)的悲观估算：在Clayton Copula(ρ=-0.3)下，F集合因负相关包含更多高频小对象，∑_{i∈F}(h_i*s_i)较独立假设提升约0.5-1.0个百分点，量化ΔH_max的具体数值。
+
+## Corrected Claim
+
+在Clayton Copula(ρ=-0.3)下，F集合因负相关包含更多高频小对象，∑_{i∈F}(h_i*s_i)较独立假设有所提升（具体数值需依据特定模型参数计算，此处暂定为定性提升）。
+
+## Evidence
+
+[质询]该陈述涉及特定统计模型（Clayton Copula）下的具体数值估算（0.5-1.0个百分点），属于经验事实或特定模型推导结果，无法从第一性原理直接推出，且参考来源完全无关，缺乏直接证据支持。 | 参考来源[1][2][3]均讨论化学热力学或相变方程，与Copula函数及集合F的统计估算无关，无可用外部证据；逻辑上负相关导致集合包含更多高频小对象从而提升加权和的机制自洽，但具体数值缺乏来源支持。
+
+## Search Query
+
+LFU vs LRU byte hit rate improvement negative correlation Pareto distribution numerical integration
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/713373632&rut=47c8fef7a420da5f650f6d6736ac034a77bed577d0105cd2f80429143684a2c7', 'type': 'ddg', 'title': '计算教程||Castep计算形成焓与内聚能 - 知乎'}
+- {'url': 'https://baike.baidu.com/item/%E5%85%8B%E6%8B%89%E7%8F%80%E9%BE%99%E2%80%93%E5%85%8B%E5%8A%B3%E4%BF%AE%E6%96%AF%E6%96%B9%E7%A8%8B/53308492&rut=08bf03efb98dcd5a5d189b7e469a604e78d9c302219c81c6f12ce947523e8b8e', 'type': 'ddg', 'title': '克拉珀龙-克劳修斯方程 - 百度百科'}
+- {'url': 'https://wenku.baidu.com/view/27161031ad8271fe910ef12d2af90242a895ab27.html&rut=dd1d28e58f500c686083512e4c298e5413881c4f1a9093728059297aeb894d21', 'type': 'ddg', 'title': '盖斯定律公式ΔH怎么算？3分钟掌握核心概念与5个计算步骤'}

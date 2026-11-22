@@ -1,0 +1,24 @@
+# N124: S_hot 的精确积分表达：S_hot = (∫_{R>Q_0.9} S * f_{S,R}(s,r) ds dr) / (∫_{All} S * f_{S,R
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N54
+
+## Claim
+
+S_hot 的精确积分表达：S_hot = (∫_{R>Q_0.9} S * f_{S,R}(s,r) ds dr) / (∫_{All} S * f_{S,R}(s,r) ds dr)，其中 f_{S,R} 为联合密度函数，该积分无解析解，需数值积分或模拟求解，预期结果在 5%-8% 之间（基于负相关修正）。
+
+## Corrected Claim
+
+S_hot 的精确积分表达为 S_hot = (∫_{R>Q_0.9} S * f_{S,R}(s,r) ds dr) / (∫_{All} S * f_{S,R}(s,r) ds dr)，其中 f_{S,R} 为联合密度函数，该积分无解析解，需数值积分或模拟求解。
+
+## Evidence
+
+[质询]该陈述包含具体的数值预测（5%-8%）和特定的统计假设（负相关修正），属于经验事实或特定模型推导结果，无法仅从第一性原理或通用数学公理中严格推出，且缺乏外部来源支持其具体数值范围。 | 逻辑上积分表达自洽（加权平均形式），但具体数值区间（5%-8%）为经验性结论，无来源支持，符合经验事实排除条款，降级为定性表述。
+
+## Search Query
+
+integral joint distribution pareto size popularity

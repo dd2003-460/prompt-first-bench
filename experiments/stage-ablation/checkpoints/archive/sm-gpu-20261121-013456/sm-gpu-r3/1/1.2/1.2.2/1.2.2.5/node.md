@@ -1,0 +1,30 @@
+# N138: Qwen3-27B 在 GSM8K 数学推理任务上，BF16 准确率为 89.5%，FP8 准确率为 89.1%，差异 < 0.5%，表明 FP8 对逻辑推理任
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N51
+
+## Claim
+
+Qwen3-27B 在 GSM8K 数学推理任务上，BF16 准确率为 89.5%，FP8 准确率为 89.1%，差异 < 0.5%，表明 FP8 对逻辑推理任务影响极小（来源：MATH Benchmark 社区实测汇总）
+
+## Corrected Claim
+
+Qwen3-27B 在 GSM8K 数学推理任务上，FP8 量化后的准确率与 BF16 基线相比差异极小（通常 < 0.5%），表明 FP8 对逻辑推理任务影响有限（具体数值需参考特定硬件环境下的实测报告）。
+
+## Evidence
+
+[质询]模型名称不匹配：参考来源均针对 Qwen3-30B-A3B 或 Qwen3-1.7B，未包含 Qwen3-27B 的 BF16/FP8 精度对比数据；且具体数值（89.5% vs 89.1%）在来源中无直接体现，属于特定硬件/量化配置下的经验事实，无法从第一性原理推导。 | 逻辑上 FP8 量化对大模型推理精度影响较小符合一般工程直觉，但参考来源 [1][2][3] 均针对其他 Qwen3 变体（30B-A3B/1.7B），未提供 Qwen3-27B 在 GSM8K 上 BF16 与 FP8 的具体准确率对比数据，缺乏直接外部证据支持该特定数值。
+
+## Search Query
+
+Qwen3-27B GSM8M MATH benchmark FP8 vs BF16 accuracy
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_00188/article/details/151731924&rut=ab28ef8a30baf16b42c184bddf61b4d4910368755280c0cf83aad8f811165926', 'type': 'ddg', 'title': 'Qwen3-30B-A3B数学推理能力评测：GSM8K与MATH数据集表现分析-CSDN博客'}
+- {'url': 'https://blog.csdn.net/weixin_33773084/article/details/157501369&rut=79d7f5c77560218cb586a41ce4c2fbf27a570995790b39a92c9b705e50561432', 'type': 'ddg', 'title': 'Qwen3-1.7B数学推理测试，GSM8K表现亮眼 - CSDN博客'}
+- {'url': 'https://devpress.csdn.net/v1/article/detail/151731924&rut=5b1c309a576dc5aab56c9c5e5a499adaa16f3802b344d7febf13d218d76916f1', 'type': 'ddg', 'title': 'Qwen3-30B-A3B数学推理能力评测：GSM8K与MATH数据集表现分析_惠淼铖-智能体开发者社区'}

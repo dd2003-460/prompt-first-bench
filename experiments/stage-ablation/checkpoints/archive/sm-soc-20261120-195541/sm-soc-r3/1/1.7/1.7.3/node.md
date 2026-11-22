@@ -1,0 +1,20 @@
+# N42: 高挂价卖家在干预后的预期收益损失 ΔU_S 需量化为具体货币值，公式为 ΔU_S = (P_ask - P_ask') * (1 - T_deal'/T_dea
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N11, N12, N13
+
+## Claim
+
+高挂价卖家在干预后的预期收益损失 ΔU_S 需量化为具体货币值，公式为 ΔU_S = (P_ask - P_ask') * (1 - T_deal'/T_deal) * Q_expected，其中 Q_expected 为干预后预期成交量，需结合价格弹性 ε_price 计算 Q_expected = Q_base * (P_ask'/P_ask)^ε_price。
+
+## Corrected Claim
+
+高挂价卖家在干预后的预期收益损失 ΔU_S 应基于干预前后预期总收益之差计算：ΔU_S = P_ask * Q_base - P_ask' * Q_expected，其中 Q_expected 需结合价格弹性 ε_price 计算为 Q_base * (P_ask'/P_ask)^ε_price。
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备, 有冗余（子节点严重偏离父节点核心任务（计算ΔU_S）。父节点仅要求量化收益损失，但子节点4、5、6、7、8引入了‘卖家流失率’、‘流动性指标’、‘元分析效应量’及‘跨文化检验’等与ΔU_S公式完全无关的宏观生态或统计方法论概念，导致正交性破裂且存在大量冗余/无关信息。此外，子节点1中关于ε_price符号导致ΔU_S正负的推导逻辑存在数学错误（公式中若P_ask'>P_ask则收益增加，但高挂价干预通常指降价或维持高价，需明确方向）。）

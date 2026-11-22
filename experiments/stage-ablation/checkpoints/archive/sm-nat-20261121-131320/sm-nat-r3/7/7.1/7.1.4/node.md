@@ -1,0 +1,20 @@
+# N135: 联合分布下条件期望 E[S|F > F_th] 的数值积分公式：E[S|F > F_th] = ∫_{S_min}^{S_max} S * f_S(S) * P
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N52
+
+## Claim
+
+联合分布下条件期望 E[S|F > F_th] 的数值积分公式：E[S|F > F_th] = ∫_{S_min}^{S_max} S * f_S(S) * P(F > F_th | S) dS / P(F > F_th)，其中条件概率 P(F > F_th | S) 通过 Copula 密度 C_ρ 积分得到
+
+## Corrected Claim
+
+联合分布下条件期望 E[S|F > F_th] 的数值积分公式：E[S|F > F_th] = ∫_{S_min}^{S_max} S * f_S(S) * P(F > F_th | S) dS / P(F > F_th)，其中条件概率 P(F > F_th | S) 通过 Copula 密度 C_ρ 积分得到
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式符合贝叶斯定理及条件期望定义，Copula用于构建联合分布是标准统计方法，量纲与逻辑自洽。

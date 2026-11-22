@@ -1,0 +1,20 @@
+# N132: P_inval 的数值修正（矛盾解决）：N55 原值 0.000023 基于 T_res=3.3min 计算，但 N59 指出驱逐率极高导致 T_res 极短。
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N55
+
+## Claim
+
+P_inval 的数值修正（矛盾解决）：N55 原值 0.000023 基于 T_res=3.3min 计算，但 N59 指出驱逐率极高导致 T_res 极短。修正后，若采用更保守的 T_res=10min（考虑小对象驻留更长），P_inval = 10min / (100days * 1440min/day) ≈ 0.000069。结论不变：P_inval << 1，更新导致的强制失效概率极低。
+
+## Corrected Claim
+
+P_inval 的数值修正（矛盾解决）：N55 原值 0.000023 基于 T_res=3.3min 计算，但 N59 指出驱逐率极高导致 T_res 极短。修正后，若采用更保守的 T_res=10min（考虑小对象驻留更长），P_inval = 10min / (100days * 1440min/day) ≈ 0.000069。结论不变：P_inval << 1，更新导致的强制失效概率极低。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算 10/(100*1440) ≈ 0.000069 准确，量级合理，结论 P_inval << 1 成立。

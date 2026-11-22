@@ -1,0 +1,24 @@
+# N290: 高时间敏感型买家（30%群体）的搜索成本增量 C_search_effort_high 中，时间成本项 c_time * Δt_search 占主导（占比>80
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N97
+
+## Claim
+
+高时间敏感型买家（30%群体）的搜索成本增量 C_search_effort_high 中，时间成本项 c_time * Δt_search 占主导（占比>80%），其中 c_time 应修正为机会成本而非固定$10/小时，公式为 c_time_opportunity = (V_hourly_earnings / 60) * Δt_search，对于高收入买家，该项可能达到 $5-15，远超认知负荷成本 c_cognitive * Δcognition（约$0.5-1.0）。
+
+## Corrected Claim
+
+高时间敏感型买家（30%群体）的搜索成本增量 C_search_effort_high 中，时间成本项 c_time * Δt_search 占主导（占比>80%），其中 c_time 应修正为机会成本而非固定$10/小时，公式为 c_time_opportunity = (V_hourly_earnings / 60) * Δt_search，对于高收入买家，该项可能达到 $5-15，远超认知负荷成本 c_cognitive * Δcognition（约$0.5-1.0）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：高时间敏感型买家的时间机会成本（基于高时薪）在量级上确实远超固定认知负荷成本，符合经济学直觉。
+
+## Search Query
+
+time opportunity cost in consumer search behavior high income buyers

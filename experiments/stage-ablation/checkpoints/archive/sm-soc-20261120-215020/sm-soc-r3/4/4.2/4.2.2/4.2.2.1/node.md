@@ -1,0 +1,24 @@
+# N157: 信息吸收率 k_i 的量化定义：k_i 应基于买家对价格偏差信息的处理速度校准，具体为 k_i = 1 / T_half，其中 T_half 为买家处理 50%
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N54
+
+## Claim
+
+信息吸收率 k_i 的量化定义：k_i 应基于买家对价格偏差信息的处理速度校准，具体为 k_i = 1 / T_half，其中 T_half 为买家处理 50% 偏差信息所需的时间（单位：小时）。在二手交易场景下，假设 T_half ≈ 24h，则 k_i ≈ 0.0417/h；若假设即时处理 T_half ≈ 1h，则 k_i ≈ 1.0。需验证在 48h 窗口内，不同 k_i 对应的 η 值是否覆盖 0.2 的观测值。
+
+## Corrected Claim
+
+信息吸收率 k_i 的量化定义：k_i 应基于买家对价格偏差信息的处理速度校准，具体为 k_i = 1 / T_half，其中 T_half 为买家处理 50% 偏差信息所需的时间（单位：小时）。在二手交易场景下，假设 T_half ≈ 24h，则 k_i ≈ 0.0417/h；若假设即时处理 T_half ≈ 1h，则 k_i ≈ 1.0。需验证在 48h 窗口内，不同 k_i 对应的 η 值是否覆盖 0.2 的观测值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：k_i = 1/T_half 定义自洽，数值计算正确（1/24≈0.0417, 1/1=1.0），符合指数衰减模型中速率常数与半衰期的关系。
+
+## Search Query
+
+information processing rate k parameter behavioral economics price deviation

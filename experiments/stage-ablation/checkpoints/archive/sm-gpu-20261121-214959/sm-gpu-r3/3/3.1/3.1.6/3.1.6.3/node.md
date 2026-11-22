@@ -1,0 +1,24 @@
+# N216: 4x RTX 4090 多卡系统的 PCIe 互联带宽瓶颈量化：若采用 PCIe 4.0 x16 链路，理论双向带宽 64 GB/s，实际有效带宽受协议开销限制
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N73
+
+## Claim
+
+4x RTX 4090 多卡系统的 PCIe 互联带宽瓶颈量化：若采用 PCIe 4.0 x16 链路，理论双向带宽 64 GB/s，实际有效带宽受协议开销限制约 50 GB/s；对比单卡 HBM 带宽 1008 GB/s，跨卡通信延迟导致 BF16 模型 (54GB) 的 Decode 吞吐从理论 4.7 tokens/s 进一步降至 3.5-4.0 tokens/s (含 15-25% 通信开销)。
+
+## Corrected Claim
+
+4x RTX 4090 多卡系统的 PCIe 互联带宽瓶颈量化：若采用 PCIe 4.0 x16 链路，理论双向带宽 64 GB/s，实际有效带宽受协议开销限制约 50 GB/s；对比单卡 HBM 带宽 1008 GB/s，跨卡通信延迟导致 BF16 模型 (54GB) 的 Decode 吞吐从理论 4.7 tokens/s 进一步降至 3.5-4.0 tokens/s (含 15-25% 通信开销)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe 4.0 x16 理论带宽 64GB/s 及有效带宽约 50GB/s 符合工程常识；HBM 带宽 1008GB/s 对应 RTX 4090 规格；通信开销导致吞吐下降的逻辑自洽。
+
+## Search Query
+
+PCIe 4.0 x16 effective bandwidth GPU-to-GPU communication overhead

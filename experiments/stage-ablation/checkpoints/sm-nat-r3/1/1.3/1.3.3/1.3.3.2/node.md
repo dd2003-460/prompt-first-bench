@@ -1,0 +1,20 @@
+# N126: 基于反 Gumbel Copula 的 Spearman 相关系数公式 ρ_S = -θ / (θ + 1)，代入 ρ_S ≈ -0.3 解得 θ = -ρ_S
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N42
+
+## Claim
+
+基于反 Gumbel Copula 的 Spearman 相关系数公式 ρ_S = -θ / (θ + 1)，代入 ρ_S ≈ -0.3 解得 θ = -ρ_S / (1 + ρ_S) = 0.3 / 0.7 ≈ 0.4286，该参数值用于确定反 Gumbel Copula 的联合分布形态。
+
+## Corrected Claim
+
+基于反 Gumbel Copula 的 Spearman 相关系数公式 ρ_S = -θ / (θ + 1)，代入 ρ_S ≈ -0.3 解得 θ = -ρ_S / (1 + ρ_S) = 0.3 / 0.7 ≈ 0.4286，该参数值用于确定反 Gumbel Copula 的联合分布形态。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：反Gumbel Copula的Spearman相关系数公式为 ρ_S = -θ/(θ+1)，代数推导 θ = -ρ_S/(1+ρ_S) 正确，代入 ρ_S=-0.3 计算得 θ≈0.4286，数值量级合理且符合Copula参数范围(0,1)。

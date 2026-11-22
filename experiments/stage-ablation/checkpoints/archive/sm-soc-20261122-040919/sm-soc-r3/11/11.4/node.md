@@ -1,0 +1,20 @@
+# N402: 高溢价成交概率的量化模型：在噪声主导市场下，高溢价商品（P_ask > P_ref * 1.15）的成交概率 P(deal) 可建模为 P(deal) = Φ(
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N122
+
+## Claim
+
+高溢价成交概率的量化模型：在噪声主导市场下，高溢价商品（P_ask > P_ref * 1.15）的成交概率 P(deal) 可建模为 P(deal) = Φ((μ_buyer - P_ask) / σ_buyer)，其中 Φ 为标准正态分布函数，μ_buyer 为买家平均估值。
+
+## Corrected Claim
+
+高溢价成交概率的量化模型：在噪声主导市场下，高溢价商品（P_ask > P_ref * 1.15）的成交概率 P(deal) 可建模为 P(deal) = Φ((μ_buyer - P_ask) / σ_buyer)，其中 Φ 为标准正态分布函数，μ_buyer 为买家平均估值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

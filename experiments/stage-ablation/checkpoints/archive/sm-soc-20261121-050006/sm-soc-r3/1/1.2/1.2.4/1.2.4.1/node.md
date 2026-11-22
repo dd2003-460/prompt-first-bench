@@ -1,0 +1,30 @@
+# N137: β_anchor（锚定系数）的分布参数估计：基于C2C卖家历史挂价与成交价数据回归，β_anchor 服从截断正态分布或 Beta 分布，其均值 μ_β 和标准
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N39
+
+## Claim
+
+β_anchor（锚定系数）的分布参数估计：基于C2C卖家历史挂价与成交价数据回归，β_anchor 服从截断正态分布或 Beta 分布，其均值 μ_β 和标准差 σ_β 需通过最小二乘法拟合 P_ask = P_clear * (1 + β_anchor) 得到，用于确定溢价区间的置信区间。
+
+## Corrected Claim
+
+β_anchor（锚定系数）的分布参数估计通常基于C2C卖家历史数据回归，其分布形式（如截断正态或Beta分布）及参数（μ_β, σ_β）需通过统计拟合（如最小二乘法或最大似然估计）确定，具体模型选择取决于数据分布特征。
+
+## Evidence
+
+[质询]该陈述属于特定领域（C2C二手交易定价模型）的经验性建模假设，无法从第一性原理或数学公理直接推导得出。具体分布形式（截断正态或Beta）及回归方法（最小二乘法）的选择依赖于具体数据集的特征和统计检验结果，属于经验事实而非逻辑必然。 | 参考来源[1]讨论目标检测算法，[2]为平台登录页，[3]讨论可靠性工程中的Beta分布参数估计，均与C2C卖家定价模型无关，无可用外部证据支持该特定经验事实；但陈述内部逻辑自洽（回归拟合分布参数是标准统计流程），故降级为定性表述。
+
+## Search Query
+
+C2C second-hand market listing price anchoring coefficient beta distribution regression
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/lovep1/article/details/114363258&rut=3f6809abf2a006eaf0de85d987bb89ba1b6fedfa5514d1da21b6a4cfc807925b', 'type': 'ddg', 'title': '详解目标检测算法坐标回归方式-anchor-based方法 - CSDN博客'}
+- {'url': 'https://d.wanfangdata.com.cn/thesis/ChhUaGVzaXNOZXdTMjAyNDA5MjAxNTE3MjUSCUQwMjExODQzORoIMXltN2t0YTY%3D&rut=560bfebe2c8036e08cd6adf49885feebe1d2189ecbd4ee0759f1837de38d67a7', 'type': 'ddg', 'title': '万方数据知识服务平台 - d.wanfangdata.com.cn'}
+- {'url': 'https://bhxb.buaa.edu.cn/bhzk/cn/article/doi/10.13700/j.bh.1001-5965.2015.0071&rut=506e901f33c6de260325d8bc82cb5c8f5a9d8bf7c2afae4c81bbc7c686f3ed6f', 'type': 'ddg', 'title': '基于β似然函数的参数估计方法 - bhxb.buaa.edu.cn'}

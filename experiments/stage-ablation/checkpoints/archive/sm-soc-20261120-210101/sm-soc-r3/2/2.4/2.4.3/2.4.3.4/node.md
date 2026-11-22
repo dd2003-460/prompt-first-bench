@@ -1,0 +1,24 @@
+# N212: 质量提升期望收益 ΔV_quality(θ) 的随机投影：ΔV_quality(θ) = V_base + V_noise * ε_S，其中 V_base 为基
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N57
+
+## Claim
+
+质量提升期望收益 ΔV_quality(θ) 的随机投影：ΔV_quality(θ) = V_base + V_noise * ε_S，其中 V_base 为基准质量收益，V_noise 为噪声收益系数，ε_S 为共享随机源。
+
+## Corrected Claim
+
+质量提升期望收益 ΔV_quality(θ) 的随机投影：ΔV_quality(θ) = V_base + V_noise * ε_S，其中 V_base 为基准质量收益，V_noise 为噪声收益系数，ε_S 为共享随机源。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+quality improvement expected benefit stochastic projection

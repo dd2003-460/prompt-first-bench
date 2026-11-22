@@ -1,0 +1,24 @@
+# N60: 最新 CDN 厂商（如 Cloudflare/Akamai）在类似负载下的实测命中率数据属于「刚查到的」事实，例如 Cloudflare 在 2023 年报告中
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N18
+
+## Claim
+
+最新 CDN 厂商（如 Cloudflare/Akamai）在类似负载下的实测命中率数据属于「刚查到的」事实，例如 Cloudflare 在 2023 年报告中指出在 Pareto 分布下 LRU 命中率约为 85-90%，这些数据需通过实时查证获取。
+
+## Corrected Claim
+
+最新 CDN 厂商（如 Cloudflare/Akamai）在类似负载下的实测命中率数据属于需实时查证的经验事实，具体数值（如 Cloudflare 在特定分布下的 LRU 命中率）需通过官方报告或权威技术文档核实，当前缺乏直接证据支持其具体数值。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数据（Cloudflare 2023 年报告、Pareto 分布下 LRU 命中率 85-90%），属于硬件/业务实测指标，无法从第一性原理推导，且当前无可用来源支持该具体数值和报告存在的真实性。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，无法验证具体数值及报告出处）
+
+## Search Query
+
+Cloudflare Akamai CDN hit rate Pareto distribution 2023 report

@@ -1,0 +1,30 @@
+# N24: 单Token推理延迟（Time to First Token, TTFT）：在32K上下文窗口下，不同硬件配置（单卡vs多卡）处理首Token所需的计算时间，受
+
+- **status**: verified
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4, N5, N6
+
+## Claim
+
+单Token推理延迟（Time to First Token, TTFT）：在32K上下文窗口下，不同硬件配置（单卡vs多卡）处理首Token所需的计算时间，受限于显存带宽和矩阵乘法吞吐量。
+
+## Corrected Claim
+
+单Token推理延迟（Time to First Token, TTFT）：在32K上下文窗口下，不同硬件配置（单卡vs多卡）处理首Token所需的计算时间，受限于显存带宽和矩阵乘法吞吐量。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点逻辑清晰且正交：分别覆盖了理论模型（含Prefill/Decode界限区分）、单卡高性能消费级硬件（4090）、单卡专业级硬件（A100）以及多卡扩展（通信开销）。虽然4090和A100看似是‘不同取值’，但它们代表了不同的硬件层级和架构特性（PCIe vs HBM, Consumer vs Datacenter），且A100节点额外包含了带宽对多卡瓶颈的铺垫，因此不构成简单冗余。父节点中提到的‘显存带宽’限制在子节点1中通过指出32K上下文下Prefill是Compute-bound得到了修正和细化，逻辑自洽。）
+
+## Search Query
+
+Qwen3-27B inference latency TTFT 32k context RTX 4090 A100
+
+## Retrieval Sources
+
+- {'url': 'https://www.ibm.com/think/topics/time-to-first-token&rut=0e29c56fa6a52f8330f8a60b5da465f5de5cba35c4e7f2c30e304e431781cd5f', 'type': 'ddg', 'title': 'Time to First Token (TTFT) | IBM'}
+- {'url': 'https://blog.csdn.net/weixin_29054245/article/details/170952001&rut=5b4377e4e5852d3fdd452d9dcb45a8b2ee67c8d8aa326bec8272aba5acd176a2', 'type': 'ddg', 'title': '大模型推理性能双指标：Ttft与itl详解与优化实践-csdn博客'}
+- {'url': 'https://blog.csdn.net/2401_84204413/article/details/156573662&rut=0bbb6ff18a6b70bbb46d5afdf067c356510a0fe3b8e5f1c3b4574a23e87d2bb1', 'type': 'ddg', 'title': 'Ai大模型应用性能核心指标：Ttft 与 Tpot 详解-csdn博客'}

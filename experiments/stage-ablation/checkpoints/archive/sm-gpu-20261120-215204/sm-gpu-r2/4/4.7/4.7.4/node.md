@@ -1,0 +1,24 @@
+# N117: 2x A100 (NVLink 互联) 在 32K 上下文预填充阶段的额外同步开销估算：NVLink 600 GB/s 双向带宽下，32GB 数据传输时间约 0
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N28
+
+## Claim
+
+2x A100 (NVLink 互联) 在 32K 上下文预填充阶段的额外同步开销估算：NVLink 600 GB/s 双向带宽下，32GB 数据传输时间约 0.05s，加上延迟，总 TTFT 增加 <0.1s，相对于单卡计算时间影响可忽略 (<1%)。
+
+## Corrected Claim
+
+2x A100 (NVLink 互联) 在 32K 上下文预填充阶段的额外同步开销估算：NVLink 600 GB/s 双向带宽下，32GB 数据传输时间约 0.05s，加上延迟，总 TTFT 增加 <0.1s，相对于单卡计算时间影响可忽略 (<1%)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：NVLink 带宽量级（~600GB/s）与传输时间估算（32GB/600GB/s≈0.05s）符合物理直觉，且相对于大模型预填充计算耗时，该同步开销占比确实极小。
+
+## Search Query
+
+NVLink bandwidth impact on LLM inference latency

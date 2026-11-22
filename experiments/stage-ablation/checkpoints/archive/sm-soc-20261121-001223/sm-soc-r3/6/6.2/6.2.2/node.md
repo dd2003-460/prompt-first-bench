@@ -1,0 +1,20 @@
+# N194: 价格变动推送的触达率与转化效率：定义 Push_CTR = N_click_push / N_send_push；假设 Push_CTR 在二手平台为 5-10
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N71
+
+## Claim
+
+价格变动推送的触达率与转化效率：定义 Push_CTR = N_click_push / N_send_push；假设 Push_CTR 在二手平台为 5-10%；则降价后新增咨询量 ΔN_consult = N_viewed * P_ignored * Push_CTR * k_conversion；需量化 k_conversion（点击后咨询率），若 k_conversion < 0.1，则即使推送触达，也无法显著改变 60% 无咨询的现状。
+
+## Corrected Claim
+
+价格变动推送的触达率与转化效率：定义 Push_CTR = N_click_push / N_send_push；假设 Push_CTR 在二手平台为 5-10%；则降价后新增咨询量 ΔN_consult = N_viewed * P_ignored * Push_CTR * k_conversion；需量化 k_conversion（点击后咨询率），若 k_conversion < 0.1，则即使推送触达，也无法显著改变 60% 无咨询的现状。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

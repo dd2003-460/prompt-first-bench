@@ -1,0 +1,20 @@
+# N113: RTX 5090 单卡运行 INT4 权重 (13.5GB) + BF16 KV Cache (12.58GB) 时的理论 Decode 吞吐上限 = 1792
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N33
+
+## Claim
+
+RTX 5090 单卡运行 INT4 权重 (13.5GB) + BF16 KV Cache (12.58GB) 时的理论 Decode 吞吐上限 = 1792 GB/s / 13.5 GB ≈ 132.7 tokens/s (仅权重读取瓶颈，忽略 KV Cache 读取开销的简化模型)，需对比 4090 的 74.7 tokens/s (1008/13.5) 验证性能提升幅度。
+
+## Corrected Claim
+
+RTX 5090 单卡运行 INT4 权重 (13.5GB) + BF16 KV Cache (12.58GB) 时的理论 Decode 吞吐上限 = 1792 GB/s / 13.5 GB ≈ 132.7 tokens/s (仅权重读取瓶颈，忽略 KV Cache 读取开销的简化模型)，需对比 4090 的 74.7 tokens/s (1008/13.5) 验证性能提升幅度。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 5090 带宽 1792 GB/s 与 4090 带宽 1008 GB/s 符合硬件规格常识，算术计算 1792/13.5≈132.7 和 1008/13.5≈74.7 准确，简化模型逻辑自洽。

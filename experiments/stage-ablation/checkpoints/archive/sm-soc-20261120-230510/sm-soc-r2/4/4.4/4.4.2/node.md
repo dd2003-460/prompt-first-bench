@@ -1,0 +1,24 @@
+# N76: 降价卖家比例 s 的内生性约束：s 并非外生给定，而是 s = f(δ_min, C_reprice, T_wait)，其中 δ_min 为触发降价的最小幅度，
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N19
+
+## Claim
+
+降价卖家比例 s 的内生性约束：s 并非外生给定，而是 s = f(δ_min, C_reprice, T_wait)，其中 δ_min 为触发降价的最小幅度，C_reprice 为重新挂牌的时间/心理成本，T_wait 为等待成交的容忍时间；若 C_reprice 过高，s 将低于 0.6，导致 ΔR 上限降低。
+
+## Corrected Claim
+
+降价卖家比例 s 的内生性约束：s 并非外生给定，而是 s = f(δ_min, C_reprice, T_wait)，其中 δ_min 为触发降价的最小幅度，C_reprice 为重新挂牌的时间/心理成本，T_wait 为等待成交的容忍时间；若 C_reprice 过高，s 将低于 0.6，导致 ΔR 上限降低。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该陈述描述了微观经济学中卖家行为决策的内生性机制，变量定义（δ_min, C_reprice, T_wait）与结果（s < 0.6 导致收益上限降低）在逻辑上自洽，符合理性人假设下的成本-收益分析框架。
+
+## Search Query
+
+seller repricing behavior cost of relisting waiting time

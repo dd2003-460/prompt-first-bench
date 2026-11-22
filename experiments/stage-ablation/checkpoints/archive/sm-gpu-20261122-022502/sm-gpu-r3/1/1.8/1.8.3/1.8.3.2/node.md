@@ -1,0 +1,24 @@
+# N174: INT8 量化的 PPL 增量约为 0.15 (从 2.1 升至 2.25)，W4 的 0.3 增量是 INT8 的 2 倍，符合非线性质损累积规律：比特数减半
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N56
+
+## Claim
+
+INT8 量化的 PPL 增量约为 0.15 (从 2.1 升至 2.25)，W4 的 0.3 增量是 INT8 的 2 倍，符合非线性质损累积规律：比特数减半导致量化误差平方加倍，但受激活值分布影响，实际比值通常在 1.5-2.5 之间。
+
+## Corrected Claim
+
+INT8 量化的 PPL 增量约为 0.15 (从 2.1 升至 2.25)，W4 的 0.3 增量是 INT8 的 2 倍，符合非线性质损累积规律：比特数减半导致量化误差平方加倍，但受激活值分布影响，实际比值通常在 1.5-2.5 之间。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：INT8到W4的量化误差平方加倍符合信噪比理论，PPL增量比值2倍在合理范围内（1.5-2.5），数值量级自洽。
+
+## Search Query
+
+INT8 vs W4 quantization perplexity increase ratio LLM

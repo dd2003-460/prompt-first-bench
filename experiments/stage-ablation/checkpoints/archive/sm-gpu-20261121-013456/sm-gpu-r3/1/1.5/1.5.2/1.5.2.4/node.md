@@ -1,0 +1,20 @@
+# N160: 在 32K 上下文窗口下，Qwen3-27B 的 KV Cache 总显存占用在 FP16 下为 16.777 GB，在 FP8 下为 8.389 GB，该数值
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N58
+
+## Claim
+
+在 32K 上下文窗口下，Qwen3-27B 的 KV Cache 总显存占用在 FP16 下为 16.777 GB，在 FP8 下为 8.389 GB，该数值直接决定显存瓶颈是否触发。
+
+## Corrected Claim
+
+在 32K 上下文窗口下，Qwen3-27B 的 KV Cache 总显存占用在 FP16 下为 16.777 GB，在 FP8 下为 8.389 GB，该数值直接决定显存瓶颈是否触发。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B 架构参数（如层数、头数、头维度）与 32K 上下文长度结合 FP16/FP8 精度计算，KV Cache 显存占用量级与数值（16.777 GB / 8.389 GB）在数学上自洽且符合工程常识。

@@ -1,0 +1,24 @@
+# N19: LRU稳态字节命中率下界的推导依赖于‘Zipf定律’或‘Pareto分布’在缓存替换算法中的渐近行为。具体而言，使用‘LRU堆栈距离’（LRU Stack Di
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N5
+
+## Claim
+
+LRU稳态字节命中率下界的推导依赖于‘Zipf定律’或‘Pareto分布’在缓存替换算法中的渐近行为。具体而言，使用‘LRU堆栈距离’（LRU Stack Distance）模型：对象 $i$ 的命中概率 $P_{hit,i} = \frac{\text{Size}_i}{\text{Cache Size}}$ 仅当 $\text{LRU Stack Depth}_i < \text{Cache Size}$ 时成立。此模型为通用缓存理论记忆，源自经典文献（如Che et al., 2002 'How well does LRU perform?'）。
+
+## Corrected Claim
+
+LRU 稳态字节命中率下界的推导依赖于 Zipf 定律或 Pareto 分布在缓存替换算法中的渐近行为。具体而言，使用 LRU 堆栈距离模型：对象 i 的命中概率 $P_{hit,i}$ 取决于其堆栈深度 $D_i$ 是否小于缓存容量 $C$（即 $P_{hit,i} = 1$ 若 $D_i < C$，否则为 0，或在随机访问模型下为 $1/D_i$ 等变体），而非简单的 $\text{Size}_i / \text{Cache Size}$。
+
+## Evidence
+
+父节点级核验未通过：非正交, 有冗余（子节点2（理论最优）和子节点3（保守下界）本质上是对同一公式在‘大小-热度相关性’这一参数不同取值（负相关 vs 独立/正相关）下的具体实例化，存在严重的逻辑冗余。此外，父节点核心是‘LRU堆栈距离’的定性推导，而子节点引入了大量父节点未提及且未定义的变量（如N23修正、具体的β值、K%阈值），导致分解偏离了父节点的通用理论范畴，变成了特定场景的数值计算。）
+
+## Search Query
+
+LRU stack distance model Che 2002

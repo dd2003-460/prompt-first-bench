@@ -1,0 +1,30 @@
+# N146: 在缓存容量受限至 Top 10% 对象时，频率估计滞后导致的增益损失 ΔH_loss ≈ ε_freq × H_LFU^max，其中 ε_freq 为频率估计误
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N51
+
+## Claim
+
+在缓存容量受限至 Top 10% 对象时，频率估计滞后导致的增益损失 ΔH_loss ≈ ε_freq × H_LFU^max，其中 ε_freq 为频率估计误差率，典型值为 5%-10%（基于计数精度和衰减机制），H_LFU^max ≈ 9.8%，故 ΔH_loss ≈ 0.49%-0.98 百分点。
+
+## Corrected Claim
+
+在缓存容量受限至 Top 10% 对象时，频率估计滞后导致的增益损失 ΔH_loss 可近似表示为 ε_freq × H_LFU^max。若假设频率估计误差率 ε_freq 为 5%-10% 且 H_LFU^max 约为 9.8%，则 ΔH_loss 估算约为 0.49%-0.98 百分点（注：具体数值需依据实际工作负载特征验证）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（ε_freq典型值5%-10%、H_LFU^max≈9.8%）及特定的数学模型公式，属于经验事实/工程估算，无法从第一性原理严格推导，且参考来源均未提供相关数据支持。 | 逻辑自洽（0.05*9.8=0.49, 0.10*9.8=0.98），但参考来源[1][2][3]均与缓存频率估计误差或LFU增益损失无关，无外部证据支持具体数值，依据经验事实排除条款降级。
+
+## Search Query
+
+LFU frequency estimation error cache hit rate loss Pareto distribution
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_26876073/article/details/160211383&rut=4f5f41a015e030d2bc50b960a2d20b09050d6a3e5e766ae85eb0eff31f207139', 'type': 'ddg', 'title': '从缓存污染到性能救星：深入理解Intel DDIO的10% LLC限制与TPH Hint-CSDN博客'}
+- {'url': 'https://blog.csdn.net/qq_36159989/article/details/140151143&rut=093aa9f8a2958e866870912932f24309180e849c0b5918a21f3eb3024eab2e3a', 'type': 'ddg', 'title': 'TTLs Matter: Efficient Cache Sizing with TTL-Aware Miss Rati'}
+- {'url': 'https://cloud.tencent.com/developer/article/2694112&rut=500e4414322c072abc2217661e8a489d591e1a6b7f7ab79fcaf8419354f1196c', 'type': 'ddg', 'title': '企业级llm Rag检索延迟优化：从理论极限到工程落地的全景实战指南-腾讯云开发者社区-腾讯云'}

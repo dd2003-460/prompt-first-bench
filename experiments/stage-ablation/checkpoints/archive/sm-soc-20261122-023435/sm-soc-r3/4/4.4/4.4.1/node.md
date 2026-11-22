@@ -1,0 +1,24 @@
+# N58: N18中卖家利润空间 Margin 压缩至 10-15% 的具体构成：Margin_new = (P_final - C_cost) / P_final，假设 
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+N18中卖家利润空间 Margin 压缩至 10-15% 的具体构成：Margin_new = (P_final - C_cost) / P_final，假设 C_cost 不变，P_final 因自动降价算法从 P_ask * (1+δ) 降至 P_ref * (1+δ/2)，导致 Margin 从 20-25% 线性下降至 10-15%。
+
+## Corrected Claim
+
+N18中卖家利润空间 Margin 压缩至 10-15% 的具体构成：Margin_new = (P_final - C_cost) / P_final，假设 C_cost 不变，P_final 因自动降价算法从 P_ask * (1+δ) 降至 P_ref * (1+δ/2)，导致 Margin 从 20-25% 线性下降至 10-15%。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在逻辑上是正交的（分别定义成本、初始状态、最终状态）。然而，完备性不足：父节点核心在于描述从 P_ask 到 P_final 的‘自动降价算法’导致的 Margin 压缩过程，但子节点仅提供了端点计算，缺失了对‘降价机制’（即 P_final 如何由 P_ask 或 P_ref 推导而来）的独立解释或验证节点。此外，父节点提到 P_final 降至 P_ref*(1+δ/2)，而子节点3直接代入数值，未显式展示该算法逻辑与公式的对应关系，导致‘压缩’的动态过程在分解中缺失。）
+
+## Search Query
+
+seller margin compression price adjustment cost structure second hand market

@@ -1,0 +1,24 @@
+# N358: RTX 5090 的显存带宽效率比（Effective_Bandwidth / Theoretical_Bandwidth）在 LLM 推理中通常受限于内存访问
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N126
+
+## Claim
+
+RTX 5090 的显存带宽效率比（Effective_Bandwidth / Theoretical_Bandwidth）在 LLM 推理中通常受限于内存访问模式；对于 27B 模型，若权重加载成为瓶颈，有效带宽可能仅为理论值的 60-80%，需通过实测 Tokens/s 反推。
+
+## Corrected Claim
+
+RTX 5090 的显存带宽效率比（Effective_Bandwidth / Theoretical_Bandwidth）在 LLM 推理中通常受限于内存访问模式；对于 27B 模型，若权重加载成为瓶颈，有效带宽可能仅为理论值的 60-80%，需通过实测 Tokens/s 反推。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：LLM推理中权重加载受内存访问模式限制，有效带宽低于理论值符合硬件与系统常识，60-80%的量级在工程实践中合理。
+
+## Search Query
+
+RTX 5090 LLM inference memory bandwidth efficiency effective throughput

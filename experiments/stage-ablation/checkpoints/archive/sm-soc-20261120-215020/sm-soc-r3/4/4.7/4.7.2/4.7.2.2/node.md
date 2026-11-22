@@ -1,0 +1,24 @@
+# N202: β 公式的适用边界条件：公式 β = 1 / (1 + σ_noise^2) 仅在信号检测论中假设信噪比 (SNR) 线性变化的局部近似下成立；当 σ_nois
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N69, N70, N71
+
+## Claim
+
+β 公式的适用边界条件：公式 β = 1 / (1 + σ_noise^2) 仅在信号检测论中假设信噪比 (SNR) 线性变化的局部近似下成立；当 σ_noise > 0.3 时，由于买家注意力饱和，β 的实际下降速度慢于该公式预测，需引入修正项 η_correction ≈ 1 - e^(-σ_noise^2/0.1)。
+
+## Corrected Claim
+
+β 公式 β = 1 / (1 + σ_noise^2) 在信噪比线性变化的局部近似下成立；当噪声水平较高时，由于买家注意力饱和效应，β 的实际下降速度可能慢于该公式预测，需引入修正项，但具体阈值与修正公式依赖于特定模型假设。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（如阈值 σ_noise > 0.3 和修正项公式 η_correction ≈ 1 - e^(-σ_noise^2/0.1)），这些并非信号检测论或经济学的第一性原理推导结果，而是特定模型或经验拟合的产物，缺乏通用理论支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体数值阈值与修正公式无法从第一性原理严格推出）
+
+## Search Query
+
+signal detection theory price sensitivity non-linearity high noise variance correction term

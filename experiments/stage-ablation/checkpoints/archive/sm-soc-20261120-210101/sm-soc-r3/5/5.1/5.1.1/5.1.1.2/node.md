@@ -1,0 +1,20 @@
+# N315: λ_seller 的置信区间计算：基于实验样本量 n 和效应量 Cohen's d，λ_seller 的 95% 置信区间为 [λ_seller - 1.96*
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N91
+
+## Claim
+
+λ_seller 的置信区间计算：基于实验样本量 n 和效应量 Cohen's d，λ_seller 的 95% 置信区间为 [λ_seller - 1.96*SE_λ, λ_seller + 1.96*SE_λ]，其中 SE_λ = sqrt(Var(λ)/n)。若 n=500，Var(λ)=0.5，则 SE_λ = sqrt(0.5/500) = 0.032，95% CI = [2.0 - 1.96*0.032, 2.0 + 1.96*0.032] = [1.937, 2.063]。
+
+## Corrected Claim
+
+λ_seller 的置信区间计算：基于实验样本量 n 和效应量 Cohen's d，λ_seller 的 95% 置信区间为 [λ_seller - 1.96*SE_λ, λ_seller + 1.96*SE_λ]，其中 SE_λ = sqrt(Var(λ)/n)。若 n=500，Var(λ)=0.5，则 SE_λ = sqrt(0.5/500) = 0.032，95% CI = [2.0 - 1.96*0.032, 2.0 + 1.96*0.032] = [1.937, 2.063]。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：SE计算 sqrt(0.5/500)≈0.0316 取 0.032 合理，CI 计算 2.0±1.96*0.032≈[1.937, 2.063] 数值准确，符合统计学第一性原理。

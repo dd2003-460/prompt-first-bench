@@ -1,0 +1,24 @@
+# N320: RTX 5090 在 18-24 个月持有期内的年化折旧斜率（Annualized Depreciation Slope），计算公式：Slope_18_24 =
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N118
+
+## Claim
+
+RTX 5090 在 18-24 个月持有期内的年化折旧斜率（Annualized Depreciation Slope），计算公式：Slope_18_24 = (P_18 - P_24) / P_18 / 0.5；该值直接决定长期 TCO 中折旧成本的增量，若 Slope_18_24 > 30%/6个月，则 3 年 TCO 将比保守估计高 15-20%，需重新评估与 MI300X 的 TCO 交叉点。
+
+## Corrected Claim
+
+RTX 5090 在 18-24 个月持有期内的年化折旧斜率（Annualized Depreciation Slope）计算公式为：Slope_18_24 = (P_18 - P_24) / P_18 / 0.5。该值影响长期 TCO 中的折旧成本。若该斜率显著高于市场平均水平（具体阈值需依据实时市场数据确定），则 3 年 TCO 可能显著高于保守估计，需重新评估与 MI300X 的 TCO 交叉点。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值阈值（如'30%/6个月'、'15-20% TCO增量'）和特定硬件（RTX 5090）的市场折旧行为，属于经验事实而非第一性原理可推导的数学或物理定律。由于缺乏外部来源支持，无法验证这些具体数值阈值的准确性或行业共识性。 | 经验事实，逻辑自洽但缺来源支持。公式定义在数学上自洽，但具体的折旧斜率阈值及其对TCO的影响幅度属于市场经验数据，无检索来源佐证，故降级为定性表述。
+
+## Search Query
+
+GPU depreciation curve 18-24 months Blackwell architecture value drop

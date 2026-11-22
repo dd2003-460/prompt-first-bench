@@ -1,0 +1,24 @@
+# N114: Throughput_TPS 的取值需区分不同精度 (BF16/INT8/W4) 和不同硬件 (5090/4090/7900 XTX)；5090 INT8 TP
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N32
+
+## Claim
+
+Throughput_TPS 的取值需区分不同精度 (BF16/INT8/W4) 和不同硬件 (5090/4090/7900 XTX)；5090 INT8 TPS 预计 60-70 tokens/s [待核验]，4090 INT8 TPS 约 40-50 tokens/s (N31)，7900 XTX INT8 TPS 约 40-50 tokens/s (N31)；TPS 差异直接决定分母大小，影响 Cost_Per_Token 排序。
+
+## Corrected Claim
+
+Throughput_TPS 的取值需区分不同精度 (BF16/INT8/W4) 和不同硬件 (5090/4090/7900 XTX)；5090 INT8 TPS 预计 60-70 tokens/s [待核验]，4090 INT8 TPS 约 40-50 tokens/s (N31)，7900 XTX INT8 TPS 约 40-50 tokens/s (N31)；TPS 差异直接决定分母大小，影响 Cost_Per_Token 排序。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：5090/4090/7900 XTX 的 INT8 算力与显存带宽量级符合 60-70 / 40-50 / 40-50 tokens/s 的合理区间，且 TPS 差异影响成本排序的逻辑自洽。
+
+## Search Query
+
+RTX 5090 INT8 LLM inference tokens per second benchmark

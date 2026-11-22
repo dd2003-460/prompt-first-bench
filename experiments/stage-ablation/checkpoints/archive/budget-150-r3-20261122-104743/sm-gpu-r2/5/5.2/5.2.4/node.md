@@ -1,0 +1,30 @@
+# N154: 数据中心级 GPU 散热基础设施成本：H100 SXM5 需要液冷或高级风冷系统，散热成本约为 $2000-$5000/卡；A100 SXM4 需要风冷系统，散
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N26
+
+## Claim
+
+数据中心级 GPU 散热基础设施成本：H100 SXM5 需要液冷或高级风冷系统，散热成本约为 $2000-$5000/卡；A100 SXM4 需要风冷系统，散热成本约为 $500-$1000/卡；MI300X 需要液冷系统，散热成本约为 $3000-$6000/卡
+
+## Corrected Claim
+
+数据中心级 GPU 散热基础设施成本：H100 SXM5 通常采用液冷或高级风冷，散热相关成本显著高于 A100 SXM4（风冷）；MI300X 采用液冷，散热成本较高。具体每卡成本因部署模式（自建/租赁）和摊销周期而异，通常液冷方案单卡散热投入在数千美元量级，风冷方案在数百至一千美元量级。
+
+## Evidence
+
+[质询]具体数值（$2000-$5000/卡等）缺乏直接来源支持，且不同散热方案（风冷/液冷）的成本构成复杂，单一区间可能混淆了硬件采购成本与长期运维成本，或基于特定假设（如全生命周期摊销）而非通用市场报价。 | 来源[1][2][3]确认了H100/A100/MI300X的散热技术路线（液冷/风冷）及相对成本差异（液冷通常高于风冷），但未提供具体的每卡散热成本数值，属于经验事实且缺直接来源支持。
+
+## Search Query
+
+H100 SXM5 cooling infrastructure cost A100 MI300X
+
+## Retrieval Sources
+
+- {'url': 'https://www.bjjinzhao.cn/articles/gpu-server-cooling-8-gpu-a100-h100-liquid-vs-air&rut=da034be5ca22902df7f46b4b51dc87bd49d8ad1c76420b609eea31078ca14c15', 'type': 'ddg', 'title': 'GPU服务器散热方案：8卡A100/H100服务器怎么散热？液冷vs风冷实测 - 今朝恒业'}
+- {'url': 'https://blog.csdn.net/s4t5u6v/article/details/154550382&rut=ef0220c7a7de7b3fc986600fb4d042d9710d57895fa8426f94cc67f55d2b6728', 'type': 'ddg', 'title': 'Ai服务器液冷实战：从nvidia H100到国产gpu的散热方案对比'}
+- {'url': 'https://learnku.com/articles/92445&rut=25cc0ccaf89facedf74ec4827d8aa3a534d071bdab145b9065705c892621d4fe', 'type': 'ddg', 'title': '2026 整机 GPU 服务器散热架构实测：风冷 / 冷板 / 浸没式运维、成本、算力损耗全对比 | LearnKu 产品论坛'}

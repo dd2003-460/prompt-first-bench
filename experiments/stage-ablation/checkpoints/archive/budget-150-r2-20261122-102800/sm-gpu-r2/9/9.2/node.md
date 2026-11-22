@@ -1,0 +1,30 @@
+# N153: Qwen3-27B在4-bit量化（W4）下MATH基准准确率约为66%，BF16基准准确率约为80%，绝对损失14个百分点。
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N50
+
+## Claim
+
+Qwen3-27B在4-bit量化（W4）下MATH基准准确率约为66%，BF16基准准确率约为80%，绝对损失14个百分点。
+
+## Corrected Claim
+
+Qwen3-27B在4-bit量化（W4）下MATH基准准确率相比BF16基准存在一定程度的下降，具体数值需查阅官方技术报告或详细评测数据。
+
+## Evidence
+
+[质询]参考来源中未包含具体的MATH基准准确率数值（66%和80%），且来源[2]和[3]提及的模型版本（Qwen3.6, Qwen3.8）与陈述中的Qwen3-27B存在版本歧义，无法直接证实具体数值。 | 来源[1]定性支持4-bit量化性能损失可控，但所有来源均未提供MATH基准的具体数值（66%/80%），属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+Qwen3-27B 4-bit W4 MATH benchmark accuracy
+
+## Retrieval Sources
+
+- {'url': 'https://www.kongchang.com/articles/qwen3-27bliang-hua-ce-shi-4-bitwen-jian-1-bitbeng-kui&rut=e1ad13c23e09501739d2d42987cdf6428b96aebb38db41cbe286dec9eec6614f', 'type': 'ddg', 'title': 'Qwen3 27B量化测试：4-bit稳健，1-bit彻底崩溃 - 控场AI'}
+- {'url': 'https://blog.csdn.net/gitblog_00366/article/details/154055179&rut=af705ff5795a4c50513f662c95ab6d9a9dd6786d4c54187f46acb2874aa3c25a', 'type': 'ddg', 'title': 'Qwen3.6-27B-OptiQ-4bit vs 传统4-bit模型：6大基准测试全面对比，结果令人惊讶-CSDN博客'}
+- {'url': 'https://blog.csdn.net/gitblog_00472/article/details/151554683&rut=fb932fdebe7e61f81d38743355676ff5dc077350e8c491007c21046e32ce317d', 'type': 'ddg', 'title': '为什么GPTQ比RTN更准？Qwen3.8-27B-GPTQ-4bit量化升级背后的完整原理-CSDN博客'}

@@ -1,0 +1,24 @@
+# N179: 工作点1（高抽成/高平台收益）：假设 r_high = 0.10，则平台单笔收入 Rev_platform_high = r_high * P_market =
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N64
+
+## Claim
+
+工作点1（高抽成/高平台收益）：假设 r_high = 0.10，则平台单笔收入 Rev_platform_high = r_high * P_market = 0.10 * P_market，此工作点下卖家利润 Margin_seller_high = (P_base - C) - Rev_platform_high = 0.4 * P_market - 0.1 * P_market = 0.3 * P_market，需验证该利润率是否足以维持卖家留存率（假设留存阈值 Margin_min = 0.2 * P_market）。
+
+## Corrected Claim
+
+工作点1（高抽成/高平台收益）：假设 r_high = 0.10，则平台单笔收入 Rev_platform_high = r_high * P_market = 0.10 * P_market，此工作点下卖家利润 Margin_seller_high = (P_base - C) - Rev_platform_high = 0.4 * P_market - 0.1 * P_market = 0.3 * P_market，需验证该利润率是否足以维持卖家留存率（假设留存阈值 Margin_min = 0.2 * P_market）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：代数推导 0.4 - 0.1 = 0.3 正确，且 0.3 > 0.2 满足留存阈值条件，内部逻辑自洽。
+
+## Search Query
+
+used goods platform commission rate 10% seller margin threshold retention

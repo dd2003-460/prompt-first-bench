@@ -1,0 +1,24 @@
+# N102: 决策能量节省量化：买家在应用‘高价=高质量’启发式时，平均减少的比对商品数量 ΔN_compare 与信息处理时间 Δt_process，实证显示每增加 10%
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N30, N31, N32
+
+## Claim
+
+决策能量节省量化：买家在应用‘高价=高质量’启发式时，平均减少的比对商品数量 ΔN_compare 与信息处理时间 Δt_process，实证显示每增加 10% 溢价，买家平均少比对 0.5-1.0 个同类商品，节省决策时间 5-10 秒，从而降低有效搜寻成本 C_search。
+
+## Corrected Claim
+
+决策能量节省量化：买家在应用‘高价=高质量’启发式时，通常会减少比对商品数量 ΔN_compare 与信息处理时间 Δt_process，从而降低有效搜寻成本 C_search。具体减少的数量和时间取决于市场结构、商品异质性及消费者偏好，实证研究显示存在显著的负相关关系，但具体数值（如每10%溢价对应的减少量）需依据特定数据集确定。
+
+## Evidence
+
+[质询]该陈述包含具体的实证数值（每增加10%溢价少比对0.5-1.0个商品，节省5-10秒），属于经验事实。在缺乏任何参考来源支持的情况下，这些具体数值无法通过第一性原理推导得出，且不同市场、品类和消费者群体的数据可能存在巨大差异，存在将特定小样本研究结果泛化为普遍规律的风险。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，无法验证具体数值量级）
+
+## Search Query
+
+heuristics reduce comparison set size decision time savings price anchor behavior economics

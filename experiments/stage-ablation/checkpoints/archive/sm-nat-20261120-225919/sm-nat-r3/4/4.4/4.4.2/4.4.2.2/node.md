@@ -1,0 +1,24 @@
+# N192: 9% 失效率的计算验证：P(invalid in 1 day) = 1 - e^(-1/τ_obj) = 1 - e^(-0.1) ≈ 0.09516 ≈ 9.
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N69
+
+## Claim
+
+9% 失效率的计算验证：P(invalid in 1 day) = 1 - e^(-1/τ_obj) = 1 - e^(-0.1) ≈ 0.09516 ≈ 9.5%。该值假设更新事件服从泊松过程，若更新具有突发性（Bursty），则日失效率方差增大，需引入更新到达率 λ_update 的波动系数 CV 进行修正。
+
+## Corrected Claim
+
+9% 失效率的计算验证：P(invalid in 1 day) = 1 - e^(-1/τ_obj) = 1 - e^(-0.1) ≈ 0.09516 ≈ 9.5%。该值假设更新事件服从泊松过程，若更新具有突发性（Bursty），则日失效率方差增大，需引入更新到达率 λ_update 的波动系数 CV 进行修正。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：泊松过程下失效率公式推导正确，数值计算准确（1-e^-0.1≈0.09516），关于突发性导致方差增大的定性描述符合排队论/随机过程基本原理。
+
+## Search Query
+
+Poisson process cache invalidation probability daily update rate

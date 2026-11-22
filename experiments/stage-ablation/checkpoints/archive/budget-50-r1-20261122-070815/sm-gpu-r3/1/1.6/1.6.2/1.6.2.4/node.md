@@ -1,0 +1,20 @@
+# N208: N54 中'每层激活大小为 1 MB'的假设需修正：Qwen3-27B 隐藏维度为 4096，BF16 下每层激活张量大小约为 4096 * 2 bytes =
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N53, N54, N55
+
+## Claim
+
+N54 中'每层激活大小为 1 MB'的假设需修正：Qwen3-27B 隐藏维度为 4096，BF16 下每层激活张量大小约为 4096 * 2 bytes = 8 KB (per token) 或更大（取决于 batch size 和 sequence length）；若 batch_size=1, seq_len=32K，每层激活数据量约为 4096 * 32768 * 2 bytes ≈ 256 MB，10 层传输量达 2.56 GB，PCIe 4.0 传输时间 ≈ 80 ms，远超 N54 声称的 0.31 ms，故'仅卸载前 10 层'方案在长上下文下不可行。
+
+## Corrected Claim
+
+N54 中'每层激活大小为 1 MB'的假设需修正：Qwen3-27B 隐藏维度为 4096，BF16 下每层激活张量大小约为 4096 * 2 bytes = 8 KB (per token) 或更大（取决于 batch size 和 sequence length）；若 batch_size=1, seq_len=32K，每层激活数据量约为 4096 * 32768 * 2 bytes ≈ 256 MB，10 层传输量达 2.56 GB，PCIe 4.0 传输时间 ≈ 80 ms，远超 N54 声称的 0.31 ms，故'仅卸载前 10 层'方案在长上下文下不可行。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B隐藏维度4096及BF16精度符合模型架构常识，256MB/层及2.56GB总传输量的算术推导正确，PCIe 4.0带宽限制下的时间估算符合物理直觉，反驳了原假设中不合理的1MB/层设定。

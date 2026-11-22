@@ -1,0 +1,20 @@
+# N22: 干预措施A对卖家的伤害量化：卖家利润损失 Δπ_seller_A = P_avg * δc * (1 - T_trigger) - C_compliance，其
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+干预措施A对卖家的伤害量化：卖家利润损失 Δπ_seller_A = P_avg * δc * (1 - T_trigger) - C_compliance，其中 C_compliance 为合规成本 [待核验]
+
+## Corrected Claim
+
+卖家利润损失 Δπ_seller_A = N * [P_avg * δc * (1 - T_trigger)] - C_compliance，其中 N 为受影响交易次数，C_compliance 为总合规成本。
+
+## Evidence
+
+[质询]公式结构存在逻辑漏洞：合规成本 C_compliance 通常与交易规模或时间相关，而利润损失项 P_avg * δc * (1 - T_trigger) 仅反映单次或平均单位损失，两者量纲可能不匹配（除非隐含了交易次数 N，但公式中未体现）；此外，(1 - T_trigger) 作为触发概率的补集直接乘以价格变动，假设了线性关系且忽略了弹性影响，属于过度简化的经验模型。 | source=knowledge，但公式内部量纲一致性存疑（合规成本 vs 单位利润损失），且缺乏对交易频次或总规模的明确定义，逻辑自洽性不足，无法直接判定为 verified。

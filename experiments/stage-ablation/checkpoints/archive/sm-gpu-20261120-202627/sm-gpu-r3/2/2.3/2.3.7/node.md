@@ -1,0 +1,30 @@
+# N61: 长文本生成一致性指标：在 32K 上下文下，NVFP4/W4 量化 Qwen3-27B 的重复率（Repetition Rate）或矛盾检测得分（Contrad
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N13, N14, N15
+
+## Claim
+
+长文本生成一致性指标：在 32K 上下文下，NVFP4/W4 量化 Qwen3-27B 的重复率（Repetition Rate）或矛盾检测得分（Contradiction Score）相对于 BF16 基线的变化幅度需量化，通常一致性下降阈值定义为重复率增加 >5% 或矛盾率增加 >2% [待核验：需具体一致性评测工具数据]
+
+## Corrected Claim
+
+在 32K 上下文下，NVFP4/W4 量化 Qwen3-27B 的重复率或矛盾检测得分相对于 BF16 基线的具体变化幅度需通过特定一致性评测工具实测获取；目前缺乏公开数据支持“重复率增加 >5% 或矛盾率增加 >2%”作为通用一致性下降阈值的结论。
+
+## Evidence
+
+[质询]陈述中关于“一致性下降阈值定义为重复率增加 >5% 或矛盾率增加 >2%”的具体数值缺乏通用标准支持，且参考来源均未提供 NVFP4/W4 量化 Qwen3-27B 在 32K 上下文下的具体一致性评测数据（如重复率或矛盾检测得分的具体变化幅度），属于缺乏实证数据支撑的经验性断言。 | 参考来源 [1][2][3] 主要讨论 Qwen3 系列模型的部署、AWQ 量化及 32K 上下文支持，未涉及 NVFP4/W4 量化下的具体一致性指标（重复率/矛盾率）量化数据或特定阈值定义，无法直接支持该具体数值结论。
+
+## Search Query
+
+Qwen3-27B W4 quantization long text generation consistency repetition rate benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_33443333/article/details/161993079&rut=cc63c093d54bf0f535156717b490d5746f712de559acf663c0b22db5acc4ca8c', 'type': 'ddg', 'title': 'Qwen3中文长文本32K本地部署实战：AWQ量化与RTX4090实测'}
+- {'url': 'https://devpress.csdn.net/v1/article/detail/161993079&rut=5e8740fc9576446dde9be94318f6e5308cc17a0c3a03c22b440e0438e25751b3', 'type': 'ddg', 'title': 'Qwen3中文长文本32K本地部署实战：AWQ量化与RTX4090实测'}
+- {'url': 'https://blog.csdn.net/gitblog_00254/article/details/170744432&rut=57a3aa697080a3eb9b940392e587272e7870a8415d3dc233706a3b17422bbfd0', 'type': 'ddg', 'title': 'Qwen3.5-9B模型详解：32K上下文、量化精度与适用场景一文讲清-CSDN博客'}

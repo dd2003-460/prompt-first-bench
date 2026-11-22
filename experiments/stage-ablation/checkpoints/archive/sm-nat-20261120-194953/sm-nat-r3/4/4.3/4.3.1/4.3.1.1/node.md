@@ -1,0 +1,20 @@
+# N125: 【修正自矛盾检测】T_hot 的容量约束验证需基于修正后的 S_hot：前 10% 对象总大小 ≈ 10^4 * (0.6 * 6.9 KB) ≈ 43 MB，
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N55
+
+## Claim
+
+【修正自矛盾检测】T_hot 的容量约束验证需基于修正后的 S_hot：前 10% 对象总大小 ≈ 10^4 * (0.6 * 6.9 KB) ≈ 43 MB，远小于 128 GB，确认 T_hot 完全由更新率 u 决定，容量驱逐项为 0。
+
+## Corrected Claim
+
+【修正自矛盾检测】T_hot 的容量约束验证需基于修正后的 S_hot：前 10% 对象总大小 ≈ 10^4 * (0.6 * 6.9 KB) ≈ 43 MB，远小于 128 GB，确认 T_hot 完全由更新率 u 决定，容量驱逐项为 0。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：10^4 * 0.6 * 6.9 KB ≈ 41.4 MB，远小于 128 GB，量级合理且推导自洽。

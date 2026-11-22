@@ -1,0 +1,30 @@
+# N52: 平台激励约束：平台选择 T 的最优解为 T* = argmax E[r×T] - C(T)，其中 C(T) 是维持长周期的成本函数（如用户流失率 λ_churn
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N10
+
+## Claim
+
+平台激励约束：平台选择 T 的最优解为 T* = argmax E[r×T] - C(T)，其中 C(T) 是维持长周期的成本函数（如用户流失率 λ_churn(T)×LTV）；若 λ_churn(T) = 0.02×T/7，LTV=100，则 C(T)=0.286T；最优 T* = (E[r] - λ_churn×LTV)/0，需通过一阶条件求解 [待核验]：需实际用户流失数据
+
+## Corrected Claim
+
+平台选择 T 的最优解为 T* = argmax E[r×T] - C(T)。若 λ_churn(T) = 0.02×T/7，LTV=100，则 C(T) = 100 × (0.02×T/7) = (1/35)T² ≈ 0.0286T²。最优 T* 需通过一阶条件 E[r] - C'(T) = 0 求解，即 E[r] - (2/35)T = 0，得 T* = 17.5 × E[r]。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点逻辑正交，分别定义了随机源、流失率随机项和LTV随机项，无重复。但完备性不足：父节点核心是求解最优T*（涉及一阶条件），子节点仅描述了成本函数的随机构成，完全缺失了收益项 E[r] 的随机性定义以及基于这些随机项如何推导 T* 的求解逻辑。）
+
+## Search Query
+
+platform incentive optimal transaction cycle cost function user churn
+
+## Retrieval Sources
+
+- {'url': 'https://www.sciencedirect.com/science/article/pii/S0377221724007422&rut=17ada71da183dae0001657891dafd850bf6871d56a2b10e7980e190ab9ad3f61', 'type': 'ddg', 'title': 'Optimal platform pricing with multi-sided users: A direct and indirect ...'}
+- {'url': 'https://www.sciencedirect.com/science/article/pii/S0960077925013025&rut=3c7e05588c151d399f5cd2e780a45114e63e26df1eb0bfa0a202040e82c20b10', 'type': 'ddg', 'title': 'Optimal pricing and complex analysis for green e-commerce platform ...'}
+- {'url': 'https://jaypilchoi.com/wp-content/uploads/2026/06/Regulating-Platform-Bias_Merged.pdf&rut=1831c4e7291eeb878a8e49b5ba763ced1b45b1b6835d022ce2a5f47ae87a88e0', 'type': 'ddg', 'title': 'PDF -preferencing and Transaction Fees'}

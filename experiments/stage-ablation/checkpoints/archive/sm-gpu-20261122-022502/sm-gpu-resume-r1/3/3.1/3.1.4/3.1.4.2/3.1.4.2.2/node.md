@@ -1,0 +1,24 @@
+# N677: H200 700W TDP 包含 GPU 核心与 HBM3e 内存功耗，其中 HBM3e 功耗约 150W-200W [待核验]；在相同 700W 预算下，若仅
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N209, N210, N211
+
+## Claim
+
+H200 700W TDP 包含 GPU 核心与 HBM3e 内存功耗，其中 HBM3e 功耗约 150W-200W [待核验]；在相同 700W 预算下，若仅比较计算单元能效，需扣除内存功耗后重新计算每瓦特计算吞吐，修正后的能效比可能低于 6.86 GB/s/W。
+
+## Corrected Claim
+
+H200 700W TDP 包含 GPU 核心与 HBM3e 内存功耗，HBM3e 功耗通常在百瓦级别；在相同 700W 预算下，若仅比较计算单元能效，需扣除内存功耗后重新计算每瓦特计算吞吐，修正后的能效比通常会低于包含内存功耗时的表观能效比。
+
+## Evidence
+
+[质询]HBM3e 的具体功耗数值（150W-200W）属于经验事实，且不同负载和配置下波动较大，缺乏权威来源直接支持该特定区间；此外，'修正后的能效比可能低于 6.86 GB/s/W' 这一结论依赖于未提供的具体计算吞吐数据，逻辑上虽自洽但缺乏实证支撑。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+H200 HBM3e power consumption watts breakdown GPU core vs memory

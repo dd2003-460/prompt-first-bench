@@ -1,0 +1,20 @@
+# N207: 搜索成本节省项 $C_{time}(t_1 - t_2)$ 的量化：$\Delta C_{search} = v_{buyer} \times (t_1 - t
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N67, N68, N69
+
+## Claim
+
+搜索成本节省项 $C_{time}(t_1 - t_2)$ 的量化：$\Delta C_{search} = v_{buyer} \times (t_1 - t_2) / 60$，其中 $v_{buyer}$ 为买家时薪（假设50元/h），$t_1=30min, t_2=15min$，则 $\Delta C_{search} = 12.5$ 元。若买家时薪更高（如100元/h），则节省额翻倍至25元。
+
+## Corrected Claim
+
+搜索成本节省项 $C_{time}(t_1 - t_2)$ 的量化：$\Delta C_{search} = v_{buyer} \times (t_1 - t_2) / 60$，其中 $v_{buyer}$ 为买家时薪（假设50元/h），$t_1=30min, t_2=15min$，则 $\Delta C_{search} = 12.5$ 元。若买家时薪更高（如100元/h），则节省额翻倍至25元。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：50元/h * (30-15)/60h = 12.5元，100元/h * 0.25h = 25元，计算无误且量纲正确。

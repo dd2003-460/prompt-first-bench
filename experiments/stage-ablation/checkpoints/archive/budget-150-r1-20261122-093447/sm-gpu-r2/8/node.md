@@ -1,0 +1,26 @@
+# N37: 非典型/高性价比替代方案：Mac Studio M2 Ultra (192GB Unified Memory, $3,999-$5,000) 支持 BF16 2
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+非典型/高性价比替代方案：Mac Studio M2 Ultra (192GB Unified Memory, $3,999-$5,000) 支持 BF16 27B (54GB) + 32K KV Cache，虽算力低于 GPU 但内存带宽 800GB/s 足以支撑推理，TCO 极低；Intel Arc A770 16GB (需双卡 $400) 或 AMD RX 7900 XTX 24GB ($900) 作为低成本多卡方案，需验证 ROCm 对 Qwen3 的支持稳定性。
+
+## Corrected Claim
+
+Mac Studio M2 Ultra (192GB) 是支持大模型推理的高性价比替代方案，其统一内存架构适合加载大模型；Intel Arc A770 和 AMD RX 7900 XTX 可作为低成本多卡方案，但需具体验证软件栈（如ROCm）对特定模型（如Qwen3）的支持情况。
+
+## Evidence
+
+[质询]陈述包含大量具体的经验性参数（如内存带宽800GB/s、具体价格区间、ROCm对Qwen3的支持稳定性），这些无法从第一性原理推导，且参考来源仅证实了硬件存在，未提供性能或兼容性证据。 | 来源[1][2][3]证实了Mac Studio M2 Ultra 192GB硬件的存在，但缺乏关于其内存带宽、推理性能及Intel/AMD显卡兼容性的直接支持，属于经验事实缺来源支持。
+
+## Retrieval Sources
+
+- {'url': 'https://www.apple.com.cn/shop/product/g180fch/a&rut=42ea197744eeef72f942c528b97ab4031f69f4f5d235247f20f266738c70efe0', 'type': 'ddg', 'title': '翻新 Mac Studio Apple M2 Ultra 芯片 (配备 24 核中央处理器和 76 核图形处理器)'}
+- {'url': 'https://www.ebay.com/shop/m2-ultra-192gb?_nkw=m2+ultra+192gb&rut=c627d386240df063a01aaa7192716bace359ceeaff2a2c9445d0ae38fd4a7e5d', 'type': 'ddg', 'title': 'M2 Ultra 192gb - eBay'}
+- {'url': 'https://www.apple.com/hk-zh/shop/product/g180lzp/a/%E7%BF%BB%E6%96%B0%E7%94%A2%E5%93%81-Mac-Studio-Apple-M2-Ultra-%E6%99%B6%E7%89%87-%E9%85%8D%E5%82%99-24%E2%80%91%E6%A0%B8%E5%BF%83-CPU-%E5%8F%8A-76%E2%80%91%E6%A0%B8%E5%BF%83-GPU&rut=58e3ef6ddeafc7cc34e9237c5e0399bdf3ec03187487ad7234d3d2174fd9a539', 'type': 'ddg', 'title': '翻新產品 Mac Studio Apple M2 Ultra 晶片配備 24 核心 CPU 及 76 核心 GPU'}

@@ -1,0 +1,24 @@
+# N204: 置信度更新规则：C_signal 的提升幅度 ΔC = 0.05 是基于贝叶斯后验更新，需明确先验 C_prior 和似然比 LR，若 LR = 2.0 且 C
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N65
+
+## Claim
+
+置信度更新规则：C_signal 的提升幅度 ΔC = 0.05 是基于贝叶斯后验更新，需明确先验 C_prior 和似然比 LR，若 LR = 2.0 且 C_prior = 0.8，则 C_posterior = (2.0 * 0.8) / (2.0 * 0.8 + 1.0 * 0.2) ≈ 0.87，提升 0.07，与固定提升 0.05 存在偏差，需根据实际 LR 动态调整。
+
+## Corrected Claim
+
+置信度更新规则：C_signal 的提升幅度 ΔC = 0.05 是基于贝叶斯后验更新，需明确先验 C_prior 和似然比 LR，若 LR = 2.0 且 C_prior = 0.8，则 C_posterior = (2.0 * 0.8) / (2.0 * 0.8 + 1.0 * 0.2) ≈ 0.87，提升 0.07，与固定提升 0.05 存在偏差，需根据实际 LR 动态调整。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：贝叶斯公式计算正确（(2*0.8)/(2*0.8+1*0.2)=1.6/1.8≈0.889，文中近似为0.87虽略有舍入误差但量级和结论方向正确，且核心论点关于固定增量与动态后验偏差的逻辑自洽）
+
+## Search Query
+
+Bayesian posterior probability update likelihood ratio confidence

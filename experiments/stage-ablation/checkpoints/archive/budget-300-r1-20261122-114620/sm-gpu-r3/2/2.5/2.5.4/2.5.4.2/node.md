@@ -1,0 +1,24 @@
+# N248: AMD MI250X 软件栈迁移成本量化：从 CUDA 迁移至 ROCm 的代码适配工时估算，基于 PyTorch ROCm 兼容层，平均每个算子适配耗时 4-
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N76
+
+## Claim
+
+AMD MI250X 软件栈迁移成本量化：从 CUDA 迁移至 ROCm 的代码适配工时估算，基于 PyTorch ROCm 兼容层，平均每个算子适配耗时 4-8 小时，Qwen3-27B 推理涉及约 50 个核心算子，总迁移成本约为 200-400 工程师小时，按 $100/hour 计算为 $20,000-$40,000 一次性成本 [待核验]
+
+## Corrected Claim
+
+AMD MI250X 软件栈迁移成本估算：基于 PyTorch ROCm 兼容层，从 CUDA 迁移至 ROCm 的代码适配工时及总成本需根据具体算子复杂度、团队经验及市场费率进行个案评估，无法给出通用的固定数值范围。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性工程参数（每算子适配工时4-8小时、核心算子数量50个、单价$100/hour），这些数值高度依赖于具体项目复杂度、团队熟练度及市场费率，属于典型经验事实，无法从第一性原理推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+CUDA to ROCm migration cost engineering hours PyTorch operator adaptation LLM inference

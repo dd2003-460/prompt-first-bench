@@ -1,0 +1,20 @@
+# N157: 高相关性工作点（ρ=-0.5）下的偏差上限：当更新率与热度强正相关时，热点对象既不易被容量驱逐（LRU保留）又更易失效，导致 M_cap 与 M_inv 负相关
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N51
+
+## Claim
+
+高相关性工作点（ρ=-0.5）下的偏差上限：当更新率与热度强正相关时，热点对象既不易被容量驱逐（LRU保留）又更易失效，导致 M_cap 与 M_inv 负相关，δ_independence 变为负值，总未命中率 M_total 低于线性叠加，具体修正值需通过联合概率积分 P(S_i > C, T_update < T_res) 计算。
+
+## Corrected Claim
+
+高相关性工作点（ρ=-0.5）下的偏差上限：当更新率与热度强正相关时，热点对象既不易被容量驱逐（LRU保留）又更易失效，导致 M_cap 与 M_inv 负相关，δ_independence 变为负值，总未命中率 M_total 低于线性叠加，具体修正值需通过联合概率积分 P(S_i > C, T_update < T_res) 计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：LRU机制下高热度对象保留率高（M_cap低）但失效快（M_inv高），二者负相关导致联合概率小于独立假设下的乘积，总未命中率低于线性叠加，符合概率论与缓存原理。

@@ -1,0 +1,20 @@
+# N60: 更新率导致的命中率衰减系数 δ_update：当更新率 u=1%/天 时，LRU 缓存中对象因过期而被驱逐或返回旧数据的概率增加。有效命中率 H_eff = H
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+更新率导致的命中率衰减系数 δ_update：当更新率 u=1%/天 时，LRU 缓存中对象因过期而被驱逐或返回旧数据的概率增加。有效命中率 H_eff = H_LRU * (1 - P_stale_hit)。P_stale_hit ≈ u * T_res_avg，其中 T_res_avg 是缓存内对象的平均驻留时间。若 T_res_avg ≈ 1.2 天（由 K 和总请求率推算），则 P_stale_hit ≈ 0.012，即命中率打 0.988 折，损失约 1.2 个百分点。
+
+## Corrected Claim
+
+更新率导致的命中率衰减系数 δ_update：当更新率 u=1%/天 时，LRU 缓存中对象因过期而被驱逐或返回旧数据的概率增加。有效命中率 H_eff = H_LRU * (1 - P_stale_hit)。P_stale_hit ≈ u * T_res_avg，其中 T_res_avg 是缓存内对象的平均驻留时间。若 T_res_avg ≈ 1.2 天（由 K 和总请求率推算），则 P_stale_hit ≈ 0.012，即命中率打 0.988 折，损失约 1.2 个百分点。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

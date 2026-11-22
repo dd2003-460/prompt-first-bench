@@ -1,0 +1,20 @@
+# N57: 买家伤害投影：买家效用变化 ΔU_buyer = |U_new - U_old| / U_old，由于买家搜索阈值 T_search 未变且偏好分布不变，理论值
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N14
+
+## Claim
+
+买家伤害投影：买家效用变化 ΔU_buyer = |U_new - U_old| / U_old，由于买家搜索阈值 T_search 未变且偏好分布不变，理论值 ΔU_buyer = 0，但受 ε_traffic 影响，实际观测值需满足 |ΔU_buyer| < 0.01 (1%) 方可判定为无显著伤害。
+
+## Corrected Claim
+
+买家伤害投影：买家效用变化 ΔU_buyer = |U_new - U_old| / U_old，由于买家搜索阈值 T_search 未变且偏好分布不变，理论值 ΔU_buyer = 0，但受 ε_traffic 影响，实际观测值需满足 |ΔU_buyer| < 0.01 (1%) 方可判定为无显著伤害。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在搜索阈值和偏好分布不变的假设下，理论效用变化为0，设定1%作为噪声容忍阈值符合常规统计检验逻辑。

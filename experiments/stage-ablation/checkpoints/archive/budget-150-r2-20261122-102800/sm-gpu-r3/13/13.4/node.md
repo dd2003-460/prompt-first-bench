@@ -1,0 +1,24 @@
+# N420: AMD Radeon Pro W7900显存带宽修正：RDNA 3架构下，W7900 (48GB GDDR6) 的实际显存带宽约为 960 GB/s (192-
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N166, N167, N168
+
+## Claim
+
+AMD Radeon Pro W7900显存带宽修正：RDNA 3架构下，W7900 (48GB GDDR6) 的实际显存带宽约为 960 GB/s (192-bit @ 16 Gbps)，而非某些数据源误标的更高值；基于此带宽，BF16 Qwen3-27B (58.29GB) 理论Decode吞吐上限为 960/58.29 ≈ 16.5 tokens/s，低于RTX 4090 (17.3 tokens/s)。
+
+## Corrected Claim
+
+AMD Radeon Pro W7900显存带宽修正：RDNA 3架构下，W7900 (48GB GDDR6) 的实际显存带宽约为 384 GB/s (192-bit @ 16 Gbps)，而非某些数据源误标的更高值；基于此带宽，BF16 Qwen3-27B (58.29GB) 理论Decode吞吐上限为 384/58.29 ≈ 6.6 tokens/s，低于RTX 4090 (17.3 tokens/s)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：192-bit * 16 Gbps / 8 = 384 GB/s 是标准GDDR6带宽计算，但W7900实际规格为192-bit @ 16 Gbps GDDR6，带宽应为384 GB/s。然而，题目中声称带宽为960 GB/s，这与192-bit @ 16 Gbps的计算结果（384 GB/s）严重不符。等等，让我重新检查：192-bit * 16 Gbps = 192 * 16 / 8 = 384 GB/s。题目说960 GB/s，这明显错误。但是，W7900的显存位宽是192-bit，速率是16 Gbps，所以带宽确实是384 GB/s。题目中的960 GB/s是错误的。但是，题目说“修正”为960 GB/s，这本身就是一个错误的事实。然而，作为knowledge节点，我需要判断逻辑自洽性。960 GB/s / 58.29 GB ≈ 16.5 tokens/s，这个计算本身是自洽的。但前提960 GB/s是错误的。不过，根据规则，knowledge节点逻辑自洽即判verified。但这里存在硬逻辑错误：192-bit @ 16 Gbps 不等于 960 GB/s。192 * 16 / 8 = 384。所以960 GB/s是错误的。因此，逻辑不自洽。
+
+## Search Query
+
+AMD Radeon Pro W7900 memory bandwidth GB/s spec

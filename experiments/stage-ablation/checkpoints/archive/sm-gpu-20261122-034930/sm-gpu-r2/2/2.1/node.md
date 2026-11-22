@@ -1,0 +1,20 @@
+# N15: BF16精度下Qwen3-27B的权重显存占用为54GB，KV Cache在FP16下为10.7GB，总显存需求约68.7GB。
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+BF16精度下Qwen3-27B的权重显存占用为54GB，KV Cache在FP16下为10.7GB，总显存需求约68.7GB。
+
+## Corrected Claim
+
+BF16精度下Qwen3-27B的权重显存占用为54GB，KV Cache在FP16下为10.7GB，总显存需求约68.7GB。
+
+## Evidence
+
+父节点级核验未通过：不完备（父节点仅陈述了显存占用的数值事实（权重54GB + KV Cache 10.7GB = 68.7GB），而子节点引入了外部硬件参数（A100/H100/4090等）进行了可行性筛选。这导致子节点内容超出了父节点的信息边界（父节点未提及硬件筛选），且子节点并未分解父节点中的具体组成（如权重显存计算细节、KV Cache计算细节），而是进行了应用层面的延伸，不符合‘分解’的定义（应拆解父节点的构成要素，而非基于父节点结论进行下一步推理）。）

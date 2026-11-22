@@ -1,0 +1,20 @@
+# N100: vLLM 对 FP8 量化推理的支持依赖于硬件特性：RTX 4090 (Ada) 和 RTX 5090 (Blackwell) 支持原生 FP8 Tensor 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N25, N26, N27
+
+## Claim
+
+vLLM 对 FP8 量化推理的支持依赖于硬件特性：RTX 4090 (Ada) 和 RTX 5090 (Blackwell) 支持原生 FP8 Tensor Core 加速，而 RTX 3090 (Ampere) 仅支持 FP8 存储但不支持 FP8 计算加速，需验证 vLLM 在 Ada/Blackwell 上 FP8 GEMM 算子的性能提升系数（通常理论加速比为 1.5x-2x 相比 BF16）。
+
+## Corrected Claim
+
+vLLM 对 FP8 量化推理的支持依赖于硬件特性：RTX 4090 (Ada) 和 RTX 5090 (Blackwell) 支持原生 FP8 Tensor Core 加速，而 RTX 3090 (Ampere) 仅支持 FP8 存储但不支持 FP8 计算加速，需验证 vLLM 在 Ada/Blackwell 上 FP8 GEMM 算子的性能提升系数（通常理论加速比为 1.5x-2x 相比 BF16）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 (Ada) 和 RTX 5090 (Blackwell) 确实支持原生 FP8 Tensor Core 加速，而 RTX 3090 (Ampere) 仅支持 FP8 存储但不支持 FP8 计算加速，vLLM 在 Ada/Blackwell 上 FP8 GEMM 算子的性能提升系数通常理论加速比为 1.5x-2x 相比 BF16，符合硬件特性与工程实践。

@@ -1,0 +1,24 @@
+# N327: 单卡 RTX 3090 (24GB) 在 FP8 下的失效验证：总显存需求 29.6GB > 24GB，必须 Offload 5.6GB；Offload 导致 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N118
+
+## Claim
+
+单卡 RTX 3090 (24GB) 在 FP8 下的失效验证：总显存需求 29.6GB > 24GB，必须 Offload 5.6GB；Offload 导致 Decode 吞吐降至 8-10 tokens/s，延迟 >500ms/1K tokens，超出 N118 的 100-500ms 容忍范围，故单卡 3090 在此条件下被 4090 和 2×3090 支配
+
+## Corrected Claim
+
+单卡 RTX 3090 (24GB) 在 FP8 下若总显存需求超过 24GB，需 Offload 部分权重；Offload 通常导致 Decode 吞吐显著下降（可能降至个位数 tokens/s）且延迟增加，可能超出低延迟容忍范围，因此在高吞吐或低延迟场景下被 4090 或双卡 3090 方案支配。
+
+## Evidence
+
+[质询]具体性能数值（8-10 tokens/s, >500ms）和显存计算细节（29.6GB）属于特定模型和配置下的经验事实，缺乏通用性，且未指明具体模型规模，存在口径混淆风险。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+single RTX 3090 FP8 27B offload latency 100-500ms threshold violation

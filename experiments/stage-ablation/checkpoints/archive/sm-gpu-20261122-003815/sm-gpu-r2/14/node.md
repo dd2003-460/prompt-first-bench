@@ -1,0 +1,26 @@
+# N194: PCIe 版本对多卡消费级方案的隐性瓶颈：2x RTX 4090 在 PCIe 4.0 x16 下，若主板仅支持 x8/x8 拆分（常见于消费级主板），有效互联
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+PCIe 版本对多卡消费级方案的隐性瓶颈：2x RTX 4090 在 PCIe 4.0 x16 下，若主板仅支持 x8/x8 拆分（常见于消费级主板），有效互联带宽减半至 32 GB/s，导致 All-Reduce 延迟翻倍，使 2 卡方案吞吐进一步下降 20-30%，必须选用支持双 x16 的主板（如 X670E 高端型号或 Threadripper 平台）。
+
+## Corrected Claim
+
+PCIe 版本对多卡消费级方案的隐性瓶颈：2x RTX 4090 在 PCIe 4.0 x16 下，若主板仅支持 x8/x8 拆分，有效互联带宽减半（从约32 GB/s降至16 GB/s单向），导致 All-Reduce 延迟显著增加，使 2 卡方案吞吐相比双 x16 配置有明显下降（具体幅度取决于模型与负载，通常显著），必须选用支持双 x16 的主板以最大化性能。
+
+## Evidence
+
+[质询]陈述中关于“2卡方案吞吐进一步下降20-30%”的具体数值缺乏通用性，该比例高度依赖于模型规模、Batch Size及通信计算比，并非PCIe x8/x8拆分的固定物理后果；此外，RTX 4090实际接口为PCIe 4.0 x16，其全速带宽约为32GB/s（单向），若主板拆分x8/x8，带宽减半至16GB/s，陈述中“有效互联带宽减半至32 GB/s”的表述存在歧义（暗示原带宽为64GB/s，这与PCIe 4.0 x16规格不符，除非指双向或混淆了PCIe 5.0数据）。 | 来源[1]和[3]证实了PCIe拓扑（如x8/x8拆分）是RTX 4090多卡互联的主要瓶颈，且会导致性能显著下降（来源[1]提到仅提升30%），但来源未提供“下降20-30%”这一具体通用数值，且来源[2]指出4090虽标称PCIe 5.0但实际受限于主板/插槽，逻辑上带宽减半确实会导致All-Reduce延迟增加，但具体吞吐损失需视负载而定，故降级为定性描述。
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_29164843/article/details/165141223&rut=42b17c39cc7026dc39ab20b99565ba92414c9442b8a4b7086b42ef440a27472d', 'type': 'ddg', 'title': 'RTX 4090多卡互联：PCIe 5.0与NVLink带宽之争实测解析-CSDN博客'}
+- {'url': 'https://blog.csdn.net/weixin_31220401/article/details/164531290&rut=bbdb9eff8ad5c28a8389dc150bd9e9e2fcb8f3ed5d6864bb2732de19edade9ca', 'type': 'ddg', 'title': 'RTX 4090多卡互联带宽解析：PCIe 5.0与NVLink实战对比-CSDN博客'}
+- {'url': 'https://gigagpu.com/rtx-4090-24gb-pcie-gen4-x16/&rut=9f880f714070c034ac4a5b13660d509ecb878de1ebea78961aa935a764e1ba9e', 'type': 'ddg', 'title': 'RTX 4090 24GB PCIe Gen 4 x16: Real-World Impact GIGAGPU'}

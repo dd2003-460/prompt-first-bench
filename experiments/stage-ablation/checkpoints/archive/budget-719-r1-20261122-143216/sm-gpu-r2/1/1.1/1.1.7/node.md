@@ -1,0 +1,20 @@
+# N42: KV Cache 在 BF16 精度下的具体 GB 值，计算公式：2 × num_layers × num_kv_heads × head_dim × 3276
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N6, N7, N8
+
+## Claim
+
+KV Cache 在 BF16 精度下的具体 GB 值，计算公式：2 × num_layers × num_kv_heads × head_dim × 32768 × 2 bytes，代入 N37/N38/N39 的精确参数后得出结果。
+
+## Corrected Claim
+
+KV Cache 在 BF16 精度下的具体 GB 值，计算公式：2 × num_layers × num_kv_heads × head_dim × 32768 × 2 bytes，代入 N37/N38/N39 的精确参数后得出结果。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

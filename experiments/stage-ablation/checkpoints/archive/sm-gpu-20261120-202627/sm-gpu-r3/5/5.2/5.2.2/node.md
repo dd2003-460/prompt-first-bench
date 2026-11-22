@@ -1,0 +1,24 @@
+# N120: 1× A100 80GB 方案在 3 年持有期内的总能耗成本 (OpEx_B) = 400W (TDP) × 0.7 (负载因子) × 24h × 365d ×
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N26
+
+## Claim
+
+1× A100 80GB 方案在 3 年持有期内的总能耗成本 (OpEx_B) = 400W (TDP) × 0.7 (负载因子) × 24h × 365d × 3y × $0.12/kWh ≈ $1140，能效比优于双卡消费级方案。
+
+## Corrected Claim
+
+1× A100 80GB 方案在 3 年持有期内的总能耗成本 (OpEx_B) = 400W (TDP) × 0.7 (负载因子) × 24h × 365d × 3y × $0.12/kWh ≈ $1140，能效比优于双卡消费级方案。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算过程 400W * 0.7 * 24 * 365 * 3 * 0.12 ≈ $1140 数值准确，且单卡 A100 能效优于双卡消费级方案符合工程常识。
+
+## Search Query
+
+NVIDIA A100 power consumption idle load average watts

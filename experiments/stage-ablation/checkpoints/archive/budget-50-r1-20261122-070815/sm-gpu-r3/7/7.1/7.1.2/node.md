@@ -1,0 +1,24 @@
+# N373: RTX 4090 运行 Qwen3-27B INT4 时的实际 decode 吞吐量实测值，需搜索 Reddit r/LocalLLaMA 或 GitHub v
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N131
+
+## Claim
+
+RTX 4090 运行 Qwen3-27B INT4 时的实际 decode 吞吐量实测值，需搜索 Reddit r/LocalLLaMA 或 GitHub vLLM issues 中针对 27B 模型的 Ada 架构基准测试，以校准理论值 63 tokens/s 与实际值的偏差百分比
+
+## Corrected Claim
+
+RTX 4090 运行 27B 级别模型（如 Qwen2-72B 或 Llama-3-70B 的量化版本）INT4 时的实际 decode 吞吐量需参考现有公开基准，理论值 63 tokens/s 的偏差需基于具体模型和硬件配置重新校准。
+
+## Evidence
+
+[质询]该陈述声称存在针对 RTX 4090 运行 Qwen3-27B INT4 的特定实测基准数据（来自 Reddit 或 GitHub），但 Qwen3 系列模型（截至当前时间）尚未正式发布或普及，且 27B 参数规模在 Ada 架构（RTX 4090）上的具体 INT4 吞吐量缺乏广泛公认的公开实测基准，极可能为虚构或混淆了其他模型（如 Llama-3-70B 或 Qwen2-72B）的数据。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且 Qwen3-27B 为未来/未发布模型，无法验证具体实测值）
+
+## Search Query
+
+RTX 4090 Qwen3-27B INT4 decode tokens/s vLLM benchmark reddit

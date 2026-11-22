@@ -1,0 +1,24 @@
+# N437: W4量化（Per-Group, group_size=128）的Scale因子存储开销精确计算：Overhead_W4 = (27e9 / 128) * siz
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N142
+
+## Claim
+
+W4量化（Per-Group, group_size=128）的Scale因子存储开销精确计算：Overhead_W4 = (27e9 / 128) * sizeof(scale_dtype)，其中scale_dtype通常为FP16或FP32；若为FP16，开销约为421.875 MB，占13.5GB纯数据部分的3.13%，占13.92GB总部分的3.03%
+
+## Corrected Claim
+
+W4量化（Per-Group, group_size=128）的Scale因子存储开销精确计算：Overhead_W4 = (27e9 / 128) * sizeof(scale_dtype)，其中scale_dtype通常为FP16或FP32；若为FP16，开销约为421.875 MB，占13.5GB纯数据部分的3.13%，占13.92GB总部分的3.03%
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27e9/128*2 bytes = 421.875 MB，占比计算准确
+
+## Search Query
+
+W4 quantization scale factor overhead calculation group size 128 FP16

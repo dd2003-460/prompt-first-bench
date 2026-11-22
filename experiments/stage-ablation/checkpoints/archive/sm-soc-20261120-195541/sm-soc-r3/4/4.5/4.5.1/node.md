@@ -1,0 +1,24 @@
+# N52: 流失率阈值敏感性分析：计算在干预后30天卖家流失率ΔChurn为2%、5%、8%时，对平台月度GTV的边际影响值，以验证5%阈值是否对应‘伤害显著’的临界点
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N17
+
+## Claim
+
+流失率阈值敏感性分析：计算在干预后30天卖家流失率ΔChurn为2%、5%、8%时，对平台月度GTV的边际影响值，以验证5%阈值是否对应‘伤害显著’的临界点
+
+## Corrected Claim
+
+流失率阈值敏感性分析：需计算在干预后30天卖家流失率ΔChurn为2%、5%、8%时，对平台月度GTV的边际影响值，以评估5%阈值是否对应‘伤害显著’的临界点（具体数值待数据验证）。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点本质上是同一参数（流失率ΔChurn）在不同取值下的计算实例，属于参数扫描而非正交维度分解，存在严重冗余；且缺少对‘伤害显著’阈值定义、GTV基线数据及噪声水平等关键前提的独立分析，导致不完备。）
+
+## Search Query
+
+marketplace seller churn rate threshold GTV impact intervention study

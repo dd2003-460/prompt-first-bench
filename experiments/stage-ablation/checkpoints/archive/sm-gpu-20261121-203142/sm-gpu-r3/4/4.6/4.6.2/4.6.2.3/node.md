@@ -1,0 +1,24 @@
+# N307: 总激活值显存占用对 B_max 的实际约束修正：由于推理框架通常采用流式计算（Streaming），任意时刻仅保留当前层的激活值。因此，激活值显存占用 ≈ Ma
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N98
+
+## Claim
+
+总激活值显存占用对 B_max 的实际约束修正：由于推理框架通常采用流式计算（Streaming），任意时刻仅保留当前层的激活值。因此，激活值显存占用 ≈ Max_Layer_Activation * Batch_Size。若单层峰值为 1 GB (BF16)，则 Batch_Size=10 时激活值占用约 10 GB，这会显著挤压 KV Cache 空间，需从 N97 的公式中扣除。
+
+## Corrected Claim
+
+总激活值显存占用对 B_max 的实际约束修正：由于推理框架通常采用流式计算（Streaming），任意时刻仅保留当前层的激活值。因此，激活值显存占用 ≈ Max_Layer_Activation * Batch_Size。若单层峰值为 1 GB (BF16)，则 Batch_Size=10 时激活值占用约 10 GB，这会显著挤压 KV Cache 空间，需从 N97 的公式中扣除。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：流式计算下激活值显存确实仅取决于当前层峰值与Batch Size，1GB*10=10GB计算正确，符合推理框架通用机制。
+
+## Search Query
+
+LLM inference streaming activation memory batch size impact

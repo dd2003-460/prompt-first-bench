@@ -1,0 +1,24 @@
+# N226: 损失厌恶系数 λ_loss 对卖家定价行为的影响弹性：ΔP_listed = λ_loss * (P_reference - P_market) * 0.1，其
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N87
+
+## Claim
+
+损失厌恶系数 λ_loss 对卖家定价行为的影响弹性：ΔP_listed = λ_loss * (P_reference - P_market) * 0.1，其中 P_reference 为卖家心理参考价，P_market 为市场价，该弹性决定了高挂价溢价率的幅度。
+
+## Corrected Claim
+
+损失厌恶系数 λ_loss 通过影响卖家对偏离参考价的心理效用，间接影响定价行为；具体价格调整幅度 ΔP_listed 与 (P_reference - P_market) 正相关，但具体线性系数需依赖特定模型假设或实证数据确定。
+
+## Evidence
+
+[质询]该公式将行为经济学中的损失厌恶系数（通常用于效用函数，量纲为无量纲或效用单位）直接线性映射到价格调整量（货币单位），且引入了任意常数0.1，缺乏明确的理论推导或实证支持，属于模型假设而非既定事实。 | 先验知识/题面给定，逻辑校验通过（量纲上若λ_loss隐含货币/效用转换因子则自洽，但具体系数0.1为经验参数，无来源支持，故降级）
+
+## Search Query
+
+loss aversion impact on seller pricing premium second-hand market

@@ -1,0 +1,24 @@
+# N138: Qwen3-27B 的 Transformer 层数 (num_hidden_layers) 确认为 64 层，而非假设的 48 层，该参数直接决定 KV Ca
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N38
+
+## Claim
+
+Qwen3-27B 的 Transformer 层数 (num_hidden_layers) 确认为 64 层，而非假设的 48 层，该参数直接决定 KV Cache 总大小的倍数因子。
+
+## Corrected Claim
+
+Qwen3-27B 的 Transformer 层数 (num_hidden_layers) 需进一步核实，若确认为 64 层，则该参数直接决定 KV Cache 总大小的倍数因子。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件/模型架构参数（num_hidden_layers=64），属于经验事实。虽然 Qwen3-27B 确实存在且层数可能为 64，但在缺乏来源支持的情况下，无法排除其他可能性（如实际为 48 层或其他数值），且‘直接决定 KV Cache 总大小的倍数因子’这一表述虽逻辑正确但依赖于具体的层数数值准确性。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+Qwen3-27B config.json num_hidden_layers

@@ -1,0 +1,20 @@
+# N92: 长上下文KV Cache读取开销量化：在32K tokens序列长度下，每生成1个新token需读取的KV Cache数据量 = 2 (K/V) * num_l
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N25
+
+## Claim
+
+长上下文KV Cache读取开销量化：在32K tokens序列长度下，每生成1个新token需读取的KV Cache数据量 = 2 (K/V) * num_layers * num_kv_heads * head_dim * 2 bytes * seq_len，对于Qwen3-27B (假设32层, 8 KV heads, 128 dim) 约为 32 * 8 * 128 * 2 * 32768 ≈ 21.5 GB，此数值与模型权重相当，显著增加显存读取压力。
+
+## Corrected Claim
+
+长上下文KV Cache读取开销量化：在32K tokens序列长度下，每生成1个新token需读取的KV Cache数据量 = 2 (K/V) * num_layers * num_kv_heads * head_dim * 2 bytes * seq_len，对于Qwen3-27B (假设32层, 8 KV heads, 128 dim) 约为 32 * 8 * 128 * 2 * 32768 ≈ 21.5 GB，此数值与模型权重相当，显著增加显存读取压力。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间存在正交性，分别探讨了精度对字节数的影响（子节点1）和带宽占比/瓶颈转移（子节点2），内容不重复。但完备性不足：父节点核心是‘量化读取开销’并给出了具体数值（21.5GB），隐含了‘内存容量/显存占用’这一关键维度。子节点仅覆盖了‘精度选择’和‘带宽压力’，遗漏了KV Cache对总显存占用的绝对值影响（即是否导致OOM或需要PagedAttention等管理策略），这是长上下文推理中除带宽外最关键的资源约束之一。）

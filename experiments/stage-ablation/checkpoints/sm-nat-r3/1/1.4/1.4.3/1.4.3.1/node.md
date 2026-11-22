@@ -1,0 +1,20 @@
+# N133: 在 f_cache = 3.01 的计算中，若 N_cache 远大于 N_total，则 f_cache > 1 表示缓存可容纳所有对象；但实际命中率受限于更
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N45
+
+## Claim
+
+在 f_cache = 3.01 的计算中，若 N_cache 远大于 N_total，则 f_cache > 1 表示缓存可容纳所有对象；但实际命中率受限于更新失效（D_update）和请求热度分布，而非容量不足；因此 f_cache 的上限为 1，有效覆盖率应定义为 min(1, N_cache/N_total) * D_update。
+
+## Corrected Claim
+
+在 f_cache = 3.01 的计算中，若 N_cache 远大于 N_total，则 f_cache > 1 表示缓存容量足以容纳所有对象；但实际命中率受限于更新失效（D_update）和请求热度分布，而非单纯容量不足；因此有效覆盖率应综合考虑容量覆盖因子 min(1, N_cache/N_total)、更新保留率及热度分布，而非简单定义为 min(1, N_cache/N_total) * D_update。
+
+## Evidence
+
+[质询]公式 `min(1, N_cache/N_total) * D_update` 存在逻辑缺陷：`D_update` 通常指代更新导致的失效比例或频率，直接相乘假设了更新失效与容量覆盖是独立且线性叠加的，忽略了请求热度分布（Zipf等）对实际命中率的非线性影响，且未明确 `D_update` 的具体定义（是保留率还是失效率），导致该简化公式在一般场景下可能不准确。 | 先验知识/题面给定，逻辑校验通过但公式简化存在经验性假设，缺乏来源支持具体公式形式

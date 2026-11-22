@@ -1,0 +1,24 @@
+# N151: llama.cpp (Metal Backend) 在 M2 Ultra 上的推理效率系数 (Efficiency_Coefficient_llamacpp) 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N47
+
+## Claim
+
+llama.cpp (Metal Backend) 在 M2 Ultra 上的推理效率系数 (Efficiency_Coefficient_llamacpp) 通常为 0.70-0.85 (相对于理想 FLOPS)，高于 MLX 的主要原因是其内核优化更成熟且对 Metal 的底层指令集调用更直接，但需验证其在 32K 长上下文下的 FlashAttention 实现是否完整支持，若缺失则效率降至 0.50-0.60。
+
+## Corrected Claim
+
+llama.cpp (Metal Backend) 在 M2 Ultra 上的推理效率系数通常高于 MLX，主要归因于其内核优化成熟度及对 Metal 底层指令集的调用方式，但具体数值范围及长上下文下的 FlashAttention 支持情况需进一步验证。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值范围（0.70-0.85, 0.50-0.60）和特定技术实现细节（FlashAttention在32K上下文下的支持情况），这些属于硬件/软件性能的经验事实，无法从第一性原理推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+llama.cpp Metal backend M2 Ultra Qwen3 inference speed tokens per second benchmark

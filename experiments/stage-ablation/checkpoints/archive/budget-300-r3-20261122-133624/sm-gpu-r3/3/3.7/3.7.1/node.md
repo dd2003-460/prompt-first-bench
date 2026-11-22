@@ -1,0 +1,20 @@
+# N96: 在长文本摘要任务中，W4量化相比INT8额外导致的ROUGE-L分数相对损失（ΔROUGE_L = ROUGE_L_INT8 - ROUGE_L_W4）约为 2
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N28
+
+## Claim
+
+在长文本摘要任务中，W4量化相比INT8额外导致的ROUGE-L分数相对损失（ΔROUGE_L = ROUGE_L_INT8 - ROUGE_L_W4）约为 2-4%（基于N28区间中值计算：(4-1.5)~(5-1)），该差值主要源于低比特量化在长序列累积误差放大效应。
+
+## Corrected Claim
+
+在长文本摘要任务中，W4量化相比INT8通常会导致ROUGE-L分数出现一定程度的相对损失，具体幅度取决于模型架构与量化策略，低比特量化在长序列中累积误差放大效应是主要原因之一。
+
+## Evidence
+
+[质询]数值量级与具体数值缺乏来源支持，且‘2-4%’的相对损失范围在不同模型和任务设置下波动较大，直接断言该固定区间可能过于绝对。 | 经验事实，逻辑自洽但缺来源支持

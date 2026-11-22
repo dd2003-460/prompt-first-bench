@@ -1,0 +1,24 @@
+# N279: Intel Gaudi 3 通过 oneAPI 栈运行 Qwen3-27B (BF16, 32K context) 的实测吞吐量预期在 20-35 tokens
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N76
+
+## Claim
+
+Intel Gaudi 3 通过 oneAPI 栈运行 Qwen3-27B (BF16, 32K context) 的实测吞吐量预期在 20-35 tokens/s 区间 [待核验：缺乏官方基准，需社区实测数据]，该值用于性价比公式的分子。
+
+## Corrected Claim
+
+Intel Gaudi 3 通过 oneAPI 栈运行 Qwen3-27B (BF16, 32K context) 的实测吞吐量预期在 20-35 tokens/s 区间（注：此为基于同类硬件性能的估算值，缺乏官方基准，需以实际部署环境实测数据为准）
+
+## Evidence
+
+[质询]该数值为具体硬件在特定模型和配置下的经验性能指标，无法从第一性原理推导，且缺乏官方或权威社区实测数据支持，存在因硬件配置（如内存带宽、互联拓扑）或软件栈优化程度不同导致实际吞吐量显著偏离该区间的可能性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且属于硬件性能经验数据，不适用第一性原理推导条款）
+
+## Search Query
+
+Intel Gaudi 3 Qwen3-27B inference benchmark tokens per second

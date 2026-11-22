@@ -1,0 +1,24 @@
+# N60: INT8 精度下 Qwen3-27B 的质量损失量化指标：在 MMLU 基准上准确率下降幅度约为 1.0%-2.0%，在 HumanEval 代码生成基准上 P
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N14
+
+## Claim
+
+INT8 精度下 Qwen3-27B 的质量损失量化指标：在 MMLU 基准上准确率下降幅度约为 1.0%-2.0%，在 HumanEval 代码生成基准上 Pass@1 下降幅度约为 2.0%-4.0%，通常高于 FP8 量化。
+
+## Corrected Claim
+
+INT8 精度下 Qwen3-27B 的质量损失通常高于 FP8 量化，在 MMLU 和 HumanEval 等基准上存在可测量的准确率下降，具体幅度取决于量化算法和校准策略。
+
+## Evidence
+
+[质询]具体数值区间（MMLU 1.0%-2.0%, HumanEval 2.0%-4.0%）属于特定量化方案（如 GPTQ, AWQ, SmoothQuant 等）和特定数据集版本下的经验测量结果，不同量化算法和校准集会导致显著差异，无法从第一性原理推导，且缺乏来源支持具体数值。 | 经验事实，逻辑自洽（INT8 精度损失通常大于 FP8，且 MMLU 对知识记忆敏感、HumanEval 对逻辑推理敏感，损失幅度符合一般量化规律），但缺来源支持具体数值区间。
+
+## Search Query
+
+Qwen3-27B INT8 quantization accuracy drop MMLU HumanEval benchmark

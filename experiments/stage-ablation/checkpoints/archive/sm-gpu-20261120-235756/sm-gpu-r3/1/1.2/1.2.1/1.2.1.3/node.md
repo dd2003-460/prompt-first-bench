@@ -1,0 +1,20 @@
+# N146: KV Cache 显存占用对上下文长度的线性扩展性：在 BF16 下，每增加 1K tokens，KV Cache 显存占用增加 256 MB（计算式：256 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N39
+
+## Claim
+
+KV Cache 显存占用对上下文长度的线性扩展性：在 BF16 下，每增加 1K tokens，KV Cache 显存占用增加 256 MB（计算式：256 KB/token * 1024 tokens），因此 32K 上下文的 KV Cache 占用是 4K 上下文的 8 倍，直接影响最大并发 Batch Size。
+
+## Corrected Claim
+
+KV Cache 显存占用随上下文长度线性扩展。在特定模型配置下（如 Llama-2 13B 等），BF16 下每增加 1K tokens 占用约 256 MB，因此 32K 上下文的占用是 4K 的 8 倍，直接限制最大并发 Batch Size。
+
+## Evidence
+
+[质询]数值量级与具体模型架构强相关，非通用常数。256 MB/1K tokens 对应约 256 KB/token，这通常对应于特定规模（如 7B-13B 级别）且层数/头数/头维度组合特定的模型（例如 Llama-2 7B 约为 128KB/token，Llama-2 13B 约为 256KB/token）。若未指定模型，该数值不具备普适性，属于特定配置下的经验事实。 | 经验事实，逻辑自洽但缺来源支持。线性扩展逻辑正确，但 256MB/1K tokens 为特定模型参数下的计算结果，非通用物理定律或第一性原理可推导的绝对常数，且无外部来源验证该特定数值。

@@ -1,0 +1,116 @@
+{
+  "qid": "gpu",
+  "question": "你要在本地工作站上推理 Qwen3-27B 模型，不设硬性延迟指标（延迟是性能变量，由硬件和部署配置决定，不作为前置约束）；上下文窗口 ≥ 32K tokens 作为容量下限保留。权重精度不限（BF16/FP8/INT8/NVFP4/W4 均可），但必须论证所选精度的质量损失是否可接受。候选硬件：自行搜索确定值得考虑的完整候选集——覆盖你认为所有可能影响性价比排序的架构、代际、容量档位和价格区间（包括消费级、数据中心级、以及任何你认为值得纳入比较的非典型方案）。同时评估单卡与多卡方案的 TCO 差异（如 2× 消费卡 vs 1× 数据卡）。给出性价比最优的完整选卡方案。要求：思考必须最完整，确认没有遗漏任何影响决策的维度；每个关键数字标注来源（刚查到的 vs 凭记忆的），不确定的标 [待核验]；最终推荐必须是条件性的，不能给无条件排名。",
+  "round": 1,
+  "state": "rework",
+  "dropped_redundant": 0,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "可行性覆盖率 (Feasibility Coverage): 候选集是否包含所有能跑通 32K 上下文的硬件组合（单卡/多卡/消费/数据中心/非典型），且无关键遗漏（0-1 判定）",
+      "精度-质量论证完备性 (Precision-Quality Validity): 针对所选精度，是否提供了可量化的质量损失评估依据（如困惑度下降幅度、基准测试对比），且论证逻辑自洽（0-1 判定）",
+      "性价比指数 (Cost-Performance Ratio): 单位有效吞吐成本或单位 TCO 下的有效推理能力（连续变量，越低/越高越好，取决于定义口径）",
+      "TCO 结构完整性 (TCO Structure Completeness): 是否显式区分了单卡与多卡方案的资本支出（CAPEX）与运营支出（OPEX，如电力、散热、维护），并量化了差异（0-1 判定）",
+      "不确定性标注率 (Uncertainty Annotation Rate): 关键数据点中，明确标注来源（实时查询 vs 记忆）及置信度（[待核验]）的比例（0-1 连续变量）",
+      "条件性推荐强度 (Conditional Recommendation Strength): 最终推荐是否绑定了明确的前提条件（如电力限制、散热环境、软件栈兼容性），而非绝对排名（0-1 判定）"
+    ],
+    "composition": "F_total = C_feasibility * C_precision * C_tco * C_uncertainty * C_conditional * (1/TCO_normalized)",
+    "rationale": "本题为约束满足型优化问题，可行性（容量、精度、数据可信度）是一票否决的过滤门（乘积项），只有所有硬约束满足后，才通过 TCO 的倒数（性价比）进行排序，因此采用‘约束乘积 × 优劣度量’的组合形式。"
+  },
+  "objective_mode": "formula",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "parent_id": "N1",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "修正子节点2中KV Cache的计算公式：正确公式应为 2 (K/V) × num_layers × num_heads × head_dim × seq_len × bytes_per_element。对于Qwen3-27B（假设32层，40头，128维），32K上下文单序列KV Cache约为 2×32×40×128×32768×2 ≈ 2.1 GB，而非128MB。请重新计算并更新数值。",
+        "在子节点3中明确激活值估算所对应的上下文长度（如32K），并说明该估算是否已包含长上下文带来的额外开销，以确保与父节点的‘32K上下文’约束一致。",
+        "考虑在子节点4中补充对‘可行域’的动态性说明，例如指出随着并发数N增加，KV Cache开销线性增长，可能成为主要瓶颈，而激活值也可能随batch size增加而上升，从而提供更全面的可行性分析。"
+      ],
+      "round": 0
+    },
+    {
+      "parent_id": "N2",
+      "issues": [
+        "非正交",
+        "不完备",
+        "有冗余"
+      ],
+      "suggestions": [
+        "重构分类维度，确保正交性：建议改为按【硬件形态/架构】分类，例如：1. 消费级GPU (NVIDIA/AMD), 2. 数据中心GPU (NVIDIA/AMD), 3. 统一内存/SoC方案 (Apple/Intel Arc等), 4. 专用加速器/ASIC (TPU, NPU, FPGA), 5. 边缘计算设备 (Jetson, Coral等)。",
+        "消除冗余：删除子节点4“价格区间分类”，将价格信息作为每个具体硬件候选项的属性字段（如：{model: 'RTX 4090', price: '~$1600'}）整合到前几个子节点中，或者单独建立一个“市场定价参考”节点，但不应与硬件列表并列作为分解层级。",
+        "补充缺失类别：明确增加“边缘设备”和“ASIC/专用加速器”子节点，以满足父节点中“非典型方案（如 ASIC、边缘设备）”的完整覆盖要求。"
+      ],
+      "round": 0
+    },
+    {
+      "node_id": "N25",
+      "claim": "散热与空间成本量化：对于消费级多卡方案（如 2× RTX 4090），需评估机箱风道限制导致的降频风险（[待核验]：典型",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（$200-$500成本增量、1.2-1.4 PUE）属于经验事实，参考来源仅涉及部署记录和通用散热攻略，未提供具体的成本量化数据或PUE统计值"
+    },
+    {
+      "node_id": "N26",
+      "claim": "软件栈与许可开销：评估推理框架（如 vLLM, TensorRT-LLM）的许可费用（开源免费 vs 商业支持）及多卡通",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性技术断言（如“消费级硬件因驱动限制无法使用最新量化内核”），这属于特定硬件/软件版本的兼容性事实，无法从第一性原理推导，且参考来源"
+    },
+    {
+      "node_id": "N27",
+      "claim": "维护与故障率成本（MTBF 调整）：OPEX_maintenance = (1/MTBF) × C_replacemen",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（RTX 4090 MTBF 50k-100k小时 vs H100 >100k小时）属于经验事实，缺乏权威来源直接支持，且不同厂商/负载下MTB"
+    },
+    {
+      "node_id": "N30",
+      "claim": "量化质量损失量化指标：‘质量损失可接受’需定义为具体基准测试分数下降阈值（如 MMLU 或 GSM8K 准确率下降 < ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性阈值（如MMLU/GSM8K下降<2%）和特定模型（Qwen3-27B）的量化数据需求，属于经验事实而非第一性原理可推导内容；且参"
+    },
+    {
+      "node_id": "N34",
+      "claim": "NVIDIA RTX 4090 显存带宽为 1008 GB/s (GDDR6X)，而 RTX 3090 为 936 GB",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]RTX 3090 和 AMD RX 7900 XTX 的显存带宽数值及具体对比未在提供的参考来源中直接证实，且 1008/56 的带宽瓶颈模型计算依赖于"
+    },
+    {
+      "node_id": "N35",
+      "claim": "AMD MI250X 显存带宽为 3276 GB/s (HBM2)，NVIDIA A100 80GB 为 2039 GB",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源摘要中未包含具体的显存带宽数值（3276 GB/s, 2039 GB/s, 3350 GB/s），无法通过提供的来源直接验证这些具体参数；且将显"
+    },
+    {
+      "node_id": "N36",
+      "claim": "Mac Studio M2 Ultra (192GB) 统一内存带宽为 800 GB/s，M2 Ultra (512GB",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于推理吞吐的具体数值（48-56 tokens/s 或 14.8 tokens/s）属于经验事实，且内部计算逻辑混乱（先给出48-56，后自我修"
+    },
+    {
+      "node_id": "N37",
+      "claim": "显存容量可行性边界：RTX 4090 (24GB) 无法在 BF16 下运行 Qwen3-27B (需 ~56-60GB",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]KV Cache 估算严重低估：32K 上下文、2 路并发下，Qwen3-27B 的 KV Cache 占用远超 256MB（通常需数 GB），导致总显"
+    },
+    {
+      "node_id": "N38",
+      "claim": "多卡显存分片策略：2x RTX 3090 (48GB Total) 在 BF16 下仍不足 (需 60GB)，需使用 F",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源主要覆盖14B模型（BF16约28GB），未直接提供27B模型在BF16下需60GB及FP8/INT8量化后总显存约32GB的具体数据支持，且27B"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 38
+}

@@ -1,0 +1,24 @@
+# N404: Apple M4 Max缺乏PagedAttention导致长上下文(32K)下内存碎片化：在连续生成1000+ tokens后，KV Cache内存块碎片化率
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N144
+
+## Claim
+
+Apple M4 Max缺乏PagedAttention导致长上下文(32K)下内存碎片化：在连续生成1000+ tokens后，KV Cache内存块碎片化率可达20-30% [待核验]，导致有效可用显存减少，实际最大支持序列长度可能从32K降至28-30K，需定期重启服务以释放内存。
+
+## Corrected Claim
+
+Apple M4 Max在长上下文（32K）连续生成场景下，若未采用高效的PagedAttention或类似内存管理优化，KV Cache可能因内存分配策略导致有效可用显存减少，实际最大支持序列长度可能低于理论值，具体性能表现取决于软件实现细节。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（碎片化率20-30%、序列长度降至28-30K），且将‘缺乏PagedAttention’直接归因为‘内存碎片化’的主要来源，但Apple M4 Max的内存管理架构及具体KV Cache实现细节属于未公开或高度依赖具体软件栈（如llama.cpp版本、量化方式）的经验事实，无法从第一性原理推导，且缺乏来源支持具体数值。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+llama.cpp Apple Silicon memory fragmentation long context KV cache management

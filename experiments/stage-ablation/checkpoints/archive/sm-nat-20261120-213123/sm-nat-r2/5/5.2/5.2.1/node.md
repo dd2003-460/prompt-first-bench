@@ -1,0 +1,24 @@
+# N62: 工作点 1（高性低成）：高周转小对象，T_avg_res ≈ 1 天，H_static ≈ 95%，H_eff = 95% * (1 - 0.00995 * 0
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N21
+
+## Claim
+
+工作点 1（高性低成）：高周转小对象，T_avg_res ≈ 1 天，H_static ≈ 95%，H_eff = 95% * (1 - 0.00995 * 0.3) ≈ 94.7%。
+
+## Corrected Claim
+
+工作点 1（高性低成）：高周转小对象，T_avg_res ≈ 1 天，H_static ≈ 95%，H_eff = 95% * (1 - 0.00995 * 0.3) ≈ 94.7%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算 95% * (1 - 0.00995 * 0.3) ≈ 95% * 0.997015 ≈ 94.716%，与陈述中的 94.7% 一致，量级合理。
+
+## Search Query
+
+LRU high turnover small object effective hit rate steady state

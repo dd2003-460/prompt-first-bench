@@ -1,0 +1,24 @@
+# N248: 对数相关（ρ=-0.3）下 LFU 劣势幅度 ΔH_log 的解析推导：ΔH_log = H_LRU - H_LFU ≈ -0.3%，其机制归因为对数变换放大了
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N86, N87, N88
+
+## Claim
+
+对数相关（ρ=-0.3）下 LFU 劣势幅度 ΔH_log 的解析推导：ΔH_log = H_LRU - H_LFU ≈ -0.3%，其机制归因为对数变换放大了长尾对象频率统计的噪声，导致 LFU 在容量约束下保留更多低热度大对象；该值比线性相关多出的 -0.2% 源于频率分布的偏度差异，误差范围 ±0.1%。
+
+## Corrected Claim
+
+在对数相关（ρ=-0.3）下，LFU 相对于 LRU 的性能劣势幅度约为 -0.3%（定性估计），其机制可能与对数变换对长尾频率统计噪声的放大效应有关，具体数值需依赖特定实验或模拟数据验证。
+
+## Evidence
+
+[质询]该陈述包含具体的数值结论（-0.3%、-0.2%、±0.1%）和特定的因果机制归因，属于经验性/模拟性事实，无法仅从第一性原理或数学公理严格推导得出；且缺乏外部来源支持，数值精度和具体归因逻辑存在不可验证的风险。 | source=knowledge，逻辑上量纲和量级自洽（百分比差异在合理范围内），但具体数值和机制归因属于经验事实，无外部来源直接支持，依据经验事实排除条款降级。
+
+## Search Query
+
+LFU cache performance log correlation size popularity frequency bias

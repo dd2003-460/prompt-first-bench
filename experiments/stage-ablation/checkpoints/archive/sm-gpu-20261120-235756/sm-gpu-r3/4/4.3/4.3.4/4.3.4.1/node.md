@@ -1,0 +1,20 @@
+# N255: 修正 N90 中的 KV Cache 单请求占用估算：在 FP8 精度下，Qwen3-27B 单请求 32K 上下文的 KV Cache 占用并非 4GB，而是
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N90
+
+## Claim
+
+修正 N90 中的 KV Cache 单请求占用估算：在 FP8 精度下，Qwen3-27B 单请求 32K 上下文的 KV Cache 占用并非 4GB，而是 12.88GB（计算式：2 [K+V] * 64 [layers] * 8 [heads] * 128 [dim] * 1 [byte] * 32768 [tokens]），此数值修正自矛盾检测中 N121 与 N90 的冲突。
+
+## Corrected Claim
+
+修正 N90 中的 KV Cache 单请求占用估算：在 FP8 精度下，Qwen3-27B 单请求 32K 上下文的 KV Cache 占用并非 4GB，而是 12.88GB（计算式：2 [K+V] * 64 [layers] * 8 [heads] * 128 [dim] * 1 [byte] * 32768 [tokens]），此数值修正自矛盾检测中 N121 与 N90 的冲突。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B 架构参数（64层，GQA 8 KV头，128维）与 FP8 精度（1字节）代入公式 2*64*8*128*1*32768 计算结果确为 12.88GB，量纲与数值均正确。

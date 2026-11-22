@@ -1,0 +1,30 @@
+# N119: RTX 5090 的 MSRP 为 $1,999，但 2025 年 Q1 实际市场溢价导致均价约为 $2,400-$2,800；在 TCO 计算中若使用 MSR
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N28
+
+## Claim
+
+RTX 5090 的 MSRP 为 $1,999，但 2025 年 Q1 实际市场溢价导致均价约为 $2,400-$2,800；在 TCO 计算中若使用 MSRP，3 年总成本将被低估约 $1,200-$2,400，影响与 L40S ($8,000+) 的性价比排序结论。
+
+## Corrected Claim
+
+RTX 5090 的 MSRP 为 $1,999，但 2025 年 Q1 实际市场溢价导致均价显著高于 MSRP（部分数据显示中位数可达 $3,000 以上）；在 TCO 计算中若仅使用 MSRP，总成本将被显著低估，可能影响与 L40S 等高端专业卡的性价比排序结论。
+
+## Evidence
+
+[质询]来源[3]显示12个月中位数为$3,330，且当前低价高达$6,995，这与陈述中“2025年Q1均价约为$2,400-$2,800”存在显著偏差，可能高估了溢价幅度或混淆了不同时间段的平均价格；此外，TCO低估额的计算依赖于具体的折旧模型和持有期假设，缺乏统一标准。 | 来源[1]和[2]确认了RTX 5090存在市场溢价现象，但来源[3]提供的具体价格数据（中位数$3,330）与陈述中的$2,400-$2,800区间不完全一致，且缺乏直接支持该特定TCO低估额（$1,200-$2,400）的计算依据，故降级为定性表述。
+
+## Search Query
+
+RTX 5090 actual market price 2025
+
+## Retrieval Sources
+
+- {'url': 'https://rigflation.com/guides/rtx-5090-price-history&rut=b4c90efbdbf4a9f5c7d1beba9ecbe92c98b6bfd0ff189d0f0197b76e953b48ee', 'type': 'ddg', 'title': 'RTX 5090: its price history, from launch to today | RIGFLATION'}
+- {'url': 'https://cloudgpuhub.com/pricing/buy-rtx-5090-price/&rut=b422a61e1d1a89cb010e79abedcbc855d894577ec9d1be6cb6bda01f475ead8c', 'type': 'ddg', 'title': 'RTX 5090 Price Tracker - Real-Time Pricing & Trends'}
+- {'url': 'https://gpuprix.com/us/gpus/geforce-rtx-5090&rut=3d846d1d70bcd8f0b578f1dbae97aca7a6aaffa88e6eac6831f09de5e18336da', 'type': 'ddg', 'title': 'GeForce RTX 5090 Price in United States — History, Deals & Specs'}

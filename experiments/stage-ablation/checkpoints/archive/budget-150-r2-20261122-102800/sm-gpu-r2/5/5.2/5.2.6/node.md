@@ -1,0 +1,30 @@
+# N116: H100 PCIe 价格 $25000-$30000 为 2024 年官方建议零售价，但实际市场溢价可达 10%-20%（供需紧张时），且不同供应商（云厂商 v
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N36, N37, N38
+
+## Claim
+
+H100 PCIe 价格 $25000-$30000 为 2024 年官方建议零售价，但实际市场溢价可达 10%-20%（供需紧张时），且不同供应商（云厂商 vs 直销）价格差异显著，需按实际采购合同价修正
+
+## Corrected Claim
+
+H100 PCIe 的基准价格约为 $25,000-$30,000，但在2024年供需紧张时期，实际市场成交价显著高于此区间，部分渠道售价可达 $40,000 甚至更高，不同供应商间价格差异巨大，需按实际采购合同价修正。
+
+## Evidence
+
+[质询]来源[1]显示2024年H100服务器价格高达$25,000-$40,000，二级市场甚至达$50,000，这与陈述中“官方建议零售价$25,000-$30,000”及“溢价仅10%-20%”的描述存在显著偏差，暗示实际市场溢价可能远超20%或基准价格定义有误。 | 来源[3]直接支持H100 PCIe型号价格在$25,000-$30,000区间，但来源[1]显示2024年实际市场售价可达$40,000-$50,000，表明“10%-20%溢价”这一具体数值缺乏充分支持且可能低估了市场波动，故降级为定性表述。
+
+## Search Query
+
+H100 PCIe 80GB market price 2024 actual
+
+## Retrieval Sources
+
+- {'url': 'https://cyfuture.cloud/kb/gpu/what-is-the-current-price-of-the-nvidia-h100-gpu&rut=79f169fa9b5b29decfda55829b26028ad06ed939852b9745a79534ddadf72c9e', 'type': 'ddg', 'title': 'Nvidia h100 price | h100 gpu price | h100 server price - cyfuture.cloud'}
+- {'url': 'https://vramglass.com/zh/gpu/h100-pcie&rut=ef86267b9b5e7cd3daba604550eaa4e8d9a1c389e793c1fef64e31dbaafbdf92', 'type': 'ddg', 'title': 'H100 PCIe 显卡价格走势、显存与能跑的大模型 - vramglass.com'}
+- {'url': 'https://cyfuture.cloud/kb/gpu/nvidia-h100-cost-guide-specs-pricing-and-market-insights&rut=d57928008c81e115020224a235b134cb4402b01a7528ba86fa8fb19019cf6c78', 'type': 'ddg', 'title': 'NVIDIA H100 Cost Guide-Specs, Pricing, and Market Insights'}

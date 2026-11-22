@@ -1,0 +1,24 @@
+# N25: 最小对象大小 X_min 在边缘 CDN 场景中通常取值为 1KB (1024 bytes) 或 100 bytes，此参数直接决定 S_mean 的数量级，需
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N5
+
+## Claim
+
+最小对象大小 X_min 在边缘 CDN 场景中通常取值为 1KB (1024 bytes) 或 100 bytes，此参数直接决定 S_mean 的数量级，需根据具体业务设定或行业基准确定。
+
+## Corrected Claim
+
+最小对象大小 X_min 在边缘 CDN 场景中需根据具体业务设定或行业基准确定，常见取值范围可能在百字节至千字节级别，此参数直接决定 S_mean 的数量级。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（1KB或100 bytes），属于硬件/业务配置参数，无法从第一性原理推导，且缺乏来源支持其作为'通常取值'的普遍性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+edge CDN minimum object size bytes typical value

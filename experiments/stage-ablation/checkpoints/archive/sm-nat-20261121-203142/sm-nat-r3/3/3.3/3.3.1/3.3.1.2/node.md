@@ -1,0 +1,20 @@
+# N124: Pareto(β=0.9) 分布的二阶矩 Var(R) 在 β≤2 时发散（无穷大），导致公式 k ≈ (Var(R)/Var(S)) * ... 中的分子 V
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N48
+
+## Claim
+
+Pareto(β=0.9) 分布的二阶矩 Var(R) 在 β≤2 时发散（无穷大），导致公式 k ≈ (Var(R)/Var(S)) * ... 中的分子 Var(R) 为 ∞，进一步证实基于二阶矩的线性耦合系数 k 在给定参数下无定义，需转向基于秩相关（如 Spearman）的替代指标。
+
+## Corrected Claim
+
+Pareto(β=0.9) 分布的二阶矩 Var(R) 在 β≤2 时发散（无穷大），导致公式 k ≈ (Var(R)/Var(S)) * ... 中的分子 Var(R) 为 ∞，进一步证实基于二阶矩的线性耦合系数 k 在给定参数下无定义，需转向基于秩相关（如 Spearman）的替代指标。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布的二阶矩在形状参数β≤2时确实发散，导致基于二阶矩的公式无定义，推导逻辑自洽。

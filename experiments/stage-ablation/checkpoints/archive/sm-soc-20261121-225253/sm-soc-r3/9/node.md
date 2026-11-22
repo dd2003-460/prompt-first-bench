@@ -1,0 +1,26 @@
+# N123: 卖家高挂价行为在演化博弈论中对应‘策略性欺骗’（Strategic Deception）的适应度收益，其临界阈值定义为：当预期溢价收益 R_premium = 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+卖家高挂价行为在演化博弈论中对应‘策略性欺骗’（Strategic Deception）的适应度收益，其临界阈值定义为：当预期溢价收益 R_premium = (P_ask - P_mkt) * P_deal 超过搜索与时间成本 C_search 的 1.5 倍时，该策略在种群中稳定存在；若 R_premium < 0.8 * C_search，则理性卖家应回归市场均价。
+
+## Corrected Claim
+
+卖家高挂价行为在博弈论中可视为一种策略，其是否稳定存在取决于预期溢价收益是否超过搜索与时间成本，但具体的临界阈值（如1.5倍或0.8倍）并非通用理论常数，需依据特定模型参数确定。
+
+## Evidence
+
+[质询]该陈述中的具体数值阈值（1.5倍和0.8倍）及特定公式（R_premium = (P_ask - P_mkt) * P_deal）在演化博弈论或标准拍卖/市场微观结构理论中不存在通用定义，属于无来源支持的臆造参数或特定未指明模型的局部结论，且参考来源均未包含此内容。 | 参考来源[1][2][3]仅涉及拍卖策略、私人价值拍卖及贝叶斯博弈基础，均未提及‘策略性欺骗’的特定适应度收益公式或1.5/0.8的临界阈值，无法支持该具体量化结论。
+
+## Retrieval Sources
+
+- {'url': 'https://wenku.baidu.com/view/71582a8c0822590102020740be1e650e52eacff9.html&rut=212ab116de74d5612acacd5948d181c2a5a312edc1627c5615f32d6384a5ef32', 'type': 'ddg', 'title': '2025年拍卖师拍卖师谈判心理与价格博弈策略专题试卷及解析'}
+- {'url': 'https://wenku.baidu.com/view/c3dcf237ff4ffe4733687e21af45b307e871f9b1.html&rut=504683f6057cb791103698e1eb18a5c4fde526607fce8b28f7487b56e79c919a', 'type': 'ddg', 'title': '平狄克微观经济学 (第7版)习题详解 (第13章博弈论和竞争策略)'}
+- {'url': 'https://zhuanlan.zhihu.com/p/450461959&rut=2d9756e0fbed586aa156c1469970312a25e740a68ab01923fd0b6200b1c5594b', 'type': 'ddg', 'title': '不完全信息静态博弈--拍卖理论 - 知乎'}

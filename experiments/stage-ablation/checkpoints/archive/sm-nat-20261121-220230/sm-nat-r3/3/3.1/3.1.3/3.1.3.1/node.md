@@ -1,0 +1,20 @@
+# N165: 中间热度对象（Rank 10%-50%）在 LRU 缓存中的平均驻留时间 T_resident 的解析表达式为 T_resident = C_norm / (λ
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N57
+
+## Claim
+
+中间热度对象（Rank 10%-50%）在 LRU 缓存中的平均驻留时间 T_resident 的解析表达式为 T_resident = C_norm / (λ_i * (1 - P_evict))，其中 C_norm=0.119 为归一化容量，λ_i 为该区间对象的平均请求率（需根据 Rank 10%-50% 在 Pareto(β=0.9) 分布下的累积概率计算具体数值），P_evict 为该对象在 T_resident 内被更高热度对象驱逐的概率，需通过 LRU 队列长度分布积分求解。
+
+## Corrected Claim
+
+中间热度对象（Rank 10%-50%）在 LRU 缓存中的平均驻留时间 T_resident 的解析表达式为 T_resident = C_norm / (λ_i * (1 - P_evict))，其中 C_norm=0.119 为归一化容量，λ_i 为该区间对象的平均请求率（需根据 Rank 10%-50% 在 Pareto(β=0.9) 分布下的累积概率计算具体数值），P_evict 为该对象在 T_resident 内被更高热度对象驱逐的概率，需通过 LRU 队列长度分布积分求解。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

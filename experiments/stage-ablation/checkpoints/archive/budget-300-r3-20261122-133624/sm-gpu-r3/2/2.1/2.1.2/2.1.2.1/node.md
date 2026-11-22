@@ -1,0 +1,24 @@
+# N243: RTX 6000 Ada 的 TDP 为 300W，但在 BF16 推理（Decode 阶段）的实际平均功耗约为 210W (70% TDP)，修正后的 3 年
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N68
+
+## Claim
+
+RTX 6000 Ada 的 TDP 为 300W，但在 BF16 推理（Decode 阶段）的实际平均功耗约为 210W (70% TDP)，修正后的 3 年电力成本 = 210W × 8760h × 3y × $0.12/kWh ≈ $665.4，原 N68 中基于 TDP 的 $950 估算高估了约 30%。
+
+## Corrected Claim
+
+RTX 6000 Ada 的 TDP 为 300W，但在 BF16 推理（Decode 阶段）的实际平均功耗约为 210W (70% TDP)，修正后的 3 年电力成本 = 210W × 8760h × 3y × $0.12/kWh ≈ $665.4，原 N68 中基于 TDP 的 $950 估算高估了约 30%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 6000 Ada TDP 300W 符合规格，推理负载下平均功耗约为 TDP 的 70% 符合工程经验；成本计算 210 * 8760 * 3 * 0.12 = 665,352 Wh * $0.12/kWh = $665.4 数学正确；原估算 300 * 8760 * 3 * 0.12 = $950.4，高估比例 (950.4-665.4)/950.4 ≈ 30% 逻辑自洽。
+
+## Search Query
+
+RTX 6000 Ada power consumption inference benchmark

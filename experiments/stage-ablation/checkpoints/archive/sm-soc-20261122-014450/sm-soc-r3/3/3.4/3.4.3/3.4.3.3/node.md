@@ -1,0 +1,20 @@
+# N221: 流量波动风险 ΔTraffic：算法调整初期可能导致流量波动 ±10-15%，持续 2-4 周；需计算波动期内的 GMV 损失 ΔGMV_loss = ∫(GM
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N69
+
+## Claim
+
+流量波动风险 ΔTraffic：算法调整初期可能导致流量波动 ±10-15%，持续 2-4 周；需计算波动期内的 GMV 损失 ΔGMV_loss = ∫(GMV_base - GMV_fluct) dt，并评估其是否超过长期公平定价带来的收益
+
+## Corrected Claim
+
+流量波动风险 ΔTraffic：算法调整初期可能导致流量波动 ±10-15%，持续 2-4 周；需计算波动期内的 GMV 损失 ΔGMV_loss = ∫(GMV_base - GMV_fluct) dt，并评估其是否超过长期公平定价带来的收益
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

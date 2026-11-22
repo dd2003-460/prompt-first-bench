@@ -1,0 +1,20 @@
+# N321: 代理数据 (Proxy Data) 的有效性条件：若缺乏 Qwen3-27B 的官方量化数据，需使用同架构、相近规模的模型（如 Qwen2-72B 或 LLaM
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N103
+
+## Claim
+
+代理数据 (Proxy Data) 的有效性条件：若缺乏 Qwen3-27B 的官方量化数据，需使用同架构、相近规模的模型（如 Qwen2-72B 或 LLaMA-3-70B）的量化数据作为代理；代理数据的有效性取决于模型架构相似度（如 Attention 机制、LayerNorm 位置）和量化方法一致性（如 GPTQ vs AWQ）；若架构差异大（如 MoE vs Dense），代理数据误差可能超过 10% [待核验：需具体架构对比]。
+
+## Corrected Claim
+
+代理数据 (Proxy Data) 的有效性条件：若缺乏 Qwen3-27B 的官方量化数据，需使用同架构、相近规模的模型（如 Qwen2-72B 或 LLaMA-3-70B）的量化数据作为代理；代理数据的有效性取决于模型架构相似度（如 Attention 机制、LayerNorm 位置）和量化方法一致性（如 GPTQ vs AWQ）；若架构差异大（如 MoE vs Dense），代理数据误差可能超过 10% [待核验：需具体架构对比]。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

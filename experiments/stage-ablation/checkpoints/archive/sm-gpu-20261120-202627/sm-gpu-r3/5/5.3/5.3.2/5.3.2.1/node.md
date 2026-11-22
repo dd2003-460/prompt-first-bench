@@ -1,0 +1,20 @@
+# N389: 工作点 A (2× RTX 4090, INT8) 的 3 年 TCO 下限估算：假设本地电价降至 $0.08/kWh (工业/数据中心级电价) 且通过优化驱动
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N123
+
+## Claim
+
+工作点 A (2× RTX 4090, INT8) 的 3 年 TCO 下限估算：假设本地电价降至 $0.08/kWh (工业/数据中心级电价) 且通过优化驱动将 MTTR 降至 2 小时，OpEx_energy 降至约 $1380，OpEx_maintenance 降至 $300，Total_TCO_A_min ≈ $3350 + $1380 + $300 = $5030。
+
+## Corrected Claim
+
+工作点 A (2× RTX 4090, INT8) 的 3 年 TCO 下限估算：假设本地电价降至 $0.08/kWh (工业/数据中心级电价) 且通过优化驱动将 MTTR 降至 2 小时，OpEx_energy 降至约 $1380，OpEx_maintenance 降至 $300，Total_TCO_A_min ≈ $3350 + $1380 + $300 = $5030。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算 3350 + 1380 + 300 = 5030 正确，且各分项成本（硬件、能源、维护）在给定假设下量级合理，无内部矛盾。

@@ -1,0 +1,20 @@
+# N71: 对象平均驻留时间 T_resident 的解析近似：T_resident ≈ (C_norm * N) / (λ_avg * (1 - P_eviction))
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N20
+
+## Claim
+
+对象平均驻留时间 T_resident 的解析近似：T_resident ≈ (C_norm * N) / (λ_avg * (1 - P_eviction))，其中 λ_avg=500/天，P_eviction 为对象在驻留期内被驱逐的概率，需结合 LRU 队列长度分布求解。
+
+## Corrected Claim
+
+对象平均驻留时间 T_resident 的解析近似：T_resident ≈ (C_norm * N) / (λ_avg * (1 - P_eviction))，其中 λ_avg=500/天，P_eviction 为对象在驻留期内被驱逐的概率，需结合 LRU 队列长度分布求解。
+
+## Evidence
+
+父节点级核验未通过：非正交（子节点之间存在严重的循环依赖和逻辑矛盾。子节点1声称 P_eviction 的近似公式依赖于 T_resident（P ≈ 1 - exp(-λ*T/C)），而子节点2声称 T_resident 的求解依赖于 P_eviction 的该近似值。这构成了一个未解的代数循环，而非正交的两个独立方面。此外，数学上该近似式在 T_resident 较小时 P_eviction 接近 0，导致分母 (1-P) 接近 1，这与子节点2中隐含的复杂迭代需求（通常意味着 P 不可忽略或公式更复杂）存在潜在冲突，且子节点1的公式本身在物理意义上可能不成立（通常驱逐概率随驻留时间增加而增加，但此公式中 T 在指数内部，需检查符号或定义是否反了，或者这实际上是一个自洽方程的一部分而非独立近似）。最关键的是，这两个子节点共同构成了一个方程组，而不是父节点的两个独立子问题，它们相互纠缠，不满足正交性。）

@@ -1,0 +1,20 @@
+# N27: 在 ρ=-0.3 的场景下，LFU 的优势被放大，因为高频对象倾向于更小，LFU 能在相同容量 C 下容纳更多高频对象（k_LFU > k_LRU），从而提升字
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+在 ρ=-0.3 的场景下，LFU 的优势被放大，因为高频对象倾向于更小，LFU 能在相同容量 C 下容纳更多高频对象（k_LFU > k_LRU），从而提升字节命中率；具体提升百分点可通过模拟对比 k_LFU 和 k_LRU 下的累积请求占比差值计算，预计提升范围为 8-12%。
+
+## Corrected Claim
+
+在 ρ=-0.3 的场景下，LFU 的优势被放大，因为高频对象倾向于更小，LFU 能在相同容量 C 下容纳更多高频对象（k_LFU > k_LRU），从而提升字节命中率；具体提升百分点可通过模拟对比 k_LFU 和 k_LRU 下的累积请求占比差值计算，预计提升范围为 8-12%。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

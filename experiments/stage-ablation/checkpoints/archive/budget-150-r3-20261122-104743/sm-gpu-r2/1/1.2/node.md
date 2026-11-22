@@ -1,0 +1,30 @@
+# N8: KV Cache 显存占用 (KV Memory) = 2 × n_layers × n_kv_heads × head_dim × S_ctx × D_byt
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+KV Cache 显存占用 (KV Memory) = 2 × n_layers × n_kv_heads × head_dim × S_ctx × D_bytes，需基于 Qwen3-27B 具体架构参数（n_layers, n_kv_heads, head_dim）及 S_ctx=32768 进行实例化计算
+
+## Corrected Claim
+
+KV Cache 显存占用 (KV Memory) = 2 × n_layers × n_kv_heads × head_dim × S_ctx × D_bytes。需查阅 Qwen3-27B 官方技术报告或配置文件中具体的 n_layers, n_kv_heads, head_dim 参数，并结合实际使用的 S_ctx 进行计算。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（Qwen3-27B 的 n_layers, n_kv_heads, head_dim）和特定的上下文长度 S_ctx=32768。参考来源仅提供了模型名称和大致架构描述，未提供具体的层数、KV头数、头维度等数值，也未确认 S_ctx 是否为该模型的标准或最大上下文长度。因此，无法从现有来源直接验证公式中的具体实例化数值。 | 公式逻辑自洽（KV Cache 大小确实与层数、KV头数、头维度、序列长度和数据类型字节数成正比），但参考来源 [1][2][3] 均未提供 Qwen3-27B 的具体架构参数（如 n_layers, n_kv_heads, head_dim）以支持该具体实例化计算，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+Qwen3-27B architecture parameters n_layers n_kv_heads head_dim config.json
+
+## Retrieval Sources
+
+- {'url': 'https://apxml.com/models/qwen38-27b&rut=1624baae322bf4ddad7e27a6ffb5bbbb009f2d9bd8c585395db6c06a6dc22c74', 'type': 'ddg', 'title': 'Qwen 3.8 27B - VRAM Requirements, Specs & Benchmarks'}
+- {'url': 'https://inferencex.semianalysis.com/model/qwen-3-8-27b&rut=85dcdd1e4697cec500b06f6873d5912d824f4884788e3102ed9b62290cd14cdb', 'type': 'ddg', 'title': 'Qwen3.8 27B — Architecture, Evals & Inference Performance'}
+- {'url': 'https://atandra2000.github.io/qwen3.8-guide/&rut=c1dc36f3ab8f942206bfccda6ed1156d94a7754bd19d20268f0a3cc4ba0a7ffc', 'type': 'ddg', 'title': 'Qwen 3.8-27B — The Architecture, From Scratch'}

@@ -1,0 +1,24 @@
+# N270: Qwen3-27B AWQ W4 量化的 MMLU 准确率损失 3.0%±1.0% 中，50% 的损失来自数学推理子集（MMLU-Math），30% 来自代码生
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N83, N84, N85
+
+## Claim
+
+Qwen3-27B AWQ W4 量化的 MMLU 准确率损失 3.0%±1.0% 中，50% 的损失来自数学推理子集（MMLU-Math），30% 来自代码生成子集（HumanEval），20% 来自常识推理，表明 AWQ 在逻辑密集型任务上损失更大
+
+## Corrected Claim
+
+Qwen3-27B AWQ W4 量化在 MMLU 上的准确率损失约为 3.0%±1.0%。由于缺乏具体来源支持，无法确认损失在数学、代码和常识子集上的具体分布比例（50%/30%/20%），且 HumanEval 并非 MMLU 的子集，建议分别报告 MMLU 和 HumanEval 的独立性能变化。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值分解（50%数学、30%代码、20%常识），这属于特定模型在特定量化下的实证数据，无法从第一性原理推导。此外，MMLU标准基准中通常不包含名为'MMLU-Math'的独立子集（数学题通常分散在各类别中，或需使用专门的GSM8K/MATH基准），且HumanEval并非MMLU的子集，而是独立的代码生成基准，将二者混同为MMLU的子集存在口径混淆和事实错误风险。 | 经验事实，逻辑自洽但缺来源支持；且存在基准定义混淆（HumanEval非MMLU子集），无法验证具体数值分解。
+
+## Search Query
+
+AWQ W4 quantization MMLU subset accuracy loss math code commonsense breakdown

@@ -1,0 +1,24 @@
+# N7: 随机偏好噪声 σ_p 服从正态分布 N(0, σ²)，其中 σ 代表个体对商品价值评估的离散度；在二手市场中，由于信息不对称，σ 显著高于标准化市场（σ_use
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+随机偏好噪声 σ_p 服从正态分布 N(0, σ²)，其中 σ 代表个体对商品价值评估的离散度；在二手市场中，由于信息不对称，σ 显著高于标准化市场（σ_used > σ_standard），导致挂价分布右偏。
+
+## Corrected Claim
+
+随机偏好噪声 σ_p 服从正态分布 N(0, σ²)，其中 σ 代表个体对商品价值评估的离散度；在二手市场中，由于信息不对称，σ 显著高于标准化市场（σ_used > σ_standard），导致挂价分布右偏。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：信息不对称导致估值方差增大（σ_used > σ_standard），在价格=价值+噪声的模型下，若价值分布近似对称或右偏，较大的噪声方差会加剧分布的右偏特征（尤其是当价格下限受限于0或保留价格时），符合经济学直觉。
+
+## Search Query
+
+random preference noise variance second-hand market valuation

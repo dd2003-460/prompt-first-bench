@@ -1,0 +1,20 @@
+# N20: 对象 i 的更新间隔 T_update 服从指数分布，其均值 E[T_update] = 1 / λ_update，其中 λ_update = 0.01 / 天
+
+- **status**: verified
+- **level**: L2
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+对象 i 的更新间隔 T_update 服从指数分布，其均值 E[T_update] = 1 / λ_update，其中 λ_update = 0.01 / 天 = 1.157e-7 / 秒（基于 1%/天 的更新率）。
+
+## Corrected Claim
+
+对象 i 的更新间隔 T_update 服从指数分布，其均值 E[T_update] = 1 / λ_update，其中 λ_update = 0.01 / 天 = 1.157e-7 / 秒（基于 1%/天 的更新率）。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1侧重于分布的分位数特性及其在统计置信区间中的应用，子节点2侧重于生存函数（未更新概率）在具体时间点取值及其在风险量化中的应用。两者从不同统计维度（分位数 vs 概率质量/生存函数）阐述同一分布的性质，内容不重叠且无矛盾。父节点仅定义了分布及其均值，子节点补充了具体的统计推导和应用场景，覆盖了关键方面。）

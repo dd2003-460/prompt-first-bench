@@ -1,0 +1,24 @@
+# N61: 独立假设失效下的命中率修正项：当时间局部性存在时，LRU 命中率下界需修正为 H_corrected = H_independent * (1 + λ * (1
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N18
+
+## Claim
+
+独立假设失效下的命中率修正项：当时间局部性存在时，LRU 命中率下界需修正为 H_corrected = H_independent * (1 + λ * (1 - H_independent))，其中 λ 为局部性强度参数，估算 λ ≈ 0.2-0.4 基于 ρ_t 值，导致原公式低估命中率约 5-15 个百分点。
+
+## Corrected Claim
+
+在存在时间局部性的特定工作负载下，独立假设下的LRU命中率下界可能被低估。一种经验修正模型为 H_corrected ≈ H_independent * (1 + λ * (1 - H_independent))，其中局部性强度参数 λ 通常在 0.2-0.4 之间，可能导致命中率被低估约 5-15 个百分点，具体数值需根据实际 ρ_t 值校准。
+
+## Evidence
+
+[质询]该修正公式 H_corrected = H_independent * (1 + λ * (1 - H_independent)) 缺乏通用的理论推导或标准文献支持，属于特定模型下的经验拟合或假设性修正，λ 的取值范围（0.2-0.4）及导致的误差幅度（5-15个百分点）高度依赖于具体的工作负载特征，并非普适常数。 | 先验知识/题面给定，逻辑校验通过（公式在数学上自洽，且定性方向符合局部性提升命中率的直觉），但作为经验事实缺乏通用来源直接支持，故降级。
+
+## Search Query
+
+LRU cache hit rate correction temporal locality independent assumption bias

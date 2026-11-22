@@ -1,0 +1,24 @@
+# N113: 支付意愿高于挂价阈值的买家占比 P_willing_high 的基准值：在二手电子/服饰类目中，若挂价溢价率为 20%，则 P_willing_high ≈ 1
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N36
+
+## Claim
+
+支付意愿高于挂价阈值的买家占比 P_willing_high 的基准值：在二手电子/服饰类目中，若挂价溢价率为 20%，则 P_willing_high ≈ 15% ± 5%（基于需求曲线右尾积分），该比例是筛选效应生效的前提，若 < 5% 则市场流动性枯竭。
+
+## Corrected Claim
+
+在二手电子/服饰类目中，若挂价溢价率为 20%，支付意愿高于挂价阈值的买家占比 P_willing_high 通常处于较低水平（如 10%-20% 区间），该比例是筛选效应生效的前提，若比例过低（如 < 5%）则可能导致市场流动性显著下降。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（15% ± 5%）和阈值（5%），属于市场微观结构中的经验事实，无法从第一性原理或数学公理严格推导得出，且缺乏实证数据支持其普适性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该数值非第一性原理可推导范畴）
+
+## Search Query
+
+willingness to pay distribution tail used goods market liquidity threshold

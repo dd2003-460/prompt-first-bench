@@ -1,0 +1,30 @@
+# N278: Akamai 典型对象大小分布：查阅 Akamai 技术文档，其边缘节点缓存对象大小中位数约为 100KB，P99 约为 5MB，S_min 设为 1KB，S_
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N105
+
+## Claim
+
+Akamai 典型对象大小分布：查阅 Akamai 技术文档，其边缘节点缓存对象大小中位数约为 100KB，P99 约为 5MB，S_min 设为 1KB，S_max 截断于 50MB，需验证该范围对命中率计算的影响。
+
+## Corrected Claim
+
+Akamai 边缘节点缓存对象大小通常较小，具体分布（如中位数、P99）需依据特定业务负载或更详细的技术报告确定，此处假设中位数约100KB、P99约5MB用于命中率计算示例。
+
+## Evidence
+
+[质询]参考来源中未包含具体的对象大小分布统计数据（如中位数100KB、P99 5MB等），这些具体数值属于经验事实，无法从提供的文档摘要中直接验证，且不同业务场景下分布差异巨大，缺乏特定上下文支持。 | 来源[2]涉及对象交付但摘要未提供具体大小分布数据，来源[1]和[3]与具体对象大小统计无关；该陈述为经验事实，逻辑上量级合理（Web对象通常较小），但缺乏来源直接支持具体数值，故降级。
+
+## Search Query
+
+Akamai edge cache object size distribution median P99
+
+## Retrieval Sources
+
+- {'url': 'https://techdocs.akamai.com/cloud-computing/docs/metrics-dimensions-parameters&rut=20e7bdc2299199aa219c37f16fffe023120a20c846768307c5ad48270223d266', 'type': 'ddg', 'title': 'Metrics reference - techdocs.akamai.com'}
+- {'url': 'https://techdocs.akamai.com/object-delivery/docs/content-characteristics-and-od&rut=16abd19228596d8c9e7e3402a802007610a49d73e65abc66aa8275e4e9cb1855', 'type': 'ddg', 'title': 'Content Characteristics & Object Delivery'}
+- {'url': 'https://www.akamai.com/site/zh/documents/reference-architecture/edge-cloud-architecture.pdf&rut=6ca145e9713d99ff7a84817cc565e84b645a93c2a7f794ccca653a77e12929a3', 'type': 'ddg', 'title': 'PDF 边缘云架构 - Akamai'}

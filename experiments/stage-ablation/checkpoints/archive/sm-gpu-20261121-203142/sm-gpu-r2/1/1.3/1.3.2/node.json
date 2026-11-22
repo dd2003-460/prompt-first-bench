@@ -1,0 +1,33 @@
+{
+  "id": "N43",
+  "claim": "NVFP4/W4量化缩放因子（Scale Factor）的显存开销：NVFP4格式每16个权重共享一个FP8 scale factor，开销约为权重显存的1/4 * (1/4) = 6.25%（即13.6GB * 6.25% ≈ 0.85GB），若使用更粗粒度则更低",
+  "level": "L3",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]数值计算存在逻辑错误：NVFP4每16个权重共享1个FP8 scale factor，权重位宽为4bit，scale factor位宽为8bit。开销比例应为 (1 * 8) / (16 * 4) = 8/64 = 12.5%，而非陈述中的6.25%（6.25%对应的是每32个权重共享1个scale factor，或权重为8bit的情况）。此外，13.6GB * 12.5% ≈ 1.7GB，而非0.85GB。 | 来源[2]和[3]确认了NVFP4采用两级缩放机制及Per-Group量化，但未直接给出具体开销百分比；根据第一性原理计算，4bit权重配8bit scale factor且group size为16时，开销应为12.5%，陈述中的6.25%与基本位宽计算矛盾。",
+  "corrected_claim": "NVFP4格式每16个权重共享一个FP8 scale factor，开销约为权重显存的12.5%（即13.6GB * 12.5% ≈ 1.7GB）",
+  "rework_count": 1,
+  "parent_ids": [
+    "N9"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "NVFP4 quantization scale factor memory overhead 16 weights per scale",
+  "retrieval_sources": [
+    {
+      "url": "https://developer.aliyun.com/article/1679429&rut=cafe1870c7a2316e3e7b695124ac5098210f1fe75e5b60114a57ea815e836822",
+      "type": "ddg",
+      "title": "详解NVFP4量化在Blackwell GPU上实现极致推理加速的原理与实践-开发者社区-阿里云"
+    },
+    {
+      "url": "https://geek-doc.cn/chip-design/intermediate/fp4-nvfp4-inference-format&rut=b87f42bf63f15ad00648347fa76d4afc5c81b1759c4b09f287157c135e5d177b",
+      "type": "ddg",
+      "title": "FP4 推理格式：NVFP4 与 MXFP4 的数值结构、缩放策略与 Blackwell 硬件支持"
+    },
+    {
+      "url": "https://blog.csdn.net/weixin_41998045/article/details/160719489&rut=04ff1ba0c2a8bfc6389e525ac82df5e081f221295d6da1f1f6d307b102da5ba0",
+      "type": "ddg",
+      "title": "深入浅出：揭秘 nvfp4 量化机制与工程妥协的艺术-CSDN博客"
+    }
+  ]
+}

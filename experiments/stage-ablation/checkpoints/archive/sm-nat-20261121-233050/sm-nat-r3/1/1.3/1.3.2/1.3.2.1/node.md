@@ -1,0 +1,28 @@
+# N85: LRU 缓存集合在 ρ=-0.3 下的字节覆盖量 B_LRU：基于 N59 确定的 K_max≈98,500 个对象，B_LRU = Σ_{i∈Top_K_by
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N31
+
+## Claim
+
+LRU 缓存集合在 ρ=-0.3 下的字节覆盖量 B_LRU：基于 N59 确定的 K_max≈98,500 个对象，B_LRU = Σ_{i∈Top_K_by_Time} S_i * F_i，由于负相关性，该集合包含较多中频大对象，估算值约为 Total_Bytes * 0.92 [待核验]。
+
+## Corrected Claim
+
+LRU 缓存集合在 ρ=-0.3 下的字节覆盖量 B_LRU 估算值约为 Total_Bytes 的 92%（基于特定分布假设的估算，需具体数据验证）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值估算（0.92），且依赖于特定的相关性参数（ρ=-0.3）和对象分布假设，这属于经验事实而非第一性原理可推导的数学恒等式。参考来源仅解释LRU基本原理，未提供该特定场景下的覆盖率数据，无法排除其他数值可能性。 | 经验事实，逻辑自洽但缺来源支持（来源[1]仅介绍LRU原理，未覆盖具体覆盖率数值）
+
+## Search Query
+
+LRU cache byte coverage Pareto distribution negative correlation simulation
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/710433424&rut=d4ff2fa3e8d3c6bb629e1733a93e3bfed6a0f33915794802d48973cdbcb3b49e', 'type': 'ddg', 'title': '什么是LRU缓存？LRUCache原理详解和C++代码实现'}

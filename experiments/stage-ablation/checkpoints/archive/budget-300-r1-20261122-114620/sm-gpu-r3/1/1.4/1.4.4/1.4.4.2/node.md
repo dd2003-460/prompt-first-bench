@@ -1,0 +1,24 @@
+# N175: llama.cpp 在 2x RTX 4090 上执行 Pipeline Parallel (PP) 时，切分点通常设在第 32 层（总 64 层的一半），每层
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N53
+
+## Claim
+
+llama.cpp 在 2x RTX 4090 上执行 Pipeline Parallel (PP) 时，切分点通常设在第 32 层（总 64 层的一半），每层间需传输 hidden_states (4096 * 2 bytes = 8KB) 和 KV Cache 增量，单 token 生成增加的通信延迟约为 12-15ms，总延迟增加约 12ms/token（与父节点一致），但避免了 TP 的每层同步开销
+
+## Corrected Claim
+
+llama.cpp 在 2x RTX 4090 上执行 Pipeline Parallel (PP) 时，切分点通常设在第 32 层，每层间需传输 hidden_states 和 KV Cache 增量，单 token 生成增加的通信延迟极低（通常 <1ms），总延迟增加可忽略不计，主要优势在于避免了 TP 的每层 All-Reduce 同步开销。
+
+## Evidence
+
+[质询]数值量级与物理直觉严重不符：4096维hidden_states在FP16下仅8KB，通过PCIe 4.0/5.0或NVLink传输延迟应远低于12-15ms（通常<1ms）；12ms/token的通信延迟对于单token生成而言过高，且与'避免TP同步开销'的定性优势在定量上难以自洽（通常PP通信开销极小，主要瓶颈在计算而非通信，除非涉及巨大的KV Cache传输，但单token增量KV Cache也很小）。 | 逻辑校验失败：8KB数据传输延迟不可能达到12-15ms，该数值违背基本硬件通信带宽常识（PCIe/NVLink带宽远高于此延迟对应的吞吐量）。
+
+## Search Query
+
+llama.cpp pipeline parallelism latency RTX 4090 27B

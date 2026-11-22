@@ -1,0 +1,24 @@
+# N7: 锚定效应偏差幅度：二手商品卖家初始挂价 P_ask 相对于参考锚点 P_ref（如原价或历史成交价）的系统性偏差率 δ_anchor 平均为 15%-25%，公
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+锚定效应偏差幅度：二手商品卖家初始挂价 P_ask 相对于参考锚点 P_ref（如原价或历史成交价）的系统性偏差率 δ_anchor 平均为 15%-25%，公式表达为 P_ask = P_ref * (1 + δ_anchor)，其中 δ_anchor 受初始曝光频率影响。
+
+## Corrected Claim
+
+锚定效应导致二手商品卖家初始挂价 P_ask 相对于参考锚点 P_ref 存在系统性偏差，公式表达为 P_ask = P_ref * (1 + δ_anchor)，其中 δ_anchor 的具体幅度因情境而异，通常为正偏差，且可能受锚点显著性及卖家认知因素影响。
+
+## Evidence
+
+[质询]该陈述将‘锚定效应’这一普遍存在的心理偏差量化为具体的‘15%-25%’平均偏差率，并声称其受‘初始曝光频率’影响。然而，行为经济学中锚定效应的幅度高度依赖于具体情境（如商品类别、锚点显著性、卖家经验等），不存在一个普适的‘15%-25%’固定统计区间。此外，‘初始曝光频率’对锚定偏差的影响并非标准理论结论，缺乏广泛的实证支持，属于将特定实验结果或推测泛化为普遍规律。 | source=knowledge，逻辑上公式表达自洽，但‘15%-25%’的具体数值范围及‘受初始曝光频率影响’的机制属于经验性断言，缺乏普适性理论或广泛实证支持，且无外部来源佐证，故降级为定性表述。
+
+## Search Query
+
+used goods seller initial asking price anchoring bias percentage study

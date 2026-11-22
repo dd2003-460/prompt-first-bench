@@ -1,0 +1,24 @@
+# N339: Qwen3-27B 权重张量中绝对值大于 448 (E4M3 最大表示值) 的离群值 (Outliers) 占比统计，具体需计算 Outlier_Ratio =
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N107, N108, N109
+
+## Claim
+
+Qwen3-27B 权重张量中绝对值大于 448 (E4M3 最大表示值) 的离群值 (Outliers) 占比统计，具体需计算 Outlier_Ratio = Count(|w| > 448) / Total_Weights，该比例直接决定 FP8 量化是否需要复杂的离群值处理策略。
+
+## Corrected Claim
+
+Qwen3-27B 权重张量中绝对值大于 448 的离群值占比需通过实际统计计算得出，该比例是决定 FP8 量化策略复杂度的关键经验指标。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性统计结论（即离群值占比的具体数值或分布特征），这属于特定模型（Qwen3-27B）的硬件/数据规格事实，无法从第一性原理或数学公理中直接推导得出。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该事实属于特定模型权重分布的经验数据，非第一性原理可推导范畴）
+
+## Search Query
+
+Qwen3-27B weight distribution outliers > 448 FP8 E4M3

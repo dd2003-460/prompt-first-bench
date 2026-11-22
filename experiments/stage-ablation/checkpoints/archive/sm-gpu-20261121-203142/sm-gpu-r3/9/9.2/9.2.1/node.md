@@ -1,0 +1,20 @@
+# N353: M2 Ultra 在 5 年 TCO $4,875 下的单位成本吞吐量 (Cost per 1000 Tokens) 计算：假设平均负载为 BF16 15 TP
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N115
+
+## Claim
+
+M2 Ultra 在 5 年 TCO $4,875 下的单位成本吞吐量 (Cost per 1000 Tokens) 计算：假设平均负载为 BF16 15 TPS，年运行 4380 小时，总生成 Tokens = 15 * 4380 * 5 * 3600 ≈ 1.19e9，Cost per 1000 Tokens ≈ $4,875 / 1.19e6 ≈ $0.0041/1000 tokens。
+
+## Corrected Claim
+
+M2 Ultra 在 5 年 TCO $4,875 下的单位成本吞吐量 (Cost per 1000 Tokens) 计算：假设平均负载为 BF16 15 TPS，年运行 4380 小时，总生成 Tokens = 15 * 4380 * 5 * 3600 ≈ 1.19e9，Cost per 1000 Tokens ≈ $4,875 / 1.19e6 ≈ $0.0041/1000 tokens。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：总Tokens计算 15*4380*5*3600 = 1,190,700,000 ≈ 1.19e9 正确；单位成本计算 4875 / (1.19e9 / 1000) = 4875 / 1190700 ≈ 0.004094 ≈ $0.0041 正确。

@@ -1,0 +1,20 @@
+# N424: Batch Size 对总吞吐量的影响系数：在 FP8 精度下，Batch Size 从 1 增加到 4，RTX 5090 的总吞吐量 (Total Token
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N152
+
+## Claim
+
+Batch Size 对总吞吐量的影响系数：在 FP8 精度下，Batch Size 从 1 增加到 4，RTX 5090 的总吞吐量 (Total Tokens/s) 提升比例通常为 2.5-3.5 倍，这是因为 Decode 阶段的计算密度增加，部分掩盖了带宽瓶颈，但单请求延迟增加约 3-4 倍。
+
+## Corrected Claim
+
+在 FP8 精度下，Batch Size 从 1 增加到 4，RTX 5090 的总吞吐量 (Total Tokens/s) 通常会显著提升（具体倍数取决于模型与实现，一般大于线性增长但受限于带宽），同时单请求延迟会显著增加。
+
+## Evidence
+
+[质询]数值量级与具体硬件/精度组合的强相关性：FP8在RTX 5090上的具体吞吐提升系数（2.5-3.5倍）及延迟增加倍数（3-4倍）属于高度依赖具体模型架构、序列长度、KV Cache实现及驱动优化的经验数据，不同场景下波动极大，无法作为通用‘通常’值断言。 | 经验事实，逻辑自洽（Batch Size增加确实提升吞吐但增加延迟），但缺乏来源支持具体数值区间，且该数值非第一性原理可推导，故降级。

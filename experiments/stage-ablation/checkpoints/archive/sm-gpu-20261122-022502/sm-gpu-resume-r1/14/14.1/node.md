@@ -1,0 +1,24 @@
+# N355: AWS p5.48xlarge (8x H100) 的 Spot 实例基准小时费率为 $3.36 (基于 On-Demand $9.00 的 37% 折扣率)，
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N128, N129
+
+## Claim
+
+AWS p5.48xlarge (8x H100) 的 Spot 实例基准小时费率为 $3.36 (基于 On-Demand $9.00 的 37% 折扣率)，波动区间为 $2.35-$4.37 (±30%)；原节点声称的 $1.20-$2.00 严重低估，修正为基于当前 AWS 定价结构的计算值。
+
+## Corrected Claim
+
+AWS p5.48xlarge (8x H100) 的 Spot 实例价格随区域和时间动态波动，通常显著低于 On-Demand 价格（$9.00/hr），但具体费率（如 $3.36/hr）需依据实时 AWS 定价页面查询，不宜作为固定基准值引用。
+
+## Evidence
+
+[质询]AWS Spot 实例价格具有高度动态性，且不同区域（Region）价格差异巨大，声称固定的基准费率 $3.36 和波动区间 $2.35-$4.37 缺乏特定区域和时间点的限定，且 37% 的折扣率并非恒定值，可能随供需实时变化，该具体数值可能过时或不具普适性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且 Spot 价格随时间/区域波动，无法验证具体数值）
+
+## Search Query
+
+AWS p5.48xlarge spot price current 2024

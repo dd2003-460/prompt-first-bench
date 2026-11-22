@@ -1,0 +1,24 @@
+# N280: A100 80GB 在 BF16 无损推理下的吞吐量基准：T_bf16_a100 = f(Memory_Bandwidth, Compute_FLOPS)，需具
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N99, N100, N101
+
+## Claim
+
+A100 80GB 在 BF16 无损推理下的吞吐量基准：T_bf16_a100 = f(Memory_Bandwidth, Compute_FLOPS)，需具体数值对比 RTX 4090 FP8 的吞吐量，以验证 '高 CapEx 换取高可靠性/无损精度' 是否值得，计算单位 Token 成本 (Cost/Token) 差异。
+
+## Corrected Claim
+
+A100 80GB 在 BF16 无损推理下的吞吐量取决于具体模型和工作负载，需与 RTX 4090 在 FP8 下的吞吐量进行特定场景下的对比，以评估‘高 CapEx 换取高可靠性/无损精度’的成本效益（Cost/Token）。
+
+## Evidence
+
+[质询]该陈述是一个分析框架或任务描述，而非具体的事实结论。它声称需要具体数值对比来验证成本效益，但本身未提供这些数值，且作为‘事实节点’，其内容属于方法论而非可验证的经验事实。此外，A100 80GB 在 BF16 下的具体吞吐量受模型架构、序列长度、批处理大小等多种因素影响，不存在单一的‘基准’数值，直接对比 RTX 4090 FP8 的吞吐量而不控制变量（如模型大小、精度损失容忍度）在逻辑上是不严谨的。 | 经验事实，逻辑自洽但缺来源支持。该陈述描述了合理的性能评估方法论（对比不同硬件在特定精度下的吞吐量以计算单位成本），但缺乏具体数值支持，且‘基准’一词暗示存在单一标准值，这与实际硬件测试中依赖具体工作负载的特性不符。
+
+## Search Query
+
+A100 80GB BF16 inference throughput tokens per second Qwen 27B

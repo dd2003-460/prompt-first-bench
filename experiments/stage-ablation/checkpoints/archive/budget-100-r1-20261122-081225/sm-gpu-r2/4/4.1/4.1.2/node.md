@@ -1,0 +1,24 @@
+# N125: 工作点 A（高成本/高保真）：1× A100 80GB (SXM) 运行 BF16 Qwen3-27B (32K ctx)，显存占用 81.65 GB 超出单卡
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N40
+
+## Claim
+
+工作点 A（高成本/高保真）：1× A100 80GB (SXM) 运行 BF16 Qwen3-27B (32K ctx)，显存占用 81.65 GB 超出单卡 80 GB 上限，必须启用 KV Cache FP8 量化（占用降至 ~40.8 GB）或 2× A100 80GB (NVLink) 拼接，单卡 TCO 约 $10k-$15k + $562/年电力。
+
+## Corrected Claim
+
+工作点 A（高成本/高保真）：1× A100 80GB (SXM) 运行 BF16 Qwen3-27B (32K ctx)，显存占用预计超出单卡 80 GB 上限，需启用 KV Cache 量化或 2× A100 80GB (NVLink) 拼接，单卡 TCO 约 $10k-$15k + $562/年电力。
+
+## Evidence
+
+[质询]显存占用数值（81.65 GB）和量化后数值（~40.8 GB）属于具体经验参数，缺乏来源支持，且不同推理框架（如 vLLM, TGI）的显存估算可能存在差异，无法仅凭逻辑推导确认精确值。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+A100 80GB Qwen3-27B BF16 32k context KV cache quantization required

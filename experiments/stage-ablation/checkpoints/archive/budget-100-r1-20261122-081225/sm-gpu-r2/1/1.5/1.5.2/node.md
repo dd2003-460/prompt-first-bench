@@ -1,0 +1,30 @@
+# N71: A100 80GB 在 2024 年 Q2 的二手市场均价约为 $8000-$12000，较 2023 年峰值下降约 25-35%，但价格波动大，需实时查询。
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N10
+
+## Claim
+
+A100 80GB 在 2024 年 Q2 的二手市场均价约为 $8000-$12000，较 2023 年峰值下降约 25-35%，但价格波动大，需实时查询。
+
+## Corrected Claim
+
+A100 80GB 在 2024 年 Q2 的二手市场价格存在波动，具体均价需实时查询，参考来源未提供确切数值。
+
+## Evidence
+
+[质询]参考来源均为维基百科关于Nvidia架构和DGX系统的介绍，未包含2024年Q2二手市场的具体价格数据或历史价格波动统计，无法验证具体的数值区间（$8000-$12000）和跌幅（25-35%）。 | 经验事实，逻辑自洽但缺来源支持（来源[1][2][3]仅确认A100 80GB存在及基本规格，未提供二手市场价格数据）
+
+## Search Query
+
+NVIDIA A100 80GB used price 2024 Q2
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Nvidia_DGX', 'type': 'wikipedia', 'title': 'Nvidia DGX'}
+- {'url': 'https://en.wikipedia.org/wiki/Ampere_%28microarchitecture%29', 'type': 'wikipedia', 'title': 'Ampere (microarchitecture)'}
+- {'url': 'https://en.wikipedia.org/wiki/Hopper_%28microarchitecture%29', 'type': 'wikipedia', 'title': 'Hopper (microarchitecture)'}

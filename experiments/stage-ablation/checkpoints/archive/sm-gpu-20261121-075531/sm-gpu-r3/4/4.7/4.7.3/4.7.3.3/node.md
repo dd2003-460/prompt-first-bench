@@ -1,0 +1,24 @@
+# N314: AMD RX 7900 XTX 运行 Qwen3-27B INT8 在 32K 上下文下的首字延迟 (TTFT) 理论估算 = 32000 tokens / P
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N102
+
+## Claim
+
+AMD RX 7900 XTX 运行 Qwen3-27B INT8 在 32K 上下文下的首字延迟 (TTFT) 理论估算 = 32000 tokens / Prefill_FLOPS_eff；RX 7900 XTX INT8 峰值算力约 160 TFLOPS (假设利用率 40%)，TTFT ≈ 1.728e12 / (160e12 * 0.4) ≈ 27 ms (理想) 至 50-80 ms (实际) [待核验]。
+
+## Corrected Claim
+
+AMD RX 7900 XTX 运行 Qwen3-27B INT8 在 32K 上下文下的首字延迟 (TTFT) 理论估算基于假设的 160 TFLOPS INT8 峰值算力和 40% 利用率，结果约为 27 ms (理想) 至 50-80 ms (实际)，但该估算对硬件具体规格和实际利用率敏感，需实测验证。
+
+## Evidence
+
+[质询]RX 7900 XTX 的 INT8 峰值算力约为 160 TFLOPS 这一数值存在较大不确定性，且实际 Prefill 阶段的算力利用率受内存带宽和架构限制，40% 的假设可能过于乐观或悲观，导致 TTFT 估算偏差较大。 | 先验知识/题面给定，逻辑校验通过，但缺乏外部来源直接支持具体算力数值和利用率假设。
+
+## Search Query
+
+RX 7900 XTX Qwen3-27B 32k context prefill time time to first token benchmark

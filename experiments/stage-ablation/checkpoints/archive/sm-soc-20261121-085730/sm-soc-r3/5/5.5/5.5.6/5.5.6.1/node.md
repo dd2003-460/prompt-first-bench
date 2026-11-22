@@ -1,0 +1,24 @@
+# N353: eBay 'Best Offer' 功能的历史效应量：干预后卖家采纳率 a ≈ 40-50%，买家咨询率提升 δc ≈ 10-15%，数据来源为 eBay 20
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N122
+
+## Claim
+
+eBay 'Best Offer' 功能的历史效应量：干预后卖家采纳率 a ≈ 40-50%，买家咨询率提升 δc ≈ 10-15%，数据来源为 eBay 2018-2020 年公开运营报告或相关学术论文
+
+## Corrected Claim
+
+eBay 'Best Offer' 功能上线后，卖家采纳率和买家咨询率均有显著提升，但具体数值（如40-50%采纳率）需依据特定年份和品类的内部数据或特定学术研究确定，不宜作为固定通用值引用。
+
+## Evidence
+
+[质询]具体数值（40-50%采纳率，10-15%咨询率提升）属于特定平台的历史运营数据，缺乏公开权威来源直接佐证，且不同时期、不同品类下波动较大，存在将局部或特定时期数据泛化为固定区间的可能。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值区间）
+
+## Search Query
+
+eBay best offer feature seller adoption rate buyer inquiry increase study

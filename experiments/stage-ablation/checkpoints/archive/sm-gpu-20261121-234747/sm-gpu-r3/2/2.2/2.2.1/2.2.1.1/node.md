@@ -1,0 +1,24 @@
+# N238: INT8 (GPTQ/AWQ) 量化在 27B 规模模型上的 Perplexity 增加量 ΔPPL 实测值，需引用 Qwen 官方报告或社区评测（如 LMSY
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N73
+
+## Claim
+
+INT8 (GPTQ/AWQ) 量化在 27B 规模模型上的 Perplexity 增加量 ΔPPL 实测值，需引用 Qwen 官方报告或社区评测（如 LMSYS Arena 或 HuggingFace 社区帖）
+
+## Corrected Claim
+
+INT8 (GPTQ/AWQ) 量化在 27B 规模模型上通常会导致 Perplexity 轻微增加（ΔPPL > 0），具体数值需参考特定模型版本在特定基准（如 WikiText-103）上的实测报告。
+
+## Evidence
+
+[质询]该陈述要求引用具体的实测数值（ΔPPL），属于经验事实。由于检索失败，无法提供具体的数值支持，且不同量化方法（GPTQ vs AWQ）及不同评测基准（WikiText vs C4等）会导致ΔPPL数值差异巨大，缺乏具体上下文（如具体模型版本、评测数据集）使得该陈述无法被精确验证。 | 经验事实，逻辑自洽但缺来源支持。INT8量化通常会导致Perplexity轻微上升，但具体ΔPPL值依赖于模型架构、量化算法细节及评测数据集，无来源支持具体数值。
+
+## Search Query
+
+Qwen3-27B INT8 GPTQ AWQ perplexity increase benchmark

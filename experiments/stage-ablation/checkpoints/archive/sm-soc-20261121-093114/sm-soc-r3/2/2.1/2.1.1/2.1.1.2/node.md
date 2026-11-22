@@ -1,0 +1,24 @@
+# N136: S_signal > 0 时决策时间缩短的机制：T_decision' = T_decision * (1 - η * S_signal)，其中 η 为信号敏感
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N44
+
+## Claim
+
+S_signal > 0 时决策时间缩短的机制：T_decision' = T_decision * (1 - η * S_signal)，其中 η 为信号敏感度系数，需验证 η * μ_S 是否足以达到预期的缩短幅度（如30%），即 η * μ_S ≈ 0.3，否则总周期不会显著变短，需通过 A/B 测试估计 η 的值。
+
+## Corrected Claim
+
+S_signal > 0 时决策时间缩短的机制：T_decision' = T_decision * (1 - η * S_signal)，其中 η 为信号敏感度系数，需验证 η * μ_S 是否足以达到预期的缩短幅度（如30%），即 η * μ_S ≈ 0.3，否则总周期不会显著变短，需通过 A/B 测试估计 η 的值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+signal sensitivity coefficient decision time shortening A/B test

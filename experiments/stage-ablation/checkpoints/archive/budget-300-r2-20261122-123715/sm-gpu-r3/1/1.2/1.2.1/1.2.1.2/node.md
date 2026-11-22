@@ -1,0 +1,20 @@
+# N148: A100 80GB 在 FP8 精度下运行 Qwen3-27B 32K 上下文时，权重减半至 27GB，总显存需求 (27GB 权重 + 18GB KV + 5
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N36
+
+## Claim
+
+A100 80GB 在 FP8 精度下运行 Qwen3-27B 32K 上下文时，权重减半至 27GB，总显存需求 (27GB 权重 + 18GB KV + 5GB 激活) ≈ 50GB，小于 80GB 物理显存，无需 Offload，可完整加载模型。
+
+## Corrected Claim
+
+A100 80GB 在 FP8 精度下运行 Qwen3-27B 32K 上下文时，权重减半至 27GB，总显存需求 (27GB 权重 + 18GB KV + 5GB 激活) ≈ 50GB，小于 80GB 物理显存，无需 Offload，可完整加载模型。
+
+## Evidence
+
+[质询]KV Cache 18GB 的估算可能偏乐观（取决于具体实现如 FlashAttention 或 PagedAttention 的优化程度及 Batch Size 假设），但作为单请求或低并发场景的量级估算，逻辑上成立且未超出物理极限。 | 先验知识/题面给定，逻辑校验通过：Qwen3-27B 参数量约 27B，FP8 下权重约 27GB；32K 上下文 KV Cache 在合理 Batch 下 18GB 量级合理；总显存 50GB < 80GB，结论自洽。

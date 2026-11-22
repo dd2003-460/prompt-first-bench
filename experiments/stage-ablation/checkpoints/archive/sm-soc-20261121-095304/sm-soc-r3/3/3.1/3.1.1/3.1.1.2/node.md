@@ -1,0 +1,20 @@
+# N132: 样本量 N_recent 的最低阈值要求：为避免小样本偏差，计算 P_market 时要求 N_recent ≥ 30；若 N_recent < 30，则 P_
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N44
+
+## Claim
+
+样本量 N_recent 的最低阈值要求：为避免小样本偏差，计算 P_market 时要求 N_recent ≥ 30；若 N_recent < 30，则 P_market 的置信区间宽度增大，导致卖家定价参考值波动剧烈，需引入贝叶斯先验或扩大 T_lookback 以补足样本。
+
+## Corrected Claim
+
+样本量 N_recent 的最低阈值要求：为避免小样本偏差，计算 P_market 时要求 N_recent ≥ 30；若 N_recent < 30，则 P_market 的置信区间宽度增大，导致卖家定价参考值波动剧烈，需引入贝叶斯先验或扩大 T_lookback 以补足样本。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：N≥30是统计学中应用中心极限定理保证样本均值近似正态分布的通用经验阈值，小样本导致置信区间变宽及引入贝叶斯先验/扩大时间窗口以补足样本的逻辑推导符合统计原理。

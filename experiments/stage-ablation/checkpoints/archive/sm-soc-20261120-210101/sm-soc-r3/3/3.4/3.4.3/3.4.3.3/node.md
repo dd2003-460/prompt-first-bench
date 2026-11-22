@@ -1,0 +1,24 @@
+# N263: 卖家利润损失阈值 -5% * Profit_old 的绝对货币值计算：Profit_old = (P_old - C_holding) * Q_old；若 P_
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N71
+
+## Claim
+
+卖家利润损失阈值 -5% * Profit_old 的绝对货币值计算：Profit_old = (P_old - C_holding) * Q_old；若 P_old=500元, Q_old=1件/月, C_holding=10元，则 Profit_old=490元，阈值为 -24.5元；需对比 ΔProfit_seller 是否低于此值。
+
+## Corrected Claim
+
+卖家利润损失阈值 -5% * Profit_old 的绝对货币值计算：Profit_old = (P_old - C_holding) * Q_old；若 P_old=500元, Q_old=1件/月, C_holding=10元，则 Profit_old=490元，阈值为 -24.5元；需对比 ΔProfit_seller 是否低于此值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Profit_old = (500 - 10) * 1 = 490元，阈值 = -5% * 490 = -24.5元，计算无误。
+
+## Search Query
+
+profit margin threshold calculation example for e-commerce seller

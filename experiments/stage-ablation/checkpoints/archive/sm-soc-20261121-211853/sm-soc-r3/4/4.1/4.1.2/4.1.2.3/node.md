@@ -1,0 +1,24 @@
+# N86: 强制标注‘高于市场均价 X%’对买家点击率（CTR）的边际影响 $\Delta CTR$ 存在品类异质性：对于标准化品类（如手机），$\Delta CTR$ 约
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N39
+
+## Claim
+
+强制标注‘高于市场均价 X%’对买家点击率（CTR）的边际影响 $\Delta CTR$ 存在品类异质性：对于标准化品类（如手机），$\Delta CTR$ 约为 -3% 至 -5%；对于非标化品类（如古董），$\Delta CTR$ 约为 +1% 至 +3%（因透明化降低了不确定性）。
+
+## Corrected Claim
+
+强制标注‘高于市场均价 X%’对买家点击率（CTR）的边际影响存在品类异质性：对于标准化品类（如手机），透明化可能降低点击率；对于非标化品类（如古董），透明化可能通过降低不确定性而提升点击率。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值区间（-3%至-5%，+1%至+3%），属于典型的经验事实（Empirical Fact），无法从第一性原理或逻辑公理中严格推导得出。在缺乏任何参考来源支持的情况下，这些具体数值缺乏实证依据，存在‘伪精确’风险。 | 经验事实，逻辑自洽（透明化降低不确定性符合经济学直觉）但缺来源支持，且具体数值无法通过逻辑推导验证。
+
+## Search Query
+
+price transparency labeling impact on click through rate standardized vs non-standardized goods A/B test

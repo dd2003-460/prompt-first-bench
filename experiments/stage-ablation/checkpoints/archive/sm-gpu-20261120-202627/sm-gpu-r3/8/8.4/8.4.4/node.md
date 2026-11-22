@@ -1,0 +1,24 @@
+# N432: Apple M3 Ultra Mac Studio (512GB) 在 llama.cpp 框架下运行 Qwen3-27B (Q4_K_M 量化, 32K co
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N138, N139, N140
+
+## Claim
+
+Apple M3 Ultra Mac Studio (512GB) 在 llama.cpp 框架下运行 Qwen3-27B (Q4_K_M 量化, 32K context) 的实测平均功耗 (P_avg) 为 280W - 320W，基于 Apple 官方能效报告及第三方功耗监测数据。
+
+## Corrected Claim
+
+Apple M3 Ultra Mac Studio (512GB) 在 llama.cpp 框架下运行 Qwen3-27B (Q4_K_M 量化, 32K context) 的实测平均功耗约为 280W - 320W（具体数值需依赖特定第三方实测数据，官方报告通常不涵盖此场景）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（280W-320W）和特定硬件/软件配置，属于经验事实，无法从第一性原理推导。且‘Apple 官方能效报告’通常不针对特定第三方 LLM 框架下的实时功耗进行发布，来源可靠性存疑。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，且该数值无法从第一性原理推出，依据经验事实排除条款降级）。
+
+## Search Query
+
+Apple M3 Ultra Mac Studio power consumption LLM inference llama.cpp watts

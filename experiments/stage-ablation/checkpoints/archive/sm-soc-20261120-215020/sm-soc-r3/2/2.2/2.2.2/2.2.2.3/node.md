@@ -1,0 +1,28 @@
+# N96: 信任机制（如平台担保/退货政策）对 $\alpha$ 的抑制效应：引入信任机制后，有效风险厌恶系数 $\alpha_{eff} = \alpha_{raw} \
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N34
+
+## Claim
+
+信任机制（如平台担保/退货政策）对 $\alpha$ 的抑制效应：引入信任机制后，有效风险厌恶系数 $\alpha_{eff} = \alpha_{raw} \times (1 - \tau_{trust})$，其中 $\tau_{trust}$ 为信任折扣率。量化：若平台提供 7 天无理由退货，$\tau_{trust} \approx 0.5-0.7$，则 $\alpha_{eff}$ 从 0.4 降至 0.12-0.2。这意味着在强信任机制下，买家愿意支付的风险溢价大幅降低，高挂价（15-25%）将失去部分支撑力，除非 $L_{lemon}$ 本身因信任机制而降低（如退货成本转嫁卖家）。
+
+## Corrected Claim
+
+信任机制（如平台担保/退货政策）通过降低感知风险来抑制买家的有效风险厌恶系数 α_eff。理论上，引入信任机制后，买家愿意支付的风险溢价降低，从而削弱高挂价的支撑力。具体量化系数（如 τ_trust 和 α_eff 的变化幅度）需依据特定市场实证数据确定，而非固定为 0.5-0.7 或 0.12-0.2。
+
+## Evidence
+
+[质询]该陈述中的具体数值（如 τ_trust ≈ 0.5-0.7 以及 α_eff 从 0.4 降至 0.12-0.2）属于经验事实或特定模型参数，缺乏普遍公认的实证支持或第一性原理推导基础，且参考来源与电商信任机制无关，无法验证这些具体量级。 | 逻辑上公式自洽且符合经济学直觉（信任降低风险溢价），但参考来源[1]讨论的是AI聊天机器人信任，与电商退货政策及风险厌恶系数量化无关，属于无关来源；具体数值缺乏外部证据支持，故降级。
+
+## Search Query
+
+impact of platform guarantee on buyer risk aversion and willingness to pay premium
+
+## Retrieval Sources
+
+- {'url': 'https://www.sciscanpub.com/uploads/2025/11/17/8aec2796269db3f333c2ee4a92317423.pdf&rut=b7828a153f06278de7acda45d7d925eafc6d6b5dedecd3b0d53fb2b67191b9e4', 'type': 'ddg', 'title': 'PDF 基于文献综述的 Ai 聊天机器人信任机制理论分析: 概念界定与影响效应'}

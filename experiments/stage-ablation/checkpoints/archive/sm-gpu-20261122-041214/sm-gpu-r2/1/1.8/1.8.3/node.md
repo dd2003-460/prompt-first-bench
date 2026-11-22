@@ -1,0 +1,20 @@
+# N71: FP8 单卡显存需求修正：权重 25.2GB (N35) + KV Cache 2.4GB (N11/N36) + 激活值 ~5GB = 32.6 GB，单卡 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+FP8 单卡显存需求修正：权重 25.2GB (N35) + KV Cache 2.4GB (N11/N36) + 激活值 ~5GB = 32.6 GB，单卡 48GB 可行（剩余 15.4GB），单卡 24GB 不可行（缺口 8.6GB）。
+
+## Corrected Claim
+
+FP8 单卡显存需求修正：权重 25.2GB (N35) + KV Cache 2.4GB (N11/N36) + 激活值 ~5GB = 32.6 GB，单卡 48GB 可行（剩余 15.4GB），单卡 24GB 不可行（缺口 8.6GB）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：25.2+2.4+5=32.6GB，48-32.6=15.4GB，32.6-24=8.6GB，算术与逻辑自洽。

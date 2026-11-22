@@ -1,0 +1,30 @@
+# N154: vLLM 对 AMD MI300X 的推理优化包括 FlashAttention-2 支持，但 ROCm 版本对 GQA 架构的优化成熟度低于 CUDA，导致 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N41
+
+## Claim
+
+vLLM 对 AMD MI300X 的推理优化包括 FlashAttention-2 支持，但 ROCm 版本对 GQA 架构的优化成熟度低于 CUDA，导致 MI300X 在 Qwen3-27B 上的吞吐量比同规格 NVIDIA 卡低 15-25%。
+
+## Corrected Claim
+
+vLLM 支持在 AMD MI300X 上运行，但 ROCm 生态在特定架构（如 GQA）上的优化成熟度及具体吞吐量表现（如与 NVIDIA 同规格卡相比的差距）需根据具体模型版本和配置实测确定，现有资料未提供统一的 15-25% 性能差距结论。
+
+## Evidence
+
+[质询]陈述中关于“ROCm 对 GQA 优化成熟度低于 CUDA”以及“吞吐量低 15-25%”的具体数值和因果归因缺乏参考来源支持，且不同模型（如 Qwen3-27B）和具体配置下的性能差异可能波动较大，15-25% 是一个未经证实的经验性估计值。 | 参考来源 [1][2][3] 仅涉及 MI300X 部署 vLLM 的环境配置、显存优化及 FP8 量化性能，未提及 FlashAttention-2 支持状态、GQA 优化成熟度对比或具体的吞吐量百分比差异，属于经验事实且缺来源直接支持。
+
+## Search Query
+
+vLLM AMD MI300X Qwen3-27B inference performance ROCm FlashAttention-2
+
+## Retrieval Sources
+
+- {'url': 'https://devpress.csdn.net/v1/article/detail/162190046&rut=ab990d2dd170fd867cf8670d8ad7132dd248601dc7e1a4dee4fcec0cda74847b', 'type': 'ddg', 'title': 'Instinct MI300X 显卡部署 vLLM 的显存优化实战_vLLM_2600_96323235-AMD开发者中国社区'}
+- {'url': 'https://blog.csdn.net/2600_96323235/article/details/162190046&rut=ea4d9527997763acdcee639803340870922b614611a2a65be7c8d9aeecfac05a', 'type': 'ddg', 'title': 'Instinct MI300X 显卡部署 vLLM 的显存优化实战 - CSDN博客'}
+- {'url': 'https://devpress.csdn.net/v1/article/detail/162411396&rut=3fc54a1aa4262611a38f0940bd5ada7c837a775a67498d7e35023e7e1c61377d', 'type': 'ddg', 'title': 'MI300X 显存不够用，试试 vLLM 的量化与分页注意力_vLLM_2600_96323227-AMD开发者中国社区'}

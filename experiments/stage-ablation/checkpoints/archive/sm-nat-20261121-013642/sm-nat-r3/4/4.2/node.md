@@ -1,0 +1,20 @@
+# N16: LRU 平均驻留时间 T_cold 的近似表达式：T_cold ≈ (C_cache / R_bytes) * (1 / (1 - H_byte_LRU))，其
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+LRU 平均驻留时间 T_cold 的近似表达式：T_cold ≈ (C_cache / R_bytes) * (1 / (1 - H_byte_LRU))，其中 C_cache=128GB，R_bytes 为总字节请求率，H_byte_LRU 为字节命中率
+
+## Corrected Claim
+
+LRU 平均驻留时间 T_cold 的近似表达式：T_cold ≈ (C_cache / R_bytes) * (1 / (1 - H_byte_LRU))，其中 C_cache=128GB，R_bytes 为总字节请求率，H_byte_LRU 为字节命中率
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点分别处理了公式中的 R_bytes 和 H_byte_LRU，两者正交且不冗余。但父节点公式中明确包含参数 C_cache=128GB，子节点中未包含对该参数来源、定义或约束条件的独立分解或说明，导致关键参数覆盖不完整。）

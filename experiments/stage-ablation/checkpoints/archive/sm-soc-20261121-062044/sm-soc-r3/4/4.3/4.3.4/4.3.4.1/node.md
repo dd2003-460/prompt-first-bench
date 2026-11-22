@@ -1,0 +1,24 @@
+# N213: 异方差检验的残差生成过程：定义残差 ε_i = P_actual_i - P_avg_i，需对 ε_i 的平方项 ε_i² 与解释变量（如 P_avg 或 1/
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N76
+
+## Claim
+
+异方差检验的残差生成过程：定义残差 ε_i = P_actual_i - P_avg_i，需对 ε_i 的平方项 ε_i² 与解释变量（如 P_avg 或 1/P_avg）进行辅助回归，构建检验统计量 n*R²_aux 或 LM = (e'Z(Z'Z)^{-1}Z'e)/(2(e'e)(Z'Z)^{-1}Z'e)，以判定方差是否随均值系统性变化。
+
+## Corrected Claim
+
+异方差检验的残差生成过程：定义残差 ε_i = P_actual_i - P_avg_i，需对 ε_i 的平方项 ε_i² 与解释变量（如 P_avg 或 1/P_avg）进行辅助回归，构建检验统计量 n*R²_aux 或 LM = (e'Z(Z'Z)^{-1}Z'e)/(2(e'e)(Z'Z)^{-1}Z'e)，以判定方差是否随均值系统性变化。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+Breusch-Pagan test residual square auxiliary regression formula

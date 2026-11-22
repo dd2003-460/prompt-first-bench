@@ -1,0 +1,20 @@
+# N15: 稳态陈旧对象占比 C_steady = 1 - exp(-λ_u * T_cold)，其中 λ_u=0.01/day，T_cold 为 LRU 缓存中对象的平均
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+稳态陈旧对象占比 C_steady = 1 - exp(-λ_u * T_cold)，其中 λ_u=0.01/day，T_cold 为 LRU 缓存中对象的平均驻留时间（由缓存容量 128GB 和访问频率决定）
+
+## Corrected Claim
+
+稳态陈旧对象占比 C_steady = 1 - exp(-λ_u * T_cold)，其中 λ_u=0.01/day，T_cold 为 LRU 缓存中对象的平均驻留时间（由缓存容量 128GB 和访问频率决定）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该公式符合指数衰减模型中‘未发生更新/失效’的概率定义（1 - 累积分布函数），量纲一致（λ_u * T_cold 无量纲），且作为理论模型定义在逻辑上自洽。

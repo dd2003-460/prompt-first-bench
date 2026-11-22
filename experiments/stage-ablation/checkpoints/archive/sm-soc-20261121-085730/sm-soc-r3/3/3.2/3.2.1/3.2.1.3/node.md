@@ -1,0 +1,30 @@
+# N212: 工作点1中，买家驱动占比升至90%的量化依据：买家主动发起咨询或购买行为占总成交比例的实证数据，需区分‘点击’与‘成交’两个口径，并排除平台算法推荐导致的被动曝
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N69
+
+## Claim
+
+工作点1中，买家驱动占比升至90%的量化依据：买家主动发起咨询或购买行为占总成交比例的实证数据，需区分‘点击’与‘成交’两个口径，并排除平台算法推荐导致的被动曝光干扰。
+
+## Corrected Claim
+
+工作点1中，买家驱动占比显著上升（具体数值需依据特定平台实证数据确定，如90%），其量化依据需区分‘点击’与‘成交’两个口径，并排除平台算法推荐导致的被动曝光干扰。
+
+## Evidence
+
+[质询]该陈述声称存在“买家驱动占比升至90%”的实证数据，但这是一个具体的经验性统计数值。参考来源均未提供此数据，且该数值缺乏明确的行业基准或第一性原理推导支持，属于未经证实的具体量化断言。 | 逻辑上区分点击与成交、排除算法干扰是合理的分析框架，但“90%”这一具体数值属于经验事实，参考来源[1][2][3]均与该特定业务指标无关，无法提供直接支持，故降级为定性表述。
+
+## Search Query
+
+buyer initiated transactions share in low friction marketplaces
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Crowdsourcing', 'type': 'wikipedia', 'title': 'Crowdsourcing'}
+- {'url': 'https://en.wikipedia.org/wiki/Outline_of_finance', 'type': 'wikipedia', 'title': 'Outline of finance'}
+- {'url': 'https://en.wikipedia.org/wiki/Merger_of_Nexstar_Media_Group_and_Tegna_Inc.', 'type': 'wikipedia', 'title': 'Merger of Nexstar Media Group and Tegna Inc.'}

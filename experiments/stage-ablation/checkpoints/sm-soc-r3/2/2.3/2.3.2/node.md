@@ -1,0 +1,24 @@
+# N50: 平台排序算法中‘最新上架’（Time-based）与‘价格从低到高’（Price-based）两种默认排序对高价商品（P>P_mkt*1.2）的前置展示概率 p
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N12
+
+## Claim
+
+平台排序算法中‘最新上架’（Time-based）与‘价格从低到高’（Price-based）两种默认排序对高价商品（P>P_mkt*1.2）的前置展示概率 p_display 的影响差异：在Time-based模式下 p_display ≈ 0.8（几乎无惩罚），在Price-based模式下 p_display ≈ 0.1-0.2（显著惩罚），导致同一商品在不同排序下的曝光量差异 ΔE_sort ≈ 4-8倍。
+
+## Corrected Claim
+
+平台排序算法中‘最新上架’（Time-based）通常对高价商品无显著惩罚，而‘价格从低到高’（Price-based）会对高价商品产生显著展示惩罚，导致同一商品在不同排序下的曝光量存在显著差异。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间逻辑清晰且无重叠（正交性满足）。但存在两个主要问题：1. 完备性缺失：父节点声称 p_display 差异导致曝光量差异，但子节点仅分解了排序权重（w_time, w_price），未包含将权重映射到最终展示概率 p_display 的机制（如排名截断或竞争环境），也未明确 p_display 与曝光量 Imp 之间的因果链（p_display 通常影响 Imp，而非直接等于 Imp）。2. 概念混淆：子节点3中定义 ΔE_sort 为曝光量差异，但公式中引入了 CTR（点击率）。CTR 影响的是点击量（Clicks），而非曝光量（Impressions）。虽然位置靠后可能间接影响用户停留或后续曝光（复访），但直接将 CTR 放入曝光量差异公式在定义上是错误的，应区分‘展示次数差异’与‘有效曝光/点击差异’。）
+
+## Search Query
+
+e-commerce sorting algorithm price vs recency exposure bias high price items

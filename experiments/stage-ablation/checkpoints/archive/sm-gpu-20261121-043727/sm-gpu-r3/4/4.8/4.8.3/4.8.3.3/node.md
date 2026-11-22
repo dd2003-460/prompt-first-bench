@@ -1,0 +1,28 @@
+# N228: ROCm 生态下 Qwen3-27B 推理的额外软件栈维护成本：包括驱动更新频率（ROCm 驱动更新周期 vs NVIDIA 驱动）、已知 Bug 密度（每千行
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N85
+
+## Claim
+
+ROCm 生态下 Qwen3-27B 推理的额外软件栈维护成本：包括驱动更新频率（ROCm 驱动更新周期 vs NVIDIA 驱动）、已知 Bug 密度（每千行代码 Bug 数或每发布周期 Critical Bug 数）及社区支持响应时间（Issue 平均关闭时间），量化为年维护工时占比 Maintenance_Hours_ROCM = Base_Hours * (1 + Lag_Penalty_Factor) [待核验]
+
+## Corrected Claim
+
+ROCm 生态下 Qwen3-27B 推理存在额外的软件栈维护成本，包括驱动更新、Bug修复及社区支持响应，但具体量化指标（如维护工时占比公式）缺乏公开数据支持，需根据实际项目经验评估。
+
+## Evidence
+
+[质询]该陈述试图量化具体的维护成本公式（Maintenance_Hours_ROCM = Base_Hours * (1 + Lag_Penalty_Factor)）及具体指标（Bug密度、Issue关闭时间），但参考来源仅展示了部署工程，未提供这些量化数据或公式依据，属于缺乏数据支持的过度推断。 | 来源[1]证实了Qwen3-27B在ROCm环境下的部署可行性，但未提供驱动更新频率、Bug密度或维护工时占比的具体量化数据，无法直接支持该公式及具体数值。
+
+## Search Query
+
+ROCm driver update frequency bug rate Qwen3 inference stability vs CUDA
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/zhangsongyang/Qwen3.8-27B-ROCm&rut=5ca42f084d924a2c6ed34808a4e37fe8151ced164ab3123f3a66dbe660a1abfe', 'type': 'ddg', 'title': 'GitHub - zhangsongyang/Qwen3.8-27B-ROCm'}

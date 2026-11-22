@@ -1,0 +1,20 @@
+# N13: 均衡价格 P* 与成交周期 T 的联合分布：在给定 P_ask 分布下，成交周期 T 的条件期望 E[T|P_ask] 与 P_ask 的偏度 Skew(P_a
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+均衡价格 P* 与成交周期 T 的联合分布：在给定 P_ask 分布下，成交周期 T 的条件期望 E[T|P_ask] 与 P_ask 的偏度 Skew(P_ask) 的关系，验证‘高挂价短周期’是否违背标准供需定律。
+
+## Corrected Claim
+
+均衡价格 P* 与成交周期 T 的联合分布：在给定 P_ask 分布下，成交周期 T 的条件期望 E[T|P_ask] 与 P_ask 的偏度 Skew(P_ask) 的关系，验证‘高挂价短周期’是否违背标准供需定律。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

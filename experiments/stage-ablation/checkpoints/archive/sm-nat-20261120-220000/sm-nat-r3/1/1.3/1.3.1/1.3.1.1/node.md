@@ -1,0 +1,20 @@
+# N78: 修正因子 k 的有效性边界：经验公式 k ≈ 1 - ρ * CV_size * CV_freq 仅在 CV_size 和 CV_freq 有限时成立；对于 P
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N24
+
+## Claim
+
+修正因子 k 的有效性边界：经验公式 k ≈ 1 - ρ * CV_size * CV_freq 仅在 CV_size 和 CV_freq 有限时成立；对于 Pareto(α=1.1) 和 Pareto(β=0.9)，两者均发散，导致 k 无定义或为负值，因此该公式失效，必须改用基于截断分布的数值积分或直接仿真获取 k。
+
+## Corrected Claim
+
+修正因子 k 的有效性边界：经验公式 k ≈ 1 - ρ * CV_size * CV_freq 仅在 CV_size 和 CV_freq 有限时成立；对于 Pareto(α=1.1) 和 Pareto(β=0.9)，两者均发散，导致 k 无定义或为负值，因此该公式失效，必须改用基于截断分布的数值积分或直接仿真获取 k。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布当α≤1时均值发散，当β≤1时方差发散，导致基于矩的修正因子公式失效，符合统计学基本原理。

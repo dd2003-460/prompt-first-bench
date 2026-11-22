@@ -1,0 +1,20 @@
+# N343: NVFP4 硬件兼容性确认：NVFP4 (4-bit floating point) 是 Blackwell 架构 (RTX 5090/GB200) 的专有特性
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N136
+
+## Claim
+
+NVFP4 硬件兼容性确认：NVFP4 (4-bit floating point) 是 Blackwell 架构 (RTX 5090/GB200) 的专有特性，H100 (Hopper) 硬件**不支持**原生 NVFP4 计算；在 H100 上尝试使用 NVFP4 量化模型将导致回退到 FP8 或 INT8 路径，无额外加速，仅可能因显存占用降低带来略高的 Batch Size 上限。
+
+## Corrected Claim
+
+NVFP4 硬件兼容性确认：NVFP4 (4-bit floating point) 是 Blackwell 架构 (RTX 5090/GB200) 的专有特性，H100 (Hopper) 硬件**不支持**原生 NVFP4 计算；在 H100 上尝试使用 NVFP4 量化模型将导致回退到 FP8 或 INT8 路径，无额外加速，仅可能因显存占用降低带来略高的 Batch Size 上限。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：NVFP4是Blackwell架构引入的新特性，Hopper架构（H100）硬件层面不支持该格式的原生计算单元，因此无法获得加速，仅能利用显存节省优势。

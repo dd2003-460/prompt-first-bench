@@ -1,0 +1,24 @@
+# N32: 热度-大小负相关 (ρ=-0.3) 的联合分布构造：假设热度 Q 和大小 S 服从二元正态变换后的 Pareto 分布，相关系数 ρ = -0.3 意味着 Co
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+热度-大小负相关 (ρ=-0.3) 的联合分布构造：假设热度 Q 和大小 S 服从二元正态变换后的 Pareto 分布，相关系数 ρ = -0.3 意味着 Cov(Q, S) = -0.3 * σ_Q * σ_S；在缓存驱逐策略中，这导致高频率对象倾向于较小大小，低频率对象倾向于较大大小，具体影响需通过联合概率密度积分计算。
+
+## Corrected Claim
+
+热度-大小负相关 (ρ=-0.3) 的联合分布构造：假设热度 Q 和大小 S 服从二元正态变换后的 Pareto 分布，相关系数 ρ = -0.3 意味着 Cov(Q, S) = -0.3 * σ_Q * σ_S；在缓存驱逐策略中，这导致高频率对象倾向于较小大小，低频率对象倾向于较大大小，具体影响需通过联合概率密度积分计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：相关系数定义 Cov=ρσQσS 正确，负相关在统计上确实意味着高Q对应低S的趋势，且指出需通过联合分布积分计算具体影响符合概率论原理。
+
+## Search Query
+
+joint distribution Pareto size popularity negative correlation

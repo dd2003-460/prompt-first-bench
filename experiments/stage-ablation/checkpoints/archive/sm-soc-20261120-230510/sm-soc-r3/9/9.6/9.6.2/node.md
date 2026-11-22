@@ -1,0 +1,24 @@
+# N302: λ_silent ∈ [0.1, 0.5] 的实证校准方法：需利用平台日志数据，对同一商品在不同价格点（P_t）下的咨询率（ConsultRate_t）进行对数
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N107
+
+## Claim
+
+λ_silent ∈ [0.1, 0.5] 的实证校准方法：需利用平台日志数据，对同一商品在不同价格点（P_t）下的咨询率（ConsultRate_t）进行对数线性回归 ln(ConsultRate) = -λ_silent * (P_t - V)/σ + ε，通过斜率估计 λ_silent，要求样本量 N > 500 且 R² > 0.6 以将预测误差控制在 30% 以内。
+
+## Corrected Claim
+
+λ_silent 的实证校准通常需利用平台日志数据，对同一商品在不同价格点下的咨询率进行回归分析以估计参数。具体样本量要求（如 N > 500）和拟合优度标准（如 R² > 0.6）需根据具体业务场景和数据分布进行验证，不能直接断言其能将预测误差控制在 30% 以内。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（N > 500, R² > 0.6）和特定的统计模型假设（对数线性回归形式），这些属于经验事实或特定研究结论，无法从第一性原理严格推导。此外，将 R² > 0.6 直接等同于“预测误差控制在 30% 以内”在统计学上缺乏普适性，取决于数据分布和误差定义，存在逻辑跳跃。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该具体校准参数及误差控制阈值无法从第一性原理推出，需实证数据支持）
+
+## Search Query
+
+used goods platform price elasticity consultation rate regression analysis

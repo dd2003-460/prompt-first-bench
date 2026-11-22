@@ -1,0 +1,29 @@
+# N48: BF16 权重显存计算隐含假设所有参数（包括 Embedding 层和 LM Head）均存储为 2 bytes/element；若部分层（如 Embeddin
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N7
+
+## Claim
+
+BF16 权重显存计算隐含假设所有参数（包括 Embedding 层和 LM Head）均存储为 2 bytes/element；若部分层（如 Embedding）采用 FP16 或 INT8 量化存储，实际显存占用将低于 54 GB，需确认 Qwen3-27B 官方权重文件的各层精度分布。
+
+## Corrected Claim
+
+BF16 权重显存计算通常假设所有参数均为 2 bytes/element；若 Qwen3-27B 的部分层（如 Embedding）采用 FP16 或 INT8 量化存储，实际显存占用将低于全 BF16 假设值（约 54 GB），具体数值需查阅官方权重文件确认各层精度分布。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1确认了官方权重的实际精度分布（全BF16），解决了父节点中'需确认'的事实性问题；子节点2基于假设场景计算了若采用混合精度时的显存变化，覆盖了父节点中'若...实际显存占用将低于...'的逻辑推导部分。两者分别处理'事实确认'与'假设计算'，互不重叠且共同覆盖了父节点的全部关键信息。）
+
+## Search Query
+
+Qwen3-27B model file precision distribution embedding layer dtype
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/qq_62634342/article/details/162274224&rut=7574170912d782ce4696d01bead17ff22f119964c96eaadde26a9b07f54f2820', 'type': 'ddg', 'title': '显存爆炸解决办法之混合精度：Bf16优势、底层机制与梯度精度内幕（2026）-csdn博客'}
+- {'url': 'https://blog.csdn.net/taoqick/article/details/132009733&rut=e55b86233babefd717de568e59117235dbb2c53bd47af013e99b21e454d4328d', 'type': 'ddg', 'title': '分析transformer模型的参数量、计算量、中间激活、KV cache、bf16、fp16、混合精度训练'}

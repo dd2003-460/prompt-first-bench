@@ -1,0 +1,20 @@
+# N92: 卡方检验有效性约束：所有单元格期望频数 E_ij 必须 ≥ 5；若存在 E_ij < 5 的情况，必须改用Fisher精确检验（Fisher's Exact T
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N27
+
+## Claim
+
+卡方检验有效性约束：所有单元格期望频数 E_ij 必须 ≥ 5；若存在 E_ij < 5 的情况，必须改用Fisher精确检验（Fisher's Exact Test），其p值通过超几何分布直接计算：p = (n11! n22! n12! n21!) / (n1. n2. n.1 n..!)，而非卡方近似。
+
+## Corrected Claim
+
+卡方检验有效性约束：所有单元格期望频数 E_ij 必须 ≥ 5；若存在 E_ij < 5 的情况，必须改用Fisher精确检验（Fisher's Exact Test），其p值通过超几何分布直接计算：p = (n11! n22! n12! n21!) / (n1. n2. n.1 n..!)，而非卡方近似。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

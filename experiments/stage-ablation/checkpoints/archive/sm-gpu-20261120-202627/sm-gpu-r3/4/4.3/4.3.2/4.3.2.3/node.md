@@ -1,0 +1,20 @@
+# N351: 1×A100 80GB SXM 方案 TDP_total 计算：400W（GPU）+ 100W（主机）= 500W，风冷完全可行，无需液冷升级，TCO 无额外散
+
+- **status**: verified
+- **level**: L4
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N110
+
+## Claim
+
+1×A100 80GB SXM 方案 TDP_total 计算：400W（GPU）+ 100W（主机）= 500W，风冷完全可行，无需液冷升级，TCO 无额外散热成本。
+
+## Corrected Claim
+
+1×A100 80GB SXM 方案 TDP_total 计算：400W（GPU）+ 100W（主机）= 500W，风冷完全可行，无需液冷升级，TCO 无额外散热成本。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 SXM TDP 400W 符合规格，500W 总功耗在标准服务器风冷散热能力范围内，无需液冷。

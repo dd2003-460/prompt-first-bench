@@ -1,0 +1,24 @@
+# N177: Qwen3-27B 在 AWQ (W4A16) 量化下的 MMLU 具体实测得分（需引用特定量化库如 AutoAWQ 或 vLLM 的 benchmark 结果
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N52
+
+## Claim
+
+Qwen3-27B 在 AWQ (W4A16) 量化下的 MMLU 具体实测得分（需引用特定量化库如 AutoAWQ 或 vLLM 的 benchmark 结果，以验证 81.5% 这一假设值）
+
+## Corrected Claim
+
+Qwen3-27B 在 AWQ (W4A16) 量化下的 MMLU 得分约为 81.5%（具体数值需参考 AutoAWQ 或 vLLM 官方基准测试报告，当前缺乏直接来源验证）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（81.5%）和特定的量化配置（AWQ W4A16），属于经验事实，无法从第一性原理推导，且缺乏来源支持以确认该具体数值的准确性。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）。
+
+## Search Query
+
+Qwen3-27B AWQ W4A16 MMLU score benchmark

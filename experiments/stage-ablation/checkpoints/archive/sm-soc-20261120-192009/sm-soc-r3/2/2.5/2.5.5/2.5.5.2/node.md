@@ -1,0 +1,24 @@
+# N206: 强制价格锚点下的合规损失 E[Loss] 解析解：若 P(P|μ) 为截断正态分布，E[Loss] = μ * (1.1 - 1.25) * P(P > 1.1
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N61
+
+## Claim
+
+强制价格锚点下的合规损失 E[Loss] 解析解：若 P(P|μ) 为截断正态分布，E[Loss] = μ * (1.1 - 1.25) * P(P > 1.1μ) + ∫_{1.1μ}^{1.25μ} (P - 1.1μ) * f(P|μ) dP；需计算该积分的具体数值以量化卖家损失。
+
+## Corrected Claim
+
+强制价格锚点下的合规损失 E[Loss] 解析解：若 P(P|μ) 为截断正态分布，E[Loss] = μ * (1.1 - 1.25) * P(P > 1.1μ) + ∫_{1.1μ}^{1.25μ} (P - 1.1μ) * f(P|μ) dP；需计算该积分的具体数值以量化卖家损失。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式结构符合截断正态分布下超出下限部分的期望损失定义（即 E[(P-LowerBound)^+]），量纲与积分区间逻辑自洽。
+
+## Search Query
+
+expected loss from price ceiling truncated normal distribution

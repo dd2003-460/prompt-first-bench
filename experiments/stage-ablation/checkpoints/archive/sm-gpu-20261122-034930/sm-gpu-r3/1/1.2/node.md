@@ -1,0 +1,20 @@
+# N8: 32K上下文长度下KV Cache的显存占用公式为：KV_cache = 2 * num_layers * hidden_dim * num_kv_heads 
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+32K上下文长度下KV Cache的显存占用公式为：KV_cache = 2 * num_layers * hidden_dim * num_kv_heads * seq_len * dtype_size，对于Qwen3-27B（假设64层，hidden 4096，GQA 8 KV heads），在FP16下约为10.7GB。
+
+## Corrected Claim
+
+32K上下文长度下KV Cache的显存占用公式为：KV_cache = 2 * num_layers * hidden_dim * num_kv_heads * seq_len * dtype_size，对于Qwen3-27B（假设64层，hidden 4096，GQA 8 KV heads），在FP16下约为10.7GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式推导正确，数值计算（2 * 64 * 4096 * 8 * 32768 * 2 bytes ≈ 10.74 GB）与陈述一致。

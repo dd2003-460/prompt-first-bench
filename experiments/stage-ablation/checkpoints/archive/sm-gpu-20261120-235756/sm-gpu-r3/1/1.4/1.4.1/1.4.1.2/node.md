@@ -1,0 +1,24 @@
+# N156: Scale 因子的存储精度对质量的影响：使用 FP32 Scale 相比 FP16 Scale 在长上下文推理中可减少累积舍入误差约 10-20% (以困惑度衡
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N44
+
+## Claim
+
+Scale 因子的存储精度对质量的影响：使用 FP32 Scale 相比 FP16 Scale 在长上下文推理中可减少累积舍入误差约 10-20% (以困惑度衡量)，但 FP32 Scale 的存储开销是 FP16 的两倍。在 27B 模型中，若使用 FP16 Scale (2 bytes)，128-block 开销降至 1.5625%，实际权重占用为 27.40GB，与 FP8 理论值 27.18GB 的差异仅为 0.22GB，对显存预算影响可忽略，但需确认 vLLM/SGLang 是否支持 FP16 Scale 的硬件加速。
+
+## Corrected Claim
+
+Scale 因子的存储精度对质量的影响：使用 FP32 Scale 相比 FP16 Scale 在长上下文推理中通常可减少累积舍入误差（具体幅度依模型和场景而异），但 FP32 Scale 的存储开销是 FP16 的两倍。在 27B 模型中，若使用 FP16 Scale (2 bytes)，128-block 开销约为 1.56%，实际权重占用约为 27.40GB，与 FP8 理论值 27.18GB 的差异约为 0.22GB，对显存预算影响可忽略，但需确认 vLLM/SGLang 是否支持 FP16 Scale 的硬件加速。
+
+## Evidence
+
+[质询]「FP32 Scale 相比 FP16 Scale 减少累积舍入误差约 10-20%」这一具体数值缺乏通用理论支持，属于特定实验条件下的经验数据，且不同模型/上下文长度下波动极大，直接断言固定百分比存在过度概括风险。 | 先验知识/题面给定，逻辑校验通过：存储开销计算（27B*2bytes/128=0.42GB, 0.42/27.18≈1.56%）及显存差异（27.40-27.18=0.22GB）数学自洽；但误差减少百分比为经验性断言，无来源支持且非第一性原理可推导，故降级。
+
+## Search Query
+
+FP8 quantization FP16 vs FP32 scale factor perplexity impact hardware support

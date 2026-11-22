@@ -1,0 +1,24 @@
+# N195: L40S 48GB 在 Qwen3-27B INT8, batch=1 下的 Prefill 延迟 T_prefill 约为 5.0-6.5 秒，计算公式为 T
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N60
+
+## Claim
+
+L40S 48GB 在 Qwen3-27B INT8, batch=1 下的 Prefill 延迟 T_prefill 约为 5.0-6.5 秒，计算公式为 T_prefill ≈ (2 * 27e9 * 32768) / (119 TFLOPS * 0.40 MFU)，L40S 的算力显著低于 A100/H100，导致长上下文 Prefill 成为主要瓶颈。
+
+## Corrected Claim
+
+L40S 48GB 在 Qwen3-27B INT8, batch=1 下的 Prefill 延迟 T_prefill 预计约为 5.0-6.5 秒（基于理论算力估算），L40S 的算力显著低于 A100/H100，导致长上下文 Prefill 成为主要瓶颈。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性性能数据（L40S 在特定模型和上下文长度下的 Prefill 延迟），属于经验事实，无法仅通过第一性原理严格推导得出精确数值范围，且缺乏外部来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+NVIDIA L40S 48GB LLM inference prefill latency 32k context Qwen 27B benchmark

@@ -1,0 +1,24 @@
+# N122: Mac Studio M3 Ultra 在持续高负载推理场景下的整机功耗（Watts），用于计算 3 年周期的电力运营成本（OPEX）。
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N35
+
+## Claim
+
+Mac Studio M3 Ultra 在持续高负载推理场景下的整机功耗（Watts），用于计算 3 年周期的电力运营成本（OPEX）。
+
+## Corrected Claim
+
+Mac Studio M3 Ultra 在持续高负载推理场景下的整机功耗需参考具体实测数据或官方规格，用于计算 3 年周期的电力运营成本（OPEX）。
+
+## Evidence
+
+[质询]该陈述涉及具体硬件（Mac Studio M3 Ultra）在特定场景（持续高负载推理）下的经验性功耗数值，属于经验事实，无法从第一性原理推导，且缺乏具体数值支撑，仅凭逻辑自洽不足以确认为精确事实。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，无法提供直接数值证据）
+
+## Search Query
+
+Mac Studio M3 Ultra power consumption inference load watts

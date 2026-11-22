@@ -1,0 +1,24 @@
+# N131: RTX 4090 在 Qwen3-27B (FP8) 32K 上下文下的 T_decode 理论下限为 87ms/token，基于公式 T_decode = (
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N50
+
+## Claim
+
+RTX 4090 在 Qwen3-27B (FP8) 32K 上下文下的 T_decode 理论下限为 87ms/token，基于公式 T_decode = (27GB Weight + 33GB KV_Cache) / 1.0TB/s = 60GB / 1.0TB/s = 60ms (理论)，考虑 GDDR6X 高延迟及 FP8 解码效率，实际有效带宽利用率约 70%，修正后 T_decode ≈ 85.7ms；此值与 N77 中 BF16 下的 87ms 相近，因 FP8 权重减半但 KV Cache 仍占大头，且 4090 带宽为瓶颈
+
+## Corrected Claim
+
+RTX 4090 在 Qwen3-27B (FP8) 32K 上下文下的 T_decode 理论下限约为 27ms/token（基于 27GB 权重 + ~3GB KV Cache ≈ 30GB 总数据量 / 1.0TB/s 带宽，考虑 70% 利用率后约为 43ms/token），而非 87ms。
+
+## Evidence
+
+[质询]KV Cache 容量估算存在严重偏差：Qwen3-27B 在 32K 上下文下的 KV Cache 远小于 33GB（通常约为 2-4GB，取决于 GQA 配置），导致总数据量被高估，进而导致理论下限计算错误。 | 先验知识/题面给定，逻辑校验未通过：KV Cache 数值量级错误（33GB 远超 27B 模型 32K 上下文的实际 KV 占用），导致推导基础错误。
+
+## Search Query
+
+NVIDIA RTX 4090 FP8 effective bandwidth LLM inference benchmark

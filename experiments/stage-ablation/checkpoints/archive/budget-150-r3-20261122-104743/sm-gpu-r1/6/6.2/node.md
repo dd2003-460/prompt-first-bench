@@ -1,0 +1,29 @@
+# N31: 驱动兼容性风险：NVIDIA CUDA生态成熟，驱动更新频率高（每月1-2次），AMD ROCm生态相对薄弱，驱动稳定性问题可能导致推理框架（如vLLM、TGI
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N6
+
+## Claim
+
+驱动兼容性风险：NVIDIA CUDA生态成熟，驱动更新频率高（每月1-2次），AMD ROCm生态相对薄弱，驱动稳定性问题可能导致推理框架（如vLLM、TGI）兼容性问题，影响部署周期和运维成本
+
+## Corrected Claim
+
+NVIDIA CUDA生态成熟，具备前向兼容性支持；AMD ROCm生态相对薄弱，可能存在驱动稳定性及推理框架兼容性问题，进而影响部署周期和运维成本。
+
+## Evidence
+
+[质询]陈述中关于“驱动更新频率高（每月1-2次）”的具体数值缺乏来源支持，且NVIDIA官方文档主要强调前向兼容性和稳定性，并未直接证实如此高频的更新节奏；此外，将AMD ROCm生态薄弱直接归因于驱动稳定性问题并量化其对vLLM/TGI的影响，属于经验性推断，缺乏直接证据。 | 来源[1]和[2]仅涉及CUDA兼容性机制，未提供驱动更新频率数据或AMD ROCm对比信息，属于经验事实且缺来源支持。
+
+## Search Query
+
+AMD ROCm vs NVIDIA CUDA LLM inference driver compatibility issues
+
+## Retrieval Sources
+
+- {'url': 'https://docs.nvidia.com/deploy/cuda-compatibility/latest/forward-compatibility.html&rut=1743062a09676ce568c6fee30fefb7e8a8d27431788666c5aeb9685e05e7f784', 'type': 'ddg', 'title': 'Forward Compatibility — CUDA Compatibility - NVIDIA Documentation Hub'}
+- {'url': 'https://docs.nvidia.com/deploy/cuda-compatibility/latest/&rut=f2ea2f020ef11365d4945112f2683dc7d235a82b24b75f1fe1509ff81af907b3', 'type': 'ddg', 'title': 'CUDA Compatibility - NVIDIA Documentation Hub'}

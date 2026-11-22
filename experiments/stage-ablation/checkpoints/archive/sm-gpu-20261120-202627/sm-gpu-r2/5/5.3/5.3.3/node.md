@@ -1,0 +1,24 @@
+# N124: 最终性价比比值对比：CE_A = (15 tokens/s × 0.97) / ($3350 + $2070 + $500) ≈ 0.0018 tokens/$
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N27
+
+## Claim
+
+最终性价比比值对比：CE_A = (15 tokens/s × 0.97) / ($3350 + $2070 + $500) ≈ 0.0018 tokens/$；CE_B = (40 tokens/s × 1.0) / ($10000 + $1140 + $100) ≈ 0.0032 tokens/$。在 3 年持有期内，工作点 B (A100) 性价比更高，除非 CapEx_B 超过 $20,000 或 OpEx_A 显著降低。
+
+## Corrected Claim
+
+最终性价比比值对比：CE_A = (15 tokens/s × 0.97) / ($3350 + $2070 + $500) ≈ 0.0018 tokens/$；CE_B = (40 tokens/s × 1.0) / ($10000 + $1140 + $100) ≈ 0.0032 tokens/$。在 3 年持有期内，工作点 B (A100) 性价比更高，除非 CapEx_B 超过 $20,000 或 OpEx_A 显著降低。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算正确（CE_A≈0.0018, CE_B≈0.0032），且基于给定参数推导出的结论（B性价比更高及阈值条件）在逻辑上自洽。
+
+## Search Query
+
+GPU TCO analysis consumer vs datacenter LLM inference cost efficiency

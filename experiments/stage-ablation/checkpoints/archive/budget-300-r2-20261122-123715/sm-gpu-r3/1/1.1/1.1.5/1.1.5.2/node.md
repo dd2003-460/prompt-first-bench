@@ -1,0 +1,24 @@
+# N134: RTX 3090 (Ampere架构) 不支持原生 FP8 硬件指令集，其 INT8 吞吐性能约为 BF16 的 2 倍，W4 量化通常依赖软件库 (如 Mar
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N32
+
+## Claim
+
+RTX 3090 (Ampere架构) 不支持原生 FP8 硬件指令集，其 INT8 吞吐性能约为 BF16 的 2 倍，W4 量化通常依赖软件库 (如 Marlin kernel) 进行反量化计算，其计算效率低于原生 INT8，实测吞吐通常比 INT8 低 10-20% 或持平，具体取决于 Kernel 优化程度
+
+## Corrected Claim
+
+RTX 3090 (Ampere架构) 不支持原生 FP8 硬件指令集，其 INT8 吞吐性能约为 BF16 的 2 倍，W4 量化通常依赖软件库 (如 Marlin kernel) 进行反量化计算，其计算效率低于原生 INT8，实测吞吐通常比 INT8 低 10-20% 或持平，具体取决于 Kernel 优化程度
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 3090 (Ampere) 确实无原生 FP8 支持；其 INT8 Tensor Core 吞吐通常为 BF16 的 2 倍（如 3090 BF16 ~142 TFLOPS, INT8 ~284 TOPS）；W4 量化需反量化至 FP16/BF16 计算，受限于内存带宽和额外计算开销，效率通常低于原生 INT8，实测性能差异符合描述。
+
+## Search Query
+
+Ampere GPU W4 quantization kernel performance vs INT8 Marlin kernel efficiency

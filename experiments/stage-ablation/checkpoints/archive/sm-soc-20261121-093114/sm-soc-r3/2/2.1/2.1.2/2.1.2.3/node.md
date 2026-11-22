@@ -1,0 +1,20 @@
+# N141: 信号-决策交互修正项：当 S_signal > 1 时，T_decision' 的边际缩短效应递减，修正公式为 T_decision' = T_decision
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N45, N46, N47
+
+## Claim
+
+信号-决策交互修正项：当 S_signal > 1 时，T_decision' 的边际缩短效应递减，修正公式为 T_decision' = T_decision * (1 - η * S_signal * exp(-S_signal/θ_sat))，其中 θ_sat 为饱和阈值，需验证在 S_signal 的 95% 置信区间内，该非线性修正是否导致总缩短率偏离 30% 目标超过 5%。
+
+## Corrected Claim
+
+信号-决策交互修正项：当 S_signal > 1 时，T_decision' 的边际缩短效应递减，修正公式为 T_decision' = T_decision * (1 - η * S_signal * exp(-S_signal/θ_sat))，其中 θ_sat 为饱和阈值，需验证在 S_signal 的 95% 置信区间内，该非线性修正是否导致总缩短率偏离 30% 目标超过 5%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

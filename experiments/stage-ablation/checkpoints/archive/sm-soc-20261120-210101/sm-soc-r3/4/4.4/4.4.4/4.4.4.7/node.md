@@ -1,0 +1,24 @@
+# N307: 议价空间压缩 ΔBargain 的品类异质性：ΔBargain = 3% 为全局均值，但在‘高信息不对称’品类（如奢侈品）中，ΔBargain_high = 5
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N85, N87, N88
+
+## Claim
+
+议价空间压缩 ΔBargain 的品类异质性：ΔBargain = 3% 为全局均值，但在‘高信息不对称’品类（如奢侈品）中，ΔBargain_high = 5%；在‘低信息不对称’品类（如标准数码）中，ΔBargain_low = 1.5%。需按品类加权计算总社会福利损失。
+
+## Corrected Claim
+
+议价空间压缩 ΔBargain 存在品类异质性：在‘高信息不对称’品类（如奢侈品）中议价空间压缩幅度通常大于‘低信息不对称’品类（如标准数码），需按品类加权计算总社会福利损失。
+
+## Evidence
+
+[质询]具体数值（3%, 5%, 1.5%）缺乏实证数据支持，属于经验事实，且不同品类间议价空间差异的具体量化比例在现有文献中并无统一标准，存在口径混淆或数据虚构风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值）
+
+## Search Query
+
+category heterogeneity in price negotiation margin luxury vs standard goods 5% 1.5%

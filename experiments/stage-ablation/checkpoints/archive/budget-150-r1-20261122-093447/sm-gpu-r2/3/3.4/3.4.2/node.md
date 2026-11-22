@@ -1,0 +1,29 @@
+# N90: 在通用问答任务（MMLU 5-shot）上，Qwen3-27B 使用 NVFP4 或 W4 量化相比 BF16 基线，准确率下降幅度通常在 1%-3% 之间，部
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N28, N29, N30
+
+## Claim
+
+在通用问答任务（MMLU 5-shot）上，Qwen3-27B 使用 NVFP4 或 W4 量化相比 BF16 基线，准确率下降幅度通常在 1%-3% 之间，部分子领域（如数学/逻辑）可能超过 2% 阈值，需分任务判断是否可接受 [待核验：需查 Qwen3 技术报告或第三方评测]
+
+## Corrected Claim
+
+在通用问答任务上，Qwen3-27B 使用 NVFP4 或 W4 量化相比 BF16 基线，准确率通常会有轻微下降，具体幅度需参考官方技术报告或第三方评测，部分子领域（如数学/逻辑）下降可能更显著。
+
+## Evidence
+
+[质询]参考来源中未包含 Qwen3-27B 在 MMLU 5-shot 基准上 NVFP4/W4 量化相对于 BF16 基线的具体准确率下降数值（1%-3%），且来源 [2] 提及的是 Qwen3.6-27B 在 MMLU Pro 上 NVFP4 与 FP8 的对比（86.3 vs 86.1），并非 BF16 基线，也未覆盖 MMLU 5-shot 这一特定设置，无法直接支持该具体数值范围。 | 逻辑上，4-bit 量化通常会导致轻微性能下降，1%-3% 的量级符合一般经验直觉，但参考来源 [1] 和 [2] 均未提供 Qwen3-27B 在 MMLU 5-shot 上 NVFP4/W4 相比 BF16 的具体下降幅度数据，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+Qwen3-27B NVFP4 W4 MMLU accuracy degradation compared to BF16
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_01085/article/details/152157565&rut=7206ec98dd109396d086c10b685d61688cb76a081e3733a063228ed17bf87591', 'type': 'ddg', 'title': '5分钟快速上手Qwen3.8-27B-NVFP4：vLLM本地部署与首次对话完整教程-CSDN博客'}
+- {'url': 'https://blog.csdn.net/chen695969/article/details/162604876&rut=cea0366098e2c98d92cd2d1d7e767e93d35d42e4c829eb85b5926f23410c838c', 'type': 'ddg', 'title': 'Qwen3.6-27B-NVFP4 深度评测：英伟达官方量化，27B 长上下文本地部署新选择-CSDN博客'}

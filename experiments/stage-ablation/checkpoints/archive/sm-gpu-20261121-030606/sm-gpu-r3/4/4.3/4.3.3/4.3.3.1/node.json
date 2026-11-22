@@ -1,0 +1,17 @@
+{
+  "id": "N309",
+  "claim": "FP8 显存可行性边界修正：基于 N111 修正后的 KV Cache（假设 n_layers=64, KV=8.59GB BF16 / 4.3GB FP8）和 N113 的 Overhead (3.0GB)，FP8 总显存 = 27GB (权重) + 4.3GB (KV) + 1.25GB (Act) + 3.0GB (Overhead) = 35.55GB。这证实 RTX 5090 (32GB) 在 FP8 下不可行，必须使用 INT8 (若 KV 也量化) 或 NVFP4，或降低上下文至 ~28K。",
+  "level": "L4",
+  "source": "derived",
+  "status": "degraded",
+  "evidence": "[质询]该陈述依赖于上游节点 N111 和 N113 的具体数值（如 KV Cache 大小、Overhead 大小），这些属于经验事实或特定配置下的估算值。若上游数值存在偏差（例如 Overhead 估算偏低或 KV Cache 计算未考虑特定量化格式的对齐开销），则最终结论可能不准确。此外，'必须使用 INT8' 的断言过于绝对，因为可以通过调整 batch size 或启用 PagedAttention 等优化手段在 32GB 显存下运行 FP8，尽管上下文长度会受限。 | 逻辑推导自洽（27+4.3+1.25+3.0=35.55 > 32），但作为经验事实（硬件可行性边界），缺乏外部来源直接支持，且依赖上游未验证的估算值，故降级。",
+  "corrected_claim": "基于估算的显存占用（约 35.55GB），RTX 5090 (32GB) 在 FP8 下运行该配置（n_layers=64, 特定上下文长度）存在显存溢出风险，可能需要降低上下文长度、启用显存优化技术或采用更低精度量化（如 INT8/NVFP4）。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N131"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

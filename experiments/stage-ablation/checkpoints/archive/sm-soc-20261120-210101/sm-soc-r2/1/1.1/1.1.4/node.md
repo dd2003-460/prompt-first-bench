@@ -1,0 +1,30 @@
+# N33: 信息不对称度 I_asym 的量化指标：定义为买家无法观测到的商品真实质量分布的标准差 σ_quality_hidden。I_asym = σ_quality_
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N6
+
+## Claim
+
+信息不对称度 I_asym 的量化指标：定义为买家无法观测到的商品真实质量分布的标准差 σ_quality_hidden。I_asym = σ_quality_hidden / σ_quality_total。当 I_asym > 0.5 时，噪声主导决策；当 I_asym < 0.2 时，信号主导决策。需结合平台数据估算该值。
+
+## Corrected Claim
+
+信息不对称度 I_asym 可定义为买家无法观测到的商品真实质量分布的标准差与总质量分布标准差之比（I_asym = σ_quality_hidden / σ_quality_total）。该指标用于衡量信息不对称程度，具体阈值（如噪声主导或信号主导的界限）需根据特定平台数据或模型设定进行校准，而非通用固定值。
+
+## Evidence
+
+[质询]该陈述中的具体阈值（I_asym > 0.5 噪声主导，I_asym < 0.2 信号主导）属于经验性参数设定，缺乏通用的理论推导或广泛认可的实证标准支持，可能为特定模型或场景下的任意设定，存在将特定情境结论普遍化的风险。 | 参考来源[1][2][3]仅定性提及信息不对称及其对市场和决策的影响，未提供具体的量化指标定义或阈值标准，属于间接支持概念存在但无法支持具体数值阈值；该事实为经验性量化模型，逻辑自洽但缺乏直接来源支持具体阈值。
+
+## Search Query
+
+information asymmetry quantification standard deviation hidden quality second hand market
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Principal%E2%80%93agent_problem', 'type': 'wikipedia', 'title': 'Principal–agent problem'}
+- {'url': 'https://en.wikipedia.org/wiki/Neural_network_%28machine_learning%29', 'type': 'wikipedia', 'title': 'Neural network (machine learning)'}
+- {'url': 'https://en.wikipedia.org/wiki/Behavioral_economics', 'type': 'wikipedia', 'title': 'Behavioral economics'}

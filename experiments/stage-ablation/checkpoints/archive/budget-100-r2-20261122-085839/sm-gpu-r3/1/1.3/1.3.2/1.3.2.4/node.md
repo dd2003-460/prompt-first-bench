@@ -1,0 +1,20 @@
+# N138: 在 INT8 量化方案下，Batch=8 时的总显存需求 = 权重(27.1GB) + KV Cache(B=8) + 激活值(B=8) + 基础开销(2.03
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N37
+
+## Claim
+
+在 INT8 量化方案下，Batch=8 时的总显存需求 = 权重(27.1GB) + KV Cache(B=8) + 激活值(B=8) + 基础开销(2.03GB)，需计算该值是否超过 48GB (A6000 Ada) 或 80GB (A100/H100) 的容量阈值，以判断高并发场景下的硬件选型下限
+
+## Corrected Claim
+
+在 INT8 量化方案下，Batch=8 时的总显存需求 = 权重(27.1GB) + KV Cache(B=8) + 激活值(B=8) + 基础开销(2.03GB)，需计算该值是否超过 48GB (A6000 Ada) 或 80GB (A100/H100) 的容量阈值，以判断高并发场景下的硬件选型下限
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：INT8量化下27.1GB权重符合7B-8B模型量级，Batch=8的KV Cache与激活值在48GB/80GB显存卡上通常可容纳，公式结构符合显存估算基本逻辑。

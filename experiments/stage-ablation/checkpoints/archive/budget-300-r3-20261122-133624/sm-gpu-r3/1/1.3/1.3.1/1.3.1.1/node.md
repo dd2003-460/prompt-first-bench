@@ -1,0 +1,24 @@
+# N192: RTX 4090 上运行 vLLM 0.6.x 版本时，CUDA Context 及基础框架开销（包括 PyTorch 初始化、cuDNN 工作区）实测约为 0
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N49
+
+## Claim
+
+RTX 4090 上运行 vLLM 0.6.x 版本时，CUDA Context 及基础框架开销（包括 PyTorch 初始化、cuDNN 工作区）实测约为 0.8-1.2GB，该值在模型加载前即可通过 nvidia-smi 观察到的基础占用确定。
+
+## Corrected Claim
+
+RTX 4090 上运行 vLLM 0.6.x 版本时，CUDA Context 及基础框架开销（包括 PyTorch 初始化、cuDNN 工作区）实测通常在 0.5-1.5GB 之间，具体数值取决于驱动和库版本，该值在模型加载前可通过 nvidia-smi 观察到的基础占用大致确定。
+
+## Evidence
+
+[质询]具体数值范围（0.8-1.2GB）属于经验事实，且受驱动版本、PyTorch版本及cuDNN配置影响较大，缺乏通用性保证；此外，'模型加载前'的占用通常仅包含CUDA Context和少量框架初始化，0.8GB下限对于仅初始化CUDA Context而言可能偏高（通常CUDA Context本身约200-400MB，加上PyTorch基础库可能接近1GB，但1.2GB上限可能包含更多未明确说明的预分配）。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+vLLM RTX 4090 CUDA context memory overhead GB

@@ -1,0 +1,28 @@
+# N85: AMD ROCm 对 Qwen3 系列模型的支持状态与滞后周期：截至 2024 年中，ROCm 6.x 支持 PyTorch 2.1+，但 Qwen3-27B 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N29
+
+## Claim
+
+AMD ROCm 对 Qwen3 系列模型的支持状态与滞后周期：截至 2024 年中，ROCm 6.x 支持 PyTorch 2.1+，但 Qwen3-27B 在 AMD GPU 上的官方量化支持（如 FP8/INT8 via vLLM/llama.cpp）通常滞后 NVIDIA CUDA 生态 2-4 个月（非 3-6 个月），具体表现为 ROCm 库更新频率低于 CUDA；RX 7900 XTX (24GB) 显存不足以运行 BF16 Qwen3-27B，仅支持 INT4/W4 量化推理。
+
+## Corrected Claim
+
+AMD ROCm 生态对 Qwen3 系列模型的支持存在滞后，具体量化支持（如 FP8/INT8）通常晚于 NVIDIA CUDA 生态；RX 7900 XTX (24GB) 显存不足以运行 BF16 Qwen3-27B，仅支持低比特量化（如 INT4）推理。
+
+## Evidence
+
+[质询]陈述中关于'ROCm 6.x 支持 PyTorch 2.1+'及'滞后 2-4 个月'的具体版本对应关系和时间窗口属于经验事实，且参考来源主要讨论 ROCm 7 和 MI300X，未直接提供 ROCm 6.x 与 PyTorch 版本的具体兼容性列表或精确的滞后周期数据，存在版本口径混淆风险。 | 来源 [1] 证实了 ROCm 生态支持 Qwen3 部署及量化优化（间接支持），但缺乏对具体滞后周期和旧版本兼容性的直接证据；RX 7900 XTX 显存不足运行 BF16 27B 模型符合显存计算逻辑（27B * 2 bytes ≈ 54GB > 24GB），逻辑自洽。
+
+## Search Query
+
+ROCm support Qwen3 27B lag behind CUDA months RX 7900 XTX inference compatibility
+
+## Retrieval Sources
+
+- {'url': 'https://www.modelscope.cn/posts/435060&rut=e9b093a41a92435720a96a96ce02d1f77b3cac7d41242559f3b75e5c749a14b2', 'type': 'ddg', 'title': 'AMD GPU 大模型推理优化实战：基于 ROCm 7 + vLLM 的 Qwen3 部署与性能调优手记'}

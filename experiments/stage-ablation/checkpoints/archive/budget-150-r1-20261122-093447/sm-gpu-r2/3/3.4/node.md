@@ -1,0 +1,20 @@
+# N28: 可接受质量损失阈值：定义'可接受'为 MMLU 下降 ≤2% 且 GSM8K 下降 ≤5%；据此 FP8/INT8 可接受，NVFP4/W4 需视任务而定（代码
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+可接受质量损失阈值：定义'可接受'为 MMLU 下降 ≤2% 且 GSM8K 下降 ≤5%；据此 FP8/INT8 可接受，NVFP4/W4 需视任务而定（代码任务可能不可接受）[待核验：用户具体任务需求]
+
+## Corrected Claim
+
+可接受质量损失阈值：定义'可接受'为 MMLU 下降 ≤2% 且 GSM8K 下降 ≤5%；据此 FP8/INT8 可接受，NVFP4/W4 需视任务而定（代码任务可能不可接受）[待核验：用户具体任务需求]
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

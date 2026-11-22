@@ -1,0 +1,20 @@
+# N413: 平台干预临界点 P_intervention 的解析解：当 ρ = 1 - (σ_noise^2 / Var(P)) 时，P_intervention = C_
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N146
+
+## Claim
+
+平台干预临界点 P_intervention 的解析解：当 ρ = 1 - (σ_noise^2 / Var(P)) 时，P_intervention = C_ref * (1 + sqrt(Var(P)/σ_noise^2) - 1)，该点定义为平台需启动流量调控或价格提醒的最小溢价阈值。
+
+## Corrected Claim
+
+在特定平台干预模型假设下，临界点 P_intervention 可表示为 C_ref * (1 + sqrt(Var(P)/σ_noise^2) - 1)，其中 ρ = 1 - (σ_noise^2 / Var(P))，但该公式依赖于具体模型参数定义，非通用解析解。
+
+## Evidence
+
+[质询]该解析解缺乏明确的经济学或统计学第一性原理推导支持，且公式中 C_ref 的定义及 sqrt 项的物理/经济含义不明，疑似为特定模型下的拟合结果或虚构公式，无法从通用公理推出。 | source=knowledge，逻辑形式自洽（量纲一致），但作为经验性/模型特定的解析解，缺乏通用理论支撑，且无外部来源验证其普适性，故降级。

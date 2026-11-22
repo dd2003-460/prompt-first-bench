@@ -1,0 +1,24 @@
+# N165: INT8 量化对 Qwen3-27B 推理质量的影响量化：相比 FP8，INT8 (Symmetric/Asymmetric) 在 MMLU/GSM8K 上的准
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N47
+
+## Claim
+
+INT8 量化对 Qwen3-27B 推理质量的影响量化：相比 FP8，INT8 (Symmetric/Asymmetric) 在 MMLU/GSM8K 上的准确率下降通常略高于 FP8（约 0.3%-0.8%），需对比 INT8 与 FP8 在相同硬件上的质量损失差异，以判断 INT8 是否因额外开销而不具备性价比优势。
+
+## Corrected Claim
+
+INT8 量化对 Qwen3-27B 推理质量的影响通常略高于 FP8，具体准确率下降幅度需根据实际基准测试确定，以评估其在相同硬件上的性价比。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值范围（0.3%-0.8%）和特定模型（Qwen3-27B）的量化对比结论，属于硬件/模型性能经验事实，无法从第一性原理推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+INT8 vs FP8 quantization accuracy loss comparison LLM benchmark MMLU GSM8K

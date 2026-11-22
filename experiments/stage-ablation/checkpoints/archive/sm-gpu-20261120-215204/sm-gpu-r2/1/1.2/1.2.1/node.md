@@ -1,0 +1,20 @@
+# N41: Qwen3-27B 在 INT8 精度下，32K 上下文 KV Cache 的精确显存占用为 20.48 GB，计算公式为 2 * 64 * 8 * 128 *
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N7
+
+## Claim
+
+Qwen3-27B 在 INT8 精度下，32K 上下文 KV Cache 的精确显存占用为 20.48 GB，计算公式为 2 * 64 * 8 * 128 * 32768 * 1 (字节/参数)，因 KV Cache 通常不随权重量化而改变精度（除非使用 FP8 KV）。
+
+## Corrected Claim
+
+Qwen3-27B 在 INT8 精度下，32K 上下文 KV Cache 的显存占用约为 20.48 GB（基于特定架构参数假设），计算公式为 2 * 层数 * KV头数 * 头维度 * 序列长度 * 字节数，具体数值需依据实际模型配置确认。
+
+## Evidence
+
+[质询]Qwen3-27B 的具体架构参数（如层数、KV头数、头维度）属于经验事实，且不同版本或配置可能存在差异，仅凭逻辑自洽无法确证其精确数值为 20.48 GB，存在参数假设错误的风险。 | 经验事实，逻辑自洽但缺来源支持

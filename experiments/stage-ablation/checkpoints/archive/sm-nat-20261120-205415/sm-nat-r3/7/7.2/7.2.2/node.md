@@ -1,0 +1,20 @@
+# N205: 正确的 K 估算应基于累积分布函数反演：K = N * P(S ≤ S_max) = N * [1 - (x_min/S_max)^(α-1)]，其中 S_ma
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N76
+
+## Claim
+
+正确的 K 估算应基于累积分布函数反演：K = N * P(S ≤ S_max) = N * [1 - (x_min/S_max)^(α-1)]，其中 S_max 由累积大小约束 ∫_{x_min}^{S_max} s * f_S(s) ds = C 数值求解得到，而非直接对 C 进行幂运算
+
+## Corrected Claim
+
+正确的 K 估算应基于累积分布函数反演：K = N * P(S ≤ S_max) = N * [1 - (x_min/S_max)^(α-1)]，其中 S_max 由累积大小约束 ∫_{x_min}^{S_max} s * f_S(s) ds = C 数值求解得到，而非直接对 C 进行幂运算
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于帕累托分布的累积分布函数反演及积分约束求解是标准的统计估算方法，公式推导自洽且量纲正确。

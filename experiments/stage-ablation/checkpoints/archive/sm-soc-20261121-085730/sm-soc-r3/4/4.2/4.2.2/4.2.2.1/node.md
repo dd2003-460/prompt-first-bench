@@ -1,0 +1,24 @@
+# N256: 基准提升系数 α 的回归估计值需基于历史降价事件数据，通过最小二乘法拟合 δc 与 (T_trigger - T_actual) 的关系，α 的置信区间应包含在
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N85
+
+## Claim
+
+基准提升系数 α 的回归估计值需基于历史降价事件数据，通过最小二乘法拟合 δc 与 (T_trigger - T_actual) 的关系，α 的置信区间应包含在回归结果的 95% CI 内，当前经验值 0.1-0.2 需通过 t 检验验证其显著性。
+
+## Corrected Claim
+
+基准提升系数 α 的回归估计值通常需基于历史数据通过统计方法（如最小二乘法）拟合，其显著性需通过假设检验（如 t 检验）验证；具体数值范围（如 0.1-0.2）及拟合变量关系需依据特定领域实证数据确定，而非固定经验值。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（α=0.1-0.2）和特定的统计方法论（最小二乘法拟合特定变量关系），属于经验事实/工程实践范畴，无法从第一性原理严格推导，且缺乏外部来源支持其具体数值和方法的普适性。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+regression coefficient alpha price elasticity secondhand market consultation rate

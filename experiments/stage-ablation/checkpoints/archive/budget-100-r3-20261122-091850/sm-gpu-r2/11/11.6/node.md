@@ -1,0 +1,24 @@
+# N124: Apple Silicon 平台运行 Qwen3-27B 的生态兼容性风险及软件支持状态（是否存在算子缺失或性能回退），定性评估其相对于 CUDA 生态的运维复
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N35
+
+## Claim
+
+Apple Silicon 平台运行 Qwen3-27B 的生态兼容性风险及软件支持状态（是否存在算子缺失或性能回退），定性评估其相对于 CUDA 生态的运维复杂度差异。
+
+## Corrected Claim
+
+Apple Silicon 平台在运行大型语言模型（如 Qwen3-27B）时，通常面临比 CUDA 生态更高的运维复杂度，主要风险包括特定算子支持不全或推理性能低于预期，具体兼容性需依赖最新软件栈（如 MLX、llama.cpp）的更新状态。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性技术评估（如'算子缺失'、'性能回退'的具体存在与否及程度），属于经验事实而非第一性原理可推导内容。由于检索失败，无法验证当前时间点（2024-2025）Apple Silicon 对 Qwen3-27B 的具体支持状态（例如是否已通过 MLX 或 llama.cpp 优化解决算子问题），存在将早期不兼容状态误判为当前状态的风险。 | 经验事实，逻辑自洽但缺来源支持。Apple Silicon 生态在大型语言模型推理方面确实通常面临比 CUDA 更高的运维复杂度（如量化格式支持、算子覆盖度），但具体到 Qwen3-27B 的当前兼容性状态需外部证据确认，故降级为定性评估。
+
+## Search Query
+
+Qwen3 Apple Silicon MLX llama.cpp compatibility issues

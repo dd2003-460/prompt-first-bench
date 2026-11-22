@@ -1,0 +1,20 @@
+# N70: 利润侵蚀比例 η 的具体数值计算：若 P_new 回落至 P_market（即完全消除溢价），则 η = (1.2 * P_market - P_market)
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N23
+
+## Claim
+
+利润侵蚀比例 η 的具体数值计算：若 P_new 回落至 P_market（即完全消除溢价），则 η = (1.2 * P_market - P_market) / (1.2 * P_market - 0.8 * P_market) = 0.2 / 0.4 = 0.5，即利润减少50%。
+
+## Corrected Claim
+
+利润侵蚀比例 η 的具体数值计算：若 P_new 回落至 P_market（即完全消除溢价），则 η = (1.2 * P_market - P_market) / (1.2 * P_market - 0.8 * P_market) = 0.2 / 0.4 = 0.5，即利润减少50%。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（1. 正交性：子节点对应不同的工作点（完全透明 vs 部分透明），数值互斥，正交性合格。2. 冗余性：两个子节点本质上是同一公式 η = (1.2 - P_new/P_market) / 0.4 在不同参数 γ 下的特例，属于‘一个公式的不同取值’，存在结构性冗余，应合并为通用公式或参数表。3. 完备性：父节点明确定义了‘若 P_new 回落至 P_market（即完全消除溢价）... η=0.5’这一特定场景，但子节点仅覆盖了 γ=0.15 和 γ=0.075 的情况，遗漏了父节点中明确提到的 γ=0 (P_new=P_market) 这一关键基准情形，导致对父节点内容的覆盖不完整。）

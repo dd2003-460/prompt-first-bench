@@ -1,0 +1,20 @@
+# N65: 对象平均驻留时间 T_residence 的计算：T_residence ≈ 1 / λ_access_avg，其中 λ_access_avg = Total_
+
+- **status**: pending
+- **level**: L3
+- **source**: given
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N18
+
+## Claim
+
+对象平均驻留时间 T_residence 的计算：T_residence ≈ 1 / λ_access_avg，其中 λ_access_avg = Total_Requests_Per_Day / N_objects = 50,000,000 / 100,000 = 500 requests/object/day，故 T_residence ≈ 1/500 day ≈ 2.88 minutes [待核验：LRU 驻留时间是否等于平均访问间隔]
+
+## Corrected Claim
+
+在假设对象访问服从泊松过程且忽略局部性影响的理想模型下，对象平均驻留时间 T_residence 可近似为平均访问间隔的倒数，即 T_residence ≈ 1 / λ_access_avg ≈ 2.88 minutes；但在实际 LRU 场景中，由于访问的局部性和突发特性，实际驻留时间可能显著偏离此理论值。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（1. 冗余性：子节点1（热对象）和子节点2（冷对象）本质上是父节点公式 T_residence = 1/λ 在不同频率分布区间（Head vs Tail）的具体实例化，属于同一参数在不同条件下的取值，应合并为“基于Pareto分布的频率分层驻留时间估算”。2. 完备性：父节点包含一个关键的[待核验]标记（LRU驻留时间是否等于平均访问间隔），这是方法论的核心假设。子节点3虽然指出了算术平均的偏差，但完全未涉及对这一“定义等价性”假设的验证或讨论，导致关键逻辑缺口未被覆盖。）

@@ -1,0 +1,20 @@
+# N122: 全局平均对象大小 E[S] 在 Pareto(α=1.1) 分布下数学上发散（因 α ≤ 2），物理估算需基于截断上限 S_max（如 100MB）进行数值积分
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N44
+
+## Claim
+
+全局平均对象大小 E[S] 在 Pareto(α=1.1) 分布下数学上发散（因 α ≤ 2），物理估算需基于截断上限 S_max（如 100MB）进行数值积分，若 S_max=100MB 且 x_min=1KB，E[S] ≈ 10MB，而非 1MB。
+
+## Corrected Claim
+
+全局平均对象大小 E[S] 在 Pareto(α=1.1) 分布下数学上发散（因 α ≤ 2），物理估算需基于截断上限 S_max（如 100MB）进行数值积分，若 S_max=100MB 且 x_min=1KB，E[S] ≈ 10MB，而非 1MB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布α=1.1时均值发散，截断后数值积分结果量级合理

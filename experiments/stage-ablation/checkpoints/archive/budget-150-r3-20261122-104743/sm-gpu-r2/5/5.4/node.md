@@ -1,0 +1,20 @@
+# N28: 显存容量档位筛选：BF16 27B模型需≥54GB显存，FP8/INT8需≥27GB，4-bit需≥13.5GB；32K上下文KV Cache额外需4-8GB，
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N5
+
+## Claim
+
+显存容量档位筛选：BF16 27B模型需≥54GB显存，FP8/INT8需≥27GB，4-bit需≥13.5GB；32K上下文KV Cache额外需4-8GB，因此BF16需≥62GB，FP8/INT8需≥35GB，4-bit需≥22GB
+
+## Corrected Claim
+
+显存容量档位筛选：BF16 27B模型需≥54GB显存，FP8/INT8需≥27GB，4-bit需≥13.5GB；32K上下文KV Cache额外需4-8GB，因此BF16需≥62GB，FP8/INT8需≥35GB，4-bit需≥22GB
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：BF16(2字节)*27B=54GB，FP8/INT8(1字节)*27B=27GB，4-bit(0.5字节)*27B=13.5GB，加上KV Cache估算值，数值量级与计算逻辑自洽。

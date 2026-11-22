@@ -1,0 +1,24 @@
+# N204: GPTQ 量化校准时间 T_cal 与校准数据集大小 N_samples 及序列长度 L_seq 成正比，公式为 T_cal ≈ k * N_samples *
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N56
+
+## Claim
+
+GPTQ 量化校准时间 T_cal 与校准数据集大小 N_samples 及序列长度 L_seq 成正比，公式为 T_cal ≈ k * N_samples * L_seq * N_params / (FLOPS_A100 * efficiency)；对于 27B 模型，使用 128 样本 * 2048 长度校准，在 A100 80GB 上实测耗时通常在 2-4 小时，而非 4-8 小时，具体取决于 Hessian 矩阵的块大小 (block size) 设置 (通常 128)。
+
+## Corrected Claim
+
+GPTQ 量化校准时间 T_cal 与校准数据集大小 N_samples 及序列长度 L_seq 成正比。对于 27B 模型，使用 128 样本 * 2048 长度校准，在 A100 80GB 上实测耗时通常在数小时量级（具体取决于 Hessian 矩阵的块大小设置及硬件/软件环境），而非固定的 2-4 小时或 4-8 小时。
+
+## Evidence
+
+[质询]具体耗时数值（2-4小时）属于经验事实，受硬件具体型号（A100 40GB/80GB/PCIe/NVLink）、软件栈版本（AutoGPTQ/GPTQModel）、精度设置（int4/int8）及实现细节影响极大，缺乏统一标准，且不同来源实测数据差异可能超过该区间，存在将特定环境下的单次测量泛化为通用规律的风险。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+GPTQ quantization calibration time 27B A100 benchmark

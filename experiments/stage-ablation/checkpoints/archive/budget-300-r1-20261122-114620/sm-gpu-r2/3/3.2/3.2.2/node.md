@@ -1,0 +1,24 @@
+# N90: FP8 (E4M3) 在 Qwen3-27B 上的 MMLU 准确率下降具体数值：相比 BF16，MMLU 准确率下降 0.5-1.5%（例如 BF16 85.
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N19
+
+## Claim
+
+FP8 (E4M3) 在 Qwen3-27B 上的 MMLU 准确率下降具体数值：相比 BF16，MMLU 准确率下降 0.5-1.5%（例如 BF16 85.0%，FP8 83.5-84.5%）
+
+## Corrected Claim
+
+FP8 (E4M3) 在 Qwen3-27B 上的 MMLU 准确率相比 BF16 存在轻微下降，具体数值需参考官方评测报告或特定实验数据。
+
+## Evidence
+
+[质询]具体数值（0.5-1.5%）及基准分数（85.0%）属于经验事实，缺乏来源支持，且不同模型/数据集版本间存在波动，具体数值可能不准确。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Qwen3-27B FP8 E4M3 MMLU accuracy drop vs BF16

@@ -1,0 +1,26 @@
+# N359: 演化稳定策略(ESS)中卖家高挂价策略的适应度函数：Fitness_Seller = (P_sale * (Price - Cost)) / (1 + λ * 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+演化稳定策略(ESS)中卖家高挂价策略的适应度函数：Fitness_Seller = (P_sale * (Price - Cost)) / (1 + λ * Time_To_Sale)。若 P_sale 对 Price 的弹性 |ε| < 1（缺乏弹性），且 Time_To_Sale 随 Price 增加呈超线性增长（如 Power Law: T ∝ Price^2），则高挂价策略在短期具有更高适应度，解释了15-25%溢价下的短周期现象。
+
+## Corrected Claim
+
+在演化博弈论框架下，若卖家高挂价策略在特定市场条件（如需求缺乏弹性且销售时间随价格超线性增长）下具有更高的短期适应度，则该策略可能成为演化稳定策略，从而解释短期内的溢价现象。
+
+## Evidence
+
+[质询]该陈述将具体的经济学/市场微观结构模型（包含特定参数如λ、Power Law指数、15-25%溢价）强行套用于演化稳定策略(ESS)框架，且参考来源仅定义ESS的一般博弈论概念，未提供该特定适应度函数或市场现象的实证/理论支持，存在过度具体化和来源缺失的问题。 | 参考来源[1][2][3]仅定义ESS为博弈论中不可被入侵的策略，未涉及卖家定价、适应度函数具体形式或市场溢价现象，属于经验事实且缺乏直接来源支持。
+
+## Retrieval Sources
+
+- {'url': 'https://zh.wikipedia.org/zh-tw/%E8%BF%9B%E5%8C%96%E7%A8%B3%E5%AE%9A%E5%AF%B9%E7%AD%96&rut=ac250de3d124007a4adc35d3126fee4eec327deed7db84ef16ef2a2ca495b427', 'type': 'ddg', 'title': '演化穩定對策 - 維基百科，自由的百科全書'}
+- {'url': 'https://baike.baidu.com/item/%E8%BF%9B%E5%8C%96%E7%A8%B3%E5%AE%9A%E7%AD%96%E7%95%A5/11033925&rut=0a90ab83a20252e43eb4e0bd217e15c021a26fe4a27481ddfde1585bd41caf71', 'type': 'ddg', 'title': '进化稳定策略_百度百科'}
+- {'url': 'https://zh.wikipedia.org/wiki/%E8%BF%9B%E5%8C%96%E7%A8%B3%E5%AE%9A%E5%AF%B9%E7%AD%96&rut=49872771b9306eb6297886a524739cb8d22fd9ed3790c3c8965c63910fb486e6', 'type': 'ddg', 'title': '进化稳定对策 - 维基百科，自由的百科全书'}

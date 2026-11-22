@@ -1,0 +1,24 @@
+# N24: LRU 命中率下界的保守估计方法：采用‘静态最优’下界，假设缓存始终保留字节价值最高的 K_max 个对象（基于热度*大小加权），H_lb = (∑_{i=1}
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+LRU 命中率下界的保守估计方法：采用‘静态最优’下界，假设缓存始终保留字节价值最高的 K_max 个对象（基于热度*大小加权），H_lb = (∑_{i=1}^{K_max} w_i) / (∑_{i=1}^{N} w_i)，其中 w_i = frequency_i * size_i，此下界忽略了 LRU 的动态驱逐劣势，仅考虑容量覆盖。
+
+## Corrected Claim
+
+LRU 命中率下界的保守估计方法：采用‘静态最优’下界，假设缓存始终保留字节价值最高的 K_max 个对象（基于热度*大小加权），H_lb = (∑_{i=1}^{K_max} w_i) / (∑_{i=1}^{N} w_i)，其中 w_i = frequency_i * size_i，此下界忽略了 LRU 的动态驱逐劣势，仅考虑容量覆盖。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点分别定义了权重公式中的频率 f_i 和大小 s_i，两者概念上正交且无冗余。但父节点核心是‘下界计算方法’（即 H_lb 的公式及‘静态最优’假设），子节点仅提供了输入参数 f_i 和 s_i 的来源，缺失了对 H_lb 计算公式本身及其‘静态最优’假设（忽略动态驱逐）的独立定义或解释，导致未能完整覆盖父节点的方法论核心。）
+
+## Search Query
+
+LRU cache hit rate lower bound static optimal approximation

@@ -1,0 +1,30 @@
+# N155: Qwen3-27B 在 FP8 (E4M3) 精度下的 MMLU 总分具体数值（需查找量化后的实测数据；若无官方 FP8 数据，需基于 Qwen2.5-32B 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N60
+
+## Claim
+
+Qwen3-27B 在 FP8 (E4M3) 精度下的 MMLU 总分具体数值（需查找量化后的实测数据；若无官方 FP8 数据，需基于 Qwen2.5-32B FP8 的 MMLU 下降幅度约 0.5-1.0 分进行估算，并标注 [待核验]）
+
+## Corrected Claim
+
+Qwen3-27B 在 FP8 (E4M3) 精度下的 MMLU 总分具体数值暂无官方直接数据，参考类似模型（如Qwen3.6-27B）FP8量化精度损失约0.3%，推测MMLU下降幅度极小（<1分），具体数值[待核验]。
+
+## Evidence
+
+[质询]参考来源均指向不存在的模型版本（Qwen3.8-27B, Qwen3.6-27B），且未提供具体的MMLU总分数值，仅提及精度损失百分比或定性描述，无法直接支持具体数值。 | 来源[1][2][3]均涉及FP8量化但模型版本号与事实节点不符（Qwen3.8/3.6 vs Qwen3），且未提供具体MMLU分数，仅来源[2]提及0.3%精度损失（间接支持低损失），缺乏直接数值支持，属经验事实缺来源。
+
+## Search Query
+
+Qwen3-27B FP8 E4M3 MMLU score
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_00439/article/details/155257784&rut=0e8f0dfa7b87216743b85a5d74bfff004ee7d8a8930cbb0be7f745f60a0470f2', 'type': 'ddg', 'title': 'Qwen3.8-27B-FP8 量化原理深度解析：块大小 128 的细粒度 FP8 如何保持精度无损？-CSDN博客'}
+- {'url': 'https://blog.csdn.net/weixin_30436581/article/details/162159714&rut=59ecb823b6029af16fa2150628ecf49e6f023318cd428b5017b96a98a50b1383', 'type': 'ddg', 'title': 'Qwen 3.6-27B：FP8量化+vLLM调度的边缘大模型工程实践-CSDN博客'}
+- {'url': 'https://devpress.csdn.net/v1/article/detail/153300295&rut=28d567db2b156284c4fe4857f7ee06e53c7bfbda9dda082a77e0eea537c15dc3', 'type': 'ddg', 'title': '实测对比：NVIDIA Qwen3.6-27B-NVFP4与FP8版本9大基准测试数据深度分析'}

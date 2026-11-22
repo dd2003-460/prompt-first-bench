@@ -1,0 +1,20 @@
+# N236: 若将 N76 修正为 'A100 BF16 基线' 与 'H100 FP8 对比'，则 H100 80GB HBM3 的 FP8 理论吞吐量上限为 3.35 T
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N76
+
+## Claim
+
+若将 N76 修正为 'A100 BF16 基线' 与 'H100 FP8 对比'，则 H100 80GB HBM3 的 FP8 理论吞吐量上限为 3.35 TB/s / 27GB ≈ 124 tokens/s (理论)，实际 62-75 tokens/s；此时 H100 的 TCO/token 需重新计算以替代 A100 FP8 的无效数据点。
+
+## Corrected Claim
+
+H100 80GB HBM3 的 FP8 理论数据吞吐上限约为 3.35 TB/s。若模型权重及激活占用 27GB 显存，则受带宽限制的理论最大数据读取速率为 3.35 TB/s / 27 GB ≈ 124 GB/s。实际 tokens/s 吞吐量需结合模型架构、序列长度及并行策略计算，通常远高于 124 tokens/s。
+
+## Evidence
+
+[质询]数值量级与物理直觉严重不符：H100 80GB HBM3 的带宽约为 3.35 TB/s，若按 27GB 显存占用计算，理论吞吐量上限应为 3.35 TB/s / 27 GB ≈ 124 GB/s（数据吞吐率），而非 124 tokens/s。将带宽除以显存大小直接得出 tokens/s 在量纲和逻辑上均不成立，且 124 tokens/s 对于 H100 而言远低于其实际推理能力（通常可达数千 tokens/s），存在严重的单位混淆或计算错误。 | 逻辑校验失败：带宽(TB/s)除以显存(GB)得到的单位是 GB/s，而非 tokens/s；且 124 tokens/s 的量级对于 H100 推理性能而言过低，违背基本硬件性能直觉。

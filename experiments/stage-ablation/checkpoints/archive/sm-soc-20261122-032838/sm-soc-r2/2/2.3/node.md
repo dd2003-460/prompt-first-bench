@@ -1,0 +1,20 @@
+# N12: 平台激励函数：平台效用 $U_p = \sum (P_{sell} - P_{buy}) \cdot \epsilon + F_{listing} - C_{m
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+平台激励函数：平台效用 $U_p = \sum (P_{sell} - P_{buy}) \cdot \epsilon + F_{listing} - C_{moderation}$，其中 $\epsilon$ 为抽成比例。平台最大化 GMV 和活跃用户数。高溢价导致单笔佣金绝对值增加，且‘快速成交’提升用户留存率。因此，平台有隐性激励维持或默许高溢价-短周期均衡，而非干预价格扭曲。
+
+## Corrected Claim
+
+平台激励函数：平台效用 $U_p = \sum (P_{sell} - P_{buy}) \cdot \epsilon + F_{listing} - C_{moderation}$，其中 $\epsilon$ 为抽成比例。平台最大化 GMV 和活跃用户数。高溢价导致单笔佣金绝对值增加，且‘快速成交’提升用户留存率。因此，平台有隐性激励维持或默许高溢价-短周期均衡，而非干预价格扭曲。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间存在明显的逻辑错位。父节点明确聚焦于‘平台激励函数’及其对高溢价均衡的维持机制，但子节点1、2、3、8详细拆解了‘买家效用’和‘卖家行为’，这些属于市场微观基础（Micro-foundations），而非平台激励函数的直接组成部分。虽然它们解释了均衡形成的原因，但作为‘平台激励函数’的直接分解，它们偏离了主题，导致父节点中关于平台‘隐性激励’的核心论证（即平台为何不干预）缺乏直接的内部机制支撑（如平台算法推荐逻辑或费率结构细节）。）

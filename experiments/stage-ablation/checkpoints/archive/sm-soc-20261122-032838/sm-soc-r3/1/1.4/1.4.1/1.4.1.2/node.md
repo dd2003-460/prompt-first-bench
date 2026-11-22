@@ -1,0 +1,28 @@
+# N142: 搜索成本敏感度系数 $\gamma$ 的实证分布：$\gamma$ 并非固定常数，而是随买家收入水平 $I_{buyer}$ 和商品单价 $P_{ref}$ 变
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N45, N46, N47
+
+## Claim
+
+搜索成本敏感度系数 $\gamma$ 的实证分布：$\gamma$ 并非固定常数，而是随买家收入水平 $I_{buyer}$ 和商品单价 $P_{ref}$ 变化。假设 $\gamma = f(I_{buyer}, P_{ref})$，需检索不同价格区间（低/中/高）二手交易中 $\gamma$ 的均值与标准差，以验证 $\gamma \in [0.5, 1.5]$ 区间的覆盖率及是否支持 $P_{threshold}$ 的稳定性。
+
+## Corrected Claim
+
+搜索成本敏感度系数γ可能随买家收入水平和商品单价变化，但缺乏实证数据验证其具体分布区间及稳定性。
+
+## Evidence
+
+[质询]该陈述属于经验事实（实证分布数据），参考来源[1]主题为病原体传播，与二手交易搜索成本完全无关，无法提供外部支持；且缺乏具体实证数据支撑γ的具体数值区间。 | 逻辑自洽（γ随收入和价格变化符合经济学直觉），但参考来源[1]与主题无关，无可用外部证据支持具体数值区间，属经验事实缺来源支持。
+
+## Search Query
+
+search cost sensitivity coefficient heterogeneity consumer behavior second-hand goods
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Pathogen_transmission', 'type': 'wikipedia', 'title': 'Pathogen transmission'}

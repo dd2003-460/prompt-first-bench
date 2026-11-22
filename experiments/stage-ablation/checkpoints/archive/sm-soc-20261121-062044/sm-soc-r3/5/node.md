@@ -1,0 +1,20 @@
+# N25: 定义‘挂价高但成交快’的统计矛盾指标：计算挂价溢价率 (P_markup) 与成交周期 (T_close) 的皮尔逊相关系数 r。在标准拍卖理论中，高溢价通常伴
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+定义‘挂价高但成交快’的统计矛盾指标：计算挂价溢价率 (P_markup) 与成交周期 (T_close) 的皮尔逊相关系数 r。在标准拍卖理论中，高溢价通常伴随长周期（负相关或弱相关），若观测到 r > 0.5，则确认存在‘逆向筛选’或‘信号传递’导致的统计异常，这是后续假设链的起点。
+
+## Corrected Claim
+
+定义‘挂价高但成交快’的统计矛盾指标：计算挂价溢价率 (P_markup) 与成交周期 (T_close) 的皮尔逊相关系数 r。在标准拍卖理论中，高溢价通常伴随长周期（负相关或弱相关），若观测到 r > 0.5，则确认存在‘逆向筛选’或‘信号传递’导致的统计异常，这是后续假设链的起点。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

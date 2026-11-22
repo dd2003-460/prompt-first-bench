@@ -1,0 +1,20 @@
+# N39: LFU理论最优驻留集合S_LFU的确定：LFU保留频率最高的对象，其驻留集合由频率阈值h_min确定，满足sum_{i in S_LFU} size_i <= 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N11
+
+## Claim
+
+LFU理论最优驻留集合S_LFU的确定：LFU保留频率最高的对象，其驻留集合由频率阈值h_min确定，满足sum_{i in S_LFU} size_i <= 128GB；由于β=0.9 < α=1.1，LFU集合偏向极小极热对象，N_LFU ≈ 5000-7000个对象，覆盖Top 5%-7%对象。
+
+## Corrected Claim
+
+LFU理论最优驻留集合S_LFU的确定：LFU保留频率最高的对象，其驻留集合由频率阈值h_min确定，满足sum_{i in S_LFU} size_i <= 128GB；由于β=0.9 < α=1.1，LFU集合偏向极小极热对象，N_LFU ≈ 5000-7000个对象，覆盖Top 5%-7%对象。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

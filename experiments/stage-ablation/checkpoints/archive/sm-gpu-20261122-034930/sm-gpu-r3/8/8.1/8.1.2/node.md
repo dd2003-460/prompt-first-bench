@@ -1,0 +1,20 @@
+# N398: Apple M4 Max 吞吐量工作点2（32K长上下文实际约束）：在INT8精度、Batch=1、Seq_len=32K条件下，KV Cache大小约为10.
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N142
+
+## Claim
+
+Apple M4 Max 吞吐量工作点2（32K长上下文实际约束）：在INT8精度、Batch=1、Seq_len=32K条件下，KV Cache大小约为10.7 GB，总数据读取量 = 27 GB + 10.7 GB = 37.7 GB，理论吞吐量 = 546 / 37.7 ≈ 14.5 tokens/s；考虑MLX框架调度开销（约15%），实际预估吞吐量为12.3 tokens/s，此值显著低于N142中声称的15-18 tokens/s，表明N142的实测范围可能基于较短上下文。
+
+## Corrected Claim
+
+Apple M4 Max 吞吐量工作点2（32K长上下文实际约束）：在INT8精度、Batch=1、Seq_len=32K条件下，KV Cache大小约为10.7 GB，总数据读取量 = 27 GB + 10.7 GB = 37.7 GB，理论吞吐量 = 546 / 37.7 ≈ 14.5 tokens/s；考虑MLX框架调度开销（约15%），实际预估吞吐量为12.3 tokens/s，此值显著低于N142中声称的15-18 tokens/s，表明N142的实测范围可能基于较短上下文。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：KV Cache大小计算（32K序列、INT8、M4 Max架构参数）及吞吐量推导（带宽/数据量）符合物理直觉与数学逻辑，数值量级合理。

@@ -1,0 +1,24 @@
+# N13: LFU 相比 LRU 的理论上界提升公式：ΔHitRate = HitRate_LFU - HitRate_LRU <= (N_hot * S_avg_hot 
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+LFU 相比 LRU 的理论上界提升公式：ΔHitRate = HitRate_LFU - HitRate_LRU <= (N_hot * S_avg_hot / TotalBytes) * (1 - HitRate_LRU)，其中 N_hot 为 LFU 能稳定保留的热点对象数，S_avg_hot 为热点对象平均大小，需计算热点集合的字节占比
+
+## Corrected Claim
+
+在特定假设下（LFU完全保留热点对象且LRU未命中这些对象），LFU相比LRU的命中率提升可估算为热点对象字节占比与LRU未命中率的乘积，但这并非通用的严格理论上界。
+
+## Evidence
+
+[质询]该公式并非通用的理论标准上界，而是一个基于特定假设（如热点集合完全被LFU保留且LRU完全未命中热点）的启发式估算模型。在一般缓存替换算法的理论分析中，通常使用竞争比（Competitive Ratio）或基于访问频率分布的渐近分析，而非这种具体的字节占比乘法公式。此外，公式右侧的量纲和逻辑依赖于'HitRate_LFU'和'HitRate_LRU'的具体定义（是命中率还是未命中率），若HitRate指命中率，则(1-HitRate_LRU)代表LRU的未命中部分，逻辑上暗示LFU的提升仅来自LRU未命中的热点部分，这在特定场景下成立，但作为'理论上界'表述过于绝对且缺乏普适性证明。 | 先验知识/题面给定，逻辑校验通过。虽然公式在特定理想化假设下逻辑自洽（量纲一致，数值范围合理），但作为'理论上界'的通用公式缺乏严格证明，且无外部来源支持其普适性，故降级为定性表述。
+
+## Search Query
+
+LFU vs LRU cache hit rate upper bound improvement formula

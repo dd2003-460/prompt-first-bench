@@ -1,0 +1,20 @@
+# N62: 计算 LFU 频率阈值 F_th 的解析近似：F_th ≈ f_{N_hot}，其中 N_hot 是使得累计缓存字节 Sum_{i=1}^{N_hot} E[S
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N14
+
+## Claim
+
+计算 LFU 频率阈值 F_th 的解析近似：F_th ≈ f_{N_hot}，其中 N_hot 是使得累计缓存字节 Sum_{i=1}^{N_hot} E[S_i] 接近 128GB 的最大整数
+
+## Corrected Claim
+
+计算 LFU 频率阈值 F_th 的解析近似：F_th ≈ f_{N_hot}，其中 N_hot 是使得累计缓存字节 Sum_{i=1}^{N_hot} E[S_i] 接近 128GB 的最大整数
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：LFU 缓存中，频率阈值通常对应于能容纳在固定容量（128GB）内的热点对象集合的边界频率，该解析近似符合缓存替换算法的基本原理。

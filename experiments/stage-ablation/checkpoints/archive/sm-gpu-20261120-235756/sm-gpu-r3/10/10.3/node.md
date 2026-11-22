@@ -1,0 +1,30 @@
+# N132: AMD MI300X 的 TDP 为 750W [待核验]，假设 24/7 运行且电价为 $0.15/kWh，其年电费成本为 $986 (计算式: 0.75kW
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N35
+
+## Claim
+
+AMD MI300X 的 TDP 为 750W [待核验]，假设 24/7 运行且电价为 $0.15/kWh，其年电费成本为 $986 (计算式: 0.75kW * 24h * 365d * $0.15/kWh)，相比 RTX 4090 ($540) 高出 82.6%，但在 3 年 TCO 周期内，若 MI300X 购置成本为 $13,000 [待核验] 而 RTX 4090 为 $2,000，MI300X 的 3 年 TCO 为 $15,958，RTX 4090 (需 2 卡) 的 3 年 TCO 为 $5,620，MI300X 的 TCO 是 RTX 4090 方案的 2.84 倍。
+
+## Corrected Claim
+
+AMD MI300X 的 TDP 为 750W，假设 24/7 运行且电价为 $0.15/kWh，其年电费成本为 $986。相比 RTX 4090 ($540) 高出 82.6%。在 3 年 TCO 周期内，若 MI300X 购置成本为 $13,000 而 RTX 4090 为 $2,000，MI300X 的 3 年 TCO 为 $15,958，RTX 4090 (需 2 卡) 的 3 年 TCO 为 $5,620，MI300X 的 TCO 是 RTX 4090 方案的 2.84 倍。（注：购置成本为假设值，未获来源直接证实）
+
+## Evidence
+
+[质询]RTX 4090 的购置成本（$2,000）及 MI300X 的购置成本（$13,000）属于经验事实，参考来源仅提供了 TDP 和云租赁价格，未提供具体的硬件购置成本数据，无法验证 TCO 计算中的成本参数。 | 来源 [1][2][3] 直接支持 MI300X TDP 为 750W，电费计算逻辑自洽；但硬件购置成本为经验事实，缺乏来源支持，故降级。
+
+## Search Query
+
+AMD MI300X TDP wattage price 2024
+
+## Retrieval Sources
+
+- {'url': 'https://inferencex.semianalysis.com/chips/mi300x&rut=c1744f806494b02470f6e99f6f6c17a69f2c55f3735c86120debc7074ea95a50', 'type': 'ddg', 'title': 'AMD Instinct MI300X Specs, Price & Power | InferenceX'}
+- {'url': 'https://gpuadvisor.com/gpu/mi300x&rut=6699f53c0e504e14be38389ade8069937ff7ce225d6ae804e630d1c7d06a7260', 'type': 'ddg', 'title': 'Instinct MI300X Specs, Benchmarks & Pricing — AMD CDNA 3'}
+- {'url': 'https://computecomparison.com/gpu/mi300x&rut=7218641df15dc2d82a4f54ed271b04a2005c71febb63235ca7f6da8da1d6e0d0', 'type': 'ddg', 'title': 'MI300X 192GB Specs: 750W TDP, 1307 TFLOPS FP16 (dense), 192GB VRAM'}

@@ -1,0 +1,24 @@
+# N168: μ_trigger 的异质性分解：均值 1.18 掩盖了买家分层的差异，需将 μ_trigger 分解为新手买家 μ_new 和资深买家 μ_expert 的加
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N53
+
+## Claim
+
+μ_trigger 的异质性分解：均值 1.18 掩盖了买家分层的差异，需将 μ_trigger 分解为新手买家 μ_new 和资深买家 μ_expert 的加权平均，假设 μ_new ≈ 1.25（更宽容/信息少），μ_expert ≈ 1.10（更敏锐/信息多），权重 w 取决于平台用户结构，该分解解释了为何不同品类（专家主导 vs 大众主导）的阈值不同。
+
+## Corrected Claim
+
+μ_trigger 的异质性分解：均值 1.18 掩盖了买家分层的差异，需将 μ_trigger 分解为新手买家 μ_new 和资深买家 μ_expert 的加权平均，假设 μ_new ≈ 1.25（更宽容/信息少），μ_expert ≈ 1.10（更敏锐/信息多），权重 w 取决于平台用户结构，该分解解释了为何不同品类（专家主导 vs 大众主导）的阈值不同。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：加权平均分解在数学上自洽，且新手/资深买家对触发阈值敏感度差异符合行为经济学直觉，数值量级合理。
+
+## Search Query
+
+buyer expertise heterogeneity price sensitivity threshold second hand market novice expert

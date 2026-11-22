@@ -1,0 +1,29 @@
+# N24: 单卡方案硬件成本 C_single 的计算公式为 C_single = P_gpu_single + C_chassis + C_psu + C_cooling
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4, N5
+
+## Claim
+
+单卡方案硬件成本 C_single 的计算公式为 C_single = P_gpu_single + C_chassis + C_psu + C_cooling，其中 P_gpu_single 为单卡市场均价，C_chassis/C_psu/C_cooling 为配套基础设施成本，需对比 RTX 4090 (32GB) 与 A100 40GB 的 C_single 差异
+
+## Corrected Claim
+
+单卡方案硬件成本通常包含GPU、机箱、电源及散热等部分，具体数值需根据市场实时价格及具体配置计算，RTX 4090与A100 40GB的成本差异需结合当前市场价格评估。
+
+## Evidence
+
+父节点级核验未通过：非正交, 有冗余（子节点3和子节点4存在逻辑矛盾与冗余。子节点3指出RTX 4090显存仅24GB且父节点明确对比对象为'RTX 4090 (32GB)'（此处父节点描述有误，4090无32GB版本，通常指误写或混淆了4090与3090/其他卡），导致子节点3自我否定并建议修正，破坏了正交性。此外，子节点1和2分别描述配套成本，子节点3和4分别描述总成本，存在结构上的重复（总成本=GPU+配套），且子节点3和4不仅计算成本，还混入了显存可行性分析（超出父节点'硬件成本计算'的范畴），导致职责不清。）
+
+## Search Query
+
+RTX 4090 32GB vs A100 40GB total cost of ownership hardware cost comparison
+
+## Retrieval Sources
+
+- {'url': 'https://developer.baidu.com/article/detail.html?id=3826301&rut=4a3f976ea68decf909a4d7fa87c9bdc6432fed2c7eedf6dd4c2f154ff223de84', 'type': 'ddg', 'title': '大模型一体机TCO全解析：千卡集群与单机方案成本矩阵对比'}
+- {'url': 'https://developer.baidu.com/article/detail.html?id=3658278&rut=b67b3be5800247f07fbf742db9b7f8d5093fe69f69cc0ef067e51efc1d08c5b5', 'type': 'ddg', 'title': '大模型一体机TCO全解析：千卡集群与单机方案成本矩阵对比'}

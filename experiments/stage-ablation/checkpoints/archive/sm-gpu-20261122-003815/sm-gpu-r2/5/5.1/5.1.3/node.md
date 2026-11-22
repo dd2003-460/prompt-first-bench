@@ -1,0 +1,24 @@
+# N149: Apple M3 Ultra Mac Studio 配置价格：192GB 统一内存版本约 $5,000-$6,000 USD，256GB 版本约 $7,000-
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N31
+
+## Claim
+
+Apple M3 Ultra Mac Studio 配置价格：192GB 统一内存版本约 $5,000-$6,000 USD，256GB 版本约 $7,000-$8,000 USD。相比 A100 80GB ($15,000+)，价格优势明显，但性能受限于统一内存带宽。
+
+## Corrected Claim
+
+Apple M3 Ultra Mac Studio 提供最高256GB统一内存配置，其整体系统价格显著低于配备A100 80GB的服务器方案，但受限于统一内存带宽，在特定高带宽需求场景下性能可能不及A100。
+
+## Evidence
+
+[质询]价格区间的具体数值（如$5,000-$6,000）属于经验事实，且不同配置（CPU/GPU核心数）会导致价格波动，单一区间表述可能不够精确；此外，'性能受限于统一内存带宽'是相对A100的定性结论，需具体场景支撑。 | 先验知识/题面给定，逻辑校验通过。M3 Ultra确实支持最高256GB统一内存，且其价格远低于A100服务器卡，统一内存带宽（~800GB/s）确实低于A100 HBM3（~2TB/s），逻辑自洽。但作为knowledge节点，虽逻辑自洽，因缺乏实时价格来源支持具体数值区间，且价格随配置变化，降级为定性表述更稳妥。
+
+## Search Query
+
+Mac Studio M3 Ultra 192GB 256GB price USD

@@ -1,0 +1,24 @@
+# N102: 多卡方案 CapEx 具体构成（以 2x RTX 4090 为例）：N*GPU_price = 2 * $1800 = $3600; High_power_PS
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N27
+
+## Claim
+
+多卡方案 CapEx 具体构成（以 2x RTX 4090 为例）：N*GPU_price = 2 * $1800 = $3600; High_power_PSU_cost = $300 (2x 1200W or 1x 2000W); Multi-GPU_Chassis_cost = $400 (Full-tower with 3+ PCIe x16 slots); Interconnect_cost = $0 (PCIe risers included in chassis) 或 $50 (NVLink bridge if applicable, but 4090 uses PCIe). Total_CapEx_Multi = $4300-4350。
+
+## Corrected Claim
+
+多卡方案 CapEx 具体构成（以 2x RTX 4090 为例）：N*GPU_price = 2 * $1800 = $3600; High_power_PSU_cost = $300 (2x 1200W or 1x 2000W); Multi-GPU_Chassis_cost = $400 (Full-tower with 3+ PCIe x16 slots); Interconnect_cost = $0 (PCIe risers included in chassis) 或 $50 (NVLink bridge if applicable, but 4090 uses PCIe). Total_CapEx_Multi = $4300-4350。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：2x RTX 4090 价格约 $3600，高功率电源与机箱成本估算合理，总 CapEx 计算自洽。
+
+## Search Query
+
+RTX 4090 multi-GPU chassis cost

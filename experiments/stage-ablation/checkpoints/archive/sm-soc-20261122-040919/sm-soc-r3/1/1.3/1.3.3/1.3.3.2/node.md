@@ -1,0 +1,20 @@
+# N160: 信号强度 k 对买家效用阈值的具体影响函数：阈值 V_threshold(k) = P_list * (1 + π_max(k))，其中 π_max(k) = 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N40
+
+## Claim
+
+信号强度 k 对买家效用阈值的具体影响函数：阈值 V_threshold(k) = P_list * (1 + π_max(k))，其中 π_max(k) = (C_search * (1-k)) / V_true。当 k=0.6 时，若 C_search=10元, V_true=100元，则 π_max=0.04，即买家最多接受4%溢价；若 k 提升至 0.8，π_max 降至 0.02，但此推导假设 C_search 恒定，实际中 k 提升可能伴随 C_search 绝对值变化。
+
+## Corrected Claim
+
+信号强度 k 对买家效用阈值的具体影响函数：阈值 V_threshold(k) = P_list * (1 + π_max(k))，其中 π_max(k) = (C_search * (1-k)) / V_true。当 k=0.6 时，若 C_search=10元, V_true=100元，则 π_max=0.04，即买家最多接受4%溢价；若 k 提升至 0.8，π_max 降至 0.02，但此推导假设 C_search 恒定，实际中 k 提升可能伴随 C_search 绝对值变化。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算正确（10*0.4/100=0.04, 10*0.2/100=0.02），公式推导自洽，且明确标注了假设条件（C_search恒定）。

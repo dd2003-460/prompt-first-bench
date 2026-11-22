@@ -1,0 +1,26 @@
+# N15: Pareto(α=1.1) 分布的总字节数收敛性验证：总字节数占比 Top K% 对象 = 1 - (1-K)^(1-1/α)，当 α=1.1 时，Top 1%
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+Pareto(α=1.1) 分布的总字节数收敛性验证：总字节数占比 Top K% 对象 = 1 - (1-K)^(1-1/α)，当 α=1.1 时，Top 1% 对象占据约 80% 的总字节量，这决定了 LFU 按频率保留大对象时的字节命中率优势来源。
+
+## Corrected Claim
+
+在对象大小服从 Pareto(α=1.1) 分布的假设下，由于 α 接近 1，分布具有极重的尾部，少数大对象确实占据绝大部分总字节数。但具体占比公式 1-(1-K)^(1-1/α) 通常用于描述数量分布的累积概率或特定简化模型，直接用于字节数占比需更严格的数学推导（通常字节占比会更高，因为大对象不仅数量少且单个体积大）。建议表述为：'Pareto(α=1.1) 分布具有极重尾部，Top 1% 的对象（按大小排序）将占据绝大部分（远超 80%）的总字节量，具体数值需通过积分计算。'
+
+## Evidence
+
+[质询]公式推导存在量纲/定义混淆风险：Pareto分布的尾部概率 P(X>x) 通常用于描述对象数量占比，而字节数占比取决于对象大小分布。若对象大小服从 Pareto(α)，则总字节数由 ∫x f(x)dx 决定，其收敛性及 Top K% 占比公式与仅基于数量分布的公式不同（通常涉及 α-1 或 α-2 的幂次，具体取决于截断方式）。直接套用数量分布的 CDF 公式计算字节占比在数学上是不严谨的，除非假设对象大小与排名有特定线性关系或该公式特指某种特定归一化模型。 | 来源 [1][2][3] 仅提供了 Pareto 分布的基础定义 P(X>x)=(x/x_min)^k，未提供关于'总字节数占比'与'对象数量占比'在 Pareto 分布下具体换算公式的直接支持，且该公式在标准概率论中对应的是数量占比而非字节量占比（字节量涉及一阶矩积分），逻辑推导存在瑕疵。
+
+## Retrieval Sources
+
+- {'url': 'https://zh.wikipedia.org/wiki/%E5%B8%95%E7%B4%AF%E6%89%98%E5%88%86%E5%B8%83&rut=91134896ab05b53f585edeb3a097a30f9edf0fa7dafb66749cede7728abb67cb', 'type': 'ddg', 'title': '帕累托分布 - 维基百科，自由的百科全书'}
+- {'url': 'https://zh.wikipedia.org/zh-tw/%E5%B8%95%E7%B4%AF%E6%89%98%E5%88%86%E5%B8%83&rut=78edecf9b07103f9cb47bc79f06ee947dafd31eea0135d2d164676ea383b98ee', 'type': 'ddg', 'title': '柏拉圖分布 - 維基百科，自由的百科全書'}
+- {'url': 'https://en.wikipedia.org/wiki/Pareto_distribution&rut=3541c8b3f71fd194fb160deaa36ef23bcf3225d4a84bcccff152370e666d69b5', 'type': 'ddg', 'title': 'Pareto distribution - Wikipedia'}

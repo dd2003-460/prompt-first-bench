@@ -1,0 +1,28 @@
+# N8: 大小-热度相关性结构：给定负相关 ρ≈-0.3，联合分布 P(s,h) 可近似为高斯 Copula 或 Spearman 相关模型，导致小对象（s < s_me
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+大小-热度相关性结构：给定负相关 ρ≈-0.3，联合分布 P(s,h) 可近似为高斯 Copula 或 Spearman 相关模型，导致小对象（s < s_median）的期望请求率比独立假设下高约 15-20%（具体系数需通过积分计算验证）。
+
+## Corrected Claim
+
+大小-热度相关性结构：给定负相关 ρ≈-0.3，联合分布 P(s,h) 可近似为高斯 Copula 或 Spearman 相关模型，导致小对象（s < s_median）的期望请求率比独立假设下有所提升（具体系数需通过积分计算验证，通常取决于分布的具体形态）。
+
+## Evidence
+
+[质询]数值量级与具体系数（15-20%）缺乏推导依据，且高斯Copula假设在对象大小（通常服从幂律或长尾分布）上可能不成立，导致期望请求率的提升幅度无法仅凭ρ=-0.3确定。 | 来源[1]仅解释了双变量正态分布的联合密度函数形式，未涉及对象大小-热度相关性对期望请求率的具体量化影响（15-20%），属于间接支持模型构建方法，但无法支持具体数值结论。
+
+## Search Query
+
+Pareto distribution correlation size popularity cache modeling copula
+
+## Retrieval Sources
+
+- {'url': 'https://www.zhihu.com/question/567063627&rut=7dfa527078e2d2890aeedd57dedec2adc9e7d9d3203d322cedbc14e6aff629a8', 'type': 'ddg', 'title': '两个相关的正态分布 如何求他们的联合分布概率密度？如下图?'}

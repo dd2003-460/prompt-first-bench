@@ -1,0 +1,24 @@
+# N91: NVIDIA Ada Lovelace (RTX 4090) 架构原生支持 FP8 精度，但硬件层面不支持 NVFP4 或 W4A16 推理，4-bit 量化需
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N24
+
+## Claim
+
+NVIDIA Ada Lovelace (RTX 4090) 架构原生支持 FP8 精度，但硬件层面不支持 NVFP4 或 W4A16 推理，4-bit 量化需依赖软件模拟（如 llama.cpp 的 dequantization），导致计算延迟增加约 15-30% [待核验]。
+
+## Corrected Claim
+
+NVIDIA Ada Lovelace (RTX 4090) 架构原生支持 FP8 精度，但硬件层面不支持 NVFP4 或 W4A16 推理，4-bit 量化需依赖软件模拟（如 llama.cpp 的 dequantization），通常会导致计算延迟增加（具体幅度视实现与负载而定）。
+
+## Evidence
+
+[质询]「计算延迟增加约 15-30%」这一具体数值缺乏通用基准支持，实际性能开销高度依赖于模型架构、序列长度、硬件配置及具体的量化实现（如 llama.cpp 的 kernel 优化程度），将其概括为固定区间存在以偏概全的风险。 | 先验知识/题面给定，逻辑校验通过：Ada Lovelace 架构确实原生支持 FP8 但不支持 NVFP4/W4A16，4-bit 量化需软件反量化，逻辑自洽；但具体延迟增幅为经验性数据，缺乏统一标准，故降级。
+
+## Search Query
+
+RTX 4090 NVFP4 support hardware vs software emulation latency penalty

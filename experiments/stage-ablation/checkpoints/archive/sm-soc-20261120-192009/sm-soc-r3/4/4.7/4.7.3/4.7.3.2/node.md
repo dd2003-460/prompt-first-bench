@@ -1,0 +1,24 @@
+# N286: 信噪比衰减量化：使用代理指标时，估计值的标准误 $SE_{proxy}$ 与原始指标 $SE_{orig}$ 的关系为 $SE_{proxy} = SE_{or
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N97
+
+## Claim
+
+信噪比衰减量化：使用代理指标时，估计值的标准误 $SE_{proxy}$ 与原始指标 $SE_{orig}$ 的关系为 $SE_{proxy} = SE_{orig} / \rho_{proxy}$；若 $\rho_{proxy} = 0.7$，则 $SE_{proxy} \approx 1.43 SE_{orig}$，导致置信区间宽度扩大 43%，这是 SNR 降低 50% 的具体统计后果。
+
+## Corrected Claim
+
+信噪比衰减量化：使用代理指标时，估计值的标准误 $SE_{proxy}$ 与原始指标 $SE_{orig}$ 的关系为 $SE_{proxy} = SE_{orig} / \rho_{proxy}$；若 $\rho_{proxy} = 0.7$，则 $SE_{proxy} \approx 1.43 SE_{orig}$，导致置信区间宽度扩大 43%，这是 SNR 降低 50% 的具体统计后果。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：根据统计学原理，若代理指标与原始指标的相关系数为ρ，则代理指标估计值的标准误为原始指标标准误除以ρ（SE_proxy = SE_orig / ρ）。当ρ=0.7时，SE_proxy ≈ 1.43 SE_orig，置信区间宽度（正比于标准误）相应扩大约43%，推导自洽。
+
+## Search Query
+
+standard error inflation proxy variable correlation coefficient

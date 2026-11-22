@@ -1,0 +1,20 @@
+# N201: W4量化下KV Cache的精度选择对吞吐量的边际影响：若KV Cache保持BF16 (2 bytes/token)，Bytes_per_token = 13
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N59
+
+## Claim
+
+W4量化下KV Cache的精度选择对吞吐量的边际影响：若KV Cache保持BF16 (2 bytes/token)，Bytes_per_token = 13.55GB + 20.61GB = 34.16GB，RTX 4090理论Decode吞吐上限 = 1008 GB/s / 34.16 GB ≈ 29.5 tokens/s；若KV Cache量化为FP8 (1 byte/token)，Bytes_per_token = 13.55GB + 10.31GB = 23.86GB，理论上限提升至 1008 / 23.86 ≈ 42.2 tokens/s。两者差异系数为 1.43x，且FP8 KV需验证vLLM/llama.cpp对Qwen3-27B GQA结构的支持稳定性。
+
+## Corrected Claim
+
+W4量化下KV Cache的精度选择对吞吐量的边际影响：若KV Cache保持BF16 (2 bytes/token)，Bytes_per_token = 13.55GB + 20.61GB = 34.16GB，RTX 4090理论Decode吞吐上限 = 1008 GB/s / 34.16 GB ≈ 29.5 tokens/s；若KV Cache量化为FP8 (1 byte/token)，Bytes_per_token = 13.55GB + 10.31GB = 23.86GB，理论上限提升至 1008 / 23.86 ≈ 42.2 tokens/s。两者差异系数为 1.43x，且FP8 KV需验证vLLM/llama.cpp对Qwen3-27B GQA结构的支持稳定性。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算（13.55+20.61=34.16, 1008/34.16≈29.5, 13.55+10.31=23.86, 1008/23.86≈42.2, 42.2/29.5≈1.43）完全正确，且符合内存带宽受限场景下吞吐量与每token字节数成反比的基本物理直觉。

@@ -1,0 +1,28 @@
+# N70: Pipeline Parallelism vs Tensor Parallelism 在 2 卡配置下的通信开销差异，以及哪种并行策略在 PCIe 限制下更优
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N12
+
+## Claim
+
+Pipeline Parallelism vs Tensor Parallelism 在 2 卡配置下的通信开销差异，以及哪种并行策略在 PCIe 限制下更优
+
+## Corrected Claim
+
+Tensor Parallelism 在每层内部进行 All-Reduce 通信，对带宽要求较高；Pipeline Parallelism 通过减少单卡存储层数来降低内存占用，但存在流水线气泡时间。在 PCIe 等低带宽互联下，Tensor Parallelism 的通信开销通常更为显著，因此 Pipeline Parallelism 往往在通信受限场景下更具优势，但具体优劣需结合模型结构和 Batch Size 综合评估。
+
+## Evidence
+
+[质询]陈述中关于'哪种策略在 PCIe 限制下更优'的结论属于经验性判断，且高度依赖于具体模型架构（如层数、隐藏层维度）和批次大小（Batch Size）。虽然 Tensor Parallelism (TP) 对带宽要求高，Pipeline Parallelism (PP) 有气泡时间，但在 2 卡 PCIe 这种低带宽高延迟场景下，通常 TP 因频繁的小数据量 All-Reduce 通信而成为瓶颈，PP 往往更优，但这一结论并非绝对真理，且参考来源仅描述了机制差异，未直接给出'PP 更优'的明确结论。 | 来源 [1] 间接支持了 TP 需要更高带宽（intra-layer all-reduces）而 PP 存在气泡时间（bubble time）的机制差异，但未直接提供 2 卡 PCIe 场景下的优劣对比结论，属于间接支持。
+
+## Search Query
+
+pipeline vs tensor parallelism 2 GPU PCIe communication overhead LLM
+
+## Retrieval Sources
+
+- {'url': 'https://muellerminute.substack.com/p/tensor-parallelism-vs-pipeline-parallelism&rut=30822b517ccc73bebfdc18ab005a4230f320291841c24aa89ab56641804a0945', 'type': 'ddg', 'title': 'Tensor Parallelism vs Pipeline Parallelism'}

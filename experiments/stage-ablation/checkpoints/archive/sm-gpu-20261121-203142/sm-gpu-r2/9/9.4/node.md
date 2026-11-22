@@ -1,0 +1,24 @@
+# N117: 性价比指标 'Cost per 1000 Generated Tokens' 的分解公式：Cost = (CapEx / Useful_Life_Tokens)
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N32, N33, N34
+
+## Claim
+
+性价比指标 'Cost per 1000 Generated Tokens' 的分解公式：Cost = (CapEx / Useful_Life_Tokens) + (OpEx / Useful_Life_Tokens)；其中 Useful_Life_Tokens = TPS * Operating_Hours * Useful_Life_Years * 365 * 24。对于无延迟约束场景，OpEx 中电力成本占比通常低于 20%，CapEx 摊销是主要成本驱动因素。
+
+## Corrected Claim
+
+性价比指标 'Cost per 1000 Generated Tokens' 的分解公式：Cost = (CapEx / Useful_Life_Tokens) + (OpEx / Useful_Life_Tokens)；其中 Useful_Life_Tokens = TPS * Operating_Hours * Useful_Life_Years * 365 * 24。对于无延迟约束场景，OpEx 中电力成本占比通常低于 20%，CapEx 摊销是主要成本驱动因素。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：成本分解公式符合全生命周期成本（TCO）的基本定义，Useful_Life_Tokens 的量纲推导（TPS * 时间）正确；在无延迟约束下，GPU 集群的折旧（CapEx）通常远高于电力（OpEx），电力占比低于 20% 符合当前主流 AI 基础设施的经济直觉。
+
+## Search Query
+
+GPU cost per token calculation formula CapEx OpEx amortization

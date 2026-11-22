@@ -1,0 +1,24 @@
+# N86: L40S 48GB 运行 Qwen3-27B FP8 权重 + FP8 KV Cache (32K) 时，显存占用为 27GB (权重) + 20GB (KV)
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N19
+
+## Claim
+
+L40S 48GB 运行 Qwen3-27B FP8 权重 + FP8 KV Cache (32K) 时，显存占用为 27GB (权重) + 20GB (KV) + 2GB (开销) = 49GB，略微超出 48GB 显存，需启用 PagedAttention 的碎片优化或降低批量大小至 1，实际可行但无余量，TTFT 可能因显存压力而波动。
+
+## Corrected Claim
+
+L40S 48GB 运行 Qwen3-27B FP8 权重 + FP8 KV Cache (32K) 时，显存占用估算约为 49GB，超出 48GB 显存，需启用 PagedAttention 或降低批量大小/上下文长度以确保稳定运行，TTFT 可能因显存压力而波动。
+
+## Evidence
+
+[质询]KV Cache 20GB 的估算缺乏具体上下文（如序列长度、Batch Size、GQA 头数），且 27B 模型 FP8 权重通常约为 27GB，加上 20GB KV 和 2GB 开销确实接近 49GB，但 L40S 显存为 48GB，实际部署中通常需要通过量化 KV 或限制上下文长度来确保不 OOM，直接断言‘略微超出’且‘实际可行’可能过于乐观，未考虑 CUDA 上下文和激活值的额外开销。 | 先验知识/题面给定，逻辑校验通过：27B FP8 权重约 27GB，KV Cache 20GB 在长上下文下合理，总和 49GB 略超 48GB 显存，需优化，逻辑自洽但具体数值依赖假设。
+
+## Search Query
+
+L40S FP8 Qwen3 27B 32k context tight memory fit

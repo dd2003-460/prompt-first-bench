@@ -1,0 +1,29 @@
+# N167: 估值误差标准差 σ_V 的量化：σ_V = σ_cat * (1 + β_novelty)，其中 σ_cat 为品类基础估值波动（典型值 5-10% of P_
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N50
+
+## Claim
+
+估值误差标准差 σ_V 的量化：σ_V = σ_cat * (1 + β_novelty)，其中 σ_cat 为品类基础估值波动（典型值 5-10% of P_median），β_novelty 为商品独特性系数（非标品典型值 0.5-1.5），需基于平台历史成交价方差回归估计。
+
+## Corrected Claim
+
+估值误差标准差 σ_V 可建模为 σ_V = σ_cat * (1 + β_novelty)，其中 σ_cat 为品类基础估值波动，β_novelty 为商品独特性系数，具体参数需基于平台历史数据回归估计。
+
+## Evidence
+
+[质询]该公式属于特定业务场景下的经验性建模假设，缺乏通用的统计学或经济学第一性原理支持，且参考来源完全无关，无法验证其参数范围（如β_novelty 0.5-1.5）的合理性。 | 参考来源[1]和[2]分别讨论线性判别分析和聚类分析，与估值误差量化公式无直接关联，属于无关来源；该陈述为经验事实，逻辑自洽但缺来源支持。
+
+## Search Query
+
+used goods price variance standard deviation category specific noise estimation
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Linear_discriminant_analysis', 'type': 'wikipedia', 'title': 'Linear discriminant analysis'}
+- {'url': 'https://en.wikipedia.org/wiki/Cluster_analysis', 'type': 'wikipedia', 'title': 'Cluster analysis'}

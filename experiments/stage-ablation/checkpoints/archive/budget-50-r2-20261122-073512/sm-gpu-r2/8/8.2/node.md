@@ -1,0 +1,24 @@
+# N190: NVIDIA A100 80GB 运行 Qwen3-27B BF16 的实际吞吐效率修正：理论上限 2039/56 ≈ 36.4 tokens/s，实际效率系数
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N35
+
+## Claim
+
+NVIDIA A100 80GB 运行 Qwen3-27B BF16 的实际吞吐效率修正：理论上限 2039/56 ≈ 36.4 tokens/s，实际效率系数 0.7-0.85（HBM2e 延迟较低，CUDA 生态成熟），实际吞吐约 25-31 tokens/s；A100 80GB 可原生支持 BF16 无需量化，避免量化质量损失，这是其相对于消费级 INT8 方案的核心优势，需量化质量无损带来的 TCO 节省（避免量化评估成本）。
+
+## Corrected Claim
+
+NVIDIA A100 80GB 运行 Qwen3-27B BF16 的实际吞吐效率修正：理论上限 2039/56 ≈ 36.4 tokens/s，实际效率系数 0.7-0.85（HBM2e 延迟较低，CUDA 生态成熟），实际吞吐约 25-31 tokens/s；A100 80GB 可原生支持 BF16 无需量化，避免量化质量损失，这是其相对于消费级 INT8 方案的核心优势，需量化质量无损带来的 TCO 节省（避免量化评估成本）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 80GB 显存足以容纳 Qwen3-27B BF16 模型（约 54GB），且 A100 原生支持 BF16，理论吞吐与效率系数的估算符合硬件性能常识。
+
+## Search Query
+
+NVIDIA A100 80GB Qwen3-27B BF16 actual inference throughput tokens/s

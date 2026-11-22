@@ -1,0 +1,20 @@
+# N94: 基于 N76/N77 修正后的 E[S]=6.9KB 和 σ_S（需计算 Pareto(α=1.1) 的截断标准差 σ_S ≈ √(Var[S])），计算比值 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N32
+
+## Claim
+
+基于 N76/N77 修正后的 E[S]=6.9KB 和 σ_S（需计算 Pareto(α=1.1) 的截断标准差 σ_S ≈ √(Var[S])），计算比值 σ_S/σ_R，其中 σ_R 为 Pareto(β=0.9) 的热度标准差，需给出 σ_S 和 σ_R 的具体数值以代入 N32 公式。
+
+## Corrected Claim
+
+基于 N76/N77 修正后的 E[S]=6.9KB 和 σ_S（需计算 Pareto(α=1.1) 的截断标准差 σ_S ≈ √(Var[S])），计算比值 σ_S/σ_R，其中 σ_R 为 Pareto(β=0.9) 的热度标准差，需给出 σ_S 和 σ_R 的具体数值以代入 N32 公式。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

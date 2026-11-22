@@ -1,0 +1,24 @@
+# N50: vLLM 对 Qwen3-27B 的原生支持版本门槛：需 vLLM >= 0.6.4 (2024-09 release)，该版本引入 Qwen3 架构解析器与 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N10
+
+## Claim
+
+vLLM 对 Qwen3-27B 的原生支持版本门槛：需 vLLM >= 0.6.4 (2024-09 release)，该版本引入 Qwen3 架构解析器与 KV Cache 优化；低于此版本会报错 'Unknown model architecture' 或 fallback 到 Qwen2 兼容模式导致精度损失 [待核验]
+
+## Corrected Claim
+
+vLLM 需支持 Qwen3 架构的版本才能原生运行 Qwen3-27B，低于该版本可能报错或降级兼容，具体版本门槛需查阅 vLLM 官方发布日志确认。
+
+## Evidence
+
+[质询]具体版本号（0.6.4）及发布日期（2024-09）属于经验事实，且Qwen3系列模型发布时间晚于2024年9月，存在时间线逻辑矛盾或版本对应错误的可能；此外，'Unknown model architecture'报错通常发生在模型架构未注册时，而非简单的版本过低导致fallback，具体行为需实证验证。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且版本号与发布时间存在潜在冲突，无法确证具体门槛版本）
+
+## Search Query
+
+vLLM release notes Qwen3 support version 0.6.4

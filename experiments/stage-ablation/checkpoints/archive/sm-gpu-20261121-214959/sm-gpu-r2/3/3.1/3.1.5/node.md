@@ -1,0 +1,24 @@
+# N72: Mac Studio M2 Ultra 192GB 统一内存配置官方起售价为$3,999，但192GB顶配版实际售价为$6,999，需确认具体配置对应价格。
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N16, N17, N18
+
+## Claim
+
+Mac Studio M2 Ultra 192GB 统一内存配置官方起售价为$3,999，但192GB顶配版实际售价为$6,999，需确认具体配置对应价格。
+
+## Corrected Claim
+
+Mac Studio M2 Ultra 192GB 统一内存配置的具体价格需进一步核实，通常该配置价格高于基础款，但具体起售价和顶配价数值待确认。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件配置价格（$3,999 和 $6,999），属于经验事实。由于本轮检索无可用来源，无法验证这些具体数值是否准确对应 M2 Ultra 192GB 的官方起售价和顶配价，存在数值错误或配置混淆的风险。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Mac Studio M2 Ultra 192GB price

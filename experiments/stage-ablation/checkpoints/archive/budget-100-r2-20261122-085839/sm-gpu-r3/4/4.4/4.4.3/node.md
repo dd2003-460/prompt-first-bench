@@ -1,0 +1,20 @@
+# N84: Qwen3-27B TP=2时，每层AllReduce通信量 = 2 * Hidden_Size * Batch_Size * Bytes_per_elemen
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N24
+
+## Claim
+
+Qwen3-27B TP=2时，每层AllReduce通信量 = 2 * Hidden_Size * Batch_Size * Bytes_per_element。假设Hidden=4096, Batch=1, BF16: 2 * 4096 * 1 * 2 = 16 KB/层。48层总通信量 = 48 * 16 KB = 768 KB/step
+
+## Corrected Claim
+
+Qwen3-27B TP=2时，每层AllReduce通信量 = 2 * Hidden_Size * Batch_Size * Bytes_per_element。假设Hidden=4096, Batch=1, BF16: 2 * 4096 * 1 * 2 = 16 KB/层。48层总通信量 = 48 * 16 KB = 768 KB/step
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别独立分析了公式中的三个关键变量（模型结构参数、Batch Size、数据类型精度），彼此之间没有逻辑重叠或矛盾。父节点的核心公式由这三个变量构成，子节点覆盖了所有决定通信量的关键因素，且每个子节点针对特定变量的影响进行了独立的敏感性分析或约束说明，不属于同一参数的简单取值枚举，因此无冗余。）

@@ -1,0 +1,20 @@
+# N150: Qwen3-27B 混合精度策略（FFN FP8 + Attention BF16）显存占用为 44.0 GB，计算公式为 FFN (18.9B * 1) + 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N41
+
+## Claim
+
+Qwen3-27B 混合精度策略（FFN FP8 + Attention BF16）显存占用为 44.0 GB，计算公式为 FFN (18.9B * 1) + Attention (3.2B * 2) + Embedding/LM Head (5.0B * 2) + Norm (0.9B * 2) = 18.9 + 6.4 + 10.0 + 1.8 = 37.1 GB，修正：Attention 部分 3.2B * 2 = 6.4GB，FFN 18.9B * 1 = 18.9GB，总 37.1GB
+
+## Corrected Claim
+
+Qwen3-27B 混合精度策略（FFN FP8 + Attention BF16）显存占用计算结果为 37.1 GB（基于给定参数：FFN 18.9B*1 + Attention 3.2B*2 + Embedding/LM Head 5.0B*2 + Norm 0.9B*2），而非 44.0 GB。
+
+## Evidence
+
+[质询]陈述内部存在严重的算术矛盾：标题声称显存占用为 44.0 GB，但随后的计算公式及修正部分均得出 37.1 GB 的结论，两者数值不一致且无法通过合理误差解释。 | 逻辑校验失败：44.0 GB 与 37.1 GB 存在硬性数值矛盾，且 37.1 GB 的计算结果（18.9+6.4+10.0+1.8）虽算术正确，但与标题声明的 44.0 GB 冲突，导致事实陈述自相矛盾。

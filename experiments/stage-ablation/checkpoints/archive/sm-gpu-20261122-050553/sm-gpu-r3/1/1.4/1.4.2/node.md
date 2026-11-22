@@ -1,0 +1,24 @@
+# N47: Apple Silicon 运行 LLM 推理的标准软件栈为 MLX (Metal Performance Shaders) 或 llama.cpp (Meta
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N10
+
+## Claim
+
+Apple Silicon 运行 LLM 推理的标准软件栈为 MLX (Metal Performance Shaders) 或 llama.cpp (Metal backend)，其 BF16 矩阵乘加 (MatMul) 算子效率通常低于 NVIDIA CUDA Tensor Core，导致同等显存带宽下 Tokens/s 吞吐量约为 NVIDIA 同代产品的 50-70% [待核验]，需量化此效率系数以修正 TCO 中的电力成本权重。
+
+## Corrected Claim
+
+Apple Silicon 运行 LLM 推理常用 MLX 或 llama.cpp (Metal backend)，其 BF16 矩阵乘加算子效率通常低于 NVIDIA CUDA Tensor Core，导致同等显存带宽下 Tokens/s 吞吐量通常低于 NVIDIA 同代产品，具体效率系数需根据特定硬件代际和模型负载进行量化以修正 TCO 中的电力成本权重。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值范围（50-70%吞吐量）和特定的软件栈断言，属于硬件性能与软件生态的经验事实，无法从第一性原理推导。此外，'标准软件栈'的表述过于绝对，忽略了PyTorch/MPS等主流替代方案，且具体效率系数高度依赖模型架构、序列长度及具体芯片代际（M1 vs M4），缺乏普适性。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，且该数值属于具体硬件性能对比，不适用第一性原理推导条款）
+
+## Search Query
+
+Apple M2 Ultra LLM inference throughput tokens/s vs NVIDIA RTX 4090 MLX llama.cpp

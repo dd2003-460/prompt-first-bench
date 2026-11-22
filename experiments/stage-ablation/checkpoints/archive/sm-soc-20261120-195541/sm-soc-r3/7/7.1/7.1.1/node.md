@@ -1,0 +1,24 @@
+# N179: β_platform 的弹性估计公式：β_platform = ∂ln(W_exposure)/∂ln(ΔP_relative)，其中 ΔP_relative 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N61
+
+## Claim
+
+β_platform 的弹性估计公式：β_platform = ∂ln(W_exposure)/∂ln(ΔP_relative)，其中 ΔP_relative = (P_ask - P_market)/P_market，需通过平台内部日志中同一商品在不同价格档位下的曝光量 W 变化率计算，假设 ΔP_relative 在 0.1-0.3 区间内弹性稳定。
+
+## Corrected Claim
+
+β_platform 的弹性估计公式：β_platform = ∂ln(W_exposure)/∂ln(ΔP_relative)，其中 ΔP_relative = (P_ask - P_market)/P_market，需通过平台内部日志中同一商品在不同价格档位下的曝光量 W 变化率计算，假设 ΔP_relative 在 0.1-0.3 区间内弹性稳定。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+exposure weight elasticity price deviation platform algorithm log-log regression

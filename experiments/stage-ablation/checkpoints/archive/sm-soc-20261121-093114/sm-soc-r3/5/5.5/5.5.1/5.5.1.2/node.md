@@ -1,0 +1,24 @@
+# N232: A/B 测试中 Elasticity_response 的统计功效要求：为将 E 的 95% 置信区间宽度控制在 ±0.1 以内，所需最小样本量 n_min 取
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N83
+
+## Claim
+
+A/B 测试中 Elasticity_response 的统计功效要求：为将 E 的 95% 置信区间宽度控制在 ±0.1 以内，所需最小样本量 n_min 取决于效应量 d 和方差 σ²，公式为 n_min ≈ 16 * σ² / d²（假设 α=0.05, power=0.8），若 n < n_min，则 S_min 的估计误差将导致策略强度计算偏差超过 20%。
+
+## Corrected Claim
+
+A/B 测试中 Elasticity_response 的统计功效要求：为将 E 的 95% 置信区间宽度控制在 ±0.1 以内，所需最小样本量 n_min 取决于效应量 d 和方差 σ²，公式为 n_min ≈ 16 * σ² / d²（假设 α=0.05, power=0.8），若 n < n_min，则 S_min 的估计误差将导致策略强度计算偏差超过 20%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+sample size calculation A/B test effect size power analysis

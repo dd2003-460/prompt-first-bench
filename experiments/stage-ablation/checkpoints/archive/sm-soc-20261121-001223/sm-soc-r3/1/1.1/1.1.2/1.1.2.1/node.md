@@ -1,0 +1,24 @@
+# N89: 尾部风险惩罚的具体形式量化：在效用函数 U = E[V] - λ * CVaR_α(V) 中，α 为置信水平（通常取 95% 或 99%），CVaR_α(V) 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N28
+
+## Claim
+
+尾部风险惩罚的具体形式量化：在效用函数 U = E[V] - λ * CVaR_α(V) 中，α 为置信水平（通常取 95% 或 99%），CVaR_α(V) 定义为收益分布低于 VaR_α 部分的期望损失；需明确 λ 在此处的量纲为 1/货币单位，且 CVaR 对分布尾部的敏感度高于方差，对于二手商品这种离散且可能包含欺诈/瑕疵的二元结果分布，CVaR 的计算需基于经验分布而非正态假设。
+
+## Corrected Claim
+
+尾部风险惩罚的具体形式量化：在效用函数 U = E[V] - λ * CVaR_α(V) 中，α 为置信水平（通常取 95% 或 99%），CVaR_α(V) 定义为收益分布低于 VaR_α 部分的期望损失；需明确 λ 在此处的量纲为 1/货币单位，且 CVaR 对分布尾部的敏感度高于方差，对于二手商品这种离散且可能包含欺诈/瑕疵的二元结果分布，CVaR 的计算需基于经验分布而非正态假设。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：CVaR定义、量纲分析及对非正态/离散分布的处理符合金融风险管理基本原理。
+
+## Search Query
+
+CVaR definition in utility function risk penalty lambda dimension discrete distribution second-hand goods

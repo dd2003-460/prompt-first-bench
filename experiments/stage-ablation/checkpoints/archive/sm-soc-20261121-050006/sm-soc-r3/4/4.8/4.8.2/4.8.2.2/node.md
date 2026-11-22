@@ -1,0 +1,24 @@
+# N294: 流量补偿的边际效用递减函数：ΔQ_eff = ΔQ_max * (1 - exp(-k * I_comp/I_base))，其中 k ∈ [0.5, 1.5] 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N93
+
+## Claim
+
+流量补偿的边际效用递减函数：ΔQ_eff = ΔQ_max * (1 - exp(-k * I_comp/I_base))，其中 k ∈ [0.5, 1.5] 为饱和系数，表明当补偿曝光量超过基线 2 倍后，咨询率提升幅度低于线性预期，具体 k 值需结合用户注意力分布数据拟合。
+
+## Corrected Claim
+
+流量补偿的边际效用递减函数：ΔQ_eff = ΔQ_max * (1 - exp(-k * I_comp/I_base))，其中 k ∈ [0.5, 1.5] 为饱和系数，表明当补偿曝光量超过基线 2 倍后，咨询率提升幅度低于线性预期，具体 k 值需结合用户注意力分布数据拟合。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+diminishing returns of traffic exposure on user engagement e-commerce

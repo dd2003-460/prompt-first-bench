@@ -1,0 +1,28 @@
+# N194: Var[r] 的分布假设检验：假设 r 均匀分布可能导致 Var[r] 低估或高估。若 r 实际呈双峰分布（如 5% 和 10% 两档），则 Var[r] 会大
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N51
+
+## Claim
+
+Var[r] 的分布假设检验：假设 r 均匀分布可能导致 Var[r] 低估或高估。若 r 实际呈双峰分布（如 5% 和 10% 两档），则 Var[r] 会大于均匀分布假设值。需通过卡方检验或 KS 检验验证 r 的分布形态，并重新计算 Var[r]。若 Var[r] 实际为 0.001，则 Var[r×T] 的第一项 E[T]^2*Var[r] 将翻倍。
+
+## Corrected Claim
+
+Var[r] 的分布假设检验：假设 r 均匀分布可能导致 Var[r] 低估或高估。若 r 实际呈双峰分布，则 Var[r] 通常会大于均匀分布假设值。需通过卡方检验或 KS 检验验证 r 的分布形态，并重新计算 Var[r]。Var[r×T] 的第一项 E[T]^2*Var[r] 将随 Var[r] 的变化而线性变化。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值假设（如r的双峰分布具体档位5%和10%、Var[r]具体值0.001），这些属于特定场景下的经验事实或假设，无法从第一性原理严格推出，且参考来源未提供相关数据支持。 | 逻辑上，若r呈双峰分布，其方差通常大于同均值同范围的均匀分布，且Var[r×T]中E[T]^2*Var[r]项随Var[r]线性变化，逻辑自洽；但参考来源[1]讨论的是VaR回测与Kupiec检验，与r的分布形态及具体方差数值无关，属于经验事实且缺来源支持。
+
+## Search Query
+
+commission rate distribution shape test marketplace
+
+## Retrieval Sources
+
+- {'url': 'https://www.sohu.com/a/256684212_100009067&rut=edbf82b35668e559a492b5c3f969bc3fe898f7442245dcccd9c974a1a5e1a9cd', 'type': 'ddg', 'title': '市场风险有关var回测的难点解析_红球 - 搜狐'}

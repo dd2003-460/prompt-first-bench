@@ -1,0 +1,24 @@
+# N302: RTX 3090 在 INT8 精度下因 Ampere 架构缺乏原生 FP8/INT8 Tensor Core 加速 (相比 Ada Lovelace)，其计算
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N88
+
+## Claim
+
+RTX 3090 在 INT8 精度下因 Ampere 架构缺乏原生 FP8/INT8 Tensor Core 加速 (相比 Ada Lovelace)，其计算密度效率 k_compute_eff 低于 4090，导致在非带宽受限场景 (如 Prefill 阶段) 吞吐差距扩大至 20-30%，需通过 vLLM benchmark 实测修正 '90% 带宽比' 的线性假设
+
+## Corrected Claim
+
+RTX 3090 (Ampere) 相比 RTX 4090 (Ada Lovelace) 在 INT8 精度下缺乏原生 FP8 支持且 Tensor Core 架构较旧，导致在非带宽受限场景（如 Prefill）下计算效率较低，具体吞吐差距需通过实测确定，通常显著高于带宽比线性假设。
+
+## Evidence
+
+[质询]该陈述包含具体的性能差距数值（20-30%）和特定的架构特性对比（Ampere vs Ada Lovelace 在 INT8 下的效率差异），属于经验事实。虽然 Ampere 确实缺乏原生 FP8 支持，但 INT8 在 Ampere 上已有 Tensor Core 加速，且具体吞吐差距高度依赖模型结构、序列长度及具体实现（如 vLLM 版本），缺乏通用性，不能仅凭逻辑推导得出确切的 20-30% 范围。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体数值无法从第一性原理严格推出）
+
+## Search Query
+
+RTX 3090 vs 4090 LLM inference benchmark INT8 AWQ tokens per second

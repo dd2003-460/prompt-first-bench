@@ -1,0 +1,20 @@
+# N53: 长尾分布捕获机制量化：高标价 $P_{ask} > P_{ref}$ 时，潜在买家池缩小至估值 $V \ge P_{ask}$ 的子集。该子集比例为 $\Phi
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N10
+
+## Claim
+
+长尾分布捕获机制量化：高标价 $P_{ask} > P_{ref}$ 时，潜在买家池缩小至估值 $V \ge P_{ask}$ 的子集。该子集比例为 $\Phi((P_{ref} - P_{ask})/\sigma_v)$。假设 $\sigma_v = 0.1 P_{ref}$，则 $P_{ask} = 1.2 P_{ref}$ 时，买家池比例为 $\Phi(-2) \approx 2.3\%$。虽然买家池缩小，但若平台曝光量 $A_{eff}$ 增加 10 倍（$\alpha=9$），则总咨询量 $N_{inquiry} \propto A_{eff} \cdot \Phi(...) $ 可能仍高于常态，从而缩短成交周期。
+
+## Corrected Claim
+
+长尾分布捕获机制量化：高标价 $P_{ask} > P_{ref}$ 时，潜在买家池缩小至估值 $V \ge P_{ask}$ 的子集。该子集比例为 $\Phi((P_{ref} - P_{ask})/\sigma_v)$。假设 $\sigma_v = 0.1 P_{ref}$，则 $P_{ask} = 1.2 P_{ref}$ 时，买家池比例为 $\Phi(-2) \approx 2.3\%$。虽然买家池缩小，但若平台曝光量 $A_{eff}$ 增加 10 倍（$\alpha=9$），则总咨询量 $N_{inquiry} \propto A_{eff} \cdot \Phi(...) $ 可能仍高于常态，从而缩短成交周期。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于正态分布假设，$\Phi(-2) \approx 0.0228$ 符合数学事实，量级与逻辑推导自洽。

@@ -1,0 +1,24 @@
+# N153: 维护成本项 C_maint 的量化：包含硬件故障率（MTBF）导致的中断损失和人工介入成本。消费级卡 MTBF 约为 5-8 年，数据中心卡约为 10-15 年
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N37
+
+## Claim
+
+维护成本项 C_maint 的量化：包含硬件故障率（MTBF）导致的中断损失和人工介入成本。消费级卡 MTBF 约为 5-8 年，数据中心卡约为 10-15 年。C_maint = (1/MTBF) * C_replacement * 3 + (4h/month * $100/h * 36 months)。对于多卡方案，故障概率呈叠加效应，需乘以卡数 N 并考虑系统级停机时间。
+
+## Corrected Claim
+
+维护成本项 C_maint 的量化：包含硬件故障率（MTBF）导致的中断损失和人工介入成本。消费级卡 MTBF 约为 5-8 年，数据中心卡约为 10-15 年。C_maint = (1/MTBF) * C_replacement * 3 + (4h/month * $100/h * 36 months)。对于多卡方案，故障概率呈叠加效应，需乘以卡数 N 并考虑系统级停机时间。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+GPU MTBF consumer vs datacenter inference maintenance cost model

@@ -1,0 +1,30 @@
+# N274: ROCm 对 Qwen3-27B 的 Attention 算子性能回退具体数值：在 FlashAttention-2 实现中，相比 CUDA 版本吞吐量损失约 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N107
+
+## Claim
+
+ROCm 对 Qwen3-27B 的 Attention 算子性能回退具体数值：在 FlashAttention-2 实现中，相比 CUDA 版本吞吐量损失约 15-20%，具体取决于序列长度（短序列 < 2K 损失较小，长序列 > 8K 损失接近 20%）。
+
+## Corrected Claim
+
+ROCm 对 Qwen3-27B 的 Attention 算子性能可能存在回退，具体数值需依赖实测数据，当前来源未提供 FlashAttention-2 相比 CUDA 的吞吐量损失比例。
+
+## Evidence
+
+[质询]参考来源均讨论的是 Qwen3.6-27B 在 ROCm 7.13 下的预处理性能提升（3倍加速），而非 Attention 算子相比 CUDA 的吞吐量损失；且来源中未提及 FlashAttention-2 的具体回退数值（15-20%）或序列长度对损失的影响，属于来源主题与具体数值不匹配。 | 来源 [1][2][3] 均聚焦于 ROCm 7.13 对 Qwen3.6-27B 预处理性能的优化，未提供 Attention 算子相比 CUDA 的吞吐量损失数据，无法直接支持该具体数值；但逻辑上 ROCm 在特定算子（如 FlashAttention）上可能存在性能差距，量级合理，故降级为定性表述。
+
+## Search Query
+
+ROCm FlashAttention-2 performance regression vs CUDA Qwen3
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_33938733/article/details/94214632&rut=554b5654c87e4ff53297f72247717d67b07394ade7f7dce350da72e8f5f7697a', 'type': 'ddg', 'title': 'ROCm 7.13在Qwen3.6-27B预处理性能提升3倍，混合推理方案实测-CSDN博客'}
+- {'url': 'https://bbs.csdn.net/weixin_29056145/article/details/100200185&rut=6061d6a7242d8eec3461dec9b5f732552c26591bba575b1fe31fdec02f4d52d5', 'type': 'ddg', 'title': 'ROCm 7.13优化Qwen3.6-27B模型推理：实测AMD GPU性能与混合部署方案'}
+- {'url': 'https://bbs.csdn.net/weixin_29057065/article/details/100200192&rut=276bf77aba6b0a44a282d4254ecde56c6a53b426d841caabbbb374df15bd5dbc', 'type': 'ddg', 'title': 'ROCm 7.13在Qwen3.6-27B预处理性能测试中展现3倍加速优势'}

@@ -1,0 +1,20 @@
+# N350: 单卡RTX 4090 (24GB) 运行W4 Qwen3-27B (32K ctx) 时的显存溢出量化分析：总需求28.2GB - 可用24GB = 4.2GB
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N125, N126, N127
+
+## Claim
+
+单卡RTX 4090 (24GB) 运行W4 Qwen3-27B (32K ctx) 时的显存溢出量化分析：总需求28.2GB - 可用24GB = 4.2GB溢出。Offload策略下，每生成1 token需从CPU读取4.2GB/seq_len的数据，PCIe 4.0 x16带宽(32GB/s)下引入的额外延迟约为 4.2GB / 32GB/s ≈ 0.13秒/token，导致吞吐量从理论26.7 tokens/s降至约7.5 tokens/s。
+
+## Corrected Claim
+
+单卡RTX 4090 (24GB) 运行W4 Qwen3-27B (32K ctx) 时，显存需求约28.2GB，溢出4.2GB。采用Offload策略时，延迟取决于具体Offload粒度（如层间Offload或KV Cache Offload），而非简单的每token读取全部溢出数据。实际吞吐量受PCIe带宽和Offload策略影响，但不会简单线性降至7.5 tokens/s，需具体模拟或实测数据支持。
+
+## Evidence
+
+[质询]计算逻辑存在严重错误：Offload策略下，每生成1 token仅需读取当前层或当前步骤所需的权重/激活数据，而非整个溢出部分（4.2GB）。若每token读取4.2GB，意味着模型权重被完全重复读取，这违背了KV Cache和权重分片加载的基本原理。此外，26.7 tokens/s的理论吞吐量对于27B模型在单卡4090上偏高（通常W4量化下约为10-15 tokens/s，取决于具体实现和上下文长度），且从26.7降至7.5的推导基于错误的延迟模型。 | 逻辑校验失败：每token读取4.2GB数据导致0.13s延迟的计算假设了每token需重新加载所有溢出权重，这在标准Offload机制中不成立（通常只加载当前计算层或按需加载KV Cache部分）。该陈述内部逻辑不自洽，且缺乏来源支持。

@@ -1,0 +1,20 @@
+# N160: Total_Tokens_Processed_3y 中 Throughput_Tokens_per_sec 的有效值确定：有效吞吐量 = (Base_Throu
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N46
+
+## Claim
+
+Total_Tokens_Processed_3y 中 Throughput_Tokens_per_sec 的有效值确定：有效吞吐量 = (Base_Throughput * Parallelism_Efficiency) / (1 + Communication_Overhead_Ratio)。对于多卡方案，Parallelism_Efficiency 通常 <1.0 (如 0.8-0.9) 且 Communication_Overhead_Ratio 需根据 N38/N39 的互联带宽计算（PCIe 4.0 下约为 10-20%，NVLink 下 <5%）。
+
+## Corrected Claim
+
+Total_Tokens_Processed_3y 中 Throughput_Tokens_per_sec 的有效值确定：有效吞吐量 = (Base_Throughput * Parallelism_Efficiency) / (1 + Communication_Overhead_Ratio)。对于多卡方案，Parallelism_Efficiency 通常 <1.0 (如 0.8-0.9) 且 Communication_Overhead_Ratio 需根据 N38/N39 的互联带宽计算（PCIe 4.0 下约为 10-20%，NVLink 下 <5%）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式结构符合并行计算中有效吞吐量的基本定义（基础性能乘以效率再除以开销因子），且PCIe与NVLink的通信开销量级（10-20% vs <5%）符合硬件互联带宽差异的工程常识。

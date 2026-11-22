@@ -1,0 +1,30 @@
+# N21: 冷却与基础设施边际成本 (C_infra)：数据中心级GPU(H100/A100)通常要求特定散热环境(液冷或高效风冷)，其基础设施溢价系数 K_infra 约
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+冷却与基础设施边际成本 (C_infra)：数据中心级GPU(H100/A100)通常要求特定散热环境(液冷或高效风冷)，其基础设施溢价系数 K_infra 约为消费级方案的 1.5-3.0 倍 [待核验]，需量化在本地工作站场景下，若使用风冷消费卡 vs 模拟数据中心风冷数据卡的额外冷却成本差异。
+
+## Corrected Claim
+
+数据中心级GPU(H100/A100)通常要求特定散热环境(液冷或高效风冷)，其基础设施成本（含冷却、电力、空间）通常显著高于消费级方案，具体溢价系数因部署架构而异，需结合具体场景量化，一般认为在1.5-3.0倍范围内波动。
+
+## Evidence
+
+[质询]该陈述中的具体数值范围（1.5-3.0倍）属于经验性工程估算，缺乏统一的行业标准或权威文献直接定义此特定系数；且‘基础设施溢价’的定义模糊，可能混淆了硬件采购成本、电力成本与冷却系统维护成本，不同数据中心架构下该比值波动极大，无法从第一性原理严格推导。 | 来源[1]和[2]涉及GPU TCO分析，提及功耗与隐性成本，但未直接提供‘基础设施溢价系数K_infra为1.5-3.0倍’的具体数值支持，属于间接相关但无直接证据；作为经验事实，逻辑自洽但缺来源直接支持。
+
+## Search Query
+
+data center GPU cooling overhead cost vs consumer GPU local workstation
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/iymei4986533030/article/details/162755500&rut=78dd6ad9eb1d94dfc2d34703f4c94549324a0b43a3285e87244bec32dbad2320', 'type': 'ddg', 'title': 'GPU 利用率与 TCO 分析——A100 vs H100 vs 消费级 GPU 成本效益对比-CSDN博客'}
+- {'url': 'https://www.gpucomputeindex.com/&rut=aa4aa9219e539fe639c141d3057e7830a0465dfb23f54b67c7754a008ed3fe6c', 'type': 'ddg', 'title': 'GPU Compute Index | H100 & A100 Cloud Cost & TCO Calculator'}
+- {'url': 'https://www.ai-club.cn/compute/gpu-rental&rut=94399f48d098afc532afcbc970c527da7430498d9ee9b69f381b01cd9603a18c', 'type': 'ddg', 'title': 'Gpu租用价格实时对比：H100/B200/A100 各云厂商报价（每3小时更新）'}

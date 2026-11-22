@@ -1,0 +1,24 @@
+# N139: Trust_factor 的动态校准函数：权重 w 随平台历史数据透明度指数 T_transparency 呈 S 型变化，w = 1 / (1 + exp(-
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N52
+
+## Claim
+
+Trust_factor 的动态校准函数：权重 w 随平台历史数据透明度指数 T_transparency 呈 S 型变化，w = 1 / (1 + exp(-k*(T_transparency - Threshold)))；当平台展示历史成交价且样本量 N_ref > 50 时，T_transparency 超过阈值，w 稳定在 0.7-0.8 区间，此时 E[V] 主要锚定 P_ref 而非 P_ask。
+
+## Corrected Claim
+
+Trust_factor 的动态校准函数：权重 w 随平台历史数据透明度指数 T_transparency 呈 S 型变化，w = 1 / (1 + exp(-k*(T_transparency - Threshold)))；当平台展示历史成交价且样本量 N_ref > 50 时，T_transparency 超过阈值，w 稳定在 0.7-0.8 区间，此时 E[V] 主要锚定 P_ref 而非 P_ask。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+bayesian updating weight trust factor price transparency e-commerce

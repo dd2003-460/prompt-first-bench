@@ -1,0 +1,20 @@
+# N222: 适应度差 $\Delta \Pi = \Pi_{resident} - \Pi_{mutant} \approx 0.448 P_{avg} - 0.38 P_
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N77
+
+## Claim
+
+适应度差 $\Delta \Pi = \Pi_{resident} - \Pi_{mutant} \approx 0.448 P_{avg} - 0.38 P_{avg} = 0.068 P_{avg} > 0$。因此，在 $w_{rel}=0.4$ 且交易成本 $C_{cost}=0.5 P_{avg}$ 的条件下，高挂价策略为演化稳定策略（ESS），变异策略无法入侵。
+
+## Corrected Claim
+
+适应度差 $\Delta \Pi = \Pi_{resident} - \Pi_{mutant} \approx 0.448 P_{avg} - 0.38 P_{avg} = 0.068 P_{avg} > 0$。因此，在 $w_{rel}=0.4$ 且交易成本 $C_{cost}=0.5 P_{avg}$ 的条件下，高挂价策略为演化稳定策略（ESS），变异策略无法入侵。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算 0.448 - 0.38 = 0.068 正确，且 0.068 > 0 符合 ESS 判定条件（适应度差为正），逻辑自洽。

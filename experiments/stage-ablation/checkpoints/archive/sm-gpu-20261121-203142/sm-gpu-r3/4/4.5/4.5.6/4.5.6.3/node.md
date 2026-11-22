@@ -1,0 +1,20 @@
+# N300: 多卡同步开销中的非带宽因素：PCIe 拓扑下的 Kernel 启动延迟 (Launch Latency) 和 GPU-GPU 同步屏障 (Barrier) 开销
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N96
+
+## Claim
+
+多卡同步开销中的非带宽因素：PCIe 拓扑下的 Kernel 启动延迟 (Launch Latency) 和 GPU-GPU 同步屏障 (Barrier) 开销。在 2x GPU 方案中，每次 All-Reduce 涉及的同步等待时间约为 5-10 μs/层，32 层累计约 160-320 μs，加上 PCIe 传输时间，总额外延迟约为 0.8-1.0 ms/Token，占 50 ms 计算时间的 1.6-2.0%，修正了之前高估的 15-25% 衰减率，实际衰减主要源于负载不均衡而非纯通信。
+
+## Corrected Claim
+
+多卡同步开销中的非带宽因素：PCIe 拓扑下的 Kernel 启动延迟 (Launch Latency) 和 GPU-GPU 同步屏障 (Barrier) 开销。在 2x GPU 方案中，每次 All-Reduce 涉及的同步等待时间约为 5-10 μs/层，32 层累计约 160-320 μs，加上 PCIe 传输时间，总额外延迟约为 0.8-1.0 ms/Token，占 50 ms 计算时间的 1.6-2.0%，修正了之前高估的 15-25% 衰减率，实际衰减主要源于负载不均衡而非纯通信。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe 同步延迟量级（微秒级）与累计计算（32层*5-10us=160-320us）及总延迟占比（~1ms/50ms=2%）在数学和工程直觉上均自洽，符合多卡通信开销的典型特征。

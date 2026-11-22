@@ -1,0 +1,24 @@
+# N332: 支持 2x RTX 4090 的配套硬件成本：主板需支持 PCIe 4.0 x16 x2 且插槽间距≥3槽，推荐型号如 ASUS ProArt X670E-CR
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N118
+
+## Claim
+
+支持 2x RTX 4090 的配套硬件成本：主板需支持 PCIe 4.0 x16 x2 且插槽间距≥3槽，推荐型号如 ASUS ProArt X670E-CREATOR（约 $450）；电源需 1600W 80+ Platinum（如 Corsair RM1600x，约 $300）；机箱需全塔 ATX 且风道良好（如 Fractal Design Define 7 XL，约 $200）。配套总成本约 $950，而非 N118 中估算的 $500。
+
+## Corrected Claim
+
+支持 2x RTX 4090 的配套硬件成本显著高于单卡平台，需配备支持双 PCIe 4.0 x16 的高端主板、1600W 80+ Platinum 电源及全塔机箱，总成本通常在 $900-$1200 区间，而非 $500。
+
+## Evidence
+
+[质询]具体型号（如 ASUS ProArt X670E-CREATOR, Corsair RM1600x, Fractal Design Define 7 XL）及其对应价格（$450, $300, $200）属于实时变动的市场经验事实，且不同地区/渠道价格差异巨大，无法从第一性原理推导，且缺乏来源支持具体数值。 | 经验事实，逻辑自洽但缺来源支持。虽然双4090平台确实需要高端主板、1600W电源和全塔机箱，总成本$950在量级上合理（远高于单卡平台），但具体型号和精确价格无法验证。
+
+## Search Query
+
+ASUS ProArt X670E-CREATOR price Corsair RM1600x price Fractal Design Define 7 XL price

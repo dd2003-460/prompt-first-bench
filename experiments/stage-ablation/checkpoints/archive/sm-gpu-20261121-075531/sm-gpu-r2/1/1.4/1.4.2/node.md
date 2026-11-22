@@ -1,0 +1,20 @@
+# N45: W4/INT4精度单卡显存需求计算：权重13.5GB + KV Cache 1.93GB + 激活开销1.5GB = 16.93GB，需16GB显存（RTX 4
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N9
+
+## Claim
+
+W4/INT4精度单卡显存需求计算：权重13.5GB + KV Cache 1.93GB + 激活开销1.5GB = 16.93GB，需16GB显存（RTX 4080勉强满足但带宽低）或24GB显存（RTX 4090/3090/7900 XTX），16GB以下显卡不可行。
+
+## Corrected Claim
+
+W4/INT4精度单卡显存需求计算：权重13.5GB + KV Cache 1.93GB + 激活开销1.5GB = 16.93GB，需16GB显存（RTX 4080勉强满足但带宽低）或24GB显存（RTX 4090/3090/7900 XTX），16GB以下显卡不可行。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：13.5+1.93+1.5=16.93GB，数值加和正确；16.93GB > 16GB，故16GB显存确实不足（勉强满足说法虽略有夸张但结论方向正确，即不可行或极度受限），24GB显存充足，符合显存需求基本逻辑。

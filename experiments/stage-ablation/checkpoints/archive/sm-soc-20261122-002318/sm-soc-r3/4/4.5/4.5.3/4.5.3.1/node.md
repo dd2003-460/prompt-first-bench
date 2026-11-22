@@ -1,0 +1,20 @@
+# N196: 基准工作点（B1）：完全信息下的帕累托剩余基准线 Total_Surplus_Pareto = Σ_i (E[WTP_i] - E[Cost_i] - E[Se
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N69
+
+## Claim
+
+基准工作点（B1）：完全信息下的帕累托剩余基准线 Total_Surplus_Pareto = Σ_i (E[WTP_i] - E[Cost_i] - E[SearchCost_i])，其中 E[WTP_i] 和 E[Cost_i] 需通过历史成交数据中的最大买价和最小卖价分布的期望值计算，该值作为后续计算 Deadweight Loss 的绝对上限参照。
+
+## Corrected Claim
+
+基准工作点（B1）：完全信息下的帕累托剩余基准线 Total_Surplus_Pareto = Σ_i (E[WTP_i] - E[Cost_i] - E[SearchCost_i])，其中 E[WTP_i] 和 E[Cost_i] 需通过历史成交数据中的最大买价和最小卖价分布的期望值计算，该值作为后续计算 Deadweight Loss 的绝对上限参照。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：帕累托剩余定义为总支付意愿减去总成本（含搜索成本），在完全信息基准下，该值确实构成无效率损失（Deadweight Loss）的理论上限参照，公式结构与经济学原理自洽。

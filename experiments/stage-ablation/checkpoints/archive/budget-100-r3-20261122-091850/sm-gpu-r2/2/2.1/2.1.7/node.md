@@ -1,0 +1,24 @@
+# N51: Qwen3-27B INT8 量化（Symmetric/Asymmetric 8-bit）的实测 Perplexity 增量，计算公式：ΔPPL = PPL_I
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N10, N11, N12
+
+## Claim
+
+Qwen3-27B INT8 量化（Symmetric/Asymmetric 8-bit）的实测 Perplexity 增量，计算公式：ΔPPL = PPL_INT8 - PPL_BF16，预期值在 0.1-0.3 之间 [待核验]。
+
+## Corrected Claim
+
+Qwen3-27B INT8 量化（Symmetric/Asymmetric 8-bit）的实测 Perplexity 增量通常较小，具体数值取决于数据集和量化算法，需实测确认。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值范围（0.1-0.3），属于经验事实而非第一性原理可推导内容；且不同数据集、量化实现细节（如是否使用GPTQ/AWQ等特定算法）会导致PPL增量差异显著，缺乏具体上下文时该数值范围可能不准确或具有误导性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值范围）
+
+## Search Query
+
+Qwen3-27B INT8 quantization perplexity increase

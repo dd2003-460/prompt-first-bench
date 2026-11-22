@@ -1,0 +1,24 @@
+# N44: 风险规避投影 2：卖家对'未成交'的心理损失权重 λ_non_sale，其数值及与成交收益的比值需通过前景理论扩展模型估计，当前假设 λ_non_sale = 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N8
+
+## Claim
+
+风险规避投影 2：卖家对'未成交'的心理损失权重 λ_non_sale，其数值及与成交收益的比值需通过前景理论扩展模型估计，当前假设 λ_non_sale = 2.25 * λ_sale
+
+## Corrected Claim
+
+在基于前景理论扩展的卖家行为模型中，假设未成交的心理损失权重 λ_non_sale 与成交收益权重 λ_sale 的比值为 2.25（即 λ_non_sale = 2.25 * λ_sale），该参数需通过具体情境下的实证数据或校准过程确定。
+
+## Evidence
+
+[质询]该陈述将具体的数值假设（λ_non_sale = 2.25 * λ_sale）表述为既定事实，但前景理论中损失厌恶系数（通常记为λ）的估计值在实证研究中存在较大差异（常见范围在1.5-2.5之间，甚至更高），且2.25这一特定数值缺乏通用的理论推导或广泛共识支持，属于特定模型下的经验参数假设而非普适真理。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该数值为特定模型假设而非第一性原理可推导的数学/物理常数）
+
+## Search Query
+
+prospect theory extension non-sale loss seller pricing risk aversion

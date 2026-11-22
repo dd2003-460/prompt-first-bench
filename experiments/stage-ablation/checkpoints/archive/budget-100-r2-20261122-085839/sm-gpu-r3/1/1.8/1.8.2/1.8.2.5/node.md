@@ -1,0 +1,24 @@
+# N186: HumanEval 基准中，Qwen3-27B BF16 基线分数为 70.0%（Pass@1），W4 量化后分数降至 64.0-66.0% 区间（损失 4-6
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N53, N54, N55
+
+## Claim
+
+HumanEval 基准中，Qwen3-27B BF16 基线分数为 70.0%（Pass@1），W4 量化后分数降至 64.0-66.0% 区间（损失 4-6 个百分点），该数值需验证是否为 Pass@1 还是 Pass@10，因为代码生成任务中 Pass@k 对量化误差的累积效应更敏感。
+
+## Corrected Claim
+
+HumanEval 基准中，Qwen3-27B BF16 基线分数约为 70.0%（Pass@1），W4 量化后分数可能降至 64.0-66.0% 区间（损失约 4-6 个百分点），具体数值需依据官方技术报告或权威评测数据进一步验证。
+
+## Evidence
+
+[质询]具体数值（70.0%基线，64.0-66.0%量化后）属于特定模型版本（Qwen3-27B）在特定基准（HumanEval）上的经验性能数据，无法从第一性原理推导，且缺乏来源支持以确认其准确性及Pass@1/Pass@10的具体口径。 | 经验事实，逻辑自洽（量化通常导致性能下降，4-6个百分点的损失在合理范围内）但缺来源支持，且检索无可用来源。
+
+## Search Query
+
+Qwen3-27B W4 quantization HumanEval Pass@1 score

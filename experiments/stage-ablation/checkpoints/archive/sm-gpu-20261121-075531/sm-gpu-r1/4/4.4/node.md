@@ -1,0 +1,30 @@
+# N22: Qwen3-27B 在 NVFP4/W4 极低精度下的量化后困惑度及基准得分，重点评估长尾任务（如代码生成、复杂推理）的性能崩塌风险及具体失败案例比例。
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4, N5
+
+## Claim
+
+Qwen3-27B 在 NVFP4/W4 极低精度下的量化后困惑度及基准得分，重点评估长尾任务（如代码生成、复杂推理）的性能崩塌风险及具体失败案例比例。
+
+## Corrected Claim
+
+Qwen3.6-27B 在 NVFP4 量化下，MMLU Pro 等通用基准得分与 FP8 版本差距在 ±0.5 以内，显存占用降至 20-22GB；但存在重复 token 生成问题，缺乏针对代码生成等长尾任务的具体失败案例比例数据。
+
+## Evidence
+
+[质询]来源主要覆盖 Qwen3.6/3.8 版本而非 Qwen3，且缺乏针对‘长尾任务（代码/复杂推理）性能崩塌风险及具体失败案例比例’的量化数据，仅提及 MMLU Pro 等通用基准及重复 token 现象，无法直接支持‘具体失败案例比例’这一精确事实。 | 来源 [1][3] 提供了 Qwen3.6-27B-NVFP4 在 MMLU Pro 等基准上与 FP8 接近（±0.5）的间接证据，并指出存在重复 token 问题，但未提供 Qwen3 特定版本及长尾任务的具体失败比例数据，属于间接支持且存在版本/指标覆盖缺口。
+
+## Search Query
+
+Qwen3-27B 4-bit quantization NVFP4 W4 quality collapse long tail tasks evaluation
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/chen695969/article/details/162604876&rut=a7a19bfa99b32b0ad40e38249eec2f5f14d2f6ed502248a8344e370364321565', 'type': 'ddg', 'title': 'Qwen3.6-27B-NVFP4 深度评测：英伟达官方量化，27B 长上下文本地部署新选择-CSDN博客'}
+- {'url': 'https://blog.csdn.net/gitblog_00251/article/details/155293565&rut=32e4dc142f9def3bcaa50f5802c86a75f7ec62d48a3de9225587fa0c764b7c21', 'type': 'ddg', 'title': 'Qwen3.8-27B-NVFP4 vs 原版BF16：量化后速度、显存与效果全面对比-CSDN博客'}
+- {'url': 'https://devpress.csdn.net/v1/article/detail/162604876&rut=ce986b437346723395d5fede77531458e5cfcc2fbcd05d48661b83dc8050cb57', 'type': 'ddg', 'title': 'Qwen3.6-27B-NVFP4 深度评测：英伟达官方量化，27B 长上下文本地部署新选择'}

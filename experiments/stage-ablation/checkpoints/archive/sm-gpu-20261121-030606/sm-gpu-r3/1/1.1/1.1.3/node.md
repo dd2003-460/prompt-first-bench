@@ -1,0 +1,24 @@
+# N82: FP8 精度下 Qwen3-27B 总显存下限 = 27GB (权重) + 4.7GB (KV) + 2.5GB (激活) = 34.2GB，因此 24GB 显
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N7, N8, N9
+
+## Claim
+
+FP8 精度下 Qwen3-27B 总显存下限 = 27GB (权重) + 4.7GB (KV) + 2.5GB (激活) = 34.2GB，因此 24GB 显存（RTX 4090）在 FP8 下必然溢出，N7 的排除结论正确但推导依据（13.5GB）错误
+
+## Corrected Claim
+
+FP8 精度下 Qwen3-27B 总显存下限 = 27GB (权重) + 4.7GB (KV) + 2.5GB (激活) = 34.2GB，因此 24GB 显存（RTX 4090）在 FP8 下必然溢出，N7 的排除结论正确但推导依据（13.5GB）错误
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数在FP8下权重约27GB，加上KV Cache和激活值，总显存需求远超24GB，结论符合物理直觉与工程常识。
+
+## Search Query
+
+GPU VRAM requirement LLM inference weight KV cache activation

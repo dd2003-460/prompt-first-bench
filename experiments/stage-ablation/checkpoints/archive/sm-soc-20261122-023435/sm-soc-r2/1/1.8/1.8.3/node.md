@@ -1,0 +1,24 @@
+# N48: 标准供需定律在二手市场的失效条件：当信息不对称程度 Asym > 0.3（定义为买家无法验证质量的概率）且信号成本 C_signal < C_verificat
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N13
+
+## Claim
+
+标准供需定律在二手市场的失效条件：当信息不对称程度 Asym > 0.3（定义为买家无法验证质量的概率）且信号成本 C_signal < C_verification 时，高价格成为质量信号，导致 E[T|P_ask] 与 P_ask 呈负相关，此条件可通过平台历史数据的 A/B 测试验证。
+
+## Corrected Claim
+
+标准供需定律在二手市场的失效条件：当信息不对称程度较高（买家无法验证质量的概率显著）且信号成本低于验证成本时，高价格可能成为质量信号，导致期望交易时间与要价呈负相关，此现象可通过平台历史数据的 A/B 测试验证。
+
+## Evidence
+
+[质询]阈值 Asym > 0.3 缺乏理论或实证依据，属于任意设定的经验参数；且将复杂的信号博弈简化为单一阈值条件过于武断。 | 先验知识/题面给定，逻辑校验通过（信号理论框架自洽），但具体阈值 0.3 为经验性设定，缺乏来源支持，故降级。
+
+## Search Query
+
+failure conditions standard supply demand law asymmetric information signaling

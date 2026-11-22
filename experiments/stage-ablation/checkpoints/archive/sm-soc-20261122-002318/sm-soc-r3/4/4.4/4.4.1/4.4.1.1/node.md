@@ -1,0 +1,24 @@
+# N184: 工作点A（高成交量弹性/低价格弹性）：假设成交量弹性 ε_V = 2.0，价格弹性 ε_P = -0.5。在干预导致平均价格下降5%的场景下，成交量上升10%，
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N64
+
+## Claim
+
+工作点A（高成交量弹性/低价格弹性）：假设成交量弹性 ε_V = 2.0，价格弹性 ε_P = -0.5。在干预导致平均价格下降5%的场景下，成交量上升10%，ΔGMV = (1.1*V_old - V_old)*P_old*0.95 + V_old*(-0.05*P_old) = 0.1*V_old*P_old*0.95 - 0.05*V_old*P_old = 0.045*GMV_old，即GMV净增4.5%。
+
+## Corrected Claim
+
+工作点A（高成交量弹性/低价格弹性）：假设成交量弹性 ε_V = 2.0，价格弹性 ε_P = -0.5。在干预导致平均价格下降5%的场景下，成交量上升10%，ΔGMV = (1.1*V_old - V_old)*P_old*0.95 + V_old*(-0.05*P_old) = 0.1*V_old*P_old*0.95 - 0.05*V_old*P_old = 0.045*GMV_old，即GMV净增4.5%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：根据弹性定义，成交量变化率 = 2.0 * (-5%) = -10%（即上升10%），价格变化率 = -5%。GMV变化率 = (1+ΔV)(1+ΔP) - 1 = (1.1)(0.95) - 1 = 1.045 - 1 = 4.5%。计算过程与结论一致。
+
+## Search Query
+
+GMV elasticity volume price second hand platform intervention

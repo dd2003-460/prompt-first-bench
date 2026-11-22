@@ -1,0 +1,24 @@
+# N102: INT4 量化相比 BF16 的困惑度增加幅度通常在 6%-15% 之间，具体取决于模型架构和量化算法。对于 Qwen3-27B，若 BF16 基准困惑度为 8
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N22
+
+## Claim
+
+INT4 量化相比 BF16 的困惑度增加幅度通常在 6%-15% 之间，具体取决于模型架构和量化算法。对于 Qwen3-27B，若 BF16 基准困惑度为 8.2，INT4 量化后的困惑度预计约为 8.7-9.4，其中 AWQ 方案通常优于 GPTQ，困惑度增加约 6%-8%（即 8.7-8.9），GPTQ 增加约 10%-15%（即 9.0-9.4）。
+
+## Corrected Claim
+
+INT4 量化相比 BF16 的困惑度增加幅度通常在 6%-15% 之间，具体取决于模型架构和量化算法。对于 Qwen3-27B，若 BF16 基准困惑度为 8.2，INT4 量化后的困惑度预计约为 8.7-9.4，其中 AWQ 方案通常优于 GPTQ，困惑度增加约 6%-8%（即 8.7-8.9），GPTQ 增加约 10%-15%（即 9.0-9.4）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（如 Qwen3-27B 的基准困惑度 8.2 及量化后的具体区间），这些属于特定模型和算法下的经验事实，无法从第一性原理推导，且缺乏外部来源支持以确认其准确性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+INT4 quantization perplexity degradation Qwen3-27B AWQ GPTQ

@@ -1,0 +1,24 @@
+# N111: 市场供需动态变化导致的干预效果衰减率 δ_t，定义为干预后第t天挂价偏离度回升幅度与初始降低幅度的比值，需量化时间窗口内的稳定性。
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N28
+
+## Claim
+
+市场供需动态变化导致的干预效果衰减率 δ_t，定义为干预后第t天挂价偏离度回升幅度与初始降低幅度的比值，需量化时间窗口内的稳定性。
+
+## Corrected Claim
+
+市场供需动态变化导致的干预效果衰减率 δ_t 可定义为干预后第t天挂价偏离度回升幅度与初始降低幅度的比值，用于量化时间窗口内的稳定性，但具体数值需结合实证数据确定。
+
+## Evidence
+
+[质询]该陈述定义了一个具体的量化指标（δ_t），但缺乏具体的数值或实证数据支持，属于经验性定义，无法仅凭逻辑推导验证其合理性或普遍适用性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+price anchoring intervention long-term effectiveness decay rate market dynamics

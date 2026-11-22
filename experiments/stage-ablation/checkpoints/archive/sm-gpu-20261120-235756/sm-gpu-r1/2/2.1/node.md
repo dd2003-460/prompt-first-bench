@@ -1,0 +1,24 @@
+# N13: 满足32K上下文的显存下限 = 权重显存 + KV Cache显存 + 激活值峰值显存，其中KV Cache显存随上下文长度线性增长，是主要瓶颈。
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+满足32K上下文的显存下限 = 权重显存 + KV Cache显存 + 激活值峰值显存，其中KV Cache显存随上下文长度线性增长，是主要瓶颈。
+
+## Corrected Claim
+
+满足32K上下文的显存下限 = 权重显存 + KV Cache显存 + 激活值峰值显存，其中KV Cache显存随上下文长度线性增长，是主要瓶颈。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：显存组成符合推理内存模型，KV Cache随序列长度线性增长是Transformer架构的基本特性，且在大上下文场景下通常成为主要瓶颈。
+
+## Search Query
+
+LLM inference VRAM requirement KV cache activation memory

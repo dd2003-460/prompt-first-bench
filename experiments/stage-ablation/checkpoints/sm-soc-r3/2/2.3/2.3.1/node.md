@@ -1,0 +1,24 @@
+# N49: 买家对高价商品的点击率提升幅度 ΔCTR_halo 是价格偏离度 D=(P_ask-P_mkt)/P_mkt 的函数：ΔCTR_halo = β_halo * 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N12
+
+## Claim
+
+买家对高价商品的点击率提升幅度 ΔCTR_halo 是价格偏离度 D=(P_ask-P_mkt)/P_mkt 的函数：ΔCTR_halo = β_halo * D，其中 β_halo ≈ 0.02-0.05（即偏离10%时CTR提升0.2%-0.5%），该系数受买家收入水平正相关（高收入群体β_halo更大，因为质量敏感度高于价格敏感度）。
+
+## Corrected Claim
+
+买家对高价商品的点击率提升幅度 ΔCTR_halo 通常被视为价格偏离度 D 的函数，形式可表示为 ΔCTR_halo = β_halo * D。具体系数 β_halo 的数值范围及其与买家收入水平的关系需依赖特定市场实证数据确定，一般认为高收入群体对价格敏感度较低，但具体系数值缺乏通用定论。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（三个子节点分别处理了模型中的三个独立维度：1. 参数β_halo的异质性（收入分层）；2. 自变量D的非线性修正（边际递减）；3. 外部调节变量（质量认证标签）。它们分别对应回归模型中的交互项、高次项和调节效应，逻辑上互不重叠且无矛盾。完备性方面，父节点提到了线性关系、收入影响，子节点补充了非线性边界和重要的调节变量（认证），覆盖了该机制的主要实证考量。无冗余，因为每个子节点引入了新的变量或结构变化，而非同一参数的重复取值。）
+
+## Search Query
+
+price quality halo effect click through rate e-commerce elasticity

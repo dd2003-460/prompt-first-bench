@@ -1,0 +1,28 @@
+# N70: 核实 H100 SXM 在 LLM 推理场景下的实际 MFU 范围：查阅 NVIDIA 官方技术白皮书或第三方评测（如 SemiAnalysis），获取 H10
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N24
+
+## Claim
+
+核实 H100 SXM 在 LLM 推理场景下的实际 MFU 范围：查阅 NVIDIA 官方技术白皮书或第三方评测（如 SemiAnalysis），获取 H100 在 BF16/FP8 推理时的 MFU 数据，特别是 FP8 模式下由于算力翻倍带来的 MFU 变化，以验证 N24 中 40%-60% 的估计是否适用于推理负载
+
+## Corrected Claim
+
+H100 SXM 在 LLM 推理场景下，FP8 模式相比 BF16 模式能显著提升吞吐量并降低延迟，具体 MFU 范围需参考更详细的基准测试数据（如 SemiAnalysis 或 NVIDIA 白皮书），当前证据不足以确认 40%-60% 的精确区间。
+
+## Evidence
+
+[质询]参考来源仅提供了定性对比（BF16 vs FP8 的延迟/吞吐量/内存），未提供具体的 MFU（Model FLOPs Utilization）数值范围，无法直接验证 40%-60% 这一具体数值区间是否准确。 | 来源 [1] 主题相关（H100 上 BF16/FP8 推理评测），但摘要中未包含 MFU 具体数值，仅能间接支持 FP8 相比 BF16 有性能提升，无法直接证实 40%-60% 的 MFU 范围，属于经验事实且缺乏直接数值支持。
+
+## Search Query
+
+H100 SXM LLM inference MFU benchmark FP8 BF16 SemiAnalysis NVIDIA whitepaper
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/GoKu1402/quantized-llm-serving&rut=238dac233b28fadbdb9dd2bf4a027a5d6799397ee75320be1532bb07f2502b86', 'type': 'ddg', 'title': 'Quantized LLM Serving: BF16 vs FP8 on H100 - GitHub'}

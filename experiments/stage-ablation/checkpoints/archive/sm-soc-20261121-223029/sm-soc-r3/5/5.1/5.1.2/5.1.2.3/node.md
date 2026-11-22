@@ -1,0 +1,24 @@
+# N294: 信息不对称程度对 λ 的调节效应：引入变量 Asymmetry_level（如买家无法验货的维度数），λ_asym = λ_base + γ * Asymmet
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N98
+
+## Claim
+
+信息不对称程度对 λ 的调节效应：引入变量 Asymmetry_level（如买家无法验货的维度数），λ_asym = λ_base + γ * Asymmetry_level。若 γ > 0，则信息不对称加剧会放大卖家的损失厌恶（因买家压价风险感知增加），需估计 γ 以区分是‘天生损失厌恶’还是‘风险规避’导致的溢价。
+
+## Corrected Claim
+
+信息不对称程度可能通过增加买家压价的不确定性，影响卖家的定价策略。引入变量 Asymmetry_level 调节参数 λ 是一种建模假设，需通过实证数据估计系数 γ 以区分不同心理机制（如风险规避或损失厌恶）对溢价的具体贡献，但该线性调节效应并非普适定律。
+
+## Evidence
+
+[质询]该陈述将‘损失厌恶’（Loss Aversion，行为经济学概念，指对损失的敏感度高于收益）与‘风险规避’（Risk Aversion，指对不确定性的厌恶）混为一谈或强行对立。在标准经济学模型中，信息不对称导致的溢价通常源于逆向选择（Adverse Selection）或道德风险（Moral Hazard），而非直接放大‘损失厌恶’。此外，线性调节效应 λ_asym = λ_base + γ * Asymmetry_level 是一个简化的启发式假设，缺乏严格的理论推导支持其普适性，且‘买家无法验货的维度数’作为连续变量 Asymmetry_level 的定义在实证中难以精确量化。 | 经验事实/理论模型假设，逻辑自洽但缺来源支持。该陈述描述了一个特定的行为经济学建模假设，而非公认的第一性原理或既定事实。由于检索无可用来源，且该模型假设存在概念混淆（损失厌恶 vs 风险规避）和简化假设，无法验证其普适性或准确性，故降级为定性表述。
+
+## Search Query
+
+loss aversion information asymmetry seller pricing bias second-hand market risk aversion

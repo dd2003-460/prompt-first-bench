@@ -1,0 +1,24 @@
+# N149: Apple M4 Ultra 在 BF16 精度下运行 Qwen3-27B 的实际速度约为 10-12 Tokens/s (819 GB/s 带宽 / 54 G
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N38
+
+## Claim
+
+Apple M4 Ultra 在 BF16 精度下运行 Qwen3-27B 的实际速度约为 10-12 Tokens/s (819 GB/s 带宽 / 54 GB 权重 * 0.7 效率因子)，N38 中 15-18 Tokens/s 的估算过于乐观，未充分考虑统一内存架构在 LLM 推理中的带宽效率损失
+
+## Corrected Claim
+
+Apple M4 Ultra 在 BF16 精度下运行 Qwen3-27B 的实际速度可能在 8-15 Tokens/s 范围内（基于 819 GB/s 带宽 / 54 GB 权重，效率因子 0.5-0.8），N38 中 15-18 Tokens/s 的估算可能过于乐观，未充分考虑统一内存架构在 LLM 推理中的带宽效率损失。
+
+## Evidence
+
+[质询]效率因子0.7的取值缺乏具体依据，且M4 Ultra的实际内存带宽（通常标称约819GB/s）在LLM推理中的有效带宽利用率受多种因素影响（如内存控制器效率、数据局部性、内核优化等），0.7可能偏高或偏低，导致速度估算范围（10-12 Tokens/s）存在较大不确定性。 | 先验知识/题面给定，逻辑校验通过，但效率因子0.7为经验假设，缺乏直接来源支持，且实际速度受多种因素影响，需降级为定性表述。
+
+## Search Query
+
+Apple M4 Ultra 128GB LLM inference tokens per second Qwen3 27B benchmark

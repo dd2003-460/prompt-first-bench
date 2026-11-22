@@ -1,0 +1,20 @@
+# N199: 在 W_LRU(i) = T_update = 24h 的具体工作点下，单个对象的更新失效概率 P_invalid(i) = 1 - exp(-1) ≈ 63.
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N69
+
+## Claim
+
+在 W_LRU(i) = T_update = 24h 的具体工作点下，单个对象的更新失效概率 P_invalid(i) = 1 - exp(-1) ≈ 63.21%，若所有缓存对象均处于此驻留时间，则全局折损因子 D_update ≈ 36.79%（即命中率从 100% 降至 36.79%），量化了中等驻留时间下的显著性能损失。
+
+## Corrected Claim
+
+在 W_LRU(i) = T_update = 24h 的具体工作点下，单个对象的更新失效概率 P_invalid(i) = 1 - exp(-1) ≈ 63.21%，若所有缓存对象均处于此驻留时间，则全局折损因子 D_update ≈ 36.79%（即命中率从 100% 降至 36.79%），量化了中等驻留时间下的显著性能损失。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：根据指数分布性质，失效概率 P=1-e^-1≈0.6321，存活概率（即命中率保留率）D=e^-1≈0.3679，数值计算准确且逻辑自洽。

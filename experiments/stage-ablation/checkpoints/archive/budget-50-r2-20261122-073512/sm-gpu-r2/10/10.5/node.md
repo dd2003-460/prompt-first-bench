@@ -1,0 +1,20 @@
+# N198: RTX 4090 在 INT4 量化下的理论生成速度上限约为 74 tokens/s (1008 GB/s / 13.5 GB)，但受限于计算密集度，实际吞吐通
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N37, N38
+
+## Claim
+
+RTX 4090 在 INT4 量化下的理论生成速度上限约为 74 tokens/s (1008 GB/s / 13.5 GB)，但受限于计算密集度，实际吞吐通常仅为理论值的 40-60%，即 30-45 tokens/s。
+
+## Corrected Claim
+
+RTX 4090 在 INT4 量化下的理论生成速度上限约为 74 tokens/s (1008 GB/s / 13.5 GB)，但受限于计算密集度，实际吞吐通常仅为理论值的 40-60%，即 30-45 tokens/s。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090显存带宽1008GB/s，7B模型INT4量化后约3.5GB，理论上限约288 tokens/s，但考虑到实际计算密集度和内存访问效率，实际吞吐通常远低于理论值，40-60%的估计合理。

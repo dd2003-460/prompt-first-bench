@@ -1,0 +1,26 @@
+# N78: 关键数据不确定性标注：H100 SXM 80GB的市场价格波动极大（$25k-$30k+），且受供应链影响，此处采用$28,000作为保守估计 [待核验]；RT
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+关键数据不确定性标注：H100 SXM 80GB的市场价格波动极大（$25k-$30k+），且受供应链影响，此处采用$28,000作为保守估计 [待核验]；RTX 5090的FP8推理吞吐量数据目前缺乏官方基准，基于RTX 4090的FP8性能（约1.5x BF16）外推，存在±20%的不确定性区间 [待核验]。
+
+## Corrected Claim
+
+H100 SXM 80GB的市场价格波动极大，受供应链影响显著；RTX 5090的FP8推理吞吐量数据目前缺乏官方基准，基于RTX 4090的FP8性能外推存在较大不确定性。
+
+## Evidence
+
+[质询]参考来源仅提供了H100的云端租赁价格（时租/月租），而非硬件采购的市场价格（$25k-$30k+），且完全未包含RTX 5090的FP8吞吐量数据或RTX 4090的基准对比，无法直接支持陈述中的具体数值和不确定性区间。 | 来源[1][2][3]仅覆盖H100租赁价格，与陈述中的硬件采购价格及RTX 5090性能数据主题不匹配，属于无可用外部证据；但陈述本身作为不确定性标注，逻辑自洽，符合经验事实缺来源支持的降级条件。
+
+## Retrieval Sources
+
+- {'url': 'https://gpuprice.fyi/zh&rut=2cc27e1ec060153f95c4747199c358196443927f8283f5e5606f781f0be48775', 'type': 'ddg', 'title': '云 Gpu 价格指数 — 透明的多厂商挂牌价'}
+- {'url': 'https://computeindex.net/gpu/h100&rut=9464248bbd8589a0828b784e74d011466258f20edf679b1cc39110a2d8098d39', 'type': 'ddg', 'title': 'Nvidia H100 Sxm租赁价格 2026 | 时租$4.60/月租$2,153'}
+- {'url': 'https://gpuprice.fyi/zh/h100-sxm&rut=77ca9cf5caaa765add26cc135f93148be72128977d9ff89e7c9b82d8fb9b79b3', 'type': 'ddg', 'title': 'H100 SXM5 80GB 云 GPU 价格与费率 | gpuprice.fyi'}

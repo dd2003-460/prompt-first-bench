@@ -1,0 +1,24 @@
+# N504: H100 SXM5 的 FP8 理论峰值计算能力（Dense）为 989.4 TFLOPS，基于 132 SMs × 128 FP8 FLOPs/SM/Cycl
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N155
+
+## Claim
+
+H100 SXM5 的 FP8 理论峰值计算能力（Dense）为 989.4 TFLOPS，基于 132 SMs × 128 FP8 FLOPs/SM/Cycle × 2 × 1.83 GHz 计算得出。
+
+## Corrected Claim
+
+H100 SXM5 的 FP8 理论峰值计算能力（Dense）为 989.4 TFLOPS，基于 132 SMs × 128 FP8 FLOPs/SM/Cycle × 2 × 1.83 GHz 计算得出。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：132 SMs × 128 FLOPs/SM/Cycle × 2 (FMA) × 1.83 GHz ≈ 989.4 TFLOPS，计算逻辑自洽且符合H100 SXM5规格。
+
+## Search Query
+
+H100 SXM FP8 dense TFLOPS 989 132 SMs 1.83GHz

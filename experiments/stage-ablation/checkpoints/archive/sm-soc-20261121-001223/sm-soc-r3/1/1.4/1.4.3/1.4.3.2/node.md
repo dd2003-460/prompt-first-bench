@@ -1,0 +1,24 @@
+# N115: 弱信号工作点：α = 1.0, σ_p = 0.10 * P_avg，对应价格-质量映射平缓且噪声大，高价格对质量后验 Q_posterior 的提升有限，且易
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N38
+
+## Claim
+
+弱信号工作点：α = 1.0, σ_p = 0.10 * P_avg，对应价格-质量映射平缓且噪声大，高价格对质量后验 Q_posterior 的提升有限，且易被噪声淹没，此时‘高挂价’难以区分高质量，买家更依赖其他启发式（如卖家信用），信号效应减弱。
+
+## Corrected Claim
+
+弱信号工作点：α = 1.0, σ_p = 0.10 * P_avg，对应价格-质量映射平缓且噪声大，高价格对质量后验 Q_posterior 的提升有限，且易被噪声淹没，此时‘高挂价’难以区分高质量，买家更依赖其他启发式（如卖家信用），信号效应减弱。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在信号理论中，低信噪比（α=1.0, 高噪声）确实导致信号区分度下降，买家转向其他启发式，符合经济学直觉。
+
+## Search Query
+
+weak signaling price quality elasticity high noise buyer heuristic

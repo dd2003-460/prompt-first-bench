@@ -1,0 +1,24 @@
+# N329: 量化信号破坏效应中的质量怀疑系数 $\kappa$：当卖家降价幅度 $\Delta P/P_{base} > 10\%$ 时，买家对商品瑕疵概率 $P_{def
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N114
+
+## Claim
+
+量化信号破坏效应中的质量怀疑系数 $\kappa$：当卖家降价幅度 $\Delta P/P_{base} > 10\%$ 时，买家对商品瑕疵概率 $P_{defect}$ 的估计增加 $\Delta P_{defect} = \kappa \cdot (\Delta P/P_{base})$，其中 $\kappa$ 需通过 A/B 测试中咨询取消率与降价幅度的相关性估算。
+
+## Corrected Claim
+
+在量化信号破坏效应的特定模型假设中，当卖家降价幅度超过一定阈值（如10%）时，买家对商品瑕疵概率的估计可能随降价幅度增加，其具体关系系数需通过A/B测试等实证方法估算。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（阈值10%）和特定的线性模型形式（ΔP_defect = κ * (ΔP/P_base)），这属于市场行为的经济/心理经验事实，无法从第一性原理或数学公理中严格推导出来。此外，'质量怀疑系数'并非标准的经济学或信号博弈理论中的通用术语，其定义和线性关系假设缺乏普遍的理论基础，可能仅是特定场景下的简化假设。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该事实属于需实证验证的市场行为模型，不适用第一性原理推导条款）
+
+## Search Query
+
+price cut signaling quality defect probability increase kappa coefficient study

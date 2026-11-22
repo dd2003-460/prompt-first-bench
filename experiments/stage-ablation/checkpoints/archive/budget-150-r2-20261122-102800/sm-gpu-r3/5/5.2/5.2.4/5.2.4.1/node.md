@@ -1,0 +1,24 @@
+# N294: RTX 4090 在 2024 Q4 的北美/欧洲主流零售渠道（Newegg, Amazon, B&H）3个月移动平均价为 $1,750-$1,850，标准差为
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N114, N115, N116
+
+## Claim
+
+RTX 4090 在 2024 Q4 的北美/欧洲主流零售渠道（Newegg, Amazon, B&H）3个月移动平均价为 $1,750-$1,850，标准差为 $120，该价格区间排除了 Q1-Q2 的 $2,500+ 异常峰值，用于 TCO 计算的中值基准。
+
+## Corrected Claim
+
+RTX 4090 在 2024 Q4 的北美/欧洲主流零售渠道价格大致处于 $1,700-$1,900 区间，显著低于 Q1-Q2 的 $2,500+ 峰值，可作为 TCO 计算的参考基准。
+
+## Evidence
+
+[质询]具体数值（$1,750-$1,850, std $120）及特定时间窗口（2024 Q4）属于经验事实，缺乏实时市场数据支持，且不同渠道价格波动可能较大，单一区间描述可能过于简化。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+RTX 4090 price history 2024 Q4 average price Newegg Amazon

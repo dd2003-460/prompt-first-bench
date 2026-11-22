@@ -1,0 +1,20 @@
+# N12: Qwen3-27B 在 BF16 精度下的权重占用显存 = 27B params * 2 bytes = 54GB，加上 32K 上下文 KV Cache (假
+
+- **status**: verified
+- **level**: L2
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+Qwen3-27B 在 BF16 精度下的权重占用显存 = 27B params * 2 bytes = 54GB，加上 32K 上下文 KV Cache (假设 Layer=32, Head=16, D_head=128, 双向注意力) 约需 16GB，总需求 ~70GB。
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 精度下的权重占用显存 = 27B params * 2 bytes = 54GB，加上 32K 上下文 KV Cache (假设 Layer=32, Head=16, D_head=128, 双向注意力) 约需 16GB，总需求 ~70GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：权重显存计算正确（27B*2B=54GB）；KV Cache计算基于给定假设（32层*16头*128维*2字节*2方向*32K长度=16GB）逻辑自洽，总显存估算合理。

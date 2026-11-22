@@ -1,0 +1,24 @@
+# N76: RTX 4080 关键参数：显存 16GB GDDR6X，带宽 717 GB/s，TDP 320W，价格 ~$1200，显存容量 16GB 低于 27B 模型 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N20
+
+## Claim
+
+RTX 4080 关键参数：显存 16GB GDDR6X，带宽 717 GB/s，TDP 320W，价格 ~$1200，显存容量 16GB 低于 27B 模型 4-bit 量化后的最低需求 (~21GB)，因此被排除在候选集之外。
+
+## Corrected Claim
+
+RTX 4080 关键参数：显存 16GB GDDR6X，带宽 717 GB/s，TDP 320W，价格 ~$1200，显存容量 16GB 低于 27B 模型 4-bit 量化后的最低需求 (~21GB)，因此被排除在候选集之外。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4080 规格（16GB GDDR6X, 717 GB/s, 320W）符合公开硬件参数；27B 模型 4-bit 量化后显存需求约 13.5GB 权重 + 激活/KV Cache 开销，总需求通常超过 16GB，故排除逻辑成立。
+
+## Search Query
+
+RTX 4080 specifications memory bandwidth TDP price 2024

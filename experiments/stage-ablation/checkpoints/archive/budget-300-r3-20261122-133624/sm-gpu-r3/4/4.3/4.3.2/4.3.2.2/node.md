@@ -1,0 +1,20 @@
+# N315: 在 RTX 4090 上执行 FP8 推理时，Prefill 阶段的算力瓶颈由 FP16 Tensor Core 决定（243.9 TFLOPS），而 Deco
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N103
+
+## Claim
+
+在 RTX 4090 上执行 FP8 推理时，Prefill 阶段的算力瓶颈由 FP16 Tensor Core 决定（243.9 TFLOPS），而 Decode 阶段的带宽瓶颈由显存读取决定（1008 GB/s）。由于 FP8 权重需 dequantize 到 FP16 才能利用 Tensor Core，Prefill 吞吐量与 BF16 相同，仅 Decode 吞吐量因权重读取量减半（13.5GB vs 27GB）而提升约 2 倍。
+
+## Corrected Claim
+
+在 RTX 4090 上执行 FP8 推理时，Prefill 阶段的算力瓶颈由 FP8 Tensor Core 决定（约 330 TFLOPS），高于 FP16（243.9 TFLOPS），因此 Prefill 吞吐量高于 BF16；Decode 阶段的带宽瓶颈由显存读取决定（1008 GB/s），FP8 权重读取量减半（13.5GB vs 27GB）可提升 Decode 吞吐量，但受激活值（FP16）影响，提升幅度小于 2 倍。
+
+## Evidence
+
+[质询]RTX 4090 的 FP8 Tensor Core 原生支持 FP8 计算（无需 dequantize 到 FP16 才能利用 Tensor Core），且其 FP8 算力（约 330 TFLOPS）高于 FP16（243.9 TFLOPS），因此 Prefill 阶段吞吐量应高于 BF16，而非相同；此外，RTX 4090 显存带宽为 1008 GB/s，但 24GB 显存中 13.5GB/27GB 的权重大小假设未明确模型规模，且 FP8 权重读取量减半仅适用于权重存储，激活值仍为 FP16，Decode 阶段带宽瓶颈提升并非简单 2 倍。 | 先验知识/题面给定，逻辑校验未通过：RTX 4090 支持原生 FP8 Tensor Core 计算，Prefill 阶段无需 dequantize 到 FP16，且 FP8 算力高于 FP16，Prefill 吞吐量应提升而非相同；Decode 阶段带宽瓶颈提升受激活值影响，非简单 2 倍。

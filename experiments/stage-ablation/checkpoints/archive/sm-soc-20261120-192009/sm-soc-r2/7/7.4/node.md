@@ -1,0 +1,29 @@
+# N107: 曝光时长倍数验证：高挂价商品的平均曝光时长与正常定价商品的比值是否确实为 1.8 倍；需基于平台日志数据计算 Ratio_Exposure = T_exposu
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N30
+
+## Claim
+
+曝光时长倍数验证：高挂价商品的平均曝光时长与正常定价商品的比值是否确实为 1.8 倍；需基于平台日志数据计算 Ratio_Exposure = T_exposure_high / T_exposure_normal。
+
+## Corrected Claim
+
+需基于平台日志数据计算 Ratio_Exposure = T_exposure_high / T_exposure_normal 以验证高挂价商品与正常定价商品的平均曝光时长比值，当前无直接证据表明该比值为1.8倍。
+
+## Evidence
+
+[质询]该陈述声称高挂价商品曝光时长是正常商品的1.8倍，但参考来源[1]中的1.8倍是指江苏医保政策中挂网价与出厂价的倍数阈值，与曝光时长无关；来源[2]讨论的是曝光量（次数）而非曝光时长（时间），且未提及价格对时长的具体倍数影响。存在概念混淆（价格倍数vs时长倍数，曝光量vs曝光时长）及来源不匹配的风险。 | 来源[1]的1.8倍为价格区间阈值，非曝光时长比值；来源[2]讨论曝光量基准，未提供时长倍数数据。逻辑上比值计算自洽，但缺乏直接证据支持1.8倍这一具体数值，且来源主题不匹配。
+
+## Search Query
+
+high priced items exposure duration ratio marketplace data
+
+## Retrieval Sources
+
+- {'url': 'https://www.sohu.com/a/1055287153_617205&rut=a51a37d9975c6698224624de80251ba539711a58bc46250d03ea2ebc0c6ce57f', 'type': 'ddg', 'title': '江苏新政"曝光"耗材出厂价，代理商模式迎"终极考验"'}
+- {'url': 'https://www.toutiao.com/article/7622573217491763752/&rut=1075539ba4d90c0aa3c5c79999a00f16bdbe31e07e69423721e13f46c4aa9fd7', 'type': 'ddg', 'title': '亚马逊曝光量多少算合格？打破流量焦虑的实战指南 - 今日头条'}

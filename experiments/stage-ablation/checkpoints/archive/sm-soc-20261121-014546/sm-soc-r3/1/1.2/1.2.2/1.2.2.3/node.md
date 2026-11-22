@@ -1,0 +1,24 @@
+# N143: 时间损失权重 λ_time 与挂价偏离度 D 的交互效应：当 λ_time 较高时，卖家对成交周期 T 的边际效用敏感度 ∂U/∂T = -λ_time * V
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N39
+
+## Claim
+
+时间损失权重 λ_time 与挂价偏离度 D 的交互效应：当 λ_time 较高时，卖家对成交周期 T 的边际效用敏感度 ∂U/∂T = -λ_time * V / T^2 增大，导致在 D 较大（成交慢）时更激进降价，形成正反馈循环。
+
+## Corrected Claim
+
+时间损失权重 λ_time 与挂价偏离度 D 的交互效应：当 λ_time 较高时，卖家对成交周期 T 的边际效用敏感度 ∂U/∂T = -λ_time * V / T^2 增大，导致在 D 较大（成交慢）时更激进降价，形成正反馈循环。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：效用函数对时间的偏导数推导符合微积分规则，且高时间权重导致对慢成交更敏感从而加速降价的反馈机制在经济学直觉上自洽。
+
+## Search Query
+
+interaction between time loss aversion and price deviation feedback loop

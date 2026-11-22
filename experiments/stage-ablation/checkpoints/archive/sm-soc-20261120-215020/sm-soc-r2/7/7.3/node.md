@@ -1,0 +1,29 @@
+# N80: “少数极端卖家拉高整体均值”的量化贡献度：计算极端卖家（偏差 > 25%）群体占比 $p_{extreme}$ 及其对总体均值偏差 $\bar{\delta}$
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N26
+
+## Claim
+
+“少数极端卖家拉高整体均值”的量化贡献度：计算极端卖家（偏差 > 25%）群体占比 $p_{extreme}$ 及其对总体均值偏差 $\bar{\delta}$ 的贡献 $\bar{\delta}_{extreme} = p_{extreme} \times \delta_{extreme} + (1-p_{extreme}) \times \delta_{normal}$，需估算 $p_{extreme}$ 在拉普拉斯分布下的具体数值（如 5%），以验证其对整体均值的拉动效应是否显著。
+
+## Corrected Claim
+
+“少数极端卖家拉高整体均值”的量化贡献度可通过公式 $\bar{\delta}_{extreme} = p_{extreme} \times \delta_{extreme} + (1-p_{extreme}) \times \delta_{normal}$ 计算，其中 $p_{extreme}$ 需根据具体数据分布（如拉普拉斯分布）进行实证估算，以验证其对整体均值的拉动效应。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值估算（如 p_extreme ≈ 5%）和特定的分布假设（拉普拉斯分布），这些属于经验事实或特定模型参数，无法仅从第一性原理推导得出，且参考来源未提供该具体数值或分布下的计算结果。 | 逻辑上均值分解公式自洽，但参考来源 [1][2] 仅讨论尾部风险的一般概念，未提供拉普拉斯分布下偏差>25%群体的具体占比数值，属于经验事实缺来源支持。
+
+## Search Query
+
+tail risk contribution to mean price deviation laplace distribution marketplace data analysis
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Tail_risk&rut=779d2adb236201b88fca837a54d10d075ba9c8a9d474fb46c861c648c09d1096', 'type': 'ddg', 'title': 'Tail risk - Wikipedia'}
+- {'url': 'https://www.investopedia.com/terms/t/tailrisk.asp&rut=8fe2ed09e767d38b9bc7be6a73cd9fb2dd296ecf1f3c07ed743c77367f25d8fe', 'type': 'ddg', 'title': 'Tail Risk and Portfolio Protection: A Comprehensive Guide'}

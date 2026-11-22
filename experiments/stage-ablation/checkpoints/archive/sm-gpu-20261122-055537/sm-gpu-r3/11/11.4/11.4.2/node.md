@@ -1,0 +1,20 @@
+# N383: 单卡 RTX 4090 运行 Qwen3-27B INT4 在 32K 上下文下的计算耗时估算：受限于显存带宽 1008 GB/s 和 KV Cache 读取，
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N120
+
+## Claim
+
+单卡 RTX 4090 运行 Qwen3-27B INT4 在 32K 上下文下的计算耗时估算：受限于显存带宽 1008 GB/s 和 KV Cache 读取，假设有效带宽利用率 70%，计算 1 个 token 需读取 ~14GB 权重 + ~1.5GB KV Cache，耗时 ≈ (15.5 GB) / (0.7 * 1008 GB/s) ≈ 22 ms/token。对比 N125 的 2760 ms/token 通信开销，TP=2 方案的吞吐量约为 0.36 tokens/s，远低于单卡 INT4 的 ~45 tokens/s，证明 N120 中 '高 10-15%' 的结论在 32K 长上下文下严重错误，TP=2 在此场景下实际上是不可用的。
+
+## Corrected Claim
+
+单卡 RTX 4090 运行 Qwen3-27B INT4 在 32K 上下文下，受限于显存带宽，单 token 生成耗时主要取决于权重读取和 KV Cache 读取。若假设有效带宽利用率 70%，且总读取数据量约为 15.5GB（含权重和 KV Cache），则理论耗时约为 22 ms/token，吞吐量约 45 tokens/s。该估算表明单卡方案在长上下文下仍具较高吞吐，而多卡 TP=2 方案因通信开销（如 N125 所示的 2760 ms/token）导致吞吐量显著下降，证明在特定高通信开销场景下，TP=2 可能不如单卡高效。
+
+## Evidence
+
+[质询]KV Cache 大小估算严重偏离常规：Qwen3-27B 在 32K 上下文下的 KV Cache 通常远小于 1.5GB（取决于具体层数和头数，通常 FP16 下可能在几百 MB 到 1GB 左右，INT4 权重下 KV 往往保持 FP16 或 FP8，但 1.5GB 的数值缺乏具体模型架构参数支持，且若 KV 为 FP16，1.5GB 对应的上下文长度或模型规模需精确匹配，此处直接给出 1.5GB 显得武断）；此外，'N125' 和 'N120' 指代不明，缺乏上下文定义，导致对比基准模糊。 | source=knowledge，逻辑推导过程自洽（带宽瓶颈计算符合直觉），但 KV Cache 具体数值 1.5GB 为经验估算且未提供模型具体配置依据，属于经验事实范畴，缺乏精确来源支持，故降级。

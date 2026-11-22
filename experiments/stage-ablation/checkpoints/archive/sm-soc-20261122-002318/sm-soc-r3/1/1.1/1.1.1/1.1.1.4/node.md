@@ -1,0 +1,20 @@
+# N104: w_tradeoff 的下游投影 2：对阈值 ΔP_refuse 的方差影响，Var(ΔP_refuse) = λ^2 * (P_ask - P_market)
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N34
+
+## Claim
+
+w_tradeoff 的下游投影 2：对阈值 ΔP_refuse 的方差影响，Var(ΔP_refuse) = λ^2 * (P_ask - P_market)^2 * Var(w_tradeoff)，该方差决定了卖家群体中‘拒绝降价’行为的离散程度，需量化标准差 σ_ΔP 以评估群体异质性。
+
+## Corrected Claim
+
+w_tradeoff 的下游投影 2：对阈值 ΔP_refuse 的方差影响，Var(ΔP_refuse) = λ^2 * (P_ask - P_market)^2 * Var(w_tradeoff)，该方差决定了卖家群体中‘拒绝降价’行为的离散程度，需量化标准差 σ_ΔP 以评估群体异质性。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

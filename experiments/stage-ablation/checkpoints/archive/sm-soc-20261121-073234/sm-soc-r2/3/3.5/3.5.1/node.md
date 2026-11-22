@@ -1,0 +1,24 @@
+# N77: GMV下降<5%约束的数学表达：设干预后GMV为 GMV_new，原GMV为 GMV_old，则要求 (GMV_old - GMV_new) / GMV_old
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N22
+
+## Claim
+
+GMV下降<5%约束的数学表达：设干预后GMV为 GMV_new，原GMV为 GMV_old，则要求 (GMV_old - GMV_new) / GMV_old < 0.05，即 GMV_new > 0.95 * GMV_old，需通过模拟不同权重系数 β 下的 GMV 分布来验证。
+
+## Corrected Claim
+
+GMV下降<5%约束的数学表达：设干预后GMV为 GMV_new，原GMV为 GMV_old，则要求 (GMV_old - GMV_new) / GMV_old < 0.05，即 GMV_new > 0.95 * GMV_old，需通过模拟不同权重系数 β 下的 GMV 分布来验证。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：GMV下降幅度定义为(原值-新值)/原值，小于5%即意味着新值大于原值的95%，数学推导自洽且符合基本代数逻辑。
+
+## Search Query
+
+constrained optimization GMV retention tradeoff marketplace algorithm

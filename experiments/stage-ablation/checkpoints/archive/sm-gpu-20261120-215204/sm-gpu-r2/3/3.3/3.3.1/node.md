@@ -1,0 +1,24 @@
+# N88: 2x RTX 4090 (48GB 总显存) 运行 Qwen3-27B W4A16 权重 + BF16 KV Cache (32K) 时，显存分配为每卡 13.
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N20
+
+## Claim
+
+2x RTX 4090 (48GB 总显存) 运行 Qwen3-27B W4A16 权重 + BF16 KV Cache (32K) 时，显存分配为每卡 13.5GB 权重 + 20GB KV Cache = 33.5GB/卡，超出单卡 24GB 上限，故需使用 Tensor Parallelism 将 KV Cache 也切分，每卡 KV Cache 为 10GB，总显存占用 13.5+10+1=24.5GB/卡，仍略超 24GB，需启用 KV Cache 量化或 Offload。
+
+## Corrected Claim
+
+2x RTX 4090 (48GB 总显存) 运行 Qwen3-27B W4A16 权重 (约 13.5GB) + BF16 KV Cache (32K) 时，若采用 Tensor Parallelism，权重每卡约 6.75GB。KV Cache 大小取决于并发数和序列长度，若总 KV Cache 需求超过剩余显存 (24GB - 6.75GB - 1GB overhead ≈ 16.25GB/卡)，则需启用 KV Cache 量化或 Offload。原陈述中每卡 13.5GB 权重的假设与总显存及模型大小不匹配。
+
+## Evidence
+
+[质询]数值计算存在内部矛盾：2x RTX 4090 总显存为 48GB，若每卡分配 13.5GB 权重，总权重应为 27GB，这与 Qwen3-27B W4A16 模型实际权重大小（约 13.5GB-14GB）严重不符，暗示陈述中可能混淆了单卡权重与总权重，或者错误地假设了权重未切分而仅切分 KV Cache 的初始状态，导致后续推导基础错误。 | 先验知识/题面给定，逻辑校验发现数值量级与模型实际大小不符，存在内部矛盾
+
+## Search Query
+
+2x RTX 4090 Tensor Parallel Qwen3 27B 32k context memory split

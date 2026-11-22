@@ -1,0 +1,24 @@
+# N315: 2024年Q1 E-ATX服务器机箱价格区间细化：主流品牌（如Supermicro CSE-746T、Dell PowerEdge R750）E-ATX机箱均价
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N102
+
+## Claim
+
+2024年Q1 E-ATX服务器机箱价格区间细化：主流品牌（如Supermicro CSE-746T、Dell PowerEdge R750）E-ATX机箱均价为 $400-$600，高端冗余设计版本为 $700-$900，需区分冗余风扇插槽数量对散热冗余度的影响。
+
+## Corrected Claim
+
+2024年Q1 E-ATX服务器机箱价格因品牌和配置差异较大，主流品牌（如Supermicro、Dell）的E-ATX机箱均价通常在数百美元区间，高端冗余设计版本价格更高，具体价格需参考实时市场报价。
+
+## Evidence
+
+[质询]具体价格区间（$400-$600, $700-$900）属于经验事实，且不同时期、不同采购渠道（OEM vs 零售）价格波动大，缺乏实时市场数据支持，存在数值量级偏差风险。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+2024 Q1 E-ATX server chassis price Supermicro Dell PowerEdge average cost

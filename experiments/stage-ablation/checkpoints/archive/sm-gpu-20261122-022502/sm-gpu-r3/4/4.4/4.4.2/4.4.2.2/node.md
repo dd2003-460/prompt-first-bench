@@ -1,0 +1,24 @@
+# N217: 在 BF16 精度下，Qwen3-27B 模型权重占用显存约 54GB，32K 上下文 KV Cache 占用约 4.5GB（假设 GQA/MLA 优化后），加
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N70, N71, N72
+
+## Claim
+
+在 BF16 精度下，Qwen3-27B 模型权重占用显存约 54GB，32K 上下文 KV Cache 占用约 4.5GB（假设 GQA/MLA 优化后），加上激活值缓冲约 2-4GB，总显存需求约 60-62GB，远超 2×24GB=48GB 的总显存，必须启用 CPU Offload 或 KV Cache 压缩。
+
+## Corrected Claim
+
+在 BF16 精度下，Qwen3-27B 模型权重占用显存约 54GB，32K 上下文 KV Cache 占用约 4.5GB（假设 GQA/MLA 优化后），加上激活值缓冲约 2-4GB，总显存需求约 60-62GB，远超 2×24GB=48GB 的总显存，必须启用 CPU Offload 或 KV Cache 压缩。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数在BF16下权重约54GB，加上KV Cache和激活值，总显存需求确实远超48GB，结论合理。
+
+## Search Query
+
+Qwen3-27B BF16 memory footprint 32K context KV cache size

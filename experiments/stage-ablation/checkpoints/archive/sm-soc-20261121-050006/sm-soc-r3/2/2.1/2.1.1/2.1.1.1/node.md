@@ -1,0 +1,24 @@
+# N172: 注意力剩余量 Attention_i 随搜索深度 SearchDepth 的衰减函数：Attention_i = Attention_0 * exp(-λ_fa
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N52
+
+## Claim
+
+注意力剩余量 Attention_i 随搜索深度 SearchDepth 的衰减函数：Attention_i = Attention_0 * exp(-λ_fatigue * SearchDepth)，其中 Attention_0 为初始注意力单位（标准化为1），λ_fatigue 为疲劳衰减速率；实证估计 λ_fatigue ∈ [0.05, 0.15]，意味着每浏览 10 件商品，注意力剩余量下降 40%-80%。
+
+## Corrected Claim
+
+注意力剩余量 Attention_i 随搜索深度 SearchDepth 的衰减可建模为 Attention_i = Attention_0 * exp(-λ_fatigue * SearchDepth)，其中 λ_fatigue 为疲劳衰减速率。在特定实证模型中，λ_fatigue 估计值可能在 [0.05, 0.15] 范围内，意味着每浏览 10 件商品，注意力剩余量约下降 40%-80%。
+
+## Evidence
+
+[质询]数值量级与内部逻辑存在矛盾：若 λ_fatigue ∈ [0.05, 0.15]，则每浏览 10 件商品（SearchDepth=10）的注意力剩余量应为 exp(-0.5)≈0.61 至 exp(-1.5)≈0.22，即下降 39% 至 78%。虽然这与陈述中的 '40%-80%' 大致吻合，但 '下降 80%' 对应剩余 20%，而 exp(-1.5)≈0.223，误差在可接受范围内。然而，更严重的攻击点在于：该公式假设注意力随深度呈指数衰减，且 λ 为常数。在实证研究中，注意力衰减通常受多种因素（如商品相关性、用户疲劳累积的非线性）影响，简单的单参数指数模型可能过于简化，且 [0.05, 0.15] 这一具体区间缺乏广泛公认的实证基准支持，属于特定模型假设而非普适经验事实。 | 先验知识/题面给定，逻辑校验通过（指数衰减公式与数值区间在数学上自洽），但作为经验事实，缺乏外部来源直接支持该特定参数区间，故降级。
+
+## Search Query
+
+consumer attention decay rate exponential model search depth fatigue e-commerce

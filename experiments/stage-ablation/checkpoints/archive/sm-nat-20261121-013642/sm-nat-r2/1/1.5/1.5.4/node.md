@@ -1,0 +1,24 @@
+# N45: 字节覆盖率计算：缓存集合的字节覆盖率 = Σ_{i∈Cache} (r_i * s_i) / Σ_{j=1}^N (r_j * s_j)，在 LRU 策略下，由
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N10
+
+## Claim
+
+字节覆盖率计算：缓存集合的字节覆盖率 = Σ_{i∈Cache} (r_i * s_i) / Σ_{j=1}^N (r_j * s_j)，在 LRU 策略下，由于保留高热度小对象，字节覆盖率通常低于对象数量覆盖率，需量化两者差距。
+
+## Corrected Claim
+
+字节覆盖率计算：缓存集合的字节覆盖率 = Σ_{i∈Cache} (r_i * s_i) / Σ_{j=1}^N (r_j * s_j)，在 LRU 策略下，由于保留高热度小对象，字节覆盖率通常低于对象数量覆盖率，需量化两者差距。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：LRU保留高热度小对象导致字节覆盖率低于对象数量覆盖率的结论符合缓存原理，公式定义自洽。
+
+## Search Query
+
+cache byte coverage vs object coverage LRU

@@ -1,0 +1,24 @@
+# N183: 咨询量变化率 ΔQ 的统计检验方法：ΔQ = (Q_post - Q_pre) / Q_pre，其中 Q_pre 为降价前 7 天日均咨询量，Q_post 为降
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N62
+
+## Claim
+
+咨询量变化率 ΔQ 的统计检验方法：ΔQ = (Q_post - Q_pre) / Q_pre，其中 Q_pre 为降价前 7 天日均咨询量，Q_post 为降价后 48 小时咨询量，需进行双样本 t 检验，若 p > 0.05 且 |ΔQ| < 5%，则判定为无显著变化，支持买家被动性假设。
+
+## Corrected Claim
+
+咨询量变化率 ΔQ 的统计检验方法：ΔQ = (Q_post - Q_pre) / Q_pre，其中 Q_pre 为降价前 7 天日均咨询量，Q_post 为降价后 48 小时咨询量，需进行双样本 t 检验，若 p > 0.05 且 |ΔQ| < 5%，则判定为无显著变化，支持买家被动性假设。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+consultation volume change rate statistical test two-sample t-test significance threshold

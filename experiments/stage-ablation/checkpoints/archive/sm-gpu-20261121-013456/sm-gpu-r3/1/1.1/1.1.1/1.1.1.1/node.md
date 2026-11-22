@@ -1,0 +1,24 @@
+# N128: Qwen3-27B 官方发布的 Hugging Face 权重文件中，所有 Linear 层（包括 Q, K, V, O, Gate, Up, Down）及 E
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N48
+
+## Claim
+
+Qwen3-27B 官方发布的 Hugging Face 权重文件中，所有 Linear 层（包括 Q, K, V, O, Gate, Up, Down）及 Embedding/LM Head 层的原始精度均为 BF16 (2 bytes/element)，不存在部分层预量化为 FP16 或 INT8 的情况；'54GB' 是未量化权重的理论上限。
+
+## Corrected Claim
+
+Qwen3-27B 官方发布的 Hugging Face 权重文件中，所有 Linear 层（包括 Q, K, V, O, Gate, Up, Down）及 Embedding/LM Head 层的原始精度均为 BF16 (2 bytes/element)，不存在部分层预量化为 FP16 或 INT8 的情况；'54GB' 是未量化权重的理论上限。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数模型在BF16精度下理论大小约为54GB，符合大语言模型权重存储的常规工程事实。
+
+## Search Query
+
+Qwen3-27B huggingface safetensors dtype BF16 weight size

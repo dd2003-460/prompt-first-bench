@@ -1,0 +1,24 @@
+# N512: AMD RX 7900 XTX 在 Qwen3-27B 上的 ROCm 生态支持成熟度需评估，包括驱动稳定性、量化方法支持（GPTQ/AWQ）、吞吐量性能（预计
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N160
+
+## Claim
+
+AMD RX 7900 XTX 在 Qwen3-27B 上的 ROCm 生态支持成熟度需评估，包括驱动稳定性、量化方法支持（GPTQ/AWQ）、吞吐量性能（预计 10-20 tokens/s）及故障率，具体数据需引用社区评测或 ROCm 官方支持文档 [待核验]
+
+## Corrected Claim
+
+AMD RX 7900 XTX 在 Qwen3-27B 上的 ROCm 生态支持需评估，包括驱动稳定性、量化方法支持（GPTQ/AWQ）及实际吞吐量性能，具体数据需引用社区评测或 ROCm 官方支持文档，当前缺乏确切性能基准。
+
+## Evidence
+
+[质询]该陈述包含具体的性能预测数值（10-20 tokens/s）和生态成熟度评估，属于经验事实。由于缺乏外部来源支持，无法验证该吞吐量数值是否准确，且ROCm对Qwen3-27B的具体支持状态（如是否原生支持AWQ/GPTQ）存在不确定性，可能因驱动版本或量化库兼容性导致性能远低于预期或无法运行。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）。RX 7900 XTX 24GB显存足以加载27B模型（量化后），但ROCm生态在NPU/AMD GPU上的大模型推理优化通常滞后于CUDA，10-20 tokens/s的预估在逻辑上合理（受限于显存带宽和软件栈效率），但无直接证据支持该具体数值范围。
+
+## Search Query
+
+AMD RX 7900 XTX ROCm Qwen3-27B LLM inference performance stability

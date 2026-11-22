@@ -1,0 +1,28 @@
+# N18: 非典型硬件候选集：AMD MI250/MI300X、Intel Gaudi 2/3、Apple M2/M3 Ultra、华为 Ascend 910B，需评估其对
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N3
+
+## Claim
+
+非典型硬件候选集：AMD MI250/MI300X、Intel Gaudi 2/3、Apple M2/M3 Ultra、华为 Ascend 910B，需评估其对 Qwen3-27B 的支持程度和性价比 [待核验：软件栈成熟度和价格]
+
+## Corrected Claim
+
+非典型硬件候选集包括AMD MI250/MI300X、Intel Gaudi 2/3、Apple M2/M3 Ultra、华为 Ascend 910B等，其具体对Qwen3-27B的支持程度和性价比需结合最新软件栈文档及市场报价进一步评估。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件型号列表及针对特定模型（Qwen3-27B）的评估需求，属于经验事实。参考来源仅确认了AMD MI300X的存在及架构，未涵盖Intel、Apple、华为等其他厂商产品，也未提供软件栈成熟度或价格数据，无法直接支持‘需评估’这一具体行动建议或隐含的可行性结论。 | 来源[1]直接支持AMD MI300X的存在，但其他厂商产品及具体评估指标（软件栈/价格）缺乏来源支持，属经验事实，逻辑自洽但缺完整来源覆盖。
+
+## Search Query
+
+AMD MI300X Intel Gaudi 3 Apple M3 Ultra Huawei Ascend 910B LLM inference support price
+
+## Retrieval Sources
+
+- {'url': 'https://www.amd.com/content/dam/amd/en/documents/instinct-tech-docs/white-papers/amd-cdna-3-white-paper.pdf&rut=087fd3002e4d8a5d4a2a53ad9137c24b1b47c28d4ab7d7e22a57aab4ef14f237', 'type': 'ddg', 'title': 'PDF Introduction - Amd'}

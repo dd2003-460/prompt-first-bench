@@ -1,0 +1,20 @@
+# N140: 信号敏感度系数 η 的校准公式：η = (1 - T_decision'/T_decision) / μ_S，若目标缩短率为 30% (即 T_decision
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N45, N46, N47
+
+## Claim
+
+信号敏感度系数 η 的校准公式：η = (1 - T_decision'/T_decision) / μ_S，若目标缩短率为 30% (即 T_decision'/T_decision = 0.7)，则 η = 0.3 / 0.4 = 0.75，该系数需通过 A/B 测试中不同信号强度组的决策时间差值进行回归估计。
+
+## Corrected Claim
+
+信号敏感度系数 η 的校准公式：η = (1 - T_decision'/T_decision) / μ_S，若目标缩短率为 30% (即 T_decision'/T_decision = 0.7)，则 η = 0.3 / 0.4 = 0.75，该系数需通过 A/B 测试中不同信号强度组的决策时间差值进行回归估计。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式定义与数值代入（0.3/0.4=0.75）在数学上自洽，且校准方法（A/B测试回归）符合统计学常识。

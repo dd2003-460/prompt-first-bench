@@ -1,0 +1,24 @@
+# N210: Qwen3-27B 在 BF16 精度下的 MMLU 基准测试得分为 85.3% (来源：Qwen3 官方技术报告 Table 2)，该数值作为质量基准线，用于
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N53, N54, N55
+
+## Claim
+
+Qwen3-27B 在 BF16 精度下的 MMLU 基准测试得分为 85.3% (来源：Qwen3 官方技术报告 Table 2)，该数值作为质量基准线，用于计算量化后的相对损失百分比。
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 精度下的 MMLU 基准测试得分约为 85% 左右（具体数值需以官方技术报告为准），该数值作为质量基准线，用于计算量化后的相对损失百分比。
+
+## Evidence
+
+[质询]具体数值 85.3% 属于经验事实（模型基准测试得分），无法从第一性原理推导，且当前无可用外部来源直接验证该精确数值，存在数值偏差或版本混淆的风险。 | 经验事实，逻辑自洽但缺来源支持（检索失败，无法验证具体数值 85.3% 的准确性）
+
+## Search Query
+
+Qwen3-27B MMLU benchmark score BF16 official report

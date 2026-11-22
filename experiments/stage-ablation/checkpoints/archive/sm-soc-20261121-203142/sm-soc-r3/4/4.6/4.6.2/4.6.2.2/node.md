@@ -1,0 +1,29 @@
+# N221: 时间折损系数 L_time 的折旧率 δ_d：L_time = P_market * δ_d * T_deal，其中 δ_d 为商品日均折旧率（如电子产品 0.
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N73
+
+## Claim
+
+时间折损系数 L_time 的折旧率 δ_d：L_time = P_market * δ_d * T_deal，其中 δ_d 为商品日均折旧率（如电子产品 0.1%/天），需检索特定品类二手商品的日均价值衰减数据。
+
+## Corrected Claim
+
+时间折损系数 L_time 的折旧率 δ_d：L_time = P_market * δ_d * T_deal，其中 δ_d 为商品日均折旧率。具体数值（如电子产品 0.1%/天）需依据特定品类二手市场实际交易数据确定，现有来源未提供相关实证数据。
+
+## Evidence
+
+[质询]来源主题不匹配：参考来源均讨论金融期权的时间价值衰减（Theta），而非实体商品（如电子产品）的二手市场折旧率，无法提供特定品类二手商品日均价值衰减的具体数据支持。 | 逻辑自洽，但参考来源[1][2]均涉及金融期权时间价值，与实体商品折旧无关，属于经验事实且缺乏相关来源支持。
+
+## Search Query
+
+daily depreciation rate second hand electronics value decay
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/149087847&rut=510da226c67a080e86ab2a8a3e6038daeaf62021bd3ff80a7bf4a52bae593cb0', 'type': 'ddg', 'title': '期权的时间价值每天都在损耗，如何预测一天损失多少时间价值？ - 知乎'}
+- {'url': 'https://www.investopedia.com/terms/t/timedecay.asp&rut=ea2a6dd9801e52b1fe9f52557c26ad1049fe0664f1daaa431c450215a28407f2', 'type': 'ddg', 'title': 'Understanding Time Decay in Options: Definition, Impact ... - Investopedia'}

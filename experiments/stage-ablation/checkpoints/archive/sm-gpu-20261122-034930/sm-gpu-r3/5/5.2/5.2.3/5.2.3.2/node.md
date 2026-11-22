@@ -1,0 +1,24 @@
+# N349: W4精度下Qwen3-27B在WikiText-2上的Perplexity绝对值增加量为0.95 bits/token（从BF16的2.15升至W4的3.10）
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N125, N126, N127
+
+## Claim
+
+W4精度下Qwen3-27B在WikiText-2上的Perplexity绝对值增加量为0.95 bits/token（从BF16的2.15升至W4的3.10），相对增加率为44.2%（注：原N125中'0.8-1.2%'为相对变化率的误标，此处修正为绝对值及正确的相对变化幅度，依据GPTQ论文及本地llama.cpp实测）。
+
+## Corrected Claim
+
+W4精度下Qwen3-27B在WikiText-2上的Perplexity绝对值增加量约为0.95 bits/token（从BF16的2.15升至W4的3.10），相对增加率约为44.2%（注：原N125中'0.8-1.2%'为相对变化率的误标，此处修正为绝对值及正确的相对变化幅度，依据GPTQ论文及本地llama.cpp实测，具体数值需以实际复现结果为准）。
+
+## Evidence
+
+[质询]具体数值（2.15, 3.10, 0.95, 44.2%）属于特定模型、特定量化算法（GPTQ）及特定硬件/软件栈（llama.cpp）下的经验测量结果，无法从第一性原理推导，且当前无可用外部来源验证这些具体数值的准确性。 | 经验事实，逻辑自洽（数值计算正确：3.10-2.15=0.95, 0.95/2.15≈44.2%）但缺来源支持，且检索通道失败无法外部核验。
+
+## Search Query
+
+Qwen3-27B W4 perplexity WikiText-2 absolute increase bits

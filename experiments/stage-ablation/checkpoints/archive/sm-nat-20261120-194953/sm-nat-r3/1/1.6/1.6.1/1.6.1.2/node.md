@@ -1,0 +1,20 @@
+# N104: 若存在突发流量且缓存未达全量驻留（假设K_cap < 10^5），ΔH的量化需计算LRU因突发驱逐头部K_evict个对象导致的字节损失，公式为ΔH = Σ_{
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N42
+
+## Claim
+
+若存在突发流量且缓存未达全量驻留（假设K_cap < 10^5），ΔH的量化需计算LRU因突发驱逐头部K_evict个对象导致的字节损失，公式为ΔH = Σ_{j∈Evicted} R_j S_j / TotalBytes，其中K_evict取决于突发窗口大小和LRU驱逐策略
+
+## Corrected Claim
+
+若存在突发流量且缓存未达全量驻留（假设K_cap < 10^5），ΔH的量化需计算LRU因突发驱逐头部K_evict个对象导致的字节损失，公式为ΔH = Σ_{j∈Evicted} R_j S_j / TotalBytes，其中K_evict取决于突发窗口大小和LRU驱逐策略
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式定义符合缓存命中率/损失率的基本量纲与逻辑，LRU驱逐机制描述准确，无内部矛盾。

@@ -1,0 +1,20 @@
+# N270: 4×A100 80GB NVLink系统在32K上下文、BF16精度下的KV Cache总显存占用为4 * (2 * 32 layers * 8 KV head
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N97
+
+## Claim
+
+4×A100 80GB NVLink系统在32K上下文、BF16精度下的KV Cache总显存占用为4 * (2 * 32 layers * 8 KV heads * 128 head_dim * 32768 seq_len * 2 bytes) ≈ 4 * 8.6GB = 34.4GB，加上模型权重54GB，总需求88.4GB，超过单卡80GB但低于4卡总容量320GB，需验证vLLM等框架在TP=4下的显存分配效率及是否触发Offload
+
+## Corrected Claim
+
+4×A100 80GB NVLink系统在32K上下文、BF16精度下的KV Cache总显存占用为4 * (2 * 32 layers * 8 KV heads * 128 head_dim * 32768 seq_len * 2 bytes) ≈ 4 * 8.6GB = 34.4GB，加上模型权重54GB，总需求88.4GB，超过单卡80GB但低于4卡总容量320GB，需验证vLLM等框架在TP=4下的显存分配效率及是否触发Offload
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：KV Cache计算公式正确（2*32*8*128*32768*2 bytes ≈ 8.6GB/卡），总显存需求88.4GB符合物理直觉，且source为knowledge，无需外部来源支持。

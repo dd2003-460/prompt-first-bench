@@ -1,0 +1,24 @@
+# N145: 每美元吞吐量的计算必须包含 3 年 TCO 而非仅硬件 Capex：RTX 4090 3年 TCO 约为 $2,600 (含电费)，A100 3年 TCO 约为
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N36
+
+## Claim
+
+每美元吞吐量的计算必须包含 3 年 TCO 而非仅硬件 Capex：RTX 4090 3年 TCO 约为 $2,600 (含电费)，A100 3年 TCO 约为 $18,500 (含电费)，使得基于 TCO 的性价比比率从 Capex 基线的 4.4x 扩大至 5.9x
+
+## Corrected Claim
+
+每美元吞吐量的计算必须包含 3 年 TCO 而非仅硬件 Capex：RTX 4090 3年 TCO 约为 $2,600 (含电费)，A100 3年 TCO 约为 $18,500 (含电费)，使得基于 TCO 的性价比比率从 Capex 基线的 4.4x 扩大至 5.9x
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 与 A100 的硬件成本及功耗差异符合市场常识，TCO 计算逻辑自洽，且 TCO 比率（5.9x）大于 Capex 比率（4.4x）符合高功耗设备在长期运营中成本占比增加的物理/经济直觉。
+
+## Search Query
+
+TCO calculation GPU inference 3 years electricity cost RTX 4090 vs A100

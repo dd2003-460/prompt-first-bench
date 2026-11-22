@@ -1,0 +1,20 @@
+# N372: NCCL (NVIDIA Collective Communications Library) 在 2× RTX 4090 上的带宽测试 (nccl-tests
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N146
+
+## Claim
+
+NCCL (NVIDIA Collective Communications Library) 在 2× RTX 4090 上的带宽测试 (nccl-tests/all_reduce_perf) 耗时 T_test = 5-10 分钟；若实测带宽 < 50 GB/s，需检查 PCIe 插槽配置 (Gen4 x16) 与 BIOS 设置，额外增加 10-20 分钟排查时间。
+
+## Corrected Claim
+
+NCCL (NVIDIA Collective Communications Library) 在 2× RTX 4090 上的带宽测试 (nccl-tests/all_reduce_perf) 耗时 T_test = 5-10 分钟；若实测带宽 < 50 GB/s，需检查 PCIe 插槽配置 (Gen4 x16) 与 BIOS 设置，额外增加 10-20 分钟排查时间。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

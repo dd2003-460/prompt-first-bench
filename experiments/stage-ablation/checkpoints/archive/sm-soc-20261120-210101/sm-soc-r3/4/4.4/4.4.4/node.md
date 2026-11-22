@@ -1,0 +1,20 @@
+# N85: 需求函数 Q(P) 的价格弹性系数 (Elasticity of Demand) 在二手商品市场中通常大于1（富有弹性），因为替代品多，假设值为 -1.5 至 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N21
+
+## Claim
+
+需求函数 Q(P) 的价格弹性系数 (Elasticity of Demand) 在二手商品市场中通常大于1（富有弹性），因为替代品多，假设值为 -1.5 至 -2.5，该参数决定P*与P_int之间的利润损失幅度。
+
+## Corrected Claim
+
+需求函数 Q(P) 的价格弹性系数 (Elasticity of Demand) 在二手商品市场中通常大于1（富有弹性），因为替代品多，假设值为 -1.5 至 -2.5，该参数决定P*与P_int之间的利润损失幅度。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：二手商品市场通常存在较多替代品，需求价格弹性绝对值大于1（富有弹性）符合经济学直觉，-1.5至-2.5的假设值在合理量级范围内，且该参数确实影响利润损失幅度。

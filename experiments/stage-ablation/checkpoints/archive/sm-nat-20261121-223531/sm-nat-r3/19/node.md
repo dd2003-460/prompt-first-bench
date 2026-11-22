@@ -1,0 +1,24 @@
+# N250: 知识来源区分：‘凭记忆的’知识包括：LRU/LFU基本替换算法原理、Pareto分布的基本性质（如α<2时均值发散需截断）、CDN缓存通常采用Write-Thr
+
+- **status**: verified
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: (root)
+
+## Claim
+
+知识来源区分：‘凭记忆的’知识包括：LRU/LFU基本替换算法原理、Pareto分布的基本性质（如α<2时均值发散需截断）、CDN缓存通常采用Write-Through或Write-Back策略的一般性描述。‘刚查到的’（题目给定）数据包括：128GB内存、10万对象、Pareto(α=1.1, β=0.9)、ρ=-0.3、50M请求/天、1%更新率。推导中必须明确：S_total的计算依赖‘刚查到的’α和N，而LRU行为分析依赖‘凭记忆的’LRU堆栈模型。若s_max未给定，需假设s_max=100MB（行业经验值，属‘凭记忆’）或标记为变量。
+
+## Corrected Claim
+
+知识来源区分：‘凭记忆的’知识包括：LRU/LFU基本替换算法原理、Pareto分布的基本性质（如α<2时均值发散需截断）、CDN缓存通常采用Write-Through或Write-Back策略的一般性描述。‘刚查到的’（题目给定）数据包括：128GB内存、10万对象、Pareto(α=1.1, β=0.9)、ρ=-0.3、50M请求/天、1%更新率。推导中必须明确：S_total的计算依赖‘刚查到的’α和N，而LRU行为分析依赖‘凭记忆的’LRU堆栈模型。若s_max未给定，需假设s_max=100MB（行业经验值，属‘凭记忆’）或标记为变量。
+
+## Evidence
+
+逻辑推导成立，来源未直接覆盖（来源[1]仅间接支持LRU/LFU为常见缓存策略，但节点核心为方法论分类与逻辑自洽性，符合第一性原理/题面条件推导）
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2069556046839001951&rut=97716e9723be89c2057c60394c504a982bd8057fe5623f618fe4d716aa98f22f', 'type': 'ddg', 'title': '吃透Redis缓存核心：淘汰策略、LRU/LFU区别与四大缓存问题全解'}

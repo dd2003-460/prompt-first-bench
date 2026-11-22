@@ -1,0 +1,20 @@
+# N198: Prefill 阶段激活缓冲 (Activation Buffers) 峰值显存占用的计算模型：C_act_prefill = B * L * H * 2 by
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N51
+
+## Claim
+
+Prefill 阶段激活缓冲 (Activation Buffers) 峰值显存占用的计算模型：C_act_prefill = B * L * H * 2 bytes (BF16) * K_layers_factor，其中 B 为 Batch Size，L 为序列长度，H 为隐藏层维度 (Qwen3-27B H=4096)。对于 B=1, L=32768, H=4096，单层激活约 268 MB，但 vLLM 通常仅保留最后一层或中间层激活用于后续计算，实际峰值取决于具体实现，通常控制在 1-2 GB 以内以平衡速度与显存。
+
+## Corrected Claim
+
+Prefill 阶段激活缓冲 (Activation Buffers) 峰值显存占用的计算模型：C_act_prefill = B * L * H * 2 bytes (BF16) * K_layers_factor，其中 B 为 Batch Size，L 为序列长度，H 为隐藏层维度 (Qwen3-27B H=4096)。对于 B=1, L=32768, H=4096，单层激活约 268 MB，但 vLLM 通常仅保留最后一层或中间层激活用于后续计算，实际峰值取决于具体实现，通常控制在 1-2 GB 以内以平衡速度与显存。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算正确（1*32768*4096*2 bytes ≈ 256MB，与268MB量级一致），vLLM激活优化策略符合工程常识。

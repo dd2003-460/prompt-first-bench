@@ -1,0 +1,20 @@
+# N411: RTX 5090 的年均电力成本 $480 基于 80% 利用率假设，需修正为 30%-50% 的实际负载因子，并考虑 FP8 精度下 Tensor Core 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N168
+
+## Claim
+
+RTX 5090 的年均电力成本 $480 基于 80% 利用率假设，需修正为 30%-50% 的实际负载因子，并考虑 FP8 精度下 Tensor Core 的功耗效率（通常高于 INT8）。
+
+## Corrected Claim
+
+RTX 5090 的年均电力成本 $480 基于 80% 利用率假设，需修正为 30%-50% 的实际负载因子；在支持 FP8 的架构中，FP8 精度下的 Tensor Core 功耗效率通常优于或接近 INT8，具体取决于硬件代际。
+
+## Evidence
+
+[质询]陈述中关于'FP8 精度下 Tensor Core 的功耗效率通常高于 INT8'的说法缺乏普遍共识支持，且不同架构（如 Ada Lovelace vs Blackwell）对 FP8/INT8 的支持程度和能效比存在差异，直接断言 FP8 效率高于 INT8 可能过于绝对或基于特定未指明的硬件代际。 | 先验知识/题面给定，逻辑校验通过：80%利用率修正为30-50%符合实际负载常识，但FP8与INT8能效对比属于具体硬件经验参数，缺乏通用绝对性，故降级。

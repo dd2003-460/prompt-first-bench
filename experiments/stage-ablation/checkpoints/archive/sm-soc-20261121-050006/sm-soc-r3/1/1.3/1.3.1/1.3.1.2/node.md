@@ -1,0 +1,28 @@
+# N141: λ_search 与曝光量 Impression 的回归系数 β_imp：通过 OLS 回归 λ_search = α + β_imp * ln(Impress
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N40
+
+## Claim
+
+λ_search 与曝光量 Impression 的回归系数 β_imp：通过 OLS 回归 λ_search = α + β_imp * ln(Impression) + ε 估计，β_imp 通常显著为正但边际递减（β_imp ∈ [0.1, 0.3]），表明曝光量增加会刺激搜索行为，但存在饱和效应。
+
+## Corrected Claim
+
+λ_search 与曝光量 Impression 的回归系数 β_imp：通过 OLS 回归 λ_search = α + β_imp * ln(Impression) + ε 估计，β_imp 通常显著为正且存在边际递减效应（具体数值范围需依据特定数据集实证确定），表明曝光量增加会刺激搜索行为但存在饱和效应。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值范围（β_imp ∈ [0.1, 0.3]）和统计显著性结论，属于特定业务场景下的经验事实，无法从第一性原理推导，且参考来源完全不相关，缺乏直接证据支持。 | 逻辑上，曝光量增加刺激搜索行为符合直觉，对数变换体现边际递减也合理；但参考来源[1]讨论的是Lasso回归中的正则化参数λ，与搜索行为回归系数无关，属于无关来源，无法提供外部支持。
+
+## Search Query
+
+user search frequency regression impression volume e-commerce platform
+
+## Retrieval Sources
+
+- {'url': 'https://developer.baidu.com/article/details/3256200&rut=e54042d865b460cf3d124d073e04a1eb16abc08af3b7d0fb0772f4a33f916989', 'type': 'ddg', 'title': '深入理解Lasso回归中的λ（Lambda）与结果解读-百度开发者中心'}

@@ -1,0 +1,20 @@
+# N156: Quality Score 的量化映射函数：定义 Q_score = (Benchmark_Score_Quantized / Benchmark_Score_
+
+- **status**: degraded
+- **level**: L3
+- **source**: derived
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N51
+
+## Claim
+
+Quality Score 的量化映射函数：定义 Q_score = (Benchmark_Score_Quantized / Benchmark_Score_BF16) * 100。具体基准选择：MMLU (通用知识), HumanEval (代码), GSM8K (数学)。基于 N49/N50 的量化损失数据：INT8 Q_score ≈ 98-99, W4 Q_score ≈ 90-95。该分数需归一化到 [0,1] 区间以符合 CPR 公式定义，即 Q_norm = Q_score / 100。
+
+## Corrected Claim
+
+Quality Score 的量化映射函数定义为 Q_score = (Benchmark_Score_Quantized / Benchmark_Score_BF16) * 100，基准包括 MMLU, HumanEval, GSM8K。需归一化至 [0,1] 区间 (Q_norm = Q_score / 100)。具体 Q_score 数值取决于模型与量化算法，典型情况下 INT8 损失较小 (Q_score 较高)，W4 损失较大 (Q_score 较低)，但具体范围需结合特定实验数据确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值（INT8 Q_score ≈ 98-99, W4 Q_score ≈ 90-95），这些数值依赖于特定的模型架构、量化算法（如GPTQ/AWQ）及数据集版本，并非普适的物理或数学常数。在缺乏具体模型上下文（如Llama-2-7B vs 70B）和量化方法的情况下，直接断言这些具体数值范围属于过度泛化的经验事实，且本轮检索无来源支持，无法排除其他模型或算法下数值显著偏离该区间的可能性。 | 逻辑自洽（公式定义清晰，归一化步骤合理），但具体数值为经验事实，且本轮检索无可用来源支持，依据经验事实排除条款降级。

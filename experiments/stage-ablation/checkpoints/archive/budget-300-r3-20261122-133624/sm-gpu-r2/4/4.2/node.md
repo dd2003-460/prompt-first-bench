@@ -1,0 +1,28 @@
+# N30: PCIe 拓扑带宽瓶颈：消费级主板通常提供 1×PCIe 4.0 x16 + 1×PCIe 5.0 x16 或 2×PCIe 4.0 x16，双卡 TP 时若共
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+PCIe 拓扑带宽瓶颈：消费级主板通常提供 1×PCIe 4.0 x16 + 1×PCIe 5.0 x16 或 2×PCIe 4.0 x16，双卡 TP 时若共享上行链路（如通过 PCH 或 P2P 不可用），有效带宽降至 32 GB/s (PCIe 4.0 x16)，导致 TP 通信延迟翻倍；需验证主板是否支持 P2P DMA（如 ASUS ProArt 或 Supermicro 主板），否则必须使用 NVLink 或单卡方案。
+
+## Corrected Claim
+
+消费级主板在双卡TP场景下，若不支持P2P DMA，通信需经CPU/内存中转，受限于PCIe上行链路带宽（如PCIe 4.0 x16约32 GB/s），可能导致通信延迟显著增加，具体影响取决于模型架构和通信频率；需验证主板是否支持P2P DMA以优化性能。
+
+## Evidence
+
+[质询]陈述中关于“TP通信延迟翻倍”的因果推断过于绝对且缺乏依据。在张量并行（TP）中，通信开销主要取决于All-Reduce/All-Gather的数据量，而数据量由模型层宽度和Batch Size决定，与PCIe带宽数值无简单的线性“翻倍”关系；此外，消费级主板通常不支持P2P DMA，导致回退到Host内存中转，带宽瓶颈确实存在，但“延迟翻倍”这一具体量化结论缺乏通用性，且不同主板/驱动配置下表现差异巨大。 | 来源[1]仅讨论了PCIe通道降级（x16 vs x8/x4）对游戏/创作性能的影响（3-5%或20-30%），未涉及双卡TP场景、P2P DMA支持或具体的32GB/s带宽瓶颈对TP延迟的具体影响，属于间接相关但无法直接支持该特定技术结论。
+
+## Search Query
+
+consumer motherboard PCIe P2P DMA support dual GPU tensor parallelism vLLM
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1898798751138682233&rut=a4b02c02308aac9130f1347f360ddd5a8c850d8e794062d756a3f0e061619d3c', 'type': 'ddg', 'title': '主板PCIe通道那些事：你的电脑性能可能被偷走了一半 - 知乎'}

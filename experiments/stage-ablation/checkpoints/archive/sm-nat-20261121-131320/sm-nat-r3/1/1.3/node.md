@@ -1,0 +1,24 @@
+# N7: 热度-大小负相关修正项：在独立假设下，命中率 H_indep = ∫ P(S≤C|f) * f df；考虑 ρ=-0.3 后，需引入联合分布修正因子 K_ρ，使
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+热度-大小负相关修正项：在独立假设下，命中率 H_indep = ∫ P(S≤C|f) * f df；考虑 ρ=-0.3 后，需引入联合分布修正因子 K_ρ，使得有效缓存容量等效于 C_eff = C * (1 + k*|ρ|)，其中 k 为耦合系数，需通过模拟或矩匹配估算。
+
+## Corrected Claim
+
+热度-大小负相关修正项：在独立假设下，命中率 H_indep = ∫ P(S≤C|f) * f df；考虑 ρ=-0.3 后，需引入联合分布修正因子 K_ρ，使得有效缓存容量等效于 C_eff = C * (1 + k*|ρ|)，其中 k 为耦合系数，需通过模拟或矩匹配估算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+cache hit rate correlation size popularity pareto

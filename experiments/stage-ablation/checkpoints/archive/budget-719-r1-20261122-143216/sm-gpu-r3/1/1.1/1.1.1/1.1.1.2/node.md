@@ -1,0 +1,24 @@
+# N155: Qwen3-27B 的 num_layers（num_hidden_layers）具体数值为 64，需从 HuggingFace Qwen3-27B 模型卡的 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N36, N37, N38
+
+## Claim
+
+Qwen3-27B 的 num_layers（num_hidden_layers）具体数值为 64，需从 HuggingFace Qwen3-27B 模型卡的 config.json 中 'num_hidden_layers' 字段确认，此值是计算 KV Cache 显存占用（N107/N109/N110）和通信开销（N139）的核心乘数因子。
+
+## Corrected Claim
+
+Qwen3-27B 的 num_hidden_layers 具体数值需从 HuggingFace 模型卡 config.json 中确认（通常大模型层数在几十层量级，此处暂记为64待核实），此值是计算 KV Cache 显存占用和通信开销的核心乘数因子。
+
+## Evidence
+
+[质询]具体数值（64层）属于经验事实/模型配置参数，无法从第一性原理推导，且当前无可用外部来源直接证实该特定数值，存在数值错误的可能性（例如实际为48层或其他值）。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，无法验证具体数值64的准确性）
+
+## Search Query
+
+Qwen3-27B config.json num_hidden_layers

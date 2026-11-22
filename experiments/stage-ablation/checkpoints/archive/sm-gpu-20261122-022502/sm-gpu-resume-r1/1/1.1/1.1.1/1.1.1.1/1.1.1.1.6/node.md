@@ -1,0 +1,30 @@
+# N371: Qwen3-27B 的 tie_word_embeddings 确切值为 false，依据 HuggingFace 官方仓库 Qwen/Qwen3-27B 的 
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N130, N131, N132
+
+## Claim
+
+Qwen3-27B 的 tie_word_embeddings 确切值为 false，依据 HuggingFace 官方仓库 Qwen/Qwen3-27B 的 config.json 文件。
+
+## Corrected Claim
+
+Qwen3-27B 的 tie_word_embeddings 值通常为 false，但需查阅 HuggingFace 官方仓库 Qwen/Qwen3-27B 的 config.json 文件以确认确切值。
+
+## Evidence
+
+[质询]参考来源中未包含 Qwen3-27B 的 config.json 具体字段值，且来源 [1] 和 [2] 提及的模型版本（Qwen3.8-27B, Qwen 3.6 27B）与事实节点中的 Qwen3-27B 存在版本命名差异，无法直接证实该特定版本的确切配置值。 | 来源 [3] 讨论了 Qwen 系列 config 参数及小模型权重共享情况，间接支持了该参数存在的可能性，但未提供 Qwen3-27B 的具体数值；作为经验事实（硬件/模型配置），缺乏直接来源支持，故降级。
+
+## Search Query
+
+Qwen3-27B config.json tie_word_embeddings
+
+## Retrieval Sources
+
+- {'url': 'https://devpress.csdn.net/v1/article/detail/152202097&rut=31dc02b7f3ff0b8bd6a5d5dbbccbbd936730695c58ff169decd73e2e614008b2', 'type': 'ddg', 'title': 'Qwen3.8-27B-FP8 提示词工程指南：10 个让多模态大模型发挥全部实力的技巧_丁淳凝-亚马逊云科技技术品牌专区'}
+- {'url': 'https://blog.csdn.net/weixin_29045585/article/details/167203395&rut=59b294465009ff5abd615534ff824e839cd4b95cf65b9f8b750de23770ba1266', 'type': 'ddg', 'title': 'Qwen 3.8 27B 在 A100 上的推理 Baseline 实践指南 - CSDN博客'}
+- {'url': 'https://blog.csdn.net/yuzhou164/article/details/149415802&rut=0ce20773ccf5941ca62d034033bf41edc0d0669317839ea0f23f8a65379619dc', 'type': 'ddg', 'title': 'Qwen系列的模型 config 参数理解_qwen3config-CSDN博客'}

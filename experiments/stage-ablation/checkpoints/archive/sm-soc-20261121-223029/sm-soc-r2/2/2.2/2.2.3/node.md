@@ -1,0 +1,24 @@
+# N52: 买家搜索成本的分解：C_search(δ) = C_base + k*δ 中，C_base 为固定时间成本（约 5 分钟/次搜索），k 为边际搜索成本系数。当 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N12, N13, N14
+
+## Claim
+
+买家搜索成本的分解：C_search(δ) = C_base + k*δ 中，C_base 为固定时间成本（约 5 分钟/次搜索），k 为边际搜索成本系数。当 δ > 0.20 时，k 显著增大（k > 0.5），因为买家需额外验证高价合理性（如检查卖家信誉、对比更多竞品），导致总搜索成本超过买家预期收益，从而放弃搜索。
+
+## Corrected Claim
+
+买家搜索成本的分解：C_search(δ) = C_base + k*δ 中，C_base 为固定时间成本（约 5 分钟/次搜索），k 为边际搜索成本系数。当 δ > 0.20 时，k 显著增大（k > 0.5），因为买家需额外验证高价合理性（如检查卖家信誉、对比更多竞品），导致总搜索成本超过买家预期收益，从而放弃搜索。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+consumer search cost marginal cost coefficient high price premium 20% verification effort

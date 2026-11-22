@@ -1,0 +1,20 @@
+# N41: 整体成交周期 T_cycle 的加权平均模型：T_cycle = (1 - p_impulse) * T_rational + p_impulse * T_im
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N15
+
+## Claim
+
+整体成交周期 T_cycle 的加权平均模型：T_cycle = (1 - p_impulse) * T_rational + p_impulse * T_impulse，其中 p_impulse 为冲动型买家占比，T_rational 为理性买家决策时间，T_impulse 为冲动型买家决策时间（T_impulse ≈ 0.5 * T_rational）。
+
+## Corrected Claim
+
+整体成交周期 T_cycle 的加权平均模型：T_cycle = (1 - p_impulse) * T_rational + p_impulse * T_impulse，其中 p_impulse 为冲动型买家占比，T_rational 为理性买家决策时间，T_impulse 为冲动型买家决策时间（T_impulse ≈ 0.5 * T_rational）。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应模型的两个边界工作点（高/低冲动占比）和函数的敏感性斜率（导数），三者分别描述了状态、边界和变化率，逻辑上正交且无重复。完备性方面，对于线性加权模型，确定两个端点和斜率即可完全定义该线段的行为，覆盖了父节点模型的核心数学特征。）

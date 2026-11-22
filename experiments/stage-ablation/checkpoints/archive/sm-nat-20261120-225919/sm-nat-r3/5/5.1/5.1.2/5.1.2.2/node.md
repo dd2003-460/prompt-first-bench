@@ -1,0 +1,20 @@
+# N199: 截断对象（>1.3MB）对字节命中率 H_byte 的具体影响：若这 40 个对象无法缓存，其流量占比 D_trunc ≈ 0.4%，则 H_byte_max 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N72
+
+## Claim
+
+截断对象（>1.3MB）对字节命中率 H_byte 的具体影响：若这 40 个对象无法缓存，其流量占比 D_trunc ≈ 0.4%，则 H_byte_max = 1 - D_trunc = 99.6%，即截断效应导致命中率上限从 100% 降至 99.6%，损失 0.4 个百分点。
+
+## Corrected Claim
+
+截断对象（>1.3MB）对字节命中率 H_byte 的具体影响：若这 40 个对象无法缓存，其流量占比 D_trunc ≈ 0.4%，则 H_byte_max = 1 - D_trunc = 99.6%，即截断效应导致命中率上限从 100% 降至 99.6%，损失 0.4 个百分点。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：若截断对象流量占比为0.4%且无法缓存，则最大字节命中率确实为1-0.4%=99.6%，数学推导自洽。

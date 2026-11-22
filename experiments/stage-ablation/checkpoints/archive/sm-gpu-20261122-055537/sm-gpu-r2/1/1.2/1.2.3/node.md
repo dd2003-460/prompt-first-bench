@@ -1,0 +1,24 @@
+# N42: NVIDIA L40S 48GB 在2024-2025年的租赁价格（$/hour）与购买价格（$/unit）区间，以及其典型功耗（W），用于评估中端数据中心卡的
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N8
+
+## Claim
+
+NVIDIA L40S 48GB 在2024-2025年的租赁价格（$/hour）与购买价格（$/unit）区间，以及其典型功耗（W），用于评估中端数据中心卡的TCO。
+
+## Corrected Claim
+
+NVIDIA L40S 48GB 是一款中端数据中心GPU，其租赁价格、购买价格及典型功耗需参考最新市场报价和官方规格表，当前缺乏具体数值支持。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件规格（48GB显存、典型功耗）和市场经验数据（2024-2025年租赁/购买价格区间），属于经验事实。由于本轮检索无可用来源，无法验证具体数值是否准确，且市场价格随时间波动大，缺乏实时数据支持。 | 经验事实，逻辑自洽但缺来源支持。NVIDIA L40S确实存在48GB版本，其功耗和价格量级在数据中心GPU中属于合理范围，但具体数值无法通过第一性原理推导，且无外部来源佐证。
+
+## Search Query
+
+NVIDIA L40S 48GB price 2024 2025 USD rental purchase power consumption

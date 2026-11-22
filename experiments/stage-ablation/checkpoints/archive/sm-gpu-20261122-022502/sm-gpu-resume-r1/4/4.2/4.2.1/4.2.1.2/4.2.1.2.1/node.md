@@ -1,0 +1,24 @@
+# N794: Qwen3-27B 的 GQA (Grouped Query Attention) 架构参数：num_key_value_heads = 4, head_dim
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N248, N249, N250
+
+## Claim
+
+Qwen3-27B 的 GQA (Grouped Query Attention) 架构参数：num_key_value_heads = 4, head_dim = 128, num_layers = 60。此参数直接决定 KV Cache 大小计算基础，若误用 MHA (32 heads) 会导致 KV 估算错误 8 倍。
+
+## Corrected Claim
+
+Qwen3-27B 的 GQA (Grouped Query Attention) 架构参数：num_key_value_heads = 4, head_dim = 128, num_layers = 60。此参数直接决定 KV Cache 大小计算基础，若误用 MHA (32 heads) 会导致 KV 估算错误 8 倍。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B 确实采用 GQA 架构，其 num_key_value_heads 为 4，head_dim 为 128，num_layers 为 60。若误用 MHA（假设 32 个 KV heads），KV Cache 大小将扩大 32/4 = 8 倍，逻辑自洽且符合模型架构事实。
+
+## Search Query
+
+Qwen3-27B config.json num_key_value_heads head_dim

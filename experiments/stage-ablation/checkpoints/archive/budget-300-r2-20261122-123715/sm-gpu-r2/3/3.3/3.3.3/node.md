@@ -1,0 +1,28 @@
+# N75: 散热对性能的影响：若散热不足导致 GPU 降频（Thermal Throttling），RTX 4090 在持续 32K 推理中性能下降 10-20%；需确保机
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N16
+
+## Claim
+
+散热对性能的影响：若散热不足导致 GPU 降频（Thermal Throttling），RTX 4090 在持续 32K 推理中性能下降 10-20%；需确保机箱风道设计（前进后出）满足 450W 散热需求，否则 TCO 中需计入性能损失导致的吞吐量降低。
+
+## Corrected Claim
+
+散热不足导致GPU触发Thermal Throttling时，RTX 4090在持续高负载推理中会出现性能下降（具体幅度视散热条件而定，通常显著）；需确保机箱风道设计满足高功耗（如450W TDP级别）散热需求，否则TCO中需计入因降频导致的吞吐量降低。
+
+## Evidence
+
+[质询]具体数值（10-20%性能下降、450W散热需求）缺乏直接来源支持，属于经验性估算，不同机箱风道和负载场景下波动较大，无法从单一来源确证。 | 来源[1]确认了Thermal Throttling机制的存在及降频后果，但未提供RTX 4090在32K推理下的具体性能损失百分比或450W散热设计的具体阈值，属于间接支持。
+
+## Search Query
+
+GPU thermal throttling performance loss LLM inference sustained load
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/13866293937&rut=b69a7ed3ae8faac22b32e54258b1ae64837622a4857660420b1405d9a9e2204d', 'type': 'ddg', 'title': '聊一聊英伟达gpu的降频问题 - 知乎'}

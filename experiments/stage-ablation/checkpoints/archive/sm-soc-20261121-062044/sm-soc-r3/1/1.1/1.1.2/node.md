@@ -1,0 +1,24 @@
+# N29: 共享随机源：买家偏好噪声方差 σ²_pref 的构成项——商品异质性导致的估值离散度 σ²_heter，定义为同类商品（同一SKU/型号）不同个体在二手市场上的
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N5, N6, N7
+
+## Claim
+
+共享随机源：买家偏好噪声方差 σ²_pref 的构成项——商品异质性导致的估值离散度 σ²_heter，定义为同类商品（同一SKU/型号）不同个体在二手市场上的客观价值差异标准差，需通过专家评估或拍卖成交价分布的右尾长度估计。
+
+## Corrected Claim
+
+买家估值方差通常由两部分组成：一是商品异质性导致的估值离散度（σ²_heter，反映同类商品个体间的客观价值差异），二是买家偏好噪声（σ²_pref，反映买家主观偏好的随机波动）。二者共同构成总估值方差，而非前者是后者的构成项。
+
+## Evidence
+
+[质询]该陈述将‘同类商品不同个体的客观价值差异’定义为‘买家偏好噪声方差’的构成项，存在概念混淆。在经济学和拍卖理论中，‘商品异质性’（Item Heterogeneity）通常被视为独立于‘买家偏好噪声’（Buyer Preference Noise/Idiosyncratic Valuation）的变量。前者是商品属性的客观差异，后者是买家主观偏好的随机波动。将客观的商品差异强行归入‘偏好噪声’的方差构成中，在理论定义上不够严谨，且‘右尾长度估计’这一具体方法论缺乏通用标准支持，属于特定模型假设而非普适事实。 | 经验事实/理论定义，逻辑自洽但存在概念边界模糊，且无外部来源支持该特定定义及估计方法。
+
+## Search Query
+
+used goods heterogeneity valuation dispersion standard deviation auction price tail

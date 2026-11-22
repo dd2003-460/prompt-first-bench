@@ -1,0 +1,24 @@
+# N143: Apple M4 Max显存容量限制：128GB统一内存中，系统预留约16-32GB，可用显存约为96-112GB。在BF16精度下（需68.7GB）可单卡运行
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N42
+
+## Claim
+
+Apple M4 Max显存容量限制：128GB统一内存中，系统预留约16-32GB，可用显存约为96-112GB。在BF16精度下（需68.7GB）可单卡运行，但在FP16 KV Cache下若上下文>32K或Batch>2，显存可能溢出，需严格限制Batch size=1且Seq_len≤32K。
+
+## Corrected Claim
+
+Apple M4 Max显存容量限制：128GB统一内存中，系统预留约16-32GB，可用显存约为96-112GB。在BF16精度下（需68.7GB）可单卡运行，但在FP16 KV Cache下若上下文>32K或Batch>2，显存可能溢出，需严格限制Batch size=1且Seq_len≤32K。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：M4 Max最高支持128GB统一内存，系统预留16-32GB符合macOS内存管理常规，剩余96-112GB显存空间足以容纳68.7GB的BF16模型权重，且KV Cache随序列长度和Batch size线性增长，限制Batch=1和Seq_len≤32K以防止溢出符合显存计算逻辑。
+
+## Search Query
+
+Apple M4 Max 128GB unified memory usable GPU memory limit

@@ -1,0 +1,24 @@
+# N230: 投影1（效用阈值下移）：买家期望效用 E[U_buyer]_adjusted 的均值 μ_U 和方差 σ²_U 分别为 μ_U = μ_U_base + E[w
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N62
+
+## Claim
+
+投影1（效用阈值下移）：买家期望效用 E[U_buyer]_adjusted 的均值 μ_U 和方差 σ²_U 分别为 μ_U = μ_U_base + E[w_signal] * (1/T) 和 σ²_U = σ²_U_base + Var(w_signal) * (1/T)² + 2*Cov(U_base, w_signal)/T，导致 E[U_buyer] > 0 的概率 P(deal) 从 P(deal|w_0) 变为 P(deal|w_signal)，其变化量 ΔP = Φ((μ_U - 0)/σ_U) - Φ((μ_U_base - 0)/σ_U_base)。
+
+## Corrected Claim
+
+投影1（效用阈值下移）：买家期望效用 E[U_buyer]_adjusted 的均值 μ_U 和方差 σ²_U 分别为 μ_U = μ_U_base + E[w_signal] * (1/T) 和 σ²_U = σ²_U_base + Var(w_signal) * (1/T)² + 2*Cov(U_base, w_signal)/T，导致 E[U_buyer] > 0 的概率 P(deal) 从 P(deal|w_0) 变为 P(deal|w_signal)，其变化量 ΔP = Φ((μ_U - 0)/σ_U) - Φ((μ_U_base - 0)/σ_U_base)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于正态分布假设，均值和方差的线性叠加及概率密度函数变换符合概率论基本性质，量纲与逻辑自洽。
+
+## Search Query
+
+impact of random utility weight on probability of purchase in second-hand market

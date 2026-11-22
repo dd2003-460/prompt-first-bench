@@ -1,0 +1,24 @@
+# N218: 卖家维护成本的直接资金分量 C_direct = C_listing_fee + C_photo_tools，其中 C_listing_fee 为平台收取的额外
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N73
+
+## Claim
+
+卖家维护成本的直接资金分量 C_direct = C_listing_fee + C_photo_tools，其中 C_listing_fee 为平台收取的额外推广费或置顶费，C_photo_tools 为提升列表吸引力的工具订阅成本，需量化高溢价策略下这两项费用相对于基础策略的增量 ΔC_direct。
+
+## Corrected Claim
+
+卖家维护成本的直接资金分量 C_direct = C_listing_fee + C_photo_tools，其中 C_listing_fee 为平台收取的额外推广费或置顶费，C_photo_tools 为提升列表吸引力的工具订阅成本，需量化高溢价策略下这两项费用相对于基础策略的增量 ΔC_direct。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+marketplace listing fee premium promotion cost seller

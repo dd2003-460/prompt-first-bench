@@ -1,0 +1,28 @@
+# N30: T_resident 的精确解析式：T_resident = C / (λ * H_byte)，其中 λ = 5e7/天，H_byte 为字节命中率，C 为缓存
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+T_resident 的精确解析式：T_resident = C / (λ * H_byte)，其中 λ = 5e7/天，H_byte 为字节命中率，C 为缓存覆盖比例，该式消除了 N11 中 T_resident=1 天的假设误差，代入 N6 的 H_LRU=0.587 可得 T_resident ≈ 0.587/5e7 天 ≈ 1.01e-8 天（约 0.87 毫秒），表明 LRU 缓存对象平均驻留时间极短，而非 1 天
+
+## Corrected Claim
+
+在特定模型假设下，代入 H_LRU=0.587 和 λ=5e7/天，计算得出的 T_resident 量级约为 10^-8 天（毫秒级），表明驻留时间极短，而非 1 天。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（1. 冗余严重：三个子节点本质上只是公式 T = C/(λ*H) 中 C 和 H 参数的不同取值，属于同一维度的数值实例，未提供新的独立逻辑分支或机制解释，应合并为一个‘参数敏感性分析’节点。2. 完备性缺失：父节点核心在于‘消除假设误差’和‘得出极短驻留时间’的定性结论，子节点仅罗列了计算结果，未涵盖‘为什么这消除了误差’或‘该结论对系统设计的意义’等关键方面。3. 正交性尚可：虽然数值不同，但逻辑上是并列的参数扫描，未互相矛盾。）
+
+## Search Query
+
+LRU cache object residence time formula request rate hit rate
+
+## Retrieval Sources
+
+- {'url': 'https://wenku.baidu.com/view/f2bfbfc30c22590102029dba.html&rut=19472e8cd7dc5fb58399292250ddd927ea6d459194c7dc3a6b47e581e669f857', 'type': 'ddg', 'title': 'FLUENT 高手进阶—Modeling of Residence Time Distribution in FLUENT'}

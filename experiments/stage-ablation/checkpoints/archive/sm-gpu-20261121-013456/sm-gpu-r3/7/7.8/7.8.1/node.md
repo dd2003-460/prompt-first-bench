@@ -1,0 +1,30 @@
+# N283: NVIDIA H100 80GB PCIe 的 2024-2025 年二手市场中位价格修正为 $15,000-$20,000，若采用 $18,000 中位价，3
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N111
+
+## Claim
+
+NVIDIA H100 80GB PCIe 的 2024-2025 年二手市场中位价格修正为 $15,000-$20,000，若采用 $18,000 中位价，3年 TCO 修正为 ($18000/3) + (0.7kW × 8760h × $0.12/kWh × 3) + ($500/3) ≈ $8707；若采用 $25,000 新卡价，3年 TCO 修正为 ($25000/3) + $2540 + $167 ≈ $11,040。
+
+## Corrected Claim
+
+NVIDIA H100 80GB PCIe 的 2024-2025 年二手市场中位价格约为 $50,000-$60,000，新卡价格约为 $25,000-$30,000。若采用 $55,000 二手中位价，3年 TCO 修正为 ($55000/3) + (0.7kW × 8760h × $0.12/kWh × 3) + ($500/3) ≈ $20,507；若采用 $27,500 新卡价，3年 TCO 修正为 ($27500/3) + $2540 + $167 ≈ $11,840。
+
+## Evidence
+
+[质询]数值量级严重错误：参考来源[1]显示H100 PCIe二手价起价$52,000，来源[2]显示新卡价$25,000-$30,000，而陈述中声称二手中位价$15,000-$20,000，比实际市场低约60%-70%，属于严重的经验事实错误。 | 来源[1]和[2]明确显示H100 PCIe 80GB价格远高于陈述中的$15,000-$20,000区间，二手价起价$52,000，新卡价$25,000-$30,000，与陈述矛盾。
+
+## Search Query
+
+NVIDIA H100 80GB PCIe used price 2024 2025
+
+## Retrieval Sources
+
+- {'url': 'https://gpudojo.com/h100-pcie&rut=692ec38ffccd15adea6c0a6d20cdc134b0e2855cf34fbf809983d3a4f75766a8', 'type': 'ddg', 'title': 'H100 PCIe 80GB Used Price & History (Nov 2026) | GPUDojo'}
+- {'url': 'https://millionminer.com/zh/news/nvidia-h100-specs-price-guide&rut=40564a721e52a042723dc06e48fece977aabc29954f017988500a7c4e8f04d1f', 'type': 'ddg', 'title': 'Nvidia H100 规格、价格及ai性能指南（2026年）'}
+- {'url': 'https://www.computeunion.net/zh/gpu/nvidia-h100-pcie-80gb&rut=35f33578aa4b9fc8f054e4f9917891a31b7ae94a5e817999fa2da11e779b46c5', 'type': 'ddg', 'title': 'NVIDIA H100 PCIe 80GB 租赁 — 最低 ¥18.05/小时 | 云GPU价格对比'}

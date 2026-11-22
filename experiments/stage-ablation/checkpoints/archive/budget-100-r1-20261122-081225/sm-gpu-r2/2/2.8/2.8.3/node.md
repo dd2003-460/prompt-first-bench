@@ -1,0 +1,24 @@
+# N101: Qwen3-27B (dense) 在 FP8 (E4M3) 精度下于 HumanEval 基准的代码生成通过率 (Pass@1) [待核验，预期约 65-75
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N23
+
+## Claim
+
+Qwen3-27B (dense) 在 FP8 (E4M3) 精度下于 HumanEval 基准的代码生成通过率 (Pass@1) [待核验，预期约 65-75%，需查 HuggingFace 或 ModelScope 官方发布]。
+
+## Corrected Claim
+
+Qwen3-27B (dense) 在 FP8 (E4M3) 精度下于 HumanEval 基准的代码生成通过率 (Pass@1) 具体数值需查阅特定量化实现（如官方发布或主流量化库）的评测报告，通常预期在 60-75% 区间内波动。
+
+## Evidence
+
+[质询]具体数值（65-75%）属于经验事实，且FP8精度下的具体性能指标可能因量化方法（如SmoothQuant, GPTQ等）不同而有显著差异，缺乏官方统一基准数据支持该特定区间。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体量化模型性能指标无法从第一性原理严格推出）。
+
+## Search Query
+
+Qwen3-27B FP8 HumanEval Pass@1 benchmark

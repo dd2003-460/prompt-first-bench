@@ -1,0 +1,24 @@
+# N848: RTX 5090 的 FP8/INT4 加速依赖于 CUDA 12.8+ 及 PyTorch 2.4+ 或 vLLM 0.6+ 的支持。若软件栈不支持，5090
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N263, N264, N265
+
+## Claim
+
+RTX 5090 的 FP8/INT4 加速依赖于 CUDA 12.8+ 及 PyTorch 2.4+ 或 vLLM 0.6+ 的支持。若软件栈不支持，5090 的 Decode 吞吐将回退至与 4090 相近的 BF16 水平，此时 5090 的性价比优势消失，仅靠带宽优势提供约 1.2-1.5x 的提升。
+
+## Corrected Claim
+
+RTX 5090 的 FP8/INT4 加速依赖于较新的 CUDA 及主流推理框架（如 PyTorch/vLLM）的支持。若软件栈不支持，5090 的 Decode 吞吐将主要依赖带宽优势，相比 4090 的提升幅度有限（约 1.2-1.5x），性价比优势减弱。
+
+## Evidence
+
+[质询]软件版本依赖关系（CUDA 12.8+/PyTorch 2.4+/vLLM 0.6+）属于具体的经验性技术规格，且不同框架对 FP8/INT4 的支持版本可能不同，存在版本对应关系不准确或过于绝对化的风险；此外，'回退至与 4090 相近的 BF16 水平'这一性能对比结论缺乏通用基准测试支持，可能因具体模型和负载而异。 | 先验知识/题面给定，逻辑校验通过，但具体软件版本依赖及性能回退幅度属于经验事实，缺乏来源直接支持，故降级。
+
+## Search Query
+
+RTX 5090 FP8 INT4 inference software stack requirements CUDA version vLLM support

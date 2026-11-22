@@ -1,0 +1,29 @@
+# N307: 量化数量效应项 $P_{buy} \cdot \Delta Q$ 的弹性系数 $\epsilon_{Q,trust}$：定义 $\Delta Q/Q_0 = \
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N106
+
+## Claim
+
+量化数量效应项 $P_{buy} \cdot \Delta Q$ 的弹性系数 $\epsilon_{Q,trust}$：定义 $\Delta Q/Q_0 = \epsilon_{Q,trust} \times (\Delta F_{fair}/\sigma_{F})$，需通过A/B测试估计 $\epsilon_{Q,trust}$ 在二手非标品市场的实际区间（假设基准为 0.2-0.5）。
+
+## Corrected Claim
+
+量化数量效应项 $P_{buy} \cdot \Delta Q$ 的弹性系数 $\epsilon_{Q,trust}$：定义 $\Delta Q/Q_0 = \epsilon_{Q,trust} \times (\Delta F_{fair}/\sigma_{F})$，需通过A/B测试估计 $\epsilon_{Q,trust}$ 在二手非标品市场的实际区间（具体数值需实证数据支持，此处暂缺可靠基准）。
+
+## Evidence
+
+[质询]该陈述中的弹性系数区间（0.2-0.5）属于特定市场（二手非标品）的经验性参数，无法从第一性原理或通用经济学理论中严格推导得出，且参考来源未提供该具体数值的支持。 | 逻辑自洽，但参考来源[1][2]仅涉及垄断与竞争法的一般性弹性概念，未覆盖二手非标品市场的具体弹性数值，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+second-hand marketplace transaction volume elasticity trust transparency A/B test
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Monopoly', 'type': 'wikipedia', 'title': 'Monopoly'}
+- {'url': 'https://en.wikipedia.org/wiki/Competition_law', 'type': 'wikipedia', 'title': 'Competition law'}

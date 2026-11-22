@@ -1,0 +1,20 @@
+# N241: 2x RTX 4090 满载功耗修正：单卡 TDP 450W，双卡满载总功耗 900W，加上 CPU (125W) 及其他组件 (100W)，系统峰值功耗约 1
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N111
+
+## Claim
+
+2x RTX 4090 满载功耗修正：单卡 TDP 450W，双卡满载总功耗 900W，加上 CPU (125W) 及其他组件 (100W)，系统峰值功耗约 1125W；根据 80 Plus Titanium 认证标准（转换效率 >90%），所需电源额定功率需覆盖 1125W/0.9 ≈ 1250W；1200W-1300W 钛金/白金电源（如 Corsair AX1600i 或 Seasonic PRIME TX-1300）市场均价为 $250-$350，修正 N111 中 $200 的低估。
+
+## Corrected Claim
+
+2x RTX 4090 满载功耗修正：单卡 TDP 450W，双卡满载总功耗 900W，加上 CPU (125W) 及其他组件 (100W)，系统峰值功耗约 1125W；根据 80 Plus Titanium 认证标准（转换效率 >90%），所需电源额定功率需覆盖 1125W/0.9 ≈ 1250W；1200W-1300W 钛金/白金电源（如 Corsair AX1600i 或 Seasonic PRIME TX-1300）市场均价为 $250-$350，修正 N111 中 $200 的低估。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 TDP 450W 及 80 Plus Titanium 效率 >90% 均为公认工程参数，功耗计算与电源选型逻辑自洽。

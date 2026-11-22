@@ -1,0 +1,24 @@
+# N331: 透明度标签对 γ_defect 的边际降低效应 Δγ_defect：Δγ_defect = γ_defect_prior - γ_defect_post，其中 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N105, N106, N107
+
+## Claim
+
+透明度标签对 γ_defect 的边际降低效应 Δγ_defect：Δγ_defect = γ_defect_prior - γ_defect_post，其中 γ_defect_post 为实验组（有标签）的瑕疵怀疑系数，基于A/B测试中实验组与对照组的咨询率差值 ΔQ_diff 反推，预期 Δγ_defect ∈ [0.2, 0.4]
+
+## Corrected Claim
+
+透明度标签对 γ_defect 的边际降低效应 Δγ_defect 定义为 γ_defect_prior - γ_defect_post，其中 γ_defect_post 基于A/B测试中实验组与对照组的咨询率差值 ΔQ_diff 反推。具体数值区间需依据实际实验数据确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值区间 [0.2, 0.4] 和特定的因果反推逻辑（从咨询率差值反推瑕疵怀疑系数），这属于经验事实而非第一性原理可推导的数学或物理定律。在缺乏任何外部来源支持的情况下，无法验证该具体数值区间的准确性或反推方法的合理性。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+transparency label effect on buyer suspicion C2C A/B test

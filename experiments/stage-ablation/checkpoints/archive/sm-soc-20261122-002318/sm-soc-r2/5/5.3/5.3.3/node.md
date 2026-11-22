@@ -1,0 +1,28 @@
+# N84: 买家侧驱动力的量化排除条件：若买家保留价格分布 R 的右偏度 (Skewness) > 0.5，且高保留价买家 (Top 10%) 的成交占比 > 30%，则买
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N29
+
+## Claim
+
+买家侧驱动力的量化排除条件：若买家保留价格分布 R 的右偏度 (Skewness) > 0.5，且高保留价买家 (Top 10%) 的成交占比 > 30%，则买家异质性是短周期的主要解释因素，而非平台算法。需检索二手市场买家保留价格分布的偏度与峰度实证数据。
+
+## Corrected Claim
+
+买家侧驱动力的量化排除条件：若买家保留价格分布 R 的右偏度 (Skewness) 显著大于 0（例如 > 0.5），且高保留价买家 (Top 10%) 的成交占比显著高于平均水平（例如 > 30%），则买家异质性可能是短周期的主要解释因素，而非平台算法。具体阈值需结合特定二手市场的实证数据校准。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（偏度>0.5，Top 10%占比>30%）作为判定“主要解释因素”的充分条件，这属于特定市场场景下的经验事实或模型假设，无法从第一性原理或数学公理中严格推导出来，且缺乏普遍适用的实证支持。 | 来源[1]仅解释了偏度的统计定义，未提供二手市场买家保留价格分布的实证数据或支持该特定阈值逻辑，属于经验事实且缺来源直接支持。
+
+## Search Query
+
+buyer reservation price distribution skewness second hand market
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/691680115&rut=c299fd4144d2e6b73e6613808af0e321b8560ad568af260f24a8367ecf26d473', 'type': 'ddg', 'title': '一文带您了解数据偏度 (Skewness):检测与处理 - 知乎'}

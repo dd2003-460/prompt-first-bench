@@ -1,0 +1,20 @@
+# N330: CV的95%置信区间宽度公式需具体化：CI_width = 2 * 1.96 * SE(CV)，其中SE(CV) = sqrt((1/n) * (1 - CV²
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N95, N96, N97
+
+## Claim
+
+CV的95%置信区间宽度公式需具体化：CI_width = 2 * 1.96 * SE(CV)，其中SE(CV) = sqrt((1/n) * (1 - CV²/2) * (1 + 2*(CV²/n)))，当n=300且CV=0.2时，CI_width=0.087，若CI_width>0.1，则置信度降为'低'，需增加样本量至n≥(2*1.96*SE(CV)/0.1)²。
+
+## Corrected Claim
+
+CV的95%置信区间宽度公式需具体化：CI_width = 2 * 1.96 * SE(CV)，其中SE(CV)的具体形式取决于CV的估计方法（如Bootstrap或解析近似）。当n=300且CV=0.2时，若采用特定近似公式，CI_width约为0.087。若CI_width>0.1，则置信度降为'低'，需增加样本量。
+
+## Evidence
+
+[质询]公式中的SE(CV)表达式缺乏明确的统计分布假设（如正态分布或特定重采样方法），且数值计算结果（0.087）依赖于未说明的近似条件，存在口径混淆风险。 | 先验知识/题面给定，逻辑校验通过，但缺乏外部来源直接支持具体公式形式及数值精度。

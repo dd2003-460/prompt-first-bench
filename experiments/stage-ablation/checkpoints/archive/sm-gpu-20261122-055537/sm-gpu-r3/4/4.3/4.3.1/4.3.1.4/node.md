@@ -1,0 +1,24 @@
+# N236: H100 SXM 本地部署的冷却基础设施边际成本 C_cool_datacenter 分解项2：散热硬件成本。SXM 模组需配备被动散热背板或主动风扇模组（如 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N69, N70, N71
+
+## Claim
+
+H100 SXM 本地部署的冷却基础设施边际成本 C_cool_datacenter 分解项2：散热硬件成本。SXM 模组需配备被动散热背板或主动风扇模组（如 NVIDIA 参考设计或第三方适配），若使用服务器级风冷机箱（如 Supermicro 720P），成本约 $300-800；若需小型液冷循环泵（如 Alphacool 或 Corsair 定制），成本约 $500-1500。年摊销 C_cool_hw ≈ $100-500/年。
+
+## Corrected Claim
+
+SXM 模组散热硬件成本取决于冷却方案：服务器级风冷机箱成本通常在数百美元量级，小型液冷循环系统成本通常在数百至一千余美元量级。具体价格需根据实际采购渠道和型号确定，年摊销成本约为初始硬件成本的 10%-20%（假设 5-10 年寿命）。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件型号（Supermicro 720P, Alphacool）及对应的价格区间（$300-800, $500-1500），属于经验事实。由于检索失败，无法验证这些具体价格是否准确或是否过时，且不同供应商和采购规模会导致价格波动，存在口径混淆风险。 | 经验事实，逻辑自洽但缺来源支持。虽然无法验证具体价格，但风冷机箱和液冷组件的成本量级在工程常识范围内是合理的，年摊销计算逻辑正确。
+
+## Search Query
+
+H100 SXM local cooling solution cost liquid cooling pump server chassis

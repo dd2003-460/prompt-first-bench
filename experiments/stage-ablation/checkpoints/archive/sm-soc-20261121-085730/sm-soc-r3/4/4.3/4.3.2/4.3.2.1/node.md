@@ -1,0 +1,24 @@
+# N267: 价格敏感度系数 γ 的基准值设定为 0.4，其置信区间 [0.3, 0.5] 基于卖家历史调价行为回归得出，需控制卖家信誉等级变量
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N89
+
+## Claim
+
+价格敏感度系数 γ 的基准值设定为 0.4，其置信区间 [0.3, 0.5] 基于卖家历史调价行为回归得出，需控制卖家信誉等级变量
+
+## Corrected Claim
+
+价格敏感度系数 γ 的基准值设定为 0.4，其置信区间 [0.3, 0.5] 基于卖家历史调价行为回归得出，需控制卖家信誉等级变量
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+seller price sensitivity coefficient in second-hand platforms

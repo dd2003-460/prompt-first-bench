@@ -1,0 +1,28 @@
+# N53: 声誉溢价 β_status 的边际衰减率：随着卖家历史交易次数 N_trans 增加，β_status 呈指数衰减 β_status(N) = β_0 * e^
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N19, N20, N21
+
+## Claim
+
+声誉溢价 β_status 的边际衰减率：随着卖家历史交易次数 N_trans 增加，β_status 呈指数衰减 β_status(N) = β_0 * e^(-k*N_trans)，其中 k 为衰减系数。新卖家（N_trans < 5）的 β_status 显著高于老卖家（N_trans > 20），解释为何新卖家更倾向高挂价。
+
+## Corrected Claim
+
+随着卖家历史交易次数增加，声誉溢价通常呈现边际衰减趋势，新卖家可能因缺乏历史约束而更倾向高挂价，但具体的指数衰减系数及阈值需依据特定平台数据实证确定。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点分别对应指数函数中的初始值、衰减系数和隐含的渐近行为，逻辑上正交且无冗余。但父节点明确给出的数学模型是 β_status(N) = β_0 * e^(-k*N_trans)，该模型在 N_trans 趋向无穷大时收敛于 0。然而，第三个子节点引入了一个非零的收敛下限 β_floor（通常 > 0），这与父节点定义的纯指数衰减模型在数学形式上存在矛盾（除非模型修正为 β_status(N) = β_floor + (β_0 - β_floor) * e^(-k*N_trans)）。此外，父节点中关于“新卖家更倾向高挂价”的行为解释未被任何子节点覆盖，属于关键缺失。）
+
+## Search Query
+
+seller reputation accumulation pricing behavior online marketplace dynamic
+
+## Retrieval Sources
+
+- {'url': 'https://cnais.sem.tsinghua.edu.cn/info/1073/1772.htm&rut=a8b6ea9367e2c79e734378666d6022bb72a005a9c67f08778da541244c15eaca', 'type': 'ddg', 'title': '数字平台中代理商声誉对个人创作者声誉的溢出效应研究-中国系统工程学会信息系统工程专业委员会'}

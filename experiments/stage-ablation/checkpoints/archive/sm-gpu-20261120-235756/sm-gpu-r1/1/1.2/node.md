@@ -1,0 +1,24 @@
+# N8: Qwen3-27B的KV Cache每token显存占用公式为：2 × n_layers × n_kv_heads × head_dim × dtype_siz
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+Qwen3-27B的KV Cache每token显存占用公式为：2 × n_layers × n_kv_heads × head_dim × dtype_size，需结合具体层数与头数计算32K上下文下的峰值显存。
+
+## Corrected Claim
+
+Qwen3-27B的KV Cache每token显存占用公式为：2 × n_layers × n_kv_heads × head_dim × dtype_size，需结合具体层数与头数计算32K上下文下的峰值显存。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：KV Cache显存公式符合Transformer架构基本原理（Key和Value各一份，乘以层数、头数、维度及数据类型大小），量纲与逻辑自洽。
+
+## Search Query
+
+Qwen3-27B n_layers n_kv_heads head_dim architecture details

@@ -1,0 +1,24 @@
+# N339: 从单卡 (1×RTX 5090) 升级到双卡 (2×RTX 4090) 的硬件额外成本 (Cost_hardware_extra) 计算公式为：(2 × Pri
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N120
+
+## Claim
+
+从单卡 (1×RTX 5090) 升级到双卡 (2×RTX 4090) 的硬件额外成本 (Cost_hardware_extra) 计算公式为：(2 × Price_4090) - Price_5090，其中 Price_4090 和 Price_5090 需基于当前市场实时报价（例如 4090 ~$1600, 5090 ~$2000 [待核验]），该值为一次性资本支出
+
+## Corrected Claim
+
+从单卡 (1×RTX 5090) 升级到双卡 (2×RTX 4090) 的硬件额外成本 (Cost_hardware_extra) 基础计算公式为：(2 × Price_4090) - Price_5090，其中 Price_4090 和 Price_5090 需基于当前市场实时报价，该值为一次性资本支出（注：实际成本可能包含主板、电源等配套升级费用）。
+
+## Evidence
+
+[质询]具体价格数值（4090 ~$1600, 5090 ~$2000）属于实时变动的经验事实，且缺乏来源支持，无法验证其准确性；此外，双卡配置通常涉及主板、电源等额外隐性成本，仅计算显卡差价可能低估实际硬件额外成本。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源），价格数值需降级为定性表述或标记为待核验。
+
+## Search Query
+
+RTX 4090 price USD 2024 vs RTX 5090 price USD 2024

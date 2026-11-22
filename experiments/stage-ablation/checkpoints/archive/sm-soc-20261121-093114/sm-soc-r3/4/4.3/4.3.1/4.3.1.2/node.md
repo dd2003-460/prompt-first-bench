@@ -1,0 +1,24 @@
+# N186: 工作点2（中惩罚/中GMV敏感）：当 W_rec 中等敏感且 P_penalty 适中（如 P_penalty ≈ 0.4-0.6）时，ΔE_seller_hi
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N58
+
+## Claim
+
+工作点2（中惩罚/中GMV敏感）：当 W_rec 中等敏感且 P_penalty 适中（如 P_penalty ≈ 0.4-0.6）时，ΔE_seller_high ≈ 0.2-0.3，为性价比最优工作点，平衡了短期卖家流失风险与长期市场效率，是多数二手平台推荐算法的默认参数区间。
+
+## Corrected Claim
+
+工作点2（中惩罚/中GMV敏感）：当 W_rec 中等敏感且 P_penalty 适中时，ΔE_seller_high 处于中等水平（如 0.2-0.3 量级），通常被视为平衡短期卖家流失风险与长期市场效率的性价比最优工作点，但具体默认参数区间因平台策略而异，无统一行业标准。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值区间（P_penalty ≈ 0.4-0.6, ΔE_seller_high ≈ 0.2-0.3）以及行业惯例断言（'多数二手平台推荐算法的默认参数区间'），这些属于特定业务场景下的经验事实，无法从第一性原理或数学公理中严格推导得出，且缺乏通用标准支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该数值区间非通用物理/数学定律，属特定业务经验参数，无法仅凭逻辑推导验证其具体数值）。
+
+## Search Query
+
+moderate price penalty exposure reduction optimal balance seller churn market efficiency

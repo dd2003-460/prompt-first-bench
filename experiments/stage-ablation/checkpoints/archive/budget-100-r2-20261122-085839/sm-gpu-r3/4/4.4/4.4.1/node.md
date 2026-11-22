@@ -1,0 +1,20 @@
+# N82: PCIe 4.0 x16单向带宽 = 32 GB/s, 双向 = 64 GB/s [Spec: PCIe SIG]
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N24
+
+## Claim
+
+PCIe 4.0 x16单向带宽 = 32 GB/s, 双向 = 64 GB/s [Spec: PCIe SIG]
+
+## Corrected Claim
+
+PCIe 4.0 x16单向带宽 = 32 GB/s, 双向 = 64 GB/s [Spec: PCIe SIG]
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe 4.0 单通道速率 16 GT/s，采用 128b/130b 编码，有效带宽约 1.969 GB/s/通道，x16 单向约 31.5 GB/s（工程上常近似为 32 GB/s），双向翻倍为 64 GB/s，数值量级与规格一致。

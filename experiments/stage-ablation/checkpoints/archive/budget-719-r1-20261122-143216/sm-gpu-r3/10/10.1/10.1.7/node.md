@@ -1,0 +1,20 @@
+# N397: 2×RTX 4090 在 Batch Size=1 时，FP8 精度下每 token 通信时间计算：0.5 MB / 32 GB/s = 15.6 μs，相比单
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N139, N140, N141
+
+## Claim
+
+2×RTX 4090 在 Batch Size=1 时，FP8 精度下每 token 通信时间计算：0.5 MB / 32 GB/s = 15.6 μs，相比单卡无通信开销增加 15.6 μs/token。
+
+## Corrected Claim
+
+2×RTX 4090 在 Batch Size=1 时，FP8 精度下每 token 通信时间计算：0.5 MB / 32 GB/s = 15.6 μs，相比单卡无通信开销增加 15.6 μs/token。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：0.5MB / 32GB/s = 0.5 * 10^6 / (32 * 10^9) s ≈ 15.625 μs，计算无误；双卡相比单卡增加一次通信开销符合逻辑。

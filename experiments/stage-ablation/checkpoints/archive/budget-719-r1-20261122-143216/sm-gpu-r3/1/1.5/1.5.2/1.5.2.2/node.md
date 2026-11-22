@@ -1,0 +1,24 @@
+# N183: 在 GSM8K 数学推理任务上，Qwen3-27B NVFP4 量化模型的 Pass@1 准确率相比 BF16 基线通常下降 2.0% - 5.0%，若下降超过
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N54
+
+## Claim
+
+在 GSM8K 数学推理任务上，Qwen3-27B NVFP4 量化模型的 Pass@1 准确率相比 BF16 基线通常下降 2.0% - 5.0%，若下降超过 5% 则表明逻辑一致性受损，需检查量化配置或回退至 INT8/FP8
+
+## Corrected Claim
+
+在 GSM8K 数学推理任务上，Qwen3-27B NVFP4 量化模型的 Pass@1 准确率相比 BF16 基线通常会出现一定程度的下降（具体幅度取决于量化算法和校准数据），若下降幅度显著（例如超过 5%），建议检查量化配置或考虑回退至精度更高的 INT8/FP8 格式以平衡性能与精度。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值范围（2.0%-5.0%）和特定的阈值判断（>5%即受损），属于经验事实。虽然NVFP4（4-bit浮点）量化通常会导致比INT8/FP8更大的精度损失，但具体下降幅度高度依赖于模型架构、训练数据分布及量化算法（如GPTQ/AWQ/SmoothQuant等），并非固定不变。此外，'逻辑一致性受损'与'准确率下降'之间的因果关系过于简化，准确率下降可能源于数值精度丢失而非逻辑推理能力本身受损。 | 经验事实，逻辑自洽但缺来源支持。NVFP4作为4-bit量化格式，其精度损失通常大于8-bit格式（INT8/FP8），因此准确率下降幅度较大符合直觉，但具体数值范围（2-5%）缺乏通用性，且无外部来源验证该特定阈值。
+
+## Search Query
+
+Qwen3 27B 4bit quantization GSM8K accuracy degradation

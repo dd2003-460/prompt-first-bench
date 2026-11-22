@@ -1,0 +1,20 @@
+# N222: 容量受限下 H_LRU 的近似计算公式：H_LRU ≈ P(req | D_i < C_obj)，其中 D_i 是对象 i 的 LRU 堆栈深度，C_obj 是
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N80
+
+## Claim
+
+容量受限下 H_LRU 的近似计算公式：H_LRU ≈ P(req | D_i < C_obj)，其中 D_i 是对象 i 的 LRU 堆栈深度，C_obj 是缓存可容纳的对象数；在 Pareto(β=0.9) 下，D_i 与 h_i 反比，H_LRU ≈ 1 - (C_obj/N)^{1-β}，例如 C_obj=10,000 时 H_LRU ≈ 1 - 0.1^{0.1} ≈ 20.6%，与 H_LFU 基线相近。
+
+## Corrected Claim
+
+容量受限下 H_LRU 的近似计算公式：H_LRU ≈ P(req | D_i < C_obj)，其中 D_i 是对象 i 的 LRU 堆栈深度，C_obj 是缓存可容纳的对象数；在 Pareto(β=0.9) 下，D_i 与 h_i 反比，H_LRU ≈ 1 - (C_obj/N)^{1-β}，例如 C_obj=10,000 时 H_LRU ≈ 1 - 0.1^{0.1} ≈ 20.6%，与 H_LFU 基线相近。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：LRU在Pareto分布下的命中率公式推导符合缓存理论，数值计算（1-0.1^0.1≈0.206）准确，量级合理。

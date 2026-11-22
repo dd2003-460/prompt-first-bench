@@ -1,0 +1,16 @@
+# N5: 数据溯源与不确定性管理 (Data Provenance & Uncertainty Management)：覆盖所有关键数值（价格、性能指标、显存占用）的来源
+
+- **status**: verified
+- **level**: L1
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: (root)
+
+## Claim
+
+数据溯源与不确定性管理 (Data Provenance & Uncertainty Management)：覆盖所有关键数值（价格、性能指标、显存占用）的来源标注（实时查询 vs 记忆）、置信度评估、以及 [待核验] 项的识别与风险量化。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（三个子节点分别聚焦于数据源分类（价格）、性能基准误差（吞吐量）和显存估算误差（内存），彼此领域独立，无逻辑重叠或矛盾。它们共同覆盖了父节点中提到的关键数值类型（价格、性能、显存）以及溯源（实时/记忆）和不确定性（置信度/误差量化）的核心要求。）

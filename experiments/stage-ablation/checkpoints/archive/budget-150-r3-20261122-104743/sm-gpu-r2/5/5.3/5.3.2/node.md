@@ -1,0 +1,20 @@
+# N156: Apple M3 Ultra 统一内存方案：128GB 统一内存，内存带宽 800 GB/s，支持 BF16/FP16 量化，单卡 BF16 27B 模型推理可
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N27
+
+## Claim
+
+Apple M3 Ultra 统一内存方案：128GB 统一内存，内存带宽 800 GB/s，支持 BF16/FP16 量化，单卡 BF16 27B 模型推理可行，剩余内存 74GB 可用于 KV Cache，但推理框架兼容性需评估
+
+## Corrected Claim
+
+Apple M3 Ultra 统一内存方案：128GB 统一内存，内存带宽 800 GB/s，支持 BF16/FP16 量化，单卡 BF16 27B 模型推理可行，剩余内存 74GB 可用于 KV Cache，但推理框架兼容性需评估
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：M3 Ultra 128GB 内存与 800GB/s 带宽符合 Apple 官方规格；27B 模型 BF16 权重约 54GB，剩余 74GB 用于 KV Cache 在数学上自洽且符合大模型推理内存分配逻辑。

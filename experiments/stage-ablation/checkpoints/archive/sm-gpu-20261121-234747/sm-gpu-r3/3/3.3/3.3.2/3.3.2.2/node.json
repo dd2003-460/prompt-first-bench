@@ -1,0 +1,17 @@
+{
+  "id": "N258",
+  "claim": "显存溢出与Swap对吞吐的影响量化：2×RTX 3090总显存48GB；Qwen3-27B BF16权重54GB + 32K上下文KV Cache（约6GB）= 60GB > 48GB；必然发生CPU RAM Swap；PCIe 4.0 CPU-GPU带宽（~16 GB/s）仅为HBM/VRAM带宽（936 GB/s）的 1.7%；若每步需从CPU读取缺失的权重/KV数据，吞吐将骤降至 CPU带宽/数据量 量级，即 ~16 GB/s / 10 GB (假设每步访问10GB) ≈ 1.6 tokens/s，这解释了实测8-12 tokens/s中可能包含部分Offload策略优化后的下限",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "verified",
+  "evidence": "先验知识/题面给定，逻辑校验通过：2x3090显存48GB，Qwen3-27B BF16权重约54GB，加上KV Cache后总需求60GB，确实超出显存容量，必然触发Swap；PCIe 4.0带宽（~16GB/s）与HBM带宽（936GB/s）的比例计算正确，吞吐瓶颈分析符合物理直觉。",
+  "corrected_claim": "显存溢出与Swap对吞吐的影响量化：2×RTX 3090总显存48GB；Qwen3-27B BF16权重54GB + 32K上下文KV Cache（约6GB）= 60GB > 48GB；必然发生CPU RAM Swap；PCIe 4.0 CPU-GPU带宽（~16 GB/s）仅为HBM/VRAM带宽（936 GB/s）的 1.7%；若每步需从CPU读取缺失的权重/KV数据，吞吐将骤降至 CPU带宽/数据量 量级，即 ~16 GB/s / 10 GB (假设每步访问10GB) ≈ 1.6 tokens/s，这解释了实测8-12 tokens/s中可能包含部分Offload策略优化后的下限",
+  "rework_count": 0,
+  "parent_ids": [
+    "N93"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "GPU offloading CPU RAM swap impact LLM inference tokens per second PCIe bandwidth limit",
+  "retrieval_sources": []
+}

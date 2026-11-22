@@ -1,0 +1,24 @@
+# N45: 禀赋效应 π_endow 与 β_seller 的交互项：P_ask 中的系统性偏差 ΔP_bias = π_endow * (1 + β_seller * ρ
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N9, N10, N11
+
+## Claim
+
+禀赋效应 π_endow 与 β_seller 的交互项：P_ask 中的系统性偏差 ΔP_bias = π_endow * (1 + β_seller * ρ_interaction)，其中 ρ_interaction ≈ 0.4，意味着高贪婪卖家（高 β）会进一步放大禀赋效应导致的定价虚高，而非简单相加。
+
+## Corrected Claim
+
+禀赋效应 π_endow 与 β_seller 的交互项：P_ask 中的系统性偏差 ΔP_bias = π_endow * (1 + β_seller * ρ_interaction)，其中 ρ_interaction 为交互强度系数（典型值约 0.4，具体取决于实验情境），意味着高贪婪卖家（高 β）会进一步放大禀赋效应导致的定价虚高，而非简单相加。
+
+## Evidence
+
+[质询]该公式属于特定行为经济学模型的理论假设，缺乏普适性实证支持；具体数值 ρ_interaction ≈ 0.4 为经验参数，不同实验环境下可能显著波动，将其作为固定常数存在过度简化风险。 | 先验知识/题面给定，逻辑校验通过（交互项结构符合行为经济学中禀赋效应与卖家特质交互的理论框架，量纲与符号逻辑自洽），但具体数值 ρ_interaction ≈ 0.4 为经验估计值，无外部来源直接支持，故降级。
+
+## Search Query
+
+endowment effect interaction with seller greediness pricing

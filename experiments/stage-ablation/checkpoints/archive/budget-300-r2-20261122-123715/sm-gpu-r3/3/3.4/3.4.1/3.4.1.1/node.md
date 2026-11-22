@@ -1,0 +1,24 @@
+# N261: RTX 4090 在本地工作站 80%+ 持续负载下，VRAM 显存颗粒 (GDDR6X) 的故障率 (FIT) 相比自然老化加速系数 k_stress 约为 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N76
+
+## Claim
+
+RTX 4090 在本地工作站 80%+ 持续负载下，VRAM 显存颗粒 (GDDR6X) 的故障率 (FIT) 相比自然老化加速系数 k_stress 约为 2.0-3.0 倍，导致有效 MTBF 从基准 5 年缩短至 1.7-2.5 年 [待核验]，该系数需基于 JEDEC 加速寿命测试数据或第三方拆解报告修正。
+
+## Corrected Claim
+
+RTX 4090 在本地工作站 80%+ 持续负载下，VRAM 显存颗粒 (GDDR6X) 的故障率相比自然老化存在加速效应，具体加速系数 k_stress 及有效 MTBF 需基于 JEDEC 加速寿命测试数据或第三方拆解报告进行实证修正，当前缺乏确切的公开量化数据。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（加速系数 2.0-3.0 倍、MTBF 缩短至 1.7-2.5 年），这些并非物理定律或数学公理，无法从第一性原理严格推导，且缺乏公开权威数据（如 JEDEC 标准或大规模故障统计）直接支持，属于未经证实的经验估算。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且数值无法从第一性原理推出）
+
+## Search Query
+
+RTX 4090 GDDR6X VRAM failure rate high load stress test MTBF reduction factor

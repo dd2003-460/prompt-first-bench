@@ -1,0 +1,24 @@
+# N51: 在张量并行 (TP=2) 模式下，Qwen3-27B 每层 Transformer 块的 All-Reduce 通信量约为 2 * Batch_Size * H
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N11
+
+## Claim
+
+在张量并行 (TP=2) 模式下，Qwen3-27B 每层 Transformer 块的 All-Reduce 通信量约为 2 * Batch_Size * Hidden_Dim * Bytes_per_Element，对于 Batch=1, Hidden=4096 (假设), BF16 (2 bytes)，每层通信量约 16 KB，32 层总通信量约 512 KB/step。在 PCIe 4.0 (32 GB/s) 下，通信耗时约 16 μs/step，相对于计算耗时（假设 10 ms/step）占比 <0.2%，通信开销可忽略；但若 Batch 增大或模型更大，通信占比将显著上升。
+
+## Corrected Claim
+
+在张量并行 (TP=2) 模式下，Qwen3-27B 每层 Transformer 块的 All-Reduce 通信量约为 2 * Batch_Size * Hidden_Dim * Bytes_per_Element，对于 Batch=1, Hidden=4096 (假设), BF16 (2 bytes)，每层通信量约 16 KB，32 层总通信量约 512 KB/step。在 PCIe 4.0 (32 GB/s) 下，通信耗时约 16 μs/step，相对于计算耗时（假设 10 ms/step）占比 <0.2%，通信开销可忽略；但若 Batch 增大或模型更大，通信占比将显著上升。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：通信量公式 2*B*H*Bytes 符合 TP 中 All-Reduce 的 Ring 算法通信量估算（或简化模型），数值计算 2*1*4096*2*32 = 524288 Bytes = 512 KB 正确；耗时 512KB / 32GB/s ≈ 16μs 正确；占比 16μs/10ms = 0.16% < 0.2% 正确。
+
+## Search Query
+
+Tensor Parallelism communication overhead PCIe vs NVLink LLM inference

@@ -1,0 +1,24 @@
+# N307: 2x RTX 4090 方案的可靠性与故障率：双卡方案中任一卡故障导致系统完全不可用，MTBF (平均无故障时间) 约为单卡的 50% (假设单卡 MTBF 为
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N109
+
+## Claim
+
+2x RTX 4090 方案的可靠性与故障率：双卡方案中任一卡故障导致系统完全不可用，MTBF (平均无故障时间) 约为单卡的 50% (假设单卡 MTBF 为 50000 小时，则双卡为 25000 小时)；需考虑冗余设计或接受更高停机风险。
+
+## Corrected Claim
+
+2x RTX 4090 方案的可靠性与故障率：双卡方案中任一卡故障导致系统完全不可用，MTBF (平均无故障时间) 约为单卡的 50% (假设单卡 MTBF 为 50000 小时，则双卡为 25000 小时)；需考虑冗余设计或接受更高停机风险。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：双卡串联系统（任一故障即停机）的MTBF确实约为单卡的一半，符合可靠性工程基本逻辑。
+
+## Search Query
+
+dual GPU system MTBF reliability failure rate inference

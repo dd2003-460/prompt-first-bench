@@ -1,0 +1,20 @@
+# N95: T_resident 的解析计算：T_resident = M / (λ_total * E[S_hit])，代入 M=1.374e11 B, λ_total=
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N35
+
+## Claim
+
+T_resident 的解析计算：T_resident = M / (λ_total * E[S_hit])，代入 M=1.374e11 B, λ_total=5e7/天, E[S_hit]≈0.7*E[S]≈1.75e9 B，计算得 T_resident ≈ 1.56e-4 天（约13.4秒），修正N35中'6.45e4 /天'的阈值倒置错误（原阈值应为1/T_resident ≈ 6400/天）
+
+## Corrected Claim
+
+T_resident 的解析计算：T_resident = M / (λ_total * E[S_hit])，代入 M=1.374e11 B, λ_total=5e7/天, E[S_hit]≈0.7*E[S]≈1.75e9 B，计算得 T_resident ≈ 1.56e-4 天（约13.4秒），修正N35中'6.45e4 /天'的阈值倒置错误（原阈值应为1/T_resident ≈ 6400/天）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值代入计算 M/(λ*E[S]) = 1.374e11 / (5e7 * 1.75e9) ≈ 1.56e-4 天，量纲与量级合理，且修正了原阈值倒置错误。

@@ -1,0 +1,20 @@
+# N245: Mac Studio M2 Ultra 运行 Qwen3-27B BF16 时的 Prefill (TTFT) 性能估算：Prefill 阶段为计算密集型，M2
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N89
+
+## Claim
+
+Mac Studio M2 Ultra 运行 Qwen3-27B BF16 时的 Prefill (TTFT) 性能估算：Prefill 阶段为计算密集型，M2 Ultra 的 148 TFLOPS (BF16) 算力下，32K tokens 的 Prefill 理论耗时 ≈ (2 * 27e9 * 32768 * 2) / 148e12 ≈ 3.0 秒（理想情况），实际受内存带宽和缓存命中率影响，通常比 NVIDIA H100 (989 TFLOPS BF16) 慢 5-10 倍，具体数值需实测。
+
+## Corrected Claim
+
+Mac Studio M2 Ultra 运行 Qwen3-27B BF16 时的 Prefill (TTFT) 性能估算：Prefill 阶段为计算密集型，M2 Ultra 的 148 TFLOPS (BF16) 算力下，32K tokens 的 Prefill 理论耗时 ≈ (2 * 27e9 * 32768 * 2) / 148e12 ≈ 3.0 秒（理想情况），实际受内存带宽和缓存命中率影响，通常比 NVIDIA H100 (989 TFLOPS BF16) 慢 5-10 倍，具体数值需实测。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：M2 Ultra BF16算力约148 TFLOPS，H100约989 TFLOPS，算力比约6.7倍，与陈述中5-10倍慢的估算一致；Prefill计算量公式(2*params*tokens)符合Transformer推理基本原理，量级合理。

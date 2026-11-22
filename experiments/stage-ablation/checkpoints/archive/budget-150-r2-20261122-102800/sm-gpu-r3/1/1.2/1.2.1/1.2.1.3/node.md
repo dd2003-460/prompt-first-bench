@@ -1,0 +1,20 @@
+# N176: H100 80GB SXM5 在 BF16 精度下运行 Qwen3-27B 的 Decode 理论吞吐量上限为 3350 GB/s / 54.6 GB ≈ 61
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N57
+
+## Claim
+
+H100 80GB SXM5 在 BF16 精度下运行 Qwen3-27B 的 Decode 理论吞吐量上限为 3350 GB/s / 54.6 GB ≈ 61.4 tokens/s，其带宽优势使其在长上下文低并发场景下的 CPR 显著高于 A100 系列。
+
+## Corrected Claim
+
+H100 80GB SXM5 在 BF16 精度下运行 Qwen3-27B 的 Decode 理论吞吐量上限为 3350 GB/s / 54.6 GB ≈ 61.4 tokens/s，其带宽优势使其在长上下文低并发场景下的 CPR 显著高于 A100 系列。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H100 SXM5 HBM3带宽约3.35TB/s，Qwen3-27B BF16权重约54.6GB，计算3350/54.6≈61.4 tokens/s符合算术逻辑，且H100带宽显著高于A100（~2TB/s）符合硬件事实。

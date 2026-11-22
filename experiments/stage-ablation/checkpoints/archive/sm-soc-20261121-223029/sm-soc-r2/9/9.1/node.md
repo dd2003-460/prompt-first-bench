@@ -1,0 +1,24 @@
+# N118: 高溢价组（δ>20%）与合理溢价组（δ<10%）的成交周期中位数差异显著性检验：采用Mann-Whitney U检验，预期U统计量对应的p-value < 0.
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N33
+
+## Claim
+
+高溢价组（δ>20%）与合理溢价组（δ<10%）的成交周期中位数差异显著性检验：采用Mann-Whitney U检验，预期U统计量对应的p-value < 0.05，且效应量Cohen's d > 0.5，具体数值需检索二手平台（如闲鱼/Poshmark）历史成交日志计算。
+
+## Corrected Claim
+
+高溢价组（δ>20%）与合理溢价组（δ<10%）的成交周期中位数差异显著性检验：采用Mann-Whitney U检验，需检索二手平台（如闲鱼/Poshmark）历史成交日志计算具体U统计量、p-value及效应量Cohen's d，以验证差异是否显著。
+
+## Evidence
+
+[质询]该陈述包含具体的统计检验结果预期（p-value < 0.05, Cohen's d > 0.5），这属于经验事实，无法从第一性原理推导，且缺乏实际数据支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+second-hand marketplace price premium impact on transaction time median Mann-Whitney U test

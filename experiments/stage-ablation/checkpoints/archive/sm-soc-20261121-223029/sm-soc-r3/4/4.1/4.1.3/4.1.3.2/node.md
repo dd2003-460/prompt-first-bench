@@ -1,0 +1,30 @@
+# N237: 透明化系数 α_transparency 的实证估计公式：α_transparency = ΔC_inquiry_observed / (1 - δ_new)，
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N79, N80, N81
+
+## Claim
+
+透明化系数 α_transparency 的实证估计公式：α_transparency = ΔC_inquiry_observed / (1 - δ_new)，其中 ΔC_inquiry_observed 为引入价格透明化前后买家咨询率的变化量，δ_new 为透明化后的平均挂价偏差；需通过A/B测试数据获取 ΔC_inquiry_observed 的具体数值，若缺乏数据，则基于信息经济学模型推导其理论上限为 1 - C_info_post/C_info_pre。
+
+## Corrected Claim
+
+在特定信息经济学模型假设下，透明化系数 α_transparency 可表示为 ΔC_inquiry_observed / (1 - δ_new)，其中 ΔC_inquiry_observed 需通过A/B测试获取；若缺乏数据，理论上限可推导为 1 - C_info_post/C_info_pre。
+
+## Evidence
+
+[质询]该公式属于特定理论模型下的推导结果，并非通用的实证估计标准公式；且参考来源中完全未包含关于'透明化系数'、'买家咨询率'或相关A/B测试数据的具体定义与数值支持，存在将特定模型假设当作普遍事实的风险。 | 逻辑上公式结构自洽（变化量除以偏差修正项），但参考来源[1]仅提及价格透明化背景，[2][3]完全无关，无来源直接支持该具体公式或参数定义，属于缺乏外部证据支持的特定模型推导。
+
+## Search Query
+
+price transparency effect on inquiry rate A/B test marketplace
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Price_discrimination', 'type': 'wikipedia', 'title': 'Price discrimination'}
+- {'url': 'https://en.wikipedia.org/wiki/Collateralized_debt_obligation', 'type': 'wikipedia', 'title': 'Collateralized debt obligation'}
+- {'url': 'https://en.wikipedia.org/wiki/Money_market_fund', 'type': 'wikipedia', 'title': 'Money market fund'}

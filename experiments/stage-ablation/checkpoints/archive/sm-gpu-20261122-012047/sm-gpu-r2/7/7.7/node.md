@@ -1,0 +1,20 @@
+# N165: RTX 5090 在 BF16 精度下运行 Qwen3-27B (32K ctx) 的显存可行性分析：BF16 权重 54GB > 32GB 显存，因此单卡无法
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N43, N44, N45
+
+## Claim
+
+RTX 5090 在 BF16 精度下运行 Qwen3-27B (32K ctx) 的显存可行性分析：BF16 权重 54GB > 32GB 显存，因此单卡无法运行 BF16 全精度模型；N44 中提到的 'RTX 5090 BF16 吞吐量' 实际上是指 FP8 或 INT8 量化后的性能，或双卡方案，单卡 BF16 不可行。
+
+## Corrected Claim
+
+RTX 5090 在 BF16 精度下运行 Qwen3-27B (32K ctx) 的显存可行性分析：BF16 权重 54GB > 32GB 显存，因此单卡无法运行 BF16 全精度模型；N44 中提到的 'RTX 5090 BF16 吞吐量' 实际上是指 FP8 或 INT8 量化后的性能，或双卡方案，单卡 BF16 不可行。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B参数量约270亿，BF16精度下权重占用约54GB，远超RTX 5090单卡32GB显存，故单卡无法运行BF16全精度模型，结论符合基本算术与硬件规格常识。

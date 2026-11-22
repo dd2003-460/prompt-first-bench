@@ -1,0 +1,20 @@
+# N99: 演化压力与理性行为的交互项：假设链需包含交互项 Interaction = λ * Noise_σ。若买家噪声 σ_W 增大，则卖家高挂价的信号价值 S_qua
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N26
+
+## Claim
+
+演化压力与理性行为的交互项：假设链需包含交互项 Interaction = λ * Noise_σ。若买家噪声 σ_W 增大，则卖家高挂价的信号价值 S_quality 下降，导致高溢价策略的期望收益 E[Profit] 下降。需计算临界噪声阈值 σ_crit，当 σ_W > σ_crit 时，高溢价策略不再优于合理定价策略。
+
+## Corrected Claim
+
+演化压力与理性行为的交互项：假设链需包含交互项 Interaction = λ * Noise_σ。若买家噪声 σ_W 增大，则卖家高挂价的信号价值 S_quality 下降，导致高溢价策略的期望收益 E[Profit] 下降。需计算临界噪声阈值 σ_crit，当 σ_W > σ_crit 时，高溢价策略不再优于合理定价策略。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：信号博弈中噪声增大导致信号区分度下降，进而降低高溢价策略的期望收益，存在临界阈值符合经济学直觉。

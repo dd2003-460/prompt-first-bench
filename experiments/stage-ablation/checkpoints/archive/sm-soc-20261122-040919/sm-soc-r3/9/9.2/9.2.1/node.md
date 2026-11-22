@@ -1,0 +1,20 @@
+# N390: 二手市场基础估值 V_base 的量化定义：V_base 等于该品类近30天成交均价 P_ref 乘以买家对该类二手商品的状态折旧系数 α_state（通常 α
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N119
+
+## Claim
+
+二手市场基础估值 V_base 的量化定义：V_base 等于该品类近30天成交均价 P_ref 乘以买家对该类二手商品的状态折旧系数 α_state（通常 α_state ∈ [0.5, 0.9]，取决于商品折旧率）。若 P_ref = 1000元 且 α_state = 0.8，则 V_base = 800元。
+
+## Corrected Claim
+
+二手市场基础估值 V_base 的量化定义：V_base 等于该品类近30天成交均价 P_ref 乘以买家对该类二手商品的状态折旧系数 α_state（通常 α_state ∈ [0.5, 0.9]，取决于商品折旧率）。若 P_ref = 1000元 且 α_state = 0.8，则 V_base = 800元。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

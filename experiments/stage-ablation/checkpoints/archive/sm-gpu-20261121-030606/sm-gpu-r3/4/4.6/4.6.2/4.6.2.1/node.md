@@ -1,0 +1,28 @@
+# N328: Qwen3-27B W4/NVFP4量化在MMLU、GSM8K、HumanEval上的实测得分，需检索官方4-bit量化发布说明或社区评测，确认N143中MML
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N143
+
+## Claim
+
+Qwen3-27B W4/NVFP4量化在MMLU、GSM8K、HumanEval上的实测得分，需检索官方4-bit量化发布说明或社区评测，确认N143中MMLU -4.1%、GSM8K -5.5%、HumanEval -9.5%的数据来源及置信度。
+
+## Corrected Claim
+
+Qwen3-27B W4/NVFP4量化在MMLU、GSM8K、HumanEval上的实测得分需进一步检索官方发布说明或详细社区评测报告以确认具体数值及置信度，当前来源仅确认了量化方案的存在。
+
+## Evidence
+
+[质询]参考来源[1]仅提供了模型架构和量化方法（W4A4 NVFP4）的描述，完全缺失MMLU、GSM8K、HumanEval的具体实测得分数据，无法验证N143中提到的具体数值（-4.1%, -5.5%, -9.5%）及其置信度。 | 来源[1]与主题相关（Qwen3-27B NVFP4量化），但仅间接支持量化方案的存在，未提供具体基准测试数据，属于间接支持且无法排除其他可能性。
+
+## Search Query
+
+Qwen3-27B 4-bit quantization MMLU GSM8K HumanEval accuracy
+
+## Retrieval Sources
+
+- {'url': 'https://huggingface.co/minima-ai/mnma_qwen3.8_27b_nvfp4&rut=50637fdd7f162b8f1e711cf444805ac03c5b9229d8eaca53ae75542bd254705f', 'type': 'ddg', 'title': 'minima-ai/mnma_qwen3.8_27b_nvfp4 · Hugging Face'}

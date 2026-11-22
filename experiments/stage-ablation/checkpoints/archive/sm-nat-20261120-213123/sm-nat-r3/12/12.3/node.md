@@ -1,0 +1,20 @@
+# N186: 在 Pareto(β=0.9) 分布下，k_hot 的确定公式为 k_hot = N * (1 - R_freq_threshold)^(1/β)，其中 R_f
+
+- **status**: verified
+- **level**: L4
+- **source**: given
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N81
+
+## Claim
+
+在 Pareto(β=0.9) 分布下，k_hot 的确定公式为 k_hot = N * (1 - R_freq_threshold)^(1/β)，其中 R_freq_threshold 为 LFU 策略保留的频率占比（通常取 0.95）。代入 N=10^5, β=0.9，得 k_hot ≈ 10^5 * (0.05)^(1/0.9) ≈ 6700。
+
+## Corrected Claim
+
+在 Pareto(β=0.9) 分布下，k_hot 的确定公式为 k_hot = N * (1 - R_freq_threshold)^(1/β)，其中 R_freq_threshold 为 LFU 策略保留的频率占比（通常取 0.95）。代入 N=10^5, β=0.9，得 k_hot ≈ 10^5 * (0.05)^(1/0.9) ≈ 6700。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布CDF为1-(x/x_min)^-β，保留频率占比R对应分位数x_q满足1-(x_q/x_min)^-β=R，解得x_q=x_min*(1-R)^(1/β)。若k_hot定义为频率高于该阈值的对象数量（即尾部数量），则k_hot=N*(1-R)^(1/β)。代入N=10^5, R=0.95, β=0.9，计算(0.05)^(1/0.9)≈0.067，k_hot≈6700，数值量级与公式推导一致。

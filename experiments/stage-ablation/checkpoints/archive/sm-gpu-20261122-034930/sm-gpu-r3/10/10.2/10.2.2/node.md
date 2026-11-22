@@ -1,0 +1,24 @@
+# N417: A100 80GB在32K长上下文下，HBM2e的访问延迟（~400ns）对KV Cache随机读取的影响系数为0.85-0.90，导致有效带宽利用率从短序列的
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N150
+
+## Claim
+
+A100 80GB在32K长上下文下，HBM2e的访问延迟（~400ns）对KV Cache随机读取的影响系数为0.85-0.90，导致有效带宽利用率从短序列的~95%降至~80-85%；若启用CUDA Graphs优化，该系数可提升至0.92，对应吞吐率提升约5-7%（从48 tokens/s升至50-51 tokens/s）。
+
+## Corrected Claim
+
+A100 80GB在32K长上下文下，HBM2e的访问延迟对KV Cache随机读取有显著负面影响，导致有效带宽利用率较短序列有所下降；启用CUDA Graphs优化可部分缓解此影响，带来小幅吞吐率提升。
+
+## Evidence
+
+[质询]该陈述包含大量具体的经验性数值（如0.85-0.90的影响系数、48-51 tokens/s的吞吐率、95%降至80-85%的带宽利用率），这些并非物理定律或数学公理，而是依赖于具体硬件配置、软件栈版本、模型架构及负载特征的复杂系统行为，无法从第一性原理严格推导。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且数值过于具体无法仅凭逻辑验证）
+
+## Search Query
+
+A100 HBM2e latency impact long context inference CUDA Graphs optimization

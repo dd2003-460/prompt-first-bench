@@ -1,0 +1,24 @@
+# N862: vLLM 在 batch_size=1 时的 KV Cache 预分配策略为 'best-fit' 分配器，其内存碎片率 = (已分配但未使用的块数 / 总块数
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N269
+
+## Claim
+
+vLLM 在 batch_size=1 时的 KV Cache 预分配策略为 'best-fit' 分配器，其内存碎片率 = (已分配但未使用的块数 / 总块数) * 100%，在 32k 长度下理论碎片率上限为 1/16 = 6.25%，实际观测值需通过 vLLM 日志 'gpu_cache_usage' 字段验证 [待核验]
+
+## Corrected Claim
+
+vLLM 在 batch_size=1 时的 KV Cache 分配策略及内存碎片率具体数值依赖于特定版本和配置，需查阅对应版本的官方文档或源码确认，不能一概而论为 'best-fit' 且碎片率上限为 6.25%。
+
+## Evidence
+
+[质询]该陈述包含具体的工程实现细节（vLLM 的特定分配器策略 'best-fit'、特定日志字段 'gpu_cache_usage' 以及具体的理论碎片率上限 1/16），这些属于经验事实/软件实现细节，无法从第一性原理推导。且 'best-fit' 通常用于解决外部碎片，而 vLLM 早期版本多采用 PagedAttention 的块分配机制，具体策略随版本变化，断言其为固定策略且碎片率上限为 1/16 缺乏通用性，极易因版本差异或实现细节不同而错误。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该事实涉及具体软件实现细节，不适用第一性原理推导条款）
+
+## Search Query
+
+vLLM best-fit allocator memory fragmentation rate 32k context batch size 1 gpu_cache_usage

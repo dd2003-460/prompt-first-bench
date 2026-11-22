@@ -1,0 +1,20 @@
+# N172: 字节加权平均 P_stale 的简化计算式：P_stale_byte = Σ (Byte Share_i * (1 - e^{-λ_upd * T_res_i}
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N61
+
+## Claim
+
+字节加权平均 P_stale 的简化计算式：P_stale_byte = Σ (Byte Share_i * (1 - e^{-λ_upd * T_res_i}))。由于热门对象（Byte Share 高）的 T_res 极短（<1s），其 P_stale_i ≈ λ_upd * T_res_i ≈ 0.01 * (1/86400) ≈ 1.16e-7。冷门对象 Byte Share 低且 T_res 长，但总贡献小。
+
+## Corrected Claim
+
+字节加权平均 P_stale 的简化计算式：P_stale_byte = Σ (Byte Share_i * (1 - e^{-λ_upd * T_res_i}))。由于热门对象（Byte Share 高）的 T_res 极短（<1s），其 P_stale_i ≈ λ_upd * T_res_i ≈ 0.01 * (1/86400) ≈ 1.16e-7。冷门对象 Byte Share 低且 T_res 长，但总贡献小。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式结构符合加权平均定义，指数近似在λT<<1时成立，数值量级（1.16e-7）计算正确且符合直觉。

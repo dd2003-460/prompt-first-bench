@@ -1,0 +1,20 @@
+# N72: 基于 ρ=-0.3 和 Pareto 参数 (α=1.1, β=0.9)，计算 E[S_LFU_cached] 的近似值：假设高频对象大小服从截断 Pareto
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N27
+
+## Claim
+
+基于 ρ=-0.3 和 Pareto 参数 (α=1.1, β=0.9)，计算 E[S_LFU_cached] 的近似值：假设高频对象大小服从截断 Pareto 分布，其均值 E[S_LFU_cached] ≈ s_min · (1 - (k_LFU/N)^{α-1})^{-1} · (α-1)/(α-2)（若 α>2）或使用数值积分；由于 α=1.1 < 2，需使用有限样本截断均值公式 E[S|rank≤k] ≈ s_min · (k^{1-α} - 1)/(1-α) / k。
+
+## Corrected Claim
+
+基于 ρ=-0.3 和 Pareto 参数 (α=1.1, β=0.9)，计算 E[S_LFU_cached] 的近似值：假设高频对象大小服从截断 Pareto 分布，其均值 E[S_LFU_cached] ≈ s_min · (1 - (k_LFU/N)^{α-1})^{-1} · (α-1)/(α-2)（若 α>2）或使用数值积分；由于 α=1.1 < 2，需使用有限样本截断均值公式 E[S|rank≤k] ≈ s_min · (k^{1-α} - 1)/(1-α) / k。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布截断均值的数学推导正确，α=1.1<2时公式形式符合有限样本截断均值的定义。

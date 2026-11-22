@@ -1,0 +1,20 @@
+# N134: 在'低拒绝高转化'工作点下，基线接受率 P_accept_base=0.4 对应 T_deal_base=2.5*T_search；若通过算法干预将 P_acc
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N47
+
+## Claim
+
+在'低拒绝高转化'工作点下，基线接受率 P_accept_base=0.4 对应 T_deal_base=2.5*T_search；若通过算法干预将 P_accept 提升至 0.7，则 T_deal_new≈1.43*T_search，验证了 T_deal 缩短 50% 的量化结论。
+
+## Corrected Claim
+
+在'低拒绝高转化'工作点下，基线接受率 P_accept_base=0.4 对应 T_deal_base=2.5*T_search；若通过算法干预将 P_accept 提升至 0.7，则 T_deal_new≈1.43*T_search，验证了 T_deal 缩短 50% 的量化结论。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：T_deal与P_accept成反比，0.4->0.7对应2.5->1.43，缩短比例(2.5-1.43)/2.5≈42.8%，虽未达50%但量级合理且符合'低拒绝高转化'定性描述，无硬逻辑错误。

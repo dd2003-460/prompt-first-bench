@@ -1,0 +1,24 @@
+# N112: 边界条件检验：若买家搜索疲劳阈值 N_fatigue_threshold < 平台推荐列表平均浏览深度 (如 30 件)，则搜索疲劳效应将抵消高挂价商品的 CT
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N32
+
+## Claim
+
+边界条件检验：若买家搜索疲劳阈值 N_fatigue_threshold < 平台推荐列表平均浏览深度 (如 30 件)，则搜索疲劳效应将抵消高挂价商品的 CTR 优势，导致平台驱动假设失效，此时均衡主要由卖家锚定偏差主导，置信度应进一步下调至 <0.5。
+
+## Corrected Claim
+
+边界条件检验：若买家搜索疲劳阈值 N_fatigue_threshold < 平台推荐列表平均浏览深度 (如 30 件)，则搜索疲劳效应将抵消高挂价商品的 CTR 优势，导致平台驱动假设失效，此时均衡主要由卖家锚定偏差主导，置信度应进一步下调至 <0.5。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该陈述描述的是特定边界条件下的理论推导结果，逻辑链条（疲劳阈值<浏览深度 -> 疲劳效应主导 -> 抵消CTR优势 -> 假设失效）自洽，且作为模型内部的条件判断逻辑，无内部矛盾。
+
+## Search Query
+
+search fatigue vs recommendation list depth e-commerce user behavior study

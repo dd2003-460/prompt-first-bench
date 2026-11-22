@@ -1,0 +1,28 @@
+# N46: T_search延长约束：T_search' = T_search * (1 + δ * (P_ask/P_market - 1))，其中δ为价格偏差对搜索成本
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+T_search延长约束：T_search' = T_search * (1 + δ * (P_ask/P_market - 1))，其中δ为价格偏差对搜索成本的边际影响，高挂价可能导致买家搜索更多替代品以确认价值，需计算δ以判断T_search'是否抵消T_decision的缩短。
+
+## Corrected Claim
+
+在特定搜索成本模型中，T_search' 可能随价格偏差增加而延长，具体关系取决于模型设定的边际影响系数δ，需结合具体模型参数计算。
+
+## Evidence
+
+[质询]该陈述包含具体的数学公式和参数定义（δ, P_ask, P_market），属于特定的经济学模型假设或经验事实，而非第一性原理可推导的通用真理。参考来源[1]关于美国劳动法的内容与该搜索成本模型完全无关，无法提供外部支持。 | 逻辑上公式自洽（高挂价导致搜索成本增加符合直觉），但参考来源[1]主题无关，且该具体公式属于经验/模型设定，缺乏来源直接支持，故降级。
+
+## Search Query
+
+search time extension price deviation marginal impact delta consumer search cost
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/United_States_labor_law', 'type': 'wikipedia', 'title': 'United States labor law'}

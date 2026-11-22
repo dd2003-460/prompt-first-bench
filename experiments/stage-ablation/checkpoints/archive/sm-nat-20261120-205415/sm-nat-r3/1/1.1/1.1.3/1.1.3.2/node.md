@@ -1,0 +1,20 @@
+# N94: 工作点B（x_min=1KB, B→∞）：当B趋于无穷大时，截断Pareto期望公式退化为 E[S] = x_min / (α-1) = 1KB / 0.1 =
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+工作点B（x_min=1KB, B→∞）：当B趋于无穷大时，截断Pareto期望公式退化为 E[S] = x_min / (α-1) = 1KB / 0.1 = 10KB，远小于1MB；这表明若未施加总数据量约束，Pareto(α=1.1)的自然期望仅10KB，与实际1MB均值矛盾，凸显了截断参数B必须通过约束方程反解的必要性
+
+## Corrected Claim
+
+工作点B（x_min=1KB, B→∞）：当B趋于无穷大时，截断Pareto期望公式退化为 E[S] = x_min / (α-1) = 1KB / 0.1 = 10KB，远小于1MB；这表明若未施加总数据量约束，Pareto(α=1.1)的自然期望仅10KB，与实际1MB均值矛盾，凸显了截断参数B必须通过约束方程反解的必要性
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布(α=1.1)在截断上限B趋于无穷时，期望公式E[S]=x_min/(α-1)成立，代入x_min=1KB, α=1.1得10KB，数值量级与逻辑推导均正确。

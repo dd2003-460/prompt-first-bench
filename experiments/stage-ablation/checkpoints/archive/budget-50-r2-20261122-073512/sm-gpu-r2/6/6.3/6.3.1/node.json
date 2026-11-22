@@ -1,0 +1,17 @@
+{
+  "id": "N182",
+  "claim": "并发请求数上限量化：N_concurrent_max = N_gpus × Batch_Size_Max。对于 2× RTX 4090 (48GB 总显存)，在 INT8 量化下 (27GB 权重)，剩余显存约 21GB 用于 KV Cache 和激活值。单序列 32K 上下文 KV Cache 约 128MB (BF16) 或 64MB (INT8)，故 Batch_Size_Max ≈ 21GB / 0.064GB ≈ 327 序列 (理论上限，实际受计算瓶颈限制约为 4-8 并发)。",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]KV Cache 数值量级严重错误：对于主流 LLM（如 7B-13B 参数），32K 上下文的 KV Cache 通常在 GB 级别（例如 7B 模型 32K 上下文 KV Cache 约 1-2GB），而非 128MB。128MB 仅适用于极小模型或极短上下文，导致 Batch_Size_Max 计算结果（327）严重高估，与后文提到的实际并发限制（4-8）存在巨大逻辑断层。 | 先验知识/题面给定，逻辑校验未通过：KV Cache 估算值（128MB/32K）与常见 LLM 架构（如 LLaMA 系列）的实际显存占用量级（GB级）不符，导致推导出的理论并发数（327）与实际工程经验（4-8）矛盾，属于经验事实错误。",
+  "corrected_claim": "并发请求数上限量化：N_concurrent_max 受限于 KV Cache 显存。对于 2× RTX 4090 (48GB 总显存)，INT8 量化下剩余约 21GB 显存。以 7B 模型为例，32K 上下文单序列 KV Cache 约 1-2GB (BF16)，故理论 Batch_Size_Max ≈ 10-20 序列；实际受计算瓶颈和内存碎片限制，稳定并发通常为 4-8 序列。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N33"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

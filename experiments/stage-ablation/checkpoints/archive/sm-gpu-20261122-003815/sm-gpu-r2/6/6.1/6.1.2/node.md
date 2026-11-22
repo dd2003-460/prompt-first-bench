@@ -1,0 +1,24 @@
+# N169: 性价比综合指标：Cost_Efficiency = (Throughput_tokens_per_s / TCO_3yr) * 1000，单位为 tokens/
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N36
+
+## Claim
+
+性价比综合指标：Cost_Efficiency = (Throughput_tokens_per_s / TCO_3yr) * 1000，单位为 tokens/s per $1000 TCO。该指标统一了吞吐与全生命周期成本，用于跨硬件方案直接比较。
+
+## Corrected Claim
+
+性价比综合指标：Cost_Efficiency = (Throughput_tokens_per_s / TCO_3yr) * 1000，单位为 tokens/s per $1000 TCO。该指标统一了吞吐与全生命周期成本，用于跨硬件方案直接比较。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+cost efficiency metric LLM inference hardware comparison

@@ -1,0 +1,24 @@
+# N205: 工作点2中，成交周期缩短15%（T=0.85*T_base）的量化依据：基线T_base（无信号时平均成交天数）的实证分布均值及标准差，以及信号存在时T的置信区
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N67
+
+## Claim
+
+工作点2中，成交周期缩短15%（T=0.85*T_base）的量化依据：基线T_base（无信号时平均成交天数）的实证分布均值及标准差，以及信号存在时T的置信区间。
+
+## Corrected Claim
+
+工作点2中，假设成交周期缩短15%（T=0.85*T_base），需进一步提供基线T_base的实证分布均值、标准差及信号存在时T的置信区间以支撑该量化依据。
+
+## Evidence
+
+[质询]该陈述声称存在具体的“量化依据”（如均值、标准差、置信区间），但并未提供这些具体数值，且“15%”这一特定比例缺乏实证数据支撑，属于未经验证的经验性断言。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体统计分布及15%缩短比例的实证依据）
+
+## Search Query
+
+average selling time second hand marketplace with vs without seller verification signal

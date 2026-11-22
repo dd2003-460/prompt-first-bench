@@ -1,0 +1,29 @@
+# N212: 工作点B（中等市场波动）：基于二手商品月度价格波动率数据，假设Var_market = 0.0002（即标准差~1.4%），则总方差Var(δ) = 0.000
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N70
+
+## Claim
+
+工作点B（中等市场波动）：基于二手商品月度价格波动率数据，假设Var_market = 0.0002（即标准差~1.4%），则总方差Var(δ) = 0.00083 + 0.0002 = 0.00103，需验证该市场波动项是否与卖家定价噪声独立（协方差项为0）。
+
+## Corrected Claim
+
+工作点B（中等市场波动）：假设基于二手商品月度价格波动率数据，市场波动项方差Var_market约为0.0002（需根据实际数据验证），且假设其与卖家定价噪声独立（协方差为0），则总方差Var(δ) ≈ 0.00083 + 0.0002 = 0.00103。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值（二手商品月度价格波动率方差为0.0002，即标准差1.4%），这属于特定市场领域的经验事实，无法从第一性原理或数学公理中直接推导得出，且参考来源未提供该具体数值的支持。 | 逻辑上加法运算正确（0.00083+0.0002=0.00103），但具体波动率数值为经验事实，参考来源[1][2]仅讨论波动率模型方法论，未提供二手商品具体波动率数据，故降级。
+
+## Search Query
+
+second hand goods monthly price volatility variance
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/672746882&rut=62b23467424cebb24b832f99e31d5bf3d16f7aae9a0346cd3caa633eaafc4038', 'type': 'ddg', 'title': '手把手带你扒明白波动率—怎样建立波动率预测模型？比较不同波动率模型预测能力 - 知乎'}
+- {'url': 'https://math.pku.edu.cn/teachers/lidf/course/fts/ftsnotes/html/_ftsnotes/fts-volamodintro.html&rut=1ac70c3d02d1954b7b10e615b611460bef013366f0bba553989987d37e6408c0', 'type': 'ddg', 'title': '18 资产波动率模型特征 | 金融时间序列分析讲义'}

@@ -1,0 +1,24 @@
+# N165: Price-based排序中，价格惩罚项 w_price 的非线性结构：w_price(P) = 1 / (1 + e^(β_price * (P - P_ma
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N50
+
+## Claim
+
+Price-based排序中，价格惩罚项 w_price 的非线性结构：w_price(P) = 1 / (1 + e^(β_price * (P - P_market) / P_market))，其中 β_price 为价格敏感度系数；需计算当 P/P_market = 1.2 时，w_price 相对于基准价商品的比值，以量化 p_display ≈ 0.1-0.2 的数学基础。
+
+## Corrected Claim
+
+Price-based排序中，价格惩罚项 w_price 的非线性结构：w_price(P) = 1 / (1 + e^(β_price * (P - P_market) / P_market))，其中 β_price 为价格敏感度系数；需计算当 P/P_market = 1.2 时，w_price 相对于基准价商品的比值，以量化 p_display ≈ 0.1-0.2 的数学基础。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：根据公式 w_price(P) = 1 / (1 + e^(β_price * (P - P_market) / P_market))，当 P/P_market = 1.2 时，P - P_market = 0.2 * P_market，代入得 w_price(1.2) = 1 / (1 + e^(0.2 * β_price))。基准价商品 P = P_market 时，w_price(1.0) = 1 / (1 + e^0) = 0.5。比值为 w_price(1.2) / w_price(1.0) = 0.5 / (1 + e^(0.2 * β_price))。若该比值需量化 p_display ≈ 0.1-0.2 的数学基础，通常意味着 w_price(1.2) 本身或相关概率项落在该区间。例如，若 β_price 较大（如 10），e^2 ≈ 7.39，w_price(1.2) ≈ 1/8.39 ≈ 0.119，落在 0.1-0.2 区间内，逻辑自洽。
+
+## Search Query
+
+price sensitivity logistic function e-commerce sorting algorithm penalty coefficient beta

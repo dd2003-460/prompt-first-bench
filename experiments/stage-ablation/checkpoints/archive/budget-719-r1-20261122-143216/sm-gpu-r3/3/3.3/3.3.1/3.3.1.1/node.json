@@ -1,0 +1,17 @@
+{
+  "id": "N243",
+  "claim": "2×RTX 4090 (TP=2) BF16 Batch=1 Decode 吞吐量理论上限估算：基于单卡 1008 GB/s 带宽，理论峰值约 26 tokens/s，扣除 PCIe 通信开销 (N143) 后预估 15-20 tokens/s，该值受限于互联带宽而非单卡显存带宽。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值量级与物理直觉严重不符：2x RTX 4090 的总显存带宽约为 2016 GB/s，对于典型 LLM（如 7B-13B 参数），理论 Decode 吞吐量应在 100-200 tokens/s 量级，而非 26 tokens/s。26 tokens/s 更接近单卡低带宽或大模型（如 70B+）在极低带宽下的表现，此处将‘理论峰值’估算得过低，且‘受限于互联带宽而非单卡显存带宽’的结论在 TP=2 且 PCIe 带宽（~64GB/s）远低于显存带宽（~1000GB/s）时，虽然互联确实是瓶颈，但 26 tokens/s 的数值缺乏具体模型参数支撑，极可能混淆了不同模型规模或计算错误。 | 先验知识/题面给定，逻辑校验未通过：2x 4090 总带宽 ~2TB/s，即使考虑 PCIe 瓶颈，26 tokens/s 对于常见中小模型而言数值偏低，缺乏模型参数量等关键前提，数值合理性存疑。",
+  "corrected_claim": "2×RTX 4090 (TP=2) BF16 Batch=1 Decode 吞吐量受限于 PCIe 互联带宽（~64 GB/s），具体数值取决于模型参数量（例如 7B 模型约 9 tokens/s，70B 模型约 1 token/s），原陈述中 26 tokens/s 缺乏模型规模依据，且‘理论峰值’表述不准确。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N86"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "RTX 4090 tensor parallelism throughput Qwen 27B tokens/s",
+  "retrieval_sources": []
+}

@@ -1,0 +1,24 @@
+# N201: Qwen3-27B 在 M3 Ultra 256GB 上运行 INT8 精度时，实际生成吞吐量 (TPS) 预计为 25-30 tokens/s，该数值基于 M
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N61
+
+## Claim
+
+Qwen3-27B 在 M3 Ultra 256GB 上运行 INT8 精度时，实际生成吞吐量 (TPS) 预计为 25-30 tokens/s，该数值基于 M2 Ultra 实测数据 (约 15-18 TPS) 乘以带宽提升系数 (1500/800 = 1.875) 再乘以效率衰减因子 (0.8-0.9) 估算。
+
+## Corrected Claim
+
+Qwen3-27B 在 M3 Ultra 256GB 上运行 INT8 精度时，基于 M2 Ultra 实测数据及带宽线性外推估算，理论生成吞吐量约为 25-30 tokens/s，但实际性能受架构优化及效率衰减影响，可能存在偏差。
+
+## Evidence
+
+[质询]该估算模型过于简化，忽略了M3 Ultra相比M2 Ultra在内存控制器架构、缓存层级及驱动优化上的非线性影响，且0.8-0.9的效率衰减因子缺乏具体实证支撑，可能导致实际吞吐量显著偏离线性外推值。 | 先验知识/题面给定，逻辑校验通过：带宽提升系数计算正确（1500/800=1.875），量级合理，但作为经验事实估算，缺乏直接来源支持，故降级。
+
+## Search Query
+
+Qwen3-27B M2 Ultra inference throughput tokens per second benchmark

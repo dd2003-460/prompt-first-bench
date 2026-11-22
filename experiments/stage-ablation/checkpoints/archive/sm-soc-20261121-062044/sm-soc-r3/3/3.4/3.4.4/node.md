@@ -1,0 +1,20 @@
+# N68: 净现值 (NPV) 计算式：NPV_change = Σ [ΔGMV_t / (1+r)^t]，其中 r 为资本成本（设为 10%），t 为时间步长（月），需将
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+净现值 (NPV) 计算式：NPV_change = Σ [ΔGMV_t / (1+r)^t]，其中 r 为资本成本（设为 10%），t 为时间步长（月），需将短期负向冲击与长期正向留存效应加权求和，若 NPV_change > 0 则干预对平台有利。
+
+## Corrected Claim
+
+净现值 (NPV) 计算式：NPV_change = Σ [ΔGMV_t / (1+r)^t]，其中 r 为资本成本（设为 10%），t 为时间步长（月），需将短期负向冲击与长期正向留存效应加权求和，若 NPV_change > 0 则干预对平台有利。
+
+## Evidence
+
+父节点级核验未通过：非正交, 有冗余（子节点3和子节点4本质上是对同一参数集（r, T_max, ΔGMV模型）在不同取值下的具体实例化，而非独立的分析维度。它们与子节点1（定义T_max范围）和子节点2（定义r敏感性）存在逻辑包含和冗余关系，破坏了正交性。）

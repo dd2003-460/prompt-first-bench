@@ -1,0 +1,20 @@
+# N168: 更新失效概率 P_invalid 的数值计算：P_invalid = 1 - exp(-λ_update * τ_LRU)，其中 λ_update = 0.01
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N71
+
+## Claim
+
+更新失效概率 P_invalid 的数值计算：P_invalid = 1 - exp(-λ_update * τ_LRU)，其中 λ_update = 0.01/day，τ_LRU 为对象平均驻留时间。在容量充足假设下，τ_LRU 不再受驱逐限制，而是受限于对象被重新访问或更新的期望间隔，此处保守取 τ_LRU = 1/λ_update = 100天（假设更新是主要失效源且独立于访问），则 P_invalid = 1 - exp(-1) ≈ 0.632。注意：若 τ_LRU 由访问频率决定（如 N53 的 0.266天），则 P_invalid ≈ 0.0027。此处需澄清 τ_LRU 的定义：在‘容量非绑定’场景下，LRU 驱逐极少发生，驻留时间主要取决于‘对象被再次请求的时间间隔’或‘对象被更新的时间间隔’中的较小者。若按 N53 逻辑（基于总请求率），τ_LRU ≈ 0.266天，则 P_invalid ≈ 0.0027。
+
+## Corrected Claim
+
+更新失效概率 P_invalid 的数值计算：P_invalid = 1 - exp(-λ_update * τ_LRU)，其中 λ_update = 0.01/day，τ_LRU 为对象平均驻留时间。在容量充足假设下，τ_LRU 不再受驱逐限制，而是受限于对象被重新访问或更新的期望间隔，此处保守取 τ_LRU = 1/λ_update = 100天（假设更新是主要失效源且独立于访问），则 P_invalid = 1 - exp(-1) ≈ 0.632。注意：若 τ_LRU 由访问频率决定（如 N53 的 0.266天），则 P_invalid ≈ 0.0027。此处需澄清 τ_LRU 的定义：在‘容量非绑定’场景下，LRU 驱逐极少发生，驻留时间主要取决于‘对象被再次请求的时间间隔’或‘对象被更新的时间间隔’中的较小者。若按 N53 逻辑（基于总请求率），τ_LRU ≈ 0.266天，则 P_invalid ≈ 0.0027。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学计算 1-exp(-1)≈0.632 正确，且基于给定参数 λ=0.01 和 τ=100 的推导自洽。

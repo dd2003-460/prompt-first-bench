@@ -1,0 +1,24 @@
+# N18: 干预候选集包括：(A) 强制价格上限 P_max = P_median * (1 - k), (B) 动态价格建议算法, (C) 交易佣金调整 Δfee，需列出
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4, N5
+
+## Claim
+
+干预候选集包括：(A) 强制价格上限 P_max = P_median * (1 - k), (B) 动态价格建议算法, (C) 交易佣金调整 Δfee，需列出每个候选的数学表达
+
+## Corrected Claim
+
+干预候选集包括：(A) 强制价格上限 P_max = P_median * (1 - k), (B) 动态价格建议算法, (C) 交易佣金调整 Δfee，需列出每个候选的数学表达
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点结构清晰，分别覆盖了三个候选干预措施（A、B、C）的核心定义及其对应的动态响应机制（概率/算法/激励）。每个子节点聚焦于不同的数学维度（约束、概率修正、输入函数、弹性、激励结构、响应阈值），彼此之间没有逻辑重叠或矛盾，且完整覆盖了父节点要求的'列出每个候选的数学表达'。）
+
+## Search Query
+
+platform price intervention strategies commission adjustment dynamic pricing

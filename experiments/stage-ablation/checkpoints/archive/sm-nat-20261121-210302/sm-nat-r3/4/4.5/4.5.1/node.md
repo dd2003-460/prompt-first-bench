@@ -1,0 +1,20 @@
+# N53: LFU 能稳定保留的热点对象数 N_hot 由频率阈值 F_th 决定，F_th 对应 Pareto(β=0.9) 分布的分位数，需计算 F_th 使得前 N_
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N13
+
+## Claim
+
+LFU 能稳定保留的热点对象数 N_hot 由频率阈值 F_th 决定，F_th 对应 Pareto(β=0.9) 分布的分位数，需计算 F_th 使得前 N_hot 个对象覆盖的字节数最大化，具体公式为 N_hot = N * (1 - (F_th/F_max)^{1/β})
+
+## Corrected Claim
+
+LFU 能稳定保留的热点对象数 N_hot 由频率阈值 F_th 决定，F_th 对应 Pareto(β=0.9) 分布的分位数，近似公式为 N_hot ≈ N * (1 - (F_th/F_max)^{1/β})，该公式用于估算覆盖主要字节数的对象数量，而非严格最大化。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点本质上是同一参数（F_th 或 N_hot）在不同约束下的三个取值点，属于同一维度的离散采样，而非正交的独立概念。此外，父节点核心在于'最大化字节覆盖'的优化逻辑，而子节点仅展示了特定工作点，未涵盖如何从公式推导到数值求解的完整逻辑链条（如缺失对 E[S_i] 分布假设的讨论或迭代算法细节），导致完备性不足。）

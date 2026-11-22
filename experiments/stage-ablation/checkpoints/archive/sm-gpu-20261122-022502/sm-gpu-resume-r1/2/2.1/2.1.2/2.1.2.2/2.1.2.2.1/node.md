@@ -1,0 +1,28 @@
+# N541: 在 ROCm 6.0+ 环境下，使用 vLLM 进行 Qwen3-27B INT4 推理时，由于 FlashAttention 实现优化，软件栈损耗系数降低至 
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N168
+
+## Claim
+
+在 ROCm 6.0+ 环境下，使用 vLLM 进行 Qwen3-27B INT4 推理时，由于 FlashAttention 实现优化，软件栈损耗系数降低至 85-90%，实际吞吐约为 60.4 * 0.85 ≈ 51.3 tokens/s 至 64.0 * 0.90 ≈ 57.6 tokens/s。
+
+## Corrected Claim
+
+在 ROCm 6.0+ 环境下，使用 vLLM 进行 Qwen3-27B INT4 推理时，实际吞吐约为 51.3 至 57.6 tokens/s（需补充具体硬件型号及量化方案以确认可复现性）。
+
+## Evidence
+
+[质询]参考来源与事实陈述在硬件平台（Intel Arc vs ROCm/AMD）、模型版本（Qwen3.8 vs Qwen3）及量化方式（GPTQ vs 未指定/通常AWQ）上均不匹配，且来源未提供具体的吞吐数值以支持 51.3-57.6 tokens/s 的结论，属于来源无关且无法验证的经验事实。 | 来源 [1] 描述的是 Intel Arc Pro B70 上的 Qwen3.8-27B GPTQ 推理，与陈述中的 ROCm 6.0+ (AMD) 环境及 Qwen3-27B 不符，无法提供外部支持；作为经验事实（具体吞吐数值），缺乏直接来源支持且存在平台混淆风险。
+
+## Search Query
+
+ROCm 6.1 vLLM Qwen3-27B INT4 throughput performance
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/MikeCaldera/intel-arc-pro-b70-qwen38-vllm&rut=3808d1105afd7072fc2927ff543a924e65a3bb61e927b85e274180007430fc94', 'type': 'ddg', 'title': 'Intel Arc Pro B70 + Qwen3.8-27B — vLLM XPU, GPTQ INT4, MTP4'}

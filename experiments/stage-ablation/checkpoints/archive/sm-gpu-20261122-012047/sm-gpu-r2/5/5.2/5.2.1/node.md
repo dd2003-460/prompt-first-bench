@@ -1,0 +1,20 @@
+# N141: vLLM 在 NVIDIA RTX 4090 (Ada Lovelace) 上运行 Qwen3-27B 时，PagedAttention 的块大小 (block
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N37
+
+## Claim
+
+vLLM 在 NVIDIA RTX 4090 (Ada Lovelace) 上运行 Qwen3-27B 时，PagedAttention 的块大小 (block_size) 需设置为 16 或 32 以最大化显存利用率，默认值 16 在 24GB 显存下可支持约 4 个并发 32K 上下文请求，超出则触发 OOM 或 Swap 至 CPU 导致吞吐下降 >50%。
+
+## Corrected Claim
+
+vLLM 在 NVIDIA RTX 4090 上运行 Qwen3-27B 时，建议将 PagedAttention 的 block_size 设置为 16 或 32 以优化显存管理。在 24GB 显存限制下，支持 32K 上下文的并发请求数非常有限（通常仅个位数，具体取决于量化精度），超出显存容量将导致 OOM 或显著的性能下降。
+
+## Evidence
+
+[质询]具体数值（如'4个并发'、'吞吐下降>50%'）缺乏通用性，高度依赖具体的量化方案（FP16/INT8/INT4）、KV Cache 精度及系统配置，将其作为固定事实陈述存在以偏概全的风险。 | 先验知识/题面给定，逻辑校验通过：block_size 16/32 是 vLLM 在 Ada 架构上的常见推荐值，24GB 显存运行 27B 模型确实极度受限，但具体并发数和性能损耗比例属于经验性估算，非绝对真理。

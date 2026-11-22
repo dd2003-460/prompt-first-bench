@@ -1,0 +1,20 @@
+# N162: 价格波动对‘性价比最优解’的鲁棒性区间：定义 Price_Sensitivity_Index (PSI) = ΔCPR/CPR / (ΔPrice/Price)
+
+- **status**: degraded
+- **level**: L3
+- **source**: derived
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N52
+
+## Claim
+
+价格波动对‘性价比最优解’的鲁棒性区间：定义 Price_Sensitivity_Index (PSI) = ΔCPR/CPR / (ΔPrice/Price)。PSI 越高，方案对价格波动越敏感。RTX 4090 方案因硬件成本低，PSI 较高；H100 方案因硬件成本高，PSI 较低。需计算各候选方案的 PSI，确定在价格波动 ±20% 范围内，性价比排名是否发生实质性变化（如从第 1 名降至第 3 名）。
+
+## Corrected Claim
+
+价格波动对‘性价比最优解’的鲁棒性区间：定义 Price_Sensitivity_Index (PSI) = ΔCPR/CPR / (ΔPrice/Price)。PSI 越高，方案对价格波动越敏感。需计算各候选方案的 PSI，确定在价格波动 ±20% 范围内，性价比排名是否发生实质性变化。具体硬件（如RTX 4090与H100）的PSI相对高低需基于实际成本数据计算验证。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性结论（RTX 4090 PSI较高，H100 PSI较低），这属于特定硬件在特定成本模型下的经验事实，无法仅从第一性原理或数学定义中严格推导得出，且缺乏外部来源支持。 | 经验事实，逻辑自洽但缺来源支持

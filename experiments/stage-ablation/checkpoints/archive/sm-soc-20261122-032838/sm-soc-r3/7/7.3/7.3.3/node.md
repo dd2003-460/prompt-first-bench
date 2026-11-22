@@ -1,0 +1,20 @@
+# N294: 缺失机制量化：引入‘搜索惯性’参数 $\alpha_{inertia}$，定义为买家在降价通知后重新搜索的概率。若 $\alpha_{inertia} = 0.
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N98
+
+## Claim
+
+缺失机制量化：引入‘搜索惯性’参数 $\alpha_{inertia}$，定义为买家在降价通知后重新搜索的概率。若 $\alpha_{inertia} = 0.4$（即40%买家会重新搜索），则实际咨询率 $P_{inquiry, real} = P_{inquiry, base} \cdot (1 - \alpha_{inertia})$。若 $P_{inquiry, base} = 0.1$，则 $P_{inquiry, real} = 0.06$。无咨询率 $= 1 - 0.06 = 0.94$，仍高于60%。需进一步引入‘通知缺失’参数 $\lambda_{miss}$，若 $\lambda_{miss}=0.2$，则 $P_{inquiry, final} = 0.06 \cdot 0.8 = 0.048$，无咨询率 $95.2\%$，符合60%以上的观测值。
+
+## Corrected Claim
+
+缺失机制量化：引入‘搜索惯性’参数 $\alpha_{inertia}$，定义为买家在降价通知后重新搜索的概率。若 $\alpha_{inertia} = 0.4$（即40%买家会重新搜索），则实际咨询率 $P_{inquiry, real} = P_{inquiry, base} \cdot (1 - \alpha_{inertia})$。若 $P_{inquiry, base} = 0.1$，则 $P_{inquiry, real} = 0.06$。无咨询率 $= 1 - 0.06 = 0.94$，仍高于60%。需进一步引入‘通知缺失’参数 $\lambda_{miss}$，若 $\lambda_{miss}=0.2$，则 $P_{inquiry, final} = 0.06 \cdot 0.8 = 0.048$，无咨询率 $95.2\%$，符合60%以上的观测值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算正确（0.1*0.6=0.06, 0.06*0.8=0.048），推导出的无咨询率（94%和95.2%）均高于60%的观测阈值，逻辑自洽。

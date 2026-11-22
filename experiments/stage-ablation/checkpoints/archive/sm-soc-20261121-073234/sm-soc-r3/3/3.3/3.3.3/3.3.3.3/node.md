@@ -1,0 +1,24 @@
+# N222: 搜索时间增量 ΔT_search 在打破均衡（如移除高价权重、展示更多低价选项）后，预计增加。量化关系为 ΔT_search = β_search * ln(N
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N72
+
+## Claim
+
+搜索时间增量 ΔT_search 在打破均衡（如移除高价权重、展示更多低价选项）后，预计增加。量化关系为 ΔT_search = β_search * ln(N_options_new / N_options_old)。若 N_options 增加 2 倍，且 β_search ≈ 1.5 分钟/倍，则 ΔT_search ≈ 1.5 * ln(2) ≈ 1.04 分钟。此增量直接抵消部分价格收益，需纳入净效用计算。
+
+## Corrected Claim
+
+搜索时间增量 ΔT_search 在打破均衡（如移除高价权重、展示更多低价选项）后，预计增加。量化关系为 ΔT_search = β_search * ln(N_options_new / N_options_old)。若 N_options 增加 2 倍，且 β_search ≈ 1.5 分钟/倍，则 ΔT_search ≈ 1.5 * ln(2) ≈ 1.04 分钟。此增量直接抵消部分价格收益，需纳入净效用计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+search time increase effect of expanding product choice set e-commerce

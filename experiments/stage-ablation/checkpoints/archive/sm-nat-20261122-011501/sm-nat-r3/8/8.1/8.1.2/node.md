@@ -1,0 +1,20 @@
+# N165: Top-K 请求覆盖率的字节加权修正：由于大小-热度负相关 ρ=-0.3，Top-K 最热对象的平均大小 E[S|TopK] ≈ E[S] * (1 + ρ *
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N68
+
+## Claim
+
+Top-K 请求覆盖率的字节加权修正：由于大小-热度负相关 ρ=-0.3，Top-K 最热对象的平均大小 E[S|TopK] ≈ E[S] * (1 + ρ * σ_S/μ_S * σ_H/μ_H)，代入 ρ=-0.3, σ_S/μ_S≈2.5, σ_H/μ_H≈3.0 得 E[S|TopK] ≈ E[S] * 0.775，因此 Top-K 覆盖的字节比例 P_bytes(K) ≈ P_access(K) * 0.775，比请求覆盖率低约 22.5%。
+
+## Corrected Claim
+
+Top-K 请求覆盖率的字节加权修正：由于大小-热度负相关 ρ=-0.3，Top-K 最热对象的平均大小 E[S|TopK] ≈ E[S] * (1 + ρ * σ_S/μ_S * σ_H/μ_H)，代入 ρ=-0.3, σ_S/μ_S≈2.5, σ_H/μ_H≈3.0 得 E[S|TopK] ≈ E[S] * 0.775，因此 Top-K 覆盖的字节比例 P_bytes(K) ≈ P_access(K) * 0.775，比请求覆盖率低约 22.5%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

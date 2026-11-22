@@ -1,0 +1,20 @@
+# N131: 基于 num_layers=64 修正后的 32K 上下文 BF16 KV Cache 显存占用为 13.11 GB（计算式：2 * 64 layers * 8
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N37
+
+## Claim
+
+基于 num_layers=64 修正后的 32K 上下文 BF16 KV Cache 显存占用为 13.11 GB（计算式：2 * 64 layers * 8 kv_heads * 128 head_dim * 2 bytes * 32768 tokens / 1e9），较 N28 中基于 60 层计算的 12.29 GB 增加 0.82 GB。
+
+## Corrected Claim
+
+基于 num_layers=64 修正后的 32K 上下文 BF16 KV Cache 显存占用为 13.11 GB（计算式：2 * 64 layers * 8 kv_heads * 128 head_dim * 2 bytes * 32768 tokens / 1e9），较 N28 中基于 60 层计算的 12.29 GB 增加 0.82 GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算式 2 * 64 * 8 * 128 * 2 * 32768 / 1e9 = 13.1072 GB，四舍五入为 13.11 GB，与陈述一致；增量 13.11 - 12.29 = 0.82 GB，逻辑自洽。

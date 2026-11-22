@@ -1,0 +1,20 @@
+# N33: RTX 5090 (32GB) 单卡在 32K 上下文下的最大可行精度验证：FP8 权重 (27GB) + BF16 KV Cache (12.58GB) = 
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+RTX 5090 (32GB) 单卡在 32K 上下文下的最大可行精度验证：FP8 权重 (27GB) + BF16 KV Cache (12.58GB) = 39.58GB > 32GB (溢出)；INT4 权重 (13.5GB) + BF16 KV Cache (12.58GB) = 26.08GB < 32GB (可行，剩余 ~5.9GB 缓冲)。结论：单卡 5090 可使用 INT4 权重配合 BF16 KV Cache，或 FP8 权重配合 FP8 KV Cache (27+6.29=33.29GB > 32GB 溢出，故 FP8 权重不可行，必须 INT4 或更低)。
+
+## Corrected Claim
+
+RTX 5090 (32GB) 单卡在 32K 上下文下的最大可行精度验证：FP8 权重 (27GB) + BF16 KV Cache (12.58GB) = 39.58GB > 32GB (溢出)；INT4 权重 (13.5GB) + BF16 KV Cache (12.58GB) = 26.08GB < 32GB (可行，剩余 ~5.9GB 缓冲)。结论：单卡 5090 可使用 INT4 权重配合 BF16 KV Cache，或 FP8 权重配合 FP8 KV Cache (27+6.29=33.29GB > 32GB 溢出，故 FP8 权重不可行，必须 INT4 或更低)。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点存在事实性错误（显存带宽计算错误）且未覆盖父节点关于'BF16 KV Cache'可行性的完整验证逻辑（子节点2仅验证了吞吐，未明确确认显存可行性结论）。）

@@ -1,0 +1,20 @@
+# N336: ‘60%无咨询’现象的因果归因：主动降价后咨询量未增的主要原因并非价格弹性失效，而是‘信号混淆效应’。量化指标为 Signal_Clarity_Index (S
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+‘60%无咨询’现象的因果归因：主动降价后咨询量未增的主要原因并非价格弹性失效，而是‘信号混淆效应’。量化指标为 Signal_Clarity_Index (SCI) = ΔP_drop / σ_noise。当 SCI < 1.0 时，降价幅度小于市场噪声标准差，买家无法区分‘真实降价’与‘随机波动’或‘卖家失误’，导致咨询概率 Prob(Consult|Drop) 保持基准水平 P_base，未产生增量。60%的无咨询率对应于该群体平均降价幅度 δ_drop < σ_noise 的分布概率。
+
+## Corrected Claim
+
+‘60%无咨询’现象的因果归因：主动降价后咨询量未增的主要原因并非价格弹性失效，而是‘信号混淆效应’。量化指标为 Signal_Clarity_Index (SCI) = ΔP_drop / σ_noise。当 SCI < 1.0 时，降价幅度小于市场噪声标准差，买家无法区分‘真实降价’与‘随机波动’或‘卖家失误’，导致咨询概率 Prob(Consult|Drop) 保持基准水平 P_base，未产生增量。60%的无咨询率对应于该群体平均降价幅度 δ_drop < σ_noise 的分布概率。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

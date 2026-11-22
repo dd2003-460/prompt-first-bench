@@ -1,0 +1,20 @@
+# N28: 机制一致性判据：'信号置信度'阈值模型。假设买家对价格偏离度 D = (P_list - P_ref)/P_ref 存在一个认知阈值 τ_signal。当 D 
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+机制一致性判据：'信号置信度'阈值模型。假设买家对价格偏离度 D = (P_list - P_ref)/P_ref 存在一个认知阈值 τ_signal。当 D ∈ [15%, 25%] 时，若该区间内商品的'卖家信用分'或'历史好评率'高于品类均值 μ_credit，则买家将其归类为'优质稀缺品'（Short Cycle Driver）；当 D < -5%（降价）且伴随'库存积压'标签或无信用提升时，买家将其归类为'风险品'（No Consultation Driver）。一致性检验需验证：高挂价短周期商品中，高信用卖家占比是否显著高于低挂价商品；而降价无咨询商品中，低信用或无信用变化卖家占比是否显著高于其他。
+
+## Corrected Claim
+
+机制一致性判据：'信号置信度'阈值模型。假设买家对价格偏离度 D = (P_list - P_ref)/P_ref 存在一个认知阈值 τ_signal。当 D ∈ [15%, 25%] 时，若该区间内商品的'卖家信用分'或'历史好评率'高于品类均值 μ_credit，则买家将其归类为'优质稀缺品'（Short Cycle Driver）；当 D < -5%（降价）且伴随'库存积压'标签或无信用提升时，买家将其归类为'风险品'（No Consultation Driver）。一致性检验需验证：高挂价短周期商品中，高信用卖家占比是否显著高于低挂价商品；而降价无咨询商品中，低信用或无信用变化卖家占比是否显著高于其他。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

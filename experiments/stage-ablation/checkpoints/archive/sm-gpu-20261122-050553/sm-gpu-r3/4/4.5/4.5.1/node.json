@@ -1,0 +1,17 @@
+{
+  "id": "N92",
+  "claim": "2×RTX 4090 方案的 TCO 计算中，电力成本需包含 PCIe 跨卡通信开销：张量并行（TP=2）每层需跨卡同步激活值，PCIe 4.0 x16 带宽 32 GB/s，相比 NVLink 900 GB/s，通信延迟增加约 5-10ms/step，导致有效吞吐量下降 10-15%，需修正 TCO 中的时间成本或视为性能折损。",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值量级与具体场景强相关，缺乏通用性：'5-10ms/step' 和 '10-15% 吞吐量下降' 是高度依赖模型架构（如 Llama vs GPT）、Batch Size 和序列长度的经验估算值，并非 PCIe 4.0 与 NVLink 带宽差异的直接物理推论。对于小模型或大 Batch 场景，通信占比可能远低于此；对于特定大模型，延迟可能更高。将特定场景的经验数据表述为通用 TCO 修正系数存在以偏概全的风险。 | 先验知识/题面给定，逻辑校验通过。PCIe 4.0 x16 带宽（~32GB/s）远低于 NVLink（~900GB/s）是事实，TP=2 确实需要跨卡同步激活值，通信瓶颈导致性能折损符合分布式推理/训练的基本原理。但具体延迟和吞吐量下降百分比属于经验事实，虽逻辑自洽且方向正确，但缺乏通用性保证，故降级为定性表述。",
+  "corrected_claim": "2×RTX 4090 方案的 TCO 计算中，电力成本需包含 PCIe 跨卡通信开销：张量并行（TP=2）每层需跨卡同步激活值，PCIe 4.0 x16 带宽（~32 GB/s）显著低于 NVLink（~900 GB/s），导致通信延迟增加，有效吞吐量下降（具体幅度取决于模型规模与 Batch Size，通常需视为显著性能折损），需修正 TCO 中的时间成本。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N24"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

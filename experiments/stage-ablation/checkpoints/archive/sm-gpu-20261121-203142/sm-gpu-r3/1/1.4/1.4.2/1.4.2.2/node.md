@@ -1,0 +1,20 @@
+# N162: 32K 上下文下 KV Cache 的峰值显存占用边界条件：随着生成序列长度增加，KV Cache 线性增长；在 32K 输入 + 2K 输出场景下，总 KV 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N47
+
+## Claim
+
+32K 上下文下 KV Cache 的峰值显存占用边界条件：随着生成序列长度增加，KV Cache 线性增长；在 32K 输入 + 2K 输出场景下，总 KV Cache 占用约为 34K tokens 对应的值，需重新计算以评估对 B_max 的影响。
+
+## Corrected Claim
+
+32K 上下文下 KV Cache 的峰值显存占用边界条件：随着生成序列长度增加，KV Cache 线性增长；在 32K 输入 + 2K 输出场景下，总 KV Cache 占用约为 34K tokens 对应的值，需重新计算以评估对 B_max 的影响。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：KV Cache 随序列长度线性增长是 Transformer 架构的基本特性，32K+2K=34K 的算术推导正确，符合第一性原理。

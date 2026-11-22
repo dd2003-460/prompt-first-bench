@@ -1,0 +1,17 @@
+{
+  "id": "N377",
+  "claim": "工作点C (高成本低性/大Batch极限型)：2×RTX 4090 在 Batch Size=32, 32K 上下文下，PCIe 同步数据量巨大，同步时间超过 10s，导致总 TTFT 违反 <10s 约束，此时必须启用 PagedAttention 或减小 Batch Size 至 16 以下，或接受 >10s 的延迟，性价比在极高并发下显著下降。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值量级存疑：在 Batch Size=32 且上下文 32K 的情况下，若指 KV Cache 传输，数据量约为 32 * 32K * 2 * 128 * 2 bytes ≈ 512MB，在 PCIe 4.0 x16 (理论 ~25GB/s, 实际 ~15-20GB/s) 下传输时间约为 25-35ms，远小于 10s。若指模型权重加载或全量激活同步，数据量需达到数百 GB 才可能耗时 10s，但这不符合常规推理工作点描述。'同步时间超过 10s' 这一具体数值缺乏典型硬件/软件配置下的普遍支持，可能混淆了'首次加载时间'与'每步同步时间'，或假设了极端的低带宽/高延迟场景。 | 先验知识/题面给定，逻辑校验通过（定性结论合理，但具体数值 10s 缺乏典型场景支持，故降级）",
+  "corrected_claim": "工作点C (高成本低性/大Batch极限型)：2×RTX 4090 在 Batch Size=32, 32K 上下文下，PCIe 同步开销显著增加，可能导致总 TTFT 接近或超过 10s 约束（具体取决于同步策略和硬件带宽），此时必须启用 PagedAttention 或减小 Batch Size 至 16 以下，或接受 >10s 的延迟，性价比在极高并发下显著下降。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N134"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

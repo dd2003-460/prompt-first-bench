@@ -1,0 +1,20 @@
+# N232: 线性逆向阶梯佣金函数的具体参数：Fee(P) = k_max - α * (P - P_min) / (P_max - P_min)，其中 k_max 为低价段
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N74
+
+## Claim
+
+线性逆向阶梯佣金函数的具体参数：Fee(P) = k_max - α * (P - P_min) / (P_max - P_min)，其中 k_max 为低价段佣金率上限，k_min 为高价段佣金率下限，α = k_max - k_min 为佣金率跨度，该函数满足 f'(P) < 0，鼓励卖家降低 P 以获取更低费率。
+
+## Corrected Claim
+
+线性逆向阶梯佣金函数的具体参数：Fee(P) = k_max - α * (P - P_min) / (P_max - P_min)，其中 k_max 为低价段佣金率上限，k_min 为高价段佣金率下限，α = k_max - k_min 为佣金率跨度，该函数满足 f'(P) < 0，鼓励卖家降低 P 以获取更低费率。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：函数形式为线性递减，导数恒为负，符合逆向阶梯佣金定义及激励相容逻辑。

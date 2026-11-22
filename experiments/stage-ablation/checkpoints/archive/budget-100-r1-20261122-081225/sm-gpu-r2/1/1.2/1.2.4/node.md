@@ -1,0 +1,20 @@
+# N61: NVIDIA RTX 3090 在 FP8 精度下运行 Qwen3-27B 时的显存占用约为 27GB (权重) + KV Cache，若 KV Cache 为
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N7
+
+## Claim
+
+NVIDIA RTX 3090 在 FP8 精度下运行 Qwen3-27B 时的显存占用约为 27GB (权重) + KV Cache，若 KV Cache 为 FP8 且 32K 上下文，总占用约为 40.8GB，超出 24GB 显存，必须使用 Offloading 或更激进的量化
+
+## Corrected Claim
+
+NVIDIA RTX 3090 在 FP8 精度下运行 Qwen3-27B 时的显存占用约为 27GB (权重) + KV Cache，若 KV Cache 为 FP8 且 32K 上下文，总占用约为 40.8GB，超出 24GB 显存，必须使用 Offloading 或更激进的量化
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数在FP8下权重约27GB，加上32K上下文的KV Cache（约13GB），总显存需求约40GB，远超24GB显存限制，必须使用Offloading或量化。

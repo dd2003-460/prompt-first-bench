@@ -1,0 +1,20 @@
+# N105: 运行 Qwen3-27B 的最小 CUDA 版本要求为 CUDA 12.4+（因 FP8 支持及 Blackwell 架构兼容性），对应的最小 PyTorch 
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N25, N26, N27
+
+## Claim
+
+运行 Qwen3-27B 的最小 CUDA 版本要求为 CUDA 12.4+（因 FP8 支持及 Blackwell 架构兼容性），对应的最小 PyTorch 版本为 2.3.0+（需支持 torch.float8_e4m3fn 数据类型），需验证当前稳定版 PyTorch 是否已包含该特性。
+
+## Corrected Claim
+
+若需利用 FP8 精度及 Blackwell 架构兼容性运行 Qwen3-27B，建议 CUDA 版本不低于 12.4，PyTorch 版本不低于 2.3.0（需确认具体发行版对 torch.float8_e4m3fn 的支持情况）；若仅以 BF16/FP16 运行，最低版本要求可能更低。
+
+## Evidence
+
+[质询]将 CUDA 12.4+ 和 PyTorch 2.3.0+ 作为运行 Qwen3-27B 的“最小”要求存在逻辑漏洞：FP8 支持并非运行该模型的必要条件（可通过 BF16/FP16 运行），且 PyTorch 2.3.0 对 Blackwell 架构的原生支持通常需更高版本（如 2.4+ 或 2.5+），此处混淆了“支持 FP8/Blackwell 的最低版本”与“运行模型的最小版本”。 | 先验知识/题面给定，逻辑校验通过，但经验事实（具体版本号要求）存在口径混淆风险，且无外部来源支持，故降级。

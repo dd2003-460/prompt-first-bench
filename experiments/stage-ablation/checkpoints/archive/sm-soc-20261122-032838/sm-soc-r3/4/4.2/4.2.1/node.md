@@ -1,0 +1,24 @@
+# N80: A/B测试设计：实验组强制显示 $P_{ref}$，对照组不显示。主要结果变量为成交周期 $T_{sale}$ 和咨询率 $P_{inquiry}$。假设检验：
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N19
+
+## Claim
+
+A/B测试设计：实验组强制显示 $P_{ref}$，对照组不显示。主要结果变量为成交周期 $T_{sale}$ 和咨询率 $P_{inquiry}$。假设检验：H0: $\mu_{T,exp} = \mu_{T,control}$。若 $\Delta T < -15\%$ 且 p<0.05，则支持'信息透明化打破均衡'。需样本量 $n \geq 384$ 组（效应量 d=0.5, power=0.8）
+
+## Corrected Claim
+
+A/B测试设计：实验组强制显示 $P_{ref}$，对照组不显示。主要结果变量为成交周期 $T_{sale}$ 和咨询率 $P_{inquiry}$。假设检验：H0: $\mu_{T,exp} = \mu_{T,control}$。若 $\Delta T < -15\%$ 且 p<0.05，则支持'信息透明化打破均衡'。需样本量 $n \geq 384$ 组（效应量 d=0.5, power=0.8）
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在统计分布、效应量估算和混杂控制三个维度上相互独立，无重复或矛盾，正交性良好。但完备性不足：父节点明确将 $P_{inquiry}$ 列为主要结果变量，且定义了基于 $T_{sale}$ 的显著性判定规则，但子节点中缺乏针对 $T_{sale}$ 的效应量计算与样本量验证（仅讨论了分布假设），且未明确 $P_{inquiry}$ 的检验方法（如卡方或Z检验）及其与 $T_{sale}$ 的多重比较校正问题。）
+
+## Search Query
+
+A/B test design price transparency intervention second-hand marketplace sample size

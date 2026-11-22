@@ -1,0 +1,20 @@
+# N40: 稀缺性启发式对决策时间的压缩效应公式：ΔT_decision = T_base * (1 - η * S_signal)，其中 S_signal 为高挂价传递的
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N15
+
+## Claim
+
+稀缺性启发式对决策时间的压缩效应公式：ΔT_decision = T_base * (1 - η * S_signal)，其中 S_signal 为高挂价传递的稀缺信号强度（归一化），η 为冲动型买家对该信号的响应系数（假设 η ∈ [0.3, 0.5]），导致决策时间缩短幅度约为 30-50%。
+
+## Corrected Claim
+
+稀缺性启发式对决策时间的压缩效应公式：ΔT_decision = T_base * (1 - η * S_signal)，其中 S_signal 为高挂价传递的稀缺信号强度（归一化），η 为冲动型买家对该信号的响应系数（假设 η ∈ [0.3, 0.5]），导致决策时间缩短幅度约为 30-50%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

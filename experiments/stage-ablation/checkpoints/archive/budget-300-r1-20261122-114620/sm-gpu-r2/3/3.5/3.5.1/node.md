@@ -1,0 +1,20 @@
+# N98: 质量损失判定标准中的 Perplexity 阈值具体化：定义可接受阈值为 PPL_increase = (PPL_quant - PPL_BF16) / PPL
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N22
+
+## Claim
+
+质量损失判定标准中的 Perplexity 阈值具体化：定义可接受阈值为 PPL_increase = (PPL_quant - PPL_BF16) / PPL_BF16 < 5%。对于 Qwen3-27B，若 BF16 PPL 为 5.6，则量化后 PPL 必须 < 5.88。此阈值基于 LLM 推理中 PPL 每增加 1% 通常对应下游任务准确率下降 0.5-1% 的经验法则。
+
+## Corrected Claim
+
+质量损失判定标准中的 Perplexity 阈值具体化：定义可接受阈值为 PPL_increase = (PPL_quant - PPL_BF16) / PPL_BF16 < 5%。对于 Qwen3-27B，若 BF16 PPL 为 5.6，则量化后 PPL 必须 < 5.88。此阈值基于 LLM 推理中 PPL 增加通常伴随下游任务性能下降的经验观察，具体下降幅度需结合特定任务评估。
+
+## Evidence
+
+[质询]陈述中引用的经验法则（PPL每增加1%对应下游任务准确率下降0.5-1%）缺乏普遍公认的文献支持，且该线性关系在不同模型规模和任务类型中波动较大，属于未经严格验证的经验性假设。 | source=knowledge，数学计算逻辑自洽（5.6 * 1.05 = 5.88），但所依据的‘PPL与准确率线性关系’经验法则属于具体经验参数，缺乏直接来源支持，且该线性映射关系在学术界并非绝对真理，故降级为定性表述。

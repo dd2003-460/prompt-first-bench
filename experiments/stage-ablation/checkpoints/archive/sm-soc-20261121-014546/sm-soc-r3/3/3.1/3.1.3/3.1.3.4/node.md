@@ -1,0 +1,24 @@
+# N222: 搜索成本项投影 Search_C 的随机波动 Var(C_search)：由于 Var(P_hist) 本身是随机变量（取决于样本量 N_sample），C_s
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N65
+
+## Claim
+
+搜索成本项投影 Search_C 的随机波动 Var(C_search)：由于 Var(P_hist) 本身是随机变量（取决于样本量 N_sample），C_search 的方差 Var(C_search) = (c_time · t_base)² · Var(sqrt(Var(P_hist)))，其中 Var(sqrt(Var(P_hist))) 可通过 delta 方法近似为 Var(P_hist)²/(4N_sample)。
+
+## Corrected Claim
+
+若 C_search = c_time · t_base · sqrt(Var(P_hist))，则通过 delta 方法，Var(C_search) ≈ (c_time · t_base)² · Var(Var(P_hist)) / (4 · [E(Var(P_hist))]²)。其中 Var(Var(P_hist)) 取决于 P_hist 的分布及样本量 N_sample，不能简单替换为 Var(P_hist)²/(4N_sample)。
+
+## Evidence
+
+[质询]公式推导存在量纲与逻辑错误：Var(C_search) 的表达式中，若 C_search 正比于 sqrt(Var(P_hist))，则 Var(C_search) 应正比于 Var(Var(P_hist))，而非 (c_time·t_base)² 乘以 Var(sqrt(...)) 这种混合形式；且 delta 方法近似 Var(sqrt(X)) ≈ Var(X)/(4μ²) 中分母应为均值平方而非样本量 N_sample，此处混淆了随机变量方差与估计方差的层级。 | 先验知识/题面给定，逻辑校验未通过：delta 方法应用错误，Var(sqrt(X)) 的近似分母应为 E[X]² 而非 N_sample，且整体方差传递公式结构不自洽。
+
+## Search Query
+
+delta method variance of square root of variance

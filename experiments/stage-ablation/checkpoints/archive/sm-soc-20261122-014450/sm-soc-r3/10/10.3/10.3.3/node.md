@@ -1,0 +1,20 @@
+# N392: 收入损失比值的计算模型：ΔR_high/ΔR_low = [(ΔP_high * Q_high + P_high * ΔQ_high) / (P_high * 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N126
+
+## Claim
+
+收入损失比值的计算模型：ΔR_high/ΔR_low = [(ΔP_high * Q_high + P_high * ΔQ_high) / (P_high * Q_high)] / [(ΔP_low * Q_low + P_low * ΔQ_low) / (P_low * Q_low)]，需代入 N134 的弹性系数及基线价格/销量数据，计算该比值是否 > 1.5。
+
+## Corrected Claim
+
+收入损失比值的计算模型：ΔR_high/ΔR_low = [(ΔP_high * Q_high + P_high * ΔQ_high) / (P_high * Q_high)] / [(ΔP_low * Q_low + P_low * ΔQ_low) / (P_low * Q_low)]，需代入 N134 的弹性系数及基线价格/销量数据，计算该比值是否 > 1.5。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该公式基于收入微分近似（ΔR ≈ ΔP*Q + P*ΔQ）构建，量纲一致，逻辑自洽。

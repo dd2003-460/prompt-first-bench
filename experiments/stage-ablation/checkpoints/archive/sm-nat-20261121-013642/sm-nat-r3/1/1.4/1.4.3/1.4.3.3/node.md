@@ -1,0 +1,20 @@
+# N123: 下界修正项：由于 ρ=-0.3，热度前 K 名对象的平均大小 E[s|top_K] 小于整体平均，导致 LRU 下界假设（保留前K热）实际保留的字节数低于 Σs
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N40
+
+## Claim
+
+下界修正项：由于 ρ=-0.3，热度前 K 名对象的平均大小 E[s|top_K] 小于整体平均，导致 LRU 下界假设（保留前K热）实际保留的字节数低于 Σs_i，需引入修正因子 κ_size < 1，使得有效命中率 H_LRU_lower_corrected = H_LRU_lower * κ_size。
+
+## Corrected Claim
+
+下界修正项：由于 ρ=-0.3，热度前 K 名对象的平均大小 E[s|top_K] 小于整体平均，导致 LRU 下界假设（保留前K热）实际保留的字节数低于 Σs_i，需引入修正因子 κ_size < 1，使得有效命中率 H_LRU_lower_corrected = H_LRU_lower * κ_size。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：负相关意味着高热度对象平均大小较小，导致固定数量K的LRU缓存实际覆盖字节数低于理论最大值，引入小于1的修正因子符合逻辑。

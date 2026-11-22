@@ -1,0 +1,28 @@
+# N224: 量化个体异质性噪声 σ_pref 的方差：基于买家历史行为数据，计算同一商品对不同买家咨询决策的二值变量（咨询/不咨询）的方差，假设 σ_pref ≈ 0.15
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N84
+
+## Claim
+
+量化个体异质性噪声 σ_pref 的方差：基于买家历史行为数据，计算同一商品对不同买家咨询决策的二值变量（咨询/不咨询）的方差，假设 σ_pref ≈ 0.15 为标准化单位，需通过实证数据回归验证该值在二手市场中的稳健性。
+
+## Corrected Claim
+
+量化个体异质性噪声 σ_pref 的方差：基于买家历史行为数据，计算同一商品对不同买家咨询决策的二值变量（咨询/不咨询）的方差，需通过实证数据回归验证该值在二手市场中的稳健性（具体数值如 0.15 需待实证确定）。
+
+## Evidence
+
+[质询]数值量级缺乏依据：σ_pref ≈ 0.15 是一个具体的经验参数，无法从第一性原理推导，且参考来源未提供二手市场买家咨询决策异质性的具体方差数据，属于无来源支持的假设值。 | 经验事实，逻辑自洽但缺来源支持（来源[1]仅讨论异质性分析方法论，未提供具体数值）
+
+## Search Query
+
+buyer preference heterogeneity noise variance second hand market
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1972813999935607088&rut=95376452ddaa7124a0e053db5d9de9ebbe2a833b7cb68f4b564d076a377bd309', 'type': 'ddg', 'title': '不得不看, 实证研究中18条异质性分析避坑指南, 95%的异质性都是假的. - 知乎'}

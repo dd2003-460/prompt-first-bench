@@ -1,0 +1,24 @@
+# N343: RTX 4090 在运行 Qwen3-27B INT4 (AWQ) 模型进行持续 30 分钟 Decode 负载时，实际平均功耗约为 310-330W (低于 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N122
+
+## Claim
+
+RTX 4090 在运行 Qwen3-27B INT4 (AWQ) 模型进行持续 30 分钟 Decode 负载时，实际平均功耗约为 310-330W (低于 350W TDP)，峰值功耗出现在 Prefill 阶段，约为 345-350W；此数据可通过 HWiNFO64 的 'GPU Power' 曲线平均值获取，用于修正基于满 TDP 计算的电力成本高估误差约 10-15%。
+
+## Corrected Claim
+
+RTX 4090 在运行 Qwen3-27B INT4 (AWQ) 模型时，实际平均功耗通常低于其 350W TDP，峰值功耗出现在 Prefill 阶段；使用 HWiNFO64 监测实际功耗可修正基于满 TDP 计算的电力成本误差。
+
+## Evidence
+
+[质询]具体功耗数值（310-330W Decode, 345-350W Prefill）及误差修正比例（10-15%）属于特定硬件在特定负载下的经验测量数据，无法从第一性原理推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+RTX 4090 LLM inference average power consumption HWiNFO benchmark

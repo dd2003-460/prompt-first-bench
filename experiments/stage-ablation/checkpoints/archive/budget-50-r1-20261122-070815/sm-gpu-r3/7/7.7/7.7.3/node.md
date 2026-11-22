@@ -1,0 +1,20 @@
+# N394: L40S 48GB 运行 Qwen3-27B FP8 时的理论 Decode 吞吐量上限：Bandwidth_Limited_TPS = 864 GB/s / 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N137
+
+## Claim
+
+L40S 48GB 运行 Qwen3-27B FP8 时的理论 Decode 吞吐量上限：Bandwidth_Limited_TPS = 864 GB/s / (27GB + KV_Cache_GB + Activation_GB)，该值低于 4090 INT4 (N131) 和 A100 BF16 (N144)，用于量化 L40S 在速度上的劣势及其对用户体验的影响。
+
+## Corrected Claim
+
+L40S 48GB 运行 Qwen3-27B FP8 时的理论 Decode 吞吐量上限：Bandwidth_Limited_TPS = 864 GB/s / (27GB + KV_Cache_GB + Activation_GB)，该值低于 4090 INT4 (N131) 和 A100 BF16 (N144)，用于量化 L40S 在速度上的劣势及其对用户体验的影响。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：L40S 48GB 显存带宽约 864 GB/s，Qwen3-27B FP8 模型权重约 27GB，Decode 阶段受显存带宽限制，吞吐量公式 Bandwidth_Limited_TPS = 带宽 / (模型大小 + KV Cache + 激活值) 符合 Roofline 模型基本逻辑；L40S 带宽低于 A100 (2039 GB/s) 且 FP8 精度高于 INT4，故其理论 Decode 上限低于 A100 BF16 和 4090 INT4 的结论在量级和逻辑上自洽。

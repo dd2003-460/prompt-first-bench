@@ -1,0 +1,24 @@
+# N115: 下游投影2：耐心阈值分布的右偏修正项：由于 $\epsilon_{cog}$ 和 $\epsilon_{ext}$ 均非负偏（干扰只能延长不能缩短搜索），实际 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N33
+
+## Claim
+
+下游投影2：耐心阈值分布的右偏修正项：由于 $\epsilon_{cog}$ 和 $\epsilon_{ext}$ 均非负偏（干扰只能延长不能缩短搜索），实际 $\delta_{patience}$ 服从对数正态分布 $\log(\delta) \sim N(\mu_{log}, \sigma_{log}^2)$。需计算 90 分位数 $\delta_{90}$ 以覆盖长尾用户：$\delta_{90} = \exp(\mu_{log} + 1.28\sigma_{log})$。若 $\mu_{\delta}=24, \sigma_{\delta}=0.25$ 为近似正态参数，则对数正态近似下 $\delta_{90} \approx 24 \times (1 + 1.28 \times 0.25/24) \approx 24.4h$，表明 48h 窗口对 90% 以上用户而言是冗余的，咨询率上限由前 25h 决定。
+
+## Corrected Claim
+
+若 δ 服从正态分布 N(24, 0.25²)，则 δ₉₀ ≈ 24.32h；若服从对数正态分布且均值近似为 24h，需重新校准 μ_log 和 σ_log 参数以得出准确分位数，但 48h 窗口确实远大于 90 分位数，咨询率上限主要由前 25h 左右决定。
+
+## Evidence
+
+[质询]数值计算存在严重逻辑错误：若 μ=24, σ=0.25 为正态分布参数，90分位数应为 24 + 1.28*0.25 ≈ 24.32，而非文中声称的 24.4；若强行解释为对数正态近似，公式 exp(μ_log + 1.28σ_log) 与给出的线性近似式 24*(1+...) 在量纲和数值上均不自洽（24.4 既非正态分位数也非对数正态分位数的合理近似，且 48h 远大于 24.4h，结论虽方向正确但推导过程错误）。 | 逻辑校验失败：正态分布 90 分位数计算错误（24+1.28*0.25=24.32≠24.4），且对数正态近似公式与数值结果不匹配，存在硬逻辑错误。
+
+## Search Query
+
+log-normal distribution search session duration tail behavior marketplace

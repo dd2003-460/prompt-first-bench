@@ -1,0 +1,26 @@
+# N307: 逻辑链条断裂点检验：检验‘高挂价导致高曝光’这一中间环节的逻辑一致性。若算法权重 w 与价格 P 呈负相关（w ∝ 1/P），则高挂价应导致低曝光，与观察矛盾。
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+逻辑链条断裂点检验：检验‘高挂价导致高曝光’这一中间环节的逻辑一致性。若算法权重 w 与价格 P 呈负相关（w ∝ 1/P），则高挂价应导致低曝光，与观察矛盾。需引入‘稀缺性信号’修正项 w_scarcity = β * (P/P_market - 1)，估计 β 的阈值，若 β > 0.2 则逻辑链条成立，否则需重新假设算法逻辑。
+
+## Corrected Claim
+
+逻辑链条断裂点检验：检验‘高挂价导致高曝光’这一中间环节的逻辑一致性。若算法权重 w 与价格 P 呈负相关，则高挂价应导致低曝光，与观察矛盾。需引入‘稀缺性信号’修正项，若修正项系数显著为正则逻辑链条成立，否则需重新假设算法逻辑。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性参数（如 β > 0.2 的阈值）和特定的算法假设（w ∝ 1/P），这些属于特定平台或场景下的经验事实，无法从第一性原理严格推导，且参考来源均未提供相关数据支持。 | 逻辑上自洽（若 w 与 P 负相关则高 P 低曝光，需修正项），但参考来源 [1][2][3] 均讨论 LLM 推理链或 Prompt 逻辑漏洞，与电商/推荐算法中的价格-曝光关系无关，属于经验事实且缺来源支持。
+
+## Retrieval Sources
+
+- {'url': 'https://devpress.csdn.net/v1/article/detail/163472891&rut=91bb12d11a978dca80391bdf7887b74e00fac05e3d6849cf2337618d18ac864c', 'type': 'ddg', 'title': '大模型推理链断裂真相（2024最新漏洞图谱）：覆盖LLM、多模态与Agent架构的11类薄弱点实证分析'}
+- {'url': 'https://blog.csdn.net/CodePulse/article/details/162901981&rut=b73d9acf352638587d4d84c54d0c87db163bd545663ddae68bf72150b793c2fc', 'type': 'ddg', 'title': 'Prompt逻辑漏洞诊断清单，深度解析7类隐性推理断裂点及动态补偿策略-CSDN博客'}
+- {'url': 'https://blog.csdn.net/CodePulse/article/details/163473029&rut=c17751fbb0785b587b8b111cfafb6e335ff35aef19f4ced377f330562b076222', 'type': 'ddg', 'title': 'Ai逻辑验证失效的8大信号，现在不排查，下周上线即翻车（附自动化校验脚本）-csdn博客'}

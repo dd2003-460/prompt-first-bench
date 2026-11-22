@@ -1,0 +1,24 @@
+# N214: RTX 4090 的 TDP 450W 在极端高温环境（如机箱内环境温度 > 35°C）下会触发降频（Thermal Throttling），导致实际算力下降 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N73
+
+## Claim
+
+RTX 4090 的 TDP 450W 在极端高温环境（如机箱内环境温度 > 35°C）下会触发降频（Thermal Throttling），导致实际算力下降 10%-20%；若使用水冷或优化风道将温度控制在 70°C 以下，可维持满血性能；在本地工作站部署中，需预留至少 750W 的电源冗余（450W GPU + 其他组件），并考虑机箱散热能力对 TDP 实际执行的影响。
+
+## Corrected Claim
+
+RTX 4090 的 TDP 为 450W，在极端高温环境下可能触发降频导致性能下降；若温度控制得当可维持满血性能；本地部署建议预留充足电源冗余（通常建议 850W-1000W 以上）并优化散热。
+
+## Evidence
+
+[质询]具体数值（如10%-20%算力下降、750W电源冗余）属于经验性工程估算，缺乏统一标准，且不同负载和机箱环境下波动较大，无法作为绝对事实。 | 先验知识/题面给定，逻辑校验通过，但具体数值为经验估算，无来源直接支持，故降级。
+
+## Search Query
+
+RTX 4090 thermal throttling temperature performance drop

@@ -1,0 +1,20 @@
+# N38: A100 80GB SXM4 在 FP8 量化下的实测吞吐量约为 60-80 tokens/s，瓶颈为 2039GB/s HBM2e 显存带宽，但该卡不支持原生
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N6
+
+## Claim
+
+A100 80GB SXM4 在 FP8 量化下的实测吞吐量约为 60-80 tokens/s，瓶颈为 2039GB/s HBM2e 显存带宽，但该卡不支持原生 FP8 加速，需通过 INT8 或 BF16 模拟，实际吞吐量可能损失 15-25%
+
+## Corrected Claim
+
+A100 80GB SXM4 在 FP8 量化下（通过软件模拟或降级至 INT8/BF16）的吞吐量受限于 2039 GB/s 显存带宽，具体吞吐量（如 60-80 tokens/s）取决于模型规模和负载，且因缺乏原生 FP8 硬件加速，相比原生支持 FP8 的架构会有显著性能损失。
+
+## Evidence
+
+[质询]A100 80GB SXM4 的显存带宽通常标称为 2039 GB/s，但 FP8 在 A100 上并非完全不可用（可通过软件模拟或特定库支持，尽管无原生 Tensor Core 加速），且 60-80 tokens/s 的吞吐量高度依赖于模型大小、序列长度和批处理大小，缺乏具体上下文时该数值范围过于宽泛且可能误导。 | 先验知识/题面给定，逻辑校验通过：A100 确实不支持原生 FP8 Tensor Core 加速，需通过软件模拟或降级到 INT8/BF16，这会导致性能损失；2039 GB/s 是 A100 80GB SXM4 的标准显存带宽；吞吐量数值在合理范围内，但具体值依赖负载，故降级为定性表述。

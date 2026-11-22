@@ -1,0 +1,20 @@
+# N70: 缓存容量利用率约束的边界条件验证：若 K_max (≈1.4M) > N (100k)，则约束 ∑_{i=1}^K S_i ≤ 128GB 在 K=N 时自动满
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N23
+
+## Claim
+
+缓存容量利用率约束的边界条件验证：若 K_max (≈1.4M) > N (100k)，则约束 ∑_{i=1}^K S_i ≤ 128GB 在 K=N 时自动满足（因为 N * E[S] ≈ 100k * 9.35KB ≈ 0.9GB << 128GB）。这表明在给定参数下，LRU 策略受限于‘对象更新率’而非‘容量不足’，N23 的约束在此特定参数下非绑定约束（non-binding constraint）
+
+## Corrected Claim
+
+缓存容量利用率约束的边界条件验证：若 K_max (≈1.4M) > N (100k)，则约束 ∑_{i=1}^K S_i ≤ 128GB 在 K=N 时自动满足（因为 N * E[S] ≈ 100k * 9.35KB ≈ 0.9GB << 128GB）。这表明在给定参数下，LRU 策略受限于‘对象更新率’而非‘容量不足’，N23 的约束在此特定参数下非绑定约束（non-binding constraint）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：100k * 9.35KB ≈ 0.9GB 远小于 128GB，数学推导成立，约束确实非绑定。

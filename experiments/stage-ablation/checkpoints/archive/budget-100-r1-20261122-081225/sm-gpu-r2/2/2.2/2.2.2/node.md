@@ -1,0 +1,20 @@
+# N89: FP8 (E4M3) 格式下，每个 Transformer 层（Attention Q/K/V/O 投影 + FFN Up/Down/Gate）需额外存储 1 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N17
+
+## Claim
+
+FP8 (E4M3) 格式下，每个 Transformer 层（Attention Q/K/V/O 投影 + FFN Up/Down/Gate）需额外存储 1 字节的 scale 因子（若采用 per-channel 量化）或 4 字节的 scale + bias（若采用 per-tensor 带偏移），导致实际权重文件比纯 27 GB 增加约 0.1-0.5 GB 的元数据开销。
+
+## Corrected Claim
+
+FP8 (E4M3) 格式下，每个 Transformer 层（Attention Q/K/V/O 投影 + FFN Up/Down/Gate）需额外存储 1 字节的 scale 因子（若采用 per-channel 量化）或 4 字节的 scale + bias（若采用 per-tensor 带偏移），导致实际权重文件比纯 27 GB 增加约 0.1-0.5 GB 的元数据开销。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：FP8 E4M3 为 8-bit 格式，per-channel 量化通常需 1 字节 scale（或 2 字节，视具体实现，1 字节在特定归一化下合理），per-tensor 需 4 字节（scale+bias 或 float32 scale）。对于 27GB 的权重，元数据开销占比极小（0.1-0.5GB 对应约 0.4%-1.8% 的额外空间，符合 per-channel 下参数量级与 scale 存储量的比例关系，例如若参数量为 13.5B，per-channel scale 数量约为通道数总和，远小于参数量，故开销较小；若为 per-tensor，开销极小。此处 0.1-0.5GB 的范围涵盖了不同量化粒度下的合理估计，逻辑自洽。

@@ -1,0 +1,20 @@
+# N91: 计算卡方统计量公式：χ² = Σ[(O_ij - E_ij)² / E_ij]，其中O_ij为观测频数，E_ij为期望频数；该统计量服从自由度df=1的卡方分布
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N27
+
+## Claim
+
+计算卡方统计量公式：χ² = Σ[(O_ij - E_ij)² / E_ij]，其中O_ij为观测频数，E_ij为期望频数；该统计量服从自由度df=1的卡方分布，临界值χ²_0.01(1)=6.635，若计算值>6.635则p<0.01。
+
+## Corrected Claim
+
+计算卡方统计量公式：χ² = Σ[(O_ij - E_ij)² / E_ij]，其中O_ij为观测频数，E_ij为期望频数；该统计量服从自由度df=1的卡方分布，临界值χ²_0.01(1)=6.635，若计算值>6.635则p<0.01。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

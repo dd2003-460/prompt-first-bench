@@ -1,0 +1,28 @@
+# N256: 工作点3（KV Cache 压力/低利用率）：在 H100 80GB 上运行 Qwen3-27B BF16，上下文长度接近 32K 且 Batch Size=1
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N86, N87, N88
+
+## Claim
+
+工作点3（KV Cache 压力/低利用率）：在 H100 80GB 上运行 Qwen3-27B BF16，上下文长度接近 32K 且 Batch Size=1 时，KV Cache 占用显存导致可用带宽降低，有效带宽利用率下降至 0.82 [待核验]，主要受限于 HBM 分区访问冲突。
+
+## Corrected Claim
+
+在 H100 80GB 上运行 Qwen3-27B BF16，上下文长度接近 32K 且 Batch Size=1 时，KV Cache 占用大量显存，导致有效带宽利用率显著下降（具体数值需实测验证），主要受限于内存带宽瓶颈。
+
+## Evidence
+
+[质询]具体数值 0.82 缺乏来源支持，且将带宽利用率下降归因于 HBM 分区访问冲突在 Batch Size=1 场景下缺乏普遍性物理依据（通常主要受限于 KV Cache 容量导致的内存带宽瓶颈或计算/内存重叠效率，而非单纯的分区冲突）。 | 参考来源 [1] 仅讨论 DeepSeek 模型的 KV Cache 内存复杂度公式，与 Qwen3-27B 在 H100 上的具体带宽利用率数值及 HBM 冲突机制无关，属于经验事实且缺来源支持。
+
+## Search Query
+
+H100 long context KV cache memory bandwidth efficiency LLM
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/DeepSeek_%28AI%29', 'type': 'wikipedia', 'title': 'DeepSeek (AI)'}

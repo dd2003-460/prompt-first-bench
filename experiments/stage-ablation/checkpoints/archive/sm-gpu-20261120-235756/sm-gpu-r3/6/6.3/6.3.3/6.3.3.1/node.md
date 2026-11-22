@@ -1,0 +1,24 @@
+# N321: AMD MI300X 在 12 个月持有期内的实际残值率（Residual Value Ratio）具体数值，定义为：R_12_MI300X = P_12 / 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N119
+
+## Claim
+
+AMD MI300X 在 12 个月持有期内的实际残值率（Residual Value Ratio）具体数值，定义为：R_12_MI300X = P_12 / P_0；由于数据中心卡二手市场流动性差，需区分 SXM 和 OAM 接口的价格差异，若 R_12_MI300X < 85%（即年化折旧 > 15%），则 N119 中'折旧率较低'的假设不成立，需上调 TCO 中的折旧项。
+
+## Corrected Claim
+
+AMD MI300X 在 12 个月持有期内的实际残值率需根据 SXM 和 OAM 接口的二手市场流动性具体评估；若残值率低于 85%，则需上调 TCO 中的折旧项以反映较高的年化折旧。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值阈值（85%）和具体的硬件残值率定义，属于硬件市场经验事实，无法从第一性原理推导，且缺乏具体市场数据支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+AMD MI300X second hand price 12 months depreciation SXM OAM

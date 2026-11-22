@@ -1,0 +1,20 @@
+# N27: 联合分布参数化：r_i = R_max * i^{-0.9}，s_i = S_max * i^{-1.1} * exp(-0.3 * (ln(i) - E[ln
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N7
+
+## Claim
+
+联合分布参数化：r_i = R_max * i^{-0.9}，s_i = S_max * i^{-1.1} * exp(-0.3 * (ln(i) - E[ln(i)]))，其中R_max = 5000万/天 / (Σ_{i=1}^{100000} i^{-0.9})，S_max为最大对象大小（需假设或从分布推导）
+
+## Corrected Claim
+
+联合分布参数化：r_i = R_max * i^{-0.9}，s_i = S_max * i^{-1.1} * exp(-0.3 * (ln(i) - E[ln(i)]))，其中R_max = 5000万/天 / (Σ_{i=1}^{100000} i^{-0.9})，S_max为最大对象大小（需假设或从分布推导）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：参数化形式符合幂律分布特征，归一化系数定义在数学上自洽，量级合理。

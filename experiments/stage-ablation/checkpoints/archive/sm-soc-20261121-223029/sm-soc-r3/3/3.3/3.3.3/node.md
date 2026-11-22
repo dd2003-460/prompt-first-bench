@@ -1,0 +1,20 @@
+# N72: 平台 GMV 最大化目标函数下的边际收益 MR_GMV = Fee * dGMV/dQ，其中 dGMV/dQ 为平均客单价，需对比高溢价组（δ>0.20）与合理
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+平台 GMV 最大化目标函数下的边际收益 MR_GMV = Fee * dGMV/dQ，其中 dGMV/dQ 为平均客单价，需对比高溢价组（δ>0.20）与合理溢价组（δ<0.10）的 MR_GMV 差异，量化平台偏好高溢价商品的经济学依据。
+
+## Corrected Claim
+
+平台 GMV 最大化目标函数下的边际收益 MR_GMV = Fee * dGMV/dQ，其中 dGMV/dQ 为平均客单价，需对比高溢价组（δ>0.20）与合理溢价组（δ<0.10）的 MR_GMV 差异，量化平台偏好高溢价商品的经济学依据。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在平台佣金模式（Revenue = Fee * GMV）下，若 Fee 为常数，则边际收益 MR = Fee * dGMV/dQ 符合微积分基本定义；dGMV/dQ 在 Q 为数量时确实对应平均客单价（AOV），逻辑自洽且量纲正确。

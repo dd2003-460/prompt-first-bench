@@ -1,0 +1,25 @@
+# N29: 卖家作为被动方的量化验证：卖家对平台算法调整的响应弹性ε_seller = 0.8（即平台降低曝光权重1%，卖家挂价溢价率降低0.8%），表明卖家行为是被平台机
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+卖家作为被动方的量化验证：卖家对平台算法调整的响应弹性ε_seller = 0.8（即平台降低曝光权重1%，卖家挂价溢价率降低0.8%），表明卖家行为是被平台机制‘驱动’而非自主演化，进一步佐证平台为均衡主导方。
+
+## Corrected Claim
+
+卖家作为被动方，其挂价溢价率对平台曝光权重调整存在显著的负向响应弹性（具体数值需依据特定实证研究或模型设定确定），表明卖家行为受平台机制驱动。
+
+## Evidence
+
+[质询]该陈述包含具体的量化数值（弹性系数 ε_seller = 0.8），这属于经验事实或特定模型参数，无法从第一性原理推导。参考来源中未提供此具体数值，且来源[1]讨论的是算法共谋而非被动响应弹性，来源[2]讨论的是赔偿政策而非曝光权重与溢价率的弹性关系，因此缺乏直接证据支持该具体数值。 | 逻辑上，卖家作为被动方对平台机制调整存在响应弹性是合理的经济学直觉，但具体数值 0.8 在提供的参考来源中无直接支持，属于经验事实且缺来源佐证。
+
+## Retrieval Sources
+
+- {'url': 'https://cxy0714.github.io/research-news/deep_reads/2026-07-06-10.3982_ecta19978/&rut=5a818faa09072e80049a564c494634f351a8bdf78e377533c55c7e9e13ae0b02', 'type': 'ddg', 'title': 'Platform Design When Sellers Use Pricing Algorithms ¶'}
+- {'url': 'https://blog.csdn.net/2401_89629692/article/details/147084381&rut=719665de58629db46e0058fdf31022fb19fcc4ff5a6d539cd0d890316377f98e', 'type': 'ddg', 'title': '平台算法vs卖家权益：亚马逊赔偿新政背后的博弈逻辑-csdn博客'}

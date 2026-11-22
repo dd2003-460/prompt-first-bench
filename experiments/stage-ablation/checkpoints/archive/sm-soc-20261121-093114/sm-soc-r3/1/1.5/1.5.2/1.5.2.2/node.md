@@ -1,0 +1,20 @@
+# N125: 下游投影 1：替代商品分布密度 f_alt(t) 的参数化形式为 f_alt(t) = β_alt * t^(β_alt - 1) * exp(-t/θ_alt
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N41
+
+## Claim
+
+下游投影 1：替代商品分布密度 f_alt(t) 的参数化形式为 f_alt(t) = β_alt * t^(β_alt - 1) * exp(-t/θ_alt) / Γ(β_alt)，其中 β_alt 和 θ_alt 为形状和尺度参数，需通过历史搜索数据拟合。
+
+## Corrected Claim
+
+下游投影 1：替代商品分布密度 f_alt(t) 的参数化形式为 f_alt(t) = β_alt * t^(β_alt - 1) * exp(-t/θ_alt) / Γ(β_alt)，其中 β_alt 和 θ_alt 为形状和尺度参数，需通过历史搜索数据拟合。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

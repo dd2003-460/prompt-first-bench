@@ -1,0 +1,24 @@
+# N213: 双卡方案所需的 1200W-1600W 80 Plus Platinum 电源（如 Corsair RM1200x 或 be quiet! Dark Power
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N64
+
+## Claim
+
+双卡方案所需的 1200W-1600W 80 Plus Platinum 电源（如 Corsair RM1200x 或 be quiet! Dark Power 13 1300W）的价格区间为 $200-$300，相比单卡 850W 电源（$150-$200）的增量成本约为 $50-$150，且需满足 ATX 3.0 标准以支持 575W 显卡的瞬时峰值功耗。
+
+## Corrected Claim
+
+双卡方案通常需要1200W-1600W的高功率电源（如符合ATX 3.0标准的型号），其价格通常高于单卡850W电源，具体增量成本取决于品牌和实时市场价格，约为$50-$150。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件型号、价格区间及ATX 3.0标准的技术参数，属于经验事实。由于检索失败无外部来源支持，且价格随市场波动，无法通过第一性原理推导，存在数值过时或偏差的风险。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Corsair RM1200x price ATX 3.0 1200W power supply cost

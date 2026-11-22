@@ -1,0 +1,24 @@
+# N225: L40S 的供货周期 4-8 周主要受 OEM 产能分配影响，若通过二级经销商（Grey Market）采购，价格可能上浮 10%-20% 但周期缩短至 1-2
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N53
+
+## Claim
+
+L40S 的供货周期 4-8 周主要受 OEM 产能分配影响，若通过二级经销商（Grey Market）采购，价格可能上浮 10%-20% 但周期缩短至 1-2 周，需计算时间价值（Time Value of Money）对 TCO 的影响，公式为 C_time = P * r_annual * (t_delay/365)。
+
+## Corrected Claim
+
+L40S 的供货周期 4-8 周主要受 OEM 产能分配影响，若通过二级经销商（Grey Market）采购，价格可能上浮 10%-20% 但周期缩短至 1-2 周，需计算时间价值（Time Value of Money）对 TCO 的影响，公式为 C_time = P * r_annual * (t_delay/365)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：TCO时间价值公式符合金融基本逻辑，L40S作为数据中心GPU，其OEM产能分配及二级市场价格/周期波动符合行业常识，数值量级合理。
+
+## Search Query
+
+L40S supply chain lead time grey market price premium

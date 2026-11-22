@@ -1,0 +1,24 @@
+# N140: AMD MI300X 在 FP8 精度下的性价比拐点分析：虽然其单卡 TCO 是 RTX 4090 方案的 2.84 倍 (N132)，但其支持的最大并发 Ba
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+AMD MI300X 在 FP8 精度下的性价比拐点分析：虽然其单卡 TCO 是 RTX 4090 方案的 2.84 倍 (N132)，但其支持的最大并发 Batch Size 为 4 (N130)，若应用场景为多用户服务（而非单用户本地工作站），其 '每美元每并发用户 Token 数' 指标可能反超消费卡方案。需定义 '并发用户数' 作为变量，当并发数 > 3 时，MI300X 的单位用户成本开始低于双卡 4090 方案。
+
+## Corrected Claim
+
+AMD MI300X 在 FP8 精度下，虽然单卡 TCO 显著高于 RTX 4090 方案，但由于其支持更大的并发 Batch Size，在多用户服务场景下，其 '每美元每并发用户 Token 数' 指标可能在并发数超过一定阈值时反超消费卡方案。具体拐点需根据实际部署的模型大小和硬件配置进行详细测算。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（TCO倍数2.84、最大并发Batch Size 4、盈亏平衡点并发数>3），这些属于硬件性能与成本的经济模型参数，无法从第一性原理推导。参考来源[1]仅提供了MI300X的性能分析框架和架构对比，并未提供具体的TCO对比数据、RTX 4090的并发限制或具体的成本拐点计算，因此缺乏直接的外部证据支持这些具体数值。 | 逻辑上，高并发场景下数据中心卡（MI300X）因显存大、支持更大Batch Size，单位Token成本确实可能低于消费卡（4090），逻辑自洽；但具体数值（2.84倍、Batch 4、拐点3）在来源[1]中未找到直接支持，且属于经验事实，故降级。
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org/pdf/2510.27583&rut=b38c13adcefec25877344840039ebd0bc41a8f1c162af2de5323e36a5da5a2b9', 'type': 'ddg', 'title': 'AMD MI300X GPU Performance Analysis - arXiv.org'}

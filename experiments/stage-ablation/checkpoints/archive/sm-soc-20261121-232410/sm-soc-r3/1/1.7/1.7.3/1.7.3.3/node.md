@@ -1,0 +1,24 @@
+# N145: 降价阈值 θ 的博弈论推导：θ 应等于买家策略性等待的盈亏平衡点，即 θ = (C_wait * T_wait) / (P_base - P_new)，基于N7
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N50
+
+## Claim
+
+降价阈值 θ 的博弈论推导：θ 应等于买家策略性等待的盈亏平衡点，即 θ = (C_wait * T_wait) / (P_base - P_new)，基于N74阈值条件，当降价幅度低于此值时，买家预期卖家会继续降价，导致咨询量截断（对应60%无咨询现象）。
+
+## Corrected Claim
+
+降价阈值 θ 的推导需修正量纲：若 θ 为降价金额，公式应调整为 θ = C_wait * T_wait / (1 - P_new/P_base) 或类似形式，以确保量纲一致；且“咨询量截断”是买家策略性等待的宏观结果，而非直接由该微观盈亏平衡点线性决定。
+
+## Evidence
+
+[质询]公式量纲与逻辑不自洽：分子 (C_wait * T_wait) 通常代表等待的总成本（货币单位），分母 (P_base - P_new) 代表降价幅度（货币单位），两者相除得到的 θ 是无量纲比率，但 θ 被定义为“降价阈值”（通常应为货币金额或百分比）。若 θ 是金额，公式应为 θ = C_wait * T_wait / (1 - 折扣率) 或其他形式；若 θ 是比例，分母应为 P_base。此外，将“咨询量截断”直接归因于该特定盈亏平衡点缺乏严格的博弈论推导支持，属于经验性假设。 | 先验知识/题面给定，但逻辑校验发现公式量纲不匹配（货币/货币=无量纲 vs 阈值定义），且因果链条（阈值->预期->咨询截断）缺乏严格推导，存在内部矛盾。
+
+## Search Query
+
+strategic waiting threshold price drop second hand market

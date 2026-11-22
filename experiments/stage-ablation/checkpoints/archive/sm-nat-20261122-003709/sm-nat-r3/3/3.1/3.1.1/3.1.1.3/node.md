@@ -1,0 +1,20 @@
+# N152: 工作点3（全覆盖/高容量压力）：若缓存试图覆盖 99% 的流量对象（K≈50,000），H_obj_max ≈ 0.99，M_capacity = 0.01（1
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N49
+
+## Claim
+
+工作点3（全覆盖/高容量压力）：若缓存试图覆盖 99% 的流量对象（K≈50,000），H_obj_max ≈ 0.99，M_capacity = 0.01（1%），但所需缓存容量 C_req 增加至 ~500GB，超出 128GB 限制，故该工作点在当前约束下不可行，仅作为理论下界参考。
+
+## Corrected Claim
+
+工作点3（全覆盖/高容量压力）：若缓存试图覆盖 99% 的流量对象（K≈50,000），H_obj_max ≈ 0.99，M_capacity = 0.01（1%），但所需缓存容量 C_req 增加至 ~500GB，超出 128GB 限制，故该工作点在当前约束下不可行，仅作为理论下界参考。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：C_req ≈ K * Avg_Object_Size，若 K=50,000 且 C_req≈500GB，则隐含平均对象大小约 10MB，量级合理；500GB > 128GB 的约束冲突逻辑自洽。

@@ -1,0 +1,24 @@
+# N252: A100 PCIe 40GB 在 LLM 解码（Decode）阶段的功耗 P_decode_A100 约为 200-250W，主要受 HBM2e 带宽读取限制，
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N82
+
+## Claim
+
+A100 PCIe 40GB 在 LLM 解码（Decode）阶段的功耗 P_decode_A100 约为 200-250W，主要受 HBM2e 带宽读取限制，低于其 300W TDP 上限，需引用 NVIDIA 官方功耗曲线或实测数据修正 N82 中 250-400W 的下限。
+
+## Corrected Claim
+
+A100 PCIe 40GB 在 LLM 解码阶段的功耗通常低于其 300W TDP 上限，具体数值需依据实测数据确定，一般认为在 200W 左右或更低，主要受内存带宽限制。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件功耗数值（200-250W）和性能瓶颈归因（HBM2e带宽限制），属于经验事实。在缺乏外部来源支持的情况下，无法确认该具体数值区间的准确性，且不同负载下功耗波动较大，单一区间可能过于绝对。 | 经验事实，逻辑自洽（解码阶段计算密度低，功耗低于TDP上限符合物理直觉），但缺来源支持，无法验证具体数值区间。
+
+## Search Query
+
+A100 PCIe 40GB LLM inference decode power consumption watts HBM bandwidth limit

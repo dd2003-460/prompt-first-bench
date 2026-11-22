@@ -1,0 +1,24 @@
+# N143: 15-25% 偏离的概率质量计算：P(0.15 ≤ D ≤ 0.25) = Φ(0.25 / (σ_noise/μ)) - Φ(0.15 / (σ_noise/
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N43
+
+## Claim
+
+15-25% 偏离的概率质量计算：P(0.15 ≤ D ≤ 0.25) = Φ(0.25 / (σ_noise/μ)) - Φ(0.15 / (σ_noise/μ))；若观测到该区间概率为 0.3（假设值），则可反推 σ_noise/μ 的估计值，进而验证 N42 中 k 值的合理性；此步骤是闭环校准的关键。
+
+## Corrected Claim
+
+15-25% 偏离的概率质量计算：P(0.15 ≤ D ≤ 0.25) = Φ(0.25 / (σ_noise/μ)) - Φ(0.15 / (σ_noise/μ))；若观测到该区间概率为 0.3（假设值），则可反推 σ_noise/μ 的估计值，进而验证 N42 中 k 值的合理性；此步骤是闭环校准的关键。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于正态分布假设，利用累积分布函数（CDF）计算区间概率并反推参数是标准的统计校准方法，公式结构正确，量纲一致。
+
+## Search Query
+
+probability mass interval normal distribution back-calculate standard deviation

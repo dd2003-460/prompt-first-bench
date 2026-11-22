@@ -1,0 +1,24 @@
+# N266: A100 80GB SXM4 在 2024年Q4 的二手/现货均价为 $8,500-$10,500，而 A100 80GB PCIe 版本均价为 $7,500-
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N100
+
+## Claim
+
+A100 80GB SXM4 在 2024年Q4 的二手/现货均价为 $8,500-$10,500，而 A100 80GB PCIe 版本均价为 $7,500-$9,000；SXM 版本需额外 $200-$400 购买 NVLink Bridge 及专用底板，导致双卡 SXM 方案的互联硬件总成本比双卡 PCIe 方案高约 $400-$800。
+
+## Corrected Claim
+
+A100 80GB SXM4 在 2024年Q4 的二手/现货均价通常高于 PCIe 版本，SXM 版本因需额外购买 NVLink Bridge 及专用底板，导致双卡 SXM 方案的互联硬件总成本比双卡 PCIe 方案高。
+
+## Evidence
+
+[质询]具体二手/现货市场价格属于高度波动的经验事实，且不同地区、不同成色、不同供应商报价差异巨大，缺乏实时市场数据支持该特定价格区间及硬件附加成本的精确数值。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+A100 80GB SXM vs PCIe price difference 2024

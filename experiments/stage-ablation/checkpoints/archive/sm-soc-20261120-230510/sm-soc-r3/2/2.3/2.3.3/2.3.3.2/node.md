@@ -1,0 +1,30 @@
+# N173: 搜索成本 C_search 的量化：C_search = t_search * w_buyer + c_cognitive，其中 t_search 为平均搜索耗
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N52
+
+## Claim
+
+搜索成本 C_search 的量化：C_search = t_search * w_buyer + c_cognitive，其中 t_search 为平均搜索耗时（典型值 5-15 分钟），c_cognitive 为认知负荷成本（典型值 1-3 元），反映买家筛选商品的心理努力。
+
+## Corrected Claim
+
+搜索成本 C_search 可量化为时间成本与认知负荷成本之和（C_search = t_search * w_buyer + c_cognitive），其中 t_search 为平均搜索耗时，c_cognitive 为认知负荷成本，具体数值需依据特定市场或用户群体数据确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（搜索耗时5-15分钟、认知成本1-3元），这些属于市场行为或心理学经验数据，无法从第一性原理推导，且参考来源完全无关，缺乏直接证据支持。 | 参考来源[1][2][3]均讨论AI算法中的统一代价搜索（UCS），与电商买家搜索成本无关，属于无关来源；该事实为经验事实，逻辑自洽但缺来源支持。
+
+## Search Query
+
+search cost quantification time cognitive load online shopping
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_45021364/article/details/109746913&rut=067189582898c328f6208294f41a0d01644baacfde2f61fd55989806124db452', 'type': 'ddg', 'title': '图搜索算法ucs（一致代价搜索）通俗易懂图示详解-csdn博客'}
+- {'url': 'https://blog.csdn.net/Suyebiubiu/article/details/101194332&rut=b32a724ca5ea941abe87db564d6ea4e830eaecbe6a433b46f79eddc63d9c8e1b', 'type': 'ddg', 'title': '一致代价搜索（Ucs）的原理和代码实现-csdn博客'}
+- {'url': 'https://www.geeksforgeeks.org/artificial-intelligence/uniform-cost-search-ucs-in-ai/&rut=7e8a4ef36f37543b823e6622c3590aaca0c77bd04b92ab6a8165036e3a363a75', 'type': 'ddg', 'title': 'Uniform Cost Search (UCS) in AI - GeeksforGeeks'}

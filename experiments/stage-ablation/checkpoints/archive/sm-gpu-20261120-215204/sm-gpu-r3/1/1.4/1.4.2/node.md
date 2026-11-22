@@ -1,0 +1,24 @@
+# N46: RTX 3090 的显存带宽为 936 GB/s，显存容量为 24 GB，TDP 为 350W，PCIe 接口为 4.0 x16 (64 GB/s)，支持 NV
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N9, N10, N11
+
+## Claim
+
+RTX 3090 的显存带宽为 936 GB/s，显存容量为 24 GB，TDP 为 350W，PCIe 接口为 4.0 x16 (64 GB/s)，支持 NVLink (112.5 GB/s)。
+
+## Corrected Claim
+
+RTX 3090 的显存带宽为 936 GB/s，显存容量为 24 GB，TDP 为 350W，PCIe 接口为 4.0 x16 (64 GB/s)，支持 NVLink (112.5 GB/s)。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在主题上正交（一个关注单卡推理瓶颈，一个关注多卡互联延迟），但严重缺乏完备性。父节点明确列出的 'TDP 350W' 和 'PCIe 4.0' 接口参数未在子节点中得到独立体现或作为关键约束条件被充分讨论（仅在NVLink对比中顺带提及PCIe延迟，未涵盖TDP对持续负载的影响）。此外，子节点引入了大量父节点未包含的外部数据（如Qwen3-27B、N126、N114、N116等），导致分解偏离了父节点纯粹作为硬件规格描述的范畴。）
+
+## Search Query
+
+RTX 3090 specs memory bandwidth TDP NVLink

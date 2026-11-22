@@ -1,0 +1,20 @@
+# N330: RTX 5090 运行 Qwen3-27B INT8 时，Prefill 阶段激活值显存峰值估算：若采用 FlashAttention 且不分块，单层激活值约为
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N107, N108, N109
+
+## Claim
+
+RTX 5090 运行 Qwen3-27B INT8 时，Prefill 阶段激活值显存峰值估算：若采用 FlashAttention 且不分块，单层激活值约为 32768 (seq) * 4096 (hidden) * 1 byte (INT8/FP8中间态) * 2 (QKV/O) ≈ 256 MB/层；32层全量激活值 ≈ 8 GB，远超剩余显存，必须启用分块 Prefill (Chunked Prefill) 将激活值峰值控制在 < 2 GB 以内
+
+## Corrected Claim
+
+RTX 5090 运行 Qwen3-27B INT8 时，Prefill 阶段激活值显存峰值估算：若采用 FlashAttention 且不分块，单层激活值约为 32768 (seq) * 4096 (hidden) * 1 byte (INT8/FP8中间态) * 2 (QKV/O) ≈ 256 MB/层；32层全量激活值 ≈ 8 GB，远超剩余显存，必须启用分块 Prefill (Chunked Prefill) 将激活值峰值控制在 < 2 GB 以内
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B 架构参数（32层，4096 hidden）符合主流大模型规格，INT8 下 32768 序列长度的激活值显存估算（~8GB）在量级上合理，且 Chunked Prefill 是解决长序列显存峰值的标准工程实践。

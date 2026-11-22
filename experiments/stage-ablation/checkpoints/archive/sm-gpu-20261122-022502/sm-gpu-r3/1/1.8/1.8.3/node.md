@@ -1,0 +1,24 @@
+# N56: W4 量化导致 Qwen3-27B 的困惑度 (PPL) 从 BF16 的 2.1 上升至 2.4 (增量 ΔPPL = 0.3)，PPL 上升幅度约为 INT
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N13
+
+## Claim
+
+W4 量化导致 Qwen3-27B 的困惑度 (PPL) 从 BF16 的 2.1 上升至 2.4 (增量 ΔPPL = 0.3)，PPL 上升幅度约为 INT8 的 2 倍 [待核验]
+
+## Corrected Claim
+
+W4 量化通常会导致 Qwen3-27B 的困惑度 (PPL) 上升，且上升幅度通常大于 INT8 量化，但具体数值（如从 2.1 升至 2.4）需依据特定基准测试数据确认。
+
+## Evidence
+
+[质询]具体数值（PPL 2.1->2.4, ΔPPL=0.3）及与 INT8 的倍数关系属于特定实验结果，缺乏通用性，且无来源支持具体数值是否准确对应 Qwen3-27B 在特定数据集上的表现。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值及倍数关系）
+
+## Search Query
+
+Qwen3-27B W4 quantization perplexity increase vs BF16

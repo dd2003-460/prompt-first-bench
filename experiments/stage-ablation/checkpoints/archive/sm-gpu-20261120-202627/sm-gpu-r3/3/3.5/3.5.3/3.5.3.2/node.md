@@ -1,0 +1,24 @@
+# N320: 2×RTX 3090 (FP8) 在 Batch Size=1, 32K输入/1K输出下的实测吞吐量下限：基于vLLM/TensorRT-LLM在RTX 309
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N89
+
+## Claim
+
+2×RTX 3090 (FP8) 在 Batch Size=1, 32K输入/1K输出下的实测吞吐量下限：基于vLLM/TensorRT-LLM在RTX 3090双卡PCIe拓扑下的公开基准测试，FP8精度下Qwen3-27B的实测吞吐量通常在 4-10 tokens/s 区间 [search: 需检索具体benchmark]，显著低于父节点预估的18-25 tokens/s，主要受限于PCIe 4.0 x16带宽瓶颈和FP8 kernel在Ampere架构上的优化程度。
+
+## Corrected Claim
+
+2×RTX 3090 (FP8) 在 Batch Size=1, 32K输入/1K输出下的实测吞吐量受限于PCIe带宽和Ampere架构对FP8的支持程度，通常显著低于理想预估，具体数值需依据实际基准测试确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（4-10 tokens/s）和特定的硬件/软件配置细节（RTX 3090 FP8, Qwen3-27B, vLLM/TensorRT-LLM），属于经验事实。由于检索失败，无法验证该具体吞吐量区间是否准确，且FP8在Ampere架构上的实际性能表现存在不确定性，可能因驱动、库版本或具体实现差异而波动，无法排除其他可能性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+vLLM RTX 3090 dual GPU Qwen3-27B FP8 throughput benchmark 32k context

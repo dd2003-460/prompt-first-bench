@@ -1,0 +1,24 @@
+# N339: TensorRT-LLM 对 AMD MI300X 的官方支持状态确认：查阅 NVIDIA TensorRT-LLM 官方文档及 GitHub Releases
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N102
+
+## Claim
+
+TensorRT-LLM 对 AMD MI300X 的官方支持状态确认：查阅 NVIDIA TensorRT-LLM 官方文档及 GitHub Releases，确认截至 2024 年底是否有任何实验性支持或插件；若确认不支持，则排除 TRT-LLM 优化路径，强制使用 vLLM/SGLang，并量化因此损失的推理引擎优化潜力（通常 TRT-LLM 比 vLLM 快 10-20%）
+
+## Corrected Claim
+
+截至 2024 年底，TensorRT-LLM 对 AMD MI300X 缺乏官方稳定支持，通常需依赖 vLLM 或 SGLang 等支持 AMD 的推理引擎；TRT-LLM 在 NVIDIA 硬件上通常比 vLLM 具有 10-20% 的性能优势，但在 AMD 平台上该优化路径不可用。
+
+## Evidence
+
+[质询]该陈述包含具体的性能对比数据（TRT-LLM 比 vLLM 快 10-20%），属于经验事实，且缺乏来源支持；此外，'强制使用'的结论过于绝对，未考虑其他推理引擎（如 SGLang 的具体版本特性或未来支持情况）的可能性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+TensorRT-LLM AMD MI300X support status 2024

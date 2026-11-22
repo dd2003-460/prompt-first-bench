@@ -1,0 +1,24 @@
+# N23: 代表工作点 A（消费级高带宽）：以 NVIDIA RTX 4090 (24GB, ~1008 GB/s) 为例，运行 FP8 Qwen3-27B (27GB) 
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+代表工作点 A（消费级高带宽）：以 NVIDIA RTX 4090 (24GB, ~1008 GB/s) 为例，运行 FP8 Qwen3-27B (27GB) 需 2 卡，理论 Decode 吞吐上限约为 1008 / 27 ≈ 37.3 tokens/s（未计通信开销），这是单用户交互的高性能基准。
+
+## Corrected Claim
+
+代表工作点 A（消费级高带宽）：以 NVIDIA RTX 4090 (24GB, ~1008 GB/s) 为例，运行 FP8 Qwen3-27B (27GB) 需 2 卡，理论 Decode 吞吐上限约为 1008 / 27 ≈ 37.3 tokens/s（未计通信开销），这是单用户交互的高性能基准。
+
+## Evidence
+
+父节点级核验失败（LLM 错误）：Unterminated string starting at: line 9 column 5 (char 669)
+
+## Search Query
+
+RTX 4090 memory bandwidth GB/s Qwen3-27B FP8 inference speed

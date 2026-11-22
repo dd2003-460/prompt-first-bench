@@ -1,0 +1,24 @@
+# N459: 总显存需求下限阈值推导：BF16 精度下，总显存 ≥ 权重 (54GB) + KV Cache (8.5GB) + 激活/框架开销 (~10-15GB) ≈ 7
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N150
+
+## Claim
+
+总显存需求下限阈值推导：BF16 精度下，总显存 ≥ 权重 (54GB) + KV Cache (8.5GB) + 激活/框架开销 (~10-15GB) ≈ 72.5-77.5 GB，故单卡需 ≥ 80GB (如 A100/H100)；FP8 精度下，总显存 ≥ 权重 (27GB) + KV Cache (4.3GB) + 开销 (~10GB) ≈ 41.3 GB，故单卡需 ≥ 48GB (如 RTX 4090 24GB×2 或 A100 40GB 不足，需 48GB+ 卡)。
+
+## Corrected Claim
+
+总显存需求下限阈值推导：BF16 精度下，总显存 ≥ 权重 (54GB) + KV Cache (8.5GB) + 激活/框架开销 (~10-15GB) ≈ 72.5-77.5 GB，故单卡需 ≥ 80GB (如 A100/H100)；FP8 精度下，总显存 ≥ 权重 (27GB) + KV Cache (4.3GB) + 开销 (~10GB) ≈ 41.3 GB，故单卡需 ≥ 48GB (如 RTX 4090 24GB×2 或 A100 40GB 不足，需 48GB+ 卡)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：BF16权重54GB+KV 8.5GB+开销10-15GB=72.5-77.5GB，向上取整至80GB合理；FP8权重27GB+KV 4.3GB+开销10GB=41.3GB，向上取整至48GB合理，且指出40GB不足符合逻辑。
+
+## Search Query
+
+LLM inference minimum VRAM requirement 32k context

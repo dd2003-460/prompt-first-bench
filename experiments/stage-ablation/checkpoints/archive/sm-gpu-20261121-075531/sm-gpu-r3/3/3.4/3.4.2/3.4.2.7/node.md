@@ -1,0 +1,24 @@
+# N245: 数据中心卡 (如 A100/H100) 的驱动支持周期通常为 5 年，且提供 LTS (Long Term Support) 驱动版本，确保关键 CUDA 特性
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N73, N74, N75
+
+## Claim
+
+数据中心卡 (如 A100/H100) 的驱动支持周期通常为 5 年，且提供 LTS (Long Term Support) 驱动版本，确保关键 CUDA 特性 (如 FP8, TMA) 的长期可用性；消费级驱动支持周期通常为 2-3 年，之后不再接收安全更新，存在长期运行时的安全漏洞风险和软件兼容性断裂风险。
+
+## Corrected Claim
+
+数据中心卡（如 A100/H100）通常享有比消费级更长的驱动支持周期（常为 5 年或更久），并提供 LTS 版本以保障关键 CUDA 特性（如 FP8, TMA）的长期可用性；消费级驱动支持周期相对较短（通常 2-3 年），停止支持后存在安全漏洞和兼容性风险。
+
+## Evidence
+
+[质询]具体支持周期数值（5年 vs 2-3年）及LTS策略细节属于厂商商业政策，非固定物理/数学常数，且不同厂商（如NVIDIA vs AMD）或不同产品线（数据中心 vs 消费级）的具体SLA可能存在差异，'通常'一词掩盖了具体合同条款的复杂性。 | 先验知识/题面给定，逻辑校验通过；但具体年限为经验性商业承诺，缺乏当前检索来源直接佐证，故降级。
+
+## Search Query
+
+NVIDIA driver support lifecycle consumer vs data center GPU years

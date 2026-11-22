@@ -1,0 +1,28 @@
+# N165: 针对‘演化压力导致高挂价’假设，定义似然比 LR 的具体计算形式：LR = P(d_obs | H_evo) / P(d_obs | H_null)，其中 d_
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N60, N61, N62
+
+## Claim
+
+针对‘演化压力导致高挂价’假设，定义似然比 LR 的具体计算形式：LR = P(d_obs | H_evo) / P(d_obs | H_null)，其中 d_obs 为二手市场实证研究测得的锚定效应量（如 Cohen's d）。需检索二手定价领域（如二手车、二手奢侈品）的 Meta 分析，获取 H_evo 下 d 的分布参数（μ_evo, σ_evo）与 H_null 下的分布参数（μ_null, σ_null），以计算具体 LR 数值而非仅定性描述。
+
+## Corrected Claim
+
+针对‘演化压力导致高挂价’假设，定义似然比 LR 的具体计算形式：LR = P(d_obs | H_evo) / P(d_obs | H_null)，其中 d_obs 为二手市场实证研究测得的锚定效应量。需检索二手定价领域的 Meta 分析以获取分布参数，从而计算具体 LR 数值。
+
+## Evidence
+
+[质询]该陈述要求检索特定领域（二手市场）的Meta分析以获取具体分布参数（μ, σ）来计算LR数值，但参考来源仅提供了似然比在医学筛检中的通用定义，未包含任何二手市场实证数据或相关分布参数，导致无法验证具体的数值计算部分。 | 来源[1]直接支持了似然比LR = P(d_obs | H_evo) / P(d_obs | H_null)的数学定义形式，但作为经验事实（具体领域的分布参数），缺乏来源支持具体数值，故降级。
+
+## Search Query
+
+meta-analysis anchoring effect used goods pricing Cohen's d distribution
+
+## Retrieval Sources
+
+- {'url': 'https://baike.baidu.com/item/%E4%BC%BC%E7%84%B6%E6%AF%94/6345808&rut=03b3fc98d8a7169cf77f8cc4c368656811335c0d0cb5462e5d57436ebb00639b', 'type': 'ddg', 'title': '似然比_百度百科'}

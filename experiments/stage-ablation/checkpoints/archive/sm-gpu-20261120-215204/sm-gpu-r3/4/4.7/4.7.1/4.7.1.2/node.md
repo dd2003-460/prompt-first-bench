@@ -1,0 +1,20 @@
+# N323: 根据 N138 的修正公式，Qwen3-27B 在 32K 上下文、BatchSize=1、BF16 精度下，每层 Attention KV 同步数据量为 2 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N114
+
+## Claim
+
+根据 N138 的修正公式，Qwen3-27B 在 32K 上下文、BatchSize=1、BF16 精度下，每层 Attention KV 同步数据量为 2 * 1 * 32768 * 4 * 128 * 2 bytes ≈ 67 MB，64 层总同步数据量约为 4.3 GB，远低于 N114 中基于 Full HiddenDim 估算的 34 GB。
+
+## Corrected Claim
+
+根据 N138 的修正公式，Qwen3-27B 在 32K 上下文、BatchSize=1、BF16 精度下，每层 Attention KV 同步数据量为 2 * 1 * 32768 * 4 * 128 * 2 bytes ≈ 67 MB，64 层总同步数据量约为 4.3 GB，远低于 N114 中基于 Full HiddenDim 估算的 34 GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算过程 2 * 1 * 32768 * 4 * 128 * 2 = 67,108,864 bytes ≈ 64 MB (或 67 MB 若按 10^6 计)，64 层总计约 4.27 GB，与陈述中的 4.3 GB 一致，且远低于 34 GB，逻辑自洽。

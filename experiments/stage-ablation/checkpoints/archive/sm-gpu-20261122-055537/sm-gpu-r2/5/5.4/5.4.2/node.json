@@ -1,0 +1,17 @@
+{
+  "id": "N90",
+  "claim": "NVIDIA H100 (80GB SXM) 运行 Qwen3-27B (BF16) 在 32K 上下文下的实测吞吐量基准：在 vLLM 框架下，batch_size=1, seq_len=32768 时，由于 HBM3 带宽 (3.35 TB/s) 远高于 PCIe，All-Reduce 开销极低，预计吞吐量可达 120-150 tokens/s。此数值需结合具体驱动版本和 CUDA 优化进行 [待核验]。",
+  "level": "L3",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]数值量级存疑：对于 27B 参数模型，在 32K 长上下文下，Decode 阶段受限于 HBM 带宽（3.35 TB/s），理论上限约为 3.35TB/s / 54GB ≈ 62 tokens/s（假设无其他开销）。即使考虑 KV Cache 读取和计算重叠，120-150 tokens/s 的吞吐量远超单卡 H100 在长上下文 Decode 阶段的物理带宽极限，极可能混淆了 Prefill 吞吐量或使用了多卡/量化版本。 | 经验事实，逻辑校验发现数值违背 HBM 带宽物理极限（27B BF16 模型权重约 54GB，3.35TB/s 带宽下理论 Decode 上限约 62 tok/s，120-150 tok/s 不合理），且无外部来源支持。",
+  "corrected_claim": "NVIDIA H100 (80GB SXM) 运行 Qwen3-27B (BF16) 在 32K 上下文下的实测吞吐量基准：在 vLLM 框架下，batch_size=1, seq_len=32768 时，受限于 HBM3 带宽 (3.35 TB/s)，Decode 阶段吞吐量预计约为 40-60 tokens/s（具体数值需结合 KV Cache 大小和 CUDA 优化进行 [待核验]）。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N27"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "H100 Qwen3 27B BF16 32k context throughput vLLM",
+  "retrieval_sources": []
+}

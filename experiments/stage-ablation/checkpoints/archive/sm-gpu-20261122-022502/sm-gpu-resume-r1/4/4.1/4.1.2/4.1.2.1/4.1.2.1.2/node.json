@@ -1,0 +1,17 @@
+{
+  "id": "N776",
+  "claim": "H100 SXM 在 vLLM 框架下，Decode 阶段因 PagedAttention 的块分配机制及 KV Cache 在 HBM 中的非连续存储，导致内存拷贝开销增加，实测吞吐较理论带宽上限低 10-15%，需通过 `nsight-systems` 分析 `cudaMemcpyAsync` 调用频率验证此开销。",
+  "level": "L5",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]该陈述包含具体的经验性数值（10-15% 吞吐损失）和特定的性能归因（PagedAttention 块分配导致非连续存储从而增加拷贝开销），这属于硬件/软件交互的经验事实，无法从第一性原理严格推导。此外，PagedAttention 的核心设计初衷正是为了减少内存碎片并提高显存利用率，虽然非连续存储确实可能影响带宽效率，但将其量化为固定的 10-15% 损失且归因于“内存拷贝开销增加”（通常 PagedAttention 旨在减少不必要的拷贝，而是通过索引映射）存在技术归因上的争议，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体数值与归因机制无法从第一性原理推出，符合经验事实排除条款降级条件）",
+  "corrected_claim": "H100 SXM 在 vLLM 框架下，Decode 阶段受 PagedAttention 块分配机制及 KV Cache 非连续存储影响，可能存在一定的内存访问效率损失，具体吞吐损耗需通过 nsight-systems 等工具实测验证，通常低于理论带宽上限。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N241"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "vLLM PagedAttention H100 decode throughput overhead cudaMemcpyAsync nsight",
+  "retrieval_sources": []
+}

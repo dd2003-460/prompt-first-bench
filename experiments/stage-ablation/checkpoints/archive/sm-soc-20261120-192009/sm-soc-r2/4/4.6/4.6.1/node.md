@@ -1,0 +1,24 @@
+# N92: 蒙特卡洛模拟参数分布设定：买家价格敏感度 σ 服从 N(0.8, 0.1²)，卖家降价概率 λ 服从 Beta(2, 5) 分布；模拟次数 N=10,000 次
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N25
+
+## Claim
+
+蒙特卡洛模拟参数分布设定：买家价格敏感度 σ 服从 N(0.8, 0.1²)，卖家降价概率 λ 服从 Beta(2, 5) 分布；模拟次数 N=10,000 次，每次迭代计算'透明化干预'下的平台总效用 U_platform 与'强制价格锚点'下的 U_platform，记录帕累托最优路径占比。
+
+## Corrected Claim
+
+蒙特卡洛模拟参数分布设定：买家价格敏感度 σ 服从 N(0.8, 0.1²)，卖家降价概率 λ 服从 Beta(2, 5) 分布；模拟次数 N=10,000 次，每次迭代计算'透明化干预'下的平台总效用 U_platform 与'强制价格锚点'下的 U_platform，记录帕累托最优路径占比。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：参数分布设定（正态分布、Beta分布）及模拟次数在量纲和数值量级上均合理，符合蒙特卡洛模拟的标准实践。
+
+## Search Query
+
+Monte Carlo simulation parameter distribution for platform intervention robustness

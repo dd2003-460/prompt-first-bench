@@ -1,0 +1,24 @@
+# N209: 西方文化背景下损失厌恶系数 λ_loss 的实证均值及95%置信区间，基于Tversky & Kahneman (1991)及后续跨文化元分析数据，典型值约为2
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N75
+
+## Claim
+
+西方文化背景下损失厌恶系数 λ_loss 的实证均值及95%置信区间，基于Tversky & Kahneman (1991)及后续跨文化元分析数据，典型值约为2.25，区间[1.8, 2.8]。
+
+## Corrected Claim
+
+西方文化背景下损失厌恶系数 λ_loss 的实证均值及95%置信区间，基于Tversky & Kahneman (1991)及后续跨文化元分析数据，典型值约为2.25，区间[1.8, 2.8]。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+meta-analysis loss aversion coefficient Western culture Tversky Kahneman 1991

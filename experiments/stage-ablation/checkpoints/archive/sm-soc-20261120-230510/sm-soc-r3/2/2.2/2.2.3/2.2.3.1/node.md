@@ -1,0 +1,20 @@
+# N164: 共享随机源传递：定价偏差 ΔP_bias 的随机部分完全由 ε_seller 驱动，其方差 Var(ΔP_bias) = (σ²_seller / |Elast
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N49
+
+## Claim
+
+共享随机源传递：定价偏差 ΔP_bias 的随机部分完全由 ε_seller 驱动，其方差 Var(ΔP_bias) = (σ²_seller / |Elasticity_true|²) * Var(ε_seller)，由于 ε_seller ~ N(0, σ²_seller)，故 Var(ΔP_bias) = σ⁴_seller / |Elasticity_true|²。
+
+## Corrected Claim
+
+共享随机源传递：定价偏差 ΔP_bias 的随机部分完全由 ε_seller 驱动，其方差 Var(ΔP_bias) = (σ²_seller / |Elasticity_true|²) * Var(ε_seller)，由于 ε_seller ~ N(0, σ²_seller)，故 Var(ΔP_bias) = σ⁴_seller / |Elasticity_true|²。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：根据方差性质 Var(aX) = a²Var(X)，若 ΔP_bias 的随机部分由 ε_seller 驱动且系数为 1/|Elasticity_true|，则推导 Var(ΔP_bias) = (1/|Elasticity_true|²) * Var(ε_seller) = σ⁴_seller / |Elasticity_true|² 在数学上自洽。

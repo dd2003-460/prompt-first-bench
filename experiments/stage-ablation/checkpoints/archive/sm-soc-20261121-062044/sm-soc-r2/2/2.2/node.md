@@ -1,0 +1,24 @@
+# N12: 卖家驱动指标：卖家策略性挂价比例 (R_strategic)，定义为挂价高于市场均价 15% 以上的卖家占比，若 R_strategic > 70%，则卖家是主
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+卖家驱动指标：卖家策略性挂价比例 (R_strategic)，定义为挂价高于市场均价 15% 以上的卖家占比，若 R_strategic > 70%，则卖家是主动维持高溢价的核心驱动力。
+
+## Corrected Claim
+
+卖家驱动指标：卖家策略性挂价比例 (R_strategic)，定义为挂价高于市场均价 15% 以上的卖家占比，若 R_strategic > 70%，则卖家是主动维持高溢价的核心驱动力。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1定义了指标的计算方法（是什么/怎么算），子节点2分析了维持该策略的经济约束（为什么/可行性），两者维度不同，具备正交性。但父节点明确包含了一个判定阈值（R_strategic > 70%）作为“核心驱动力”的判据，子节点中缺少对该阈值判定逻辑或临界点分析的描述，导致未完全覆盖父节点定义中的“判定标准”部分。）
+
+## Search Query
+
+strategic pricing seller proportion high markup marketplace

@@ -1,0 +1,30 @@
+# N607: ROCm 3 年周期内的 Major Breakage 期望次数 λ 需基于 ROCm 版本发布频率（约 4-6 次/年）与历史破坏率（约 20-30%）的泊松
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N186
+
+## Claim
+
+ROCm 3 年周期内的 Major Breakage 期望次数 λ 需基于 ROCm 版本发布频率（约 4-6 次/年）与历史破坏率（约 20-30%）的泊松分布计算，λ = 12 * 0.25 = 3
+
+## Corrected Claim
+
+ROCm 3 年周期内的 Major Breakage 期望次数 λ 需基于 ROCm 版本发布频率与历史破坏率估算，若假设发布频率为 4-6 次/年且破坏率为 20-30%，则 λ 约为 2.4-5.4（示例计算：12 * 0.25 = 3）。
+
+## Evidence
+
+[质询]该陈述中的具体数值（发布频率4-6次/年、破坏率20-30%）属于经验事实，缺乏权威来源支持，且“Major Breakage”的定义模糊，不同版本间的兼容性破坏程度难以用单一固定概率量化。 | 参考来源仅确认ROCm是AMD的计算平台，未提供版本发布频率或破坏率数据；该事实为经验性估算，逻辑自洽但缺来源支持。
+
+## Search Query
+
+ROCm release frequency major breaking changes 2024
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/AMD', 'type': 'wikipedia', 'title': 'AMD'}
+- {'url': 'https://en.wikipedia.org/wiki/Radeon_X1000_series', 'type': 'wikipedia', 'title': 'Radeon X1000 series'}
+- {'url': 'https://en.wikipedia.org/wiki/Parallel_computing', 'type': 'wikipedia', 'title': 'Parallel computing'}

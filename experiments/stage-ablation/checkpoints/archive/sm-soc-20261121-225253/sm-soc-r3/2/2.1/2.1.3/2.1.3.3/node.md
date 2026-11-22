@@ -1,0 +1,28 @@
+# N74: 曝光率差异 $E_{high} - E_{low}$ 的因果识别策略：需控制商品质量、卖家信用、图片质量等混杂变量，使用双重差分（DID）或倾向得分匹配（PSM
+
+- **status**: verified
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N27
+
+## Claim
+
+曝光率差异 $E_{high} - E_{low}$ 的因果识别策略：需控制商品质量、卖家信用、图片质量等混杂变量，使用双重差分（DID）或倾向得分匹配（PSM）估计高挂价与低挂价（或降价）商品的曝光差异的因果效应值 $\tau_{exposure}$，并给出95%置信区间。
+
+## Corrected Claim
+
+曝光率差异 $E_{high} - E_{low}$ 的因果识别策略：需控制商品质量、卖家信用、图片质量等混杂变量，使用双重差分（DID）或倾向得分匹配（PSM）估计高挂价与低挂价（或降价）商品的曝光差异的因果效应值 $\tau_{exposure}$，并给出95%置信区间。
+
+## Evidence
+
+[rework-angle r1] 来源[3]明确将双重差分（DID）列为因果推断的研究设计之一，且指出因果分析旨在区分相关与因果，支持使用DID/PSM控制混杂变量以识别因果效应的逻辑自洽性。
+
+## Search Query
+
+causal inference exposure difference high low price DID PSM
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org/pdf/2312.15282&rut=00253c9371b09d7f6d42a7cf6e1f38b7a276660e0a7e8d420b2d1cd3abc28c6b', 'type': 'ddg', 'title': 'Causal Forecasting for Pricing - arXiv.org'}

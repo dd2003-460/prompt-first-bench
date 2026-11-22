@@ -1,0 +1,17 @@
+{
+  "id": "N101",
+  "claim": "KV Cache占用的精确计算公式为：KV Cache大小 = 2 × num_layers × num_kv_heads × head_dim × seq_len × bytes_per_element，其中Qwen3-27B的num_layers=28, num_kv_heads=8, head_dim=128, seq_len=32768, bytes_per_element=2（FP16/BF16），计算结果为5.2GB，该值在INT8/W4精度下保持不变，因为KV Cache通常以FP16/BF16存储以维持注意力计算精度。",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值计算错误：根据公式 2 × 28 × 8 × 128 × 32768 × 2 bytes，计算结果应为 3,758,096,384 bytes ≈ 3.5 GiB (或 3.76 GB)，而非陈述中的 5.2 GB。5.2 GB 可能是误用了 num_heads=16 或其他参数，或者是将不同模型/配置的数据混淆。 | 先验知识/题面给定，逻辑校验发现数值量级与公式推导结果不符（3.5GB vs 5.2GB），存在硬逻辑错误（计算不一致）。",
+  "corrected_claim": "KV Cache占用的精确计算公式为：KV Cache大小 = 2 × num_layers × num_kv_heads × head_dim × seq_len × bytes_per_element，其中Qwen3-27B的num_layers=28, num_kv_heads=8, head_dim=128, seq_len=32768, bytes_per_element=2（FP16/BF16），计算结果约为3.5GB（3.76GB），该值在INT8/W4精度下保持不变，因为KV Cache通常以FP16/BF16存储以维持注意力计算精度。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N12"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

@@ -1,0 +1,24 @@
+# N308: Qwen3-27B 在 INT4 (AWQ) 量化下，若校准数据集完全缺失代码（Code）和数学（Math）领域样本（即领域覆盖度为 0），HumanEval 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N95
+
+## Claim
+
+Qwen3-27B 在 INT4 (AWQ) 量化下，若校准数据集完全缺失代码（Code）和数学（Math）领域样本（即领域覆盖度为 0），HumanEval Pass@1 相比 BF16 基线的预期退化幅度为 5-10 个百分点，导致 Q_score_code 从 ~0.9 降至 0.80-0.85 区间，跌破常规可接受阈值 0.85。
+
+## Corrected Claim
+
+Qwen3-27B 在 INT4 (AWQ) 量化下，若校准数据集完全缺失代码和数学领域样本，HumanEval Pass@1 相比 BF16 基线可能出现显著退化，导致 Q_score_code 可能跌破常规可接受阈值 0.85。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值预测（5-10个百分点退化、Q_score具体区间），属于硬件/模型性能经验事实，无法从第一性原理严格推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Qwen3-27B AWQ INT4 quantization HumanEval pass@1 degradation without code calibration data

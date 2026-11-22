@@ -1,0 +1,24 @@
+# N9: Qwen3-27B 在 4-bit 量化 (GPTQ/AWQ) 下的质量损失基准：MMLU 准确率下降约 1-2 个百分点 (从 ~75% 降至 ~73-74%
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+Qwen3-27B 在 4-bit 量化 (GPTQ/AWQ) 下的质量损失基准：MMLU 准确率下降约 1-2 个百分点 (从 ~75% 降至 ~73-74%)，HellaSwag 下降 <1%，但在长尾知识密集型任务上下降可达 3-5% [待核验：具体需参考 Qwen3 官方量化报告或第三方评测如 LMSYS Arena 量化对比数据]。
+
+## Corrected Claim
+
+Qwen3-27B 在 4-bit 量化 (GPTQ/AWQ) 下通常会出现轻微的质量损失，具体幅度取决于量化实现细节，一般认为在主流基准上下降在 1-5% 范围内，长尾任务可能更敏感。
+
+## Evidence
+
+[质询]具体数值（MMLU下降1-2%，HellaSwag<1%）属于特定模型版本（Qwen3-27B）在特定量化方法（GPTQ/AWQ）下的经验性基准数据，无法从第一性原理推导，且缺乏官方或权威第三方评测的直接引用支持，存在数值偏差或口径混淆（如不同量化位宽、校准集差异）的风险。 | 经验事实，逻辑自洽（4-bit量化通常导致轻微性能下降，量级合理）但缺来源支持（检索无可用来源），依据经验事实排除条款降级。
+
+## Search Query
+
+Qwen3-27B 4-bit quantization accuracy loss MMLU HellaSwag benchmark

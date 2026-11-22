@@ -1,0 +1,24 @@
+# N76: AMD MI250X 128GB HBM3 的 2024 年 Q3 采购价格为 $15,000-18,000，其 $/GB 显存成本为 $117.2-140.6
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N16
+
+## Claim
+
+AMD MI250X 128GB HBM3 的 2024 年 Q3 采购价格为 $15,000-18,000，其 $/GB 显存成本为 $117.2-140.6/GB，但 ROCm 生态成熟度低于 CUDA，LLM 推理框架支持度有限 [待核验]
+
+## Corrected Claim
+
+AMD MI250X 128GB HBM3 的显存成本约为 $117-140/GB（基于估算价格），ROCm 生态成熟度低于 CUDA，LLM 推理框架支持度有限
+
+## Evidence
+
+[质询]具体采购价格（$15,000-18,000）属于高度波动的市场经验数据，且2024年Q3的具体成交价受渠道、批量和地区影响极大，缺乏公开权威数据支持该精确区间；此外，MI250X通常以OAM模组形式销售，直接引用裸卡或模组价格可能存在口径混淆。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体价格区间）
+
+## Search Query
+
+AMD MI250X 128GB price 2024 Q3 ROCm LLM inference

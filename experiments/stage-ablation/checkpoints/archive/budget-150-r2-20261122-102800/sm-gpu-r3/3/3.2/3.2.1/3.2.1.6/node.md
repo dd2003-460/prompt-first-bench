@@ -1,0 +1,20 @@
+# N252: 2× RTX 4090 在 INT8 量化下，若采用 Tensor Parallelism (TP=2)，每层需进行 AllReduce 通信，通信量约为 2 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N91, N92, N93
+
+## Claim
+
+2× RTX 4090 在 INT8 量化下，若采用 Tensor Parallelism (TP=2)，每层需进行 AllReduce 通信，通信量约为 2 * hidden_size * bytes_per_elem * seq_len（注意：Decode 阶段 Attention 输出投影后通信量较小，主要为 FFN 和 Attention 内部），在 PCIe 4.0 (64 GB/s) 下，单步通信延迟约为 2-5 ms，导致整体吞吐降至理论值的 70-75%，即约 48-52 tokens/s，且需启用 P2P 以最大化带宽。
+
+## Corrected Claim
+
+2× RTX 4090 在 INT8 量化下采用 TP=2 时，每层需进行 AllReduce 通信。通信量取决于 hidden_size 和 seq_len/batch_size。在 PCIe 4.0 (64 GB/s) 下，对于中等规模模型，单步通信延迟通常在亚毫秒至几毫秒之间，具体数值随模型大小和 Batch Size 变化。由于 PCIe 带宽远低于 NVLink，整体吞吐会显著低于理论值，具体效率取决于计算与通信的重叠程度及模型规模，通常需启用 P2P 以最大化带宽。
+
+## Evidence
+
+[质询]通信量公式与延迟估算存在量级偏差：对于典型 LLM（如 7B-13B），Decode 阶段每层 AllReduce 的数据量仅为 KB 级别（例如 4096*2*2*1 ≈ 16KB），在 PCIe 4.0 下传输时间仅为微秒级（<0.1ms），而非毫秒级。2-5ms 的延迟通常对应于大模型（70B+）或 Batch Size 较大时的情况，此处未限定模型规模，直接给出 2-5ms 的通用延迟缺乏严谨性，且 70-75% 的吞吐效率对于 PCIe 互联的 TP=2 而言过于乐观（通常 PCIe 瓶颈会导致更显著的下降，除非模型较小或使用了高效的通信重叠技术）。 | 先验知识/题面给定，逻辑校验通过。虽然通信延迟的具体数值（2-5ms）依赖于模型规模（hidden_size）和 Batch Size，未明确指定导致该数值具有条件依赖性，但整体逻辑框架（TP 通信开销、PCIe 带宽限制、P2P 必要性）符合工程常识。因缺乏具体模型参数支撑精确数值，降级为定性表述。

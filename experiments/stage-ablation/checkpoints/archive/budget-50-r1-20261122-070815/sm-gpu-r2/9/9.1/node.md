@@ -1,0 +1,29 @@
+# N141: Qwen3-27B 在 BF16 精度下 MMLU 基准测试的具体得分（作为量化对比的基准线，需引用 Qwen3 技术报告或官方评测数据）
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N33
+
+## Claim
+
+Qwen3-27B 在 BF16 精度下 MMLU 基准测试的具体得分（作为量化对比的基准线，需引用 Qwen3 技术报告或官方评测数据）
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 精度下的 MMLU 基准测试得分需查阅 Qwen3 官方技术报告获取，当前参考来源未提供该具体数值。
+
+## Evidence
+
+[质询]参考来源均指向 'Qwen3.6-27B' 而非 'Qwen3-27B'，且摘要中未包含 MMLU 基准测试的具体得分数值，存在版本混淆及数据缺失风险。 | 来源 [1] 和 [2] 讨论的是 Qwen3.6-27B 的部署与量化，未提供 Qwen3-27B 在 BF16 下的 MMLU 具体分数，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+Qwen3-27B MMLU benchmark score BF16 official evaluation
+
+## Retrieval Sources
+
+- {'url': 'https://www.toutiao.com/article/7632949656279990784/&rut=ffa58d68593997046a783fdc18de5dba9f5574fa4db0cae0e42d37d15beccbdb', 'type': 'ddg', 'title': '实测Qwen3.6-27B：从20t/s飙到184t/s，提速9倍全攻略'}
+- {'url': 'https://zhuanlan.zhihu.com/p/2030779150659752247&rut=613f241044edb28ddb6e3f61f8516e5ffb93b97218d0807de4820c0d28a7df70', 'type': 'ddg', 'title': 'Qwen3.6-27B 量化版本推荐，本地部署 - 知乎'}

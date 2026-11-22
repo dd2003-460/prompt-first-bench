@@ -1,0 +1,20 @@
+# N17: 卖家响应函数：在价格信号 p_t 下，卖家降价概率 P(decrease|p_t) = f(边际效用损失, 机会成本, 心理账户效应)，具体需量化当前高挂价策略
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+卖家响应函数：在价格信号 p_t 下，卖家降价概率 P(decrease|p_t) = f(边际效用损失, 机会成本, 心理账户效应)，具体需量化当前高挂价策略的预期收益 E[R_high] vs 降价后预期收益 E[R_low]，其中 E[R] = Price * P(sale|Price) - C_holding。
+
+## Corrected Claim
+
+卖家响应函数：在价格信号 p_t 下，卖家降价概率 P(decrease|p_t) = f(边际效用损失, 机会成本, 心理账户效应)，具体需量化当前高挂价策略的预期收益 E[R_high] vs 降价后预期收益 E[R_low]，其中 E[R] = Price * P(sale|Price) - C_holding。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点分别对应父节点公式中的三个核心变量（边际效用、机会成本、心理账户），概念上相互独立且正交，无冗余。但完备性存在缺陷：父节点明确给出了总收益期望公式 E[R] = Price * P(sale|Price) - C_holding，而子节点仅分解了决策函数 f(...) 中的三个心理/经济因子，未提供 P(sale|Price)（需求函数/成交概率）和 C_holding（持有成本）的具体量化定义或分解。没有这些基础参数，无法计算父节点中提到的 E[R_high] 和 E[R_low]，因此子节点未能覆盖父节点所需的所有关键量化方面。）

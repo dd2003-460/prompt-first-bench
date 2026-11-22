@@ -1,0 +1,24 @@
+# N217: 边缘 AI 加速卡（如 Jetson Orin）与 CPU-only 方案的 TCO 对比：Jetson Orin 64GB 价格约 $1,999，功耗 15-
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N50
+
+## Claim
+
+边缘 AI 加速卡（如 Jetson Orin）与 CPU-only 方案的 TCO 对比：Jetson Orin 64GB 价格约 $1,999，功耗 15-60W，3 年 TCO ≈ $1,999 + (0.06kW * 8760h * 3 * $0.15/kWh) ≈ $2,165；CPU-only 方案（Xeon W-3400 + 128GB DDR5）价格约 $2,500，功耗 200W，3 年 TCO ≈ $2,500 + (0.2kW * 8760h * 3 * $0.15/kWh) ≈ $3,248；Jetson 在 TCO 上占优，但吞吐量仅为 CPU 的 1-2 倍，性价比需结合延迟容忍度评估 [待核验]
+
+## Corrected Claim
+
+边缘 AI 加速卡（如 Jetson Orin）与 CPU-only 方案的 TCO 对比：Jetson Orin 64GB 价格约 $1,999，功耗 15-60W，3 年 TCO ≈ $1,999 + (0.06kW * 8760h * 3 * $0.15/kWh) ≈ $2,165；CPU-only 方案（Xeon W-3400 + 128GB DDR5）价格约 $2,500，功耗 200W，3 年 TCO ≈ $2,500 + (0.2kW * 8760h * 3 * $0.15/kWh) ≈ $3,248；Jetson 在 TCO 上占优，但吞吐量仅为 CPU 的 1-2 倍，性价比需结合延迟容忍度评估 [待核验]
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+Jetson Orin vs Xeon CPU TCO 3-year comparison LLM inference cost

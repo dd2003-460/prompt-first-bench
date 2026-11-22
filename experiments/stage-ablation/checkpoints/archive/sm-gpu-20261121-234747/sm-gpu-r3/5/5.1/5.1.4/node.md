@@ -1,0 +1,20 @@
+# N120: 预算区间 >30k USD 且延迟容忍 <100ms/1K tokens 且精度偏好为 BF16 的叶子节点：推荐硬件为 1×H100 (80GB) 或 2×A
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N21
+
+## Claim
+
+预算区间 >30k USD 且延迟容忍 <100ms/1K tokens 且精度偏好为 BF16 的叶子节点：推荐硬件为 1×H100 (80GB) 或 2×A100 (160GB, NVLink)，量化性能指标为 40-60 tokens/s (H100) 或 35-50 tokens/s (2xA100)，内存占用 54GB (BF16)，与次优方案（L40S）差距 50-100%，失效条件为 H100 供货周期 >3个月 或 电力成本 >$0.15/kWh 导致 TCO 反超
+
+## Corrected Claim
+
+预算区间 >30k USD 且延迟容忍 <100ms/1K tokens 且精度偏好为 BF16 的叶子节点：推荐硬件为 1×H100 (80GB) 或 2×A100 (160GB, NVLink)，量化性能指标为 40-60 tokens/s (H100) 或 35-50 tokens/s (2xA100)，内存占用 54GB (BF16)，与次优方案（L40S）差距 50-100%，失效条件为 H100 供货周期 >3个月 或 电力成本 >$0.15/kWh 导致 TCO 反超
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H100/A100硬件规格、BF16内存占用及推理吞吐量量级符合工程常识，TCO失效条件逻辑自洽。

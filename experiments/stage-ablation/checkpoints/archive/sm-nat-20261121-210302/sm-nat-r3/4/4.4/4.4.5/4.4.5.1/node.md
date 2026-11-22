@@ -1,0 +1,20 @@
+# N158: 在 ρ=-1（完全负相关）极端假设下，LRU 驱逐的对象均为最大对象，E[S_evict] 趋近于 S_max，命中率修正因子 f(-1) 达到理论最大值 f_
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N52
+
+## Claim
+
+在 ρ=-1（完全负相关）极端假设下，LRU 驱逐的对象均为最大对象，E[S_evict] 趋近于 S_max，命中率修正因子 f(-1) 达到理论最大值 f_max = E[S] / E[S_max]，需通过截断 Pareto 分布计算 S_max 以量化该上界。
+
+## Corrected Claim
+
+在 ρ=-1（完全负相关）极端假设下，LRU 驱逐的对象均为最大对象，E[S_evict] 趋近于 S_max，命中率修正因子 f(-1) 达到理论最大值 f_max = E[S] / E[S_max]，需通过截断 Pareto 分布计算 S_max 以量化该上界。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在完全负相关假设下，LRU驱逐最大对象导致E[S_evict]趋近S_max，修正因子f(-1)=E[S]/E[S_max]符合定义，且Pareto分布截断是计算S_max的标准方法。

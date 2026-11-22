@@ -1,0 +1,20 @@
+# N53: S_cache 的确定公式：S_cache = F_S^{-1}(1 - N_cache/N_total)，其中 N_cache 为可缓存对象数，N_total
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+S_cache 的确定公式：S_cache = F_S^{-1}(1 - N_cache/N_total)，其中 N_cache 为可缓存对象数，N_total=100,000，F_S 为 Pareto(α=1.1) 的 CDF
+
+## Corrected Claim
+
+S_cache 的确定公式：S_cache = F_S^{-1}(1 - N_cache/N_total)，其中 N_cache 为可缓存对象数，N_total=100,000，F_S 为 Pareto(α=1.1) 的 CDF
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该公式是确定缓存大小以覆盖特定比例对象的标准逆CDF方法，量纲与逻辑自洽。

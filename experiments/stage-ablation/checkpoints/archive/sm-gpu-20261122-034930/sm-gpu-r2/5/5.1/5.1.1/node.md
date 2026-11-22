@@ -1,0 +1,24 @@
+# N122: 来源标注工作点3（低置信度/实测推断）：Qwen3-27B在2x RTX 4090上的实测吞吐量50-80 tokens/s，来源为社区论坛（Reddit/HF
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N35
+
+## Claim
+
+来源标注工作点3（低置信度/实测推断）：Qwen3-27B在2x RTX 4090上的实测吞吐量50-80 tokens/s，来源为社区论坛（Reddit/HF）用户报告，置信度低，标记[待核验]，需通过本地vLLM部署实测获取P50/P95延迟数据，以替代社区估算值。
+
+## Corrected Claim
+
+Qwen3-27B在2x RTX 4090上的实测吞吐量据社区报告约为50-80 tokens/s，但该数据置信度较低，需通过本地vLLM部署实测获取P50/P95延迟数据以进行最终确认。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件性能数值（50-80 tokens/s），属于经验事实。由于缺乏本地实测数据或权威基准测试支持，仅依赖低置信度的社区论坛报告，存在数值偏差或环境配置差异导致的不确定性。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，且社区报告置信度低，无法排除其他可能性）
+
+## Search Query
+
+Qwen3-27B 2x RTX 4090 vLLM benchmark tokens/s reddit huggingface

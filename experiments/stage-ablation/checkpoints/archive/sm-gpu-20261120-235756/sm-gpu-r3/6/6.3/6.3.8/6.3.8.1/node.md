@@ -1,0 +1,24 @@
+# N335: 在 Batch Size=1 且关闭 KV Cache 量化/共享策略下，Qwen3-27B BF16 推理的激活值（Activations）峰值显存占用约为 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N124
+
+## Claim
+
+在 Batch Size=1 且关闭 KV Cache 量化/共享策略下，Qwen3-27B BF16 推理的激活值（Activations）峰值显存占用约为 1.5-2.5GB，该数值主要取决于 Transformer 中间层（FFN/Attention）的临时缓冲大小，需通过 PyTorch Profiler 实测确认具体峰值。
+
+## Corrected Claim
+
+在 Batch Size=1 且关闭 KV Cache 量化/共享策略下，Qwen3-27B BF16 推理的激活值（Activations）峰值显存占用约为 1.5-2.5GB，该数值主要取决于 Transformer 中间层（FFN/Attention）的临时缓冲大小，需通过 PyTorch Profiler 实测确认具体峰值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B BF16 模型权重约 54GB，Batch Size=1 时激活值显存占用主要取决于序列长度和中间层维度，1.5-2.5GB 的峰值范围符合 Transformer 架构在短序列推理下的典型量级，且明确标注需实测确认，表述严谨。
+
+## Search Query
+
+Qwen3-27B BF16 activation memory footprint batch size 1 profiler

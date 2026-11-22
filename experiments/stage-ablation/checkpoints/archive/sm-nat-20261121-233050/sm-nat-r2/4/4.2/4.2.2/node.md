@@ -1,0 +1,20 @@
+# N46: 将 T_LRU_avg → ∞ 代入 P_invalid 公式：P_invalid = 1 - exp(-u * T_life / T_LRU_avg) ≈ 1
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N15
+
+## Claim
+
+将 T_LRU_avg → ∞ 代入 P_invalid 公式：P_invalid = 1 - exp(-u * T_life / T_LRU_avg) ≈ 1 - exp(0) = 0，即在无驱逐的理想状态下，更新率 u=1%/天 不会导致任何缓存失效，有效命中率折损系数为 1.0。
+
+## Corrected Claim
+
+将 T_LRU_avg → ∞ 代入 P_invalid 公式：P_invalid = 1 - exp(-u * T_life / T_LRU_avg) ≈ 1 - exp(0) = 0，即在无驱逐的理想状态下，更新率 u=1%/天 不会导致任何缓存失效，有效命中率折损系数为 1.0。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学极限推导正确，当分母趋于无穷大时指数项趋于0，概率为0，符合物理直觉。

@@ -1,0 +1,33 @@
+{
+  "id": "N102",
+  "claim": "长上下文单卡边界条件验证：MI300X (192GB) 在 FP8 精度下支持的最大并发 Batch Size 计算。公式：Max_Batch = (VRAM_Total - Weight_Size_FP8 - Activation_Buffer) / KV_Cache_Per_Batch_32K。需确认 ROCm 对 Qwen3 的 FP8 推理支持稳定性及实际带宽利用率",
+  "level": "L3",
+  "source": "search",
+  "status": "pending",
+  "evidence": "父节点级核验未通过：不完备（子节点在计算逻辑上是正交的（分别计算权重、KV缓存、激活缓冲和最终结果），且无冗余。但存在严重的完备性缺失：父节点明确要求确认“ROCm 对 Qwen3 的 FP8 推理支持稳定性”及“实际带宽利用率”，这两个非纯计算的关键验证点在4个子节点中完全缺失。此外，子节点3中关于GQA头数假设（8头）存在事实性错误风险（Qwen3-27B通常采用更高的KV头数或标准GQA配置，需核实具体架构参数，否则KV Cache计算偏差巨大），且未考虑ROCm框架本身的运行时开销（Context/Memory Overhead）。）",
+  "corrected_claim": "MI300X (192GB) 在 FP8 精度下支持长上下文推理，最大并发 Batch Size 可通过公式 (VRAM_Total - Weight_Size_FP8 - Activation_Buffer) / KV_Cache_Per_Batch_32K 估算，但具体数值需结合 ROCm 实际带宽利用率及 Qwen3 模型结构实测确定。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N38"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "AMD MI300X Qwen3-27B FP8 inference maximum batch size 32K context ROCm support",
+  "retrieval_sources": [
+    {
+      "url": "https://www.modelscope.cn/posts/437098&rut=149d6ad94c37cd8b089f3fddb1b505c8cca86f92eb842315e12c5b5817a6f433",
+      "type": "ddg",
+      "title": "基于 AMD Instinct MI300X 部署 Qwen3.8-27B 满血版实战：192GB…"
+    },
+    {
+      "url": "https://www.modelscope.cn/posts/437379&rut=274f9b3b4d18d9259e4fd4a2973cee53321854088d0b3e10d8019b09d9261405",
+      "type": "ddg",
+      "title": "在 AMD MI300X 上用 vLLM 跑 Qwen3：从环境确认到 BF16 / FP8 吞吐实测"
+    },
+    {
+      "url": "https://devpress.csdn.net/v1/article/detail/162043241&rut=4aef1eeaa060d9c8acbfe0a74a4858803ca646671fdbd777303dbbfeef962db9",
+      "type": "ddg",
+      "title": "别只跑 Bf16 了，我在 Mi300x 上用一行命令开启 Fp8 量化"
+    }
+  ]
+}

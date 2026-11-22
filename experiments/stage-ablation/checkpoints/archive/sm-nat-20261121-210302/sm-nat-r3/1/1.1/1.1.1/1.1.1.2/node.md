@@ -1,0 +1,20 @@
+# N92: 工作点B（激进截断）：设定 S_max = 1GB，此时截断项 (X_min/S_max)^0.1 ≈ 0.479，计算得 E[S] ≈ 5.73KB，代表覆盖
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N24
+
+## Claim
+
+工作点B（激进截断）：设定 S_max = 1GB，此时截断项 (X_min/S_max)^0.1 ≈ 0.479，计算得 E[S] ≈ 5.73KB，代表覆盖更多大文件但引入更高方差的激进估计。
+
+## Corrected Claim
+
+工作点B（激进截断）：设定 S_max = 1GB，此时截断项 (X_min/S_max)^0.1 ≈ 0.479，计算得 E[S] ≈ 5.73KB，代表覆盖更多大文件但引入更高方差的激进估计。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：截断项 (X_min/S_max)^0.1 在 S_max=1GB 时约为 0.479，符合激进截断策略下 E[S] 显著降低（5.73KB）且方差增加的数学直觉。

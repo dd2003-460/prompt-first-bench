@@ -1,0 +1,24 @@
+# N81: AMD Radeon Pro W7900 48GB GDDR6 显存带宽标称 1936 GB/s 的依据：GDDR6 单颗粒速率 14 Gbps × 384-b
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N13
+
+## Claim
+
+AMD Radeon Pro W7900 48GB GDDR6 显存带宽标称 1936 GB/s 的依据：GDDR6 单颗粒速率 14 Gbps × 384-bit 位宽 / 8 = 672 GB/s，但 W7900 采用 6 Gbps 速率的 GDDR6 颗粒且位宽为 384-bit，实际计算应为 14 Gbps * 384 / 8 = 672 GB/s，原陈述 1936 GB/s 存在严重错误，需核实是否为 HBM 或其他架构误标 [待核验]。
+
+## Corrected Claim
+
+AMD Radeon Pro W7900 48GB GDDR6 显存带宽标称并非 1936 GB/s。根据 GDDR6 规格（通常 14-16 Gbps）和 384-bit 位宽，其理论带宽应在 672-768 GB/s 左右（实际官方规格为 960 GB/s，可能涉及特定频率或计算方式差异，但绝非 1936 GB/s）。1936 GB/s 可能是 HBM 架构的误标或完全错误的数值。
+
+## Evidence
+
+[质询]陈述内部存在严重的逻辑矛盾和计算错误：1. 标题声称依据是 14 Gbps，但正文却称 W7900 采用 6 Gbps 颗粒，前后矛盾；2. 即使按 14 Gbps 计算，384-bit 位宽对应的带宽应为 672 GB/s，而非 1936 GB/s；3. 1936 GB/s 这一数值更接近 HBM2e 或 HBM3 的带宽量级，与 GDDR6 架构完全不符，且 AMD Radeon Pro W7900 实际规格为 48GB GDDR6，带宽约为 960 GB/s (14 Gbps * 384-bit / 8 * 1.5? 不，GDDR6 是 14 Gbps * 384 / 8 = 672 GB/s，若为 16 Gbps 则为 768 GB/s。实际上 W7900 的官方带宽是 960 GB/s，这意味着其有效速率或位宽计算有误，或者 1936 GB/s 完全是胡编乱造的数字)。无论如何，1936 GB/s 对于 GDDR6 384-bit 接口来说在物理上是不可能的（需要单颗粒速率达到 ~40 Gbps，远超 GDDR6 标准）。 | 逻辑校验失败：陈述中 14 Gbps * 384 / 8 = 672 GB/s 的计算结果与声称的 1936 GB/s 严重不符，且 1936 GB/s 远超 GDDR6 384-bit 接口的理论极限，存在硬逻辑错误。
+
+## Search Query
+
+AMD Radeon Pro W7900 memory bandwidth 1936 GB/s specification

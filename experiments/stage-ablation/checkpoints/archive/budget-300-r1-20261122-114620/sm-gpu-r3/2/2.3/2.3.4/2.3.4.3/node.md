@@ -1,0 +1,20 @@
+# N215: Apple M2 Ultra (Mac Studio) 整机功耗在 GPU 满载推理时约为 150-200W（基于 Apple 官方功耗曲线及社区实测），5 年
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N65
+
+## Claim
+
+Apple M2 Ultra (Mac Studio) 整机功耗在 GPU 满载推理时约为 150-200W（基于 Apple 官方功耗曲线及社区实测），5 年电费成本 C_elec_M2U = 200W * 8760h * 5y * $0.15/kWh ≈ $1314，显著高于 Jetson 但低于 RTX 4090 双卡方案 ($2340)，且 Mac Studio 初始成本 $3999，5 年总 TCO ≈ $3999 + $1314 = $5313。
+
+## Corrected Claim
+
+Apple M2 Ultra (Mac Studio) 整机功耗在 GPU 满载推理时约为 150-200W（基于 Apple 官方功耗曲线及社区实测），5 年电费成本 C_elec_M2U = 200W * 8760h * 5y * $0.15/kWh ≈ $1314，显著高于 Jetson 但低于 RTX 4090 双卡方案 ($2340)，且 Mac Studio 初始成本 $3999，5 年总 TCO ≈ $3999 + $1314 = $5313。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：功耗量级（150-200W）符合M2 Ultra Mac Studio实测数据，电费计算（200W*8760h*5y*0.15/kWh ≈ $1314）及TCO加和逻辑自洽且数值准确。

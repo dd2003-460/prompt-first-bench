@@ -1,0 +1,30 @@
+# N250: Qwen3-27B在BF16精度下HumanEval基准测试的官方基准得分需从Qwen3技术报告或Hugging Face模型卡片中核实，当前68.5%为模型先
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N110
+
+## Claim
+
+Qwen3-27B在BF16精度下HumanEval基准测试的官方基准得分需从Qwen3技术报告或Hugging Face模型卡片中核实，当前68.5%为模型先验估计 [待核验]，若实际基准为65.0%，则INT8相对损失需重新计算
+
+## Corrected Claim
+
+Qwen3-27B在BF16精度下HumanEval基准测试的官方得分需从Qwen3技术报告或Hugging Face模型卡片中核实，当前68.5%为模型先验估计，缺乏直接来源支持。
+
+## Evidence
+
+[质询]该陈述中的具体数值（68.5%）被明确标记为“模型先验估计”且处于“待核验”状态，属于未经证实的经验事实；参考来源中提到的模型版本为“Qwen3.8-27B”（可能是笔误或特定社区版本），且未提供HumanEval的具体得分，无法直接验证该数值。 | 经验事实，逻辑自洽但缺来源支持。来源[1][2][3]涉及Qwen3.8-27B的量化对比，但未提供HumanEval基准的具体官方得分，无法直接证实68.5%这一数值。
+
+## Search Query
+
+Qwen3-27B HumanEval benchmark score BF16 official report
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/liangjinhu/article/details/164183862&rut=a6a509f8e74bff9b487998cd33b34a6a6d8d0784c2d7f4310f4e98041b75497e', 'type': 'ddg', 'title': 'Qwen3.8-27B GSQ-RCO 量化部署实测：9.3GB 跑出超 BF16 精度，消费级显卡落地 27B 多模态'}
+- {'url': 'https://linux.do/t/topic/2821819&rut=21235c15048a7077dfe7a3b57ffaffc49bd7518af4041d1339f170ec02b35ca0', 'type': 'ddg', 'title': 'Qwen3.8-27B BF16 / FP8 / NVFP4 实测 - 开发调优 - LINUX DO'}
+- {'url': 'https://aishare.jizhiku.net/archives/52380&rut=9a7a27555c300b3f7308bf93d4ca1c6bb1711e5779280e612774e669596a5a71', 'type': 'ddg', 'title': 'Qwen3.8-27B 实测：BF16/FP8/NVFP4 精度对比与部署优化指南 - AI技能智慧站'}

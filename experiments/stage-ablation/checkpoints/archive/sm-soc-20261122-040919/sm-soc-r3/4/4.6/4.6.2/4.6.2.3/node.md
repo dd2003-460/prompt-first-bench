@@ -1,0 +1,24 @@
+# N325: t 检验的替代方案：若 n < 30 或数据非正态，应使用 Mann-Whitney U 检验或 Bootstrap 重抽样方法；Bootstrap 的 95%
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N95
+
+## Claim
+
+t 检验的替代方案：若 n < 30 或数据非正态，应使用 Mann-Whitney U 检验或 Bootstrap 重抽样方法；Bootstrap 的 95% 置信区间通过 1000 次重抽样计算，若 0 不在区间内，则 k% 显著。
+
+## Corrected Claim
+
+t 检验的替代方案：若 n < 30 或数据非正态，应使用 Mann-Whitney U 检验或 Bootstrap 重抽样方法；Bootstrap 的 95% 置信区间通过 1000 次重抽样计算，若 0 不在区间内，则 k% 显著。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+Mann-Whitney U test vs t-test small sample size bootstrap confidence interval

@@ -1,0 +1,28 @@
+# N8: 数据中心级GPU候选集：包含A100 80GB SXM, H100 80GB SXM, L40S 48GB, 以及L4 24GB的租赁/购买价格（$/hour或
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+数据中心级GPU候选集：包含A100 80GB SXM, H100 80GB SXM, L40S 48GB, 以及L4 24GB的租赁/购买价格（$/hour或$/unit）及功耗（W），用于与消费级对比TCO。
+
+## Corrected Claim
+
+数据中心级GPU候选集通常包含A100 80GB SXM, H100 80GB SXM, L40S 48GB, 以及L4 24GB等型号，其租赁/购买价格及功耗需参考具体云服务商报价单或NVIDIA官方规格表，用于与消费级对比TCO。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件规格（显存大小、型号）及隐含的市场价格/功耗数据，属于经验事实。提供的参考来源[1]仅涉及A100的架构和性能概述，未包含H100、L40S、L4的具体参数，更未包含任何租赁/购买价格（$/hour或$/unit）或具体功耗数值（W）。因此，无法从现有来源直接验证价格及功耗的具体数值，且来源覆盖不全。 | 经验事实，逻辑自洽但缺来源支持。来源[1]仅间接支持A100的存在及数据中心定位，未提供价格、功耗及H100/L40S/L4的相关数据，无法直接验证具体数值。
+
+## Search Query
+
+A100 80GB H100 80GB L40S 48GB rental price per hour and power consumption watts
+
+## Retrieval Sources
+
+- {'url': 'https://www.nvidia.com/en-us/data-center/a100/&rut=b753f5b37602e487e84015943f075e07fbc4770a570ddca234fa478c5243109f', 'type': 'ddg', 'title': 'NVIDIA A100 Tensor Core GPU'}

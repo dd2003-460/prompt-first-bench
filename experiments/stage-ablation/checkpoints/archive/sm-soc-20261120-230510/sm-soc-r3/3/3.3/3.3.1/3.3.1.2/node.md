@@ -1,0 +1,20 @@
+# N200: 点击阈值分布参数：买家点击决策基于 V_buyer + ε_click > P_ask，其中 ε_click ~ N(0, σ_click^2)，σ_click
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N64
+
+## Claim
+
+点击阈值分布参数：买家点击决策基于 V_buyer + ε_click > P_ask，其中 ε_click ~ N(0, σ_click^2)，σ_click 为点击决策的噪声标准差，通常 σ_click < σ_v，因为点击是低成本试探行为。
+
+## Corrected Claim
+
+点击阈值分布参数：买家点击决策基于 V_buyer + ε_click > P_ask，其中 ε_click ~ N(0, σ_click^2)，σ_click 为点击决策的噪声标准差，通常 σ_click < σ_v，因为点击是低成本试探行为。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：点击作为低成本试探行为，其决策噪声通常小于估值噪声，符合经济学直觉。

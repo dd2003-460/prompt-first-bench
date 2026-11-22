@@ -1,0 +1,20 @@
+# N132: 资金占用机会成本分量 r_capital = P_market * r_opportunity，其中 r_opportunity 取值为无风险利率（约 2.5%
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N45
+
+## Claim
+
+资金占用机会成本分量 r_capital = P_market * r_opportunity，其中 r_opportunity 取值为无风险利率（约 2.5%/年，折合 0.0068%/天）与卖家资金周转率（假设 30 天回笼，即 3.33%/月）的加权组合，权重取决于卖家是否为职业卖家（职业卖家权重 0.8，业余 0.2）。
+
+## Corrected Claim
+
+资金占用机会成本分量 r_capital = P_market * r_opportunity，其中 r_opportunity 取值为无风险利率（约 2.5%/年，折合 0.0068%/天）与卖家资金周转率（假设 30 天回笼，即 3.33%/月）的加权组合，权重取决于卖家是否为职业卖家（职业卖家权重 0.8，业余 0.2）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

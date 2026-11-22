@@ -1,0 +1,28 @@
+# N55: 注意力捕获效应的品类依赖系数 γ：γ 与商品标准化程度负相关。非标品（如古董）γ ∈ [0.2, 0.4]，标品（如手机）γ ∈ [0.05, 0.1]。标品买
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N19, N20, N21
+
+## Claim
+
+注意力捕获效应的品类依赖系数 γ：γ 与商品标准化程度负相关。非标品（如古董）γ ∈ [0.2, 0.4]，标品（如手机）γ ∈ [0.05, 0.1]。标品买家更依赖参数对比而非视觉显著性，因此高挂价对 CTR 的 boost 有限。
+
+## Corrected Claim
+
+注意力捕获效应的品类依赖系数 γ 与商品标准化程度负相关。非标品（如古董）的 γ 值通常高于标品（如手机），因为标品买家更依赖参数对比而非视觉显著性，导致高挂价对 CTR 的 boost 有限。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值区间（γ ∈ [0.2, 0.4] 和 γ ∈ [0.05, 0.1]）及特定的品类依赖关系，属于经验事实。参考来源仅讨论金融领域的注意力溢出效应，未涉及电商场景下的品类依赖系数或具体数值，无法提供直接支持。 | 逻辑上，标品依赖参数、非标品依赖视觉显著性的推断符合消费者行为学直觉，量级合理；但参考来源[1]主题为金融注意力效应，与电商CTR及品类系数无关，属经验事实且缺来源支持。
+
+## Search Query
+
+category specific attention bias pricing display e-commerce standardized vs non-standardized
+
+## Retrieval Sources
+
+- {'url': 'https://baike.baidu.com/item/%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%95%88%E5%BA%94/15786717&rut=2852d9c170a9ddba62ffc6548326379bb82e86fd1a95b041cb96ed8a2ffcf746', 'type': 'ddg', 'title': '注意力效应 - 百度百科'}

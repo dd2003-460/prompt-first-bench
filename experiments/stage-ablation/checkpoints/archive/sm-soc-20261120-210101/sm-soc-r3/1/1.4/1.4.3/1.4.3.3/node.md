@@ -1,0 +1,20 @@
+# N175: 当前平台数据是否满足 σ_pref < σ_threshold 的验证：假设 σ_pref=0.25 * P_ref（来自 N112 计算），σ_thresho
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N44
+
+## Claim
+
+当前平台数据是否满足 σ_pref < σ_threshold 的验证：假设 σ_pref=0.25 * P_ref（来自 N112 计算），σ_threshold=2.27 * P_ref，则 σ_pref < σ_threshold 成立，信号过滤效应主导，P_match 在 ΔP ≈ 20% 处达到局部极大值
+
+## Corrected Claim
+
+当前平台数据是否满足 σ_pref < σ_threshold 的验证：假设 σ_pref=0.25 * P_ref（来自 N112 计算），σ_threshold=2.27 * P_ref，则 σ_pref < σ_threshold 成立，信号过滤效应主导，P_match 在 ΔP ≈ 20% 处达到局部极大值
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：0.25 < 2.27 不等式成立，且信号过滤效应导致匹配概率在特定偏差处出现峰值符合统计直觉

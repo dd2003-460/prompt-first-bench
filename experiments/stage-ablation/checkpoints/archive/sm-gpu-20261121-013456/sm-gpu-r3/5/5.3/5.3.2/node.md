@@ -1,0 +1,24 @@
+# N92: 可追溯性标准中'失效条件'的具体化规则：硬件价格类数字的失效条件为'季度'（因市场波动），功耗/架构类数字的失效条件为'产品代际更新'（如RTX 50系列发布）
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N38
+
+## Claim
+
+可追溯性标准中'失效条件'的具体化规则：硬件价格类数字的失效条件为'季度'（因市场波动），功耗/架构类数字的失效条件为'产品代际更新'（如RTX 50系列发布），电价类数字的失效条件为'年度'（因能源政策调整），不同失效周期决定数据更新频率与TCO模型重算触发点。
+
+## Corrected Claim
+
+可追溯性标准中'失效条件'的具体化规则：硬件价格类数字的失效条件为'季度'（因市场波动），功耗/架构类数字的失效条件为'产品代际更新'（如RTX 50系列发布），电价类数字的失效条件为'年度'（因能源政策调整），不同失效周期决定数据更新频率与TCO模型重算触发点。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+hardware price volatility quarterly update TCO model recalculation trigger

@@ -1,0 +1,20 @@
+# N496: vLLM >= 0.4.0 在 RTX 4090 上执行 FP8 GEMM 的 kernel 效率：使用 CUTLASS FP8 GEMM kernel，在 2
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N152, N153, N154
+
+## Claim
+
+vLLM >= 0.4.0 在 RTX 4090 上执行 FP8 GEMM 的 kernel 效率：使用 CUTLASS FP8 GEMM kernel，在 27B 模型 Decode 阶段，kernel launch 开销约 0.5ms/token，内存读取开销约 2.2ms/token (27GB / 12.2GB/s 有效带宽)，总 TPOT 约 2.7ms，来源：vLLM 0.4.0 发布说明及 CUTLASS 性能基准。
+
+## Corrected Claim
+
+vLLM >= 0.4.0 在 RTX 4090 上执行 FP8 GEMM 的 kernel 效率：使用 CUTLASS FP8 GEMM kernel，在 27B 模型 Decode 阶段，kernel launch 开销约 0.5ms/token，内存读取开销取决于有效带宽（RTX 4090 有效带宽通常在数百 GB/s 至 1TB/s 之间），总 TPOT 需根据实际带宽重新计算，原陈述中的带宽数值和时间存在单位或算术错误。
+
+## Evidence
+
+[质询]数值量级与物理直觉严重不符：RTX 4090 的有效内存带宽通常在 1TB/s 量级（而非 12.2GB/s），27GB 数据的读取时间应为毫秒级以下（约 27ms 或更低，取决于具体带宽利用率，但绝非 2.2ms 对应 12.2GB/s 的带宽值，此处存在严重的单位或数值错误：27GB / 2.2ms ≈ 12.2 TB/s，远超 4090 物理极限；若带宽为 12.2 GB/s，则时间应为 2.2s。陈述中 '27GB / 12.2GB/s = 2.2ms' 存在明显的算术或单位错误，12.2GB/s 是极低的带宽，可能是笔误将 TB/s 写为 GB/s，或者将 ms 写为 s。此外，vLLM 0.4.0 发布说明中并未包含如此具体的、针对特定模型和硬件的 kernel 级性能基准数据，这类数据通常来自第三方基准测试而非官方发布说明。 | 逻辑校验失败：陈述中 '27GB / 12.2GB/s = 2.2ms' 存在算术错误（实际应为 2.2s 或带宽单位应为 TB/s 且数值有误），且 RTX 4090 带宽远高于 12.2GB/s，数据自相矛盾。

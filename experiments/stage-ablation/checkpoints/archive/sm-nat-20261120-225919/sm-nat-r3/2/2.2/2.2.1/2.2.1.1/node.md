@@ -1,0 +1,28 @@
+# N141: R_i/S_i 排序与 R_i 排序的一致性量化：在 Gaussian Copula(ρ=-0.3) 下，计算 Spearman 秩相关系数 ρ_s(R, R/
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N43
+
+## Claim
+
+R_i/S_i 排序与 R_i 排序的一致性量化：在 Gaussian Copula(ρ=-0.3) 下，计算 Spearman 秩相关系数 ρ_s(R, R/S)。由于 S 与 R 负相关，R/S 的分布右偏更重，前 10% 最热对象中，R_i/S_i 排名高于 R_i 排名的比例约为 65%，证明单纯热度排序在容量受限时会遗漏高价值（高频小对象）条目。
+
+## Corrected Claim
+
+在 Gaussian Copula(ρ=-0.3) 下，由于 S 与 R 负相关，R/S 的分布特性会导致单纯热度排序在容量受限时可能遗漏高价值条目，具体遗漏比例需通过模拟实验确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值结论（如65%的比例、特定的Spearman相关系数隐含值），这属于统计模拟结果或经验事实，无法仅从第一性原理或数学公理严格推导得出，必须依赖具体的模拟实验或数据支持。 | 参考来源[1]讨论的是层次分析法（AHP）中的随机一致性指标（RI），与缓存替换策略中的热度/大小排序（R_i/S_i）完全无关，属于无关来源；该事实为经验性统计结论，逻辑上自洽（负相关确实会导致比值分布变化），但缺乏直接来源支持，故降级。
+
+## Search Query
+
+Spearman rank correlation between frequency and frequency-to-size ratio under Gaussian Copula rho=-0.3
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_35916518/article/details/151600911&rut=5127e4399c82ca8b48077b63a63439378d5dcd8b9c7b5e984b16d1b10792384a', 'type': 'ddg', 'title': '层次分析法ahp中ri值计算程序实现 - Csdn博客'}

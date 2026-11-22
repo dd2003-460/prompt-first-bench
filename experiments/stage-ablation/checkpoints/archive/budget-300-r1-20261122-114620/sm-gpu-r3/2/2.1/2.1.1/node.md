@@ -1,0 +1,24 @@
+# N54: NVIDIA RTX 4090 (24GB) 推理性能基准：Qwen3-27B BF16 单卡吞吐 28 tokens/s (batch=1, seq=2048
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+NVIDIA RTX 4090 (24GB) 推理性能基准：Qwen3-27B BF16 单卡吞吐 28 tokens/s (batch=1, seq=2048)，FP8 量化后 42 tokens/s；显存占用 54GB 权重 + 1.6GB KV cache 超出 24GB 容量，必须使用 INT8 (27GB) 或 W4 (13.5GB) 精度
+
+## Corrected Claim
+
+NVIDIA RTX 4090 (24GB) 推理性能基准：Qwen3-27B BF16 单卡无法运行（显存不足）。若使用 W4 量化（权重约 13.5GB），剩余显存约 10.5GB 可用于 KV Cache 和激活值，在 seq=2048 下可能可行，但具体吞吐需实测，参考值可能在 15-25 tokens/s 范围（batch=1）。INT8 量化（权重约 27GB）超出 24GB 显存容量，无法在单卡 4090 上运行。
+
+## Evidence
+
+[质询]数值量级与显存计算存在严重逻辑矛盾：Qwen3-27B 模型参数量约为 270 亿，BF16 精度下权重占用约 54GB，INT8 精度下权重占用约 27GB，W4 精度下权重占用约 13.5GB。然而，RTX 4090 显存仅为 24GB。陈述中称“INT8 (27GB) ... 超出 24GB 容量”是事实，但随后称“必须使用 INT8 (27GB) 或 W4 (13.5GB) 精度”存在逻辑错误，因为 INT8 的 27GB 权重本身就无法装入 24GB 显存，更不用说加上 KV Cache 和激活值。此外，27B 模型在 24GB 显存卡上即使使用 W4 量化，留给 KV Cache 和激活值的空间也极为有限（24-13.5=10.5GB），对于 seq=2048 的推理，KV Cache 占用 1.6GB 是合理的，但通常还需要额外的显存用于 CUDA 上下文和激活值，实际可用空间可能不足。更关键的是，28 tokens/s 和 42 tokens/s 的吞吐数据缺乏来源支持，且对于 27B 模型在 4090 上的单卡推理，这些数值可能偏高或偏低，取决于具体实现（如是否使用 FlashAttention、是否启用 PagedAttention 等）。 | 逻辑校验发现内部矛盾：INT8 权重 27GB 无法装入 24GB 显存，因此“必须使用 INT8”的建议在物理上不可行，仅 W4 可行。且无外部来源支持具体吞吐数值。
+
+## Search Query
+
+RTX 4090 Qwen3-27B inference tokens per second BF16 INT8

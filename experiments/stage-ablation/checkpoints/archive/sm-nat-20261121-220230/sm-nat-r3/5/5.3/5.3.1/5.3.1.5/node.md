@@ -1,0 +1,24 @@
+# N238: 在 Frank Copula 框架下，给定 ρ_S=-0.3 推导出的 θ 值（N97 中已给出 θ≈-1.58 对应 ρ_P=-0.3 的假设需重新校准），若
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N81, N82, N83
+
+## Claim
+
+在 Frank Copula 框架下，给定 ρ_S=-0.3 推导出的 θ 值（N97 中已给出 θ≈-1.58 对应 ρ_P=-0.3 的假设需重新校准），若实际 ρ_P 由 ρ_S 推导得出，需重新求解 θ 使得 Corr(S,H)=ρ_P_derived，新的 θ 值需数值计算
+
+## Corrected Claim
+
+在 Frank Copula 框架下，若实际 ρ_P 由 ρ_S 推导得出，需根据具体的 Copula 相关系数公式重新数值求解 θ，使得 Corr(S,H) 等于推导出的 ρ_P。
+
+## Evidence
+
+[质询]该陈述描述的是一个数值计算过程而非确定的事实结论，且缺乏具体的推导公式或边界条件，无法验证其逻辑必然性；此外，'需重新求解'属于方法论建议而非可验证的经验事实或数学定理。 | 无可用外部证据；逻辑上，Copula参数θ与相关系数ρ之间通常存在非线性映射关系，给定新的ρ_S确实需要重新求解θ，逻辑自洽，但作为经验/计算事实缺乏来源支持。
+
+## Search Query
+
+Frank copula parameter theta calculation from pearson correlation

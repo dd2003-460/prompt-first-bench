@@ -1,0 +1,24 @@
+# N171: 临界条件1（高弹性/低溢价差）：当价格弹性 η 较高（η > 0.5）且 P_high/P_low 接近 1.05 时，λ_b(P_low)/λ_b(P_hig
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N55
+
+## Claim
+
+临界条件1（高弹性/低溢价差）：当价格弹性 η 较高（η > 0.5）且 P_high/P_low 接近 1.05 时，λ_b(P_low)/λ_b(P_high) 比值接近 1，不等式退化为 v_high/v_low > (P_low-C)/(P_high-C)，此时响应速度增益需略大于 1。
+
+## Corrected Claim
+
+临界条件1（高弹性/低溢价差）：当价格弹性 η 较高（η > 0.5）且 P_high/P_low 接近 1.05 时，λ_b(P_low)/λ_b(P_high) 比值接近 1，不等式退化为 v_high/v_low > (P_low-C)/(P_high-C)，此时响应速度增益需略大于 1。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+high price elasticity break-even response speed ratio

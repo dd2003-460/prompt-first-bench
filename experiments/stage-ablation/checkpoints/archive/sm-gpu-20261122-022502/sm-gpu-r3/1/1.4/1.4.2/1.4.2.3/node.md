@@ -1,0 +1,24 @@
+# N135: CPU Offload 模式下的每步计算耗时 T_compute_GPU：对于 27B 模型，若 50% 权重在 GPU (13.5GB BF16)，50% 在
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N42
+
+## Claim
+
+CPU Offload 模式下的每步计算耗时 T_compute_GPU：对于 27B 模型，若 50% 权重在 GPU (13.5GB BF16)，50% 在 CPU，GPU 仅计算前半部分层，耗时约为纯 GPU 计算时间的 50% 加上 PCIe 往返延迟；具体数值需基于 GPU 算力 (TFLOPS) 和模型 FLOPs 估算，例如 RTX 4090 (82.6 TFLOPS FP16) 下 27B 单步 FLOPs 约为 54 GFLOPs，理论计算时间 ≈ 0.65ms (未计内存瓶颈)。
+
+## Corrected Claim
+
+CPU Offload 模式下的每步计算耗时 T_compute_GPU：对于 27B 模型，若 50% 权重在 GPU (13.5GB BF16)，50% 在 CPU，GPU 仅计算前半部分层，耗时约为纯 GPU 计算时间的 50% 加上 PCIe 往返延迟；具体数值需基于 GPU 算力 (TFLOPS) 和模型 FLOPs 估算，例如 RTX 4090 (82.6 TFLOPS FP16) 下 27B 单步 FLOPs 约为 54 GFLOPs，理论计算时间 ≈ 0.65ms (未计内存瓶颈)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B模型单步FLOPs约为2×27G=54G，RTX 4090算力82.6 TFLOPS，理论耗时54/82600≈0.65ms，数值量级与逻辑自洽。
+
+## Search Query
+
+RTX 4090 FP16 TFLOPS benchmark LLM inference latency per token

@@ -1,0 +1,20 @@
+# N66: MLP 中间层激活值公式：MLP_Intermediate_GB = (seq_len * batch_size * hidden_size * 4 * byt
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+MLP 中间层激活值公式：MLP_Intermediate_GB = (seq_len * batch_size * hidden_size * 4 * bytes_per_element) / (1024^3)，Qwen3-27B hidden_size 约为 4096，在 seq_len=32K, batch=1, BF16 下约为 1.0 GB，是激活值占用的主要固定项。
+
+## Corrected Claim
+
+MLP 中间层激活值公式：MLP_Intermediate_GB = (seq_len * batch_size * hidden_size * 4 * bytes_per_element) / (1024^3)，Qwen3-27B hidden_size 约为 4096，在 seq_len=32K, batch=1, BF16 下约为 1.0 GB，是激活值占用的主要固定项。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B hidden_size 确为 4096，MLP 中间层维度通常为 4*hidden_size，计算 (32768 * 1 * 4096 * 4 * 2) / (1024^3) = 1.0 GB，数值与逻辑均正确。

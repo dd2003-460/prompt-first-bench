@@ -1,0 +1,26 @@
+# N211: 生物演化中的‘互惠利他’与‘信号诚实’机制在二手交易中的量化参数：卖家高挂价可视为一种‘昂贵信号’，其演化稳定策略(ESS)阈值要求信号成本 C_signal 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+生物演化中的‘互惠利他’与‘信号诚实’机制在二手交易中的量化参数：卖家高挂价可视为一种‘昂贵信号’，其演化稳定策略(ESS)阈值要求信号成本 C_signal 必须大于欺骗收益 B_deceive 的 1.5 倍，即 C_signal > 1.5 * (P_list - P_true)，其中 P_true 为商品真实价值，该系数 1.5 源于博弈论中维持声誉的长期贴现因子。
+
+## Corrected Claim
+
+在生物演化和博弈论中，‘昂贵信号’机制要求信号成本足以使低质量个体无法模仿，从而维持信号诚实性。在二手交易中，卖家的高挂价并不直接构成标准的‘昂贵信号’，且不存在通用的‘信号成本大于欺骗收益1.5倍’的ESS阈值，具体均衡取决于市场结构、贴现因子及信息不对称程度。
+
+## Evidence
+
+[质询]该陈述将生物演化中的定性博弈论概念（昂贵信号、ESS）强行量化为具体的数学公式（C_signal > 1.5 * B_deceive），并声称系数1.5源于长期贴现因子。这在博弈论和进化生物学中均无理论依据：ESS的稳定性条件取决于具体的收益矩阵和贴现率δ，不存在通用的1.5倍阈值；且‘高挂价’通常被视为低质量信号或噪音，而非标准的‘昂贵信号’（如Akerlof二手车模型中，高价格往往导致逆向选择，而非通过高成本筛选出诚实卖家）。 | 来源[1]和[2]仅讨论昂贵信号理论的定性框架和权衡机制，未提供任何具体量化公式或1.5倍阈值；来源[3]讨论二手车博弈但未涉及此特定ESS阈值。该公式属于虚构的伪科学量化，违背博弈论基本逻辑（ESS条件依赖于具体参数而非固定常数）。
+
+## Retrieval Sources
+
+- {'url': 'https://blog.flowrust.com/2026/04/07/%E6%98%82%E8%B4%B5%E4%BF%A1%E5%8F%B7%E7%90%86%E8%AE%BA%EF%BC%9A%E8%AF%9A%E5%AE%9E%E4%BF%A1%E5%8F%B7%E5%A6%82%E4%BD%95%E5%9C%A8%E5%88%A9%E7%9B%8A%E5%86%B2%E7%AA%81%E4%B8%AD%E7%BB%B4%E6%8C%81%E5%8F%AF/&rut=b0c1afc7ee6b83f156d2bb4e9ccc4291e257961cb200b03d2d637d2fe7a4b272', 'type': 'ddg', 'title': '昂贵信号理论：诚实信号如何在利益冲突中维持可信性 - Cosesai'}
+- {'url': 'https://m.ebiotrade.com/newsf/2025-12/20251203083642962.htm&rut=679c25d412a66576fa0a1bc9f4507966945f66faf548a66c8b5003fe837fad67', 'type': 'ddg', 'title': '告别"越贵越真"：全新Signalling Trade-Off Theory统一解释诚实与欺骗信号进化 - 生物通'}
+- {'url': 'https://blog.csdn.net/ice55/article/details/151268839&rut=d7bc63e84bc4c3c15773e03e739df2c69720a215539763cd25c4e42ec6194f2b', 'type': 'ddg', 'title': '二手车交易博弈实战：如何用信号传递模型避免被坑？（附Python代码）-CSDN博客'}

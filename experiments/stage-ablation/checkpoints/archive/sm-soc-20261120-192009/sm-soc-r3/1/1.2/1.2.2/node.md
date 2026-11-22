@@ -1,0 +1,20 @@
+# N38: 期望收益 E[Revenue] 的表达式：E[Revenue] = P(sale | price, t) * price，其中 P(sale | price, 
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+期望收益 E[Revenue] 的表达式：E[Revenue] = P(sale | price, t) * price，其中 P(sale | price, t) 是买家购买概率，由 N8 中的 sigmoid 函数决定，随时间 t 和价格偏离度变化。
+
+## Corrected Claim
+
+期望收益 E[Revenue] 的表达式：E[Revenue] = P(sale | price, t) * price，其中 P(sale | price, t) 是买家购买概率，由 N8 中的 sigmoid 函数决定，随时间 t 和价格偏离度变化。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点分别探讨了价格维度（静态最优定价）和时间维度（动态衰减），两者在数学上正交且无冗余。但父节点明确包含两个核心变量：price 和 t。子节点1仅处理 price 的优化，子节点2仅处理 t 的衰减，缺失了两者交互项（即价格如何随时间动态调整以最大化收益的联合策略）的覆盖，导致对父节点‘随时间 t 和价格偏离度变化’这一整体机制的分解不完备。）

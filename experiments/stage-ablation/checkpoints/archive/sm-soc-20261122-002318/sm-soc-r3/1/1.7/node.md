@@ -1,0 +1,24 @@
+# N12: 市场出清速度 (Clearing Speed) 与挂价溢价的非线性关系：成交周期 T_cycle = f(Premium, Search_Flow)，当溢价在 
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+市场出清速度 (Clearing Speed) 与挂价溢价的非线性关系：成交周期 T_cycle = f(Premium, Search_Flow)，当溢价在 15-25% 区间时，若买家流量足够大，T_cycle 可能因“高价值买家”的快速匹配而缩短，而非延长。
+
+## Corrected Claim
+
+市场出清速度 (Clearing Speed) 与挂价溢价的非线性关系：成交周期 T_cycle = f(Premium, Search_Flow)，当溢价在 15-25% 区间时，若买家流量足够大，T_cycle 可能因“高价值买家”的快速匹配而缩短，而非延长。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间存在逻辑依赖但无直接重复或矛盾（正交性合格）；然而，父节点强调'非线性关系'及'15-25%区间'的特殊机制，子节点仅提供了线性加权公式、概率计算和阈值条件，缺失了对'非线性'具体形态（如拐点、凸凹性）或'高价值买家快速匹配'微观机制的独立分解，导致未完全覆盖父节点的核心特征（完备性不足）；各子节点分别定义期望结构、概率参数和阈值条件，属于不同维度的建模要素，无冗余。）
+
+## Search Query
+
+market clearing speed relationship asking price premium transaction cycle time

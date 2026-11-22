@@ -1,0 +1,24 @@
+# N104: 价格敏感性阈值求解：令 TCO_cons(t) = TCO_dc(t)，解得 t = (30000 - 5198) / (7884 - 6132) = 2480
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N29
+
+## Claim
+
+价格敏感性阈值求解：令 TCO_cons(t) = TCO_dc(t)，解得 t = (30000 - 5198) / (7884 - 6132) = 24802 / 1752 ≈ 14.16 年。这意味着在 14.16 年内，消费级方案 TCO 更低；超过 14.16 年后，数据中心方案因更低的年 OpEx 占优。若 H100 价格降至 $15000 (二手/市场波动)，交叉点缩短至 (15000+5000-5198)/(7884-6132) = 14802/1752 ≈ 8.45 年。
+
+## Corrected Claim
+
+价格敏感性阈值求解：令 TCO_cons(t) = TCO_dc(t)，解得 t = (30000 - 5198) / (7884 - 6132) = 24802 / 1752 ≈ 14.16 年。这意味着在 14.16 年内，消费级方案 TCO 更低；超过 14.16 年后，数据中心方案因更低的年 OpEx 占优。若 H100 价格降至 $15000 (二手/市场波动)，交叉点缩短至 (15000+5000-5198)/(7884-6132) = 14802/1752 ≈ 8.45 年。
+
+## Evidence
+
+父节点级核验失败（LLM 错误）：Unterminated string starting at: line 9 column 5 (char 727)
+
+## Search Query
+
+GPU TCO break-even point calculation consumer vs datacenter H100 price sensitivity

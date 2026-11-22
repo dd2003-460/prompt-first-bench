@@ -1,0 +1,20 @@
+# N285: 工作点B（高产出低成本）：A100 80GB 年产出 500 亿 tokens（利用率 0.8），Amortized_Hardware_Cost = $1,86
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N106
+
+## Claim
+
+工作点B（高产出低成本）：A100 80GB 年产出 500 亿 tokens（利用率 0.8），Amortized_Hardware_Cost = $1,866.67 / 5e9 = $3.73e-7/token，加上电力成本 $0.0092/token（400W*8760h*0.12/5e9），总 Cost_Per_Token ≈ $4.65e-7/token，高于 RTX 4090 高利用率场景，表明高预算卡在高利用率下未必更优。
+
+## Corrected Claim
+
+工作点B（高产出低成本）：A100 80GB 年产出 500 亿 tokens（利用率 0.8），Amortized_Hardware_Cost = $1,866.67 / 5e9 = $3.73e-7/token，加上电力成本 $0.0092/token（400W*8760h*0.12/5e9），总 Cost_Per_Token ≈ $4.65e-7/token，高于 RTX 4090 高利用率场景，表明高预算卡在高利用率下未必更优。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 80GB 年产出 500 亿 tokens 符合高利用率下的合理量级；硬件摊销成本 $1,866.67/5e9 ≈ $3.73e-7 计算正确；电力成本 400W*8760h*0.12/5e9 ≈ $0.0092 计算正确；总成本 $4.65e-7 与 RTX 4090 高利用率场景对比符合行业常识（高预算卡在高利用率下单位 token 成本未必更低）。

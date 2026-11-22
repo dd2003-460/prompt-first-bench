@@ -1,0 +1,30 @@
+# N267: 成交周期 T 对降价频率 F 的传导系数：计算 T = h(F, Q) 中 ∂T/∂F，若卖家降价频率降低 10% 导致平均成交周期延长 ΔT_days 天，则
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N89, N90, N91
+
+## Claim
+
+成交周期 T 对降价频率 F 的传导系数：计算 T = h(F, Q) 中 ∂T/∂F，若卖家降价频率降低 10% 导致平均成交周期延长 ΔT_days 天，则 ΔT_days = -10% * ∂T/∂F，需确定 ∂T/∂F 的基准值。
+
+## Corrected Claim
+
+成交周期 T 与降价频率 F 存在负相关关系，降低降价频率通常会延长平均成交周期，但具体的传导系数 ∂T/∂F 需基于特定市场数据实证估算，现有文献未提供通用基准值。
+
+## Evidence
+
+[质询]该陈述试图定义一个具体的微分传导系数 ∂T/∂F，但参考来源仅讨论了促销频率对品牌绩效或消费者行为的一般性影响，并未提供该特定数学导数的基准值或具体数值，属于缺乏数据支持的定性推导。 | 来源[1]和[3]确认了促销频率（frequency）是影响市场表现的关键变量，间接支持了T与F存在函数关系的逻辑前提，但未提供具体的导数数值或基准值，属于间接支持。
+
+## Search Query
+
+time to sale price reduction frequency impact resale market
+
+## Retrieval Sources
+
+- {'url': 'https://www.sciencedirect.com/science/article/pii/S0969698920312856&rut=0db0c8f67b38ee8586d561b8342b809adc90e8823ca9b189c73a0c214bd59f09', 'type': 'ddg', 'title': 'Duration of price promotion and product profit: An in-depth study based ...'}
+- {'url': 'https://journals.sagepub.com/doi/10.1177/21582440251327270&rut=49ab4c5311428f5d39c6827793ce08bca7acc740cfb9f358613eea16bc8c54ec', 'type': 'ddg', 'title': 'Price Promotion Effect on Purchase Behavior Under the Time Limit ...'}
+- {'url': 'https://www.sciencedirect.com/science/article/pii/S0148296396002019&rut=3a8f2f48b33bf1c7a677a0b3071093520f1584901f949a1f49e2830e067b98c6', 'type': 'ddg', 'title': 'Assessing the Competitive Impact of Type, Timing, Frequency, and ...'}

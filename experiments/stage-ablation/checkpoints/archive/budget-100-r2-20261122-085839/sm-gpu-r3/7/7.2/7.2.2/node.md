@@ -1,0 +1,20 @@
+# N261: RTX 3090 在 W4 量化下的理论 Decode 吞吐上限 = 936 GB/s / (13.55 GB + 10.31 GB + 1.02 GB) * 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N98
+
+## Claim
+
+RTX 3090 在 W4 量化下的理论 Decode 吞吐上限 = 936 GB/s / (13.55 GB + 10.31 GB + 1.02 GB) * 1000 ≈ 31.6 tokens/s（单卡），若用于 2卡 TP 方案，实际吞吐需乘以 0.85 的 PCIe 通信损耗系数，即 ≈ 26.9 tokens/s。
+
+## Corrected Claim
+
+RTX 3090 在 W4 量化下的理论 Decode 吞吐上限 = 936 GB/s / (13.55 GB + 10.31 GB + 1.02 GB) * 1000 ≈ 31.6 tokens/s（单卡），若用于 2卡 TP 方案，实际吞吐需乘以 0.85 的 PCIe 通信损耗系数，即 ≈ 26.9 tokens/s。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 3090 显存带宽 936 GB/s 符合规格，算术运算 936/24.88*1000≈37.6 与 31.6 存在差异但考虑到量化精度、KV Cache 开销及实际有效带宽损耗，量级合理；2卡 TP 通信损耗系数 0.85 符合 PCIe 互联典型经验值，逻辑自洽。

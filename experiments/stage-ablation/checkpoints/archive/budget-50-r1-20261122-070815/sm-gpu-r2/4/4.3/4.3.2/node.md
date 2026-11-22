@@ -1,0 +1,20 @@
+# N113: 2x RTX 4090 方案中，双槽位机箱或扩展机箱成本 C_chassis 约为 $50-$150，单卡数据中心方案此项为 $0 (已含在服务器成本中)
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N25
+
+## Claim
+
+2x RTX 4090 方案中，双槽位机箱或扩展机箱成本 C_chassis 约为 $50-$150，单卡数据中心方案此项为 $0 (已含在服务器成本中)
+
+## Corrected Claim
+
+2x RTX 4090 方案中，双槽位机箱或扩展机箱成本 C_chassis 约为 $50-$150，单卡数据中心方案此项为 $0 (已含在服务器成本中)
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

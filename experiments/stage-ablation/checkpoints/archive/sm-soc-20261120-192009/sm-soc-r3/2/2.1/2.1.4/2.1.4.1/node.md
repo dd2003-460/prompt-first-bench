@@ -1,0 +1,20 @@
+# N184: 共享随机源：平台算法的总效用函数 U_alg = w_price * Score_Price + w_recency * Score_Recency + w_c
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N56
+
+## Claim
+
+共享随机源：平台算法的总效用函数 U_alg = w_price * Score_Price + w_recency * Score_Recency + w_ctr * Score_CTR，其中 Score_X 为归一化后的指标得分（0-1），该函数是算法排序权重的底层驱动源。
+
+## Corrected Claim
+
+共享随机源：平台算法的总效用函数 U_alg = w_price * Score_Price + w_recency * Score_Recency + w_ctr * Score_CTR，其中 Score_X 为归一化后的指标得分（0-1），该函数是算法排序权重的底层驱动源。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

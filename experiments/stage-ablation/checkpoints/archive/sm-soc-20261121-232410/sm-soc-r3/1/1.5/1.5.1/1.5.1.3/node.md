@@ -1,0 +1,20 @@
+# N127: 全概率公式验证：P(P_listed > P_market) = P(High)*P(P_high|High) + P(Low)*P(P_low|Low) = 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N44
+
+## Claim
+
+全概率公式验证：P(P_listed > P_market) = P(High)*P(P_high|High) + P(Low)*P(P_low|Low) = 0.3*0.7 + 0.7*0.15 = 0.21 + 0.105 = 0.315，与题面隐含的 0.4 存在偏差，需校准 P(High) 或条件概率参数，偏差源于市场噪声或样本选择偏差，修正后 P(High) 需调整为约 0.44 才能匹配 0.4 的总概率。
+
+## Corrected Claim
+
+全概率公式验证：P(P_listed > P_market) = P(High)*P(P_high|High) + P(Low)*P(P_low|Low) = 0.3*0.7 + 0.7*0.15 = 0.21 + 0.105 = 0.315，与题面隐含的 0.4 存在偏差，需校准 P(High) 或条件概率参数，偏差源于市场噪声或样本选择偏差，修正后 P(High) 需调整为约 0.44 才能匹配 0.4 的总概率。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：全概率公式应用正确，数值计算 0.3*0.7 + 0.7*0.15 = 0.315 无误；反推 P(High) 使总概率为 0.4 的方程 0.7x + 0.15(1-x) = 0.4 解得 x ≈ 0.441，与陈述中 0.44 一致。

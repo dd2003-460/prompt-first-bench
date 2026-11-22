@@ -1,0 +1,17 @@
+{
+  "id": "N221",
+  "claim": "容量受限下 H_LFU 的精确计算公式：H_LFU = (Σ_{i: h_i > h_th} s_i * r_i) / (Σ_{j=1}^{N} s_j * r_j)，其中 h_th 是使 Σ_{i: h_i > h_th} s_i <= C 的最大频率阈值；在 Pareto(β=0.9) 下，h_th 对应前 k% 对象，k 由 C/S_total 决定，例如 C=10GB 时 k≈10%，H_LFU ≈ 20.6%（请求占比）* (E[S|Top10%]/E[S])。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值量级与逻辑推导存在矛盾：在 Pareto(β=0.9) 分布下，若 C=10GB 对应前 10% 的对象（按频率排序），由于 Pareto 分布的长尾特性，前 10% 的对象通常占据绝大部分的总大小（S_total）和请求量。若 H_LFU 定义为命中请求占比，其值应远高于 20.6%（通常接近 80-90% 或更高，取决于具体参数）。陈述中给出的 20.6% 与 Pareto 分布的基本性质（头部集中效应）严重不符，且公式中 H_LFU 的定义（加权请求占比）与后续数值解释（请求占比 * 大小比）在量纲和逻辑上不自洽。 | 先验知识/题面给定，逻辑校验未通过：Pareto 分布下头部对象占比高，20.6% 的命中率与 C=10GB 覆盖前 10% 对象的假设矛盾，且公式定义与数值解释存在逻辑断裂。",
+  "corrected_claim": "在 Pareto(β=0.9) 分布下，若缓存容量 C 覆盖前 k% 的高频对象，H_LFU（命中请求占比）通常显著高于 20.6%，具体数值需根据 S_total 和 C 的精确比例重新计算，原陈述中的数值示例与分布特性不符。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N80"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "",
+  "retrieval_sources": []
+}

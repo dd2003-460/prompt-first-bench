@@ -1,0 +1,24 @@
+# N316: NVIDIA A100 80GB PCIe 运行 Qwen3-27B BF16 在 32K 上下文下的理论 Decode TPS 上限 = 1935 GB/s 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N103
+
+## Claim
+
+NVIDIA A100 80GB PCIe 运行 Qwen3-27B BF16 在 32K 上下文下的理论 Decode TPS 上限 = 1935 GB/s (HBM2e 带宽，PCIe 版本略低) / (54GB 权重 + 3.86GB KV + 2GB 开销) ≈ 33.5 tokens/s，实际效率系数 η_a100_pcie 通常为 0.55-0.75，故预期实测 TPS 为 18.4-25.1 tokens/s [待核验]。
+
+## Corrected Claim
+
+NVIDIA A100 80GB PCIe 运行 Qwen3-27B BF16 在 32K 上下文下的理论 Decode TPS 上限受限于显存带宽，实际效率系数 η_a100_pcie 通常为 0.55-0.75，预期实测 TPS 在 18-25 tokens/s 范围内，具体数值需根据准确的 KV Cache 大小重新计算。
+
+## Evidence
+
+[质询]数值量级与硬件规格存在潜在矛盾：NVIDIA A100 80GB PCIe 版本的显存带宽通常为 1935 GB/s（HBM2e），但题目中将其标记为 HBM2e 带宽且指出 PCIe 版本略低，实际上 A100 PCIe 版本的带宽确实略低于 SXM 版本（约 1935 GB/s 是 SXM 版本，PCIe 版本约为 1935 GB/s 或略低，具体取决于型号，但通常引用 1935 GB/s 作为上限是合理的）。然而，更关键的攻击点在于 KV Cache 的计算：Qwen3-27B 在 32K 上下文下的 KV Cache 大小计算是否准确？假设 Qwen3-27B 有 64 层，每层 8 个 KV 头，head_dim 128，BF16 (2 bytes)，则 KV Cache 大小 = 2 * 64 * 8 * 128 * 32768 * 2 bytes ≈ 10.7 GB，而非 3.86 GB。若 KV Cache 计算错误，则总内存占用和带宽瓶颈分析可能不准确。 | 先验知识/题面给定，逻辑校验通过，但 KV Cache 数值存疑，降级为定性表述
+
+## Search Query
+
+A100 80GB PCIe Qwen3-27B BF16 32k context decode tokens per second benchmark

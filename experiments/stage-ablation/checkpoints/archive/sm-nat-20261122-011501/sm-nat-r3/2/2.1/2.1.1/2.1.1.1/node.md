@@ -1,0 +1,20 @@
+# N96: Pareto(α=1.1) 分布下前 10% 对象（即最小的 10% 对象）的平均大小与最小对象大小 s_min 的比值 C_α 的精确计算：C_α = (1/
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N34
+
+## Claim
+
+Pareto(α=1.1) 分布下前 10% 对象（即最小的 10% 对象）的平均大小与最小对象大小 s_min 的比值 C_α 的精确计算：C_α = (1/0.1) * ∫_{s_min}^{s_{0.1}} s * f_S(s) ds / s_min，其中 s_{0.1} = s_min * (1/0.1)^(1/1.1)。
+
+## Corrected Claim
+
+Pareto(α=1.1) 分布下前 10% 对象（即最小的 10% 对象）的平均大小与最小对象大小 s_min 的比值 C_α 的精确计算：C_α = (1/0.1) * ∫_{s_min}^{s_{0.1}} s * f_S(s) ds / s_min，其中 s_{0.1} = s_min * (1/0.1)^(1/1.1)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布定义及积分计算逻辑自洽，s_{0.1}推导正确，C_α公式符合平均大小定义。

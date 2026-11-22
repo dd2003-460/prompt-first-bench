@@ -1,0 +1,24 @@
+# N46: 流量弹性系数 k 的回归估计公式：k = Var(ΔTraffic) / Var(Deviation^2)，需基于平台历史 A/B 测试数据或自然实验数据计算；
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N18, N19, N20
+
+## Claim
+
+流量弹性系数 k 的回归估计公式：k = Var(ΔTraffic) / Var(Deviation^2)，需基于平台历史 A/B 测试数据或自然实验数据计算；若缺乏数据，可用代理指标（如点击率对价格偏离度的二阶导数）进行贝叶斯估计，先验均值设为 10% per 10% deviation，方差设为 5%。
+
+## Corrected Claim
+
+流量弹性系数 k 的回归估计通常基于历史数据计算；若缺乏数据，可采用贝叶斯方法结合代理指标进行估计，但先验参数（如均值和方差）需根据具体业务场景和历史经验设定，而非固定为特定数值。
+
+## Evidence
+
+[质询]该公式及贝叶斯先验参数（均值10%，方差5%）属于特定业务场景下的经验性设定，缺乏通用理论推导支持，且‘方差设为5%’在量纲和统计意义上表述模糊（是标准差还是方差？单位是什么？），存在口径混淆风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该具体参数设定无法从第一性原理严格推出，属于特定模型假设）
+
+## Search Query
+
+eBay second-hand market traffic elasticity price deviation regression analysis

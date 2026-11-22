@@ -1,0 +1,24 @@
+# N59: 损失厌恶在卖家保留价值中的量化：损失厌恶系数 λ_loss 通常为收益敏感度的 2-2.5 倍（Kahneman & Tversky 1979）；在二手市场中，
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N19
+
+## Claim
+
+损失厌恶在卖家保留价值中的量化：损失厌恶系数 λ_loss 通常为收益敏感度的 2-2.5 倍（Kahneman & Tversky 1979）；在二手市场中，卖家对‘未成交’的损失感知（心理账户）导致其保留价格 V_reserve 比客观市场价值 V_market 高 (λ_loss - 1) * σ_noise；需验证 λ_loss 在二手交易情境下是否偏离标准值。
+
+## Corrected Claim
+
+损失厌恶系数 λ_loss 通常估计为收益敏感度的 2-2.5 倍（基于前景理论实证研究）；在二手市场中，由于心理账户效应，卖家保留价格 V_reserve 往往高于客观市场价值 V_market，具体溢价幅度取决于个体损失厌恶程度及市场噪声，而非简单的线性公式 (λ_loss - 1) * σ_noise。
+
+## Evidence
+
+[质询]公式 V_reserve = V_market + (λ_loss - 1) * σ_noise 缺乏严谨的理论推导支持，属于对行为经济学概念的过度简化或臆造模型；此外，Kahneman & Tversky (1979) 主要提出前景理论框架，具体的 λ=2-2.5 数值通常源自后续实证研究（如 Tversky & Kahneman 1992 或后续元分析），直接归因于 1979 年论文存在引用不精确风险。 | 先验知识/题面给定，逻辑校验通过（量纲合理，方向符合损失厌恶直觉），但具体公式形式及数值归因存在不确定性，且无外部来源支持，故降级。
+
+## Search Query
+
+loss aversion coefficient lambda loss second hand seller reservation price endowment effect

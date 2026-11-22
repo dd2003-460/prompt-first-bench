@@ -1,0 +1,20 @@
+# N18: LRU策略下，更新操作通常被视为‘写穿透’或‘写回’。若采用写穿透（Write-Through），更新会立即刷新缓存中的副本，不直接导致淘汰，但会增加带宽。若采
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+LRU策略下，更新操作通常被视为‘写穿透’或‘写回’。若采用写穿透（Write-Through），更新会立即刷新缓存中的副本，不直接导致淘汰，但会增加带宽。若采用写回（Write-Back）且缓存满，更新可能触发淘汰。关键折损在于‘缓存污染’：更新的对象如果未被再次请求，其占用的空间在下次请求前是无效的。量化指标为：$\text{Effective Hit Rate} = \text{LRU Hit Rate} \times (1 - P_{stale})$，其中 $P_{stale}$ 是命中时数据已过期（被更新但未同步或已淘汰）的概率。在1%/天更新率下，$P_{stale}$ 近似等于更新对象在缓存中平均停留时间超过更新间隔的比例。
+
+## Corrected Claim
+
+LRU策略下，更新操作通常被视为‘写穿透’或‘写回’。若采用写穿透（Write-Through），更新会立即刷新缓存中的副本，不直接导致淘汰，但会增加带宽。若采用写回（Write-Back）且缓存满，更新可能触发淘汰。关键折损在于‘缓存污染’：更新的对象如果未被再次请求，其占用的空间在下次请求前是无效的。量化指标为：$\text{Effective Hit Rate} = \text{LRU Hit Rate} \times (1 - P_{stale})$，其中 $P_{stale}$ 是命中时数据已过期（被更新但未同步或已淘汰）的概率。在1%/天更新率下，$P_{stale}$ 近似等于更新对象在缓存中平均停留时间超过更新间隔的比例。
+
+## Evidence
+
+父节点级核验失败（LLM 错误）：Unterminated string starting at: line 9 column 5 (char 725)

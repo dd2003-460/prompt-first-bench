@@ -1,0 +1,20 @@
+# N40: 计算 Pearson 相关系数 r 所需的样本量 n 及方差数据：需统计过去 90 天内所有完成交易的商品的挂价偏离度 (P_ask/P_rec - 1) 与成
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N16
+
+## Claim
+
+计算 Pearson 相关系数 r 所需的样本量 n 及方差数据：需统计过去 90 天内所有完成交易的商品的挂价偏离度 (P_ask/P_rec - 1) 与成交周期 T_deal 的配对数据，n 应大于 30 以满足中心极限定理，标准误 SE(r) ≈ (1-r²) / √(n-2)，置信区间为 r ± 1.96*SE(r)。
+
+## Corrected Claim
+
+计算 Pearson 相关系数 r 所需的样本量 n 及方差数据：需统计过去 90 天内所有完成交易的商品的挂价偏离度 (P_ask/P_rec - 1) 与成交周期 T_deal 的配对数据，n 应大于 30 以满足中心极限定理，标准误 SE(r) ≈ (1-r²) / √(n-2)，置信区间为 r ± 1.96*SE(r)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：n>30满足中心极限定理近似正态分布要求，SE(r)公式及95%置信区间构造符合统计学标准定义。

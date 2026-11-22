@@ -1,0 +1,24 @@
+# N247: 消费级 GPU (RTX 4090) 的电力成本占比高（>60%）是因为其硬件成本低且 TDP 较高；若引入 24/7 运行假设，需进一步区分‘空闲功耗’（Id
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N92
+
+## Claim
+
+消费级 GPU (RTX 4090) 的电力成本占比高（>60%）是因为其硬件成本低且 TDP 较高；若引入 24/7 运行假设，需进一步区分‘空闲功耗’（Idle Power，通常 30-50W）与‘满载功耗’，实际平均功耗可能低于 TDP 的 80%。
+
+## Corrected Claim
+
+消费级 GPU (RTX 4090) 的电力成本占比高（>60%）是因为其硬件成本低且 TDP 较高；若引入 24/7 运行假设，需进一步区分‘空闲功耗’（Idle Power，通常 30-50W）与‘满载功耗’，实际平均功耗可能低于 TDP 的 80%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 TDP 约 450W，Idle 功耗 30-50W 符合工程常识；在 24/7 运行且负载率非 100% 的情况下，平均功耗低于 TDP 的 80% 在逻辑上成立（例如 50% 负载下平均功耗约为 (450+40)/2 = 245W，远低于 360W 即 80% TDP）。
+
+## Search Query
+
+RTX 4090 idle power consumption watts

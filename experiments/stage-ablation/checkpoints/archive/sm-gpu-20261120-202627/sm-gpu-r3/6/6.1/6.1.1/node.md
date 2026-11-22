@@ -1,0 +1,24 @@
+# N125: Qwen3-27B 在 INT8 (GPTQ/AWQ) 量化下，相对于 BF16 基线的困惑度（Perplexity）增加幅度具体数值（需查找 Qwen 官方量
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N28
+
+## Claim
+
+Qwen3-27B 在 INT8 (GPTQ/AWQ) 量化下，相对于 BF16 基线的困惑度（Perplexity）增加幅度具体数值（需查找 Qwen 官方量化报告或第三方 LLM 评测基准，如 HELM 或 OpenCompass 的量化专项测试数据）。
+
+## Corrected Claim
+
+Qwen3-27B 在 INT8 (GPTQ/AWQ) 量化下，相对于 BF16 基线的困惑度（Perplexity）会有所增加，但具体数值需查阅 Qwen 官方量化报告或第三方 LLM 评测基准（如 HELM 或 OpenCompass）的量化专项测试数据。
+
+## Evidence
+
+[质询]该陈述要求提供具体的数值（困惑度增加幅度），但参考来源为空，无法验证具体数值是否准确，且不同量化方法（GPTQ vs AWQ）及不同评测基准（HELM vs OpenCompass）下的具体数值可能存在差异，缺乏直接证据支持特定数值。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法确认具体数值）
+
+## Search Query
+
+Qwen3-27B INT8 GPTQ AWQ perplexity degradation benchmark

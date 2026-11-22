@@ -1,0 +1,24 @@
+# N357: Qwen3-27B 在 RTX 4090 上，当 Batch Size 从 1 增加到 8 时，INT4 精度下的总吞吐量（tokens/s）及单用户延迟增加百
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N126
+
+## Claim
+
+Qwen3-27B 在 RTX 4090 上，当 Batch Size 从 1 增加到 8 时，INT4 精度下的总吞吐量（tokens/s）及单用户延迟增加百分比，需对比 BF16 同批次数据以确认量化是否缓解并发瓶颈。
+
+## Corrected Claim
+
+Qwen3-27B 在 RTX 4090 上，INT4 精度通常比 BF16 具有更高的吞吐量，但具体 Batch Size 从 1 到 8 的吞吐量提升及延迟增加百分比需通过实际基准测试获取，量化主要缓解显存带宽瓶颈而非计算瓶颈。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件性能指标（吞吐量、延迟百分比），属于经验事实，且未提供具体数值，仅描述了需要对比的实验场景，缺乏可验证的具体数据支撑。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Qwen3-27B INT4 batch size 8 throughput latency comparison BF16

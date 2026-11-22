@@ -1,0 +1,20 @@
+# N283: 卖家反制行为对 ΔP_ask 的修正项 C_counter 量化为：C_counter = β_adjust * (C_listing_effort + C_t
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N89
+
+## Claim
+
+卖家反制行为对 ΔP_ask 的修正项 C_counter 量化为：C_counter = β_adjust * (C_listing_effort + C_time * T_listing)，其中 β_adjust 为策略性反制卖家比例（估计为 15-25%），C_listing_effort 为单次优化成本（约 10-20 元），C_time 为卖家时间成本（50-100 元/小时），T_listing 为优化耗时（0.5-1 小时），导致实际 ΔP_ask 降低 10-15%。
+
+## Corrected Claim
+
+卖家反制行为对 ΔP_ask 的修正项 C_counter 可量化为策略性反制卖家比例与单次优化总成本（含金钱与时间成本）的乘积，具体数值需基于实际市场数据校准。
+
+## Evidence
+
+[质询]该陈述包含大量具体的经验性参数（如β_adjust比例、单次优化成本、时间成本、耗时及最终降低幅度），这些属于市场微观行为统计，无法从第一性原理或数学公理严格推导，且缺乏外部数据支持，存在参数臆测风险。 | source=knowledge，逻辑结构自洽（成本项加总乘以比例系数得出修正项），但具体数值为经验估计，无外部来源直接支持，依据经验事实排除条款及knowledge节点降级规则（因存在可信攻击点：参数缺乏实证基础），判定为degraded。

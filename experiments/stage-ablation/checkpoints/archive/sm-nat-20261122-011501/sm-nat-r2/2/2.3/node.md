@@ -1,0 +1,20 @@
+# N13: 对象更新率 1%/天 对 LRU 命中率的影响：有效命中率 = HitRate_bytes_LRU * (1 - update_rate * eviction_
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+对象更新率 1%/天 对 LRU 命中率的影响：有效命中率 = HitRate_bytes_LRU * (1 - update_rate * eviction_sensitivity)，其中 eviction_sensitivity 表示被更新对象在 LRU 队列中的位置分布；若更新随机，则约 1% 的驻留对象被强制驱逐，命中率打约 0.99 折（需结合对象大小加权计算精确值）。
+
+## Corrected Claim
+
+对象更新率 1%/天 对 LRU 命中率的影响：有效命中率 = HitRate_bytes_LRU * (1 - update_rate * eviction_sensitivity)，其中 eviction_sensitivity 表示被更新对象在 LRU 队列中的位置分布；若更新随机，则约 1% 的驻留对象被强制驱逐，命中率打约 0.99 折（需结合对象大小加权计算精确值）。
+
+## Evidence
+
+父节点级核验未通过：不完备（父节点明确指出了两个关键概念：1. 基于对象位置分布的 `eviction_sensitivity`（驱逐敏感度）；2. 基于对象大小的加权计算。子节点仅提供了基于“大小加权”和“更新概率”的精确公式，完全缺失了父节点中关于 `eviction_sensitivity`（即被更新对象在 LRU 队列中的位置分布对驱逐的影响）的定义或计算逻辑。此外，父节点提到的“若更新随机”这一特定场景下的简化逻辑（0.99折）在子节点中未被显式覆盖或作为特例说明，导致分解不完备。）

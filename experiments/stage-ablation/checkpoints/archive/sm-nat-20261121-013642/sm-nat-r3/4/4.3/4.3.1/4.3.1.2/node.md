@@ -1,0 +1,20 @@
+# N182: N62 的 C_steady 计算工作点 2（高驻留时间）：当 T_cold > 500 days 时，C_steady ≈ 0.993，P_hit_cold 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N62
+
+## Claim
+
+N62 的 C_steady 计算工作点 2（高驻留时间）：当 T_cold > 500 days 时，C_steady ≈ 0.993，P_hit_cold = 0 时 δ ≈ 1 - 0.993 = 0.007，更新惩罚接近 100%，缓存几乎全为陈旧对象。
+
+## Corrected Claim
+
+N62 的 C_steady 计算工作点 2（高驻留时间）：当 T_cold > 500 days 时，C_steady ≈ 0.993，P_hit_cold = 0 时 δ ≈ 1 - 0.993 = 0.007，更新惩罚接近 100%，缓存几乎全为陈旧对象。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：当 P_hit_cold=0 时，稳态命中率 C_steady 即为新鲜对象占比，δ=1-C_steady 为陈旧占比，数值关系自洽。

@@ -1,0 +1,24 @@
+# N342: RTX 4090 实际 Decode 吞吐量中 85% 效率因子的构成分解：85% = 1 - (Overhead_MemoryController + Ove
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N113
+
+## Claim
+
+RTX 4090 实际 Decode 吞吐量中 85% 效率因子的构成分解：85% = 1 - (Overhead_MemoryController + Overhead_KernelLaunch + Overhead_QuantDequant)。通常 Memory Controller 效率在 95-98%，Kernel Launch 在高频 Decode 中占比极低 (<1%)，主要损失来自 INT8 量化/反量化的额外计算开销及 vLLM/TensorRT-LLM 的非理想算子融合。需引用具体框架（如 TensorRT-LLM）在 4090 上 INT8 LLM 推理的实测效率报告，若实测效率低于 80%，则 N113 的 31.7 tokens/s 需下调。
+
+## Corrected Claim
+
+RTX 4090 在 INT8 LLM 推理中的实际 Decode 吞吐量受内存控制器、Kernel Launch 及量化/反量化开销影响。通常内存控制器效率较高，Kernel Launch 在高频 Decode 中占比极低，主要损失可能来自量化/反量化计算及算子融合效率。具体效率因子（如 85%）需依据特定框架（如 TensorRT-LLM）在 4090 上的实测数据确定，若实测效率低于 80%，则相关吞吐量指标需相应下调。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（85%效率因子、95-98%内存控制器效率、<1% Kernel Launch占比）及特定硬件/框架下的性能假设，属于经验事实而非第一性原理可推导内容；且缺乏实测数据支持，无法排除不同框架或配置下效率显著偏离该范围的可能性。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，无法验证具体数值及框架行为）
+
+## Search Query
+
+RTX 4090 TensorRT-LLM INT8 inference efficiency overhead benchmark

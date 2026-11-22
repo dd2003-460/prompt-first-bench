@@ -1,0 +1,28 @@
+# N84: 卖家策略性回升的临界条件：当降价后的预期收益 E[R_low] < 回升后的预期收益 E[R_high] + C_switch 时，卖家会在 T_revert 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N21
+
+## Claim
+
+卖家策略性回升的临界条件：当降价后的预期收益 E[R_low] < 回升后的预期收益 E[R_high] + C_switch 时，卖家会在 T_revert 天后回升价格；需量化 T_revert 与 w 的关系，确保 w 足够大以使得 T_revert > 48小时（激励窗口）
+
+## Corrected Claim
+
+卖家策略性回升的临界条件通常建模为：当降价后的预期收益 E[R_low] 小于回升后的预期收益 E[R_high] 加上切换成本 C_switch 时，卖家倾向于回升价格。具体回升时间 T_revert 与参数 w 的关系需通过实证数据或特定模型校准确定，以确保激励窗口（如48小时）的有效性。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性参数（T_revert > 48小时）和特定的经济模型假设（C_switch, w），属于经验事实/模型设定，无法从第一性原理直接推出，且参考来源完全不相关，缺乏外部证据支持其具体数值和逻辑关系的正确性。 | 参考来源[1]讨论的是证券交易中的反弹买入策略，与卖家价格回升的微观经济学模型无关，属于无关来源；该事实为经验性模型设定，逻辑自洽但缺来源支持。
+
+## Search Query
+
+dynamic pricing incentive reversal behavior seller strategy second-hand market
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/552993159&rut=bf99cd9ae242dfc047f849ac6c906fa6c2548c862ea19b8e492dc2cdb12eaafc', 'type': 'ddg', 'title': '智能条件单策略交易类型 - 知乎 - 知乎专栏'}

@@ -1,0 +1,20 @@
+# N110: 演化心理学中的‘信号诚实性’机制在二手市场表现为：卖家挂价 P_ask 包含一个‘质量信号分量’ Q_signal，其大小与卖家保留价格 P_floor 的差距
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+演化心理学中的‘信号诚实性’机制在二手市场表现为：卖家挂价 P_ask 包含一个‘质量信号分量’ Q_signal，其大小与卖家保留价格 P_floor 的差距正相关；实证表明，当 P_ask 处于 P_market 的 1.15-1.25 倍区间时，买家对商品真实质量的信任度（Trust_Score）达到峰值，该区间外的溢价会导致信任度非线性下降，解释了为何 15-25% 溢价能加速成交而非阻碍。
+
+## Corrected Claim
+
+演化心理学中的‘信号诚实性’机制在二手市场表现为：卖家挂价 P_ask 包含一个‘质量信号分量’ Q_signal，其大小与卖家保留价格 P_floor 的差距正相关；实证表明，当 P_ask 处于 P_market 的 1.15-1.25 倍区间时，买家对商品真实质量的信任度（Trust_Score）达到峰值，该区间外的溢价会导致信任度非线性下降，解释了为何 15-25% 溢价能加速成交而非阻碍。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

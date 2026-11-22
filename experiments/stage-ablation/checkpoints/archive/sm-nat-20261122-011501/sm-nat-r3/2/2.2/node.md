@@ -1,0 +1,20 @@
+# N10: LRU 稳态字节命中率下界公式：HitRate_bytes = sum_{i in S_LRU} (request_rate_i * size_i) / tot
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+LRU 稳态字节命中率下界公式：HitRate_bytes = sum_{i in S_LRU} (request_rate_i * size_i) / total_bytes_requested_per_day，其中 total_bytes_requested_per_day = 50,000,000 * E[size]，E[size] 由 Pareto(α=1.1) 计算得出（若 α<=1 则无穷，需截断或修正）。
+
+## Corrected Claim
+
+LRU 稳态字节命中率下界公式：HitRate_bytes = sum_{i in S_LRU} (request_rate_i * size_i) / total_bytes_requested_per_day，其中 total_bytes_requested_per_day = 50,000,000 * E[size]，E[size] 由 Pareto(α=1.1) 计算得出（若 α<=1 则无穷，需截断或修正）。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间正交（一个负责数值估算，一个负责误差修正），但存在严重的完备性缺陷：子节点1采用了简化的'请求覆盖率*大小比'启发式估算，完全忽略了父节点公式中核心的'sum_{i in S_LRU} (request_rate_i * size_i)'这一基于具体对象分布的加权求和逻辑，导致子节点未能准确分解父节点定义的数学结构，且子节点1中的P_access与S_hot_avg缺乏与父节点中Pareto分布参数的严格推导关联。）

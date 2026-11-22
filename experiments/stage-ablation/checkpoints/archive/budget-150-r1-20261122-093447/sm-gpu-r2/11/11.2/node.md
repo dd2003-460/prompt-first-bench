@@ -1,0 +1,20 @@
+# N128: 在 INT8 量化（质量损失 <5%）约束下，单卡 RTX 4090 (24GB) 可行的量化依据：总内存需求 34.2GB (N13) > 24GB，故单卡仍
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N40
+
+## Claim
+
+在 INT8 量化（质量损失 <5%）约束下，单卡 RTX 4090 (24GB) 可行的量化依据：总内存需求 34.2GB (N13) > 24GB，故单卡仍不可行；但 W4 量化总需求 20.7GB < 24GB，故单卡 RTX 4090 在 W4 下可行，在 INT8 下需 2×RTX 3090 (48GB) 或 1×L40S (48GB)
+
+## Corrected Claim
+
+在 INT8 量化（质量损失 <5%）约束下，单卡 RTX 4090 (24GB) 可行的量化依据：总内存需求 34.2GB (N13) > 24GB，故单卡仍不可行；但 W4 量化总需求 20.7GB < 24GB，故单卡 RTX 4090 在 W4 下可行，在 INT8 下需 2×RTX 3090 (48GB) 或 1×L40S (48GB)
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：INT8内存需求34.2GB>24GB故单卡4090不可行，W4需求20.7GB<24GB故可行，双卡3090(48GB)或单卡L40S(48GB)满足INT8需求，数值与逻辑自洽。

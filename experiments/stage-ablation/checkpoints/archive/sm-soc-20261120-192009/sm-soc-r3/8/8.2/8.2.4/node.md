@@ -1,0 +1,20 @@
+# N325: 更新频率与缓存机制：P25/P75 数据每 6 小时更新一次（T_update = 6h），前端展示需附带 '数据更新于 HH:MM' 时间戳；若数据延迟 > 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N110
+
+## Claim
+
+更新频率与缓存机制：P25/P75 数据每 6 小时更新一次（T_update = 6h），前端展示需附带 '数据更新于 HH:MM' 时间戳；若数据延迟 > 24 小时，前端自动隐藏价格区间模块以避免误导买家。
+
+## Corrected Claim
+
+更新频率与缓存机制：P25/P75 数据每 6 小时更新一次（T_update = 6h），前端展示需附带 '数据更新于 HH:MM' 时间戳；若数据延迟 > 24 小时，前端自动隐藏价格区间模块以避免误导买家。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

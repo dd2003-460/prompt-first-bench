@@ -1,0 +1,20 @@
+# N28: RTX 4090 单卡在 W4 量化下运行 Qwen3-27B 32K 上下文的显存占用为 13.5GB(权重) + 4.5GB(KV Cache) + 2GB
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N5
+
+## Claim
+
+RTX 4090 单卡在 W4 量化下运行 Qwen3-27B 32K 上下文的显存占用为 13.5GB(权重) + 4.5GB(KV Cache) + 2GB(激活/框架) ≈ 20GB，小于 24GB 物理显存，无需 Offload，可完整驻留 GPU
+
+## Corrected Claim
+
+RTX 4090 单卡在 W4 量化下运行 Qwen3-27B 32K 上下文的显存占用为 13.5GB(权重) + 4.5GB(KV Cache) + 2GB(激活/框架) ≈ 20GB，小于 24GB 物理显存，无需 Offload，可完整驻留 GPU
+
+## Evidence
+
+[质询]KV Cache 4.5GB 的估算可能偏乐观，取决于具体的注意力头配置和精度（FP16 vs FP8），但在 32K 上下文下属于合理量级；激活值 2GB 对于 27B 模型在推理阶段（非训练）也是合理的保守估计。 | 先验知识/题面给定，逻辑校验通过：Qwen3-27B 在 W4 量化下权重约 13.5-14GB，32K 上下文 KV Cache 约 4-5GB，加上激活和框架开销，总显存占用约 20GB，小于 RTX 4090 的 24GB 显存，逻辑自洽且符合工程经验。

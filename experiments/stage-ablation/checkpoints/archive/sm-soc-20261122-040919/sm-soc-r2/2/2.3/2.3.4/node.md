@@ -1,0 +1,20 @@
+# N60: 卖家非驱动性的量化验证：卖家策略变动的方差 Var(P_ask) 中，由自身噪声 ε_s 贡献的比例为 R²_s = Var(ε_s) / Var(P_ask)
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+卖家非驱动性的量化验证：卖家策略变动的方差 Var(P_ask) 中，由自身噪声 ε_s 贡献的比例为 R²_s = Var(ε_s) / Var(P_ask)。若 R²_s > 0.7，则卖家行为主要由内部噪声驱动，而非对外部均衡的主动塑造，支持‘响应者’定位。
+
+## Corrected Claim
+
+卖家非驱动性的量化验证：卖家策略变动的方差 Var(P_ask) 中，由自身噪声 ε_s 贡献的比例为 R²_s = Var(ε_s) / Var(P_ask)。若 R²_s > 0.7，则卖家行为主要由内部噪声驱动，而非对外部均衡的主动塑造，支持‘响应者’定位。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

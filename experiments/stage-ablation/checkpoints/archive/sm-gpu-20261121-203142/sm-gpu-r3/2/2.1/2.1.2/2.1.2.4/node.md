@@ -1,0 +1,24 @@
+# N172: BF16 可行硬件的显存需求精确计算：Qwen3-27B BF16 权重 54GB + KV Cache (32K ctx) 4GB + 激活值/临时缓冲 2G
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N50, N51, N52
+
+## Claim
+
+BF16 可行硬件的显存需求精确计算：Qwen3-27B BF16 权重 54GB + KV Cache (32K ctx) 4GB + 激活值/临时缓冲 2GB = 60GB；因此 62GB 阈值意味着 80GB HBM (A100/H100) 可行，但 48GB (L40S/2x4090) 不可行，需确认 Qwen3-27B 实际参数量是否为 27B（可能因 MoE 或混合精度略有差异）
+
+## Corrected Claim
+
+Qwen3-27B（若存在）BF16 权重约 54GB，加上 32K 上下文 KV Cache 及激活值，总显存需求预计超过 60GB，因此 80GB HBM 显卡可行，48GB 显卡不可行；但需确认 Qwen3 模型是否已正式发布及其具体架构参数。
+
+## Evidence
+
+[质询]Qwen3-27B 的具体架构（是否为 MoE、具体层数/头数配置）及 KV Cache 精确大小属于经验事实，且 27B 模型在 BF16 下权重通常约为 54GB，加上 32K 上下文的 KV Cache 和激活值，总显存需求往往超过 60GB，甚至接近或超过 62GB 阈值，导致 80GB 卡虽可行但余量极小，而 48GB 卡确实不可行，但‘62GB 阈值’这一具体数值缺乏通用标准支持，且 Qwen3 系列是否已发布及具体参数量需核实（截至 2024 年 Qwen 系列最新为 Qwen2.5，Qwen3 可能尚未正式发布或为内部代号，存在事实前提错误风险）。 | 经验事实，逻辑自洽但缺来源支持；Qwen3 模型存在性及具体参数需外部确认，当前检索无可用来源，且 62GB 阈值非通用标准，故降级。
+
+## Search Query
+
+Qwen3-27B exact parameter count BF16 memory requirement 32K context

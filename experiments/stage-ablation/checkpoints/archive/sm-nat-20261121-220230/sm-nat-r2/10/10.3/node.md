@@ -1,0 +1,20 @@
+# N101: 蒙特卡洛仿真验证需生成 100,000 个对象，每个对象的大小 s_i ~ Pareto(1.1) 和热度 h_i ~ Pareto(0.9)，通过 Frank
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+蒙特卡洛仿真验证需生成 100,000 个对象，每个对象的大小 s_i ~ Pareto(1.1) 和热度 h_i ~ Pareto(0.9)，通过 Frank Copula(θ≈-1.58) 耦合生成联合样本，模拟 7 天稳态 LRU 驱逐过程，统计字节命中率均值与置信区间
+
+## Corrected Claim
+
+蒙特卡洛仿真验证需生成 100,000 个对象，每个对象的大小 s_i ~ Pareto(1.1) 和热度 h_i ~ Pareto(0.9)，通过 Frank Copula(θ≈-1.58) 耦合生成联合样本，模拟 7 天稳态 LRU 驱逐过程，统计字节命中率均值与置信区间
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布参数合理，Frank Copula用于耦合生成符合统计学原理，LRU模拟流程逻辑自洽。

@@ -1,0 +1,24 @@
+# N465: vLLM 在 2 卡 PCIe 4.0 互联下，Prefill 阶段的扩展效率 (Speedup Ratio)：通常为 1.8-1.9 [待核验]，受限于内存带
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N148
+
+## Claim
+
+vLLM 在 2 卡 PCIe 4.0 互联下，Prefill 阶段的扩展效率 (Speedup Ratio)：通常为 1.8-1.9 [待核验]，受限于内存带宽和计算密集度，通信开销相对较低
+
+## Corrected Claim
+
+vLLM 在 2 卡 PCIe 4.0 互联下，Prefill 阶段的扩展效率通常接近线性（如 1.8-1.9 左右），具体数值受模型规模、序列长度及硬件配置影响，受限于内存带宽和计算密集度，通信开销相对较低。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值范围（1.8-1.9），属于硬件性能与系统调优的经验事实，无法从第一性原理严格推导；且缺乏具体模型规模、序列长度及硬件型号等上下文，数值可能因配置不同而显著波动。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+vLLM tensor parallelism prefill speedup ratio 2 GPU

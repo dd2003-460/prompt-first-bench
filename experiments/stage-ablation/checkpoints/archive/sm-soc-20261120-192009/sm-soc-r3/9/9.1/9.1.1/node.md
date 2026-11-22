@@ -1,0 +1,29 @@
+# N332: 二手平台商品内在价值 μ 的分布特征：基于历史成交数据，μ 的均值 E[μ] 和标准差 σ_μ 需通过截尾正态分布拟合（剔除极端离群值），以计算 0.15*μ 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N113
+
+## Claim
+
+二手平台商品内在价值 μ 的分布特征：基于历史成交数据，μ 的均值 E[μ] 和标准差 σ_μ 需通过截尾正态分布拟合（剔除极端离群值），以计算 0.15*μ 的期望值 E[ΔMargin]。
+
+## Corrected Claim
+
+二手平台商品内在价值 μ 的分布特征：基于历史成交数据，μ 的均值 E[μ] 和标准差 σ_μ 需通过统计分布拟合（如截尾正态分布，剔除极端离群值），以计算 0.15*μ 的期望值 E[ΔMargin]。
+
+## Evidence
+
+[质询]来源[1]仅描述了基于历史成交数据估算价格区间的应用场景，未提及具体的统计分布拟合方法（如截尾正态分布）或参数估计细节；来源[2]讨论的是股票内在价值，与二手商品定价无关。该陈述中的具体统计方法（截尾正态分布）属于经验性建模选择，缺乏直接来源支持。 | 逻辑上，使用截尾正态分布拟合二手商品价值以计算期望值是合理的统计建模方法，但参考来源[1]仅支持使用历史成交数据这一前提，未支持具体的分布拟合方法；来源[2]主题不相关。
+
+## Search Query
+
+second hand marketplace item intrinsic value distribution normal fit
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/2301_82202864/article/details/157323526&rut=fdc781c34f7fdee97f54ce9b01ae20fe05681f053be932127629e1c45e8f85b4', 'type': 'ddg', 'title': '做二手物品估价小程序，输入物品品类，使用时长，新旧程度，参考同平台二手成交数据，自动给出合理报价区间，标注定价技巧。'}
+- {'url': 'https://www.deepviews.dev/zh/guides/intrinsic-value&rut=1f66b0f28c7fada2ba69acb6d09790477d80ffb3fdbe79c7fd94b9dc1beb9620', 'type': 'ddg', 'title': '如何计算内在价值：完整指南（2026） | DeepViews'}

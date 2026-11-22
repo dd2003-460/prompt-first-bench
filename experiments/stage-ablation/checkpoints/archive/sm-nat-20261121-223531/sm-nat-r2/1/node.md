@@ -1,0 +1,16 @@
+# N1: 负载特征建模：将Pareto分布、热度-大小负相关、请求量等原始参数转化为缓存分析所需的数学表征
+
+- **status**: pending
+- **level**: L1
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: (root)
+
+## Claim
+
+负载特征建模：将Pareto分布、热度-大小负相关、请求量等原始参数转化为缓存分析所需的数学表征
+
+## Evidence
+
+父节点级核验失败（LLM 错误）：Unterminated string starting at: line 9 column 5 (char 833)

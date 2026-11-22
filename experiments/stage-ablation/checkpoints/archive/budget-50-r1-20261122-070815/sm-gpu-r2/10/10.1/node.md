@@ -1,0 +1,28 @@
+# N145: Qwen3-27B 在 Hopper 架构 (H100) 上原生 FP8 推理与 BF16 推理的吞吐量对比数据（tokens/s），用于计算原生支持下的性能增
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N34
+
+## Claim
+
+Qwen3-27B 在 Hopper 架构 (H100) 上原生 FP8 推理与 BF16 推理的吞吐量对比数据（tokens/s），用于计算原生支持下的性能增益基线
+
+## Corrected Claim
+
+在 Hopper 架构 (H100) 上，基于 vLLM 的 FP8 推理相比 BF16 推理通常可获得约 1.4 倍的吞吐量提升（参考 Qwen2.5-7B 数据），Qwen3-27B 的具体吞吐量需实测确认，但性能增益趋势预计相似。
+
+## Evidence
+
+[质询]参考来源[1]测试的是 Qwen2.5-7B 模型，而非 Qwen3-27B。虽然 H100 上 FP8 相比 BF16 的吞吐量增益（约 1.4x）在架构层面具有通用性，但不同参数量（7B vs 27B）和不同模型代际（Qwen2.5 vs Qwen3）的具体吞吐量绝对值（tokens/s）及精确增益比例可能存在差异，直接引用 7B 的数据作为 27B 的基线存在模型规模不匹配的风险。 | 来源[1]提供了 H100 上 FP8 相比 BF16 吞吐量提升 1.4x 的数据，但针对的是 Qwen2.5-7B，与目标事实 Qwen3-27B 存在模型规格差异，属于间接支持，无法直接验证 27B 的具体数值。
+
+## Search Query
+
+H100 FP8 vs BF16 inference throughput tokens per second benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://dev.to/runcrate/vllm-fp8-vs-bf16-on-an-h100-14x-the-throughput-and-what-it-did-to-gsm8k-accuracy-2n86&rut=7935aa84902e0d19fec9086d414243dda4fb4d7c313c960759587814ed7e7117', 'type': 'ddg', 'title': 'vLLM FP8 vs bf16 on an H100: 1.4x the throughput, and what it did to ...'}

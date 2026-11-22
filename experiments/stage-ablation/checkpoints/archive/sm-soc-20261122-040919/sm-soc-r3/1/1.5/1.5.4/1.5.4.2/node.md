@@ -1,0 +1,20 @@
+# N187: 理论预测值 P(consult|price_drop) 的校准：基于 N47 模型，若 P_drop/P_base=0.8 且 P_market_avg=P_b
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N48
+
+## Claim
+
+理论预测值 P(consult|price_drop) 的校准：基于 N47 模型，若 P_drop/P_base=0.8 且 P_market_avg=P_base，则 P(consult|drop) = P(consult|base) × (1-0.4) × exp(-0.5×0) = 0.6 × P(consult|base)。若 P(consult|base)=0.1，则预测值为 0.06，即 94% 无咨询率，远高于观测的 60%。
+
+## Corrected Claim
+
+理论预测值 P(consult|price_drop) 的校准：基于 N47 模型，若 P_drop/P_base=0.8 且 P_market_avg=P_base，则 P(consult|drop) = P(consult|base) × (1-0.4) × exp(-0.5×0) = 0.6 × P(consult|base)。若 P(consult|base)=0.1，则预测值为 0.06，即 94% 无咨询率，远高于观测的 60%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学计算 0.6 * 0.1 = 0.06 正确，1 - 0.06 = 0.94 (94%) 正确，且 94% > 60% 的比较逻辑自洽。

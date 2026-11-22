@@ -1,0 +1,20 @@
+# N397: Apple M4 Max 吞吐量工作点1（理论上限/Memory-bound极限）：在INT8精度、Batch=1、Seq_len=1024（短文本，KV Ca
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N142
+
+## Claim
+
+Apple M4 Max 吞吐量工作点1（理论上限/Memory-bound极限）：在INT8精度、Batch=1、Seq_len=1024（短文本，KV Cache占比小）条件下，理论吞吐量 = 546 GB/s / (27 GB 权重 + 0.5 GB KV Cache) ≈ 19.8 tokens/s，这是该硬件在理想调度下的绝对性能天花板。
+
+## Corrected Claim
+
+Apple M4 Max 吞吐量工作点1（理论上限/Memory-bound极限）：在INT8精度、Batch=1、Seq_len=1024（短文本，KV Cache占比小）条件下，理论吞吐量 = 546 GB/s / (27 GB 权重 + 0.5 GB KV Cache) ≈ 19.8 tokens/s，这是该硬件在理想调度下的绝对性能天花板。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Apple M4 Max 内存带宽约 546 GB/s，LLM 推理在 Memory-bound 场景下吞吐量近似等于带宽除以每次生成需读取的数据量（权重+KV Cache），计算 546 / (27 + 0.5) ≈ 19.8 tokens/s，量纲与数值均合理。

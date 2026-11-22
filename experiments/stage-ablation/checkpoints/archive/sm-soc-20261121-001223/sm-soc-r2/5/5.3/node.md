@@ -1,0 +1,24 @@
+# N69: 流量锁定机制的中介效应检验：使用 Baron & Kenny 三步法或 Bootstrap 法检验‘高溢价 -> 高曝光 -> 短周期’的中介路径；若间接效应 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N22
+
+## Claim
+
+流量锁定机制的中介效应检验：使用 Baron & Kenny 三步法或 Bootstrap 法检验‘高溢价 -> 高曝光 -> 短周期’的中介路径；若间接效应 (a*b) 的 95% CI 不包含 0，则中介效应显著，支持均衡锁定机制。
+
+## Corrected Claim
+
+流量锁定机制的中介效应检验：使用 Baron & Kenny 三步法或 Bootstrap 法检验‘高溢价 -> 高曝光 -> 短周期’的中介路径；若间接效应 (a*b) 的 95% CI 不包含 0，则中介效应显著，支持均衡锁定机制。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Baron & Kenny 三步法及 Bootstrap 法是检验中介效应的标准统计方法，间接效应 (a*b) 的置信区间不包含 0 是判定中介效应显著的通用统计准则，逻辑自洽且符合统计学原理。
+
+## Search Query
+
+Mediation analysis bootstrap indirect effect price exposure deal cycle

@@ -1,0 +1,20 @@
+# N33: 联合分布的数值积分验证：P(s < s_median, h > h_median) = ∫_{s_min}^{s_median} ∫_{h_median}^{h
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+联合分布的数值积分验证：P(s < s_median, h > h_median) = ∫_{s_min}^{s_median} ∫_{h_median}^{h_max} f_S(s) f_H(h) C(Φ^{-1}(CDF_S(s)), Φ^{-1}(CDF_H(h)); ρ=-0.3) dh ds，其中 C 为二元正态 Copula 密度。该积分值用于量化负相关对热点小对象集中度的影响。
+
+## Corrected Claim
+
+联合分布的数值积分验证：P(s < s_median, h > h_median) = ∫_{s_min}^{s_median} ∫_{h_median}^{h_max} f_S(s) f_H(h) C(Φ^{-1}(CDF_S(s)), Φ^{-1}(CDF_H(h)); ρ=-0.3) dh ds，其中 C 为二元正态 Copula 密度。该积分值用于量化负相关对热点小对象集中度的影响。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于Sklar定理，联合分布积分公式正确表达了二元正态Copula下的联合概率计算，量纲与逻辑自洽。

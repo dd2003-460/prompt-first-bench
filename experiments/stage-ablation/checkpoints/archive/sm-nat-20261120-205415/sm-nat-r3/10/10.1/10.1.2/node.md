@@ -1,0 +1,24 @@
+# N233: λ 估算的边界条件：该公式假设稳态且请求分布平稳；若考虑突发流量或大小-热度相关性导致的缓存抖动（thrashing），实际有效 λ 可能低于理论值 1.18 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N84
+
+## Claim
+
+λ 估算的边界条件：该公式假设稳态且请求分布平稳；若考虑突发流量或大小-热度相关性导致的缓存抖动（thrashing），实际有效 λ 可能低于理论值 1.18 天，需引入抖动因子 k<1 进行修正，λ_eff = k * λ_theoretical。
+
+## Corrected Claim
+
+λ 估算的边界条件：该公式假设稳态且请求分布平稳；若考虑突发流量或大小-热度相关性导致的缓存抖动（thrashing），实际有效 λ 可能低于理论值 1.18 天，需引入抖动因子 k<1 进行修正，λ_eff = k * λ_theoretical。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+cache thrashing effective residence time

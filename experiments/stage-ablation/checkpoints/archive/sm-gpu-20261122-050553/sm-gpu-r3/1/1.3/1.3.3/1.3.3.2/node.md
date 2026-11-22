@@ -1,0 +1,24 @@
+# N144: A100 vs 2×RTX 4090 的单位 Token 成本 Break-even 点计算：设 A100 吞吐为 T_A100 (tokens/s)，2×40
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N45
+
+## Claim
+
+A100 vs 2×RTX 4090 的单位 Token 成本 Break-even 点计算：设 A100 吞吐为 T_A100 (tokens/s)，2×4090 吞吐为 T_4090 (tokens/s)；Break-even 条件：TCO_A100 / (T_A100 × H_total) = TCO_4090 / (T_4090 × H_total) → T_A100 / T_4090 = TCO_A100 / TCO_4090 = $24,345 / $6,056 ≈ 4.02。即 A100 吞吐需达到 2×4090 的 4 倍才具成本优势。
+
+## Corrected Claim
+
+A100 vs 2×RTX 4090 的单位 Token 成本 Break-even 点计算：设 A100 吞吐为 T_A100 (tokens/s)，2×4090 吞吐为 T_4090 (tokens/s)；Break-even 条件：TCO_A100 / (T_A100 × H_total) = TCO_4090 / (T_4090 × H_total) → T_A100 / T_4090 = TCO_A100 / TCO_4090 = $24,345 / $6,056 ≈ 4.02。即 A100 吞吐需达到 2×4090 的 4 倍才具成本优势。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：单位成本公式推导正确，数值计算 24345/6056≈4.02 准确，量纲一致。
+
+## Search Query
+
+A100 vs 2x4090 throughput comparison LLM inference

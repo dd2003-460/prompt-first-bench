@@ -1,0 +1,20 @@
+# N292: GPU 标称功耗（A类静态事实）：RTX 4090 TDP 为 450W，L40S TDP 为 350W，数据来源为 NVIDIA 官方产品规格表（Spec S
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N104
+
+## Claim
+
+GPU 标称功耗（A类静态事实）：RTX 4090 TDP 为 450W，L40S TDP 为 350W，数据来源为 NVIDIA 官方产品规格表（Spec Sheet），该数值在芯片生命周期内不变，用于计算最大散热需求和电源冗余，但不用于日常电力成本估算
+
+## Corrected Claim
+
+GPU 标称功耗（A类静态事实）：RTX 4090 TDP 为 450W，L40S TDP 为 350W，数据来源为 NVIDIA 官方产品规格表（Spec Sheet），该数值在芯片生命周期内不变，用于计算最大散热需求和电源冗余，但不用于日常电力成本估算
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 TDP 450W 与 L40S TDP 350W 符合 NVIDIA 官方公开规格，数值量级合理，且 TDP 用于散热/电源设计而非日常电费估算的逻辑自洽。

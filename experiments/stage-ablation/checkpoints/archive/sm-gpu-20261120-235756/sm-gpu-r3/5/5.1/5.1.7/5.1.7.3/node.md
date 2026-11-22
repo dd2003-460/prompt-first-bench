@@ -1,0 +1,24 @@
+# N292: NVIDIA Driver 550.54.15 是首个标记为 'Production Branch' 且支持 Blackwell (RTX 5090) 的驱动版
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N105, N106, N108
+
+## Claim
+
+NVIDIA Driver 550.54.15 是首个标记为 'Production Branch' 且支持 Blackwell (RTX 5090) 的驱动版本，其平均无故障时间（MTBF）在数据中心负载下约为 180 天，而 Beta 版本（如 550.00.12）的 MTBF 约为 144 天（降低 20%），该数据来源于 NVIDIA 官方驱动发布说明中的稳定性指标对比。
+
+## Corrected Claim
+
+NVIDIA Driver 550.54.15 是首个标记为 'Production Branch' 且支持 Blackwell (RTX 5090) 的驱动版本。关于其具体 MTBF 数值（180天 vs 144天）及来源为官方发布说明的说法缺乏公开证据支持，建议移除具体数值或注明数据来源为非官方/内部测试。
+
+## Evidence
+
+[质询]NVIDIA 官方驱动发布说明（Release Notes）通常仅包含功能列表、已知问题和兼容性信息，极少公开具体的量化稳定性指标如“平均无故障时间（MTBF）”及其具体数值（如180天 vs 144天）。该陈述极可能混淆了内部测试数据、第三方基准测试或虚构数据与官方公开文档内容，属于典型的“来源不可靠/口径混淆”攻击点。 | 经验事实，逻辑自洽但缺来源支持；且NVIDIA官方公开文档通常不披露具体MTBF数值，该细节高度存疑，无法通过外部核验证实。
+
+## Search Query
+
+NVIDIA driver 550.54.15 production branch MTBF stability metrics vs beta

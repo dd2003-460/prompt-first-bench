@@ -1,0 +1,20 @@
+# N37: 单卡推理吞吐量瓶颈判断公式：若 Memory_Bandwidth_GBps < (Weight_Size_GB * Tokens_per_sec_require
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+单卡推理吞吐量瓶颈判断公式：若 Memory_Bandwidth_GBps < (Weight_Size_GB * Tokens_per_sec_required * 1024^3)，则系统为内存带宽受限（Memory-Bound）。例如 RTX 4090 (1008 GB/s) 运行 BF16 (50.3 GB) 理论最大解码速度约为 1008/50.3 ≈ 20 tokens/s (batch=1, 忽略计算开销)。
+
+## Corrected Claim
+
+单卡推理吞吐量瓶颈判断公式：若 Memory_Bandwidth_GBps < (Weight_Size_GB * Tokens_per_sec_required * 1024^3)，则系统为内存带宽受限（Memory-Bound）。例如 RTX 4090 (1008 GB/s) 运行 BF16 (50.3 GB) 理论最大解码速度约为 1008/50.3 ≈ 20 tokens/s (batch=1, 忽略计算开销)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：内存带宽受限的判定逻辑及算术推导（1008/50.3≈20）均符合基本物理与工程直觉，数值量级合理。

@@ -1,0 +1,20 @@
+# N94: 计算密集度（Compute-bound）阈值分析：当Batch Size=1时，生成阶段几乎完全由显存带宽决定；当Batch Size > 1时，每Token的
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N25
+
+## Claim
+
+计算密集度（Compute-bound）阈值分析：当Batch Size=1时，生成阶段几乎完全由显存带宽决定；当Batch Size > 1时，每Token的权重读取成本被摊薄，但KV Cache读取量随Batch Size线性增加，需计算转折点Batch Size_crit，使得 FLOPs需求 > 带宽需求 * 能效比。
+
+## Corrected Claim
+
+计算密集度（Compute-bound）阈值分析：当Batch Size=1时，生成阶段几乎完全由显存带宽决定；当Batch Size > 1时，每Token的权重读取成本被摊薄，但KV Cache读取量随Batch Size线性增加，需计算转折点Batch Size_crit，使得 FLOPs需求 > 带宽需求 * 能效比。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

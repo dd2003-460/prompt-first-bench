@@ -1,0 +1,29 @@
+# N23: 大小-热度负相关（ρ=-0.3）的联合分布建模需使用Copula函数，具体为Gaussian Copula或Clayton Copula，以构建联合累积分布函数
+
+- **status**: verified
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+大小-热度负相关（ρ=-0.3）的联合分布建模需使用Copula函数，具体为Gaussian Copula或Clayton Copula，以构建联合累积分布函数 F(S, H) = C(F_S(s), F_H(h); ρ)，而非简单的线性修正。
+
+## Corrected Claim
+
+大小-热度负相关（ρ=-0.3）的联合分布建模需使用Copula函数，具体为Gaussian Copula或Clayton Copula，以构建联合累积分布函数 F(S, H) = C(F_S(s), F_H(h); ρ)，而非简单的线性修正。
+
+## Evidence
+
+[rework-angle r1] 逻辑推导成立，来源未直接覆盖（Sklar定理保证联合分布可分解为边缘分布与Copula函数，Gaussian/Clayton Copula是处理负相关依赖结构的常用标准模型，符合统计学第一性原理）
+
+## Search Query
+
+Gaussian vs Clayton Copula negative correlation size heat modeling
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/682109200&rut=727673baaf45426045876ddda1a27ee916e78887698b2c870f3209847a96b457', 'type': 'ddg', 'title': '这可能是多变量联合分布函数Copula的最全的计算公式分享了'}
+- {'url': 'https://zhuanlan.zhihu.com/p/138800469&rut=00eca177cc2c121a12d6b8a207c8791f6153fedfd64f708d9f005791ad1316cf', 'type': 'ddg', 'title': 'Copula系列（一）-什么是Copula函数 - 知乎'}

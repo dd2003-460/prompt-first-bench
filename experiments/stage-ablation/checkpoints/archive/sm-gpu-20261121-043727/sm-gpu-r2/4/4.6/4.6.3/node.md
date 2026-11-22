@@ -1,0 +1,20 @@
+# N79: RTX 4090 vs RTX 3090 内存带宽差异对 T_decode 的影响：RTX 4090 (1.0 TB/s) vs RTX 3090 (936 G
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N27
+
+## Claim
+
+RTX 4090 vs RTX 3090 内存带宽差异对 T_decode 的影响：RTX 4090 (1.0 TB/s) vs RTX 3090 (936 GB/s)。带宽差异仅 6.7%，对 T_decode 影响微小。但 RTX 4090 支持 FP8 硬件加速，RTX 3090 不支持。在 FP8 推理下，RTX 4090 的有效带宽利用率更高（因计算单元更匹配），实际 T_decode 加速比可能达到 1.2-1.5x，远超带宽差异。
+
+## Corrected Claim
+
+RTX 4090 vs RTX 3090 内存带宽差异对 T_decode 的影响：RTX 4090 (1.0 TB/s) vs RTX 3090 (936 GB/s)。带宽差异仅 6.7%，对 T_decode 影响微小。但 RTX 4090 支持 FP8 硬件加速，RTX 3090 不支持。在 FP8 推理下，RTX 4090 的有效带宽利用率更高（因计算单元更匹配），实际 T_decode 加速比可能达到 1.2-1.5x，远超带宽差异。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 (1.0 TB/s) 与 RTX 3090 (936 GB/s) 带宽差异计算正确（约6.7%），且FP8加速带来的计算效率提升符合硬件架构常识，逻辑自洽。

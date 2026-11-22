@@ -1,0 +1,20 @@
+# N146: 忽略序列依赖性（自相关）导致的置信区间低估因子 $\kappa$ 定义为 $\kappa = \sqrt{1 + 2\sum_{k=1}^{\infty} \r
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N66
+
+## Claim
+
+忽略序列依赖性（自相关）导致的置信区间低估因子 $\kappa$ 定义为 $\kappa = \sqrt{1 + 2\sum_{k=1}^{\infty} \rho_k}$，其中 $\rho_k$ 为命中率序列的自相关系数。对于 LRU 缓存，$\rho_1 \approx 0.1-0.3$（取决于局部性强度），取 $\rho_1=0.2$ 且假设指数衰减，$\kappa \approx \sqrt{1+2(0.2/0.8)} \approx 1.12$，因此真实置信区间宽度应为 $\pm 1.96 \times 0.012 \times 1.12 \approx \pm 2.63\%$。
+
+## Corrected Claim
+
+忽略序列依赖性（自相关）导致的置信区间低估因子 $\kappa$ 定义为 $\kappa = \sqrt{1 + 2\sum_{k=1}^{\infty} \rho_k}$，其中 $\rho_k$ 为命中率序列的自相关系数。对于 LRU 缓存，$\rho_1 \approx 0.1-0.3$（取决于局部性强度），取 $\rho_1=0.2$ 且假设指数衰减，$\kappa \approx \sqrt{1+2(0.2/0.8)} \approx 1.12$，因此真实置信区间宽度应为 $\pm 1.96 \times 0.012 \times 1.12 \approx \pm 2.63\%$。
+
+## Search Query
+
+time series autocorrelation confidence interval adjustment factor

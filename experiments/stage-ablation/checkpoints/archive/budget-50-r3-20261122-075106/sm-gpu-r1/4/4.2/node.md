@@ -1,0 +1,28 @@
+# N28: 在FP8精度下，NVIDIA RTX 5090 (32GB) 运行 Qwen3-27B 的稳态生成吞吐率（Token/s）约为 30-45，首Token延迟（T
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+在FP8精度下，NVIDIA RTX 5090 (32GB) 运行 Qwen3-27B 的稳态生成吞吐率（Token/s）约为 30-45，首Token延迟（TTFT）约为 1-2s，每Token生成时间（TPOT）约为 22-33ms
+
+## Corrected Claim
+
+在FP8精度下，NVIDIA RTX 5090 (32GB) 运行 Qwen3-27B 的稳态生成吞吐率（Token/s）约为 30-45，首Token延迟（TTFT）约为 1-2s，每Token生成时间（TPOT）约为 22-33ms（经验估计，缺乏直接来源支持）
+
+## Evidence
+
+[质询]参考来源[1]讨论的是Qwen3.8-Flash-Next（MoE模型，FP8权重172GB），与待核验事实中的Qwen3-27B（Dense模型，FP8权重约27GB）完全无关，无法提供直接支持；且RTX 5090的FP8算力与显存带宽具体数值属于经验事实，缺乏多源一致数据佐证。 | 逻辑自洽：Qwen3-27B FP8权重约27GB，可装入32GB显存；RTX 5090显存带宽约1.8TB/s，理论TPOT下限约15ms，实际22-33ms合理；TTFT 1-2s符合27B模型prefill阶段计算量。但来源[1]主题不匹配（Qwen3.8-Flash-Next vs Qwen3-27B），无可用外部证据，属经验事实缺来源支持。
+
+## Search Query
+
+NVIDIA RTX 5090 Qwen3-27B FP8 inference throughput tokens per second TTFT TPOT
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2076365058322572944&rut=6408f93b6f53369cfa776ce46bb45cd79db22e0b692ad48a26504bf960fbfcd2', 'type': 'ddg', 'title': 'Qwen3.8-Flash-Next 到底要几张显卡？一张 RTX 5090 能跑吗？'}

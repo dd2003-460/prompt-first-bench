@@ -1,0 +1,24 @@
+# N86: 需求函数 $Q_{demand}(P)$ 在二手非标品市场的实证斜率 $rac{\partial Q}{\partial P}$ 约为 -0.8 至 -1.2
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N26, N27, N28
+
+## Claim
+
+需求函数 $Q_{demand}(P)$ 在二手非标品市场的实证斜率 $rac{\partial Q}{\partial P}$ 约为 -0.8 至 -1.2（基于闲鱼/ eBay 历史成交数据回归），用于确定低价段枯竭的具体价格阈值。
+
+## Corrected Claim
+
+二手非标品市场的需求价格弹性因品类和商品状态而异，通常表现为负值，但具体斜率需针对特定数据集进行回归分析，不存在通用的-0.8至-1.2固定区间。
+
+## Evidence
+
+[质询]该陈述声称基于闲鱼/eBay历史成交数据回归得出特定斜率范围（-0.8至-1.2），但二手非标品市场异质性极高，不同品类、成色、稀缺度的价格弹性差异巨大，不存在一个通用的、适用于所有二手非标品的固定实证斜率区间；且该具体数值缺乏公开权威文献或广泛认可的实证研究支持，极可能是虚构或过度简化的经验参数。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该具体数值无法从第一性原理推出，属于特定市场实证数据，需直接来源支持）
+
+## Search Query
+
+second hand marketplace demand elasticity slope regression price sensitivity

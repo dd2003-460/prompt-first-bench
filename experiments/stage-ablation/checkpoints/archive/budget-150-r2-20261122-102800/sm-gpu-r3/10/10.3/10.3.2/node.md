@@ -1,0 +1,20 @@
+# N392: 工作点2（中等风险/消费级主力）：NVIDIA RTX 4090 + vLLM，Risk_Factor = 0.3-0.4；依据：N133 确认不支持原生 FP
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N157
+
+## Claim
+
+工作点2（中等风险/消费级主力）：NVIDIA RTX 4090 + vLLM，Risk_Factor = 0.3-0.4；依据：N133 确认不支持原生 FP8（需 INT8/BF16），N139 确认需新驱动，但 vLLM 对 Ada 架构优化良好，主要风险在于多卡 PCIe 通信开销（N138）而非软件崩溃。
+
+## Corrected Claim
+
+工作点2（中等风险/消费级主力）：NVIDIA RTX 4090 + vLLM，Risk_Factor = 0.3-0.4；依据：N133 确认不支持原生 FP8（需 INT8/BF16），N139 确认需新驱动，但 vLLM 对 Ada 架构优化良好，主要风险在于多卡 PCIe 通信开销（N138）而非软件崩溃。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 (Ada架构) 确实不支持原生FP8（需INT8/BF16），vLLM对其优化良好，多卡PCIe通信是主要瓶颈而非软件崩溃，风险因子0.3-0.4符合中等风险/消费级主力定位。

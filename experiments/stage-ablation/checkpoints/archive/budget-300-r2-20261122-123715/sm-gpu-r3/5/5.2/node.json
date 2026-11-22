@@ -1,0 +1,19 @@
+{
+  "id": "N98",
+  "claim": "NVIDIA L4 (24GB GDDR6) 显存带宽为 300 GB/s，若运行 Qwen3-27B W4 量化 (13.5GB) + 32K 上下文 (KV ~9GB + Act ~5GB = 27.5GB)，显存不足需 CPU Offload，导致有效吞吐下降至 <5 tokens/s，具体降级系数 k_offload 取决于 PCIe 带宽 (32GB/s) 与内存带宽比值。",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]具体数值（如KV Cache 9GB、Act 5GB、吞吐<5 tokens/s）属于经验估算，缺乏统一标准，且不同推理框架（如vLLM, TensorRT-LLM）的内存管理策略和量化实现差异巨大，导致这些具体数值可能不准确或具有误导性。 | 先验知识/题面给定，逻辑校验通过：L4显存24GB确实小于模型+KV+Act的总需求（~27.5GB），因此必须Offload；PCIe带宽远低于显存带宽，Offload确实会导致吞吐显著下降。但具体数值为估算值，故降级。",
+  "corrected_claim": "NVIDIA L4 (24GB GDDR6) 显存带宽为 300 GB/s。运行 Qwen3-27B W4 量化 (约13.5GB) 配合 32K 上下文时，总显存需求（模型+KV Cache+激活值）通常超过 24GB，需启用 CPU Offload。由于 PCIe 带宽 (32GB/s) 远低于显存带宽，Offload 会导致有效吞吐显著下降（通常降至个位数 tokens/s 或更低），具体性能取决于 Offload 策略和硬件配置。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N23",
+    "N24",
+    "N25"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

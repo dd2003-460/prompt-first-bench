@@ -1,0 +1,28 @@
+# N248: Qwen3-27B在INT8精度下GSM8K基准测试得分需通过量化后实测获得，当前80.2%为模型先验估计 [待核验]，该数值直接决定INT8方案在数学推理场景
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N109
+
+## Claim
+
+Qwen3-27B在INT8精度下GSM8K基准测试得分需通过量化后实测获得，当前80.2%为模型先验估计 [待核验]，该数值直接决定INT8方案在数学推理场景下的可用性阈值
+
+## Corrected Claim
+
+Qwen3-27B在INT8精度下GSM8K基准测试得分需通过量化后实测获得，当前80.2%为模型先验估计，缺乏直接来源支持，需进一步实测验证。
+
+## Evidence
+
+[质询]数值80.2%为无来源支持的先验估计，且参考来源[1]提及的模型版本为'Qwen3.8-27B'（疑似笔误或不同版本），与待核验的'Qwen3-27B'存在版本歧义，无法直接证实该特定数值。 | 经验事实，逻辑自洽但缺来源支持；来源[1]仅提及Qwen3.8-27B的GSM8K评测存在，未提供Qwen3-27B INT8的具体80.2%数值，且版本名称不完全匹配。
+
+## Search Query
+
+Qwen3-27B INT8 quantization GSM8K accuracy degradation
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/sgl-project/sglang/issues/41938&rut=eb2c1cdc34a0ccb4fd980a81a38388e220eb87ec074611613b62dc1989622dd7', 'type': 'ddg', 'title': 'Benchmark: Qwen3.8-27B FP8/BF16 on H200 with float32 SSM state ... - GitHub'}

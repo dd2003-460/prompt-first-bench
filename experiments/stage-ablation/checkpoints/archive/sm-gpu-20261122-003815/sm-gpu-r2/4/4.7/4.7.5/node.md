@@ -1,0 +1,24 @@
+# N142: 显存带宽与 TCO 的交互项：高带宽卡 (如 H100) 允许更大的 B_max，从而摊薄 Prefill 成本，但在低负载 (B=1) 场景下，其高购置成本导
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N28
+
+## Claim
+
+显存带宽与 TCO 的交互项：高带宽卡 (如 H100) 允许更大的 B_max，从而摊薄 Prefill 成本，但在低负载 (B=1) 场景下，其高购置成本导致 '每美元吞吐' 低于低带宽卡 (如 4090)。量化公式：Cost_Efficiency(B) = (Throughput(B) / Purchase_Cost)。需绘制 B=1, 4, 8 时的 Cost_Efficiency 曲线以找到最优卡。
+
+## Corrected Claim
+
+显存带宽与 TCO 的交互项：高带宽卡 (如 H100) 允许更大的 B_max，从而摊薄 Prefill 成本，但在低负载 (B=1) 场景下，其高购置成本导致 '每美元吞吐' 低于低带宽卡 (如 4090)。量化公式：Cost_Efficiency(B) = (Throughput(B) / Purchase_Cost)。需绘制 B=1, 4, 8 时的 Cost_Efficiency 曲线以找到最优卡。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：高带宽卡在高负载下因并行度高而摊薄固定成本，但在低负载下因购置成本高导致单位吞吐成本劣势，符合经济学与硬件性能基本直觉。
+
+## Search Query
+
+GPU TCO batch size sensitivity analysis LLM inference

@@ -1,0 +1,20 @@
+# N16: LRU 稳态平均驻留时间 τ_LRU 的估计：基于缓存容量 C=128GB 与总对象大小分布（Pareto α=1.1），τ_LRU ≈ C / (R * E[
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+LRU 稳态平均驻留时间 τ_LRU 的估计：基于缓存容量 C=128GB 与总对象大小分布（Pareto α=1.1），τ_LRU ≈ C / (R * E[Size])，其中 E[Size] 需通过 Pareto 分布截断计算（假设最小对象大小 s_min=1KB，最大 s_max=100MB，需核验截断值）。
+
+## Corrected Claim
+
+LRU 稳态平均驻留时间 τ_LRU 的估计：基于缓存容量 C=128GB 与总对象大小分布（Pareto α=1.1），τ_LRU ≈ C / (R * E[Size])，其中 E[Size] 需通过 Pareto 分布截断计算（假设最小对象大小 s_min=1KB，最大 s_max=100MB，需核验截断值）。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1专注于计算分布参数 E[Size]，子节点2专注于利用该参数计算最终目标 τ_LRU，两者逻辑上串行且职责单一，无重叠或矛盾，覆盖了父节点中关于截断分布计算和最终数值解的两个关键步骤。）

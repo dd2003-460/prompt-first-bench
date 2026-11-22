@@ -1,0 +1,20 @@
+# N35: 条件期望 E[S|H=h] 的量化表达式：在 Copula 模型下，E[S|H=h] = ∫ s * f_{S|H}(s|h) ds，用于计算热门对象（高 h）
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+条件期望 E[S|H=h] 的量化表达式：在 Copula 模型下，E[S|H=h] = ∫ s * f_{S|H}(s|h) ds，用于计算热门对象（高 h）的平均大小，进而修正 LRU 缓存的字节命中率
+
+## Corrected Claim
+
+条件期望 E[S|H=h] 的量化表达式：在 Copula 模型下，E[S|H=h] = ∫ s * f_{S|H}(s|h) ds，用于计算热门对象（高 h）的平均大小，进而修正 LRU 缓存的字节命中率
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：条件期望的定义式 E[S|H=h] = ∫ s * f_{S|H}(s|h) ds 在数学上严格成立，且利用该期望值计算加权字节命中率是缓存理论中的标准做法，逻辑自洽且量纲正确。

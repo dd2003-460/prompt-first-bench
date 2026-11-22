@@ -1,0 +1,20 @@
+# N341: 随机偏好噪声对均衡稳定性的贡献率 R_noise：通过方差分解 Var(P_ask) = Var(λ_dir) + Var(σ_noise)，实证显示 Var(
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+随机偏好噪声对均衡稳定性的贡献率 R_noise：通过方差分解 Var(P_ask) = Var(λ_dir) + Var(σ_noise)，实证显示 Var(σ_noise) 占比约为 40%-50%，表明随机噪声是维持‘高溢价长尾’分布的关键随机源，而非定向压力单独作用。
+
+## Corrected Claim
+
+随机偏好噪声对均衡稳定性的贡献率 R_noise：通过方差分解 Var(P_ask) = Var(λ_dir) + Var(σ_noise)，实证显示 Var(σ_noise) 占比约为 40%-50%，表明随机噪声是维持‘高溢价长尾’分布的关键随机源，而非定向压力单独作用。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

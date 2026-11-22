@@ -1,0 +1,33 @@
+{
+  "id": "N109",
+  "claim": "2x RTX 4090 (PCIe) 方案中，每步推理的 All-Reduce 通信开销约为 15-25%（取决于 Batch Size 和 KV Cache 分片策略），而 2x A100 (NVLink) 方案中通信开销 < 5%，这是多卡消费级卡吞吐量低于多卡数据卡的关键性能折损项。",
+  "level": "L3",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]具体数值（15-25% vs <5%）缺乏直接来源支持，且该比例高度依赖于模型架构、Batch Size及具体并行策略（如TP vs PP），不同场景下波动极大，直接断言固定区间存在以偏概全的风险。 | 来源[3]明确提及PCIe带来的'coordination tax'（协调开销）及NVLink缺失的警告，定性支持了PCIe通信开销显著高于NVLink的逻辑，但未提供具体的15-25%或<5%的量化数据，属于间接支持。",
+  "corrected_claim": "2x RTX 4090 (PCIe) 方案中，由于缺乏高带宽互联，All-Reduce 通信开销显著高于 2x A100 (NVLink) 方案，这是多卡消费级卡吞吐量低于多卡数据卡的关键性能折损项。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N30"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "PCIe vs NVLink all-reduce overhead LLM inference 2x RTX 4090",
+  "retrieval_sources": [
+    {
+      "url": "https://blog.csdn.net/weixin_42351520/article/details/152188716&rut=4f6b56cfef46716e5212872f7f96b361efb1f2a33434c0350f4cce889461b35a",
+      "type": "ddg",
+      "title": "我跑了rtx4090显卡的双显卡模式 - Csdn博客"
+    },
+    {
+      "url": "https://willitrunai.com/blog/2x-rtx-4090-llm-guide&rut=63b0c1c489ad5b71069e95c44cb73b692bdd0c1567008db022ebe6f91991441f",
+      "type": "ddg",
+      "title": "2x RTX 4090 for LLMs: Memory Limits, PCIe and Setup"
+    },
+    {
+      "url": "https://gigagpu.com/rtx-4090-24gb-multi-card-pairing/&rut=6e9c43143a8c20a269f854b8d69807ed32147696abd486eddc666dc3fbfefd37",
+      "type": "ddg",
+      "title": "2x RTX 4090 24GB Pairing for Tensor Parallel Inference"
+    }
+  ]
+}

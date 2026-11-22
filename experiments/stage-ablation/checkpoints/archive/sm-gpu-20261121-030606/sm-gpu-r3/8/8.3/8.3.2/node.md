@@ -1,0 +1,20 @@
+# N363: 单token AllReduce通信时间 = 总通信量(224KB) / 有效带宽(45 GB/s) ≈ 0.005 ms，而单token计算时间约为38-50
+
+- **status**: degraded
+- **level**: L4
+- **source**: derived
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N154
+
+## Claim
+
+单token AllReduce通信时间 = 总通信量(224KB) / 有效带宽(45 GB/s) ≈ 0.005 ms，而单token计算时间约为38-50 ms，通信占比约0.01%-0.013%，远小于N154声称的40-60%，表明N154中的高延迟增加主要源于KV Cache同步或策略低效，而非单纯AllReduce带宽瓶颈
+
+## Corrected Claim
+
+在假设单token AllReduce通信量为224KB且有效带宽为45GB/s的条件下，通信时间约为0.005ms，远小于38-50ms的计算时间，表明通信占比极低（<0.02%），高延迟更可能源于KV Cache同步或策略低效，而非AllReduce带宽瓶颈。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件/系统参数（总通信量224KB、有效带宽45GB/s、计算时间38-50ms），这些属于经验事实或特定系统配置下的测量值，无法仅从第一性原理推导。此外，'单token AllReduce'的通信量通常取决于模型隐藏层维度（hidden size）和精度，224KB对应约56K hidden size (FP16) 或 112K (FP8)，虽在合理范围内，但缺乏具体模型上下文，且45GB/s的有效带宽假设可能因网络拓扑和实现细节而异。 | 经验事实，逻辑自洽但缺来源支持。计算过程：224KB / 45GB/s ≈ 0.005ms，占比 0.005/38 ≈ 0.013%，数学推导正确。但具体数值（224KB, 45GB/s, 38-50ms）为经验参数，无外部来源验证，且source标记为derived（通常需外部证据或严格推导），故降级。

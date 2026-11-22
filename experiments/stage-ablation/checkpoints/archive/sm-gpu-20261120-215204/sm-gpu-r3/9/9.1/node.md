@@ -1,0 +1,24 @@
+# N146: AMD MI300X 在 BF16 精度下运行 Qwen3-27B 的理论峰值速度为 98 Tokens/s (5300 GB/s 带宽 / 54 GB 权重)
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N37
+
+## Claim
+
+AMD MI300X 在 BF16 精度下运行 Qwen3-27B 的理论峰值速度为 98 Tokens/s (5300 GB/s 带宽 / 54 GB 权重)，但受限于 ROCm 软件栈优化程度，实际有效带宽利用率通常为 60-70%，预计实际速度为 59-68 Tokens/s
+
+## Corrected Claim
+
+AMD MI300X 在 BF16 精度下运行 Qwen3-27B 的理论峰值速度为 98 Tokens/s (5300 GB/s 带宽 / 54 GB 权重)，但受限于 ROCm 软件栈优化程度，实际有效带宽利用率通常为 60-70%，预计实际速度为 59-68 Tokens/s
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别针对理论峰值计算修正、软件栈利用率来源、以及最终实际速度与性价比影响进行了独立分析，逻辑链条清晰且互不重叠，完整覆盖了父节点中的核心争议点（带宽计算、软件限制、最终结果）。）
+
+## Search Query
+
+AMD MI300X BF16 inference efficiency bandwidth utilization LLM benchmark

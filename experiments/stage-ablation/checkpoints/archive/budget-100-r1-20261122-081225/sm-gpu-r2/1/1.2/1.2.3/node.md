@@ -1,0 +1,20 @@
+# N60: NVIDIA RTX 3090 的 PCIe 版本 (PCIe 4.0 x16) 在双卡配置下的带宽瓶颈约为 32 GB/s，与 RTX 4090 相同，但缺乏
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N7
+
+## Claim
+
+NVIDIA RTX 3090 的 PCIe 版本 (PCIe 4.0 x16) 在双卡配置下的带宽瓶颈约为 32 GB/s，与 RTX 4090 相同，但缺乏 NVLink 支持（部分版本有，需确认），影响多卡并行效率
+
+## Corrected Claim
+
+NVIDIA RTX 3090 的 PCIe 版本 (PCIe 4.0 x16) 在双卡配置下的带宽瓶颈约为 32 GB/s，与 RTX 4090 相同。RTX 3090 支持 NVLink（带宽 112.5 GB/s），而 RTX 4090 不支持 NVLink，因此 RTX 3090 在多卡并行通信效率上优于 RTX 4090。
+
+## Evidence
+
+[质询]陈述中关于RTX 3090 NVLink支持的描述存在内部矛盾和不确定性（'部分版本有，需确认'），且将PCIe带宽瓶颈直接等同于'影响多卡并行效率'的唯一或主要因素可能忽略了计算负载与通信负载的比例关系，但在双卡纯通信场景下32GB/s确实是瓶颈。 | 先验知识/题面给定，逻辑校验通过：PCIe 4.0 x16双向带宽确为32GB/s，RTX 3090和4090均支持该接口；但RTX 3090标准版支持NVLink，而RTX 4090不支持，陈述中'缺乏NVLink支持（部分版本有，需确认）'表述模糊且与主流事实（3090有，4090无）存在潜在混淆，故降级。

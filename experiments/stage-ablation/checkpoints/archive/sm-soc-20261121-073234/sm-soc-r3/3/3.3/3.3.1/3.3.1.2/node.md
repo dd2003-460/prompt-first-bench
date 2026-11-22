@@ -1,0 +1,24 @@
+# N215: 干预后点击率 CTR_intervention 的负向效应主要源于‘认知负荷过载’，其量化关系遵循 Hick-Hyman 定律的变体：反应时间或决策放弃率随选项
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N70
+
+## Claim
+
+干预后点击率 CTR_intervention 的负向效应主要源于‘认知负荷过载’，其量化关系遵循 Hick-Hyman 定律的变体：反应时间或决策放弃率随选项数 N_options 的对数增加，具体系数 k_cognitive 需通过眼动追踪或点击流数据回归确定，通常每增加 10 个选项，CTR 下降 2%-5%。
+
+## Corrected Claim
+
+干预后点击率 CTR_intervention 的负向效应可能与‘认知负荷过载’相关，其决策难度通常遵循 Hick-Hyman 定律（反应时间随选项数对数增加）。具体 CTR 下降幅度（如每增加 10 个选项下降 2%-5%）需通过 A/B 测试或点击流数据回归确定，该数值仅为特定场景下的经验参考值，非普适常数。
+
+## Evidence
+
+[质询]将复杂的CTR下降归因于单一的‘认知负荷过载’并直接套用Hick-Hyman定律（通常用于反应时间）存在因果简化风险；且‘每增加10个选项CTR下降2%-5%’是一个高度依赖具体业务场景、用户群体和界面设计的经验性数值，并非普适的物理或数学常数，缺乏通用性。 | 先验知识/题面给定，逻辑校验通过。Hick-Hyman定律确实描述了决策时间与选项数的对数关系，但将其直接量化为CTR的具体百分比下降（2%-5%）属于经验性工程估算，虽逻辑自洽但缺乏普适性证据支持，故降级为定性表述。
+
+## Search Query
+
+Hick's law e-commerce choice overload CTR decline coefficient

@@ -1,0 +1,20 @@
+# N23: Pareto 分布 (α=1.1) 的均值 E[Size] 在 S_min=1KB 时的精确数值计算：E[Size] = S_min * α/(α-1) = 1
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+Pareto 分布 (α=1.1) 的均值 E[Size] 在 S_min=1KB 时的精确数值计算：E[Size] = S_min * α/(α-1) = 1KB * 1.1/0.1 = 11KB。
+
+## Corrected Claim
+
+Pareto 分布 (α=1.1) 的均值 E[Size] 在 S_min=1KB 时的精确数值计算：E[Size] = S_min * α/(α-1) = 1KB * 1.1/0.1 = 11KB。
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备, 有冗余（子节点1和子节点2存在严重内容重叠，均涉及截断和与解析近似的对比及数值计算（9.51 vs 11），未实现正交分解；子节点3将截断后的有限求和结果（9.51）错误地作为S_min敏感性的固定系数，混淆了无限均值（11）与有限截断均值（9.51）的概念，导致逻辑矛盾；父节点明确指向'精确数值计算'（即无限期望11KB），但子节点大量篇幅讨论截断近似，偏离了父节点的核心定义。）

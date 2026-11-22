@@ -1,0 +1,20 @@
+# N494: 量化方法选择对 ΔMMLU 的交互效应公式：ΔMMLU_total = f(Quantization_Method, Group_Size, Calibrati
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N156
+
+## Claim
+
+量化方法选择对 ΔMMLU 的交互效应公式：ΔMMLU_total = f(Quantization_Method, Group_Size, Calibration_Data_Size)，需建立 27B 模型下 Group_Size 从 128 降至 64 时，ΔMMLU 的边际改善率（通常每减半 Group_Size，损失减少 0.2%-0.5%） [待核验]
+
+## Corrected Claim
+
+量化方法选择对 ΔMMLU 存在交互效应，通常减小 Group_Size（如从 128 降至 64）可提升精度，但具体边际改善率（如 0.2%-0.5%）因模型架构、量化算法及校准数据而异，需针对特定 27B 模型进行实证测量。
+
+## Evidence
+
+[质询]该陈述将具体的经验数值范围（每减半 Group_Size 损失减少 0.2%-0.5%）作为普遍规律，但量化误差对 MMLU 的影响高度依赖于模型架构、量化算法（如 GPTQ, AWQ, SmoothQuant）及校准数据分布，不存在跨所有 27B 模型的统一边际改善率，该数值缺乏普适性依据。 | 先验知识/题面给定，逻辑校验通过；但具体数值范围属于经验事实，缺乏来源直接支持且存在模型依赖性，故降级。

@@ -1,0 +1,24 @@
+# N294: NVFP4/W4 量化导致的 KL 散度异常值来源分析：识别导致 KL 散度 > 0.1 的具体 Token 类型或语境（如专有名词、数学符号、罕见词），并计算
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N103
+
+## Claim
+
+NVFP4/W4 量化导致的 KL 散度异常值来源分析：识别导致 KL 散度 > 0.1 的具体 Token 类型或语境（如专有名词、数学符号、罕见词），并计算这些异常 Token 在测试集中的出现频率，以评估其对整体推理质量的实际影响权重
+
+## Corrected Claim
+
+NVFP4/W4 量化可能导致特定Token（如专有名词、罕见词）的KL散度异常，需通过实证分析识别具体Token类型及其在测试集中的频率，以评估对推理质量的影响权重。
+
+## Evidence
+
+[质询]该陈述描述的是一个具体的实证分析任务（识别特定Token类型并计算频率），属于经验事实范畴，无法从第一性原理推导，且缺乏具体数据支持。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+Qwen3-27B low-bit quantization KL divergence outliers analysis

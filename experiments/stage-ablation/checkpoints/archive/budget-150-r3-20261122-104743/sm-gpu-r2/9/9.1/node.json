@@ -1,0 +1,33 @@
+{
+  "id": "N186",
+  "claim": "RTX 4090 在 Qwen3-27B 上的 Decode 速度基准：在 BF16 量化下，单卡 24GB 显存不足以运行完整模型（需 54GB），因此 N36 中的 15-20 tokens/s 数据可能基于 INT8/FP8 量化或 CPU Offload 混合模式；[待核验] 需检索特定量化方案（如 AWQ INT4）下的实测速度，预期 INT4 下速度可达 25-35 tokens/s，但延迟增加 10-20%",
+  "level": "L3",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]陈述中关于显存需求的计算存在严重错误（27B模型BF16需约54GB，但INT4量化下仅需约15-17GB，完全可装入24GB显存），且预测的INT4速度（25-35 tokens/s）与参考来源中实测的Q4_K_M速度（43-47 tokens/s）严重不符，低估了实际性能。 | 来源[2]和[3]直接显示Qwen3-27B在RTX 4090上使用Q4_K_M量化时速度可达43-47 tokens/s，且能完全装入24GB显存，直接反驳了陈述中'INT4下速度仅25-35 tokens/s'及'显存不足需Offload'的假设。",
+  "corrected_claim": "RTX 4090 (24GB) 在 Qwen3-27B 上使用 INT4/Q4_K_M 量化时，模型可完全装入显存（无需CPU Offload），实测 Decode 速度约为 43-47 tokens/s，远高于 BF16 下的预期，且延迟表现良好。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N36"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "RTX 4090 Qwen3-27B inference speed tokens per second benchmark",
+  "retrieval_sources": [
+    {
+      "url": "https://pub.towardsai.net/running-qwen3-8-27b-on-an-rtx-4090-cde0cb4ba338&rut=dcfde1c2009fe3f78846e2d16c0c5c885067039ffb85e44637979fe85660ff27",
+      "type": "ddg",
+      "title": "Running Qwen3.8-27B on an RTX 4090 - pub.towardsai.net"
+    },
+    {
+      "url": "https://llm-speed.com/blog/qwen3-6-27b-rtx-4090&rut=3f63c217c9636480d5542e5f938c21650742d6e5c2275d59bfe19d92b6f08731",
+      "type": "ddg",
+      "title": "How fast is Qwen3.6-27B on an RTX 4090? · llm-speed"
+    },
+    {
+      "url": "https://llm-speed.com/m/qwen3-8-27b&rut=4705a1f1e50fe9c71a6a3df0212f4531b2c16ad831d9874ff8ea245129cc9e96",
+      "type": "ddg",
+      "title": "Qwen3.8-27B tokens/s on RTX 5090, 4090, 3090 · llm-speed"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+# N214: 利益相关方核验的博弈矩阵：在平台-卖家-买家三方博弈中，平台采取‘高信用加权’策略时，卖家的占优策略是‘维持高挂价+高信用积累’，其支付函数 Payoff_se
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+利益相关方核验的博弈矩阵：在平台-卖家-买家三方博弈中，平台采取‘高信用加权’策略时，卖家的占优策略是‘维持高挂价+高信用积累’，其支付函数 Payoff_seller = Revenue - C_time - C_psych + λ * Reputation_Value，其中 λ 为声誉贴现系数（约 0.8），若 λ > 0.5，则卖家即使短期收益略低也偏好高挂价，从而锁定当前均衡。
+
+## Corrected Claim
+
+利益相关方核验的博弈矩阵：在平台-卖家-买家三方博弈中，平台采取‘高信用加权’策略时，卖家的占优策略是‘维持高挂价+高信用积累’，其支付函数 Payoff_seller = Revenue - C_time - C_psych + λ * Reputation_Value，其中 λ 为声誉贴现系数（约 0.8），若 λ > 0.5，则卖家即使短期收益略低也偏好高挂价，从而锁定当前均衡。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

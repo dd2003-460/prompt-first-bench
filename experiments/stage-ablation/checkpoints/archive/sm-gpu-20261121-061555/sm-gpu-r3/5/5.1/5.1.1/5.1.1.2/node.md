@@ -1,0 +1,24 @@
+# N273: RTX 4090 在 FP8/INT8 量化下运行 Qwen3-27B 的实测吞吐量（Tokens/s），需结合特定软件栈（vLLM/TensorRT）的基准测
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N98
+
+## Claim
+
+RTX 4090 在 FP8/INT8 量化下运行 Qwen3-27B 的实测吞吐量（Tokens/s），需结合特定软件栈（vLLM/TensorRT）的基准测试数据，用于验证 TCO 计算中隐含的产能假设。
+
+## Corrected Claim
+
+RTX 4090 在 FP8/INT8 量化下运行 Qwen3-27B 的吞吐量需依据特定软件栈（如 vLLM/TensorRT）及具体负载配置（batch size, seq len）的基准测试数据确定，当前缺乏具体实测数值以直接验证 TCO 产能假设。
+
+## Evidence
+
+[质询]该陈述声称存在“实测吞吐量”数据，但具体数值缺失，且吞吐量高度依赖于具体的软件栈版本、批处理大小（batch size）、序列长度及硬件驱动配置，缺乏这些上下文使得“实测”这一断言缺乏可验证的具体锚点，属于典型的经验事实且缺乏具体数据支撑。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且吞吐量具体数值无法从第一性原理推导，需依赖特定基准测试数据）
+
+## Search Query
+
+RTX 4090 Qwen3-27B FP8 inference throughput tokens per second benchmark

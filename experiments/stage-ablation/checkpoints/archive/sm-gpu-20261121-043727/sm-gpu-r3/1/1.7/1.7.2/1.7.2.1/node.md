@@ -1,0 +1,29 @@
+# N150: Qwen3-27B-Instruct 在 BF16 精度下的 MMLU 总分具体数值（参考 Qwen2.5-32B 为 83.1%，Qwen3-32B 官方报告
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N58
+
+## Claim
+
+Qwen3-27B-Instruct 在 BF16 精度下的 MMLU 总分具体数值（参考 Qwen2.5-32B 为 83.1%，Qwen3-32B 官方报告为 86.2% [时效待核]，27B 若存在应介于两者之间或接近 32B 水平，需查阅 Qwen3 技术报告或 HuggingFace 模型卡片确认）
+
+## Corrected Claim
+
+Qwen3-27B-Instruct 在 BF16 精度下的 MMLU 总分具体数值需查阅官方技术报告确认；参考来源显示该模型存在量化部署版本，但未提供 MMLU 基准测试的具体分数。
+
+## Evidence
+
+[质询]陈述中引用的具体数值（Qwen2.5-32B 83.1%, Qwen3-32B 86.2%）及推断的 Qwen3-27B 范围属于经验事实，且参考来源均未提供 MMLU 具体分数，无法验证数值的准确性；此外，来源中提到的模型名称为 'Qwen3.8-27B'，与陈述中的 'Qwen3-27B' 存在版本命名上的潜在混淆风险。 | 经验事实，逻辑自洽但缺来源支持；参考来源 [1][2] 仅涉及量化部署和综合评测得分，未提供 MMLU 具体数值，无法直接支持或反驳陈述中的具体百分比。
+
+## Search Query
+
+Qwen3-27B-Instruct MMLU benchmark score BF16
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/liangjinhu/article/details/164183862&rut=a6a509f8e74bff9b487998cd33b34a6a6d8d0784c2d7f4310f4e98041b75497e', 'type': 'ddg', 'title': 'Qwen3.8-27B GSQ-RCO 量化部署实测：9.3GB 跑出超 BF16 精度，消费级显卡落地 27B 多模态'}
+- {'url': 'https://www.datalearner.com/blog/qwen3-8-27b-local-deployment-quantization-guide&rut=019b4b04a134444a435411c99925256a4f452d07ffd1b48e7fa68ba2d2a1e932', 'type': 'ddg', 'title': 'Qwen3.8-27B 本地部署完全指南：量化版本怎么选，效果差多少，速度有多快？ | DataLearnerAI'}

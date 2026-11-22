@@ -1,0 +1,24 @@
+# N7: 高挂价投影：挂价溢价率 (P_markup) = f(λ_loss, σ²_pref)，具体公式为 P_markup = (1 + λ_loss * E[sea
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+高挂价投影：挂价溢价率 (P_markup) = f(λ_loss, σ²_pref)，具体公式为 P_markup = (1 + λ_loss * E[search_cost]) - (1 - k * σ²_pref)，其中 k 为风险规避系数，需通过回归成交周期与溢价率的关系确定。
+
+## Corrected Claim
+
+高挂价投影：挂价溢价率 (P_markup) 受损失厌恶系数 (λ_loss)、搜索成本期望 (E[search_cost]) 及偏好方差 (σ²_pref) 影响，具体函数形式需通过实证回归确定，而非简单的线性组合公式。
+
+## Evidence
+
+[质询]公式结构缺乏经济学或行为学理论支撑，属于任意构造的线性组合，未体现风险规避系数k与方差σ²_pref之间应有的非线性或凸性关系（如通常的风险溢价与方差成正比而非简单的线性减法），且E[search_cost]与λ_loss的乘积直接作为溢价率的一部分在量纲和经济直觉上存疑。 | 先验知识/题面给定，但逻辑校验发现公式构造缺乏理论依据且存在量纲/经济直觉矛盾，无法排除为错误模型的可能性。
+
+## Search Query
+
+pricing strategy markup variance relationship marketplace

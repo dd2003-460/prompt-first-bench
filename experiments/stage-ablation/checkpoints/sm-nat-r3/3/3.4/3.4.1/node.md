@@ -1,0 +1,20 @@
+# N66: LFU 频率统计滞后导致的命中率损失下界 ΔH_lag 可量化为 LFU 计数器收敛时间 T_conv 与负载变化率 λ_change 的乘积对应的字节占比，公
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N18
+
+## Claim
+
+LFU 频率统计滞后导致的命中率损失下界 ΔH_lag 可量化为 LFU 计数器收敛时间 T_conv 与负载变化率 λ_change 的乘积对应的字节占比，公式为 ΔH_lag_min ≈ (T_conv / T_load_cycle) * (H_byte_LFU_ideal - H_byte_LRU)，其中 T_conv 为 LFU 计数器达到稳态所需时间（通常与请求数成正比），T_load_cycle 为负载特征变化周期。
+
+## Corrected Claim
+
+LFU 频率统计滞后导致的命中率损失与 LFU 计数器收敛时间 T_conv 及负载变化率正相关，具体量化需结合特定缓存实现与负载模型，通用下界公式 ΔH_lag_min ≈ (T_conv / T_load_cycle) * (H_byte_LFU_ideal - H_byte_LRU) 仅在特定理想化假设下近似成立。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点公式中的三个独立组件：T_conv的计算、T_load_cycle的定义、以及最终结果ΔH_lag_min的推导。三者逻辑链条清晰（输入参数定义 -> 中间变量计算 -> 最终结果），无内容重复或矛盾，且完整覆盖了父节点描述的所有量化步骤。）

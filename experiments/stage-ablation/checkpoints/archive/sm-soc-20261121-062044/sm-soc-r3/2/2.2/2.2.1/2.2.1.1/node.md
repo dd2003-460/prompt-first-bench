@@ -1,0 +1,24 @@
+# N145: P_market_avg 的稳健估计：采用同类商品近 30 天成交价的截尾均值（Trimmed Mean），去除上下 5% 极端值以消除异常交易干扰，即 P_m
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N46
+
+## Claim
+
+P_market_avg 的稳健估计：采用同类商品近 30 天成交价的截尾均值（Trimmed Mean），去除上下 5% 极端值以消除异常交易干扰，即 P_market_avg = Mean(Price_i | 5th_percentile < Price_i < 95th_percentile)，确保分母不被长尾数据扭曲。
+
+## Corrected Claim
+
+P_market_avg 的稳健估计：采用同类商品近 30 天成交价的截尾均值（Trimmed Mean），去除上下 5% 极端值以消除异常交易干扰，即 P_market_avg = Mean(Price_i | 5th_percentile < Price_i < 95th_percentile)，确保分母不被长尾数据扭曲。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：截尾均值（Trimmed Mean）是统计学中处理长尾分布和异常值的稳健估计标准方法，去除上下5%极端值符合常规稳健统计实践，逻辑自洽且量级合理。
+
+## Search Query
+
+trimmed mean for market average price estimation robust statistics

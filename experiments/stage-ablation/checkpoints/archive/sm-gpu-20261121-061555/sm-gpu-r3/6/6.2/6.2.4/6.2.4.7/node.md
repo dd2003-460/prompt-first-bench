@@ -1,0 +1,24 @@
+# N327: NVIDIA RTX 4090 显存带宽 1008 GB/s 的理论峰值与 LLM 推理实际有效带宽的比值：在 Memory-Bound 场景（如 Decode
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N114, N115, N117
+
+## Claim
+
+NVIDIA RTX 4090 显存带宽 1008 GB/s 的理论峰值与 LLM 推理实际有效带宽的比值：在 Memory-Bound 场景（如 Decode 阶段）下，由于 PCIe 传输开销、显存控制器效率及数据局部性，实际有效带宽通常为理论值的 60-80%，需引用第三方基准测试数据确定在 Qwen3-27B 32K 上下文下的具体有效带宽值（GB/s），以修正吞吐量估算。
+
+## Corrected Claim
+
+NVIDIA RTX 4090 显存带宽 1008 GB/s 的理论峰值与 LLM 推理实际有效带宽的比值：在 Memory-Bound 场景（如 Decode 阶段）下，由于 PCIe 传输开销、显存控制器效率及数据局部性，实际有效带宽通常为理论值的 60-80%，需引用第三方基准测试数据确定在 Qwen3-27B 32K 上下文下的具体有效带宽值（GB/s），以修正吞吐量估算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 显存带宽 1008 GB/s 为官方规格，Memory-Bound 场景下实际有效带宽受限于控制器效率与局部性，60-80% 为业界公认的经验范围，逻辑自洽且量级合理。
+
+## Search Query
+
+RTX 4090 effective memory bandwidth LLM inference decode phase benchmark

@@ -1,0 +1,24 @@
+# N85: 针对静态内容（如视频/软件包），实证研究显示更新率通常低于 0.01%/天（即 1/100 天更新一次），此时 P_invalid ≈ 0.001 * T_re
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N25
+
+## Claim
+
+针对静态内容（如视频/软件包），实证研究显示更新率通常低于 0.01%/天（即 1/100 天更新一次），此时 P_invalid ≈ 0.001 * T_resident，折损可忽略；该数据来自 Akamai 2019 年 CDN 报告，属于'刚查到的'特定场景数据。
+
+## Corrected Claim
+
+针对静态内容（如视频/软件包），实证研究显示更新率通常极低（例如低于 0.01%/天），此时 P_invalid ≈ 0.001 * T_resident，折损可忽略；该数据常被引用自 Akamai 等 CDN 厂商的行业报告，但具体数值需结合特定业务场景验证。
+
+## Evidence
+
+[质询]来源不可靠/无法验证：声称数据来自 'Akamai 2019 年 CDN 报告'，但 Akamai 通常不公开如此细粒度的特定静态内容更新率统计（如 <0.01%/天），且该具体数值缺乏公开可查的权威出处，存在编造或误引风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体数值无法通过第一性原理推导，属于特定场景经验数据）
+
+## Search Query
+
+Akamai CDN static content update rate percentage per day

@@ -1,0 +1,29 @@
+# N242: 折旧临界点的敏感性分析：若 RTX 4090 市场均价波动 ±15%（即 $1359-$1839），TCO 交叉点 N 将在 1.6-2.1 年区间移动。若实际
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N95
+
+## Claim
+
+折旧临界点的敏感性分析：若 RTX 4090 市场均价波动 ±15%（即 $1359-$1839），TCO 交叉点 N 将在 1.6-2.1 年区间移动。若实际采购价低于 MSRP 15%，则 1×4090 的优势区间扩大至 N < 2.1 年。
+
+## Corrected Claim
+
+折旧临界点的敏感性分析：若 RTX 4090 市场均价波动 ±15%，TCO 交叉点 N 将随价格变化而移动。若实际采购价低于 MSRP 15%，则 1×4090 的优势区间通常会扩大。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件市场价格（RTX 4090 MSRP $1599）及基于此推导出的具体TCO交叉点数值（1.6-2.1年），属于经验事实。参考来源仅涉及敏感性分析的一般方法论，未提供RTX 4090的具体价格或TCO计算数据，无法验证具体数值的准确性。 | 逻辑上，价格波动影响TCO交叉点是合理的经济直觉，但具体数值（$1359-$1839及1.6-2.1年）缺乏来源支持，且来源[1][2]仅讨论敏感性分析概念，与具体硬件TCO无关。
+
+## Search Query
+
+RTX 4090 current market price 2024
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_45531092/article/details/133460647&rut=d54aaff85910a8e441c7d275e15acc3702e2de59098451415c707c105d2ca38e', 'type': 'ddg', 'title': '如何看敏感性分析报告_灵敏度分析报告怎么看-csdn博客'}
+- {'url': 'https://max.book118.com/html/2019/0425/7141151110002022.shtm&rut=8131ed6a71f7f31871c59146a6f7b0f199671028c07e1b22eba5059a3d8343b7', 'type': 'ddg', 'title': 'excel敏感性报告解读.docx 全文免费'}

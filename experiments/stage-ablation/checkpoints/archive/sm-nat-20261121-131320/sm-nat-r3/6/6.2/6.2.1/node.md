@@ -1,0 +1,20 @@
+# N125: 基于 Little's Law 和 LRU 堆栈距离模型，头部对象 i 的平均驻留时间 T_res(i) 与总请求率 R 及缓存命中率 H 的比例关系为 T_r
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N49
+
+## Claim
+
+基于 Little's Law 和 LRU 堆栈距离模型，头部对象 i 的平均驻留时间 T_res(i) 与总请求率 R 及缓存命中率 H 的比例关系为 T_res(i) ≈ L_cache / (R * (1 - H))，其中 L_cache 为缓存中常驻对象数，需结合 N44 的 C_norm 估算 L_cache 以量化头部对象的刷新频率。
+
+## Corrected Claim
+
+基于 Little's Law 和 LRU 堆栈距离模型，头部对象 i 的平均驻留时间 T_res(i) 与总请求率 R 及缓存命中率 H 的比例关系为 T_res(i) ≈ L_cache / (R * (1 - H))，其中 L_cache 为缓存中常驻对象数，需结合 N44 的 C_norm 估算 L_cache 以量化头部对象的刷新频率。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Little's Law 定义 L = λW，此处 L 为缓存中活跃对象数 L_cache，λ 为有效请求率 R*(1-H)，W 为驻留时间 T_res，推导自洽。

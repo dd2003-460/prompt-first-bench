@@ -1,0 +1,20 @@
+# N146: 联合概率密度函数 f(S,F) = c * f_S(S) * f_F(F)，其中 c 为 Copula 密度函数 ∂²C/∂u∂v，f_S(S) 和 f_F(F
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N61
+
+## Claim
+
+联合概率密度函数 f(S,F) = c * f_S(S) * f_F(F)，其中 c 为 Copula 密度函数 ∂²C/∂u∂v，f_S(S) 和 f_F(F) 分别为大小和热度的边际 Pareto 分布。
+
+## Corrected Claim
+
+联合概率密度函数 f(S,F) = c * f_S(S) * f_F(F)，其中 c 为 Copula 密度函数 ∂²C/∂u∂v，f_S(S) 和 f_F(F) 分别为大小和热度的边际 Pareto 分布。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该公式符合 Copula 定理的标准定义，联合密度等于 Copula 密度与边际密度的乘积。

@@ -1,0 +1,24 @@
+# N351: RTX 4090 运行 Qwen3-27B INT8 时，vLLM 与 llama.cpp 框架在 Decode 阶段的吞吐量差异系数，vLLM 因 Paged
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N117
+
+## Claim
+
+RTX 4090 运行 Qwen3-27B INT8 时，vLLM 与 llama.cpp 框架在 Decode 阶段的吞吐量差异系数，vLLM 因 PagedAttention 和连续批处理优化通常比 llama.cpp 高 10-20%，具体数值需对比同一硬件配置下的基准测试 [待核验]。
+
+## Corrected Claim
+
+RTX 4090 运行 Qwen3-27B INT8 时，vLLM 凭借 PagedAttention 和连续批处理优化，在 Decode 阶段的吞吐量通常优于 llama.cpp，但具体提升幅度（如10-20%）高度依赖序列长度、批处理大小及软件版本，需以同一硬件配置下的实测基准测试为准。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值范围（10-20%），属于硬件性能基准测试数据，无法从第一性原理推导。且不同模型架构、序列长度及具体版本下，vLLM与llama.cpp的性能差异波动极大，固定为10-20%缺乏普适性，存在以偏概全的风险。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，且该数值属于具体硬件基准测试数据，不适用第一性原理推导条款）
+
+## Search Query
+
+vLLM vs llama.cpp RTX 4090 27B model INT8 decode performance comparison

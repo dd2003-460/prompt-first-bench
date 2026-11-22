@@ -1,0 +1,24 @@
+# N65: FP8 (E4M3) 精度下，Qwen3-27B 权重张量在 vLLM 或 PyTorch 后端中的实际存储格式与内存对齐开销：确认是否严格为 1 byte/p
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N16, N17, N18
+
+## Claim
+
+FP8 (E4M3) 精度下，Qwen3-27B 权重张量在 vLLM 或 PyTorch 后端中的实际存储格式与内存对齐开销：确认是否严格为 1 byte/param 或存在 block-wise 缩放因子导致的额外 overhead（如每 128 元素增加 2 bytes），从而影响总显存估算。
+
+## Corrected Claim
+
+FP8 (E4M3) 精度下，Qwen3-27B 权重张量的基础存储为 1 byte/param，但实际显存占用可能因 block-wise 缩放因子（如每 128 元素增加 2 bytes）而略有增加，具体 overhead 取决于 vLLM 或 PyTorch 后端的量化实现细节。
+
+## Evidence
+
+[质询]该陈述涉及具体的硬件/软件实现细节（vLLM/PyTorch 后端对 FP8 E4M3 的存储格式及 block-wise 缩放因子的具体 overhead 计算），属于经验事实。虽然 FP8 E4M3 本身是 1 byte/param，但实际部署中是否引入额外的 block-wise 缩放因子（如每 128 元素增加 2 bytes）取决于具体的量化方案（如 W8A8 或 W8A16）和后端实现，不能仅从第一性原理推出，且缺乏来源支持确认具体的 overhead 数值。 | 经验事实，逻辑自洽但缺来源支持。FP8 E4M3 基础存储为 1 byte/param，但 block-wise 缩放因子的具体 overhead 需依赖特定实现，无外部证据确认具体数值。
+
+## Search Query
+
+FP8 E4M3 quantization memory overhead block scaling vLLM Qwen

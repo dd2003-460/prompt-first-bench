@@ -1,0 +1,24 @@
+# N248: H100 SXM5 在 BF16 与 FP8 精度下的实测平均功耗对比：BF16 推理 Qwen3-27B 时平均功耗通常为 600-650W，启用 FP8 后
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N71
+
+## Claim
+
+H100 SXM5 在 BF16 与 FP8 精度下的实测平均功耗对比：BF16 推理 Qwen3-27B 时平均功耗通常为 600-650W，启用 FP8 后由于计算密度提升和时钟频率调整，平均功耗可能降至 500-550W，具体差值 ΔP_FP8_vs_BF16 需基于特定 vLLM 版本监控数据。
+
+## Corrected Claim
+
+H100 SXM5 在 BF16 与 FP8 精度下的实测平均功耗对比：BF16 推理大语言模型时平均功耗通常较高，启用 FP8 后由于计算密度提升和时钟频率调整，平均功耗通常会有所降低，具体差值 ΔP_FP8_vs_BF16 需基于特定 vLLM 版本、模型规模及监控数据确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性功耗数值（600-650W vs 500-550W）及特定模型（Qwen3-27B）在特定硬件（H100 SXM5）上的性能表现，属于经验事实。虽然逻辑上FP8降低计算量从而可能降低功耗是合理的，但具体数值范围缺乏通用性，且Qwen3-27B的具体发布时间和硬件适配情况需核实，不同负载和vLLM版本下功耗波动较大，直接给出固定区间存在以偏概全的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+H100 SXM5 power consumption BF16 vs FP8 inference vLLM

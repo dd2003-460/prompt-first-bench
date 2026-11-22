@@ -1,0 +1,24 @@
+# N187: Gated DeltaNet 层的递归状态（State）大小计算：Bytes_delta = L_delta * d_state * d_head * dtyp
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N61
+
+## Claim
+
+Gated DeltaNet 层的递归状态（State）大小计算：Bytes_delta = L_delta * d_state * d_head * dtype_size，其中 d_state 和 d_head 为 DeltaNet 内部超参数（通常 d_state=16-64, d_head=128），该值不随 seq_len 线性增长，需查阅 Qwen3 架构定义确认具体维度。
+
+## Corrected Claim
+
+Gated DeltaNet 层的递归状态大小计算公式为 Bytes_delta = L_delta * d_state * d_head * dtype_size，该值不随 seq_len 线性增长；具体维度 d_state 和 d_head 需查阅 Qwen3 架构定义确认，通常此类线性注意力机制的 d_state 较小（如 16-64），d_head 取决于模型配置。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性超参数范围（d_state=16-64, d_head=128）以及针对特定模型（Qwen3）的架构假设，这些属于硬件/模型规格类经验事实，无法从第一性原理推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体超参数范围及Qwen3架构细节）
+
+## Search Query
+
+Gated DeltaNet state size parameters d_state d_head Qwen3

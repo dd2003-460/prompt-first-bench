@@ -1,0 +1,24 @@
+# N288: Qwen3-27B 在 FP8 (E4M3) 精度下的 HumanEval Pass@1 准确率具体数值：代码生成任务对量化噪声更敏感，FP8 下降幅度通常 <
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N88, N89, N90
+
+## Claim
+
+Qwen3-27B 在 FP8 (E4M3) 精度下的 HumanEval Pass@1 准确率具体数值：代码生成任务对量化噪声更敏感，FP8 下降幅度通常 < 1%，预期 BF16 基线 Pass@1 约为 60-70% [待核验]，FP8 Q_score ≈ 0.99-1.0。
+
+## Corrected Claim
+
+Qwen3-27B 在 FP8 (E4M3) 精度下的 HumanEval Pass@1 准确率具体数值需查阅官方技术报告或基准测试数据；通常代码生成任务对量化噪声敏感，FP8 下降幅度可能较小，但具体基线及 Q_score 需实证验证。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（BF16基线60-70%、FP8下降幅度<1%、Q_score 0.99-1.0），这些属于特定模型在特定基准上的实测性能数据，无法从第一性原理推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+Qwen3-27B FP8 HumanEval Pass@1 accuracy benchmark

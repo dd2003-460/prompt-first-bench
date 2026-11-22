@@ -1,0 +1,29 @@
+# N286: Qwen3-27B 在 BF16 精度下，WikiText-103 测试集上的基线 Perplexity (PPL_BF16) 约为 8.5-9.5（具体数值需
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N120
+
+## Claim
+
+Qwen3-27B 在 BF16 精度下，WikiText-103 测试集上的基线 Perplexity (PPL_BF16) 约为 8.5-9.5（具体数值需根据官方技术报告或社区基准 [待核验]，参考 Llama-3-70B 同级模型 PPL 约为 8-10）。此数值作为计算 FP8 退化量的分母基准。
+
+## Corrected Claim
+
+Qwen3-27B（或 Qwen3.8-27B）在 BF16 精度下，WikiText-103 测试集上的基线 Perplexity (PPL_BF16) 预计约为 8.5-9.5（基于同级模型经验估算，具体数值需查阅官方技术报告或完整基准测试数据）。
+
+## Evidence
+
+[质询]参考来源中提到的模型为 'Qwen3.8-27B'，与陈述中的 'Qwen3-27B' 名称不完全一致（可能存在版本混淆或笔误）；且来源摘要仅提及 GSM8K 和速度基准，未提供 WikiText-103 的 Perplexity 具体数值，无法直接验证 8.5-9.5 这一经验数据。 | 经验事实，逻辑自洽（27B 模型 PPL 在 8-10 区间符合一般规律），但参考来源 [1][2] 未提供 WikiText-103 PPL 具体数值，且模型名称存在细微差异，缺乏直接来源支持。
+
+## Search Query
+
+Qwen3 27B WikiText-103 perplexity BF16 baseline benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/sgl-project/sglang/issues/41938&rut=eb2c1cdc34a0ccb4fd980a81a38388e220eb87ec074611613b62dc1989622dd7', 'type': 'ddg', 'title': 'Benchmark: Qwen3.8-27B FP8/BF16 on H200 with float32 SSM state ... - GitHub'}
+- {'url': 'https://huggingface.co/Qwen/Qwen3.8-27B&rut=3d7831a77a0759778bf5fe7ec23242f552eacd18fef689ac2e5e92ec3eccaa2a', 'type': 'ddg', 'title': 'Qwen/Qwen3.8-27B · Hugging Face'}

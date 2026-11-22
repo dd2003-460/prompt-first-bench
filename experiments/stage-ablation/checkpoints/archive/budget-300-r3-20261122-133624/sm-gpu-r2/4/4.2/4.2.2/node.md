@@ -1,0 +1,24 @@
+# N101: 双卡PCIe拓扑下的有效带宽量化模型：若两卡均接CPU直连x16插槽且支持P2P，有效带宽 Bw_eff ≈ 64 GB/s (PCIe 5.0) 或 32 G
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+双卡PCIe拓扑下的有效带宽量化模型：若两卡均接CPU直连x16插槽且支持P2P，有效带宽 Bw_eff ≈ 64 GB/s (PCIe 5.0) 或 32 GB/s (PCIe 4.0)；若一卡接CPU、一卡接PCH或经PCIe Switch，有效带宽 Bw_eff ≈ min(Bw_CPU_to_PCH, Bw_PCH_to_GPU)，通常降至 16-32 GB/s，通信延迟 T_comm 相应增加 2-4 倍，可能导致TP=2方案在消费级主板上性能劣化超过30%。
+
+## Corrected Claim
+
+双卡PCIe拓扑下的有效带宽量化模型：若两卡均接CPU直连x16插槽且支持P2P，有效带宽 Bw_eff ≈ 64 GB/s (PCIe 5.0) 或 32 GB/s (PCIe 4.0)；若一卡接CPU、一卡接PCH或经PCIe Switch，有效带宽 Bw_eff ≈ min(Bw_CPU_to_PCH, Bw_PCH_to_GPU)，通常降至 16-32 GB/s，通信延迟 T_comm 相应增加 2-4 倍，可能导致TP=2方案在消费级主板上性能劣化超过30%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe 5.0 x16单向带宽约64GB/s，4.0约32GB/s，符合物理规格；PCH/Switch路径受限于上游链路（通常x4或x8）及额外跳数，带宽降至16-32GB/s且延迟增加2-4倍符合工程常识；TP=2对带宽敏感，带宽减半通常导致性能显著劣化，30%为合理估计。
+
+## Search Query
+
+dual GPU PCIe topology effective bandwidth CPU PCH switch tensor parallelism performance loss

@@ -1,0 +1,20 @@
+# N110: 定义'排名翻转'的敏感度阈值计算：对于关键参数xi（如GPU价格），计算其变化量Δxi使得TCO排名发生交换的临界值；公式为 |Δxi| = |TCO_A - 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N18, N19, N20
+
+## Claim
+
+定义'排名翻转'的敏感度阈值计算：对于关键参数xi（如GPU价格），计算其变化量Δxi使得TCO排名发生交换的临界值；公式为 |Δxi| = |TCO_A - TCO_B| / (∂TCO/∂xi)_A - (∂TCO/∂xi)_B；若该临界值小于该参数的标准差，则标记为'高敏感参数'
+
+## Corrected Claim
+
+定义'排名翻转'的敏感度阈值计算：对于关键参数xi（如GPU价格），计算其变化量Δxi使得TCO排名发生交换的临界值；公式为 |Δxi| = |TCO_A - TCO_B| / (∂TCO/∂xi)_A - (∂TCO/∂xi)_B；若该临界值小于该参数的标准差，则标记为'高敏感参数'
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

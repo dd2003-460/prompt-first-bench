@@ -1,0 +1,20 @@
+# N62: 中置信度区间(0.6-0.9)的贝叶斯后验计算公式：C_mid = P(H_platform | D) = [P(D|H_platform) * P(H_pla
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N19
+
+## Claim
+
+中置信度区间(0.6-0.9)的贝叶斯后验计算公式：C_mid = P(H_platform | D) = [P(D|H_platform) * P(H_platform)] / P(D)，其中先验 P(H_platform) 基于平台算法文档的透明度评分 S_alpha (0-1) 加权，后验需满足 C_mid ∈ [0.6, 0.9] 当且仅当似然比 LR = P(D|H_platform)/P(D|¬H_platform) > 2.5。
+
+## Corrected Claim
+
+中置信度区间(0.6-0.9)的贝叶斯后验计算公式为 C_mid = P(H_platform | D) = [P(D|H_platform) * P(H_platform)] / P(D)。后验概率落在 [0.6, 0.9] 区间取决于先验 P(H_platform) 与似然比 LR 的组合，而非仅由 LR > 2.5 决定。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间存在逻辑矛盾（非正交）且未覆盖父节点核心约束（不完备）。1. 矛盾：父节点定义 C_mid ∈ [0.6, 0.9] 当且仅当 LR > 2.5。子节点3计算得出 C_mid ≥ 0.6 的最小 LR 为 1.5，C_mid ≥ 0.9 的最小 LR 为 9.0。这意味着 LR=3.0 时，后验约 0.67（在区间内），但 LR=1.8 时，后验约 0.53（不在区间内，但 LR > 1.5）。更关键的是，父节点要求 LR > 2.5 作为进入区间的门槛，而子节点3推导出的下限 1.5 与父节点的 2.5 不一致，存在定义冲突。2. 不完备：父节点明确给出了贝叶斯公式 C_mid = ... / P(D)，但三个子节点均未涉及证据概率 P(D) 的计算或归一化方法，也未解释如何从 LR 和先验直接得到后验的具体代数推导过程（尽管子节点3做了部分计算，但未关联到父节点的完整公式结构）。）

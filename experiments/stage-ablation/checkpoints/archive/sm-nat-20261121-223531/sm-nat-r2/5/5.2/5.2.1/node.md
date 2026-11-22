@@ -1,0 +1,20 @@
+# N65: LFU在Pareto(β=0.9)下的理论上限工作点（高性低成）：假设LFU完美识别并保留所有高频对象，且无更新干扰，命中率 $H_{LFU}^{max} = 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N20
+
+## Claim
+
+LFU在Pareto(β=0.9)下的理论上限工作点（高性低成）：假设LFU完美识别并保留所有高频对象，且无更新干扰，命中率 $H_{LFU}^{max} = \frac{\sum_{h>h_{th}} h \times S(h)}{\sum_{all} h \times S(h)}$。在 $\beta=0.9$ 时，前1%对象贡献20.6%请求，若其平均大小 $S(h>h_{1\%})$ 小于全局平均，则字节命中率 > 20.6%。具体增益 $\Delta H = H_{LFU}^{max} - H_{LRU}$ 取决于 $S(h)$ 的分布形态。
+
+## Corrected Claim
+
+LFU在Pareto(β=0.9)下的理论上限工作点（高性低成）：假设LFU完美识别并保留所有高频对象，且无更新干扰，命中率 $H_{LFU}^{max} = \frac{\sum_{h>h_{th}} h \times S(h)}{\sum_{all} h \times S(h)}$。在 $\beta=0.9$ 时，前1%对象贡献20.6%请求，若其平均大小 $S(h>h_{1\%})$ 小于全局平均，则字节命中率 > 20.6%。具体增益 $\Delta H = H_{LFU}^{max} - H_{LRU}$ 取决于 $S(h)$ 的分布形态。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：LFU理论上限公式定义正确，Pareto分布下头部对象请求占比与字节命中率的逻辑推导自洽，无内部矛盾。

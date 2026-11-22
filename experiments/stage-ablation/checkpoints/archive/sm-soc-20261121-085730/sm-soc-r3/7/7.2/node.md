@@ -1,0 +1,30 @@
+# N133: 上尾买家(>95th percentile)的成交概率P_deal_tail ≈ 0.15 是静态估计，实际概率受卖家挂价P与买家估值上限V_max的匹配度影响
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N40
+
+## Claim
+
+上尾买家(>95th percentile)的成交概率P_deal_tail ≈ 0.15 是静态估计，实际概率受卖家挂价P与买家估值上限V_max的匹配度影响，动态公式为 P_deal_tail = 1 - exp(-λ_match * (V_max - P)/σ_tail)，其中λ_match为匹配效率参数。
+
+## Corrected Claim
+
+上尾买家(>95th percentile)的成交概率受卖家挂价P与买家估值上限V_max的匹配度影响，具体数值和动态公式需依据特定市场模型或实证数据确定，现有通用百分位数定义无法直接推导该特定概率值。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（P_deal_tail ≈ 0.15）和特定的动态公式（P_deal_tail = 1 - exp(-λ_match * (V_max - P)/σ_tail)），这些属于特定市场模型或经验事实，无法从第一性原理推导，且参考来源完全未涉及此内容。 | 参考来源[1][2][3]均讨论性能测试中的百分位数（P95/P99）概念，与交易概率模型无关，属于主题不匹配；该事实为经验性模型参数，逻辑自洽但缺乏来源支持，依据经验事实排除条款降级。
+
+## Search Query
+
+dynamic matching probability high valuation buyers second-hand market
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_74866702/article/details/155944095&rut=76e4bf302549c5c002bd199c81c4ad73f1085fc416e178d70fce4e7a07430441', 'type': 'ddg', 'title': '百分位数（Percentile）详解：P90、P95、P99 - CSDN博客'}
+- {'url': 'https://blog.csdn.net/Dontla/article/details/160182115&rut=5ec00468a3e1a66ada595c7cccfb4c65b92fd2478183317979f6dcc74193761f', 'type': 'ddg', 'title': '性能测试中的百分位数指标（Percentiles）介绍（第N百分位数Pn、长尾延迟Tail Latency、P50Med'}
+- {'url': 'https://qaskills.sh/blog/performance-test-percentiles-p95-p99-guide&rut=11b591304f711bedfd31384492e565a656b875da1d199fa495f87611199f468a', 'type': 'ddg', 'title': 'Performance Percentiles: p50, p95, p99 Explained (2026)'}

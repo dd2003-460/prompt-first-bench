@@ -1,0 +1,20 @@
+# N68: 在 PCIe 4.0 x16 互联下，单方向有效带宽约为 15.75 GB/s，双向有效带宽约为 31.5 GB/s，这是计算多卡通信延迟的分母基础参数
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+在 PCIe 4.0 x16 互联下，单方向有效带宽约为 15.75 GB/s，双向有效带宽约为 31.5 GB/s，这是计算多卡通信延迟的分母基础参数
+
+## Corrected Claim
+
+在 PCIe 4.0 x16 互联下，单方向有效带宽约为 15.75 GB/s，双向有效带宽约为 31.5 GB/s，这是计算多卡通信延迟的分母基础参数
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe 4.0 单通道速率 16 GT/s，采用 128b/130b 编码，单方向有效带宽约为 15.75 GB/s，双向约为 31.5 GB/s，数值量级与工程常识一致。

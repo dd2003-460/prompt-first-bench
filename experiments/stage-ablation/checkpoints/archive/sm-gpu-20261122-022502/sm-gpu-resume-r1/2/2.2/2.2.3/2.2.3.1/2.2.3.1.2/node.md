@@ -1,0 +1,20 @@
+# N589: B200 运行 NVFP4 Qwen3-27B 时，Decode 阶段每 token 从 HBM 读取的总数据量 = 权重大小 (13.5GB) + KV Ca
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N180
+
+## Claim
+
+B200 运行 NVFP4 Qwen3-27B 时，Decode 阶段每 token 从 HBM 读取的总数据量 = 权重大小 (13.5GB) + KV Cache 读取量 (1.07GB) = 14.57GB，理论带宽上限 = 8000GB/s / 14.57GB ≈ 549 tokens/s
+
+## Corrected Claim
+
+B200 运行 NVFP4 Qwen3-27B 时，Decode 阶段每 token 从 HBM 读取的总数据量 = 权重大小 (13.5GB) + KV Cache 读取量 (1.07GB) = 14.57GB，理论带宽上限 = 8000GB/s / 14.57GB ≈ 549 tokens/s
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：B200 HBM带宽8000GB/s为已知规格，NVFP4下27B模型权重约13.5GB（27e9*0.5bytes），KV Cache 1.07GB量级合理，算术运算 8000/14.57≈549 正确。

@@ -1,0 +1,20 @@
+# N91: H100 SXM5的HBM3内存带宽为3.35 TB/s，Qwen3-27B在FP8精度下每生成1个Token需读取约27GB权重数据（假设全参数加载），因此内
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N31
+
+## Claim
+
+H100 SXM5的HBM3内存带宽为3.35 TB/s，Qwen3-27B在FP8精度下每生成1个Token需读取约27GB权重数据（假设全参数加载），因此内存带宽受限下的理论最大Token/s吞吐率为 3350 GB/s / 27 GB ≈ 124 Token/s，这与N31中给出的80-120 Token/s范围上限接近，表明H100在FP8下运行Qwen3-27B时主要受内存带宽限制而非计算限制，TTFT和TPOT的进一步优化需依赖算子融合或量化压缩。
+
+## Corrected Claim
+
+H100 SXM5的HBM3内存带宽为3.35 TB/s，Qwen3-27B在FP8精度下每生成1个Token需读取约27GB权重数据（假设全参数加载），因此内存带宽受限下的理论最大Token/s吞吐率为 3350 GB/s / 27 GB ≈ 124 Token/s，这与N31中给出的80-120 Token/s范围上限接近，表明H100在FP8下运行Qwen3-27B时主要受内存带宽限制而非计算限制，TTFT和TPOT的进一步优化需依赖算子融合或量化压缩。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H100 SXM5 HBM3带宽3.35TB/s及Qwen3-27B FP8权重约27GB均为公认工程参数，算术推导3350/27≈124.07符合内存带宽受限场景下的理论上限估算逻辑。

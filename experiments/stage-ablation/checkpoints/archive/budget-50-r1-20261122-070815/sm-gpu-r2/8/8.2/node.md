@@ -1,0 +1,28 @@
+# N139: Mac Studio M2 Ultra 的 LLM 推理生态依赖 llama.cpp 或 MLX，其 Metal 后端优化程度直接影响实际吞吐；需验证在 32K
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N32
+
+## Claim
+
+Mac Studio M2 Ultra 的 LLM 推理生态依赖 llama.cpp 或 MLX，其 Metal 后端优化程度直接影响实际吞吐；需验证在 32K 上下文下，llama.cpp 的 KV Cache 管理是否高效，以及是否支持 Qwen3 的混合注意力架构（若不支持，性能可能下降 20-30%）
+
+## Corrected Claim
+
+Mac Studio M2 Ultra 的 LLM 推理生态依赖 llama.cpp 或 MLX，其 Metal 后端优化程度直接影响实际吞吐；需验证在 32K 上下文下，llama.cpp 的 KV Cache 管理是否高效，以及是否支持 Qwen3 的混合注意力架构（来源显示 Qwen3-Next 等混合模型需专门内核支持，否则无法正常运行或性能极差，具体性能损失需实测验证）。
+
+## Evidence
+
+[质询]陈述中关于“若不支持混合注意力架构，性能可能下降 20-30%”的具体数值缺乏来源支持，且来源[1]指出 Qwen3-Next 是混合 SSM 架构而非标准 Transformer，单纯转换 GGUF 无法运行，需从头编写内核，这意味着“不支持”时可能直接导致无法运行或严重错误，而非简单的性能下降百分比。 | 来源[1]直接支持 llama.cpp 对 Qwen3 系列（特别是 Next 版本）的混合架构支持存在重大技术障碍（需新内核），证实了生态依赖和后端优化的重要性，但未提供具体的性能下降数值（20-30%），该数值属于经验事实且无来源支持。
+
+## Search Query
+
+llama.cpp Qwen3 hybrid attention support M2 Ultra performance
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/ggml-org/llama.cpp/issues/15940&rut=25089e14ae36a3226e3951b2dcdfa7a16b1cf5377655daaa340c1623cf11e427', 'type': 'ddg', 'title': 'Feature Request: Qwen3-Next support · Issue #15940 · ggml-org/llama.cpp'}

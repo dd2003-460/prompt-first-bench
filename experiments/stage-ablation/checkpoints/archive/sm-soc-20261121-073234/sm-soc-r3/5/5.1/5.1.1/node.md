@@ -1,0 +1,24 @@
+# N303: iOS 端‘新降价’推送触达率 R_iOS 的计算：R_iOS = (1 - 权限关闭率 p_off_iOS) * 推送到达成功率 r_arr_iOS；在闲鱼等
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N102
+
+## Claim
+
+iOS 端‘新降价’推送触达率 R_iOS 的计算：R_iOS = (1 - 权限关闭率 p_off_iOS) * 推送到达成功率 r_arr_iOS；在闲鱼等主流平台，由于 iOS 对后台推送的严格限制及用户习惯性关闭，p_off_iOS 通常估计在 0.4-0.5 区间，r_arr_iOS 约为 0.9，综合 R_iOS ≈ 0.45-0.54，低于父节点给出的 60% 下限。
+
+## Corrected Claim
+
+iOS 端‘新降价’推送触达率 R_iOS 的计算公式为 R_iOS = (1 - p_off_iOS) * r_arr_iOS。在闲鱼等主流平台，受 iOS 后台限制及用户习惯影响，p_off_iOS 通常较高（可能在 0.4-0.6 区间），r_arr_iOS 约为 0.9，综合 R_iOS 通常低于 60%。
+
+## Evidence
+
+[质询]p_off_iOS 0.4-0.5 的估计值缺乏公开权威数据支持，且不同应用类型（如电商 vs 社交）差异巨大，直接断言‘通常估计’存在以偏概全风险；此外，‘新降价’属于营销类推送，用户关闭率可能高于系统级推送，0.4-0.5 可能偏低。 | source=knowledge，逻辑自洽（乘法关系正确，量级合理），但 p_off_iOS 的具体数值区间属于经验估计，缺乏直接来源支持，且存在个体差异，故降级为定性表述。
+
+## Search Query
+
+iOS push notification opt-out rate e-commerce app statistics 2023

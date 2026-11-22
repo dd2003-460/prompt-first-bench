@@ -1,0 +1,20 @@
+# N96: 修正后的缓存容量覆盖对象数 K_eff 计算：由于ρ=-0.3，热门对象更小，缓存128GB实际可容纳的头部对象数量 K_eff 显著高于独立假设下的 K_in
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+修正后的缓存容量覆盖对象数 K_eff 计算：由于ρ=-0.3，热门对象更小，缓存128GB实际可容纳的头部对象数量 K_eff 显著高于独立假设下的 K_indep。通过求解 ∫_{0}^{K_eff} s(i) di = 128GB，其中 s(i) 为第i热对象的期望大小，得出 K_eff 的具体数值（预计 > 60,000），该数值是计算命中率下界的关键输入。
+
+## Corrected Claim
+
+修正后的缓存容量覆盖对象数 K_eff 计算：由于ρ=-0.3，热门对象更小，缓存128GB实际可容纳的头部对象数量 K_eff 显著高于独立假设下的 K_indep。通过求解 ∫_{0}^{K_eff} s(i) di = 128GB，其中 s(i) 为第i热对象的期望大小，得出 K_eff 的具体数值（预计 > 60,000），该数值是计算命中率下界的关键输入。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

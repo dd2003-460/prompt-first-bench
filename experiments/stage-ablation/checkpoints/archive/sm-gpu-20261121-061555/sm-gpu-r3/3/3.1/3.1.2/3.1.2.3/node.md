@@ -1,0 +1,24 @@
+# N221: Qwen3-27B 在 INT8 (W8A8) 精度下于 WikiText-2 数据集上的 Perplexity (PPL) 数值，需查阅 GPTQ 或 Smo
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N73, N74, N75
+
+## Claim
+
+Qwen3-27B 在 INT8 (W8A8) 精度下于 WikiText-2 数据集上的 Perplexity (PPL) 数值，需查阅 GPTQ 或 SmoothQuant 针对 Qwen3 架构的量化实验数据
+
+## Corrected Claim
+
+Qwen3-27B 在 INT8 (W8A8) 精度下于 WikiText-2 数据集上的 Perplexity (PPL) 数值需查阅 GPTQ 或 SmoothQuant 针对 Qwen3 架构的量化实验数据，具体数值待验证。
+
+## Evidence
+
+[质询]该陈述包含具体的经验事实（特定模型、特定量化方案、特定数据集下的PPL数值），属于硬件/模型性能指标，无法从第一性原理推导，且当前无可用来源支持具体数值。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+Qwen3-27B INT8 W8A8 quantization WikiText-2 perplexity GPTQ

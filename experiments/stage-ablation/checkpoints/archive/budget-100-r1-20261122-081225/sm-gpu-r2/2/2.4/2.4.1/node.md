@@ -1,0 +1,20 @@
+# N92: NVFP4 (4-bit floating point) 权重文件大小 13.5 GB 的计算假设所有 27B 参数均使用 4-bit 存储，但 NVFP4 格
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N19
+
+## Claim
+
+NVFP4 (4-bit floating point) 权重文件大小 13.5 GB 的计算假设所有 27B 参数均使用 4-bit 存储，但 NVFP4 格式通常包含 8-bit 的 scale 因子（每 16 或 32 个元素共享一个 scale），若按 group size 32 计算，scale 开销为 27B / 32 * 1 byte ≈ 0.84 GB，总文件大小为 14.34 GB。
+
+## Corrected Claim
+
+NVFP4 (4-bit floating point) 权重文件大小 13.5 GB 的计算假设所有 27B 参数均使用 4-bit 存储，但 NVFP4 格式通常包含 8-bit 的 scale 因子（每 16 或 32 个元素共享一个 scale），若按 group size 32 计算，scale 开销为 27B / 32 * 1 byte ≈ 0.84 GB，总文件大小为 14.34 GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数4-bit存储为13.5GB，Group 32的8-bit scale开销计算为27e9/32*1/1e9≈0.84GB，总和14.34GB，数值量级与逻辑自洽。

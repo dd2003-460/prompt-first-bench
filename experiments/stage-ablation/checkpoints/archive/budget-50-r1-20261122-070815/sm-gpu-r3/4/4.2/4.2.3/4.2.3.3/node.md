@@ -1,0 +1,24 @@
+# N310: H100 运行 Qwen3-27B FP8 时的实测吞吐量需搜索社区数据，以计算其能效比 (W/token) 并与 A100 和 RTX 4090 进行横向对比
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N107
+
+## Claim
+
+H100 运行 Qwen3-27B FP8 时的实测吞吐量需搜索社区数据，以计算其能效比 (W/token) 并与 A100 和 RTX 4090 进行横向对比，验证其是否具备长期持有的能效优势
+
+## Corrected Claim
+
+H100 运行 Qwen3-27B FP8 时的实测吞吐量及能效比 (W/token) 需依赖社区实测数据或官方基准测试进行横向对比，以验证其相对于 A100 和 RTX 4090 的能效优势。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件性能指标（H100运行Qwen3-27B FP8的吞吐量及能效比），属于经验事实，且当前无可用外部来源支持，无法验证具体数值或结论。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+H100 Qwen 27B FP8 inference throughput benchmark tokens per second

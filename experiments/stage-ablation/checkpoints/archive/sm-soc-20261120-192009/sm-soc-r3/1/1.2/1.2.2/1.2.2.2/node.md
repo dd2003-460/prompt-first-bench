@@ -1,0 +1,20 @@
+# N131: 时间衰减下的收益折损项：若 P(sale|t) 随时间指数衰减为 P0 * e^{-λt}，则 E[Revenue] 对时间 t 的导数 dE[Revenue]
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N38
+
+## Claim
+
+时间衰减下的收益折损项：若 P(sale|t) 随时间指数衰减为 P0 * e^{-λt}，则 E[Revenue] 对时间 t 的导数 dE[Revenue]/dt = -λ * P(sale) * p。该负值量化了每多等待一天导致的期望收益损失，是驱动卖家主动降价的核心机制。
+
+## Corrected Claim
+
+时间衰减下的收益折损项：若 P(sale|t) 随时间指数衰减为 P0 * e^{-λt}，则 E[Revenue] 对时间 t 的导数 dE[Revenue]/dt = -λ * P(sale) * p。该负值量化了每多等待一天导致的期望收益损失，是驱动卖家主动降价的核心机制。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：设 E[Revenue] = P(sale|t) * p，对 t 求导得 dE/dt = p * d(P0 * e^{-λt})/dt = p * (-λ * P0 * e^{-λt}) = -λ * P(sale|t) * p，推导正确。

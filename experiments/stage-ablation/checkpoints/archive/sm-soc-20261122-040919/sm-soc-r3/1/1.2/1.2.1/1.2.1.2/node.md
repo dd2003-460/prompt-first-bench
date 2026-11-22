@@ -1,0 +1,28 @@
+# N141: 投影1：参考点均值 μ_ref 的计算：μ_ref = γ * P_market + (1-γ) * P_history，其中 γ 为近期市场权重，P_hist
+
+- **status**: verified
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N35
+
+## Claim
+
+投影1：参考点均值 μ_ref 的计算：μ_ref = γ * P_market + (1-γ) * P_history，其中 γ 为近期市场权重，P_history 为卖家历史交易均价。若 γ=0.7, P_market=100, P_history=90，则 μ_ref=97。
+
+## Corrected Claim
+
+投影1：参考点均值 μ_ref 的计算：μ_ref = γ * P_market + (1-γ) * P_history，其中 γ 为近期市场权重，P_history 为卖家历史交易均价。若 γ=0.7, P_market=100, P_history=90，则 μ_ref=97。
+
+## Evidence
+
+逻辑推导成立，来源未直接覆盖（来源[1]讨论GEX，与参考点均值计算无关，但数学计算 0.7*100 + 0.3*90 = 97 正确）
+
+## Search Query
+
+reference point calculation recent market price historical transaction price
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2070273551765082142&rut=cc8da3c1bd459526a5bac1f8ff15532082a027b25b0b4ab2dff2fff3ef8e5cfd', 'type': 'ddg', 'title': '【自用学习】Gex计算 + 伽马墙实证回测完整研究方案 - 知乎'}

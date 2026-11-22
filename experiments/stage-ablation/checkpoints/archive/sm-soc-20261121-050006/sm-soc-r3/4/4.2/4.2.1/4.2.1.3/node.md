@@ -1,0 +1,20 @@
+# N268: 下游投影 2：σ_pref 阈值敏感性分析。当 σ_pref 从 0.15 * P_median 增加至 0.20 * P_median 时，L_compare
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N83
+
+## Claim
+
+下游投影 2：σ_pref 阈值敏感性分析。当 σ_pref 从 0.15 * P_median 增加至 0.20 * P_median 时，L_compare 从 0.42 上升至 0.51（P_ask = 1.2 * P_median）。灵敏度系数 ∂L_compare/∂σ_pref ≈ 1.8，表明噪声标准差每增加 1%，比价效率损失率增加 1.8%，凸显了噪声分布对买家行为的显著影响。
+
+## Corrected Claim
+
+下游投影 2：σ_pref 阈值敏感性分析。当 σ_pref 从 0.15 * P_median 增加至 0.20 * P_median 时，L_compare 从 0.42 上升至 0.51（P_ask = 1.2 * P_median）。灵敏度系数 ∂L_compare/∂σ_pref ≈ 1.8，表明噪声标准差每增加 1%，比价效率损失率增加 1.8%，凸显了噪声分布对买家行为的显著影响。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值变化量（0.51-0.42=0.09）与阈值变化量（0.20-0.15=0.05）之比约为1.8，与陈述中的灵敏度系数一致，内部逻辑自洽。

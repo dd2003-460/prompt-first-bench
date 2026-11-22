@@ -1,0 +1,24 @@
+# N156: H100 80GB SXM5 在 FP8 量化下运行 Qwen3-27B 32K 上下文的实测吞吐量基准数据（参考 NVIDIA 官方白皮书或 vLLM/SGL
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N37, N38, N39
+
+## Claim
+
+H100 80GB SXM5 在 FP8 量化下运行 Qwen3-27B 32K 上下文的实测吞吐量基准数据（参考 NVIDIA 官方白皮书或 vLLM/SGLang 社区实测，通常在 80-120 tokens/s 范围，具体取决于 batch size 和是否启用 FlashAttention-3）
+
+## Corrected Claim
+
+H100 80GB SXM5 在 FP8 量化下运行 Qwen3-27B 32K 上下文的吞吐量受 batch size 和 FlashAttention 版本影响显著，具体数值需参考最新实测基准，通常处于数十至百 tokens/s 量级。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性能数值（80-120 tokens/s），属于经验事实而非第一性原理可推导内容。由于缺乏官方白皮书或社区实测数据的直接引用，且不同硬件配置、软件栈版本及具体负载下吞吐量波动较大，该数值范围缺乏确凿来源支持，存在口径混淆或数据过时的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值范围）
+
+## Search Query
+
+H100 SXM5 FP8 Qwen3-27B throughput tokens per second benchmark SGLang vLLM

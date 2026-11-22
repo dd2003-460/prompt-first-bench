@@ -1,0 +1,28 @@
+# N158: Groq LPU 方案：80GB HBM2e，内存带宽 80 TB/s，支持 FP16/INT8 量化，单卡 BF16 27B 模型推理可行，但价格昂贵（约 $
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N27
+
+## Claim
+
+Groq LPU 方案：80GB HBM2e，内存带宽 80 TB/s，支持 FP16/INT8 量化，单卡 BF16 27B 模型推理可行，但价格昂贵（约 $50,000-$100,000），生态封闭，仅支持特定模型
+
+## Corrected Claim
+
+Groq LPU 方案：采用大容量片上 SRAM（非 HBM），内存带宽高达 80 TB/s，支持 FP16/INT8 量化，单卡 BF16 27B 模型推理可行，但价格昂贵（约 $50,000-$100,000），生态封闭，仅支持特定模型
+
+## Evidence
+
+[质询]核心架构描述错误：Groq LPU 的核心特征是摒弃 HBM，采用大容量片上 SRAM 以实现高带宽，而非使用 80GB HBM2e。 | 来源 [1] 明确指出 Groq LPU '摒弃了传统GPU依赖高带宽内存（HBM）的架构，转而采用集成大容量片上静态随机存取存储器（SRAM）的方案'，与陈述中的 '80GB HBM2e' 直接矛盾。
+
+## Search Query
+
+Groq LPU 80GB HBM2e inference Qwen3-27B price
+
+## Retrieval Sources
+
+- {'url': 'https://baike.baidu.com/item/Groq%20LPU/67518512&rut=6a1e0ef48d09a1c9d40c9e0d5d5ac5bc6980073a8d66e9eadf8834a16d0225bc', 'type': 'ddg', 'title': 'Groq LPU_百度百科'}

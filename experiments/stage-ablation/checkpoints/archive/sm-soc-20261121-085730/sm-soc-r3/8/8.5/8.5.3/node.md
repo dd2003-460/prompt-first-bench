@@ -1,0 +1,24 @@
+# N394: 短期退货率下降 -5% 的基线值需引入商品类别修正项：对于高主观性商品（如时尚服饰），基线下降幅度仅为 -3%，公式修正为 ΔR_return_short = 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N139, N140, N141
+
+## Claim
+
+短期退货率下降 -5% 的基线值需引入商品类别修正项：对于高主观性商品（如时尚服饰），基线下降幅度仅为 -3%，公式修正为 ΔR_return_short = -3% * s_signal_clarity * (1 + 0.67 * I_standardized)，其中 I_standardized 为商品标准化程度指标。
+
+## Corrected Claim
+
+短期退货率下降的基线值需引入商品类别修正项：对于高主观性商品（如时尚服饰），基线下降幅度通常低于标准化商品，具体修正公式需依据特定数据集校准，示例公式为 ΔR_return_short = -3% * s_signal_clarity * (1 + 0.67 * I_standardized)。
+
+## Evidence
+
+[质询]该公式中的系数（-3%, 0.67）及变量定义（s_signal_clarity, I_standardized）缺乏明确的来源支持或第一性原理推导基础，属于具体的经验参数设定，无法仅凭逻辑自洽性验证其数值的准确性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+standardized vs subjective goods return rate reduction platform signals

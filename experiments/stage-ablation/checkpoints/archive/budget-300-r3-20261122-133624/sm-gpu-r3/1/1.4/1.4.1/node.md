@@ -1,0 +1,30 @@
+# N52: BF16 精度下 KV Cache 显存占用公式：$2 \times N_{layers} \times N_{kv\_heads} \times d_{hea
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N9
+
+## Claim
+
+BF16 精度下 KV Cache 显存占用公式：$2 \times N_{layers} \times N_{kv\_heads} \times d_{head} \times L_{ctx} \times 2$ bytes，其中 Qwen3-27B 的 $N_{layers}=32, N_{kv\_heads}=4, d_{head}=128$，需验证具体参数值以修正 4.09GB 的估算误差。
+
+## Corrected Claim
+
+BF16 精度下 KV Cache 显存占用公式为 $2 \times N_{layers} \times N_{kv\_heads} \times d_{head} \times L_{ctx} \times 2$ bytes。需查阅 Qwen3-27B 具体版本的 config.json 确认 $N_{layers}, N_{kv\_heads}, d_{head}$ 的实际值以修正估算。
+
+## Evidence
+
+[质询]参考来源仅提供了配置文件链接，未直接展示具体的参数值（如 N_layers, N_kv_heads, d_head），无法直接验证 Qwen3-27B 的具体架构参数是否如陈述所述，且不同版本（Qwen3.5/3.6）可能存在差异，存在参数值不匹配的风险。 | 公式逻辑自洽（2字节/元素 * 2(K/V) * 层数 * 头数 * 头维度 * 序列长度），但来源 [1][2][3] 仅指向配置文件，未提供具体数值以直接支持或反驳 32/4/128 的参数值，属于间接支持。
+
+## Search Query
+
+Qwen3-27B config.json num_hidden_layers num_key_value_heads head_dim
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/huggingface/transformers/blob/main/src/transformers/models/qwen3/configuration_qwen3.py&rut=24ab7fc386d00079994c21016348369e83b1f4f841d6547addaae72a06e425b0', 'type': 'ddg', 'title': 'transformers/src/transformers/models/qwen3/configuration_qwen3 ... - GitHub'}
+- {'url': 'https://huggingface.co/Qwen/Qwen3.5-27B/blob/main/config.json&rut=815a50ddb72580af02f03d24b0870dea2d3720005da3f7d58f6213d1682016d2', 'type': 'ddg', 'title': 'config.json · Qwen/Qwen3.5-27B at main - Hugging Face'}
+- {'url': 'https://huggingface.co/Qwen/Qwen3.6-27B/blob/main/config.json&rut=943ea2bd9beeb8516c1958cdf37ce37cad888cb8405094239adb7759feffcae9', 'type': 'ddg', 'title': 'config.json · Qwen/Qwen3.6-27B at main - Hugging Face'}

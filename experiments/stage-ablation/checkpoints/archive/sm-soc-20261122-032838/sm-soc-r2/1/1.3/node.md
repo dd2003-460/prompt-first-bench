@@ -1,0 +1,20 @@
+# N7: 高溢价-短周期机制：平台算法或社交传播机制导致‘新上架’标签带来额外的注意力权重 $W_{new}$。成交周期 $T_{sale}$ 与有效注意力 $A_{ef
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+高溢价-短周期机制：平台算法或社交传播机制导致‘新上架’标签带来额外的注意力权重 $W_{new}$。成交周期 $T_{sale}$ 与有效注意力 $A_{eff}$ 成反比：$T_{sale} \propto 1/A_{eff}$。由于 $A_{eff} = A_{base} \cdot (1 + \alpha \cdot I_{new})$，其中 $I_{new}$ 为新品标识，即使 $P_{ask}$ 高，只要 $\alpha$ 足够大，$T_{sale}$ 仍可能短于常态。
+
+## Corrected Claim
+
+高溢价-短周期机制：平台算法或社交传播机制导致‘新上架’标签带来额外的注意力权重 $W_{new}$。成交周期 $T_{sale}$ 与有效注意力 $A_{eff}$ 成反比：$T_{sale} \propto 1/A_{eff}$。由于 $A_{eff} = A_{base} \cdot (1 + \alpha \cdot I_{new})$，其中 $I_{new}$ 为新品标识，即使 $P_{ask}$ 高，只要 $\alpha$ 足够大，$T_{sale}$ 仍可能短于常态。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点分别对应公式中的 A_base, I_new, alpha 和 K，彼此独立且无重复。但父节点的核心命题是‘高溢价’与‘短周期’的共存机制，即解释为何高 P_ask 未阻碍成交。现有子节点仅分解了注意力公式的构成参数，完全缺失了对‘高溢价’（P_ask）与‘注意力/成交’之间关系的处理（例如：高溢价是否降低转化率？注意力是否足以抵消高溢价带来的负面效应？），因此未覆盖父节点关于‘高溢价’这一关键约束的机制解释。）

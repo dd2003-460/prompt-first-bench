@@ -1,0 +1,20 @@
+# N175: 高意愿买家池的实际成交概率修正公式：P(deal_actual) = P(deal_theoretical) * (1 - P_compete)，其中 P_co
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N62
+
+## Claim
+
+高意愿买家池的实际成交概率修正公式：P(deal_actual) = P(deal_theoretical) * (1 - P_compete)，其中 P_compete 为竞争流失率，需量化在仅有3%买家池时的边际影响系数。
+
+## Corrected Claim
+
+高意愿买家池的实际成交概率可参考修正公式：P(deal_actual) ≈ P(deal_theoretical) * (1 - P_compete)，其中 P_compete 为竞争流失率，需结合具体市场数据量化在仅有3%买家池时的边际影响。
+
+## Evidence
+
+[质询]该公式为经验性启发式模型而非第一性原理推导，且'边际影响系数'的具体量化缺乏通用标准，不同市场环境下竞争流失率与成交概率的非线性关系复杂，简单线性修正可能失效。 | 先验知识/题面给定，逻辑校验通过（公式结构自洽，量纲合理），但作为经验性业务模型，缺乏通用理论支撑，且无外部来源验证其普适性。

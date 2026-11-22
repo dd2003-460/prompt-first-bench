@@ -1,0 +1,20 @@
+# N96: 权威基准测试 (MLPerf/Open LLM Leaderboard) 的适用性限制：MLPerf Inference 主要关注吞吐量 (tokens/s) 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N32
+
+## Claim
+
+权威基准测试 (MLPerf/Open LLM Leaderboard) 的适用性限制：MLPerf Inference 主要关注吞吐量 (tokens/s) 和延迟 (ms)，不直接提供 '质量损失' 指标；Open LLM Leaderboard 提供 PPL 和准确率，但测试集固定且可能过拟合。因此，对于 '量化精度选择'，需额外引用模型官方技术报告或特定领域的评估脚本 (如 MMLU-Pro, HumanEval) 进行交叉验证。
+
+## Corrected Claim
+
+权威基准测试 (MLPerf/Open LLM Leaderboard) 的适用性限制：MLPerf Inference 主要关注吞吐量 (tokens/s) 和延迟 (ms)，不直接提供 '质量损失' 指标；Open LLM Leaderboard 提供 PPL 和准确率，但测试集固定且可能过拟合。因此，对于 '量化精度选择'，需额外引用模型官方技术报告或特定领域的评估脚本 (如 MMLU-Pro, HumanEval) 进行交叉验证。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

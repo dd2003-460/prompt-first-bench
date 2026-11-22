@@ -1,0 +1,24 @@
+# N309: CTR 弹性模型的具体形式：ε_ctr = d(ln CTR)/d(ln Price_Premium) = k * (1 - Price_Premium/Thr
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N106
+
+## Claim
+
+CTR 弹性模型的具体形式：ε_ctr = d(ln CTR)/d(ln Price_Premium) = k * (1 - Price_Premium/Threshold)，其中 k 为基准弹性系数（通常 k≈-0.5 至 -1.0 表示负弹性），Threshold 为买家心理价格上限。
+
+## Corrected Claim
+
+CTR 弹性模型的具体形式：ε_ctr = d(ln CTR)/d(ln Price_Premium) = k * (1 - Price_Premium/Threshold)，其中 k 为基准弹性系数（通常 k≈-0.5 至 -1.0 表示负弹性），Threshold 为买家心理价格上限。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+price elasticity of click through rate non-linear model threshold

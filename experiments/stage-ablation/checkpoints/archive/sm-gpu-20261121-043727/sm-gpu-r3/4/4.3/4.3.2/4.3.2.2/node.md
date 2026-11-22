@@ -1,0 +1,30 @@
+# N182: H100 SXM 在 LLM 推理 Decode 阶段（内存受限）的实测 MFU 范围，由于 HBM3 带宽 (3.35 TB/s) 成为瓶颈，计算单元利用率极
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N70
+
+## Claim
+
+H100 SXM 在 LLM 推理 Decode 阶段（内存受限）的实测 MFU 范围，由于 HBM3 带宽 (3.35 TB/s) 成为瓶颈，计算单元利用率极低，BF16 和 FP8 模式下 MFU 通常低于 5%-10%，主要受限于权重加载时间而非计算时间
+
+## Corrected Claim
+
+H100 SXM 在 LLM 推理 Decode 阶段（内存受限）受 HBM3 带宽 (3.35 TB/s) 瓶颈限制，计算单元利用率极低，BF16 和 FP8 模式下 MFU 通常处于低个位数百分比水平（具体数值需参考特定模型与批处理大小的实测数据）。
+
+## Evidence
+
+[质询]参考来源仅提供了H100 SXM的硬件规格（如3.35 TB/s带宽、BF16/FP8算力），未包含任何关于LLM推理Decode阶段实测MFU（Model FLOPs Utilization）的具体数值或范围数据，无法直接验证'5%-10%'这一具体经验数值。 | 来源[1][2][3]确认了H100 SXM的HBM3带宽为3.35 TB/s及算力规格，支持了'内存受限'和'带宽瓶颈'的逻辑前提，但缺乏MFU实测数据支持，属于经验事实且缺直接来源支持。
+
+## Search Query
+
+H100 SXM LLM inference decode MFU memory bound HBM3 bandwidth utilization
+
+## Retrieval Sources
+
+- {'url': 'https://inferencex.semianalysis.com/chips/h100&rut=6288999ef3b04c4335f2b673fee144f9b1eb96492fdfd67f32bbcbb9abd5b818', 'type': 'ddg', 'title': 'NVIDIA H100 SXM Specs: ~$1.17/hr, 80 GB HBM3 | InferenceX'}
+- {'url': 'https://infervisor.ai/gpus/nvidia-h100&rut=8034e7932c0d6525c6026de93720bb1f125e71add2a6fb7ad8e95c2da8472c36', 'type': 'ddg', 'title': 'NVIDIA H100 SXM for LLM inference: specs and measured results'}
+- {'url': 'https://inferencebench.io/gpus/nvidia-h100-sxm/&rut=e757c3f6a2972324b69863b6fb52b2072fe45f0a19f9900f9fa918b4816ada13', 'type': 'ddg', 'title': 'H100 SXM — Inference Specs & Pricing | InferenceBench'}

@@ -1,0 +1,20 @@
+# N97: 数据溯源表结构定义：建立 JSON 结构，字段包括 {parameter_name, value, source_type (search/memory/der
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N28
+
+## Claim
+
+数据溯源表结构定义：建立 JSON 结构，字段包括 {parameter_name, value, source_type (search/memory/derived), confidence_level (high/medium/low), timestamp, verification_status (verified/degraded/failed)}。所有 [待核验] 项必须填充 confidence_level 和 verification_status。
+
+## Corrected Claim
+
+数据溯源表结构定义：建立 JSON 结构，字段包括 {parameter_name, value, source_type (search/memory/derived), confidence_level (high/medium/low), timestamp, verification_status (verified/degraded/failed)}。所有 [待核验] 项必须填充 confidence_level 和 verification_status。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

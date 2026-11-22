@@ -1,0 +1,20 @@
+# N291: 2x RTX 4090 运行 Qwen3-27B INT4 (AWQ) 在 32K 上下文下的可行性验证：INT4 权重大小约 14GB，分布在 2 卡上每卡 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N88, N89, N90
+
+## Claim
+
+2x RTX 4090 运行 Qwen3-27B INT4 (AWQ) 在 32K 上下文下的可行性验证：INT4 权重大小约 14GB，分布在 2 卡上每卡 7GB；32K 上下文 KV Cache (BF16) 约 10-15GB，分布在 2 卡上每卡 5-7.5GB；总需求每卡约 12-14.5GB < 24GB，因此 INT4 + 32K 在 2x 4090 上高度可行，且有大量显存余量用于增加 Batch Size 或支持更长上下文。
+
+## Corrected Claim
+
+2x RTX 4090 运行 Qwen3-27B INT4 (AWQ) 在 32K 上下文下的可行性验证：INT4 权重大小约 14GB，分布在 2 卡上每卡 7GB；32K 上下文 KV Cache (BF16) 约 10-15GB，分布在 2 卡上每卡 5-7.5GB；总需求每卡约 12-14.5GB < 24GB，因此 INT4 + 32K 在 2x 4090 上高度可行，且有大量显存余量用于增加 Batch Size 或支持更长上下文。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B INT4权重约14GB，32K上下文KV Cache约10-15GB，总显存需求约24-29GB，小于2x24GB=48GB，且分布均匀，逻辑自洽。

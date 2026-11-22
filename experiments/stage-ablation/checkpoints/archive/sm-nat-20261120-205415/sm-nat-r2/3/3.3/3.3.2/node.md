@@ -1,0 +1,20 @@
+# N54: LFU 相对 LRU 的绝对增益 ΔH_max = H_LFU_max - H_LRU_base，其中 H_LRU_base 为 LRU 在相同容量下的稳态字节
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N15
+
+## Claim
+
+LFU 相对 LRU 的绝对增益 ΔH_max = H_LFU_max - H_LRU_base，其中 H_LRU_base 为 LRU 在相同容量下的稳态字节命中率；在 ρ=-0.3 的 Pareto 分布下，该差值量化了避免缓存低频大对象的收益
+
+## Corrected Claim
+
+LFU 相对 LRU 的绝对增益 ΔH_max = H_LFU_max - H_LRU_base，其中 H_LRU_base 为 LRU 在相同容量下的稳态字节命中率；在 ρ=-0.3 的 Pareto 分布下，该差值量化了避免缓存低频大对象的收益
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

@@ -1,0 +1,24 @@
+# N48: CPU-only 方案（Xeon/EPYC）+大内存在运行 Qwen3-27B INT8 量化版本时的实测吞吐量（单用户，32K 上下文）：约为 1-3 tok
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N8
+
+## Claim
+
+CPU-only 方案（Xeon/EPYC）+大内存在运行 Qwen3-27B INT8 量化版本时的实测吞吐量（单用户，32K 上下文）：约为 1-3 tokens/s（来源：vLLM 官方 benchmark 报告 2024-11 或第三方独立评测如 Benchmarks.gg 2025-01），需标注具体测试日志和模型版本。
+
+## Corrected Claim
+
+CPU-only 方案（Xeon/EPYC）+大内存在运行 Qwen3-27B INT8 量化版本时的实测吞吐量（单用户，32K 上下文）通常较低，具体数值需参考特定硬件配置下的实测日志，一般量级在个位数 tokens/s 或更低。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间存在正交性（一个关注算力/带宽理论上限，一个关注内存容量需求），无冗余。但完备性不足：父节点明确要求提供‘实测吞吐量’及‘具体测试日志/模型版本’，而子节点1仅提供了基于硬件参数的‘理论上限’估算（且标注待核验），子节点2仅计算了内存占用。两者均未直接回答父节点核心要求的‘实测值’（1-3 tokens/s）及其来源证据，导致父节点中的关键事实（实测数据）未被有效分解或验证。）
+
+## Search Query
+
+CPU-only Xeon EPYC Qwen3-27B INT8 inference benchmark tokens per second 32K context

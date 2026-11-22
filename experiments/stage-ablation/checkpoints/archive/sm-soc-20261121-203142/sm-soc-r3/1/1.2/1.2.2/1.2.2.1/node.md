@@ -1,0 +1,28 @@
+# N115: 基准点击率 CTR_base 的品类特异性：N30 假设 CTR_base=0.10，但该值在二手交易不同品类（如电子产品 vs 服装）中差异显著，需检索特定品
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N30
+
+## Claim
+
+基准点击率 CTR_base 的品类特异性：N30 假设 CTR_base=0.10，但该值在二手交易不同品类（如电子产品 vs 服装）中差异显著，需检索特定品类（如手机）在二手平台的平均基准点击率，通常范围在 5%-15% 之间，以校准模型输入。
+
+## Corrected Claim
+
+基准点击率 CTR_base 具有品类特异性，N30 假设的 0.10 需根据具体二手品类（如手机）的实际历史数据进行校准，不同品类间存在显著差异。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值范围（5%-15%）和特定场景（二手交易品类），属于经验事实，无法从第一性原理推导，且参考来源未提供该具体数据支持。 | 逻辑自洽，但参考来源[1]仅涉及CTR预测模型原理，未提供二手平台特定品类的基准CTR数值，属于经验事实缺来源支持。
+
+## Search Query
+
+average click through rate second hand electronics vs clothing online marketplace
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/yuhansmile/CTR_Prediction&rut=49633384cd5b963bc40c084e398d52a98f8151879b3cde85e94cec1cac9cf7fb', 'type': 'ddg', 'title': '广告点击率 (CTR)预测经典模型 GBDT + LR 理解与 ... - GitHub'}

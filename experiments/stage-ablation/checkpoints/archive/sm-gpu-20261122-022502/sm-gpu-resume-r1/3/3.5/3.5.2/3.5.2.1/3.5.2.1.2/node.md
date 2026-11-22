@@ -1,0 +1,20 @@
+# N755: MI300X 在 32K 上下文长度下，Qwen3-27B 的 BF16 KV Cache 总占用量精确计算为 12.58 GB (基于 Qwen3-27B 的
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N233, N234, N235
+
+## Claim
+
+MI300X 在 32K 上下文长度下，Qwen3-27B 的 BF16 KV Cache 总占用量精确计算为 12.58 GB (基于 Qwen3-27B 的层数 32、KV 头数 8、head_dim 128 计算：32 * 2 * 8 * 128 * 2 bytes * 32768 tokens)，加上 54GB 权重后总占用 66.58 GB，显存利用率 34.68%，无 OOM 风险。
+
+## Corrected Claim
+
+MI300X 在 32K 上下文长度下，Qwen3-27B 的 BF16 KV Cache 总占用量精确计算为 12.58 GB (基于 Qwen3-27B 的层数 32、KV 头数 8、head_dim 128 计算：32 * 2 * 8 * 128 * 2 bytes * 32768 tokens)，加上 54GB 权重后总占用 66.58 GB，显存利用率 34.68%，无 OOM 风险。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：KV Cache 计算公式 (2 * 层数 * KV头数 * head_dim * 精度字节 * 序列长度) 代入数值 32*2*8*128*2*32768 = 13,421,772,800 bytes ≈ 12.58 GB，计算无误；总显存占用 12.58 + 54 = 66.58 GB，利用率 66.58/192 ≈ 34.68%，逻辑自洽且数值量级合理。

@@ -1,0 +1,24 @@
+# N145: 信号效应的品类异质性阈值：在奢侈品/收藏品市场，Δr_signal 显著为正（约 5-15%），而在标准化电子产品市场，Δr_signal 趋近于 0 或为负，
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N43, N44, N45
+
+## Claim
+
+信号效应的品类异质性阈值：在奢侈品/收藏品市场，Δr_signal 显著为正（约 5-15%），而在标准化电子产品市场，Δr_signal 趋近于 0 或为负，需分品类估计 Δr_signal 的分布，以验证高价信号效应的适用范围。
+
+## Corrected Claim
+
+信号效应的品类异质性：在奢侈品/收藏品市场，Δr_signal 通常显著为正，而在标准化电子产品市场，Δr_signal 趋近于 0 或为负，需分品类估计 Δr_signal 的分布，以验证高价信号效应的适用范围。
+
+## Evidence
+
+[质询]具体数值区间（5-15%）缺乏普遍适用的理论推导或广泛共识支持，属于特定实证研究的经验性结论，不同研究或市场环境下可能存在显著差异，存在将局部经验数据过度泛化的风险。 | 先验知识/题面给定，逻辑校验通过（信号效应在非标准化商品中确实更强，逻辑自洽），但具体数值区间为经验事实，无来源直接支持，故降级。
+
+## Search Query
+
+heterogeneity price signal effect luxury goods vs electronics click-through rate

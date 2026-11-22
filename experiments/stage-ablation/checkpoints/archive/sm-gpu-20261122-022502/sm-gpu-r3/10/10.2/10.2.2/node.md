@@ -1,0 +1,24 @@
+# N283: MMLU-Pro 基准测试中，Qwen3-27B 从 BF16 降至 INT8 量化时的准确率绝对下降值 (Delta_MMLU) 及相对下降率，用于判断是否低
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N96
+
+## Claim
+
+MMLU-Pro 基准测试中，Qwen3-27B 从 BF16 降至 INT8 量化时的准确率绝对下降值 (Delta_MMLU) 及相对下降率，用于判断是否低于 2% 的可接受质量损失阈值。
+
+## Corrected Claim
+
+MMLU-Pro 基准测试中，Qwen3-27B 从 BF16 降至 INT8 量化时的准确率下降情况需查阅官方技术报告或第三方评测数据以确认具体数值及是否低于 2% 阈值。
+
+## Evidence
+
+[质询]该陈述涉及特定模型（Qwen3-27B）在特定基准（MMLU-Pro）下的具体量化性能数据，属于经验事实。由于缺乏任何参考来源支持，无法验证具体的绝对下降值（Delta_MMLU）和相对下降率是否真实存在或符合所述阈值，存在数据虚构或数值量级错误的风险。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，无法进行外部核验，依据经验事实排除条款降级）。
+
+## Search Query
+
+Qwen3-27B INT8 quantization MMLU-Pro accuracy drop BF16 baseline

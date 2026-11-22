@@ -1,0 +1,17 @@
+{
+  "id": "N236",
+  "claim": "RTX 4090 的 INT8 Tensor Core 峰值算力为 660 TOPS (2x FP16 的 330 TFLOPS)，在 MFU=50% 的实际效率下，Prefill 理论最大吞吐量为 660 TOPS * 0.5 / 0.054 TFLOPS/token ≈ 6,111 tokens/s，远高于 N65 声称的 480-720 tokens/s，表明 N65 的算力需求公式有误或 MFU 假设极端保守。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值量级与口径混淆：RTX 4090 的 INT8 峰值算力通常标称为 330 TOPS (FP16) 或 660 TOPS (INT8)，但 660 TOPS 是理论峰值。更关键的攻击点在于分母 '0.054 TFLOPS/token' 的来源不明且量级存疑。对于 LLM Prefill，每 token 的 FLOPs 通常约为 2 * N_params。若假设模型参数量 N 使得 2N = 0.054 TFLOPS (即 54 GFLOPs/token)，则 N ≈ 27B 参数。这是一个合理的假设，但陈述中直接使用该数值而未说明模型规模，且将 'TOPS' (整数) 与 'TFLOPS' (浮点) 混用单位进行除法运算（虽然数值上 1 TOPS = 1 TFLOPS 在量纲上可通约，但严格来说 INT8 和 FP16 的算力定义不同，通常 INT8 是 FP16 的 2 倍，这里 660/330=2 符合）。然而，最大的逻辑漏洞在于：Prefill 阶段主要受限于计算密度，但 660 TOPS 是 INT8 峰值，而 LLM 推理通常使用 FP16/BF16 或 INT8 量化。如果使用 INT8，算力确实是 660 TOPS。计算 660 * 0.5 / 0.054 ≈ 6111。逻辑上自洽。但是，N65 声称的 480-720 tokens/s 可能基于不同的模型大小或不同的 MFU 假设。如果 N65 指的是更大的模型（如 70B+），则 0.054 TFLOPS/token 就不适用了。由于缺乏 N65 的具体上下文（模型大小），该陈述的对比基础不牢固。此外，RTX 4090 的 INT8 峰值算力官方数据通常为 330 TOPS (FP16) 和 660 TOPS (INT8) 是常见的营销数据，但实际 Tensor Core 在 INT8 下的表现可能受限于内存带宽或其他因素。不过，最有力的攻击点是：0.054 TFLOPS/token 这个参数是特定于某个特定模型大小的，将其作为通用分母来反驳 N65 的结论，属于‘口径混淆’或‘前提缺失’。如果 N65 讨论的是 70B 模型，其每 token FLOPs 约为 140 GFLOPS (0.14 TFLOPS)，则吞吐量会减半。因此，该陈述依赖于一个未声明的模型规模假设。 | 先验知识/题面给定，逻辑校验通过，但存在前提假设（模型参数量）未明确声明的风险，且无外部来源支持具体数值对比。",
+  "corrected_claim": "在假设模型参数量约为 27B（即每 token 计算量约为 0.054 TFLOPS）且 MFU=50% 的条件下，RTX 4090 的 INT8 理论 Prefill 吞吐量约为 6,111 tokens/s。若 N65 针对的是更大规模的模型或采用了更保守的 MFU 假设，其 480-720 tokens/s 的结论可能成立，需结合具体模型规模进行对比。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N65"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

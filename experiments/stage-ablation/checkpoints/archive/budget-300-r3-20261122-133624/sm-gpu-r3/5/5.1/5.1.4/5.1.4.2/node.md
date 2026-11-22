@@ -1,0 +1,20 @@
+# N345: RTX 5090 在 INT8 下运行 Qwen3-27B 且上下文为 32K tokens 时的总显存需求为 54.59 GB (权重 27 GB + KV 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N115, N116, N117
+
+## Claim
+
+RTX 5090 在 INT8 下运行 Qwen3-27B 且上下文为 32K tokens 时的总显存需求为 54.59 GB (权重 27 GB + KV Cache 3.69 GB + 框架/激活开销 ~23.9 GB)，远超 32 GB 物理显存，单卡部署在 32K 上下文下物理不可行
+
+## Corrected Claim
+
+RTX 5090 在 INT8 下运行 Qwen3-27B 且上下文为 32K tokens 时的总显存需求为 54.59 GB (权重 27 GB + KV Cache 3.69 GB + 框架/激活开销 ~23.9 GB)，远超 32 GB 物理显存，单卡部署在 32K 上下文下物理不可行
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B INT8权重约27GB，32K上下文KV Cache约3.7GB，加上框架及激活开销约24GB，总显存需求约54.6GB，远超32GB物理显存，单卡部署不可行。

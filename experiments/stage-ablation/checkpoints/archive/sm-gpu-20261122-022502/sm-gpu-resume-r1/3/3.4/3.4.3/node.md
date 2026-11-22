@@ -1,0 +1,24 @@
+# N83: 多卡互联带宽瓶颈量化：4x RTX 4090 通过 PCIe 4.0 x16 互联，理论单向带宽 32 GB/s，双向 64 GB/s；在 Tensor Par
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N19
+
+## Claim
+
+多卡互联带宽瓶颈量化：4x RTX 4090 通过 PCIe 4.0 x16 互联，理论单向带宽 32 GB/s，双向 64 GB/s；在 Tensor Parallelism (TP=4) 下，每层 Attention 计算后需进行 AllReduce 通信，假设每层通信数据量为 2 * hidden_size * batch_size * seq_len * dtype_size，对于 Qwen3-27B (hidden=4096, BF16)，单 token 通信开销约为 4096 * 2 * 4 * 2 / 1e9 ≈ 65.5 MB/layer，64 层总通信量 4.19 GB，理论通信延迟 4.19 GB / 32 GB/s ≈ 131 ms/token，远超计算时间，导致实际吞吐下降 >50% [待核验：具体框架优化后的实际开销]。
+
+## Corrected Claim
+
+多卡互联带宽瓶颈量化：4x RTX 4090 通过 PCIe 4.0 x16 互联，理论单向带宽 32 GB/s。在 Tensor Parallelism (TP=4) 下，每层 Attention 计算后需进行 AllReduce 通信。通信数据量取决于 batch_size 和 seq_len。若假设 batch_size=1, seq_len=1（单 token 推理），每层通信量约为 4096 * 2 * 4 * 2 bytes ≈ 64 KB，64 层总通信量约 4 MB，理论通信延迟极低（<1 ms），此时通信非瓶颈。若 batch_size 或 seq_len 较大（如 batch=32, seq=1024），通信量将显著增加，可能导致通信延迟超过计算时间，具体需根据实际负载计算。
+
+## Evidence
+
+[质询]数值量级与通信模式混淆：TP=4 下 AllReduce 的通信量通常与 batch_size 成正比，而非 seq_len；若按单 token 推理（batch=1），通信量仅为 KB 级别，而非 GB 级别。陈述中假设 batch_size * seq_len 导致通信量高达 4.19 GB，这对应的是极大 batch 或长序列的极端情况，且未明确 batch_size 取值，导致“单 token 通信开销”这一表述在逻辑上自相矛盾（单 token 通常指 batch=1 或 per-token 平均，但计算中隐含了巨大的 batch/seq 乘积）。此外，PCIe 4.0 x16 理论带宽 32 GB/s 是单向，双向 64 GB/s 正确，但 AllReduce 实际有效带宽受限于协议开销，通常远低于理论值，直接除以理论带宽会低估延迟。 | 逻辑校验发现内部矛盾：'单 token 通信开销' 与 '4.19 GB/layer' 量级不符（单 token 应为 KB 级），且未定义 batch_size 和 seq_len 的具体值，导致计算基础缺失；来源无可用证据，无法验证具体框架优化后的实际开销。
+
+## Search Query
+
+PCIe 4.0 x16 bandwidth GB/s tensor parallelism allreduce latency RTX 4090

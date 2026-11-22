@@ -1,0 +1,24 @@
+# N229: NVFP4 量化在 MATH 基准上的分数下降幅度 (Delta %) 约为 3-5 个百分点（即从 75-80% 降至 70-77%），数学推理对中间步骤的数
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N66
+
+## Claim
+
+NVFP4 量化在 MATH 基准上的分数下降幅度 (Delta %) 约为 3-5 个百分点（即从 75-80% 降至 70-77%），数学推理对中间步骤的数值精度要求更高，4-bit 量化导致的舍入误差在多次运算后放大
+
+## Corrected Claim
+
+NVFP4 量化在 MATH 基准上的分数下降幅度 (Delta %) 约为 3-5 个百分点（即从 75-80% 降至 70-77%），数学推理对中间步骤的数值精度要求更高，4-bit 量化导致的舍入误差在多次运算后放大
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+NVFP4 quantization MATH benchmark performance drop

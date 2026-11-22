@@ -1,0 +1,28 @@
+# N63: Qwen3-27B 在 INT8 精度下的 Perplexity (PPL) 值及相对于 BF16 的 PPL 增加百分比（用于评估通用语言建模质量损失，与 F
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N14
+
+## Claim
+
+Qwen3-27B 在 INT8 精度下的 Perplexity (PPL) 值及相对于 BF16 的 PPL 增加百分比（用于评估通用语言建模质量损失，与 FP8 对比）
+
+## Corrected Claim
+
+Qwen3-27B（或相近规格模型）在INT8精度下的Perplexity值通常略高于BF16，具体增加百分比需查阅官方技术报告或基准测试数据，当前来源未提供确切数值。
+
+## Evidence
+
+[质询]参考来源[1]标题及内容提及的是'Qwen3.8-27B'（疑似笔误或虚构版本，通常Qwen3系列为235B/32B/14B等，且无'3.8'版本），且主要宣传本地部署隐私与性能，未提供具体的INT8与BF16的Perplexity数值对比数据；此外，'Qwen3-27B'这一具体型号在公开主流模型列表中并不常见（常见为Qwen2.5-32B或Qwen3-32B等），存在型号名称混淆或来源不可靠的风险。 | 来源[1]主题相关但内容未提供具体PPL数值，且模型版本号存疑（Qwen3.8-27B vs Qwen3-27B），属于经验事实且缺乏直接数据支持，逻辑上INT8量化导致PPL上升符合直觉，但具体数值无法从现有来源验证。
+
+## Search Query
+
+Qwen3-27B INT8 perplexity evaluation
+
+## Retrieval Sources
+
+- {'url': 'https://www.sohu.com/a/1069709228_122066679&rut=1fbeb9fdec6b8ca0134f630c1700c0d714daa8fb2d6eddfc562e3dfcf9de1114', 'type': 'ddg', 'title': '本地AI革命来了!Perplexity发布Qwen3.8-27B智能体，隐私+性能双爆表'}

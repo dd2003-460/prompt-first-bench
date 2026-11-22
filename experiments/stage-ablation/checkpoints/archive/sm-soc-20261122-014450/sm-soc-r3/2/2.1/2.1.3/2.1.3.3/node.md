@@ -1,0 +1,24 @@
+# N171: P(Consult | High_P) 的计算：积分计算 P(V_buyer + λ * C_verify >= 1.2 * P_market)。需代入 N13
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N51
+
+## Claim
+
+P(Consult | High_P) 的计算：积分计算 P(V_buyer + λ * C_verify >= 1.2 * P_market)。需代入 N136 和 N137 的参数，计算高挂价条件下发起咨询的买家比例，预期该比例高于市场价条件下的比例，以支撑短周期假设。
+
+## Corrected Claim
+
+P(Consult | High_P) 的计算：积分计算 P(V_buyer + λ * C_verify >= 1.2 * P_market)。需代入 N136 和 N137 的参数，计算高挂价条件下发起咨询的买家比例，预期该比例高于市场价条件下的比例，以支撑短周期假设。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该陈述描述的是基于给定参数（N136/N137）的积分计算过程及预期结论，属于模型推导步骤，逻辑自洽且无内部矛盾。
+
+## Search Query
+
+probability of inquiry given high listing price buyer valuation distribution

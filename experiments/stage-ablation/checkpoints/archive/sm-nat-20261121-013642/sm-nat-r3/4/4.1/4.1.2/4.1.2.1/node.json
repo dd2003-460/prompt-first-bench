@@ -1,0 +1,17 @@
+{
+  "id": "N173",
+  "claim": "修正 T_cold 计算中的单位错误：N58 中分母 500 GB/day 实为 R_bytes 的误算（若 E[Size]=1KB, R_bytes=50GB/day; 若 E[Size]=100KB, R_bytes=5TB/day），导致 T_cold 数量级错误。基于 N71 截断 Pareto(α=1.1, s_min=1KB, s_max=10GB) 计算 E[Size] ≈ 10KB (截断均值)，则 R_bytes ≈ 500GB/day，此时 T_cold = 128/(500*0.4) = 0.64 天，C_steady = 1-exp(-0.0064) ≈ 0.00638，折损因子 f_update ≈ 0.9936。",
+  "level": "L4",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]截断帕累托分布（α=1.1, s_min=1KB, s_max=10GB）的期望值计算存在严重偏差。对于 α < 2 的帕累托分布，均值由尾部主导。在 s_max=10GB 且 α=1.1 的情况下，E[Size] 远大于 10KB（理论截断均值约为 s_min * (α-1)/(α-2) * (1 - (s_min/s_max)^(α-1)) 的变体，或更准确地通过积分计算，结果通常在 MB 级别而非 KB 级别）。若 E[Size] 实际为 MB 级，则 R_bytes 将比 500GB/day 大几个数量级，导致 T_cold 极小，C_steady 接近 1，f_update 接近 0，与结论完全相反。 | 逻辑校验发现核心参数 E[Size] ≈ 10KB 与给定的截断帕累托分布参数（α=1.1, s_max=10GB）严重不符，导致后续推导的 R_bytes 和 T_cold 数量级错误。由于无外部来源支持且内部逻辑存在硬伤（统计期望值计算错误），判定为 degraded 并需修正。",
+  "corrected_claim": "基于 N71 截断 Pareto(α=1.1, s_min=1KB, s_max=10GB) 计算，E[Size] 应远大于 10KB（约为 MB 量级，具体取决于截断公式的精确应用，例如若近似为无上限帕累托则发散，有上限时由上限主导）。假设修正后的 E[Size] 为 X MB，则 R_bytes 相应增加，T_cold 将显著小于 0.64 天，C_steady 将接近 1，f_update 将接近 0。原陈述中 E[Size]≈10KB 的假设不成立。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N58"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "Pareto distribution truncated mean alpha 1.1 s_min 1KB s_max 10GB calculation",
+  "retrieval_sources": []
+}

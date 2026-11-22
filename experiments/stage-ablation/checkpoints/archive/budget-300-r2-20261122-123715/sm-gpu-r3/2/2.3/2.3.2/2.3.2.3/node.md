@@ -1,0 +1,24 @@
+# N220: A100 40GB 显存运行 Qwen3-27B INT8 (27GB) + 32K KV Cache (GQA, INT8, 约 18GB) 总需求 45GB
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N61
+
+## Claim
+
+A100 40GB 显存运行 Qwen3-27B INT8 (27GB) + 32K KV Cache (GQA, INT8, 约 18GB) 总需求 45GB，超出 40GB 显存，必须启用 KV Cache 量化 (FP8/INT4) 或限制上下文至 24K (KV 约 13.5GB)，此时总占用 40.5GB，仍需精细优化或启用 PagedAttention 碎片管理，否则不可行。
+
+## Corrected Claim
+
+A100 40GB 显存运行 Qwen3-27B INT8 (27GB) + 32K KV Cache (GQA, INT8, 约 18GB) 总需求 45GB，超出 40GB 显存，必须启用 KV Cache 量化 (FP8/INT4) 或限制上下文至 24K (KV 约 13.5GB)，此时总占用 40.5GB，仍需精细优化或启用 PagedAttention 碎片管理，否则不可行。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27GB(模型) + 18GB(KV) = 45GB > 40GB，且 27GB + 13.5GB = 40.5GB ≈ 40GB，数值量级与算术逻辑自洽。
+
+## Search Query
+
+A100 40GB Qwen 27B INT8 32K context KV cache memory calculation

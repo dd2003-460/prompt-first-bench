@@ -1,0 +1,20 @@
+# N9: 缓存能容纳的对象数量 k 的估计：k ≈ C / E[S_cached]，其中 E[S_cached] 是缓存中对象的平均大小，由于热门对象与大小负相关（ρ≈-
+
+- **status**: verified
+- **level**: L2
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+缓存能容纳的对象数量 k 的估计：k ≈ C / E[S_cached]，其中 E[S_cached] 是缓存中对象的平均大小，由于热门对象与大小负相关（ρ≈-0.3），E[S_cached] < E[S]，具体需通过联合分布计算
+
+## Corrected Claim
+
+缓存能容纳的对象数量 k 的估计：k ≈ C / E[S_cached]，其中 E[S_cached] 是缓存中对象的平均大小，由于热门对象与大小负相关（ρ≈-0.3），E[S_cached] < E[S]，具体需通过联合分布计算
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：缓存容量C除以平均对象大小E[S_cached]是估算对象数量的标准方法；若热门对象（更可能被缓存）与大小负相关，则缓存中对象的平均大小确实小于总体平均大小，逻辑自洽。

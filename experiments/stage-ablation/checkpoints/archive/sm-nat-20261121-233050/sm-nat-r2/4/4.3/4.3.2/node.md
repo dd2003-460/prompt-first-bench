@@ -1,0 +1,20 @@
+# N48: 动态命中项 H_dynamic_hit 的边界条件：若采用版本号/ETag 一致性协议，H_dynamic_hit ≈ P_update * P_reuse_w
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N16
+
+## Claim
+
+动态命中项 H_dynamic_hit 的边界条件：若采用版本号/ETag 一致性协议，H_dynamic_hit ≈ P_update * P_reuse_within_TTL，其中 P_reuse_within_TTL 取决于 TTL 设置与访问间隔分布；若采用主动推送失效，H_dynamic_hit ≈ 0。
+
+## Corrected Claim
+
+动态命中项 H_dynamic_hit 的边界条件：若采用版本号/ETag 一致性协议，H_dynamic_hit ≈ P_update * P_reuse_within_TTL，其中 P_reuse_within_TTL 取决于 TTL 设置与访问间隔分布；若采用主动推送失效，H_dynamic_hit ≈ 0。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

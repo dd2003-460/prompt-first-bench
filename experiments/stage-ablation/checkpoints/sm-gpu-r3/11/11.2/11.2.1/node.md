@@ -1,0 +1,30 @@
+# N304: 根据美国商务部 2023-2024 年出口管制条例（EAR），H100/A100 向中国最终用户销售需申请许可证（License Requirement），审批
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N133
+
+## Claim
+
+根据美国商务部 2023-2024 年出口管制条例（EAR），H100/A100 向中国最终用户销售需申请许可证（License Requirement），审批周期通常为 3-6 个月，且存在被拒风险；对于个人/小型企业，获批概率极低，实际 Lead Time 应视为无穷大或不可行，除非通过非管制区域（如新加坡/日本）采购并转运，此过程增加 $2,000-$5,000 物流与合规成本。
+
+## Corrected Claim
+
+根据美国商务部 EAR，H100/A100 向中国最终用户销售需申请许可证，存在被拒风险；对于个人/小型企业，获批难度极大，实际获取周期长或不可行；通过非管制区域转运虽可行但会增加额外的物流与合规成本。
+
+## Evidence
+
+[质询]陈述中关于“审批周期通常为 3-6 个月”、“获批概率极低”以及“增加 $2,000-$5,000 物流与合规成本”的具体数值和经验性结论缺乏参考来源的直接支持，且这些具体参数可能随政策执行力度和市场情况波动，属于经验事实而非第一性原理可推导内容。 | 来源 [2] 和 [3] 确认了 EAR 法规的存在及针对先进计算芯片（如 H100/A100）的管制框架，支持了“需申请许可证”这一核心逻辑；但来源未提供具体的审批时长、获批概率或转运成本数据，故降级为定性表述。
+
+## Search Query
+
+US export control H100 A100 China license requirement lead time 2024 small business approval rate
+
+## Retrieval Sources
+
+- {'url': 'https://swt.sc.gov.cn/sccom/c25030606/2025/12/11/db050b2027d74fc09c523789cbea4ad5.shtml&rut=80d2a053a96dc8b95f566b878ccf067836d82c4579fd70f0fb43a255b22d8a65', 'type': 'ddg', 'title': '美国《出口管制条例》（Ear）受控物项与受控行为全解析 - 涉外法律服务信息 - 四川省商务厅'}
+- {'url': 'https://media.bis.gov/regulations/ear/advanced-computing-and-semiconductor-manufacturing-items&rut=b5346038037948504be618a4b4c7affc73a476c0352f49108a48938a05d0211c', 'type': 'ddg', 'title': 'EAR advanced-computing-and-semiconductor-manufacturing-items | Bureau ...'}
+- {'url': 'https://media.bis.gov/regulations/ear&rut=e765fffb67920a3eb5825899a1b61e19641d364973fabd1b2713a9ebfa12dd27', 'type': 'ddg', 'title': 'Export Administration Regulations (EAR) | Bureau of Industry and Security'}

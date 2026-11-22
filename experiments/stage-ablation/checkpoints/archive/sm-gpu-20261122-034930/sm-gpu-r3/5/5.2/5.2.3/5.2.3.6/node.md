@@ -1,0 +1,24 @@
+# N353: vLLM在27B模型下的4.0GB框架开销构成拆解：CUDA Context初始化占用1.2GB + KV Cache Manager元数据（PagedAtte
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N125, N126, N127
+
+## Claim
+
+vLLM在27B模型下的4.0GB框架开销构成拆解：CUDA Context初始化占用1.2GB + KV Cache Manager元数据（PagedAttention blocks索引）1.8GB + 临时激活缓冲区（Activation buffers）1.0GB。该数值在Batch=1时稳定，Batch>2时线性增长。
+
+## Corrected Claim
+
+vLLM在27B模型下存在约4.0GB的框架开销，主要包含CUDA Context、KV Cache元数据及激活缓冲区等组件，具体数值随硬件配置和版本变化，且KV Cache占用随Batch和序列长度动态增长。
+
+## Evidence
+
+[质询]数值量级与构成拆解缺乏公开基准支持，且'Batch>2时线性增长'的表述过于简化，忽略了KV Cache随序列长度和Batch的非线性/动态分配特性，以及CUDA Context通常不随Batch线性增长的事实。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体GB数值及增长模式属于硬件/软件实现细节，无法从第一性原理严格推出）
+
+## Search Query
+
+vLLM memory overhead CUDA context KV cache manager 27B model

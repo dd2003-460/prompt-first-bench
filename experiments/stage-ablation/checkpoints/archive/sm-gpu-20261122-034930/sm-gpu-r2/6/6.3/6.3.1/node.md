@@ -1,0 +1,20 @@
+# N135: TCO敏感性分析：定义TCO(方案) = Price_GPU * (1 - ΔP) + 3 * (P_W * H * E * (1 + ΔE) + C_Ops)
+
+- **status**: verified
+- **level**: L3
+- **source**: given
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N40
+
+## Claim
+
+TCO敏感性分析：定义TCO(方案) = Price_GPU * (1 - ΔP) + 3 * (P_W * H * E * (1 + ΔE) + C_Ops)，其中ΔP为硬件价格变动率，ΔE为电价变动率，P_W为加权平均功耗(W)，H为年运行小时数(8760)，E为基准电价($/kWh)，C_Ops为年运维成本。
+
+## Corrected Claim
+
+TCO敏感性分析：定义TCO(方案) = Price_GPU * (1 - ΔP) + 3 * (P_W * H * E * (1 + ΔE) + C_Ops)，其中ΔP为硬件价格变动率，ΔE为电价变动率，P_W为加权平均功耗(W)，H为年运行小时数(8760)，E为基准电价($/kWh)，C_Ops为年运维成本。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

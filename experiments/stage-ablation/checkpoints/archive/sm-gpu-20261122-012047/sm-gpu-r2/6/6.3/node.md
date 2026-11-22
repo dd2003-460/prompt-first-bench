@@ -1,0 +1,24 @@
+# N158: Intel Gaudi 2 的价格约为 $10,000-$12,000，比 H100 SXM5 低 50-60%，但考虑吞吐量劣势，其每 token 成本比 H
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N42
+
+## Claim
+
+Intel Gaudi 2 的价格约为 $10,000-$12,000，比 H100 SXM5 低 50-60%，但考虑吞吐量劣势，其每 token 成本比 H100 高 20-30%，性价比在长期持有中不占优势。
+
+## Corrected Claim
+
+Intel Gaudi 2 的硬件采购价格通常低于 NVIDIA H100 SXM5，但由于其单卡吞吐量及软件生态成熟度存在劣势，在大规模推理场景下的每 token 综合成本可能高于 H100，长期持有的性价比优势不明显。
+
+## Evidence
+
+[质询]具体价格数值（$10,000-$12,000）及具体的成本差异百分比（50-60%, 20-30%）属于高度依赖市场波动、采购渠道和具体配置的经验事实，且不同来源数据可能存在显著差异，缺乏统一标准。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Intel Gaudi 2 price per token cost comparison H100 SXM5

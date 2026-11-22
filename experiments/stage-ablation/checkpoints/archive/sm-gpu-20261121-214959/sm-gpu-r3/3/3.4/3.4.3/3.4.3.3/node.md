@@ -1,0 +1,24 @@
+# N229: 多卡方案的实际性能瓶颈并非通信延迟，而是 '小批量 PCIe 传输效率' 和 'Kernel Launch Overhead'。实测中，4x 4090 的 TP
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N83
+
+## Claim
+
+多卡方案的实际性能瓶颈并非通信延迟，而是 '小批量 PCIe 传输效率' 和 'Kernel Launch Overhead'。实测中，4x 4090 的 TP=4 有效吞吐通常仅为单卡理想带宽的 60-70%，主要损失来自 PCIe 传输的小包开销 (Packet Overhead) 和 GPU 间同步等待，而非理论带宽限制。
+
+## Corrected Claim
+
+多卡方案的实际性能瓶颈通常包括通信延迟、PCIe 传输效率及 Kernel Launch Overhead。在特定配置（如 4x 4090 TP=4）下，有效吞吐可能显著低于单卡理想带宽，具体数值需依赖实测数据。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（60-70%）和特定的硬件配置（4x 4090, TP=4），属于硬件性能实测数据，无法从第一性原理推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+vLLM tensor parallelism 4x RTX 4090 throughput efficiency vs single card

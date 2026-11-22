@@ -1,0 +1,24 @@
+# N8: 随机偏好噪声 σ_pref 的建模：假设卖家对同类商品的价值评估服从 N(μ, σ_pref²)，其中 σ_pref 反映个体偏好离散度；在二手市场，σ_pre
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+随机偏好噪声 σ_pref 的建模：假设卖家对同类商品的价值评估服从 N(μ, σ_pref²)，其中 σ_pref 反映个体偏好离散度；在二手市场，σ_pref 通常占 μ 的 15%-30%（基于异质性估值模型），导致同一商品挂价分布呈右偏长尾。
+
+## Corrected Claim
+
+随机偏好噪声 σ_pref 的建模：假设卖家对同类商品的价值评估服从 N(μ, σ_pref²)，其中 σ_pref 反映个体偏好离散度；在二手市场，σ_pref 通常占 μ 的 15%-30%（基于异质性估值模型），导致同一商品挂价分布呈右偏长尾。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+preference heterogeneity noise variance used goods pricing distribution

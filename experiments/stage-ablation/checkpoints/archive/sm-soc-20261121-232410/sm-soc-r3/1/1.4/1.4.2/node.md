@@ -1,0 +1,28 @@
+# N41: β_risk（卖家风险偏好系数）的分布参数来源：LN(μ=1.1, σ=0.3) 的参数并非通用常数，而是基于特定二手平台卖家群体（注册时长>1年，月均挂单>5
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N9
+
+## Claim
+
+β_risk（卖家风险偏好系数）的分布参数来源：LN(μ=1.1, σ=0.3) 的参数并非通用常数，而是基于特定二手平台卖家群体（注册时长>1年，月均挂单>5件）的问卷调查与行为实验拟合得出，其均值e^1.1≈3.0意味着典型卖家对价格波动的敏感度是风险中性者的3倍。
+
+## Corrected Claim
+
+β_risk（卖家风险偏好系数）通常被建模为对数正态分布，若参数设定为LN(μ=1.1, σ=0.3)，则其均值约为3.0，意味着典型卖家对价格波动的敏感度是风险中性者的3倍；但该具体参数值需依据特定二手平台卖家群体的实际调研数据确定，并非通用常数。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间存在逻辑包含关系（非正交）：父节点明确限定分布参数仅适用于“注册时长>1年且月均挂单>5件”的特定群体，而子节点2（经验调节因子）却定义了基于同一维度的修正机制，导致概念重叠。此外，父节点核心是“分布参数来源”，但子节点3（商品价值敏感度）引入了与卖家个体风险偏好分布无关的动态变量，超出了“分布参数”本身的范畴，导致分解维度不一致。）
+
+## Search Query
+
+seller risk preference distribution lognormal parameters survey behavioral experiment secondhand marketplace
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Beta_distribution&rut=1e594042be867fb6b27504ad60b53110344ccc6003e902004f6d92877025e088', 'type': 'ddg', 'title': 'Beta distribution - Wikipedia'}

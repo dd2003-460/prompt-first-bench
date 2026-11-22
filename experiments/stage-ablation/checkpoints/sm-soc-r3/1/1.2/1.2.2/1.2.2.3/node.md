@@ -1,0 +1,24 @@
+# N126: 边际系数 δ 的饱和约束与失效边界：δ 随 T_hold 增加而递减（二阶导数 < 0），当 T_hold > 3τ 时，π_endow 趋于渐近线 π_max
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N36
+
+## Claim
+
+边际系数 δ 的饱和约束与失效边界：δ 随 T_hold 增加而递减（二阶导数 < 0），当 T_hold > 3τ 时，π_endow 趋于渐近线 π_max；若 T_hold 超过平台最大挂售期 T_max（如 90 天），则模型失效，需引入‘放弃出售’概率 P_drop，此时 π_endow 不再驱动成交，而是导致商品下架。
+
+## Corrected Claim
+
+边际系数 δ 的饱和约束与失效边界：δ 随 T_hold 增加而递减（二阶导数 < 0），当 T_hold > 3τ 时，π_endow 趋于渐近线 π_max；若 T_hold 超过平台最大挂售期 T_max（如 90 天），则模型失效，需引入‘放弃出售’概率 P_drop，此时 π_endow 不再驱动成交，而是导致商品下架。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：边际效用递减符合经济学直觉，T_hold > T_max 导致模型失效并引入放弃概率符合逻辑自洽性。
+
+## Search Query
+
+endowment effect saturation point maximum holding period seller drop-off probability

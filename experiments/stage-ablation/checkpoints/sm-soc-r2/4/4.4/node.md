@@ -1,0 +1,20 @@
+# N22: 干预对卖家的边际伤害量化：高溢价卖家（markup > 20%）的期望收入损失 ΔRev_seller = P_high * (1 - exp(-λ * Δt)
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+干预对卖家的边际伤害量化：高溢价卖家（markup > 20%）的期望收入损失 ΔRev_seller = P_high * (1 - exp(-λ * Δt)) * (1 - ε_price)，其中 λ 为咨询到达率，ε_price 为价格弹性，需估算 ε_price ∈ [0.5, 1.5] [待核验]
+
+## Corrected Claim
+
+高溢价卖家的期望收入损失 ΔRev_seller 应基于价格调整幅度与需求弹性综合估算，建议采用 ΔRev_seller ≈ P_high * Δt * λ * (1 + ε_price) * ΔP/P 形式（需明确 ΔP 方向），或定性描述为“随咨询到达率 λ 和价格弹性 ε_price 增加而增加”，避免使用导致符号错误的 (1-ε_price) 项。
+
+## Evidence
+
+父节点级核验未通过：不完备（虽然仅有一个子节点不存在正交性问题，但该子节点仅覆盖了公式中的 λ 参数建模，完全缺失了对父节点中另一个关键待核验参数 ε_price（价格弹性，范围 [0.5, 1.5]）的量化方法或估算逻辑，导致分解不完备。）

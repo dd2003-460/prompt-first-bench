@@ -1,0 +1,24 @@
+# N164: 尾部对象（Bottom 50% 频率）的驻留时间 T_res_i 的数值估算：对于频率排名 i > 50,000 的对象，λ_i 极低（< 1/天），λ_evi
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N64
+
+## Claim
+
+尾部对象（Bottom 50% 频率）的驻留时间 T_res_i 的数值估算：对于频率排名 i > 50,000 的对象，λ_i 极低（< 1/天），λ_evict_i 极高（因频繁被头部对象驱逐），T_res_i ≈ 1 / λ_evict_i ≈ 0.001 天（约 1.4 分钟）。这些对象几乎无法驻留，对命中率贡献可忽略。
+
+## Corrected Claim
+
+尾部对象（Bottom 50% 频率）的驻留时间 T_res_i 通常极短，因其驱逐率 λ_evict_i 远高于访问率 λ_i，导致其几乎无法驻留，对命中率贡献可忽略。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值估算（如 T_res_i ≈ 0.001 天），这属于特定系统负载下的经验事实，无法仅从第一性原理或数学公理严格推出，且缺乏外部来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+tail 50% frequency objects LRU residence time Pareto beta 0.9 low frequency eviction

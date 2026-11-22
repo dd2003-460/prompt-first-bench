@@ -1,0 +1,24 @@
+# N220: 负面信号阈值 θ_defect 的分布特性：买家感知缺陷的阈值 θ_defect 并非固定值，而是服从截断正态分布 N(θ_mean, θ_std) 且 θ_m
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N78
+
+## Claim
+
+负面信号阈值 θ_defect 的分布特性：买家感知缺陷的阈值 θ_defect 并非固定值，而是服从截断正态分布 N(θ_mean, θ_std) 且 θ_min > 0，导致部分买家即使面对相同降价幅度也不触发负面信号，需估算 P(S_neg > θ_defect) 来修正 δ 的期望值。
+
+## Corrected Claim
+
+负面信号阈值 θ_defect 的分布特性：买家感知缺陷的阈值 θ_defect 并非固定值，而是服从截断正态分布 N(θ_mean, θ_std) 且 θ_min > 0，导致部分买家即使面对相同降价幅度也不触发负面信号，需估算 P(S_neg > θ_defect) 来修正 δ 的期望值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+buyer perception threshold defect signal heterogeneous distribution behavioral economics

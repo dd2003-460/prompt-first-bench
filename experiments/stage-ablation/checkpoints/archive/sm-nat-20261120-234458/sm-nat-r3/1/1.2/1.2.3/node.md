@@ -1,0 +1,20 @@
+# N25: 更新失效概率 P_invalidate 取决于对象更新率 λ_update=0.01/天 和平均驻留时间 T_residence；若 T_residence 由
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+更新失效概率 P_invalidate 取决于对象更新率 λ_update=0.01/天 和平均驻留时间 T_residence；若 T_residence 由访问频率决定，需先计算平均访问频率。
+
+## Corrected Claim
+
+更新失效概率 P_invalidate 取决于对象更新率 λ_update=0.01/天 和平均驻留时间 T_residence；若 T_residence 由访问频率决定，需先计算平均访问频率。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

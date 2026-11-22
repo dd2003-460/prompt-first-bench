@@ -1,0 +1,20 @@
+# N56: 卖家偏离均衡的边际收益：dU_seller/dP = Q(P) - P * dQ/dP - dC_holding/dP。在均衡点 P* 处，若 dU_selle
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+卖家偏离均衡的边际收益：dU_seller/dP = Q(P) - P * dQ/dP - dC_holding/dP。在均衡点 P* 处，若 dU_seller/dP < 0，则卖家单方面降价（P < P*）会导致效用下降，因为 Q(P) 的增加不足以补偿 P 的下降及持有成本的减少。
+
+## Corrected Claim
+
+卖家偏离均衡的边际收益：dU_seller/dP = Q(P) - P * dQ/dP - dC_holding/dP。在均衡点 P* 处，若 dU_seller/dP < 0，则卖家单方面降价（P < P*）会导致效用下降，因为 Q(P) 的增加不足以补偿 P 的下降及持有成本的减少。
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备, 有冗余（子节点严重偏离父节点主题。父节点讨论的是确定性边际收益导数（dU/dP）及其在均衡点的符号判断，属于静态优化问题；而子节点引入了随机扰动（噪声、方差、随机投影），属于随机规划或风险偏好问题，与父节点的确定性微分逻辑不匹配。此外，子节点1、2、3存在冗余，分别描述了同一随机源的定义、参数量化和效用映射，可合并。）

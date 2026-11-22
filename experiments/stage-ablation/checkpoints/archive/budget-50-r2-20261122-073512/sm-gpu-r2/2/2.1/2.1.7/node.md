@@ -1,0 +1,20 @@
+# N67: NVIDIA RTX 3090 单卡运行 Qwen3-27B (INT4) 的理论生成速度上限：Bandwidth 936 GB/s / (13.5 GB 权重
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N13
+
+## Claim
+
+NVIDIA RTX 3090 单卡运行 Qwen3-27B (INT4) 的理论生成速度上限：Bandwidth 936 GB/s / (13.5 GB 权重 + 0.128 GB KV + 2 GB Activations) ≈ 58 tokens/s；实际受计算瓶颈限制，预计约为理论值的 60-70%，即 35-41 tokens/s [待核验]。
+
+## Corrected Claim
+
+NVIDIA RTX 3090 单卡运行 Qwen3-27B (INT4) 的理论带宽上限约为 58 tokens/s（基于静态内存占用估算）；实际生成速度受计算瓶颈、KV Cache动态增长及访存效率影响，预计显著低于理论值，具体数值需实测确定，通常可能在 30-45 tokens/s 区间（定性估计）。
+
+## Evidence
+
+[质询]理论带宽上限计算中，分母仅包含静态权重和少量KV/激活内存，忽略了推理过程中动态加载的KV Cache增长部分（随序列长度增加），且未考虑INT4量化下的实际访存模式与计算重叠效率，导致理论上限被高估；此外，'60-70%效率'为经验估计，缺乏该特定模型与硬件组合的实测数据支持。 | 先验知识/题面给定，逻辑校验通过：带宽瓶颈公式结构正确，量级合理（936GB/s / ~15.6GB ≈ 60 tokens/s，与58接近），但具体效率系数和实际速度为经验推测，无外部来源直接支持，故降级。

@@ -1,0 +1,24 @@
+# N276: 并发用户数N_user对TCO/性能比的影响系数可通过公式 TCO_per_user = TCO_total / N_user 计算，当N_user < 10时
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N99
+
+## Claim
+
+并发用户数N_user对TCO/性能比的影响系数可通过公式 TCO_per_user = TCO_total / N_user 计算，当N_user < 10时，4×A100的单用户TCO通常高于2×RTX 3090或1×L40S，具体交叉点N*可通过求解 (TCO_A100_4x / N*) = (TCO_3090_2x / N*) 确定，其中N*通常为5-8之间
+
+## Corrected Claim
+
+并发用户数N_user对TCO/性能比的影响系数可通过公式 TCO_per_user = TCO_total / N_user 计算，当N_user较小时，4×A100的单用户TCO通常高于2×RTX 3090或1×L40S，具体交叉点N*需根据实际硬件价格与性能基准测试数据求解确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值结论（N*通常为5-8之间），这属于硬件成本与性能的市场经验事实，无法仅通过第一性原理或数学公式推导得出，且缺乏外部来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+multi-user inference TCO per user crossover point GPU comparison

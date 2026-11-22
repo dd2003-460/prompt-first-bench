@@ -1,0 +1,28 @@
+# N149: AWQ 与 GPTQ 在 Qwen3-27B INT4 量化下的性能差异：AWQ 在 MMLU 上比 GPTQ 高 0.3-0.8%，在 GSM8K 上高 0.
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N54
+
+## Claim
+
+AWQ 与 GPTQ 在 Qwen3-27B INT4 量化下的性能差异：AWQ 在 MMLU 上比 GPTQ 高 0.3-0.8%，在 GSM8K 上高 0.5-1.2%，主要因 AWQ 保护显著通道且无需 Hessian 计算，校准速度更快
+
+## Corrected Claim
+
+AWQ 与 GPTQ 在 Qwen3-27B INT4 量化下的性能差异：AWQ 在 MMLU 和 GSM8K 上通常略优于 GPTQ，主要因 AWQ 保护显著通道且无需 Hessian 计算，校准速度更快
+
+## Evidence
+
+[质询]具体数值（MMLU高0.3-0.8%，GSM8K高0.5-1.2%）缺乏来源直接支持，且不同模型/数据集下AWQ与GPTQ的性能差异波动较大，固定区间可能不准确 | 来源[1]仅提及两篇论文标题，未提供具体性能对比数据；逻辑上AWQ保护显著通道且无需Hessian计算是正确的，但具体数值无法验证
+
+## Search Query
+
+AWQ vs GPTQ Qwen3-27B INT4 MMLU GSM8K comparison
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2018348252873933678&rut=ade7f713d2605b65a19239ad7a1961dfc1f64d8f6cf2a9b5f5e88c4336b3ed9f', 'type': 'ddg', 'title': '量化：AWQ vs GPTQ - 知乎'}

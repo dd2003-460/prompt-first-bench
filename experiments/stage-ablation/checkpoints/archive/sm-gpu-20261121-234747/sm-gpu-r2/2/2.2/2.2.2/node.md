@@ -1,0 +1,24 @@
+# N74: NVFP4量化在27B规模模型上导致Perplexity增加<3%，MMLU准确率下降<1.5%，数据需引用Qwen官方技术报告或GPTQ/AWQ评估表格
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+NVFP4量化在27B规模模型上导致Perplexity增加<3%，MMLU准确率下降<1.5%，数据需引用Qwen官方技术报告或GPTQ/AWQ评估表格
+
+## Corrected Claim
+
+NVFP4量化在27B规模模型上通常导致Perplexity和MMLU准确率出现轻微下降，具体数值需引用Qwen官方技术报告或GPTQ/AWQ评估表格确认。
+
+## Evidence
+
+[质询]具体数值（Perplexity增加<3%，MMLU下降<1.5%）属于特定模型（27B规模）在特定量化方案（NVFP4）下的经验性评估结果，无法从第一性原理推导，且缺乏来源支持以确认其准确性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值指标）
+
+## Search Query
+
+Qwen3-27B NVFP4 quantization perplexity MMLU accuracy loss

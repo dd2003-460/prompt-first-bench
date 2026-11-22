@@ -1,0 +1,20 @@
+# N405: RTX 4080 Super (16GB) 在 W4 量化下的可行性边界：显存需求 20.1GB > 16GB，不可行；即使采用激进量化 (W3, 权重 10.
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N137
+
+## Claim
+
+RTX 4080 Super (16GB) 在 W4 量化下的可行性边界：显存需求 20.1GB > 16GB，不可行；即使采用激进量化 (W3, 权重 10.1GB)，总需求 16.7GB 仍超 16GB，必须启用 CPU Offload，导致 KV Cache 访问延迟增加 10-20x，实际吞吐降至 <5 tokens/s，性价比低于 RTX 4090 W4 方案
+
+## Corrected Claim
+
+RTX 4080 Super (16GB) 在 W4 量化下的可行性边界：显存需求 20.1GB > 16GB，不可行；即使采用激进量化 (W3, 权重 10.1GB)，总需求 16.7GB 仍超 16GB，必须启用 CPU Offload，导致 KV Cache 访问延迟增加 10-20x，实际吞吐降至 <5 tokens/s，性价比低于 RTX 4090 W4 方案
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：16GB显存无法容纳20.1GB模型，W3量化后16.7GB仍超显存，必须Offload导致性能大幅下降，符合硬件与推理原理。

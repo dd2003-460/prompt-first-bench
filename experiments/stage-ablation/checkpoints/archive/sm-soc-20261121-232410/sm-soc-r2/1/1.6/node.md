@@ -1,0 +1,24 @@
+# N11: 短成交周期与高挂价的因果关联：成交周期T_deal = T_search * (1 - P_reject_high_price)，其中T_search为买家搜索
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+短成交周期与高挂价的因果关联：成交周期T_deal = T_search * (1 - P_reject_high_price)，其中T_search为买家搜索时间，P_reject_high_price = 1 - P(Quality=High | P_listed)，当P_listed在15-25%溢价区间时，P_reject_high_price从0.6降至0.3，T_deal缩短50%。
+
+## Corrected Claim
+
+短成交周期与高挂价存在关联：成交周期T_deal受买家搜索时间T_search及高挂价被拒绝概率P_reject_high_price影响。当P_listed处于15-25%溢价区间时，P_reject_high_price通常显著降低，从而缩短T_deal。
+
+## Evidence
+
+[质询]该陈述将复杂的经济学行为建模为简单的线性乘法公式，且给出了极其精确的经验数值（如P_reject从0.6降至0.3，T_deal缩短50%）。这些具体数值缺乏普遍适用的理论依据或实证支持，属于过度简化的经验断言，极易因市场情境不同而失效。 | source=knowledge，逻辑结构自洽（公式推导在给定参数下成立），但具体数值（0.6->0.3, 50%）属于缺乏普遍验证的经验参数，无法从第一性原理严格推出，故降级为定性表述。
+
+## Search Query
+
+deal closing time high price premium rejection probability search time

@@ -1,0 +1,24 @@
+# N241: LRU 缓存集合中热门对象（freq 前 10%）的驻留概率 P(freq_top10 in cache) 在 C=128GB 且 H_byte_LRU≈0.7
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N83
+
+## Claim
+
+LRU 缓存集合中热门对象（freq 前 10%）的驻留概率 P(freq_top10 in cache) 在 C=128GB 且 H_byte_LRU≈0.75 时，通过容量占比加权计算为 0.85，即 85% 的热门小对象能被缓存保留
+
+## Corrected Claim
+
+LRU 缓存集合中热门对象（freq 前 10%）的驻留概率在 C=128GB 且 H_byte_LRU≈0.75 时，通常显著高于整体命中率，估算值约为 0.85（85%），具体数值取决于访问分布的偏斜程度。
+
+## Evidence
+
+[质询]数值推导缺乏透明逻辑：从 H_byte_LRU≈0.75 直接得出 P(freq_top10 in cache)=0.85 缺乏明确的数学推导过程或标准模型支持，属于经验性估算而非严格推导，且未说明'容量占比加权'的具体算法细节。 | 先验知识/题面给定，逻辑校验通过（量级合理，LRU 对热门对象保留率通常高于整体命中率），但具体数值 0.85 缺乏直接来源支持，且推导链条不完整，故降级为定性表述。
+
+## Search Query
+
+LRU cache hit rate frequency distribution retention probability

@@ -1,0 +1,29 @@
+# N36: 平台激励维持均衡的临界条件为 ∂Π_platform/∂P_ask > 0，即平台收益对挂价的偏导数为正；该条件成立当且仅当成交量弹性 ε_Q 满足 |ε_Q|
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N9
+
+## Claim
+
+平台激励维持均衡的临界条件为 ∂Π_platform/∂P_ask > 0，即平台收益对挂价的偏导数为正；该条件成立当且仅当成交量弹性 ε_Q 满足 |ε_Q| < 1/P_ask（即价格上升1%导致成交量下降小于1%），需通过历史数据回归估计 ε_Q 的具体值。
+
+## Corrected Claim
+
+在特定简化模型（如固定佣金率、无成本、单一弹性主导）下，平台收益对挂价增加的临界条件近似为成交量价格弹性绝对值小于价格倒数（|ε_Q| < 1/P_ask）；但在一般情形下，需考虑佣金结构、成本及竞争动态，该条件并非普适的“当且仅当”关系。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别覆盖了父节点中的数学推导（偏导展开）、参数定义与估计方法、以及临界条件的数值解释。三者逻辑层次分明，分别对应'公式'、'参数'和'应用/示例'，无重复内容，且共同构成了对父节点完整条件的支撑。）
+
+## Search Query
+
+platform revenue sensitivity listing price volume elasticity secondhand market
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org/pdf/2309.08781&rut=b3a773311febfdfee2115a371d5afeff39adf762e83f0c61cd0fc96199c4b72b', 'type': 'ddg', 'title': 'PlatformEquilibrium: AnalyzingSocialWelfareinOnline MarketPlaces'}
+- {'url': 'https://www.zhihu.com/question/266601777/answer/375458125?utm_psn=1710461028381454336&rut=0c7135737e786501590d0f7da3875fc2dee62ea0ffc03d4093d34acdb6f1057d', 'type': 'ddg', 'title': '自适应控制中的持续激励条件怎么理解？ - 知乎'}

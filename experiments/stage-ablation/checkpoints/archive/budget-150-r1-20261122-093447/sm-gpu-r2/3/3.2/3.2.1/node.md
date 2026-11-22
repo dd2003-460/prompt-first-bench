@@ -1,0 +1,30 @@
+# N82: GPTQ 算法在 Qwen3-27B 上 W4 量化后的平均困惑度（Perplexity）增加百分比，用于衡量整体语言建模能力损失
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N26
+
+## Claim
+
+GPTQ 算法在 Qwen3-27B 上 W4 量化后的平均困惑度（Perplexity）增加百分比，用于衡量整体语言建模能力损失
+
+## Corrected Claim
+
+GPTQ 算法在 Qwen3-27B 上 W4 量化后，整体语言建模能力损失极小（定性描述为'几乎无损'），具体困惑度增加百分比需查阅官方技术报告或基准测试数据。
+
+## Evidence
+
+[质询]参考来源中未提供具体的困惑度（Perplexity）增加百分比数值，仅定性描述为'几乎无损'或'精度保持'，缺乏量化数据支持该具体事实节点。 | 来源[1]和[2]确认了GPTQ W4量化在Qwen3-27B（或类似版本Qwen3.8-27B）上的应用及'几乎无损'的定性结论，但未提供具体的Perplexity增加百分比数值，属于经验事实且缺具体数值来源支持。
+
+## Search Query
+
+Qwen3-27B GPTQ W4 perplexity increase
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_00713/article/details/170621454&rut=a7b79e1f1d1e5969139fbf962bf1299be981fac0d5916af46bab67e8d99a3f1e', 'type': 'ddg', 'title': '为什么量化几乎无损？Qwen3.8-27B-INT4 的 GPTQ W4A16 + AWQ 量化方案原理拆解-CSDN博客'}
+- {'url': 'https://blog.csdn.net/gitblog_00393/article/details/165341184&rut=0342d368eea13f119217e58929856d6318ea586cb0361988494568b26d1bb082', 'type': 'ddg', 'title': '如何快速理解 GPTQ 4-bit 量化？Qwen3.8-27B-GPTQ-Int4 用 W4A16 把 27B 压进'}
+- {'url': 'https://blog.gitcode.com/45621fbdf35acbb891c9331ffe4fd6fb.html&rut=5b84240a91aca3ac77c203adaefaf18bc9d9f63a4f830f3d442c63b0d47e8bd9', 'type': 'ddg', 'title': 'Qwen3.8-27B-W4A16-AutoRound-GPTQ架构拆解：混合线性注意力、MTP层与262K上下文'}

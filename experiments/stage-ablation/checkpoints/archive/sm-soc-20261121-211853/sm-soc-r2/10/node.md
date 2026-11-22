@@ -1,0 +1,20 @@
+# N72: 演化心理学中的‘定向压力’在二手交易语境下量化为‘沉没成本规避压力’ $P_{sc}$，其强度与持有时间 $T_{held}$ 呈线性正相关：$P_{sc} =
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+演化心理学中的‘定向压力’在二手交易语境下量化为‘沉没成本规避压力’ $P_{sc}$，其强度与持有时间 $T_{held}$ 呈线性正相关：$P_{sc} = k_{sunk} \times T_{held}$，其中 $k_{sunk}$ 为演化适应性系数（估计值 0.02-0.05/天）。该压力迫使卖家在 $T_{held}$ 超过临界值 $T_{crit}$ 时，即使面临‘随机偏好噪声’（如情绪波动），也倾向于维持高价以证明初始决策的正确性，从而解释为何卖家不降价。
+
+## Corrected Claim
+
+演化心理学中的‘定向压力’在二手交易语境下量化为‘沉没成本规避压力’ $P_{sc}$，其强度与持有时间 $T_{held}$ 呈线性正相关：$P_{sc} = k_{sunk} \times T_{held}$，其中 $k_{sunk}$ 为演化适应性系数（估计值 0.02-0.05/天）。该压力迫使卖家在 $T_{held}$ 超过临界值 $T_{crit}$ 时，即使面临‘随机偏好噪声’（如情绪波动），也倾向于维持高价以证明初始决策的正确性，从而解释为何卖家不降价。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

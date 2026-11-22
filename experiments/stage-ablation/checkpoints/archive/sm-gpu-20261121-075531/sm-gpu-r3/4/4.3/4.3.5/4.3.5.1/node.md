@@ -1,0 +1,24 @@
+# N277: 激活值 INT8 量化引入的额外 PPL 增加量 (ΔPPL_act) 的具体数值范围，需区分校准数据集（如 WikiText2 vs C4）对误差幅度的影响，
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N89
+
+## Claim
+
+激活值 INT8 量化引入的额外 PPL 增加量 (ΔPPL_act) 的具体数值范围，需区分校准数据集（如 WikiText2 vs C4）对误差幅度的影响，通常表现为 0.1-0.5 区间内的具体值。
+
+## Corrected Claim
+
+激活值 INT8 量化引入的额外 PPL 增加量 (ΔPPL_act) 受校准数据集（如 WikiText2 vs C4）及模型架构影响显著，具体数值范围因实验设置而异，通常在小数点后一位至两位的区间内波动，需依据具体实验数据确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值范围（0.1-0.5），属于硬件/模型量化领域的经验事实，无法从第一性原理推导；且不同模型架构、量化方法（如GPTQ, AWQ, SmoothQuant）及校准数据对PPL的影响差异巨大，0.1-0.5并非普适常数，存在口径混淆风险。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，且该数值范围非第一性原理可推导，依据经验事实排除条款降级）。
+
+## Search Query
+
+activation INT8 quantization perplexity degradation magnitude calibration dataset

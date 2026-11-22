@@ -1,0 +1,24 @@
+# N15: 伤害分布评估：对卖家的伤害 ΔR_seller = -ΔP_ask * Q_sold + ΔT_close * C_opportunity；量化为：高挂价卖家（
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N3
+
+## Claim
+
+伤害分布评估：对卖家的伤害 ΔR_seller = -ΔP_ask * Q_sold + ΔT_close * C_opportunity；量化为：高挂价卖家（前 20%）收入下降 5-8%，但成交速度加快，净收益变化 ΔNet_seller ∈ [-2%, +3%]；对买家的伤害 ΔC_buyer = +ΔSearch_cost - ΔPrice_discount；量化为：买家搜索成本增加 10%（因警示标签增加决策摩擦），但成交价格降低 3-5%，净福利变化 ΔNet_buyer ∈ [+1%, +4%]；对平台的伤害 ΔR_platform = -ΔGMV * Fee_rate + ΔAd_revenue；量化为：GMV 下降 2%，广告收入增加 5%，净收入变化 ΔNet_platform ∈ [+3%, +6%]。
+
+## Corrected Claim
+
+伤害分布评估：对卖家的伤害 ΔR_seller = -ΔP_ask * Q_sold + ΔT_close * C_opportunity；量化为：高挂价卖家（前 20%）收入可能下降，但成交速度加快，净收益变化 ΔNet_seller 可能为负或正的小幅波动；对买家的伤害 ΔC_buyer = +ΔSearch_cost - ΔPrice_discount；量化为：买家搜索成本可能增加（因警示标签增加决策摩擦），但成交价格可能降低，净福利变化 ΔNet_buyer 可能为正；对平台的伤害 ΔR_platform = -ΔGMV * Fee_rate + ΔAd_revenue；量化为：GMV 可能下降，广告收入可能增加，净收入变化 ΔNet_platform 取决于两者抵消后的结果。
+
+## Evidence
+
+[质询]该陈述包含大量具体的经验性数值（如收入下降5-8%、搜索成本增加10%、GMV下降2%等），这些数值并非基于第一性原理或数学公理推导得出，而是依赖于特定的市场模型假设、历史数据或模拟结果。在没有具体数据来源或模型参数说明的情况下，这些精确的百分比区间缺乏实证基础，属于典型的经验事实断言。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+intervention harm distribution seller buyer platform welfare change quantification

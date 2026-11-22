@@ -1,0 +1,24 @@
+# N11: 买家搜寻成本 C_search 与成交周期 T_close 的关系：T_close = k × C_search^(1/γ)，其中 γ 为搜寻效率弹性（γ ≈ 
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N2
+
+## Claim
+
+买家搜寻成本 C_search 与成交周期 T_close 的关系：T_close = k × C_search^(1/γ)，其中 γ 为搜寻效率弹性（γ ≈ 1.5-2.0）；当挂价高于市场价 15-25% 时，买家通过筛选机制（如只看降价商品）降低 C_search，导致 T_close 缩短 20%-40%（基于搜索摩擦模型）。
+
+## Corrected Claim
+
+买家搜寻成本 C_search 与成交周期 T_close 通常呈负相关，可建模为 T_close = k × C_search^(1/γ)；当挂价高于市场价导致买家通过筛选机制降低有效搜寻成本时，T_close 会相应缩短，具体缩短幅度取决于市场结构与搜寻效率弹性 γ。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（γ≈1.5-2.0，缩短20%-40%），这些数值并非第一性原理可严格推导，且缺乏实证数据支持其普适性；不同市场、商品类别及搜索算法下，搜寻效率弹性与成交周期缩短幅度差异巨大，固定区间可能误导。 | source=knowledge，逻辑自洽（搜寻成本降低通常缩短成交周期，幂律关系在搜索摩擦模型中常见），但具体数值区间（γ值及缩短百分比）属于经验事实，无来源直接支持，故降级。
+
+## Search Query
+
+search cost elasticity transaction time online marketplace price premium

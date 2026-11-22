@@ -1,0 +1,30 @@
+# N437: FP8 (E4M3) 精度下 Qwen3-27B 在 MMLU 基准测试上的准确率绝对值及相对于 BF16 基线的下降幅度（Delta_MMLU），用于计算 Q
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N141
+
+## Claim
+
+FP8 (E4M3) 精度下 Qwen3-27B 在 MMLU 基准测试上的准确率绝对值及相对于 BF16 基线的下降幅度（Delta_MMLU），用于计算 QF_MMLU = Acc_FP8 / Acc_BF16。
+
+## Corrected Claim
+
+FP8 (E4M3) 精度下 Qwen3-27B 在 MMLU 基准测试上的准确率及相对于 BF16 基线的下降幅度需查阅具体量化实验报告，当前参考来源未提供相关数据。
+
+## Evidence
+
+[质询]参考来源与事实主题完全无关，无法提供外部证据支持具体的数值（MMLU准确率及Delta），属于经验事实且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持（来源[1]-[3]均为Microsoft Power Pages相关，与Qwen3-27B FP8精度测试无关）。
+
+## Search Query
+
+Qwen3-27B FP8 E4M3 MMLU accuracy benchmark comparison BF16
+
+## Retrieval Sources
+
+- {'url': 'https://make.powerpages.microsoft.com/', 'type': 'bing', 'title': 'make.powerpages.microsoft.com - Sign in to your account'}
+- {'url': 'https://www.microsoft.com/en-us/power-platform/products/power-pages?msockid=3f5965d1ef5866e61be07dc4eec467ef', 'type': 'bing', 'title': 'Power Pages – Website Builder | Microsoft Power Platform'}
+- {'url': 'https://make.powerpages.microsoft.com/%C2%A0', 'type': 'bing', 'title': 'Power Pages'}

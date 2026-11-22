@@ -1,0 +1,24 @@
+# N164: RTX 5090 的 FP8 原生支持验证：Blackwell 架构引入新的 Tensor Core 单元，支持 FP8 和 FP4 精度。需确认 RTX 50
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N53
+
+## Claim
+
+RTX 5090 的 FP8 原生支持验证：Blackwell 架构引入新的 Tensor Core 单元，支持 FP8 和 FP4 精度。需确认 RTX 5090 的 FP8 峰值算力（预计约为 4090 BF16 算力的 2-3 倍，具体数值需查 NVIDIA 官方白皮书），以及 CUDA 12.8+ 中 cuBLAS/cuDNN 对 RTX 5090 FP8 内核的优化程度。
+
+## Corrected Claim
+
+Blackwell架构（RTX 5090）引入新的Tensor Core单元，原生支持FP8和FP4精度。其FP8峰值算力预计显著高于前代（具体数值需查NVIDIA官方白皮书），且需配合特定版本的CUDA（如12.8+）及cuBLAS/cuDNN优化以充分发挥性能。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件规格（FP8峰值算力倍数）和软件版本支持情况（CUDA 12.8+），属于经验事实。由于检索失败，无法验证‘4090 BF16算力的2-3倍’这一具体数值是否准确，也无法确认CUDA 12.8是否为支持RTX 5090 FP8内核的最低或推荐版本。 | 经验事实，逻辑自洽但缺来源支持。Blackwell架构支持FP8/FP4符合技术演进逻辑，但具体算力倍数和CUDA版本需官方数据佐证，当前无可用外部证据。
+
+## Search Query
+
+RTX 5090 Blackwell FP8 Tensor Core peak TFLOPS CUDA support

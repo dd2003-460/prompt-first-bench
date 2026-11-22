@@ -1,0 +1,24 @@
+# N424: Intel Arc Pro系列 (24GB/48GB) 可行性评估：假设Arc Pro 5000 (48GB) 带宽为 921 GB/s (256-bit @ 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N166, N167, N168
+
+## Claim
+
+Intel Arc Pro系列 (24GB/48GB) 可行性评估：假设Arc Pro 5000 (48GB) 带宽为 921 GB/s (256-bit @ 14.4 Gbps)，理论BF16吞吐 921/58.29 ≈ 15.8 tokens/s；但OneAPI/MLX生态在LLM长上下文下的KV Cache管理效率远低于CUDA，实测性能通常为理论值的40-50% (即~7-8 tokens/s)，且驱动稳定性风险高 (Risk_Factor > 0.5)，导致其有效CPR极低，仅作为极端低成本备用方案。
+
+## Corrected Claim
+
+Intel Arc Pro系列 (24GB/48GB) 可行性评估：假设Arc Pro 5000 (48GB) 带宽为 921 GB/s，理论BF16吞吐约 15.8 tokens/s；但非CUDA生态（如OneAPI/MLX）在LLM长上下文下的KV Cache管理效率通常低于CUDA，实测性能可能仅为理论值的40-50%（即~7-8 tokens/s），且驱动稳定性风险较高，导致其有效CPR较低，仅作为极端低成本备用方案。
+
+## Evidence
+
+[质询]该陈述包含大量具体的经验性参数（如带宽921 GB/s、实测效率40-50%、风险因子>0.5），这些并非第一性原理可推导的数学或物理事实，而是依赖于特定硬件规格和未公开/非标准的实测数据。由于缺乏外部来源支持，且部分参数（如OneAPI/MLX在Intel Arc上的具体KV Cache效率）属于高度依赖具体实现和环境的经验值，存在数值不准确或口径混淆的风险。 | source=knowledge，逻辑自洽（带宽计算与吞吐估算量级合理），但涉及具体经验参数且无外部来源直接支持，依据经验事实排除条款及knowledge节点在缺乏直接来源时的保守判定原则，降级为degraded。
+
+## Search Query
+
+Intel Arc Pro 5000 48GB LLM inference performance

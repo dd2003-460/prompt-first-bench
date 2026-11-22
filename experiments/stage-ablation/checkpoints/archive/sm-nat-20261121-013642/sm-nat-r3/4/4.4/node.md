@@ -1,0 +1,20 @@
+# N18: 边界条件：当 λ_u * T_cold << 1 时，C_steady ≈ λ_u * T_cold，惩罚因子 δ ≈ 1 - λ_u * T_cold；当 λ
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+边界条件：当 λ_u * T_cold << 1 时，C_steady ≈ λ_u * T_cold，惩罚因子 δ ≈ 1 - λ_u * T_cold；当 λ_u * T_cold >> 1 时，C_steady → 1，δ → P_hit_cold
+
+## Corrected Claim
+
+边界条件：当 λ_u * T_cold << 1 时，C_steady ≈ λ_u * T_cold，惩罚因子 δ ≈ 1 - λ_u * T_cold；当 λ_u * T_cold >> 1 时，C_steady → 1，δ → P_hit_cold
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备, 有冗余（1. 正交性错误：子节点1声称 C_steady ≈ 0.1 * λ_u * T_cold，这与父节点定义的 C_steady ≈ λ_u * T_cold 矛盾（系数错误）；且子节点1中 δ ≈ 1 - 0.01 * T_cold 的量纲与父节点 δ ≈ 1 - λ_u * T_cold 不一致（缺少 λ_u）。2. 完备性不足：父节点仅给出了两个极限情况（<<1 和 >>1），子节点引入了具体的数值阈值（0.1, 5, 1）和具体的天数换算（10, 100, 500 days），这些具体数值和换算关系在父节点中未定义，属于无依据的扩展，而非对父节点内容的完整分解。3. 冗余：三个子节点本质上都是对同一个参数 λ_u * T_cold 在不同取值区间（低、中、高）的近似描述，属于同一物理量的不同取值点，可以合并为一个“参数区间近似表”或统一公式，而非拆分为三个独立的结构性节点。）

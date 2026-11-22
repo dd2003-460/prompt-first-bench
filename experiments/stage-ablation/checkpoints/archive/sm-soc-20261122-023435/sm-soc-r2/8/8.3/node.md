@@ -1,0 +1,24 @@
+# N76: 均衡稳定性的纳什均衡验证：在给定 W_boost 和 T_penalty 下，卖家维持高价的策略是纳什均衡，因为单方面降价的收益 ΔProfit_low < 0
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N24
+
+## Claim
+
+均衡稳定性的纳什均衡验证：在给定 W_boost 和 T_penalty 下，卖家维持高价的策略是纳什均衡，因为单方面降价的收益 ΔProfit_low < 0（由于损失 W_boost 带来的流量损失大于降价带来的转化率提升），而维持高价的收益 ΔProfit_high > 0（由于获得 W_boost 流量加权）。
+
+## Corrected Claim
+
+均衡稳定性的纳什均衡验证：在给定 W_boost 和 T_penalty 下，卖家维持高价的策略是纳什均衡，因为单方面降价的收益 ΔProfit_low < 0（由于损失 W_boost 带来的流量损失大于降价带来的转化率提升），而维持高价的收益 ΔProfit_high > 0（由于获得 W_boost 流量加权）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：纳什均衡的定义即要求单方偏离无利可图（ΔProfit_low < 0），而维持策略有利可图（ΔProfit_high > 0），陈述内部逻辑自洽且符合博弈论基本定义。
+
+## Search Query
+
+nash equilibrium pricing strategy platform algorithm incentive

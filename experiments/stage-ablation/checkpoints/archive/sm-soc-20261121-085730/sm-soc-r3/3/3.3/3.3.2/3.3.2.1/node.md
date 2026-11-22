@@ -1,0 +1,24 @@
+# N221: 在平衡型均衡下，平台中性推荐算法的流量分配偏差系数 δ_traffic 的具体数值，定义为高挂价商品实际获得的曝光量与基于CTR/CVR基准预期的曝光量之比减去
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N73
+
+## Claim
+
+在平衡型均衡下，平台中性推荐算法的流量分配偏差系数 δ_traffic 的具体数值，定义为高挂价商品实际获得的曝光量与基于CTR/CVR基准预期的曝光量之比减去1，预期值在 [-5%, +5%] 区间内。
+
+## Corrected Claim
+
+在平衡型均衡下，平台中性推荐算法的流量分配偏差系数 δ_traffic 预期值应接近于0，具体数值区间需依据特定平台的设计规范或实证数据确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值区间（[-5%, +5%]），属于平台算法的具体性能指标或设计目标，无法从第一性原理或数学公理中严格推导得出，且缺乏外部来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+eBay algorithm neutral recommendation traffic allocation bias high priced items

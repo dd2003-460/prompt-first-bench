@@ -1,0 +1,24 @@
+# N350: RTX 4090 (24GB) 运行 Qwen3-27B INT8 (W8A8) 时，Decode 阶段 (自回归生成) 的实测吞吐量 (Tokens/s)，受
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N117
+
+## Claim
+
+RTX 4090 (24GB) 运行 Qwen3-27B INT8 (W8A8) 时，Decode 阶段 (自回归生成) 的实测吞吐量 (Tokens/s)，受限于显存带宽 (1008 GB/s) 和 KV Cache 读取，典型值在 40-60 Tokens/s 区间 [待核验]。
+
+## Corrected Claim
+
+RTX 4090 (24GB) 运行 Qwen3-27B INT8 (W8A8) 时，Decode 阶段的实测吞吐量受限于显存带宽和 KV Cache 读取，具体数值需实测确认，典型值可能在 20-50 Tokens/s 区间（视上下文长度和实现优化而定）。
+
+## Evidence
+
+[质询]该陈述为具体硬件上的经验性能数据，缺乏直接来源支持，且40-60 Tokens/s的吞吐量对于27B模型在RTX 4090上可能偏高（通常受限于KV Cache读取和计算瓶颈，实际可能更低或波动较大），存在数值量级不准确的风险。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+RTX 4090 Qwen3-27B INT8 decode latency tokens per second llama.cpp

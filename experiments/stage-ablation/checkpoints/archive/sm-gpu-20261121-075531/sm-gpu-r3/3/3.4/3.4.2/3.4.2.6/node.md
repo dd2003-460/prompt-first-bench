@@ -1,0 +1,24 @@
+# N244: PyTorch 2.1+ 和 vLLM 0.4+ 对 FP8 量化推理的支持依赖于 CUDA 12.4+ 的 cuBLAS/cuDNN 库；若消费级显卡驱动滞后
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N73, N74, N75
+
+## Claim
+
+PyTorch 2.1+ 和 vLLM 0.4+ 对 FP8 量化推理的支持依赖于 CUDA 12.4+ 的 cuBLAS/cuDNN 库；若消费级显卡驱动滞后导致无法更新 CUDA Toolkit 至 12.4，则必须降级使用 INT8 (W8A8) 量化，其推理速度通常比 FP8 慢 15-25% (因 INT8 累加精度转换开销)，且显存占用略高。
+
+## Corrected Claim
+
+PyTorch 2.1+ 和 vLLM 0.4+ 对 FP8 量化推理的支持依赖于 CUDA 12.4+ 的 cuBLAS/cuDNN 库；若消费级显卡驱动滞后导致无法更新 CUDA Toolkit 至 12.4，则必须降级使用 INT8 (W8A8) 量化。FP8 相比 INT8 的主要优势在于显存占用更低（数据位宽减半），推理速度差异因硬件架构和具体实现而异，并非固定快 15-25%。
+
+## Evidence
+
+[质询]数值量级存疑：FP8 相比 INT8 的主要优势在于显存带宽减半（2倍于INT8的存储效率）以及部分硬件上的原生支持，而非单纯的计算速度。在大多数消费级显卡（如RTX 30/40系列）上，FP8 和 INT8 的推理速度差异通常较小，甚至 FP8 可能因缺乏原生 Tensor Core 支持而更慢或持平，'FP8 比 INT8 快 15-25%' 这一具体数值缺乏普遍性，且归因于'INT8 累加精度转换开销'在技术细节上不够准确（INT8 累加通常转为 FP32，开销极低）。 | 先验知识/题面给定，逻辑校验通过，但具体性能差异数值（15-25%）属于经验事实且存在争议，缺乏来源支持，故降级。
+
+## Search Query
+
+PyTorch FP8 vs INT8 inference speed difference RTX 4090

@@ -1,0 +1,24 @@
+# N282: 量化锚定传导系数β的回归模型：建立线性回归方程 ΔP_list = β * (Anchor - V_prior) + ε，其中ΔP_list为挂价与内在价值之差
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N91
+
+## Claim
+
+量化锚定传导系数β的回归模型：建立线性回归方程 ΔP_list = β * (Anchor - V_prior) + ε，其中ΔP_list为挂价与内在价值之差。需计算β的95%置信区间，若区间下界 < 0.3，则判定锚定效应独立解释力不足，需引入信息不对称机制。
+
+## Corrected Claim
+
+量化锚定传导系数β的回归模型：建立线性回归方程 ΔP_list = β * (Anchor - V_prior) + ε，其中ΔP_list为挂价与内在价值之差。需计算β的95%置信区间，若区间下界 < 0.3，则判定锚定效应独立解释力不足，需引入信息不对称机制。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+anchoring effect regression coefficient price listing secondhand goods

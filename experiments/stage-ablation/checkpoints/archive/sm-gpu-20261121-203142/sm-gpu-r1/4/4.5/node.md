@@ -1,0 +1,29 @@
+# N25: 生成速度（Tokens per Second, TPS）：在32K上下文窗口下，不同硬件配置生成后续Token的吞吐量，受限于计算密集度（Compute-bou
+
+- **status**: verified
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4, N5, N6
+
+## Claim
+
+生成速度（Tokens per Second, TPS）：在32K上下文窗口下，不同硬件配置生成后续Token的吞吐量，受限于计算密集度（Compute-bound）和显存带宽（Memory-bound）的平衡。
+
+## Corrected Claim
+
+生成速度（Tokens per Second, TPS）：在32K上下文窗口下，不同硬件配置生成后续Token的吞吐量，受限于计算密集度（Compute-bound）和显存带宽（Memory-bound）的平衡。
+
+## Evidence
+
+来源[1]直接支持TPS受上下文长度及硬件影响，来源[2]补充了TPS定义及需排除prefill等细节，逻辑上生成阶段（decode）确实受显存带宽（Memory-bound）限制，与陈述一致。
+
+## Search Query
+
+LLM inference throughput tokens per second 32k context Qwen3-27B
+
+## Retrieval Sources
+
+- {'url': 'https://www.stratat.com/zh/guides/tokens-per-second&rut=8b1e6203b9685b095dc7602a383003386f1c90154c38b52f2f1dd8ab510801ba', 'type': 'ddg', 'title': '理解本地大模型推理中的每秒Token数与延迟表现 · Strata'}
+- {'url': 'https://aieng-zh.cn/glossary/tokens-per-second-tps&rut=29f154050a62e07caf68c8bd72618bd105bb5c9c6231f42c5f3533822bd93e2c', 'type': 'ddg', 'title': 'Tokens per Second (TPS)：定义、示例与常见混淆'}

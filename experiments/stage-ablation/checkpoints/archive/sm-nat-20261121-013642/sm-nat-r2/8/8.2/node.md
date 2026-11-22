@@ -1,0 +1,24 @@
+# N85: Belady's MIN 算法的理论上限 H_MIN 与 LRU 下界 H_LRU 的差距 Gap = H_MIN - H_LRU 在重尾分布下通常大于 10 
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N28
+
+## Claim
+
+Belady's MIN 算法的理论上限 H_MIN 与 LRU 下界 H_LRU 的差距 Gap = H_MIN - H_LRU 在重尾分布下通常大于 10 个百分点，因为 MIN 算法能全局最优地保留高 r_i/s_i 比值的对象，而 LRU 仅依赖时间局部性
+
+## Corrected Claim
+
+Belady's MIN 算法的理论上限 H_MIN 与 LRU 下界 H_LRU 的差距 Gap = H_MIN - H_LRU 在重尾分布下通常显著，因为 MIN 算法能全局最优地保留高 r_i/s_i 比值的对象，而 LRU 仅依赖时间局部性
+
+## Evidence
+
+[质询]「通常大于 10 个百分点」这一具体数值阈值缺乏普适性，属于经验性断言，不同重尾分布参数（如 Zipf 指数）和缓存大小下差距可能波动，未必总是超过 10%。 | 先验知识/题面给定，逻辑校验通过：MIN 算法全局最优，LRU 仅利用时间局部性，在重尾分布下 MIN 确实能更优地保留高价值对象，差距显著；但具体数值阈值「10 个百分点」为经验估计，非严格理论推导，故降级为定性表述。
+
+## Search Query
+
+Belady MIN algorithm vs LRU performance gap heavy-tailed workload

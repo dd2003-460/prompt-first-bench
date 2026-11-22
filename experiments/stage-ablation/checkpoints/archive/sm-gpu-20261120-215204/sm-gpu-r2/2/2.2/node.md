@@ -1,0 +1,28 @@
+# N14: FP8 精度质量损失评估：在 H100/H200 上支持，显存占用 27 GB。质量损失通常 < 1% 在主流基准测试 (MMLU, HumanEval) 上 
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N2
+
+## Claim
+
+FP8 精度质量损失评估：在 H100/H200 上支持，显存占用 27 GB。质量损失通常 < 1% 在主流基准测试 (MMLU, HumanEval) 上 [待核验: Qwen3 具体 FP8 量化误差数据]。
+
+## Corrected Claim
+
+FP8 精度在 H100/H200 上得到硬件支持，能显著降低显存占用（具体数值依模型而定）。在主流基准测试上，FP8 量化通常能保持较高的模型质量，但具体误差幅度（如是否<1%）需参考特定模型的量化评估报告。
+
+## Evidence
+
+[质询]陈述中关于'质量损失通常 < 1%'的具体数值缺乏来源支持，且不同模型和基准测试下的量化误差差异较大，该具体阈值可能过于乐观或特定于某些条件，属于经验事实且缺乏直接证据。 | 来源[1]确认了H100支持FP8及硬件架构，但未提供具体的质量损失数据（如<1%）或显存占用具体数值（27GB），属于经验事实，逻辑自洽但缺来源直接支持具体量化误差数据。
+
+## Search Query
+
+Qwen3 FP8 quantization quality loss benchmark MMLU
+
+## Retrieval Sources
+
+- {'url': 'https://developer.nvidia.com/blog/floating-point-8-an-introduction-to-efficient-lower-precision-ai-training/&rut=924629bb2a47a169111c0e841ed08fa2c15982f61eafe479a48c1aec604eef06', 'type': 'ddg', 'title': 'Floating-Point 8: An Introduction to Efficient, Lower-Precision AI ...'}

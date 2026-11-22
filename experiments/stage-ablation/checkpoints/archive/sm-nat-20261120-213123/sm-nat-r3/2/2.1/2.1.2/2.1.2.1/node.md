@@ -1,0 +1,24 @@
+# N90: 边缘 CDN 实际负载中 s_min 的分布：基于 Akamai 2023 报告，70% 的静态对象大小在 [1KB, 10KB] 区间，25% 在 [10KB
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N35
+
+## Claim
+
+边缘 CDN 实际负载中 s_min 的分布：基于 Akamai 2023 报告，70% 的静态对象大小在 [1KB, 10KB] 区间，25% 在 [10KB, 100KB]，5% 在 [100KB, 1MB]，因此 s_min=1KB 是 P30 分位数，而 s_min=10KB 是 P70 分位数，选择 s_min 应基于业务对象类型（图片 vs 视频片段）。
+
+## Corrected Claim
+
+边缘 CDN 负载中对象大小分布通常呈现长尾特征，小文件（如1KB-10KB）占比较高。具体分位数（如P30/P70）需依据实际业务数据或权威行业报告确定，选择 s_min 应结合业务对象类型（图片 vs 视频）及实际大小分布统计。
+
+## Evidence
+
+[质询]该陈述引用了具体的“Akamai 2023 报告”及精确的百分比分布（70%/25%/5%），属于具体的经验事实和数据统计。在缺乏可用外部来源验证的情况下，无法确认该特定报告是否存在、数据是否准确，以及分位数推导（P30/P70）是否严格对应所给分布（例如，若70%在[1KB,10KB]，则P30确实在此区间，但具体值取决于区间内分布，断言s_min=1KB是P30可能过于简化）。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体报告数据及分位数精确性）
+
+## Search Query
+
+Akamai CDN object size distribution 2023 static content

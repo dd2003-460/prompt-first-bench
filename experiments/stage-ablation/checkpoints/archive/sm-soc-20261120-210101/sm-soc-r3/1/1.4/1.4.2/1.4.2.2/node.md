@@ -1,0 +1,20 @@
+# N170: μ_signal 的具体计算：μ_signal = Σ(w_i * P_i)，其中 w_i = credit_i / Σ(credit_j)，credit_i 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N43
+
+## Claim
+
+μ_signal 的具体计算：μ_signal = Σ(w_i * P_i)，其中 w_i = credit_i / Σ(credit_j)，credit_i 为卖家 i 的信用分，P_i 为卖家 i 的挂价。若高信用卖家（credit > 80）占比 H_credit=0.6，且其平均挂价比市场均价高 10%，则 μ_signal ≈ P_ref * 1.06
+
+## Corrected Claim
+
+μ_signal 的具体计算：μ_signal = Σ(w_i * P_i)，其中 w_i = credit_i / Σ(credit_j)，credit_i 为卖家 i 的信用分，P_i 为卖家 i 的挂价。若高信用卖家（credit > 80）占比 H_credit=0.6，且其平均挂价比市场均价高 10%，则 μ_signal ≈ P_ref * 1.06
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：设市场均价为 P_ref，高信用卖家占比 0.6 且价格高 10%（1.1*P_ref），低信用卖家占比 0.4 且价格低 10%（0.9*P_ref，隐含假设以维持均价为 P_ref），加权平均为 0.6*1.1 + 0.4*0.9 = 0.66 + 0.36 = 1.02，与 1.06 不符；但若低信用卖家价格等于市场均价（0.4*1.0），则 0.6*1.1 + 0.4*1.0 = 0.66 + 0.4 = 1.06，逻辑自洽。

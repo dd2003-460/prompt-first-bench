@@ -1,0 +1,24 @@
+# N369: 多卡机箱/电源/散热升级成本 (P_Infra) 的量化分解：P_Infra = P_Chassis ($200) + P_PSU ($150, 1000W+)
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N116
+
+## Claim
+
+多卡机箱/电源/散热升级成本 (P_Infra) 的量化分解：P_Infra = P_Chassis ($200) + P_PSU ($150, 1000W+) + P_Cooling ($50, 风扇/水冷) = $400。原估算 $150 偏低，修正后 CapEx_A = 2 × $1625 + $400 = $3650。此修正使 CapEx_A 增加 $300，需重新计算 Break_even_T 以确认是否改变最终推荐。
+
+## Corrected Claim
+
+多卡机箱/电源/散热升级成本 (P_Infra) 的量化分解：P_Infra ≈ $400（基于典型中端硬件估算：机箱~$200, 电源~$150, 散热~$50）。原估算 $150 偏低，修正后 CapEx_A ≈ 2 × $1625 + $400 = $3650。此修正使 CapEx_A 增加约 $300，需重新计算 Break_even_T 以确认是否改变最终推荐。
+
+## Evidence
+
+[质询]具体硬件价格（机箱$200、电源$150、散热$50）属于经验事实，缺乏实时市场数据支持，且不同品牌/型号价格波动较大，$400的总成本估算可能偏高或偏低，无法仅凭逻辑推导确定。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+dual GPU workstation chassis PSU cooling cost upgrade 2024

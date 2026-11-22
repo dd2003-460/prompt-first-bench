@@ -1,0 +1,20 @@
+# N617: 修正后的 3 年 TCO 计算：Mac Studio CapEx ($6,999) + 3 年 OpEx ($6,570) = $13,569。对比 2x RT
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N188, N189, N190
+
+## Claim
+
+修正后的 3 年 TCO 计算：Mac Studio CapEx ($6,999) + 3 年 OpEx ($6,570) = $13,569。对比 2x RTX 4090 (CapEx $5,198 + 3 年 OpEx $7,884 = $13,082)，两者 TCO 几乎持平（差值 < $500），但 Mac Studio 吞吐仅为 2x 4090 的 1/4，导致单位 Token 成本（Cost per Token）高出约 4 倍。
+
+## Corrected Claim
+
+修正后的 3 年 TCO 计算：Mac Studio CapEx ($6,999) + 3 年 OpEx ($6,570) = $13,569。对比 2x RTX 4090 (CapEx $5,198 + 3 年 OpEx $7,884 = $13,082)，两者 TCO 几乎持平（差值 < $500），但 Mac Studio 吞吐仅为 2x 4090 的 1/4，导致单位 Token 成本（Cost per Token）高出约 4 倍。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算正确（6999+6570=13569, 5198+7884=13082），差值487<500；若总成本持平且吞吐为1/4，则单位成本确实约为4倍，逻辑自洽。

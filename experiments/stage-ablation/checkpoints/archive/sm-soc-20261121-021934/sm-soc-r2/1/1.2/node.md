@@ -1,0 +1,24 @@
+# N6: 演化定向压力投影1：损失厌恶系数 λ 使得卖家心理保留价 P_min = V_true + λ·(V_true - P_market)，其中 λ ∈ [1.5,
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+演化定向压力投影1：损失厌恶系数 λ 使得卖家心理保留价 P_min = V_true + λ·(V_true - P_market)，其中 λ ∈ [1.5, 2.5]（Kahneman & Tversky 经典值），导致挂价 P_ask = P_min + ε_i，系统性高于近期成交价 P_rec 的 15-25% 区间对应 λ=2.0 且 ε_i 取正向 1σ。
+
+## Corrected Claim
+
+演化定向压力投影1：损失厌恶系数 λ 使得卖家心理保留价 P_min = V_true + λ·(V_true - P_market)，其中 λ ∈ [1.5, 2.5]（Kahneman & Tversky 经典值），导致挂价 P_ask = P_min + ε_i，系统性高于近期成交价 P_rec；在典型市场条件下，这种系统性溢价常表现为 15-25% 的区间，但这取决于具体的市场波动率 ε_i 分布及 V_true 与 P_market 的相对关系，而非仅由 λ=2.0 单一决定。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点仅分解了参数 λ 的分布特性，完全遗漏了父节点中关于挂价 P_ask 与近期成交价 P_rec 之间 15-25% 系统性偏差这一核心量化结论及其与 ε_i 正向 1σ 的关联。）
+
+## Search Query
+
+loss aversion coefficient lambda used goods pricing behavior

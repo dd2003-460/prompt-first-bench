@@ -1,0 +1,24 @@
+# N283: 参数量P=27.0B对显存占用的线性影响公式：Weight_Size_GB = P * Bytes_per_Weight，其中Bytes_per_Weight由
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N120
+
+## Claim
+
+参数量P=27.0B对显存占用的线性影响公式：Weight_Size_GB = P * Bytes_per_Weight，其中Bytes_per_Weight由精度决定（BF16=2, FP8=1, INT8=1, W4=0.5），该公式是计算所有精度下显存需求的基础，需验证P是否包含可合并的偏置项。
+
+## Corrected Claim
+
+参数量P=27.0B对显存占用的线性影响公式：Weight_Size_GB = P * Bytes_per_Weight，其中Bytes_per_Weight由精度决定（BF16=2, FP8=1, INT8=1, W4=0.5），该公式是计算所有精度下显存需求的基础，需验证P是否包含可合并的偏置项。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 Weight_Size_GB = P * Bytes_per_Weight 符合基本量纲（参数量×字节数/权重），精度对应的字节数（BF16=2, FP8/INT8=1, W4=0.5）符合标准定义，P=27.0B 为典型大模型参数量级，逻辑自洽且无内部矛盾。
+
+## Search Query
+
+LLM weight memory calculation formula parameter count

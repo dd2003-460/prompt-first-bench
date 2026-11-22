@@ -1,0 +1,24 @@
+# N184: P_hot_bytes 在 ρ=-0.3 下的修正值：基于 N59 的目标函数，结合 N70/N71 的 Clayton Copula 参数 θ≈2.87，计算
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N65
+
+## Claim
+
+P_hot_bytes 在 ρ=-0.3 下的修正值：基于 N59 的目标函数，结合 N70/N71 的 Clayton Copula 参数 θ≈2.87，计算头部对象（热度前 10%）的字节占比，验证其是否显著低于 ρ=0 时的理论值 1 - 0.1^{1-1.1} ≈ 0.81。
+
+## Corrected Claim
+
+基于N59目标函数及Clayton Copula参数（θ≈2.87, ρ=-0.3），头部对象（热度前10%）的字节占比预计低于ρ=0时的理论值0.81，具体数值需依据完整计算模型确定。
+
+## Evidence
+
+[质询]该陈述依赖于未提供的具体计算过程（N59目标函数、N70/N71参数细节），且'显著低于'的判定缺乏明确的统计显著性阈值或具体数值对比，仅凭逻辑无法确认最终计算结果是否确实显著低于0.81。 | 无可用外部证据；逻辑上，负相关系数ρ=-0.3通常意味着热度分布更均匀或长尾更重，头部占比低于独立假设（ρ=0）下的理论值符合直觉，但具体数值需依赖缺失的计算细节，故降级为定性表述。
+
+## Search Query
+
+Clayton copula parameter theta for correlation -0.3 and heavy tail size distribution byte coverage

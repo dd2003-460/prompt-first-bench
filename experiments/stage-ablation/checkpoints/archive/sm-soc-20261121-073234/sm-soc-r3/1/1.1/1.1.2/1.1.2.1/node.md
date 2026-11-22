@@ -1,0 +1,24 @@
+# N120: 类目ID层级约束：匹配必须发生在叶子类目（Leaf Category）层级，跨父类目（如'手机'与'平板'）即使品牌相同也不纳入中位数计算，否则会导致 P_me
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N35
+
+## Claim
+
+类目ID层级约束：匹配必须发生在叶子类目（Leaf Category）层级，跨父类目（如'手机'与'平板'）即使品牌相同也不纳入中位数计算，否则会导致 P_median 被不同价值量级的商品污染，误差可达 30% 以上。
+
+## Corrected Claim
+
+类目ID层级约束：匹配必须发生在叶子类目（Leaf Category）层级，跨父类目（如'手机'与'平板'）即使品牌相同也不纳入中位数计算，否则会导致 P_median 被不同价值量级的商品污染，误差可达 30% 以上。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在电商或商品匹配场景中，叶子类目是定义商品可比性的最小粒度，跨父类目（如手机与平板）因功能定位、价格区间及用户群体差异巨大，强行合并计算中位数确实会引入严重的分布偏差（污染），导致误差显著增大，符合统计学中分组比较的基本逻辑。
+
+## Search Query
+
+eBay category ID leaf node price comparison algorithm constraint

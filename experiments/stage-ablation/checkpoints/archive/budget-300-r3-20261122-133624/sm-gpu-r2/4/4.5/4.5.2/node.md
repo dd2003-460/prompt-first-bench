@@ -1,0 +1,24 @@
+# N110: 多卡 CUDA 驱动崩溃率统计：在 Linux 环境下，双卡配置相比单卡，CUDA Context 初始化失败或驱动 Hang 的概率高 3-5 倍（基于 NV
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N33
+
+## Claim
+
+多卡 CUDA 驱动崩溃率统计：在 Linux 环境下，双卡配置相比单卡，CUDA Context 初始化失败或驱动 Hang 的概率高 3-5 倍（基于 NVIDIA 社区论坛报告），平均无故障时间（MTBF）从单卡的 5000 小时降至双卡的 1500-2000 小时，需配置 systemd 服务自动重启。
+
+## Corrected Claim
+
+在Linux环境下，多卡配置（如双卡）相比单卡，由于硬件交互复杂度增加，CUDA Context初始化失败或驱动Hang的风险通常更高，具体故障率及MTBF受硬件型号、驱动版本及系统配置影响显著，建议配置systemd服务以增强系统鲁棒性。
+
+## Evidence
+
+[质询]该陈述包含具体的经验统计数据（3-5倍概率、5000小时MTBF、1500-2000小时MTBF），这些数值高度依赖于具体的硬件型号、驱动版本、PCIe拓扑及负载情况，并非普适的物理或数学定律。且‘基于NVIDIA社区论坛报告’属于非正式、非标准化的数据来源，缺乏严谨的统计样本量和置信区间，极易产生幸存者偏差或个案泛化错误。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体数值无法从第一性原理推导，属于特定环境下的经验统计，故降级）
+
+## Search Query
+
+dual GPU CUDA driver crash rate MTBF linux

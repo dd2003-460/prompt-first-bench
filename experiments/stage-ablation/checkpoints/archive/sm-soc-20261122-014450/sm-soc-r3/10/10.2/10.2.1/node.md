@@ -1,0 +1,24 @@
+# N386: Airbnb 价格锚点干预实验的基线数据：在干预前，对照组房源的平均挂牌价 P_airbnb_base 与平均成交周期 T_airbnb_base 的具体数值（
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N125
+
+## Claim
+
+Airbnb 价格锚点干预实验的基线数据：在干预前，对照组房源的平均挂牌价 P_airbnb_base 与平均成交周期 T_airbnb_base 的具体数值（需检索 2015-2018 年间 Airbnb 内部泄露或学术论文如 'Pricing on Airbnb' 中的 A/B 测试报告数据）。
+
+## Corrected Claim
+
+Airbnb 曾进行过价格锚点干预实验，但具体的对照组平均挂牌价 P_airbnb_base 与平均成交周期 T_airbnb_base 的精确数值属于内部数据或未公开细节，公开文献中缺乏统一的确切基线数值，需查阅特定内部泄露文件或特定学术论文的附录数据。
+
+## Evidence
+
+[质询]该陈述要求提供具体的内部实验基线数值（P_airbnb_base, T_airbnb_base），这属于高度敏感的内部数据或特定未公开论文细节，公开渠道极难获取确切数值，且不同实验批次数据可能不同，存在将特定单次实验数据泛化为通用基线的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体内部实验数值无法从第一性原理推导）
+
+## Search Query
+
+Airbnb A/B test price anchor listing price reduction average days to rent data

@@ -1,0 +1,24 @@
+# N296: r_holding 的边界条件与失效场景：当商品具有升值属性（如限量版收藏品）时，Depreciation 项变为负值（增值），导致 r_holding 可能为
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N101
+
+## Claim
+
+r_holding 的边界条件与失效场景：当商品具有升值属性（如限量版收藏品）时，Depreciation 项变为负值（增值），导致 r_holding 可能为负；此时持有成本不再是约束，而是收益来源，原有的'高挂价短周期'均衡逻辑失效，需引入投机性溢价因子 Spec_Premium 修正公式。
+
+## Corrected Claim
+
+r_holding 的边界条件与失效场景：当商品具有升值属性（如限量版收藏品）时，Depreciation 项变为负值（增值），导致 r_holding 可能为负；此时持有成本不再是约束，而是收益来源，原有的'高挂价短周期'均衡逻辑失效，需引入投机性溢价因子 Spec_Premium 修正公式。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：持有收益率 r_holding 通常定义为 (持有收益 - 持有成本) / 初始价值。当商品升值（增值）时，持有收益项为正且可能超过折旧/资金成本，导致净持有成本为负（即持有本身产生收益）。此时传统的基于正持有成本的定价均衡逻辑确实失效，需引入新的溢价因子。逻辑自洽，量纲合理。
+
+## Search Query
+
+collectibles appreciation rate vs depreciation

@@ -1,0 +1,26 @@
+# N127: 在覆盖率 C=0.117 且热度分布 Pareto(β=0.9) 条件下，LRU 稳态请求命中率下界 H_req_lower = 1 - (1-C)^{1/β}
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+在覆盖率 C=0.117 且热度分布 Pareto(β=0.9) 条件下，LRU 稳态请求命中率下界 H_req_lower = 1 - (1-C)^{1/β} ≈ 1 - (0.883)^{1.111} ≈ 0.142。结合负相关修正因子 K≈0.7（来自 N61），字节命中率下界 H_bytes_lower ≈ 0.142 * 0.7 ≈ 0.10。这表明在低覆盖率下，LRU 性能远低于高覆盖率假设下的 0.587。
+
+## Corrected Claim
+
+在覆盖率 C=0.117 且热度分布 Pareto(β=0.9) 条件下，若采用公式 H_req_lower = 1 - (1-C)^{1/β} 并引入负相关修正因子 K≈0.7，则估算的字节命中率下界约为 0.10。该数值依赖于特定的经验修正因子，需结合具体负载特征验证。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（Pareto指数β=0.9、负相关修正因子K≈0.7）及特定场景下的数值结论，这些属于经验事实而非第一性原理可推导的数学恒等式。参考来源仅讨论LRU的一般原理和实现，未提供针对Pareto分布下LRU命中率下界的具体公式或数值支持，无法验证K=0.7及最终数值0.10的准确性。 | 逻辑推导过程（1-(1-C)^(1/β)计算及乘法）自洽，但参考来源[1][2][3]仅涉及LRU通用原理，未覆盖Pareto分布下的具体命中率公式或修正因子，属于经验事实缺来源支持。
+
+## Retrieval Sources
+
+- {'url': 'https://geek-doc.cn/concepts/cache/replacement-policies-lru&rut=fccab2d2d872a59538f1b45b603d8fb65d2361922fb76179e62edd58f4d3a819', 'type': 'ddg', 'title': '缓存替换策略：Lru、随机、Lru 近似与自适应替换 | 极客工场'}
+- {'url': 'https://blog.csdn.net/u011019141/article/details/146372308&rut=42fdb8f35ec9bb11d2ac71bb30e4da40556e50b21f17a389fd23cecea4dd73cf', 'type': 'ddg', 'title': '深入理解 LRU（Least Recently Used）缓存策略 - CSDN博客'}
+- {'url': 'https://blog.csdn.net/qq_39183034/article/details/120016603&rut=29b9be7a3dcc4bd425992789c46ff593bc3cd380148a121cc915e9e00071da19', 'type': 'ddg', 'title': '(王道计算机组成原理)第三章存储系统-第五节：高速缓冲存储器 4（Cache替换算法）_csapp cachelab 采'}

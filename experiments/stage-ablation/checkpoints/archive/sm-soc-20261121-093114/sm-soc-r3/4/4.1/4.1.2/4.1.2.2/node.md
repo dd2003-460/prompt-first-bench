@@ -1,0 +1,24 @@
+# N168: 卖家敏感度 η_seller 的异质性分布：η_seller 并非单一常数，而是服从 Beta(α_η, β_η) 分布，其均值 E[η_seller] = α
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N53
+
+## Claim
+
+卖家敏感度 η_seller 的异质性分布：η_seller 并非单一常数，而是服从 Beta(α_η, β_η) 分布，其均值 E[η_seller] = α_η / (α_η + β_η)，方差 Var[η_seller] = (α_η β_η) / ((α_η + β_η)² (α_η + β_η + 1))，需通过混合效应模型从卖家历史调整行为中估计参数。
+
+## Corrected Claim
+
+卖家敏感度 η_seller 的异质性分布：η_seller 并非单一常数，而是服从 Beta(α_η, β_η) 分布，其均值 E[η_seller] = α_η / (α_η + β_η)，方差 Var[η_seller] = (α_η β_η) / ((α_η + β_η)² (α_η + β_η + 1))，需通过混合效应模型从卖家历史调整行为中估计参数。（注：此为特定模型假设，非通用事实）
+
+## Evidence
+
+[质询]该陈述包含具体的统计分布假设（Beta分布）及参数估计方法（混合效应模型），属于经验事实或特定模型设定，无法从第一性原理严格推导，且缺乏外部来源支持其作为通用事实的准确性。 | 经验事实，逻辑自洽（Beta分布的均值和方差公式正确，且异质性分布假设在经济学建模中常见），但缺来源支持。
+
+## Search Query
+
+beta distribution estimation seller sensitivity mixed effects model

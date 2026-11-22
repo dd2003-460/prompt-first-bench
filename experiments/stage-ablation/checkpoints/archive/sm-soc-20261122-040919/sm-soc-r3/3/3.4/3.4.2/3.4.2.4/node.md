@@ -1,0 +1,28 @@
+# N291: 卖家流失弹性系数 β_s 的量化值：β_s 为卖家流失率对成交周期变化的敏感度。[待核验]：估计范围 0.3-1.0，例如若 β_s=0.5，则 ΔT=15% 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N78
+
+## Claim
+
+卖家流失弹性系数 β_s 的量化值：β_s 为卖家流失率对成交周期变化的敏感度。[待核验]：估计范围 0.3-1.0，例如若 β_s=0.5，则 ΔT=15% 时卖家流失率增加 7.5%。
+
+## Corrected Claim
+
+卖家流失弹性系数 β_s 的具体数值需根据特定平台数据回归得出，0.3-1.0 仅为示例性估计范围，非通用常数。
+
+## Evidence
+
+[质询]该陈述属于特定市场场景下的经验性参数估计，缺乏通用理论推导基础，且参考来源完全无关，无法验证其数值范围（0.3-1.0）的准确性或适用性。 | 参考来源[1]讨论的是高频交易中的流动性指标（宽度、弹性等），与卖家流失弹性系数无关，属于无关来源；该事实为经验参数，逻辑自洽但缺来源支持。
+
+## Search Query
+
+seller churn elasticity to transaction cycle delay
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/656456421&rut=1307b6cafecf894dd5b1196d955a0f10bf8475bb627844011e521607228ff57c', 'type': 'ddg', 'title': '量化投资中的宽度、弹性、深度、集中度：常见高频因子及指标逻辑'}

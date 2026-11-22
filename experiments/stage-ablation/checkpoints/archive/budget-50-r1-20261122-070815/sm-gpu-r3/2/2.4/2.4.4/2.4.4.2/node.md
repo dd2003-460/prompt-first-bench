@@ -1,0 +1,24 @@
+# N234: Qwen3-27B 在 NVFP4 (4-bit floating point) 精度下的 Perplexity 绝对值，需查找支持 NVFP4 量化（如 NV
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N68
+
+## Claim
+
+Qwen3-27B 在 NVFP4 (4-bit floating point) 精度下的 Perplexity 绝对值，需查找支持 NVFP4 量化（如 NVIDIA TensorRT-LLM FP4 或 vLLM FP4）的实测数据或官方量化报告，若无直接数据，需基于 INT4 的 PPL 增加量 (通常 0.2-0.5) 及 FP4 的精度特性进行估算并标记 [待核验]。
+
+## Corrected Claim
+
+Qwen3-27B 在 NVFP4 精度下的 Perplexity 绝对值暂无直接公开实测数据。基于 INT4 量化通常带来的 PPL 增加量（约 0.2-0.5）及 FP4 精度特性进行估算，该值预计略高于 FP8 或 BF16 基线，具体数值需待 NVIDIA TensorRT-LLM 或 vLLM 官方发布 NVFP4 量化报告后核验。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值范围（INT4 PPL增加量0.2-0.5）和特定模型（Qwen3-27B）在特定精度（NVFP4）下的性能表现，属于硬件/模型经验事实，无法从第一性原理推导，且缺乏直接实测数据支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该事实属于需实测验证的模型量化性能指标，不适用第一性原理推导条款）
+
+## Search Query
+
+Qwen3-27B NVFP4 4-bit floating point perplexity degradation benchmark

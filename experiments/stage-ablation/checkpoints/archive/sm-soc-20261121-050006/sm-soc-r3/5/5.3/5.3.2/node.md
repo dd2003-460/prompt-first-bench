@@ -1,0 +1,24 @@
+# N306: ΔU 的方差修正项：ΔU 不应被视为常数，而应表示为 E[ΔU] + σ_ΔU * ε，其中 σ_ΔU 为价格差的不确定性标准差（估计为 10-20% * P_
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N97
+
+## Claim
+
+ΔU 的方差修正项：ΔU 不应被视为常数，而应表示为 E[ΔU] + σ_ΔU * ε，其中 σ_ΔU 为价格差的不确定性标准差（估计为 10-20% * P_median），当 σ_ΔU 较大时，买家的期望比价收益下降，高挂价策略占优的条件 C_search > E[ΔU] * p_match 更容易满足，解释了为何在信息不透明市场中高挂价更稳定。
+
+## Corrected Claim
+
+ΔU 的方差修正项：ΔU 不应被视为常数，而应表示为 E[ΔU] + σ_ΔU * ε，其中 σ_ΔU 为价格差的不确定性标准差（估计为 10-20% * P_median），当 σ_ΔU 较大时，买家的期望比价收益下降，高挂价策略占优的条件 C_search > E[ΔU] * p_match 更容易满足，解释了为何在信息不透明市场中高挂价更稳定。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：将价格差视为随机变量并引入方差修正项符合经济学中不确定性下的决策理论，逻辑自洽且量级合理。
+
+## Search Query
+
+price uncertainty effect on buyer search behavior C2C market

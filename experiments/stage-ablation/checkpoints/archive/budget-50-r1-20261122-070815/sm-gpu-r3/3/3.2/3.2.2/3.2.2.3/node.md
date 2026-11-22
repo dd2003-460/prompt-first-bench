@@ -1,0 +1,24 @@
+# N264: RTX 4090 的 INT8 算力 165.2 TOPS 在 LLM 推理中通常通过 W8A8 或 W8A16 量化实现；W8A8 可获得接近 2x BF16
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N80
+
+## Claim
+
+RTX 4090 的 INT8 算力 165.2 TOPS 在 LLM 推理中通常通过 W8A8 或 W8A16 量化实现；W8A8 可获得接近 2x BF16 的吞吐，但需硬件支持 INT8 Tensor Core 运算；RTX 4090 (Ada) 支持 INT8 Tensor Core，但软件栈（如 llama.cpp, vLLM）对 W8A8 的优化程度影响实际性能，需对比 W8A16 (权重 INT8, 激活 BF16) 与 W8A8 的实测吞吐差异。
+
+## Corrected Claim
+
+RTX 4090 的 INT8 算力约为 165 TOPS，在 LLM 推理中可通过 W8A8 或 W8A16 量化实现；理论上 W8A8 可获得接近 2x BF16 的吞吐，但实际性能受软件栈（如 llama.cpp, vLLM）对 INT8 Tensor Core 优化程度的影响，需实测对比 W8A8 与 W8A16 的吞吐差异。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件规格数值（165.2 TOPS）及特定软件栈（llama.cpp, vLLM）的性能表现，属于经验事实。虽然逻辑上自洽（INT8 算力约为 BF16 两倍，且 Ada 架构支持 INT8 Tensor Core），但缺乏外部来源直接验证具体数值及软件优化程度的细节，无法排除数值偏差或软件实现差异导致的性能不符。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+RTX 4090 INT8 LLM inference W8A8 W8A16 performance comparison benchmark

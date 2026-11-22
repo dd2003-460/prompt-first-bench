@@ -1,0 +1,24 @@
+# N9: 数据中心级GPU候选集包含H100 SXM (80GB) 和 A100 SXM (80GB)，因为H100提供900GB/s HBM3带宽和NVLink互联，A
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+数据中心级GPU候选集包含H100 SXM (80GB) 和 A100 SXM (80GB)，因为H100提供900GB/s HBM3带宽和NVLink互联，A100提供800GB/s HBM2e带宽，两者均支持FP8/INT8加速，是单卡部署27B模型的标准选择；H800/A800因出口限制不纳入主流性价比比较。
+
+## Corrected Claim
+
+数据中心级GPU候选集包含H100 SXM (80GB) 和 A100 SXM (80GB)，因为H100提供约3.35TB/s HBM3带宽、NVLink互联及FP8/INT8加速，A100提供约2TB/s HBM2e带宽及INT8/FP16加速，两者是单卡部署27B模型的标准选择；H800/A800因出口限制不纳入主流性价比比较。
+
+## Evidence
+
+[质询]陈述中称A100支持FP8加速是错误的，A100（Ampere架构）原生支持INT8/FP16/BF16，但不支持FP8（FP8是Hopper架构H100引入的特性）；此外，H100 SXM的HBM3带宽通常为3.35TB/s而非900GB/s（900GB/s更接近PCIe版本或早期规格误读，SXM版本带宽远高于此），数值量级存在明显错误。 | 先验知识/题面给定，逻辑校验未通过：A100不支持FP8，H100 SXM带宽数值错误（应为~3.35TB/s），存在硬逻辑/事实错误。
+
+## Search Query
+
+H100 vs A100 LLM inference cost per token

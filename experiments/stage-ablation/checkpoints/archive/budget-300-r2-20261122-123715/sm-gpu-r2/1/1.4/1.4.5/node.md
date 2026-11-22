@@ -1,0 +1,24 @@
+# N50: 基于 GQA (8 KV heads) 的 KV Cache 数值修正：在 32K 序列长度下，BF16 KV Cache 实际占用 = 2 × 72 × 8 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N8, N9, N10
+
+## Claim
+
+基于 GQA (8 KV heads) 的 KV Cache 数值修正：在 32K 序列长度下，BF16 KV Cache 实际占用 = 2 × 72 × 8 × 128 × 32768 × 2 / 1024^3 ≈ 9GB，而非 MHA 假设下的 36GB，这显著降低了显存需求。
+
+## Corrected Claim
+
+基于 GQA (8 KV heads) 的 KV Cache 数值修正：在 32K 序列长度下，BF16 KV Cache 实际占用 = 2 × 72 × 8 × 128 × 32768 × 2 / 1024^3 ≈ 9GB，而非 MHA 假设下的 36GB，这显著降低了显存需求。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算过程 2(KV) * 72(layers) * 8(heads) * 128(head_dim) * 32768(seq_len) * 2(bytes) / 1024^3 ≈ 9.0GB，数值准确且符合GQA原理。
+
+## Search Query
+
+Qwen3-27B KV cache size 32k context GQA

@@ -1,0 +1,24 @@
+# N344: Apple M3 Ultra 的功耗特性：Mac Studio M3 Ultra 的整机 TDP 约为 200-250W（含 CPU、GPU、内存等），在 $0
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N104
+
+## Claim
+
+Apple M3 Ultra 的功耗特性：Mac Studio M3 Ultra 的整机 TDP 约为 200-250W（含 CPU、GPU、内存等），在 $0.10/kWh 电价下，3 年 24/7 运行电力成本 E_power_Apple ≈ 250W * 8760 * 3 * $0.10/kWh ≈ $6,570，远低于 MI300X 和 L40S。
+
+## Corrected Claim
+
+Apple M3 Ultra 的功耗特性：Mac Studio M3 Ultra 的整机 TDP 估计在 200-250W 范围内（含 CPU、GPU、内存等），在 $0.10/kWh 电价下，3 年 24/7 运行电力成本 E_power_Apple 约为 $6,570，通常低于 MI300X 和 L40S 的功耗成本。
+
+## Evidence
+
+[质询]Mac Studio M3 Ultra 的整机 TDP 约为 200-250W 这一具体数值属于经验事实，缺乏官方或权威第三方基准测试的直接支持，且不同负载下功耗波动较大，该范围可能偏高或偏低。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+Mac Studio M3 Ultra power consumption watts TDP idle load

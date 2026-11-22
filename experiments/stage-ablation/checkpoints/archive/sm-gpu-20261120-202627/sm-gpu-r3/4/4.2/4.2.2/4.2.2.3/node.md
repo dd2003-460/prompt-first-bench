@@ -1,0 +1,24 @@
+# N336: AMD MI300X 在 Qwen3-27B (BF16) Decode 阶段 (Batch=1, 32K context) 的实测平均功耗 P_avg 约为 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N105
+
+## Claim
+
+AMD MI300X 在 Qwen3-27B (BF16) Decode 阶段 (Batch=1, 32K context) 的实测平均功耗 P_avg 约为 400-500W (TDP=750W)，α_avg ≈ 0.53-0.67，高 HBM3 带宽导致高负载但能效比需对比 A100。
+
+## Corrected Claim
+
+AMD MI300X 在 Qwen3-27B (BF16) Decode 阶段 (Batch=1, 32K context) 的实测平均功耗 P_avg 预计处于中高负载区间（低于 TDP 750W），具体数值需依赖实测数据，α_avg 约为 0.5-0.7 量级，高 HBM3 带宽导致高负载但能效比需对比 A100。
+
+## Evidence
+
+[质询]该陈述包含具体的实测功耗数值（400-500W）和能效比参数（α_avg），属于经验事实。在缺乏任何参考来源支持的情况下，无法验证这些具体数值的准确性，且不同负载场景下功耗波动较大，单一区间可能不具普适性。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）。
+
+## Search Query
+
+AMD MI300X LLM inference power consumption watts decode phase benchmark

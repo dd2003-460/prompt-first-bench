@@ -1,0 +1,20 @@
+# N52: 信息展示对决策时间的边际影响：买家决策时间缩短率 ΔT_decision 与展示的价格区间宽度 W_range 呈负相关，量化为 ΔT_decision = -
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N17
+
+## Claim
+
+信息展示对决策时间的边际影响：买家决策时间缩短率 ΔT_decision 与展示的价格区间宽度 W_range 呈负相关，量化为 ΔT_decision = -γ * W_range / T_decision_baseline，其中 γ 为信息处理效率系数，需通过 A/B 测试确定 γ 的值。
+
+## Corrected Claim
+
+信息展示对决策时间的边际影响：买家决策时间缩短率 ΔT_decision 与展示的价格区间宽度 W_range 呈负相关，量化为 ΔT_decision = -γ * W_range / T_decision_baseline，其中 γ 为信息处理效率系数，需通过 A/B 测试确定 γ 的值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

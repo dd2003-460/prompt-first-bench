@@ -1,0 +1,20 @@
+# N146: 主动推送失效（Push Invalidation）的带宽开销量化：每次对象更新需向所有缓存该对象的节点发送失效通知。假设平均每个对象被 M_replica 个节
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N57
+
+## Claim
+
+主动推送失效（Push Invalidation）的带宽开销量化：每次对象更新需向所有缓存该对象的节点发送失效通知。假设平均每个对象被 M_replica 个节点缓存，更新率 u=1%/天，则失效消息带宽 B_inval = N * u * M_replica * Size_msg。若 M_replica=3, Size_msg=100B, N=100,000，则 B_inval ≈ 300 KB/天，相对于总流量 64 TB/天 可忽略，但需考虑延迟影响。
+
+## Corrected Claim
+
+主动推送失效（Push Invalidation）的带宽开销量化：每次对象更新需向所有缓存该对象的节点发送失效通知。假设平均每个对象被 M_replica 个节点缓存，更新率 u=1%/天，则失效消息带宽 B_inval = N * u * M_replica * Size_msg。若 M_replica=3, Size_msg=100B, N=100,000，则 B_inval ≈ 300 KB/天，相对于总流量 64 TB/天 可忽略，但需考虑延迟影响。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算过程 N(100,000) * u(0.01) * M(3) * Size(100B) = 300,000 Bytes = 300 KB，量级与结论（相对于 64TB 可忽略）一致。

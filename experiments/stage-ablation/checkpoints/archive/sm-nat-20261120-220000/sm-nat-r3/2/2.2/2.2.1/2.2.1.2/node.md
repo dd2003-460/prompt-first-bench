@@ -1,0 +1,20 @@
+# N90: LFU 实际提升 ΔLFU_actual 的量化计算：ΔLFU_actual = ΔLFU_theoretical * k，其中 k = 0.85；在 β=0.
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N30
+
+## Claim
+
+LFU 实际提升 ΔLFU_actual 的量化计算：ΔLFU_actual = ΔLFU_theoretical * k，其中 k = 0.85；在 β=0.9 下，ΔLFU_theoretical ≈ 3.5%，因此 ΔLFU_actual ≈ 3.5% * 0.85 = 2.975%，而非原陈述中的 1.7-4.25%。
+
+## Corrected Claim
+
+在特定实验条件下（k=0.85, ΔLFU_theoretical≈3.5%），LFU 实际提升约为 2.975%，该数值依赖于特定参数设定，不具备通用性。
+
+## Evidence
+
+[质询]系数 k=0.85 和理论提升值 3.5% 属于特定系统或实验的经验参数，缺乏通用理论依据，且未提供具体上下文（如数据集、负载特征），存在过拟合或特定场景偏差的风险。 | source=knowledge，逻辑推导（3.5% * 0.85 = 2.975%）自洽，但核心参数 k 和 ΔLFU_theoretical 为经验值，缺乏来源直接支持其普适性，故降级。

@@ -1,0 +1,24 @@
+# N618: 二手 H100 80GB 的 AFR (Annual Failure Rate) 数据来源于行业报告（如 SemiAnalysis 或 Gartner），新品 
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N188, N189, N190
+
+## Claim
+
+二手 H100 80GB 的 AFR (Annual Failure Rate) 数据来源于行业报告（如 SemiAnalysis 或 Gartner），新品 AFR 为 3-5%，二手 AFR 为 15-20% 的假设需通过具体二手市场（如 eBay 历史故障率或数据中心退役数据）验证，若无法获取一手数据，则采用保守估计 20% 作为风险溢价基准。
+
+## Corrected Claim
+
+二手 H100 80GB 的 AFR 数据通常高于新品，具体数值需通过行业报告或二手市场历史故障率验证；在缺乏一手数据时，建议采用保守估计（如 20%）作为风险溢价基准，但具体百分比（如新品 3-5%、二手 15-20%）需进一步实证支持。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（新品AFR 3-5%，二手AFR 15-20%），这些属于硬件可靠性统计经验事实，无法从第一性原理推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+used H100 GPU annual failure rate AFR data center statistics

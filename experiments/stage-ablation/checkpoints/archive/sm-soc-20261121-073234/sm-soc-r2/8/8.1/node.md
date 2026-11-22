@@ -1,0 +1,24 @@
+# N111: 心理保留价 P_reserve 的构成公式：P_reserve = P_anchored * (1 + Risk_Premium)，其中 P_anchored 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N33
+
+## Claim
+
+心理保留价 P_reserve 的构成公式：P_reserve = P_anchored * (1 + Risk_Premium)，其中 P_anchored 为近期成交中位数，Risk_Premium 为买家因信息不对称（如商品成色未知、无保修）要求的风险溢价率，通常估计为 5%-10% [时效待核]。
+
+## Corrected Claim
+
+心理保留价 P_reserve 的构成公式：P_reserve = P_anchored * (1 + Risk_Premium)，其中 P_anchored 为近期成交中位数，Risk_Premium 为买家因信息不对称（如商品成色未知、无保修）要求的风险溢价率，通常估计为 5%-10% [时效待核]。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+used goods market risk premium information asymmetry price markup

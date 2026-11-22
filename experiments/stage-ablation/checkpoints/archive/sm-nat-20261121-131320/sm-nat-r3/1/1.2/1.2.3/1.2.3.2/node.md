@@ -1,0 +1,20 @@
+# N72: x_min=1KB 场景下的 LFU-LRU 差异 ΔH_xmin1：在 C_norm≈1187.8 的高容量比下，LRU 已能容纳大部分高频对象，LFU 的额
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N23
+
+## Claim
+
+x_min=1KB 场景下的 LFU-LRU 差异 ΔH_xmin1：在 C_norm≈1187.8 的高容量比下，LRU 已能容纳大部分高频对象，LFU 的额外提升空间被压缩，预计 ΔH < 2 个百分点，因为 LRU 的抖动惩罚在高容量比下趋于饱和，此工作点用于对比不同 x_min 假设下策略选择的敏感性。
+
+## Corrected Claim
+
+x_min=1KB 场景下的 LFU-LRU 差异 ΔH_xmin1：在 C_norm≈1187.8 的高容量比下，LRU 已能容纳大部分高频对象，LFU 的额外提升空间被压缩，预计 ΔH < 2 个百分点，因为 LRU 的抖动惩罚在高容量比下趋于饱和，此工作点用于对比不同 x_min 假设下策略选择的敏感性。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在高容量比（C_norm≈1187.8）下，LRU 缓存命中率通常已接近理论上限，LFU 的额外收益确实会因 LRU 基线的高性能而显著压缩，符合缓存替换策略的基本直觉。

@@ -1,0 +1,17 @@
+{
+  "id": "N64",
+  "claim": "4x RTX 4090 多卡工作站运行 Qwen3-27B BF16 (54GB) + 32K BF16 KV Cache (12.58GB) 的总显存占用为 66.58GB，小于 96GB 总容量。由于 PCIe 4.0 x16 带宽 (~64 GB/s 单向) 远低于单卡显存带宽 (1008 GB/s)，跨卡通信开销显著。实际 Decode 吞吐受限于最慢的跨卡同步步骤，理论上限估算：假设 KV Cache 均匀分布，每次生成需从其他 3 卡获取 KV 数据，通信时间 ≈ 12.58GB / (64 GB/s * 4) ≈ 0.049s，计算时间 ≈ 54GB / (1008 GB/s * 4) ≈ 0.013s，总延迟 ≈ 0.062s/token，吞吐 ≈ 16.1 tokens/s，远低于单卡 H100 (37.76 tokens/s)。",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "verified",
+  "evidence": "父节点级核验通过：正交+完备+无冗余（子节点1聚焦于Tensor Parallelism (TP)下的通信瓶颈与NVLink缺失的影响，子节点2聚焦于Pipeline Parallelism (PP)下的气泡问题及效率对比。两者分别探讨了不同的并行策略及其对应的性能限制机制，内容互补且无重叠，共同解释了父节点中提到的'跨卡通信开销显著'和'吞吐受限'的具体原因。父节点中的计算数据（如0.062s/token）在子节点中得到了更细致的拆解（TP的通信延迟占比、PP的气泡占比），覆盖了关键方面。）",
+  "corrected_claim": "4x RTX 4090 多卡工作站运行 Qwen3-27B BF16 (54GB) + 32K BF16 KV Cache (12.58GB) 的总显存占用为 66.58GB，小于 96GB 总容量。由于 PCIe 4.0 x16 带宽 (~64 GB/s 单向) 远低于单卡显存带宽 (1008 GB/s)，跨卡通信开销显著。实际 Decode 吞吐受限于跨卡同步步骤，但具体数值取决于并行策略（如 Tensor Parallelism 切分 KV Cache），理论估算值 16.1 tokens/s 基于全量 KV 同步假设，实际性能可能更高。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N14"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

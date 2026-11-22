@@ -1,0 +1,30 @@
+# N180: ε_buyer 负向峰值 ε_1 随 I_asym 变化的非线性拟合曲线参数：采用分段函数 ε_1(I_asym) = a * I_asym^b，其中 a ∈ 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N55
+
+## Claim
+
+ε_buyer 负向峰值 ε_1 随 I_asym 变化的非线性拟合曲线参数：采用分段函数 ε_1(I_asym) = a * I_asym^b，其中 a ∈ [1.0, 2.0]，b ∈ [0.5, 1.5]，通过历史数据中不同挂价偏差区间对应的无咨询率回归确定。
+
+## Corrected Claim
+
+ε_buyer 负向峰值 ε_1 随 I_asym 变化的非线性拟合曲线参数采用分段函数 ε_1(I_asym) = a * I_asym^b，具体参数 a 和 b 的取值需通过历史数据中不同挂价偏差区间对应的无咨询率回归确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性参数范围（a ∈ [1.0, 2.0], b ∈ [0.5, 1.5]）及特定的业务逻辑（挂价偏差与无咨询率的关系），属于特定领域（如二手车或房产交易）的经验事实，无法从第一性原理推导，且参考来源均未提供相关数据支持。 | 经验事实，逻辑自洽但缺来源支持（参考来源[1][2][3]均涉及系统辨识、软件拟合函数或统计渐近理论，与具体的买家咨询率业务模型无关）。
+
+## Search Query
+
+buyer price sensitivity non-linear fit information asymmetry peak elasticity
+
+## Retrieval Sources
+
+- {'url': 'https://www.sciencedirect.com/science/article/pii/S0005109826005017&rut=126b63ece6ce6f39bab7c2d76c662ed234749d430adf06bd158f2f817b512845', 'type': 'ddg', 'title': 'On ARX modeling with the ASYM method for errors-in ... - ScienceDirect'}
+- {'url': 'https://www.originlab.com/doc/Origin-Help/Asym2Sig-FitFunc&rut=45cc86401447d33a6ad51ac5e624b3be1f9adef3d1e21eba966240595101e891', 'type': 'ddg', 'title': '32.1.9 Asym2Sig - OriginLab'}
+- {'url': 'https://courses.cit.cornell.edu/econ620/Lec18.pdf&rut=1fb0b65a5e45516fe7f9ae046092684c88d85fa6f3f8a1e81147e50212b6c62a', 'type': 'ddg', 'title': 'PDF PowerPoint Presentation'}

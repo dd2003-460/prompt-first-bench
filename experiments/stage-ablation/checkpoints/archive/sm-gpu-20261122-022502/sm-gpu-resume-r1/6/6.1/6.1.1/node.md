@@ -1,0 +1,24 @@
+# N103: TCO 交叉点计算模型：设消费级方案 (2x RTX 4090) 总 CapEx 为 C_cons = $3198 + $2000 (配套) = $5198，年
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N29
+
+## Claim
+
+TCO 交叉点计算模型：设消费级方案 (2x RTX 4090) 总 CapEx 为 C_cons = $3198 + $2000 (配套) = $5198，年 OpEx 为 O_cons = 2 * 450W * 8760h * $0.10/kWh = $7884；数据中心方案 (1x H100) 总 CapEx 为 C_dc = $25000 + $5000 (冷却/机箱) = $30000，年 OpEx 为 O_dc = 700W * 8760h * $0.10/kWh = $6132。TCO_cons(t) = 5198 + 7884t，TCO_dc(t) = 30000 + 6132t。
+
+## Corrected Claim
+
+TCO 交叉点计算模型：设消费级方案 (2x RTX 4090) 总 CapEx 为 C_cons = $3198 + $2000 (配套) = $5198，年 OpEx 为 O_cons = 2 * 450W * 8760h * $0.10/kWh = $7884；数据中心方案 (1x H100) 总 CapEx 为 C_dc = $25000 + $5000 (冷却/机箱) = $30000，年 OpEx 为 O_dc = 700W * 8760h * $0.10/kWh = $6132。TCO_cons(t) = 5198 + 7884t，TCO_dc(t) = 30000 + 6132t。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别针对消费级OpEx修正、数据中心硬件替代方案、以及隐性成本维度进行了独立分析，三者关注点不同（利用率vs硬件选型vs非电力成本），无逻辑重叠或矛盾。虽然子节点2中引入了新的硬件组合（A100/二手H100），但这属于对父节点中'C_dc'和'O_dc'参数的敏感性分析，而非与子节点1（针对O_cons的修正）或子节点3（隐性成本）重复。父节点的核心是建立TCO模型，子节点覆盖了模型中主要变量（OpEx、CapEx）的敏感性及未建模因素，具备完备性。）
+
+## Search Query
+
+TCO calculation formula CapEx OpEx GPU inference cost model

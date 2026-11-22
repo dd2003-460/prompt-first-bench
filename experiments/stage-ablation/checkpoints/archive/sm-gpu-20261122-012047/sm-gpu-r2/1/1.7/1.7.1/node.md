@@ -1,0 +1,29 @@
+# N68: AMD MI300X (192GB HBM3) 在 vLLM 0.6.0+ 版本下运行 Qwen3-27B (BF16, 32K ctx) 的实测吞吐量约为 2
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N12, N13, N14
+
+## Claim
+
+AMD MI300X (192GB HBM3) 在 vLLM 0.6.0+ 版本下运行 Qwen3-27B (BF16, 32K ctx) 的实测吞吐量约为 25-35 tokens/s/user，TTFT 约为 2.0-3.0 秒 [待核验]，该数据用于量化 ROCm 与 CUDA (H100) 的性能差距。
+
+## Corrected Claim
+
+AMD MI300X (192GB HBM3) 支持在 vLLM 框架下运行 Qwen3-27B (BF16)，具体吞吐量与 TTFT 需根据并发负载实测确定，通常用于量化 ROCm 与 CUDA 的性能差距。
+
+## Evidence
+
+[质询]具体数值（25-35 tokens/s/user, TTFT 2.0-3.0s）缺乏直接来源支持，且吞吐量高度依赖并发数、Batch Size 及具体硬件配置，单一数值区间可能具有误导性或仅适用于特定低并发场景。 | 来源[2]证实了 Qwen3-27B 在 MI300X 上使用 vLLM 部署的可行性，来源[1]证实了 MI300X 使用 vLLM 进行推理测试的背景，但均未提供具体的吞吐量或 TTFT 数值，属于经验事实且缺直接数据支持。
+
+## Search Query
+
+AMD MI300X vLLM Qwen3-27B inference benchmark tokens per second latency
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org/pdf/2510.27583&rut=e7ffecff55f08f48660e60c44b5ada3ed8ab459e29dd09f245b21bd3b910d517', 'type': 'ddg', 'title': 'AMD MI300X GPU Performance Analysis - arXiv.org'}
+- {'url': 'https://github.com/alpharomercoma/qwen3.8-27b-mi300x&rut=9c38595c493e05bf5e08218b572b0ece6339574d0df67f8b26719deac5964548', 'type': 'ddg', 'title': 'GitHub - alpharomercoma/qwen3.8-27b-mi300x'}

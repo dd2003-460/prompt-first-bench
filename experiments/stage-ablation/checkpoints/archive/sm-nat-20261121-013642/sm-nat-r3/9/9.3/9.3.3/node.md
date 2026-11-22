@@ -1,0 +1,24 @@
+# N260: ΔH_max 的约束边界：当 H_LRU 接近 1 时（即缓存几乎覆盖所有热门字节），(1 - H_LRU) 项趋近于 0，导致 ΔH_max 的上界被压缩至 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N89
+
+## Claim
+
+ΔH_max 的约束边界：当 H_LRU 接近 1 时（即缓存几乎覆盖所有热门字节），(1 - H_LRU) 项趋近于 0，导致 ΔH_max 的上界被压缩至 < 0.1 个百分点，此时 LFU 的优势被 LRU 的高基线命中率所掩盖，公式中的 (1 - P_LFU_miss_on_hot) 项不再起主导作用。
+
+## Corrected Claim
+
+ΔH_max 的约束边界：当 H_LRU 接近 1 时（即缓存几乎覆盖所有热门字节），(1 - H_LRU) 项趋近于 0，导致 ΔH_max 的上界被压缩至 < 0.1 个百分点，此时 LFU 的优势被 LRU 的高基线命中率所掩盖，公式中的 (1 - P_LFU_miss_on_hot) 项不再起主导作用。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：当 H_LRU 趋近于 1 时，(1 - H_LRU) 项确实趋近于 0，导致基于该差值的增益上限被压缩，符合数学逻辑与缓存理论直觉。
+
+## Search Query
+
+LFU LRU difference upper bound high hit rate saturation

@@ -1,0 +1,20 @@
+# N395: L40S 48GB 运行 Qwen3-27B FP8 时的 Prefill 吞吐量估算：基于 L40S 的 FP8 Tensor Core 算力 (362 TF
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N137
+
+## Claim
+
+L40S 48GB 运行 Qwen3-27B FP8 时的 Prefill 吞吐量估算：基于 L40S 的 FP8 Tensor Core 算力 (362 TFLOPS) 和 Qwen3-27B 的 FLOPs 需求，计算单 token prefill 延迟，以评估其在长上下文场景下的响应速度，并对比 H100 (N149) 和 A100 (N145) 的 prefill 速度差距。
+
+## Corrected Claim
+
+L40S 48GB 运行 Qwen3-27B FP8 时的 Prefill 吞吐量估算：基于 L40S 的 FP8 Tensor Core 算力 (362 TFLOPS) 和 Qwen3-27B 的 FLOPs 需求，计算单 token prefill 延迟，以评估其在长上下文场景下的响应速度，并对比 H100 (N149) 和 A100 (N145) 的 prefill 速度差距。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：L40S FP8算力约362 TFLOPS，Qwen3-27B参数量约27B，Prefill FLOPs约为2*Params*Tokens，量级与逻辑自洽。

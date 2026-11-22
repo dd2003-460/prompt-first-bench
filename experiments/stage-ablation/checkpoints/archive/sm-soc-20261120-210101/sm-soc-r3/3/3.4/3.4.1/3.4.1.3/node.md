@@ -1,0 +1,20 @@
+# N257: 效用变化方差 Var(ΔU) 的分解：Var(ΔU) = (∂U/∂P_attention)² * Var(P_attention) + (∂U/∂ε_inte
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N69
+
+## Claim
+
+效用变化方差 Var(ΔU) 的分解：Var(ΔU) = (∂U/∂P_attention)² * Var(P_attention) + (∂U/∂ε_interpret)² * Var(ε_interpret) + 2 * Cov(∂U/∂P_attention, ∂U/∂ε_interpret)，其中Cov项反映注意与解读的交互效应。
+
+## Corrected Claim
+
+效用变化方差 Var(ΔU) 的分解：Var(ΔU) = (∂U/∂P_attention)² * Var(P_attention) + (∂U/∂ε_interpret)² * Var(ε_interpret) + 2 * Cov(∂U/∂P_attention, ∂U/∂ε_interpret)，其中Cov项反映注意与解读的交互效应。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该公式符合多元函数一阶泰勒展开下的方差近似分解原理（Delta Method），量纲与逻辑自洽。

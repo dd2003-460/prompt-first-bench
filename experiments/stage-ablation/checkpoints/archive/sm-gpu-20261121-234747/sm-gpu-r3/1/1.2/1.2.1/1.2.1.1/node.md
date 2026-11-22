@@ -1,0 +1,24 @@
+# N175: NVIDIA A100 40GB 与 80GB 版本在 Qwen3-27B INT8 推理中的性能差异量化：40GB 版本需启用 Offloading 或无法支
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N37
+
+## Claim
+
+NVIDIA A100 40GB 与 80GB 版本在 Qwen3-27B INT8 推理中的性能差异量化：40GB 版本需启用 Offloading 或无法支持 32K 长上下文全量 KV Cache (若权重 27GB + KV 2.5GB > 40GB 则溢出)，而 80GB 版本可完全驻留内存，两者吞吐量差距主要由 PCIe Swap 开销决定，预计 40GB 版本吞吐量仅为 80GB 版本的 30%-50%。
+
+## Corrected Claim
+
+NVIDIA A100 40GB 版本在 Qwen3-27B INT8 推理中若需支持 32K 长上下文，因显存不足（权重+KV Cache > 40GB）必须启用 Offloading，这将引入显著的 PCIe 数据传输开销，导致其吞吐量显著低于 80GB 版本（后者可完全驻留显存），具体性能差距取决于 Offloading 策略及硬件配置，通常会有大幅度的性能下降。
+
+## Evidence
+
+[质询]吞吐量差距30%-50%的量化预测缺乏严谨依据，且未考虑Offloading策略的具体实现（如CPU内存大小、PCIe带宽版本）对性能的非线性影响，不同配置下性能衰减幅度可能远超或低于此范围。 | 先验知识/题面给定，逻辑校验通过：显存溢出导致PCIe Swap是合理的性能瓶颈来源，但具体吞吐量比例属于经验性估算，缺乏统一基准，故降级为定性表述。
+
+## Search Query
+
+A100 40GB vs 80GB LLM inference performance difference

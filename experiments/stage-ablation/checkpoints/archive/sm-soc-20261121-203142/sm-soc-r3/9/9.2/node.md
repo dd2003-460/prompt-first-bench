@@ -1,0 +1,24 @@
+# N293: 平台流量弹性 ε_platform 的定义式展开：ε_platform = (∂Traffic/∂P) * (P/Traffic)，其中 Traffic 为曝光
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N99
+
+## Claim
+
+平台流量弹性 ε_platform 的定义式展开：ε_platform = (∂Traffic/∂P) * (P/Traffic)，其中 Traffic 为曝光量；需明确该弹性衡量的是平台算法对价格的响应灵敏度，而非买家需求弹性，以证明平台是均衡的主动设定者。
+
+## Corrected Claim
+
+平台流量弹性 ε_platform 的定义式展开：ε_platform = (∂Traffic/∂P) * (P/Traffic)，其中 Traffic 为曝光量；需明确该弹性衡量的是平台算法对价格的响应灵敏度，而非买家需求弹性，以证明平台是均衡的主动设定者。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该定义式符合经济学中弹性的一般定义（相对变化之比），且明确区分了平台供给/算法响应弹性与买家需求弹性，逻辑自洽。
+
+## Search Query
+
+platform traffic elasticity to pricing in e-commerce recommendation systems

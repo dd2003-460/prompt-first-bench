@@ -1,0 +1,24 @@
+# N273: batch_size 从 1 增至 4 时，RTX 4090 的 Decode 吞吐量提升倍数约为 2.5-3 倍，这是因为带宽利用率从 50% 提升至 80-
+
+- **status**: pending
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N98, N99, N100
+
+## Claim
+
+batch_size 从 1 增至 4 时，RTX 4090 的 Decode 吞吐量提升倍数约为 2.5-3 倍，这是因为带宽利用率从 50% 提升至 80-90% (多请求共享权重读取)，边际收益递减函数的斜率在 bs=1 到 bs=4 区间最大。
+
+## Corrected Claim
+
+batch_size 从 1 增至 4 时，RTX 4090 的 Decode 吞吐量提升倍数约为 2.5-3 倍，这是因为带宽利用率从 50% 提升至 80-90% (多请求共享权重读取)，边际收益递减函数的斜率在 bs=1 到 bs=4 区间最大。
+
+## Evidence
+
+父节点级核验未通过：非正交（子节点2直接反驳了父节点中的核心结论（父节点称提升2.5-3倍，子节点2称实际为1.8-2.2倍且利用率假设不同），导致子节点与父节点存在逻辑矛盾，进而使得子节点之间在“真实性能表现”这一核心论点上形成对立，缺乏正交性。虽然子节点1提供基础理论，子节点2提供修正，但二者未形成互补关系，而是冲突关系。）
+
+## Search Query
+
+GPU inference batch size throughput scaling law decode phase

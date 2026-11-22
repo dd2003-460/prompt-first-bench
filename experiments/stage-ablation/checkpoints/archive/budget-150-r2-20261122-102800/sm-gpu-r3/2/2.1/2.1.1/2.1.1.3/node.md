@@ -1,0 +1,24 @@
+# N211: Qwen3-27B 的 INT8 量化显存需求：权重 ≈ 27.18B * 1 byte = 27.18GB，KV Cache (BF16) ≈ 2.58-3.
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N75
+
+## Claim
+
+Qwen3-27B 的 INT8 量化显存需求：权重 ≈ 27.18B * 1 byte = 27.18GB，KV Cache (BF16) ≈ 2.58-3.44GB，激活值 ≈ 2-5GB，总需求 ≈ 31.76-35.62GB。此数值确认单卡 48GB (L40S) 可容纳 INT8 Qwen3-27B + 32K KV Cache，且留有 ~12-16GB 余量用于 Batch Size > 1 或更长 Context。单卡 24GB (RTX 3090/4090) 无法容纳 INT8 全模型+KV Cache，需 W4 量化或双卡。
+
+## Corrected Claim
+
+Qwen3-27B 的 INT8 量化显存需求：权重 ≈ 27.18B * 1 byte = 27.18GB，KV Cache (BF16) ≈ 2.58-3.44GB，激活值 ≈ 2-5GB，总需求 ≈ 31.76-35.62GB。此数值确认单卡 48GB (L40S) 可容纳 INT8 Qwen3-27B + 32K KV Cache，且留有 ~12-16GB 余量用于 Batch Size > 1 或更长 Context。单卡 24GB (RTX 3090/4090) 无法容纳 INT8 全模型+KV Cache，需 W4 量化或双卡。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B参数量约27B，INT8权重约27GB，加上KV Cache和激活值，总显存需求约32-36GB，符合48GB显卡可容纳且24GB显卡需量化或双卡的工程常识。
+
+## Search Query
+
+Qwen3-27B INT8 quantization memory footprint 32k context

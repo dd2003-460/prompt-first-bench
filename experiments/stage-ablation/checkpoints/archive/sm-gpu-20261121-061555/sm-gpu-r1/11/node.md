@@ -1,0 +1,24 @@
+# N38: Qwen3-27B 量化质量基准数据：在 AWQ W4A16 量化下，MMLU 准确率相比 BF16 基准下降约 0.5-1.5%，HumanEval 代码生成
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+Qwen3-27B 量化质量基准数据：在 AWQ W4A16 量化下，MMLU 准确率相比 BF16 基准下降约 0.5-1.5%，HumanEval 代码生成通过率下降约 1-2%。在 GPTQ W8A8 下，PPL 增加 <0.5%。若使用 W4A4 (激活值也量化)，MMLU 下降可能超过 3-5%，通常不可接受。
+
+## Corrected Claim
+
+Qwen3-27B 支持 AWQ W4A16 量化（来源[1]证实存在该量化版本及校准策略）。关于量化后的具体性能损失（如 MMLU 下降 0.5-1.5% 等），缺乏直接来源数据支持，通常 W4A16 量化在大模型上会导致轻微性能下降，W4A4 会导致更显著下降，但具体数值需参考官方或第三方基准测试报告。
+
+## Evidence
+
+[质询]参考来源[1]仅提供了AWQ量化的实现仓库和校准策略描述，未包含具体的MMLU、HumanEval准确率下降数值或PPL变化数据，无法直接支持陈述中的具体量化质量基准数值（如0.5-1.5%下降）。 | 逻辑上，W4A16量化导致轻微性能下降（<2%）符合大模型量化的一般规律，W4A4导致显著下降也符合直觉；但来源[1]仅证实了Qwen3-27B存在AWQ量化版本，未提供具体基准测试数据，属于经验事实且缺乏直接来源支持。
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/nicosuter/Qwen3.8-27B-AWQ&rut=cbcc7e04325cef7e1d53723cb7fcb7570cfde3bfe0b2ba999e34721bf6bbd241', 'type': 'ddg', 'title': 'GitHub - nicosuter/Qwen3.8-27B-AWQ: AWQ Quantization of Qwen3.8 27B'}

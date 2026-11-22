@@ -1,0 +1,24 @@
+# N208: CPU 选择对推理性能影响较小，但需确保 PCIe 通道数量足够；Ryzen 7 7700X ($300) 或 9700X ($400) 均提供 20 条 PC
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N63
+
+## Claim
+
+CPU 选择对推理性能影响较小，但需确保 PCIe 通道数量足够；Ryzen 7 7700X ($300) 或 9700X ($400) 均提供 20 条 PCIe 通道，满足单卡 x16 需求；若未来考虑双卡，需选择支持更多 PCIe 通道的 CPU (如 Threadripper)。
+
+## Corrected Claim
+
+CPU 选择对推理性能影响较小，但需确保 PCIe 通道数量足够；Ryzen 7 7700X ($300) 或 9700X ($400) 均提供 20 条 PCIe 通道，满足单卡 x16 需求；若未来考虑双卡，需选择支持更多 PCIe 通道的 CPU (如 Threadripper)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Ryzen 7 7700X/9700X 确实提供 20 条 PCIe 通道（通常拆分为 1x16+1x4 或 2x8），满足单卡 x16 需求；双卡需更多通道（如 Threadripper）符合硬件常识；CPU 对推理影响较小但需保证 PCIe 带宽也是合理工程结论。
+
+## Search Query
+
+AMD Ryzen 7 7700X 9700X PCIe lanes count price

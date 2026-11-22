@@ -1,0 +1,24 @@
+# N61: NCCL 通信缓冲区的精确占用：取决于 Batch Size 和序列长度，通常每卡需预留 1-3GB 用于 AllReduce 操作的中间缓冲区，在 PCIe 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+NCCL 通信缓冲区的精确占用：取决于 Batch Size 和序列长度，通常每卡需预留 1-3GB 用于 AllReduce 操作的中间缓冲区，在 PCIe 互联下需更大缓冲以掩盖延迟，建议预留 3GB/卡。
+
+## Corrected Claim
+
+NCCL 通信缓冲区的占用取决于 Batch Size、序列长度及数据类型，通常每卡需预留数百 MB 至数 GB 用于 AllReduce 等操作的中间缓冲区；在 PCIe 互联下，为掩盖较高延迟，建议根据实际负载预留 2-4GB/卡，具体数值需通过 profiling 确定。
+
+## Evidence
+
+[质询]数值量级与具体配置强相关，缺乏通用性：1-3GB 的缓冲区大小高度依赖于 Batch Size、序列长度、数据类型（FP16/BF16/FP32）以及具体的 NCCL 版本和拓扑结构，将其作为通用建议缺乏严谨依据，且 PCIe 互联下‘需更大缓冲’的表述过于笼统，未区分 NVLink 与 PCIe 的具体带宽差异对缓冲策略的影响。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+NCCL buffer size memory overhead tensor parallelism PCIe

@@ -1,0 +1,24 @@
+# N796: INT4 量化校准开销的具体构成：若采用 Group-wise 量化 (group_size=128)，每个 128 元素组需要 1 个 FP16 scale 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N248, N249, N250
+
+## Claim
+
+INT4 量化校准开销的具体构成：若采用 Group-wise 量化 (group_size=128)，每个 128 元素组需要 1 个 FP16 scale (2 bytes) 和 1 个 FP16 zero-point (2 bytes)。总校准开销 = (27e9 / 128) * 4 bytes = 0.84 GB。若采用 Channel-wise，开销可忽略不计 (<10MB)。
+
+## Corrected Claim
+
+INT4 量化校准开销的具体构成：若采用 Group-wise 量化 (group_size=128)，每个 128 元素组需要 1 个 FP16 scale (2 bytes) 和 1 个 FP16 zero-point (2 bytes)。总校准开销 = (27e9 / 128) * 4 bytes = 0.84 GB。若采用 Channel-wise，开销可忽略不计 (<10MB)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27e9/128*4 = 843,750,000 bytes ≈ 0.84 GB，计算无误；Channel-wise 开销确实可忽略。
+
+## Search Query
+
+llm.int4.groupwise quantization overhead calculation

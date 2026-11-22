@@ -1,0 +1,20 @@
+# N365: 基于确认的 N_full_attn 和 GQA 配置，Qwen3-27B 在 32K 上下文、BF16 精度下的修正 KV Cache 显存占用公式为 2 * 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N128
+
+## Claim
+
+基于确认的 N_full_attn 和 GQA 配置，Qwen3-27B 在 32K 上下文、BF16 精度下的修正 KV Cache 显存占用公式为 2 * N_full_attn * 4 * 128 * 32768 * 2 bytes，需代入 N_full_attn 的具体数值计算得出精确的 GB 数，以替代之前的纯全注意力估算值 (2.0 GB)。
+
+## Corrected Claim
+
+基于确认的 N_full_attn 和 GQA 配置，Qwen3-27B 在 32K 上下文、BF16 精度下的修正 KV Cache 显存占用公式为 2 * N_full_attn * 4 * 128 * 32768 * 2 bytes，需代入 N_full_attn 的具体数值计算得出精确的 GB 数，以替代之前的纯全注意力估算值 (2.0 GB)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式结构符合KV Cache显存计算标准（2×层数×头数×头维度×序列长度×字节数），量纲与数值逻辑自洽。

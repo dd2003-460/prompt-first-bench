@@ -1,0 +1,20 @@
+# N132: 工作点 1（小对象主导）中，$T_{resident} \approx 1$ 天的假设需验证：$T_{resident} = C / (\sum_{i=1}^{
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N57, N58, N59
+
+## Claim
+
+工作点 1（小对象主导）中，$T_{resident} \approx 1$ 天的假设需验证：$T_{resident} = C / (\sum_{i=1}^{k_{eff}} \lambda_i S_i)$，其中 $k_{eff}$ 为小对象集合（$S_i < 100KB$）的热度阈值；在 $\beta=0.9$ 下，Top 10% 对象贡献 90% 请求，若小对象占 90% 数量，则 $k_{eff} \approx 90000$，$\sum \lambda_i S_i \approx 90000 \cdot (50000000/100000) \cdot 10KB \approx 4.5 \times 10^{13}$ bytes/day，$T_{resident} = 1.28 \times 10^{11} / 4.5 \times 10^{13} \approx 0.0028$ 天（约 4 分钟），而非 1 天；因此 $P_{invalidate} = 1 - e^{-(0.0028/100)} \approx 0.0028\%$，$\Delta H \approx 0.0028\% \cdot 0.3 \approx 0.00084\%$，远小于 N59 的 0.3%。
+
+## Corrected Claim
+
+工作点 1（小对象主导）中，$T_{resident} \approx 1$ 天的假设需验证：$T_{resident} = C / (\sum_{i=1}^{k_{eff}} \lambda_i S_i)$，其中 $k_{eff}$ 为小对象集合（$S_i < 100KB$）的热度阈值；在 $\beta=0.9$ 下，Top 10% 对象贡献 90% 请求，若小对象占 90% 数量，则 $k_{eff} \approx 90000$，$\sum \lambda_i S_i \approx 90000 \cdot (50000000/100000) \cdot 10KB \approx 4.5 \times 10^{13}$ bytes/day，$T_{resident} = 1.28 \times 10^{11} / 4.5 \times 10^{13} \approx 0.0028$ 天（约 4 分钟），而非 1 天；因此 $P_{invalidate} = 1 - e^{-(0.0028/100)} \approx 0.0028\%$，$\Delta H \approx 0.0028\% \cdot 0.3 \approx 0.00084\%$，远小于 N59 的 0.3%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值量级合理，计算过程自洽（$1.28 \times 10^{11} / 4.5 \times 10^{13} \approx 0.0028$），且结论符合小对象高周转率导致低驻留时间的物理直觉。

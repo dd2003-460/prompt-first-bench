@@ -1,0 +1,24 @@
+# N324: 1×A100 80GB (BF16) 在 Batch Size=1, 32K输入/1K输出下的实测吞吐量上限：在最优框架配置（如SGLang + FlashAt
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N90
+
+## Claim
+
+1×A100 80GB (BF16) 在 Batch Size=1, 32K输入/1K输出下的实测吞吐量上限：在最优框架配置（如SGLang + FlashAttention-2 + PagedAttention）下，Qwen3-27B在A100 80GB上的实测吞吐量上限约为 50-70 tokens/s [search: 需检索最新优化结果]，接近父节点预估的上限，但需依赖特定的内存优化和计算图优化技术。
+
+## Corrected Claim
+
+1×A100 80GB (BF16) 在 Batch Size=1, 32K输入/1K输出下，Qwen3-27B在最优框架配置（如SGLang + FlashAttention-2 + PagedAttention）下的实测吞吐量上限约为 50-70 tokens/s（注：此为基于典型工程经验的估算值，具体数值需以实际基准测试为准）。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件性能实测数据（50-70 tokens/s），属于经验事实。在缺乏任何参考来源支持的情况下，无法验证该数值量级的准确性，且不同优化框架（如SGLang vs vLLM）及具体配置下吞吐量波动较大，单一数值区间可能具有误导性。 | 经验事实，逻辑自洽但缺来源支持（检索失败，无可用外部证据）
+
+## Search Query
+
+SGLang A100 Qwen3-27B BF16 32k context throughput optimization

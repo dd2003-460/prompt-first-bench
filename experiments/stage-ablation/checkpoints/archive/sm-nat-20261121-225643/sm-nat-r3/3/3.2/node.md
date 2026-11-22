@@ -1,0 +1,20 @@
+# N12: LRU有效命中率折损系数：折损因子 F_decay = 1 - P_stale * H_LRU ≈ 1 - 0.01 * 0.587 ≈ 0.994，即命中率打
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+LRU有效命中率折损系数：折损因子 F_decay = 1 - P_stale * H_LRU ≈ 1 - 0.01 * 0.587 ≈ 0.994，即命中率打0.994折，最终有效命中率 H_effective ≈ 0.679 * 0.994 ≈ 0.675 (67.5%)
+
+## Corrected Claim
+
+LRU有效命中率折损系数：折损因子 F_decay = 1 - P_stale * H_LRU ≈ 1 - 0.01 * 0.587 ≈ 0.994，即命中率打0.994折，最终有效命中率 H_effective ≈ 0.679 * 0.994 ≈ 0.675 (67.5%)
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别针对折损系数 F_decay 的数值修正和最终有效命中率 H_effective 的推导进行说明，逻辑上层层递进且互不重叠，完整覆盖了父节点中关于系数计算和最终结果的两个核心方面，不存在冗余。）

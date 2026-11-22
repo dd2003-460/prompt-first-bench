@@ -1,0 +1,20 @@
+# N13: 对象更新率对 LRU 有效命中率的影响：更新率 1%/天 意味着每天 1,000 个对象被更新，更新后对象可能从缓存中驱逐或失效。需计算更新对象在缓存中的占比及
+
+- **status**: verified
+- **level**: L2
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+对象更新率对 LRU 有效命中率的影响：更新率 1%/天 意味着每天 1,000 个对象被更新，更新后对象可能从缓存中驱逐或失效。需计算更新对象在缓存中的占比及其对字节命中率的折损系数 f_update，使得 H_effective = H_byte_LRU * f_update。
+
+## Corrected Claim
+
+对象更新率对 LRU 有效命中率的影响：更新率 1%/天 意味着每天 1,000 个对象被更新，更新后对象可能从缓存中驱逐或失效。需计算更新对象在缓存中的占比及其对字节命中率的折损系数 f_update，使得 H_effective = H_byte_LRU * f_update。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

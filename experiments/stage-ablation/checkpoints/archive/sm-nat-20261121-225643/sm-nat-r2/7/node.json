@@ -1,0 +1,31 @@
+{
+  "id": "N16",
+  "claim": "LFU性能上限受限于频率计数器的内存开销，每个对象需维护4-8字节计数器，10万对象需0.4-0.8MB，但更关键的是LFU无法快速适应热度漂移，导致在动态工作负载下命中率比LRU低2-5%",
+  "level": "L2",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]陈述中关于LFU在动态工作负载下命中率比LRU低2-5%的具体数值缺乏普遍性，该差异高度依赖于具体工作负载的访问模式（如Zipf分布参数、时间局部性强度），并非固定常数；此外，4-8字节计数器的开销描述虽在量级上合理，但具体字节数取决于实现（如是否使用位图或压缩），并非绝对标准。 | 来源[1]和[2]确认了LFU基于频率计数且存在冷启动/历史数据占位问题（间接支持无法快速适应热度漂移的定性结论），但未提供具体的内存开销数值（0.4-0.8MB）或命中率差异的具体百分比（2-5%）；作为经验事实，缺乏直接来源支持具体数值，故降级。",
+  "corrected_claim": "LFU性能受限于频率计数器的内存开销（通常每对象需数十字节至数十字节，视实现而定），且由于依赖历史频率统计，在动态工作负载下对热度漂移的适应速度通常慢于LRU，可能导致命中率低于LRU，但具体差距取决于负载特征。",
+  "rework_count": 1,
+  "parent_ids": [],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": [
+    {
+      "url": "https://cloud.tencent.com/developer/article/2631391&rut=58330d9036a00a0166080f286ee5db659b5cf7aed397cb23632953bd2397c3cd",
+      "type": "ddg",
+      "title": "Lfu缓存算法全解：从双哈希+双向链表到o(1)艺术，解锁长期热点守护神-腾讯云开发者社区-腾讯云"
+    },
+    {
+      "url": "https://blog.csdn.net/m0_68089732/article/details/149774778&rut=a5dc7ac4a65d577ddab3b7bcb817500e9dbfff8f356a0e550910e0e83aaaf013",
+      "type": "ddg",
+      "title": "深入理解缓存淘汰策略：LRU vs LFU 完全解析 - CSDN博客"
+    },
+    {
+      "url": "https://blog.csdn.net/weixin_42531886/article/details/171123317&rut=fba38fce896556c08db5309404b43bcc41073daa27c1a5edca65f7c7b498b1ce",
+      "type": "ddg",
+      "title": "Redis内存淘汰策略：maxmemory与LRU/LFU选型实战 - CSDN博客"
+    }
+  ]
+}

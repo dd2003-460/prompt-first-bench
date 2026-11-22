@@ -1,0 +1,24 @@
+# N92: 共享随机源：A/B 测试中‘高挂价且短周期’事件 D 发生的概率分布 P(D|H) 与 P(D|¬H) 受市场基础噪声率 η_base 和实验组样本量 n_ex
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N38, N39, N40
+
+## Claim
+
+共享随机源：A/B 测试中‘高挂价且短周期’事件 D 发生的概率分布 P(D|H) 与 P(D|¬H) 受市场基础噪声率 η_base 和实验组样本量 n_exp 共同影响，其中 η_base 定义为对照组中自然发生的‘高挂价且短周期’比例，n_exp 决定了似然比 LR 估计的标准误 SE_LR ≈ √(1/n_exp + 1/n_ctrl)。
+
+## Corrected Claim
+
+共享随机源：A/B 测试中‘高挂价且短周期’事件 D 发生的概率分布 P(D|H) 与 P(D|¬H) 受市场基础噪声率 η_base 和实验组样本量 n_exp 共同影响，其中 η_base 定义为对照组中自然发生的‘高挂价且短周期’比例，n_exp 决定了似然比 LR 估计的标准误 SE_LR ≈ √(1/n_exp + 1/n_ctrl)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：似然比标准误的近似公式符合统计学大数定律及正态近似原理，量纲与逻辑自洽。
+
+## Search Query
+
+A/B test likelihood ratio standard error formula

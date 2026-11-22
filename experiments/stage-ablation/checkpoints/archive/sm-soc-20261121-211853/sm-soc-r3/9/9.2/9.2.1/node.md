@@ -1,0 +1,24 @@
+# N174: 回归模型 $Impression_i = \alpha + \beta Price_i + \epsilon_i$ 的自变量标准化处理：Price_i 需转换为
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N70
+
+## Claim
+
+回归模型 $Impression_i = \alpha + \beta Price_i + \epsilon_i$ 的自变量标准化处理：Price_i 需转换为 Z-score 或取对数 $\ln(Price_i)$，以消除量纲影响并缓解异方差性；若使用原始价格，需报告其方差膨胀因子（VIF）以检查多重共线性，VIF > 5 时需引入品类固定效应。
+
+## Corrected Claim
+
+回归模型 $Impression_i = \alpha + \beta Price_i + \epsilon_i$ 的自变量标准化处理：Price_i 常转换为 Z-score 或取对数 $\ln(Price_i)$，以消除量纲影响并缓解异方差性；若使用原始价格，需报告其方差膨胀因子（VIF）以检查多重共线性，VIF 较高（如 > 5 或 > 10）时，应考虑通过剔除冗余变量、合并变量或采用正则化等方法处理共线性，引入品类固定效应可作为控制不可观测异质性的补充手段，但非解决 VIF 超标的直接标准操作。
+
+## Evidence
+
+[质询]陈述中关于VIF阈值（>5）与引入品类固定效应之间的因果/操作逻辑存在混淆。VIF用于检测多重共线性，通常通过剔除变量、合并变量或正则化解决，而非直接通过引入固定效应（Fixed Effects）解决；固定效应主要用于控制不可观测的个体异质性，虽能消除部分共线性，但并非VIF超标后的标准或唯一补救措施，且VIF>5仅为经验性警示阈值，非硬性规则。 | 先验知识/题面给定，逻辑校验通过：标准化（Z-score/Log）确实是消除量纲和缓解异方差的常用手段，逻辑自洽；但VIF与固定效应的关联表述不够严谨，属于经验性操作建议而非严格逻辑推导，且无外部来源支持，故降级。
+
+## Search Query
+
+regression model variable standardization log transformation heteroscedasticity VIF

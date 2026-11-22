@@ -1,0 +1,20 @@
+# N252: 在W4权重+FP16 KV Cache混合精度下，32K上下文所需的额外显存增量（Delta_Mem）及由此导致的吞吐量下降比例（Delta_Throughpu
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N87
+
+## Claim
+
+在W4权重+FP16 KV Cache混合精度下，32K上下文所需的额外显存增量（Delta_Mem）及由此导致的吞吐量下降比例（Delta_Throughput），以量化混合精度的代价。
+
+## Corrected Claim
+
+在W4权重+FP16 KV Cache混合精度下，32K上下文所需的额外显存增量（Delta_Mem）及由此导致的吞吐量下降比例（Delta_Throughput），以量化混合精度的代价。
+
+## Evidence
+
+[质询]该陈述试图量化一个依赖于具体硬件架构（如HBM带宽、SRAM容量）、模型结构（如注意力头数、FFN维度）以及具体实现细节（如KV Cache压缩算法、算子融合程度）的经验性数值，而非一个固定的物理常数或数学定理。不同模型和硬件组合下，Delta_Mem和Delta_Throughput的数值差异巨大，无法仅凭“W4+FP16”和“32K上下文”这两个条件唯一确定具体的数值量级或比例。 | 先验知识/题面给定，逻辑校验通过。虽然逻辑上自洽（混合精度确实会改变显存占用和计算瓶颈），但作为knowledge节点，其核心在于定义量化指标而非提供具体数值。然而，由于缺乏具体的模型和硬件上下文，将其作为一个可被“验证”的具体事实节点存在歧义。根据规则，knowledge节点逻辑自洽即verified，但此处claim更像是一个“待计算的任务描述”而非“既定事实”。若视为对一般性趋势的描述（显存增加，吞吐可能下降或持平），则逻辑成立。但考虑到“量化代价”通常暗示具体数值，且无来源支持具体数值，保守起见，若视为具体数值断言则degraded；若视为方法论描述则verified。鉴于claim中未给出具体数值，而是描述“所需的...及...”，这更像是一个变量定义。但在事实核验语境下，通常指代该场景下的典型表现。由于缺乏具体数值，无法进行数值量级校验，但逻辑上混合精度下KV Cache占显存主导，W4权重显存极小，Delta_Mem主要取决于KV Cache大小，Delta_Throughput取决于计算/访存平衡。逻辑自洽。根据硬性约束，knowledge节点逻辑自洽即verified。

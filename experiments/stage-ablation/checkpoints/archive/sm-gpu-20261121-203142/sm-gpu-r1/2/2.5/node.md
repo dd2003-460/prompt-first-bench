@@ -1,0 +1,24 @@
+# N15: 质量可接受性阈值定义：对于通用推理任务，MMLU准确率下降≤2.0%且GPQA下降≤3.0%视为可接受；对于代码生成任务，HumanEval通过率下降≤5.0%
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N2
+
+## Claim
+
+质量可接受性阈值定义：对于通用推理任务，MMLU准确率下降≤2.0%且GPQA下降≤3.0%视为可接受；对于代码生成任务，HumanEval通过率下降≤5.0%视为可接受
+
+## Corrected Claim
+
+在部分通用推理与代码生成任务的量化/压缩评估实践中，常采用MMLU准确率下降≤2.0%、GPQA下降≤3.0%及HumanEval通过率下降≤5.0%作为质量可接受的参考阈值，但具体标准需视业务场景而定。
+
+## Evidence
+
+[质询]该阈值（MMLU≤2.0%, GPQA≤3.0%, HumanEval≤5.0%）属于特定工程实践或特定论文/框架中的经验性设定，并非行业通用的绝对标准或第一性原理可推导的数学/物理定律。不同场景、不同模型规模或不同业务容忍度下，这些数值可能显著不同，将其定义为通用的“可接受性阈值”缺乏普适性依据。 | source=knowledge，逻辑自洽（数值量级符合常见量化/压缩评估中的容忍度范围），但作为“通用”定义缺乏绝对普适性，且无外部来源支持其唯一性，故降级为定性表述。
+
+## Search Query
+
+quantization quality acceptance threshold LLM inference MMLU GPQA

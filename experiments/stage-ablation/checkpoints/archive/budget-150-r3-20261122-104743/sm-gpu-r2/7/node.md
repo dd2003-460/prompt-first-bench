@@ -1,0 +1,26 @@
+# N34: 性价比量化指标定义：Cost-Per-Token = (CapEx + 3年OpEx) / Total_Tokens_Generated_Over_3_Year
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+性价比量化指标定义：Cost-Per-Token = (CapEx + 3年OpEx) / Total_Tokens_Generated_Over_3_Years，需结合 N11-N14 的成本项与 N15-N17 的吞吐量预测进行综合计算，而非仅对比硬件单价
+
+## Corrected Claim
+
+性价比量化指标通常定义为总拥有成本（TCO，包含CapEx和OpEx）除以总生成Token数，具体计算周期（如3年）需根据硬件折旧策略和运营规划确定，而非仅对比硬件单价。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点覆盖了吞吐量计算（分母）、电力OpEx（分子部分）和敏感性分析，但缺失了CapEx的具体定义或引用，且未明确说明OpEx中除电力外的其他成本项（如维护、网络等）如何处理，导致公式中的'CapEx + 3年OpEx'未能完全闭环。）
+
+## Retrieval Sources
+
+- {'url': 'https://wavect.io/zh/blog/cost-per-token-vs-cost-per-task/&rut=8b641db4aa31157d94f59a5d54b04a7ec47b4ff89ff8e69dba3414336930bdf7', 'type': 'ddg', 'title': '每任务成本：当前价格与实际用量 | Wavect'}
+- {'url': 'https://finance.sina.com.cn/roll/2026-08-14/doc-ininhnxk4179386.shtml&rut=063658cc8d14178473e93ae56355887bb182e21f9770d24979ca3344285560c5', 'type': 'ddg', 'title': 'OpenAI、Anthropic推出新指标——"cost-per-task"，以更好衡量AI成本'}
+- {'url': 'https://blog.se.com/datacenter/2026/09/08/cost-per-token-ai-data-centers/&rut=06d46df5efe5c41797c75f0a8758e80e9ff968d394c1fcbfbdccb252f581a2d2', 'type': 'ddg', 'title': 'Cost per token: The metric defining AI factory economics'}

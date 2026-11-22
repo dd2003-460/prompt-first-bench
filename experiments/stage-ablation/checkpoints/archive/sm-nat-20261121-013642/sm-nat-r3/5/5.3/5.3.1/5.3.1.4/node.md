@@ -1,0 +1,20 @@
+# N214: Gaussian Copula 在 Pareto 重尾边缘分布下的边界失效条件：当 size 或 freq 的 CDF 值接近 0 或 1 时，Gaussian
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N73
+
+## Claim
+
+Gaussian Copula 在 Pareto 重尾边缘分布下的边界失效条件：当 size 或 freq 的 CDF 值接近 0 或 1 时，Gaussian Copula 的尾部依赖结构失真，导致 P(size > s | freq > f) 的估计误差超过 10%；需改用 Student-t Copula 或 Clayton/Gumbel 混合 Copula 进行修正，修正项 ε_tail ≈ O(1/√n_tail)。
+
+## Corrected Claim
+
+Gaussian Copula 在 Pareto 重尾边缘分布下的边界失效条件：当 size 或 freq 的 CDF 值接近 0 或 1 时，Gaussian Copula 的尾部依赖结构失真（尾部依赖系数为 0，无法捕捉重尾联合极值），导致 P(size > s | freq > f) 的估计出现系统性偏差；需改用 Student-t Copula 或 Clayton/Gumbel 混合 Copula 进行修正以捕捉尾部依赖结构。
+
+## Evidence
+
+[质询]修正项 ε_tail ≈ O(1/√n_tail) 的表述存在概念混淆：Copula 模型的结构失真（尾部依赖结构错误）是模型设定误差（Model Misspecification），属于系统性偏差，不随样本量 n_tail 增加而消失；O(1/√n) 通常描述的是参数估计的统计误差（Sampling Error）。将结构性偏差的修正量级描述为统计误差的量级，在统计学原理上是不严谨的。 | 先验知识/题面给定，逻辑校验通过。Gaussian Copula 在重尾分布下确实存在尾部依赖失真（Upper/Lower Tail Dependence 为 0），需改用 t-Copula 或 Archimedean Copula 是标准做法。但关于修正项量级的具体数学表述存在理论瑕疵，故降级。

@@ -1,0 +1,24 @@
+# N188: AMD RX 7900 XTX 在 BF16 精度下运行 Qwen3-27B 的可行性边界：单卡 24GB 显存无法容纳 54GB 权重，必须采用 INT8/F
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N34
+
+## Claim
+
+AMD RX 7900 XTX 在 BF16 精度下运行 Qwen3-27B 的可行性边界：单卡 24GB 显存无法容纳 54GB 权重，必须采用 INT8/FP8 量化；理论吞吐上限修正为 960 / (27 + 1.5 + 2) ≈ 30.9 tokens/s；需评估 ROCm 生态下 vLLM/TensorRT-LLM 对 RX 7900 XTX 的优化程度，通常比 CUDA 生态低 10-20%，实际吞吐需乘以效率系数 0.8-0.9。
+
+## Corrected Claim
+
+AMD RX 7900 XTX 在 BF16 精度下运行 Qwen3-27B 的可行性边界：单卡 24GB 显存无法容纳 54GB 权重，必须采用 INT8/FP8 量化；理论吞吐上限需基于具体硬件带宽与算力重新计算（原公式 960 / (27 + 1.5 + 2) ≈ 30.9 tokens/s 依据不足）；ROCm 生态下 vLLM/TensorRT-LLM 对 RX 7900 XTX 的优化程度通常低于 CUDA 生态，实际吞吐需考虑效率系数（建议范围 0.8-0.9，需实测验证）。
+
+## Evidence
+
+[质询]理论吞吐上限的计算公式 `960 / (27 + 1.5 + 2)` 缺乏明确的物理或工程依据，960 的来源不明（可能是带宽或算力指标，但未说明单位及为何除以参数量），且将参数量直接作为分母项在逻辑上存疑；此外，ROCm 生态效率比 CUDA 低 10-20% 为经验估计，缺乏具体基准测试支持。 | 先验知识/题面给定，逻辑校验通过：单卡 24GB 无法容纳 54GB 权重需量化符合显存限制逻辑；但吞吐计算公式及效率系数为经验性估算，缺乏直接来源支持，故降级。
+
+## Search Query
+
+AMD RX 7900 XTX ROCm LLM inference performance vs NVIDIA CUDA

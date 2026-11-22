@@ -1,0 +1,24 @@
+# N150: Tokens/$ 指标计算：H100 年 Tokens = 104 tokens/s × 86400 × 365 ≈ 3.27B tokens，年成本 = $1
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N75
+
+## Claim
+
+Tokens/$ 指标计算：H100 年 Tokens = 104 tokens/s × 86400 × 365 ≈ 3.27B tokens，年成本 = $11,667 (折旧) + $420 (电费) = $12,087，Tokens/$ = 3.27B / $12,087 ≈ 270,530 tokens/$。双 4090 年 Tokens = 70 tokens/s × 86400 × 365 ≈ 2.20B tokens，年成本 = $900 (折旧) + $455 (电费) = $1,355，Tokens/$ = 2.20B / $1,355 ≈ 1,623,610 tokens/$。双卡方案性价比指标是 H100 的 6 倍。
+
+## Corrected Claim
+
+Tokens/$ 指标计算：H100 年 Tokens = 104 tokens/s × 86400 × 365 ≈ 3.27B tokens，年成本 = $11,667 (折旧) + $420 (电费) = $12,087，Tokens/$ = 3.27B / $12,087 ≈ 270,530 tokens/$。双 4090 年 Tokens = 70 tokens/s × 86400 × 365 ≈ 2.20B tokens，年成本 = $900 (折旧) + $455 (电费) = $1,355，Tokens/$ = 2.20B / $1,355 ≈ 1,623,610 tokens/$。双卡方案性价比指标是 H100 的 6 倍。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（1. 完备性缺失：父节点明确包含 H100 的计算，但子节点仅覆盖了双 4090 和单卡 5090，完全遗漏了 H100 子节点。2. 冗余性高：双 4090 和单卡 5090 本质上是同一类硬件方案（消费级/非数据中心卡）的不同参数实例，且计算逻辑完全相同（TCO -> 年均 -> Tokens/$），应合并为通用公式或单一参数化节点，而非拆分为两个独立子节点。3. 数据不一致：父节点中双 4090 的年均成本为 $1,355，而子节点中变为 $1,175，存在内部矛盾。）
+
+## Search Query
+
+cost per token calculation H100 vs dual RTX 4090 local inference TCO

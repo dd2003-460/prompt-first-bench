@@ -1,0 +1,24 @@
+# N183: 工作点A（高更新/低访问耦合）：假设更新与访问完全解耦（ρ_uH=0），更新率 u=1%/day，平均访问率 λ_avg=500/day。此时更新事件不显著改变
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N63
+
+## Claim
+
+工作点A（高更新/低访问耦合）：假设更新与访问完全解耦（ρ_uH=0），更新率 u=1%/day，平均访问率 λ_avg=500/day。此时更新事件不显著改变 LRU 时间戳分布，修正因子 f_res ≈ 1.00002，驻留时间 T_resident 几乎不变。该工作点代表最乐观的失效折扣场景，适用于静态内容为主、更新由后台异步触发的场景。
+
+## Corrected Claim
+
+工作点A（高更新/低访问耦合）：假设更新与访问完全解耦（ρ_uH=0），更新率 u=1%/day，平均访问率 λ_avg=500/day。此时更新事件不显著改变 LRU 时间戳分布，修正因子 f_res ≈ 1.00002，驻留时间 T_resident 几乎不变。该工作点代表最乐观的失效折扣场景，适用于静态内容为主、更新由后台异步触发的场景。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在更新率极低（1%/day）且与访问解耦（ρ=0）的假设下，LRU时间戳分布受更新扰动极小，修正因子接近1符合物理直觉与数学推导。
+
+## Search Query
+
+LRU cache update access decoupling residence time

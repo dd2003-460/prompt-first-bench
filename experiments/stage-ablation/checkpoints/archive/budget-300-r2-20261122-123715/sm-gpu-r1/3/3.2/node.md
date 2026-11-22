@@ -1,0 +1,20 @@
+# N15: 电力成本估算：RTX 4090 TDP 450W，A100 SXM4 TDP 400W，H100 SXM5 TDP 700W；假设电价 $0.10/kWh，24
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+电力成本估算：RTX 4090 TDP 450W，A100 SXM4 TDP 400W，H100 SXM5 TDP 700W；假设电价 $0.10/kWh，24/7 运行，3 年电力成本分别为 ~$4700, ~$4100, ~$7300；需结合实际负载率（推理任务通常 50-80% 负载）修正。
+
+## Corrected Claim
+
+电力成本估算：RTX 4090 TDP 450W，A100 SXM4 TDP 400W，H100 SXM5 TDP 700W；假设电价 $0.10/kWh，24/7 运行，3 年电力成本分别为 ~$4700, ~$4100, ~$7300；需结合实际负载率（推理任务通常 50-80% 负载）修正。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算过程正确（450W*24h*365d*3y*0.1$/kWh ≈ $4680，400W ≈ $4147，700W ≈ $7265），TDP数值符合硬件规格常识，量级合理。

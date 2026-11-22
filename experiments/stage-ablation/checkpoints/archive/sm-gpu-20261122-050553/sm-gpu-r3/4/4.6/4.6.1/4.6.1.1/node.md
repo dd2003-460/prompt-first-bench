@@ -1,0 +1,24 @@
+# N287: 工作点 1（高上下文/低精度 KV）：采用 W4 量化权重 (13.5GB) + INT8 量化 KV Cache。32K 上下文下，Qwen3-27B 的 K
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N95
+
+## Claim
+
+工作点 1（高上下文/低精度 KV）：采用 W4 量化权重 (13.5GB) + INT8 量化 KV Cache。32K 上下文下，Qwen3-27B 的 KV Cache 大小约为 2 × Layers × Head_Dim × Seq_Len × Bytes_per_elem。若 Layers=64, Head_Dim=128, Seq_Len=32768, INT8 (1 byte)，KV Size ≈ 2 × 64 × 128 × 32768 × 1 / 1024^3 ≈ 16.1 GB。总显存 = 13.5 + 16.1 = 29.6 GB > 24 GB。结论：即使 INT8 KV 仍超出单卡 24GB 限制，此工作点不可行，需进一步降低上下文或启用 PagedAttention 溢出至 CPU。
+
+## Corrected Claim
+
+工作点 1（高上下文/低精度 KV）：采用 W4 量化权重 (13.5GB) + INT8 量化 KV Cache。32K 上下文下，Qwen3-27B 的 KV Cache 大小约为 2 × Layers × Head_Dim × Seq_Len × Bytes_per_elem。若 Layers=64, Head_Dim=128, Seq_Len=32768, INT8 (1 byte)，KV Size ≈ 2 × 64 × 128 × 32768 × 1 / 1024^3 ≈ 16.1 GB。总显存 = 13.5 + 16.1 = 29.6 GB > 24 GB。结论：即使 INT8 KV 仍超出单卡 24GB 限制，此工作点不可行，需进一步降低上下文或启用 PagedAttention 溢出至 CPU。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：KV Cache 计算公式及数值推导正确（2*64*128*32768/1024^3 ≈ 16.1GB），总显存 29.6GB > 24GB 结论成立。
+
+## Search Query
+
+Qwen3 27B KV cache size calculation INT8 32k context

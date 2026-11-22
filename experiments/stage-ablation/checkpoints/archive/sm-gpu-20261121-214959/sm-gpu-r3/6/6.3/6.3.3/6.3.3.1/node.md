@@ -1,0 +1,24 @@
+# N309: H100 80GB 在 128K 上下文下运行 FP8 权重 (27GB) + FP8 KV Cache (25.16GB) 时，剩余 27.84GB 显存可支
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N110, N111, N112
+
+## Claim
+
+H100 80GB 在 128K 上下文下运行 FP8 权重 (27GB) + FP8 KV Cache (25.16GB) 时，剩余 27.84GB 显存可支持的最大并发 batch_size 为 4（基于单请求激活值+临时缓冲约 6GB 估算），此时总显存占用 52.16 + 4*6 = 76.16GB < 80GB，无 OOM 风险。
+
+## Corrected Claim
+
+H100 80GB 在 128K 上下文下运行 FP8 权重 (27GB) + FP8 KV Cache (25.16GB) 时，剩余 27.84GB 显存可支持的最大并发 batch_size 为 4（基于单请求激活值+临时缓冲约 6GB 估算），此时总显存占用 52.16 + 4*6 = 76.16GB < 80GB，无 OOM 风险。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算 80 - 27 - 25.16 = 27.84 正确；27.84 / 6 = 4.64，取整为 4 符合逻辑；总占用 52.16 + 24 = 76.16 < 80 正确。
+
+## Search Query
+
+H100 80GB FP8 KV cache max batch size 128k context

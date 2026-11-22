@@ -1,0 +1,24 @@
+# N97: 数据中心级 GPU（A100 40GB）的散热基础设施成本：若使用商用服务器（如 Supermicro 或 Dell PowerEdge），额外成本约为 $5,
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N24
+
+## Claim
+
+数据中心级 GPU（A100 40GB）的散热基础设施成本：若使用商用服务器（如 Supermicro 或 Dell PowerEdge），额外成本约为 $5,000-$8,000 [待核验：需查询服务器价格]；若使用 DIY 水冷或风冷机架方案，成本可降至 $2,000-$3,000，但需考虑噪音和空间限制。
+
+## Corrected Claim
+
+数据中心级 GPU（A100 40GB）的散热基础设施成本：若使用商用服务器（如 Supermicro 或 Dell PowerEdge），额外成本通常在数千美元量级；若使用 DIY 水冷或风冷机架方案，成本可能更低，但需考虑噪音和空间限制。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件成本数值（$5,000-$8,000 和 $2,000-$3,000），属于经验事实。由于缺乏外部来源支持，且服务器价格随配置、市场波动较大，无法仅凭逻辑推导确认具体金额区间，存在数值不准确的风险。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）。
+
+## Search Query
+
+A100 40GB server chassis cooling cost DIY vs commercial

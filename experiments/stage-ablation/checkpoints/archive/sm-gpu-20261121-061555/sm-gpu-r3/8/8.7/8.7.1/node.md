@@ -1,0 +1,24 @@
+# N365: RX 7900 XTX 与 RTX 4090 在 BF16 精度下推理 Qwen3-27B 的实测吞吐量对比：RTX 4090 通常利用 Tensor Core
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N129
+
+## Claim
+
+RX 7900 XTX 与 RTX 4090 在 BF16 精度下推理 Qwen3-27B 的实测吞吐量对比：RTX 4090 通常利用 Tensor Core 的 FP16/BF16 加速，而 RX 7900 XTX 利用 Matrix Core。需获取同一模型、同一上下文长度（32K）下的 tokens/s 数据，计算性能比值 R_perf = Throughput_7900XTX / Throughput_4090。
+
+## Corrected Claim
+
+RTX 4090 利用 Tensor Core 进行 FP16/BF16 加速，RX 7900 XTX 利用 Matrix Core 进行 FP16/BF16 加速。在 Qwen3-27B 32K 上下文推理中，两者的具体吞吐量比值 R_perf 需依赖特定软件栈（如 vLLM, llama.cpp）的实测数据，目前缺乏统一基准测试数据支持具体数值。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件架构特性（Tensor Core vs Matrix Core）和特定的性能对比场景（Qwen3-27B, 32K上下文），属于经验事实。由于缺乏实测数据支持，无法验证具体的吞吐量比值 R_perf，且不同软件栈（如 ROCm vs CUDA）对性能影响巨大，仅凭架构名称无法确定具体性能表现。 | 经验事实，逻辑自洽但缺来源支持。RTX 4090 确实使用 Tensor Core 支持 FP16/BF16，RX 7900 XTX 使用 Matrix Core 支持 FP16/BF16，架构描述正确，但具体性能比值需实测数据，当前无来源支持。
+
+## Search Query
+
+RX 7900 XTX vs RTX 4090 LLM inference benchmark Qwen 27B tokens per second

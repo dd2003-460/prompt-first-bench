@@ -1,0 +1,17 @@
+{
+  "id": "N119",
+  "claim": "W4精度下的性能-成本权衡工作点：若采用W4量化（权重13.5GB），单卡RTX 4090 (24GB) 即可容纳模型+KV Cache（13.5+10.7+4=28.2GB > 24GB，仍不足，需使用Offload或更低精度KV），但W4精度导致MMLU损失约3-5% [待核验]，此时单卡$1600成本 vs 双卡$3200成本，性价比提升约2倍，但质量风险显著增加。",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值计算存在内部矛盾：13.5GB + 10.7GB + 4GB = 28.2GB，确实大于24GB，但陈述中称'单卡RTX 4090 (24GB) 即可容纳模型+KV Cache'与随后的'仍不足'自相矛盾，且未明确说明Offload的具体策略或KV Cache压缩后的实际占用，导致'性价比提升约2倍'的结论缺乏严谨的量化支撑（因为若需Offload，推理速度可能大幅下降，抵消成本优势）。 | 先验知识/题面给定，逻辑校验发现内部数值矛盾（声称可容纳但实际不足），且缺乏外部来源支持具体性能损失数值。",
+  "corrected_claim": "W4精度下，模型权重约13.5GB，加上KV Cache（约10.7GB）及激活值等开销，总显存需求约28.2GB，超出单卡RTX 4090 (24GB) 容量，必须使用Offload或降低KV Cache精度。虽然硬件成本从双卡$3200降至单卡$1600（成本减半），但因Offload导致的推理延迟增加及W4量化带来的MMLU约3-5%性能损失，实际性价比提升并非简单的2倍，需权衡延迟与质量风险。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N31"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "",
+  "retrieval_sources": []
+}

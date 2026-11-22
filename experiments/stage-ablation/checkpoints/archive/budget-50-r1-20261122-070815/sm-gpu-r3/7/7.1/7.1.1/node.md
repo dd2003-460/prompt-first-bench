@@ -1,0 +1,20 @@
+# N372: RTX 4090 decode 速度理论上限 65 tokens/s 的计算修正：带宽瓶颈公式应为 1008 GB/s / (INT4 权重 13.5 GB +
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N131
+
+## Claim
+
+RTX 4090 decode 速度理论上限 65 tokens/s 的计算修正：带宽瓶颈公式应为 1008 GB/s / (INT4 权重 13.5 GB + KV Cache 2.0 GB + Activation 0.5 GB) ≈ 63 tokens/s，且此值为 memory-bound 极限，实际受 ALU 计算瓶颈限制通常打 60-70% 折扣，即 38-44 tokens/s
+
+## Corrected Claim
+
+RTX 4090 decode 速度理论上限 65 tokens/s 的计算修正：带宽瓶颈公式应为 1008 GB/s / (INT4 权重 13.5 GB + KV Cache 2.0 GB + Activation 0.5 GB) ≈ 63 tokens/s，且此值为 memory-bound 极限，实际受 ALU 计算瓶颈限制通常打 60-70% 折扣，即 38-44 tokens/s
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：带宽除以总数据量（13.5+2.0+0.5=16GB）得出约63 tokens/s，符合Memory-bound理论极限计算逻辑；ALU瓶颈折扣符合工程经验。

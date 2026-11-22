@@ -1,0 +1,24 @@
+# N20: 动态更新惩罚基线：对象更新率 u=1%/天 意味着每个对象平均寿命 T_obj = 1/u = 100 天。对于LRU，若缓存驻留时间 T_resident >
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N5
+
+## Claim
+
+动态更新惩罚基线：对象更新率 u=1%/天 意味着每个对象平均寿命 T_obj = 1/u = 100 天。对于LRU，若缓存驻留时间 T_resident > T_obj，则更新导致的失效概率 P_invalidate = 1 - e^(-T_resident/T_obj)。
+
+## Corrected Claim
+
+动态更新惩罚基线：对象更新率 u=1%/天 意味着每个对象平均寿命 T_obj = 1/u = 100 天。对于LRU，若缓存驻留时间 T_resident > T_obj，则更新导致的失效概率 P_invalidate = 1 - e^(-T_resident/T_obj)。
+
+## Evidence
+
+父节点级核验未通过：有冗余（子节点之间场景互斥（小/中/大对象），正交性良好；覆盖了不同驻留时间下的量化影响，完备性尚可。但所有子节点本质上是同一公式 P=1-e^(-T/T_obj) 在不同 T 值下的实例化，属于典型的参数化冗余，而非结构性的不同分支。）
+
+## Search Query
+
+cache invalidation probability object update rate exponential distribution

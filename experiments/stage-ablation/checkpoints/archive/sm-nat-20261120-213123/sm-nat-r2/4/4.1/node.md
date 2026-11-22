@@ -1,0 +1,24 @@
+# N17: LFU相对LRU的理论最大提升上限：在无限时间窗口且无更新的静态工作负载下，LFU字节命中率 H_lfu = 1 - (Σ_{i: L_i > C} λ_i L
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+LFU相对LRU的理论最大提升上限：在无限时间窗口且无更新的静态工作负载下，LFU字节命中率 H_lfu = 1 - (Σ_{i: L_i > C} λ_i L_i) / R_total，其提升幅度 Δ_max = H_lfu - H_lru 取决于LRU未能缓存的尾部大对象的总字节流量占比。
+
+## Corrected Claim
+
+LFU相对LRU的理论最大提升上限：在无限时间窗口且无更新的静态工作负载下，LFU字节命中率 H_lfu = 1 - (Σ_{i: L_i > C} λ_i L_i) / R_total，其提升幅度 Δ_max = H_lfu - H_lru 取决于LRU未能缓存的尾部大对象的总字节流量占比。
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备（1. 正交性/一致性错误：父节点明确定义场景为‘无更新的静态工作负载’（Static Workload），这意味着没有对象失效（Eviction）或时间衰减。然而，子节点3引入了时间参数 T_LRU 和更新率 u，并讨论‘线性近似失效’及‘指数形式’，这属于动态/时间感知缓存模型，与父节点的静态假设直接矛盾。2. 完备性缺失：父节点的核心结论是 Δ_max = H_lfu - H_lru。子节点4计算了 H_lfu，子节点1计算了 T_LRU（而非 H_lru），子节点2计算了 k_eff，子节点3讨论失效边界。没有任何子节点提供 H_lru 在静态负载下的计算公式（通常静态下 H_lru 等于缓存容量 C 覆盖的字节流量占比），导致无法最终得出 Δ_max。3. 逻辑断层：子节点2中的 k_eff 近似公式引入了复杂的 Pareto 分布参数，但未明确说明该 k_eff 如何直接用于 H_lfu 的阈值判断（子节点4使用的是 C/k_eff，逻辑上 k_eff 应为数量，C/k_eff 为平均大小，逻辑尚可，但缺乏与子节点1 T_LRU 的关联说明）。）
+
+## Search Query
+
+LFU vs LRU cache hit rate theoretical bound static workload

@@ -1,0 +1,24 @@
+# N321: 2x RTX 4090 在 PCIe 4.0 x16 下的实际 P2P 通信带宽为 32 GB/s (单向)，而非 50-55 GB/s，因为 4090 不支持
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N114
+
+## Claim
+
+2x RTX 4090 在 PCIe 4.0 x16 下的实际 P2P 通信带宽为 32 GB/s (单向)，而非 50-55 GB/s，因为 4090 不支持 NVLink 且 PCIe 4.0 x16 理论峰值即为 32 GB/s，需以此修正多卡通信开销估算 [修正自矛盾检测]
+
+## Corrected Claim
+
+2x RTX 4090 在 PCIe 4.0 x16 下的实际 P2P 通信带宽为 32 GB/s (单向)，而非 50-55 GB/s，因为 4090 不支持 NVLink 且 PCIe 4.0 x16 理论峰值即为 32 GB/s，需以此修正多卡通信开销估算 [修正自矛盾检测]
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 确实不支持 NVLink，PCIe 4.0 x16 理论单向带宽约为 32 GB/s (31.5 GB/s)，实际 P2P 带宽受限于此理论峰值，陈述符合硬件规格与物理限制。
+
+## Search Query
+
+RTX 4090 PCIe 4.0 x16 P2P bandwidth GB/s

@@ -1,0 +1,28 @@
+# N14: 买家收益量化：买家在均衡下的期望效用 U_buyer = (V - P_ask*)·q - C_search，其中 q 为商品质量概率，C_search 为搜索
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N3
+
+## Claim
+
+买家收益量化：买家在均衡下的期望效用 U_buyer = (V - P_ask*)·q - C_search，其中 q 为商品质量概率，C_search 为搜索成本。在 P_ask* = 1.2V 时，U_buyer 比在 P_ask = V 时低 15%，但搜索时间减少 40%，净收益提升 5%。
+
+## Corrected Claim
+
+买家在均衡下的期望效用 U_buyer = (V - P_ask*)·q - C_search。在 P_ask* = 1.2V 时，虽然直接交易效用因价格上升而降低，但搜索成本的减少可能带来净收益的变化，具体数值取决于模型参数设定。
+
+## Evidence
+
+[质询]该陈述包含具体的数值结论（效用降低15%、时间减少40%、净收益提升5%），属于经验事实或特定模型参数下的计算结果，无法从第一性原理直接推出。参考来源[1]仅提供了平台均衡的理论框架，未提供具体的数值模拟结果或这些特定的百分比数据，存在来源不支持具体数值的风险。 | 逻辑上，效用公式结构合理，且‘价格上升导致效用下降’与‘搜索时间减少’之间的权衡在经济学直觉上自洽。但参考来源[1]仅涉及平台均衡理论框架，未直接支持具体的15%、40%、5%等数值结论，属于间接相关或无关，故降级。
+
+## Search Query
+
+buyer expected utility search cost reduction pricing equilibrium online market
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org/pdf/2309.08781&rut=b3a773311febfdfee2115a371d5afeff39adf762e83f0c61cd0fc96199c4b72b', 'type': 'ddg', 'title': 'PlatformEquilibrium: AnalyzingSocialWelfareinOnline MarketPlaces'}

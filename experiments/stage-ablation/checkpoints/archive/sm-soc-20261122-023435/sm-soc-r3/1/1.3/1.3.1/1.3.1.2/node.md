@@ -1,0 +1,24 @@
+# N96: 属性总基数 N_total_attributes 的品类特异性基准值：对于 3C 数码类（如 iPhone），N_total ≈ 8-10；对于非标奢侈品（如 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N31
+
+## Claim
+
+属性总基数 N_total_attributes 的品类特异性基准值：对于 3C 数码类（如 iPhone），N_total ≈ 8-10；对于非标奢侈品（如 LV 手袋），N_total ≈ 5-6；对于手工家具，N_total ≈ 4-5。该数值直接决定 S_std 的上限。
+
+## Corrected Claim
+
+属性总基数 N_total_attributes 通常随品类标准化程度增加而增加：3C 数码类通常高于非标奢侈品，后者又高于手工家具。具体数值需根据属性定义标准确定，但一般量级上 3C 数码 > 奢侈品 > 手工家具。
+
+## Evidence
+
+[质询]该陈述将高度依赖具体数据定义（如是否包含颜色、尺寸、材质细分等）的经验性数值固化为绝对基准，缺乏统一的属性提取标准，不同数据集或业务场景下 N_total 波动极大，直接决定 S_std 上限的断言过于绝对。 | source=knowledge，逻辑上属性数量与品类复杂度正相关符合直觉，但具体数值（8-10, 5-6, 4-5）属于经验估计，缺乏通用标准支持，且无外部来源验证，故降级为定性表述。
+
+## Search Query
+
+typical number of attributes for used goods valuation electronics vs luxury

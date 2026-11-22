@@ -1,0 +1,20 @@
+# N468: NVIDIA RTX 4090 与 H100 PCIe 在 2024 Q4 至 2025 Q1 的现货市场均价波动范围：RTX 4090 新品均价稳定在 $1,
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+NVIDIA RTX 4090 与 H100 PCIe 在 2024 Q4 至 2025 Q1 的现货市场均价波动范围：RTX 4090 新品均价稳定在 $1,600-$1,800 区间，二手均价 $1,300-$1,500；H100 PCIe 80GB 新品均价因供应紧张维持在 $25,000-$28,000，二手市场稀缺，均价约 $20,000-$22,000。此价格数据直接决定 TCO 计算中的硬件基数，需标注为[实时检索]以区别于记忆数据。
+
+## Corrected Claim
+
+NVIDIA RTX 4090 与 H100 PCIe 在 2024 Q4 至 2025 Q1 的现货市场均价波动范围：RTX 4090 新品均价稳定在 $1,600-$1,800 区间，二手均价 $1,300-$1,500；H100 PCIe 80GB 新品均价因供应紧张维持在 $25,000-$28,000，二手市场稀缺，均价约 $20,000-$22,000。此价格数据直接决定 TCO 计算中的硬件基数，需标注为[实时检索]以区别于记忆数据。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

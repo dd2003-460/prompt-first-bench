@@ -1,0 +1,30 @@
+# N91: 动态定价算法的技术部署成本 C_tech_B 包括模型开发成本（一次性约 100-200 万元）和实时计算资源成本（每月约 5-10 万元），需根据平台数据量估
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N20
+
+## Claim
+
+动态定价算法的技术部署成本 C_tech_B 包括模型开发成本（一次性约 100-200 万元）和实时计算资源成本（每月约 5-10 万元），需根据平台数据量估算 [待核验]
+
+## Corrected Claim
+
+动态定价算法的技术部署成本 C_tech_B 包括模型开发成本（一次性投入，具体金额视项目复杂度而定）和实时计算资源成本（随数据量和调用频率波动），需根据平台具体数据量和业务规模进行估算。
+
+## Evidence
+
+[质询]具体数值（100-200万元开发成本、5-10万元月计算成本）属于高度依赖具体业务场景、数据规模和模型复杂度的经验事实，缺乏通用标准，且参考来源中未提供直接对应的具体金额数据，存在数值量级不准确或口径混淆的风险。 | 逻辑自洽，但参考来源[1][2][3]主要讨论定价模式、API成本公式或部署优化技术，均未直接提供动态定价算法部署的具体一次性开发成本和月度计算资源成本的具体数值范围，属于经验事实且缺来源直接支持。
+
+## Search Query
+
+cost of developing dynamic pricing algorithm for e-commerce
+
+## Retrieval Sources
+
+- {'url': 'https://post.smzdm.com/p/aqrpokpp/&rut=f984ef89faa7ae644a207e75d3b98aea4a31a60fdcf79b6ce6e358fb68c33657', 'type': 'ddg', 'title': 'AI定价水有多深？6种主流模式+成本结构拆解，看完少走三年弯路'}
+- {'url': 'https://chihoc.github.io/ai-system-design-guide-zh/02-model-landscape/03-pricing-and-costs&rut=6350b72f9c139e06155018aeb9885296ed182287f02166433c1659c8134e75c8', 'type': 'ddg', 'title': '定价与成本 | Ai 系统设计指南'}
+- {'url': 'https://blog.csdn.net/weixin_29038345/article/details/163061846&rut=b70e78d902134e683376aaf2905cfc317c04bfd1e01151c91d4898a411d957a9', 'type': 'ddg', 'title': '大模型部署成本优化：动态批处理与量化技术实践-csdn博客'}

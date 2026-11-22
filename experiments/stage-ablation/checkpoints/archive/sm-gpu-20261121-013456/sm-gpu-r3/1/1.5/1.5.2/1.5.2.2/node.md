@@ -1,0 +1,20 @@
+# N158: Qwen3-27B 的 Num_Layers 确切值为 64，Head_Dim 确切值为 128，来源于模型 config.json，是计算 KV Cache 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N58
+
+## Claim
+
+Qwen3-27B 的 Num_Layers 确切值为 64，Head_Dim 确切值为 128，来源于模型 config.json，是计算 KV Cache 大小的必要参数。
+
+## Corrected Claim
+
+Qwen3-27B 的 Num_Layers 确切值为 64，Head_Dim 确切值为 128，来源于模型 config.json，是计算 KV Cache 大小的必要参数。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

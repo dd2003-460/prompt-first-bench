@@ -1,0 +1,24 @@
+# N216: Apple Mac Studio M3 Ultra 系统满载功耗约为 250-300W（基于 N134 TDP 估算），年电费成本约为 $228-$270，显著
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N65
+
+## Claim
+
+Apple Mac Studio M3 Ultra 系统满载功耗约为 250-300W（基于 N134 TDP 估算），年电费成本约为 $228-$270，显著低于所有 NVIDIA/AMD GPU 方案，电费优势约为 40-50%。
+
+## Corrected Claim
+
+Apple Mac Studio M3 Ultra 系统满载功耗约为 250-300W。在假设 24/7 满载运行且电价为 $0.15/kWh 的极端场景下，年电费成本约为 $228-$270，通常低于同等性能的多卡 NVIDIA/AMD GPU 方案，但具体电费优势取决于实际负载率和当地电价。
+
+## Evidence
+
+[质询]年电费成本 $228-$270 隐含了极高的年运行时长（约 10,000-12,000 小时，即接近 24/7 满载运行）和较高的电价假设（约 $0.15/kWh），这与普通用户或典型工作负载的实际情况不符，属于特定极端场景下的估算而非通用事实；此外，'显著低于所有 NVIDIA/AMD GPU 方案' 的绝对化表述忽略了高端多卡工作站或特定低功耗 GPU 配置的潜在竞争。 | 先验知识/题面给定，逻辑校验通过：M3 Ultra 满载功耗 250-300W 符合 Apple 官方及第三方评测数据量级；电费计算在假设 24/7 运行及 $0.15/kWh 电价下数学自洽；但作为经验事实，缺乏来源支持且隐含极端运行假设，故降级。
+
+## Search Query
+
+Mac Studio M3 Ultra power consumption

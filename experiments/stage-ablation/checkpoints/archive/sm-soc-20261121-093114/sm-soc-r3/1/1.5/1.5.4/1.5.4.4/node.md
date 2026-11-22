@@ -1,0 +1,24 @@
+# N134: 降价幅度 ΔP_price 与 P(negative_signal) 的非线性关系：P(negative_signal) = f(ΔP_price) = 1 -
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N43
+
+## Claim
+
+降价幅度 ΔP_price 与 P(negative_signal) 的非线性关系：P(negative_signal) = f(ΔP_price) = 1 - exp(-κ * ΔP_price / P_market)，其中 κ 为信号解码非线性系数，需通过不同降价幅度下的咨询率变化曲线拟合 κ 的值，验证该函数形式是否与实际数据一致。
+
+## Corrected Claim
+
+降价幅度 ΔP_price 与 P(negative_signal) 的非线性关系：P(negative_signal) = f(ΔP_price) = 1 - exp(-κ * ΔP_price / P_market)，其中 κ 为信号解码非线性系数，需通过不同降价幅度下的咨询率变化曲线拟合 κ 的值，验证该函数形式是否与实际数据一致。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+nonlinear relationship price drop amplitude negative signal probability fitting

@@ -1,0 +1,24 @@
+# N46: FP8推理对TTFT/TPOT的提升系数：相比BF16，权重体积减半使得每token读取字节数减少，理论TPOT降低约50%，但需扣除FP8 GEMM算子效率损
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N10
+
+## Claim
+
+FP8推理对TTFT/TPOT的提升系数：相比BF16，权重体积减半使得每token读取字节数减少，理论TPOT降低约50%，但需扣除FP8 GEMM算子效率损失（通常FP8 Tensor Core效率略低于BF16，需查具体硬件加速比）。
+
+## Corrected Claim
+
+FP8推理对TTFT/TPOT的提升系数：相比BF16，权重体积减半使得每token读取字节数减少，理论TPOT降低约50%，但需扣除FP8 GEMM算子效率损失（通常FP8 Tensor Core效率略低于BF16，需查具体硬件加速比）。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点在维度上正交：前两个子节点按硬件架构（Blackwell vs Ada）划分，第三个子节点按推理阶段（TTFT/Prefill vs TPOT/Decode）划分。虽然硬件节点主要聚焦TPOT，但父节点明确区分了TTFT和TPOT两个指标，且TTFT受硬件影响较小（主要受内存带宽和Prefill计算量影响），因此单独列出TTFT是合理的。子节点未覆盖父节点中提到的‘需查具体硬件加速比’的通用方法论，但通过具体硬件实例化（RTX 5090/4090）已足够具体化该要求，未出现明显重复或矛盾。）
+
+## Search Query
+
+FP8 tensor core efficiency vs BF16 inference speedup ratio

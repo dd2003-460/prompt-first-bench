@@ -1,0 +1,23 @@
+{
+  "id": "N461",
+  "claim": "vLLM FP8 KV Cache 在 RTX 4090 上的计算加速限制：Attention 计算 (QKV 投影、Output 投影) 仍使用 BF16/FP16 Tensor Core，FP8 仅用于 KV Cache 存储，不加速计算，吞吐量提升仅来自显存带宽节省 (FP8 读取速度 2x 于 BF16)，实测吞吐量提升 5-10% [待核验]",
+  "level": "L5",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]来源[1]描述的是NVFP4权重+FP8 KV Cache的混合精度方案，且明确提到吞吐量损失（~20-25%），这与陈述中“吞吐量提升5-10%”的结论方向相反；此外，来源未直接支持“FP8仅用于存储不加速计算”这一具体机制描述，且RTX 4090（Ada架构）原生不支持FP8 Tensor Core计算，但来源主要关注NVFP4权重，未直接验证纯FP8 KV Cache在vLLM中的具体加速比例。 | 逻辑上，RTX 4090 (Ada Lovelace) 确实不支持FP8 Tensor Core计算，FP8 KV Cache主要节省显存带宽，逻辑自洽；但来源[1]涉及NVFP4权重且报告了吞吐量损失，未直接支持“5-10%提升”这一具体数值，属于间接相关且存在数值矛盾风险，故降级。",
+  "corrected_claim": "vLLM FP8 KV Cache 在 RTX 4090 上主要节省显存带宽，Attention 计算仍使用 BF16/FP16 Tensor Core，FP8 不直接加速计算；吞吐量变化取决于具体负载和实现，可能因带宽节省略有提升或因内核开销略有下降，具体数值需实测验证。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N143"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "vLLM FP8 KV cache RTX 4090 throughput improvement benchmark",
+  "retrieval_sources": [
+    {
+      "url": "https://github.com/BenChaliah/NVFP4-on-4090-vLLM&rut=1b7dd36dcad0a2b65685330ba18a0d4550c330e03b30fac8fba6c2afe361fe76",
+      "type": "ddg",
+      "title": "GitHub - BenChaliah/NVFP4-on-4090-vLLM: AdaLLM is an NVFP4-first ..."
+    }
+  ]
+}

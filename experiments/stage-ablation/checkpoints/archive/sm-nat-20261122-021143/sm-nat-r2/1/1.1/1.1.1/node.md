@@ -1,0 +1,20 @@
+# N21: Pareto(α=1.1) 分布的截断上限 s_max 由总数据量约束确定：∫_{s_min}^{s_max} s * 1.1 * s_min^1.1 * s^
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+Pareto(α=1.1) 分布的截断上限 s_max 由总数据量约束确定：∫_{s_min}^{s_max} s * 1.1 * s_min^1.1 * s^{-2.1} ds = 128 * 10^9 bytes，解得 s_max ≈ 128 * 10^9 / (10^5 * 1.1 * s_min) * (1 - (s_min/s_max)^0.1) 的极限形式，当 N 有限时 s_max 需满足离散求和 Σ_{i=1}^{10^5} S_i = 128GB，其中 S_i 为第 i 大对象大小
+
+## Corrected Claim
+
+Pareto(α=1.1) 分布的截断上限 s_max 由总数据量约束确定：∫_{s_min}^{s_max} s * 1.1 * s_min^1.1 * s^{-2.1} ds = 128 * 10^9 bytes，解得 s_max ≈ 128 * 10^9 / (10^5 * 1.1 * s_min) * (1 - (s_min/s_max)^0.1) 的极限形式，当 N 有限时 s_max 需满足离散求和 Σ_{i=1}^{10^5} S_i = 128GB，其中 S_i 为第 i 大对象大小
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布的截断上限确实由总数据量约束确定，积分/求和逻辑自洽，量级合理。

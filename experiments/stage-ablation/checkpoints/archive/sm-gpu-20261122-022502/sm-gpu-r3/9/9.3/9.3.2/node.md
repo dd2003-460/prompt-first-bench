@@ -1,0 +1,24 @@
+# N276: RTX 4090 W4A8 实测吞吐量区间：在 vLLM/TensorRT-LLM 框架下，32K 上下文解码实测吞吐量稳定在 35-45 tokens/s 区
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N91, N92, N95
+
+## Claim
+
+RTX 4090 W4A8 实测吞吐量区间：在 vLLM/TensorRT-LLM 框架下，32K 上下文解码实测吞吐量稳定在 35-45 tokens/s 区间，低于理论修正上限，主要受 KV Cache 读取带宽和 PCIe 传输延迟影响。
+
+## Corrected Claim
+
+RTX 4090 W4A8 实测吞吐量受 KV Cache 读取带宽影响显著，具体数值取决于模型规模与框架优化，35-45 tokens/s 仅为特定条件下的观测值，非通用稳定区间。
+
+## Evidence
+
+[质询]数值量级存疑：RTX 4090 拥有 1008 GB/s 的显存带宽，在 W4A8 量化下，32K 上下文的 KV Cache 读取通常不会成为如此严重的瓶颈导致吞吐量仅 35-45 tokens/s（通常单卡 4090 在长上下文解码时可达 50-100+ tokens/s，具体取决于模型大小和实现效率，35-45 偏低且缺乏具体模型参数支撑）；此外，'PCIe 传输延迟'通常不是单卡推理的主要瓶颈，除非涉及多卡或特定架构，此处归因可能不准确。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且数值区间与常见基准测试存在偏差，无法确证）
+
+## Search Query
+
+RTX 4090 Qwen 27B W4A8 INT4 inference throughput tokens per second 32k context

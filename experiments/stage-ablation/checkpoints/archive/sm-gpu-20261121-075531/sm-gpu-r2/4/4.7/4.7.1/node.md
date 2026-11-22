@@ -1,0 +1,28 @@
+# N100: RTX 4090 (24GB) 运行 Qwen3-27B INT8 量化模型在 32K 上下文下的实测生成吞吐量 (TPS) 和首字延迟 (TTFT)，需引用 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N25
+
+## Claim
+
+RTX 4090 (24GB) 运行 Qwen3-27B INT8 量化模型在 32K 上下文下的实测生成吞吐量 (TPS) 和首字延迟 (TTFT)，需引用 vLLM 或 llama.cpp 社区在 2024-2025 年的基准测试数据，若缺失则标记 [待核验] 并给出基于显存带宽 (1008 GB/s) 的理论上限估算：TPS_max ≈ Bandwidth / (Model_Size_Bytes + KV_Cache_Bytes_per_token * Context_Len)。
+
+## Corrected Claim
+
+RTX 4090D (24GB) 运行 Qwen3.8-27B 模型在长上下文下的实测生成吞吐量 (TPS) 和首字延迟 (TTFT) 可参考知乎专栏 [1] 的实测数据；对于 RTX 4090 运行 Qwen3-27B 在 32K 上下文下的具体数值，需进一步核验或基于 1008 GB/s 带宽进行理论估算。
+
+## Evidence
+
+[质询]参考来源[1]标题及摘要明确指向 'Qwen3.8-27B' 和 'RTX 4090D'，而待核验事实节点要求的是 'Qwen3-27B' 和 'RTX 4090'。虽然两者硬件和模型规模相近，但具体型号（4090 vs 4090D，Qwen3 vs Qwen3.8）存在差异，且摘要未直接提供 32K 上下文下的具体 TPS 和 TTFT 数值，仅提到有实测数据，无法直接确认数值匹配。 | 来源[1]主题高度相关（RTX 4090D 部署 Qwen3.8-27B），但存在型号细微差异（4090D vs 4090, Qwen3.8 vs Qwen3）且摘要未直接给出 32K 上下文的具体 TPS/TTFT 数值，属于间接支持，无法排除因硬件/模型版本差异导致的性能偏差，故降级。
+
+## Search Query
+
+RTX 4090 Qwen3 27B INT8 vLLM benchmark TPS TTFT 32k context
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2083555506732512359&rut=3500097cb3ed29c7b1bd2fc0071f208d076cac111c37de4fb03e30bdc07669c3', 'type': 'ddg', 'title': '24GB 显存榨干指南：RTX 4090D 部署 Qwen3.8-27B 全流程实测'}

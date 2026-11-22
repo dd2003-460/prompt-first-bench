@@ -1,0 +1,30 @@
+# N110: 量化方案选择对质量损失有显著影响：对于 Qwen3-27B，AWQ INT4 的困惑度增加（~1.5%）低于 GPTQ INT4（~2.5%），且 AWQ 在 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N25
+
+## Claim
+
+量化方案选择对质量损失有显著影响：对于 Qwen3-27B，AWQ INT4 的困惑度增加（~1.5%）低于 GPTQ INT4（~2.5%），且 AWQ 在 4-bit 下的推理速度比 GPTQ 快约 10-15%，因 AWQ 无需额外的反量化查表操作。
+
+## Corrected Claim
+
+量化方案选择对质量损失有显著影响：对于 Qwen3-27B，AWQ INT4 通常能保持比 GPTQ INT4 更低的困惑度增加，且 AWQ 在 4-bit 下的推理速度通常优于 GPTQ，因 AWQ 无需额外的反量化查表操作。
+
+## Evidence
+
+[质询]陈述中关于 AWQ 与 GPTQ 在 Qwen3-27B 上的具体困惑度增加数值（~1.5% vs ~2.5%）及推理速度差异（10-15%）属于特定模型的具体经验数据，参考来源仅提及 AWQ 量化技术及其优势，未提供与 GPTQ 的对比基准测试数据，且来源标题指向 'Qwen3.6-27B' 而非 'Qwen3-27B'，存在版本混淆风险。 | 逻辑上 AWQ 因激活感知量化通常比 GPTQ 保持更好的精度且推理开销略低（无需复杂反量化查表或校准数据），符合技术直觉；但参考来源 [1][2][3] 仅确认了 AWQ-INT4 模型的存在及优势，未提供与 GPTQ 的具体对比数值，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+AWQ vs GPTQ INT4 quantization perplexity inference speed comparison
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_00399/article/details/161864324&rut=0fd382b79b0871af6a26155250f9fcb80c29647b242011eec7d4c205833b0479', 'type': 'ddg', 'title': 'Qwen3.6-27B-AWQ-INT4 模型部署与使用指南：高效量化模型实践手册-CSDN博客'}
+- {'url': 'https://blog.csdn.net/gitblog_00208/article/details/151567008&rut=626be8cb3b9634a3d30ae79db970eaf4c3d9f3de36c91050a1a1bddb58af20ef', 'type': 'ddg', 'title': '终极指南：Qwen3.6-27B-AWQ-INT4模型架构深度解析，从参数配置到量化技术-CSDN博客'}
+- {'url': 'https://devpress.csdn.net/v1/article/detail/144363894&rut=564913a26628397b2a12ee98cca8713cf2c13f41268294bf2a29e46e501519a2', 'type': 'ddg', 'title': '技术方案：Qwen3.6-27B-AWQ-INT4的高效部署与量化优化实践'}

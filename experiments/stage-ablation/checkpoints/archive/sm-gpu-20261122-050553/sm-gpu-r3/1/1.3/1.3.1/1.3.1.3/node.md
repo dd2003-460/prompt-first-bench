@@ -1,0 +1,24 @@
+# N139: A100 40GB FP8 解码吞吐实测/估算：理论上限 = 1555 GB/s / 27 GB ≈ 57.6 tokens/s；实际受 Attention 计
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N43
+
+## Claim
+
+A100 40GB FP8 解码吞吐实测/估算：理论上限 = 1555 GB/s / 27 GB ≈ 57.6 tokens/s；实际受 Attention 计算和内存访问模式限制，典型值约为 40-50 tokens/s (单序列)；对比 RTX 4090 (1008 GB/s) 的理论 37.3 tokens/s，A100 理论优势 54%，实际优势约 20-30% [待核验]。
+
+## Corrected Claim
+
+A100 40GB FP8 解码吞吐实测/估算：理论上限 = 1555 GB/s / 27 GB ≈ 57.6 tokens/s；实际受 Attention 计算和内存访问模式限制，典型值约为 40-50 tokens/s (单序列)；对比 RTX 4090 (1008 GB/s) 的理论 37.3 tokens/s，A100 理论优势 54%，实际优势约 20-30% [待核验]。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 40GB显存带宽1555GB/s与RTX 4090 1008GB/s为公认硬件规格，理论吞吐计算（带宽/模型大小）及实际受Attention计算限制的定性描述符合LLM推理基本物理直觉与工程经验。
+
+## Search Query
+
+A100 Qwen3-27B FP8 decode throughput tokens per second

@@ -1,0 +1,20 @@
+# N331: 风险溢价率 Risk_Premium 的构成：Risk_Premium = f(Information_Asymmetry, Warranty_Status, 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N111
+
+## Claim
+
+风险溢价率 Risk_Premium 的构成：Risk_Premium = f(Information_Asymmetry, Warranty_Status, Return_Policy)，其中 Information_Asymmetry 量化为买家无法验证的商品属性数量占比，Warranty_Status 为二元变量（0/1），Return_Policy 为退货期天数。
+
+## Corrected Claim
+
+风险溢价率 Risk_Premium 的构成：Risk_Premium = f(Information_Asymmetry, Warranty_Status, Return_Policy)，其中 Information_Asymmetry 量化为买家无法验证的商品属性数量占比，Warranty_Status 为二元变量（0/1），Return_Policy 为退货期天数。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

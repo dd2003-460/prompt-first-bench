@@ -1,0 +1,100 @@
+{
+  "qid": "gpu",
+  "question": "你要在本地工作站上推理 Qwen3-27B 模型，不设硬性延迟指标（延迟是性能变量，由硬件和部署配置决定，不作为前置约束）；上下文窗口 ≥ 32K tokens 作为容量下限保留。权重精度不限（BF16/FP8/INT8/NVFP4/W4 均可），但必须论证所选精度的质量损失是否可接受。候选硬件：自行搜索确定值得考虑的完整候选集——覆盖你认为所有可能影响性价比排序的架构、代际、容量档位和价格区间（包括消费级、数据中心级、以及任何你认为值得纳入比较的非典型方案）。同时评估单卡与多卡方案的 TCO 差异（如 2× 消费卡 vs 1× 数据卡）。给出性价比最优的完整选卡方案。要求：思考必须最完整，确认没有遗漏任何影响决策的维度；每个关键数字标注来源（刚查到的 vs 凭记忆的），不确定的标 [待核验]；最终推荐必须是条件性的，不能给无条件排名。",
+  "round": 1,
+  "state": "rework",
+  "dropped_redundant": 0,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": null,
+  "objective_mode": "text",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "node_id": "N11",
+      "claim": "Qwen3-27B 架构参数：Layers=64, Num_Heads=32 (或 GQA 配置需确认), Head_D",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源[1]明确标注为'Qwen3.5-27B'，而待核验事实为'Qwen3-27B'，存在版本混淆风险；且来源摘要中未直接提及Num_Heads=32或"
+    },
+    {
+      "node_id": "N12",
+      "claim": "在 BF16 精度、Batch_Size=1、Seq_Len=32K 条件下，Qwen3-27B 的 KV Cache ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述假设 Qwen3-27B 采用 MHA（Multi-Head Attention）且 KV 头数等于 Query 头数（64），但 Qwen3 系"
+    },
+    {
+      "node_id": "N13",
+      "claim": "若 Qwen3-27B 采用 GQA (Grouped Query Attention)，KV 头数可能为 8 或 16",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源仅确认 Qwen3-30B-A3B 使用 GQA，未提供 Qwen3-27B 的具体 KV 头数（8或16）及对应的显存占用数值（8.6GB/17."
+    },
+    {
+      "node_id": "N34",
+      "claim": "工作点3（数据中心级/高吞吐）：代表方案为1×NVIDIA A100 80GB SXM，关键参数：采购价$10999（二",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]TCO计算中电力成本部分存在量级错误：0.4kW × 8760h × $0.12/kWh × 3 应约为 $1273，而非 $1343（差异较小但非主要"
+    },
+    {
+      "node_id": "N37",
+      "claim": "不确定性量化：A100二手价格波动范围$6000-$8000（[时效待核]，需查证当前eBay/GPU交易市场价格），Q",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]A100二手价格$6000-$8000与来源[3]提到的$18,998中位价严重矛盾，且来源[1]暗示价格暴跌但具体数值未证实；Qwen3-27B的量化"
+    },
+    {
+      "node_id": "N39",
+      "claim": "推荐方案适用条件：1×RTX 4090 24GB方案仅在以下条件同时满足时最优：(1) 推理吞吐量需求≤15 token",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]条件(2)中关于27B模型BF16精度需24GB显存的陈述存在量级偏差：27B参数在BF16下仅权重即需约54GB显存，24GB显存通常仅能容纳7B-1"
+    },
+    {
+      "node_id": "N40",
+      "claim": "边界条件与失效场景：当(1) 吞吐量需求>20 tokens/s时，单卡4090失效，需升级为2×4090或A100；(",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]阈值数值（如20 tokens/s、32K上下文、2年折旧、$0.20/kWh）缺乏通用标准支持，属于特定场景下的经验估算，不同模型架构、量化精度及电价"
+    },
+    {
+      "node_id": "N42",
+      "claim": "非典型高显存消费级/工作站方案：AMD Radeon PRO W7900 (48GB VRAM) 或 Intel Arc",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]价格区间（$4000-$5000）及具体性能对比结论（如“高性价比替代”）属于经验事实，参考来源仅确认了硬件规格（48GB VRAM），未提供价格或性能"
+    },
+    {
+      "node_id": "N43",
+      "claim": "非典型低功耗/集成方案：Apple M3 Ultra (192GB Unified Memory) 或 M2 Max (",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]价格与功耗数据缺乏来源支持：参考来源仅覆盖内存规格和模型兼容性，未提及 $3999 的具体价格或 <100W 的功耗数值；且 TCO 优于 GPU 方案"
+    },
+    {
+      "node_id": "N44",
+      "claim": "数据中心级新一代方案：NVIDIA H100 80GB PCIe/SXM，二手价格约 $15000-$20000 [待核",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]二手价格 $15000-$20000 属于高度波动的市场经验事实，且 H100 作为较新架构，其二手市场流动性与价格稳定性远低于 A100，该具体数值区"
+    },
+    {
+      "node_id": "N45",
+      "claim": "量化质量评估基准：Qwen3-27B 在 INT4/AWQ 量化下的 MMLU 准确率下降通常 < 1-2% (相对于 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性数值指标（MMLU下降<1-2%、Perplexity增加<0.1-0.3、CoT断裂率上升5-10%），这些属于硬件/模型量化后"
+    },
+    {
+      "node_id": "N46",
+      "claim": "FP8 精度质量损失阈值：Qwen3 系列模型原生支持 FP8 训练/推理，FP8 E4M3 格式下的输出质量损失接近 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于“MMLU 差异 < 0.5%”的具体数值缺乏来源支持，且“无需额外校准数据”这一绝对化表述在量化领域通常不成立（FP8 通常仍需校准或特定训"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 29
+}

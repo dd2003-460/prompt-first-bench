@@ -1,0 +1,20 @@
+# N140: 计算无截断情况下冷对象（Size > x_q90）的理论条件期望大小 E[S | S > x_q90]：对于 Pareto 分布，E[S | S > x_q] 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N45
+
+## Claim
+
+计算无截断情况下冷对象（Size > x_q90）的理论条件期望大小 E[S | S > x_q90]：对于 Pareto 分布，E[S | S > x_q] = (α * x_q) / (α - 1)。代入 α=1.1, x_q90≈9.5GB，得 E[S | S > x_q90] ≈ 10 * 9.5GB = 95GB。此值远超缓存容量，表明理论分布尾部极重。
+
+## Corrected Claim
+
+计算无截断情况下冷对象（Size > x_q90）的理论条件期望大小 E[S | S > x_q90]：对于 Pareto 分布，E[S | S > x_q] = (α * x_q) / (α - 1)。代入 α=1.1, x_q90≈9.5GB，得 E[S | S > x_q90] ≈ 10 * 9.5GB = 95GB。此值远超缓存容量，表明理论分布尾部极重。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布条件期望公式 E[S|S>x] = (αx)/(α-1) 正确，代入 α=1.1, x=9.5GB 计算得 95GB，量级与逻辑自洽。

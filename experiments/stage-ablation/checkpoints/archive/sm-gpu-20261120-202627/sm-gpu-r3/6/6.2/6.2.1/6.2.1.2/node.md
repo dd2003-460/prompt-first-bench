@@ -1,0 +1,24 @@
+# N400: RTX 4090 在 LLM 推理负载下的功耗波动系数 (σ_P / P_avg) 及峰值功耗持续时间占比，用于修正 OpEx_energy 计算中的负载因子 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N128
+
+## Claim
+
+RTX 4090 在 LLM 推理负载下的功耗波动系数 (σ_P / P_avg) 及峰值功耗持续时间占比，用于修正 OpEx_energy 计算中的负载因子 (Load Factor)，确定是否应使用 P_avg 还是 P_peak 进行 3 年能耗成本估算。
+
+## Corrected Claim
+
+RTX 4090 在 LLM 推理负载下的功耗波动系数及峰值占比需根据具体模型配置实测确定，通常建议采用基于时间加权平均的 P_avg 而非 P_peak 进行长期 OpEx 估算，以反映实际负载因子。
+
+## Evidence
+
+[质询]该陈述试图量化一个高度依赖具体模型大小、批处理策略（batch size）、序列长度及硬件驱动版本的经验性参数，且未提供具体的数值范围或分布，属于缺乏具体数据支撑的模糊经验事实。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该参数无法从第一性原理严格推导，需实测数据）
+
+## Search Query
+
+RTX 4090 power fluctuation LLM inference load factor energy cost calculation

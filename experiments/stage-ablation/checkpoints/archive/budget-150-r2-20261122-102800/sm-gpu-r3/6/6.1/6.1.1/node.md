@@ -1,0 +1,24 @@
+# N133: 修正自矛盾检测：N43 声称 RTX 4090 支持 FP8，但根据 NVIDIA 官方规格，RTX 4090 (Ada Lovelace 架构) 不支持原生 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N43
+
+## Claim
+
+修正自矛盾检测：N43 声称 RTX 4090 支持 FP8，但根据 NVIDIA 官方规格，RTX 4090 (Ada Lovelace 架构) 不支持原生 FP8 Tensor Core 运算，仅支持 BF16/INT8/FP16。vLLM 在 RTX 4090 上运行 FP8 模型需依赖 CPU offload 或软件模拟，性能会显著下降，不应视为原生支持。
+
+## Corrected Claim
+
+修正自矛盾检测：N43 声称 RTX 4090 支持 FP8，但根据 NVIDIA 官方规格，RTX 4090 (Ada Lovelace 架构) 不支持原生 FP8 Tensor Core 运算，仅支持 BF16/INT8/FP16。vLLM 在 RTX 4090 上运行 FP8 模型需依赖 CPU offload 或软件模拟，性能会显著下降，不应视为原生支持。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1聚焦于硬件架构限制与底层执行机制（Why/How），子节点2聚焦于性能量化与最终结论（Impact/Result）。两者维度不同，无重复且无矛盾，共同完整覆盖了父节点关于'硬件不支持'、'软件模拟机制'及'性能/收益评估'的所有关键论断。）
+
+## Search Query
+
+NVIDIA RTX 4090 FP8 support official specifications

@@ -1,0 +1,24 @@
+# N108: 时间维度 $t$ 的动态演化：公式假设 $t$ 为静态30天，但实际中卖家可能在 $t=t_{critical}$ 时重新评估，若 $t_{critical}$
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N38
+
+## Claim
+
+时间维度 $t$ 的动态演化：公式假设 $t$ 为静态30天，但实际中卖家可能在 $t=t_{critical}$ 时重新评估，若 $t_{critical}$ 由 $W(t)/\psi(\Delta P)$ 决定，则需计算 $t_{critical}$ 的分布，若大部分卖家的 $t_{critical}$ 超过平台平均成交周期，则高挂价策略在统计上是理性的，需量化 $t_{critical}$ 的中位数与平台平均成交周期的比值。
+
+## Corrected Claim
+
+时间维度 $t$ 的动态演化：公式假设 $t$ 为静态30天，但实际中卖家可能在 $t=t_{critical}$ 时重新评估，若 $t_{critical}$ 由 $W(t)/\psi(\Delta P)$ 决定，则需计算 $t_{critical}$ 的分布，若大部分卖家的 $t_{critical}$ 超过平台平均成交周期，则高挂价策略在统计上是理性的，需量化 $t_{critical}$ 的中位数与平台平均成交周期的比值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+seller optimal waiting time before price reduction empirical distribution

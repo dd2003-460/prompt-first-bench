@@ -1,0 +1,28 @@
+# N130: 卖家个体噪声方差 Var(ε_seller) 的估计公式：Var(ε_seller) = σ²_total - Var(β_anchor * P_ref)，其中
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N37
+
+## Claim
+
+卖家个体噪声方差 Var(ε_seller) 的估计公式：Var(ε_seller) = σ²_total - Var(β_anchor * P_ref)，其中 σ²_total 为残差总方差，预期 Var(ε_seller) ≈ 0.05 - 0.10 (归一化后)，需通过方差分解表（ANOVA）确定。
+
+## Corrected Claim
+
+卖家个体噪声方差 Var(ε_seller) 可通过方差分解表（ANOVA）估计，公式形式为 Var(ε_seller) = σ²_total - Var(β_anchor * P_ref)（具体数值需根据实际数据分布确定，通常需归一化处理）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值范围（0.05-0.10）和特定的模型结构假设（β_anchor * P_ref），属于经验事实而非第一性原理可推导的数学恒等式。参考来源仅讨论通用的偏差-方差权衡概念，未提供针对特定卖家噪声方差的具体数值或公式支持，存在来源不匹配风险。 | 逻辑上方差分解公式自洽，但具体数值范围（0.05-0.10）为经验事实，参考来源[1]仅涉及通用统计概念，未直接支持该特定数值或公式细节，故降级。
+
+## Search Query
+
+variance decomposition seller pricing noise residual variance ANOVA
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/587969254&rut=87c614abda0779e4fbdaf8c0b191e55bf22a91e6d3f95d56c87adbb1a6bc3304', 'type': 'ddg', 'title': 'MSE = Bias² + Variance?什么是"好的"统计估计器 - 知乎'}

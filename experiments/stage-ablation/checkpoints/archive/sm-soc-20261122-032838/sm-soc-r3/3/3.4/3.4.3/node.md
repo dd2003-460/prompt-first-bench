@@ -1,0 +1,24 @@
+# N75: 买家福利增益的量化：买家避免的超额支付金额 $\Delta W_b$ 等于原平均成交价 $P_{avg}$ 与新均衡价 $P_{ref}$ 之差乘以交易量 $Q
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N17
+
+## Claim
+
+买家福利增益的量化：买家避免的超额支付金额 $\Delta W_b$ 等于原平均成交价 $P_{avg}$ 与新均衡价 $P_{ref}$ 之差乘以交易量 $Q$，即 $\Delta W_b = (P_{avg} - P_{ref}) \times Q$；若 $P_{avg} = 1.2 P_{ref}$，则买家福利增益为 $0.2 P_{ref} \times Q$
+
+## Corrected Claim
+
+买家福利增益的量化：买家避免的超额支付金额 $\Delta W_b$ 等于原平均成交价 $P_{avg}$ 与新均衡价 $P_{ref}$ 之差乘以交易量 $Q$，即 $\Delta W_b = (P_{avg} - P_{ref}) \times Q$；若 $P_{avg} = 1.2 P_{ref}$，则买家福利增益为 $0.2 P_{ref} \times Q$
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别定义了公式中的三个关键变量/参数（P_avg的基准值、Q的假设、最终推导结果），彼此独立且互不重叠，共同完整覆盖了父节点中量化公式的构成要素及推导过程，无冗余。）
+
+## Search Query
+
+consumer surplus gain from price transparency in online marketplaces

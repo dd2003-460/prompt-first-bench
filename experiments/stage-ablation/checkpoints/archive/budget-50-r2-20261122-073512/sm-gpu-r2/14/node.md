@@ -1,0 +1,20 @@
+# N208: Intel Arc Pro B50/B60 或消费级 Arc A770 的排除理由：虽然 Arc A770 (16GB) 价格低 (~$300)，但显存不足且缺
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+Intel Arc Pro B50/B60 或消费级 Arc A770 的排除理由：虽然 Arc A770 (16GB) 价格低 (~$300)，但显存不足且缺乏成熟的 CUDA/ROCm 等效生态支持 (oneAPI 在 LLM 推理上效率极低，通常低于 NVIDIA 的 50%)；Intel Data Center GPU (Gaudi 3) 价格高昂 (~$20,000+) 且生态封闭，对于本地工作站场景性价比极低，故不纳入核心候选集。
+
+## Corrected Claim
+
+Intel Arc Pro B50/B60 或消费级 Arc A770 的排除理由：虽然 Arc A770 (16GB) 价格低 (~$300)，但显存不足且缺乏成熟的 CUDA/ROCm 等效生态支持 (oneAPI 在 LLM 推理上效率极低，通常低于 NVIDIA 的 50%)；Intel Data Center GPU (Gaudi 3) 价格高昂 (~$20,000+) 且生态封闭，对于本地工作站场景性价比极低，故不纳入核心候选集。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

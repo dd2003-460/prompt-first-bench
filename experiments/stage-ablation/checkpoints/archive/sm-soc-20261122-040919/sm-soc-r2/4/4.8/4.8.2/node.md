@@ -1,0 +1,20 @@
+# N102: 干预前后卖家福利变化 ΔW_s 计算：ΔW_s = [P_1(1-r) - C_wait_1] - [P_0(1-r) - C_wait_0]。若干预导致溢价率
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N25
+
+## Claim
+
+干预前后卖家福利变化 ΔW_s 计算：ΔW_s = [P_1(1-r) - C_wait_1] - [P_0(1-r) - C_wait_0]。若干预导致溢价率从 20% 降至 8%，P_1 下降 12%，但 T 从 27 天升至 35 天，C_wait 增加。需计算净收益变化是否显著为负。
+
+## Corrected Claim
+
+干预前后卖家福利变化 ΔW_s 计算：ΔW_s = [P_1(1-r) - C_wait_1] - [P_0(1-r) - C_wait_0]。若干预导致溢价率从 20% 降至 8%，P_1 下降 12%，但 T 从 27 天升至 35 天，C_wait 增加。需计算净收益变化是否显著为负。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

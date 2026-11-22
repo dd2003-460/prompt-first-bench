@@ -1,0 +1,20 @@
+# N53: 对象平均访问频率 λ_access_avg 的计算：λ_access_avg = (总请求数/天) / N_objects = 50,000,000 / 100
+
+- **status**: verified
+- **level**: L3
+- **source**: given
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N14
+
+## Claim
+
+对象平均访问频率 λ_access_avg 的计算：λ_access_avg = (总请求数/天) / N_objects = 50,000,000 / 100,000 = 500 次/天，因此 T_residence = 1/500 天 = 0.002 天
+
+## Corrected Claim
+
+对象平均访问频率 λ_access_avg 的计算：λ_access_avg = (总请求数/天) / N_objects = 50,000,000 / 100,000 = 500 次/天，因此 T_residence = 1/500 天 = 0.002 天
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：50,000,000 / 100,000 = 500，1/500 = 0.002，计算无误且量纲合理。

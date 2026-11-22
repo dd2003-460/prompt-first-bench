@@ -1,0 +1,20 @@
+# N218: 工作点 A（高性能/高功耗）：RTX 4090 在默认 TDP 450W 下运行 Qwen3-27B INT8 推理，持续功耗稳定在 420-450W，TPS 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N66
+
+## Claim
+
+工作点 A（高性能/高功耗）：RTX 4090 在默认 TDP 450W 下运行 Qwen3-27B INT8 推理，持续功耗稳定在 420-450W，TPS 约为 45-50 tokens/s，此时能效比约为 0.11-0.12 tokens/W，是追求最大吞吐量的基准工作点。
+
+## Corrected Claim
+
+工作点 A（高性能/高功耗）：RTX 4090 在默认 TDP 450W 下运行 Qwen3-27B INT8 推理，持续功耗稳定在 420-450W，TPS 约为 45-50 tokens/s，此时能效比约为 0.11-0.12 tokens/W，是追求最大吞吐量的基准工作点。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 TDP 450W 符合规格，INT8 下 27B 模型在单卡上 45-50 TPS 及对应能效比量级合理，无内部矛盾。

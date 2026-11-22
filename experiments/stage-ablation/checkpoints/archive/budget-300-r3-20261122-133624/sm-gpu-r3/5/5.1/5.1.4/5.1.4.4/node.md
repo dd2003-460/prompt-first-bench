@@ -1,0 +1,24 @@
+# N347: RTX 5090 的 32GB GDDR7 显存架构支持 ECC (纠错码)，其纠错开销约占显存带宽的 5-7%，因此实际有效带宽约为 1657-1697 GB
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N115, N116, N117
+
+## Claim
+
+RTX 5090 的 32GB GDDR7 显存架构支持 ECC (纠错码)，其纠错开销约占显存带宽的 5-7%，因此实际有效带宽约为 1657-1697 GB/s，而非标称的 1792 GB/s
+
+## Corrected Claim
+
+RTX 5090 的 32GB GDDR7 显存架构支持 ECC，其纠错机制会引入一定的带宽或容量开销，导致实际有效带宽略低于标称的 1792 GB/s，具体损耗比例需参考官方技术白皮书。
+
+## Evidence
+
+[质询]ECC 开销通常通过增加显存颗粒数量或降低时钟频率实现，而非直接占用带宽百分比；且 5-7% 的具体数值缺乏公开技术文档支持，属于推测性数据。 | 先验知识/题面给定，逻辑校验通过，但具体 ECC 开销比例（5-7%）为经验事实且无来源支持，故降级。
+
+## Search Query
+
+RTX 5090 GDDR7 ECC bandwidth overhead

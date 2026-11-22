@@ -1,0 +1,20 @@
+# N76: 共享随机源：平台激励结构噪声 σ²_incentive = Var(PlatformMotivation | MarketState)，代表平台在广告收入与 G
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N16
+
+## Claim
+
+共享随机源：平台激励结构噪声 σ²_incentive = Var(PlatformMotivation | MarketState)，代表平台在广告收入与 GMV 之间的权衡不确定性；该噪声源于平台内部决策机制的不透明性，服从 Beta 分布，影响干预实施的概率。
+
+## Corrected Claim
+
+共享随机源：平台激励结构噪声 σ²_incentive = Var(PlatformMotivation | MarketState)，代表平台在广告收入与 GMV 之间的权衡不确定性；该噪声源于平台内部决策机制的不透明性，服从 Beta 分布，影响干预实施的概率。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

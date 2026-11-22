@@ -1,0 +1,24 @@
+# N294: 替代方案成本 C_alt：卖家若不采纳建议而继续维持高价的预期损失，包括机会成本（延迟成交的时间价值）和最终降价幅度加大的风险，C_alt = T_delay 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N87
+
+## Claim
+
+替代方案成本 C_alt：卖家若不采纳建议而继续维持高价的预期损失，包括机会成本（延迟成交的时间价值）和最终降价幅度加大的风险，C_alt = T_delay * r_time + E[ΔP_future]，需通过历史数据估计 T_delay 和 ΔP_future 的期望值。
+
+## Corrected Claim
+
+替代方案成本 C_alt 可定性理解为卖家维持高价所面临的机会成本与未来降价风险的总和，具体数值需结合历史数据与市场模型进行估算，而非简单的线性公式。
+
+## Evidence
+
+[质询]该公式将复杂的商业决策成本简化为线性加和，忽略了风险厌恶、市场动态变化及非线性效应，且 T_delay 和 ΔP_future 的估计高度依赖具体市场数据，缺乏普适性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+seller opportunity cost of delayed sale price markdown expectation

@@ -1,0 +1,20 @@
+# N39: RTX 4070 Ti Super (16GB) 和 RTX 4080 (16GB) 因显存 < 24GB，无法在单卡下运行 Qwen3-27B 的 BF16 
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+RTX 4070 Ti Super (16GB) 和 RTX 4080 (16GB) 因显存 < 24GB，无法在单卡下运行 Qwen3-27B 的 BF16 或 INT8 完整权重（需至少 27GB+），故在单卡部署场景下被直接排除；RTX 4090 (24GB) 是消费级单卡部署 INT8 的最低显存门槛，但余量极小 (<5GB KV Cache)，实际部署需启用 PagedAttention 或限制最大上下文至 16K 以保稳定。
+
+## Corrected Claim
+
+RTX 4070 Ti Super (16GB) 和 RTX 4080 (16GB) 因显存 < 24GB，无法在单卡下运行 Qwen3-27B 的 BF16 或 INT8 完整权重（需至少 27GB+），故在单卡部署场景下被直接排除；RTX 4090 (24GB) 是消费级单卡部署 INT8 的最低显存门槛，但余量极小 (<5GB KV Cache)，实际部署需启用 PagedAttention 或限制最大上下文至 16K 以保稳定。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

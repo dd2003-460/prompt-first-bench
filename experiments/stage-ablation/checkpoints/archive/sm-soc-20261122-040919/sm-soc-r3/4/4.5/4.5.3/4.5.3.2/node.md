@@ -1,0 +1,20 @@
+# N319: 偏差修正后的置信区间计算：若$\delta > 0.05$，修正后的$p_{corrected} = p_{obs} - \delta$，其标准误需调整为$SE
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N93
+
+## Claim
+
+偏差修正后的置信区间计算：若$\delta > 0.05$，修正后的$p_{corrected} = p_{obs} - \delta$，其标准误需调整为$SE_{corrected} = \sqrt{p_{corrected}(1-p_{corrected})/n_{eff}}$，其中$n_{eff}$为有效样本量，需根据设计效应$DEFF = 1 + (m-1)\rho$重新计算。
+
+## Corrected Claim
+
+偏差修正后的置信区间计算：若$\delta > 0.05$，修正后的$p_{corrected} = p_{obs} - \delta$，其标准误需调整为$SE_{corrected} = \sqrt{p_{corrected}(1-p_{corrected})/n_{eff}}$，其中$n_{eff}$为有效样本量，需根据设计效应$DEFF = 1 + (m-1)\rho$重新计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

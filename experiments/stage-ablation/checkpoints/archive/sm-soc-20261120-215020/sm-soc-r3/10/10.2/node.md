@@ -1,0 +1,20 @@
+# N237: 价格弹性 $\epsilon$ 与搜索成本降低率 $\eta_{eff}$ 的均衡条件：均衡成立需满足 $|\epsilon| \times \delta \l
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N83
+
+## Claim
+
+价格弹性 $\epsilon$ 与搜索成本降低率 $\eta_{eff}$ 的均衡条件：均衡成立需满足 $|\epsilon| \times \delta \leq \eta_{eff}$，即价格上升导致的成交量下降幅度不超过搜索成本降低带来的成交量上升幅度。需量化二手市场典型商品的价格弹性 $\epsilon$（如 -1.5），验证当 $\delta=20\%$ 时，$\eta_{eff}$ 需达到多少才能维持成交量不变。
+
+## Corrected Claim
+
+价格弹性 $\epsilon$ 与搜索成本降低率 $\eta_{eff}$ 的均衡条件：均衡成立需满足 $|\epsilon| \times \delta \leq \eta_{eff}$，即价格上升导致的成交量下降幅度不超过搜索成本降低带来的成交量上升幅度。需量化二手市场典型商品的价格弹性 $\epsilon$（如 -1.5），验证当 $\delta=20\%$ 时，$\eta_{eff}$ 需达到多少才能维持成交量不变。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该陈述基于微观经济学中价格变动与搜索成本变动对需求量的线性近似叠加原理，量纲一致（均为无量纲比率），且数值示例（-1.5 * 0.2 = 0.3）符合数学逻辑，无内部矛盾。

@@ -1,0 +1,20 @@
+# N296: 分母中的负值处理逻辑：当 (P_avg / P_ref - 1) > T_trigger 时，公式分母为负，导致 N_items 为负，这在物理上无意义；需引入
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N99
+
+## Claim
+
+分母中的负值处理逻辑：当 (P_avg / P_ref - 1) > T_trigger 时，公式分母为负，导致 N_items 为负，这在物理上无意义；需引入截断函数 max(0, ...) 或重新定义受影响范围为仅计算 0 < (P_avg / P_ref - 1) < T_trigger 区间的商品。
+
+## Corrected Claim
+
+分母中的负值处理逻辑：当 (P_avg / P_ref - 1) > T_trigger 时，公式分母为负，导致 N_items 为负，这在物理上无意义；需引入截断函数 max(0, ...) 或重新定义受影响范围为仅计算 0 < (P_avg / P_ref - 1) < T_trigger 区间的商品。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：分母为负导致结果为负在物理上无意义，引入截断或限制定义域是标准的数学处理逻辑。

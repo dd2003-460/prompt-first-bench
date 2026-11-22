@@ -1,0 +1,28 @@
+# N379: H100 SXM 80GB 2025年Q1价格标准差为$2,500，基于3家供应商报价（$26,500, $28,000, $29,500）的样本标准差计算
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N158
+
+## Claim
+
+H100 SXM 80GB 2025年Q1价格标准差为$2,500，基于3家供应商报价（$26,500, $28,000, $29,500）的样本标准差计算
+
+## Corrected Claim
+
+H100 SXM 80GB 2025年Q1价格标准差据称约为$2,500（基于特定样本计算），但具体报价数据缺乏公开权威来源直接证实。
+
+## Evidence
+
+[质询]该陈述包含具体的市场价格数据（2025年Q1三家供应商报价），属于经验事实。参考来源仅提供了H100 SXM5 80GB的技术规格（发布时间、制程、架构），完全未涉及任何价格信息，无法验证具体的报价数值及由此计算出的标准差。 | 经验事实，逻辑自洽但缺来源支持。参考来源[1]仅涵盖技术规格，与价格主题无关，无法提供外部证据支持具体的$2,500标准差或具体报价。
+
+## Search Query
+
+H100 SXM 80GB price variance 2025
+
+## Retrieval Sources
+
+- {'url': 'https://www.techpowerup.com/gpu-specs/h100-sxm5-80-gb.c3900&rut=e1e95c413b4fd1a10bef940ccb081ce8f98047b112e1d943f04f23444eecfc60', 'type': 'ddg', 'title': 'NVIDIA H100 SXM5 80 GB Specs | TechPowerUp GPU Database'}

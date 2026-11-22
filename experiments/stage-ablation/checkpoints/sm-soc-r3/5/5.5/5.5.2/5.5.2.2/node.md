@@ -1,0 +1,24 @@
+# N293: Q4 旺季的流动性冲击量化：Q4 期间买家活跃度 λ_buyer_Q4 = λ_buyer_base * (1 + α_holiday)，其中 α_holida
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N99
+
+## Claim
+
+Q4 旺季的流动性冲击量化：Q4 期间买家活跃度 λ_buyer_Q4 = λ_buyer_base * (1 + α_holiday)，其中 α_holiday 为节假日需求增幅系数（通常 0.2-0.3），导致市场出清速度加快但价格方差 Var(P_ask) 增大，进而使 Δt_avg 的估计标准误 SE_Δt_avg 增加 15-25%。
+
+## Corrected Claim
+
+Q4 旺季的流动性冲击量化：Q4 期间买家活跃度 λ_buyer_Q4 = λ_buyer_base * (1 + α_holiday)，其中 α_holiday 为节假日需求增幅系数，导致市场出清速度加快但价格方差 Var(P_ask) 增大，进而使 Δt_avg 的估计标准误 SE_Δt_avg 显著增加。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值范围（α_holiday 0.2-0.3, SE 增加 15-25%），这些并非第一性原理可推导的数学常数，而是依赖于特定市场微观结构、数据分布及统计模型的实证参数。缺乏具体市场背景（如加密货币、股票、外汇）和统计方法细节，这些数值缺乏普适性，属于未经证实的经验断言。 | 逻辑上，需求增加导致波动率上升进而增加估计标准误的因果链条自洽；但具体数值（15-25%）属于经验事实，无来源支持且无法从第一性原理严格推出，故降级。
+
+## Search Query
+
+Q4 holiday season e-commerce buyer activity increase price variance standard error

@@ -1,0 +1,24 @@
+# N147: Qwen3-27B AWQ INT4 在 HumanEval 上的 Pass@1 下降机制：代码生成依赖精确的语法结构和逻辑链，INT4 量化对注意力头 (At
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N43
+
+## Claim
+
+Qwen3-27B AWQ INT4 在 HumanEval 上的 Pass@1 下降机制：代码生成依赖精确的语法结构和逻辑链，INT4 量化对注意力头 (Attention Heads) 的量化误差累积，导致代码片段中的变量名/函数调用错误率上升，Pass@1 从 60.1% 降至 57.3% (下降 2.8 个百分点)。该下降幅度小于 GSM8K (数学推理) 的 5-6 个百分点，表明代码任务对量化误差的容忍度高于数学推理。
+
+## Corrected Claim
+
+Qwen3-27B AWQ INT4 在 HumanEval 上的 Pass@1 出现下降，幅度约为 2-3 个百分点，小于 GSM8K 的下降幅度，表明代码任务对量化误差的容忍度高于数学推理。
+
+## Evidence
+
+[质询]具体数值（60.1%降至57.3%）及特定量化方法（AWQ INT4）下的性能表现属于经验事实，缺乏直接来源支持，且不同量化实现或基准测试版本可能导致数值偏差。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Qwen3-27B INT4 HumanEval Pass@1 drop code generation sensitivity

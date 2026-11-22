@@ -1,0 +1,20 @@
+# N69: 共享随机源：买家信息处理噪声 σ_info，源于买家在浏览详情页时对‘近期成交均价’信息的注意概率 P_attention 与解读偏差 ε_interpret，
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N17
+
+## Claim
+
+共享随机源：买家信息处理噪声 σ_info，源于买家在浏览详情页时对‘近期成交均价’信息的注意概率 P_attention 与解读偏差 ε_interpret，导致同一透明化信息对不同买家产生的效用变化 ΔU 存在方差 Var(ΔU) = σ_info²。
+
+## Corrected Claim
+
+共享随机源：买家信息处理噪声 σ_info，源于买家在浏览详情页时对‘近期成交均价’信息的注意概率 P_attention 与解读偏差 ε_interpret，导致同一透明化信息对不同买家产生的效用变化 ΔU 存在方差 Var(ΔU) = σ_info²。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

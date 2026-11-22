@@ -1,0 +1,24 @@
+# N164: 卖家持有成本 C_w(t) 的一阶导数 C_w'(t) 计算：C_w(t) = r * P_ref * t + D(t)，其中 r 为资金占用成本率（通常 0.
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N52
+
+## Claim
+
+卖家持有成本 C_w(t) 的一阶导数 C_w'(t) 计算：C_w(t) = r * P_ref * t + D(t)，其中 r 为资金占用成本率（通常 0.05-0.10/年，换算为日利率约 0.00014-0.00028），D(t) 为折旧或维护成本，需具体化 D(t) 的函数形式以计算边际成本。
+
+## Corrected Claim
+
+卖家持有成本 C_w(t) 的一阶导数 C_w'(t) 计算：C_w(t) = r * P_ref * t + D(t)，其中 r 为资金占用成本率，D(t) 为折旧或维护成本。需根据具体市场利率和资产特性确定 r 的数值及 D(t) 的函数形式以计算边际成本。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（资金占用成本率 0.05-0.10/年），属于经验事实而非第一性原理可推导的数学或逻辑恒等式。虽然公式结构逻辑自洽，但缺乏外部来源支持具体数值范围，且 D(t) 的具体形式未定义，导致边际成本计算无法完全落地。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）。
+
+## Search Query
+
+holding cost of inventory in secondary market daily rate depreciation

@@ -1,0 +1,24 @@
+# N234: 透明度收敛系数 k_transparency 的行为经济学推导：k_transparency = η_price * (1 - λ_anchoring_resi
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N78
+
+## Claim
+
+透明度收敛系数 k_transparency 的行为经济学推导：k_transparency = η_price * (1 - λ_anchoring_residual)，其中 η_price 为卖家对价格信息的敏感度弹性，λ_anchoring_residual 为锚定效应残留强度，需通过 A/B 测试或面板数据回归估计 η_price 的具体数值。
+
+## Corrected Claim
+
+在特定行为经济学模型假设下，透明度收敛系数 k_transparency 可被建模为 η_price * (1 - λ_anchoring_residual)，其中 η_price 为卖家对价格信息的敏感度弹性，λ_anchoring_residual 为锚定效应残留强度；该具体函数形式需通过 A/B 测试或面板数据回归进行实证估计与验证，而非通用理论推导结果。
+
+## Evidence
+
+[质询]该公式属于特定理论模型下的假设性推导，并非行为经济学中关于透明度收敛系数的通用公理或第一性原理必然结论；不同模型对锚定效应与价格敏感度的交互作用可能有不同函数形式（如乘积、加和或非线性项），且'收敛系数'这一术语在标准行为经济学文献中无统一定义，存在概念混淆风险。 | 经验事实/理论模型假设，逻辑自洽但缺来源支持（检索无可用来源，且该公式非第一性原理可严格推出的数学恒等式，属于特定模型设定）
+
+## Search Query
+
+price transparency effect on listing price adjustment speed behavioral economics regression

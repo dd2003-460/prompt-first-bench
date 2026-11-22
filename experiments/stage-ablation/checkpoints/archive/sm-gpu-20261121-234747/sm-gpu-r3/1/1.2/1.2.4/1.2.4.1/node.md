@@ -1,0 +1,24 @@
+# N182: AMD MI300X 192GB HBM3 在 2024Q4-2025Q1 的现货市场均价（非合约价）及供货渠道（如 Supermicro、GIGABYTE 服
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N40
+
+## Claim
+
+AMD MI300X 192GB HBM3 在 2024Q4-2025Q1 的现货市场均价（非合约价）及供货渠道（如 Supermicro、GIGABYTE 服务器 OEM 报价），验证 $30k-$40k 价格区间的准确性，并对比其单位显存成本（$/GB）与 NVIDIA A100/H100 的差异。
+
+## Corrected Claim
+
+AMD MI300X 192GB HBM3 在 2024Q4-2025Q1 期间的现货市场价格波动较大，具体均价需参考实时市场报价；其单位显存成本通常低于 NVIDIA A100/H100 的同期现货价格，但具体差异取决于当时的供需状况。
+
+## Evidence
+
+[质询]该陈述包含具体的市场价格区间（$30k-$40k）和特定时间窗口（2024Q4-2025Q1）的现货均价，属于典型的市场经验事实。由于缺乏实时市场数据或权威行业报告支持，无法验证该价格区间的准确性，且现货价格波动大，单一静态区间可能具有误导性。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）。
+
+## Search Query
+
+AMD MI300X 192GB market price 2025 Q1 spot price vs contract price

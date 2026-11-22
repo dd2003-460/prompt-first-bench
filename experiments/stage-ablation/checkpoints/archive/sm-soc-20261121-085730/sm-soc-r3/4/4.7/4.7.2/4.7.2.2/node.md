@@ -1,0 +1,20 @@
+# N298: 运营维护成本 C_ops_variable 的规模效应修正：C_ops_variable = C_base_ops * (1 - α * log(N_users
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N100
+
+## Claim
+
+运营维护成本 C_ops_variable 的规模效应修正：C_ops_variable = C_base_ops * (1 - α * log(N_users/N_base))，其中 α 为规模经济系数（通常 0.05-0.1），N_users 为活跃用户数，N_base 为基准用户数，用于修正随用户规模扩大而降低的单位维护成本。
+
+## Corrected Claim
+
+运营维护成本 C_ops_variable 的规模效应修正：C_ops_variable = C_base_ops * (1 - α * log(N_users/N_base))，其中 α 为规模经济系数（通常 0.05-0.1），N_users 为活跃用户数，N_base 为基准用户数，用于修正随用户规模扩大而降低的单位维护成本。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

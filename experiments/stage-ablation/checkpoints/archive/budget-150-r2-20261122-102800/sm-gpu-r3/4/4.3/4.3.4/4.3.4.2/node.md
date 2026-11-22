@@ -1,0 +1,24 @@
+# N282: RTX 4090 的 TDP 450W 是最大图形功率 (Max Graphics Power)，在 Boost 频率下维持该功耗需机箱风冷能力 >450W 或
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N107
+
+## Claim
+
+RTX 4090 的 TDP 450W 是最大图形功率 (Max Graphics Power)，在 Boost 频率下维持该功耗需机箱风冷能力 >450W 或液冷；在标准 ATX 机箱风冷下，若散热不足导致降频 (Thermal Throttling)，实际持续功耗可能降至 350W 以下，同时性能下降 5-10%，需权衡功耗节省与性能损失对 TCO 的综合影响。
+
+## Corrected Claim
+
+RTX 4090 的 TDP 450W 是最大图形功率 (Max Graphics Power)。在标准 ATX 机箱风冷下，若散热不足导致降频 (Thermal Throttling)，实际持续功耗和性能通常会低于满载水平，具体数值取决于机箱风道和负载，需权衡功耗节省与性能损失对 TCO 的综合影响。
+
+## Evidence
+
+[质询]陈述中关于‘散热不足导致降频时实际持续功耗降至350W以下’以及‘性能下降5-10%’的具体数值缺乏普遍适用的物理必然性。RTX 4090 的功耗和频率行为高度依赖于驱动策略、游戏负载类型及具体机箱风道设计，并非所有散热不足场景都会严格导致功耗低于350W或性能仅下降5-10%（极端情况下可能更低或波动更大），这些具体数值属于经验性观察而非绝对物理定律。 | 先验知识/题面给定，逻辑校验通过。RTX 4090 TDP 450W 及 Max Graphics Power 定义符合 NVIDIA 官方规格；热节流导致功耗和性能下降符合基本物理直觉。但具体数值（350W, 5-10%）为经验估计，无来源支持且存在个体差异，故降级。
+
+## Search Query
+
+RTX 4090 thermal throttling performance impact ATX case

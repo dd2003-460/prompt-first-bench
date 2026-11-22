@@ -1,0 +1,20 @@
+# N11: 消费级显卡 (RTX 4090/5090) 的显存容量上限为 24GB/32GB，单卡无法容纳 Qwen3-27B BF16 (54GB) + 32K KV C
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+消费级显卡 (RTX 4090/5090) 的显存容量上限为 24GB/32GB，单卡无法容纳 Qwen3-27B BF16 (54GB) + 32K KV Cache (12.58GB) = 66.58GB，必须使用量化 (INT4/FP8) 或多卡方案；数据中心卡 (H100 80GB) 单卡可容纳 BF16 权重 + 32K KV Cache (54+12.58=66.58GB < 80GB)，无需量化即可满足容量下限。
+
+## Corrected Claim
+
+消费级显卡 (RTX 4090/5090) 的显存容量上限为 24GB/32GB，单卡无法容纳 Qwen3-27B BF16 (54GB) + 32K KV Cache (12.58GB) = 66.58GB，必须使用量化 (INT4/FP8) 或多卡方案；数据中心卡 (H100 80GB) 单卡可容纳 BF16 权重 + 32K KV Cache (54+12.58=66.58GB < 80GB)，无需量化即可满足容量下限。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090/5090 显存分别为 24GB/32GB，H100 为 80GB，Qwen3-27B BF16 权重约 54GB，32K KV Cache 约 12.58GB，总需求 66.58GB，单卡消费级显卡无法容纳，H100 可容纳，逻辑自洽且数值量级合理。

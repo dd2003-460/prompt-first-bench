@@ -1,0 +1,20 @@
+# N85: H2 后验概率上限推导：P(H2|Data) = P(Data|H2) * P(H2) / P(Data)，其中 P(Data|H2) 由 60% 无咨询率决定
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N22
+
+## Claim
+
+H2 后验概率上限推导：P(H2|Data) = P(Data|H2) * P(H2) / P(Data)，其中 P(Data|H2) 由 60% 无咨询率决定，若 P(Data|H2) < P(Data|H1) * 0.5，则 P(H2|Data) ≤ 0.4。
+
+## Corrected Claim
+
+H2 后验概率上限推导：P(H2|Data) = P(Data|H2) * P(H2) / P(Data)，其中 P(Data|H2) 由 60% 无咨询率决定，若 P(Data|H2) < P(Data|H1) * 0.5，则 P(H2|Data) ≤ 0.4。
+
+## Evidence
+
+父节点级核验未通过：非正交, 有冗余（子节点1和子节点3存在逻辑冲突与冗余。子节点1直接计算得出 P(Data|H2)=0.6 并得出最终结论 P(H2|Data)≈0.95，而子节点3引入了偏差校正因子 δ=0.5 将 P(Data|H2) 修正为 0.3，这直接否定了子节点1的中间计算结果，导致两者在似然值定义上不正交。此外，子节点1和3都在处理 P(Data|H2) 的具体数值推导，属于同一参数的不同假设场景，存在冗余。）

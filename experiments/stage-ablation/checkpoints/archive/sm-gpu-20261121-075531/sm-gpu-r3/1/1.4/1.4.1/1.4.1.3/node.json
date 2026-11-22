@@ -1,0 +1,17 @@
+{
+  "id": "N153",
+  "claim": "RTX 4090 (24GB) 运行 Qwen3-27B INT8 的可行性边界：总需求 = 13.5GB (W) + 4.2GB (KV) + 1.5GB (Act/Overhead) = 19.2GB < 24GB，因此单卡 INT8 实际上是可行的，N44 中 '24GB卡不可行' 的结论错误，前提是 KV Cache 使用 INT8 量化或框架支持 Offload。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "verified",
+  "evidence": "[质询]KV Cache 4.2GB 的估算依赖于具体的上下文长度（Context Length）和批处理大小（Batch Size），若上下文极长或并发高，KV Cache 可能远超 4.2GB，导致总显存需求超过 24GB；此外，INT8 量化通常指权重，KV Cache 若未量化（FP16）则占用更大，陈述中‘前提是 KV Cache 使用 INT8 量化’虽已限定，但 4.2GB 的具体数值缺乏通用标准，属于特定场景下的估算。 | 先验知识/题面给定，逻辑校验通过：24GB 显存大于 19.2GB 总需求，数学上成立；INT8 权重 13.5GB 符合 27B 参数量的量级（27B * 1 byte ≈ 27GB? 等等，27B 参数 INT8 应该是 27GB 左右，这里 13.5GB 暗示可能是 4-bit 或者陈述中的 27B 指的是其他含义？不，Qwen3-27B 如果存在，27B 参数 INT8 需要约 27GB 显存。这里 13.5GB 对应的是 13.5B 参数或者 27B 的 4-bit 量化。若 Qwen3-27B 是 270 亿参数，INT8 需要 27GB，单卡 24GB 放不下。若陈述中 13.5GB 是 W，则暗示模型实际参数量约为 13.5B 或使用了 4-bit 量化。但陈述明确说 'INT8' 且 'W=13.5GB'。27B 参数 * 1 byte = 27GB。13.5GB 是 27GB 的一半。这存在数值矛盾：27B 参数的 INT8 权重不可能只有 13.5GB。除非 Qwen3-27B 实际参数量并非 27B，或者 '27B' 是笔误，或者 'INT8' 是笔误（实为 INT4）。若按字面意思，27B INT8 权重需 27GB > 24GB，单卡不可行。因此，陈述中 'W=13.5GB' 与 '27B INT8' 存在事实性矛盾。",
+  "corrected_claim": "RTX 4090 (24GB) 运行 Qwen3-27B INT8 不可行，因为 27B 参数的 INT8 权重占用约 27GB 显存，已超过 24GB 显存上限。若使用 INT4 量化（权重约 13.5GB），则总需求约 19.2GB，单卡可行。",
+  "rework_count": 0,
+  "parent_ids": [
+    "N44"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

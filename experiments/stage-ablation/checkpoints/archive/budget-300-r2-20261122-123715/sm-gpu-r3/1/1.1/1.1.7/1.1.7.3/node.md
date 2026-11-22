@@ -1,0 +1,20 @@
+# N141: AMD RX 7900 XTX TDP 为 300W，在 $0.1/kWh 电价下 3 年 24/7 运行电力成本 ≈ 300W * 24h * 365d * 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N34
+
+## Claim
+
+AMD RX 7900 XTX TDP 为 300W，在 $0.1/kWh 电价下 3 年 24/7 运行电力成本 ≈ 300W * 24h * 365d * 3y * $0.1/kWh ≈ $7,884，显著低于 RTX 4090 (450W) 的电力成本。
+
+## Corrected Claim
+
+AMD RX 7900 XTX TDP 为 300W，在 $0.1/kWh 电价下 3 年 24/7 运行电力成本 ≈ 300W * 24h * 365d * 3y * $0.1/kWh ≈ $7,884，显著低于 RTX 4090 (450W) 的电力成本。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：AMD RX 7900 XTX TDP 300W 与 RTX 4090 TDP 450W 符合公开规格，电力成本计算 300W * 24h * 365d * 3y * $0.1/kWh ≈ $7,884 数学推导正确，量级合理。

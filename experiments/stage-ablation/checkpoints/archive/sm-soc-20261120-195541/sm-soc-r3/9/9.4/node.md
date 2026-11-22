@@ -1,0 +1,24 @@
+# N202: ESS 不等式 ΔT_shorten / T_base > ΔP_loss / P_base 的数值解：代入 N75 和 N76 的公式，求解 σ_qualit
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N67
+
+## Claim
+
+ESS 不等式 ΔT_shorten / T_base > ΔP_loss / P_base 的数值解：代入 N75 和 N76 的公式，求解 σ_quality 和 P_ask/P_market 的可行域；若可行域为空集，则证明在高噪声环境下高挂价策略无法成为 ESS，需修正假设链。
+
+## Corrected Claim
+
+ESS 不等式 ΔT_shorten / T_base > ΔP_loss / P_base 的求解依赖于具体参数；在高噪声环境下，若该不等式定义的可行域为空，则高挂价策略无法成为 ESS，需修正假设链。
+
+## Evidence
+
+[质询]该陈述声称存在具体的“数值解”和“可行域”判定结果，但缺乏具体的参数输入（如具体的噪声水平、基础价格、基础时间等），导致无法验证其数值结论的唯一性或正确性；此外，将复杂的ESS演化稳定策略简化为单一不等式的数值解在逻辑上可能过于简化，忽略了动态博弈中的其他约束条件。 | 先验知识/题面给定，逻辑校验通过：不等式形式符合ESS稳定性分析的基本框架（收益/成本权衡），但具体数值解依赖于未提供的参数，故降级为定性表述。
+
+## Search Query
+
+ESS inequality feasible region numerical solution pricing strategy market equilibrium

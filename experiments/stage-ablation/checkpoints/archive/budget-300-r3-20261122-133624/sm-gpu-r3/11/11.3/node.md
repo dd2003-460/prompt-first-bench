@@ -1,0 +1,20 @@
+# N441: AMD Radeon PRO W7900 的功耗与 TCO：TDP 250W，Decode 阶段平均功耗约 150W (60% TDP)。3 年电费 = 150
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N172
+
+## Claim
+
+AMD Radeon PRO W7900 的功耗与 TCO：TDP 250W，Decode 阶段平均功耗约 150W (60% TDP)。3 年电费 = 150W * 8760h * 3y * $0.12/kWh = $473.88。假设硬件成本 $2200，维护 $200，机会成本 $330，总 TCO ≈ $3,204。虽 TCO 低于 5090，但吞吐量仅 1/4，单位 token 成本 ($/1k tokens) 为 5090 的 4 倍，故在追求性能/成本比时不具竞争力。
+
+## Corrected Claim
+
+AMD Radeon PRO W7900 的功耗与 TCO：TDP 250W，Decode 阶段平均功耗约 150W (60% TDP)。3 年电费 = 150W * 8760h * 3y * $0.12/kWh = $473.88。假设硬件成本 $2200，维护 $200，机会成本 $330，总 TCO ≈ $3,204。虽 TCO 低于 5090，但吞吐量仅 1/4，单位 token 成本 ($/1k tokens) 为 5090 的 4 倍，故在追求性能/成本比时不具竞争力。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：电费计算 150*8760*3*0.12=473.88 正确，TCO 总和 2200+200+330+473.88=3203.88≈3204 正确，性能/成本比逻辑自洽。

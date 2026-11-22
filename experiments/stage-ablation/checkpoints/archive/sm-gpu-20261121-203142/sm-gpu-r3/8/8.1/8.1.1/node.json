@@ -1,0 +1,17 @@
+{
+  "id": "N342",
+  "claim": "H100 SXM 在 32K 上下文下的实际 Decode TPS 受计算单元限制而非纯带宽限制，因为每生成一个 Token 所需的 FLOPs 约为 2 * 27B = 54 GFLOPs，H100 BF16 算力为 989 TFLOPS (含稀疏) 或 ~500 TFLOPS (稠密)，理论计算时间 = 54e9 / 500e12 = 0.108 ms，而带宽限制时间 = (54GB Weights + 4GB KV) / 3.35 TB/s = 17.3 ms，因此实际 TPS 上限由带宽决定，理论最大 TPS = 1000 / 17.3 ≈ 57.8 tokens/s",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]陈述存在严重的内部逻辑矛盾：标题/前提声称“受计算单元限制而非纯带宽限制”，但随后的计算和结论却得出“实际 TPS 上限由带宽决定”。此外，数值量级严重错误：H100 SXM 的 HBM3 带宽约为 3.35 TB/s，而 54GB 权重的读取时间应为 ~16ms，但陈述中计算出的 17.3ms 与 57.8 TPS 的结论在逻辑上自洽，然而前提与结论直接冲突（声称计算限制却得出带宽限制结论）。更关键的是，对于 27B 模型，Decode 阶段确实是带宽受限（Memory Bound），因为算术强度（Arithmetic Intensity）极低，计算时间（0.108ms）远小于带宽时间（17.3ms），所以结论“由带宽决定”是正确的，但前提“受计算单元限制”是错误的。这种前提与结论的直接对立构成了硬逻辑错误。 | 陈述内部矛盾：前提称“受计算单元限制”，结论称“由带宽决定”，且计算显示计算时间(0.108ms)远小于带宽时间(17.3ms)，证明是带宽受限，前提错误导致整体陈述逻辑不自洽。",
+  "corrected_claim": "H100 SXM 在 32K 上下文下的实际 Decode TPS 受带宽限制而非计算单元限制，因为每生成一个 Token 所需的 FLOPs 约为 54 GFLOPs，理论计算时间仅为 0.108 ms，而带宽限制时间约为 17.3 ms，因此实际 TPS 上限由带宽决定，理论最大 TPS ≈ 57.8 tokens/s。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N111"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "H100 SXM decode latency bottleneck bandwidth vs compute LLM inference",
+  "retrieval_sources": []
+}

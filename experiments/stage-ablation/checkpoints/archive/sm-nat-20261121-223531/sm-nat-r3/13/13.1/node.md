@@ -1,0 +1,20 @@
+# N239: LFU 相对 LRU 增益为 0 的边界条件验证：仅当缓存容量 C ≥ S_total (10GB) 时，LRU 不会发生任何基于 LRU 策略的淘汰（Evic
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N87
+
+## Claim
+
+LFU 相对 LRU 增益为 0 的边界条件验证：仅当缓存容量 C ≥ S_total (10GB) 时，LRU 不会发生任何基于 LRU 策略的淘汰（Eviction），此时 LFU 的频率优势无法通过替换低频对象来体现。若 C < S_total，增益公式才需引入频率阈值 h_th 进行积分计算。
+
+## Corrected Claim
+
+LFU 相对 LRU 增益为 0 的边界条件验证：仅当缓存容量 C ≥ S_total (10GB) 时，LRU 不会发生任何基于 LRU 策略的淘汰（Eviction），此时 LFU 的频率优势无法通过替换低频对象来体现。若 C < S_total，增益公式才需引入频率阈值 h_th 进行积分计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：当缓存容量大于等于总数据量时，LRU 不会发生淘汰，LFU 与 LRU 行为一致，增益为 0，符合缓存替换算法的基本原理。

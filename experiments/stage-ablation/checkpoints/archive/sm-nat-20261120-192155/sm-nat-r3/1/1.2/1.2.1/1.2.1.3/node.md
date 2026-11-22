@@ -1,0 +1,20 @@
+# N66: k 值的有效区间验证：根据 N57，若 S_max=100MB，k≈5200，落在 [10, 10000] 区间内，LRU 稳态假设有效。若 S_max=10M
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N24, N25, N26
+
+## Claim
+
+k 值的有效区间验证：根据 N57，若 S_max=100MB，k≈5200，落在 [10, 10000] 区间内，LRU 稳态假设有效。若 S_max=10MB，k≈52000，接近总对象数，命中率趋近 100%，但 LRU 与 LFU 差异极小。需根据实际 CDN 对象平均大小（通常 1-100MB）确定 S_max 以锁定 k。
+
+## Corrected Claim
+
+k 值的有效区间验证：根据 N57，若 S_max=100MB，k≈5200，落在 [10, 10000] 区间内，LRU 稳态假设有效。若 S_max=10MB，k≈52000，接近总对象数，命中率趋近 100%，但 LRU 与 LFU 差异极小。需根据实际 CDN 对象平均大小（通常 1-100MB）确定 S_max 以锁定 k。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：k值与S_max成反比关系符合缓存容量与对象数量的基本逻辑，区间判断与命中率趋势描述在工程直觉上自洽。

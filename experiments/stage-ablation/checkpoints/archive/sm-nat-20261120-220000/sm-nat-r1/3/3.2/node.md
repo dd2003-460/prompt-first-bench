@@ -1,0 +1,20 @@
+# N12: 中性价比最优工作点：考虑缓存重填充延迟与并发请求，更新对象在重填充期间请求将导致miss，有效命中率折损比例 = 1 - (1 - p_invalid) * (
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+中性价比最优工作点：考虑缓存重填充延迟与并发请求，更新对象在重填充期间请求将导致miss，有效命中率折损比例 = 1 - (1 - p_invalid) * (1 - t_refill/t_request)，其中 t_refill/t_request ≈ 0.1，折损约 1.1%
+
+## Corrected Claim
+
+中性价比最优工作点：考虑缓存重填充延迟与并发请求，更新对象在重填充期间请求将导致miss，有效命中率折损比例 = 1 - (1 - p_invalid) * (1 - t_refill/t_request)，其中 t_refill/t_request ≈ 0.1，折损约 1.1%
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式推导正确，数值计算 1 - (1-0.01)*(1-0.1) ≈ 0.0109 即 1.1% 符合算术逻辑

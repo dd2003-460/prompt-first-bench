@@ -1,0 +1,20 @@
+# N31: 代表性工作点1（高性低成）：2x RTX 4090（24GB*2）方案，初始成本约$2000，总显存48GB，支持BF16或INT8量化，吞吐量约50-80 t
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+代表性工作点1（高性低成）：2x RTX 4090（24GB*2）方案，初始成本约$2000，总显存48GB，支持BF16或INT8量化，吞吐量约50-80 tokens/s（取决于batch size和上下文长度），3年TCO约$2500-3000（假设电价0.15美元/kWh，利用率50%），性价比指标约20-32 tokens/s/美元
+
+## Corrected Claim
+
+代表性工作点1（高性低成）：2x RTX 4090（24GB*2）方案，初始成本约$2000，总显存48GB，支持BF16或INT8量化，吞吐量约50-80 tokens/s（取决于batch size和上下文长度），3年TCO约$2500-3000（假设电价0.15美元/kWh，利用率50%），性价比指标约20-32 tokens/s/美元
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 单卡价格约 $1000-1600，双卡初始成本 $2000 合理；48GB 显存支持大模型推理；50-80 tokens/s 吞吐量符合双卡并行或大 Batch 场景的量级；TCO 计算（电费+折旧）在给定假设下逻辑自洽。

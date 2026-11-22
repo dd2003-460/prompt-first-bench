@@ -1,0 +1,24 @@
+# N187: Qwen3-27B 的层数 (num_layers=28)、KV头数 (num_kv_heads=8) 和 头维度 (head_dim=128) 等结构参数直接
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+Qwen3-27B 的层数 (num_layers=28)、KV头数 (num_kv_heads=8) 和 头维度 (head_dim=128) 等结构参数直接决定了 KV Cache 的大小。这些参数在 Hugging Face 模型配置文件中明确列出，属于 [Verified-Source] 数据。若使用不同的量化库（如 GPTQ vs AWQ），KV Cache 的存储精度可能不同（FP16 vs INT8），需明确假设：本分析默认 KV Cache 保持 FP16 以维持注意力精度，除非显存极度紧张。
+
+## Corrected Claim
+
+Qwen3.5-27B 的层数 (num_layers=64) 等结构参数直接决定了 KV Cache 的大小。具体参数需以 Hugging Face 官方配置文件为准，不同版本（如 Qwen3 vs Qwen3.5）结构可能存在差异。
+
+## Evidence
+
+[质询]参考来源[1]明确指出Qwen3.5-27B（或同系列27B模型）的层数为64，而陈述中声称层数为28，数值严重不符；此外，来源标题为Qwen3.5-27B，与陈述中的Qwen3-27B存在版本差异，但即便忽略版本，层数28与64的巨大差异也直接矛盾。 | 来源[1]显示层数为64，与陈述中的28矛盾；且来源标题为Qwen3.5-27B，与陈述的Qwen3-27B不完全匹配，但核心结构参数（层数）直接冲突。
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2010079474104963160&rut=725c7cff098d17c7d4f51c5362b5fa9f20078a8fe0233472d5b8a97dc40ea021', 'type': 'ddg', 'title': 'Qwen/Qwen3.5-27B模型结构（dense）分析 - 知乎'}

@@ -1,0 +1,24 @@
+# N50: NVIDIA RTX 5090 32GB GDDR7 在 2025Q1 的官方建议零售价 (MSRP) 为 $1,999 USD，但受供需影响，实际市场成交价可
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+NVIDIA RTX 5090 32GB GDDR7 在 2025Q1 的官方建议零售价 (MSRP) 为 $1,999 USD，但受供需影响，实际市场成交价可能在 $2,200-$2,500 USD 区间 [实时查询-2025-01]
+
+## Corrected Claim
+
+NVIDIA RTX 5090 预计配备 32GB GDDR7 显存，官方建议零售价 (MSRP) 预计为 $1,999 USD，实际市场成交价可能受供需影响高于此价格。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件规格（32GB GDDR7）和市场价格数据，属于经验事实。由于检索失败，无法通过外部来源验证2025Q1的实际市场成交价区间是否准确，且MSRP的具体数值需官方发布确认，存在信息滞后或预测偏差的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体价格区间及规格细节）
+
+## Search Query
+
+RTX 5090 MSRP market price January 2025

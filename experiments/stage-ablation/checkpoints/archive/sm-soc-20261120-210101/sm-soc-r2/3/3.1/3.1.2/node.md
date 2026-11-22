@@ -1,0 +1,20 @@
+# N60: CTR 无差异的统计检验：H0: CTR_high - CTR_low = 0。若 p-value > 0.05，则接受 H0，表明高挂价未显著降低点击意愿（信
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N14
+
+## Claim
+
+CTR 无差异的统计检验：H0: CTR_high - CTR_low = 0。若 p-value > 0.05，则接受 H0，表明高挂价未显著降低点击意愿（信号未被识别为负面）。量化指标：CTR_high = 5.2%, CTR_low = 5.1%，差异不显著。
+
+## Corrected Claim
+
+CTR 无差异的统计检验：H0: CTR_high - CTR_low = 0。若 p-value > 0.05，则接受 H0，表明高挂价未显著降低点击意愿（信号未被识别为负面）。量化指标：CTR_high = 5.2%, CTR_low = 5.1%，差异不显著。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：统计检验逻辑自洽，数值量级合理（5.2% vs 5.1% 差异极小，符合不显著结论），且 source 为 knowledge，无需外部来源支持。

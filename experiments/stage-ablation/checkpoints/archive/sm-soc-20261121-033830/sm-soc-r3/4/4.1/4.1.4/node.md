@@ -1,0 +1,24 @@
+# N69: 候选干预 (B) 动态价格建议的总成本 C_intervention_B = C_tech_B + C_migration_B；C_migration_B 通常
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N17
+
+## Claim
+
+候选干预 (B) 动态价格建议的总成本 C_intervention_B = C_tech_B + C_migration_B；C_migration_B 通常低于 (A)，因为非强制性；需估算卖家接受建议的比例 r_accept 及未接受者的流失率，以计算 C_migration_B = (1-r_accept) * ΔChurn_passive * LTV。
+
+## Corrected Claim
+
+候选干预 (B) 动态价格建议的总成本 C_intervention_B 由技术成本 C_tech_B 和迁移成本 C_migration_B 组成。迁移成本通常与卖家接受建议的比例 r_accept 及未接受者的流失率相关，具体计算模型需根据业务假设定义，例如 C_migration_B 可估算为 (1-r_accept) * ΔChurn_passive * LTV。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点 r_accept, ΔChurn_passive, LTV_seller 分别对应父节点公式 C_migration_B = (1-r_accept) * ΔChurn_passive * LTV 中的三个独立乘数项。它们在概念上互不重叠（接受率、流失率、价值），且完全覆盖了该特定子项所需的计算要素，不存在冗余或遗漏。）
+
+## Search Query
+
+dynamic pricing suggestion adoption rate seller compliance marketplace non-mandatory intervention cost

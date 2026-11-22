@@ -1,0 +1,20 @@
+# N102: 买家异质性偏好导致的成交价分布标准差 σ_trade 可分解为商品成色差异 σ_condition 和功能差异 σ_function 的平方和开根，即 σ_tr
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N25
+
+## Claim
+
+买家异质性偏好导致的成交价分布标准差 σ_trade 可分解为商品成色差异 σ_condition 和功能差异 σ_function 的平方和开根，即 σ_trade = sqrt(σ_condition² + σ_function²)，其中 σ_condition ≈ 8% 且 σ_function ≈ 10%。
+
+## Corrected Claim
+
+在假设成色差异与功能差异相互独立且无交互效应的线性模型下，买家异质性偏好导致的成交价分布标准差 σ_trade 可近似分解为商品成色差异 σ_condition 和功能差异 σ_function 的平方和开根，即 σ_trade ≈ sqrt(σ_condition² + σ_function²)。具体数值需根据特定商品类别和市场数据校准。
+
+## Evidence
+
+[质询]该陈述将成交价标准差分解为成色与功能差异的平方和开根（RSS），隐含假设两者独立且无交互项，这在经济学中并非普遍成立的公理，属于特定模型假设而非第一性原理；此外，8%和10%的具体数值缺乏通用性，高度依赖具体商品类别和市场环境，属于经验参数。 | source=knowledge，逻辑上RSS分解在独立变量假设下自洽，但具体数值（8%, 10%）为经验估计，缺乏通用理论推导支持，且无外部来源验证其普适性，故降级为定性表述。

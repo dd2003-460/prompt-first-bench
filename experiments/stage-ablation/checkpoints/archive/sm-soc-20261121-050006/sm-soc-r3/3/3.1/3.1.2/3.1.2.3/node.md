@@ -1,0 +1,24 @@
+# N229: 干预失效边界条件量化：当 P(ReadLabel) < 0.5 时，ΔP_ask 的期望值 E[ΔP_ask] = -k_sens * (P_ask - P_m
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N69
+
+## Claim
+
+干预失效边界条件量化：当 P(ReadLabel) < 0.5 时，ΔP_ask 的期望值 E[ΔP_ask] = -k_sens * (P_ask - P_median) * 0.5，若此时 |ΔP_ask| < C_listing_adjustment_cost（调整挂价的操作成本，约 2-5 分钟时间价值），则卖家无动机执行调整，干预实际失效。
+
+## Corrected Claim
+
+当 P(ReadLabel) < 0.5 时，若调整挂价带来的预期收益增量小于卖家调整挂价的机会成本（如时间、精力等），则卖家无动机执行调整，干预实际失效。
+
+## Evidence
+
+[质询]公式中的系数 0.5 和参数 k_sens 缺乏明确的定义或推导依据，属于未经验证的启发式假设；此外，将‘操作成本’直接量化为‘2-5分钟时间价值’并用于与概率变化量（无量纲或特定效用单位）比较，存在量纲不匹配或隐含假设过强的风险。 | 先验知识/题面给定，逻辑校验通过（公式结构符合边际效用递减直觉，但具体系数和成本量化缺乏外部来源支持，且存在量纲隐含假设，故降级为定性表述）
+
+## Search Query
+
+behavioral economics cost of adjustment threshold seller pricing

@@ -1,0 +1,24 @@
+# N41: FP8 量化显存占用修正：若采用 E4M3 格式且保留部分层为 BF16（如 Embedding/LM Head），实际显存为 27.1 * 1.5 ≈ 40.
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N6, N7, N8
+
+## Claim
+
+FP8 量化显存占用修正：若采用 E4M3 格式且保留部分层为 BF16（如 Embedding/LM Head），实际显存为 27.1 * 1.5 ≈ 40.65 GB 而非纯 27.1 GB，需确认 Qwen3-27B FP8 量化策略是否全层量化
+
+## Corrected Claim
+
+FP8 量化显存占用修正：若采用 E4M3 格式且保留部分层（如 Embedding/LM Head）为 BF16，实际显存占用将高于纯 FP8 的 27.1 GB（具体数值取决于量化策略及非权重显存开销，需确认 Qwen3-27B 的具体量化实现）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性参数（如'保留部分层为BF16'的具体策略、'1.5'的显存膨胀系数、'40.65 GB'的具体数值），这些并非第一性原理可推导的数学或物理事实，而是依赖于特定量化实现细节（如是否量化Embedding/LM Head、KV Cache大小、激活值显存等）的经验数据。由于缺乏来源支持，无法确认Qwen3-27B的具体量化策略及该特定数值计算的准确性。 | 经验事实，逻辑自洽但缺来源支持。检索无可用来源，无法验证具体量化策略及显存数值。
+
+## Search Query
+
+Qwen3-27B FP8 quantization strategy mixed precision layers

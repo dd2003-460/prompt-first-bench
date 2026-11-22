@@ -1,0 +1,16 @@
+# N41: 敏感度系数 $\beta_s$ 的机制分解：$\beta_s$ 并非单一常数，而是由‘损失厌恶系数’$\lambda_{loss}$ 与‘信息处理成本’$C_{
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N15, N16, N17
+
+## Claim
+
+敏感度系数 $\beta_s$ 的机制分解：$\beta_s$ 并非单一常数，而是由‘损失厌恶系数’$\lambda_{loss}$ 与‘信息处理成本’$C_{info}$ 共同决定，公式为 $\beta_s = \frac{\lambda_{loss}}{1 + C_{info}}$。其中 $\lambda_{loss} \approx 2.0-2.5$（标准行为经济学参数），$C_{info}$ 为卖家处理偏离度信息所需的认知负荷归一化值，范围 [0.5, 1.5]。
+
+## Corrected Claim
+
+敏感度系数 $\beta_s$ 的机制分解：$\beta_s$ 并非单一常数，而是由‘损失厌恶系数’$\lambda_{loss}$ 与‘信息处理成本’$C_{info}$ 共同决定，公式为 $\beta_s = \frac{\lambda_{loss}}{1 + C_{info}}$。其中 $\lambda_{loss} \approx 2.0-2.5$（标准行为经济学参数），$C_{info}$ 为卖家处理偏离度信息所需的认知负荷归一化值，范围 [0.5, 1.5]。

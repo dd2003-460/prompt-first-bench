@@ -1,0 +1,24 @@
+# N313: AMD RX 7900 XTX 相比 RTX 4090 在 Qwen3-27B INT8 32K 上下文下的 TPS 比率 = (η_rocm * 960 GB
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N102
+
+## Claim
+
+AMD RX 7900 XTX 相比 RTX 4090 在 Qwen3-27B INT8 32K 上下文下的 TPS 比率 = (η_rocm * 960 GB/s) / (η_cuda * 1008 GB/s)；若 η_rocm=0.6, η_cuda=0.7，则比率 ≈ (0.6*960)/(0.7*1008) ≈ 0.816，即 TPS 低约 18.4%；若 η_rocm=0.5, η_cuda=0.7，则比率 ≈ 0.68，即 TPS 低约 32% [待核验]。
+
+## Corrected Claim
+
+AMD RX 7900 XTX 相比 RTX 4090 在 Qwen3-27B INT8 32K 上下文下的 TPS 比率 = (η_rocm * 960 GB/s) / (η_cuda * 1008 GB/s)；若 η_rocm=0.6, η_cuda=0.7，则比率 ≈ (0.6*960)/(0.7*1008) ≈ 0.816，即 TPS 低约 18.4%；若 η_rocm=0.5, η_cuda=0.7，则比率 ≈ 0.68，即 TPS 低约 32% [待核验]。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：带宽数值（960/1008 GB/s）符合硬件规格，效率系数假设合理，数学计算（0.816, 0.68）准确无误。
+
+## Search Query
+
+RX 7900 XTX vs RTX 4090 LLM inference performance ratio ROCm vs CUDA efficiency

@@ -1,0 +1,28 @@
+# N147: ROCm 对 Qwen3-27B 的支持存在兼容性风险：截至 2024 年中，ROCm 对 Qwen3 的官方支持尚未完全成熟，部分算子（如 Flash Att
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N37
+
+## Claim
+
+ROCm 对 Qwen3-27B 的支持存在兼容性风险：截至 2024 年中，ROCm 对 Qwen3 的官方支持尚未完全成熟，部分算子（如 Flash Attention）可能回退到较慢的通用实现，导致实际性能比理论值低 20-30% [待核验: 最新 ROCm 版本对 Qwen3 的优化状态]
+
+## Corrected Claim
+
+ROCm 对 Qwen3 系列（如 Qwen3-27B）的支持在早期版本中可能存在兼容性或性能优化不足的风险，部分算子可能回退到通用实现，导致性能低于理论值，但具体损失幅度取决于硬件和软件版本。
+
+## Evidence
+
+[质询]时间线与模型版本混淆：Qwen3 系列于 2025 年 4 月发布，而陈述声称“截至 2024 年中”支持不成熟，此时 Qwen3 尚未发布，时间逻辑存在矛盾；此外，20-30% 的性能损失具体数值缺乏通用基准支持，可能因硬件和配置而异。 | 来源 [1] 展示了 Qwen3.8-27B 在 ROCm 上的成功部署，间接证明支持已存在，但未提供 2024 年的状态或具体的性能回退数据，属于间接支持且时间线存疑。
+
+## Search Query
+
+ROCm Qwen3 compatibility issues Flash Attention performance penalty
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/zhangsongyang/Qwen3.8-27B-ROCm&rut=5ca42f084d924a2c6ed34808a4e37fe8151ced164ab3123f3a66dbe660a1abfe', 'type': 'ddg', 'title': 'GitHub - zhangsongyang/Qwen3.8-27B-ROCm'}

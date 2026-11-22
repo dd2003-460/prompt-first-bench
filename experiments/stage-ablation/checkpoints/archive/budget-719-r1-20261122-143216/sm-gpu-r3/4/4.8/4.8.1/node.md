@@ -1,0 +1,20 @@
+# N122: Qwen3-27B 在 64K 上下文下的 KV Cache 显存占用计算公式：KV_64K = 2 × num_layers × num_kv_heads ×
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N28
+
+## Claim
+
+Qwen3-27B 在 64K 上下文下的 KV Cache 显存占用计算公式：KV_64K = 2 × num_layers × num_kv_heads × head_dim × 64 × 1024 × bytes_per_elem，该值通常为 32K 占用量的 2 倍，需代入 N31 获取的架构参数得出具体 GB 值。
+
+## Corrected Claim
+
+Qwen3-27B 在 64K 上下文下的 KV Cache 显存占用计算公式：KV_64K = 2 × num_layers × num_kv_heads × head_dim × 64 × 1024 × bytes_per_elem，该值通常为 32K 占用量的 2 倍，需代入 N31 获取的架构参数得出具体 GB 值。
+
+## Evidence
+
+父节点级核验未通过：有冗余（子节点在逻辑上是正交的（分别对应不同精度），且覆盖了父节点要求的“得出具体GB值”这一核心任务。然而，两个子节点本质上是同一公式在 `bytes_per_elem` 参数取不同值时的实例化，属于高度结构化的冗余。这种拆分方式将本应作为参数变量处理的差异强行拆分为独立节点，导致信息密度低且维护成本高。）

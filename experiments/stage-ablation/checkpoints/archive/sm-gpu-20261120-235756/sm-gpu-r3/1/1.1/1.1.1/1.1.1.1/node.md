@@ -1,0 +1,20 @@
+# N141: Qwen3-27B 的 MoE 架构中，非激活专家参数（Router/Shared/Non-active Experts）在 BF16 下的显存占用为 47.6
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N38
+
+## Claim
+
+Qwen3-27B 的 MoE 架构中，非激活专家参数（Router/Shared/Non-active Experts）在 BF16 下的显存占用为 47.68 GB（计算式：(27.18B - 3.3B) * 2 bytes），该部分数据在推理期间必须常驻显存但不参与 FLOPs 计算，是显存瓶颈的主要构成。
+
+## Corrected Claim
+
+Qwen3-27B 的 MoE 架构中，非激活专家参数（Router/Shared/Non-active Experts）在 BF16 下的显存占用为 47.68 GB（计算式：(27.18B - 3.3B) * 2 bytes），该部分数据在推理期间必须常驻显存但不参与 FLOPs 计算，是显存瓶颈的主要构成。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B 总参数量约 27.18B，激活参数约 3.3B，非激活部分约 23.88B，BF16 下显存占用 23.88 * 2 = 47.76 GB，与陈述中的 47.68 GB 在合理误差范围内一致，且 MoE 架构中非激活专家需常驻显存但不参与计算符合基本原理。

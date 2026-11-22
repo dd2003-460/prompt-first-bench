@@ -1,0 +1,20 @@
+# N10: 多卡显存分摊策略: 张量并行(TP)下KV Cache不拆分(每卡存全量KV), 权重拆分; 例如2x24GB卡跑INT8时, 每卡需存13.5GB权重 + 1
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+多卡显存分摊策略: 张量并行(TP)下KV Cache不拆分(每卡存全量KV), 权重拆分; 例如2x24GB卡跑INT8时, 每卡需存13.5GB权重 + 1.93GB KV + 1GB开销 = 16.43GB, 24GB显存满足
+
+## Corrected Claim
+
+多卡显存分摊策略: 张量并行(TP)下KV Cache不拆分(每卡存全量KV), 权重拆分; 例如2x24GB卡跑INT8时, 每卡需存13.5GB权重 + 1.93GB KV + 1GB开销 = 16.43GB, 24GB显存满足
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：张量并行下KV Cache通常不拆分（或按序列长度/头数分配，此处假设全量存储符合保守估计），权重拆分符合TP原理；数值计算 13.5 + 1.93 + 1 = 16.43GB < 24GB，逻辑自洽且量级合理。

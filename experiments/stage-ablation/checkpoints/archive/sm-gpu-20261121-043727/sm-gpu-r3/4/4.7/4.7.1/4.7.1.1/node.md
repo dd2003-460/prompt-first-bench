@@ -1,0 +1,29 @@
+# N212: Qwen3-27B 在 WikiText-2 上的 BF16 基准困惑度 (PPL) 具体数值：需检索 HuggingFace 官方模型卡或 Qwen3 技术报
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N80
+
+## Claim
+
+Qwen3-27B 在 WikiText-2 上的 BF16 基准困惑度 (PPL) 具体数值：需检索 HuggingFace 官方模型卡或 Qwen3 技术报告中的评测结果，当前假设值 5.2 为估计值，实际可能在 4.8-5.5 区间 [待核验]
+
+## Corrected Claim
+
+Qwen3-27B 在 WikiText-2 上的 BF16 基准困惑度 (PPL) 具体数值需查阅官方技术报告或模型卡，当前假设值 5.2 为估计值，缺乏提供的参考来源直接支持。
+
+## Evidence
+
+[质询]参考来源均指向 'Qwen3.8-27B' 而非 'Qwen3-27B'，且来源 [2] 仅涉及代码审查任务的本地推理基准（吞吐量/延迟），未提供 WikiText-2 困惑度 (PPL) 数据；来源 [1] 摘要未包含具体评测数值。因此，无法从提供的来源中直接验证 PPL 为 5.2 或处于 4.8-5.5 区间。 | 经验事实，逻辑自洽但缺来源支持。提供的来源 [1] 和 [2] 均针对 'Qwen3.8-27B' 且未包含 WikiText-2 PPL 数据，无法直接验证具体数值，故降级为定性表述。
+
+## Search Query
+
+Qwen3-27B WikiText-2 perplexity BF16 benchmark official
+
+## Retrieval Sources
+
+- {'url': 'https://huggingface.co/Qwen/Qwen3.8-27B&rut=3d7831a77a0759778bf5fe7ec23242f552eacd18fef689ac2e5e92ec3eccaa2a', 'type': 'ddg', 'title': 'Qwen/Qwen3.8-27B · Hugging Face'}
+- {'url': 'https://github.com/pxzleo/qwen3.8-27b-local-inference-benchmark&rut=3efdc0c2da457a27d3144eab3da0e0b9182d36941411981edbc2dc42704ea400', 'type': 'ddg', 'title': 'Qwen3.8-27B Local Inference Benchmark - GitHub'}

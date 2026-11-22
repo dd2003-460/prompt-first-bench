@@ -1,0 +1,17 @@
+{
+  "id": "N243",
+  "claim": "在 Pareto(α=1.1) 截断分布下，尾部质量 M_tail = ∫_{C}^{∞} r(s) * s * p(s) ds 的收敛性分析显示，当 C=128GB 时，积分值主要由 s ∈ [128GB, 10GB] 区间贡献，但该区间为空（C > s_max），因此 M_tail = 0，公式 H_LRU ≈ 1 - 0/C 退化为 H_LRU ≈ 1，需修正截断条件",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]陈述中存在明显的逻辑矛盾和量纲/数值错误：1. 区间 [128GB, 10GB] 在数学上是空集（下限大于上限），但陈述称该区间贡献了积分值，随后又因区间为空得出 M_tail=0，前后逻辑自相矛盾；2. 若 C=128GB 且 s_max=10GB，则 C > s_max，积分区间 [C, ∞) 与分布支撑集 [0, s_max] 无交集，积分确实为0，但此时不应讨论 [128GB, 10GB] 的贡献，而是直接由支撑集限制得出 M_tail=0；3. 公式 H_LRU ≈ 1 - 0/C 中，若 M_tail=0，则 H_LRU≈1，但 LRU 命中率在截断分布下通常不会接近1，除非工作集远小于缓存大小，此处逻辑推导与直觉不符。 | 陈述内部存在逻辑矛盾（空区间贡献积分值）和数值错误（区间表示错误），且推导过程不符合基本数学逻辑。",
+  "corrected_claim": "在 Pareto(α=1.1) 截断分布下，若截断点 C=128GB 大于最大请求大小 s_max=10GB，则尾部质量 M_tail = ∫_{C}^{∞} r(s) * s * p(s) ds 的积分区间 [C, ∞) 与分布支撑集 [0, s_max] 无交集，因此 M_tail = 0。此时公式 H_LRU ≈ 1 - M_tail/C 退化为 H_LRU ≈ 1，但这仅表示缓存完全覆盖工作集，实际命中率需结合具体访问模式计算，而非简单退化为1。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N84"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "Pareto tail mass integral convergence truncated distribution",
+  "retrieval_sources": []
+}

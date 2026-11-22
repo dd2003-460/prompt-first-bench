@@ -1,0 +1,20 @@
+# N149: vLLM 0.4.x+ 对 Qwen3-27B 的 FP8 KV Cache 支持要求硬件具备 FP8 Tensor Core (Ada/Hopper)，RTX
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N42
+
+## Claim
+
+vLLM 0.4.x+ 对 Qwen3-27B 的 FP8 KV Cache 支持要求硬件具备 FP8 Tensor Core (Ada/Hopper)，RTX 4090 (Ada) 满足条件，RTX 3090 (Ampere) 不满足，因此 vLLM 在 3090 上无法启用 FP8 KV，只能回退到 BF16 KV 或使用 llama.cpp。
+
+## Corrected Claim
+
+vLLM 0.4.x+ 对 Qwen3-27B 的 FP8 KV Cache 支持要求硬件具备 FP8 Tensor Core (Ada/Hopper)，RTX 4090 (Ada) 满足条件，RTX 3090 (Ampere) 不满足，因此 vLLM 在 3090 上无法启用 FP8 KV，只能回退到 BF16 KV 或使用 llama.cpp。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：FP8 Tensor Core 确实始于 Ada 架构（RTX 40系），Ampere（RTX 30系）不支持硬件 FP8 加速，vLLM 在缺乏硬件支持时回退 BF16 符合技术逻辑。

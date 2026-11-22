@@ -1,0 +1,24 @@
+# N84: 卖家保留效用 R_seller 的量化定义：R_seller = (P_market - C_cost) - L_time * T_base，即卖家按市场价即时
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N22
+
+## Claim
+
+卖家保留效用 R_seller 的量化定义：R_seller = (P_market - C_cost) - L_time * T_base，即卖家按市场价即时成交的基准效用；需计算该值占 P_market 的比例 ρ_seller = R_seller/P_market 作为分母基准。
+
+## Corrected Claim
+
+卖家保留效用 R_seller 的量化定义：R_seller = (P_market - C_cost) - L_time * T_base，即卖家按市场价即时成交的基准效用；需计算该值占 P_market 的比例 ρ_seller = R_seller/P_market 作为分母基准。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+seller opportunity cost baseline utility second-hand market

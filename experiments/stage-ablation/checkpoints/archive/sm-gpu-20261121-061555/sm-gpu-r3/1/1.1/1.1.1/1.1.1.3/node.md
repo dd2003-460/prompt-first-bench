@@ -1,0 +1,24 @@
+# N141: RTX 5090 在 FP8 精度下的实测 LLM 推理吞吐量（Tokens/s）及相对于 RTX 4090 FP8 吞吐量的提升比例，需基于相同硬件环境（CP
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N40
+
+## Claim
+
+RTX 5090 在 FP8 精度下的实测 LLM 推理吞吐量（Tokens/s）及相对于 RTX 4090 FP8 吞吐量的提升比例，需基于相同硬件环境（CPU/内存/驱动）的基准测试数据，以计算单位 Token 成本效率。
+
+## Corrected Claim
+
+RTX 5090 在 FP8 精度下的 LLM 推理吞吐量通常显著高于 RTX 4090，具体提升比例需基于相同硬件环境和基准测试条件（如相同模型、序列长度）的数据进行计算，以评估单位 Token 成本效率。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件性能指标（RTX 5090/4090 FP8 吞吐量及提升比例），属于经验事实。由于缺乏具体的基准测试数据（如特定模型、序列长度、批处理大小），且检索无可用来源，无法验证具体的数值量级或提升比例是否准确，存在因测试条件不同导致数据不可比的风险。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）。
+
+## Search Query
+
+RTX 5090 vs RTX 4090 FP8 LLM inference benchmark tokens per second

@@ -1,0 +1,28 @@
+# N44: Pareto(β=0.9) 热度分布下，头部 K 个对象（占缓存容量 80% 请求量）的 LFU 驻留时间 T_LFU_resident 与 LRU 驻留时间 
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N13
+
+## Claim
+
+Pareto(β=0.9) 热度分布下，头部 K 个对象（占缓存容量 80% 请求量）的 LFU 驻留时间 T_LFU_resident 与 LRU 驻留时间 T_LRU_resident 的比值 R_residence = T_LFU_resident / T_LRU_resident，该比值决定 LFU 对高频大对象的保护能力
+
+## Corrected Claim
+
+在Pareto(β=0.9)热度分布下，头部K个对象（占缓存容量80%请求量）的LFU驻留时间通常长于LRU，其比值R_residence反映了LFU对高频大对象的保护优势，但具体数值需依赖特定模拟或实验数据。
+
+## Evidence
+
+父节点级核验失败（LLM 错误）：Unterminated string starting at: line 8 column 5 (char 764)
+
+## Search Query
+
+LFU vs LRU residence time heavy-tailed request distribution Pareto beta 0.9
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org/abs/2512.01953&rut=683e7ea7a407b2419e423889e15df2993f3c5ff6de833c6e79a008d10fd9f5da', 'type': 'ddg', 'title': '[2512.01953] KV Pareto: Systems-Level Optimization of KV Cache and ...'}

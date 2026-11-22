@@ -1,0 +1,20 @@
+# N38: LRU 缓存内对象的平均驻留时间 T_res 的具体计算公式：T_res = C / (Σ_{i∈Cache} f_i * S_i / (Total_Req *
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+LRU 缓存内对象的平均驻留时间 T_res 的具体计算公式：T_res = C / (Σ_{i∈Cache} f_i * S_i / (Total_Req * Total_Bytes))，其中分母为缓存内对象的平均字节流出率，需基于 Pareto(α=1.1) 和 Pareto(β=0.9) 的联合分布积分求解缓存内对象的加权平均大小与频率。
+
+## Corrected Claim
+
+LRU 缓存内对象的平均驻留时间 T_res 通常通过 Little's Law (T_res = L / λ) 或基于 LRU 堆栈距离分布的积分求解，具体公式取决于请求到达率 λ 和缓存命中率/驻留对象数 L，而非简单的 C / (加权流出率) 形式。
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备（1. 正交性违背：子节点1和子节点2均试图定义/计算 T_res 的核心分量（流出率/驻留时间），存在逻辑重叠。子节点1用 Little's Law 定义 T_res，子节点2用加权平均大小修正字节流出率，两者在数学推导上是同一链条的不同环节，而非独立正交的概念模块。2. 完备性缺失：父节点明确要求基于 Pareto(α=1.1) 和 Pareto(β=0.9) 的联合分布进行积分求解，但子节点2仅给出了简单的算术平均公式 E[S|in_cache] = (Σ S_i) / N_cache，完全未涉及 Pareto 分布的积分推导或联合分布的处理，导致父节点的核心数学要求未被覆盖。3. 逻辑矛盾：子节点1中的 λ_out 公式依赖 H_LRU，而子节点3引入了 λ_update 修正 T_res，但未说明 λ_out 是否已包含更新失效，导致两个子节点对“失效速率”的定义可能存在冲突或不完整。）

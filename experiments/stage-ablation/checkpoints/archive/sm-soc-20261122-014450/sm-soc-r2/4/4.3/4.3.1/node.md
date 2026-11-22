@@ -1,0 +1,29 @@
+# N76: 在当前均衡下，买家感知到的预期折扣率 Discount_Expectation 的均值 μ_D 和标准差 σ_D，需基于过去30天同类商品成交价与初始挂价的差值
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N18
+
+## Claim
+
+在当前均衡下，买家感知到的预期折扣率 Discount_Expectation 的均值 μ_D 和标准差 σ_D，需基于过去30天同类商品成交价与初始挂价的差值分布进行统计估算。
+
+## Corrected Claim
+
+在当前均衡下，买家感知到的预期折扣率 Discount_Expectation 的均值 μ_D 和标准差 σ_D，通常建议基于过去30天同类商品成交价与初始挂价的差值分布进行统计估算。
+
+## Evidence
+
+[质询]该陈述属于具体的统计估算方法论（经验事实/工程实践），而非第一性原理可推导的数学或物理定律。参考来源仅讨论了折扣对消费者心理的影响，未提供关于如何基于过去30天数据估算预期折扣率均值和标准差的具体统计方法或验证，因此缺乏直接来源支持。 | 逻辑自洽（基于历史数据估算分布参数是标准统计方法），但参考来源[1][2]仅涉及折扣心理学，未覆盖具体的统计估算方法，属于经验事实且缺来源直接支持。
+
+## Search Query
+
+second hand marketplace listing price vs final sale price distribution discount expectation
+
+## Retrieval Sources
+
+- {'url': "https://www.researchgate.net/publication/366296069_Research_on_the_Influence_of_Discount_on_Consumers'_Purchase_Attractiveness_and_Coping_Strategies_--_Taking_Consumers_Aged_26-35_as_an_Example&rut=c02078421c90d99c260c51744ada0c82426bf2a0318c60d7dd4499cd9f4f36d6", 'type': 'ddg', 'title': "Research on the Influence of Discount on Consumers' Purchase ..."}
+- {'url': 'https://www.docin.com/p-1747317004.html&rut=14f28a2f965de8f74dc337d1a38b98accce0507b1ddecd377faafa654cf25661', 'type': 'ddg', 'title': '价格折扣形式对购买意愿的影响%3a解释水平理论视角 - 豆丁网'}

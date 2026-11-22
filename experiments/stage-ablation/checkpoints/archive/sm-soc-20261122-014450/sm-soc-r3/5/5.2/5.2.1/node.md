@@ -1,0 +1,30 @@
+# N91: 演化定向压力至逐利行为的因果链断裂点：假设链 H1(演化信号) -> H2(锚定效应) -> H3(理性定价失效) 中，H2->H3 的传导系数 β 需量化。若
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N28
+
+## Claim
+
+演化定向压力至逐利行为的因果链断裂点：假设链 H1(演化信号) -> H2(锚定效应) -> H3(理性定价失效) 中，H2->H3 的传导系数 β 需量化。若 β < 0.3，则锚定效应不足以解释15-25%的溢价，需引入其他机制（如信息不对称）。
+
+## Corrected Claim
+
+演化定向压力至逐利行为的因果链中，H2(锚定效应) 对 H3(理性定价失效) 的传导系数 β 需量化。现有行为经济学文献证实锚定效应显著影响定价，但具体阈值（如 β < 0.3 是否足以解释 15-25% 溢价）需依赖特定实证模型验证，不能仅凭定性理论断定。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（三个子节点分别对应父节点中的三个核心任务：1. 量化核心参数β（模型构建与检验）；2. 引入替代机制γ（修正项定义）；3. 设定统计阈值与解释力边界（临界值逻辑）。三者逻辑层层递进且互不重叠，完整覆盖了从量化、替代解释到阈值判定的全过程，无冗余。）
+
+## Search Query
+
+behavioral economics anchoring effect magnitude price setting experiment
+
+## Retrieval Sources
+
+- {'url': 'https://fastercapital.com/content/Behavioral-economics--Understanding-Price-Anchoring-and-Its-Impact-on-Consumer-Behavior.html&rut=1f4810259a6a9ee6e58a19db69bf27a743e10a44d0ab460722698dc4245e8967', 'type': 'ddg', 'title': 'Behavioral economics: Understanding Price Anchoring and Its Impact on ...'}
+- {'url': 'https://www.behavioraleconomics.com/resources/mini-encyclopedia-of-be/anchoring-heuristic/&rut=77abbe4225c6edf733047acf1b3b6d5303298cc79e88b3e0d8106faf62aa46c7', 'type': 'ddg', 'title': 'Anchoring (heuristic) - BehavioralEconomics.com | The BE Hub'}
+- {'url': 'https://econedlink.org/resources/behavioral-economics-lesson-two-the-anchoring-effect/&rut=fb26d4169fd2bb23dcaf3da9fbccdc56205abc72cd7ce3ce78f104fd1de44278', 'type': 'ddg', 'title': 'Behavioral Economics: Negotiating Prices and The Anchoring Effect'}

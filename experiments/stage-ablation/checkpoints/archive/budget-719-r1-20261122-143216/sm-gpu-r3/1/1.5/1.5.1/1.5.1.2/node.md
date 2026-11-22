@@ -1,0 +1,24 @@
+# N180: Qwen3-27B 在 32K 上下文推理中，Softmax 后的 Attention Score 分布特性：绝大多数值集中在 [0, 1] 区间且大部分小于 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N53
+
+## Claim
+
+Qwen3-27B 在 32K 上下文推理中，Softmax 后的 Attention Score 分布特性：绝大多数值集中在 [0, 1] 区间且大部分小于 0.5，但头部 Token 的 Attention 分数可能接近 1.0，需验证是否存在超过 NVFP4 最大表示值（若未缩放）或导致精度损失严重的长尾分布。
+
+## Corrected Claim
+
+Qwen3-27B 在 32K 上下文推理中，Softmax 后的 Attention Score 分布通常呈现长尾特性，绝大多数值集中在 [0, 1] 区间，头部 Token 分数较高。需验证具体分布是否导致 NVFP4 量化精度损失，具体数值分布需实测确认。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性分布特征（如'大部分小于0.5'、'头部接近1.0'），这些并非数学公理或第一性原理可严格推导的必然结论，而是依赖于具体模型权重、训练数据及推理时的具体输入内容，属于经验事实。 | 逻辑自洽（Softmax输出在[0,1]区间且和为1，长尾分布符合注意力机制常见现象），但作为经验事实，缺乏来源直接支持具体数值分布特征，且检索无可用来源，依据经验事实排除条款降级。
+
+## Search Query
+
+Attention score distribution Softmax output range LLM inference quantization

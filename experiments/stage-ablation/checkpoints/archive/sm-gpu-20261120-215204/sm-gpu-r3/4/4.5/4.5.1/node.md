@@ -1,0 +1,24 @@
+# N107: RTX 4090运行INT4/W4量化Qwen3-27B时，理论峰值Tokens/s计算：显存带宽1008 GB/s / 每Token读取权重字节数(13.5G
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N26
+
+## Claim
+
+RTX 4090运行INT4/W4量化Qwen3-27B时，理论峰值Tokens/s计算：显存带宽1008 GB/s / 每Token读取权重字节数(13.5GB) ≈ 74.6 Tokens/s；但需扣除KV Cache读取开销和反量化计算延迟，实际有效吞吐通常在40-60 Tokens/s区间。
+
+## Corrected Claim
+
+RTX 4090运行INT4/W4量化Qwen3-27B时，理论峰值Tokens/s计算：显存带宽1008 GB/s / 每Token读取权重字节数(13.5GB) ≈ 74.6 Tokens/s；但需扣除KV Cache读取开销和反量化计算延迟，实际有效吞吐通常在40-60 Tokens/s区间。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点实质上是同一计算模型在不同量化精度（W4 vs W8）下的参数实例，属于参数变体而非正交概念；且父节点明确限定为INT4/W4场景，子节点B引入W8导致范围溢出，同时忽略了父节点中关于'反量化计算延迟'与'KV Cache'相互独立影响的详细分解。）
+
+## Search Query
+
+RTX 4090 27B model 4-bit quantization tokens per second benchmark llama.cpp vllm

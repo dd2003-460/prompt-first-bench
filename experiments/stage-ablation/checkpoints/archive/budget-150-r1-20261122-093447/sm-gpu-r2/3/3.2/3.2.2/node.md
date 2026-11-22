@@ -1,0 +1,28 @@
+# N83: AWQ 算法在 Qwen3-27B 上 W4 量化后的平均困惑度（Perplexity）增加百分比，用于与 GPTQ 进行量化效率对比
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N26
+
+## Claim
+
+AWQ 算法在 Qwen3-27B 上 W4 量化后的平均困惑度（Perplexity）增加百分比，用于与 GPTQ 进行量化效率对比
+
+## Corrected Claim
+
+AWQ算法在Qwen3-27B上W4量化后能显著降低内存占用并加速推理，但具体困惑度增加百分比需参考特定实验数据，当前来源未提供确切数值。
+
+## Evidence
+
+[质询]参考来源未提供具体的困惑度（Perplexity）增加百分比数值，且未明确针对 Qwen3-27B 这一特定模型版本进行量化对比，仅提供了通用的加速和内存优势描述，缺乏具体数据支持。 | 来源[1]仅定性描述了AWQ的优势（加速、省内存），未提供Qwen3-27B W4量化后的具体Perplexity增加百分比，属于经验事实且缺乏直接数值支持。
+
+## Search Query
+
+Qwen3-27B AWQ W4 perplexity increase
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/6013274114&rut=a742f85e5d8806cedd6030017013749024f323b7cc19009c393256e8ec5554b9', 'type': 'ddg', 'title': '大模型AWQ量化Qwen模型和推理实战教程 - 知乎'}

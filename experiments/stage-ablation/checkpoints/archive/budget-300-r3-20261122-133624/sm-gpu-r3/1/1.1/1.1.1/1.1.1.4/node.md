@@ -1,0 +1,20 @@
+# N180: LayerNorm 权重显存开销量化：Qwen3-27B 有 48 层，每层 2 个 LayerNorm (RMSNorm)，每个 RMSNorm 参数数量 =
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N43, N44, N45
+
+## Claim
+
+LayerNorm 权重显存开销量化：Qwen3-27B 有 48 层，每层 2 个 LayerNorm (RMSNorm)，每个 RMSNorm 参数数量 = hidden_size (4096)，总参数 = 48 × 2 × 4096 = 393,216，BF16 占用 = 393,216 × 2 bytes ≈ 0.747 MB，可忽略不计（<0.001GB）。
+
+## Corrected Claim
+
+LayerNorm 权重显存开销量化：Qwen3-27B 有 48 层，每层 2 个 LayerNorm (RMSNorm)，每个 RMSNorm 参数数量 = hidden_size (4096)，总参数 = 48 × 2 × 4096 = 393,216，BF16 占用 = 393,216 × 2 bytes ≈ 0.747 MB，可忽略不计（<0.001GB）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B 架构参数（48层, hidden_size 4096）符合公开技术报告，计算过程 48*2*4096=393,216 正确，BF16 字节数 786,432 Bytes ≈ 0.75 MB 量级合理，结论正确。

@@ -1,0 +1,20 @@
+# N175: 负相关 ρ=-0.3 对 E[S_i] 的非线性影响：E[S_i] = X_min * i^{-1/α} * (1 + k*ρ) 仅在弱耦合（|k*ρ| << 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N61
+
+## Claim
+
+负相关 ρ=-0.3 对 E[S_i] 的非线性影响：E[S_i] = X_min * i^{-1/α} * (1 + k*ρ) 仅在弱耦合（|k*ρ| << 1）时成立，强耦合下需使用 Copula 模型（如 Clayton Copula）进行联合分布积分，得到 E[S_i | P_i] 的精确值。
+
+## Corrected Claim
+
+负相关 ρ=-0.3 对 E[S_i] 的非线性影响：E[S_i] = X_min * i^{-1/α} * (1 + k*ρ) 仅在弱耦合（|k*ρ| << 1）时成立，强耦合下需使用 Copula 模型（如 Clayton Copula）进行联合分布积分，得到 E[S_i | P_i] 的精确值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：弱耦合下线性近似成立，强耦合需Copula模型处理联合分布，符合统计学与概率论基本原理。

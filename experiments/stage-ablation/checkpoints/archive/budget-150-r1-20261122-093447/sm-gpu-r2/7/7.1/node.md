@@ -1,0 +1,20 @@
+# N112: NVIDIA A100 80GB SXM 在 32K 上下文 BF16 推理下的 TCO 计算：硬件成本 $15,000 + 5 年电力成本（400W GPU 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N36
+
+## Claim
+
+NVIDIA A100 80GB SXM 在 32K 上下文 BF16 推理下的 TCO 计算：硬件成本 $15,000 + 5 年电力成本（400W GPU + 300W 系统 = 700W，700W * 8760h * 5yr * $0.12/kWh = $36,792）= $51,792；理论解码延迟下限 = 54GB / 2000GB/s = 27ms/token (37 tok/s)，实际吞吐预计 18-26 tok/s。
+
+## Corrected Claim
+
+NVIDIA A100 80GB SXM 在 32K 上下文 BF16 推理下的 TCO 计算：硬件成本 $15,000 + 5 年电力成本（400W GPU + 300W 系统 = 700W，700W * 8760h * 5yr * $0.12/kWh = $36,792）= $51,792；理论解码延迟下限 = 54GB / 2000GB/s = 27ms/token (37 tok/s)，实际吞吐预计 18-26 tok/s。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：电力成本计算 (700W * 8760h * 5yr * $0.12/kWh ≈ $36,792) 与总成本 ($51,792) 算术正确；A100 SXM 带宽 2000GB/s 及 80GB 显存规格符合事实，理论延迟推导 (54GB/2000GB/s=27ms) 逻辑自洽。

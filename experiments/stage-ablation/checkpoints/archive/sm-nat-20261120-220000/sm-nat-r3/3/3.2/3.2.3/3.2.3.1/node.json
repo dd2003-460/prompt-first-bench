@@ -1,0 +1,17 @@
+{
+  "id": "N109",
+  "claim": "去重机制（Coalescing）对 P(miss|refill) 的修正：若启用请求去重，实际新增源站请求率为 λ_coalesced = λ * (1 - P_coalesce)，其中 P_coalesce = 1 - exp(-λ * t_refill)，导致有效 miss 概率从 0.951 降至接近 1.0（即所有并发请求都算作 miss，但只产生一次源站负载），此处需区分‘逻辑 miss 率’与‘源站负载率’。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值逻辑矛盾：陈述称有效 miss 概率从 0.951 降至接近 1.0，但通常去重（Coalescing）旨在减少源站请求，若指‘源站负载率’应降低而非升高；若指‘逻辑 miss 率’，去重本身不改变缓存命中/未命中的逻辑判定，除非定义发生根本性改变，此处表述存在概念混淆或数值方向错误。 | 先验知识/题面给定，逻辑校验未通过：去重机制通常降低源站负载，陈述中‘降至接近 1.0’与‘只产生一次源站负载’在数值趋势上存在直觉冲突，且缺乏来源支持以澄清具体定义口径。",
+  "corrected_claim": "去重机制（Coalescing）对源站负载的修正：若启用请求去重，实际新增源站请求率为 λ_coalesced = λ * (1 - P_coalesce)，其中 P_coalesce = 1 - exp(-λ * t_refill)。这导致源站实际承受的请求率低于原始 miss 率，需严格区分‘逻辑 miss 率’（缓存未命中次数）与‘源站负载率’（实际发出的回源请求次数）。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N39"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "HTTP request coalescing cache miss probability reduction",
+  "retrieval_sources": []
+}

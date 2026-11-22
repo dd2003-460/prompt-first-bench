@@ -1,0 +1,20 @@
+# N50: LFU可缓存对象数 K_LFU 的计算：K_LFU = C / E[S | H ≥ H_threshold_f]，其中 H_threshold_f 为LFU保留
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N14
+
+## Claim
+
+LFU可缓存对象数 K_LFU 的计算：K_LFU = C / E[S | H ≥ H_threshold_f]，其中 H_threshold_f 为LFU保留对象的最低频率阈值，需通过迭代求解使得 ∑_{i=1}^{K_LFU} s_i ≤ C
+
+## Corrected Claim
+
+LFU可缓存对象数 K_LFU 的计算：K_LFU = C / E[S | H ≥ H_threshold_f]，其中 H_threshold_f 为LFU保留对象的最低频率阈值，需通过迭代求解使得 ∑_{i=1}^{K_LFU} s_i ≤ C
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：LFU缓存策略基于频率阈值筛选对象，K_LFU定义为满足总大小约束C的最大对象数，公式K_LFU = C / E[S | H ≥ H_threshold_f]在量纲和逻辑上自洽，且迭代求解条件∑s_i ≤ C符合缓存容量约束的基本原理。

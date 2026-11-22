@@ -1,0 +1,24 @@
+# N103: 数据卡方案 CapEx 具体构成（以 1x A100 80GB Used 为例）：GPU_price = $4500 (Used market avg, [实时
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N27
+
+## Claim
+
+数据卡方案 CapEx 具体构成（以 1x A100 80GB Used 为例）：GPU_price = $4500 (Used market avg, [实时查询]); PSU_wattage_cost = $500 (Server-grade redundant PSU); Chassis_cost = $600 (Used 2U/4U server chassis); Cooling_cost = $200 (Server cooling kit). Total_CapEx_Data = $5800。注：若使用新卡 A100 ($12k)，CapEx 将飙升至 $13k+，TCO 优势反转。
+
+## Corrected Claim
+
+数据卡方案 CapEx 构成示例（基于估算）：GPU_price ≈ $4500 (Used A100 80GB); PSU_wattage_cost ≈ $500; Chassis_cost ≈ $600; Cooling_cost ≈ $200。Total_CapEx_Data ≈ $5800。注：具体价格随市场波动，若使用新卡 A100 ($12k+)，CapEx 将显著增加，可能反转 TCO 优势。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件市场价格（如二手A100 $4500、PSU $500等），属于经验事实。由于本轮检索无可用来源，无法验证这些具体数值是否准确反映了当前市场平均水平，存在价格波动或口径偏差的风险。 | 经验事实，逻辑自洽但缺来源支持。数值量级在合理范围内（二手A100价格低于新卡，配件成本符合服务器硬件常识），但具体金额无法通过外部来源验证。
+
+## Search Query
+
+Used NVIDIA A100 80GB price 2024

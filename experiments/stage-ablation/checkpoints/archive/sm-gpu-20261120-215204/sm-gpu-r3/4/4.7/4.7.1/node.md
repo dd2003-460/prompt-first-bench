@@ -1,0 +1,16 @@
+# N114: 多卡推理中，跨卡 KV Cache 同步的数据量取决于并行策略：若采用张量并行 (Tensor Parallelism)，每层 Attention 输出和 FF
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N28
+
+## Claim
+
+多卡推理中，跨卡 KV Cache 同步的数据量取决于并行策略：若采用张量并行 (Tensor Parallelism)，每层 Attention 输出和 FFN 中间结果需 AllReduce 同步，数据量约为 2 * BatchSize * SeqLen * HiddenDim * BytesPerParam * NumLayersPerStep；对于 Qwen3-27B (HiddenDim=4096, Layers=64)，单步同步数据量在 2 卡间约为 2 * 1 * 32768 * 4096 * 2 bytes * 64 ≈ 34 GB (若全层同步，实际按层流水线则更小)。
+
+## Corrected Claim
+
+多卡推理中，跨卡 KV Cache 同步的数据量取决于并行策略：若采用张量并行 (Tensor Parallelism)，每层 Attention 输出和 FFN 中间结果需 AllReduce 同步，数据量约为 2 * BatchSize * SeqLen * HiddenDim * BytesPerParam * NumLayersPerStep；对于 Qwen3-27B (HiddenDim=4096, Layers=64)，单步同步数据量在 2 卡间约为 2 * 1 * 32768 * 4096 * 2 bytes * 64 ≈ 34 GB (若全层同步，实际按层流水线则更小)。

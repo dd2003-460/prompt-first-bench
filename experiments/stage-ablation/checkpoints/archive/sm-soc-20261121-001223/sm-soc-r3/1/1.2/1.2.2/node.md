@@ -1,0 +1,20 @@
+# N31: 噪声来源分解：将 σ_noise 分解为信息缺失噪声 σ_info 和认知偏差噪声 σ_bias，即 σ_noise = sqrt(σ_info² + σ_bi
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+噪声来源分解：将 σ_noise 分解为信息缺失噪声 σ_info 和认知偏差噪声 σ_bias，即 σ_noise = sqrt(σ_info² + σ_bias²)，量化两者的相对贡献比例。
+
+## Corrected Claim
+
+噪声来源分解：将 σ_noise 分解为信息缺失噪声 σ_info 和认知偏差噪声 σ_bias，即 σ_noise = sqrt(σ_info² + σ_bias²)，量化两者的相对贡献比例。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该分解基于方差可加性原理（假设信息缺失与认知偏差相互独立），量纲一致（均为标准差/方差），符合统计学基本逻辑。

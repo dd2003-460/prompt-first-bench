@@ -1,0 +1,24 @@
+# N17: 买家伤害量化：买家搜索成本增加 ΔC_buyer = g(I_min)，若干预导致商品供给减少，买家平均搜索时间增加 15-20%，需计算买家效用损失 (ΔU_
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+买家伤害量化：买家搜索成本增加 ΔC_buyer = g(I_min)，若干预导致商品供给减少，买家平均搜索时间增加 15-20%，需计算买家效用损失 (ΔU_buyer) 与 ΔC_buyer 的弹性系数。
+
+## Corrected Claim
+
+买家伤害量化：买家搜索成本增加 ΔC_buyer = g(I_min)，若干预导致商品供给减少，买家平均搜索时间增加 15-20%，需计算买家效用损失 (ΔU_buyer) 与 ΔC_buyer 的弹性系数。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+buyer search cost increase supply reduction marketplace utility loss

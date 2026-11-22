@@ -1,0 +1,29 @@
+# N90: 信息处理成本 $C_{info}$ 的量化公式为 $C_{info} = \frac{T_{process}}{T_{budget}}$，其中 $T_{proc
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N41
+
+## Claim
+
+信息处理成本 $C_{info}$ 的量化公式为 $C_{info} = \frac{T_{process}}{T_{budget}}$，其中 $T_{process}$ 为卖家理解偏离度提示所需的时间（秒），$T_{budget}$ 为卖家单次管理列表的平均时间预算（秒）。实证中 $T_{process} \approx 5-10$ 秒，$T_{budget} \approx 30-60$ 秒，故 $C_{info} \in [0.08, 0.33]$，远低于 N41 中假设的 [0.5, 1.5] 范围，暗示 $\beta_s$ 可能被高估。
+
+## Corrected Claim
+
+信息处理成本 $C_{info}$ 的量化公式为 $C_{info} = \frac{T_{process}}{T_{budget}}$。若实证中 $T_{process}$ 和 $T_{budget}$ 分别处于较低量级（如秒级 vs 数十秒级），则 $C_{info}$ 可能远低于 [0.5, 1.5] 范围，暗示 $\beta_s$ 可能被高估。
+
+## Evidence
+
+[质询]该陈述包含具体的实证数据（T_process ≈ 5-10秒, T_budget ≈ 30-60秒）和特定的量化公式，属于经验事实。参考来源仅涉及机制设计和公平分配的一般性理论，未提供关于卖家处理偏离度提示的具体时间成本实证数据，无法验证这些具体数值和公式的准确性。 | 逻辑上，若给定时间参数，计算出的成本区间 [0.08, 0.33] 与假设区间 [0.5, 1.5] 的比较在数学上自洽；但作为经验事实，缺乏来源直接支持具体数值（来源[1][2]均无关），故降级。
+
+## Search Query
+
+cognitive load cost of processing price deviation information seller behavior time study
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Mechanism_design', 'type': 'wikipedia', 'title': 'Mechanism design'}
+- {'url': 'https://en.wikipedia.org/wiki/Fair_division_experiments', 'type': 'wikipedia', 'title': 'Fair division experiments'}

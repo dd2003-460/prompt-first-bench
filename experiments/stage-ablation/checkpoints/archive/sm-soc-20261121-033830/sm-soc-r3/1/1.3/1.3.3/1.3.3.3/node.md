@@ -1,0 +1,24 @@
+# N143: 锚定效应的边界条件修正项：当买家搜索时间 T_search > T_critical（临界搜索时长）时，β_anchor 随 T_search 线性衰减，修正公
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N43, N44, N45
+
+## Claim
+
+锚定效应的边界条件修正项：当买家搜索时间 T_search > T_critical（临界搜索时长）时，β_anchor 随 T_search 线性衰减，修正公式为 β_effective = β_base * exp(-λ * T_search)，其中 λ 为信息获取效率系数，需验证在长周期成交中锚定效应是否失效。
+
+## Corrected Claim
+
+锚定效应的边界条件修正：当买家搜索时间 T_search 超过临界值 T_critical 时，锚定效应强度 β_anchor 通常会随搜索时间的增加而减弱（衰减），具体衰减形式（如线性或指数）及速率取决于信息获取效率等情境因素，需通过实证数据验证其在长周期成交中的具体表现。
+
+## Evidence
+
+[质询]该陈述将锚定效应的衰减机制具体化为指数衰减公式 β_effective = β_base * exp(-λ * T_search)，并引入特定参数 λ（信息获取效率系数）。然而，行为经济学中关于锚定效应随时间或信息获取衰减的实证研究并未确立这一特定的指数函数形式作为通用理论，也未定义标准的“信息获取效率系数”λ。这属于将未经证实的具体数学模型当作既定事实陈述，存在过度具体化（Over-specification）的风险。 | 先验知识/题面给定，逻辑校验通过。虽然逻辑上自洽（指数衰减符合一般衰减直觉），但该具体公式及参数定义属于经验性模型假设，并非公认的行为经济学第一性原理或标准理论结论，且无外部来源支持其特定形式，故降级为定性表述。
+
+## Search Query
+
+anchoring effect decay search time interaction price sensitivity

@@ -1,0 +1,28 @@
+# N311: Qwen3-27B 在 FP8 (E4M3) 精度下的实测 Perplexity (PPL) 为 [待核验: 需查 NVIDIA TensorRT-LLM 量化
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N135
+
+## Claim
+
+Qwen3-27B 在 FP8 (E4M3) 精度下的实测 Perplexity (PPL) 为 [待核验: 需查 NVIDIA TensorRT-LLM 量化评估报告或 Qwen3 社区量化实测数据]，MMLU 得分为 [待核验]；若缺乏直接数据，需引用同参数量级 (27B) 开源模型 (如 Llama-3-8B/70B 的 FP8 版本) 的 PPL 增量经验值 (通常 < 0.1) 进行外推，并标注置信区间。
+
+## Corrected Claim
+
+Qwen3-27B 在 FP8 (E4M3) 精度下的实测 Perplexity (PPL) 和 MMLU 得分缺乏直接公开数据（参考来源[1]仅报告了推理速度）。根据同参数量级开源模型 FP8 量化经验，PPL 增量通常 < 0.1，MMLU 得分下降通常 < 1-2 分，具体数值需查阅 NVIDIA TensorRT-LLM 官方评估报告或 Qwen 社区最新实测数据。
+
+## Evidence
+
+[质询]参考来源[1]中的模型名称为 'Qwen3.8-27B'，与陈述中的 'Qwen3-27B' 存在版本/命名不一致（可能是笔误或不同版本），且摘要仅提及推理速度（token/s），未包含 Perplexity (PPL) 或 MMLU 的具体数值，无法直接支持陈述中的量化评估数据。 | 来源[1]主题相关（Qwen3系列27B FP8量化），但仅提供了推理性能数据，缺乏PPL/MMLU具体数值支持；陈述中关于FP8精度下PPL增量通常<0.1的经验值符合一般量化理论预期，逻辑自洽，但因缺乏直接数据支持且模型名称存在细微差异，降级为定性表述。
+
+## Search Query
+
+Qwen3-27B FP8 E4M3 quantization perplexity MMLU evaluation
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2073193935342679989&rut=12d9da5b2794c8e1125ad6c5f8ccd773e2e4ff77db623ff76f925ec6f08c10dd', 'type': 'ddg', 'title': '双 NVIDIA L20 上 Qwen3.8-27B-FP8 + MTP 调优测试报告'}

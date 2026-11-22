@@ -1,0 +1,17 @@
+{
+  "id": "N143",
+  "claim": "NVFP4权重大小计算：Size_NVFP4 = 27e9 * 0.5 bytes = 13.5GB（NVFP4为4位浮点格式，需确认是否包含指数位，以及scale因子的额外占用）",
+  "level": "L3",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]NVFP4（NVIDIA FP4）通常采用微缩放（micro-scaling）格式，除了4位权重数据外，还需要额外的scale因子（通常为FP8或FP16，每16或32个元素共享一个scale）。若仅计算纯4位数据（0.5 bytes/param），会忽略scale因子的额外内存占用，导致实际显存占用略高于13.5GB。此外，'NVFP4'并非标准IEEE术语，需确认具体指代的是NVIDIA Blackwell架构中的FP4格式。 | 经验事实，逻辑自洽但缺来源支持。27e9 * 0.5 = 13.5GB 计算正确，但NVFP4实际部署通常包含scale因子，纯4位计算为理论下限。",
+  "corrected_claim": "NVFP4权重大小计算：纯4位数据部分 Size = 27e9 * 0.5 bytes = 13.5GB；若包含scale因子（如每16元素一个FP8 scale），实际占用约为 13.5GB + (27e9/16)*1 byte ≈ 15.2GB。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N26"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "NVFP4 format 4-bit floating point scale factor overhead",
+  "retrieval_sources": []
+}

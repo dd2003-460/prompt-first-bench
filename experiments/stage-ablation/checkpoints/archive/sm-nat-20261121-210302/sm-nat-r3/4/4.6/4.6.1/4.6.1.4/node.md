@@ -1,0 +1,20 @@
+# N169: LFU 优化问题的容量约束：Sum_{i=1}^{N_hot} E[S_i] <= 128GB，该约束决定了 N_hot 的上界，若一阶条件解不满足此约束，则最
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N59
+
+## Claim
+
+LFU 优化问题的容量约束：Sum_{i=1}^{N_hot} E[S_i] <= 128GB，该约束决定了 N_hot 的上界，若一阶条件解不满足此约束，则最优解位于边界 N_hot = max{N | Sum_{i=1}^{N} E[S_i] <= 128GB}。
+
+## Corrected Claim
+
+LFU 优化问题的容量约束：Sum_{i=1}^{N_hot} E[S_i] <= 128GB，该约束决定了 N_hot 的上界，若一阶条件解不满足此约束，则最优解位于边界 N_hot = max{N | Sum_{i=1}^{N} E[S_i] <= 128GB}。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该陈述描述了带容量约束的优化问题中，当内部解不可行时最优解必然位于可行域边界（KKT条件/单调性推导），逻辑自洽且符合优化理论基本直觉。

@@ -1,0 +1,24 @@
+# N244: NVIDIA H100 SXM 在数据中心集群中的年均故障率 P_fail_datacenter 精确值：基于 NVIDIA 官方数据中心可靠性报告或大型云服务
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N72
+
+## Claim
+
+NVIDIA H100 SXM 在数据中心集群中的年均故障率 P_fail_datacenter 精确值：基于 NVIDIA 官方数据中心可靠性报告或大型云服务商（如 AWS/GCP）公开的服务等级协议（SLA）数据，H100 的年故障率通常低于 2%（MTBF > 5 年），且 SXM 形态的散热冗余优于 PCIe 形态，需区分 SXM 与 PCIe 版本的差异。
+
+## Corrected Claim
+
+NVIDIA H100 SXM 在数据中心集群中的年均故障率通常较低（业界普遍估计 MTBF 在数年量级），SXM 形态因散热设计通常优于 PCIe 形态，但具体故障率数值需参考特定云服务商的 SLA 或内部运维数据，无统一公开精确值。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（年故障率<2%，MTBF>5年）和特定硬件形态对比结论，属于硬件可靠性经验事实，无法从第一性原理推导，且缺乏公开权威来源直接证实该精确阈值。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该具体数值非第一性原理可推导范畴）
+
+## Search Query
+
+NVIDIA H100 SXM annual failure rate MTBF datacenter reliability report

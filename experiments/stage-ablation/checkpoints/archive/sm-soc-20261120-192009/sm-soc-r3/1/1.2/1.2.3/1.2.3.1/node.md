@@ -1,0 +1,20 @@
+# N132: 临界持有成本率 r* 的解析解：由 E[ΔRevenue] > r * E[Δt_wait] 推导，r* = (p_high - p_low) / E[Δt_w
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N40
+
+## Claim
+
+临界持有成本率 r* 的解析解：由 E[ΔRevenue] > r * E[Δt_wait] 推导，r* = (p_high - p_low) / E[Δt_wait]。若 p_high = 1.2μ, p_low = 1.0μ, 且 E[Δt_wait] = 7天，则 r* ≈ 0.0286/天。仅当卖家实际持有成本率低于此值时，高挂价策略才在演化上占优。
+
+## Corrected Claim
+
+临界持有成本率 r* 的解析解：由 E[ΔRevenue] > r * E[Δt_wait] 推导，r* = (p_high - p_low) / E[Δt_wait]。若 p_high = 1.2μ, p_low = 1.0μ, 且 E[Δt_wait] = 7天，则 r* ≈ 0.0286/天。仅当卖家实际持有成本率低于此值时，高挂价策略才在演化上占优。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式推导符合经济学直觉，数值计算 (0.2/7 ≈ 0.0286) 准确无误。

@@ -1,0 +1,20 @@
+# N40: 理性策略的临界条件：卖家选择高挂价 p_high > μ 的演化最优条件是 ∂U_seller/∂p > 0，即 E[ΔRevenue] > r * E[Δt_
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+理性策略的临界条件：卖家选择高挂价 p_high > μ 的演化最优条件是 ∂U_seller/∂p > 0，即 E[ΔRevenue] > r * E[Δt_wait]，该不等式定义了高挂价策略的可行域。
+
+## Corrected Claim
+
+理性策略的临界条件：卖家选择高挂价 p_high > μ 的演化最优条件是 ∂U_seller/∂p > 0，即 E[ΔRevenue] > r * E[Δt_wait]，该不等式定义了高挂价策略的可行域。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该陈述定义了理性策略的临界条件，即收益增量期望大于时间成本增量期望，符合经济学中效用最大化的一阶条件逻辑，且量纲与符号定义自洽。

@@ -1,0 +1,24 @@
+# N66: Apple Silicon 统一内存架构下的显存占用限制：虽然 M2 Ultra 提供 192GB 统一内存，但 macOS 的内存管理会保留部分内存给 CPU
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N13
+
+## Claim
+
+Apple Silicon 统一内存架构下的显存占用限制：虽然 M2 Ultra 提供 192GB 统一内存，但 macOS 的内存管理会保留部分内存给 CPU 和系统。通常 GPU 可访问的最大内存约为总内存的 60-75%（即 M2 Ultra 192GB 配置下，GPU 可用显存约为 115-144GB）。对于 Qwen3-27B BF16 (54GB) + 32K KV Cache (10.7GB) + 框架开销 (~4GB) ≈ 68.7GB 的需求，192GB 配置在物理上充足，但需确认 macOS 的 Metal 分配策略是否允许单次分配超过 64GB 的连续内存块。
+
+## Corrected Claim
+
+Apple Silicon 统一内存架构下，GPU 可访问的内存受 macOS 内存管理策略限制，具体可用比例需根据系统版本和配置动态确认，而非固定为 60-75%。
+
+## Evidence
+
+[质询]「GPU 可访问的最大内存约为总内存的 60-75%」这一具体比例缺乏权威来源支持，且 macOS 的内存管理策略（如 wired memory 限制、Metal 分配策略）可能因系统版本、具体配置及是否启用统一内存池而动态变化，该固定比例可能过于简化或过时。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+macOS Metal maximum GPU memory allocation limit M2 Ultra 192GB large model inference

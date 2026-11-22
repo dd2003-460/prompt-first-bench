@@ -1,0 +1,24 @@
+# N85: AMD ROCm 生态兼容性：ROCm 6.x 支持 Qwen3 系列模型，但 FP8 量化支持尚在完善中，目前主要支持 BF16/INT8；MI300X 在 
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N24
+
+## Claim
+
+AMD ROCm 生态兼容性：ROCm 6.x 支持 Qwen3 系列模型，但 FP8 量化支持尚在完善中，目前主要支持 BF16/INT8；MI300X 在 ROCm 下的推理吞吐量约为同算力 CUDA 卡的 85-95% [待核验]，且驱动稳定性在 Linux 环境下优于 Windows。
+
+## Corrected Claim
+
+AMD ROCm 生态兼容性：ROCm 6.x 支持 Qwen3 系列模型，但 FP8 量化支持尚在完善中，目前主要支持 BF16/INT8；MI300X 在 ROCm 下的推理吞吐量接近同算力 CUDA 卡水平（具体比例视工作负载而定），且驱动稳定性在 Linux 环境下优于 Windows。
+
+## Evidence
+
+[质询]MI300X 在 ROCm 下的推理吞吐量约为同算力 CUDA 卡的 85-95% 这一具体数值区间缺乏广泛公认的基准测试支持，且高度依赖于具体模型、序列长度及软件栈版本，属于易变的经验性能数据，存在口径混淆或特定场景过拟合的风险。 | 先验知识/题面给定，逻辑校验通过；但吞吐量具体数值为经验事实，无外部来源直接支持，故降级。
+
+## Search Query
+
+AMD ROCm Qwen3 inference performance FP8 support

@@ -1,0 +1,24 @@
+# N278: AWQ 算法在 NVFP4 量化下 WikiText-103 PPL 损失 0.3-0.4 的推导：AWQ 基于激活值幅度加权，其误差主要来自未保护通道的量化累
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N88
+
+## Claim
+
+AWQ 算法在 NVFP4 量化下 WikiText-103 PPL 损失 0.3-0.4 的推导：AWQ 基于激活值幅度加权，其误差主要来自未保护通道的量化累积，误差项 E_AWQ ≈ Σ (w_i * a_i)^2 / (1 + λ * |a_i|^2)，其中 λ 为保护因子（通常 0.1-0.5），在 27B 模型上计算得 ΔPPL ≈ 0.35 ± 0.05，高于 GPTQ 是因为缺乏二阶信息。
+
+## Corrected Claim
+
+AWQ 算法在 NVFP4 量化下通常表现出一定的 PPL 损失，其误差主要源于未保护通道的量化累积，且由于缺乏二阶信息，其精度通常低于 GPTQ。具体 PPL 损失数值（如 0.3-0.4）取决于具体模型规模、数据集及量化配置，需通过实验测定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值（PPL损失0.3-0.4、误差公式中的λ范围、ΔPPL具体值），这些属于经验事实而非第一性原理可推导的数学性质。虽然AWQ基于激活幅度加权的原理正确，但具体的误差累积公式形式及在NVFP4下的具体PPL损失数值缺乏通用理论支持，且不同模型/数据集下波动较大，无法仅凭逻辑自洽确认为普适事实。 | 经验事实，逻辑自洽但缺来源支持（来源标记为knowledge，但具体数值参数属于经验规格，且无外部来源验证具体数值，故降级）
+
+## Search Query
+
+AWQ NVFP4 quantization WikiText perplexity loss activation scaling error

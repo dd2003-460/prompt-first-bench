@@ -1,0 +1,24 @@
+# N158: 心理账户的参考点漂移 (Reference Point Shift) 机制：当市场成交价 P_market 持续低于卖家初始心理锚点 P_anchor 超过 T
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N54
+
+## Claim
+
+心理账户的参考点漂移 (Reference Point Shift) 机制：当市场成交价 P_market 持续低于卖家初始心理锚点 P_anchor 超过 T_drift 天数时，参考点以速率 r_shift 向 P_market 收敛。若 r_shift = 0.02/day，则经过 10 天后，有效参考点 P_ref = P_anchor * (1 - 0.2) + P_market * 0.2，导致感知损失 ΔP_perceived 缩小，从而降低拒绝成交的心理阈值，量化为 ΔP_perceived_new = ΔP_perceived_old * 0.8。
+
+## Corrected Claim
+
+心理账户的参考点漂移机制表明，当市场成交价持续低于初始锚点时，卖家的参考点会逐渐向市场价收敛，导致感知损失缩小。具体收敛速率和天数取决于个体差异和市场环境，通常表现为渐进式调整而非固定线性公式。
+
+## Evidence
+
+[质询]该陈述将行为经济学中定性的‘参考点漂移’概念强行量化为具体的线性收敛公式（r_shift=0.02/day, 10天收敛20%），缺乏实证数据支持，属于将理论机制过度数学化且参数任意设定。 | 先验知识/题面给定，逻辑校验通过（数学推导自洽：1-(1-0.02)^10≈0.183，近似0.2；0.8*ΔP_old符合线性加权逻辑），但具体参数（0.02/day）为经验假设，无来源直接支持，故降级。
+
+## Search Query
+
+Reference point adaptation rate second hand market seller pricing behavior

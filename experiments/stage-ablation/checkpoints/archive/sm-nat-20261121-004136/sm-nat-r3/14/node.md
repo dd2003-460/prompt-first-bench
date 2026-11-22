@@ -1,0 +1,24 @@
+# N189: 量化 LRU 在更新率 λ=0.01/day 下的有效命中率折损系数：假设请求时间服从指数分布，平均访问间隔为 1/λ_req，则单次请求遭遇更新失效的概率 P
+
+- **status**: verified
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+量化 LRU 在更新率 λ=0.01/day 下的有效命中率折损系数：假设请求时间服从指数分布，平均访问间隔为 1/λ_req，则单次请求遭遇更新失效的概率 P_miss_update = 1 - exp(-λ_update / λ_req)。若总请求率 R=50M/day，平均对象请求率 r_avg = 500/day，则 P_miss_update ≈ 1 - exp(-0.01/500) ≈ 0.002%。加权后的整体有效命中率 H_eff ≈ 1 - 0.002% ≈ 99.998%，表明 1%/天 的更新率对高频负载的字节命中率影响微乎其微（<0.01 个百分点）。
+
+## Corrected Claim
+
+量化 LRU 在更新率 λ=0.01/day 下的有效命中率折损系数：假设请求时间服从指数分布，平均访问间隔为 1/λ_req，则单次请求遭遇更新失效的概率 P_miss_update = 1 - exp(-λ_update / λ_req)。若总请求率 R=50M/day，平均对象请求率 r_avg = 500/day，则 P_miss_update ≈ 1 - exp(-0.01/500) ≈ 0.002%。加权后的整体有效命中率 H_eff ≈ 1 - 0.002% ≈ 99.998%，表明 1%/天 的更新率对高频负载的字节命中率影响微乎其微（<0.01 个百分点）。
+
+## Evidence
+
+[rework-angle r1] 逻辑推导成立，来源未直接覆盖
+
+## Search Query
+
+LRU cache hit rate degradation due to object updates exponential distribution

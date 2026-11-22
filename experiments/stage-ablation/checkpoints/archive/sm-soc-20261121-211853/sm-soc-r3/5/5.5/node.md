@@ -1,0 +1,24 @@
+# N21: 不确定性边界量化：对于‘同一套假设能否解释矛盾现象’的判断，关键不确定参数是‘买家对价格变动的反应阈值’ $\theta_b$。若 $\theta_b < 5\
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N5
+
+## Claim
+
+不确定性边界量化：对于‘同一套假设能否解释矛盾现象’的判断，关键不确定参数是‘买家对价格变动的反应阈值’ $\theta_b$。若 $\theta_b < 5\%$，则降价 10% 应显著增加咨询；若实测无增加，则假设链断裂。需通过统计检验 $H_0: \Delta Inquiry = 0$ 的 p 值 < 0.05 来验证。
+
+## Corrected Claim
+
+不确定性边界量化：对于‘同一套假设能否解释矛盾现象’的判断，关键不确定参数是‘买家对价格变动的反应阈值’ $\theta_b$。若 $\theta_b < 5\%$，则降价 10% 应显著增加咨询；若实测无增加，则假设链断裂。需通过统计检验 $H_0: \Delta Inquiry = 0$ 的 p 值 < 0.05 来验证。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该陈述构建了基于参数阈值的假设检验逻辑，量纲与统计方法（p值<0.05）符合标准科学推断范式，内部自洽。
+
+## Search Query
+
+statistical test price change elasticity buyer inquiry rate second hand market

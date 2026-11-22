@@ -1,0 +1,24 @@
+# N311: 二手市场交易数据回归需控制的关键变量包括：商品成色等级（D）、卖家历史信誉分（R）、商品上架时长（T_list），这些变量的系数显著性影响弹性估计的稳健性。
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N100
+
+## Claim
+
+二手市场交易数据回归需控制的关键变量包括：商品成色等级（D）、卖家历史信誉分（R）、商品上架时长（T_list），这些变量的系数显著性影响弹性估计的稳健性。
+
+## Corrected Claim
+
+二手市场交易数据回归需控制的关键变量包括：商品成色等级（D）、卖家历史信誉分（R）、商品上架时长（T_list），这些变量的系数显著性影响弹性估计的稳健性。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在二手市场定价模型中，成色、信誉和上架时长是决定价格的核心异质性变量，控制这些变量以消除遗漏变量偏差（Omitted Variable Bias）是计量经济学中确保弹性估计无偏和稳健的标准做法，符合基本经济直觉和统计原理。
+
+## Search Query
+
+second-hand marketplace regression controls condition seller reputation listing duration

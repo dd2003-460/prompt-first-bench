@@ -1,0 +1,24 @@
+# N256: 在 NVLink 4.0 (900 GB/s) 互联且 Batch Size=1 的工作点下，通信时间 = 768 KB / 900 GB/s = 0.85 µ
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N96
+
+## Claim
+
+在 NVLink 4.0 (900 GB/s) 互联且 Batch Size=1 的工作点下，通信时间 = 768 KB / 900 GB/s = 0.85 µs。与 PCIe 4.0 的 12 µs 相比，NVLink 将通信延迟降低 14 倍。然而，由于 0.85 µs 相对于 50 ms 计算时间仍占比 0.0017%，NVLink 带来的额外吞吐量提升在 27B 模型上可忽略不计 (<0.01%)。这证明在 27B 规模下，为获得 NVLink 而选择昂贵的数据中心卡（如 A100/H100）在纯通信效率维度上无性价比优势，除非模型规模扩大至 70B+ 或 Batch Size 极高。
+
+## Corrected Claim
+
+在 NVLink 4.0 (900 GB/s) 互联且 Batch Size=1 的工作点下，通信时间 = 768 KB / 900 GB/s = 0.85 µs。与 PCIe 4.0 的 12 µs 相比，NVLink 将通信延迟降低 14 倍。然而，由于 0.85 µs 相对于 50 ms 计算时间仍占比 0.0017%，NVLink 带来的额外吞吐量提升在 27B 模型上可忽略不计 (<0.01%)。这证明在 27B 规模下，为获得 NVLink 而选择昂贵的数据中心卡（如 A100/H100）在纯通信效率维度上无性价比优势，除非模型规模扩大至 70B+ 或 Batch Size 极高。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：768KB/900GB/s≈0.85µs，12µs/0.85µs≈14倍，0.85µs/50ms≈0.0017%，推导自洽且符合工程直觉。
+
+## Search Query
+
+NVLink vs PCIe performance gain 27B model tensor parallelism negligible

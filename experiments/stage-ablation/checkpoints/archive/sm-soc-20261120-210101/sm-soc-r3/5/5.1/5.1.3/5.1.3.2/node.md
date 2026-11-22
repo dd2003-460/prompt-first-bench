@@ -1,0 +1,20 @@
+# N321: 损失厌恶系数λ与心理账户I_account的交互效应公式：λ_effective = λ_base * (1 + γ * I_account)，其中λ_base
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N93
+
+## Claim
+
+损失厌恶系数λ与心理账户I_account的交互效应公式：λ_effective = λ_base * (1 + γ * I_account)，其中λ_base为常规消费场景的λ（1.5-2.5），γ为心理账户放大系数。实证研究显示，当资产被视为'投资'时，γ≈1.0-1.5，导致λ_effective升至3.0-4.0。该公式用于量化置信度降级幅度：ΔConfidence ∝ (λ_effective - λ_base)/λ_base。
+
+## Corrected Claim
+
+损失厌恶系数λ受心理账户影响，当资产被视为'投资'时，有效损失厌恶系数λ_effective通常高于常规消费场景的λ_base（1.5-2.5），具体放大效应取决于心理账户的隔离程度，但缺乏统一的标准化公式。
+
+## Evidence
+
+[质询]该公式（λ_effective = λ_base * (1 + γ * I_account)）及具体的参数范围（γ≈1.0-1.5, λ_effective 3.0-4.0）在主流行为经济学文献中缺乏广泛认可的标准化定义或实证支持，疑似为特定模型或虚构的量化公式，存在将定性心理账户效应强行量化为特定线性公式的风险。 | 先验知识/题面给定，逻辑校验通过（量纲一致，数值量级在行为经济学常见范围内），但缺乏外部来源直接支持该特定公式形式及参数值，且无检索来源可用，故降级。

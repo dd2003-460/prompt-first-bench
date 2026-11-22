@@ -1,0 +1,20 @@
+# N150: N59中使用的公式 F(K%) = 1 - (100-K)^(1-α) 假设缓存填充的是“最大的K个对象”，而LRU缓存填充的是“最热的K个对象”。在ρ=-0.
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N59, N60, N61
+
+## Claim
+
+N59中使用的公式 F(K%) = 1 - (100-K)^(1-α) 假设缓存填充的是“最大的K个对象”，而LRU缓存填充的是“最热的K个对象”。在ρ=-0.3下，最热的对象平均大小小于中位数，因此实际能容纳的对象数量 K_actual > K_max_bySizeRank。需计算 K_actual 满足 Sum_{i=1}^{K_actual} S_i(rank by F) = 128GB。
+
+## Corrected Claim
+
+N59中使用的公式 F(K%) = 1 - (100-K)^(1-α) 假设缓存填充的是“最大的K个对象”，而LRU缓存填充的是“最热的K个对象”。在ρ=-0.3下，最热的对象平均大小小于中位数，因此实际能容纳的对象数量 K_actual > K_max_bySizeRank。需计算 K_actual 满足 Sum_{i=1}^{K_actual} S_i(rank by F) = 128GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：LRU基于访问频率（热度）而非大小排序，当大小与热度负相关（ρ=-0.3）时，高频小对象占据缓存，导致按大小排序的K_max小于按热度排序的K_actual，推导符合缓存替换算法基本原理。

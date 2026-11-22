@@ -1,0 +1,20 @@
+# N221: Pareto(β=0.9) 重尾分布导致 Monte Carlo 方差增大的机制：由于头部对象（top 1%）贡献了约 50% 的字节流量，单次仿真中头部对象的
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N75
+
+## Claim
+
+Pareto(β=0.9) 重尾分布导致 Monte Carlo 方差增大的机制：由于头部对象（top 1%）贡献了约 50% 的字节流量，单次仿真中头部对象的命中/未命中状态对总命中率的影响远大于尾部对象，导致 σ 比均匀分布下高 3-5 倍；需采用分层抽样（stratified sampling）对头部对象单独采样以降低方差。
+
+## Corrected Claim
+
+Pareto(β=0.9) 重尾分布导致 Monte Carlo 方差增大的机制：由于头部对象（top 1%）贡献了约 50% 的字节流量，单次仿真中头部对象的命中/未命中状态对总命中率的影响远大于尾部对象，导致 σ 比均匀分布下高 3-5 倍；需采用分层抽样（stratified sampling）对头部对象单独采样以降低方差。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布的重尾特性确实导致少数头部对象主导流量，从而在Monte Carlo仿真中引入高方差，分层抽样是标准的方差缩减技术。

@@ -1,0 +1,20 @@
+# N12: 特定参数修正：考虑 Pareto(α=1.1) 的长尾特性，LRU 命中率下界需修正为 H_byte_LRU_corrected = H_byte_LRU_ba
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+特定参数修正：考虑 Pareto(α=1.1) 的长尾特性，LRU 命中率下界需修正为 H_byte_LRU_corrected = H_byte_LRU_base × (1 - ε_tail)，其中 ε_tail 为长尾对象未被缓存导致的额外损失，需通过数值积分估算。
+
+## Corrected Claim
+
+特定参数修正：考虑 Pareto(α=1.1) 的长尾特性，LRU 命中率下界需修正为 H_byte_LRU_corrected = H_byte_LRU_base × (1 - ε_tail)，其中 ε_tail 为长尾对象未被缓存导致的额外损失，需通过数值积分估算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto分布具有重尾特性，LRU缓存对长尾对象命中率低，引入修正因子(1-ε_tail)符合缓存理论直觉，且ε_tail定义为额外损失，量纲与逻辑自洽。

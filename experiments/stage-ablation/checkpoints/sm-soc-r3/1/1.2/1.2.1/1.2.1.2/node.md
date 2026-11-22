@@ -1,0 +1,24 @@
+# N122: 工作点2（中纯禀赋/中搜寻代理）：π_endowment_pure = 5%-7%，π_search_cost_proxy = 5%-8%。总溢价 π_endo
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N35
+
+## Claim
+
+工作点2（中纯禀赋/中搜寻代理）：π_endowment_pure = 5%-7%，π_search_cost_proxy = 5%-8%。总溢价 π_endow ≈ 10%-15%。此类商品为中等异质性商品（如成色不一的相机），卖家高估部分源于买家难以准确评估成色（搜寻成本高），卖家将‘信息不对称带来的潜在溢价’内化为自己的保留价格。这是均衡最稳定的区间，干预需同时解决信息透明度和心理估值。
+
+## Corrected Claim
+
+工作点2（中纯禀赋/中搜寻代理）：π_endowment_pure = 5%-7%，π_search_cost_proxy = 5%-8%。总溢价 π_endow ≈ 10%-15%。此类商品为中等异质性商品（如成色不一的相机），卖家高估部分源于买家难以准确评估成色（搜寻成本高），卖家将‘信息不对称带来的潜在溢价’内化为自己的保留价格。这是均衡最稳定的区间，干预需同时解决信息透明度和心理估值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：中等异质性商品（如二手相机）因信息不对称导致搜寻成本高，卖家保留价格中包含风险溢价，总溢价10%-15%符合经济学直觉及市场经验，数值量级合理且内部自洽。
+
+## Search Query
+
+search cost proxy endowment effect heterogeneous goods information asymmetry pricing

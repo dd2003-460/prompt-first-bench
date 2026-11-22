@@ -1,0 +1,24 @@
+# N169: V_buyer (买家估值分布) 的参数估计：μ_v 为同类商品市场均价 P_market，σ_v 为买家估值标准差。需基于历史成交数据估计 σ_v/P_mar
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N51
+
+## Claim
+
+V_buyer (买家估值分布) 的参数估计：μ_v 为同类商品市场均价 P_market，σ_v 为买家估值标准差。需基于历史成交数据估计 σ_v/P_market 的变异系数（如 0.15），以构建正态分布 N(P_market, (0.15*P_market)^2)。
+
+## Corrected Claim
+
+V_buyer (买家估值分布) 的参数估计：μ_v 为同类商品市场均价 P_market，σ_v 为买家估值标准差。需基于历史成交数据估计 σ_v/P_market 的变异系数（具体数值依品类而定，示例中假设为 0.15），以构建正态分布 N(P_market, (CV*P_market)^2)。
+
+## Evidence
+
+[质询]该陈述将具体的变异系数数值（0.15）作为既定参数，但这是一个经验事实，不同品类、市场波动性下的买家估值离散程度差异巨大，0.15 并非普适常数，且缺乏特定上下文支持该具体数值。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体数值 0.15 无法从第一性原理推出，属于需数据验证的经验参数）
+
+## Search Query
+
+buyer valuation variance for second-hand goods market price

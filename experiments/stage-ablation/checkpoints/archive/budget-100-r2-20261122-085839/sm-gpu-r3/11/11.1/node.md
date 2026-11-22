@@ -1,0 +1,20 @@
+# N335: AMD MI300X 单卡显存容量 192GB HBM3 可容纳 Qwen3-27B BF16 权重 (54.2GB) + 32K 上下文 FP8 KV Cac
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N118
+
+## Claim
+
+AMD MI300X 单卡显存容量 192GB HBM3 可容纳 Qwen3-27B BF16 权重 (54.2GB) + 32K 上下文 FP8 KV Cache (10.31GB) + 激活值 (约 2-5GB)，总占用约 66.5-69.5GB，显存利用率仅 35-36%，剩余 122.5-125.5GB 可用于扩展 Batch Size 或更长上下文
+
+## Corrected Claim
+
+AMD MI300X 单卡显存容量 192GB HBM3 可容纳 Qwen3-27B BF16 权重 (54.2GB) + 32K 上下文 FP8 KV Cache (10.31GB) + 激活值 (约 2-5GB)，总占用约 66.5-69.5GB，显存利用率仅 35-36%，剩余 122.5-125.5GB 可用于扩展 Batch Size 或更长上下文
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：MI300X 192GB HBM3 为已知规格，Qwen3-27B BF16 权重约 54GB 符合 27B 参数规模，KV Cache 与激活值估算量级合理，总占用远低于显存上限，逻辑自洽。

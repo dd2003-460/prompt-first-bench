@@ -1,0 +1,26 @@
+# N44: 针对 Qwen3-27B 的 INT8 量化质量基准：在标准基准测试（如 MMLU, HumanEval）中，相对于 BF16 基线，INT8 权重量化通常导致
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+针对 Qwen3-27B 的 INT8 量化质量基准：在标准基准测试（如 MMLU, HumanEval）中，相对于 BF16 基线，INT8 权重量化通常导致准确率下降 <1%（即质量损失可忽略），而 4-bit (W4A16) 量化可能导致下降 2-5%，需通过具体任务验证是否超过业务容忍阈值 [待核验]。
+
+## Corrected Claim
+
+针对 Qwen3-27B 的量化质量：INT8 量化通常导致准确率轻微下降（通常 <1%），而 4-bit 量化可能导致更显著的下降（约 2-5% 或更多），具体影响需结合 MMLU、HumanEval 等基准测试及业务容忍阈值进行验证。
+
+## Evidence
+
+[质询]陈述中引用的具体数值（INT8 <1%, W4A16 2-5%）属于经验事实，且参考来源主要讨论的是 Qwen3.6/3.8 版本或通用 GGUF 量化策略，未提供 Qwen3-27B 在 MMLU/HumanEval 上针对 BF16 基线的精确量化损失数据，存在版本不匹配及数据缺失风险。 | 逻辑自洽（INT8 精度损失通常小于 4-bit），但参考来源 [1][2][3] 均未直接提供 Qwen3-27B 在标准基准测试中相对于 BF16 的具体准确率下降数值，属于经验事实且缺乏直接来源支持。
+
+## Retrieval Sources
+
+- {'url': 'https://devpress.csdn.net/v1/article/detail/153375288&rut=2f917b15863edf82df9ad2cdb633e56cacd136d46f2ec87ae7316bb84b29caff', 'type': 'ddg', 'title': 'Qwen3.6-27B-MTP-UD-GGUF性能优化：从Q2到Q8不同量化级别的选择策略 [特殊字符]'}
+- {'url': 'https://blog.csdn.net/weixin_30952479/article/details/166865632&rut=b33a380aa09ffd33f026bc458980e52d31042785c82436c163455b7cbfa8763d', 'type': 'ddg', 'title': 'Qwen3.8-27B NPU推理实战：量化、算子适配与性能调优-CSDN博客'}
+- {'url': 'https://www.datalearner.com/blog/qwen3-8-27b-local-deployment-quantization-guide&rut=4635f0bf9128c8d10950163391b807665df086d185fdae7d1444cbc6d3848ffa', 'type': 'ddg', 'title': 'Qwen3.8-27B 本地部署完全指南：量化版本怎么选，效果差多少，速度有多快？ | DataLearnerAI'}

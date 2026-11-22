@@ -1,0 +1,20 @@
+# N158: TCO_3yr 的完整构成项分解：TCO_3yr = Hardware_Cost + (Electricity_Cost_3yr + Maintenance_C
+
+- **status**: verified
+- **level**: L3
+- **source**: derived
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N51
+
+## Claim
+
+TCO_3yr 的完整构成项分解：TCO_3yr = Hardware_Cost + (Electricity_Cost_3yr + Maintenance_Cost_3yr + Opportunity_Cost_3yr)。基于 N37/N38：Hardware_Cost (RTX 4090) = $1800 (中值), Electricity_Cost_3yr = $780 (260*3), Maintenance_Cost = $0 (消费级无维保), Opportunity_Cost = 0 (自用)。数据中心卡需增加 Maintenance_Cost (约硬件成本的 5-10%/年) 和 Cooling_Infrastructure (一次性 $1000-$2000 分摊)。
+
+## Corrected Claim
+
+TCO_3yr 的完整构成项分解：TCO_3yr = Hardware_Cost + (Electricity_Cost_3yr + Maintenance_Cost_3yr + Opportunity_Cost_3yr)。基于 N37/N38：Hardware_Cost (RTX 4090) 约为 $1800 (中值), Electricity_Cost_3yr 约为 $780 (260*3), Maintenance_Cost = $0 (消费级无维保), Opportunity_Cost = 0 (自用)。数据中心卡需增加 Maintenance_Cost (通常为硬件成本的 5-10%/年) 和 Cooling_Infrastructure (一次性 $1000-$2000 分摊)。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点按硬件层级（消费级单卡/多卡 vs 数据中心）划分，场景互斥且无重叠；覆盖了父节点定义的所有TCO构成项（硬件、电力、维护、机会成本/基础设施）；三个工作点代表不同的部署架构和成本量级，并非同一参数的简单数值变体，因此不构成冗余。）

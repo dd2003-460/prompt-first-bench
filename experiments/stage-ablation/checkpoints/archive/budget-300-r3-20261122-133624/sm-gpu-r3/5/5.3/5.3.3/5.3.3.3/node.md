@@ -1,0 +1,30 @@
+# N379: Intel Gaudi 2 的 TCO 劣势：由于缺乏成熟的二手市场且主要面向数据中心，其购买价格约为 $15,000-$20,000（[待核验]），远高于消费
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N146, N147, N149
+
+## Claim
+
+Intel Gaudi 2 的 TCO 劣势：由于缺乏成熟的二手市场且主要面向数据中心，其购买价格约为 $15,000-$20,000（[待核验]），远高于消费级显卡。即使其功耗较低（500W），3 年 TCO 中硬件成本占比超过 90%，导致其性价比在本地工作站场景下极低，仅当用户已有现成 Gaudi 2 硬件时才具备考虑价值。
+
+## Corrected Claim
+
+Intel Gaudi 2 主要面向数据中心，缺乏成熟的二手市场，其购买价格远高于消费级显卡。即使其功耗较低（500W），在本地工作站场景下，由于硬件初始投入高，3年TCO中硬件成本占比极高，导致性价比极低，仅当用户已有现成 Gaudi 2 硬件时才具备考虑价值。
+
+## Evidence
+
+[质询]具体价格数值（$15,000-$20,000）及TCO占比（>90%）属于经验事实，缺乏直接来源支持，且不同渠道/时间价格波动大，该具体区间可能不准确或已过时。 | 来源[1]仅提及Gaudi 2比竞争对手更具成本效益（cost-effective），未提供具体价格或TCO数据；该陈述为经验事实，逻辑自洽但缺来源直接支持具体数值。
+
+## Search Query
+
+Intel Gaudi 2 price 2024 2025
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Intel', 'type': 'wikipedia', 'title': 'Intel'}
+- {'url': 'https://en.wikipedia.org/wiki/Sierra_Forest', 'type': 'wikipedia', 'title': 'Sierra Forest'}
+- {'url': 'https://en.wikipedia.org/wiki/Xeon', 'type': 'wikipedia', 'title': 'Xeon'}

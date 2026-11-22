@@ -1,0 +1,20 @@
+# N70: 临界持有成本率 r* 的解析解：由 ΔU_seller = 0 推导出的平衡点公式 r* = (ΔPrice / P_initial) / (ΔSpeed_ra
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+临界持有成本率 r* 的解析解：由 ΔU_seller = 0 推导出的平衡点公式 r* = (ΔPrice / P_initial) / (ΔSpeed_ratio * T0)，代入已知参数得 r* = 15% / (30% * T0)，用于判断特定卖家是否因干预而受损（若 r_holding < r* 则受损，反之受益）。
+
+## Corrected Claim
+
+临界持有成本率 r* 的解析解：由 ΔU_seller = 0 推导出的平衡点公式 r* = (ΔPrice / P_initial) / (ΔSpeed_ratio * T0)，代入已知参数得 r* = 15% / (30% * T0)，用于判断特定卖家是否因干预而受损（若 r_holding < r* 则受损，反之受益）。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点通过改变持有成本率(r_holding)和基准周期(T0)两个关键参数，覆盖了从短周期高成本到长周期低成本的不同市场场景，逻辑上互斥且共同构成了对临界点公式的应用验证。虽然本质上是参数扫描，但在学术分解中，选取具有代表性的典型工作点（高/中/低）以展示不同结论（受损/边缘/无差异）是合理的完备性覆盖，而非简单冗余。）

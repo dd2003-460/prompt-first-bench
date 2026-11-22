@@ -1,0 +1,28 @@
+# N86: Qwen3-27B 在 W4 量化下，HumanEval 任务相对于 MMLU 任务的准确率下降幅度比值（Sensitivity_Ratio = ΔHumanE
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N27
+
+## Claim
+
+Qwen3-27B 在 W4 量化下，HumanEval 任务相对于 MMLU 任务的准确率下降幅度比值（Sensitivity_Ratio = ΔHumanEval / ΔMMLU），量化代码生成任务对量化的敏感度系数
+
+## Corrected Claim
+
+Qwen3-27B 在 W4 量化下，HumanEval 任务相对于 MMLU 任务通常表现出更高的准确率下降幅度（即 Sensitivity_Ratio > 1），表明代码生成任务对量化更敏感，但具体比值需查阅特定量化实验报告。
+
+## Evidence
+
+[质询]参考来源[1]讨论的是Qwen3.5-27B的推理蒸馏（Reasoning Distillation），而非W4量化（Quantization）实验，且未提供MMLU与HumanEval在量化前后的具体准确率数据，无法直接支持该特定量化敏感度比值的计算。 | 来源[1]主题不匹配（蒸馏vs量化），无可用外部证据支持具体数值；但逻辑上代码生成任务对量化通常比知识问答更敏感，定性趋势合理，故降级为定性表述。
+
+## Search Query
+
+Qwen3-27B W4 quantization sensitivity code vs general QA
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2022476647232749580&rut=219156b70e7dc62ce15f25b6bf26e2c92016bd77864930824ff3dbdf896b8ced', 'type': 'ddg', 'title': '把 Qwen 教成更会"省着想"的模型：一篇 HumanEval 报告看懂 Claude 风格推理蒸馏'}

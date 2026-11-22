@@ -1,0 +1,20 @@
+# N127: 多卡方案（如2×RTX 3090）的3年TCO计算公式：TCO_Ncard = N * P_card + (N * W_card * h * r * 3) + 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N24
+
+## Claim
+
+多卡方案（如2×RTX 3090）的3年TCO计算公式：TCO_Ncard = N * P_card + (N * W_card * h * r * 3) + C_cooling_excess + C_maint_Ncard，其中C_cooling_excess为多卡带来的额外冷却成本，C_maint_Ncard为多卡系统的维护成本（通常高于单卡）
+
+## Corrected Claim
+
+多卡方案（如2×RTX 3090）的3年TCO计算公式：TCO_Ncard = N * P_card + (N * W_card * h * r * 3) + C_cooling_excess + C_maint_Ncard，其中C_cooling_excess为多卡带来的额外冷却成本，C_maint_Ncard为多卡系统的维护成本（通常高于单卡）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：TCO公式结构符合成本构成逻辑（硬件+电力+冷却+维护），量纲与变量定义自洽。

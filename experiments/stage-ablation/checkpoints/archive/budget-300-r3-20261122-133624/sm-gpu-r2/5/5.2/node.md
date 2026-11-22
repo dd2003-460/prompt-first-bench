@@ -1,0 +1,28 @@
+# N35: 数据中心级候选集：H100 PCIe (80GB, $25000, 700W), H200 (141GB, $30000, 700W), A100 80GB (
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N5
+
+## Claim
+
+数据中心级候选集：H100 PCIe (80GB, $25000, 700W), H200 (141GB, $30000, 700W), A100 80GB (HBM2e, $15000, 400W), L40S (48GB, $8000, 350W), B200 (192GB, $40000 [待核验], 1000W)；关键参数：NVLink 带宽 (900 GB/s for H100), FP8/NVFP4 原生支持, 多卡扩展性 (8 卡 HGX 机箱)。
+
+## Corrected Claim
+
+数据中心级候选集：H100 PCIe (80GB, $25000, 350W), H200 (141GB, $30000, 700W), A100 80GB (HBM2e, $15000, 400W), L40S (48GB, $8000, 350W), B200 (192GB, $40000 [待核验], 1000W)；关键参数：NVLink 带宽 (900 GB/s for H100 SXM, PCIe 版本无 NVLink 或带宽不同), FP8/NVFP4 原生支持, 多卡扩展性 (8 卡 HGX 机箱)。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（1. 不完备：父节点明确列出了 L40S 和 B200 两款关键候选显卡，但子节点完全缺失了这两者的分析。2. 冗余：子节点 1、3、5 在逻辑结构上高度重复，均为“特定显卡的显存带宽->理论吞吐量->实际吞吐量”的同一计算范式，且 H100 与 A100 的带宽数值相同（2039 GB/s），导致结论完全一致，缺乏区分度。3. 正交性基本成立，各子节点针对不同显卡或不同指标（带宽/功耗），无直接矛盾。）
+
+## Search Query
+
+NVIDIA H100 H200 A100 L40S B200 price specs NVLink FP8 NVFP4 2024
+
+## Retrieval Sources
+
+- {'url': 'https://www.nvidia.com/content/dam/en-zz/Solutions/gtcs22/data-center/h100/PB-11133-001_v01.pdf&rut=f24a4c34fb16690470e33f7ce84f8daffad74b641c9fe1b01cff02beda7f63ec', 'type': 'ddg', 'title': 'PDF NVIDIA H100 PCIe GPU'}

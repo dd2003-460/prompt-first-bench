@@ -1,0 +1,17 @@
+{
+  "id": "N20",
+  "claim": "工作点1（极致性价比/单卡消费级）：采用 1x 消费级显卡（如 RTX 4090/3090）+ FP8/INT8 量化，TCO = P_card + P_cooling + E_yearly * P_elec，Throughput = f(MemBW, QuantizationOverhead)，约束：VRAM_card >= (27B * bytes_per_param + 32K * KV_cache_size) * 1.1 (安全系数)，若 VRAM 不足则引入 CPU Offload，导致 Throughput 下降系数 k_offload (典型值 0.3-0.5 [待核验])",
+  "level": "L2",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]k_offload 的典型值 0.3-0.5 属于经验参数，缺乏通用性，具体数值高度依赖于 CPU 内存带宽、PCIe 版本及 Offload 策略（如 PagedAttention 或 Swap），不同硬件配置下差异巨大，该范围可能过于狭窄或不适用于所有场景。 | 经验事实，逻辑自洽但缺来源支持",
+  "corrected_claim": "工作点1（极致性价比/单卡消费级）：采用 1x 消费级显卡（如 RTX 4090/3090）+ FP8/INT8 量化，TCO = P_card + P_cooling + E_yearly * P_elec，Throughput = f(MemBW, QuantizationOverhead)，约束：VRAM_card >= (27B * bytes_per_param + 32K * KV_cache_size) * 1.1 (安全系数)，若 VRAM 不足则引入 CPU Offload，导致 Throughput 显著下降（具体系数 k_offload 取决于硬件带宽与 Offload 策略，通常远低于 1.0）。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N4"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "RTX 4090 FP8 Qwen 27B inference throughput VRAM requirement 32k context",
+  "retrieval_sources": []
+}

@@ -1,0 +1,28 @@
+# N71: 基于 Gaussian Copula 的解析修正：通过计算联合概率密度 ∂²F(S,H)/∂S∂H 在缓存容量边界处的积分，量化 ρ=-0.3 导致的 LRU 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N22
+
+## Claim
+
+基于 Gaussian Copula 的解析修正：通过计算联合概率密度 ∂²F(S,H)/∂S∂H 在缓存容量边界处的积分，量化 ρ=-0.3 导致的 LRU 命中率理论偏差，预期偏差在 -0.8% 左右
+
+## Corrected Claim
+
+基于 Gaussian Copula 的解析修正：通过计算联合概率密度在缓存容量边界处的积分，量化 ρ=-0.3 导致的 LRU 命中率理论偏差（具体数值需进一步实证或推导确认）。
+
+## Evidence
+
+[质询]具体数值偏差（-0.8%）属于经验事实，缺乏直接来源支持，且仅凭逻辑无法推导出该特定数值。 | 来源[1]仅介绍高斯Copula的一般方法，未涉及LRU缓存命中率或具体偏差数值，属于间接/无关支持；经验事实缺直接来源，降级。
+
+## Search Query
+
+Gaussian copula joint distribution hit rate correction cache size skewness
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/666349610&rut=dcc51e6cbbed9ba301bc50a3d5ed0731fb659cd6a374d2884497973519eeb917', 'type': 'ddg', 'title': '基于高斯 Copula 方法对分布的任意组合进行关联样本，并对相关参数进行迭代优化研究（Matlab代码实现）'}

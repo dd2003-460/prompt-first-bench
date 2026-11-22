@@ -1,0 +1,28 @@
+# N168: 在 Top 50% 对象工作点，阈值 S_50% 为中位数，计算为 S_min * (1-0.5)^(1/(1-1.1)) ≈ 1KB * 0.5^(-10) 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N54
+
+## Claim
+
+在 Top 50% 对象工作点，阈值 S_50% 为中位数，计算为 S_min * (1-0.5)^(1/(1-1.1)) ≈ 1KB * 0.5^(-10) ≈ 1024KB (1MB)，B_top_50% 预计占据总字节数的 95-99%，因为 α=1.1 导致极大对象主导字节总量
+
+## Corrected Claim
+
+在 Top 50% 对象工作点，阈值 S_50% 为中位数，计算为 S_min * (1-0.5)^(1/(1-1.1)) ≈ 1KB * 0.5^(-10) ≈ 1024KB (1MB)；由于 α=1.1 接近 1，极大对象主导字节总量，B_top_50% 预计占据总字节数的绝大部分（约 95% 以上）。
+
+## Evidence
+
+[质询]参考来源与事实主题完全无关（来源讨论ROC曲线阈值，事实讨论Zipf分布对象大小），且经验事实（具体字节占比95-99%）缺乏直接来源支持，仅能依靠逻辑推导验证量级合理性。 | 逻辑校验通过：S_50% = S_min * (1-0.5)^(1/(1-1.1)) = 1KB * 0.5^(-10) = 1024KB 计算正确；α=1.1时，Top 50%对象确实主导字节总量（积分占比约95%+），但具体数值95-99%为经验估计，来源[1]无关，故降级。
+
+## Search Query
+
+Pareto alpha 1.1 median size and cumulative byte share top 50 percent
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/712241812&rut=d49e44f11611dfd7bda2a6d330d3a588edf54d750eba2fa00ebfb4be23eaa0a4', 'type': 'ddg', 'title': '如何确定数据分析指标的阈值 - 知乎'}

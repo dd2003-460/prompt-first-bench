@@ -1,0 +1,24 @@
+# N559: RX 9070 XT 显存容量 16GB 对 Qwen3-27B INT4 量化 (13.5GB) 的可行性分析：剩余 2.5GB 用于 KV Cache，支持
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N171
+
+## Claim
+
+RX 9070 XT 显存容量 16GB 对 Qwen3-27B INT4 量化 (13.5GB) 的可行性分析：剩余 2.5GB 用于 KV Cache，支持上下文长度 ≈ 460 tokens，远低于 32K 要求，故 RX 9070 XT 不可行
+
+## Corrected Claim
+
+RX 9070 XT 显存容量 16GB 对 Qwen3-27B INT4 量化 (13.5GB) 的可行性分析：剩余 2.5GB 用于 KV Cache，支持上下文长度 ≈ 460 tokens，远低于 32K 要求，故 RX 9070 XT 不可行
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：16GB总显存减去13.5GB模型权重剩余2.5GB，按Qwen3-27B INT4量化下KV Cache每token约5.4KB（基于27B参数规模及GQA架构估算）计算，2.5GB/5.4KB≈460 tokens，远低于32K要求，结论成立。
+
+## Search Query
+
+Qwen3-27B INT4 memory requirement KV cache 32k context

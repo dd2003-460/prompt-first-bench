@@ -1,0 +1,24 @@
+# N50: 买家对降价信号的解读概率 P(Lemon | ΔP < 0) 受降价幅度影响，当降价幅度 |ΔP|/P_ask < 5% 时，买家视为噪声/试探性降价，P(Le
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N12, N13, N14
+
+## Claim
+
+买家对降价信号的解读概率 P(Lemon | ΔP < 0) 受降价幅度影响，当降价幅度 |ΔP|/P_ask < 5% 时，买家视为噪声/试探性降价，P(Lemon) 维持基线水平 0.2；当 5% <= |ΔP|/P_ask <= 15% 时，触发‘隐藏缺陷’假设，P(Lemon) 上升至 0.6-0.8，直接导致咨询意愿骤降。
+
+## Corrected Claim
+
+买家对降价信号的解读概率 P(Lemon | ΔP < 0) 受降价幅度影响：小幅降价通常被视为噪声或试探，P(Lemon) 维持基线水平；显著降价（超过一定阈值）则可能触发‘隐藏缺陷’假设，导致 P(Lemon) 显著上升，进而抑制咨询意愿。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值阈值（5%、15%）和概率值（0.2、0.6-0.8），这些并非第一性原理或数学公理可推导的必然结论，而是依赖于特定市场情境、买家群体心理及实验数据的经验参数。缺乏实证数据支持这些具体数值的普适性。 | 逻辑自洽（降价幅度越大，信号越强，符合信息经济学直觉），但作为 knowledge 节点，其包含的具体经验参数（阈值和概率）缺乏来源直接支持，且无法从第一性原理严格推出，故降级为定性表述。
+
+## Search Query
+
+price drop signal interpretation lemon market threshold 5% 15% consumer psychology

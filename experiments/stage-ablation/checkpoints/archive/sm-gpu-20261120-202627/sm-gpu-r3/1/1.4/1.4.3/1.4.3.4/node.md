@@ -1,0 +1,24 @@
+# N200: NVIDIA A30 24GB 显卡（注意：A30 通常为 24GB 或 40GB 版本，需确认是否存在 48GB 版本或题目指代错误）若为 40GB 版本，其
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N47
+
+## Claim
+
+NVIDIA A30 24GB 显卡（注意：A30 通常为 24GB 或 40GB 版本，需确认是否存在 48GB 版本或题目指代错误）若为 40GB 版本，其运行 Qwen3-27B (FP8, 32K ctx) 的可行性及吞吐量基准值，需对比 L40S 性能差距
+
+## Corrected Claim
+
+NVIDIA A30 显卡存在 24GB 和 40GB 版本。关于 A30 40GB 版本运行 Qwen3-27B (FP8, 32K ctx) 的具体可行性及吞吐量基准值，需进一步查阅官方技术文档或实测数据以确认其与 L40S 的性能差距。
+
+## Evidence
+
+[质询]该陈述包含未经验证的具体硬件规格（A30 40GB版本）及特定模型（Qwen3-27B）在特定配置下的性能基准值，属于经验事实，且缺乏来源支持以确认具体数值或可行性结论。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+NVIDIA A30 40GB Qwen3-27B FP8 inference benchmark

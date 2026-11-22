@@ -1,0 +1,24 @@
+# N207: 截至 2024 年 Q3，vLLM 官方不支持 Intel Arc (XPU 后端)，仅支持 NVIDIA CUDA、AMD ROCm 和 CPU 后端，因此无
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N63
+
+## Claim
+
+截至 2024 年 Q3，vLLM 官方不支持 Intel Arc (XPU 后端)，仅支持 NVIDIA CUDA、AMD ROCm 和 CPU 后端，因此无法在 Intel Arc A770 上使用 vLLM 进行高吞吐推理
+
+## Corrected Claim
+
+截至 2024 年 Q3，vLLM 的主线稳定版本主要支持 NVIDIA CUDA 和 AMD ROCm 后端，Intel Arc (XPU) 后端的支持尚不成熟或未被官方列为主要支持平台，因此在 Intel Arc A770 上使用 vLLM 进行高吞吐推理存在较大兼容性风险或需依赖非官方/实验性构建。
+
+## Evidence
+
+[质询]该陈述属于具体的软件版本支持状态（经验事实），且时间截点为2024年Q3。虽然vLLM在2024年主要聚焦于NVIDIA和AMD，但Intel XPU后端的支持情况可能随社区贡献或特定分支有所变化，且'官方不支持'的界定（是主分支无代码还是无文档支持）可能存在模糊性。由于缺乏2024年Q3的实时官方文档或发布说明作为直接证据，无法完全排除当时已有实验性支持或特定构建版本支持的可能性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证2024年Q3的具体支持状态）
+
+## Search Query
+
+vLLM Intel Arc XPU backend support 2024

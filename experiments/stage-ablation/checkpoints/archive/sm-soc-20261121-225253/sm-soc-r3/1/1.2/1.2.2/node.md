@@ -1,0 +1,28 @@
+# N21: 锚定效应在二手交易中的衰减率：需量化买家在查看 $N$ 个同类商品后，对初始挂价 $P_{ask}$ 的依赖程度下降曲线，具体公式为 $Influence(P_
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N6
+
+## Claim
+
+锚定效应在二手交易中的衰减率：需量化买家在查看 $N$ 个同类商品后，对初始挂价 $P_{ask}$ 的依赖程度下降曲线，具体公式为 $Influence(P_{ask}) = \alpha \times (1 - e^{-\gamma N})$，其中 $\alpha$ 为最大锚定效应强度，$\gamma$ 为信息饱和速率，需实证数据确定 $\gamma$ 的值以解释为何高挂价不阻碍匹配。
+
+## Corrected Claim
+
+锚定效应在二手交易中随买家查看同类商品数量增加而减弱，但具体的衰减曲线公式及参数需依赖特定实证研究确定，现有通用定义未提供统一量化模型。
+
+## Evidence
+
+[质询]该陈述包含具体的数学公式 $Influence(P_{ask}) = \alpha \times (1 - e^{-\gamma N})$ 及参数定义，属于特定的经验模型假设。参考来源仅定义了锚定效应的心理学概念，未提供该特定衰减公式、参数 $\gamma$ 的实证值或二手交易场景下的具体量化曲线，无法证实该特定公式的普适性或准确性。 | 来源[1]仅支持锚定效应的存在（定性），未覆盖具体的指数衰减公式及参数（定量），属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+anchoring effect decay rate number of comparable listings buyer decision making used cars
+
+## Retrieval Sources
+
+- {'url': 'https://baike.baidu.com/item/%E9%94%9A%E5%AE%9A%E6%95%88%E5%BA%94/5726509&rut=25796ca550ca1c251f12b70fbc666ef6a623975b5712c804075820577c2d1d44', 'type': 'ddg', 'title': '锚定效应 - 百度百科'}

@@ -1,0 +1,444 @@
+{
+  "qid": "gpu",
+  "question": "你要在本地工作站上推理 Qwen3-27B 模型，不设硬性延迟指标（延迟是性能变量，由硬件和部署配置决定，不作为前置约束）；上下文窗口 ≥ 32K tokens 作为容量下限保留。权重精度不限（BF16/FP8/INT8/NVFP4/W4 均可），但必须论证所选精度的质量损失是否可接受。候选硬件：自行搜索确定值得考虑的完整候选集——覆盖你认为所有可能影响性价比排序的架构、代际、容量档位和价格区间（包括消费级、数据中心级、以及任何你认为值得纳入比较的非典型方案）。同时评估单卡与多卡方案的 TCO 差异（如 2× 消费卡 vs 1× 数据卡）。给出性价比最优的完整选卡方案。要求：思考必须最完整，确认没有遗漏任何影响决策的维度；每个关键数字标注来源（刚查到的 vs 凭记忆的），不确定的标 [待核验]；最终推荐必须是条件性的，不能给无条件排名。",
+  "round": 2,
+  "state": "rework",
+  "dropped_redundant": 1,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": null,
+  "objective_mode": "text",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "node_id": "N9",
+      "claim": "列出当前市场主流GPU候选清单及其关键参数：NVIDIA H100 (80GB HBM3, $25k-$30k), A1",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]价格区间属于高度波动的市场经验事实，且不同渠道（新品/二手/企业采购）差异巨大，单一来源难以覆盖所有型号的最新实时价格；此外，RTX 4090/3090"
+    },
+    {
+      "node_id": "N10",
+      "claim": "评估非典型硬件方案的可行性：AMD MI300X (192GB HBM3, $15k) 与 MI250 (128GB H",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]MI250 的显存规格（128GB HBM2e）与价格（$10k）在参考来源中完全缺失，且 MI250 实际为 64GB HBM2e（单卡），128GB"
+    },
+    {
+      "node_id": "N12",
+      "claim": "量化BF16精度作为基准的质量保持率：Qwen3-27B在BF16下的Perplexity (PPL) 与MMLU/CM",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（PPL≈3.2, MMLU≈85%）缺乏直接来源支持，且参考来源主要讨论量化对比而非BF16基线的绝对数值，存在数值不准确或版本混淆的风险。 "
+    },
+    {
+      "node_id": "N13",
+      "claim": "评估FP8精度（E4M3/E5M2）在Qwen3-27B上的质量损失：Perplexity增加幅度（通常+0.1-0.3",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级与具体模型不匹配：Qwen3-27B 的 FP8 权重显存占用约为 27GB（27B * 1 byte），而非陈述中的 13.6GB（13.6G"
+    },
+    {
+      "node_id": "N22",
+      "claim": "Qwen3-27B 在 BF16 精度下的理论 KV Cache 内存占用为 2 * 27B * 32K * 2 byt",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值计算错误：2 * 27B * 32K * 2 bytes 的实际结果约为 3.44 PB (Petabytes)，而非 3.44 TB (Terab"
+    },
+    {
+      "node_id": "N24",
+      "claim": "消费级 GPU (RTX 4090/3090) 在 BF16 推理下的 Model FLOPs Utilization ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源主要关注吞吐量（tokens/s）和成本效益，未直接提供 MFU（Model FLOPs Utilization）的具体百分比数值，且将性能差异"
+    },
+    {
+      "node_id": "N28",
+      "claim": "量化精度对延迟的影响：INT8/FP8 推理相比 BF16 通常提速 1.2-1.5 倍（因内存带宽减半且计算单元支持）",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含两个独立断言：1. 量化提速1.2-1.5倍；2. Qwen3-27B INT8困惑度增加<5%。参考来源仅讨论FP8/INT8格式定义，未提"
+    },
+    {
+      "node_id": "N29",
+      "claim": "驱动兼容性：Linux 下 NVIDIA 驱动版本需匹配 CUDA 12.x 以支持 FP8/INT8 推理；Windo",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中包含多个具体的经验性数值（WSL2性能损失5-10%、AMD兼容性滞后3-6个月），这些数值缺乏统一的基准测试支持，且随硬件代际和软件版本波动较大"
+    },
+    {
+      "node_id": "N34",
+      "claim": "补充硬件候选集：NVIDIA H200 (141GB HBM3e, $35k-$40k) 与 RTX 5090 (32G",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]RTX 5090 的价格区间（$2k-$2.5k）及发布状态属于经验事实，且该节点明确标记为[待核验]，缺乏直接来源支持；Intel Max 1550 "
+    },
+    {
+      "node_id": "N35",
+      "claim": "量化TCO中的功耗成本：RTX 4090 TDP 450W, H100 SXM TDP 700W, MI300X TDP",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]RTX 4090 的 TDP 450W 是桌面版标准值，但参考来源 [3] 指出移动版 TDP 仅为 150-200W，且来源 [2] 实测功耗可达 5"
+    },
+    {
+      "node_id": "N36",
+      "claim": "量化TCO中的硬件折旧与维护：假设3年折旧期，RTX 4090 残值率约30%，H100 残值率约50%；多卡方案（2x",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源仅讨论GPU选型对TCO的宏观影响及利用率，未提供RTX 4090/H100的具体残值率数据，也未提及多卡方案中PCIe riser、主板插槽等"
+    },
+    {
+      "node_id": "N37",
+      "claim": "定义性价比指标公式：Value Score = (Throughput_tokens_per_sec * Quality",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该公式为自定义指标，参考来源仅涉及推理延迟（TPOT/TTFT）和吞吐量概念，未提供关于将MMLU/CMMLU作为质量分母、或包含硬件折旧/电力/维护的"
+    },
+    {
+      "node_id": "N38",
+      "claim": "推导条件性最优方案边界：若追求极低TCO且接受W4/FP8精度（质量损失<2%），推荐 2x RTX 4090 (PCI",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的硬件型号（RTX 4090/5090, H200, MI300X）及其在特定精度下的性能/成本权衡结论，属于经验事实。参考来源[1]仅涉"
+    },
+    {
+      "parent_id": "N23",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "增加一个子节点专门用于分析或确定 'MFU' 的合理取值范围，或者在子节点3和4中明确说明 MFU 的取值来源及敏感性分析，以覆盖父节点公式中的所有关键变量。",
+        "子节点2指出 T_decode 应改为内存带宽模型，建议进一步细化 KV_Cache_Size_per_token 的计算公式（涉及 hidden size, num heads, data type 等），以确保量化步骤（子节点4）的输入是明确的。"
+      ],
+      "round": 1
+    },
+    {
+      "parent_id": "N35",
+      "issues": [
+        "有冗余"
+      ],
+      "suggestions": [
+        "将子节点1-3合并为一个通用节点‘各GPU年电力成本计算表’，使用表格或参数化列表展示不同TDP对应的成本，避免重复描述相同的计算逻辑。",
+        "修正子节点4中的数值错误：RTX 4090修正后年电费约为$276-$335，3年总电费应为$828-$1005，占比计算需基于修正后的准确数值重新验证。"
+      ],
+      "round": 1
+    },
+    {
+      "node_id": "N39",
+      "claim": "Qwen3-27B 的精确参数量为 27,186,000,000 (27.186B)，来源为 HuggingFace 官",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源[1]指向的是 'Qwen3.8-27B' 而非 'Qwen3-27B'，且摘要中未提供 config.json 的具体参数（如 num_hid"
+    },
+    {
+      "node_id": "N42",
+      "claim": "Qwen3-27B 的 Grouped Query Attention (GQA) 配置：确认 num_key_valu",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的硬件/模型架构参数（num_key_value_heads=8, hidden_size=4096等），属于经验事实。参考来源[1]仅确"
+    },
+    {
+      "node_id": "N45",
+      "claim": "CUDA Overhead 显存占用量化：CUDA 上下文、内核加载、内存分配器等开销通常固定为 0.5-1.0 GB，",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]CUDA 上下文及驱动开销并非严格固定为 0.5-1.0 GB，该数值高度依赖于 GPU 架构、驱动版本、CUDA 版本以及是否启用 MPS 等特性，不"
+    },
+    {
+      "node_id": "N47",
+      "claim": "NVIDIA H100 SXM5 的精确规格为：80GB HBM3, 内存带宽 3.35TB/s, TDP 700W, ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]单卡价格区间 $25,000-$30,000 属于动态市场经验事实，且2024 Q3期间受供需波动影响，价格可能超出此区间或存在显著溢价，仅凭逻辑无法确"
+    },
+    {
+      "node_id": "N48",
+      "claim": "NVIDIA A100 SXM4 的精确规格为：80GB HBM2e, 内存带宽 2.0TB/s, TDP 400W, ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]单卡价格区间 $10,000-$15,000 (2024 Q3 市场价) 属于经验事实，且该价格区间在2024年Q3对于A100 80GB SXM4而言"
+    },
+    {
+      "node_id": "N49",
+      "claim": "NVIDIA L40S 的精确规格为：48GB GDDR6, 内存带宽 864GB/s, TDP 350W, 支持 FP",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]单卡价格区间 $8,000-$10,000 (2024 Q3) 属于高度波动的市场经验事实，且该价格区间可能偏低（L40S 作为高端数据中心 GPU，2"
+    },
+    {
+      "node_id": "N50",
+      "claim": "NVIDIA RTX 4090 的精确规格为：24GB GDDR6X, 内存带宽 1.0TB/s, TDP 450W, ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中提到的内存带宽为 1.0TB/s，而参考来源 [1] 明确指出 RTX 4090 的显存带宽为 1008 GB/s（即约 1.008 TB/s）。"
+    },
+    {
+      "node_id": "N51",
+      "claim": "NVIDIA RTX 3090 的精确规格为：24GB GDDR6X, 内存带宽 936GB/s, TDP 350W, ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]2024 Q3 的市场价格区间 $1,200-$1,500 存在较大不确定性，且参考来源未提供价格数据，属于经验事实且缺乏直接来源支持。 | 来源 [1"
+    },
+    {
+      "node_id": "N52",
+      "claim": "AMD MI300X 的精确规格为：192GB HBM3, 内存带宽 5.3TB/s, TDP 750W, ROCm 6",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源摘要中存在明显的单位错误（将内存带宽 5.3TB/s 误写为 5.325 TFLOPS），且参考来源完全未覆盖 ROCm 版本支持情况及 2024 "
+    },
+    {
+      "node_id": "N53",
+      "claim": "AMD MI250X 的精确规格为：128GB HBM2e, 内存带宽 3.2TB/s, TDP 1000W, ROCm",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]单卡价格区间 $10,000-$12,000 与 2024 Q3 市场价严重不符，MI250X 作为高端 HPC 加速卡，其市场/渠道价格通常远高于此（"
+    },
+    {
+      "node_id": "N54",
+      "claim": "NVLink 4.0 (H100/A100) 的单向带宽为 900GB/s，双向带宽为 1.8TB/s，而 PCIe 4",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级与官方规格存在偏差：H100 NVLink 4.0 官方单向带宽通常为 900GB/s（双向 1.8TB/s），但 A100 使用的是 NVLi"
+    },
+    {
+      "node_id": "N55",
+      "claim": "2x RTX 4090 通过 PCIe 4.0 x16 连接时，在 Tensor Parallelism 中 AllRe",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]公式量纲错误且物理模型错误：T_comm 计算结果单位为秒（s），但 AllReduce 通信时间占比应为无量纲比率；此外，AllReduce 在双卡 "
+    },
+    {
+      "node_id": "N57",
+      "claim": "Qwen3-27B (Base Model) 在 BF16 精度下，基于 WikiText-2 数据集的 Perplex",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源[1]讨论的是 Qwen3.6-27B，而待核验事实针对的是 Qwen3-27B，模型版本不匹配，无法提供直接支持；且该具体 PPL 数值属于经"
+    },
+    {
+      "node_id": "N58",
+      "claim": "Qwen3-27B (Instruct Model) 在 BF16 精度下，MMLU (Massive Multitas",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源均未提供 Qwen3-27B 在 MMLU 和 CMMLU 基准测试中的具体分数，且来源 [1] 和 [3] 讨论的是 Qwen3.5-27B "
+    },
+    {
+      "node_id": "N59",
+      "claim": "Qwen3-27B 在 FP8 (E4M3) 精度下，基于 WikiText-2 的 Perplexity 具体数值为 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源[1]中的模型名称为'Qwen3.8-27B'，与待核验事实中的'Qwen3-27B'存在版本/命名不一致（可能是笔误或不同版本），且来源摘要仅"
+    },
+    {
+      "node_id": "N60",
+      "claim": "Qwen3-27B 在 FP8 (E4M3) 精度下，MMLU 分数具体数值为 [待核验]；准确率损失量化公式为 ΔMM",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源[1]中的模型名称为'Qwen3.8-27B'，与待核验事实中的'Qwen3-27B'存在版本/命名不一致（可能是笔误或不同版本），且摘要中仅提"
+    },
+    {
+      "node_id": "N62",
+      "claim": "修正 KV Cache 计算错误：原 N22 中 '3.44 TB' 系误将参数量(27B)代入公式。正确公式为 KV_",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源[1]指向的是 'Qwen3.6-27B' 而非 'Qwen3-27B'，且摘要未包含具体的 Num_Layers, Num_KV_Heads,"
+    },
+    {
+      "node_id": "N64",
+      "claim": "分析 Grouped Query Attention (GQA) 对显存占用的缩减系数：若 Qwen3-27B 采用 G",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验事实参数（Qwen3-27B 的 GQA 比例因子及具体节省的显存 GB 数），这些无法从第一性原理推导，且参考来源仅提供了 GQA"
+    },
+    {
+      "node_id": "N69",
+      "claim": "核实 RTX 4090 在 LLM 推理（非训练）场景下的实际 MFU 范围：查阅 LLM 推理引擎（如 vLLM, l",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源主要提供吞吐量（tok/s）和延迟数据，未直接提供 MFU（Model FLOPs Utilization）的具体数值或 Prefill/Dec"
+    },
+    {
+      "node_id": "N70",
+      "claim": "核实 H100 SXM 在 LLM 推理场景下的实际 MFU 范围：查阅 NVIDIA 官方技术白皮书或第三方评测（如 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源仅提供了定性对比（BF16 vs FP8 的延迟/吞吐量/内存），未提供具体的 MFU（Model FLOPs Utilization）数值范围"
+    },
+    {
+      "node_id": "N72",
+      "claim": "计算 RTX 4090 在 W4 量化下的最大 KV Cache 容量：剩余显存 = 24GB - 14GB (权重) ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]公式中使用的参数（64, 8, 128）与 Qwen3-27B 的实际架构参数（如 hidden size, head dim, KV heads 数量"
+    },
+    {
+      "node_id": "N76",
+      "claim": "2x RTX 4090 vs 1x MI300X 的 TCO 对比中通信开销差异：MI300X 单卡无互联瓶颈，通信开销",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]MI300X 单价 $15,000 及 RTX 4090 具体硬件成本、电力消耗对比等均为经验事实，参考来源仅涉及云租赁价格（$3.87/hr）和规格对"
+    },
+    {
+      "node_id": "N78",
+      "claim": "H200 vs H100 在 Qwen3-27B 32K 上下文下的 T_decode 加速比：H200 带宽 4.8 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]价格假设（H100 $30k vs H200 $40k，即33%溢价）与参考来源[2]提供的起始价格（H100 $29k vs H200 $31k，约7"
+    },
+    {
+      "node_id": "N80",
+      "claim": "Qwen3-27B INT8 量化困惑度 (Perplexity) 实测数据：在 WikiText-2 数据集上，BF1",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源[1]标题及内容提及的是'Qwen3.8-27B'（疑似笔误或虚构版本，通常Qwen3系列为235B/32B/14B/8B/4B/1.5B/0."
+    },
+    {
+      "node_id": "N81",
+      "claim": "Qwen3-27B FP8 量化困惑度 (Perplexity) 实测数据：在 WikiText-2 数据集上，BF16",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源[1]讨论的是'Qwen3.8-27B'（疑似笔误或非标准版本号，通常Qwen3系列为235B/32B/14B/8B等，且27B并非Qwen3官"
+    },
+    {
+      "node_id": "N82",
+      "claim": "INT8/FP8 相比 BF16 的延迟加速比实测：在 H100 上，INT8 推理吞吐量为 BF16 的 1.8-2.",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（1.8-2.2x, 1.5-1.8x）属于经验事实，且受Batch Size、序列长度、具体模型架构及软件栈影响极大，缺乏特定测试条件下的严格"
+    },
+    {
+      "node_id": "N84",
+      "claim": "WSL2 下 GPU 推理性能损失量化：相比原生 Linux，WSL2 引入的额外延迟主要源于 GPU 内存映射开销，典",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值区间（3-8%）缺乏权威基准测试支持，且来源[1]仅给出利用率（98%）而非吞吐损失率，两者虽相关但非直接等价，且不同模型/驱动版本下波动较大，"
+    },
+    {
+      "node_id": "N85",
+      "claim": "AMD ROCm 对 Qwen3 系列模型的支持状态与滞后周期：截至 2024 年中，ROCm 6.x 支持 PyTor",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于'ROCm 6.x 支持 PyTorch 2.1+'及'滞后 2-4 个月'的具体版本对应关系和时间窗口属于经验事实，且参考来源主要讨论 RO"
+    },
+    {
+      "node_id": "N86",
+      "claim": "NVIDIA H200 关键参数核实：显存容量 141GB HBM3e，带宽 4.8 TB/s，TDP 700W，价格区",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]价格区间（$25k-$30k）属于经验事实且为2024 Q3的市场数据，参考来源仅包含官方技术规格（显存、带宽、架构），未覆盖市场价格信息，无法通过现有"
+    },
+    {
+      "node_id": "N87",
+      "claim": "RTX 5090 发布状态与参数：截至 2024 年中，RTX 5090 尚未正式发布（预计 2025 Q1），传闻参数",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述声称“截至 2024 年中，RTX 5090 尚未正式发布”，但参考来源 [1] 明确指出该显卡已在 CES 2025 发布，且来源 [2] 和 ["
+    },
+    {
+      "node_id": "N88",
+      "claim": "Intel Data Center GPU Max 1550 推理支持情况：显存 48GB HBM2e，带宽 921.6",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含大量经验性事实（具体价格区间、与NVIDIA同价位卡的性能对比百分比、特定模型Qwen3-27B的推理路径及FP8支持情况），这些无法从第一性"
+    },
+    {
+      "node_id": "N93",
+      "claim": "RTX 4090 在3年后的二手市场残值率约为35-40%（基于2024年Q4 eBay/TB历史成交均价与首发价$15",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源[2]明确预测三年内残值在54%以上，与陈述中的35-40%存在显著数值矛盾；且来源[1]仅定性描述'较强保值韧性'，未提供具体数值支持35-40%"
+    },
+    {
+      "node_id": "N94",
+      "claim": "NVIDIA H100 SXM 在3年后的残值率约为50-60%（受数据中心租赁市场波动影响，企业级硬件流动性高于消费级",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性数值（3年后残值率50-60%），这属于硬件市场经验事实，无法从第一性原理推导。参考来源仅讨论了2026年的租赁市场现状和价格波动"
+    },
+    {
+      "node_id": "N97",
+      "claim": "Throughput_tokens_per_sec 的量化定义：在特定精度（如FP8）和上下文长度（32K）下，单卡或集",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述要求列出特定硬件（RTX 4090, H100, MI300X）在特定精度和上下文长度下的具体实测或理论峰值吞吐数据，但参考来源仅提供了 Toke"
+    },
+    {
+      "node_id": "N98",
+      "claim": "Quality_Score 的归一化计算：以 BF16 精度下的 MMLU 分数为基准 1.0，其他精度（FP8, IN",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述描述了一种特定的归一化计算方法（以BF16为基准1.0），属于方法论或特定实验设定的定义，而非通用的物理或数学定律。参考来源[1]和[2]主要讨论"
+    },
+    {
+      "node_id": "N101",
+      "claim": "高吞吐边界条件验证：当预算上限为 $30,000 且要求 BF16 精度（Quality_Score = 1.0）时，1",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于 2x H100 的总带宽（160GB, 3.35TB/s）存在严重的物理/架构逻辑错误。H100 SXM5 单卡显存为 80GB，2 卡应为"
+    },
+    {
+      "node_id": "N102",
+      "claim": "长上下文单卡边界条件验证：MI300X (192GB) 在 FP8 精度下支持的最大并发 Batch Size 计算。公",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的工程经验参数（如FP8带宽利用率、ROCm对Qwen3 FP8支持的稳定性细节），这些属于经验事实，无法仅从第一性原理推导，且参考来源主"
+    },
+    {
+      "node_id": "N103",
+      "claim": "候选硬件全集的筛选标准定义：显存容量下限为 32GB（以容纳 W4 量化权重+32K KV Cache），带宽下限为 8",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的工程经验参数（如32GB显存下限、800GB/s带宽下限、特定架构代际限定），这些属于经验事实而非第一性原理可推导的数学/物理定律。参考"
+    },
+    {
+      "node_id": "N104",
+      "claim": "非典型/边缘硬件方案的具体排除或纳入理由：Apple M3 Ultra (512GB Unified Memory) 虽",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源[1]和[2]主要强调M3 Ultra在本地运行大模型的能力（如DeepSeek-R1），且提到token生成速度有显著提升，但未直接提供与NVID"
+    },
+    {
+      "node_id": "N105",
+      "claim": "数据溯源标注规范定义：所有节点中的关键数值必须附带标签 [Source: Verified-2024Q4] 表示已通过最",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述描述的是一套特定的、非通用的内部数据标注规范（如 [Source: Verified-2024Q4] 等具体标签格式），而非行业公认的标准或事实。"
+    },
+    {
+      "node_id": "N106",
+      "claim": "置信度分级管理策略：对于价格数据，由于波动性大，所有价格节点必须标注 [Price-Volatility: High] ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的工程阈值（MFU < 30%）和偏差范围（±20%），属于经验事实或特定项目规范，无法从第一性原理推导，且参考来源均未提供这些具体数值的"
+    }
+  ],
+  "contradiction_events": [
+    {
+      "round": 1,
+      "a": "N11",
+      "b": "N26",
+      "a_claim": "分析多卡互联拓扑对推理性能的影响：NVLink (900GB/s) vs PCIe 4.0 x16 (32GB/s) vs PCIe 5.0 x16 (64GB",
+      "b_claim": "多卡通信开销：2x RTX 4090 通过 PCIe 4.0 x16 连接，带宽 32GB/s，相比 NVLink (400GB/s) 低 12.5 倍；在 T",
+      "desc": "NVLink 带宽数值冲突：N11 标注为 900GB/s，而 N26 标注为 400GB/s。",
+      "fixed": false
+    },
+    {
+      "round": 2,
+      "a": "N11",
+      "b": "N74",
+      "a_claim": "分析多卡互联拓扑对推理性能的影响：NVLink (900GB/s) vs PCIe 4.0 x16 (32GB/s) vs PCIe 5.0 x16 (64GB",
+      "b_claim": "修正N26中NVLink带宽错误：RTX 4090 (Ada Lovelace) 不支持NVLink，其最大互联带宽仅为PCIe 4.0 x16 (64 GB/",
+      "desc": "N11 将 NVLink 带宽标为 900GB/s 并暗示其可用于对比，而 N74 明确指出 RTX 4090 不支持 NVLink，且 900GB/s 仅存在于数据中心 GPU（如 H100），N11 的语境（多卡互联拓扑对推理性能影响，",
+      "fixed": false
+    },
+    {
+      "round": 2,
+      "a": "N26",
+      "b": "N74",
+      "a_claim": "多卡通信开销：2x RTX 4090 通过 PCIe 4.0 x16 连接，带宽 32GB/s，相比 NVLink (400GB/s) 低 12.5 倍；在 T",
+      "b_claim": "修正N26中NVLink带宽错误：RTX 4090 (Ada Lovelace) 不支持NVLink，其最大互联带宽仅为PCIe 4.0 x16 (64 GB/",
+      "desc": "N26 声称 '2x RTX 4090 ... 相比 NVLink (400GB/s) 低 12.5 倍'，隐含 RTX 4090 具备或可对比 NVLink 400GB/s 的语境，但 N74 明确修正指出 'RTX 4090 (Ada ",
+      "fixed": false
+    }
+  ],
+  "n_nodes": 93
+}

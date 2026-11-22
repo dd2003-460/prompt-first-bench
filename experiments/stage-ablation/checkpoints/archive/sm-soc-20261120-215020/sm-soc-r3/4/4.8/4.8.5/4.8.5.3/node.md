@@ -1,0 +1,20 @@
+# N213: 收入损失 C_revenue_loss 的量化：C_revenue_loss = 短期 GMV 损失 × 平台抽成率。基于 N57，若高溢价商品占比 20%，G
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N74
+
+## Claim
+
+收入损失 C_revenue_loss 的量化：C_revenue_loss = 短期 GMV 损失 × 平台抽成率。基于 N57，若高溢价商品占比 20%，GMV 损失 10%，则 C_revenue_loss = 0.2 × 0.1 × GMV_total × 0.05（假设抽成率 5%）。若 GMV_total = 1000 万元/月，则 C_revenue_loss = 1000万 × 0.02 × 0.05 = 1 万元/月。
+
+## Corrected Claim
+
+收入损失 C_revenue_loss 的量化：C_revenue_loss = 短期 GMV 损失 × 平台抽成率。基于 N57，若高溢价商品占比 20%，GMV 损失 10%，则 C_revenue_loss = 0.2 × 0.1 × GMV_total × 0.05（假设抽成率 5%）。若 GMV_total = 1000 万元/月，则 C_revenue_loss = 1000万 × 0.02 × 0.05 = 1 万元/月。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式推导 C = GMV_total * 占比 * 损失率 * 抽成率 = 1000万 * 0.2 * 0.1 * 0.05 = 1万元，数值计算正确，量纲一致。

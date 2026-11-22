@@ -1,0 +1,24 @@
+# N148: Akamai 对象大小分布的上限 s_max 实证值：根据 Akamai State of the Internet 报告，典型 CDN 缓存对象的中位数为 1
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N63
+
+## Claim
+
+Akamai 对象大小分布的上限 s_max 实证值：根据 Akamai State of the Internet 报告，典型 CDN 缓存对象的中位数为 10-50KB，但 P99 对象大小通常在 50MB-200MB 之间。对于视频流媒体对象，s_max 可能高达 500MB-1GB。
+
+## Corrected Claim
+
+根据Akamai State of the Internet报告，典型CDN缓存对象的中位数通常在10-50KB量级，而长尾的大对象（如P99）及视频流媒体对象的大小可达数十MB至GB级别，具体上限随业务类型和统计周期波动。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值范围（如P99对象大小50MB-200MB，视频对象上限500MB-1GB），属于硬件/网络流量统计的经验事实，无法从第一性原理推导。且Akamai报告通常提供的是整体流量分布或特定年份的统计，不同年份、不同业务类型（静态资源vs视频）的P99值波动较大，直接断言固定的数值区间缺乏特定时间点和具体报告版本的支撑，存在以偏概全或数据过时的风险。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，无法验证具体数值区间是否准确对应Akamai最新报告）。
+
+## Search Query
+
+Akamai CDN object size distribution P99 max size MB video streaming

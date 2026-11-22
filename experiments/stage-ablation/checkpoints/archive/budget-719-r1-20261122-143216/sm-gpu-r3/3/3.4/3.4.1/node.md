@@ -1,0 +1,20 @@
+# N89: A100 80GB 在 BF16 精度下解码 Qwen3-27B (Batch Size=1) 的理论最大吞吐量上限为 显存带宽 (2039 GB/s HBM2
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N20
+
+## Claim
+
+A100 80GB 在 BF16 精度下解码 Qwen3-27B (Batch Size=1) 的理论最大吞吐量上限为 显存带宽 (2039 GB/s HBM2e) / 单次解码读取字节数 (54 GB) ≈ 37.7 tokens/s，实际吞吐量需乘以内存带宽利用率系数 (通常 0.7-0.9) 得出 26-34 tokens/s。
+
+## Corrected Claim
+
+A100 80GB 在 BF16 精度下解码 Qwen3-27B (Batch Size=1) 的理论最大吞吐量上限为 显存带宽 (2039 GB/s HBM2e) / 单次解码读取字节数 (54 GB) ≈ 37.7 tokens/s，实际吞吐量需乘以内存带宽利用率系数 (通常 0.7-0.9) 得出 26-34 tokens/s。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点1和子节点2本质上是同一公式在不同利用率参数下的取值，属于参数冗余而非正交概念；此外，父节点仅讨论Batch=1，子节点3引入了Batch=4的新维度，超出了父节点定义的边界，导致覆盖范围不一致（父节点未涵盖多批次场景，而子节点3却在此处展开，破坏了上下文的单一性）。）

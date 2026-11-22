@@ -1,0 +1,20 @@
+# N105: 敏感性斜率：∂T_cycle/∂p_impulse = T_impulse - T_rational = -0.5 * T_rational，表明冲动买家占比每
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N41
+
+## Claim
+
+敏感性斜率：∂T_cycle/∂p_impulse = T_impulse - T_rational = -0.5 * T_rational，表明冲动买家占比每增加1%，整体成交周期缩短 0.5% * T_rational，该负斜率是‘高挂价吸引冲动买家从而缩短周期’机制成立的数学前提。
+
+## Corrected Claim
+
+敏感性斜率：∂T_cycle/∂p_impulse = T_impulse - T_rational = -0.5 * T_rational，表明冲动买家占比每增加1%，整体成交周期缩短 0.5% * T_rational，该负斜率是‘高挂价吸引冲动买家从而缩短周期’机制成立的数学前提。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：若总周期 T_cycle 是冲动买家周期 T_impulse 和理性买家周期 T_rational 的加权平均（权重为占比 p），则导数 ∂T_cycle/∂p = T_impulse - T_rational。代入 T_impulse = 0.5 * T_rational 可得斜率为 -0.5 * T_rational，推导自洽。

@@ -1,0 +1,104 @@
+{
+  "qid": "nat",
+  "question": "某边缘 CDN 节点有 128GB 内存做对象缓存，工作负载：10 万对象，大小服从 Pareto(α=1.1)，请求热度也服从 Pareto(β=0.9)，热门对象与大小负相关（ρ≈-0.3）。每天总请求 5000 万次。请估算：(a) LRU 策略下的稳态字节命中率下界；(b) LFU 相比 LRU 最多能提升多少百分点、为什么；(c) 如果对象更新率是 1%/天，LRU 的有效命中率还要再打几折？给出推导链，区分「凭记忆的」和「刚查到的」。",
+  "round": 1,
+  "state": "rework",
+  "dropped_redundant": 0,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": null,
+  "objective_mode": "text",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "parent_id": "N2",
+      "issues": [
+        "非正交",
+        "不完备",
+        "有冗余"
+      ],
+      "suggestions": [
+        "合并工作点1和工作点2：建立一个通用的LRU命中率下界公式，将ρ作为可变参数，而不是拆分为两个独立的工作点。",
+        "重新审视工作点3：LRU的‘缓存污染’通常由非局部性（non-locality）或大对象驱逐引起，建议明确其理论依据，或将其修正为基于‘对象大小分布对缓存效率影响’的独立维度，确保与前两个热度维度正交。",
+        "补充关键维度：考虑增加一个子节点处理‘请求时间局部性’（如Zipf分布下的访问间隔），因为稳态命中率不仅取决于静态热度，还取决于动态访问模式。"
+      ],
+      "round": 0
+    },
+    {
+      "parent_id": "N4",
+      "issues": [
+        "非正交"
+      ],
+      "suggestions": [
+        "合并子节点3和子节点4：将子节点4中关于‘更新导致旧版本驱逐、新版本重新获取’的定性机制描述作为子节点3的前置说明或注释，而不是单独作为一个子节点。子节点3应聚焦于量化公式，子节点4若保留应明确其计算的是‘额外带宽惩罚’而非‘命中率折损因子’，或者将其改为对子节点3公式中参数的物理意义解释。",
+        "明确区分‘命中率折损’与‘带宽开销’：父节点关注的是‘命中率’的折损，子节点4计算的‘额外带宽开销’是另一个指标。建议将子节点4修改为‘更新对有效命中率的定性影响机制分析’，重点阐述为何P_invalid会导致命中率下降，而不是计算带宽，以避免与子节点3的量化目标偏离。"
+      ],
+      "round": 0
+    },
+    {
+      "node_id": "N6",
+      "claim": "对象大小分布的截断阈值 S_max 计算：求解 Pareto(α=1.1) 在 128GB 容量约束下的最大可缓存对象大",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]公式中的分母项 (1 - (S_min/S_max)^(α-1)) 在 S_max 远大于 S_min 时趋近于 1，导致 S_max 近似为常数，这与"
+    },
+    {
+      "node_id": "N8",
+      "claim": "热度-大小负相关系数 ρ=-0.3 对联合分布的影响量化：在 Copula 模型中，ρ 决定了条件概率 P(size >",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]公式 ΔS = ρ * σ_size * σ_rank / σ_size 在量纲和逻辑上存在严重错误。首先，σ_rank 通常指排名（离散整数）的标准差"
+    },
+    {
+      "node_id": "N12",
+      "claim": "工作点1（高性低成）：LFU 在热度分布极度偏斜（β=0.9）时的理论上限增益 Δ_H_max = H_LFU - H_",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]公式中的项 (1 - (1/N)^(1-β)) 在数学上并不直接对应 Zipf 分布下前 1% 对象的累积概率（通常应为 1 - (0.01)^(1-β"
+    },
+    {
+      "node_id": "N13",
+      "claim": "工作点2（中性价比最优）：考虑热度-大小负相关（ρ=-0.3）对 LFU 增益的抑制效应，量化为 Δ_H_actual ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]公式中的 interaction_term 是一个未定义的模糊变量，缺乏具体的物理或数学定义，导致该量化关系在逻辑上不可证伪且缺乏严谨性；此外，ρ=-0"
+    },
+    {
+      "node_id": "N20",
+      "claim": "需查证部分：具体参数如 Pareto 分布的截断值 s_min/s_max、对象大小与热度的联合分布协方差结构（ρ=-0",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述本身是一个关于“需查证”的元陈述，而非具体事实断言。其潜在错误在于暗示这些参数（如ρ=-0.3）是普遍存在的固定值，而实际上它们高度依赖于具体的数"
+    },
+    {
+      "node_id": "N21",
+      "claim": "工作负载归一化参数：总对象平均大小 E[S] 的计算公式，基于截断 Pareto 分布 (α=1.1, min=1KB,",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N22",
+      "claim": "LRU 稳态字节命中率下界 H_LRU_lb 的积分表达式：H_LRU_lb = (∫_0^{K_max} f_size",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N23",
+      "claim": "缓存容量利用率约束：在 128GB 内存和 10 万对象规模下，需验证 K_max * E[S] ≤ C，若 K_max",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N24",
+      "claim": "LRU 命中率下界的保守估计方法：采用‘静态最优’下界，假设缓存始终保留字节价值最高的 K_max 个对象（基于热度*大",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 24
+}

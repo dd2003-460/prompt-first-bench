@@ -1,0 +1,24 @@
+# N63: 在 FP8 精度、32K 上下文、单流推理下，RTX 4090 的理论 TPOT ≈ (3.3 GB + 2 GB) / 1008 GB/s ≈ 5.3 ms/
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N15
+
+## Claim
+
+在 FP8 精度、32K 上下文、单流推理下，RTX 4090 的理论 TPOT ≈ (3.3 GB + 2 GB) / 1008 GB/s ≈ 5.3 ms/token (约 188 tokens/s)，A100 80GB ≈ (3.3 GB + 2 GB) / 2039 GB/s ≈ 2.6 ms/token (约 384 tokens/s)，量化后带宽瓶颈缓解，但计算精度损失需评估，RTX 5090 因原生 FP8 支持可能获得额外加速。
+
+## Corrected Claim
+
+在 FP8 精度、32K 上下文、单流推理下，RTX 4090 的理论 TPOT ≈ (3.3 GB + 2 GB) / 1008 GB/s ≈ 5.3 ms/token (约 188 tokens/s)，A100 80GB ≈ (3.3 GB + 2 GB) / 2039 GB/s ≈ 2.6 ms/token (约 384 tokens/s)，量化后带宽瓶颈缓解，但计算精度损失需评估，RTX 5090 因原生 FP8 支持可能获得额外加速。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：带宽数值（4090~1008GB/s, A100~2039GB/s）符合硬件规格，算术推导（5.3ms/2.6ms）正确，符合内存带宽瓶颈下的推理延迟估算逻辑。
+
+## Search Query
+
+Qwen3-27B FP8 inference benchmark RTX 4090 A100 H100 tokens per second

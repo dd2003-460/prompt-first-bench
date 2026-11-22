@@ -1,0 +1,24 @@
+# N49: 对象平均更新间隔 T_update 的计算：基于更新率 λ_update = 1%/day。假设更新是泊松过程，则单个对象的平均更新间隔 T_update = 
+
+- **status**: pending
+- **level**: L3
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N14
+
+## Claim
+
+对象平均更新间隔 T_update 的计算：基于更新率 λ_update = 1%/day。假设更新是泊松过程，则单个对象的平均更新间隔 T_update = 1 / λ_update = 100 天。此值直接代入 A_decay = exp(-λ * T_update) 计算衰减因子。
+
+## Corrected Claim
+
+对象平均更新间隔 T_update 的计算：基于更新率 λ_update = 1%/day。假设更新是泊松过程，则单个对象的平均更新间隔 T_update = 1 / λ_update = 100 天。此值直接代入 A_decay = exp(-λ * T_update) 计算衰减因子。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点本质上是同一公式在不同参数（T_half）下的两个特例，属于参数扫描而非正交维度分解，存在严重冗余；且父节点描述的是基于固定λ_update的确定性计算，子节点却引入了任意设定的T_half，逻辑上偏离了父节点‘直接代入’的核心约束，未覆盖父节点描述的通用计算逻辑。）
+
+## Search Query
+
+poisson process mean interarrival time update rate

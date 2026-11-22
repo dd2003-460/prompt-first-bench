@@ -1,0 +1,24 @@
+# N152: RTX 4090 (Ada Lovelace) 架构修正：实际上原生支持 FP8 (E4M3/E5M2) 数据格式和 Tensor Core 计算单元，并非不支
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N47
+
+## Claim
+
+RTX 4090 (Ada Lovelace) 架构修正：实际上原生支持 FP8 (E4M3/E5M2) 数据格式和 Tensor Core 计算单元，并非不支持。N47 原 claim 错误。在 vLLM/TensorRT-LLM 中，RTX 4090 可直接执行 FP8 GEMM 操作，无需反量化至 BF16/FP32 进行核心矩阵乘法，仅在某些特定算子或旧版驱动下可能回退。
+
+## Corrected Claim
+
+RTX 4090 (Ada Lovelace) 架构修正：实际上原生支持 FP8 (E4M3/E5M2) 数据格式和 Tensor Core 计算单元，并非不支持。N47 原 claim 错误。在 vLLM/TensorRT-LLM 中，RTX 4090 可直接执行 FP8 GEMM 操作，无需反量化至 BF16/FP32 进行核心矩阵乘法，仅在某些特定算子或旧版驱动下可能回退。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 (Ada Lovelace) 架构确实原生支持 FP8 (E4M3/E5M2) 及 Tensor Core 加速，vLLM/TensorRT-LLM 等框架已适配该特性，无需反量化至 BF16/FP32 进行核心矩阵乘法。
+
+## Search Query
+
+RTX 4090 Ada Lovelace native FP8 support tensor core

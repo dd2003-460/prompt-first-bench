@@ -1,0 +1,24 @@
+# N301: RTX 3090 (GA102) 硬件不支持原生 FP8 Tensor Core 运算，但在 vLLM 等框架中可通过软件模拟或存储为 FP8 并在计算时转换为
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N110, N111, N112
+
+## Claim
+
+RTX 3090 (GA102) 硬件不支持原生 FP8 Tensor Core 运算，但在 vLLM 等框架中可通过软件模拟或存储为 FP8 并在计算时转换为 FP16/BF16 执行，导致 KV Cache 存储节省 50% 但计算无加速
+
+## Corrected Claim
+
+RTX 3090 (GA102) 硬件不支持原生 FP8 Tensor Core 运算，但在 vLLM 等框架中可通过软件模拟或存储为 FP8 并在计算时转换为 FP16/BF16 执行，导致 KV Cache 存储节省 50% 但计算无加速
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 3090 (Ampere架构) 硬件确实不支持原生FP8 Tensor Core（FP8支持始于Ada Lovelace/Hopper架构），软件模拟或存储转换符合技术原理，KV Cache存储节省50%（FP8 vs FP16）逻辑自洽。
+
+## Search Query
+
+RTX 3090 FP8 support vLLM

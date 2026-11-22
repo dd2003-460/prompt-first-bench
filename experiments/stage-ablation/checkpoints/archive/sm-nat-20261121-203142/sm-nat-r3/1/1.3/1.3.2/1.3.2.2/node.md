@@ -1,0 +1,24 @@
+# N97: Gaussian Copula 下，Pearson 相关系数 ρ 与参数 ρ_G 相等，即 ρ_G = -0.3；但在厚尾 Pareto 分布下，Gaussia
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N32
+
+## Claim
+
+Gaussian Copula 下，Pearson 相关系数 ρ 与参数 ρ_G 相等，即 ρ_G = -0.3；但在厚尾 Pareto 分布下，Gaussian Copula 低估了尾部联合依赖强度，导致计算的联合命中率偏差约为 ΔH_bias ≈ |ρ_S - ρ_G| * k_coupling，其中 k_coupling 为耦合敏感度系数，需通过蒙特卡洛模拟量化该偏差具体数值（预计 0.5-2%）。
+
+## Corrected Claim
+
+Gaussian Copula 下，Pearson 相关系数 ρ 与参数 ρ_G 相等，即 ρ_G = -0.3；但在厚尾 Pareto 分布下，Gaussian Copula 低估了尾部联合依赖强度，导致计算的联合命中率存在偏差，该偏差需通过蒙特卡洛模拟量化，其量级取决于耦合敏感度系数及分布参数。
+
+## Evidence
+
+[质询]公式 ΔH_bias ≈ |ρ_S - ρ_G| * k_coupling 缺乏严格的数学推导支持，属于经验性近似；且 '0.5-2%' 的偏差范围是未经证实的经验估计，不同参数设置下可能显著不同。 | 先验知识/题面给定，逻辑校验通过：Gaussian Copula 下 Pearson 相关系数等于参数 ρ 是定义性质；厚尾分布下 Gaussian Copula 确实低估尾部依赖是已知统计事实；但偏差公式及具体数值范围缺乏严格推导，属经验性描述。
+
+## Search Query
+
+Gaussian vs Clayton copula tail dependence bias heavy tail distribution simulation

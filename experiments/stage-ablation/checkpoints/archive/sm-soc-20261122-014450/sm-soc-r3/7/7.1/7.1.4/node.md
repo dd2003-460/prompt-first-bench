@@ -1,0 +1,24 @@
+# N363: 高溢价商品（溢价率>15%）曝光率提升 10% 的量化验证方法：需构建 A/B 测试，对比实验组（算法加权）与对照组（基准算法）中，溢价率>15% 商品的平均曝
+
+- **status**: verified
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N115
+
+## Claim
+
+高溢价商品（溢价率>15%）曝光率提升 10% 的量化验证方法：需构建 A/B 测试，对比实验组（算法加权）与对照组（基准算法）中，溢价率>15% 商品的平均曝光次数 ΔExposure% = (Exp_treat - Exp_ctrl)/Exp_ctrl，置信区间需覆盖 10% 且 p<0.05。
+
+## Corrected Claim
+
+高溢价商品（溢价率>15%）曝光率提升 10% 的量化验证方法：需构建 A/B 测试，对比实验组（算法加权）与对照组（基准算法）中，溢价率>15% 商品的平均曝光次数 ΔExposure% = (Exp_treat - Exp_ctrl)/Exp_ctrl，置信区间需覆盖 10% 且 p<0.05。
+
+## Evidence
+
+逻辑推导成立，来源未直接覆盖。该陈述描述了标准的A/B测试统计验证方法，公式定义（相对提升率）和统计显著性标准（p<0.05, CI覆盖）符合统计学第一性原理，无逻辑矛盾。
+
+## Search Query
+
+A/B test platform algorithm exposure increase high premium items

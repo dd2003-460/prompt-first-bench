@@ -1,0 +1,24 @@
+# N162: 通信开销量化：假设 PCIe 有效带宽为理论值的 80% (25.6 GB/s)，单次 All-Reduce 延迟 = 268 MB / 25.6 GB/s ≈
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N52
+
+## Claim
+
+通信开销量化：假设 PCIe 有效带宽为理论值的 80% (25.6 GB/s)，单次 All-Reduce 延迟 = 268 MB / 25.6 GB/s ≈ 10.5 ms。Qwen3-27B 有 60 层，若每层都进行 TP 通信（典型 TP 策略），总通信延迟 ≈ 60 * 10.5 ms = 630 ms/step。而单卡计算延迟（假设 1008 GB/s 带宽，54GB 权重）≈ 54 GB / 1008 GB/s ≈ 53.6 ms/step。通信开销占比 = 630 / (630 + 53.6) ≈ 92% [待核验：实际框架可能通过流水线并行或减少通信层数优化，此估算基于最坏情况 TP]。
+
+## Corrected Claim
+
+在最坏情况 TP 策略（每层均进行全量 All-Reduce 且无通信重叠优化）下，通信开销占比可达 92%；但在实际优化框架中，通过通信重叠或减少通信层数，该比例通常显著降低。
+
+## Evidence
+
+[质询]该估算基于最坏情况假设（每层都进行全量 All-Reduce 通信），忽略了现代分布式推理框架（如 vLLM, TensorRT-LLM）中常见的通信优化策略（如通信重叠、减少通信频率、使用更高效的 All-Reduce 算法或流水线并行），导致 92% 的通信占比在典型生产环境中可能严重高估。 | 逻辑推导在给定假设下自洽（25.6 GB/s 带宽下 268MB 传输约 10.5ms，60层累加约 630ms，占比计算正确），但属于经验事实且缺乏外部来源支持，且假设条件（每层全量通信）过于极端，故降级为定性表述。
+
+## Search Query
+
+PCIe 4.0 All-Reduce latency Tensor Parallelism LLM inference overhead calculation

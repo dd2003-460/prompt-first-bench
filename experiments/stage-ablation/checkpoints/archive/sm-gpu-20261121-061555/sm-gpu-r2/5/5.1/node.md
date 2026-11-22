@@ -1,0 +1,24 @@
+# N26: TCO 核心公式：TCO_5yr = CapEx + OpEx_5yr，其中 CapEx = Σ(硬件单价 + 配套电源/机箱/散热)，OpEx_5yr = 5
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N5
+
+## Claim
+
+TCO 核心公式：TCO_5yr = CapEx + OpEx_5yr，其中 CapEx = Σ(硬件单价 + 配套电源/机箱/散热)，OpEx_5yr = 5 * (年电费 + 年维护/故障替换成本 + 年带宽/存储成本)，需分别计算单卡和多卡方案
+
+## Corrected Claim
+
+TCO 核心公式：TCO_5yr = CapEx + OpEx_5yr，其中 CapEx = Σ(硬件单价 + 配套电源/机箱/散热)，OpEx_5yr = 5 * (年电费 + 年维护/故障替换成本 + 年带宽/存储成本)，需分别计算单卡和多卡方案
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点在硬件配置和TCO计算上存在高度冗余，本质上是同一公式在不同参数下的实例化；且父节点明确要求分别计算'单卡'和'多卡'方案，但子节点仅提供了1x、2x、1x(不同卡)的组合，缺乏对'多卡'（如4x/8x或集群）方案的覆盖，导致完备性不足。）
+
+## Search Query
+
+GPU server total cost of ownership formula 5 year

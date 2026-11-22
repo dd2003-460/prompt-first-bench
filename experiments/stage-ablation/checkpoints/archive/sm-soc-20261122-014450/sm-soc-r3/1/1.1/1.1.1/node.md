@@ -1,0 +1,24 @@
+# N40: 卖家降价决策的阈值条件：当降价幅度 ΔP 满足 ΔP > (V_list - C) / λ 时，避免降价带来的心理损失（λ * (V_list - P_new)
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+卖家降价决策的阈值条件：当降价幅度 ΔP 满足 ΔP > (V_list - C) / λ 时，避免降价带来的心理损失（λ * (V_list - P_new)）小于维持高价带来的机会成本，此时理性卖家才会降价；结合 N6 的 λ=2.25，量化该阈值在 15-25% 溢价区间内的具体价格点。
+
+## Corrected Claim
+
+卖家降价决策的阈值条件：当降价幅度 ΔP 满足 ΔP > (V_list - C) / λ 时，避免降价带来的心理损失（λ * (V_list - P_new)）小于维持高价带来的机会成本，此时理性卖家才会降价；结合 N6 的 λ=2.25，量化该阈值在 15-25% 溢价区间内的具体价格点。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+loss aversion threshold price reduction decision utility

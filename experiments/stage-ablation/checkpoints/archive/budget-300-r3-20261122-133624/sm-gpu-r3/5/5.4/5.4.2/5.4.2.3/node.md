@@ -1,0 +1,20 @@
+# N391: 典型本地工作站工作负载的Prefill/Decode时间占比模型：对于交互式聊天（平均输入512 tokens，输出256 tokens），Prefill时间占
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N152
+
+## Claim
+
+典型本地工作站工作负载的Prefill/Decode时间占比模型：对于交互式聊天（平均输入512 tokens，输出256 tokens），Prefill时间占比约为15-20%（计算密集但时间短），Decode时间占比约为80-85%（带宽密集但时间长）；对于长文档摘要（输入8K tokens，输出512 tokens），Prefill时间占比约为40-50%。此比例用于计算P_avg的权重。
+
+## Corrected Claim
+
+典型本地工作站工作负载的Prefill/Decode时间占比模型：对于交互式聊天（平均输入512 tokens，输出256 tokens），Prefill时间占比约为15-20%（计算密集但时间短），Decode时间占比约为80-85%（带宽密集但时间长）；对于长文档摘要（输入8K tokens，输出512 tokens），Prefill时间占比约为40-50%。此比例用于计算P_avg的权重。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

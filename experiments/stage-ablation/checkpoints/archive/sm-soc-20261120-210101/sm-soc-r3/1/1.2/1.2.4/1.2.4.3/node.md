@@ -1,0 +1,24 @@
+# N149: 工作点3（低经验/高β）：对于新手卖家（Experience_years < 0.5年），β_exp 趋近于上限（假设 β_max = 0.8）。新手对‘尽快脱
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N37
+
+## Claim
+
+工作点3（低经验/高β）：对于新手卖家（Experience_years < 0.5年），β_exp 趋近于上限（假设 β_max = 0.8）。新手对‘尽快脱手’（节约时间/精力）的效用权重极高，β ≈ 0.8。这导致其初始挂价可能偏高（锚定效应），但一旦遇到负反馈（无咨询），降价反应最迅速，是‘短期运营’中流动性最强的群体。
+
+## Corrected Claim
+
+工作点3（低经验/高β）：对于新手卖家（Experience_years < 0.5年），β_exp 趋近于上限（假设 β_max = 0.8）。新手对‘尽快脱手’（节约时间/精力）的效用权重极高，β ≈ 0.8。这导致其初始挂价可能偏高（锚定效应），但一旦遇到负反馈（无咨询），降价反应最迅速，是‘短期运营’中流动性最强的群体。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+novice seller rapid price adjustment time utility

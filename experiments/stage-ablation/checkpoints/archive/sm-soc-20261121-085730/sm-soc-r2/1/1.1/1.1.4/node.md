@@ -1,0 +1,29 @@
+# N47: 买家估值分布的标准差σ与商品标准化程度S（标准化指数0-1）的关系：σ = σ_max * (1 - S)^0.5，其中σ_max ≈ 0.4 * μ，S=0.
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N6, N7, N8
+
+## Claim
+
+买家估值分布的标准差σ与商品标准化程度S（标准化指数0-1）的关系：σ = σ_max * (1 - S)^0.5，其中σ_max ≈ 0.4 * μ，S=0.5时σ ≈ 0.28 * μ。
+
+## Corrected Claim
+
+在特定商品估值模型假设下，买家估值分布的标准差σ与商品标准化程度S的关系可建模为 σ = σ_max * (1 - S)^0.5，其中σ_max ≈ 0.4 * μ，S=0.5时σ ≈ 0.28 * μ。
+
+## Evidence
+
+[质询]该公式属于特定领域的经验性建模假设，并非通用数学或物理定律，且参考来源仅解释标准差定义，未提供该特定关系的支持，存在来源无关且缺乏直接证据的风险。 | 逻辑校验通过（S=0.5时计算结果0.282μ与0.28μ一致），但参考来源[1][2]仅涉及标准差通用定义，与该特定业务模型无关，属经验事实且缺直接来源支持。
+
+## Search Query
+
+buyer valuation variance standardization level used goods market empirical estimate
+
+## Retrieval Sources
+
+- {'url': 'https://baike.baidu.com/item/%E6%A0%87%E5%87%86%E5%B7%AE/1415772&rut=bea98dd31090f5f79c53fc32aff83a61d13e0e2739c2aa98c610cb5be4b68428', 'type': 'ddg', 'title': '标准差_百度百科'}
+- {'url': 'https://zhuanlan.zhihu.com/p/678714206&rut=22b17b7efea5df3c11f81ec834b0e75bde404408f43f0ad08972eb6ad22056e3', 'type': 'ddg', 'title': '浅谈指标——标准差 - 知乎专栏'}

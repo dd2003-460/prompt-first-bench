@@ -1,0 +1,24 @@
+# N766: Llama.cpp 在 M2 Ultra 上实现 32K 上下文、Batch=1 时，KV Cache 采用连续分配导致内存碎片率 $F_{frag} = (A
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N236, N237, N238
+
+## Claim
+
+Llama.cpp 在 M2 Ultra 上实现 32K 上下文、Batch=1 时，KV Cache 采用连续分配导致内存碎片率 $F_{frag} = (Allocated - Used) / Allocated$ 约为 5-10%，具体数值依赖于 `ggml` 内存池的预分配策略（Pre-allocation Strategy）及上下文长度增长步长
+
+## Corrected Claim
+
+Llama.cpp 在 M2 Ultra 上实现 32K 上下文、Batch=1 时，KV Cache 采用连续分配可能导致内存碎片，碎片率具体数值依赖于 ggml 内存池的预分配策略及上下文长度增长步长，通常处于较低水平（如个位数百分比）。
+
+## Evidence
+
+[质询]具体数值（5-10%）缺乏公开基准测试支持，且 Llama.cpp 的内存管理策略（如 ggml 的内存池实现）在不同版本中差异较大，碎片率高度依赖具体实现细节和上下文增长模式，该具体区间可能过于精确或基于特定未公开配置。 | 先验知识/题面给定，逻辑校验通过：连续分配在动态增长场景下确实会产生碎片，5-10% 的量级在工程实践中合理，但具体数值缺乏通用性保证，故降级为定性表述。
+
+## Search Query
+
+llama.cpp apple silicon kv cache fragmentation rate 32k context batch 1 continuous allocation

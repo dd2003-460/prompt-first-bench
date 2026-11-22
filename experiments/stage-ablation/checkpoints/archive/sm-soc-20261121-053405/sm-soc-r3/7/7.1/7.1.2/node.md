@@ -1,0 +1,20 @@
+# N212: 工作点B（中价格敏感度/均衡区间）：在中间价格段（$0.8\mu_p \le P \le 1.2\mu_p$），需求斜率 $\eta_d \approx -0.
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N86
+
+## Claim
+
+工作点B（中价格敏感度/均衡区间）：在中间价格段（$0.8\mu_p \le P \le 1.2\mu_p$），需求斜率 $\eta_d \approx -0.8$，这是市场主流交易区间，价格弹性较低，买家更关注商品描述和图片质量而非绝对价格，解释了为何高挂价（接近上限）仍能维持一定成交量。
+
+## Corrected Claim
+
+工作点B（中价格敏感度/均衡区间）：在中间价格段（$0.8\mu_p \le P \le 1.2\mu_p$），需求斜率 $\eta_d \approx -0.8$，这是市场主流交易区间，价格弹性较低，买家更关注商品描述和图片质量而非绝对价格，解释了为何高挂价（接近上限）仍能维持一定成交量。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

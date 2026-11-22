@@ -1,0 +1,29 @@
+# N129: RTX 5090 的 FP8 原生加速 (Tensor Core) 在 MoE 架构 (Qwen3-27B) 下的实际 FLOPs 利用率相比 RTX 4090
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N34
+
+## Claim
+
+RTX 5090 的 FP8 原生加速 (Tensor Core) 在 MoE 架构 (Qwen3-27B) 下的实际 FLOPs 利用率相比 RTX 4090 (无原生 FP8) 的提升幅度，需基于 vLLM/SGLang 对 Blackwell 架构 MoE 算子 (如 Grouped GEMM) 的优化程度进行实测，当前缺乏公开基准数据，预计提升幅度在 15-30% 之间 [待核验]，主要受限于 MoE 路由开销而非纯矩阵乘法。
+
+## Corrected Claim
+
+RTX 5090 的 FP8 原生加速在 MoE 架构 (Qwen3-27B) 下的实际 FLOPs 利用率相比 RTX 4090 有显著提升，具体提升幅度需基于 vLLM/SGLang 对 Blackwell 架构 MoE 算子的优化程度进行实测，当前缺乏公开基准数据，主要受限于 MoE 路由开销而非纯矩阵乘法。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值预测（15-30%）和特定的技术归因（受限于MoE路由开销），属于硬件性能与软件优化相关的经验事实，无法从第一性原理严格推导。参考来源仅提供了Qwen3.8-27B在RTX 5090上的部署配置和基准测试项目链接，并未提供RTX 5090与RTX 4090在MoE架构下FP8加速的具体FLOPs利用率对比数据，也未证实15-30%这一具体提升幅度的准确性。 | 逻辑上自洽（Blackwell架构支持原生FP8，MoE确实存在路由开销），但作为经验事实，缺乏来源直接支持具体数值范围（15-30%）及具体归因，来源[1][2]仅证实了模型在RTX 5090上可运行，未提供对比基准数据。
+
+## Search Query
+
+RTX 5090 vs RTX 4090 FP8 MoE inference benchmark Qwen3
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/JavierMedel/qwen3.8-27b-rtx5090-benchmark&rut=ae77e9e4eb0e3f8e283881de170bdaad4f2704c7537b3fed094215e8c27eaa96', 'type': 'ddg', 'title': 'GitHub - JavierMedel/qwen3.8-27b-rtx5090-benchmark'}
+- {'url': 'https://github.com/fentz26/Qwen3.8-27B-5090&rut=77b84eeca2b50b455261ca49a60426a82c57933e6f318a111ea739c35f23e47d', 'type': 'ddg', 'title': 'Qwen3.8-27B-Uncensored-FP8 on 2x RTX 5090 - GitHub'}

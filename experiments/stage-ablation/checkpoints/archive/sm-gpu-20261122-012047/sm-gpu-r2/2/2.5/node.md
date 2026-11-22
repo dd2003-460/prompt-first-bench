@@ -1,0 +1,30 @@
+# N18: 多卡互联隐性成本：2× RTX 4090 通过 PCIe 4.0 x16 互联，带宽为 64 GB/s，而 H100 NVLink 带宽为 900 GB/s，P
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N2
+
+## Claim
+
+多卡互联隐性成本：2× RTX 4090 通过 PCIe 4.0 x16 互联，带宽为 64 GB/s，而 H100 NVLink 带宽为 900 GB/s，PCIe 瓶颈导致多卡推理效率下降 20-40% [待核验]，等效于增加了 20-40% 的硬件购置成本。
+
+## Corrected Claim
+
+多卡互联隐性成本：2× RTX 4090 通过 PCIe 4.0 x16 互联，带宽约为 64 GB/s，远低于 H100 NVLink 的 900 GB/s。PCIe 带宽瓶颈在张量并行等高频通信场景下会导致多卡推理效率显著下降（具体幅度视模型与并行策略而定，常见实证数据显示可达 20-40%），从而增加有效硬件成本。
+
+## Evidence
+
+[质询]20-40% 的效率下降是一个高度依赖模型架构、并行策略（Tensor Parallel vs Pipeline Parallel）及具体硬件配置的实证数据，并非 PCIe 带宽瓶颈的必然物理推论；对于非张量并行或通信量较小的场景，该比例可能显著偏低或偏高，直接将其等同于固定的硬件成本增加缺乏普适性。 | 来源 [2] 和 [3] 直接对比了 NVLink 与 PCIe 在 LLM 推理中的带宽差异及性能影响，证实了 PCIe 是瓶颈且会导致效率下降，但未提供统一的 20-40% 具体数值范围，属于间接支持。
+
+## Search Query
+
+PCIe vs NVLink multi-GPU inference efficiency loss LLM
+
+## Retrieval Sources
+
+- {'url': 'https://willitrunai.com/blog/multi-gpu-llm-inference-guide&rut=919b1fc87051a6b4e125e3ce831bb9dddb74f4c5db443180e49854193b700119', 'type': 'ddg', 'title': 'Multi-GPU LLM Inference: Memory Fit, Tensor Parallel and Layer Split'}
+- {'url': 'https://www.myaihardware.com/deep-dive/nvlink-vs-pcie-p2p-for-multi-gpu-llm-inference&rut=47a76868e37a59f7766c468b80417003d0ce5d29c81fd6cc16572dca3fb2212c', 'type': 'ddg', 'title': 'NVLink vs PCIe P2P for Multi-GPU LLM Inference - MyAIHardware'}
+- {'url': 'https://gigagpu.com/pcie-bandwidth-multi-gpu-inference/&rut=eb6868ceda88c7b86e0d19b20fdc4edd5db79ebcf893bd0e516fae522a0241a2', 'type': 'ddg', 'title': 'PCIe Bandwidth: Multi-GPU Impact GIGAGPU'}

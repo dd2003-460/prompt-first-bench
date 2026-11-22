@@ -1,0 +1,20 @@
+# N143: 决策摩擦系数 δ_friction 的基准值估计：基于用户从点击商品到发起咨询或下单的平均延迟时间 T_latency 与商品详情页停留时间 T_view 的比
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N41
+
+## Claim
+
+决策摩擦系数 δ_friction 的基准值估计：基于用户从点击商品到发起咨询或下单的平均延迟时间 T_latency 与商品详情页停留时间 T_view 的比值，δ_friction = 1 - exp(-T_latency / T_view)，当 T_latency >> T_view 时 δ_friction → 1，表示摩擦极大。
+
+## Corrected Claim
+
+决策摩擦系数 δ_friction 的基准值估计：基于用户从点击商品到发起咨询或下单的平均延迟时间 T_latency 与商品详情页停留时间 T_view 的比值，δ_friction = 1 - exp(-T_latency / T_view)，当 T_latency >> T_view 时 δ_friction → 1，表示摩擦极大。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 δ_friction = 1 - exp(-T_latency / T_view) 在 T_latency >> T_view 时，指数项趋近于0，δ_friction 趋近于1，符合数学极限定义及物理直觉（延迟远大于浏览时间意味着高摩擦）。

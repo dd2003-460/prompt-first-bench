@@ -1,0 +1,103 @@
+{
+  "qid": "gpu",
+  "question": "你要在本地工作站上推理 Qwen3-27B 模型，不设硬性延迟指标（延迟是性能变量，由硬件和部署配置决定，不作为前置约束）；上下文窗口 ≥ 32K tokens 作为容量下限保留。权重精度不限（BF16/FP8/INT8/NVFP4/W4 均可），但必须论证所选精度的质量损失是否可接受。候选硬件：自行搜索确定值得考虑的完整候选集——覆盖你认为所有可能影响性价比排序的架构、代际、容量档位和价格区间（包括消费级、数据中心级、以及任何你认为值得纳入比较的非典型方案）。同时评估单卡与多卡方案的 TCO 差异（如 2× 消费卡 vs 1× 数据卡）。给出性价比最优的完整选卡方案。要求：思考必须最完整，确认没有遗漏任何影响决策的维度；每个关键数字标注来源（刚查到的 vs 凭记忆的），不确定的标 [待核验]；最终推荐必须是条件性的，不能给无条件排名。",
+  "round": 1,
+  "state": "rework",
+  "dropped_redundant": 4,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "可行性覆盖率 (Coverage)：候选集是否穷尽了所有满足显存容量下限且支持目标模型权重的硬件架构、代际及价格区间（0/1判定）",
+      "数据可信度 (Reliability)：关键性能与价格参数是否标注了来源，且不确定项是否明确标记为[待核验]（可测：标注率与标记规范性）",
+      "精度-质量权衡论证 (Quality-Argument)：所选量化精度是否有具体的质量损失评估逻辑，而非仅罗列选项（可测：是否包含质量损失的可接受性论证）",
+      "性价比排序有效性 (Cost-Perf-Validity)：单卡与多卡方案的TCO对比是否基于真实的吞吐量/延迟与总拥有成本计算，而非仅看单价（可测：是否包含TCO/性能比值的比较）",
+      "结论的条件性 (Conditionality)：最终推荐是否明确列出了依赖的前置条件（如并发量、具体任务类型），而非给出绝对排名（可测：是否存在无条件断言）"
+    ],
+    "composition": "Coverage × Reliability × Quality-Argument × Cost-Perf-Validity × Conditionality",
+    "rationale": "本题是条件性选型决策，任何要素（如遗漏候选、数据造假、缺乏质量论证、成本计算错误、结论绝对化）的缺失都会导致整个推荐方案失效或误导，因此各要素必须同时满足（乘积关系）。"
+  },
+  "objective_mode": "formula",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "node_id": "N10",
+      "claim": "主流推理框架对 Qwen3-27B 的支持状态：vLLM 已支持 Qwen2.5 系列，Qwen3 支持情况需查最新版本",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于 vLLM 支持 Qwen2.5 系列是事实，但关于 Qwen3 支持情况需查最新版本 release notes 的表述过于保守且滞后，参考"
+    },
+    {
+      "node_id": "N15",
+      "claim": "消费级 GPU 价格基准：RTX 4090 ≈ $1600, RTX 3090 ≈ $1400 (二手 $800-100",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源仅提供了RTX 40系列的基本发布信息和架构描述，完全未包含任何具体价格数据（如$1600, $1400等），无法验证陈述中的具体数值。此外，G"
+    },
+    {
+      "node_id": "N16",
+      "claim": "数据中心级 GPU 价格基准：A100 40GB ≈ $10000, A100 80GB ≈ $15000, H100 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源仅提供了GPU的租赁价格（每小时/每月），而非硬件采购价格（Capex）。虽然租赁价格与硬件成本存在相关性，但直接断言具体的硬件采购价格（如A1"
+    },
+    {
+      "node_id": "N19",
+      "claim": "FP8 精度质量损失：FP8 (E4M3/E5M2) 在 7B-70B 模型上 perplexity 增加 0.5-1.",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源仅介绍了FP8的格式定义（E4M3/E5M2），未提供关于7B-70B模型上perplexity增加0.5-1.5%或MMLU准确率下降1-2%"
+    },
+    {
+      "node_id": "N20",
+      "claim": "INT8 精度质量损失：INT8 (GPTQ/AWQ) 在 7B-70B 模型上 perplexity 增加 1-3%，",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值范围（perplexity 1-3%, 准确率 2-5%）属于经验事实，且不同模型、数据集及量化实现（如 GPTQ vs AWQ 的具体配置）会"
+    },
+    {
+      "node_id": "N21",
+      "claim": "W4/NVFP4 精度质量损失：4-bit 量化在 7B-70B 模型上 perplexity 增加 3-10%，在复杂",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源仅涉及NVFP4的存储结构和内存/加速优势，完全未提及perplexity增加3-10%或准确率下降5-15%的质量损失数据，属于经验事实且缺乏"
+    },
+    {
+      "node_id": "N24",
+      "claim": "单卡方案硬件成本 C_single 的计算公式为 C_single = P_gpu_single + C_chassis",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源仅涉及大模型一体机TCO的宏观对比，未提供单卡方案硬件成本的具体计算公式或RTX 4090与A100的具体成本构成细节，属于经验事实且缺乏直接来"
+    },
+    {
+      "node_id": "N25",
+      "claim": "双卡方案硬件成本 C_dual 的计算公式为 C_dual = 2 * P_gpu_consumption + C_du",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于双卡机箱与电源溢价的具体数值范围（$150-$300）属于经验事实，参考来源仅提供了双卡电源的产品推荐和选购建议，未提供具体的成本溢价数据，无"
+    },
+    {
+      "node_id": "N34",
+      "claim": "性价比综合评分公式定义：Score = (Throughput_TPS * Quality_Score) / (TCO_",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该公式为特定场景下的自定义经验公式，并非行业通用标准或第一性原理可推导的数学恒等式；参考来源仅涉及通用性能指标定义，未提供该特定性价比评分公式的支持，属"
+    },
+    {
+      "node_id": "N37",
+      "claim": "推荐方案的条件性约束1 - 任务类型：若任务为代码生成/数学推理（对精度敏感），推荐 BF16/FP8 精度下的单卡 A",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源均与硬件选型、精度量化及具体GPU型号无关，无法提供外部证据支持该经验性推荐方案；且该陈述属于具体的工程经验事实（特定硬件+精度组合），非第一性"
+    },
+    {
+      "node_id": "N38",
+      "claim": "推荐方案的条件性约束2 - 并发量与延迟：若并发数 > 4 且要求 P99 延迟 < 2s，单卡消费级 GPU 因显存带",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 28
+}

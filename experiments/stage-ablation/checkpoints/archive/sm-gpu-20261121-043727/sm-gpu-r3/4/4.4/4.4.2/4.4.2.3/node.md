@@ -1,0 +1,20 @@
+# N189: RTX 4090 在 W4 量化下运行 Qwen3-27B 时的激活值（Activation）显存开销估算：对于 Batch Size 1, Sequence 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N72
+
+## Claim
+
+RTX 4090 在 W4 量化下运行 Qwen3-27B 时的激活值（Activation）显存开销估算：对于 Batch Size 1, Sequence Length 32K，激活值大小 ≈ 64 layers * 4096 hidden_dim * 32,000 seq_len * 2 bytes (FP16) / 1024^3 ≈ 1.5 GB，因此实际可用于 KV Cache 的显存 = 8 GB - 1.5 GB = 6.5 GB，修正后的 Max_Tokens ≈ 52,428 (FP16) 或 104,857 (FP8)
+
+## Corrected Claim
+
+RTX 4090 在 W4 量化下运行 Qwen3-27B 时，激活值显存开销取决于推理阶段的具体实现（如是否启用KV Cache优化、是否保留中间层激活值）。若仅保留最后一层激活值，开销约为 4096 * 32000 * 2 / 1024^3 ≈ 0.24 GB（假设hidden_dim=4096），KV Cache可用空间约为 7.76 GB；若保留所有层激活值（非典型推理场景），则约为 1.5 GB。建议根据实际推理框架（如vLLM、TensorRT-LLM）的激活值管理策略重新估算。
+
+## Evidence
+
+[质询]激活值显存估算严重低估：在自回归生成阶段，激活值通常仅保留最后一层或当前层的中间状态，而非所有64层的完整序列激活值；若按推理场景（Batch=1, Seq=32K），实际激活值开销远小于1.5GB（通常<1GB），导致KV Cache可用空间被错误压缩。此外，Qwen3-27B的hidden_dim是否为4096需确认（若为27B模型，hidden_dim可能更高，如5120或6144，这将进一步改变计算结果）。 | 经验事实，逻辑自洽但缺来源支持；激活值计算口径存在歧义（训练vs推理），且模型参数（hidden_dim）未经验证，导致数值量级可能不准确。

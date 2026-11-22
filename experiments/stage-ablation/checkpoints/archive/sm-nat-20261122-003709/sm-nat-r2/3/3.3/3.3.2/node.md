@@ -1,0 +1,20 @@
+# N56: H_static 的具体数值依赖：D_eff 的绝对影响取决于 H_static。若 H_static = 0.8（N28 假设），则 H_effective 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N15
+
+## Claim
+
+H_static 的具体数值依赖：D_eff 的绝对影响取决于 H_static。若 H_static = 0.8（N28 假设），则 H_effective = 0.8 * 0.995 = 0.796，绝对下降 0.004。若 H_static = 0.9，则 H_effective = 0.8955，绝对下降 0.0045。
+
+## Corrected Claim
+
+H_static 的具体数值依赖：D_eff 的绝对影响取决于 H_static。若 H_static = 0.8（N28 假设），则 H_effective = 0.8 * 0.995 = 0.796，绝对下降 0.004。若 H_static = 0.9，则 H_effective = 0.8955，绝对下降 0.0045。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：乘法运算 0.8*0.995=0.796 及 0.9*0.995=0.8955 均正确，差值计算亦无误。

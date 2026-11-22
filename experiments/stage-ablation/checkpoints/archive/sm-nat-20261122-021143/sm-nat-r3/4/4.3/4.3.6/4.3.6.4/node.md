@@ -1,0 +1,20 @@
+# N142: 修正后的稳态字节命中率下界 H_byte_LRU_eff：计算 H_byte_LRU_eff = (∫_{1}^{K_eff} R(k)S(k) dk) / (
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N56
+
+## Claim
+
+修正后的稳态字节命中率下界 H_byte_LRU_eff：计算 H_byte_LRU_eff = (∫_{1}^{K_eff} R(k)S(k) dk) / (∫_{1}^{10^5} R(k)S(k) dk)，由于 K_eff 变化微小，H_byte_LRU_eff ≈ 0.921，与无更新假设下的 0.92 几乎一致，主要损失来自 stale hit 而非容量缩减。
+
+## Corrected Claim
+
+修正后的稳态字节命中率下界 H_byte_LRU_eff：计算 H_byte_LRU_eff = (∫_{1}^{K_eff} R(k)S(k) dk) / (∫_{1}^{10^5} R(k)S(k) dk)，由于 K_eff 变化微小，H_byte_LRU_eff ≈ 0.921，与无更新假设下的 0.92 几乎一致，主要损失来自 stale hit 而非容量缩减。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：积分定义符合稳态命中率计算逻辑，K_eff变化微小导致结果近似无更新假设下的值，符合数学直觉。

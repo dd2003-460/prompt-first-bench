@@ -1,0 +1,24 @@
+# N48: CPU-only 方案（Xeon/EPYC）+大内存在运行 Qwen3-27B INT8 量化版本时的实测吞吐量（单用户，32K 上下文）：约为 1-3 tok
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N8
+
+## Claim
+
+CPU-only 方案（Xeon/EPYC）+大内存在运行 Qwen3-27B INT8 量化版本时的实测吞吐量（单用户，32K 上下文）：约为 1-3 tokens/s（来源：vLLM 官方 benchmark 报告 2024-11 或第三方独立评测如 Benchmarks.gg 2025-01），需标注具体测试日志和模型版本。
+
+## Corrected Claim
+
+CPU-only 方案（Xeon/EPYC）+大内存在运行 Qwen3-27B INT8 量化版本时的实测吞吐量（单用户，32K 上下文）通常较低，具体数值需参考特定硬件配置下的实测日志，一般量级在个位数 tokens/s 或更低。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性性能数值（1-3 tokens/s）和特定的来源引用（vLLM 2024-11, Benchmarks.gg 2025-01），属于硬件/软件性能基准测试数据，无法从第一性原理推导。由于检索失败，无法验证这些具体数值和来源引用的真实性，存在来源虚构或数值偏差的风险。 | 经验事实，逻辑自洽（CPU推理大模型确实极慢，量级合理）但缺来源支持，且检索无可用来源，无法排除具体数值或来源引用的错误。
+
+## Search Query
+
+CPU-only Xeon EPYC Qwen3-27B INT8 inference benchmark tokens per second 32K context

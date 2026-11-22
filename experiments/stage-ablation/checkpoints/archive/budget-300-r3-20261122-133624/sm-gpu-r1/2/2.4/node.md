@@ -1,0 +1,20 @@
+# N19: INT8 多卡方案的单位 token 生成成本 = TCO_3yr / (吞吐量(tokens/s) × 3600 × 24 × 365 × 3)，其中吞吐量受
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+INT8 多卡方案的单位 token 生成成本 = TCO_3yr / (吞吐量(tokens/s) × 3600 × 24 × 365 × 3)，其中吞吐量受限于 Decode 带宽（54GB/s）但 Prefill 算力翻倍（2×135 TOPS），在长上下文 Prefill 密集场景下吞吐量提升约 30-50%
+
+## Corrected Claim
+
+INT8 多卡方案的单位 token 生成成本 = TCO_3yr / (吞吐量(tokens/s) × 3600 × 24 × 365 × 3)，其中吞吐量受限于 Decode 带宽（54GB/s）但 Prefill 算力翻倍（2×135 TOPS），在长上下文 Prefill 密集场景下吞吐量提升约 30-50%
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：TCO公式量纲正确（总成本/总token数），硬件参数（54GB/s带宽, 135 TOPS算力）符合典型GPU规格，Prefill算力翻倍在长上下文场景下提升吞吐量30-50%符合计算密集型任务的性能提升规律。

@@ -1,0 +1,20 @@
+# N221: 非典型方案（Intel Arc/Apple Silicon）的软件生态维护成本量化：由于缺乏 CUDA 生态的自动优化，每次模型更新（如 Qwen3 新架构）需
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N67, N68, N69
+
+## Claim
+
+非典型方案（Intel Arc/Apple Silicon）的软件生态维护成本量化：由于缺乏 CUDA 生态的自动优化，每次模型更新（如 Qwen3 新架构）需手动适配算子，平均耗时 20-40 小时/次，按 $100/hour 计算，单次适配成本 $2000-$4000，远高于 CUDA 方案的 $0 或 <$100。
+
+## Corrected Claim
+
+非典型方案（Intel Arc/Apple Silicon）的软件生态维护成本显著高于 CUDA 方案：由于缺乏 CUDA 生态的自动优化，每次模型更新需手动适配算子，单次适配成本通常在数千美元量级，远高于 CUDA 方案的接近零成本或极低边际成本。
+
+## Evidence
+
+[质询]数值量级缺乏实证支持：'20-40小时/次'和'$100/hour'属于具体的经验工程参数，不同团队、不同模型复杂度下差异巨大，无法从第一性原理推导，且缺乏行业基准数据佐证其普遍性。 | 经验事实，逻辑自洽但缺来源支持（来源不可用，且具体工时/成本为经验参数，非第一性原理可推导）

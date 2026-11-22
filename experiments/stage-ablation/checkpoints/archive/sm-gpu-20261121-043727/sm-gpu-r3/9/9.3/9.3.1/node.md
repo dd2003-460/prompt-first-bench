@@ -1,0 +1,20 @@
+# N266: RTX 4090 (FP8) 的 TCO_year 工作点：代入 N99 公式，Hardware_Price=$1600, Residual_Value_3yr
+
+- **status**: verified
+- **level**: L4
+- **source**: given
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N99
+
+## Claim
+
+RTX 4090 (FP8) 的 TCO_year 工作点：代入 N99 公式，Hardware_Price=$1600, Residual_Value_3yr=$560 (35%残值), TDP=0.45kW, Electricity_Rate=$0.1/kWh, Maintenance=$0。TCO_year = (1600-560)/3 + 0.45*8760*0.1 + 0 = 346.67 + 394.2 = $740.87。此为低硬件成本但高电力成本占比的代表性工作点
+
+## Corrected Claim
+
+RTX 4090 (FP8) 的 TCO_year 工作点：代入 N99 公式，Hardware_Price=$1600, Residual_Value_3yr=$560 (35%残值), TDP=0.45kW, Electricity_Rate=$0.1/kWh, Maintenance=$0。TCO_year = (1600-560)/3 + 0.45*8760*0.1 + 0 = 346.67 + 394.2 = $740.87。此为低硬件成本但高电力成本占比的代表性工作点
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：硬件折旧 (1600-560)/3 ≈ 346.67，电力成本 0.45*8760*0.1 = 394.2，总和 740.87，计算无误且量级合理。

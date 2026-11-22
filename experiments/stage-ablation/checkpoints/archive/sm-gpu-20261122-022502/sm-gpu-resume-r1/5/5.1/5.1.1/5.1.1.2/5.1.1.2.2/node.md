@@ -1,0 +1,24 @@
+# N846: 在 32K 上下文长度下，RTX 5090 (32GB VRAM) 与 RTX 4090 (24GB VRAM) 均可容纳 Qwen3-27B 的 W4A8 量
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N263, N264, N265
+
+## Claim
+
+在 32K 上下文长度下，RTX 5090 (32GB VRAM) 与 RTX 4090 (24GB VRAM) 均可容纳 Qwen3-27B 的 W4A8 量化权重 (约 14-16GB) 及 KV Cache (约 8-10GB)，但 5090 剩余显存更多，允许更高的 Batch Size 或更长的实际上下文缓冲，具体 Batch Size 上限由 (VRAM_total - Weight_Size - KV_Cache_per_token * Context_Len) / (Activation_Memory_per_token) 决定。
+
+## Corrected Claim
+
+在 32K 上下文长度下，RTX 5090 (32GB VRAM) 与 RTX 4090 (24GB VRAM) 均可容纳 Qwen3-27B 的 W4A8 量化权重 (约 14-16GB) 及 KV Cache (约 8-10GB)，但 5090 剩余显存更多，允许更高的 Batch Size 或更长的实际上下文缓冲，具体 Batch Size 上限由 (VRAM_total - Weight_Size - KV_Cache_per_token * Context_Len) / (Activation_Memory_per_token) 决定。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B W4A8量化权重约14-16GB，32K上下文KV Cache约8-10GB，总显存需求约22-26GB，RTX 4090 (24GB) 处于临界状态但可容纳，RTX 5090 (32GB) 剩余显存更多，符合显存计算逻辑。
+
+## Search Query
+
+Qwen3-27B W4A8 quantization VRAM usage 32K context KV cache size

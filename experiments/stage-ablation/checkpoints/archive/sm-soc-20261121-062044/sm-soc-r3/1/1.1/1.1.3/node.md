@@ -1,0 +1,24 @@
+# N30: 下游投影：挂价溢价率 P_markup 中的噪声贡献项，计算公式为 P_markup_noise = k * σ²_pref，其中 k 为风险规避系数，需通过回
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N5, N6, N7
+
+## Claim
+
+下游投影：挂价溢价率 P_markup 中的噪声贡献项，计算公式为 P_markup_noise = k * σ²_pref，其中 k 为风险规避系数，需通过回归分析确定 k 的具体数值，预期 k 在 0.1-0.3 之间。
+
+## Corrected Claim
+
+下游投影：挂价溢价率 P_markup 中的噪声贡献项，计算公式为 P_markup_noise = k * σ²_pref，其中 k 为风险规避系数，需通过回归分析确定 k 的具体数值。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点仅是参数 k 在三个离散点（0.1, 0.2, 0.3）的具体实例化，本质上是同一公式的不同参数取值，存在严重冗余；且未覆盖父节点中明确要求的“通过回归分析确定 k 的具体数值”这一关键方法论步骤，仅停留在假设性数值计算，缺乏对 k 估计过程的分解。）
+
+## Search Query
+
+risk aversion coefficient k regression markup preference noise

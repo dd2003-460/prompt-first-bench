@@ -1,0 +1,24 @@
+# N147: 工作点 C (低匹配率-高等待)：假设 M_rate = 0.2, E[T_wait|NoMatch] = 90天, E[T_decision] = 5天，计算
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N50
+
+## Claim
+
+工作点 C (低匹配率-高等待)：假设 M_rate = 0.2, E[T_wait|NoMatch] = 90天, E[T_decision] = 5天，计算 E[T_cycle] = 0.8 * 90 + 0.2 * 5 = 73 天，对应低流量、高溢价场景，验证该点是否解释了部分长尾商品的成交周期异常。
+
+## Corrected Claim
+
+工作点 C (低匹配率-高等待)：假设 M_rate = 0.2, E[T_wait|NoMatch] = 90天, E[T_decision] = 5天，计算 E[T_cycle] = 0.8 * 90 + 0.2 * 5 = 73 天，对应低流量、高溢价场景，验证该点是否解释了部分长尾商品的成交周期异常。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算 0.8*90 + 0.2*5 = 72 + 1 = 73 正确，且符合全期望公式逻辑。
+
+## Search Query
+
+expected cycle time calculation low match rate high waiting time

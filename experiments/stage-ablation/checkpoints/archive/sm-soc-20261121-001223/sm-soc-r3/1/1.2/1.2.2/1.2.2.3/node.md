@@ -1,0 +1,24 @@
+# N98: 噪声贡献比例的工作点优化：在中等信息透明度（Trust_factor ≈ 0.6）下，σ_info 与 σ_bias 的贡献比例约为 50:50，此时总噪声 σ
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N31
+
+## Claim
+
+噪声贡献比例的工作点优化：在中等信息透明度（Trust_factor ≈ 0.6）下，σ_info 与 σ_bias 的贡献比例约为 50:50，此时总噪声 σ_noise 达到局部极小值，是平台干预成本效益比最高的区间。
+
+## Corrected Claim
+
+在中等信息透明度下，σ_info 与 σ_bias 的贡献比例接近均衡时，总噪声 σ_noise 可能达到局部极小值，是平台干预成本效益比较高的区间。
+
+## Evidence
+
+[质询]该陈述包含具体的数值断言（Trust_factor ≈ 0.6 时贡献比例 50:50 且为局部极小值），这属于特定模型下的经验/模拟结果，无法从第一性原理直接推导。若缺乏具体模型定义或实验数据支持，该特定数值点（0.6）和极小值结论可能因模型参数不同而失效，存在过拟合或特定假设下的偶然结果风险。 | source=knowledge，逻辑上自洽（噪声分量平衡时总方差可能达到极小是合理的统计直觉），但具体数值（0.6, 50:50）属于经验事实/模型特定结果，无外部来源直接支持，且无法排除其他模型下极小值点不同的可能性，故降级。
+
+## Search Query
+
+optimal information disclosure valuation noise reduction

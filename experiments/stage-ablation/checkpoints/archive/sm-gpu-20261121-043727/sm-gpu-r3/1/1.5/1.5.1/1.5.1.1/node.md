@@ -1,0 +1,30 @@
+# N138: AMD MI300X 在 2025 年 Q1 的实际采购价已降至 $13,000-$14,500（受 NVIDIA H200 竞争及 AMD 降价策略影响），N
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N52
+
+## Claim
+
+AMD MI300X 在 2025 年 Q1 的实际采购价已降至 $13,000-$14,500（受 NVIDIA H200 竞争及 AMD 降价策略影响），N51 中 $15,000-$18,000 为 2024 Q3 数据，已失效；TCO 计算应采用 $13,500 作为 2025 年基准价
+
+## Corrected Claim
+
+AMD MI300X 在 2025 年 Q1 的实际采购价可能降至 $13,000-$14,500 区间（受市场竞争影响），但具体数值缺乏直接来源支持，建议以最新市场报价为准进行 TCO 估算。
+
+## Evidence
+
+[质询]参考来源主要提供的是2026年3月的云租赁价格（$1.99-$3.45/GPU-hour）或通用价格指南，并未直接提供2025年Q1的具体硬件采购价（$13,000-$14,500）数据，且无法从租赁价直接精确反推当时的硬件采购价，存在数据口径和时间点不匹配的问题。 | 经验事实，逻辑自洽但缺来源支持；来源[1][2][3]主要涉及2026年租赁价格或通用指南，未直接证实2025 Q1的具体采购价区间，无法排除其他可能性。
+
+## Search Query
+
+AMD MI300X price 2025 Q1 market price drop
+
+## Retrieval Sources
+
+- {'url': 'https://deploybase.ai/articles/amd-mi300x-price&rut=2b8b778c2191b693eee84c29ba0348c93b5ac25b1854c1a819b9299be98c4b1d', 'type': 'ddg', 'title': 'AMD MI300X Price: Cost Guide & Availability as of March 2026'}
+- {'url': 'https://www.silicondata.com/products/silicon-index/mi300x&rut=578599879142d39e3726c390761d78c4788dbac824a703c35a534c24ad1bb2f5', 'type': 'ddg', 'title': 'MI300X Rental Price Index - Silicon Data'}
+- {'url': 'https://gpucost.org/gpu/mi300x&rut=ac1e581caf9d64b28efb3280d32955820639acb13d55c3d45ac83db6ae463b73', 'type': 'ddg', 'title': 'AMD MI300X Price 2026 - Cloud Rental vs H100 Cost'}

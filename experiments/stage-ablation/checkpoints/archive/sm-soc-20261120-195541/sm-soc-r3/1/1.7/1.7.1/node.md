@@ -1,0 +1,20 @@
+# N40: 价格锚定提示对卖家挂价的预期下调幅度 δ 并非固定为 0.10，其实际值取决于提示信息的显著性（视觉权重 W_vis）与卖家对基准价的信任度（Trust_fac
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N11, N12, N13
+
+## Claim
+
+价格锚定提示对卖家挂价的预期下调幅度 δ 并非固定为 0.10，其实际值取决于提示信息的显著性（视觉权重 W_vis）与卖家对基准价的信任度（Trust_factor），计算公式为 δ = δ_base * W_vis * Trust_factor，其中 δ_base 为基准调整率，需通过 A/B 测试确定。
+
+## Corrected Claim
+
+价格锚定提示对卖家挂价的预期下调幅度 δ 并非固定为 0.10，其实际值取决于提示信息的显著性（视觉权重 W_vis）与卖家对基准价的信任度（Trust_factor），计算公式为 δ = δ_base * W_vis * Trust_factor，其中 δ_base 为基准调整率，需通过 A/B 测试确定。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点公式 δ = δ_base * W_vis * Trust_factor 中的三个独立变量，内容互不重叠且逻辑一致，完整覆盖了公式的所有组成部分，未发现冗余或矛盾。）

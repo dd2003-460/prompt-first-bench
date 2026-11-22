@@ -1,0 +1,24 @@
+# N169: 极高稀缺性商品（N_stock < 2）的修正机制：当 N_stock < 2 时，稀缺性溢价导致买家支付意愿上限 P_max 显著高于市场均价，需引入稀缺性修
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N54
+
+## Claim
+
+极高稀缺性商品（N_stock < 2）的修正机制：当 N_stock < 2 时，稀缺性溢价导致买家支付意愿上限 P_max 显著高于市场均价，需引入稀缺性修正因子 η_scarce = P_max / P_ref，此时 α_eff 应调整为 α_eff = α * η_scarce / β，以反映稀缺性对时间价值的放大效应。
+
+## Corrected Claim
+
+在极高稀缺性商品（N_stock < 2）的定价模型中，通常需引入稀缺性修正因子以反映买家支付意愿上限 P_max 高于市场均价 P_ref 的现象，进而调整时间价值参数 α_eff，具体修正公式取决于特定模型假设。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性参数定义（如 η_scarce 的具体计算方式及 α_eff 的修正公式），属于经济学/市场微观结构中的经验模型假设，无法从第一性原理或数学公理中严格推导得出，且缺乏通用标准支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该公式非通用物理/数学定律，属特定模型假设）
+
+## Search Query
+
+scarcity premium in secondary market low stock items

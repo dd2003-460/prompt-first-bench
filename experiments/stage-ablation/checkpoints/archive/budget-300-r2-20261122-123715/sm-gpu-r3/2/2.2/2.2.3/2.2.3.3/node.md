@@ -1,0 +1,24 @@
+# N211: SmoothQuant 的平滑因子 s 的选取公式为 s = (max(|X|) / max(|W|))^α，其中 α 通常取 0.5；在 Qwen3-27B 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N58
+
+## Claim
+
+SmoothQuant 的平滑因子 s 的选取公式为 s = (max(|X|) / max(|W|))^α，其中 α 通常取 0.5；在 Qwen3-27B 中，若 α 选取不当（如 α=0.3），会导致权重量化误差增加，需验证 α=0.5 时的权重信噪比 (SNR_weight) 是否保持在 40dB 以上 [待核验]。
+
+## Corrected Claim
+
+SmoothQuant 的平滑因子 s 的选取公式为 s = (max(|X|) / max(|W|))^α，其中 α 通常取 0.5；在 Qwen3-27B 中，α 的选取会影响权重量化误差，需通过实验验证 α=0.5 时的权重信噪比 (SNR_weight) 是否满足特定量化需求。
+
+## Evidence
+
+[质询]陈述中关于 Qwen3-27B 在 α=0.3 时权重量化误差增加以及 α=0.5 时 SNR_weight 需保持在 40dB 以上的具体数值指标和模型特定行为属于经验事实，缺乏通用理论支持，且 Qwen3-27B 的具体量化表现需依赖特定实验数据，无法从第一性原理推导。 | SmoothQuant 的平滑因子公式 s = (max(|X|) / max(|W|))^α 及 α=0.5 的常规取值属于先验知识，逻辑自洽；但针对 Qwen3-27B 的具体 SNR 阈值和误差表现属于经验事实，无来源支持，故降级。
+
+## Search Query
+
+SmoothQuant alpha parameter sensitivity weight SNR LLM quantization

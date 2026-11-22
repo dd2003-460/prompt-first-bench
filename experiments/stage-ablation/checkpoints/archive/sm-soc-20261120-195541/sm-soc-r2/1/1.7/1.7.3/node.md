@@ -1,0 +1,20 @@
+# N42: 高挂价卖家在干预后的预期收益损失 ΔU_S 需量化为具体货币值，公式为 ΔU_S = (P_ask - P_ask') * (1 - T_deal'/T_dea
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N11, N12, N13
+
+## Claim
+
+高挂价卖家在干预后的预期收益损失 ΔU_S 需量化为具体货币值，公式为 ΔU_S = (P_ask - P_ask') * (1 - T_deal'/T_deal) * Q_expected，其中 Q_expected 为干预后预期成交量，需结合价格弹性 ε_price 计算 Q_expected = Q_base * (P_ask'/P_ask)^ε_price。
+
+## Corrected Claim
+
+高挂价卖家在干预后的预期收益损失 ΔU_S 应基于干预前后预期总收益之差计算：ΔU_S = P_ask * Q_base - P_ask' * Q_expected，其中 Q_expected 需结合价格弹性 ε_price 计算为 Q_base * (P_ask'/P_ask)^ε_price。
+
+## Evidence
+
+[质询]公式中 (1 - T_deal'/T_deal) 项在逻辑上存在严重缺陷：若干预导致成交率 T_deal 下降（通常情况），该因子为正；但若成交率上升，该因子为负，导致“收益损失”变为负值（即收益增加），这与“损失”的定义矛盾。此外，该公式未考虑卖家实际成交数量变化对总收益的影响，仅用价格差乘以成交率变化比例，忽略了成交量 Q_expected 本身的绝对变化对总收益的直接贡献，属于量纲和逻辑上的简化过度或错误。 | 先验知识/题面给定，逻辑校验发现公式内部逻辑不自洽（成交率变化因子符号问题及忽略成交量绝对变化），且无外部来源支持该特定公式形式。

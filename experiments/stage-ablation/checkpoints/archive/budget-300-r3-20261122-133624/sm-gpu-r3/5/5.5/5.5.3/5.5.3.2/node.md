@@ -1,0 +1,20 @@
+# N403: 2×RTX 4090 系统级 MTBF 计算：假设单卡故障独立，MTBF_system = MTBF_single / 2 = 36 / 2 = 18 个月；若
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N157
+
+## Claim
+
+2×RTX 4090 系统级 MTBF 计算：假设单卡故障独立，MTBF_system = MTBF_single / 2 = 36 / 2 = 18 个月；若考虑 PCIe 链路或电源故障（MTBF_link = 60 个月），则 1/MTBF_sys = 1/18 + 1/18 + 1/60 = 0.1111 + 0.0167 = 0.1278 /year，即 MTBF_sys ≈ 9.4 个月。
+
+## Corrected Claim
+
+2×RTX 4090 系统级 MTBF 计算：假设单卡故障独立，MTBF_system = MTBF_single / 2 = 36 / 2 = 18 个月；若考虑 PCIe 链路或电源故障（MTBF_link = 60 个月），则 1/MTBF_sys = 1/18 + 1/18 + 1/60 = 0.1111 + 0.0167 = 0.1278 /year，即 MTBF_sys ≈ 9.4 个月。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：独立故障假设下MTBF计算符合可靠性工程基本公式（串联系统MTBF为各组件MTBF倒数之和的倒数），数值推导正确。

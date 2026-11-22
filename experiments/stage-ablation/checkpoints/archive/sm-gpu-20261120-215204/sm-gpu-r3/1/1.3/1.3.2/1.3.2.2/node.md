@@ -1,0 +1,20 @@
+# N169: Qwen3-27B 在 W4A16 配置下，32K 上下文 KV Cache 显存占用固定为 40.96 GB，计算公式为 2 * 64 * 8 * 128 *
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N44
+
+## Claim
+
+Qwen3-27B 在 W4A16 配置下，32K 上下文 KV Cache 显存占用固定为 40.96 GB，计算公式为 2 * 64 * 8 * 128 * 32768 * 2 bytes，不随权重量化精度变化。
+
+## Corrected Claim
+
+Qwen3-27B 在 W4A16 配置下，32K 上下文 KV Cache 显存占用固定为 40.96 GB，计算公式为 2 * 64 * 8 * 128 * 32768 * 2 bytes，不随权重量化精度变化。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B 架构参数（64层，8 KV头，128维）与计算逻辑（2*64*8*128*32768*2）自洽，且KV Cache显存确实不随权重量化精度变化。

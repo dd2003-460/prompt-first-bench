@@ -1,0 +1,20 @@
+# N316: RTX 4090 上 FP8 推理相比 BF16 的端到端吞吐量增益取决于 Prefill/Decode 时间比例。若工作负载以 Decode 为主（长上下文生
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N103
+
+## Claim
+
+RTX 4090 上 FP8 推理相比 BF16 的端到端吞吐量增益取决于 Prefill/Decode 时间比例。若工作负载以 Decode 为主（长上下文生成），增益接近 2.0 倍；若以 Prefill 为主（短上下文高并发），增益接近 1.0 倍。综合典型本地推理负载（Prefill:Decode 时间比约 1:3），预期增益约为 1.5 倍。
+
+## Corrected Claim
+
+RTX 4090 上 FP8 推理相比 BF16 的端到端吞吐量增益取决于 Prefill/Decode 时间比例。若工作负载以 Decode 为主（长上下文生成），增益接近 2.0 倍；若以 Prefill 为主（短上下文高并发），增益接近 1.0 倍。综合典型本地推理负载（Prefill:Decode 时间比约 1:3），预期增益约为 1.5 倍。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：FP8相比BF16在计算密集型Prefill阶段因内存带宽和计算单元效率提升带来约2x理论加速，而在内存带宽受限的Decode阶段加速比接近1x（受限于HBM带宽而非计算），加权平均1.5x符合典型负载特征。

@@ -1,0 +1,20 @@
+# N146: RTX 4090 显存带宽为 1008 GB/s，显存容量 24GB，支持 FP8 计算单元（Ada Lovelace 架构），单卡 BF16 27B 模型推理
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N25
+
+## Claim
+
+RTX 4090 显存带宽为 1008 GB/s，显存容量 24GB，支持 FP8 计算单元（Ada Lovelace 架构），单卡 BF16 27B 模型推理不可行（显存不足），仅支持 FP8/INT8/4-bit 量化或 CPU Offload 方案
+
+## Corrected Claim
+
+RTX 4090 显存带宽为 1008 GB/s，显存容量 24GB，支持 FP8 计算单元（Ada Lovelace 架构），单卡 BF16 27B 模型推理不可行（显存不足），仅支持 FP8/INT8/4-bit 量化或 CPU Offload 方案
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 显存带宽 1008 GB/s、容量 24GB 及 Ada Lovelace 架构支持 FP8 均为准确事实；27B 模型在 BF16 下需约 54GB 显存，远超 24GB 限制，故单卡 BF16 推理不可行的结论符合逻辑。

@@ -1,0 +1,20 @@
+# N223: 有效命中率 H_eff 的数值计算：基于 N104 的 E[S]=1.03KB，全量缓存下平均驻留时间 T_residence_avg 由最冷对象的驱逐率决定，
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N79
+
+## Claim
+
+有效命中率 H_eff 的数值计算：基于 N104 的 E[S]=1.03KB，全量缓存下平均驻留时间 T_residence_avg 由最冷对象的驱逐率决定，近似为 1 / λ_cold。若 λ_cold ≈ 0.05 req/s (基于 Pareto β=0.9 尾部估计)，T_res ≈ 20s，则 D_update = 1 / (1 + 1.157e-7 * 20) ≈ 0.9999977，H_eff ≈ 99.9998%，比 N79 假设的 1 小时驻留时间下的 99.96% 更高，表明驻留时间的估计对 H_eff 的精度有显著影响。
+
+## Corrected Claim
+
+有效命中率 H_eff 的数值计算：基于 N104 的 E[S]=1.03KB，全量缓存下平均驻留时间 T_residence_avg 由最冷对象的驱逐率决定，近似为 1 / λ_cold。若 λ_cold ≈ 0.05 req/s (基于 Pareto β=0.9 尾部估计)，T_res ≈ 20s，则 D_update = 1 / (1 + 1.157e-7 * 20) ≈ 0.9999977，H_eff ≈ 99.9998%，比 N79 假设的 1 小时驻留时间下的 99.96% 更高，表明驻留时间的估计对 H_eff 的精度有显著影响。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算自洽（1/(1+1.157e-7*20)≈0.9999977），且驻留时间缩短导致更新频率降低、命中率提升符合缓存一致性逻辑。

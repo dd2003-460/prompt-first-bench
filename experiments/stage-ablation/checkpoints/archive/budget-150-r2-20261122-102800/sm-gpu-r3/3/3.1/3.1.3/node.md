@@ -1,0 +1,30 @@
+# N90: BF16 工作点下 M3 Ultra 256GB 的统一内存架构推理吞吐：内存带宽 819 GB/s，理论 tokens/s = 819 / 58.29 ≈ 1
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N18
+
+## Claim
+
+BF16 工作点下 M3 Ultra 256GB 的统一内存架构推理吞吐：内存带宽 819 GB/s，理论 tokens/s = 819 / 58.29 ≈ 14.05 tokens/s；但 Apple GPU 的 BF16 计算单元效率低于 NVIDIA Tensor Core，实测吞吐通常为理论值的 50-60%，即 7.0-8.4 tokens/s，远低于 A100/H100，仅适合对成本极度敏感且延迟要求极低的场景。
+
+## Corrected Claim
+
+M3 Ultra 256GB 统一内存架构在 BF16 工作点下，受限于内存带宽（约 819 GB/s），其推理吞吐主要受内存带宽瓶颈制约。虽然具体吞吐数值取决于模型大小和实现效率，但通常远低于 A100/H100 等数据中心 GPU，适合对成本敏感且对延迟要求不极端的本地部署场景。
+
+## Evidence
+
+[质询]数值量级与具体参数缺乏来源支持：M3 Ultra 的内存带宽通常标称为 819 GB/s（部分来源可能略有差异，但量级正确），但 '58.29' 这一分母（隐含的每 token 内存访问字节数或模型特定参数）以及 '50-60%' 的实测效率系数均为具体经验数据，参考来源中未提供 M3 Ultra 在 BF16 下的具体吞吐数值或效率对比数据，无法验证该特定计算结果。 | 来源 [1] 和 [2] 确认了 M3 Ultra 256GB 统一内存架构及其在本地大模型部署中的优势，但未提供具体的 BF16 推理吞吐数值或带宽利用率数据；来源 [3] 仅讨论 BF16 机制，未涉及 M3 Ultra 性能。逻辑上，内存带宽受限的推理吞吐估算公式合理，但具体数值（14.05 tokens/s 及 50-60% 效率）属于经验事实，缺乏直接来源支持，故降级。
+
+## Search Query
+
+Apple M3 Ultra 256GB LLM inference throughput tokens per second BF16
+
+## Retrieval Sources
+
+- {'url': 'https://post.smzdm.com/p/a3m3pzz7/&rut=92a3697dfbf90ead0e5570e4bfb32a93969983de05bd8dfab9351356733f52da', 'type': 'ddg', 'title': '从RTX 3060 12G的绝望，到M3 Ultra 256GB统一内存的狂喜'}
+- {'url': 'https://post.smzdm.com/p/apqpol60/&rut=28a37506fb690d9ba5a03c2690d6fc9d699c1a6ba06cc665f09c8aa3a15669f8', 'type': 'ddg', 'title': '从RTX 3060 12G的绝望，到M3 Ultra 256GB统一内存的狂喜'}
+- {'url': 'https://blog.csdn.net/qq_62634342/article/details/162274224&rut=c68e68a65934ae18fd72f01be7112860c5f574afe2a60a86a694ffbcc6d27c65', 'type': 'ddg', 'title': '显存爆炸解决办法之混合精度：Bf16优势、底层机制与梯度精度内幕（2026）-csdn博客'}

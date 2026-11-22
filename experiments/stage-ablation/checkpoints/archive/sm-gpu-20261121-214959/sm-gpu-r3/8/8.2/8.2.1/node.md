@@ -1,0 +1,20 @@
+# N315: RTX 5090 单卡运行 INT4 权重 (13.5GB) + BF16 KV Cache (12.58GB) 时的总显存占用为 26.08GB，剩余 5.9
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N113
+
+## Claim
+
+RTX 5090 单卡运行 INT4 权重 (13.5GB) + BF16 KV Cache (12.58GB) 时的总显存占用为 26.08GB，剩余 5.92GB 用于激活值与 CUDA 上下文，在 32K 上下文、batch_size=1 下无 OOM 风险。
+
+## Corrected Claim
+
+RTX 5090 单卡运行 INT4 权重 (13.5GB) + BF16 KV Cache (12.58GB) 时的总显存占用为 26.08GB，剩余 5.92GB 用于激活值与 CUDA 上下文，在 32K 上下文、batch_size=1 下无 OOM 风险。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：13.5GB + 12.58GB = 26.08GB，32GB - 26.08GB = 5.92GB，数值计算自洽，且5.92GB余量对于batch_size=1的激活值与CUDA上下文通常足够。

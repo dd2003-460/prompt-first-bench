@@ -1,0 +1,24 @@
+# N109: NVIDIA A100 80GB PCIe 版本（非 SXM）的二手市场当前（2024-2025）均价约为 $8,500-$11,000，显著低于 SXM 版本
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N29, N30, N31
+
+## Claim
+
+NVIDIA A100 80GB PCIe 版本（非 SXM）的二手市场当前（2024-2025）均价约为 $8,500-$11,000，显著低于 SXM 版本，因本地工作站通常使用 PCIe 插槽，此为更相关的采购成本基准。
+
+## Corrected Claim
+
+NVIDIA A100 80GB PCIe 版本（非 SXM）的二手市场价格通常低于 SXM 版本，具体价格随市场波动，需实时查询最新行情。
+
+## Evidence
+
+[质询]具体价格数值（$8,500-$11,000）属于实时变动的市场经验数据，缺乏来源支持，且不同时期、不同渠道（如eBay、闲鱼、专业二手商）价格波动较大，该区间可能偏高或偏低，无法确认为当前准确均价。 | 经验事实，逻辑自洽（PCIe版本通常低于SXM版本符合市场规律），但缺来源支持具体数值。
+
+## Search Query
+
+NVIDIA A100 80GB PCIe used price 2024 2025

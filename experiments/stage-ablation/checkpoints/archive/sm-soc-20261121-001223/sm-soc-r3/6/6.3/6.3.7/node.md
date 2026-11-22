@@ -1,0 +1,20 @@
+# N202: 卖家最优挂价 P_ask* 的博弈论解：在透明度展示下，卖家面临买家策略的贝叶斯响应。P_ask* 是最大化期望收益 E[Π_seller] = (P_ask 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N72, N73, N74
+
+## Claim
+
+卖家最优挂价 P_ask* 的博弈论解：在透明度展示下，卖家面临买家策略的贝叶斯响应。P_ask* 是最大化期望收益 E[Π_seller] = (P_ask - C_cost) * P(Sale|P_ask) 的一阶条件解；需数值求解，因为 P(Sale|P_ask) 是非线性函数，通常 P_ask* 会收敛至 P_avg * (1+δ*)，其中 δ* 为边际收益等于边际风险点。
+
+## Corrected Claim
+
+卖家最优挂价 P_ask* 的博弈论解：在透明度展示下，卖家面临买家策略的贝叶斯响应。P_ask* 是最大化期望收益 E[Π_seller] = (P_ask - C_cost) * P(Sale|P_ask) 的一阶条件解；需数值求解，因为 P(Sale|P_ask) 是非线性函数，通常 P_ask* 会收敛至 P_avg * (1+δ*)，其中 δ* 为边际收益等于边际风险点。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该陈述准确描述了基于期望收益最大化的定价博弈论框架，一阶条件求解及非线性概率函数的数值求解逻辑自洽，符合微观经济学基本原理。

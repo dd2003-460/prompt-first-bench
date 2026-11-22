@@ -1,0 +1,24 @@
+# N243: 边界条件修正：若用户要求 '无量化损失' (即 KV 必须 BF16) 且 '单卡 4090' 且 '32K 上下文'，则 N136 的 23.5GB 估算接近
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N82, N83, N84
+
+## Claim
+
+边界条件修正：若用户要求 '无量化损失' (即 KV 必须 BF16) 且 '单卡 4090' 且 '32K 上下文'，则 N136 的 23.5GB 估算接近上限。若 Batch Size > 1 或序列长度 > 32K，则显存溢出。此时唯一可行路径是 CPU Offloading：将 KV Cache 部分卸载至系统内存 (DDR5, 带宽 ~50-100 GB/s)。Offload 比例 50% 时，有效带宽降至 ~200 GB/s，吞吐降至 ~11 Tokens/s。此方案仅适用于对延迟不敏感的批处理场景，交互式推理不可行。
+
+## Corrected Claim
+
+边界条件修正：若用户要求 '无量化损失' (即 KV 必须 BF16) 且 '单卡 4090' 且 '32K 上下文'，则 N136 的 23.5GB 估算接近上限。若 Batch Size > 1 或序列长度 > 32K，则显存溢出。此时唯一可行路径是 CPU Offloading：将 KV Cache 部分卸载至系统内存 (DDR5, 带宽 ~50-100 GB/s)。Offload 比例 50% 时，有效带宽降至 ~200 GB/s，吞吐降至 ~11 Tokens/s。此方案仅适用于对延迟不敏感的批处理场景，交互式推理不可行。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：4090显存48GB，23.5GB KV Cache占用合理；CPU Offloading带宽瓶颈导致吞吐大幅下降符合物理直觉，逻辑自洽。
+
+## Search Query
+
+LLM inference CPU offloading KV cache DDR5 bandwidth impact throughput latency

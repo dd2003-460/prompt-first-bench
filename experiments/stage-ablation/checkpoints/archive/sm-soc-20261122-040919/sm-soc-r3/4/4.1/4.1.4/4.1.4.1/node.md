@@ -1,0 +1,20 @@
+# N306: 直接证据分级与权重：定义证据等级 L_evidence ∈ {0, 1, 2, 3}，0=无, 1=间接推断, 2=技术博客提及, 3=API文档明确披露。修正
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N84
+
+## Claim
+
+直接证据分级与权重：定义证据等级 L_evidence ∈ {0, 1, 2, 3}，0=无, 1=间接推断, 2=技术博客提及, 3=API文档明确披露。修正公式 P(H2)_final = P(H2)_base * (1 + γ * L_evidence)，其中 γ=0.15。若 L_evidence=2（博客提及k=0.6参数），则 P(H2) 从0.3上调至0.39；若 L_evidence=3（API文档），则上调至0.54。
+
+## Corrected Claim
+
+直接证据分级与权重：定义证据等级 L_evidence ∈ {0, 1, 2, 3}，0=无, 1=间接推断, 2=技术博客提及, 3=API文档明确披露。修正公式 P(H2)_final = P(H2)_base * (1 + γ * L_evidence)，其中 γ=0.15。若 L_evidence=2（博客提及k=0.6参数），则 P(H2) 从0.3上调至0.39；若 L_evidence=3（API文档），则上调至0.54。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 P(H2)_final = P(H2)_base * (1 + γ * L_evidence) 中，当 P(H2)_base=0.3, γ=0.15 时，L_evidence=2 对应 0.3*(1+0.3)=0.39，L_evidence=3 对应 0.3*(1+0.45)=0.54，数值计算完全自洽。

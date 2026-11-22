@@ -1,0 +1,28 @@
+# N20: Qwen3-27B 在 FP8 精度下的量化后困惑度及基准得分，计算相对于 BF16 的绝对值下降幅度（ΔPPL, ΔScore）。
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4, N5
+
+## Claim
+
+Qwen3-27B 在 FP8 精度下的量化后困惑度及基准得分，计算相对于 BF16 的绝对值下降幅度（ΔPPL, ΔScore）。
+
+## Corrected Claim
+
+Qwen3.8-27B（或 Qwen3-27B，需确认具体版本）在 FP8 精度下的量化后困惑度及基准得分，计算相对于 BF16 的绝对值下降幅度（ΔPPL, ΔScore）。
+
+## Evidence
+
+[质询]来源标题及摘要中明确提及的模型版本为 'Qwen3.8-27B'，而待核验事实节点指定为 'Qwen3-27B'。虽然两者可能指代同一系列或存在版本混淆，但严格来说存在模型标识不匹配的风险；此外，摘要仅表明文章包含相关测试，未直接提供具体的 ΔPPL 和 ΔScore 数值，无法确认具体数值是否准确。 | 来源 [1] 主题相关（涉及 Qwen3.8-27B 的 BF16/FP8 对比），但存在模型版本号差异（Qwen3.8 vs Qwen3），且摘要未直接给出具体量化后的困惑度及基准得分下降幅度数值，属于间接支持且存在标识歧义。
+
+## Search Query
+
+Qwen3-27B FP8 quantization performance degradation benchmark comparison
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2072597504793880030&rut=939cafd07a4e15ae1245f5a339b74e22b7f3b2377110377f185cd50347b447f0', 'type': 'ddg', 'title': 'Qwen3.8-27B 的 BF16、FP8、MTP、单卡表现，以及与 Qwen3.6 MoE 的差距'}

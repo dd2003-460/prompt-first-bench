@@ -1,0 +1,24 @@
+# N158: LRU与LFU集合中对象大小与频率的联合分布差异量化：在 ρ=-0.3 下，LFU_set（高频小对象）的字节贡献权重 W_LFU = Σ S_i F_i 与 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N62
+
+## Claim
+
+LRU与LFU集合中对象大小与频率的联合分布差异量化：在 ρ=-0.3 下，LFU_set（高频小对象）的字节贡献权重 W_LFU = Σ S_i F_i 与 LRU_set（中频大对象）的字节贡献权重 W_LRU = Σ S_i F_i 的比值。需通过二维积分 ∫∫ S(x)F(y) dP(x,y) 计算，其中 P(x,y) 为基于 Gaussian Copula 的联合分布，ρ=-0.3。
+
+## Corrected Claim
+
+在 ρ=-0.3 的 Gaussian Copula 联合分布下，LFU_set 与 LRU_set 的字节贡献权重比值需通过二维积分计算，具体数值取决于 S 和 F 的边缘分布参数。
+
+## Evidence
+
+[质询]该陈述描述了一个具体的数值计算结果或量化关系（比值），但缺乏具体的分布参数（如均值、方差）和具体的对象集合定义，导致无法从第一性原理推导出确切的数值结论；且属于经验/模拟事实，非纯数学恒等式。 | 逻辑自洽（公式定义清晰，量纲合理），但属于经验/模拟事实，且无可用外部来源支持具体数值或结论，依据经验事实排除条款降级。
+
+## Search Query
+
+joint distribution size frequency Gaussian copula rho -0.3 cache hit rate integral

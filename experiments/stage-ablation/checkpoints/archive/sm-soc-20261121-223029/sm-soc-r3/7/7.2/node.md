@@ -1,0 +1,24 @@
+# N113: 信号机制下的买家筛选概率：在高溢价 δ 下，买家推断商品质量 Q 的后验概率 P(Q_high | δ) = 1 / (1 + e^(-k_signal * (
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N31
+
+## Claim
+
+信号机制下的买家筛选概率：在高溢价 δ 下，买家推断商品质量 Q 的后验概率 P(Q_high | δ) = 1 / (1 + e^(-k_signal * (δ - δ_threshold)))，其中 k_signal 为信号强度敏感度，δ_threshold 为买家心理阈值；当 δ > δ_threshold 时，高意愿买家跳过比价直接成交，导致 T_cycle 缩短。
+
+## Corrected Claim
+
+信号机制下的买家筛选概率：在高溢价 δ 下，买家推断商品质量 Q 的后验概率 P(Q_high | δ) = 1 / (1 + e^(-k_signal * (δ - δ_threshold)))，其中 k_signal 为信号强度敏感度，δ_threshold 为买家心理阈值；当 δ > δ_threshold 时，高意愿买家跳过比价直接成交，导致 T_cycle 缩短。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别针对父节点公式中的两个关键参数（k_signal, δ_threshold）的估计/分布特性，以及公式应用后的行为决策逻辑（跳过比价的条件）进行了分解。三者分别对应“参数估计”、“参数分布”和“行为机制”，彼此独立且无重叠，共同构成了父节点中从信号到行为的完整逻辑链条。）
+
+## Search Query
+
+signaling model buyer quality inference probability high price

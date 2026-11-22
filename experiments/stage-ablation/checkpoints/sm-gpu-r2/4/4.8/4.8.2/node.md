@@ -1,0 +1,20 @@
+# N117: 延迟容忍度 T_max 需区分解码（Decode）与预填充（Prefill）两个阶段：对于交互式对话，Decode 延迟阈值通常设定为 T_decode < 1
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N27
+
+## Claim
+
+延迟容忍度 T_max 需区分解码（Decode）与预填充（Prefill）两个阶段：对于交互式对话，Decode 延迟阈值通常设定为 T_decode < 100ms/token（即 >10 tokens/s），而 Prefill 延迟（首字延迟 TTFT）阈值通常设定为 < 2s（基于 32K 上下文输入长度）。
+
+## Corrected Claim
+
+延迟容忍度 T_max 需区分解码（Decode）与预填充（Prefill）两个阶段：对于交互式对话，Decode 延迟阈值通常设定为 T_decode < 100ms/token（即 >10 tokens/s），而 Prefill 延迟（首字延迟 TTFT）阈值通常设定为 < 2s（基于 32K 上下文输入长度）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：100ms/token 对应 10 tokens/s 的吞吐量，符合交互式对话对流畅性的基本体验要求；32K 上下文下 2s 的 TTFT 阈值符合当前主流 LLM 推理服务（如 vLLM, TGI 等）在 A100/H100 等硬件上的典型性能基准与工程实践标准。

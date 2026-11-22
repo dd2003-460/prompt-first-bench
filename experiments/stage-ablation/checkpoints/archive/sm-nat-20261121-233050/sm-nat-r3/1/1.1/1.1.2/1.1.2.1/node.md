@@ -1,0 +1,20 @@
+# N75: 截断 Pareto 分布均值的渐近展开式（当 x_max >> x_min 时）：E[S] ≈ (α * x_min) / (α - 1) * (1 - (x_
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N25
+
+## Claim
+
+截断 Pareto 分布均值的渐近展开式（当 x_max >> x_min 时）：E[S] ≈ (α * x_min) / (α - 1) * (1 - (x_min/x_max)^(α-1))。代入 α=1.1，得 E[S] ≈ 11 * x_min * (1 - (x_min/x_max)^0.1)。该近似式用于快速反解 x_min：若 E[S]=1.31072 MB，则 11 * x_min ≈ 1.31072 MB，得出 x_min ≈ 0.119 MB (121.8 KB)，前提是 (x_min/x_max)^0.1 项可忽略（即 x_max/x_min > 10^10，这在物理上不可能，说明必须使用精确公式或承认截断效应显著）。
+
+## Corrected Claim
+
+截断 Pareto 分布均值的渐近展开式（当 x_max >> x_min 时）：E[S] ≈ (α * x_min) / (α - 1) * (1 - (x_min/x_max)^(α-1))。代入 α=1.1，得 E[S] ≈ 11 * x_min * (1 - (x_min/x_max)^0.1)。该近似式用于快速反解 x_min：若 E[S]=1.31072 MB，则 11 * x_min ≈ 1.31072 MB，得出 x_min ≈ 0.119 MB (121.8 KB)，前提是 (x_min/x_max)^0.1 项可忽略（即 x_max/x_min > 10^10，这在物理上不可能，说明必须使用精确公式或承认截断效应显著）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：截断Pareto分布均值公式正确，α=1.1时系数11正确，渐近近似及反解逻辑自洽，且正确指出了该近似在物理上不可行从而需使用精确公式的结论。

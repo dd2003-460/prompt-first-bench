@@ -1,0 +1,20 @@
+# N54: LFU 相对 LRU 的字节命中率增益 ΔH_byte = (Σ_{i∈C_LFU} R_i * S_i - Σ_{i∈C_LRU} R_i * S_i) / 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+LFU 相对 LRU 的字节命中率增益 ΔH_byte = (Σ_{i∈C_LFU} R_i * S_i - Σ_{i∈C_LRU} R_i * S_i) / (Σ_{j=1}^{N} R_j * S_j)，由于大小加权，ΔH_byte 通常小于 ΔH_req。
+
+## Corrected Claim
+
+LFU 相对 LRU 的字节命中率增益 ΔH_byte = (Σ_{i∈C_LFU} R_i * S_i - Σ_{i∈C_LRU} R_i * S_i) / (Σ_{j=1}^{N} R_j * S_j)，由于大小加权，ΔH_byte 通常小于 ΔH_req。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：LFU 相比 LRU 在请求命中率上的优势通常源于对热点小对象的保护，而大对象往往访问频率较低或分布更均匀，导致字节加权后的命中率增益（ΔH_byte）通常小于请求加权后的增益（ΔH_req），符合缓存替换算法的一般统计规律。

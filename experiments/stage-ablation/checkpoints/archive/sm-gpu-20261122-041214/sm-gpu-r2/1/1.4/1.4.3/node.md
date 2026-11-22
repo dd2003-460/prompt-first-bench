@@ -1,0 +1,30 @@
+# N57: 4-bit 量化对 27B 规模模型的质量损失基准：在 MMLU 基准测试中，Qwen2.5-7B 从 BF16 到 INT4 的准确率下降通常为 2-4%，而
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N9
+
+## Claim
+
+4-bit 量化对 27B 规模模型的质量损失基准：在 MMLU 基准测试中，Qwen2.5-7B 从 BF16 到 INT4 的准确率下降通常为 2-4%，而 27B 规模由于参数量更大，下降幅度通常收窄至 1-3%；需验证是否超过 5% 阈值，当前证据倾向于 <5%。
+
+## Corrected Claim
+
+4-bit 量化对 27B 规模模型的质量损失通常极小，在多数基准测试中下降幅度往往低于 5%（部分场景甚至接近无损），具体数值因基准和量化方法而异。
+
+## Evidence
+
+[质询]陈述中关于 Qwen2.5-7B 在 MMLU 上从 BF16 到 INT4 下降 2-4% 的具体数值缺乏参考来源支持，且参考来源 [1] 显示 27B 模型在 GSM8K 上零损失，暗示实际损失可能远低于陈述中的 1-3% 下限，存在数值过于保守或来源不匹配的风险。 | 来源 [1] 和 [3] 证实 27B 模型 4-bit 量化性能损失极小或可控（间接支持 <5% 的结论），但无来源直接支持 7B 模型 2-4% 的具体数值，且 [1] 的零损失案例暗示实际损失可能更低，故降级为定性表述。
+
+## Search Query
+
+Qwen3-27B INT4 quantization MMLU accuracy drop benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_00810/article/details/171106777&rut=8c9df945db1349d8205a975e229b66211e6a1d8d1f64f0e1dbbf3758ef02f2c6', 'type': 'ddg', 'title': '4bit量化真的会损失智能吗？Qwen3.8-27B-MLX-4bit GSM8K实测与bf16零差距之谜-CSDN博客'}
+- {'url': 'https://blog.csdn.net/gitblog_00760/article/details/170355501&rut=ef4261c3826371ef592d40ec1e82e6193254fbcf506061b9c79aab14373fb229', 'type': 'ddg', 'title': '量化不降智吗？gemma-4-E4B-it-GGUF的IFEval与MMLU-Pro评测数据深度解读-CSDN博客'}
+- {'url': 'https://www.kongchang.com/articles/qwen3-27bliang-hua-ce-shi-4-bitwen-jian-1-bitbeng-kui&rut=9bbeab211e68ca929b602fcd7f89c8599a1fe7f797b2d2b3e4567026018bab29', 'type': 'ddg', 'title': 'Qwen3 27B量化测试：4-bit稳健，1-bit彻底崩溃 - 控场AI'}

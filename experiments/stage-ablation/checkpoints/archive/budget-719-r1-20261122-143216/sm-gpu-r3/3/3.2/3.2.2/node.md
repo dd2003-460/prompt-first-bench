@@ -1,0 +1,20 @@
+# N83: RTX 5090 在 FP8 精度下解码 Qwen3-27B (Batch Size=1) 的理论最大吞吐量上限为 显存带宽(1792 GB/s) / 单次解码
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+RTX 5090 在 FP8 精度下解码 Qwen3-27B (Batch Size=1) 的理论最大吞吐量上限为 显存带宽(1792 GB/s) / 单次解码读取字节数(27 GB) ≈ 66.4 tokens/s，实际吞吐量需乘以内存带宽利用率系数 (通常 0.6-0.8) 得出 40-53 tokens/s。
+
+## Corrected Claim
+
+RTX 5090 在 FP8 精度下解码 Qwen3-27B (Batch Size=1) 的理论最大吞吐量上限为 显存带宽(1792 GB/s) / 单次解码读取字节数(27 GB) ≈ 66.4 tokens/s，实际吞吐量需乘以内存带宽利用率系数 (通常 0.6-0.8) 得出 40-53 tokens/s。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 5090 显存带宽 1792 GB/s 与 Qwen3-27B FP8 权重约 27GB 符合硬件规格与模型参数量级，带宽瓶颈计算逻辑自洽。

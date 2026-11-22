@@ -1,0 +1,24 @@
+# N251: Qwen3-27B 在 BF16 精度下，WikiText-2 数据集上的困惑度 (PPL) 基线值需查阅 Qwen3 官方技术报告 (arXiv:2412.1
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N77
+
+## Claim
+
+Qwen3-27B 在 BF16 精度下，WikiText-2 数据集上的困惑度 (PPL) 基线值需查阅 Qwen3 官方技术报告 (arXiv:2412.15115) 或 HuggingFace 模型卡片 (Qwen/Qwen3-27B)，当前模型先验知识估计该值在 6.0-7.5 区间，具体数值需检索确认以作为量化损失计算的基准分母。
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 精度下，WikiText-2 数据集上的困惑度 (PPL) 基线值需查阅 Qwen3 官方技术报告 (arXiv:2412.15115) 或 HuggingFace 模型卡片 (Qwen/Qwen3-27B) 以获取准确数值作为量化损失计算的基准分母。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值区间（6.0-7.5），属于硬件/模型性能指标，无法从第一性原理推导，且当前无检索来源支持该具体数值范围，存在数值偏差风险。 | 经验事实，逻辑自洽但缺来源支持（检索失败，无外部证据验证具体PPL区间）
+
+## Search Query
+
+Qwen3-27B BF16 WikiText-2 perplexity baseline

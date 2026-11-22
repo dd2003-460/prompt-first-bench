@@ -1,0 +1,20 @@
+# N144: Intel Arc A770 显存带宽为 560 GB/s (GDDR6)，若 4GB 权重 Offload 至 DDR5 (带宽 ~80 GB/s)，有效吞吐
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N35
+
+## Claim
+
+Intel Arc A770 显存带宽为 560 GB/s (GDDR6)，若 4GB 权重 Offload 至 DDR5 (带宽 ~80 GB/s)，有效吞吐瓶颈由显存带宽转为内存带宽，理论吞吐下降系数 k_offload ≈ 80/560 ≈ 0.14，实际吞吐预计降至 5-8 tokens/s。
+
+## Corrected Claim
+
+Intel Arc A770 显存带宽为 560 GB/s (GDDR6)，若 4GB 权重 Offload 至 DDR5 (带宽 ~80 GB/s)，有效吞吐瓶颈由显存带宽转为内存带宽，理论吞吐下降系数 k_offload ≈ 80/560 ≈ 0.14，实际吞吐预计降至 5-8 tokens/s。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Intel Arc A770 显存带宽 560 GB/s 符合其 256-bit GDDR6 规格；DDR5 带宽 ~80 GB/s 符合双通道标准；带宽比 80/560 ≈ 0.14 计算正确；LLM 推理在显存受限场景下近似线性依赖带宽，故吞吐下降系数与带宽比一致，5-8 tokens/s 的量级在 4GB 权重、低带宽内存瓶颈下合理。

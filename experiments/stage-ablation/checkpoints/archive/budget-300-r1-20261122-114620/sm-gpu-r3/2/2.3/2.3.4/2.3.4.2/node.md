@@ -1,0 +1,20 @@
+# N214: Apple M2 Ultra 方案中，32K 上下文 KV Cache 占用 1.6GB，统一内存总占用为 27GB (权重) + 1.6GB (KV) + 5
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N65
+
+## Claim
+
+Apple M2 Ultra 方案中，32K 上下文 KV Cache 占用 1.6GB，统一内存总占用为 27GB (权重) + 1.6GB (KV) + 5GB (OS/框架) = 33.6GB，远低于 192GB 上限，显存瓶颈不存在；瓶颈转为带宽竞争：当并发数 N=1 时，GPU 独占带宽，吞吐最高；当 N>1 时，CPU 任务与 GPU 推理共享内存总线，有效带宽下降比例 η_contention = 1 / (1 + N_cpu_load / N_gpu_load)，在典型桌面负载下吞吐下降 10-20%。
+
+## Corrected Claim
+
+Apple M2 Ultra 方案中，32K 上下文 KV Cache 占用约 1.6GB，统一内存总占用约为 33.6GB，远低于 192GB 上限，显存容量瓶颈不存在；瓶颈转为带宽竞争：当并发数 N=1 时，GPU 独占带宽，吞吐最高；当 N>1 时，CPU 任务与 GPU 推理共享内存总线，有效带宽下降，在典型桌面负载下吞吐可能下降 10-20%（具体比例取决于负载特征与内存控制器调度策略）。
+
+## Evidence
+
+[质询]公式 η_contention = 1 / (1 + N_cpu_load / N_gpu_load) 缺乏明确的物理或工程定义，N_cpu_load 和 N_gpu_load 的量纲未定义，且该线性竞争模型在 Apple Silicon 统一内存架构下过于简化，未考虑内存控制器仲裁机制、缓存命中率及带宽饱和非线性效应，属于经验性估算而非严格推导。 | source=knowledge，逻辑自洽但含未定义变量的经验公式，无法从第一性原理严格推出，且无外部来源支持，依据经验事实排除条款（虽不适用 given/knowledge 的 verified 豁免，但公式本身非公理）及缺乏来源支持，降级为定性表述。

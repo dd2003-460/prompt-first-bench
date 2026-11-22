@@ -1,0 +1,24 @@
+# N748: vLLM 对 Blackwell 架构的 FP8/INT8 量化内核在 nightly 版本中的稳定性指标：连续运行 24 小时推理任务中的崩溃率 (crash
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N230
+
+## Claim
+
+vLLM 对 Blackwell 架构的 FP8/INT8 量化内核在 nightly 版本中的稳定性指标：连续运行 24 小时推理任务中的崩溃率 (crash rate) 或需重启的频率，对比 H100 稳定版的 0% 崩溃率基准
+
+## Corrected Claim
+
+vLLM 在 Blackwell 架构上的 FP8/INT8 量化内核在 nightly 版本中的长期稳定性（如24小时连续运行崩溃率）尚缺乏公开的、与 H100 稳定版 0% 崩溃率基准直接对比的权威量化指标，需参考最新官方发布说明或社区实测报告。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性性能指标（24小时崩溃率、与H100的0%基准对比），属于硬件/软件特定版本的稳定性数据，无法从第一性原理推导，且缺乏任何来源支持，存在数据虚构或过时风险。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+vLLM blackwell nightly build stability crash rate 24h inference

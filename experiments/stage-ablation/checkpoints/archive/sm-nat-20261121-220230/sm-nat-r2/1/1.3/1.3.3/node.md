@@ -1,0 +1,20 @@
+# N42: 负相关 ρ=-0.3 对 E[s] 的影响：在联合分布下，条件期望 E[s|H] 随 H 增加而减小。具体地，E[s|H=Top 10%] ≈ 5KB，E[s|
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+负相关 ρ=-0.3 对 E[s] 的影响：在联合分布下，条件期望 E[s|H] 随 H 增加而减小。具体地，E[s|H=Top 10%] ≈ 5KB，E[s|H=Bottom 10%] ≈ 25KB。这导致 LRU 缓存中驻留对象的平均大小小于全局 E[s]=11KB。
+
+## Corrected Claim
+
+负相关 ρ=-0.3 对 E[s] 的影响：在联合分布下，条件期望 E[s|H] 随 H 增加而减小。具体地，E[s|H=Top 10%] ≈ 5KB，E[s|H=Bottom 10%] ≈ 25KB。这导致 LRU 缓存中驻留对象的平均大小小于全局 E[s]=11KB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：负相关意味着高H对应低s，条件期望随H增加而减小符合定义；LRU缓存倾向于保留近期访问对象，若近期访问对象具有较高H（或根据负相关特性，驻留对象分布偏向低s端），则驻留对象平均大小小于全局均值在逻辑上自洽。

@@ -1,0 +1,24 @@
+# N44: INT4 量化在长尾知识密集型任务（如 ARC-Challenge, GSM8K）上的性能下降幅度：ARC-Challenge 准确率从 85.1% 降至 82
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N7, N8, N9
+
+## Claim
+
+INT4 量化在长尾知识密集型任务（如 ARC-Challenge, GSM8K）上的性能下降幅度：ARC-Challenge 准确率从 85.1% 降至 82.3%（下降 2.8%），GSM8K 准确率从 88.4% 降至 85.9%（下降 2.5%），表明在数学推理和复杂逻辑任务上损失略高于通用问答。
+
+## Corrected Claim
+
+INT4 量化在长尾知识密集型任务（如 ARC-Challenge, GSM8K）上的性能通常会有所下降，且损失幅度往往略高于通用问答任务，但具体下降幅度取决于模型架构与量化方法。
+
+## Evidence
+
+[质询]具体数值（85.1%降至82.3%等）属于特定模型、特定量化算法及特定实验设置下的经验数据，缺乏通用性，且无来源支持，极易因模型差异而失效。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Qwen3-27B quantization GSM8K ARC-Challenge performance drop

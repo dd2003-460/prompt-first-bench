@@ -1,0 +1,24 @@
+# N215: 下游投影1：GMV 损失项 ΔGMV 的计算公式，ΔGMV = -k_gmv * (W - W*) * Q_base，其中 k_gmv 为 GMV 对曝光权重的
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N58
+
+## Claim
+
+下游投影1：GMV 损失项 ΔGMV 的计算公式，ΔGMV = -k_gmv * (W - W*) * Q_base，其中 k_gmv 为 GMV 对曝光权重的敏感系数（需通过历史数据回归得到），Q_base 为基准日成交量。
+
+## Corrected Claim
+
+下游投影1：GMV 损失项 ΔGMV 可建模为 ΔGMV = -k_gmv * (W - W*) * Q_base，其中 k_gmv 为需通过历史数据回归得到的敏感系数，Q_base 为基准日成交量。
+
+## Evidence
+
+[质询]该公式为经验性线性近似模型，缺乏通用理论依据，且系数 k_gmv 和基准 Q_base 的具体定义及回归方法未提供，属于特定业务场景下的假设性公式，无法从第一性原理推导。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该公式非数学公理或物理定律，属业务经验模型）
+
+## Search Query
+
+marketplace exposure weight sensitivity GMV regression coefficient

@@ -1,0 +1,30 @@
+# N95: Qwen3-27B 在 NVFP4 精度下的实际质量损失需区分基准：MMLU 下降约 2-4%，HumanEval 代码生成下降约 5-8%，与 N20 声称的
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N20
+
+## Claim
+
+Qwen3-27B 在 NVFP4 精度下的实际质量损失需区分基准：MMLU 下降约 2-4%，HumanEval 代码生成下降约 5-8%，与 N20 声称的 5-15% 复杂任务损失存在重叠但需细化为具体基准数值以支撑决策。
+
+## Corrected Claim
+
+Qwen3 系列 27B 模型在 NVFP4 精度下，MMLU 基准下降幅度较小（约 1-4%），代码生成等复杂任务损失可能更高，具体数值需依据特定版本实测数据细化。
+
+## Evidence
+
+[质询]来源中提到的模型版本（Qwen3.6/3.8）与陈述中的 Qwen3 不一致，且来源 [2] 给出的 MMLU 下降幅度（1.2%）低于陈述范围（2-4%），HumanEval 数据在摘要中缺失，具体数值缺乏直接支持。 | 来源 [2] 间接支持 NVFP4 量化导致 MMLU 轻微下降（1.2%），与陈述量级兼容但数值不完全匹配；HumanEval 数据无直接来源支持，属经验事实且缺具体基准佐证。
+
+## Search Query
+
+Qwen3-27B NVFP4 quantization benchmark MMLU HumanEval degradation
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_00951/article/details/168656480&rut=71c6e1be65bbc23bfc7f503b60bfe1cc65244a06c54f645b59e12967ba2e801a', 'type': 'ddg', 'title': 'Qwen3.6-27B-NVFP4 vs NVIDIA NVFP4 vs FP8 vs BF16：精度基准全对比，4-b'}
+- {'url': 'https://blog.csdn.net/gitblog_00769/article/details/153162969&rut=bbf0b38565886765da74fb64327f8261329dcea76b1550283ea12539603e402d', 'type': 'ddg', 'title': 'NVIDIA Qwen3.6-27B-NVFP4 vs 同类模型：成本、性能与能效全面对比-CSDN博客'}
+- {'url': 'https://aishare.jizhiku.net/archives/52380&rut=5039db391448ca89fc9e31a91fe1db6f2c987fedc9054ae8edd6c7dfbe5b8319', 'type': 'ddg', 'title': 'Qwen3.8-27B 实测：BF16/FP8/NVFP4 精度对比与部署优化指南 - AI技能智慧站'}

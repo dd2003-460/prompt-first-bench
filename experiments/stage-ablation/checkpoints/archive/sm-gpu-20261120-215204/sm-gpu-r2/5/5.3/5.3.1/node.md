@@ -1,0 +1,24 @@
+# N122: 1×RTX 4090 24GB 在 W4 精度下运行 Qwen3-27B 的显存占用校验：权重 13.5GB + KV Cache (32K, 64层, GQA
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N31
+
+## Claim
+
+1×RTX 4090 24GB 在 W4 精度下运行 Qwen3-27B 的显存占用校验：权重 13.5GB + KV Cache (32K, 64层, GQA 8 KV heads, 128 dim, BF16) ≈ 12.8GB + 激活/碎片 2GB = 28.3GB > 24GB 物理上限，结论：单卡 4090 无法在 32K 上下文下运行 W4 Qwen3-27B，必须降低上下文至 ~16K 或使用 Offloading。
+
+## Corrected Claim
+
+1×RTX 4090 24GB 在 W4 精度下运行 Qwen3-27B 的显存占用校验：权重 13.5GB + KV Cache (32K, 64层, GQA 8 KV heads, 128 dim, BF16) ≈ 12.8GB + 激活/碎片 2GB = 28.3GB > 24GB 物理上限，结论：单卡 4090 无法在 32K 上下文下运行 W4 Qwen3-27B，必须降低上下文至 ~16K 或使用 Offloading。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：权重13.5GB + KV Cache 12.8GB + 激活2GB = 28.3GB，确实超过24GB物理上限，结论成立。
+
+## Search Query
+
+Qwen3 27B GQA KV heads count 32K context memory calculation

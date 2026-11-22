@@ -1,0 +1,28 @@
+# N93: E[S_hit] 的精确计算：E[S_hit] = E[S | hit] 不能简单假设为 0.7*E[S]，需通过积分 ∫(s * f_size(s) * f_
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N34
+
+## Claim
+
+E[S_hit] 的精确计算：E[S_hit] = E[S | hit] 不能简单假设为 0.7*E[S]，需通过积分 ∫(s * f_size(s) * f_pop(s) * I(s in cache))ds / ∫(f_pop(s) * I(s in cache))ds 计算；在 ρ=-0.3 下，由于热门对象偏小，实际 E[S_hit] ≈ 0.5*E[S] 更合理，这将使 T_resident 增大至 ≈ 2.2e-5 天。
+
+## Corrected Claim
+
+E[S_hit] 的精确计算需通过积分 ∫(s * f_size(s) * f_pop(s) * I(s in cache))ds / ∫(f_pop(s) * I(s in cache))ds 进行，不能简单假设为 0.7*E[S]；在 ρ=-0.3 下，由于热门对象偏小，实际 E[S_hit] 通常小于 E[S]（具体数值如 0.5*E[S] 需依赖特定分布假设），这将导致 T_resident 增大。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值结论（E[S_hit] ≈ 0.5*E[S] 和 T_resident ≈ 2.2e-5 天），这些数值依赖于特定的缓存模型、对象大小分布及流行度分布假设，无法仅从第一性原理或题面条件严格推导得出，属于经验事实。 | 参考来源 [1] 关于 QA 模型，与本事实主题（缓存/存储系统性能分析）完全无关，无可用外部证据；该事实为经验性数值结论，逻辑自洽但缺乏来源支持，依据经验事实排除条款降级。
+
+## Search Query
+
+LRU cache hit size distribution correlation with popularity Pareto alpha beta
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org/abs/2403.02176&rut=a5c6ab354d26582702d5d60172d24ee10c680e45f44d0e2606fb0651ea5852d9', 'type': 'ddg', 'title': '[2403.02176] EEE-QA: Exploring Effective and Efficient Question-Answer ...'}

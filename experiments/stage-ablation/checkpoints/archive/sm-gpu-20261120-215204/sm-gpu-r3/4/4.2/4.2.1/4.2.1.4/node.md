@@ -1,0 +1,24 @@
+# N281: RTX 4090 (Ada Lovelace) 的 FP8 支持特性：硬件仅支持 FP8 数据格式存储和反量化到 BF16/FP16 进行计算，不支持原生 FP
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N98, N99, N100
+
+## Claim
+
+RTX 4090 (Ada Lovelace) 的 FP8 支持特性：硬件仅支持 FP8 数据格式存储和反量化到 BF16/FP16 进行计算，不支持原生 FP8 Tensor Core 矩阵乘法（Tensor Core FP8 计算需 Hopper 架构 H100/H200 或 Ada 的特定受限模式，但主流驱动/框架下通常回退到 BF16 计算）
+
+## Corrected Claim
+
+RTX 4090 (Ada Lovelace) 的 FP8 支持特性：硬件仅支持 FP8 数据格式存储和反量化到 BF16/FP16 进行计算，不支持原生 FP8 Tensor Core 矩阵乘法（Tensor Core FP8 计算需 Hopper 架构 H100/H200 或 Ada 的特定受限模式，但主流驱动/框架下通常回退到 BF16 计算）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 (Ada Lovelace) 架构确实引入了 FP8 数据格式支持，主要用于存储和反量化，其 Tensor Core 主要优化针对 FP16/BF16/TF32/INT8 等格式，原生 FP8 Tensor Core 矩阵乘法主要存在于 Hopper 架构（如 H100）中，Ada 架构在主流驱动和框架下通常回退到 BF16 计算，陈述符合硬件架构事实。
+
+## Search Query
+
+RTX 4090 FP8 Tensor Core support native compute vs dequantization

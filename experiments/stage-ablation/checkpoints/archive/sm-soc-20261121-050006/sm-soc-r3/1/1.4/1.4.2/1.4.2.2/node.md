@@ -1,0 +1,28 @@
+# N154: 高信息不对称品类（如奢侈品、电子产品）中，品类不确定性因子 U_cat 服从 Gamma(2, 1)，均值 2.0，与基础敏感度 ε_asym 相乘生成最终 γ
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N45, N46, N47
+
+## Claim
+
+高信息不对称品类（如奢侈品、电子产品）中，品类不确定性因子 U_cat 服从 Gamma(2, 1)，均值 2.0，与基础敏感度 ε_asym 相乘生成最终 γ_defect；该交互项导致分布右偏，P(γ_defect > 0.7) 从 0.3 升至 0.55。
+
+## Corrected Claim
+
+高信息不对称品类（如奢侈品、电子产品）中，品类不确定性因子 U_cat 通常被建模为右偏分布（如Gamma分布），与基础敏感度 ε_asym 相乘生成最终 γ_defect；该交互项导致分布右偏，显著提高了高缺陷感知概率。
+
+## Evidence
+
+[质询]该陈述包含具体的统计分布参数（Gamma(2, 1)）和精确的概率变化数值（0.3升至0.55），属于经验事实或特定模型设定，无法从第一性原理推导，且参考来源仅定性讨论信息不对称，未提供这些具体数值支持。 | 逻辑上Gamma(2,1)均值为2.0且右偏符合数学性质，但具体概率数值缺乏来源支持；来源[1]仅定性支持高信息不对称品类存在不确定性，未提供具体分布参数或概率值，故降级为定性表述。
+
+## Search Query
+
+category uncertainty gamma distribution luxury goods electronics second-hand market
+
+## Retrieval Sources
+
+- {'url': 'https://www.x-mol.com/paper/1775876939615318016/t&rut=da4213da719b6dcd20f56cce5a5303ee69ac6f705741f0aed6be11c2fdd8b24e', 'type': 'ddg', 'title': '<br>通过卖家信号解决消费者信息不对称和奢侈品再商务的感知不确定性,Journal of Retailing and Consumer ...'}

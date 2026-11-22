@@ -1,0 +1,24 @@
+# N148: T_wait 的期望值计算：T_wait 定义为从挂价到成交的期望等待时间 E[T_close]，需考虑高挂价导致的成交概率下降，即 T_wait = 1 / 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N47
+
+## Claim
+
+T_wait 的期望值计算：T_wait 定义为从挂价到成交的期望等待时间 E[T_close]，需考虑高挂价导致的成交概率下降，即 T_wait = 1 / λ_close(P_high)，其中 λ_close 为成交率参数，若 P_high > 1.2 * P_market_avg，则 T_wait 通常延长至 2-3 倍基准周期 [待核验]。
+
+## Corrected Claim
+
+T_wait 定义为从挂价到成交的期望等待时间，理论上与成交率参数成反比（T_wait ≈ 1/λ_close）。当挂价显著高于市场均价（如 P_high > 1.2 * P_market_avg）时，成交率下降导致等待时间延长，具体延长倍数取决于市场微观结构和流动性，通常显著高于基准周期。
+
+## Evidence
+
+[质询]将等待时间简化为成交率参数的倒数（T=1/λ）忽略了挂价对成交率函数的具体影响形式，且“2-3倍基准周期”这一具体数值范围缺乏通用理论或广泛共识支持，属于特定市场经验值而非普适规律。 | 先验知识/题面给定，逻辑校验通过：等待时间与成交率成反比符合泊松过程基本逻辑，但具体倍数关系为经验性描述，缺乏通用来源直接支持，故降级为定性表述。
+
+## Search Query
+
+expected time to close high priced items marketplace

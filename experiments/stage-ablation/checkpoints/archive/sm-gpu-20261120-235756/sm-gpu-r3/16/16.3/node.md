@@ -1,0 +1,20 @@
+# N373: 对比口径差异：'每美元每秒 Token 数' 适用于单用户高吞吐场景，而 '每美元每并发用户 Token 数' 适用于多用户服务场景。若最终用途为本地工作站（单
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N140
+
+## Claim
+
+对比口径差异：'每美元每秒 Token 数' 适用于单用户高吞吐场景，而 '每美元每并发用户 Token 数' 适用于多用户服务场景。若最终用途为本地工作站（单用户），则 N140 中的 MI300X 并发优势无效，应直接比较单流吞吐量/TCO；若为服务部署，则需引入队列等待时间（Queueing Delay）作为额外成本项，公式为 Total_Cost = TCO + (Queueing_Delay * User_Value_Per_Second)。
+
+## Corrected Claim
+
+对比口径差异：'每美元每秒 Token 数' 适用于单用户高吞吐场景，而 '每美元每并发用户 Token 数' 适用于多用户服务场景。若最终用途为本地工作站（单用户），则 N140 中的 MI300X 并发优势无效，应直接比较单流吞吐量/TCO；若为服务部署，则需引入队列等待时间（Queueing Delay）作为额外成本项，公式为 Total_Cost = TCO + (Queueing_Delay * User_Value_Per_Second)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：单用户场景下并发优势确实无效，应比较单流吞吐；多用户场景引入排队延迟作为机会成本符合经济学与排队论基本逻辑。

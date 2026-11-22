@@ -1,0 +1,20 @@
+# N354: H100 启用原生 FP8 推理需驱动 ≥ 535.54.03 且 CUDA ≥ 12.2；NVFP4 为 Blackwell 架构特性，H100 硬件不支持，
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N139
+
+## Claim
+
+H100 启用原生 FP8 推理需驱动 ≥ 535.54.03 且 CUDA ≥ 12.2；NVFP4 为 Blackwell 架构特性，H100 硬件不支持，驱动版本无法通过软件模拟实现 NVFP4 加速，H100 上最优低精度选择为 FP8
+
+## Corrected Claim
+
+H100 启用原生 FP8 推理需驱动 ≥ 535.54.03 且 CUDA ≥ 12.2；NVFP4 为 Blackwell 架构特性，H100 硬件不支持，驱动版本无法通过软件模拟实现 NVFP4 加速，H100 上最优低精度选择为 FP8
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H100 (Hopper) 硬件原生支持 FP8，NVFP4 是 Blackwell 架构引入的特性，H100 硬件确实不支持 NVFP4，且驱动/CUDA 版本要求符合 NVIDIA 官方发布规范。

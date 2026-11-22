@@ -1,0 +1,16 @@
+# N236: N86 计算 INT8 可行性时未考虑 KV Cache 精度：若 KV Cache 采用 BF16（而非 INT8），每卡 KV Cache 占用翻倍至 2.
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N86
+
+## Claim
+
+N86 计算 INT8 可行性时未考虑 KV Cache 精度：若 KV Cache 采用 BF16（而非 INT8），每卡 KV Cache 占用翻倍至 2.15GB，总显存需求升至 19.15GB/卡，剩余余量降至 4.85GB (20.2%)，batch 扩展能力下降 18.5%。
+
+## Corrected Claim
+
+N86 计算 INT8 可行性时未考虑 KV Cache 精度：若 KV Cache 采用 BF16（而非 INT8），每卡 KV Cache 占用翻倍至 2.15GB，总显存需求升至 19.15GB/卡，剩余余量降至 4.85GB (20.2%)，batch 扩展能力下降 18.5%。

@@ -1,0 +1,24 @@
+# N232: CUDA 12.x + vLLM 方案在 RTX 4090/A6000 Ada 上的 Bug 修复成本为 $0，前提是使用 vLLM 0.5.0+ 版本且 Qw
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N89
+
+## Claim
+
+CUDA 12.x + vLLM 方案在 RTX 4090/A6000 Ada 上的 Bug 修复成本为 $0，前提是使用 vLLM 0.5.0+ 版本且 Qwen3 架构已原生支持；若需启用 FlashAttention-3 等实验性特性，潜在调试成本上升至 $200-$500 [待核验: 具体版本兼容性矩阵]。
+
+## Corrected Claim
+
+CUDA 12.x + vLLM 方案在 RTX 4090/A6000 Ada 上的 Bug 修复成本通常较低，前提是使用较新版本的 vLLM 且模型架构已获原生支持；若需启用实验性特性（如 FlashAttention-3），潜在调试成本可能显著上升。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性参数（如 vLLM 0.5.0+ 版本兼容性、Qwen3 原生支持状态、FlashAttention-3 调试成本区间），这些属于经验事实而非第一性原理可推导内容。由于检索无可用来源，无法验证具体版本兼容性及成本估算的准确性，存在版本迭代导致事实过时的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体版本兼容性及成本数据）
+
+## Search Query
+
+vLLM Qwen3-27B FlashAttention-3 compatibility bug report GitHub

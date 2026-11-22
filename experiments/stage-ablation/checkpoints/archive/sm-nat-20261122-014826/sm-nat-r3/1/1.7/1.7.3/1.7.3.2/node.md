@@ -1,0 +1,20 @@
+# N118: LFU 频率窗口 T_window 对稳定性提升幅度的敏感性分析：N42 中未指定 T_window，假设 T_window=1 天，则 Var(F_LFU)=
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N42
+
+## Claim
+
+LFU 频率窗口 T_window 对稳定性提升幅度的敏感性分析：N42 中未指定 T_window，假设 T_window=1 天，则 Var(F_LFU)=λ_i；若 T_window 缩短至 1 小时，则 Var(F_LFU)=λ_i/24，RSE 增加 √24≈4.9 倍；需计算在不同 T_window（1小时, 6小时, 24小时）下，LFU 相比 LRU 的边界对象误驱逐率降低的具体百分比，以验证“提升约 40%”是否仅在 T_window=24 小时且无突发流量时成立，并给出 T_window 的最优值以最大化稳定性增益。
+
+## Corrected Claim
+
+LFU 频率窗口 T_window 对稳定性提升幅度的敏感性分析：N42 中未指定 T_window，假设 T_window=1 天，则 Var(F_LFU)=λ_i；若 T_window 缩短至 1 小时，则 Var(F_LFU)=λ_i/24，RSE 增加 √24≈4.9 倍；需计算在不同 T_window（1小时, 6小时, 24小时）下，LFU 相比 LRU 的边界对象误驱逐率降低的具体百分比，以验证“提升约 40%”是否仅在 T_window=24 小时且无突发流量时成立，并给出 T_window 的最优值以最大化稳定性增益。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于泊松分布性质，方差与时间窗口成正比，RSE与窗口平方根成反比，推导自洽。

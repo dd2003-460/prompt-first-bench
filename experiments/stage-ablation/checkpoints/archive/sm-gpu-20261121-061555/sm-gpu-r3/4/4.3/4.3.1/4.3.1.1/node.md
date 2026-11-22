@@ -1,0 +1,20 @@
+# N264: 在RTX 4090 (Ada架构)上执行INT4/W4A16推理时，每1000个Token的Dequantize操作需额外读取约15-20MB的FP16中间张量
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N95
+
+## Claim
+
+在RTX 4090 (Ada架构)上执行INT4/W4A16推理时，每1000个Token的Dequantize操作需额外读取约15-20MB的FP16中间张量，导致内存带宽占用增加15%，实际有效带宽利用率上限被压缩至0.85，低于Hopper架构原生支持的0.90+。
+
+## Corrected Claim
+
+在RTX 4090 (Ada架构)上执行INT4/W4A16推理时，Dequantize操作会引入额外的内存带宽开销，导致有效带宽利用率低于Hopper架构原生支持的水平，但具体数值因实现而异。
+
+## Evidence
+
+[质询]数值量级与具体百分比（15-20MB/1000 tokens, 15%带宽增加, 0.85 vs 0.90利用率）缺乏公开基准测试支持，且'有效带宽利用率'的定义模糊，不同推理框架（如TensorRT-LLM, vLLM）优化程度不同，难以得出如此精确且普适的结论。 | 先验知识/题面给定，逻辑校验通过：INT4反量化确实需要额外内存访问，Ada架构相比Hopper在特定低精度路径上可能存在效率差异，但具体数值为经验估计，无来源直接支持，故降级。

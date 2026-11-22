@@ -1,0 +1,24 @@
+# N364: Qwen3-27B 在 64 层中，采用线性注意力 (Linear Attention) 或滑动窗口注意力 (Sliding Window Attention)
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N128
+
+## Claim
+
+Qwen3-27B 在 64 层中，采用线性注意力 (Linear Attention) 或滑动窗口注意力 (Sliding Window Attention) 的层数 N_linear_attn 的具体数值，需确认其是否与 N_full_attn 互补（即 N_full_attn + N_linear_attn = 64），并明确线性注意力层的 KV Cache 占用是否为 0 或仅为窗口大小。
+
+## Corrected Claim
+
+Qwen3-27B 的具体注意力层数分配（N_linear_attn 与 N_full_attn）及 KV Cache 占用细节需参考官方技术报告确认；一般而言，若采用线性注意力，其 KV Cache 占用显著低于全注意力，滑动窗口注意力的 KV Cache 占用与窗口大小成正比，但具体数值需以官方数据为准。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件/模型架构参数（Qwen3-27B 的层数分配及 KV Cache 特性），属于经验事实。当前检索无可用来源，无法验证 Qwen3-27B 是否确实采用混合注意力机制（如 GQA/Linear/Sliding Window 的具体比例），也无法确认其总层数是否为 64 层（通常 27B 模型层数可能在 40-60 层之间，64 层需具体确认）。此外，线性注意力的 KV Cache 占用并非绝对为 0，取决于具体实现（如 RetNet 或 Mamba 等变体可能有状态缓存），且滑动窗口注意力的 KV Cache 占用确实与窗口大小相关，但具体数值需依据官方技术报告。 | 经验事实，逻辑自洽但缺来源支持。Qwen3 系列模型的具体架构细节（如是否混合线性/滑动窗口注意力、具体层数分配）属于特定模型的经验参数，无法从第一性原理推导，且本轮检索无可用来源佐证，故降级为 degraded。
+
+## Search Query
+
+Qwen3-27B linear attention sliding window layers KV cache size

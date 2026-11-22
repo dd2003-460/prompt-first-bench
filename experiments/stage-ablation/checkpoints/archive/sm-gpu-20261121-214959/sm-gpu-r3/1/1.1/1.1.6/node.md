@@ -1,0 +1,24 @@
+# N43: INT4 量化在 Qwen3-27B 上的具体基准测试数据：在 MMLU-Pro 基准上，AWQ INT4 的准确率约为 72.5%（BF16 为 75.2%）
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N7, N8, N9
+
+## Claim
+
+INT4 量化在 Qwen3-27B 上的具体基准测试数据：在 MMLU-Pro 基准上，AWQ INT4 的准确率约为 72.5%（BF16 为 75.2%），下降 2.7 个百分点；在 HumanEval 代码生成任务上，Pass@1 从 60.1% 降至 57.3%，下降 2.8 个百分点。
+
+## Corrected Claim
+
+INT4 量化在 Qwen3-27B 上通常会导致基准测试性能轻微下降（约 2-3 个百分点），具体数值取决于量化方法和模型版本。
+
+## Evidence
+
+[质询]具体数值（72.5%, 75.2%, 60.1%, 57.3%）属于特定模型版本和量化配置下的经验事实，缺乏来源支持，且不同量化实现（如GPTQ vs AWQ）或模型微调版本可能导致数值偏差，无法从第一性原理推导。 | 经验事实，逻辑自洽（量化通常导致性能轻微下降，量级合理）但缺来源支持，且检索无可用来源。
+
+## Search Query
+
+Qwen3-27B AWQ INT4 MMLU HumanEval benchmark results

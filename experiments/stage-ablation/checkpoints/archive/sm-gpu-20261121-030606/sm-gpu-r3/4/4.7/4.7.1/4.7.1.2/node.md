@@ -1,0 +1,29 @@
+# N335: H100 SXM 配套系统（含SXM基板、双路EPYC/至强CPU、256GB+ ECC内存、冗余电源及机箱）的最低可行配置成本约为 $6,500，高配方案可达
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N145, N146, N147
+
+## Claim
+
+H100 SXM 配套系统（含SXM基板、双路EPYC/至强CPU、256GB+ ECC内存、冗余电源及机箱）的最低可行配置成本约为 $6,500，高配方案可达 $9,000，主要差异在于CPU核心数与内存容量对预处理/卸载任务的影响 [待核验]
+
+## Corrected Claim
+
+H100 SXM 配套系统（含SXM基板、双路EPYC/至强CPU、256GB+ ECC内存、冗余电源及机箱）的成本因配置和市场渠道差异较大，具体数值需参考实时市场报价，主要差异在于CPU核心数与内存容量对预处理/卸载任务的影响。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件系统成本数值（$6,500-$9,000），属于经验事实。参考来源仅提供了H100 SXM的技术规格和集成方式说明，完全未涉及任何价格、成本或具体配置清单，无法验证该数值量级是否准确。此外，H100 SXM通常作为高端AI服务器组件，其配套系统（含双路CPU、大容量ECC内存等）的实际市场成本往往远高于此区间，该数值可能低估了实际BOM成本或仅指代特定二手/非标准渠道价格，存在口径混淆风险。 | 经验事实，逻辑自洽但缺来源支持（来源[1][2]仅描述技术规格与集成方式，未提供成本数据）
+
+## Search Query
+
+H100 SXM server chassis CPU RAM cost minimum viable configuration
+
+## Retrieval Sources
+
+- {'url': 'https://www.techpowerup.com/gpu-specs/h100-sxm5-80-gb.c3900&rut=e1e95c413b4fd1a10bef940ccb081ce8f98047b112e1d943f04f23444eecfc60', 'type': 'ddg', 'title': 'NVIDIA H100 SXM5 80 GB Specs | TechPowerUp GPU Database'}
+- {'url': 'https://wenku.baidu.com/view/af1f8c694c2fb4daa58da0116c175f0e7cd119de.html&rut=c844e67ded9d8a13a44e73ccc139bb3a62189445a6376f6bcb07e0a270624db7', 'type': 'ddg', 'title': '英伟达H100芯片怎么装？揭秘其SXM模块封装与服务器集成方式'}

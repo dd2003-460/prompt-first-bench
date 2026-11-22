@@ -1,0 +1,24 @@
+# N102: 显存占用总误差分解：总显存 = 权重 + KV Cache + 激活值 + 临时缓冲。权重误差主要来自量化校准开销 (INT4 通常 +3-5% 用于 scal
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N28
+
+## Claim
+
+显存占用总误差分解：总显存 = 权重 + KV Cache + 激活值 + 临时缓冲。权重误差主要来自量化校准开销 (INT4 通常 +3-5% 用于 scale/zero-point)；KV Cache 误差主要来自架构参数误读 (见 N37)；激活值 (Activations) 在 batch_size=1, seq_len=32k 下约为 hidden_size * seq_len * dtype_size * 2 (前向/反向) ≈ 4096 * 32768 * 2 * 2 / 1e9 = 0.54 GB，常被忽略。综合误差若未修正架构参数，可达 50-100%；若仅忽略激活值，误差约 2-5%。
+
+## Corrected Claim
+
+显存占用总误差分解：总显存 = 权重 + KV Cache + 激活值 + 临时缓冲。权重误差主要来自量化校准开销 (INT4 通常 +3-5% 用于 scale/zero-point)；KV Cache 误差主要来自架构参数误读 (见 N37)；激活值 (Activations) 在 batch_size=1, seq_len=32k 下约为 hidden_size * seq_len * dtype_size * 2 (前向/反向) ≈ 4096 * 32768 * 2 * 2 / 1e9 = 0.54 GB，常被忽略。综合误差若未修正架构参数，可达 50-100%；若仅忽略激活值，误差约 2-5%。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点公式中的权重、激活值和临时缓冲三个独立组成部分，且均指出了具体的误差来源或修正方法，彼此之间无重叠且无矛盾。虽然父节点中明确提到了KV Cache误差（见N37），但子节点未包含该项；鉴于N37为外部引用节点，且当前三个子节点已覆盖了其余三个主要误差源，在‘分解当前节点内容’的语境下视为完备。）
+
+## Search Query
+
+LLM inference memory footprint breakdown weights KV cache activations overhead estimation

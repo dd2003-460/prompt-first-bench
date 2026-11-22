@@ -1,0 +1,24 @@
+# N9: 利益相关方博弈地位量化：平台在均衡中的收益函数 Π_platform = r·GMV - C_service，其中 r 为抽成率（典型 3-5%），GMV 在短
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+利益相关方博弈地位量化：平台在均衡中的收益函数 Π_platform = r·GMV - C_service，其中 r 为抽成率（典型 3-5%），GMV 在短周期高挂价下反而上升（因成交量↑），故平台有激励维持当前均衡；买家剩余 CS_buyer = V_buyer - P_pay，因 P_pay 接近 P_rec（成交价未变），CS_buyer 稳定；卖家剩余 PS_seller = P_pay - V_true，因 P_pay 稳定而 V_true 被高估，PS_seller 实际低于卖家感知，但卖家因损失厌恶不调整。
+
+## Corrected Claim
+
+利益相关方博弈地位量化：平台在均衡中的收益函数 Π_platform = r·GMV - C_service，其中 r 为抽成率（典型 3-5%），GMV 在短周期高挂价下反而上升（因成交量↑），故平台有激励维持当前均衡；买家剩余 CS_buyer = V_buyer - P_pay，因 P_pay 接近 P_rec（成交价未变），CS_buyer 稳定；卖家剩余 PS_seller = P_pay - V_true，因 P_pay 稳定而 V_true 被高估，PS_seller 实际低于卖家感知，但卖家因损失厌恶不调整。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+platform fee revenue GMV marketplace equilibrium seller buyer surplus

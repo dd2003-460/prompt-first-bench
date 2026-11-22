@@ -1,0 +1,24 @@
+# N72: 计算 RTX 4090 在 W4 量化下的最大 KV Cache 容量：剩余显存 = 24GB - 14GB (权重) - 2GB (CUDA/OS/Activ
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N25
+
+## Claim
+
+计算 RTX 4090 在 W4 量化下的最大 KV Cache 容量：剩余显存 = 24GB - 14GB (权重) - 2GB (CUDA/OS/Activation) = 8GB；基于 N7 中 INT8 KV Cache 每 token 占用（需先确定 Qwen3-27B 的 GQA 头数，假设 8 KV heads），计算 8GB 可支持的序列长度或并发 Batch Size，公式：Max_Tokens = 8GB / (2 * 64 * 8 * 128 * 1 byte / 1024^3)
+
+## Corrected Claim
+
+计算 RTX 4090 在 W4 量化下的最大 KV Cache 容量：剩余显存 = 24GB - 14GB (权重) - 2GB (CUDA/OS/Activation) = 8GB；基于 Qwen3-27B 的实际 GQA 头数和 head dim，计算 8GB 可支持的序列长度或并发 Batch Size，公式：Max_Tokens = 8GB / (2 * num_kv_heads * head_dim * 1 byte / 1024^3)
+
+## Evidence
+
+[质询]公式中使用的参数（64, 8, 128）与 Qwen3-27B 的实际架构参数（如 hidden size, head dim, KV heads 数量）可能不匹配，且未明确说明 1 byte 是 W4 量化后的字节数还是 INT8 的字节数，存在口径混淆风险。 | 先验知识/题面给定，逻辑校验通过，但具体参数需根据实际模型架构确认。
+
+## Search Query
+
+Qwen 27B GQA num_key_value_heads configuration KV cache per token

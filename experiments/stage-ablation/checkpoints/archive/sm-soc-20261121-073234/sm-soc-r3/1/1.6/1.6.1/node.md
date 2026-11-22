@@ -1,0 +1,24 @@
+# N45: 估值噪声标准差 σ_v 的估算公式：基于同类商品成交价分布，σ_v = σ_price * (1 - ρ_info)，其中 σ_price 为成交价标准差，ρ_
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N10
+
+## Claim
+
+估值噪声标准差 σ_v 的估算公式：基于同类商品成交价分布，σ_v = σ_price * (1 - ρ_info)，其中 σ_price 为成交价标准差，ρ_info 为信息透明度系数（0-1），ρ_info 越高，噪声越小，需验证二手市场 ρ_info 是否低于 0.5。
+
+## Corrected Claim
+
+估值噪声标准差 σ_v 通常与成交价标准差 σ_price 正相关，并受信息透明度影响；具体估算需结合市场微观结构模型，简单线性公式 σ_v = σ_price * (1 - ρ_info) 仅作为粗略启发式参考，需实证校准 ρ_info 参数。
+
+## Evidence
+
+[质询]公式 σ_v = σ_price * (1 - ρ_info) 缺乏明确的统计学或经济学理论推导支持，属于经验性启发式公式；且 ρ_info 的定义（信息透明度系数）与标准差之间的线性关系假设过于简化，未考虑信息不对称的非线性影响或市场微观结构因素。 | 先验知识/题面给定，逻辑校验通过（量纲一致，单调性合理），但作为经验性估算公式，缺乏通用理论支撑，且无外部来源验证其具体形式，故降级为定性表述。
+
+## Search Query
+
+subjective valuation standard deviation information asymmetry coefficient

@@ -1,0 +1,20 @@
+# N130: 在 INT4 权重 + BF16 KV Cache 配置下，总显存需求 = 13.5 GB (weights) + 2.0 GB (KV Cache) + 0.
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+在 INT4 权重 + BF16 KV Cache 配置下，总显存需求 = 13.5 GB (weights) + 2.0 GB (KV Cache) + 0.5-1.0 GB (Activation/Fragmentation, 估算为权重的 5-10%) ≈ 16.0-16.5 GB，该值恰好触及或略微超过 16GB 显存上限，需考虑是否需量化 KV Cache 至 INT8 以释放空间
+
+## Corrected Claim
+
+在 INT4 权重 + BF16 KV Cache 配置下，总显存需求 = 13.5 GB (weights) + 2.0 GB (KV Cache) + 0.5-1.0 GB (Activation/Fragmentation, 估算为权重的 5-10%) ≈ 16.0-16.5 GB，该值恰好触及或略微超过 16GB 显存上限，需考虑是否需量化 KV Cache 至 INT8 以释放空间
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：13.5+2.0+0.5~1.0=16.0~16.5，数值量级与算术逻辑自洽，符合大模型显存估算常识。

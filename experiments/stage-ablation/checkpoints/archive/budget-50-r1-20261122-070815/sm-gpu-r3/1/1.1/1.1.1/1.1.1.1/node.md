@@ -1,0 +1,24 @@
+# N157: Qwen3-27B 中标准全注意力（Full Attention）层数确认为 16 层，即总层数 64 层的 25%，需通过模型架构文档或 config.jso
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N35, N36, N37
+
+## Claim
+
+Qwen3-27B 中标准全注意力（Full Attention）层数确认为 16 层，即总层数 64 层的 25%，需通过模型架构文档或 config.json 中的 layer_types 字段验证
+
+## Corrected Claim
+
+Qwen3-27B 采用混合注意力机制，具体全注意力层数需查阅官方模型配置文档（config.json）确认，通常占比较小（如 25% 左右），但确切数值待验证。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件/模型架构参数（层数、比例），属于经验事实。由于检索失败，无法通过外部来源直接验证 Qwen3-27B 的具体架构配置（如是否确实为 64 层且其中 16 层为全注意力）。虽然 Qwen 系列模型常采用混合注意力机制（如 GQA 或 Sliding Window），但具体到 Qwen3-27B 的精确层数分配需依赖官方 config.json 或技术报告，仅凭逻辑无法确证具体数值。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体架构参数）
+
+## Search Query
+
+Qwen3-27B hybrid attention 16 full attention layers 48 linear layers architecture

@@ -1,0 +1,20 @@
+# N42: 分子 Σ_{i=1}^{k} r_i · s_i 的解析近似：在热度-大小负相关 (ρ=-0.3) 下，前 k 个最热门对象的总字节请求量 ≈ R_total 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N10
+
+## Claim
+
+分子 Σ_{i=1}^{k} r_i · s_i 的解析近似：在热度-大小负相关 (ρ=-0.3) 下，前 k 个最热门对象的总字节请求量 ≈ R_total * H_req(k) * E[S | Rank_r ≤ k]，其中 R_total=50M/day 为总请求率，H_req(k) 为前 k 个最热门对象的请求占比（由 N11 给出），E[S | Rank_r ≤ k] 由 N28 给出。
+
+## Corrected Claim
+
+分子 Σ_{i=1}^{k} r_i · s_i 的解析近似：在热度-大小负相关 (ρ=-0.3) 下，前 k 个最热门对象的总字节请求量 ≈ R_total * H_req(k) * E[S | Rank_r ≤ k]，其中 R_total=50M/day 为总请求率，H_req(k) 为前 k 个最热门对象的请求占比（由 N11 给出），E[S | Rank_r ≤ k] 由 N28 给出。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

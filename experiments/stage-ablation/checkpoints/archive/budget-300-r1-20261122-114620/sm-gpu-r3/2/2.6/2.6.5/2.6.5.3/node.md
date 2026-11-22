@@ -1,0 +1,24 @@
+# N269: H100 在 Decode 阶段的实际有效带宽利用率 η_eff 同样约为 0.8-0.9，考虑 HBM3 的低延迟特性，其实际吞吐约为理论峰值 62.0 to
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N83
+
+## Claim
+
+H100 在 Decode 阶段的实际有效带宽利用率 η_eff 同样约为 0.8-0.9，考虑 HBM3 的低延迟特性，其实际吞吐约为理论峰值 62.0 tokens/s 的 85-90%，即 52-56 tokens/s，显著优于 A100
+
+## Corrected Claim
+
+H100 在 Decode 阶段的有效带宽利用率通常较高，实际吞吐显著优于 A100，但具体数值（如 52-56 tokens/s）依赖于模型大小、Batch Size 及具体硬件配置，不宜作为通用固定值表述。
+
+## Evidence
+
+[质询]数值量级与具体参数缺乏来源支持：H100 的 HBM3 带宽利用率在 Decode 阶段（受限于内存带宽而非计算）通常难以稳定达到 0.8-0.9 的高水平，且 62.0 tokens/s 的理论峰值及 52-56 tokens/s 的实际吞吐为特定配置下的经验数据，非通用物理定律或第一性原理可推导的必然结果。 | 经验事实，逻辑自洽但缺来源支持（source=knowledge，但涉及具体经验参数且无外部来源佐证，依据经验事实排除条款精神及保守原则降级）
+
+## Search Query
+
+H100 decode throughput effective bandwidth utilization LLM inference

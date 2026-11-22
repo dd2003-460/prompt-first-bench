@@ -1,0 +1,30 @@
+# N178: 降价时机策略投影：卖家选择降价时机的概率 P(T1) = 0.3, P(T2) = 0.5, P(T3) = 0.2，该分布受商品剩余价值 V_remain 和
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N54
+
+## Claim
+
+降价时机策略投影：卖家选择降价时机的概率 P(T1) = 0.3, P(T2) = 0.5, P(T3) = 0.2，该分布受商品剩余价值 V_remain 和当前咨询率 C_inquiry 调节；若 C_inquiry < 0.1，P(T1) 上升至 0.6；需建立逻辑回归模型 logit(P(T1)) = β0 + β1*V_remain + β2*C_inquiry + ε_timing，其中 ε_timing ~ N(0, 0.2^2)。
+
+## Corrected Claim
+
+卖家降价时机策略可建模为受商品剩余价值 V_remain 和当前咨询率 C_inquiry 调节的概率分布，例如通过逻辑回归模型 logit(P(T1)) = β0 + β1*V_remain + β2*C_inquiry + ε 进行拟合，具体参数需基于历史数据估计。
+
+## Evidence
+
+[质询]该陈述包含具体的概率数值（0.3/0.5/0.2）、阈值（0.1）及模型参数（方差0.2^2），属于经验事实或特定模型设定，无法从第一性原理推导，且参考来源仅涉及动态定价的一般性理论框架，未提供这些具体数值或特定逻辑回归模型结构的支持。 | 逻辑自洽（概率和为1，模型形式合理），但参考来源[1][2][3]仅讨论动态定价与促销策略的一般数学模型，未包含该特定概率分布、阈值或回归系数，属于经验事实缺来源支持。
+
+## Search Query
+
+seller price reduction timing probability inquiry rate logistic regression model
+
+## Retrieval Sources
+
+- {'url': 'https://www.zgglkx.com/CN/article/downloadArticleFile.do?attachType=PDF&id=19424&rut=216d87462ba2e62ab694da4d97818e39c3dc2d24954bd76a403a0a56fa644bec', 'type': 'ddg', 'title': 'PDF 基于策略消费者行为的动态定价与降价时机选择'}
+- {'url': 'https://www.docin.com/p-4554490614.html&rut=c1ca9a3b8119b8e1cc7f51269cf51cedf56adb59ee1e34aae8244c4fbaf77246', 'type': 'ddg', 'title': '商品促销定价的数学模型及求解算法研究 - 豆丁网'}
+- {'url': 'https://blog.csdn.net/IndustryOR/article/details/136983206&rut=07b2da2d657a677be67113b9464fd36b25c719ee20919aa12607c89efbfd873d', 'type': 'ddg', 'title': '【促销定价】背后的算法技术5-运筹决策模型 - Csdn博客'}

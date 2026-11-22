@@ -1,0 +1,109 @@
+{
+  "qid": "gpu",
+  "question": "你要在本地工作站上推理 Qwen3-27B 模型，不设硬性延迟指标（延迟是性能变量，由硬件和部署配置决定，不作为前置约束）；上下文窗口 ≥ 32K tokens 作为容量下限保留。权重精度不限（BF16/FP8/INT8/NVFP4/W4 均可），但必须论证所选精度的质量损失是否可接受。候选硬件：自行搜索确定值得考虑的完整候选集——覆盖你认为所有可能影响性价比排序的架构、代际、容量档位和价格区间（包括消费级、数据中心级、以及任何你认为值得纳入比较的非典型方案）。同时评估单卡与多卡方案的 TCO 差异（如 2× 消费卡 vs 1× 数据卡）。给出性价比最优的完整选卡方案。要求：思考必须最完整，确认没有遗漏任何影响决策的维度；每个关键数字标注来源（刚查到的 vs 凭记忆的），不确定的标 [待核验]；最终推荐必须是条件性的，不能给无条件排名。",
+  "round": 1,
+  "state": "rework",
+  "dropped_redundant": 0,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "可行性门控 (Feasibility Gate): 0/1 变量，表示在给定精度和量化方案下，模型权重+KV Cache是否完全装入所选硬件的显存，且满足上下文窗口≥32K tokens的容量下限。不满足此项则方案直接无效。",
+      "总拥有成本 (TCO): 硬件购买成本、多卡方案所需的额外基础设施成本（如PCIe链路、CPU内存、主板插槽）以及后续运行能耗的加权总和。",
+      "质量保留度 (Quality Retention): 所选精度（BF16/FP8/INT8等）相对于BF16基准模型在核心任务（如逻辑推理、代码生成）上的性能衰减程度，需论证该衰减在‘可接受’阈值内。",
+      "推理吞吐/延迟 (Performance Metric): 在满足容量约束的前提下，所选硬件架构（GPU/ASIC/NPU）在特定批处理大小下的Tokens/s生成速度或单Token延迟。"
+    ],
+    "composition": "argmax ( QualityRetained · Throughput / TCO )  subject to FeasibilityGate == 1",
+    "rationale": "本题核心是寻找‘性价比最优’，即在满足‘能跑起来且质量不崩’的硬性门槛（显存容量与质量下限）后，最大化单位成本带来的推理效能（速度/质量）产出。"
+  },
+  "objective_mode": "formula",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "node_id": "N11",
+      "claim": "Qwen3-27B在BF16精度下的基线能力基准：在MMLU、HumanEval、GSM8K等标准基准上的得分。例如，M",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（如MMLU 85.0%）属于经验事实，且不同评测设置（如few-shot vs zero-shot、是否包含CoT）会导致分数波动，单一数值缺"
+    },
+    {
+      "node_id": "N12",
+      "claim": "Qwen3-27B在INT8量化（如SmoothQuant, GPTQ）下的性能损失：通常在MMLU上损失1-2个百分点",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（如MMLU 85.0%降至83.5%）属于特定模型版本在特定量化算法下的经验测量数据，不同量化方法（SmoothQuant vs GPTQ）和"
+    },
+    {
+      "node_id": "N13",
+      "claim": "Qwen3-27B在W4 (4-bit)量化（如AWQ, GPTQ）下的性能损失：通常在MMLU上损失3-5个百分点，在",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（MMLU 85.0%->81.0%, GSM8K 90%->83%）属于特定模型版本和量化配置下的经验测量数据，无法从第一性原理推导，且不同量"
+    },
+    {
+      "node_id": "N23",
+      "claim": "能效比（Performance per Watt）的计算公式为 EER = Throughput_tokens_per_",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于具体硬件（H100 vs RTX 4090）在特定精度（FP8）下的能效比数值对比（2-3倍）属于经验事实，且不同负载（Prefill/Dec"
+    },
+    {
+      "node_id": "N24",
+      "claim": "多卡互联通信开销对总吞吐量的影响系数：当使用 N 张卡进行张量并行（TP）时，有效吞吐量 = Single_Card_T",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述将复杂的通信开销简化为单一固定系数（15%-30%），忽略了通信量与计算量的比例（Arithmetic Intensity）以及模型架构（如Tra"
+    },
+    {
+      "node_id": "N25",
+      "claim": "软件栈兼容性矩阵与适配成本：评估 CUDA 12.x 对 Qwen3-27B 的官方支持状态、ROCm 5.6+ 对 R",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含大量具体的经验性参数（如ONNX Runtime算子覆盖率<80%、具体的人天工时估算），这些属于工程经验事实，无法从第一性原理推导，且缺乏具"
+    },
+    {
+      "node_id": "N26",
+      "claim": "非典型硬件（如 Apple M2 Ultra/M3 Ultra 或 Intel Gaudi 2/3）的可行性风险评估：量",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性性能对比数据（Prefill 性能为 NVIDIA 卡的 1/5-1/10）和特定硬件参数（M3 Ultra 800GB/s），属"
+    },
+    {
+      "node_id": "N27",
+      "claim": "候选硬件全集筛选基准：消费级高端（RTX 4090 24GB, RTX 3090 24GB, RTX 4080 16GB",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N28",
+      "claim": "关键硬件价格基准（2024年Q3-Q4市场均价，需实时核验）：RTX 4090 ≈ $1,600-$1,800; RTX",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N29",
+      "claim": "性价比核心指标定义：Cost_Per_Token = (Hardware_Cost + Electricity_Cost",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N30",
+      "claim": "数据不确定性标记规范：所有价格数据标记为 [Price: 2024-Q4 Est.]；所有性能基准（如MMLU分数）标记",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N31",
+      "claim": "最终推荐的条件性边界：若预算 < $3,000 且接受W4量化（质量损失可接受），推荐 2× RTX 3090/4090",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 24
+}

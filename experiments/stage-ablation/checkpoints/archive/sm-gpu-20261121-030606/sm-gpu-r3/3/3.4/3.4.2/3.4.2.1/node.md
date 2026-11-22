@@ -1,0 +1,28 @@
+# N276: Qwen3-27B在BF16精度下的GSM8K基准得分具体数值（作为W4精度-4.3%损失的基准参考），需从官方技术报告或权威评测中获取确切百分比。
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N118
+
+## Claim
+
+Qwen3-27B在BF16精度下的GSM8K基准得分具体数值（作为W4精度-4.3%损失的基准参考），需从官方技术报告或权威评测中获取确切百分比。
+
+## Corrected Claim
+
+Qwen3-27B在BF16精度下的GSM8K基准得分具体数值需查阅官方技术报告或完整评测数据，当前参考来源仅确认进行了相关评测但未披露具体分数。
+
+## Evidence
+
+[质询]参考来源[1]提及的是'Qwen3.8-27B'（疑似笔误或非标准版本号，通常应为Qwen3-27B或Qwen2.5-32B等，且Qwen3系列目前公开主要模型为0.6B/1.7B/4B/8B/14B/32B，27B并非标准发布尺寸，可能是用户或来源笔误），且摘要仅说明进行了GSM8K评测，未提供具体的BF16基准得分数值，无法直接支持'具体数值'这一事实节点。 | 来源[1]主题相关（涉及Qwen3系列27B模型的GSM8K评测），但仅描述评测行为，未提供具体BF16得分数值，属于间接支持/无直接数值支持；该事实为经验事实（具体基准分数），逻辑自洽但缺来源直接支持确切数值。
+
+## Search Query
+
+Qwen3-27B GSM8K benchmark score BF16
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/sgl-project/sglang/issues/41938&rut=eb2c1cdc34a0ccb4fd980a81a38388e220eb87ec074611613b62dc1989622dd7', 'type': 'ddg', 'title': 'Benchmark: Qwen3.8-27B FP8/BF16 on H200 with float32 SSM state ... - GitHub'}

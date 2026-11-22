@@ -1,0 +1,24 @@
+# N51: A6000 48GB 与 L40S 48GB 在 LLM 推理上的差异：A6000 显存带宽 768 GB/s，L40S 显存带宽 864 GB/s，L40S 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+A6000 48GB 与 L40S 48GB 在 LLM 推理上的差异：A6000 显存带宽 768 GB/s，L40S 显存带宽 864 GB/s，L40S 在 Decode 阶段理论吞吐高 ~12.5%，但两者均不支持 NVLink 多卡互联，多卡方案受限于 PCIe 带宽。
+
+## Corrected Claim
+
+A6000 48GB 与 L40S 48GB 在 LLM 推理上的差异：A6000 显存带宽 768 GB/s，L40S 显存带宽 864 GB/s，L40S 在 Decode 阶段理论吞吐高 ~12.5%，但两者均不支持 NVLink 多卡互联，多卡方案受限于 PCIe 带宽。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A6000 (768 GB/s) 与 L40S (864 GB/s) 带宽数值符合官方规格，864/768 ≈ 1.125 即 12.5% 提升计算正确，且两者确实无 NVLink 支持，逻辑自洽。
+
+## Search Query
+
+A6000 vs L40S memory bandwidth LLM inference

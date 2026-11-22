@@ -1,0 +1,24 @@
+# N48: 利用率因子 (Utilization Factor) 假设：对于本地工作站单用户场景，GPU 利用率通常远低于数据中心（假设 20-30%），因为存在空闲时间。
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+利用率因子 (Utilization Factor) 假设：对于本地工作站单用户场景，GPU 利用率通常远低于数据中心（假设 20-30%），因为存在空闲时间。在 TCO 计算中，若按 100% 负载计算会低估实际单位成本，需引入 0.2-0.3 的利用率系数修正总吞吐量 [待核验]。
+
+## Corrected Claim
+
+利用率因子 (Utilization Factor) 假设：对于本地工作站单用户场景，GPU 利用率通常远低于数据中心（具体数值视工作负载而定，常显著低于满载），因为存在空闲时间。在 TCO 计算中，若按 100% 负载计算会低估实际单位成本，需引入利用率系数修正总吞吐量。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在逻辑维度上基本正交（分别讨论利用率估算、成本公式、电力结构、折旧交互），无直接矛盾或重复。但存在两个主要问题：1. 数据矛盾：父节点假设利用率为 20-30%，而子节点 1 估算为 5-15%，且子节点 2 公式中 U 取值也为 0.05-0.15，父子节点核心参数不一致；2. 完备性缺失：父节点强调'引入系数修正总吞吐量'，子节点虽给出了公式，但未明确阐述'吞吐量'在低利用率下是否包含动态频率调整、散热瓶颈等物理限制对峰值 Throughput 的影响，仅将其作为常数处理，未完全覆盖'利用率因子'对硬件性能表现的复杂影响。）
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Utilization_factor&rut=e7ab52560207d94f1c119bf67cd51e34f906bbb058e5c00e244fba5a31300eb9', 'type': 'ddg', 'title': 'Utilization factor - Wikipedia'}

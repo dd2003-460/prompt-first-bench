@@ -1,0 +1,20 @@
+# N412: RTX 5090 的 3 年寿命假设需考虑 Blackwell 架构的早期故障率（Infant Mortality），通常新品前 6 个月的故障率高于长期稳定期
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N168
+
+## Claim
+
+RTX 5090 的 3 年寿命假设需考虑 Blackwell 架构的早期故障率（Infant Mortality），通常新品前 6 个月的故障率高于长期稳定期，需引入前 6 个月的额外维护成本。
+
+## Corrected Claim
+
+RTX 5090 的 3 年寿命假设需考虑 Blackwell 架构的早期故障率（Infant Mortality），通常新品前 6 个月的故障率高于长期稳定期，需引入前 6 个月的额外维护成本。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：电子产品早期故障率（Infant Mortality）符合浴盆曲线理论，属于通用工程常识，逻辑自洽。

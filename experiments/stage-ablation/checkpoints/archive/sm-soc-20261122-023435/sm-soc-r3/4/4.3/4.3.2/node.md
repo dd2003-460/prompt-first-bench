@@ -1,0 +1,24 @@
+# N56: N17中买家决策犹豫时间 T_hesitate 增加 15-20% 的行为经济学解释：基于前景理论，价格回归均值导致买家感知到的‘潜在损失’从 (P_ask -
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N17
+
+## Claim
+
+N17中买家决策犹豫时间 T_hesitate 增加 15-20% 的行为经济学解释：基于前景理论，价格回归均值导致买家感知到的‘潜在损失’从 (P_ask - P_ref) 缩小为 (P_current - P_ref)，但‘参照点适应’滞后导致 T_hesitate = T_base * (1 + k_ref * ΔRef)，其中 k_ref ≈ 0.1-0.2 为参照点调整系数。
+
+## Corrected Claim
+
+基于前景理论，价格回归均值导致买家感知到的‘潜在损失’缩小，但‘参照点适应’滞后可能导致买家决策犹豫时间 T_hesitate 增加，具体增幅取决于参照点调整系数 k_ref 及个体差异。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点本质上是同一连续参数（价格敏感度/参照点变化幅度）在不同取值下的表现，属于参数化变体而非正交的子问题；且父节点明确给出的 k_ref 范围是 0.1-0.2，而子节点引入了 0.05，与父节点约束矛盾，导致逻辑不自洽。）
+
+## Search Query
+
+reference point adaptation decision hesitation time price transparency behavioral economics

@@ -1,0 +1,24 @@
+# N233: Platform_Lockin 的量化定义：平台锁定程度 L_lockin = (Switching_Cost / Monthly_Revenue) * 100
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N84
+
+## Claim
+
+Platform_Lockin 的量化定义：平台锁定程度 L_lockin = (Switching_Cost / Monthly_Revenue) * 100%，其中 Switching_Cost 为卖家迁移到竞品平台的预期成本（包括历史信誉损失、重新上架时间等），若 L_lockin > 50%，则 β3 为正且显著，高锁定度会缓冲流失率，反之则加剧流失。
+
+## Corrected Claim
+
+Platform_Lockin 的量化定义：平台锁定程度 L_lockin = (Switching_Cost / Monthly_Revenue) * 100%，其中 Switching_Cost 为卖家迁移到竞品平台的预期成本（包括历史信誉损失、重新上架时间等），若 L_lockin > 50%，则 β3 为正且显著，高锁定度会缓冲流失率，反之则加剧流失。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+platform lock-in switching cost seller retention empirical measure

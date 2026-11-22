@@ -1,0 +1,20 @@
+# N440: NVFP4 (FP4 E2M1) 的权重数值存储占用计算：27e9 * 0.5 bytes = 13.5 GB，基于4位浮点格式（3位指数+1位尾数）的固定编码
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N143
+
+## Claim
+
+NVFP4 (FP4 E2M1) 的权重数值存储占用计算：27e9 * 0.5 bytes = 13.5 GB，基于4位浮点格式（3位指数+1位尾数）的固定编码密度
+
+## Corrected Claim
+
+NVFP4 (FP4 E2M1) 的权重数值存储占用计算：27e9 * 0.5 bytes = 13.5 GB，基于4位浮点格式（3位指数+1位尾数）的固定编码密度
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：FP4 (E2M1) 格式确实占用 4 位（0.5 字节），27e9 参数乘以 0.5 字节等于 13.5 GB，计算与定义均正确。

@@ -1,0 +1,20 @@
+# N370: 演化定向压力 D_p 的量化定义：D_p = (T_baseline - T_actual) / T_baseline，其中 T_baseline 为无干预基准
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+演化定向压力 D_p 的量化定义：D_p = (T_baseline - T_actual) / T_baseline，其中 T_baseline 为无干预基准成交周期，T_actual 为高溢价下的实际成交周期；当 D_p > 0.2 时，表明'快速成交'带来的时间效用增益足以抵消价格溢价带来的效用损失，从而在演化博弈中形成稳定策略。
+
+## Corrected Claim
+
+演化定向压力 D_p 的量化定义：D_p = (T_baseline - T_actual) / T_baseline，其中 T_baseline 为无干预基准成交周期，T_actual 为高溢价下的实际成交周期；当 D_p > 0.2 时，表明'快速成交'带来的时间效用增益足以抵消价格溢价带来的效用损失，从而在演化博弈中形成稳定策略。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

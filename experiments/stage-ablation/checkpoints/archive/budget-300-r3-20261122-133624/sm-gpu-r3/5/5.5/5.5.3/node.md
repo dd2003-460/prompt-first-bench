@@ -1,0 +1,24 @@
+# N157: 多卡稳定性风险溢价量化：定义稳定性为 MTBF_system。若 2 卡系统 MTBF < 6 个月（即年故障率 > 2 次），则需增加风险溢价 C_risk 
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N38
+
+## Claim
+
+多卡稳定性风险溢价量化：定义稳定性为 MTBF_system。若 2 卡系统 MTBF < 6 个月（即年故障率 > 2 次），则需增加风险溢价 C_risk = (1 - 0.99) * TCO_total * 0.2，即 2% 的 TCO 增量用于购买 SLA 或冗余备份。若使用 vLLM 的自动重连机制，实际中断时间可缩短至 5 分钟内，降低 C_risk 至 0.5%。
+
+## Corrected Claim
+
+多卡稳定性风险溢价量化：定义稳定性为 MTBF_system。若 2 卡系统 MTBF < 6 个月，则需增加风险溢价 C_risk，其计算通常基于 TCO_total 乘以特定的风险系数（如 2%）用于购买 SLA 或冗余备份。若使用 vLLM 的自动重连机制，实际中断时间可显著缩短（例如至分钟级），从而降低 C_risk 的比例。
+
+## Evidence
+
+[质询]该陈述中的具体数值（如0.99的可靠性系数、0.2的风险权重、5分钟的中断时间）属于经验性工程参数或特定场景假设，并非从第一性原理或通用物理/经济定律中严格推导出的普适常数，缺乏通用性。 | 先验知识/题面给定，逻辑校验通过；但具体系数（0.2, 0.99, 5min）为经验假设，非普适真理，故降级为定性表述。
+
+## Search Query
+
+multi-GPU inference stability MTBF risk premium cost

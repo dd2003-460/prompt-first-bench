@@ -1,0 +1,30 @@
+# N262: λ 的跨市场稳健性阈值：检索拍卖市场与二手交易平台的 λ 元分析对比数据，若二手平台 λ 显著高于拍卖市场（Δλ > 0.5 且 p < 0.01），则说明非标
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N89, N90, N91
+
+## Claim
+
+λ 的跨市场稳健性阈值：检索拍卖市场与二手交易平台的 λ 元分析对比数据，若二手平台 λ 显著高于拍卖市场（Δλ > 0.5 且 p < 0.01），则说明非标准化定价环境放大了损失厌恶效应。
+
+## Corrected Claim
+
+检索拍卖市场与二手交易平台的 λ 元分析对比数据，若二手平台 λ 显著高于拍卖市场，则说明非标准化定价环境可能放大损失厌恶效应。（注：具体阈值 Δλ > 0.5 及 p < 0.01 缺乏来源支持，建议移除或标注为假设性标准）
+
+## Evidence
+
+[质询]该陈述包含具体的经验性统计阈值（Δλ > 0.5 且 p < 0.01）及特定的跨市场对比结论，属于经验事实。参考来源均未提供拍卖市场与二手交易平台损失厌恶参数（λ）的元分析数据或具体数值对比，无法验证该特定阈值及结论的真实性。 | 逻辑上，非标准化定价环境可能放大损失厌恶，但具体数值阈值（Δλ > 0.5）及统计显著性要求属于经验事实，参考来源[1][2][3]均不涉及行为经济学参数对比或元分析数据，缺乏外部证据支持。
+
+## Search Query
+
+loss aversion meta-analysis auction vs resale markets coefficient comparison
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/nnpersistent/article/details/137465663&rut=2a1c5cbe157e35a1f10ede143dfe669321ffe1b6f90fc4d5ce111c802b029817', 'type': 'ddg', 'title': '"傻瓜"学计量——稳健性检验的10种方法（持续更新）_稳健型检验-csdn博客'}
+- {'url': 'https://blog.csdn.net/weixin_47546390/article/details/108470396&rut=6257ac2cc1f1aa8bd0e285d5dbb02bc5836c2a19c2ec900abbc1ab633531c50d', 'type': 'ddg', 'title': '竞拍算法(Auction Algorithm)原理及工作过程分析_拍卖算法-CSDN博客'}
+- {'url': 'https://www.aicoin.com/zh-Hans/article/344779&rut=2472f5ded0dd97242a4a74e65c7e85557892e6c9d8f7b6cebf9ad110be0a4774', 'type': 'ddg', 'title': '拍卖市场理论Auction Market Theory（上）：探索金融市场的订单流动性与合理价格区间的运作原理'}
