@@ -1,0 +1,24 @@
+# N18: PCIe Gen4 x16 单向理论带宽为 32 GB/s，双向为 64 GB/s；在 Qwen3-27B 多卡推理中，若采用张量并行（TP），每层激活值传输量
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4, N5
+
+## Claim
+
+PCIe Gen4 x16 单向理论带宽为 32 GB/s，双向为 64 GB/s；在 Qwen3-27B 多卡推理中，若采用张量并行（TP），每层激活值传输量约为 2 * hidden_size * seq_len * bytes_per_element，需计算 PCIe 延迟对每 token 生成时间的增加量（ms/token）
+
+## Corrected Claim
+
+PCIe Gen4 x16 单向理论带宽为 32 GB/s，双向为 64 GB/s；在 Qwen3-27B 多卡推理中，若采用张量并行（TP），每层激活值传输量约为 2 * hidden_size * seq_len * bytes_per_element，需计算 PCIe 延迟对每 token 生成时间的增加量（ms/token）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe Gen4 x16 单向带宽 32 GB/s 符合标准规格（16 lanes * 2 GB/s/lan），双向 64 GB/s 逻辑自洽；张量并行激活值传输量公式 2 * hidden_size * seq_len * bytes_per_element 符合 TP 通信机制（AllReduce 或 AllGather 涉及双向或等效双向流量），量纲与量级合理。
+
+## Search Query
+
+PCIe Gen4 x16 bandwidth GB/s theoretical

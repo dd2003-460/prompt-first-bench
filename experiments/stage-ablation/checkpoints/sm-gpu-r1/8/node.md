@@ -1,0 +1,26 @@
+# N29: 显存带宽与TPS线性关系：在Decode阶段，每生成一个token需读取全部权重和KV Cache。TPS_max ≈ Memory_Bandwidth / (
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+显存带宽与TPS线性关系：在Decode阶段，每生成一个token需读取全部权重和KV Cache。TPS_max ≈ Memory_Bandwidth / (Weight_Size + KV_Size_per_token * Batch_Size)。对于Qwen3-27B INT4 (13.5GB) + 32K KV (0.128GB)，RTX 4090 (1008GB/s) 理论极限TPS ≈ 1008 / (13.5 + 0.128*B)。当B=1时，TPS≈72；当B=4时，TPS≈71。此公式用于精确预测不同显存带宽硬件（如RTX 4090 vs RTX 6000 Ada 960GB/s）的性能差距。
+
+## Corrected Claim
+
+在Decode阶段，TPS_max ≈ Memory_Bandwidth / (Weight_Size + Total_KV_Size)。对于Qwen3-27B INT4 (13.5GB)，若假设32K上下文下单请求KV Cache大小为K GB，则TPS ≈ 1008 / (13.5 + B*K)。具体TPS数值需根据实际KV Cache大小计算，原陈述中0.128GB的KV大小可能低估了32K上下文的实际KV占用。
+
+## Evidence
+
+[质询]公式中KV Cache项的处理存在逻辑瑕疵：在Decode阶段，每生成一个token，对于Batch Size为B的情况，需要读取的KV Cache总量应为 B * KV_Size_per_token（假设每个token的KV大小固定且随序列长度线性增长，此处简化为每token增量或固定开销）。然而，陈述中给出的具体数值计算 `1008 / (13.5 + 0.128*B)` 暗示 `0.128GB` 是单个token的KV大小或者是一个固定的总KV大小被错误地乘以了B。实际上，KV Cache的大小取决于序列长度（Context Length），而非仅仅是Batch Size。如果 `0.128GB` 是32K上下文下单个请求的KV大小，那么总KV大小应为 `B * 0.128GB`。但更关键的是，`0.128GB` 对于32K上下文的27B模型来说数值偏小（通常32K上下文的KV Cache远大于0.128GB，除非使用了极端的量化或稀疏技术，或者该数值指的是每token的增量而非总量）。若 `0.128GB` 是每token的KV大小，则32K上下文的总KV应为 `32000 * 0.128GB`，这显然不合理。若 `0.128GB` 是32K上下文的总KV大小，则公式应为 `1008 / (13.5 + B * 0.128)`。虽然公式结构 `BW / (Weight + KV_total)` 是正确的，但具体参数 `0.128GB` 对应 `32K KV` 的合理性存疑，且未明确说明该数值是单请求总KV还是每token KV，导致计算结果 `TPS≈71` (B=4) 与 `TPS≈72` (B=1) 几乎不变，这在物理上是不合理的，因为Batch Size增加会显著增加KV Cache的读取量，从而降低TPS（除非KV Cache极小可忽略，但0.128GB相对于13.5GB权重并非完全可忽略，且B=4时增加0.512GB读取量，分母从13.628变为14.144，TPS应从73.9降至71.3，变化幅度约3%，陈述中72到71的变化符合此逻辑，但前提参数0.128GB的准确性无法从来源直接验证，且通常32K KV远大于此值）。 | 来源[1]和[3]支持Decode阶段受显存带宽限制及基本公式逻辑（TPS ≈ BW / Weight_Size），但均未提供Qwen3-27B在32K上下文下KV Cache为0.128GB的具体经验数据，该参数属于经验事实且数值量级存疑（通常32K KV远大于0.128GB），故降级。
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_29031057/article/details/167109470&rut=cfc0990ef4a3b41d706cee1415eaf5535136442d9d48d15aacd254fa1946c1da', 'type': 'ddg', 'title': '大模型推理decode阶段硬件部署实战：显存带宽、量化与批处理调优-CSDN博客'}
+- {'url': 'https://blog.csdn.net/weixin_28221501/article/details/167240439&rut=2ee4d790a992a485bb4cc0499cbefd244f6a341b2465a0dc5f0f1781eda0cf83', 'type': 'ddg', 'title': '大模型推理decode阶段硬件部署：显存带宽与KV cache调优实战-CSDN博客'}
+- {'url': 'https://gpufits.com/zh/guides/memory-bandwidth-llm-speed/&rut=e2d1aaefe9e67db4a65ef46e383e1cb2b3bbc97573f1cf469e4df867f869a092', 'type': 'ddg', 'title': '显存带宽为什么决定 LLM 推理速度:decode 机制与估算公式'}

@@ -44,7 +44,7 @@ Three contributions:
 
 ### 4.1 Monitoring is present; repair is absent
 
-Across 83 runs: healthy_gap_rate mean 0.938 (range 0.667–1.0) — when the agent cannot verify a claim *after a search*, 84% of the time the correct diagnosis is "unverifiable" (the source genuinely lacks the value), not "contradicted". The agent *knows the difference between "I don't know" and "I'm wrong"*.
+Across 83 runs: healthy_gap_rate mean 0.938 (range 0.667–1.0) — when the agent cannot verify a claim *after a search*, 93.5% of the time (unverifiable ÷ (unverifiable + contradicted); 84% if the ambiguous class is included in the denominator) the correct diagnosis is "unverifiable" (the source genuinely lacks the value), not "contradicted". The agent *knows the difference between "I don't know" and "I'm wrong"*.
 
 But the rework loop — the control mechanism — fixes only **1.6–2.1%** of reworked nodes (36/2298 budget-scan, 61/2919 era-matched). Root cause (from evidence-field analysis): 84% of *search-source* degraded nodes are *unverifiable* (the required value is model-specific and absent from generic sources), so rework spends budget re-searching nodes that are unverifiable by construction. Repair budget is misallocated: it should fire only on *contradicted* nodes (~6% of search-source degraded).
 
