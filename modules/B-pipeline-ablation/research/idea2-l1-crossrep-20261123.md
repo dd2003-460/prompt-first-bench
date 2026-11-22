@@ -80,3 +80,26 @@ B 臂从 checkpoint resume（固定 L1=6+L2=28+L3=88 前缀），自标矛盾数
 
 - 分数: `modules/B-pipeline-ablation/data/idea2/idea2-scores.json`（A-r2 待 runner 写入）
 - 本记录: `modules/B-pipeline-ablation/research/idea2-l1-crossrep-20261123.md`
+
+## 2×2 全量（A/B 臂 × r1/r2，2026-11-23 B-r2 落地后）
+
+| | total | depth | cov | metacog | l2 | over/under | n_nodes |
+|---|---|---|---|---|---|---|---|
+| A-r1 | 0.5944 | 0.800 | 0.3889 | 0.2365 | 0.6222 | 5/1 | 316 |
+| A-r2 | 0.5806 | 0.800 | 0.3611 | 0.1502 | 0.3605 | 5/3 | 394 |
+| B-r1 | 0.5111 | 0.800 | 0.2222 | 0.2461 | 0.4049 | 4/0 | 401 |
+| B-r2 | 0.5250 | 0.800 | 0.2500 | 0.2174 | 0.6324 | 3/1 | 411 |
+
+**臂差（配对 A−B）**：
+- total: rep1 +0.0833, rep2 +0.0556 → **同向 A>B**（2/2），由 cov 驱动（+0.1667/+0.1111），depth 两臂全 0.8 无差
+- metacog: rep1 −0.0096, rep2 −0.0672 → **同向 A<B**（2/2）——repair 臂 metacog 反而更低
+- l2: rep1 +0.2173, rep2 −0.2718 → **反向**（1/2），每格 n=1 噪声大，不下结论
+
+**解读**：
+1. A>B（composite）跨 rep 稳定，方向由 cov 贡献——resume 臂（B）树偏且浅，
+   对齐 gold 单元少。checkpoint-as-cache 的一致性代价 = 覆盖损失。
+2. **metacog 反向是新信号**：B 臂（resume 固定前缀）metacog 更高，
+   两 rep 同向。可能机制：B 臂省下的节点预算投向了 gap 标记/检索行为，
+   或固定前缀里已含高质量 gap 节点。n=2/臂，suggestive，r3 落地后看 3/3 是否同向。
+3. B-r2 l2=0.6324 异常高（B-r1 仅 0.4049）：同臂 rep 间方差大，
+   L2 在 n=1/格下不可比，等 r3。
