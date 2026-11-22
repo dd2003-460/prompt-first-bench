@@ -1,0 +1,24 @@
+# N69: RTX 4090 (24GB) 在 2024 Q4 的北美市场均价区间为 $1,600-$1,900，二手/促销价格下限约为 $1,200，其 FP16 算力为
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13, N14, N15
+
+## Claim
+
+RTX 4090 (24GB) 在 2024 Q4 的北美市场均价区间为 $1,600-$1,900，二手/促销价格下限约为 $1,200，其 FP16 算力为 82.6 TFLOPS，显存带宽为 1008 GB/s，据此计算的 $/TFLOPS 约为 $19.37-$22.99，$/GB 约为 $66.7-$79.2。
+
+## Corrected Claim
+
+RTX 4090 (24GB) 在 2024 Q4 的北美市场均价区间为 $1,600-$1,900，二手/促销价格下限约为 $1,200，其 FP16 算力为 82.6 TFLOPS，显存带宽为 1008 GB/s，据此计算的 $/TFLOPS 约为 $19.37-$22.99，$/GB 约为 $66.7-$79.2。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 的 FP16 算力（82.6 TFLOPS）和显存带宽（1008 GB/s）符合 NVIDIA 官方规格；2024 Q4 北美市场均价区间及衍生指标（$/TFLOPS, $/GB）计算逻辑自洽且量级合理。
+
+## Search Query
+
+RTX 4090 price 2024 Q4 average USD FP16 TFLOPS memory bandwidth

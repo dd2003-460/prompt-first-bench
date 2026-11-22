@@ -1,0 +1,24 @@
+# N398: N132 中 2x RTX 4090 的 TCO 下限修正：基于 N133 ($3,300 硬件) + N134 (500W 平均功耗) + N135 ($65
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N132
+
+## Claim
+
+N132 中 2x RTX 4090 的 TCO 下限修正：基于 N133 ($3,300 硬件) + N134 (500W 平均功耗) + N135 ($650 基础设施) + N136 ($0.12/kWh) + N137 (26,280h)，3 年 TCO 下限计算为 $3,300 + (0.5 * 26280 * 0.12) + $650 ≈ $4,443，原 N132 的 $4,500 下限基本合理但需注明是 7x24 运行假设。
+
+## Corrected Claim
+
+N132 中 2x RTX 4090 的 TCO 下限修正：基于 N133 ($3,300 硬件) + N134 (500W 平均功耗) + N135 ($650 基础设施) + N136 ($0.12/kWh) + N137 (26,280h)，3 年 TCO 下限计算为 $3,300 + (0.5 * 26280 * 0.12) + $650 ≈ $4,443，原 N132 的 $4,500 下限基本合理但需注明是 7x24 运行假设。
+
+## Evidence
+
+[rework-angle r1] 逻辑推导成立，来源未直接覆盖
+
+## Search Query
+
+RTX 4090 average power consumption watts 7x24 operation

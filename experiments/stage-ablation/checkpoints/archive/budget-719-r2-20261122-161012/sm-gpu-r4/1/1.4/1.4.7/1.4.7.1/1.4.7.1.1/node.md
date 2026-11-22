@@ -1,0 +1,24 @@
+# N419: RTX 4090 单卡系统峰值功耗修正：RTX 4090 在满载（AI 推理）时的实际功耗通常为 TGP 450W 的 90%-100%，即 405W-450W
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N173
+
+## Claim
+
+RTX 4090 单卡系统峰值功耗修正：RTX 4090 在满载（AI 推理）时的实际功耗通常为 TGP 450W 的 90%-100%，即 405W-450W；CPU (i9-14900K/13900K) 在推理等待期功耗降至 25W-35W（而非基准 65W），平台功耗约 30W；修正后 P_total_peak ≈ 450 + 30 + 30 = 510W，冗余后需 765W，850W 电源仍满足但余量更充裕。
+
+## Corrected Claim
+
+RTX 4090 单卡系统峰值功耗修正：RTX 4090 在满载（AI 推理）时的实际功耗通常为 TGP 450W 的 90%-100%，即 405W-450W；CPU (i9-14900K/13900K) 在推理等待期功耗降至 25W-35W（而非基准 65W），平台功耗约 30W；修正后 P_total_peak ≈ 450 + 30 + 30 = 510W，冗余后需 765W，850W 电源仍满足但余量更充裕。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 TGP 450W 及 i9 系列待机功耗量级符合工程常识，计算逻辑自洽。
+
+## Search Query
+
+RTX 4090 actual power consumption AI inference vs gaming TGP

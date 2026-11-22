@@ -1,0 +1,24 @@
+# N482: A6000 在 32K 上下文、BF16 精度下的显存占用检查：54GB 权重 + 8.59GB KV Cache = 62.59GB，超过 A6000 48G
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N163
+
+## Claim
+
+A6000 在 32K 上下文、BF16 精度下的显存占用检查：54GB 权重 + 8.59GB KV Cache = 62.59GB，超过 A6000 48GB 显存容量，因此 A6000 无法在 BF16 精度下运行 Qwen3-27B 32K 上下文，N163 的前提条件不成立，必须使用量化或分页策略，此时 Prefill 吞吐量将因量化计算开销和内存访问模式变化而改变。
+
+## Corrected Claim
+
+A6000 在 32K 上下文、BF16 精度下的显存占用检查：54GB 权重 + 8.59GB KV Cache = 62.59GB，超过 A6000 48GB 显存容量，因此 A6000 无法在 BF16 精度下运行 Qwen3-27B 32K 上下文，N163 的前提条件不成立，必须使用量化或分页策略，此时 Prefill 吞吐量将因量化计算开销和内存访问模式变化而改变。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：54GB + 8.59GB = 62.59GB > 48GB，显存溢出结论成立，且符合大模型部署基本物理约束。
+
+## Search Query
+
+NVIDIA A6000 48GB memory limit large model inference

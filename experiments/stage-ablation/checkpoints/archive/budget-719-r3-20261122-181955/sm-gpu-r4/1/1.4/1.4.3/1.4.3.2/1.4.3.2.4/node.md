@@ -1,0 +1,24 @@
+# N561: Intel Arc A770 在 Q4_K_M 量化且启用 32K 上下文时，KV Cache 占用 8 GB（BF16 KV），加上权重 15.5 GB，总需
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N195
+
+## Claim
+
+Intel Arc A770 在 Q4_K_M 量化且启用 32K 上下文时，KV Cache 占用 8 GB（BF16 KV），加上权重 15.5 GB，总需求 23.5 GB，超出 16GB 显存 7.5 GB，必须将 KV Cache 部分或全部卸载至 CPU 内存，导致每个 token 生成需额外读取 8GB 数据从 CPU 内存，增加延迟约 8GB / 32GB/s = 0.25s/token，严重降低吞吐量至 <2 tokens/s。
+
+## Corrected Claim
+
+Intel Arc A770 在 Q4_K_M 量化且启用 32K 上下文时，若 KV Cache 占用 8 GB（BF16）且权重 15.5 GB，总需求 23.5 GB 超出 16GB 显存。若将 KV Cache 卸载至 CPU，由于 KV Cache 是增量更新的，每 token 生成的额外延迟主要取决于新 token 的 KV 写入及可能的部分读取，而非全量 8GB 读取。实际吞吐量取决于具体模型架构、卸载策略及 CPU 内存带宽，不能简单通过 8GB/32GB/s 估算为 0.25s/token。
+
+## Evidence
+
+[质询]数值量级与逻辑推导存在严重矛盾：1. 8GB KV Cache 在 32K 上下文下对于主流 LLM（如 7B-13B 参数）而言数值过大，通常 32K 上下文的 KV Cache 在 BF16 下仅为 1-4GB 左右，除非模型极大或层数极多；2. 即使假设 8GB KV Cache 全部卸载至 CPU，按 32GB/s 带宽计算，每 token 读取 8GB 数据耗时应为 0.25s，但这假设了每个 token 生成都需要重新读取全部 8GB 数据，而实际推理中 KV Cache 是增量追加的，且通常会有部分驻留或分页机制，'每个 token 额外读取 8GB' 的假设过于极端且不符合常规推理引擎（如 llama.cpp, vLLM）的内存管理逻辑；3. 吞吐量 <2 tokens/s 的结论依赖于上述错误的每 token 读取量假设。 | 先验知识/题面给定，逻辑校验未通过：KV Cache 数值量级存疑，且'每 token 读取全部 KV Cache'的推理逻辑不符合实际推理机制（KV Cache 是累积的，非每 token 全量重读），导致延迟和吞吐量估算错误。
+
+## Search Query
+
+llama.cpp KV cache offload CPU memory impact latency

@@ -1,0 +1,29 @@
+# N64: Apple Silicon 在 32K 上下文下的 KV Cache 内存需求与 NVIDIA 相同（基于模型架构），但 MLX 框架对 PagedAttent
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+Apple Silicon 在 32K 上下文下的 KV Cache 内存需求与 NVIDIA 相同（基于模型架构），但 MLX 框架对 PagedAttention 的支持程度不同，需确认 MLX 是否支持动态 KV Cache 分配以优化 32K 长文本推理的内存碎片问题 [待核验]。
+
+## Corrected Claim
+
+Apple Silicon 在 32K 上下文下的 KV Cache 理论内存需求与 NVIDIA 相同（基于模型架构）；MLX 框架正在集成 PagedAttention 以优化长文本推理的内存管理，但需确认其当前版本是否已完全支持动态 KV Cache 分配以解决内存碎片问题。
+
+## Evidence
+
+[质询]陈述中关于'KV Cache内存需求与NVIDIA相同'的部分属于基于模型架构的理论推导，逻辑上成立；但后半部分关于'MLX框架对PagedAttention的支持程度'及'是否支持动态KV Cache分配以优化内存碎片'属于具体的软件实现状态（经验事实）。参考来源[1]显示MLX社区正在讨论PagedAttention的集成（Issue #2228），暗示该功能可能尚未完全成熟或默认启用，而非简单的'支持程度不同'这种模糊定性，且来源未直接证实MLX已具备优化32K长文本内存碎片的成熟动态分配机制。 | 逻辑上KV Cache大小仅取决于模型参数和序列长度，与硬件无关，故前半部分自洽；但后半部分涉及MLX具体功能状态，来源[1]仅显示集成讨论中，未直接证实已支持动态分配以解决碎片问题，属于经验事实且缺乏直接支持，故降级。
+
+## Search Query
+
+MLX framework paged attention support long context LLM
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/ml-explore/mlx/issues/2228&rut=dd44b00bde060f2361c04679f28237accc8a61a3a5559b867632627ab97f4486', 'type': 'ddg', 'title': 'PagedAttention integration in MLX · Issue #2228 · ml-explore/mlx - GitHub'}
+- {'url': 'https://arxiv.org/abs/2506.07311&rut=ef55b05b1ebc05f3136d5f34921bc4f95c7ac0119e48c46307ddcea5ad7a95f9', 'type': 'ddg', 'title': '[2506.07311] Paged Attention Meets FlexAttention: Unlocking Long ...'}

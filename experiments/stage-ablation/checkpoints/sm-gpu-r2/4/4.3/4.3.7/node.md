@@ -1,0 +1,20 @@
+# N115: Groq LPU (若可获取) 的显存带宽为 80 TB/s (HBM) + 20 TB/s (SRAM)，Qwen3-27B W4 权重 13.5GB，理论最
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N23
+
+## Claim
+
+Groq LPU (若可获取) 的显存带宽为 80 TB/s (HBM) + 20 TB/s (SRAM)，Qwen3-27B W4 权重 13.5GB，理论最大解码吞吐量为 80000 / 13.5 ≈ 5925.93 tokens/s（假设无其他瓶颈）。
+
+## Corrected Claim
+
+Groq LPU 的显存带宽及 Qwen3-27B W4 权重大小需具体核实；若带宽确为 80 TB/s 且权重为 13.5GB，则理论最大解码吞吐量约为 5925.93 tokens/s。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件规格（Groq LPU 带宽 80TB/s HBM + 20TB/s SRAM）和特定模型量化后的权重大小（Qwen3-27B W4 为 13.5GB），这些属于经验事实/具体参数值，无法从第一性原理严格推导。此外，Groq LPU 的架构通常强调 SRAM 而非传统 HBM 作为主要高速缓存，且 80TB/s 的 HBM 带宽数值需具体核实其是否对应特定型号或为理论峰值，存在口径混淆或数值不准确的风险。 | 经验事实，逻辑自洽但缺来源支持。计算过程 80000 / 13.5 ≈ 5925.93 在数学上正确，但前提参数（带宽、权重大小）缺乏外部来源验证，且 Groq LPU 的具体硬件配置属于特定工程参数，不能仅凭逻辑自洽判定为 verified。

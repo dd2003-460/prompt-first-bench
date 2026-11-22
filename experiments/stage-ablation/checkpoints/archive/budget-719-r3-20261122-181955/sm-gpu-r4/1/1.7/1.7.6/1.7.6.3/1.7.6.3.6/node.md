@@ -1,0 +1,24 @@
+# N675: Apple M3 Ultra Mac Studio 192GB 在 Qwen3-27B BF16 精度下的显存占用分析：192GB 统一内存 - 54GB 权重
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N239, N240, N241
+
+## Claim
+
+Apple M3 Ultra Mac Studio 192GB 在 Qwen3-27B BF16 精度下的显存占用分析：192GB 统一内存 - 54GB 权重 - 2GB 系统开销 = 136GB 剩余，32K 上下文单请求 KV Cache = 8GB，可支持 17 个并发请求 (136/8)，远高于 A100 的 3 个并发
+
+## Corrected Claim
+
+Apple M3 Ultra Mac Studio 192GB 在 Qwen3-27B BF16 精度下的显存占用分析：192GB 统一内存 - 54GB 权重 - 2GB 系统开销 = 136GB 剩余，32K 上下文单请求 KV Cache = 8GB，可支持 17 个并发请求 (136/8)，远高于 A100 的 3 个并发
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B BF16权重约54GB，192GB内存扣除权重和系统开销后剩余约136GB；32K上下文KV Cache约8GB，136/8=17并发，计算逻辑自洽且量级合理。
+
+## Search Query
+
+Apple M3 Ultra 192GB Qwen3-27B BF16 concurrent requests capacity

@@ -1,0 +1,20 @@
+# N93: Qwen3-27B 在 W4 (INT4/AWQ/GPTQ) 精度下的权重文件大小为 13.5 GB (27B * 0.5 bytes)，相比 BF16 节省 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+Qwen3-27B 在 W4 (INT4/AWQ/GPTQ) 精度下的权重文件大小为 13.5 GB (27B * 0.5 bytes)，相比 BF16 节省 75% 权重显存；若 KV Cache 同步量化为 FP8，则总显存占用约为 13.5 GB + (32K * KV_FP8_size)，需计算具体 KV 节省值。
+
+## Corrected Claim
+
+Qwen3-27B 在 W4 (INT4/AWQ/GPTQ) 精度下的权重文件大小为 13.5 GB (27B * 0.5 bytes)，相比 BF16 节省 75% 权重显存；若 KV Cache 同步量化为 FP8，则总显存占用约为 13.5 GB + (32K * KV_FP8_size)，需计算具体 KV 节省值。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点逻辑清晰且正交：节点1定义KV Cache单位大小公式及数值，节点2基于节点1计算总KV大小及节省量，节点3综合权重与KV计算总显存并给出结论。三者层层递进，无重复或矛盾，且完整覆盖了父节点关于权重、KV Cache量化及总显存占用的所有关键方面。）

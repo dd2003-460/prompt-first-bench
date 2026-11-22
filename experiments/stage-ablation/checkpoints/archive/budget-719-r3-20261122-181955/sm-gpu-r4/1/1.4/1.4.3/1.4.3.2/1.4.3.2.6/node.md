@@ -1,0 +1,24 @@
+# N563: Intel Arc A750 (8GB) 在 Qwen3-27B 上无法运行任何量化级别（最小 Q2_K ~9GB 权重 + KV Cache 远超 8GB），
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N195
+
+## Claim
+
+Intel Arc A750 (8GB) 在 Qwen3-27B 上无法运行任何量化级别（最小 Q2_K ~9GB 权重 + KV Cache 远超 8GB），必须完全依赖 CPU 推理，此时 GPU 仅作为加速协处理器或不可用，吞吐量等同于纯 CPU 推理（~1-2 tokens/s），不具备独立推理价值。
+
+## Corrected Claim
+
+Intel Arc A750 (8GB) 在 Qwen3-27B 上无法运行任何量化级别（最小 Q2_K ~9GB 权重 + KV Cache 远超 8GB），必须完全依赖 CPU 推理，此时 GPU 仅作为加速协处理器或不可用，吞吐量等同于纯 CPU 推理（~1-2 tokens/s），不具备独立推理价值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B 参数量约 27B，即使采用极低的 Q2_K 量化（约 2.5-3 bits/weight），权重体积约为 8.4-10.1GB，已超出或逼近 8GB 显存上限；加上 KV Cache 和运行时开销，必然导致 OOM 或严重 Swap，无法在 GPU 上独立运行。此时回退至 CPU 推理，吞吐量受限于内存带宽，1-2 tokens/s 符合 27B 模型在普通 CPU 上的性能预期。
+
+## Search Query
+
+Intel Arc A750 8GB LLM inference feasibility

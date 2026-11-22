@@ -1,0 +1,20 @@
+# N198: Apple M2 Ultra (192GB) 在 Qwen3-27B BF16 下的理论 Decode 上限计算：Throughput_decode = (Ef
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N61
+
+## Claim
+
+Apple M2 Ultra (192GB) 在 Qwen3-27B BF16 下的理论 Decode 上限计算：Throughput_decode = (Effective_Bandwidth * Efficiency_Factor) / (Weights_Size + KV_Cache_Size_per_token * Batch_Size)。假设 Effective_Bandwidth = 800 * 0.85 = 680 GB/s，Weights = 54 GB，KV_Cache per token (BF16, 32K ctx) 需基于 N114 确认的架构参数计算。
+
+## Corrected Claim
+
+Apple M2 Ultra (192GB) 在 Qwen3-27B BF16 下的理论 Decode 上限计算：Throughput_decode = (Effective_Bandwidth * Efficiency_Factor) / (Weights_Size + KV_Cache_Size_per_token * Batch_Size)。假设 Effective_Bandwidth = 800 * 0.85 = 680 GB/s，Weights = 54 GB，KV_Cache per token (BF16, 32K ctx) 需基于 N114 确认的架构参数计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：M2 Ultra 理论带宽 800GB/s 符合硬件规格，BF16 下 27B 模型权重约 54GB 量级正确，公式结构符合内存带宽受限场景下的 Decode 吞吐量计算逻辑。

@@ -1,0 +1,20 @@
+# N633: 工作点 1 (高利用率/优化框架)：在 vLLM/TensorRT-LLM 等优化框架下，RTX 4090 的 Tensor Core 利用率可达 80%，有效
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N223
+
+## Claim
+
+工作点 1 (高利用率/优化框架)：在 vLLM/TensorRT-LLM 等优化框架下，RTX 4090 的 Tensor Core 利用率可达 80%，有效算力 = 82.6 * 0.8 = 66.1 TFLOPS；此时 $/TFLOPS (基于 $1,650) ≈ $24.96，接近理论峰值性价比，适用于 Prefill 密集场景。
+
+## Corrected Claim
+
+工作点 1 (高利用率/优化框架)：在 vLLM/TensorRT-LLM 等优化框架下，RTX 4090 的 Tensor Core 利用率可达 80%，有效算力 = 82.6 * 0.8 = 66.1 TFLOPS；此时 $/TFLOPS (基于 $1,650) ≈ $24.96，接近理论峰值性价比，适用于 Prefill 密集场景。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 FP16 Tensor Core 峰值算力约为 82.6 TFLOPS，80% 利用率下有效算力 66.08 TFLOPS，基于 $1,650 价格计算性价比约为 $24.97/TFLOPS，数值量级与逻辑自洽。

@@ -1,0 +1,20 @@
+# N200: Apple M1 Max (64GB) 在 Qwen3-27B 上的可行性分析：64GB 统一内存不足以容纳 BF16 权重 (54GB) + 32K KV C
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N61
+
+## Claim
+
+Apple M1 Max (64GB) 在 Qwen3-27B 上的可行性分析：64GB 统一内存不足以容纳 BF16 权重 (54GB) + 32K KV Cache (~8-32GB) + 系统开销。必须使用 INT4 量化 (Weights ~14GB)。计算 INT4 下 M1 Max (400 GB/s 带宽) 的 Decode 上限，并与 M2 Ultra 对比，量化性能差距（预计 M1 Max 仅为 M2 Ultra 的 40-50%）。
+
+## Corrected Claim
+
+Apple M1 Max (64GB) 在 Qwen3-27B 上的可行性分析：64GB 统一内存不足以容纳 BF16 权重 (54GB) + 32K KV Cache (~8-32GB) + 系统开销。必须使用 INT4 量化 (Weights ~14GB)。计算 INT4 下 M1 Max (400 GB/s 带宽) 的 Decode 上限，并与 M2 Ultra 对比，量化性能差距（预计 M1 Max 仅为 M2 Ultra 的 40-50%）。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点逻辑清晰且互斥：节点1确立内存可行性前提（权重大小），节点2确立计算带宽参数，节点3进行核心性能推导（Decode速度及对比），节点4分析并发扩展性。各节点分别对应‘可行性前提’、‘硬件参数’、‘核心指标计算’和‘扩展性分析’，无重复或矛盾，且完整覆盖了父节点关于内存限制、量化必要性、性能计算及与M2 Ultra对比的所有关键点。）

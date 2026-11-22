@@ -1,0 +1,24 @@
+# N102: 张量并行 (TP) 下，每生成一个 token 需执行一次 All-Reduce 通信，通信数据量 D_comm = batch_size * hidden_d
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N22
+
+## Claim
+
+张量并行 (TP) 下，每生成一个 token 需执行一次 All-Reduce 通信，通信数据量 D_comm = batch_size * hidden_dim * bytes_per_element。对于 Qwen3-27B (hidden_dim=4096, BF16=2 bytes)，单 token batch=1 时 D_comm = 8KB。
+
+## Corrected Claim
+
+张量并行 (TP) 下，每生成一个 token 需执行一次 All-Reduce 通信，通信数据量 D_comm = batch_size * hidden_dim * bytes_per_element。对于 Qwen3-27B (hidden_dim=4096, BF16=2 bytes)，单 token batch=1 时 D_comm = 8KB。
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备（1. 正交性失败：子节点2直接依赖子节点1的数值（8.192 KB）进行计算，两者存在强逻辑依赖而非独立正交；且子节点2关于'TP=2需执行两次All-Reduce'的陈述在标准Transformer架构中缺乏普遍性支持（通常每个LayerNorm/FFN/Attention输出后各一次，视具体实现而定，并非固定两次），与子节点1的通用定义存在潜在冲突或过度特化。2. 完备性失败：父节点核心是'通信数据量公式及实例计算'，子节点引入了父节点未提及的'TP=2特定配置'和'通信次数修正'，偏离了父节点关于单次通信数据量定义的焦点，且未覆盖公式中batch_size变化等其他关键变量。）
+
+## Search Query
+
+tensor parallel all-reduce data size per token hidden dim

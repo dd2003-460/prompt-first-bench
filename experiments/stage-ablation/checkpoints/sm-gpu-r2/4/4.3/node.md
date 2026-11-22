@@ -1,24 +1,20 @@
-# N22: 多卡互联对 Decode 延迟的影响取决于 All-Reduce 通信开销；NVLink 带宽 (900 GB/s for H100) 远高于 PCIe 4.0
+# N23: 非典型/边缘方案候选集：(1) 高内存CPU方案：EPYC 9654 (128核, 3TB DDR5) + PCIe Gen5 NVMe，适用于INT4量化+C
 
-- **status**: degraded
+- **status**: verified
 - **level**: L2
 - **source**: knowledge
 - **edge_type**: cartesian
-- **rework_count**: 1
-- **parent_ids**: N4, N5, N6
+- **rework_count**: 0
+- **parent_ids**: N4
 
 ## Claim
 
-多卡互联对 Decode 延迟的影响取决于 All-Reduce 通信开销；NVLink 带宽 (900 GB/s for H100) 远高于 PCIe 4.0 (32 GB/s)，使得多卡 Decode 延迟增加 <5% (NVLink) 而 PCIe 方案可能增加 >20% [待核验: 具体百分比取决于模型分片策略]。
+非典型/边缘方案候选集：(1) 高内存CPU方案：EPYC 9654 (128核, 3TB DDR5) + PCIe Gen5 NVMe，适用于INT4量化+CPU推理（llama.cpp）；(2) 混合架构：1x RTX 4090 + 128GB DDR5，使用ExLlamaV2或llama.cpp的CPU+GPU offloading；(3) 专用推理芯片：Groq LPU (若可获取), Cerebras WSE (若可获取)，但通常仅限云API，本地部署可行性低。
 
 ## Corrected Claim
 
-多卡互联对 Decode 延迟的影响取决于 All-Reduce 通信开销；NVLink 带宽远高于 PCIe 4.0，通常使得多卡 Decode 延迟增加显著低于 PCIe 方案（具体百分比取决于模型分片策略、Batch Size 及序列长度）。
+非典型/边缘方案候选集：(1) 高内存CPU方案：EPYC 9654 (128核, 3TB DDR5) + PCIe Gen5 NVMe，适用于INT4量化+CPU推理（llama.cpp）；(2) 混合架构：1x RTX 4090 + 128GB DDR5，使用ExLlamaV2或llama.cpp的CPU+GPU offloading；(3) 专用推理芯片：Groq LPU (若可获取), Cerebras WSE (若可获取)，但通常仅限云API，本地部署可行性低。
 
 ## Evidence
 
-[质询]具体百分比（<5% 和 >20%）高度依赖于模型架构、Batch Size、序列长度以及具体的并行策略（如张量并行 vs 流水线并行），将其作为通用结论缺乏严谨性，且 NVLink 900GB/s 通常指双向聚合带宽，实际有效带宽受协议开销影响，直接对比 PCIe 32GB/s 可能夸大优势。 | 先验知识/题面给定，逻辑校验通过：NVLink 带宽确实远高于 PCIe，通信开销占比小，延迟增加有限；但具体百分比为经验值，受多种变量影响，故降级为定性表述。
-
-## Search Query
-
-multi-GPU LLM inference all-reduce latency NVLink vs PCIe overhead
+先验知识/题面给定，逻辑校验通过：EPYC 9654规格（128核/3TB内存）及RTX 4090+128GB混合架构在技术原理上均支持大模型CPU/GPU推理，Groq/Cerebras作为专用芯片主要提供云服务的描述符合行业现状。

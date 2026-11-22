@@ -1,0 +1,20 @@
+# N213: CPU 推理中 KV Cache 的读取是主要带宽瓶颈，对于 Qwen3-27B (假设 GQA, n_kv_heads=8, head_dim=128)，每个
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N66
+
+## Claim
+
+CPU 推理中 KV Cache 的读取是主要带宽瓶颈，对于 Qwen3-27B (假设 GQA, n_kv_heads=8, head_dim=128)，每个 token 的 KV Cache 大小为 2 * 16 * 8 * 128 * 2 bytes = 65,536 bytes = 64 KB；在 32K 上下文下，单次 Decode 需读取 32768 * 64 KB = 2 GB 的 KV Cache，这直接限制了吞吐量上限为 Memory_Bandwidth / 2 GB
+
+## Corrected Claim
+
+CPU 推理中 KV Cache 的读取是主要带宽瓶颈，对于 Qwen3-27B (假设 GQA, n_kv_heads=8, head_dim=128)，每个 token 的 KV Cache 大小为 2 * 16 * 8 * 128 * 2 bytes = 65,536 bytes = 64 KB；在 32K 上下文下，单次 Decode 需读取 32768 * 64 KB = 2 GB 的 KV Cache，这直接限制了吞吐量上限为 Memory_Bandwidth / 2 GB
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：KV Cache 大小计算正确（2 * 16 * 8 * 128 * 2 = 65536 bytes），32K 上下文总读取量计算正确（32768 * 64KB = 2GB），带宽瓶颈逻辑自洽。

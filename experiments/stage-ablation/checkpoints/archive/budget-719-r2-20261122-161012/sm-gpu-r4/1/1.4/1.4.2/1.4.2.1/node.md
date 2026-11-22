@@ -1,0 +1,30 @@
+# N162: H100 SXM 单卡在 BF16 推理负载下的平均功耗约为 550W-600W（低于 700W TDP），3 年 24/7 运行电费在 $0.15/kWh 电
+
+- **status**: pending
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N45
+
+## Claim
+
+H100 SXM 单卡在 BF16 推理负载下的平均功耗约为 550W-600W（低于 700W TDP），3 年 24/7 运行电费在 $0.15/kWh 电价下约为 $560-$610/年，显著高于 RTX 4090 单卡。
+
+## Corrected Claim
+
+H100 SXM 单卡在 BF16 推理负载下的平均功耗通常低于其 700W TDP，具体数值取决于负载情况；在 $0.15/kWh 电价下，3 年 24/7 运行的电费估算需基于实际平均功耗计算，通常显著高于消费级显卡如 RTX 4090。
+
+## Evidence
+
+父节点级核验失败（LLM 错误）：Unterminated string starting at: line 10 column 5 (char 735)
+
+## Search Query
+
+H100 SXM average power consumption LLM inference benchmark watts
+
+## Retrieval Sources
+
+- {'url': 'https://ask.csdn.net/questions/8230483&rut=7c042a3d47146e30ae80ab22a7f0a8b0da2c3ef3f7bb03cb2ed42860f7ba15f4', 'type': 'ddg', 'title': 'A100和H100在bf16精度下的TFLOPS性能差异是多少？ - CSDN问答'}
+- {'url': 'https://inferencex.semianalysis.com/zh/chips/h100&rut=f6f89a20f67a8aabf94d85cb223b75a35e5f2d36db1b8a3ed4a5d3a6bf86b885', 'type': 'ddg', 'title': 'NVIDIA H100 SXM 规格、价格与功耗 | InferenceX'}
+- {'url': 'https://inferencex.semianalysis.com/chips/h100&rut=4ae57c5cc3bdbd2a33288624e598152e576547d47cab5c116a3fa2215e7eadcc', 'type': 'ddg', 'title': 'NVIDIA H100 SXM Specs: ~$1.17/hr, 80 GB HBM3 | InferenceX'}

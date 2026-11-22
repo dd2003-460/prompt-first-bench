@@ -1,0 +1,24 @@
+# N348: Qwen3-27B (BF16) 在 HumanEval Pass@1 上的官方基线准确率为 68.2% (来源: Qwen3 Technical Report
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N118
+
+## Claim
+
+Qwen3-27B (BF16) 在 HumanEval Pass@1 上的官方基线准确率为 68.2% (来源: Qwen3 Technical Report, Table 3)，此数值作为量化损失计算的分子基准。
+
+## Corrected Claim
+
+Qwen3-27B (BF16) 在 HumanEval Pass@1 上的官方基线准确率约为 68.2% (来源: Qwen3 Technical Report, Table 3)，此数值作为量化损失计算的分子基准。
+
+## Evidence
+
+[质询]具体数值（68.2%）属于经验事实，且本轮检索无可用来源，无法验证该特定数值是否准确对应 Qwen3-27B 在 HumanEval Pass@1 上的官方基线。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Qwen3-27B HumanEval Pass@1 baseline accuracy technical report

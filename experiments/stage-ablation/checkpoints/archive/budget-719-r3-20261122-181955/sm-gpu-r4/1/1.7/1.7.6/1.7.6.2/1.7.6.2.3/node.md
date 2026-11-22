@@ -1,0 +1,20 @@
+# N665: AMD RX 7900 XTX 在 32K 上下文下的理论 Decode 吞吐量上限：显存带宽 1,936 GB/s，INT4 权重 13.5GB + BF16
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N236
+
+## Claim
+
+AMD RX 7900 XTX 在 32K 上下文下的理论 Decode 吞吐量上限：显存带宽 1,936 GB/s，INT4 权重 13.5GB + BF16 KV Cache 8GB = 21.5GB，理论上限 = 1,936 / 21.5 ≈ 90 tokens/s，实测效率系数 0.6-0.8，预计为 54-72 tokens/s [knowledge: '模型先验知识：Decode 吞吐量 = 显存带宽 / (权重大小 + KV Cache 大小)']
+
+## Corrected Claim
+
+AMD RX 7900 XTX 在 32K 上下文下的理论 Decode 吞吐量上限：显存带宽 1,936 GB/s，INT4 权重 13.5GB + BF16 KV Cache 8GB = 21.5GB，理论上限 = 1,936 / 21.5 ≈ 90 tokens/s，实测效率系数 0.6-0.8，预计为 54-72 tokens/s [knowledge: '模型先验知识：Decode 吞吐量 = 显存带宽 / (权重大小 + KV Cache 大小)']
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：显存带宽1936GB/s除以总数据量21.5GB得出理论上限约90 tokens/s，符合Decode阶段带宽受限的物理直觉及数学计算。

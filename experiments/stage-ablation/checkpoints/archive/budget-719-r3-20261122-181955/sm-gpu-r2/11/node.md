@@ -1,0 +1,24 @@
+# N38: 条件性推荐 A：若预算 < $3,000 且优先单卡简洁性，推荐 RTX 4090 24GB + INT4 量化 (AWQ)，前提是接受 MMLU 下降 <1%
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+条件性推荐 A：若预算 < $3,000 且优先单卡简洁性，推荐 RTX 4090 24GB + INT4 量化 (AWQ)，前提是接受 MMLU 下降 <1% 且 32K 上下文下 KV Cache 占用需精细控制 (使用 PagedAttention)；此方案 TCO 最低，但并发能力受限。
+
+## Corrected Claim
+
+条件性推荐 A：若预算 < $3,000 且优先单卡简洁性，RTX 4090 24GB + INT4 量化 (AWQ) 是常见选择，通常需配合 PagedAttention 以优化 32K 上下文下的 KV Cache 占用；此方案在单卡场景下具有成本优势，但具体 MMLU 精度损失及并发能力需根据实际负载测试确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性参数（如MMLU下降<1%、TCO最低、并发受限的具体阈值），这些属于经验事实而非第一性原理可推导内容，且参考来源仅涉及GPU选型通用维度，未提供针对RTX 4090+INT4量化在32K上下文下的具体性能数据或TCO对比，无法直接支持该特定结论。 | 逻辑自洽（RTX 4090 24GB显存确实适合单卡部署，INT4量化可节省显存，PagedAttention是标准优化手段），但参考来源[1]仅讨论GPU选型通用维度，未覆盖具体量化方案的性能指标与TCO细节，属于间接支持或无直接证据，依据经验事实排除条款降级。
+
+## Retrieval Sources
+
+- {'url': 'https://developer.baidu.com/article/detail.html?id=4618531&rut=615d689e3c7827e2de3ec4b83ad4d1df590267299ddf364584bc414ce5269f6f', 'type': 'ddg', 'title': '深度解析：Gpu选型与购买全攻略-百度开发者中心'}

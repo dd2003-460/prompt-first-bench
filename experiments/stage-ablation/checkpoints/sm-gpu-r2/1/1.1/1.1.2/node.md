@@ -1,24 +1,24 @@
-# N36: Qwen3-27B 在 BF16 精度下，除权重外还需预留约 2-5% 的额外显存用于激活值 (Activations) 和 CUDA 上下文开销，计算公式为 
+# N39: 量化精度对权重的实际字节数影响：BF16=2 bytes, FP8 (E4M3/E5M2)=1 byte, INT8=1 byte, W4 (4-bit)=0.
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N7
+- **parent_ids**: N7, N8, N9
 
 ## Claim
 
-Qwen3-27B 在 BF16 精度下，除权重外还需预留约 2-5% 的额外显存用于激活值 (Activations) 和 CUDA 上下文开销，计算公式为 Total_VRAM_Req = Weight_Size + KV_Cache_Max + Activation_Overhead，其中 Activation_Overhead 通常与 Batch Size 和 Seq Len 成正比。
+量化精度对权重的实际字节数影响：BF16=2 bytes, FP8 (E4M3/E5M2)=1 byte, INT8=1 byte, W4 (4-bit)=0.5 bytes/param。注意：W4通常伴随1-bit scale factor，实际占用略高于0.5 bytes/param (约0.53-0.56 bytes/param)。
 
 ## Corrected Claim
 
-Qwen3-27B 在 BF16 精度下，除权重外还需预留约 2-5% 的额外显存用于激活值 (Activations) 和 CUDA 上下文开销，计算公式为 Total_VRAM_Req = Weight_Size + KV_Cache_Max + Activation_Overhead，其中 Activation_Overhead 通常与 Batch Size 和 Seq Len 成正比。
+量化精度对权重的实际字节数影响：BF16=2 bytes, FP8 (E4M3/E5M2)=1 byte, INT8=1 byte, W4 (4-bit)=0.5 bytes/param。注意：W4通常伴随1-bit scale factor，实际占用略高于0.5 bytes/param (约0.53-0.56 bytes/param)。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：大模型推理中激活值显存占用确实与Batch Size和Seq Len成正比，且通常占权重显存的较小比例（2-5%在常规推理配置下量级合理），公式结构符合显存构成常识。
+先验知识/题面给定，逻辑校验通过：BF16(16bit)=2B, FP8/INT8(8bit)=1B, W4(4bit)=0.5B，量纲与数值完全符合二进制位宽定义；W4伴随scale factor导致实际占用略高于0.5B（如GPTQ/AWQ等常见实现中，每128或256个权重共享一个scale，平均开销确实在0.53-0.56B/param范围内），逻辑自洽且符合工程常识。
 
 ## Search Query
 
-LLM inference VRAM overhead activations CUDA context memory usage estimate
+quantization bits per parameter overhead scale factor 4bit 8bit

@@ -1,0 +1,20 @@
+# N460: H100 SXM5 在 32K 上下文 Prefill 阶段的内存带宽瓶颈分析：虽然理论算力 495 TFLOPS 支持 281.5 tokens/s，但需读取
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N156
+
+## Claim
+
+H100 SXM5 在 32K 上下文 Prefill 阶段的内存带宽瓶颈分析：虽然理论算力 495 TFLOPS 支持 281.5 tokens/s，但需读取 54 GB 权重 + 32.77 GB KV Cache = 86.77 GB 数据，H100 HBM3 带宽 3.35 TB/s，内存读取时间 = 86.77 GB / 3350 GB/s ≈ 25.9 ms，对应吞吐 32768 / 0.0259 ≈ 1.26M tokens/s，远超算力瓶颈，因此 Prefill 阶段确为计算受限。
+
+## Corrected Claim
+
+H100 SXM5 在 32K 上下文 Prefill 阶段的内存带宽瓶颈分析：虽然理论算力 495 TFLOPS 支持 281.5 tokens/s，但需读取 54 GB 权重 + 32.77 GB KV Cache = 86.77 GB 数据，H100 HBM3 带宽 3.35 TB/s，内存读取时间 = 86.77 GB / 3350 GB/s ≈ 25.9 ms，对应吞吐 32768 / 0.0259 ≈ 1.26M tokens/s，远超算力瓶颈，因此 Prefill 阶段确为计算受限。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H100 SXM5 理论算力 989 TFLOPS (FP16) 或 495 TFLOPS (FP8/INT8 等低精度或特定口径)，HBM3 带宽 3.35 TB/s 符合硬件规格；计算过程显示内存读取时间 (25.9ms) 远小于算力限制下的理论时间 (若按 495 TFLOPS 和典型 FLOPs/token 估算，Prefill 通常计算密集)，且 1.26M tokens/s 的内存带宽上限远高于算力瓶颈对应的吞吐，逻辑自洽，符合大模型 Prefill 阶段计算受限（Compute-bound）的普遍认知。

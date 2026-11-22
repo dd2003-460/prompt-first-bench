@@ -1,0 +1,20 @@
+# N126: RTX 4090 24GB 在 32K 上下文下，使用 PagedAttention 优化 KV Cache 占用后，实际可用显存为 24GB - 13.5GB
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N38
+
+## Claim
+
+RTX 4090 24GB 在 32K 上下文下，使用 PagedAttention 优化 KV Cache 占用后，实际可用显存为 24GB - 13.5GB (INT4 权重) - 框架开销 (约 2GB) = 8.5GB；KV Cache 每 token 大小约为 2 * 16 * 16 * 128 * 2 bytes = 128KB，因此可支持约 8.5GB / 128KB ≈ 68 个 token 的 KV Cache，远小于 32K 上下文需求，需确认 PagedAttention 是否允许动态分配或需进一步压缩。
+
+## Corrected Claim
+
+RTX 4090 24GB 在 32K 上下文下，使用 PagedAttention 优化 KV Cache 占用后，实际可用显存约为 8.5GB。若 KV Cache 每 token 大小约为 128KB，则可支持约 68,000 个 token 的 KV Cache，足以覆盖 32K 上下文需求，无需额外压缩即可满足基本长度要求（具体需结合模型实际 KV 大小验证）。
+
+## Evidence
+
+[质询]KV Cache 每 token 大小计算存在严重量级错误。公式 `2 * 16 * 16 * 128 * 2` 中，若 16 代表层数（L），16 代表头数（H），128 代表头维度（D），则单 token 大小应为 `2 * L * H * D * 2` (bytes)。代入数值为 `2 * 16 * 16 * 128 * 2 = 131,072 bytes = 128 KB`。然而，对于典型的 LLM（如 Llama-2 7B/13B 或类似架构），层数通常在 32-80 之间，头数在 32-64 之间。即使假设这是一个非常小的模型（16层），128KB/token 的估算对于 7B 参数模型来说偏大（通常 7B 模型 KV cache 约为 16KB-32KB/token 取决于精度和架构），但对于 24GB 显存和 32K 上下文，核心矛盾在于：8.5GB / 128KB ≈ 68,000 tokens，而非 68 tokens。陈述中 `8.5GB / 128KB ≈ 68` 存在数量级计算错误（应为 68,000 左右，或者如果单位是 MB 则需重新换算）。更关键的是，如果 KV Cache 真的只有 68 tokens，那确实远小于 32K，但计算过程 `8.5GB / 128KB` 的结果明显不是 68，而是约 68,000。若陈述意指 68,000 tokens，则结论“远小于 32K”错误（68K > 32K）。若陈述意指 68 tokens，则计算错误。此外，INT4 权重 13.5GB 对应约 27B 参数模型，此类模型 KV Cache 通常更大，但即便按 128KB/token 算，8.5GB 也能容纳约 68K tokens，足以覆盖 32K 上下文。因此，结论“需确认...远小于 32K”基于错误的算术推导。 | 逻辑校验失败：8.5GB / 128KB ≈ 68,000 tokens，而非 68 tokens。若为 68,000 tokens，则大于 32K 上下文需求，结论错误；若坚持 68 tokens，则算术错误。

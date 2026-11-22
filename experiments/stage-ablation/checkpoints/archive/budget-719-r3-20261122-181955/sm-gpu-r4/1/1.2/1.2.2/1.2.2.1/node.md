@@ -1,0 +1,20 @@
+# N153: A100 40GB PCIe 在 BF16 精度下的理论 Prefill 吞吐量（32K 上下文，Batch=1）为 156e12 / (2 * 27e9 * 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N46
+
+## Claim
+
+A100 40GB PCIe 在 BF16 精度下的理论 Prefill 吞吐量（32K 上下文，Batch=1）为 156e12 / (2 * 27e9 * 32768) ≈ 88.5 tokens/s，与 A100 80GB PCIe 相同，但受限于 40GB 显存，无法容纳 BF16 权重（54GB）+ KV Cache（32.77GB）= 86.77GB，故 A100 40GB 在 BF16 下不可行，必须使用 INT4/FP8 量化。
+
+## Corrected Claim
+
+A100 40GB PCIe 在 BF16 精度下的理论 Prefill 吞吐量（32K 上下文，Batch=1）为 156e12 / (2 * 27e9 * 32768) ≈ 88.5 tokens/s，与 A100 80GB PCIe 相同，但受限于 40GB 显存，无法容纳 BF16 权重（54GB）+ KV Cache（32.77GB）= 86.77GB，故 A100 40GB 在 BF16 下不可行，必须使用 INT4/FP8 量化。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 40GB与80GB PCIe版计算能力相同，理论吞吐量一致；显存占用计算（54GB权重+32.77GB KV Cache=86.77GB）超过40GB显存限制，结论自洽。

@@ -1,0 +1,24 @@
+# N379: RTX 5090 在 32K 上下文、BF16 精度下，理论 Prefill 吞吐量上限为 (100 TFLOPS * 1e12) / (2 * 27e9 * 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N128
+
+## Claim
+
+RTX 5090 在 32K 上下文、BF16 精度下，理论 Prefill 吞吐量上限为 (100 TFLOPS * 1e12) / (2 * 27e9 * 32768) ≈ 56.8 tokens/s (假设 100 TFLOPS 为有效算力，若为稀疏需除以 2 或 4，需核验实际稠密算力)。
+
+## Corrected Claim
+
+RTX 5090 在 32K 上下文、BF16 精度下，若假设有效算力为 100 TFLOPS，理论 Prefill 吞吐量上限约为 56.8 tokens/s；但实际算力需根据具体硬件规格（稠密/稀疏）及显存带宽瓶颈进行修正。
+
+## Evidence
+
+[质询]RTX 5090 的标称算力（无论是稠密还是稀疏）通常远高于 100 TFLOPS（例如 FP16/BF16 稠密算力可能在 200+ TFLOPS 量级，稀疏更高），且 32K 上下文下 Prefill 的瓶颈往往受限于显存带宽而非纯计算 FLOPS，直接套用 FLOPS 公式可能高估或低估实际吞吐，且 100 TFLOPS 这一具体数值缺乏来源支持，属于经验事实。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且 100 TFLOPS 为假设值，非第一性原理可推导的固定常数）
+
+## Search Query
+
+RTX 5090 dense BF16 tensor FLOPS performance

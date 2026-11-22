@@ -1,0 +1,20 @@
+# N223: RTX 4090 的 FP16 算力 82.6 TFLOPS 是理论峰值（Dense），但在 LLM 推理中实际有效算力受限于 Tensor Core 利用率（
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N69
+
+## Claim
+
+RTX 4090 的 FP16 算力 82.6 TFLOPS 是理论峰值（Dense），但在 LLM 推理中实际有效算力受限于 Tensor Core 利用率（通常 60-80%），因此计算 $/TFLOPS 性价比时，应使用有效算力 ~55-65 TFLOPS，修正后的 $/TFLOPS 约为 $25-$31，而非基于理论峰值的 $19-$23。
+
+## Corrected Claim
+
+RTX 4090 的 FP16 理论峰值算力约为 82.6 TFLOPS（Tensor Core）。在 LLM 推理中，受限于内存带宽和 Tensor Core 利用率，实际有效算力通常显著低于峰值（经验上约为峰值的 60-80%），因此计算性价比时应考虑有效算力，而非直接采用理论峰值。
+
+## Evidence
+
+[质询]Tensor Core 利用率在 LLM 推理中受限于内存带宽（Memory-Bound）而非计算单元利用率，且不同模型/序列长度下波动极大，60-80% 的假设缺乏普适性；此外，RTX 4090 的 FP16 理论峰值通常指 Tensor Core 加速后的数值（约 82.6 TFLOPS 对应的是 Tensor Core 峰值，若指 CUDA Core 则远低于此，需确认口径），若 82.6 已是 Tensor Core 峰值，则利用率折扣逻辑成立，但具体数值区间（55-65 TFLOPS）属于经验估计而非固定物理常数。 | 先验知识/题面给定，逻辑校验通过：RTX 4090 FP16 Tensor Core 峰值确约为 82.6 TFLOPS，LLM 推理中因内存墙限制实际算力低于峰值是公认事实，但具体利用率区间为经验值，无外部来源直接支持该特定数值范围，故降级。

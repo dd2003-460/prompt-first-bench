@@ -1,0 +1,24 @@
+# N574: Apple M3 Ultra 在 LLM 推理负载下的有效内存带宽估算为 696.3 GB/s (理论峰值 819.2 GB/s * 0.85 效率系数)，相比
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N199
+
+## Claim
+
+Apple M3 Ultra 在 LLM 推理负载下的有效内存带宽估算为 696.3 GB/s (理论峰值 819.2 GB/s * 0.85 效率系数)，相比 M2 Ultra 的 680 GB/s 提升 2.4%。
+
+## Corrected Claim
+
+Apple M3 Ultra 在 LLM 推理负载下的有效内存带宽估算约为 696 GB/s (基于 819.2 GB/s 理论峰值和 0.85 效率系数)，相比 M2 Ultra 的约 680 GB/s 提升约 2.4%。
+
+## Evidence
+
+[质询]M3 Ultra 的内存带宽理论峰值通常被引用为 819.2 GB/s，但 M2 Ultra 的峰值带宽为 800 GB/s。若 M3 Ultra 有效带宽为 696.3 GB/s (819.2 * 0.85)，而 M2 Ultra 有效带宽为 680 GB/s，则提升幅度为 (696.3 - 680) / 680 ≈ 2.4%。然而，M2 Ultra 的有效带宽 680 GB/s 对应的效率系数为 680/800 = 0.85。这里假设了 M3 和 M2 在 LLM 推理负载下的效率系数完全相同（均为 0.85），这是一个强假设。虽然逻辑上自洽，但缺乏外部来源直接支持 M2 Ultra 在 LLM 负载下的有效带宽确切为 680 GB/s 或效率系数为 0.85。此外，M3 Ultra 相比 M2 Ultra 的主要提升在于统一内存容量和 GPU 核心数，内存带宽峰值提升幅度较小（800 -> 819.2 GB/s，约 2.4%），因此有效带宽提升 2.4% 在逻辑上是合理的，但具体数值 696.3 和 680 缺乏直接来源支持。 | 先验知识/题面给定，逻辑校验通过。M3 Ultra 峰值带宽 819.2 GB/s 和 M2 Ultra 峰值带宽 800 GB/s 是已知规格。计算 819.2 * 0.85 = 696.32，800 * 0.85 = 680。提升比例 (696.32 - 680) / 680 ≈ 2.4%。逻辑自洽，但具体效率系数 0.85 和有效带宽数值缺乏直接来源支持，属于经验事实估算。
+
+## Search Query
+
+Apple M3 Ultra memory bandwidth specification 819.2 GB/s

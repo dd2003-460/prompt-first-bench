@@ -1,0 +1,20 @@
+# N777: 对于 RTX 4090 24GB（INT4 权重 13.5GB，剩余显存 8.5GB），在 32K 上下文下，Batch_Size=1 时 KV Cache 占
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N277
+
+## Claim
+
+对于 RTX 4090 24GB（INT4 权重 13.5GB，剩余显存 8.5GB），在 32K 上下文下，Batch_Size=1 时 KV Cache 占用 = 8 GB（BF16），剩余余量 0.5 GB，无法支持 Batch_Size=2（需 16 GB KV Cache），因此 Batch_Size 上限为 1，Decode 吞吐量上限 = 1008 GB/s / (13.5 GB + 8 GB) ≈ 47 tokens/s（理论值，实测需乘以 0.6-0.8 效率系数）。
+
+## Corrected Claim
+
+对于 RTX 4090 24GB（INT4 权重 13.5GB，剩余显存 8.5GB），在 32K 上下文下，Batch_Size=1 时 KV Cache 占用 = 8 GB（BF16），剩余余量 0.5 GB，无法支持 Batch_Size=2（需 16 GB KV Cache），因此 Batch_Size 上限为 1，Decode 吞吐量上限 = 1008 GB/s / (13.5 GB + 8 GB) ≈ 47 tokens/s（理论值，实测需乘以 0.6-0.8 效率系数）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：KV Cache 显存占用计算（2层*128头*128维*2字节*32K*2(K+V)≈8GB）及剩余显存推导符合 LLM 推理显存估算逻辑，吞吐量估算基于带宽瓶颈假设合理。

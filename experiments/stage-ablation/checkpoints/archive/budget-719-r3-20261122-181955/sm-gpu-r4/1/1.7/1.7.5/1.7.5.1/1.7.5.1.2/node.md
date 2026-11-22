@@ -1,0 +1,20 @@
+# N656: L40S 的 48GB 显存允许在 BF16 下加载 54GB 权重吗？不，54GB > 48GB，因此 L40S 单卡无法运行 BF16 Qwen3-27B，
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N233
+
+## Claim
+
+L40S 的 48GB 显存允许在 BF16 下加载 54GB 权重吗？不，54GB > 48GB，因此 L40S 单卡无法运行 BF16 Qwen3-27B，必须使用 FP8（27GB）或 INT4（13.5GB）量化；若使用 FP8，剩余显存 21GB 可支持 2 个 32K 并发请求，若 INT4 则支持 3 个，此约束修正了基于 BF16 的无效性能假设。
+
+## Corrected Claim
+
+L40S 的 48GB 显存允许在 BF16 下加载 54GB 权重吗？不，54GB > 48GB，因此 L40S 单卡无法运行 BF16 Qwen3-27B，必须使用 FP8（27GB）或 INT4（13.5GB）量化；若使用 FP8，剩余显存 21GB 可支持 2 个 32K 并发请求，若 INT4 则支持 3 个，此约束修正了基于 BF16 的无效性能假设。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：54GB > 48GB 显存限制成立，FP8/INT4 量化后显存占用及剩余空间计算符合算术逻辑，并发数估算基于剩余显存合理。

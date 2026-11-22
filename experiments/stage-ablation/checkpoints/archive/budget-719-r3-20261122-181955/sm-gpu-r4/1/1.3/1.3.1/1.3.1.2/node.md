@@ -1,0 +1,24 @@
+# N176: RX 7900 XTX 的显存带宽 960 GB/s 在 Decode 阶段的实际利用率：受限于 PCIe 4.0 x16 总线带宽（64 GB/s）和内存控制
+
+- **status**: pending
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N52
+
+## Claim
+
+RX 7900 XTX 的显存带宽 960 GB/s 在 Decode 阶段的实际利用率：受限于 PCIe 4.0 x16 总线带宽（64 GB/s）和内存控制器效率，实际有效带宽通常在 85-90% 范围内；需结合 Qwen3-27B 的 KV Cache 大小（32.77 GB BF16）计算理论 Decode 吞吐量上限。
+
+## Corrected Claim
+
+RX 7900 XTX 的显存带宽为 960 GB/s。在 Decode 阶段，由于 KV Cache 驻留在显存中，主要瓶颈是显存带宽而非 PCIe 带宽。实际显存带宽利用率受内存控制器效率、访问模式等因素影响，通常可达理论峰值的 70-90%（具体数值需实测）。PCIe 4.0 x16 总线带宽（约 64 GB/s）主要限制主机与 GPU 间的数据传输，对纯显存访问的 Decode 阶段影响较小。需结合 Qwen3-27B 的 KV Cache 大小（32.77 GB BF16）和实际显存带宽利用率计算理论 Decode 吞吐量上限。
+
+## Evidence
+
+父节点级核验未通过：有冗余（子节点1和子节点2本质上是同一计算公式在不同量化参数（KV Cache大小）下的实例化，存在严重的结构冗余；虽然覆盖了父节点的计算逻辑和PCIe澄清，但前两个节点应合并为一个通用公式节点或参数化描述，而非拆分为两个独立子节点。）
+
+## Search Query
+
+AMD RX 7900 XTX memory bandwidth efficiency LLM inference

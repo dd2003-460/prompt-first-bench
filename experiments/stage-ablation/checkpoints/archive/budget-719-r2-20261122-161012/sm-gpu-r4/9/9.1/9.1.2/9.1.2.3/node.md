@@ -1,0 +1,24 @@
+# N684: RTX 5090 单卡 FP8 方案与 RTX 4090 双卡 FP8 方案的 TCO 对比：RTX 5090 单卡成本 $1,999-$2,499 + 平台 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N282
+
+## Claim
+
+RTX 5090 单卡 FP8 方案与 RTX 4090 双卡 FP8 方案的 TCO 对比：RTX 5090 单卡成本 $1,999-$2,499 + 平台 $500 = $2,499-$2,999，吞吐量 46-53 tokens/s，性价比 0.015-0.018 tokens/$/s；RTX 4090 双卡成本 $3,200 + 平台 $500 = $3,700，吞吐量 59-67 tokens/s，性价比 0.016-0.018 tokens/$/s；两者性价比接近，但 RTX 5090 单卡在 Prefill 阶段 (TTFT) 具有 2.5 倍优势，适合长文档处理场景；RTX 4090 双卡在 Decode 阶段略优，适合持续生成场景。
+
+## Corrected Claim
+
+RTX 5090 单卡 FP8 方案与 RTX 4090 双卡 FP8 方案的 TCO 对比：RTX 5090 单卡成本 $1,999-$2,499 + 平台 $500 = $2,499-$2,999，吞吐量 46-53 tokens/s，性价比 0.015-0.018 tokens/$/s；RTX 4090 双卡成本 $3,200 + 平台 $500 = $3,700，吞吐量 59-67 tokens/s，性价比 0.016-0.018 tokens/$/s；两者性价比接近，但 RTX 5090 单卡在 Prefill 阶段 (TTFT) 具有 2.5 倍优势，适合长文档处理场景；RTX 4090 双卡在 Decode 阶段略优，适合持续生成场景。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+RTX 5090 vs dual RTX 4090 TCO LLM inference cost performance ratio

@@ -1,0 +1,20 @@
+# N50: A100/H100 SXM 多卡互联带宽为 NVLink 600 GB/s (A100) 或 900 GB/s (H100)，PCIe 版本为 64 GB/s 
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+A100/H100 SXM 多卡互联带宽为 NVLink 600 GB/s (A100) 或 900 GB/s (H100)，PCIe 版本为 64 GB/s (PCIe 4.0 x16)
+
+## Corrected Claim
+
+A100/H100 SXM 多卡互联带宽为 NVLink 600 GB/s (A100) 或 900 GB/s (H100)，PCIe 版本为 64 GB/s (PCIe 4.0 x16)
+
+## Evidence
+
+父节点级核验未通过：非正交, 有冗余（子节点2和子节点3存在明显的逻辑冗余，它们分别计算A100和H100在相同数据量下的传输时间，本质上是同一公式在不同带宽参数下的实例化，可合并为一个包含两种情况的节点。此外，子节点1中的计算逻辑（All-Reduce通信量）与父节点定义的硬件带宽属性（NVLink/PCIe规格）在语义层级上不完全匹配，父节点侧重于硬件规格，子节点1侧重于特定场景下的数据量推导，虽然相关但属于不同维度的信息。）

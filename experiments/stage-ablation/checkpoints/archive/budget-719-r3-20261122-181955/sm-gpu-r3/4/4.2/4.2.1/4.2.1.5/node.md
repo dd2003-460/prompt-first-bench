@@ -1,0 +1,20 @@
+# N308: RTX 4090 的 TDP 450W 中，GPU 核心功耗占比约 85%（~380W），显存（GDDR6X）功耗占比约 15%（~70W）；在计算散热需求时，
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N102, N103, N104
+
+## Claim
+
+RTX 4090 的 TDP 450W 中，GPU 核心功耗占比约 85%（~380W），显存（GDDR6X）功耗占比约 15%（~70W）；在计算散热需求时，需分别考虑 VRM 和显存的发热分布。
+
+## Corrected Claim
+
+RTX 4090 的 TDP 450W 中，GPU 核心功耗占比约 85%（~380W），显存（GDDR6X）功耗占比约 15%（~70W）；在计算散热需求时，需分别考虑 VRM 和显存的发热分布。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

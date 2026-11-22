@@ -1,0 +1,24 @@
+# N51: AMD MI300X 在 ROCm 6.0 以下版本中，INT8 量化推理支持不完整，存在性能下降 20-30% 的风险；ROCm 6.0+ 版本已优化 INT
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+AMD MI300X 在 ROCm 6.0 以下版本中，INT8 量化推理支持不完整，存在性能下降 20-30% 的风险；ROCm 6.0+ 版本已优化 INT8 内核，但 W4 量化仍依赖软件库（如 llama.cpp），无硬件加速，吞吐量仅为 FP8 的 50-70%。
+
+## Corrected Claim
+
+AMD MI300X 在早期 ROCm 版本中 INT8 量化推理支持可能不如 FP8 成熟，存在性能波动风险；ROCm 6.0+ 版本对 INT8 内核进行了优化，但 W4 量化通常依赖软件库（如 llama.cpp）实现，缺乏专用硬件加速，其吞吐量通常低于 FP8 硬件加速路径。
+
+## Evidence
+
+[质询]具体数值（20-30%性能下降、50-70%吞吐量）缺乏公开基准测试支持，且ROCm 6.0对INT8/W4的具体优化细节属于快速迭代的软件版本特性，易随补丁更新而变化，存在将特定测试环境结果泛化为通用事实的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+AMD MI300X ROCm 6.0 INT8 W4 quantization performance benchmark

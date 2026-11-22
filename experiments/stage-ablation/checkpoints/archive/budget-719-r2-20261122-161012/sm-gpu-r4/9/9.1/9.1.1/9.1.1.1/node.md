@@ -1,0 +1,24 @@
+# N679: RTX 5090 显存带宽 1792 GB/s 的正确计算基础：512-bit 位宽 (64 bytes) * 28 Gbps = 1792 GB/s；N125
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N281
+
+## Claim
+
+RTX 5090 显存带宽 1792 GB/s 的正确计算基础：512-bit 位宽 (64 bytes) * 28 Gbps = 1792 GB/s；N125 中 512-bit 定义正确，N105 中 384-bit 描述错误（384-bit * 28 Gbps = 1344 GB/s，与官方数据不符）。此参数是 Decode 阶段理论吞吐量上限的计算基础。
+
+## Corrected Claim
+
+RTX 5090 显存带宽 1792 GB/s 的正确计算基础：512-bit 位宽 (64 bytes) * 28 Gbps = 1792 GB/s；N125 中 512-bit 定义正确，N105 中 384-bit 描述错误（384-bit * 28 Gbps = 1344 GB/s，与官方数据不符）。此参数是 Decode 阶段理论吞吐量上限的计算基础。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：512-bit 位宽对应 64 字节，乘以 28 Gbps 速率，计算结果 1792 GB/s 与 RTX 5090 官方规格一致，且 384-bit 计算结果 1344 GB/s 确实不符，逻辑自洽。
+
+## Search Query
+
+RTX 5090 memory bus width 512-bit 384-bit specifications

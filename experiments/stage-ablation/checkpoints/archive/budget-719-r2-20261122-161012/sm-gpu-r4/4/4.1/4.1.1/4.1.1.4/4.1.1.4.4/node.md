@@ -1,0 +1,24 @@
+# N485: 2x RTX 4090 多卡并行推理的通信开销量化：在 Tensor Parallelism 下，每层 Attention 输出需通过 NVLink/PCIe 
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N199, N200, N201
+
+## Claim
+
+2x RTX 4090 多卡并行推理的通信开销量化：在 Tensor Parallelism 下，每层 Attention 输出需通过 NVLink/PCIe 同步，RTX 4090 无 NVLink 支持，仅 PCIe 4.0 x16 (32 GB/s 双向) 或 PCIe 5.0 x16 (64 GB/s 双向)；对于 27B 模型，每 Token 通信数据量约为 2 * 27e9 * 2 bytes (BF16) / 2 (分片) = 54 MB/Token，通信延迟 T_comm = 54MB / 64GB/s ≈ 0.84 ms/Token，占 Decode 总延迟 (假设 50ms) 的 1.7%，但在 Prefill 阶段通信开销占比可达 5-10%。
+
+## Corrected Claim
+
+在 Tensor Parallelism 下，RTX 4090 无 NVLink，仅 PCIe 4.0/5.0。对于 27B 模型，每层 Attention 输出同步的数据量取决于层宽和 Batch Size，而非总参数量。若假设每层同步 1 个 Token 的隐藏状态（假设 hidden_size=4096, BF16），每层通信量约为 4096 * 2 bytes = 8KB。60 层总通信量约为 480KB/Token。在 PCIe 5.0 (64GB/s) 下，延迟约为 480KB / 64GB/s ≈ 0.0075 ms/Token，占比极低（<0.02%）。Prefill 阶段因 Batch Size 增大，通信量线性增加，但占比仍通常较低，除非 Batch Size 极大或 PCIe 带宽受限。
+
+## Evidence
+
+[质询]通信数据量估算存在严重逻辑错误：在 Tensor Parallelism (TP) 下，每层 Attention 输出同步的数据量并非整个模型参数量（27B），而是仅涉及该层激活值或中间结果。对于 27B 模型，每层参数量约为 27e9 / 60 ≈ 450M 参数。即使假设每层都需同步全量激活（这本身也是高估，因为 TP 通常只同步部分中间结果或最终输出），每 Token 每层的通信量也远小于 54MB。54MB/Token 的估算相当于假设每个 Token 都要传输整个模型的所有参数，这在 TP 推理中是不成立的。此外，Prefill 阶段通信占比 5-10% 的结论依赖于错误的通信量基数，因此也不可靠。 | 逻辑校验失败：TP 模式下每层通信量与层参数量/激活大小相关，而非总模型参数量。54MB/Token 的估算量级错误（高估约 60 倍），导致后续延迟和占比计算无效。
+
+## Search Query
+
+multi-GPU inference communication overhead PCIe vs NVLink latency

@@ -1,0 +1,17 @@
+{
+  "id": "N719",
+  "claim": "RTX 4090 双卡本地部署在 Qwen3-27B INT8 32K 上下文下的单位算力成本估算：双卡总显存48GB，INT8权重27GB，KV Cache约4GB，总访存31GB，双卡并行带宽约2016 GB/s（假设线性扩展），理论Decode速度 ≈ 2016/31 ≈ 65 tokens/s（实际受PCIe瓶颈限制，取0.8效率则≈52 tokens/s），小时吞吐187,200 tokens/hour，总成本（电力+折旧）约$0.15/hour（基于N113电力成本$0.131-0.394/年及$3,200硬件3年折旧$0.29/hour），单位成本 ≈ $0.44/187,200 ≈ $0.00000235/token，显著低于云租赁。",
+  "level": "L5",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值量级与物理直觉严重不符：1. 双卡RTX 4090显存为48GB，但INT8权重27GB + KV Cache 4GB = 31GB，剩余17GB未解释（通常需预留OS/框架开销，但31GB占用率尚可，此点非致命）；2. 致命错误在于带宽与速度估算：RTX 4090单卡显存带宽约1008 GB/s，双卡并行若通过PCIe互联，Decode阶段受限于PCIe带宽（Gen4 x16约32 GB/s，Gen5约64 GB/s），而非显存带宽的线性叠加。即使假设理想NVLink或极高效率，2016 GB/s的带宽用于31GB数据，理论上限65 tokens/s看似合理，但实际Decode是内存带宽受限任务，双卡通过PCIe通信的开销极大，实际速度远低于52 tokens/s，通常双卡4090跑27B模型速度可能在20-30 tokens/s左右，且PCIe瓶颈会导致效率远低于0.8。3. 成本计算逻辑混乱：$0.15/hour的总成本中，折旧$0.29/hour已超过总成本，电力成本$0.131-0.394/年换算为小时级极低（约$0.000015/hour），两者相加不可能得到$0.15/hour，存在严重的算术或单位错误。 | 逻辑校验失败：成本计算存在内部矛盾（折旧成本$0.29/hour > 总成本$0.15/hour），且双卡PCIe互联下的Decode速度估算违背硬件物理限制（PCIe带宽远低于显存带宽，无法实现0.8效率下的52 tokens/s）。",
+  "corrected_claim": "RTX 4090双卡本地部署Qwen3-27B INT8，受PCIe带宽瓶颈限制，实际Decode速度显著低于52 tokens/s（预估20-30 tokens/s），且成本估算中折旧与电力成本相加逻辑错误，单位成本需重新基于实际吞吐和正确成本结构计算。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N294"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "",
+  "retrieval_sources": []
+}

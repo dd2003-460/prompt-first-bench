@@ -1,0 +1,24 @@
+# N477: 修正 N161 中的 ITL 估算错误：N161 声称 ITL 为 100.4 ms/token，但基于 L40S 864 GB/s 带宽和 62.59 GB 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N161
+
+## Claim
+
+修正 N161 中的 ITL 估算错误：N161 声称 ITL 为 100.4 ms/token，但基于 L40S 864 GB/s 带宽和 62.59 GB 总内存占用（54GB 权重 + 8.59GB KV），理论 ITL 应为 72.4 ms/token；若考虑 0.6-0.8 效率系数，实测 ITL 预计为 90.5-120.7 ms/token，而非 125-167 ms/token。
+
+## Corrected Claim
+
+修正 N161 中的 ITL 估算错误：N161 声称 ITL 为 100.4 ms/token，但基于 L40S 864 GB/s 带宽和 62.59 GB 总内存占用（54GB 权重 + 8.59GB KV），理论 ITL 应为 72.4 ms/token；若考虑 0.6-0.8 效率系数，实测 ITL 预计为 90.5-120.7 ms/token，而非 125-167 ms/token。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：理论ITL=62.59GB/864GB/s≈72.4ms，考虑0.6-0.8效率系数后为90.5-120.7ms，计算自洽且符合硬件带宽限制的基本物理直觉。
+
+## Search Query
+
+L40S inference latency benchmark 32k context

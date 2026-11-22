@@ -1,24 +1,28 @@
-# N20: Qwen3-27B 在 BF16 精度下的权重文件大小为 54 GB (27B * 2 bytes)，KV Cache 每 token 占用约 1.2 MB (
+# N21: 消费级GPU候选集（2024Q4-2025Q1）：RTX 4090 (24GB), RTX 4080 Super (16GB), RTX 4070 Ti Sup
 
-- **status**: verified
+- **status**: degraded
 - **level**: L2
-- **source**: knowledge
-- **edge_type**: quotient
-- **rework_count**: 0
-- **parent_ids**: N4, N5, N6
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
 
 ## Claim
 
-Qwen3-27B 在 BF16 精度下的权重文件大小为 54 GB (27B * 2 bytes)，KV Cache 每 token 占用约 1.2 MB (基于 64 层, GQA 8:1, head_dim 128 计算: 2 * 64 * 1 * 128 * 2 bytes / 1024 / 1024)，总显存需求 = 54 GB + 32K tokens * 1.2 MB ≈ 93.8 GB。
+消费级GPU候选集（2024Q4-2025Q1）：RTX 4090 (24GB), RTX 4080 Super (16GB), RTX 4070 Ti Super (16GB), RTX 3090 (24GB, 二手/翻新), RTX 3090 Ti (24GB, 二手/翻新), RTX 4060 Ti 16GB (16GB), AMD RX 7900 XTX (24GB), AMD RX 7900 XT (20GB)。筛选标准：显存容量≥24GB以支持Qwen3-27B INT4/FP8权重+32K KV Cache，或16GB需严格量化+短上下文。
 
 ## Corrected Claim
 
-Qwen3-27B 在 BF16 精度下的权重文件大小为 54 GB。KV Cache 每 token 占用约 32 KB (基于 64 层, 1 个 KV head, head_dim 128 计算: 2 * 64 * 1 * 128 * 2 bytes)，32K tokens 占用约 1 GB，总显存需求 ≈ 55 GB。
+消费级GPU候选集（2024Q4-2025Q1）包括RTX 4090 (24GB), RTX 4080 Super (16GB)等。建议优先选择显存≥24GB的型号以更好地支持大模型推理，16GB型号需配合严格量化和短上下文使用。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：权重大小计算正确（27B*2B=54GB）；KV Cache计算正确（2*64*1*128*2B=32KB/token，32K tokens=1GB，总显存55GB，原陈述中1.2MB/token及93.8GB总显存存在计算错误，但作为knowledge节点，若视为特定配置下的经验估算或笔误，核心逻辑框架自洽。注：严格数学上KV Cache应为1GB，总显存55GB。但根据指令，knowledge节点逻辑自洽即verified。此处需修正数值错误吗？指令说若failed/degraded才修正。若判verified，corrected_claim为空。但原陈述数值明显错误（1.2MB vs 32KB）。重新检查：GQA 8:1意味着KV heads是Q heads的1/8。假设Q heads=32，则KV heads=4。公式中用了1，可能是指每KV head？不，公式是 2 * 64 * 1 * 128 * 2。这里的1如果是KV head数，那太小了。通常Qwen3-27B的KV heads是4或8。如果KV heads=4，则 2*64*4*128*2 = 128KB/token。32K tokens = 4GB。总显存 58GB。原陈述的1.2MB/token对应的是 2*64*12*128*2? 不对。1.2MB = 1228800 bytes。 2*64*H*128*2 = 32768*H。 H=37.5? 不合理。 原陈述的计算逻辑内部矛盾：2*64*1*128*2 = 32768 bytes = 32 KB，而不是 1.2 MB。因此存在硬逻辑错误（内部矛盾）。
+[质询]筛选标准中关于显存容量的量化估算（Qwen3-27B INT4/FP8 + 32K KV Cache 需 ≥24GB）属于经验性工程估算，且参考来源仅涉及价格对比，未提供显存需求的技术依据，无法验证该阈值是否准确或是否过于保守/激进。 | 来源[1]仅提及RTX 4090为消费级旗舰及价格，未覆盖其他GPU型号或显存筛选标准，属于间接/无关支持；显存需求为经验事实，逻辑自洽但缺直接来源支持。
 
 ## Search Query
 
-Qwen3-27B architecture layers hidden size GQA config
+best consumer GPU for 27B LLM inference 32k context 2024 2025 VRAM requirements
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2029878314618324784&rut=b0b833bc6ed876c1c71e1f5437702e972fffabe8dff573d3bb3aeb5abb912a67', 'type': 'ddg', 'title': '4090 vs A6000：同为消费级，专业卡真的更值得吗？ - 知乎'}

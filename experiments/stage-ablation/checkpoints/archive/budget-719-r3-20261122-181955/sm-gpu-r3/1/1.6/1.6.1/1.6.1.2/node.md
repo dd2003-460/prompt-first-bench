@@ -1,0 +1,20 @@
+# N209: Intel Xeon 8480+ (Sapphire Rapids) 的内存带宽为 512 GB/s（8-channel DDR5-4800），但 CPU 推理
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N65
+
+## Claim
+
+Intel Xeon 8480+ (Sapphire Rapids) 的内存带宽为 512 GB/s（8-channel DDR5-4800），但 CPU 推理 Qwen3-27B 的瓶颈在于计算单元（非内存带宽），需对比 GPU 方案（如 RTX 4090）的吞吐量（~10-20 tokens/s）以确认 CPU 方案是否值得纳入性价比比较。
+
+## Corrected Claim
+
+Intel Xeon 8480+ (Sapphire Rapids) 的内存带宽为 512 GB/s（8-channel DDR5-4800），CPU 推理 Qwen3-27B 的瓶颈通常在于计算单元。需对比 GPU 方案（如 RTX 4090）的实际吞吐量（通常显著高于 10-20 tokens/s，具体取决于量化精度和实现）以确认 CPU 方案是否值得纳入性价比比较。
+
+## Evidence
+
+[质询]将 RTX 4090 推理 Qwen3-27B 的吞吐量断言为 ~10-20 tokens/s 存在量级错误风险。RTX 4090 拥有 24GB 显存和极高的计算能力，对于 27B 参数模型（通常需量化至 16-bit 或 8-bit 以适配显存），其推理速度通常远高于此（例如 8-bit 量化下可达 30-50+ tokens/s，甚至更高，取决于具体实现和上下文长度）。10-20 tokens/s 更接近于低端 GPU 或 CPU 推理的速度，而非 4090 的典型表现。 | source=knowledge，逻辑自洽但缺乏外部来源支持；且 RTX 4090 的吞吐量数值（10-20 tokens/s）与常见工程经验值（通常更高）存在偏差，属于经验事实且数值存疑，故降级。

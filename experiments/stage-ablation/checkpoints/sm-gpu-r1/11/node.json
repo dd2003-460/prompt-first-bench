@@ -1,11 +1,11 @@
 {
-  "id": "N34",
-  "claim": "国内/本地工作站硬件供应链中，双卡消费级平台（如双路Threadripper或高端消费级主板）的可用性限制，以及数据中心卡（H100/A100）在个人/小型企业采购渠道的合规性与库存周期（Lead Time）。",
+  "id": "N36",
+  "claim": "多卡方案 (2x RTX 4090) 通过 Tensor Parallelism 运行 Qwen3-27B 时，由于 PCIe 4.0 x16 互联带宽 (约 25-30 GB/s 有效双向) 远低于显存带宽，通信开销会导致吞吐量下降 15-25%。相比单卡 A100 (NVLink 或更高带宽互联，若为 PCIe 版本则同样受限但单卡带宽高)，2x4090 的总吞吐量通常低于单张 A100 或 H100。",
   "level": "L2",
   "source": "search",
   "status": "degraded",
-  "evidence": "[质询]该陈述包含具体的供应链现状（如H100/A100的合规性、库存周期）和特定硬件配置（双卡消费级平台）的可用性限制，属于经验事实。参考来源[1]仅提及IB硬件禁售，未涉及GPU采购渠道或Lead Time；来源[2][3]仅介绍Threadripper产品发布及定位，未提供关于“双卡平台可用性限制”或“数据中心卡采购合规性”的具体数据或事实支持。 | 逻辑自洽，但参考来源未直接覆盖H100/A100采购合规性及双卡消费级平台的具体供应链限制，属于经验事实且缺乏直接来源支持。",
-  "corrected_claim": "国内/本地工作站硬件供应链中，双卡消费级平台（如双路Threadripper或高端消费级主板）的可用性存在一定限制；数据中心卡（H100/A100）在个人/小型企业采购渠道面临合规性审查及较长的库存周期（Lead Time）。",
+  "evidence": "[质询]具体数值（15-25% 吞吐量下降）缺乏直接来源支持，且不同模型规模（如 27B vs 70B）及具体实现（vLLM vs 原生）下通信开销占比差异巨大，该数值可能过于精确或基于特定未披露场景。 | 来源 [3] 间接支持 PCIe 互联存在性能损耗（'PCIe coordination tax'）且无 NVLink 是限制因素，但未提供 15-25% 的具体数值；逻辑上 PCIe 带宽远低于显存带宽导致 TP 通信瓶颈符合物理直觉，但具体百分比属经验事实且缺直接数据支持。",
+  "corrected_claim": "多卡方案 (2x RTX 4090) 通过 Tensor Parallelism 运行大模型时，由于 PCIe 4.0 x16 互联带宽远低于显存带宽，通信开销会导致吞吐量显著下降（具体比例视模型规模与实现而定，通常低于理想线性加速比）。相比单卡 A100 (NVLink 互联)，2x4090 的总吞吐量通常低于单张 A100 或 H100。",
   "rework_count": 1,
   "parent_ids": [],
   "objective": null,
@@ -13,19 +13,19 @@
   "search_query": "",
   "retrieval_sources": [
     {
-      "url": "https://zhuanlan.zhihu.com/p/2052410340135248960&rut=ed4e4fe1b2a980ca779a8b3344e8b9e435364fe72c08fb21890c3c569c9622e6",
+      "url": "https://blog.csdn.net/weixin_33402252/article/details/169423201&rut=2c33a83f4b19524437926dfbf52ac6e91a644be08898c90d6d9ff0e68f69dfa7",
       "type": "ddg",
-      "title": "2026年国内InfiniBand（IB）组网服务商全景盘点与选型指南"
+      "title": "Rtx 4090多卡配置实战：Ai训练与渲染优化指南 - Csdn博客"
     },
     {
-      "url": "https://www.amd.com/zh-cn/newsroom/press-releases/2023-10-19-amd-introduces-new-amd-ryzen-threadripper-7000-ser.html&rut=5b3187b02ab531d14f24ad3b5f972b9c9434433a697195d158f8d62af9357ebc",
+      "url": "https://blog.csdn.net/weixin_28949937/article/details/157282757&rut=cc1abb65081f1a3a6bbd1e7477909597e8752cb4e7437d087219e169b3874e64",
       "type": "ddg",
-      "title": "AMD为高阶工作站推出全新锐龙Threadripper 7000和锐龙Threadripper PRO 7000 WX系列处理器"
+      "title": "ChatGLM3-6B多GPU部署教程：RTX 4090D双卡Tensor Parallel推理配置详解-CSDN博客"
     },
     {
-      "url": "https://www.amd.com/zh-cn/products/processors/workstations/ryzen-threadripper.html&rut=1eeb49f991fd4743b272a70978eb7e9a7912c8820727165f29ea474a6225d105",
+      "url": "https://gigagpu.com/rtx-4090-24gb-multi-card-pairing/&rut=b21936cb38d99d05f7c9aecccdda62d3088cc26d23ba4fd5af969ef8052bf19e",
       "type": "ddg",
-      "title": "AMD 锐龙 Threadripper 处理器打造卓越台式工作站"
+      "title": "2x RTX 4090 24GB Pairing for Tensor Parallel Inference"
     }
   ]
 }

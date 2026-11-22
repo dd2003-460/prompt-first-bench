@@ -1,0 +1,20 @@
+# N552: Intel Max 1550 48GB 在 INT4 量化下，Qwen3-27B 权重占用 13.5GB，剩余可用显存 = 48 - 13.5 - 2 = 32
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N192
+
+## Claim
+
+Intel Max 1550 48GB 在 INT4 量化下，Qwen3-27B 权重占用 13.5GB，剩余可用显存 = 48 - 13.5 - 2 = 32.5 GB，32K 上下文单请求 BF16 KV Cache 占用 8 GB，可支持并发请求数 = 32.5 GB / 8 GB = 4.06，即最大 4 个并发请求。
+
+## Corrected Claim
+
+Intel Max 1550 48GB 在 INT4 量化下，Qwen3-27B 权重占用 13.5GB，剩余可用显存 = 48 - 13.5 - 2 = 32.5 GB，32K 上下文单请求 BF16 KV Cache 占用 8 GB，可支持并发请求数 = 32.5 GB / 8 GB = 4.06，即最大 4 个并发请求。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B INT4权重约13.5GB合理，KV Cache计算符合Transformer架构原理，算术推导正确。

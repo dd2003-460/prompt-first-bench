@@ -1,0 +1,30 @@
+# N48: H100 SXM 单卡/双卡/四卡配置下，基于 1.3 倍冗余系数，电源瓦数下限分别为 910W/1820W/3640W，对应电源价格区间为 $300-$500
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N10
+
+## Claim
+
+H100 SXM 单卡/双卡/四卡配置下，基于 1.3 倍冗余系数，电源瓦数下限分别为 910W/1820W/3640W，对应电源价格区间为 $300-$500/$500-$800/$800-$1200。
+
+## Corrected Claim
+
+H100 SXM 单卡 TDP 为 700W，若按 1.3 倍冗余系数估算，单卡所需电源功率下限约为 910W；双卡/四卡配置相应为 1820W/3640W。具体电源价格因品牌、型号及市场波动而异，通常数据中心级冗余电源成本较高，需根据具体采购渠道确定。
+
+## Evidence
+
+[质询]电源价格区间（$300-$1200）属于高度依赖市场波动、品牌（如Delta, LiteOn, Supermicro）及具体型号（如CRPS vs 普通PSU）的经验事实，且不同时期价格差异巨大，无法仅凭逻辑推导得出确切区间；此外，H100 SXM通常集成在服务器背板或特定机箱中，单独讨论“单卡电源”在工程实现上较为罕见（通常按整机或模组计算），该陈述可能混淆了“GPU TDP”与“实际电源模块规格”。 | 逻辑上功率计算（700W * 1.3 ≈ 910W）自洽，但参考来源[1][2][3]仅涵盖H100架构、性能及TDP（700W/350W），完全未涉及电源瓦数下限的具体冗余系数设定及电源市场价格区间，属于经验事实且缺乏来源支持。
+
+## Search Query
+
+NVIDIA H100 SXM multi-GPU PSU price range 910W 1820W 3640W
+
+## Retrieval Sources
+
+- {'url': 'https://jianliang-shen.github.io/pdf/nv-gpu/NVIDIA-H100-GPU-Architecture-Whitepaper-zhCN.pdf&rut=3bec37124581679c262486d34786272a885ef2f2d6d9803e883a509c8242b8f8', 'type': 'ddg', 'title': 'PDF NVIDIA H100 Tensor Core GPU - jianliang-shen.github.io'}
+- {'url': 'https://www.microway.com/wp-content/uploads/2024/04/NVIDIA-H100-Datasheet-Microway.pdf&rut=7ee104ac9d546722c5335dad0d48ec03763f05163d2f2cad0459c420756a63e0', 'type': 'ddg', 'title': 'PDF NVIDIA H100 TENSOR CORE GPU - Microway'}
+- {'url': 'https://developer.nvidia.cn/blog/nvidia-hopper-architecture-in-depth/&rut=e101aeecd8b32e6b7261b8ef693ff0138a2beae0344de9b72f5003c8710346b4', 'type': 'ddg', 'title': 'NVIDIA Hopper 深入研究架构 - NVIDIA 技术博客'}

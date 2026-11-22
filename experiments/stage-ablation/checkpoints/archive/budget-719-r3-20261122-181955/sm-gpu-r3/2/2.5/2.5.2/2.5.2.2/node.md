@@ -1,0 +1,24 @@
+# N269: Qwen3-27B FP8 (E4M3) 量化在 HumanEval (Pass@1) 基准测试上的准确率绝对值及相对于 BF16 基线的具体下降百分比 (ΔH
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N86
+
+## Claim
+
+Qwen3-27B FP8 (E4M3) 量化在 HumanEval (Pass@1) 基准测试上的准确率绝对值及相对于 BF16 基线的具体下降百分比 (ΔHumanEval)，需引用官方技术报告或第三方代码评测数据。
+
+## Corrected Claim
+
+Qwen3-27B FP8 (E4M3) 量化在 HumanEval (Pass@1) 基准测试上的准确率通常接近 BF16 基线，具体绝对值及下降百分比需查阅官方技术报告或特定评测环境下的第三方数据。
+
+## Evidence
+
+[质询]具体数值（绝对准确率及下降百分比）属于经验事实，且不同评测环境（如提示词模板、解码参数）可能导致结果波动，缺乏官方或权威第三方数据直接支撑具体数值。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值）
+
+## Search Query
+
+Qwen3-27B FP8 HumanEval Pass@1 accuracy benchmark

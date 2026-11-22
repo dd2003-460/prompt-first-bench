@@ -1,0 +1,24 @@
+# N672: RTX 4090 双卡 (TP=2) 在 Qwen3-27B BF16 32K 上下文下，受 PCIe 4.0 x16 同步延迟影响，每层 Attention 
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N277, N278, N279
+
+## Claim
+
+RTX 4090 双卡 (TP=2) 在 Qwen3-27B BF16 32K 上下文下，受 PCIe 4.0 x16 同步延迟影响，每层 Attention 的 All-Reduce 通信开销约为 0.5-1.0 ms/layer；对于 48 层模型，每 token 总通信开销约为 24-48 ms，这直接导致实测吞吐量从理论 35 tokens/s 下降至 25-30 tokens/s，该通信开销是 Batch Size=1 时不可忽略的固定成本。
+
+## Corrected Claim
+
+RTX 4090 双卡 (TP=2) 在 Qwen3-27B BF16 32K 上下文下，受 PCIe 4.0 x16 同步延迟及软件栈开销影响，每层 Attention 的 All-Reduce 通信开销可能在亚毫秒至毫秒级；对于 48 层模型，每 token 总通信开销可能在数十毫秒量级，这可能导致实测吞吐量低于理论峰值，具体数值需依赖实测数据验证。
+
+## Evidence
+
+[质询]数值量级与物理直觉存在显著矛盾：PCIe 4.0 x16 带宽约为 32 GB/s，Qwen3-27B 每层 Attention 的 All-Reduce 数据量（取决于具体实现，通常远小于整个模型权重）在理想情况下传输时间应在微秒级（μs）或极低毫秒级，0.5-1.0 ms/layer 的开销对于 PCIe 4.0 而言过高，更接近于 PCIe 3.0 或存在严重软件栈/同步锁开销的情况；此外，24-48 ms 的总通信开销导致吞吐量从 35 降至 25-30 tokens/s 的计算逻辑需结合具体的计算时间（Compute Time）才能验证，若计算时间本身较短，该通信开销占比过大，可能高估了通信瓶颈或低估了计算效率。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且数值量级存在争议，无法通过第一性原理严格推导具体毫秒数，故降级）
+
+## Search Query
+
+RTX 4090 dual card tensor parallel LLM inference PCIe latency overhead tokens per second

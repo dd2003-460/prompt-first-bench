@@ -1,0 +1,24 @@
+# N787: FlashAttention-2 在 RTX 4090 (Ada Lovelace) 上针对 Qwen3-27B (head_dim=128) 的实测加速比：在
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N281
+
+## Claim
+
+FlashAttention-2 在 RTX 4090 (Ada Lovelace) 上针对 Qwen3-27B (head_dim=128) 的实测加速比：在 Prefill 阶段 (Seq_Len=32K)，相比标准 PyTorch 注意力实现，注意力模块计算时间从 ~120ms 降至 ~45ms，加速比约为 2.6x，而非理论上限的 4x，主要受限于 Ada 架构对 FP16/BF16 矩阵乘法的 Tensor Core 利用率及内存访问模式。
+
+## Corrected Claim
+
+FlashAttention-2 在 RTX 4090 上针对 Qwen3-27B (head_dim=128) 的 Prefill 阶段 (Seq_Len=32K) 相比标准 PyTorch 注意力实现具有显著加速（通常约为2-3倍），主要受限于 Ada 架构的 Tensor Core 利用率及内存访问模式，具体加速比需以实际基准测试为准。
+
+## Evidence
+
+[质询]具体数值（120ms降至45ms，2.6x加速比）属于特定硬件、特定模型配置下的经验性实测数据，无法从第一性原理推导，且缺乏来源支持，存在数值不准确或口径混淆（如是否包含非注意力算子开销）的风险。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+FlashAttention-2 speedup ratio RTX 4090 Ada Lovelace head_dim 128 benchmark

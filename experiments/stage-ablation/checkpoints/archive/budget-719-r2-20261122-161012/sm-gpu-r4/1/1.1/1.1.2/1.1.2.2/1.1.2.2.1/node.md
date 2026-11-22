@@ -1,0 +1,24 @@
+# N346: FlashAttention-2 在 Batch Size=1、Seq Len=32K 时的额外显存开销估算：由于避免了存储 N×N 注意力矩阵，激活值峰值显存
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N142
+
+## Claim
+
+FlashAttention-2 在 Batch Size=1、Seq Len=32K 时的额外显存开销估算：由于避免了存储 N×N 注意力矩阵，激活值峰值显存增量 < 100 MB，主要消耗在于 Q/K/V 投影后的中间状态，可忽略不计或计为 0.1 GB。
+
+## Corrected Claim
+
+FlashAttention-2 在 Batch Size=1、Seq Len=32K 时的额外显存开销估算：由于避免了存储 N×N 注意力矩阵，激活值峰值显存增量 < 100 MB，主要消耗在于 Q/K/V 投影后的中间状态，可忽略不计或计为 0.1 GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：FlashAttention-2 的核心优势即避免显式存储 N×N 注意力矩阵，在 Batch=1, Seq=32K 场景下，其额外显存开销确实远低于传统实现，主要消耗在于 Q/K/V 投影及中间状态，量级估算合理。
+
+## Search Query
+
+FlashAttention 2 memory overhead batch size 1 inference

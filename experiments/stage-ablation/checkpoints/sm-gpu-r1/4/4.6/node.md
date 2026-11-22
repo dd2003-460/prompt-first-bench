@@ -1,24 +1,20 @@
-# N25: 价格区间与 TCO 计算需包含：硬件折旧 (假设 3 年直线折旧)、电力成本 (TDP * 8h/day * 365 * 电价)、以及多卡方案的额外成本 (PC
+# N26: 单卡 vs 多卡方案TCO对比框架：(1) 2x RTX 4090 (48GB) vs 1x A100 80GB：比较总价格、总功耗、总散热需求、软件复杂度（T
 
 - **status**: verified
 - **level**: L2
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N4, N5, N6
+- **parent_ids**: N4
 
 ## Claim
 
-价格区间与 TCO 计算需包含：硬件折旧 (假设 3 年直线折旧)、电力成本 (TDP * 8h/day * 365 * 电价)、以及多卡方案的额外成本 (PCIe 插槽、电源、机箱)；例如 2x RTX 4090 TCO/年 ≈ (2*$1600/3) + (2*450W*8*365*$0.15/kWh) ≈ $1067 + $197 = $1264，而 1x H100 TCO/年 ≈ ($15000/3) + (700W*8*365*$0.15) ≈ $5000 + $306 = $5306。
+单卡 vs 多卡方案TCO对比框架：(1) 2x RTX 4090 (48GB) vs 1x A100 80GB：比较总价格、总功耗、总散热需求、软件复杂度（Tensor Parallelism）；(2) 2x RTX 3090 (48GB) vs 1x L40S 48GB：比较二手/新品价格、功耗、稳定性；(3) 4x RTX 4060 Ti 16GB (64GB) vs 1x MI300X 192GB：比较总价格、总功耗、互联带宽瓶颈。
 
 ## Corrected Claim
 
-价格区间与 TCO 计算需包含：硬件折旧 (假设 3 年直线折旧)、电力成本 (TDP * 8h/day * 365 * 电价)、以及多卡方案的额外成本 (PCIe 插槽、电源、机箱)；例如 2x RTX 4090 TCO/年 ≈ (2*$1600/3) + (2*450W*8*365*$0.15/kWh) ≈ $1067 + $197 = $1264，而 1x H100 TCO/年 ≈ ($15000/3) + (700W*8*365*$0.15) ≈ $5000 + $306 = $5306。
+单卡 vs 多卡方案TCO对比框架：(1) 2x RTX 4090 (48GB) vs 1x A100 80GB：比较总价格、总功耗、总散热需求、软件复杂度（Tensor Parallelism）；(2) 2x RTX 3090 (48GB) vs 1x L40S 48GB：比较二手/新品价格、功耗、稳定性；(3) 4x RTX 4060 Ti 16GB (64GB) vs 1x MI300X 192GB：比较总价格、总功耗、互联带宽瓶颈。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：算术计算正确（2x4090: 1066.67+197.4=1264.07; 1xH100: 5000+306=5306），TCO构成要素（折旧、电力、多卡额外成本）符合工程常识，数值量级合理。
-
-## Search Query
-
-TCO calculation GPU inference electricity cost depreciation model
+先验知识/题面给定，逻辑校验通过

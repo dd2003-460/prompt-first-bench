@@ -1,0 +1,24 @@
+# N355: Apple M3 Ultra Decode 理论上限修正公式：Throughput_decode = (Memory_Bandwidth * Efficienc
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N120
+
+## Claim
+
+Apple M3 Ultra Decode 理论上限修正公式：Throughput_decode = (Memory_Bandwidth * Efficiency_Factor) / (Weights_Size + KV_Cache_Size_per_token * Context_Len)；对于 Qwen3-27B BF16 (54GB) 在 32K 上下文 (KV Cache ~8.59GB, 基于 N100 修正后的 GQA 假设)，理论上限 = 819.2 * 0.7 / (54 + 8.59) ≈ 9.1 tokens/s (引入 0.7 的效率系数以反映内存控制器开销和非连续访问)，而非 15.1 tokens/s (原公式未考虑 KV Cache 读取和效率损失)。
+
+## Corrected Claim
+
+Apple M3 Ultra Decode 理论上限修正公式：Throughput_decode = (Memory_Bandwidth * Efficiency_Factor) / (Weights_Size + KV_Cache_Size_per_token * Context_Len)；对于 Qwen3-27B BF16 (54GB) 在 32K 上下文 (KV Cache ~8.59GB, 基于 N100 修正后的 GQA 假设)，理论上限 = 819.2 * 0.7 / (54 + 8.59) ≈ 9.1 tokens/s (引入 0.7 的效率系数以反映内存控制器开销和非连续访问)，而非 15.1 tokens/s (原公式未考虑 KV Cache 读取和效率损失)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式结构符合内存带宽瓶颈下的解码吞吐量理论模型（Throughput = Bandwidth * Efficiency / Total_Data_Moved），数值计算 819.2 * 0.7 / (54 + 8.59) ≈ 9.1 准确无误，且修正逻辑（引入KV Cache和效率系数）符合硬件实际约束。
+
+## Search Query
+
+LLM inference decode throughput efficiency factor memory bandwidth utilization

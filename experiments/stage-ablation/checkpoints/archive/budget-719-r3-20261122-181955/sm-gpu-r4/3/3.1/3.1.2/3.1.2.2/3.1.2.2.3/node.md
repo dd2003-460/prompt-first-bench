@@ -1,0 +1,20 @@
+# N771: A100 80GB PCIe 版本的 PCIe 4.0 x16 接口双向带宽为 64 GB/s，但在单卡推理场景下，PCIe 仅用于主机-设备数据交换（如 KV
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N275
+
+## Claim
+
+A100 80GB PCIe 版本的 PCIe 4.0 x16 接口双向带宽为 64 GB/s，但在单卡推理场景下，PCIe 仅用于主机-设备数据交换（如 KV Cache 卸载或权重加载），不参与核心计算路径，因此 PCIe 带宽瓶颈仅影响冷启动时间，不影响稳态 Decode 吞吐量。
+
+## Corrected Claim
+
+A100 80GB PCIe 版本的 PCIe 4.0 x16 接口双向带宽为 64 GB/s，但在单卡推理场景下，PCIe 仅用于主机-设备数据交换（如 KV Cache 卸载或权重加载），不参与核心计算路径，因此 PCIe 带宽瓶颈仅影响冷启动时间，不影响稳态 Decode 吞吐量。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe 4.0 x16 双向带宽 64 GB/s 符合规格；在单卡推理稳态 Decode 阶段，计算主要发生在 GPU 显存内部，PCIe 仅用于初始加载或特定卸载场景，不处于核心计算路径，故不影响稳态吞吐量。

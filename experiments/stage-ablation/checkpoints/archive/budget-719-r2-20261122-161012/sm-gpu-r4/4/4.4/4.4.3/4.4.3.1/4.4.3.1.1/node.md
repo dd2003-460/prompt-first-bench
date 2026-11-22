@@ -1,0 +1,20 @@
+# N545: 2x RTX 4090 在 BF16 精度下启用 CPU Offload 的量化延迟惩罚：将 7GB 权重/激活值卸载至 CPU 内存后，Decode 阶段单 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N226
+
+## Claim
+
+2x RTX 4090 在 BF16 精度下启用 CPU Offload 的量化延迟惩罚：将 7GB 权重/激活值卸载至 CPU 内存后，Decode 阶段单 Token 延迟从纯 GPU 的 ~25ms 激增至 >150ms（约 6-8 倍），因为 PCIe 4.0 x16 双向带宽（~32 GB/s）仅为 GPU 显存带宽（1008 GB/s）的 3%，导致每生成一个 Token 需跨总线传输大量数据。
+
+## Corrected Claim
+
+2x RTX 4090 在 BF16 精度下启用 CPU Offload 的量化延迟惩罚：将 7GB 权重/激活值卸载至 CPU 内存后，Decode 阶段单 Token 延迟从纯 GPU 的 ~25ms 激增至 >150ms（约 6-8 倍），因为 PCIe 4.0 x16 双向带宽（~32 GB/s）仅为 GPU 显存带宽（1008 GB/s）的 3%，导致每生成一个 Token 需跨总线传输大量数据。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090显存带宽1008GB/s与PCIe 4.0 x16带宽~32GB/s的比值确为~3%，且CPU Offload导致的6-8倍延迟惩罚符合大模型推理中内存带宽瓶颈的物理直觉。

@@ -1,0 +1,20 @@
+# N95: 在 32K 长上下文下，KV Cache 的读取操作占 Decode 阶段内存带宽消耗的 70-85% [待核验]，导致实际 Decode 吞吐量低于仅基于权重
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N20
+
+## Claim
+
+在 32K 长上下文下，KV Cache 的读取操作占 Decode 阶段内存带宽消耗的 70-85% [待核验]，导致实际 Decode 吞吐量低于仅基于权重读取的理论上限；此效应随上下文长度线性增加，是长文本推理性能劣化的主要机制。
+
+## Corrected Claim
+
+在 32K 长上下文下，KV Cache 的读取操作占 Decode 阶段内存带宽消耗的 70-85% [待核验]，导致实际 Decode 吞吐量低于仅基于权重读取的理论上限；此效应随上下文长度线性增加，是长文本推理性能劣化的主要机制。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

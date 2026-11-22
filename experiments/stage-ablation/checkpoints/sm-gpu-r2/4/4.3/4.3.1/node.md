@@ -1,24 +1,20 @@
-# N102: 张量并行 (TP) 下，每生成一个 token 需执行一次 All-Reduce 通信，通信数据量 D_comm = batch_size * hidden_d
+# N109: EPYC 9654 (128核, 3TB DDR5) 的内存带宽为 3TB * 2 (DDR5 双通道) * 4800 MT/s * 1 (8通道) / 8 ≈
 
-- **status**: verified
+- **status**: degraded
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N22
+- **rework_count**: 1
+- **parent_ids**: N23
 
 ## Claim
 
-张量并行 (TP) 下，每生成一个 token 需执行一次 All-Reduce 通信，通信数据量 D_comm = batch_size * hidden_dim * bytes_per_element。对于 Qwen3-27B (hidden_dim=4096, BF16=2 bytes)，单 token batch=1 时 D_comm = 8KB。
+EPYC 9654 (128核, 3TB DDR5) 的内存带宽为 3TB * 2 (DDR5 双通道) * 4800 MT/s * 1 (8通道) / 8 ≈ 2.304 TB/s，Qwen3-27B W4 权重 13.5GB，理论最大解码吞吐量为 2304 / 13.5 ≈ 170.7 tokens/s（假设无其他瓶颈）。
 
 ## Corrected Claim
 
-张量并行 (TP) 下，每生成一个 token 需执行一次 All-Reduce 通信，通信数据量 D_comm = batch_size * hidden_dim * bytes_per_element。对于 Qwen3-27B (hidden_dim=4096, BF16=2 bytes)，单 token batch=1 时 D_comm = 8KB。
+EPYC 9654 配备 12 通道 DDR5-4800，理论内存带宽约为 460.8 GB/s。Qwen3-27B W4 权重约 13.5GB，但解码吞吐量受限于计算单元（FLOPS）和 KV Cache 带宽，不能简单通过内存带宽除以权重大小得出 170.7 tokens/s。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：张量并行中每层Transformer的Attention和FFN输出均需All-Reduce，通信量公式 D = batch_size * hidden_dim * bytes 符合标准推导；Qwen3-27B hidden_dim=4096, BF16=2 bytes, batch=1 时 4096*2=8192 bytes=8KB，数值计算正确。
-
-## Search Query
-
-tensor parallel all-reduce data size per token hidden dim
+[质询]计算逻辑存在严重错误：1. 内存带宽公式错误，DDR5 带宽计算应为 通道数 * 速率 * 字节数，而非乘以容量（3TB）；2. 吞吐量计算错误，将带宽（TB/s）除以权重大小（GB）得到的单位是 GB/s，而非 tokens/s，且未考虑模型架构（如 KV Cache 大小、计算瓶颈等），该推导在物理和工程上均不成立。 | 逻辑校验失败：带宽计算误用容量参数，吞吐量推导量纲错误且忽略计算瓶颈，属于硬逻辑错误。

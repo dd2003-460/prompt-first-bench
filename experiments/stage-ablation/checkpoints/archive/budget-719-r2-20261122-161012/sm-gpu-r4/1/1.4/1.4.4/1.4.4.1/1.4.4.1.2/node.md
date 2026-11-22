@@ -1,0 +1,24 @@
+# N401: 在 900W 电源需求下，80+ Gold 认证电源（如 Corsair RM850x 或 Seasonic Focus GX-850）的市场均价为 $100-
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N166, N167, N168
+
+## Claim
+
+在 900W 电源需求下，80+ Gold 认证电源（如 Corsair RM850x 或 Seasonic Focus GX-850）的市场均价为 $100-$120；若因机箱空间或品牌偏好选择 1000W 型号（如 Corsair RM1000x），价格区间为 $130-$160；N166 中 $100-$150 的区间覆盖了主流高性价比选项，未包含高端白金/钛金认证电源（$200+），后者对 TCO 无显著优势（能效差 <2%）。
+
+## Corrected Claim
+
+在 900W 电源需求下，80+ Gold 认证电源（如 Corsair RM850x 或 Seasonic Focus GX-850）的市场价格通常在 $100-$150 区间波动；若选择 1000W 型号（如 Corsair RM1000x），价格通常略高；N166 中 $100-$150 的区间覆盖了主流高性价比选项，未包含高端白金/钛金认证电源（通常 $200+），后者对 TCO 无显著优势（能效差 <2%）。
+
+## Evidence
+
+[质询]具体型号（如 Corsair RM850x）的市场均价随时间波动较大，且不同地区/渠道价格差异显著，$100-$120 的区间可能因促销或通胀而偏离，属于易变的市场经验数据。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+850W 1000W 80 Plus Gold PSU price 2024 2025

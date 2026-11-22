@@ -1,0 +1,20 @@
+# N204: Apple M2 Ultra 的统一内存带宽为 400 GB/s（官方规格），N63 中使用的 800 GB/s 数值错误（可能是混淆了 M3 Ultra 或带
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N63
+
+## Claim
+
+Apple M2 Ultra 的统一内存带宽为 400 GB/s（官方规格），N63 中使用的 800 GB/s 数值错误（可能是混淆了 M3 Ultra 或带宽翻倍计算错误），修正后的理论 Decode 上限为 400 / 54 ≈ 7.4 tokens/s。
+
+## Corrected Claim
+
+Apple M2 Ultra 的统一内存带宽为 400 GB/s（官方规格），N63 中使用的 800 GB/s 数值错误（可能是混淆了 M3 Ultra 或带宽翻倍计算错误），修正后的理论 Decode 上限为 400 / 54 ≈ 7.4 tokens/s。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Apple M2 Ultra 官方规格确为 400GB/s 统一内存带宽，M3 Ultra 为 800GB/s，数值区分明确；400/54≈7.4 计算正确。

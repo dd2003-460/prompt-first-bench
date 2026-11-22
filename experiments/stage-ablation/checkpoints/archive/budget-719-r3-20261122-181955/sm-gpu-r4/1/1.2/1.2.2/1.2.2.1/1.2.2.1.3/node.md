@@ -1,0 +1,20 @@
+# N452: A100 40GB在INT4权重+INT8 KV Cache下的Decode吞吐量估算：有效带宽修正为1631 GB/s，总内存需求32.88GB，理论Deco
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N153
+
+## Claim
+
+A100 40GB在INT4权重+INT8 KV Cache下的Decode吞吐量估算：有效带宽修正为1631 GB/s，总内存需求32.88GB，理论Decode吞吐量 ≈ 1631 / 32.88 ≈ 49.6 tokens/s。但INT4权重和INT8 KV Cache的解码开销（反量化、精度损失）可能降低有效吞吐量，预计实测为35-45 tokens/s。
+
+## Corrected Claim
+
+A100 40GB在INT4权重+INT8 KV Cache下的Decode吞吐量估算：有效带宽修正为1631 GB/s，总内存需求32.88GB，理论Decode吞吐量 ≈ 1631 / 32.88 ≈ 49.6 tokens/s。但INT4权重和INT8 KV Cache的解码开销（反量化、精度损失）可能降低有效吞吐量，预计实测为35-45 tokens/s。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 40GB HBM2e带宽约2039GB/s，考虑效率修正至1631GB/s合理；INT4权重+INT8 KV Cache下32.88GB内存需求在40GB显存内合理；1631/32.88≈49.6 tokens/s计算正确；考虑反量化开销后35-45 tokens/s的实测估计符合工程经验。

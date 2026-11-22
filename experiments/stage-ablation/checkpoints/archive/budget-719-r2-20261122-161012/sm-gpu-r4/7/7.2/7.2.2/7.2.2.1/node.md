@@ -1,0 +1,20 @@
+# N651: FP8 精度下 2x RTX 4090 (TP=2) 的 KV Cache 显存占用精确计算：Qwen3-27B 为 28 层，每层 KV 大小 = 2 (K+
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N269
+
+## Claim
+
+FP8 精度下 2x RTX 4090 (TP=2) 的 KV Cache 显存占用精确计算：Qwen3-27B 为 28 层，每层 KV 大小 = 2 (K+V) * 28 (Heads) * 128 (Head Dim) * 1 Byte (FP8) * 32768 (Seq Len) = 234.8 MB；总 KV = 28 * 234.8 MB ≈ 6.57 GB；加上 27GB 权重和 0.5GB 开销，总占用 34.07 GB < 48 GB，修正了 N269 中 'KV Cache 约 1GB' 的低估错误。
+
+## Corrected Claim
+
+FP8 精度下 2x RTX 4090 (TP=2) 的 KV Cache 显存占用精确计算：Qwen3-27B 为 28 层，每层 KV 大小 = 2 (K+V) * 28 (Heads) * 128 (Head Dim) * 1 Byte (FP8) * 32768 (Seq Len) = 234.8 MB；总 KV = 28 * 234.8 MB ≈ 6.57 GB；加上 27GB 权重和 0.5GB 开销，总占用 34.07 GB < 48 GB，修正了 N269 中 'KV Cache 约 1GB' 的低估错误。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算过程 2*28*128*1*32768 = 234,881,024 Bytes ≈ 223.9 MiB (或 234.8 MB)，28层总计约 6.37 GiB (或 6.57 GB)，加上权重和开销后总显存占用远低于 48GB，数值量级与逻辑自洽。

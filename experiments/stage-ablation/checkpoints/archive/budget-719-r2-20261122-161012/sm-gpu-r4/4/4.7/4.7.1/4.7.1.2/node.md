@@ -1,0 +1,24 @@
+# N249: Apple M3 Ultra (800 GB/s) 在 Qwen3-27B Q4_K_M 下的理论 Decode 吞吐上限为 800 GB/s / (15.5 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N114
+
+## Claim
+
+Apple M3 Ultra (800 GB/s) 在 Qwen3-27B Q4_K_M 下的理论 Decode 吞吐上限为 800 GB/s / (15.5 GB + 1.0 GB KV) ≈ 48.5 tokens/s；M2 Ultra (800 GB/s) 相同；若 M3 Ultra 实际带宽为 1.2 TB/s (需核验芯片代际差异)，则上限为 72.7 tokens/s。
+
+## Corrected Claim
+
+Apple M3 Ultra (800 GB/s) 在 Qwen3-27B Q4_K_M 下的理论 Decode 吞吐上限为 800 GB/s / (15.5 GB + 1.0 GB KV) ≈ 48.5 tokens/s；M2 Ultra (800 GB/s) 相同；若 M3 Ultra 实际带宽为 1.2 TB/s (需核验芯片代际差异)，则上限为 72.7 tokens/s。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B Q4_K_M 模型权重约 15.5GB，KV Cache 约 1.0GB，总读取量 16.5GB；800GB/s 带宽下理论上限 800/16.5 ≈ 48.5 tokens/s，1.2TB/s 带宽下 1200/16.5 ≈ 72.7 tokens/s，计算逻辑自洽且符合内存带宽瓶颈下的解码吞吐估算原理。
+
+## Search Query
+
+Apple M3 Ultra memory bandwidth specs

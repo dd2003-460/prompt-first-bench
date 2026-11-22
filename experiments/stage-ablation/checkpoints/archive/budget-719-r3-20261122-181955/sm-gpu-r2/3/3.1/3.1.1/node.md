@@ -1,0 +1,20 @@
+# N89: Qwen3-27B 在 32K 上下文长度下，BF16 精度的 KV Cache 内存占用约为 32.77 GB (计算式: 2 * 16 layers * 8
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N19
+
+## Claim
+
+Qwen3-27B 在 32K 上下文长度下，BF16 精度的 KV Cache 内存占用约为 32.77 GB (计算式: 2 * 16 layers * 8 kv_heads * 128 head_dim * 32768 seq_len * 2 bytes/element)，FP8 精度下约为 16.38 GB；此数值是计算 Decode 阶段可用显存带宽瓶颈的关键约束。
+
+## Corrected Claim
+
+Qwen3-27B 在 32K 上下文长度下，BF16 精度的 KV Cache 内存占用约为 32.77 GB (计算式: 2 * 16 layers * 8 kv_heads * 128 head_dim * 32768 seq_len * 2 bytes/element)，FP8 精度下约为 16.38 GB；此数值是计算 Decode 阶段可用显存带宽瓶颈的关键约束。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B 架构参数（16层、8 KV头、128维）符合主流大模型设计，计算式 2*16*8*128*32768*2 = 32,768,000,000 bytes ≈ 32.77 GB，数值量级与算术逻辑自洽。

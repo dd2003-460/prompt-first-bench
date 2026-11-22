@@ -1,0 +1,24 @@
+# N529: 在 TP=2 双卡 Decode 阶段，PCIe 4.0 互联导致的额外延迟增量 ΔT_decode 计算公式为：ΔT = N_layers * (T_allr
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N218
+
+## Claim
+
+在 TP=2 双卡 Decode 阶段，PCIe 4.0 互联导致的额外延迟增量 ΔT_decode 计算公式为：ΔT = N_layers * (T_allreduce_latency + T_data_transfer)，其中 T_data_transfer = (2 * H_hidden * D_type) / BW_effective；对于 Qwen3-27B (64 layers, hidden=4096, BF16)，单次 AllReduce 数据量约 32KB，PCIe 4.0 有效带宽 ~25GB/s 下传输时间约 1.28µs，但启动延迟 12µs 主导总开销，导致总延迟增加约 0.77ms/token。
+
+## Corrected Claim
+
+在 TP=2 双卡 Decode 阶段，PCIe 4.0 互联导致的额外延迟增量 ΔT_decode 计算公式为：ΔT = N_layers * (T_allreduce_latency + T_data_transfer)，其中 T_data_transfer = (2 * H_hidden * D_type) / BW_effective；对于 Qwen3-27B (64 layers, hidden=4096, BF16)，单次 AllReduce 数据量约 32KB，PCIe 4.0 有效带宽 ~25GB/s 下传输时间约 1.28µs，但启动延迟 12µs 主导总开销，导致总延迟增加约 0.77ms/token。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：64层 * 12µs/层 ≈ 0.768ms，与0.77ms一致；32KB数据在25GB/s下传输时间约1.28µs，量级合理。
+
+## Search Query
+
+Tensor Parallelism decode latency overhead PCIe allreduce cost calculation

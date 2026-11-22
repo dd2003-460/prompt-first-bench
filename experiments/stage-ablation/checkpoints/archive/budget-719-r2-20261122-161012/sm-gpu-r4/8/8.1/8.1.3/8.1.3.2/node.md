@@ -1,0 +1,20 @@
+# N670: Apple Silicon 统一内存架构在 Decode 阶段的实际带宽利用率 (Bandwidth Utilization) 受限于 DRAM 行缓冲区命中率
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N277, N278, N279
+
+## Claim
+
+Apple Silicon 统一内存架构在 Decode 阶段的实际带宽利用率 (Bandwidth Utilization) 受限于 DRAM 行缓冲区命中率；对于 Qwen3-27B 的权重顺序读取，实测带宽利用率约为 85-90%（对比 GPU 的 60-70% 计算利用率，此处为访存利用率），即有效带宽为 800 GB/s * 0.875 ≈ 700 GB/s，这是计算理论峰值 13.7 tokens/s 的输入参数。
+
+## Corrected Claim
+
+Apple Silicon 统一内存架构在 Decode 阶段的实际带宽利用率受限于 DRAM 行缓冲区命中率；对于 Qwen3-27B 的权重顺序读取，实测带宽利用率通常较高（约 80-95%），有效带宽接近理论峰值（如 800 GB/s 级别），这是计算理论峰值 tokens/s 的输入参数。
+
+## Evidence
+
+[质询]该陈述包含具体的实测性能数据（85-90%带宽利用率、700 GB/s有效带宽），属于经验事实。虽然Apple Silicon统一内存架构在顺序读取大模型权重时确实能实现高带宽利用率（通常高于GPU的HBM利用率），但具体的85-90%数值缺乏通用基准测试支持，且不同硬件版本（M1/M2/M3/M4）及内存配置下会有差异，不能一概而论。 | 经验事实，逻辑自洽但缺来源支持。Apple Silicon统一内存架构在顺序读取场景下确实能接近理论峰值带宽，85-90%的利用率在工程上合理，但具体数值需依赖特定硬件和测试环境，无法从第一性原理严格推出，且无外部来源直接证实该特定数值。

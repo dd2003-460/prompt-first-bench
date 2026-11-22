@@ -1,0 +1,24 @@
+# N251: llama.cpp 无分页机制，KV Cache 为连续内存块，内存利用率接近 100%（无碎片），但在 32K 上下文下，若 Batch Size > 1，其
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N81
+
+## Claim
+
+llama.cpp 无分页机制，KV Cache 为连续内存块，内存利用率接近 100%（无碎片），但在 32K 上下文下，若 Batch Size > 1，其扩展性受限于连续内存分配失败，实际最大并发数比 vLLM 低 20-30% [待核验]，单请求场景下其显存峰值比 vLLM 低约 1-2 GB（因无 Block Table 及分页对齐浪费）。
+
+## Corrected Claim
+
+llama.cpp 采用连续内存块管理 KV Cache，无分页机制，因此无 Block Table 开销及分页对齐浪费，单请求显存峰值通常低于 vLLM；但在高并发（Batch Size > 1）场景下，受限于连续内存分配策略，其最大并发数通常低于 vLLM，具体性能差距取决于硬件与负载特征。
+
+## Evidence
+
+[质询]具体数值（20-30%并发差异、1-2GB显存差）缺乏通用基准测试支持，且高度依赖硬件配置、模型大小及具体版本，属于经验事实而非固定物理/逻辑常数；此外，'内存利用率接近100%'在连续内存分配中因对齐和碎片化（虽比分页少但非零）的表述略显绝对。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+llama.cpp vs vLLM memory utilization 32k context batch size 1

@@ -1,0 +1,30 @@
+# N7: NVIDIA消费级GPU候选集（2024-2025在售）：RTX 4090 (24GB), RTX 4080 Super (16GB), RTX 3090/30
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+NVIDIA消费级GPU候选集（2024-2025在售）：RTX 4090 (24GB), RTX 4080 Super (16GB), RTX 3090/3090 Ti (24GB), RTX 4070 Ti Super (16GB)；需确认各型号FP16/BF16算力（TFLOPS）与显存带宽（GB/s）的精确值。
+
+## Corrected Claim
+
+NVIDIA消费级GPU候选集（2024-2025在售）包括RTX 4090 (24GB), RTX 4080 Super (16GB), RTX 3090/3090 Ti (24GB), RTX 4070 Ti Super (16GB)等；其具体FP16/BF16算力与显存带宽需查阅NVIDIA官方规格表确认，参考来源未提供精确数值。
+
+## Evidence
+
+[质询]参考来源主要聚焦于数据中心GPU（H100, B300等）或较新的RTX 50系列，缺乏对2024-2025在售消费级GPU（如RTX 4080 Super, 4070 Ti Super）具体FP16/BF16算力与显存带宽精确数值的直接列表支持，且部分来源时间线（2026指南）可能未覆盖旧款消费卡的详细规格。 | 逻辑自洽：所列GPU型号及显存容量（4090/3090为24GB，4080S/4070TiS为16GB）符合NVIDIA官方公开规格，属于常识性工程参数；但参考来源[1][2][3]主要讨论数据中心卡或新一代50系，未直接提供40系/30系消费卡的具体TFLOPS和GB/s数值，属于经验事实且缺直接来源支持。
+
+## Search Query
+
+NVIDIA RTX 4090 4080 Super 3090 specs TFLOPS memory bandwidth 2024
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/qq_23625847/article/details/159466219&rut=2be19b2159bad35bc682d05881da3811c25382160d84bbed127aeeeaba5d516c', 'type': 'ddg', 'title': '英伟达（NVIDIA）显卡全系列深度解析：从消费级到数据中心，私有化大模型部署选卡指南_l40s 支持fp4么-CSDN'}
+- {'url': 'https://cloudgputracker.com/zh/blog/gpu-benchmark-complete-guide-2026/&rut=5a0590c8a983ade04b59f221e3fe5fb6c66027f56d69e3f5cad03dffbe6f1f4c', 'type': 'ddg', 'title': '2026年 GPU 基准测试完整指南：性能对比与选型建议 | CloudGPUTracker.com'}
+- {'url': 'https://blog.csdn.net/weixin_29290963/article/details/158955535&rut=bcc183b7917eab2bb29ad4544f9aa5e2219edd8d231783d14427d26d6fe035d0', 'type': 'ddg', 'title': '2025.4.15 英伟达gpu选型指南：从b300到rtx5090，如何为你的ai项目精准匹配算力-csdn博客'}

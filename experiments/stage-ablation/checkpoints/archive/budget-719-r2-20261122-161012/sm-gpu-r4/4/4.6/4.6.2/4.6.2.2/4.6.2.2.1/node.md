@@ -1,0 +1,20 @@
+# N585: H100 SXM 单卡边际 Capex 的精确构成公式：Marginal_Capex_H100 = Price_GPU_H100 + (Price_Node_I
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N244
+
+## Claim
+
+H100 SXM 单卡边际 Capex 的精确构成公式：Marginal_Capex_H100 = Price_GPU_H100 + (Price_Node_Infra / N_GPUs_in_Node)，其中 Price_Node_Infra 包含主板($2k)、CPU($4k)、内存($4k)、电源($1k)、机箱/冷却($2k)等固定成本分摊。若按 8 卡 HGX 节点计算，单卡分摊基建成本约为 $12,500，加上 GPU 本体 $25,000，总边际 Capex 约为 $37,500，而非 N244 中假设的 $30,000。
+
+## Corrected Claim
+
+H100 SXM 单卡边际 Capex 的构成公式为：Marginal_Capex_H100 = Price_GPU_H100 + (Price_Node_Infra / N_GPUs_in_Node)。其中 Price_Node_Infra 包含主板、CPU、内存、电源、机箱/冷却等固定成本分摊。具体数值需根据当期市场报价确定，例如在某一特定采购周期内，若 GPU 单价为 $25,000 且 8 卡节点基建分摊约为 $12,500，则总边际 Capex 约为 $37,500。
+
+## Evidence
+
+[质询]具体硬件组件价格（如主板$2k、CPU$4k等）及GPU本体价格（$25k）属于随时间、供应商和采购规模剧烈波动的经验市场数据，并非固定物理常数或第一性原理可推导值；且不同时期H100 SXM的市场价与配套基建成本差异巨大，该精确数值构成缺乏通用性。 | 经验事实，逻辑自洽但缺来源支持（source=knowledge，但具体价格参数属波动性经验数据，非稳定工程常数，无法仅凭逻辑自洽判verified）

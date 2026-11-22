@@ -1,0 +1,20 @@
+# N668: 基于修正后内存占用的理论吞吐量计算：T_decode = (Weight_Size + KV_Size) / Bandwidth = (55GB + 1.2GB
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N276
+
+## Claim
+
+基于修正后内存占用的理论吞吐量计算：T_decode = (Weight_Size + KV_Size) / Bandwidth = (55GB + 1.2GB) / 700 GB/s ≈ 0.0803 s/token ≈ 12.45 tokens/s；此数值为理论上限，实际性能受 Metal 编译优化与 CPU-GPU 同步影响，实测通常低 10-20%，即 10-11 tokens/s。
+
+## Corrected Claim
+
+基于修正后内存占用的理论吞吐量计算：T_decode = (Weight_Size + KV_Size) / Bandwidth = (55GB + 1.2GB) / 700 GB/s ≈ 0.0803 s/token ≈ 12.45 tokens/s；此数值为理论上限，实际性能受 Metal 编译优化与 CPU-GPU 同步影响，实测通常低 10-20%，即 10-11 tokens/s。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算 (56.2/700 ≈ 0.0803s, 1/0.0803 ≈ 12.45 tok/s) 准确，且符合内存带宽受限场景下的理论吞吐量推导逻辑。

@@ -1,0 +1,20 @@
+# N368: 2x RTX 4090 在 Decode 阶段的通信开销占比：Decode 阶段每 token 生成需 64 次 All-Reduce，每次通信量较小（Batc
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N123
+
+## Claim
+
+2x RTX 4090 在 Decode 阶段的通信开销占比：Decode 阶段每 token 生成需 64 次 All-Reduce，每次通信量较小（Batch=1, Seq_Len 不影响 Decode 的激活值大小，仅影响 KV 读取，但 TP 需同步隐藏状态），隐藏状态大小 = 1 * 4096 * 2 = 8KB；64 层总通信量 = 512KB；传输时间 = 512KB / 64GB/s = 0.008ms；相比 Decode 计算时间（~87ms/token, N94），通信开销占比 < 0.01%，可忽略不计；Decode 阶段瓶颈仍在内存带宽而非 PCIe。
+
+## Corrected Claim
+
+2x RTX 4090 在 Decode 阶段的通信开销占比：Decode 阶段每 token 生成需 64 次 All-Reduce，每次通信量较小（Batch=1, Seq_Len 不影响 Decode 的激活值大小，仅影响 KV 读取，但 TP 需同步隐藏状态），隐藏状态大小 = 1 * 4096 * 2 = 8KB；64 层总通信量 = 512KB；传输时间 = 512KB / 64GB/s = 0.008ms；相比 Decode 计算时间（~87ms/token, N94），通信开销占比 < 0.01%，可忽略不计；Decode 阶段瓶颈仍在内存带宽而非 PCIe。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：2x RTX 4090 通过 PCIe 4.0 x16 连接，双向带宽约 64GB/s 符合硬件规格；Llama-2 70B 等典型大模型隐藏层维度为 8192 (4096*2)，64层总通信量 512KB 计算正确；512KB/64GB/s ≈ 0.008ms 量级合理；相比 87ms 的计算时间，占比确实极低，结论符合大模型推理中 Decode 阶段通信开销通常可忽略的工程常识。

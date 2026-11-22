@@ -1,0 +1,28 @@
+# N10: Intel Arc/数据中心GPU候选集：Arc A770 (16GB), Arc A750 (8GB), Data Center GPU Max 1550；需
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+Intel Arc/数据中心GPU候选集：Arc A770 (16GB), Arc A750 (8GB), Data Center GPU Max 1550；需确认ONE API对LLM推理的支持、FP16/BF16算力及显存带宽。
+
+## Corrected Claim
+
+Intel Arc A770 (16GB) 是已确认的候选 GPU（来源 [1] 支持）；Arc A750 和 Data Center GPU Max 1550 的规格及 ONE API 对 LLM 推理的支持情况需进一步独立验证。
+
+## Evidence
+
+[质询]陈述中关于 'Data Center GPU Max 1550' 的型号名称及具体规格（如显存大小、算力）缺乏来源支持，且 'ONE API' 对 LLM 推理的支持情况属于特定软件生态的经验事实，无法从第一性原理推导，现有来源仅覆盖 A770 硬件规格，未覆盖软件支持及另一款数据中心 GPU 的细节。 | 来源 [1] 直接支持 Arc A770 (16GB) 的存在及基本规格，但完全未提及 Arc A750、Data Center GPU Max 1550 或 ONE API 软件支持情况，属于部分覆盖且关键经验事实缺源。
+
+## Search Query
+
+Intel Arc A770 Data Center GPU Max 1550 specs TFLOPS memory bandwidth LLM inference
+
+## Retrieval Sources
+
+- {'url': 'https://www.intel.com/content/www/us/en/products/sku/229151/intel-arc-a770-graphics-16gb/specifications.html&rut=b32b6ba8a05430d651e1fbd967871aeeb721b3f3a491535fa362b4bdd839d938', 'type': 'ddg', 'title': 'Intel® Arc™ A770 Graphics (16GB) Specifications'}

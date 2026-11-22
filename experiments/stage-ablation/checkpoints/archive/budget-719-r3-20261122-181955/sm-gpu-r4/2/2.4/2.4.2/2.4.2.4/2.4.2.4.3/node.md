@@ -1,0 +1,20 @@
+# N731: PyTorch 原生不支持 FP8 KV Cache，需手动实现量化/反量化逻辑或依赖 bitsandbytes 等第三方库，手动实现需额外开发成本约 2-4 
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N258
+
+## Claim
+
+PyTorch 原生不支持 FP8 KV Cache，需手动实现量化/反量化逻辑或依赖 bitsandbytes 等第三方库，手动实现需额外开发成本约 2-4 人天。
+
+## Corrected Claim
+
+PyTorch 原生对 FP8 KV Cache 的支持有限或需手动实现量化/反量化逻辑，或依赖 bitsandbytes 等第三方库，手动实现需额外开发成本（具体人天视实现复杂度而定）。
+
+## Evidence
+
+[质询]「2-4 人天」的开发成本属于高度依赖具体实现复杂度、团队熟悉度及硬件环境的经验性估计，缺乏客观标准，且 PyTorch 社区近期已出现原生 FP8 支持的相关 PR 或实验性特性，该陈述可能随版本更新而过时。 | 先验知识/题面给定，逻辑校验通过；但开发成本为经验事实，无来源支持，降级为定性表述。

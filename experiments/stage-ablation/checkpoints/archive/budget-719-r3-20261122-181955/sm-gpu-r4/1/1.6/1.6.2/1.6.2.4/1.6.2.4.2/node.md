@@ -1,0 +1,24 @@
+# N607: 工作点2（INT8 KV Cache/高吞吐）：启用INT8 KV Cache后，单token KV大小减半，32K上下文占用降至4 GB。Decode带宽瓶颈
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N213
+
+## Claim
+
+工作点2（INT8 KV Cache/高吞吐）：启用INT8 KV Cache后，单token KV大小减半，32K上下文占用降至4 GB。Decode带宽瓶颈项 = 384 / (13.5 + 4) ≈ 21.9 tokens/s，吞吐提升约23%。但需验证INT8 KV Cache对Qwen3-27B的精度影响（通常MMLU下降<0.5%），若精度不可接受，则此工作点无效，必须回退至BF16或FP8。
+
+## Corrected Claim
+
+工作点2（INT8 KV Cache/高吞吐）：启用INT8 KV Cache后，单token KV大小减半，32K上下文占用降至4 GB。Decode带宽瓶颈项 = 384 / (13.5 + 4) ≈ 21.9 tokens/s，吞吐提升约23%。但需验证INT8 KV Cache对Qwen3-27B的精度影响（通常MMLU下降<0.5%），若精度不可接受，则此工作点无效，必须回退至BF16或FP8。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：INT8相比BF16/FP16确实使KV Cache大小减半；带宽瓶颈计算 384/(13.5+4)≈21.9 数学正确；INT8量化对大模型精度影响通常较小（<0.5%）符合工程经验。
+
+## Search Query
+
+INT8 KV cache quantization impact Qwen3-27B accuracy MMLU

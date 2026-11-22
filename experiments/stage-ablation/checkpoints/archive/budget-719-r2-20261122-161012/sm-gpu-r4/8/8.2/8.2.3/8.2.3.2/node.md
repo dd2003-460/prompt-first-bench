@@ -1,0 +1,24 @@
+# N677: RTX 4090 双卡 (24GB x2 = 48GB) 运行 Qwen3-27B FP8 时，权重 27GB 分布在两卡，单卡权重 13.5GB，KV Cac
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N280
+
+## Claim
+
+RTX 4090 双卡 (24GB x2 = 48GB) 运行 Qwen3-27B FP8 时，权重 27GB 分布在两卡，单卡权重 13.5GB，KV Cache 共享或分布；单卡 Decode 带宽 1008 GB/s，理论上限 1008/13.5 ≈ 74.6 tokens/s，实际受 PCIe 互联 (Gen4 x16 32GB/s) 和同步开销限制，有效吞吐量约为单卡理论值的 80-90%，即 59-67 tokens/s (15-17ms/token)，远超 T_max < 50ms/token 的要求。
+
+## Corrected Claim
+
+RTX 4090 双卡 (24GB x2 = 48GB) 运行 Qwen3-27B FP8 时，权重 27GB 分布在两卡，单卡权重 13.5GB，KV Cache 共享或分布；单卡 Decode 带宽 1008 GB/s，理论上限 1008/13.5 ≈ 74.6 tokens/s，实际受 PCIe 互联 (Gen4 x16 32GB/s) 和同步开销限制，有效吞吐量约为单卡理论值的 80-90%，即 59-67 tokens/s (15-17ms/token)，远超 T_max < 50ms/token 的要求。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 显存带宽 1008 GB/s 与 24GB 容量符合规格，27B FP8 权重约 27GB 可双卡分布，单卡 13.5GB 权重下理论带宽限制解码速度约 74.6 tokens/s，考虑互联开销后 59-67 tokens/s 的估算在工程上合理且满足 <50ms/token 要求。
+
+## Search Query
+
+dual RTX 4090 LLM inference throughput PCIe bottleneck

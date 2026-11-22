@@ -1,0 +1,24 @@
+# N74: NVIDIA A100/H100 支持 FP8 和 INT8 硬件加速 (Tensor Core)，但 A100 (Ampere) 不支持原生 FP8，需通过软
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N19
+
+## Claim
+
+NVIDIA A100/H100 支持 FP8 和 INT8 硬件加速 (Tensor Core)，但 A100 (Ampere) 不支持原生 FP8，需通过软件模拟或仅支持 INT8；H100 (Hopper) 原生支持 FP8。W4 在两者上均需软件支持，无硬件加速。
+
+## Corrected Claim
+
+NVIDIA A100/H100 支持 FP8 和 INT8 硬件加速 (Tensor Core)，但 A100 (Ampere) 不支持原生 FP8，需通过软件模拟或仅支持 INT8；H100 (Hopper) 原生支持 FP8。W4 在两者上均需软件支持，无硬件加速。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 (Ampere) 架构确实不支持原生 FP8（仅支持 FP16/BF16/INT8/TF32），而 H100 (Hopper) 架构引入了原生 FP8 支持；W4 量化在两者上均无专用硬件加速路径，需软件实现。
+
+## Search Query
+
+A100 vs H100 FP8 INT8 hardware support differences

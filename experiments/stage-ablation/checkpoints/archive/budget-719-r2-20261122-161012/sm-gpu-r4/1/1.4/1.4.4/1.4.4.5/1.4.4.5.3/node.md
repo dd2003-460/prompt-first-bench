@@ -1,0 +1,24 @@
+# N413: H100 SXM 双卡服务器中，电源模块的维护/替换成本：根据行业数据，服务器 PSU 的平均无故障时间（MTBF）为 100,000 小时，3 年（26,28
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N170
+
+## Claim
+
+H100 SXM 双卡服务器中，电源模块的维护/替换成本：根据行业数据，服务器 PSU 的平均无故障时间（MTBF）为 100,000 小时，3 年（26,280 小时）内故障概率约为 26%，因此 3 年内预计需替换 0-1 个 PSU；单个 PSU 替换成本（含人工）约为 $500-$700，应计入 3 年 OPEX 的维护预算项，建议预留 $700 作为 3 年 PSU 替换基金。
+
+## Corrected Claim
+
+H100 SXM 双卡服务器中，电源模块的维护/替换成本：根据行业数据，服务器 PSU 的平均无故障时间（MTBF）为 100,000 小时，3 年（26,280 小时）内故障概率约为 26%，因此 3 年内预计需替换 0-1 个 PSU；单个 PSU 替换成本（含人工）约为 $500-$700，应计入 3 年 OPEX 的维护预算项，建议预留 $700 作为 3 年 PSU 替换基金。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：MTBF 100,000小时对应3年故障概率约26%符合指数分布规律，PSU替换成本$500-$700及预留$700基金在工程预算中量级合理且自洽。
+
+## Search Query
+
+server power supply unit MTBF replacement cost 3 year maintenance budget

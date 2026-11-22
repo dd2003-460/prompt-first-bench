@@ -1,0 +1,20 @@
+# N128: 基于 RTX 5090 显存带宽 1792 GB/s 与 RTX 4090 的 1008 GB/s，在 Decode 阶段（访存受限）的理论吞吐量提升比例为 (
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N32
+
+## Claim
+
+基于 RTX 5090 显存带宽 1792 GB/s 与 RTX 4090 的 1008 GB/s，在 Decode 阶段（访存受限）的理论吞吐量提升比例为 (1792-1008)/1008 ≈ 77.8%，但需扣除 PCIe 5.0 与 4.0 在 Prefill 阶段的微小差异及 TDP 增加带来的散热成本
+
+## Corrected Claim
+
+基于 RTX 5090 显存带宽 1792 GB/s 与 RTX 4090 的 1008 GB/s，在 Decode 阶段（访存受限）的理论吞吐量提升比例为 (1792-1008)/1008 ≈ 77.8%，但需扣除 PCIe 5.0 与 4.0 在 Prefill 阶段的微小差异及 TDP 增加带来的散热成本
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 5090与4090显存带宽数值符合公开规格，算术推导(1792-1008)/1008≈77.8%正确，且Decode阶段访存受限的理论提升逻辑自洽。

@@ -1,0 +1,24 @@
+# N446: 替代方案：A100 80GB INT8 算力为 624 TOPS (稠密)，基于 BF16 312 TFLOPS 的 2 倍（INT8 每字节 1 次运算 vs
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N151
+
+## Claim
+
+替代方案：A100 80GB INT8 算力为 624 TOPS (稠密)，基于 BF16 312 TFLOPS 的 2 倍（INT8 每字节 1 次运算 vs BF16 每 2 字节 1 次运算），理论 Prefill 吞吐量 ≈ 354 tokens/s (稠密)，但需验证 Qwen3-27B INT8 量化精度损失。
+
+## Corrected Claim
+
+替代方案：A100 80GB INT8 算力为 624 TOPS (稠密)，基于 BF16 312 TFLOPS 的 2 倍（INT8 每字节 1 次运算 vs BF16 每 2 字节 1 次运算），理论 Prefill 吞吐量 ≈ 354 tokens/s (稠密)，但需验证 Qwen3-27B INT8 量化精度损失。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 80GB BF16 算力为 312 TFLOPS，INT8 算力通常为 BF16 的 2 倍（624 TOPS），符合硬件规格常识；吞吐量计算基于算力与模型参数量/序列长度的理论推导，逻辑自洽。
+
+## Search Query
+
+NVIDIA A100 INT8 TOPS dense

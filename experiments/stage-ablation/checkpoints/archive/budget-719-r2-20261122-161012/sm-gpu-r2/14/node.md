@@ -1,0 +1,24 @@
+# N137: 性价比排序的核心权重分配模型：定义 Cost_Performance_Ratio = (Initial_Capex + 3yr_OPEX) / (Through
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+性价比排序的核心权重分配模型：定义 Cost_Performance_Ratio = (Initial_Capex + 3yr_OPEX) / (Throughput * Quality_Factor)，其中 Quality_Factor 为量化后的任务成功率（0-1），若忽略质量损失（Quality_Factor=1），RTX 4090 双卡方案通常优于 H100 单卡；但当 Quality_Factor 因 INT4 量化降至 0.95 时，若 H100 使用 BF16 (Quality_Factor=1.0) 且价格差距缩小至 5 倍以内，H100 的综合性价比可能反超。
+
+## Corrected Claim
+
+性价比排序模型定义为 Cost_Performance_Ratio = (Initial_Capex + 3yr_OPEX) / (Throughput * Quality_Factor)。在特定条件下（如H100使用BF16且价格差距缩小），H100的综合性价比可能优于RTX 4090双卡方案，具体反超阈值取决于实时市场价格与量化质量损失的实际测量值。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件价格比例（5倍以内）、量化质量损失数值（0.95）以及特定硬件（RTX 4090 vs H100）的性能对比结论，属于经验事实。参考来源仅定义了性价比的一般概念，未提供具体硬件参数、价格或量化影响数据，无法直接支持或证伪具体的数值阈值和反超条件。 | 逻辑自洽（公式定义合理，变量关系符合直觉），但属于经验事实，参考来源[1]仅涉及性价比定义，未覆盖具体硬件参数与价格，缺乏直接来源支持。
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Price%E2%80%93performance_ratio&rut=ea917c94aaf6f0b04ed22ff44db8d079058f39d3beb311b46188ff92bc1eaf98', 'type': 'ddg', 'title': 'Price-performance ratio - Wikipedia'}

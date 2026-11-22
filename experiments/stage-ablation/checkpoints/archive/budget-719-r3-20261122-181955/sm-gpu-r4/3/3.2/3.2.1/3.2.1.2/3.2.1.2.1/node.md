@@ -1,0 +1,24 @@
+# N793: RTX 4090 TTFT 分布的硬件瓶颈归因：在 32K 上下文下，TTFT 中位数 1.2-1.5s 主要由 Prefill 计算 (1.0-1.3s) 和
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N283
+
+## Claim
+
+RTX 4090 TTFT 分布的硬件瓶颈归因：在 32K 上下文下，TTFT 中位数 1.2-1.5s 主要由 Prefill 计算 (1.0-1.3s) 和 KV Cache 分配/初始化 (0.1-0.2s) 构成；95 分位数 2.0-2.5s 的长尾主要源于 PCIe 总线争用 (若与其他 I/O 设备共享) 或 CPU 调度抖动，而非 GPU 计算波动，因为 GPU 计算时间具有高度确定性。
+
+## Corrected Claim
+
+在 32K 上下文下，RTX 4090 的 TTFT 通常由 Prefill 计算和 KV Cache 初始化主导；长尾延迟可能受 PCIe 总线争用或 CPU 调度影响，但具体数值（如中位数 1.2-1.5s）需依据特定系统环境实测确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性能数值（TTFT 1.2-1.5s, Prefill 1.0-1.3s 等）和特定的硬件瓶颈归因（PCIe 争用 vs GPU 计算），这些属于依赖具体驱动版本、系统负载、PCIe 拓扑及软件栈配置的复杂经验事实，无法从第一性原理严格推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+RTX 4090 TTFT time to first token distribution 32k context latency breakdown

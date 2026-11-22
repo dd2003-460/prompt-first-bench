@@ -1,0 +1,24 @@
+# N408: H100 SXM 单卡服务器（如 Dell PowerEdge XE9680 或 Supermicro SYS-421GE）的标准冗余电源模块（PSU）规格为 
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N169
+
+## Claim
+
+H100 SXM 单卡服务器（如 Dell PowerEdge XE9680 或 Supermicro SYS-421GE）的标准冗余电源模块（PSU）规格为 2600W 或 3000W 钛金级（80 PLUS Titanium），单模块市场零售价约为 $350-$550（参考 Dell/Supermicro 备件目录），若需 2+1 冗余配置，初始采购需 3 个模块，总电源模块硬件成本约为 $1,050-$1,650。
+
+## Corrected Claim
+
+H100 SXM 单卡服务器（如 Dell PowerEdge XE9680 或 Supermicro SYS-421GE）通常配备高功率冗余电源模块（常见规格为 2000W-3000W，等级多为白金或钛金），单模块市场零售价通常在数百美元区间（约 $300-$600），若需 2+1 冗余配置，初始采购需 3 个模块，总电源模块硬件成本约为 $900-$1,800。
+
+## Evidence
+
+[质询]具体PSU型号（2600W/3000W）及价格区间（$350-$550）属于特定硬件配置的经验事实，不同厂商、不同批次或不同年份的备件价格波动较大，且并非所有H100 SXM服务器标配均为钛金级2600W/3000W（部分可能使用2000W或白金级），缺乏来源支持具体数值。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Dell PowerEdge XE9680 2600W power supply unit price Supermicro 421GE PSU cost

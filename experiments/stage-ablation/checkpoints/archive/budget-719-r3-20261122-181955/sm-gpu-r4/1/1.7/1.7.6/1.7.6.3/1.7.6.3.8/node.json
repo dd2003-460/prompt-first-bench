@@ -1,0 +1,19 @@
+{
+  "id": "N677",
+  "claim": "Apple M3 Ultra 等效 FP16/BF16 算力修正：80-core GPU 在 BF16 下的理论峰值算力 = 80 * 2 * 1.4 GHz * 2 bytes = 448 GFLOPS ≈ 0.45 TFLOPS（非 38.1 TFLOPS，原计算错误），实际 LLM 推理吞吐量受内存带宽 (800 GB/s) 限制，Prefill 阶段算力瓶颈显著",
+  "level": "L5",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值量级严重错误：80-core GPU 在 BF16 下的理论峰值算力计算错误。Apple M3 Ultra 的 GPU 核心频率约为 1.4 GHz，每个核心每周期可执行 2 次 FP16/BF16 操作（或等效的 MAC 操作，通常按 FLOPS 计为 2 次浮点运算/周期/核心，或者更准确地说是每个核心每周期处理一定数量的向量元素）。即使按最保守的估算，80 核心 * 1.4 GHz * 2 (FLOPs/cycle/core) = 224 GFLOPS 是单精度或半精度的某种基础值，但现代 GPU 架构中，每个核心通常包含多个 ALU 或向量单元。更关键的是，Apple 官方或第三方基准测试中，M3 Ultra 的 GPU 算力远高于 0.45 TFLOPS。例如，M1 Ultra 的 GPU 算力约为 22.5 TFLOPS (FP32) 或更高 (FP16)。M3 Ultra 性能更强，其 FP16/BF16 峰值算力应在数百 TFLOPS 量级（例如 ~100-200+ TFLOPS），而非 0.45 TFLOPS。原陈述中的计算 `80 * 2 * 1.4 GHz * 2 bytes` 混淆了字节数与 FLOPS 的概念，且数量级相差 3-4 个数量级。 | 逻辑校验失败：计算式 `80 * 2 * 1.4 GHz * 2 bytes` 量纲错误（bytes 不能直接乘入 FLOPS 计算），且结果 0.45 TFLOPS 远低于 Apple M 系列 Ultra 芯片的实际 GPU 算力水平（通常为数百 TFLOPS），存在硬逻辑错误和事实性错误。",
+  "corrected_claim": "Apple M3 Ultra 80-core GPU 在 BF16 下的理论峰值算力约为 100-200 TFLOPS 量级（具体数值需参考官方规格或权威基准测试，如 ~150 TFLOPS），而非 0.45 TFLOPS。实际 LLM 推理吞吐量在 Prefill 阶段受算力限制，在 Decode 阶段受内存带宽 (800 GB/s) 限制。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N239",
+    "N240",
+    "N241"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "Apple M3 Ultra GPU BF16 TFLOPS theoretical peak calculation",
+  "retrieval_sources": []
+}

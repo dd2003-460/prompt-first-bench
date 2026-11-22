@@ -1,0 +1,20 @@
+# N259: RTX 4090 双卡 (TP=2, FP8) 方案在 32K 上下文下的 Prefill 延迟 (TTFT) 估算：基于 4090 FP16/FP8 算力 (
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N117
+
+## Claim
+
+RTX 4090 双卡 (TP=2, FP8) 方案在 32K 上下文下的 Prefill 延迟 (TTFT) 估算：基于 4090 FP16/FP8 算力 (165 TFLOPS FP16, FP8 约为 2x 即 ~330 TFLOPS，双卡有效算力受 PCIe 限制约 600 TFLOPS)，计算 32K tokens 的 Prefill FLOPs (≈ 2 * 27B * 32K * 32K * 2 / 2 = 2.25e15 FLOPs 粗略估算，或更精确的 6 * N * L * B)，TTFT ≈ 2.25e15 / (600e12 * 0.8 efficiency) ≈ 4.7s，远超 N117 设定的 2s 阈值，表明该方案在长上下文交互式场景下不满足 TTFT 约束。
+
+## Corrected Claim
+
+RTX 4090 双卡 (TP=2, FP8) 方案在 32K 上下文下的 Prefill 延迟 (TTFT) 估算：基于 4090 FP16/FP8 算力 (165 TFLOPS FP16, FP8 约为 2x 即 ~330 TFLOPS，双卡有效算力受 PCIe 限制约 600 TFLOPS)，计算 32K tokens 的 Prefill FLOPs (≈ 2 * 27B * 32K * 32K * 2 / 2 = 2.25e15 FLOPs 粗略估算，或更精确的 6 * N * L * B)，TTFT ≈ 2.25e15 / (600e12 * 0.8 efficiency) ≈ 4.7s，远超 N117 设定的 2s 阈值，表明该方案在长上下文交互式场景下不满足 TTFT 约束。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点逻辑清晰且正交：子节点1修正FLOPs计算复杂度（O(NL) vs O(NL^2)），子节点2修正硬件利用率参数（MFU 35-45% vs 80%），子节点3基于前两者修正后的参数重新推导结论。三者分别对应公式中的不同变量（输入规模、硬件效率、最终结果），无重复或矛盾，且完整覆盖了父节点中关于算力估算、效率假设及最终延迟判断的所有关键错误点。）

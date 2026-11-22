@@ -1,0 +1,20 @@
+# N521: 基于 N287 和 N288，每生成一个 Token 的总通信数据量 D_total_comm = 128 次 * 8 KB/次 = 1024 KB = 1 M
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N214
+
+## Claim
+
+基于 N287 和 N288，每生成一个 Token 的总通信数据量 D_total_comm = 128 次 * 8 KB/次 = 1024 KB = 1 MB，修正 N214 中基于错误层数或通信次数得出的 16.384 KB 估值。
+
+## Corrected Claim
+
+基于 N287 和 N288，每生成一个 Token 的总通信数据量 D_total_comm = 128 次 * 8 KB/次 = 1024 KB = 1 MB，修正 N214 中基于错误层数或通信次数得出的 16.384 KB 估值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：128 * 8 KB = 1024 KB = 1 MB，算术正确且量级合理。

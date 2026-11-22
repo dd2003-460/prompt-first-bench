@@ -1,0 +1,20 @@
+# N276: Qwen3-27B BF16 在 Apple Silicon 上的实际内存占用需修正：权重 55GB + 32K 上下文 KV Cache (约 1.2GB) 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N123
+
+## Claim
+
+Qwen3-27B BF16 在 Apple Silicon 上的实际内存占用需修正：权重 55GB + 32K 上下文 KV Cache (约 1.2GB) + 运行时开销 (约 2-3GB) = 总占用约 58-59GB，导致理论吞吐量上限降至 800/58.5 ≈ 13.7 tokens/s，而非 14.5 tokens/s
+
+## Corrected Claim
+
+Qwen3-27B BF16 在 Apple Silicon 上的实际内存占用需修正：权重 55GB + 32K 上下文 KV Cache (约 1.2GB) + 运行时开销 (约 2-3GB) = 总占用约 58-59GB，导致理论吞吐量上限降至 800/58.5 ≈ 13.7 tokens/s，而非 14.5 tokens/s
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1聚焦于内存占用的构成与系统资源状态，子节点2聚焦于基于该占用的吞吐量推导与实测差异，两者维度不同（静态资源 vs 动态性能），无重叠或矛盾。父节点中的关键修正点（权重、KV Cache、开销、带宽、最终吞吐量）均被覆盖。）

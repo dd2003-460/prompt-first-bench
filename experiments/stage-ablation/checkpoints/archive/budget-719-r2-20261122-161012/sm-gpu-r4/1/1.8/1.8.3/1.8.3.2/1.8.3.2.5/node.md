@@ -1,0 +1,24 @@
+# N470: AWQ 与 GPTQ 在 27B 规模模型上 MMLU 性能差异（ΔMMLU_AWQ - ΔMMLU_GPTQ）的统计显著性检验：需至少 3 个独立评测源的数据
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N193, N194, N195
+
+## Claim
+
+AWQ 与 GPTQ 在 27B 规模模型上 MMLU 性能差异（ΔMMLU_AWQ - ΔMMLU_GPTQ）的统计显著性检验：需至少 3 个独立评测源的数据点，若标准差 σ > 0.5%，则 0.8 个百分点的差异可能不显著，需重新评估算法选择对最终性价比的影响权重
+
+## Corrected Claim
+
+AWQ 与 GPTQ 在 27B 规模模型上的 MMLU 性能差异需通过至少 3 个独立评测源进行统计显著性检验；若观测到的标准差较大（如 > 0.5%），则 0.8 个百分点的差异可能不具备统计显著性，此时应谨慎评估算法选择对最终性价比的影响权重。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（σ > 0.5%）和特定模型规模（27B）下的统计推断结论，属于经验事实而非第一性原理可推导内容；且缺乏具体评测源数据支持，无法验证0.8个百分点差异在特定分布下是否真的不显著。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+AWQ vs GPTQ quantization MMLU difference statistical significance large language model

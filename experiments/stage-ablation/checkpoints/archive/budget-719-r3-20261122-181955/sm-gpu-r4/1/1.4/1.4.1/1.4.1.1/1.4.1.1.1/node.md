@@ -1,0 +1,20 @@
+# N541: Intel Arc A770 16GB 在 Qwen3-27B INT4 权重 (13.5GB) + 框架开销 (2.0GB) 下，剩余可用显存为 16 - 1
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N188
+
+## Claim
+
+Intel Arc A770 16GB 在 Qwen3-27B INT4 权重 (13.5GB) + 框架开销 (2.0GB) 下，剩余可用显存为 16 - 13.5 - 2.0 = 0.5GB，无法容纳 32K 上下文所需的 8.59GB (BF16) 或 4.3GB (INT8) KV Cache，因此 32K 上下文不可行
+
+## Corrected Claim
+
+Intel Arc A770 16GB 在 Qwen3-27B INT4 权重 (13.5GB) + 框架开销 (2.0GB) 下，剩余可用显存为 16 - 13.5 - 2.0 = 0.5GB，无法容纳 32K 上下文所需的 8.59GB (BF16) 或 4.3GB (INT8) KV Cache，因此 32K 上下文不可行
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：16GB - 13.5GB - 2.0GB = 0.5GB，剩余显存远小于32K上下文所需的KV Cache大小（4.3GB-8.59GB），数学推导与物理约束自洽。

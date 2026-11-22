@@ -1,0 +1,20 @@
+# N455: 若业务硬性要求 HumanEval Pass@1 >= 85%，且 Qwen3-27B BF16 基线为 86%，则 INT4 方案 (预计 81-83%) 不
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N188
+
+## Claim
+
+若业务硬性要求 HumanEval Pass@1 >= 85%，且 Qwen3-27B BF16 基线为 86%，则 INT4 方案 (预计 81-83%) 不可行；此时需评估 'INT8 量化' 作为中间方案，其预计 Pass@1 为 84-85%，虽仍可能低于阈值，但比 INT4 更优，需计算 INT8 在 24GB 显存下的可行性 (权重 27GB 不可行，需 Offload 或更小模型)。
+
+## Corrected Claim
+
+若业务硬性要求 HumanEval Pass@1 >= 85%，且 Qwen3-27B BF16 基线为 86%，则 INT4 方案 (预计 81-83%) 不可行；此时需评估 'INT8 量化' 作为中间方案，其预计 Pass@1 为 84-85%，虽仍可能低于阈值，但比 INT4 更优，需计算 INT8 在 24GB 显存下的可行性 (权重 27GB 不可行，需 Offload 或更小模型)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B模型BF16权重约54GB，INT8约27GB，INT4约13.5GB；24GB显存下INT8权重（27GB）确实超出显存容量，需Offload或更小模型，逻辑自洽且符合工程常识。

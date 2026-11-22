@@ -1,0 +1,24 @@
+# N281: FlashAttention-2 优化对 Prefill 吞吐量的提升幅度：在 RTX 4090 上，FlashAttention-2 可将注意力计算延迟降低 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N92
+
+## Claim
+
+FlashAttention-2 优化对 Prefill 吞吐量的提升幅度：在 RTX 4090 上，FlashAttention-2 可将注意力计算延迟降低 2-4 倍，从而将 Prefill 吞吐量从理论值的 46.9 tokens/s 提升至 100-150 tokens/s，具体提升幅度取决于序列长度和 head_dim。
+
+## Corrected Claim
+
+FlashAttention-2 通过优化内存访问和计算并行度，显著降低注意力计算延迟（通常提升 2-4 倍），从而提升 Prefill 吞吐量，具体数值取决于硬件、模型参数及序列长度。
+
+## Evidence
+
+[质询]具体数值（46.9 tokens/s, 100-150 tokens/s）缺乏来源支持，且'理论值'定义模糊，不同模型配置下基准差异巨大，无法从第一性原理推导。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+FlashAttention-2 RTX 4090 prefill throughput improvement benchmark 32K context

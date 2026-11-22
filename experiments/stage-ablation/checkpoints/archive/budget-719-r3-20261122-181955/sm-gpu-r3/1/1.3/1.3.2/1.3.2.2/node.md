@@ -1,0 +1,24 @@
+# N179: RX 7900 XT 的显存带宽 800 GB/s 在 Decode 阶段的实际利用率：受限于 PCIe 4.0 x16 总线带宽（64 GB/s）和内存控制器
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N53
+
+## Claim
+
+RX 7900 XT 的显存带宽 800 GB/s 在 Decode 阶段的实际利用率：受限于 PCIe 4.0 x16 总线带宽（64 GB/s）和内存控制器效率，实际有效带宽通常在 85-90% 范围内；需结合 Qwen3-27B 的 KV Cache 大小（32.77 GB BF16）计算理论 Decode 吞吐量上限。
+
+## Corrected Claim
+
+RX 7900 XT 的显存带宽 800 GB/s 在 Decode 阶段的实际利用率受限于硬件架构和内存控制器效率，实际有效带宽通常低于理论峰值；需结合 Qwen3-27B 的 KV Cache 大小（32.77 GB BF16）计算理论 Decode 吞吐量上限。
+
+## Evidence
+
+[质询]陈述中关于“实际有效带宽通常在 85-90% 范围内”的数值缺乏通用性，且未区分是显存带宽利用率还是 PCIe 带宽利用率；对于大模型 Decode 阶段，瓶颈通常在显存带宽而非 PCIe，且 85-90% 的效率假设过于乐观或具体，易受实现细节影响。 | 先验知识/题面给定，逻辑校验通过，但具体效率数值（85-90%）属于经验参数，缺乏来源直接支持，故降级。
+
+## Search Query
+
+AMD RX 7900 XT memory bandwidth efficiency LLM inference

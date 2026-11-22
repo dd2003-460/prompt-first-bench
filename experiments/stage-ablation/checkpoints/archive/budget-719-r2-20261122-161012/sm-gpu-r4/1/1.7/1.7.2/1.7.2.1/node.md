@@ -1,0 +1,20 @@
+# N183: Qwen3-27B 的 KV Cache 每 token 大小计算公式为：KV_per_token = 2 * num_layers * num_kv_head
+
+- **status**: pending
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N93
+
+## Claim
+
+Qwen3-27B 的 KV Cache 每 token 大小计算公式为：KV_per_token = 2 * num_layers * num_kv_heads * head_dim * bytes_per_element。对于 Qwen3-27B，num_layers=64, num_kv_heads=8 (GQA), head_dim=128, 计算得每层 KV 大小为 2*8*128*bytes。若 BF16 (2 bytes)，每 token KV 为 262,144 bytes (256 KB)；若 FP8 (1 byte)，每 token KV 为 131,072 bytes (128 KB)。
+
+## Corrected Claim
+
+Qwen3-27B 的 KV Cache 每 token 大小计算公式为：KV_per_token = 2 * num_layers * num_kv_heads * head_dim * bytes_per_element。对于 Qwen3-27B，num_layers=64, num_kv_heads=8 (GQA), head_dim=128, 计算得每层 KV 大小为 2*8*128*bytes。若 BF16 (2 bytes)，每 token KV 为 262,144 bytes (256 KB)；若 FP8 (1 byte)，每 token KV 为 131,072 bytes (128 KB)。
+
+## Evidence
+
+父节点级核验未通过：有冗余（子节点之间存在高度冗余。两个子节点分别计算了同一公式在 BF16 和 FP8 两种精度下的结果，本质上是同一个参数（bytes_per_element）的不同取值，而非两个独立的概念或方面。此外，第二个子节点包含大量混乱的计算推导过程（如反复自我纠正单位换算），不符合学术分解的简洁性和准确性要求。）

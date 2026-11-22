@@ -1,0 +1,24 @@
+# N759: Qwen3-27B INT4 (AWQ) 量化版本在 MMLU 5-shot 评测中的准确率为 76.4%（来源：HuggingFace Qwen3-27B-A
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N271
+
+## Claim
+
+Qwen3-27B INT4 (AWQ) 量化版本在 MMLU 5-shot 评测中的准确率为 76.4%（来源：HuggingFace Qwen3-27B-AWQ 模型卡或社区评测，INT4 量化通常导致比 FP8 更大的精度损失 [待核验]）。
+
+## Corrected Claim
+
+Qwen3-27B INT4 (AWQ) 量化版本在 MMLU 5-shot 评测中的准确率约为 76% 左右（具体数值需以官方模型卡或权威社区评测为准），通常低于 FP8 或 FP16 版本。
+
+## Evidence
+
+[质询]具体数值 76.4% 属于经验事实，且缺乏来源支持；不同量化实现（如 GPTQ vs AWQ）及评测基准版本可能导致数值波动，无法确认该特定数值的准确性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+Qwen3-27B AWQ INT4 MMLU accuracy

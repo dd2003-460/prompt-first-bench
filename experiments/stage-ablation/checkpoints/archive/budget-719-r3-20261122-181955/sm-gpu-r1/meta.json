@@ -1,0 +1,146 @@
+{
+  "qid": "gpu",
+  "question": "你要在本地工作站上推理 Qwen3-27B 模型，不设硬性延迟指标（延迟是性能变量，由硬件和部署配置决定，不作为前置约束）；上下文窗口 ≥ 32K tokens 作为容量下限保留。权重精度不限（BF16/FP8/INT8/NVFP4/W4 均可），但必须论证所选精度的质量损失是否可接受。候选硬件：自行搜索确定值得考虑的完整候选集——覆盖你认为所有可能影响性价比排序的架构、代际、容量档位和价格区间（包括消费级、数据中心级、以及任何你认为值得纳入比较的非典型方案）。同时评估单卡与多卡方案的 TCO 差异（如 2× 消费卡 vs 1× 数据卡）。给出性价比最优的完整选卡方案。要求：思考必须最完整，确认没有遗漏任何影响决策的维度；每个关键数字标注来源（刚查到的 vs 凭记忆的），不确定的标 [待核验]；最终推荐必须是条件性的，不能给无条件排名。",
+  "round": 1,
+  "state": "rework",
+  "dropped_redundant": 0,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "可行性约束满足度（CapacityFeasibility）：布尔值，所选方案是否严格满足上下文窗口 ≥ 32K tokens 的硬性下限（不满足则直接淘汰，权重为无穷大）",
+      "质量损失可接受度（QualityAcceptability）：布尔值或等级，所选权重精度（BF16/FP8/INT8等）带来的模型能力退化是否在可接受范围内（需有论证，不满足则淘汰或降权）",
+      "总拥有成本（TCO）：数值，涵盖硬件采购、电力、散热、空间、维护等全生命周期成本，越低越好",
+      "推理性能（InferencePerformance）：数值，如 tokens/s 或延迟，虽然不作为前置约束，但在性价比排序中作为关键变量，越高越好",
+      "方案完备性（Completeness）：数值或布尔，是否覆盖了所有可能影响性价比排序的硬件架构、代际、容量档位及非典型方案（遗漏关键候选集则扣分）",
+      "论证严谨性（Rigor）：数值，关键数字是否标注来源（刚查/记忆/待核验），推荐是否为条件性而非无条件排名（不满足则视为回答无效）"
+    ],
+    "composition": "Score = (CapacityFeasibility ∧ QualityAcceptability ∧ Rigor) × (Performance / TCO) + Completeness_Bonus",
+    "rationale": "该函数体现了“先过滤不可行/低质量/不严谨方案，再在可行集中按性价比（性能/成本）排序，并奖励候选集覆盖全面性”的决策逻辑，符合题目对严谨性、完备性和性价比的核心要求。"
+  },
+  "objective_mode": "formula",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "node_id": "N7",
+      "claim": "NVIDIA消费级GPU候选集（2024-2025在售）：RTX 4090 (24GB), RTX 4080 Super",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源主要聚焦于数据中心GPU（H100, B300等）或较新的RTX 50系列，缺乏对2024-2025在售消费级GPU（如RTX 4080 Sup"
+    },
+    {
+      "node_id": "N8",
+      "claim": "NVIDIA数据中心/专业级GPU候选集：A100 40GB/80GB, H100 80GB, L40S 48GB, A",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源仅覆盖A100，完全缺失H100、L40S、A6000的关键规格（FP16/BF16算力、显存带宽、互联带宽），且A100来源多为营销页或基础数"
+    },
+    {
+      "node_id": "N9",
+      "claim": "AMD消费级/专业级GPU候选集：RX 7900 XTX (24GB), RX 7900 XT (20GB), RX 7",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含大量具体经验参数（如显存大小、具体型号列表、ROCm支持程度），参考来源仅覆盖RX 7900 XTX的产品宣传，未提供显存规格、其他型号参数或"
+    },
+    {
+      "node_id": "N10",
+      "claim": "Intel Arc/数据中心GPU候选集：Arc A770 (16GB), Arc A750 (8GB), Data C",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于 'Data Center GPU Max 1550' 的型号名称及具体规格（如显存大小、算力）缺乏来源支持，且 'ONE API' 对 LL"
+    },
+    {
+      "node_id": "N11",
+      "claim": "非典型/边缘方案：Apple Silicon (M2/M3 Ultra 192GB/256GB统一内存, M1 Max ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含多个具体的经验性技术参数（如M1 Max 64GB的存在、MLX框架对Qwen3-27B的具体推理效率、FP16/BF16支持细节），参考来源"
+    },
+    {
+      "node_id": "N12",
+      "claim": "CPU推理方案：AMD EPYC 9004系列 / Intel Xeon Scalable 4th Gen，配合AVX-",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于Qwen3-27B在指定CPU架构下的具体吞吐量（tokens/s）及内存带宽需求属于经验性性能数据，无法从第一性原理推导，且参考来源仅提及A"
+    },
+    {
+      "node_id": "N13",
+      "claim": "各候选硬件的当前市场均价（USD）及二手/促销价格区间：需建立价格-性能比（$/TFLOPS, $/GB）的量化基准，用",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述是一个任务目标或方法论描述，而非具体的经验事实数据。它声称需要建立价格-性能比基准，但未提供具体的数值或已验证的基准结果。作为事实节点，它缺乏具体"
+    },
+    {
+      "node_id": "N15",
+      "claim": "KV Cache内存需求公式与计算：KV Cache Size = 2 * n_layers * n_kv_heads ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述假设所有层都使用标准全注意力机制并统一应用KV Cache公式，但参考来源明确指出Qwen3-27B（或Qwen3.8-27B）采用混合架构，仅1"
+    },
+    {
+      "node_id": "N16",
+      "claim": "推理框架开销与激活内存：估算llama.cpp/vLLM/ExLlama2等框架在32K上下文下的额外内存开销（激活值、",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述将“推理框架开销”与“激活内存”混为一谈，且“5-15%”这一比例缺乏明确的基准模型规模（如7B vs 70B）和量化精度（FP16 vs INT"
+    },
+    {
+      "node_id": "N18",
+      "claim": "精度对模型质量损失的影响：引用Qwen3官方技术报告或第三方评测，量化BF16 vs FP8 vs INT4在MMLU/",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源[1]仅提供了FP8相对于BF16的2-3%精度损失，未提供INT4的具体数据；且该数据来自CSDN博客而非Qwen3官方技术报告，缺乏对MMLU/"
+    },
+    {
+      "node_id": "N21",
+      "claim": "多卡并行效率与通信开销：评估2x消费卡（如2x RTX 4090）通过PCIe/NVLink进行张量并行（TP=2）时的",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源提供的数据（如0.6 tok/s、15%通信占比）高度依赖于具体的模型规模、序列长度及硬件配置，无法直接推导出通用的“效率损失百分比”或“性能增益比"
+    },
+    {
+      "node_id": "N22",
+      "claim": "硬件一次性采购成本 (C_hw)：基于目标模型显存需求（Qwen3-27B 在 32K 上下文下 KV Cache 占用",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中引用的具体时间点（2024年Q3）与参考来源[1]中提到的时间（2026年6月）存在显著偏差，且来源[1]针对的是Qwen3.6-27B而非Qwe"
+    },
+    {
+      "node_id": "N34",
+      "claim": "RTX 4090 24GB 在 2024 Q4 的北美市场均价为 $1,600-$1,900 USD，A100 80GB",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N35",
+      "claim": "Qwen3-27B 在 INT4 (AWQ/GPTQ) 量化下，MMLU 准确率相对 BF16 下降约 0.5-1.5%",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源中提到的模型版本为 Qwen3.6-27B 或 Qwen3.8-27B，与陈述中的 Qwen3-27B 版本不一致，且来源摘要仅提及量化方案（A"
+    },
+    {
+      "node_id": "N36",
+      "claim": "Apple M3 Ultra (192GB Unified Memory) 在运行 Qwen3-27B (FP16) 时",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（25-35 tokens/s, 2-4s TTFT）及与RTX 4090的对比比例属于经验事实，参考来源仅提供了带宽和通用模型兼容性，未提供Q"
+    },
+    {
+      "node_id": "N37",
+      "claim": "2x RTX 4090 (PCIe 4.0 x16) 进行 TP=2 推理时，由于 PCIe 带宽限制 (64 GB/s",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N38",
+      "claim": "条件性推荐 A：若预算 < $3,000 且优先单卡简洁性，推荐 RTX 4090 24GB + INT4 量化 (AW",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性参数（如MMLU下降<1%、TCO最低、并发受限的具体阈值），这些属于经验事实而非第一性原理可推导内容，且参考来源仅涉及GPU选型"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 30
+}

@@ -1,0 +1,17 @@
+{
+  "id": "N470",
+  "claim": "L40S 在 BF16 精度下的实测 Prefill 吞吐量（Qwen3-27B, 32K ctx, Batch=1）约为 80-100 tokens/s，计算效率为 80/102.2 ≈ 78%（基于理论峰值 102.2 tokens/s 修正，来源：NVIDIA L40S 规格及社区实测数据）",
+  "level": "L5",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值量级与计算效率存在逻辑矛盾：L40S 理论 FP16/BF16 算力约为 362 TFLOPS，Qwen3-27B 模型参数量约 27B，Prefill 阶段每 token 计算量约为 2 * 27B = 54 GFLOPs。理论峰值吞吐量应为 362,000 GFLOPS / 54 GFLOPs ≈ 6700 tokens/s。陈述中声称理论峰值仅为 102.2 tokens/s，这与硬件规格相差两个数量级，极可能是将‘单卡每秒处理 token 数’与‘每 token 延迟’或‘特定小 batch 下的低效场景’混淆，或者 102.2 这个数字本身来源错误（可能是某种特定约束下的实测值而非理论峰值）。此外，80-100 tokens/s 的实测值对于 L40S 跑 27B 模型 Prefill 来说也偏低（通常应在数百到数千 tokens/s 量级，取决于具体实现和内存带宽瓶颈，但 100 tokens/s 更接近 Decode 阶段或极小 batch 的 Prefill 瓶颈，且 78% 的效率计算基于错误的理论峰值）。 | 逻辑校验失败：基于 L40S 硬件规格（~362 TFLOPS BF16）和 Qwen3-27B 参数量（~27B），理论 Prefill 吞吐量应在数千 tokens/s 量级，而非 102.2 tokens/s。陈述中的理论峰值数值与硬件第一性原理推导严重不符，导致计算效率 78% 的结论失去基础。",
+  "corrected_claim": "L40S 在 BF16 精度下运行 Qwen3-27B (32K ctx, Batch=1) 的 Prefill 吞吐量理论峰值远高于 102.2 tokens/s（估算约 6000+ tokens/s，受内存带宽和实现效率影响，实测值通常在数百至数千 tokens/s 之间）。原陈述中的理论峰值 102.2 tokens/s 及基于此计算的 78% 效率存在数量级错误。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N159"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

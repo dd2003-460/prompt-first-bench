@@ -1,0 +1,24 @@
+# N411: RTX 4080 Super 若放宽上下文至 4K 的替代方案评估：在 4K 上下文下，KV Cache 占用 = 4096 * 256KB = 1GB，总显存
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N135
+
+## Claim
+
+RTX 4080 Super 若放宽上下文至 4K 的替代方案评估：在 4K 上下文下，KV Cache 占用 = 4096 * 256KB = 1GB，总显存需求 = 13.5 + 1 + 2 = 16.5GB，仍略超 16GB 物理限制，需启用 INT8 KV Cache（0.5GB）或减少 Batch Size 至 1 并优化框架开销；此时理论 Decode 吞吐 = 736 / (13.5 + 0.5) ≈ 52.6 tokens/s，但因无法满足题目 32K 下限，此数据仅作为‘若题目约束变更’的敏感性参考，不进入最终推荐。
+
+## Corrected Claim
+
+RTX 4080 Super 若放宽上下文至 4K 的替代方案评估：在 4K 上下文下，KV Cache 占用 = 4096 * 256KB = 1GB，总显存需求 = 13.5 + 1 + 2 = 16.5GB，仍略超 16GB 物理限制，需启用 INT8 KV Cache（0.5GB）或减少 Batch Size 至 1 并优化框架开销；此时理论 Decode 吞吐 = 736 / (13.5 + 0.5) ≈ 52.6 tokens/s，但因无法满足题目 32K 下限，此数据仅作为‘若题目约束变更’的敏感性参考，不进入最终推荐。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：KV Cache 计算 (4096 * 256KB = 1GB) 及总显存需求 (13.5+1+2=16.5GB) 算术正确，INT8 优化后显存 (14GB) 低于 16GB 限制，吞吐估算逻辑自洽。
+
+## Search Query
+
+RTX 4080 Super 4K context LLM inference feasibility

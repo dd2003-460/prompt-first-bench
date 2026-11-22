@@ -1,0 +1,24 @@
+# N610: AMX 相比标量 AVX-512 指令在 INT8 矩阵乘法上的吞吐量提升倍数约为 3-4 倍，这一结论基于 AMD 官方白皮书及第三方基准测试（如 OpenB
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N215
+
+## Claim
+
+AMX 相比标量 AVX-512 指令在 INT8 矩阵乘法上的吞吐量提升倍数约为 3-4 倍，这一结论基于 AMD 官方白皮书及第三方基准测试（如 OpenBLAS vs AMX 优化库）；具体提升幅度受矩阵尺寸和内存访问模式影响，小矩阵（< 128x128）提升幅度可能降至 2 倍。
+
+## Corrected Claim
+
+AMX 相比标量 AVX-512 指令在 INT8 矩阵乘法上具有显著的吞吐量提升，具体倍数受矩阵尺寸和内存访问模式影响。
+
+## Evidence
+
+[质询]具体数值（3-4倍、2倍）属于经验事实，且缺乏来源支持，无法排除不同实现或测试条件下的显著差异。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+AMD AMX vs AVX-512 INT8 matrix multiplication benchmark ratio

@@ -1,0 +1,24 @@
+# N238: L40S 的 TDP 为 350W，在 2024 Q4 的北美市场均价 $8,000-$10,000 下，其 3 年 TCO（含电力成本 $0.15/kWh）约
+
+- **status**: pending
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N73
+
+## Claim
+
+L40S 的 TDP 为 350W，在 2024 Q4 的北美市场均价 $8,000-$10,000 下，其 3 年 TCO（含电力成本 $0.15/kWh）约为 $8,000 + 3 * (350W * 8760h * $0.15/kWh) = $10,300-$12,500，远高于 RTX 3090 和 RTX 4090，但其 48GB 显存支持更长的上下文或更大的 Batch Size，需通过单位 token 成本比较。
+
+## Corrected Claim
+
+L40S 的 TDP 为 350W。若按24/7满载运行且电价为$0.15/kWh计算，仅3年电力成本约为$13,500，加上硬件成本（假设$8,000-$10,000），总TCO约为$21,500-$23,500。实际TCO需结合GPU利用率、硬件折旧及具体市场价格综合评估，其48GB显存优势需通过单位token成本与RTX 3090/4090对比。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点存在严重事实错误（LLaMA-70B BF16权重约为140GB，非54GB；L40S显存80GB，非48GB），导致计算基础错误。此外，父节点核心诉求是‘单位 token 成本比较’，但子节点仅提供了单卡吞吐量上限，未结合价格、并发数及电力成本进行最终的 TCO 换算，未能覆盖父节点的关键结论。）
+
+## Search Query
+
+L40S TDP power consumption 3 year TCO

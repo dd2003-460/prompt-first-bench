@@ -1,0 +1,20 @@
+# N188: Intel Arc A770 16GB 运行 Qwen3-27B 的可行性边界：16GB 显存仅能容纳 INT4 量化后的权重（约 13.5GB），剩余 2.5
+
+- **status**: pending
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N58
+
+## Claim
+
+Intel Arc A770 16GB 运行 Qwen3-27B 的可行性边界：16GB 显存仅能容纳 INT4 量化后的权重（约 13.5GB），剩余 2.5GB 用于 KV Cache，在 32K 上下文下 KV Cache 需求约 8.59GB（BF16）或 4.3GB（INT8 KV），因此 A770 无法在 32K 上下文下运行 Qwen3-27B，即使采用 INT4 权重 + INT8 KV Cache 也仅能支持约 4-6K 上下文 [待核验]
+
+## Corrected Claim
+
+Intel Arc A770 16GB 运行 Qwen3-27B 的可行性边界：16GB 显存仅能容纳 INT4 量化后的权重（约 13.5GB），剩余 2.5GB 用于 KV Cache，在 32K 上下文下 KV Cache 需求约 8.59GB（BF16）或 4.3GB（INT8 KV），因此 A770 无法在 32K 上下文下运行 Qwen3-27B，即使采用 INT4 权重 + INT8 KV Cache 也仅能支持约 4-6K 上下文 [待核验]
+
+## Evidence
+
+父节点级核验未通过：非正交, 有冗余（子节点2和子节点3在逻辑上高度冗余，它们仅在于KV Cache的数据类型（INT8 vs BF16）不同，本质上是同一计算逻辑在不同参数下的变体。此外，父节点中提到的'4-6K'结论与子节点计算的'4,096 tokens'基本一致，但子节点之间缺乏正交性，属于同一维度的不同取值。）

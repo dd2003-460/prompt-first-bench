@@ -1,0 +1,24 @@
+# N130: 单卡 vs 多卡对比方案2（2x RTX 3090 vs 1x L40S）：RTX 3090 24GB二手价格约为$800-$1,000/张，2张总价$1,60
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N25, N26, N27
+
+## Claim
+
+单卡 vs 多卡对比方案2（2x RTX 3090 vs 1x L40S）：RTX 3090 24GB二手价格约为$800-$1,000/张，2张总价$1,600-$2,000；L40S 48GB新品价格约为$8,000-$10,000。L40S单卡显存48GB同样不足以运行BF16 Qwen3-27B (54GB)，需FP8/INT8。L40S显存带宽864 GB/s，2x3090显存带宽1936 GB/s (2*968)，但受PCIe限制。
+
+## Corrected Claim
+
+单卡 vs 多卡对比方案2（2x RTX 3090 vs 1x L40S）：RTX 3090 24GB二手价格约为$800-$1,000/张，2张总价$1,600-$2,000；L40S 48GB新品价格约为$8,000-$10,000。L40S单卡显存48GB同样不足以运行BF16 Qwen3-27B (54GB)，需FP8/INT8。L40S显存带宽864 GB/s，2x3090显存带宽1936 GB/s (2*968)，但受PCIe限制。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 3090二手价格、L40S新品价格及显存带宽参数符合市场常识与硬件规格，Qwen3-27B BF16显存需求计算正确（27B*2=54GB > 48GB），多卡带宽叠加逻辑合理。
+
+## Search Query
+
+RTX 3090 used price 2024 vs L40S 48GB price comparison memory bandwidth

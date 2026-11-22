@@ -1,0 +1,24 @@
+# N674: 功耗对比中 '平均运行功耗' 的量化：RTX 4090 双卡在 Qwen3-27B Decode 阶段（访存密集型）的平均功耗实测约为 550-650W（低于 
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N277, N278, N279
+
+## Claim
+
+功耗对比中 '平均运行功耗' 的量化：RTX 4090 双卡在 Qwen3-27B Decode 阶段（访存密集型）的平均功耗实测约为 550-650W（低于 TDP 900W，因为 Tensor Core 未满载，主要功耗来自显存控制器和 I/O）；M3 Ultra 在同等负载下平均功耗约为 180-220W。3 年电力成本差异为 (600-200) * 0.001 * 8760 * 3 * $0.15 ≈ $1,944，这一数值在 TCO 敏感性分析中占初始 Capex 差异的 30-50%，足以在价格接近时影响排序。
+
+## Corrected Claim
+
+功耗对比中 '平均运行功耗' 的量化：RTX 4090 双卡在 Qwen3-27B Decode 阶段的平均功耗通常低于 TDP 900W，具体数值取决于负载特性；M3 Ultra 在同等负载下平均功耗显著低于 GPU 方案。3 年电力成本差异估算约为 $1,944，这一数值在 TCO 敏感性分析中占初始 Capex 差异的 30-50%，足以在价格接近时影响排序。
+
+## Evidence
+
+[质询]RTX 4090 双卡在 Decode 阶段（访存密集型）的平均功耗实测约为 550-650W 这一具体数值缺乏公开权威基准测试的直接支持，且不同负载下功耗波动较大，该区间可能偏高或偏低，属于经验事实且无来源佐证。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+RTX 4090 power consumption LLM inference decode phase average watts vs TDP

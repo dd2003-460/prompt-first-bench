@@ -1,0 +1,20 @@
+# N360: RTX 4090 (24GB) 在 INT4 量化权重下的最大并发请求数计算：可用显存 = 24GB - 13.5GB (Weights) - 2GB (Ove
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N121
+
+## Claim
+
+RTX 4090 (24GB) 在 INT4 量化权重下的最大并发请求数计算：可用显存 = 24GB - 13.5GB (Weights) - 2GB (Overhead) = 8.5GB；假设 KV Cache 保持 BF16 不量化（常见策略），单请求 KV = 32GB，8.5GB < 32GB，故单请求 32K 上下文均无法容纳，除非启用 PagedAttention 且仅保留当前序列 KV，此时 Max_Batch = 0（单请求都放不下完整 32K KV 除非使用 KV 量化或截断）；若 KV 也量化为 INT8，KV = 16GB/req，仍 > 8.5GB，Max_Batch = 0；若 KV 量化为 INT4，KV = 8GB/req，Max_Batch = 1。
+
+## Corrected Claim
+
+RTX 4090 (24GB) 在 INT4 量化权重下的最大并发请求数计算：可用显存 = 24GB - 13.5GB (Weights) - 2GB (Overhead) = 8.5GB；假设 KV Cache 保持 BF16 不量化（常见策略），单请求 KV = 32GB，8.5GB < 32GB，故单请求 32K 上下文均无法容纳，除非启用 PagedAttention 且仅保留当前序列 KV，此时 Max_Batch = 0（单请求都放不下完整 32K KV 除非使用 KV 量化或截断）；若 KV 也量化为 INT8，KV = 16GB/req，仍 > 8.5GB，Max_Batch = 0；若 KV 量化为 INT4，KV = 8GB/req，Max_Batch = 1。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：显存计算（24-13.5-2=8.5GB）及KV Cache容量推导（BF16 32GB > 8.5GB, INT8 16GB > 8.5GB, INT4 8GB <= 8.5GB）在数学和工程逻辑上自洽，符合LLM推理显存估算的基本原理。

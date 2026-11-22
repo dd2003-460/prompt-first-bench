@@ -1,0 +1,17 @@
+{
+  "id": "N560",
+  "claim": "RTX 5090 运行 Qwen3-27B FP8 时，3.8 GB 显存余量在 32K 上下文下仅能容纳 Batch Size = 3.8 GB / 1.2 GB ≈ 3 个并发请求的 KV Cache，若需支持更高并发 (如 Batch=5)，需启用 KV Cache 量化 (FP8→INT4) 或启用 PagedAttention 压缩，否则将触发显存溢出。",
+  "level": "L5",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]KV Cache 的显存占用并非固定为 1.2 GB/请求，而是随上下文长度线性增长。在 32K 上下文下，Qwen3-27B 的 KV Cache 单请求占用远超 1.2 GB（通常需数 GB），因此 3.8 GB 余量可能仅能容纳 1 个甚至 0 个并发请求，原陈述中的数值估算严重低估了 KV Cache 开销，导致 Batch Size 结论错误。 | 先验知识/题面给定，逻辑校验未通过：KV Cache 大小与上下文长度成正比，32K 上下文下单请求 KV Cache 不可能仅为 1.2 GB，该数值量级与 LLM 推理显存占用规律矛盾。",
+  "corrected_claim": "RTX 5090 运行 Qwen3-27B FP8 时，3.8 GB 显存余量在 32K 上下文下，由于 KV Cache 随上下文长度线性增长，单请求 KV Cache 占用较大（通常 >3.8 GB），可能无法支持任何并发请求或仅能支持极少量短上下文请求；若需支持更高并发，需启用 KV Cache 量化 (FP8→INT4) 或启用 PagedAttention 压缩，否则将触发显存溢出。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N233"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

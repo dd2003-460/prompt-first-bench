@@ -1,33 +1,17 @@
 {
-  "id": "N130",
-  "claim": "二手 H100 服务器（如 8x H100 SXM 节点）在 2024 年的二手市场价格约为 $150,000-$180,000/节点，折合单卡成本约 $18,750-$22,500，相比 MSRP ($30,000+) 有 25%-40% 的折扣，但需加上 15%-20% 的维护与折旧风险成本",
+  "id": "N164",
+  "claim": "A100 80GB 处理 32K tokens Prefill 的理论时间约为 `1.76e15 / 312e12` ≈ 5.6 秒，实际实测时间通常在 0.4-0.6 秒区间 [待核验]，其显著低于理论值的原因在于 Tensor Core 的高利用率及内核优化，具体 MFU 需参考 vLLM 或 TGI 的基准测试。",
   "level": "L3",
   "source": "search",
   "status": "degraded",
-  "evidence": "[质询]具体价格区间（$150k-$180k/节点）及维护风险成本（15%-20%）属于高度波动的市场经验数据，参考来源仅提供了“最高节省40%”的定性描述，未提供具体的2024年二手H100节点成交均价或详细的维护成本模型，无法直接验证具体数值。 | 来源[2]间接支持了存在显著折扣（up to 40%），与陈述中的25%-40%折扣区间兼容；但具体节点价格和维护成本缺乏直接数据支持，且属于经验事实，故降级。",
-  "corrected_claim": "二手 H100 服务器在 2024 年相比 MSRP 有显著折扣（最高可达 40%），具体节点价格需根据市场实时报价确定，且需考虑额外的维护与折旧风险。",
+  "evidence": "[质询]理论时间计算存在严重逻辑错误：1.76e15 FLOPs 除以 312 TFLOPS (3.12e14 FLOPS) 的结果约为 5.6 秒，这代表的是在 100% 利用率下的理想下限。然而，陈述声称实际时间（0.4-0.6秒）显著低于理论值，这在物理上是不可能的（实际时间不可能低于理论最小值）。此外，0.4-0.6秒对应约 1000+ TFLOPS 的吞吐量，远超 A100 80GB 的硬件峰值（312 TFLOPS），违背基本物理直觉。 | 逻辑校验失败：实际耗时不可能低于基于硬件峰值算力计算出的理论最小耗时（5.6s），且 0.4-0.6s 隐含的算力需求超出 A100 硬件极限。",
+  "corrected_claim": "A100 80GB 处理 32K tokens Prefill 的理论最小时间（100%利用率）约为 5.6 秒。实际实测时间通常高于此理论值（例如 10-20 秒或更长，取决于具体实现和 MFU），因为实际 MFU 远低于 100%。",
   "rework_count": 1,
   "parent_ids": [
-    "N33"
+    "N35"
   ],
   "objective": null,
   "edge_type": "cartesian",
-  "search_query": "used H100 server price 2024 single card cost",
-  "retrieval_sources": [
-    {
-      "url": "https://compute.exchange/hardware-market/used-gpus&rut=f388a38c1446358e9c9d806fdb5f67e427971351c6fda02251edee420aab72cf",
-      "type": "ddg",
-      "title": "Used GPUs for Sale: Buy Used H100, A100 & Data Center GPUs | Compute ..."
-    },
-    {
-      "url": "https://h100exchange.com/&rut=e875108cba7a45948eeab108b6bcd71b552c15c8f8c22f2a57279536eb2fd1f7",
-      "type": "ddg",
-      "title": "H100 Exchange | Buy & Sell Certified Pre-Owned Enterprise GPUs"
-    },
-    {
-      "url": "https://compute.exchange/hardware-market&rut=cd353d0c71b9a186b7feeeebb7b4d9d083151e087b3f276bd6da72b3e7832edc",
-      "type": "ddg",
-      "title": "GPU Hardware Marketplace: Buy Used & Refurbished Data Center GPUs ..."
-    }
-  ]
+  "search_query": "Qwen3-27B prefill latency 32k tokens A100 benchmark",
+  "retrieval_sources": []
 }

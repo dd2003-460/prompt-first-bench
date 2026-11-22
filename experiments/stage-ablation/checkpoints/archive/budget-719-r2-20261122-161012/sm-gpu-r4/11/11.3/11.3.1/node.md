@@ -1,0 +1,30 @@
+# N307: TRX50 平台（如 ASUS Pro WS TRX50-SAGE WIFI）提供 1 个 PCIe 5.0 x16 和 1 个 PCIe 4.0 x16 插槽
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N134
+
+## Claim
+
+TRX50 平台（如 ASUS Pro WS TRX50-SAGE WIFI）提供 1 个 PCIe 5.0 x16 和 1 个 PCIe 4.0 x16 插槽，若需双 PCIe 5.0 x16 支持，需使用 WRX90 芯片组（如 ASUS Pro WS WRX90E-SAGE SE WIFI），其主板价格约为 $800-$1,200，且仅支持 Threadripper PRO 处理器，CPU 成本增加约 $1,500-$2,000 相比消费级 i9/Ryzen 9。
+
+## Corrected Claim
+
+TRX50 平台（如 ASUS Pro WS TRX50-SAGE WIFI）主要面向 Threadripper PRO 处理器，若需更高规格的双 PCIe 5.0 x16 支持，通常需使用 WRX90 芯片组主板（如 ASUS Pro WS WRX90E-SAGE SE WIFI），其价格显著高于 TRX50 平台，且整体系统成本（含 CPU）会大幅增加。
+
+## Evidence
+
+[质询]参考来源仅确认了TRX50主板的型号和存在，但未提供具体的PCIe插槽规格（1x PCIe 5.0 x16 + 1x PCIe 4.0 x16）、WRX90的具体价格区间（$800-$1,200）以及CPU成本差异的具体数值（$1,500-$2,000）。这些具体的硬件规格和市场价格属于经验事实，缺乏来源直接支持。 | 来源[1][2][3]确认了ASUS Pro WS TRX50-SAGE WIFI主板的存在及其面向工作站/Threadripper PRO的定位，间接支持了平台层级差异的逻辑，但无法直接验证具体的PCIe插槽配置和价格数值，属于经验事实缺来源支持。
+
+## Search Query
+
+TRX50 vs WRX90 PCIe 5.0 x16 slots Threadripper PRO cost difference dual GPU support
+
+## Retrieval Sources
+
+- {'url': 'https://www.asus.com/motherboards-components/motherboards/workstation/pro-ws-trx50-sage-wifi-a/&rut=a2d622846a206d8ce9418e1f957f9b514cf78db690fa5b654fff5bde0bb97da9', 'type': 'ddg', 'title': 'Pro WS TRX50-SAGE WIFI A｜Motherboards｜ASUS Global'}
+- {'url': 'https://www.asus.com/motherboards-components/motherboards/workstation/pro-ws-trx50-sage-wifi/&rut=c1dbec0445a04026a18b4bb0a474ab5c0c9a66f7760beb422bc2105d8be92c9e', 'type': 'ddg', 'title': 'Pro WS TRX50-SAGE WIFI｜Motherboards｜ASUS Global'}
+- {'url': 'https://www.asus.com.cn/motherboards-components/motherboards/workstation/pro-ws-trx50-sage-wifi/&rut=4a773fda8e5fecb127ec80159ede7599ec228c9f9281247ffc1e78a06416e498', 'type': 'ddg', 'title': 'Pro WS TRX50-SAGE WIFI | 工作站主板 | ASUS 华硕'}

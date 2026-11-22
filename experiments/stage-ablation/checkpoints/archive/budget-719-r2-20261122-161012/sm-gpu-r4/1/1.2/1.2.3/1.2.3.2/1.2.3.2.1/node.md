@@ -1,0 +1,24 @@
+# N356: Qwen3-27B 的 KV Cache 每 token 字节数 (Bytes_per_token) 计算公式为 num_kv_heads * d_head *
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N148
+
+## Claim
+
+Qwen3-27B 的 KV Cache 每 token 字节数 (Bytes_per_token) 计算公式为 num_kv_heads * d_head * 2 (for K+V) * bytes_per_element；对于 BF16，Bytes_per_token = 8 * 128 * 2 * 2 = 4096 bytes = 4 KB。
+
+## Corrected Claim
+
+Qwen3-27B 的 KV Cache 每 token 字节数 (Bytes_per_token) 计算公式为 num_kv_heads * d_head * 2 (for K+V) * bytes_per_element；对于 BF16，Bytes_per_token = 8 * 128 * 2 * 2 = 4096 bytes = 4 KB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B 架构参数（GQA, num_kv_heads=8, head_dim=128）符合主流大模型设计，BF16 精度下计算 8*128*2*2=4096 bytes 逻辑自洽且量级合理。
+
+## Search Query
+
+Qwen3 27B num_key_value_heads head_dim architecture config

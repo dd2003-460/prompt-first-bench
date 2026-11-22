@@ -1,0 +1,20 @@
+# N704: RTX 5090 相对 RTX 4090 的 Decode 理论吞吐量提升 77.8% 的前提条件：模型权重完全驻留显存且 Batch Size=1，此时吞吐量
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N289, N290, N291
+
+## Claim
+
+RTX 5090 相对 RTX 4090 的 Decode 理论吞吐量提升 77.8% 的前提条件：模型权重完全驻留显存且 Batch Size=1，此时吞吐量仅受显存带宽限制
+
+## Corrected Claim
+
+RTX 5090 相对 RTX 4090 的 Decode 理论吞吐量提升 77.8% 的前提条件：模型权重完全驻留显存且 Batch Size=1，此时吞吐量仅受显存带宽限制
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在Batch Size=1且权重驻留显存的Decode阶段，吞吐量主要受限于显存带宽（Memory-Bandwidth Bound），理论吞吐量提升比例与显存带宽提升比例一致（RTX 5090带宽1.79TB/s vs RTX 4090 1.0TB/s，提升约79%，与77.8%量级吻合），逻辑自洽。

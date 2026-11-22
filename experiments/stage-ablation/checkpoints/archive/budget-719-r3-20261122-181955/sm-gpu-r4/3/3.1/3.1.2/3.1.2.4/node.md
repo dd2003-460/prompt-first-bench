@@ -1,0 +1,24 @@
+# N277: Batch_Size 对 Decode 吞吐量的边际效益递减阈值：当 Batch_Size > 1 时，KV Cache 总占用线性增加，导致单 token 延
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N91
+
+## Claim
+
+Batch_Size 对 Decode 吞吐量的边际效益递减阈值：当 Batch_Size > 1 时，KV Cache 总占用线性增加，导致单 token 延迟增加；对于 RTX 4090 24GB，在 32K 上下文下，Batch_Size 最大为 1（因 KV Cache 占用已超过剩余显存），因此理论上限仅适用于 Batch=1 场景。
+
+## Corrected Claim
+
+Batch_Size 对 Decode 吞吐量的边际效益递减阈值：当 Batch_Size > 1 时，KV Cache 总占用线性增加，导致单 token 延迟增加；对于 RTX 4090 24GB，在 32K 上下文下，Batch_Size 最大为 1（因 KV Cache 占用已超过剩余显存），因此理论上限仅适用于 Batch=1 场景。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1和子节点2分别针对A100和RTX 4090两种不同硬件场景进行具体计算，属于特定实例化；子节点3提供通用的数学求解公式和决策逻辑。三者分别覆盖了'具体案例A'、'具体案例B（父节点核心约束场景）'和'通用方法论'，内容不重叠且互补，共同完整覆盖了父节点关于阈值判定、显存约束及不同硬件下表现的关键方面。虽然子节点1和2结构相似，但针对不同的硬件参数，属于必要的情境化展开，而非冗余。）
+
+## Search Query
+
+RTX 4090 24GB LLM inference batch size limit 32K context KV cache memory

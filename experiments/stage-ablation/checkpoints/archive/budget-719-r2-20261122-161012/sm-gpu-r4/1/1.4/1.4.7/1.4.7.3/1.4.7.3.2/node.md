@@ -1,0 +1,24 @@
+# N422: 消费级平台（如 X670E/Z790）通常仅提供 2 个 PCIe x16 物理插槽，且受 CPU PCIe 通道限制（通常 24-28 lanes），无法原生
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N175
+
+## Claim
+
+消费级平台（如 X670E/Z790）通常仅提供 2 个 PCIe x16 物理插槽，且受 CPU PCIe 通道限制（通常 24-28 lanes），无法原生支持 4 张独立 PCIe x16 GPU 同时运行；若强行通过 PLX 芯片组扩展或降速至 x4/x8 运行 4 卡，将引入 15%-30% 的 I/O 带宽瓶颈，导致 4 卡推理吞吐量低于理论线性加速比，使得 4 卡方案在性价比上劣于 2 卡方案，除非使用 Threadripper PRO 等具备 128+ PCIe lanes 的平台。
+
+## Corrected Claim
+
+消费级平台（如 X670E/Z790）通常仅提供 2 个 PCIe x16 物理插槽，且受 CPU PCIe 通道限制（通常 24-28 lanes），无法原生支持 4 张独立 PCIe x16 GPU 同时运行；若强行通过 PLX 芯片组扩展或降速至 x4/x8 运行 4 卡，将引入 15%-30% 的 I/O 带宽瓶颈，导致 4 卡推理吞吐量低于理论线性加速比，使得 4 卡方案在性价比上劣于 2 卡方案，除非使用 Threadripper PRO 等具备 128+ PCIe lanes 的平台。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+consumer motherboard 4 GPU PCIe lane limitation inference throughput penalty

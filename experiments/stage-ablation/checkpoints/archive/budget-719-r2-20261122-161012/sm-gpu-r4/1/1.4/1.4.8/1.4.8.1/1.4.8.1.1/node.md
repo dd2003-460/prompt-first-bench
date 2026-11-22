@@ -1,0 +1,24 @@
+# N426: H100 SXM 节点总功耗 1200W 的计算中，P_cpu(2*150W) 假设 CPU 满载，但在 LLM 推理场景下 CPU 主要承担预处理和调度，平均
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N177
+
+## Claim
+
+H100 SXM 节点总功耗 1200W 的计算中，P_cpu(2*150W) 假设 CPU 满载，但在 LLM 推理场景下 CPU 主要承担预处理和调度，平均负载通常低于 30%，实际 CPU 功耗约为 50-100W；因此节点平均功耗更接近 1000-1100W，而非峰值 1200W，这会影响电力成本的长期估算。
+
+## Corrected Claim
+
+H100 SXM 节点总功耗 1200W 的计算中，P_cpu(2*150W) 假设 CPU 满载，但在 LLM 推理场景下 CPU 主要承担预处理和调度，平均负载通常较低，实际 CPU 功耗显著低于满载值；因此节点平均功耗通常低于峰值 1200W，这会影响电力成本的长期估算。
+
+## Evidence
+
+[质询]CPU平均负载低于30%及对应功耗50-100W属于经验性估算，不同推理框架（如vLLM, TGI）和预处理复杂度下波动较大，缺乏统一标准支持该具体数值区间。 | 先验知识/题面给定，逻辑校验通过；但具体功耗数值为经验事实，无来源直接支持，故降级。
+
+## Search Query
+
+H100 SXM node average power consumption CPU load during LLM inference

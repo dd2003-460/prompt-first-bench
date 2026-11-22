@@ -1,0 +1,30 @@
+# N301: 主流双卡消费级主板（Z790/X670E）的 PCIe 插槽物理布局通常提供 1 个 x16 和 1 个 x4/x8 插槽，或 2 个 x16 但物理间距不足导
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N132
+
+## Claim
+
+主流双卡消费级主板（Z790/X670E）的 PCIe 插槽物理布局通常提供 1 个 x16 和 1 个 x4/x8 插槽，或 2 个 x16 但物理间距不足导致双 RTX 4090 (3.5 slot 厚度) 无法同时安装，需选择特定型号（如 ASUS ProArt Z790-Creator 或 MSI MEG X670E ACE）以实现双 x16 物理安装，此类主板价格溢价约 $100-$300 相比标准消费级主板。
+
+## Corrected Claim
+
+主流双卡消费级主板（Z790/X670E）的 PCIe 插槽物理布局通常提供 1 个 x16 和 1 个 x4/x8 插槽，或 2 个 x16 但物理间距不足导致双 RTX 4090 (3.5 slot 厚度) 无法同时安装，需选择特定型号或采用延长线方案以实现双 x16 物理安装，此类主板或方案相比标准消费级主板存在一定成本溢价。
+
+## Evidence
+
+[质询]具体型号推荐（ASUS ProArt Z790-Creator, MSI MEG X670E ACE）及具体价格溢价区间（$100-$300）属于经验事实，参考来源未提供直接数据支持，且不同时期/地区价格波动大，该具体数值缺乏来源佐证。 | 来源[2]和[3]间接支持了双卡主板存在物理间距限制及需特定型号/布局（如延长线）的逻辑，但缺乏对具体推荐型号和价格溢价的直接证据，符合经验事实降级条件。
+
+## Search Query
+
+dual RTX 4090 motherboard compatibility Z790 X670E physical spacing x16 slots price premium
+
+## Retrieval Sources
+
+- {'url': 'https://www.pconline.com.cn/ask/269139.html&rut=3a0f3c2ff762a42762c2e0f17580557ff4c590e1eb84118ae3a52ae74eb40691', 'type': 'ddg', 'title': '双显卡支持主板推荐支持PCIe 5.0吗？ - 太平洋科技'}
+- {'url': 'https://post.smzdm.com/p/a95eeg6p/&rut=288787eca6e6f63f76c74cf5d4e67d980abe34218cab68e3989e8d2e2f3a0211', 'type': 'ddg', 'title': '双显卡平台选Intel还是AMD？实测对比2026年多卡平台的带宽差距_主板_什么值得买'}
+- {'url': 'https://blog.csdn.net/weixin_28702105/article/details/161246238&rut=aa81cddd6ae7f22d5ad6037e5f29173de7ba7106d1de2ad39c0a7552b52eccfb', 'type': 'ddg', 'title': '华硕rog X670e-e主板插两张rtx 4090？保姆级布局与散热方案来了-csdn博客'}

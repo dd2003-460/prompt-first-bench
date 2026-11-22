@@ -1,0 +1,20 @@
+# N66: CPU 推理 Qwen3-27B (INT4) 的 Decode 速度理论上限约为 512 GB/s / 13.5 GB (weights) ≈ 37.9 to
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+CPU 推理 Qwen3-27B (INT4) 的 Decode 速度理论上限约为 512 GB/s / 13.5 GB (weights) ≈ 37.9 tokens/s，但受 CPU 缓存未命中和内存控制器延迟影响，实测通常在 5-10 tokens/s 区间 [待核验]。
+
+## Corrected Claim
+
+CPU 推理 Qwen3-27B (INT4) 的 Decode 速度理论上限约为 512 GB/s / 13.5 GB (weights) ≈ 37.9 tokens/s，但受 CPU 缓存未命中和内存控制器延迟影响，实测通常在 5-10 tokens/s 区间 [待核验]。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在逻辑上相互独立且无直接矛盾（正交性满足）。但是，父节点明确提到了‘CPU 缓存未命中’和‘内存控制器延迟’对实测速度（5-10 tokens/s）的影响，而子节点主要聚焦于带宽瓶颈和内存占用，完全缺失了关于‘缓存层级影响（L3/DRAM 访问模式）’或‘延迟敏感性分析’的子节点，导致无法解释理论值（37.9）与实测值（5-10）之间巨大的差距，因此不完备。）

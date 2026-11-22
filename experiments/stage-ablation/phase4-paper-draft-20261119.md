@@ -57,9 +57,10 @@ S0 = 无分解状态机，直接综合 + 判分。基线数值：
 |------|----------|---------|---------|------|------|------|
 | nat | cov ≥ 0.634 | **0.6511**（181/278 verified） | 0.634（391 reps） | +0.017 | verified rate | runs-s5-sm-nat.json（#15 复核） |
 | soc | cov ≥ 0.898 | **0.9142**（10-run mean, sd=0.074） | 0.8957（100 reps） | +0.0185 | judge coverage 10-run mean | runs-s5-sm-soc-synth-multi.json（#19） |
-| gpu | depth ≥ 0.50 | **0.6204**（85/137 verified） | 无 S0 基线 | 超 gpu-main 0.319 / M2-textarm 0.516 | verified rate | runs-s5-sm-gpu.json（#20，verify-only 重验） |
+| gpu | depth ≥ 0.50 | **0.6204**（85/137 verified，verify-only 口径） | 无 S0 基线 | 超 gpu-main 0.319 / M2-textarm 0.516 | verified rate | runs-s5-sm-gpu.json（#20，verify-only 重验） |
+| gpu（完整 SM 口径） | depth ≥ 0.50 | **0.3420**（10-run mean，sd=0.134） | 无 S0 基线 | — | depth（judge） | ablation-results.json（t53b-batch gpu_formula r01-r10） |
 
-gate 5/5 全过（方向性判定）。
+gate 5/5 全过（方向性判定，**但 gpu 项存在口径分歧，见 §3.2**）。
 
 ### 3.2 统计显著性（关键发现，如实标注）
 
@@ -67,9 +68,9 @@ gate 5/5 全过（方向性判定）。
 
 **nat**：S5 judge coverage 单次 0.667（runs-s5-sm-nat-synth.json），S0 基线 0.634（391 reps）。差值 +0.033，但 S5 侧只有单次（方差未知），不能判显著。verified rate 0.6511 vs 0.634 是不同口径（节点级 vs 综合级），数值碰巧大但指标不同——#18 已指出"nat ✅ 可能是假过"。
 
-**gpu**：无 S0 基线，gate 定义本就是 verified rate。和历史版本比：gpu-main 0.319 → S5 0.6204（+0.301），M2-textarm 0.516 → S5 0.6204（+0.104）。但这是同管线不同配置对比，不是 S5 vs S0。
+**gpu（口径分歧，本轮新发现）**：phase2 判 gate 用的 0.6204 是 **verify-only 口径**——重验一棵已有的 137 节点树（r3 checkpoint），把 degraded 翻回 verified，单点结果。但 t53b-batch 的完整 SM 从头跑 10 次（gpu_formula r01-r10，每次从零分解+核验+综合+judge）的 depth mean 只有 **0.3420**（sd=0.134，95% CI [0.2588, 0.4252]），10 个 run 里只有 1 个（r04=0.5089）≥0.50。两个口径差 0.2784，原因：verify-only 跳过了分解阶段（树结构是之前跑好的），只重验节点状态——相当于"给定一棵好树，核验能把多少节点翻回 verified"，而完整 SM 是"从零建一棵树并核验"，分解质量波动（r03 depth=0.0、r08 verified=0）主导了方差。**结论：gpu depth gate 的 PASS 只在 verify-only 口径下成立；完整 SM 口径下 FAIL（mean 0.342 < 0.50，差 0.158，且 CI 上限 0.425 也低于 0.50）**。这是本轮消融暴露的最重要口径问题，不能粉饰。
 
-**结论**：S5 在三个题面上方向性优于 S0/历史版本，但**统计显著性未确认**（soc CI 包含基线，nat S5 侧方差未知）。要确认显著性需要：① nat 补跑 10-run mean；② soc 增加 run 数缩小 CI；③ 统一口径后重跑。
+**结论**：S5 在三个题面上方向性优于 S0/历史版本，但**统计显著性未确认**（soc CI 包含基线，nat S5 侧方差未知），且 **gpu 项在完整 SM 口径下 FAIL**（verify-only 口径 PASS 是偏乐观的单点）。要确认 gpu 增益需要：① 查完整 SM 分解阶段的方差来源（r03/r08 为什么 depth=0/verified=0）；② 确认 verify-only 口径是否可辩护（"树已建好后的核验增益"是独立可报告的机制，但 gate 原文要求的是管线端到端）。
 
 ### 3.3 机制论证（增益来源）
 
@@ -100,7 +101,7 @@ S5 分解状态机管线在三个题面上方向性优于 S0 基线（nat +0.017
 2. **跨题面口径不一致**：nat/gpu 用 verified rate（节点级），soc 用 judge coverage 10-run mean（综合级）。跨题面不可直接横向比较（"nat 0.6511 < soc 0.9142"是口径不同导致的假象）。
 3. **nat S5 侧未跑 10-run mean**：judge coverage 只有单次 0.667，方差未知，不能判显著。
 4. **soc hallucination_flags 波动**：6→11（两次综合），synthesis 是 temperature=0.7 的 LLM 调用，单次分数不可作为 gate 判定依据。
-5. **gpu 无 S0 基线**：gate 定义本就是 verified rate，和历史版本比不是 S5 vs S0 对比。
+5. **gpu 无 S0 基线 + 口径分歧**：gate 定义本就是 verified rate，和历史版本比不是 S5 vs S0 对比。更关键：phase2 判 gate 用的 0.6204 是 verify-only 口径（重验已有树），完整 SM 从头跑 10 次 depth mean 只有 0.3420（95% CI [0.2588, 0.4252]，1/10 达标）——gpu 项在完整 SM 口径下 FAIL。
 6. **检索通道不稳定**：webllm 三通道全挂（IP 级 anomaly 封锁），reworks 91 个全是通道型（"逻辑自洽但缺来源"），不是树质量问题。通道恢复后 reworks 可能减少，verified rate 可能变化。
 
 ## 6. 下一步（补强实验）

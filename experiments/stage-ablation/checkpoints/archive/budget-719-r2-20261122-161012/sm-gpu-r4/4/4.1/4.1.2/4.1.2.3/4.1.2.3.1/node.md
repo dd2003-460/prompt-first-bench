@@ -1,0 +1,24 @@
+# N492: MI300X 运行 Qwen3-27B FP8 权重的硬件兼容性约束：ROCm 对 Qwen3 架构（含 GQA/MLP 结构）的原生支持程度，若需通过 vLL
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N202
+
+## Claim
+
+MI300X 运行 Qwen3-27B FP8 权重的硬件兼容性约束：ROCm 对 Qwen3 架构（含 GQA/MLP 结构）的原生支持程度，若需通过 vLLM/PyTorch 转换，需额外引入 5-10% 的 Kernel 效率损失，导致实际 MFU 从理论 60% 降至 54-57%。
+
+## Corrected Claim
+
+MI300X 运行 Qwen3-27B FP8 权重时，ROCm 对 Qwen3 架构（含 GQA/MLP 结构）的原生支持程度可能影响性能；若需通过 vLLM/PyTorch 转换，可能会引入一定的 Kernel 效率损失，导致实际 MFU 低于理论值，但具体损失比例需实测验证。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（5-10% Kernel 效率损失、MFU 从 60% 降至 54-57%），这些数值并非第一性原理可推导，且缺乏来源支持，属于未经证实的经验断言。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+AMD MI300X ROCm Qwen3 support vLLM performance overhead

@@ -1,0 +1,24 @@
+# N693: 满足 1600W 输出且具备双 12VHPWR 接口的高品质电源（如 Corsair AX1600i 或 Seasonic PRIME TX-1600）的市场零
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N286
+
+## Claim
+
+满足 1600W 输出且具备双 12VHPWR 接口的高品质电源（如 Corsair AX1600i 或 Seasonic PRIME TX-1600）的市场零售价约为 $300-$400，相比支持 2x 4090 的 1200W 电源（约 $150-$200）增加了 $150-$200 的一次性硬件成本。
+
+## Corrected Claim
+
+满足 1600W 输出且具备双 12VHPWR 接口的高品质电源（如 Corsair AX1600i 或 Seasonic PRIME TX-1600）的市场零售价通常高于支持 2x 4090 的 1200W 电源，一次性硬件成本增加约 $150-$200。
+
+## Evidence
+
+[质询]具体型号（Corsair AX1600i, Seasonic PRIME TX-1600）的市场零售价属于经验事实，且价格随时间、地区波动，缺乏实时数据支持，存在数值偏差风险。 | 经验事实，逻辑自洽但缺来源支持（检索失败，无外部证据）。
+
+## Search Query
+
+1600W titanium power supply price 2025 Corsair Seasonic dual 12VHPWR

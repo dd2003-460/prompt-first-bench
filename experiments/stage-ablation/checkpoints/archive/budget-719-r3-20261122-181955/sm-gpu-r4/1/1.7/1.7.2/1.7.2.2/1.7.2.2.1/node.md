@@ -1,0 +1,24 @@
+# N638: A100 80GB PCIe 有效算力修正值 225 TFLOPS 的机制依据：基于 Roofline 模型，LLM Decode 阶段受内存带宽限制（2039
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N225
+
+## Claim
+
+A100 80GB PCIe 有效算力修正值 225 TFLOPS 的机制依据：基于 Roofline 模型，LLM Decode 阶段受内存带宽限制（2039 GB/s），实际算力利用率约为理论峰值 312 TFLOPS 的 72%（225/312），该系数由 NVIDIA 官方白皮书中 LLM 推理基准测试的算术强度（Arithmetic Intensity）< 5 FLOP/Byte 推导得出 [时效待核]。
+
+## Corrected Claim
+
+A100 80GB PCIe 在 LLM Decode 阶段受内存带宽限制，实际有效算力随 Batch Size 和序列长度动态变化，通常远低于理论峰值 312 TFLOPS，225 TFLOPS 仅为特定基准测试下的经验估算值，非固定修正系数。
+
+## Evidence
+
+[质询]数值逻辑存在内部矛盾：A100 80GB PCIe 的 FP16 理论峰值算力通常为 312 TFLOPS，但 225 TFLOPS 并非 312 的 72%（312 * 0.72 ≈ 224.64，数值上勉强吻合，但 72% 的利用率系数缺乏通用性，且 Roofline 模型中 Decode 阶段通常受带宽限制，实际算力往往远低于峰值，72% 的利用率在纯 Decode 阶段偏高，通常 Decode 阶段算术强度极低，利用率应更低；此外，'225 TFLOPS' 作为'有效算力修正值'是一个经验性估算，而非固定物理常数，不同 Batch Size 和序列长度下该值波动极大，将其固化为单一数值并声称由'算术强度 < 5'推导得出，逻辑链条过于简化且缺乏严谨性。 | 先验知识/题面给定，逻辑校验发现数值推导与 Roofline 模型在 Decode 阶段的典型表现存在偏差（Decode 阶段算术强度通常远低于 5，利用率通常低于 72%），且 225 TFLOPS 为经验估算值，非固定物理参数，故降级。
+
+## Search Query
+
+A100 LLM inference effective FLOPs utilization roofline model arithmetic intensity benchmark

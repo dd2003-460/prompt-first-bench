@@ -1,0 +1,24 @@
+# N671: AMD RX 7900 XTX 在 Qwen3-27B INT4 量化下的显存占用分析：24GB 显存 - 13.5GB 权重 - 2GB 框架开销 = 8.5
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N239, N240, N241
+
+## Claim
+
+AMD RX 7900 XTX 在 Qwen3-27B INT4 量化下的显存占用分析：24GB 显存 - 13.5GB 权重 - 2GB 框架开销 = 8.5GB 剩余，32K 上下文单请求 KV Cache = 8GB (BF16)，剩余 0.5GB 仅支持 1 并发；若启用 INT8 KV Cache (4GB)，可支持 2 并发
+
+## Corrected Claim
+
+AMD RX 7900 XTX 在 Qwen3-27B INT4 量化下的显存占用分析：24GB 显存 - 13.5GB 权重 - 2GB 框架开销 = 8.5GB 剩余，32K 上下文单请求 KV Cache = 8GB (BF16)，剩余 0.5GB 仅支持 1 并发；若启用 INT8 KV Cache (4GB)，可支持 2 并发
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数INT4量化权重约13.5GB，24GB显存扣除权重和框架开销后剩余8.5GB；32K上下文BF16 KV Cache约8GB，剩余0.5GB仅支持1并发；INT8 KV Cache减半至4GB，剩余4.5GB支持2并发，数值量级与逻辑自洽。
+
+## Search Query
+
+RX 7900 XTX 24GB VRAM Qwen3-27B 32K context KV cache capacity

@@ -1,0 +1,17 @@
+{
+  "id": "N514",
+  "claim": "RTX 5090 相比 RTX 4090 的 Decode 吞吐提升 77.8% (32.5 vs 18.3 tokens/s) 仅在 BF16 且忽略 KV Cache 增长时成立；在 32K 长上下文下，KV Cache 占用 (约 2-4 GB per 32K for 27B) 使得分母增大，实际带宽利用率下降，导致 5090 的相对优势收窄至约 60-70%；需计算 32K 上下文下两者的实际 tokens/s 差值以修正性价比模型中的 Throughput 项。",
+  "level": "L5",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]KV Cache 占用量级估算存在偏差：对于 27B 参数模型（如 Llama-3-70B 或类似架构），32K 上下文的 KV Cache 通常远超 2-4 GB（例如 Llama-3-70B 在 FP16 下 32K 上下文 KV Cache 约为 10-15 GB），若按此计算，显存带宽压力更大，5090 的相对优势收窄幅度可能超过 60-70%，或者导致 4090 直接 OOM 无法运行，从而使得‘相对优势收窄’这一前提在特定配置下不成立或需重新定义。 | 先验知识/题面给定，逻辑校验通过：虽然 KV Cache 具体数值估算可能因模型架构（GQA/MQA）和精度而异，但‘长上下文导致 KV Cache 增大从而降低有效带宽利用率并收窄硬件代际优势’这一逻辑链条在物理和经济直觉上是自洽的。由于 source 为 knowledge，且无外部来源矛盾，但考虑到 KV Cache 数值估算的潜在误差（2-4GB 对于 27B 模型 32K 上下文偏小，除非是高度优化的 GQA 或 INT8 KV），该具体数值支撑的结论存在不确定性，故降级为定性表述。",
+  "corrected_claim": "RTX 5090 相比 RTX 4090 的 Decode 吞吐提升在短上下文 BF16 下约为 77.8%；但在 32K 长上下文下，由于 KV Cache 占用显著增加（具体大小取决于模型架构，通常数 GB 至十几 GB），显存带宽成为瓶颈，5090 的相对性能优势会因带宽利用率下降而收窄，具体收窄幅度需根据实际 KV Cache 大小和带宽瓶颈程度计算，定性上优势将小于短上下文场景。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N211"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "LLM inference KV cache size impact on memory bound decoding latency long context",
+  "retrieval_sources": []
+}

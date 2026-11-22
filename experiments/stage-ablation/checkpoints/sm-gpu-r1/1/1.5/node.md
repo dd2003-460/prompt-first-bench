@@ -1,28 +1,28 @@
-# N11: 散热与风道硬约束：多卡密集部署时的热密度上限（W/L）、所需风扇数量/尺寸、以及机箱风道设计对 GPU 温度墙（Thermal Throttling）的影响阈值
+# N11: 软件栈兼容性矩阵：NVIDIA 消费级卡（RTX 4090/5090）支持 BF16/FP8 (需 CUDA 12.8+ 及新驱动)，但原生不支持 NVFP4；
 
 - **status**: degraded
 - **level**: L2
 - **source**: search
 - **edge_type**: cartesian
 - **rework_count**: 1
-- **parent_ids**: N1, N2, N3
+- **parent_ids**: N1
 
 ## Claim
 
-散热与风道硬约束：多卡密集部署时的热密度上限（W/L）、所需风扇数量/尺寸、以及机箱风道设计对 GPU 温度墙（Thermal Throttling）的影响阈值
+软件栈兼容性矩阵：NVIDIA 消费级卡（RTX 4090/5090）支持 BF16/FP8 (需 CUDA 12.8+ 及新驱动)，但原生不支持 NVFP4；数据中心卡（A100/H100/B200）全面支持 BF16/FP8/NVFP4/INT8；AMD 卡（MI300X/MI325X）支持 BF16/FP8，但对 INT8/W4 的支持依赖 ROCm 版本，存在 [时效待核] 风险。
 
 ## Corrected Claim
 
-多卡密集部署时，高热密度会导致常规风冷架构在长时间满载下触发温度墙降频；具体的热密度上限、风扇配置及温度阈值需根据特定GPU型号、机箱风道设计及环境温度进行工程计算，不存在通用的固定数值标准。
+软件栈兼容性矩阵：NVIDIA 数据中心卡（A100/H100/B200）全面支持 BF16/FP8/NVFP4/INT8；消费级卡（RTX 4090/5090）支持 BF16/FP8，NVFP4 支持需依赖特定 CUDA/驱动版本及软件栈更新；AMD 卡（MI300X/MI325X）支持 BF16/FP8，INT8/W4 支持依赖 ROCm 版本。
 
 ## Evidence
 
-[质询]陈述中提到的具体数值指标（如热密度上限 W/L、具体风扇数量/尺寸、精确的温度墙影响阈值）在参考来源中未提供，且不同硬件配置下这些参数差异巨大，无法从单一来源或第一性原理推导出通用固定值，存在将特定案例泛化为通用硬约束的风险。 | 来源[1]间接支持了多卡密集部署存在热密度瓶颈及温度墙导致降频的现象，但未提供陈述中要求的具体量化参数（W/L、风扇规格、阈值），属于经验事实且缺乏直接数值支持。
+[质询]参考来源仅提供了NVIDIA框架支持矩阵的通用描述，未包含具体硬件型号（RTX 4090/5090, A100等）对特定精度（BF16/FP8/NVFP4/INT8）的支持细节，无法直接验证陈述中的具体兼容性断言。 | 逻辑自洽（符合当前硬件架构常识：Hopper/Blackwell支持FP8/NVFP4，Ada/Blackwell消费级支持FP8但NVFP4支持情况需具体驱动/软件栈确认，AMD ROCm支持情况随版本变化），但参考来源[1]仅为主题相关，未提供具体数值或型号支持，属于间接支持或缺乏直接证据。
 
 ## Search Query
 
-multi-GPU workstation thermal density limit thermal throttling threshold
+NVIDIA RTX 4090 FP8 support CUDA version Qwen3 inference framework compatibility vLLM llama.cpp
 
 ## Retrieval Sources
 
-- {'url': 'https://zhuanlan.zhihu.com/p/2029873456972576126&rut=a0d07288467b1c5b8ab48badfde672d9dc8458a236d52dd701cf71bc094d2f04', 'type': 'ddg', 'title': 'Ai算力服务器：计算的散热与适配工程 - 知乎'}
+- {'url': 'https://docs.nvidia.com/deeplearning/frameworks/support-matrix/index.html&rut=1ab62f78f369c3b092afa13cd0b700062c986d8fcfbd7fb8b411c78cb882c4a5', 'type': 'ddg', 'title': 'Frameworks Support Matrix - NVIDIA Docs'}

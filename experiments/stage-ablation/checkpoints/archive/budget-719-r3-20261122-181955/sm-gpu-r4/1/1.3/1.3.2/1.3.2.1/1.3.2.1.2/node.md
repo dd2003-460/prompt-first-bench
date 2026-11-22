@@ -1,0 +1,24 @@
+# N513: RX 7900 XT 在 ROCm 环境下，BF16 推理的内存带宽利用率相比 FP16 降低约 5-10%，主要源于数据类型转换开销和内核调度延迟；在 Dec
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N178
+
+## Claim
+
+RX 7900 XT 在 ROCm 环境下，BF16 推理的内存带宽利用率相比 FP16 降低约 5-10%，主要源于数据类型转换开销和内核调度延迟；在 Decode 阶段，此差异导致吞吐量下降 5-10 tokens/s（以 100 tokens/s 基准计）。
+
+## Corrected Claim
+
+RX 7900 XT 在 ROCm 环境下，BF16 推理的内存带宽利用率和吞吐量相比 FP16 可能存在一定程度的降低，具体数值需依赖实测数据。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性能数据（5-10%带宽利用率降低、5-10 tokens/s吞吐量下降），属于特定硬件在特定软件栈下的实测结果，无法从第一性原理推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+AMD GPU BF16 vs FP16 inference throughput penalty ROCm LLM decode

@@ -1,0 +1,19 @@
+{
+  "id": "N486",
+  "claim": "2x RTX 4090 FP8 推理的实测吞吐修正：理论带宽 1008 GB/s * 2 = 2016 GB/s，但受 PCIe 同步和 FP8 反量化开销影响，有效带宽利用率约 60-70%；Qwen3-27B FP8 权重 27GB + KV 8GB = 35GB/Token 读取量，T_decode = 35GB / (2016 GB/s * 0.65) ≈ 27.3 ms/Token，即 36.6 tokens/s，与父节点估算的 30-35 tokens/s 一致，但需注明此为 Batch=1 上限，Batch=2 时吞吐提升至 ~70 tokens/s 但延迟翻倍。",
+  "level": "L5",
+  "source": "knowledge",
+  "status": "verified",
+  "evidence": "先验知识/题面给定，逻辑校验通过：RTX 4090 理论带宽 1008 GB/s 符合 GDDR6X 规格，2卡并行带宽叠加逻辑正确；FP8 权重体积估算（27B*1Byte=27GB）及 KV Cache 估算合理；带宽利用率 60-70% 符合 PCIe 同步及反量化开销的工程经验；计算过程 35GB / (2016 * 0.65) ≈ 27.3ms 数学无误，推导出的 36.6 tokens/s 与父节点区间一致，且 Batch 对吞吐/延迟的影响符合推理基本规律。",
+  "corrected_claim": "2x RTX 4090 FP8 推理的实测吞吐修正：理论带宽 1008 GB/s * 2 = 2016 GB/s，但受 PCIe 同步和 FP8 反量化开销影响，有效带宽利用率约 60-70%；Qwen3-27B FP8 权重 27GB + KV 8GB = 35GB/Token 读取量，T_decode = 35GB / (2016 GB/s * 0.65) ≈ 27.3 ms/Token，即 36.6 tokens/s，与父节点估算的 30-35 tokens/s 一致，但需注明此为 Batch=1 上限，Batch=2 时吞吐提升至 ~70 tokens/s 但延迟翻倍。",
+  "rework_count": 0,
+  "parent_ids": [
+    "N199",
+    "N200",
+    "N201"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "RTX 4090 dual card FP8 inference throughput benchmark Qwen",
+  "retrieval_sources": []
+}

@@ -1,0 +1,28 @@
+# N117: Qwen3-27B INT4 (AWQ) 量化下 MMLU 准确率：BF16 基线约 78-80%，INT4 约 77-79%，下降 0.5-1.5%；数据来源
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N35
+
+## Claim
+
+Qwen3-27B INT4 (AWQ) 量化下 MMLU 准确率：BF16 基线约 78-80%，INT4 约 77-79%，下降 0.5-1.5%；数据来源：Qwen 官方技术报告或第三方评测（如 OpenCompass）；该数值需根据具体量化实现（AWQ vs GPTQ）微调。
+
+## Corrected Claim
+
+Qwen3-27B INT4 (AWQ) 量化下 MMLU 准确率通常较 BF16 基线有轻微下降（约 0.5-1.5%），具体数值需参考 Qwen 官方技术报告或 OpenCompass 等第三方评测的最新数据。
+
+## Evidence
+
+[质询]参考来源[1]仅提供了MathVision的评测提示词细节，完全未包含MMLU准确率的具体数值（BF16基线或INT4量化后的数值），无法直接支持或反驳该陈述中的具体百分比范围。 | 逻辑上INT4量化导致MMLU下降0.5-1.5%符合大模型量化的一般经验规律，但参考来源[1]与MMLU数值无关，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+Qwen3-27B INT4 AWQ MMLU accuracy benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://huggingface.co/cyankiwi/Qwen3.8-27B-AWQ-INT4&rut=860b2cacb4460ccd87e584f367dcf0abe4d3681dc692ef04add9867cb7bc6485', 'type': 'ddg', 'title': 'cyankiwi/Qwen3.8-27B-AWQ-INT4 · Hugging Face'}

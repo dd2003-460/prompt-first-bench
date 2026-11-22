@@ -1,0 +1,31 @@
+# N59: Intel Data Center GPU Max 1550 (48GB HBM2e) 的显存带宽为 1.5 TB/s，FP8 算力为 2.5 PFLOPS (
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N10
+
+## Claim
+
+Intel Data Center GPU Max 1550 (48GB HBM2e) 的显存带宽为 1.5 TB/s，FP8 算力为 2.5 PFLOPS (sparse)，TDP 为 350W，单卡均价为 $12,000-$15,000 USD [待核验]。
+
+## Corrected Claim
+
+Intel Data Center GPU Max 1550 配备 128GB HBM2e 显存，显存带宽约为 20.48 TB/s。
+
+## Evidence
+
+[质询]显存容量与带宽数值严重错误：来源[3]明确指出该GPU配备128GB HBM2e显存（而非48GB），且基于8192-bit位宽和3.2 Gbps有效频率计算，带宽应为20.48 TB/s（而非1.5 TB/s）。 | 来源[3]直接矛盾：实际显存为128GB HBM2e，带宽计算值为20.48 TB/s，与陈述中的48GB和1.5 TB/s完全不符。
+
+## Search Query
+
+Intel Data Center GPU Max 1550 specs price HBM2e bandwidth
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Intel_Xe', 'type': 'wikipedia', 'title': 'Intel Xe'}
+- {'url': 'https://en.wikipedia.org/wiki/List_of_Nvidia_graphics_processing_units', 'type': 'wikipedia', 'title': 'List of Nvidia graphics processing units'}
+- {'url': 'https://www.techpowerup.com/gpu-specs/data-center-gpu-max-1550.c4068&rut=54eb13437a0adfd2ef35809dba3e00e34dd38f623ebd2e9ad678cb58323d880e', 'type': 'ddg', 'title': 'Intel Data Center GPU Max 1550 Specs - TechPowerUp'}
+- {'url': 'https://www.intel.com/content/www/us/en/products/sku/232873/intel-data-center-gpu-max-1550/specifications.html&rut=0d46b4a9edf0c20d61ca3dba3260d944d990451a4e0c221a9a1adbdf19987c12', 'type': 'ddg', 'title': 'Intel® Data Center GPU Max 1550 Specifications'}

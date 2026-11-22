@@ -1,0 +1,17 @@
+{
+  "id": "N493",
+  "claim": "A100 SXM TP=2 每层 All-Reduce 通信数据量修正：基于 Qwen3-27B 实际 GQA 参数 (n_kv_heads=8, head_dim=128, dtype=BF16)，每层通信量为 2 * 8 * 128 * 2 bytes = 4 KB；N167 中 536 MB 的计算错误源于误将 seq_len 纳入 All-Reduce 数据量（All-Reduce 仅同步隐藏状态 hidden_states，其大小与 seq_len 无关，仅与 batch_size 和 hidden_dim 相关）。",
+  "level": "L5",
+  "source": "knowledge",
+  "status": "verified",
+  "evidence": "先验知识/题面给定，逻辑校验通过：All-Reduce 在 TP 中同步的是激活值（hidden_states），其大小取决于 batch_size 和 hidden_dim，与 seq_len 无关；计算 2 * 8 * 128 * 2 = 4096 bytes = 4 KB 符合 BF16 精度下的数据量逻辑。",
+  "corrected_claim": "A100 SXM TP=2 每层 All-Reduce 通信数据量修正：基于 Qwen3-27B 实际 GQA 参数 (n_kv_heads=8, head_dim=128, dtype=BF16)，每层通信量为 2 * 8 * 128 * 2 bytes = 4 KB；N167 中 536 MB 的计算错误源于误将 seq_len 纳入 All-Reduce 数据量（All-Reduce 仅同步隐藏状态 hidden_states，其大小与 seq_len 无关，仅与 batch_size 和 hidden_dim 相关）。",
+  "rework_count": 0,
+  "parent_ids": [
+    "N167"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

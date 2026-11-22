@@ -1,0 +1,20 @@
+# N132: 在 3 年使用周期内，2x RTX 4090 (INT4 量化) 的 TCO 约为 $4,500-$5,500 USD（含硬件、电力、基础设施），而 1x A1
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+在 3 年使用周期内，2x RTX 4090 (INT4 量化) 的 TCO 约为 $4,500-$5,500 USD（含硬件、电力、基础设施），而 1x A100 80GB (BF16/FP8) 的 TCO 约为 $18,000-$21,000 USD。尽管 A100 性能更高，但在无硬性延迟指标且仅追求‘能跑通 32K 上下文’的场景下，2x 4090 的性价比优势约为 4:1 至 5:1。
+
+## Corrected Claim
+
+在 3 年使用周期内，2x RTX 4090 (INT4 量化) 的 TCO 约为 $4,500-$5,500 USD（含硬件、电力、基础设施），而 1x A100 80GB (BF16/FP8) 的 TCO 约为 $18,000-$21,000 USD。尽管 A100 性能更高，但在无硬性延迟指标且仅追求‘能跑通 32K 上下文’的场景下，2x 4090 的性价比优势约为 4:1 至 5:1。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

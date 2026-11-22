@@ -1,0 +1,24 @@
+# N480: L40S 在 LLM 推理负载下的平均功耗修正：N162 假设 P_avg = 0.7 * TDP，但 L40S 作为数据中心卡，其功耗控制策略与消费级卡不同，
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N162
+
+## Claim
+
+L40S 在 LLM 推理负载下的平均功耗修正：N162 假设 P_avg = 0.7 * TDP，但 L40S 作为数据中心卡，其功耗控制策略与消费级卡不同，实际 LLM 推理负载下平均功耗可能在 TDP 的 60%-75% 之间，需根据具体框架（如 vLLM/TensorRT-LLM）和批处理大小进行实测或更精细估算，而非固定 0.7 系数。
+
+## Corrected Claim
+
+L40S 在 LLM 推理负载下的平均功耗受功耗控制策略、框架及批处理大小影响，通常低于 TDP，具体数值需实测确定，不宜简单固定为 0.7 系数。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值范围（60%-75%）和特定硬件行为假设，属于经验事实，无法从第一性原理严格推导，且缺乏实测数据支持。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）。
+
+## Search Query
+
+NVIDIA L40S power consumption LLM inference average wattage

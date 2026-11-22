@@ -1,0 +1,24 @@
+# N532: NVLink 与 PCIe 在 TP=2 场景下的性能反转阈值：当模型层数 N_layers > 100 或隐藏层维度 H_hidden > 8192 时，PC
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N219
+
+## Claim
+
+NVLink 与 PCIe 在 TP=2 场景下的性能反转阈值：当模型层数 N_layers > 100 或隐藏层维度 H_hidden > 8192 时，PCIe 的固定延迟累积效应超过 NVLink 的同步开销，PCIe 方案延迟增加幅度将超过 30%，此时 NVLink 方案的性能优势从 5-10% 扩大至 20-30%；对于 Qwen3-27B (64 layers, H=4096)，处于阈值边缘，NVLink 优势稳定在 5-10%。
+
+## Corrected Claim
+
+NVLink 与 PCIe 在 TP=2 场景下存在性能反转阈值：当模型规模（层数或隐藏层维度）超过一定临界值时，PCIe 的固定延迟和带宽瓶颈累积效应将显著超过 NVLink 的同步开销，导致 PCIe 方案延迟大幅增加，NVLink 方案的性能优势随之扩大；对于 Qwen3-27B (64 layers, H=4096)，通常处于该阈值边缘或以下，NVLink 优势相对有限。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（N_layers > 100, H_hidden > 8192）和精确的性能百分比（30%, 5-10%, 20-30%），这些数值并非物理定律或数学公理的直接推论，而是依赖于具体硬件实现、通信库优化及模型架构细节的经验数据，缺乏通用性且无法从第一性原理严格推导。 | 逻辑自洽（PCIe带宽低且延迟高，随数据量/层数增加累积效应显著，符合通信瓶颈直觉），但作为knowledge节点，其包含的具体经验参数（阈值和百分比）缺乏通用理论支撑，属于特定场景下的经验总结，故降级为定性表述。
+
+## Search Query
+
+model depth impact on tensor parallelism interconnect sensitivity threshold

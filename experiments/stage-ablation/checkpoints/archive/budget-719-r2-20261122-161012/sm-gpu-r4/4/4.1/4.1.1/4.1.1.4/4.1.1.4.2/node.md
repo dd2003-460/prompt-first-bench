@@ -1,0 +1,24 @@
+# N483: 架构参数敏感性量化：若 num_kv_heads 从 8 增至 16，KV_Size_Per_Token 从 192 KB 线性增至 384 KB，32K 上下
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N199, N200, N201
+
+## Claim
+
+架构参数敏感性量化：若 num_kv_heads 从 8 增至 16，KV_Size_Per_Token 从 192 KB 线性增至 384 KB，32K 上下文总 KV 需求从 6.0 GB (32768 * 192KB) 增至 12.0 GB (32768 * 384KB)，增量 ΔKV = 6.0 GB，该增量是评估硬件容量余量的核心变量。
+
+## Corrected Claim
+
+架构参数敏感性量化：若 num_kv_heads 从 8 增至 16，KV_Size_Per_Token 从 192 KB 线性增至 384 KB，32K 上下文总 KV 需求从 6.0 GB (32768 * 192KB) 增至 12.0 GB (32768 * 384KB)，增量 ΔKV = 6.0 GB，该增量是评估硬件容量余量的核心变量。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：192KB * 32768 = 6,291,456 KB ≈ 6.0 GB，384KB * 32768 = 12,582,912 KB ≈ 12.0 GB，增量 6.0 GB，计算自洽且符合线性关系。
+
+## Search Query
+
+KV cache size calculation formula num_kv_heads impact

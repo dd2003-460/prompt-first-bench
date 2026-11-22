@@ -1,0 +1,24 @@
+# N512: 在 RTX 5090 上运行 Qwen3-27B 时，由于 BF16 权重 (54GB) 超过 32GB 显存，必须采用 FP8 量化或 CPU Offload
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N211
+
+## Claim
+
+在 RTX 5090 上运行 Qwen3-27B 时，由于 BF16 权重 (54GB) 超过 32GB 显存，必须采用 FP8 量化或 CPU Offload；若采用 FP8 (权重 27GB)，Decode 理论吞吐上限修正为 1792 GB/s / (27GB + KV_Cache_FP8) ≈ 52 tokens/s (未计效率)，实际有效吞吐约 36-46 tokens/s，显著高于 BF16 的 19.5-26 tokens/s，但需引入 Quality_Factor=0.98 的惩罚。
+
+## Corrected Claim
+
+在 RTX 5090 上运行 Qwen3-27B 时，由于 BF16 权重 (约54GB) 超过 32GB 显存，必须采用 FP8 量化或 CPU Offload。若采用 FP8 (权重约27GB)，理论上 Decode 吞吐将显著高于 BF16 方案，但具体数值需依据实际硬件带宽和模型效率测定，通常伴随轻微的质量损失。
+
+## Evidence
+
+[质询]该陈述包含大量具体的经验性数值（如 RTX 5090 的 1792 GB/s 带宽、Qwen3-27B 的具体显存占用、以及 36-46 tokens/s 的实际吞吐范围），这些属于硬件规格和模型运行时的经验事实，无法仅从第一性原理推导得出。由于检索失败，缺乏外部来源直接支持这些具体数值，且 RTX 5090 作为较新硬件，其具体带宽和实际推理性能数据可能存在偏差或尚未广泛验证。 | 经验事实，逻辑自洽但缺来源支持。虽然 BF16 超显存需量化/Offload 的逻辑正确，且 FP8 比 BF16 快符合直觉，但具体数值（带宽、吞吐、质量因子）无来源佐证，依据经验事实排除条款降级。
+
+## Search Query
+
+RTX 5090 Qwen3 27B FP8 inference benchmark tokens per second

@@ -1,0 +1,20 @@
+# N650: 修正方案 B (CPU Offload) 的性能惩罚量化：若 Offload 7.5GB 权重至 CPU，每 Token 需额外读取 7.5GB 数据；假设 C
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N268
+
+## Claim
+
+修正方案 B (CPU Offload) 的性能惩罚量化：若 Offload 7.5GB 权重至 CPU，每 Token 需额外读取 7.5GB 数据；假设 CPU 内存带宽 50GB/s，则每 Token 增加延迟 = 7.5GB / 50GB/s = 0.15s (150ms)，导致 Decode 速度从理论 50 tokens/s 降至 1/(0.02s + 0.15s) ≈ 5.9 tokens/s，性能衰减 >80%，通常判定为不可接受。
+
+## Corrected Claim
+
+修正方案 B (CPU Offload) 的性能惩罚量化：若 Offload 7.5GB 权重至 CPU，每 Token 需额外读取 7.5GB 数据；假设 CPU 内存带宽 50GB/s，则每 Token 增加延迟 = 7.5GB / 50GB/s = 0.15s (150ms)，导致 Decode 速度从理论 50 tokens/s 降至 1/(0.02s + 0.15s) ≈ 5.9 tokens/s，性能衰减 >80%，通常判定为不可接受。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算过程 7.5GB/50GB/s=0.15s 正确，总延迟 0.17s 对应吞吐量 ~5.88 tokens/s，衰减比例 (50-5.9)/50 ≈ 88% > 80%，数值量级与逻辑均自洽。

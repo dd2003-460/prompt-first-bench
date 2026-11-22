@@ -1,4 +1,4 @@
-# N135: Qwen3-27B 在 FP8 (E4M3) 精度下的 Perplexity (PPL) 增加量通常 < 0.1，MMLU 得分下降 < 0.5 个百分点，而 
+# N170: 候选硬件全集的显存容量档位界定：基于 Qwen3-27B 32K 上下文需求，显存 <24GB 的 GPU（如 RTX 4080S 16GB, RTX 3060
 
 - **status**: degraded
 - **level**: L3
@@ -9,16 +9,12 @@
 
 ## Claim
 
-Qwen3-27B 在 FP8 (E4M3) 精度下的 Perplexity (PPL) 增加量通常 < 0.1，MMLU 得分下降 < 0.5 个百分点，而 INT4 (AWQ) 精度下 PPL 增加量通常为 0.5-1.5，MMLU 下降 1-3 个百分点 [待核验: 需引用 Qwen3 技术报告或 AWQ 论文具体章节]，这构成了判断精度可接受性的量化底线。
+候选硬件全集的显存容量档位界定：基于 Qwen3-27B 32K 上下文需求，显存 <24GB 的 GPU（如 RTX 4080S 16GB, RTX 3060 12GB）因无法容纳 FP8 权重+KV Cache 而被排除；24-32GB 档位（RTX 4090, RTX 5090, RX 7900 XTX）为消费级核心候选；48-80GB 档位（L40S, A100, H100）为专业/数据中心核心候选；>128GB 档位（MI300X, H100 NVL）仅在高并发或 BF16 全精度场景纳入。
 
 ## Corrected Claim
 
-Qwen3-27B 在 FP8 (E4M3) 精度下的性能损失通常显著小于 INT4 (AWQ) 精度，具体量化指标（如 PPL 和 MMLU 下降幅度）需参考 Qwen3 官方技术报告或相关量化评估论文以获取确切数值。
+候选硬件全集的显存容量档位界定：基于 Qwen3-27B 32K 上下文需求，显存 <24GB 的 GPU（如 RTX 4080S 16GB, RTX 3060 12GB）因无法容纳 FP8 权重+KV Cache 而被排除；24-32GB 档位（RTX 4090, RTX 5090, RX 7900 XTX）为消费级核心候选；48-80GB 档位（L40S, A100, H100）为专业/数据中心核心候选；>128GB 档位（MI300X, H100 NVL）仅在高并发或 BF16 全精度场景纳入。
 
 ## Evidence
 
-[质询]参考来源仅涉及 Qwen3.8-27B-FP8 的 MathVision 评测提示词格式，完全未包含 PPL 或 MMLU 的具体数值对比，无法支持关于精度损失量化底线（PPL < 0.1, MMLU < 0.5 等）的具体经验数据。 | 逻辑上 FP8 精度高于 INT4，损失更小符合直觉，但具体数值（如 PPL 增加量 0.5-1.5）属于经验事实，参考来源 [1] 与该事实主题无关（仅提及评测提示词），缺乏直接支持，故降级。
-
-## Retrieval Sources
-
-- {'url': 'https://huggingface.co/Qwen/Qwen3.8-27B-FP8&rut=07340cf3a54cad297c9f2b8782c6819a406bad7d8b8a3d2c2339ed2126b742a3', 'type': 'ddg', 'title': 'Qwen/Qwen3.8-27B-FP8 · Hugging Face'}
+检索失败: no sources from any channel (all 5 failed)

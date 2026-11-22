@@ -1,0 +1,30 @@
+# N14: Qwen3-27B模型参数量与权重内存需求：确认总参数量（~27B），计算BF16 (2 bytes/param)、FP8 (1 byte/param)、INT
+
+- **status**: verified
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+Qwen3-27B模型参数量与权重内存需求：确认总参数量（~27B），计算BF16 (2 bytes/param)、FP8 (1 byte/param)、INT8 (1 byte/param)、INT4 (0.5 bytes/param) 下的纯权重内存占用（GB）。
+
+## Corrected Claim
+
+Qwen3-27B模型参数量与权重内存需求：确认总参数量（~27B），计算BF16 (2 bytes/param)、FP8 (1 byte/param)、INT8 (1 byte/param)、INT4 (0.5 bytes/param) 下的纯权重内存占用（GB）。
+
+## Evidence
+
+来源[2]直接支持BF16约50GB、INT4约15GB的数值，与基于27B参数量的理论计算（27*2=54GB, 27*0.5=13.5GB）在量级和逻辑上完全一致，符合第一性原理推导。
+
+## Search Query
+
+Qwen3-27B parameter count BF16 FP8 INT4 memory footprint GB
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_29091105/article/details/167247922&rut=0e91eaca64d660c2d96cb59788c745d1a05fe3ede63a1558a5cde1a034e0952a', 'type': 'ddg', 'title': 'Qwen3.8-27B本地部署显存优化与量化选型指南 - CSDN博客'}
+- {'url': 'https://blog.csdn.net/weixin_29035405/article/details/167321057&rut=79863c30e87bc9bda3b2c9eea84b6c5c19e838167b641e8e3b9014a1c5b83d58', 'type': 'ddg', 'title': 'Qwen3.8-27B部署实战：量化选型、显存计算与推理框架配置指南-CSDN博客'}
+- {'url': 'https://www.cnblogs.com/sing1ee/p/22498000&rut=e5459bd6ec62e1937706a05f835d37baa128ee9ce9105b7cdd4ee711d207a8ed', 'type': 'ddg', 'title': 'Qwen3.8-27B（2026）：Qwen 新 27B 视觉语言模型完整指南 - 见路非道 - 博客园'}

@@ -1,0 +1,20 @@
+# N414: RTX 3090 在 INT4 量化（权重 13.5GB）及 32K 上下文（KV Cache 8GB，基于 N372 修正值 256KB/token * 32
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N137, N138, N139
+
+## Claim
+
+RTX 3090 在 INT4 量化（权重 13.5GB）及 32K 上下文（KV Cache 8GB，基于 N372 修正值 256KB/token * 32768）下，扣除框架开销（约 1.5-2GB）后，剩余显存仅为 1.5-1.9GB，无法支持 Batch Size > 1 的并发请求，且无内存碎片缓冲，任何额外内存分配（如 CUDA Context）均可能导致 OOM。
+
+## Corrected Claim
+
+RTX 3090 在 INT4 量化（权重 13.5GB）及 32K 上下文（KV Cache 8GB，基于 N372 修正值 256KB/token * 32768）下，扣除框架开销（约 1.5-2GB）后，剩余显存仅为 1.5-1.9GB，无法支持 Batch Size > 1 的并发请求，且无内存碎片缓冲，任何额外内存分配（如 CUDA Context）均可能导致 OOM。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：24GB - 13.5GB - 8GB - 1.5~2GB = 1.5~1.9GB，数值计算自洽，符合显存管理逻辑。

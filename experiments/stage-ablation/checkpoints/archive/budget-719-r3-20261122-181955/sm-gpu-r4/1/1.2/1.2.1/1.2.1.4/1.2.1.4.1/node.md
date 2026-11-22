@@ -1,0 +1,24 @@
+# N448: N95中'70-85% KV Cache带宽占比'的假设条件验证：若基于Qwen3-7B (2.7B参数) 或 4K上下文 (KV Cache ≈ 1GB, 权
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N152
+
+## Claim
+
+N95中'70-85% KV Cache带宽占比'的假设条件验证：若基于Qwen3-7B (2.7B参数) 或 4K上下文 (KV Cache ≈ 1GB, 权重 ≈ 5.4GB)，KV占比 ≈ 1/(1+5.4) ≈ 15%，仍不匹配；若基于 128K上下文 (KV Cache ≈ 104GB) 或 70B模型 (权重 ≈ 140GB)，KV占比可达 70%+。结论：N95数据可能源自长上下文(>64K)或大模型(>30B)场景，不适用于Qwen3-27B 32K场景。
+
+## Corrected Claim
+
+N95中'70-85% KV Cache带宽占比'的假设通常适用于长上下文（>64K）或大参数模型（>30B）场景，在这些场景下KV Cache体积显著增加，导致其带宽占比远超短上下文小模型场景（如Qwen3-27B 32K，占比通常较低）。
+
+## Evidence
+
+[质询]KV Cache大小计算依赖于具体的注意力头配置（如GQA/MQA比例）和精度（FP16/FP8），不同模型架构下128K上下文的KV Cache大小差异巨大，直接断言'128K≈104GB'或'70B权重≈140GB'缺乏特定模型参数的支撑，存在数值估算偏差风险。 | 逻辑推导自洽：KV Cache占比随上下文长度和模型规模增加而上升，短上下文小模型占比低，长上下文大模型占比高，符合内存带宽瓶颈的基本原理；但具体数值（如104GB）为经验估算，且无外部来源支持，属于经验事实，故降级。
+
+## Search Query
+
+LLM inference memory bandwidth bottleneck KV cache vs weights ratio long context

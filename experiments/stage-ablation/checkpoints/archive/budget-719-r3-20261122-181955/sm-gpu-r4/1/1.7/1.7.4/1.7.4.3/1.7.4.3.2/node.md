@@ -1,0 +1,20 @@
+# N667: RTX 3090 在 32K 上下文 INT4 量化下的理论 Decode 吞吐量上限：显存带宽 936 GB/s，INT4 权重 13.5GB + BF16 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N237
+
+## Claim
+
+RTX 3090 在 32K 上下文 INT4 量化下的理论 Decode 吞吐量上限：显存带宽 936 GB/s，INT4 权重 13.5GB + BF16 KV Cache 8GB = 21.5GB，理论上限 = 936 / 21.5 ≈ 43.5 tokens/s，实测效率系数 0.6-0.8，预计为 26-35 tokens/s [knowledge: '模型先验知识：Decode 吞吐量 = 显存带宽 / (权重大小 + KV Cache 大小)']
+
+## Corrected Claim
+
+RTX 3090 在 32K 上下文 INT4 量化下的理论 Decode 吞吐量上限：显存带宽 936 GB/s，INT4 权重 13.5GB + BF16 KV Cache 8GB = 21.5GB，理论上限 = 936 / 21.5 ≈ 43.5 tokens/s，实测效率系数 0.6-0.8，预计为 26-35 tokens/s [knowledge: '模型先验知识：Decode 吞吐量 = 显存带宽 / (权重大小 + KV Cache 大小)']
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 3090显存带宽936GB/s与INT4/BF16数据量级符合硬件规格，吞吐量计算公式（带宽/数据量）符合Decode阶段内存墙限制的第一性原理，数值推导自洽。

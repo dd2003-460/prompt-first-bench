@@ -1,0 +1,17 @@
+{
+  "id": "N780",
+  "claim": "RTX 4090 在 32K 上下文 Prefill 阶段，当序列长度超过 8K tokens 时，KV Cache 读取带宽需求超过 Tensor Core 计算吞吐对应的等效带宽，导致瓶颈从计算转向内存带宽；此时有效利用率 η_comp 下降至 0.35-0.45，主要受限于 1008 GB/s 显存带宽对 Attention Score 矩阵读取的限制。",
+  "level": "L5",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值量级与具体阈值缺乏通用性：'8K tokens'作为瓶颈转折点过于具体且依赖于模型架构（如头数、维度）和硬件配置，并非RTX 4090的固有物理属性；此外，'等效带宽'概念模糊，未明确是算术强度（Arithmetic Intensity）低于机器平衡点（Machine Balance Point），且0.35-0.45的利用率范围在缺乏具体模型参数（如GQA/MQA配置）的情况下难以从第一性原理严格推导。 | 先验知识/题面给定，逻辑校验通过：大模型推理中Prefill阶段确实存在计算与内存带宽的权衡，长序列下KV Cache读取确实会受限于显存带宽（1008 GB/s符合RTX 4090规格），但具体转折点和利用率数值属于经验性工程参数，缺乏通用理论支撑，故降级。",
+  "corrected_claim": "RTX 4090 在 32K 上下文 Prefill 阶段，随着序列长度增加，KV Cache 读取的内存带宽需求逐渐主导，导致瓶颈从计算转向内存带宽；此时有效利用率 η_comp 显著下降，主要受限于 1008 GB/s 显存带宽对 Attention 相关数据读取的限制。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N278"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "RTX 4090 memory bandwidth bottleneck long context LLM inference",
+  "retrieval_sources": []
+}

@@ -1,0 +1,20 @@
+# N120: RTX 4090 双卡（TP=2）配置下，Qwen3-27B BF16 32K 上下文的理论 Decode 吞吐量上限为 1008 GB/s / (55 GB 
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N30
+
+## Claim
+
+RTX 4090 双卡（TP=2）配置下，Qwen3-27B BF16 32K 上下文的理论 Decode 吞吐量上限为 1008 GB/s / (55 GB / 2) ≈ 36.5 tokens/s；实际吞吐量受 PCIe 4.0 通信开销影响，预计降至 30-35 tokens/s [待核验]。
+
+## Corrected Claim
+
+RTX 4090 双卡（TP=2）配置下，Qwen3-27B BF16 32K 上下文的理论 Decode 吞吐量受限于显存带宽与计算能力，实际吞吐量通常在 50-100 tokens/s 区间（取决于 Batch Size 和 KV Cache 大小），具体数值需实测验证。
+
+## Evidence
+
+[质询]数值量级与逻辑推导存在严重矛盾：1. 55GB 模型权重在 BF16 下仅占 27.5GB/卡，远低于 RTX 4090 24GB 显存上限，无需分片或交换，'55GB/2' 的表述暗示了错误的内存瓶颈假设；2. 36.5 tokens/s 的吞吐量对于 27B 模型在双卡 4090 上极低（通常可达 50-100+ tokens/s），且 1008 GB/s 是显存带宽而非 PCIe 带宽，用显存带宽除以模型大小得出的数值缺乏明确的计算逻辑支撑（Decode 阶段瓶颈通常在计算或 KV Cache 带宽，而非仅权重读取）；3. 30-35 tokens/s 的预测值缺乏具体硬件实测数据支持，属于经验估计。 | 先验知识/题面给定，逻辑校验未通过：吞吐量数值与硬件性能预期不符，且计算逻辑（带宽/模型大小）在 Decode 场景下不成立，缺乏来源支持。

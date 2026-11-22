@@ -1,0 +1,20 @@
+# N371: RTX 4090 24GB在INT4量化下权重占13.5GB，框架开销约2GB，剩余显存 = 24 - 13.5 - 2 = 8.5 GB。若KV Cache保
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N124
+
+## Claim
+
+RTX 4090 24GB在INT4量化下权重占13.5GB，框架开销约2GB，剩余显存 = 24 - 13.5 - 2 = 8.5 GB。若KV Cache保持BF16（通常不量化），32K上下文单请求KV Cache = 8 GB，剩余余量 = 8.5 - 8 = 0.5 GB，仅支持1个并发请求且无缓冲；若启用INT8 KV Cache，单请求占用降至4 GB，可支持2个并发请求。
+
+## Corrected Claim
+
+RTX 4090 24GB在INT4量化下权重占13.5GB，框架开销约2GB，剩余显存 = 24 - 13.5 - 2 = 8.5 GB。若KV Cache保持BF16（通常不量化），32K上下文单请求KV Cache = 8 GB，剩余余量 = 8.5 - 8 = 0.5 GB，仅支持1个并发请求且无缓冲；若启用INT8 KV Cache，单请求占用降至4 GB，可支持2个并发请求。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：INT4权重计算（24GB显存对应约27B参数模型，27*0.5=13.5GB）及KV Cache计算（32K上下文BF16约8GB，INT8减半为4GB）均符合LLM推理显存估算的基本数学逻辑与工程经验。

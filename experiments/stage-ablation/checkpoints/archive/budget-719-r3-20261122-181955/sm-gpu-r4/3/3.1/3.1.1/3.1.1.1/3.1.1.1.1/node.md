@@ -1,0 +1,24 @@
+# N747: Qwen3-27B 架构参数核验：n_layers=32, n_kv_heads=8, head_dim=128, hidden_size=4096, num_
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N265
+
+## Claim
+
+Qwen3-27B 架构参数核验：n_layers=32, n_kv_heads=8, head_dim=128, hidden_size=4096, num_attention_heads=32；需确认 n_kv_heads=8 是否为 GQA 的 KV 头数，且 32 层是否为全注意力层（部分模型存在滑动窗口或混合架构）。
+
+## Corrected Claim
+
+Qwen3-27B 采用 GQA 架构，具体参数（n_layers, n_kv_heads 等）需以官方模型配置文件（config.json）为准，当前陈述中的数值（n_layers=32, n_kv_heads=8）待官方文档确认。
+
+## Evidence
+
+[质询]Qwen3-27B 的具体架构参数（如 n_kv_heads=8, n_layers=32）属于经验事实，且 Qwen3 系列模型的具体配置可能随版本迭代或不同变体（如 Instruct/Chat）有所差异，仅凭逻辑自洽无法确证具体数值，存在参数记忆偏差或混淆不同规模模型（如 Qwen2.5-32B 或 Qwen3-32B）的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体参数值）
+
+## Search Query
+
+Qwen3-27B config.json n_layers n_kv_heads head_dim

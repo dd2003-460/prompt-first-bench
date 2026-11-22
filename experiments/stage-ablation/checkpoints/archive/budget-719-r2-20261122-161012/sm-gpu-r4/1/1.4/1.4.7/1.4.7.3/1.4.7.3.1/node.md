@@ -1,0 +1,24 @@
+# N421: RTX 4090 在满载推理负载下的实际瞬时功耗峰值为 450W（TDP），但在 4 卡并行 Prefill 高负载瞬间，瞬时电流冲击可能导致实际功耗短暂超过 
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N175
+
+## Claim
+
+RTX 4090 在满载推理负载下的实际瞬时功耗峰值为 450W（TDP），但在 4 卡并行 Prefill 高负载瞬间，瞬时电流冲击可能导致实际功耗短暂超过 TDP 达到 500W，电源冗余系数应基于 500W 而非 450W 计算以确保稳定性。
+
+## Corrected Claim
+
+RTX 4090 的 TDP 为 450W。在 4 卡并行 Prefill 高负载瞬间，瞬时功耗可能短暂超过 TDP。电源冗余系数应基于可能出现的瞬时峰值功耗（通常高于 TDP）而非仅基于 450W 计算以确保稳定性。
+
+## Evidence
+
+[质询]将瞬时功耗峰值（Transient Power Spike）与TDP（热设计功耗）概念混淆，且500W的峰值数值缺乏官方规格支持，属于经验性推测而非确定事实。 | 先验知识/题面给定，逻辑校验通过，但具体数值（500W）为经验估计，缺乏直接来源支持，故降级。
+
+## Search Query
+
+RTX 4090 power consumption spike transient load 4 GPU

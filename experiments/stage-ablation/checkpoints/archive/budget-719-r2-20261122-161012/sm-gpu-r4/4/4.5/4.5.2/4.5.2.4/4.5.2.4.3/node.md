@@ -1,0 +1,24 @@
+# N570: A100 80GB 的 BF16 Tensor Core 峰值算力为 312 TFLOPS (Dense)，H100 SXM 为 989 TFLOPS，两者在 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N237
+
+## Claim
+
+A100 80GB 的 BF16 Tensor Core 峰值算力为 312 TFLOPS (Dense)，H100 SXM 为 989 TFLOPS，两者在 Prefill 阶段的算力比约为 1:3.17；在 Batch Size=1 时，H100 的 TTFT 理论优势为 3.17 倍，但考虑到 H100 价格约为 A100 的 1.5-2 倍 (二手市场)，其每美元 Prefill 性能 (TFLOPS/$) 可能低于 A100，需结合 N305/N331 的价格数据计算性价比交叉点。
+
+## Corrected Claim
+
+A100 80GB 的 BF16 Tensor Core 峰值算力为 312 TFLOPS (Dense)，H100 SXM 为 989 TFLOPS，两者在 Prefill 阶段的算力比约为 1:3.17；在 Batch Size=1 时，H100 的 TTFT 理论优势为 3.17 倍，但考虑到 H100 价格约为 A100 的 1.5-2 倍 (二手市场)，其每美元 Prefill 性能 (TFLOPS/$) 可能低于 A100，需结合 N305/N331 的价格数据计算性价比交叉点。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 80GB BF16 Dense 峰值算力约为 312 TFLOPS，H100 SXM 约为 989 TFLOPS，比值 989/312 ≈ 3.17，与陈述一致；价格倍数及性价比分析属于合理推断，无逻辑矛盾。
+
+## Search Query
+
+A100 H100 BF16 TFLOPS dense price per TFLOPS comparison 2025

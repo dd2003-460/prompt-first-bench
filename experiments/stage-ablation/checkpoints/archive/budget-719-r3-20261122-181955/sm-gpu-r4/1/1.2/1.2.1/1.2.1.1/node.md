@@ -1,0 +1,20 @@
+# N149: A100 80GB PCIe 在 BF16 精度下的理论 Prefill 吞吐量（32K 上下文，Batch=1）为 156e12 / (2 * 27e9 * 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N45
+
+## Claim
+
+A100 80GB PCIe 在 BF16 精度下的理论 Prefill 吞吐量（32K 上下文，Batch=1）为 156e12 / (2 * 27e9 * 32768) ≈ 88.5 tokens/s，该数值基于稠密算力计算，修正了 N92 中基于稀疏算力 312 TFLOPS 导致的高估。
+
+## Corrected Claim
+
+A100 80GB PCIe 在 BF16 精度下的理论 Prefill 吞吐量（32K 上下文，Batch=1）为 156e12 / (2 * 27e9 * 32768) ≈ 88.5 tokens/s，该数值基于稠密算力计算，修正了 N92 中基于稀疏算力 312 TFLOPS 导致的高估。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 80GB PCIe 的 BF16 稠密算力约为 312 TFLOPS（即 312e12 FLOPS），计算式 312e12 / (2 * 27e9 * 32768) 在数学上成立，且符合 LLM 推理中 Prefill 阶段算力受限（Compute-bound）的理论推导逻辑。

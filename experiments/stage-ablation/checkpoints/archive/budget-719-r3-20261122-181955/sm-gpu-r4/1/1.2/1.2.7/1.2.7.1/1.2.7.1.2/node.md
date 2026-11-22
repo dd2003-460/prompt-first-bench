@@ -1,0 +1,20 @@
+# N503: 本地工作站部署 H100 SXM 的可行性排除依据：H100 SXM 需要专用基板 (Baseboard) 和液冷或高强度风冷系统，标准 ATX/E-ATX 工
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N172
+
+## Claim
+
+本地工作站部署 H100 SXM 的可行性排除依据：H100 SXM 需要专用基板 (Baseboard) 和液冷或高强度风冷系统，标准 ATX/E-ATX 工作站机箱无法直接安装；若强行适配，需额外采购 SXM 转接卡或专用机箱，成本增加 >$2,000 且散热噪音极大，故在'本地工作站'约束下，H100 SXM 应被排除，仅保留 H100 PCIe 作为候选。
+
+## Corrected Claim
+
+本地工作站部署 H100 SXM 的可行性排除依据：H100 SXM 需要专用基板 (Baseboard) 和液冷或高强度风冷系统，标准 ATX/E-ATX 工作站机箱无法直接安装；若强行适配，需额外采购 SXM 转接卡或专用机箱，成本增加 >$2,000 且散热噪音极大，故在'本地工作站'约束下，H100 SXM 应被排除，仅保留 H100 PCIe 作为候选。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H100 SXM 确实依赖专用基板与液冷/强风冷，无法直接装入标准 ATX 机箱，排除依据符合工程事实。

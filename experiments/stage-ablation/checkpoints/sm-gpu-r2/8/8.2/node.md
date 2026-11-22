@@ -1,20 +1,20 @@
-# N124: Apple M3 Ultra 与 RTX 4090 双卡方案的性能对比：M3 Ultra 吞吐量（~14 tokens/s）低于 RTX 4090 双卡（~30
+# N157: A100 80GB (PCIe) 相比 SXM 版本的性能差异：PCIe 版本互联带宽为 64 GB/s，SXM 版本为 600 GB/s (NVLink)，单
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N31
+- **parent_ids**: N33
 
 ## Claim
 
-Apple M3 Ultra 与 RTX 4090 双卡方案的性能对比：M3 Ultra 吞吐量（~14 tokens/s）低于 RTX 4090 双卡（~30-35 tokens/s），但 M3 Ultra 无需多卡互联且功耗更低（~300W vs ~900W），在延迟容忍度 T_max > 70ms/token 且预算受限场景下具有竞争力。
+A100 80GB (PCIe) 相比 SXM 版本的性能差异：PCIe 版本互联带宽为 64 GB/s，SXM 版本为 600 GB/s (NVLink)，单卡推理性能差异 <5% (因单卡无互联需求)，但多卡扩展时 PCIe 版本吞吐量下降 30-50%。
 
 ## Corrected Claim
 
-Apple M3 Ultra 与 RTX 4090 双卡方案的性能对比：M3 Ultra 吞吐量（~14 tokens/s）低于 RTX 4090 双卡（~30-35 tokens/s），但 M3 Ultra 无需多卡互联且功耗更低（~300W vs ~900W），在延迟容忍度 T_max > 70ms/token 且预算受限场景下具有竞争力。
+A100 80GB (PCIe) 相比 SXM 版本的性能差异：PCIe 版本互联带宽为 64 GB/s，SXM 版本为 600 GB/s (NVLink)，单卡推理性能差异 <5% (因单卡无互联需求)，但多卡扩展时 PCIe 版本吞吐量下降 30-50%。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：M3 Ultra 统一内存带宽优势使其在 LLM 推理中表现优于单卡，但双卡 RTX 4090 凭借更高显存带宽和算力在吞吐量上占优；功耗对比（~300W vs ~900W）符合硬件规格常识，逻辑自洽。
+先验知识/题面给定，逻辑校验通过：A100 PCIe版NVLink带宽确为64GB/s，SXM版为600GB/s；单卡推理不依赖卡间互联，性能差异极小；多卡扩展时PCIe带宽瓶颈导致吞吐量显著下降，符合硬件架构常识。

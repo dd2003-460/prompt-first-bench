@@ -1,0 +1,24 @@
+# N240: Apple M3 Ultra 芯片（Apple Silicon）本身不单独零售，其市场均价 $1,500-$2,000 的估算存在重大偏差，实际采购成本应基于搭
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N75
+
+## Claim
+
+Apple M3 Ultra 芯片（Apple Silicon）本身不单独零售，其市场均价 $1,500-$2,000 的估算存在重大偏差，实际采购成本应基于搭载该芯片的整机（如 Mac Studio M3 Ultra 192GB 配置）价格，约为 $3,999-$4,499 USD，导致 $/GB 成本显著高于原估算。
+
+## Corrected Claim
+
+Apple M3 Ultra 芯片本身不单独零售，其成本需基于搭载该芯片的整机（如 Mac Studio）价格估算。由于整机价格受配置影响较大，直接引用单一价格区间（如 $3,999-$4,499）作为芯片成本存在偏差，实际 $/GB 成本应基于具体整机配置计算，通常显著高于仅按芯片单独售价估算的值。
+
+## Evidence
+
+[质询]该陈述包含具体的市场价格数据（$3,999-$4,499 USD），属于经验事实。由于检索失败，无法通过外部来源验证这些具体数值是否准确，且不同配置（如内存大小、存储容量）会导致价格波动，单一价格区间可能不具普适性。 | 经验事实，逻辑自洽但缺来源支持。Apple M3 Ultra 确实不单独零售，需通过整机购买，且 Mac Studio 搭载 M3 Ultra 的起售价确实在 $4,000 左右量级，逻辑上成立，但具体数值无法核验。
+
+## Search Query
+
+Mac Studio M3 Ultra 192GB price 2024 cost per GB

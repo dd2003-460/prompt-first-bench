@@ -1,0 +1,24 @@
+# N700: ExLlama2 与 vLLM 在 32K 上下文下的显存效率对比：ExLlama2 使用连续内存分配 (Contiguous Allocation) 而非分页
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N248, N249, N250
+
+## Claim
+
+ExLlama2 与 vLLM 在 32K 上下文下的显存效率对比：ExLlama2 使用连续内存分配 (Contiguous Allocation) 而非分页，因此无 Block Table 开销和分页碎片，其有效显存利用率接近 100% (仅扣除 CUDA 上下文开销)；而 vLLM 因分页机制存在 5-15% 的碎片损失，故在长上下文 (32K) 场景下，ExLlama2 的有效可用显存比 vLLM 高约 0.4-1.2GB (基于 8GB KV Cache 的 5-15% 差异)。
+
+## Corrected Claim
+
+ExLlama2 使用连续内存分配，避免了 vLLM 分页机制中的 Block Table 开销，理论上在静态长上下文场景下显存利用率更高；但 vLLM 通过分页机制显著降低了显存碎片（通常低于 1%），两者在 32K 上下文下的具体显存差异取决于实现细节和负载模式，通常差异较小，不宜简单量化为 0.4-1.2GB。
+
+## Evidence
+
+[质询]vLLM 的 PagedAttention 机制设计初衷正是为了解决显存碎片问题，其官方文档及论文声称可将显存浪费降低至 0.6% 以下，而非陈述中声称的 5-15%；此外，ExLlama2 的连续内存分配在动态批处理（continuous batching）场景下可能因内存碎片化导致分配失败或需要频繁重排，其实际有效利用率未必接近 100%，且 0.4-1.2GB 的具体数值缺乏通用基准测试支持，属于特定配置下的经验估算。 | 先验知识/题面给定，逻辑校验通过，但 vLLM 碎片率 5-15% 与主流技术文档（通常声称 <1%）存在显著偏差，且无外部来源支持具体数值，故降级为定性表述。
+
+## Search Query
+
+ExLlama2 vs vLLM memory efficiency long context comparison

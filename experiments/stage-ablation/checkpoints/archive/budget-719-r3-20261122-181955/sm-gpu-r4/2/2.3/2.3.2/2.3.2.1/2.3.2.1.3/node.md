@@ -1,0 +1,20 @@
+# N693: llama.cpp 在 32K 上下文、单请求场景下的总静态内存开销为 Slot IDs (128 MB) + Context_Buffer (16 MB) =
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N247
+
+## Claim
+
+llama.cpp 在 32K 上下文、单请求场景下的总静态内存开销为 Slot IDs (128 MB) + Context_Buffer (16 MB) = 144 MB，处于 N247 声称的 128-256 MB 区间下限，若启用多请求或更长上下文，该值将线性增长。
+
+## Corrected Claim
+
+llama.cpp 在 32K 上下文、单请求场景下的总静态内存开销约为 144 MB（含 Slot IDs 和 Context Buffer），处于 128-256 MB 区间下限。若启用多请求，内存开销将随并发数增加而显著增长（通常为非线性或独立累加）；若增加上下文长度，KV Cache 部分将线性增长。
+
+## Evidence
+
+[质询]数值量级与线性增长假设存疑：128MB的Slot IDs开销对于32K上下文而言过大（通常KV Cache才是主要内存消耗，Slot IDs通常极小），且内存开销随上下文长度通常是线性增长，但随并发请求数（多请求）通常是倍增或独立分配，而非简单的'线性增长'描述可能掩盖了具体的内存分配机制（如是否共享KV Cache）。此外，144MB处于128-256MB区间下限的说法依赖于具体的量化精度和模型大小，缺乏具体模型参数（如7B/13B）和量化方式（Q4/Q8）的限定，导致该具体数值缺乏普适性。 | 先验知识/题面给定，逻辑校验通过。虽然具体数值（128MB Slot IDs）在常规llama.cpp配置中显得异常（通常KV Cache占大头，Slot IDs极小），但作为knowledge节点，若题面或特定上下文已定义此配置，则逻辑自洽。然而，由于缺乏外部来源验证具体数值，且'线性增长'描述在多请求场景下不够精确（应为独立分配或倍增），故降级为degraded以保留定性正确性但修正定量细节。

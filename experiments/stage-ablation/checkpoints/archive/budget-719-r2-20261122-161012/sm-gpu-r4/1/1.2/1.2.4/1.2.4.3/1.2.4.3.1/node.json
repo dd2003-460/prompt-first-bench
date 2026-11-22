@@ -1,0 +1,19 @@
+{
+  "id": "N362",
+  "claim": "Qwen3-27B 在 32K 上下文、Batch=1 时的 KV Cache 占用量计算公式为 KV_Size = 2 * N_layers * N_heads * Head_Dim * Seq_Len * Bytes_per_Element，其中 N_layers=32, N_heads=32 (假设 GQA 或 MHA 需核实), Head_Dim=128, Seq_Len=32768；若采用 GQA (Grouped Query Attention) 且 KV Heads=8，则 Bytes 需乘以 (8/32)，具体数值需依据 Qwen3-27B 架构参数确定，目前 N151 使用的 8.59GB (BF16) 和 4.29GB (FP8) 需验证其是否已包含 GQA 压缩。",
+  "level": "L5",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]该陈述包含具体的经验性架构参数（N_layers=32, N_heads=32, Head_Dim=128, KV Heads=8），这些参数无法从第一性原理推导，且参考来源缺失，无法验证 Qwen3-27B 是否确实采用 GQA 以及具体的层数和头数配置。若参数错误，计算结果将完全错误。 | 经验事实，逻辑自洽但缺来源支持。公式结构符合 Transformer KV Cache 计算原理，但具体参数值（如层数、头数）属于模型特定配置，需外部来源确认。",
+  "corrected_claim": "Qwen3-27B 在 32K 上下文、Batch=1 时的 KV Cache 占用量计算公式为 KV_Size = 2 * N_layers * N_kv_heads * Head_Dim * Seq_Len * Bytes_per_Element。具体数值需依据 Qwen3-27B 的实际架构参数（N_layers, N_kv_heads, Head_Dim）确定。若采用 GQA，N_kv_heads 通常小于 N_heads。目前 N151 使用的 8.59GB (BF16) 和 4.29GB (FP8) 需验证其是否已包含 GQA 压缩及参数准确性。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N151",
+    "N152",
+    "N153"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "Qwen3-27B architecture parameters num_heads num_key_value_heads head_dim",
+  "retrieval_sources": []
+}

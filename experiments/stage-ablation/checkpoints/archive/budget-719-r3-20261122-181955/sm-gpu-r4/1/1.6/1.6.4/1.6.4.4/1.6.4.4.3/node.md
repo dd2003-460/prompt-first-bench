@@ -1,0 +1,20 @@
+# N629: 本地工作站 CPU 推理方案的 3 年 TCO 估算：一次性硬件 $3,000 (中位数) + 3 * $491 (电力) = $4,473，与 2x RTX 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N221
+
+## Claim
+
+本地工作站 CPU 推理方案的 3 年 TCO 估算：一次性硬件 $3,000 (中位数) + 3 * $491 (电力) = $4,473，与 2x RTX 4090 ($4,461) 几乎持平，但 CPU 推理吞吐量 (Decode ~1-2 tokens/s) 远低于 GPU (~10-20 tokens/s)，导致单位 token 成本极高，仅在 GPU 不可用或极低并发 (<0.1 req/s) 时具有边际意义。
+
+## Corrected Claim
+
+本地工作站 CPU 推理方案的 3 年 TCO 估算：一次性硬件 $3,000 (中位数) + 3 * $491 (电力) = $4,473，与 2x RTX 4090 ($4,461) 几乎持平，但 CPU 推理吞吐量 (Decode ~1-2 tokens/s) 远低于 GPU (~10-20 tokens/s)，导致单位 token 成本极高，仅在 GPU 不可用或极低并发 (<0.1 req/s) 时具有边际意义。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算正确（3000 + 3*491 = 4473），TCO对比及CPU/GPU吞吐量差异符合工程常识与物理直觉。

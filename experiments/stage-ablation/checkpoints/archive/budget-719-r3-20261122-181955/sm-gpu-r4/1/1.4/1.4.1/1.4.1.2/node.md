@@ -1,0 +1,20 @@
+# N189: Intel Arc A770 的 FP16 推理吞吐量实测数据：在 16GB 显存限制下，若仅运行 7B-13B 模型，其 560 GB/s 带宽的理论 Dec
+
+- **status**: pending
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N58
+
+## Claim
+
+Intel Arc A770 的 FP16 推理吞吐量实测数据：在 16GB 显存限制下，若仅运行 7B-13B 模型，其 560 GB/s 带宽的理论 Decode 上限约为 560 / (13.5GB + KV) ≈ 30-40 tokens/s（针对 13B INT4），但 Qwen3-27B 因显存不足无法运行，故该硬件对本题目标模型不可行 [待核验]
+
+## Corrected Claim
+
+Intel Arc A770 的 FP16 推理吞吐量理论上限受限于显存带宽。若假设带宽为 560 GB/s 且 13B INT4 模型占用约 13.5GB 显存，则理论 Decode 上限约为 30-40 tokens/s。Qwen3-27B 因显存需求超过 16GB 限制而无法运行，故该硬件对目标模型不可行。
+
+## Evidence
+
+父节点级核验未通过：有冗余（子节点1和子节点2本质上是同一计算逻辑在不同模型规模下的参数化实例，存在结构性冗余；虽然覆盖完整且无矛盾，但可优化为参数化描述。）

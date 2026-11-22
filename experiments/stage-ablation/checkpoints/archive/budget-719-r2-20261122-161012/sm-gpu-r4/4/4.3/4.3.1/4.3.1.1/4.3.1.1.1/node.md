@@ -1,0 +1,24 @@
+# N517: All-Reduce 通信数据量 8.192 KB 基于隐藏层维度 4096 和 FP16/BF16 精度计算；若使用 INT8 量化进行通信 (如 FP8 A
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N213
+
+## Claim
+
+All-Reduce 通信数据量 8.192 KB 基于隐藏层维度 4096 和 FP16/BF16 精度计算；若使用 INT8 量化进行通信 (如 FP8 All-Reduce)，数据量减半至 4.096 KB，通信延迟占比降低 50%，从而在多卡 (如 2x RTX 4090) 方案中提升有效吞吐约 2-5%；需验证主流推理框架 (vLLM/TensorRT-LLM) 是否支持低精度 All-Reduce 及其实际性能增益。
+
+## Corrected Claim
+
+All-Reduce 通信数据量 8.192 KB 基于隐藏层维度 4096 和 FP16/BF16 精度计算；若使用 INT8 量化进行通信，数据量减半至 4.096 KB，理论上通信延迟占比降低 50%。具体在多卡方案中的有效吞吐提升幅度及主流推理框架（vLLM/TensorRT-LLM）对低精度 All-Reduce 的支持情况需进一步验证。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性性能增益数值（2-5%）和框架支持情况，属于经验事实，无法仅通过逻辑推导得出，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+vLLM TensorRT-LLM low precision All-Reduce FP8 INT8 communication overhead optimization

@@ -1,0 +1,20 @@
+# N509: RX 7900 XTX 24GB 在 INT4 量化（权重 13.5GB）下，剩余显存 10.5GB 扣除框架开销 2GB 后为 8.5GB；若 KV Cach
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N177
+
+## Claim
+
+RX 7900 XTX 24GB 在 INT4 量化（权重 13.5GB）下，剩余显存 10.5GB 扣除框架开销 2GB 后为 8.5GB；若 KV Cache 保持 BF16（256KB/token），最大支持上下文长度 = 8.5GB / 256KB = 34,000 tokens，勉强覆盖 32K 需求但无并发余量。
+
+## Corrected Claim
+
+RX 7900 XTX 24GB 在 INT4 量化（权重 13.5GB）下，剩余显存 10.5GB 扣除框架开销 2GB 后为 8.5GB；若 KV Cache 保持 BF16（256KB/token），最大支持上下文长度 = 8.5GB / 256KB = 34,000 tokens，勉强覆盖 32K 需求但无并发余量。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：24GB-13.5GB-2GB=8.5GB，8.5GB/256KB=34,000 tokens，计算无误且符合LLM推理显存估算逻辑。

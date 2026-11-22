@@ -1,0 +1,24 @@
+# N605: Qwen3-27B 架构参数确认：Num_Layers (L) = 64, Num_Attention_Heads (H) = 32, Head_Dim (d_
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N253
+
+## Claim
+
+Qwen3-27B 架构参数确认：Num_Layers (L) = 64, Num_Attention_Heads (H) = 32, Head_Dim (d_head) = 128 (即 hidden_size=4096)，来源：Qwen3 官方 Model Card 或 Hugging Face config.json。
+
+## Corrected Claim
+
+Qwen3-27B 架构参数疑似为：Num_Layers (L) = 64, Num_Attention_Heads (H) = 32, Head_Dim (d_head) = 128 (即 hidden_size=4096)，需查阅官方 Model Card 或 Hugging Face config.json 以最终确认。
+
+## Evidence
+
+[质询]具体架构参数（如层数、头数、隐藏维度）属于经验事实，无法从第一性原理推导，且当前无可用外部来源直接证实该特定模型版本的配置细节，存在参数记忆偏差或版本混淆的风险。 | 经验事实，逻辑自洽（32*128=4096）但缺来源支持
+
+## Search Query
+
+Qwen3-27B config.json num_hidden_layers num_attention_heads head_dim

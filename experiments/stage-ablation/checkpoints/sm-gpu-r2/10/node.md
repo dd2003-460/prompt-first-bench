@@ -1,4 +1,4 @@
-# N33: 2024-2025年数据中心GPU（H100/A100）的二级市场（如Cloud GPU rental rates or Used Hardware Marke
+# N35: Prefill 速度（Prompt Processing）主要受算力 (TFLOPS) 限制而非带宽。RTX 4090 (82.6 TFLOPS FP16) 处
 
 - **status**: degraded
 - **level**: L2
@@ -9,18 +9,16 @@
 
 ## Claim
 
-2024-2025年数据中心GPU（H100/A100）的二级市场（如Cloud GPU rental rates or Used Hardware Market）价格波动范围，以及消费级GPU（RTX 4090）因AI需求导致的溢价幅度（% over MSRP），以评估实际采购成本的不确定性。
+Prefill 速度（Prompt Processing）主要受算力 (TFLOPS) 限制而非带宽。RTX 4090 (82.6 TFLOPS FP16) 处理 32K tokens 的 prefill 时间约为 1.5-2.5 秒；而 A100 (312 TFLOPS FP16) 仅需 0.4-0.6 秒。对于长上下文场景，高算力卡能显著降低首字延迟 (TTFT)。
 
 ## Corrected Claim
 
-2024-2025年数据中心GPU（H100/A100）云租赁价格呈现下降趋势，二级市场存在价格波动；消费级GPU（RTX 4090）因AI需求出现溢价，但具体波动范围和溢价百分比需参考实时市场数据。
+Prefill 速度主要受算力 (TFLOPS) 限制。在相同模型规模下，RTX 4090 (82.6 TFLOPS) 处理 32K tokens 的 prefill 时间显著长于 A100 (312 TFLOPS)，后者能显著降低首字延迟 (TTFT)。
 
 ## Evidence
 
-[质询]参考来源主要提供云租赁价格趋势和硬件规格对比，缺乏针对2024-2025年二级市场（二手硬件市场）具体价格波动范围以及RTX 4090相对于MSRP具体溢价百分比（%）的直接数据支持，属于经验事实且缺乏精确数值来源。 | 来源[1]和[3]提供了H100/A100云价格趋势，间接支持价格波动存在，但未提供二级市场具体波动范围或RTX 4090具体溢价幅度，逻辑自洽但缺具体数值来源支持。
+[质询]具体数值（1.5-2.5秒 vs 0.4-0.6秒）缺乏来源直接支持，且未指定具体模型规模（如7B/70B），不同模型下耗时差异巨大，属于经验事实而非第一性原理可推导的固定值。 | 来源[1]直接支持'Prefill是Compute-Bound（算力受限）'这一核心逻辑，但未提供RTX 4090和A100处理32K tokens的具体耗时数据；该耗时数据为经验事实，逻辑自洽（算力比约3.78倍，耗时比约3-4倍，符合线性关系）但缺来源直接支持。
 
 ## Retrieval Sources
 
-- {'url': 'https://www.gridstackhub.ai/learn/gpu-pricing-trends-2024-2026&rut=2b35fa128804e077392291f96dbf2ca8c7f0b46560f1731b6e4b8de41f1b757d', 'type': 'ddg', 'title': 'GPU Cloud Pricing Trends 2024-2026: H100 Price Decline & B200 Impact'}
-- {'url': 'https://gpusmith.com/articles/en/nvidia-data-center-gpu-comparison&rut=76fd436f4a5b9c22f784d8171a341106519c8923b0782942b528c2c9c1ce2f1b', 'type': 'ddg', 'title': 'NVIDIA Data Center GPU Comparison: H100 vs B200 vs A100'}
-- {'url': 'https://computecomparison.com/gpu-price-history-charts-trends&rut=e46711aa6ecdb7dcd31404b61726eec0079b39de7b5a8448ff5859af63991ff5', 'type': 'ddg', 'title': 'GPU Price History & Trends — H100, A100 & Cloud GPU Charts'}
+- {'url': 'https://zhuanlan.zhihu.com/p/2013203040564454281&rut=90c1b4f81c18bf0529d2e10a7aaedfa81e7dea3e417c22e0405d9c4e0a6e214a', 'type': 'ddg', 'title': 'LLM Prefill & Decode — 完整技术图谱 - 知乎'}

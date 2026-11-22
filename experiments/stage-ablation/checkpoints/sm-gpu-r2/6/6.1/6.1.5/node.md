@@ -1,0 +1,20 @@
+# N148: 并发需求影响：若并发用户数为4，KV Cache需求为4 * 16.8GB (BF16) = 67.2GB，加上权重54GB，总显存需≥121.2GB，排除单卡
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+并发需求影响：若并发用户数为4，KV Cache需求为4 * 16.8GB (BF16) = 67.2GB，加上权重54GB，总显存需≥121.2GB，排除单卡RTX 5090 (32GB) 和 A100 80GB，仅允许MI300X (192GB) 或多卡方案。
+
+## Corrected Claim
+
+并发需求影响：若并发用户数为4，KV Cache需求为4 * 16.8GB (BF16) = 67.2GB，加上权重54GB，总显存需≥121.2GB，排除单卡RTX 5090 (32GB) 和 A100 80GB，仅允许MI300X (192GB) 或多卡方案。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算正确（4*16.8+54=121.2），硬件显存规格符合常识（RTX 5090 32GB, A100 80GB, MI300X 192GB），结论推导自洽。

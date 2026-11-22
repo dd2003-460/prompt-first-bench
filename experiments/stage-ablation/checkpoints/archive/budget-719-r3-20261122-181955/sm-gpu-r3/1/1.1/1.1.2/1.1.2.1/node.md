@@ -1,0 +1,20 @@
+# N135: RTX 4080 Super 的显存容量为 16GB GDDR6X，在 INT4 量化下（权重 13.5GB）仅剩余 2.5GB 显存用于 KV Cache 和
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N40
+
+## Claim
+
+RTX 4080 Super 的显存容量为 16GB GDDR6X，在 INT4 量化下（权重 13.5GB）仅剩余 2.5GB 显存用于 KV Cache 和开销，在 32K 上下文下（KV Cache 需 8.59GB，N100）完全无法容纳，因此该硬件在 32K 上下文约束下直接不可行，除非大幅降低上下文长度或采用更极端的量化策略（如 INT2，但质量损失不可接受）。
+
+## Corrected Claim
+
+RTX 4080 Super 的显存容量为 16GB GDDR6X，在 INT4 量化下（权重 13.5GB）仅剩余 2.5GB 显存用于 KV Cache 和开销，在 32K 上下文下（KV Cache 需 8.59GB，N100）完全无法容纳，因此该硬件在 32K 上下文约束下直接不可行，除非大幅降低上下文长度或采用更极端的量化策略（如 INT2，但质量损失不可接受）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4080 Super 显存确为 16GB，16GB - 13.5GB (INT4 权重) = 2.5GB 剩余空间，小于 8.59GB (KV Cache 需求)，数学推导成立，硬件不可行结论正确。

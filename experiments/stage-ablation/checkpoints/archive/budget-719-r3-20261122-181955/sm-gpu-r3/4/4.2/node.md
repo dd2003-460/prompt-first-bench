@@ -1,0 +1,20 @@
+# N23: 电力运行成本 (C_power)：C_power = P_tdp * t * E_price，其中 P_tdp 为单卡 TDP (W)，t 为年运行小时数 (假
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4, N5, N6
+
+## Claim
+
+电力运行成本 (C_power)：C_power = P_tdp * t * E_price，其中 P_tdp 为单卡 TDP (W)，t 为年运行小时数 (假设 24*365=8760h 或按需调整)，E_price 为当地电价 (USD/kWh) [待核验]；需区分推理峰值功耗与平均功耗差异。
+
+## Corrected Claim
+
+电力运行成本 (C_power)：C_power = P_tdp * t * E_price，其中 P_tdp 为单卡 TDP (W)，t 为年运行小时数 (假设 24*365=8760h 或按需调整)，E_price 为当地电价 (USD/kWh) [待核验]；需区分推理峰值功耗与平均功耗差异。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

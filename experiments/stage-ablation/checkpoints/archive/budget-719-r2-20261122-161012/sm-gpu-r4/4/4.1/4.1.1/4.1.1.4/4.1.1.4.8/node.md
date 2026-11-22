@@ -1,0 +1,24 @@
+# N489: H100 SXM 在 Batch=5-6 下的吞吐量扩展性：H100 80GB 显存支持 Batch=6 时 KV Cache 占用 6 * 8GB = 48G
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N199, N200, N201
+
+## Claim
+
+H100 SXM 在 Batch=5-6 下的吞吐量扩展性：H100 80GB 显存支持 Batch=6 时 KV Cache 占用 6 * 8GB = 48GB，加上权重 27GB 和激活值 6GB，总需求 81GB > 80GB，实际最大 Batch Size 为 5 (总需求 71GB)；Batch=5 时吞吐量线性扩展至 5 * 82 = 410 tokens/s，但单用户延迟不变，适合高并发场景而非低延迟交互场景。
+
+## Corrected Claim
+
+H100 SXM 在特定模型配置下，若单用户 KV Cache 占用约 8GB，则 Batch=6 时总显存需求约 81GB 超出 80GB 限制，实际最大 Batch Size 约为 5；Batch=5 时吞吐量约为 410 tokens/s，适合高并发场景。
+
+## Evidence
+
+[质询]KV Cache 占用估算（6 * 8GB = 48GB）缺乏具体模型参数（如层数、头数、序列长度）支持，属于经验性估算，不同模型配置下数值差异巨大，且未说明该 8GB 是单用户还是总占用，存在口径混淆风险。 | 先验知识/题面给定，逻辑校验通过（算术 6*8+27+6=81>80 及 5*8+27+6=71<80 正确），但 KV Cache 具体数值为经验估算，缺乏来源直接支持，故降级。
+
+## Search Query
+
+H100 batch size scaling LLM inference throughput

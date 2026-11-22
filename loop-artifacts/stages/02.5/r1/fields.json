@@ -1,18 +1,54 @@
 {
-  "fields": [
+ "fields": [
+  {
+   "concept": "local_dual_channel_verification",
+   "role": "output",
+   "attribute": "non_qwen_judge_availability",
+   "disposition": "confirmed",
+   "rationale": "阶段 02 核心 claim 已完成本地双通道独立验证：TCP 端口探测（1234/11434 refused，8787 仅 qwen3.8-27b）与进程环境变量枚举（无外部 provider key）两通道方法学独立、结论一致、无矛盾。web-llm 外源核验不可用（3 providers 登录失败），该 claim 属本地环境事实，本地探测即权威来源。",
+   "evidence_refs": [
+    "https://github.com/dd2003-460/prompt-first-bench/blob/main/loop-artifacts/stages/01/r1/evidence/unknown-local-probe-r266.md"
+   ],
+   "confidence": 0.9,
+   "impact": "material",
+   "reversible": true,
+   "observed_at": "2026-11-03T07:10+08:00"
+  },
+  {
+   "concept": "cross_validation",
+   "role": "output",
+   "attribute": "cross_validation",
+   "disposition": "confirmed",
+   "rationale": "逐 claim 交叉核验（02.5 门禁 required_output）：核心 claim「本机无非 Qwen LLM 端点」经三源独立核验——(1) 本地 TCP 端口探测 1234/11434 refused、8787 仅 qwen3.8-27b；(2) 本地 process+env 枚举无外部 provider key；(3) ego-browser 两个独立 web-LLM（perplexity + chatgpt，2026-11-20 用户登录态）方法论复核。裁决：事实部分（已探测端点/已加载模型/env 无 key）三源一致成立；绝对化结论「不存在/不可行」被两 web-LLM 独立指出超出证据覆盖（未扫非默认端口 8000/8080/9931/1337/30000、未查 Keychain/配置文件/CLI 登录态/代理），采纳限定表述「已验证端点与凭据范围内未发现可用非 Qwen judge」。矛盾已记录并裁决，confidence 维持 0.9（事实部分）。",
+   "evidence_refs": [
+    "https://github.com/dd2003-460/prompt-first-bench/blob/main/loop-artifacts/stages/01/r1/evidence/unknown-local-probe-r266.md",
+    "loop-artifacts/stages/02.5/r1/web-llm/a72d1ae0e2f789eb.json"
+   ],
+   "validation_records": [
     {
-      "concept": "local_dual_channel_verification",
-      "role": "output",
-      "attribute": "non_qwen_judge_availability",
-      "disposition": "confirmed",
-      "rationale": "阶段 02 核心 claim 已完成本地双通道独立验证：TCP 端口探测（1234/11434 refused，8787 仅 qwen3.8-27b）与进程环境变量枚举（无外部 provider key）两通道方法学独立、结论一致、无矛盾。web-llm 外源核验不可用（3 providers 登录失败），该 claim 属本地环境事实，本地探测即权威来源。",
-      "evidence_refs": [
-        "https://github.com/dd2003-460/prompt-first-bench/blob/main/loop-artifacts/stages/01/r1/evidence/unknown-local-probe-r266.md"
-      ],
-      "confidence": 0.9,
-      "impact": "material",
-      "reversible": true,
-      "observed_at": "2026-11-03T07:10+08:00"
+     "claim": "本地非 Qwen 端点不存在（1234/11434 拒绝，8787 仅 qwen3.8-27b）",
+     "source_1": {
+      "method": "TCP port probe (curl --connect-timeout 2)",
+      "result": "1234/11434 connection refused; 8787 /v1/models 仅 qwen3.8-27b",
+      "observed_at": "2026-11-03T06:15+08:00"
+     },
+     "source_2": {
+      "method": "process + env inspection (lsof + env grep)",
+      "result": "仅 :8787 存活推理端点，无外部 provider API key",
+      "observed_at": "2026-11-03T06:20+08:00"
+     },
+     "source_3": {
+      "method": "ego-browser web-LLM (perplexity + chatgpt, 独立 provider)",
+      "result": "两 LLM 一致：事实部分成立，但应限定为'已验证范围内未发现'，未覆盖非默认端口/Keychain/配置/CLI 登录/代理",
+      "observed_at": "2026-11-20T09:30+08:00"
+     },
+     "adjudication": "三源一致，事实成立；结论措辞从绝对化降级为限定表述。confidence 0.9 维持。"
     }
-  ]
+   ],
+   "confidence": 0.9,
+   "impact": "material",
+   "reversible": true,
+   "observed_at": "2026-11-20T09:35+08:00"
+  }
+ ]
 }

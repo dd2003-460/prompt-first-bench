@@ -1,0 +1,20 @@
+# N423: RTX 3090 Ti 在 INT8 KV Cache 配置下的显存占用修正：KV Cache per token 从 256 KB (BF16) 降至 128
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N142
+
+## Claim
+
+RTX 3090 Ti 在 INT8 KV Cache 配置下的显存占用修正：KV Cache per token 从 256 KB (BF16) 降至 128 KB (INT8)，32K 上下文单请求 KV Cache 占用 = 128 KB/token * 32768 tokens = 4 GB；总显存占用 = 13.5 GB (INT4 权重) + 4 GB (INT8 KV Cache) + 2 GB (框架开销) = 19.5 GB，剩余 4.5 GB 可支持额外 1 个并发请求（4.5 GB / 4 GB = 1.125），即最大 2 个并发请求。
+
+## Corrected Claim
+
+RTX 3090 Ti 在 INT8 KV Cache 配置下的显存占用修正：KV Cache per token 从 256 KB (BF16) 降至 128 KB (INT8)，32K 上下文单请求 KV Cache 占用 = 128 KB/token * 32768 tokens = 4 GB；总显存占用 = 13.5 GB (INT4 权重) + 4 GB (INT8 KV Cache) + 2 GB (框架开销) = 19.5 GB，剩余 4.5 GB 可支持额外 1 个并发请求（4.5 GB / 4 GB = 1.125），即最大 2 个并发请求。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：INT8 为 BF16 的一半精度，显存占用减半符合物理规律；算术运算 128KB * 32768 = 4GB 及总显存加和 13.5+4+2=19.5GB 均正确；剩余显存 24-19.5=4.5GB 支持 1 个额外请求（4.5/4=1.125）逻辑自洽。

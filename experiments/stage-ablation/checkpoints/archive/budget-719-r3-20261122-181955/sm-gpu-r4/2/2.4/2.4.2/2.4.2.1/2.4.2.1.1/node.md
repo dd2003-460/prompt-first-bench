@@ -1,0 +1,24 @@
+# N712: Qwen3-27B 的 num_attention_layers 确认为 64（基于 Qwen2.5/3 系列 27B 模型标准架构），修正 N255 中 'n
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N255
+
+## Claim
+
+Qwen3-27B 的 num_attention_layers 确认为 64（基于 Qwen2.5/3 系列 27B 模型标准架构），修正 N255 中 'num_attention_layers=32' 的错误假设，该参数直接影响 KV Cache 总层数计算。
+
+## Corrected Claim
+
+Qwen3-27B 的 num_attention_layers 推测为 64（基于 Qwen2.5-27B 架构参考），需查阅 Qwen3 官方技术报告或模型配置文件以确认最终数值。
+
+## Evidence
+
+[质询]Qwen3-27B 的具体架构参数（如 num_attention_layers）属于经验事实，且 Qwen3 系列与 Qwen2.5 系列在架构上可能存在差异（如 GQA 头数、层数调整等），仅凭 'Qwen2.5/3 系列 27B 标准架构' 的笼统描述无法确证 Qwen3-27B 的层数确为 64，存在版本混淆或参数变更的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证 Qwen3-27B 具体层数是否为 64）
+
+## Search Query
+
+Qwen3-27B model architecture num_layers config.json

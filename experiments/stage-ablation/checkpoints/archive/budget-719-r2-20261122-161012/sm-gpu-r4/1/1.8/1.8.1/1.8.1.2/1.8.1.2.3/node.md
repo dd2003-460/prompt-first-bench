@@ -1,0 +1,24 @@
+# N452: Qwen3-27B 架构中 MoE (Mixture of Experts) 或特定 Attention 机制对 FP8 量化的敏感度系数：若模型包含大量小专家
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N187
+
+## Claim
+
+Qwen3-27B 架构中 MoE (Mixture of Experts) 或特定 Attention 机制对 FP8 量化的敏感度系数：若模型包含大量小专家层，FP8 的 4-bit 指数位可能导致激活值分布异常，需检查 Qwen3 技术报告中是否提及 FP8 训练的稳定性或校准数据集大小要求。
+
+## Corrected Claim
+
+Qwen3-27B 架构中 MoE 或特定 Attention 机制对 FP8 量化的敏感度需通过实验验证；若模型包含大量小专家层，FP8 量化可能因动态范围限制影响激活值分布，建议查阅 Qwen3 技术报告以确认 FP8 训练的稳定性及校准数据集要求。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性技术断言（如'FP8的4-bit指数位可能导致激活值分布异常'、'需检查...校准数据集大小要求'），这些属于特定模型架构与量化算法交互的经验事实，无法从第一性原理严格推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+Qwen3-27B FP8 quantization sensitivity architecture MoE calibration

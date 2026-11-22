@@ -1,0 +1,20 @@
+# N370: 在 2x RTX 4090 并行推理（如 Tensor Parallelism）场景下，每步解码（Decode Step）所需的卡间通信数据量约为 2 * Hi
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N154
+
+## Claim
+
+在 2x RTX 4090 并行推理（如 Tensor Parallelism）场景下，每步解码（Decode Step）所需的卡间通信数据量约为 2 * Hidden_Size * Precision_Bytes（例如 Qwen3-27B 若 Hidden=4096, BF16，则约 16KB/step），而 PCIe 5.0 x16 带宽为 64GB/s (单向)，通信延迟 T_comm ≈ 16KB / 64GB/s ≈ 0.25μs，相比单卡 Decode 延迟 T_decode (~50-100ms) 可忽略不计（占比 < 0.001%），证实主板侧无瓶颈。
+
+## Corrected Claim
+
+在 2x RTX 4090 并行推理（如 Tensor Parallelism）场景下，每步解码（Decode Step）所需的卡间通信数据量约为 2 * Hidden_Size * Precision_Bytes（例如 Qwen3-27B 若 Hidden=4096, BF16，则约 16KB/step），而 PCIe 5.0 x16 带宽为 64GB/s (单向)，通信延迟 T_comm ≈ 16KB / 64GB/s ≈ 0.25μs，相比单卡 Decode 延迟 T_decode (~50-100ms) 可忽略不计（占比 < 0.001%），证实主板侧无瓶颈。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：通信量计算（2*4096*2=16KB）与延迟估算（16KB/64GB/s≈0.25μs）符合物理直觉，且远小于解码延迟，结论自洽。

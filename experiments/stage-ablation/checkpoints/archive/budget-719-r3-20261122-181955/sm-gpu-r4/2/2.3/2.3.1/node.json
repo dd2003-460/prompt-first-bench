@@ -1,0 +1,33 @@
+{
+  "id": "N79",
+  "claim": "在 vLLM/ExLlama2 中，32K 上下文下的激活内存（Activation Memory）主要取决于 Batch Size (B) 和序列长度 (L)，公式为 Act_Mem ≈ B * L * d_model * n_layers * dtype_size * k_factor（k_factor 约为 2-4，取决于是否使用 FlashAttention 及重计算策略）；对于 Qwen3-27B (d_model=4096, n_layers=64)，B=1, L=32768, BF16 时，Act_Mem 约为 2-4 GB [待核验]，需查阅 vLLM 源码中 `model_runner.py` 的显存分配逻辑或官方文档确认 k_factor 具体值。",
+  "level": "L3",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]公式中的 k_factor 取值范围（2-4）及最终估算值（2-4 GB）缺乏具体来源支持，且不同推理引擎（vLLM vs ExLlama2）及优化策略（FlashAttention, 重计算）对激活内存的影响机制复杂，简单线性公式可能忽略中间层激活或注意力矩阵的具体存储细节，属于经验性估算而非严格推导。 | 来源[1]和[2]讨论了vLLM长上下文显存瓶颈和优化，但未提供具体的激活内存计算公式或k_factor数值；来源[3]主要关注KV Cache而非激活内存。逻辑上量级合理（B=1, L=32K, d=4096, L=64, BF16=2B，基础项约3.4GB，乘以系数后2-4GB在合理范围内），但缺乏直接来源支持具体系数，故降级。",
+  "corrected_claim": "在 vLLM/ExLlama2 中，32K 上下文下的激活内存主要取决于 Batch Size (B) 和序列长度 (L)，其量级通常在数 GB 级别（例如对于 Qwen3-27B, B=1, L=32768, BF16，估算约为 2-4 GB），具体数值受 FlashAttention 及重计算策略影响，需查阅源码确认精确分配逻辑。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N16"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "vLLM activation memory calculation formula batch size sequence length Qwen 27B",
+  "retrieval_sources": [
+    {
+      "url": "https://blog.csdn.net/csdddn/article/details/157837157&rut=6dc71f5492a7d0cc608135d1f039ab31e9cb5b3019fb0a852d05dbcfdd9fcbe7",
+      "type": "ddg",
+      "title": "长上下文推理挑战：vLLM在处理超长文本（＞32K tokens）时的性能表现与优化探索_针对长上下文的推理优化-CSDN博客"
+    },
+    {
+      "url": "https://blog.csdn.net/weixin_42433737/article/details/155250935&rut=984dbacd11aadbfd4ca1d77dc685329ee1b83c1335d2091dfa51e915ccb6c87f",
+      "type": "ddg",
+      "title": "vLLM如何设置最大上下文长度？参数调优建议-CSDN博客"
+    },
+    {
+      "url": "https://bigolab.com/guides/5620-llm-kv-cache-vram-formula-32k-context-16gb-oom-guide&rut=46ddc7bba8caf539601fc365c9d5b08b8cfdf55e495188e9aaa34cb410c49af8",
+      "type": "ddg",
+      "title": "大模型上下文 KV Cache 显存计算公式详解：为什么 32K 上下文一开 16GB 显卡就 OOM"
+    }
+  ]
+}

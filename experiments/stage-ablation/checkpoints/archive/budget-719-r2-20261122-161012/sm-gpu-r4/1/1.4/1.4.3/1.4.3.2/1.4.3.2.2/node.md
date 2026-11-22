@@ -1,0 +1,20 @@
+# N398: RTX 4090 双卡在 Qwen3-27B FP8 推理下的实际吞吐量 (Throughput_Tokens_s) 约为 40-50 tokens/s（基于 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N165
+
+## Claim
+
+RTX 4090 双卡在 Qwen3-27B FP8 推理下的实际吞吐量 (Throughput_Tokens_s) 约为 40-50 tokens/s（基于 2*1008GB/s 带宽和 27GB 权重，理论上限 74 tokens/s，实际效率 50-60%）。能效比 (Performance_per_Watt) = 45 tokens/s / 900W ≈ 0.05 tokens/s/W。N165 声称的 0.06-0.08 偏高，可能基于 BF16 或更高效率假设，但在 FP8 下通常为 0.04-0.06。
+
+## Corrected Claim
+
+RTX 4090 双卡在 Qwen3-27B FP8 推理下的实际吞吐量 (Throughput_Tokens_s) 约为 40-50 tokens/s（基于 2*1008GB/s 带宽和 27GB 权重，理论上限 74 tokens/s，实际效率 50-60%）。能效比 (Performance_per_Watt) = 45 tokens/s / 900W ≈ 0.05 tokens/s/W。N165 声称的 0.06-0.08 偏高，可能基于 BF16 或更高效率假设，但在 FP8 下通常为 0.04-0.06。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于27GB权重和2016GB/s总带宽，理论上限约74.6 tokens/s，50-60%效率对应37-45 tokens/s，与40-50 tokens/s量级兼容；能效比计算0.05 tokens/s/W逻辑自洽。

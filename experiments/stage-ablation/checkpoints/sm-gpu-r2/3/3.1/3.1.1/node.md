@@ -1,0 +1,24 @@
+# N69: Qwen3-27B FP8 量化质量基准：使用 E4M3 格式，在 MMLU 基准测试中，FP8 与 BF16 的准确率差异 <0.5%；在 HumanEval
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N18
+
+## Claim
+
+Qwen3-27B FP8 量化质量基准：使用 E4M3 格式，在 MMLU 基准测试中，FP8 与 BF16 的准确率差异 <0.5%；在 HumanEval 代码生成任务中，Pass@1 差异 <1%。确认 FP8 质量损失在可接受范围内。
+
+## Corrected Claim
+
+Qwen3-27B FP8 量化（E4M3）在 MMLU 和 HumanEval 基准测试中通常表现出与 BF16 相近的性能，质量损失在可接受范围内，但具体差异数值需参考官方技术报告或实测数据。
+
+## Evidence
+
+[质询]具体数值阈值（<0.5% MMLU, <1% HumanEval）属于特定模型版本和量化配置下的经验测量数据，无法从第一性原理推导，且缺乏来源支持以确认其准确性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Qwen3-27B FP8 quantization perplexity MMLU benchmark comparison BF16

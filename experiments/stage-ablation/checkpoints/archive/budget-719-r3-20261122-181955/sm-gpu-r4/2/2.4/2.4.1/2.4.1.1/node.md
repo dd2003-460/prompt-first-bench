@@ -1,0 +1,24 @@
+# N252: 修正自矛盾检测：Qwen3-27B 采用 GQA (Grouped Query Attention)，其 n_kv_heads 实际为 8（而非 N89 中的 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N82
+
+## Claim
+
+修正自矛盾检测：Qwen3-27B 采用 GQA (Grouped Query Attention)，其 n_kv_heads 实际为 8（而非 N89 中的 8 或 N100 中的 32，需以官方 config.json 为准，通常 27B 模型为 8 或 16）。若 n_kv_heads=8，32K 上下文 BF16 KV Cache 占用为 2 * 16 * 8 * 128 * 32768 * 2 / 1e9 ≈ 5.37 GB；若 n_kv_heads=16，则为 10.74 GB。需下载 config.json 确认具体值。
+
+## Corrected Claim
+
+Qwen3-27B 采用 GQA，其 n_kv_heads 具体数值需以官方 config.json 为准（通常为 8 或 16）。若 n_kv_heads=8，32K 上下文 BF16 KV Cache 占用约为 5.37 GB；若 n_kv_heads=16，则约为 10.74 GB。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（n_kv_heads 的具体数值 8 或 16），属于经验事实，无法仅从第一性原理推导得出，且缺乏外部来源直接支持具体数值。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Qwen3-27B config.json n_kv_heads num_key_value_heads

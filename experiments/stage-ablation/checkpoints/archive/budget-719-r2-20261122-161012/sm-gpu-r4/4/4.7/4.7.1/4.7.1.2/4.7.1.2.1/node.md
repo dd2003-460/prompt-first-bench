@@ -1,0 +1,24 @@
+# N597: Apple M3 Ultra 与 M2 Ultra 的内存带宽差异核验：M2 Ultra 官方标称内存带宽为 800 GB/s (192GB 配置) 或 800
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N249
+
+## Claim
+
+Apple M3 Ultra 与 M2 Ultra 的内存带宽差异核验：M2 Ultra 官方标称内存带宽为 800 GB/s (192GB 配置) 或 800 GB/s (256GB/512GB 配置)；M3 Ultra 预计于 2025 年发布，其内存带宽若沿用 800 GB/s 则无提升，但若升级为 1.2 TB/s 需确认其内存控制器代际升级；当前 [待核验] M3 Ultra 具体带宽，假设其为 800 GB/s 进行保守计算，若为 1.2 TB/s 则 Decode 上限提升至 72.7 tokens/s，需查阅 Apple 官方规格表。
+
+## Corrected Claim
+
+Apple M2 Ultra 官方标称内存带宽为 800 GB/s。M3 Ultra 的具体内存带宽需查阅 Apple 官方最新规格表确认，当前假设其为 800 GB/s 进行保守计算，若实际带宽更高（如 1.2 TB/s），Decode 上限将相应提升。
+
+## Evidence
+
+[质询]M3 Ultra 的具体内存带宽属于尚未发布（或刚发布）产品的经验规格参数，无法从第一性原理推导，且当前缺乏官方直接来源支持其具体数值（800 GB/s 或 1.2 TB/s），存在不确定性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体带宽数值）
+
+## Search Query
+
+Apple M3 Ultra memory bandwidth specs 2025

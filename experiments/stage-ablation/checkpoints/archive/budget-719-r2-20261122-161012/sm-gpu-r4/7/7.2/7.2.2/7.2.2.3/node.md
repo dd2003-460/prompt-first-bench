@@ -1,0 +1,20 @@
+# N653: 2x RTX 4090 (TP=2) 的 PCIe 4.0 同步延迟量化：每层 Transformer 后需执行 All-Reduce 同步，单次同步数据量约为
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N269
+
+## Claim
+
+2x RTX 4090 (TP=2) 的 PCIe 4.0 同步延迟量化：每层 Transformer 后需执行 All-Reduce 同步，单次同步数据量约为 Hidden_Size * Batch * Bytes = 4096 * 1 * 2 Bytes (BF16) = 8 KB；PCIe 4.0 x16 双向带宽约 32 GB/s，单次同步延迟 ≈ 8KB / 32GB/s ≈ 0.25 μs；28 层总同步开销 ≈ 7 μs，相对于 20-30ms 的单 Token 计算时间可忽略 (<0.1%)，证明瓶颈主要在带宽聚合而非同步延迟，N269 中 '60-70% 利用率' 的假设主要源于显存访问模式而非同步延迟。
+
+## Corrected Claim
+
+2x RTX 4090 (TP=2) 的 PCIe 4.0 同步延迟量化：每层 Transformer 后需执行 All-Reduce 同步，单次同步数据量约为 Hidden_Size * Batch * Bytes = 4096 * 1 * 2 Bytes (BF16) = 8 KB；PCIe 4.0 x16 双向带宽约 32 GB/s，单次同步延迟 ≈ 8KB / 32GB/s ≈ 0.25 μs；28 层总同步开销 ≈ 7 μs，相对于 20-30ms 的单 Token 计算时间可忽略 (<0.1%)，证明瓶颈主要在带宽聚合而非同步延迟，N269 中 '60-70% 利用率' 的假设主要源于显存访问模式而非同步延迟。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe 4.0 x16 带宽约 32GB/s，8KB 数据同步延迟约 0.25μs，28 层总延迟约 7μs，相对于毫秒级推理时间占比极低，符合物理直觉与工程常识。

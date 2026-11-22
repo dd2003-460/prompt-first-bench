@@ -1,20 +1,24 @@
-# N98: 基于修正后的架构参数（64层, 8 KV heads, head_dim 128），BF16 下 32K tokens 的 KV Cache 总大小为 32,7
+# N81: RTX 4080 Super (16GB) 在 2025Q1 的零售价格约为 $1,000-$1,200，显存带宽 717 GB/s，TDP 320W，显存不足
 
-- **status**: verified
+- **status**: degraded
 - **level**: L3
-- **source**: knowledge
-- **edge_type**: quotient
-- **rework_count**: 0
-- **parent_ids**: N20
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N21
 
 ## Claim
 
-基于修正后的架构参数（64层, 8 KV heads, head_dim 128），BF16 下 32K tokens 的 KV Cache 总大小为 32,768 * 256 KB = 8,388,608 KB = 8 GB。总显存需求 = 54 GB (Weights) + 8 GB (KV) = 62 GB。
+RTX 4080 Super (16GB) 在 2025Q1 的零售价格约为 $1,000-$1,200，显存带宽 717 GB/s，TDP 320W，显存不足 24GB，运行 Qwen3-27B FP8 需依赖 CPU 卸载，实际吞吐量低于 10 tokens/s，不推荐作为主要方案 [待核验实时价格]。
 
 ## Corrected Claim
 
-基于修正后的架构参数（64层, 8 KV heads, head_dim 128），BF16 下 32K tokens 的 KV Cache 总大小为 32,768 * 256 KB = 8,388,608 KB = 8 GB。总显存需求 = 54 GB (Weights) + 8 GB (KV) = 62 GB。
+RTX 4080 Super (16GB) 显存带宽 717 GB/s，TDP 320W。由于显存不足 24GB，运行 Qwen3-27B FP8 需依赖 CPU 卸载，导致实际吞吐量较低（通常低于 10 tokens/s），不推荐作为主要方案。具体零售价格需查询实时市场数据。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：KV Cache 大小计算正确（32768 tokens * 64 layers * 2 (K+V) * 8 heads * 128 dim * 2 bytes = 8,589,934,592 bytes = 8 GB），总显存需求 54GB + 8GB = 62GB 符合算术逻辑。
+[质询]该陈述包含多个具体的经验性参数（2025Q1实时价格、特定模型在特定硬件上的吞吐量），这些属于市场动态和实测数据，无法从第一性原理推导。由于检索失败，缺乏外部来源直接支持这些具体数值，且价格随时间波动大，存在口径混淆或数据过时的风险。 | 逻辑自洽：RTX 4080 Super 16GB 显存确实小于 24GB，运行 27B 模型需卸载，吞吐量低符合物理直觉；但价格与具体吞吐量为经验事实，无来源支持，依据经验事实排除条款降级。
+
+## Search Query
+
+RTX 4080 Super price 2025 Q1 memory bandwidth TDP

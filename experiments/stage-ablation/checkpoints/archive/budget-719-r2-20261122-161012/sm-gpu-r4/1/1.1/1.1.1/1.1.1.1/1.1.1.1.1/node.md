@@ -1,0 +1,24 @@
+# N335: Qwen3-27B 在 Hugging Face 配置文件中 `hidden_size` 为 4096，`num_attention_heads` 为 32，`
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N139
+
+## Claim
+
+Qwen3-27B 在 Hugging Face 配置文件中 `hidden_size` 为 4096，`num_attention_heads` 为 32，`num_key_value_heads` 为 8，`intermediate_size` 为 11008，`vocab_size` 为 151936，`num_hidden_layers` 为 64。
+
+## Corrected Claim
+
+Qwen3-27B 在 Hugging Face 配置文件中 `hidden_size` 为 4096，`num_attention_heads` 为 32，`num_key_value_heads` 为 8，`intermediate_size` 为 11008，`vocab_size` 为 151936，`num_hidden_layers` 为 64。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+Qwen3-27B huggingface config.json hidden_size num_key_value_heads

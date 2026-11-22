@@ -1,0 +1,20 @@
+# N538: MI300X 在 LLM 推理负载下的平均功耗修正：TDP 750W 为峰值，需根据 N103 的 60-80% 负载系数估算实际平均功耗（P_avg = 0.
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N187
+
+## Claim
+
+MI300X 在 LLM 推理负载下的平均功耗修正：TDP 750W 为峰值，需根据 N103 的 60-80% 负载系数估算实际平均功耗（P_avg = 0.7 * 750W = 525W），并重新计算年电力成本。
+
+## Corrected Claim
+
+MI300X 在 LLM 推理负载下的平均功耗修正：TDP 750W 为峰值，需根据 N103 的 60-80% 负载系数估算实际平均功耗（P_avg = 0.7 * 750W = 525W），并重新计算年电力成本。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：MI300X TDP 750W 符合公开规格，LLM 推理负载系数 60-80% 及取中值 0.7 估算平均功耗 525W 符合工程惯例与物理直觉，无内部矛盾。

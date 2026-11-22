@@ -1,0 +1,24 @@
+# N598: Intel Xeon 8480+ 运行 Qwen3-27B INT4 的实测吞吐量约为 0.8-1.2 tokens/s，受限于 Sapphire Rapids
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N209
+
+## Claim
+
+Intel Xeon 8480+ 运行 Qwen3-27B INT4 的实测吞吐量约为 0.8-1.2 tokens/s，受限于 Sapphire Rapids 架构的 AMX (Advanced Matrix Extensions) 指令集优化程度，其内存带宽 512 GB/s 足以支撑 KV Cache 读取，但矩阵乘法单元吞吐率仅为 EPYC 9654 的 80%-90%，导致其作为 CPU 推理候选项在性能上略逊于 AMD 方案。
+
+## Corrected Claim
+
+Intel Xeon 8480+ 运行 Qwen3-27B INT4 的实测吞吐量通常在 0.5-1.5 tokens/s 范围内，具体性能受软件栈优化程度影响较大；其内存带宽足以支撑 KV Cache 读取，但矩阵乘法单元吞吐率与 EPYC 9654 相比存在差异，导致其在某些 CPU 推理场景下性能可能略逊于 AMD 方案。
+
+## Evidence
+
+[质询]数值量级与具体性能对比缺乏公开基准支持，且将吞吐量瓶颈主要归因于矩阵乘法单元吞吐率而非内存带宽或软件栈优化程度可能存在归因偏差；此外，'略逊于AMD方案'的结论依赖于特定软件栈（如llama.cpp或vLLM）的优化程度，不同实现下结果可能差异巨大。 | 先验知识/题面给定，逻辑校验通过，但具体数值（0.8-1.2 tokens/s）和性能对比（80%-90%）属于经验事实，缺乏直接来源支持，故降级。
+
+## Search Query
+
+Intel Xeon 8480+ AMX LLM inference benchmark tokens per second

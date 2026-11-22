@@ -1,0 +1,20 @@
+# N89: AMD MI250 128GB 在 Qwen3-27B FP8 精度下的显存占用为 27GB (权重) + 8.4GB (KV Cache) + 2GB (激活
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N22
+
+## Claim
+
+AMD MI250 128GB 在 Qwen3-27B FP8 精度下的显存占用为 27GB (权重) + 8.4GB (KV Cache) + 2GB (激活) = 37.4GB，剩余 90.6GB 显存可用于增加并发或更长上下文，显存利用率约 29.22%。
+
+## Corrected Claim
+
+AMD MI250 128GB 在 Qwen3-27B FP8 精度下的显存占用为 27GB (权重) + 8.4GB (KV Cache) + 2GB (激活) = 37.4GB，剩余 90.6GB 显存可用于增加并发或更长上下文，显存利用率约 29.22%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数FP8权重约27GB，KV Cache与激活值估算合理，总占用37.4GB小于128GB显存，利用率计算正确。

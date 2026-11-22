@@ -1,0 +1,24 @@
+# N482: Qwen3-27B 的 KV Cache 单 Token 大小精确公式：KV_Size_Per_Token = 2 * num_layers * num_kv_
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N199, N200, N201
+
+## Claim
+
+Qwen3-27B 的 KV Cache 单 Token 大小精确公式：KV_Size_Per_Token = 2 * num_layers * num_kv_heads * head_dim * dtype_bytes；基于 Qwen3-27B 架构参数 (num_layers=48, num_kv_heads=8, head_dim=128)，BF16 下为 2 * 48 * 8 * 128 * 2 bytes = 196,608 bytes (192 KB)，而非父节点假设的 256 KB，需修正父节点中 '512 KB' 的翻倍假设前提。
+
+## Corrected Claim
+
+Qwen3-27B 的 KV Cache 单 Token 大小精确公式：KV_Size_Per_Token = 2 * num_layers * num_kv_heads * head_dim * dtype_bytes；基于 Qwen3-27B 架构参数 (num_layers=48, num_kv_heads=8, head_dim=128)，BF16 下为 2 * 48 * 8 * 128 * 2 bytes = 196,608 bytes (192 KB)，而非父节点假设的 256 KB，需修正父节点中 '512 KB' 的翻倍假设前提。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式推导正确，数值计算准确（2*48*8*128*2=196608 bytes=192KB），且符合Qwen3-27B架构参数常识。
+
+## Search Query
+
+Qwen3-27B architecture config num_layers num_kv_heads head_dim

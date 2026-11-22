@@ -1,0 +1,24 @@
+# N781: A100 80GB (SXM4/PCIe) 在 BF16 精度下的理论稠密算力为 312 TFLOPS (SXM4) 或 195 TFLOPS (PCIe)；由
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N279
+
+## Claim
+
+A100 80GB (SXM4/PCIe) 在 BF16 精度下的理论稠密算力为 312 TFLOPS (SXM4) 或 195 TFLOPS (PCIe)；由于 A100 不支持 2:4 结构化稀疏加速（或驱动支持有限），实际有效算力在 LLM 推理中通常按稠密峰值的 70%-85% 估算，即 SXM4 约为 218-265 TFLOPS。
+
+## Corrected Claim
+
+A100 80GB (SXM4/PCIe) 在 BF16 精度下的理论稠密算力为 312 TFLOPS (SXM4) 或 195 TFLOPS (PCIe)；由于 A100 不支持 2:4 结构化稀疏加速（或驱动支持有限），实际有效算力在 LLM 推理中通常按稠密峰值的 70%-85% 估算，即 SXM4 约为 218-265 TFLOPS。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 SXM4 BF16 稠密算力 312 TFLOPS 为官方标准规格，PCIe 版 195 TFLOPS 亦符合硬件差异；A100 不支持 2:4 结构化稀疏加速（该特性始于 Hopper 架构）符合技术事实；70%-85% 的推理有效算力估算符合 LLM 推理中内存带宽与计算重叠的工程经验。
+
+## Search Query
+
+A100 80GB BF16 dense TFLOPS SXM4 vs PCIe

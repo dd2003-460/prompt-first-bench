@@ -1,0 +1,30 @@
+# N54: RTX 5090 (32GB) 的 MSRP 为 $1,999，当前市场实际零售价（含溢价）在 $2,500-$3,500 之间波动 [待核验：需查询 2025
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N13
+
+## Claim
+
+RTX 5090 (32GB) 的 MSRP 为 $1,999，当前市场实际零售价（含溢价）在 $2,500-$3,500 之间波动 [待核验：需查询 2025 Q1 主流电商如 Amazon/Newegg 实时价格]。
+
+## Corrected Claim
+
+RTX 5090 (32GB) 的 MSRP 为 $1,999，受2025年内存短缺及供需影响，当前市场实际零售价存在显著溢价，具体价格需查询实时电商数据。
+
+## Evidence
+
+[质询]MSRP $1,999 为已知事实，但“当前市场实际零售价在 $2,500-$3,500 之间波动”属于实时变动的经验数据，参考来源未提供具体价格区间，且该区间可能随时间快速变化，缺乏直接证据支持。 | 来源[2]确认了RTX 5090的存在及发布背景，来源[1]解释了2025年内存短缺导致的价格上涨背景，间接支持溢价现象，但无来源直接提供$2,500-$3,500的具体价格区间数据；经验事实，逻辑自洽但缺来源直接支持。
+
+## Search Query
+
+RTX 5090 current retail price 2025
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/2025%E2%80%93present_global_memory_supply_shortage', 'type': 'wikipedia', 'title': '2025–present global memory supply shortage'}
+- {'url': 'https://en.wikipedia.org/wiki/GeForce', 'type': 'wikipedia', 'title': 'GeForce'}
+- {'url': 'https://en.wikipedia.org/wiki/Republic_of_Gamers', 'type': 'wikipedia', 'title': 'Republic of Gamers'}

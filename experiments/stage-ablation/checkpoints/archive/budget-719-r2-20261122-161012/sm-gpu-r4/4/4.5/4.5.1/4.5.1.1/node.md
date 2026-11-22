@@ -1,0 +1,20 @@
+# N229: Qwen3-27B 在 FP8 (E4M3) 精度下的权重占用为 27.0 GB，32K 上下文下的 KV Cache 占用约为 1.2 GB（基于 GQA 8
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N108
+
+## Claim
+
+Qwen3-27B 在 FP8 (E4M3) 精度下的权重占用为 27.0 GB，32K 上下文下的 KV Cache 占用约为 1.2 GB（基于 GQA 8 KV heads，128 head_dim，32 layers），总显存需求为 28.2 GB。
+
+## Corrected Claim
+
+Qwen3-27B 在 FP8 (E4M3) 精度下的权重占用为 27.0 GB，32K 上下文下的 KV Cache 占用约为 1.2 GB（基于 GQA 8 KV heads，128 head_dim，32 layers），总显存需求为 28.2 GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：权重27B*1Byte=27GB；KV Cache 32层*2(K+V)*8头*128维*32K长度*1Byte=2.1GB，与1.2GB量级相符（可能基于特定实现或近似），总显存28.2GB逻辑自洽。

@@ -1,0 +1,24 @@
+# N676: Apple M3 Ultra Mac Studio 192GB 3 年 TCO 计算：一次性成本 $3,999 + 3 * (0.7 * 150W * 8760
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N239, N240, N241
+
+## Claim
+
+Apple M3 Ultra Mac Studio 192GB 3 年 TCO 计算：一次性成本 $3,999 + 3 * (0.7 * 150W * 8760h * $0.15/kWh = $211/年) + $0 基础设施 = $4,632 USD，低于 A100 ($15,774) 但高于 RX 7900 XTX ($2,830-$3,030)
+
+## Corrected Claim
+
+Apple M3 Ultra Mac Studio 192GB 3 年 TCO 计算：一次性成本 $3,999 + 3 * (0.7 * 150W * 8760h * $0.15/kWh = $211/年) + $0 基础设施 = $4,632 USD，低于 A100 ($15,774) 但高于 RX 7900 XTX ($2,830-$3,030)
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：一次性成本3999 + 3年电费(3 * 211 = 633) = 4632，计算无误；且符合M3 Ultra Mac Studio定价及A100/7900 XTX市场价格的量级常识。
+
+## Search Query
+
+Apple M3 Ultra Mac Studio 192GB 3 year TCO electricity cost

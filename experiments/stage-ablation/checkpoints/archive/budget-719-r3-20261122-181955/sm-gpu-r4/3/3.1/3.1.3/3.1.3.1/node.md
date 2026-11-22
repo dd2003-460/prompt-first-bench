@@ -1,0 +1,24 @@
+# N278: RTX 4090 在 BF16 精度下的有效计算利用率 η_comp 约为 0.50-0.60，受限于 Tensor Core 的稀疏性支持、算子融合效率及内存
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N92
+
+## Claim
+
+RTX 4090 在 BF16 精度下的有效计算利用率 η_comp 约为 0.50-0.60，受限于 Tensor Core 的稀疏性支持、算子融合效率及内存带宽瓶颈（Prefill 阶段为计算密集型，但长上下文下转为内存带宽敏感型）。
+
+## Corrected Claim
+
+RTX 4090 在 BF16 精度下的有效计算利用率受限于 Tensor Core 特性、算子融合效率及内存带宽瓶颈；在长上下文 Prefill 阶段，性能可能从计算密集型转为内存带宽敏感型，具体利用率数值需实测确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值范围（0.50-0.60）和特定的性能瓶颈归因，属于经验事实而非第一性原理可推导结论；且缺乏外部来源支持，无法验证该特定利用率区间在长上下文Prefill场景下的准确性。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+RTX 4090 BF16 compute utilization efficiency LLM prefill phase Tensor Core

@@ -1,0 +1,20 @@
+# N497: H100 SXM NVLink 通信延迟修正：基于修正后的 256 KB 总通信量 (Batch=1)，NVLink 900 GB/s 下的传输时间为 256 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N169
+
+## Claim
+
+H100 SXM NVLink 通信延迟修正：基于修正后的 256 KB 总通信量 (Batch=1)，NVLink 900 GB/s 下的传输时间为 256 KB / 900 GB/s ≈ 0.00028 ms (0.28 μs)；N169 中 9.53 ms 的估计同样基于错误数据量，实际 H100 与 A100 在通信延迟上的差异仅为 0.12 μs，对整体性能无实质影响。
+
+## Corrected Claim
+
+H100 SXM NVLink 通信延迟修正：基于修正后的 256 KB 总通信量 (Batch=1)，NVLink 900 GB/s 下的传输时间为 256 KB / 900 GB/s ≈ 0.00028 ms (0.28 μs)；N169 中 9.53 ms 的估计同样基于错误数据量，实际 H100 与 A100 在通信延迟上的差异仅为 0.12 μs，对整体性能无实质影响。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：256KB/900GB/s ≈ 0.28μs 计算正确，且 H100 与 A100 NVLink 带宽差异导致的延迟差确在微秒级，对整体性能影响可忽略。

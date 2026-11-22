@@ -1,0 +1,24 @@
+# N596: AMD EPYC 9654 运行 Qwen3-27B INT4 (AWQ) 的实测吞吐量约为 0.5-1.5 tokens/s，基于 AVX-512 VNNI 
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N208
+
+## Claim
+
+AMD EPYC 9654 运行 Qwen3-27B INT4 (AWQ) 的实测吞吐量约为 0.5-1.5 tokens/s，基于 AVX-512 VNNI 指令集优化，其理论峰值算力（~2.5 TFLOPS INT8）仅相当于 RTX 4090 (165 TFLOPS) 的 1.5%，导致计算延迟比 GPU 方案高两个数量级。
+
+## Corrected Claim
+
+AMD EPYC 9654 运行 Qwen3-27B INT4 (AWQ) 的吞吐量显著低于 GPU 方案，其理论峰值算力（~2.5 TFLOPS INT8）仅相当于 RTX 4090 (165 TFLOPS) 的约 1.5%，导致计算延迟通常比 GPU 方案高一个至两个数量级。
+
+## Evidence
+
+[质询]吞吐量数值（0.5-1.5 tokens/s）属于具体经验实测数据，缺乏来源支持，且不同硬件配置/软件栈下波动较大，无法仅凭逻辑推导确定具体量级；此外，'高两个数量级'的结论依赖于具体的GPU基准测试条件，存在口径混淆风险。 | 经验事实，逻辑自洽但缺来源支持。算力对比（2.5/165≈1.5%）计算正确，但吞吐量具体数值为经验数据，无外部来源验证，故降级。
+
+## Search Query
+
+AMD EPYC 9654 LLM inference benchmark tokens per second

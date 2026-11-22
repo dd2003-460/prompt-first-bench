@@ -1,0 +1,24 @@
+# N479: Qwen3-27B 官方支持 KV Cache 量化的状态：截至 2024 年 Q4，Qwen3 官方技术报告未明确提供 KV Cache 量化的官方支持声明或
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N198
+
+## Claim
+
+Qwen3-27B 官方支持 KV Cache 量化的状态：截至 2024 年 Q4，Qwen3 官方技术报告未明确提供 KV Cache 量化的官方支持声明或基准测试，社区实践（如 vLLM 或 TensorRT-LLM 配置）中 KV Cache 通常保持 BF16 或使用 FP8，INT4 KV Cache 缺乏主流推理引擎的原生高效支持，导致 N198 中 INT4 KV 假设可能在实际部署中不可行或性能下降显著。
+
+## Corrected Claim
+
+截至2024年Q4，Qwen3-27B官方技术报告未明确提供KV Cache量化的官方支持声明或基准测试，社区实践中KV Cache通常保持BF16或使用FP8，INT4 KV Cache在主流推理引擎中的原生高效支持情况需进一步验证。
+
+## Evidence
+
+[质询]该陈述包含具体的时间截止点（2024年Q4）和特定模型版本（Qwen3-27B）的技术细节，属于经验事实。由于检索失败，无法验证Qwen3在该时间点是否真的未提供KV Cache量化支持，也无法确认社区实践的具体状态（如vLLM/TensorRT-LLM对INT4 KV的支持程度）。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+Qwen3 KV cache quantization support vLLM TensorRT-LLM FP8 INT4

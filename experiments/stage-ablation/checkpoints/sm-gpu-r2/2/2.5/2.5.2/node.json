@@ -1,0 +1,17 @@
+{
+  "id": "N67",
+  "claim": "2x RTX 4090 (PCIe 4.0) 运行 BF16 Qwen3-27B 的性能惩罚：由于 PCIe 互联带宽 (32GB/s) 远低于 HBM 带宽 (1008GB/s)，Tensor Parallelism 通信开销导致有效吞吐量下降至单卡理论值的 60-70%，实际解码速度约为 25-35 tokens/s，远低于单卡 A100 (NVLink 900GB/s) 的 40-50 tokens/s。",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值量级与具体性能指标（60-70%效率、25-35 tokens/s）缺乏通用基准支持，且将特定硬件组合（2x 4090 vs 单卡 A100）的对比结论绝对化，忽略了模型量化、Batch Size 及具体推理框架（如 vLLM/TensorRT-LLM）对 PCIe 瓶颈缓解程度的巨大影响，存在以偏概全的风险。 | 先验知识/题面给定，逻辑校验通过：PCIe 4.0 x16 双向带宽约 64GB/s（单向32GB/s），远低于 HBM 带宽，Tensor Parallelism 在解码阶段确实受限于 All-Reduce 通信，导致多卡扩展效率显著低于 NVLink 系统；但具体吞吐量数值为经验估计，非第一性原理可严格推导，且无外部来源支持，故降级。",
+  "corrected_claim": "2x RTX 4090 (PCIe 4.0) 运行 BF16 Qwen3-27B 时，由于 PCIe 互联带宽远低于 HBM 带宽，Tensor Parallelism 通信开销会导致有效吞吐量显著低于单卡理论线性扩展值，实际解码速度通常低于配备 NVLink 的高带宽互联系统（如 A100/H100），具体数值取决于推理框架优化程度。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N17"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "Tensor Parallelism PCIe vs NVLink performance overhead LLM inference",
+  "retrieval_sources": []
+}

@@ -1,0 +1,24 @@
+# N428: RTX 4070 Ti Super 的 3 年 TCO 计算：一次性成本采用 2024 Q4 市场均价 $800-$900 USD（需核实），TDP 285W，
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N143
+
+## Claim
+
+RTX 4070 Ti Super 的 3 年 TCO 计算：一次性成本采用 2024 Q4 市场均价 $800-$900 USD（需核实），TDP 285W，平均功耗 0.7 * 285W = 199.5W，年电力成本 = 199.5W * 8760h * $0.14/kWh = $245/年，3 年 TCO = $800 + 3 * $245 = $1,535 USD（下限）至 $900 + 3 * $245 = $1,635 USD（上限）。
+
+## Corrected Claim
+
+RTX 4070 Ti Super 的 3 年 TCO 估算：假设一次性成本为 $800-$900 USD，TDP 285W，平均功耗系数 0.7（即 199.5W），电价 $0.14/kWh，则年电力成本约 $245，3 年 TCO 约为 $1,535-$1,635 USD（注：具体数值依赖于实时市场价格及实际使用负载假设）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性市场数据（2024 Q4 均价 $800-$900）和假设参数（平均功耗系数 0.7、电价 $0.14/kWh），这些均无法从第一性原理推导，且检索无可用来源支持，存在数据过时或假设偏差的风险。 | 经验事实，逻辑自洽但缺来源支持（检索失败，无法验证市场均价及具体假设参数的准确性）。
+
+## Search Query
+
+RTX 4070 Ti Super price 2024 Q4 average USD TDP 285W 3 year TCO calculation

@@ -1,0 +1,24 @@
+# N142: RTX 3090 Ti 的 24GB 显存中，INT4 权重占 13.5GB，KV Cache (32K, BF16) 占 8.59GB，总占用 22.09GB
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N42, N43, N44
+
+## Claim
+
+RTX 3090 Ti 的 24GB 显存中，INT4 权重占 13.5GB，KV Cache (32K, BF16) 占 8.59GB，总占用 22.09GB，剩余仅 1.91GB 用于框架开销，存在 OOM 风险，需启用 PagedAttention 或降低 KV Cache 精度至 INT8 以释放约 4.3GB 空间。
+
+## Corrected Claim
+
+RTX 3090 Ti 的 24GB 显存中，INT4 权重占 13.5GB，KV Cache (32K, BF16) 占 8.59GB，总占用 22.09GB，剩余仅 1.91GB 用于框架开销，存在 OOM 风险，需启用 PagedAttention 或降低 KV Cache 精度至 INT8 以释放约 4.3GB 空间。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：24GB显存下，13.5GB(INT4权重) + 8.59GB(KV Cache) = 22.09GB，剩余1.91GB确实紧张，存在OOM风险；INT8 KV Cache相比BF16可节省约50%空间，即约4.3GB，逻辑自洽。
+
+## Search Query
+
+RTX 3090 Ti 24GB memory footprint Qwen3-27B INT4 KV cache 32k context

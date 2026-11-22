@@ -1,0 +1,24 @@
+# N695: RTX 5090 的 MSRP 为 $1,999；2025 年 Q2 由于产能爬坡和供应改善，其 Street Price 预计稳定在 MSRP 的 115%-
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N287
+
+## Claim
+
+RTX 5090 的 MSRP 为 $1,999；2025 年 Q2 由于产能爬坡和供应改善，其 Street Price 预计稳定在 MSRP 的 115%-140% 区间，即 $2,300-$2,800，相比发布初期的 200%+ 溢价显著回落。
+
+## Corrected Claim
+
+RTX 5090 的 MSRP 为 $1,999；预计随着2025年产能爬坡和供应改善，其 Street Price 将相比发布初期显著回落，但具体价格区间需依据实际市场数据确定。
+
+## Evidence
+
+[质询]该陈述包含具体的未来市场预测数值（2025年Q2 Street Price区间及溢价比例），属于经验事实而非第一性原理可推导内容。由于缺乏任何外部来源支持，无法验证其具体数值（如115%-140%区间）的准确性，且市场波动具有不确定性，具体预测值可能偏离实际。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）。
+
+## Search Query
+
+RTX 5090 street price Q2 2025 premium over MSRP

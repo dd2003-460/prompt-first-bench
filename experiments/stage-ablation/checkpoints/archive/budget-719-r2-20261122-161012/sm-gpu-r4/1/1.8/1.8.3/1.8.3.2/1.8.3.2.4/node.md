@@ -1,0 +1,24 @@
+# N469: GPTQ 算法在 Qwen3-27B INT4 量化下的 MMLU 得分为 82.6%（基于 N195 推算，需核验），其与 AWQ 的差距 0.8 个百分点源
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N193, N194, N195
+
+## Claim
+
+GPTQ 算法在 Qwen3-27B INT4 量化下的 MMLU 得分为 82.6%（基于 N195 推算，需核验），其与 AWQ 的差距 0.8 个百分点源于 GPTQ 的二阶近似误差在长尾权重分布上的累积；需检索 HuggingFace 上 Qwen3-27B-GPTQ-Int4 的具体 MMLU 评测报告以确认该差值
+
+## Corrected Claim
+
+GPTQ 算法在 Qwen3-27B INT4 量化下的 MMLU 得分约为 82.6%（待核验），其与 AWQ 存在约 0.8 个百分点的差距，具体数值及归因需参考 HuggingFace 上的具体评测报告。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值（MMLU 82.6%、差距 0.8%）及特定的因果归因（二阶近似误差在长尾分布累积），属于经验事实。检索无可用来源，无法验证具体数值及因果机制的准确性，且 GPTQ 与 AWQ 的性能差距通常受校准数据集、量化配置等多因素影响，单一归因可能过于简化。 | 经验事实，逻辑自洽但缺来源支持（检索失败，无外部证据）
+
+## Search Query
+
+Qwen3-27B GPTQ INT4 MMLU score HuggingFace

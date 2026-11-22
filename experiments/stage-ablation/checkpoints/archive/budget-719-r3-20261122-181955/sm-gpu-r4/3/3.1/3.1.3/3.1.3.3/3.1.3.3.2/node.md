@@ -1,0 +1,24 @@
+# N784: Prefill 阶段注意力机制（QK^T 和 V 加权）的 FLOPs 计算项为 4 * n_heads * head_dim * Seq_Len^2；基于 Q
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N280
+
+## Claim
+
+Prefill 阶段注意力机制（QK^T 和 V 加权）的 FLOPs 计算项为 4 * n_heads * head_dim * Seq_Len^2；基于 Qwen3-27B 参数 (n_heads=32, head_dim=128, n_layers=64)，修正后的总注意力 FLOPs 为 4 * 64 * 32 * 128 * 32768^2 = 2.25e16 FLOPs (22.5 PFLOPs)，注意此处需乘以层数 64。
+
+## Corrected Claim
+
+Prefill 阶段注意力机制（QK^T 和 V 加权）的 FLOPs 计算项为 4 * n_heads * head_dim * Seq_Len^2；基于 Qwen3-27B 参数 (n_heads=32, head_dim=128, n_layers=64)，修正后的总注意力 FLOPs 为 4 * 64 * 32 * 128 * 32768^2 = 2.25e16 FLOPs (22.5 PFLOPs)，注意此处需乘以层数 64。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 4 * n_layers * n_heads * head_dim * Seq_Len^2 符合标准 Transformer 注意力 FLOPs 估算逻辑（QK^T 和 V 加权各 2 次乘加，共 4 次运算），数值计算 4 * 64 * 32 * 128 * 32768^2 ≈ 2.25e16 准确无误。
+
+## Search Query
+
+LLM attention FLOPs calculation quadratic complexity

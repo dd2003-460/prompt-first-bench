@@ -1,0 +1,20 @@
+# N213: CPU 推理中 KV Cache 的读取是主要带宽瓶颈，对于 Qwen3-27B (假设 GQA, n_kv_heads=8, head_dim=128)，每个
+
+- **status**: pending
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N66
+
+## Claim
+
+CPU 推理中 KV Cache 的读取是主要带宽瓶颈，对于 Qwen3-27B (假设 GQA, n_kv_heads=8, head_dim=128)，每个 token 的 KV Cache 大小为 2 * 16 * 8 * 128 * 2 bytes = 65,536 bytes = 64 KB；在 32K 上下文下，单次 Decode 需读取 32768 * 64 KB = 2 GB 的 KV Cache，这直接限制了吞吐量上限为 Memory_Bandwidth / 2 GB
+
+## Corrected Claim
+
+CPU 推理中 KV Cache 的读取是主要带宽瓶颈，对于 Qwen3-27B (假设 GQA, n_kv_heads=8, head_dim=128)，每个 token 的 KV Cache 大小为 2 * 16 * 8 * 128 * 2 bytes = 65,536 bytes = 64 KB；在 32K 上下文下，单次 Decode 需读取 32768 * 64 KB = 2 GB 的 KV Cache，这直接限制了吞吐量上限为 Memory_Bandwidth / 2 GB
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点本质上是同一物理量（KV Cache 精度/位宽）的两个不同取值，属于参数变体而非正交维度，因此存在冗余。此外，父节点明确假设 n_kv_heads=8，但子节点 1 的计算中使用了 64（疑似误用 n_heads 或计算错误），导致数据不一致且未覆盖父节点隐含的 GQA 结构细节。）

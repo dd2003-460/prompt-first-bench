@@ -1,0 +1,24 @@
+# N791: 工作点 2 (中性价比最优 - TGI + Continuous Batching)：在 Text Generation Inference (TGI) 框架下
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N282
+
+## Claim
+
+工作点 2 (中性价比最优 - TGI + Continuous Batching)：在 Text Generation Inference (TGI) 框架下，使用 Continuous Batching 和动态批处理，CPU-GPU 数据拷贝时间约为 5-8ms (非 Pin Memory 优化)，调度器延迟约为 1-2ms (动态调整 Batch Size 的开销)；总 Latency_overhead ≈ 6-10ms。此配置在并发请求数 > 4 时吞吐量最高，但单请求 TTFT 比 vLLM 高约 5-8ms。
+
+## Corrected Claim
+
+在 TGI 框架下使用 Continuous Batching 时，CPU-GPU 数据拷贝和调度器会引入毫秒级的额外延迟（具体数值依硬件和负载而定），总开销通常在几毫秒到十几毫秒之间；相比 vLLM，其单请求 TTFT 可能略高，具体差异需实测确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性能参数（如5-8ms拷贝时间、1-2ms调度延迟、5-8ms TTFT差异），这些数值高度依赖于硬件配置、模型大小、序列长度及具体负载，无法从第一性原理推导，且缺乏来源支持，存在数值量级或具体数值不准确的风险。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+TGI text generation inference latency overhead continuous batching CPU GPU copy ms

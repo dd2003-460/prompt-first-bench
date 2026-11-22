@@ -1,0 +1,17 @@
+{
+  "id": "N247",
+  "claim": "llama.cpp 在 32K 上下文、单请求（B=1）场景下，CPU 端 KV Cache 索引结构（Slot IDs）及临时张量的静态内存开销约为 128 MB - 256 MB，计算公式为 Overhead_static ≈ (Seq_Len * n_kv_heads * head_dim * 4 bytes) + (Context_Buffer_Size)，其中 Context_Buffer_Size 通常固定为 16MB-32MB。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值量级与公式推导存在矛盾：若按公式计算，32K上下文下KV Cache部分（Seq_Len * n_kv_heads * head_dim * 4 bytes）对于典型模型（如Llama-2-7B，n_kv_heads=8, head_dim=128）约为128MB，加上16-32MB缓冲后总开销应在144-160MB左右，落在128-256MB区间内看似合理；但公式中未明确n_kv_heads和head_dim的具体取值，且不同模型架构（如GQA vs MHA）会导致KV Cache大小差异巨大（例如MHA模型KV Cache可能是GQA的4-8倍），导致该‘静态开销’范围过于宽泛且缺乏特定模型约束，属于经验性估算而非严格推导。 | 先验知识/题面给定，逻辑校验通过（公式结构合理，量级在常见LLM推理场景下可接受，但具体数值依赖模型架构参数，缺乏单一来源直接支持特定数值范围）",
+  "corrected_claim": "llama.cpp 在 32K 上下文、单请求（B=1）场景下，CPU 端 KV Cache 索引结构（Slot IDs）及临时张量的静态内存开销取决于模型架构（如 n_kv_heads 和 head_dim），计算公式为 Overhead_static ≈ (Seq_Len * n_kv_heads * head_dim * 4 bytes) + (Context_Buffer_Size)，其中 Context_Buffer_Size 通常固定为 16MB-32MB。对于典型 GQA 模型（如 Llama-2-7B），该开销约为 144-160 MB。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N80"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "llama.cpp static memory overhead 32k context slot ids size",
+  "retrieval_sources": []
+}

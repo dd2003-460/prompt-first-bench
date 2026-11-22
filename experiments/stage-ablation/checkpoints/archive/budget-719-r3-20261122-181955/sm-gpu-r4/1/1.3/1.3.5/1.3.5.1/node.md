@@ -1,0 +1,20 @@
+# N183: 基于 N102/N103 修正 A100 功耗矛盾：A100 80GB PCIe TDP 实为 400W (N102 称 300W 有误，N98 使用 400W
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N56
+
+## Claim
+
+基于 N102/N103 修正 A100 功耗矛盾：A100 80GB PCIe TDP 实为 400W (N102 称 300W 有误，N98 使用 400W 更符合实际功耗上限)，在 LLM 推理负载下平均功耗 P_avg ≈ 0.7 * 400W = 280W；RX 7800 XT P_avg ≈ 0.7 * 263W ≈ 184W；MI300X P_avg ≈ 0.7 * 750W = 525W。
+
+## Corrected Claim
+
+基于 N102/N103 修正 A100 功耗矛盾：A100 80GB PCIe TDP 实为 400W (N102 称 300W 有误，N98 使用 400W 更符合实际功耗上限)，在 LLM 推理负载下平均功耗 P_avg ≈ 0.7 * 400W = 280W；RX 7800 XT P_avg ≈ 0.7 * 263W ≈ 184W；MI300X P_avg ≈ 0.7 * 750W = 525W。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 80GB PCIe TDP 400W、RX 7800 XT TDP 263W、MI300X TDP 750W 均为公开规格，0.7 负载系数符合 LLM 推理平均功耗经验值，计算无误。

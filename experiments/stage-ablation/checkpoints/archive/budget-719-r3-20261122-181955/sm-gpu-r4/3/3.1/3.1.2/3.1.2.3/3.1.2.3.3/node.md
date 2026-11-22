@@ -1,0 +1,24 @@
+# N775: 若启用 INT8 KV Cache 量化，KV_Cache_Size_per_token 降至 128 KB，M_actual 降至 54 GB + 4 GB 
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N276
+
+## Claim
+
+若启用 INT8 KV Cache 量化，KV_Cache_Size_per_token 降至 128 KB，M_actual 降至 54 GB + 4 GB = 58 GB，理论 Decode 吞吐量提升约 6.9%（62/58），但需验证 INT8 KV Cache 对生成质量的损失（通常 <0.5% MMLU 下降，需实测确认）。
+
+## Corrected Claim
+
+若启用 INT8 KV Cache 量化，KV Cache 大小通常减半（例如从 256KB 降至 128KB），总显存占用相应减少（如从 62GB 降至 58GB），理论 Decode 吞吐量提升约 6.9%（62/58）。INT8 量化对生成质量的影响因模型而异，通常较小（如 MMLU 下降 <0.5%），但需针对具体模型实测确认。
+
+## Evidence
+
+[质询]数值推导存在内部矛盾：若 KV Cache 从 128KB 降至 64KB（INT8 量化通常减半），总内存应从 62GB 降至 58GB，但吞吐量提升计算 (62/58) 暗示原内存为 62GB，新内存为 58GB，这与 'KV_Cache_Size_per_token 降至 128 KB' 的表述在量级上可能不匹配（通常 INT8 是 FP16 的一半，若原为 256KB 则降至 128KB 合理，但需确认原值；若原值非 256KB，则 62->58 的推导缺乏依据）。此外，'通常 <0.5% MMLU 下降' 是经验性断言，不同模型和量化方法差异较大，缺乏通用性。 | 逻辑校验发现数值推导链条不完整（未明确原 KV Cache 大小以验证 62GB->58GB 的合理性），且质量损失为经验估计，source=knowledge 但存在逻辑瑕疵，故降级。
+
+## Search Query
+
+INT8 KV cache quantization accuracy loss LLM

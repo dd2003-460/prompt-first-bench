@@ -1,0 +1,20 @@
+# N507: RX 7900 XTX 在 Qwen3-27B INT4 量化 + INT8 KV Cache（32K 上下文 4GB）场景下，Decode 阶段理论吞吐量上限
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N176
+
+## Claim
+
+RX 7900 XTX 在 Qwen3-27B INT4 量化 + INT8 KV Cache（32K 上下文 4GB）场景下，Decode 阶段理论吞吐量上限 = 960 GB/s / (13.5GB + 4GB) ≈ 54.9 tokens/s；实测预计为 46.7-49.4 tokens/s（效率系数 0.85-0.90）。
+
+## Corrected Claim
+
+RX 7900 XTX 在 Qwen3-27B INT4 量化 + INT8 KV Cache（32K 上下文 4GB）场景下，Decode 阶段理论吞吐量上限 = 960 GB/s / (13.5GB + 4GB) ≈ 54.9 tokens/s；实测预计为 46.7-49.4 tokens/s（效率系数 0.85-0.90）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RX 7900 XTX 显存带宽 960GB/s，Qwen3-27B INT4 权重约 13.5GB，KV Cache 4GB，总读取量 17.5GB，理论上限 960/17.5 ≈ 54.9 tokens/s，效率系数 0.85-0.90 对应实测 46.7-49.4 tokens/s，数值量级与逻辑自洽。

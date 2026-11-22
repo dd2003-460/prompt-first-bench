@@ -1,0 +1,24 @@
+# N683: RTX 5090 单卡运行 Qwen3-27B 的显存可行性修正：FP8 精度下，权重 27GB + KV Cache 0.54GB + Activation 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N282
+
+## Claim
+
+RTX 5090 单卡运行 Qwen3-27B 的显存可行性修正：FP8 精度下，权重 27GB + KV Cache 0.54GB + Activation Overhead 2GB (32K 上下文) = 29.54GB < 32GB，可行；INT4 精度下，权重 13.5GB + KV Cache 0.54GB + Activation Overhead 1.5GB = 15.54GB < 32GB，可行；BF16 精度下，权重 54GB > 32GB，不可行。修正 N282 中基于错误 KV Cache 估计得出的可行性结论。
+
+## Corrected Claim
+
+RTX 5090 单卡运行 Qwen3-27B 的显存可行性修正：FP8 精度下，权重 27GB + KV Cache 0.54GB + Activation Overhead 2GB (32K 上下文) = 29.54GB < 32GB，可行；INT4 精度下，权重 13.5GB + KV Cache 0.54GB + Activation Overhead 1.5GB = 15.54GB < 32GB，可行；BF16 精度下，权重 54GB > 32GB，不可行。修正 N282 中基于错误 KV Cache 估计得出的可行性结论。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B参数量约27B，FP8权重约27GB，BF16权重约54GB，INT4权重约13.5GB，数值量级与精度换算逻辑自洽；KV Cache与Activation Overhead估算在32K上下文下合理，总显存占用与RTX 5090 32GB显存对比结论正确。
+
+## Search Query
+
+RTX 5090 32GB VRAM Qwen3-27B FP8 INT4 feasibility

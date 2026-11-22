@@ -1,0 +1,20 @@
+# N260: INT4 (AWQ) 精度下 KV Cache 内存占用计算：KV Cache 保持 BF16 精度，Formula = 2 * L * H_kv * D * 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N83, N84, N85
+
+## Claim
+
+INT4 (AWQ) 精度下 KV Cache 内存占用计算：KV Cache 保持 BF16 精度，Formula = 2 * L * H_kv * D * S * 2 bytes。代入 L=32, H_kv=8, D=128, S=32768，计算得 KV_Cache_BF16 = 2 * 32 * 8 * 128 * 32768 * 2 / 1e9 ≈ 4.30 GB。修正 N84 中基于错误参数估算的 5.37 GB。
+
+## Corrected Claim
+
+INT4 (AWQ) 精度下 KV Cache 内存占用计算：KV Cache 保持 BF16 精度，Formula = 2 * L * H_kv * D * S * 2 bytes。代入 L=32, H_kv=8, D=128, S=32768，计算得 KV_Cache_BF16 = 2 * 32 * 8 * 128 * 32768 * 2 / 1e9 ≈ 4.30 GB。修正 N84 中基于错误参数估算的 5.37 GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 2*L*H_kv*D*S*2 符合 KV Cache 内存计算标准（2代表K和V，2 bytes代表BF16），数值计算 2*32*8*128*32768*2 = 4,294,967,296 bytes ≈ 4.30 GB，量级与逻辑均正确。

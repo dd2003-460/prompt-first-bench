@@ -1,0 +1,30 @@
+# N8: 32K tokens 上下文窗口所需的 KV Cache 显存计算公式：2 × num_layers × num_kv_heads × head_dim × s
+
+- **status**: verified
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+32K tokens 上下文窗口所需的 KV Cache 显存计算公式：2 × num_layers × num_kv_heads × head_dim × seq_len × dtype_size，以及 Qwen3-27B 的具体层数、KV头数等架构参数
+
+## Corrected Claim
+
+32K tokens 上下文窗口所需的 KV Cache 显存计算公式：2 × num_layers × num_kv_heads × head_dim × seq_len × dtype_size，以及 Qwen3-27B 的具体层数、KV头数等架构参数
+
+## Evidence
+
+[rework-angle r1] 来源[1]直接给出了KV Cache显存计算公式（2 × 层数 × KV头数 × 每头维度 × 字节数），并提供了Qwen3系列模型在32K上下文下的具体显存占用数据，与陈述中的公式及参数需求完全一致。
+
+## Search Query
+
+Qwen3 32B architecture num_layers num_kv_heads head_dim
+
+## Retrieval Sources
+
+- {'url': 'https://cloudgpu.app/zh/blog/zh-kv-huancun-xiancun-shangxiawen-2026&rut=32fa06d766a8d1b1b44148ab3cb87210a12d096483b1004c531161032ff60f76', 'type': 'ddg', 'title': '上下文长度要多少显存?KV 缓存计算公式与 Qwen3、Llama 3 实算表 (2026) — CloudGPU'}
+- {'url': 'https://blog.csdn.net/weixin_29029995/article/details/169486381&rut=25fed840c3a0ade46cc17f3f4dd34ea6f054db26a1a79e0aa206dfffa3e06e9a', 'type': 'ddg', 'title': '24G显存跑四路32K上下文：KV Cache与模型权重显存占用深度解析-CSDN博客'}
+- {'url': 'https://blog.csdn.net/weixin_33139275/article/details/166660941&rut=dc4cdff82f82a5bf877553e9867c54ae731e2fcc6954129af366e27bf76faab1', 'type': 'ddg', 'title': '编程任务中上下文窗口怎么选？从token估算到KV cache的实用指南-CSDN博客'}

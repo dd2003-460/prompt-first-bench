@@ -1,0 +1,24 @@
+# N110: 电力成本参数化：电价 E_price 服从均匀分布 U($0.08, $0.15)/kWh（北美居民/小型商业平均）；年运行小时数 t 服从 U(4000, 8
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N32
+
+## Claim
+
+电力成本参数化：电价 E_price 服从均匀分布 U($0.08, $0.15)/kWh（北美居民/小型商业平均）；年运行小时数 t 服从 U(4000, 8760)（按需 vs 7x24）；单卡平均功耗 P_avg 约为 TDP 的 60-80%（推理负载特性），需根据具体模型和框架实测确定。
+
+## Corrected Claim
+
+电力成本参数化：电价 E_price 服从均匀分布 U($0.08, $0.15)/kWh（北美居民/小型商业平均）；年运行小时数 t 服从 U(4000, 8760)（按需 vs 7x24）；单卡平均功耗 P_avg 约为 TDP 的 60-80%（推理负载特性），需根据具体模型和框架实测确定。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：电价区间符合北美居民/小型商业平均范围，年运行小时数覆盖按需至7x24场景，单卡平均功耗占TDP比例符合推理负载特性
+
+## Search Query
+
+average electricity price US 2024 residential commercial

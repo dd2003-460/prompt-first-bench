@@ -1,0 +1,24 @@
+# N595: MLX 框架在 32K 上下文下的内存碎片率实测值（若 PagedAttention 未完全优化）约为 15-25%，导致实际可用显存从理论 178.5GB 降
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N204, N205, N206
+
+## Claim
+
+MLX 框架在 32K 上下文下的内存碎片率实测值（若 PagedAttention 未完全优化）约为 15-25%，导致实际可用显存从理论 178.5GB 降至 143-152GB，可支持并发请求数从 22 降至 18-19，需通过 mlx-lm benchmark 获取具体碎片率数据。
+
+## Corrected Claim
+
+MLX 框架在 32K 上下文下若存在内存碎片，可能导致实际可用显存低于理论值（如从 178.5GB 下降），进而影响并发请求数（如从 22 降至 18-19）。具体碎片率（如 15-25%）及显存损失需通过 mlx-lm benchmark 在特定硬件和模型配置下实测获取，不同环境下数值会有显著差异。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（15-25%碎片率、143-152GB显存、18-19并发数），这些并非MLX框架的固定物理常数或数学推导结果，而是高度依赖于具体硬件配置、模型大小、KV Cache实现细节及负载情况的动态测量值。在没有具体实验环境描述的情况下，断言一个固定的‘实测值’范围缺乏严谨性，且‘PagedAttention未完全优化’这一前提在MLX当前版本中的具体表现缺乏公开基准数据支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体数值无法从第一性原理推出）
+
+## Search Query
+
+MLX Apple Silicon memory fragmentation long context benchmark

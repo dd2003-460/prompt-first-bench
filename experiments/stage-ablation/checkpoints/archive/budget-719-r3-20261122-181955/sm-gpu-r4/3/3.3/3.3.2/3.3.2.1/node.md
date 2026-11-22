@@ -1,0 +1,20 @@
+# N295: 修正自矛盾检测：RTX 4090 的 TDP 为 450W，在 LLM 推理负载（特别是长上下文 Decode 阶段）下，平均功耗 P_avg 约为 TDP 的
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N98, N100, N101
+
+## Claim
+
+修正自矛盾检测：RTX 4090 的 TDP 为 450W，在 LLM 推理负载（特别是长上下文 Decode 阶段）下，平均功耗 P_avg 约为 TDP 的 70-80%（即 315W-360W），因为显存带宽瓶颈导致 GPU 核心并未始终处于满载计算状态，但显存功耗占比高。
+
+## Corrected Claim
+
+修正自矛盾检测：RTX 4090 的 TDP 为 450W，在 LLM 推理负载（特别是长上下文 Decode 阶段）下，平均功耗 P_avg 约为 TDP 的 70-80%（即 315W-360W），因为显存带宽瓶颈导致 GPU 核心并未始终处于满载计算状态，但显存功耗占比高。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 TDP 450W 为公开规格；LLM Decode 阶段受显存带宽限制，计算单元利用率低，平均功耗低于 TDP 符合物理直觉及工程经验。

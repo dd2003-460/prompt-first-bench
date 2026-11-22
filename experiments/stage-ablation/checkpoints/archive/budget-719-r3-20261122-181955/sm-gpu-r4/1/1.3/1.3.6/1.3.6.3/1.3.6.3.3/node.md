@@ -1,0 +1,20 @@
+# N539: MI300X 单卡运行 Qwen3-27B BF16 的 3 年 TCO 计算：硬件成本 + 3 * (P_avg * 8760h * $0.14/kWh) +
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N187
+
+## Claim
+
+MI300X 单卡运行 Qwen3-27B BF16 的 3 年 TCO 计算：硬件成本 + 3 * (P_avg * 8760h * $0.14/kWh) + 基础设施成本，需与 2x RTX 4090 INT4 方案的 TCO 进行对比，并计算单位并发请求的 TCO。
+
+## Corrected Claim
+
+MI300X 单卡运行 Qwen3-27B BF16 的 3 年 TCO 计算：硬件成本 + 3 * (P_avg * 8760h * $0.14/kWh) + 基础设施成本，需与 2x RTX 4090 INT4 方案的 TCO 进行对比，并计算单位并发请求的 TCO。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：TCO公式结构（硬件+电力+基础设施）符合标准计算模型，电力成本量级（8760h*0.14）合理，对比逻辑自洽。

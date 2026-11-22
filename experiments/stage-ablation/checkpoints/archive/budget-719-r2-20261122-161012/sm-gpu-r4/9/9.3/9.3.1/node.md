@@ -1,0 +1,30 @@
+# N287: RTX 5090 2025年Q2 Street Price 区间：$2,300-$2,800（受供应改善影响，溢价从发布初期的100%回落至15%-40%），需
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N127
+
+## Claim
+
+RTX 5090 2025年Q2 Street Price 区间：$2,300-$2,800（受供应改善影响，溢价从发布初期的100%回落至15%-40%），需与 RTX 4090 当前 Street Price ($1,600-$1,900) 对比计算实际性价比
+
+## Corrected Claim
+
+RTX 5090 2025年Q2 Street Price 区间数据存疑，根据最新来源（2026年11月），其价格高达$6,118，远超$2,300-$2,800区间，需重新核实2025年Q2的具体历史价格数据而非使用当前或错误区间。
+
+## Evidence
+
+[质询]数值量级严重错误：参考来源[3]显示RTX 5090当前（2026年11月）价格为$6,118，远高于陈述中的$2,300-$2,800区间；且来源[2]指出其价格历史从2025年1月延续至2026年10月，暗示价格并未如陈述所述回落至MSRP附近的合理溢价区间，而是存在极高的市场溢价或供应短缺导致的异常高价，陈述中的价格区间与最新市场数据矛盾。 | 来源[3]明确显示RTX 5090当前价格为$6,118，与陈述中的$2,300-$2,800区间直接矛盾；来源[2]的时间线也表明价格波动剧烈，未稳定在陈述所述的低位区间。
+
+## Search Query
+
+RTX 5090 street price 2025 Q2 vs RTX 4090
+
+## Retrieval Sources
+
+- {'url': 'https://cloudgpuhub.com/pricing/buy-rtx-5090-price/&rut=3a1b2ac7bf1b2336eb211eb8fa56637252d87c8545fa926f0500901f4653e23a', 'type': 'ddg', 'title': 'RTX 5090 Price Tracker - Real-Time Pricing & Trends'}
+- {'url': 'https://rigflation.com/guides/rtx-5090-price-history&rut=08e08d98eb161746ce1215c1916c581dc0a27d8b31d9a2e713b668c211fe1260', 'type': 'ddg', 'title': 'RTX 5090: its price history, from launch to today | RIGFLATION'}
+- {'url': 'https://gpupricehistory.com/us/rtx-5090&rut=5d1380d8edf2b282bf855c8d30f64bfe45f62c034ba1906533bbc03ad3693385', 'type': 'ddg', 'title': 'RTX 5090 Price: $6,118 — United States | GPU Prices'}

@@ -1,0 +1,28 @@
+# N147: Qwen3-27B 的 Transformer 层数 (num_hidden_layers) 确认为 64 层，这是计算单 token KV Cache 总量 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N39
+
+## Claim
+
+Qwen3-27B 的 Transformer 层数 (num_hidden_layers) 确认为 64 层，这是计算单 token KV Cache 总量 (256 KB/token) 的关键乘数，若层数不同则总显存需求线性变化 [search]
+
+## Corrected Claim
+
+Qwen3 系列中不存在 27B 模型；若指 Qwen3-32B，其 num_hidden_layers 需查阅具体配置（通常 Qwen3-32B 为 64 层，但需确认具体版本配置），且 KV Cache 计算需基于实际存在的模型参数。
+
+## Evidence
+
+[质询]Qwen3 系列官方发布的 Dense 模型中不存在 27B 规格，仅有 32B、14B、8B 等，该模型名称本身即为虚构或错误，导致基于此模型的参数（如层数）无法成立。 | 来源 [1] 明确列出 Qwen3 系列 Dense 模型为 32B、14B、8B、4B、1.7B 和 0.6B，未包含 27B 模型，与陈述中的主体对象矛盾。
+
+## Search Query
+
+Qwen3-27B config.json num_hidden_layers 64
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1991620790894994763&rut=02e1b2fedf45540327345fa9b98d1f1122f454cf16ed2b9fbf7f4ac5599afd51', 'type': 'ddg', 'title': '大模型 | QWen3 结构解析 - 知乎'}

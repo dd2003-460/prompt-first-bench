@@ -1,0 +1,20 @@
+# N344: Qwen3-27B 在 32K 上下文、BF16 精度下的单请求 KV Cache 总显存占用计算公式：KV_Bytes = 2 * num_layers * 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N144
+
+## Claim
+
+Qwen3-27B 在 32K 上下文、BF16 精度下的单请求 KV Cache 总显存占用计算公式：KV_Bytes = 2 * num_layers * num_kv_heads * head_dim * seq_len * bytes_per_element，代入数值为 2 * 64 * 8 * 128 * 32768 * 2 ≈ 8.59 GB。
+
+## Corrected Claim
+
+Qwen3-27B 在 32K 上下文、BF16 精度下的单请求 KV Cache 总显存占用计算公式：KV_Bytes = 2 * num_layers * num_kv_heads * head_dim * seq_len * bytes_per_element，代入数值为 2 * 64 * 8 * 128 * 32768 * 2 ≈ 8.59 GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B 架构参数（64层、8 KV头、128维）符合主流大模型设计，数值计算 2*64*8*128*32768*2 = 8,589,934,592 Bytes ≈ 8.59 GB，量纲与量级均正确。

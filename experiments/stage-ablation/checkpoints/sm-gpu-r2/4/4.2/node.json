@@ -1,19 +1,28 @@
 {
-  "id": "N21",
-  "claim": "推理延迟由 Prefill 阶段（计算密集型，受 FLOPS 限制）和 Decode 阶段（访存密集型，受显存带宽限制）决定；Decode 单 token 生成时间 T_decode ≈ (Weight_Size + KV_Cache_Size) / Memory_Bandwidth，其中 Weight_Size 随量化精度变化，KV_Cache_Size 随上下文长度线性增长。",
+  "id": "N22",
+  "claim": "数据中心/专业级GPU候选集（2024Q4-2025Q1）：NVIDIA A100 40GB/80GB, NVIDIA H100 80GB (SXM/PCIe), NVIDIA L40S 48GB, NVIDIA L4 24GB, AMD MI250/MI300X (128GB/192GB HBM3)。筛选标准：单卡显存≥48GB以支持BF16/FP8权重+32K KV Cache，或用于多卡并行以降低单卡带宽压力。",
   "level": "L2",
-  "source": "knowledge",
-  "status": "verified",
-  "evidence": "父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点中的Prefill计算逻辑、Decode访存数据量计算、以及最终吞吐/延迟推导，三者逻辑链条清晰且互不重叠，无矛盾。虽然子节点2和3都涉及Decode阶段，但2侧重于数据量（分子）的计算，3侧重于结合硬件带宽（分母）得出结果，属于因果递进关系而非重复。父节点提到的所有关键变量（FLOPS, MFU, Weight_Size, KV_Cache, Memory_Bandwidth, 量化/上下文影响）均被覆盖。）",
-  "corrected_claim": "推理延迟由 Prefill 阶段（计算密集型，受 FLOPS 限制）和 Decode 阶段（访存密集型，受显存带宽限制）决定；Decode 单 token 生成时间 T_decode ≈ (Weight_Size + KV_Cache_Size) / Memory_Bandwidth，其中 Weight_Size 随量化精度变化，KV_Cache_Size 随上下文长度线性增长。",
-  "rework_count": 0,
+  "source": "search",
+  "status": "pending",
+  "evidence": "父节点级核验未通过：非正交, 不完备, 有冗余（1. 冗余严重：前6个子节点本质上是同一公式（显存占用计算）在不同硬件参数下的实例，应合并为一张对比表或一个通用计算节点；后2个节点是带宽/吞吐量计算，与前6个维度不同但同样存在结构重复。2. 正交性差：节点1和节点7均针对'A100 80GB'，节点2和节点8均针对'H100 80GB'，同一硬件在多个子节点中重复出现，导致信息割裂。3. 完备性缺失：父节点列出的NVIDIA A100 40GB、NVIDIA H100 PCIe、AMD MI250/MI300X的带宽/吞吐量数据缺失，且未覆盖所有候选GPU的完整评估维度（仅部分覆盖了显存和吞吐）。）",
+  "corrected_claim": "数据中心/专业级GPU候选集（2024Q4-2025Q1）包括NVIDIA A100 (40/80GB), H100 (80GB), L40S (48GB), L4 (24GB) 以及 AMD MI250/MI300X (128/192GB)。其中L4 (24GB) 通常需通过多卡并行部署以满足大模型推理对总显存的需求，其余单卡显存均≥48GB，可直接支持BF16/FP8权重及长上下文KV Cache。",
+  "rework_count": 1,
   "parent_ids": [
-    "N4",
-    "N5",
-    "N6"
+    "N4"
   ],
   "objective": null,
   "edge_type": "cartesian",
-  "search_query": "LLM inference latency prefill decode memory bandwidth bound formula",
-  "retrieval_sources": []
+  "search_query": "data center GPU for LLM inference 2024 2025 H100 A100 L40S MI300X price performance",
+  "retrieval_sources": [
+    {
+      "url": "https://www.nvidia.com/en-us/data-center/products/a10-gpu/&rut=56379796312122c8a39364a8ba43a224a256afbff2114f045b51cf50b9b02ac3",
+      "type": "ddg",
+      "title": "NVIDIA A10 Tensor Core GPU"
+    },
+    {
+      "url": "https://zhuanlan.zhihu.com/p/718606014&rut=e52a5143110133a8991c4e6b4ce1d2933c5a20703f5fe3de527e1bad97769a93",
+      "type": "ddg",
+      "title": "NVIDIA L40s、A10、A40、A100、A6000横评，哪个GPU 更适合 AI 推理任务？"
+    }
+  ]
 }

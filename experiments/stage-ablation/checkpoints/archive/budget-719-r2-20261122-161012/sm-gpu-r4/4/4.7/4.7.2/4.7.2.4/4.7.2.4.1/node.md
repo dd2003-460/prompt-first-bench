@@ -1,0 +1,20 @@
+# N613: Apple Silicon M2 Ultra 在 CPU 占用率 0%（纯 GPU 推理负载）时的基线 KV Cache 读取带宽为 800 GB/s，此时 3
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N256
+
+## Claim
+
+Apple Silicon M2 Ultra 在 CPU 占用率 0%（纯 GPU 推理负载）时的基线 KV Cache 读取带宽为 800 GB/s，此时 32K 上下文下的 KV 读取延迟 T_KV_base = KV_Size / 800 GB/s，此状态代表该架构的理论性能上限（高性低成工作点）。
+
+## Corrected Claim
+
+Apple Silicon M2 Ultra 的理论内存带宽为 800 GB/s。在理想条件下（忽略内存控制器效率损耗），32K 上下文下的 KV 读取延迟理论下限 T_KV_base = KV_Size / 800 GB/s。实际推理中的有效带宽通常低于此理论值。
+
+## Evidence
+
+[质询]数值量级与口径混淆：Apple Silicon M2 Ultra 的内存带宽（LPDDR5）官方规格约为 800 GB/s，但这是理论峰值带宽。在实际纯 GPU 推理负载下，受限于内存控制器效率、总线仲裁及实际访问模式，有效带宽通常远低于理论峰值（通常仅为 60%-80% 左右）。将理论峰值带宽直接作为基线读取带宽并声称代表“理论性能上限”在工程上是不严谨的，且“CPU 占用率 0%”并非衡量 GPU 推理带宽瓶颈的标准指标，存在将理论规格误用为实际基线性能的风险。 | 先验知识/题面给定，逻辑校验通过。M2 Ultra 内存带宽确为 800 GB/s，公式逻辑自洽，但将理论峰值带宽直接等同于实际基线读取带宽存在工程上的理想化假设，缺乏实际测量数据支持，故降级。

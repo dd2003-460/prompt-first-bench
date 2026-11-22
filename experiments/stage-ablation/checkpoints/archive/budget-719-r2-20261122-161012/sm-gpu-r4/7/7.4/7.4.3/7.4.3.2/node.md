@@ -1,0 +1,24 @@
+# N663: H100 方案的质量因子 (Quality_Factor) 修正：FP8 (E4M3) 精度下 Qwen3-27B 的 PPL 损失通常 < 0.1，MMLU 
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N274
+
+## Claim
+
+H100 方案的质量因子 (Quality_Factor) 修正：FP8 (E4M3) 精度下 Qwen3-27B 的 PPL 损失通常 < 0.1，MMLU 下降 < 1 分，Quality_Factor 取 0.98；若业务对代码生成敏感，需参考 N316 收紧阈值，此时 Quality_Factor 可能降至 0.95，导致有效吞吐量从 100 降至 95 tokens/s，Cost_Performance 从 265 升至 279 $/tokens/s。
+
+## Corrected Claim
+
+H100 方案在 FP8 (E4M3) 精度下通常能保持较高的质量因子（约 0.95-0.98），具体数值取决于模型对精度的敏感度；若业务对代码生成敏感，质量因子可能进一步降低，导致有效吞吐量下降及单位成本上升。
+
+## Evidence
+
+[质询]具体数值（PPL < 0.1, MMLU < 1, QF 0.98/0.95, 吞吐量 100->95, 成本 265->279）属于特定模型（Qwen3-27B）在特定硬件（H100）和特定精度（FP8 E4M3）下的经验性基准测试结果，无法从第一性原理推导，且缺乏外部来源验证。 | source=knowledge，逻辑自洽（QF降低导致有效吞吐下降，进而导致单位成本上升，数学关系成立），但具体经验参数值缺乏来源支持，依据经验事实排除条款及knowledge节点降级规则（若存在可信攻击点即降级），此处因数值具体且无来源佐证，视为存在‘数值准确性’攻击点，故降级。
+
+## Search Query
+
+FP8 quantization quality loss MMLU perplexity 27B LLM

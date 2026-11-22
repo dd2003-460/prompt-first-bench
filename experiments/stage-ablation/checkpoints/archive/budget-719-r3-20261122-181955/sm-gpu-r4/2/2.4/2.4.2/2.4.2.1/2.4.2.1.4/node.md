@@ -1,0 +1,20 @@
+# N715: Qwen3-27B BF16 权重总大小 = 27e9 * 2 bytes = 54 GB，此值用于判断单卡显存可行性，修正 N254 中 'Weights 降
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N255
+
+## Claim
+
+Qwen3-27B BF16 权重总大小 = 27e9 * 2 bytes = 54 GB，此值用于判断单卡显存可行性，修正 N254 中 'Weights 降至 27 GB' 的 FP8 假设需单独验证。
+
+## Corrected Claim
+
+Qwen3-27B BF16 权重总大小 = 27e9 * 2 bytes = 54 GB，此值用于判断单卡显存可行性，修正 N254 中 'Weights 降至 27 GB' 的 FP8 假设需单独验证。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27e9参数 * 2字节/参数 = 54GB，计算正确且符合BF16精度定义。

@@ -1,0 +1,24 @@
+# N195: llama.cpp Vulkan 后端在 Qwen3-27B 上的实测 Decode 吞吐量（tokens/s）：需在 Intel Arc A770 (16GB
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N60
+
+## Claim
+
+llama.cpp Vulkan 后端在 Qwen3-27B 上的实测 Decode 吞吐量（tokens/s）：需在 Intel Arc A770 (16GB) 或 A750 等主流 SYCL/Vulkan 兼容硬件上，使用 BF16 或 Q4_K_M 量化，32K 上下文长度下的实测数据；若无公开数据，标记 [待核验] 并给出基于内存带宽（如 A770 ~512 GB/s）和权重大小（~14GB for Q4）的理论上限估算。
+
+## Corrected Claim
+
+llama.cpp Vulkan 后端在 Qwen3-27B 上的实测 Decode 吞吐量暂无公开可靠数据 [待核验]。基于 Intel Arc A770 (~512 GB/s 内存带宽) 和 Q4_K_M 量化 (~14GB 权重) 的理论上限估算，Decode 吞吐量受限于内存带宽，理论峰值约为 512 GB/s / 14 GB ≈ 36 tokens/s（未考虑计算开销和上下文长度影响，实际值通常显著低于此理论上限）。
+
+## Evidence
+
+[质询]该陈述要求提供特定硬件（Intel Arc A770/A750）、特定模型（Qwen3-27B）、特定量化（BF16/Q4_K_M）及特定上下文长度（32K）下的实测吞吐量数据。这是一个高度具体的经验事实，且参考来源显示检索失败，无可用外部证据支持。此外，Qwen3-27B 的具体发布状态及在 llama.cpp Vulkan 后端上的兼容性细节属于动态变化的经验事实，无法仅凭逻辑推导得出精确数值。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体实测数据，仅能保留理论估算框架）
+
+## Search Query
+
+llama.cpp Vulkan Qwen3-27B benchmark tokens per second Intel Arc

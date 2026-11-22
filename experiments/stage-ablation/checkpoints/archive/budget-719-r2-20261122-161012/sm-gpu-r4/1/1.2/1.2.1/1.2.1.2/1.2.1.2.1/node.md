@@ -1,0 +1,24 @@
+# N350: Qwen3-27B 的 head_dim 确认为 128，计算公式为 head_dim = hidden_size / num_attention_heads 
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N145
+
+## Claim
+
+Qwen3-27B 的 head_dim 确认为 128，计算公式为 head_dim = hidden_size / num_attention_heads = 5120 / 40 = 128；此参数直接决定 KV Cache 中单个 token 的向量维度，若误用 160 将导致显存估算偏差 25%
+
+## Corrected Claim
+
+若 Qwen3-27B 的 hidden_size 为 5120 且 num_attention_heads 为 40，则 head_dim 为 128；此参数决定 KV Cache 维度，误用 160 将导致显存估算偏差 25%。
+
+## Evidence
+
+[质询]Qwen3-27B 的具体架构参数（hidden_size=5120, num_attention_heads=40）属于经验事实，且当前检索无可用来源支持，无法排除该模型实际采用不同配置（如 GQA 或不同 head 数）的可能性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Qwen3-27B config.json hidden_size num_attention_heads head_dim

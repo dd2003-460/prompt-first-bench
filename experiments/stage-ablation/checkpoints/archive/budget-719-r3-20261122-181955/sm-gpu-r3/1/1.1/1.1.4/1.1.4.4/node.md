@@ -1,0 +1,24 @@
+# N144: 若强制在 RTX 4070 Ti Super 上运行 Qwen3-27B (W3 量化, 权重 ~10GB)，KV Cache 需压缩至 INT4 (~2.15
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N42, N43, N44
+
+## Claim
+
+若强制在 RTX 4070 Ti Super 上运行 Qwen3-27B (W3 量化, 权重 ~10GB)，KV Cache 需压缩至 INT4 (~2.15GB) 才能勉强装入 16GB，但 W3 量化导致 MMLU 下降 >5% 且 HumanEval 下降 >8%，违反 N119 的可接受阈值，故该方案被排除。
+
+## Corrected Claim
+
+若强制在 RTX 4070 Ti Super 上运行 Qwen3-27B (W3 量化, 权重 ~10GB)，KV Cache 需压缩至 INT4 (~2.15GB) 才能勉强装入 16GB，但 W3 量化通常会导致显著的性能下降（如 MMLU 和 HumanEval 分数明显降低），可能违反 N119 的可接受阈值，故该方案被排除。
+
+## Evidence
+
+[质询]W3量化（3-bit）导致MMLU下降>5%且HumanEval下降>8%的具体数值缺乏通用基准支持，不同量化实现（如GPTQ, AWQ, GGUF）及校准数据集差异可能导致性能下降幅度显著不同，该具体阈值可能过于绝对或基于特定未提及的实验条件。 | source=knowledge，逻辑自洽（显存计算合理：10GB权重+2.15GB KV Cache+其他开销≈12.15GB，确实能装入16GB），但W3量化对具体基准测试（MMLU/HumanEval）的性能损失数值属于经验事实，虽无来源直接矛盾，但缺乏多源一致支持，且具体百分比可能因实现而异，故降级为定性表述。
+
+## Search Query
+
+W3 quantization LLM accuracy loss MMLU HumanEval threshold

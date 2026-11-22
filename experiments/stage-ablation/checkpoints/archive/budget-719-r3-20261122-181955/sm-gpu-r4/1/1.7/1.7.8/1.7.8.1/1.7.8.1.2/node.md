@@ -1,0 +1,20 @@
+# N681: 基于修正后的参数量 27.16B，BF16 权重内存占用精确计算为 27.16e9 * 2 bytes = 54.32 GB，需扣除非权重参数（如 Embedd
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N242
+
+## Claim
+
+基于修正后的参数量 27.16B，BF16 权重内存占用精确计算为 27.16e9 * 2 bytes = 54.32 GB，需扣除非权重参数（如 Embedding 层若共享或单独计算）以确认最终加载大小，通常框架加载大小与参数量线性相关，误差 < 1%。
+
+## Corrected Claim
+
+基于修正后的参数量 27.16B，BF16 权重内存占用精确计算为 27.16e9 * 2 bytes = 54.32 GB，需扣除非权重参数（如 Embedding 层若共享或单独计算）以确认最终加载大小，通常框架加载大小与参数量线性相关，误差 < 1%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27.16e9 * 2 bytes = 54.32 GB 计算正确，BF16 内存占用与参数量线性相关符合基本事实。

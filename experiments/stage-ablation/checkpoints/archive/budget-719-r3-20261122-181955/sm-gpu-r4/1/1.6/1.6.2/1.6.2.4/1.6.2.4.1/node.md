@@ -1,0 +1,24 @@
+# N606: 工作点1（BF16 KV Cache/高精度）：在32K上下文下，KV Cache占用 = 2 * 64 * 8 * 128 * 2 bytes * 32768
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N213
+
+## Claim
+
+工作点1（BF16 KV Cache/高精度）：在32K上下文下，KV Cache占用 = 2 * 64 * 8 * 128 * 2 bytes * 32768 ≈ 8 GB。若CPU内存带宽有效值为384 GB/s，且权重INT4(13.5GB)常驻内存，Decode带宽瓶颈项 = 384 / (13.5 + 8) ≈ 17.8 tokens/s。此配置下KV Cache读取占总带宽需求的37%，是主要瓶颈之一。
+
+## Corrected Claim
+
+工作点1（BF16 KV Cache/高精度）：在32K上下文下，KV Cache占用 = 2 * 64 * 8 * 128 * 2 bytes * 32768 ≈ 8 GB。若CPU内存带宽有效值为384 GB/s，且权重INT4(13.5GB)常驻内存，Decode带宽瓶颈项 = 384 / (13.5 + 8) ≈ 17.8 tokens/s。此配置下KV Cache读取占总带宽需求的37%，是主要瓶颈之一。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：KV Cache大小计算 (2*64*8*128*2*32768 = 8,589,934,592 bytes ≈ 8GB) 正确；带宽瓶颈计算 (384 / (13.5 + 8) ≈ 17.8) 正确；占比计算 (8 / 21.5 ≈ 37.2%) 正确。
+
+## Search Query
+
+Qwen3-27B KV cache size 32k context BF16 memory bandwidth bottleneck

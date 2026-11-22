@@ -1,0 +1,19 @@
+{
+  "id": "N488",
+  "claim": "1x H100 SXM 单卡 FP8 推理的通信开销为零：无多卡同步，所有计算在片上完成，有效带宽利用率可达 80-85% (HBM3 高带宽特性)；Qwen3-27B FP8 权重 27GB + KV 8GB = 35GB/Token，T_decode = 35GB / (3350 GB/s * 0.85) ≈ 12.2 ms/Token，即 82 tokens/s，显著高于父节点估算的 55-60 tokens/s，需修正为更乐观值或注明保守估计原因。",
+  "level": "L5",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值量级与逻辑矛盾：1. '35GB/Token' 表述错误，应为 35GB 总权重+KV缓存占用，而非每Token 35GB；2. 单卡 H100 SXM 显存为 80GB，Qwen3-27B FP8 权重约 27GB，加上 KV Cache 8GB 共 35GB，剩余显存充足，但 T_decode 计算中假设有效带宽利用率 85% 且无通信开销是理想化假设，实际推理中 KV Cache 读取、算子启动开销、内存访问模式等会导致实际吞吐低于理论峰值；3. 82 tokens/s 是理论上限，实际部署中通常需考虑 batch size、序列长度、算子效率等因素，55-60 tokens/s 的保守估计更贴近实际工程场景。 | 先验知识/题面给定，逻辑校验发现内部矛盾：'35GB/Token' 量纲错误（应为总占用 35GB），且 85% 带宽利用率在单卡推理中过于乐观，实际有效带宽利用率通常受 KV Cache 随机访问、算子开销等影响，理论值 82 tokens/s 高于实际工程值 55-60 tokens/s，需降级为定性表述。",
+  "corrected_claim": "1x H100 SXM 单卡 FP8 推理无多卡同步开销，Qwen3-27B FP8 权重约 27GB + KV Cache 8GB = 35GB 总显存占用，理论峰值吞吐约 82 tokens/s（基于 85% 有效带宽利用率），但实际工程部署中受 KV Cache 访问模式、算子效率等因素影响，典型吞吐在 55-60 tokens/s 区间，建议采用保守估计值。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N199",
+    "N200",
+    "N201"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "H100 SXM FP8 inference decode latency benchmark",
+  "retrieval_sources": []
+}

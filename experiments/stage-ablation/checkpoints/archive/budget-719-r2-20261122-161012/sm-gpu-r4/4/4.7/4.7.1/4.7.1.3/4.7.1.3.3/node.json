@@ -1,0 +1,19 @@
+{
+  "id": "N601",
+  "claim": "Apple Silicon (M3 Ultra/M2 Ultra) 运行 Qwen3-27B INT8 时的内存带宽利用率修正因子：N251 假设 70-85%。需区分 llama.cpp (Metal) 与 MLX 框架的差异。Metal 管线中，由于统一内存控制器对 LLM 这种高带宽低延迟敏感负载的调度效率，实测带宽利用率通常为 60-75%（受 L2 Cache 未命中率和内存页对齐影响）。若取保守值 65%，则 M3 Ultra (800 GB/s) 的有效带宽为 520 GB/s。INT8 权重 27 GB + KV ~1.6 GB = 28.6 GB，理论上限 520/28.6 ≈ 18.2 tokens/s，远低于 N251 估算的 36-39 tokens/s，需重新评估 Apple 方案在 32K 长上下文下的可行性。",
+  "level": "L5",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]该陈述包含具体的经验性参数（如65%带宽利用率、28.6GB内存占用、18.2 tokens/s吞吐量），这些数值高度依赖于具体的硬件微架构、驱动版本、上下文长度及KV Cache量化策略，无法仅从第一性原理严格推导。虽然逻辑链条（带宽/内存=速度）自洽，但缺乏实测数据支持，且不同框架（Metal vs MLX）及不同上下文长度下的实际表现差异巨大，单一保守值可能误导可行性评估。 | source=knowledge，逻辑推导自洽（520/28.6≈18.2），但具体带宽利用率及内存占用为经验估计值，无外部来源直接支持，依据经验事实排除条款降级。",
+  "corrected_claim": "Apple Silicon (M3 Ultra) 运行 Qwen3-27B INT8 时，若假设有效内存带宽利用率为 65%（即 520 GB/s）且总内存占用约为 28.6 GB，理论吞吐量上限约为 18.2 tokens/s。此估算基于保守假设，实际性能受 KV Cache 大小、量化精度及框架优化影响，需结合具体实测数据评估 32K 长上下文下的可行性。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N250",
+    "N251",
+    "N252"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "Apple M3 Ultra LLM inference memory bandwidth utilization llama.cpp metal benchmark",
+  "retrieval_sources": []
+}

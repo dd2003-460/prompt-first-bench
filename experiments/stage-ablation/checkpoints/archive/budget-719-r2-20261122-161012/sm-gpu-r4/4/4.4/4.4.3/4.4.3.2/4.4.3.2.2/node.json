@@ -1,0 +1,17 @@
+{
+  "id": "N548",
+  "claim": "2x RTX 4090 FP8 不可行时的 Offload 性能衰减量化：若将 18GB 缺口卸载至 CPU，Decode 延迟从纯 GPU 的 ~15ms/token (FP8, 双卡带宽共享) 激增至 ~80-100ms/token，因为 PCIe 带宽瓶颈导致每 Token 生成需多次跨总线传输权重分片，使得 FP8 方案在 2x 4090 上的实际吞吐仅相当于单卡 RTX 4090 INT4 水平，丧失多卡并行优势。",
+  "level": "L5",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值量级与具体延迟值（15ms vs 80-100ms）属于高度依赖具体模型大小、Batch Size、PCIe版本及驱动优化的经验数据，缺乏通用性；且'18GB缺口'这一前提在2x 4090（共48GB显存）上通常仅适用于特定超大模型（如70B+ FP8），并非普遍现象，存在以偏概全的风险。 | 先验知识/题面给定，逻辑校验通过：PCIe带宽瓶颈导致Offload性能大幅下降符合物理直觉，但具体数值为经验估计，无来源直接支持，故降级。",
+  "corrected_claim": "当2x RTX 4090显存不足需将部分权重Offload至CPU时，由于PCIe带宽远低于显存带宽，Decode阶段延迟会显著增加（通常增加数倍至一个数量级），导致实际吞吐可能低于单卡高量化（如INT4）方案，从而丧失多卡并行优势。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N227"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

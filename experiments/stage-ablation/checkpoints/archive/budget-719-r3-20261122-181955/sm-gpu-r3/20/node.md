@@ -1,0 +1,20 @@
+# N405: 在 '本地工作站' 场景下，性价比权重分配逻辑应侧重 '一次性硬件成本' (Weight=0.6) 和 '电力成本' (Weight=0.3)，而 '延迟' (
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+在 '本地工作站' 场景下，性价比权重分配逻辑应侧重 '一次性硬件成本' (Weight=0.6) 和 '电力成本' (Weight=0.3)，而 '延迟' (Weight=0.1) 权重较低；但在 '高并发 API 服务' 场景下，'吞吐量' (Weight=0.5) 和 '并发支持能力' (Weight=0.3) 权重上升，'一次性成本' 权重下降至 0.2，需根据用户声明的 '不设硬性延迟指标' 调整权重向量。
+
+## Corrected Claim
+
+在 '本地工作站' 场景下，性价比权重分配逻辑应侧重 '一次性硬件成本' (Weight=0.6) 和 '电力成本' (Weight=0.3)，而 '延迟' (Weight=0.1) 权重较低；但在 '高并发 API 服务' 场景下，'吞吐量' (Weight=0.5) 和 '并发支持能力' (Weight=0.3) 权重上升，'一次性成本' 权重下降至 0.2，需根据用户声明的 '不设硬性延迟指标' 调整权重向量。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

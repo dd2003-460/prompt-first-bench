@@ -1,0 +1,20 @@
+# N92: Qwen3-27B 在 FP8 (E4M3) 精度下的权重文件大小为 27 GB (27B * 1 byte)，相比 BF16 (54 GB) 节省 50% 权
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+Qwen3-27B 在 FP8 (E4M3) 精度下的权重文件大小为 27 GB (27B * 1 byte)，相比 BF16 (54 GB) 节省 50% 权重显存，但需注意 KV Cache 若保持 BF16 则总显存节省比例低于 50%。
+
+## Corrected Claim
+
+Qwen3-27B 在 FP8 (E4M3) 精度下的权重文件大小为 27 GB (27B * 1 byte)，相比 BF16 (54 GB) 节省 50% 权重显存，但需注意 KV Cache 若保持 BF16 则总显存节省比例低于 50%。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1聚焦于权重文件的精确计算与额外层的影响，子节点2聚焦于KV Cache的计算公式及不同精度下的大小对比。两者分别对应父节点中提到的‘权重显存’和‘KV Cache’两个不同组成部分，内容互不重叠且无矛盾，共同覆盖了父节点关于总显存节省比例低于50%的核心论点（即权重节省50%但KV Cache可能不节省或节省较少）。）

@@ -1,0 +1,24 @@
+# N197: Apple M2 Ultra (192GB) 统一内存带宽的精确规格确认：官方标称 800 GB/s，需核实是否包含 ECC 开销或仅指峰值理论值；M3 Ult
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N61
+
+## Claim
+
+Apple M2 Ultra (192GB) 统一内存带宽的精确规格确认：官方标称 800 GB/s，需核实是否包含 ECC 开销或仅指峰值理论值；M3 Ultra (256GB) 官方标称 819.2 GB/s，需确认其内存架构（HBM vs LPDDR5X）及实际可达带宽（通常约为标称的 85-90%）。
+
+## Corrected Claim
+
+Apple M2 Ultra (192GB) 官方标称统一内存带宽为 800 GB/s；M3 Ultra (256GB) 官方标称带宽为 819.2 GB/s，采用 LPDDR5X 内存架构（非 HBM），实际可达带宽受负载影响，通常低于标称值，具体比例需实测数据支持。
+
+## Evidence
+
+[质询]M3 Ultra 的内存架构描述存在事实性错误风险：Apple M3 Ultra 实际上使用的是 LPDDR5X 而非 HBM，且其官方标称带宽为 819.2 GB/s 这一数值需核实（通常 M3 Ultra 标称带宽为 819.2 GB/s 或类似，但需确认是否混淆了 M2 Ultra 的 800 GB/s 与 M3 Ultra 的规格）。此外，'实际可达带宽通常约为标称的 85-90%' 是一个经验性估计，缺乏官方数据支持，且不同负载下波动较大，作为精确规格确认的依据不够严谨。 | 先验知识/题面给定，逻辑校验通过，但 M3 Ultra 内存架构（LPDDR5X vs HBM）及实际带宽比例属于经验事实，缺乏直接来源支持，且存在架构描述潜在错误风险，故降级。
+
+## Search Query
+
+Apple M2 Ultra M3 Ultra memory bandwidth spec sheet GB/s

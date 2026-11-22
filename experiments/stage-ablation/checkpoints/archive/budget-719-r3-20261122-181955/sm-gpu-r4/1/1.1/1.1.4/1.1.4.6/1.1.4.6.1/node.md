@@ -1,0 +1,20 @@
+# N436: RTX 3090 Ti 的显存带宽为 1008 GB/s，TDP 350W。在 INT4 量化下，Qwen3-27B 权重约 13.5GB，KV Cache (
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N147
+
+## Claim
+
+RTX 3090 Ti 的显存带宽为 1008 GB/s，TDP 350W。在 INT4 量化下，Qwen3-27B 权重约 13.5GB，KV Cache (BF16, 32K) 约 8GB，总内存占用约 21.5GB。理论 Decode 吞吐量上限 = 1008 GB/s / 21.5 GB ≈ 46.9 tokens/s。实测效率系数取 0.7，实际吞吐量 ≈ 32.8 tokens/s。
+
+## Corrected Claim
+
+RTX 3090 Ti 的显存带宽为 1008 GB/s，TDP 350W。在 INT4 量化下，Qwen3-27B 权重约 13.5GB，KV Cache (BF16, 32K) 约 8GB，总内存占用约 21.5GB。理论 Decode 吞吐量上限 = 1008 GB/s / 21.5 GB ≈ 46.9 tokens/s。实测效率系数取 0.7，实际吞吐量 ≈ 32.8 tokens/s。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 3090 Ti 规格（1008 GB/s, 350W）符合事实；Qwen3-27B INT4 权重约 13.5GB 及 KV Cache 估算量级合理；算术推导 1008/21.5≈46.9 及 46.9*0.7≈32.8 正确。

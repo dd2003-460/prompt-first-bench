@@ -1,0 +1,17 @@
+{
+  "id": "N200",
+  "claim": "工作点 1 (高性低成/消费级极限): 2x RTX 4090 + FP8 权重 (27GB) + BF16 KV Cache (8GB) = 总显存需求 35GB < 48GB 可用，剩余 13GB 支持 Batch Size=2 (每 Batch 需 17.5GB)，Decode 吞吐受限于 PCIe 同步开销，预计 30-35 tokens/s，TCO 最低但多卡通信开销大",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值量级与硬件规格存在矛盾：2x RTX 4090 单卡显存为 24GB，双卡总显存为 48GB。陈述中称总需求 35GB < 48GB 可用，剩余 13GB。然而，若 Batch Size=2 且每 Batch 需 17.5GB，则仅 Batch 部分就需要 35GB，加上权重和 KV Cache 的 35GB，总需求将远超 48GB。此外，'每 Batch 需 17.5GB' 的表述模糊，若指单个样本的 KV Cache 增量，则 2 个样本仅增加 35GB 中的部分，但 35GB 总需求已包含 8GB KV Cache，逻辑上 Batch Size 扩展应基于剩余显存，而 13GB 剩余显存不足以支持两个各需 17.5GB 的 Batch 上下文（除非 17.5GB 是总 Batch 开销而非单样本，但表述为'每 Batch'易引起歧义且与剩余 13GB 矛盾）。 | 逻辑校验发现内部矛盾：剩余 13GB 显存无法支持 Batch Size=2 且每 Batch 需 17.5GB 的情况（2 * 17.5GB = 35GB > 13GB），且总显存计算与 Batch 扩展逻辑不自洽。",
+  "corrected_claim": "工作点 1 (高性低成/消费级极限): 2x RTX 4090 + FP8 权重 (27GB) + BF16 KV Cache (8GB) = 总显存需求 35GB < 48GB 可用，剩余 13GB。由于剩余显存有限，Batch Size 扩展受限，Decode 吞吐受限于 PCIe 同步开销，预计 30-35 tokens/s，TCO 最低但多卡通信开销大。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N98"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

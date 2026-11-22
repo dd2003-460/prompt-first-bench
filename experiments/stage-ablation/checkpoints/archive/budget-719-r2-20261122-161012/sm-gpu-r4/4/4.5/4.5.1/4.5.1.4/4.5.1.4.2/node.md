@@ -1,0 +1,20 @@
+# N559: RTX 4090 运行 Qwen3-27B FP8 时，若降低上下文以消除 4.2 GB 显存缺口，最大支持上下文长度 L_max = (24 GB - 28.
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N232
+
+## Claim
+
+RTX 4090 运行 Qwen3-27B FP8 时，若降低上下文以消除 4.2 GB 显存缺口，最大支持上下文长度 L_max = (24 GB - 28.2 GB + KV_Headroom) / (KV_Cache_Size_per_token)，其中 KV_Cache_Size_per_token 约为 2.5 KB (FP8 KV Cache)，计算得 L_max ≈ 0 (负值)，表明即使上下文降为 0，FP8 权重 (28.2 GB) 仍超出 24 GB 显存，必须同时量化权重至 INT4 (13.5 GB) 或启用激进 Offload 策略。
+
+## Corrected Claim
+
+RTX 4090 运行 Qwen3-27B FP8 时，若降低上下文以消除 4.2 GB 显存缺口，最大支持上下文长度 L_max = (24 GB - 28.2 GB + KV_Headroom) / (KV_Cache_Size_per_token)，其中 KV_Cache_Size_per_token 约为 2.5 KB (FP8 KV Cache)，计算得 L_max ≈ 0 (负值)，表明即使上下文降为 0，FP8 权重 (28.2 GB) 仍超出 24 GB 显存，必须同时量化权重至 INT4 (13.5 GB) 或启用激进 Offload 策略。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B FP8权重约28.2GB，超过RTX 4090的24GB显存，数学推导显示L_max为负值，结论合理。

@@ -1,0 +1,24 @@
+# N437: Qwen3-27B 在 32K 上下文下 BF16 KV Cache 的精确大小：KV_Size = 2 (K+V) * 64 (layers) * 8 (kv
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N182
+
+## Claim
+
+Qwen3-27B 在 32K 上下文下 BF16 KV Cache 的精确大小：KV_Size = 2 (K+V) * 64 (layers) * 8 (kv_heads) * 128 (head_dim) * 32768 (seq) * 2 (bytes) = 17,179,869,184 bytes ≈ 16.0 GiB (17.18 GB)。
+
+## Corrected Claim
+
+Qwen3-27B 在 32K 上下文下 BF16 KV Cache 的精确大小：KV_Size = 2 (K+V) * 64 (layers) * 8 (kv_heads) * 128 (head_dim) * 32768 (seq) * 2 (bytes) = 17,179,869,184 bytes ≈ 16.0 GiB (17.18 GB)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B 架构参数（64层, 8 KV heads, 128 head_dim）符合已知模型规格，计算公式 2*64*8*128*32768*2 = 17,179,869,184 bytes 数学正确，且 17.18 GB ≈ 16.0 GiB 换算无误。
+
+## Search Query
+
+Qwen3-27B KV cache size 32k bf16 calculation

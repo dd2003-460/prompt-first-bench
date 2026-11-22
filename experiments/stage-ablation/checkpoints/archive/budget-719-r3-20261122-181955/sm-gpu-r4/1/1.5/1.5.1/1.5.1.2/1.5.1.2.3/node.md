@@ -1,0 +1,24 @@
+# N572: Apple M2 Ultra 在 LLM 推理负载下的有效内存带宽估算为 680 GB/s (理论峰值 800 GB/s * 0.85 效率系数)，效率系数需根
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N198
+
+## Claim
+
+Apple M2 Ultra 在 LLM 推理负载下的有效内存带宽估算为 680 GB/s (理论峰值 800 GB/s * 0.85 效率系数)，效率系数需根据实际访存模式（连续 vs 随机）微调，通常取 0.8-0.9。
+
+## Corrected Claim
+
+Apple M2 Ultra 在 LLM 推理负载下的有效内存带宽估算为 680 GB/s (理论峰值 800 GB/s * 0.85 效率系数)，效率系数需根据实际访存模式（连续 vs 随机）微调，通常取 0.8-0.9。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Apple M2 Ultra 官方理论内存带宽为 800 GB/s，LLM 推理（尤其是大模型权重加载）通常表现为连续内存访问，85% 的效率系数（0.8-0.9 区间）符合工程经验与物理直觉，计算 800 * 0.85 = 680 GB/s 数值准确。
+
+## Search Query
+
+Apple M2 Ultra effective memory bandwidth LLM inference efficiency factor

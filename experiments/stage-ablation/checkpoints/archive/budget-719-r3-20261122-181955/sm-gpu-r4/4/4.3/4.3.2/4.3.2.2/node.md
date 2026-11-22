@@ -1,0 +1,24 @@
+# N321: 1600W-1800W 冗余电源市场价格：Corsair AX1600i (1600W) 约为 $400-$450，Seasonic Prime TX-1600
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N106
+
+## Claim
+
+1600W-1800W 冗余电源市场价格：Corsair AX1600i (1600W) 约为 $400-$450，Seasonic Prime TX-1600 (1600W) 约为 $350-$400，EVGA SuperNOVA 1600 P2 (1600W) 约为 $380-$420；平均一次性成本中位数为 $400，与 N106 所述的 $400-$600 区间下限吻合，但上限偏高，实际主流选择集中在 $400 左右。
+
+## Corrected Claim
+
+1600W-1800W 冗余电源（如 Corsair AX1600i, Seasonic Prime TX-1600 等）的市场价格通常在 $350-$450 之间，平均一次性成本中位数约为 $400。
+
+## Evidence
+
+[质询]具体品牌型号的市场价格属于经验事实，且随时间波动，缺乏实时数据支持时，断言具体价格区间（如$400-$450）存在过时或偏差风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源），无法验证具体价格数值，故降级。
+
+## Search Query
+
+Corsair AX1600i price 2024, Seasonic Prime TX-1600 price 2024, EVGA SuperNOVA 1600 P2 price

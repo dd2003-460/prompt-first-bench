@@ -1,0 +1,20 @@
+# N192: Intel Max 1550 48GB 运行 Qwen3-27B 的显存余量分析：48GB 显存中，BF16 权重占 54GB（超出容量），因此必须使用 INT
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N59
+
+## Claim
+
+Intel Max 1550 48GB 运行 Qwen3-27B 的显存余量分析：48GB 显存中，BF16 权重占 54GB（超出容量），因此必须使用 INT8（27GB）或 INT4（13.5GB）量化；若使用 INT8，剩余 21GB 可用于 KV Cache，在 32K 上下文下可支持约 21GB / (KV per token) 个并发请求，具体并发数取决于 KV Cache 每 token 大小 [待核验]
+
+## Corrected Claim
+
+Intel Max 1550 48GB 运行 Qwen3-27B：BF16 权重约 54GB 超出容量，需使用 INT8（约 27GB）或 INT4（约 13.5GB）量化。若使用 INT8，剩余约 21GB 可用于 KV Cache。具体可支持的并发请求数或最大上下文长度，需结合 Qwen3-27B 的具体 KV Cache 每 token 大小（取决于层数、头数、GQA 比例等）进行计算，原陈述中'21GB / (KV per token) 个并发请求'的表述不严谨，应明确为'可存储的总 token 数'，再根据业务场景分配给并发请求。
+
+## Evidence
+
+[质询]陈述中关于并发数的计算逻辑存在严重缺陷：未区分单请求与多请求场景，且未考虑模型架构（如GQA/MQA）对KV Cache大小的影响，导致'21GB / KV per token'这一公式在工程上无法直接得出'并发请求数'，属于口径混淆和逻辑跳跃。 | 先验知识/题面给定，逻辑校验发现并发数计算逻辑不自洽（未明确是单请求最大长度还是多请求并发，且KV Cache大小依赖具体模型配置），故降级。

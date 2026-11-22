@@ -1,0 +1,20 @@
+# N465: H100 SXM5 在 FP8 精度下的实测 Prefill 吞吐量（Qwen3-27B, 32K ctx, Batch=1）约为 450-550 tokens
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N158
+
+## Claim
+
+H100 SXM5 在 FP8 精度下的实测 Prefill 吞吐量（Qwen3-27B, 32K ctx, Batch=1）约为 450-550 tokens/s，计算效率为 450/563 ≈ 80%（基于理论峰值 563 tokens/s 修正，来源：NVIDIA 白皮书及 MLPerf 数据外推）
+
+## Corrected Claim
+
+H100 SXM5 在 FP8 精度下，Qwen3-27B 模型 32K ctx Batch=1 的 Prefill 吞吐量受内存带宽或特定实现限制，实测值可能在数百至数千 tokens/s 之间，具体数值需依据实际基准测试，而非基于 563 tokens/s 的理论峰值推算。
+
+## Evidence
+
+[质询]数值量级与计算效率存在逻辑矛盾：H100 SXM5 FP8 理论峰值算力约为 989 TFLOPS，Qwen3-27B 模型参数量约 27B，Prefill 阶段计算量约为 2 * 27B * 32K FLOPs，理论最大吞吐量应远高于 563 tokens/s（若按纯计算瓶颈估算，理论峰值可达数千 tokens/s）。陈述中声称的 450-550 tokens/s 吞吐量及 80% 计算效率，暗示其理论峰值仅为 563 tokens/s，这与 H100 的实际硬件规格严重不符，极可能是将特定受限场景（如内存带宽瓶颈或极低利用率）误标为理论峰值，或混淆了不同模型/硬件的数据。 | 先验知识/题面给定，逻辑校验未通过：H100 FP8 理论算力支持的理论吞吐量远高于 563 tokens/s，80% 效率下的实测值 450-550 tokens/s 与硬件规格不匹配，存在量级错误。

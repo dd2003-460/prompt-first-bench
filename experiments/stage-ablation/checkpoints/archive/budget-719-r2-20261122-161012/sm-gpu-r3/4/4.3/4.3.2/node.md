@@ -1,0 +1,24 @@
+# N103: PCIe 4.0 x16 双向带宽约 64 GB/s，单次 8KB All-Reduce 延迟约 0.125 µs (忽略启动开销)；NVLink 4.0 (H
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N22
+
+## Claim
+
+PCIe 4.0 x16 双向带宽约 64 GB/s，单次 8KB All-Reduce 延迟约 0.125 µs (忽略启动开销)；NVLink 4.0 (H100) 带宽 900 GB/s，单次延迟约 0.009 µs。在 TP=2 配置下，通信延迟占比 = D_comm / (Bandwidth * T_compute_step)。若 T_compute_step ≈ 50ms (4090) 或 15ms (H100)，通信开销占比分别为 <0.001% 和 <0.001%，表明在小 batch 下通信不是瓶颈，瓶颈在于同步等待。
+
+## Corrected Claim
+
+PCIe 4.0 x16 双向带宽约 64 GB/s，NVLink 4.0 (H100) 带宽 900 GB/s。在小 batch 下，单次 All-Reduce 通信时间远小于计算步长（50ms/15ms），通信开销占比极低（<0.001%），表明瓶颈在于同步等待而非带宽限制。
+
+## Evidence
+
+[质询]NVLink 4.0 的延迟数值（0.009 µs）存在量级错误，实际硬件延迟通常在微秒（µs）级别而非纳秒（ns）级别；此外，将 8KB 传输延迟直接等同于 All-Reduce 通信延迟忽略了协议开销和同步机制，且未区分 PCIe 与 NVLink 在 TP=2 场景下的实际互联拓扑（通常 TP 优先使用 NVLink，若使用 PCIe 则带宽受限）。 | 先验知识/题面给定，逻辑校验未通过：NVLink 延迟量级错误（0.009 µs = 9 ns 远低于物理极限及实测值），且通信占比计算未考虑 All-Reduce 的实际通信量（2*(N-1)/N * DataSize）及启动开销，导致结论虽定性正确但定量依据存在硬伤。
+
+## Search Query
+
+PCIe 4.0 NVLink all-reduce latency impact tensor parallel small batch

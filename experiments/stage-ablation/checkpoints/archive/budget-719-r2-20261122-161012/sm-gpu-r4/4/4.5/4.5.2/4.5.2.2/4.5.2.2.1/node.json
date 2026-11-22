@@ -1,0 +1,17 @@
+{
+  "id": "N564",
+  "claim": "H100 80GB 在 32K 上下文、Batch Size=1 时的 KV Cache 占用约为 13.5GB (计算式: 2 * 48 layers * 8 kv_heads * 128 head_dim * 32768 seq * 2 bytes / 1e9)，因此 Batch Size 扩展受限于 (80GB - 54GB Weight - 13.5GB KV_BS1 - 2GB Activation) / (13.5GB * (BS-1))，实际最大并发 Batch 约为 0.7，即无法在 32K 长上下文下支持 Batch>1 的 BF16 推理，N235 中 '25GB 剩余' 的假设错误地忽略了 32K 长上下文对 KV Cache 的巨额占用。",
+  "level": "L5",
+  "source": "knowledge",
+  "status": "verified",
+  "evidence": "先验知识/题面给定，逻辑校验通过：KV Cache 计算公式正确（2*48*8*128*32768*2/1e9 ≈ 13.5GB），显存预算分配逻辑自洽，剩余空间不足以支持 Batch>1 的结论符合物理直觉。",
+  "corrected_claim": "H100 80GB 在 32K 上下文、Batch Size=1 时的 KV Cache 占用约为 13.5GB (计算式: 2 * 48 layers * 8 kv_heads * 128 head_dim * 32768 seq * 2 bytes / 1e9)，因此 Batch Size 扩展受限于 (80GB - 54GB Weight - 13.5GB KV_BS1 - 2GB Activation) / (13.5GB * (BS-1))，实际最大并发 Batch 约为 0.7，即无法在 32K 长上下文下支持 Batch>1 的 BF16 推理，N235 中 '25GB 剩余' 的假设错误地忽略了 32K 长上下文对 KV Cache 的巨额占用。",
+  "rework_count": 0,
+  "parent_ids": [
+    "N235"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "Qwen3-27B KV cache size calculation 32k context BF16",
+  "retrieval_sources": []
+}

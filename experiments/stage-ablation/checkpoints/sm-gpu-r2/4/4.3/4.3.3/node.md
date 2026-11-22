@@ -1,29 +1,20 @@
-# N104: 多卡 Decode 延迟增加的主要来源并非 All-Reduce 数据传输时间，而是流水线同步开销和 PCIe/NVLink 的固定启动延迟 (latency 
+# N111: EPYC 9654 (128核, 3TB DDR5) 的算力为 128核 * 2 (AVX-512) * 3.0 GHz * 2 (FMA) ≈ 1536 GF
 
-- **status**: degraded
+- **status**: verified
 - **level**: L3
-- **source**: search
+- **source**: knowledge
 - **edge_type**: cartesian
-- **rework_count**: 1
-- **parent_ids**: N22
+- **rework_count**: 0
+- **parent_ids**: N23
 
 ## Claim
 
-多卡 Decode 延迟增加的主要来源并非 All-Reduce 数据传输时间，而是流水线同步开销和 PCIe/NVLink 的固定启动延迟 (latency floor)。实测数据显示，PCIe 连接的双卡 TP=2 相比单卡，Decode 延迟增加约 15-25%；NVLink 连接增加约 5-10% [待核验: 具体数值需参考 vLLM 或 TensorRT-LLM 官方 benchmark]。
+EPYC 9654 (128核, 3TB DDR5) 的算力为 128核 * 2 (AVX-512) * 3.0 GHz * 2 (FMA) ≈ 1536 GFLOPS，Qwen3-27B 32K tokens prefill 所需计算量为 2 * 27B * 32768 ≈ 1.76e15 FLOPs，理论 prefill 时间为 1.76e15 / 1536e9 ≈ 1145.83 秒。
 
 ## Corrected Claim
 
-多卡 Decode 延迟增加的主要来源并非 All-Reduce 数据传输时间，而是流水线同步开销和 PCIe/NVLink 的固定启动延迟 (latency floor)。实测数据显示，PCIe 连接的双卡 TP=2 相比单卡，Decode 延迟会有显著增加（具体幅度取决于模型与负载，通常高于 NVLink 连接）；NVLink 连接因带宽高、延迟低，其额外开销相对较小。
+EPYC 9654 (128核, 3TB DDR5) 的算力为 128核 * 2 (AVX-512) * 3.0 GHz * 2 (FMA) ≈ 1536 GFLOPS，Qwen3-27B 32K tokens prefill 所需计算量为 2 * 27B * 32768 ≈ 1.76e15 FLOPs，理论 prefill 时间为 1.76e15 / 1536e9 ≈ 1145.83 秒。
 
 ## Evidence
 
-[质询]具体数值（15-25% 和 5-10%）属于经验事实，且高度依赖于模型大小、Batch Size、序列长度及具体硬件配置，缺乏通用性；参考来源仅涉及通信优化原理，未提供该特定场景下的通用基准数据，存在以偏概全或数值来源不明的风险。 | 逻辑上，Decode 阶段通信量小，固定延迟（Latency Floor）占比确实高于带宽受限的 Prefill 阶段，定性结论合理；但具体百分比数值在参考来源 [1] 和 [2] 中均未直接体现，属于经验事实且缺乏直接来源支持。
-
-## Search Query
-
-vLLM tensor parallel 2 GPU decode latency overhead PCIe vs NVLink percentage
-
-## Retrieval Sources
-
-- {'url': 'https://zhuanlan.zhihu.com/p/2036554187035644932&rut=8df427f8a26fa6c80f186b98daa55c80659c84c7fa0fda3c1d0af6e553ed0d6d', 'type': 'ddg', 'title': '以vLLM Custom AllReduce 为基础，理解多卡通信与拓扑优化'}
-- {'url': 'https://zhuanlan.zhihu.com/p/2072700792482616043&rut=3d388c2185416c0e1d29f3366a1de7fb7e631b0077aa80bc83c71d02c310ead5', 'type': 'ddg', 'title': '【大模型推理系列】 FlashComm：把 AllReduce 拆开、推迟、融合，让多卡推理"传得少、算得快"'}
+先验知识/题面给定，逻辑校验通过：EPYC 9654 规格（128核, 3.0GHz, AVX-512）及算力估算公式（128*2*3.0*2=1536 GFLOPS）符合硬件理论峰值计算逻辑；Prefill 计算量公式（2*N*L）及时间推导（1.76e15/1536e9≈1145.83s）数学自洽。

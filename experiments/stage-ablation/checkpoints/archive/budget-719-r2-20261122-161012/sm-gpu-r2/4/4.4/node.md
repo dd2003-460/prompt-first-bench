@@ -1,0 +1,30 @@
+# N23: 消费级显卡 (RTX 4090/5090) 显存带宽分别为 1008 GB/s 和 1792 GB/s [待核验: 5090 官方带宽数据]，数据中心卡 (H1
+
+- **status**: verified
+- **level**: L2
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N4, N5, N6
+
+## Claim
+
+消费级显卡 (RTX 4090/5090) 显存带宽分别为 1008 GB/s 和 1792 GB/s [待核验: 5090 官方带宽数据]，数据中心卡 (H100 SXM) 为 3.35 TB/s；在 BF16 下，4090 单卡 Decode 延迟约为 H100 的 3.3 倍 (3350/1008)，但 H100 价格约为 4090 的 5-6 倍，导致单位延迟成本可能相近。
+
+## Corrected Claim
+
+消费级显卡 (RTX 4090/5090) 显存带宽分别为 1008 GB/s 和 1792 GB/s [来源支持]；数据中心卡 (H100 SXM) 带宽约为 3.35 TB/s [常识/未验证]；在 BF16 下，4090 单卡 Decode 延迟约为 H100 的 3.3 倍，但 H100 价格通常显著高于 4090，导致单位延迟成本可能相近。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别聚焦于 RTX 5090 的单卡可行性、4090 与 H100 的成本效益对比、以及 2x4090 与 H100 的多卡/显存架构对比。三者维度不同（单卡新硬件、性价比、多卡架构），无逻辑重叠或矛盾，且共同覆盖了父节点中提到的带宽、延迟成本及具体硬件型号的所有关键方面。）
+
+## Search Query
+
+RTX 4090 H100 memory bandwidth comparison LLM inference cost per token
+
+## Retrieval Sources
+
+- {'url': 'https://bigolab.com/guides/4809-consumer-gpu-rtx-4060-4090-5090-mac-vram-llm-guide&rut=590dccc868f39b4a5924e04a858feb52522e508232be0539341b6b38147622c2', 'type': 'ddg', 'title': '2026 家用消费级显卡（RTX 4060 / 4090 / 5090 / Mac 64G）跑开源大模型显存对照选型表'}
+- {'url': 'https://www.databrush.com/article/3914.html&rut=70f34f69d884f634c740098550dfbbba891102f6da15218b6757ce55fdbde990', 'type': 'ddg', 'title': 'RTX 4090和5090之间犹豫：5090有32GB显存和1,792 GB/s带宽，4090只有24GB和1,008…'}
+- {'url': 'https://mirrorfrog.com/docs/cards/nvidia/rtx-5090/&rut=1e0dbf585bf7289c45316ce1f3c401c05d0cc3cdcd77a44c183f88906e6d10d7', 'type': 'ddg', 'title': 'NVIDIA RTX 5090 (Blackwell 消费级旗舰) | AI 算力卡百科 | 252 款 AI 芯片规格对比'}

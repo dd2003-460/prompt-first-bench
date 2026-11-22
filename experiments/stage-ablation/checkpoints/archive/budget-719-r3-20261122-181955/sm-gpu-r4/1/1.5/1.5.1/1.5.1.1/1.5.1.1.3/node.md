@@ -1,0 +1,24 @@
+# N569: Apple M2/M3 Ultra 的统一内存带宽在 LLM 推理 Decode 阶段的实际利用率：由于内存控制器和缓存层次结构限制，实际带宽利用率通常为理论峰
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N197
+
+## Claim
+
+Apple M2/M3 Ultra 的统一内存带宽在 LLM 推理 Decode 阶段的实际利用率：由于内存控制器和缓存层次结构限制，实际带宽利用率通常为理论峰值的 70-80%（而非 85-90%），因此 M2 Ultra (192GB) 在 Qwen3-27B BF16 Decode 阶段的实际有效带宽约为 800 GB/s * 0.75 ≈ 600 GB/s，理论吞吐量上限为 600 GB/s / (54GB 权重 + 8GB KV) ≈ 9.7 tokens/s。
+
+## Corrected Claim
+
+Apple M2/M3 Ultra 的统一内存带宽在 LLM 推理 Decode 阶段的实际利用率受硬件限制，通常低于理论峰值。M2 Ultra (192GB) 在 Qwen3-27B BF16 Decode 阶段的实际有效带宽和理论吞吐量上限需依据具体硬件实测数据确定，而非固定数值。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性参数（70-80%带宽利用率、800GB/s理论带宽、9.7 tokens/s吞吐量），这些属于硬件性能实测数据，无法从第一性原理严格推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Apple M2 Ultra LLM inference actual memory bandwidth utilization efficiency

@@ -1,0 +1,24 @@
+# N535: MI300X 上 AWQ INT4 量化 Qwen3-27B 的实测 Prefill 吞吐量：需获取具体数值（tokens/s），并与 CUDA 平台（如 A1
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N186
+
+## Claim
+
+MI300X 上 AWQ INT4 量化 Qwen3-27B 的实测 Prefill 吞吐量：需获取具体数值（tokens/s），并与 CUDA 平台（如 A100/H100）上同等 AWQ INT4 方案的 Prefill 吞吐量进行对比，计算性能损失百分比。
+
+## Corrected Claim
+
+MI300X 上 AWQ INT4 量化 Qwen3-27B 的 Prefill 吞吐量需基于特定测试环境（如固定序列长度、Batch Size）进行实测获取，并与 CUDA 平台（A100/H100）在相同条件下的数据进行对比以计算性能差异；由于缺乏具体测试参数和实测数据，无法给出通用的具体数值或固定的性能损失百分比。
+
+## Evidence
+
+[质询]该陈述要求提供具体的实测吞吐量数值（tokens/s）及性能损失百分比，属于高度依赖具体硬件配置、软件栈版本、序列长度及并发数的经验性数据。由于缺乏具体的测试环境参数（如 batch size, sequence length, 驱动版本等），任何单一数值都不具备普适性，且不同来源的实测数据可能存在显著差异，无法仅凭逻辑推导得出唯一确定的数值。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，且具体性能数值无法从第一性原理严格推出，需依赖实测数据）
+
+## Search Query
+
+MI300X AWQ INT4 Qwen3-27B prefill throughput benchmark

@@ -1,0 +1,20 @@
+# N521: RX 7800 XT 即使采用极限优化（INT4 权重 + INT4 KV Cache + 最小框架开销 1GB），总占用 13.5GB + 2GB (KV) 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N181
+
+## Claim
+
+RX 7800 XT 即使采用极限优化（INT4 权重 + INT4 KV Cache + 最小框架开销 1GB），总占用 13.5GB + 2GB (KV) + 1GB = 16.5GB > 16GB 显存，仍不可行，显存瓶颈为硬约束，无法通过软件优化绕过。
+
+## Corrected Claim
+
+RX 7800 XT 即使采用极限优化（INT4 权重 + INT4 KV Cache + 最小框架开销 1GB），总占用 13.5GB + 2GB (KV) + 1GB = 16.5GB > 16GB 显存，仍不可行，显存瓶颈为硬约束，无法通过软件优化绕过。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：13.5GB + 2GB + 1GB = 16.5GB，数学计算正确且大于16GB，符合显存硬约束逻辑。

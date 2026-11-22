@@ -1,0 +1,24 @@
+# N692: llama.cpp 的 Context_Buffer_Size 默认值为 16 MB，用于存储临时张量和上下文元数据，该值在 llama.cpp 源码中硬编码，
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N247
+
+## Claim
+
+llama.cpp 的 Context_Buffer_Size 默认值为 16 MB，用于存储临时张量和上下文元数据，该值在 llama.cpp 源码中硬编码，可通过编译参数修改但默认不可配置。
+
+## Corrected Claim
+
+llama.cpp 的上下文大小（n_ctx）是运行时可配置参数，默认值通常为 512 或 2048 tokens（视版本而定），其内存占用随上下文长度和模型架构动态变化，并非硬编码的 16 MB。
+
+## Evidence
+
+[质询]数值量级与概念定义严重错误：16 MB 对于 LLM 上下文缓冲区（Context Buffer）而言极小，通常上下文缓冲区（KV Cache）大小取决于上下文长度（如 4k/8k/32k tokens）和模型维度，通常以 GB 计或动态分配，而非固定 16 MB；且 llama.cpp 中上下文大小（n_ctx）是运行时参数，并非硬编码的 16 MB 内存块。 | 逻辑校验失败：16 MB 无法存储任何有意义的 LLM 上下文元数据或 KV Cache（即使极小模型，4k 上下文的 KV Cache 也远超 16 MB），且 llama.cpp 的上下文大小是用户可配置的运行时参数，非硬编码默认值。
+
+## Search Query
+
+llama.cpp context buffer size default value

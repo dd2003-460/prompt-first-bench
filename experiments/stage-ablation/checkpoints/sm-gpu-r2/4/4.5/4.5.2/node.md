@@ -1,24 +1,24 @@
-# N109: A100 80GB/H100 80GB/MI300X 192GB 单卡显存容量与 Qwen3-27B BF16 需求 (55GB) 的匹配度：A100/H100
+# N125: TCO电力成本计算需引入电源效率因子η（通常ATX 80+ Gold为0.85-0.90），实际电网输入功率 P_grid = P_GPU_TDP / η。例如
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N24
+- **parent_ids**: N25, N26, N27
 
 ## Claim
 
-A100 80GB/H100 80GB/MI300X 192GB 单卡显存容量与 Qwen3-27B BF16 需求 (55GB) 的匹配度：A100/H100 剩余 25GB 可用于 Batch Size 扩展，MI300X 剩余 137GB 支持更大并发
+TCO电力成本计算需引入电源效率因子η（通常ATX 80+ Gold为0.85-0.90），实际电网输入功率 P_grid = P_GPU_TDP / η。例如RTX 4090 TDP 450W，η=0.85时，实际耗电约为529W，年电费按0.1$/kWh计算为 $462/年，而非基于TDP直接计算的$394/年。
 
 ## Corrected Claim
 
-A100 80GB/H100 80GB/MI300X 192GB 单卡显存容量与 Qwen3-27B BF16 需求 (55GB) 的匹配度：A100/H100 剩余 25GB 可用于 Batch Size 扩展，MI300X 剩余 137GB 支持更大并发
+TCO电力成本计算需引入电源效率因子η（通常ATX 80+ Gold为0.85-0.90），实际电网输入功率 P_grid = P_GPU_TDP / η。例如RTX 4090 TDP 450W，η=0.85时，实际耗电约为529W，年电费按0.1$/kWh计算为 $462/年，而非基于TDP直接计算的$394/年。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：A100/H100 80GB - 55GB = 25GB，MI300X 192GB - 55GB = 137GB，数值计算准确且符合硬件规格常识。
+先验知识/题面给定，逻辑校验通过：450W/0.85≈529W，529W*24h*365d/1000*0.1$≈$462，计算无误且符合物理直觉
 
 ## Search Query
 
-A100 H100 MI300X VRAM capacity Qwen3-27B inference
+80 plus gold power supply efficiency factor calculation actual power consumption vs TDP

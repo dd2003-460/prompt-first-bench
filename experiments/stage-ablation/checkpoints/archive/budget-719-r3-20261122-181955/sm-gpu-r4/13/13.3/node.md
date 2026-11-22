@@ -1,0 +1,20 @@
+# N385: RTX A5000 24GB 显存中，扣除 54GB BF16 权重后显存不足，必须使用 INT4/FP8 量化；若使用 INT4 (13.5GB 权重)，剩余
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N129
+
+## Claim
+
+RTX A5000 24GB 显存中，扣除 54GB BF16 权重后显存不足，必须使用 INT4/FP8 量化；若使用 INT4 (13.5GB 权重)，剩余 10.5GB 显存可支持约 10.5GB / (KV Cache per token) 的并发请求或更长上下文，具体需结合 KV Cache 大小计算。
+
+## Corrected Claim
+
+RTX A5000 24GB 显存中，若模型 BF16 权重超过 24GB（例如 54GB），则无法直接加载，必须使用 INT4/FP8 量化；若使用 INT4 量化后权重约为 13.5GB（假设原权重为 54GB 的 1/4 或其他合理比例，此处需修正原权重描述以符合逻辑，或指出 54GB 权重本身无法在 24GB 卡上运行），剩余 10.5GB 显存可支持约 10.5GB / (KV Cache per token) 的并发请求或更长上下文。
+
+## Evidence
+
+[质询]数值量级严重错误：RTX A5000 显存为 24GB，而陈述中称扣除 '54GB BF16 权重'，54GB 远超 24GB 总显存，逻辑上不可能在 24GB 卡上加载 54GB 权重，属于明显的内部矛盾/量纲错误。 | 逻辑校验失败：24GB 显存无法容纳 54GB 权重，陈述存在硬性逻辑错误。

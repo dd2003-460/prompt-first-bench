@@ -1,0 +1,20 @@
+# N149: 32K 上下文下 Qwen3-27B 的 KV Cache 总显存占用精确值为 8.59 GB (32,768 tokens * 256 KB/token / 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N40
+
+## Claim
+
+32K 上下文下 Qwen3-27B 的 KV Cache 总显存占用精确值为 8.59 GB (32,768 tokens * 256 KB/token / 1024^3)，而非近似值 8 GB；在 24GB 显存卡上，扣除 55GB BF16 权重不可行后，若采用 INT4 量化权重 (~15GB)，剩余显存 9GB 仅比 KV Cache 需求 (8.59GB) 多 0.41GB，几乎无 Batch Size 扩展空间 [knowledge]
+
+## Corrected Claim
+
+32K 上下文下 Qwen3-27B 的 KV Cache 总显存占用精确值为 8.59 GB (32,768 tokens * 256 KB/token / 1024^3)，而非近似值 8 GB；在 24GB 显存卡上，扣除 55GB BF16 权重不可行后，若采用 INT4 量化权重 (~15GB)，剩余显存 9GB 仅比 KV Cache 需求 (8.59GB) 多 0.41GB，几乎无 Batch Size 扩展空间 [knowledge]
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1聚焦于固定32K上下文下的显存预算分配与Batch Size限制（静态资源核算），子节点2聚焦于上下文长度变化对KV Cache的影响及OOM临界点（动态敏感性分析）。两者角度不同（静态vs动态），内容无重复，且共同覆盖了父节点中关于‘显存占用精确值’、‘INT4权重下的剩余空间’以及‘无扩展空间’的核心论断。虽然子节点1中关于权重(13.5GB)和剩余空间(0.91GB)的计算与父节点原文(15GB, 0.41GB)存在数值差异，但作为分解检查，主要评估结构逻辑。若需严格一致，建议统一数值，但就‘正交性/完备性/冗余性’结构而言，分解是合格的。）

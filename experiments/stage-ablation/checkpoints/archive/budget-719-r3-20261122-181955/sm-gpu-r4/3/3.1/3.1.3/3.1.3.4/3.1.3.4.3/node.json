@@ -1,0 +1,17 @@
+{
+  "id": "N789",
+  "claim": "FlashAttention-2 对 Prefill 延迟提升的边界条件：当序列长度 Seq_Len < 2048 时，FlashAttention-2 的加速比降至 1.2-1.5x，因为 Kernel 启动开销和 Tile 大小不匹配导致 Tensor Core 利用率下降；对于 32K 长上下文，加速比稳定在 2.5-3.0x，但此时瓶颈已从计算转向显存带宽 (Memory Bandwidth Bound)，因此进一步提升注意力效率对总 Prefill 时间的边际贡献小于 15%。",
+  "level": "L5",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]具体数值（1.2-1.5x, 2.5-3.0x, <15%）属于经验性测量结果，受硬件架构（如A100/H100）、Batch Size、Head Dim等参数影响极大，缺乏特定上下文下的普适性，且‘边际贡献小于15%’这一结论在长序列下通常不成立（因为Attention计算量随序列长度平方增长，往往是主要瓶颈之一）。 | 先验知识/题面给定，逻辑校验通过（FlashAttention-2确实在短序列下加速比降低，长序列下受带宽限制，但具体数值和边际贡献比例缺乏通用来源支持，且长序列下Attention通常仍是主要计算瓶颈之一，‘<15%’的断言过于绝对且缺乏依据）",
+  "corrected_claim": "FlashAttention-2 在短序列（如 < 2048）下因 Kernel 启动开销和 Tile 效率问题，加速比通常低于长序列场景；在 32K 长上下文下，加速比趋于稳定，但系统瓶颈逐渐转向显存带宽。然而，具体加速比数值（如 1.2-1.5x 或 2.5-3.0x）及‘边际贡献小于 15%’的结论高度依赖于具体硬件配置、Batch Size 及模型结构，并非通用固定值。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N281"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "FlashAttention-2 efficiency sequence length dependency memory bound vs compute bound threshold",
+  "retrieval_sources": []
+}

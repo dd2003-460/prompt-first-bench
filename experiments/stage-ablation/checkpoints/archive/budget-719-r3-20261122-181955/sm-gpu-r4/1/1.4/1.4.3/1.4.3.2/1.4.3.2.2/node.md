@@ -1,0 +1,24 @@
+# N559: Qwen3-27B 在 Q4_K_M 量化下的权重文件大小约为 15.5 GB（基于 27B 参数 * 4.5 bits/param / 8），加上 llama
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N195
+
+## Claim
+
+Qwen3-27B 在 Q4_K_M 量化下的权重文件大小约为 15.5 GB（基于 27B 参数 * 4.5 bits/param / 8），加上 llama.cpp 运行时开销约 1.5 GB，总占用约 17 GB，超过 A770 16GB 显存，导致必须使用 CPU offload 或更小量化（Q3_K_M ~13.5GB），此约束使得 A770 无法纯 GPU 运行 Q4_K_M 32K 上下文。
+
+## Corrected Claim
+
+Qwen3-27B 在 Q4_K_M 量化下的权重文件大小约为 15.5 GB（基于 27B 参数 * 4.5 bits/param / 8），加上 llama.cpp 运行时开销约 1.5 GB，总占用约 17 GB，超过 A770 16GB 显存，导致必须使用 CPU offload 或更小量化（Q3_K_M ~13.5GB），此约束使得 A770 无法纯 GPU 运行 Q4_K_M 32K 上下文。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数在Q4_K_M(约4.5bit)下权重约15.5GB，加上运行时开销确实超过16GB显存，符合物理限制。
+
+## Search Query
+
+Qwen3-27B Q4_K_M file size GB

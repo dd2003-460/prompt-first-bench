@@ -1,0 +1,20 @@
+# N547: 2x RTX 4090 FP8 显存超额的精确量化与修正：权重 27GB + KV Cache (32K, BF16) ~4GB + 激活值/开销 ~2GB =
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N227
+
+## Claim
+
+2x RTX 4090 FP8 显存超额的精确量化与修正：权重 27GB + KV Cache (32K, BF16) ~4GB + 激活值/开销 ~2GB = 33GB/卡，双卡总需求 66GB > 48GB 物理显存，缺口 18GB；若 KV Cache 同步量化为 FP8 (节省 50% KV 显存)，总需求降至 ~31GB/卡，双卡 62GB 仍 > 48GB，因此 FP8 在 2x 4090 上依然不可行，除非启用 Offload 或进一步量化至 INT4。
+
+## Corrected Claim
+
+2x RTX 4090 FP8 显存超额的精确量化与修正：权重 27GB + KV Cache (32K, BF16) ~4GB + 激活值/开销 ~2GB = 33GB/卡，双卡总需求 66GB > 48GB 物理显存，缺口 18GB；若 KV Cache 同步量化为 FP8 (节省 50% KV 显存)，总需求降至 ~31GB/卡，双卡 62GB 仍 > 48GB，因此 FP8 在 2x 4090 上依然不可行，除非启用 Offload 或进一步量化至 INT4。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：2x RTX 4090 物理显存为 48GB (24GB x 2)，计算出的 66GB 需求确实超出物理限制，且 FP8 量化后 62GB 仍超出，逻辑自洽。

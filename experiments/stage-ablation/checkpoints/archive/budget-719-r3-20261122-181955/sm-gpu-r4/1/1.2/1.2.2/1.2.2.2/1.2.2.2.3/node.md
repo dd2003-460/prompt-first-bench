@@ -1,0 +1,20 @@
+# N455: A100 40GB在INT4权重+INT8 KV Cache下的边界条件：若上下文长度增加至64K，KV Cache占用翻倍至32.77GB (INT8)，总需
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N154
+
+## Claim
+
+A100 40GB在INT4权重+INT8 KV Cache下的边界条件：若上下文长度增加至64K，KV Cache占用翻倍至32.77GB (INT8)，总需求 = 13.5 + 32.77 + 3 = 49.27GB > 40GB，不可行。因此A100 40GB仅适用于≤32K上下文场景，若用户需要64K+上下文，必须选择A100 80GB或H100 80GB。
+
+## Corrected Claim
+
+A100 40GB在INT4权重+INT8 KV Cache下的边界条件：若上下文长度增加至64K，KV Cache占用翻倍至32.77GB (INT8)，总需求 = 13.5 + 32.77 + 3 = 49.27GB > 40GB，不可行。因此A100 40GB仅适用于≤32K上下文场景，若用户需要64K+上下文，必须选择A100 80GB或H100 80GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算（13.5+32.77+3=49.27>40）自洽，符合GPU显存占用基本逻辑

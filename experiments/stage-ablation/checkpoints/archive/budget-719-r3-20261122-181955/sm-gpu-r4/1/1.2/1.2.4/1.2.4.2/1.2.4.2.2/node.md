@@ -1,0 +1,20 @@
+# N475: L40S 在 BF16 精度下 Decode 阶段的计算瓶颈转移分析：当 Batch Size > 4 时，Prefill 算力成为主要瓶颈，Decode 吞吐
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N160
+
+## Claim
+
+L40S 在 BF16 精度下 Decode 阶段的计算瓶颈转移分析：当 Batch Size > 4 时，Prefill 算力成为主要瓶颈，Decode 吞吐量不再受带宽限制，而是受限于 102.2 TFLOPS 的算力上限，此时吞吐量公式变为 (102.2e12 * 0.8) / (2 * 27e9 * 32768) ≈ 4.7 tokens/s/req（假设 80% 计算效率）
+
+## Corrected Claim
+
+L40S 在 BF16 精度下 Decode 阶段的计算瓶颈转移分析：当 Batch Size > 4 时，Prefill 算力成为主要瓶颈，Decode 吞吐量不再受带宽限制，而是受限于 102.2 TFLOPS 的算力上限，此时吞吐量公式变为 (102.2e12 * 0.8) / (2 * 27e9 * 32768) ≈ 4.7 tokens/s/req（假设 80% 计算效率）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算 (102.2e12 * 0.8) / (2 * 27e9 * 32768) ≈ 4.7 正确，且符合大Batch下Decode转为计算瓶颈（Compute-bound）的理论预期。

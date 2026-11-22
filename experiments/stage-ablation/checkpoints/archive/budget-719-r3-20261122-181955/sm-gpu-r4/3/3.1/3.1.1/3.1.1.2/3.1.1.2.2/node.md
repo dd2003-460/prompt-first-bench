@@ -1,0 +1,20 @@
+# N750: 基于修正单 token 值 (128 KB) 的 32K 上下文 BF16 KV Cache 总占用：128 KB * 32,768 = 4,194,304 K
+
+- **status**: verified
+- **level**: L5
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N266
+
+## Claim
+
+基于修正单 token 值 (128 KB) 的 32K 上下文 BF16 KV Cache 总占用：128 KB * 32,768 = 4,194,304 KB = 4.0 GB。修正 N266 中 4.295 GB 的计算误差（4.295 GB 为 4,194,304 KB / 1024 / 1024 的十进制近似，二进制精确值为 4.0 GiB）。
+
+## Corrected Claim
+
+基于修正单 token 值 (128 KB) 的 32K 上下文 BF16 KV Cache 总占用：128 KB * 32,768 = 4,194,304 KB = 4.0 GB。修正 N266 中 4.295 GB 的计算误差（4.295 GB 为 4,194,304 KB / 1024 / 1024 的十进制近似，二进制精确值为 4.0 GiB）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：128 KB * 32,768 = 4,194,304 KB，除以 1024 得 4,096 MB，再除以 1024 得 4.0 GiB，计算无误。

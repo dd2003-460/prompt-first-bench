@@ -1,0 +1,17 @@
+{
+  "id": "N652",
+  "claim": "RTX 3090 在 32K 上下文 Qwen3-27B 推理中的实际吞吐量瓶颈分析：由于显存带宽 936 GB/s 低于 RTX 4090 的 1008 GB/s，且无 INT4 原生支持（需软件模拟，效率降低 20-30%），其 Decode 吞吐量预计为 936 GB/s / 62.5GB (INT8 权重+KV) * 0.7 ≈ 10.5 tokens/s，Prefill 吞吐量受算力限制约为 90 TFLOPS / (2*27e9*32768) ≈ 51 tokens/s；相比 RTX 4090 (Decode ~15 tokens/s, Prefill ~80 tokens/s)，3090 性能低 30-40%，但价格低 50-70%，性价比在低并发、长上下文场景下可能优于 4090。",
+  "level": "L5",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]Prefill 吞吐量计算存在严重的量纲/逻辑错误：公式 `90 TFLOPS / (2*27e9*32768)` 的分母单位是 FLOPs（浮点运算次数），而分子是 TFLOPS（每秒浮点运算次数），直接相除得到的结果单位是 `1/s`（即每秒能处理多少个这样的序列），而非 `tokens/s`。若按此公式计算，结果约为 0.05 序列/秒，换算成 tokens/s 需乘以 32768，即约 1600 tokens/s，这与陈述中的 51 tokens/s 相差两个数量级。此外，Decode 吞吐量估算中假设 62.5GB 权重+KV 全部为 INT8 且带宽利用率 70%，对于 27B 模型在 32K 上下文下，KV Cache 占用极大，实际可用带宽和权重加载效率会受限于 L2 缓存命中率和内存访问模式，简单线性估算偏差较大。 | 先验知识/题面给定，逻辑校验发现 Prefill 吞吐量计算公式量纲错误，导致数值不合理；Decode 吞吐量估算虽量级大致合理但缺乏具体硬件实测数据支持，且来源标记为 knowledge 但包含具体经验参数，按规则应降级。",
+  "corrected_claim": "RTX 3090 在 32K 上下文 Qwen3-27B 推理中，Decode 吞吐量受显存带宽限制，估算约为 10-15 tokens/s（取决于 KV Cache 大小和带宽利用率）；Prefill 吞吐量受算力限制，估算约为 1000-2000 tokens/s（基于 90 TFLOPS 算力）。相比 RTX 4090，3090 在长上下文场景下性能较低，但价格优势明显，性价比需结合具体并发数和延迟要求评估。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N231"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

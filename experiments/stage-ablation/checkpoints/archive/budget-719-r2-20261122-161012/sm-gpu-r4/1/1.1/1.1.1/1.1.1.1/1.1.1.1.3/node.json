@@ -1,0 +1,17 @@
+{
+  "id": "N337",
+  "claim": "Qwen3-27B 的 Embedding 层与 LM Head 参数量均为 vocab_size * hidden_size = 151936 * 4096 ≈ 0.622B；若模型未启用 Weight Tying（Qwen3 默认不启用），总参数量 = 22.74B + 2 * 0.622B ≈ 24.0B，这与官方标称的 27B 存在约 3B 的差异，差异主要来源于 Qwen3 采用的 QK-Norm 及可能的额外位置编码/归一化参数，需查阅具体 checkpoint 的 state_dict 键值确认实际计数。",
+  "level": "L5",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]该陈述包含多个具体的经验性参数（如 hidden_size=4096, vocab_size=151936, 基础参数量 22.74B），这些属于模型架构的具体配置，无法从第一性原理推导。此外，将 3B 的参数差异主要归因于 QK-Norm 和位置编码在数量级上可能不准确（QK-Norm 通常仅引入极少量的 LayerNorm 参数，远不足以解释 3B 的差异，更可能的原因是 Attention 头数、FFN 中间维度或 MoE 路由等核心组件的参数计算差异，或者 22.74B 这个基础数值本身有误）。 | 经验事实，逻辑自洽但缺来源支持。检索无可用来源，且具体参数值（hidden_size, vocab_size, 基础参数量）及差异归因属于经验性架构细节，无法仅凭逻辑推导验证，故降级。",
+  "corrected_claim": "Qwen3-27B 的 Embedding 层与 LM Head 参数量取决于具体的 vocab_size 和 hidden_size 配置；若未启用 Weight Tying，总参数量需结合具体的 Transformer 层参数（如 Attention 和 FFN 维度）精确计算。官方标称的 27B 与简单估算值的差异通常源于对核心 Transformer 组件（如 FFN 中间层、Attention 头配置）的具体参数计数，而非仅由 QK-Norm 等辅助模块导致，需查阅具体 checkpoint 确认。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N139"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "Qwen3-27B exact parameter count state_dict vs 27B discrepancy",
+  "retrieval_sources": []
+}

@@ -1,0 +1,24 @@
+# N646: N267 (RTX 4090 + CPU Offload) 的瓶颈量化：Decode 阶段每生成一个 token 需从 CPU RAM 读取未驻留显存的权重块。
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N265, N266, N267
+
+## Claim
+
+N267 (RTX 4090 + CPU Offload) 的瓶颈量化：Decode 阶段每生成一个 token 需从 CPU RAM 读取未驻留显存的权重块。假设 Offload 比例 50% (27GB 权重中有 13.5GB 在 RAM)，PCIe 4.0 x16 双向带宽 64 GB/s (有效单向 32 GB/s)，则每 token 传输时间 T_transfer = 13.5GB / 32GB/s ≈ 0.42s (420ms)，远超 100ms 阈值，证实仅适用于离线批处理。
+
+## Corrected Claim
+
+N267 (RTX 4090 + CPU Offload) 的瓶颈量化：Decode 阶段每生成一个 token 需从 CPU RAM 读取未驻留显存的权重块。假设 Offload 比例 50% (27GB 权重中有 13.5GB 在 RAM)，PCIe 4.0 x16 双向带宽 64 GB/s (有效单向 32 GB/s)，则每 token 传输时间 T_transfer = 13.5GB / 32GB/s ≈ 0.42s (420ms)，远超 100ms 阈值，证实仅适用于离线批处理。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe 4.0 x16 单向有效带宽约 32GB/s 符合工程常识，13.5GB / 32GB/s ≈ 0.42s 计算正确，且该延迟量级确实远超实时交互阈值，结论自洽。
+
+## Search Query
+
+LLM CPU offload PCIe bandwidth bottleneck decode latency calculation

@@ -1,0 +1,24 @@
+# N646: A100 80GB 在 BF16 精度下的有效 $/GB(KV) 指标及并发能力量化：54GB 权重 + 2GB 框架，剩余 24GB 显存；BF16 KV C
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N229
+
+## Claim
+
+A100 80GB 在 BF16 精度下的有效 $/GB(KV) 指标及并发能力量化：54GB 权重 + 2GB 框架，剩余 24GB 显存；BF16 KV Cache 单 token 256KB，可支持 94,208 tokens KV Cache；32K 上下文下可支持 3 个并发请求（3 * 8GB = 24GB），剩余 0GB 缓冲；$ / 并发 = $15,774 / 3 = $5,258，若用户需支持 4+ 并发或 64K 上下文，A100 仍具优势，但需评估其 $/token 成本是否可接受。
+
+## Corrected Claim
+
+在假设模型 KV Cache 单 token 占用 256KB 的前提下，A100 80GB 扣除 56GB 权重/框架后，剩余 24GB 显存可支持 3 个 32K 上下文并发请求（每请求 8GB KV Cache），此时无缓冲空间。
+
+## Evidence
+
+[质询]KV Cache 单 token 大小（256KB）及由此推导的并发数（3个）高度依赖于具体的模型架构（如层数、头数、头维度），属于特定模型的经验参数而非通用事实；若模型不同，该数值可能完全错误。 | source=knowledge，逻辑自洽（显存分配与并发计算在给定参数下成立），但关键参数（256KB/token）为经验事实且缺乏来源支持，依据经验事实排除条款降级。
+
+## Search Query
+
+A100 80GB BF16 KV cache concurrency Qwen 27B 32k context

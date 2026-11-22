@@ -1,0 +1,20 @@
+# N318: 3yr_OPEX (三年运营支出) 的计算公式：3yr_OPEX = 3 * (Power_Draw_W * 0.001 * 24 * 365 * Electr
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N137
+
+## Claim
+
+3yr_OPEX (三年运营支出) 的计算公式：3yr_OPEX = 3 * (Power_Draw_W * 0.001 * 24 * 365 * Electricity_Price_per_kWh + Maintenance_Cost_per_year)；其中 Power_Draw_W 为满载功耗 (2x 4090 约 900W, H100 约 700W)，Electricity_Price_per_kWh 取 $0.15 (美国平均) 或 $0.6 (中国平均)，Maintenance_Cost_per_year 数据中心卡通常需预留 $500/年 (保修/备件)，消费卡为 $0。
+
+## Corrected Claim
+
+3yr_OPEX (三年运营支出) 的计算公式：3yr_OPEX = 3 * (Power_Draw_W * 0.001 * 24 * 365 * Electricity_Price_per_kWh + Maintenance_Cost_per_year)；其中 Power_Draw_W 为满载功耗 (2x 4090 约 900W, H100 约 700W)，Electricity_Price_per_kWh 取 $0.15 (美国平均) 或 $0.6 (中国平均)，Maintenance_Cost_per_year 数据中心卡通常需预留 $500/年 (保修/备件)，消费卡为 $0。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式量纲正确（W*0.001=kW, kW*24*365=kWh, kWh*$= $），数值量级符合工程常识（900W/700W功耗、$0.15/$0.6电价、$500维护费均为典型参考值）。

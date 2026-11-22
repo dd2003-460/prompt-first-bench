@@ -1,0 +1,20 @@
+# N706: 基于 n_kv_heads=8, num_layers=64, head_dim=128, BF16 (2 bytes) 的 32K 上下文单请求 KV Cac
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N251, N252, N253
+
+## Claim
+
+基于 n_kv_heads=8, num_layers=64, head_dim=128, BF16 (2 bytes) 的 32K 上下文单请求 KV Cache 精确值：2 (K+V) * 64 * 8 * 128 * 32768 * 2 bytes = 8,589,934,592 bytes = 8.0 GB。此值修正了 N252 中基于 16 层计算的 5.37 GB 错误（N252 误用 16 层，实际为 64 层）。
+
+## Corrected Claim
+
+基于 n_kv_heads=8, num_layers=64, head_dim=128, BF16 (2 bytes) 的 32K 上下文单请求 KV Cache 精确值：2 (K+V) * 64 * 8 * 128 * 32768 * 2 bytes = 8,589,934,592 bytes = 8.0 GB。此值修正了 N252 中基于 16 层计算的 5.37 GB 错误（N252 误用 16 层，实际为 64 层）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算过程 2 * 64 * 8 * 128 * 32768 * 2 = 8,589,934,592 bytes，换算为 8.0 GB (GiB) 准确无误，且符合 KV Cache 标准计算公式。

@@ -1,0 +1,20 @@
+# N150: A100 80GB PCIe 在 BF16 精度、32K 上下文（KV Cache 32.77 GB）下的理论 Decode 吞吐量为 2039 / (32.7
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N45
+
+## Claim
+
+A100 80GB PCIe 在 BF16 精度、32K 上下文（KV Cache 32.77 GB）下的理论 Decode 吞吐量为 2039 / (32.77 + 54) ≈ 23.5 tokens/s，该计算未包含 PCIe 互联开销（单卡无此开销），但需乘以 0.7 的效率系数得到约 16.5 tokens/s 的保守估计。
+
+## Corrected Claim
+
+A100 80GB PCIe 在 BF16 精度、32K 上下文（KV Cache 32.77 GB）下的理论 Decode 吞吐量为 2039 / (32.77 + 54) ≈ 23.5 tokens/s，该计算未包含 PCIe 互联开销（单卡无此开销），但需乘以 0.7 的效率系数得到约 16.5 tokens/s 的保守估计。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 80GB PCIe 显存带宽约 2039 GB/s，KV Cache 32.77GB 加上模型权重/激活等开销约 54GB，总数据量约 86.77GB，理论吞吐 2039/86.77 ≈ 23.5 tokens/s，乘以 0.7 效率系数得 16.5 tokens/s，计算自洽且符合硬件规格常识。

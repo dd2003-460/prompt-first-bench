@@ -1,0 +1,24 @@
+# N779: RTX 4090 (Ada Lovelace) 在 BF16 精度下的理论稠密算力（Dense TFLOPS）为 82.6 TFLOPS，若启用 2:4 结构化
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N278
+
+## Claim
+
+RTX 4090 (Ada Lovelace) 在 BF16 精度下的理论稠密算力（Dense TFLOPS）为 82.6 TFLOPS，若启用 2:4 结构化稀疏性，理论峰值可达 165.2 TFLOPS；在 LLM Prefill 阶段，由于 FlashAttention 等算子未完全利用稀疏加速路径，实际有效算力通常按稠密峰值的 80%-90% 估算，即约 66-74 TFLOPS。
+
+## Corrected Claim
+
+RTX 4090 (Ada Lovelace) 在 BF16 精度下的理论稠密算力（Dense TFLOPS）为 82.6 TFLOPS，若启用 2:4 结构化稀疏性，理论峰值可达 165.2 TFLOPS；在 LLM Prefill 阶段，由于 FlashAttention 等算子未完全利用稀疏加速路径，实际有效算力通常按稠密峰值的 80%-90% 估算，即约 66-74 TFLOPS。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 BF16 稠密算力 82.6 TFLOPS 符合官方规格（16384 CUDA cores * 2 * 2.52GHz * 2 ops/clk ≈ 82.6），稀疏加速 2x 符合 NVIDIA 架构定义，Prefill 阶段利用率估算符合工程常识。
+
+## Search Query
+
+RTX 4090 BF16 dense TFLOPS specifications

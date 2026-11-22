@@ -1,0 +1,20 @@
+# N230: Qwen3-27B 在 INT4 (AWQ/GPTQ) 精度下的权重占用为 13.5 GB，32K 上下文下的 KV Cache 占用约为 1.2 GB，总显存
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N108
+
+## Claim
+
+Qwen3-27B 在 INT4 (AWQ/GPTQ) 精度下的权重占用为 13.5 GB，32K 上下文下的 KV Cache 占用约为 1.2 GB，总显存需求为 14.7 GB。
+
+## Corrected Claim
+
+Qwen3-27B 在 INT4 (AWQ/GPTQ) 精度下的权重占用为 13.5 GB，32K 上下文下的 KV Cache 占用约为 1.2 GB，总显存需求为 14.7 GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数在INT4下约13.5GB，32K上下文KV Cache约1.2GB，总显存14.7GB符合常规估算

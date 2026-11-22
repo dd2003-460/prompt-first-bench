@@ -1,0 +1,24 @@
+# N459: A100 40GB PCIe 的 3 年 TCO 计算：硬件成本 $6,000（二手/新卡均价），P_avg = 0.7 * 250W = 175W，年电力成本
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N155
+
+## Claim
+
+A100 40GB PCIe 的 3 年 TCO 计算：硬件成本 $6,000（二手/新卡均价），P_avg = 0.7 * 250W = 175W，年电力成本 = 175W * 8760h * $0.14/kWh = $216/年，3 年 TCO = $6,000 + 3 * $216 = $6,648 USD。
+
+## Corrected Claim
+
+A100 40GB PCIe 的 3 年 TCO 估算：假设硬件成本约 $6,000，平均功耗 175W，电价 $0.14/kWh，则年电力成本约 $216，3 年 TCO 约 $6,648 USD（注：实际 TCO 随市场价格、负载率及电价波动）。
+
+## Evidence
+
+[质询]硬件成本 $6,000 为经验市场数据，且 A100 40GB PCIe 的 TDP 通常为 250W，但实际功耗受负载影响，P_avg=175W 的假设缺乏具体负载场景支持，属于经验性估算而非第一性原理推导。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且硬件价格与平均功耗为市场/负载相关经验值，不可由第一性原理严格推出）
+
+## Search Query
+
+A100 40GB PCIe price 2024 TCO calculation

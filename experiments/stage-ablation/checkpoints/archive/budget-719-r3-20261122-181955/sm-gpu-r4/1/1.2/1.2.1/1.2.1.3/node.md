@@ -1,0 +1,28 @@
+# N151: A100 80GB PCIe 在 FP8 精度下的 BF16 等效算力为 624 TFLOPS (稠密) / 1248 TFLOPS (稀疏) [待核验]，其理
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N45
+
+## Claim
+
+A100 80GB PCIe 在 FP8 精度下的 BF16 等效算力为 624 TFLOPS (稠密) / 1248 TFLOPS (稀疏) [待核验]，其理论 Prefill 吞吐量约为 177 tokens/s (稠密)，是 BF16 方案的 2 倍，但需确认 Qwen3-27B 在 FP8 下的精度损失是否满足 <2% 阈值。
+
+## Corrected Claim
+
+A100 80GB PCIe 在 FP8 精度下的理论算力约为 BF16 的 2 倍（具体数值需查阅官方规格书确认），其理论 Prefill 吞吐量相应提升，但需确认 Qwen3-27B 在 FP8 下的精度损失是否满足 <2% 阈值。
+
+## Evidence
+
+[质询]数值量级与来源缺失：A100 80GB PCIe 的 FP8 算力（624 TFLOPS）及由此推导的吞吐量（177 tokens/s）属于具体经验参数，参考来源仅包含 A100 存在性的通用列表，未提供具体算力数值或吞吐量数据，无法通过外部来源直接验证。 | 逻辑上 FP8 算力约为 BF16 的 2 倍符合硬件架构常识，但具体数值 624 TFLOPS 及吞吐量 177 tokens/s 为经验事实，参考来源 [1] 仅确认 A100 存在，未提供具体性能参数，缺乏直接支持。
+
+## Search Query
+
+A100 FP8 tensor core performance TFLOPS dense sparse
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/List_of_Nvidia_graphics_processing_units', 'type': 'wikipedia', 'title': 'List of Nvidia graphics processing units'}

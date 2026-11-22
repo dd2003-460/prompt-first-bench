@@ -1,33 +1,17 @@
 {
-  "id": "N129",
-  "claim": "H100 SXM 在 2024-2025 年的云租赁价格（On-demand）从 2023 年的 ~$3.5/hour 下降至 ~$2.0-$2.5/hour，而 A100 40GB 从 ~$1.5/hour 降至 ~$0.8-$1.2/hour，导致单位算力成本（$/token）下降幅度约为 30%-40%",
+  "id": "N163",
+  "claim": "Qwen3-27B 处理 32K tokens 的 Prefill 计算量约为 `2 * 27e9 * 32768` FLOPs，即约 1.76 PFLOPs。RTX 4090 理论 Prefill 时间约为 `1.76e15 / 82.6e12` ≈ 21.3 秒，但考虑到并行度和算子效率，实际实测时间通常在 1.5-2.5 秒区间 [待核验]，需区分理论峰值与实际 MFU (Model FLOPs Utilization)。",
   "level": "L3",
   "source": "search",
   "status": "degraded",
-  "evidence": "[质询]参考来源仅提供了当前（2024-2025）的实时价格聚合，完全缺失2023年的历史价格数据，无法直接验证“从~$3.5/hour下降”这一具体历史数值及30%-40%的降幅计算；此外，将GPU小时租金直接等同于单位算力成本（$/token）忽略了模型效率、并行策略等变量，存在口径混淆风险。 | 来源[1][2][3]证实了H100 SXM在2024-2025年存在多种云租赁价格（间接支持当前价格区间），但所有来源均未包含2023年历史价格数据，无法验证历史对比及具体降幅，属于经验事实且缺乏完整来源支持。",
-  "corrected_claim": "H100 SXM 在 2024-2025 年的云租赁价格（On-demand）约为 $2.0-$2.5/hour（基于当前市场聚合数据），而 A100 40GB 约为 $0.8-$1.2/hour；由于缺乏2023年确切历史数据，无法精确验证30%-40%的单位算力成本降幅，但行业趋势显示随着新卡上市，旧卡及新卡单位算力成本呈下降趋势。",
+  "evidence": "[质询]实际实测时间 1.5-2.5 秒与理论计算时间 21.3 秒存在约 10 倍差距，这隐含了极高的 MFU（约 85-90%）或使用了未提及的量化/优化技术（如 FP8/INT8），在标准 FP16/BF16 推理下，RTX 4090 处理 27B 模型 32K 上下文 Prefill 达到此速度极不寻常，且缺乏具体硬件配置和软件栈说明，属于经验事实且数值存疑。 | 逻辑推导部分（理论 FLOPs 和理论时间）自洽，但实际实测时间属于经验事实，无来源支持且与常规 MFU 预期存在较大偏差，无法排除特定优化场景，故降级。",
+  "corrected_claim": "Qwen3-27B 处理 32K tokens 的 Prefill 理论计算量约为 1.76 PFLOPs，基于 RTX 4090 峰值算力（82.6 TFLOPS）的理论时间约为 21.3 秒。实际实测时间受 MFU、量化精度及并行策略影响极大，通常在数秒至数十秒区间，具体数值需依赖特定基准测试数据，不宜直接断定为 1.5-2.5 秒。",
   "rework_count": 1,
   "parent_ids": [
-    "N33"
+    "N35"
   ],
   "objective": null,
   "edge_type": "cartesian",
-  "search_query": "H100 A100 cloud GPU rental price trend 2024 2025",
-  "retrieval_sources": [
-    {
-      "url": "https://cloud-gpus.com/nvidia-h100-sxm/&rut=62c16f1d5fdc9cd8561bfab40715d8a598eb8b6f470234d67d7234a60bdb60c2",
-      "type": "ddg",
-      "title": "NVIDIA H100 SXM from $0.00 across 22 providers (on-demand, reserved and ..."
-    },
-    {
-      "url": "https://fastgpu.co/gpus/h100-sxm&rut=6cf76f4ee68003508162a3a66032b92a37223f692c44913c5aeae9eb1ea0e54d",
-      "type": "ddg",
-      "title": "H100 SXM cloud pricing and rental cost per hour | FastGPU"
-    },
-    {
-      "url": "https://cloud-gpus.com/nvidia-h100/&rut=5167f7e290442f9090cbb722a6f73c8e053e88631406823803c0a04318b02263",
-      "type": "ddg",
-      "title": "NVIDIA H100 from $0.00 across 27 providers (on-demand, reserved and ..."
-    }
-  ]
+  "search_query": "Qwen3-27B prefill latency 32k tokens RTX 4090 benchmark",
+  "retrieval_sources": []
 }

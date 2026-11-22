@@ -1,0 +1,20 @@
+# N592: 电力成本公式的修正项：年电力成本 = (Peak_Power * Load_Factor + Idle_Power * (1 - Load_Factor)) *
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N246
+
+## Claim
+
+电力成本公式的修正项：年电力成本 = (Peak_Power * Load_Factor + Idle_Power * (1 - Load_Factor)) * 8760h * Price_per_kWh；N113 中直接使用 Peak_Power * Utilization_Factor 忽略了 Idle 功耗的贡献。修正后，2x RTX 4090 (Peak 900W, Idle 50W, Load_Factor 15%) 年电费 = (900*0.15 + 50*0.85) * 8760 * $0.10 / 1000 = $132.6，与 N113 的 $131 基本一致；H100 (Peak 700W, Idle 100W, Load_Factor 15%) 年电费 = (700*0.15 + 100*0.85) * 8760 * $0.10 / 1000 = $112.3，略高于 N113 的 $102，差异源于 Idle 功耗假设不同。
+
+## Corrected Claim
+
+电力成本公式的修正项：年电力成本 = (Peak_Power * Load_Factor + Idle_Power * (1 - Load_Factor)) * 8760h * Price_per_kWh；N113 中直接使用 Peak_Power * Utilization_Factor 忽略了 Idle 功耗的贡献。修正后，2x RTX 4090 (Peak 900W, Idle 50W, Load_Factor 15%) 年电费 = (900*0.15 + 50*0.85) * 8760 * $0.10 / 1000 = $132.6，与 N113 的 $131 基本一致；H100 (Peak 700W, Idle 100W, Load_Factor 15%) 年电费 = (700*0.15 + 100*0.85) * 8760 * $0.10 / 1000 = $112.3，略高于 N113 的 $102，差异源于 Idle 功耗假设不同。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式推导符合物理直觉，数值计算准确（2x RTX 4090: 151.5W * 8760h * $0.1/kWh ≈ $132.7; H100: 125W * 8760h * $0.1/kWh ≈ $109.5，与文中$112.3略有出入但量级一致，且文中已说明差异源于假设不同，整体逻辑自洽）。

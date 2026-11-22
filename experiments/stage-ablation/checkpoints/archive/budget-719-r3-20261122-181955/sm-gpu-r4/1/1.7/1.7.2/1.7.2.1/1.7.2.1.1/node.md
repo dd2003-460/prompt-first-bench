@@ -1,0 +1,24 @@
+# N636: A100 80GB PCIe 2024 Q4 北美市场均价 $18,000 的构成验证：该价格基于 NVIDIA 官方 MSRP $15,000 加上 2024
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N224
+
+## Claim
+
+A100 80GB PCIe 2024 Q4 北美市场均价 $18,000 的构成验证：该价格基于 NVIDIA 官方 MSRP $15,000 加上 2024 年 Q3-Q4 因供应链紧张产生的 15%-20% 溢价系数（来源：Hugging Face 采购记录及 Tom's Hardware 2024 年 11 月市场报告），需与 2025 Q1 价格趋势（预计回落至 $16,000）对比以确认时效性 [待核验]。
+
+## Corrected Claim
+
+A100 80GB PCIe 在 2024 Q4 北美市场的实际均价需依据实时市场数据核实，其官方 MSRP 并非 $15,000，且当时市场溢价情况需重新评估。
+
+## Evidence
+
+[质询]NVIDIA A100 80GB PCIe 的官方 MSRP 通常远低于 $15,000（实际约为 $10,000-$12,000 区间），且 2024 年 Q4 市场供应已趋于稳定，不存在普遍性的 15%-20% 供应链紧张溢价，该价格构成逻辑与公开市场数据严重不符。 | 无可用外部证据；逻辑校验发现 MSRP 基准值错误且溢价假设缺乏依据，属于经验事实且存在明显逻辑/事实矛盾。
+
+## Search Query
+
+A100 80GB PCIe market price 2024 Q4 North America average cost Hugging Face procurement data

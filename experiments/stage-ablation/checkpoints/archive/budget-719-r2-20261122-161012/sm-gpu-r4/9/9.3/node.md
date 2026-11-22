@@ -1,0 +1,30 @@
+# N127: 截至 2024-2025 年初，RTX 5090 在二级市场的 Street Price 普遍高于 MSRP，溢价幅度约为 10%-30%（即 $2200-$2
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N32
+
+## Claim
+
+截至 2024-2025 年初，RTX 5090 在二级市场的 Street Price 普遍高于 MSRP，溢价幅度约为 10%-30%（即 $2200-$2600 区间），具体取决于地区供应情况，需与 RTX 4090 当前 Street Price（约 $1600-$1800）进行对比以计算实际性价比
+
+## Corrected Claim
+
+截至 2025 年初，RTX 5090 在二级市场的 Street Price 普遍远高于 MSRP（$1999），溢价幅度超过 100%，实际成交价多在 $4000-$5000 区间；RTX 4090 当时 Street Price 也普遍高于 MSRP，约在 $2000-$2500 区间。
+
+## Evidence
+
+[质询]数值量级与时间线严重错误：RTX 5090 的 MSRP 为 $1999，若溢价 10%-30% 应为 $2200-$2600，但参考来源 [3] 指出 2025 年 1 月发布后价格已突破 MSRP 两倍（即 $4000+），来源 [1] 显示 2026 年 11 月二手价仍高达 $4400，远高于陈述中的 $2200-$2600 区间；且陈述中 RTX 4090 价格 $1600-$1800 也低于其 MSRP ($1599) 或接近 MSRP，不符合 2024-2025 年普遍溢价的市场事实。 | 来源 [3] 明确记载 RTX 5090 市场成交价普遍突破 MSRP 两倍（$4000+），来源 [1] 显示 2026 年二手价仍在 $4400 左右，均与陈述中 $2200-$2600 的低价区间直接矛盾。
+
+## Search Query
+
+RTX 5090 street price vs MSRP premium percentage 2024
+
+## Retrieval Sources
+
+- {'url': 'https://finance.sina.com.cn/tech/roll/2026-11-16/doc-iniyxcif2441583.shtml&rut=0dd32cedc2d320bfe348bb17dd3efcad8d0f9a0a2458034e97e0736f2d9ccc93', 'type': 'ddg', 'title': '崩盘开始了!Rtx 5090二手价格腰斩：部分型号跌破3万元'}
+- {'url': 'https://vramglass.com/zh/gpu/rtx-5090&rut=3ec1721cad2d95f69783a7873cb08312cd52367513dfa6a6494236667d3a475e', 'type': 'ddg', 'title': 'GeForce RTX 5090 显卡价格走势、显存与能跑的大模型'}
+- {'url': 'https://post.smzdm.com/p/al32eoeo/&rut=f1296c9fa4dbaf6370c08e7ed99e80ec7f9be9a0f966b957511c2d74cf466030', 'type': 'ddg', 'title': 'Rtx 5090上市一年：性能提升显著但价格翻倍，供需失衡持续至2026年'}

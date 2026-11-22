@@ -1,0 +1,20 @@
+# N110: Mac Studio M2 Ultra/M3 Ultra 统一内存 512GB 方案在 Qwen3-27B BF16 下的可行性：内存占用 55GB 远低于 5
+
+- **status**: verified
+- **level**: L3
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N24
+
+## Claim
+
+Mac Studio M2 Ultra/M3 Ultra 统一内存 512GB 方案在 Qwen3-27B BF16 下的可行性：内存占用 55GB 远低于 512GB 上限，无显存瓶颈，但受限于内存带宽 (800GB/s-1.2TB/s) 导致 Decode 延迟高于高带宽 GPU
+
+## Corrected Claim
+
+Mac Studio M2 Ultra/M3 Ultra 统一内存 512GB 方案在 Qwen3-27B BF16 下的可行性：内存占用 55GB 远低于 512GB 上限，无显存瓶颈，但受限于内存带宽 (800GB/s-1.2TB/s) 导致 Decode 延迟高于高带宽 GPU
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B BF16 权重约 54GB，512GB 内存充足；M2/M3 Ultra 内存带宽（800GB/s-1.2TB/s）低于高端 GPU（如 H100 3.35TB/s），导致 Decode 阶段受带宽限制，延迟较高，符合物理直觉。

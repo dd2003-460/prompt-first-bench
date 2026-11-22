@@ -1,0 +1,20 @@
+# N450: A100 40GB在INT4量化下的可行性修正：权重13.5GB + BF16 KV Cache (32.77GB) + 框架开销(3GB) = 49.27GB
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N153
+
+## Claim
+
+A100 40GB在INT4量化下的可行性修正：权重13.5GB + BF16 KV Cache (32.77GB) + 框架开销(3GB) = 49.27GB > 40GB，不可行。若采用INT8 KV Cache (16.38GB)，总需求 = 13.5 + 16.38 + 3 = 32.88GB < 40GB，可行。剩余显存 = 40 - 32.88 = 7.12GB，可支持额外 7.12GB / 16.38GB ≈ 0.43个并发请求，即仅支持1个并发请求且无缓冲。
+
+## Corrected Claim
+
+A100 40GB在INT4量化下的可行性修正：权重13.5GB + BF16 KV Cache (32.77GB) + 框架开销(3GB) = 49.27GB > 40GB，不可行。若采用INT8 KV Cache (16.38GB)，总需求 = 13.5 + 16.38 + 3 = 32.88GB < 40GB，可行。剩余显存 = 40 - 32.88 = 7.12GB，可支持额外 7.12GB / 16.38GB ≈ 0.43个并发请求，即仅支持1个并发请求且无缓冲。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算正确（13.5+16.38+3=32.88 < 40），INT8 KV Cache 相比 BF16 减半符合量化原理，剩余显存计算及并发能力推导逻辑自洽。

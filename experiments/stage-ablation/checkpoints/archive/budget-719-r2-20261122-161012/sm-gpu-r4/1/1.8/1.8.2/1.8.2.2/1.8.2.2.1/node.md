@@ -1,0 +1,24 @@
+# N459: Qwen3-27B 在 BF16 精度下 GSM8K 测试集上的准确率为 91.0%（基于 Qwen3 技术报告 Table 1 或官方 GitHub 基准数据
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N190
+
+## Claim
+
+Qwen3-27B 在 BF16 精度下 GSM8K 测试集上的准确率为 91.0%（基于 Qwen3 技术报告 Table 1 或官方 GitHub 基准数据，若官方未直接提供 27B 单独数据，则引用 Qwen2.5-32B 的 91.2% 作为同规模代理 [待核验]）。
+
+## Corrected Claim
+
+Qwen3-27B 在 BF16 精度下 GSM8K 测试集上的准确率约为 91%（具体数值需查阅 Qwen3 技术报告或官方 GitHub 基准数据确认；若官方未直接提供 27B 单独数据，可参考同规模 Qwen2.5-32B 的 91.2% 作为代理）
+
+## Evidence
+
+[质询]该陈述包含具体的经验性基准数据（91.0%），且明确标注为[待核验]。在缺乏任何外部来源支持的情况下，无法确认Qwen3-27B在BF16精度下GSM8K的具体准确率数值，也无法确认是否应使用Qwen2.5-32B作为代理。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+Qwen3-27B GSM8K accuracy BF16 benchmark

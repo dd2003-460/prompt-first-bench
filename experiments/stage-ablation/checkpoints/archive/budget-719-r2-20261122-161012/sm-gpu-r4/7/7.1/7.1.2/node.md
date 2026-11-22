@@ -1,0 +1,20 @@
+# N266: 工作点 B (中性价比/可行但质量受限)：RTX 4090 单卡 + INT4 量化。显存需求 ≈ 15GB (权重) + 1GB (KV) = 16GB < 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N119
+
+## Claim
+
+工作点 B (中性价比/可行但质量受限)：RTX 4090 单卡 + INT4 量化。显存需求 ≈ 15GB (权重) + 1GB (KV) = 16GB < 24GB，可行。理论 Decode 吞吐量 ≈ 1008 GB/s / 16GB ≈ 63 tok/s。但根据 N96，INT4 质量损失 (ΔMMLU > 2, ΔHE > 5) 超出通用阈值，仅在用户明确接受质量降级或任务非关键时可选。
+
+## Corrected Claim
+
+工作点 B (中性价比/可行但质量受限)：RTX 4090 单卡 + INT4 量化。显存需求 ≈ 15GB (权重) + 1GB (KV) = 16GB < 24GB，可行。理论 Decode 吞吐量 ≈ 1008 GB/s / 16GB ≈ 63 tok/s。但根据 N96，INT4 质量损失 (ΔMMLU > 2, ΔHE > 5) 超出通用阈值，仅在用户明确接受质量降级或任务非关键时可选。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090显存带宽约1008GB/s，INT4量化下16GB权重+KV缓存符合24GB显存限制，吞吐量估算符合算术逻辑，且引用了前序节点N96的质量约束。

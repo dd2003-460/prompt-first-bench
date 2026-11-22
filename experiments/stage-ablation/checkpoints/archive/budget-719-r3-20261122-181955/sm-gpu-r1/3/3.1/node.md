@@ -1,0 +1,30 @@
+# N19: 推理吞吐量基准（Prefill & Decode）：收集各候选硬件在Qwen3-27B上的Prefill速度（tokens/s，输入长文本）和Decode速度（
+
+- **status**: verified
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+推理吞吐量基准（Prefill & Decode）：收集各候选硬件在Qwen3-27B上的Prefill速度（tokens/s，输入长文本）和Decode速度（tokens/s，生成阶段）实测数据或理论峰值估算。
+
+## Corrected Claim
+
+推理吞吐量基准（Prefill & Decode）：收集各候选硬件在Qwen3-27B上的Prefill速度（tokens/s，输入长文本）和Decode速度（tokens/s，生成阶段）实测数据或理论峰值估算。
+
+## Evidence
+
+来源[2]和[3]直接提供了Qwen3-27B（或Qwen3.8-27B）在Prefill和Decode阶段的性能基准数据及评估方法，直接支持该事实节点。
+
+## Search Query
+
+Qwen3-27B inference benchmark tokens/s prefill decode RTX 4090 A100 M2 Ultra
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_00677/article/details/161712516&rut=ca34062c242707a38ec5e1fc0d0e8df91a7c21a8828a03630ce6efea7dc9e83d', 'type': 'ddg', 'title': 'Qwen3-0.6B大模型Benchmark方法论：prefill、decode、TTFT与内存占用全面解析'}
+- {'url': 'https://blog.csdn.net/weixin_29070721/article/details/164383871&rut=a4c6fbeac7dd3fa1db7e129ff339a7554c04476efd0cf9b10909b4ad6b64f20f', 'type': 'ddg', 'title': '27B大模型本地部署实测：prefill、decode与前缀缓存性能拆解-CSDN博客'}
+- {'url': 'https://wiki.hynx.com.cn/entries/qwen38-27b-local-inference-benchmark/&rut=4a3e756afe709f81919b73964725334a356388b6e0f22a16b76b746c2989ea0a', 'type': 'ddg', 'title': 'Qwen3.8-27B 本地推理怎么评估？显存、Context、TTFT、Prefill、Decode 与推理引擎'}

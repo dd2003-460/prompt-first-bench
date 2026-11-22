@@ -1,0 +1,24 @@
+# N73: L40S (48GB) 在 2024 Q4 的北美市场均价区间为 $8,000-$10,000，其 FP16 算力为 91.6 TFLOPS，显存带宽为 864
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N13, N14, N15
+
+## Claim
+
+L40S (48GB) 在 2024 Q4 的北美市场均价区间为 $8,000-$10,000，其 FP16 算力为 91.6 TFLOPS，显存带宽为 864 GB/s，据此计算的 $/TFLOPS 约为 $87.34-$109.17，$/GB 约为 $166.7-$208.3。
+
+## Corrected Claim
+
+L40S (48GB) 在 2024 Q4 的北美市场均价区间为 $8,000-$10,000，其 FP16 算力为 91.6 TFLOPS，显存带宽为 864 GB/s，据此计算的 $/TFLOPS 约为 $87.34-$109.17，$/GB 约为 $166.7-$208.3。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：L40S规格（91.6 TFLOPS, 864 GB/s, 48GB）符合NVIDIA官方数据，价格区间与2024年市场均价相符，计算结果（8000/91.6≈87.34, 10000/91.6≈109.17; 8000/48≈166.7, 10000/48≈208.3）准确无误。
+
+## Search Query
+
+L40S price 2024 Q4 average USD FP16 TFLOPS memory bandwidth

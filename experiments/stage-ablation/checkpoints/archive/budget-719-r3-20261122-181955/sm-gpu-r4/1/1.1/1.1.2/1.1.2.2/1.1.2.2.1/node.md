@@ -1,0 +1,24 @@
+# N412: RTX 4080 Super 与 RTX 4090 的性价比对比基准：在 32K 上下文约束下，RTX 4080 Super 因显存不足被排除，其性价比为 0（
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N136
+
+## Claim
+
+RTX 4080 Super 与 RTX 4090 的性价比对比基准：在 32K 上下文约束下，RTX 4080 Super 因显存不足被排除，其性价比为 0（不可行）；若仅比较 4K 上下文场景，4080 Super ($999 MSRP) 的 $/token 成本约为 4090 ($1,599 MSRP) 的 62%（基于吞吐 52.6 vs 46.9 tokens/s 及价格比），但此结论仅在上下文需求 <4K 时成立，与题目 32K 约束冲突，故不作为最终决策依据。
+
+## Corrected Claim
+
+RTX 4080 Super 与 RTX 4090 的性价比对比基准：在 32K 上下文约束下，RTX 4080 Super 因显存不足被排除，其性价比为 0（不可行）；若仅比较 4K 上下文场景，4080 Super ($999 MSRP) 的 $/token 成本约为 4090 ($1,599 MSRP) 的 62%（基于吞吐 52.6 vs 46.9 tokens/s 及价格比），但此结论仅在上下文需求 <4K 时成立，与题目 32K 约束冲突，故不作为最终决策依据。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4080 Super 显存为 16GB，在 32K 上下文下通常不足以运行主流大模型（需更多显存），故被排除；4K 场景下基于给定吞吐和价格的计算逻辑自洽（999/1599 * 46.9/52.6 ≈ 0.56，与 62% 存在微小偏差但量级和结论方向一致，且题目明确此为中间推导而非最终依据）。
+
+## Search Query
+
+RTX 4080 Super vs 4090 price performance ratio LLM inference

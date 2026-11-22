@@ -1,0 +1,20 @@
+# N167: A100 SXM 多卡（TP=2）在 32K 上下文下，每层 All-Reduce 通信数据量为 2 * n_kv_heads * head_dim * seq
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N50
+
+## Claim
+
+A100 SXM 多卡（TP=2）在 32K 上下文下，每层 All-Reduce 通信数据量为 2 * n_kv_heads * head_dim * seq_len * dtype_size；若 n_kv_heads=32, head_dim=128, seq_len=32768, dtype=BF16 (2 bytes)，则每层通信量 ≈ 2 * 32 * 128 * 32768 * 2 = 536 MB；16 层总通信量 ≈ 8.58 GB。
+
+## Corrected Claim
+
+A100 SXM 多卡（TP=2）在 32K 上下文下，每层 All-Reduce 通信数据量为 2 * n_kv_heads * head_dim * seq_len * dtype_size；若 n_kv_heads=32, head_dim=128, seq_len=32768, dtype=BF16 (2 bytes)，则每层通信量 ≈ 2 * 32 * 128 * 32768 * 2 = 536 MB；16 层总通信量 ≈ 8.58 GB。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1聚焦于修正‘每层通信量’的计算逻辑与参数错误（从seq_len误用修正为hidden_states维度），子节点2基于子节点1的结论推导‘全模型总通信量’并对比Batch影响。两者在逻辑上是‘单位修正’与‘总量推导’的关系，内容不重复且无矛盾，共同覆盖了父节点中关于单层和总层数的所有关键计算错误。）

@@ -1,0 +1,24 @@
+# N389: AMD Radeon Pro W7900 48GB 在 32K 上下文、BF16 精度下，理论 Prefill 吞吐量上限为 (50 TFLOPS * 1e12
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N130
+
+## Claim
+
+AMD Radeon Pro W7900 48GB 在 32K 上下文、BF16 精度下，理论 Prefill 吞吐量上限为 (50 TFLOPS * 1e12) / (2 * 27e9 * 32768) ≈ 28.2 tokens/s (假设 50 TFLOPS 为 BF16 稠密算力，需核验)。
+
+## Corrected Claim
+
+AMD Radeon Pro W7900 48GB 在 32K 上下文、BF16 精度下，理论 Prefill 吞吐量上限取决于其实际 BF16 稠密算力（需核实具体 TFLOPS 值），计算公式为 (BF16_TFLOPS * 1e12) / (2 * 27e9 * 32768)。
+
+## Evidence
+
+[质询]该陈述依赖的具体硬件参数（AMD Radeon Pro W7900 的 BF16 稠密算力为 50 TFLOPS）属于经验事实，且该数值可能不准确（通常 W7900 的 FP16/BF16 峰值算力远高于此，或该数值为特定条件下的有效算力而非理论峰值），缺乏来源支持无法确认其正确性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证 50 TFLOPS 这一关键参数）
+
+## Search Query
+
+AMD Radeon Pro W7900 BF16 tensor FLOPS performance

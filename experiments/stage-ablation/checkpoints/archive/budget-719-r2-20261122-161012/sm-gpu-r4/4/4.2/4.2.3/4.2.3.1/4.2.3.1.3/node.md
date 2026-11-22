@@ -1,0 +1,20 @@
+# N511: 工作点3（高成本低性-基准对照）：H100 SXM 在 BF16 全精度配置下，理论 Decode 吞吐为 3350 GB/s / 55.07 GB ≈ 60.
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N210
+
+## Claim
+
+工作点3（高成本低性-基准对照）：H100 SXM 在 BF16 全精度配置下，理论 Decode 吞吐为 3350 GB/s / 55.07 GB ≈ 60.8 tokens/s，考虑 70% 效率后实际约为 42.6 tokens/s；其单位成本吞吐比仍低于 RTX 4090 FP8 方案，除非质量因子差异极大。
+
+## Corrected Claim
+
+工作点3（高成本低性-基准对照）：H100 SXM 在 BF16 全精度配置下，理论 Decode 吞吐为 3350 GB/s / 55.07 GB ≈ 60.8 tokens/s，考虑 70% 效率后实际约为 42.6 tokens/s；其单位成本吞吐比仍低于 RTX 4090 FP8 方案，除非质量因子差异极大。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H100 SXM 带宽 3350 GB/s 与 LLaMA-2 70B BF16 权重约 55 GB 的算术推导（3350/55≈60.9，60.9*0.7≈42.6）在量级和数值上自洽，符合硬件规格常识。

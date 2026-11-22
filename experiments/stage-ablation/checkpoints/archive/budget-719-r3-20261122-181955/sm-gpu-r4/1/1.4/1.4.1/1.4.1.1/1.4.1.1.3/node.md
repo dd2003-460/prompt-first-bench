@@ -1,0 +1,20 @@
+# N543: Intel Arc A770 16GB 在 INT4 权重 (13.5GB) + 框架开销 (2.0GB) 下，若启用 BF16 KV Cache (256KB
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N188
+
+## Claim
+
+Intel Arc A770 16GB 在 INT4 权重 (13.5GB) + 框架开销 (2.0GB) 下，若启用 BF16 KV Cache (256KB/token)，最大支持上下文长度 = (16 - 13.5 - 2.0)GB / 256KB ≈ 2,048 tokens，进一步确认 32K 不可行
+
+## Corrected Claim
+
+Intel Arc A770 16GB 在 INT4 权重 (13.5GB) + 框架开销 (2.0GB) 下，若启用 BF16 KV Cache (256KB/token)，最大支持上下文长度 = (16 - 13.5 - 2.0)GB / 256KB ≈ 2,048 tokens，进一步确认 32K 不可行
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：16GB - 13.5GB - 2.0GB = 0.5GB，0.5GB / 256KB = 512MB / 0.25MB = 2048 tokens，计算无误且符合显存分配逻辑。

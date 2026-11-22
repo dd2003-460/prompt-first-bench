@@ -1,0 +1,24 @@
+# N22: 多卡互联对 Decode 延迟的影响取决于 All-Reduce 通信开销；NVLink 带宽 (900 GB/s for H100) 远高于 PCIe 4.0
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4, N5, N6
+
+## Claim
+
+多卡互联对 Decode 延迟的影响取决于 All-Reduce 通信开销；NVLink 带宽 (900 GB/s for H100) 远高于 PCIe 4.0 (32 GB/s)，使得多卡 Decode 延迟增加 <5% (NVLink) 而 PCIe 方案可能增加 >20% [待核验: 具体百分比取决于模型分片策略]。
+
+## Corrected Claim
+
+多卡互联对 Decode 延迟的影响取决于 All-Reduce 通信开销；NVLink 带宽远高于 PCIe 4.0，通常使得多卡 Decode 延迟增加显著低于 PCIe 方案（具体百分比取决于模型分片策略、Batch Size 及序列长度）。
+
+## Evidence
+
+[质询]具体百分比（<5% 和 >20%）高度依赖于模型架构、Batch Size、序列长度以及具体的并行策略（如张量并行 vs 流水线并行），将其作为通用结论缺乏严谨性，且 NVLink 900GB/s 通常指双向聚合带宽，实际有效带宽受协议开销影响，直接对比 PCIe 32GB/s 可能夸大优势。 | 先验知识/题面给定，逻辑校验通过：NVLink 带宽确实远高于 PCIe，通信开销占比小，延迟增加有限；但具体百分比为经验值，受多种变量影响，故降级为定性表述。
+
+## Search Query
+
+multi-GPU LLM inference all-reduce latency NVLink vs PCIe overhead

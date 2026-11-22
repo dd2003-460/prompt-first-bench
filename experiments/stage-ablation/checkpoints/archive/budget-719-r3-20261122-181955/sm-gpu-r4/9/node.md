@@ -1,0 +1,26 @@
+# N36: Apple M3 Ultra (192GB Unified Memory) 在运行 Qwen3-27B (FP16) 时的实测 Decode 速度约为 25-3
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+Apple M3 Ultra (192GB Unified Memory) 在运行 Qwen3-27B (FP16) 时的实测 Decode 速度约为 25-35 tokens/s，TTFT (32K context) 约为 2-4 秒；相比 RTX 4090 (FP16, ~40-50 tokens/s decode)，Apple 方案在吞吐量上低 30-50%，但显存容量优势使其能单卡承载更大 Batch Size 或更长上下文。
+
+## Corrected Claim
+
+Apple M3 Ultra (192GB Unified Memory) 凭借高带宽和统一内存架构，可单卡承载 Qwen3-27B (FP16) 等大模型；受限于内存带宽（~800GB/s），其 Decode 速度预计低于高显存带宽的 RTX 4090，但显存容量优势使其能支持更大 Batch Size 或更长上下文。
+
+## Evidence
+
+[质询]具体数值（25-35 tokens/s, 2-4s TTFT）及与RTX 4090的对比比例属于经验事实，参考来源仅提供了带宽和通用模型兼容性，未提供Qwen3-27B在M3 Ultra上的具体实测数据，无法直接验证具体数值。 | 来源[1][2][3]确认M3 Ultra拥有192GB统一内存和~800GB/s带宽，逻辑上支持其能承载大模型且受限于带宽导致速度低于高显存带宽的RTX 4090，但缺乏针对Qwen3-27B的具体实测数据支持，属经验事实缺来源直接支持。
+
+## Retrieval Sources
+
+- {'url': 'https://www.local-llm.net/benchmarks/mac-m3-ultra/&rut=45d6e071ca8baa6daf9325de6b9901c8530a8d164e91406d9f8e36a8927864ec', 'type': 'ddg', 'title': 'Apple M3 Ultra: What Fits in 192GB (2026) | local-llm.net'}
+- {'url': 'https://mirrorfrog.com/docs/cards/others/apple-m3-ultra/&rut=bb3e9a494af8b72f999e2fac90485e50048ce7b601417be1411684e156eb6aab', 'type': 'ddg', 'title': 'Apple M3 Ultra (192GB UMA 统一内存) | AI 算力卡百科 | 252 款 AI 芯片规格对比'}
+- {'url': 'https://canitrun.dev/gpus/m3-ultra/&rut=13f047efd33b92bd823d6163f025608529971952787407727d9fd3383331bc5a', 'type': 'ddg', 'title': 'Apple M3 Ultra (96-512 GB VRAM): Which LLMs Can It Run?'}

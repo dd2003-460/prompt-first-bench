@@ -1,0 +1,24 @@
+# N70: A100 80GB PCIe 在 2024 Q4 的北美市场均价区间为 $15,000-$18,000，其 FP16 算力为 312 TFLOPS，显存带宽为 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13, N14, N15
+
+## Claim
+
+A100 80GB PCIe 在 2024 Q4 的北美市场均价区间为 $15,000-$18,000，其 FP16 算力为 312 TFLOPS，显存带宽为 2039 GB/s，据此计算的 $/TFLOPS 约为 $48.08-$57.69，$/GB 约为 $187.5-$225.0。
+
+## Corrected Claim
+
+A100 80GB PCIe 在 2024 Q4 的北美市场均价区间为 $15,000-$18,000，其 FP16 算力为 312 TFLOPS，显存带宽为 2039 GB/s，据此计算的 $/TFLOPS 约为 $48.08-$57.69，$/GB 约为 $187.5-$225.0。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 80GB PCIe 的 FP16 算力（312 TFLOPS）和显存带宽（2039 GB/s）符合 NVIDIA 官方规格；2024 Q4 北美市场均价 $15,000-$18,000 符合当时二手/现货市场行情量级；计算得出的 $/TFLOPS ($48.08-$57.69) 和 $/GB ($187.5-$225.0) 数值准确且逻辑自洽。
+
+## Search Query
+
+A100 80GB PCIe price 2024 Q4 average USD FP16 TFLOPS memory bandwidth
