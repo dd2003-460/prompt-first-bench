@@ -385,8 +385,8 @@ def l1_check(tree_path):
                 if "total" in after:
                     continue  # 多卡总显存, 非单卡容量
                 before = c[max(0, m.start()-10):m.start()]
-                if re.search(r"\d+\s*[×x]", before):
-                    continue  # "N×卡名" 前缀 → GB 是多卡总量, 非单卡容量
+                if re.search(r"\d+\s*[×x]", before) or re.search(r"双卡|双张|两张|2卡", before):
+                    continue  # "N×卡名" / "双卡" 前缀 → GB 是多卡总量, 非单卡容量
                 sig = (k, gb)
                 if sig in seen:
                     continue
