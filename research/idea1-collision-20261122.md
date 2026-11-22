@@ -34,5 +34,20 @@
 
 ## 待核验
 
-- [ ] CriticNPU 全文是否覆盖树结构 + 节点级信息增益（决定性）
+- [x] **CriticNPU 全文是否覆盖树结构 + 节点级信息增益（决定性）→ 否（2026-11-23 核验，ego-browser 拉 arxiv.org/html/2611.24733v1 全文 131K 字符）**：
+  全文 "tree" 出现 0 次、"information gain" 0 次、"search tree" 0 次、"node-level" 0 次；
+  "bottleneck" 30 次（prefill/decode 资源瓶颈，NPU 架构参数层面）。
+  CriticNPU = NPU 设计空间探索的 Roofline critic（配置过滤 + 参数改动预测），
+  与推理树结构、深节点信息增益**无交集**。撞车风险解除。
+  论文已接收 NeurIPS 2026（cs.AR）。
 - [ ] 树级条件信息增益是否真的没人做（arXiv 检索有盲区，需 ego-browser 交叉验证）
+
+## 结论更新（2026-11-23）
+
+CriticNPU 决定性核验通过后，idea-1 的撞车状态：
+- (a) Roofline 瓶颈分析：成熟（2402.16363），引用基础，不当 novelty
+- (b) 树结构推理：成熟（ToT 等），不单独算 novelty
+- (c) 信息增益 CoT：线性版有人做（2411.11984）
+- **(a+b+c) 树级深节点条件信息增益 + 瓶颈定位：无直接撞车（CriticNPU 已排除）**
+  novelty 成立，但增量仍偏薄（三单成分都成熟），定位建议不变：
+  作为 workshop 论文 discussion/future work，或独立小工作需补实验。
