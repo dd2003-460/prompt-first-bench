@@ -405,6 +405,101 @@ def l1_check(tree_path):
     return all(r["pass"] for r in rows), rows
 
 
+def l2_check(tree_path, sidecar_path="gold-gpu-formulas.json", cos_threshold=0.70):
+    """L2 结构层: BOUND 加权的"该展开处展开 / 该停处停"机械判定 (D 2026-11-22 规格)。
+
+    口径 (T-JUDGE-1-decomp.md J8 设计②):
+      - 深度评判 = 结构对齐度, 不是节点数。gold 每个 unit 有 expand 标志
+        (True = 该处应展开出子节点, False = 停止准则 S-a/S-b/S-c 应停)。
+      - 对齐: 复用 cov 层同一 embedding 对齐 (bge-m3, cos>=0.70, top1),
+        不另建匹配系统。模型树节点带 parent_ids → 展开与否机械可判。
+      - 加权: BOUND 弹性系数 (sidecar bound 字段, 1.2x~8x) — 系数分歧
+        影响最终选卡排序的因子权重高, 该处展开/停止错误代价大。
+        bound 缺失的 unit 权重 1.0。
+      - 输出: 加权正确率 + 逐 unit 明细。与 L0/L1 一样不碰 vLLM。
+
+    边界: 对齐靠 embedding (文本存在性), 与 cov 同精度; 未匹配 unit 不计入
+    (分母 = matched units), 所以 L2 分数受 cov 覆盖度限制 — 覆盖低的树
+    L2 样本少, 解读时须与 cov 并看。
+    """
+    import json as _json
+    tree = _json.load(open(tree_path))
+    nodes = tree["nodes"]
+    import os as _os
+    if not _os.path.isabs(sidecar_path):
+        sidecar_path = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), sidecar_path)
+    sidecar = _json.load(open(sidecar_path))
+    units = sidecar["units"] if isinstance(sidecar, dict) else sidecar
+    # 对齐文本必须与 cov 层同源: gold-gpu-units.json 的 enriched text
+    # (judge_v1.load_gold("gpu") 口径), 否则 L2 的 matched 集合 ≠ cov 的
+    # confirmed 集合, 两层不可并看。
+    units_file = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)),
+                               "gold-gpu-units.json")
+    text_of = {}
+    if _os.path.exists(units_file):
+        for u in _json.load(open(units_file))["units"]:
+            text_of[u["unit_id"]] = u["text"]
+
+    # 模型树: id → 是否有子节点 (parent_ids 反向索引)
+    has_children = set()
+    for n in nodes:
+        for p in n.get("parent_ids", []):
+            has_children.add(p)
+    level_of = {n["id"]: n.get("level") for n in nodes}
+
+    # 对齐 (与 judge_v1.layer_coverage 同口径)
+    from sentence_transformers import SentenceTransformer
+    import numpy as np
+    model = SentenceTransformer("BAAI/bge-m3")
+    node_emb = model.encode([n["claim"] for n in nodes], normalize_embeddings=True,
+                            show_progress_bar=False)
+    gold_emb = model.encode([text_of.get(u["unit_id"], u.get("lhs", "")) for u in units],
+                            normalize_embeddings=True, show_progress_bar=False)
+    sim = node_emb @ gold_emb.T
+    top1 = sim.argmax(axis=1)
+    top1_sim = sim[np.arange(len(nodes)), top1]
+    matched_nodes = [i for i in range(len(nodes)) if top1_sim[i] >= cos_threshold]
+
+    # 每个 matched gold unit: 模型侧代表节点 = 与该 unit 相似度最高的节点
+    # (最可能是模型对该 unit 的本体表述)。不用"最高层节点" — 高层节点
+    # 天然更易有子节点, 会系统性高估 over_expand / 低估 under_expand。
+    unit_nodes = {}
+    for i in matched_nodes:
+        g = int(top1[i])
+        s = float(top1_sim[i])
+        cur = unit_nodes.get(g)
+        if cur is None or s > cur[0]:
+            unit_nodes[g] = (s, nodes[i]["id"])
+
+    def _bound_w(u):
+        b = u.get("bound")
+        if not b:
+            return 1.0
+        m = re.match(r"([\d.]+)\s*x", str(b))
+        return float(m.group(1)) if m else 1.0
+
+    detail = []
+    w_sum = w_hit = 0.0
+    for g in sorted(unit_nodes):
+        u = units[g]
+        s, nid = unit_nodes[g]
+        lvl = level_of.get(nid, "?")
+        expanded = nid in has_children
+        ok = (expanded == bool(u.get("expand")))
+        w = _bound_w(u)
+        w_sum += w
+        w_hit += w if ok else 0.0
+        detail.append({"unit": u["unit_id"], "gold_depth": u.get("depth"),
+                       "model_node": nid, "model_level": lvl,
+                       "sim": round(s, 3),
+                       "gold_expand": bool(u.get("expand")),
+                       "model_expanded": expanded, "ok": ok, "bound_w": w})
+    score = w_hit / w_sum if w_sum else 0.0
+    return score, {"n_matched_units": len(unit_nodes), "n_gold": len(units),
+                   "cos_threshold": cos_threshold, "score": round(score, 4),
+                   "w_sum": round(w_sum, 2), "detail": detail}
+
+
 if __name__ == "__main__":
     import argparse
     ap = argparse.ArgumentParser()
@@ -413,6 +508,7 @@ if __name__ == "__main__":
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--l0", action="store_true", help="L0 自洽检查 (calc.py × sidecar ref)")
     ap.add_argument("--l1", metavar="TREE", help="L1 物理层检查 (模型树内部自洽, 不碰 gold)")
+    ap.add_argument("--l2", metavar="TREE", help="L2 结构层: BOUND 加权 展开/停止 判定 (复用 cov 对齐)")
     ap.add_argument("--sidecar", default="gold-gpu-formulas.json")
     a = ap.parse_args()
     if a.l0:
@@ -439,6 +535,17 @@ if __name__ == "__main__":
             print(f"[l1] {'PASS' if ok else 'FAIL'} ({sum(r['pass'] for r in rows)}/{len(rows)})")
         if not ok:
             sys.exit(1)
+    if a.l2:
+        score, det = l2_check(a.l2, a.sidecar)
+        for d in det["detail"]:
+            mark = "✅" if d["ok"] else "❌"
+            print(f"  {d['unit']:8s} gL{d['gold_depth']} {d['model_node']:5s}({d['model_level']}) "
+                  f"sim={d['sim']:.2f} gold_expand={d['gold_expand']!s:5s} model={d['model_expanded']!s:5s} "
+                  f"w={d['bound_w']:<4} {mark}")
+        print(f"[l2] score={score:.4f} (matched {det['n_matched_units']}/{det['n_gold']} units, "
+              f"w_sum={det['w_sum']}, cos={det['cos_threshold']})")
+        if det["n_matched_units"] < 5:
+            print("[l2] WARN: matched units < 5 — 对齐样本太少, 分数无意义 (与 cov 并看)")
     if a.emit_sidecar:
         emit_sidecar(a.sidecar)
     if a.selftest:
