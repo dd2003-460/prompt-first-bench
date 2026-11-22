@@ -41,8 +41,27 @@ T-PR-17 prompt 序列消融
 │       → 本实验 = 该假说的直接检验（见 F3 null control）
 ├── F3. 实验设计（F2 结果已定对照组；arena 5 条硬建议已并入）
 │   ├── 变量1: checkpoint 深度（L1/L2/L3 完成态，同一 seed 同一题）
-│   ├── 变量2: 后续序列变体（canonical / verify 删除 / 顺序置换 / minimal）
+│   │   来源: K7 budget-719-r1 归档 sm-gpu-r1/r2/r3（SM 每轮落盘，r1=L1完成 r2=L2 r3=L3）
+│   ├── 变量2: 后续序列变体（见下"序列维度重定义"）
 │   ├── 固定: 题（gpu）、seed、max_depth=5、prompt 内容（只动顺序/取舍）
+│   ├── ⚠ 序列维度重定义（2026-11-22 读 s5_state_machine.run() 后修正）:
+│   │   SM 主循环 = 每轮 decompose→verify→rework→contradiction 交替（非"4 独立大阶段"）。
+│   │   字面"阶段顺序置换"语义不通：verify 依赖本轮 decompose 产出，提前则无新节点可验。
+│   │   可操作的序列维度 = ①verify 有/无 ②verify 时机（每轮/最后统一）③rework 有/无
+│   │   ④state 块顺序（null）。arena C3 警告"顺序置换臂复现位置/长度效应"的具体化。
+│   ├── 4 臂定义（一期 3 臂，verify-late 二期）:
+│   │   ├── canonical: decompose→verify→rework→contradiction（现状，基线）
+│   │   ├── verify-off: decompose→rework→contradiction（patch _verify_batch 直接标 verified，
+│   │   │   不核验直接接受 → rework 不触发，语义干净）
+│   │   ├── null-control: canonical 序列 + 每轮喂 LLM 的 state 块（confirmed/已有节点）随机重排
+│   │   │   （纯扰动，测位置效应 X；序列效应必须 > X 才算真 = D 收敛假说直接检验）
+│   │   └── [二期] verify-late: 先全 decompose 后统一 verify（需改主循环结构，monkey-patch 难）
+│   ├── 实现 = monkey-patch（固化约束：不改 s5_state_machine.py，K7 进程已加载旧代码）
+│   │   verify-off = patch _verify_batch; null-control = patch state 块排序
+│   │   ✅ null-control patch 点已核验（2026-11-22 读源码）: confirmed_block 在
+│   │   _decompose_layer 内联构造（self.confirmed[-40:]，无独立方法可 patch）→
+│   │   方案 = ShuffledList 包装 self.confirmed（切片返回 shuffle 副本, append 正常）
+│   │   → _decompose_layer 与 judge_necessary_batch 都看到乱序 state 块，纯位置扰动
 │   └── 控制臂（arena C3 硬建议，防位置/长度效应冒充序列效应）:
 │       ├── 长度匹配: 各臂喂 synthesize 的 state token 数 ±10% 内（2510.05381）
 │       ├── 位置旋转: 同一 state 块 头/中/尾 三位置，位置当随机因子（2307.03172/2406.16008）
