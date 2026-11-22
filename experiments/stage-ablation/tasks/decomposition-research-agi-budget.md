@@ -197,8 +197,8 @@ research-agi-budget（D 硬件条件下，预算控制 AI 在 Pareto 边界上�
 | A2 K1 恢复记账 | ✅ 完成 | 30/30 主文件（19 轮从 archive 恢复）；gpu r03 depth 重判 0.4613（原 judge 失败）；results-sm-matched.json 重建 30 条；cc-state 30 done |
 | A3 K2 matched stats | ✅ 完成 | sm_vs_bare_stats.py → reports/t53b/stats-sm-vs-bare-matched.md。**同负载 SM 优：nat Δ+0.131 p=0.016 / gpu Δ+0.105 p=0.022（显著）/ soc Δ+0.059 p=0.083（不显著）**。commit 848996a30 |
 | B K3+K4+K5 prompt 去污染+AGI 题 | ✅ 完成 | 生产路径 6 常量 9 个领域旧词清零（TCO/GPU/显存/按字节按请求/短期运营长期持有/prefill decode/制程）；P1_DECOMPOSE legacy 保留（不进生产路径）；Q9 题面入 s8b_pilot.QUESTIONS["q9"]（复用通用 P1_L1_SKELETON，不新增 AGI 专用 prompt——新增=over-guidance）；不泄露审计：gold 维度名/节点ID/判据关键词/公式 零命中。commit 64f714dbc |
-| C K6 merge 消融 | 🔄 后台跑 | k6k7_serial_launcher.sh pid 52957（07:01 启动）。Arm A concat vs Arm B merge=0.4261，719-node 树，单变量 merge on/off。串行理由：K6 需与 Arm B 同负载，K7 并发会引入 NVFP4+MTP 非确定性 |
-| E K7 预算扫描 | 🔄 排队（K6 后自动） | 5 档 max_nodes(50/100/150/300/719)×3 reps=15 runs，~6-8h |
+| C K6 merge 消融 | ✅ 完成（07:08） | **Arm A concat = 0.4129 vs Arm B merge = 0.4261，Δ=-0.0132 → merge 不是主要瓶颈（A≈B）**。与「漏数字是自然压缩」结论一致：压缩损失在 synth 内部自然发生，merge on/off 差异小。产物 /tmp/merge-ablation/merge-ablation-merge-ablation-concat.json |
+| E K7 预算扫描 | 🔄 跑（8/15，~4h 完） | 5 档 max_nodes(50/100/150/300/719)×3 reps=15 runs。**执行发现（11-22 10:50）**：`max_nodes` 是轮间检查（s5_state_machine.py:1182，每轮顶部查一次），非逐节点硬顶——单轮 decompose 展开整个 frontier（每节点≤8 子），一轮冲过预算。实测 budget=50→175/103/136 节点，budget=100→314/123/122，各档实际节点数大量重叠。预算参数是下界非上限。**解读修正**：真正自变量=实际节点数（覆盖因子数=算力成本），跑完做 depth vs 实际节点数 的 Pareto 分析，绕开预算参数混淆。若需干净预算轴，修复=逐节点 enforcement（总节点≥budget 即停加子），follow-up 不阻塞本批。 |
 | D K8 rubric | ✅ v0 就绪 | gold/Q9.md J1-J12，权重和=1.00；arena 扩树后同步 |
 
 **串行决策（偏离 design 顺序 K6→K7 并行的隐含假设）**：design 写 K6 ~15min 后 K7 后台，但 K6 的 Arm B 基线 0.4261 是特定负载下采的，K7 并发跑会破坏 K6 单变量对比的同负载前提 → 串行 launcher（K6 完→K7 自动），总 ~7-9h。
