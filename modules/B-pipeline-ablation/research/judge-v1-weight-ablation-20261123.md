@@ -1,5 +1,10 @@
 # Judge v1.0 权重敏感性消融（2026-11-23）
 
+> ⚠️ **cov 分量已失效（2026-11-23 同日）**：本消融的 cov 来自旧 MAGNET 清零口径。
+> cov 层修复（去重计数, commit f8482557f）后，含 cov 的权重行（0.5/0.5, 0.7/0.3,
+> 0.3/0.7, 0/1）需重算。纯 depth 行（1.0/0.0）不受影响，"峰在 150"的 depth-only
+> 结论仍成立。重算脚本: `research/k7-dedup-cov-recompute.py`（后台跑中）。
+
 ## 问题
 
 judge v1.0 的 total = 0.5*depth + 0.5*cov，权重是 ad-hoc 的（无校准过程）。
