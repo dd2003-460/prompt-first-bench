@@ -164,11 +164,16 @@ def layer_coverage(nodes, gold_units, model, cos_threshold=COS_THRESHOLD):
                    "sim_median": round(float(np.median(top1_sim)), 3)}
 
 
-def judge_run(run_json, model=None, cos_threshold=COS_THRESHOLD):
-    """对一个 run json 算三层 + 综合分。"""
+def judge_run(run_json, model=None, cos_threshold=COS_THRESHOLD, gold_units=None,
+              gold_formulas=None):
+    """对一个 run json 算三层 + 综合分。
+    gold_units/gold_formulas 可外部注入（跨域: B1 解析产物）; 默认 gpu。
+    """
     nodes = load_run_nodes(run_json)
-    gold_units = load_gold("gpu")
-    gold_formulas = json.load(open(GOLD_FORMULAS))["units"]
+    if gold_units is None:
+        gold_units = load_gold("gpu")
+    if gold_formulas is None:
+        gold_formulas = json.load(open(GOLD_FORMULAS))["units"]
 
     mech, m_with, m_match, m_equiv = layer_mechanical(nodes, gold_formulas)
     struct, s_detail = layer_structure(nodes)
@@ -230,6 +235,9 @@ if __name__ == "__main__":
     ap.add_argument("--out")
     ap.add_argument("--calibrate", action="store_true")
     ap.add_argument("--selftest", action="store_true")
+    ap.add_argument("--gold-units", help="跨域: B1 解析的 units.json (markdown gold 产物)")
+    ap.add_argument("--runs-glob", default="gpu_budget*.json",
+                    help="runs-dir 内的 run 文件 glob (默认 gpu_budget*.json)")
     a = ap.parse_args()
     if a.selftest:
         selftest()
@@ -239,8 +247,11 @@ if __name__ == "__main__":
     elif a.runs_dir:
         from sentence_transformers import SentenceTransformer
         model = SentenceTransformer("BAAI/bge-m3")
-        runs = sorted(glob.glob(os.path.join(a.runs_dir, "gpu_budget*.json")))
-        results = [judge_run(r, model) for r in runs]
+        gu = None
+        if a.gold_units:
+            gu = json.load(open(a.gold_units))["units"]
+        runs = sorted(glob.glob(os.path.join(a.runs_dir, a.runs_glob)))
+        results = [judge_run(r, model, gold_units=gu) for r in runs]
         out = {"thresholds": {"cos": COS_THRESHOLD, "num_tol": NUM_TOL,
                               "weights": [W_DEPTH, W_COV]},
                "runs": results}
