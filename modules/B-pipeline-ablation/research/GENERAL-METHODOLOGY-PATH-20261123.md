@@ -29,12 +29,16 @@ D 2026-11-23 纠正："gpu题目的机械判定只能证明这方面没有llm ju
   - **结论**：Q6 的 coverage 轴跑分 = 写解析器（机械）；L1 物理层 = 人工标注成本。
     先跑 coverage 轴即可验证"曲线形状跨域成立"，L1 层可后置。
   - **B1 已完成并验证（2026-11-23）**：`gold_md_to_units.py` 解析 markdown gold →
-    structured units（unit_id/depth/raw/text/kind/stop_marker/share）。Q6 验证 46 units
-    （9 split + 33 leaf，share 全对：N-1=.35/N-2=.28/N-4=.18 等），Q7 泛化通过（48 units）。
+    structured units（unit_id/depth/raw/text/kind/stop_marker/share）。**Q6-Q10 全部 5 棵
+    验证通过**（Q6 46 units share 全对 / Q7 48 / Q8 36 / Q9 34 / Q10 36，kind=None 全 0）。
+    续行修复：Q8 的 leaf 标记常在节点第二行，解析器从续行补 kind+text（修复前 Q8 有 21 个
+    kind=None）。Q6/Q7 各有 4 个 None 是 gold 源"合同与风险(nuisance)"分支本身无
+    leaf/split 标记（gold 格式约定，非解析器 bug；coverage 层只读 text，不受影响）。
     judge_v1 的 coverage 层只读 `u["text"]`（line 149），B1 产物是其超集 →
     **Q6 coverage 跑分 = B1 产物 + judge_v1 layer_coverage，唯一改动是把硬编码的
-    GOLD_UNITS 路径参数化**。整条链闭合，不依赖 vLLM（embedding 用本地 bge-m3）。
-    Q8 有 21 个 kind=None（叶子标记格式不同），需单独适配，不影响可行性结论。
+    GOLD_UNITS 路径参数化**（已做：`judge_v1.py --gold-units`，回归验证 gpu 默认分
+    0.3972 不变，Q6 注入链通 cov=0 正确跨域行为）。整条链闭合，不依赖 vLLM
+    （embedding 用本地 bge-m3）。
 
 ## 分解树（正交子项）
 ```
