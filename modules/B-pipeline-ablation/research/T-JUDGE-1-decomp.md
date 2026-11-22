@@ -71,11 +71,23 @@ T-JUDGE-1 客观 judge
 │   │   多节点覆盖同一 gold 单元是正常分解；主指标是覆盖率+压缩率，precision 只作参考）
 │   └── Pareto 点 = (cost=节点数, 覆盖率) → 跨 run 画前沿（K7 全量数据出来后重打）
 └── J6. 重打历史数据 + dual-track 对照
-    ├── 范围: sm-gpu-r1/r2（✅ 已打）+ matched 批 30 run（gpu/nat/soc，judge_file 已有旧分）
-    │   + synth-l5-719nodes + budget scan 15 run（K7 完成后）
-    ├── 旧 judge 分数位置: data/t53b/runs_sm_matched/*_judge.json（scores 0/1 列表 + reasons）
-    └── 判据: 新覆盖率 vs 旧 depth_score 相关性（Spearman ρ）；
-              ρ > 0.7 → 新 judge 可信且更客观；ρ < 0.5 → 测的不是同一构念，回查匹配质量
+    ├── 范围: budget scan 13 run（✅ 已打，K7 719_r2/r3 完成后补 2）
+    │   + matched 批 30 run（树体不在盘上，只有 2/30 节点数命中归档 → 跳过）
+    │   + 9 棵 checkpoint 树（gpu 3 棵 = K7 719_r2 活中间状态 ❌ 无效; nat/soc 6 棵 = 旧树 ✅）
+    ├── 旧 judge 分数位置: runs_budget_scan/*.json 内嵌 judge.scores（15 点 0/1）+ depth_score
+    ├── 树体位置: checkpoints/archive/budget-*/runs-s5-sm-gpu.json（错位一格映射已验证）
+    ├── 判据: 新覆盖率 vs 旧 depth_score 相关性（Spearman ρ）
+    │   ρ > 0.7 → 新 judge 可信且更客观；ρ < 0.5 → 测的不是同一构念，回查匹配质量
+    └── ✅ 首跑结果（n=13, 2026-11-22）:
+        - 旧 cov15 vs 新 cov16: Spearman = -0.122（零相关）
+        - depth vs 旧 cov15: Spearman = 0.785（强相关）
+        - depth vs 新 cov16: Spearman = 0.036（零）
+        → 旧 judge "coverage" 实际测答案长度/深度（长答案覆盖更多 rubric 点）
+        → 新 embedding judge 测特定 gold 单元是否文本存在
+        → 两者测不同构念，互补不冗余
+        → 新 judge confirmed 精度差（抽查: 0.65-0.79 sim 大量"主题相关但没真覆盖"）
+        → 结论: 0.65 阈值对 confirmed 口径太松; embedding judge 召回高、精度低
+        → 修正方向: confirmed 需 LLM 二次确认（不只磁体），或阈值提到 0.75+
 ```
 
 ## 缺口清单
@@ -87,7 +99,10 @@ T-JUDGE-1 客观 judge
 | J3 阈值 | ✅ 首跑标定 0.65 + 磁体降级（0.60 假匹配多 / 0.70 覆盖塌） | 后续: 人工标定集（20 正例 + 20 负例对）验证 ROC 拐点 |
 | J4 触发率 | ✅ 首跑 29 条（r2 磁体 5 单元）；脚本就绪，**等 K7 释放 vLLM 后跑** | 跑完重算 confirmed 覆盖率 |
 | J5 信息量定义 | token 数代理的局限（长 ≠ 信息多） | 报告中声明局限；备选: embedding 向量模长（无意义）→ 维持 token 数 |
-| J6 覆盖范围 | budget scan 结果无树，需回 checkpoints/ 取 | 核对 checkpoints/ 里哪些 run 的树还在（archive 已核验 11 个） |
+| J6 覆盖范围 | budget scan 结果无树，需回 checkpoints/ 取 | ✅ 已解决: 归档错位一格映射（目录名=新 run 时间戳, 内容=上一 run）, 13/15 run 树体在盘 |
+| J6 构念差异 | 旧 cov15 与 depth 强相关(0.785)但与新 cov16 零相关(-0.122) | 报告必须分开报告两个构念; 旧 judge 的"coverage"≈长度代理, 新 judge 测单元存在性 |
+| J3 阈值精度 | 0.65 对 confirmed 口径太松（抽查大量主题相关假匹配） | 方向: ①confirmed 全送 LLM 二次确认 ②阈值 0.75+ ③人工标定集 ROC（待 K7 后做） |
+| matched 批树体 | 30 棵中 28 棵不在盘上（archive 66 棵按 n_nodes 只命中 2） | 不重跑（vLLM 在跑 K7）; matched 批 dual-track 放弃, 用 budget scan 15 run 替代 |
 
 ## 正交性自检
 
