@@ -1,0 +1,2820 @@
+                                          T RUSTWORTHY R ECURSIVE S ELF -I MPROVEMENT
+                                          WITH S TATISTICAL G UARANTEES
+
+                                                                       Zihe Gao1         Zhengling Qi2         Yifan Cui1
+                                                                                      1
+                                                                                        Zhejiang University
+                                                                               2
+                                                                                   George Washington University
+
+
+
+                                                                                          A BSTRACT
+
+
+
+
+arXiv:2611.10787v1 [stat.ML] 7 Nov 2026
+                                                    Recursive self-improvement offers a promising path toward AI agents that improve
+                                                    through experience by refining their own harnesses without retraining their underly-
+                                                    ing large language models (LLMs). Making this self-improvement process reliable,
+                                                    however, requires more than generating new updates: agents must decide which
+                                                    changes are worth keeping. A greedy gate that accepts updates based solely on
+                                                    higher validation scores can mistake an observed gain for genuine progress and
+                                                    lead to performance degeneration, whereas overly conservative statistical gates
+                                                    may reject beneficial updates and hinder performance improvement. We introduce
+                                                    Trustworthy Recursive Updates with Statistical Testing (TRUST), a framework that
+                                                    adapts an online multiple hypothesis testing procedure to control the rate of false
+                                                    evolution across rounds, with an LLM analyzing historical context to help deter-
+                                                    mine how much evidence is required to update the incumbent. Under interpretable
+                                                    assumptions, we prove that TRUST limits the proportion of accepted updates
+                                                    that result in unacceptable performance loss. We further derive a lower bound
+                                                    on the final performance gain. Across the benchmarks HotpotQA, DROP, and
+                                                    APPS with the models DeepSeek-V4-Flash and Qwen-3.8-Flash, TRUST reduces
+                                                    the average ratio of accepted inferior updates from the greedy gate’s 45.59% to
+                                                    2.78%, while achieving higher final scores than the state-of-the-art statistical gate
+                                                    baselines for recursive self-improvement. These findings demonstrate that TRUST
+                                                    strikes a balance between statistical reliability and performance gain in recursive
+                                                    self-improvement.
+
+
+                                          1    I NTRODUCTION
+                                          Recursive self-improvement (RSI) has attracted growing interest for its potential to enhance agents’
+                                          capabilities without retraining their underlying language models (Ren et al., 2026; Chen et al., 2026).
+                                          In a self-improvement loop, agents modify their own prompts, memory, tools, and workflows to
+                                          improve task performance (Madaan et al., 2023; Shinn et al., 2023; Wang et al., 2024). This loop can
+                                          be organized into three components: a solver that executes tasks, a proposer that generates candidate
+                                          updates, and a gate that decides whether to accept them (Wang et al., 2026; Ren et al., 2026).
+                                          Existing work has explored mechanisms for generating better can-
+                                          didate updates, while less attention has been paid to deciding when                     15
+
+
+                                          to accept them. A common acceptance approach is to use a greedy
+                                          gate, which accepts a candidate whenever its score on a fixed                           10
+
+
+                                          validation set exceeds the incumbent’s (Shawn, 2026). Figure 1              Gain (pp)
+                                                                                                                                  5
+                                          illustrates how early gain under greedy acceptance can be lost                                            Greedy
+                                          in subsequent rounds. Noise from finite samples and overfitting                         0
+                                                                                                                                                    TRUST
+
+                                          from reusing validation data can both make inferior updates appear                           0   5   10   15   20   25   30
+                                                                                                                      Recursive self-improvement round
+                                          beneficial and pass a greedy gate (Dwork et al., 2015; Rogers et al.,
+                                          2016). Accepting a harmful update can reduce the agent’s current
+                                          performance. The resulting loss may persist through subsequent Figure 1: Gain trajectories
+                                          rounds, ultimately limiting the gain for self-improvement.            of TRUST and Greedy on
+                                                                                                                HotpotQA with DeepSeek-V4-
+                                          Recent work has begun to focus on the acceptance gate (Wu et al., Flash. Details are in Section 6.1.
+                                          2025; Shawn, 2026; Sengupta, 2026). RSEA uses an extra val-
+
+
+                                                                                                1
+                                                         Safe Recursive Self-Improvement
+
+                                                                       LLM guidance
+                          Context                                                                                   Allocator            Error Budget
+
+
+                                                                                        TRUST
+
+                                                                                               Noninferiority               Overlap Correction
+                                                  Trustworthy            Next
+       Incumbent              Candidate
+                                                     Gate             Incumbent
+                                                                                                         E-Value vs Threshold
+                   Proposer
+
+                                     Next round                                                            Accept               Reject
+
+                                                                False Evolution Rate Control
+
+
+
+Figure 2: Recursive self-improvement with our trustworthy gate TRUST. TRUST combines noninferi-
+ority, overlap correction, e-value testing and error budget allocation with FER control across rounds.
+
+
+idation set separate from the proposal generation set to select
+candidate updates (Nguyen et al., 2026). PACE provides a safety guarantee for each candidate update
+through an e-process test in a single round instead of the entire recursive self-improvement process
+(Shawn, 2026). However, controlling the probability of any false acceptance across rounds can make
+statistical gates conservative and hinder beneficial updates (Wu et al., 2025; Sengupta, 2026). A
+key challenge, therefore, remains: retaining opportunities for useful improvement while controlling
+acceptance errors across rounds under limited validation resources.
+We introduce Trustworthy Recursive Updates with Statistical Testing (TRUST), a general statistical
+acceptance framework. Motivated by false discovery rate (FDR) control (Benjamini & Hochberg,
+1995; Xu & Ramdas, 2024; Zhang et al., 2025b), we define the false evolution rate (FER) as a safety
+criterion for recursive self-improvement. FER measures the expected proportion of accepted updates
+that cause an unacceptable performance loss, thereby quantifying the gate’s false acceptance risk. To
+control FER, we formulate the sequential acceptance decisions as an online multiple testing problem.
+We also use an LLM to analyze historical context and help the error budget allocator assign less
+restrictive testing levels to promising candidates. We further draw on noninferiority testing to improve
+statistical power by allowing a possible loss tolerance (Blackwelder, 1982; Da Silva et al., 2009;
+Schumi & Wittes, 2011), and use overlap correction to account for bias from reusing validation
+samples across rounds (Dwork et al., 2015; Rogers et al., 2016). Figure 2 summarizes how TRUST
+makes recursive self-improvement trustworthy.
+Our contributions. We make the following three main contributions: (a) Our framework builds on
+online multiple hypothesis testing with interpretable parameters, including the error budget, loss toler-
+ance, and overlap correction strength. It naturally incorporates LLM guidance based on diverse forms
+of historical context. (b) We establish statistical guarantees under explicit assumptions, including FER
+control, power consistency for improving candidates, and a lower bound on deployment gain. These
+results connect hypothesis testing criteria to performance gain in recursive self-improvement. (c) We
+evaluate TRUST in a closed-loop self-improvement harness across HotpotQA, DROP, and APPS
+with DeepSeek-V4-Flash and Qwen-3.8-Flash. Averaged across these settings, TRUST achieves the
+highest final gain of 24.84 pp. Compared with the greedy gate, TRUST reduces the mean FER0 from
+45.59% to 2.78% and the mean maximum drawdown from 4.963 pp to 0.047 pp, demonstrating high
+performance gains with few erroneous acceptances and small drawdowns.
+
+2    R ELATED W ORK
+Recursive self-improvement and agent harness. An agent harness includes tools, context man-
+agement, and execution control (Shi et al., 2026). Recursive self-improvement agents use feedback to
+improve various harness components. Promptbreeder evolves task prompts (Fernando et al., 2024).
+Reflexion, ExpeL, and Voyager convert experience into reflections, insights, and reusable skills,
+respectively (Shinn et al., 2023; Zhao et al., 2024; Wang et al., 2024). CoEvo-Mem improves memory
+retrieval (Ye et al., 2026). AFlow and Flow refine agentic workflows (Zhang et al., 2025a; Niu et al.,
+2025). AgentSquare defines a modular design space with planning, reasoning, tool use, and memory
+components (Shang et al., 2025). These works focus on proposing effective candidates, while we
+study whether a new candidate should be accepted to make recursive self-improvement trustworthy.
+
+
+                                                                             2
+Additionally, we design a harness with diverse editable components in our experiments to evaluate
+how different gates affect performance and risk.
+
+Hypothesis testing methods. Multiple hypothesis testing procedures are primarily based on two
+error criteria: the familywise error rate (FWER) and the FDR (Benjamini & Hochberg, 1995; Wang
+& Ramdas, 2022; Robertson et al., 2023). FWER control is generally more conservative than FDR
+control. Many popular online FDR methods with p-values rely on independence across tests (Ramdas
+et al., 2018; Robertson et al., 2023). This independence can be difficult to satisfy when agents evolve
+based on past feedback. The e-value is an alternative test statistic with a betting interpretation (Shafer,
+2021). The e-BH and e-LOND procedures allow arbitrary dependence among valid e-values while
+controlling FDR (Wang & Ramdas, 2022; Xu & Ramdas, 2024). Drawing on e-GAI (Zhang et al.,
+2025b) and contextual online testing (Chen & Kasiviswanathan, 2020), TRUST constructs an e-value
+and allocates the testing levels with context. In RSI, SGM uses statistical tests to decide updates
+to control FWER across rounds (Wu et al., 2025), while PACE uses an e-process to control the
+probability of false acceptance in a single round (Shawn, 2026). TRUST provides FER control across
+rounds and achieves higher final scores than these statistical baselines in our experiments.
+
+3    P ROBLEM F ORMULATION
+
+Let D denote the distribution of tasks and let u(x, s) ∈ [0, 1] denote the score of output s on task x.
+For a solver θ, let Sθ (x, Ω) denote the solver output on task x under execution randomness Ω. Define
+the population score of θ as
+                                                                   
+                                 J(θ) = EX∼D,Ω u X, Sθ (X, Ω) .                                     (1)
+We consider a self-improvement process that starts with an initial incumbent solver Θ0 and initial
+information F0 . It recursively generates and evaluates candidates over T rounds. In round t, let
+Q(· | Ft−1 ) denote the conditional distribution of the candidate given the completed history Ft−1
+from the fixed proposer. The proposer generates Θ  e t ∼ Q(· | Ft−1 ), which is evaluated by the gate
+G against the previous incumbent Θt−1 . Then the gate G produces At ∈ {0, 1} and updates the
+incumbent according to                      (
+                                              Θ
+                                              e t,     At = 1,
+                                     Θt =
+                                              Θt−1 , At = 0.
+Different gates may induce different acceptance decisions, thereby changing the subsequent self-
+improvement trajectories and the candidates proposed in later rounds. These changes can affect the
+final gain, which is defined as
+                                     G(T ) = E[J(ΘT ) − J(Θ0 )] .                                      (2)
+
+We next define the core safety criterion. The
+                                             population score difference between the selected
+candidate and the incumbent is ∆t = J Θt − J(Θt−1 ) . For a given tolerance level ε ∈ [0, 1),
+                                          e
+let Ntε = 1{∆t ≤ −ε}, RT = t≤T At , and FTε = t≤T Ntε At . Define the false evolution rate
+                              P                    P
+(FER) at tolerance ε as
+                                                    FTε
+                                                         
+                                   FERε (T ) = E            .                               (3)
+                                                   RT ∨ 1
+
+Here, FER is the expected proportion of unacceptably inferior updates among accepted updates, and
+ε specifies the tolerated loss. For ε > 0, the difference ∆t is divided into three regions: updates with
+∆t ≤ −ε are unacceptable, those with −ε < ∆t ≤ 0 are tolerated but not improving, and those with
+∆t > 0 are improving. Our goal is to ensure that FERε (T ) ≤ q for a prespecified FER budget q,
+thereby providing a statistical safety guarantee for the entire self-improvement process. This helps
+avoid unacceptable updates, retain beneficial proposals, and may achieve a favorable final gain.
+Let VN = (Z1 , . . . , ZN ) ∼ DN be a fixed validation pool of size N . Candidate generation uses
+information from the completed history. In round t, the sampling plan is to draw n ≤ N tasks
+uniformly without replacement from VN to evaluate the current candidate. All sampled tasks are then
+returned to VN so that the next round starts with the full validation pool. Let Kt,i denote the pool
+
+
+                                                    3
+index selected at the ith validation draw, and let Xt,i = ZKt,i be the corresponding task. On task
+Xt,i , the candidate and incumbent produce the observed score difference
+                                             c                               0
+                                                                                 
+                                e t (Xt,i , Ωt,i ) − u Xt,i , SΘt−1 (Xt,i , Ωt,i ) ∈ [−1, 1],
+               Dt,i = u Xt,i , SΘ                                                               (4)
+
+where Ωct,i and Ω0t,i denote the execution randomness of the candidate and incumbent, respectively.
+
+Information flow. Our framework uses filtrations to describe how information accumulates within
+and across rounds (Ramdas et al., 2023). For clarity, we briefly explain this information flow. The
+initial information F0 is independent of the validation pool. Let Ft−1 denote the completed history
+before round t. Before validation, Ftpre additionally fixes the selected candidate Θ
+                                                                                   e t and testing level
+αt in Section 4. For i = 1, . . . , n, let Ht,i augment Ftpre with the first i validation samples and
+their paired outcomes, with Ht,0 = Ftpre . After validation, Ft contains the decision At and updated
+incumbent Θt . We illustrate this timeline in Figure 3.
+
+    Before round t      Before validation     First sample observed         n samples observed          After validation
+       Ft−1             Ftpre = Ht,0                 Ht,1                         Ht,n                        Ft
+                                                                      ···
+ Completed history   Selected candidate Θet        First sample                  n samples          Acceptance decision At
+                        Testing level αt      Paired outcomes: Dt,1     Paired outcomes: {Dt,i }n
+                                                                                                i=1 Updated incumbent Θt
+
+
+
+
+Figure 3: Information flow in a self-improvement round: Ft−1 ⊆ Ftpre = Ht,0 ⊆ Ht,1 ⊆ · · · ⊆
+               pre
+Ht,n ⊆ Ft ⊆ Ft+1   . The relation ⊆ denotes inclusion of information.
+
+
+4     T RUSTWORTHY R ECURSIVE U PDATES WITH S TATISTICAL T ESTING
+The greedy gate accepts a candidate whenever the empirical score difference exceeds zero, making
+the acceptance decision sensitive to sampling and execution randomness. We formulate candidate
+acceptance as a hypothesis testing problem. In round t, we test
+                                      Ht0 : ∆t ≤ −ε,            Ht1 : ∆t > −ε.                                             (5)
+If the null hypothesis Ht0 is rejected, the selected candidate is accepted as the new incumbent.
+Otherwise, the previous incumbent is retained.
+In online FDR control, testing levels are allocated across multiple hypotheses under an overall error
+budget (Chen & Kasiviswanathan, 2020; Zhang et al., 2025b). TRUST adapts this framework to
+the sequence of candidate acceptance tests defined in (5), using q as the total FER budget. In round
+                                                                                       (β)
+t, the testing level αt determines the acceptance threshold, while the test statistic Mt,m measures
+the evidence accumulated from the first m validation observations. For αt > 0, TRUST accepts the
+                                       (β)
+candidate at the first m ≤ n when Mt,m ≥ 1/αt , following the standard testing rule for sequential
+e-value testing (Ramdas et al., 2023). If the threshold is not reached within n observations, the
+incumbent is retained. When αt = 0, validation is skipped and the incumbent is retained. We next
+                                           (β)
+describe how αt is allocated and how Mt,m is constructed.
+
+4.1     T ESTING L EVEL A LLOCATION WITH C ONTEXT
+
+We now describe how TRUST allocates the testing level αt in round t under the total FER budget q.
+Let Bt denote the remaining FER budget before round t, with B1 = q ∈ (0, 1), and let ρt ∈ (0, 1)
+denote the spending fraction of the remaining FER budget in round t.
+Adapting the e-LORD allocation rule within the e-GAI framework (Zhang et al., 2025b), we combine
+the adjusted spending fraction ρt with the remaining budget and the number of accepted updates to
+determine the testing level
+                                αt = min{αmax , ρt Bt (Rt−1 + 1)},                            (6)
+where αmax ∈ (0, 1). The resulting charge ct for the FER budget and the remaining budget Bt+1 are
+                                        αt
+                              ct =            ,     Bt+1 = Bt − ct .                          (7)
+                                    Rt−1 + 1
+
+                                                            4
+The charge satisfies 0 ≤ ct ≤ ρt Bt ≤ Bt , keeping the balance nonnegative.
+We next describe how to determine ρt . Building on the contextual error budget allocation in online
+multiple hypothesis testing (Chen & Kasiviswanathan, 2020), we make use of the context Ct in round
+t and use an LLM to analyze it. This context only contains information available before the current
+round’s validation, including the candidate update and feedback from previous validation rounds.
+Following the evaluation structure of G-Eval (Liu et al., 2023), the LLM uses explicit criteria to
+assess the candidate’s potential benefits and risks. Let Ψ denote the mapping from context to LLM
+multipliers, with wt = Ψ(Ct ) ∈ [0, ∞). The default spending fraction is set to ρ0t = 1/(T − t + 1),
+corresponding to an equal share of the remaining FER budget. The LLM multiplier adjusts the
+spending fraction within the range [ρmin , ρmax ]:
+                                      ρt = clip(wt ρ0t , ρmin , ρmax ),                                   (8)
+where 0 < ρmin < ρmax < 1 and clip(x, a, b) = min{b, max{a, x}}. All allocation quantities are
+determined before validation and included in the information Ftpre in Figure 3.
+
+4.2   E-VALUE C ONSTRUCTION WITH OVERLAP C ORRECTION
+                                                                                                    (β)
+Once the testing level αt has been determined, the next step is to construct the test statistic Mt,m . We
+first correct for bias from reusing validation samples. Based on the sampling procedure in Section 3,
+we define the following index sets to characterize overlap across validation rounds. Recall that Kt,i
+denotes the index of the ith validation sample in round t. Let Rt,i−1 denote the set of indices not
+sampled in the first i − 1 draws of round t, and let It,i−1 denote the cumulative set of indices used in
+validation across the first t − 1 rounds and the first i − 1 draws of round t. For each draw, define
+                                                                             |It,i−1 ∩ Rt,i−1 |
+          Qt,i = 1{Kt,i ∈ It,i−1 },         ζt,i = P(Qt,i = 1 | Ht,i−1 ) =                      .         (9)
+                                                                                  |Rt,i−1 |
+Here, Qt,i indicates whether the current sample has previously been used in validation, while ζt,i
+represents its probability under uniform sampling.
+
+Algorithm 1 TRUST
+Input: Number of rounds T , validation pool VN , sample size 1 ≤ n ≤ N , initial incumbent Θ0 ,
+    proposer Q, allocator Ψ, budget q, margin ε, strength β, αmax , 0 < ρmin < ρmax < 1.
+ 1: Initialize B1 ← q, R0 ← 0, and I1,0 ← ∅.
+ 2: for t = 1, . . . , T do
+                                                                (β)
+ 3:    Initialize τt ← n, At ← 0, Rt,0 ← {1, . . . , N }, and Mt,0 ← 1.
+ 4:    Propose Θ  e t ∼ Q(· | Ft−1 ) and construct context Ct .
+                                                                     
+ 5:    Set wt ← Ψ(Ct ) and ρt ← clip wt /(T − t + 1), ρmin , ρmax .
+ 6:    Allocate αt ← min{αmax , ρt Bt (Rt−1 + 1)}.
+ 7:    Update Bt+1 ← Bt − αt /(Rt−1 + 1).
+ 8:    for i = 1, . . . , n do
+ 9:        Draw Kt,i uniformly from Rt,i−1 and evaluate Dt,i on Xt,i = ZKt,i by (4).
+                           (β)
+10:        Compute Mt,i using Dt,i , Rt,i−1 and It,i−1 by (9) and (10).
+11:        Update Rt,i ← Rt,i−1 \ {Kt,i } and It,i ← It,i−1 ∪ {Kt,i }.
+                (β)
+12:        if Mt,i ≥ 1/αt then At ← 1, τt ← i, break.
+13:    end for
+14:    Update It+1,0 ← It,τt .
+15:    Set Θt ← Θ    e t if At = 1, and Θt ← Θt−1 otherwise.
+16:    Update Rt ← Rt−1 + At .
+17: end for
+18: return ΘT .
+
+We rescale the score difference in (4) from [−1, 1] to [0, 1] by setting Yt,i = (1 + Dt,i )/2, which
+allows us to use standard e-value constructions for bounded observations (Waudby-Smith & Ramdas,
+2024; Ramdas et al., 2023), and the corresponding null boundary in (5) becomes pε = (1 − ε)/2. We
+choose β ∈ [0, 1 − pε ] as the correction strength for bias from data reuse and weight this strength by
+
+
+                                                     5
+                                                                       (β)
+the exposure probability ζt,i to obtain the corrected null boundary ut,i = pε + ζt,i β. The sequential
+                                                (β)
+e-value evidence is accumulated by setting Mt,0 = 1 and
+                                                      (β)
+                               m
+                                  "                       #
+                        (β)
+                              Y              Yt,i − ut,i
+                      Mt,m =        1 + ηt,i      (β)
+                                                            ,      m = 1, . . . , n.                (10)
+                              i=1                ut,i
+The betting fraction ηt,i ∈ [0, 1) is chosen based on the information in Ht,i−1 before observing Yt,i
+and controls how strongly the current observation changes the evidence. It can be selected using
+standard adaptive betting strategies (Waudby-Smith & Ramdas, 2024; Orabona & Jun, 2024; Shekhar
+& Ramdas, 2023). The complete procedure is presented in Algorithm 1.
+
+5    T HEORETICAL A NALYSIS
+We now establish statistical guarantees of our framework, including the validity of the e-value, FER
+control, power consistency to accept improvements, and a lower bound on the final gain.
+Assumption 1. For any t = 1, . . . , T and i = 1, . . . , n, suppose
+                 E[Yt,i | Ht,i−1 , Qt,i = 1] ≤ pε + β, if Ht0 is true and ζt,i > 0.              (11)
+
+Reusing validation feedback to construct or select later candidates can lead to optimistic bias in
+their estimated performance, which is widely studied in adaptive data analysis (Dwork et al., 2015;
+Rogers et al., 2016). We use β to represent the strength of the correction for data reuse. Assumption 1
+connects this correction to our testing by bounding the conditional mean in the e-value construction.
+We discuss the relationship between β and our algorithm in detail in Appendix A.1.
+TRUST may accept the candidate early when the testing threshold is reached and the number of
+observations is a random variable determined by the observed evidence rather than a fixed number.
+We formalize this as a stopping time (Durrett, 2019). A random variable τt ∈ {1, . . . , n} is a stopping
+time with respect to the filtration (Ht,i )ni=0 if {τt ≤ i} ∈ Ht,i for every i = 0, . . . , n. We then
+establish the following conditional validity result.
+Theorem 1. Fix any round t ∈ {1, . . . , T }. Under Assumption 1, for any m = 1, . . . , n, the statistic
+   (β)
+Mt,m defined in (10) satisfies
+                                      (β)
+                                E[Mt,m | Ftpre ] ≤ 1,     if Ht0 is true.                           (12)
+This inequality also holds with m replaced by any stopping time τt ≤ n with respect to (Ht,m )nm=0 .
+Theorem 1 shows that our test statistic satisfies the conditional validity requirement for e-values
+described in the statistical literature (Vovk & Wang, 2021; Ramdas et al., 2023). More importantly,
+validity at arbitrary stopping times τt ≤ n justifies the acceptance rule in Algorithm 1, which stops
+                                            (β)
+at τt = min n, min{i ∈ {1, . . . , n} : Mt,i ≥ 1/αt } . The conditional validity also extends to
+mixtures of evidence processes using different betting fractions. See Corollary 1 in the appendix.
+This validity result provides the basis for the following theorem on FER control in RSI.
+Theorem 2. Fix a horizon T ≥ 1 and an FER budget q ∈ (0, 1). Under Assumption 1, the false
+evolution rate of Algorithm 1 satisfies
+                                             FERε (T ) ≤ q.                                      (13)
+
+Theorem 2 controls the expected proportion of unacceptable updates among all accepted updates over
+the entire self-improvement process with T rounds. The same bound in (13) holds with T replaced
+by any stopping time τ ≤ T with respect to the self-improvement history (Ft )Tt=0 , as established in
+Appendix C.2. Thus, the process may be stopped based on the observed self-improvement history
+without losing FER control. In addition, the FER guarantee does not rely on the LLM correctly
+identifying beneficial candidates. The LLM uses context to allocate more FER budget to promising
+candidates and less to unpromising ones, safely improving the detection of beneficial updates.
+                             P                   P
+Let It = 1{∆t > 0}, UT = t≤T It , and ST = t≤T It At . The true evolution rate (TER) is
+                                                           
+                                                      ST
+                                     TER(T ) = E              ,                                  (14)
+                                                     UT ∨ 1
+the expected proportion of improving candidates that are accepted (Gadbury et al., 2004).
+
+
+                                                      6
+Assumption 2. Fix T and ε ∈ (0, 1), and let N, n → ∞. Suppose that the following conditions
+are satisfied: (a) There exists a deterministic sequence rN,n → 0 such that P(UT = 0) ≤ rN,n . (b)
+n/N → 0. (c) There exist constants η− and η+ such that, for t = 1, . . . , T and i = 1, . . . , n, the
+betting fractions satisfy 0 < η− ≤ ηt,i ≤ η+ < 2ε/(1 + ε).
+Assumption 2(a) requires the probability that the proposer fails to generate any improvement to vanish
+as the sample size grows. As n → ∞, the proposer also receives more historical feedback, making
+it more likely to produce at least one effective improvement. Assumption 2(b) controls overlap by
+requiring n/N → 0, so the bias caused by overlap becomes very small. Assumption 2(c) can be
+satisfied in practice by choosing the betting fraction ηt,i within the specified range.
+Theorem 3. Under Assumption 2, there exists a constant κ > 0 such that for sufficiently large N
+and n,
+                                   TER(T ) ≥ 1 − rN,n − T e−κn .                                  (15)
+Hence, TER(T ) → 1 as N, n → ∞.
+Theorem 3 provides a lower bound on TER through two terms: rN,n bounds the probability that no
+improving candidate is proposed, while T e−κn bounds the contribution of gate misses. Both terms
+vanish as the sample size grows with T fixed. It also reveals a theoretical role of noninferiority: when
+ε = 0, the upper bound 2ε/(1 + ε) in Assumption 2 is zero, then no positive betting fraction satisfies
+the condition. Under this argument, a positive ε is needed to obtain TER(T ) → 1.
+                                                                                        PT
+We next evaluate the final incumbent through its gain G(T ) defined in (2). Let PT = t=1 E[(∆t )+ ]
+denote the expected total positive effect of the proposed candidates.
+Theorem 4. Under Assumptions 1 and 2, there exists a constant κ > 0 such that for sufficiently large
+N and n,
+                                        XT
+            G(T ) ≥ 1 − e−κn PT −
+                                
+                                            E[At min{(−∆t )+ , ε} + αt (−∆t − ε)+ ] .                (16)
+                                        t=1
+
+The first term shows that the loss of positive improvement caused by statistical rejection vanishes
+exponentially with the validation sample size. The second term quantifies the downside from the
+noninferiority margin. The third term controls loss beyond the tolerance through the allocated
+testing levels αt and may be reduced when the LLM uses historical context to assign smaller testing
+levels to candidates with greater downside risk. Thus, TRUST asymptotically preserves beneficial
+updates while keeping harmful acceptance risk under statistical control. Additionally, to measure
+losses along the trajectory, we define population maximum drawdown (MDD) as MDD(T ) =
+max0≤r<s≤T J(Θr ) − J(Θs ) + . Appendix E derives an upper bound on expected MDD.
+
+6     N UMERICAL E XPERIMENTS
+We compare the performance gains and acceptance risks of different gates in an editable self-
+improvement harness, and conduct ablation studies to examine the effects of TRUST’s key parameters.
+Supplementary diagnostics and case studies in Appendices I and G.4 show that higher validation
+scores do not necessarily imply better test performance.
+Following modular agent design (Shang et al., 2025; Hu et al., 2025), our editable harness Ht =
+(Rt , Pt , Mt , Wt ) exposes 20 operators across four components: reasoning (Zhou et al., 2023; Fernando
+et al., 2024), routing (Lewis et al., 2020; Liu et al., 2024), memory (Shinn et al., 2023; Zhao et al.,
+2024), and workflow (Zhang et al., 2025a). Appendix F details operator designs.
+
+6.1   M AIN GATE COMPARISON
+
+Datasets, models and metrics. We evaluate the benchmarks HotpotQA (Yang et al., 2018), DROP
+(Dua et al., 2019), and APPS (Hendrycks et al., 2021) with the models Qwen-3.8-Flash and DeepSeek-
+V4-Flash. For each dataset, the validation sets contain a total of 200 examples, with 300 held-out
+examples used only as the test set. We use additional 20 examples to construct the initial information
+F0 . Test scores are measured by Joint F1 for HotpotQA, official token F1 for DROP, and the test
+case pass rate for APPS. We report gain and MDD in percentage points (pp). For a stricter empirical
+diagnostic, we report FER0 , which counts all accepted non-improving updates.
+
+
+                                                   7
+Baselines. We compare TRUST with four baselines over 30 rounds and 5 seeds. Greedy accepts
+candidates with higher scores on the validation samples. PACE uses an e-process test to control false
+acceptance within a single round (Shawn, 2026). SGM-B and SGM-H use Bernstein and Hoeffding
+tests, respectively, with FWER control across rounds (Wu et al., 2025). For TRUST, we set q = 0.30,
+ε = 0.10, and β = 0.01. More implementation details appear in Appendix G.
+
+
+Table 1: Main comparison: DeepSeek-V4-Flash (left) and Qwen-3.8-Flash (right). Values are mean
+± standard error. Methods with empirical FER0 > 30% are shown in gray to indicate high risk.
+Bold marks the best Gain, TER, and MDD results among the remaining methods within each setting.
+                                                       DeepSeek-V4-Flash                                                 Qwen-3.8-Flash
+Dataset                   Gate       Gain (pp) ↑   FER0 (%) ↓     TER (%) ↑     MDD (pp) ↓         Gain (pp) ↑       FER0 (%) ↓        TER (%) ↑       MDD (pp) ↓
+                          Greedy      7.87 ±0.55    64.67 ±3.28   40.03 ±5.06    4.96 ±0.93        20.66 ±2.45       44.67 ±5.23       58.40 ±9.39        4.01 ±0.49
+                          PACE       10.15 ±0.75     0.00 ±0.00   12.63 ±3.65    0.00 ±0.00        26.42 ±1.60        6.67 ±6.67       16.31 ±2.94        0.06 ±0.06
+HotpotQA                  SGM-B       0.00 ±0.00     0.00 ±0.00    0.00 ±0.00    0.00 ±0.00         0.00 ±0.00        0.00 ±0.00        0.00 ±0.00        0.00 ±0.00
+                          SGM-H       0.00 ±0.00     0.00 ±0.00    0.00 ±0.00    0.00 ±0.00         5.77 ±5.77        0.00 ±0.00        1.25 ±1.25        0.00 ±0.00
+                          TRUST      11.58 ±1.30   10.00 ±10.00   18.11 ±8.39    0.02 ±0.02        27.72 ±0.81        0.00 ±0.00       20.82 ±3.69        0.00 ±0.00
+                          Greedy     36.24 ±2.19    35.28 ±1.68   60.12 ±7.77    5.38 ±1.58        15.15 ±2.22       37.38 ±6.04       56.33 ±5.65        3.37 ±1.03
+                          PACE       29.70 ±0.59     0.00 ±0.00    6.68 ±1.67    0.00 ±0.00        13.22 ±3.77        0.00 ±0.00        5.23 ±1.78        0.00 ±0.00
+DROP                      SGM-B       0.00 ±0.00     0.00 ±0.00    0.00 ±0.00    0.00 ±0.00         0.00 ±0.00        0.00 ±0.00        0.00 ±0.00        0.00 ±0.00
+                          SGM-H       0.00 ±0.00     0.00 ±0.00    0.00 ±0.00    0.00 ±0.00         0.00 ±0.00        0.00 ±0.00        0.00 ±0.00        0.00 ±0.00
+                          TRUST      31.47 ±1.42     0.00 ±0.00   11.93 ±1.29    0.00 ±0.00        17.22 ±1.49        0.00 ±0.00       10.76 ±2.82        0.00 ±0.00
+                          Greedy     33.89 ±2.71    41.08 ±4.31   50.83 ±2.89    8.48 ±2.23        28.03 ±0.32       50.44 ±4.85       38.02 ±4.36        3.59 ±0.68
+                          PACE       28.68 ±2.66     0.00 ±0.00    5.19 ±1.00    0.00 ±0.00        26.24 ±0.46        0.00 ±0.00        4.44 ±0.48        0.00 ±0.00
+APPS                      SGM-B       0.00 ±0.00     0.00 ±0.00    0.00 ±0.00    0.00 ±0.00         0.00 ±0.00        0.00 ±0.00        0.00 ±0.00        0.00 ±0.00
+                          SGM-H       0.00 ±0.00     0.00 ±0.00    0.00 ±0.00    0.00 ±0.00        10.84 ±6.65        0.00 ±0.00        2.62 ±1.70        0.00 ±0.00
+                          TRUST      34.55 ±1.04     0.00 ±0.00   11.64 ±3.53    0.00 ±0.00        26.53 ±0.11        6.67 ±6.67       12.52 ±3.42        0.27 ±0.27
+
+
+
+TRUST achieves high scores in all six settings and the highest scores in four of them (Table 1). It
+maintains FER0 below 30% in all six settings, whereas Greedy exceeds 30% in every setting. The
+highest MDD for TRUST is only 0.27 pp, whereas Greedy reaches 8.48 pp. Appendix G.4 presents a
+case study of Greedy that improves validation performance but harms test performance.
+Among the remaining methods with FER0 ≤ 30%, SGM-B never accepts an update and SGM-H
+accepts only three updates across all runs, so they show no score improvement in most settings.
+These results suggest that both methods for FWER control across multiple rounds are conservative in
+practice. Relative to PACE, TRUST achieves higher scores and TER in all six settings, with FER0
+lower in one setting, equal in three, and higher in two.
+                      Mean gain trajectories                                                                  Mean gain and MDD
+
+                                                                                                                              Safe area (1 pp)
+                 25                                                                                     25                   TRUST
+                                                                                                                                                     Greedy
+                                                                                                                             PACE
+                 20                                                                                     20
+
+
+
+
+Mean gain (pp)
+                 15                                                                                     15
+
+
+                 10                                                                                     10
+                                                              TRUST        Greedy      PACE
+                  5                                           SGM-B        SGM-H                          5
+                                                                                                                             SGM-H
+                  0                                                                                       0                  SGM-B
+
+                      0          5          10           15           20         25           30                 0       1         2        3         4       5
+                                                   Outer round                                                                Mean MDD (pp)
+
+
+Figure 4: Left: mean gain trajectories. Right: mean final gain versus mean MDD, with shading
+marking the 1 pp empirical MDD reference region. Results are averaged across six settings.
+
+The left panel of Figure 4 shows the mean gain trajectories over rounds. Greedy achieves rapid initial
+gains but exhibits subsequent declines. TRUST overtakes Greedy in later rounds and preserves its
+accumulated gains, achieving the highest final mean gain. The right panel compares mean final gain
+and mean MDD. We mark the region with mean MDD below 1 pp as an empirical safe area. TRUST
+lies within this region while achieving the highest among all compared methods, striking a balance
+between performance gain and stability in RSI.
+
+
+                                                                                 8
+6.2              A BLATION STUDY
+
+We next conduct ablation studies on HotpotQA/DeepSeek-V4-Flash. We vary three key parameters:
+the FER budget q, noninferiority margin ε, and overlap correction strength β. We also compare
+TRUST with and without LLM guidance. Appendix H provides the detailed settings and results.
+
+                        FER budget                    Noninferiority margin                                   Overlap correction
+            20                             100   20                                100   20                                               100
+
+
+
+            15                                   15                                      15
+
+
+
+
+Gain (pp)                                                                                                                                       Rate (%)
+                                                                                                                                                           Gain (left)
+            10                             50    10                                50    10                                               50               FER0 (right)
+                                                                                                                                                           TER (right)
+             5                                    5                                       5
+
+
+
+             0                             0      0                                0      0                                               0
+                  0.1      0.3       0.5              0    0.05       0.1   0.15                          0      0.01       0.03   0.05
+                            q                                     ε                                                     β
+
+
+
+Figure 5: Bars show mean gain, and lines show FER0 and TER. We vary one parameter at a time,
+keeping the others at the default values (q, ε, β) = (0.30, 0.10, 0.01).
+
+Figure 5 shows that larger q and ε make TRUST more
+aggressive, with higher TER and FER0 . Larger β makes           15
+
+it more conservative: FER0 drops from 23.33% at β = 0
+to 0% at β = 0.03. These trends are consistent with the         10
+
+
+
+                                                                                              Gain (pp)
+definitions of the three parameters. In each ablation study,
+the gain first increases, then decreases or holds steady. For
+                                                                 5
+β, it peaks at 11.58 pp when β = 0.01, compared with
+                                                                                           TRUST
+10.97 pp without correction, suggesting that an appropriate                                TRUST without LLM
+                                                                 0
+overlap correction strength can be beneficial in practice.         0    5     10       15    20     25      30
+Appendix H.1 provides additional trajectory results and a             Recursive self-improvement round
+more detailed analysis. These results highlight the impor-
+tance of balancing conservative and aggressive acceptance Figure 6: Mean gain trajectories with
+to improve performance.                                       and without LLM allocation.
+We replace the LLM allocator with the default multiplier
+wt ≡ 1 while keeping other parameters in TRUST un-
+changed. Figure 6 shows that TRUST achieves a higher final gain, corresponding to final scores of
+44.91 ± 1.36% for TRUST and 43.78 ± 1.18% for TRUST without LLM guidance. This suggests
+a performance benefit from using context to guide the allocation of testing levels. We provide a
+detailed case study in Appendix H.2 showing how the LLM analyzes context and assigns different
+LLM multipliers to influence acceptance decisions.
+
+7                C ONCLUSION AND L IMITATIONS
+TRUST applies online multiple hypothesis testing to control FER across rounds in self-improving
+agents, with LLM guidance and interpretable parameters for adjusting gate behavior. Our theoretical
+analysis and experiments show that the framework helps balance useful improvement and acceptance
+error control under limited validation resources. It extends existing statistical methods and provides a
+flexible statistical foundation for future work on recursive self-improvement. We discuss this point
+further in Appendix A.2. Overall, we show that TRUST strikes a balance between statistical reliability
+and performance gains in recursive self-improvement.
+The present study does not address how to identify an exact value of overlap correction strength from
+data or how to optimally tune other parameters. The noninferiority margin provides an interpretable
+tolerance for loss, but the theoretical guarantee can be conservative and only partly explains practical
+behavior. The LLM allocator can occasionally make mistakes when judging candidate updates, which
+may lead to poor choices of LLM multipliers. Optimizing the gate to maximize gain while keeping
+safety metrics within target ranges is also a promising direction. Future work can address these
+limitations to make the recursive self-improvement process more trustworthy and effective.
+
+
+                                                                               9
+R EFERENCES
+Akari Asai, Zeqiu Wu, Yizhong Wang, Avi Sil, and Hannaneh Hajishirzi. Self-RAG: Learning
+  to retrieve, generate, and critique through self-reflection. In B. Kim, Y. Yue, S. Chaudhuri,
+  K. Fragkiadaki, M. Khan, and Y. Sun (eds.), International Conference on Learning Representations,
+ volume 2024, pp. 9112–9141, 2024.
+
+Yoav Benjamini and Yosef Hochberg. Controlling the false discovery rate: A practical and powerful
+  approach to multiple testing. Journal of the Royal Statistical Society: Series B (Methodological),
+  57(1):289–300, 1995.
+
+William C. Blackwelder. “Proving the Null Hypothesis” in Clinical Trials. Controlled Clinical Trials,
+ 3(4):345–353, 1982.
+
+Mingguang Chen, Licheng Wang, and Bo Qu. Recursive self-improvement in ai: From bounded
+ self-refinement to autonomous research loops. arXiv preprint arXiv:2607.07663, 2026.
+
+Minghao Chen, Yihang Li, Yanting Yang, Shiyu Yu, Binbin Lin, and Xiaofei He. Automanual:
+ Constructing instruction manuals by llm agents via interactive environmental learning. Advances
+ in Neural Information Processing Systems, 37:589–631, 2024.
+
+Shiyun Chen and Shiva Kasiviswanathan. Contextual online false discovery rate control. In Interna-
+  tional Conference on Artificial Intelligence and Statistics, pp. 952–961. PMLR, 2020.
+
+Gisela Tunes Da Silva, Brent R Logan, and John P Klein. Methods for equivalence and noninferiority
+  testing. Biology of Blood and Marrow Transplantation, 15(1):120–127, 2009.
+
+Dheeru Dua, Yizhong Wang, Pradeep Dasigi, Gabriel Stanovsky, Sameer Singh, and Matt Gardner.
+  DROP: A reading comprehension benchmark requiring discrete reasoning over paragraphs. In
+ Proceedings of the 2019 Conference of the North American Chapter of the Association for Com-
+  putational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers), pp.
+  2368–2378, 2019.
+
+Rick Durrett. Probability: theory and examples, volume 49. Cambridge university press, 2019.
+
+Cynthia Dwork, Vitaly Feldman, Moritz Hardt, Toniann Pitassi, Omer Reingold, and Aaron Roth.
+  The reusable holdout: Preserving validity in adaptive data analysis. Science, 349(6248):636–638,
+  2015.
+
+Chrisantha Fernando, Dylan Sunil Banarse, Henryk Michalewski, Simon Osindero, and Tim Rock-
+  täschel. Promptbreeder: Self-referential self-improvement via prompt evolution. In Proceedings of
+  the 41st International Conference on Machine Learning, volume 235 of Proceedings of Machine
+  Learning Research, pp. 13481–13544, 2024. URL https://proceedings.mlr.press/
+  v235/fernando24a.html.
+
+Gary L Gadbury, Grier P Page, Jode Edwards, Tsuyoshi Kayo, Tomas A Prolla, Richard Weindruch,
+  Paska A Permana, John D Mountz, and David B Allison. Power and sample size estimation in
+  high dimensional biology. Statistical methods in medical Research, 13(4):325–338, 2004.
+
+Dan Hendrycks, Steven Basart, Saurav Kadavath, Mantas Mazeika, Akul Arora, Ethan Guo, Collin
+  Burns, Samir Puranik, Horace He, Dawn Song, and Jacob Steinhardt. Measuring coding challenge
+  competence with apps. In J. Vanschoren and S. Yeung (eds.), Proceedings of the Neural Infor-
+  mation Processing Systems Track on Datasets and Benchmarks, volume 1, 2021. URL https:
+ //datasets-benchmarks-proceedings.neurips.cc/paper_files/paper/
+  2021/file/c24cd76e1ce41366a4bbe8a49b02a028-Paper-round2.pdf.
+
+Shengran Hu, Cong Lu, and Jeff Clune.       Automated design of agentic systems.
+  In Y. Yue, A. Garg, N. Peng, F. Sha, and R. Yu (eds.), International Confer-
+  ence on Learning Representations, volume 2025, pp. 21344–21377, 2025.    URL
+  https://proceedings.iclr.cc/paper_files/paper/2025/file/
+  36b7acf6f6010652b3f2a433774a66fe-Paper-Conference.pdf.
+
+
+                                                10
+Weiquan Huang, Zixuan Wang, Hehai Lin, Sudong Wang, Bo Xu, Qian Li, Beier Zhu, Linyi
+ Yang, and Chengwei Qin. AMA: Adaptive memory via multi-agent collaboration. In Findings
+ of the Association for Computational Linguistics: ACL 2026, pp. 3099–3120. Association for
+ Computational Linguistics, 2026. doi: 10.18653/v1/2026.findings-acl.152. URL https://
+ aclanthology.org/2026.findings-acl.152/.
+Patrick Lewis, Ethan Perez, Aleksandra Piktus, Fabio Petroni, Vladimir Karpukhin, Naman Goyal,
+  Heinrich Küttler, Mike Lewis, Wen-tau Yih, Tim Rocktäschel, Sebastian Riedel, and Douwe Kiela.
+  Retrieval-augmented generation for knowledge-intensive NLP tasks. In H. Larochelle, M. Ranzato,
+  R. Hadsell, M. F. Balcan, and H. Lin (eds.), Advances in Neural Information Processing Systems,
+  volume 33, pp. 9459–9474. Curran Associates, Inc., 2020.
+Yucheng Li, Bo Dong, Frank Guerin, and Chenghua Lin. Compressing context to enhance inference
+  efficiency of large language models. In Proceedings of the 2023 Conference on Empirical Methods
+  in Natural Language Processing, pp. 6342–6353. Association for Computational Linguistics,
+  2023. doi: 10.18653/v1/2023.emnlp-main.391. URL https://aclanthology.org/2023.
+  emnlp-main.391/.
+Nelson F. Liu, Kevin Lin, John Hewitt, Ashwin Paranjape, Michele Bevilacqua, Fabio Petroni, and
+  Percy Liang. Lost in the middle: How language models use long contexts. Transactions of the
+ Association for Computational Linguistics, 12:157–173, 2024. doi: 10.1162/tacl_a_00638.
+Yang Liu, Dan Iter, Yichong Xu, Shuohang Wang, Ruochen Xu, and Chenguang Zhu. G-
+  Eval: NLG evaluation using GPT-4 with better human alignment. In Proceedings of the 2023
+  Conference on Empirical Methods in Natural Language Processing, pp. 2511–2522. Associ-
+  ation for Computational Linguistics, 2023. doi: 10.18653/v1/2023.emnlp-main.153. URL
+  https://aclanthology.org/2023.emnlp-main.153/.
+Aman Madaan, Niket Tandon, Prakhar Gupta, Skyler Hallinan, Luyu Gao, Sarah Wiegreffe, Uri
+ Alon, Nouha Dziri, Shrimai Prabhumoye, Yiming Yang, Shashank Gupta, Bodhisattwa Prasad
+ Majumder, Katherine Hermann, Sean Welleck, Amir Yazdanbakhsh, and Peter Clark. Self-
+ refine: Iterative refinement with self-feedback. In A. Oh, T. Naumann, A. Globerson,
+ K. Saenko, M. Hardt, and S. Levine (eds.), Advances in Neural Information Processing
+ Systems, volume 36, pp. 46534–46594. Curran Associates, Inc., 2023. doi: 10.52202/
+ 075280-2019. URL https://proceedings.neurips.cc/paper_files/paper/
+ 2023/file/91edff07232fb1b55a505a9e9f6c0ff3-Paper-Conference.pdf.
+Michael Nguyen, Quoc Nguyen, and Paul Vuong. Recursive self-evolving agents via held-out
+ selection. arXiv preprint arXiv:2606.28374, 2026.
+Boye Niu, Yiliao Song, Kai Lian, Yifan Shen, Yu Yao, Kun Zhang, and Tongliang Liu. Flow:
+  Modularized agentic workflow automation. In Y. Yue, A. Garg, N. Peng, F. Sha, and R. Yu
+  (eds.), International Conference on Learning Representations, volume 2025, pp. 74949–74977,
+  2025. URL https://proceedings.iclr.cc/paper_files/paper/2025/file/
+  ba84da6921f3040b74ee163aa7451f53-Paper-Conference.pdf.
+Francesco Orabona and Kwang-Sung Jun. Tight concentrations and confidence sequences from the
+  regret of universal portfolio. IEEE Transactions on Information Theory, 70(1):436–455, 2024. doi:
+  10.1109/TIT.2023.3330187.
+Aaditya Ramdas, Tijana Zrnic, Martin Wainwright, and Michael Jordan. SAFFRON: An adaptive
+  algorithm for online control of the false discovery rate. In Proceedings of the 35th International
+  Conference on Machine Learning, volume 80 of Proceedings of Machine Learning Research, pp.
+  4286–4294. PMLR, 2018. URL https://proceedings.mlr.press/v80/ramdas18a.
+  html.
+Aaditya Ramdas, Peter Grünwald, Vladimir Vovk, and Glenn Shafer. Game-theoretic statistics and
+  safe anytime-valid inference. Statistical Science, 38(4):576–601, 2023. doi: 10.1214/23-STS894.
+Zhe Ren, Yimeng Chen, Dandan Guo, Guowei Rong, Tonghui Li, RB Xiong, Qingfeng Lan, Wenyi
+  Wang, Li Nanbo, Yibo Yang, et al. Self-improvements in modern agentic systems: A survey. arXiv
+  preprint arXiv:2607.13104, 2026.
+
+
+                                                11
+David S. Robertson, James M. S. Wason, and Aaditya Ramdas. Online Multiple Hypothesis Testing.
+  Statistical Science, 38(4):557 – 575, 2023. doi: 10.1214/23-STS901. URL https://doi.
+  org/10.1214/23-STS901.
+Ryan Rogers, Aaron Roth, Adam Smith, and Om Thakkar. Max-information, differential privacy,
+  and post-selection hypothesis testing. In 2016 IEEE 57th Annual Symposium on Foundations of
+  Computer Science (FOCS), pp. 487–494. IEEE, 2016.
+Daniel Russo and James Zou. Controlling bias in adaptive data analysis using information theory.
+  In Proceedings of the 19th International Conference on Artificial Intelligence and Statistics,
+  volume 51, pp. 1232–1240. PMLR, 2016.
+Jennifer Schumi and Janet T Wittes. Through the looking glass: understanding non-inferiority. Trials,
+  12(1):106, 2011.
+Biswa Sengupta.     Self-evolving agents with anytime-valid certificates. arXiv preprint
+  arXiv:2607.00871, 2026. URL https://arxiv.org/abs/2607.00871.
+Glenn Shafer. Testing by betting: A strategy for statistical and scientific communication. Journal of
+  the Royal Statistical Society Series A: Statistics in Society, 184(2):407–431, 2021.
+Glenn Shafer, Alexander Shen, Nikolai Vereshchagin, and Vladimir Vovk. Test martingales, bayes
+  factors and p-values. Statistical Science, pp. 84–101, 2011.
+Yu Shang, Yu Li, Keyu Zhao, Likai Ma, Jiahe Liu, Fengli Xu, and Yong Li. Agentsquare: Automatic
+  LLM agent search in modular design space. In The Thirteenth International Conference on Learn-
+  ing Representations, 2025. URL https://openreview.net/forum?id=mPdmDYIQ7f.
+Zayx Shawn. Pace: Anytime-valid acceptance tests for self-evolving agents. arXiv preprint
+  arXiv:2606.08106, 2026.
+Shubhanshu Shekhar and Aaditya Ramdas. Nonparametric two-sample testing by betting. IEEE
+  Transactions on Information Theory, 70:1178–1203, 01 2023. doi: 10.1109/TIT.2023.3305867.
+Quan Shi, Michael Tang, Karthik Narasimhan, and Shunyu Yao. Can language models solve olympiad
+  programming? arXiv preprint arXiv:2404.10952, 2024. URL https://arxiv.org/abs/
+  2404.10952.
+Yifan Shi, Wei Zhang, and Tianyi Cui. A programming paradigm for spatiotemporal composability.
+  arXiv preprint arXiv:2608.25512, 2026. URL https://arxiv.org/abs/2608.25512.
+Noah Shinn, Federico Cassano, Ashwin Gopinath, Karthik Narasimhan, and Shunyu Yao. Reflexion:
+  language agents with verbal reinforcement learning. In Advances in Neural Information Processing
+  Systems, volume 36, pp. 8634–8652. Curran Associates, Inc., 2023. doi: 10.52202/075280-0377.
+Vladimir Vovk and Ruodu Wang. E-values: Calibration, combination and applications. The Annals
+  of Statistics, 49(3):1736–1754, 2021.
+Guanzhi Wang, Yuqi Xie, Yunfan Jiang, Ajay Mandlekar, Chaowei Xiao, Yuke Zhu, Linxi
+  Fan, and Anima Anandkumar. Voyager: An open-ended embodied agent with large lan-
+  guage models. Transactions on Machine Learning Research, 2024. ISSN 2835-8856. URL
+  https://openreview.net/forum?id=ehfRiF0R3a.
+Kaiqi Wang, Wenjin Hou, Yuchen Yan, Hongrui Jia, Zhisheng Zhong, Botao Ren, Yifei Chen,
+  Songyang Zhang, Yongliang Shen, Jun Xiao, et al. Diving into reliable self-evolving agents: A
+  survey. OpenReview preprint, 2026.
+Ruodu Wang and Aaditya Ramdas. False discovery rate control with E-values. Journal of the Royal
+  Statistical Society: Series B (Statistical Methodology), 84(3):822–852, 2022. doi: 10.1111/rssb.
+  12489. URL https://doi.org/10.1111/rssb.12489.
+Zora Zhiruo Wang, Jiayuan Mao, Daniel Fried, and Graham Neubig. Agent workflow memory.
+  In Proceedings of the 42nd International Conference on Machine Learning, volume 267 of
+  Proceedings of Machine Learning Research, pp. 63897–63911. PMLR, 13–19 Jul 2025. URL
+  https://proceedings.mlr.press/v267/wang25bx.html.
+
+
+                                                 12
+Ian Waudby-Smith and Aaditya Ramdas. Estimating means of bounded random variables by bet-
+  ting. Journal of the Royal Statistical Society Series B: Statistical Methodology, 86(1):1–27, 02
+  2024. ISSN 1369-7412. doi: 10.1093/jrsssb/qkad009. URL https://doi.org/10.1093/
+  jrsssb/qkad009.
+Xuening Wu, Shenqin Yin, Yanlan Kang, Xinhang Zhang, Qianya Xu, Zeping Chen, and Wenqiang
+  Zhang. Sgm: A statistical godel machine for risk-controlled recursive self-modification. arXiv
+  preprint arXiv:2510.10232, 2025.
+Aolin Xu and Maxim Raginsky. Information-theoretic analysis of generalization capability of learning
+  algorithms. In Advances in Neural Information Processing Systems, volume 30, 2017.
+Ziyu Xu and Aaditya Ramdas. Online multiple testing with e-values. In Proceedings of the 27th
+  International Conference on Artificial Intelligence and Statistics, volume 238 of Proceedings of
+  Machine Learning Research, pp. 3997–4005, 2024.
+Zhilin Yang, Peng Qi, Saizheng Zhang, Yoshua Bengio, William W. Cohen, Ruslan Salakhutdinov,
+  and Christopher D. Manning. HotpotQA: A dataset for diverse, explainable multi-hop question
+  answering. In Proceedings of the 2018 Conference on Empirical Methods in Natural Language
+  Processing, pp. 2369–2380, 2018.
+Bowen Ye, Yongchao Xu, Zhijian Li, Xiang Yin, Junkai Ma, and Wenzhao Li. Coevo-mem: Co-
+  evolving retrieval policy and memory bank for llm agents. arXiv preprint arXiv:2608.01739,
+  2026.
+Jiayi Zhang, Jinyu Xiang, Zhaoyang Yu, Fengwei Teng, Xionghui Chen, Jiaqi Chen, Mingchen Zhuge,
+   Xin Cheng, Sirui Hong, Jinlin Wang, et al. Aflow: Automating agentic workflow generation. In
+   International Conference on Learning Representations, volume 2025, pp. 34040–34077, 2025a.
+Yifan Zhang, Zijian Wei, Haojie Ren, and Changliang Zou. e-GAI: E-value-based generalized
+  α-investing for online false discovery rate control. In Proceedings of the 42nd International Confer-
+  ence on Machine Learning, volume 267 of Proceedings of Machine Learning Research, pp. 76308–
+  76331. PMLR, 2025b. URL https://proceedings.mlr.press/v267/zhang25cd.
+  html.
+Andrew Zhao, Daniel Huang, Quentin Xu, Matthieu Lin, Yong-Jin Liu, and Gao Huang. Expel: Llm
+  agents are experiential learners. In Proceedings of the AAAI Conference on Artificial Intelligence,
+  volume 38, pp. 19632–19642, 2024.
+Mingming Zhao, Xiaokang Wei, Yuanqi Shao, Kaiwen Zhou, Lin Yang, Siwei Rao, Junhui Zhan,
+ and Zhitang Chen. A2 flow: Automating agentic workflow generation via self-adaptive abstraction
+ operators. In Proceedings of the AAAI Conference on Artificial Intelligence, volume 40, pp.
+ 29930–29938, 2026.
+Denny Zhou, Nathanael Schärli, Le Hou, Jason Wei, Nathan Scales, Xuezhi Wang, Dale Schuurmans,
+  Claire Cui, Olivier Bousquet, Quoc V Le, and Ed H. Chi. Least-to-most prompting enables complex
+  reasoning in large language models. In The Eleventh International Conference on Learning
+  Representations, 2023. URL https://openreview.net/forum?id=WZH7099tgfM.
+
+
+
+
+                                                 13
+A PPENDIX
+
+A     S UPPLEMENTARY D ISCUSSION
+A.1   I NTERPRETATION OF THE OVERLAP CORRECTION
+
+We do not develop a complete model of validation data reuse in this work. Detailed studies of adaptive
+data analysis can be found in prior work (Dwork et al., 2015; Rogers et al., 2016; Russo & Zou,
+2016; Xu & Raginsky, 2017). Instead, we state sufficient conditions for valid e-values and focus on a
+framework for FER control across RSI rounds. The interpretation of β is related to how historical
+validation information, including feedback summarized in Ct , is used in candidate construction
+and selection. Greater reliance on information from previously evaluated samples may increase
+optimism when those samples are reused. For example, later rounds may use a few failed cases from
+the previous round or summaries of common error types. These forms of feedback reveal different
+information about the validation data and may lead to different degrees of optimism bias in subsequent
+evaluation. The parameter β specifies an allowance for this optimism under the null hypothesis. A
+stronger correction requires stronger validation results to reach the acceptance threshold, making
+the gate more conservative and potentially limiting both false acceptances and the acceptance of
+useful updates. Our sensitivity results in Section 6.2 and Appendix H support the practical value of
+an appropriate correction strength. In the reported ablation, an appropriate β achieves a higher mean
+final gain than no correction, whereas larger values make the gate overly conservative and reduce
+final gains.
+
+A.2   R ELATION TO E XISTING S TATISTICAL M ETHODS
+
+TRUST adapts FDR control in multiple hypothesis testing to the acceptance of candidates in self-
+evolving agents. It provides a framework covering the validation protocol, correction for data reuse,
+noninferiority testing, construction of test statistics, and allocation of testing levels. Within this
+framework, an LLM analyzes the candidate and historical context to guide allocation, while statistical
+guarantees hold under the stated assumptions. Existing statistical studies (Zhang et al., 2025b; Chen
+& Kasiviswanathan, 2020) compare testing procedures on specified hypotheses and observation
+streams in their numerical experiments. In our RSI setting, the proposer constructs candidates using
+historical information. Different gates can produce different acceptance decisions and incumbents,
+leading to different histories and subsequent candidates. Our experiments follow this closed loop
+and use update operators motivated by prior work on RSI agents. This allows us to compare how
+different gates affect both acceptance decisions and subsequent search on real tasks. Our theoretical
+analysis follows the same adaptive process and connects a lower bound on final gain to the testing
+levels and other parameters of the gate. It thus provides a statistical foundation for analyzing both
+acceptance risk and improvement along the trajectory induced by the gate.
+
+B     P ROOF OF C ONDITIONAL E VIDENCE VALIDITY
+B.1   P ROOF OF T HEOREM 1
+
+In each round, the sampling plan is to draw n tasks from the fixed validation pool of size N , where
+n ≤ N . All N sample indices are selectable at the start of the round, so Rt,0 = {1, 2, . . . , N }.
+At draw i, we select Kt,i uniformly from the remaining set Rt,i−1 and remove it, giving Rt,i =
+Rt,i−1 \ {Kt,i }. Thus, a sample can be drawn at most once within a round but may be used again in
+later rounds.
+Let Lt,i ∈ {0, 1} be the Ht,i−1 -measurable indicator that draw i is made.
+                                    
+                                      1, if draw i is made in round t,
+                             Lt,i =
+                                      0, otherwise.
+Within each round, sampling proceeds consecutively and does not continue after stopping. If αt = 0,
+no validation samples are drawn.
+Each round uses at most n samples. The bounds on the betting fractions in Assumption 2(c) apply on
+draws that are made (Lt,i = 1). If sampling stops early, we set the variables for the remaining indices
+
+
+                                                  14
+to zero as a notational convention for the proofs:
+                           Yt,i = Qt,i = ζt,i = ηt,i = 0        when Lt,i = 0.
+After stopping, no more samples are used, and the history and record of previously used samples stay
+unchanged. When a sample is drawn, Qt,i equals one with conditional probability ζt,i . Hence,
+                                         E[Qt,i | Ht,i−1 ] = ζt,i .
+After stopping, both Qt,i and ζt,i are set to zero, so this equality still holds.
+Lemma 1. Let (Hi )ni=0 be a filtration, Yi ∈ [0, 1] be Hi -measurable, and ui ∈ (0, 1] and ηi ∈ [0, 1)
+be Hi−1 -measurable for each i = 1, . . . , n. If
+                                           E[Yi | Hi−1 ] ≤ ui ,
+then
+                                                       m
+                                                       Y                  
+                                                              Yi − ui
+                              M0 = 1,         Mm =     1 + ηi
+                                                   i=1
+                                                                 ui
+is a nonnegative supermartingale. Moreover, for every stopping time τ ≤ n, E[Mτ | H0 ] ≤ 1.
+
+Proof. Write Gi = 1 + ηi (Yi − ui )/ui . Since Yi ≥ 0, Gi ≥ 1 − ηi > 0. Since ui and ηi are
+Hi−1 -measurable, we have
+                                         ηi
+                          E[Gi | Hi−1 ] = 1 +
+                                            (E[Yi | Hi−1 ] − ui ) ≤ 1.
+                                         ui
+                                                      Qi−1
+By the product definition, Mi = Mi−1 Gi and Mi−1 = j=1 Gj . For j < i, each Gj is Hj -
+measurable, with Hj ⊆ Hi−1 . Thus, Mi−1 is Hi−1 -measurable and can be taken outside the
+conditional expectation:
+                        E[Mi | Hi−1 ] = E[Mi−1 Gi | Hi−1 ]
+                                      = Mi−1 E[Gi | Hi−1 ]
+                                                                           
+                                                   ηi
+                                      = Mi−1 1 +      (E[Yi | Hi−1 ] − ui )
+                                                   ui
+                                      ≤ Mi−1 .
+Taking expectations and iterating from M0 = 1 gives E[Mi ] ≤ 1, so each Mi is integrable. Together
+with nonnegativity and Hi -measurability, this proves the supermartingale claim.
+For bounded τ , use the finite pathwise decomposition
+                                             n
+                                             X
+                               Mτ = M0 +            1{τ ≥ i}(Mi − Mi−1 ).
+                                              i=1
+
+The event {τ ≥ i} = {τ ≤ i − 1}c belongs to Hi−1 . Hence every stopped increment has nonpositive
+conditional mean:
+                           E [1{τ ≥ i}(Mi − Mi−1 )|Hi−1 ]
+                                = 1{τ ≥ i} (E[Mi | Hi−1 ] − Mi−1 ) ≤ 0.
+Since H0 ⊆ Hi−1 , the tower property implies that each stopped increment also has nonpositive
+conditional expectation given H0 . Taking conditional expectations given H0 in the decomposition of
+Mτ above, we obtain
+                                              n
+                                              X
+                      E[Mτ | H0 ] = M0 +            E [1{τ ≥ i}(Mi − Mi−1 ) | H0 ]
+                                              i=1
+                                   ≤ M0 = 1.
+
+
+
+                                                     15
+Proof of Theorem 1. Fix outer round t. Recall that
+                      1 + Dt,i                                       e t ) − J(Θt−1 ),
+                Yt,i =         ,                              ∆t = J(Θ
+                         2
+               Qt,i = 1{Kt,i ∈ It,i−1 },                      ζt,i = P(Qt,i = 1 | Ht,i−1 ).
+
+Both Rt,i−1 and It,i−1 are Ht,i−1 -measurable. Uniform sampling from the remaining set gives
+                                                    X                            1
+                      P(Qt,i = 1 | Ht,i−1 ) =                1{k ∈ It,i−1 }
+                                                                              |Rt,i−1 |
+                                                  k∈Rt,i−1
+
+                                                  |It,i−1 ∩ Rt,i−1 |
+                                              =                      = ζt,i .
+                                                       |Rt,i−1 |
+
+We bound the contributions of unexposed and reused samples separately. The history depends only
+on accessed sample information and randomization independent of unexposed sample values. Since
+the pool is i.i.d., unexposed samples retain distribution D conditional on Ht,i−1 . Thus, for each draw,
+                                                                         1 + ∆t
+                           E[Yt,i (1 − Qt,i ) | Ht,i−1 ] = (1 − ζt,i )          .                  (17)
+                                                                            2
+Here, 1 − Qt,i retains only the unexposed contribution, and 1 − ζt,i is the probability of drawing an
+unexposed sample.
+For reused samples, Assumption 1 allows an additional β above the null boundary pε = (1 − ε)/2.
+On null histories with ζt,i > 0, we have
+                         E[Yt,i Qt,i | Ht,i−1 ] = ζt,i E[Yt,i | Ht,i−1 , Qt,i = 1]
+                                                ≤ ζt,i (pε + β).
+When ζt,i = 0, conditional monotonicity instead gives
+                          0 ≤ E[Yt,i Qt,i | Ht,i−1 ] ≤ E[Qt,i | Ht,i−1 ] = 0,
+so the same weighted bound holds. Combining this bound with Equation (17) and (1 + ∆t )/2 ≤ pε
+on Ht0 yields
+                E[Yt,i | Ht,i−1 ] = E[Yt,i Qt,i | Ht,i−1 ] + E[Yt,i (1 − Qt,i ) | Ht,i−1 ]
+                                                                1 + ∆t
+                                  ≤ ζt,i (pε + β) + (1 − ζt,i )
+                                                                   2
+                                  ≤ pε + ζt,i β.
+The correction ζt,i β therefore weights the overlap correction by the probability of drawing a reused
+sample. This also covers ζt,i = 1, when the unexposed contribution vanishes.
+When draw i is not made, Lt,i = 0 and Yt,i = Qt,i = 0 by the convention above. Since Lt,i is
+Ht,i−1 -measurable, the indicator 1{Lt,i = 0} is also Ht,i−1 -measurable and can be taken outside
+the conditional expectation. Hence,
+                 1{Lt,i = 0}E[Yt,i | Ht,i−1 ] = E[1{Lt,i = 0}Yt,i | Ht,i−1 ] = 0,
+                 1{Lt,i = 0}E[Qt,i | Ht,i−1 ] = E[1{Lt,i = 0}Qt,i | Ht,i−1 ] = 0.
+On {Lt,i = 0}, the indicator equals one, so E[Yt,i | Ht,i−1 ] = 0 and ζt,i = E[Qt,i | Ht,i−1 ] = 0.
+For draws that are made, the bounds for the unexposed and reused contributions together give E[Yt,i |
+            (β)
+Ht,i−1 ] ≤ ut,i on Ht0 . For draws that are not made, either after early stopping or because αt = 0,
+                                                     (β)
+the zero conditional mean above is also at most ut,i = pε > 0. Recall that Ntε = 1{∆t ≤ −ε}. On
+Ht0 , multiplying by Ntε = 1 preserves these bounds; outside Ht0 , multiplying by Ntε = 0 makes both
+sides zero. Therefore, on all histories,
+                                                                   (β)
+                                    Ntε E[Yt,i | Ht,i−1 ] ≤ Ntε ut,i .
+
+
+                                                    16
+                              (β)
+The corrected boundary ut,i is Ht,i−1 -measurable and lies in [pε , 1], with pε > 0. Write Gt,i =
+                        (β)
+1 − ηt,i + ηt,i Yt,i /ut,i . When draw i is not made, we set ηt,i = 0, so Gt,i = 1. For every i, the
+                                             (β)
+bounds 0 ≤ Yt,i ≤ 1, 0 ≤ ηt,i < 1, and ut,i ≥ pε > 0 give
+                               Gt,i ≥ 1 − ηt,i > 0,
+                                                 ηt,i
+                               Gt,i ≤ 1 − ηt,i +      = 1 + ηt,i (p−1
+                                                                   ε − 1)
+                                                 pε
+                                    ≤ p−1
+                                       ε .
+
+The last inequality uses ηt,i ≤ 1 and p−1                           −1
+                                       ε − 1 ≥ 0. Hence 0 < Gt,i ≤ pε almost surely.
+                                                          (β)
+Since each Gt,i is Ht,i -measurable, the product Mt,m is Ht,m -measurable. For 0 ≤ m ≤ n ≤ N ,
+we have
+                                                  m
+                                   (β)      (β)
+                                                  Y
+                               ε
+                         0 ≤ Nt Mt,m ≤ Mt,m =        Gt,i ≤ p−m
+                                                             ε   ≤ p−N
+                                                                    ε .
+                                                   i=1
+        −N                                            (β)          (β)
+Since pε is a finite deterministic constant, both Mt,m and Ntε Mt,m have finite expectations and
+                                                                                               (β)
+are therefore integrable. After sampling stops, all remaining factors Gt,i equal one, so both Mt,m
+          (β)
+and Ntε Mt,m remain unchanged.
+                  (β)
+Set Xm = Ntε Mt,m . Since Ntε is Ht,0 -measurable, Xm is Ht,m -measurable; the bounds above also
+show that Xm is nonnegative and integrable. To establish that (Xm )nm=0 is a supermartingale, it
+remains to prove
+                       E[Xm+1 | Ht,m ] ≤ Xm ,        m = 0, . . . , n − 1.
+                                                                                            (β)
+Since Ht,0 ⊆ Ht,i−1 , Ntε is also Ht,i−1 -measurable. The terms 1 − ηt,i and ηt,i /ut,i are Ht,i−1 -
+measurable and bounded as well. We can therefore take these quantities outside the conditional
+                                                          (β)
+expectation. Using the bound Ntε E[Yt,i | Ht,i−1 ] ≤ Ntε ut,i established above, we obtain
+                   E[Ntε Gt,i | Ht,i−1 ] = Ntε E[Gt,i | Ht,i−1 ]
+                                                             ηt,i
+                                         = Ntε (1 − ηt,i ) + (β) Ntε E[Yt,i | Ht,i−1 ]
+                                                            ut,i
+                                                             ηt,i     (β)
+                                         ≤ Ntε (1 − ηt,i ) + (β) Ntε ut,i
+                                                            ut,i
+                                          = Ntε .
+
+                                    (β)     Qi−1
+The product before draw i is Mt,i−1 =      j=1 Gt,j ≥ 0. For j < i, each Gt,j is Ht,j -measurable,
+                            (β)
+with Ht,j ⊆ Ht,i−1 . Thus Mt,i−1 is Ht,i−1 -measurable and can also be taken outside the conditional
+                           (β)
+expectation. Since Xi = Mt,i−1 Ntε Gt,i , we have
+                                                      (β)
+                              E[Xi | Ht,i−1 ] = E[Mt,i−1 Ntε Gt,i | Ht,i−1 ]
+                                                    (β)
+                                              = Mt,i−1 E[Ntε Gt,i | Ht,i−1 ]
+                                                    (β)
+                                              ≤ Mt,i−1 Ntε
+                                              = Xi−1 .
+Taking i = m + 1 gives the required conditional inequality. Together with the nonnegativity, measura-
+bility, and integrability established above, this proves that (Xm )nm=0 is a nonnegative supermartingale.
+          (β)
+Since Mt,0 = 1, its initial value is X0 = Ntε .
+For a stopping time τt ≤ n, the actual stopped process Xm∧τt is also a supermartingale: its next
+increment is 1{τt > m}(Xm+1 − Xm ), with a predictable indicator and nonpositive conditional
+mean. Iterating its conditional inequality from 0 to n yields
+                                                                     (β)
+                   E[Xn∧τt | Ht,0 ] ≤ X0 = Ntε ,            Ntε E[Mt,τt | Ftpre ] ≤ Ntε .
+
+
+                                                    17
+On Ht0 , we have Ntε = 1. Therefore, for every stopping time τt ≤ n,
+                                 (β)
+                            E[Mt,τt | Ftpre ] ≤ 1           almost surely on Ht0 .
+This is the stopping extension of Theorem 1. In particular, taking τt = n gives
+                                 (β)
+                            E[Mt,n | Ftpre ] ≤ 1            almost surely on Ht0 ,
+which is Equation (12).
+
+B.2   S TOPPING TIMES
+
+Proposition 1. Suppose αt ∈ (0, 1) is Ftpre -measurable and set
+                                                                 
+                                                        (β)     1
+                        τt = inf m ∈ {0, . . . , n} : Mt,m ≥        ∧ n.
+                                                               αt
+Then τt is a stopping time bounded by n, and
+                                                                                         
+                             (β)                                    (β)
+                          1{Mt,τt ≥ 1/αt } = 1              max    Mt,m ≥ 1/αt                .
+                                                           0≤m≤n
+
+
+Proof. For 0 ≤ m < n,
+                                             m
+                                                        (β)
+                                             [
+                              {τt ≤ m} =          {Mt,j ≥ 1/αt } ∈ Ht,m ,
+                                            j=0
+
+              (β)
+because Mt,j is Ht,j -measurable, αt is Ht,0 = Ftpre -measurable, and Ht,0 ⊆ Ht,j ⊆ Ht,m for
+every j ≤ m.
+By definition, τt ≤ n for every sample outcome. Therefore, when m ≥ n, we have τt ≤ n ≤ m for
+every outcome, so
+                                         {τt ≤ m} = Ω,
+where Ω is the set of all possible sample outcomes. In particular, {τt ≤ n} = Ω ∈ Ht,n . Together
+with the case m < n above, this proves that τt is a stopping time bounded by n.
+If a crossing occurs, the stopped value is the first crossing value; otherwise the process stops at n
+below threshold.
+
+B.3   M IXTURES
+
+Betting fractions. Betting interprets an evidence process as capital accumulated from an initial
+value of one (Waudby-Smith & Ramdas, 2024). In Equation (10), the amount bet on observation i
+         (β)              (β)
+is ηt,i Mt,i−1 , where Mt,i−1 is the current capital and ηt,i ∈ [0, 1) specifies the proportion of that
+capital put at risk. The new capital equals the current capital plus the gain or loss from this bet:
+                                                                 (β)
+                               (β)    (β)           (β) Yt,i − ut,i
+                              Mt,i = Mt,i−1 + ηt,i Mt,i−1    (β)
+                                                            ut,i
+                                                  "                               #
+                                          (β)                              Yt,i
+                                       = Mt,i−1       (1 − ηt,i ) + ηt,i    (β)
+                                                                                      .
+                                                                           ut,i
+                                                                                                      (β)
+The uncommitted capital is retained, and the amount bet is multiplied by the return factor Yt,i /ut,i .
+Thus ηt,i = 0 leaves the evidence unchanged; if Yt,i = 0, the update loses exactly the fraction ηt,i of
+                                                                               (β)
+current capital. Larger betting fractions increase both the gain when Yt,i > ut,i and the loss when
+        (β)
+Yt,i < ut,i . The amount of each bet is calculated using the current capital. A betting strategy specifies
+how to choose these fractions from the available history: each ηt,i must be Ht,i−1 -measurable, so it
+is chosen before observing Yt,i .
+
+
+                                                       18
+Combining betting strategies. Let L ≥ 1 be a fixed integer denoting the number of betting
+strategies included in the mixture. For each ℓ ∈ {1, . . . , L}, strategy ℓ uses Ht,i−1 -measurable
+           (ℓ)
+fractions ηt,i ∈ [0, 1) and produces
+                                                                           (β)
+                                                 m
+                                                    "                          #
+                          (β,ℓ)          (β,ℓ)                (ℓ) Yt,i − ut,i
+                                                Y
+                        Mt,0 = 1,     Mt,m =          1 + ηt,i         (β)
+                                                                                 .
+                                                i=1                   ut,i
+All L processes use the same validation observations and corrected boundaries, with potentially
+different betting fractions. A mixture combines their evidence by taking a weighted average, allowing
+several betting strategies to contribute to the test (Waudby-Smith & Ramdas, 2024). The weight
+πt,ℓ is the fraction of initial capital assigned to strategy ℓ; the weights are nonnegative, sum to
+one, are Ftpre -measurable, and remain fixed throughout the round. Convex averaging preserves
+e-value validity even when the component e-values depend on the same observations (Vovk & Wang,
+2021). The following corollary establishes the corresponding conditional validity for these sequential
+processes.
+                    (β,1)           (β,L)
+Corollary 1. Let Mt,m , . . . , Mt,m        use predictable betting sequences and let nonnegative weights
+                                             PL                     (β,mix)    PL            (β,ℓ)
+πt,1 , . . . , πt,L be Ftpre -measurable with ℓ=1 πt,ℓ = 1. Then Mt,m       = ℓ=1 πt,ℓ Mt,m is a
+                                                              (β,mix)
+nonnegative supermartingale under the corrected null, and Mt,τt       is a conditionally valid e-value
+at every bounded stopping time.
+
+Proof of Corollary 1. For each ℓ, conditional supermartingale validity gives
+                                             (β,ℓ)                     (β,ℓ)
+                                     E[Mt,i          | Ht,i−1 ] ≤ Mt,i−1 .
+The weights are nonnegative, sum to one, and are known at Ht,0 = Ftpre . Hence
+                                                         L
+                              (β,mix)                                   (β,ℓ)
+                                                         X
+                       E[Mt,i           | Ht,i−1 ] =           πt,ℓ E[Mt,i      | Ht,i−1 ]
+                                                         ℓ=1
+                                                         L
+                                                                     (β,ℓ)         (β,mix)
+                                                         X
+                                                     ≤         πt,ℓ Mt,i−1 = Mt,i−1 .
+                                                         ℓ=1
+
+Nonnegativity is immediate, and bounded optional stopping gives the stopped e-value claim.
+
+C     P ROOF OF FALSE E VOLUTION R ATE C ONTROL
+Lemma 2. If αt ∈ [0, 1] is Ftpre -measurable and Et is conditionally valid under Ht0 , then
+                                         E[Ntε At | Ftpre ] ≤ Ntε αt ,
+where αt = 0 is interpreted as At = 0.
+
+Proof. When αt > 0, the indicator inequality 1{Et ≥ 1/αt } ≤ αt Et holds. When αt = 0, both At
+and αt Et are zero. Thus At ≤ αt Et in all cases. Since Ntε and αt are Ftpre -measurable,
+                            E[Ntε At | Ftpre ] ≤ Ntε αt E[Et | Ftpre ] ≤ Ntε αt .
+
+
+
+C.1   D ETERMINISTIC HORIZON CONTROL IN T HEOREM 2
+                                             (β)
+Proof. For αt > 0, Algorithm 1 uses Mt,τt as its evidence, with the stopping time τt ≤ n defined in
+Proposition 1. The stopping extension of Theorem 1 ensures that this evidence is conditionally valid
+on Ht0 . Therefore, Lemma 2 gives
+                                         E[Ntε At | Ftpre ] ≤ Ntε αt .
+When αt = 0, the algorithm sets At = 0, so the same inequality holds.
+
+
+                                                         19
+We first show that each testing level αt is Ftpre -measurable and that the total budget spent is at most
+q. At the first round, B1 = q and R0 = 0. The baseline ρ0t = 1/(T − t + 1) is deterministic for
+1 ≤ t ≤ T , and wt is selected using only Ftpre . Thus (8) and (6) make ρt , αt , and
+                                                                        
+                                       αt                       αmax
+                             ct =             = min ρt Bt ,
+                                   Rt−1 + 1                   Rt−1 + 1
+Ftpre -measurable. Hence the current testing level is fixed before validation. Moreover, 0 ≤ ρt ≤ 1
+implies
+                                       0 ≤ ct ≤ ρt Bt ≤ Bt ,
+so Bt+1 = Bt − ct remains nonnegative. For any m ≤ T , summing ct = Bt − Bt+1 over
+t = 1, . . . , m gives
+                        m               m
+                        X      αt      X
+                                     =     (Bt − Bt+1 ) = q − Bm+1 ≤ q.
+                        t=1
+                            Rt−1 + 1   t=1
+
+
+If At = 1 and t ≤ T , the total number of acceptances by horizon T is at least the earlier count plus
+the current acceptance:
+                                         RT ≥ Rt−1 + 1.
+If At = 0, the current false-acceptance numerator vanishes. Hence, we have
+                                          Ntε At    Ntε At
+                                                 ≤          .
+                                          RT ∨ 1   Rt−1 + 1
+Summing and taking expectations yields
+                                                 "P                #
+                                                       T    ε
+                                                       t=1 Nt At
+                               FERε (T ) = E
+                                                    RT ∨ 1
+                                               T
+                                                       Ntε At
+                                              X                
+                                            ≤     E
+                                              t=1
+                                                      Rt−1 + 1
+                                               T
+                                                      E[Ntε At | Ftpre ]
+                                              X                         
+                                            =     E
+                                              t=1
+                                                        Rt−1 + 1
+                                               T
+                                                       Ntε αt
+                                              X                
+                                            ≤     E
+                                              t=1
+                                                      Rt−1 + 1
+                                                " T             #
+                                                  X      αt
+                                            ≤E                    ≤ q.
+                                                  t=1
+                                                      Rt−1 + 1
+
+The third line uses that Rt−1 is Ftpre -measurable, and the fourth uses Lemma 2.
+
+C.2   O UTER STOPPING EXTENSION OF T HEOREM 2
+
+Proof. We extend the run beyond its planned horizon T by setting At = αt = ct = 0 for t > T and
+keeping the history and account balance fixed. Let τ be an almost surely finite stopping time for
+(Ft )t≥0 . The stopped counts admit nonnegative series representations
+                              ∞
+                              X                                    ∞
+                                                                   X
+                      Fτε =         1{τ ≥ t}Ntε At ,      Rτ =           1{τ ≥ t}At .
+                              t=1                                  t=1
+
+Only finitely many summands are nonzero on almost every path. If τ ≥ t and At = 1, then
+Rτ ≥ Rt−1 + 1. Consequently,
+                                              ∞
+                                     Fτε     X             Ntε At
+                                           ≤     1{τ ≥ t}          .
+                                    Rτ ∨ 1   t=1
+                                                          Rt−1 + 1
+
+
+                                                   20
+The stopping-time property implies {τ ≥ t} = {τ ≤ t − 1}c ∈ Ft−1 ⊆ Ftpre . Therefore the survival
+indicator is predictable, and Lemma 2 gives
+                                     Ntε At
+                                                 
+                                                                 αt
+                        E 1{τ ≥ t}           Ftpre ≤ 1{τ ≥ t}           .
+                                    Rt−1 + 1                  Rt−1 + 1
+All summands are nonnegative, so Tonelli’s theorem and the tower property yield
+                                            "∞                      #
+                               Fτε
+                                            X               αt
+                        E             ≤E          1{τ ≥ t}
+                             Rτ ∨ 1           t=1
+                                                           Rt−1 + 1
+                                            "∞             #
+                                              X      αt
+                                      ≤E                     ≤ q.
+                                              t=1
+                                                  Rt−1 + 1
+                                                          PT
+Since ct = 0 for t > T , the last inequality follows from t=1 ct = q − BT +1 ≤ q. This extension
+is stronger than guaranteeing each fixed deterministic horizon separately: the stopping time itself can
+depend on the observed recursive self-improvement history.
+
+D       P ROOF OF T RUE E VOLUTION R ATE C ONVERGENCE
+D.1     P ROOF OF T HEOREM 3
+
+Proof. Fix T < ∞ and a sequence of runs satisfying Assumption 2. We suppress dependence of
+the candidates and histories on (N, n). All statements for sufficiently large (N, n) are along this
+sequence, and all conditional inequalities below hold almost surely.
+
+Step 1: Bound the testing levels. Equation (7) gives
+                                                           
+                              αt                     αmax
+                      ct =          = min ρt Bt ,             ≤ ρmax Bt .
+                           Rt−1 + 1                Rt−1 + 1
+Consequently, Bt+1 = Bt − ct ≥ (1 − ρmax )Bt . Starting from B1 = q and iterating yields
+                       Bt ≥ q(1 − ρmax )t−1 ≥ q(1 − ρmax )T −1 ,           t ≤ T.
+Since ρt ≥ ρmin and Rt−1 + 1 ≥ 1, we obtain the deterministic lower bound
+                     αt ≥ α∗ := min αmax , ρmin q(1 − ρmax )T −1 > 0.
+                                     
+                                                                                                  (18)
+Write Λ = log(1/α∗ ). Both α∗ and Λ are independent of (N, n).
+
+Step 2: Bound exposure and the conditional mean under improvement. At the beginning of
+round t, at most (t − 1)n distinct validation indices have been exposed. An index drawn earlier in
+the same round has been removed from Rt,i−1 , so it cannot contribute to It,i−1 ∩ Rt,i−1 . Thus, for
+every draw,                                                        
+                                                          (T − 1)n
+                            0 ≤ ζt,i ≤ ζ̄N,n := min 1,                .                        (19)
+                                                          N −n+1
+Because T is fixed and n/N → 0, we have ζ̄N,n → 0.
+Let Lt,i denote the Ht,i−1 -measurable indicator that draw i is made. On {∆t > 0, Lt,i = 1},
+Equation (17) and Yt,i Qt,i ≥ 0 give
+                            E[Yt,i | Ht,i−1 ] ≥ E[Yt,i (1 − Qt,i ) | Ht,i−1 ]
+                                                            1 + ∆t
+                                              = (1 − ζt,i )
+                                                               2
+                                                1 − ζ̄N,n
+                                              ≥             .
+                                                    2
+Also,
+                                    (β)
+                                  ut,i = pε + βζt,i ≤ pε + β ζ̄N,n .
+
+
+                                                   21
+Step 3: Positive log-growth bound.   For z ∈ [0, 1] and η ∈ [η− , η+ ], define
+                                                                              
+                             1+z               1−z                        η
+                  ϕ(z, η) :=     log(1 − η) +         log 1 − η +                .
+                              2                   2                   pε + βz
+On a draw, the log increment is
+                                           (β)
+                                                                                !
+                                         Mt,i                       ηt,i Yt,i
+                          Vt,i := log     (β)
+                                                 = log 1 − ηt,i +      (β)
+                                                                                    .
+                                        Mt,i−1                       ut,i
+                                                                                        (β)
+Set z = ζ̄N,n and ū = pε + βz. Conditional on Ht,i−1 , ηt,i is fixed. Since ut,i ≤ ū and Yt,i ≥ 0,
+                                                                 
+                                                        ηt,i Yt,i
+                                Vt,i ≥ log 1 − ηt,i +               .
+                                                            ū
+The function log(1 − η + ηy/ū) is concave on [0, 1], so we have:
+                             ηy                                       η
+                 log 1 − η +        ≥ (1 − y) log(1 − η) + y log 1 − η +    .
+                               ū                                        ū
+The right-hand side is increasing in y. Applying this inequality with y = Yt,i and η = ηt,i , and then
+taking conditional expectations, gives
+                                                                                 ηt,i 
+             E[Vt,i | Ht,i−1 ] ≥ (1 − mt,i ) log(1 − ηt,i ) + mt,i log 1 − ηt,i +        ,
+                                                                                   ū
+where mt,i := E[Yt,i | Ht,i−1 ]. By Step 2, on {∆t > 0, Lt,i = 1},
+                                                     1 − ζ̄N,n
+                                            mt,i ≥             .
+                                                        2
+Moreover,                                    ηt,i 
+                              log 1 − ηt,i +          > log(1 − ηt,i ),
+                                               ū
+so the preceding lower bound is increasing in mt,i . Therefore,
+                                         1 + ζ̄N,n
+                   E[Vt,i | Ht,i−1 ] ≥             log(1 − ηt,i )
+                                             2                                   
+                                            1 − ζ̄N,n                    ηt,i
+                                         +            log 1 − ηt,i +
+                                                2                    pε + β ζ̄N,n
+                                    = ϕ(ζ̄N,n , ηt,i ).
+
+For fixed z, ϕ(z, η) is concave in η, hence its minimum on [η− , η+ ] is attained at an endpoint. Define
+                              gN,n := min{ϕ(ζ̄N,n , η− ), ϕ(ζ̄N,n , η+ )}.                         (20)
+It follows that E[Vt,i | Ht,i−1 ] ≥ gN,n on every improving draw.
+Continuity and ζ̄N,n → 0 imply
+                             gN,n −→ g0 := min{ϕ(0, η− ), ϕ(0, η+ )}.
+To verify that g0 > 0, note that
+                                                                 
+                                          1                     η
+                             ϕ(0, η) =      log (1 − η) 1 − η +
+                                          2                     pε
+and                                        
+                                         η        η
+                         (1 − η) 1 − η +      −1=    [ε − η(1 − pε )] .                            (21)
+                                         pε       pε
+Assumption 2(c) gives
+                                                           2ε     ε
+                               0 < η− ≤ η ≤ η+ <              =        .
+                                                          1+ε   1 − pε
+
+                                                     22
+The right-hand side of Equation (21) is therefore strictly positive, so both endpoint values defining g0
+are positive. Since ζ̄N,n → 0 and ϕ(z, η) is continuous in z,
+                      ϕ(ζ̄N,n , η− ) → ϕ(0, η− ),         ϕ(ζ̄N,n , η+ ) → ϕ(0, η+ ).
+Therefore,
+                        gN,n = min{ϕ(ζ̄N,n , η− ), ϕ(ζ̄N,n , η+ )} → g0 ,
+where g0 = min{ϕ(0, η− ), ϕ(0, η+ )} > 0. Hence, for all sufficiently large N and n,
+                                                      g0
+                                      |gN,n − g0 | < ,
+                                                       2
+which implies
+                                               g0
+                                        gN,n ≥     > 0.
+                                                2
+                                                                     (β)
+The log increments also lie in a fixed bounded interval. Since ut,i ≥ pε , Yt,i ∈ [0, 1], and ηt,i ≤ η+
+on draws,                                                               
+                                                                    η+
+                            log(1 − η+ ) ≤ Vt,i ≤ log 1 − η+ +             .
+                                                                     pε
+After stopping, Vt,i = 0, which lies in the same interval. Its width is the fixed constant
+                                                              
+                                             1 − η+ + η+ /pε
+                                 h := log                        > 0.                               (22)
+                                                 1 − η+
+Thus the log increments are integrable, and the conditions of Appendix D.2 hold with gt = gN,n and
+ht = h for all sufficiently large runs.
+
+Step 4: Bound conditional miss probabilities. Applying Lemma 3 with gt = gN,n and ht = h
+gives, on {∆t > 0},
+                                          "                       2 #
+                                pre          2n         log(1/αt )
+                    P(At = 0 | Ft ) ≤ exp − 2 gN,n −
+                                             h              n       +
+                                          "              2 #                       (23)
+                                             2n         Λ
+                                    ≤ exp − 2 gN,n −           .
+                                             h          n +
+The second inequality follows from αt ≥ α∗ and hence log(1/αt ) ≤ Λ.
+For sufficiently large N and n, we have gN,n ≥ g0 /2 and n ≥ 4Λ/g0 . Therefore,
+                                                        Λ  g0
+                                           gN,n −         ≥ .
+                                                        n  4
+Set
+                                                g02
+                                            κ :=    > 0.                                           (24)
+                                               8h2
+This constant is independent of (N, n), and Equation (23) yields
+                   P(At = 0 | Ftpre ) ≤ e−κn            on {∆t > 0},       t = 1, . . . , T.       (25)
+In particular, the conditional miss bound is a consequence of the sampling, allocation, and betting
+rules, rather than an assumed property of the gate.
+                                     PT
+Step 5: TER consistency. Let L+  T =   t=1 It (1−At ) = UT −ST denote the number of improving
+                                pre
+candidates missed. Since It is Ft -measurable, Equation (25) and the tower property give
+                                          T
+                                          X
+                                E[L+
+                                   T] =          E [It P(At = 0 | Ftpre )]
+                                           t=1
+                                                  T
+                                                  X
+                                        ≤ e−κn          E[It ]
+                                               t=1
+                                             −κn
+                                        ≤ Te        .
+
+
+                                                    23
+The following identity holds on every trajectory:
+                                   ST                    UT − S T
+                             1−           = 1{UT = 0} +           .
+                                 UT ∨ 1                   UT ∨ 1
+Indeed, when UT = 0, also ST = 0, and both sides equal one. When UT > 0, the indicator vanishes
+and the equality follows from UT ∨ 1 = UT . Taking expectations, using UT ∨ 1 ≥ 1, and then
+applying Assumption 2(a), we obtain
+                                                             L+
+                                                                  
+                                                               T
+                           1 − TER(T ) = P(UT = 0) + E
+                                                            UT ∨ 1
+                                            ≤ P(UT = 0) + E[L+
+                                                             T]
+                                            ≤ rN,n + T e−κn .
+Rearranging proves Equation (15). Because T is fixed, rN,n → 0, and n → ∞, the right-hand side
+tends to zero. Since 0 ≤ TER(T ) ≤ 1, we conclude that TER(T ) → 1. No independence between
+the future candidate count UT and current acceptance decisions is used.
+
+D.2     A N EXPLICIT CONDITIONAL MISS BOUND
+
+The following lemma provides the conditional miss bound used to derive Equation (23) in Step 4
+of the proof of Theorem 3. Since ηt,i < 1, every factor in Equation (10) is at least 1 − ηt,i > 0, so
+   (β)
+Mt,i > 0 and its log increments are well defined. For each round with αt > 0, define
+                                                          (β)
+                                                        Mt,i
+                                           Vt,i = log     (β)
+                                                                 ,
+                                                        Mt,i−1
+and let Lt,i be the Ht,i−1 -measurable indicator that validation draw i is made.
+Lemma 3 (Conditional miss bound). Suppose there exist finite Ftpre -measurable gt , ht > 0 and
+finite Ht,i−1 -measurable interval endpoints at,i , bt,i such that, on {∆t > 0, Lt,i = 1}, for every
+i = 1, . . . , n,
+                E[Vt,i | Ht,i−1 ] ≥ gt ,      at,i ≤ Vt,i ≤ bt,i ,     bt,i − at,i ≤ ht .       (26)
+Then
+                            P(At = 0 | Ftpre ) ≤ ϵt   on {∆t > 0},
+where                           "                      2 #
+                            exp − 2n g − log(1/αt )
+                            
+                                                              , αt > 0,
+                                           t
+                       ϵt =         h2t             n     +                                     (27)
+                            
+                             1,                                 αt = 0.
+                            
+
+
+Proof. If αt = 0, then At = 0 and ϵt = 1, so the miss bound holds.
+Work on the Ftpre -measurable event {∆t > 0, αt > 0} throughout the following calculation. Define
+                          µt,i = E[Vt,i | Ht,i−1 ],        Zt,i = Vt,i − µt,i .
+On {Lt,i = 1}, Equation (26) gives µt,i ≥ gt , and subtracting µt,i from the interval endpoints
+preserves their width, which is at most ht . On {Lt,i = 0}, the evidence is unchanged, so Vt,i = 0.
+Since this event is Ht,i−1 -measurable, µt,i = Zt,i = 0 there as well. The log increments satisfy
+Vt,i ≤ log(1/pε ) and have nonnegative conditional means on the event under consideration, so their
+negative parts have conditional expectations at most log(1/pε ). They are therefore integrable when
+restricted to this event, and E[Zt,i | Ht,i−1 ] = 0 there.
+For any finite nonnegative Ftpre -measurable λ, the conditional Hoeffding lemma gives
+                                E[e−λZt,i | Ht,i−1 ] ≤ exp(λ2 h2t /8).
+Both λ and ht are fixed when conditioning on Ftpre . Dividing each factor by exp(λ2 h2t /8) and
+iterating conditional expectations from Ht,0 = Ftpre yields
+                             "     (     n
+                                                           )      #
+                                        X          nλ2 h2t    pre
+                           E exp −λ         Zt,i −           Ft     ≤ 1.
+                                        i=1
+                                                      8
+
+
+                                                   24
+If At = 0, all n validation draws are made and the evidence never reaches 1/αt . Therefore,
+                                      n
+                                                              (β)
+                                      X
+                                            Vt,i = log Mt,n < log(1/αt ).
+                                      i=1
+
+On this miss event, Lt,i = 1 for every i = 1, . . . , n. Equation (26) then gives µt,i ≥ gt at every draw,
+so
+                                           Xn
+                                                 µt,i ≥ ngt .
+                                                 i=1
+Define dt = gt − log(1/αt )/n. Subtracting the conditional means from the realized log increments
+gives, on {At = 0},
+                                  n
+                                  X                  n
+                                                     X              n
+                                                                    X
+                                            Zt,i =         Vt,i −         µt,i
+                                      i=1            i=1            i=1
+                                                < log(1/αt ) − ngt
+                                                                       
+                                                             log(1/αt )
+                                                = −n gt −
+                                                                 n
+                                                = −ndt .
+Thus every outcome with At = 0 satisfies this inequality, which proves the event inclusion
+                                            ( n                )
+                                               X
+                             {At = 0} ⊆           Zt,i < −ndt .
+                                                           i=1
+
+If dt ≤ 0, the formula gives ϵt = 1, and the miss probability is at most one. On {dt > 0}, take a
+finite positive Ftpre -measurable λ. The event inclusion above implies that, whenever At = 0,
+                           (      n
+                                                    )
+                                            nλ2 h2t                   nλ2 h2t
+                                X                                            
+                       exp −λ        Zt,i −           > exp λndt −              .
+                                 i=1
+                                              8                          8
+
+The random variable on the left is nonnegative. The threshold on the right is positive and Ftpre -
+measurable, since λ, dt , and ht are all Ftpre -measurable. Conditional Markov’s inequality bounds
+the probability of exceeding this threshold by the conditional expectation divided by the threshold.
+Therefore,
+                                           "     (      n
+                                                                          )      #
+                                                       X          nλ2 h2t    pre
+                                         E exp −λ          Zt,i −           Ft
+                                                       i=1
+                                                                     8
+                                 pre
+                   P(At = 0 | Ft ) ≤                                   
+                                                                 nλ2 h2
+                                                   exp λndt − 8 t
+                                                              1
+                                            ≤                 
+                                                        nλ2 h2
+                                              exp λndt − 8 t
+                                                          nλ2 h2t
+                                                                 
+                                            = exp −λndt +           .
+                                                             8
+The second inequality uses the conditional expectation bound of one established above by iterat-
+ing the conditional Hoeffding bound. The choice λ = 4(dt )+ /h2t is Ftpre -measurable and gives
+exp(−2nd2t /h2t ) when dt > 0. Combining these cases with αt = 0 proves Equation (27).
+
+
+
+D.3    E XTENSION OF THE POWER BOUND TO MIXTURES
+
+Consider the convex mixture in Corollary 1,
+                                      L                                          L
+                        (β,mix)                      (β,ℓ)
+                                      X                                          X
+                     Mt,m         =         πt,ℓ Mt,m ,             πt,ℓ ≥ 0,          πt,ℓ = 1,
+                                      ℓ=1                                        ℓ=1
+
+
+                                                             25
+where the weights are Ftpre -measurable and remain fixed during validation. Suppose at least one
+component ℓ⋆ has predictable fractions satisfying Assumption 2(c) on draws and weights πt,ℓ⋆ ≥
+π∗ > 0 for every round and run, with π∗ independent of (N, n). Other components need not satisfy
+this power condition, but they remain nonnegative processes constructed by Equation (10) with
+predictable fractions in [0, 1).
+
+                                    (β,mix)           (β,ℓ⋆ )
+Proof. Nonnegativity gives Mt,m               ≥ π∗ Mt,m         . If the mixture gate misses an improving
+candidate, all n draws are made and
+                               (β,mix)                        (β,ℓ⋆ )
+                           Mt,n          < 1/αt ,          Mt,n         < 1/(π∗ αt ).
+Steps 2–3 of the proof of Theorem 3 apply to the selected component, with its increments held at zero
+after the mixture gate stops. The conditional concentration argument in Appendix D.2 therefore gives
+                                              "                               2 #
+                                  pre            2n            log(1/(π∗ αt ))
+                   P(At = 0 | Ft ) ≤ exp − 2 gN,n −
+                                                 h                   n          +
+
+on {∆t > 0}. The additional threshold penalty is at most the fixed constant log(1/π∗ ). Replacing
+Λ by Λ + log(1/π∗ ) in Step 4 thus gives the same e−κn bound for all sufficiently large runs. Step
+5 then proves the same TER conclusion. Under Assumption 1, the mixture remains conditionally
+valid by Corollary 1, so the proof of Theorem 4 below also applies. Only the designated component
+is required to satisfy the power condition.
+
+
+E    P ROOF OF THE G AIN B OUND
+
+Define the cumulative loss from accepted updates by
+                                                  T
+                                                  X
+                                          DT− =           At (−∆t )+ .
+                                                    t=1
+
+
+Proof of Theorem 4. Fix a finite horizon T ≥ 1 and the resource sequence and algorithm configu-
+ration in Appendix D.1. Take κ > 0 as in Equation (24) and consider a sufficiently large run for
+Equation (25) to hold. Throughout, the candidates, effects, and acceptance decisions refer to the
+actual adaptive trajectory.
+
+Step 1: Bound cumulative accepted loss. Under Assumption 1, Theorem 1 and Proposition 1
+provide conditionally valid evidence at the gate’s stopping time. Lemma 2 therefore gives
+                                         E[Ntε At | Ftpre ] ≤ Ntε αt .
+Let Wt = (−∆t − ε)+ . Since ∆t is Ftpre -measurable and lies in [−1, 1], Wt is bounded, nonnegative,
+and Ftpre -measurable. Moreover, Wt > 0 implies ∆t < −ε, so Wt = Ntε Wt . Thus
+                          E[At Wt ] = E [Wt E[Ntε At | Ftpre ]] ≤ E[αt Wt ].
+The identity
+                            (−∆t )+ = min{(−∆t )+ , ε} + (−∆t − ε)+
+splits each accepted loss into the part up to ε and the excess. Multiplying by At , summing, and taking
+expectations gives
+                              T
+                              X                                     T
+                                                                    X
+                  E[DT− ] =         E[At min{(−∆t )+ , ε}] +                  E[At Wt ]
+                              t=1                                       t=1
+                              T
+                              X                                     T
+                                                                    X
+                          ≤         E[At min{(−∆t )+ , ε}] +                  E[αt (−∆t − ε)+ ].
+                              t=1                                       t=1
+
+
+                                                      26
+Step 2: Control MDD.        For every 0 ≤ r < s ≤ T , the update rule implies
+                                              s
+                                              X                    s
+                                                                   X
+                  J(Θr ) − J(Θs ) = −                At ∆ t ≤             At (−∆t )+ ≤ DT− .
+                                             t=r+1               t=r+1
+
+Taking a positive part and then maximizing over (r, s) yields MDD(T ) ≤ DT− pathwise. Taking
+expectations and applying Step 1 gives the auxiliary bound
+                                     T
+                                     X
+                 E[MDD(T )] ≤              E [At min{(−∆t )+ , ε} + αt (−∆t − ε)+ ] .
+                                     t=1
+
+This bound uses only conditional validity, not the power or candidate discovery conditions.
+
+Step 3: Bound final gain. The update rule gives J(Θt ) − J(Θt−1 ) = At ∆t , and At ∆t =
+It At ∆t − At (−∆t )+ . Summing over rounds yields
+                                                  T
+                                                  X                T
+                                                                   X
+                       J(ΘT ) − J(Θ0 ) =                At ∆ t =         It At ∆t − DT− .
+                                                  t=1              t=1
+
+Since It ∆t = (∆t )+ is nonnegative and Ftpre -measurable, the derived conditional miss bound in
+Equation (25) gives
+                                  E[It At ∆t ] = E [(∆t )+ E[At | Ftpre ]]
+                                               ≥ (1 − e−κn )E[(∆t )+ ].
+                             PT
+Summing and using PT =          t=1 E[(∆t )+ ], we obtain
+                                   T
+                                   X
+                                         E[It At ∆t ] ≥ (1 − e−κn )PT .
+                                   t=1
+
+Consequently,
+                      T
+                      X
+            G(T ) =         E[It At ∆t ] − E[DT− ]
+                      t=1
+                                            T
+                                            X
+                  ≥ (1 − e−κn )PT −               E [At min{(−∆t )+ , ε} + αt (−∆t − ε)+ ] .
+                                            t=1
+
+The last inequality uses Step 1. This proves Equation (16) with the same κ as in the proof of
+Theorem 3.
+Finally, the same conditional miss bound gives
+                       T
+                       X                                 T
+                                                         X
+                  0≤         E[(1 − At )(∆t )+ ] =             E [(∆t )+ P(At = 0 | Ftpre )]
+                       t=1                               t=1
+                                                     ≤ e−κn PT
+                                                     ≤ T e−κn −→ 0,
+since PT ≤ T and T is fixed. This establishes the vanishing missed-improvement claim accom-
+panying the theorem. The accepted-loss terms need not vanish. Neither the loss bound nor the
+weighted miss calculation requires independence across rounds or comparison to a different candidate
+trajectory.
+
+F   H ARNESS D ESIGN WITH F OUR C OMPONENTS AND O PERATORS
+This appendix describes the operators used in our experiments. Operator names remain fixed across
+benchmarks. The specific details of the operators are adapted to suit different benchmarks.
+
+
+                                                        27
+F.1   S TATE REPRESENTATION
+
+Inspired by modular agent design and automated agent search in AgentSquare and ADAS (Shang
+et al., 2025; Hu et al., 2025), we organize the mutable agent state into four editable components:
+reasoning, routing, memory, and workflow. The four-component representation and the specific
+operator definitions below are implementation choices of our harness.
+The mutable harness state is
+                                           H = (R, P, M, W),
+where R is the reasoning strategy, P is the context router/provider, M is episodic memory, and W is
+workflow. These components determine the instructions and context for a single solver call.
+A proposed transition has the structured form
+                          ot = (κt , operator, target, parameters),
+where κt ∈ {R, P, M, W} identifies the component to modify; operator specifies the operation to
+perform; target identifies the rule, memory entry, or configuration field to which the operation
+applies; and parameters supplies the values or content required by that operation. For example,
+refining an existing reasoning rule uses κt = R, operator=REFINE_RULE, the rule identifier as
+target, and the revised procedure in parameters.
+
+F.2   R EASONING OPERATORS
+
+Motivated by prior work on modular reasoning, decomposition, self-refinement, and prompt scope
+(Zhou et al., 2023; Madaan et al., 2023; Fernando et al., 2024; Chen et al., 2024), we represent
+the reasoning strategy as an explicit and editable rule set. The corresponding operators allow
+reasoning rules and decomposition policies to be added, revised, generalized, reprioritized, or removed
+based on closed historical feedback. The particular typed rule schema and operator definitions are
+implementation choices of our harness.
+The reasoning component stores the base analysis protocol, decomposition policy, and a bounded
+collection of specialist rules. It is compiled into the mutable analysis instruction of the existing solver
+and does not alter the fixed role prompt.
+
+
+                        Table 2: Reasoning operators in the operator registry.
+Operator                               Function
+ADD_SPECIALIST_RULE                      Add a local, cluster-level, or global rule with a trigger, exclu-
+                                         sions, and executable steps.
+REFINE_RULE                              Rewrite only the procedure of an existing rule.
+SET_DECOMPOSITION_                       Set a general decomposition policy, such as identifying com-
+POLICY                                   parison entities before extracting their attributes.
+GENERALIZE_RULE_SCOPE                    Broaden a rule by relaxing its trigger, removing exclusions,
+                                         or expanding scope.
+PROMOTE_RULE_TO_DEFAULT                  Raise a rule’s scope or priority toward default behavior.
+DELETE_RULE                              Remove an obsolete or harmful specialist rule.
+
+
+F.3   ROUTING OPERATORS
+
+Motivated by retrieval-augmented generation, adaptive retrieval, evolving retrieval policies, and
+selective context construction (Lewis et al., 2020; Asai et al., 2024; Huang et al., 2026; Ye et al., 2026;
+Li et al., 2023), we treat routing as an editable pre-solver information-access policy. Its operators
+control how available context is selected, ranked, expanded, truncated, or restored before the solver
+call.
+The routing component controls how the existing Wikipedia provider selects and orders passages
+before the single solver call. It cannot write memory, inspect labels from the current unfinished round,
+or trigger an additional model call.
+
+
+                                                    28
+                    Table 3: Routing/provider operators in the operator registry.
+Operator                              Function
+SET_ROUTE_MODE                         Select full context, lexical reordering, lexical top-K, bridge
+                                       reordering, or bridge top-K.
+REWEIGHT_RELEVANCE_                    Adjust title, body, position, and minimum-overlap relevance
+SCORER                                 weights.
+ENABLE_BRIDGE_AWARE_                   Toggle expansion in which a first-hop entity raises the rank of
+EXPANSION                              linked second-hop evidence.
+SET_FIXED_TOP_K                        Cap the number of ordinary evidence passages retained by
+                                       sparse routing.
+SET_FULL_FALLBACK                      Configure fallback to full context when sparse evidence is
+                                       insufficient.
+
+
+
+F.4   M EMORY OPERATORS
+
+Drawing on episodic reflection, experiential learning, reusable procedural memory, and adaptive
+memory retrieval (Shinn et al., 2023; Zhao et al., 2024; Wang et al., 2025; Ye et al., 2026), we treat
+memory as a persistent editable experience bank whose entries can be added, revised, selectively
+triggered and prioritized, or removed across evolution rounds.
+The memory component maintains a retrievable active bank. The current protocol does not expose
+exact or global as proposer-selectable episodic triggers: new episodic memories enter a common
+cluster-ranking path.
+
+
+                        Table 4: Memory operators in the operator registry.
+Operator                            Function
+ADD_LOCAL                              Atomically add one to three closed cases to active memory
+                                       for immediate retrieval.
+REFINE_PROCEDURE                       Revise the steps, evidence requirement, or safe fallback used
+                                       after retrieving a memory.
+MODIFY_TRIGGER                         Change the similarity threshold for cluster retrieval.
+MODIFY_PRIORITY                        Change retrieval and rendering priority.
+DELETE                                 Move a harmful memory from the active bank to the archive.
+
+
+
+F.5   W ORKFLOW OPERATORS
+
+Drawing on automated and evolutionary workflow optimization (Zhang et al., 2025a; Zhao et al.,
+2026), we treat the within-call execution workflow as an editable state that can evolve across rounds
+through changes to verification, evidence alignment, stopping, and fallback policies.
+The workflow component specifies a plan → reason → check → finalize policy within the
+same completion. It does not add a second verifier or a hidden model call.
+
+
+                  Table 5: Within-call workflow operators in the operator registry.
+Operator                               Function
+SET_VERIFY_MODE                        Set the strength of internal checks before finalization.
+SET_EVIDENCE_ALIGNMENT                 Specify whether the answer and supporting fact identifiers
+                                       must align with evidence.
+SET_STOP_RULE                          Specify when evidence checking stops and output begins.
+SET_FALLBACK_MODE                      Specify behavior under uncertainty or insufficient evidence.
+
+
+                                                 29
+G     E XPERIMENT D ETAILS
+
+G.1    C OMMON PROTOCOL
+
+We evaluate Greedy, PACE, SGM-B, SGM-H, and TRUST on HotpotQA, DROP, and APPS with
+Qwen-3.8-Flash and DeepSeek-V4-Flash. Each method runs for 30 outer rounds. For HotpotQA,
+DROP, and APPS, solver output seeds range from 0 to 4 and data split seeds range from 42 to 46.
+Within each setting, all methods share the same initial test responses. Throughout the experiments,
+we reuse cached responses for identical inputs whenever possible to ensure fair comparisons across
+methods. One candidate is then selected for validation on up to 40 examples sampled without
+replacement from the 200-example validation pool; validation samples may overlap across rounds.
+The initial set contains 20 examples and the validation pool contains 200 examples. All four
+components and 20 operators in Appendix F are available. Performance is evaluated on 300 held-out
+test examples, which are used only for reporting.
+In each setting, all gates start from the same initial harness, which contains prespecified weaknesses
+that provide clear opportunities for improvement. This design allows us to examine whether different
+gates accept candidates that correct these weaknesses. In later rounds, when the incumbent has
+typically reached a higher level of performance, we also examine whether the gates reject subsequent
+candidates that could reduce performance and cause the agent to lose earlier gains. The experiments
+therefore examine different stages of the RSI process, from repairing initial weaknesses to preserving
+improvements during continued search.
+For API calls, we configure the generation parameters as follows. All roles use top-p = 1. The
+temperature is set to 0 for the Solver and Allocator, and to 0.3 for the Proposer, except for HotpotQA
+with DeepSeek, where the Proposer uses 0.7. The Solver’s maximum output length is 512, 768, and
+8192 tokens for HotpotQA, DROP, and APPS, respectively, while the Allocator uses a uniform limit
+of 4096 tokens. The Proposer’s maximum output length is 2400 tokens, except on HotpotQA, where
+DeepSeek and Qwen use limits of 1536 and 2048 tokens, respectively.
+
+
+                           Table 6: Gate settings in the main experiments.
+Method                           Setting
+Greedy                            Positive empirical paired gain.
+PACE (Shawn, 2026)                Bet 0.5, candidate-level α = 0.05.
+SGM-B (Wu et al., 2025)           Bernstein lower confidence bound > 0, δ = 0.5, αt = δ/(tH30 ),
+                                          P30
+                                  H30 = j=1 1/j.
+SGM-H (Wu et al., 2025)           Hoeffding lower confidence bound > 0, same δ = 0.5, αt =
+                                                     P30
+                                  δ/(tH30 ), H30 = j=1 1/j.
+TRUST                             q = 0.30, ε = 0.10, β = 0.01, betting mixture with
+                                  (0.10,0.25,0.50,0.75)
+
+
+                                                                                (1)   (2)   (3)   (4)
+We use an equally weighted mixture of four betting strategies, with (ηt,i , ηt,i , ηt,i , ηt,i ) =
+(0.10, 0.25, 0.50, 0.75) for all t, i and mixture weights πt,ℓ = 1/4 for ℓ = 1, . . . , 4. The result-
+                  (β,mix)      P4        (β,ℓ)
+ing statistic is Mt,m     = 14 ℓ=1 Mt,m .
+
+
+G.2    M ETRICS
+
+For each seed b ∈ {1, . . . , B}, let Jbb,t denote the mean task score of the incumbent after round t on
+Ntest held-out test examples, measured on the [0, 1] scale. Test results are used only for reporting.
+      cand
+Let Jbb,t  denote the corresponding score of the selected candidate, and define
+
+                                       b b,t = Jbcand − Jbb,t−1 .
+                                       ∆         b,t
+
+
+                                                  30
+Let Cb denote the rounds with an available selected candidate up to round T , and let Ab,t indicate
+acceptance. We first compute each metric within each seed and then average across seeds:
+                       B                                                            B
+      b N (T ) = 1                                               \ Ntest (T ) = 1
+                       X                                                           X                            
+      G  test
+                             Jbb,T − Jbb,0 ,                     MDD                       max      Jbb,r − Jbb,s + ,
+                 B                                                              B         0≤r<s≤T
+                       b=1                                                          b=1
+                       B     P                                                     B   P
+                  1 X          t∈Cb Ab,t 1{∆b,t ≤ 0}                            1            Ab,t 1{ b
+                                                                                                     ∆b,t > 0}
+                                               b                                  X
+FER0,Ntest (T ) =
+[                                P                          ,   TER
+                                                                 [ Ntest (T ) =       Pt∈Cb                  .
+                  B
+                       b=1          t∈Cb Ab,t          ∨1                       B
+                                                                                  b=1        1{∆b b,t > 0} ∨ 1
+                                                                                             t∈Cb
+
+We use Ntest = 300, T = 30, and B = 5. Gain and MDD are reported in percentage points (pp),
+while FER0 and TER are reported as percentages. FER0 counts accepted non-improving updates,
+including ties. The TER denominator counts improving selected candidates, including those rejected
+by the gate. A run with no accepted updates contributes zero to both FER0 and TER.
+
+G.3    P ROPOSER AND S OLVER
+
+The proposer generates three proposals using feedback from completed rounds. We screen the
+candidates on 20 examples from the previous round and select the valid candidate with the highest
+score for the current round. To minimize the effect of unequal feedback sample sizes on the proposer,
+we retain all 40 examples for feedback even when TRUST’s statistical test stops early. Exposure
+probabilities in subsequent rounds therefore account for the full batch rather than only the observations
+up to the stopping time.
+Here, we present example designs for the Proposer and Solver on HotpotQA. The proposer template
+guides candidate generation using the current harness and previously closed feedback. And the solver
+template guides task execution using the current harness policies and a fixed output contract.
+
+  Listing 1 Proposer
+
+  You improve a one-call agent harness using the supplied
+  operator menu and already-closed aggregate feedback.
+
+  Current harness: <incumbent state>
+  Closed feedback: <aggregate diagnostics and prior trials>
+  Available edits: <eligible operators and parameter constraints>
+
+  Propose bounded, independently executable improvements.
+  Each candidate must:
+  - Modify one component with one eligible atomic operator.
+  - Be non-identity and respect the execution menu.
+  - Explain the observed failure, expected local benefit,
+    and possible regression.
+  - Preserve the fixed solver role, output contract,
+    and single-call execution protocol.
+
+  Do not access current validation data or sealed audit data.
+  Do not invent hidden examples, labels, or memory contents.
+
+  Return strict JSON:
+  {
+    "proposals": [{
+      "component": "<reasoning | routing | memory | workflow>",
+      "operator": "<eligible operator>",
+      "target_id": "<existing target ID or null>",
+      "parameters": "<operator-specific object>",
+      "observed_failure": "<closed-feedback diagnosis>",
+      "expected_local_benefit": "<expected improvement>",
+      "possible_regression": "<potential failure mode>",
+      "rationale": "<brief justification>"
+
+
+                                                            31
+ Listing 1 Proposer (continued)
+      }]
+ }
+
+
+ Listing 2 Solver
+
+ <Fixed dataset-specific solver role>
+
+ REASONING POLICY:
+ <Current reasoning rules and decomposition policy>
+
+ ONE-CALL WORKFLOW:
+ <Verification, evidence alignment, stopping, and fallback rules
+    >
+
+ SELECTED MEMORY:
+ <Retrieved procedural guidance or eligible closed episodes>
+
+ CURRENT TASK:
+ <Question or programming problem>
+
+ TASK CONTEXT:
+ <Routed evidence or compiled task views>
+
+ Follow the supplied solver policy, including its
+ evidence-selection and reasoning rules.
+ Apply the configured workflow within this completion.
+
+ Return only the JSON object required by the frozen
+ dataset-specific output schema. Do not add prose
+ outside the JSON.
+
+ OUTPUT CONTRACT:
+ <Frozen answer schema for HotpotQA>
+
+
+G.4    C ASE STUDY FOR G REEDY
+
+We follow the experimental protocol in Appendix G.1. In APPS, the solver writes a program from a
+problem description, and the program is evaluated using test cases. We examine a workflow update
+accepted by Greedy in the main experiment with DeepSeek-V4-Flash and seed 0. This case illustrates
+how Greedy can be misled by sampling noise in a finite validation set, accepting an update that
+improves validation performance while reducing performance on held-out test problems.
+In round 17, the incumbent uses the following workflow.
+
+ Listing 3 The workflow of the incumbent
+
+ {
+      "verify_mode": "light",
+      "evidence_alignment": "spec_and_examples",
+      "stop_rule": "first_parseable_program",
+      "fallback_mode": "best_effort"
+ }
+
+The proposer suggests changing the stop_rule field to address cases where the solver returns no
+code or generates a program that produces incorrect answers.
+
+
+
+                                               32
+ Listing 4 Proposal in round 17
+
+ {
+     "component": "workflow",
+     "operator": "SET_STOP_RULE",
+     "parameters": {
+       "stop_rule": "first_example_pass"
+     },
+     "observed_failure": "Closed failures include 21
+      schema_failure cases with no_code and 27 wrong_answer cases;
+        many generated programs fail on supplied tests, indicating
+      the solver may not validate against examples before
+      finalizing.",
+     "expected_local_benefit": "Switching the stop rule to
+      first_example_pass will require the solver to verify its
+      program against the first supplied example before stopping,
+      catching obvious I/O mismatches and reducing wrong_answer
+      and schema_failure cases.",
+     "possible_regression": "May cause the solver to stop
+      prematurely if the first example is not representative, but
+      the change is minimal and reversible."
+ }
+
+The proposer changes the incumbent’s stop_rule to first_example_pass, asking the solver
+to consider whether its program would pass the first supplied example before finishing. It changes
+the one call workflow instruction and the other workflow fields remain unchanged.
+We first examine an Emotional Sort problem from the sampled validation set.
+
+ Listing 5 One question in the validation set: Emotional Sort
+
+ You’ll have a function called "**sortEmotions**" that will
+    return an array of **emotions** sorted. It has two
+    parameters, the first parameter called "**arr**" will expect
+     an array of **emotions** where an **emotion** will be one
+    of the following:
+
+ - **:D** -> Super Happy
+ - **:)** -> Happy
+ - **:|** -> Normal
+ - **:(** -> Sad
+ - **T\_T** -> Super Sad
+
+ Example of the array:‘‘[ ’T_T’, ’:D’, ’:|’, ’:)’, ’:(’ ]‘‘
+
+ And the second parameter is called "**order**", if this
+    parameter is **true** then the order of the emotions will be
+     descending (from **Super Happy** to **Super Sad**) if it’s
+    **false** then it will be ascending (from **Super Sad** to
+    **Super Happy**)
+
+ Example if **order** is true with the above array: ‘‘[ ’:D’,
+    ’:)’, ’:|’, ’:(’, ’T_T’ ]‘‘
+
+ - Super Happy -> Happy -> Normal -> Sad -> Super Sad
+
+ If **order** is false: ‘‘[ ’T_T’, ’:(’, ’:|’, ’:)’, ’:D’ ]‘‘
+
+
+
+                                               33
+ Listing 5 One question in the validation set: Emotional Sort (continued)
+ - Super Sad -> Sad -> Normal -> Happy -> Super Happy
+
+ Example:
+ ‘‘‘
+ arr = [’:D’, ’:|’, ’:)’, ’:(’, ’:D’]
+ sortEmotions(arr, true) // [ ’:D’, ’:D’, ’:)’, ’:|’, ’:(’ ]
+ sortEmotions(arr, false) // [ ’:(’, ’:|’, ’:)’, ’:D’, ’:D’ ]
+
+ ‘‘‘
+
+The Emotional Sort problem asks the solver to write a function that sorts a list of emotion
+symbols by their happiness levels. The symbols have a fixed order from happiest to saddest: :D,
+:), :|, :(, and T_T. The parameter order determines the sorting direction: true requires the
+happiest emotions first, while false requires the saddest emotions first.
+
+ Listing 6 Incumbent response to the validation question
+
+ def sort_emotions(arr, order):
+     # Define the order of emotions from Super Happy to Super
+    Sad
+     emotion_order = [’:D’, ’:)’, ’:|’, ’:(’, ’T_T’]
+
+        # Create a mapping from emotion to its rank
+        rank = {emotion: i for i, emotion in enumerate(
+       emotion_order)}
+
+        # Sort the array based on the rank
+        # If order is True, sort descending (Super Happy first)
+        # If order is False, sort ascending (Super Sad first)
+        sorted_arr = sorted(arr, key=lambda x: rank[x], reverse=
+       order)
+
+       return sorted_arr
+
+The incumbent assigns rank 0 to the happiest emotion and rank 4 to the saddest, but uses
+reverse=order. When order=True, this places the saddest emotions first, contrary to the
+task requirement. The candidate corrects the sorting direction: it sorts by increasing rank when
+order=True and by decreasing rank when order=False. The incumbent response incorrectly
+treats order=True, which requests the happiest emotions first, as reverse=True, which places
+the largest rank first and therefore puts the saddest emotions first.
+
+ Listing 7 Candidate response to the validation question
+
+ def sort_emotions(arr, order):
+     # Define the order of emotions from Super Happy to Super
+    Sad
+     emotion_order = [’:D’, ’:)’, ’:|’, ’:(’, ’T_T’]
+
+        # If order is true, sort descending (Super Happy first)
+        # If order is false, sort ascending (Super Sad first)
+        # Use the index in emotion_order as the sort key
+        # For descending, sort by negative index; for ascending,
+       sort by index
+        if order:
+            return sorted(arr, key=lambda e: emotion_order.index(e)
+       )
+
+
+                                              34
+ Listing 7 Candidate response to the validation question (continued)
+        else:
+            return sorted(arr, key=lambda e: emotion_order.index(e),
+        reverse=True)
+
+The candidate corrects the branch logic. It sorts by increasing index when order is true and reverses
+the order when it is false, matching the problem’s specification.
+
+ Listing 8 Greedy gate record on this round’s validation set
+
+ {
+     "accepted": true,
+     "outer_effect_geometry": {
+       "sample_size": 40,
+       "mean_difference": 0.04,
+       "candidate_wins": 4,
+       "incumbent_wins": 2,
+       "ties": 34,
+       "minimum": -1.0,
+       "maximum": 1.0,
+       "estimand": "mean_per_problem_supplied_test_pass_fraction"
+     },
+     "gate_decision": {
+       "policy": "paired_mean_apps_problem_pass_fraction_greedy",
+       "test_index": 16,
+       "mean_difference": 0.04,
+       "estimand": "mean_per_problem_supplied_test_pass_fraction"
+     }
+ }
+
+Four problem scores improve, two decline, and 34 stay unchanged. Besides Emotional Sort,
+two graph problems improve from invalid responses to 4/5. These gains are accompanied by two
+complete regressions. The mean score rises from 60.50% to 64.50% on the validation set, so Greedy
+accepts the candidate.
+We next examine a test problem about the number of days off in a Martian year.
+
+ Listing 9 One question in the test set: days off on Mars
+
+ On the planet Mars a year lasts exactly n days (there are no
+    leap years on Mars). But Martians have the same weeks as
+    earthlings-- 5 work days and then 2 days off. Your task is
+    to determine the minimum possible and the maximum possible
+    number of days off per year on Mars.
+
+ -----Input-----
+
+ The first line of the input contains a positive integer n (1 ≤
+    n ≤ 1 000 000) -- the number of days in a year on Mars.
+
+ -----Output-----
+
+ Print two integers -- the minimum possible and the maximum
+    possible number of days off per year on Mars.
+
+ -----Examples-----
+ Input
+ 14
+
+
+                                                 35
+ Listing 9 One question in the test set: days off on Mars (continued)
+ Output
+ 4 4
+
+ Input
+ 2
+ Output
+ 0 2
+
+A full seven-day week contains two days off. For n = 7w + r, with 0 ≤ r < 7, the required minimum
+and maximum are 2w + max(0, r − 5) and 2w + min(r, 2). The first example has no remainder,
+while the second directly tests a partial week.
+The number of days off depends on which day of the week the year begins. Every complete seven-day
+period contains exactly two days off, while any remaining days may include additional days off. For
+n = 14, the year contains exactly two full weeks, so both the minimum and maximum are four. For
+n = 2, the two days could both be workdays or both be days off, giving a minimum of zero and
+a maximum of two. The incumbent and candidate receive the same complete problem statement,
+including both examples.
+
+ Listing 10 Incumbent response to the test question
+
+
+ def main():
+     data = sys.stdin.read().strip().split()
+     if not data:
+         return
+     n = int(data[0])
+     full_weeks = n // 7
+     rem = n % 7
+     min_off = full_weeks * 2
+     max_off = full_weeks * 2
+     min_off = full_weeks * 2 + max(0, rem - 5)
+     max_off = full_weeks * 2 + min(rem, 2)
+     print(min_off, max_off)
+
+ if __name__ == "__main__":
+     main()
+
+The incumbent counts two days off for each full week and then accounts for the remaining days. In
+particular, min(rem, 2) adds the maximum possible number of days off among those remaining
+days. This program passes all five evaluation test cases.
+
+ Listing 11 Candidate response to the test question
+
+
+ def main():
+     data = sys.stdin.read().strip().split()
+     if not data:
+         return
+     n = int(data[0])
+     full_weeks = n // 7
+     rem = n % 7
+     min_off = full_weeks * 2
+     max_off = full_weeks * 2
+     min_off += max(0, rem - 5)
+     print(min_off, max_off)
+
+
+
+                                                36
+  Listing 11 Candidate response to the test question (continued)
+  if __name__ == "__main__":
+      main()
+
+The candidate correctly computes the minimum number of days off, but counts only complete weeks
+when computing the maximum, ignoring possible days off in the remaining days. For the first
+example, n = 14, there are no remaining days, so the candidate still returns the correct output, 4
+4. For the second example, n = 2, there are no full weeks, so it incorrectly returns 0 0 instead of
+0 2. This behavior is consistent with the first_example_pass instruction: the first supplied
+example does not show this error, while the second does. Finally, the candidate passes only one of
+the five evaluation test cases, compared with all five for the incumbent.
+
+  Listing 12 Incumbent evaluation on the test set
+
+  {
+      "metrics": {
+        "items": 300,
+        "mean_per_problem_test_pass_fraction": 0.7506666666666666,
+        "schema_parse_failures": 37,
+        "supplied_tests_passed": 1126,
+        "supplied_tests_total": 1500
+      }
+  }
+
+
+  Listing 13 Candidate evaluation on the test set
+
+  {
+      "metrics": {
+        "items": 300,
+        "mean_per_problem_test_pass_fraction": 0.67,
+        "schema_parse_failures": 60,
+        "supplied_tests_passed": 1005,
+        "supplied_tests_total": 1500
+      }
+  }
+
+Across all 300 test problems, the mean fraction of passed test cases falls from 75.07% for the
+incumbent to 67.00% for the candidate. Although the update changes only one workflow instruction,
+it changes the solver’s stopping criterion and may encourage it to focus on matching the first supplied
+example. In the Martian year problem, the first supplied example contains only complete weeks,
+so matching it does not require correct handling of the remaining days. The candidate’s missing
+calculation illustrates how a program can satisfy this narrower requirement while failing other cases.
+In this case, the update improves validation performance but reduces performance on the held-out
+test problems.
+
+
+H     S UPPLEMENTARY S ENSITIVITY A NALYSIS
+
+H.1    PARAMETER SENSITIVITY ANALYSIS
+
+This appendix supplements the sensitivity analysis in Section 6.2. We conduct the experiments on
+HotpotQA using DeepSeek-V4-Flash. The reported one-parameter grids are q ∈ {0.1, 0.3, 0.5},
+ε ∈ {0, 0.05, 0.1, 0.15}, and β ∈ {0, 0.01, 0.03, 0.05}, around (q, ε, β) = (0.30, 0.10, 0.01).
+Tables 7–9 report the three parameters separately. Each setting is summarized as mean ± standard
+error (SE).
+
+
+                                                  37
+                                       Table 7: FER budget sensitivity q (mean ± standard error).
+q                                    Gain (pp)              FER0 (%)                 TER (%)                               MDD (pp)
+0.1                               6.82 ± 2.81                 0.00 ± 0.00                   4.10 ± 1.81                  0.00 ± 0.00
+0.3                              11.58 ± 1.30               10.00 ± 10.00                  18.11 ± 8.39                  0.02 ± 0.02
+0.5                              11.33 ± 1.60               18.00 ± 11.14                  22.54 ± 7.08                  1.11 ± 0.76
+
+
+                                              Table 8: Noninferiority margin sensitivity ε.
+ε                                     Gain (pp)             FER0 (%)                   TER (%)                             MDD (pp)
+0                                  0.00 ± 0.00                0.00 ± 0.00                   0.00 ± 0.00                  0.00 ± 0.00
+0.05                               4.87 ± 3.00                0.00 ± 0.00                   2.23 ± 1.37                  0.00 ± 0.00
+0.1                               11.58 ± 1.30              10.00 ± 10.00                  18.11 ± 8.39                  0.02 ± 0.02
+0.15                              11.59 ± 2.91               57.68 ± 4.55                  65.88 ± 9.19                  5.33 ± 0.90
+
+
+                       q = 0.1                                  ε=0             ε = 0.1                   β=0
+                       q = 0.3                                  ε = 0.05        ε = 0.15                  β = 0.01
+            15                                         15                                        15
+                       q = 0.5                                                                            β = 0.03
+                                                                                                          β = 0.05
+
+
+
+Gain (pp)
+            10                                         10                                        10
+
+
+
+
+             5                                          5                                         5
+
+
+
+
+             0                                          0                                         0
+                 0           10            20     30        0         10             20     30        0         10         20     30
+                                 Outer round                           Outer round                               Outer round
+
+
+
+Figure 7: HotpotQA/DeepSeek-V4-Flash sensitivity trajectories, displaying ε ≤ 0.15. Lines show
+mean trajectories.
+
+
+In Figure 7, the parameters affect how much performance improves and whether that improvement
+lasts. With q = 0.1, the mean trajectory first rises at round 9 and reaches a lower final score; q = 0.3
+improves earlier, whereas q = 0.5 shows a late change in the acceptance decision without a higher
+final score. For the margin, ε = 0 produces no accepted updates, and ε = 0.05 delays improvement
+until round 21. Increasing the margin ε to 0.15 yields early gains but subsequent fluctuations. MDD
+rises from 0.02 pp to 5.33 pp. For the overlap correction strength, β = 0 shows a late decline, while
+β = 0.01 retains a similar peak with little subsequent loss. Larger correction strengths of 0.03 and
+0.05 reduce gains to 7.13 pp and 2.80 pp.
+
+H.2                  LLM ALLOCATOR ANALYSIS
+
+This section provides a case study to supplement the LLM ablation study in Section 6.2. We examine
+HotpotQA/DeepSeek-V4-Flash with seed 3, comparing TRUST with an ablation that replaces the
+LLM allocator with a fixed multiplier wt = 1. The proposer, solver and statistical testing are
+unchanged. Historical information offers identical parent states, candidates, results and evidence
+
+
+
+                                           Table 9: Overlap correction strength sensitivity β.
+β                                    Gain (pp)              FER0 (%)                   TER (%)                             MDD (pp)
+0                                10.97 ± 1.86               23.33 ± 14.53                   19.79 ± 7.93                 1.27 ± 0.90
+0.01                             11.58 ± 1.30               10.00 ± 10.00                   18.11 ± 8.39                 0.02 ± 0.02
+0.03                              7.13 ± 2.97                 0.00 ± 0.00                   12.73 ± 9.47                 0.00 ± 0.00
+0.05                              2.80 ± 2.80                 0.00 ± 0.00                  10.00 ± 10.00                 0.00 ± 0.00
+
+
+                                                                           38
+before round 2. Both methods reject in round 1, and their acceptance decisions first diverge in
+round 2.
+The following excerpt shows the relevant reasoning fields of the incumbent shared by both paths
+before round 2.
+
+  Listing 14 Reasoning module of incumbent before round 2
+
+  {
+      "reasoning": {
+         "base_protocol": "Solve in one pass; do not emit
+        intermediate drafts. Plan: Do not decompose the question.
+        Treat every item as asking for the first title shown in the
+        context. Select only the first displayed title and ignore
+        all later titles and sentences. Verify: Assume the first
+        title is sufficient evidence without checking its text. Do
+        not verify entity identity or cross-title links. Repair:
+        Skip bridge reasoning and do not combine facts from
+        different paragraphs. Skip comparisons and use the first
+        title regardless of the requested relation. Finalize: Return
+         the first displayed title as the answer and cite sentence 0
+         from that title.",
+         "decomposition_policy": "",
+         "specialist_rules": []
+      }
+  }
+
+The component, operator, rationale, and possible regressions listed below are all provided by the
+proposer.
+
+  Listing 15 Proposal in round 2
+
+  {
+      "component": "reasoning",
+      "operator": "SET_DECOMPOSITION_POLICY",
+      "parameters": {
+        "decomposition_policy": "Decompose the question into sub-
+       questions only when the question contains multiple entities
+       or explicit comparison terms; otherwise, answer directly."
+      },
+      "rationale": "Introducing a cautious decomposition policy
+       addresses the observed failures without full multi-hop
+       planning, aligning with the closed feedback.",
+      "possible_regression": "Over-decomposition may increase
+       complexity and slow down inference, potentially affecting
+       simple cases."
+  }
+
+It proposes breaking questions that involve multiple entities into sub-questions. The update leaves
+the following instruction unchanged: Select only the first displayed title and
+ignore all later titles and sentences.
+The LLM guidance in allocator provides separate judgments on safety, contract preservation, novelty,
+and the number of changes, while also considering the stage of the run. The expected scores for the
+five dimensions of safety, contract, actionability, generalization, and scope control are (2, 4, 3, 2, 4),
+respectively. Based on the whole assessment, it recommends a very conservative allocation. The
+excerpt below shows only selected fields of the assessment and the full evaluation procedure can be
+found in the code.
+
+
+
+                                                   39
+    Listing 16 LLM assessment in round 2
+
+    {
+        "safety_relation": "unsafe_still_present",
+        "contract_relation": "preserved_or_strengthened",
+        "novelty_relation": "substantive_increment",
+        "action_count_band": "one",
+        "allocation_posture": "very_conservative",
+        "axes": [
+          ["safety", {
+             "probabilities": [0.0, 1.0, 0.0, 0.0, 0.0],
+             "expected_score": 2.0,
+             "parent_evidence_ids": ["P2", "P3"],
+             "candidate_evidence_ids": ["C2", "C3"]
+          }],
+          ["contract", {
+             "probabilities": [0.0, 0.0, 0.0, 1.0, 0.0],
+             "expected_score": 4.0,
+             "parent_evidence_ids": ["P1", "P4"],
+             "candidate_evidence_ids": ["C1", "C4"]
+          }],
+          ["actionability", {
+             "probabilities": [0.0, 0.0, 1.0, 0.0, 0.0],
+             "expected_score": 3.0,
+             "parent_evidence_ids": ["P4"],
+             "candidate_evidence_ids": ["C4"]
+          }],
+          ["generalization", {
+             "probabilities": [0.0, 1.0, 0.0, 0.0, 0.0],
+             "expected_score": 2.0,
+             "parent_evidence_ids": ["P4"],
+             "candidate_evidence_ids": ["C4"]
+          }],
+          ["scope_control", {
+             "probabilities": [0.0, 0.0, 0.0, 1.0, 0.0],
+             "expected_score": 4.0,
+             "parent_evidence_ids": ["P4"],
+             "candidate_evidence_ids": ["C4"]
+          }]
+        ]
+    }
+
+The allocator combines the LLM scores with the very_conservative recommendation to
+determine the LLM multiplier and testing level. This produces a stricter acceptance threshold than
+the baseline with wt ≡ 1. Given the same validation evidence, TRUST rejects the candidate while
+the baseline accepts it, leading to different subsequent search trajectories. Although the rejected
+candidate also improves on the initial incumbent, TRUST later accepts a candidate with a larger gain
+on the test set. For this seed, TRUST finishes at Joint F1 47.22%, compared with 43.95% for the
+baseline. This case illustrates how the LLM module can influence allocation and subsequent search
+through assessments of each candidate and its context. These assessments guide the testing level
+within the statistical gate, preserving FER control.
+
+I       OVERFITTING S TUDY
+Here, we analyze an overfitting stress test based on our harness design in Appendix F, using Greedy
+as the acceptance gate. Figure 8 shows the mean gain trajectories of the Greedy gate on HotpotQA
+Distractor using DeepSeek-V4-Flash and Joint F1 over solver seeds s = 0, . . . , 4 and data-split seeds
+42 + s. Each run reuses 20 fixed examples for proposing and validation and the test set contains
+
+
+                                                  40
+100 examples. Each round proposes one routing or memory update using closed historical feedback
+and accepts it only if Joint F1 improves on the fixed validation set. Reasoning and workflow remain
+frozen.
+                               30
+
+
+                                                                                                     24.44 pp
+
+                               20
+
+
+
+
+                   Gain (pp)
+                                                                                   Validation
+                                                                                   Test
+                               10
+
+
+
+
+                                0
+                                                                                                     -2.15 pp
+
+                                    0   2            4           6             8                10
+                                            Recursive self-improvement round
+
+
+
+      Figure 8: Mean validation and test gain trajectories during recursive self-improvement.
+
+
+Mechanism and interpretation. Routing selects the evidence paragraphs shown to the solver for
+the current question, while memory provides retrieved cases and feedback from previous tasks. Their
+interaction involves both a shared context budget and different retrieval modes, which affect which
+evidence paragraphs are selected and how many are retained. This design is motivated by work on
+retrieval and context utilization (Shi et al., 2024; Shinn et al., 2023; Zhao et al., 2024; Liu et al.,
+2024).
+ Figure 8 shows that mean validation gain reaches 24.44 pp as the same data are reused for proposing
+ and validation. Relative to round 0, mean test gain peaks at 5.06 pp after round 1, then falls to
+-2.15 pp by round 10. This divergence suggests that iterative harness optimization can overfit reused
+ proposal and validation data.
+
+I.1   C ASE STUDY FOR OVERFITTING
+
+On the HotpotQA benchmark (Yang et al., 2018), a system answers questions that require combining
+information from multiple Wikipedia articles. It must also identify the supporting facts, namely the
+specific sentences in the provided paragraphs that together justify the answer. We present a concrete
+example below.
+
+  Listing 17 One question in the validation set
+
+  What is the name of the lead remix of the track from the remix
+     album containing remixes of the lady gaga studio album "The
+     Fame"?
+
+The correct answer is Bad Romance. The supporting facts establish two connections. First, The
+Remix contains remixes of songs from Lady Gaga’s studio album The Fame. Second, Starsmith’s
+remix of Bad Romance was selected as the lead remix on The Remix. Before the update, the
+incumbent retrieves no case memory and selects eight of the ten available paragraphs, including the
+required sources.
+
+  Listing 18 Incumbent response to the validation question
+
+  {
+      "final_answer": "Starsmith Remix",
+      "supporting_facts": [
+        {"title": "Starsmith", "sentence_id": 4}
+      ],
+
+
+                                                           41
+  Listing 18 Incumbent response to the validation question (continued)
+      "atomic_facts": [
+        {"subject": "Starsmith", "relation": "remixed",
+          "object": "Bad Romance",
+          "title": "Starsmith", "sentence_id": 4},
+        {"subject": "Starsmith’s remix of Bad Romance", "relation":
+         "was chosen as lead remix on",
+          "object": "The Remix",
+          "title": "Starsmith", "sentence_id": 4}
+      ],
+      "reasoning": {"operation": "bridge", "fact_indices": [0, 1],
+                     "result": "Starsmith Remix"}
+  }
+
+The response identifies the remix relationship but returns Starsmith Remix as the answer. It also
+omits sentence 1 of The Remix (Lady Gaga album) from its supporting facts. The answer
+is incorrect, and Joint F1 is 0. The proposer reflects on this failure and proposes adding the following
+episodic memory.
+
+  Listing 19 Adding episodic memory
+
+  {
+      "memory_id": "mem-f52c9c540a60",
+      "question_text": "What is the name of the lead remix of the
+       track from the remix album containing remixes of the lady
+       gaga studio album \"The Fame\"?",
+      "verified_answer": "Bad Romance",
+      "support_facts": [["Starsmith", 4], ["The Remix (Lady Gaga
+       album)", 1]],
+      "query_tokens": [
+        "album",
+        "containing",
+        "fame",
+        "gaga",
+        "lady",
+        "lead",
+        "name",
+        "remix",
+        "remixes",
+        "studio",
+        "track"
+      ],
+      "cluster_threshold": 0.01,
+      "procedure": [
+        "Reuse a verified answer only when the current question is
+       identical.",
+        "For a non-identical cluster match, treat the episode only
+       as an analogy and verify both bridge hops."
+      ],
+      "supporting_fact_policy": "Return only supporting facts
+       grounded in the current Wikipedia context."
+  }
+
+This episode stores the full validation question, its verified answer, and both supporting-fact locations.
+Its procedure permits answer reuse for an identical question. If a different question retrieves this
+memory, the solver is instructed to analyze the question using both the retrieved memory and the
+current Wikipedia context, and to verify that both reasoning steps are supported by evidence in that
+context. Retrieval compares the words in the current question with those in the stored question.
+
+
+                                                   42
+For the repeated validation question, the system retrieves the stored memory as an exact match and
+supplies its verified answer and supporting fact locations to the solver. The selected context still
+includes both required evidence sources.
+
+ Listing 20 Candidate response to the validation question
+
+ {
+     "final_answer": "Bad Romance",
+     "supporting_facts": [
+       {"title": "Starsmith", "sentence_id": 4},
+       {"title": "The Remix (Lady Gaga album)", "sentence_id": 1}
+     ],
+     "atomic_facts": [
+       {"subject": "Starsmith", "relation": "remixed",
+        "object": "Bad Romance",
+        "title": "Starsmith", "sentence_id": 4},
+       {"subject": "The Remix (Lady Gaga album)", "relation": "
+      contains remixes of songs from",
+        "object": "The Fame",
+        "title": "The Remix (Lady Gaga album)", "sentence_id": 1}
+     ],
+     "reasoning": {"operation": "bridge", "fact_indices": [0, 1],
+                   "result": "Bad Romance"}
+ }
+
+The candidate now returns Bad Romance with both correct supporting facts, raising this item’s
+Joint F1 from 0 to 1. The candidate increases the mean Joint F1 on the validation set and Greedy
+accepts it. This validation gain includes direct reuse of feedback on repeated validation questions.
+We now turn to the test set and consider the following example.
+
+ Listing 21 One question in the test set
+
+ 2014 S/S is the debut album of a South Korean boy group that
+    was formed by who?
+
+The correct answer is YG Entertainment. The question asks who formed the South Korean
+boy group whose debut album is 2014 S/S. Answering it requires connecting two pieces of
+information. First, the paragraph from 2014 S/S identifies WINNER as the group that released
+the album. Second, the paragraph from Winner (band) states that WINNER was formed by YG
+Entertainment. Together, these facts connect the album to the group and then to the organization that
+formed it. Before the update, the incumbent selects eight of the ten available paragraphs, including
+both of these sources.
+
+ Listing 22 Incumbent response to the test question
+
+ {
+     "final_answer": "YG Entertainment",
+     "supporting_facts": [
+       {"title": "2014 S/S", "sentence_id": 0},
+       {"title": "Winner (band)", "sentence_id": 0}
+     ],
+     "atomic_facts": [
+       {"subject": "2014 S/S", "relation": "is debut album of",
+        "object": "WINNER",
+        "title": "2014 S/S", "sentence_id": 0},
+       {"subject": "WINNER", "relation": "formed by",
+        "object": "YG Entertainment",
+        "title": "Winner (band)", "sentence_id": 0}
+
+
+                                                 43
+ Listing 22 Incumbent response to the test question (continued)
+     ],
+     "reasoning": {"operation": "bridge", "fact_indices": [0, 1],
+                   "result": "YG Entertainment"}
+ }
+
+Both steps cite the correct sources: sentence 0 of 2014 S/S identifies the group, and sentence 0
+of Winner (band) identifies its founder. Both the answer and the supporting facts are correct,
+resulting in a Joint F1 score of 1.
+This question retrieves the Lady Gaga memory through the same keyword album. After retrieving
+this memory, the system changes how it selects evidence paragraphs and limits the number retained
+in the context. Under this limit, the selected context omits Winner (band), which contains the
+evidence needed to identify who formed WINNER.
+
+ Listing 23 Candidate response to the test question
+
+ {
+     "final_answer": "YG Entertainment",
+     "supporting_facts": [
+       {"title": "2014 S/S", "sentence_id": 1}
+     ],
+     "atomic_facts": [
+       {"subject": "2014 S/S", "relation": "is debut album of",
+        "object": "WINNER",
+        "title": "2014 S/S", "sentence_id": 0},
+       {"subject": "WINNER", "relation": "formed by",
+        "object": "YG Entertainment",
+        "title": "2014 S/S", "sentence_id": 1}
+     ],
+     "reasoning": {"operation": "bridge", "fact_indices": [0, 1],
+                   "result": "YG Entertainment"}
+ }
+
+The answer remains YG Entertainment, but the response now attributes the formed by
+relation to sentence 1 of 2014 S/S. Its submitted supporting fact list contains only that sentence
+and omits both gold supporting facts.
+
+ Listing 24 Sentence 1 of 2014 S/S
+
+ It was released on August 12, 2014 by the group’s record label,
+     YG Entertainment.
+
+This sentence concerns the album’s release by a record label. It does not establish who formed the
+group. The answer happens to remain correct, so Answer F1 remains 1, while supporting fact F1 and
+Joint F1 fall to 0. On the full test set, the accepted update lowers the mean Joint F1 from 54.55%
+to 48.00%: 13 items decline and none improve. This example shows how a memory can repair a
+repeated validation question while causing evidence selection to lose a required source on a new
+question.
+
+
+
+
+                                               44
+
