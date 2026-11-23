@@ -651,3 +651,14 @@ v6 声称 "gain-cov 脱钩是 breadth-without-depth 的机制签名" — 推理�
 → 教训: v6 是 "推理出机制签名 → 没做直接检验 → 域内一算就翻" 的实例;
   机制声明必须带直接检验 (cor/ANOVA), 不能只靠 "A 现象 + B 现象 → 所以 A-B 脱钩" 的推理
 → 11 棵 Q6 树 (gain>0.9 且 cov<0.15) 是 "词面新但不命中 gold" 的直接实例 (边际效应的树级证据)
+
+## 承重数字独立重算验证回执 (2026-11-24 07:20, /usr/bin/python3 重跑)
+
+之前 06:14 崩溃的验证进程 (proc_25791fc13473, 用错 python3 缺 sentence_transformers) 用 /usr/bin/python3 重跑成功:
+- 原批 719 三 rep (q6-719-r1/r2/r3-20261123-*.json) 独立重算 judge_run:
+  - r1: n=351 cov=0.1739
+  - r2: n=379 cov=0.1957
+  - r3: n=197 cov=0.1304
+- 与 q6-gold-rescore.json 完全一致 (22/22 审计源)
+- **wall-bound 0.167 tier mean = (0.1739+0.1957+0.1304)/3 = 0.1667** — 承重数字有独立重算验证 (不只是源文件读, 是从原始树文件重新跑 judge 确认)
+- 解释器: /usr/bin/python3 (系统 python3 无 sentence_transformers, 已知坑)
