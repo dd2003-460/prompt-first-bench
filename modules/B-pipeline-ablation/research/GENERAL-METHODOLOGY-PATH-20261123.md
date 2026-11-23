@@ -123,3 +123,15 @@ GPU rep-scan: n=15 均值 0.1023 sd 0.0499 cv=0.49
 → cv 几乎相同 (0.50 vs 0.49): Q6 50 档的"大方差"不是低 budget 不稳定, 是 metacog 轴的固有变异性 (cv≈0.5 常态)
 → A3 跨域比较的 caveat 钉死: 必须用均值 (Mann-Whitney 等), 单点/单 rep 不可比; n=3 的域内 tier 均值带 cv≈0.5 的不确定性
 → 对 paper: 任何 metacog 轴的 budget 曲线 claim 都要带 rep 间 sd (skill rule 10: spread 不能藏 sd)
+
+## 字段审计 + retrieval_rate 跨域 caveat (2026-11-23)
+
+30 树 8767 节点字段值枚举 (无隐藏值):
+- status: verified 4375 / degraded 3784 / pending 608 (3 值)
+- edge_type: cartesian 7537 / quotient 1211 / stochastic 19 (3 值)
+- source: knowledge 5646 / search 2864 / given 245 / derived 12 (4 值, derived 见 T-JUDGE-1 注)
+
+**retrieval_rate 跨域 caveat**: Q6 100-r1 search 占比 14% (14/100) vs GPU rep-scan 32.7% —
+Q6 (网络架构域) 的检索触发率显著低于 GPU (硬件域)。含义: retrieval_rate 不是域不变量
+(与 gap_rate 不同), A3 跨域比较 retrieval_rate 时域差异是真实信号不是噪声。
+Q6 50 档 3 run search 占比: 10%/40%/22% (均值 24%), 仍低于 GPU 32.7%。
