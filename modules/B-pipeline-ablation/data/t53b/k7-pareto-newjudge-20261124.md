@@ -626,3 +626,14 @@ draft 的 cor 只有点估计 + t 值, 无 CI (skill 第 10 条: 统计声明带
 → **精度有限**: CI 宽度 0.409 (GPU) / 0.462 (Q6), 上界 Q6 到 0.93 — 点估计的精度比显著性弱
 → 不进 draft (draft 已有 t 值, 显著性已成立; CI 是 robustness note, 属工作日志)
 → 若审稿人要 CI, 直接报 [0.353,0.761] / [0.468,0.930]
+
+## 机制锚 v6: gain 归因错误修正 (2026-11-24 07:25, 代码溯源) — 本轮最重要发现
+
+v2-v5 的机制推理链有个隐含前提错误: "模型总想展开 (gain 高) → 模型不知道边际收益已掉到 0"。
+代码溯源 (s5_state_machine.py):
+- **gain = marginal_gain(siblings, parent) = 1 - mean(max n-gram overlap vs 最近 50 claims)** — 是 harness 的机械词面指标, 不是模型自报
+- **停止判据是 pass_rate < 0.3 (necessary-judge 通过率), 不是 gain** — gain 只做方差感知辅助 (近 5 轮 gain std 高则不触发停止计数)
+- 30 棵树全停在预算耗尽 (max_nodes/max_depth), 不是 pass_rate 触发
+→ draft 3 处 "model wants to expand / model doesn't know" 错误归因已修 (commit ffafc2331)
+→ **机制反而更精确了**: gain (词面新颖度, 每 stop 都高) 与 cov (内容覆盖, ~400 后塌) 的**脱钩**本身就是 breadth-without-depth 的机制签名 — 状态机持续产出"措辞新"的 claim (低 n-gram 重叠) 但不命中新 gold 内容
+→ 平台是 harness 性质 (词面指标与覆盖指标的脱钩), 不是模型认知性质 (模型"不知道") — 结论方向不变, 归因从模型认知改到 harness 指标层
