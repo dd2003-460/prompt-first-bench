@@ -379,3 +379,13 @@ r1 进度: total 661/719 节点 (round 4, gain=0.950, streak=0, 还在扩展) �
 - cor(cov46, realized) = 0.8423 (GPU 30 棵参照 0.563) — Q6 域内 cov 随 realized 的上升比 GPU 陡
 - 注意 100-200 箱 n=7 含 719-r3 (197 节点, 撞深度墙) — 箱内混合 nominal 档, 形状结论 (仍升) robust, 精确箱均值待 nodepth 落地后重算
 - 这是"Q6 到 719 仍升"声明在 realized 轴 + 正确 gold 标度下的第一次完整核验 (之前只有 tier-mean 口径)。
+
+## 系统性 gold 标度审计 (2026-11-24 05:22) — nodepth bug 的模式排查
+
+nodepth 脚本 36/46-unit 混箱 bug 是个模式, 系统性排查谁还在混:
+- **引用 q6-scan-scores.json (36-unit 跨域标度) 的脚本**: q6_full_curve / a3_cross_domain_metacog / q6_rerun_variance_check / q6_rescore / rescore_q6 / q6_rerun_n3_verdict / q6_rerun_postlanding_analysis 等 — 逐一核用途, 这些脚本做的是跨域分析或 rescore 生成, 用 36-unit 是对的 (cross-domain 声明本来就该用 GPU gold)。
+- **Q7 分析脚本**: judge_run 现算 (in_cov=Q7 52-unit, cross_cov=GPU 36-unit), 不读 scores 文件 — 无混淆 ✓。
+- **draft 数字源核对**:
+  - in-domain Q6 tier means (0.058/0.073/0.087/0.138/0.167): 46-unit, 源 q6-gold-rescore.json ✓ (300 档 0.138 = rep-isolated rerun 0.1377, 其余 4 档 = 原批, provenance mix 已在 draft 标注)
+  - cross-domain near-zero (0.009/0.009/0.019/0.046 + 719 reps 0.0/0.083/0.056): 36-unit, 源 q6-scan-scores.json ✓ 重算全过 (0.0093/0.0093/0.0185/0.0463; 719 0.0/0.0833/0.0556)
+- **结论**: 标度混淆只在 nodepth 脚本一处 (已修, commit f55a121ec), draft 和 Q7 脚本都干净。两个 scores 文件各用各的: q6-scan-scores.json = 36-unit 跨域打分, q6-gold-rescore.json = 46-unit in-domain 重评 — 名字相近但标度不同, 是这次 bug 的根因, 后续新脚本引用时注意区分。
