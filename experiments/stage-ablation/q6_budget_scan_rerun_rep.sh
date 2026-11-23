@@ -19,7 +19,8 @@ for budget in 300 719; do
     ts=$(date '+%Y%m%d-%H%M%S')
     t0=$(date +%s)
     # Q6_REP=$rep → research_hook.py _REP_TAG → cache key 含 rep (rep 间 source 独立)
-    Q6_REP="$rep" SM_CKPT_DIR="$OUT/checkpoints" python3 s5_state_machine.py \
+    # /usr/bin/python3 绝对路径 — 后台 session PATH 不带用户 python 目录, sentence_transformers 缺失 (4e9c175db 坑)
+    Q6_REP="$rep" SM_CKPT_DIR="$OUT/checkpoints" /usr/bin/python3 s5_state_machine.py \
       --question-file "$QFILE" --qid q6 --max-nodes $budget \
       > "$OUT/q6-${budget}-r${rep}.stdout" 2>&1
     rc=$?
@@ -28,8 +29,8 @@ for budget in 300 719; do
     if [ -f runs-s5-sm-q6.json ]; then
       cp runs-s5-sm-q6.json "$OUT/q6-${budget}-r${rep}-${ts}.json"
       echo "budget=$budget rep=$rep rc=$rc wall_s=$dur out=q6-${budget}-r${rep}-${ts}.json" | tee -a "$LOG"
-      # 评分 (stderr 落盘 — 修原批 2>/dev/null 吞异常, 见 partial-analysis 数据质量事件段)
-      python3 - "$OUT/q6-${budget}-r${rep}-${ts}.json" "$budget" "$rep" "$dur" "$OUT/q6-rerun-scores.json" 2>>"$OUT/q6-score-stderr.log" << 'PYEOF'
+      # 评分 (stderr 落盘 — 修原批 2>/dev/null 吞异常, 见 partial-analysis 数据质量事件段; /usr/bin/python3 绝对路径)
+      /usr/bin/python3 - "$OUT/q6-${budget}-r${rep}-${ts}.json" "$budget" "$rep" "$dur" "$OUT/q6-rerun-scores.json" 2>>"$OUT/q6-score-stderr.log" << 'PYEOF'
 import sys, json, os
 sys.path.insert(0, '/Users/a1-6/Desktop/workspace/pfb/modules/B-pipeline-ablation')
 from judge_v1 import judge_run
