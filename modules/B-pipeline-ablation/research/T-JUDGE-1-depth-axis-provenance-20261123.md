@@ -241,3 +241,19 @@ rep-scan-scores.json 从未被队列写入（7h 静默）。
 - 同理给 WEBLLM-BROKEN (line 733) 加半开。
 - **为何现在不改**: r7 在跑 (旧代码), r8 是队列最后一个 (~1.5h)。现在改 → r7(旧)/r8(新) 在 300 档内形成通道混淆, 违反 pipeline 固化约束 (不碰 running 实验)。r8 跑完后改, 惠及后续 83-run 语料 + Q6-Q10 budget scan。
 - 可逆性: git 可回滚; 只影响未来 run (Python 启动时加载代码, 不影响 running 进程)。
+
+## 补充13: abstract 数字全量核验完成 (11-23 11:05)
+
+abstract 全部关键数字逐一核验 (全过):
+| 数字 | 数据源 | 结果 |
+|---|---|---|
+| 52.5% unverified | 5630/10730, 33 棵 GPU 域去重 | ✓ (原 55% stale, 已换) |
+| 84% unverifiable | 4611/5495 search-degraded, 160 棵全语料去重 = 83.9% (contradicted 5.9%, ambiguous 10.2%) | ✓ |
+| 1.6-2.1% rework | 36/2298 + 61/2919 | ✓ |
+| gap 0.028/0.058/0.147 | era-matched 口径 (全语料 0.0254/0.0562/0.1020, 方向一致) | ✓ |
+| 104 runs | 83(含K7 15) + idea2 6 + rep 15 | ✓ (K7⊂83, 补充11) |
+| depth 0.474@150 | LLM judge_v2_depth (self-biased, 带 provenance note) | ✓ 口径已标 |
+| vsr 0.66 vs 0.46 | idea2 r1-r2 channel-healthy | ✓ |
+| 19-tree corpus | 15 K7 + 4 idea2(r1-r2), r3 contaminated 排除 | ✓ |
+
+abstract 数字审计闭环。
