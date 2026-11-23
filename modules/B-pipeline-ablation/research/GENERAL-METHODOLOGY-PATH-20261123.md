@@ -218,6 +218,28 @@ Q6 claim 字段 (监控轴) gap_rate: 50 档 0.0733, 100 档 0.0033, 150 档 0.0
 - 注意: Q6 claim 字段 gap 极低可能因 Q6 题面更定量 (claim 多为数值, 防御措辞集中在
   evidence 的核验文本), 非模型监控能力差异 — 待 D 判断
 
+**Finding (2) 难度梯度的字段分解 (2026-11-23, 强化论文)**
+脚本: research/finding2-field-decomposition.py (固化, 复现下表)
+口径: 与 finding2-difficulty-gradient-cleaned.py 完全一致 (sm-era, node.json 递归,
+按 id/mtime 去重, 跳过 <20 节点, NO_UNCERTAIN 7-pattern 清洗)
+| 域   | n_runs | pooled | claim  | evidence | ev%  |
+|------|--------|--------|--------|----------|------|
+| nat  | 21     | 0.0181 | 0.0162 | 0.0026   | 14%  |
+| soc  | 26     | 0.0298 | 0.0261 | 0.0045   | 15%  |
+| gpu  | 18     | 0.0999 | 0.0921 | 0.0089   | 9%   |
+- claim 字段梯度 nat 0.0162 < soc 0.0261 < gpu 0.0921 **完整保持**
+- claim 字段 Mann-Whitney: nat<soc z=-1.68 ns, soc<gpu z=-4.46 显著, nat<gpu z=-4.68 显著
+  (与 pooled 清洗口径同构: nat<soc ns, 其余两环显著)
+- evidence 字段贡献小 (9-15% of pooled)
+**结论: finding (2) 难度梯度是监控轴 (claim 字段) 现象, 落在 detector-robust 的轴上**
+- 与 budget-invariance 的字段分解互补: budget 效应主要在 evidence 字段 (核验阶段),
+  难度效应主要在 claim 字段 (监控轴) — 两个 finding 落在不同字段, 不冲突
+- 对 draft: finding (2) 可加一句 "the gradient is driven by the claim field
+  (monitoring axis, 85-91% of pooled), not verification-stage text — it is
+  detector-robust on the axis it measures"
+- 承重脚本修复: finding2-difficulty-gradient-cleaned.py 的 ARCHIVE 路径少一层 ..
+  (ZeroDivisionError), 已修 (8d1d58464 之前的 commit 待补)
+
 **真正的新发现 (扩展检测器揭示, 监控轴之外的 budget 效应)**:
 - 核验阶段防御文本 (evidence 字段) 随 budget **上升**: 0.39/0.41/0.44 (100/150/300)
 - 含义: 更多 budget → 更多"来源不支持/无法验证"的核验文本 → 更多 degraded 节点

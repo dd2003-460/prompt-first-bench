@@ -34,7 +34,7 @@ from metacog_axis import DEFENSIVE_RE
 # [待核验]/不确定/未验证/待确认/需要验证/无法确定/缺乏数据/信息不足;
 # 本正则 = 其余 7 项, 无漏无增; "无法确定"不含"不确定"不会被误剔。
 NO_UNCERTAIN = re.compile(r"\[待核验\]|未验证|待确认|需要验证|无法确定|缺乏数据|信息不足")
-ARCHIVE = os.path.join(HERE, "..", "..", "experiments", "stage-ablation", "checkpoints", "archive")
+ARCHIVE = os.path.join(HERE, "..", "..", "..", "experiments", "stage-ablation", "checkpoints", "archive")
 
 
 def text(n):
