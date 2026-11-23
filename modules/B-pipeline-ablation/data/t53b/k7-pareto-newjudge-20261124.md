@@ -684,3 +684,9 @@ v6 声称 "gain-cov 脱钩是 breadth-without-depth 的机制签名" — 推理�
 - **Q7 扫描预检全过**: gold-q7-units.json 52 units ✓ / 题面 Q7-storage-arch.txt ✓ / 脚本三坑已处理 (Q6_REP cache 隔离 / /usr/bin/python3 / 评分 stderr 落盘)。relay_v2 phase 2 自动启动, 15 runs ~11h。
 - **分析脚本 n<3 保护 (commit 8a3dc13c2)**: 预跑 q6_719_nodepth_analyze.py 发现跨域 verdict 在 n=2 时输出 "仍升→域依赖" (delta_xd=+0.0819>1×sd 0.0374) — r2=0.2391 离群点单点驱动, recs 端 n=2 时 mean sd 只有 1 自由度, 噪声底低估。与 draft §4.3 "n=2 方向未定" 降级矛盾。修: len(recs)<3 时 verdict 输出 "方向未定, r3 定论"。重跑验证通过。r3 落地后 watchdog (proc_be1ea52a7035) 自动跑此脚本出 n=3 定论。
 - **matched 批记账核验闭环**: cc-state-sm-matched.json 30/30 done + results-sm-matched.json 30 runs 对账 + stale active 标志已清 (11-24 已记账), 子项① 实际完成。
+
+## Q7 watchdog + 整链全自动 (2026-11-24 08:00)
+
+- **Q7 分析脚本预检**: q7_domain_gold_analyze.py 已存在且逻辑完整 (域内 gold 52 units + 饱和点定位 + Q6 跨题对比, 719 档单列为深度墙下界不直接对比); 跨题对比数据源 q6-gold-rescore.json 15 runs/5 档全在, 719 档 0.1667 与脚本口径一致。
+- **Q7 watchdog 起 (proc_50c68c9d1a00)**: relay_v2 phase 2 跑完 Q7 队列后不自动跑分析 (与 r3 gap 同构), 补 watchdog 等 15 文件落地自动跑 q7_domain_gold_analyze.py。
+- **整条链现在全自动无断点**: r3 (在跑 N177) → 队列脚本结束 → relay_v2 phase 2 自动启动 Q7 扫描 (~11h) → Q7 watchdog 自动跑域内 gold 分析; 并行 r3 watchdog (proc_be1ea52a7035) 等 r3 落地自动跑 18 点分析。两个 watchdog 都 notify_on_complete, 落地后收通知。
