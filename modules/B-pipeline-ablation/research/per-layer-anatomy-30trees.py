@@ -12,7 +12,8 @@ import glob, json, os, re
 from collections import Counter, defaultdict
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
+# research/ -> B-pipeline-ablation/ -> modules/ -> pfb root
+ROOT = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 K7 = os.path.join(ROOT, "experiments", "stage-ablation", "checkpoints", "archive")
 REP = os.path.join(HERE, "..", "data", "rep-scan")
 
@@ -41,11 +42,15 @@ def load_rep_nodes(f):
 trees = []
 for f in sorted(glob.glob(os.path.join(K7, "budget-*"))):
     m = re.search(r"budget-(\d+)-r(\d+)", os.path.basename(f))
+    if not m:
+        continue
     trees.append((f"K7-{m.group(1)}-r{m.group(2)}", int(m.group(1)), load_k7_tree(f)))
 for f in glob.glob(os.path.join(REP, "rep-*.json")):
     if f.endswith("scores.json"):
         continue
     m = re.search(r"rep-(\d+)-r(\d+)", os.path.basename(f))
+    if not m:
+        continue
     trees.append((f"REP-{m.group(1)}-r{m.group(2)}", int(m.group(1)), load_rep_nodes(f)))
 
 layer = defaultdict(Counter)
