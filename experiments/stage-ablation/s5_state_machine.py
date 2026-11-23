@@ -914,7 +914,9 @@ class DecompStateMachine:
         每个父节点文件夹 = 一个索引，打开就能看到所有子节点。
         原子写：meta.json 先写 tmp 再 os.replace。"""
         import os
-        ckpt_dir = "checkpoints"
+        # 2026-11-23: SM_CKPT_DIR 环境变量可重定向 checkpoint 输出目录 (默认 checkpoints, 行为不变)。
+        # 动机: 去脚手架实验等并行 run 不能覆盖原始 sm-{qid}-r1 数据 (15:53 事故: smoke 覆盖 39 个已跟踪文件, git 恢复)。
+        ckpt_dir = os.environ.get("SM_CKPT_DIR", "checkpoints")
         base = os.path.join(ckpt_dir, f"sm-{self.qid}-r{rnd}")
         os.makedirs(base, exist_ok=True)
 
