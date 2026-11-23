@@ -135,3 +135,11 @@ GPU rep-scan: n=15 均值 0.1023 sd 0.0499 cv=0.49
 Q6 (网络架构域) 的检索触发率显著低于 GPU (硬件域)。含义: retrieval_rate 不是域不变量
 (与 gap_rate 不同), A3 跨域比较 retrieval_rate 时域差异是真实信号不是噪声。
 Q6 50 档 3 run search 占比: 10%/40%/22% (均值 24%), 仍低于 GPU 32.7%。
+
+## Q6 100 档 3 run 数据点 (2026-11-23)
+
+- gap: 0.01/0.01/0.00 (均值 0.0067) vs 50 档 0.0800 — Q6 域内 gap 随 budget 降 12× (n=3/tier, suggestive; 与 GPU 域 budget-invariance 方向不同, 域间差异待 5 档全出后检验)
+- cov 域内: 0.130/0.044/0.044 (均值 0.0725) vs 50 档 0.0580 — Q6 域内 cov 随 budget 升 (breadth 曲线第一个跨档信号, n=3)
+- cov 跨域 (gpu gold): 0.0000 (3/3 run) — 域特异性继续成立
+- repair node-level: 3/67 = 4.5% (50 档 4.0%, GPU 固化版 3.7%) — low-yield 跨档稳定
+- 注: Q6 100 档 gap 极低 (0-1%) 可能是 Q6 题面特性 (网络架构域 defensive marker 少), 不是 budget 效应 — 与 GPU 域 gap~0.10 的域间差异本身是 A3 的跨域信号
