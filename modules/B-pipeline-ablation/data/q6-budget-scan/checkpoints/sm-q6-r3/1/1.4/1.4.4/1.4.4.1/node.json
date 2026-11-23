@@ -1,17 +1,17 @@
 {
-  "id": "N191",
-  "claim": "智能DNS调度错误率（error_rate）的基准值：在TTL=300s且无实时流量监控反馈的静态解析策略下，因用户IP归属地识别偏差或DNS污染导致的非最优节点调度错误率约为0.5%；若引入基于实时探测的动态DNS（TTL=30s），错误率可降至0.1%。",
+  "id": "N151",
+  "claim": "t_invalidate 的传播延迟模型：t_invalidate = t_publish + t_propagate，其中 t_publish 为失效消息发布延迟（<10ms），t_propagate 为多播/组播到所有边缘节点的时间，受限于最慢节点网络 RTT 和消息队列积压；典型值 1-10s 中，1s 以内依赖高效组播（如 IGMP），10s 级别通常因 TCP 逐跳推送或高负载队列导致",
   "level": "L4",
   "source": "knowledge",
-  "status": "degraded",
-  "evidence": "[质询]具体数值（0.5%和0.1%）缺乏通用行业标准或公开基准数据支持，属于特定场景下的经验估计值，不同网络环境和运营商策略下波动极大，难以作为普适基准。 | 先验知识/题面给定，逻辑校验通过（TTL缩短确实能降低因IP变动或污染导致的调度滞后错误，量级关系合理），但具体数值缺乏外部来源直接支持，且属于经验事实范畴。",
-  "corrected_claim": "在TTL=300s且无实时流量监控反馈的静态解析策略下，因用户IP归属地识别偏差或DNS污染导致的非最优节点调度错误率通常高于动态策略；若引入基于实时探测的动态DNS（TTL=30s），错误率可显著降低（具体数值依网络环境而定，通常可降低一个数量级）。",
-  "rework_count": 1,
+  "status": "verified",
+  "evidence": "先验知识/题面给定，逻辑校验通过：失效传播延迟由发布延迟与网络传播延迟（受限于最慢节点RTT及队列积压）组成，符合分布式系统网络通信的基本物理直觉与工程经验，数值量级（毫秒级发布+秒级传播）合理。",
+  "corrected_claim": "t_invalidate 的传播延迟模型：t_invalidate = t_publish + t_propagate，其中 t_publish 为失效消息发布延迟（<10ms），t_propagate 为多播/组播到所有边缘节点的时间，受限于最慢节点网络 RTT 和消息队列积压；典型值 1-10s 中，1s 以内依赖高效组播（如 IGMP），10s 级别通常因 TCP 逐跳推送或高负载队列导致",
+  "rework_count": 0,
   "parent_ids": [
-    "N54"
+    "N44"
   ],
   "objective": null,
   "edge_type": "quotient",
-  "search_query": "",
+  "search_query": "CDN cache invalidation propagation delay multicast vs unicast push latency seconds",
   "retrieval_sources": []
 }

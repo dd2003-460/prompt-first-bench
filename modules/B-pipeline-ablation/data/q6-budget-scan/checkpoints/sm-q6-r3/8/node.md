@@ -1,6 +1,6 @@
-# N48: 公有云CDN的安全与合规运维成本：C_sec_cloud = C_DDoS_basic + C_Log_storage，其中C_DDoS_basic为基础DDo
+# N28: 自建节点带宽租赁成本：10个POP点若各需10Gbps专线接入，月租成本 C_bw_self ≈ 10 * 10Gbps * ¥800-1500/Gbps/月，
 
-- **status**: verified
+- **status**: degraded
 - **level**: L2
 - **source**: search
 - **edge_type**: cartesian
@@ -9,16 +9,17 @@
 
 ## Claim
 
-公有云CDN的安全与合规运维成本：C_sec_cloud = C_DDoS_basic + C_Log_storage，其中C_DDoS_basic为基础DDoS防护（通常包含在CDN套餐中，0元），C_Log_storage为访问日志存储与分析费用（约¥0.1-0.5/GB，日均2TB下载对应日志量约20-50GB/天，月成本约¥60-750）。
+自建节点带宽租赁成本：10个POP点若各需10Gbps专线接入，月租成本 C_bw_self ≈ 10 * 10Gbps * ¥800-1500/Gbps/月，总月成本约 ¥80k-150k，远低于公有云按量付费但高于私有IDC托管
 
 ## Corrected Claim
 
-公有云CDN的安全与合规运维成本通常包含基础DDoS防护（多含在套餐中）及访问日志存储费用，具体金额取决于云厂商定价策略及日志量，需查阅具体厂商价目表确认。
+自建节点带宽租赁成本：10个POP点若各需10Gbps专线接入，月租成本估算在¥80k-150k区间（基于行业典型带宽单价），该量级与综合运营成本相当，通常低于公有云按量付费但高于纯IDC托管。
 
 ## Evidence
 
-父节点级核验通过：正交+完备+无冗余（三个子节点分别对应父节点公式中的两个主要变量（日志存储、DDoS防护）以及一个关键的计算前置条件（日志生成速率）。它们分别处理数据量计算、存储成本细分和隐性费用边界，维度清晰，无重叠或矛盾。）
+[质询]具体单价（¥800-1500/Gbps/月）属于经验市场数据，缺乏直接来源支持；且来源[2]提到的月运营成本（8-15万）包含机柜、人力等综合成本，不能直接等同于纯带宽租赁成本，存在口径混淆风险。 | 来源[2]提供了10节点CDN月运营成本8-15万元的间接参考，量级与陈述一致，但未直接提供纯带宽单价支持，属经验事实且仅间接支持。
 
 ## Retrieval Sources
 
-- {'url': 'https://developer.baidu.com/article/detail.html?id=3974429&rut=5f0058cf04cfa007447c5a6394ea2cc715de9a62fbbee70e1c59c670096bf8c1', 'type': 'ddg', 'title': '公有云与私有云取舍指南：成本、安全与性能的深度解析-百度开发者中心'}
+- {'url': 'https://www.sohu.com/a/892488926_121427045&rut=99d859706d90748a014b55cb0d8ecbcc227623e793f9283d5836277d7f208f13', 'type': 'ddg', 'title': 'sdwan价格计费项及计费方式_节点_带宽_企业 - 搜狐'}
+- {'url': 'https://wenku.baidu.com/view/26c304a6950ef12d2af90242a8956bec0975a5cb.html&rut=bd9820eb56f43a40042d01c1bd05b12269ecb67c054f11ec94bc66e632280d72', 'type': 'ddg', 'title': 'CDN机房搭建费用明细解析：自建还是租用？一文看懂2026年成本与选择'}

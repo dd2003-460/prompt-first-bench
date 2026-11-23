@@ -1,20 +1,30 @@
-# N267: 核心区域自建回源流量绝对值 Traffic_origin_core = 2TB * 0.8 * (1 - 0.90) = 0.16 TB/日（假设核心流量占比8
+# N205: 热点对象数 N_unique_hot 的量化模型：N_unique_hot = N_total_daily * Zipf_alpha_factor，其中 N_t
 
-- **status**: verified
+- **status**: degraded
 - **level**: L4
-- **source**: given
+- **source**: search
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N83
+- **rework_count**: 1
+- **parent_ids**: N66, N67, N68
 
 ## Claim
 
-核心区域自建回源流量绝对值 Traffic_origin_core = 2TB * 0.8 * (1 - 0.90) = 0.16 TB/日（假设核心流量占比80%，自建节点稳态缓存命中率H_self=90%），该数值直接决定自建Origin出口带宽需求。
+热点对象数 N_unique_hot 的量化模型：N_unique_hot = N_total_daily * Zipf_alpha_factor，其中 N_total_daily 为日唯一请求对象数，Zipf_alpha_factor 取决于访问分布的 Zipf 指数 α（通常 0.8-1.2），需根据业务日志拟合得出 [待核验]
 
 ## Corrected Claim
 
-核心区域自建回源流量绝对值 Traffic_origin_core = 2TB * 0.8 * (1 - 0.90) = 0.16 TB/日（假设核心流量占比80%，自建节点稳态缓存命中率H_self=90%），该数值直接决定自建Origin出口带宽需求。
+热点对象数 N_unique_hot 通常需通过拟合业务日志中的访问分布（如 Zipf 分布）来估算，其数量级与日唯一请求对象数 N_total_daily 及访问集中度（由 Zipf 指数 α 反映）相关，但无通用的简单线性公式 N_unique_hot = N_total_daily * Zipf_alpha_factor，具体数值需基于实际日志数据通过累积分布函数（CDF）截断或帕累托原则确定。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：2 * 0.8 * 0.1 = 0.16，计算无误，量纲一致。
+[质询]该公式 N_unique_hot = N_total_daily * Zipf_alpha_factor 缺乏严格的数学推导支持，Zipf 分布中热点对象数量与总对象数的关系并非简单的线性乘积关系，且 'Zipf_alpha_factor' 并非标准术语，其具体定义和计算方式模糊，容易误导为存在一个固定的系数。 | 参考来源 [1][2][3] 均讨论 One-Hot 编码，与 Zipf 分布及热点对象量化模型无关，无可用外部证据；该陈述属于经验性工程估算模型，逻辑上虽自洽（作为近似估算），但缺乏来源直接支持且公式形式非标准，故降级。
+
+## Search Query
+
+Zipf distribution parameter estimation web traffic object popularity
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/sbvtkdddnl/article/details/157946146&rut=a07a2b93b3ece24079aa2dab8977c730ddf37c2ab5d6bf50b85a67888f3c89d2', 'type': 'ddg', 'title': 'One-Hot编码详解：原理、实现与应用全解析-CSDN博客'}
+- {'url': 'https://blog.csdn.net/zyc88888/article/details/103819604&rut=138edd96d4aff605abf5537fef19acc3254737e9077f83347bf8baaff36fb6bf', 'type': 'ddg', 'title': '机器学习：数据预处理之独热编码（One-Hot）详解-CSDN博客'}
+- {'url': 'https://www.cnblogs.com/Chary/p/19326196&rut=6173e932b8830e2bb3422de5d85e371098206e9749030232b9a0e2dc5cf7d24a', 'type': 'ddg', 'title': '机器学习：数据预处理之独热编码（One-Hot）详解 - charyGao - 博客园'}

@@ -1,0 +1,24 @@
+# N183: 下行带宽单价 P_bw_down 的具体数值：阿里云中国大陆地区下行流量单价约为 ¥0.20-0.24/GB，Cloudflare 约为 $0.05-0.08/
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N59
+
+## Claim
+
+下行带宽单价 P_bw_down 的具体数值：阿里云中国大陆地区下行流量单价约为 ¥0.20-0.24/GB，Cloudflare 约为 $0.05-0.08/GB（≈¥0.36-0.58/GB），取平均值 ¥0.22/GB 作为基准
+
+## Corrected Claim
+
+下行带宽单价 P_bw_down 的具体数值：阿里云中国大陆地区下行流量单价约为 ¥0.20-0.24/GB，Cloudflare 约为 $0.05-0.08/GB（≈¥0.36-0.58/GB），取平均值 ¥0.22/GB 作为基准
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+Alibaba Cloud CDN downlink bandwidth price per GB China

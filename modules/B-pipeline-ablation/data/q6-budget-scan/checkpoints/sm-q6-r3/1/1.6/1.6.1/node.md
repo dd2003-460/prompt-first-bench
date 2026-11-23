@@ -1,20 +1,24 @@
-# N66: 公有云CDN缓存命中P99延迟：T_cache_hit_P99_cloud = RTT_user_to_edge_P99 + T_processing_clou
+# N47: 骨干网延迟 t_backbone = t_hop * N_hops，其中 t_hop 为单跳延迟（典型 5-10ms），N_hops 为从边缘节点到源站的路由跳
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N12
+- **parent_ids**: N11
 
 ## Claim
 
-公有云CDN缓存命中P99延迟：T_cache_hit_P99_cloud = RTT_user_to_edge_P99 + T_processing_cloud_P99 + T_queue_cloud_P99，其中RTT_user_to_edge_P99基于用户到最近边缘节点的地理分布（典型20-50ms），T_processing_cloud_P99典型1-5ms，T_queue_cloud_P99典型0-10ms（低负载），合计典型25-65ms。
+骨干网延迟 t_backbone = t_hop * N_hops，其中 t_hop 为单跳延迟（典型 5-10ms），N_hops 为从边缘节点到源站的路由跳数（典型 3-10跳）；该值反映数据在运营商骨干网中的传输耗时。
 
 ## Corrected Claim
 
-公有云CDN缓存命中P99延迟：T_cache_hit_P99_cloud = RTT_user_to_edge_P99 + T_processing_cloud_P99 + T_queue_cloud_P99，其中RTT_user_to_edge_P99基于用户到最近边缘节点的地理分布（典型20-50ms），T_processing_cloud_P99典型1-5ms，T_queue_cloud_P99典型0-10ms（低负载），合计典型25-65ms。
+骨干网延迟 t_backbone = t_hop * N_hops，其中 t_hop 为单跳延迟（典型 5-10ms），N_hops 为从边缘节点到源站的路由跳数（典型 3-10跳）；该值反映数据在运营商骨干网中的传输耗时。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：各分项延迟量级（RTT 20-50ms, 处理 1-5ms, 队列 0-10ms）符合公有云CDN边缘节点缓存命中的典型工程经验，总和计算无误。
+父节点级核验通过：正交+完备+无冗余（父节点公式 t_backbone = t_hop * N_hops 由两个独立的乘数因子组成。子节点1聚焦于单跳延迟 t_hop 的物理构成（传播、处理、排队）及其影响因素，子节点2聚焦于跳数 N_hops 的路由依赖（BGP、地理距离、AS路径）。两者分别解释了公式中的两个变量，内容互不重叠，且共同覆盖了父节点公式的全部关键参数，符合正交性和完备性要求。）
+
+## Search Query
+
+internet backbone latency per hop ms

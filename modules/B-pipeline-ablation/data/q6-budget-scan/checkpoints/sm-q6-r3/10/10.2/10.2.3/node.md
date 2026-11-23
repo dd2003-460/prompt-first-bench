@@ -1,0 +1,24 @@
+# N339: 故障类型分布：硬件故障占比60-70%，软件/配置错误占比20-30%，网络抖动占比10%，各类型MTTR差异显著（硬件>软件>网络），需加权计算平均故障成本
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N106
+
+## Claim
+
+故障类型分布：硬件故障占比60-70%，软件/配置错误占比20-30%，网络抖动占比10%，各类型MTTR差异显著（硬件>软件>网络），需加权计算平均故障成本
+
+## Corrected Claim
+
+故障类型分布因系统而异，通常硬件故障占比较高，软件/配置错误次之，网络抖动占比相对较低；各类型MTTR存在差异，需根据具体场景加权计算平均故障成本。
+
+## Evidence
+
+[质询]具体数值占比（60-70%等）及MTTR排序属于经验统计事实，不同行业、系统架构及统计口径下差异巨大，缺乏普适性，且无来源支持具体数值。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+CDN edge node failure type distribution hardware vs software

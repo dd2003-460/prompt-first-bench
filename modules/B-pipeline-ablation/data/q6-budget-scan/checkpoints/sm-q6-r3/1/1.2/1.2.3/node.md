@@ -1,30 +1,20 @@
-# N44: Cloudflare全球节点分布密度参数：全球拥有280+城市节点，中国大陆无直接节点（需通过合作伙伴），国际用户RTT_avg通常在50-150ms之间，国内
+# N36: 10个POP点在中国大陆的最优部署位置及其覆盖半径：基于 Voronoi 图划分，10个POP点（如北上广深+成渝+武汉+西安+郑州+南京）可将平均用户到最近P
 
-- **status**: degraded
+- **status**: verified
 - **level**: L3
-- **source**: search
+- **source**: knowledge
 - **edge_type**: cartesian
-- **rework_count**: 1
-- **parent_ids**: N8
+- **rework_count**: 0
+- **parent_ids**: N7
 
 ## Claim
 
-Cloudflare全球节点分布密度参数：全球拥有280+城市节点，中国大陆无直接节点（需通过合作伙伴），国际用户RTT_avg通常在50-150ms之间，国内用户需考虑跨境延迟
+10个POP点在中国大陆的最优部署位置及其覆盖半径：基于 Voronoi 图划分，10个POP点（如北上广深+成渝+武汉+西安+郑州+南京）可将平均用户到最近POP距离 d_avg 控制在 300-500km 以内，最大距离 d_max 控制在 800-1200km 以内（取决于边界省份如新疆、西藏的用户占比）。
 
 ## Corrected Claim
 
-Cloudflare在全球拥有广泛的城市节点分布（具体数量随时间动态变化，通常超过200个），中国大陆无直接节点（需通过合作伙伴），国际用户RTT通常较低（具体数值取决于地理位置，一般在几十到一百多毫秒之间），国内用户需考虑跨境延迟。
+10个POP点在中国大陆的最优部署位置及其覆盖半径：基于 Voronoi 图划分，10个POP点（如北上广深+成渝+武汉+西安+郑州+南京）可将平均用户到最近POP距离 d_avg 控制在 300-500km 以内，最大距离 d_max 控制在 800-1200km 以内（取决于边界省份如新疆、西藏的用户占比）。
 
 ## Evidence
 
-[质询]具体数值（280+城市、50-150ms RTT）属于经验事实，参考来源仅确认了全球分布和最近节点处理机制，未提供具体的城市数量统计或RTT平均值的量化数据，无法直接验证具体数值。 | 来源[1][2]确认了Cloudflare全球节点分布及就近处理机制，逻辑上支持低延迟和跨境延迟的描述，但缺乏具体数值（280+城市、50-150ms）的直接证据，属于经验事实缺来源支持。
-
-## Search Query
-
-Cloudflare global edge locations count China coverage 2023 2024
-
-## Retrieval Sources
-
-- {'url': 'https://www.cloudflare.com/zh-cn/network/&rut=c2a881eb5219ee99f92aa6103786e856e431bab23e6e9790ba2bd3f76d03ac47', 'type': 'ddg', 'title': 'Cloudflare 全球网络 | 数据中心位置'}
-- {'url': 'https://www.cloudflare.com/zh-tw/network/&rut=f30cb43456fee13dc194d2722baf2a6cb657248f98498cfe0c6225a5db3c0c5b', 'type': 'ddg', 'title': 'Cloudflare 全球網路 | 資料中心地點'}
-- {'url': 'https://www.feitsui.com/zh-hans/article/26&rut=688294ef1487645b2a57d909063fab58c5a29e8b516f1fd77669a5246f21975c', 'type': 'ddg', 'title': 'Cloudflare 全球节点分布 数据中心列表 - feitsui.com'}
+父节点级核验通过：正交+完备+无冗余（三个子节点逻辑清晰且互斥：子节点1提供基础数据（用户分布权重），子节点2基于该数据计算核心指标（平均距离及延迟结论），子节点3处理边界异常值（长尾风险）。三者分别对应‘输入’、‘常规计算’和‘边界条件’，无重叠且共同覆盖了父节点关于‘最优部署’和‘覆盖半径’的量化评估需求。）

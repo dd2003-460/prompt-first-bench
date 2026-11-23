@@ -1,24 +1,24 @@
-# N176: TLS 1.3 完整握手（Full Handshake）的 P99 延迟 T_tls_full_p99 ≈ 1 RTT + 2 * T_cpu_handshak
+# N114: 下沉市场短视频平台（如快手/抖音）的流量分布基尼系数 G_sink 约为 0.35-0.45，显著低于头部资讯/电商平台的 0.55-0.65；该系数用于量化长
 
-- **status**: verified
+- **status**: degraded
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N52
+- **rework_count**: 1
+- **parent_ids**: N31
 
 ## Claim
 
-TLS 1.3 完整握手（Full Handshake）的 P99 延迟 T_tls_full_p99 ≈ 1 RTT + 2 * T_cpu_handshake，其中 T_cpu_handshake（RSA-2048 密钥交换计算）≈ 0.5-1.5ms（取决于 CPU 主频与 OpenSSL 版本），总 P99 约为 15-35ms（含网络 RTT）或纯处理 1-3ms；需区分首连接与 Session Resumption。
+下沉市场短视频平台（如快手/抖音）的流量分布基尼系数 G_sink 约为 0.35-0.45，显著低于头部资讯/电商平台的 0.55-0.65；该系数用于量化长尾流量分散程度，G > 0.5 时 Top 10 省份占比通常 < 60%。
 
 ## Corrected Claim
 
-TLS 1.3 完整握手（Full Handshake）的 P99 延迟 T_tls_full_p99 ≈ 1 RTT + 2 * T_cpu_handshake，其中 T_cpu_handshake（RSA-2048 密钥交换计算）≈ 0.5-1.5ms（取决于 CPU 主频与 OpenSSL 版本），总 P99 约为 15-35ms（含网络 RTT）或纯处理 1-3ms；需区分首连接与 Session Resumption。
+下沉市场短视频平台的流量分布通常比头部资讯/电商平台更为分散，基尼系数相对较低（具体数值需依据特定统计口径确定）；基尼系数可用于量化长尾流量分散程度，但具体阈值与Top 10省份占比的关系需结合具体数据验证。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：TLS 1.3 Full Handshake 确实为 1-RTT 延迟，RSA-2048 签名/解密耗时在 0.5-1.5ms 量级符合工程常识，总延迟估算合理。
+[质询]基尼系数（Gini Coefficient）通常用于衡量收入或财富分配的不平等程度，其数值范围在0到1之间。虽然理论上可以应用于流量分布，但将短视频平台的流量分布基尼系数具体量化为0.35-0.45，并与头部平台对比得出显著差异，属于具体的经验统计数据。此外，'G > 0.5 时 Top 10 省份占比通常 < 60%'这一具体阈值关系缺乏通用的统计学或经济学第一性原理支持，属于特定数据集下的经验观察，极易因数据口径（如按用户数、按观看时长、按地域聚合方式）不同而产生巨大偏差。 | 经验事实，逻辑自洽但缺来源支持。基尼系数用于衡量分布离散度在逻辑上成立，但具体的数值区间（0.35-0.45 vs 0.55-0.65）及与Top 10省份占比的具体阈值关系属于特定经验数据，无外部来源支持且无法从第一性原理严格推导，故降级。
 
 ## Search Query
 
-TLS 1.3 handshake latency CPU RSA-2048 milliseconds P99
+short video platform user geographic distribution gini coefficient china sink market

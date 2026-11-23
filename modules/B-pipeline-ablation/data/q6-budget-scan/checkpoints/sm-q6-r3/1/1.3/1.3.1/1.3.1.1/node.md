@@ -1,24 +1,20 @@
-# N192: TCP+TLS 1.2 完整握手延迟 T_handshake_tls12 = 2 * RTT + T_server_processing，其中 2*RTT 为 
+# N132: 日均 2TB 下载量的平均带宽计算：B_avg = (2 * 1024 * 1024 * 1024 * 8 bits) / 86400 s ≈ 191.4 Mb
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N58
+- **parent_ids**: N38
 
 ## Claim
 
-TCP+TLS 1.2 完整握手延迟 T_handshake_tls12 = 2 * RTT + T_server_processing，其中 2*RTT 为 ClientHello/ServerHello+Certificate/Finished 交互，T_server_processing ≈ 1-5 ms（证书验证），总 P99 ≈ 40-100 ms
+日均 2TB 下载量的平均带宽计算：B_avg = (2 * 1024 * 1024 * 1024 * 8 bits) / 86400 s ≈ 191.4 Mbps ≈ 0.19 Gbps，此值为 24 小时平均值，未包含峰值系数
 
 ## Corrected Claim
 
-TCP+TLS 1.2 完整握手延迟 T_handshake_tls12 = 2 * RTT + T_server_processing，其中 2*RTT 为 ClientHello/ServerHello+Certificate/Finished 交互，T_server_processing ≈ 1-5 ms（证书验证），总 P99 ≈ 40-100 ms
+日均 2TB 下载量的平均带宽计算：B_avg = (2 * 1024 * 1024 * 1024 * 8 bits) / 86400 s ≈ 191.4 Mbps ≈ 0.19 Gbps，此值为 24 小时平均值，未包含峰值系数
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：TLS 1.2 标准握手确实需要 2 个 RTT（ClientHello->ServerHello+Cert, Finished->Finished），服务器处理时间 1-5ms 符合常规，总延迟量级合理。
-
-## Search Query
-
-TLS 1.2 handshake RTT count latency breakdown
+先验知识/题面给定，逻辑校验通过：2TB=2*1024^3 MB，换算为bits后除以86400秒，计算结果约为191.4 Mbps，量级与逻辑均正确。

@@ -1,20 +1,20 @@
-# N101: 故障对P99延迟的量化影响公式：ΔP99 = λ_annual × MTTR_hours × (T_origin - T_edge) / 8760；其中λ_an
+# N81: 预热带宽成本与回源带宽成本的权衡：C_total = C_warm + C_miss，其中 C_warm = B_warm * T_warm * c_bw，C_
 
-- **status**: pending
+- **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N31
+- **parent_ids**: N24
 
 ## Claim
 
-故障对P99延迟的量化影响公式：ΔP99 = λ_annual × MTTR_hours × (T_origin - T_edge) / 8760；其中λ_annual为年故障率（次数/年），MTTR为小时数，(T_origin - T_edge)为延迟增加量（ms），8760为年小时数，结果为平均每次请求的延迟增加贡献。
+预热带宽成本与回源带宽成本的权衡：C_total = C_warm + C_miss，其中 C_warm = B_warm * T_warm * c_bw，C_miss = p_miss * B_total * c_bw
 
 ## Corrected Claim
 
-故障对P99延迟的量化影响公式：ΔP99 = λ_annual × MTTR_hours × (T_origin - T_edge) / 8760；其中λ_annual为年故障率（次数/年），MTTR为小时数，(T_origin - T_edge)为延迟增加量（ms），8760为年小时数，结果为平均每次请求的延迟增加贡献。
+预热带宽成本与回源带宽成本的权衡：C_total = C_warm + C_miss，其中 C_warm = B_warm * T_warm * c_bw，C_miss = p_miss * B_total * c_bw
 
 ## Evidence
 
-父节点级核验失败（LLM 错误）：Unterminated string starting at: line 8 column 5 (char 795)
+先验知识/题面给定，逻辑校验通过

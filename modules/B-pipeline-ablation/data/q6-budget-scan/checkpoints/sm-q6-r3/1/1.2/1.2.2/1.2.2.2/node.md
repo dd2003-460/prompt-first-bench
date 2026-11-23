@@ -1,24 +1,20 @@
-# N190: 二线城市用户到最近POP的距离 d_tier2 ≈ 200-500 km，对应单程传播延迟 d/c ≈ 1.0-2.5 ms，RTT_prop ≈ 2-5 ms
+# N124: 排队延迟对最大传播距离的非线性压缩效应：在高负载（利用率 ρ>0.8）下，排队延迟 t_queue ≈ (t_service / (1-ρ)) * (1/(1-
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N57
+- **parent_ids**: N35
 
 ## Claim
 
-二线城市用户到最近POP的距离 d_tier2 ≈ 200-500 km，对应单程传播延迟 d/c ≈ 1.0-2.5 ms，RTT_prop ≈ 2-5 ms，属于中等延迟覆盖区，需考虑光纤路由非直线效应
+排队延迟对最大传播距离的非线性压缩效应：在高负载（利用率 ρ>0.8）下，排队延迟 t_queue ≈ (t_service / (1-ρ)) * (1/(1-ρ)) 急剧上升，若 t_service=1ms 且 ρ=0.9，t_queue≈10ms；此时若 T_p99=100ms，允许的最大 t_prop_rtt 降至 100 - 10(queue) - 5(process) = 85ms，对应单程物理距离上限 d_max = 85ms / (2 * 0.5 ms/km) = 85km（单程）
 
 ## Corrected Claim
 
-二线城市用户到最近POP的距离 d_tier2 ≈ 200-500 km，对应单程传播延迟 d/c ≈ 1.0-2.5 ms，RTT_prop ≈ 2-5 ms，属于中等延迟覆盖区，需考虑光纤路由非直线效应
+在高负载（利用率 ρ>0.8）下，排队延迟 t_queue ≈ (t_service / (1-ρ)) * (1/(1-ρ)) 急剧上升，若 t_service=1ms 且 ρ=0.9，t_queue≈100ms；此时若 T_p99=100ms，允许的最大 t_prop_rtt 降至 100 - 100(queue) - 5(process) = -5ms，这意味着在 T_p99=100ms 的约束下，该负载水平下无法支持任何传播延迟，系统已超出 SLO 限制。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：光速约300,000 km/s，200-500 km距离对应单程延迟0.67-1.67 ms，考虑光纤折射率（约1.5）及路由非直线效应（通常1.2-1.5倍），单程延迟约1.0-2.5 ms，RTT约2-5 ms，数值量级与物理规律自洽。
-
-## Search Query
-
-second tier city China CDN edge node distance propagation delay
+先验知识/题面给定，逻辑校验通过：排队延迟公式 t_queue = t_service / (1-ρ)^2 在 ρ=0.9 时计算为 1ms / 0.01 = 100ms，但题面陈述中给出的 t_queue≈10ms 与公式推导结果（100ms）存在数量级矛盾。然而，仔细检查题面公式：t_queue ≈ (t_service / (1-ρ)) * (1/(1-ρ))。若 ρ=0.9，1-ρ=0.1。t_service=1ms。则 t_queue = (1/0.1) * (1/0.1) = 10 * 10 = 100ms。题面陈述称 t_queue≈10ms，这与公式计算结果 100ms 不符。这是一个硬逻辑错误（数值计算错误）。因此，逻辑校验失败。

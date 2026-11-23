@@ -1,24 +1,24 @@
-# N121: 混合策略在日均请求数R ∈ [10,000,000, 50,000,000]时的自建部分固定成本分摊：假设核心区域5个POP点，年折旧+租金约¥400,000，
+# N271: Cloudflare Enterprise 承诺带宽模式（Committed Bandwidth）的固定基础费通常为 $1,000 - $5,000/月，具体取
 
-- **status**: verified
-- **level**: L3
+- **status**: degraded
+- **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N32
+- **rework_count**: 1
+- **parent_ids**: N88
 
 ## Claim
 
-混合策略在日均请求数R ∈ [10,000,000, 50,000,000]时的自建部分固定成本分摊：假设核心区域5个POP点，年折旧+租金约¥400,000，分摊至每千请求公式为 (400,000 / (R × 365)) × 1000，在R=10,000,000时约为¥0.011/1000req，在R=50,000,000时约为¥0.002/1000req
+Cloudflare Enterprise 承诺带宽模式（Committed Bandwidth）的固定基础费通常为 $1,000 - $5,000/月，具体取决于承诺的带宽上限（如 10Gbps vs 100Gbps）及合同期限
 
 ## Corrected Claim
 
-混合策略在日均请求数R ∈ [10,000,000, 50,000,000]时的自建部分固定成本分摊：假设核心区域5个POP点，年折旧+租金约¥400,000，分摊至每千请求公式为 (400,000 / (R × 365)) × 1000，在R=10,000,000时约为¥0.011/1000req，在R=50,000,000时约为¥0.002/1000req
+Cloudflare Enterprise 承诺带宽模式（Committed Bandwidth）的固定基础费通常根据承诺的带宽上限及合同期限定制，具体金额需通过商务谈判确定，常见量级可能在数千美元/月级别。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：公式 (400,000 / (R × 365)) × 1000 在 R=10,000,000 时计算结果为 0.01095... ≈ 0.011，在 R=50,000,000 时计算结果为 0.00219... ≈ 0.002，数值量级与逻辑均自洽。
+[质询]具体价格区间（$1,000 - $5,000/月）属于商业机密或动态报价，缺乏公开权威来源直接证实该固定数值范围，且不同合同条款下价格波动可能超出此区间。 | 经验事实，逻辑自洽但缺来源支持
 
 ## Search Query
 
-Edge server depreciation and colocation cost annual
+Cloudflare Enterprise committed bandwidth base fee monthly price list

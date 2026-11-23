@@ -1,24 +1,24 @@
-# N10: 回源延迟的P99值：T_origin_P99 = RTT_origin_P99 + T_origin_processing_P99 + T_origin_que
+# N9: 混合策略技术可行性阈值：自建POP与公有云CDN之间的请求路由切换延迟 Δt_switch 需满足 Δt_switch ≤ ε，其中 ε 为可接受的路由抖动上限
 
-- **status**: verified
+- **status**: pending
 - **level**: L2
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N1
+- **parent_ids**: N1, N2, N3
 
 ## Claim
 
-回源延迟的P99值：T_origin_P99 = RTT_origin_P99 + T_origin_processing_P99 + T_origin_queue_P99，其中RTT_origin为边缘到源站的RTT（通常10-100ms），T_origin_processing为源站处理时间（取决于后端服务）
+混合策略技术可行性阈值：自建POP与公有云CDN之间的请求路由切换延迟 Δt_switch 需满足 Δt_switch ≤ ε，其中 ε 为可接受的路由抖动上限（通常 < 5ms），否则混合策略因路由复杂性导致P99恶化
 
 ## Corrected Claim
 
-回源延迟的P99值：T_origin_P99 = RTT_origin_P99 + T_origin_processing_P99 + T_origin_queue_P99，其中RTT_origin为边缘到源站的RTT（通常10-100ms），T_origin_processing为源站处理时间（取决于后端服务）
+混合策略技术可行性阈值：自建POP与公有云CDN之间的请求路由切换延迟 Δt_switch 需满足 Δt_switch ≤ ε，其中 ε 为可接受的路由抖动上限（通常 < 5ms），否则混合策略因路由复杂性导致P99恶化
 
 ## Evidence
 
-父节点级核验通过：正交+完备+无冗余（三个子节点分别对应父节点公式中的三项（RTT、处理时间、队列等待），彼此独立无重叠；覆盖完整且无冗余。）
+父节点级核验未通过：不完备（子节点之间正交，分别覆盖了DNS、TLS、路由逻辑和缓存一致性四个不同的延迟来源，无重复或矛盾。然而，父节点的核心约束是'请求路由切换延迟 Δt_switch'，而子节点4（缓存一致性延迟 t_consistency）主要影响的是内容新鲜度（stale content），而非路由切换本身的瞬时延迟（Δt_switch）。路由切换延迟通常指从决策到流量实际到达新节点的时间，缓存失效和同步是后台异步过程，不直接构成用户请求路径上的切换抖动 Δt_switch。因此，子节点4与父节点定义的'切换延迟'不完全匹配，导致完备性存疑——它解释了一个相关但不同的问题。）
 
 ## Search Query
 
-origin server response time P99 for media platform
+hybrid CDN self-built edge node routing switch latency overhead

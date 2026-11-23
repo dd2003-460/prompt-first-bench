@@ -1,24 +1,20 @@
-# N163: 单用户日均图片请求数 req_img 的估算模型：基于上传/下载流量比与平均对象大小推导，req_img = V_download_img_daily / (D
+# N347: QoE 评分模型中，P99 延迟 T 与用户主观满意度评分 S 的定量关系公式：S = 100 - k_qoe * max(0, T - T_threshold
 
 - **status**: verified
-- **level**: L3
+- **level**: L4
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N51
+- **parent_ids**: N109
 
 ## Claim
 
-单用户日均图片请求数 req_img 的估算模型：基于上传/下载流量比与平均对象大小推导，req_img = V_download_img_daily / (DAU * s_avg_img)，其中 V_download_img_daily 为日均图片下载量，s_avg_img 为图片平均大小（100KB-1MB），需结合业务日志校准
+QoE 评分模型中，P99 延迟 T 与用户主观满意度评分 S 的定量关系公式：S = 100 - k_qoe * max(0, T - T_threshold)，其中 T_threshold 为感知阈值（通常 200ms），k_qoe 为敏感度系数（约 0.5-1.0 分/ms），当 S < 80 时视为不合规
 
 ## Corrected Claim
 
-单用户日均图片请求数 req_img 的估算模型：基于上传/下载流量比与平均对象大小推导，req_img = V_download_img_daily / (DAU * s_avg_img)，其中 V_download_img_daily 为日均图片下载量，s_avg_img 为图片平均大小（100KB-1MB），需结合业务日志校准
+QoE 评分模型中，P99 延迟 T 与用户主观满意度评分 S 的定量关系公式：S = 100 - k_qoe * max(0, T - T_threshold)，其中 T_threshold 为感知阈值（通常 200ms），k_qoe 为敏感度系数（约 0.5-1.0 分/ms），当 S < 80 时视为不合规
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：公式 req_img = V_download_img_daily / (DAU * s_avg_img) 在量纲上自洽（总流量/人均流量=人均次数），且符合基于流量估算请求数的基本工程逻辑。
-
-## Search Query
-
-image CDN average request size per user daily
+先验知识/题面给定，逻辑校验通过

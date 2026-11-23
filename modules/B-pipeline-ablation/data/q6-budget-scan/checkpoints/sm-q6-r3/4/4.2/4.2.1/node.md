@@ -1,20 +1,28 @@
-# N130: K-Median 优化目标函数中的距离矩阵 $D_{i,j}$ 的具体数值表：包含 31 个省级行政区中心（或主要流量城市）到 10 个候选 POP 城市（广州
+# N59: 下行带宽成本占比公式：C_down_ratio = (B_down * P_bw_down) / (B_down * P_bw_down + B_up * P_
 
-- **status**: degraded
+- **status**: verified
 - **level**: L3
-- **source**: knowledge
-- **edge_type**: cartesian
+- **source**: search
+- **edge_type**: quotient
 - **rework_count**: 1
-- **parent_ids**: N35
+- **parent_ids**: N19
 
 ## Claim
 
-K-Median 优化目标函数中的距离矩阵 $D_{i,j}$ 的具体数值表：包含 31 个省级行政区中心（或主要流量城市）到 10 个候选 POP 城市（广州、杭州、上海、北京、成都、武汉、西安、南京、沈阳、重庆）的直线距离（km），用于计算加权平均距离 $D_{avg}$。
+下行带宽成本占比公式：C_down_ratio = (B_down * P_bw_down) / (B_down * P_bw_down + B_up * P_bw_up)，其中 B_down = 2TB/day, B_up = 200GB/day, P_bw_down/up 为下行/上行带宽单价（通常 P_bw_down > P_bw_up，需查证具体厂商比例）
 
 ## Corrected Claim
 
-K-Median 优化目标函数中的距离矩阵 $D_{i,j}$ 应包含 31 个省级行政区中心（或主要流量城市）到 10 个候选 POP 城市（广州、杭州、上海、北京、成都、武汉、西安、南京、沈阳、重庆）的直线距离（km），具体数值需根据选定的城市坐标计算得出，用于计算加权平均距离 $D_{avg}$。
+下行带宽成本占比公式逻辑正确：C_down_ratio = (B_down * P_bw_down) / (B_down * P_bw_down + B_up * P_bw_up)。具体数值 B_down=2TB/day, B_up=200GB/day 及单价比例需根据具体业务场景和厂商报价确定，此处仅为示例假设。
 
 ## Evidence
 
-[质询]该陈述声称包含具体的数值表，但参考来源为空，且具体的地理距离数值属于经验事实（取决于具体的城市坐标选取和计算方式），无法仅凭逻辑自洽或第一性原理推导出精确的数值表，存在数值不准确或口径不一致的风险。 | 经验事实，逻辑自洽但缺来源支持
+父节点级核验通过：正交+完备+无冗余（子节点分别对应公式中的两个关键参数（下行单价、上行单价）、核心计算结果以及敏感性分析，逻辑清晰且互不重叠。虽然敏感性分析部分包含了上行单价的变体，但其目的是展示对最终占比的影响，属于独立的研究维度而非单纯参数罗列，因此不构成冗余。完备性方面，覆盖了参数确定、计算执行及结果解读/敏感性，满足父节点要求。）
+
+## Search Query
+
+CDN bandwidth pricing downlink vs uplink ratio aliyun cloudflare
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/706350338&rut=de20ecac59c16c6056856503b77d88165e7c74b7b0d9244563598f7797e85ead', 'type': 'ddg', 'title': '宽带薪酬设计的18个核心公式，Hr必看! - 知乎'}

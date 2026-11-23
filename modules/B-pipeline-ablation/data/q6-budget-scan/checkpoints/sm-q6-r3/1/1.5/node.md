@@ -1,24 +1,20 @@
-# N11: 排队延迟的P99值：T_queue_P99 = f(λ, μ, K) 其中λ为请求到达率，μ为服务速率，K为队列长度，使用M/M/K或M/G/1/K模型计算，典
+# N10: 用户到最近POP点的平均传播延迟：t_prop = d_avg / c，其中 d_avg 为平均用户到最近POP点距离，c 为光速（约 200km/ms 光纤）
 
 - **status**: verified
 - **level**: L2
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N1
+- **parent_ids**: N1, N2, N3
 
 ## Claim
 
-排队延迟的P99值：T_queue_P99 = f(λ, μ, K) 其中λ为请求到达率，μ为服务速率，K为队列长度，使用M/M/K或M/G/1/K模型计算，典型值为0-20ms（低负载）/20-100ms（高负载）
+用户到最近POP点的平均传播延迟：t_prop = d_avg / c，其中 d_avg 为平均用户到最近POP点距离，c 为光速（约 200km/ms 光纤），d_avg 取决于POP点分布与用户地理分布
 
 ## Corrected Claim
 
-排队延迟的P99值：T_queue_P99 = f(λ, μ, K) 其中λ为请求到达率，μ为服务速率，K为队列长度，使用M/M/K或M/G/1/K模型计算，典型值为0-20ms（低负载）/20-100ms（高负载）
+用户到最近POP点的平均传播延迟：t_prop = d_avg / c，其中 d_avg 为平均用户到最近POP点距离，c 为光速（约 200km/ms 光纤），d_avg 取决于POP点分布与用户地理分布
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
-
-## Search Query
-
-queueing delay P99 for web server M/M/K model
+先验知识/题面给定，逻辑校验通过：传播延迟公式 t=d/c 符合物理定义，光纤中光速约 200km/ms 为工程常识，变量定义自洽。

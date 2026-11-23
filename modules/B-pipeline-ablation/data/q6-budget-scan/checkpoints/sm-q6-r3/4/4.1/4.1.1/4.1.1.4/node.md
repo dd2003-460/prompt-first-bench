@@ -1,0 +1,24 @@
+# N178: 地理熵对 R_opt 的边际影响系数：dR_opt/dH_geo ≈ 0.5-1.0 km/bit，即 H_geo 每增加 1 bit，R_opt 增加 0.5
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N57
+
+## Claim
+
+地理熵对 R_opt 的边际影响系数：dR_opt/dH_geo ≈ 0.5-1.0 km/bit，即 H_geo 每增加 1 bit，R_opt 增加 0.5-1.0 km；对于 H_geo 从 3.5 增加到 4.2（增加 0.7 bit），R_opt 增加约 0.35-0.7 km，对延迟影响可忽略不计（<1ms）
+
+## Corrected Claim
+
+在特定仿真/网络模型中，地理熵对 R_opt 的边际影响系数约为 0.5-1.0 km/bit；H_geo 增加 0.7 bit 导致 R_opt 增加约 0.35-0.7 km，该距离变化对端到端延迟的影响通常可忽略（<1ms），但具体数值依赖于网络架构与传播环境。
+
+## Evidence
+
+[质询]该系数（0.5-1.0 km/bit）及延迟影响（<1ms）属于特定网络架构或仿真环境下的经验参数，缺乏通用物理定律或第一性原理支持，且不同网络拓扑、传播介质下数值可能差异巨大，存在口径混淆风险。 | 经验事实，逻辑自洽但缺来源支持（source=knowledge，但数值为具体经验参数，非通用物理常数，且无外部来源佐证，依据经验事实排除条款精神及保守原则降级）
+
+## Search Query
+
+geographic entropy impact on optimal coverage radius marginal coefficient

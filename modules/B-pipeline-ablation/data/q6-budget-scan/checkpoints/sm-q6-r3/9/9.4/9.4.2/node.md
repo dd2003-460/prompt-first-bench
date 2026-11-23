@@ -1,0 +1,24 @@
+# N332: 外包与自建成本平衡点：设N_sre为自建SRE人数，C_self = N_sre * C_hr，当C_outsource < C_self且满足P99约束时外包
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N104
+
+## Claim
+
+外包与自建成本平衡点：设N_sre为自建SRE人数，C_self = N_sre * C_hr，当C_outsource < C_self且满足P99约束时外包更优；对于10 POP，外包¥150k-300k/年 vs 自建¥880k-3.2M/年，外包在N_sre≥2时显著更经济
+
+## Corrected Claim
+
+外包与自建成本平衡点：设N_sre为自建SRE人数，C_self = N_sre * C_hr，当C_outsource < C_self且满足P99约束时外包更优；对于10 POP，外包¥150k-300k/年 vs 自建¥880k-3.2M/年，外包在N_sre≥2时显著更经济
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：外包成本（15-30万）显著低于自建成本（88-320万），且N_sre≥2时自建成本下限（约176万）仍远高于外包上限，结论在量级和逻辑上均成立。
+
+## Search Query
+
+outsourced vs in-house SRE cost break-even point 10 POPs

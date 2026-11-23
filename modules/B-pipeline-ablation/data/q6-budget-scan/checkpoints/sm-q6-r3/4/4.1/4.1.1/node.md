@@ -1,28 +1,24 @@
-# N124: 广东省流量占比 P_Guangdong 的具体数值，基于2023-2024年主流互联网平台（如微信、抖音、淘宝）的公开区域分布报告或第三方流量监测数据（如Que
+# N57: 自建POP点最优覆盖半径 R_opt 与熵 H_geo 的关系：R_opt = f(H_geo, N_pop)，其中 N_pop 为POP点数量（10），H_g
 
-- **status**: degraded
+- **status**: verified
 - **level**: L3
-- **source**: search
+- **source**: knowledge
 - **edge_type**: cartesian
-- **rework_count**: 1
-- **parent_ids**: N34
+- **rework_count**: 0
+- **parent_ids**: N18
 
 ## Claim
 
-广东省流量占比 P_Guangdong 的具体数值，基于2023-2024年主流互联网平台（如微信、抖音、淘宝）的公开区域分布报告或第三方流量监测数据（如QuestMobile），预期范围在 15%-18% 之间。
+自建POP点最优覆盖半径 R_opt 与熵 H_geo 的关系：R_opt = f(H_geo, N_pop)，其中 N_pop 为POP点数量（10），H_geo 越高，R_opt 越大，需通过优化算法（如K-means）计算最小化平均回源距离的POP点位置。
 
 ## Corrected Claim
 
-广东省流量占比 P_Guangdong 预期在 15%-18% 之间（基于人口与经济活跃度推断，具体数值需参考 QuestMobile 等第三方互联网监测报告）。
+自建POP点最优覆盖半径 R_opt 与熵 H_geo 的关系：R_opt = f(H_geo, N_pop)，其中 N_pop 为POP点数量（10），H_geo 越高，R_opt 越大，需通过优化算法（如K-means）计算最小化平均回源距离的POP点位置。
 
 ## Evidence
 
-[质询]参考来源为广东省国民经济和社会发展统计公报，主要涵盖宏观经济指标（如GDP、人口、收入等），通常不包含特定互联网平台（微信、抖音、淘宝）或第三方监测机构（QuestMobile）的细分流量占比数据，存在来源与事实主题不匹配的风险。 | 逻辑上广东省作为人口大省和互联网高地，流量占比15%-18%符合常识（人口占比约10%，经济/活跃度权重更高），但参考来源[1]为宏观统计公报，未直接提供互联网流量分布数据，属于间接支持或无直接证据，且该数值为经验事实，缺乏直接来源支持。
+先验知识/题面给定，逻辑校验通过：在地理覆盖优化中，熵值高代表分布分散，为覆盖相同区域或达到相同服务等级，单个POP点的平均覆盖半径确实需要增大；K-means是求解此类聚类覆盖问题的标准算法。
 
 ## Search Query
 
-QuestMobile 2024 China user distribution by province Guangdong percentage
-
-## Retrieval Sources
-
-- {'url': 'https://gdzd.stats.gov.cn/dcsj/tjgb/202409/t20240905_182221.html&rut=94732e2dde263e3de8c5fa0bf5d1dd13294fec668b844461c0a62dda166c3891', 'type': 'ddg', 'title': '广东国民经济和社会发展统计公报'}
+optimal POP point coverage radius entropy K-means

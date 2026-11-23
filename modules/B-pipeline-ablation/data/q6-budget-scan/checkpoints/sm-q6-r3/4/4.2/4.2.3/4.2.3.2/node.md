@@ -1,0 +1,20 @@
+# N191: 对象平均大小 s_avg 对缓存容量规划的影响：Cache_Capacity_Objects = Total_Storage / s_avg，若 s_avg 从
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N61
+
+## Claim
+
+对象平均大小 s_avg 对缓存容量规划的影响：Cache_Capacity_Objects = Total_Storage / s_avg，若 s_avg 从 1MB 增加到 5MB，同等存储下可缓存对象数减少 5 倍，导致命中率下降
+
+## Corrected Claim
+
+对象平均大小 s_avg 对缓存容量规划的影响：Cache_Capacity_Objects = Total_Storage / s_avg，若 s_avg 从 1MB 增加到 5MB，同等存储下可缓存对象数减少 5 倍，导致命中率下降
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：容量公式为线性关系，对象大小增加5倍导致可缓存数量减少5倍，进而导致命中率下降符合缓存基本原理。

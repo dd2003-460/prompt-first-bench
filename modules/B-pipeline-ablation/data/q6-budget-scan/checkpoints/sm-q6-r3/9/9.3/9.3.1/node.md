@@ -1,0 +1,24 @@
+# N327: Prometheus+Grafana集群硬件成本：基于10个POP点数据量（每节点100+ metrics, 15s scrape interval），需3节点
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N103
+
+## Claim
+
+Prometheus+Grafana集群硬件成本：基于10个POP点数据量（每节点100+ metrics, 15s scrape interval），需3节点HA集群，单节点配置8C16G/500GB SSD，硬件/云资源成本约¥30k-60k/年
+
+## Corrected Claim
+
+Prometheus+Grafana集群硬件成本：基于10个POP点数据量（每节点100+ metrics, 15s scrape interval），需3节点HA集群，单节点配置8C16G/500GB SSD，硬件/云资源成本约¥30k-60k/年
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：10个POP点数据量较小，3节点HA集群配置8C16G/500GB SSD符合Prometheus常规部署规范，云资源成本估算在合理区间内。
+
+## Search Query
+
+Prometheus cluster sizing 10 nodes hardware cost

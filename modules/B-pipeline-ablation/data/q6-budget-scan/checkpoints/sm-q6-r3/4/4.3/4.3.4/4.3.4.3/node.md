@@ -1,24 +1,24 @@
-# N269: 混合策略总回源带宽成本 Cost_origin_mixed = (Traffic_origin_core / 1000) * Price_origin_self
+# N207: 副本系数 R_replica 的分解：R_replica = 1 + k_fragmentation + k_metadata，其中 k_fragmentati
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N83
+- **parent_ids**: N66, N67, N68
 
 ## Claim
 
-混合策略总回源带宽成本 Cost_origin_mixed = (Traffic_origin_core / 1000) * Price_origin_self + (Traffic_origin_tail / 1000) * Price_origin_cloud，其中Price_origin_self为自建Origin出口带宽单价（元/GB），Price_origin_cloud为公有云回源流量单价（元/GB，通常低于下行流量单价，约为0.1-0.3元/GB）。
+副本系数 R_replica 的分解：R_replica = 1 + k_fragmentation + k_metadata，其中 k_fragmentation 为存储碎片率（通常 0.1-0.2），k_metadata 为元数据开销率（通常 0.05-0.1），总系数范围 1.15-1.35 [待核验]
 
 ## Corrected Claim
 
-混合策略总回源带宽成本 Cost_origin_mixed = (Traffic_origin_core / 1000) * Price_origin_self + (Traffic_origin_tail / 1000) * Price_origin_cloud，其中Price_origin_self为自建Origin出口带宽单价（元/GB），Price_origin_cloud为公有云回源流量单价（元/GB，通常低于下行流量单价，约为0.1-0.3元/GB）。
+副本系数 R_replica 的分解：R_replica = 1 + k_fragmentation + k_metadata，其中 k_fragmentation 为存储碎片率（通常 0.1-0.2），k_metadata 为元数据开销率（通常 0.05-0.1），总系数范围 1.15-1.35 [待核验]
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：公式结构符合加权平均成本计算逻辑，量纲（GB * 元/GB = 元）一致，公有云回源价格区间（0.1-0.3元/GB）符合国内主流云厂商（如阿里云、腾讯云）的市场定价常识。
+先验知识/题面给定，逻辑校验通过
 
 ## Search Query
 
-cloud CDN origin pull traffic price per GB aliyun tencent
+NVMe SSD storage overhead fragmentation metadata ratio

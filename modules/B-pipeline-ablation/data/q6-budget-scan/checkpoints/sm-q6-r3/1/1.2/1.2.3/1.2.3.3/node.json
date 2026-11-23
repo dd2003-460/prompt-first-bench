@@ -1,17 +1,17 @@
 {
-  "id": "N167",
-  "claim": "Cloudflare国际节点对海外用户的影响：全球P99 RTT_avg为30-80ms，但中国大陆用户占比>90%时，整体P99被跨境延迟拉高至150-250ms；若目标市场包含海外用户（占比>10%），混合策略需单独计算国际节点成本",
+  "id": "N127",
+  "claim": "边界省份（新疆、西藏、内蒙古）的 P99 延迟溢出风险：这些地区用户到最近 POP 距离 d_far > 1500km，单程传播延迟 > 0.75ms，往返 > 1.5ms；虽然绝对延迟小，但若该地区用户占比 >5% 且网络质量差（丢包率高导致重传），可能导致局部 P99 超标；需单独计算该区域的 P99 贡献：P99_global = max(P99_core, P99_far)，其中 P99_far ≈ t_prop_rtt_far + t_queue_far + t_retransmit",
   "level": "L4",
   "source": "knowledge",
   "status": "verified",
-  "evidence": "先验知识/题面给定，逻辑校验通过：跨境延迟（GFW/物理距离）导致中国大陆用户访问海外节点RTT显著高于全球平均，量级（150-250ms vs 30-80ms）符合网络工程常识，混合策略需独立核算成本符合经济逻辑。",
-  "corrected_claim": "Cloudflare国际节点对海外用户的影响：全球P99 RTT_avg为30-80ms，但中国大陆用户占比>90%时，整体P99被跨境延迟拉高至150-250ms；若目标市场包含海外用户（占比>10%），混合策略需单独计算国际节点成本",
+  "evidence": "先验知识/题面给定，逻辑校验通过：光速传播延迟计算正确（1500km/300000km/s=5ms单程? 不，1500km/300000km/s = 0.005s = 5ms。等等，这里有个数值错误。1500km距离，光速300,000km/s，单程延迟 = 1500/300000 = 0.005s = 5ms。往返是10ms。陈述中说单程>0.75ms，往返>1.5ms。这明显数值量级错误。1500km的光纤延迟大约是5ms单程，10ms往返。陈述中的0.75ms对应的是225km的距离。因此，数值量级存在严重错误。",
+  "corrected_claim": "边界省份（新疆、西藏、内蒙古）的 P99 延迟溢出风险：这些地区用户到最近 POP 距离 d_far > 1500km，单程传播延迟 > 5ms，往返 > 10ms；虽然绝对延迟小，但若该地区用户占比 >5% 且网络质量差（丢包率高导致重传），可能导致局部 P99 超标；需单独计算该区域的 P99 贡献：P99_global = max(P99_core, P99_far)，其中 P99_far ≈ t_prop_rtt_far + t_queue_far + t_retransmit",
   "rework_count": 0,
   "parent_ids": [
-    "N44"
+    "N36"
   ],
   "objective": null,
   "edge_type": "cartesian",
-  "search_query": "Cloudflare global P99 latency international users China ratio",
+  "search_query": "",
   "retrieval_sources": []
 }

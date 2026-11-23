@@ -1,20 +1,24 @@
-# N206: 源站单实例服务速率 μ_origin 的基准值：对于静态对象回源，μ_origin ≈ 1 / T_service_origin，其中 T_service_or
+# N150: t_api_call 的构成与优化：t_api_call = t_network_rt * 2 + t_processing，其中 t_network_rt 为
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N62
+- **parent_ids**: N43
 
 ## Claim
 
-源站单实例服务速率 μ_origin 的基准值：对于静态对象回源，μ_origin ≈ 1 / T_service_origin，其中 T_service_origin 包含磁盘 I/O 与网络传输，典型值 5-20 ms/req，故单实例 μ_origin ≈ 50-200 req/s；若使用 NVMe SSD 与内存缓存，μ_origin 可提升至 500-1000 req/s
+t_api_call 的构成与优化：t_api_call = t_network_rt * 2 + t_processing，其中 t_network_rt 为控制平面网络往返延迟（同机房 <1ms，跨城 5-20ms），t_processing 为控制平面查询耗时（KV存储 <1ms，复杂规则引擎 5-50ms）；通过本地缓存路由策略可将 t_api_call 降至接近 0（仅 miss 时回源），缓存命中率 h_route 决定实际开销 E[t_api] = (1-h_route) * t_api_call_full
 
 ## Corrected Claim
 
-源站单实例服务速率 μ_origin 的基准值：对于静态对象回源，μ_origin ≈ 1 / T_service_origin，其中 T_service_origin 包含磁盘 I/O 与网络传输，典型值 5-20 ms/req，故单实例 μ_origin ≈ 50-200 req/s；若使用 NVMe SSD 与内存缓存，μ_origin 可提升至 500-1000 req/s
+t_api_call 的构成与优化：t_api_call = t_network_rt * 2 + t_processing，其中 t_network_rt 为控制平面网络往返延迟（同机房 <1ms，跨城 5-20ms），t_processing 为控制平面查询耗时（KV存储 <1ms，复杂规则引擎 5-50ms）；通过本地缓存路由策略可将 t_api_call 降至接近 0（仅 miss 时回源），缓存命中率 h_route 决定实际开销 E[t_api] = (1-h_route) * t_api_call_full
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：5-20ms 对应 50-200 req/s，5-10ms (NVMe/缓存优化后) 对应 200-1000 req/s，量级与工程常识一致
+先验知识/题面给定，逻辑校验通过：公式结构符合网络延迟与处理时间的叠加逻辑，数值量级（同机房<1ms，跨城5-20ms等）符合工程常识，缓存期望值公式 E[t] = (1-h)*t_full 逻辑自洽。
+
+## Search Query
+
+edge node routing decision api call latency local cache optimization control plane query time

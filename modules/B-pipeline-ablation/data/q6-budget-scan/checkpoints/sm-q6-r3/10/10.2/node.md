@@ -1,24 +1,20 @@
-# N160: 自建节点冗余成本C_redundancy的精确计算：C_redundancy = C_infra_self * (R_factor - 1)，其中R_facto
+# N106: 故障频率建模：自建节点年故障次数N_fault = N_POP * λ_node * k_correlation，其中λ_node=0.5-2次/年/POP（硬
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N50
+- **parent_ids**: N30
 
 ## Claim
 
-自建节点冗余成本C_redundancy的精确计算：C_redundancy = C_infra_self * (R_factor - 1)，其中R_factor为冗余系数，对于N+1架构R_factor = (N+1)/N，对于双活架构R_factor = 2；若基础C_infra_self为¥500k/月，N+1（10+1）架构额外成本为¥50k/月，双活架构额外成本为¥500k/月，需根据SLA目标（99.9% vs 99.99%）选择架构
+故障频率建模：自建节点年故障次数N_fault = N_POP * λ_node * k_correlation，其中λ_node=0.5-2次/年/POP（硬件故障率），k_correlation=1.0-1.5（部分故障为共因如骨干网中断），10个POP年故障5-30次
 
 ## Corrected Claim
 
-自建节点冗余成本C_redundancy的精确计算：C_redundancy = C_infra_self * (R_factor - 1)，其中R_factor为冗余系数，对于N+1架构R_factor = (N+1)/N，对于双活架构R_factor = 2；若基础C_infra_self为¥500k/月，N+1（10+1）架构额外成本为¥50k/月，双活架构额外成本为¥500k/月，需根据SLA目标（99.9% vs 99.99%）选择架构
+故障频率建模：自建节点年故障次数N_fault = N_POP * λ_node * k_correlation，其中λ_node=0.5-2次/年/POP（硬件故障率），k_correlation=1.0-1.5（部分故障为共因如骨干网中断），10个POP年故障5-30次
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：公式 C_redundancy = C_infra_self * (R_factor - 1) 在数学上自洽；N+1架构 R_factor=(N+1)/N，当N=10时 R_factor=1.1，额外成本 500k * 0.1 = 50k，计算正确；双活架构 R_factor=2，额外成本 500k * (2-1) = 500k，计算正确；SLA与架构选择的对应关系符合工程常识。
-
-## Search Query
-
-N+1 vs active-active redundancy cost factor infrastructure
+先验知识/题面给定，逻辑校验通过：10个POP * (0.5-2次/年) * (1.0-1.5) = 5-30次，数值推导自洽，符合数据中心硬件故障率及共因故障的工程经验量级。

@@ -1,24 +1,24 @@
-# N231: 核心区域 RTT_P99(j) 的精确分布：基于 Top 5 省份用户到最近自建 POP 的地理距离 D_j，RTT_P99(j) = 2 * D_j / v_
+# N167: 自建策略下的回源概率 p_miss_self = 1 - H_edge_self，其中 H_edge_self = 1 - (N_unique_active_s
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N72
+- **parent_ids**: N53
 
 ## Claim
 
-核心区域 RTT_P99(j) 的精确分布：基于 Top 5 省份用户到最近自建 POP 的地理距离 D_j，RTT_P99(j) = 2 * D_j / v_fiber + T_processing_switch，其中 v_fiber ≈ 2e8 m/s，T_processing_switch ≈ 0.5-2ms，对于 200-500km 距离，RTT_P99 典型区间为 15-35ms
+自建策略下的回源概率 p_miss_self = 1 - H_edge_self，其中 H_edge_self = 1 - (N_unique_active_self / Cache_Capacity_Objects_self)，N_unique_active_self 为自建POP点TTL窗口内活跃唯一对象数，通常低于公有云因覆盖用户更集中
 
 ## Corrected Claim
 
-核心区域 RTT_P99(j) 的精确分布：基于 Top 5 省份用户到最近自建 POP 的地理距离 D_j，RTT_P99(j) = 2 * D_j / v_fiber + T_processing_switch，其中 v_fiber ≈ 2e8 m/s，T_processing_switch ≈ 0.5-2ms，对于 200-500km 距离，RTT_P99 典型区间为 15-35ms
+自建策略下的回源概率 p_miss_self = 1 - H_edge_self，其中 H_edge_self = 1 - (N_unique_active_self / Cache_Capacity_Objects_self)，N_unique_active_self 为自建POP点TTL窗口内活跃唯一对象数，通常低于公有云因覆盖用户更集中
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：光速在光纤中约为2e8 m/s，200-500km距离对应单程1-2.5ms，往返2-5ms，加上交换机处理延迟0.5-2ms及P99长尾效应，15-35ms区间符合工程经验与物理直觉。
+先验知识/题面给定，逻辑校验通过：公式定义符合缓存命中率基本逻辑（1-活跃对象占比），且自建POP用户集中导致活跃对象数低于公有云的推断符合业务直觉。
 
 ## Search Query
 
-fiber optic latency 200km 500km round trip time
+edge cache hit rate calculation unique active objects

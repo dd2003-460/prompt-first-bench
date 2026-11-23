@@ -1,20 +1,20 @@
-# N93: P99延迟超标的风险量化：当故障导致回源率从(1-H)升至100%时，P99延迟增加量 ΔL_p99 = L_origin - L_edge，其中L_origi
+# N62: 写流量对源站存储增长的影响：日新增存储 ΔS_day = 200GB，月新增存储 ≈ 6TB，年新增存储 ≈ 73TB；该值决定源站存储扩容频率与成本，但不直接
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N27
+- **parent_ids**: N19
 
 ## Claim
 
-P99延迟超标的风险量化：当故障导致回源率从(1-H)升至100%时，P99延迟增加量 ΔL_p99 = L_origin - L_edge，其中L_origin为回源延迟（通常100-300ms），L_edge为边缘缓存延迟（通常10-50ms）；若ΔL_p99 > T_target - L_base，则触发SLA违约或用户流失，违约概率 P_breach = P(failure) * P(delay_exceed_T | failure)。
+写流量对源站存储增长的影响：日新增存储 ΔS_day = 200GB，月新增存储 ≈ 6TB，年新增存储 ≈ 73TB；该值决定源站存储扩容频率与成本，但不直接影响边缘缓存成本
 
 ## Corrected Claim
 
-P99延迟超标的风险量化：当故障导致回源率从(1-H)升至100%时，P99延迟增加量 ΔL_p99 = L_origin - L_edge，其中L_origin为回源延迟（通常100-300ms），L_edge为边缘缓存延迟（通常10-50ms）；若ΔL_p99 > T_target - L_base，则触发SLA违约或用户流失，违约概率 P_breach = P(failure) * P(delay_exceed_T | failure)。
+写流量对源站存储增长的影响：日新增存储 ΔS_day = 200GB，月新增存储 ≈ 6TB，年新增存储 ≈ 73TB；该值决定源站存储扩容频率与成本，但不直接影响边缘缓存成本
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+先验知识/题面给定，逻辑校验通过：200GB/天 * 30天 = 6TB/月，6TB/月 * 12月 = 72TB/年（约73TB），数值量级与算术逻辑自洽；边缘缓存成本主要取决于命中率与回源带宽，源站存储增长确实不直接决定边缘缓存成本，符合CDN架构基本原理。

@@ -1,0 +1,29 @@
+# N306: 弹性带宽（Burst）成本模型：C_elastic = C_base_5G + (B_actual - 5G) * P_burst_hourly * T_bur
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N97
+
+## Claim
+
+弹性带宽（Burst）成本模型：C_elastic = C_base_5G + (B_actual - 5G) * P_burst_hourly * T_burst_hours，其中 P_burst_hourly 约为固定带宽单价的 1.5-2.0 倍，T_burst_hours 为每日超过5G的时长（通常2-4小时/天）
+
+## Corrected Claim
+
+弹性带宽（Burst）成本模型通常表示为：C_elastic = C_base + (B_actual - B_base) * P_burst * T_burst，其中 P_burst 通常高于固定带宽单价，具体倍数及突发时长取决于运营商定价策略及用户流量特征。
+
+## Evidence
+
+[质询]该陈述包含具体的商业定价参数（P_burst_hourly 为固定带宽单价的 1.5-2.0 倍）和运营统计值（T_burst_hours 通常 2-4 小时/天），这些属于经验事实，无法从第一性原理推导，且不同运营商、地区及套餐的具体数值差异巨大，缺乏通用性。 | 参考来源 [1] 和 [2] 均为关于 5G C-RAN 网络架构与能效的技术论文，与带宽计费模型及具体价格倍数无关，属于「无可用外部证据」；该陈述为经验事实，逻辑自洽但缺来源支持。
+
+## Search Query
+
+China telecom elastic bandwidth burst pricing model 5Gbps base
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org/html/1710.00731v1&rut=1fa2c67e740e2dd19a08076b07712393cf1ac1fa7e0543052fa104fe3593b02b', 'type': 'ddg', 'title': 'Elastic-Net: Boosting Energy Efficiency and Resource Utilization in 5G ...'}
+- {'url': 'https://arxiv.org/pdf/1710.00731.pdf&rut=ac5b97fdc292ab11cf8131a1066aac951d0441d9d500085269f5a98c5fef4b7e', 'type': 'ddg', 'title': 'PDF Elastic-Net: Boosting Energy Efficiency and - arXiv.org'}

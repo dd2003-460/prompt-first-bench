@@ -1,24 +1,24 @@
-# N123: 混合策略在日均请求数R ∈ [10,000,000, 50,000,000]时的调度系统运维成本分摊：智能DNS/Anycast系统月运维费¥20,000，分摊
+# N273: Cloudflare Enterprise 纯按量付费模式（Pay-as-you-go）的流量单价通常为 $0.05 - $0.10/GB，无固定月费，但缺乏带
 
 - **status**: verified
-- **level**: L3
+- **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N32
+- **parent_ids**: N88
 
 ## Claim
 
-混合策略在日均请求数R ∈ [10,000,000, 50,000,000]时的调度系统运维成本分摊：智能DNS/Anycast系统月运维费¥20,000，分摊至每千请求公式为 (20,000 / (R × 30)) × 1000，在R=10,000,000时约为¥0.067/1000req，在R=50,000,000时约为¥0.013/1000req
+Cloudflare Enterprise 纯按量付费模式（Pay-as-you-go）的流量单价通常为 $0.05 - $0.10/GB，无固定月费，但缺乏带宽预留保障，高并发下可能遭遇限速
 
 ## Corrected Claim
 
-混合策略在日均请求数R ∈ [10,000,000, 50,000,000]时的调度系统运维成本分摊：智能DNS/Anycast系统月运维费¥20,000，分摊至每千请求公式为 (20,000 / (R × 30)) × 1000，在R=10,000,000时约为¥0.067/1000req，在R=50,000,000时约为¥0.013/1000req
+Cloudflare Enterprise 纯按量付费模式（Pay-as-you-go）的流量单价通常为 $0.05 - $0.10/GB，无固定月费，但缺乏带宽预留保障，高并发下可能遭遇限速
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：公式 (20000 / (R * 30)) * 1000 在 R=10,000,000 时计算结果为 0.0666...≈0.067，在 R=50,000,000 时计算结果为 0.0133...≈0.013，数值量级与算术逻辑均自洽。
+先验知识/题面给定，逻辑校验通过
 
 ## Search Query
 
-Anycast routing system operational cost per month
+Cloudflare Enterprise pay-as-you-go traffic price per GB

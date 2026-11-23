@@ -1,17 +1,33 @@
 {
-  "id": "N176",
-  "claim": "长尾区域P99延迟的带宽瓶颈分量：对于短视频对象（s_video=5MB），传输时间 T_transfer = s_video / Bandwidth_available；在500km距离处，若可用带宽降至10Mbps（受拥塞影响），T_transfer = 5,000,000KB / (10,000KB/s) = 500s（极端情况），通常P99带宽降至平均值的50%，即 T_transfer_P99 = 2 * T_transfer_avg",
+  "id": "N140",
+  "claim": "公有云CDN按带宽计费模式下，混合策略中公有云部分的月固定带宽成本 C_bw_bandwidth = B_peak_cloud * P_bw_gbps_month，其中 B_peak_cloud = (1-α) * B_peak_total，P_bw_gbps_month 为阿里云按带宽计费单价（基准值 ¥100-200/月/Mbps，需核验具体档位）。",
   "level": "L4",
-  "source": "knowledge",
-  "status": "verified",
-  "evidence": "先验知识/题面给定，逻辑校验通过：5MB=5,000,000KB，10Mbps=1,000,000kbps=125,000KB/s，计算结果应为40s而非500s，但题目中明确标注了计算过程为 5,000,000KB / 10,000KB/s = 500s，这暗示其单位换算或带宽定义存在特定上下文（如10Mbps被错误换算为10,000KB/s，实际10Mbps=1250KB/s，若按10,000KB/s计算则带宽为80Mbps，与10Mbps矛盾；或者题目中的10Mbps实指10,000KB/s即80Mbps？不，10Mbps=1.25MB/s=1250KB/s。若T=500s，则带宽=5000000/500=10000KB/s=80Mbps。这里存在数值矛盾。但是，作为knowledge节点，若题目本身定义了这种计算逻辑（可能是笔误或特定假设），我们需要判断逻辑自洽性。仔细看：5,000,000KB / 10,000KB/s = 500s。数学上 5000000/10000 = 500。数学运算正确。问题在于 10Mbps 是否等于 10,000KB/s。10Mbps = 10,000,000 bits/s = 1,250,000 Bytes/s = 1,250 KB/s。所以 10Mbps != 10,000KB/s。10,000KB/s = 80Mbps。因此，陈述中“10Mbps... T_transfer = ... / 10,000KB/s”存在单位换算错误。但是，题目后半部分说“通常P99带宽降至平均值的50%”，这是一个经验规律。对于knowledge节点，如果存在硬逻辑错误（量纲/数值矛盾），应判failed吗？规则说：failed: 仅当该陈述与参考来源明确矛盾，或存在硬逻辑错误（量纲错/内部矛盾）时才判 failed。这里 10Mbps 换算成 10,000KB/s 是明显的量纲/数值错误（差8倍）。因此，逻辑不自洽。",
-  "corrected_claim": "长尾区域P99延迟的带宽瓶颈分量：对于短视频对象（s_video=5MB），传输时间 T_transfer = s_video / Bandwidth_available；在500km距离处，若可用带宽降至10Mbps（受拥塞影响），10Mbps ≈ 1,250KB/s，T_transfer = 5,000,000KB / 1,250KB/s = 4,000s（极端情况）；或者若带宽为80Mbps（10,000KB/s），则T_transfer=500s。通常P99带宽降至平均值的50%，即 T_transfer_P99 = 2 * T_transfer_avg",
-  "rework_count": 0,
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]陈述中给出的具体单价基准值（¥100-200/月/Mbps）属于经验事实，参考来源仅确认了计费模式的存在（按带宽峰值计费），但未提供具体的价格数值，无法直接验证该数值量级是否准确（实际阿里云CDN带宽价格通常随地域和带宽阶梯变化，且单位常为元/GB或元/Mbps/月，具体数值需查最新价目表，此处数值可能偏高或偏低，且未区分地域）。 | 来源[1]和[3]确认阿里云CDN支持‘按带宽峰值计费’模式，逻辑上公式 C = B_peak * P 成立；但来源未提供具体单价数值，且该数值为经验事实，缺乏直接来源支持，故降级。",
+  "corrected_claim": "公有云CDN按带宽计费模式下，混合策略中公有云部分的月固定带宽成本 C_bw_bandwidth = B_peak_cloud * P_bw_gbps_month，其中 B_peak_cloud = (1-α) * B_peak_total，P_bw_gbps_month 为阿里云按带宽计费单价（具体数值需根据地域和带宽阶梯查询阿里云官方价目表）。",
+  "rework_count": 1,
   "parent_ids": [
-    "N48"
+    "N40"
   ],
   "objective": null,
   "edge_type": "cartesian",
-  "search_query": "",
-  "retrieval_sources": []
+  "search_query": "阿里云 CDN 按带宽计费 价格 Mbps 月 2024 2025",
+  "retrieval_sources": [
+    {
+      "url": "https://help.aliyun.com/zh/cdn/product-overview/billing-overview&rut=5607cac578e6a0a2822f10843ed70c58160107634276405ba09db4d9580720b7",
+      "type": "ddg",
+      "title": "Cdn如何计费-cdn (Cdn)-阿里云帮助中心"
+    },
+    {
+      "url": "https://developer.aliyun.com/article/1712489&rut=9ac11fc059ec63ddd1ce104c3b0e7d9ac1b1e8c3823c8a667dafda6ca3e1bda1",
+      "type": "ddg",
+      "title": "2026阿里云cdn 计费全攻略：按流量 / 带宽 / 95 峰值 + 基础服务费 + 增值服务价格表-阿里云开发者社区"
+    },
+    {
+      "url": "https://help.aliyun.com/zh/cdn/product-overview/billing-rules-of-basic-services&rut=8ac269fc0fd33361b507140bc77f95e7de5882f95004416a424fe1397b02bd86",
+      "type": "ddg",
+      "title": "基础服务计费方式定价规则-cdn-阿里云-cdn (Cdn)-阿里云帮助中心"
+    }
+  ]
 }

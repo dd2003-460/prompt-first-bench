@@ -1,24 +1,24 @@
-# N218: 公有云CDN回源带宽拥塞对P99延迟的影响：当回源流量超过运营商骨干网容量阈值时，发生排队和丢包重传，T_origin_transfer = Data_Size
+# N157: HTTP 响应生成延迟 t_response 的具体数值取决于协议栈开销与对象头大小，对于 HTTP/1.1 协议，t_response ≈ 1-2ms；对于 
 
-- **status**: verified
+- **status**: degraded
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N67
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N48
 
 ## Claim
 
-公有云CDN回源带宽拥塞对P99延迟的影响：当回源流量超过运营商骨干网容量阈值时，发生排队和丢包重传，T_origin_transfer = Data_Size / Bandwidth_available * (1 + Retransmission_Rate)，Retransmission_Rate在拥塞时可达5-20%，导致P99延迟增加10-50ms，需评估日均2TB下载中回源流量（约10-40%）对骨干网压力的具体影响
+HTTP 响应生成延迟 t_response 的具体数值取决于协议栈开销与对象头大小，对于 HTTP/1.1 协议，t_response ≈ 1-2ms；对于 HTTP/2 多路复用，t_response ≈ 0.5-1ms；需根据源站实际协议栈配置确定。
 
 ## Corrected Claim
 
-公有云CDN回源带宽拥塞对P99延迟的影响：当回源流量超过运营商骨干网容量阈值时，发生排队和丢包重传，T_origin_transfer = Data_Size / Bandwidth_available * (1 + Retransmission_Rate)，Retransmission_Rate在拥塞时可达5-20%，导致P99延迟增加10-50ms，需评估日均2TB下载中回源流量（约10-40%）对骨干网压力的具体影响
+HTTP 响应生成延迟 t_response 取决于协议栈开销、对象头大小及服务器处理逻辑。在典型高负载优化场景下，HTTP/1.1 与 HTTP/2 的生成延迟差异主要源于头部压缩与连接管理开销，具体数值需根据源站实际协议栈配置与负载情况实测确定，通常处于毫秒级量级。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：公式符合排队论与TCP重传基本逻辑，5-20%重传率及10-50ms延迟增量在骨干网拥塞场景下量级合理，无内部矛盾。
+[质询]数值量级过于具体且缺乏普适性：HTTP响应生成延迟受服务器负载、代码复杂度、序列化开销等影响极大，1-2ms与0.5-1ms的区分缺乏严谨基准，且HTTP/2多路复用主要优化网络传输而非服务器端生成逻辑，直接断言生成延迟减半存在因果混淆风险。 | 经验事实，逻辑自洽但缺来源支持（source=knowledge，无外部检索结果，具体毫秒级数值属于经验参数，无法从第一性原理严格推导，故降级）
 
 ## Search Query
 
-CDN origin fetch bandwidth congestion packet retransmission latency impact P99
+HTTP response generation latency overhead

@@ -1,0 +1,24 @@
+# N295: 故障对P99延迟的瞬时影响量化：单次故障导致的P99延迟增加 ΔP99_fault = (T_outage / T_observation_window) * 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N94, N95, N96
+
+## Claim
+
+故障对P99延迟的瞬时影响量化：单次故障导致的P99延迟增加 ΔP99_fault = (T_outage / T_observation_window) * (t_failover - t_cache)，其中t_failover为故障切换延迟（通常50-200ms），t_cache<5ms，若年故障5-30次，每次10min，则对年P99的加权影响需乘以故障占比
+
+## Corrected Claim
+
+故障对P99延迟的瞬时影响量化：单次故障导致的P99延迟增加 ΔP99_fault = (T_outage / T_observation_window) * (t_failover - t_cache)，其中t_failover为故障切换延迟（通常50-200ms），t_cache<5ms，若年故障5-30次，每次10min，则对年P99的加权影响需乘以故障占比
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+cdn edge node failure p99 latency impact failover delay quantification

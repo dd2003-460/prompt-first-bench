@@ -1,6 +1,6 @@
-# N50: 可用性SLA与故障降级策略对成本的影响：自建节点若发生单点故障，需启用备用节点或降级至公有云，故障切换时间 T_failover ∈ [30s, 300s]；公
+# N30: 故障响应SLA与MTTR成本：自建节点平均修复时间 MTTR_self 通常 30-60min，公有云 MTTR_cloud < 15min；若P99延迟超标导
 
-- **status**: verified
+- **status**: degraded
 - **level**: L2
 - **source**: search
 - **edge_type**: cartesian
@@ -9,16 +9,18 @@
 
 ## Claim
 
-可用性SLA与故障降级策略对成本的影响：自建节点若发生单点故障，需启用备用节点或降级至公有云，故障切换时间 T_failover ∈ [30s, 300s]；公有云CDN的SLA通常为99.9%（年停机<8.76小时），自建需达到同等SLA需增加冗余硬件成本 C_redundancy = C_infra_self * (1/N + 1) * redundancy_factor，其中redundancy_factor通常为1.2-1.5。
+故障响应SLA与MTTR成本：自建节点平均修复时间 MTTR_self 通常 30-60min，公有云 MTTR_cloud < 15min；若P99延迟超标导致赔付，MTTR每增加10min，潜在赔付成本 C_penalty 增加约 ¥5k-20k/次，需纳入运维成本模型
 
 ## Corrected Claim
 
-自建节点故障切换时间通常在秒级至分钟级（具体取决于架构，如30s-300s为常见经验值）；公有云CDN SLA通常为99.9%（年停机<8.76小时）；自建同等SLA需增加冗余硬件，成本通常为基础基础设施成本的1.2-1.5倍或更高（具体系数取决于冗余策略，如N+1或双活），原公式为特定经验估算模型，非通用物理/经济定律。
+故障响应SLA与MTTR成本：自建节点平均修复时间（MTTR）通常高于公有云；若P99延迟超标导致赔付，MTTR的增加会直接导致潜在赔付成本上升，具体数值需根据业务SLA协议及历史故障数据建模确定，需纳入运维成本模型。
 
 ## Evidence
 
-父节点级核验通过：正交+完备+无冗余（子节点分别聚焦于故障切换时间（时间维度/性能）、冗余硬件成本（资本/运营支出维度）和故障期间的用户体验/业务损失（机会成本/隐性成本维度），三者维度正交，无重复内容。三者共同构成了父节点中提到的'成本影响'的完整闭环（直接硬件成本+间接业务损失+时间约束），覆盖了父节点的所有关键方面。未发现冗余，每个子节点提供了独立的量化模型或参数定义。）
+[质询]陈述中包含具体的经验性数值（MTTR 30-60min vs <15min）以及具体的赔付成本增量（¥5k-20k/10min），这些属于特定业务场景下的经验数据，无法从第一性原理推导，且参考来源中未提供这些具体数值的支持。 | 参考来源[1][2][3]仅定义了MTTR概念及其重要性，未提供具体的自建/公有云MTTR对比数值或赔付成本模型数据，属于经验事实缺来源支持。
 
 ## Retrieval Sources
 
-- {'url': 'https://codewave.163.com/info/high-availability-sla-design.html&rut=632f3e806284cb47ed9f3c10b199c1c8102c097cb9db2c20f22bea9f05aba7f6', 'type': 'ddg', 'title': '业务系统可用性设计方法：停机预算、冗余分层与故障演练要点-网易Codewave'}
+- {'url': 'https://aws.amazon.com/cn/what-is/mttr/&rut=07b7bf2ace86ac9a9afce7f8a6a47b6794db59c132f79eb79a00bc072ff2be0a', 'type': 'ddg', 'title': '什么是 Mttr？- 平均修复时间详解 - Aws'}
+- {'url': 'https://blog.csdn.net/weixin_30444111/article/details/168626800&rut=6ab1f14908b8480e2066d8b513ae7e29338611c8a2c37b2dd5153c40f938a0cd', 'type': 'ddg', 'title': 'Mttf与mttr双引擎：系统韧性全链路量化指南 - Csdn博客'}
+- {'url': 'https://blog.csdn.net/hezuijiudexiaobai/article/details/148724728&rut=febd2821d0e3107033deb7b8d706b332c911d121ec11a92692cfb7239363315d', 'type': 'ddg', 'title': '云厂商 Mttr 详解：概念、指标价值与优化实践 - Csdn博客'}

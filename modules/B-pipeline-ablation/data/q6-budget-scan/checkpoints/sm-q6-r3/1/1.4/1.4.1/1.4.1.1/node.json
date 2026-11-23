@@ -1,17 +1,33 @@
 {
-  "id": "N199",
-  "claim": "骨干网交换机处理延迟T_switch_origin的P99分布：T_switch_origin_P99 = T_forwarding + T_queue_wait，其中T_forwarding为硬件转发延迟（典型1-3μs，可忽略），T_queue_wait为队列排队延迟，在低负载（<50%）时T_queue_wait≈0-1ms，在高负载（>80%）时T_queue_wait可达5-20ms，P99值通常取高负载场景，故T_switch_origin_P99≈5-20ms，需根据骨干网实际负载率校准",
+  "id": "N142",
+  "claim": "DNS递归查询耗时 t_lookup 的分布特征：在启用本地DNS缓存失效（Cache Miss）时，t_lookup 服从指数分布，均值 μ_lookup ≈ 5-10ms，P99 t_lookup ≈ 20-50ms，该值受TTL过期后首次查询影响，需通过 dig 或 nslookup 实测获取。",
   "level": "L4",
-  "source": "knowledge",
-  "status": "verified",
-  "evidence": "先验知识/题面给定，逻辑校验通过：骨干网交换机硬件转发延迟确为微秒级，队列延迟随负载率非线性增长，高负载下毫秒级排队延迟符合排队论直觉，数值量级合理。",
-  "corrected_claim": "骨干网交换机处理延迟T_switch_origin的P99分布：T_switch_origin_P99 = T_forwarding + T_queue_wait，其中T_forwarding为硬件转发延迟（典型1-3μs，可忽略），T_queue_wait为队列排队延迟，在低负载（<50%）时T_queue_wait≈0-1ms，在高负载（>80%）时T_queue_wait可达5-20ms，P99值通常取高负载场景，故T_switch_origin_P99≈5-20ms，需根据骨干网实际负载率校准",
-  "rework_count": 0,
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]将DNS递归查询耗时（Cache Miss）断言为服从“指数分布”缺乏普遍的理论或实证支持，实际分布通常受网络延迟、TCP重传、权威服务器响应时间等多因素影响，往往呈现长尾或混合分布，而非严格的指数分布；且具体数值（5-10ms, 20-50ms）高度依赖网络环境和权威服务器位置，属于经验事实，参考来源未提供具体统计分布数据。 | 参考来源[1][2][3]仅定性描述了DNS缓存、TTL及递归查询流程，未提供具体的耗时分布模型（如指数分布）或具体的P99/均值数值，属于经验事实且缺乏直接来源支持。",
+  "corrected_claim": "DNS递归查询耗时 t_lookup 在启用本地DNS缓存失效（Cache Miss）时，通常受网络延迟和权威服务器响应时间影响，均值和P99值因网络环境而异（典型值可能在毫秒级至数十毫秒级），具体分布特征需通过 dig 或 nslookup 实测获取，不宜简单断言为指数分布。",
+  "rework_count": 1,
   "parent_ids": [
-    "N60"
+    "N41"
   ],
   "objective": null,
-  "edge_type": "cartesian",
-  "search_query": "",
-  "retrieval_sources": []
+  "edge_type": "quotient",
+  "search_query": "DNS recursive query latency P99 distribution typical values",
+  "retrieval_sources": [
+    {
+      "url": "https://blog.csdn.net/cheungxiongwei/article/details/144422809&rut=89e5aacf4642393cddd6f6531910c580c7841fafeef24ca7590965386a21c3ba",
+      "type": "ddg",
+      "title": "深入解析 DNS 缓存与 TTL：工作原理、修改生效机制与优化策略_dns 记录ttl 3600在哪里设置-CSDN博客"
+    },
+    {
+      "url": "https://blog.csdn.net/weixin_29280657/article/details/171123280&rut=782e927e378c6bea69370f4f740e0e5b516fb23f80e41699121ba7ca19a71894",
+      "type": "ddg",
+      "title": "DNS解析慢怎么排查：报文、递归迭代、TTL缓存与dig抓包-CSDN博客"
+    },
+    {
+      "url": "https://cloudpicked.com/dns-propagation-guide-zh.html&rut=37bf7d4235295284d47b00f639e4ba619774f95c9639215b482ccb5059452512",
+      "type": "ddg",
+      "title": "Dns 传播指南 2026: 为什么全球更改需要数小时"
+    }
+  ]
 }

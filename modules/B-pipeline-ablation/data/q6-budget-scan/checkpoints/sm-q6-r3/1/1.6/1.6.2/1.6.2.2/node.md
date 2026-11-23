@@ -1,19 +1,19 @@
-# N217: 公有云源站处理延迟T_origin_processing_P99的后端瓶颈分解：T_origin = T_db_query + T_app_logic + T_
+# N156: 视频转码延迟 t_encode 的具体数值取决于分辨率、码率与转码算法，对于 1080p H.264 转码，t_encode ≈ 50-150ms/秒视频；对于
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N67
+- **parent_ids**: N48
 
 ## Claim
 
-公有云源站处理延迟T_origin_processing_P99的后端瓶颈分解：T_origin = T_db_query + T_app_logic + T_response_serialization，其中T_db_query取决于数据库索引效率（通常5-50ms），T_app_logic为业务逻辑计算（通常1-10ms），T_response_serialization为JSON/XML序列化（通常<1ms）；P99值需考虑数据库连接池耗尽导致的排队时间，通常比P50高2-5倍
+视频转码延迟 t_encode 的具体数值取决于分辨率、码率与转码算法，对于 1080p H.264 转码，t_encode ≈ 50-150ms/秒视频；对于 720p H.265，t_encode ≈ 30-80ms/秒视频；需根据源站实际转码配置确定。
 
 ## Corrected Claim
 
-公有云源站处理延迟T_origin_processing_P99的后端瓶颈分解：T_origin = T_db_query + T_app_logic + T_response_serialization，其中T_db_query取决于数据库索引效率（通常5-50ms），T_app_logic为业务逻辑计算（通常1-10ms），T_response_serialization为JSON/XML序列化（通常<1ms）；P99值需考虑数据库连接池耗尽导致的排队时间，通常比P50高2-5倍
+视频转码延迟 t_encode 的具体数值取决于分辨率、码率与转码算法，对于 1080p H.264 转码，t_encode ≈ 50-150ms/秒视频；对于 720p H.265，t_encode ≈ 30-80ms/秒视频；需根据源站实际转码配置确定。
 
 ## Evidence
 
@@ -21,4 +21,4 @@
 
 ## Search Query
 
-origin server processing latency breakdown database query application logic serialization P99
+video transcoding latency 1080p H.264

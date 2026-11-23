@@ -1,24 +1,20 @@
-# N109: 基于CNNIC第52次中国互联网络发展状况统计报告，中国一二线城市互联网用户占比约为55%-65%，该数值直接决定核心区域流量占比的下限。
+# N72: 缓存总容量需求公式：Cache_Size = Σ (s_obj * H_obj)，其中 s_obj 为对象平均大小，H_obj 为对象热度权重（基于请求频率归一
 
-- **status**: degraded
+- **status**: pending
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
-- **rework_count**: 1
-- **parent_ids**: N28, N29, N30
+- **rework_count**: 0
+- **parent_ids**: N22
 
 ## Claim
 
-基于CNNIC第52次中国互联网络发展状况统计报告，中国一二线城市互联网用户占比约为55%-65%，该数值直接决定核心区域流量占比的下限。
+缓存总容量需求公式：Cache_Size = Σ (s_obj * H_obj)，其中 s_obj 为对象平均大小，H_obj 为对象热度权重（基于请求频率归一化）
 
 ## Corrected Claim
 
-基于CNNIC第52次中国互联网络发展状况统计报告，中国一二线城市互联网用户占比约为55%-65%，该数值是核心区域流量占比的重要参考指标。
+缓存总容量需求公式：Cache_Size = Σ (s_obj * H_obj)，其中 s_obj 为对象平均大小，H_obj 为对象热度权重（基于请求频率归一化）
 
 ## Evidence
 
-[质询]具体数值区间（55%-65%）缺乏来源支持，且‘直接决定下限’的因果逻辑过于绝对，实际流量占比还受用户行为、内容偏好等多重因素影响。 | 经验事实，逻辑自洽但缺来源支持
-
-## Search Query
-
-CNNIC 52nd report China urban mobile internet users percentage tier 1 tier 2 cities
+父节点级核验未通过：不完备, 有冗余（子节点本质上是对同一公式在不同参数（缓存比例、Zipf指数）下的实例化，属于连续参数的离散采样，而非正交的概念维度。此外，父节点公式中的热度权重H_obj与子节点中使用的固定覆盖率/比例缺乏明确的数学推导关联，导致对父节点核心变量（热度分布模型）的覆盖不完整。）

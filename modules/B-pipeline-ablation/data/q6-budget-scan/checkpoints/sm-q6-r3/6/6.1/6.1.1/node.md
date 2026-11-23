@@ -1,24 +1,30 @@
-# N118: 纯公有云CDN在日均请求数R < 10,000,000时的基础固定成本分摊：假设采用阿里云预留实例（RI），年费约¥50,000-100,000，分摊至每千请求
+# N268: 阿里云CDN 0-10TB/月区间单价核验：官方价目表显示该区间标准价为¥0.24/GB，适用于小规模流量或测试环境，无批量折扣
 
-- **status**: verified
-- **level**: L3
-- **source**: knowledge
-- **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N31
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N87
 
 ## Claim
 
-纯公有云CDN在日均请求数R < 10,000,000时的基础固定成本分摊：假设采用阿里云预留实例（RI），年费约¥50,000-100,000，分摊至每千请求公式为 (年固定成本 / (R × 365)) × 1000，在R=1,000,000时约为¥0.14-0.27/1000req
+阿里云CDN 0-10TB/月区间单价核验：官方价目表显示该区间标准价为¥0.24/GB，适用于小规模流量或测试环境，无批量折扣
 
 ## Corrected Claim
 
-纯公有云CDN在日均请求数R < 10,000,000时的基础固定成本分摊：假设采用阿里云预留实例（RI），年费约¥50,000-100,000，分摊至每千请求公式为 (年固定成本 / (R × 365)) × 1000，在R=1,000,000时约为¥0.14-0.27/1000req
+阿里云CDN 0-10TB/月区间存在阶梯定价，适用于小规模流量，具体单价需查阅官方最新价目表确认（参考来源未提供具体数值）。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：数学计算正确（50000/365000000*1000≈0.137, 100000/365000000*1000≈0.274），量级合理，符合阿里云RI成本常识。
+[质询]参考来源中未包含0-10TB区间的具体单价数值，无法直接验证¥0.24/GB这一具体经验参数；且来源[2]显示的是国际站美元计价，与陈述中的人民币计价及国内站价目表可能存在口径差异。 | 经验事实，逻辑自洽但缺来源支持。来源[1]和[3]虽涉及阿里云CDN定价，但摘要中未提供0-10TB区间的具体单价数值，无法直接证实¥0.24/GB这一具体参数。
 
 ## Search Query
 
-Alibaba Cloud CDN reserved instance pricing 2024
+阿里云 CDN 下行流量 阶梯计费 0-10TB 单价 2024
+
+## Retrieval Sources
+
+- {'url': 'https://developer.aliyun.com/article/1704662&rut=d5cf89626988be0d3d32bc26749ab2a3c7deafb7c3f650882865d2a48432a069', 'type': 'ddg', 'title': '阿里云 Cdn 价格多少钱？2026年阿里云 Cdn 收费标准详解'}
+- {'url': 'https://www.alibabacloud.com/zh/product/content-delivery-network/pricing?_p_lc=1&rut=edcfb0f0509d08da868d5c0373fd52be598a095a61a1b4aa4449fa3045e437ba', 'type': 'ddg', 'title': '阿里云CDN - Alibaba Cloud'}
+- {'url': 'https://www.aliyun.com/price/detail/cdn&rut=7deffc4f1d34859bcb7594b9f5ea62952b3f14c06ecc370a5099c3c282977b06', 'type': 'ddg', 'title': '阿里云定价_CDN价格详情'}

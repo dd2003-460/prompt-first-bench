@@ -1,20 +1,28 @@
-# N268: 长尾区域公有云回源流量绝对值 Traffic_origin_tail = 2TB * 0.2 * (1 - 0.95) = 0.02 TB/日（假设长尾流量占比
+# N206: 对象平均大小 s_avg 的加权计算：s_avg = (N_img * s_img_avg + N_vid * s_vid_avg) / (N_img + N_
 
-- **status**: verified
+- **status**: degraded
 - **level**: L4
-- **source**: given
+- **source**: search
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N83
+- **rework_count**: 1
+- **parent_ids**: N66, N67, N68
 
 ## Claim
 
-长尾区域公有云回源流量绝对值 Traffic_origin_tail = 2TB * 0.2 * (1 - 0.95) = 0.02 TB/日（假设长尾流量占比20%，公有云CDN稳态缓存命中率H_mixed_tail=95%），该部分流量由公有云CDN节点回源至Origin，不经过自建节点。
+对象平均大小 s_avg 的加权计算：s_avg = (N_img * s_img_avg + N_vid * s_vid_avg) / (N_img + N_vid)，其中 s_img_avg 通常为 100KB-500KB，s_vid_avg 通常为 5MB-50MB，需根据平台实际上传数据确定 [待核验]
 
 ## Corrected Claim
 
-长尾区域公有云回源流量绝对值 Traffic_origin_tail = 2TB * 0.2 * (1 - 0.95) = 0.02 TB/日（假设长尾流量占比20%，公有云CDN稳态缓存命中率H_mixed_tail=95%），该部分流量由公有云CDN节点回源至Origin，不经过自建节点。
+对象平均大小 s_avg 的加权计算逻辑正确：s_avg = (N_img * s_img_avg + N_vid * s_vid_avg) / (N_img + N_vid)。具体数值范围（s_img_avg 100KB-500KB, s_vid_avg 5MB-50MB）为典型经验估计，需根据具体平台实际上传数据确定。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：计算过程 2 * 0.2 * 0.05 = 0.02 正确，量纲一致，符合CDN回源流量定义。
+[质询]参考来源与事实主题完全无关，无法提供外部支持；且具体数值范围（100KB-500KB, 5MB-50MB）属于经验事实，缺乏特定平台数据佐证，存在口径混淆风险。 | 逻辑推导成立（加权平均公式正确），但参考来源[1]讨论的是图像像素平均而非文件大小统计，与事实主题无关；经验事实缺来源支持。
+
+## Search Query
+
+average image size web platform average video file size streaming
+
+## Retrieval Sources
+
+- {'url': 'https://stackoverflow.com/questions/17291455/how-to-get-an-average-picture-from-100-pictures-using-pil&rut=42dd68895a5f0fffba29801c23bc847b0e02b0d0dbf18e7c3e035860df1908f8', 'type': 'ddg', 'title': 'How to get an average picture from 100 pictures using PIL?'}

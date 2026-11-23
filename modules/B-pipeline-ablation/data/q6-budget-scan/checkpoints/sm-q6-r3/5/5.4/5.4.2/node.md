@@ -1,20 +1,20 @@
-# N103: 峰值流量与平均流量的比值 K_peak 对成本的影响：Cost_peak = Base_Cost × K_peak × (1 + Peak_Premium_Ra
+# N83: 源站回源命中率 H_origin 受回源带宽限制影响：当回源带宽 B_origin < p_miss * Q_peak * s_avg * 8 时，回源队列延迟
 
-- **status**: pending
+- **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N32
+- **parent_ids**: N25
 
 ## Claim
 
-峰值流量与平均流量的比值 K_peak 对成本的影响：Cost_peak = Base_Cost × K_peak × (1 + Peak_Premium_Rate)；典型K_peak为1.5-2.0，若按峰值计费，实际单位成本增加50%-100%；需结合日均流量2TB和峰值带宽计算实际月成本。
+源站回源命中率 H_origin 受回源带宽限制影响：当回源带宽 B_origin < p_miss * Q_peak * s_avg * 8 时，回源队列延迟导致有效命中率下降，修正因子 η = min(1, B_origin / B_required)
 
 ## Corrected Claim
 
-峰值流量与平均流量的比值 K_peak 对成本的影响：Cost_peak = Base_Cost × K_peak × (1 + Peak_Premium_Rate)；典型K_peak为1.5-2.0，若按峰值计费，实际单位成本增加50%-100%；需结合日均流量2TB和峰值带宽计算实际月成本。
+源站回源命中率 H_origin 受回源带宽限制影响：当回源带宽 B_origin < p_miss * Q_peak * s_avg * 8 时，回源队列延迟导致有效命中率下降，修正因子 η = min(1, B_origin / B_required)
 
 ## Evidence
 
-父节点级核验未通过：非正交, 有冗余（子节点1和子节点2本质上是对同一公式（Cost_peak）在不同K_peak取值下的具体实例化计算，属于参数化重复而非正交概念；子节点3讨论的是非线性拐点，与前两者（线性区间内的具体计算）存在逻辑重叠（子节点2中提到的'阶梯档位吸收'已隐含了非线性特征，而子节点1和2的线性假设在接近拐点时失效）。）
+先验知识/题面给定，逻辑校验通过

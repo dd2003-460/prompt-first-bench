@@ -1,6 +1,6 @@
-# N172: 内容审核（Censorship/Content Moderation）的合规成本：对于C端平台，需部署实时内容审核API（如阿里云内容安全、AWS Rekogn
+# N111: 最优策略判定函数J(strategy)：J = C_total(strategy) + λ_penalty * max(0, P99(strategy) - T
 
-- **status**: degraded
+- **status**: verified
 - **level**: L3
 - **source**: search
 - **edge_type**: cartesian
@@ -9,17 +9,18 @@
 
 ## Claim
 
-内容审核（Censorship/Content Moderation）的合规成本：对于C端平台，需部署实时内容审核API（如阿里云内容安全、AWS Rekognition），单价约为¥0.01-0.05/次调用；若日均审核请求量与下载量正相关（假设10%需深度审核），月度合规API成本约为¥15k-75k，自建节点需额外集成此服务或采购第三方SDK。
+最优策略判定函数J(strategy)：J = C_total(strategy) + λ_penalty * max(0, P99(strategy) - T)^2 + λ_reputation * R(P99)，其中C_total为总成本，λ_penalty为延迟惩罚权重，R为声誉损失函数；通过最小化J值确定最优策略。
 
 ## Corrected Claim
 
-内容审核的合规成本取决于具体服务商和审核类型。以华为云为例，商用内容审核服务费用低至¥0.17/千次（约¥0.00017/次），若按此单价计算，月度合规API成本将远低于¥15k-75k的估算；若采用更高精度的视频/图像深度审核服务，单价可能更高，需根据具体API定价重新核算。
+在特定业务场景（如兼顾成本、延迟P99及声誉的决策问题）中，可构建目标函数J = C_total + λ_penalty * max(0, P99 - T)^2 + λ_reputation * R(P99)，通过最小化J值确定最优策略。
 
 ## Evidence
 
-[质询]单价数值与参考来源存在数量级差异（来源[1]显示华为云商用服务低至¥0.17/千次，即¥0.00017/次，而陈述称¥0.01-0.05/次，相差约60-300倍），且未区分不同审核类型（文本/图像/视频）的价格差异，直接套用单一区间可能导致成本估算严重偏差。 | 来源[1]提供了具体的商用价格参考（¥0.17/千次），与陈述中的单价（¥0.01-0.05/次）存在显著矛盾或口径差异（可能为不同服务层级或旧版定价），但来源[2]确认了内容审核市场的存在及必要性。由于单价是经验事实且与现有来源数据冲突/不一致，无法直接验证，故降级。
+父节点级核验通过：正交+完备+无冗余（子节点分别覆盖了目标函数中的惩罚权重校准、声誉损失量化以及整体求解算法，三者逻辑独立且互补，共同构成了父节点J(strategy)的完整定义与求解过程，无重复或矛盾。）
 
 ## Retrieval Sources
 
-- {'url': 'https://www.huaweicloud.com/product/moderation.html&rut=ffb7efb56fe0c9f627cebc6392461ab2af94983d216e7ad9cd5f8c8cd5a12a1e', 'type': 'ddg', 'title': '内容审核_内容检测 _内容风险检测_Moderation_华为云'}
-- {'url': 'https://www.fortunebusinessinsights.com/zh/content-moderation-solution-market-104769&rut=62e93fe7db77602d631e4e287c70028c48cb04c2005b2f1dd52dc9aad3e4b27f', 'type': 'ddg', 'title': '内容审核解决方案市场规模、行业份额、到 2034 年的预测'}
+- {'url': 'https://blog.csdn.net/discococ/article/details/145877429&rut=dd45eaa90c7fe6fe03beac63bdf70e67a1fd7492d556e154734fc98066bace20', 'type': 'ddg', 'title': '强化学习3-策略优化_强化学习策略优化-csdn博客'}
+- {'url': 'https://edu.51cto.com/article/note/58118.html&rut=e363442e4b1f4e6417f94be2e203ce7ba6fee101ac72247a47627c44c7d9e019', 'type': 'ddg', 'title': '强化学习最优策略怎么定？Q函数实战解析与代码实现_51CTO学堂_专业的IT技能学习平台'}
+- {'url': 'https://blog.csdn.net/chenxy_bwave/article/details/122560315&rut=ace07e5a5f2152876ab04035fbaba80266632ff6af8eec6422e42db433c5d1fd', 'type': 'ddg', 'title': '强化学习笔记：最优策略、值函数与贝尔曼最优方程_最优策略函数-csdn博客'}

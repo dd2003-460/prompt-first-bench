@@ -1,0 +1,30 @@
+# N187: 阿里云OSS/CDN上行流量（写流量）在中国大陆地区通常免费或单价远低于下行，具体单价需查证最新价目表，典型比例为下行价格的0-10% [待核验]
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N60
+
+## Claim
+
+阿里云OSS/CDN上行流量（写流量）在中国大陆地区通常免费或单价远低于下行，具体单价需查证最新价目表，典型比例为下行价格的0-10% [待核验]
+
+## Corrected Claim
+
+阿里云OSS/CDN上行流量（写流量）在中国大陆地区通常免费或单价远低于下行，具体单价需查证最新价目表。
+
+## Evidence
+
+[质询]陈述中给出的具体数值比例（0-10%）属于经验事实，参考来源仅提供了计费项的分类和独立出账原则，未提供具体的单价数值或比例，无法直接验证该具体数值范围。 | 来源[1][2][3]确认了OSS和CDN的计费结构及流量类型（流入/流出），逻辑上支持上行（流入）通常比下行（流出）便宜或免费的行业惯例，但缺乏具体单价数据支持'0-10%'这一具体比例，故降级为定性表述。
+
+## Search Query
+
+阿里云 OSS 上行流量 价格 免费
+
+## Retrieval Sources
+
+- {'url': 'https://help.aliyun.com/zh/cdn/product-overview/billing-of-oss-content-acceleration&rut=d489a658be3e4f065943b8be8074ff4503e553f35415f3dd0264563cb68045cd', 'type': 'ddg', 'title': 'Cdn加速oss计费说明-cdn (Cdn)-阿里云帮助中心'}
+- {'url': 'https://help.aliyun.com/zh/oss/traffic-fees&rut=ae34107ae81ca4af378bd96ae849ac6559f004622d4e9253c5e55404650e791b', 'type': 'ddg', 'title': '流量费用-对象存储 (Oss)-阿里云帮助中心'}
+- {'url': 'https://www.alibabacloud.com/help/zh/cdn/product-overview/billing-of-oss-content-acceleration&rut=cf5d9a71d9908684694b742f79cbf00492203cb773409ef56934d35632f29f51', 'type': 'ddg', 'title': 'CDN加速OSS计费说明 - CDN - 阿里云 - Alibaba Cloud'}

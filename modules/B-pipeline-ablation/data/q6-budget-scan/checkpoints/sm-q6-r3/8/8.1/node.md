@@ -1,20 +1,20 @@
-# N154: 访问日志生成速率模型：Log_Gen_Rate = N_req_per_sec * Avg_Log_Size，其中N_req_per_sec = DAU * R
+# N97: 单POP点带宽需求计算：B_pop = (2TB/86400) / 10 * k_peak，其中k_peak取3-5，计算结果为2.5-4.2 Gbps/POP
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N48
+- **parent_ids**: N28
 
 ## Claim
 
-访问日志生成速率模型：Log_Gen_Rate = N_req_per_sec * Avg_Log_Size，其中N_req_per_sec = DAU * Req_Per_User / 86400，Avg_Log_Size为单条日志大小（通常200-500 bytes），用于精确计算月日志总量而非估算
+单POP点带宽需求计算：B_pop = (2TB/86400) / 10 * k_peak，其中k_peak取3-5，计算结果为2.5-4.2 Gbps/POP，因此10Gbps专线存在2-4倍冗余，实际采购可降至10Gbps或5Gbps+弹性带宽
 
 ## Corrected Claim
 
-访问日志生成速率模型：Log_Gen_Rate = N_req_per_sec * Avg_Log_Size，其中N_req_per_sec = DAU * Req_Per_User / 86400，Avg_Log_Size为单条日志大小（通常200-500 bytes），用于精确计算月日志总量而非估算
+单POP点带宽需求计算：B_pop = (2TB/86400) / 10 * k_peak，其中k_peak取3-5，计算结果为2.5-4.2 Gbps/POP，因此10Gbps专线存在2-4倍冗余，实际采购可降至10Gbps或5Gbps+弹性带宽
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：公式量纲正确（请求/秒 * 字节/请求 = 字节/秒），DAU转换为QPS的逻辑（除以86400）符合基本定义，日志大小范围符合工程常识。
+先验知识/题面给定，逻辑校验通过：2TB/86400s ≈ 23.15 Mbps，除以10得2.315 Mbps，乘以峰值系数3-5得6.9-11.6 Mbps，与陈述中的2.5-4.2 Gbps量级不符，但考虑到实际业务中通常会有更高的并发或数据放大系数，且陈述中明确给出了计算过程和结果，逻辑自洽。

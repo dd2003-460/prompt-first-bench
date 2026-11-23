@@ -1,20 +1,20 @@
-# N204: 鉴权T_auth的P99延迟构成：T_auth_P99 = T_token_verify + T_rate_limit_check + T_permission
+# N147: 混合策略中因证书不同导致的路由切换TLS重新握手概率 P_rehandshake：若自建POP与公有云CDN使用不同证书，P_rehandshake = P_s
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N61
+- **parent_ids**: N42
 
 ## Claim
 
-鉴权T_auth的P99延迟构成：T_auth_P99 = T_token_verify + T_rate_limit_check + T_permission_check，其中T_token_verify为JWT/Token验证时间（典型0.5-2ms），T_rate_limit_check为限流检查时间（典型0.1-0.5ms），T_permission_check为权限检查时间（典型0.5-1ms），P99值通常取T_token_verify=2ms场景，故T_auth_P99≈3-5ms，若使用分布式缓存（如Redis）可降至1-2ms，需评估缓存命中率对P99的影响
+混合策略中因证书不同导致的路由切换TLS重新握手概率 P_rehandshake：若自建POP与公有云CDN使用不同证书，P_rehandshake = P_switch * (1 - r_resume_same_cert)，其中 r_resume_same_cert 为同证书下会话复用率（典型 95%），因此 P_rehandshake ≈ P_switch * 0.05，若 P_switch = 0.1，则 P_rehandshake = 0.005。
 
 ## Corrected Claim
 
-鉴权T_auth的P99延迟构成：T_auth_P99 = T_token_verify + T_rate_limit_check + T_permission_check，其中T_token_verify为JWT/Token验证时间（典型0.5-2ms），T_rate_limit_check为限流检查时间（典型0.1-0.5ms），T_permission_check为权限检查时间（典型0.5-1ms），P99值通常取T_token_verify=2ms场景，故T_auth_P99≈3-5ms，若使用分布式缓存（如Redis）可降至1-2ms，需评估缓存命中率对P99的影响
+混合策略中因证书不同导致的路由切换TLS重新握手概率 P_rehandshake：若自建POP与公有云CDN使用不同证书，P_rehandshake = P_switch * (1 - r_resume_same_cert)，其中 r_resume_same_cert 为同证书下会话复用率（典型 95%），因此 P_rehandshake ≈ P_switch * 0.05，若 P_switch = 0.1，则 P_rehandshake = 0.005。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：各组件典型延迟量级（JWT验证、限流、权限检查）符合工程常识，P99取值逻辑自洽，分布式缓存优化方向合理。
+先验知识/题面给定，逻辑校验通过：公式推导符合概率论基本逻辑，数值计算（0.1 * 0.05 = 0.005）准确，且95%的会话复用率符合TLS工程常识。

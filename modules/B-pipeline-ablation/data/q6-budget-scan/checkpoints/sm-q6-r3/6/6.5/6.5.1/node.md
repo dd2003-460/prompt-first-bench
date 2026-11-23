@@ -1,0 +1,24 @@
+# N283: 跨境流量占比 Q_cross 的估算公式：Q_cross = Q_total * (U_overseas / U_total)，其中 U_overseas 为海
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N91
+
+## Claim
+
+跨境流量占比 Q_cross 的估算公式：Q_cross = Q_total * (U_overseas / U_total)，其中 U_overseas 为海外日活用户数，U_total=500万；若未提供地理分布，需基于平台类型（如国内短视频平台通常海外占比 <5%）设定基线值或敏感性区间 [0.01, 0.10] [待核验]
+
+## Corrected Claim
+
+跨境流量占比 Q_cross 的估算公式：Q_cross = Q_total * (U_overseas / U_total)，其中 U_overseas 为海外日活用户数，U_total=500万；若未提供地理分布，需基于平台类型（如国内短视频平台通常海外占比 <5%）设定基线值或敏感性区间 [0.01, 0.10] [待核验]
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+short video platform overseas user ratio China 2023 2024

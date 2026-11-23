@@ -1,0 +1,20 @@
+# N320: SRE人数上限计算：N_sre_max = ceil(10 / 10 * 2.0) = 2人，但考虑到10个POP点地理分散导致故障诊断复杂度增加（T_diag
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N101
+
+## Claim
+
+SRE人数上限计算：N_sre_max = ceil(10 / 10 * 2.0) = 2人，但考虑到10个POP点地理分散导致故障诊断复杂度增加（T_diagnose从10min增至20min），实际需3-4人，其中1人为高级SRE负责跨POP协调，3人为一线on-call，轮班模式为3人3班（每班8小时）+1人机动
+
+## Corrected Claim
+
+SRE人数上限计算：N_sre_max = ceil(10 / 10 * 2.0) = 2人，但考虑到10个POP点地理分散导致故障诊断复杂度增加（T_diagnose从10min增至20min），实际需3-4人，其中1人为高级SRE负责跨POP协调，3人为一线on-call，轮班模式为3人3班（每班8小时）+1人机动
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基础计算 ceil(10/10*2.0)=2 正确；基于故障诊断时间翻倍（10min->20min）及地理分散带来的协调复杂度，将人力从2人提升至3-4人（1高级+3一线）符合SRE容量规划中应对复杂度增加的常规经验逻辑，轮班模式（3人3班+1机动）在数学和排班逻辑上自洽。

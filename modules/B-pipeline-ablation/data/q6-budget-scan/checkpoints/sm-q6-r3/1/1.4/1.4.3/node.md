@@ -1,20 +1,24 @@
-# N62: 源站队列等待时间P99：T_origin_queue_P99 = f(λ_origin, μ_origin, K_origin)，其中λ_origin为回源请求
+# N43: 路由决策逻辑开销 t_logic = t_algorithm + t_api_call，其中 t_algorithm 为负载均衡算法计算时间（<1ms），t_a
 
-- **status**: pending
+- **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N10
+- **parent_ids**: N9
 
 ## Claim
 
-源站队列等待时间P99：T_origin_queue_P99 = f(λ_origin, μ_origin, K_origin)，其中λ_origin为回源请求到达率（= λ_total * R_origin），μ_origin为源站单实例服务速率，K_origin为源站队列长度；在低负载（利用率<50%）下典型值<5ms，高负载（>80%）下可达20-50ms。
+路由决策逻辑开销 t_logic = t_algorithm + t_api_call，其中 t_algorithm 为负载均衡算法计算时间（<1ms），t_api_call 为向控制平面查询路由策略的API调用延迟（典型 5-50ms）；该值反映混合策略中动态路由决策的实时性开销。
 
 ## Corrected Claim
 
-源站队列等待时间P99：T_origin_queue_P99 = f(λ_origin, μ_origin, K_origin)，其中λ_origin为回源请求到达率（= λ_total * R_origin），μ_origin为源站单实例服务速率，K_origin为源站队列长度；在低负载（利用率<50%）下典型值<5ms，高负载（>80%）下可达20-50ms。
+路由决策逻辑开销 t_logic = t_algorithm + t_api_call，其中 t_algorithm 为负载均衡算法计算时间（<1ms），t_api_call 为向控制平面查询路由策略的API调用延迟（典型 5-50ms）；该值反映混合策略中动态路由决策的实时性开销。
 
 ## Evidence
 
-父节点级核验未通过：不完备（子节点分别对应父节点公式中的三个变量 λ_origin、μ_origin 和 K_origin，彼此正且无冗余。但父节点明确提到了基于负载率（利用率）的典型等待时间范围（低负载<5ms，高负载20-50ms），这涉及排队论模型（如M/M/K）的具体推导或经验映射，而现有子节点仅提供了输入参数的估算值，未涵盖‘如何从这些参数计算出P99等待时间’这一关键逻辑或验证步骤，因此不完备。）
+父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点公式中的两个独立加数 t_algorithm 和 t_api_call，职责划分清晰且互不重叠（正交）；两者共同构成了父节点定义的总逻辑开销，覆盖了所有关键组成部分（完备）；每个子节点内部虽然列举了不同场景下的数值范围，但这是为了说明变量取值的影响因素，并非将单一参数拆分为多个重复子节点，因此不存在结构性冗余。）
+
+## Search Query
+
+load balancer API call latency ms

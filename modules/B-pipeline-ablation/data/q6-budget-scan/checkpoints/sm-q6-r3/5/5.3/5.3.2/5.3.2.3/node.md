@@ -1,20 +1,20 @@
-# N314: MTTR 平衡工作点（本地备件库）：每个 POP 点存储关键部件（硬盘/内存/电源）备件，诊断 0.5小时 + 现场更换 1.5小时 + 验证 0.5小时，MT
+# N249: 预热时间窗口 T_warm 的调度约束：预热需在业务低峰期执行，若低峰期时长 T_offpeak < T_warm，则预热无法在低峰期完成，需跨峰期执行，跨峰期
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N99
+- **parent_ids**: N79
 
 ## Claim
 
-MTTR 平衡工作点（本地备件库）：每个 POP 点存储关键部件（硬盘/内存/电源）备件，诊断 0.5小时 + 现场更换 1.5小时 + 验证 0.5小时，MTTR_total ≈ 2.5小时，硬件备件库存成本约为硬件总成本的 5-10%。
+预热时间窗口 T_warm 的调度约束：预热需在业务低峰期执行，若低峰期时长 T_offpeak < T_warm，则预热无法在低峰期完成，需跨峰期执行，跨峰期预热时间占比 r_cross = (T_warm - T_offpeak) / T_warm 导致额外实时延迟成本 C_cross = r_cross * Q_peak * ΔP99_realtime * c_penalty_ms
 
 ## Corrected Claim
 
-MTTR 平衡工作点（本地备件库）：每个 POP 点存储关键部件（硬盘/内存/电源）备件，诊断 0.5小时 + 现场更换 1.5小时 + 验证 0.5小时，MTTR_total ≈ 2.5小时，硬件备件库存成本约为硬件总成本的 5-10%。
+预热时间窗口 T_warm 的调度约束：预热需在业务低峰期执行，若低峰期时长 T_offpeak < T_warm，则预热无法在低峰期完成，需跨峰期执行，跨峰期预热时间占比 r_cross = (T_warm - T_offpeak) / T_warm 导致额外实时延迟成本 C_cross = r_cross * Q_peak * ΔP99_realtime * c_penalty_ms
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：时间加总（0.5+1.5+0.5=2.5）自洽，备件库存成本占比（5-10%）符合IT基础设施运维常规经验值。
+先验知识/题面给定，逻辑校验通过

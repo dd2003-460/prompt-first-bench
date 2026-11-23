@@ -1,20 +1,20 @@
-# N312: MTTR 高时效工作点（冗余架构）：采用 N+1 热备架构，故障检测由心跳机制在 30秒内完成，流量自动切换无需人工干预，MTTR_total ≈ 0.5小时（
+# N247: 预热期间回源概率 p_miss_warm 的构成：p_miss_warm = p_miss_base * (1 - H_warm_instant)，其中 H_w
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N99
+- **parent_ids**: N79
 
 ## Claim
 
-MTTR 高时效工作点（冗余架构）：采用 N+1 热备架构，故障检测由心跳机制在 30秒内完成，流量自动切换无需人工干预，MTTR_total ≈ 0.5小时（30分钟），代价是硬件成本增加 100%。
+预热期间回源概率 p_miss_warm 的构成：p_miss_warm = p_miss_base * (1 - H_warm_instant)，其中 H_warm_instant 为预热对象在预热期间的瞬时命中率，对于 Top-K 预热，H_warm_instant ≈ F(K) * (1 - e^(-B_warm * T_warm / (K * s_avg)))，当 B_warm * T_warm >> K * s_avg 时 H_warm_instant → F(K)
 
 ## Corrected Claim
 
-MTTR 高时效工作点（冗余架构）：采用 N+1 热备架构，故障检测由心跳机制在 30秒内完成，流量自动切换无需人工干预，MTTR_total ≈ 0.5小时（30分钟），代价是硬件成本增加 100%。
+预热期间回源概率 p_miss_warm 的构成：p_miss_warm = p_miss_base * (1 - H_warm_instant)，其中 H_warm_instant 为预热对象在预热期间的瞬时命中率，对于 Top-K 预热，H_warm_instant ≈ F(K) * (1 - e^(-B_warm * T_warm / (K * s_avg)))，当 B_warm * T_warm >> K * s_avg 时 H_warm_instant → F(K)
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：N+1热备架构下，故障检测（30s）+ 自动切换（秒级）+ 服务恢复验证（分钟级）的总耗时在30分钟量级符合工程直觉，且硬件成本翻倍（100%增加）与N+1冗余定义一致。
+先验知识/题面给定，逻辑校验通过

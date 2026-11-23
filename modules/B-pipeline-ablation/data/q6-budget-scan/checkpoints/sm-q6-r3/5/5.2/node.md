@@ -1,24 +1,24 @@
-# N29: 混合策略中自建与公有云的边界划分对P99延迟的影响：核心区域自建节点P99延迟可降低15-25ms（相比公有云），但长尾区域仍依赖公有云，整体P99改善幅度取决
+# N23: 缓存失效策略：TTL (Time-To-Live) 设置影响命中率与新鲜度；典型 TTL 为 1-24 小时，需平衡存储成本与回源率
 
-- **status**: verified
+- **status**: pending
 - **level**: L2
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
 - **parent_ids**: N5
 
 ## Claim
 
-混合策略中自建与公有云的边界划分对P99延迟的影响：核心区域自建节点P99延迟可降低15-25ms（相比公有云），但长尾区域仍依赖公有云，整体P99改善幅度取决于核心区域流量占比
+缓存失效策略：TTL (Time-To-Live) 设置影响命中率与新鲜度；典型 TTL 为 1-24 小时，需平衡存储成本与回源率
 
 ## Corrected Claim
 
-混合策略中自建与公有云的边界划分对P99延迟的影响：核心区域自建节点P99延迟可降低15-25ms（相比公有云），但长尾区域仍依赖公有云，整体P99改善幅度取决于核心区域流量占比
+缓存失效策略：TTL (Time-To-Live) 设置影响命中率与新鲜度；典型 TTL 为 1-24 小时，需平衡存储成本与回源率
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+父节点级核验未通过：不完备（子节点分别量化了命中率、存储成本和回源率，三者目标不同，正交性良好且无冗余。但父节点明确提到需平衡'新鲜度'（Freshness/Staleness），而子节点仅覆盖了命中率（Hit Rate）、存储成本（Storage Cost）和回源率（Origin Hit Rate/Cache Miss Rate），遗漏了'新鲜度'这一关键维度。在缓存失效策略中，新鲜度通常通过平均滞后时间（Average Staleness）或最大滞后时间来衡量，是独立于命中率的重要指标。）
 
 ## Search Query
 
-hybrid CDN edge node P99 latency improvement core regions vs public cloud
+CDN cache TTL best practices image video platform

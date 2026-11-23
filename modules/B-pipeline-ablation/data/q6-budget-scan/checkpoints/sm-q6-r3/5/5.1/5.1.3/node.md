@@ -1,19 +1,19 @@
-# N111: 核心区域流量占比计算公式：P_core = (Σ U_i × F_i) / (Σ U_j × F_j)，其中U_i为第i类城市用户数，F_i为第i类城市人均流量
+# N74: 缓存容量不足时的命中率衰减模型：H_actual = H_ideal * (1 - e^(-C_match * k_decay))，其中 k_decay 为衰减
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N28, N29, N30
+- **parent_ids**: N22
 
 ## Claim
 
-核心区域流量占比计算公式：P_core = (Σ U_i × F_i) / (Σ U_j × F_j)，其中U_i为第i类城市用户数，F_i为第i类城市人均流量系数；若P_core > 0.7，则触发自建ROI优势阈值。
+缓存容量不足时的命中率衰减模型：H_actual = H_ideal * (1 - e^(-C_match * k_decay))，其中 k_decay 为衰减系数（通常 0.5-1.5）
 
 ## Corrected Claim
 
-核心区域流量占比计算公式：P_core = (Σ U_i × F_i) / (Σ U_j × F_j)，其中U_i为第i类城市用户数，F_i为第i类城市人均流量系数；若P_core > 0.7，则触发自建ROI优势阈值。
+缓存容量不足时的命中率衰减模型：H_actual = H_ideal * (1 - e^(-C_match * k_decay))，其中 k_decay 为衰减系数（通常 0.5-1.5）
 
 ## Evidence
 

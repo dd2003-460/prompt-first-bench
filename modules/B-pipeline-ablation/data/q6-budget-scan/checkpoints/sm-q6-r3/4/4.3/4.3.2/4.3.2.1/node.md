@@ -1,0 +1,24 @@
+# N199: 热点集中因子 H_factor 服从幂律分布，H_factor ≈ 0.1-0.3 对应于 Zipf 指数 α ∈ [0.8, 1.2]，具体值需通过实际请求日
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N64
+
+## Claim
+
+热点集中因子 H_factor 服从幂律分布，H_factor ≈ 0.1-0.3 对应于 Zipf 指数 α ∈ [0.8, 1.2]，具体值需通过实际请求日志的 Zipf 拟合获得，不同平台（新闻 vs 社交）差异显著。
+
+## Corrected Claim
+
+热点集中因子 H_factor 服从幂律分布，H_factor ≈ 0.1-0.3 对应于 Zipf 指数 α ∈ [0.8, 1.2]，具体值需通过实际请求日志的 Zipf 拟合获得，不同平台（新闻 vs 社交）差异显著。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+CDN hit rate Zipf distribution exponent alpha content popularity

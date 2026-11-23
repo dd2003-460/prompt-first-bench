@@ -1,20 +1,28 @@
-# N162: 月度总请求数 N_requests_monthly 的分解公式：N_requests_monthly = DAU * req_per_user_per_day 
+# N346: 国内主流C端短视频/直播平台（如抖音、快手、B站）公开SLA或行业白皮书中，针对‘首帧加载’或‘起播延迟’的P99标准值，通常设定在 300ms-500ms 区
 
-- **status**: verified
-- **level**: L3
-- **source**: given
+- **status**: degraded
+- **level**: L4
+- **source**: search
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N51
+- **rework_count**: 1
+- **parent_ids**: N109
 
 ## Claim
 
-月度总请求数 N_requests_monthly 的分解公式：N_requests_monthly = DAU * req_per_user_per_day * 30，其中 DAU=5,000,000，req_per_user_per_day 需拆解为图片请求数与短视频请求数之和，即 req_total = req_img + req_video
+国内主流C端短视频/直播平台（如抖音、快手、B站）公开SLA或行业白皮书中，针对‘首帧加载’或‘起播延迟’的P99标准值，通常设定在 300ms-500ms 区间，而非 N109 声称的 80-150ms（该区间更接近 API 响应时间而非媒体起播时间）
 
 ## Corrected Claim
 
-月度总请求数 N_requests_monthly 的分解公式：N_requests_monthly = DAU * req_per_user_per_day * 30，其中 DAU=5,000,000，req_per_user_per_day 需拆解为图片请求数与短视频请求数之和，即 req_total = req_img + req_video
+国内主流C端短视频/直播平台针对‘首帧加载’或‘起播延迟’的P99标准值通常显著高于纯API响应时间，具体数值需参考各平台最新技术白皮书，但300ms-500ms是符合工程逻辑的常见区间。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+[质询]该陈述属于具体的行业经验数据（SLA标准值），无法从第一性原理推导。参考来源仅解释了P99的定义，未提供短视频平台起播延迟的具体数值，且来源主题（通用监控指标解释）与具体业务场景（短视频起播）存在领域偏差，无法直接支持300ms-500ms这一具体区间。 | 逻辑上，媒体起播涉及网络传输、解码、渲染等多环节，P99延迟显著高于纯API响应时间，300ms-500ms符合工程直觉；但参考来源[1]仅定义P99概念，未提供具体业务数值，属于间接/无关支持，依据经验事实排除条款降级。
+
+## Search Query
+
+China short video platform SLA P99 latency standard first frame loading 300ms 500ms
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1907850060240257948&rut=f8568459f53c969be6c08e9ce6f128269cd34bc1378fc3538a037e0cd1594e62', 'type': 'ddg', 'title': '运维必懂：监控指标中的 P90、P95、P99，到底是个啥？'}

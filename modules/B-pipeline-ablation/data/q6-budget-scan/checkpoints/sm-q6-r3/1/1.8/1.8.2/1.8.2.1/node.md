@@ -1,24 +1,24 @@
-# N234: 长尾区域 RTT_P99(k) 的地理分布：基于长尾省份用户到公有云 CDN 节点的距离 D_k，RTT_P99(k) = 2 * D_k / v_fiber 
+# N171: 公有云策略下的回源概率 p_miss_cloud = 1 - H_edge_cloud，其中 H_edge_cloud = 1 - (N_unique_acti
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N73
+- **parent_ids**: N54
 
 ## Claim
 
-长尾区域 RTT_P99(k) 的地理分布：基于长尾省份用户到公有云 CDN 节点的距离 D_k，RTT_P99(k) = 2 * D_k / v_fiber + T_backbone_congestion，其中 D_k 通常 > 500km，T_backbone_congestion 在高峰期为 5-20ms，导致 RTT_P99 典型区间为 40-80ms
+公有云策略下的回源概率 p_miss_cloud = 1 - H_edge_cloud，其中 H_edge_cloud = 1 - (N_unique_active_cloud / Cache_Capacity_Objects_cloud)，公有云CDN的POP点更多但单点容量较小，N_unique_active_cloud 通常高于自建，导致 H_edge_cloud 略低
 
 ## Corrected Claim
 
-长尾区域 RTT_P99(k) 的地理分布：基于长尾省份用户到公有云 CDN 节点的距离 D_k，RTT_P99(k) = 2 * D_k / v_fiber + T_backbone_congestion，其中 D_k 通常 > 500km，T_backbone_congestion 在高峰期为 5-20ms，导致 RTT_P99 典型区间为 40-80ms
+公有云策略下的回源概率 p_miss_cloud = 1 - H_edge_cloud，其中 H_edge_cloud = 1 - (N_unique_active_cloud / Cache_Capacity_Objects_cloud)，公有云CDN的POP点更多但单点容量较小，N_unique_active_cloud 通常高于自建，导致 H_edge_cloud 略低
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：光速在光纤中约为200,000 km/s，500km单程延迟约2.5ms，往返约5ms，加上骨干网拥塞5-20ms及处理开销，40-80ms的P99区间在长尾高延迟场景下量级合理且逻辑自洽。
+先验知识/题面给定，逻辑校验通过
 
 ## Search Query
 
-public cloud CDN latency long tail region backbone congestion
+public CDN cache hit rate vs self-hosted edge nodes

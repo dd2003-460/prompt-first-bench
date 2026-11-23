@@ -1,20 +1,24 @@
-# N60: 边缘到源站的物理RTT P99值：RTT_origin_P99 = 2 * D_origin / v_fiber + T_switch_origin，其中D_o
+# N41: DNS解析与切换延迟 t_dns = t_lookup + t_cache_ttl，其中 t_lookup 为递归查询耗时（典型 5-20ms），t_cache
 
-- **status**: pending
+- **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N10
+- **parent_ids**: N9
 
 ## Claim
 
-边缘到源站的物理RTT P99值：RTT_origin_P99 = 2 * D_origin / v_fiber + T_switch_origin，其中D_origin为自建POP到中心源站的地理距离（通常500-1500km），v_fiber≈2/3*c，T_switch_origin为骨干网交换机处理延迟（典型2-5ms），计算得RTT_origin_P99 ≈ 10-30ms。
+DNS解析与切换延迟 t_dns = t_lookup + t_cache_ttl，其中 t_lookup 为递归查询耗时（典型 5-20ms），t_cache_ttl 为本地DNS缓存剩余时间（0-300s）；该值构成混合策略路由切换延迟 Δt_switch 的基础组成部分。
 
 ## Corrected Claim
 
-边缘到源站的物理RTT P99值：RTT_origin_P99 = 2 * D_origin / v_fiber + T_switch_origin，其中D_origin为自建POP到中心源站的地理距离（通常500-1500km），v_fiber≈2/3*c，T_switch_origin为骨干网交换机处理延迟（典型2-5ms），计算得RTT_origin_P99 ≈ 10-30ms。
+DNS解析与切换延迟 t_dns = t_lookup + t_cache_ttl，其中 t_lookup 为递归查询耗时（典型 5-20ms），t_cache_ttl 为本地DNS缓存剩余时间（0-300s）；该值构成混合策略路由切换延迟 Δt_switch 的基础组成部分。
 
 ## Evidence
 
-父节点级核验未通过：非正交, 有冗余（子节点3（跨域回源RTT的非线性关系）在逻辑上包含了子节点1（交换机延迟）和子节点2（传播延迟）的总和，且重新定义了父节点公式，导致子节点间存在严重的包含关系和逻辑重叠，不符合正交性原则；同时，子节点3将“P99”简单等同于“分布上界/最大值”，这在统计学上是不严谨的（P99并非最大值），且其给出的数值范围[8,25]ms与父节点[10,30]ms存在轻微不一致（虽然可解释为不同假设，但结构上冗余）。）
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+DNS lookup latency average ms

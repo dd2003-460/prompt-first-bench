@@ -1,24 +1,20 @@
-# N28: 核心区域（如北上广深）流量占比估算：基于中国移动互联网用户地理分布，核心城市流量约占60-70%，长尾区域占30-40%
+# N22: 缓存容量匹配度 C_match = Cache_Size / (s_avg * N_unique_hot)，其中 N_unique_hot 为热点对象数；匹配度
 
-- **status**: verified
+- **status**: pending
 - **level**: L2
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
 - **parent_ids**: N5
 
 ## Claim
 
-核心区域（如北上广深）流量占比估算：基于中国移动互联网用户地理分布，核心城市流量约占60-70%，长尾区域占30-40%
+缓存容量匹配度 C_match = Cache_Size / (s_avg * N_unique_hot)，其中 N_unique_hot 为热点对象数；匹配度 <1 时命中率显著下降
 
 ## Corrected Claim
 
-核心区域（如北上广深）流量占比估算：基于中国移动互联网用户地理分布，核心城市流量约占60-70%，长尾区域占30-40%
+缓存容量匹配度 C_match = Cache_Size / (s_avg * N_unique_hot)，其中 N_unique_hot 为热点对象数；匹配度 <1 时命中率显著下降
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
-
-## Search Query
-
-China mobile internet user geographic distribution core cities traffic percentage
+父节点级核验未通过：不完备（子节点在逻辑上是正交的，分别处理了分母中的容量需求、热点数量估算以及分子/结果中的衰减模型，没有重复或矛盾。但是，父节点的核心定义是匹配度 C_match 及其阈值效应（<1 时命中率下降）。子节点3提供了具体的衰减公式，但子节点1和2仅提供了 C_match 计算所需的参数（Cache_Size 和 N_unique_hot）的估算方法，却缺失了对 C_match 本身作为核心状态变量如何直接映射到系统行为（如内存占用、淘汰策略选择）的显式描述，且子节点3中的 H_ideal 未定义，导致从 C_match 到最终性能指标的闭环不完整。）

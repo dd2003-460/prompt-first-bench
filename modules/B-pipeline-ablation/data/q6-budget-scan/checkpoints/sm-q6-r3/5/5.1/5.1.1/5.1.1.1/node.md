@@ -1,0 +1,20 @@
+# N226: 工作点1（低冗余/激进策略）：假设Zipf指数α=1.0，保留Top 10%对象即可覆盖90%流量，Cache_Size_1 = 0.1 * N_total *
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N72
+
+## Claim
+
+工作点1（低冗余/激进策略）：假设Zipf指数α=1.0，保留Top 10%对象即可覆盖90%流量，Cache_Size_1 = 0.1 * N_total * s_avg。若N_total=10M, s_avg=5MB，则Cache_Size_1 ≈ 50TB。此配置下H_ideal≈0.90，但长尾请求全部回源，P99延迟受限于t_origin。
+
+## Corrected Claim
+
+工作点1（低冗余/激进策略）：假设Zipf指数α=1.0，保留Top 10%对象即可覆盖90%流量，Cache_Size_1 = 0.1 * N_total * s_avg。若N_total=10M, s_avg=5MB，则Cache_Size_1 ≈ 50TB。此配置下H_ideal≈0.90，但长尾请求全部回源，P99延迟受限于t_origin。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Cache_Size_1 = 0.1 * 10,000,000 * 5MB = 50,000,000MB = 50TB，数值计算正确；Zipf分布特性及缓存策略逻辑自洽。

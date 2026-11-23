@@ -1,24 +1,29 @@
-# N193: TCP+TLS 1.3 完整握手延迟 T_handshake_tls13 = 1 * RTT + T_server_processing，通过 1-RTT 优化
+# N133: C 端图片/视频平台流量峰值系数 k_peak 的经验分布：晚高峰（20:00-22:00）与日均值的比值 k_peak 通常在 3-5 之间，具体值取决于用户
 
-- **status**: verified
+- **status**: degraded
 - **level**: L4
-- **source**: knowledge
+- **source**: search
 - **edge_type**: quotient
-- **rework_count**: 0
-- **parent_ids**: N58
+- **rework_count**: 1
+- **parent_ids**: N38
 
 ## Claim
 
-TCP+TLS 1.3 完整握手延迟 T_handshake_tls13 = 1 * RTT + T_server_processing，通过 1-RTT 优化减少一次往返，总 P99 ≈ 20-50 ms，较 TLS 1.2 降低约 50%
+C 端图片/视频平台流量峰值系数 k_peak 的经验分布：晚高峰（20:00-22:00）与日均值的比值 k_peak 通常在 3-5 之间，具体值取决于用户行为模式（如短视频平台因即时性更强，k_peak 可能偏向 4-5）[待核验]
 
 ## Corrected Claim
 
-TCP+TLS 1.3 完整握手延迟 T_handshake_tls13 = 1 * RTT + T_server_processing，通过 1-RTT 优化减少一次往返，总 P99 ≈ 20-50 ms，较 TLS 1.2 降低约 50%
+C 端图片/视频平台晚高峰（20:00-22:00）流量通常显著高于日均值，峰值系数 k_peak 的具体数值需根据特定平台的用户行为数据实测确定，一般经验值可能在 2-5 之间波动，短视频平台因即时性较强，峰值系数往往偏高。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：TLS 1.3 标准握手确实为 1-RTT，相比 TLS 1.2 的 2-RTT 减少一次往返，延迟降低约 50% 符合理论预期。
+[质询]具体数值区间（3-5）及短视频平台偏向（4-5）属于经验统计结论，缺乏通用性，不同平台、地域及业务形态差异巨大，且参考来源未提供该具体数值分布的直接证据。 | 逻辑上晚高峰流量高于日均值符合直觉，但具体系数3-5及细分场景差异为经验事实，参考来源[1][2]仅涉及峰值概念或计算方法，未提供具体数值支持，依据经验事实排除条款降级。
 
 ## Search Query
 
-TLS 1.3 1-RTT handshake latency improvement
+CDN traffic peak-to-average ratio k_peak video platform evening peak
+
+## Retrieval Sources
+
+- {'url': 'https://www.a5idc.com/helpcontent/2859.html&rut=1fa4ef4f302fe8148dfb2cab7f75c40f0f62ddbc42c2b7220e99f09c47120496', 'type': 'ddg', 'title': 'Cdn回源月流量怎么算？用播放时长、下载量和峰值系数推算带宽需求-a5数据'}
+- {'url': 'https://www.finebi.com/blog/article/686e4e8328946ecca8c2ba6b&rut=0e107ce6e709715deaa679b2230f11f43799e0c7ca2ffd65e3edbd36f461e3f2', 'type': 'ddg', 'title': '网络流量峰值分析指标如何评估？通过流量峰值预测网络需求。 - FineBI数据分析知识库'}

@@ -1,20 +1,20 @@
-# N202: 元数据库查询T_DB_lookup的P99延迟构成：T_DB_lookup_P99 = T_index_scan + T_network_latency + T
+# N145: TLS完整握手耗时 t_handshake 的构成：t_handshake = 2 * RTT + t_cert_verify，其中 RTT 为客户端到边缘节点
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N61
+- **parent_ids**: N42
 
 ## Claim
 
-元数据库查询T_DB_lookup的P99延迟构成：T_DB_lookup_P99 = T_index_scan + T_network_latency + T_lock_wait，其中T_index_scan为索引扫描时间（典型0.5-2ms，取决于数据量），T_network_latency为DB网络延迟（典型0.5-1ms），T_lock_wait为锁等待时间（典型0-5ms，高并发时显著增加），P99值通常取T_lock_wait=5ms场景，故T_DB_lookup_P99≈6-8ms，需优化索引和连接池以降低P99
+TLS完整握手耗时 t_handshake 的构成：t_handshake = 2 * RTT + t_cert_verify，其中 RTT 为客户端到边缘节点往返时延（典型 20-50ms），t_cert_verify 为证书验证耗时（典型 1-5ms），因此 t_handshake ≈ 40-105ms，P99 t_handshake ≈ 100-200ms。
 
 ## Corrected Claim
 
-元数据库查询T_DB_lookup的P99延迟构成：T_DB_lookup_P99 = T_index_scan + T_network_latency + T_lock_wait，其中T_index_scan为索引扫描时间（典型0.5-2ms，取决于数据量），T_network_latency为DB网络延迟（典型0.5-1ms），T_lock_wait为锁等待时间（典型0-5ms，高并发时显著增加），P99值通常取T_lock_wait=5ms场景，故T_DB_lookup_P99≈6-8ms，需优化索引和连接池以降低P99
+TLS完整握手耗时 t_handshake 的构成：t_handshake = 2 * RTT + t_cert_verify，其中 RTT 为客户端到边缘节点往返时延（典型 20-50ms），t_cert_verify 为证书验证耗时（典型 1-5ms），因此 t_handshake ≈ 40-105ms，P99 t_handshake ≈ 100-200ms。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：各组件延迟量级符合数据库系统典型工程经验，P99取高并发锁等待上限（5ms）的推导逻辑自洽，总延迟6-8ms在合理范围内。
+先验知识/题面给定，逻辑校验通过：TLS 1.2 完整握手确实需要 2 个 RTT，加上证书验证耗时，数值量级符合工程常识。

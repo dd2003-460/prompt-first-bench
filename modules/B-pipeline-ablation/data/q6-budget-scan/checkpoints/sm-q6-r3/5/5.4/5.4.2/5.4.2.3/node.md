@@ -1,20 +1,20 @@
-# N324: K_peak对成本影响的非线性拐点：当K_peak > 1.8时，峰值带宽跨越运营商标准档位（如4G→10G），月租跳增50%-100%，导致单位成本出现不连续
+# N261: 回源带宽修正因子 η 对有效命中率的影响为 H_effective = H_base * η + (1 - η) * H_degraded，其中 H_degra
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N103
+- **parent_ids**: N83
 
 ## Claim
 
-K_peak对成本影响的非线性拐点：当K_peak > 1.8时，峰值带宽跨越运营商标准档位（如4G→10G），月租跳增50%-100%，导致单位成本出现不连续跃升；因此最优策略是将K_peak控制在1.5-1.7区间（通过流量整形/缓存预热降低突发），避免触发高档位采购，此区间内Cost_peak与K_peak近似线性，边际成本可控。
+回源带宽修正因子 η 对有效命中率的影响为 H_effective = H_base * η + (1 - η) * H_degraded，其中 H_degraded 为带宽不足时的降级命中率（通常比 H_base 低5-10%）
 
 ## Corrected Claim
 
-K_peak对成本影响的非线性拐点：当K_peak > 1.8时，峰值带宽跨越运营商标准档位（如4G→10G），月租跳增50%-100%，导致单位成本出现不连续跃升；因此最优策略是将K_peak控制在1.5-1.7区间（通过流量整形/缓存预热降低突发），避免触发高档位采购，此区间内Cost_peak与K_peak近似线性，边际成本可控。
+回源带宽修正因子 η 对有效命中率的影响为 H_effective = H_base * η + (1 - η) * H_degraded，其中 H_degraded 为带宽不足时的降级命中率（通常比 H_base 低5-10%）
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：运营商带宽计费通常存在阶梯式档位（如4G/10G），跨越档位确实会导致边际成本非线性跃升，将峰值控制在档位阈值以下（如1.5-1.7倍均值）以利用线性区间是合理的成本优化策略。
+先验知识/题面给定，逻辑校验通过

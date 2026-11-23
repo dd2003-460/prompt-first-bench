@@ -1,14 +1,14 @@
 {
-  "id": "N100",
-  "claim": "故障期间的延迟惩罚因子 Latency_Penalty_Factor：当边缘节点故障时，请求回源至中心Origin，延迟增加量 = T_origin_RTT - T_edge_RTT；典型值为100-200ms（国内回源）或200-500ms（跨国回源），导致P99延迟从50ms升至250-550ms。",
+  "id": "N80",
+  "claim": "预热对 P99 延迟的改善：ΔP99_warm = P99_base - P99_warm ≈ p_miss_base * t_origin * (1 - e^(-K/N_unique_hot))，其中 K 为预热对象数",
   "level": "L3",
   "source": "knowledge",
   "status": "pending",
-  "evidence": "父节点级核验未通过：不完备, 有冗余（1. 正交性良好：两个子节点分别对应'低代价'和'高代价'两种截然不同的地理/网络拓扑场景，无重叠。2. 冗余性存在：这两个子节点本质上是同一个参数（回源延迟增量 ΔLatency）在不同地理条件下的两个离散取值点（Sample Points），而非两个独立的机制或维度。它们共享相同的物理模型（T_origin - T_edge），只是变量取值不同。3. 完备性不足：父节点提到了'典型值'范围（100-500ms），但子节点仅覆盖了两个极端/典型场景，未涵盖中间状态（如跨省非跨国、不同运营商链路差异等），且未解释为何选择这两个特定工作点作为代表，缺乏对'因子'本身的定义性描述（如是否包含抖动、丢包重传等额外惩罚）。）",
-  "corrected_claim": "故障期间的延迟惩罚因子 Latency_Penalty_Factor：当边缘节点故障时，请求回源至中心Origin，延迟增加量 = T_origin_RTT - T_edge_RTT；典型值为100-200ms（国内回源）或200-500ms（跨国回源），导致P99延迟从50ms升至250-550ms。",
+  "evidence": "父节点级核验未通过：不完备（子节点正交性良好，分别探讨了优化方向（K的关系）、适用边界（H_base阈值）和模型假设（分布验证）。但完备性不足，父节点公式中包含变量 N_unique_hot（热对象唯一数量），其变化对 P99 改善的影响（如缓存碎片化或工作集大小变化）未被单独作为子节点覆盖，仅隐含在子节点1的分母中，缺乏对其独立性的分析。）",
+  "corrected_claim": "预热对 P99 延迟的改善：ΔP99_warm = P99_base - P99_warm ≈ p_miss_base * t_origin * (1 - e^(-K/N_unique_hot))，其中 K 为预热对象数",
   "rework_count": 0,
   "parent_ids": [
-    "N31"
+    "N24"
   ],
   "objective": null,
   "edge_type": "cartesian",

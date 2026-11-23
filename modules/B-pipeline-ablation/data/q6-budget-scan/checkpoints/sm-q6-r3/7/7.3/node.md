@@ -1,24 +1,20 @@
-# N153: 自建边缘节点合规审计成本 C_Compliance = (C_level3_audit + C_ICP_maintenance) / 12 / N_POP，其中
+# N94: 硬件故障率与更换成本：服务器年故障率 λ ≈ 5-10%，10台服务器预期年故障台数 0.5-1台，单台更换成本 ¥40k，年预期故障成本 ≈ ¥20k-40k
 
-- **status**: verified
+- **status**: pending
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N47
+- **parent_ids**: N27
 
 ## Claim
 
-自建边缘节点合规审计成本 C_Compliance = (C_level3_audit + C_ICP_maintenance) / 12 / N_POP，其中 C_level3_audit ≈ ¥50k-100k/年（等保三级测评），C_ICP_maintenance ≈ ¥5k-10k/年（ICP备案维护），N_POP=10，故 C_Compliance ≈ ¥4.5k-10k/月
+硬件故障率与更换成本：服务器年故障率 λ ≈ 5-10%，10台服务器预期年故障台数 0.5-1台，单台更换成本 ¥40k，年预期故障成本 ≈ ¥20k-40k/POP，需纳入TCO
 
 ## Corrected Claim
 
-自建边缘节点合规审计成本 C_Compliance = (C_level3_audit + C_ICP_maintenance) / 12 / N_POP，其中 C_level3_audit ≈ ¥50k-100k/年（等保三级测评），C_ICP_maintenance ≈ ¥5k-10k/年（ICP备案维护），N_POP=10，故 C_Compliance ≈ ¥4.5k-10k/月
+硬件故障率与更换成本：服务器年故障率 λ ≈ 5-10%，10台服务器预期年故障台数 0.5-1台，单台更换成本 ¥40k，年预期故障成本 ≈ ¥20k-40k/POP，需纳入TCO
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：等保三级测评费用（5-10万/年）与ICP维护费用（0.5-1万/年）之和为5.5-11万/年，除以12个月再除以10个节点，计算结果约为4.58k-9.17k/月，与陈述中的4.5k-10k/月量级及范围基本吻合（上限略有取整偏差，但在工程估算合理误差范围内）。
-
-## Search Query
-
-China MLPS level 3 audit cost ICP filing maintenance annual
+父节点级核验未通过：非正交, 不完备（1. 正交性违规：子节点3（故障对P99延迟影响）属于性能/服务质量指标，与父节点聚焦的“故障率与更换成本（TCO）”维度不同，且子节点8（公有云隐性费用）引入了与父节点“自建硬件成本”对比的另一个实体（公有云），超出了父节点“硬件故障率与更换成本”的范畴。2. 完备性不足：父节点核心是“硬件故障率与更换成本”，但子节点4、5、6深入到了存储容量优化、边际效益和写入寿命，这些更多属于“存储架构选型”或“容量规划”范畴，而非单纯的“故障率与更换成本”；同时缺少了“备件库存成本”或“宕机机会成本”等与故障直接相关的TCO关键项。3. 子节点7（运维成本）虽然属于TCO，但与“硬件故障”无直接因果联系，属于通用运维，放在此节点下略显宽泛。）

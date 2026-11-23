@@ -1,0 +1,20 @@
+# N372: P99 超标单请求营收损失 C_revenue_loss_per_req 的估计：C_revenue_loss_per_req = ARPU * k_loss 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N113
+
+## Claim
+
+P99 超标单请求营收损失 C_revenue_loss_per_req 的估计：C_revenue_loss_per_req = ARPU * k_loss * ΔP99，其中 ARPU 为单用户平均收益（¥1-3/日），k_loss 为延迟敏感度系数（¥5-20/1000req/ms），ΔP99 为 P99 超标量（ms）
+
+## Corrected Claim
+
+P99 超标单请求营收损失 C_revenue_loss_per_req 的估计应基于单位请求的基准收益（而非日均ARPU）乘以延迟敏感度系数，即 C_revenue_loss_per_req = R_per_req * k_loss * ΔP99，其中 R_per_req 为单请求平均收益，k_loss 为无量纲或特定定义的敏感度系数，需确保量纲一致。
+
+## Evidence
+
+[质询]公式量纲存在严重错误：ARPU（¥/日）与 k_loss（¥/req/ms）及 ΔP99（ms）相乘，无法得到单请求营收损失（¥/req）的量纲；且 k_loss 的定义（¥/1000req/ms）与公式中直接相乘的逻辑不自洽，属于典型的经验参数堆砌而非严谨推导。 | 先验知识/题面给定，但逻辑校验发现量纲不匹配（ARPU单位与k_loss单位无法通过乘法消去得到单请求损失单位），且缺乏外部来源支持该特定经验公式的合理性。

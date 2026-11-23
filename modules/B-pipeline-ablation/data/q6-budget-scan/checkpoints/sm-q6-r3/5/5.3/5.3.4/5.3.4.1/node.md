@@ -1,20 +1,20 @@
-# N317: 单节点故障下的P99延迟增量 ΔP99_single = (T_origin - T_edge) = 100-200ms（国内回源基准），对应工作点：高延迟惩罚
+# N253: 预热带宽成本 C_warm 中，预热带宽 B_warm 的确定公式为 B_warm = (Q_preheat * s_avg * 8) / T_warm_win
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N101
+- **parent_ids**: N81
 
 ## Claim
 
-单节点故障下的P99延迟增量 ΔP99_single = (T_origin - T_edge) = 100-200ms（国内回源基准），对应工作点：高延迟惩罚/低发生频率（基础故障场景），此值直接作为公式中(T_origin - T_edge)的输入，需乘以故障概率权重得到期望值。
+预热带宽成本 C_warm 中，预热带宽 B_warm 的确定公式为 B_warm = (Q_preheat * s_avg * 8) / T_warm_window，其中 Q_preheat 为预热对象数，T_warm_window 为预热时间窗口
 
 ## Corrected Claim
 
-单节点故障下的P99延迟增量 ΔP99_single = (T_origin - T_edge) = 100-200ms（国内回源基准），对应工作点：高延迟惩罚/低发生频率（基础故障场景），此值直接作为公式中(T_origin - T_edge)的输入，需乘以故障概率权重得到期望值。
+预热带宽成本 C_warm 中，预热带宽 B_warm 的确定公式为 B_warm = (Q_preheat * s_avg * 8) / T_warm_window，其中 Q_preheat 为预热对象数，T_warm_window 为预热时间窗口
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+先验知识/题面给定，逻辑校验通过：公式量纲正确（对象数 * 字节/对象 * 8 bit/字节 / 秒 = bps），符合带宽计算的基本物理定义。

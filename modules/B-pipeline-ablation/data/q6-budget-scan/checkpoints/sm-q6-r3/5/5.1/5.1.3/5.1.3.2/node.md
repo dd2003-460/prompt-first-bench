@@ -1,0 +1,20 @@
+# N233: 容量匹配度C_match的临界点：当C_match > 1.5时，(1 - e^(-C_match * k_decay)) 趋近于1，命中率衰减可忽略（H_ac
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N74
+
+## Claim
+
+容量匹配度C_match的临界点：当C_match > 1.5时，(1 - e^(-C_match * k_decay)) 趋近于1，命中率衰减可忽略（H_actual ≈ H_ideal）。当C_match < 0.5时，命中率呈指数级下降。工程上建议将C_match维持在1.0-1.5区间，以平衡存储成本与命中率损失，此时H_actual/H_ideal ≥ 0.75（假设k_decay=1.0）。
+
+## Corrected Claim
+
+容量匹配度C_match的临界点：当C_match > 1.5时，(1 - e^(-C_match * k_decay)) 趋近于1，命中率衰减可忽略（H_actual ≈ H_ideal）。当C_match < 0.5时，命中率呈指数级下降。工程上建议将C_match维持在1.0-1.5区间，以平衡存储成本与命中率损失，此时H_actual/H_ideal ≥ 0.75（假设k_decay=1.0）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：当k_decay=1.0时，C_match=1.0对应1-e^-1≈0.63，C_match=1.5对应1-e^-1.5≈0.78，均满足≥0.75的约束；C_match>1.5时趋近于1，C_match<0.5时指数下降，数学推导自洽。

@@ -1,24 +1,24 @@
-# N122: 混合策略在日均请求数R ∈ [10,000,000, 50,000,000]时的长尾公有云带宽成本分摊：假设60%流量走自建，40%走公有云，日均下载2TB中8
+# N272: Cloudflare Enterprise 承诺带宽模式下，超出承诺带宽部分的超量计费单价（Overage Rate）通常为 $0.04 - $0.08/GB，
 
 - **status**: verified
-- **level**: L3
+- **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N32
+- **parent_ids**: N88
 
 ## Claim
 
-混合策略在日均请求数R ∈ [10,000,000, 50,000,000]时的长尾公有云带宽成本分摊：假设60%流量走自建，40%走公有云，日均下载2TB中800GB走公有云，考虑85%缓存命中率，有效回源120GB/日，月带宽费¥7,200，分摊至每千请求公式为 (7,200 / (R × 30)) × 1000，在R=10,000,000时约为¥0.024/1000req
+Cloudflare Enterprise 承诺带宽模式下，超出承诺带宽部分的超量计费单价（Overage Rate）通常为 $0.04 - $0.08/GB，具体数值随承诺带宽档位递增而递减
 
 ## Corrected Claim
 
-混合策略在日均请求数R ∈ [10,000,000, 50,000,000]时的长尾公有云带宽成本分摊：假设60%流量走自建，40%走公有云，日均下载2TB中800GB走公有云，考虑85%缓存命中率，有效回源120GB/日，月带宽费¥7,200，分摊至每千请求公式为 (7,200 / (R × 30)) × 1000，在R=10,000,000时约为¥0.024/1000req
+Cloudflare Enterprise 承诺带宽模式下，超出承诺带宽部分的超量计费单价（Overage Rate）通常为 $0.04 - $0.08/GB，具体数值随承诺带宽档位递增而递减
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：月费7200元除以30天得日费240元，除以1000万请求再乘以1000，计算结果确为0.024元/千请求，数值量级与逻辑自洽。
+先验知识/题面给定，逻辑校验通过
 
 ## Search Query
 
-Hybrid CDN traffic split bandwidth cost calculation
+Cloudflare Enterprise overage rate per GB committed bandwidth tier

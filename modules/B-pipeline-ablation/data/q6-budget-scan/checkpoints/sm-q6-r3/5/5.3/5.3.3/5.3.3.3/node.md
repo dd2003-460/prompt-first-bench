@@ -1,0 +1,20 @@
+# N252: 预热对 P99 改善的延迟分布假设验证：公式 ΔP99_warm ≈ p_miss_base * t_origin * (1 - e^(-K/N_unique_
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N80
+
+## Claim
+
+预热对 P99 改善的延迟分布假设验证：公式 ΔP99_warm ≈ p_miss_base * t_origin * (1 - e^(-K/N_unique_hot)) 假设回源延迟 t_origin 为常数，实际 t_origin 服从分布 f(t)，P99 改善需积分计算 ΔP99_warm = ∫[P99_threshold, ∞] (f_base(t) - f_warm(t)) dt，其中 f_warm(t) 为预热后延迟分布，长尾回源延迟（>100ms）占比 r_tail 对 P99 影响更大
+
+## Corrected Claim
+
+预热对 P99 改善的延迟分布假设验证：公式 ΔP99_warm ≈ p_miss_base * t_origin * (1 - e^(-K/N_unique_hot)) 假设回源延迟 t_origin 为常数，实际 t_origin 服从分布 f(t)，P99 改善需积分计算 ΔP99_warm = ∫[P99_threshold, ∞] (f_base(t) - f_warm(t)) dt，其中 f_warm(t) 为预热后延迟分布，长尾回源延迟（>100ms）占比 r_tail 对 P99 影响更大
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式推导符合概率论中期望值与分布积分的基本原理，预热通过降低未命中概率（p_miss）从而减少长尾延迟贡献，逻辑自洽且量纲正确。

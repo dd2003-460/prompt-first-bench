@@ -1,28 +1,17 @@
 {
-  "id": "N68",
-  "claim": "公有云SLA波动系数ε_cloud的校准：ε_cloud = (P99_observed - P50_observed) / P50_observed，需基于阿里云/Cloudflare公开SLA报告或实际监控数据；典型值在5-15%之间，高并发场景下可达20%，需结合具体云厂商的SLA承诺（如99.9%可用性）和业务负载特征进行动态调整。",
+  "id": "N49",
+  "claim": "回源概率 p_miss = 1 - hit_rate，其中 hit_rate 为缓存命中率（典型 70-95%）；该值决定回源链路延迟 t_origin 对整体P99延迟的贡献权重。",
   "level": "L3",
-  "source": "search",
-  "status": "degraded",
-  "evidence": "[质询]该陈述中的具体数值范围（典型值5-15%，高并发20%）属于经验性工程参数，缺乏通用物理或数学定律支持，且不同云厂商、不同服务类型（计算/存储/网络）的SLA波动差异巨大，无法从第一性原理推导，存在以偏概全的风险。 | 来源[2]仅定义了SLI/SLO/SLA概念及百分位数的意义，未提供具体的波动系数数值或校准公式；来源[1]讨论LLM监控，与公有云通用SLA校准无关。该事实为经验性工程建议，逻辑自洽但缺乏直接来源支持具体数值。",
-  "corrected_claim": "公有云SLA波动系数ε_cloud可定义为(P99_observed - P50_observed) / P50_observed，其具体数值需基于特定云厂商的SLA报告及实际监控数据动态校准，不同场景下波动范围差异显著，无统一固定值。",
-  "rework_count": 1,
+  "source": "given",
+  "status": "pending",
+  "evidence": "父节点级核验未通过：不完备（子节点1聚焦于 hit_rate 的估算逻辑（输入端），子节点2聚焦于 p_miss 对延迟的加权计算（输出端），两者在逻辑上是正交的。然而，父节点核心是解释 'p_miss 决定 t_origin 对 P99 延迟的贡献权重'。子节点2虽然给出了一个近似公式 w_miss = p_miss * (t_origin - t_cache)，但这通常用于平均延迟（Mean Latency）或线性加权，而非 P99 延迟。P99 延迟受长尾分布影响，简单的概率加权无法准确描述 P99 的贡献权重（通常 P99 直接由最慢的那部分请求决定，或者通过分位数计算）。因此，子节点2在理论准确性上存在偏差，未能准确覆盖父节点关于 'P99' 这一特定统计量的核心机制。）",
+  "corrected_claim": "回源概率 p_miss = 1 - hit_rate，其中 hit_rate 为缓存命中率（典型 70-95%）；该值决定回源链路延迟 t_origin 对整体P99延迟的贡献权重。",
+  "rework_count": 0,
   "parent_ids": [
-    "N12"
+    "N11"
   ],
   "objective": null,
-  "edge_type": "quotient",
-  "search_query": "Alibaba Cloud CDN P99 latency SLA Cloudflare P99 latency variance",
-  "retrieval_sources": [
-    {
-      "url": "https://blog.csdn.net/LogicNest/article/details/160079705&rut=ef1c92137f41125e2d5fdd84d8177af9cf524e267bab017bc4752abdbc349497",
-      "type": "ddg",
-      "title": "Llm服务可用性监控阈值设定实战指南（附nasa级p99波动归因模型）-csdn博客"
-    },
-    {
-      "url": "https://docs.aws.amazon.com/solutions/latest/performance-testing/defining-success.html&rut=d202d3ebc24a0b62f35cc6d8574c2f7eb444ff2eccd1befa4d94ed214a71883d",
-      "type": "ddg",
-      "title": "Defining Success: SLIs, SLOs, and Performance Budgets"
-    }
-  ]
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
 }

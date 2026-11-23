@@ -1,24 +1,20 @@
-# N164: 单用户日均短视频请求数 req_video 的估算模型：基于上传/下载流量比与平均对象大小推导，req_video = V_download_video_dai
+# N348: 不同内容类型对 P99 阈值的差异化要求：图片加载 P99_img 通常要求 < 200ms，短视频起播 P99_video_start 要求 < 500ms，
 
 - **status**: verified
-- **level**: L3
+- **level**: L4
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N51
+- **parent_ids**: N109
 
 ## Claim
 
-单用户日均短视频请求数 req_video 的估算模型：基于上传/下载流量比与平均对象大小推导，req_video = V_download_video_daily / (DAU * s_avg_video)，其中 V_download_video_daily 为日均短视频下载量，s_avg_video 为短视频平均大小（1-5MB），需结合业务日志校准
+不同内容类型对 P99 阈值的差异化要求：图片加载 P99_img 通常要求 < 200ms，短视频起播 P99_video_start 要求 < 500ms，直播首帧 P99_live_first_frame 要求 < 1000ms；综合平台阈值 T = max(P99_img, P99_video_start, P99_live_first_frame) 按流量权重加权
 
 ## Corrected Claim
 
-单用户日均短视频请求数 req_video 的估算模型：基于上传/下载流量比与平均对象大小推导，req_video = V_download_video_daily / (DAU * s_avg_video)，其中 V_download_video_daily 为日均短视频下载量，s_avg_video 为短视频平均大小（1-5MB），需结合业务日志校准
+不同内容类型对 P99 阈值的差异化要求：图片加载 P99_img 通常要求 < 200ms，短视频起播 P99_video_start 要求 < 500ms，直播首帧 P99_live_first_frame 要求 < 1000ms；综合平台阈值 T = max(P99_img, P99_video_start, P99_live_first_frame) 按流量权重加权
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：公式 req_video = V_download_video_daily / (DAU * s_avg_video) 在量纲上自洽（总流量/人均流量=人均次数），且 s_avg_video 取值 1-5MB 符合短视频常见大小范围，属于合理的工程估算模型。
-
-## Search Query
-
-short video CDN average request size per user daily
+先验知识/题面给定，逻辑校验通过

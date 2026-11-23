@@ -1,24 +1,20 @@
-# N320: 阿里云95分位计费的实际有效峰值溢价率计算：Peak_Premium_effective = (BWP_95 - BWP_avg) / BWP_avg × (P
+# N256: 工作集大小 N_unique_active 的计算公式为 N_unique_active = N_total_uploads * (1 - e^(-λ_deca
 
-- **status**: degraded
+- **status**: verified
 - **level**: L4
-- **source**: search
-- **edge_type**: quotient
+- **source**: knowledge
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N102
+- **parent_ids**: N82
 
 ## Claim
 
-阿里云95分位计费的实际有效峰值溢价率计算：Peak_Premium_effective = (BWP_95 - BWP_avg) / BWP_avg × (Price_per_Mbps_95 / Price_per_Mbps_traffic)，其中BWP_95/BWP_avg = K_peak_95（典型1.2-1.5，低于K_peak=2.0因95分位截断极端峰值），Price比约为1:1.5（95分位单价低于流量单价），综合有效溢价率约20%-40%，非显式但隐含在分位截断中。
+工作集大小 N_unique_active 的计算公式为 N_unique_active = N_total_uploads * (1 - e^(-λ_decay * T_ttl))，其中 N_total_uploads 为总上传对象数，λ_decay 为对象访问衰减率，T_ttl 为缓存TTL
 
 ## Corrected Claim
 
-阿里云95分位计费的实际有效峰值溢价率受95分位截断影响，通常低于基于绝对峰值的溢价率，具体数值取决于业务流量分布特征及当时定价策略，典型区间可能在20%-40%之间，但需以实际账单数据为准。
+工作集大小 N_unique_active 的计算公式为 N_unique_active = N_total_uploads * (1 - e^(-λ_decay * T_ttl))，其中 N_total_uploads 为总上传对象数，λ_decay 为对象访问衰减率，T_ttl 为缓存TTL
 
 ## Evidence
 
-[质询]该陈述包含具体的经验参数（如K_peak_95典型值1.2-1.5、价格比1:1.5、综合溢价率20%-40%），这些数值并非第一性原理可推导，且缺乏来源支持，属于经验事实。 | 经验事实，逻辑自洽但缺来源支持
-
-## Search Query
-
-Alibaba Cloud CDN 95th percentile bandwidth billing vs traffic based pricing effective premium rate
+先验知识/题面给定，逻辑校验通过

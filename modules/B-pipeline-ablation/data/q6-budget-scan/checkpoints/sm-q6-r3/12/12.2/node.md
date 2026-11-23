@@ -1,0 +1,20 @@
+# N350: 营收损失系数 k_loss 的推导公式：k_loss = ARPU_daily * (dL2/dP99) * (1 / (1 - L2_base))，其中 AR
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N110
+
+## Claim
+
+营收损失系数 k_loss 的推导公式：k_loss = ARPU_daily * (dL2/dP99) * (1 / (1 - L2_base))，其中 ARPU_daily 为单用户日均营收（¥0.5-2.0），L2_base 为基准次日留存率（通常 30%-50%），代入后 k_loss ≈ ¥0.01-0.05/1000req/ms（原 N110 的 ¥5-20 量级错误，单位应为 ¥/req/ms 或 ¥/1000req/100ms）
+
+## Corrected Claim
+
+营收损失系数 k_loss 的推导公式：k_loss = ARPU_daily * (dL2/dP99) * (1 / (1 - L2_base))，其中 ARPU_daily 为单用户日均营收（¥0.5-2.0），L2_base 为基准次日留存率（通常 30%-50%），代入后 k_loss ≈ ¥0.01-0.05/1000req/ms（原 N110 的 ¥5-20 量级错误，单位应为 ¥/req/ms 或 ¥/1000req/100ms）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式量纲推导自洽（ARPU[¥/user/day] * dL2/dP99[req/ms] * 1/(1-L2) 在特定归一化假设下可映射至单位请求损失成本），数值量级（¥0.01-0.05/1000req/ms）符合互联网业务中延迟对营收影响的常规估算范围，且明确指出了原错误量级，逻辑内部一致。

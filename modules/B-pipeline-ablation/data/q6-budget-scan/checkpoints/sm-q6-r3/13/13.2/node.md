@@ -1,0 +1,20 @@
+# N353: 声誉损失函数 R(P99) 的量化形式：R(P99) = N_user_base * P_churn_reputation * (P99 - T) / T，其中
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N111
+
+## Claim
+
+声誉损失函数 R(P99) 的量化形式：R(P99) = N_user_base * P_churn_reputation * (P99 - T) / T，其中 N_user_base 为累计注册用户（500万），P_churn_reputation 为因延迟差评导致的终身价值流失率（约 0.01%-0.05%/10% 超标幅度）
+
+## Corrected Claim
+
+声誉损失函数 R(P99) 的量化形式：R(P99) = N_user_base * P_churn_reputation * (P99 - T) / T，其中 N_user_base 为累计注册用户（500万），P_churn_reputation 为因延迟差评导致的终身价值流失率（约 0.01%-0.05%/10% 超标幅度）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

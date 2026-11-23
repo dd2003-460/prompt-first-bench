@@ -1,20 +1,24 @@
-# N192: Anycast调度错误率（error_rate）的基准值：在BGP路由收敛正常且无单点故障的情况下，因IGP路由次优或边缘节点容量过载导致的流量误分配错误率约为
+# N152: t_sync 的数据同步延迟构成：t_sync = t_download + t_write_disk，其中 t_download = s_obj / B_sy
 
-- **status**: degraded
+- **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: quotient
-- **rework_count**: 1
-- **parent_ids**: N54
+- **rework_count**: 0
+- **parent_ids**: N44
 
 ## Claim
 
-Anycast调度错误率（error_rate）的基准值：在BGP路由收敛正常且无单点故障的情况下，因IGP路由次优或边缘节点容量过载导致的流量误分配错误率约为0.2%；当任一边缘节点CPU利用率>80%时，错误率会非线性上升至1-2%。
+t_sync 的数据同步延迟构成：t_sync = t_download + t_write_disk，其中 t_download = s_obj / B_sync（s_obj 为对象大小，B_sync 为同步带宽，典型 1-10 Gbps），t_write_disk 为 NVMe SSD 写入延迟（<1ms for random, <10ms for large sequential）；对于 2TB 日均下载量，若同步 10% 热点对象（200GB），在 10Gbps 带宽下 t_sync_total ≈ 200GB / (1.25GB/s) ≈ 160s，但并行同步可缩短至 <10s
 
 ## Corrected Claim
 
-在BGP路由收敛正常且无单点故障的情况下，因IGP路由次优或边缘节点容量过载导致的流量误分配错误率通常较低；当任一边缘节点CPU利用率超过80%时，错误率会显著非线性上升。
+t_sync 的数据同步延迟构成：t_sync = t_download + t_write_disk，其中 t_download = s_obj / B_sync（s_obj 为对象大小，B_sync 为同步带宽，典型 1-10 Gbps），t_write_disk 为 NVMe SSD 写入延迟（<1ms for random, <10ms for large sequential）；对于 2TB 日均下载量，若同步 10% 热点对象（200GB），在 10Gbps 带宽下 t_sync_total ≈ 200GB / (1.25GB/s) ≈ 160s，但并行同步可缩短至 <10s
 
 ## Evidence
 
-[质询]具体数值（0.2%基准，1-2%过载）缺乏通用行业标准或公开文献支持，属于特定场景下的经验估算，不同网络架构下差异巨大，存在将特定案例数据泛化为通用基准的风险。 | 先验知识/题面给定，逻辑校验通过（CPU过载导致非线性错误率上升符合系统稳定性直觉），但具体数值缺乏外部来源直接支持，且无检索结果可用，故降级为定性表述。
+先验知识/题面给定，逻辑校验通过：200GB / 1.25GB/s = 160s 计算正确，NVMe 延迟量级符合工程常识，并行缩短延迟符合逻辑。
+
+## Search Query
+
+CDN edge node data sync latency NVMe write time download bandwidth calculation

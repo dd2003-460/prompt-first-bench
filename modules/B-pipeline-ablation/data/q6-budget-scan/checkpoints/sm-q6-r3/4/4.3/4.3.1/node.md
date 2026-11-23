@@ -1,20 +1,28 @@
-# N134: 用户到最近 POP 点的距离分布 $D_{dist}$ 的分位数参数：基于 P_region 和 S_10 计算出的用户到最近 POP 距离的 P50、P90 
+# N63: 对象大小分布的 P50/P95 参数：图片 s_img_P50 ≈ 300KB, s_img_P95 ≈ 1.5MB；短视频 s_video_P50 ≈ 5MB
 
-- **status**: verified
+- **status**: pending
 - **level**: L3
-- **source**: knowledge
+- **source**: search
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N36
+- **rework_count**: 1
+- **parent_ids**: N20
 
 ## Claim
 
-用户到最近 POP 点的距离分布 $D_{dist}$ 的分位数参数：基于 P_region 和 S_10 计算出的用户到最近 POP 距离的 P50、P90 和 P99 值（单位：km），例如 P50 约为 300-500 km，P99 约为 1500-2000 km，用于代入 RTT 公式计算不同百分位的延迟。
+对象大小分布的 P50/P95 参数：图片 s_img_P50 ≈ 300KB, s_img_P95 ≈ 1.5MB；短视频 s_video_P50 ≈ 5MB, s_video_P95 ≈ 25MB（需根据实际平台数据核验，此处为典型经验值）
 
 ## Corrected Claim
 
-用户到最近 POP 点的距离分布 $D_{dist}$ 的分位数参数：基于 P_region 和 S_10 计算出的用户到最近 POP 距离的 P50、P90 和 P99 值（单位：km），例如 P50 约为 300-500 km，P99 约为 1500-2000 km，用于代入 RTT 公式计算不同百分位的延迟。
+对象大小分布的 P50/P95 参数需根据实际平台数据确定，典型经验值可能为：图片 s_img_P50 ≈ 300KB, s_img_P95 ≈ 1.5MB；短视频 s_video_P50 ≈ 5MB, s_video_P95 ≈ 25MB（具体数值因平台、编码格式、分辨率等因素差异较大）
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：在典型全球或大洲级CDN/POP部署场景下，用户到最近POP点的距离分布中，P50在300-500km、P99在1500-2000km的量级符合地理分布与网络覆盖的工程直觉，数值量级合理且无内部矛盾。
+父节点级核验未通过：非正交, 不完备（1. 正交性违规：子节点2（图片偏度/比值）和子节点3（视频大小/比值）均包含了‘P95/P50比值’这一概念，且子节点3直接给出了视频的具体大小数值，与父节点中已列出的视频典型值（5MB/25MB）存在重叠和潜在矛盾（父节点P95 25MB vs 子节点3 P50 25MB）。2. 完备性缺失：父节点明确列出了图片和视频的具体P50/P95数值，但子节点中只有子节点3部分覆盖了视频大小，子节点1和2完全未解释图片的具体大小数值来源或验证方法，导致父节点的核心数据（图片300KB/1.5MB）在子节点中缺乏对应的支撑或分解逻辑。）
+
+## Search Query
+
+average image size web P50 P95 distribution short video file size distribution
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2090470641262770092&rut=83ea332e6b1a4987e790ff625ef4e44a48269e51effd7e1b8ec080686b090be2', 'type': 'ddg', 'title': '分位数（p50/p95/p99） 到底在讲什么? - 知乎'}

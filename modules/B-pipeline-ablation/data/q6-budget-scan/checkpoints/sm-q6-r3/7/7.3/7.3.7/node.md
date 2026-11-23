@@ -1,0 +1,24 @@
+# N299: 自建TCO中运维成本细分：C_ops = C_sre + C_monitoring + C_patching + C_security，其中C_sre=¥1M（
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N94, N95, N96
+
+## Claim
+
+自建TCO中运维成本细分：C_ops = C_sre + C_monitoring + C_patching + C_security，其中C_sre=¥1M（2-4名SRE），C_monitoring=¥100k（N103），C_patching=¥50k-100k（安全补丁与配置更新），C_security=¥50k-100k（DDoS防护与漏洞扫描），总计¥1.2M-1.3M/年
+
+## Corrected Claim
+
+自建TCO中运维成本细分：C_ops = C_sre + C_monitoring + C_patching + C_security，其中C_sre=¥1M（2-4名SRE），C_monitoring=¥100k（N103），C_patching=¥50k-100k（安全补丁与配置更新），C_security=¥50k-100k（DDoS防护与漏洞扫描），总计¥1.2M-1.3M/年
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：各项成本数值量级符合行业常规（SRE人力成本占大头，监控/补丁/安全为辅助成本），加总逻辑自洽（1000k + 100k + 50k~100k + 50k~100k = 1200k~1300k），无内部矛盾。
+
+## Search Query
+
+self-hosted edge node operations cost sre monitoring patching security annual

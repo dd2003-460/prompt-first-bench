@@ -1,0 +1,30 @@
+# N314: 单POP点月带宽成本计算：C_bw_pop = B_pop * 30.44 * P_bw_unit，其中B_pop取N97中位数3.35Gbps，P_bw_un
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N100
+
+## Claim
+
+单POP点月带宽成本计算：C_bw_pop = B_pop * 30.44 * P_bw_unit，其中B_pop取N97中位数3.35Gbps，P_bw_unit取一线城市10Gbps专线月租¥15k-20k折算单价或按流量¥0.08-0.12/GB，需根据实际计费模式（95th Percentile vs 固定带宽）选择对应单价
+
+## Corrected Claim
+
+单POP点月带宽成本计算：C_bw_pop = B_pop * 30.44 * P_bw_unit，其中B_pop取N97中位数3.35Gbps，P_bw_unit需根据实际计费模式（95th Percentile vs 固定带宽）选择对应单价（具体数值需参考运营商实时报价，此处引用的¥15k-20k/月或¥0.08-0.12/GB为估算值，缺乏来源直接支持）。
+
+## Evidence
+
+[质询]参考来源均未提供具体的带宽成本数值（如¥15k-20k/月或¥0.08-0.12/GB），属于经验事实，缺乏外部数据支持。 | 逻辑自洽（公式量纲正确，30.44天/月为常用近似值），但来源[1][2][3]仅涉及边缘计算架构和PoP定义，未包含任何带宽定价或成本计算数据，无法验证具体数值。
+
+## Search Query
+
+China 10Gbps dedicated line monthly cost tier 1 city 2024
+
+## Retrieval Sources
+
+- {'url': 'https://quant67.com/post/architecture/96-edge-computing/edge-computing.html&rut=2a140f9132d8fd7795429f72282d3a7f8254f4dfd20ba63d2a7126c31e4448fd', 'type': 'ddg', 'title': '【系统架构设计】边缘计算架构：算力下沉的设计挑战 | 土法炼钢 · 系统与基础设施'}
+- {'url': 'https://knowledge.catonetworks.com/docs/production-pop-guide&rut=a9f2e92c26d3fad20e9ca58c65a28ab5a09ecaad9547fadf77ef65c0dfa16123', 'type': 'ddg', 'title': 'Production PoP Guide'}
+- {'url': 'https://juejin.cn/post/7672695343738961956&rut=397db3a3a499017d20002ec4d9f8c0ee9cf71a37f784491d9ceb48d8b08df006', 'type': 'ddg', 'title': '边缘计算架构：算力下沉的设计挑战Consistency at the edge, control-plane fanou - 掘金'}
