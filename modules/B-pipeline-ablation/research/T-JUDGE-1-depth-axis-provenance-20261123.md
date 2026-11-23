@@ -535,3 +535,37 @@ cov 和 mechanical depth 都在 300 后饱和 (depth 3-level step 0.8@300 起 sd
 - 计算脚本: `research/llm-vs-mech-depth-control-arm.py` (承重数字规则, 可复现)
 - draft 同步: abstract + §4.3 provenance + §4.3 末段 (3 处, commit 93ca6e8f1)
 - skill workshop-number-audit: 10→11 条 (新增第 11 条 对象混淆)
+
+## 补充28 (2026-11-23 13:10): (a)→(b) 耦合检验 — gap marking 不驱动 retrieval
+
+### 动机
+
+主目标 (AGI) 的核心机制 = (a)标缺口 → (b)检索 → (c)推理。paper finding #1 只测了
+"monitoring 在 / repair 缺" (断点在 rework 循环)。本检验直接测 (a)→(b) 的耦合:
+跨 run, 标缺口多的 run 是否检索更多?
+
+### 结果 (rep-scan 15 run, GPU 域, 11-23 era)
+
+- cor(gap_rate, retrieval_rate) = **+0.029** (t=0.10, p≫0.05)
+- cor(gap_rate, post_retrieval_accuracy) = **+0.064** (t=0.23, p≫0.05)
+- cor(retrieval, post_acc) = +0.368 (t=1.43, 也不显著)
+- 两个量都有真实方差 (gap sd 0.050, retrieval sd 0.054) — 非"两平假不相关"
+
+### 解读
+
+断点比 finding #1 更靠前: 不止 repair 缺, 连 mark→retrieve 在 run 层面就不耦合。
+模型以近乎恒定的 rate (~0.10, 预算不变, 补充21) 标缺口, 与实际检索量无关。
+对 AGI 目标: (a) 在跑, 但 (a)→(b) 的触发链不存在 — 检索是 harness 固定节奏,
+不是 gap 信号驱动的。
+
+### 口径限定 (不直接进 paper)
+
+- n=15, 单域 (GPU), 单 era (rep-scan); retrieval_rate 含 ~20% 疑似假 search tag
+  (paper §3 provenance caveat), 是检索率上界
+- paper 已 SUBMISSION-READY, 本发现作为候选: 可强化 finding #1 的断点定位
+  (从 rework 循环前移到 mark→retrieve), 或进 §5 implication / future work
+- 决定权在 D: ① 强化 finding #1 措辞 ② 只进 §5 ③ 留作后续 (跨域 49 run 复验后再定)
+
+### 落盘
+
+- 计算脚本: `research/gap-retrieval-coupling.py` (承重数字规则, 可复现)
