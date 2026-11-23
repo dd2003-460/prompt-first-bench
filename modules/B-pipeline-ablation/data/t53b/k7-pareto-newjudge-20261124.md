@@ -333,3 +333,13 @@ gap-rate-anova-rep-scan.py + gap-detector-domain-bias.py 重跑 + 独立重算 A
 - finding2-field-decomposition.py 重跑: nat 0.0162 ✓ / soc 0.0261 ✓ / gpu claim 0.0925 (draft 0.0921, 漂移 0.0004, 语料快照 n 19→18)
 - 6 个 `research/*.py` 脚本引用全部解析到 modules/B-pipeline-ablation/research/ ✓
 - 结论: detector-robustness 节全部承重数字对账通过, 无实质漂移。
+
+## 剩余数字独立重算 (2026-11-24 05:15) — 数字审计真正全 draft 覆盖
+
+- **r=0.98 (depth~node count)**: K7 15 棵口径 r=0.9812 ✓ (draft 未标 n, 现澄清 = K7 15; rep 15 单独 r=0.889, 30 棵合并 0.944)。depth 分布 12@0.6/16@0.8/2@1.0 ✓ 与 draft 一致。
+- **2.2× 方差探针 (300 档)**: rerun sample sd=0.0673 ✓ / orig 0.0304 ✓ / ratio 2.21 ✓ (draft 用样本 sd, 总体 sd 会差 15%)。
+- **2.2× (719 档)**: rerun sample sd=0.0648 ✓ / ratio vs 0.0290 = 2.23 ✓。
+- **ρ=0.488 (soc 内 gap~node count, honest boundary)**: 83-run 语料 soc 27 run 重算 ρ=0.4939 (漂移 0.006), t=2.84 → p≈0.009 ✓ (draft p=0.010)。
+- **r=0.861 (self-judge 旧 LLM-judge cov 轴)**: 历史轴, 旧 judge 已弃用, 不可重算 — draft 已标 "with an older LLM-judge cov axis", 口径正确。
+- **0.8× (retrieval_rate 下界)**: 定性上界声明 (~20% 疑似误标), 非精确统计量, 无需重算。
+- 结论: draft 全部承重数字 (核心曲线/cor/分箱/控制臂 9 统计量/difficulty 梯度/L4 0/21/detector-robustness F 值/方差探针/depth 相关/soc boundary) 全部对数据源独立重算通过; 唯一不可重算项 (r=0.861) 是已弃用历史轴且 draft 已正确标注。
