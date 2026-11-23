@@ -368,3 +368,32 @@ obs 4 (zero-convergence 0/21) 是 synthesis 答案的内容声明; obs 2 是树�
 ### 草稿更新
 
 §4.4 表头 18-run/5,812 → 30 棵/8,767; 表体换新数; obs 1 "flat 43-49%" → "rises monotonically 42.6/48.1/52.7%"; obs 2 重写为"无 L4 层 + budget 依赖 + 非 channel artifact + depth 函数"; obs 3 删掉不可复现的 "55% 18-run subset" 括注。
+
+## 补充20 (2026-11-23 12:18): gap_rate 预算不变是 era-scoped, 非 corpus-wide
+
+### 发现
+
+abstract 原句 "fills the mechanical axes (coverage, metacognition, L4) at n=8/tier" 是 scope 错:
+- coverage / L4 确实扩到 n=8 (K7 3 + rep-scan 5)
+- 但 metacog 的**不变发现**只在 rep-scan era 内部成立
+
+### 数据 (同 compute_metacog 代码, source ①)
+
+| era | budget 100 | 150 | 300 | spread |
+|---|---|---|---|---|
+| rep-scan (11-23) | 0.099 | 0.100 | 0.107 | 0.008 (紧) |
+| K7 (11-22) | 0.134 | 0.047 | 0.075 | 0.087 (10倍) |
+
+- K7 150 档逐条 0.024/0.026/0.090 全低, 非单点噪声 → 真 era 差异
+- K7 与 rep-scan edge_types 相同 (cartesian/quotient), 都无 synth 树节点 (synthesis answer 是独立输出非树节点, 我之前"K7 有 synthesis"假设错)
+- era 差异 (0.087) 和 budget 效应同量级 → 不能跨 era 合并算 n=8
+
+### 结论
+
+budget-invariance 声明必须 era-scoped (rep-scan n=5/5/5), 不能写成 corpus-wide n=8。
+abstract 已修: "extends the coverage and L4 axes to n=8/tier, while the metacognition axis's invariance finding remains scoped to the rep-scan era (n=5/5/5, spread 0.008)"。
+§4.3 的 gap_rate 声明本来就是 n=5/5/5 (rep-scan only), 口径一致; 只有 abstract 的 n=8 措辞 overstate。
+
+### 待查 (未做)
+
+era 差异的成因: K7 (11-22) vs rep-scan (11-23) 之间 pipeline 改了什么? 需 git log 对比两日间的 research_hook / s5_state_machine 改动。若 gap_rate 的 era 敏感, 则 83-run 语料的跨日 metacog 对比都需 era-matched (现有 finding #2 nat/soc/gpu 已 era-matched, 安全)。
