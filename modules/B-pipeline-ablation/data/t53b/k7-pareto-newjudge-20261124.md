@@ -369,3 +369,13 @@ r1 进度: total 661/719 节点 (round 4, gain=0.950, streak=0, 还在扩展) �
 - budget binding 检查 (max realized < 700 → 非干净测试) 能处理 max_nodes hit 场景 ✓
 - 跨域分箱用 q6-scan-scores.json 原批 cov (300 档是 cache-shared 0.1304, draft 用 rep-isolated 0.138 — provenance mix 已在 draft 标注, 形状结论 robust)
 - 结论: 脚本就绪, r1 落地后直接跑, 不需要再摸索。
+
+## nodepth 脚本 gold 标度 bug 修复 (2026-11-24 05:20, commit 见 git log)
+
+**发现**: nodepth 分析脚本跨域分箱用 q6-scan-scores.json 的原批 cov — 其唯一值 {0.0, 0.0278, 0.0556, 0.0833} = {0/36, 1/36, 2/36, 3/36} = **36-unit 标度 (GPU gold 跨域打分)**, 不是 Q6 46-unit in-domain 标度。拆墙批 cov 是 judge_run(Q6 46-unit gold) — 两种标度混在一个分箱里, r1 一落地跨域形状对比 (平台 vs 上升) 直接报废。
+**修复**: 数据源换成 q6-gold-rescore.json (46-unit in-domain 重评: 1/46=0.0217, 6/46=0.1304, 8/46=0.1739, 9/46=0.1957 干净整数), n_nodes 与真实树 15/15 一致 (无 off-by-one)。dry-run + 模拟分箱验证通过 (15 原批 46-unit + 3 假拆墙 → 400-800 箱正确出现, delta_xd 可算)。
+**附带新信息 (46-unit 标度下 Q6 现有 15 棵树的 realized 轴)**:
+- 分箱: 0-100: 0.058 (n=3) / 100-200: 0.087 (n=7) / 300-400: 0.1522 (n=5) / 400-800: 无数据 (nodepth 补)
+- cor(cov46, realized) = 0.8423 (GPU 30 棵参照 0.563) — Q6 域内 cov 随 realized 的上升比 GPU 陡
+- 注意 100-200 箱 n=7 含 719-r3 (197 节点, 撞深度墙) — 箱内混合 nominal 档, 形状结论 (仍升) robust, 精确箱均值待 nodepth 落地后重算
+- 这是"Q6 到 719 仍升"声明在 realized 轴 + 正确 gold 标度下的第一次完整核验 (之前只有 tier-mean 口径)。
