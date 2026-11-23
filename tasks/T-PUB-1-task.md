@@ -5,8 +5,8 @@
 - repo: dd2003-460/prompt-first-bench
 - branch: main
 - 任务书路径: tasks/T-PUB-1-task.md
-- 任务书 sha256: 903e63fa702a1a1de2eab4c440f8dbf61e1109f1a3c81950c5e8b51fee25b14e
-- 派发时 main HEAD: [DISPATCH-FILL]
+- 任务书正文 sha256（第9行起，排除指纹块）: 20af62bf53435ea55b417825796eafc84b76e0949f802020a43ce4fe62677638
+- 派发时 main HEAD: a3d0b6d1b
 
 ## 背景（agent 需要知道的）
 我们要写一篇论文：机械公式验证器替代 LLM-as-judge 做 agent 可靠性评估。
