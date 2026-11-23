@@ -106,3 +106,12 @@ Q6 50 档域内 (q6 gold, 46 units) cov: r1=0.0652(3/46) r2=0.0217(1/46) r3=0.08
 队列自动评分 (gpu gold) cov: r1=0.0 r2=0.028 r3=0.0
 域内 cov 系统性高于跨域 — gold 域特异性 n=3 再确认 (r1 单点 Δcov=+0.0652 → 3 run 均值 Δcov≈+0.03)
 B4 正式重评 (全部 15 run) 待队列跑完。
+
+## Repair 跨域数据点 (2026-11-23, Q6 50 档 3 run)
+
+Q6 50 档 rework 修复率 (node-level, rework>0 的节点中最终 verified):
+- r1: 2/17 (12%)  r2: 0/21 (0%)  r3: 0/12 (0%)  合计 2/50 = 4%
+- GPU 固化版 (repair-closure-dryrun.py, 80-run corpus): 3.7% (331/8870)
+- 方向一致: repair low-yield 跨域不变 (Q6 4% vs GPU 3.7%, n=3 runs/50 nodes each)
+- 口径注意: Q6 50 档 n=3, 分母小; 5 档完整曲线待队列跑完
+- 含义: "capability-limited 非 targeting" 诊断 (§4.1) 不是 GPU 域特异, 是 27b 定向修正能力的普遍瓶颈
