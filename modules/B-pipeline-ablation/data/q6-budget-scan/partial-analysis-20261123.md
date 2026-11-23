@@ -286,3 +286,10 @@ CUR 口径逐 rep:
 - **对 AGI 目标的核心含义**: 预算不是单轴旋钮, 是 coverage×metacog 二维上的反向移动。cov 轴随 budget 单调升 (50→2.67, 719→7.67 unit), metacog 轴非单调 (300 最低)。Pareto 前沿是二维的: 想要高覆盖→大预算, 想要高自知标记→小预算, 两者不可同时最大化
 - **300 档 metacog sd=0.025 (最低)**: 同 cov sd=0 一样是 cache 共享指纹 (rep 方差被压), 重跑批 (rep 独立) 验证
 - **719 档 metacog 回升 (0.236)**: 部分因 node_count 混杂 (r3=197 节点, 分解浅→gap 高), 需重跑批 node_count 归一后确认
+
+### 撤回: "gap 率随 budget 单调降 / 预算在 coverage×metacog 反向移动" 不成立（23:25, node_count 分箱推翻）
+- **按 node_count 分箱**: gap 率 50节点=0.080 → 100-200=0.0167 → 300-400=**0.0263 (回升, 非单调)**
+- **推翻机制**: 之前按 budget 排序看到 0.08→0.018 单调降, 但 depth 墙下 budget≠node_count (719 档 197-379 随机)。按 node_count 看 gap 是噪声 (50 档 3 rep 0.04/0.08/0.12, 100 档 0.00/0.01/0.01), 无单调趋势
+- **metacog_total 方差来源**: 主要是 post 子项 (0.0-1.0 大幅波动, 如 50-r3 post=1.0 vs 50-r1 post=0.0), gap/ret 子项稳定 (0.01-0.03 / 0.14-0.24)。metacog_total 非单调是 post 噪声, 不是 gap 趋势
+- **修正后结论**: 预算-coverage 单轴关系成立 (cov 单调升); metacog 轴与 budget 无干净单调关系 (post 噪声主导)。"二维 Pareto 反向移动" 撤回 — 至少在当前数据 (n=15, 跨域 gold, depth 墙混杂) 下不成立
+- **重跑批可检验**: rep 独立 cache 下, 若 metacog 方差仍由 post 主导 → metacog 轴对 budget 不敏感, 是噪声轴; 若 gap 出现 node_count 单调趋势 → 自知标记确实随分解深度变化
