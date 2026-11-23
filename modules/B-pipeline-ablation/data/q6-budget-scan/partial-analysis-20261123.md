@@ -293,3 +293,11 @@ CUR 口径逐 rep:
 - **metacog_total 方差来源**: 主要是 post 子项 (0.0-1.0 大幅波动, 如 50-r3 post=1.0 vs 50-r1 post=0.0), gap/ret 子项稳定 (0.01-0.03 / 0.14-0.24)。metacog_total 非单调是 post 噪声, 不是 gap 趋势
 - **修正后结论**: 预算-coverage 单轴关系成立 (cov 单调升); metacog 轴与 budget 无干净单调关系 (post 噪声主导)。"二维 Pareto 反向移动" 撤回 — 至少在当前数据 (n=15, 跨域 gold, depth 墙混杂) 下不成立
 - **重跑批可检验**: rep 独立 cache 下, 若 metacog 方差仍由 post 主导 → metacog 轴对 budget 不敏感, 是噪声轴; 若 gap 出现 node_count 单调趋势 → 自知标记确实随分解深度变化
+
+### ★ cache 故事线收口: 命中来源 = 更老 Q6 实验预热的 cache + LLM claim 收敛, 不是"批内 rep 共享"（23:32）
+- **cache key 用 claim, 不是 search_query**: cache 文件 question 匹配终态 claim 66/75, 匹配 search_query 0/75 (s5_pipeline.py:184 传 claim)。之前所有"key=search_query"推理作废
+- **原批第一个 run 50-r1 就有 20 次 CACHE-HIT**: 批内无前档可共享 → 命中来自 **11-22 matched 批/T53 跑同 Q6 题预热的 cache** (11-22 写 1741 文件)
+- **批内跨 rep / 跨档 claim 重叠全 0%**: 但 LLM 对同题的公式/定义型节点 claim 措辞近乎固定 (如 "P99 延迟目标值 T"), 跨 run 逐字相同 → 命中预热 cache
+- **撤回"算术证明"**: "r2 40 命中 > 20 窗口写入" 窗口切错 (实际 75 写入/135 命中), 且命中主体是老实验预热, 不是批内共享
+- **最终定位**: cache 不"压低 rep 方差" — 它只是对相同 claim 字符串省网络查询。真实机制 = **LLM 同题 claim 生成收敛** (公式/定义节点), cache 让收敛表现为 source 复用。rep 内容方差是真实的 (整树 claim 0% 重叠), 收敛只在个别公式节点
+- **对重跑批的含义**: Q6_REP 隔离 (9 vs 59 命中) 隔离的是"老实验预热 cache 的命中", 不是"批内 rep 共享"。重跑批测的是"无预热命中时 rep 方差是否变化" — 若 metacog/cov sd 不变 → 命中对内容方差无影响 (符合本收口); 若 sd 变大 → 预热 cache 的 source 复用确实影响了 rep 内容
