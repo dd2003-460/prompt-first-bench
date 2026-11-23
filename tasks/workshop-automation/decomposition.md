@@ -29,6 +29,13 @@
 - **C4 小工作可行性**：能否成独立 workshop（"Cost-Efficient Evaluation via Checkpoint Prefix Caching"）。
 - [待核验] vLLM prefix caching 对"不同后缀同一前缀"是否真省（continuous batching 下非确定）。
 
+### D. 顶会 workshop 对标调研（2026-11-24 D 指令"弄个完整的调研-对标-核验流程"）
+
+- **D1 调研**（外包 arena，会话 01a1ca66）：NeurIPS/ICLR/ICML/AAAI/ACL 2025-2026 workshop track 实际论文——agent 评测/deep research/metacognition/LLM judge 方向。交付：论文清单（标题/venue/一句话方法/与草稿 3 卖点的重叠度）+ 撞车风险排序。
+- **D2 对标**（Lead）：草稿 3 卖点（过程测量框架/负结果+裸臂对照/机械 judge 可复现）逐条对 D1 清单，标"独有/部分重叠/撞车"。
+- **D3 对抗核验**（arena 第二轮）：最强 claim"没人做 agent 内部过程级测量"找反例（不是找支持）；找到反例 → 降级 claim 措辞进草稿 §3。
+- **D4 落盘**：结论写 `experiments/stage-ablation/workshop-benchmark-survey-20261124.md`，标 conf + 来源 URL。
+
 ## 缺口标注（汇总）
 
 | 缺口 | 阻塞谁 | 怎么补 |
@@ -40,6 +47,8 @@
 | 树级信息增益是否撞车 | B1→B4 | 读 ICLR 2027 4 篇 + arXiv 补查 |
 | 条件信息增益评测时怎么算 | B2 | 理论 + 代理方案 |
 | ICLR 2027 4 篇在审论文全文 | B1 | OpenReview 拉全文 |
+| 顶会 workshop 实际论文清单（agent 评测方向） | D2→D3 | arena 调研（D1，任务书 tasks/T-WKS-BENCH-task.md） |
+| "过程级测量"claim 是否有反例 | D3 | arena 对抗核验（D3） |
 
 ## 执行顺序（产投比排序）
 
@@ -50,6 +59,7 @@
 5. **B2-B4**（理论 + 可行性）：B1 之后
 6. **A5**（统计）：A3 跑完后
 7. **B5**（preprint 路径）：理论结果出来后
+8. **D1→D4**（workshop 对标）：D 指令优先级，arena 调研可与 A3 补重复并行（不占 vLLM）；D2/D3 在 D1 落盘后做
 
 ## 留空（不编）
 
