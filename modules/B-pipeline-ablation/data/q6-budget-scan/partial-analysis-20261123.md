@@ -262,3 +262,10 @@ CUR 口径逐 rep:
 - **处置**: kill 全部进程 → 清空 q6-budget-scan-rerun/ (JSON/stdout/scores/checkpoints) → 23:11:42 单实例重启 (pid 25483, SM_CKPT_DIR 隔离确认有效 s5_state_machine.py:919)
 - **教训**: 重跑批脚本 cp 固定文件名 runs-s5-sm-{qid}.json, 无 rep 隔离 → 并发必污染。脚本已用 SM_CKPT_DIR 隔离 checkpoint, 但 runs-s5-sm-q6.json 仍是固定名 (stage-ablation 目录), 重跑批必须串行 (脚本本身是 for 循环串行, 问题在误启第二实例)
 - **判据不变**: 300 档 metacog sd 对照 (原批 0.026), 重跑批落地后算
+
+### node_count→coverage 近似线性, 50-379 节点范围内无饱和拐点（23:18）
+- **跨档合并** (15 runs, Q6 gold unit 数): 50节点→1-4unit, 135→2-6, 197→6, 300→6(恒定), 351-379→8-9
+- **单位效率 ~2-3% unit/节点, 基本恒定** → 无边际递减拐点, Pareto 边界在 50-379 节点内是直线段
+- **对 AGI 目标的含义**: 预算是线性旋钮, 无甜点位; 想要 N 个 gold unit ≈ 配 N/0.027 节点。预算-覆盖控制成立且单调
+- **300 档恒定 6 unit = cache 共享指纹** (rep 方差 0), 重跑批 (rep 独立) 若 300 档出现 5-7 波动 → 线性段确认 + cache 指纹消除
+- **低节点段方差大** (50 档 1-4, 100 档 2-6): 小预算下 rep 间分解路径分叉明显 (50 节点只够 1-2 层, 切入点选择影响大); 大预算段 (300+) 方差收敛 (覆盖饱和到同一组 unit)
