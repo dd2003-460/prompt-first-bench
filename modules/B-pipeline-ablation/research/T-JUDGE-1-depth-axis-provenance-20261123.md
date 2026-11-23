@@ -158,3 +158,21 @@ rep-scan-scores.json 从未被队列写入（7h 静默）。
   ② 建一个带 sentence_transformers 的 venv 并让队列评分段用 venv 的 python，或
   ③ 评分段 stderr 不吞（去掉 2>/dev/null）+ tee 到 $LOG（让 [score-err] 可见）。
   最小改动 = ③（可见性）+ ①（正确解释器）。
+
+## 补充9: workshop 草稿数字一致性审计 (11-23 10:42)
+
+草稿关键数字 vs 数据源逐一核验:
+
+| 数字 | 草稿 | 数据源 | 结果 |
+|---|---|---|---|
+| 83-run 语料 | 83 | metacog-budget-scan-v1.1.json n=83 | ✓ |
+| gap 跨域 | nat 0.028 < soc 0.058 < gpu 0.147 | 全语料 0.0254/0.0562/0.1020 (era-matched 口径 0.028/0.058/0.147) | ✓ 方向一致 |
+| healthy_gap_rate | 0.938 | n=83 mean=0.938 | ✓ |
+| vsr 臂差 r1-r2 | +0.205 (B 0.66 vs A 0.46) | A 0.458 / B 0.661 / +0.202 | ✓ |
+| L4 | 0/21 | K7 0/15 + idea2 0/6 | ✓ |
+| L2 | 50:24 = 2.08:1 | 14-tree | ✓ |
+| rework | 1.6-2.1% | 36/2298=1.57% | ✓ |
+| **55% unverified** | abstract 当 100+ runs 通用发现 | **stale**: 出自 8c266fc8e 的 18-run/5812 节点子集; 全语料 66 棵/17245 节点非verified=42%, K7 15 棵=51% | ✗ 口径漂移 |
+| 19-tree corpus | 19 | source-verify.json 现 21 棵 (K7 15 + idea2 6); 19 = 15+4 (r1-r2, r3 contaminated 排除) | ✓ 口径确认 (r3 本就不该计入) |
+
+**55% 待 D 决策**: (a) 限定为 §4.4 那 18 棵 (表述过宽但数字没错) vs (b) 换全语料 42%。
