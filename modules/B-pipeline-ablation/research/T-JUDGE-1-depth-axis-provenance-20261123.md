@@ -303,3 +303,34 @@ Blocked 项 "source_verify cache bug: cache=0 on second run" 重验: 当前 cach
 **对 budget-invariance 的影响**: r7 修正后 300 档 metacog total = 0.2520 (n=4), 不再被拉低。**total 现在也是平的**: 100=0.2456 (n=5), 150=0.2465 (n=5), 300=0.2520 (n=4), spread 0.006。补充14 的结论 ("total 掉 0.190, 只能声明 gap_rate") 被推翻。
 
 **caveat (诚实边界)**: retrieval_rate=n_search/n_total 对通道故障**盲**——通道死时模型照样打 search 标签 (r7 标了 97 个, 只拿到 3 个 URL), 所以 outage run 的 total 平 partly 是度量盲点, 不是真"检索成功"。gap_rate (defensive/total) 才是构造上 retrieval-independent 的干净分量 (0.099/0.100/0.127, n=14)。draft 保留 gap_rate 为主声明, total 平作为修正后的补充事实。
+
+## 补充18 (2026-11-23 11:47): r8 落地, 15/15 完成, 300 档 n=5 数据变化
+
+### 落地
+
+- r8 (300-r8, 20261123-104623) 59min 落地, 355 节点, **通道健康** (SITE-WL 32 行, 非 FLAG)
+- land_rep_run.py 落地 (修了 line 54 met["total"]→met["metacog_total"] 漏改): judge=0.5944 (depth=0.8, cov=0.3889), metacog=0.1534 (gap=0.0282, ret=0.307, post=0.167)
+- scores=15 records, era-matched=30 棵 (depth 分布 12@0.6 / 16@0.8 / 2@1.0)
+- 队列 15/15 完成, 进程结束
+
+### 数据变化 (r8 是真实数据点, 非错误)
+
+| budget | n | gap 均值 | total 均值 |
+|---|---|---|---|
+| 100 | 5 | 0.0992 | 0.2456 |
+| 150 | 5 | 0.1001 | 0.2465 |
+| 300 | 5 (旧 4) | **0.1075** (旧 0.127) | **0.2323** (旧 0.2520) |
+
+- r8 gap=0.0282 是同档离群低 (其余 0.103/0.113/0.119/0.175): 109 search 标签但只有 10 defensive 标记 — **真·过度自信 run**, 非通道故障 (32 SITE-WL 行健康)
+- **gap_rate 声明不变且更紧**: 0.099/0.100/0.107, spread 0.008 (旧 0.028), 仍是三组件里最平的 — 承重结论强化
+- **total-flat 被动摇**: spread 0.006→0.014, 300 档掉 0.014 (r8 驱动)。措辞从 "flat" 改 "flat-to-mildly-declining", 归因 r8 过度自信离群
+- 机械 depth 轴: 300 档仍饱和 0.8 (sd=0), 无新 peak; depth~n_nodes r=+0.944 不变
+
+### 草稿更新
+
+§4.3 provenance: 29→30 棵, 14→15 runs, n=5/5/4→5/5/5, gap 0.099/0.100/0.127→0.099/0.100/0.107 (spread 0.008), total 0.246/0.247/0.252→0.246/0.247/0.232 (spread 0.014, flat-to-mildly-declining, r8 归因), 删 "n will become 5/5/5" 前瞻句。
+
+### 待办
+
+- DDG half-open patch (f60f01871) 现在可以 apply (队列已结束, channel-mixing 红线解除)
+- abstract "n=8/tier" 前瞻兑现 (100/150/300 各 n=8 已成立)

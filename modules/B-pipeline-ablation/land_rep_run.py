@@ -51,7 +51,7 @@ def main(path):
     json.dump(era, open(ERA, 'w'), ensure_ascii=False, indent=1)
 
     print(f'landed {fn}: n={n_nodes} judge={j["total_score"]:.4f} (depth={depth}, cov={cov:.4f}) '
-          f'metacog={met["total"]:.3f} (gap={met["gap_rate"]:.4f}, ret={met["retrieval_rate"]:.3f})')
+          f'metacog={met["metacog_total"]:.3f} (gap={met["gap_rate"]:.4f}, ret={met["retrieval_rate"]:.3f})')
     print(f'scores={len(sc)} records, era-matched={len(era)} trees')
     print('下一步: python3 rep_scan_analyze.py  (重跑分析)')
 
