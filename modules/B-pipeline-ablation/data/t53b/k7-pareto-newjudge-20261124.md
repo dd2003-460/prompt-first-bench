@@ -662,3 +662,10 @@ v6 声称 "gain-cov 脱钩是 breadth-without-depth 的机制签名" — 推理�
 - 与 q6-gold-rescore.json 完全一致 (22/22 审计源)
 - **wall-bound 0.167 tier mean = (0.1739+0.1957+0.1304)/3 = 0.1667** — 承重数字有独立重算验证 (不只是源文件读, 是从原始树文件重新跑 judge 确认)
 - 解释器: /usr/bin/python3 (系统 python3 无 sentence_transformers, 已知坑)
+
+## 投稿就绪度: 代码行号 + 文件引用 + supplementary 索引核验 (2026-11-24 07:30-07:45)
+
+- **代码行号引用 3/3 核验**: s5_state_machine.py:1595-1597 **错**(那是 merge answer prompt 字符串)→ 实际 judge_v2_depth.score_run 在 L1611-1612, 已修 (commit d54dda889); prompts.py:337 (search_query 格式) / prompts.py:78+312 ([待核验] 指令) 准确。
+- **文件引用 22/22 有出处**: 19 个 pfb 内路径 exists; 2 个 "缺失" 实为主 workspace provenance 指针 (projects/AI-计算科学/D1-generalization/ 下存在, 跨 repo 引用非断链); 1 个 formulas.json 是前瞻性描述(每域待准备标注文件)非引用。
+- **supplementary 索引落盘 (commit 3311d3741)**: draft 引用 supp 17/37/40/41-42/43/45 但 repo 无索引文件——编号体系 = git commit 序列 "补充N"。新建 `experiments/stage-ablation/workshop-draft-supplementary-index-20261124.md` 把 6 编号钉死到定义 commit + 数据源 (7 文件全 exists); §8 "paths in the supplementary" 悬空引用改为指向该索引。
+- 投稿就绪度三条件: 结构完整 ✓ / 最狠质询有防御 ✓ / 承重数字对账 ✓ + 本轮新增: 引用可追溯性 ✓ (行号/文件/supp 编号三类全核验)。
