@@ -1,10 +1,11 @@
 #!/bin/bash
 # Q6 budget scan 719 落地后一键分析 (2026-11-23 21:10)
 # 前置: q6_budget_scan_queue.sh (pid 11929) DONE — 15/15 run 全落地
-# 做三件事:
+# 做两件事:
 #   1. 全量 CI 分析 (q6_full_analysis.py, 已升级 mean[95%CI]+Welch 档间差)
 #   2. 300/719 档 rep 方差对照 (原批 cache 共享 vs 理论独立)
-#   3. 触发 rep 独立重跑 (q6_budget_scan_rerun_rep.sh, vLLM 负载已释放)
+# rep 独立重跑由 q6_rerun_watchdog.sh (pid 74600) 自动接力, 本脚本不重复触发
+#   (2026-11-23 21:17 修正: 原 [3/3] 会与 watchdog 双启重跑队列 → vLLM 并发非确定)
 set -u
 cd /Users/a1-6/Desktop/workspace/pfb
 SCAN=modules/B-pipeline-ablation/data/q6-budget-scan
@@ -25,6 +26,24 @@ echo "=== [1/3] 全量 CI 分析 (mean[95%CI] + Welch 档间差) ==="
 /usr/bin/python3 modules/B-pipeline-ablation/research/q6_full_analysis.py 2>&1 | tee "$SCAN/full-analysis-$(date '+%Y%m%d-%H%M').txt"
 
 echo ""
+echo "=== [1.5/3] 各 rep 实际节点数 (K7 硬顶验证 + 719 是否花满预算) ==="
+python3 - "$SCAN" << 'PYEOF'
+import sys, json, os, glob
+SCAN = sys.argv[1]
+print("  budget  rep  realized_nodes  (max_nodes=预算; <预算 = 模型提前自然停止, 预算没花满)")
+for b in [50, 100, 150, 300, 719]:
+    for r in [1, 2, 3]:
+        fs = sorted(glob.glob(os.path.join(SCAN, f"q6-{b}-r{r}-[0-9]*.json")))
+        if not fs:
+            print(f"  {b:<7} r{r}    (未落地)")
+            continue
+        d = json.load(open(fs[-1]))
+        n = len(d.get("nodes", []))
+        flag = "" if n >= b else f"  ← {n}/{b} 未花满!"
+        print(f"  {b:<7} r{r}    {n}{flag}")
+PYEOF
+
+echo ""
 echo "=== [2/3] 300/719 档 rep 方差对照 (原批, cache 共享) ==="
 python3 - "$SCAN" << 'PYEOF'
 import sys, json, os, statistics as st
@@ -39,9 +58,5 @@ for b in [300, 719]:
 PYEOF
 
 echo ""
-echo "=== [3/3] 触发 rep 独立重跑 (Q6_REP, 验证 cache 共享压低方差假设) ==="
-echo "  启动 q6_budget_scan_rerun_rep.sh (300/719×3, 独立输出目录)..."
-nohup bash experiments/stage-ablation/q6_budget_scan_rerun_rep.sh > /tmp/q6-rerun-launch.log 2>&1 &
-echo "  rerun pid=$! (输出: modules/B-pipeline-ablation/data/q6-budget-scan-rerun/)"
-echo ""
-echo "=== 全部触发完成. 重跑落地后对比: 300 档新批 rep sd vs 原批 0.030 — 回升=cache 共享压低假设成立 ==="
+echo "=== 分析完成. rep 独立重跑由 watchdog (q6_rerun_watchdog.sh) 自动接力 ==="
+echo "=== 重跑落地后对比: 300 档新批 rep sd vs 原批 0.030 — 回升=cache 共享压低假设成立 ==="
