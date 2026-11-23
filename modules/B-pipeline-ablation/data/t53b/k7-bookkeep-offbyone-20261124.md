@@ -61,3 +61,17 @@ budget 不是干净 IV"的论点。
 - [ ] 核 depth~n_nodes r=+0.944 的 n_nodes 来源（若来自记账则需重算）
 - [x] 修 draft §1 realized ranges → archive 口径
 - [x] 修 draft §4.3 cor → +0.602 + provenance caveat
+
+## 附：Q6 719 深度墙 confound 纠正（2026-11-24 02:30）
+
+一度误判"深度墙没约束 Q6、模型自然饱和 4 层"——**错**。原因：拿 rerun 的 719 r1
+（`q6-budget-scan-rerun/q6-719-r1-20261124-012603.json`，cache 隔离、本来就带 max_depth=4 墙）
+当拆墙批评了。真正的拆墙批（`q6_719_nodepth_queue.sh`，`--max-depth 10`）输出到
+`q6-719-nodepth/`、文件名 `q6-719-nd-r*`，是 relay phase 2，**尚未开跑**。
+
+深度墙**确实 binding**：Q6 719 原批 3 rep 都在 max_depth=4 停，但停止时 gain 仍
+0.889–0.909（高）、frontier 仍 54–94 节点（非空）、low_gain_streak=0 → 模型还想展开
+但被墙拦。rerun 719 r1 同（gain=0.916, frontier=85）。
+
+**对 draft 无影响**：跨域段"Q6 719 档撞深度墙、cov 与深度墙 regime confound、拆墙批是
+clean test"的 caveat 本来就对，未改。拆墙批仍是需要的 clean test，排队中。
