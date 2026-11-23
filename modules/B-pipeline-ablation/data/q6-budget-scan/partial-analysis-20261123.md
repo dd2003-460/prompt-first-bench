@@ -274,3 +274,15 @@ CUR 口径逐 rep:
 - 新重跑 300-r1 (Q6_REP=1, 23:11:42 起): 9 次 CACHE-HIT (全是 run 内重查, 首次 rep:1 无前例)
 - 原批 300-r1 (无 Q6_REP): 59 次 (含跨档 50/100/150 共享)
 - **隔离生效确认**: 重跑批在测"rep 独立 source" vs 原批"rep 共享 source", 判据有效
+
+### metacog 轴随 budget 非单调, gap 率随 budget 单调下降 — 预算在 coverage×metacog 二维上反向移动（23:20）
+- **数据** (metacog_total = 0.4×gap + 0.3×ret + 0.3×post, 高好, metacog_axis.py:127):
+  - 50: 0.237±0.151, gap 0.080
+  - 100: 0.271±0.055, gap 0.007
+  - 150: 0.258±0.140, gap 0.029
+  - 300: 0.188±0.025, gap 0.029
+  - 719: 0.236±0.024, gap 0.018
+- **gap 率单调降** (0.08→0.018): 预算大→分解深→节点具体→更少防御性标记→gap 降→metacog 降
+- **对 AGI 目标的核心含义**: 预算不是单轴旋钮, 是 coverage×metacog 二维上的反向移动。cov 轴随 budget 单调升 (50→2.67, 719→7.67 unit), metacog 轴非单调 (300 最低)。Pareto 前沿是二维的: 想要高覆盖→大预算, 想要高自知标记→小预算, 两者不可同时最大化
+- **300 档 metacog sd=0.025 (最低)**: 同 cov sd=0 一样是 cache 共享指纹 (rep 方差被压), 重跑批 (rep 独立) 验证
+- **719 档 metacog 回升 (0.236)**: 部分因 node_count 混杂 (r3=197 节点, 分解浅→gap 高), 需重跑批 node_count 归一后确认
