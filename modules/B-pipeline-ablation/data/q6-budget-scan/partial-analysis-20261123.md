@@ -1,5 +1,18 @@
 # origin: ai · 2026-11-23 19:25 · Q6 budget scan 初步分析（9/15 落地时点）
 
+## TL;DR 终态结论（23:40 压缩 · 机制性结论已查清，不依赖重跑批；下方为滚动过程记录，含已撤回注记，以本块为准）
+
+**有效结论（保）**：
+1. **cache 命中来源**（conf 0.9）：key=claim 非 search_query（claim 匹配 66/75）；命中 = 更老 Q6 实验（11-22 matched 批/T53 同题）预热的 1741 个 cache 文件 + LLM 同题公式节点 claim 收敛。50-r1 首 run 就 20 命中 → 排除"批内 rep 共享"。
+2. **跨域 gold 问题**（conf 0.9）：原 scan 用 GPU gold 评 Q6 题 → 绝对分 + 跨档比较全是跨域噪声，"719≈300 饱和"是假象。已换 Q6 gold 重评（Q6 gold 最大深度=3，GOLD_DEPTH=5 也是 GPU 的）。
+3. **爆炸半径**（conf 0.9）：只污染 budget-scan 绝对分；T53b matched 批（负载效应=同题 Δ）不受影响——gold 噪声是共模，Δ 抵消。
+4. **node_count→coverage 近似线性**（conf 0.8）：2-3% unit/节点，50-379 范围无饱和拐点。
+5. **metacog 跨域不变性**（conf 0.7→待重跑批确认）：Q6/gpu 两域跨档平。
+
+**已撤回（5 条，勿引用）**：节点重叠 89-91%（id 伪影）/ parent_ids 71-76%（id 伪影）/ "300 cov sd=0=cache 实锤"（粗粒度分辨率饱和，metacog 有真实方差 sd=0.026）/ "719 自然停止"（实为 max_depth=4 撞深度墙）/ "gap 率随 budget 单调降"（node_count 分箱后非单调，post 子项噪声）。
+
+**待重跑批（rep 独立 cache 验证，23:11 起跑，~4.5h）**：可检验预测 = 节点重叠率下降 + rep sd 回升。混杂：Q6_REP 隔离同时意味着实时新搜索（原批吃 11-22 快照），sd 变大时无法分离 rep 独立性 vs source 新鲜度方差（第三臂方案已备）。
+
 ## metacog 跨域不变性（A1 核心 claim 初步证据）
 - Q6 nat 域（50/100/150 三档完整, n=3/档）: metacog_total = 0.237 / 0.271 / 0.258 — 跨档平
 - 对照 gpu K7（n=15, 50/100/150 档）: 0.246 / 0.247 / 0.239 — 跨档平
