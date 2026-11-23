@@ -569,3 +569,48 @@ cov 和 mechanical depth 都在 300 后饱和 (depth 3-level step 0.8@300 起 sd
 ### 落盘
 
 - 计算脚本: `research/gap-retrieval-coupling.py` (承重数字规则, 可复现)
+
+## 补充29 (2026-11-23 13:40): (a)→(b) 方向反转 — 节点层面强耦合, run 层面假解耦
+
+### 推翻补充28
+
+补充28 在 run 层面测 cor(gap_rate, retrieval_rate)=+0.029 (ns), 结论"mark→retrieve 不耦合"。
+这是**聚合谬误 (ecological fallacy)**: gap_rate 和 retrieval_rate 在每个 run 里都近乎恒定
+(~0.10 / ~0.30), 耦合藏在 run 内部, 被聚合抹平。
+
+### 节点层面真实结果 (15 rep-scan run, 3849 节点, GPU 域)
+
+- 缺口节点 (DEFENSIVE_RE 命中): 391 个, **66.0% 是 source=search**
+- 非缺口节点: 3458 个, 27.5% 是 source=search
+- 两比例 z = **+15.55** (p<0.001), **15/15 run 全部 defensive > non-defensive**
+- 缺口节点 source×status: search+degraded 占 **60.6%** (查了、没查全、标了缺口)
+
+### 方向: (b)检索 → (a)批判, 不是 (a)→(b)
+
+证据文本全是 `[质询]...参考来源仅提供了概述` / `来源未包含具体数值` — 这是**检索之后的
+批判**, 不是检索前的触发。30% 缺口节点是 source=knowledge (没检索就标了缺口, 歧义:
+真"不知道" vs 选择不去查)。
+
+### 第三变量: level 分布
+
+缺口标记集中在 L1/L2 (17.7%/17.2%), L3/L4 只有 9.2%/8.9% — 浅层 (规划/分支层) 多标缺口。
+
+### 对 AGI 目标的意义
+
+D 的 AGI 定义: (a)知道自己不知道 → (b)去查 → (c)推理。
+实测: (a) 和 (b) 强相关, 但方向是 (b)→(a) (检索后批判), 不是 (a)→(b) (知道自己不知道→去查)。
+模型不是"发现缺口→主动检索", 而是"按 harness 固定节奏检索→检索后批判标缺口"。
+(a) 在跑, 但 (a)→(b) 的触发链不存在 — 检索是 harness 固定节奏, 不是 gap 信号驱动。
+
+### 口径限定
+
+- n=15 run / 3849 节点, GPU 域, rep-scan era (11-23); 单域单 era
+- DEFENSIVE_RE 是文本匹配 (claim+evidence+corrected_claim), 不是模型显式声明
+- 30% knowledge 源缺口节点方向歧义 (未检索就标缺口)
+- 不进 paper (SUBMISSION-READY 不 destabilize); 候选: 强化 finding#1 断点定位
+  (从 rework 循环前移到 mark→retrieve 方向反转), 或进 §5 / future work
+
+### 落盘
+
+- 计算脚本: `research/gap-retrieval-node-level.py` (承重数字规则, 可复现)
+- 补充28 (run 层面) 结论被本条推翻, 保留原文供溯源
