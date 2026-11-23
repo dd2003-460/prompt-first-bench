@@ -213,3 +213,22 @@ nodepth r1 在跑（03:40 启动），relay 链下游三个环节逐一核验，
 3. **Q7 队列评分块**（q7_budget_scan_queue.sh :37-54）：用刚落地的 r3 json 实测——judge_run 4 key（n_nodes_raw/total_score/depth_score/coverage）+ compute_metacog 5 key（metacog_total/gap_rate/retrieval_rate/healthy_gap_rate/post_retrieval_accuracy）全部 OK，无 KeyError（之前 rerun 队列的 bug 在 Q7 不存在，评分块已显式传 Q7 gold_units）。
 
 结论：relay 链（nodepth → Q7）落地后分析工具链全就绪，无断点。
+
+## §4.3 控制臂统计量官方脚本对账（2026-11-24 03:55，数字审计 skill 16 条之"官方口径重算"）
+
+重跑 3 个冻结脚本，draft 每个统计量与脚本输出逐值比对：
+
+| 数字 | draft | 脚本重算 | 判定 |
+|---|---|---|---|
+| verbosity cor(LLM,length) | +0.648 (t=3.07, df=13) | +0.648 (t=+3.07) | ✓ |
+| partial(LLM,budget\|length) | +0.047 | +0.047 | ✓ |
+| Spearman ρ | +0.681 (p=0.005) | +0.681 (p=0.0052) | ✓ |
+| cor(LLM,mech) | +0.049 (t=0.18) | +0.0490 (t=0.177) | ✓ |
+| ANOVA F(2,12) | 0.036 | 0.0360 | ✓ |
+| tier means gap_rate | 0.099/0.100/0.107 | 0.0992/0.1001/0.1075 | ✓ |
+| pooled within-group sd | 0.054 | 0.0538 | ✓ |
+| power f=0.40 (n=15) | 21.5% | 21.4% (scipy ncf) | ✓ 四舍五入差 |
+| power f=0.25 (n=15) | 11.0% | 11.0% | ✓ |
+
+脚本：research/verbosity-bias-control-arm.py / llm-vs-mech-depth-control-arm.py / gap-rate-anova-rep-scan.py。
+结论：§4.3 全部承重统计量 = 官方脚本输出，无口径漂移。数字审计覆盖范围：§7 4 个 sd 值（前轮）+ §4.3 9 个控制臂统计量（本轮）+ abstract 强度（前轮）+ 104 加法（前轮）+ References 17/17 真实性（本轮）+ 跨域 cov 曲线（前轮）。
