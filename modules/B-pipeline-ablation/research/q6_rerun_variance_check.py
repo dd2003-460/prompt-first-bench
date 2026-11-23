@@ -44,14 +44,32 @@ def bootstrap_sd_ratio(a, b, n_boot=10000):
     ratios.sort()
     return ratios[int(0.025 * len(ratios))], ratios[int(0.975 * len(ratios))], st.mean(ratios)
 
+def stop_reason(b, rep):
+    """读 run 的 stdout 停止原因 (max_nodes/max_depth/DONE)。
+    stdout 文件名 = q6-{b}-r{rep}.stdout (无时间戳), json 名带时间戳 — 不能从 json 名推。"""
+    sp = os.path.join(RERUN, f"q6-{b}-r{rep}.stdout")
+    if os.path.exists(sp):
+        for line in open(sp, errors="ignore"):
+            if "max_depth=" in line or "max_nodes=" in line:
+                return line.strip()[-30:]
+    return "?"
+
 results = {}
 for b in [300, 719]:
     oa = [r["metacog"]["total"] for r in orig if r.get("budget") == b]
     ra = [r["metacog"]["total"] for r in rerun if r.get("budget") == b]
+    # 停止机制 (★ 300-r1 重跑撞 max_depth=4, 原批 300 全 max_nodes=300 — 机制不同, 对照需标注)
+    r_stops = []
+    for r in rerun:
+        if r.get("budget") == b:
+            r_stops.append(stop_reason(b, r.get("rep")))
     entry = {"orig_n": len(oa), "rerun_n": len(ra),
              "orig_sd": round(st.stdev(oa), 4) if len(oa) >= 2 else None,
              "rerun_sd": round(st.stdev(ra), 4) if len(ra) >= 2 else None,
-             "orig_vals": oa, "rerun_vals": ra}
+             "orig_vals": oa, "rerun_vals": ra,
+             "rerun_stops": r_stops,
+             "stop_mechanism_note": ("原批 300 档全 max_nodes=300 (预算约束); 重跑 300-r1 撞 max_depth=4 (252 节点, 深度约束) — "
+                                     "停止机制不同, 树大小不同, metacog 分对照需标注此混杂")}
     if len(oa) >= 2 and len(ra) >= 2:
         lo, hi, mean = bootstrap_sd_ratio(oa, ra)
         entry["sd_ratio_mean"] = round(mean, 3)
