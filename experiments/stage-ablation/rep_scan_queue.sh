@@ -52,7 +52,11 @@ PYEOF
     else
       echo "budget=$budget rep=$rep rc=$rc wall_s=$dur out=MISSING" | tee -a "$LOG"
     fi
-    rm -rf checkpoints/sm-gpu-r* 2>/dev/null
+    # 2026-11-23: 删除了原来的 `rm -rf checkpoints/sm-gpu-r*` — 它违反红线
+    # "别清 checkpoint, 这是原始数据" (D 2026-11-22), 且静默删 (2>/dev/null)。
+    # 队列 11-23 跑完 15 run 后, rep-scan 时代的实时 checkpoint 已被删且从未进 git,
+    # 不可恢复 (核心数据 rep-*.json 在删前已 cp 到 $OUT, 安全)。
+    # checkpoint 是原始数据, 不删; 磁盘占用由 git + archive 管理, 不由队列脚本清。
   done
 done
 echo "=== rep-scan queue DONE $(date '+%F %T') ===" | tee -a "$LOG"
