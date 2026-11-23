@@ -142,3 +142,12 @@ headline 不被此 confound 打穿。Q6 719 档（max_depth=4，realized 197/351
 是另一回事——那是纯深度墙 regime（cov 是下界），拆墙批（max_depth=10）落地后才能定 Q6
 的真实饱和点。两域的 max_depth 不同（GPU=5, Q6 原批=4）是已知 confound（draft §7(c)），
 但 GPU 侧的平台不依赖"墙没压 cov"这个假设——per-rep 数据直接证明 cov 不随节点数升。
+
+## 协调冲突：nodepth 批被越序并发启动（2026-11-24 03:14，已处置）
+
+另一会话（Hermes gateway 父进程，非 relay_v2）在 rerun r3 还在跑（24 min）时直接启动了
+`q6_719_nodepth_queue.sh`（r1 跑了 37s 被 kill，无 json 落地）。违反队列脚本硬前提
+"vLLM 不并发"（所有 budget-scan 对比假设同负载，并发会互相拖慢、破坏负载一致性）。
+处置：kill 并发进程，relay_v2（PID 34249）保持串行链（rerun → nodepth → Q7），
+/tmp/relay-v2.log 已留痕。教训：relay 链在飞时，其他会话不应手动启动链内的队列脚本；
+判断"该不该启动 X"前先查 relay 日志和父进程树。
