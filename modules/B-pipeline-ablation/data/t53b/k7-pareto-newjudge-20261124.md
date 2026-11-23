@@ -578,3 +578,17 @@ log 模型 (cov = a*ln n + b, 收益递减的自然形式):
 → **"knee at ~400" 是分箱均值层面观察, 不是连续函数拐点**; robust claim = 方向 (yield declines past ~400, 600-800 箱两域都平/降), 不是锐度
 → draft 已按 v3 限定 (commit 99ef14ac2): "declines past ~400 ... only marginally resolvable (1.12× se) ... continuous fit does not confirm a sharp knee ... robust claim is the direction, not the sharpness"
 → 机制核心句保留: 模型不知道 (gain 始终高) → 平台是 harness 性质, 不是模型性质
+
+## 机制锚 v4: 分段线性断点扫描修正 v3 单边负结果 (2026-11-24 07:05)
+
+v3 只测了 log + 饱和两种函数形式 (都失败) → "continuous fit does not confirm a sharp knee"。
+补 model-agnostic 检验 (分段线性, 扫描断点 150-700 step 25):
+- GPU (30 点): 单段 ss=0.12033 (R²=0.317) → 两段 ss=0.10015 (Δ=0.02018)
+  最优断点 425 (斜率 0.00045 → 0.00010); 断点=400 ss=0.10154 (比最优差 0.00139, 基本持平)
+- Q6 (16 点): 单段 ss=0.02074 (R²=0.410) → 两段 ss=0.00934 (Δ=0.01140, 55% 改善)
+  最优断点 325 (斜率 0.00030 → −0.00015)
+→ **断点确实存在** (两段显著优于单段), 且两域最优断点 425/325 都在 ~400 范围 → 支持 knee 位置跨域一致
+→ 但右段斜率小且符号不一致 (GPU +0.00010 微升 / Q6 −0.00015 微降) → "平台"准确说是 **slope collapse** (斜率骤降), 不是 flat top
+→ v3 的负结果是单边的 (只测 log+饱和); v4 混合图景: 函数形式拟合不支持锐拐点, 但 model-agnostic 断点扫描支持断点位置
+→ draft 已按 v4 改写 (commit 6e9601816): "continuous fits give a mixed picture: log/saturation fit poorly or degenerate, but a model-agnostic piecewise-linear breakpoint scan DOES locate a breakpoint ... the location of the slope change (~300-425) is consistent across domains ... the plateau is more accurately a slope collapse than a flat top"
+→ 独立复现通过 (不同代码路径: GPU 425/0.10015, Q6 325, 断点400 0.10154)
