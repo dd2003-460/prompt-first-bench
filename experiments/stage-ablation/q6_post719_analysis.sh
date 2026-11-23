@@ -22,7 +22,7 @@ fi
 
 echo ""
 echo "=== [1/3] 全量 CI 分析 (mean[95%CI] + Welch 档间差) ==="
-python3 modules/B-pipeline-ablation/research/q6_full_analysis.py 2>&1 | tee "$SCAN/full-analysis-$(date '+%Y%m%d-%H%M').txt"
+/usr/bin/python3 modules/B-pipeline-ablation/research/q6_full_analysis.py 2>&1 | tee "$SCAN/full-analysis-$(date '+%Y%m%d-%H%M').txt"
 
 echo ""
 echo "=== [2/3] 300/719 档 rep 方差对照 (原批, cache 共享) ==="
