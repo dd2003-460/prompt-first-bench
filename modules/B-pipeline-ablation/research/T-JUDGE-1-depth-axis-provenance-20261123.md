@@ -199,3 +199,18 @@ rep-scan-scores.json 从未被队列写入（7h 静默）。
 - 结论: finding #3 的 peak@150 确证为 LLM judge 独有产物; 机械轴既无 peak 又与 n_nodes 混淆, 不能作为 budget 主张。robust 主张仍押 L4 zero-convergence + metacog budget-invariance + vsr 趋势。
 
 **r7/r8 落地后**: 重算 era-matched (加 2 棵) → 300 档 n=8, 719 档 n=5, 重跑 analyze 填 §4.3 最终表。
+
+## 补充11: run 数口径钉死 — K7 ⊂ 83, 唯一 104 (11-23 10:58)
+
+**问题**: abstract "across 100+ runs" 的构成不明, 且原句 "Within the GPU domain" 与跨域 finding(2) 自相矛盾。
+
+**核验** (n_nodes 会碰撞, 83 内部 8 个重复值, 故用"不同值命中"而非"任意命中"):
+- K7 budget-scan 15 棵的 15 个**不同** n_nodes (103/122/123/136/167/175/314/364/381/391/392/415/423/665/747) 15/15 全命中 83-run 的 gpu 34 棵 → **K7 ⊂ 83** (撞车概率≈0)。
+- idea-2 6 棵 (n_nodes 316/394/401/402/411/435) 独立臂, 仅 316 与 83 碰撞 (不同 run)。
+- rep-scan 15 棵 = r4–r8 (新 run, 延续 K7 的 r1–r3), 非重复。
+
+**唯一 run 数 = 83 (含 K7) + idea-2 6 + rep-scan 15 = 104**。"100+" 成立。
+
+**abstract 已改**: 去掉 "Within the GPU domain" 限定 (与跨域 finding 2 矛盾), 改为 "104 unique: 83 cross-domain (含 K7 15) + idea-2 6 + rep-scan 15; K7 是 83 的子集非加法项; finding 1/3/4 GPU 域, finding 2 跨域"。
+
+**教训**: ① 百分比/run 数前先确认 finding 的 scope 限定词; ② n_nodes 匹配做重叠检测必须用"不同值命中" (n_nodes 非唯一, 83 内部 8 碰撞); ③ 同一数字改 2 次以上 = 重复计数红旗, 停手用数据钉死再写。
