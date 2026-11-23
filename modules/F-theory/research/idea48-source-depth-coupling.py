@@ -43,7 +43,7 @@ stat_by_src = {}
 for nodes in trees:
     for n in nodes:
         stat_by_src.setdefault(n.get('source', '?'), Counter())[n.get('status', '?')] += 1
-print("#48 耦合强度按 source 分层 (GPU 域, %d trees 去重):" % len(trees))
+print("#48 耦合强度按 source 分层 (GPU 域, %d trees 去重; 注: glob 含 era-matched*.json score 记录, 其节点无 source/status 落入 '?' 行, 不影响 knowledge/search/given 计数):" % len(trees))
 print(f"{'source':>12} {'total':>7} {'verified':>9} {'degraded':>9} {'pending':>8} {'v/(v+d+p)':>10}")
 for src, c in sorted(stat_by_src.items(), key=lambda x: -sum(x[1].values())):
     v, dg, p = c['verified'], c['degraded'], c['pending']

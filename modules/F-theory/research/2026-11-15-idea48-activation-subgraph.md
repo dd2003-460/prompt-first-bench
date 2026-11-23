@@ -153,6 +153,10 @@ E_cross 是内部概念与外部证据之间的耦合边。
   (耦合路径长度↔失败) 直接命中; 深层的 verified 几乎全是 knowledge
   (内部激活), 外部证据撑不到深层
 - 口径: 单域 (GPU), n=30 trees, depth 用 parent_ids 构树
+- 数据卫生注 (2026-11-23): glob 含 era-matched*.json (score 记录, 节点无
+  source/status, 落入 "?" 行 58 节点) — 不影响 knowledge/search/given 计数,
+  22x 与深度梯度数字不变; 与预测 2 脚本同 glob 但此处无 cc 默认 0 假点问题
+  (按 source 分层计数, 无字段节点自然落 "?" 行)。
 
 **#48 实证状态 (2026-11-23, 修正后)**: 预测 2 ✗ (GPU r=0.100 不显著, 原 0.738 是
 bug 产物) + 预测 4 ✓ (深度 x source 交互, 方向域不变+水平域特异) +
