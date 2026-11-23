@@ -151,3 +151,22 @@ headline 不被此 confound 打穿。Q6 719 档（max_depth=4，realized 197/351
 处置：kill 并发进程，relay_v2（PID 34249）保持串行链（rerun → nodepth → Q7），
 /tmp/relay-v2.log 已留痕。教训：relay 链在飞时，其他会话不应手动启动链内的队列脚本；
 判断"该不该启动 X"前先查 relay 日志和父进程树。
+
+## 红队审视（2026-11-24 03:35，投稿就绪度三条件之"最狠质询有防御"）
+
+对象 = workshop draft 全文。按杀伤力列质询逐个判防御：
+
+| 质询 | 防御 | 判定 |
+|---|---|---|
+| budget 参数 vs realized nodes 混淆（soft cap 下"预算效应"归因不干净） | §2 明写 soft cap/lower bound with overshoot + 双轴报告 + realized 回归稳健性检查（gap_rate vs realized cor=−0.034 ns） | 守得住 |
+| metacognition 构念效度（测 elicited 非 spontaneous monitoring） | abstract 首句限定 + §6 [待核验] tag 是 82% 命中主成分的证据 + 三域 tag 占比差异本身是自发语言证据 | 守得住 |
+| gold 是 AI 重构设计者工件（cov 测的是相似度非真值） | "scores measure similarity to that reference, not ground truth" 明写 | 守得住 |
+| LLM depth 轴 self-bias（同模型评自己） | verbosity 控制臂（r=0.648 跟长度不跟 budget）+ 机械轴无峰值 + 控制臂脚本落盘 | 守得住 |
+| n=3/档功效不足 | "n=3 只能定拐点位置不能定强度" + 池化口径分离 + ANOVA 功效声明（large effect 21.5%） | 守得住 |
+| cache 共享压低方差（原批 300 sd=0 伪影） | 机制级（cache key 不含 rep）+ 行为级（rerun sd 2.2×/3.2×）双证据 + provenance 混合声明 | 守得住 |
+| retrieval_rate 测量盲区（~20% 疑似假 search tag） | "upper bound on true retrieval rate" 明写 + gap_rate 是构造无关的干净分量 | 守得住 |
+| **跨模型泛化（§2 "should hold across models of similar capability"）** | **§7 自己写 capability 轴 planned not run — 正文 claim 了没跑的泛化** | **真实缺口 → 已修** |
+
+**修复（commit）**：§2 跨模型句降级 "should hold" → "we expect to hold but have not yet tested — the capability axis is planned, not run (§7), so cross-model generalization is a hypothesis to be verified, not a finding"。
+
+**结论**：draft 防御密度高（控制臂×3：bare-arm/verbosity/llm-vs-mech；诚实降级×6：n=3/era-scoped/detector-scoped/GPU-domain/upper-bound/hypothesis-not-finding）。红队后投稿就绪度三条件全过：结构完整 ✓ 承重数字对账 ✓（4 sd 值+104 加法+abstract 强度）最狠质询有防御 ✓（1 处缺口已修）。剩余提升项不变：r3 落地（n=3 方差探针）+ nodepth 拆墙批 + Q7 第三域。
