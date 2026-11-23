@@ -78,17 +78,22 @@ for i in range(1, len(tiers)):
         sat = tiers[i]
         break
 
-# 跨题对比 (Q6 域内 gold 的 cov 曲线 — 与 Q7 cov 轴同口径; 原批 q6-gold-rescore.json)
-# 注意: 原批 300 档三 rep 同分 0.1304 (cache 伪影, sd=0), rerun rep 隔离值 = 0.138
-# (见 draft §4.3 provenance 说明); 形状结论对 300 取 0.1304 或 0.138 均稳健 (单调)
+# 跨题对比 (Q6 域内 gold 的 cov 曲线 — 与 Q7 cov 轴同口径)
+# 口径修正 (2026-11-24 03:12): 300 档用 rerun rep 隔离值 0.138 (原批 0.1304 是 cache 伪影,
+# sd=0, 见 draft §4.3 provenance); 719 档 Q6=0.167 是深度墙下界 (max_depth=4, realized
+# 197/351/379), Q7 719 是拆墙干净值 (max_depth=10) — 跨题 719 档直接对比会系统性低估 Q6,
+# 只能比 50/100/150/300 四档 (无深度墙 confound), 719 档单列标注。
 q6_cmp = None
+q6_cmp_719 = None
 q6f = os.path.join(ROOT, "modules", "B-pipeline-ablation", "data", "q6-budget-scan", "q6-gold-rescore.json")
 if os.path.exists(q6f):
     q6 = json.load(open(q6f))
     q6_tiers = {}
     for r in q6:
         q6_tiers.setdefault(r["budget"], []).append(r["cov"])
-    q6_cmp = {b: round(statistics.mean(v), 4) for b, v in sorted(q6_tiers.items())}
+    q6_cmp = {b: round(statistics.mean(v), 4) for b, v in sorted(q6_tiers.items()) if b != 719}
+    q6_cmp_719 = round(statistics.mean(q6_tiers.get(719, [0])), 4)
+    q6_cmp["300_rerun_rep_isolated"] = 0.138  # rerun rep 隔离值 (draft §4.3 口径); 原批 0.1304 是 cache 伪影
 
 result = {
     "gold_units": len(gu),
@@ -97,6 +102,7 @@ result = {
     "tier_summary": summary,
     "cov_saturation_point": sat,
     "q6_cov_curve_comparison": q6_cmp,
+    "q6_cov_719_depth_ceiling_lower_bound": q6_cmp_719,
 }
 json.dump(result, open(OUT, "w"), ensure_ascii=False, indent=1)
 print(f"\n=== Q7 域内 gold 分析 ({len(gu)} units, n={len(recs)} runs) ===")
@@ -105,5 +111,6 @@ for b in tiers:
     print(f"  {b:>4}: n={s['n']} cov={s['cov_mean']:.4f} (sd {s['cov_sd']:.4f}) total={s['total_mean']:.4f} metacog={s['metacog_mean']:.4f} n_nodes={s['n_nodes_mean']}")
 print(f"cov 饱和点: {sat if sat else '未达 (全程增益 >= 0.01)'}")
 if q6_cmp:
-    print(f"Q6 cov 曲线对比 (原批口径, 300 档 cache 伪影 0.1304): {q6_cmp}")
+    print(f"Q6 cov 曲线对比 (300 档 rerun rep 隔离 0.138, 719 档单列为深度墙下界): {q6_cmp}")
+    print(f"Q6 719 档 cov={q6_cmp_719} — 深度墙下界 (max_depth=4, realized 197/351/379), 不与 Q7 719 直接对比")
 print(f"→ {os.path.basename(OUT)}")
