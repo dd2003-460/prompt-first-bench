@@ -91,6 +91,20 @@ CUR 口径逐 rep:
 - **对"预算控制覆盖度"假设的修正**: 假设成立区间是 50-300（预算受限区）; 719 档超出该区间, 需单独标注。claim 措辞: "预算控制覆盖度在 50-300 节点区间成立（judge total 单调升）; >350 节点受 max_depth=4 约束, 预算轴失效"
 - **分数验证（21:31, 719-r1 已入 scores）**: judge total=0.4000, metacog=0.2304, cov=0.000（跨域 artifact, 预期）; **719-300 差 = -0.0232**（719 反而略低于 300 档 mean 0.4232）→ 直接证实 719 档非预算档: 若真是 719 预算, 分数应明显 > 300 档; 实际 351 节点深度受限, 分数与 300 档持平/略低。max_depth 发现从"停止原因推断"升级为"分数证据确认"
 
+### 跨域命中相似的 per-run 核验 (22:48, 排除 cache 共享)
+- **异常信号**: 300 档和 719 档的 per-rep 跨域命中模式几乎相同 (300-r3 和 719-r3 命中完全相同的 2 个 unit: N-1.2.2 + N-1.3) — 不同预算档不该这么像
+- **核验 query 重叠**: 300-r3 (152 unique queries) vs 719-r3 (99 unique queries) → **overlap = 0 (0%)**; claim 80-char prefix 重叠 = 0/197 (0%)
+- **结论: 不是 cache 共享** (query/claim 零重叠, 若共享 cache 则 query 必重叠)。是内容在通用硬件成本概念上**真实收敛** — 不同预算档都讨论"电费/功耗/电价"这些通用词, 所以命中同一组 N-1.x unit
+- **支撑 draft 归因**: 跨域命中 = 5 个通用硬件成本 unit (非 cache artifact), 与 §7 (ii) "generic hardware-cost" 声明一致
+- **per-run 命中明细** (GPU gold 36): 300-r2={N-1.1:2,N-1.2:1,N-1.2.1:1,N-1.2.2:2}=6, 300-r3={N-1.2.2:1,N-1.3:1}=2, 719-r2={N-1.2:2,N-1.2.1:1,N-1.2.2:3}=6, 719-r3={N-1.2.2:2,N-1.3:3}=5, 719-r1=0, 719-r3 跨域 cov=0.056(2/36 按 judge 口径, per-run 命中 5 是 cos 阈值下的 raw 计数, judge cov 用 n_confirmed 口径)
+
+### Q7 扫描前置准备 (22:50)
+- Q7 question 文件就位: bench/questions/Q7-storage-arch.txt (2442 bytes)
+- Q7 gold 树就位: bench/rubric-v3/ablation/gold-Q7.md (17321 bytes)
+- **Q7 gold units 已生成**: data/gold-q7-units.json (52 units, kind={split:10,leaf:38,None:4}, depth_dist={0:1,1:9,2:40,3:2}) — 与 draft §7 声明 "Q7 52 units" 一致
+- **Q7 扫描不能现在跑**: rep 独立重跑队列 (300/719×3, ~6h) 正在用 vLLM, 并发破坏同负载前提 (NVFP4+MTP 并发非确定)。Q7 扫描须等重跑队列跑完接力
+- Q7 扫描 = 第三域验证 (GPU + Q6 + Q7), 支撑 general methodology 声明的最后一块数据
+
 ### 719-r3 落地 (22:31, 队列 11929 退出, 15/15 完成)
 - **n_nodes=197 (stdout `[SM] max_depth=4 hit` — 深度墙, 非自然停止)** — r3 只展开 197 节点, 比 r1(351)/r2(379) 少一半以上, **rep 间 realized 方差极大 (197-379, 跨度 182 节点)**
 - judge=0.4278 (跨域 GPU gold: depth 0.8 顶格, cov 0.0556=2/36); in-domain cov (Q6 gold 46) = 0.1304 (6/46) — **恰好等于 300 档 0.130**
