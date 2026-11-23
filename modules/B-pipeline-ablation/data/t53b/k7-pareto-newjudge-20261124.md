@@ -564,3 +564,17 @@ v1 只比对了 ~400 节点档 (GPU 300 + Q6 300) vs Q6 719 墙切, 得出"平�
 → **gold 标度 caveat**: +0.0748 (GPU 36-unit) vs +0.0739 (Q6 46-unit) 在不同标度上, 不是可直接比的量级 — 归一化后 GPU 0.00208/unit/200节点 vs Q6 0.00161 (Q6 ≈ GPU 的 78%)
 → **低 n caveat**: GPU 400-600 n=3, 600-800 n=2; Q6 600-800 n=1 — "归零/转负"是低 n 端点, 方向可信强度待 r2/r3
 → 机制锚 v2 的 "marginal yield falls to ~0" 精化为 "marginal yield drops sharply past ~400 (knee at ~400, zero at ~600-800 for GPU)"
+
+## 机制锚 v3 精化: 连续拟合不支持"~400 锐拐点" (2026-11-24 06:55, 负结果)
+
+log 模型 (cov = a*ln n + b, 收益递减的自然形式):
+- GPU: cov = 0.0869*ln(n) - 0.1794, R²=0.40 — 拟合差, 且 log 永不平台 (预测 n=100→0.223, n=700→0.396 持续缓升)
+- Q6: cov = 0.0456*ln(n) - 0.1275, R²=0.57 — 同上
+饱和模型 C*(1-e^(-n/k)): 两域都退化到平凡解 (C→0, k→∞, R²=1.000 无意义)
+箱均值 se:
+- GPU 400-600 vs 200-400: Δ=+0.0363, se_diff=0.0323 → 1.12× (勉强超噪声, 不显著)
+- GPU 600-800 vs 400-600: Δ=0.0000, se_diff=0.0472 → 0.00× (完全噪声内)
+- 高箱 se_mean: 400-600 n=3 se=0.0262 / 600-800 n=2 se=0.0393 (与箱间步长同量级)
+→ **"knee at ~400" 是分箱均值层面观察, 不是连续函数拐点**; robust claim = 方向 (yield declines past ~400, 600-800 箱两域都平/降), 不是锐度
+→ draft 已按 v3 限定 (commit 99ef14ac2): "declines past ~400 ... only marginally resolvable (1.12× se) ... continuous fit does not confirm a sharp knee ... robust claim is the direction, not the sharpness"
+→ 机制核心句保留: 模型不知道 (gain 始终高) → 平台是 harness 性质, 不是模型性质
