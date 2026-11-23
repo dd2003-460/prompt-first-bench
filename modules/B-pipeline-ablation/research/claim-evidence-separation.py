@@ -88,6 +88,14 @@ def main():
         for lab, ns in [('[待核验] prompt指示', tag), ('其余7词 自发', oth)]:
             q = hasq(ns) / len(ns) if ns else 0
             print(f'  {lab}: n={len(ns)}, search_query 率={q*100:.0f}%')
+        # 补充43: 分层梯度 (claim 缺口 × source → query 率)
+        print(f'  分层梯度 (有缺口/无缺口 query 率):')
+        for src in ['search', 'knowledge', 'given']:
+            sg = [n for n in nodes if n.get('source') == src and DEFENSIVE_RE.search(str(n.get('claim', '')))]
+            sn = [n for n in nodes if n.get('source') == src and not DEFENSIVE_RE.search(str(n.get('claim', '')))]
+            gq = hasq(sg) / len(sg) if sg else 0
+            nq2 = hasq(sn) / len(sn) if sn else 0
+            print(f'    {src:9s}: {gq*100:5.0f}% (n={len(sg):4d}) / {nq2*100:5.0f}% (n={len(sn):4d})  Δ={100*(gq-nq2):+4.0f}pp')
         print()
 
 
