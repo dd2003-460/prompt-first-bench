@@ -1074,8 +1074,11 @@ GPU rep-scan 3849 节点：
 三域全显著（p<0.001）。claim 缺口标记的节点更可能生成 search_query（检索触发器）。
 
 **排除混杂**（prompt 指示 vs 自发）：
-- `[待核验]`（prompt 指示，prompts.py:78/312）：n=319，search_query 率=**84%**
-- 其余 7 词（自发）：n=30，search_query 率=**23%**
+- `[待核验]`（prompt 指示，prompts.py:78/312）：GPU n=319 84% / NAT n=82 76% / SOC n=260 78% 触发检索
+- 其余 7 词（自发）：GPU n=30 23% / NAT n=16 6% / SOC n=170 49%
+
+**关键区分 — 触发链存在，但 (a) 是 prompt-elicited 的**：
+prompts.py:337 规定 search_query 仅对 source=search 节点必填（given/knowledge 可为空）；line 335 的 source 由**模型判断**（"必须联网查证的事实"标 search）。所以 `[待核验]`→search_query 的 76-84% 不是 prompt 机械规则直接触发，而是模型把"我知道我不确定"（claim 缺口标记）落实为"这个事实需要外部查证"（source=search 判断）→ 生成检索词。这是 (a)→(b) 的**功能性触发**，但 (a) 端依赖 prompt 指示标 `[待核验]`（补充37），所以整条链是 prompt-elicited 形式：去掉 prompt 脚手架，自发监控基本不触发检索（其余 7 词 6-49% ≈ baseline）。
 
 ### 结论（纠正）
 
