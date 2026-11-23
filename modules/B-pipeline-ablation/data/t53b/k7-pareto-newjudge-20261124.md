@@ -119,3 +119,26 @@ cov 全 = 0.0278、total 全 = 0.4139——跨 run 完全相同，不可能。
 **修复**: 三个队列脚本（rerun/nodepth/Q7）的评分块改为显式加载对应域 gold 并传
 `gold_units=`。rerun 队列在飞（719 r2 在跑），修复对后续 run 生效；已落地的 4 个 run
 的 scores 条目是 GPU gold 口径，不可用于 Q6 域内分析（scores 文件已追加 _NOTE 说明）。
+
+## GPU 719 平台非深度墙伪影（per-rep 核验，2026-11-24 03:10）
+
+**最强审稿攻击**: "GPU 719 档 cov 平台（300→719 Δ=−0.006）是不是深度墙伪影？K7 用
+max_depth=5，719 档 r2/r3 撞了深度上限（665/747 节点），cov 被墙压低，拆墙后会升——
+那'饱和点域依赖'的 headline 就被 confound 了。"
+
+**核验（per-rep，archive 树 ground truth，GPU gold，judge_v1 确定性）**:
+- 719 档: r1 n=381 cov=0.333 / r2 n=665 cov=0.417 / r3 n=747 cov=0.306
+- 300 档: r1 n=391 cov=0.472 / r2 n=364 cov=0.389 / r3 n=415 cov=0.417
+
+**判读**: 719 档内 cov 不随 realized 节点数升——747 节点（最大树，撞深度上限）cov=0.306
+是全场最低，比 300 档均值 0.358 还低。若深度墙在压制 cov，最大树（展开最多）该 cov 最高；
+实际相反。**300 之后的额外节点是横向铺开（breadth），不在 gold 主干上，不贡献覆盖**——
+这正是"budget buys breadth, not coverage"机制的 per-rep 证据。深度墙不是压制 cov 的
+confound，而是"额外预算买不到覆盖"的机制本身：树撞到深度上限后只能横向长，横向节点
+非 gold 相关。
+
+**结论**: GPU 719 平台是真的饱和（cov 不随节点数升），不是深度墙伪影。"饱和点域依赖"
+headline 不被此 confound 打穿。Q6 719 档（max_depth=4，realized 197/351/379）的"还在升"
+是另一回事——那是纯深度墙 regime（cov 是下界），拆墙批（max_depth=10）落地后才能定 Q6
+的真实饱和点。两域的 max_depth 不同（GPU=5, Q6 原批=4）是已知 confound（draft §7(c)），
+但 GPU 侧的平台不依赖"墙没压 cov"这个假设——per-rep 数据直接证明 cov 不随节点数升。
