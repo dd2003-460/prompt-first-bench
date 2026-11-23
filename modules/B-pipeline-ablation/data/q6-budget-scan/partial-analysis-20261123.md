@@ -249,3 +249,10 @@ CUR 口径逐 rep:
 - **对 cache 共享假设的最终定位**: 机制成立 (代码 key 不含 rep + 算术命中>写入), 但**"压低 rep 方差"的行为证据弱** — cov sd=0 被分辨率饱和解释, metacog 无压低迹象。cache 共享主要省网络查询 (wall time), 对内容方差的压低有限
 - **重跑批判据修正**: 判据从"300 cov sd 从 0 回升"改为"**300 metacog sd 对照**" (cov 分辨率饱和, 回升空间有限, 不可靠)。若重跑 metacog sd ≈ 原批 0.026 → cache 共享对内容方差无显著压低 (假设行为影响弱, 结论: cache 共享只省 wall time); 若显著 > 0.026 → 有压低
 - **本轮证据链终态**: cache 共享机制=代码+算术 (硬); 行为影响=弱 (cov 分辨率饱和 + metacog 有方差)。重跑批从"唯一定量手段"降级为"确认 cache 共享是否影响内容方差 (大概率: 不影响)"
+
+### struct 轴也是跨域 gold 问题: GOLD_DEPTH=5 是 GPU gold, Q6 gold 最大深度=3（23:15）
+- **Q6 gold 深度分布**: depth 0:1, 1:8, 2:34, 3:3 → 最大深度 3 (46 units)
+- **judge GOLD_DEPTH=5**: 来自 GPU gold (37 units, 5 层深), 用于 struct 归一 (depth_score = max_depth/GOLD_DEPTH)
+- **后果**: 所有 ≥50 档 run 都到 L3 (50 档 max_depth=3), struct=3/5=0.6; ≥150 到 L4, struct=4/5=0.8。若用 Q6 正确深度 (3): 50 档=3/3=1.0, ≥150=4/3→1.0 → **struct 全饱和, 无预算区分度**
+- **含义**: Q6 的 budget-coverage 曲线**完全由 cov 轴驱动**, struct 轴是常数。Q6 gold rescore 时 struct 仍用 GPU 的 0.6/0.8 (未修正), 但 cov 差异 (1-9 unit) 远大于 struct 差异 (0.2), 不影响排序
+- **修复**: 跨域 judge 需传 Q6 gold 的 GOLD_DEPTH=3 (或从 gold units 自动推), 否则 struct 轴跨域失真。当前不影响 cov 结论, 但 struct 绝对值不可用
