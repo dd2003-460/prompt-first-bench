@@ -343,3 +343,19 @@ gap-rate-anova-rep-scan.py + gap-detector-domain-bias.py 重跑 + 独立重算 A
 - **r=0.861 (self-judge 旧 LLM-judge cov 轴)**: 历史轴, 旧 judge 已弃用, 不可重算 — draft 已标 "with an older LLM-judge cov axis", 口径正确。
 - **0.8× (retrieval_rate 下界)**: 定性上界声明 (~20% 疑似误标), 非精确统计量, 无需重算。
 - 结论: draft 全部承重数字 (核心曲线/cor/分箱/控制臂 9 统计量/difficulty 梯度/L4 0/21/detector-robustness F 值/方差探针/depth 相关/soc boundary) 全部对数据源独立重算通过; 唯一不可重算项 (r=0.861) 是已弃用历史轴且 draft 已正确标注。
+
+## 红队复审 (era confound 降级后, 2026-11-24 05:15, commit ef3dba43f)
+
+旧 red team (8 质询) 在 era confound 降级**之前**做的, headline 已变 (nominal ~300 平台 → realized ~400 平台 + pre-clamp caveat), 最狠一刀落在新口径上。聚焦重审降级后 headline:
+
+**最狠质询**: "平台在 ~400, 但平台段 (400-600 箱 + 600-800 箱) 只有 n=3 + n=2 = 5 棵; 顶部两箱均值差恰好 0.0000, 而全 30 棵 run-to-run 噪声底 sd=0.078 —— 两箱相等在噪声范围内, 你的平台是 5 个点的形状声明, 不是受控估计。"
+
+**核验 (source ①, /tmp/gpu30-unified.json)**:
+- 平台段 5 棵: 415→0.4167 / 423→0.3611 / 462→0.3056 / 665→0.4167 / 747→0.3056
+- 400-600: n=3 mean=0.3611 sd=0.0556; 600-800: n=2 mean=0.3611 sd=0.0786
+- 两箱差 0.0000 vs 噪声底 0.0779 → 确实在噪声范围内
+- cor=+0.563 (df=28) 用的是全部 30 棵, 承载"上升"部分; "走平"是弱的一半
+
+**防御**: 诚实降级落盘 (draft §7 data note (d)(i) 补 plateau-segment caveat: "flat top is a shape statement at n=5, not a controlled estimate — the cor carries the rise, the plateau's flatness is the weaker, low-n half of the claim")。claim 本身没改 (平台位置 ~400 不变), 只把强度标清楚。
+**abstract 检查**: abstract 说 "plateaus near the same ~400-realized-node point" 并指向 §7 data note (d) — caveat 在正文, abstract 不超正文强度, 通过。
+**其余质询 (降级后口径)**: 数字全过 (本轮数字审计) / pre-clamp 已全 draft 口径化 (本轮 3 处修复 + 一致性扫描) / 跨域 confound 已标 "not a clean same-budget different-domains" / 决定性测试已排 (nodepth 在跑 + Q7) — 无新缺口。
