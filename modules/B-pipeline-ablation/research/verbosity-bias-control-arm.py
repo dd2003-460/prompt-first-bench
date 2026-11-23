@@ -85,6 +85,25 @@ print(f"cor(length, budget) = {corr(L, B):+.3f}  (t={tval(corr(L, B)):+.2f})")
 print(f"cor(LLM, budget)    = {corr(D, B):+.3f}  (t={tval(corr(D, B)):+.2f})")
 print(f"partial(LLM, length | budget) = {partial(D, L, B):+.3f}")
 print(f"partial(LLM, budget | length) = {partial(D, B, L):+.3f}")
+
+# Robustness: rank-based + outlier-dropped
+from scipy import stats
+rho, p_s = stats.spearmanr(L, D)
+print(f"\nrobustness: Spearman rho = {rho:+.3f} (p={p_s:.4f})")
+top2 = np.argsort(L)[-2:]
+m1 = np.ones(n, dtype=bool); m1[top2] = False
+r1 = float(np.corrcoef(L[m1], D[m1])[0, 1])
+print(f"drop 2 longest: r={r1:+.3f} (n={m1.sum()})")
+bot2 = np.argsort(L)[:2]
+m2 = np.ones(n, dtype=bool); m2[bot2] = False
+r2 = float(np.corrcoef(L[m2], D[m2])[0, 1])
+print(f"drop 2 shortest: r={r2:+.3f} (n={m2.sum()})")
+print("within-tier LLM~length:")
+for b in sorted(set(B)):
+    mb = B == b
+    if mb.sum() >= 2:
+        print(f"  budget={int(b):4d} (n={mb.sum()}): r={float(np.corrcoef(L[mb], D[mb])[0, 1]):+.3f}")
+
 print("\nper-run:")
 for r in sorted(llm):
     if r in ans_len:
