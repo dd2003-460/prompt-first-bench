@@ -115,3 +115,20 @@ K7 14 棵逐棵核验：空源率 0-90% 随机分布，与 vsr 值无相关（co
 → §4.4 的 vsr 预算趋势是机械轴上 robust 的预算相关发现
   （不依赖 LLM depth，不受通道故障混淆），可作 finding #3 重定位后的
   预算-质量主张支撑之一（与 L4 zero-convergence 并列）。
+
+## 补充6（10:31）：metacog 轴 budget-invariant（两轴分离的干净证据）
+rep-scan 13 棵 metacog 轴按 budget 档：
+  b100(n=5): gap 0.099 ret 0.349 hg 0.861 total 0.246
+  b150(n=5): gap 0.100 ret 0.294 hg 0.895 total 0.247
+  b300(n=3): gap 0.130 ret 0.321 hg 0.875 total 0.239
+→ metacog total 跨 budget 平（0.246/0.247/0.239），无 150 峰；
+  gap 分量微升（0.099→0.130）但 total 不升。
+对照 83-run：gap 0.067（全语料）/ gpu 0.102，rep-scan gap 0.107 与 gpu 一致。
+
+**意义**：这是两轴分离最干净的实证——
+  quality/breadth 轴随预算单调升（cov 0.26→0.35），
+  metacog 轴跨预算不变（total 0.24 平）。
+  预算买 breadth，不买 metacognition。
+→ 这条 robust 主张（metacog budget-invariant）不依赖 LLM depth 轴，
+  可作 finding #3 重定位后的核心预算主张（与 L4 zero-convergence、
+  vsr 趋势并列）。n=5/5/3，suggestive 但方向清晰。
