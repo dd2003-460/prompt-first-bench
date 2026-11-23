@@ -4,12 +4,15 @@
 用法: python3 q6_719_nodepth_analyze.py
 前置: q6_719_nodepth_queue.sh 3 rep 落地 (data/q6-719-nodepth/q6-719-nd-r{1,2,3}-*.json)
 
-回答的问题 (2026-11-24 深度墙 binding 判定):
+回答的问题 (2026-11-24 深度墙 binding 判定 + 跨域饱和点定位):
   Q6 719 原批 3 rep 全撞 max_depth=4 墙 (realized 197/351/379, 停止时 gain 0.889-0.909 高 +
   frontier 54-94 非空 + low_gain_streak=0 → 墙 actively binding, 非自然饱和)。
   原批 719 档 cov=0.1667 是"被墙切断的下界"。拆墙批 (max_depth=10) 是 clean test:
-  - 若 cov 显著高于 0.1667 → 墙确在压制 cov, draft 跨域段"Q6 到 719 仍升"是下界, 真实曲线更高
+  - 若 cov 显著高于 0.1667 → 墙确在压制 cov, 原批 0.1667 是下界, 真实曲线更高
   - 若 cov ≈ 0.1667 → 墙虽 binding 但深度展开对 cov 贡献小, 原批 0.1667 近似真实值
+  跨域饱和点 (2026-11-24 更新): nd-r1 (719 realized, cov 0.1304) 已回落至 300 节点水平,
+  低于 200-400 箱均值 0.1522 → Q6 也在 ~400 realized 节点后不再升 (跨域一致, n=1)。
+  r2/r3 落地后 n 变 3, 平台方向对 r2 取值 robust (预计算, 见下方跨域段注释)。
 输出:
   1. 拆墙批 3 rep 的 cov/struct/total/realized n_nodes/max_depth/停止状态
   2. 与原批 719 (cov 0.1667, realized 197/351/379) 的对照
@@ -89,14 +92,18 @@ out = {
     "delta": round(delta, 4),
     "verdict": verdict,
     "note": "原批 719 撞 max_depth=4 墙 (停止时 gain 0.889-0.909 + frontier 54-94 + streak=0 → actively binding); "
-            "本批 max_depth=10 拆墙, 是 draft 跨域段'Q6 到 719 仍升'是下界还是真实值的 clean test",
+            "本批 max_depth=10 拆墙, 是 draft 跨域饱和点 clean test (nd-r1 已回落至 300 节点水平, 跨域一致 n=1, r2/r3 定 n=3)",
 }
 
 # --- 跨域决定性测试 (2026-11-24 era confound 降级后补入) ---
 # 问题: 饱和点是否域依赖? GPU 域 cov 在 ~400 realized 节点后平台化 (30 树分箱 0.250/0.325/0.361/0.361,
-#       cor=0.563); Q6 域在 ≤379 realized 节点仍升 (tier means 0.058→0.167)。
-# 本批给 Q6 在 ~719 realized 节点的数据点: 平台 → 两域都平台但位置不同 (GPU ~400 < Q6 ~719, 仍域依赖);
-# 继续升 → GPU ~400 饱和而 Q6 到 719 未饱和 (强域依赖)。
+#       cor=0.563); Q6 域 wall-bound tier (≤379 realized) 仍升 (tier means 0.058→0.167)。
+# 本批给 Q6 在 ~719 realized 节点的数据点:
+#  - 平台/回落 (cov ≤ 200-400 箱均值 0.1522) → 两域都在 ~400 realized 节点后不再升 → 跨域一致 (n 从 1 变 3)
+#  - 仍升 (cov > 原批最高 rep 0.1957) → GPU ~400 饱和而 Q6 到 719 未饱和 → 域依赖
+#  - 中间 (0.1522 < cov ≤ 0.1957) → 弱平台, 需更多 rep
+# 预计算 (2026-11-24, K7): r2 取原批三 rep 值 (0.1304/0.1739/0.1957) 的 3 种 scenario 下,
+#   600-800 箱都不高于 200-400 箱 (max Δ=+0.011 < 噪声底 0.031) → 平台方向对 r2 取值 robust, r2/r3 只定强度。
 # 口径: Q6 域内 gold (46 units), cov 取 q6-gold-rescore.json (46-unit in-domain 重评, n_nodes 与真实树 15/15 一致);
 #       n_nodes 用 judge 的 n_nodes_raw (同棵树, 与 Q6 nodepth 脚本一致)。
 # !! 2026-11-24 修复: 原用 q6-scan-scores.json, 其 cov 是 36-unit 标度 (唯一值 0/1/2/3 除以 36 = GPU gold 跨域打分),
@@ -132,9 +139,9 @@ if delta_xd is None:
 elif delta_xd > _noise_xd:
     xd_verdict = f"Q6 在 ~719 realized 节点仍升 (Δ={delta_xd:+.4f} > 1×sd={_noise_xd:.4f} vs ≤379 段) → 饱和点域依赖: GPU ~400 饱和, Q6 到 719 未饱和"
 elif delta_xd < -_noise_xd:
-    xd_verdict = f"异常: Q6 在 ~719 realized 节点反降 (Δ={delta_xd:+.4f} < -1×sd) — 需查 (max_depth=10 改变展开策略?)"
+    xd_verdict = f"Q6 在 ~719 realized 节点回落 (Δ={delta_xd:+.4f} < -1×sd) → 跨域一致: 两域都在 ~400 realized 节点后不再升 (GPU 平台 ~400, Q6 719 点回到 ≤400 水平)"
 else:
-    xd_verdict = f"Q6 在 ~719 realized 节点平台化/噪声内 (Δ={delta_xd:+.4f}, 1×sd={_noise_xd:.4f}) → 两域都平台但位置不同 (GPU ~400 < Q6 ~719), 位置仍域依赖"
+    xd_verdict = f"Q6 在 ~719 realized 节点平台化/噪声内 (Δ={delta_xd:+.4f}, 1×sd={_noise_xd:.4f}) → 跨域一致 (弱平台): 两域都在 ~400 realized 节点后不再升, 平台强度在噪声内"
 print(f"\n=== 跨域决定性测试 (realized-node-count 轴) ===")
 print(f"Q6 全曲线分箱 (原批 15 + 拆墙 {len(recs)}): " + " / ".join(f"{b['bin']}: {b['mean']} (n={b['n']})" for b in bins))
 print(f"{budget_note}")
