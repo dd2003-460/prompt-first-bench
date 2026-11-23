@@ -1011,3 +1011,33 @@ obs 1 的 "deeper nodes verify more often, depth is not a verification cliff" �
   search 可验证性也降 — 更深的节点更不可验证。
 - 承重: 这是 §4.4 的 obs 1, 不是 4 个主 findings 之一, 但 obs 1 的 "depth is not a
   verification cliff" 被反向证据 (search ver% 下降) 推翻。
+
+## 补充39 (2026-11-23 17:50): verbosity bias 控制臂 — LLM depth 跟踪答案长度, 解锁 dead end
+
+### 解锁
+
+draft §4.3 明说 "无法检验 verbosity bias (需重跑 GPU, dead end)" — 因为认为
+15 K7 synthesis 答案没存盘。实际**全在盘上**: 每个 archive budget 目录里都有
+runs-s5-sm-gpu-synth.json (answer_len 8666-26444)。"没存盘"结论是错的 (与补充30
+同类: 没查 archive 就断言数据缺失)。
+
+### 结果 (n=15, df=13)
+
+- cor(LLM_depth, answer_length) = **+0.648** (t=+3.07, p<0.01) — 显著
+- cor(length, budget) = +0.153 (ns) — 答案长度不由预算驱动
+- cor(LLM_depth, budget) = +0.135 (ns)
+- partial(LLM, length | budget) = **+0.641** — 控制预算后 LLM↔长度相关仍在
+- partial(LLM, budget | length) = **+0.047** — 控制长度后 LLM↔预算相关消失 (原 +0.135)
+
+### 机制
+
+LLM depth 分跟踪答案**长度**, 不是预算。150 档 "peak" (0.474/0.518) 因为那组答案
+恰好最长 (24770/24197 字符), LLM judge 奖励长答案 — **verbosity bias**。
+
+### 对 paper 的影响
+
+- §4.3 归因升级: peak 不只是 "flat self-biased 轴上的 rubric noise", 有具体机制
+  (verbosity bias)。abstract finding (3) + §4.3 provenance 同步。
+- robust claim 不变: peak 在 bias-immune 机械轴上不存在 (0/21 L4 + 3-level step)。
+- 承重脚本: `research/verbosity-bias-control-arm.py` (numpy 独立复现)。
+- 第 3 个控制臂 (前两个: llm-vs-mech r=+0.049 对象独立; verbosity r=+0.648 长度驱动)。
