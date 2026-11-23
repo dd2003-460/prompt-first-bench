@@ -9,7 +9,7 @@
 两个扰动轴:
   A. gold 扰动: 随机删 10% gold units (5 seeds) → 重算 cov, 看 |Δcov|
      解读: 模拟"gold 少建了 10% unit" — 若 Δ 小, cov 对 gold 完备性不敏感
-  B. 阈值扰动: cos_threshold 0.75±0.05 → 重算 cov, 看 |Δcov|
+  B. 阈值扰动: cos_threshold 0.70±0.05 (官方基线) → 重算 cov, 看 |Δcov|
      解读: 匹配阈值是超参, 若 Δ 小, cov 对阈值不敏感
 
 对象: GPU K7 15 棵 archive 树 (承重数字 cor=0.563 的语料)。
@@ -42,10 +42,12 @@ def covs(nodes_list, gold_units, thr):
         out.append(s)
     return out
 
-base = covs(nodes_list, gold, 0.75)
+# !! 2026-11-24 修正: 基线必须用官方阈值 0.70 (judge_v1 COS_THRESHOLD, 标定: 0.80 塌 0.015,
+#    0.70 覆盖 0.350 且区分度好)。首版误用 0.75 → 基线 0.0981 比官方口径 0.3185 低 3.2 倍, A 段结论作废。
+base = covs(nodes_list, gold, 0.70)
 base_mean = statistics.mean(base)
 base_sd = statistics.stdev(base)
-print(f"\n基线 (thr=0.75, 全 gold): mean cov = {base_mean:.4f} (sd={base_sd:.4f})")
+print(f"\n基线 (thr=0.70 官方, 全 gold): mean cov = {base_mean:.4f} (sd={base_sd:.4f})")
 
 # A. gold 扰动: 删 10% (5 seeds)
 print("\n=== A. gold 扰动 (随机删 10% units, 5 seeds) ===")
@@ -55,7 +57,7 @@ for seed in [1, 2, 3, 4, 5]:
     n_drop = max(1, int(len(gold) * 0.10))
     keep = set(rng.sample(range(len(gold)), len(gold) - n_drop))
     g = [gold[i] for i in sorted(keep)]
-    c = covs(nodes_list, g, 0.75)
+    c = covs(nodes_list, g, 0.70)
     d = statistics.mean(c) - base_mean
     gold_pert.append({"seed": seed, "n_gold": len(g), "mean_cov": round(statistics.mean(c), 4),
                       "delta_mean": round(d, 4)})
@@ -64,9 +66,9 @@ max_dA = max(abs(p["delta_mean"]) for p in gold_pert)
 print(f"  max|Δ| = {max_dA:.4f}  vs 噪声底 {base_sd:.4f} → {'< 1×sd: 对 gold 完备性不敏感' if max_dA < base_sd else '>= 1×sd: 对 gold 构建细节敏感, 承重结论需带误差带'}")
 
 # B. 阈值扰动
-print("\n=== B. cos 阈值扰动 (0.75 ± 0.05) ===")
+print("\n=== B. cos 阈值扰动 (0.70 ± 0.05, 官方基线) ===")
 thr_pert = []
-for thr in [0.65, 0.70, 0.80, 0.85]:
+for thr in [0.65, 0.75, 0.80, 0.85]:
     c = covs(nodes_list, gold, thr)
     d = statistics.mean(c) - base_mean
     thr_pert.append({"thr": thr, "mean_cov": round(statistics.mean(c), 4), "delta_mean": round(d, 4)})
@@ -89,7 +91,7 @@ for p in gold_pert:
 rng = random.Random(1)
 keep = set(rng.sample(range(len(gold)), len(gold) - max(1, int(len(gold)*0.10))))
 g1 = [gold[i] for i in sorted(keep)]
-c1 = covs(nodes_list, g1, 0.75)
+c1 = covs(nodes_list, g1, 0.70)
 pert_cor = cor(nn, c1)
 print(f"  gold 扰动 (seed=1, 删 10%) cor = {pert_cor:.4f}  Δ={pert_cor-base_cor:+.4f}")
 print(f"  判定: {'cor 方向与量级保持 → 平台/上升结论对 gold 扰动 robust' if abs(pert_cor - base_cor) < 0.15 else 'cor 漂移大 → 承重结论对 gold 构建敏感'}")
