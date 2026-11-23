@@ -9,7 +9,8 @@ spec: modules/B-pipeline-ablation/research/judge-v1.0-spec.md (frozen f6072397f)
   L-机械  数值正确性: sympy 结构等价 + 数值容差(默认 10%)。只覆盖含可提取公式的节点。
   L-结构  树完整性: 去重后深度/节点数/分支因子 vs gold(37节点,depth5)。
   L-覆盖  gold 匹配: bge-m3 cosine >= 阈值(默认 0.80) + MAGNET_LIMIT=3。
-综合:  total = w_mech*mech + w_struct*struct + w_cov*cov   (默认 0.4/0.3/0.3)
+综合:  total = 0.5*struct + 0.5*cov   (W_DEPTH/W_COV, 见 line 42;
+  旧 docstring 的 0.4/0.3/0.3 三层公式已废弃, 2026-11-23 修正)
 可复现: 确定性计算, 无 LLM, same input → same output。
 
 用法:
