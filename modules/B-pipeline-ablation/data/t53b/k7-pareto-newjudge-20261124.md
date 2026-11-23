@@ -431,7 +431,7 @@ D 三问 (原文): ①机械 judge 域特定 (特殊化), 怎么保证客观, �
 ## nodepth r1 拆墙 cov 初步信号 (2026-11-24 05:48, n=1 待 r2/r3)
 
 r1 落地 (max_nodes=719 触发, round 5, gain 0.965, frontier 269 非空, streak=1):
-- **cov=0.1304** (46-unit Q6 in-domain gold, judge_run 现算) / struct=1.0000 (depth 满分, 展开到 max_depth=10) / total=0.5652
+- **cov=0.1304** (46-unit Q6 in-domain gold, judge_run 现算) / struct=1.0000 (depth 满分: 树实际 6 层 L1:6/L2:27/L3:88/L4:271/L5:269/L6:58, min(6/5,1.0)=1.0, GOLD_DEPTH=5; **不是**展开到 max_depth=10 — 上限没撞到, round 5 撞满 719 节点预算停止) / total=0.5652
 - 对照原批 719 (被 max_depth=4 墙切断, realized 197/351/379): 均值 cov=0.1667, per-rep 0.1739/0.1957/0.1304
 - **Δ vs 原批均值 = -0.0363** (拆墙 r1 低于原批均值); vs 原批 r1 (realized 351) = -0.0435
 - realized 节点数: 原批 r1=351 (墙切) → r1 拆墙=719 (满预算), **节点翻倍 cov 反降**
