@@ -614,3 +614,42 @@ D 的 AGI 定义: (a)知道自己不知道 → (b)去查 → (c)推理。
 
 - 计算脚本: `research/gap-retrieval-node-level.py` (承重数字规则, 可复现)
 - 补充28 (run 层面) 结论被本条推翻, 保留原文供溯源
+
+## 补充30 (2026-11-23 13:50): 跨域复验 — 方向反转不普适, 且 48 run 节点级数据不可恢复
+
+### 跨域节点层面耦合 (3 域)
+
+| 域 | run 数 | 缺口节点 | def search占比 | nondef search占比 | z | run def>nondef |
+|----|--------|----------|----------------|-------------------|-----|----------------|
+| gpu | 15 | 391 | 0.660 | 0.275 | +15.55 | 15/15 |
+| nat | 1 | 7 | 0.857 | 0.132 | +5.32 | 1/1 |
+| soc | 1 | 22 | 0.091 | 0.230 | **−1.52** | 0/1 |
+
+**方向反转 (b)→(a) 不跨域成立**: soc 域是反的 (缺口节点 search 占比低于非缺口)。
+gpu/nat 正, 但 nat 只有 7 个缺口节点 (n=1 run), 撑不起结论。
+
+### 根因: 节点级数据 traceability 缺口 (与 0.147 同源)
+
+83-run 语料 (metacog-budget-scan-v1.1.json) 记录 22 nat + 27 soc 个 run, 但每条只有
+**run 级聚合** (n_defensive / n_search / source_counts), 无节点级字段。`file` 字段指向
+通用名 (runs-s5-sm-nat.json), 而流式 run 文件已被覆盖 → 那 48 个 run 的节点级细节
+(每个节点 source/status/claim) **不可恢复**。
+
+磁盘上 nat/soc 各只剩 1 个主 run 文件 (runs-s5-sm-nat.json / runs-s5-sm-soc.json),
+所以跨域节点层面检验实际只有 gpu 15 + nat 1 + soc 1 = 17 run, 其中 nat/soc 各 n=1。
+
+### 结论 (诚实口径)
+
+- 补充29 的方向反转是 **GPU 域单域发现**, 无法跨域确认 (48 run 节点级数据缺失)。
+- soc 域方向相反, 提示 (a)↔(b) 耦合可能域依赖 (GPU 题的检索结构 vs 社科题不同),
+  但 soc 只有 1 run, 不能下"域依赖"的结论, 只能标"未确认"。
+- **对 AGI 目标**: (a)→(b) 触发链在 GPU 域不存在 (检索是 harness 固定节奏) 这一结论
+  目前只在 GPU 域成立; 跨域推广需要重新跑 nat/soc 并保留节点级 checkpoint。
+- **数据纪律教训**: 节点级分析必须在 run 落盘时保留 checkpoint (别被流式覆盖),
+  否则事后无法做节点层面检验。这是 0.147 (run 级) 之后第二个 traceability 缺口,
+  这次是节点级。
+
+### 落盘
+
+- 跨域脚本: 本条内联 (未单列, 因 nat/soc 各 n=1 不值得固化独立脚本);
+  复现: 对 runs-s5-sm-{gpu,rep-scan,nat,soc} 各域跑 gap-retrieval-node-level.py 逻辑。
