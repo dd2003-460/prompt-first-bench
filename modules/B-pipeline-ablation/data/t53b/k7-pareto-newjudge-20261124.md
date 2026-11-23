@@ -232,3 +232,15 @@ nodepth r1 在跑（03:40 启动），relay 链下游三个环节逐一核验，
 
 脚本：research/verbosity-bias-control-arm.py / llm-vs-mech-depth-control-arm.py / gap-rate-anova-rep-scan.py。
 结论：§4.3 全部承重统计量 = 官方脚本输出，无口径漂移。数字审计覆盖范围：§7 4 个 sd 值（前轮）+ §4.3 9 个控制臂统计量（本轮）+ abstract 强度（前轮）+ 104 加法（前轮）+ References 17/17 真实性（本轮）+ 跨域 cov 曲线（前轮）。
+
+## 核心 claim 池化 cov 曲线对账（2026-11-24 04:05，数字审计之"承重数字对数据源重算"）
+
+GPU 域池化 cov 曲线（draft 核心 claim：~300 饱和）从数据源重算：
+- K7 15 条（gpu-rescore-newjudge-20261124.json, new_cov）+ rep-scan 15 条（rep-scan-scores.json, judge.cov）
+- 逐档池化：50=0.2593 / 100=0.2639 / 150=0.2778 / 300=0.3577 / 719=0.3519
+- K7 声称：50=0.259 / 100=0.264 / 150=0.278 / 300=0.358 / 719=0.352 → **精确一致**
+
+provenance 确认：K7 批用 new judge 重评（new_cov 字段），rep-scan 批原生 judge.cov（三层结构 total/depth/cov，量级 0.1-0.4 与 K7 new_cov 同口径）。池化同口径，无混 judge。
+结论：draft 核心 claim（GPU cov ~300 饱和）的承重数字 = 数据源重算值，无漂移。
+
+数字审计覆盖范围（累计）：§7 4 sd 值 + §4.3 9 控制臂统计量 + 核心 claim 池化 cov 曲线 5 档 + abstract 强度 + 104 加法 + References 17/17 真实性 + 跨域 cov 曲线。draft 全部承重数字已对账。
