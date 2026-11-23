@@ -73,12 +73,40 @@ E_cross 是内部概念与外部证据之间的耦合边。
 3. degraded 节点集中在激活子图的边界（内部概念与外部证据的接口处）
 4. rework 次数与耦合路径长度正相关（耦合路径越长，越容易失败）
 
-## 文献对标（待检索通道恢复后补）
+## 文献对标（2026-11-23 arXiv API 补，https 通道）
 
-- concept graph / concept lattice 文献
-- knowledge activation / knowledge graph activation 文献
-- attention as concept activation 文献（probing / interpretability）
-- knowledge graph completion 文献（耦合强度 ≈ 链接预测置信度）
+**核心声明撞车检查: "分解树 = 激活子图的树状投影 + 耦合图质量指标" — 无直接先例。**
+
+| 查询 | 结果 | 判定 |
+|---|---|---|
+| "decomposition tree" + "knowledge graph" | 空 | 无直接先例 |
+| "activation subgraph" + "language model" | 空 | 无直接先例 |
+| "tree projection" + "knowledge graph" + "decomposition" | 空 | 无直接先例 |
+| "decomposition tree" + "knowledge" + "reasoning" | 2 hit (见下) | 过程侧, 非激活投影 |
+
+**最接近的 5 篇 (都不构成撞车)**:
+1. *Reasoning over Hierarchical Question Decomposition Tree for XQA* (2023-05) —
+   分解树用于可解释 QA, 是过程侧 (如何分解问题), 不是"激活子图的树状投影"机制
+2. *PruneRAG: Confidence-Guided Query Decomposition Trees* (2026-01) —
+   分解树用于 RAG 检索, 过程侧, 无激活子图概念
+3. *Leveraging Spreading Activation for KG-Based RAG Retrieval* (2025-12) —
+   显式 KG 上的 spreading activation (检索侧), 最接近"激活"概念, 但作用于
+   **显式** KG (已有边), 不是 LLM **隐式** 激活子图; 无树状投影/耦合强度指标
+4. *Multi-granularity Concept Sparse Activation + Hierarchical KG Fusion* (2025-07) —
+   概念激活 + 分层 KG 融合, 融合框架, 无"分解树=投影"声明
+5. *Probing Neural Topology of LLMs* (2025-06) — probing 测拓扑, interpretability 侧,
+   无分解树/耦合图
+
+**结论: #48 新颖声明成立, 撞车风险低 (框架 2026-11-15 的判断被文献确认)。**
+最近邻是 ① 显式 KG 的 spreading activation (检索) + ② 分解树用于 RAG/QA (过程),
+两者都没统一 "隐式激活子图 → 树状投影 → 耦合强度指标" 这条链。#48 的增量 =
+把分解树重新定位为**隐式激活子图的树状投影**, 并定义耦合图质量指标
+(耦合覆盖率/平均耦合强度/耦合深度) — 这个组合无先例。
+
+**对可发表性的含义**: #48 能立住的不是"分解树"(已有) 也不是"激活"(已有),
+而是**两者的统一 + 耦合强度指标**。要发表需补: (a) 可证伪预测 1 的 probing 验证
+(无检索分解树节点数 ≈ 激活子图节点数), (b) 预测 2 的耦合覆盖率-bench 分数相关性。
+两者都可用现有 T53 数据 + bge-m3 probing 做, 不依赖新 GPU 实验。
 
 ## 与 #32（压缩即智能）的关系
 
