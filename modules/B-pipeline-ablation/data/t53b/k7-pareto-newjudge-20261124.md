@@ -97,3 +97,25 @@ metacog 每档均值：
 **质量轴声明**: judge_v1 的 cov 层用 bge-m3 embedding 匹配 gold 单元，gold 由人+arena 构建（非模型自产），
 比旧 self-judge 独立性强；但 struct 层仍是机械深度比，且 bge-m3 匹配阈值 0.70 是标定的非验证的。
 结论限于开源 27b + 本地 4×V100 条件。
+
+## 队列评分 gold 参数 bug（2026-11-24 02:45 发现并修复）
+
+**现象**: `q6-budget-scan-rerun/q6-rerun-scores.json` 里 4 个已落地 run（300 r1/r2/r3 + 719 r1）的
+cov 全 = 0.0278、total 全 = 0.4139——跨 run 完全相同，不可能。
+
+**根因**: 队列脚本的评分块调 `judge_run(f)` 未传 `gold_units`，judge_v1 默认用 GPU gold
+（36 units）评 Q6 run。跨域 gold 命中极低（0.0278），且 GPU gold 对所有 run 相同 →
+分数跨 run 无区分度。nodepth 队列、Q7 队列同 bug（Q7 更严重：默认 GPU gold 评 Q7 run）。
+
+**影响面核验**:
+- draft 跨域段的 Q6 cov 序列（0.058/0.073/0.087/0.138/0.167）**不受影响**——300 值 0.138
+  是手动 `judge_run(f, gold_units=Q6 gold)` 重评的（2026-11-24 02:45 复算确认：rerun 300
+  三 rep = 0.1522/0.1087/0.1522, mean 0.1377）；其余四档来自 q6-gold-rescore.json（Q6 gold
+  口径，已验证 719 档 per-rep 0.1304/0.1739/0.1957 与文件直接重评一致）。
+- metacog 字段不受影响（gold-free）。
+- 原批队列（q6_budget_scan_queue.sh）用默认 GPU gold 是**设计如此**（注释写明"B4 用
+  --gold-units Q6 重评"），不是 bug。
+
+**修复**: 三个队列脚本（rerun/nodepth/Q7）的评分块改为显式加载对应域 gold 并传
+`gold_units=`。rerun 队列在飞（719 r2 在跑），修复对后续 run 生效；已落地的 4 个 run
+的 scores 条目是 GPU gold 口径，不可用于 Q6 域内分析（scores 文件已追加 _NOTE 说明）。

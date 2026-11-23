@@ -32,7 +32,9 @@ from judge_v1 import judge_run
 from metacog_axis import compute_metacog, load_run_nodes
 f, rep, wall, out = sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), sys.argv[4]
 try:
-    rj = judge_run(f)
+    _gu = json.load(open('/Users/a1-6/Desktop/workspace/pfb/modules/B-pipeline-ablation/data/gold-q6-units.json'))
+    _gu = _gu["units"] if isinstance(_gu, dict) and "units" in _gu else _gu
+    rj = judge_run(f, gold_units=_gu)
     rm = compute_metacog(load_run_nodes(f))
     rec = {"rep": rep, "wall_s": wall, "n_nodes": rj["n_nodes_raw"],
            "judge": {"total": rj["total_score"], "depth": rj["layers"]["structure"]["depth_score"], "cov": rj["layers"]["coverage"]["coverage"]},
