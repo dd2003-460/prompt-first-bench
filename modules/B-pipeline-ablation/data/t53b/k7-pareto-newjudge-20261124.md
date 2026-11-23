@@ -192,3 +192,14 @@ r3 落地：n=392（depth ceiling, final_state=rework），Q6 gold 重评 cov=0.
 **结论**：cache 共享压低方差假设现在两档（300/719）都是 n=3 可解读地成立（之前 719 是 n=2 单自由度）。draft §7 已更新（commit），措辞从"directionally consistent at 719 (n=2), not interpretable until r3"升级为"supported at both tested tiers (300 and 719, n=3 each), still not a controlled estimate"。
 
 **relay 链推进**：rerun 队列 03:40:04 退出 → nodepth 批 03:40:34 启动（phase 1，max_depth=10，PID 41010/41017 在跑 r1）。nodepth 落地后跑 `q6_719_nodepth_analyze.py`，然后 Q7 扫描。
+
+## References 真实性核验（2026-11-24 03:55，arXiv API 逐条）
+
+之前只验了"正文引用↔文献列表 17/17 闭环"，没验文献本身是否真实。本轮逐条查 arXiv export API（https，3 次重试）：
+
+- **17/17 arXiv ID 真实存在**（export.arxiv.org/api/query?id_list=<id> 返回 entry）
+- **17/17 标题逐字匹配**（arXiv 返回 title vs draft 文献列表）
+- **17/17 第一作者匹配**（arXiv 返回 first author surname vs draft）
+- **17/17 年份匹配**（arXiv published 年份 vs draft 标注年份）
+
+结论：References 无伪造/幻觉引用。投稿就绪度"承重数字对账"维度新增一项通过——文献真实性（之前是盲区）。
