@@ -52,9 +52,9 @@ TCO 时间分解 = 背景引用（十年老题，不能当 novelty）。套磁�
 
 | 文件 | 内容 |
 |---|---|
-| `tasks/decomposition-research-agi-budget.md` | 主线 goal 分解 (A-E) + K1-K8 映射 + 执行记录 + arena T-PR-16 结果 |
-| `tasks/design-research-agi-budget.md` | 设计文档 (K1-K8 改动项表 + 正交性自检) |
-| `tasks/T-PR-17-decomp.md` | 路径依赖实验 (F1-F5, 4 臂定义, null control) |
+| `experiments/stage-ablation/tasks/decomposition-research-agi-budget.md` | 主线 goal 分解 (A-E) + K1-K8 映射 + 执行记录 + arena T-PR-16 结果 |
+| `experiments/stage-ablation/tasks/design-research-agi-budget.md` | 设计文档 (K1-K8 改动项表 + 正交性自检) |
+| `experiments/stage-ablation/tasks/T-PR-17-decomp.md` | 路径依赖实验 (F1-F5, 4 臂定义, null control) |
 | `modules/B-pipeline-ablation/research/T-JUDGE-1-decomp.md` | 客观 judge (J1-J6, 阈值/磁体/dual-track) |
 | `modules/IDEA-INDEX.md` | 统一 idea 池 (#1-50) |
 | `modules/B-pipeline-ablation/reports/t53b/anatomy-0.5184.md` | 0.5184 解剖报告 |
