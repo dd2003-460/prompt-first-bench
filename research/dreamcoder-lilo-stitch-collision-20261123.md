@@ -8,7 +8,7 @@
 |---|---|---|---|
 | DreamCoder | 2006.08381 (2020, Ellis/Wong/Nye/…/Tenenbaum) | wake-sleep 交替：①语言扩展（新符号抽象）②神经引导网络在想象+重放问题上训练 | 神经网络引导搜索，符号语言存抽象；重发现函数式编程/向量代数/牛顿库仑定律 |
 | LILO | 2310.19791 (ICLR 2024, Grand/Wong/Bowers/Olausson/Liu/Tenenbaum/Andreas) | 迭代：LLM 综合 → STITCH 压缩（找最优 lambda 抽象）→ AutoDoc（自然语言命名+docstring） | **LLM 负责带领域先验的搜索，符号系统 STITCH 负责压缩**；三个 benchmark（字符串编辑/场景推理/图形组合）超 DreamCoder |
-| STITCH | 未找到独立 arXiv 条目（[待核验]，LILO 引用为 "recent algorithmic advances in automated refactoring from Stitch"） | 符号压缩：跨代码语料高效识别最优 lambda 抽象 | 压缩器本体 |
+| STITCH | **2211.16605** (2022-11, Bowers/Olausson/Wong/Grand/Tenenbaum/Ellis/Solar-Lezama, "Top-Down Synthesis for Library Learning") — 2026-11-24 从 LILO 参考文献定位（LILO 引用 "Bowers et al., 2023"） | corpus-guided top-down synthesis：从 DSL 原语出发构建抽象，中间抽象的**语法模式匹配**剪枝搜索空间，导向最大化捕获语料共享结构的抽象 | 压缩器本体；比 DreamCoder 演绎式库学习**快 3-4 个数量级、省 2 个数量级内存**，质量（compressivity）相当或更好；可扩展到数百复杂程序；**对早停鲁棒**（early stopping 仍可 scale） |
 | Solomonoff/AIT | 经典（Li & Vitányi） | 归纳 = 偏好低 Kolmogorov 复杂度的贝叶斯推理 | 理论根基；D 11-07 note 已有（compression-unified-view，含 MDL/2509.22445） |
 
 ## 撞车判决（逐层）
@@ -48,7 +48,8 @@
 - **库质量是预算 Pareto 前沿的隐藏因子** → Q9 gold 骨架的"记忆轴"（5 因子之一）目前在工作区是空的（盘点无实现）——DreamCoder/LILO 给记忆轴提供了具体机制。这是 ⑤ 的直接输入。
 
 ## 边界与待核验
-- STITCH 独立论文未定位（[待核验]，查 LILO 参考文献列表）。
+- ~~STITCH 独立论文未定位~~ → **已定位：2211.16605**（2026-11-24，LILO 参考文献 "Bowers et al., 2023" 对应 "Top-Down Synthesis for Library Learning"；arXiv API 实查摘要确认 "We present an implementation of the approach in a tool called Stitch"）。
+- **STITCH 算法细节对应用 B 的启示**（2211.16605 摘要，conf 0.9）：①从原语**自底向上**构建抽象（不是全局找重复）②中间抽象做**语法模式匹配**剪枝 ③**对早停鲁棒**——映射到 research 域：claim 库可以从已验证 claim 增量构建，每轮跑不完就早停，不用等全树收敛。
 - "gap 真实" conf 0.6：arXiv 查询覆盖有限，下一步走 arena 交叉核验（红线 1：调研核验外包）。
 - 应用 A/B/C 是设计不是实验；最便宜的第一个实验 = A（Q6 上 2 臂 × 300 预算，复用现有 harness）。
 - arXiv API 本轮用 http://export.arxiv.org 实际有返回（与 11-21 记录的"返回空"不一致，可能不稳定；后续统一走 https）。
