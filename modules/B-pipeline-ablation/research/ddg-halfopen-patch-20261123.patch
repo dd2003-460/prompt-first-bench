@@ -1,0 +1,43 @@
+--- experiments/stage-ablation/research_hook.py	2026-11-20 18:01:41
++++ /tmp/rh_test.py	2026-11-23 11:44:56
+@@ -351,9 +351,12 @@
+     wikipedia/arxiv 正常=站级封锁非代理问题）时，每次调用白烧
+     ~40s（2 query × 2 次 × 8s SSL 失败 + sleep）。连续 2 次失败后
+     本进程内跳过 DDG，不再重试。"""
+-    global _ddg_fail_streak
++    global _ddg_fail_streak, _ddg_half_open_at
+     if _ddg_fail_streak >= 2:
+-        return []
++        import time as _t2
++        if _t2.time() < _ddg_half_open_at:
++            return []
++        _ddg_half_open_at = _t2.time() + _DDG_HALF_OPEN_TTL  # 放行一次探针, 设下次探针时间
+     import urllib.request, time as _time, html as _html
+     if not _probe_network():
+         return []
+@@ -401,11 +404,15 @@
+         if results:
+             break
+     if results:
++        if _ddg_fail_streak >= 2:
++            print(f"  [DDG-RECOVERED] half-open probe succeeded, DDG re-enabled", file=sys.stderr)
+         _ddg_fail_streak = 0
+     else:
+         _ddg_fail_streak += 1
+         if _ddg_fail_streak == 2:
+-            print(f"  [DDG-BROKEN] consecutive failures, skipping future DDG calls this run", file=sys.stderr)
++            import time as _t3
++            _ddg_half_open_at = _t3.time() + _DDG_HALF_OPEN_TTL
++            print(f"  [DDG-BROKEN] consecutive failures, skipping DDG (half-open probe every {_DDG_HALF_OPEN_TTL//60}min)", file=sys.stderr)
+     return results
+ 
+ def _webfetch_page(url, title_hint="", timeout=20):
+@@ -472,6 +479,8 @@
+ _network_healthy = True
+ _network_probe_at = 0.0
+ _ddg_fail_streak = 0  # 2026-11-20: DDG 快失败计数（连续失败≥2 本进程内跳过）
++_ddg_half_open_at = 0.0  # 2026-11-23: half-open 探针下次放行时间（熔断打开后每 10min 探一次）
++_DDG_HALF_OPEN_TTL = 600  # 秒
+ _NETWORK_PROBE_TTL = 60  # 秒
+ 
+ def _probe_network():
