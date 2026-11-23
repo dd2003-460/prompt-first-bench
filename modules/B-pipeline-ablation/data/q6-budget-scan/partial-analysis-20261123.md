@@ -256,3 +256,9 @@ CUR 口径逐 rep:
 - **后果**: 所有 ≥50 档 run 都到 L3 (50 档 max_depth=3), struct=3/5=0.6; ≥150 到 L4, struct=4/5=0.8。若用 Q6 正确深度 (3): 50 档=3/3=1.0, ≥150=4/3→1.0 → **struct 全饱和, 无预算区分度**
 - **含义**: Q6 的 budget-coverage 曲线**完全由 cov 轴驱动**, struct 轴是常数。Q6 gold rescore 时 struct 仍用 GPU 的 0.6/0.8 (未修正), 但 cov 差异 (1-9 unit) 远大于 struct 差异 (0.2), 不影响排序
 - **修复**: 跨域 judge 需传 Q6 gold 的 GOLD_DEPTH=3 (或从 gold units 自动推), 否则 struct 轴跨域失真。当前不影响 cov 结论, 但 struct 绝对值不可用
+
+### 数据完整性事件: 重跑批并发写污染, 已清盘重跑（23:12）
+- **事件**: 22:32 启动的重跑批 (pid 10045) 和我 23:03 误启又杀的 (pid 22136) 曾并发跑 300-r1, 都写固定文件 runs-s5-sm-q6.json + 共享 checkpoint 目录 → 已落地的 300-r1 (23:05:38, 仅 2min) 是并发产物, 不可信
+- **处置**: kill 全部进程 → 清空 q6-budget-scan-rerun/ (JSON/stdout/scores/checkpoints) → 23:11:42 单实例重启 (pid 25483, SM_CKPT_DIR 隔离确认有效 s5_state_machine.py:919)
+- **教训**: 重跑批脚本 cp 固定文件名 runs-s5-sm-{qid}.json, 无 rep 隔离 → 并发必污染。脚本已用 SM_CKPT_DIR 隔离 checkpoint, 但 runs-s5-sm-q6.json 仍是固定名 (stage-ablation 目录), 重跑批必须串行 (脚本本身是 for 循环串行, 问题在误启第二实例)
+- **判据不变**: 300 档 metacog sd 对照 (原批 0.026), 重跑批落地后算
