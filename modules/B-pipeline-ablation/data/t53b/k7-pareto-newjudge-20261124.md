@@ -502,3 +502,14 @@ q7_full_analysis.py 在 11h 长杆 (15 runs) 落地前 dry-run 验证:
 - draft 括号差 0 (760/760) ✓
 **skill 15/16 条 (gold 工件 + 官方口径)**: 本轮所有 cov 数字钉死工件 — 46-unit (q6-gold-rescore.json, nodepth/原批 719) vs 36-unit (GPU gold, 扰动/阈值悬崖 K7 15 树) vs 52-unit (Q7 gold, 队列脚本); 两套标度在 draft 里分属不同段 (K7 15 树 = 36-unit GPU gold, nodepth/原批 = 46-unit Q6 gold), 无混用。
 **skill 8 条 (abstract 强度)**: abstract 的 domain-dependence 声明 scoped 到 "GPU gold" + "queued 719-nodepth batch" (未把 r1 n=1 结果说成定论), 强度 ≤ 正文 ✓。
+
+## Q6 域 realized 轴 16 点 + 跨域饱和点 n=1 (2026-11-24 06:20, q6-realized-axis-16pt-20261124.json)
+
+nd-r1 (719 realized, cov 0.1304) 加进 Q6 15 点 realized 轴:
+- 分箱: 0-200: 0.0783(n=10) / 200-400: 0.1522(n=5) / 400-600: 空 / 600-800: 0.1304(n=1)
+- **719 点 = 300 节点水平 (0.1304), 低于 200-400 箱均值 0.1522** → Q6 域 realized 轴也在 ~400 节点后不再升
+- cor(cov, realized): 15 点 +0.842 (t=5.63) → 16 点 +0.641 (t=3.12, df=14), 719 点把曲线拉平
+- **跨域形状对照**: GPU 30 树 0-200:0.250/200-400:0.325/400-600:0.361/600-800:0.361 (平台) vs Q6 16 点 0-200:0.078/200-400:0.152/600-800:0.130 (回落) → 两域都在 ~400 realized 节点后不再升
+- **draft 核心 claim 推进**: "饱和点 ~400 realized 节点" 从 GPU 域特有 → 跨域复现 (Q6 n=1, 400-600 箱空, r2/r3 定论)
+- draft 旧句 "saturation point is either above 719 or does not exist" 已改为 "bracketed at ~400 by first wall-free rep (n=1, suggested not established)"; 旧句 "GPU-domain-specific, not a universal law" 改为 "was initially GPU-domain-specific (wall-bound 719 tier appeared to keep rising)"
+- 口径: 46-unit Q6 gold (q6-gold-rescore.json 15 棵 + nd-r1 现算), n_nodes = realized (50-300 = nominal post-clamp, 719 = 墙切 197/351/379)
