@@ -953,3 +953,61 @@ prompts.py:78 + 312 明确指示模型: "确实只有定性结论的标 [待核�
 - [待核验] 占比按节点数算, 三域一致方法。
 - 重叠列 = 同时命中 [待核验] 和其余 7 词的节点数 (少量, 不影响分解)。
 - 这是 provenance 披露, 不是改 score 函数 (FROZEN 不变)。
+
+## 补充38 (2026-11-23 17:15): §4.4 obs 1 "verification 随深度单调升" 是 source-mix 假象
+
+### 发现
+
+§4.4 obs 1 声明 "Verification rises monotonically across depth (42.6/48.1/52.7/58.2%
+for L2→L3→L4→L5): deeper nodes verify more often, depth is not a verification cliff"。
+但这是 **source-mix 混杂**:
+
+per-layer source 组成 (30 树 8767 节点):
+| layer | n | given | knowledge | search |
+|---|---|---|---|---|
+| L2 | 855 | 16 | 447 (52%) | 392 (46%) |
+| L3 | 2759 | 21 | 1775 (64%) | 953 (35%) |
+| L4 | 4230 | 37 | 2864 (77%) | 1327 (31%) |
+| L5 | 761 | 9 | 560 (74%) | 192 (25%) |
+
+ver% by source (不分层): given 32.7% / knowledge 74.4% / search 3.2% — 差 20 倍。
+knowledge 占比随深度升 (L2 52% → L4 77%), 且 prompt (prompts.py:169) 指示
+"source=given/knowledge 的节点: 逻辑自洽即判 verified" — knowledge 节点被自动验证。
+
+### source-mix 标准化 (固定 L2 的 source 组成, 重算每层 ver%)
+
+| layer | 实际 ver% | 标准化 ver% (固定 mix) |
+|---|---|---|
+| L2 | 42.6% | 42.6% |
+| L3 | 48.1% | 41.0% |
+| L4 | 52.7% | 41.9% |
+| L5 | 58.2% | 42.3% |
+
+**标准化后 ver% 平坦 (41.0-42.6%) — "单调升" 消失**。
+
+### within-source (控制 source 后)
+
+- knowledge: 71.1/71.2/76.2/77.7% (L2→L5) — 基本平坦, 微升
+- search: 9.4/4.6/0.9/0.0% (L2→L5) — **实际下降** (深层 search 节点更少能验证)
+- given: 56.2/90.5/89.2/88.9% (n 小, 不稳定)
+
+### 结论
+
+obs 1 的 "deeper nodes verify more often, depth is not a verification cliff" 是
+**source-composition 混杂**, 不是 depth 效应。真实结构:
+- ver% 主要由 source 决定 (knowledge 自动验证, search 难验证), 不由 depth 决定
+- 深层 knowledge 占比更高 → 整体 ver% 更高 (假象)
+- 控制 source 后, search 节点 ver% 随深度**下降** (9.4→0.0%) — 深层检索更难验证
+  (这才是真实的 depth 效应, 方向与 obs 1 相反)
+
+### 对 paper 的影响
+
+- obs 1 必须重写: "verification rises monotonically across depth" → "verification
+  rate is source-determined, not depth-determined; the apparent depth rise is a
+  source-mix confound (knowledge share rises with depth, and the prompt auto-verifies
+  knowledge nodes); controlling for source, search-node verification *declines*
+  with depth (9.4→0.0%)"
+- 这其实**强化**了 "budget buys breadth not depth" 的论点: 深层不仅 coverage 降,
+  search 可验证性也降 — 更深的节点更不可验证。
+- 承重: 这是 §4.4 的 obs 1, 不是 4 个主 findings 之一, 但 obs 1 的 "depth is not a
+  verification cliff" 被反向证据 (search ver% 下降) 推翻。
