@@ -276,3 +276,21 @@ provenance 确认：K7 批用 new judge 重评（new_cov 字段），rep-scan �
 **§4.4 degeneration 5/5**: 独立数据集 (T-PUB-1 math benchmark), 检测器在 D1-generalization/scripts/degeneration_detector.py (非本项目), 补充观察非核心 finding, 未重跑 (低优先级)
 
 **数字审计全 draft 覆盖完成**: §4.1 (metacog 触发率, 前轮) + §4.2 (难度梯度, 本轮) + §4.3 (控制臂 9 统计量 + 核心曲线池化 + cor, 前轮) + §4.4 (L4 0/21, 本轮) + §7 (4 sd 值, 前轮) + 104 加法 + abstract 强度 + References 17/17。draft 全部承重数字已对数据源重算, 无实质漂移 (仅 §4.2 gpu n/z 随语料快照小幅漂移, 显著性模式不变)。
+
+## 2026-11-24 04:25-04:42 · GPU 域 budget 轴 era confound 核验（用户指出跨域 regime 不对称）
+
+**触发**：D 指出 GPU K7 max_depth=5 vs Q6 原批 max_depth=4，GPU 719 饱和是否被深度墙压出。决定性检查（GPU 719 档内 cov 是否随 realized 节点数走）→ 381→0.333 / 665→0.417 / 747→0.306，最多节点 cov 最低 → 平台非 719 档深度墙伪影。
+
+**但查 per-rep 停止状态 + 批 era 后发现问题更根本**：
+- GPU 全 15 棵 K7 树：final_state=rework、gain 0.86–0.92、frontier 24–252、maxlvl ≤ 5，无一自然收敛（全部截断 regime）。
+- 硬预算钳制 commit 47a8543cd（11-23 13:44）message 原话点名 K7 15-run realized 节点数跨档重叠。
+- GPU K7 批 archive 时间戳 11-22 07:08–18:19 = **pre-clamp**；rep-scan 批 11-23 03:25–10:46 = **pre-clamp**；Q6 原批 11-23 16:34+ = **post-clamp**（50/100/150/300 realized 精确等于 nominal，719 撞深度墙 197/351/379）。
+- 30 棵 GPU 树按 realized 节点数分箱：0-200: 0.261 (n=12) / 200-400: 0.317 (n=13) / 400-600: 0.361 (n=3) / 600-800: 0.361 (n=2) → **平台在 ~400 realized 节点，不是 nominal ~300**；cor(cov, realized_nodes)=+0.563 (t=3.60, df=28)。
+
+**claim 降级**（draft commit 94ebf147c）：
+- 守得住：cov 随 realized 节点数升、~400 realized 节点后平台化（top 两箱相等但 n=5，suggestive）。
+- 守不住：平台归因到 nominal budget 300（pre-clamp soft cap，realized 跨档重叠：50 档 423 > 300 档 364）。
+- 跨域对比"GPU 饱和 Q6 不饱和"被 regime 差异 confound（pre-clamp soft cap + max_depth 5 vs post-clamp hard cap + max_depth 4 + Q6 719 深度墙下界）；两域 realized 节点数测量范围不同，不是"同 budget 不同域"的干净对比。
+- 修复：(1) 零成本 realized 节点数 x 轴重分析（已做，draft 现口径）；(2) post-clamp 重跑 GPU 扫描（~10h，vLLM-bound，未排——等 D 拍板是否值得占 vLLM）；(3) Q6 nodepth 批（max_depth=10）在跑，落地后给 Q6 在 ~719 realized 节点的干净点，是"饱和点域依赖"的决定性测试。
+
+**自检**：之前把 commit message 点名的 realized 跨档重叠当"小 caveat"处理，严重性低估——它动摇的是核心 claim 的归因不是精度。D 的 confound 直觉方向对（跨域 regime 不对称），但比 max_depth 差异更根本的是 pre/post-clamp era 差异。
