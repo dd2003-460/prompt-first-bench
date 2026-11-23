@@ -274,3 +274,16 @@ r7 (300 档, 通道故障 ret=0, metacog total 0.045) 落地后, "metacog budget
 ## 补充15: source_verify cache "bug" 关闭 (11-23 11:02)
 
 Blocked 项 "source_verify cache bug: cache=0 on second run" 重验: 当前 cache 文件 647 条 (03:26 仍在写), 19 棵树的 384 个 candidate key **100% 命中**。cache 机制正常 (load 开头/save 每棵树后), "cache=0" 是早期 cache 未积累时的观察, 非 bug。Blocked 项清除。
+
+## 补充16: scope-mismatch 系统性错误模式 (11-23 11:05)
+
+今日 3 次同模式错误 (跨域数字填进域限定声明):
+1. 55% (18-run gpu 子集) 先换成全语料 45.5%, 再换成 GPU 域 52.5% (finding 1 限定 "Within the GPU domain")
+2. "83+21" 双计 K7 (K7 15 ⊂ 83), 修正为 104 = 83+6+15
+3. §7 "GPU, 104 unique runs: 34+6+15" — 104 是跨域总数, 34+6+15=55 才是 GPU 域数
+
+**规则 (写百分比/run 数前必查)**:
+- 声明的 scope 限定词 (Within X domain / per-domain / 全语料) 必须与数字的分母人群一致
+- 加法分解必须自洽: "A+B+C = N" 逐项加起来要等于 N (104 ≠ 34+6+15)
+- 跨域总数 (104) 和域内数 (55 GPU / 49 nat+soc) 是两个口径, 不能互相填
+- 同一数字被改 2 次以上 = 双计/口径错红旗, 停手用数据验证再写
