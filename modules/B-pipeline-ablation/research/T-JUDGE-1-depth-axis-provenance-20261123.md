@@ -74,3 +74,35 @@ depth_score=min(max_depth/5,1.0) 只有 {0.6,0.8,1.0} 三个离散值，
 → 决策空间收窄：depth 轴只能是 LLM rubric judge（judge_v2_depth）。
   finding #3 重定位为「LLM 判定的深度（self-biased）」的 suggestive 观察；
   robust 主张留在 L4 zero-convergence（机械/无self-bias/跨budget稳定 0/21）。
+
+## 补充4（10:27）：爆炸半径 + 问题重新定性
+**重新定性**：§6 line 113 已写"Self-judge bias: the depth axis is same-family"
+→ 这不是新发现的缺口，是草稿**早已存在但内部矛盾**的：
+  abstract/§3 说"no LLM in the scoring path"，§6 又说 depth 轴 same-family。
+  问题 = 草稿内部不一致，不是新数据污染。
+
+**爆炸半径（依赖 LLM depth 轴的声明）**：
+- finding #3（四发现之一）：预算-质量非单调曲线 peak@150
+- abstract (3)：depth score highest at 150 (0.474)
+- contribution #2："a non-monotonic budget–quality curve"
+- §4.3 表（0.4743）+ §4.3 正文（150 peak 0.9 run-sd）
+- §5 point 3："the non-monotonic curve is a warning"
+- §6 n=3/budget 条
+→ finding #3 的**具体形状**（peak@150）全在 LLM depth 轴上。
+
+**Robust 的（不依赖 LLM depth，机械/metacog）**：
+- finding #1（monitoring/repair 分离）：metacog 轴（gold-free, 节点字段）✓
+- finding #2（difficulty-calibrated gap marking）：gap_rate（节点字段）✓
+- finding #4（checkpoint reuse）：metacog + vsr（有通道故障 caveat）✓
+- L4 zero-convergence（0/21，机械，刚核验）✓
+- 两轴框架本身 + metacog 轴跨域（83-run）✓
+- coverage 轴（机械，但 size-confounded）✓
+
+**结论**：塌掉的是 finding #3 的**形状**，不是论文核心。
+两轴框架、metacog 轴、L4 zero-convergence 全活。
+finding #3 可重定位为：
+  "LLM-judged depth（self-biased）显示弱非单调；机械轴显示
+   breadth（nodes/cov）随预算单调升；robust 的预算-质量主张是
+   L4 zero-convergence（跨 budget 稳定 0/21）。"
+→ 决策代价可控：改 finding #3 定位 + §3/abstract 的 no-LLM 声明
+  （承认 depth 轴有 LLM），核心两轴框架不动。
