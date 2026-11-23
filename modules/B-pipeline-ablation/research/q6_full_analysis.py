@@ -12,6 +12,8 @@
 每个 run 的 judge/metacog 只算一次 (embedding 慢, 缓存复用)。
 """
 import sys, json, glob, os, re
+import statistics as st
+from math import sqrt
 from collections import defaultdict
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -37,6 +39,39 @@ def load_runs(d, prefix):
         if m:
             runs[int(m.group(1))].append(f)
     return runs
+
+
+def ci95(vals):
+    """95% CI of mean (t-distribution, small n)."""
+    n = len(vals)
+    if n < 2:
+        return (vals[0], vals[0]) if vals else (0.0, 0.0)
+    m = st.mean(vals)
+    s = st.stdev(vals)
+    t = {2: 4.303, 3: 2.920, 4: 2.353, 5: 2.015, 6: 1.943}.get(n, 1.96)
+    h = t * s / sqrt(n)
+    return (m - h, m + h)
+
+
+def fmt_ci(vals):
+    lo, hi = ci95(vals)
+    return f"{st.mean(vals):.4f} [{lo:.3f},{hi:.3f}]"
+
+
+def welch_diff_ci(a, b):
+    """两独立样本均值差 95%CI (Welch t). 返回 (diff, lo, hi, df)."""
+    na, nb = len(a), len(b)
+    if na < 2 or nb < 2:
+        return (st.mean(a) - st.mean(b), 0.0, 0.0, 0.0)
+    va, vb = st.variance(a), st.variance(b)
+    se = sqrt(va / na + vb / nb)
+    den = (va / na) ** 2 / (na - 1) + (vb / nb) ** 2 / (nb - 1)
+    df = (va / na + vb / nb) ** 2 / den if den > 0 else na + nb - 2
+    ttab = {1: 12.706, 2: 4.303, 3: 2.920, 4: 2.353, 5: 2.015,
+            6: 1.943, 7: 1.895, 8: 1.860, 9: 1.833, 10: 1.812}
+    t = ttab.get(int(round(df)), 1.96)
+    d = st.mean(a) - st.mean(b)
+    return d, d - t * se, d + t * se, df
 
 
 def main():
@@ -74,26 +109,27 @@ def main():
         for f in fs:
             rep_gaps.append(compute_metacog(load_run_nodes(f))["gap_rate"])
 
-    print("\n[1] metacog 域不变性:")
-    print(f"  {'tier':>5} {'gap':>7} {'hg':>6} {'n_nodes':>12} {'n':>3}")
+    print("\n[1] metacog 域不变性 (mean [95%CI], n=rep 数):")
+    print(f"  {'tier':>5} {'gap':>18} {'hg':>18} {'n_nodes':>12} {'n':>3}")
     for t in TIERS:
         rs = [per_run[f] for f in q6.get(t, [])]
         if not rs:
             continue
         ns = [r["n_nodes"] for r in rs]
-        print(f"  {t:>5} {sum(r['gap'] for r in rs)/len(rs):>7.4f} "
-              f"{sum(r['hg'] for r in rs)/len(rs):>6.3f} [{min(ns)},{max(ns)}] {len(rs):>3}")
-    print(f"  {'GPU':>5} {sum(rep_gaps)/len(rep_gaps):>7.4f} {'':>6} {'':>12} {len(rep_gaps):>3}")
+        print(f"  {t:>5} {fmt_ci([r['gap'] for r in rs]):>18} "
+              f"{fmt_ci([r['hg'] for r in rs]):>18} [{min(ns)},{max(ns)}] {len(rs):>3}")
+    print(f"  {'GPU':>5} {fmt_ci(rep_gaps):>18} {'':>18} {'':>12} {len(rep_gaps):>3}")
 
-    print("\n[2] B4 gold 域特异性 (cov):")
-    print(f"  {'tier':>5} {'域内':>7} {'跨域':>7} {'Δ':>8} {'n':>3}")
+    print("\n[2] B4 gold 域特异性 (cov, mean [95%CI]):")
+    print(f"  {'tier':>5} {'域内':>18} {'跨域':>18} {'Δ':>8} {'n':>3}")
     for t in TIERS:
         rs = [per_run[f] for f in q6.get(t, [])]
         if not rs:
             continue
-        ci = sum(r["cov_in"] for r in rs) / len(rs)
-        cx = sum(r["cov_x"] for r in rs) / len(rs)
-        print(f"  {t:>5} {ci:>7.4f} {cx:>7.4f} {ci-cx:>+8.4f} {len(rs):>3}")
+        ci = fmt_ci([r["cov_in"] for r in rs])
+        cx = fmt_ci([r["cov_x"] for r in rs])
+        d = st.mean([r["cov_in"] for r in rs]) - st.mean([r["cov_x"] for r in rs])
+        print(f"  {t:>5} {ci:>18} {cx:>18} {d:>+8.4f} {len(rs):>3}")
 
     print("\n[3] repair low-yield 跨域 (node-level):")
     tot_rw = sum(r["rw"] for r in per_run.values())
@@ -101,12 +137,12 @@ def main():
     if tot_rw:
         print(f"  Q6 全 run: {tot_fix}/{tot_rw} = {tot_fix/tot_rw*100:.1f}%  (GPU 固化版 3.7% = 331/8870)")
 
-    print("\n[4] judge 5 档 (域内 q6 gold):")
+    print("\n[4] judge 5 档 (域内 q6 gold, mean [95%CI]):")
     for t in TIERS:
         rs = [per_run[f] for f in q6.get(t, [])]
         if not rs:
             continue
-        print(f"  {t:>5}: {sum(r['judge'] for r in rs)/len(rs):.4f} (n={len(rs)})")
+        print(f"  {t:>5}: {fmt_ci([r['judge'] for r in rs])} (n={len(rs)})")
 
 
 if __name__ == "__main__":
