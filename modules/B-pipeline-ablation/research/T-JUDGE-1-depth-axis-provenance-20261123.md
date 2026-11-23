@@ -1405,4 +1405,4 @@ within-source (knowledge) + within-gap 对比，[待核验] 标签是触发检�
 
 **与论文的关系**：§4.1 finding (1) "repair closure absent" 细化为 "repair closure exists but low-yield (3.7% global fix rate, bottleneck = 27b directed-fix capability, not trigger targeting)"。
 
-**脚本**：本分析为 ad-hoc（未固化脚本），数据源 = archive 全量 node.json。
+**脚本**：`research/repair-closure-dryrun.py`（2026-11-23 固化，a1d42814c）。固化版 scope = 80-run corpus（archive run json，排除 synth），重跑稳定：事件级 no_source 4.0% (116/2874) / value_mismatch 2.4% (22/932) / other 2.8% (193/6894) / global 3.1% (331/10702)；节点级 3.7% (331/8870)。初版 ad-hoc 数字（4.9%/1.7%/3.7%/6.0%，10,359-node corpus）scope 无法重建（对不上任何单一数据源），draft 已对齐固化版；方向结论（no_source > value_mismatch，capability 瓶颈）对 scope 稳健。
