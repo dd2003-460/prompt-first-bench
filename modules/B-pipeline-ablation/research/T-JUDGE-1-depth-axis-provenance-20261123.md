@@ -270,3 +270,7 @@ r7 (300 档, 通道故障 ret=0, metacog total 0.045) 落地后, "metacog budget
 - 全量 (含 outage runs): 100=0.099, 150=0.100, 300=0.126 — spread 0.027, **通道故障下也 flat**
 
 结论: budget-invariance 主张应表述为 **gap_rate 分量 (retrieval-independent) 全量 flat**, 而不是 metacog total (total 含 post 分量, outage 会拉低)。draft §4.3 provenance note 现在写的是 "metacognition axis's budget-invariance (rep-scan 13 runs: total 0.246/0.247/0.239)" — r8 落地后需改为 gap_rate 口径 (0.099/0.100/0.126, n=14) 或 healthy 子集 total 口径, 并标 n 极小 caveat。
+
+## 补充15: source_verify cache "bug" 关闭 (11-23 11:02)
+
+Blocked 项 "source_verify cache bug: cache=0 on second run" 重验: 当前 cache 文件 647 条 (03:26 仍在写), 19 棵树的 384 个 candidate key **100% 命中**。cache 机制正常 (load 开头/save 每棵树后), "cache=0" 是早期 cache 未积累时的观察, 非 bug。Blocked 项清除。
