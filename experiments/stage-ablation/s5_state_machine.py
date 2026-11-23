@@ -1388,6 +1388,20 @@ class DecompStateMachine:
                 else:
                     self.dropped_redundant += 1
             deduped = necessary_nodes
+
+            # ── 硬预算钳制 (2026-11-23): max_nodes 逐轮强制 ──
+            # 原 max_nodes 只在 route_after_checkpoint (轮后) 检查, 单轮 decompose 能
+            # 一次性 extend 一批节点 → realized 节点数跨档重叠, 预算轴不干净 (K7 15-run
+            # 的 50/100/150/300/719 档 realized 数互相渗透)。这里在 extend 前截断本轮
+            # 新增, 保证 len(nodes) 永不超 max_nodes。remaining<=0 → 本轮不加节点。
+            _remaining = self.cfg.max_nodes - len(self.nodes)
+            if len(deduped) > _remaining:
+                if _remaining > 0:
+                    print(f"  [SM] budget-clamp: 保留 {_remaining}/{len(deduped)} 个节点 (max_nodes={self.cfg.max_nodes} 硬顶)", flush=True)
+                    deduped = deduped[:_remaining]
+                else:
+                    print(f"  [SM] budget-hit: max_nodes={self.cfg.max_nodes} 已达 — 本轮不加节点", flush=True)
+                    deduped = []
             self.nodes.extend(deduped)
 
             # ── J_decomp: 边际信息增益（记录用）──
