@@ -160,7 +160,7 @@ CUR 口径逐 rep:
 - **719-r2 第2轮 = +94 (total 129), 与 r1 第2轮 +77 不同** → rep 间逐轮节点数都不同 (第1轮 +21 vs +29, 第2轮 +77 vs +94), 是 LLM temperature=0.7 随机性, 非 cache 锁定。(上轮"cache 锁第1轮"说法已撤回, 见上段)
 
 ### 域内 judge total 分解 (Q6 gold, 21:45)
-- 分解: total = 0.5*depth(LLM) + 0.5*cov(机械)
+- 分解: total = 0.5*depth(机械, min(max_depth/5,1.0)) + 0.5*cov(机械) — **两组件都机械, self-bias-free**; §4.3 的 LLM depth 是另一条 scoring path (judge_v2_depth 评 synthesis answer), 不进 composite (23:20 修正: 原标 "depth(LLM)" 是错的)
   50: depth 0.600 cov 0.058 total 0.329
   100: depth 0.667 cov 0.073 total 0.370
   150: depth 0.800 cov 0.087 total 0.444
@@ -168,8 +168,8 @@ CUR 口径逐 rep:
   719r1(~351): depth 0.800 cov 0.174 total 0.487 (n=1)
   719r2(~379): depth 0.800 cov 0.196 total 0.498 (n=1)
   719r3(~197): depth 0.800 cov 0.130 total 0.465 (n=1)
-- **300→719 增量 100% 由 cov 驱动 (Δdepth=0, Δcov=+0.044@r1 / +0.066@r2 / -0.000@r3)** — LLM depth 自 150 顶格 0.800
-- 含义: 域内质量轴 300 后继续升的部分是机械 cov 轴 (self-bias-free), 非 LLM 轴 → 与 §4.3 "非单调峰值只在 self-biased LLM 轴" 一致; 域内 total 的持续上升可作 self-bias-free 质量信号
+- **300→719 增量 100% 由 cov 驱动 (Δdepth=0, Δcov=+0.044@r1 / +0.066@r2 / -0.000@r3)** — 机械 tree-depth 自 150 顶格 0.800 (min(max_depth/5,1.0), max_depth 到 4)
+- 含义: 域内质量轴 300 后继续升的部分是机械 cov 轴, **composite 两组件都机械 (self-bias-free)** — 比原"非 LLM 轴"表述更强; 与 §4.3 "非单调峰值只在 self-biased LLM 轴" 一致 (LLM 轴不进 composite)
 - 对称: 跨域 (GPU gold) depth 同样 0.8 顶格 + cov 近零 → total 平 (0.305→0.423 后 719r1 0.400 / 719r2 0.442 / 719r3 0.428)
 - n=3 (719 r1/r2/r3, 均撞 max_depth=4), **719 档内 cov 按 realized 单调非降 (197→0.130, 351→0.174, 379→0.196)** — 档内成立; 跨档是 tier mean 口径 (per-run 不单调, 见 23:05 修正)
 
