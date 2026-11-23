@@ -18,6 +18,12 @@
 - 硬件: 4× V100-SXM2-16GB (cc 7.0, TP=4), Qwen3-27B NVFP4 vLLM,
   不改权重只用 prompt+外部工具, 预算 150 研究节点（定值）
 - 排序键: 单位预算闭环成功率 = gap 标记→补全→补全后 verified/degraded 占比 (post_acc)
+- 记忆轴机制锚点（防调研发散）: pfb/research/q9-memory-axis-design-20261124.md
+  题面"记忆轴（跨 session 状态保持）"有具体机制先例——DreamCoder/LILO 的
+  跨 run claim 库（verified claim 抽取→相似度注入→省重新发现节点）。
+  该文档给了 3 组件结构 + 2 臂第一实验设计 + P1 实测连接（rep 间 claim
+  重叠仅 4.7% = 库机制直接攻击的浪费）。arena 调研记忆轴时以此为锚点，
+  不是结论——gap 判断（开放 research 域无先例 conf 0.6）需 arena 独立核验。
 - 参考格式: pfb/bench/rubric-v3/ablation/gold-tree.md（frozen ed552c4, 38 判定点格式）
 - 三条硬规则（题面歧义审计结论, gold 必须遵守）:
   ① 每个参数定值或显式声明"模型自选且 gold 按模型选的值重算"
