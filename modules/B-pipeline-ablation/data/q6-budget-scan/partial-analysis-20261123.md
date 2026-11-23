@@ -361,3 +361,10 @@ CUR 口径逐 rep:
 - **修正后 P1 判据**: 重跑批 ≈ 原批 (都 ~4-5%) → 证实 cache 共享不锁内容, rep 独立性在分解树层天然成立; 重跑批显著 < 原批 (<2%) → rep 独立性更高 (source 新鲜度也变了)
 - **P1 的真正作用**: 排除"cache 共享锁内容"这个替代解释, 让 P2 (sd 回升) 的归因干净 — 如果内容都锁了, sd 低就是 cache 的锅; 内容没锁 (4.7%), sd 低才需要 source 层解释
 - **postlanding 脚本已就绪**: q6_rerun_postlanding_analysis.py (P1 重叠率 + P2 sd+bootstrap CI + P3 域内 gold 后评), 落地一条命令出全部判据
+
+### 跨域 harness 参数差异: K7 max_depth=5 vs Q6 原批 4 vs Q6 无深度墙批 10 (23:48)
+- **K7 (GPU) 15 runs**: budget_scan_batch.sh 显式 `--max-depth 5` (= GPU gold 主干深度 5), realized 103-747 节点, 全部 max_depth=5 字段
+- **Q6 原批 15 runs**: 默认 max_depth=4 (Q6 gold 最大深度 3, 4>3 理论上够, 但模型想更深 → 719 档撞墙)
+- **Q6 无深度墙批**: max_depth=10 (D 指令, 实质无限制)
+- **跨域比较混杂**: 三批深度上限不一致 (5/4/10)。K7 "saturates at max_depth=5" 是 K7 自己的墙; Q6 原批 0.8 顶格是 4/5 的墙产物。两域 depth 组件不可直接跨域比绝对值 (draft 已声明 depth 是 per-domain 归一)
+- **影响评估**: 不影响当前 draft 声明 (Q6 段已标 max_depth=4 深度墙, K7 段已标 max_depth=5); 但跨域"预算效应"比较时深度上限是混杂 — Data note 需加一行限定
