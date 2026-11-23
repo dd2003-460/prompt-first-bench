@@ -14,6 +14,7 @@
 - 150-r3 自动评分静默失败（scores 缺 1 条, 队列日志无报错 — 评分块 `2>/dev/null` 吞了异常）
 - 已手动补评（judge total 0.400, metacog 0.3487）, scores 现 9/9 完整
 - **教训**: 队列评分块应把 stderr 落盘而非吞掉（下次修队列脚本）
+- **根因已定位（21:00）**: 队列脚本 line 33 `python3 - ... 2>/dev/null << 'PYEOF'` — 异常时 stderr 被吞, line 50 的 `except: print("[score-err]")` 本身也走 stdout 但异常发生在 import/judge_run 时 stdout 无输出 → 完全静默。修复方案（队列跑完后改）: `2>>"$OUT/q6-score-stderr.log"` 替代 `2>/dev/null`，一行改动
 
 ## ⚠️ 方差警示（2026-11-23 20:20 补, 11/15 时点）
 - metacog rep 间方差很大: budget 50 档三 rep = 0.046/0.252/0.414（极差 0.37）; 100 档 0.346/0.252/0.216; 150 档 0.060/0.364/0.349
