@@ -794,3 +794,39 @@ inflation by the uncertainty term)".
 finding (2) 从"4 个 findings 之一 (唯一跨域)"降级为"跨域 ordering 保持但
 nat<soc 环不显著"。不删除 (ordering + gpu 端显著仍成立), 但强度下降。这是
 诚实口径, 不是过强声明。
+
+## 补充34 (2026-11-23 15:35): 清洗后 budget 不变性更强 — ANOVA F 0.036→0.003
+
+### 动机
+
+补充32/33 发现 DEFENSIVE_RE 域偏倚。metacog_total = 0.4·gap_rate + 0.3·retrieval_rate
++ 0.3·post_retrieval_accuracy, gap_rate 是 40% 分量。若 gap_rate 被高估, metacog_total
+绝对值也被高估; 且 gap_rate 的 ANOVA (F=0.036) 该用清洗口径复验。
+
+### 结果 (生产 compute_metacog, monkeypatch DEFENSIVE_RE=NO_UNCERTAIN, 15 rep-scan run)
+
+| budget | gap_rate (raw) | gap_rate (clean) | metacog_total (raw) | metacog_total (clean) |
+|--------|----------------|------------------|---------------------|-----------------------|
+| 100 | 0.0992 | 0.0894 | 0.2456 | 0.2417 |
+| 150 | 0.1001 | 0.0878 | 0.2465 | 0.2416 |
+| 300 | 0.1075 | 0.0868 | 0.2323 | 0.2240 |
+
+- raw 口径复现 draft (0.246/0.247/0.232) ✓
+- 清洗后 metacog_total 形状不变 (flat-to-mildly-declining, 300 档 dip 仍由 r8 驱动)
+- **ANOVA gap_rate: raw F(2,12)=0.0360 → clean F(2,12)=0.0031** — 清洗后更接近纯零,
+  budget 不变性结论更强
+
+### 结论
+
+detector 域偏倚**不削弱** budget 不变性结论, 反而强化它:
+- 不变性声明在 gap_rate 分量上 (draft 已正确 scope 在 gap_rate, 非 metacog_total)
+- 清洗后 gap_rate 跨档更平坦 (F 从 0.036 降到 0.003), "budget effect below noise
+  resolution" 的声明更稳
+- metacog_total 绝对值 (0.246/0.247/0.232) 是 raw 口径, 清洗后 0.242/0.242/0.224,
+  形状一致 — draft 未声称 metacog_total 是 clean component (已正确标注 gap_rate 才是)
+
+### 落文
+
+- §4.3 provenance 加一句清洗对照 (gap_rate ANOVA F 0.036→0.003, invariance 更强)
+- 计算: 本条内联 (monkeypatch compute_metacog), 复现: 对 15 rep-scan run 跑
+  compute_metacog 两次 (raw DEFENSIVE_RE / NO_UNCERTAIN)
