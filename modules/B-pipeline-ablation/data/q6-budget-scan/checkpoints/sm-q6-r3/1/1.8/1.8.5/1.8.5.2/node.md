@@ -1,0 +1,20 @@
+# N153: LFU 策略在平稳负载下的缓存污染风险量化：LFU 基于访问频率保留对象，若存在低频但高价值的长尾对象（如新发布视频），LFU 可能因频率低而将其淘汰；命中率 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N47
+
+## Claim
+
+LFU 策略在平稳负载下的缓存污染风险量化：LFU 基于访问频率保留对象，若存在低频但高价值的长尾对象（如新发布视频），LFU 可能因频率低而将其淘汰；命中率 H_LFU 在负载平稳时接近 H_LRU，但在频率分布偏斜度（Gini 系数）>0.6 时，H_LFU 可能比 H_LRU 低 2-5%。
+
+## Corrected Claim
+
+LFU 策略在平稳负载下的缓存污染风险量化：LFU 基于访问频率保留对象，若存在低频但高价值的长尾对象（如新发布视频），LFU 可能因频率低而将其淘汰；命中率 H_LFU 在负载平稳时接近 H_LRU，但在频率分布偏斜度（Gini 系数）>0.6 时，H_LFU 可能比 H_LRU 低 2-5%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

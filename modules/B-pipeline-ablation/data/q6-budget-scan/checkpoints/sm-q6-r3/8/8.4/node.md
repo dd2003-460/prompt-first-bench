@@ -1,19 +1,19 @@
-# N100: 自建带宽总成本修正公式：C_bw_total = Σ(B_pop_i * P_bw_i) + C_cross_connect + C_bgp_peering，其
+# N63: 10个POP点总月电费 = 单POP点月电费(¥4,320) * POP点数量(10) = ¥43,200
 
 - **status**: verified
 - **level**: L3
-- **source**: knowledge
+- **source**: given
 - **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N28
+- **parent_ids**: N17
 
 ## Claim
 
-自建带宽总成本修正公式：C_bw_total = Σ(B_pop_i * P_bw_i) + C_cross_connect + C_bgp_peering，其中C_cross_connect为机房交叉连接费（¥500-2000/月/POP），C_bgp_peering为BGP多线接入费（若需多运营商接入则额外¥2000-5000/月/POP）
+10个POP点总月电费 = 单POP点月电费(¥4,320) * POP点数量(10) = ¥43,200
 
 ## Corrected Claim
 
-自建带宽总成本修正公式：C_bw_total = Σ(B_pop_i * P_bw_i) + C_cross_connect + C_bgp_peering，其中C_cross_connect为机房交叉连接费（¥500-2000/月/POP），C_bgp_peering为BGP多线接入费（若需多运营商接入则额外¥2000-5000/月/POP）
+10个POP点总月电费 = 单POP点月电费(¥4,320) * POP点数量(10) = ¥43,200
 
 ## Evidence
 

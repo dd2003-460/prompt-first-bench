@@ -1,0 +1,30 @@
+# N274: 运营商 DDoS 清洗服务单价 $P_{ddos, carrier}$ 的准确性：10Gbps 清洗带宽月租 5000 元（即 500 元/Gbps/月）可能偏
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N94, N95, N96
+
+## Claim
+
+运营商 DDoS 清洗服务单价 $P_{ddos, carrier}$ 的准确性：10Gbps 清洗带宽月租 5000 元（即 500 元/Gbps/月）可能偏高或偏低，需查证电信/联通/移动的实际报价。通常大带宽（>10Gbps）有阶梯折扣。需获取 1-100Gbps 区间的实际单价曲线。
+
+## Corrected Claim
+
+运营商 DDoS 清洗服务单价 $P_{ddos, carrier}$ 的具体数值（如 10Gbps 月租 5000 元）需以实际商务报价为准，不同运营商及带宽区间存在显著差异及阶梯折扣，当前数值仅为估算参考。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性价格数据（5000元/10Gbps/月），属于市场报价，无法从第一性原理推导。参考来源仅提供了云厂商（阿里云、华为云、天翼云）的服务介绍，未包含具体的单价数值或阶梯折扣曲线，无法直接验证该具体数值的准确性。 | 逻辑自洽（量级符合一般DDoS清洗服务市场认知），但参考来源[1][2][3]仅描述服务功能，未提供具体价格数据，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+China telecom carrier DDoS cleaning service pricing per Gbps month
+
+## Retrieval Sources
+
+- {'url': 'https://market.aliyun.com/detail/cmfw00061872.html&rut=e6e5942755d08b1637e345ba1c46367f5bb4622108dc6f58fbf0ec1aa1dc805e', 'type': 'ddg', 'title': '流量清洗服务_流量清洗系统_ddos流量清洗_流量清洗解决方案'}
+- {'url': 'https://www.huaweicloud.com/product/antiddos.html&rut=204e8a6c4e8c2e3828680ddd0a340d4837b2307f8388b7f1d39184ddd01608a9', 'type': 'ddg', 'title': 'Anti-DDoS流量清洗 - 华为云'}
+- {'url': 'https://www.ctyun.cn/products/antiddos&rut=57d71d84a30ff8ebc60e1be95c8ee1bf431d426258d0509444c3d44dfc50e52d', 'type': 'ddg', 'title': 'Anti-DDoS流量清洗_价格详情_功能优势_解决方案 -天翼云'}

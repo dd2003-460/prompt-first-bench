@@ -1,0 +1,30 @@
+# N345: 腾讯云CDN国内流量阶梯计费中，0-10TB档位单价为0.5元/GB，10-50TB档位为0.4元/GB，50-100TB档位为0.28元/GB（需核实最新价格
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N128
+
+## Claim
+
+腾讯云CDN国内流量阶梯计费中，0-10TB档位单价为0.5元/GB，10-50TB档位为0.4元/GB，50-100TB档位为0.28元/GB（需核实最新价格）。
+
+## Corrected Claim
+
+腾讯云CDN国内流量采用阶梯计费，通常随用量增加单价递减（具体最新价格需以官网实时报价为准）。
+
+## Evidence
+
+[质询]具体价格数值（0.5/0.4/0.28元/GB）属于经验事实，且参考来源摘要中未包含具体的阶梯价格表数据，无法直接验证数值的准确性，存在价格随时间变动或摘要未覆盖关键数据的风险。 | 来源[3]为腾讯云CDN定价页面，主题相关，但摘要未提供具体阶梯价格数值，仅能确认存在该计费模式；逻辑上阶梯递减符合商业惯例，但具体数值缺乏直接来源支持，依据经验事实排除条款降级。
+
+## Search Query
+
+腾讯云CDN 国内流量 阶梯计费 单价 元/GB 2024
+
+## Retrieval Sources
+
+- {'url': 'https://cloud.tencent.com/document/product/228/70927&rut=f77ebd6e0c4098e5ec7fdaa0757f1c6e5555c5355c48b2e9815e6d93dfe6407b', 'type': 'ddg', 'title': '内容分发网络 Cdn 计费说明_腾讯云'}
+- {'url': 'https://cloud.tencent.com/document/product/228/2949&rut=542d233b8262f3993114a18c919001fdeb3f7eb243434a2d2580d5feca18250a', 'type': 'ddg', 'title': '内容分发网络 Cdn 计费概述_腾讯云'}
+- {'url': 'https://buy.cloud.tencent.com/price/cdn&rut=8b12217b52d13da99b4933ecc75cfa4a8ac8bd87880c93a6d88ec92b6400052a', 'type': 'ddg', 'title': '内容分发网络 Cdn定价 _ 内容分发网络 Cdn价格 _ 内容分发网络 Cdn计费模式 - 腾讯云'}

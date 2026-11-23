@@ -1,0 +1,24 @@
+# N251: 自建节点间回源流量若走运营商私有骨干网（如电信 CN2 或联通 9929），跨节点传输的边际流量费用为 0 元/GB，但需支付固定的专线接入费或带宽包月费，该费
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N85, N86, N87
+
+## Claim
+
+自建节点间回源流量若走运营商私有骨干网（如电信 CN2 或联通 9929），跨节点传输的边际流量费用为 0 元/GB，但需支付固定的专线接入费或带宽包月费，该费用已包含在 N154 的 $C_{bandwidth}$ 中，不重复计算。
+
+## Corrected Claim
+
+自建节点间回源流量若走运营商私有骨干网（如电信 CN2 或联通 9929），跨节点传输的边际流量费用为 0 元/GB，但需支付固定的专线接入费或带宽包月费，该费用已包含在 N154 的 $C_{bandwidth}$ 中，不重复计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：运营商私有骨干网（如CN2/9929）内部传输通常不计边际流量费，仅收固定接入/带宽费，符合电信计费常识及成本模型定义。
+
+## Search Query
+
+private backbone network traffic cost zero marginal cost CDN backhaul

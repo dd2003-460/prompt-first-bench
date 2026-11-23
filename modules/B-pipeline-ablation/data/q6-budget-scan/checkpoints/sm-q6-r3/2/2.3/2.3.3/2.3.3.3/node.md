@@ -1,20 +1,20 @@
-# N236: 5年折旧策略下的年折旧成本计算：CAPEX_total × (1 - 5%残值率) / 5，基于N151估算的CAPEX_total=¥1,250,000，年折
+# N188: 公有云 CDN 的物理延迟下限还受网络协议栈开销影响，TCP 握手和 TLS 握手的额外 RTT 通常为 1-2 个 RTT，即 $L_{protocol} \
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N69, N70, N71
+- **parent_ids**: N63
 
 ## Claim
 
-5年折旧策略下的年折旧成本计算：CAPEX_total × (1 - 5%残值率) / 5，基于N151估算的CAPEX_total=¥1,250,000，年折旧成本约为 ¥237,500
+公有云 CDN 的物理延迟下限还受网络协议栈开销影响，TCP 握手和 TLS 握手的额外 RTT 通常为 1-2 个 RTT，即 $L_{protocol} \approx 2 \times RTT_{prop}$，需叠加到物理传播延迟上。
 
 ## Corrected Claim
 
-5年折旧策略下的年折旧成本计算：CAPEX_total × (1 - 5%残值率) / 5，基于N151估算的CAPEX_total=¥1,250,000，年折旧成本约为 ¥237,500
+公有云 CDN 的物理延迟下限还受网络协议栈开销影响，TCP 握手和 TLS 握手的额外 RTT 通常为 1-2 个 RTT，即 $L_{protocol} \approx 2 \times RTT_{prop}$，需叠加到物理传播延迟上。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：1,250,000 * (1 - 0.05) / 5 = 237,500，计算准确且符合直线折旧法逻辑。
+先验知识/题面给定，逻辑校验通过：TCP握手需1个RTT，TLS握手（非0-RTT模式）通常需1个RTT，合计2个RTT，符合网络协议栈基本工作原理。

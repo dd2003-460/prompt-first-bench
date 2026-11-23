@@ -1,19 +1,19 @@
-# N50: 边缘缓存命中延迟 t_cache 的构成：t_cache = t_network_edge + t_processing，其中 t_network_edge 为
+# N36: 用户到边缘节点的物理距离 d 服从双峰分布：核心区域（覆盖60%用户）d≈50-100km，长尾区域（覆盖40%用户）d≈300-800km，该分布直接决定P9
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N12
+- **parent_ids**: N10
 
 ## Claim
 
-边缘缓存命中延迟 t_cache 的构成：t_cache = t_network_edge + t_processing，其中 t_network_edge 为用户到最近边缘节点的RTT（取决于地理分布，通常 10-50ms），t_processing 为边缘节点内部处理与IO延迟（通常 1-5ms），需根据具体POP点位置与硬件配置确定。
+用户到边缘节点的物理距离 d 服从双峰分布：核心区域（覆盖60%用户）d≈50-100km，长尾区域（覆盖40%用户）d≈300-800km，该分布直接决定P99延迟的RTT基线。
 
 ## Corrected Claim
 
-边缘缓存命中延迟 t_cache 的构成：t_cache = t_network_edge + t_processing，其中 t_network_edge 为用户到最近边缘节点的RTT（取决于地理分布，通常 10-50ms），t_processing 为边缘节点内部处理与IO延迟（通常 1-5ms），需根据具体POP点位置与硬件配置确定。
+用户到边缘节点的物理距离 d 服从双峰分布：核心区域（覆盖60%用户）d≈50-100km，长尾区域（覆盖40%用户）d≈300-800km，该分布直接决定P99延迟的RTT基线。
 
 ## Evidence
 
@@ -21,4 +21,4 @@
 
 ## Search Query
 
-CDN edge cache hit latency components RTT processing time
+China CDN user geographic distribution distance to PoP

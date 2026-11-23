@@ -1,0 +1,24 @@
+# N290: 混合策略自建部分在最小带宽预留工作点（100Mbps/POP）的月带宽成本：5个核心POP各预留100Mbps，电信100Mbps专线月租约200元/POP，总
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N109
+
+## Claim
+
+混合策略自建部分在最小带宽预留工作点（100Mbps/POP）的月带宽成本：5个核心POP各预留100Mbps，电信100Mbps专线月租约200元/POP，总成本 $C_{bw,hybrid,own,min} = 5 \times 200 = 1000 \text{ 元/月}$。
+
+## Corrected Claim
+
+混合策略自建部分在最小带宽预留工作点（100Mbps/POP）的月带宽成本：5个核心POP各预留100Mbps，若电信100Mbps专线月租按200元/POP估算（注：此价格显著低于市场常规企业专线价格，需核实具体合同或促销条件），总成本 $C_{bw,hybrid,own,min} = 5 \times 200 = 1000 \text{ 元/月}$。
+
+## Evidence
+
+[质询]电信100Mbps专线月租约200元/POP的价格严重偏离市场常识，通常企业级100M专线月租在数千至数万元级别，200元更接近家庭宽带或极低折扣的虚拟专线价格，存在数值量级或口径混淆（如将年费/特殊促销价误作标准月租）的风险。 | source=knowledge，逻辑推导（5*200=1000）自洽，但核心参数（200元/月）作为经验事实缺乏来源支持且与市场常规量级存在显著偏差，依据经验事实排除条款降级。
+
+## Search Query
+
+china telecom 100mbps dedicated line monthly rental price 2024

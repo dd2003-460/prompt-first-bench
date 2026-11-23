@@ -1,0 +1,24 @@
+# N189: Cloudflare按请求数计费的模式主要适用于API调用或动态内容，对于静态图片/视频CDN分发，主要计费维度是带宽（Bandwidth）而非请求数；若按请求
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N58
+
+## Claim
+
+Cloudflare按请求数计费的模式主要适用于API调用或动态内容，对于静态图片/视频CDN分发，主要计费维度是带宽（Bandwidth）而非请求数；若按请求数计费，Pro计划包含1000万请求/月，超出后按$0.50/百万请求计费，对于日均400万-4000万请求（月均1.2亿-12亿次），请求费约为¥4,320-¥43,200/月，但此模式不适用于大对象传输，带宽费仍是主要成本。
+
+## Corrected Claim
+
+Cloudflare 的 CDN 服务主要按套餐（Pro/Business/Enterprise）计费，而非单纯的按请求数计费。对于静态内容，带宽是主要成本考量。若参考其历史或特定 API 计费模式，Pro 计划可能包含一定额度的请求，但具体配额和超额单价需以官方最新定价页为准，且大对象传输主要受带宽限制。
+
+## Evidence
+
+[质询]Cloudflare Pro 计划的具体请求数配额（1000万/月）及超额单价（$0.50/百万）属于具体的商业定价参数，且 Cloudflare 的计费模式通常基于套餐（Pro/Business/Enterprise）而非简单的“按请求数计费”叠加模式，该具体数值和计费逻辑描述可能存在过时或混淆（例如混淆了 Workers 的计费或旧版定价）。 | 逻辑推导成立（400万-4000万日请求对应1.2亿-12亿月请求，超出1000万部分按$0.50/M计算，换算成人民币量级合理），但具体定价参数（1000万配额、$0.50单价）为经验事实，缺乏来源直接支持，且 Cloudflare 实际计费多为套餐制，此描述可能不准确。
+
+## Search Query
+
+Cloudflare CDN pricing request based vs bandwidth based

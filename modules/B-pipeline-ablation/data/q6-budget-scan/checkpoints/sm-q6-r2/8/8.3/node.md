@@ -1,20 +1,20 @@
-# N133: 10Gbps 专线在 2TB/日负载下的利用率 $\eta$ 计算：$B_{avg} = 2 \text{ TB} / 86400 \text{ s} \app
+# N62: 单POP点月电费 = 单台月电费(¥288) * 每点服务器数量(10台) * PUE(1.5) = ¥4,320
 
 - **status**: verified
 - **level**: L3
-- **source**: knowledge
+- **source**: given
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N32
+- **parent_ids**: N17
 
 ## Claim
 
-10Gbps 专线在 2TB/日负载下的利用率 $\eta$ 计算：$B_{avg} = 2 \text{ TB} / 86400 \text{ s} \approx 23.15 \text{ Mbps} \approx 0.023 \text{ Gbps}$，若预留 10Gbps，则 $\eta = 0.023 / 10 = 0.23\%$，表明 10Gbps 预留严重过剩，实际应按 1Gbps 或更低规格预留。
+单POP点月电费 = 单台月电费(¥288) * 每点服务器数量(10台) * PUE(1.5) = ¥4,320
 
 ## Corrected Claim
 
-10Gbps 专线在 2TB/日负载下的利用率 $\eta$ 计算：$B_{avg} = 2 \text{ TB} / 86400 \text{ s} \approx 23.15 \text{ Mbps} \approx 0.023 \text{ Gbps}$，若预留 10Gbps，则 $\eta = 0.023 / 10 = 0.23\%$，表明 10Gbps 预留严重过剩，实际应按 1Gbps 或更低规格预留。
+单POP点月电费 = 单台月电费(¥288) * 每点服务器数量(10台) * PUE(1.5) = ¥4,320
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：2TB/86400s ≈ 23.15Mbps ≈ 0.023Gbps，0.023/10 = 0.23%，计算无误且量级合理。
+先验知识/题面给定，逻辑校验通过：288 * 10 * 1.5 = 4320，计算无误且量级合理。

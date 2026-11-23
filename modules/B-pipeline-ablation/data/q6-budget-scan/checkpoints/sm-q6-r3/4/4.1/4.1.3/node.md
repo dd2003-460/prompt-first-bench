@@ -1,28 +1,30 @@
-# N126: 浙江省流量占比 P_Zhejiang 的具体数值，基于2023-2024年主流互联网平台的公开区域分布报告，预期范围在 10%-12% 之间。
+# N79: 国内/海外流量单价差异：阿里云海外节点流量单价通常高于国内，约为 0.30-0.40 元/GB；Cloudflare 全球统一单价，但不同区域的出口带宽成本不同
 
 - **status**: degraded
 - **level**: L3
 - **source**: search
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 1
-- **parent_ids**: N34
+- **parent_ids**: N17
 
 ## Claim
 
-浙江省流量占比 P_Zhejiang 的具体数值，基于2023-2024年主流互联网平台的公开区域分布报告，预期范围在 10%-12% 之间。
+国内/海外流量单价差异：阿里云海外节点流量单价通常高于国内，约为 0.30-0.40 元/GB；Cloudflare 全球统一单价，但不同区域的出口带宽成本不同，实际账单可能因流量分布而异；假设 90% 流量在国内，10% 在海外，加权平均单价 $P_{weighted} = 0.9 \times P_{domestic} + 0.1 \times P_{overseas}$。
 
 ## Corrected Claim
 
-浙江省网民规模超5800万人（基于2023年报告），其在全国流量或网民中的具体占比需结合全国总数据进一步计算，预期范围在10%-12%之间（待验证）。
+国内/海外流量单价差异：阿里云海外节点流量单价通常高于国内（具体价格依地域而定，如新加坡、美国等地域价格不同）；Cloudflare 全球统一单价，但不同区域的出口带宽成本不同，实际账单可能因流量分布而异；假设 90% 流量在国内，10% 在海外，加权平均单价 $P_{weighted} = 0.9 \times P_{domestic} + 0.1 \times P_{overseas}$。
 
 ## Evidence
 
-[质询]参考来源仅提供了浙江省网民规模（绝对值），未提供全国网民总规模或流量分布数据，无法直接验证10%-12%的占比数值；且“流量占比”与“网民规模占比”存在口径差异，来源未覆盖具体流量分布报告。 | 来源[1]仅提及浙江网民超5800万，未提供全国基数或流量占比数据，无法直接支持10%-12%的具体数值范围，属于经验事实且缺乏直接来源支持。
+[质询]具体数值（0.30-0.40 元/GB）属于经验事实，参考来源仅提及存在差异但未提供该具体价格区间，且阿里云海外流量价格通常按地域（如新加坡、美国）细分，并非统一为单一区间，该数值缺乏直接来源支持。 | 来源[1]确认海外节点流量单价存在差异且通常高于国内，但所有来源均未提供具体的 0.30-0.40 元/GB 数值，属于经验事实缺来源支持。
 
 ## Search Query
 
-QuestMobile 2024 China user distribution by province Zhejiang percentage
+Alibaba Cloud CDN overseas traffic pricing vs domestic 2024
 
 ## Retrieval Sources
 
-- {'url': 'https://www.sohu.com/a/796340453_121973378&rut=911312031d7d68dd82ebe3f30d75e91a981fe2873da62e84cc944cc5670daa45', 'type': 'ddg', 'title': '《浙江省互联网行业统计报告（2023）》发布 全省网民规模超5800万人'}
+- {'url': 'https://developer.aliyun.com/article/1760304&rut=947c79752c627993e01cf14046b2eb1c5113233c20ed17dc71d0a8b12f7efad0', 'type': 'ddg', 'title': '新版阿里云海外云服务器配置价格整理总结：阿里云香港、新加坡、美国地域服务器选型、计费规则与实操教程'}
+- {'url': 'https://help.aliyun.com/zh/oss/traffic-fees&rut=ae34107ae81ca4af378bd96ae849ac6559f004622d4e9253c5e55404650e791b', 'type': 'ddg', 'title': '流量费用-对象存储 (Oss)-阿里云帮助中心'}
+- {'url': 'https://help.aliyun.com/zh/cdt/internet-data-transfers/&rut=8228c4d24d0155c5433b601eb1b88c72d9d56e01e6be05658a082867ebb2e843', 'type': 'ddg', 'title': 'Cdt公网流量定价-云数据传输 (Cdt)-阿里云帮助中心'}

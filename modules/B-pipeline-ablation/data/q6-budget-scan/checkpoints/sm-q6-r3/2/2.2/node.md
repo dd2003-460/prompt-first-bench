@@ -1,24 +1,24 @@
-# N16: 基础设施OPEX：自建节点的年运维成本 = N_POP * (C_power + C_maintenance + C_upgrade)，其中C_power为电力
+# N12: 缓存命中率 $H$ 决定回源流量比例，回源带宽成本占比为 $(1-H)$；对于媒体平台，静态资源缓存命中率通常在 90%-95% 之间，需根据内容热度分布（Zi
 
-- **status**: verified
+- **status**: pending
 - **level**: L2
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
 - **parent_ids**: N2
 
 ## Claim
 
-基础设施OPEX：自建节点的年运维成本 = N_POP * (C_power + C_maintenance + C_upgrade)，其中C_power为电力成本（约¥10k-30k/点/年），C_maintenance为设备维护成本（约¥5k-15k/点/年），C_upgrade为硬件升级成本（约¥10k-20k/点/年）
+缓存命中率 $H$ 决定回源流量比例，回源带宽成本占比为 $(1-H)$；对于媒体平台，静态资源缓存命中率通常在 90%-95% 之间，需根据内容热度分布（Zipf 分布）估算 $H$ 值。
 
 ## Corrected Claim
 
-基础设施OPEX：自建节点的年运维成本 = N_POP * (C_power + C_maintenance + C_upgrade)，其中C_power为电力成本（约¥10k-30k/点/年），C_maintenance为设备维护成本（约¥5k-15k/点/年），C_upgrade为硬件升级成本（约¥10k-20k/点/年）
+缓存命中率 $H$ 决定回源流量比例，回源带宽成本占比为 $(1-H)$；对于媒体平台，静态资源缓存命中率通常在 90%-95% 之间，需根据内容热度分布（Zipf 分布）估算 $H$ 值。
 
 ## Evidence
 
-父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点公式中的 C_power、C_maintenance 和 C_upgrade 三个独立变量，彼此正交且无重叠；三者完整覆盖了父节点定义的所有成本组成部分；各子节点描述的是不同性质的成本（能耗、维护、升级摊销），不存在冗余。）
+父节点级核验未通过：非正交, 不完备（子节点与父节点严重脱节。父节点核心论点是‘缓存命中率H决定回源流量’，但所有子节点均围绕‘峰值带宽B_peak计算’和‘计费模式’展开，完全未涉及命中率H、Zipf分布或回源成本占比(1-H)。此外，子节点1、2、3、4之间存在逻辑依赖和重复（如多次提及K_peak），且子节点1关于日均2TB的数据与子节点2的计算公式在量级上存在潜在矛盾或语境缺失（2TB/天平均带宽极低，370Mbps峰值意味着极高的峰值系数，需验证一致性）。）
 
 ## Search Query
 
-CDN edge node OPEX annual cost breakdown
+CDN cache hit ratio media content zipf distribution

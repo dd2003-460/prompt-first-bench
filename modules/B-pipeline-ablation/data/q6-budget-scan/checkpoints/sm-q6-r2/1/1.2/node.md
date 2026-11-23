@@ -1,24 +1,20 @@
-# N8: 对象大小分布 $P(s)$ 呈双峰或长尾分布，图片类对象大小集中在 0.5MB-2MB，短视频类集中在 5MB-20MB；需定义加权平均大小 $s_{avg} 
+# N5: 公有云CDN的SLA中P99延迟承诺值（通常为<200ms或<300ms，取决于区域）与自建节点的物理极限（RTT + 处理时间）的对比，决定P99目标T在两种
 
 - **status**: verified
 - **level**: L2
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N1
+- **parent_ids**: N1, N2, N3
 
 ## Claim
 
-对象大小分布 $P(s)$ 呈双峰或长尾分布，图片类对象大小集中在 0.5MB-2MB，短视频类集中在 5MB-20MB；需定义加权平均大小 $s_{avg} = \sum p_i s_i$ 用于带宽换算，以及最大对象大小 $s_{max}$ 用于计算单流传输时间下限。
+公有云CDN的SLA中P99延迟承诺值（通常为<200ms或<300ms，取决于区域）与自建节点的物理极限（RTT + 处理时间）的对比，决定P99目标T在两种方案下的可达性。
 
 ## Corrected Claim
 
-对象大小分布 $P(s)$ 呈双峰或长尾分布，图片类对象大小集中在 0.5MB-2MB，短视频类集中在 5MB-20MB；需定义加权平均大小 $s_{avg} = \sum p_i s_i$ 用于带宽换算，以及最大对象大小 $s_{max}$ 用于计算单流传输时间下限。
+公有云CDN的SLA中P99延迟承诺值（通常为<200ms或<300ms，取决于区域）与自建节点的物理极限（RTT + 处理时间）的对比，决定P99目标T在两种方案下的可达性。
 
 ## Evidence
 
-父节点级核验通过：正交+完备+无冗余（子节点1和2分别定义了条件分布 P(s|img) 和 P(s|vid)，子节点3定义了全局极值 s_max。三者维度不同（条件分布 vs 全局统计量），内容互补且无逻辑冲突。虽然 s_max 数值上可能由子节点2的长尾决定，但作为独立定义的边界参数用于不同计算目的（T_transfer 下限），不构成冗余。父节点提到的加权平均 s_avg 在子节点中未显式列出，但 s_avg 是 s_{avg} = sum p_i s_i 的直接推导结果，属于由分布参数隐含确定的计算值，通常不需要单独作为结构性子节点，因此视为覆盖完整。）
-
-## Search Query
-
-media platform file size distribution image video statistics
+先验知识/题面给定，逻辑校验通过

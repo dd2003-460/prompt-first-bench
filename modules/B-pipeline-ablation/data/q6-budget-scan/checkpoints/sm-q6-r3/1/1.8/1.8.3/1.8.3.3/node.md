@@ -1,19 +1,19 @@
-# N239: 长尾流量对 θ 的侵蚀效应：当用户地理分布发生季节性迁移（如春节返乡潮）或新兴热点区域爆发时，静态 θ 会偏离实际值，动态修正公式 θ_dynamic(t) =
+# N148: 缓存容量 C 的有效利用率系数 eta：实际可用缓存容量并非名义值 C，而是 C_effective = C * eta，其中 eta 为有效利用率系数，通常 
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N74
+- **parent_ids**: N45
 
 ## Claim
 
-长尾流量对 θ 的侵蚀效应：当用户地理分布发生季节性迁移（如春节返乡潮）或新兴热点区域爆发时，静态 θ 会偏离实际值，动态修正公式 θ_dynamic(t) = P_core_base * (1 - β_seasonal)，其中 β_seasonal 为季节性波动系数（通常 5%-10%），需在成本模型中引入时间变量 t 的加权平均
+缓存容量 C 的有效利用率系数 eta：实际可用缓存容量并非名义值 C，而是 C_effective = C * eta，其中 eta 为有效利用率系数，通常 eta = 0.8-0.9；损耗来源包括文件系统开销、元数据索引占用、以及缓存碎片化；在计算命中率时，必须使用 C_effective 而非 C，否则会导致命中率高估 10-20%，进而低估回源成本。
 
 ## Corrected Claim
 
-长尾流量对 θ 的侵蚀效应：当用户地理分布发生季节性迁移（如春节返乡潮）或新兴热点区域爆发时，静态 θ 会偏离实际值，动态修正公式 θ_dynamic(t) = P_core_base * (1 - β_seasonal)，其中 β_seasonal 为季节性波动系数（通常 5%-10%），需在成本模型中引入时间变量 t 的加权平均
+缓存容量 C 的有效利用率系数 eta：实际可用缓存容量并非名义值 C，而是 C_effective = C * eta，其中 eta 为有效利用率系数，通常 eta = 0.8-0.9；损耗来源包括文件系统开销、元数据索引占用、以及缓存碎片化；在计算命中率时，必须使用 C_effective 而非 C，否则会导致命中率高估 10-20%，进而低估回源成本。
 
 ## Evidence
 
@@ -21,4 +21,4 @@
 
 ## Search Query
 
-seasonal traffic fluctuation CDN edge coverage impact China Spring Festival
+cache effective capacity utilization factor filesystem overhead metadata

@@ -1,24 +1,20 @@
-# N274: Cloudflare 跨境流量（Cross-border）附加费系数：从美国/欧洲源站回源至亚洲边缘节点，或亚洲用户访问非亚洲边缘节点，流量单价通常乘以 1.5
+# N112: 混合策略运维成本 $C_{ops,hybrid}$：自建部分需 SRE 团队（4 人），月人力成本 $4 \times 500000 / 12 \approx 
 
-- **status**: degraded
-- **level**: L4
+- **status**: pending
+- **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
-- **rework_count**: 1
-- **parent_ids**: N88
+- **rework_count**: 0
+- **parent_ids**: N27
 
 ## Claim
 
-Cloudflare 跨境流量（Cross-border）附加费系数：从美国/欧洲源站回源至亚洲边缘节点，或亚洲用户访问非亚洲边缘节点，流量单价通常乘以 1.5 - 2.0 的系数
+混合策略运维成本 $C_{ops,hybrid}$：自建部分需 SRE 团队（4 人），月人力成本 $4 \times 500000 / 12 \approx 166667$ 元/月；公有云部分管理费 $C_{ops,cloud} \approx 500$ 元/月；总运维成本 $C_{ops,hybrid} \approx 167167$ 元/月。
 
 ## Corrected Claim
 
-Cloudflare 跨境流量（Cross-border）通常涉及额外的传输成本或定价调整，具体系数取决于服务类型和合同条款，一般高于本地流量单价。
+混合策略运维成本 $C_{ops,hybrid}$：自建部分需 SRE 团队（4 人），月人力成本 $4 \times 500000 / 12 \approx 166667$ 元/月；公有云部分管理费 $C_{ops,cloud} \approx 500$ 元/月；总运维成本 $C_{ops,hybrid} \approx 167167$ 元/月。
 
 ## Evidence
 
-[质询]具体数值系数（1.5-2.0）属于经验性商业定价参数，不同时期、不同合同或不同区域的具体倍数可能存在差异，且Cloudflare官方文档通常不直接公开此类内部结算倍数的固定范围，该数值可能基于特定案例或过时信息。 | 经验事实，逻辑自洽但缺来源支持
-
-## Search Query
-
-Cloudflare cross-border traffic pricing multiplier Asia
+父节点级核验未通过：非正交, 不完备, 有冗余（1. 正交性失效：子节点B和C并非与A并列的独立维度，而是基于A的变体或优化方案，导致内容重叠（如都包含人力和云运维成本）。2. 完备性不足：父节点明确给出总成本为167,167元/月，而子节点分别给出了20万、8.3万、12.9万等不同数值，未能统一解释父节点数值的构成，反而造成了数值矛盾。3. 冗余严重：这三个子节点本质上是‘运维策略’的不同选项（Baseline, 外包优化, 自动化优化），而非父节点成本构成的正交组成部分。它们应被归类为‘敏感性分析’或‘替代方案评估’，而不是父节点成本的分解项。）

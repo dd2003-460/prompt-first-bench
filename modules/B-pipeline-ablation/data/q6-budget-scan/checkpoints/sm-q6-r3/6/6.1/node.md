@@ -1,28 +1,28 @@
-# N87: 阿里云CDN下行流量阶梯单价：0-10TB/月区间为 ¥0.24/GB，10-50TB/月区间为 ¥0.22/GB，50TB以上区间为 ¥0.20/GB（202
+# N26: 工作点 A（高性低成）：全公有云 CDN 策略下，P99 延迟 ≤ 300ms 时的每千请求成本（¥/1000 req），含带宽+基础设施+运维。
 
-- **status**: degraded
-- **level**: L3
+- **status**: verified
+- **level**: L2
 - **source**: search
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 1
-- **parent_ids**: N26
+- **parent_ids**: N6
 
 ## Claim
 
-阿里云CDN下行流量阶梯单价：0-10TB/月区间为 ¥0.24/GB，10-50TB/月区间为 ¥0.22/GB，50TB以上区间为 ¥0.20/GB（2024年标准价，需核实最新价目表）
+工作点 A（高性低成）：全公有云 CDN 策略下，P99 延迟 ≤ 300ms 时的每千请求成本（¥/1000 req），含带宽+基础设施+运维。
 
 ## Corrected Claim
 
-阿里云CDN下行流量采用阶梯计费，具体单价随地域和最新价目表变动，常见中国大陆地区标准价约为0.24-0.20元/GB区间，需以官网实时报价为准。
+工作点 A（高性低成）：全公有云 CDN 策略下，通常以 P99 延迟 ≤ 300ms 作为性能基准，需结合具体带宽、基础设施及运维开销计算每千请求成本（¥/1000 req）。
 
 ## Evidence
 
-[质询]参考来源摘要中未包含具体的阶梯单价数值（如0.24/0.22/0.20元/GB），仅提及计费方式和单位换算，无法直接验证具体价格数值；且阿里云CDN价格随地域（中国大陆/海外）和具体产品版本（如边缘安全加速）差异较大，未指定地域可能导致数值不准确。 | 来源[1]主题相关（阿里云CDN价格表），但摘要中缺失具体阶梯单价数据，属于间接支持或证据不足；该事实为经验事实（具体市场价格），逻辑自洽但缺乏直接来源支持，依据规则判为degraded。
+父节点级核验通过：正交+完备+无冗余（子节点分别对应带宽、基础设施、运维三大成本组件及最终的聚合计算，符合MECE原则（相互独立、完全穷尽）。带宽成本内部虽区分了两种计费模式，但属于同一维度下的条件分支，不构成节点间的冗余或矛盾；其他组件无重叠。）
 
 ## Search Query
 
-Alibaba Cloud CDN pricing per GB 2024 tiered rate
+Cloudflare Alibaba CDN P99 latency cost per 1000 requests image video platform
 
 ## Retrieval Sources
 
-- {'url': 'https://zhuanlan.zhihu.com/p/2055659966803993498&rut=a63818a2a8f53de559a10cf03ab2046e70d3c4388b9b5e5e8fe11b2a011ef03a', 'type': 'ddg', 'title': '阿里云cdn价格表：不同地域流量费用（阶梯计费） - 知乎'}
+- {'url': 'https://zhuanlan.zhihu.com/p/1907850060240257948&rut=f8568459f53c969be6c08e9ce6f128269cd34bc1378fc3538a037e0cd1594e62', 'type': 'ddg', 'title': '运维必懂：监控指标中的 P90、P95、P99，到底是个啥？'}

@@ -1,24 +1,20 @@
-# N37: T（SLA目标值）的确定依据：基于用户体验研究，P99延迟<200ms对应用户感知'流畅'，200-500ms对应'可接受'，>500ms对应'卡顿'；需结合业
+# N39: 日均总请求量 $R_{daily} = 2 \times 10^6 \text{ MB} / 2.95 \text{ MB} \approx 677,966 \
 
-- **status**: verified
+- **status**: pending
 - **level**: L3
-- **source**: knowledge
-- **edge_type**: cartesian
+- **source**: given
+- **edge_type**: quotient
 - **rework_count**: 0
 - **parent_ids**: N7
 
 ## Claim
 
-T（SLA目标值）的确定依据：基于用户体验研究，P99延迟<200ms对应用户感知'流畅'，200-500ms对应'可接受'，>500ms对应'卡顿'；需结合业务KPI（如留存率与延迟的弹性系数）确定T的具体数值，通常T=300ms为平衡点
+日均总请求量 $R_{daily} = 2 \times 10^6 \text{ MB} / 2.95 \text{ MB} \approx 677,966 \text{ requests/day}$，即约 68 万请求/天，用于后续每千请求成本的分母计算。
 
 ## Corrected Claim
 
-T（SLA目标值）的确定依据：基于用户体验研究，P99延迟<200ms对应用户感知'流畅'，200-500ms对应'可接受'，>500ms对应'卡顿'；需结合业务KPI（如留存率与延迟的弹性系数）确定T的具体数值，通常T=300ms为平衡点
+日均总请求量 $R_{daily} = 2 \times 10^6 \text{ MB} / 2.95 \text{ MB} \approx 677,966 \text{ requests/day}$，即约 68 万请求/天，用于后续每千请求成本的分母计算。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
-
-## Search Query
-
-user experience latency threshold 200ms 500ms CDN SLA target
+父节点级核验未通过：有冗余（子节点代表了同一参数（内容混合比例）在不同取值下的计算结果，属于典型的参数化分解而非结构性分解。虽然逻辑上互斥且覆盖了典型场景，但存在高度冗余，本质上是一个公式 $R = TotalSize / (w_1 s_1 + w_2 s_2)$ 的三种实例。）

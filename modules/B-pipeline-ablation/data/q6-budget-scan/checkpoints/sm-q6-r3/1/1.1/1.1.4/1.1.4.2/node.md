@@ -1,24 +1,20 @@
-# N139: 不同T值下的合规成本敏感度：当T从300ms降至200ms时，公有云CDN的P99达标率从99.5%降至98.2%（基于N113/N117数据推断），导致Pen
+# N161: 工作点 B（纯短视频主导场景）：假设日均下载 2TB 中 10% 为图片（均值 1MB），90% 为短视频（均值 7.5MB），加权平均对象大小 $s_{avg
 
-- **status**: degraded
+- **status**: verified
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: cartesian
-- **rework_count**: 1
-- **parent_ids**: N37
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N39
 
 ## Claim
 
-不同T值下的合规成本敏感度：当T从300ms降至200ms时，公有云CDN的P99达标率从99.5%降至98.2%（基于N113/N117数据推断），导致Penalty项增加；自建策略因硬件冗余成本增加，C_self_fixed上升约15%，需计算ΔC_total = ΔPenalty + ΔC_self_fixed 以确定最优T
+工作点 B（纯短视频主导场景）：假设日均下载 2TB 中 10% 为图片（均值 1MB），90% 为短视频（均值 7.5MB），加权平均对象大小 $s_{avg} = 0.1 \times 1 + 0.9 \times 7.5 = 6.85$ MB，则 $R_{daily} = 2,000,000 / 6.85 \approx 291,971$ 请求/天。
 
 ## Corrected Claim
 
-不同T值下的合规成本敏感度：当T从300ms降至200ms时，公有云CDN的P99达标率预计下降（具体数值需实测验证），导致Penalty项增加；自建策略因硬件冗余成本增加，C_self_fixed预计上升，需计算ΔC_total = ΔPenalty + ΔC_self_fixed 以确定最优T
+工作点 B（纯短视频主导场景）：假设日均下载 2TB 中 10% 为图片（均值 1MB），90% 为短视频（均值 7.5MB），加权平均对象大小 $s_{avg} = 0.1 \times 1 + 0.9 \times 7.5 = 6.85$ MB，则 $R_{daily} = 2,000,000 / 6.85 \approx 291,971$ 请求/天。
 
 ## Evidence
 
-[质询]具体数值（99.5%降至98.2%、15%成本上升）缺乏直接来源支持，属于基于推断的经验性估算，可能存在量级偏差或口径混淆。 | 逻辑自洽：T值降低导致延迟容忍度收紧，P99达标率下降从而增加Penalty，同时为满足更严格SLA需增加硬件冗余导致固定成本上升，总成本变化为两者之和。但具体数值为推断值，无外部来源直接支持，且属于经验事实范畴，故降级。
-
-## Search Query
-
-CDN P99 latency SLA target cost sensitivity analysis 200ms vs 300ms
+先验知识/题面给定，逻辑校验通过：加权平均计算 0.1*1 + 0.9*7.5 = 6.85 MB 正确；总请求数计算 2,000,000 / 6.85 ≈ 291,970.8，四舍五入为 291,971 正确。

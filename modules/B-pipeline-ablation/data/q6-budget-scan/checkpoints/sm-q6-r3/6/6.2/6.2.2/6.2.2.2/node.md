@@ -1,0 +1,24 @@
+# N294: 工作点B（含回源放大）：考虑公有云CDN缓存命中率仅80%，导致10%长尾流量中又有20%回源至源站，产生额外跨域回源流量 $V_{backhaul} = 0.
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N110
+
+## Claim
+
+工作点B（含回源放大）：考虑公有云CDN缓存命中率仅80%，导致10%长尾流量中又有20%回源至源站，产生额外跨域回源流量 $V_{backhaul} = 0.6 \text{ TB/month}$，若回源单价为0.5元/GB，则额外成本 $C_{extra} = 0.6 \times 1024 \times 0.5 = 307.2$ 元/月，总成本 $C_{total} = 1474.56 + 307.2 = 1781.76$ 元/月。
+
+## Corrected Claim
+
+工作点B（含回源放大）：考虑公有云CDN缓存命中率仅80%，导致10%长尾流量中又有20%回源至源站，产生额外跨域回源流量 $V_{backhaul} = 0.6 \text{ TB/month}$，若回源单价为0.5元/GB，则额外成本 $C_{extra} = 0.6 \times 1024 \times 0.5 = 307.2$ 元/月，总成本 $C_{total} = 1474.56 + 307.2 = 1781.76$ 元/月。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：0.6 TB转换为GB为614.4 GB，乘以单价0.5元/GB得307.2元，加上基础成本1474.56元得1781.76元，计算无误。
+
+## Search Query
+
+Alibaba Cloud CDN backhaul traffic pricing cross-region

@@ -1,24 +1,24 @@
-# N279: 公有云 CDN 峰值带宽计费模式（Bandwidth Billing）：费用 = 峰值带宽(Mbps) * 单价(¥/Mbps/月)，中国大陆标准价约为 ¥30
+# N119: 带宽单价波动 +20% 时，三种策略（全公有云、混合、全自建）的每千请求成本排序是否反转，需计算各策略成本对带宽单价 $P_{bw}$ 的偏导数 $\frac{
 
-- **status**: verified
-- **level**: L4
+- **status**: pending
+- **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N90
+- **parent_ids**: N29
 
 ## Claim
 
-公有云 CDN 峰值带宽计费模式（Bandwidth Billing）：费用 = 峰值带宽(Mbps) * 单价(¥/Mbps/月)，中国大陆标准价约为 ¥30-50/Mbps/月，峰值系数 k_peak=3-5 时，月成本 = Avg_BW * k_peak * P_bw_peak
+带宽单价波动 +20% 时，三种策略（全公有云、混合、全自建）的每千请求成本排序是否反转，需计算各策略成本对带宽单价 $P_{bw}$ 的偏导数 $\frac{\partial C}{\partial P_{bw}}$ 并比较弹性系数。
 
 ## Corrected Claim
 
-公有云 CDN 峰值带宽计费模式（Bandwidth Billing）：费用 = 峰值带宽(Mbps) * 单价(¥/Mbps/月)，中国大陆标准价约为 ¥30-50/Mbps/月，峰值系数 k_peak=3-5 时，月成本 = Avg_BW * k_peak * P_bw_peak
+带宽单价波动 +20% 时，三种策略（全公有云、混合、全自建）的每千请求成本排序是否反转，需计算各策略成本对带宽单价 $P_{bw}$ 的偏导数 $\frac{\partial C}{\partial P_{bw}}$ 并比较弹性系数。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+父节点级核验未通过：不完备, 有冗余（子节点仅计算了偏导数（成本对带宽单价的敏感度），但父节点明确要求比较“弹性系数”并判断“排序是否反转”。此外，三个子节点本质上是同一数学模型 $\frac{\partial C}{\partial P_{bw}} = V_{effective}$ 在三种不同流量分配场景下的取值，存在结构性冗余。）
 
 ## Search Query
 
-Alibaba Cloud CDN bandwidth billing price per Mbps monthly China
+CDN cost sensitivity bandwidth price elasticity

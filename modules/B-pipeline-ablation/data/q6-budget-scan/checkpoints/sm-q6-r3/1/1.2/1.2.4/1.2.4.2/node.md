@@ -1,20 +1,24 @@
-# N129: 从乌鲁木齐/拉萨/呼和浩特到最近主流 CDN POP 点（如西安/成都/北京）的光纤物理距离 d_max 及理论传播延迟 t_propagation = d_m
+# N92: 自建节点在偏远地区（覆盖不足20%流量）的P99延迟贡献：由于缺乏本地POP，请求需回源或跨区转发，RTT增加至60-100ms，叠加缓存未命中（H<80%）导
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N37
+- **parent_ids**: N25, N26, N27
 
 ## Claim
 
-从乌鲁木齐/拉萨/呼和浩特到最近主流 CDN POP 点（如西安/成都/北京）的光纤物理距离 d_max 及理论传播延迟 t_propagation = d_max / (200,000 km/s)，其中 d_max 约为 1,500-2,500km，t_propagation ≈ 7.5-12.5ms（单程），往返 RTT_propagation ≈ 15-25ms
+自建节点在偏远地区（覆盖不足20%流量）的P99延迟贡献：由于缺乏本地POP，请求需回源或跨区转发，RTT增加至60-100ms，叠加缓存未命中（H<80%）导致的回源延迟（50-150ms），该子群P99约为 110-250ms，加权后对整体P99的贡献约为 0.2 * 180ms = 36ms，需与核心区域延迟取最大值或分布混合计算。
 
 ## Corrected Claim
 
-从乌鲁木齐/拉萨/呼和浩特到最近主流 CDN POP 点（如西安/成都/北京）的光纤物理距离 d_max 及理论传播延迟 t_propagation = d_max / (200,000 km/s)，其中 d_max 约为 1,500-2,500km，t_propagation ≈ 7.5-12.5ms（单程），往返 RTT_propagation ≈ 15-25ms
+自建节点在偏远地区（覆盖不足20%流量）的P99延迟贡献：由于缺乏本地POP，请求需回源或跨区转发，RTT增加至60-100ms，叠加缓存未命中（H<80%）导致的回源延迟（50-150ms），该子群P99约为 110-250ms，加权后对整体P99的贡献约为 0.2 * 180ms = 36ms，需与核心区域延迟取最大值或分布混合计算。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：光在光纤中的传播速度约为200,000 km/s，距离1,500-2,500km对应的单程延迟计算正确（7.5-12.5ms），往返RTT为15-25ms，符合物理规律及地理常识。
+先验知识/题面给定，逻辑校验通过：P99延迟估算符合网络传输与缓存回源的基本物理规律，加权计算逻辑自洽。
+
+## Search Query
+
+self-hosted CDN latency remote regions cross-region forwarding P99

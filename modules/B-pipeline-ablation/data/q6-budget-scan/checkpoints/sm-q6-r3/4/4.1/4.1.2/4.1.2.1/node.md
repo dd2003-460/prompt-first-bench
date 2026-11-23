@@ -1,24 +1,24 @@
-# N179: 平均回源距离 d_avg 的 GIS 计算模型：d_avg = (1/N_users) * Σ_{i=1}^{N_users} min_{j=1}^{N_pop
+# N227: Cloudflare 对静态资源（图片/视频）采用按流量计费（$0.02/GB 超出免费额度后），但免费额度通常为 50GB/月；对于 60TB/月 的负载，几
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N58
+- **parent_ids**: N78
 
 ## Claim
 
-平均回源距离 d_avg 的 GIS 计算模型：d_avg = (1/N_users) * Σ_{i=1}^{N_users} min_{j=1}^{N_pop} d(user_i, POP_j)，其中 d(user_i, POP_j) 为欧几里得距离；对于 10 个 POP 点覆盖中国主要城市，典型 d_avg 范围为 150-300km
+Cloudflare 对静态资源（图片/视频）采用按流量计费（$0.02/GB 超出免费额度后），但免费额度通常为 50GB/月；对于 60TB/月 的负载，几乎全部流量超出免费额度，有效单价接近 $0.02/GB，远低于阿里云国内节点单价（~0.23 元/GB ≈ $0.032/GB），但需注意 Cloudflare 主要节点位于海外，国内访问延迟高且可能受合规限制。
 
 ## Corrected Claim
 
-平均回源距离 d_avg 的 GIS 计算模型：d_avg = (1/N_users) * Σ_{i=1}^{N_users} min_{j=1}^{N_pop} d(user_i, POP_j)，其中 d(user_i, POP_j) 为欧几里得距离；对于 10 个 POP 点覆盖中国主要城市，典型 d_avg 范围为 150-300km
+Cloudflare 对静态资源（图片/视频）采用按流量计费（$0.02/GB 超出免费额度后），但免费额度通常为 50GB/月；对于 60TB/月 的负载，几乎全部流量超出免费额度，有效单价接近 $0.02/GB，远低于阿里云国内节点单价（~0.23 元/GB ≈ $0.032/GB），但需注意 Cloudflare 主要节点位于海外，国内访问延迟高且可能受合规限制。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：公式定义符合GIS最近邻距离计算标准；150-300km的量级符合中国主要城市分布及10个POP点覆盖下的典型地理距离直觉（中国主要城市群间距多在200-500km，取最小值后平均距离落在该区间合理）。
+先验知识/题面给定，逻辑校验通过
 
 ## Search Query
 
-GIS average distance user to nearest CDN POP point calculation
+Cloudflare bandwidth pricing static assets $0.02/GB free tier limit

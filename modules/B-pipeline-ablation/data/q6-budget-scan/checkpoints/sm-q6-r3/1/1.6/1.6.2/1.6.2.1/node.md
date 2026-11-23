@@ -1,24 +1,20 @@
-# N155: 源站存储读取延迟 t_read 的具体数值取决于存储介质类型与对象大小，对于 NVMe SSD 读取 1MB 对象，t_read ≈ 0.1-0.5ms；对于 
+# N116: Prometheus+Grafana自建方案的服务器硬件月折旧成本 = (单台服务器单价¥20,000 / 36月) * 2台 = ¥1,111.11/月（假设
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N48
+- **parent_ids**: N34
 
 ## Claim
 
-源站存储读取延迟 t_read 的具体数值取决于存储介质类型与对象大小，对于 NVMe SSD 读取 1MB 对象，t_read ≈ 0.1-0.5ms；对于 HDD，t_read ≈ 5-15ms；需根据源站实际存储配置确定。
+Prometheus+Grafana自建方案的服务器硬件月折旧成本 = (单台服务器单价¥20,000 / 36月) * 2台 = ¥1,111.11/月（假设需2台服务器分别部署Prometheus与Grafana/InfluxDB）
 
 ## Corrected Claim
 
-源站存储读取延迟 t_read 的具体数值取决于存储介质类型与对象大小，对于 NVMe SSD 读取 1MB 对象，t_read ≈ 0.1-0.5ms；对于 HDD，t_read ≈ 5-15ms；需根据源站实际存储配置确定。
+Prometheus+Grafana自建方案的服务器硬件月折旧成本 = (单台服务器单价¥20,000 / 36月) * 2台 = ¥1,111.11/月（假设需2台服务器分别部署Prometheus与Grafana/InfluxDB）
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
-
-## Search Query
-
-NVMe SSD read latency 1MB object
+先验知识/题面给定，逻辑校验通过：算术计算 (20000/36)*2 ≈ 1111.11 正确，硬件折旧逻辑自洽。

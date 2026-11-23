@@ -1,30 +1,24 @@
-# N284: 公有云CDN跨境流量单价 P_bw_cross 的具体数值：阿里云国际站（如新加坡/美西节点）流量单价通常为 $0.08-$0.12/GB，Cloudflare
+# N122: 日活 750 万（流量增长 50%）时的最优策略切换阈值 $R_{switch}$ (请求/天)，在该流量规模下自建策略的边际成本 $MC_{self}$ 与公
 
-- **status**: degraded
-- **level**: L4
-- **source**: search
-- **edge_type**: cartesian
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
 - **rework_count**: 1
-- **parent_ids**: N91
+- **parent_ids**: N30
 
 ## Claim
 
-公有云CDN跨境流量单价 P_bw_cross 的具体数值：阿里云国际站（如新加坡/美西节点）流量单价通常为 $0.08-$0.12/GB，Cloudflare 跨境出口流量通常包含在基础包内或按 $0.05-$0.08/GB 超额计费；需对比国内单价 ¥0.22/GB (≈$0.03/GB) 验证 1.5-2 倍系数是否成立 [时效待核]
+日活 750 万（流量增长 50%）时的最优策略切换阈值 $R_{switch}$ (请求/天)，在该流量规模下自建策略的边际成本 $MC_{self}$ 与公有云边际成本 $MC_{cloud}$ 相等：$MC_{self}(R_{switch}) = MC_{cloud}(R_{switch})$。
 
 ## Corrected Claim
 
-公有云CDN跨境流量单价通常高于国内单价，阿里云国际站及Cloudflare的跨境流量计费需参考其最新官方价格表，具体数值随地区和套餐变动，一般存在1.5-2倍于国内单价的溢价系数。
+在日活 750 万（流量增长 50%）的场景下，最优策略切换阈值 $R_{switch}$ 定义为自建策略边际成本 $MC_{self}$ 与公有云边际成本 $MC_{cloud}$ 相等的请求量，具体数值需根据实际成本模型计算。
 
 ## Evidence
 
-[质询]具体数值（$0.08-$0.12/GB, $0.05-$0.08/GB, ¥0.22/GB）属于经验事实，且参考来源仅提供了阿里云国内/通用计费结构的描述，未提供具体的跨境单价数值或Cloudflare的跨境计费标准，无法通过现有来源直接验证具体金额。 | 经验事实，逻辑自洽但缺来源支持。来源[1][2][3]仅确认阿里云CDN存在按流量计费及不同地域价格差异，但未提供具体的跨境单价数值（如$0.08-$0.12/GB）或Cloudflare的具体费率，无法直接验证具体数值。
+父节点级核验通过：正交+完备+无冗余（子节点逻辑清晰且正交：子节点1定义自建边际成本（MC_self）及其非线性特征，子节点2定义公有云边际成本（MC_cloud）及具体数值计算，子节点3基于前两者的定义建立切换阈值的求解方程。三者分别对应‘变量A定义’、‘变量B定义’和‘求解逻辑’，无重复也无矛盾。虽然子节点1指出MC_self在饱和前约为0，子节点3利用此特性简化方程，但这属于逻辑推导而非内容冗余。）
 
 ## Search Query
 
-Alibaba Cloud CDN international traffic price per GB 2024 Cloudflare cross-border egress cost
-
-## Retrieval Sources
-
-- {'url': 'https://developer.aliyun.com/article/1708278&rut=2ddc55f04c3ee490ae5b44019f150c2428eac2400670b83d41207aae16acf9e2', 'type': 'ddg', 'title': '2026最新阿里云cdn收费标准：不同计费模式价格表（基础服务费和增值服务费用整理）-阿里云开发者社区'}
-- {'url': 'https://www.aliyun.com/price/detail/cdn&rut=7deffc4f1d34859bcb7594b9f5ea62952b3f14c06ecc370a5099c3c282977b06', 'type': 'ddg', 'title': '阿里云定价_CDN价格详情'}
-- {'url': 'https://developer.aliyun.com/article/1712489&rut=9ac11fc059ec63ddd1ce104c3b0e7d9ac1b1e8c3823c8a667dafda6ca3e1bda1', 'type': 'ddg', 'title': '2026阿里云cdn 计费全攻略：按流量 / 带宽 / 95 峰值 + 基础服务费 + 增值服务价格表'}
+optimal CDN strategy switching threshold traffic volume

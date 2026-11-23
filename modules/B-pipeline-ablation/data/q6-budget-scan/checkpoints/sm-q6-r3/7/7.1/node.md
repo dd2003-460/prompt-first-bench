@@ -1,20 +1,20 @@
-# N92: 单个POP点服务器配置基准：10台服务器，每台配置 2x Xeon Gold 6338 (32C), 256GB RAM, 2x 3.84TB NVMe SSD
+# N123: 月总流量 $V_{monthly}$ 基于日均下载量 2TB 计算，即 $V_{monthly} = 2 \text{ TB/day} \times 30 \t
 
 - **status**: verified
 - **level**: L3
-- **source**: knowledge
+- **source**: given
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N27
+- **parent_ids**: N31
 
 ## Claim
 
-单个POP点服务器配置基准：10台服务器，每台配置 2x Xeon Gold 6338 (32C), 256GB RAM, 2x 3.84TB NVMe SSD，单机采购价约 ¥35k-45k，10台总硬件 Capex ≈ ¥350k-450k
+月总流量 $V_{monthly}$ 基于日均下载量 2TB 计算，即 $V_{monthly} = 2 \text{ TB/day} \times 30 \text{ days} = 60 \text{ TB}$，用于确定公有云 CDN 阶梯计费的所属档位。
 
 ## Corrected Claim
 
-单个POP点服务器配置基准：10台服务器，每台配置 2x Xeon Gold 6338 (32C), 256GB RAM, 2x 3.84TB NVMe SSD，单机采购价约 ¥35k-45k，10台总硬件 Capex ≈ ¥350k-450k
+月总流量 $V_{monthly}$ 基于日均下载量 2TB 计算，即 $V_{monthly} = 2 \text{ TB/day} \times 30 \text{ days} = 60 \text{ TB}$，用于确定公有云 CDN 阶梯计费的所属档位。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：Xeon Gold 6338为32核CPU，256GB RAM与2x 3.84TB NVMe为典型高性能服务器配置，单机¥35k-45k及10台总价¥350k-450k符合当前硬件市场量级，无内部矛盾。
+先验知识/题面给定，逻辑校验通过：2 TB/day × 30 days = 60 TB 计算正确，量纲一致，符合月度流量估算的基本逻辑。

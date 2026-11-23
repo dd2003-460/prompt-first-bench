@@ -1,24 +1,20 @@
-# N204: 公有云 CDN 边缘节点 CPU 计算成本的核心变量是 CPU 利用率 U_cpu，计算公式为 Cost_cpu = (Requests_per_sec × C
+# N193: 工作点 A（高并发低成本）：采用高内存低 CPU 服务器（如 64GB RAM / 8 vCPU），单服务器并发能力 $C_{srv} \approx 15,0
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N63
+- **parent_ids**: N66
 
 ## Claim
 
-公有云 CDN 边缘节点 CPU 计算成本的核心变量是 CPU 利用率 U_cpu，计算公式为 Cost_cpu = (Requests_per_sec × CPU_time_per_req) / (U_cpu × Cores_per_node) × Price_per_core_hour；典型 CDN 边缘节点 U_cpu 在低负载时仅为 5%-15%，导致单位成本远高于理论峰值估算。
+工作点 A（高并发低成本）：采用高内存低 CPU 服务器（如 64GB RAM / 8 vCPU），单服务器并发能力 $C_{srv} \approx 15,000$，在 $C_{peak}=50,000$ 时 $N_{servers}=4$，单服务器成本约 8,000 元/月，总成本 32,000 元/月。
 
 ## Corrected Claim
 
-公有云 CDN 边缘节点 CPU 计算成本的核心变量是 CPU 利用率 U_cpu，计算公式为 Cost_cpu = (Requests_per_sec × CPU_time_per_req) / (U_cpu × Cores_per_node) × Price_per_core_hour；典型 CDN 边缘节点 U_cpu 在低负载时仅为 5%-15%，导致单位成本远高于理论峰值估算。
+工作点 A（高并发低成本）：采用高内存低 CPU 服务器（如 64GB RAM / 8 vCPU），单服务器并发能力 $C_{srv} \approx 15,000$，在 $C_{peak}=50,000$ 时 $N_{servers}=4$，单服务器成本约 8,000 元/月，总成本 32,000 元/月。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：公式量纲正确（请求率×单请求耗时=总CPU时间，除以利用率×核心数=所需核心数，乘以单价=成本），且CDN边缘节点低负载时CPU利用率低（5%-15%）导致单位成本高的结论符合工程直觉。
-
-## Search Query
-
-CDN edge node CPU utilization typical value low traffic cost efficiency
+先验知识/题面给定，逻辑校验通过：4台服务器 * 15,000并发/台 = 60,000 > 50,000峰值需求，满足容量要求；4 * 8,000元 = 32,000元，成本计算无误。

@@ -1,24 +1,24 @@
-# N280: 峰值系数 k_peak 的实际分布：对于 C 端图片/视频平台，日峰值/均值比通常为 3.0-4.0，但小时级峰值/均值比可达 5.0-8.0，计费通常基于日峰
+# N120: 带宽单价波动 -20% 时，三种策略的成本排序变化及临界带宽单价阈值 $P_{bw}^{crit}$ (¥/GB)，在该阈值下全自建与公有云成本相等：$C_{t
 
-- **status**: verified
-- **level**: L4
+- **status**: pending
+- **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N90
+- **parent_ids**: N29
 
 ## Claim
 
-峰值系数 k_peak 的实际分布：对于 C 端图片/视频平台，日峰值/均值比通常为 3.0-4.0，但小时级峰值/均值比可达 5.0-8.0，计费通常基于日峰值或小时峰值，需确认计费粒度
+带宽单价波动 -20% 时，三种策略的成本排序变化及临界带宽单价阈值 $P_{bw}^{crit}$ (¥/GB)，在该阈值下全自建与公有云成本相等：$C_{total}^{self}(P_{bw}^{crit}) = C_{total}^{cloud}(P_{bw}^{crit})$。
 
 ## Corrected Claim
 
-峰值系数 k_peak 的实际分布：对于 C 端图片/视频平台，日峰值/均值比通常为 3.0-4.0，但小时级峰值/均值比可达 5.0-8.0，计费通常基于日峰值或小时峰值，需确认计费粒度
+带宽单价波动 -20% 时，三种策略的成本排序变化及临界带宽单价阈值 $P_{bw}^{crit}$ (¥/GB)，在该阈值下全自建与公有云成本相等：$C_{total}^{self}(P_{bw}^{crit}) = C_{total}^{cloud}(P_{bw}^{crit})$。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+父节点级核验失败（LLM 错误）：Unterminated string starting at: line 7 column 5 (char 572)
 
 ## Search Query
 
-CDN peak to average ratio hourly daily content delivery network traffic
+CDN cost crossover point bandwidth price threshold

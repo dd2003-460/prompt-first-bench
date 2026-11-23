@@ -1,24 +1,20 @@
-# N329: 自动化运维工具（Ansible/Terraform）许可与维护成本：开源工具本身免费，主要成本为CI/CD集成（GitLab CI/Jenkins）及私有注册表
+# N369: 命中率 H 对 P99 延迟的敏感度分析：当 $H$ 从 85% 增加到 95% 时，回源比例从 15% 降至 5%；若 $L_{miss}=50\text{m
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N103
+- **parent_ids**: N137
 
 ## Claim
 
-自动化运维工具（Ansible/Terraform）许可与维护成本：开源工具本身免费，主要成本为CI/CD集成（GitLab CI/Jenkins）及私有注册表，年度维护与升级成本约¥5k-15k/年
+命中率 H 对 P99 延迟的敏感度分析：当 $H$ 从 85% 增加到 95% 时，回源比例从 15% 降至 5%；若 $L_{miss}=50\text{ms}$ 且 $L_{hit}=5\text{ms}$，则 $L_{p99}$ 在 $H=85\%$ 时约为 50ms（因为 99% 分位仍在 miss 区），在 $H=95\%$ 时仍约为 50ms；只有当 $H > 99\%$ 时，$L_{p99}$ 才会显著降低至 $L_{hit}$ 附近。
 
 ## Corrected Claim
 
-自动化运维工具（Ansible/Terraform）许可与维护成本：开源工具本身免费，主要成本为CI/CD集成（GitLab CI/Jenkins）及私有注册表，年度维护与升级成本约¥5k-15k/年
+命中率 H 对 P99 延迟的敏感度分析：当 $H$ 从 85% 增加到 95% 时，回源比例从 15% 降至 5%；若 $L_{miss}=50\text{ms}$ 且 $L_{hit}=5\text{ms}$，则 $L_{p99}$ 在 $H=85\%$ 时约为 50ms（因为 99% 分位仍在 miss 区），在 $H=95\%$ 时仍约为 50ms；只有当 $H > 99\%$ 时，$L_{p99}$ 才会显著降低至 $L_{hit}$ 附近。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
-
-## Search Query
-
-Ansible Terraform CI/CD integration annual maintenance cost
+先验知识/题面给定，逻辑校验通过：P99延迟由第99百分位的请求决定。当H=85%时，miss比例为15%，P99落在miss区间（50ms）；当H=95%时，miss比例为5%，P99仍落在miss区间（50ms）；只有当H>99%时，miss比例<1%，P99才落入hit区间（5ms）。逻辑自洽且符合统计学定义。

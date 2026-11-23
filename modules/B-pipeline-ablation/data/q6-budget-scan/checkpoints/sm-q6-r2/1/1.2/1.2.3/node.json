@@ -1,17 +1,17 @@
 {
-  "id": "N42",
-  "claim": "全局最大对象大小 $s_{max}$ 定义为所有请求中对象大小的 99.9% 分位数，估算值为 50 MB（短视频长尾端），用于计算最坏情况下的单流传输时间下限 $T_{transfer} = s_{max} / B_{link}$。",
+  "id": "N24",
+  "claim": "P99 目标 T 在公有云 CDN 下的可达性：若用户 80% 集中在一线城市（RTT < 20ms），20% 在偏远地区（RTT < 100ms），加权平均 P99 延迟 ≈ 0.8 * 200ms + 0.2 * 300ms = 220ms，满足 T < 300ms 的要求。",
   "level": "L3",
   "source": "knowledge",
-  "status": "verified",
-  "evidence": "先验知识/题面给定，逻辑校验通过：99.9%分位数作为长尾上限估算值50MB在短视频场景下量级合理，传输时间公式量纲正确。",
-  "corrected_claim": "全局最大对象大小 $s_{max}$ 定义为所有请求中对象大小的 99.9% 分位数，估算值为 50 MB（短视频长尾端），用于计算最坏情况下的单流传输时间下限 $T_{transfer} = s_{max} / B_{link}$。",
-  "rework_count": 0,
+  "status": "degraded",
+  "evidence": "[质询]计算逻辑存在严重错误：将P99延迟简单等同于加权平均延迟（0.8*200 + 0.2*300）在统计学上是错误的。P99代表第99百分位数的延迟，而非期望值。若20%的用户延迟为300ms，则P99必然落在300ms区间（因为前80%是200ms，后20%是300ms，第99个百分位位于后20%的范围内），因此P99应为300ms，而非220ms。此外，RTT与总延迟（P99）之间缺乏明确的转换关系（如服务器处理时间、传输开销等），直接假设RTT<20ms对应200ms延迟缺乏依据。 | 逻辑校验失败：P99是百分位数指标，不能通过加权平均计算得出；且RTT到总延迟的映射缺乏依据。",
+  "corrected_claim": "若用户80%集中在一线城市（假设P99延迟为200ms），20%在偏远地区（假设P99延迟为300ms），则整体P99延迟应为300ms（因为P99落在高延迟用户群中），不满足T < 300ms的要求（若要求严格小于）。若要求T <= 300ms，则刚好满足。需明确P99的定义及延迟构成。",
+  "rework_count": 1,
   "parent_ids": [
-    "N8"
+    "N5"
   ],
   "objective": null,
   "edge_type": "cartesian",
-  "search_query": "maximum object size media platform 99.9th percentile",
+  "search_query": "",
   "retrieval_sources": []
 }

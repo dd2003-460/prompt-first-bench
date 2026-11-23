@@ -1,20 +1,20 @@
-# N323: SRE奖金计算：C_bonus = C_base_salary * 0.2，取基础年薪¥350k，奖金≈¥70k/年，对应1.5个月工资，该比例在互联网公司通常
+# N364: 缓存可容纳对象数 K 的计算：$K = \lfloor C_{cache} / s_{avg} \rfloor$，其中 $C_{cache}$ 为单 POP 点
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N102
+- **parent_ids**: N136
 
 ## Claim
 
-SRE奖金计算：C_bonus = C_base_salary * 0.2，取基础年薪¥350k，奖金≈¥70k/年，对应1.5个月工资，该比例在互联网公司通常为1-3个月，取中值1.5个月
+缓存可容纳对象数 K 的计算：$K = \lfloor C_{cache} / s_{avg} \rfloor$，其中 $C_{cache}$ 为单 POP 点或全局缓存总容量（如 1TB），$s_{avg}$ 为加权平均对象大小（1.5MB）；例如 $C_{cache}=1\text{TB}$ 时，$K \approx 700,000$。
 
 ## Corrected Claim
 
-SRE奖金计算：C_bonus = C_base_salary * 0.2，取基础年薪¥350k，奖金≈¥70k/年，对应约2.4个月工资；若按行业常见1-3个月取中值1.5个月计算，奖金应为¥43.75k/年。
+缓存可容纳对象数 K 的计算：$K = \lfloor C_{cache} / s_{avg} \rfloor$，其中 $C_{cache}$ 为单 POP 点或全局缓存总容量（如 1TB），$s_{avg}$ 为加权平均对象大小（1.5MB）；例如 $C_{cache}=1\text{TB}$ 时，$K \approx 700,000$。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：350k * 0.2 = 70k，70k / (350k/12) = 2.4个月，但陈述中称“对应1.5个月工资”存在计算矛盾（70k是2.4个月工资，而非1.5个月）。然而，若按“取中值1.5个月”反推，奖金应为350k/12*1.5=43.75k，与70k不符。此处存在内部数值矛盾。重新检查：350k年薪，月薪约29.17k。1.5个月工资约为43.75k。0.2倍年薪是70k。70k/29.17k ≈ 2.4个月。陈述中“奖金≈¥70k/年，对应1.5个月工资”在数学上不自洽。70k对应的是2.4个月工资，而不是1.5个月。因此逻辑校验失败。
+先验知识/题面给定，逻辑校验通过：1TB / 1.5MB ≈ 700,000，量级与计算逻辑自洽。

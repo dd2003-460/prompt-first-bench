@@ -1,24 +1,20 @@
-# N194: 数据生命周期管理（LCM）对存储成本的影响：若将超过 30 天的视频对象移至低频访问存储（Infrequent Access），存储单价降低 50%，年存储成本
+# N244: 带宽告警阈值设置公式：告警阈值 $B_{alert} = B_{95th}^{normal} \times (1 + \text{buffer})$，其中 bu
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N62
+- **parent_ids**: N84
 
 ## Claim
 
-数据生命周期管理（LCM）对存储成本的影响：若将超过 30 天的视频对象移至低频访问存储（Infrequent Access），存储单价降低 50%，年存储成本可节约约 50% * (73TB * P_ia)
+带宽告警阈值设置公式：告警阈值 $B_{alert} = B_{95th}^{normal} \times (1 + \text{buffer})$，其中 buffer 建议设为 20%-30%；若 $B_{95th}^{normal}=0.35\text{Gbps}$，则 $B_{alert}=0.42\text{Gbps}$，触发后需评估是否切换至流量计费或扩容预留带宽。
 
 ## Corrected Claim
 
-数据生命周期管理（LCM）对存储成本的影响：若将超过 30 天的视频对象移至低频访问存储（Infrequent Access），存储单价降低 50%，年存储成本可节约约 50% * (73TB * P_ia)
+带宽告警阈值设置公式：告警阈值 $B_{alert} = B_{95th}^{normal} \times (1 + \text{buffer})$，其中 buffer 建议设为 20%-30%；若 $B_{95th}^{normal}=0.35\text{Gbps}$，则 $B_{alert}=0.42\text{Gbps}$，触发后需评估是否切换至流量计费或扩容预留带宽。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：成本节约公式符合基本算术逻辑（单价降低50%对应成本节约50%），量纲与数值关系自洽。
-
-## Search Query
-
-cloud object storage lifecycle management cost savings
+先验知识/题面给定，逻辑校验通过：公式定义清晰，数值计算正确（0.35 * 1.2 = 0.42，符合20% buffer），量纲一致，符合网络运维常规经验。

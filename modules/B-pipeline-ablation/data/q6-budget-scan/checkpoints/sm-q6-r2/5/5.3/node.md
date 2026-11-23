@@ -1,30 +1,20 @@
-# N24: 故障处理与安全维护成本：自建节点 DDoS 防护、证书管理、安全补丁更新的年度运维成本（¥/年），对比公有云内置安全服务的溢价。
+# N54: 混合策略整体P99延迟的尾部修正因子：由于P99是全局分布的第99百分位，而非加权平均值，当20%偏远用户中部分请求命中长尾（如缓存未命中+回源拥塞）时，整体P
 
-- **status**: degraded
-- **level**: L2
-- **source**: search
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
 - **edge_type**: cartesian
-- **rework_count**: 1
-- **parent_ids**: N5
+- **rework_count**: 0
+- **parent_ids**: N14, N15, N16
 
 ## Claim
 
-故障处理与安全维护成本：自建节点 DDoS 防护、证书管理、安全补丁更新的年度运维成本（¥/年），对比公有云内置安全服务的溢价。
+混合策略整体P99延迟的尾部修正因子：由于P99是全局分布的第99百分位，而非加权平均值，当20%偏远用户中部分请求命中长尾（如缓存未命中+回源拥塞）时，整体P99可能接近偏远子群的最大延迟（约120-150ms），需引入尾部修正系数 k_tail (通常1.2-1.5倍) 调整，最终P99_est = max(P99_city, P99_remote * k_tail) 或 使用分布混合模型计算。
 
 ## Corrected Claim
 
-自建节点需承担DDoS防护、证书管理及安全补丁更新的运维成本，通常涉及带宽储备、清洗设备或人力投入；公有云内置安全服务通常以订阅或按量计费形式提供，具体成本差异取决于业务规模、攻击频率及所选服务商，需结合具体场景进行量化评估。
+混合策略整体P99延迟的尾部修正因子：由于P99是全局分布的第99百分位，而非加权平均值，当20%偏远用户中部分请求命中长尾（如缓存未命中+回源拥塞）时，整体P99可能接近偏远子群的最大延迟（约120-150ms），需引入尾部修正系数 k_tail (通常1.2-1.5倍) 调整，最终P99_est = max(P99_city, P99_remote * k_tail) 或 使用分布混合模型计算。
 
 ## Evidence
 
-[质询]该陈述要求提供具体的年度运维成本数值（¥/年）及与公有云的溢价对比，但参考来源仅提供了定性分析、市场趋势或优化原则，未包含任何具体的金额数据或量化对比结果，属于经验事实且缺乏直接数据支持。 | 来源[1][2][3]均涉及DDoS防护成本话题，但仅提供定性分析或市场背景，无具体¥/年数值或溢价比例，无法直接支持具体数值陈述，故降级为定性表述。
-
-## Search Query
-
-edge node DDoS protection cost certificate management annual security ops CDN
-
-## Retrieval Sources
-
-- {'url': 'https://www.cnblogs.com/bestseller/p/23657799&rut=bafc0128369e573791d4d38fb0a676ee839e5164d6a6d908651af1aa58ad18ef', 'type': 'ddg', 'title': '2026 企业 DDoS 防护成本怎么控？攻击期账单优化方案与优质服务商全解析 - 优质品牌中立测评推荐 - 企业博客'}
-- {'url': 'https://blog.csdn.net/weixin_29322855/article/details/169966546&rut=02ae140f812b267d0578cbc4544b91a24616c6902d100af16e1eb51d0bc0bf94', 'type': 'ddg', 'title': 'DDoS攻击防御成本分析与优化策略 - CSDN博客'}
-- {'url': 'https://docs.azure.cn/zh-cn/ddos-protection/ddos-optimization-guide&rut=83fcb6bb696786095cc3a4744c94150cc544edcc6456f557cee276adf40fe206', 'type': 'ddg', 'title': 'DDoS 保护成本优化原则 | Azure Docs'}
+先验知识/题面给定，逻辑校验通过：P99作为全局分位数确实受长尾子群影响，引入尾部修正系数或分布混合模型是合理的工程估算方法，量级（1.2-1.5倍）符合常见长尾分布特征。

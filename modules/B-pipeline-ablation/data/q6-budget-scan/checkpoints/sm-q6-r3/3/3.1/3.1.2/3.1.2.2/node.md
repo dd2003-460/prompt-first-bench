@@ -1,19 +1,19 @@
-# N266: Cloudflare Free/Pro/Enterprise计划对静态内容（图片/视频）的带宽计费模式：Free/Pro计划通常不单独收取出站带宽费（仅收基础订
+# N197: 工作点B（性价比均衡/中成本）：配置为 2路 Xeon Silver 4314 + 256GB DDR4 + 4TB NVMe，单台采购成本 C_server_
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N81
+- **parent_ids**: N67
 
 ## Claim
 
-Cloudflare Free/Pro/Enterprise计划对静态内容（图片/视频）的带宽计费模式：Free/Pro计划通常不单独收取出站带宽费（仅收基础订阅费或按请求数计费），Enterprise计划采用固定月费或按95th百分位带宽计费，不存在简单的¥/GB阶梯单价
+工作点B（性价比均衡/中成本）：配置为 2路 Xeon Silver 4314 + 256GB DDR4 + 4TB NVMe，单台采购成本 C_server_B ≈ 40,000 元，平衡算力与缓存容量，符合题面中值假设。
 
 ## Corrected Claim
 
-Cloudflare Free/Pro/Enterprise计划对静态内容（图片/视频）的带宽计费模式：Free/Pro计划通常不单独收取出站带宽费（仅收基础订阅费或按请求数计费），Enterprise计划采用固定月费或按95th百分位带宽计费，不存在简单的¥/GB阶梯单价
+工作点B（性价比均衡/中成本）：配置为 2路 Xeon Silver 4314 + 256GB DDR4 + 4TB NVMe，单台采购成本 C_server_B ≈ 40,000 元，平衡算力与缓存容量，符合题面中值假设。
 
 ## Evidence
 
@@ -21,4 +21,4 @@ Cloudflare Free/Pro/Enterprise计划对静态内容（图片/视频）的带宽�
 
 ## Search Query
 
-Cloudflare bandwidth pricing model free pro enterprise 2024
+2-socket Xeon Silver 4314 256GB RAM 4TB NVMe server price 2024

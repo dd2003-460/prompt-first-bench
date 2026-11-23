@@ -1,28 +1,30 @@
-# N308: 二三线城市10Gbps静态IP带宽月租单价为 ¥800-1500/Gbps/月，10Gbps总成本为 ¥8000-15000/月，价格差异主要源于本地出口带宽容
+# N196: 电价 ¥0.8/kWh 为假设值，中国大陆一线城市商业/工业用电实际电价通常为 ¥0.6-0.9/kWh（含基本电费），不同省份及峰谷时段差异显著；需根据POP
 
-- **status**: degraded
+- **status**: verified
 - **level**: L4
 - **source**: search
 - **edge_type**: cartesian
-- **rework_count**: 1
-- **parent_ids**: N98
+- **rework_count**: 0
+- **parent_ids**: N61
 
 ## Claim
 
-二三线城市10Gbps静态IP带宽月租单价为 ¥800-1500/Gbps/月，10Gbps总成本为 ¥8000-15000/月，价格差异主要源于本地出口带宽容量冗余度较高及竞争更激烈
+电价 ¥0.8/kWh 为假设值，中国大陆一线城市商业/工业用电实际电价通常为 ¥0.6-0.9/kWh（含基本电费），不同省份及峰谷时段差异显著；需根据POP点具体所在地区的电网公司报价核实
 
 ## Corrected Claim
 
-二三线城市10Gbps静态IP带宽月租单价约为 ¥800-1500/Gbps/月，总成本约 ¥8000-15000/月（注：此为经验估算，缺乏当前参考来源直接支持）
+电价 ¥0.8/kWh 为假设值，中国大陆一线城市商业/工业用电实际电价通常为 ¥0.6-0.9/kWh（含基本电费），不同省份及峰谷时段差异显著；需根据POP点具体所在地区的电网公司报价核实
 
 ## Evidence
 
-[质询]参考来源仅讨论静态住宅IP（Residential IP）的代理价格（如8元/月），与陈述中的“10Gbps静态IP带宽月租”（通常指企业级专线或大带宽IDC资源）在业务场景、量级和计费模式上存在显著差异，来源无法支持该具体数值区间。 | 逻辑上10Gbps带宽成本在¥8000-15000/月符合二三线城市IDC市场的大致量级（约¥800-1500/Gbps），但参考来源[1]主题为静态住宅IP代理，与带宽租赁无关，无法提供直接支持，故降级。
+来源[1][2][3]提供了全国各省市工商业电价数据，证实了电价存在地区差异且需具体核实；结合常识，一线城市工商业电价在0.6-0.9元/kWh区间符合逻辑，且陈述明确标注0.8为假设值，逻辑自洽且无来源矛盾。
 
 ## Search Query
 
-China Tier 2/3 city 10Gbps static IP bandwidth monthly price comparison
+China commercial electricity price per kWh 2024 industrial rate
 
 ## Retrieval Sources
 
-- {'url': 'https://zhuanlan.zhihu.com/p/2096308296747595071&rut=4a76ecc08841e17100c0e2137af3cfa2fbdc2cca74f0bd97f53eed9c32f21d4d', 'type': 'ddg', 'title': '静态住宅ip多少钱一个月：三个价位带，一条防坑线 - 知乎'}
+- {'url': 'https://zhuanlan.zhihu.com/p/2046277048071612214&rut=b1f37d1833be5a6a87237c7185fed46470d13a9af9985dd75e05a19b5c6c747c', 'type': 'ddg', 'title': '全国各省市工商业购电电价和和新能源机制电价汇总（2026年6月）'}
+- {'url': 'https://www.sohu.com/a/822463035_121306210&rut=377cb02b1bcb20c6b31848f1bb44cb751d9601afe3c98e6c1fa5708030db066a', 'type': 'ddg', 'title': '最新：全国各省市工商业购电电价表（2024年11月） - 搜狐'}
+- {'url': 'https://zhuanlan.zhihu.com/p/16369880153&rut=686716f7019979ba97828a3f75d8b5c17e2571ffae0c1fe2a01d9b96d2df7d2e', 'type': 'ddg', 'title': '2025年1月份各省工商业电价公示 - 知乎'}

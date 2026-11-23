@@ -1,20 +1,20 @@
-# N39: 公有云CDN带宽计费模式对峰值的影响：按峰值带宽计费时，成本与 B_peak 成正比；按流量计费时，成本与总流量 2TB/day 成正比。对于 PAR = 4 
+# N27: 混合策略整体 P99 延迟 = max(P99_self(x), P99_cloud(1-x))，其中 P99_self(x) ≈ 20ms（自建节点），P99
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N8
+- **parent_ids**: N6
 
 ## Claim
 
-公有云CDN带宽计费模式对峰值的影响：按峰值带宽计费时，成本与 B_peak 成正比；按流量计费时，成本与总流量 2TB/day 成正比。对于 PAR = 4 的场景，按峰值计费通常比按流量计费高 20%-40%，因为峰值带宽在大部分时间未被充分利用。
+混合策略整体 P99 延迟 = max(P99_self(x), P99_cloud(1-x))，其中 P99_self(x) ≈ 20ms（自建节点），P99_cloud(1-x) ≈ 220ms（公有云加权平均）；因此 P99_total ≈ 220ms，受限于公有云路径的尾部延迟。
 
 ## Corrected Claim
 
-公有云CDN带宽计费模式对峰值的影响：按峰值带宽计费时，成本与 B_peak 成正比；按流量计费时，成本与总流量 2TB/day 成正比。对于 PAR = 4 的场景，按峰值计费通常比按流量计费高 20%-40%，因为峰值带宽在大部分时间未被充分利用。
+混合策略整体 P99 延迟 = max(P99_self(x), P99_cloud(1-x))，其中 P99_self(x) ≈ 20ms（自建节点），P99_cloud(1-x) ≈ 220ms（公有云加权平均）；因此 P99_total ≈ 220ms，受限于公有云路径的尾部延迟。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+先验知识/题面给定，逻辑校验通过：混合策略的P99延迟由最慢路径决定，取最大值符合逻辑，数值量级合理。

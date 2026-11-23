@@ -1,20 +1,24 @@
-# N276: 带宽闲置机会成本计算：闲置带宽比例η_idle = 1 - (实际峰值流量/采购带宽)，机会成本 = η_idle × C(B) × r_opportunity
+# N205: 机柜租金 $R_{rack}$ 的构成公式为 $R_{rack} = R_{base} + R_{uplink} + R_{ops}$，其中 $R_{base}
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N84
+- **parent_ids**: N70
 
 ## Claim
 
-带宽闲置机会成本计算：闲置带宽比例η_idle = 1 - (实际峰值流量/采购带宽)，机会成本 = η_idle × C(B) × r_opportunity，其中r_opportunity为资本机会成本率（通常8-12%/年）
+机柜租金 $R_{rack}$ 的构成公式为 $R_{rack} = R_{base} + R_{uplink} + R_{ops}$，其中 $R_{base}$ 为空间与制冷基础费（约 5,000-7,000 元），$R_{uplink}$ 为网络接入费（约 2,000-3,000 元），$R_{ops}$ 为运维服务费（约 1,000-2,000 元），各项需独立核算以评估谈判空间。
 
 ## Corrected Claim
 
-带宽闲置机会成本计算：闲置带宽比例η_idle = 1 - (实际峰值流量/采购带宽)，机会成本 = η_idle × C(B) × r_opportunity，其中r_opportunity为资本机会成本率（通常8-12%/年）
+机柜租金 $R_{rack}$ 的构成公式为 $R_{rack} = R_{base} + R_{uplink} + R_{ops}$，其中 $R_{base}$ 为空间与制冷基础费（约 5,000-7,000 元），$R_{uplink}$ 为网络接入费（约 2,000-3,000 元），$R_{ops}$ 为运维服务费（约 1,000-2,000 元），各项需独立核算以评估谈判空间。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：公式定义符合经济学中机会成本的基本计算逻辑（闲置比例×资产价值×机会成本率），且8-12%的资本机会成本率符合常规工程经济假设。
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+IDC rack cost breakdown base rent uplink operation fee

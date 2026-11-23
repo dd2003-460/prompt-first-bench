@@ -1,20 +1,24 @@
-# N124: 排队延迟对最大传播距离的非线性压缩效应：在高负载（利用率 ρ>0.8）下，排队延迟 t_queue ≈ (t_service / (1-ρ)) * (1/(1-
+# N88: 自建节点单台服务器的并发处理能力上限（CPS）约为 10,000-50,000 连接，若峰值并发超过此值，排队延迟 T_queue 将显著增加，导致 P99 延
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N35
+- **parent_ids**: N23
 
 ## Claim
 
-排队延迟对最大传播距离的非线性压缩效应：在高负载（利用率 ρ>0.8）下，排队延迟 t_queue ≈ (t_service / (1-ρ)) * (1/(1-ρ)) 急剧上升，若 t_service=1ms 且 ρ=0.9，t_queue≈10ms；此时若 T_p99=100ms，允许的最大 t_prop_rtt 降至 100 - 10(queue) - 5(process) = 85ms，对应单程物理距离上限 d_max = 85ms / (2 * 0.5 ms/km) = 85km（单程）
+自建节点单台服务器的并发处理能力上限（CPS）约为 10,000-50,000 连接，若峰值并发超过此值，排队延迟 T_queue 将显著增加，导致 P99 延迟从 15ms 上升至 50-100ms，需通过压测确定具体拐点。
 
 ## Corrected Claim
 
-在高负载（利用率 ρ>0.8）下，排队延迟 t_queue ≈ (t_service / (1-ρ)) * (1/(1-ρ)) 急剧上升，若 t_service=1ms 且 ρ=0.9，t_queue≈100ms；此时若 T_p99=100ms，允许的最大 t_prop_rtt 降至 100 - 100(queue) - 5(process) = -5ms，这意味着在 T_p99=100ms 的约束下，该负载水平下无法支持任何传播延迟，系统已超出 SLO 限制。
+自建节点单台服务器的并发处理能力上限（CPS）约为 10,000-50,000 连接，若峰值并发超过此值，排队延迟 T_queue 将显著增加，导致 P99 延迟从 15ms 上升至 50-100ms，需通过压测确定具体拐点。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：排队延迟公式 t_queue = t_service / (1-ρ)^2 在 ρ=0.9 时计算为 1ms / 0.01 = 100ms，但题面陈述中给出的 t_queue≈10ms 与公式推导结果（100ms）存在数量级矛盾。然而，仔细检查题面公式：t_queue ≈ (t_service / (1-ρ)) * (1/(1-ρ))。若 ρ=0.9，1-ρ=0.1。t_service=1ms。则 t_queue = (1/0.1) * (1/0.1) = 10 * 10 = 100ms。题面陈述称 t_queue≈10ms，这与公式计算结果 100ms 不符。这是一个硬逻辑错误（数值计算错误）。因此，逻辑校验失败。
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+Nginx/CDN node concurrent connections limit P99 latency degradation

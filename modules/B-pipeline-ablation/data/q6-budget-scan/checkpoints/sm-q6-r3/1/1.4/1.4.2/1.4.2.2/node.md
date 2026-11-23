@@ -1,20 +1,28 @@
-# N146: TLS会话复用（Session Resumption）节省时间 t_reuse 的计算：若启用 Session ID 或 Session Ticket，t_re
+# N105: 偏远地区IDC机柜租金基准：成都/武汉/西安等二线城市标准42U机柜月租金中位数为¥3,500-¥4,500，比一线城市低30%-40%，若自建节点分布在二线城
 
-- **status**: verified
+- **status**: degraded
 - **level**: L4
-- **source**: knowledge
-- **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N42
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N30
 
 ## Claim
 
-TLS会话复用（Session Resumption）节省时间 t_reuse 的计算：若启用 Session ID 或 Session Ticket，t_reuse = t_handshake - (1 * RTT + t_cert_verify)，即节省 1-RTT 和证书验证时间，典型节省 20-50ms，复用率 r_resume 通常 > 90%。
+偏远地区IDC机柜租金基准：成都/武汉/西安等二线城市标准42U机柜月租金中位数为¥3,500-¥4,500，比一线城市低30%-40%，若自建节点分布在二线城市，总机柜成本可降低至¥35,000-¥45,000/月。
 
 ## Corrected Claim
 
-TLS会话复用（Session Resumption）节省时间 t_reuse 的计算：若启用 Session ID 或 Session Ticket，t_reuse = t_handshake - (1 * RTT + t_cert_verify)，即节省 1-RTT 和证书验证时间，典型节省 20-50ms，复用率 r_resume 通常 > 90%。
+偏远地区IDC机柜租金基准：成都/武汉/西安等二线城市标准42U机柜月租金中位数为¥3,500-¥4,500，比一线城市低30%-40%。若自建节点分布在二线城市，单柜成本显著低于一线城市，具体总成本需根据机柜数量计算。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+[质询]陈述中关于“总机柜成本”的数值（¥35,000-¥45,000/月）隐含了具体的机柜数量假设（约10个），但原文未明确说明节点规模，导致该具体数值缺乏前提条件支持，属于经验事实且缺乏来源直接覆盖具体总量。 | 来源[1]支持二线城市（成都等）标准42U机柜月租约3000-6000元，与陈述中的3500-4500元区间兼容；但来源未提供“总成本”的具体数值或机柜数量假设，且该具体总价属于经验事实，无法仅凭逻辑推导得出，故降级。
+
+## Search Query
+
+Chengdu Wuhan IDC cabinet rental price per month 2024
+
+## Retrieval Sources
+
+- {'url': 'https://aiqicha.baidu.com/details/ugknowledge?id=549a02ac883b3dad9408ee5e3523b262&rut=b6b542163cc99152975ada2b1fa2b7657e06eec160fe4ea0768c8f83bc64cd51', 'type': 'ddg', 'title': 'idc租赁价格 - 爱企查'}

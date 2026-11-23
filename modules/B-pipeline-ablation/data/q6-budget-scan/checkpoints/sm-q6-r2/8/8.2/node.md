@@ -1,20 +1,20 @@
-# N132: 自建带宽闲置风险量化：若实际平均带宽利用率 $\eta = B_{avg} / B_{reserved}$，则单位流量实际成本 $P_{self}^{eff} 
+# N61: 单台服务器月电费 = 单台月耗电量(360 kWh) * 电价(¥0.8/kWh) = ¥288
 
 - **status**: verified
 - **level**: L3
-- **source**: knowledge
+- **source**: given
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N32
+- **parent_ids**: N17
 
 ## Claim
 
-自建带宽闲置风险量化：若实际平均带宽利用率 $\eta = B_{avg} / B_{reserved}$，则单位流量实际成本 $P_{self}^{eff} = C_{bw}^{self} \times B_{reserved} / V_{monthly}$；当 $\eta < 50\%$ 时，$P_{self}^{eff}$ 可能高于公有云流量计费。
+单台服务器月电费 = 单台月耗电量(360 kWh) * 电价(¥0.8/kWh) = ¥288
 
 ## Corrected Claim
 
-自建带宽闲置风险量化：若实际平均带宽利用率 $\eta = B_{avg} / B_{reserved}$，则单位流量实际成本 $P_{self}^{eff} = C_{bw}^{self} \times B_{reserved} / V_{monthly}$；当 $\eta < 50\%$ 时，$P_{self}^{eff}$ 可能高于公有云流量计费。
+单台服务器月电费 = 单台月耗电量(360 kWh) * 电价(¥0.8/kWh) = ¥288
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：公式推导正确，且当利用率低于50%时，固定成本分摊导致单位流量成本高于公有云按量计费符合经济学直觉。
+先验知识/题面给定，逻辑校验通过：360 * 0.8 = 288，计算无误，量纲合理。

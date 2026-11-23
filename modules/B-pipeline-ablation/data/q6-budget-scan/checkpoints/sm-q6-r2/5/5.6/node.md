@@ -1,24 +1,30 @@
-# N29: 回源策略对 P99 的影响：Cache-Aside 模式下，未命中请求的回源延迟 L_origin = L_origin_base + L_backhaul。若
+# N57: 阿里云CDN月度基础成本计算：基于日均下载2TB（月均60TB），按量付费单价¥0.2/GB（含流量包折扣后约¥0.15/GB），月度成本 = 60,000GB
 
-- **status**: verified
-- **level**: L2
-- **source**: knowledge
+- **status**: degraded
+- **level**: L3
+- **source**: search
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N5
+- **rework_count**: 1
+- **parent_ids**: N14, N15, N16
 
 ## Claim
 
-回源策略对 P99 的影响：Cache-Aside 模式下，未命中请求的回源延迟 L_origin = L_origin_base + L_backhaul。若自建 POP 回源中心机房，L_backhaul_self ≈ 20-50 ms；若公有云 CDN 回源，L_backhaul_cloud ≈ 10-30 ms（同区域优化）。P99 受未命中率 (1-H) 放大：L_P99 ≈ H*L_cache + (1-H)*L_origin。
+阿里云CDN月度基础成本计算：基于日均下载2TB（月均60TB），按量付费单价¥0.2/GB（含流量包折扣后约¥0.15/GB），月度成本 = 60,000GB * ¥0.15/GB = ¥9,000/月；若使用预付费流量包（1TB包约¥80），60TB需60个包，成本约¥4,800/月，取均值约¥6,900/月。
 
 ## Corrected Claim
 
-回源策略对 P99 的影响：Cache-Aside 模式下，未命中请求的回源延迟 L_origin = L_origin_base + L_backhaul。若自建 POP 回源中心机房，L_backhaul_self ≈ 20-50 ms；若公有云 CDN 回源，L_backhaul_cloud ≈ 10-30 ms（同区域优化）。P99 受未命中率 (1-H) 放大：L_P99 ≈ H*L_cache + (1-H)*L_origin。
+阿里云CDN月度基础成本计算：基于日均下载2TB（月均60TB），采用按量付费模式。具体成本取决于当前生效的阶梯单价及是否购买流量包，需参照阿里云官网最新价格表计算，此处估算值（约¥4,800-¥9,000/月）仅供参考，实际价格以官方报价为准。
 
 ## Evidence
 
-父节点级核验通过：正交+完备+无冗余（子节点结构清晰：前两个子节点分别量化了父节点中 L_backhaul 的两个具体场景（自建 vs 公有云），第三个子节点解析了父节点中 P99 计算公式的具体参数和敏感性，第四个子节点分析了不同业务对象（视频 vs 图片）在公式中的具体表现。各节点之间无内容重叠，且共同覆盖了父节点提到的延迟分解、网络差异、P99 放大效应及未命中率影响等所有关键方面。）
+[质询]具体单价（¥0.2/GB, ¥0.15/GB, ¥80/TB）属于经验事实，参考来源仅提供了计费模式（按流量/带宽/95峰值）和阶梯计费的定性描述，未提供具体的2026年最新价格数值，无法直接验证具体金额计算的准确性。 | 来源[1][2][3]确认了阿里云CDN支持按流量计费及阶梯价格机制，与陈述中的计费逻辑一致，但缺乏具体单价数据支持，属于经验事实缺来源直接支持。
 
 ## Search Query
 
-CDN origin fetch latency impact on p99 tail latency
+Alibaba Cloud CDN pricing per GB 2024
+
+## Retrieval Sources
+
+- {'url': 'https://developer.aliyun.com/article/1708278&rut=2ddc55f04c3ee490ae5b44019f150c2428eac2400670b83d41207aae16acf9e2', 'type': 'ddg', 'title': '2026最新阿里云cdn收费标准：不同计费模式价格表（基础服务费和增值服务费用整理）-阿里云开发者社区'}
+- {'url': 'https://developer.aliyun.com/article/1712489&rut=9ac11fc059ec63ddd1ce104c3b0e7d9ac1b1e8c3823c8a667dafda6ca3e1bda1', 'type': 'ddg', 'title': '2026阿里云cdn 计费全攻略：按流量 / 带宽 / 95 峰值 + 基础服务费 + 增值服务价格表'}
+- {'url': 'https://help.aliyun.com/zh/cdn/product-overview/billing-rules-of-basic-services&rut=8ac269fc0fd33361b507140bc77f95e7de5882f95004416a424fe1397b02bd86', 'type': 'ddg', 'title': '基础服务计费方式定价规则-cdn-阿里云-cdn (Cdn)-阿里云帮助中心'}

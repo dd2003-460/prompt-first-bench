@@ -1,0 +1,20 @@
+# N316: 全公有云策略成本对带宽单价的偏导数 $\frac{\partial C_{cloud}}{\partial P_{bw}}$ 等于月总流量 $V_{monthl
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N119
+
+## Claim
+
+全公有云策略成本对带宽单价的偏导数 $\frac{\partial C_{cloud}}{\partial P_{bw}}$ 等于月总流量 $V_{monthly} = 60,000$ GB，即带宽单价每增加 1 元/GB，月成本增加 60,000 元。
+
+## Corrected Claim
+
+全公有云策略成本对带宽单价的偏导数 $\frac{\partial C_{cloud}}{\partial P_{bw}}$ 等于月总流量 $V_{monthly} = 60,000$ GB，即带宽单价每增加 1 元/GB，月成本增加 60,000 元。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：成本函数中带宽成本项为 P_bw * V_monthly，对 P_bw 求偏导即为 V_monthly，量纲与数值均自洽。

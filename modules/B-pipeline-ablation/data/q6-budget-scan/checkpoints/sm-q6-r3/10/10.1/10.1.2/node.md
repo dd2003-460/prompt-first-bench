@@ -1,24 +1,20 @@
-# N334: T_diagnose复杂度因子：多POP故障定位时间T_diagnose = T_single * k_correlation，其中T_single=10min
+# N374: 在 $s_{avg}=1\text{MB}$ 场景下，M/M/c 模型的系统利用率 $\rho$ 计算：日均请求量 $R_{daily} = 2,000,000
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N105
+- **parent_ids**: N141
 
 ## Claim
 
-T_diagnose复杂度因子：多POP故障定位时间T_diagnose = T_single * k_correlation，其中T_single=10min，k_correlation∈[1.0, 2.0]（取决于故障共因比例），共因故障（如骨干网中断）增加诊断复杂度
+在 $s_{avg}=1\text{MB}$ 场景下，M/M/c 模型的系统利用率 $\rho$ 计算：日均请求量 $R_{daily} = 2,000,000$（基于 2TB/1MB），到达率 $\lambda = 2,000,000/86400 \approx 23.15 \text{ req/s}$；若 $c\mu = 100,000 \text{ req/s}$，则 $\rho = \lambda/(c\mu) = 23.15/100,000 = 0.00023$，表明在低负载下排队延迟 $L_{queue} \approx 0$。
 
 ## Corrected Claim
 
-T_diagnose复杂度因子：多POP故障定位时间T_diagnose = T_single * k_correlation，其中T_single=10min，k_correlation∈[1.0, 2.0]（取决于故障共因比例），共因故障（如骨干网中断）增加诊断复杂度
+在 $s_{avg}=1\text{MB}$ 场景下，M/M/c 模型的系统利用率 $\rho$ 计算：日均请求量 $R_{daily} = 2,000,000$（基于 2TB/1MB），到达率 $\lambda = 2,000,000/86400 \approx 23.15 \text{ req/s}$；若 $c\mu = 100,000 \text{ req/s}$，则 $\rho = \lambda/(c\mu) = 23.15/100,000 = 0.00023$，表明在低负载下排队延迟 $L_{queue} \approx 0$。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
-
-## Search Query
-
-multi-POP fault diagnosis complexity correlation factor
+先验知识/题面给定，逻辑校验通过：2TB/1MB=2,000,000请求，2,000,000/86400≈23.15 req/s，23.15/100,000=0.0002315≈0.00023，计算无误且符合M/M/c低负载特性

@@ -1,20 +1,20 @@
-# N356: 自建策略单位请求成本 C_self 的计算公式：C_self = (C_depreciation + C_bw_self + C_ops_self) / Q_t
+# N404: 数据处理协议（DPA）的签署要求：公有云 CDN 提供商必须提供符合 PIPL 第 38 条的 DPA 模板，明确数据跨境传输的合法性基础（如标准合同备案），否
 
-- **status**: verified
+- **status**: degraded
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N112
+- **rework_count**: 1
+- **parent_ids**: N149
 
 ## Claim
 
-自建策略单位请求成本 C_self 的计算公式：C_self = (C_depreciation + C_bw_self + C_ops_self) / Q_total，其中 C_depreciation 为年折旧摊销，C_bw_self 为自建带宽成本，C_ops_self 为运维人力成本
+数据处理协议（DPA）的签署要求：公有云 CDN 提供商必须提供符合 PIPL 第 38 条的 DPA 模板，明确数据跨境传输的合法性基础（如标准合同备案），否则需承担连带责任，罚款上限同上。
 
 ## Corrected Claim
 
-自建策略单位请求成本 C_self 的计算公式：C_self = (C_depreciation + C_bw_self + C_ops_self) / Q_total，其中 C_depreciation 为年折旧摊销，C_bw_self 为自建带宽成本，C_ops_self 为运维人力成本
+数据处理协议（DPA）的签署要求：公有云 CDN 提供商必须提供符合 PIPL 第 38 条的 DPA 模板，明确数据跨境传输的合法性基础（如标准合同备案），否则可能面临监管部门的责令改正、警告或罚款等行政处罚，具体处罚力度视违规情节严重程度而定。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+[质询]将‘未提供符合PIPL第38条的DPA模板’直接等同于‘承担连带责任’且‘罚款上限同上’（暗示与数据泄露或非法传输同等的最高罚款）缺乏法律逻辑支撑。PIPL第38条主要规范跨境传输的合法性基础（如标准合同、认证等），未提供DPA本身属于合规程序瑕疵，通常面临责令改正、警告或较低额度的罚款，而非直接触发针对严重违法行为的‘连带责任’或最高档罚款（如5000万或上一年度营业额5%）。 | 先验知识/题面给定，逻辑校验通过但存在法律归责逻辑上的过度推断风险，且无外部来源支持该具体处罚力度。

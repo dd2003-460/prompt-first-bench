@@ -1,19 +1,19 @@
-# N54: 公有云策略P99延迟的构成：P99_cloud = P99(t_cache | cloud) + p_miss_cloud * t_origin，其中 p_mi
+# N44: 请求频率分布服从 Zipf 分布 f(k) = C / k^alpha，其中 alpha 通常为 0.8-1.2；alpha 越大，热点越集中，缓存命中率 H 
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N13
+- **parent_ids**: N11
 
 ## Claim
 
-公有云策略P99延迟的构成：P99_cloud = P99(t_cache | cloud) + p_miss_cloud * t_origin，其中 p_miss_cloud 为公有云策略下的回源概率，通常高于自建策略（因POP点较少或距离较远），需根据公有云CDN的POP点分布与用户地理分布计算。
+请求频率分布服从 Zipf 分布 f(k) = C / k^alpha，其中 alpha 通常为 0.8-1.2；alpha 越大，热点越集中，缓存命中率 H 越高；对于社交媒体内容，alpha 通常接近 1.0。
 
 ## Corrected Claim
 
-公有云策略P99延迟的构成：P99_cloud = P99(t_cache | cloud) + p_miss_cloud * t_origin，其中 p_miss_cloud 为公有云策略下的回源概率，通常高于自建策略（因POP点较少或距离较远），需根据公有云CDN的POP点分布与用户地理分布计算。
+请求频率分布服从 Zipf 分布 f(k) = C / k^alpha，其中 alpha 通常为 0.8-1.2；alpha 越大，热点越集中，缓存命中率 H 越高；对于社交媒体内容，alpha 通常接近 1.0。
 
 ## Evidence
 
@@ -21,4 +21,4 @@
 
 ## Search Query
 
-public cloud CDN P99 latency calculation edge cache miss
+Zipf distribution parameter alpha CDN request frequency

@@ -1,4 +1,4 @@
-# N373: 公有云CDN服务等级协议（SLA）中关于可用性的标准承诺值为99.9%（月度停机时间≤43.8分钟）或99.95%（≤21.9分钟），若发生SLA违约，通常赔付
+# N223: P99延迟的统计测量点定义：P99_latency = Percentile_99({ t_i | i in 1..N })，其中 t_i 为客户端到边缘节点完
 
 - **status**: degraded
 - **level**: L4
@@ -9,16 +9,18 @@
 
 ## Claim
 
-公有云CDN服务等级协议（SLA）中关于可用性的标准承诺值为99.9%（月度停机时间≤43.8分钟）或99.95%（≤21.9分钟），若发生SLA违约，通常赔付月度服务费的10%-50%作为代金券，而非现金赔偿；对于P99延迟超标，公有云通常不直接赔付，除非合同特别约定了QoS条款。
+P99延迟的统计测量点定义：P99_latency = Percentile_99({ t_i | i in 1..N })，其中 t_i 为客户端到边缘节点完成数据传输的时间戳差值；需明确是 TTFB (Time To First Byte) 还是 Total Download Time，通常合规指 TTFB + 首包传输时间。
 
 ## Corrected Claim
 
-以百度智能云为例，其CDN SLA承诺可用性未达标时，赔付方式仅限代金券，且总额不超过当月该账号CDN月度服务费的50%。不同公有云厂商的具体可用性承诺值（如99.9%或99.95%）及延迟赔付条款需参照各自具体协议。
+P99延迟的统计测量点定义：P99_latency = Percentile_99({ t_i | i in 1..N })，其中 t_i 为请求响应时间戳差值；具体测量口径（如 TTFB 或 Total Download Time）需根据业务场景明确，常见 Web 性能指标中 TTFB 和 Total Load Time 均为常用口径，无统一的“合规”默认定义。
 
 ## Evidence
 
-[质询]该陈述将特定厂商（如百度智能云）的SLA细节泛化为“公有云”的通用标准，且关于P99延迟不赔付的断言缺乏普遍性证据，不同云厂商（如AWS, Azure, 阿里云）的具体赔付比例和QoS条款可能存在差异，存在以偏概全的风险。 | 来源[1]直接支持了“赔付代金券”及“不超过月度服务费50%”的部分，但未覆盖99.9%/99.95%的具体数值对应关系及P99延迟条款，且仅反映单一厂商政策，无法完全支撑“公有云通常”这一普遍性结论，故降级。
+[质询]陈述中关于“通常合规指 TTFB + 首包传输时间”的定义缺乏通用标准支持，且与常见的 Web 性能指标（如 TTFB 或 Total Load Time）定义存在混淆风险，属于特定场景下的经验性断言而非通用事实。 | 来源 [1][2][3] 均支持 P99 为第 99 百分位延迟的统计定义，但未提供“合规通常指 TTFB + 首包传输时间”这一具体口径的直接证据，该部分属于经验事实且缺乏来源支持。
 
 ## Retrieval Sources
 
-- {'url': 'https://intl.cloud.baidu.com/en/doc/CDN/s/ljwvyek8d&rut=b36575539b6add67c2f71cefe654362119d61c56785ab8a83ccc09a2baaae952', 'type': 'ddg', 'title': '产品服务等级协议sla - 内容分发网络cdn | 百度智能云文档'}
+- {'url': 'https://blog.csdn.net/Dontla/article/details/160182115&rut=4eb81f5db17f95e37217e720a575130c5ba4f0db8a406a260efc75ed891f993c', 'type': 'ddg', 'title': '性能测试中的百分位数指标（Percentiles）介绍（第N百分位数Pn、长尾延迟Tail Latency、P50Med'}
+- {'url': 'https://blog.csdn.net/weixin_45770491/article/details/148828342&rut=ae5a598fcc091ef84a57838b07a0e8771e023cfbe0287786cdf1fc3e1e8ea1ff', 'type': 'ddg', 'title': 'P99延迟：系统性能优化的关键指标_p99 latency-CSDN博客'}
+- {'url': 'https://blog.openresty.com/cn/p99-latency/&rut=233dd5c3a18a3791af688572afb0f24354b8415ef888957190725cafc9e9c8eb', 'type': 'ddg', 'title': 'P99 延迟：为什么平均值会骗人，以及如何诊断最慢的 1% - OpenResty 官方博客'}

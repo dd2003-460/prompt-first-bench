@@ -1,20 +1,20 @@
-# N38: 加权平均对象大小 $s_{avg} = p_{img} \times s_{img} + p_{vid} \times s_{vid} = 0.7 \times
+# N20: 10 个 POP 点总带宽处理能力为 10 Gbps，总并发连接能力为 100 M；实际峰值负载（带宽 18.5 Mbps，并发 < 1 M）仅为总容量的 0.
 
 - **status**: verified
 - **level**: L3
-- **source**: given
-- **edge_type**: quotient
+- **source**: knowledge
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N7
+- **parent_ids**: N4
 
 ## Claim
 
-加权平均对象大小 $s_{avg} = p_{img} \times s_{img} + p_{vid} \times s_{vid} = 0.7 \times 1.0 + 0.3 \times 7.5 = 2.95 \text{ MB}$，该值直接代入 N7 公式计算日均请求量。
+10 个 POP 点总带宽处理能力为 10 Gbps，总并发连接能力为 100 M；实际峰值负载（带宽 18.5 Mbps，并发 < 1 M）仅为总容量的 0.18% 和 < 1%，系统存在 99% 以上的冗余容量，P99 延迟受限于网络 RTT 而非节点处理能力。
 
 ## Corrected Claim
 
-加权平均对象大小 $s_{avg} = p_{img} \times s_{img} + p_{vid} \times s_{vid} = 0.7 \times 1.0 + 0.3 \times 7.5 = 2.95 \text{ MB}$，该值直接代入 N7 公式计算日均请求量。
+10 个 POP 点总带宽处理能力为 10 Gbps，总并发连接能力为 100 M；实际峰值负载（带宽 18.5 Mbps，并发 < 1 M）仅为总容量的 0.18% 和 < 1%，系统存在 99% 以上的冗余容量，P99 延迟受限于网络 RTT 而非节点处理能力。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：加权平均公式应用正确，数值计算 0.7*1.0 + 0.3*7.5 = 0.7 + 2.25 = 2.95 准确无误，量纲一致。
+先验知识/题面给定，逻辑校验通过：18.5/10000=0.185%，<1/100<1%，冗余度>99%，数值量级与逻辑自洽。

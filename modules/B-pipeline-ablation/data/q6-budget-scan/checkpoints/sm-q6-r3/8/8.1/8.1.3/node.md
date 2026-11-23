@@ -1,19 +1,19 @@
-# N305: 带宽冗余度 R_redundancy = B_purchased / B_pop_peak，若 R_redundancy > 2.0 则存在显著成本浪费，优化目
+# N355: 跨网互联附加费 $C_{cross}$：自建节点若需同时接入电信、联通、移动三家网络以实现多线接入，需支付额外的跨网互联费用或分别租赁三条专线，总带宽成本 $C
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N97
+- **parent_ids**: N131
 
 ## Claim
 
-带宽冗余度 R_redundancy = B_purchased / B_pop_peak，若 R_redundancy > 2.0 则存在显著成本浪费，优化目标为 R_redundancy ∈ [1.2, 1.5] 以平衡突发容量与成本，对应采购带宽 B_optimal = B_pop_peak * 1.3
+跨网互联附加费 $C_{cross}$：自建节点若需同时接入电信、联通、移动三家网络以实现多线接入，需支付额外的跨网互联费用或分别租赁三条专线，总带宽成本 $C_{bw}^{self} = \sum_{i} B_{reserved, i} \times R_{i}$，其中 $i$ 为运营商，需计算多线接入下的加权平均单 Gbps 成本。
 
 ## Corrected Claim
 
-带宽冗余度 R_redundancy = B_purchased / B_pop_peak，若 R_redundancy > 2.0 则存在显著成本浪费，优化目标为 R_redundancy ∈ [1.2, 1.5] 以平衡突发容量与成本，对应采购带宽 B_optimal = B_pop_peak * 1.3
+跨网互联附加费 $C_{cross}$：自建节点若需同时接入电信、联通、移动三家网络以实现多线接入，需支付额外的跨网互联费用或分别租赁三条专线，总带宽成本 $C_{bw}^{self} = \sum_{i} B_{reserved, i} \times R_{i}$，其中 $i$ 为运营商，需计算多线接入下的加权平均单 Gbps 成本。
 
 ## Evidence
 

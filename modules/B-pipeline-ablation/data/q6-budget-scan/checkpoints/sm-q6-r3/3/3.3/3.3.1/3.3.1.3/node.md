@@ -1,20 +1,20 @@
-# N312: 工作点 C（低缓存命中率/高回源成本）：R_origin = 30%，V_origin_daily = 2TB * 30% = 600GB，自建回源带宽成本 C
+# N216: 带宽超售风险成本 $C_{oversell}$：若 $B_{reserved}$ 不足导致丢包或限流，每 1% 丢包率对应的用户体验损失量化为 DAU 流失率 
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N105
+- **parent_ids**: N73
 
 ## Claim
 
-工作点 C（低缓存命中率/高回源成本）：R_origin = 30%，V_origin_daily = 2TB * 30% = 600GB，自建回源带宽成本 C_origin_bw_self = 600GB * ¥0.08/GB * 30 = ¥1,440/月，公有云回源成本 C_origin_bw_pub = 600GB * ¥0.3/GB * 30 = ¥5,400/月
+带宽超售风险成本 $C_{oversell}$：若 $B_{reserved}$ 不足导致丢包或限流，每 1% 丢包率对应的用户体验损失量化为 DAU 流失率 $\Delta DAU$ 及相应收入损失 $L_{rev} = \Delta DAU \times ARPU$。
 
 ## Corrected Claim
 
-工作点 C（低缓存命中率/高回源成本）：R_origin = 30%，V_origin_daily = 2TB * 30% = 600GB，自建回源带宽成本 C_origin_bw_self = 600GB * ¥0.08/GB * 30 = ¥1,440/月，公有云回源成本 C_origin_bw_pub = 600GB * ¥0.3/GB * 30 = ¥5,400/月
+带宽超售风险成本 $C_{oversell}$：若 $B_{reserved}$ 不足导致丢包或限流，每 1% 丢包率对应的用户体验损失量化为 DAU 流失率 $\Delta DAU$ 及相应收入损失 $L_{rev} = \Delta DAU \times ARPU$。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：600GB * 0.08 * 30 = 1440，600GB * 0.3 * 30 = 5400，计算无误且量级合理。
+先验知识/题面给定，逻辑校验通过

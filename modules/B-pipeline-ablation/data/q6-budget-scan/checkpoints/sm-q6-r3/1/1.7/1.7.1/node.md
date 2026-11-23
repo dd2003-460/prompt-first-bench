@@ -1,24 +1,24 @@
-# N50: 边缘缓存命中延迟 t_cache 的构成：t_cache = t_network_edge + t_processing，其中 t_network_edge 为
+# N36: 用户到边缘节点的物理距离 d 服从双峰分布：核心区域（覆盖60%用户）d≈50-100km，长尾区域（覆盖40%用户）d≈300-800km，该分布直接决定P9
 
-- **status**: verified
+- **status**: pending
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N12
+- **parent_ids**: N10
 
 ## Claim
 
-边缘缓存命中延迟 t_cache 的构成：t_cache = t_network_edge + t_processing，其中 t_network_edge 为用户到最近边缘节点的RTT（取决于地理分布，通常 10-50ms），t_processing 为边缘节点内部处理与IO延迟（通常 1-5ms），需根据具体POP点位置与硬件配置确定。
+用户到边缘节点的物理距离 d 服从双峰分布：核心区域（覆盖60%用户）d≈50-100km，长尾区域（覆盖40%用户）d≈300-800km，该分布直接决定P99延迟的RTT基线。
 
 ## Corrected Claim
 
-边缘缓存命中延迟 t_cache 的构成：t_cache = t_network_edge + t_processing，其中 t_network_edge 为用户到最近边缘节点的RTT（取决于地理分布，通常 10-50ms），t_processing 为边缘节点内部处理与IO延迟（通常 1-5ms），需根据具体POP点位置与硬件配置确定。
+用户到边缘节点的物理距离 d 服从双峰分布：核心区域（覆盖60%用户）d≈50-100km，长尾区域（覆盖40%用户）d≈300-800km，该分布直接决定P99延迟的RTT基线。
 
 ## Evidence
 
-父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点公式中的两个独立分量（t_network_edge 和 t_processing），内容互不重叠且无矛盾，覆盖了父节点定义的所有关键方面，且各自代表了不同的物理/硬件维度，不存在冗余。）
+父节点级核验未通过：有冗余（子节点在逻辑上正交且覆盖了父节点的两个核心区域及其对延迟的影响，但存在明显的冗余。子节点1和2分别定义了两个区域的距离，子节点3和4分别基于这两个距离计算延迟。由于延迟是距离的直接函数，且公式结构完全相同，仅参数不同，这导致子节点3和4与1和2高度耦合。更严重的是，子节点1和2中的“覆盖率密度”变量定义模糊且未给出具体数值，导致后续计算（如d_core=75km）缺乏推导依据，属于非参数化的重复描述。）
 
 ## Search Query
 
-CDN edge cache hit latency components RTT processing time
+China CDN user geographic distribution distance to PoP

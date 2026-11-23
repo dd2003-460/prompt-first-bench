@@ -1,19 +1,19 @@
-# N196: 图片请求占比 N_img_ratio 的典型经验值为 70%-90%，短视频请求占比 N_vid_ratio 为 10%-30%，具体数值取决于平台内容策略（如
+# N246: 电信运营商 10Gbps 对称互联网出口带宽包月费在一线城市核心机房的基准价格区间为 8000-15000 元/月，该价格包含端口占用费及基础 IP 资源费。
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N63
+- **parent_ids**: N85, N86, N87
 
 ## Claim
 
-图片请求占比 N_img_ratio 的典型经验值为 70%-90%，短视频请求占比 N_vid_ratio 为 10%-30%，具体数值取决于平台内容策略（如是否为视频主导型平台）。
+电信运营商 10Gbps 对称互联网出口带宽包月费在一线城市核心机房的基准价格区间为 8000-15000 元/月，该价格包含端口占用费及基础 IP 资源费。
 
 ## Corrected Claim
 
-图片请求占比 N_img_ratio 的典型经验值为 70%-90%，短视频请求占比 N_vid_ratio 为 10%-30%，具体数值取决于平台内容策略（如是否为视频主导型平台）。
+电信运营商 10Gbps 对称互联网出口带宽包月费在一线城市核心机房的基准价格区间为 8000-15000 元/月，该价格包含端口占用费及基础 IP 资源费。
 
 ## Evidence
 
@@ -21,4 +21,4 @@
 
 ## Search Query
 
-typical image vs video request ratio social media platform
+China Telecom 10Gbps dedicated line price tier-1 city 2024

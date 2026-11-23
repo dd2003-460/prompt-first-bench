@@ -1,24 +1,24 @@
-# N53: 自建策略P99延迟的构成：P99_self = P99(t_cache | self) + p_miss_self * t_origin，其中 p_miss_s
+# N43: 对象大小 s 的分布：图片平均 500KB (sigma=200KB)，短视频平均 5MB (sigma=2MB)；总缓存容量 C 固定时，大对象占比越高，可缓
 
 - **status**: pending
 - **level**: L3
-- **source**: knowledge
+- **source**: given
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N13
+- **parent_ids**: N11
 
 ## Claim
 
-自建策略P99延迟的构成：P99_self = P99(t_cache | self) + p_miss_self * t_origin，其中 p_miss_self 为自建策略下的回源概率，通常低于公有云策略（因更近的POP点），需根据自建POP点分布与用户地理分布计算。
+对象大小 s 的分布：图片平均 500KB (sigma=200KB)，短视频平均 5MB (sigma=2MB)；总缓存容量 C 固定时，大对象占比越高，可缓存的唯一对象数量越少，导致命中率 H 下降。
 
 ## Corrected Claim
 
-自建策略P99延迟的构成：P99_self = P99(t_cache | self) + p_miss_self * t_origin，其中 p_miss_self 为自建策略下的回源概率，通常低于公有云策略（因更近的POP点），需根据自建POP点分布与用户地理分布计算。
+对象大小 s 的分布：图片平均 500KB (sigma=200KB)，短视频平均 5MB (sigma=2MB)；总缓存容量 C 固定时，大对象占比越高，可缓存的唯一对象数量越少，导致命中率 H 下降。
 
 ## Evidence
 
-父节点级核验未通过：非正交（子节点1和子节点2存在严重的逻辑重叠与定义冲突。子节点1将 H_edge_self 定义为基于对象数量的全局统计量（1 - N_unique/Capacity），而子节点2将其定义为基于流量加权的局部命中率之和（Σ α_i * H_i）。在数学上，这两个公式通常不相等（除非在特定理想化假设下），且两者都在解释同一个变量 H_edge_self，导致内容重复且逻辑不自洽。此外，子节点1中关于 N_unique_active_self 的描述（覆盖用户更集中）与子节点2中关于地理分布的描述存在视角上的混淆，前者偏向容量/对象维度，后者偏向流量/地理维度，未明确区分这两个不同的建模层面。）
+父节点级核验未通过：不完备（子节点详细描述了图片和短视频的大小分布形态，但完全缺失了父节点中关于'总缓存容量C固定时，大对象占比与命中率H关系'这一核心逻辑机制的分解。父节点包含'分布'和'分布对系统性能（命中率）的影响'两部分，子节点仅覆盖了前者。）
 
 ## Search Query
 
-self-hosted CDN P99 latency calculation edge cache miss
+object size distribution image video CDN cache

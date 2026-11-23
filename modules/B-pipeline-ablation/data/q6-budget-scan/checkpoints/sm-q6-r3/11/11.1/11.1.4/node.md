@@ -1,0 +1,20 @@
+# N384: P99 延迟 $T_{target}$ 的综合计算公式：$T_{target} = L_{edge} + L_{processing} + T_{transfe
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N143
+
+## Claim
+
+P99 延迟 $T_{target}$ 的综合计算公式：$T_{target} = L_{edge} + L_{processing} + T_{transfer} + L_{queue} + (1-H) \times L_{backhaul}$；在 $s_{avg}=1\text{MB}$、$B_{link}=10 \text{ Mbps}$、$H=90\%$ 场景下，$T_{target} \approx 2 + 8 + 819 + 0 + 0.1 \times 10 = 829 \text{ ms}$，其中传输时间占 $98.8\%$。
+
+## Corrected Claim
+
+P99 延迟 $T_{target}$ 的综合计算公式：$T_{target} = L_{edge} + L_{processing} + T_{transfer} + L_{queue} + (1-H) \times L_{backhaul}$；在 $s_{avg}=1\text{MB}$、$B_{link}=10 \text{ Mbps}$、$H=90\%$ 场景下，$T_{target} \approx 2 + 8 + 819 + 0 + 0.1 \times 10 = 829 \text{ ms}$，其中传输时间占 $98.8\%$。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：传输时间计算 1MB / 10Mbps = 819.2ms，总时间 829.2ms，占比 98.8%，数值量级与逻辑自洽。

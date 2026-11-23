@@ -1,24 +1,20 @@
-# N335: T_fix硬件更换瓶颈：T_fix = max(T_swapping, T_config_rollback)，其中T_swapping=15min（硬件更换），
+# N375: 在 $s_{avg}=5\text{MB}$ 场景下，M/M/c 模型的系统利用率 $\rho$ 计算：日均请求量 $R_{daily} = 400,000$（
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N105
+- **parent_ids**: N141
 
 ## Claim
 
-T_fix硬件更换瓶颈：T_fix = max(T_swapping, T_config_rollback)，其中T_swapping=15min（硬件更换），T_config_rollback=10min（配置回滚）；若采用热备节点，T_fix可降至5min（自动切换）
+在 $s_{avg}=5\text{MB}$ 场景下，M/M/c 模型的系统利用率 $\rho$ 计算：日均请求量 $R_{daily} = 400,000$（基于 2TB/5MB），到达率 $\lambda = 400,000/86400 \approx 4.63 \text{ req/s}$；若 $c\mu = 100,000 \text{ req/s}$，则 $\rho = 4.63/100,000 = 0.000046$，进一步证实低负载下排队延迟可忽略，P99 延迟主要由传输时间决定。
 
 ## Corrected Claim
 
-T_fix硬件更换瓶颈：T_fix = max(T_swapping, T_config_rollback)，其中T_swapping=15min（硬件更换），T_config_rollback=10min（配置回滚）；若采用热备节点，T_fix可降至5min（自动切换）
+在 $s_{avg}=5\text{MB}$ 场景下，M/M/c 模型的系统利用率 $\rho$ 计算：日均请求量 $R_{daily} = 400,000$（基于 2TB/5MB），到达率 $\lambda = 400,000/86400 \approx 4.63 \text{ req/s}$；若 $c\mu = 100,000 \text{ req/s}$，则 $\rho = 4.63/100,000 = 0.000046$，进一步证实低负载下排队延迟可忽略，P99 延迟主要由传输时间决定。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
-
-## Search Query
-
-hot standby node failover time vs hardware swapping
+先验知识/题面给定，逻辑校验通过：日均请求量计算正确（2TB/5MB=400,000），到达率换算正确（400,000/86400≈4.63），利用率计算正确（4.63/100,000=0.0000463），低负载下排队延迟可忽略的结论符合M/M/c模型基本性质

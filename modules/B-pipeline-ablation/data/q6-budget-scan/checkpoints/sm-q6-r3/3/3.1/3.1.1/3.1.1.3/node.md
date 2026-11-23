@@ -1,24 +1,20 @@
-# N206: 公有云 CDN 弹性实例的计费粒度通常为秒级或分钟级，存在最小计费单位（如 60 秒）；对于突发短请求，实际计费时长 = max(Actual_Process_
+# N195: 工作点 C（高性能低延迟）：采用高 CPU 低内存服务器（如 16GB RAM / 32 vCPU + SSD 本地缓存），单服务器并发能力 $C_{srv} 
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N63
+- **parent_ids**: N66
 
 ## Claim
 
-公有云 CDN 弹性实例的计费粒度通常为秒级或分钟级，存在最小计费单位（如 60 秒）；对于突发短请求，实际计费时长 = max(Actual_Process_Time, Min_Billing_Unit)，导致短请求的单位成本被放大 2-5 倍，需通过连接复用和批量处理优化以降低此开销。
+工作点 C（高性能低延迟）：采用高 CPU 低内存服务器（如 16GB RAM / 32 vCPU + SSD 本地缓存），单服务器并发能力 $C_{srv} \approx 20,000$，在 $C_{peak}=50,000$ 时 $N_{servers}=3$，单服务器成本约 20,000 元/月，总成本 60,000 元/月，适合对 P99 延迟敏感的核心区域。
 
 ## Corrected Claim
 
-公有云 CDN 弹性实例的计费粒度通常为秒级或分钟级，存在最小计费单位（如 60 秒）；对于突发短请求，实际计费时长 = max(Actual_Process_Time, Min_Billing_Unit)，导致短请求的单位成本被放大 2-5 倍，需通过连接复用和批量处理优化以降低此开销。
+工作点 C（高性能低延迟）：采用高 CPU 低内存服务器（如 16GB RAM / 32 vCPU + SSD 本地缓存），单服务器并发能力 $C_{srv} \approx 20,000$，在 $C_{peak}=50,000$ 时 $N_{servers}=3$，单服务器成本约 20,000 元/月，总成本 60,000 元/月，适合对 P99 延迟敏感的核心区域。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
-
-## Search Query
-
-cloud CDN elastic instance billing granularity minimum billing unit impact on cost
+先验知识/题面给定，逻辑校验通过：32 vCPU/16GB RAM 配置下，基于 Nginx/OpenResty 等高性能代理或轻量级应用，单节点支撑 20,000 并发连接在技术上是合理的（主要受限于文件描述符和内存，而非 CPU 算力）；3 台服务器支撑 50,000 峰值并发（50,000/20,000=2.5，向上取整为 3）符合容量规划逻辑；成本计算 3 * 20,000 = 60,000 元/月算术正确。

@@ -1,24 +1,24 @@
-# N51: 回源链路延迟 t_origin 的构成：t_origin = t_backbone + t_server + t_network_origin，其中 t_bac
+# N37: 光纤介质中的光速约为 2.0e8 m/s（真空中光速的67%），传播延迟系数通常取1.0-1.1以补偿折射率及路由非直线性，RTT_min = 2 * d / 
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N12
+- **parent_ids**: N10
 
 ## Claim
 
-回源链路延迟 t_origin 的构成：t_origin = t_backbone + t_server + t_network_origin，其中 t_backbone 为骨干网传输延迟（20-50ms），t_server 为源站处理延迟（<10ms），t_network_origin 为源站到边缘节点的网络延迟（通常 5-20ms），需根据源站位置与网络拓扑确定。
+光纤介质中的光速约为 2.0e8 m/s（真空中光速的67%），传播延迟系数通常取1.0-1.1以补偿折射率及路由非直线性，RTT_min = 2 * d / 2.0e8 * 1.05。
 
 ## Corrected Claim
 
-回源链路延迟 t_origin 的构成：t_origin = t_backbone + t_server + t_network_origin，其中 t_backbone 为骨干网传输延迟（20-50ms），t_server 为源站处理延迟（<10ms），t_network_origin 为源站到边缘节点的网络延迟（通常 5-20ms），需根据源站位置与网络拓扑确定。
+光纤介质中的光速约为 2.0e8 m/s（真空中光速的67%），传播延迟系数通常取1.0-1.1以补偿折射率及路由非直线性，RTT_min = 2 * d / 2.0e8 * 1.05。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+先验知识/题面给定，逻辑校验通过：光纤折射率约1.5，光速约为真空光速的2/3（约2.0e8 m/s），系数1.0-1.1符合工程惯例，公式推导自洽。
 
 ## Search Query
 
-CDN origin fetch latency breakdown backbone server processing
+fiber optic speed of light propagation delay coefficient

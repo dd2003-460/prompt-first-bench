@@ -1,0 +1,24 @@
+# N190: 公有云CDN峰值带宽的精确计算需考虑时间分辨率：阿里云/腾讯云通常按5分钟粒度采样，月度峰值带宽 = max(所有5分钟窗口内的瞬时带宽)；对于2TB/日均流量
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N59
+
+## Claim
+
+公有云CDN峰值带宽的精确计算需考虑时间分辨率：阿里云/腾讯云通常按5分钟粒度采样，月度峰值带宽 = max(所有5分钟窗口内的瞬时带宽)；对于2TB/日均流量，若峰值系数取1.8（行业典型值），峰值带宽 = (2TB / 24h) * 1.8 = 150GB/h ≈ 33.3Mbps（注意：GB/h到Mbps的转换需除以3.6，即150GB/h / 3.6 ≈ 41.7Mbps，此处需修正单位换算错误，实际1GB=8Gb，150GB/h = 1200Gb/h = 200Mbps，再除以3.6得55.5Mbps，需重新核算单位）。
+
+## Corrected Claim
+
+对于2TB/日均流量，平均带宽约为 83.3 Mbps。若峰值系数取1.8，峰值带宽约为 150 Mbps。
+
+## Evidence
+
+[质询]陈述内部存在严重的逻辑矛盾和单位换算错误。首先，2TB/24h 的平均带宽约为 83.3 Mbps，乘以 1.8 的峰值系数后，峰值带宽应约为 150 Mbps，而非陈述中计算的 33.3 Mbps 或 55.5 Mbps。其次，陈述中关于 GB/h 到 Mbps 的换算逻辑混乱且错误：1 GB/h = 8 Gb/h = 8000 Mb / 3600 s ≈ 2.22 Mbps，因此 150 GB/h ≈ 333 Mbps，这与基于平均带宽推导的 150 Mbps 也不一致（因为 2TB/24h 是平均流量，峰值系数应用于平均带宽，即 83.3 Mbps * 1.8 = 150 Mbps）。陈述试图通过错误的单位换算（除以3.6等）来掩盖量级错误，导致最终结论与基本物理/数学直觉严重违背。 | 逻辑校验失败：2TB/24h ≈ 83.3 Mbps，峰值系数1.8下峰值应为 ~150 Mbps。陈述中的单位换算（GB/h -> Mbps）存在根本性错误，且内部数值自相矛盾。
+
+## Search Query
+
+CDN peak bandwidth calculation 5 minute granularity unit conversion

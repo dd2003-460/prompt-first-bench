@@ -1,24 +1,20 @@
-# N59: 带宽单价敏感性：0.1元/Mbps/秒为理想低价，实际BGP带宽价格随运营商和地区波动，范围¥0.08-0.15/Mbps/秒；若按¥0.12估算，单点月带宽费
+# N65: 自建 POP 的回源带宽利用率 $\rho_{self}$ 取决于回源流量比例 $(1-H)$ 和预留带宽 $B_{reserved, self}$：$\rho
 
-- **status**: verified
+- **status**: pending
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N13, N14, N15
+- **parent_ids**: N13
 
 ## Claim
 
-带宽单价敏感性：0.1元/Mbps/秒为理想低价，实际BGP带宽价格随运营商和地区波动，范围¥0.08-0.15/Mbps/秒；若按¥0.12估算，单点月带宽费 = 10 * 10,000 * 30 * 86400 * 0.12 / 1000 = ¥311,040/月，总月OPEX增加20%。
+自建 POP 的回源带宽利用率 $\rho_{self}$ 取决于回源流量比例 $(1-H)$ 和预留带宽 $B_{reserved, self}$：$\rho_{self} = \frac{(1-H) \times B_{peak}}{B_{reserved, self}}$；若 $H=90\%$，$B_{peak}=30$ Gbps，$B_{reserved, self}=5$ Gbps，则 $\rho_{self} = 0.6$，此时 $L_{queue}$ 约为 2-5 ms。
 
 ## Corrected Claim
 
-带宽单价敏感性：0.1元/Mbps/秒为理想低价，实际BGP带宽价格随运营商和地区波动，范围¥0.08-0.15/Mbps/秒；若按¥0.12估算，单点月带宽费 = 10 * 10,000 * 30 * 86400 * 0.12 / 1000 = ¥311,040/月，总月OPEX增加20%。
+自建 POP 的回源带宽利用率 $\rho_{self}$ 取决于回源流量比例 $(1-H)$ 和预留带宽 $B_{reserved, self}$：$\rho_{self} = \frac{(1-H) \times B_{peak}}{B_{reserved, self}}$；若 $H=90\%$，$B_{peak}=30$ Gbps，$B_{reserved, self}=5$ Gbps，则 $\rho_{self} = 0.6$，此时 $L_{queue}$ 约为 2-5 ms。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：数学计算 10 * 10,000 * 30 * 86400 * 0.12 / 1000 = 311,040 正确；BGP带宽价格区间符合行业常识。
-
-## Search Query
-
-BGP bandwidth price per Mbps second China 2024
+父节点级核验未通过：不完备（子节点分别针对公式中的两个核心变量（流量比例 H 和预留带宽 B）进行展开，内容互不重叠且无矛盾，正交性良好；无冗余。但完备性不足：父节点明确指出了利用率对排队延迟 L_queue 的影响（具体数值 2-5ms），而子节点仅讨论了如何避免延迟激增的策略，未解释或量化 L_queue 与 ρ 的具体函数关系或来源，遗漏了父节点中关于延迟结果的关键方面。）

@@ -1,20 +1,20 @@
-# N165: 月度总成本 C_total_monthly 的构成展开：C_total_monthly = C_infra_monthly + C_bandwidth_mont
+# N146: 公式中的系数 1.5 和常数 5ms 是经验值，未明确物理意义。更严谨的估算应基于具体网络拓扑：$T_{target} = \alpha_{core} \tim
 
-- **status**: degraded
+- **status**: pending
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
-- **rework_count**: 1
-- **parent_ids**: N51
+- **rework_count**: 0
+- **parent_ids**: N35
 
 ## Claim
 
-月度总成本 C_total_monthly 的构成展开：C_total_monthly = C_infra_monthly + C_bandwidth_monthly + C_ops_monthly + C_security_monthly，其中各项成本需分别针对公有云、自建、混合三种策略独立计算后取最大值或加权平均
+公式中的系数 1.5 和常数 5ms 是经验值，未明确物理意义。更严谨的估算应基于具体网络拓扑：$T_{target} = \alpha_{core} \times (L_{edge} + L_{backhaul, core}) + \alpha_{tail} \times (L_{edge} + L_{backhaul, tail})$，其中 $\alpha_{core}=0.9, \alpha_{tail}=0.1$。
 
 ## Corrected Claim
 
-月度总成本 C_total_monthly 的构成展开：C_total_monthly = C_infra_monthly + C_bandwidth_monthly + C_ops_monthly + C_security_monthly，其中各项成本需分别针对公有云、自建、混合三种策略独立计算，最终总成本为所选策略下各项成本之和（若为混合策略，则为各组件对应策略成本之和）。
+公式中的系数 1.5 和常数 5ms 是经验值，未明确物理意义。更严谨的估算应基于具体网络拓扑：$T_{target} = \alpha_{core} \times (L_{edge} + L_{backhaul, core}) + \alpha_{tail} \times (L_{edge} + L_{backhaul, tail})$，其中 $\alpha_{core}=0.9, \alpha_{tail}=0.1$。
 
 ## Evidence
 
-[质询]「取最大值或加权平均」的表述存在逻辑模糊性：在成本优化决策中，通常是比较不同策略的总成本以选择最低者，而非对各项成本取最大值（这会导致成本被高估且无实际决策意义）；若指混合云架构中不同组件分别采用不同策略，则应分别计算后求和，而非简单的‘取最大值’。该表述可能混淆了‘策略选择’与‘成本构成’的逻辑。 | 先验知识/题面给定，逻辑校验通过，但‘取最大值’的表述在成本优化语境下存在歧义，需降级为定性表述以排除逻辑误用风险。
+父节点级核验未通过：不完备（子节点分别解释了系数1.5和常数5ms，内容正交且无冗余。但父节点核心观点是‘经验值未明确物理意义’，并提出了基于拓扑的严谨估算公式（引入alpha_core, alpha_tail等参数）。子节点却强行赋予了1.5和5ms具体的物理意义（P99放大因子、边缘处理延迟），这与父节点‘未明确物理意义’的前提相悖，且完全未覆盖父节点中提到的‘更严谨的估算应基于具体网络拓扑’这一关键方面，导致分解不具完备性，甚至存在逻辑矛盾。）

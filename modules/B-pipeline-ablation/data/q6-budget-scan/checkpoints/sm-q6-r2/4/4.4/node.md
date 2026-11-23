@@ -1,30 +1,24 @@
-# N20: 跨域/跨网流量传输费用：自建节点间回源流量（2TB/日）及跨运营商（电信/联通/移动）互联互通的流量结算费用（¥/GB）。
+# N51: 请求量的时间分布不均匀：峰值小时请求量约为日均的 15-20%（即 33-40 万请求/小时），用于计算峰值带宽需求及瞬时 P99 延迟，避免用日均值低估峰值压
 
 - **status**: verified
-- **level**: L2
-- **source**: search
-- **edge_type**: cartesian
-- **rework_count**: 1
-- **parent_ids**: N4
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N13
 
 ## Claim
 
-跨域/跨网流量传输费用：自建节点间回源流量（2TB/日）及跨运营商（电信/联通/移动）互联互通的流量结算费用（¥/GB）。
+请求量的时间分布不均匀：峰值小时请求量约为日均的 15-20%（即 33-40 万请求/小时），用于计算峰值带宽需求及瞬时 P99 延迟，避免用日均值低估峰值压力。
 
 ## Corrected Claim
 
-跨域/跨网流量传输费用取决于具体网络架构：自建节点间回源流量（2TB/日）通常通过内网或专线传输，费用取决于专线带宽或内网流量策略；跨运营商（电信/联通/移动）互联互通的流量结算费用需依据具体互联协议或公网出口流量计费标准（¥/GB），不同运营商和地区差异较大，需查询具体运营商资费表。
+请求量的时间分布不均匀：峰值小时请求量约为日均的 15-20%（即 33-40 万请求/小时），用于计算峰值带宽需求及瞬时 P99 延迟，避免用日均值低估峰值压力。
 
 ## Evidence
 
-父节点级核验通过：正交+完备+无冗余（两个子节点分别对应父节点中明确列出的两个独立维度：1. 自建节点间的内部回源流量（内网/骨干网）；2. 跨运营商的公网互联流量。两者在物理路径和计费逻辑上互斥且正交，共同完整覆盖了父节点定义的全部费用场景，不存在冗余。）
+先验知识/题面给定，逻辑校验通过：15-20%的峰值占比符合互联网业务典型的非均匀流量分布特征（通常峰值为均值的1.5-2倍），且33-40万/小时的量级与日均200万左右的隐含总量在数学上自洽（200万*15%=30万, 200万*20%=40万），无逻辑矛盾。
 
 ## Search Query
 
-inter-carrier traffic settlement cost China telecom unicom mobile CDN origin pull
-
-## Retrieval Sources
-
-- {'url': 'https://cloud.tencent.com/document/product/436/53863&rut=50f1b4b2bd996c31d41d24905c69b9b24823f6228c6c3cf6dae07f8040315719', 'type': 'ddg', 'title': '对象存储 流量费用_腾讯云'}
-- {'url': 'https://help.aliyun.com/zh/cdn/product-overview/billing-of-data-transfer-when-alibaba-cloud-cdn-is-used-with-other-alibaba-cloud-services&rut=9de4f007814d52bc72cd7eec17e0df310c5ba189e08f4eee53d03181777bd698', 'type': 'ddg', 'title': '阿里云CDN与阿里云其他产品配合使用时流量如何计费？'}
-- {'url': 'https://help.aliyun.com/zh/express-connect/product-overview/description-of-cross-border-traffic-billing&rut=5aa5fc076dd15bca135fb44a5d705c5efda440ab6b53d7382df9a5dfc8af75e4', 'type': 'ddg', 'title': '跨地域流量计费（使用CDT结算）-高速通道 (Express Connect)-阿里云帮助中心'}
+CDN traffic peak hour distribution daily average

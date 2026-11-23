@@ -1,0 +1,20 @@
+# N308: 工作点 A（高冗余/高成本）：每 POP 预留 100Mbps 出口带宽（总 1Gbps），假设单 Gbps 月租 1000 元，月带宽成本 C_bw^self
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N116
+
+## Claim
+
+工作点 A（高冗余/高成本）：每 POP 预留 100Mbps 出口带宽（总 1Gbps），假设单 Gbps 月租 1000 元，月带宽成本 C_bw^self = 10 * 0.1Gbps * 1000 元/Gbps = 1000 元/月，带宽利用率极低（<1%），成本浪费严重。
+
+## Corrected Claim
+
+工作点 A（高冗余/高成本）：每 POP 预留 100Mbps 出口带宽（总 1Gbps），假设单 Gbps 月租 1000 元，月带宽成本 C_bw^self = 10 * 0.1Gbps * 1000 元/Gbps = 1000 元/月，带宽利用率极低（<1%），成本浪费严重。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：10 * 0.1Gbps * 1000元/Gbps = 1000元/月，计算无误，量级合理。

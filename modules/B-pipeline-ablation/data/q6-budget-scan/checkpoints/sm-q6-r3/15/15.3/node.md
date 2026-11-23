@@ -1,20 +1,20 @@
-# N367: 策略切换决策阈值 ΔC_threshold 的确定：ΔC_threshold = ΔC_self_max - ΔC_cloud_min，其中 ΔC_self_m
+# N407: 全自建固定成本 $C_{fixed}^{self}$ 的具体数值估算：基于 10 个 POP 点，每点配置 2 台服务器（单价 8 万元，3 年折旧）及 1 个
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N113
+- **parent_ids**: N150
 
 ## Claim
 
-策略切换决策阈值 ΔC_threshold 的确定：ΔC_threshold = ΔC_self_max - ΔC_cloud_min，其中 ΔC_self_max 为自建策略最大可接受边际成本，ΔC_cloud_min 为公有云策略最小边际成本；当 ΔC_self < ΔC_cloud 时增加自建，反之增加公有云
+全自建固定成本 $C_{fixed}^{self}$ 的具体数值估算：基于 10 个 POP 点，每点配置 2 台服务器（单价 8 万元，3 年折旧）及 1 个机柜（租金 8000 元/月，电力 5kW*0.7 元/kWh*24h*30d），单点月固定成本约为 2.67 万元，10 点总固定成本 $C_{fixed}^{self} \approx 26.7$ 万元/月。
 
 ## Corrected Claim
 
-策略切换决策阈值 ΔC_threshold 的确定：ΔC_threshold = ΔC_self_max - ΔC_cloud_min，其中 ΔC_self_max 为自建策略最大可接受边际成本，ΔC_cloud_min 为公有云策略最小边际成本；当 ΔC_self < ΔC_cloud 时增加自建，反之增加公有云
+全自建固定成本 $C_{fixed}^{self}$ 的具体数值估算：基于 10 个 POP 点，每点配置 2 台服务器（单价 8 万元，3 年折旧）及 1 个机柜（租金 8000 元/月，电力 5kW*0.7 元/kWh*24h*30d），单点月固定成本约为 2.67 万元，10 点总固定成本 $C_{fixed}^{self} \approx 26.7$ 万元/月。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+先验知识/题面给定，逻辑校验通过：单点月固定成本计算为 (160000/36 + 8000 + 2520) ≈ 26700元，10点总计26.7万元/月，数值量级与算术逻辑自洽。

@@ -1,24 +1,20 @@
-# N159: 回源概率 p_miss 对 P99 延迟的贡献权重 w_miss = p_miss * (t_origin - t_cache)，其中 t_origin 为回源
+# N120: 单次故障处理成本 = (工程师时薪¥200 * 平均处理时长4h * 2人) + (差旅费¥500) + (设备更换概率0.2 * 备件成本¥5,000) = 
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N49
+- **parent_ids**: N35
 
 ## Claim
 
-回源概率 p_miss 对 P99 延迟的贡献权重 w_miss = p_miss * (t_origin - t_cache)，其中 t_origin 为回源延迟，t_cache 为缓存命中延迟；对于 p_miss=0.2，t_origin=50ms，t_cache=5ms，w_miss ≈ 9ms；需根据实际延迟参数确定。
+单次故障处理成本 = (工程师时薪¥200 * 平均处理时长4h * 2人) + (差旅费¥500) + (设备更换概率0.2 * 备件成本¥5,000) = ¥2,100 + ¥500 + ¥1,000 = ¥3,600
 
 ## Corrected Claim
 
-回源概率 p_miss 对 P99 延迟的贡献权重 w_miss = p_miss * (t_origin - t_cache)，其中 t_origin 为回源延迟，t_cache 为缓存命中延迟；对于 p_miss=0.2，t_origin=50ms，t_cache=5ms，w_miss ≈ 9ms；需根据实际延迟参数确定。
+单次故障处理成本 = (工程师时薪¥200 * 平均处理时长4h * 2人) + (差旅费¥500) + (设备更换概率0.2 * 备件成本¥5,000) = ¥1,600 + ¥500 + ¥1,000 = ¥3,100
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：公式 w_miss = p_miss * (t_origin - t_cache) 符合期望延迟贡献的线性叠加原理，数值计算 0.2 * (50 - 5) = 9ms 准确无误。
-
-## Search Query
-
-cache miss probability P99 latency contribution
+先验知识/题面给定，逻辑校验通过：算术计算正确（200*4*2=1600? 不，200*4=800, 800*2=1600。等等，原陈述写的是 ¥2,100。让我重新检查算术。200 * 4 * 2 = 1600。原陈述第一部分写的是 ¥2,100。这里存在算术错误。1600 != 2100。总成本 1600+500+1000=3100，而原陈述是3600。因此存在硬逻辑错误（算术错误）。

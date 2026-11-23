@@ -1,0 +1,24 @@
+# N249: 自建 10 个 POP 点的总带宽月成本 $C_{bandwidth}$ 修正公式：$C_{bandwidth} = \sum_{i=1}^{10} P_{bw
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N85, N86, N87
+
+## Claim
+
+自建 10 个 POP 点的总带宽月成本 $C_{bandwidth}$ 修正公式：$C_{bandwidth} = \sum_{i=1}^{10} P_{bw,i}$，其中 $P_{bw,i}$ 为第 i 个 POP 点的实际带宽规格（如 1Gbps 或 10Gbps）对应的月费，而非简单假设所有点均为 10Gbps 满配。
+
+## Corrected Claim
+
+自建 10 个 POP 点的总带宽月成本 $C_{bandwidth}$ 修正公式：$C_{bandwidth} = \sum_{i=1}^{10} P_{bw,i}$，其中 $P_{bw,i}$ 为第 i 个 POP 点的实际带宽规格（如 1Gbps 或 10Gbps）对应的月费，而非简单假设所有点均为 10Gbps 满配。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该公式正确表达了总成本为各节点独立带宽成本之和的线性叠加关系，且明确指出了避免‘一刀切’假设的修正逻辑，符合成本核算的基本原理。
+
+## Search Query
+
+CDN edge node bandwidth cost calculation mixed specifications

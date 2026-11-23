@@ -1,24 +1,20 @@
-# N58: 回源距离 d_avg 与熵 H_geo 的关系：d_avg = g(H_geo, R_opt)，其中 R_opt 为最优覆盖半径，H_geo 越高，d_avg 
+# N78: Cloudflare 图片+短视频混合流量的计费特性：Cloudflare 不按对象类型区分单价，统一按 GB 计费；但短视频（5-20MB）的大对象传输可能导
 
-- **status**: pending
+- **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N18
+- **parent_ids**: N17
 
 ## Claim
 
-回源距离 d_avg 与熵 H_geo 的关系：d_avg = g(H_geo, R_opt)，其中 R_opt 为最优覆盖半径，H_geo 越高，d_avg 越大，需通过地理信息系统（GIS）计算用户到最近POP点的平均距离。
+Cloudflare 图片+短视频混合流量的计费特性：Cloudflare 不按对象类型区分单价，统一按 GB 计费；但短视频（5-20MB）的大对象传输可能导致 TCP 慢启动效应，增加实际传输时间，间接影响 QPS 和连接数，但不改变流量计费单价；需确认是否启用 HTTP/2 或 HTTP/3 以减少头部开销，从而略微降低有效传输流量。
 
 ## Corrected Claim
 
-回源距离 d_avg 与熵 H_geo 的关系：d_avg = g(H_geo, R_opt)，其中 R_opt 为最优覆盖半径，H_geo 越高，d_avg 越大，需通过地理信息系统（GIS）计算用户到最近POP点的平均距离。
+Cloudflare 图片+短视频混合流量的计费特性：Cloudflare 不按对象类型区分单价，统一按 GB 计费；但短视频（5-20MB）的大对象传输可能导致 TCP 慢启动效应，增加实际传输时间，间接影响 QPS 和连接数，但不改变流量计费单价；需确认是否启用 HTTP/2 或 HTTP/3 以减少头部开销，从而略微降低有效传输流量。
 
 ## Evidence
 
-父节点级核验未通过：不完备（子节点之间逻辑独立（计算模型、延迟映射、熵影响、长尾效应），无重复或矛盾，正交性良好。但完备性不足：父节点明确提到函数 g(H_geo, R_opt) 中包含 R_opt（最优覆盖半径），但所有子节点均未涉及 R_opt 如何影响 d_avg 或 H_geo，导致关键变量缺失。此外，子节点3给出的线性近似公式与父节点隐含的复杂关系（及子节点1的GIS精确计算）在数学严谨性上存在轻微张力，但未构成矛盾。）
-
-## Search Query
-
-average origin fetch distance geographic distribution entropy
+父节点级核验通过：正交+完备+无冗余（子节点分别从计费模型（价格/合规）、传输性能（TCP/HTTP3技术细节）、网络基础设施（国内节点可用性）三个维度展开，彼此独立且无重叠。父节点中提到的‘不区分单价’、‘慢启动影响’、‘HTTP/2/3优化’及‘间接影响QPS/连接数’等关键点均被覆盖。虽然子节点1和2都涉及流量，但侧重点不同（成本vs性能），不构成冗余。）

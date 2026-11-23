@@ -1,20 +1,30 @@
-# N313: 工作点 A（低回源率/低源站负载）：R_origin = 5%，QPS_origin = (2TB/1.85MB/86400) * 5% ≈ 12.7 QPS，
+# N217: 阿里云 CDN 带宽计费的最小起租门槛：国内节点通常设有 10Mbps 或 100Mbps 的最小计费单位，若 $B_{reserved} < 10\text{
 
-- **status**: verified
+- **status**: degraded
 - **level**: L4
-- **source**: knowledge
+- **source**: search
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N106
+- **rework_count**: 1
+- **parent_ids**: N74
 
 ## Claim
 
-工作点 A（低回源率/低源站负载）：R_origin = 5%，QPS_origin = (2TB/1.85MB/86400) * 5% ≈ 12.7 QPS，源站 CPU 成本增量 ΔC_cpu = 12.7 * 3600 * 24 * 30 * ¥0.002 ≈ ¥65,800/月
+阿里云 CDN 带宽计费的最小起租门槛：国内节点通常设有 10Mbps 或 100Mbps 的最小计费单位，若 $B_{reserved} < 10\text{Mbps}$，实际计费带宽 $B_{billed} = 10\text{Mbps}$，导致小流量场景下等效单价飙升。
 
 ## Corrected Claim
 
-工作点 A（低回源率/低源站负载）：R_origin = 5%，QPS_origin = (2TB/1.85MB/86400) * 5% ≈ 12.7 QPS，源站 CPU 成本增量 ΔC_cpu = 12.7 * 3600 * 24 * 30 * ¥0.002 ≈ ¥65,800/月
+阿里云 CDN 按带宽峰值计费时，计费带宽通常为实际监测到的峰值带宽，无固定的 10Mbps 或 100Mbps 最小起租门槛；若用户购买预付费带宽资源包，则需按资源包规格（如 10Mbps、100Mbps 等）购买，未使用部分不退还，可能导致小流量场景下资源利用率低。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：QPS计算 (2*1024*1024 MB / 1.85 MB / 86400) * 0.05 ≈ 12.7 QPS 正确；成本计算 12.7 * 86400 * 30 * 0.002 ≈ 65,800 元/月 正确。
+[质询]阿里云CDN按带宽峰值计费时，通常没有固定的10Mbps或100Mbps“最小起租门槛”或“最小计费单位”，实际计费带宽即为监测到的峰值带宽（可能低至几Kbps），除非用户购买了特定规格的预付费资源包或专线产品，否则该陈述混淆了“资源包规格”与“后付费计费规则”。 | 参考来源[2]指出阿里云CDN支持按带宽峰值计费，但未提及存在10Mbps/100Mbps的最小计费单位门槛；来源[1]和[3]也未提供相关证据支持该具体数值门槛的存在，属于经验事实且缺乏来源支持，故降级。
+
+## Search Query
+
+阿里云 CDN 最小带宽计费单位 起租门槛
+
+## Retrieval Sources
+
+- {'url': 'https://help.aliyun.com/zh/cdn/product-overview/billing-overview&rut=5607cac578e6a0a2822f10843ed70c58160107634276405ba09db4d9580720b7', 'type': 'ddg', 'title': 'Cdn如何计费-cdn (Cdn)-阿里云帮助中心'}
+- {'url': 'https://help.aliyun.com/zh/cdn/product-overview/billing-rules-of-basic-services&rut=8ac269fc0fd33361b507140bc77f95e7de5882f95004416a424fe1397b02bd86', 'type': 'ddg', 'title': '基础服务计费方式定价规则-cdn-阿里云-cdn (Cdn)-阿里云帮助中心'}
+- {'url': 'https://www.aliyun.com/price/detail/cdn&rut=7deffc4f1d34859bcb7594b9f5ea62952b3f14c06ecc370a5099c3c282977b06', 'type': 'ddg', 'title': '阿里云定价_CDN价格详情'}

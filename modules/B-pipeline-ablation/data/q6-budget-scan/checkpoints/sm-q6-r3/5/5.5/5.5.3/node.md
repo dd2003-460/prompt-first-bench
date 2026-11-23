@@ -1,19 +1,19 @@
-# N107: 混合策略的扩容弹性成本公式：Cost_scaling_mixed = (Traffic_Growth_Rate × Traffic_TB_core × Cost
+# N183: 合规性约束的法律/行业依据：中国互联网行业对C端内容平台的P99延迟SLO无统一法律硬性标准，但《互联网信息服务管理办法》及行业自律公约通常要求核心功能可用性>
 
 - **status**: verified
-- **level**: L3
+- **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N33
+- **parent_ids**: N56
 
 ## Claim
 
-混合策略的扩容弹性成本公式：Cost_scaling_mixed = (Traffic_Growth_Rate × Traffic_TB_core × Cost_per_TB_self_hosted) + (Traffic_Growth_Rate × Traffic_TB_tail × Cost_per_TB_cloud)；其中Traffic_TB_core为80%流量，Traffic_TB_tail为20%流量，需分别计算自建和公有云部分的增量成本。
+合规性约束的法律/行业依据：中国互联网行业对C端内容平台的P99延迟SLO无统一法律硬性标准，但《互联网信息服务管理办法》及行业自律公约通常要求核心功能可用性>99.9%且响应时间<1s；P99<300ms为行业最佳实践而非法定合规线，实际T值设定需结合业务容忍度（如视频流媒体可放宽至500ms）和竞品基准。
 
 ## Corrected Claim
 
-混合策略的扩容弹性成本公式：Cost_scaling_mixed = (Traffic_Growth_Rate × Traffic_TB_core × Cost_per_TB_self_hosted) + (Traffic_Growth_Rate × Traffic_TB_tail × Cost_per_TB_cloud)；其中Traffic_TB_core为80%流量，Traffic_TB_tail为20%流量，需分别计算自建和公有云部分的增量成本。
+合规性约束的法律/行业依据：中国互联网行业对C端内容平台的P99延迟SLO无统一法律硬性标准，但《互联网信息服务管理办法》及行业自律公约通常要求核心功能可用性>99.9%且响应时间<1s；P99<300ms为行业最佳实践而非法定合规线，实际T值设定需结合业务容忍度（如视频流媒体可放宽至500ms）和竞品基准。
 
 ## Evidence
 

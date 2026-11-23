@@ -1,24 +1,30 @@
-# N318: 缓存容量限制下的有效命中率修正：实际H_cache = min(H_zipf, C_cache_capacity / (N_hot_objects * s_av
+# N222: Cloudflare Enterprise 套餐的定制报价模型：基于承诺月度带宽或流量包，通常采用阶梯折扣，对于 60TB/月流量，Enterprise 报价可
 
-- **status**: verified
+- **status**: degraded
 - **level**: L4
-- **source**: knowledge
+- **source**: search
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N107
+- **rework_count**: 1
+- **parent_ids**: N75
 
 ## Claim
 
-缓存容量限制下的有效命中率修正：实际H_cache = min(H_zipf, C_cache_capacity / (N_hot_objects * s_avg_hot))，其中C_cache_capacity为单POP总缓存容量（如10TB），N_hot_objects为访问前80%流量的对象数，s_avg_hot为热点对象平均大小；若容量不足，H_cache将低于Zipf理论值，需扩容或采用LRU-LFU混合策略。
+Cloudflare Enterprise 套餐的定制报价模型：基于承诺月度带宽或流量包，通常采用阶梯折扣，对于 60TB/月流量，Enterprise 报价可能低于 Business，但需签订 1-3 年合同，需计算年化总成本。
 
 ## Corrected Claim
 
-缓存容量限制下的有效命中率修正：实际H_cache = min(H_zipf, C_cache_capacity / (N_hot_objects * s_avg_hot))，其中C_cache_capacity为单POP总缓存容量（如10TB），N_hot_objects为访问前80%流量的对象数，s_avg_hot为热点对象平均大小；若容量不足，H_cache将低于Zipf理论值，需扩容或采用LRU-LFU混合策略。
+Cloudflare Enterprise 套餐采用定制报价模型，通常基于承诺的带宽或流量包，并采用基于价值的定价方式（如来源[2]所述）。对于高流量场景（如60TB/月），Enterprise 套餐可能通过阶梯折扣或包含更多服务而具有成本优势，但具体价格需根据合同条款（通常涉及长期承诺）计算年化总成本。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+[质询]陈述中关于“60TB/月流量 Enterprise 报价可能低于 Business”的具体数值比较以及“1-3年合同”的具体期限属于经验性商业细节，参考来源仅提供了定性描述（如“基于价值的定价”、“无攻击流量费用”），未提供具体的阶梯折扣模型、合同期限或不同套餐在特定流量下的价格对比数据，无法从来源直接验证该具体结论。 | 来源[2]确认了Enterprise套餐采用“基于价值的定价方式”且“无攻击流量费用”，这与陈述中“定制报价”、“基于流量/带宽”的逻辑方向一致，但缺乏支持具体价格对比（Enterprise < Business at 60TB）和具体合同年限（1-3年）的直接证据，属于经验事实且缺来源直接支持。
 
 ## Search Query
 
-cdn cache capacity limit hit rate reduction lru lfu
+Cloudflare Enterprise pricing model committed bandwidth
+
+## Retrieval Sources
+
+- {'url': 'https://www.cloudflare.com/plans/enterprise/externa/&rut=8cb289ba89147242661dabfbfa429bb29d9a833cd770d24ad1673e8bd12f8759', 'type': 'ddg', 'title': 'Enterprise solutions packages | Cloudflare'}
+- {'url': 'https://www.cloudflare-cn.com/plans/enterprise/externa/&rut=bcd2c49aff907902dc4db2f3190c059ad31b68f07a94ccf500601beee4b557d5', 'type': 'ddg', 'title': '企业解决方案套餐 | Cloudflare'}
+- {'url': 'https://www.cloudflare.com/enterprise/&rut=7e35ea16652b2d0d85ad4025383bf51c4f375b4bf7cb8c97241edfb6d26e7c93', 'type': 'ddg', 'title': 'Cloudflare Enterprise Solutions | Cloudflare'}

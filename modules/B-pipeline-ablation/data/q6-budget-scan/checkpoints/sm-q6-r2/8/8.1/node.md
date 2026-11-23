@@ -1,29 +1,20 @@
-# N131: 自建 POP 点单 Gbps 出口带宽成本 $C_{bw}^{self}$ 取决于运营商专线资费，典型电信 10Gbps 专线月租约为 5000-8000 元，
+# N60: 单台服务器月耗电量 = 单台功耗(500W) * 24h * 30天 / 1000 = 360 kWh
 
-- **status**: degraded
+- **status**: verified
 - **level**: L3
-- **source**: search
+- **source**: given
 - **edge_type**: cartesian
-- **rework_count**: 1
-- **parent_ids**: N32
+- **rework_count**: 0
+- **parent_ids**: N17
 
 ## Claim
 
-自建 POP 点单 Gbps 出口带宽成本 $C_{bw}^{self}$ 取决于运营商专线资费，典型电信 10Gbps 专线月租约为 5000-8000 元，折算单 Gbps 成本为 500-800 元/月；联通/移动价格略低，约为 400-600 元/Gbps/月。
+单台服务器月耗电量 = 单台功耗(500W) * 24h * 30天 / 1000 = 360 kWh
 
 ## Corrected Claim
 
-自建 POP 点单 Gbps 出口带宽成本 $C_{bw}^{self}$ 取决于运营商专线资费，具体价格因地区、带宽规模及谈判情况而异，通常电信 10Gbps 专线月租在数千元至万元级别，折算单 Gbps 成本需根据实际合同确定。
+单台服务器月耗电量 = 单台功耗(500W) * 24h * 30天 / 1000 = 360 kWh
 
 ## Evidence
 
-[质询]参考来源未提供具体的运营商专线资费数值，无法直接验证500-800元/Gbps/月这一具体经验数据；且不同地区、不同时期及不同谈判能力下，专线价格波动较大，单一数值区间可能不具备普适性。 | 逻辑自洽（10Gbps对应5000-8000元，折算单Gbps为500-800元，数学关系正确），但参考来源[1]和[2]仅讨论BGP架构和跨境网络成本对比，未包含国内电信/联通/移动具体专线资费数据，属于经验事实且缺乏直接来源支持。
-
-## Search Query
-
-China Telecom 10G dedicated line monthly cost 2024
-
-## Retrieval Sources
-
-- {'url': 'https://www.htstack.com/news/157598.shtml&rut=71eb8b2a8e13119e672f9528a4e317d6890d09b6cbcc569c6e405245a07f3283', 'type': 'ddg', 'title': '自建bgp费用全解析：企业网络架构成本与优化方案-行业资讯-衡天云'}
-- {'url': 'https://blog.csdn.net/Bobolink_/article/details/163073091&rut=b8e1b5726fb2931bd51ef63d08e4cc1c4298cc1bc576ecf61c7d7f51f0b6d1d1', 'type': 'ddg', 'title': '跨境网络自己搭建vs直接买现成服务，成本和时间分别差多少_跨境网络搭建-CSDN博客'}
+先验知识/题面给定，逻辑校验通过：500W * 24h * 30d / 1000 = 360 kWh，计算无误且量纲正确。

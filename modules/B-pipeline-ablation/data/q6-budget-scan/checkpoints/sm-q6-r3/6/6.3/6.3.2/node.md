@@ -1,24 +1,24 @@
-# N276: 阿里云 CDN 资源包（Resource Pack）折扣率：购买 1 个月 50TB 资源包通常享受约 85-90 折，相比按量付费节省 10-15%，需预付费
+# N115: 全自建 10 个 POP 点的月度基础设施固定成本 $C_{fixed}^{self}$ (¥/月)，由硬件折旧 $C_{hw}$ 和机房电力租赁 $C_{co
 
-- **status**: degraded
-- **level**: L4
+- **status**: pending
+- **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
-- **rework_count**: 1
-- **parent_ids**: N89
+- **rework_count**: 0
+- **parent_ids**: N28
 
 ## Claim
 
-阿里云 CDN 资源包（Resource Pack）折扣率：购买 1 个月 50TB 资源包通常享受约 85-90 折，相比按量付费节省 10-15%，需预付费用
+全自建 10 个 POP 点的月度基础设施固定成本 $C_{fixed}^{self}$ (¥/月)，由硬件折旧 $C_{hw}$ 和机房电力租赁 $C_{colo}$ 构成：$C_{fixed}^{self} = 10 \times (N_{srv} \times C_{srv}/36 + N_{rack} \times (R_{rack} + E_{pow} \times P_{kWh}))$，需代入具体服务器/机柜参数计算。
 
 ## Corrected Claim
 
-阿里云 CDN 资源包通常比按量付费更优惠，具体折扣率随市场活动及购买时长波动，需以官网实时报价为准。
+全自建 10 个 POP 点的月度基础设施固定成本 $C_{fixed}^{self}$ (¥/月)，由硬件折旧 $C_{hw}$ 和机房电力租赁 $C_{colo}$ 构成：$C_{fixed}^{self} = 10 \times (N_{srv} \times C_{srv}/36 + N_{rack} \times (R_{rack} + E_{pow} \times P_{kWh}))$，需代入具体服务器/机柜参数计算。
 
 ## Evidence
 
-[质询]具体折扣率（85-90折）和节省比例（10-15%）属于动态变化的商业定价策略，不同时期、不同客户等级及具体活动下差异巨大，将其表述为固定事实存在以偏概全的风险。 | 经验事实，逻辑自洽但缺来源支持
+父节点级核验未通过：不完备, 有冗余（子节点本质上是同一公式在三个不同参数组合下的具体算例，而非对成本构成要素（硬件折旧、电力租赁）的独立维度分解，存在高度冗余。此外，父节点强调需代入具体参数计算，而子节点仅提供了三个离散工作点，未覆盖参数空间或通用计算逻辑，导致完备性不足。）
 
 ## Search Query
 
-Alibaba Cloud CDN resource pack discount rate monthly 50TB
+data center colocation cost per rack China server depreciation

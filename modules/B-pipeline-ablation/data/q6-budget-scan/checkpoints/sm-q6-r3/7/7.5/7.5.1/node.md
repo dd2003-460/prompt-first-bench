@@ -1,0 +1,30 @@
+# N341: 阿里云CDN 95th带宽计费模式的最小起租门槛为10Gbps，若实际峰值带宽低于此值，需按10Gbps计费，导致小流量场景下成本激增。
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N127
+
+## Claim
+
+阿里云CDN 95th带宽计费模式的最小起租门槛为10Gbps，若实际峰值带宽低于此值，需按10Gbps计费，导致小流量场景下成本激增。
+
+## Corrected Claim
+
+阿里云CDN支持月结95带宽峰值计费模式，但参考来源未明确其最小起租门槛是否为10Gbps。
+
+## Evidence
+
+[质询]参考来源仅提及存在“月结95带宽峰值计费”这一模式，但未提供具体的“10Gbps最小起租门槛”数值，该具体参数属于经验事实，缺乏直接来源支持。 | 来源[1][2][3]确认了阿里云CDN存在“月结95带宽峰值计费”模式，但未提及10Gbps的具体起租门槛，属于经验事实缺来源支持。
+
+## Search Query
+
+阿里云CDN 95th带宽计费 最小起租 10Gbps 限制
+
+## Retrieval Sources
+
+- {'url': 'https://help.aliyun.com/zh/cdn/product-overview/billing-rules-of-basic-services&rut=8ac269fc0fd33361b507140bc77f95e7de5882f95004416a424fe1397b02bd86', 'type': 'ddg', 'title': '基础服务计费方式定价规则-cdn-阿里云-cdn (Cdn)-阿里云帮助中心'}
+- {'url': 'https://developer.aliyun.com/article/1708278&rut=2ddc55f04c3ee490ae5b44019f150c2428eac2400670b83d41207aae16acf9e2', 'type': 'ddg', 'title': '2026最新阿里云cdn收费标准：不同计费模式价格表（基础服务费和增值服务费用整理）-阿里云开发者社区'}
+- {'url': 'https://developer.aliyun.com/article/1712489&rut=9ac11fc059ec63ddd1ce104c3b0e7d9ac1b1e8c3823c8a667dafda6ca3e1bda1', 'type': 'ddg', 'title': '2026阿里云cdn 计费全攻略：按流量 / 带宽 / 95 峰值 + 基础服务费 + 增值服务价格表'}

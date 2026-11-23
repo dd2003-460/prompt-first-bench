@@ -1,20 +1,20 @@
-# N311: 工作点 B（中缓存命中率/平衡成本）：R_origin = 15%，V_origin_daily = 2TB * 15% = 300GB，自建回源带宽成本 C_
+# N215: 突发流量因子 $K_{burst}$ 的量化：定义为分钟级峰值带宽与小时级平均带宽之比，对于 C 端媒体平台，典型 $K_{burst} \in [1.2, 1
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N105
+- **parent_ids**: N73
 
 ## Claim
 
-工作点 B（中缓存命中率/平衡成本）：R_origin = 15%，V_origin_daily = 2TB * 15% = 300GB，自建回源带宽成本 C_origin_bw_self = 300GB * ¥0.08/GB * 30 = ¥720/月，公有云回源成本 C_origin_bw_pub = 300GB * ¥0.3/GB * 30 = ¥2,700/月
+突发流量因子 $K_{burst}$ 的量化：定义为分钟级峰值带宽与小时级平均带宽之比，对于 C 端媒体平台，典型 $K_{burst} \in [1.2, 1.5]$，需纳入 $B_{reserved}$ 计算以避免瞬时过载。
 
 ## Corrected Claim
 
-工作点 B（中缓存命中率/平衡成本）：R_origin = 15%，V_origin_daily = 2TB * 15% = 300GB，自建回源带宽成本 C_origin_bw_self = 300GB * ¥0.08/GB * 30 = ¥720/月，公有云回源成本 C_origin_bw_pub = 300GB * ¥0.3/GB * 30 = ¥2,700/月
+突发流量因子 $K_{burst}$ 的量化：定义为分钟级峰值带宽与小时级平均带宽之比，对于 C 端媒体平台，典型 $K_{burst} \in [1.2, 1.5]$，需纳入 $B_{reserved}$ 计算以避免瞬时过载。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：数值计算准确（300GB * 0.08 * 30 = 720; 300GB * 0.3 * 30 = 2700），量纲与成本逻辑自洽。
+先验知识/题面给定，逻辑校验通过

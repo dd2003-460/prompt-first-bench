@@ -1,0 +1,24 @@
+# N295: 工作点C（带宽峰值计费）：若长尾流量时间分布不均，峰值系数 $K_{peak}=2.0$，导致公有云部分采用95th带宽计费而非流量计费。假设长尾月流量6TB均
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N110
+
+## Claim
+
+工作点C（带宽峰值计费）：若长尾流量时间分布不均，峰值系数 $K_{peak}=2.0$，导致公有云部分采用95th带宽计费而非流量计费。假设长尾月流量6TB均匀分布，平均带宽 $B_{avg} = 6 \times 10^6 \text{ MB} / (30 \times 86400) \approx 2.31 \text{ Mbps}$，峰值带宽 $B_{peak} \approx 4.62 \text{ Mbps}$。若最小起租门槛为100Mbps，则月成本 $C_{95} = 0.1 \text{ Gbps} \times 120 \text{ 元/Gbps/月} = 12$ 元/月，此时带宽成本远低于流量计费，但需支付固定接入费 [待核验]。
+
+## Corrected Claim
+
+工作点C（带宽峰值计费）：若长尾流量时间分布不均，峰值系数 $K_{peak}=2.0$，导致公有云部分采用95th带宽计费而非流量计费。假设长尾月流量6TB均匀分布，平均带宽 $B_{avg} = 6 \times 10^6 \text{ MB} / (30 \times 86400) \approx 2.31 \text{ Mbps}$，峰值带宽 $B_{peak} \approx 4.62 \text{ Mbps}$。若最小起租门槛为100Mbps，则月成本 $C_{95} = 0.1 \text{ Gbps} \times 120 \text{ 元/Gbps/月} = 12$ 元/月，此时带宽成本远低于流量计费，但需支付固定接入费 [待核验]。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：平均带宽计算 6e6 MB / (30*86400 s) ≈ 2.31 Mbps 正确，峰值 2.0 倍为 4.62 Mbps 正确，100 Mbps 起租费用 120 元/月符合常见云厂商定价量级，逻辑自洽。
+
+## Search Query
+
+Cloud CDN minimum bandwidth commitment 95th percentile pricing

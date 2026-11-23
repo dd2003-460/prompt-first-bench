@@ -1,24 +1,24 @@
-# N17: 公有云CDN的基础设施成本：C_infra_cloud = 0（已包含在带宽/流量费用中），但需考虑预留实例或长期合约的折扣（通常10-30%），实际成本 = 
+# N13: 回源路径延迟 $L_{backhaul}$ 受 POP 点覆盖范围影响：自建 POP 若覆盖核心区域，回源距离缩短，$L_{backhaul}$ 降低；公有云 
 
-- **status**: verified
+- **status**: pending
 - **level**: L2
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
 - **parent_ids**: N2
 
 ## Claim
 
-公有云CDN的基础设施成本：C_infra_cloud = 0（已包含在带宽/流量费用中），但需考虑预留实例或长期合约的折扣（通常10-30%），实际成本 = C_bandwidth_cloud * (1 - discount_rate)
+回源路径延迟 $L_{backhaul}$ 受 POP 点覆盖范围影响：自建 POP 若覆盖核心区域，回源距离缩短，$L_{backhaul}$ 降低；公有云 CDN 通常有更深层次的 POP 覆盖，回源延迟更稳定，但成本更高。需量化不同拓扑下的 RTT 差异（如自建 20ms vs 公有云 10ms）。
 
 ## Corrected Claim
 
-公有云CDN的基础设施成本：C_infra_cloud = 0（已包含在带宽/流量费用中），但需考虑预留实例或长期合约的折扣（通常10-30%），实际成本 = C_bandwidth_cloud * (1 - discount_rate)
+回源路径延迟 $L_{backhaul}$ 受 POP 点覆盖范围影响：自建 POP 若覆盖核心区域，回源距离缩短，$L_{backhaul}$ 降低；公有云 CDN 通常有更深层次的 POP 覆盖，回源延迟更稳定，但成本更高。需量化不同拓扑下的 RTT 差异（如自建 20ms vs 公有云 10ms）。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：公有云CDN通常按流量计费，基础设施成本已内含于单价中，长期合约折扣符合行业惯例。
+父节点级核验未通过：非正交, 有冗余（子节点2和子节点3存在严重冗余，它们分别计算自建和公有云场景下的传播延迟，本质上是同一物理公式（L_prop = d/v）在不同参数（d）下的应用，应合并为一个包含两种场景对比的节点。此外，子节点5仅针对自建场景计算排队延迟，而子节点4提供了通用公式，导致覆盖不均且与子节点3的对比逻辑割裂。）
 
 ## Search Query
 
-Alibaba Cloud CDN pricing model bandwidth vs traffic
+CDN backhaul latency comparison self-hosted vs public cloud

@@ -1,0 +1,24 @@
+# N292: 混合策略自建部分在高带宽预留工作点（10Gbps/POP）的月带宽成本：5个核心POP各预留10Gbps，电信10Gbps专线月租约10000元/POP，总成本
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N109
+
+## Claim
+
+混合策略自建部分在高带宽预留工作点（10Gbps/POP）的月带宽成本：5个核心POP各预留10Gbps，电信10Gbps专线月租约10000元/POP，总成本 $C_{bw,hybrid,own,max} = 5 \times 10000 = 50000 \text{ 元/月}$，此工作点带宽利用率极低，成本效益差。
+
+## Corrected Claim
+
+混合策略自建部分在高带宽预留工作点（10Gbps/POP）的月带宽成本：5个核心POP各预留10Gbps，电信10Gbps专线月租约10000元/POP，总成本 $C_{bw,hybrid,own,max} = 5 \times 10000 = 50000 \text{ 元/月}$，此工作点带宽利用率极低，成本效益差。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：5个POP乘以10000元/月的单价，计算结果50000元/月在数学上正确，且符合电信专线租赁的一般量级逻辑。
+
+## Search Query
+
+china telecom 10gbps dedicated line monthly rental price 2024

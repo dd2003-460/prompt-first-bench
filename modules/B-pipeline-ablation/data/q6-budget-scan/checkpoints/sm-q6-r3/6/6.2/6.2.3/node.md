@@ -1,24 +1,24 @@
-# N273: Cloudflare Enterprise 纯按量付费模式（Pay-as-you-go）的流量单价通常为 $0.05 - $0.10/GB，无固定月费，但缺乏带
+# N111: 混合策略自建部分基础设施成本 $C_{infra,hybrid,own}$：5 个 POP 点，每点 2 台服务器（1 主 1 备），服务器成本 8 万/台，折
 
-- **status**: verified
-- **level**: L4
+- **status**: pending
+- **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N88
+- **parent_ids**: N27
 
 ## Claim
 
-Cloudflare Enterprise 纯按量付费模式（Pay-as-you-go）的流量单价通常为 $0.05 - $0.10/GB，无固定月费，但缺乏带宽预留保障，高并发下可能遭遇限速
+混合策略自建部分基础设施成本 $C_{infra,hybrid,own}$：5 个 POP 点，每点 2 台服务器（1 主 1 备），服务器成本 8 万/台，折旧 36 个月，月折旧 $C_{hw} = 5 \times 2 \times 80000 / 36 \approx 2222$ 元/月；机柜及电力 $C_{colo} = 5 \times (5000 + 5 \times 0.7 \times 24 \times 30) \approx 5 \times 5250 = 26250$ 元/月（假设每机柜 5kW，电价 0.7 元/kWh）。
 
 ## Corrected Claim
 
-Cloudflare Enterprise 纯按量付费模式（Pay-as-you-go）的流量单价通常为 $0.05 - $0.10/GB，无固定月费，但缺乏带宽预留保障，高并发下可能遭遇限速
+混合策略自建部分基础设施成本 $C_{infra,hybrid,own}$：5 个 POP 点，每点 2 台服务器（1 主 1 备），服务器成本 8 万/台，折旧 36 个月，月折旧 $C_{hw} = 5 \times 2 \times 80000 / 36 \approx 2222$ 元/月；机柜及电力 $C_{colo} = 5 \times (5000 + 5 \times 0.7 \times 24 \times 30) = 5 \times (5000 + 2520) = 37600$ 元/月（假设每机柜 5kW，电价 0.7 元/kWh）。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+父节点级核验失败（LLM 错误）：Unterminated string starting at: line 5 column 13 (char 79)
 
 ## Search Query
 
-Cloudflare Enterprise pay-as-you-go traffic price per GB
+Colocation rack rental price China 2024

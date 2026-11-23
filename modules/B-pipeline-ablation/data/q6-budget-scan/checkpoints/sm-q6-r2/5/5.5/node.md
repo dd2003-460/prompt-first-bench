@@ -1,24 +1,20 @@
-# N33: 混合策略的扩容弹性成本：Cost_scaling = (Traffic_Growth_Rate × Cost_per_TB_incremental)，其中Tra
+# N56: 合规性/SLA约束值：在中国互联网行业，针对C端内容平台的内部SLO通常设定P99延迟<300ms作为硬性合规线，若超过此值可能触发用户体验投诉率上升（每增加1
 
-- **status**: verified
-- **level**: L2
+- **status**: degraded
+- **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
-- **rework_count**: 0
-- **parent_ids**: N5
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N14, N15, N16
 
 ## Claim
 
-混合策略的扩容弹性成本：Cost_scaling = (Traffic_Growth_Rate × Cost_per_TB_incremental)，其中Traffic_Growth_Rate为月流量增长率（通常5%-10%），Cost_per_TB_incremental为增量带宽成本（自建节点需额外采购硬件，公有云按量付费）。
+合规性/SLA约束值：在中国互联网行业，针对C端内容平台的内部SLO通常设定P99延迟<300ms作为硬性合规线，若超过此值可能触发用户体验投诉率上升（每增加100ms P99，投诉率约增加5-10%），因此T的设定下限为300ms，上限取决于业务容忍度（如视频流媒体可放宽至500ms）。
 
 ## Corrected Claim
 
-混合策略的扩容弹性成本：Cost_scaling = (Traffic_Growth_Rate × Cost_per_TB_incremental)，其中Traffic_Growth_Rate为月流量增长率（通常5%-10%），Cost_per_TB_incremental为增量带宽成本（自建节点需额外采购硬件，公有云按量付费）。
+在中国互联网行业，C端内容平台的内部SLO常将P99延迟控制在较低水平（如300ms左右）以保障用户体验，延迟增加通常会导致用户投诉率上升，具体阈值（如300ms或500ms）取决于业务类型（如视频流媒体容忍度更高）及内部策略，而非统一的硬性合规标准。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
-
-## Search Query
-
-hybrid CDN scaling cost incremental
+[质询]该陈述包含具体的经验性数值（P99<300ms为硬性合规线、每增加100ms投诉率增加5-10%、视频流媒体上限500ms），这些并非行业通用的法定标准或第一性原理可推导的数学/物理事实，而是高度依赖具体业务场景、历史数据和内部策略的经验参数。不同平台、不同业务线（如电商vs视频）的SLO设定差异巨大，将其概括为“中国互联网行业...通常设定”缺乏普适性依据，且“硬性合规线”一词易与法律合规混淆，实为内部SLA/SLO目标。 | source=knowledge，逻辑自洽（延迟增加导致体验下降符合直觉），但具体数值（300ms, 5-10%, 500ms）属于经验事实，无外部来源支持，且非第一性原理可严格推导，故降级。

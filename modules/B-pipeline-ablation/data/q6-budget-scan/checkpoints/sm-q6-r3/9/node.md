@@ -1,7 +1,7 @@
-# N29: 运维人力成本模型：自建10个POP点需配备 SRE 团队，按 1:10 节点比例，需 1-2 名全职 SRE，人均年成本 C_hr ≈ ¥500k-800k/人
+# N71: 公有云CDN（以阿里云为例）在中国大陆区域的按量付费流量单价阶梯：0-10TB约为¥0.24/GB，10-50TB约为¥0.20/GB，50-100TB约为¥0
 
 - **status**: degraded
-- **level**: L2
+- **level**: L3
 - **source**: search
 - **edge_type**: cartesian
 - **rework_count**: 1
@@ -9,12 +9,18 @@
 
 ## Claim
 
-运维人力成本模型：自建10个POP点需配备 SRE 团队，按 1:10 节点比例，需 1-2 名全职 SRE，人均年成本 C_hr ≈ ¥500k-800k/人，加上监控工具订阅费 ¥50k-100k/年，总运维人力成本 C_ops ≈ C_hr * N_sre + C_tool
+公有云CDN（以阿里云为例）在中国大陆区域的按量付费流量单价阶梯：0-10TB约为¥0.24/GB，10-50TB约为¥0.20/GB，50-100TB约为¥0.18/GB；对于月均60TB的流量，加权平均单价约为¥0.19/GB，月度流量成本约为¥11,400。
 
 ## Corrected Claim
 
-运维人力成本模型：自建10个POP点需配备 SRE 团队，按 1:10 节点比例，需 1-2 名全职 SRE，人均年成本 C_hr ≈ ¥500k-800k/人，加上监控工具订阅费 ¥50k-100k/年，总运维人力成本 C_ops ≈ C_hr * N_sre + C_tool
+公有云CDN（以阿里云为例）在中国大陆区域采用按量付费的阶梯累进计费模式，流量越大单价越低；具体单价需参考阿里云官网实时价格表，月均60TB流量的成本需根据当期具体阶梯单价计算。
 
 ## Evidence
 
-检索失败: no sources from any channel (all 5 failed)
+[质询]具体价格数值（0.24/0.20/0.18元/GB）属于经验事实，参考来源仅提供了计费规则（阶梯累进、按量付费）和示例，未直接列出当前中国大陆区域的具体阶梯单价，无法通过来源直接验证数值的准确性。 | 来源[1][2][3]确认了阿里云CDN采用按量付费及阶梯累进计费模式，逻辑自洽，但缺乏具体单价的直接证据支持，属于经验事实缺来源支持。
+
+## Retrieval Sources
+
+- {'url': 'https://developer.aliyun.com/article/1708278&rut=2ddc55f04c3ee490ae5b44019f150c2428eac2400670b83d41207aae16acf9e2', 'type': 'ddg', 'title': '2026最新阿里云cdn收费标准：不同计费模式价格表（基础服务费和增值服务费用整理）-阿里云开发者社区'}
+- {'url': 'https://www.aliyun.com/price/detail/cdn&rut=7deffc4f1d34859bcb7594b9f5ea62952b3f14c06ecc370a5099c3c282977b06', 'type': 'ddg', 'title': '阿里云定价_CDN价格详情'}
+- {'url': 'https://help.aliyun.com/zh/cdn/product-overview/billing-overview&rut=5607cac578e6a0a2822f10843ed70c58160107634276405ba09db4d9580720b7', 'type': 'ddg', 'title': 'Cdn如何计费-cdn (Cdn)-阿里云帮助中心'}

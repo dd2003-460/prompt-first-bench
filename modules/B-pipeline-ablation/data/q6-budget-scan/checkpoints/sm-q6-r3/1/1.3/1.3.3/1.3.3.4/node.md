@@ -1,20 +1,20 @@
-# N128: P99 传输延迟 L_trans_p99 = s_p99 / Effective_Bandwidth_per_req，其中 Effective_Bandwidt
+# N100: 工作点B的边际收益量化：P99从200ms降至180ms（降低20ms），假设每降低10ms P99提升转化率0.25%（基于N75线性外推），DAU 500万
 
-- **status**: verified
+- **status**: degraded
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: quotient
-- **rework_count**: 0
-- **parent_ids**: N47
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N28
 
 ## Claim
 
-P99 传输延迟 L_trans_p99 = s_p99 / Effective_Bandwidth_per_req，其中 Effective_Bandwidth_per_req = Peak_BW_per_POP / Concurrent_Requests_per_POP，若每 POP 并发请求数为 10,000，峰值带宽 1 Gbps，则单请求有效带宽 ≈ 100 Kbps = 12.5 KB/s
+工作点B的边际收益量化：P99从200ms降至180ms（降低20ms），假设每降低10ms P99提升转化率0.25%（基于N75线性外推），DAU 500万，ARPU ¥10/月，则月增收 = 5,000,000 * 0.25% * ¥10 = ¥125,000，远高于¥5,000-¥10,000的带宽成本，ROI > 10x。
 
 ## Corrected Claim
 
-P99 传输延迟 L_trans_p99 = s_p99 / Effective_Bandwidth_per_req，其中 Effective_Bandwidth_per_req = Peak_BW_per_POP / Concurrent_Requests_per_POP，若每 POP 并发请求数为 10,000，峰值带宽 1 Gbps，则单请求有效带宽 ≈ 100 Kbps = 12.5 KB/s
+工作点B的边际收益量化：P99从200ms降至180ms（降低20ms），若假设每降低10ms P99提升转化率0.25%（基于N75线性外推，需验证线性假设有效性），DAU 500万，ARPU ¥10/月，则预估月增收 = 5,000,000 * 0.25% * ¥10 = ¥125,000，远高于¥5,000-¥10,000的带宽成本，预估ROI > 10x。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：1 Gbps / 10,000 = 100 Kbps，且 100 Kbps / 8 = 12.5 KB/s，数值换算准确，符合带宽均分的基本逻辑。
+[质询]核心假设“每降低10ms P99提升转化率0.25%”属于经验事实，且基于N75线性外推至工作点B可能存在非线性偏差或外推失效风险，缺乏直接来源支持该具体弹性系数。 | 经验事实，逻辑自洽但缺来源支持；数学计算正确（5,000,000 * 0.0025 * 10 = 125,000），ROI推导逻辑成立，但转化率提升系数为假设值。

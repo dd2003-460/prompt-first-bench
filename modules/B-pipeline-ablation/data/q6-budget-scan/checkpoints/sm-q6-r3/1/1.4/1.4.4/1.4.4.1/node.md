@@ -1,24 +1,20 @@
-# N151: t_invalidate 的传播延迟模型：t_invalidate = t_publish + t_propagate，其中 t_publish 为失效消息发布
+# N178: 在保守预留工作点（高成本低性），基于 $B_{peak}=370 \text{ Mbps}$，预留 30% 余量即 $B_{purchase} = 370 \t
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N44
+- **parent_ids**: N51
 
 ## Claim
 
-t_invalidate 的传播延迟模型：t_invalidate = t_publish + t_propagate，其中 t_publish 为失效消息发布延迟（<10ms），t_propagate 为多播/组播到所有边缘节点的时间，受限于最慢节点网络 RTT 和消息队列积压；典型值 1-10s 中，1s 以内依赖高效组播（如 IGMP），10s 级别通常因 TCP 逐跳推送或高负载队列导致
+在保守预留工作点（高成本低性），基于 $B_{peak}=370 \text{ Mbps}$，预留 30% 余量即 $B_{purchase} = 370 \times 1.3 = 481 \text{ Mbps}$，向上取整至运营商标准规格 500 Mbps，确保突发流量下无丢包，但固定带宽成本增加约 30%。
 
 ## Corrected Claim
 
-t_invalidate 的传播延迟模型：t_invalidate = t_publish + t_propagate，其中 t_publish 为失效消息发布延迟（<10ms），t_propagate 为多播/组播到所有边缘节点的时间，受限于最慢节点网络 RTT 和消息队列积压；典型值 1-10s 中，1s 以内依赖高效组播（如 IGMP），10s 级别通常因 TCP 逐跳推送或高负载队列导致
+在保守预留工作点（高成本低性），基于 $B_{peak}=370 \text{ Mbps}$，预留 30% 余量即 $B_{purchase} = 370 \times 1.3 = 481 \text{ Mbps}$，向上取整至运营商标准规格 500 Mbps，确保突发流量下无丢包，但固定带宽成本增加约 30%。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：失效传播延迟由发布延迟与网络传播延迟（受限于最慢节点RTT及队列积压）组成，符合分布式系统网络通信的基本物理直觉与工程经验，数值量级（毫秒级发布+秒级传播）合理。
-
-## Search Query
-
-CDN cache invalidation propagation delay multicast vs unicast push latency seconds
+先验知识/题面给定，逻辑校验通过：370 * 1.3 = 481，向上取整至500符合运营商标准规格惯例，成本增加约30%与预留比例一致，逻辑自洽。

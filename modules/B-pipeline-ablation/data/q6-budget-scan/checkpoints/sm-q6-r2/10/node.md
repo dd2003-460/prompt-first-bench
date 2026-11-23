@@ -1,7 +1,7 @@
-# N34: 在日均 2TB 下载量下，若平均对象大小 $s_{avg}$ 从 1MB 增加到 5MB，日均请求量 $R_{daily}$ 从 200 万降至 40 万，导致
+# N72: Cloudflare Enterprise计划在中国大陆区域（通常通过本地合作伙伴如NetSpeed或ChinaCache提供）的带宽成本约为$0.05-$0.
 
-- **status**: verified
-- **level**: L2
+- **status**: degraded
+- **level**: L3
 - **source**: search
 - **edge_type**: cartesian
 - **rework_count**: 1
@@ -9,18 +9,18 @@
 
 ## Claim
 
-在日均 2TB 下载量下，若平均对象大小 $s_{avg}$ 从 1MB 增加到 5MB，日均请求量 $R_{daily}$ 从 200 万降至 40 万，导致公有云按流量计费成本不变，但自建节点的并发连接数下降 80%，使得 P99 延迟中的排队延迟显著降低。
+Cloudflare Enterprise计划在中国大陆区域（通常通过本地合作伙伴如NetSpeed或ChinaCache提供）的带宽成本约为$0.05-$0.08/GB，且通常有最低消费承诺（Minimum Commitment）约为$5,000-$10,000/月；对于60TB月流量，若低于最低消费，实际成本由最低消费决定，约为¥36,000-¥72,000/月。
 
 ## Corrected Claim
 
-在日均 2TB 下载量下，若平均对象大小从 1MB 增加到 5MB，日均请求量从 200 万降至 40 万，公有云按流量计费成本保持不变；由于请求量大幅减少，自建节点的并发连接数预计显著下降，从而可能降低 P99 延迟中的排队延迟。
+Cloudflare Enterprise计划在中国大陆区域的定价为定制报价，需通过本地合作伙伴或销售团队获取具体带宽成本及最低消费承诺，通常包含基于价值的定价模式，具体数值因客户流量规模、SLA要求及合作模式而异，无法直接引用固定的$0.05-$0.08/GB或$5,000-$10,000/月标准。
 
 ## Evidence
 
-父节点级核验通过：正交+完备+无冗余（子节点1聚焦于排队延迟（L_queue）随并发连接数/到达率变化的非线性下降机制；子节点2聚焦于单流传输时间（T_transfer）随对象大小增加的线性增长及其对总P99延迟的综合影响。两者分别处理延迟公式中的不同分量，逻辑上互补且互不重叠，共同完整解释了父节点中P99延迟变化的两个主要驱动因素（排队改善 vs 传输恶化）。）
+[质询]具体数值（$0.05-$0.08/GB, $5,000-$10,000/月）属于高度定制化的商业报价，非公开标准参数，且中国大陆区域通常涉及本地IDC合作及特殊合规成本，直接套用全球通用或推测的带宽单价及最低消费额存在极大的口径混淆和事实错误风险。 | 参考来源[1][2][3]仅介绍Enterprise计划的功能、SLA及申请入口，未包含任何具体的带宽单价、最低消费金额或中国大陆区域的具体定价细节，无法提供直接支持；该陈述包含具体经验参数，逻辑自洽但缺乏来源支持，依据经验事实排除条款降级。
 
 ## Retrieval Sources
 
-- {'url': 'https://www.gigacalculator.com/calculators/download-time-calculator.php&rut=85dc96fc304378a05f8da9945682c476c4cc2b3cd290e4dde75d5951dd4e5308', 'type': 'ddg', 'title': 'Download Time Calculator'}
-- {'url': 'https://www.omnicalculator.com/other/download-time&rut=09ca720a107a01fc867cfee398fb8ffc0e2d35647d90ef5b1db86e382a2c8f15', 'type': 'ddg', 'title': 'Download Time Calculator'}
-- {'url': 'https://calculatorlib.com/zh/data-transfer-calculator&rut=6e331f2ee1d98dbd0f2d11f94abd7c9735d464d3b194a6e557f2f45928fe0db3', 'type': 'ddg', 'title': '数据传输时间计算器 | 快速估算文件下载与上传时长 - CalculatorLib'}
+- {'url': 'https://www.cloudflare.com/zh-cn/plans/enterprise/demo/&rut=1e481c1af9aa6ce51398f79e8117ed3ae29cdd3801cfd1e36508699d363690e1', 'type': 'ddg', 'title': '申请 Enterprise 计划演示 | Cloudflare'}
+- {'url': 'https://www.cloudflare-cn.com/plans/enterprise/&rut=0a4c8fc0452b6af3682d2dd0aaac2211d1e9a292c987a12d4d6073c802ad4e24', 'type': 'ddg', 'title': '企业级应用程序保护_安全 Web 网关_Cloudflare Enterprise计划|Cloudflare中国官网'}
+- {'url': 'https://www.cloudflare-cn.com/plans/enterprise/externa/&rut=bcd2c49aff907902dc4db2f3190c059ad31b68f07a94ccf500601beee4b557d5', 'type': 'ddg', 'title': '企业解决方案套餐 | Cloudflare'}

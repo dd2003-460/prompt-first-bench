@@ -1,24 +1,20 @@
-# N10: 时间峰值系数 $K_{peak}$ 定义为日峰值带宽与日均带宽之比，即 $K_{peak} = B_{peak} / B_{avg}$；对于 C 端媒体平台，典
+# N7: 基础设施成本 = 服务器硬件折旧 + 机柜租赁 + 电力成本，其中服务器硬件折旧 = (服务器单价 / 折旧年限) * 数量，机柜租赁 = 机柜单价 * 数量，
 
 - **status**: verified
 - **level**: L2
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N1
+- **parent_ids**: N1, N2, N3
 
 ## Claim
 
-时间峰值系数 $K_{peak}$ 定义为日峰值带宽与日均带宽之比，即 $K_{peak} = B_{peak} / B_{avg}$；对于 C 端媒体平台，典型 $K_{peak}$ 在 1.5 到 2.5 之间，需据此计算峰值带宽需求 $B_{peak} = (2 \text{ TB} / 86400 \text{ s}) \times K_{peak}$。
+基础设施成本 = 服务器硬件折旧 + 机柜租赁 + 电力成本，其中服务器硬件折旧 = (服务器单价 / 折旧年限) * 数量，机柜租赁 = 机柜单价 * 数量，电力成本 = PUE * 功率 * 电价 * 时间。
 
 ## Corrected Claim
 
-时间峰值系数 $K_{peak}$ 定义为日峰值带宽与日均带宽之比，即 $K_{peak} = B_{peak} / B_{avg}$；对于 C 端媒体平台，典型 $K_{peak}$ 在 1.5 到 2.5 之间，需据此计算峰值带宽需求 $B_{peak} = (2 \text{ TB} / 86400 \text{ s}) \times K_{peak}$。
+基础设施成本 = 服务器硬件折旧 + 机柜租赁 + 电力成本，其中服务器硬件折旧 = (服务器单价 / 折旧年限) * 数量，机柜租赁 = 机柜单价 * 数量，电力成本 = PUE * 功率 * 电价 * 时间。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：定义符合带宽工程常识，C端媒体平台峰值系数1.5-2.5属于典型经验范围，量纲与计算逻辑自洽。
-
-## Search Query
-
-web traffic peak to average ratio media streaming
+先验知识/题面给定，逻辑校验通过

@@ -1,20 +1,20 @@
-# N366: 公有云策略边际成本增量 ΔC_cloud 的计算公式：ΔC_cloud = (ΔC_bw_cloud + ΔC_api_calls) / ΔQ_cloud，其中
+# N406: 全自建策略的每千请求成本函数 $C_{self}(R) = \frac{C_{fixed}^{self} + C_{var}^{self}(R)}{R/1000
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N113
+- **parent_ids**: N150
 
 ## Claim
 
-公有云策略边际成本增量 ΔC_cloud 的计算公式：ΔC_cloud = (ΔC_bw_cloud + ΔC_api_calls) / ΔQ_cloud，其中 ΔQ_cloud 为新增公有云流量，ΔC_bw_cloud 为新增公有云带宽成本，ΔC_api_calls 为新增 API 调用成本
+全自建策略的每千请求成本函数 $C_{self}(R) = \frac{C_{fixed}^{self} + C_{var}^{self}(R)}{R/1000}$，其中 $C_{fixed}^{self}$ 为 10 个 POP 点的硬件折旧、机柜租金及基础运维人力成本之和，$C_{var}^{self}(R)$ 为随流量线性增长的带宽及跨网结算费用。
 
 ## Corrected Claim
 
-公有云策略边际成本增量 ΔC_cloud 的计算公式：ΔC_cloud = (ΔC_bw_cloud + ΔC_api_calls) / ΔQ_cloud，其中 ΔQ_cloud 为新增公有云流量，ΔC_bw_cloud 为新增公有云带宽成本，ΔC_api_calls 为新增 API 调用成本
+全自建策略的每千请求成本函数 $C_{self}(R) = \frac{C_{fixed}^{self} + C_{var}^{self}(R)}{R/1000}$，其中 $C_{fixed}^{self}$ 为 10 个 POP 点的硬件折旧、机柜租金及基础运维人力成本之和，$C_{var}^{self}(R)$ 为随流量线性增长的带宽及跨网结算费用。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+先验知识/题面给定，逻辑校验通过：成本函数结构符合经济学中固定成本与可变成本分摊的基本原理，量纲（元/千请求）与变量定义（R为请求量）自洽，无内部矛盾。

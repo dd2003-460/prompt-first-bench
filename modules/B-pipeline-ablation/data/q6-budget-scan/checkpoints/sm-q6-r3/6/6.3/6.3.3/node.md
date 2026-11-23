@@ -1,24 +1,24 @@
-# N277: Cloudflare Enterprise 月流量 60TB 成本修正：若采用 $0.08/GB 基准价且无跨境附加，月成本为 $4,800；若含 20% 跨境
+# N116: 全自建策略的月度出口带宽变动成本 $C_{bw}^{self}$ (¥/月)，基于峰值带宽需求 $B_{peak}$ 和单 Gbps 月租单价 $R_{bps}
 
-- **status**: verified
-- **level**: L4
+- **status**: pending
+- **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N89
+- **parent_ids**: N28
 
 ## Claim
 
-Cloudflare Enterprise 月流量 60TB 成本修正：若采用 $0.08/GB 基准价且无跨境附加，月成本为 $4,800；若含 20% 跨境流量（系数 1.5），加权单价升至 $0.088/GB，月成本升至 $5,280
+全自建策略的月度出口带宽变动成本 $C_{bw}^{self}$ (¥/月)，基于峰值带宽需求 $B_{peak}$ 和单 Gbps 月租单价 $R_{bps}$ 计算：$C_{bw}^{self} = 10 \times B_{peak}^{pop} \times R_{bps}$，需根据日均 2TB 和峰值系数 $K_{peak}$ 推导单 POP 峰值带宽。
 
 ## Corrected Claim
 
-Cloudflare Enterprise 月流量 60TB 成本修正：若采用 $0.08/GB 基准价且无跨境附加，月成本为 $4,800；若含 20% 跨境流量（系数 1.5），加权单价升至 $0.088/GB，月成本升至 $5,280
+全自建策略的月度出口带宽变动成本 $C_{bw}^{self}$ (¥/月)，基于峰值带宽需求 $B_{peak}$ 和单 Gbps 月租单价 $R_{bps}$ 计算：$C_{bw}^{self} = 10 \times B_{peak}^{pop} \times R_{bps}$，需根据日均 2TB 和峰值系数 $K_{peak}$ 推导单 POP 峰值带宽。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：60TB=61440GB，61440*0.08=4915.2（约4800若按1000进制或估算），加权单价0.08*1.2=0.096（此处陈述中0.088计算有误，但作为knowledge节点，若视为特定场景下的加权平均或笔误，核心逻辑框架自洽；然而严格计算0.08*1.5=0.12，0.08*0.8+0.12*0.2=0.088，逻辑成立：80%流量0.08，20%流量0.12，加权后0.088。61440*0.088=5406.72，陈述中5280对应60000GB*0.088=5280。若按1TB=1000GB计算，60TB=60000GB。60000*0.08=4800。60000*0.088=5280。逻辑完全自洽。
+父节点级核验未通过：不完备, 有冗余（子节点本质上是同一公式在不同带宽参数下的三个计算实例（冗余），且未覆盖父节点中‘基于日均2TB推导峰值’的关键逻辑步骤（不完备）。）
 
 ## Search Query
 
-Cloudflare enterprise monthly cost calculation 60TB mixed traffic
+edge node egress bandwidth cost per Gbps China telecom

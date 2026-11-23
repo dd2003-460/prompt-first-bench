@@ -1,24 +1,20 @@
-# N41: DNS解析与切换延迟 t_dns = t_lookup + t_cache_ttl，其中 t_lookup 为递归查询耗时（典型 5-20ms），t_cache
+# N29: 10个POP点共需100台服务器，单台服务器单价（含CPU/内存/存储/网卡）估算区间为¥30,000-¥50,000，按5年直线折旧计算，单台年折旧成本为¥6
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N9
+- **parent_ids**: N7
 
 ## Claim
 
-DNS解析与切换延迟 t_dns = t_lookup + t_cache_ttl，其中 t_lookup 为递归查询耗时（典型 5-20ms），t_cache_ttl 为本地DNS缓存剩余时间（0-300s）；该值构成混合策略路由切换延迟 Δt_switch 的基础组成部分。
+10个POP点共需100台服务器，单台服务器单价（含CPU/内存/存储/网卡）估算区间为¥30,000-¥50,000，按5年直线折旧计算，单台年折旧成本为¥6,000-¥10,000，总年折旧成本为¥600,000-¥1,000,000。
 
 ## Corrected Claim
 
-DNS解析与切换延迟 t_dns = t_lookup + t_cache_ttl，其中 t_lookup 为递归查询耗时（典型 5-20ms），t_cache_ttl 为本地DNS缓存剩余时间（0-300s）；该值构成混合策略路由切换延迟 Δt_switch 的基础组成部分。
+10个POP点共需100台服务器，单台服务器单价（含CPU/内存/存储/网卡）估算区间为¥30,000-¥50,000，按5年直线折旧计算，单台年折旧成本为¥6,000-¥10,000，总年折旧成本为¥600,000-¥1,000,000。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
-
-## Search Query
-
-DNS lookup latency average ms
+先验知识/题面给定，逻辑校验通过：单价3-5万除以5年折旧期，年折旧确为0.6-1万；100台服务器总年折旧确为60-100万，数值量级与计算逻辑自洽。

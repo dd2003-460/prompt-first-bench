@@ -1,20 +1,20 @@
-# N106: 增量带宽成本 Cost_per_TB_incremental 的分项计算：公有云CDN部分为 Price_per_TB_cloud（0.2-0.5元/TB），自
+# N182: P99延迟与用户留存率的量化关系：每增加100ms P99延迟，次日留存率下降0.2-0.5%（基于行业数据）；若DAU为500万，P99从300ms增至500
 
-- **status**: verified
-- **level**: L3
+- **status**: degraded
+- **level**: L4
 - **source**: knowledge
-- **edge_type**: quotient
-- **rework_count**: 0
-- **parent_ids**: N33
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N56
 
 ## Claim
 
-增量带宽成本 Cost_per_TB_incremental 的分项计算：公有云CDN部分为 Price_per_TB_cloud（0.2-0.5元/TB），自建节点部分为 (Hardware_Cost_per_TB + Bandwidth_Lease_per_TB)；自建节点硬件成本约2万元/台（支持10Gbps），折算为0.2元/TB/月，带宽租赁约0.1元/TB/月，合计0.3元/TB/月。
+P99延迟与用户留存率的量化关系：每增加100ms P99延迟，次日留存率下降0.2-0.5%（基于行业数据）；若DAU为500万，P99从300ms增至500ms时，日流失用户数增加5,000-25,000人，对应月ARPU损失为¥50,000-250,000（假设ARPU=¥10/月），该值远超CDN成本差异，构成T=300ms的硬性下限依据。
 
 ## Corrected Claim
 
-增量带宽成本 Cost_per_TB_incremental 的分项计算：公有云CDN部分为 Price_per_TB_cloud（0.2-0.5元/TB），自建节点部分为 (Hardware_Cost_per_TB + Bandwidth_Lease_per_TB)；自建节点硬件成本约2万元/台（支持10Gbps），折算为0.2元/TB/月，带宽租赁约0.1元/TB/月，合计0.3元/TB/月。
+P99延迟与用户留存率存在负相关关系，延迟增加通常会导致留存率下降及相应的收入损失，具体量化数值需依据特定业务场景的行业数据或A/B测试结果确定，不能直接套用通用固定值。
 
 ## Evidence
 
-父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点中定义的'公有云CDN部分'和'自建节点部分'，两者在成本来源、适用流量场景（长尾vs核心）及技术特性上互斥且互补，无逻辑重叠或矛盾。两个子节点完整覆盖了父节点提到的两个主要分项，且各自提供了具体的参数取值和工作点定义，没有发现多个子节点实质上是同一参数的不同取值这一冗余情况。）
+[质询]该陈述包含具体的经验性量化参数（如每100ms延迟对应0.2-0.5%留存率下降、ARPU=¥10/月），这些属于特定行业或产品的经验数据，无法从第一性原理或数学公理中严格推导得出，且缺乏外部来源支持其具体数值量级的准确性。 | 经验事实，逻辑自洽但缺来源支持

@@ -1,28 +1,30 @@
-# N190: 缓存有效工作集大小 W_set = N_unique_active_objects，其值由用户请求分布的 Zipf 参数 α 决定，α 越大热点越集中，所需缓存
+# N241: Cloudflare Enterprise 套餐中 95th 带宽计费的定制条款：通常需签订年度合同，承诺最低消费（如 $5,000-$10,000/月），且 
 
 - **status**: degraded
 - **level**: L4
 - **source**: search
 - **edge_type**: cartesian
 - **rework_count**: 1
-- **parent_ids**: N61
+- **parent_ids**: N83
 
 ## Claim
 
-缓存有效工作集大小 W_set = N_unique_active_objects，其值由用户请求分布的 Zipf 参数 α 决定，α 越大热点越集中，所需缓存容量越小 [待核验]
+Cloudflare Enterprise 套餐中 95th 带宽计费的定制条款：通常需签订年度合同，承诺最低消费（如 $5,000-$10,000/月），且 95th 计费仅适用于承诺带宽范围内的流量，超出部分按流量计费或触发超量罚款（Overage Penalty）。
 
 ## Corrected Claim
 
-缓存有效工作集大小 W_set 受用户请求分布的 Zipf 参数 α 影响，α 越大热点越集中，达到相同命中率所需的缓存容量越小；W_set 通常小于或等于唯一活跃对象数 N_unique_active_objects。
+Cloudflare Enterprise 套餐通常采用定制化的基于价值的定价模式，可能包含年度合同和最低消费承诺，具体计费方式（如95th带宽或流量计费）及超量处理条款需根据客户具体合同协商确定，无统一公开的固定标准。
 
 ## Evidence
 
-[质询]该陈述将缓存有效工作集大小直接等同于唯一活跃对象数（W_set = N_unique_active_objects），这在逻辑上是不严谨的。在缓存理论中，'有效工作集'通常指为了达到特定命中率（如90%）所需的缓存容量，其数值取决于访问频率分布（Zipf参数α）和总对象数，而非简单的唯一对象计数。唯一活跃对象数是工作集的上界，而非其定义值。此外，虽然α越大热点越集中、所需缓存容量越小的定性结论是正确的，但将W_set直接定义为N_unique_active_objects混淆了'工作集大小'与'活跃对象总数'的概念。 | 参考来源[1]讨论的是Linux内存管理中的workingset概念，与缓存系统中的Zipf分布及工作集大小定义无关，无法提供外部支持。逻辑上，W_set不应直接等于N_unique_active_objects，而是受α影响的函数值。
+[质询]具体数值（$5,000-$10,000/月）和特定计费机制（95th带宽、超量罚款）属于高度定制化的商业条款，通常不公开披露，且不同客户合同差异巨大，该陈述将非标准化的谈判结果描述为通用规则，存在以偏概全或数据虚构的风险。 | 参考来源[1]和[2]仅提及企业套餐提供基于价值的定价和SLA，未包含具体的95th计费细节、最低消费金额或超量罚款条款；来源[3]为通用对比，无此细节。该陈述逻辑自洽（符合B2B云服务常见商业模式），但缺乏直接来源支持具体数值和机制，属于经验事实且缺来源支持。
 
 ## Search Query
 
-CDN cache hit rate zipf distribution parameter alpha
+Cloudflare Enterprise 95th percentile billing custom contract minimum commitment overage penalty
 
 ## Retrieval Sources
 
-- {'url': 'https://zhuanlan.zhihu.com/p/10798919273&rut=685c5bbb666144692b74186357b4681bf2c34f7018257eb2b92d24c964c97812', 'type': 'ddg', 'title': 'Linux memory workingset 内存工作集 - 知乎'}
+- {'url': 'https://www.cloudflare-cn.com/plans/enterprise/externa/&rut=bcd2c49aff907902dc4db2f3190c059ad31b68f07a94ccf500601beee4b557d5', 'type': 'ddg', 'title': '企业解决方案套餐 | Cloudflare'}
+- {'url': 'https://www.cloudflare.com/zh-cn/plans/enterprise/demo/&rut=1e481c1af9aa6ce51398f79e8117ed3ae29cdd3801cfd1e36508699d363690e1', 'type': 'ddg', 'title': '申请 Enterprise 计划演示 | Cloudflare'}
+- {'url': 'https://www.16idc.com/article-detail/cloudflare-free-vs-paid-plan&rut=27fcaefaa2121290bd97223271b015abfecf3803563ffa56df306be6369c0dd8', 'type': 'ddg', 'title': 'Cloudflare 免费版 vs 付费版：各套餐功能对比与选型建议 - 16IDC'}

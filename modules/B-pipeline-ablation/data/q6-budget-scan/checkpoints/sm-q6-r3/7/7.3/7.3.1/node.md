@@ -1,24 +1,20 @@
-# N293: 硬件故障率分层模型：总年故障率 λ_total = λ_cpu + λ_disk + λ_ram + λ_psu，其中λ_disk（NVMe SSD）通常主导，
+# N335: 95th百分位带宽$B_{95}$的计算公式为：$B_{95} = \text{Percentile}(B_{5min}, 95)$，其中$B_{5min}$为
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N94, N95, N96
+- **parent_ids**: N125
 
 ## Claim
 
-硬件故障率分层模型：总年故障率 λ_total = λ_cpu + λ_disk + λ_ram + λ_psu，其中λ_disk（NVMe SSD）通常主导，典型值为0.5-2%/年/盘，λ_cpu/ram/psu各约0.1-0.5%/年，需按部件独立估算后求和
+95th百分位带宽$B_{95}$的计算公式为：$B_{95} = \text{Percentile}(B_{5min}, 95)$，其中$B_{5min}$为月内所有5分钟采样点的带宽值集合，单位Gbps。
 
 ## Corrected Claim
 
-硬件故障率分层模型：总年故障率 λ_total = λ_cpu + λ_disk + λ_ram + λ_psu，其中λ_disk（NVMe SSD）通常主导，典型值为0.5-2%/年/盘，λ_cpu/ram/psu各约0.1-0.5%/年，需按部件独立估算后求和
+95th百分位带宽$B_{95}$的计算公式为：$B_{95} = \text{Percentile}(B_{5min}, 95)$，其中$B_{5min}$为月内所有5分钟采样点的带宽值集合，单位Gbps。
 
 ## Evidence
 
 先验知识/题面给定，逻辑校验通过
-
-## Search Query
-
-server component failure rate cpu ram nvme psu annual percentage

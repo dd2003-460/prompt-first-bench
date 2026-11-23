@@ -1,0 +1,20 @@
+# N383: 回源延迟 $L_{backhaul}$ 在缓存未命中时的量化估算：若源站位于核心区域，且 POP 与源站距离 $<50 \text{ km}$，则 $L_{ba
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N143
+
+## Claim
+
+回源延迟 $L_{backhaul}$ 在缓存未命中时的量化估算：若源站位于核心区域，且 POP 与源站距离 $<50 \text{ km}$，则 $L_{backhaul} \approx 5-10 \text{ ms}$（单程）；若距离 $>500 \text{ km}$，则 $L_{backhaul} \approx 20-30 \text{ ms}$（单程）；P99 延迟中需加权计算回源比例 $(1-H)$ 的影响。
+
+## Corrected Claim
+
+回源延迟 $L_{backhaul}$ 在缓存未命中时的量化估算：若源站位于核心区域，且 POP 与源站距离 $<50 \text{ km}$，则 $L_{backhaul} \approx 5-10 \text{ ms}$（单程）；若距离 $>500 \text{ km}$，则 $L_{backhaul} \approx 20-30 \text{ ms}$（单程）；P99 延迟中需加权计算回源比例 $(1-H)$ 的影响。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：光纤传输速度约为200,000 km/s，50km单程延迟约0.25ms，加上网络处理开销，5-10ms量级合理；500km单程延迟约2.5ms，加上路由跳数和处理开销，20-30ms量级合理。

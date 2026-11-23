@@ -1,20 +1,20 @@
-# N233: 容量匹配度C_match的临界点：当C_match > 1.5时，(1 - e^(-C_match * k_decay)) 趋近于1，命中率衰减可忽略（H_ac
+# N264: 自建 POP 点的年度网络专线与带宽接入费 $C_{line}$ 估算：假设每个 POP 点接入 1Gbps 电信专线，月租约为 3,000-5,000 元/条
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N74
+- **parent_ids**: N91
 
 ## Claim
 
-容量匹配度C_match的临界点：当C_match > 1.5时，(1 - e^(-C_match * k_decay)) 趋近于1，命中率衰减可忽略（H_actual ≈ H_ideal）。当C_match < 0.5时，命中率呈指数级下降。工程上建议将C_match维持在1.0-1.5区间，以平衡存储成本与命中率损失，此时H_actual/H_ideal ≥ 0.75（假设k_decay=1.0）。
+自建 POP 点的年度网络专线与带宽接入费 $C_{line}$ 估算：假设每个 POP 点接入 1Gbps 电信专线，月租约为 3,000-5,000 元/条，取中值 4,000 元，则 $C_{line} = 10 \text{ POPs} \times 4,000 \text{ 元/月} \times 12 \text{ 月} = 480,000$ 元/年。
 
 ## Corrected Claim
 
-容量匹配度C_match的临界点：当C_match > 1.5时，(1 - e^(-C_match * k_decay)) 趋近于1，命中率衰减可忽略（H_actual ≈ H_ideal）。当C_match < 0.5时，命中率呈指数级下降。工程上建议将C_match维持在1.0-1.5区间，以平衡存储成本与命中率损失，此时H_actual/H_ideal ≥ 0.75（假设k_decay=1.0）。
+自建 POP 点的年度网络专线与带宽接入费 $C_{line}$ 估算：假设每个 POP 点接入 1Gbps 电信专线，月租约为 3,000-5,000 元/条，取中值 4,000 元，则 $C_{line} = 10 \text{ POPs} \times 4,000 \text{ 元/月} \times 12 \text{ 月} = 480,000$ 元/年。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：当k_decay=1.0时，C_match=1.0对应1-e^-1≈0.63，C_match=1.5对应1-e^-1.5≈0.78，均满足≥0.75的约束；C_match>1.5时趋近于1，C_match<0.5时指数下降，数学推导自洽。
+先验知识/题面给定，逻辑校验通过

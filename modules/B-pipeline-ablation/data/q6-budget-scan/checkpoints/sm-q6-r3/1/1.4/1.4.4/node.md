@@ -1,24 +1,24 @@
-# N44: 缓存一致性延迟 t_consistency = t_invalidate + t_sync，其中 t_invalidate 为缓存失效通知传播时间（典型 1-1
+# N51: 自建节点的带宽预留策略需基于 $B_{peak}$ 而非 $B_{avg}$，且需预留 20%-30% 的带宽余量以应对突发流量，即实际采购带宽 $B_{pur
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N9
+- **parent_ids**: N10, N11, N12
 
 ## Claim
 
-缓存一致性延迟 t_consistency = t_invalidate + t_sync，其中 t_invalidate 为缓存失效通知传播时间（典型 1-10s），t_sync 为数据同步延迟（典型 100ms-1s）；该值影响混合策略中用户获取最新内容的延迟，尤其在高频更新场景下显著。
+自建节点的带宽预留策略需基于 $B_{peak}$ 而非 $B_{avg}$，且需预留 20%-30% 的带宽余量以应对突发流量，即实际采购带宽 $B_{purchase} = B_{peak} \times 1.25$。
 
 ## Corrected Claim
 
-缓存一致性延迟 t_consistency = t_invalidate + t_sync，其中 t_invalidate 为缓存失效通知传播时间（典型 1-10s），t_sync 为数据同步延迟（典型 100ms-1s）；该值影响混合策略中用户获取最新内容的延迟，尤其在高频更新场景下显著。
+自建节点的带宽预留策略需基于 $B_{peak}$ 而非 $B_{avg}$，且需预留 20%-30% 的带宽余量以应对突发流量，即实际采购带宽 $B_{purchase} = B_{peak} \times 1.25$。
 
 ## Evidence
 
-父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点公式中的两个独立变量 t_invalidate 和 t_sync，内容互不重叠且无矛盾；两者共同构成了 t_consistency 的完整分解，覆盖了失效通知和数据同步两个关键阶段；每个子节点针对各自变量进行了具体的物理/网络层分解，不存在将同一参数的不同取值拆分为多个子节点的情况。）
+先验知识/题面给定，逻辑校验通过
 
 ## Search Query
 
-CDN cache invalidation latency seconds
+self-hosted CDN bandwidth overprovisioning best practice

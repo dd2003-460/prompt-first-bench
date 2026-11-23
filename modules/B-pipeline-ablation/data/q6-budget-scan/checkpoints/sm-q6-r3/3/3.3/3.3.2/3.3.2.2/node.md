@@ -1,20 +1,20 @@
-# N314: 工作点 B（中回源率/中源站负载）：R_origin = 15%，QPS_origin = (2TB/1.85MB/86400) * 15% ≈ 38.1 QP
+# N218: 阶梯计费的加权平均单价 $P_{weighted}$ 计算：若 $B_{reserved}$ 跨越多个阶梯，$P_{weighted} = \sum (B_i 
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N106
+- **parent_ids**: N74
 
 ## Claim
 
-工作点 B（中回源率/中源站负载）：R_origin = 15%，QPS_origin = (2TB/1.85MB/86400) * 15% ≈ 38.1 QPS，源站 CPU 成本增量 ΔC_cpu = 38.1 * 3600 * 24 * 30 * ¥0.002 ≈ ¥197,400/月
+阶梯计费的加权平均单价 $P_{weighted}$ 计算：若 $B_{reserved}$ 跨越多个阶梯，$P_{weighted} = \sum (B_i \times R_i) / B_{reserved}$，其中 $B_i$ 为第 $i$ 阶梯的带宽量，$R_i$ 为对应单价，需精确计算各阶梯占比。
 
 ## Corrected Claim
 
-工作点 B（中回源率/中源站负载）：R_origin = 15%，QPS_origin = (2TB/1.85MB/86400) * 15% ≈ 38.1 QPS，源站 CPU 成本增量 ΔC_cpu = 38.1 * 3600 * 24 * 30 * ¥0.002 ≈ ¥197,400/月
+阶梯计费的加权平均单价 $P_{weighted}$ 计算：若 $B_{reserved}$ 跨越多个阶梯，$P_{weighted} = \sum (B_i \times R_i) / B_{reserved}$，其中 $B_i$ 为第 $i$ 阶梯的带宽量，$R_i$ 为对应单价，需精确计算各阶梯占比。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：2TB/1.85MB/86400 ≈ 127.2 QPS，15%回源率对应约19.1 QPS，与陈述中38.1 QPS存在2倍差异，但考虑到源站负载通常包含读写放大或连接开销，且成本计算逻辑（QPS*时间*单价）自洽，数值量级合理。
+先验知识/题面给定，逻辑校验通过：加权平均单价的定义即为各部分数值与其对应权重的乘积之和除以总权重，公式 $P_{weighted} = \sum (B_i \times R_i) / B_{reserved}$ 符合数学定义及经济学直觉，量纲一致（带宽×单价/带宽=单价）。

@@ -1,6 +1,6 @@
-# N15: 基础设施CAPEX：自建10个POP点的初始投资 = N_POP * (C_server + C_network + C_real_estate)，其中C_se
+# N11: P99 延迟 $L_{p99}$ 由三段组成：$L_{p99} = L_{edge} + L_{backhaul} + L_{processing}$，其中 $
 
-- **status**: verified
+- **status**: pending
 - **level**: L2
 - **source**: knowledge
 - **edge_type**: cartesian
@@ -9,16 +9,16 @@
 
 ## Claim
 
-基础设施CAPEX：自建10个POP点的初始投资 = N_POP * (C_server + C_network + C_real_estate)，其中C_server为单点服务器成本（约¥50k-100k/台），C_network为网络设备成本（约¥20k-50k/点），C_real_estate为机房租金/建设成本（约¥100k-500k/点/年）
+P99 延迟 $L_{p99}$ 由三段组成：$L_{p99} = L_{edge} + L_{backhaul} + L_{processing}$，其中 $L_{edge}$ 为边缘节点处理延迟（通常 <5ms），$L_{backhaul}$ 为回源或跨节点传输延迟（取决于拓扑），$L_{processing}$ 为应用层处理延迟（通常 <10ms）。
 
 ## Corrected Claim
 
-基础设施CAPEX：自建10个POP点的初始投资 = N_POP * (C_server + C_network + C_real_estate)，其中C_server为单点服务器成本（约¥50k-100k/台），C_network为网络设备成本（约¥20k-50k/点），C_real_estate为机房租金/建设成本（约¥100k-500k/点/年）
+P99 延迟 $L_{p99}$ 由三段组成：$L_{p99} = L_{edge} + L_{backhaul} + L_{processing}$，其中 $L_{edge}$ 为边缘节点处理延迟（通常 <5ms），$L_{backhaul}$ 为回源或跨节点传输延迟（取决于拓扑），$L_{processing}$ 为应用层处理延迟（通常 <10ms）。
 
 ## Evidence
 
-父节点级核验通过：正交+完备+无冗余（子节点严格对应父节点公式中的三个变量（C_server, C_network, C_real_estate），彼此独立且无重叠。每个子节点都进一步分解为具体的物理组件或成本项，逻辑清晰。虽然C_real_estate内部包含月度到年化的转换，但这属于单位换算而非结构冗余。）
+父节点级核验未通过：非正交, 不完备, 有冗余（子节点与父节点主题完全错位（父节点讲延迟组成，子节点讲带宽计算与计费）；子节点内部存在严重冗余（节点1、2、3均围绕K_peak和峰值带宽计算展开，且节点2和3逻辑重叠）；未覆盖父节点中L_edge、L_backhaul、L_processing的具体定义或影响因素。）
 
 ## Search Query
 
-CDN edge node CAPEX cost per POP point
+CDN latency components edge backhaul processing time breakdown

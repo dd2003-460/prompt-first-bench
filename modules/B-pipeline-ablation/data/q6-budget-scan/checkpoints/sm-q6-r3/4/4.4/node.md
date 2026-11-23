@@ -1,24 +1,24 @@
-# N21: 峰值/均值比 Peak-to-Average Ratio (PAR) = Q_peak / Q_avg；对于 C 端平台，PAR 通常为 3-5 倍，影响带宽预
+# N51: 请求量的时间分布不均匀：峰值小时请求量约为日均的 15-20%（即 33-40 万请求/小时），用于计算峰值带宽需求及瞬时 P99 延迟，避免用日均值低估峰值压
 
-- **status**: verified
-- **level**: L2
+- **status**: pending
+- **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N4
+- **parent_ids**: N13
 
 ## Claim
 
-峰值/均值比 Peak-to-Average Ratio (PAR) = Q_peak / Q_avg；对于 C 端平台，PAR 通常为 3-5 倍，影响带宽预留与弹性伸缩成本
+请求量的时间分布不均匀：峰值小时请求量约为日均的 15-20%（即 33-40 万请求/小时），用于计算峰值带宽需求及瞬时 P99 延迟，避免用日均值低估峰值压力。
 
 ## Corrected Claim
 
-峰值/均值比 Peak-to-Average Ratio (PAR) = Q_peak / Q_avg；对于 C 端平台，PAR 通常为 3-5 倍，影响带宽预留与弹性伸缩成本
+请求量的时间分布不均匀：峰值小时请求量约为日均的 15-20%（即 33-40 万请求/小时），用于计算峰值带宽需求及瞬时 P99 延迟，避免用日均值低估峰值压力。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+父节点级核验未通过：不完备, 有冗余（子节点本质上是同一参数（峰值小时占比）的三个离散取值，属于参数扫描而非正交的结构分解；且父节点明确范围为15-20%，子节点3（25%）超出了父节点定义的边界，导致逻辑矛盾。）
 
 ## Search Query
 
-CDN peak to average traffic ratio social media platform
+CDN traffic peak hour distribution daily average

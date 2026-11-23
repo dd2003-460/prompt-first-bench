@@ -1,20 +1,30 @@
-# N191: 对象平均大小 s_avg 对缓存容量规划的影响：Cache_Capacity_Objects = Total_Storage / s_avg，若 s_avg 从
+# N242: Cloudflare 标准套餐（Pro/Business）的流量计费单价：Pro 套餐包含 50TB 流量后按 $0.05-0.10/GB 计费，Busines
 
-- **status**: verified
+- **status**: degraded
 - **level**: L4
-- **source**: knowledge
+- **source**: search
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N61
+- **rework_count**: 1
+- **parent_ids**: N83
 
 ## Claim
 
-对象平均大小 s_avg 对缓存容量规划的影响：Cache_Capacity_Objects = Total_Storage / s_avg，若 s_avg 从 1MB 增加到 5MB，同等存储下可缓存对象数减少 5 倍，导致命中率下降
+Cloudflare 标准套餐（Pro/Business）的流量计费单价：Pro 套餐包含 50TB 流量后按 $0.05-0.10/GB 计费，Business 套餐包含 200TB 流量后按 $0.02-0.05/GB 计费；对于 60TB/月流量，Pro 套餐总成本约为 $500 + (60-50)\times 1000 \times 0.05 = 550$ 美元，需与阿里云 95th 计费成本对比。
 
 ## Corrected Claim
 
-对象平均大小 s_avg 对缓存容量规划的影响：Cache_Capacity_Objects = Total_Storage / s_avg，若 s_avg 从 1MB 增加到 5MB，同等存储下可缓存对象数减少 5 倍，导致命中率下降
+Cloudflare Pro 和 Business 套餐通常提供无限带宽（Unmetered Bandwidth），不直接按 GB 收取 CDN 流量费。若涉及特定增值服务（如 Workers、R2 等）或有特殊企业协议，计费方式需参考具体服务条款，而非通用的 $0.05-0.10/GB 标准。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：容量公式为线性关系，对象大小增加5倍导致可缓存数量减少5倍，进而导致命中率下降符合缓存基本原理。
+[质询]Cloudflare 标准套餐（Pro/Business）通常包含无限带宽（Unmetered Bandwidth），并不存在“包含 50TB/200TB 后按 $0.05-0.10/GB 计费”的标准流量计费规则。该陈述混淆了 Cloudflare 的 CDN 带宽政策与特定增值服务（如 Workers AI、R2 等）或已废弃/错误的计费模型，且提供的具体单价和阈值缺乏官方来源支持。 | 来源 [1] 和 [2] 仅提及 Pro 计划的功能与定价概览，未提供具体的超额流量计费单价；来源 [3] 指出 Cloudflare 以“免费无限带宽”闻名，暗示标准套餐无硬性流量上限，与陈述中的“包含 50TB 后计费”相矛盾或至少无法支持该具体数值。由于 Cloudflare 的计费模式属于经验事实且来源未直接支持该具体数值，判为 degraded。
+
+## Search Query
+
+Cloudflare Pro Business plan bandwidth pricing per GB overage 2024
+
+## Retrieval Sources
+
+- {'url': 'https://www.cloudflare.com/zh-cn/plans/pro/&rut=982444a875615c3446d3eb08f6ec77d8ea77d9c54be2e138a9a12f32818c7717', 'type': 'ddg', 'title': 'Pro 计划概览 | 功能与定价 | Cloudflare'}
+- {'url': 'https://www.cloudflare.com/plans/pro/&rut=5dea87418d1c945fc160c8cc624da5a766380e03d681a44eea354aed068e6b0b', 'type': 'ddg', 'title': 'Pro Plan Overview | Features & Pricing | Cloudflare'}
+- {'url': 'https://www.plumephp.com/cloudflare-pricing-guide/&rut=dfbef2d090f81b790f54b8b338e79f9fda10ccbaceb217a2fef5afed9c0038bf', 'type': 'ddg', 'title': 'Cloudflare 定价详解：Free / Pro / Business / Enterprise 四档拆解与成本优化'}

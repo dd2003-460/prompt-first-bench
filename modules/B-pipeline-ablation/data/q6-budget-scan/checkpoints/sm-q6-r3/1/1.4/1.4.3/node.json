@@ -1,17 +1,19 @@
 {
-  "id": "N43",
-  "claim": "路由决策逻辑开销 t_logic = t_algorithm + t_api_call，其中 t_algorithm 为负载均衡算法计算时间（<1ms），t_api_call 为向控制平面查询路由策略的API调用延迟（典型 5-50ms）；该值反映混合策略中动态路由决策的实时性开销。",
+  "id": "N50",
+  "claim": "公有云CDN的95th百分位计费模式下，实际计费带宽 $B_{95}$ 取决于 $K_{peak}$ 和峰值持续时间 $T_{peak}$；若 $K_{peak}=2.0$ 且峰值持续4小时，则 $B_{95}$ 约为 $B_{avg} \\times 1.5$，导致实际计费带宽低于理论峰值 $B_{peak}$。",
   "level": "L3",
   "source": "knowledge",
-  "status": "verified",
-  "evidence": "父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点公式中的两个独立加数 t_algorithm 和 t_api_call，职责划分清晰且互不重叠（正交）；两者共同构成了父节点定义的总逻辑开销，覆盖了所有关键组成部分（完备）；每个子节点内部虽然列举了不同场景下的数值范围，但这是为了说明变量取值的影响因素，并非将单一参数拆分为多个重复子节点，因此不存在结构性冗余。）",
-  "corrected_claim": "路由决策逻辑开销 t_logic = t_algorithm + t_api_call，其中 t_algorithm 为负载均衡算法计算时间（<1ms），t_api_call 为向控制平面查询路由策略的API调用延迟（典型 5-50ms）；该值反映混合策略中动态路由决策的实时性开销。",
+  "status": "pending",
+  "evidence": "父节点级核验未通过：有冗余（子节点分别描述了峰值持续时间短和长两种极端情况，逻辑上正交且覆盖了父节点中关于持续时间影响计费带宽的核心变量（T_peak）。然而，这两个子节点本质上是对同一数学关系（B_95随T_peak变化的函数）的两个采样点，而非两个独立的定性概念或机制。它们属于同一维度（持续时间）的不同取值，因此存在结构上的冗余，可以合并为一个参数化描述。）",
+  "corrected_claim": "公有云CDN的95th百分位计费模式下，实际计费带宽 $B_{95}$ 取决于 $K_{peak}$ 和峰值持续时间 $T_{peak}$；若 $K_{peak}=2.0$ 且峰值持续4小时，则 $B_{95}$ 约为 $B_{avg} \\times 1.5$，导致实际计费带宽低于理论峰值 $B_{peak}$。",
   "rework_count": 0,
   "parent_ids": [
-    "N9"
+    "N10",
+    "N11",
+    "N12"
   ],
   "objective": null,
-  "edge_type": "quotient",
-  "search_query": "load balancer API call latency ms",
+  "edge_type": "cartesian",
+  "search_query": "CDN 95th percentile billing peak duration impact",
   "retrieval_sources": []
 }

@@ -1,20 +1,20 @@
-# N82: 边缘缓存命中率 H_edge 的理论上限由工作集大小决定：H_edge_max = 1 - (N_unique_active / Cache_Capacity_
+# N178: 图片首屏网络延迟预算上限 = P99总延迟预算(300ms) - RTT(20ms) - T_proc(5ms) - 对象传输时间(500KB/10Mbps=4
 
 - **status**: verified
-- **level**: L3
+- **level**: L4
 - **source**: knowledge
 - **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N25
+- **parent_ids**: N55
 
 ## Claim
 
-边缘缓存命中率 H_edge 的理论上限由工作集大小决定：H_edge_max = 1 - (N_unique_active / Cache_Capacity_Objects)，其中 N_unique_active 为 TTL 窗口内活跃唯一对象数，Cache_Capacity_Objects = 单节点总存储 / s_avg
+图片首屏网络延迟预算上限 = P99总延迟预算(300ms) - RTT(20ms) - T_proc(5ms) - 对象传输时间(500KB/10Mbps=400ms)；若对象传输时间超过剩余预算，则需启用分片加载或预加载策略，否则网络延迟本身无法独立满足SLO，必须将对象传输时间计入CDN优化范围。
 
 ## Corrected Claim
 
-边缘缓存命中率 H_edge 的理论上限由工作集大小决定：H_edge_max = 1 - (N_unique_active / Cache_Capacity_Objects)，其中 N_unique_active 为 TTL 窗口内活跃唯一对象数，Cache_Capacity_Objects = 单节点总存储 / s_avg
+图片首屏网络延迟预算上限 = P99总延迟预算(300ms) - RTT(20ms) - T_proc(5ms) - 对象传输时间(500KB/10Mbps=400ms)；若对象传输时间超过剩余预算，则需启用分片加载或预加载策略，否则网络延迟本身无法独立满足SLO，必须将对象传输时间计入CDN优化范围。
 
 ## Evidence
 
-父节点级核验通过：正交+完备+无冗余（子节点分别定义了父节点公式中的两个核心变量（N_unique_active 和 Cache_Capacity_Objects）以及边界条件（容量不足时的降级策略），三者逻辑独立且互补，共同构成了对理论上限完整且无冲突的解释。）
+先验知识/题面给定，逻辑校验通过：算术运算正确（300-20-5-400=-125ms），结论符合网络延迟预算分配的基本逻辑，即当传输时间超出剩余预算时，必须通过优化传输（如CDN、分片）来满足SLO。

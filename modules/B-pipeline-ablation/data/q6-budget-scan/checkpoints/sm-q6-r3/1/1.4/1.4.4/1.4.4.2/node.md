@@ -1,24 +1,20 @@
-# N152: t_sync 的数据同步延迟构成：t_sync = t_download + t_write_disk，其中 t_download = s_obj / B_sy
+# N179: 在激进预留工作点（高性低成），基于 $B_{peak}=370 \text{ Mbps}$，仅预留 10% 余量即 $B_{purchase} = 370 \t
 
-- **status**: verified
+- **status**: degraded
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: quotient
-- **rework_count**: 0
-- **parent_ids**: N44
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N51
 
 ## Claim
 
-t_sync 的数据同步延迟构成：t_sync = t_download + t_write_disk，其中 t_download = s_obj / B_sync（s_obj 为对象大小，B_sync 为同步带宽，典型 1-10 Gbps），t_write_disk 为 NVMe SSD 写入延迟（<1ms for random, <10ms for large sequential）；对于 2TB 日均下载量，若同步 10% 热点对象（200GB），在 10Gbps 带宽下 t_sync_total ≈ 200GB / (1.25GB/s) ≈ 160s，但并行同步可缩短至 <10s
+在激进预留工作点（高性低成），基于 $B_{peak}=370 \text{ Mbps}$，仅预留 10% 余量即 $B_{purchase} = 370 \times 1.1 = 407 \text{ Mbps}$，向上取整至 400 Mbps，若实际峰值超过 400 Mbps 则触发拥塞控制导致 P99 延迟上升，需量化该风险下的延迟惩罚值。
 
 ## Corrected Claim
 
-t_sync 的数据同步延迟构成：t_sync = t_download + t_write_disk，其中 t_download = s_obj / B_sync（s_obj 为对象大小，B_sync 为同步带宽，典型 1-10 Gbps），t_write_disk 为 NVMe SSD 写入延迟（<1ms for random, <10ms for large sequential）；对于 2TB 日均下载量，若同步 10% 热点对象（200GB），在 10Gbps 带宽下 t_sync_total ≈ 200GB / (1.25GB/s) ≈ 160s，但并行同步可缩短至 <10s
+在激进预留工作点，基于 $B_{peak}=370 \text{ Mbps}$，预留 10% 余量计算得 $B_{purchase} = 407 \text{ Mbps}$。若实际购买带宽限制为 400 Mbps（向下取整或特定档位），则存在 7 Mbps 的潜在超额风险，若实际峰值超过 400 Mbps 将触发拥塞控制导致 P99 延迟上升，需量化该风险下的延迟惩罚值。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：200GB / 1.25GB/s = 160s 计算正确，NVMe 延迟量级符合工程常识，并行缩短延迟符合逻辑。
-
-## Search Query
-
-CDN edge node data sync latency NVMe write time download bandwidth calculation
+[质询]数值逻辑矛盾：407 Mbps 向上取整（ceiling）应为 410 Mbps（若按10Mbps粒度）或至少大于407，而 400 Mbps 小于 407 Mbps，属于向下取整或截断，与‘向上取整’表述矛盾；且‘激进预留’通常意味着更小的余量或更低的购买量，但此处计算逻辑存在内部不一致。 | 先验知识/题面给定，逻辑校验发现数值取整方向与描述矛盾（407 -> 400 为向下取整），且缺乏外部来源支持具体延迟惩罚值。

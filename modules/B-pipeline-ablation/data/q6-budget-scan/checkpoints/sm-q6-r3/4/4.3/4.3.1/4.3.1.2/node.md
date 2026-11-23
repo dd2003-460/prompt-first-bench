@@ -1,19 +1,19 @@
-# N197: 图片大小分布的偏度系数 Skewness_img 通常为 2.0-5.0，导致 P95 远大于 P50 * 10，具体 P95/P50 比值在 3-10 之间，
+# N247: 带宽价格的地域修正系数 $f_{region}$：二线城市约为一线城市的 0.7-0.8 倍，三线及以下城市约为 0.5-0.6 倍；若 10 个 POP 点分
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N63
+- **parent_ids**: N85, N86, N87
 
 ## Claim
 
-图片大小分布的偏度系数 Skewness_img 通常为 2.0-5.0，导致 P95 远大于 P50 * 10，具体 P95/P50 比值在 3-10 之间，需通过实际数据分布拟合（如对数正态分布）确定。
+带宽价格的地域修正系数 $f_{region}$：二线城市约为一线城市的 0.7-0.8 倍，三线及以下城市约为 0.5-0.6 倍；若 10 个 POP 点分布在 3 个一线、4 个二线、3 个三线城市，加权平均单价 $P_{avg} = \sum (n_i \times P_i \times f_{region,i}) / 10$。
 
 ## Corrected Claim
 
-图片大小分布的偏度系数 Skewness_img 通常为 2.0-5.0，导致 P95 远大于 P50 * 10，具体 P95/P50 比值在 3-10 之间，需通过实际数据分布拟合（如对数正态分布）确定。
+带宽价格的地域修正系数 $f_{region}$：二线城市约为一线城市的 0.7-0.8 倍，三线及以下城市约为 0.5-0.6 倍；若 10 个 POP 点分布在 3 个一线、4 个二线、3 个三线城市，加权平均单价 $P_{avg} = \sum (n_i \times P_i \times f_{region,i}) / 10$。
 
 ## Evidence
 
@@ -21,4 +21,4 @@
 
 ## Search Query
 
-image file size distribution skewness log-normal social media
+dedicated line pricing difference between tier-1 and tier-2 cities in China

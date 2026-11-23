@@ -1,0 +1,28 @@
+# N230: 阿里云国内节点流量单价 $P_{domestic}$ 在 60TB 月流量档位下的具体数值，需查询阿里云 CDN 最新价目表，典型区间为 0.20-0.25 元
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N79, N80, N81
+
+## Claim
+
+阿里云国内节点流量单价 $P_{domestic}$ 在 60TB 月流量档位下的具体数值，需查询阿里云 CDN 最新价目表，典型区间为 0.20-0.25 元/GB。
+
+## Corrected Claim
+
+阿里云国内节点流量单价在 60TB 月流量档位下的具体数值需查询最新价目表，通常处于阶梯计费的中低区间，具体价格随政策调整，典型参考区间约为 0.20-0.25 元/GB（需以官方实时报价为准）。
+
+## Evidence
+
+[质询]来源摘要仅提及存在阶梯计费和地域差异，未提供具体数值，无法直接证实 0.20-0.25 元/GB 这一具体价格区间是否准确对应 60TB 档位。 | 来源 [1] 确认了阿里云 CDN 采用阶梯计费且价格因地域而异，间接支持了价格存在区间的逻辑，但未提供具体数值支持，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+Alibaba Cloud CDN traffic price 60TB tier China 2024
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2055659966803993498&rut=a63818a2a8f53de559a10cf03ab2046e70d3c4388b9b5e5e8fe11b2a011ef03a', 'type': 'ddg', 'title': '阿里云cdn价格表：不同地域流量费用（阶梯计费） - 知乎'}

@@ -1,24 +1,24 @@
-# N238: POP选址优化对 θ 的提升系数：若 POP 选址从“省会城市”优化为“流量密度最高的地级市”（如将成都POP移至周边流量更密集区域），θ 可提升 Δθ ≈ 2
+# N147: LRU-K 算法相比 LRU 的命中率增益量化：LRU-K 通过记录最近 K 次访问时间来预测未来访问，对于 K=2 或 3，在 Zipf 分布（alpha=1
 
-- **status**: verified
+- **status**: degraded
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: quotient
-- **rework_count**: 0
-- **parent_ids**: N74
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N45
 
 ## Claim
 
-POP选址优化对 θ 的提升系数：若 POP 选址从“省会城市”优化为“流量密度最高的地级市”（如将成都POP移至周边流量更密集区域），θ 可提升 Δθ ≈ 2%-5%，公式 θ_optimized = P_core_base + Δθ，该提升取决于选址算法对热力图的拟合精度
+LRU-K 算法相比 LRU 的命中率增益量化：LRU-K 通过记录最近 K 次访问时间来预测未来访问，对于 K=2 或 3，在 Zipf 分布（alpha=1.0）下，LRU-K 的命中率 H_LRU-K 通常比 H_LRU 高 2-5 个百分点；具体增益 Delta_H = H_LRU-K - H_LRU 取决于工作集的大小变化率，若热点对象切换频繁，Delta_H 可达 5-10%，该增益直接减少回源带宽成本。
 
 ## Corrected Claim
 
-POP选址优化对 θ 的提升系数：若 POP 选址从“省会城市”优化为“流量密度最高的地级市”（如将成都POP移至周边流量更密集区域），θ 可提升 Δθ ≈ 2%-5%，公式 θ_optimized = P_core_base + Δθ，该提升取决于选址算法对热力图的拟合精度
+LRU-K 算法通过记录最近 K 次访问时间来预测未来访问，通常能比 LRU 获得更高的命中率。具体增益 Delta_H 取决于工作集的大小变化率及访问模式，在热点对象切换频繁的场景下，LRU-K 的命中率优势更为显著，从而减少回源带宽成本。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+[质询]具体数值增益（2-5% 或 5-10%）属于经验事实，缺乏通用理论推导支持，且高度依赖具体工作负载特征，直接断言固定区间存在过度概括风险。 | 先验知识/题面给定，逻辑校验通过；但具体数值增益为经验事实，无来源直接支持，故降级。
 
 ## Search Query
 
-CDN POP location optimization traffic coverage improvement rate case study
+LRU-K vs LRU cache hit rate improvement percentage zipf

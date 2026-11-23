@@ -1,30 +1,24 @@
-# N314: 单POP点月带宽成本计算：C_bw_pop = B_pop * 30.44 * P_bw_unit，其中B_pop取N97中位数3.35Gbps，P_bw_un
+# N201: POP点数量(10个)需根据用户地理分布与延迟要求优化：若80%用户集中在一线城市，实际只需在5-6个核心城市部署POP点即可覆盖95%流量；偏远地区20%流量
 
 - **status**: degraded
 - **level**: L4
-- **source**: search
+- **source**: knowledge
 - **edge_type**: quotient
 - **rework_count**: 1
-- **parent_ids**: N100
+- **parent_ids**: N63
 
 ## Claim
 
-单POP点月带宽成本计算：C_bw_pop = B_pop * 30.44 * P_bw_unit，其中B_pop取N97中位数3.35Gbps，P_bw_unit取一线城市10Gbps专线月租¥15k-20k折算单价或按流量¥0.08-0.12/GB，需根据实际计费模式（95th Percentile vs 固定带宽）选择对应单价
+POP点数量(10个)需根据用户地理分布与延迟要求优化：若80%用户集中在一线城市，实际只需在5-6个核心城市部署POP点即可覆盖95%流量；偏远地区20%流量可走公有云CDN，因此自建POP点数量应从10个降至5-6个，总电费相应降低50-40%
 
 ## Corrected Claim
 
-单POP点月带宽成本计算：C_bw_pop = B_pop * 30.44 * P_bw_unit，其中B_pop取N97中位数3.35Gbps，P_bw_unit需根据实际计费模式（95th Percentile vs 固定带宽）选择对应单价（具体数值需参考运营商实时报价，此处引用的¥15k-20k/月或¥0.08-0.12/GB为估算值，缺乏来源直接支持）。
+POP点数量需根据用户地理分布与延迟要求优化：若用户高度集中在少数核心城市，可减少自建POP点数量并依赖公有云CDN覆盖长尾流量，从而降低总电费。
 
 ## Evidence
 
-[质询]参考来源均未提供具体的带宽成本数值（如¥15k-20k/月或¥0.08-0.12/GB），属于经验事实，缺乏外部数据支持。 | 逻辑自洽（公式量纲正确，30.44天/月为常用近似值），但来源[1][2][3]仅涉及边缘计算架构和PoP定义，未包含任何带宽定价或成本计算数据，无法验证具体数值。
+[质询]该陈述包含具体的经验性假设（如'80%用户集中在一线城市'、'5-6个核心城市覆盖95%流量'、'电费降低50-40%'），这些数值并非第一性原理可推导的数学或物理定律，而是依赖于特定业务场景的统计估算。若实际用户分布更分散或延迟要求更严格，该优化策略可能不成立。 | 先验知识/题面给定，逻辑校验通过。虽然逻辑自洽（减少节点确实降低电费），但具体数值（5-6个节点、50-40%降幅）属于经验事实，缺乏外部来源直接支持，且不同业务场景下差异巨大，故降级为定性表述。
 
 ## Search Query
 
-China 10Gbps dedicated line monthly cost tier 1 city 2024
-
-## Retrieval Sources
-
-- {'url': 'https://quant67.com/post/architecture/96-edge-computing/edge-computing.html&rut=2a140f9132d8fd7795429f72282d3a7f8254f4dfd20ba63d2a7126c31e4448fd', 'type': 'ddg', 'title': '【系统架构设计】边缘计算架构：算力下沉的设计挑战 | 土法炼钢 · 系统与基础设施'}
-- {'url': 'https://knowledge.catonetworks.com/docs/production-pop-guide&rut=a9f2e92c26d3fad20e9ca58c65a28ab5a09ecaad9547fadf77ef65c0dfa16123', 'type': 'ddg', 'title': 'Production PoP Guide'}
-- {'url': 'https://juejin.cn/post/7672695343738961956&rut=397db3a3a499017d20002ec4d9f8c0ee9cf71a37f784491d9ceb48d8b08df006', 'type': 'ddg', 'title': '边缘计算架构：算力下沉的设计挑战Consistency at the edge, control-plane fanou - 掘金'}
+CDN POP point optimization geographic coverage China urban distribution

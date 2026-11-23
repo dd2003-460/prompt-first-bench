@@ -1,17 +1,17 @@
 {
-  "id": "N83",
-  "claim": "源站回源命中率 H_origin 受回源带宽限制影响：当回源带宽 B_origin < p_miss * Q_peak * s_avg * 8 时，回源队列延迟导致有效命中率下降，修正因子 η = min(1, B_origin / B_required)",
-  "level": "L3",
+  "id": "N179",
+  "claim": "短视频首帧网络延迟预算上限 = P99总延迟预算(500ms) - RTT(20ms) - T_proc(5ms) - 首帧数据传输时间(2MB/10Mbps=1600ms)；由于首帧传输时间远超预算，实际网络延迟约束仅作用于TTFB，而首帧渲染延迟主要受对象大小和带宽限制，CDN优化重点应转向降低TTFB而非总传输时间。",
+  "level": "L4",
   "source": "knowledge",
-  "status": "verified",
-  "evidence": "先验知识/题面给定，逻辑校验通过",
-  "corrected_claim": "源站回源命中率 H_origin 受回源带宽限制影响：当回源带宽 B_origin < p_miss * Q_peak * s_avg * 8 时，回源队列延迟导致有效命中率下降，修正因子 η = min(1, B_origin / B_required)",
-  "rework_count": 0,
+  "status": "degraded",
+  "evidence": "[质询]数值量级与工程常识严重冲突：2MB 数据在 10Mbps 带宽下传输时间约为 1.6 秒，远超 500ms 的总延迟预算，这在短视频首帧加载场景中是不合理的（通常首帧为低分辨率或压缩后的关键帧，大小远小于 2MB，或带宽远高于 10Mbps）。该陈述基于错误的参数假设（2MB/10Mbps）得出了‘传输时间远超预算’的结论，进而推导出‘CDN 优化重点应转向降低 TTFB 而非总传输时间’，这一结论在逻辑上虽然自洽（如果前提成立），但前提本身违背了短视频 CDN 优化的基本工程直觉（通常首帧优化核心在于减小首包体积和提升带宽/连接速度，而非单纯依赖 TTFB，且 500ms 预算下 2MB 数据根本无法完成传输，会导致体验极差而非仅仅是‘延迟约束作用于 TTFB’）。 | 先验知识/题面给定，逻辑校验通过（内部算术 2MB/10Mbps=1.6s 正确，推导逻辑自洽），但经验参数（2MB 首帧大小、10Mbps 带宽）与短视频首帧加载的典型工程场景（通常首帧 < 100KB，带宽 > 10Mbps）严重不符，导致结论缺乏实际指导意义，故降级。",
+  "corrected_claim": "短视频首帧网络延迟预算上限 = P99总延迟预算(500ms) - RTT(20ms) - T_proc(5ms) - 首帧数据传输时间；若首帧数据量较小（如 < 100KB）且带宽充足，传输时间可忽略，此时网络延迟约束主要作用于 TTFB 和 RTT，CDN 优化重点应在于降低 TTFB 和确保首包快速到达。",
+  "rework_count": 1,
   "parent_ids": [
-    "N25"
+    "N55"
   ],
   "objective": null,
-  "edge_type": "cartesian",
+  "edge_type": "quotient",
   "search_query": "",
   "retrieval_sources": []
 }

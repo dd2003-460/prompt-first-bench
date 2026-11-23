@@ -1,20 +1,24 @@
-# N312: 两种计费模式成本比 C_95th / C_fixed = (P_95th_unit * B_95th) / (P_fixed_unit * B_purchase
+# N200: 非服务器设备功耗：每个POP点还需考虑交换机、路由器、防火墙等网络设备功耗，单点网络设备总功耗约为服务器总功耗的10-20%；若10台服务器总功耗为5kW，则网
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N99
+- **parent_ids**: N62
 
 ## Claim
 
-两种计费模式成本比 C_95th / C_fixed = (P_95th_unit * B_95th) / (P_fixed_unit * B_purchased)，当 B_95th / B_purchased < 0.7 且 P_95th_unit / P_fixed_unit < 1.2 时，95th计费更优；典型视频平台该比值约为 0.5-0.6，节省 40-50% 成本
+非服务器设备功耗：每个POP点还需考虑交换机、路由器、防火墙等网络设备功耗，单点网络设备总功耗约为服务器总功耗的10-20%；若10台服务器总功耗为5kW，则网络设备功耗约为0.5-1kW，需纳入PUE计算范围
 
 ## Corrected Claim
 
-两种计费模式成本比 C_95th / C_fixed = (P_95th_unit * B_95th) / (P_fixed_unit * B_purchased)，当 B_95th / B_purchased < 0.7 且 P_95th_unit / P_fixed_unit < 1.2 时，95th计费更优；典型视频平台该比值约为 0.5-0.6，节省 40-50% 成本
+非服务器设备功耗：每个POP点还需考虑交换机、路由器、防火墙等网络设备功耗，单点网络设备总功耗约为服务器总功耗的10-20%；若10台服务器总功耗为5kW，则网络设备功耗约为0.5-1kW，需纳入PUE计算范围
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：数学推导显示当用量比<0.7且单价比<1.2时，乘积必然小于1，即95th计费成本更低；典型视频平台流量波动大，95th计费通常能节省40-50%成本，符合行业经验。
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+data center network equipment power consumption ratio to servers

@@ -1,0 +1,17 @@
+{
+  "id": "N352",
+  "claim": "修正后的实际临界点 $K_{peak}^{*}$ 公式：当计算出的峰值带宽 $B_{peak} = B_{avg} \\times K_{peak} < B_{min}$ 时，实际 95th 成本固定为 $C_{95} = B_{min} \\times R_{95}$，此时临界条件变为 $B_{min} \\times R_{95} = P_{traffic}^{eff} \\times V_{monthly}$，解得 $K_{peak}^{*} = (B_{min} \\times R_{95} \\times 86400) / (8000 \\times V_{monthly} \\times B_{avg}/B_{avg})$，需代入 $B_{min}$ 具体值计算。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]公式推导存在量纲与逻辑矛盾：等式左侧 $B_{min} \\times R_{95}$ 通常代表月度费用（带宽×单价），右侧 $P_{traffic}^{eff} \\times V_{monthly}$ 若 $V_{monthly}$ 为月流量，则量纲为流量，两者量纲不匹配；且最终解出的 $K_{peak}^{*}$ 表达式中分母包含 $B_{avg}/B_{avg}$（恒为1），导致 $K_{peak}^{*}$ 与 $B_{avg}$ 无关，这与前提条件 $B_{peak} = B_{avg} \\times K_{peak}$ 中 $K_{peak}$ 定义峰值倍数（通常与平均带宽无关，但此处推导逻辑混乱）相悖，且 $86400$ 与 $8000$ 的系数来源不明，疑似单位换算错误（如秒/月 vs 秒/天）。 | 先验知识/题面给定，逻辑校验发现量纲不一致及推导步骤存在明显数学/物理直觉错误（如 $B_{avg}/B_{avg}$ 项无意义，左右两侧量纲不匹配），无法判定为 verified。",
+  "corrected_claim": "该公式推导存在量纲错误和逻辑瑕疵，需重新检查 $R_{95}$ 的单位（是单价还是费率）、$V_{monthly}$ 的定义以及时间单位换算（86400秒/天 vs 月），并修正 $K_{peak}^{*}$ 的表达式以消除 $B_{avg}/B_{avg}$ 这类恒等项。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N130"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

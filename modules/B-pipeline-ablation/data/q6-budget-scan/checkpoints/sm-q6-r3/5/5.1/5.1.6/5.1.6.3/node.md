@@ -1,0 +1,24 @@
+# N271: 公有云 CDN 日志存储成本 $C_{log, store}$ 的计算：日志大小 $S_{log} \approx R_{daily} \times s_{lo
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N94, N95, N96
+
+## Claim
+
+公有云 CDN 日志存储成本 $C_{log, store}$ 的计算：日志大小 $S_{log} \approx R_{daily} \times s_{log, entry}$。假设每条日志 1KB，日均 200 万请求，则 $S_{log} \approx 2 \text{ GB/day} = 60 \text{ GB/month}$。阿里云日志服务（SLS）存储费用约为 0.35 元/GB/月（热存储）或 0.06 元/GB/月（冷存储）。需根据保留策略（如 7 天热 + 30 天冷）加权计算月成本。
+
+## Corrected Claim
+
+公有云 CDN 日志存储成本 $C_{log, store}$ 的计算：日志大小 $S_{log} \approx R_{daily} \times s_{log, entry}$。假设每条日志 1KB，日均 200 万请求，则 $S_{log} \approx 2 \text{ GB/day} = 60 \text{ GB/month}$。阿里云日志服务（SLS）存储费用约为 0.35 元/GB/月（热存储）或 0.06 元/GB/月（冷存储）。需根据保留策略（如 7 天热 + 30 天冷）加权计算月成本。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：日志大小计算（200万*1KB=2GB/天，60GB/月）数学正确；阿里云SLS存储价格（热存储约0.35元/GB/月，冷存储约0.06元/GB/月）符合公开定价量级，逻辑自洽。
+
+## Search Query
+
+Aliyun SLS log storage pricing hot cold tier GB per month

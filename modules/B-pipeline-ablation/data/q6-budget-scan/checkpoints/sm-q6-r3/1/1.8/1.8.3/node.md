@@ -1,20 +1,24 @@
-# N74: θ = Σ_{i∈Core} P_region(i)，其中P_region(i)为第i个省级行政区的流量占比（来自N34），Core为自建POP覆盖的核心区域集
+# N45: 缓存容量 C = 节点存储总量 * 缓存分配比例；假设每节点存储 100TB，分配 80% 用于缓存，则 C = 80TB；命中率 H 可通过 Miller-M
 
-- **status**: verified
+- **status**: degraded
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
-- **rework_count**: 0
-- **parent_ids**: N14
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N11
 
 ## Claim
 
-θ = Σ_{i∈Core} P_region(i)，其中P_region(i)为第i个省级行政区的流量占比（来自N34），Core为自建POP覆盖的核心区域集合，θ≈65%-70%
+缓存容量 C = 节点存储总量 * 缓存分配比例；假设每节点存储 100TB，分配 80% 用于缓存，则 C = 80TB；命中率 H 可通过 Miller-Muntz 模型或 LRU-K 算法近似计算，H ≈ 1 - (N_unique * s_avg) / C。
 
 ## Corrected Claim
 
-θ = Σ_{i∈Core} P_region(i)，其中P_region(i)为第i个省级行政区的流量占比（来自N34），Core为自建POP覆盖的核心区域集合，θ≈65%-70%
+缓存容量 C = 节点存储总量 * 缓存分配比例；假设每节点存储 100TB，分配 80% 用于缓存，则 C = 80TB。命中率 H 可通过 Miller-Muntz 模型或 LRU-K 算法近似计算，具体公式取决于访问模式分布，简化估算可参考 H ≈ 1 - (N_unique * s_avg) / C（需结合具体访问频率分布验证）。
 
 ## Evidence
 
-父节点级核验通过：正交+完备+无冗余（子节点分别定义了基准值（静态基础）、优化增量（空间维度改进）和动态修正（时间维度波动），三者维度不同（空间基础、空间优化、时间动态），逻辑上正交且互补。三者共同构成了对父节点 θ 的完整分解（θ = 基准 + 优化增量 - 季节性侵蚀），覆盖了定义、优化和动态修正的关键方面，无冗余。）
+[质询]公式 H ≈ 1 - (N_unique * s_avg) / C 缺乏严谨的理论依据，Miller-Muntz 模型通常基于访问频率分布（如 Zipf 定律）而非简单的唯一对象数量与平均大小之比，该简化公式在特定条件下（如均匀访问且无重复）可能成立，但作为通用近似存在逻辑跳跃。 | source=knowledge，逻辑自洽（容量计算正确，公式量纲合理），但公式为经验性简化近似，非严格推导，且无外部来源支持其普适性，故降级。
+
+## Search Query
+
+CDN cache capacity hit rate model LRU-K Miller Muntz

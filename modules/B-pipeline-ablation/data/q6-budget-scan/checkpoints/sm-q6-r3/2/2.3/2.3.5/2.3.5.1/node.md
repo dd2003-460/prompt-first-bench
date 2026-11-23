@@ -1,0 +1,20 @@
+# N191: 回源流量比例 $(1-H)$ 的实测校准值：基于 N147 的 Zipf 分布假设，当缓存容量 $C_{cache}$ 为热数据总量 $C_{hot}$ 的 3
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N65
+
+## Claim
+
+回源流量比例 $(1-H)$ 的实测校准值：基于 N147 的 Zipf 分布假设，当缓存容量 $C_{cache}$ 为热数据总量 $C_{hot}$ 的 3 倍时，实测回源比例通常为 8%-12%（即 $H=88\%-92\%$），而非理论 Zipf 的 10%，需据此修正 $\rho_{self}$ 计算。
+
+## Corrected Claim
+
+回源流量比例 $(1-H)$ 的实测校准值：基于 N147 的 Zipf 分布假设，当缓存容量 $C_{cache}$ 为热数据总量 $C_{hot}$ 的 3 倍时，实测回源比例通常为 8%-12%（即 $H=88\%-92\%$），而非理论 Zipf 的 10%，需据此修正 $\rho_{self}$ 计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

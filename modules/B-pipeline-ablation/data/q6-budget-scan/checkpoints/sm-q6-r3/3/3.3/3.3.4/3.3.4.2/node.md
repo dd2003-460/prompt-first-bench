@@ -1,0 +1,30 @@
+# N224: CDN 流量包（Traffic Package）的预付费单价 $P_{pkg}$ 通常比后付费（Pay-as-you-go）阶梯单价低 10%-20%；对于 6
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N76
+
+## Claim
+
+CDN 流量包（Traffic Package）的预付费单价 $P_{pkg}$ 通常比后付费（Pay-as-you-go）阶梯单价低 10%-20%；对于 60TB/月 的负载，需对比后付费阶梯价（约 0.23 元/GB）与购买 50TB+10TB 流量包的总成本，以确定最优采购组合。
+
+## Corrected Claim
+
+CDN 流量包（Traffic Package）的预付费单价通常比后付费（Pay-as-you-go）阶梯单价低；对于 60TB/月 的负载，需对比后付费阶梯价与购买相应规格流量包的总成本，以确定最优采购组合。
+
+## Evidence
+
+[质询]具体数值（10%-20%折扣率、0.23元/GB单价、50TB+10TB组合）属于特定云厂商（如华为云/天翼云）在特定时间点的经验性市场数据，不同厂商、不同区域及不同时期差异巨大，无法从第一性原理推导，且参考来源摘要中未包含具体价格数值，无法直接验证该特定数值组合的准确性。 | 来源[1][2][3]证实了CDN预付费流量包的存在及‘大流量建议购买流量包’的逻辑，支持了‘预付费通常更优’的定性结论，但摘要中缺乏具体单价和折扣比例数据，无法直接支持‘10%-20%’及‘0.23元/GB’等具体经验数值，故降级为定性表述。
+
+## Search Query
+
+Alibaba Cloud CDN traffic package price vs pay-as-you-go discount rate
+
+## Retrieval Sources
+
+- {'url': 'https://support.huaweicloud.com/price-cdn/cdn_01_0162.html&rut=f3ed63517c5111d7b205414a4ef8b9ff8d63c43deb0d287cc70e3e7d4a457517', 'type': 'ddg', 'title': 'Cdn预付费流量包_预付费资源包_计费说明_内容分发网络 Cdn-华为云'}
+- {'url': 'https://support.huaweicloud.com/intl/zh-cn/price-cdn/cdn_01_0162.html&rut=d83b48e05a11ec120b76759f3cb6062a17c434b257c3692bcd4b90159d025228', 'type': 'ddg', 'title': 'Cdn预付费流量包_内容分发网络 Cdn-华为云'}
+- {'url': 'https://www.ctyun.cn/document/10015932/10136752&rut=3596dc75a19e94ba9175f8bcf08bb537ec7a5f98b6004589101d539b87e6be90', 'type': 'ddg', 'title': '资源包介绍-cdn加速-计费说明-资源包（预付费） - 天翼云'}

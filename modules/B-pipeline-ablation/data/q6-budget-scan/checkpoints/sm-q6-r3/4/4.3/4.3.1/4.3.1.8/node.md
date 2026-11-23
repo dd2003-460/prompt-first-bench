@@ -1,0 +1,24 @@
+# N253: 私有骨干网的可用性 SLA 通常为 99.99%，故障切换时间 < 50ms；若使用公网回源，SLA 无保障，故障切换时间可能 > 1s，影响 P99 延迟稳定
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N85, N86, N87
+
+## Claim
+
+私有骨干网的可用性 SLA 通常为 99.99%，故障切换时间 < 50ms；若使用公网回源，SLA 无保障，故障切换时间可能 > 1s，影响 P99 延迟稳定性，需将 SLA 差异转化为运维监控成本或业务损失风险量化。
+
+## Corrected Claim
+
+私有骨干网的可用性 SLA 通常为 99.99%，故障切换时间 < 50ms；若使用公网回源，SLA 无保障，故障切换时间可能 > 1s，影响 P99 延迟稳定性，需将 SLA 差异转化为运维监控成本或业务损失风险量化。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+private backbone SLA 99.99% vs public internet latency jitter CDN

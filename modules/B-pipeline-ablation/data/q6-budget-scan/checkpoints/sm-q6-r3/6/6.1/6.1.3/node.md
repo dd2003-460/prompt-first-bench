@@ -1,30 +1,24 @@
-# N270: 阿里云CDN >50TB/月区间单价核验：官方价目表显示该区间标准价为¥0.20/GB，适用于大规模平台（日均2TB下载量对应月流量60TB，适用此区间），较0
+# N107: 全公有云策略运维成本 $C_{ops,cloud}$：主要为 CDN 配置管理、日志查询及 API 调用费用，估算 $C_{ops,cloud} \approx
 
-- **status**: degraded
-- **level**: L4
-- **source**: search
-- **edge_type**: quotient
-- **rework_count**: 1
-- **parent_ids**: N87
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N26
 
 ## Claim
 
-阿里云CDN >50TB/月区间单价核验：官方价目表显示该区间标准价为¥0.20/GB，适用于大规模平台（日均2TB下载量对应月流量60TB，适用此区间），较0-10TB区间节省16.7%
+全公有云策略运维成本 $C_{ops,cloud}$：主要为 CDN 配置管理、日志查询及 API 调用费用，估算 $C_{ops,cloud} \approx 500-2000$ 元/月（取决于日志保留时长及查询频率）。
 
 ## Corrected Claim
 
-阿里云CDN采用阶梯计费，>50TB/月区间单价通常低于低流量区间（如0-10TB），具体单价需查阅官方最新价目表确认（常见参考值为¥0.20/GB，较¥0.24/GB节省约16.7%）。
+全公有云策略运维成本 $C_{ops,cloud}$：主要为 CDN 配置管理、日志查询及 API 调用费用，估算 $C_{ops,cloud} \approx 500-2000$ 元/月（取决于日志保留时长及查询频率）。
 
 ## Evidence
 
-[质询]参考来源摘要中未包含具体的阶梯价格数值（如¥0.20/GB或¥0.24/GB），无法直接验证具体单价及节省比例，属于经验事实且缺乏直接数据支持。 | 来源[2]确认了阿里云CDN采用阶梯计费模式，但未提供具体价格数值；逻辑上60TB属于>50TB区间，且若0-10TB区间单价为0.24元/GB，则0.20元/GB确实节省16.7%，逻辑自洽但缺直接来源支持具体数值。
+父节点级核验未通过：不完备（子节点正交且无冗余，但存在完备性问题。父节点明确提到成本包括‘CDN配置管理、日志查询及API调用费用’，且估算范围高达2000元/月。然而，子节点仅覆盖了‘日志存储’和‘API调用’，遗漏了‘日志查询’费用（通常按查询量或流量计费，可能远高于存储费）以及潜在的‘配置管理’相关成本（如控制台高级功能或特定管理API）。此外，子节点计算出的总成本（153元）远低于父节点上限（2000元），说明缺失了主要的高成本项。）
 
 ## Search Query
 
-阿里云 CDN 下行流量 阶梯计费 50TB以上 单价 2024
-
-## Retrieval Sources
-
-- {'url': 'https://www.aliyun.com/price/detail/cdn&rut=7deffc4f1d34859bcb7594b9f5ea62952b3f14c06ecc370a5099c3c282977b06', 'type': 'ddg', 'title': '阿里云定价_CDN价格详情'}
-- {'url': 'https://developer.aliyun.com/article/1708278&rut=2ddc55f04c3ee490ae5b44019f150c2428eac2400670b83d41207aae16acf9e2', 'type': 'ddg', 'title': '2026最新阿里云cdn收费标准：不同计费模式价格表（基础服务费和增值服务费用整理）-阿里云开发者社区'}
-- {'url': 'https://help.aliyun.com/zh/cdn/product-overview/billing-overview&rut=5607cac578e6a0a2822f10843ed70c58160107634276405ba09db4d9580720b7', 'type': 'ddg', 'title': 'Cdn如何计费-cdn (Cdn)-阿里云帮助中心'}
+Cloudflare log push pricing per GB

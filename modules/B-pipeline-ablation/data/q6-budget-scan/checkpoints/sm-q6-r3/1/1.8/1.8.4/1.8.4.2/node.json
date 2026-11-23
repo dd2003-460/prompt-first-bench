@@ -1,0 +1,17 @@
+{
+  "id": "N150",
+  "claim": "最小缓存容量 C_min 的计算公式：C_min = (N_unique * s_avg * R_p) / H_target，其中 N_unique 为总唯一对象数，s_avg 为加权平均对象大小，R_p 为头部对象流量占比，H_target 为目标命中率；该公式直接量化了热点集中度对存储需求的影响。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]该公式在逻辑上存在严重缺陷：缓存命中率（Hit Rate）主要取决于访问分布（如Zipf分布）与缓存容量的关系，而非简单地由'头部对象流量占比'线性决定。若R_p为头部流量占比，当缓存仅容纳头部对象时，命中率上限即为R_p，此时公式推导出的C_min与H_target的关系不符合缓存理论（如LRU或LFU的命中率-容量曲线）。此外，'加权平均对象大小'通常指所有对象的平均大小，若头部对象大小与尾部不同，直接使用全局s_avg会导致量级估算偏差。该公式更像是一个简化的工程估算式，而非严谨的理论公式，且未说明R_p的具体定义（是Top-K对象的流量占比还是其他）。 | 先验知识/题面给定，但逻辑校验发现公式物理意义不自洽：命中率与头部流量占比并非简单的线性倒数关系，且未考虑访问分布特性，属于经验性简化公式而非普适理论公式。",
+  "corrected_claim": "最小缓存容量 C_min 的估算公式：C_min ≈ (N_unique * s_avg * R_p) / H_target，其中 R_p 需定义为覆盖目标命中率 H_target 所需的最小头部对象集合的流量占比，该公式为基于头部对象优先缓存策略的简化估算，实际容量需结合具体访问分布（如Zipf指数）进行修正。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N46"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

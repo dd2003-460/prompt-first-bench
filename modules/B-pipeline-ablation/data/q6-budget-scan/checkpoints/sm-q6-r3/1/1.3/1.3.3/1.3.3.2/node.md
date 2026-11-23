@@ -1,30 +1,30 @@
-# N140: 公有云CDN按带宽计费模式下，混合策略中公有云部分的月固定带宽成本 C_bw_bandwidth = B_peak_cloud * P_bw_gbps_mont
+# N98: 工作点B（中延迟/中增量成本）：在核心城市自建节点部署反向代理/缓存中转，偏远请求经核心节点回源。回源RTT降至50ms（基于N28假设），需增加核心节点间专线
 
 - **status**: degraded
 - **level**: L4
 - **source**: search
 - **edge_type**: cartesian
 - **rework_count**: 1
-- **parent_ids**: N40
+- **parent_ids**: N28
 
 ## Claim
 
-公有云CDN按带宽计费模式下，混合策略中公有云部分的月固定带宽成本 C_bw_bandwidth = B_peak_cloud * P_bw_gbps_month，其中 B_peak_cloud = (1-α) * B_peak_total，P_bw_gbps_month 为阿里云按带宽计费单价（基准值 ¥100-200/月/Mbps，需核验具体档位）。
+工作点B（中延迟/中增量成本）：在核心城市自建节点部署反向代理/缓存中转，偏远请求经核心节点回源。回源RTT降至50ms（基于N28假设），需增加核心节点间专线带宽成本，估算月增成本约¥5,000-¥10,000（基于1Gbps专线¥5,000/月/100Mbps阶梯），整体P99延迟降至≈180ms。
 
 ## Corrected Claim
 
-公有云CDN按带宽计费模式下，混合策略中公有云部分的月固定带宽成本 C_bw_bandwidth = B_peak_cloud * P_bw_gbps_month，其中 B_peak_cloud = (1-α) * B_peak_total，P_bw_gbps_month 为阿里云按带宽计费单价（具体数值需根据地域和带宽阶梯查询阿里云官方价目表）。
+工作点B（中延迟/中增量成本）：在核心城市自建节点部署反向代理/缓存中转，偏远请求经核心节点回源。回源RTT降至50ms（基于N28假设），需增加核心节点间专线带宽成本，整体P99延迟降至≈180ms。具体月增成本需根据实际带宽需求（如100Mbps-1Gbps）及运营商报价确定，通常处于千元至万元量级。
 
 ## Evidence
 
-[质询]陈述中给出的具体单价基准值（¥100-200/月/Mbps）属于经验事实，参考来源仅确认了计费模式的存在（按带宽峰值计费），但未提供具体的价格数值，无法直接验证该数值量级是否准确（实际阿里云CDN带宽价格通常随地域和带宽阶梯变化，且单位常为元/GB或元/Mbps/月，具体数值需查最新价目表，此处数值可能偏高或偏低，且未区分地域）。 | 来源[1]和[3]确认阿里云CDN支持‘按带宽峰值计费’模式，逻辑上公式 C = B_peak * P 成立；但来源未提供具体单价数值，且该数值为经验事实，缺乏直接来源支持，故降级。
+[质询]成本估算缺乏具体业务流量模型支撑，且将‘1Gbps专线’与‘100Mbps阶梯’混用，导致¥5,000-¥10,000的月增成本区间缺乏严谨推导依据，属于经验性猜测而非精确计算。 | 来源[3]提供了企业级专线成本核算模型和延迟实测数据，间接支持了通过专线降低RTT及存在相应带宽成本的逻辑，但未直接给出该特定场景下的精确成本数值，故降级为定性表述。
 
 ## Search Query
 
-阿里云 CDN 按带宽计费 价格 Mbps 月 2024 2025
+China cross-region dedicated line bandwidth cost per Mbps monthly
 
 ## Retrieval Sources
 
-- {'url': 'https://help.aliyun.com/zh/cdn/product-overview/billing-overview&rut=5607cac578e6a0a2822f10843ed70c58160107634276405ba09db4d9580720b7', 'type': 'ddg', 'title': 'Cdn如何计费-cdn (Cdn)-阿里云帮助中心'}
-- {'url': 'https://developer.aliyun.com/article/1712489&rut=9ac11fc059ec63ddd1ce104c3b0e7d9ac1b1e8c3823c8a667dafda6ca3e1bda1', 'type': 'ddg', 'title': '2026阿里云cdn 计费全攻略：按流量 / 带宽 / 95 峰值 + 基础服务费 + 增值服务价格表-阿里云开发者社区'}
-- {'url': 'https://help.aliyun.com/zh/cdn/product-overview/billing-rules-of-basic-services&rut=8ac269fc0fd33361b507140bc77f95e7de5882f95004416a424fe1397b02bd86', 'type': 'ddg', 'title': '基础服务计费方式定价规则-cdn-阿里云-cdn (Cdn)-阿里云帮助中心'}
+- {'url': 'https://www.fanqiangdao.com/post/self-hosted-relay-acceleration-guide-2026/&rut=7c2c5f170fe194fa126a4a0b5d2b95d8b30287a41bc82fa1bf7d3bbbdba3f09c', 'type': 'ddg', 'title': '2026年自建中转加速完全指南：国内中转机 + 海外落地机，realm/gost 端口转发与 UDP 中继实战'}
+- {'url': 'https://fanqiangdao.com/post/self-hosted-vpn-advanced-management-2026/&rut=bb09b7d4c87426244828d188d3b23baaf72bae33fac3e0a20c5a4cb537d13237', 'type': 'ddg', 'title': '自建VPN进阶管理：多节点热备、流量监控与成本优化全攻略（2026版） — fanqiangdao.com'}
+- {'url': 'https://jichangproxy.co/posts/2026-iplc-iepl-bgp-airport-architecture-w47-2026/&rut=711ee75306af6cdb48b9f1c32295e58932bb8bb412ecd7dba4a50edbfa350b15', 'type': 'ddg', 'title': '企业级IPLC/IEPL内网专线与公网BGP中转机场架构解密：2026年度稳定性、成本核算与晚高峰抗封锁实测万字报告'}

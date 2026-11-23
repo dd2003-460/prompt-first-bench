@@ -1,20 +1,30 @@
-# N144: 混合策略中DNS路由切换的P99延迟贡献 ΔP99_dns = P_switch * t_lookup_p99，其中 P_switch 为单位请求内发生DNS切
+# N103: 服务器内存与网络成本：配置256GB DDR4 ECC内存（约¥4,000-¥6,000）和25GbE双口网卡（约¥1,000-¥2,000），合计约¥5,00
 
-- **status**: verified
+- **status**: degraded
 - **level**: L4
-- **source**: knowledge
+- **source**: search
 - **edge_type**: quotient
-- **rework_count**: 0
-- **parent_ids**: N41
+- **rework_count**: 1
+- **parent_ids**: N29
 
 ## Claim
 
-混合策略中DNS路由切换的P99延迟贡献 ΔP99_dns = P_switch * t_lookup_p99，其中 P_switch 为单位请求内发生DNS切换的概率，t_lookup_p99 为DNS递归查询P99耗时（基准值 20-50ms），若 P_switch < 0.01，则 ΔP99_dns < 0.5ms，可忽略。
+服务器内存与网络成本：配置256GB DDR4 ECC内存（约¥4,000-¥6,000）和25GbE双口网卡（约¥1,000-¥2,000），合计约¥5,000-¥8,000，占单台总成本10%-15%。
 
 ## Corrected Claim
 
-混合策略中DNS路由切换的P99延迟贡献 ΔP99_dns = P_switch * t_lookup_p99，其中 P_switch 为单位请求内发生DNS切换的概率，t_lookup_p99 为DNS递归查询P99耗时（基准值 20-50ms），若 P_switch < 0.01，则 ΔP99_dns < 0.5ms，可忽略。
+服务器内存与网络成本：配置256GB DDR4 ECC内存和25GbE双口网卡，其成本通常占单台服务器总成本的10%-15%（具体金额随市场波动，参考区间约¥5,000-¥8,000）。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：数学推导正确（0.01 * 50ms = 0.5ms），符合概率加权延迟贡献的基本原理。
+[质询]具体价格数值（¥4,000-¥6,000）属于经验事实，且受市场波动影响大，参考来源仅提供了产品存在性和部分价格趋势，未提供该特定配置在特定时间点的精确价格区间，无法直接验证具体金额。 | 来源[1][2][3]证实了256GB DDR4 ECC内存和25GbE网卡是真实存在的硬件产品，逻辑上成本占比10%-15%符合服务器硬件成本结构常识，但具体价格数值缺乏直接来源支持，属于经验事实。
+
+## Search Query
+
+256GB DDR4 ECC RAM price 25GbE NIC price China
+
+## Retrieval Sources
+
+- {'url': 'https://vramglass.com/zh/ddr4&rut=3289e258d749f8755cb8144f6789e3df53da71f7b24c6dbf7ae3b0a2e2beb26c', 'type': 'ddg', 'title': 'Ddr4 内存价格走势：台式机与服务器内存条价格（2026）'}
+- {'url': 'https://www.amazon.com/256gb-ddr4/s?k=256gb+ddr4&rut=8d6dcdca10b780a28b40e6a09d1300301c21a408e75d3ebfa4007f6bbbbf1f2f', 'type': 'ddg', 'title': 'Amazon.com: 256gb Ddr4'}
+- {'url': 'https://www.serverbasket.net/p/256gb-ddr4-server-ram/&rut=96e2decb3ad3264f28edf0027cae2308e711f5ff28580df4ae881db47d0f3855', 'type': 'ddg', 'title': 'Buy 256GB DDR4 Server RAM | Boost Your Server Speed'}

@@ -1,0 +1,20 @@
+# N125: 长尾区域RTT基线 = 2 * d_tail / 2.0e8 * 1.05，若d_tail=500km，则RTT_tail ≈ 5.25ms（纯传播）+ 处理延
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N36
+
+## Claim
+
+长尾区域RTT基线 = 2 * d_tail / 2.0e8 * 1.05，若d_tail=500km，则RTT_tail ≈ 5.25ms（纯传播）+ 处理延迟，实际网络RTT通常因跨域路由增加至50-100ms
+
+## Corrected Claim
+
+长尾区域RTT基线 = 2 * d_tail / 2.0e8 * 1.05，若d_tail=500km，则RTT_tail ≈ 5.25ms（纯传播）+ 处理延迟，实际网络RTT通常因跨域路由增加至50-100ms
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：光速约3e8 m/s，500km往返纯传播延迟约3.33ms，乘以1.05系数及2倍因子（或公式本身隐含往返）后量级合理，50-100ms的跨域RTT符合网络工程常识。

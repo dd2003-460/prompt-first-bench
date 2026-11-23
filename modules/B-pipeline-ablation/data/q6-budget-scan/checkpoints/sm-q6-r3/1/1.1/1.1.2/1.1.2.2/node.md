@@ -1,24 +1,20 @@
-# N117: 混合策略中公有云需承载的最小流量下限 Q_cloud_min = Q_total * (1 - P_core_top10) * (1 - η_self_tail
+# N155: 工作点B（标准画质）：$s_{img}=1.0 \text{ MB}$，$s_{vid}=7.5 \text{ MB}$，组合后 $s_{avg} = 2.95
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N32
+- **parent_ids**: N37
 
 ## Claim
 
-混合策略中公有云需承载的最小流量下限 Q_cloud_min = Q_total * (1 - P_core_top10) * (1 - η_self_tail)，其中 η_self_tail 为自建节点对长尾区域的覆盖效率（通常 0.1-0.3，因 RTT 过高导致缓存失效）；当 P_core_top10=75% 且 η_self_tail=0.2 时，Q_cloud_min ≈ 25% * 80% = 20% 的总流量。
+工作点B（标准画质）：$s_{img}=1.0 \text{ MB}$，$s_{vid}=7.5 \text{ MB}$，组合后 $s_{avg} = 2.95 \text{ MB}$，代表主流平台（如微信/抖音）的平均传输负载，作为成本模型的默认参数。
 
 ## Corrected Claim
 
-混合策略中公有云需承载的最小流量下限 Q_cloud_min = Q_total * (1 - P_core_top10) * (1 - η_self_tail)，其中 η_self_tail 为自建节点对长尾区域的覆盖效率（通常 0.1-0.3，因 RTT 过高导致缓存失效）；当 P_core_top10=75% 且 η_self_tail=0.2 时，Q_cloud_min ≈ 25% * 80% = 20% 的总流量。
+工作点B（标准画质）：$s_{img}=1.0 \text{ MB}$，$s_{vid}=7.5 \text{ MB}$，组合后 $s_{avg} = 2.95 \text{ MB}$，代表主流平台（如微信/抖音）的平均传输负载，作为成本模型的默认参数。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：公式推导 Q_total * (1-0.75) * (1-0.2) = 0.25 * 0.8 = 0.2 (20%) 计算正确，量纲与逻辑自洽。
-
-## Search Query
-
-hybrid CDN strategy minimum cloud traffic ratio tail region coverage efficiency
+先验知识/题面给定，逻辑校验通过：数值量级符合主流平台媒体传输负载常识，且组合逻辑自洽（2.95 MB 介于 1.0 与 7.5 之间，符合加权平均特征）。

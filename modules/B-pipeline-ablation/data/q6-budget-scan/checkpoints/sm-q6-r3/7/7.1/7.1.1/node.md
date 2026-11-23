@@ -1,24 +1,28 @@
-# N286: 单台服务器 CPU 算力需求验证：假设单请求 CPU 开销为 0.5ms（Nginx+图片处理），日均 2TB 下载对应约 1000万-2000万请求（假设平均
+# N329: 公有云 CDN 阶梯计费的具体档位划分：第一档（0-50TB）、第二档（50-100TB）、第三档（100TB+）的单价分别为 $P_1, P_2, P_3$ 
 
-- **status**: verified
+- **status**: degraded
 - **level**: L4
-- **source**: knowledge
+- **source**: search
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N92
+- **rework_count**: 1
+- **parent_ids**: N123
 
 ## Claim
 
-单台服务器 CPU 算力需求验证：假设单请求 CPU 开销为 0.5ms（Nginx+图片处理），日均 2TB 下载对应约 1000万-2000万请求（假设平均对象 1-2MB），峰值 QPS = (1500万/86400)*k_peak(4) ≈ 700 QPS/POP；10台服务器分摊 70 QPS/台，Xeon Gold 6338 (32C) 单核处理能力远高于此，CPU 利用率 <10%，配置冗余主要为了故障隔离而非算力瓶颈
+公有云 CDN 阶梯计费的具体档位划分：第一档（0-50TB）、第二档（50-100TB）、第三档（100TB+）的单价分别为 $P_1, P_2, P_3$ (¥/GB)，需核实阿里云/腾讯云最新价目表中 60TB 流量所属档位及其对应单价。
 
 ## Corrected Claim
 
-单台服务器 CPU 算力需求验证：假设单请求 CPU 开销为 0.5ms（Nginx+图片处理），日均 2TB 下载对应约 1000万-2000万请求（假设平均对象 1-2MB），峰值 QPS = (1500万/86400)*k_peak(4) ≈ 700 QPS/POP；10台服务器分摊 70 QPS/台，Xeon Gold 6338 (32C) 单核处理能力远高于此，CPU 利用率 <10%，配置冗余主要为了故障隔离而非算力瓶颈
+公有云 CDN 采用阶梯计费，具体档位划分和单价需查阅阿里云/腾讯云最新官方价目表，60TB流量所属档位及对应单价需根据实际价目表确定。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：日均2TB/1.5MB≈1333万请求，峰值QPS≈700，10台分摊70QPS/台，Xeon Gold 6338单核处理能力远超此负载，CPU利用率<10%结论合理
+[质询]来源摘要仅提及存在阶梯计费，未提供具体档位划分（如0-50TB, 50-100TB等）及对应单价，无法验证60TB所属档位及具体价格数值。 | 来源[1]确认阿里云CDN采用阶梯计费，但未提供具体档位和单价数据，属于间接支持，无法验证具体数值。
 
 ## Search Query
 
-Nginx CPU usage per request static file serving benchmark
+Alibaba Cloud CDN pricing tiers 2024 traffic volume 50TB 100TB
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2055659966803993498&rut=a63818a2a8f53de559a10cf03ab2046e70d3c4388b9b5e5e8fe11b2a011ef03a', 'type': 'ddg', 'title': '阿里云cdn价格表：不同地域流量费用（阶梯计费） - 知乎'}

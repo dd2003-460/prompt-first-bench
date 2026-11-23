@@ -1,30 +1,28 @@
-# N88: Cloudflare Enterprise带宽计费模式：按承诺带宽（Committed Bandwidth）计费，基础费 $1000/月 + 超出部分 $0.0
+# N27: 工作点 B（中性价比最优）：混合策略（5 个核心区域自建 POP + 长尾走公有云）下，P99 延迟 ≤ 200ms 时的每千请求成本（¥/1000 req）。
 
-- **status**: degraded
-- **level**: L3
+- **status**: pending
+- **level**: L2
 - **source**: search
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 1
-- **parent_ids**: N26
+- **parent_ids**: N6
 
 ## Claim
 
-Cloudflare Enterprise带宽计费模式：按承诺带宽（Committed Bandwidth）计费，基础费 $1000/月 + 超出部分 $0.05/GB，或按实际流量 $0.08-0.12/GB，取决于合同条款
+工作点 B（中性价比最优）：混合策略（5 个核心区域自建 POP + 长尾走公有云）下，P99 延迟 ≤ 200ms 时的每千请求成本（¥/1000 req）。
 
 ## Corrected Claim
 
-Cloudflare Enterprise带宽计费模式通常包含承诺带宽（Committed Bandwidth）选项，具体基础费及超额单价（如$0.05/GB等）需根据合同条款协商确定，非固定公开标准价。
+工作点 B（中性价比最优）：混合策略（5 个核心区域自建 POP + 长尾走公有云）下，P99 延迟 ≤ 200ms 时的每千请求成本（¥/1000 req）需根据具体云厂商报价及流量分布模型计算，当前缺乏具体数值支持。
 
 ## Evidence
 
-[质询]具体数值（$1000/月基础费、$0.05/GB、$0.08-0.12/GB）属于高度定制化的企业合同条款，并非公开固定的标准定价，极易因客户规模、谈判结果及合同年份不同而产生巨大差异，直接断言具体数值存在以偏概全的风险。 | 来源[2]确认了Cloudflare Enterprise套餐的存在及功能，但未提供具体带宽计费数值；来源[1]和[3]主要对比功能或提及计费模型，未直接支持具体的$1000/$0.05等数值。作为经验事实，逻辑自洽但缺乏直接来源支持具体金额。
+父节点级核验未通过：不完备（子节点覆盖了带宽、基础设施和运维成本，但遗漏了计算资源（CPU/内存）成本、软件许可/中间件成本以及自建部分的网络出口/回源成本，导致无法完整计算总成本；此外，P99延迟约束未转化为具体的资源配置参数（如服务器数量或规格），使得成本计算缺乏依据。）
 
 ## Search Query
 
-Cloudflare Enterprise CDN bandwidth pricing committed vs overage
+hybrid CDN self-built edge node core region cost optimization P99 latency
 
 ## Retrieval Sources
 
-- {'url': 'https://www.16idc.com/article-detail/cloudflare-free-vs-paid-plan&rut=27fcaefaa2121290bd97223271b015abfecf3803563ffa56df306be6369c0dd8', 'type': 'ddg', 'title': 'Cloudflare 免费版 vs 付费版：各套餐功能对比与选型建议 - 16IDC'}
-- {'url': 'https://www.cloudflare.com/plans/enterprise/externa/&rut=8cb289ba89147242661dabfbfa429bb29d9a833cd770d24ad1673e8bd12f8759', 'type': 'ddg', 'title': 'Enterprise solutions packages | Cloudflare'}
-- {'url': 'https://www.plumephp.com/cloudflare-pricing-guide/&rut=dfbef2d090f81b790f54b8b338e79f9fda10ccbaceb217a2fef5afed9c0038bf', 'type': 'ddg', 'title': 'Cloudflare 定价详解：Free / Pro / Business / Enterprise 四档拆解与成本优化'}
+- {'url': 'https://zhuanlan.zhihu.com/p/640171988&rut=63c4a50511aeafec2cf4538098dbec6c8c7211039a7e5fa3896ba2b50a1cb26a', 'type': 'ddg', 'title': '第五章 博弈论（2）：混合策略纳什均衡 - 知乎'}

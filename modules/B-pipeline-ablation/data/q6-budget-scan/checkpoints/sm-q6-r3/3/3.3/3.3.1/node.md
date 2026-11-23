@@ -1,20 +1,20 @@
-# N105: 回源带宽成本公式：C_origin_bw = V_download_total * R_origin * p_origin_bw，其中V_download_to
+# N73: 预留带宽模式下的峰值带宽需求 $B_{reserved}$ 计算：$B_{reserved} = B_{avg} \times K_{peak} \times 
 
 - **status**: pending
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N28
+- **parent_ids**: N16
 
 ## Claim
 
-回源带宽成本公式：C_origin_bw = V_download_total * R_origin * p_origin_bw，其中V_download_total为日均下载流量（2TB/天），p_origin_bw为回源带宽单价（自建骨干网约¥0.05-0.1/GB，公有云回源约¥0.2-0.5/GB）
+预留带宽模式下的峰值带宽需求 $B_{reserved}$ 计算：$B_{reserved} = B_{avg} \times K_{peak} \times (1 + M_{safety})$，其中 $B_{avg} = 2\text{TB}/86400\text{s} \approx 0.23\text{Gbps}$，$K_{peak} \in [1.5, 2.5]$，安全边际 $M_{safety}$ 通常取 10%-20% 以应对突发流量，故 $B_{reserved} \in [0.35, 0.7]\text{Gbps}$。
 
 ## Corrected Claim
 
-回源带宽成本公式：C_origin_bw = V_download_total * R_origin * p_origin_bw，其中V_download_total为日均下载流量（2TB/天），p_origin_bw为回源带宽单价（自建骨干网约¥0.05-0.1/GB，公有云回源约¥0.2-0.5/GB）
+预留带宽模式下的峰值带宽需求 $B_{reserved}$ 计算：$B_{reserved} = B_{avg} \times K_{peak} \times (1 + M_{safety})$，其中 $B_{avg} = 2\text{TB}/86400\text{s} \approx 0.23\text{Gbps}$，$K_{peak} \in [1.5, 2.5]$，安全边际 $M_{safety}$ 通常取 10%-20% 以应对突发流量，故 $B_{reserved} \in [0.35, 0.7]\text{Gbps}$。
 
 ## Evidence
 
-父节点级核验未通过：有冗余（子节点在逻辑上是正交的（不同命中率区间）且覆盖了父节点公式的主要变量场景，但存在严重的结构冗余。三个子节点本质上是同一公式 C = V * R * p * 30 在 R 取不同值时的线性计算结果，并未提供新的独立知识点或机制，而是重复了计算过程。）
+父节点级核验未通过：非正交, 不完备（1. 正交性不足：子节点2引入的 $K_{burst}$ 与父节点公式中的 $K_{peak}$ 概念高度重叠且定义冲突（父节点用小时/天级峰值，子节点用分钟/小时级），导致参数体系混乱；2. 完备性缺失：父节点核心是计算 $B_{reserved}$，但子节点3讨论的是“超售风险成本”，这属于后果评估而非计算过程，偏离了父节点主题；3. 逻辑断层：子节点1推导 $M_{safety}$ 合理，但子节点2试图修改 $K_{peak}$ 的定义而未明确其与父节点 $K_{peak}$ 的替换或叠加关系，导致公式无法闭环。）

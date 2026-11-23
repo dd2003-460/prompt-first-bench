@@ -1,20 +1,20 @@
-# N68: 峰值请求速率 Q_peak = Q_avg * PAR，其中 Q_avg = (2TB / 86400) / s_avg ≈ 3.6MB/s / s_avg（请
+# N164: 工作点1（平缓分布/低峰值）：峰值小时请求占比 15%，即峰值 QPS ≈ 2,193,000 * 0.15 / 3600 ≈ 91 QPS（基于基准 N_to
 
 - **status**: verified
-- **level**: L3
+- **level**: L4
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N21
+- **parent_ids**: N51
 
 ## Claim
 
-峰值请求速率 Q_peak = Q_avg * PAR，其中 Q_avg = (2TB / 86400) / s_avg ≈ 3.6MB/s / s_avg（请求/秒），PAR 通常取 3-5，需根据业务时间分布确定具体值
+工作点1（平缓分布/低峰值）：峰值小时请求占比 15%，即峰值 QPS ≈ 2,193,000 * 0.15 / 3600 ≈ 91 QPS（基于基准 N_total），此场景下公有云按峰值带宽计费的溢价系数最低，自建节点资源利用率最高。
 
 ## Corrected Claim
 
-峰值请求速率 Q_peak = Q_avg * PAR，其中 Q_avg = (2TB / 86400) / s_avg ≈ 3.6MB/s / s_avg（请求/秒），PAR 通常取 3-5，需根据业务时间分布确定具体值
+工作点1（平缓分布/低峰值）：峰值小时请求占比 15%，即峰值 QPS ≈ 2,193,000 * 0.15 / 3600 ≈ 91 QPS（基于基准 N_total），此场景下公有云按峰值带宽计费的溢价系数最低，自建节点资源利用率最高。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：单位换算正确（2TB/86400s ≈ 23.15MB/s，除以s_avg得到Q_avg），PAR定义及取值范围符合常规工程经验。
+先验知识/题面给定，逻辑校验通过：2,193,000 * 0.15 / 3600 = 91.375，数值计算准确，逻辑自洽。

@@ -1,20 +1,20 @@
-# N71: 缓存失效导致的额外P99延迟贡献 ΔT_cache_miss = (1-H) * (T_origin - T_hit)；若 H=0.845, T_origin=
+# N72: 电价 $P_{energy}$ 在中国大陆不同地区差异较小，商业用电价格约为 0.6-0.8 元/kWh；取中值 0.7 元/kWh，则单机柜月度电费为 $5 
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N17
+- **parent_ids**: N15
 
 ## Claim
 
-缓存失效导致的额外P99延迟贡献 ΔT_cache_miss = (1-H) * (T_origin - T_hit)；若 H=0.845, T_origin=200ms, T_hit=50ms，则 ΔT_cache_miss = 0.155 * 150ms = 23.25ms，需计入P99延迟预算。
+电价 $P_{energy}$ 在中国大陆不同地区差异较小，商业用电价格约为 0.6-0.8 元/kWh；取中值 0.7 元/kWh，则单机柜月度电费为 $5 \text{ kW} \times 720 \text{ h} \times 0.7 \text{ 元/kWh} = 2,520$ 元/月。
 
 ## Corrected Claim
 
-缓存失效导致的额外P99延迟贡献 ΔT_cache_miss = (1-H) * (T_origin - T_hit)；若 H=0.845, T_origin=200ms, T_hit=50ms，则 ΔT_cache_miss = 0.155 * 150ms = 23.25ms，需计入P99延迟预算。
+电价 $P_{energy}$ 在中国大陆不同地区差异较小，商业用电价格约为 0.6-0.8 元/kWh；取中值 0.7 元/kWh，则单机柜月度电费为 $5 \text{ kW} \times 720 \text{ h} \times 0.7 \text{ 元/kWh} = 2,520$ 元/月。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：公式 ΔT = (1-H)*(T_origin - T_hit) 符合缓存未命中惩罚的标准定义，数值计算 0.155 * 150 = 23.25 准确无误。
+先验知识/题面给定，逻辑校验通过

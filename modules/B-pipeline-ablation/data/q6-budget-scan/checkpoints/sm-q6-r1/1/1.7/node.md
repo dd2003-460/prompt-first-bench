@@ -1,4 +1,4 @@
-# N12: 缓存命中率对延迟的影响：P99延迟 = p_hit * t_cache + p_miss * (t_cache + t_origin)，其中 t_cache 为
+# N10: P99延迟 = RTT + 缓存未命中时的回源延迟 + 节点处理延迟，其中RTT = 2 * (用户到节点距离 / 光速) * 传播延迟系数，缓存未命中率 = 
 
 - **status**: verified
 - **level**: L2
@@ -9,11 +9,11 @@
 
 ## Claim
 
-缓存命中率对延迟的影响：P99延迟 = p_hit * t_cache + p_miss * (t_cache + t_origin)，其中 t_cache 为边缘缓存命中延迟（通常 < 5ms），p_hit 为缓存命中率
+P99延迟 = RTT + 缓存未命中时的回源延迟 + 节点处理延迟，其中RTT = 2 * (用户到节点距离 / 光速) * 传播延迟系数，缓存未命中率 = 1 - 缓存命中率，回源延迟 = 回源RTT + 源站处理时间。
 
 ## Corrected Claim
 
-缓存命中率对延迟的影响：P99延迟 = p_hit * t_cache + p_miss * (t_cache + t_origin)，其中 t_cache 为边缘缓存命中延迟（通常 < 5ms），p_hit 为缓存命中率
+P99延迟 = RTT + 缓存未命中时的回源延迟 + 节点处理延迟，其中RTT = 2 * (用户到节点距离 / 光速) * 传播延迟系数，缓存未命中率 = 1 - 缓存命中率，回源延迟 = 回源RTT + 源站处理时间。
 
 ## Evidence
 

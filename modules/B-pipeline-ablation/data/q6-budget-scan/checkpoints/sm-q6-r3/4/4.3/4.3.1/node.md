@@ -1,28 +1,20 @@
-# N63: 对象大小分布的 P50/P95 参数：图片 s_img_P50 ≈ 300KB, s_img_P95 ≈ 1.5MB；短视频 s_video_P50 ≈ 5MB
+# N161: 工作点1（高频小对象/高QPS）：基于 s_avg=750KB，日均请求量 N_total = 2TB / 750KB ≈ 2,933,000 次，此工作点下 
 
-- **status**: pending
-- **level**: L3
-- **source**: search
-- **edge_type**: cartesian
-- **rework_count**: 1
-- **parent_ids**: N20
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N50
 
 ## Claim
 
-对象大小分布的 P50/P95 参数：图片 s_img_P50 ≈ 300KB, s_img_P95 ≈ 1.5MB；短视频 s_video_P50 ≈ 5MB, s_video_P95 ≈ 25MB（需根据实际平台数据核验，此处为典型经验值）
+工作点1（高频小对象/高QPS）：基于 s_avg=750KB，日均请求量 N_total = 2TB / 750KB ≈ 2,933,000 次，此工作点下 CDN 请求次数计费模式（per-request pricing）成本最高，但对缓存命中率要求最宽松。
 
 ## Corrected Claim
 
-对象大小分布的 P50/P95 参数需根据实际平台数据确定，典型经验值可能为：图片 s_img_P50 ≈ 300KB, s_img_P95 ≈ 1.5MB；短视频 s_video_P50 ≈ 5MB, s_video_P95 ≈ 25MB（具体数值因平台、编码格式、分辨率等因素差异较大）
+工作点1（高频小对象/高QPS）：基于 s_avg=750KB，日均请求量 N_total = 2TB / 750KB ≈ 2,933,000 次，此工作点下 CDN 请求次数计费模式（per-request pricing）成本最高，但对缓存命中率要求最宽松。
 
 ## Evidence
 
-父节点级核验未通过：非正交, 不完备（1. 正交性违规：子节点2（图片偏度/比值）和子节点3（视频大小/比值）均包含了‘P95/P50比值’这一概念，且子节点3直接给出了视频的具体大小数值，与父节点中已列出的视频典型值（5MB/25MB）存在重叠和潜在矛盾（父节点P95 25MB vs 子节点3 P50 25MB）。2. 完备性缺失：父节点明确列出了图片和视频的具体P50/P95数值，但子节点中只有子节点3部分覆盖了视频大小，子节点1和2完全未解释图片的具体大小数值来源或验证方法，导致父节点的核心数据（图片300KB/1.5MB）在子节点中缺乏对应的支撑或分解逻辑。）
-
-## Search Query
-
-average image size web P50 P95 distribution short video file size distribution
-
-## Retrieval Sources
-
-- {'url': 'https://zhuanlan.zhihu.com/p/2090470641262770092&rut=83ea332e6b1a4987e790ff625ef4e44a48269e51effd7e1b8ec080686b090be2', 'type': 'ddg', 'title': '分位数（p50/p95/p99） 到底在讲什么? - 知乎'}
+先验知识/题面给定，逻辑校验通过：2TB / 750KB ≈ 2,933,000 次计算正确；高频小对象场景下，按请求计费（per-request）因请求次数多导致总费用高，且小对象易缓存，对命中率要求相对宽松（相比大对象或低频场景），逻辑自洽。

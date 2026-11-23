@@ -1,20 +1,20 @@
-# N324: 五险一金企业承担部分计算：C_social_insurance = C_base_salary * 0.4 = ¥350k * 0.4 = ¥140k/年，其中
+# N365: Zipf 参数 s 的实证取值：对于 C 端媒体平台，对象访问频率通常符合广义 Zipf 分布 $f(i) \propto i^{-s}$，其中 $s$ 通常在
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N102
+- **parent_ids**: N136
 
 ## Claim
 
-五险一金企业承担部分计算：C_social_insurance = C_base_salary * 0.4 = ¥350k * 0.4 = ¥140k/年，其中养老保险16%、医疗保险10%、失业保险0.8%、工伤保险0.4%、生育保险0.8%、住房公积金12%，合计约40%，该比例因城市而异，一线城市可能达45%
+Zipf 参数 s 的实证取值：对于 C 端媒体平台，对象访问频率通常符合广义 Zipf 分布 $f(i) \propto i^{-s}$，其中 $s$ 通常在 0.8-1.2 之间；若 $s=1.0$，则 $H(K) = \frac{\sum_{i=1}^{K} 1/i}{\sum_{i=1}^{N} 1/i} \approx \frac{\ln K}{\ln N}$（当 $K \ll N$ 时）。
 
 ## Corrected Claim
 
-五险一金企业承担部分计算：C_social_insurance = C_base_salary * 0.4 = ¥350k * 0.4 = ¥140k/年，其中养老保险16%、医疗保险10%、失业保险0.8%、工伤保险0.4%、生育保险0.8%、住房公积金12%，合计约40%，该比例因城市而异，一线城市可能达45%
+Zipf 参数 s 的实证取值：对于 C 端媒体平台，对象访问频率通常符合广义 Zipf 分布 $f(i) \propto i^{-s}$，其中 $s$ 通常在 0.8-1.2 之间；若 $s=1.0$，则 $H(K) = \frac{\sum_{i=1}^{K} 1/i}{\sum_{i=1}^{N} 1/i} \approx \frac{\ln K}{\ln N}$（当 $K \ll N$ 时）。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+先验知识/题面给定，逻辑校验通过：Zipf分布参数s在0.8-1.2之间符合常见实证研究结论；当s=1.0时，调和级数近似公式推导正确。

@@ -1,24 +1,20 @@
-# N178: HTTP/2 头部解析与压缩（HPACK）的 P99 延迟 T_http_parse_p99 ≈ T_decode_hpack + T_header_valid
+# N153: 工作点C（视频主导型）：$p_{img}=0.5, p_{vid}=0.5$，此时 $s_{avg} = 4.25 \text{ MB}$，$R_{daily}
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N52
+- **parent_ids**: N36
 
 ## Claim
 
-HTTP/2 头部解析与压缩（HPACK）的 P99 延迟 T_http_parse_p99 ≈ T_decode_hpack + T_header_validation，其中 T_decode_hpack ≈ 0.1-0.3ms（基于 Huffman 解码表查表），T_header_validation ≈ 0.1-0.5ms（依赖头部数量，通常 10-20 个字段），总 P99 < 1ms；若启用 Header Compression 动态表，需额外 0.05ms 内存访问开销。
+工作点C（视频主导型）：$p_{img}=0.5, p_{vid}=0.5$，此时 $s_{avg} = 4.25 \text{ MB}$，$R_{daily} \approx 470$ 万，单流传输时间 $T_{transfer}$ 显著增加，对P99延迟中的传输分量影响最大，需验证是否触发QoS阈值。
 
 ## Corrected Claim
 
-HTTP/2 头部解析与压缩（HPACK）的 P99 延迟 T_http_parse_p99 ≈ T_decode_hpack + T_header_validation，其中 T_decode_hpack ≈ 0.1-0.3ms（基于 Huffman 解码表查表），T_header_validation ≈ 0.1-0.5ms（依赖头部数量，通常 10-20 个字段），总 P99 < 1ms；若启用 Header Compression 动态表，需额外 0.05ms 内存访问开销。
+工作点C（视频主导型）：$p_{img}=0.5, p_{vid}=0.5$，此时 $s_{avg} = 4.25 \text{ MB}$，$R_{daily} \approx 470$ 万，单流传输时间 $T_{transfer}$ 显著增加，对P99延迟中的传输分量影响最大，需验证是否触发QoS阈值。
 
 ## Evidence
 
 先验知识/题面给定，逻辑校验通过
-
-## Search Query
-
-HTTP/2 HPACK header decoding latency milliseconds CPU cost

@@ -1,24 +1,24 @@
-# N157: HTTP 响应生成延迟 t_response 的具体数值取决于协议栈开销与对象头大小，对于 HTTP/1.1 协议，t_response ≈ 1-2ms；对于 
+# N118: SaaS方案（如Datadog）的月度成本 = (基础订阅费¥500/节点 * 10节点) + (数据摄入量>5GB/天的超额费用)，其中超额费用 = (实际日
 
-- **status**: degraded
+- **status**: verified
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: quotient
-- **rework_count**: 1
-- **parent_ids**: N48
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N34
 
 ## Claim
 
-HTTP 响应生成延迟 t_response 的具体数值取决于协议栈开销与对象头大小，对于 HTTP/1.1 协议，t_response ≈ 1-2ms；对于 HTTP/2 多路复用，t_response ≈ 0.5-1ms；需根据源站实际协议栈配置确定。
+SaaS方案（如Datadog）的月度成本 = (基础订阅费¥500/节点 * 10节点) + (数据摄入量>5GB/天的超额费用)，其中超额费用 = (实际日志量GB - 免费额度GB) * 单价(¥/GB)
 
 ## Corrected Claim
 
-HTTP 响应生成延迟 t_response 取决于协议栈开销、对象头大小及服务器处理逻辑。在典型高负载优化场景下，HTTP/1.1 与 HTTP/2 的生成延迟差异主要源于头部压缩与连接管理开销，具体数值需根据源站实际协议栈配置与负载情况实测确定，通常处于毫秒级量级。
+SaaS方案（如Datadog）的月度成本 = (基础订阅费¥500/节点 * 10节点) + (数据摄入量>5GB/天的超额费用)，其中超额费用 = (实际日志量GB - 免费额度GB) * 单价(¥/GB)
 
 ## Evidence
 
-[质询]数值量级过于具体且缺乏普适性：HTTP响应生成延迟受服务器负载、代码复杂度、序列化开销等影响极大，1-2ms与0.5-1ms的区分缺乏严谨基准，且HTTP/2多路复用主要优化网络传输而非服务器端生成逻辑，直接断言生成延迟减半存在因果混淆风险。 | 经验事实，逻辑自洽但缺来源支持（source=knowledge，无外部检索结果，具体毫秒级数值属于经验参数，无法从第一性原理严格推导，故降级）
+先验知识/题面给定，逻辑校验通过
 
 ## Search Query
 
-HTTP response generation latency overhead
+Datadog pricing log ingestion cost per GB 2024
