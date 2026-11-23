@@ -37,9 +37,9 @@ Three contributions:
 
 - **Metacognition in LLMs**: factual self-awareness is documented (arXiv:2505.21399); metacognitive myopia — monitoring present, control absent — is the open gap (arXiv:2408.05568). We provide a *measured* instance of this dissociation in a research pipeline, with the breakpoint located (repair loop, not monitoring).
 - **RSI / self-improvement**: greedy acceptance of single-run score gains misclassifies noise as progress (45.6% of accepts are degradations; statistical gates reduce to 2.8%, arXiv:2611.10787). Our budget scan is a controlled instance: more budget does not monotonically improve the score, so any self-improvement loop on this harness must use statistical gates.
-- **Budget/effort scaling in reasoning**: compute-optimal scaling (Kaplan; Chinchilla) fixes the task and varies scale; we fix the task *and* the model and vary the harness budget — the regime where scaling-law promises do not apply (no loss to optimize, metacognition is not a parametric capability).
+- **Budget/effort scaling in reasoning**: compute-optimal scaling (Kaplan, arXiv:2001.08361; Chinchilla, arXiv:2203.15556) fixes the task and varies scale; we fix the task *and* the model and vary the harness budget — the regime where scaling-law promises do not apply (no loss to optimize, metacognition is not a parametric capability).
 - **Self-preference bias in LLM judges**: LLMs systematically favor their own generations when acting as evaluators — established since arXiv:2404.13076 (Panickssery et al., 2024), quantified at scale on 20 models with an automated, human-gold-free framework (arXiv:2604.22891), and shown to persist even on fully objective rubric-based verdicts (arXiv:2604.06996), with self-recognition itself failing at near-chance (arXiv:2510.03399). Our depth axis is an instance of this bias (same model judges its own synthesis, §4.3 provenance); the coverage and conclusion layers are constructed to be *immune* (mechanical, no LLM in the scoring path), which is the paper's structural answer to a bias the literature documents but does not eliminate by construction.
-- **Deep-research benchmarks** (DREAM, DR-Bench, BrowseComp): assume tool access and measure end-to-end success; we isolate the harness under a no-weight-update constraint with a mechanical judge.
+- **Deep-research benchmarks** (DREAM, arXiv:2602.18940; DR-Bench, arXiv:2510.02190; BrowseComp, arXiv:2504.12516): assume tool access and measure end-to-end success; we isolate the harness under a no-weight-update constraint with a mechanical judge.
 
 ## 4. Findings
 
@@ -164,16 +164,21 @@ All metrics are deterministic functions of saved run JSONs; judge code, calibrat
 
 ## 9. References
 
-1. Bai, X., et al. (2025). Know Thyself? On the Incapability and Implications of AI Self-Recognition. arXiv:2510.03399.
-2. Gao, Z., et al. (2026). Trustworthy Recursive Self-Improvement with Statistical Guarantees. arXiv:2611.10787.
-3. He, Y., et al. (2026). Mechanistic Critics for Sample-Efficient NPU Design-Space Exploration. arXiv:2611.24733.
-4. Panickssery, A., et al. (2024). LLM Evaluators Recognize and Favor Their Own Generations. arXiv:2404.13076.
-5. Pombal, J., et al. (2026). Self-Preference Bias in Rubric-Based Evaluation of Large Language Models. arXiv:2604.06996.
-6. Scholten, F., et al. (2024). Metacognitive Myopia in Large Language Models. arXiv:2408.05568.
-7. Tamoyan, H., et al. (2025). Factual Self-Awareness in Language Models: Representation, Robustness, and Scaling. arXiv:2505.21399.
-8. Ton, J.-F., et al. (2024). Understanding Chain-of-Thought in LLMs through Information Theory. arXiv:2411.11984.
-9. Yang, J., et al. (2026). Quantifying and Mitigating Self-Preference Bias of LLM Judges. arXiv:2604.22891.
-10. Yuan, Z., et al. (2024). LLM Inference Unveiled: Survey and Roofline Model Insights. arXiv:2402.16363.
+1. Avraham, E. B., et al. (2026). DREAM: Deep Research Evaluation with Agentic Metrics. arXiv:2602.18940.
+2. Bai, X., et al. (2025). Know Thyself? On the Incapability and Implications of AI Self-Recognition. arXiv:2510.03399.
+3. Gao, Z., et al. (2026). Trustworthy Recursive Self-Improvement with Statistical Guarantees. arXiv:2611.10787.
+4. He, Y., et al. (2026). Mechanistic Critics for Sample-Efficient NPU Design-Space Exploration. arXiv:2611.24733.
+5. Hoffmann, J., et al. (2022). Training Compute-Optimal Large Language Models. arXiv:2203.15556.
+6. Kaplan, J., et al. (2020). Scaling Laws for Neural Language Models. arXiv:2001.08361.
+7. Panickssery, A., et al. (2024). LLM Evaluators Recognize and Favor Their Own Generations. arXiv:2404.13076.
+8. Pombal, J., et al. (2026). Self-Preference Bias in Rubric-Based Evaluation of Large Language Models. arXiv:2604.06996.
+9. Scholten, F., et al. (2024). Metacognitive Myopia in Large Language Models. arXiv:2408.05568.
+10. Tamoyan, H., et al. (2025). Factual Self-Awareness in Language Models: Representation, Robustness, and Scaling. arXiv:2505.21399.
+11. Ton, J.-F., et al. (2024). Understanding Chain-of-Thought in LLMs through Information Theory. arXiv:2411.11984.
+12. Wei, J., et al. (2025). BrowseComp: A Simple Yet Challenging Benchmark for Browsing Agents. arXiv:2504.12516.
+13. Yao, Y., et al. (2025). Dr. Bench: A Multidimensional Evaluation for Deep Research Agents. arXiv:2510.02190.
+14. Yang, J., et al. (2026). Quantifying and Mitigating Self-Preference Bias of LLM Judges. arXiv:2604.22891.
+15. Yuan, Z., et al. (2024). LLM Inference Unveiled: Survey and Roofline Model Insights. arXiv:2402.16363.
 
 ---
 
