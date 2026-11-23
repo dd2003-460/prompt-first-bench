@@ -1,0 +1,20 @@
+# N40: 对象大小 s 的分布参数：基于日均上传 200GB 和下载 2TB 的流量比，结合图片 s_img ≈ 1MB 和短视频 s_video ≈ 8MB 的行业基准
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+对象大小 s 的分布参数：基于日均上传 200GB 和下载 2TB 的流量比，结合图片 s_img ≈ 1MB 和短视频 s_video ≈ 8MB 的行业基准，需通过请求数加权平均计算 s_avg，且 P99 延迟计算应采用 P90 或 P95 对象大小而非均值以覆盖长尾大文件。
+
+## Corrected Claim
+
+对象大小 s 的分布参数：基于日均上传 200GB 和下载 2TB 的流量比，结合图片 s_img ≈ 1MB 和短视频 s_video ≈ 8MB 的行业基准，需通过请求数加权平均计算 s_avg，且 P99 延迟计算应采用 P90 或 P95 对象大小而非均值以覆盖长尾大文件。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于流量比和典型对象大小估算平均大小及采用高分位数覆盖长尾延迟符合系统设计常识。

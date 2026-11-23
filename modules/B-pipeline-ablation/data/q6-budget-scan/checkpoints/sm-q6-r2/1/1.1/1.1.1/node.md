@@ -1,0 +1,20 @@
+# N38: T_processing 在标准 C 端静态资源（图片/短视频）分发场景下的典型量级为 0.5-2ms（主要消耗在 TLS 握手缓存后的会话复用、HTTP 解析
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+T_processing 在标准 C 端静态资源（图片/短视频）分发场景下的典型量级为 0.5-2ms（主要消耗在 TLS 握手缓存后的会话复用、HTTP 解析及压缩/解压计算），若启用 QUIC 或高级图像格式转换则可能上升至 5-10ms。
+
+## Corrected Claim
+
+T_processing 在标准 C 端静态资源（图片/短视频）分发场景下的典型量级为 0.5-2ms（主要消耗在 TLS 握手缓存后的会话复用、HTTP 解析及压缩/解压计算），若启用 QUIC 或高级图像格式转换则可能上升至 5-10ms。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

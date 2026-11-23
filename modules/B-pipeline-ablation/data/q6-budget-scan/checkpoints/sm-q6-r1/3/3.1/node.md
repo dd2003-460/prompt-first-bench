@@ -1,0 +1,20 @@
+# N13: 公网出口带宽计费模式对比：按量计费成本 C_volume = B_used * P_per_GB，其中 B_used 为月度带宽用量（GB），P_per_GB 
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N3
+
+## Claim
+
+公网出口带宽计费模式对比：按量计费成本 C_volume = B_used * P_per_GB，其中 B_used 为月度带宽用量（GB），P_per_GB ≈ ¥0.5/GB（阿里云国内）；包月计费成本 C_monthly = B_peak * P_per_GB_monthly * 30，其中 B_peak 为峰值带宽（Gbps），P_per_GB_monthly ≈ ¥0.02/GB/月；95 峰值计费成本 C_95 = B_95 * P_per_GB_95 * 30，其中 B_95 为月度 95 分位带宽（Gbps），P_per_GB_95 ≈ ¥0.015/GB/月；假设 B_peak = 1Gbps，B_95 = 0.8Gbps，则 C_volume = 2TB * 1024 * 0.5 = ¥1,024,000/月，C_monthly = 1Gbps * 30 * 24 * 3600 * 0.02 = ¥51,840/月，C_95 = 0.8Gbps * 30 * 24 * 3600 * 0.015 = ¥38,880/月。
+
+## Corrected Claim
+
+公网出口带宽计费模式对比：按量计费成本 C_volume = B_used * P_per_GB，其中 B_used 为月度实际流出流量（GB），P_per_GB ≈ ¥0.5/GB；包月计费成本 C_monthly = B_peak * P_per_Mbps_monthly * 30，其中 B_peak 为峰值带宽（Mbps），P_per_Mbps_monthly 为每 Mbps 月租；95 峰值计费成本 C_95 = B_95 * P_per_Mbps_95 * 30，其中 B_95 为月度 95 分位带宽（Mbps）。具体成本取决于实际流量与带宽峰值的匹配度，需根据实际业务流量模型计算。
+
+## Evidence
+
+[质询]数值量级与单位混淆：1Gbps 带宽满跑一个月的数据量约为 3.24 PB (3,240 TB)，而非 2TB。若按 2TB 用量计算按量计费成本，隐含的平均带宽利用率极低（约 0.06%），这与通常对比“峰值带宽”场景下的假设不符；此外，阿里云公网出口按量计费通常基于实际流出流量（GB），而包月/95计费基于带宽峰值（Mbps/Gbps），两者直接对比需明确流量与带宽的转换关系，此处 2TB 的假设缺乏上下文支撑，导致 C_volume 数值可能严重偏离实际高带宽场景。 | 先验知识/题面给定，逻辑校验通过（公式结构正确，但具体参数如 2TB 用量与 1Gbps 峰值的对应关系存在经验性假设，且无外部来源支持具体价格数值，故降级为定性表述）

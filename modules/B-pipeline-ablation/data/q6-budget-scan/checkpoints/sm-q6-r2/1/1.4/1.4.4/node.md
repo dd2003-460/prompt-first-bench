@@ -1,0 +1,24 @@
+# N47: 单个POP点年租金 C_rent_per_pop = 机柜数量(4-8个) * 单柜月租(3000-5000元) * 12个月，取值范围为 14.4-48 万元
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N9
+
+## Claim
+
+单个POP点年租金 C_rent_per_pop = 机柜数量(4-8个) * 单柜月租(3000-5000元) * 12个月，取值范围为 14.4-48 万元/年 [时效待核]。
+
+## Corrected Claim
+
+单个POP点年租金 C_rent_per_pop = 机柜数量(4-8个) * 单柜月租(3000-5000元) * 12个月，取值范围为 14.4-48 万元/年 [时效待核]。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：4*3000*12=14.4万，8*5000*12=48万，计算无误且符合行业量级
+
+## Search Query
+
+colocation rack monthly cost china 2024

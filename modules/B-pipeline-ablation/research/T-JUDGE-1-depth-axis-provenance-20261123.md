@@ -967,11 +967,11 @@ per-layer source 组成 (30 树 8767 节点):
 |---|---|---|---|---|
 | L2 | 855 | 16 | 447 (52%) | 392 (46%) |
 | L3 | 2759 | 21 | 1775 (64%) | 953 (35%) |
-| L4 | 4230 | 37 | 2864 (77%) | 1327 (31%) |
+| L4 | 4230 | 37 | 2864 (68%) | 1327 (31%) |
 | L5 | 761 | 9 | 560 (74%) | 192 (25%) |
 
 ver% by source (不分层): given 32.7% / knowledge 74.4% / search 3.2% — 差 20 倍。
-knowledge 占比随深度升 (L2 52% → L4 77%), 且 prompt (prompts.py:169) 指示
+knowledge 占比随深度升 (L2 52% → L4 68%), 且 prompt (prompts.py:169) 指示
 "source=given/knowledge 的节点: 逻辑自洽即判 verified" — knowledge 节点被自动验证。
 
 ### source-mix 标准化 (固定 L2 的 source 组成, 重算每层 ver%)
@@ -1012,7 +1012,7 @@ obs 1 的 "deeper nodes verify more often, depth is not a verification cliff" �
 - 承重: 这是 §4.4 的 obs 1, 不是 4 个主 findings 之一, 但 obs 1 的 "depth is not a
   verification cliff" 被反向证据 (search ver% 下降) 推翻。
 
-**脚本**：`research/per-layer-anatomy-30trees.py`（2026-11-23 扩展 source-mix 段，复现 per-source ver% 32.7/74.4/3.2、标准化 42.6/41.0/41.9/42.3、within-source 三行全部对上。注: L4 knowledge 占比本脚本算 68% (2864/4230 含 given), 补充38 表写 77% — 分母口径差 (77% 疑为 knowledge/(knowledge+search) 排除 given), 不影响标准化结论 (标准化值逐位复现)。)
+**脚本**：`research/per-layer-anatomy-30trees.py`（2026-11-23 扩展 source-mix 段，复现 per-source ver% 32.7/74.4/3.2、标准化 42.6/41.0/41.9/42.3、within-source 三行全部对上。**勘误 (2026-11-23)**: 本表 L4 knowledge 占比原写 77% 是错的——任何口径都算不出 77% (k/tot=67.7%, k/(k+s)=68.3%, k/(k+g)=98.7%, 要 77% 需 tot=3719 但实际 4230)。正确值 68% (2864/4230)。已同步修正本表 + 正文 + draft §4.4 obs 1 (2 处)。**
 
 ## 补充39 (2026-11-23 17:50): verbosity bias 控制臂 — LLM depth 跟踪答案长度, 解锁 dead end
 

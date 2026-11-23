@@ -1,0 +1,20 @@
+# N10: CPU 选型与容量估算：单节点 CPU 核心数 N_cpu = 64 cores（Intel Xeon Gold 6348），单核处理能力 P_cpu = 10
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+CPU 选型与容量估算：单节点 CPU 核心数 N_cpu = 64 cores（Intel Xeon Gold 6348），单核处理能力 P_cpu = 1000 req/s/core（基于 Nginx 基准测试），则单节点最大 QPS = N_cpu * P_cpu = 64,000 req/s；考虑 70% 利用率上限，单节点设计 QPS = 64,000 * 0.7 = 44,800 req/s；10 个 POP 点总设计 QPS = 10 * 44,800 = 448,000 req/s，远大于峰值 138.9 req/s，CPU 不是瓶颈。
+
+## Corrected Claim
+
+CPU 选型与容量估算：单节点 CPU 核心数 N_cpu = 64 cores（Intel Xeon Gold 6348），单核处理能力 P_cpu = 1000 req/s/core（基于 Nginx 基准测试），则单节点最大 QPS = N_cpu * P_cpu = 64,000 req/s；考虑 70% 利用率上限，单节点设计 QPS = 64,000 * 0.7 = 44,800 req/s；10 个 POP 点总设计 QPS = 10 * 44,800 = 448,000 req/s，远大于峰值 138.9 req/s，CPU 不是瓶颈。
+
+## Evidence
+
+[质询]单核处理能力 P_cpu = 1000 req/s/core 是一个经验参数，不同硬件和软件配置下可能波动，但作为容量估算的基准假设，其量级（千级 QPS/核）在 Nginx 等高性能代理场景下是合理的，且最终结论（CPU 非瓶颈）对 P_cpu 的微小波动不敏感（即使 P_cpu 降至 100 req/s/core，总容量仍远大于峰值）。 | 先验知识/题面给定，逻辑校验通过：计算过程 64 * 1000 * 0.7 * 10 = 448,000 正确，且 448,000 >> 138.9，结论成立。

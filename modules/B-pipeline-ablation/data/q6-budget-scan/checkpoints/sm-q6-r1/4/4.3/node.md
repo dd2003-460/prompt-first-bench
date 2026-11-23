@@ -1,0 +1,24 @@
+# N18: 监控与部署软件许可费：自建需购买Zabbix/Prometheus企业版或商业APM（如Dynatrace），成本≈$500-2000/节点/月；公有云CDN包
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4, N5, N6
+
+## Claim
+
+监控与部署软件许可费：自建需购买Zabbix/Prometheus企业版或商业APM（如Dynatrace），成本≈$500-2000/节点/月；公有云CDN包含基础监控，高级APM需额外订阅（≈$200-500/月），差值ΔC_software = C_sw_self - C_sw_cloud
+
+## Corrected Claim
+
+监控与部署软件许可费：自建需购买Zabbix/Prometheus企业版或商业APM（如Dynatrace），成本≈$500-2000/节点/月；公有云CDN包含基础监控，高级APM需额外订阅（≈$200-500/月），差值ΔC_software = C_sw_self - C_sw_cloud
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+enterprise monitoring software cost per node Zabbix Dynatrace 2024

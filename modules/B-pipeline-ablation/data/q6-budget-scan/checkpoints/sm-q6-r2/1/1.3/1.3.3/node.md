@@ -1,0 +1,20 @@
+# N45: 并发连接数 c 与 Erlang C 模型的适用性：在 CDN 场景下，c 通常由 TCP 连接池大小或 HTTP/2 流数决定，典型值 c=100-500/用
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+并发连接数 c 与 Erlang C 模型的适用性：在 CDN 场景下，c 通常由 TCP 连接池大小或 HTTP/2 流数决定，典型值 c=100-500/用户；由于 M/M/c 假设泊松到达，而 CDN 流量具有自相似性，需使用 M/G/c 或离散事件仿真修正 T_queue 的 P99 估计，通常 M/M/c 会低估高负载下的排队延迟。
+
+## Corrected Claim
+
+并发连接数 c 与 Erlang C 模型的适用性：在 CDN 场景下，c 通常由 TCP 连接池大小或 HTTP/2 流数决定，典型值 c=100-500/用户；由于 M/M/c 假设泊松到达，而 CDN 流量具有自相似性，需使用 M/G/c 或离散事件仿真修正 T_queue 的 P99 估计，通常 M/M/c 会低估高负载下的排队延迟。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：CDN流量确实具有自相似性（长尾分布），M/M/c模型基于泊松到达假设，在高负载下确实会低估排队延迟，需使用M/G/c或仿真修正，符合排队论基本原理。

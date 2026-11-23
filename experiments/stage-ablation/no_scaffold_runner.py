@@ -81,12 +81,17 @@ def main():
     # 执行 SM 入口 (run_name='__main__' 触发 if __name__ 块)
     runpy.run_path(os.path.join(HERE, "s5_state_machine.py"), run_name="__main__")
 
-    # 跑完立刻 cp run json 到隔离目录 (rep-scan queue 的既有模式)
+    # 跑完立刻 cp run json 到隔离目录 (rep-scan queue 的既有模式), 然后恢复原文件
+    # (runs-s5-sm-{qid}.json 是 git 跟踪的原始数据, 不能被实验 run 覆盖 — 15:53 事故同类)
     if os.path.exists(run_json):
         import shutil, datetime
         ts = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
         shutil.copy2(run_json, os.path.join(out_root, f"runs-s5-sm-{qid}.{out_tag}.{ts}.json"))
         print(f"[no-scaffold] run json 已存档 → {out_root}/runs-s5-sm-{qid}.{out_tag}.{ts}.json", flush=True)
+        bak = os.path.join(out_root, f"runs-s5-sm-{qid}.pre-existing.bak.json")
+        if os.path.exists(bak):
+            shutil.copy2(bak, run_json)
+            print(f"[no-scaffold] 原 run json 已恢复 (git 跟踪文件保持原始内容)", flush=True)
 
 
 if __name__ == "__main__":

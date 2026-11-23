@@ -1,0 +1,20 @@
+# N14: 回源带宽占比与成本：回源带宽比例 R_origin = 1 - H_cache_global，其中 H_cache_global 为全局缓存命中率（假设 95%
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+回源带宽占比与成本：回源带宽比例 R_origin = 1 - H_cache_global，其中 H_cache_global 为全局缓存命中率（假设 95%），则 R_origin = 5%；日均回源流量 = 2TB * 5% = 100GB；回源带宽成本 C_origin = 100GB * P_origin_per_GB，其中 P_origin_per_GB ≈ ¥0.3/GB（阿里云回源流量），则 C_origin = ¥30/天 = ¥900/月；若自建节点回源走内网，则 C_origin_self = 0，节省 ¥900/月。
+
+## Corrected Claim
+
+回源带宽占比与成本：回源带宽比例 R_origin = 1 - H_cache_global，其中 H_cache_global 为全局缓存命中率（假设 95%），则 R_origin = 5%；日均回源流量 = 2TB * 5% = 100GB；回源带宽成本 C_origin = 100GB * P_origin_per_GB，其中 P_origin_per_GB ≈ ¥0.3/GB（阿里云回源流量），则 C_origin = ¥30/天 = ¥900/月；若自建节点回源走内网，则 C_origin_self = 0，节省 ¥900/月。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学推导（2TB * 5% = 100GB, 100GB * 0.3 = 30元）正确，阿里云回源流量单价约0.3元/GB符合市场常识，内网回源免费符合云厂商计费逻辑。

@@ -1,0 +1,28 @@
+# N21: 用户地理分布集中度：Top 10 省份/城市贡献的流量占比（%），决定自建 POP 点选址的覆盖率上限
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4, N5
+
+## Claim
+
+用户地理分布集中度：Top 10 省份/城市贡献的流量占比（%），决定自建 POP 点选址的覆盖率上限
+
+## Corrected Claim
+
+用户地理分布具有高度集中度，Top 10省份/城市贡献了主要流量占比，具体数值需参考埃文科技2025用户网络洞察报告原文。
+
+## Evidence
+
+[质询]来源摘要仅提及报告涵盖区域发展维度，未提供具体的Top 10省份/城市流量占比数值，无法直接验证具体百分比，属于经验事实且缺乏直接数据支持。 | 来源[1]相关但仅间接支持存在此类数据，未提供具体数值，符合经验事实排除条款，降级为定性表述。
+
+## Search Query
+
+China mobile internet user geographic distribution top 10 provinces traffic share 2024
+
+## Retrieval Sources
+
+- {'url': 'https://www.sohu.com/a/1008146727_121864805&rut=fb04cf59e59b87a350a144d1be57c6ec152ae1d3d249ff9c5d1e129d15d0b552', 'type': 'ddg', 'title': '2025用户网络洞察报告（2026.04.02）_应用_移动_设备 - 搜狐'}

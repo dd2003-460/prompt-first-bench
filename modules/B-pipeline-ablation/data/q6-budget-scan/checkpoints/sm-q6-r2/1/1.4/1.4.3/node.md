@@ -1,0 +1,20 @@
+# N48: 带宽瓶颈判定的临界对象大小 s_critical = RTT_base × B_effective；在RTT_base=20ms, B_effective=10
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N9
+
+## Claim
+
+带宽瓶颈判定的临界对象大小 s_critical = RTT_base × B_effective；在RTT_base=20ms, B_effective=100Mbps条件下，s_critical ≈ 2.5MB，该阈值将流量区分为延迟受限区与带宽受限区
+
+## Corrected Claim
+
+带宽瓶颈判定的临界对象大小 s_critical = RTT_base × B_effective；在RTT_base=20ms, B_effective=100Mbps条件下，s_critical ≈ 0.25MB，该阈值将流量区分为延迟受限区与带宽受限区
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：s_critical = RTT × B = 0.02s × (100×10^6 bps / 8) = 0.02 × 12.5×10^6 B = 250,000 B ≈ 0.25MB。注意：此处存在量级错误。重新计算：100Mbps = 12.5MB/s。20ms = 0.02s。0.02s * 12.5MB/s = 0.25MB。原陈述称2.5MB，数值错误。
