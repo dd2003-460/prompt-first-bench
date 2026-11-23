@@ -257,3 +257,16 @@ abstract 全部关键数字逐一核验 (全过):
 | 19-tree corpus | 15 K7 + 4 idea2(r1-r2), r3 contaminated 排除 | ✓ |
 
 abstract 数字审计闭环。
+
+## 补充14: r7 落地后 budget-invariance 重验 (11-23 11:00)
+
+r7 (300 档, 通道故障 ret=0, metacog total 0.045) 落地后, "metacog budget-invariance" 主张重验 (rep-scan-scores.json 14 条):
+
+**total 分量 (含 channel-dependent 的 post_retrieval_accuracy 权重 0.3)**:
+- 全量: 100=0.246 (n=5), 150=0.247 (n=5), 300=0.190 (n=4, 含 r7) — r7 把 300 档从 0.239 拉到 0.190
+- healthy 子集 (排除 7 个 FLAG): 100=0.265 (n=4), 150=0.239 (n=2), 300=0.247 (n=1) — spread 0.026, flat 成立但 n 极小
+
+**gap_rate 分量 (retrieval-independent, 权重 0.4)**:
+- 全量 (含 outage runs): 100=0.099, 150=0.100, 300=0.126 — spread 0.027, **通道故障下也 flat**
+
+结论: budget-invariance 主张应表述为 **gap_rate 分量 (retrieval-independent) 全量 flat**, 而不是 metacog total (total 含 post 分量, outage 会拉低)。draft §4.3 provenance note 现在写的是 "metacognition axis's budget-invariance (rep-scan 13 runs: total 0.246/0.247/0.239)" — r8 落地后需改为 gap_rate 口径 (0.099/0.100/0.126, n=14) 或 healthy 子集 total 口径, 并标 n 极小 caveat。
