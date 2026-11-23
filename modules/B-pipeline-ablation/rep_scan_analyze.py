@@ -17,25 +17,20 @@
 import sys, json, math, statistics, glob, os
 
 PFB = '/Users/a1-6/Desktop/workspace/pfb'
-K7 = f'{PFB}/modules/B-pipeline-ablation/data/t53b/results-budget-scan.json'
-REPS = f'{PFB}/modules/B-pipeline-ablation/data/rep-scan/rep-scan-scores.json'
+# era-matched 单一源: 28 棵全用 frozen judge 重算 (机械 depth)。
+# 旧源 results-budget-scan.json 的 K7 depth 是 LLM judge_v2_depth (self-biased),
+# 与 rep-scan 的机械 depth 混表会产生假 peak (见 T-JUDGE-1-depth-axis-provenance-20261123.md)。
+ERA = f'{PFB}/modules/B-pipeline-ablation/data/rep-scan/era-matched-28.json'
 
 
-def load_k7():
-    rows = []
-    for r in json.load(open(K7)):
-        rows.append({'budget': r['budget'], 'rep': r['rep'],
-                     'n_nodes': r['n_nodes'], 'depth': r['depth']})
-    return rows
-
-
-def load_reps():
-    if not os.path.exists(REPS):
+def load_era():
+    """era-matched 28 棵 (frozen judge 机械 depth)。r7/r8 落地后重算此文件再加。"""
+    if not os.path.exists(ERA):
         return []
     rows = []
-    for r in json.load(open(REPS)):
+    for r in json.load(open(ERA)):
         rows.append({'budget': r['budget'], 'rep': r['rep'],
-                     'n_nodes': r['n_nodes'], 'depth': r['judge']['depth']})
+                     'n_nodes': r['n_nodes'], 'depth': r['depth']})
     return rows
 
 
@@ -53,9 +48,8 @@ def welch_t(a, b):
 
 
 def main():
-    dry = '--dry' in sys.argv
-    rows = load_k7() + ([] if dry else load_reps())
-    src = 'K7-only (dry)' if dry else f'K7 + rep-scan ({len(rows)} rows)'
+    rows = load_era()
+    src = f'era-matched-28 (frozen judge, 机械 depth; {len(rows)} rows)'
     print(f'=== rep_scan 分析 · {src} ===\n')
 
     by_budget = {}
@@ -107,9 +101,6 @@ def main():
         print(f'\n=== 敏感性 (realized n_nodes) ===')
         print(f'depth ~ n_nodes 相关 r = {r_nodes:+.3f} (n={len(rows)})')
         print(f'解读: r 高 → depth 峰可能归因于 realized nodes 而非 budget 参数 (§4.3 caveat)。')
-
-    if dry:
-        print(f'\n[dry] rep-scan-scores.json 未落地/未读；rep 数据到齐后去掉 --dry 重跑。')
 
 
 if __name__ == '__main__':

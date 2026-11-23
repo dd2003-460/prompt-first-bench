@@ -176,3 +176,24 @@ rep-scan-scores.json 从未被队列写入（7h 静默）。
 | 19-tree corpus | 19 | source-verify.json 现 21 棵 (K7 15 + idea2 6); 19 = 15+4 (r1-r2, r3 contaminated 排除) | ✓ 口径确认 (r3 本就不该计入) |
 
 **55% 待 D 决策**: (a) 限定为 §4.4 那 18 棵 (表述过宽但数字没错) vs (b) 换全语料 42%。
+
+## 补充10: rep_scan_analyze.py era 混淆修复 + 机械轴真实形状 (11-23 10:45)
+
+**bug**: analyze 脚本 load_k7() 读 results-budget-scan.json 的旧 LLM depth (judge_v2_depth, self-biased), load_reps() 读 rep-scan 新机械 depth。两 era 混表 → 假 peak@150 (depth 0.6529, Welch p=0.119)。
+
+**fix**: 改为单一源 era-matched-28.json (28 棵全用 frozen judge 机械 depth 重算)。
+
+**机械轴真实形状** (28 棵, frozen judge):
+```
+ budget   n  depth_mean  sd      nodes_mean
+    50   3   0.6667    0.1155   234
+   100   8   0.6250    0.0707   154
+   150   8   0.7250    0.1035   262
+   300   6   0.8000    0.0000   380
+   719   3   0.9333    0.1155   598
+```
+- **无内部 peak**: 单调升, 3 级阶梯 (0.6/0.8/1.0) 在 300/719 饱和到 0.8/1.0。脚本 "peak 719" 是阶梯顶档, 非真 peak。
+- **depth~n_nodes r=+0.947** (n=28): 机械 depth 与树大小强混淆, 无法分离 budget 效应。
+- 结论: finding #3 的 peak@150 确证为 LLM judge 独有产物; 机械轴既无 peak 又与 n_nodes 混淆, 不能作为 budget 主张。robust 主张仍押 L4 zero-convergence + metacog budget-invariance + vsr 趋势。
+
+**r7/r8 落地后**: 重算 era-matched (加 2 棵) → 300 档 n=8, 719 档 n=5, 重跑 analyze 填 §4.3 最终表。
