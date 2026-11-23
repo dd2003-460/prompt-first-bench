@@ -346,3 +346,10 @@ CUR 口径逐 rep:
 - **解释学**: 落地判"持平"时不能直接写"cache 非主因"——可能是 n 不够。正确表述: "n=3 下未达 1.3×, 假设未获支持但未排除; 需 n≥5/档 或 bootstrap CI 才能定论"
 - **judge 轴 sd 对比有效**: 两批同用 GPU gold = 跨域噪声共模, sd 比值不受影响 (23:50 已验)
 - **metacog 轴最干净**: gold 无关, 是主判据
+
+### CACHE-HIT 率不是 rep 隔离的有效指标（23:40, 反直觉发现）
+- **观测**: 重跑批 300-r1 (Q6_REP=1 隔离) 命中率 14.4% (43/299) > 原批 300-r1 (共享) 8.9% (59/660) — 隔离批反而更高
+- **机制**: CACHE-HIT 混两类来源: (a) 跨实验预热命中 [仅原批可能, 吃 11-22 matched/T53 的 1741 文件] (b) run 内 rework 重查同 claim [两批都可能]。重跑批 key 含 rep:1 → 结构上不可能命中预热文件, 其 43 次全是 run 内 self-populated
+- **为何隔离批更高**: 实时搜索 degraded 率更高 → rework 更多 → 同 claim 重查更多 → run 内命中更多。是"检索质量差→rework 多"的副产物, 不是隔离失效
+- **隔离是否生效的正确判据 = 代码级保证**: cache key 含 rep:1 (research_hook.py:117 _REP_TAG) → 重跑批结构上无法命中预热 cache。CACHE-HIT 率对比是 apples-to-oranges, 不作隔离信号
+- **落地后看 rep 方差 (sd) 才是隔离的实证判据**, 不是命中率
