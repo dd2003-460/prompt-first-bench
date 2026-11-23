@@ -203,3 +203,13 @@ r3 落地：n=392（depth ceiling, final_state=rework），Q6 gold 重评 cov=0.
 - **17/17 年份匹配**（arXiv published 年份 vs draft 标注年份）
 
 结论：References 无伪造/幻觉引用。投稿就绪度"承重数字对账"维度新增一项通过——文献真实性（之前是盲区）。
+
+## relay 链下游就绪度核验（2026-11-24 04:00，nodepth 在飞期间）
+
+nodepth r1 在跑（03:40 启动），relay 链下游三个环节逐一核验，防落地后分析断：
+
+1. **nodepth 分析脚本**（q6_719_nodepth_analyze.py）：glob 路径 `q6-719-nd-r*.json` 正确，输出 data/q6-719-nodepth/q6-719-nodepth-analysis.json，前置 3 rep 落地。
+2. **Q7 gold**（gold-q7-units.json）：52 units（与脚本声称一致），字段与 Q6 完全一致（7 字段），kind 分布 split 10 / leaf 38 / None 4，depth 0-3 完整。
+3. **Q7 队列评分块**（q7_budget_scan_queue.sh :37-54）：用刚落地的 r3 json 实测——judge_run 4 key（n_nodes_raw/total_score/depth_score/coverage）+ compute_metacog 5 key（metacog_total/gap_rate/retrieval_rate/healthy_gap_rate/post_retrieval_accuracy）全部 OK，无 KeyError（之前 rerun 队列的 bug 在 Q7 不存在，评分块已显式传 Q7 gold_units）。
+
+结论：relay 链（nodepth → Q7）落地后分析工具链全就绪，无断点。
