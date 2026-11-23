@@ -287,3 +287,19 @@ Blocked 项 "source_verify cache bug: cache=0 on second run" 重验: 当前 cach
 - 加法分解必须自洽: "A+B+C = N" 逐项加起来要等于 N (104 ≠ 34+6+15)
 - 跨域总数 (104) 和域内数 (55 GPU / 49 nat+soc) 是两个口径, 不能互相填
 - 同一数字被改 2 次以上 = 双计/口径错红旗, 停手用数据验证再写
+
+## 补充17: r7 metacog 记录纠错 (11-23 11:25)
+
+**发现**: 用当前代码重算全部 14 条 rep-scan metacog, 13/14 与 scores 文件完全吻合, 仅 r7 不符——scores 记 total=0.045 (ret=0), 当前代码重算 total=0.2912 (ret=0.3119)。
+
+**根因**: r7 是用**写入中途的 329 节点快照**评的, 不是最终 311 节点 run json。证据:
+- 旧记录 gap=0.1125 → n_defensive/n_total=0.1125; 当前文件 37 个 defensive 节点 → 0.1125×n_total=37 → n_total=329 (旧); 0.119×311=37 (新)。
+- judge 侧 (era-matched) r7 = 311 节点, total=0.5944, 与最终 run json 一致 → 最终产物是 311 节点。
+- git 确认 retrieval_rate=n_search/n_total 自文件创建 (5465d6062, 11-22 22:23) 未变, 代码不是变量。
+- 13/14 完全吻合 → 当前代码权威, r7 记录是 mid-write 快照。
+
+**修正**: r7 metacog total 0.045→0.2912 (ret 0→0.3119, post 0→0.5, hg 0→0.9872)。已写入 scores 文件。
+
+**对 budget-invariance 的影响**: r7 修正后 300 档 metacog total = 0.2520 (n=4), 不再被拉低。**total 现在也是平的**: 100=0.2456 (n=5), 150=0.2465 (n=5), 300=0.2520 (n=4), spread 0.006。补充14 的结论 ("total 掉 0.190, 只能声明 gap_rate") 被推翻。
+
+**caveat (诚实边界)**: retrieval_rate=n_search/n_total 对通道故障**盲**——通道死时模型照样打 search 标签 (r7 标了 97 个, 只拿到 3 个 URL), 所以 outage run 的 total 平 partly 是度量盲点, 不是真"检索成功"。gap_rate (defensive/total) 才是构造上 retrieval-independent 的干净分量 (0.099/0.100/0.127, n=14)。draft 保留 gap_rate 为主声明, total 平作为修正后的补充事实。
