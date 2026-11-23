@@ -261,3 +261,18 @@ provenance 确认：K7 批用 new judge 重评（new_cov 字段），rep-scan �
 - rescore json 的 cov 值 multiset 与 archive 树 15 棵完全一致（逐档均值全等）→ rescore 评的确实是 archive 树，provenance note "tier means 不受 off-by-one 影响" 声明成立
 
 **结论**: draft 核心 claim（GPU cov ~300 饱和）的曲线值 + 形状 + 相关系数全部对账通过，池化口径已在 draft §4.3 provenance note 显式写明（n=3/8/8/8/3 + 池化公式 + 两批各自形状）。
+
+## §4.2 难度梯度 + §4.4 L4 数字审计（2026-11-24 04:25）
+
+**§4.2 难度梯度**（finding2-difficulty-gradient-cleaned.py + finding2-field-decomposition.py 重跑）：
+- 显著性模式完全复现: nat<soc ns (z=-1.82) / soc<gpu 显著 (z=-4.68) / nat<gpu 显著 (z=-4.87)
+- claim 字段值: nat 0.0162 ✓ / soc 0.0261 ✓ / gpu 0.0925 (draft 0.0921, 漂移 0.0004)
+- draft 的 claim-field z (−4.46/−4.68) 与 pooled-clean z (−4.68/−4.87) 量级差合理 (claim 字段率更低→z 略小), 方向显著性一致
+- gpu n 19→18: 83-run 语料快照漂移 (draft correction note 本就声明"从当前语料重算"), 非 draft 错误
+- 结论: 承重 claim (难度梯度 + 监控轴现象 + 显著性模式) 全部复现, 精确 z/n 随语料快照小幅漂移, 可接受
+
+**§4.4 L4 零收敛**（l4-zero-convergence.py 重跑）: 0/21 精确复现 ✓ (K7 15 + idea2 6, strict=0 全过)
+
+**§4.4 degeneration 5/5**: 独立数据集 (T-PUB-1 math benchmark), 检测器在 D1-generalization/scripts/degeneration_detector.py (非本项目), 补充观察非核心 finding, 未重跑 (低优先级)
+
+**数字审计全 draft 覆盖完成**: §4.1 (metacog 触发率, 前轮) + §4.2 (难度梯度, 本轮) + §4.3 (控制臂 9 统计量 + 核心曲线池化 + cor, 前轮) + §4.4 (L4 0/21, 本轮) + §7 (4 sd 值, 前轮) + 104 加法 + abstract 强度 + References 17/17。draft 全部承重数字已对数据源重算, 无实质漂移 (仅 §4.2 gpu n/z 随语料快照小幅漂移, 显著性模式不变)。
