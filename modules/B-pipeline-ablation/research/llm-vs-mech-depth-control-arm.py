@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
-"""Control arm: does the LLM depth judge measure objective depth?
+"""Control arm: does the LLM answer-depth axis track the mechanical tree-depth axis?
 
 Pairs each K7 budget-scan run's LLM depth score (judge_v2_depth, results-budget-scan.json)
 with its mechanical depth_score (judge_v1, judge-v1-budget-scan.json) on the SAME 15 runs.
 
-If the LLM judge measures real depth, its score should correlate with the mechanical depth.
-If it's self-bias / noise, it won't.
+SCOPE (read before citing): the two axes score DIFFERENT objects — the LLM scores the
+prose synthesis answer against a depth rubric; the mechanical layer scores the tree
+structure. So this correlation tests whether answer-depth tracks tree-depth, and it
+does not (r=+0.049, n=15, p~0.86). It does NOT prove the LLM "carries no depth signal"
+about the answer itself — only that the two axes are independent. Combined with the
+LLM axis showing no significant budget trend at n=3 (150-vs-plateau gap 0.9 run-sd),
+the 150 "peak" is best read as rubric noise on a flat, self-biased axis.
 
 承重数字规则: this is the stored computation for the §4.3 control-arm claim.
 Reproduce: python3 llm-vs-mech-depth-control-arm.py
