@@ -167,3 +167,45 @@ Q6 50 档 3 run search 占比: 10%/40%/22% (均值 24%), 仍低于 GPU 32.7%。
 **待办**: ① 给 Q6 域补防御性 pattern (无法验证/无法确认/未能核实/缺乏来源/无来源/未找到/存疑),
 重算 Q6 gap_rate 看真实值; ② 重做 A3 跨域比较 (域适配检测器); ③ 评估"无 LLM 检测器"
 定位是否要放宽 (LLM 判防御性 vs 域适配 regex 的取舍)
+
+**升级 (2026-11-23, 比 A3 跨域污染更严重): budget-invariance 非 detector-robust**
+脚本: research/gap-detector-domain-bias.py (固化, 复现下表)
+- 现用 8-pattern 检测器对 GPU 也漏检 ~75% (0.10→0.41), 不是只污染 Q6
+- 现用下 GPU gap 随 budget 平坦 (0.093/0.097/0.109) → 论文 finding "invariance"
+- 扩展下 GPU gap 随 budget **上升** (0.39/0.41/0.44) → invariance 不成立
+- Q6 扩展下: 50 档 0.36 → 100 档 0.21 → 150 档 0.22 (Q6 域内 budget 效应方向与 GPU 相反)
+- 扩展 pattern 命中已人工抽样验证为真防御措辞 (无法直接支持/缺乏直接来源支持/无法直接验证), 无误伤
+- compute_metacog 扫 claim+evidence+corrected_claim 三字段, 与复现口径一致
+
+**对论文的影响 (投稿级)**:
+1. 核心 finding "budget-invariance" (ANOVA F=0.036) 依赖现用闭集检测器, 扩展检测器下不成立
+2. 正确表述: gap_rate 是闭集 regex 的**域偏下界**, budget-invariance **非 detector-robust**
+3. draft §6 必须加 limitation: "gap_rate 基于闭集防御性标记检测器 (8 pattern), 对
+   未收录措辞系统性漏检 (GPU 漏检 ~75%, Q6 漏检 77-97%); budget-invariance 结论
+   在扩展检测器下不成立 (gap 随 budget 升), 故 invariance 是 detector-scoped 非
+   detector-robust"
+4. 这其实**强化**了论文"measurement + diagnosis"定位: 发现了一个 measurement 本身
+   的局限 (闭集检测器的域偏), 是元层面的诊断贡献
+5. 承重数字: ANOVA F=0.036 的 invariance 现在只能标 "detector-scoped (8-pattern)"
+   不能标 "confirmed invariance" — 降级为 suggestive + 带 detector caveat
+
+**再反转 (2026-11-23, 决定性检验, 推翻上一条"不 robust"的过度推断)**:
+字段分布分解显示扩展检测器新增命中 **87% 在 evidence 字段 (核验/修复阶段 b/c),
+只有 5% 在 claim 字段 (监控阶段 a)**。只算 claim 字段 (纯监控轴):
+- 现用: 0.0896/0.0902/0.0961 (100/150/300) — 平坦
+- 扩展: 0.1051/0.1062/0.1139 — **仍平坦**
+- claim 字段 ANOVA: F(2,12)=0.033 (扩展) vs 0.036 (现用) — 几乎相同
+**结论: budget-invariance 是 detector-robust 的 (监控轴 claim 字段, 两检测器都成立)**。
+我之前"不 robust"是把监控轴 (claim) 和核验阶段文本 (evidence) 混了 — 过度推断。
+
+**真正的新发现 (扩展检测器揭示, 监控轴之外的 budget 效应)**:
+- 核验阶段防御文本 (evidence 字段) 随 budget **上升**: 0.39/0.41/0.44 (100/150/300)
+- 含义: 更多 budget → 更多"来源不支持/无法验证"的核验文本 → 更多 degraded 节点
+- 与 vsr budget trend (−0.47)、search ver% 随深度降 (9.4→0.0%) 同向 —
+  breadth-not-depth 的又一个独立维度 (核验质量随 budget 降)
+- 这其实**强化**论文: 监控轴 (a) 是 budget-invariant 的 (模型"知道自己不知道"的
+  比率不随 budget 变), 但核验轴 (b/c) 随 budget 降 (更多 budget 搜到更难验证的来源)
+- 对 draft: line 146 (ii) "invariance 不受影响" 结论对, 但理由要改 —
+  不是"bias 跨 tier 恒定", 而是"监控轴 (claim 字段) 在扩展检测器下仍平坦 (F=0.033)";
+  并加新 finding: 核验阶段文本 (evidence) 随 budget 升 (0.39→0.44), 是 breadth-not-depth
+  的第 5 个独立维度
