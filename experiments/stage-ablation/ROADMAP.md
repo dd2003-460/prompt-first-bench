@@ -35,7 +35,7 @@ TCO 时间分解 = 背景引用（十年老题，不能当 novelty）。套磁�
 |---|---|---|---|
 | T53b matched 批 | SM 管线比裸跑好吗? | CLOSED | SM 胜 nat +0.131 p=0.016 / gpu +0.105 p=0.022 |
 | K6 merge 消融 | merge 是压缩瓶颈吗? | DONE | 否 (Δ=-0.013, A≈B) |
-| K7 预算扫描 | 预算-质量 Pareto 什么形状? | RUNNING 13/15 | 曲线 + 拐点 (k7_pareto.py 已就绪) |
+| K7 预算扫描 | 预算-质量 Pareto 什么形状? | DONE(11-24 池化) | cov 轴 ~300 节点饱和 + metacog 独立于预算 (k7-pareto-newjudge-20261124.md); Q7 跨题验证在 relay 链 |
 | T-JUDGE-1 | 怎么客观打分? | ACTIVE | embedding judge + 磁体检测 + LLM 兜底 (102 条待跑) |
 | gold 映射修复 | K7 的 gold 用对了吗? | DONE 3f5c713f7 | 旧 gold/Q1.md 是另一道题 (H100 SXM vs PCIe); 改挂 rubric-v3 37 节点树 + enriched sidecar, 覆盖 6/36→20/36 |
 | T-PR-17 | prompt 序列影响终态吗? | PENDING | 4 臂消融 (canonical/verify-off/null-control/verify-late) |
@@ -59,9 +59,10 @@ TCO 时间分解 = 背景引用（十年老题，不能当 novelty）。套磁�
 | `modules/IDEA-INDEX.md` | 统一 idea 池 (#1-50) |
 | `modules/B-pipeline-ablation/reports/t53b/anatomy-0.5184.md` | 0.5184 解剖报告 |
 
-## 当前阻塞与下一步
+## 当前阻塞与下一步（11-24 01:15 更新）
 
-1. K7 719_r2 在跑 (~1-2h) → 完成后: k7_pareto 全量 15 run + 质量轴声明
-2. K7 释放 vLLM → T-JUDGE-1 J4 兜底 102 条 (27b 二元裁决, ~15min)
-3. K7 释放 vLLM → T-PR-17 执行 (monkey-patch, 不碰 s5_state_machine.py)
-4. D 确认 Q9-agi 3 个 [待核验] (AGI 操作化/硬件边界/可靠性定义) → gold 扩树
+1. **Q6 重跑批在跑**（relay_v2 链，~02:00 完 300-r3）→ 完成后自动接 719 nodepth 批（3 rep, ~2.5h）→ Q7 扫描（15 runs, ~11h）。落地后：Q6 719 独立检索数据 + cache 对照 n=3 + cov 饱和点跨题验证
+2. **K7 主交付物已出**（k7-pareto-newjudge-20261124.md, commit 2133853d4）：cov 轴 ~300 节点饱和（池化 n=8），metacog 轴独立于预算（ρ≈0）——预算只控制覆盖度不控制元认知。待 Q7 落地后跨题确认
+3. T-JUDGE-1 J4 兜底 102 条（等 vLLM 释放）
+4. T-PR-17 执行（等 vLLM 释放，monkey-patch）
+5. D 确认 Q9-agi 3 个 [待核验]（AGI 操作化/硬件边界/可靠性定义）→ gold 扩树
