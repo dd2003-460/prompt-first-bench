@@ -830,3 +830,32 @@ detector 域偏倚**不削弱** budget 不变性结论, 反而强化它:
 - §4.3 provenance 加一句清洗对照 (gap_rate ANOVA F 0.036→0.003, invariance 更强)
 - 计算: 本条内联 (monkeypatch compute_metacog), 复现: 对 15 rep-scan run 跑
   compute_metacog 两次 (raw DEFENSIVE_RE / NO_UNCERTAIN)
+
+## 补充35 (2026-11-23 16:00): finding (4) 清洗后 3/3 仍成立 — 偏倚审计闭环
+
+### 动机
+
+DEFENSIVE_RE 偏倚 (补充32/33) 打中 finding (2) (跨域难度梯度, nat<soc 环 ns)。
+finding (4) 也用了 gap-marking rate 跨臂比较 ("checkpoint arm raises gap-marking
+rate, 3/3 reps")。必须验证清洗后是否仍成立。
+
+### 结果 (idea2 6 run, A=fresh / B=checkpoint)
+
+| rep | B_raw | A_raw | B>A raw | B_clean | A_clean | B>A clean |
+|-----|-------|-------|:-------:|---------|---------|:---------:|
+| r1 | 0.1397 | 0.0633 | ✓ | 0.1247 | 0.0443 | ✓ |
+| r2 | 0.1436 | 0.0660 | ✓ | 0.1338 | 0.0457 | ✓ |
+| r3 | 0.0995 | 0.0690 | ✓ | 0.0871 | 0.0598 | ✓ |
+
+**清洗后 3/3 仍 B > A** — finding (4) 的 gap-marking 声明对 DEFENSIVE_RE 偏倚稳健。
+
+### 偏倚审计闭环 (4 findings)
+
+| finding | 涉及跨域/跨臂 gap_rate? | 清洗后状态 |
+|---------|:----------------------:|-----------|
+| (1) monitoring present, repair absent | 否 (GPU 域内, 84% 分类 + 1.6-2.1% rework) | 不受影响 |
+| (2) gap difficulty gradient | **是** (跨域 nat/soc/gpu) | **降级** (nat<soc 环 ns, 补充33) |
+| (3) budget breadth-not-depth | 否 (GPU 域内, L4 0/21 + gap_rate ANOVA) | 不受影响 (ANOVA 反而更强, 补充34) |
+| (4) checkpoint trades cov for metacog | **是** (跨臂 A/B gap rate) | **稳健** (3/3 清洗后仍成立) |
+
+唯一被偏倚打中的是 finding (2), 已降级 (不删除, ordering + gpu 端显著仍成立)。
