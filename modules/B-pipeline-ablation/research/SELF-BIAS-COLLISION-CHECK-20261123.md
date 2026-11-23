@@ -33,3 +33,28 @@ arXiv 搜索页 (web_extract, 2026-11-23): 4 组查询, 命中 9+ 篇直接相�
 
 - workshop: 补引用 (现在做), 不动定位
 - D 的 idea: 降级为 future work / 独立小项目, 不并入 workshop (测量部分撞车太重, 可解释性部分需要 nat/soc 的 LLM judge 补跑 ~60 棵才能起步, 且撞车面需 arena 多轮对抗核验)
+
+## 补充 (2026-11-23 12:15): 可解释性端撞车核验 — 修正 novelty 评估
+
+### 查询 (3 组)
+
+1. "self-preference bias interpretability LLM" → 4 篇, 2 篇相关
+2. "LLM self-knowledge evaluation bias metacognition" → 2 篇, 1 篇相关
+3. "judge bias probe model self-awareness" → 0 篇
+
+### 可解释性端撞车
+
+| arXiv | 标题 | 做到哪一步 | 与我们窗口 |
+|---|---|---|---|
+| 2510.21723 | Recognizing internal states in AI: patterned preferences in LLMs (Hedberg) | paired-choice 范式, 12 LLM, 30 类内部状态描述识别 — **"偏好模式作为内部状态窗口"方向已占** | 操作化不同: 他们识别内部状态描述, 我们测评估偏袒↔信息缺口相关性 |
+| 2510.03399 | Know Thyself? AI Self-Recognition | self-recognition 失败 + hierarchical bias, 定位 metacognition | 我们接的是"评估偏袒"不是"文本识别" |
+| 2604.07506 | ReflectRM (GRM self-reflection) | reward model 自反思, 无关 | — |
+
+### 修正结论 (conf 0.7 → 0.4)
+
+- 两端都有邻接工作, 剩余窗口比初判窄
+- 未被占的具体组合: **gold-conditioned 研究树上的评估偏袒差值 (LLM judge − 机械 judge) 作为信息状态探针**
+  - 测量端: gold 树差值法 ≠ 2604.22891 等质量对法
+  - 可解释性端: "偏袒模式 ↔ 信息缺口模式相关性" ≠ 2510.21723 paired-choice 内部状态识别
+- 验证成本: nat/soc LLM judge 补跑 ~60 棵 (~2h vLLM) + 相关性分析 + arena 对抗核验
+- **建议: 不立 goal, 记为 future-work 候选** — 窗口太窄, 撞车面未做对抗核验, 且 workshop 主线 (1-22 截止) 优先
