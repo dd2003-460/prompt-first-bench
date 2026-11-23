@@ -1012,7 +1012,8 @@ obs 1 的 "deeper nodes verify more often, depth is not a verification cliff" �
 - 承重: 这是 §4.4 的 obs 1, 不是 4 个主 findings 之一, 但 obs 1 的 "depth is not a
   verification cliff" 被反向证据 (search ver% 下降) 推翻。
 
-**脚本**：`research/per-layer-anatomy-30trees.py`（2026-11-23 扩展 source-mix 段，复现 per-source ver% 32.7/74.4/3.2、标准化 42.6/41.0/41.9/42.3、within-source 三行全部对上。**勘误 (2026-11-23)**: 本表 L4 knowledge 占比原写 77% 是错的——任何口径都算不出 77% (k/tot=67.7%, k/(k+s)=68.3%, k/(k+g)=98.7%, 要 77% 需 tot=3719 但实际 4230)。正确值 68% (2864/4230)。已同步修正本表 + 正文 + draft §4.4 obs 1 (2 处)。**
+**脚本**：`research/per-layer-anatomy-30trees.py`（2026-11-23 扩展 source-mix 段，复现 per-source ver% 32.7/74.4/3.2、标准化 42.6/41.0/41.9/42.3、within-source 三行全部对上。**scope 注 (2026-11-23)**: source 字段有第四值 `derived` (30 树 8767 节点中 12 个, 0.14%) — per-source 段 (32.7/74.4/3.2) 只算 given/knowledge/search 三类, derived 被排除; aggregate ver% (42.6/48.1/52.7/58.2) 含 derived。影响 0.1% 级, 不改变结论, 但 metacog 轴 retrieval_rate 的分母 (total) 含 derived, 分子 (search) 不含 — 口径一致 (derived 不是 search)。derived 节点全是 L3-L4 的公式/计算类 claim (W4 量化元数据显存、TCO 分解、价格敏感性等), 是模型自推而非检索/先验。
+**勘误 (2026-11-23)**: 本表 L4 knowledge 占比原写 77% 是错的——任何口径都算不出 77% (k/tot=67.7%, k/(k+s)=68.3%, k/(k+g)=98.7%, 要 77% 需 tot=3719 但实际 4230)。正确值 68% (2864/4230)。已同步修正本表 + 正文 + draft §4.4 obs 1 (2 处)。**
 
 ## 补充39 (2026-11-23 17:50): verbosity bias 控制臂 — LLM depth 跟踪答案长度, 解锁 dead end
 
