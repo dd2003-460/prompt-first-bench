@@ -744,3 +744,53 @@ SOC 域 42% 的"缺口"是技术术语 — gap_rate 指标在社科域被系统�
 
 - 计算脚本: `research/defensive-re-domain-bias.py` (承重数字规则, 可复现)
 - 清洗口径: NO_UNCERTAIN 正则 (DEFENSIVE_RE 去掉"不确定")
+
+## 补充33 (2026-11-23 15:10): finding (2) 生死检验 — 清洗后 nat<soc 不显著, abstract 必须降级
+
+### 背景
+
+Abstract finding (2) (唯一跨域 finding) 声明: "the defensive-marking rate rises
+monotonically with question difficulty (nat 0.025 < soc 0.056 < gpu 0.119,
+era-matched, all pairwise p<0.001), the signature of calibrated uncertainty
+monitoring." 这是基于原始 DEFENSIVE_RE 的跨域 gap_rate 水平比较。
+
+补充32 证明 DEFENSIVE_RE 在 SOC 域 42% 命中是数学 uncertainty 技术术语。本条
+用清洗口径 (NO_UNCERTAIN) 按 run 重算 era-matched (sm-era, Nov20-21, budget=150)
+的跨域 Mann-Whitney。
+
+### 结果 (run 级, 清洗口径, n_runs=21/26/18)
+
+| 域 | n_runs | raw gap_rate | clean gap_rate |
+|----|--------|--------------|----------------|
+| nat | 21 | 0.0243 | 0.0181 |
+| soc | 26 | 0.0572 | 0.0298 |
+| gpu | 18 | 0.1176 | 0.0999 |
+
+Mann-Whitney (清洗):
+- nat vs soc: z=-1.82 **ns** (原 p=0.0003 由技术术语驱动)
+- soc vs gpu: z=-4.68 显著
+- nat vs gpu: z=-4.87 显著
+
+### 结论
+
+数值顺序 nat < soc < gpu 保持, 但 "monotonically, all pairwise p<0.001" 不成立:
+nat<soc 这一环在清洗后不显著。finding (2) 必须降级为:
+"increases with question difficulty (ordering nat < soc < gpu holds; the two
+comparisons against the hardest domain are significant, soc<gpu and nat<gpu
+p<0.01; the nat<soc step is ns after removing the detector's domain-specific
+inflation by the uncertainty term)".
+
+### 落文
+
+- abstract finding (2) 降级 (raw 0.025/0.056/0.119 保留但标注 raw detector; 加
+  清洗后 ordering 保持 + nat<soc ns 的限定)
+- §4.2 表加清洗列 + correction 注
+- §4.2 honest boundaries 加清洗 caveat
+- §6 域偏倚 limitation 已含 (补充32)
+- 计算脚本: `research/finding2-difficulty-gradient-cleaned.py`
+
+### 影响评估
+
+finding (2) 从"4 个 findings 之一 (唯一跨域)"降级为"跨域 ordering 保持但
+nat<soc 环不显著"。不删除 (ordering + gpu 端显著仍成立), 但强度下降。这是
+诚实口径, 不是过强声明。
