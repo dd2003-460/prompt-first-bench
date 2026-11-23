@@ -6,8 +6,10 @@
 #   ① Q6_REP=$rep → cache key 含 rep → rep 间 source 独立 (Q6 原批 cache 共享压低方差)
 #   ② /usr/bin/python3 绝对路径 (后台 PATH 缺 sentence_transformers, 4e9c175db 坑)
 #   ③ 评分 stderr 落盘 (Q6 原批 2>/dev/null 吞异常, 719-r1 静默失败)
-# 输出: $OUT 独立目录, 评分写 $OUT/q7-scan-scores.json (judge 默认 gpu gold = 跨域口径;
-#       域内口径用 judge_v1 --gold-units data/gold-q7-units.json 后评)
+# 输出: $OUT 独立目录, 评分写 $OUT/q7-scan-scores.json
+# !! 2026-11-24 澄清 (Q6 36/46-unit bug 同源排查): 评分实际用 Q7 in-domain gold (52 units,
+#    见下方 judge_run(f, gold_units=_gu), _gu=gold-q7-units.json), 不是 gpu gold。
+#    旧注释"默认 gpu gold = 跨域口径"与代码不符, 已修正 — 跨域口径需另跑 judge_v1 --gold-units gold-gpu-units.json。
 set -u
 cd /Users/a1-6/Desktop/workspace/pfb/experiments/stage-ablation
 QFILE=/Users/a1-6/Desktop/workspace/pfb/bench/questions/Q7-storage-arch.txt
