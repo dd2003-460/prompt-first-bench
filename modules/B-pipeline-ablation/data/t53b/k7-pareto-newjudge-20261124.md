@@ -481,3 +481,12 @@ q7_full_analysis.py 在 11h 长杆 (15 runs) 落地前 dry-run 验证:
 - 假文件已删, SCAN 目录空, 空目录时脚本干净退出 (exit 0, 无残留 json)
 - 队列脚本核验: cache 隔离 ✓ (line 30 Q6_REP=$rep), gold 标度 ✓ (line 46 gold-q7-units.json 52-unit in-domain, judge_run 现算), 无 Q6 式混用
 结论: 11h 落地后分析不会报废。
+
+## 扰动测试全结果 (2026-11-24 06:02, judge-perturbation-20261124.json 最终版, 0.70 基线)
+
+- 基线: mean cov 0.3185 (sd 0.0926, 15 树)
+- A 段 (gold 删 10% × 5 seeds): max|Δ| = 0.0215 < 1×sd → 对 gold 构建不敏感
+- B 段 (阈值 0.65/0.75/0.80/0.85): max|Δ| = 0.3185 = 3.4×sd; 0.85 → cov 0.0000 完全塌 → 阈值是承重超参
+- C 段 (cor 在 gold 扰动下): 0.6011 → 0.6413 (Δ+0.040) → 形状结论对 gold 扰动 robust
+- 综合: 威胁客观性的不是 gold 构建 (1/4 噪声底), 是阈值 (3.4× 噪声底 + 悬崖形状)
+- draft §6 已更新为最终结论 (删 "is running; first pass void" 过时句)
