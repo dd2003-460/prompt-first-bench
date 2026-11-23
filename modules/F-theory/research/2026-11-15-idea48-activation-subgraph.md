@@ -108,6 +108,23 @@ E_cross 是内部概念与外部证据之间的耦合边。
 (无检索分解树节点数 ≈ 激活子图节点数), (b) 预测 2 的耦合覆盖率-bench 分数相关性。
 两者都可用现有 T53 数据 + bge-m3 probing 做, 不依赖新 GPU 实验。
 
+## 预测 2 实证 (2026-11-23, GPU 域, 固化: idea48-pred2-coupling-depth.py)
+
+- 口径: 耦合覆盖率 cc = verified/(verified+degraded+pending) (status 字段,
+  verified=强耦合 c=1.0, degraded=弱耦合 c=0.5, pending=未耦合);
+  depth = parent_ids 构树最大深度 (level 字段全为 1 不可用);
+  corpus = budget-* + rep-scan 去重, >=20 nodes, n=30 trees (GPU 单域)。
+- 结果: r(cc, depth) = 0.738 (零阶, t=5.78, df=28, p<0.001);
+  **偏相关 r(cc, depth | n_nodes) = 0.806 (t=7.07, df=27)** — 控制节点数后更强。
+- 排除混杂: r(depth, n_nodes)=0.867 (depth 与节点数强相关, 是潜在混杂),
+  但偏相关 0.806 > 零阶 0.738 → cc~depth 关系**非**节点数代理, 是真实关联。
+- 含义: 树越深 (探索越深入), verified 占比越高 — 深层节点更多成功耦合到
+  内部知识 (verify 通过), 与 #48 "耦合深度=质量指标" 的声明一致。
+- 局限: ① 单域 (GPU), 跨域待 Q6 全曲线 ② depth 是机械 3-level step 的
+  连续版 (parent_ids 深度), 非 LLM judge ③ n=30, 偏相关 t=7 强但样本单域。
+- 对发表: 预测 2 在 GPU 域**成立** (强相关+混杂排除), 是 #48 的第一个实证支柱;
+  预测 1 (probing) 仍是主要缺口。
+
 ## 与 #32（压缩即智能）的关系
 
 #32 说分解树是好的压缩形式（MDL 路线）。#48 补充了**为什么**分解树是好的压缩形式：
