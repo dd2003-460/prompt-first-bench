@@ -226,6 +226,18 @@ Q6 claim 字段 (监控轴) gap_rate: 50 档 0.0733, 100 档 0.0033, 150 档 0.0
 - 待队列跑完补 300/719 档看是否饱和 (GPU 在 ~300 节点饱和)
 - 评分块队列内静默失败 (python3 - heredoc stdin 被 SM 2>&1 影响), 已用 q6_rescore.py 补 8/8
 
+**B4 域特异性 cov 分档验证 (2026-11-23, 9 run, b4_cov_only.py)**
+- 域内 cov (Q6 runs × Q6 gold): 50 档 0.058 → 100 档 0.0725 → 150 档 0.087, **单调升**
+- 跨域 cov (Q6 runs × GPU gold): **0.0000 全档** (Q6 对 GPU gold 零覆盖)
+- diff 一致为正 (+0.058~+0.087)
+- 结论: ① 域内 cov 复现 budget 响应 (升) → judge 轴 budget 响应是 general 的
+  ② 跨域 cov 归零 → gold 域特异性, cov 绝对值不可跨域比
+- 与 metacog 轴域偏对照: judge cov 跨域**直接归零** (彻底域特异), metacog pooled
+  跨域是**水平偏移** (域偏 1.7x 但非零) — 两轴域特异性程度不同
+- 注: b4_cross_domain_judge.py (完整版含 LLM depth) 超时 (bge-m3 CPU 加载慢),
+  b4_cov_only.py 只算 cov 层 (机械匹配, 快) — 域特异性核心在 cov, depth 轴已用
+  队列 scores 验证 (0.305→0.338→0.414)
+
 **Finding (2) 难度梯度的字段分解 (2026-11-23, 强化论文)**
 脚本: research/finding2-field-decomposition.py (固化, 复现下表)
 口径: 与 finding2-difficulty-gradient-cleaned.py 完全一致 (sm-era, node.json 递归,
