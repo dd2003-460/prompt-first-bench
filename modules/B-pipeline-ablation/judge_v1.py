@@ -131,9 +131,16 @@ def layer_structure(nodes):
     # 标定(2026-11-22): node_score 饱和(模型 100+ 节点 vs gold 37 → 全 1.0, 无区分度)
     # 结构轴 = depth 归一(有区分度); node_score 只作诊断
     score = depth_score
+    # 诊断(2026-11-23, D 质疑 max_depth 量化分辨率): 节点数加权平均深度归一化。
+    # max_depth 是整数 → depth_score 只有 0.2 步长(实际 3 档); mean_depth 连续(29 树 24 档)。
+    # 不进 score(冻结口径不变), 只作诊断字段。
+    mean_depth = sum(depths) / len(depths)
+    mean_depth_score = min(mean_depth / GOLD_DEPTH, 1.0)
     return score, {"depth": max_depth, "nodes": len(ded), "branching": branching,
                    "dedup": n_dup, "depth_score": round(depth_score, 3),
-                   "node_score_sat": round(node_score, 3)}
+                   "node_score_sat": round(node_score, 3),
+                   "mean_depth": round(mean_depth, 3),
+                   "mean_depth_score": round(mean_depth_score, 3)}
 
 
 def layer_coverage(nodes, gold_units, model, cos_threshold=COS_THRESHOLD):
