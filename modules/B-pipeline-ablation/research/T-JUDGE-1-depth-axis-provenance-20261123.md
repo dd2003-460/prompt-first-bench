@@ -1041,3 +1041,67 @@ LLM depth 分跟踪答案**长度**, 不是预算。150 档 "peak" (0.474/0.518)
 - robust claim 不变: peak 在 bias-immune 机械轴上不存在 (0/21 L4 + 3-level step)。
 - 承重脚本: `research/verbosity-bias-control-arm.py` (numpy 独立复现)。
 - 第 3 个控制臂 (前两个: llm-vs-mech r=+0.049 对象独立; verbosity r=+0.648 长度驱动)。
+
+---
+
+## 补充40 — (a)→(b) 触发链存在（prompt-elicited），纠正补充29/31/36 的"不存在"结论
+
+**时间**：2026-11-23 15:20
+**类型**：重大纠正（推翻补充29/31/36 的核心结论）
+**触发**：stop_hook 续推，claim vs evidence 字段分离
+
+### 发现
+
+之前（补充29/31/36）把 DEFENSIVE_RE 命中当整体信号，得出"(a)→(b) 触发链不存在，方向是 (b)→(a)"。**这是错的**——混淆了 decompose 时（检索前）写的 claim 和 verify 时（检索后）写的 evidence。
+
+字段分离后：
+- **claim 里的缺口标记**（decompose 时写，检索前）= (a) 信号
+- **evidence 里的缺口标记**（verify 时写，检索后）= (b)→(a) 批判信号
+
+GPU rep-scan 3849 节点：
+- claim 有防御性语言：349（9.1%）
+- evidence 有防御性语言：65（1.7%）
+- corrected_claim 有：109（2.8%）
+
+**claim 缺口标记 vs search_query 非空**（真正的 (a)→(b) 触发器，decompose 时生成）：
+
+| 域 | claim缺口 | 有search_query | 无缺口有query | z |
+|---|---|---|---|---|
+| GPU | 349 | 79% | 44% | +12.47 |
+| NAT | 98 | 64% | 23% | +9.40 |
+| SOC | 430 | 67% | 49% | +7.23 |
+
+三域全显著（p<0.001）。claim 缺口标记的节点更可能生成 search_query（检索触发器）。
+
+**排除混杂**（prompt 指示 vs 自发）：
+- `[待核验]`（prompt 指示，prompts.py:78/312）：n=319，search_query 率=**84%**
+- 其余 7 词（自发）：n=30，search_query 率=**23%**
+
+### 结论（纠正）
+
+**(a)→(b) 触发链存在**，但是 **prompt-elicited**：
+1. 模型 decompose 时标 `[待核验]`（prompt 指示）→ 84% 生成 search_query → 检索
+2. 自发的缺口标记（其余 7 词）只有 23% 触发检索，和 baseline 差不多
+3. 所以"自我认识"是 prompt-elicited 的，不是自发的
+
+这比"触发链不存在"更准确：
+- (a) monitoring 存在（prompt-elicited 形式）
+- (a)→(b) 触发链存在（prompt-elicited 形式，[待核验] 84% 触发检索）
+- 自发的监控基本不触发检索
+- (b)→(a) 检索后批判也存在，但很弱（evidence 里只有 1.7% 节点）
+
+### 对 D 的问题"所以这个实现了吗"的纠正回答
+
+**AGI 的 (a)→(b) 触发链实现了**（在 prompt-elicited 形式下）：
+- (a) 知道自己不知道：prompt-elicited（[待核验] 标签）
+- (a)→(b) 触发：[待核验] 84% 生成 search_query
+- (b) 去查：search_query 驱动检索
+- 闭环存在，但 (a) 是被 prompt 提示的，不是自发的
+
+### 时序确认
+
+s5_state_machine.py line 590/593：模型在 decompose 时一次性写 claim + source + search_query（检索词），之后才执行检索、verify 写 evidence。所以 claim 里的缺口标记确实是检索前写的。
+
+### 脚本
+
+`modules/B-pipeline-ablation/research/claim-evidence-separation.py`（新建）
