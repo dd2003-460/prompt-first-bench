@@ -1,19 +1,19 @@
-# N74: 缓存容量不足时的命中率衰减模型：H_actual = H_ideal * (1 - e^(-C_match * k_decay))，其中 k_decay 为衰减
+# N91: 自建 10 个 POP 点的 年度 人力 总成本 = FTE 数量 × 人均 年薪 = 3 FTE × 35 万元/年 = 105 万元/年；若采用 外包 运维
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N22
+- **parent_ids**: N22, N23, N24
 
 ## Claim
 
-缓存容量不足时的命中率衰减模型：H_actual = H_ideal * (1 - e^(-C_match * k_decay))，其中 k_decay 为衰减系数（通常 0.5-1.5）
+自建 10 个 POP 点的 年度 人力 总成本 = FTE 数量 × 人均 年薪 = 3 FTE × 35 万元/年 = 105 万元/年；若采用 外包 运维，则 年度 总成本 = 3 FTE × 35 万元/年 × 1.5（外包溢价）= 157.5 万元/年。
 
 ## Corrected Claim
 
-缓存容量不足时的命中率衰减模型：H_actual = H_ideal * (1 - e^(-C_match * k_decay))，其中 k_decay 为衰减系数（通常 0.5-1.5）
+自建 10 个 POP 点的 年度 人力 总成本 = FTE 数量 × 人均 年薪 = 3 FTE × 35 万元/年 = 105 万元/年；若采用 外包 运维，则 年度 总成本 = 3 FTE × 35 万元/年 × 1.5（外包溢价）= 157.5 万元/年。
 
 ## Evidence
 

@@ -1,28 +1,20 @@
-# N82: 预留实例（Reserved Instances）或 Savings Plans 的适用性：公有云 CDN 通常不按实例计费，因此 '预留实例' 概念主要适用于底
+# N62: 自建 POP 场景下，核心区域（华东/华南/华北）用户到最近 POP 的平均物理距离 $d_{self}$ 约为 50-150 km，导致单向传播延迟 $L_{
 
-- **status**: degraded
+- **status**: verified
 - **level**: L3
-- **source**: search
-- **edge_type**: quotient
-- **rework_count**: 1
-- **parent_ids**: N17
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13
 
 ## Claim
 
-预留实例（Reserved Instances）或 Savings Plans 的适用性：公有云 CDN 通常不按实例计费，因此 '预留实例' 概念主要适用于底层计算/存储资源；对于纯 CDN 流量，'预留' 体现为预付费流量包（Prepaid Traffic Package），其单价通常比后付费（Pay-as-you-go）低 10%-20%，需对比预付 60TB 流量包单价与后付费单价的差异。
+自建 POP 场景下，核心区域（华东/华南/华北）用户到最近 POP 的平均物理距离 $d_{self}$ 约为 50-150 km，导致单向传播延迟 $L_{prop, self} = d_{self} / (2 \times 10^8) \times 10^3 \approx 0.25-0.75$ ms，往返 RTT 物理下限约为 0.5-1.5 ms。
 
 ## Corrected Claim
 
-预留实例（Reserved Instances）或 Savings Plans 的适用性：公有云 CDN 通常不按实例计费，因此 '预留实例' 概念主要适用于底层计算/存储资源；对于纯 CDN 流量，'预留' 体现为预付费流量包（Prepaid Traffic Package），其单价通常比后付费（Pay-as-you-go）低，具体折扣率需对比预付流量包单价与后付费单价的差异。
+自建 POP 场景下，核心区域（华东/华南/华北）用户到最近 POP 的平均物理距离 $d_{self}$ 约为 50-150 km，导致单向传播延迟 $L_{prop, self} = d_{self} / (2 \times 10^8) \times 10^3 \approx 0.25-0.75$ ms，往返 RTT 物理下限约为 0.5-1.5 ms。
 
 ## Evidence
 
-[质询]具体数值区间（10%-20%）缺乏来源支持，且不同云厂商（AWS/Azure/GCP）及不同CDN服务商的预付费折扣率差异较大，该具体百分比属于经验事实，不能仅凭逻辑自洽判定为准确。 | 来源[1]仅涉及AWS Savings Plans用于计算资源（EC2等），未覆盖CDN流量预付费包的具体折扣率，属于经验事实且缺直接来源支持。
-
-## Search Query
-
-Cloudflare Alibaba Cloud CDN prepaid traffic package vs pay-as-you-go pricing difference
-
-## Retrieval Sources
-
-- {'url': 'https://zhuanlan.zhihu.com/p/633336239&rut=e03c5a93f334df894bd262a946f391055742a4c763aff303b9fda0d8a5770c1e', 'type': 'ddg', 'title': 'AWS Savings Plans 使用指南 - 知乎'}
+先验知识/题面给定，逻辑校验通过：距离50-150km对应传播延迟0.25-0.75ms（基于光速2e8 m/s），RTT为单向两倍即0.5-1.5ms，量纲与数值均自洽。

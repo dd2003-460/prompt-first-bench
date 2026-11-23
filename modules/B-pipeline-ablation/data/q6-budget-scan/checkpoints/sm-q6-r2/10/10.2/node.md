@@ -1,20 +1,20 @@
-# N106: 故障频率建模：自建节点年故障次数N_fault = N_POP * λ_node * k_correlation，其中λ_node=0.5-2次/年/POP（硬
+# N142: 单流传输时间 $T_{transfer} = s_{avg} / B_{link}$。当 $s_{avg}$ 从 1MB 增至 5MB，单流传输时间增加 5 倍
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N30
+- **parent_ids**: N34
 
 ## Claim
 
-故障频率建模：自建节点年故障次数N_fault = N_POP * λ_node * k_correlation，其中λ_node=0.5-2次/年/POP（硬件故障率），k_correlation=1.0-1.5（部分故障为共因如骨干网中断），10个POP年故障5-30次
+单流传输时间 $T_{transfer} = s_{avg} / B_{link}$。当 $s_{avg}$ 从 1MB 增至 5MB，单流传输时间增加 5 倍。虽然排队延迟降低，但传输时间增加可能抵消部分 P99 延迟的改善，需综合评估 $L_{p99} = L_{queue} + T_{transfer} + L_{processing}$。
 
 ## Corrected Claim
 
-故障频率建模：自建节点年故障次数N_fault = N_POP * λ_node * k_correlation，其中λ_node=0.5-2次/年/POP（硬件故障率），k_correlation=1.0-1.5（部分故障为共因如骨干网中断），10个POP年故障5-30次
+单流传输时间 $T_{transfer} = s_{avg} / B_{link}$。当 $s_{avg}$ 从 1MB 增至 5MB，单流传输时间增加 5 倍。虽然排队延迟降低，但传输时间增加可能抵消部分 P99 延迟的改善，需综合评估 $L_{p99} = L_{queue} + T_{transfer} + L_{processing}$。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：10个POP * (0.5-2次/年) * (1.0-1.5) = 5-30次，数值推导自洽，符合数据中心硬件故障率及共因故障的工程经验量级。
+先验知识/题面给定，逻辑校验通过：传输时间公式 T=s/B 成立，s 增加 5 倍则 T 增加 5 倍，逻辑自洽且量级合理。

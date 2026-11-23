@@ -1,19 +1,17 @@
 {
-  "id": "N9",
-  "claim": "混合策略技术可行性阈值：自建POP与公有云CDN之间的请求路由切换延迟 Δt_switch 需满足 Δt_switch ≤ ε，其中 ε 为可接受的路由抖动上限（通常 < 5ms），否则混合策略因路由复杂性导致P99恶化",
+  "id": "N10",
+  "claim": "时间峰值系数 $K_{peak}$ 定义为日峰值带宽与日均带宽之比，即 $K_{peak} = B_{peak} / B_{avg}$；对于 C 端媒体平台，典型 $K_{peak}$ 在 1.5 到 2.5 之间，需据此计算峰值带宽需求 $B_{peak} = (2 \\text{ TB} / 86400 \\text{ s}) \\times K_{peak}$。",
   "level": "L2",
   "source": "knowledge",
-  "status": "pending",
-  "evidence": "父节点级核验未通过：不完备（子节点在维度上基本正交，分别涵盖了DNS、TLS、控制面逻辑和数据一致性四个不同的延迟来源，不存在明显的重复或矛盾。然而，完备性存在严重缺陷：父节点讨论的是“混合策略”中自建POP与公有云CDN之间的路由切换，这必然涉及跨节点/跨域的网络传输延迟（RTT）以及连接建立/复用的底层网络开销。子节点仅列举了DNS、TLS、API调用和缓存一致性，完全缺失了最核心的“网络传输延迟（Network RTT/Latency）”这一项，且未解释这些子项如何具体加和或竞争构成 Δt_switch。此外，缓存一致性延迟（秒级）通常不属于路由切换的瞬时延迟（毫秒级），将其作为 Δt_switch 的组成部分在逻辑上是不成立的，它影响的是内容新鲜度而非路由切换本身的耗时。）",
-  "corrected_claim": "混合策略技术可行性阈值：自建POP与公有云CDN之间的请求路由切换延迟 Δt_switch 需满足 Δt_switch ≤ ε，其中 ε 为可接受的路由抖动上限（通常 < 5ms），否则混合策略因路由复杂性导致P99恶化",
+  "status": "verified",
+  "evidence": "父节点级核验通过：正交+完备+无冗余（子节点在逻辑上相互独立且互补：节点1聚焦于K_peak的经验取值范围及持续时间（数据输入）；节点2聚焦于峰值带宽的计算公式及单位换算（核心计算）；节点3聚焦于计费模型对峰值利用率的影响（成本视角）；节点4聚焦于资源采购策略及安全余量（工程实施）。各节点分别覆盖了定义、计算、计费、采购四个不同维度，无内容重叠或矛盾，且共同构成了完整的带宽规划流程。）",
+  "corrected_claim": "时间峰值系数 $K_{peak}$ 定义为日峰值带宽与日均带宽之比，即 $K_{peak} = B_{peak} / B_{avg}$；对于 C 端媒体平台，典型 $K_{peak}$ 在 1.5 到 2.5 之间，需据此计算峰值带宽需求 $B_{peak} = (2 \\text{ TB} / 86400 \\text{ s}) \\times K_{peak}$。",
   "rework_count": 0,
   "parent_ids": [
-    "N1",
-    "N2",
-    "N3"
+    "N1"
   ],
   "objective": null,
-  "edge_type": "cartesian",
-  "search_query": "hybrid CDN self-built edge node routing switch latency overhead",
+  "edge_type": "quotient",
+  "search_query": "web traffic peak to average ratio media streaming",
   "retrieval_sources": []
 }

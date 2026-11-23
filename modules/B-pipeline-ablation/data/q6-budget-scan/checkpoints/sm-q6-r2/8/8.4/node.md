@@ -1,20 +1,24 @@
-# N100: 自建带宽总成本修正公式：C_bw_total = Σ(B_pop_i * P_bw_i) + C_cross_connect + C_bgp_peering，其
+# N134: 修正后的自建带宽成本：若按实际峰值需求 $B_{peak} = 0.046 \text{ Gbps}$ 预留 0.1Gbps（100Mbps）带宽，月成本约为 
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N28
+- **parent_ids**: N32
 
 ## Claim
 
-自建带宽总成本修正公式：C_bw_total = Σ(B_pop_i * P_bw_i) + C_cross_connect + C_bgp_peering，其中C_cross_connect为机房交叉连接费（¥500-2000/月/POP），C_bgp_peering为BGP多线接入费（若需多运营商接入则额外¥2000-5000/月/POP）
+修正后的自建带宽成本：若按实际峰值需求 $B_{peak} = 0.046 \text{ Gbps}$ 预留 0.1Gbps（100Mbps）带宽，月成本约为 50-100 元，折算流量单价 $P_{self}^{eff} \approx 100 / 61440 \text{ GB} \approx 0.0016 \text{ 元/GB}$，仍远低于公有云。
 
 ## Corrected Claim
 
-自建带宽总成本修正公式：C_bw_total = Σ(B_pop_i * P_bw_i) + C_cross_connect + C_bgp_peering，其中C_cross_connect为机房交叉连接费（¥500-2000/月/POP），C_bgp_peering为BGP多线接入费（若需多运营商接入则额外¥2000-5000/月/POP）
+修正后的自建带宽成本：若按实际峰值需求 $B_{peak} = 0.046 \text{ Gbps}$ 预留 0.1Gbps（100Mbps）带宽，月成本约为 50-100 元，折算流量单价 $P_{self}^{eff} \approx 100 / 61440 \text{ GB} \approx 0.0016 \text{ 元/GB}$，仍远低于公有云。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+先验知识/题面给定，逻辑校验通过：100Mbps带宽月费50-100元符合国内IDC/云厂商常见定价量级；100Mbps满跑一个月理论流量约为61440GB（100*3600*24*30/8/1024），计算无误；0.0016元/GB远低于公有云按量付费价格（通常>0.1元/GB），结论自洽。
+
+## Search Query
+
+100Mbps dedicated line monthly cost China

@@ -1,30 +1,24 @@
-# N26: 请求分布的Zipf参数：α_zipf ∈ [0.8, 1.2]，其中α越小表示长尾越显著，α越大表示热点越集中，图片+短视频平台的典型α值为0.9-1.1，需基
+# N14: 自建 POP 点的硬件折旧成本 $C_{hw}$ 按服务器生命周期（通常 3-5 年）直线折旧计算：$C_{hw} = N_{servers} \times C
 
-- **status**: pending
+- **status**: verified
 - **level**: L2
-- **source**: search
-- **edge_type**: cartesian
-- **rework_count**: 1
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
 - **parent_ids**: N3
 
 ## Claim
 
-请求分布的Zipf参数：α_zipf ∈ [0.8, 1.2]，其中α越小表示长尾越显著，α越大表示热点越集中，图片+短视频平台的典型α值为0.9-1.1，需基于实际日志数据校准
+自建 POP 点的硬件折旧成本 $C_{hw}$ 按服务器生命周期（通常 3-5 年）直线折旧计算：$C_{hw} = N_{servers} \times C_{server} / T_{life}$，其中 $N_{servers}$ 为每个 POP 点所需服务器数量，$C_{server}$ 为单台服务器采购成本（约 5-10 万元/台），$T_{life}$ 为折旧年限（36 个月）。
 
 ## Corrected Claim
 
-请求分布通常可用Zipf分布建模，参数α反映热点集中度（α越大越集中）。具体α值需基于实际日志数据校准，不同业务场景（如图片/短视频）的典型值需通过实证分析确定，而非固定为0.9-1.1。
+自建 POP 点的硬件折旧成本 $C_{hw}$ 按服务器生命周期（通常 3-5 年）直线折旧计算：$C_{hw} = N_{servers} \times C_{server} / T_{life}$，其中 $N_{servers}$ 为每个 POP 点所需服务器数量，$C_{server}$ 为单台服务器采购成本（约 5-10 万元/台），$T_{life}$ 为折旧年限（36 个月）。
 
 ## Evidence
 
-父节点级核验未通过：非正交, 不完备, 有冗余（父节点核心是“Zipf参数α_zipf的分布与校准”，但子节点中包含了大量无关内容（如CDN监控人员数量、年薪、技术支持费、缓存命中率公式、对象总数估算），严重偏离主题。此外，子节点4（通用校准方法）与子节点5（图片/视频具体取值）存在逻辑重叠，且子节点5是对子节点4中“典型值”的具体化，属于冗余或层级不当。）
+父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点公式中的三个独立变量 $N_{servers}$、$C_{server}$ 和 $T_{life}$，彼此正交无重复；三者共同完整覆盖了计算硬件折旧成本所需的全部关键参数；各子节点提供了具体的取值范围或典型配置，属于参数定义而非冗余重复。）
 
 ## Search Query
 
-Zipf parameter for image and video CDN request distribution
-
-## Retrieval Sources
-
-- {'url': 'https://blog.csdn.net/qq_36069590/article/details/83106894&rut=87a443075388a560051367ed5bc50b3f60bbaf8532ae2aa8a49ae5891e21dbaf', 'type': 'ddg', 'title': '【扫盲】------Zipf分布-CSDN博客'}
-- {'url': 'https://docs.scipy.org.cn/doc/scipy/tutorial/stats/discrete_zipf.html&rut=6610a76c0317b80fd649ef0ffaffed79131e9fa2e58ed192bdb7c824babd0f71', 'type': 'ddg', 'title': 'Zipf (Zeta) 分布 — SciPy v1.18.0 手册 - SciPy 科学计算库'}
-- {'url': 'https://blog.csdn.net/m0_37816922/article/details/130482955&rut=2f756be035176bd37a2327e9070bece1850f400b80aadbebada12c5b40e02521', 'type': 'ddg', 'title': '【分布族谱】Zipf分布及其Python可视化 - CSDN博客'}
+data center server depreciation cost calculation 3 year

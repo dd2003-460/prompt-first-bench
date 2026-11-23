@@ -1,0 +1,24 @@
+# N122: 日活 750 万（流量增长 50%）时的最优策略切换阈值 $R_{switch}$ (请求/天)，在该流量规模下自建策略的边际成本 $MC_{self}$ 与公
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N30
+
+## Claim
+
+日活 750 万（流量增长 50%）时的最优策略切换阈值 $R_{switch}$ (请求/天)，在该流量规模下自建策略的边际成本 $MC_{self}$ 与公有云边际成本 $MC_{cloud}$ 相等：$MC_{self}(R_{switch}) = MC_{cloud}(R_{switch})$。
+
+## Corrected Claim
+
+在日活 750 万（流量增长 50%）的场景下，最优策略切换阈值 $R_{switch}$ 定义为自建策略边际成本 $MC_{self}$ 与公有云边际成本 $MC_{cloud}$ 相等的请求量，具体数值需根据实际成本模型计算。
+
+## Evidence
+
+[质询]该陈述声称在特定流量规模（750万日活）下存在一个具体的“最优策略切换阈值”且此时边际成本相等，这属于高度依赖具体业务场景、技术架构和成本结构的经验性工程决策参数，无法从第一性原理或通用逻辑中严格推导出具体的数值或必然的相等关系。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+optimal CDN strategy switching threshold traffic volume

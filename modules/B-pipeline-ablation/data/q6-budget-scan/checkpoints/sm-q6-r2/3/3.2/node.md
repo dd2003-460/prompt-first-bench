@@ -1,20 +1,24 @@
-# N27: 缓存命中率模型：H_cache = 1 - (1 / (N_objects * α_zipf))，其中N_objects为可缓存对象总数，α_zipf为Zipf
+# N15: 机房租赁及电力成本 $C_{colo}$ 包括机柜租金、带宽接入费及电费：$C_{colo} = N_{racks} \times (R_{rack} + E_
 
-- **status**: pending
+- **status**: verified
 - **level**: L2
 - **source**: knowledge
 - **edge_type**: cartesian
-- **rework_count**: 1
+- **rework_count**: 0
 - **parent_ids**: N3
 
 ## Claim
 
-缓存命中率模型：H_cache = 1 - (1 / (N_objects * α_zipf))，其中N_objects为可缓存对象总数，α_zipf为Zipf参数，典型值为80-95%（热点集中）/50-80%（长尾显著）
+机房租赁及电力成本 $C_{colo}$ 包括机柜租金、带宽接入费及电费：$C_{colo} = N_{racks} \times (R_{rack} + E_{power} \times P_{energy})$，其中 $R_{rack}$ 为每机柜月租金（约 5000-10000 元/月），$E_{power}$ 为每机柜功耗（约 5-10 kW），$P_{energy}$ 为电价（约 0.6-0.8 元/kWh）。
 
 ## Corrected Claim
 
-缓存命中率通常随可缓存对象总数 N_objects 和 Zipf 参数 α_zipf 的增加而提高，典型范围约为 80-95%（热点集中）或 50-80%（长尾显著），具体数值需结合访问分布模型计算，而非简单套用 H = 1 - 1/(N*α) 公式。
+机房租赁及电力成本 $C_{colo}$ 包括机柜租金、带宽接入费及电费：$C_{colo} = N_{racks} \times (R_{rack} + E_{power} \times P_{energy})$，其中 $R_{rack}$ 为每机柜月租金（约 5000-10000 元/月），$E_{power}$ 为每机柜功耗（约 5-10 kW），$P_{energy}$ 为电价（约 0.6-0.8 元/kWh）。
 
 ## Evidence
 
-父节点级核验未通过：非正交, 不完备, 有冗余（1. 严重偏离主题：前3个子节点（监控人员数量、年薪、技术支持费）与父节点'缓存命中率模型'完全无关，属于运维成本范畴，破坏了正交性。2. 冗余：子节点4（Zipf参数校准）和子节点5（图片/视频具体参数）存在逻辑包含关系，子节点5是子节点4特定场景下的实例化，可合并。3. 不完备：父节点公式为简化模型，子节点6虽然提到了更精确的计算，但未作为主要修正项独立存在，且缺少对'可缓存性'（如TTL、Cache-Control头）对N_objects实际有效值的约束说明。）
+父节点级核验通过：正交+完备+无冗余（子节点分别对应公式中的四个独立变量（N_racks, R_rack, E_power, P_energy），彼此正交且无重复。虽然 R_rack 和 E_power 的取值受地区影响，但作为不同物理量（租金 vs 功耗）的处理是合理的，且 E_power 的计算逻辑清晰，未与 R_rack 混淆。所有关键参数均已覆盖。）
+
+## Search Query
+
+data center colocation cost per rack power consumption

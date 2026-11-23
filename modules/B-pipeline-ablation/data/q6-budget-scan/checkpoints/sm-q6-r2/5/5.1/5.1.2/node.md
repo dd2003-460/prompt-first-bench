@@ -1,19 +1,19 @@
-# N73: 热点对象数 N_unique_hot 估算：基于 Zipf 分布，N_unique_hot ≈ N_total * (1 / (1 - (1/N_total)^
+# N90: 一线城市（北上广深）SRE/网络工程师的 人均 年薪 中位数 约为 30-50 万元/年（含 社保/公积金），二三线城市约为 20-35 万元/年；10 个 P
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N22
+- **parent_ids**: N22, N23, N24
 
 ## Claim
 
-热点对象数 N_unique_hot 估算：基于 Zipf 分布，N_unique_hot ≈ N_total * (1 / (1 - (1/N_total)^α))，其中 α 为 Zipf 指数（通常 0.8-1.2）
+一线城市（北上广深）SRE/网络工程师的 人均 年薪 中位数 约为 30-50 万元/年（含 社保/公积金），二三线城市约为 20-35 万元/年；10 个 POP 点若分布在全国，按 70% 一线城市 + 30% 二三线城市 加权，人均年薪约为 35 万元/年。
 
 ## Corrected Claim
 
-热点对象数 N_unique_hot 估算：基于 Zipf 分布，N_unique_hot ≈ N_total * (1 / (1 - (1/N_total)^α))，其中 α 为 Zipf 指数（通常 0.8-1.2）
+一线城市（北上广深）SRE/网络工程师的 人均 年薪 中位数 约为 30-50 万元/年（含 社保/公积金），二三线城市约为 20-35 万元/年；10 个 POP 点若分布在全国，按 70% 一线城市 + 30% 二三线城市 加权，人均年薪约为 35 万元/年。
 
 ## Evidence
 

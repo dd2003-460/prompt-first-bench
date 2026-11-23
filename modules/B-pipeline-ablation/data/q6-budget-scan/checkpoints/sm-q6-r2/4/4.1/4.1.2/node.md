@@ -1,24 +1,20 @@
-# N58: 回源距离 d_avg 与熵 H_geo 的关系：d_avg = g(H_geo, R_opt)，其中 R_opt 为最优覆盖半径，H_geo 越高，d_avg 
+# N78: Cloudflare 图片+短视频混合流量的计费特性：Cloudflare 不按对象类型区分单价，统一按 GB 计费；但短视频（5-20MB）的大对象传输可能导
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N18
+- **parent_ids**: N17
 
 ## Claim
 
-回源距离 d_avg 与熵 H_geo 的关系：d_avg = g(H_geo, R_opt)，其中 R_opt 为最优覆盖半径，H_geo 越高，d_avg 越大，需通过地理信息系统（GIS）计算用户到最近POP点的平均距离。
+Cloudflare 图片+短视频混合流量的计费特性：Cloudflare 不按对象类型区分单价，统一按 GB 计费；但短视频（5-20MB）的大对象传输可能导致 TCP 慢启动效应，增加实际传输时间，间接影响 QPS 和连接数，但不改变流量计费单价；需确认是否启用 HTTP/2 或 HTTP/3 以减少头部开销，从而略微降低有效传输流量。
 
 ## Corrected Claim
 
-回源距离 d_avg 与熵 H_geo 的关系：d_avg = g(H_geo, R_opt)，其中 R_opt 为最优覆盖半径，H_geo 越高，d_avg 越大，需通过地理信息系统（GIS）计算用户到最近POP点的平均距离。
+Cloudflare 图片+短视频混合流量的计费特性：Cloudflare 不按对象类型区分单价，统一按 GB 计费；但短视频（5-20MB）的大对象传输可能导致 TCP 慢启动效应，增加实际传输时间，间接影响 QPS 和连接数，但不改变流量计费单价；需确认是否启用 HTTP/2 或 HTTP/3 以减少头部开销，从而略微降低有效传输流量。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：地理熵越高代表用户分布越分散，导致平均回源距离增加，符合空间几何直觉。
-
-## Search Query
-
-average origin fetch distance geographic distribution entropy
+先验知识/题面给定，逻辑校验通过：Cloudflare 流量计费确实基于传输字节数（GB），不区分对象类型；TCP 慢启动对大文件传输时间的影响符合网络原理，进而影响并发连接数（QPS/连接数）但不改变单价；HTTP/2/3 的多路复用和头部压缩确实能减少有效传输流量（头部开销），逻辑自洽。

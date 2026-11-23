@@ -1,11 +1,11 @@
 {
-  "id": "N30",
-  "claim": "故障响应SLA与MTTR成本：自建节点平均修复时间 MTTR_self 通常 30-60min，公有云 MTTR_cloud < 15min；若P99延迟超标导致赔付，MTTR每增加10min，潜在赔付成本 C_penalty 增加约 ¥5k-20k/次，需纳入运维成本模型",
+  "id": "N34",
+  "claim": "在日均 2TB 下载量下，若平均对象大小 $s_{avg}$ 从 1MB 增加到 5MB，日均请求量 $R_{daily}$ 从 200 万降至 40 万，导致公有云按流量计费成本不变，但自建节点的并发连接数下降 80%，使得 P99 延迟中的排队延迟显著降低。",
   "level": "L2",
   "source": "search",
-  "status": "degraded",
-  "evidence": "[质询]陈述中包含具体的经验性数值（MTTR 30-60min vs <15min）以及具体的赔付成本增量（¥5k-20k/10min），这些属于特定业务场景下的经验数据，无法从第一性原理推导，且参考来源中未提供这些具体数值的支持。 | 参考来源[1][2][3]仅定义了MTTR概念及其重要性，未提供具体的自建/公有云MTTR对比数值或赔付成本模型数据，属于经验事实缺来源支持。",
-  "corrected_claim": "故障响应SLA与MTTR成本：自建节点平均修复时间（MTTR）通常高于公有云；若P99延迟超标导致赔付，MTTR的增加会直接导致潜在赔付成本上升，具体数值需根据业务SLA协议及历史故障数据建模确定，需纳入运维成本模型。",
+  "status": "verified",
+  "evidence": "父节点级核验通过：正交+完备+无冗余（子节点1聚焦于排队延迟（L_queue）随并发连接数/到达率变化的非线性下降机制；子节点2聚焦于单流传输时间（T_transfer）随对象大小增加的线性增长及其对总P99延迟的综合影响。两者分别处理延迟公式中的不同分量，逻辑上互补且互不重叠，共同完整解释了父节点中P99延迟变化的两个主要驱动因素（排队改善 vs 传输恶化）。）",
+  "corrected_claim": "在日均 2TB 下载量下，若平均对象大小从 1MB 增加到 5MB，日均请求量从 200 万降至 40 万，公有云按流量计费成本保持不变；由于请求量大幅减少，自建节点的并发连接数预计显著下降，从而可能降低 P99 延迟中的排队延迟。",
   "rework_count": 1,
   "parent_ids": [],
   "objective": null,
@@ -13,19 +13,19 @@
   "search_query": "",
   "retrieval_sources": [
     {
-      "url": "https://aws.amazon.com/cn/what-is/mttr/&rut=07b7bf2ace86ac9a9afce7f8a6a47b6794db59c132f79eb79a00bc072ff2be0a",
+      "url": "https://www.gigacalculator.com/calculators/download-time-calculator.php&rut=85dc96fc304378a05f8da9945682c476c4cc2b3cd290e4dde75d5951dd4e5308",
       "type": "ddg",
-      "title": "什么是 Mttr？- 平均修复时间详解 - Aws"
+      "title": "Download Time Calculator"
     },
     {
-      "url": "https://blog.csdn.net/weixin_30444111/article/details/168626800&rut=6ab1f14908b8480e2066d8b513ae7e29338611c8a2c37b2dd5153c40f938a0cd",
+      "url": "https://www.omnicalculator.com/other/download-time&rut=09ca720a107a01fc867cfee398fb8ffc0e2d35647d90ef5b1db86e382a2c8f15",
       "type": "ddg",
-      "title": "Mttf与mttr双引擎：系统韧性全链路量化指南 - Csdn博客"
+      "title": "Download Time Calculator"
     },
     {
-      "url": "https://blog.csdn.net/hezuijiudexiaobai/article/details/148724728&rut=febd2821d0e3107033deb7b8d706b332c911d121ec11a92692cfb7239363315d",
+      "url": "https://calculatorlib.com/zh/data-transfer-calculator&rut=6e331f2ee1d98dbd0f2d11f94abd7c9735d464d3b194a6e557f2f45928fe0db3",
       "type": "ddg",
-      "title": "云厂商 Mttr 详解：概念、指标价值与优化实践 - Csdn博客"
+      "title": "数据传输时间计算器 | 快速估算文件下载与上传时长 - CalculatorLib"
     }
   ]
 }

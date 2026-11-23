@@ -1,20 +1,20 @@
-# N61: 读流量对缓存容量的影响：缓存主要服务于读请求，写请求不经过缓存层（或仅短暂缓存），因此缓存容量规划仅基于 2TB/day 的读流量，写流量 200GB/day 
+# N83: Cloudflare 95th 带宽计费可用性：Cloudflare 标准套餐（Pro/Business）不提供 95th 带宽计费选项，仅 Enterpris
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N19
+- **parent_ids**: N18
 
 ## Claim
 
-读流量对缓存容量的影响：缓存主要服务于读请求，写请求不经过缓存层（或仅短暂缓存），因此缓存容量规划仅基于 2TB/day 的读流量，写流量 200GB/day 仅影响源站存储增长速率
+Cloudflare 95th 带宽计费可用性：Cloudflare 标准套餐（Pro/Business）不提供 95th 带宽计费选项，仅 Enterprise 套餐可定制基于承诺带宽或 95th 百分位的计费模型；因此，对于日均 2TB 流量，若选择 Cloudflare，必须采用流量计费或包月套餐，无法利用 95th 带宽计费的低成本优势。
 
 ## Corrected Claim
 
-读流量对缓存容量的影响：缓存主要服务于读请求，写请求不经过缓存层（或仅短暂缓存），因此缓存容量规划仅基于 2TB/day 的读流量，写流量 200GB/day 仅影响源站存储增长速率
+Cloudflare 95th 带宽计费可用性：Cloudflare 标准套餐（Pro/Business）不提供 95th 带宽计费选项，仅 Enterprise 套餐可定制基于承诺带宽或 95th 百分位的计费模型；因此，对于日均 2TB 流量，若选择 Cloudflare，必须采用流量计费或包月套餐，无法利用 95th 带宽计费的低成本优势。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：缓存机制通常仅加速读操作，写操作需持久化至源站，因此容量规划基于读流量符合基本架构逻辑。
+先验知识/题面给定，逻辑校验通过

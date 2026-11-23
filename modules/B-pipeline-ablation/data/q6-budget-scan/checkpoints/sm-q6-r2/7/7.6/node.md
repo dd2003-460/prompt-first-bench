@@ -1,0 +1,20 @@
+# N128: 流量计费模式下的等效单价 $P_{traffic}^{eff} = C_{traffic} / V_{monthly}$，其中 $C_{traffic}$ 为阶
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N31
+
+## Claim
+
+流量计费模式下的等效单价 $P_{traffic}^{eff} = C_{traffic} / V_{monthly}$，其中 $C_{traffic}$ 为阶梯累进后的总流量费用，$V_{monthly}=60 \text{ TB}$；若全部落在 50TB-100TB 档，则 $P_{traffic}^{eff} \approx 0.24 \text{ 元/GB}$。
+
+## Corrected Claim
+
+流量计费模式下的等效单价 $P_{traffic}^{eff} = C_{traffic} / V_{monthly}$，其中 $C_{traffic}$ 为阶梯累进后的总流量费用，$V_{monthly}=60 \text{ TB}$；若全部落在 50TB-100TB 档，则 $P_{traffic}^{eff} \approx 0.24 \text{ 元/GB}$。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：0.24元/GB * 60000GB = 14400元，符合阶梯计费中高档位（50-100TB）的常见单价量级（通常低于低档位单价），数值自洽。

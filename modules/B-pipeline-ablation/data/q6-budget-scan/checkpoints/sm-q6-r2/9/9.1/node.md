@@ -1,20 +1,20 @@
-# N101: SRE人数修正模型：N_sre = ceil(N_POP / N_per_sre * k_oncall)，其中N_per_sre=10（常规），k_oncall
+# N135: 缓存命中率 $H$ 与回源比例 $(1-H)$ 的线性关系：回源流量 $V_{origin} = V_{total} \times (1-H)$，回源延迟贡献 
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N29
+- **parent_ids**: N33
 
 ## Claim
 
-SRE人数修正模型：N_sre = ceil(N_POP / N_per_sre * k_oncall)，其中N_per_sre=10（常规），k_oncall=1.5-2.0（考虑7x24 on-call轮班），因此10个POP需2-4名SRE而非1-2名，N29低估了on-call人力需求
+缓存命中率 $H$ 与回源比例 $(1-H)$ 的线性关系：回源流量 $V_{origin} = V_{total} \times (1-H)$，回源延迟贡献 $L_{backhaul} \times (1-H)$ 在 P99 计算中需加权。
 
 ## Corrected Claim
 
-SRE人数修正模型：N_sre = ceil(N_POP / N_per_sre * k_oncall)，其中N_per_sre=10（常规），k_oncall=1.5-2.0（考虑7x24 on-call轮班），因此10个POP需2-4名SRE而非1-2名，N29低估了on-call人力需求
+缓存命中率 $H$ 与回源比例 $(1-H)$ 的线性关系：回源流量 $V_{origin} = V_{total} \times (1-H)$，回源延迟贡献 $L_{backhaul} \times (1-H)$ 在 P99 计算中需加权。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：SRE行业惯例中，单人常规支持10-15个POP，考虑7x24 on-call轮班（通常需3-4人轮值或1.5-2倍冗余系数），10个POP需2-4名SRE符合工程直觉与数学推导。
+先验知识/题面给定，逻辑校验通过：回源流量定义为总流量减去命中流量，即 V_total * (1-H)，符合定义；延迟贡献按概率加权符合期望值计算逻辑。

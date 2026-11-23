@@ -1,20 +1,20 @@
-# N112: P99延迟改善的加权公式：ΔP99_total = P_core × ΔP99_core + (1 - P_core) × ΔP99_tail，其中ΔP99_c
+# N92: 公有云 CDN 的 日志 存储 成本：日均 2TB 访问日志，存储 30 天，存储容量 = 2TB × 30 = 60TB；阿里云 OSS 标准存储 单价 约为
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N28, N29, N30
+- **parent_ids**: N22, N23, N24
 
 ## Claim
 
-P99延迟改善的加权公式：ΔP99_total = P_core × ΔP99_core + (1 - P_core) × ΔP99_tail，其中ΔP99_core为自建核心节点相比公有云的P99降低值（15-25ms），ΔP99_tail为长尾区域P99变化值（通常为0，因仍走公有云）。
+公有云 CDN 的 日志 存储 成本：日均 2TB 访问日志，存储 30 天，存储容量 = 2TB × 30 = 60TB；阿里云 OSS 标准存储 单价 约为 0.12 元/GB/月，故 月 存储 成本 = 60,000GB × 0.12 元/GB/月 = 7,200 元/月。
 
 ## Corrected Claim
 
-P99延迟改善的加权公式：ΔP99_total = P_core × ΔP99_core + (1 - P_core) × ΔP99_tail，其中ΔP99_core为自建核心节点相比公有云的P99降低值（15-25ms），ΔP99_tail为长尾区域P99变化值（通常为0，因仍走公有云）。
+公有云 CDN 的 日志 存储 成本：日均 2TB 访问日志，存储 30 天，存储容量 = 2TB × 30 = 60TB；阿里云 OSS 标准存储 单价 约为 0.12 元/GB/月，故 月 存储 成本 = 60,000GB × 0.12 元/GB/月 = 7,200 元/月。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：加权公式符合全概率公式/期望值定义，量纲一致（ms），且基于‘长尾仍走公有云’的前提，ΔP99_tail=0 的假设在逻辑上自洽。
+先验知识/题面给定，逻辑校验通过：2TB*30=60TB=60000GB，60000*0.12=7200元，计算无误且阿里云OSS标准存储单价量级符合常识。

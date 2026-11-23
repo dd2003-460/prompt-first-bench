@@ -1,20 +1,20 @@
-# N75: 地理分布对带宽成本的非线性影响：跨境流量（东南亚+其他20%）的带宽单价通常是境内流量的1.5-2倍；若跨境流量占比20%，则加权平均带宽单价 P_bw_avg
+# N76: 流量包计费模式下的月总流量 $V_{traffic}$ 计算：$V_{traffic} = R_{daily} \times s_{avg} \times 30
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N18
+- **parent_ids**: N16
 
 ## Claim
 
-地理分布对带宽成本的非线性影响：跨境流量（东南亚+其他20%）的带宽单价通常是境内流量的1.5-2倍；若跨境流量占比20%，则加权平均带宽单价 P_bw_avg = 0.8 * P_domestic + 0.2 * 1.5 * P_domestic = 1.1 * P_domestic。
+流量包计费模式下的月总流量 $V_{traffic}$ 计算：$V_{traffic} = R_{daily} \times s_{avg} \times 30$，其中 $R_{daily} = 2\text{TB}/s_{avg}$，故 $V_{traffic} \approx 60\text{TB}/\text{月}$（假设 $s_{avg}$ 在 1-5MB 之间波动不影响总流量，仅影响请求数）；需确认是否包含回源流量，通常 CDN 计费仅计边缘下发流量，回源流量另计或包含在基础套餐中。
 
 ## Corrected Claim
 
-地理分布对带宽成本的非线性影响：跨境流量（东南亚+其他20%）的带宽单价通常是境内流量的1.5-2倍；若跨境流量占比20%，则加权平均带宽单价 P_bw_avg = 0.8 * P_domestic + 0.2 * 1.5 * P_domestic = 1.1 * P_domestic。
+流量包计费模式下的月总流量 $V_{traffic}$ 计算：$V_{traffic} = R_{daily} \times s_{avg} \times 30$，其中 $R_{daily} = 2\text{TB}/s_{avg}$，故 $V_{traffic} \approx 60\text{TB}/\text{月}$（假设 $s_{avg}$ 在 1-5MB 之间波动不影响总流量，仅影响请求数）；需确认是否包含回源流量，通常 CDN 计费仅计边缘下发流量，回源流量另计或包含在基础套餐中。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：加权平均计算 0.8 + 0.2*1.5 = 1.1 正确，跨境带宽成本高于境内符合行业常识。
+先验知识/题面给定，逻辑校验通过：数学推导 $V_{traffic} = (2\text{TB}/s_{avg}) \times s_{avg} \times 30 = 60\text{TB}$ 成立，且关于CDN计费通常仅计边缘下发流量的行业常识符合逻辑。

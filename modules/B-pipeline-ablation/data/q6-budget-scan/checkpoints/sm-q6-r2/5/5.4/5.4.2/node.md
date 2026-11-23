@@ -1,4 +1,4 @@
-# N83: 源站回源命中率 H_origin 受回源带宽限制影响：当回源带宽 B_origin < p_miss * Q_peak * s_avg * 8 时，回源队列延迟
+# N102: 自建节点人均年运维成本 $C_{sre}$：基于一线城市 SRE 市场薪资，年薪中位数约为 30-50 万元/人，加上社保公积金及招聘成本，综合人力成本约为 4
 
 - **status**: verified
 - **level**: L3
@@ -9,12 +9,16 @@
 
 ## Claim
 
-源站回源命中率 H_origin 受回源带宽限制影响：当回源带宽 B_origin < p_miss * Q_peak * s_avg * 8 时，回源队列延迟导致有效命中率下降，修正因子 η = min(1, B_origin / B_required)
+自建节点人均年运维成本 $C_{sre}$：基于一线城市 SRE 市场薪资，年薪中位数约为 30-50 万元/人，加上社保公积金及招聘成本，综合人力成本约为 40-60 万元/人/年。
 
 ## Corrected Claim
 
-源站回源命中率 H_origin 受回源带宽限制影响：当回源带宽 B_origin < p_miss * Q_peak * s_avg * 8 时，回源队列延迟导致有效命中率下降，修正因子 η = min(1, B_origin / B_required)
+自建节点人均年运维成本 $C_{sre}$：基于一线城市 SRE 市场薪资，年薪中位数约为 30-50 万元/人，加上社保公积金及招聘成本，综合人力成本约为 40-60 万元/人/年。
 
 ## Evidence
 
 先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+Senior SRE salary China 2024 average annual cost

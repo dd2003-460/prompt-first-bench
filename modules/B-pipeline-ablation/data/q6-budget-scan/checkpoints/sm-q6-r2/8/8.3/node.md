@@ -1,20 +1,20 @@
-# N99: 带宽计费模式成本差异：95th Percentile计费模式下，若实际峰值利用率<50%，月成本可降至固定带宽计费的40-60%；需监控实际P95带宽以选择最优
+# N133: 10Gbps 专线在 2TB/日负载下的利用率 $\eta$ 计算：$B_{avg} = 2 \text{ TB} / 86400 \text{ s} \app
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N28
+- **parent_ids**: N32
 
 ## Claim
 
-带宽计费模式成本差异：95th Percentile计费模式下，若实际峰值利用率<50%，月成本可降至固定带宽计费的40-60%；需监控实际P95带宽以选择最优计费模式
+10Gbps 专线在 2TB/日负载下的利用率 $\eta$ 计算：$B_{avg} = 2 \text{ TB} / 86400 \text{ s} \approx 23.15 \text{ Mbps} \approx 0.023 \text{ Gbps}$，若预留 10Gbps，则 $\eta = 0.023 / 10 = 0.23\%$，表明 10Gbps 预留严重过剩，实际应按 1Gbps 或更低规格预留。
 
 ## Corrected Claim
 
-带宽计费模式成本差异：95th Percentile计费模式下，若实际峰值利用率<50%，月成本可降至固定带宽计费的40-60%；需监控实际P95带宽以选择最优计费模式
+10Gbps 专线在 2TB/日负载下的利用率 $\eta$ 计算：$B_{avg} = 2 \text{ TB} / 86400 \text{ s} \approx 23.15 \text{ Mbps} \approx 0.023 \text{ Gbps}$，若预留 10Gbps，则 $\eta = 0.023 / 10 = 0.23\%$，表明 10Gbps 预留严重过剩，实际应按 1Gbps 或更低规格预留。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：95th Percentile计费基于P95带宽，若峰值利用率低（<50%），P95值通常远低于固定带宽上限，成本确实可显著降低，40-60%的区间符合一般云网络计费逻辑。
+先验知识/题面给定，逻辑校验通过：2TB/86400s ≈ 23.15Mbps ≈ 0.023Gbps，0.023/10 = 0.23%，计算无误且量级合理。

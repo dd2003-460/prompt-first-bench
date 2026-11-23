@@ -1,19 +1,19 @@
-# N72: 缓存总容量需求公式：Cache_Size = Σ (s_obj * H_obj)，其中 s_obj 为对象平均大小，H_obj 为对象热度权重（基于请求频率归一
+# N89: 自建 10 个 POP 点的最低 FTE 配置为：1 名 7x24 值班网络工程师 + 1 名 SRE 轮值 + 1 名 安全/合规 专员，合计 3 FTE；若
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N22
+- **parent_ids**: N22, N23, N24
 
 ## Claim
 
-缓存总容量需求公式：Cache_Size = Σ (s_obj * H_obj)，其中 s_obj 为对象平均大小，H_obj 为对象热度权重（基于请求频率归一化）
+自建 10 个 POP 点的最低 FTE 配置为：1 名 7x24 值班网络工程师 + 1 名 SRE 轮值 + 1 名 安全/合规 专员，合计 3 FTE；若采用外包运维，则按 10 POP 点计，需 1 名 驻场 运维 + 2 名 远程 支持，合计 3 FTE（外包单价通常高于内部人力 1.5-2 倍）。
 
 ## Corrected Claim
 
-缓存总容量需求公式：Cache_Size = Σ (s_obj * H_obj)，其中 s_obj 为对象平均大小，H_obj 为对象热度权重（基于请求频率归一化）
+自建 10 个 POP 点的最低 FTE 配置为：1 名 7x24 值班网络工程师 + 1 名 SRE 轮值 + 1 名 安全/合规 专员，合计 3 FTE；若采用外包运维，则按 10 POP 点计，需 1 名 驻场 运维 + 2 名 远程 支持，合计 3 FTE（外包单价通常高于内部人力 1.5-2 倍）。
 
 ## Evidence
 

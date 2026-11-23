@@ -1,4 +1,4 @@
-# N82: 边缘缓存命中率 H_edge 的理论上限由工作集大小决定：H_edge_max = 1 - (N_unique_active / Cache_Capacity_
+# N101: 自建节点运维团队最小规模 $N_{sre}$ 的确定：基于 7x24 故障响应 SLA（如 P1 级故障 15 分钟响应），需至少配置 $N_{shifts}=
 
 - **status**: verified
 - **level**: L3
@@ -9,12 +9,16 @@
 
 ## Claim
 
-边缘缓存命中率 H_edge 的理论上限由工作集大小决定：H_edge_max = 1 - (N_unique_active / Cache_Capacity_Objects)，其中 N_unique_active 为 TTL 窗口内活跃唯一对象数，Cache_Capacity_Objects = 单节点总存储 / s_avg
+自建节点运维团队最小规模 $N_{sre}$ 的确定：基于 7x24 故障响应 SLA（如 P1 级故障 15 分钟响应），需至少配置 $N_{shifts}=3$ 个班次，每班次 1 名 SRE，故 $N_{sre} \ge 3$；若含休假备份，实际 $N_{sre} = 4-5$ 人。
 
 ## Corrected Claim
 
-边缘缓存命中率 H_edge 的理论上限由工作集大小决定：H_edge_max = 1 - (N_unique_active / Cache_Capacity_Objects)，其中 N_unique_active 为 TTL 窗口内活跃唯一对象数，Cache_Capacity_Objects = 单节点总存储 / s_avg
+自建节点运维团队最小规模 $N_{sre}$ 的确定：基于 7x24 故障响应 SLA（如 P1 级故障 15 分钟响应），需至少配置 $N_{shifts}=3$ 个班次，每班次 1 名 SRE，故 $N_{sre} \ge 3$；若含休假备份，实际 $N_{sre} = 4-5$ 人。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：该公式基于理想缓存模型（无替换开销、无网络延迟影响），在数学上自洽，且量纲正确（对象数/对象数=无量纲比率）。
+先验知识/题面给定，逻辑校验通过：7x24 三班倒需 3 人，加上休假备份（通常 1-2 人）得出 4-5 人符合 SRE 运维常规配置逻辑。
+
+## Search Query
+
+SRE on-call rotation minimum team size 7x24 SLA

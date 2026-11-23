@@ -1,30 +1,24 @@
-# N6: 用户地理分布熵与核心区域集中度：基于500万日活用户IP分布，计算核心区域（如Top 10省份/城市）覆盖的用户比例 P_core 与长尾区域覆盖比例 P_ta
+# N7: 日均总请求量 $R_{daily}$ 需基于日均下载量 2TB 和平均对象大小 $s_{avg}$ 计算：$R_{daily} = 2 \times 10^6 
 
-- **status**: degraded
+- **status**: verified
 - **level**: L2
-- **source**: search
-- **edge_type**: cartesian
-- **rework_count**: 1
-- **parent_ids**: N1, N2, N3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N1
 
 ## Claim
 
-用户地理分布熵与核心区域集中度：基于500万日活用户IP分布，计算核心区域（如Top 10省份/城市）覆盖的用户比例 P_core 与长尾区域覆盖比例 P_tail，其中 P_core + P_tail = 1
+日均总请求量 $R_{daily}$ 需基于日均下载量 2TB 和平均对象大小 $s_{avg}$ 计算：$R_{daily} = 2 \times 10^6 \text{ MB} / s_{avg}$ (单位：请求/天)，其中 $s_{avg}$ 需根据图片(约1MB)与短视频(约5-10MB)的混合比例加权确定。
 
 ## Corrected Claim
 
-基于用户IP分布数据，可计算核心区域（如Top 10省份/城市）覆盖的用户比例 P_core 与长尾区域覆盖比例 P_tail，二者之和为1。
+日均总请求量 $R_{daily}$ 需基于日均下载量 2TB 和平均对象大小 $s_{avg}$ 计算：$R_{daily} = 2 \times 10^6 \text{ MB} / s_{avg}$ (单位：请求/天)，其中 $s_{avg}$ 需根据图片(约1MB)与短视频(约5-10MB)的混合比例加权确定。
 
 ## Evidence
 
-[质询]该陈述描述的是一个具体的数据分析任务或指标定义（基于500万日活用户IP分布计算P_core和P_tail），属于经验性操作或特定项目设定，而非通用的物理/数学定律。参考来源仅提供了构建此类分析系统的方法论（IP解析、可视化），并未提供该特定场景下的具体数值结果或验证该特定指标定义的唯一正确性，且“500万日活”这一具体规模在来源中未体现，存在口径和具体数值缺乏直接证据支持的风险。 | 逻辑自洽（概率分布之和为1），但参考来源[1][2][3]仅介绍IP地理分布分析的技术实现流程，未直接支持该特定指标（P_core/P_tail）的具体数值或定义的唯一性，属于经验事实/特定项目设定，缺乏直接来源支持。
+父节点级核验通过：正交+完备+无冗余（子节点逻辑清晰，分别定义了输入参数（占比、大小）、中间计算（加权平均）和最终结果（请求量），各节点职责单一且无重叠，完整覆盖了父节点中关于 $s_{avg}$ 确定及 $R_{daily}$ 计算的所有关键步骤。）
 
 ## Search Query
 
-China mobile internet user geographic distribution top 10 provinces percentage 2024
-
-## Retrieval Sources
-
-- {'url': 'https://blog.csdn.net/weixin_28725959/article/details/160574064&rut=0a1664870629700f13cd01a50bfd0a1205b65d72f42ce9c84f70f53df85c8806', 'type': 'ddg', 'title': '基于开源IP库自建用户地理分布分析系统：从原理到Grafana可视化实战-CSDN博客'}
-- {'url': 'https://blog.csdn.net/talktech/article/details/159247634&rut=2af18c8f1f475dabd395dc8775d546990d4aa20609a44489863a9dfa0b648250', 'type': 'ddg', 'title': '用户地域画像构建：基于IP归属地数据的Python处理流程-CSDN博客'}
-- {'url': 'https://blog.51cto.com/u_17655332/14511263&rut=f4225dca61b21f13d4eb3b1aaa56f452d44918de5a5ce1f33530c1440612c2bb', 'type': 'ddg', 'title': '用户地域画像构建：基于IP归属地数据的Python处理流程_mb69b8f797460c8的技术博客_51CTO博客'}
+average file size image vs short video streaming distribution

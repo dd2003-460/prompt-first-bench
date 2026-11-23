@@ -1,20 +1,20 @@
-# N33: 地理熵与POP点数量的最优匹配关系：当用户地理熵 H_geo > 3.5 bits 时，10个POP点无法覆盖80%流量在低延迟（<50ms）范围内；需增加至1
+# N38: 加权平均对象大小 $s_{avg} = p_{img} \times s_{img} + p_{vid} \times s_{vid} = 0.7 \times
 
-- **status**: degraded
+- **status**: verified
 - **level**: L3
-- **source**: knowledge
-- **edge_type**: cartesian
-- **rework_count**: 1
-- **parent_ids**: N6
+- **source**: given
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N7
 
 ## Claim
 
-地理熵与POP点数量的最优匹配关系：当用户地理熵 H_geo > 3.5 bits 时，10个POP点无法覆盖80%流量在低延迟（<50ms）范围内；需增加至15-20个POP点或接受更高的回源率 p_miss。
+加权平均对象大小 $s_{avg} = p_{img} \times s_{img} + p_{vid} \times s_{vid} = 0.7 \times 1.0 + 0.3 \times 7.5 = 2.95 \text{ MB}$，该值直接代入 N7 公式计算日均请求量。
 
 ## Corrected Claim
 
-地理熵与POP点数量存在正相关关系：当用户地理熵 H_geo 较高（例如超过特定阈值）时，固定数量的POP点（如10个）可能无法在低延迟（<50ms）范围内覆盖大部分流量；此时需增加POP点数量或接受更高的回源率。具体阈值和数量需根据实际网络拓扑和用户分布模型确定。
+加权平均对象大小 $s_{avg} = p_{img} \times s_{img} + p_{vid} \times s_{vid} = 0.7 \times 1.0 + 0.3 \times 7.5 = 2.95 \text{ MB}$，该值直接代入 N7 公式计算日均请求量。
 
 ## Evidence
 
-[质询]该陈述包含具体的经验阈值（H_geo > 3.5 bits）和具体的工程参数（10个POP、15-20个POP、80%流量、<50ms），这些数值并非从第一性原理或数学公理严格推导出的必然结论，而是依赖于具体的网络拓扑、用户分布密度、POP地理位置及延迟模型的经验性工程估算。缺乏具体场景假设（如用户分布是均匀还是聚集、POP布局策略等），这些具体数值缺乏普适性的逻辑必然性。 | source=knowledge，逻辑上地理熵越高代表用户分布越分散，确实需要更多POP点来维持低延迟覆盖，方向正确且量级合理；但具体数值（3.5 bits, 10/15-20个POP）属于经验事实，无外部来源支持且无法从第一性原理严格推出，故降级。
+先验知识/题面给定，逻辑校验通过：加权平均公式应用正确，数值计算 0.7*1.0 + 0.3*7.5 = 0.7 + 2.25 = 2.95 准确无误，量纲一致。

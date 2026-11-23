@@ -1,24 +1,24 @@
-# N127: 纯自建10个POP点在日均请求数R > 50,000,000时的出网带宽成本分摊：10个点各10Gbps带宽，月费¥750,000（取中值），年带宽费¥9,00
+# N116: 全自建策略的月度出口带宽变动成本 $C_{bw}^{self}$ (¥/月)，基于峰值带宽需求 $B_{peak}$ 和单 Gbps 月租单价 $R_{bps}
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N33
+- **parent_ids**: N28
 
 ## Claim
 
-纯自建10个POP点在日均请求数R > 50,000,000时的出网带宽成本分摊：10个点各10Gbps带宽，月费¥750,000（取中值），年带宽费¥9,000,000，分摊至每千请求公式为 (9,000,000 / (R × 365)) × 1000，在R=50,000,000时约为¥0.49/1000req，在R=100,000,000时约为¥0.247/1000req
+全自建策略的月度出口带宽变动成本 $C_{bw}^{self}$ (¥/月)，基于峰值带宽需求 $B_{peak}$ 和单 Gbps 月租单价 $R_{bps}$ 计算：$C_{bw}^{self} = 10 \times B_{peak}^{pop} \times R_{bps}$，需根据日均 2TB 和峰值系数 $K_{peak}$ 推导单 POP 峰值带宽。
 
 ## Corrected Claim
 
-纯自建10个POP点在日均请求数R > 50,000,000时的出网带宽成本分摊：10个点各10Gbps带宽，月费¥750,000（取中值），年带宽费¥9,000,000，分摊至每千请求公式为 (9,000,000 / (R × 365)) × 1000，在R=50,000,000时约为¥0.49/1000req，在R=100,000,000时约为¥0.247/1000req
+全自建策略的月度出口带宽变动成本 $C_{bw}^{self}$ (¥/月)，基于峰值带宽需求 $B_{peak}$ 和单 Gbps 月租单价 $R_{bps}$ 计算：$C_{bw}^{self} = 10 \times B_{peak}^{pop} \times R_{bps}$，需根据日均 2TB 和峰值系数 $K_{peak}$ 推导单 POP 峰值带宽。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：数学计算准确（9,000,000 / (50,000,000 * 365) * 1000 ≈ 0.493），成本假设（10Gbps带宽月费7.5万）符合国内云厂商或运营商专线的大致量级，逻辑自洽。
+先验知识/题面给定，逻辑校验通过
 
 ## Search Query
 
-10Gbps bandwidth cost per month China ISP
+edge node egress bandwidth cost per Gbps China telecom

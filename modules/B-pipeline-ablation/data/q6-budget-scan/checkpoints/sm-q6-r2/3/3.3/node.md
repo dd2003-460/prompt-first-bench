@@ -1,20 +1,24 @@
-# N28: 回源率模型：R_origin = 1 - H_cache，其中H_cache为缓存命中率，回源率直接影响回源带宽成本和源站负载，典型值为5-20%
+# N16: 公有云 CDN 的预留实例费用 $C_{cloud}$ 基于预留带宽或流量包计算：$C_{cloud} = B_{reserved} \times R_{ban
 
 - **status**: verified
 - **level**: L2
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
 - **parent_ids**: N3
 
 ## Claim
 
-回源率模型：R_origin = 1 - H_cache，其中H_cache为缓存命中率，回源率直接影响回源带宽成本和源站负载，典型值为5-20%
+公有云 CDN 的预留实例费用 $C_{cloud}$ 基于预留带宽或流量包计算：$C_{cloud} = B_{reserved} \times R_{bandwidth}$ 或 $C_{cloud} = V_{traffic} \times P_{traffic}$，其中 $B_{reserved}$ 为预留峰值带宽（Gbps），$R_{bandwidth}$ 为每 Gbps 月租金（约 5000-10000 元/Gbps/月），$V_{traffic}$ 为月总流量（TB），$P_{traffic}$ 为每 TB 流量单价（约 500-1000 元/TB）。
 
 ## Corrected Claim
 
-回源率模型：R_origin = 1 - H_cache，其中H_cache为缓存命中率，回源率直接影响回源带宽成本和源站负载，典型值为5-20%
+公有云 CDN 的预留实例费用 $C_{cloud}$ 基于预留带宽或流量包计算：$C_{cloud} = B_{reserved} \times R_{bandwidth}$ 或 $C_{cloud} = V_{traffic} \times P_{traffic}$，其中 $B_{reserved}$ 为预留峰值带宽（Gbps），$R_{bandwidth}$ 为每 Gbps 月租金（约 5000-10000 元/Gbps/月），$V_{traffic}$ 为月总流量（TB），$P_{traffic}$ 为每 TB 流量单价（约 500-1000 元/TB）。
 
 ## Evidence
 
-父节点级核验通过：正交+完备+无冗余（子节点分别从‘带宽成本’、‘源站计算成本’和‘核心变量（命中率）的推导’三个维度展开，逻辑清晰且互不重叠。父节点强调R_origin影响‘带宽成本’和‘源站负载’，子节点1和2分别对应这两点，子节点3补充了如何计算决定R_origin的H_cache，覆盖了公式中所有关键变量及其经济影响，无冗余。）
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+cloud CDN pricing model reserved bandwidth vs traffic based

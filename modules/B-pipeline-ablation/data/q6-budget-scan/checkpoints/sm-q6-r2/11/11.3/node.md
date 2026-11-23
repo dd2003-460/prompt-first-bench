@@ -1,24 +1,20 @@
-# N164: 单用户日均短视频请求数 req_video 的估算模型：基于上传/下载流量比与平均对象大小推导，req_video = V_download_video_dai
+# N145: 长尾区域（非核心 3 区域，占比 10%）的用户若通过公有云 CDN 或更远的自建 POP 访问，其延迟 $L_{tail}$ 显著高于核心区域。P99 延迟由
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N51
+- **parent_ids**: N35
 
 ## Claim
 
-单用户日均短视频请求数 req_video 的估算模型：基于上传/下载流量比与平均对象大小推导，req_video = V_download_video_daily / (DAU * s_avg_video)，其中 V_download_video_daily 为日均短视频下载量，s_avg_video 为短视频平均大小（1-5MB），需结合业务日志校准
+长尾区域（非核心 3 区域，占比 10%）的用户若通过公有云 CDN 或更远的自建 POP 访问，其延迟 $L_{tail}$ 显著高于核心区域。P99 延迟由最慢的 1% 用户决定，需加权计算：$T_{target} \approx \max(L_{core}, L_{tail})$ 或基于分位数加权。
 
 ## Corrected Claim
 
-单用户日均短视频请求数 req_video 的估算模型：基于上传/下载流量比与平均对象大小推导，req_video = V_download_video_daily / (DAU * s_avg_video)，其中 V_download_video_daily 为日均短视频下载量，s_avg_video 为短视频平均大小（1-5MB），需结合业务日志校准
+长尾区域（非核心 3 区域，占比 10%）的用户若通过公有云 CDN 或更远的自建 POP 访问，其延迟 $L_{tail}$ 显著高于核心区域。P99 延迟由最慢的 1% 用户决定，需加权计算：$T_{target} \approx \max(L_{core}, L_{tail})$ 或基于分位数加权。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：公式 req_video = V_download_video_daily / (DAU * s_avg_video) 在量纲上自洽（总流量/人均流量=人均次数），且 s_avg_video 取值 1-5MB 符合短视频常见大小范围，属于合理的工程估算模型。
-
-## Search Query
-
-short video CDN average request size per user daily
+先验知识/题面给定，逻辑校验通过：长尾区域因物理距离或网络路径更远，延迟显著高于核心区域符合网络通信基本规律；P99延迟由最慢的1%用户决定，目标延迟需覆盖最坏情况（即取最大值或加权分位数）符合统计学定义及CDN调度逻辑。

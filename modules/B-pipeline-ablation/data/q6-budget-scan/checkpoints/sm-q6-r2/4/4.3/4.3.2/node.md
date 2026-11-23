@@ -1,24 +1,20 @@
-# N64: 热点对象数 N_unique_hot 的估算：N_unique_hot = (2TB / s_avg) * H_factor，其中 s_avg 为平均对象大小（
+# N86: 10 个 POP 点自建总带宽月成本为 $C_{bandwidth} = 10 	imes (8000 + 15000) = 80,000 - 150,000$
 
-- **status**: verified
+- **status**: degraded
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N20
+- **rework_count**: 1
+- **parent_ids**: N19
 
 ## Claim
 
-热点对象数 N_unique_hot 的估算：N_unique_hot = (2TB / s_avg) * H_factor，其中 s_avg 为平均对象大小（加权平均图片与视频），H_factor 为热点集中因子（通常 0.1-0.3，取决于内容分发集中度）
+10 个 POP 点自建总带宽月成本为 $C_{bandwidth} = 10 	imes (8000 + 15000) = 80,000 - 150,000$ 元/月
 
 ## Corrected Claim
 
-热点对象数 N_unique_hot 的估算：N_unique_hot = (2TB / s_avg) * H_factor，其中 s_avg 为平均对象大小（加权平均图片与视频），H_factor 为热点集中因子（通常 0.1-0.3，取决于内容分发集中度）
+10 个 POP 点自建总带宽月成本为 $C_{bandwidth} = 10 \times (8000 + 15000) = 230,000$ 元/月
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
-
-## Search Query
-
-cache hit rate hot object count estimation web content
+[质询]数值计算存在严重算术错误：10 × (8000 + 15000) = 10 × 23000 = 230,000，而非 80,000 - 150,000；且结果区间下限大于上限，逻辑矛盾。 | 内部算术矛盾：10×23000=230000，与声称的80,000-150,000不符，且区间表示错误。

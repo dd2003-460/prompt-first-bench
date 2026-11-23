@@ -1,24 +1,20 @@
-# N163: 单用户日均图片请求数 req_img 的估算模型：基于上传/下载流量比与平均对象大小推导，req_img = V_download_img_daily / (D
+# N144: 核心区域回源延迟 $L_{backhaul, core}$ 取决于自建 POP 与源站的物理距离及网络质量。典型值约为 10-20ms（若 POP 在同城或邻近
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N51
+- **parent_ids**: N35
 
 ## Claim
 
-单用户日均图片请求数 req_img 的估算模型：基于上传/下载流量比与平均对象大小推导，req_img = V_download_img_daily / (DAU * s_avg_img)，其中 V_download_img_daily 为日均图片下载量，s_avg_img 为图片平均大小（100KB-1MB），需结合业务日志校准
+核心区域回源延迟 $L_{backhaul, core}$ 取决于自建 POP 与源站的物理距离及网络质量。典型值约为 10-20ms（若 POP 在同城或邻近城市），而非公式中隐含的 $RTT_{core}$ 20-30ms 可能包含了往返时间或更远距离。
 
 ## Corrected Claim
 
-单用户日均图片请求数 req_img 的估算模型：基于上传/下载流量比与平均对象大小推导，req_img = V_download_img_daily / (DAU * s_avg_img)，其中 V_download_img_daily 为日均图片下载量，s_avg_img 为图片平均大小（100KB-1MB），需结合业务日志校准
+核心区域回源延迟 $L_{backhaul, core}$ 取决于自建 POP 与源站的物理距离及网络质量。典型值约为 10-20ms（若 POP 在同城或邻近城市），而非公式中隐含的 $RTT_{core}$ 20-30ms 可能包含了往返时间或更远距离。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：公式 req_img = V_download_img_daily / (DAU * s_avg_img) 在量纲上自洽（总流量/人均流量=人均次数），且符合基于流量估算请求数的基本工程逻辑。
-
-## Search Query
-
-image CDN average request size per user daily
+先验知识/题面给定，逻辑校验通过：同城或邻近城市的光纤传输延迟通常在10-20ms范围内，符合物理距离与网络质量的常识，且与RTT 20-30ms（可能包含往返或更远）在量级上兼容。

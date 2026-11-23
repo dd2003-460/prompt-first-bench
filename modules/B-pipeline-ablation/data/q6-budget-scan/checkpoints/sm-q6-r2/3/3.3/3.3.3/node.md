@@ -1,24 +1,30 @@
-# N107: 缓存命中率H_cache的Zipf分布解析解：H_cache ≈ 1 - (1 - α) / (α * ln(N_objects))，其中N_objects为可
+# N75: Cloudflare 标准套餐（Pro/Business/Enterprise）的带宽成本结构：Pro 套餐包含 50TB/月流量，超出部分按 $0.05/GB
 
-- **status**: verified
+- **status**: degraded
 - **level**: L3
-- **source**: knowledge
-- **edge_type**: quotient
-- **rework_count**: 0
-- **parent_ids**: N28
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N16
 
 ## Claim
 
-缓存命中率H_cache的Zipf分布解析解：H_cache ≈ 1 - (1 - α) / (α * ln(N_objects))，其中N_objects为可缓存对象总数（图片+短视频去重后数量），α为Zipf参数（N26指出需校准，典型视频平台α≈0.9-1.2），该公式用于从N26/N27推导具体H_cache值
+Cloudflare 标准套餐（Pro/Business/Enterprise）的带宽成本结构：Pro 套餐包含 50TB/月流量，超出部分按 $0.05/GB 计费；Business 套餐包含 200TB/月，超出部分按 $0.05/GB 计费；Enterprise 为定制报价，通常基于承诺月度带宽或流量包，需根据 $V_{traffic} \approx 60\text{TB}/\text{月}$ 选择最经济套餐并计算等效单价。
 
 ## Corrected Claim
 
-缓存命中率H_cache的Zipf分布解析解：H_cache ≈ 1 - (1 - α) / (α * ln(N_objects))，其中N_objects为可缓存对象总数（图片+短视频去重后数量），α为Zipf参数（N26指出需校准，典型视频平台α≈0.9-1.2），该公式用于从N26/N27推导具体H_cache值
+Cloudflare 标准套餐（Pro/Business）通常提供无限流量（Unmetered），不按固定流量包计费；Enterprise 套餐为定制报价。具体流量成本结构需参考最新官方定价页或销售咨询，而非固定的 50TB/200TB 阈值加超额单价模式。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+[质询]Cloudflare 的 Pro 和 Business 套餐通常包含无限流量（Unmetered），并不存在“包含 50TB/200TB 后按 $0.05/GB 计费”的标准公开定价结构；该陈述混淆了传统 CDN 的流量包模式与 Cloudflare 当前的无限流量+按请求/功能计费模式，且 $0.05/GB 的超额费率缺乏官方公开支持。 | 来源 [1] 和 [2] 仅展示套餐概览，未提供具体的流量上限和超额单价；来源 [3] 为第三方解析，未证实具体的 50TB/200TB 阈值及 $0.05/GB 费率。根据经验事实排除条款，具体参数值（流量上限、单价）属于经验事实，缺乏直接来源支持，故降级。
 
 ## Search Query
 
-Zipf distribution cache hit rate formula
+Cloudflare CDN pricing 2024 Pro Business Enterprise overage fees per GB
+
+## Retrieval Sources
+
+- {'url': 'https://www.cloudflare.com/plans/&rut=598c57c90b5e54bf0b1692b9008782def17f1effa68893eeec00e758cf43da80', 'type': 'ddg', 'title': 'Pricing - Cloudflare'}
+- {'url': 'https://www.cloudflare.com/plans/business/&rut=bb3d6cd042cf75fea53d732e6d52008cefaa283282134d3c1c9d218cb7740016', 'type': 'ddg', 'title': 'Business Plan Overview | Cloudflare'}
+- {'url': 'https://aishare.jizhiku.net/archives/40265&rut=2fcbfa4babebed0776e1be58bb5803b6ab0574efb6eebafa6fe811b2cbe2160c', 'type': 'ddg', 'title': 'Cloudflare 套餐差异全解析：免费、Pro、Business、Enterprise 该选哪个？ - AI技能智慧站'}

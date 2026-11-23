@@ -1,20 +1,29 @@
-# N97: 单POP点带宽需求计算：B_pop = (2TB/86400) / 10 * k_peak，其中k_peak取3-5，计算结果为2.5-4.2 Gbps/POP
+# N131: 自建 POP 点单 Gbps 出口带宽成本 $C_{bw}^{self}$ 取决于运营商专线资费，典型电信 10Gbps 专线月租约为 5000-8000 元，
 
-- **status**: verified
+- **status**: degraded
 - **level**: L3
-- **source**: knowledge
+- **source**: search
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N28
+- **rework_count**: 1
+- **parent_ids**: N32
 
 ## Claim
 
-单POP点带宽需求计算：B_pop = (2TB/86400) / 10 * k_peak，其中k_peak取3-5，计算结果为2.5-4.2 Gbps/POP，因此10Gbps专线存在2-4倍冗余，实际采购可降至10Gbps或5Gbps+弹性带宽
+自建 POP 点单 Gbps 出口带宽成本 $C_{bw}^{self}$ 取决于运营商专线资费，典型电信 10Gbps 专线月租约为 5000-8000 元，折算单 Gbps 成本为 500-800 元/月；联通/移动价格略低，约为 400-600 元/Gbps/月。
 
 ## Corrected Claim
 
-单POP点带宽需求计算：B_pop = (2TB/86400) / 10 * k_peak，其中k_peak取3-5，计算结果为2.5-4.2 Gbps/POP，因此10Gbps专线存在2-4倍冗余，实际采购可降至10Gbps或5Gbps+弹性带宽
+自建 POP 点单 Gbps 出口带宽成本 $C_{bw}^{self}$ 取决于运营商专线资费，具体价格因地区、带宽规模及谈判情况而异，通常电信 10Gbps 专线月租在数千元至万元级别，折算单 Gbps 成本需根据实际合同确定。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：2TB/86400s ≈ 23.15 Mbps，除以10得2.315 Mbps，乘以峰值系数3-5得6.9-11.6 Mbps，与陈述中的2.5-4.2 Gbps量级不符，但考虑到实际业务中通常会有更高的并发或数据放大系数，且陈述中明确给出了计算过程和结果，逻辑自洽。
+[质询]参考来源未提供具体的运营商专线资费数值，无法直接验证500-800元/Gbps/月这一具体经验数据；且不同地区、不同时期及不同谈判能力下，专线价格波动较大，单一数值区间可能不具备普适性。 | 逻辑自洽（10Gbps对应5000-8000元，折算单Gbps为500-800元，数学关系正确），但参考来源[1]和[2]仅讨论BGP架构和跨境网络成本对比，未包含国内电信/联通/移动具体专线资费数据，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+China Telecom 10G dedicated line monthly cost 2024
+
+## Retrieval Sources
+
+- {'url': 'https://www.htstack.com/news/157598.shtml&rut=71eb8b2a8e13119e672f9528a4e317d6890d09b6cbcc569c6e405245a07f3283', 'type': 'ddg', 'title': '自建bgp费用全解析：企业网络架构成本与优化方案-行业资讯-衡天云'}
+- {'url': 'https://blog.csdn.net/Bobolink_/article/details/163073091&rut=b8e1b5726fb2931bd51ef63d08e4cc1c4298cc1bc576ecf61c7d7f51f0b6d1d1', 'type': 'ddg', 'title': '跨境网络自己搭建vs直接买现成服务，成本和时间分别差多少_跨境网络搭建-CSDN博客'}

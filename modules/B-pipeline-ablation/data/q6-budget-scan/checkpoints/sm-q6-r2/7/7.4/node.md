@@ -1,20 +1,20 @@
-# N95: 存储容量扩展成本：NVMe SSD 单价 ¥0.5-0.8/GB，10台服务器总存储 76.8TB，若需扩展至 200TB 以支持更高命中率，额外存储成本 ≈ 
+# N126: 在 $K_{peak}=2.0$ 且流量分布均匀假设下，95th 带宽 $B_{95}$ 近似等于峰值带宽 $B_{peak}$，即 $B_{95} \appr
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N27
+- **parent_ids**: N31
 
 ## Claim
 
-存储容量扩展成本：NVMe SSD 单价 ¥0.5-0.8/GB，10台服务器总存储 76.8TB，若需扩展至 200TB 以支持更高命中率，额外存储成本 ≈ 123TB * ¥0.65/GB ≈ ¥80k/POP，一次性投入
+在 $K_{peak}=2.0$ 且流量分布均匀假设下，95th 带宽 $B_{95}$ 近似等于峰值带宽 $B_{peak}$，即 $B_{95} \approx (2 \text{ TB} / 86400 \text{ s} \times 8000 \text{ bit/byte}) \times 2.0 \approx 37 \text{ Mbps} \approx 0.037 \text{ Gbps}$。
 
 ## Corrected Claim
 
-存储容量扩展成本：NVMe SSD 单价 ¥0.5-0.8/GB，10台服务器总存储 76.8TB，若需扩展至 200TB 以支持更高命中率，额外存储成本 ≈ 123TB * ¥0.65/GB ≈ ¥80k/POP，一次性投入
+在 $K_{peak}=2.0$ 且流量分布均匀假设下，95th 带宽 $B_{95}$ 近似等于峰值带宽 $B_{peak}$，即 $B_{95} \approx (2 \text{ TB} / 86400 \text{ s} \times 8000 \text{ bit/byte}) \times 2.0 \approx 37 \text{ Mbps} \approx 0.037 \text{ Gbps}$。
 
 ## Evidence
 
-[质询]NVMe SSD 单价 ¥0.5-0.8/GB 可能略低于当前企业级市场均价（通常约 ¥0.8-1.2/GB），但作为成本估算的下限或特定批量采购价在逻辑上可接受，且未构成硬逻辑错误。 | 先验知识/题面给定，逻辑校验通过：200TB - 76.8TB = 123.2TB，123.2 * 1000 * 0.65 ≈ 80,080元，计算无误，量级合理。
+先验知识/题面给定，逻辑校验通过：计算过程 (2*10^12 / 86400 * 8000 * 2.0) ≈ 3.7037 * 10^7 bps ≈ 37 Mbps ≈ 0.037 Gbps，数值量级与推导逻辑自洽。

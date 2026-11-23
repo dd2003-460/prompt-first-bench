@@ -1,20 +1,20 @@
-# N105: MTTR分解模型：MTTR = T_detect + T_diagnose + T_fix + T_verify，自建节点各阶段典型值为T_detect=5-1
+# N141: 自建节点的排队延迟 $L_{queue}$ 遵循 M/M/c 模型，与到达率 $\lambda = R_{daily}/86400$ 和服务时间 $1/\mu$
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N30
+- **parent_ids**: N34
 
 ## Claim
 
-MTTR分解模型：MTTR = T_detect + T_diagnose + T_fix + T_verify，自建节点各阶段典型值为T_detect=5-10min（依赖监控覆盖率），T_diagnose=10-20min（多POP故障定位复杂），T_fix=10-20min（硬件更换或配置回滚），T_verify=5-10min，总计30-60min与N30一致
+自建节点的排队延迟 $L_{queue}$ 遵循 M/M/c 模型，与到达率 $\lambda = R_{daily}/86400$ 和服务时间 $1/\mu$ 相关。当 $s_{avg}$ 从 1MB 增至 5MB，$\lambda$ 下降 80%，在服务器并发能力 $c$ 不变的情况下，利用率 $\rho = \lambda/c$ 显著降低，导致 $L_{queue}$ 非线性下降。
 
 ## Corrected Claim
 
-MTTR分解模型：MTTR = T_detect + T_diagnose + T_fix + T_verify，自建节点各阶段典型值为T_detect=5-10min（依赖监控覆盖率），T_diagnose=10-20min（多POP故障定位复杂），T_fix=10-20min（硬件更换或配置回滚），T_verify=5-10min，总计30-60min与N30一致
+自建节点的排队延迟 $L_{queue}$ 遵循 M/M/c 模型，与到达率 $\lambda = R_{daily}/86400$ 和服务时间 $1/\mu$ 相关。当 $s_{avg}$ 从 1MB 增至 5MB，$\lambda$ 下降 80%，在服务器并发能力 $c$ 不变的情况下，利用率 $\rho = \lambda/c$ 显著降低，导致 $L_{queue}$ 非线性下降。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：MTTR分解公式符合运维常识，各阶段耗时量级（分钟级）及总和（30-60min）在逻辑上自洽且符合典型SRE场景。
+先验知识/题面给定，逻辑校验通过：M/M/c 模型中利用率 ρ 降低确实会导致排队延迟非线性下降，且 s_avg 增大导致 λ 下降符合业务逻辑。

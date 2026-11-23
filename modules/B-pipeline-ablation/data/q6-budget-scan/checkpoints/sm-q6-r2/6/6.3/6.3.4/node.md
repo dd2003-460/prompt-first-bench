@@ -1,24 +1,24 @@
-# N128: 纯自建10个POP点在日均请求数R > 50,000,000时的运维人力成本分摊：10节点×1.5冗余×¥300,000年薪=¥4,500,000/年，分摊至每
+# N117: 全自建策略的月度运维人力成本 $C_{ops}^{self}$ (¥/月)，基于 10 个 POP 点所需的 SRE 团队规模 $FTE_{sre}$ 和人均月
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N33
+- **parent_ids**: N28
 
 ## Claim
 
-纯自建10个POP点在日均请求数R > 50,000,000时的运维人力成本分摊：10节点×1.5冗余×¥300,000年薪=¥4,500,000/年，分摊至每千请求公式为 (4,500,000 / (R × 365)) × 1000，在R=50,000,000时约为¥0.247/1000req，在R=100,000,000时约为¥0.123/1000req
+全自建策略的月度运维人力成本 $C_{ops}^{self}$ (¥/月)，基于 10 个 POP 点所需的 SRE 团队规模 $FTE_{sre}$ 和人均月薪 $S_{sre}$ 计算：$C_{ops}^{self} = FTE_{sre} \times S_{sre}$，需根据 7x24 监控覆盖和故障响应 SLA 确定最小 FTE 数。
 
 ## Corrected Claim
 
-纯自建10个POP点在日均请求数R > 50,000,000时的运维人力成本分摊：10节点×1.5冗余×¥300,000年薪=¥4,500,000/年，分摊至每千请求公式为 (4,500,000 / (R × 365)) × 1000，在R=50,000,000时约为¥0.247/1000req，在R=100,000,000时约为¥0.123/1000req
+全自建策略的月度运维人力成本 $C_{ops}^{self}$ (¥/月)，基于 10 个 POP 点所需的 SRE 团队规模 $FTE_{sre}$ 和人均月薪 $S_{sre}$ 计算：$C_{ops}^{self} = FTE_{sre} \times S_{sre}$，需根据 7x24 监控覆盖和故障响应 SLA 确定最小 FTE 数。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：数学计算准确（4,500,000 / (50,000,000 * 365) * 1000 ≈ 0.2466），量纲与逻辑自洽。
+先验知识/题面给定，逻辑校验通过
 
 ## Search Query
 
-SRE engineer annual salary cost for edge node operations
+SRE team size cost for 10 edge POP nodes China salary

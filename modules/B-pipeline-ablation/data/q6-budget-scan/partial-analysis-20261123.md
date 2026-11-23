@@ -118,3 +118,15 @@ CUR 口径逐 rep:
 ### 100 档 CI 最宽根因 + 719-r2 第2轮分叉（21:44, dry-run 全量分析后核验）
 - **100 档 CI 最宽 [0.230,0.509] 不是方法问题**: rep1=0.40(depth 0.8) vs rep2/3=0.3139/0.30(depth 0.6) — 档内一个离群 rep 高两档 depth。judge total 是量化值(0.0139 步进), n=3 离散数据 CI 宽度参考意义有限, 单调性看 mean 不看 CI
 - **719-r2 第2轮 = +94 (total 129), 与 r1 第2轮 +77 不同** → cache 共享只锁第1轮(+29 同), 第2轮已分叉。修正"整树复现"说法: cache 共享压低的是**早期轮**方差, 分叉随轮次累积。重跑批的可检验预测相应精确为: 重跑 rep 的第1轮节点数应不再复现 r1 的 +29
+
+### 域内 judge total 分解 (Q6 gold, 21:45)
+- 分解: total = 0.5*depth(LLM) + 0.5*cov(机械)
+  50: depth 0.600 cov 0.058 total 0.329
+  100: depth 0.667 cov 0.073 total 0.370
+  150: depth 0.800 cov 0.087 total 0.444
+  300: depth 0.800 cov 0.130 total 0.465
+  719r1(~351): depth 0.800 cov 0.174 total 0.487 (n=1)
+- **300→719 增量 100% 由 cov 驱动 (Δdepth=0, Δcov=+0.044)** — LLM depth 自 150 顶格 0.800
+- 含义: 域内质量轴 300 后继续升的部分是机械 cov 轴 (self-bias-free), 非 LLM 轴 → 与 §4.3 "非单调峰值只在 self-biased LLM 轴" 一致; 域内 total 的持续上升可作 self-bias-free 质量信号
+- 对称: 跨域 (GPU gold) depth 同样 0.8 顶格 + cov 近零 → total 平 (0.305→0.423 后 719r1 0.400)
+- n=1 (719 仅 r1), 需 r2/r3 确认 cov 是否继续升或饱和
