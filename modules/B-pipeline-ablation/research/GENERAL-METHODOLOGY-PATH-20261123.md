@@ -79,3 +79,13 @@ general-methodology
 - B1: `gold_md_to_units.py`（markdown→units, Q6 46 units 验证 + Q7 泛化）
 - B2: Q6 share 全对（N-1=.35/N-2=.28/N-4=.18/N-5=.12/N-7=.03）
 - B3 前置: `judge_v1.py --gold-units` 参数化 + 回归验证（gpu 默认 0.3972 不变, Q6 注入链通 cov=0 正确）
+
+## B4 早期验证 (2026-11-23, Q6 r1 单点)
+
+Q6 队列第 1 个 run (budget 50, 50 nodes) 双 gold 评分:
+- 域内 (q6 gold, 46 units): cov=0.0652 (3/46 confirmed)
+- 跨域 (gpu gold, 37 units): cov=0.0000 (0/37 confirmed)
+- Δcov=+0.0652, 域内>跨域, gold 域特异性在 n=1 成立 (跨域 cov=0: Q6 run 未命中任何 gpu 硬件 gold unit, 符合预期)
+
+交叉验证: 队列自动评分 (默认 gpu gold) r1 cov=0.0000 与 B4 跨域读数一致 — 队列 cov 读数对 Q6 系统性偏低是设计使然, B4 正式重评 (域内 gold) 是 cov 轴的权威读数。
+B4 脚本: research/b4_cross_domain_judge.py (字段名已对齐 judge_run 实际返回, 注入验证 total=0.4135 与 gpu corpus 一致)。
