@@ -58,7 +58,7 @@ budget 不是干净 IV"的论点。
 ## 待办
 
 - [ ] 定位 runner 写记账的 off-by-one 源码行（可选，不影响数据修正）
-- [ ] 核 depth~n_nodes r=+0.944 的 n_nodes 来源（若来自记账则需重算）
+- [x] 核 depth~n_nodes r=+0.944 的 n_nodes 来源（若来自记账则需重算）→ **安全**：K7 部分来自 `breadth-depth-xaxis.py` 读 archive 树 `n_nodes` 字段（自洽），rep-scan 部分来自记账 json 内嵌 nodes（15/15 自洽，非 K7 批）。off-by-one 只污染 K7 记账 json 的 n_nodes 标量，不污染 archive 树和 rep-scan 批。
 - [x] 修 draft §1 realized ranges → archive 口径
 - [x] 修 draft §4.3 cor → +0.602 + provenance caveat
 
