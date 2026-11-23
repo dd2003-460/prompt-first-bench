@@ -473,3 +473,11 @@ K7 15 棵, 4 阈值:
 **修正后解读**: nd-r1 是 run-to-run 方差包络内的又一个 run (重叠率与原批 rep 间同量级), 不是"深度展开改变了覆盖内容"。主结论不变 (深度对 cov 无净增益: nd-r1 6/46 < 原批均值 8/46), 但机制表述从"零和洗牌"改为"方差包络内, 无超集新增"。
 **丢失的 3 unit (vs orig-r3) 性质**: 缓存命中率 h / 电价 / 握手 RTT 数 — 都是具体参数值 unit; 新增 3 unit: P99 合规成本 / 计费模式 / 单 POP 最小带宽 — 也是参数值 unit。内容类型无系统性差异, 支持"方差"而非"深度偏好"。
 **draft 已同步修正** (§4.3 机制段改为 subset + variance-envelope 表述)。
+
+## Q7 分析脚本落地前验证 (2026-11-24 06:00)
+
+q7_full_analysis.py 在 11h 长杆 (15 runs) 落地前 dry-run 验证:
+- 假 run 文件 (真实 GPU run 改名 q7-50-r1 格式) → 脚本 exit 0, 全 guard 工作: 空箱→None / n=1→plateau+cor=None / stop 无 stdout→UNKNOWN / cross_cov 0.2222 (GPU 36 口径合理)
+- 假文件已删, SCAN 目录空, 空目录时脚本干净退出 (exit 0, 无残留 json)
+- 队列脚本核验: cache 隔离 ✓ (line 30 Q6_REP=$rep), gold 标度 ✓ (line 46 gold-q7-units.json 52-unit in-domain, judge_run 现算), 无 Q6 式混用
+结论: 11h 落地后分析不会报废。
