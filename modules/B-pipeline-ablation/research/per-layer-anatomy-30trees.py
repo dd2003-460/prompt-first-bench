@@ -80,3 +80,49 @@ print("\nno-L4 by tier:")
 for b in sorted(by_tier):
     a, t = by_tier[b]
     print(f"  budget {b}: {a}/{t}")
+
+# ---- 补充38: source-mix 分解 (per-source ver%, 标准化, within-source) ----
+# 数据源同上 (30 树 8767 节点)。承重: §4.4 obs 1 的 source-mix confound 发现。
+SOURCES = ["given", "knowledge", "search"]
+# per-layer x per-source: (verified, total)
+ls = defaultdict(lambda: defaultdict(lambda: [0, 0]))
+# per-source 不分层
+s_tot = Counter()
+s_ver = Counter()
+for name, budget, nodes in trees:
+    for n in nodes:
+        lv = int(str(n.get("level", "L1")).lstrip("L"))
+        src = n.get("source", "?")
+        ver = 1 if n.get("status") == "verified" else 0
+        ls[lv][src][1] += 1
+        ls[lv][src][0] += ver
+        s_tot[src] += 1
+        s_ver[src] += ver
+
+print("\nper-layer source 组成:")
+for lv in sorted(ls):
+    tot_lv = sum(ls[lv][src][1] for src in SOURCES)
+    parts = [f"{src}={ls[lv][src][1]}({ls[lv][src][1] / tot_lv * 100:.0f}%)" for src in SOURCES]
+    print(f"  L{lv}: " + "  ".join(parts))
+
+print("\nver% by source (不分层):")
+for src in SOURCES:
+    if s_tot[src]:
+        print(f"  {src}: {s_ver[src] / s_tot[src] * 100:.1f}%  ({s_ver[src]}/{s_tot[src]})")
+
+# 标准化: 固定 L2 的 source 组成, 用各层各 source 的 ver% 重算
+l2_tot = sum(ls[2][src][1] for src in SOURCES)
+l2_w = {src: ls[2][src][1] / l2_tot for src in SOURCES}
+print("\n标准化 ver% (固定 L2 source 组成):")
+for lv in sorted(ls):
+    std = sum(l2_w[src] * (ls[lv][src][0] / ls[lv][src][1] if ls[lv][src][1] else 0) for src in SOURCES)
+    act = sum(ls[lv][src][0] for src in SOURCES) / sum(ls[lv][src][1] for src in SOURCES)
+    print(f"  L{lv}: actual={act * 100:.1f}%  standardized={std * 100:.1f}%")
+
+print("\nwithin-source ver% (L2→L5):")
+for src in SOURCES:
+    row = []
+    for lv in [2, 3, 4, 5]:
+        v, t = ls[lv][src]
+        row.append(f"{v / t * 100:.1f}" if t else "-")
+    print(f"  {src}: {'/'.join(row)}")

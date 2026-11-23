@@ -1012,6 +1012,8 @@ obs 1 的 "deeper nodes verify more often, depth is not a verification cliff" �
 - 承重: 这是 §4.4 的 obs 1, 不是 4 个主 findings 之一, 但 obs 1 的 "depth is not a
   verification cliff" 被反向证据 (search ver% 下降) 推翻。
 
+**脚本**：`research/per-layer-anatomy-30trees.py`（2026-11-23 扩展 source-mix 段，复现 per-source ver% 32.7/74.4/3.2、标准化 42.6/41.0/41.9/42.3、within-source 三行全部对上。注: L4 knowledge 占比本脚本算 68% (2864/4230 含 given), 补充38 表写 77% — 分母口径差 (77% 疑为 knowledge/(knowledge+search) 排除 given), 不影响标准化结论 (标准化值逐位复现)。)
+
 ## 补充39 (2026-11-23 17:50): verbosity bias 控制臂 — LLM depth 跟踪答案长度, 解锁 dead end
 
 ### 解锁
