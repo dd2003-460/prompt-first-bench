@@ -45,3 +45,19 @@ LLM_URL=127.0.0.1:8787 / LLM_MODEL=qwen3.8-27b（ablation_harness.py:19-20）
 论文 §2 引用的 "LLM judges inject family bias" 论证正好适用于此：
 用同族模型当 depth judge，family bias 是 100%（同模型）。
 → finding #3 的 peak@150 曲线还叠加了 self-bias 混淆。
+
+## 补充2（10:24）：机械轴上无 peak@150（era-matched 28 棵）
+用 judge_v1 机械轴重算 28 棵（K7 15 + rep-scan 13）：
+- cov 轴（纯 embedding，无 LLM）随预算单调升：0.259/0.264/0.278/0.347/0.352
+  （50/100/150/300/719），cov~n_nodes r=0.571
+- depth 轴：depth~n_nodes r=0.947（树大小代理）
+- composite（0.5d+0.5c）单调升：0.463/0.445/0.501/0.574/0.643，**无 150 峰**
+
+→ finding #3 的"非单调 peak@150"是 LLM judge（judge_v2_depth, self-biased）
+独有产物。机械轴要么单调升（被树大小驱动，trivial），要么无区分度。
+**结论强化**：finding #3 的具体形状（peak@150）不 robust，
+是 self-biased LLM depth judge 的 artifact。诚实重构方向：
+(a) depth 轴如实标 LLM+self-bias，finding #3 降为"LLM 判定深度"的 suggestive 观察；
+(b) 机械轴只保留 cov（单调、size-confounded，不作预算曲线主张）；
+(c) 真正的预算-质量主张应建立在 L4 zero-convergence（0/15+0/6，机械、
+    无 self-bias、跨 budget 稳定）上——这才是 robust 的那条。
