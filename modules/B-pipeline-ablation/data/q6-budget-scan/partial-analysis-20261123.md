@@ -107,3 +107,9 @@ CUR 口径逐 rep:
 ### 重跑 cache 隔离机制核验 (21:33, 端到端代码级)
 - 重跑成立前提: Q6_REP 隔离真生效。核验: research_hook.py:117 `_REP_TAG=os.environ.get("Q6_REP","")` → :121 cache key 含 `rep:{_REP_TAG}` → sha256 路径。重跑脚本 export Q6_REP=$rep → 各 rep source 检索独立 → rep 方差真实
 - 级联: source 独立 → prompt 不同 → node LLM cache key 不同 → LLM 响应不共享。机制 sound, 6h 重跑不会白烧
+
+### 719-r2 首轮 = r1 首轮逐字相同（21:41, cache 共享的行为指纹）
+- 719-r2 第 1 轮 `+29 (total 35)` 与 719-r1 第 1 轮完全相同（r1 也是 +29/35）
+- 机制: 原批队列不传 Q6_REP (q6_budget_scan_queue.sh L22 确认) → source cache 跨 rep 共享 → r2 首轮检索全命中 r1 写入的 cache → 首轮分解确定性地复现
+- 佐证: r1 CACHE-HIT 127 次 (吃 50/100/150/300 档 + 自身 cache), r2 仅 40 次 (r1 已填满, r2 多真调 LLM → 更慢: 279 calls 才到 23 个 SM parent, r1 同节点数 ~97 个 SM 行)
+- 意义: cache 共享压低 rep 方差的假设从"节点重叠率推断"(89-91%) 升级为"首轮逐字复现"的直接行为证据; 重跑批 (Q6_REP 隔离) 的首轮应不再相同 — 这是重跑批的第二个可检验预测 (第一个: rep sd 回升)
