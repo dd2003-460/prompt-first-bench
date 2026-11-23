@@ -592,3 +592,14 @@ v3 只测了 log + 饱和两种函数形式 (都失败) → "continuous fit does
 → v3 的负结果是单边的 (只测 log+饱和); v4 混合图景: 函数形式拟合不支持锐拐点, 但 model-agnostic 断点扫描支持断点位置
 → draft 已按 v4 改写 (commit 6e9601816): "continuous fits give a mixed picture: log/saturation fit poorly or degenerate, but a model-agnostic piecewise-linear breakpoint scan DOES locate a breakpoint ... the location of the slope change (~300-425) is consistent across domains ... the plateau is more accurately a slope collapse than a flat top"
 → 独立复现通过 (不同代码路径: GPU 425/0.10015, Q6 325, 断点400 0.10154)
+
+## 机制锚 v5: F 检验揭示断点显著性不对称 (2026-11-24 07:15)
+
+v4 的断点扫描只报 ss 改善, 没带 p 值 (skill 第 10 条: 统计声明必须带显著性)。
+F 检验 (两段比单段多 2 参数, df1=2, df2=n-4; df1=2 闭式 p=(1+2F/ν)^(-ν/2)):
+- Q6 (n=16): F(2,12)=7.33, p=0.008 → **显著**
+- GPU (n=30): F(2,26)=2.62, p=0.092 → **边缘** (0.05≤p<0.10, 不显著)
+→ **不对称**: 断点在 Q6 统计支持, 在 GPU 只是边缘
+→ draft "location consistent across domains" 限定为 "both optima fall in ~300-425, Q6 statistically firmer"
+→ 注: GPU n=30 比 Q6 n=16 大, 但 GPU 的断点改善反而更小 (相对 ss 16.8% vs 55%) — GPU 曲线更"平", 断点更弱
+→ 独立复现: 闭式解 (scipy 不可用, df1=2 有解析 p 值)
