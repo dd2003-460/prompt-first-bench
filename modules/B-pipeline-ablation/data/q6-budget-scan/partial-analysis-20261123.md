@@ -146,3 +146,8 @@ CUR 口径逐 rep:
 - **含义**: 模型有自然信息饱和点 ~300-350 节点, 预算超过该点 = 浪费。直接支撑核心 claim "harness's budget allocation — not the budget size — is the quality variable" (§4.3 末句)
 - 若 r2/r3 也停 ~350: 719 档实质是"~350 节点第 4 批", 曲线 5 档退化为 4 档 + 300/351 双测; 若 r2/r3 停在不同节点数: 719 档才有独立预算信息
 - **x 轴口径提醒**: Q6 扫描 50-300 档 realized = budget (干净 x 轴), 比 GPU K7 扫描 (soft cap, realized 103-392 重叠) 更干净 — Q6 是更严格的 budget 效应测试
+
+### 跨 run cache 共享的算术证明 + query 口径修正（21:50）
+- **算术证明(不依赖猜)**: cache 文件 mtime 可数。719-r2 窗口(21:28-21:41)只写 20 个新 cache 文件, 但 CACHE-HIT 40 次 → **至少 20 次命中 r1/前档写的旧文件**。r1 窗口写 94 文件, CACHE-HIT 127 次 → 至少 33 次命中 50/100/150/300 档旧文件。跨 run 共享是算术事实
+- **query 口径修正**: cache key 的 question = 节点 search_query (英文, 如 "cloud CDN log storage query API cost estimation"), 非中文 claim。之前"search_query 1% 重叠"是**终态 json 字段**, 运行中 LLM 用固定模板生成英文 query 高度收敛(技术词汇有限), 运行时瞬时重叠 stdout 不记 query 测不到 → "rep 间 query 几乎不同"降档为"终态字段 1%, 运行时未测"
+- **证据链终态**: cache 共享机制 = 代码(key 不含 rep) + 算术(命中数>窗口写入数) 双证, 成立。方差压低幅度原批不可估(claim 0% 重叠 vs 结构 71-76% 收敛两股力量), 重跑批 sd 对照是唯一量化手段
