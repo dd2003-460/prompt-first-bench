@@ -17,14 +17,15 @@
 import sys, json, math, statistics, glob, os
 
 PFB = '/Users/a1-6/Desktop/workspace/pfb'
-# era-matched 单一源: 28 棵全用 frozen judge 重算 (机械 depth)。
+# era-matched 单一源: 全用 frozen judge 重算 (机械 depth)。
 # 旧源 results-budget-scan.json 的 K7 depth 是 LLM judge_v2_depth (self-biased),
 # 与 rep-scan 的机械 depth 混表会产生假 peak (见 T-JUDGE-1-depth-axis-provenance-20261123.md)。
-ERA = f'{PFB}/modules/B-pipeline-ablation/data/rep-scan/era-matched-28.json'
+# 文件名不带计数 (11-23 改): rep 落地一棵加一棵, 计数会过期。
+ERA = f'{PFB}/modules/B-pipeline-ablation/data/rep-scan/era-matched.json'
 
 
 def load_era():
-    """era-matched 28 棵 (frozen judge 机械 depth)。r7/r8 落地后重算此文件再加。"""
+    """era-matched (frozen judge 机械 depth)。r7/r8 落地后重算此文件再加。"""
     if not os.path.exists(ERA):
         return []
     rows = []
@@ -49,7 +50,7 @@ def welch_t(a, b):
 
 def main():
     rows = load_era()
-    src = f'era-matched-28 (frozen judge, 机械 depth; {len(rows)} rows)'
+    src = f'era-matched (frozen judge, 机械 depth; {len(rows)} rows)'
     print(f'=== rep_scan 分析 · {src} ===\n')
 
     by_budget = {}
