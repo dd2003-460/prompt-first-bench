@@ -321,3 +321,15 @@ era confound 降级后做全 draft 扫描 (nominal 档标注的 depth/cov 声明
 3. §4.3 breadth-vs-depth "~700 nodes (tier 719) vs ~380 (tier 150)" — 同 1 的 nominal 对比 → 改为 103–747 span + pre-clamp 重叠标注。
 另: 初版修复里 "~120–460 realized nodes" 的 nominal→realized 映射不干净 (pre-clamp 下 100 档 123–314 与 300 档 364–462 重叠, 区间端点混两批) → 删掉伪精确映射, 改标 pre-clamp 重叠。
 扫描后: 括号差 0, 0 TODO, 98147 字符。draft 现无 nominal 档口径的承重声明残留。
+
+## §4.4/§6 detector-robustness 数字独立重算 (2026-11-24 05:12)
+
+gap-rate-anova-rep-scan.py + gap-detector-domain-bias.py 重跑 + 独立重算 ANOVA (per-run, n=5/档):
+- 现用 8-pattern tier means: 0.0992/0.1001/0.1075 ✓ (draft 0.099/0.100/0.107)
+- spread/pooled_sd = 0.15 = 6.5× ✓; ANOVA F(2,12)=0.0360 ✓ (draft 0.036)
+- 扩展 22-pattern per-run: 0.3896/0.4151/0.4362 ✓ (draft 0.39/0.41/0.44); ANOVA F(2,12)=1.0175 ✓ (draft F=1.02)
+- claim-field (监控轴) per-run: 现用 0.0896/0.0902/0.0961 ✓ (draft 0.090/0.090/0.096), F=0.021; 扩展 0.1051/0.1062/0.1139 ✓ (draft 0.105/0.106/0.114), F=0.0333 ✓ (draft F=0.033)
+- **F=0.033 口径澄清**: 是 extended 检测器下 claim-field 的 ANOVA (0.0333); pooled 现用 = 0.036, pooled 扩展 = 1.02。draft 原文 "claim-field rate stays flat under both detectors (F=0.033)" 里 0.033 只对应 extended 侧, 现用侧 claim-field F=0.021 (同样 flat, 结论不变)。
+- finding2-field-decomposition.py 重跑: nat 0.0162 ✓ / soc 0.0261 ✓ / gpu claim 0.0925 (draft 0.0921, 漂移 0.0004, 语料快照 n 19→18)
+- 6 个 `research/*.py` 脚本引用全部解析到 modules/B-pipeline-ablation/research/ ✓
+- 结论: detector-robustness 节全部承重数字对账通过, 无实质漂移。
