@@ -54,3 +54,30 @@ PYEOF
   done
 done
 echo "=== q6-budget-scan-rerun queue DONE $(date '+%F %T') ===" | tee -a "$LOG"
+
+# [对比] 重跑批 (rep 独立 cache) vs 原批 (cache 共享) rep 方差
+# 判据: 重跑 sd 显著 > 原批 sd (300 原批 judge=0.0212 metacog=0.0304) → cache 共享压低方差假设成立
+# 719 档注意: 重跑同样不传 --max-depth → 仍撞 max_depth=4 (~351 节点), 测的是方差非 719 预算
+echo "=== [对比] 重跑批 vs 原批 rep 方差 (cache 共享压低假设验证) ===" | tee -a "$LOG"
+/usr/bin/python3 - "$OUT" << 'PYEOF' | tee -a "$LOG"
+import sys, json, os, statistics as st
+OUT = sys.argv[1]
+ORIG = "/Users/a1-6/Desktop/workspace/pfb/modules/B-pipeline-ablation/data/q6-budget-scan"
+def load(p):
+    try: return json.load(open(p))
+    except Exception: return []
+orig = load(os.path.join(ORIG, "q6-scan-scores.json"))
+rerun = load(os.path.join(OUT, "q6-rerun-scores.json"))
+print(f"  {'budget':<8} {'轴':<9} {'原批 sd (n)':<18} {'重跑 sd (n)':<18} 判定")
+for b in [300, 719]:
+    for axis, key in [("judge", "judge"), ("metacog", "metacog")]:
+        oj = [r[key]["total"] for r in orig if r.get("budget") == b]
+        rj = [r[key]["total"] for r in rerun if r.get("budget") == b]
+        os_ = f"{st.stdev(oj):.4f} (n={len(oj)})" if len(oj) >= 2 else f"n={len(oj)} 不可算"
+        rs_ = f"{st.stdev(rj):.4f} (n={len(rj)})" if len(rj) >= 2 else f"n={len(rj)} 不可算"
+        verdict = ""
+        if len(oj) >= 2 and len(rj) >= 2:
+            verdict = "↑ 回升 (假设支持)" if st.stdev(rj) > st.stdev(oj) * 1.3 else "≈ 持平 (假设存疑)"
+        print(f"  {b:<8} {axis:<9} {os_:<18} {rs_:<18} {verdict}")
+print("  判据: 重跑 sd > 原批 sd × 1.3 → cache 共享压低方差假设成立; 持平 → 方差本就这么低, cache 非主因")
+PYEOF
