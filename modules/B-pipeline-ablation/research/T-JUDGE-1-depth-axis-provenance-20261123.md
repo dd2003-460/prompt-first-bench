@@ -460,3 +460,12 @@ D 问"数字都是什么含义"→ 我把速查表报给他后, 对凭记忆的 
 - gpu 值 0.147 → 0.1193 (n=18→19): 0.147 算在更早的语料快照上, 或当时算错
 - draft 三处修正: §4.2 表 (22/27/19, 0.0254/0.0562/0.1193, H=37.8) + honest boundaries + abstract finding (2); 每处带 correction 注
 - 教训: 11-22 的"质询修正"记录只存散文没存数据文件 → 数字无法复现。规则: 任何"修正后"的数字必须连同计算脚本/子集定义一起落盘, 散文记录不算证据
+
+## 补充24 (2026-11-23 13:00): rep-scan wall time = 第二成本维度
+
+队列 15 run 的 wall_s (rep-scan-queue.log, 已存工作区 data/rep-scan/):
+- budget 100: mean 988s (16.5min) | 150: 2017s (33.6min) | 300: 2998s (50.0min)
+- wall 随 budget 单调升, 与 node count 同向 (154/262/368 nodes)
+- **per-node 成本随 budget 升: 6.4→7.7→8.1 s/node** = 边际节点越来越贵 (时间轴上的递减效应)
+- 论文目前只用 realized node count 作成本代理; wall time 是补充成本维度, 非承重 (budget-invariance/L4 零收敛都不依赖它)
+- 若要强化 "cost" framing 可加: budget 买广度也买时间, 且边际节点时间成本递增
