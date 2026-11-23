@@ -21,6 +21,9 @@ sys.path.insert(0, os.path.join(HERE, ".."))
 from metacog_axis import DEFENSIVE_RE
 
 # DEFENSIVE_RE 去掉"不确定" (技术术语) 后的对照正则
+# 口径验证 (2026-11-23): metacog_axis.DEFENSIVE_PATTERNS 源码 = 8 项
+# [待核验]/不确定/未验证/待确认/需要验证/无法确定/缺乏数据/信息不足;
+# 本正则 = 其余 7 项, 无漏无增; "无法确定"不含"不确定"不会被误剔。
 NO_UNCERTAIN = re.compile(r"\[待核验\]|未验证|待确认|需要验证|无法确定|缺乏数据|信息不足")
 
 
