@@ -490,3 +490,15 @@ q7_full_analysis.py 在 11h 长杆 (15 runs) 落地前 dry-run 验证:
 - C 段 (cor 在 gold 扰动下): 0.6011 → 0.6413 (Δ+0.040) → 形状结论对 gold 扰动 robust
 - 综合: 威胁客观性的不是 gold 构建 (1/4 噪声底), 是阈值 (3.4× 噪声底 + 悬崖形状)
 - draft §6 已更新为最终结论 (删 "is running; first pass void" 过时句)
+
+## 数字口径审计 (2026-11-24 06:05, workshop-number-audit 16 条, 22 项核验)
+
+本轮进 draft/K7 的新数字全部对数据源独立重算: **22/22 ✓** (唯一初判 ✗ 是核验脚本字段名笔误 mean vs mean_cov, 数据本身 0.85→0.0 ✓)。
+- 扰动 A/B/C 段 + 基线 (judge-perturbation-20261124.json): 0.0215/0.3185/0.6011→0.6413/0.3185·0.0926·15 ✓
+- 阈值悬崖 4 点 + cor 4 点 + 上升单调/平台非单调 (threshold-shape-robustness-20261124.json): 0.4963/0.3185/0.0981/0.0148 + 0.802/0.601/0.388/0.132 + 形状判定 ✓
+- nodepth r1 命中集 (nodepth-r1-vs-orig-hits-20261124.json): 6/46·n=719, nd⊂orig-r2 (6⊆9 严格子集), 重叠 4/6·6/6·3/6, 原批 rep 间 6/8·3/6·5/6, r3 n=197 ✓
+- 原批 719 三 rep (q6-gold-rescore.json 46-unit): cov {0.1304,0.1739,0.1957}, 均值 0.1667, n_units_hit 6/8/9 ✓
+- 6/46=0.1304 算术 ✓; B 段 0.85→0.0000 ✓
+- draft 括号差 0 (760/760) ✓
+**skill 15/16 条 (gold 工件 + 官方口径)**: 本轮所有 cov 数字钉死工件 — 46-unit (q6-gold-rescore.json, nodepth/原批 719) vs 36-unit (GPU gold, 扰动/阈值悬崖 K7 15 树) vs 52-unit (Q7 gold, 队列脚本); 两套标度在 draft 里分属不同段 (K7 15 树 = 36-unit GPU gold, nodepth/原批 = 46-unit Q6 gold), 无混用。
+**skill 8 条 (abstract 强度)**: abstract 的 domain-dependence 声明 scoped 到 "GPU gold" + "queued 719-nodepth batch" (未把 r1 n=1 结果说成定论), 强度 ≤ 正文 ✓。
