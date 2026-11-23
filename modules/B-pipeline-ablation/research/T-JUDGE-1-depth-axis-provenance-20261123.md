@@ -1245,3 +1245,70 @@ knowledge-source 缺口节点 **47-59% 也触发了检索**——不是"无 (b)"
 ### 脚本
 
 本轮 inline（梯度表），固化进 claim-evidence-separation.py 的扩展
+
+---
+
+## 补充44 — "Breadth-without-Depth Budget Curve" 的 x 轴必须是 realized node count，不是 nominal budget
+
+**时间**：2026-11-23 15:55
+**类型**：核心 claim 的 x 轴澄清（论文标题 claim，强化非削弱）
+**触发**：stop_hook 续推，depth-vs-budget 曲线 provenance 检验
+
+### 问题
+
+论文标题 "Breadth-without-Depth Budget Curve"。草稿 §4.3 line 94 写机械 depth
+"carries no budget discrimination (depth~n_nodes r=0.94)"——这句话自相矛盾：
+r=0.94 是强相关，怎么"无 budget 区分度"？
+
+### 复算（K7-era 15 runs，机械 depth = min(max_depth/5, 1.0)）
+
+| 名义tier | 实际节点数 | 机械depth | max_depth |
+|---|---|---|---|
+| 50 | 103 | 0.600 | 3 |
+| 150 | 122 | 0.600 | 3 |
+| 100 | 123 | 0.600 | 3 |
+| 100 | 136 | 0.600 | 3 |
+| 150 | 167 | 0.600 | 3 |
+| 50 | 175 | 0.600 | 3 |
+| 100 | 314 | 0.800 | 4 |
+| 300 | 364 | 0.800 | 4 |
+| 719 | 381 | 0.800 | 4 |
+| 300 | 391 | 0.800 | 4 |
+| 150 | 392 | 0.800 | 4 |
+| 300 | 415 | 0.800 | 4 |
+| 50 | 423 | 0.800 | 4 |
+| 719 | 665 | 1.000 | 5 |
+| 719 | 747 | 1.000 | 5 |
+
+- cor(机械depth, 实际节点数) = **+0.981**（t=+18.33, df=13, p<0.001）
+- cor(max_depth, 实际节点数) = **+0.981**
+- 名义 tier 均值：50/100/150 全 = 0.667，300 = 0.800，719 = 0.933
+
+### 矛盾的解决
+
+"无 budget 区分度"指**名义 budget tier**（50/100/150/300/719 标签）——
+因为软上限让名义 tier 重叠（50-tier 实际跑到 n=423，150-tier 只有 n=122），
+名义 tier 均值被污染（50/100/150 全 0.667）。
+
+"r=0.94/0.98"指**实际节点数**（连续变量）——depth 随实际 compute 从 0.6 爬到 1.0，
+在 max_depth=5（n≈665）饱和。
+
+### 对标题 claim 的含义
+
+"Breadth-without-Depth" 的干净表述：**x 轴 = realized node count（实际 compute），
+depth 爬升后饱和**——breadth（节点数）继续涨，depth 封顶在 5。
+这是强化不是削弱：曲线对实际 compute 成立且强（r=0.98），只要 x 轴标成 realized 而非 nominal。
+
+与补充41-42（gap_rate 不变性）同构：两个核心 claim（depth 曲线 + gap_rate 不变性）
+的 x 轴都必须是 realized node count，不是 nominal budget tier。
+
+### 对草稿的影响
+
+§4.3 line 94 "carries no budget discrimination (depth~n_nodes r=0.94)" 措辞自相矛盾，
+需改为"对名义 tier 无区分度（软上限重叠），对实际节点数强相关（r=0.98）"。
+§4.3 line 96 已有软上限 caveat，line 94 需同步。
+
+### 脚本
+
+本轮 inline（机械 depth 直接从节点树算 max_depth，不调 LLM），
+与补充42 的 gap_rate 连续检验同构，可合并进一个 realized-compute 检验脚本
