@@ -170,3 +170,25 @@ headline 不被此 confound 打穿。Q6 719 档（max_depth=4，realized 197/351
 **修复（commit）**：§2 跨模型句降级 "should hold" → "we expect to hold but have not yet tested — the capability axis is planned, not run (§7), so cross-model generalization is a hypothesis to be verified, not a finding"。
 
 **结论**：draft 防御密度高（控制臂×3：bare-arm/verbosity/llm-vs-mech；诚实降级×6：n=3/era-scoped/detector-scoped/GPU-domain/upper-bound/hypothesis-not-finding）。红队后投稿就绪度三条件全过：结构完整 ✓ 承重数字对账 ✓（4 sd 值+104 加法+abstract 强度）最狠质询有防御 ✓（1 处缺口已修）。剩余提升项不变：r3 落地（n=3 方差探针）+ nodepth 拆墙批 + Q7 第三域。
+
+## 719 档 rerun r3 落地 + n=3 方差探针（2026-11-24 03:45）
+
+r3 落地：n=392（depth ceiling, final_state=rework），Q6 gold 重评 cov=0.1739 total=0.4870 metacog=0.1737。
+
+**719 档 rerun 全 rep（n=3, Q6 gold）**：
+| rep | n_nodes | cov | metacog |
+|---|---|---|---|
+| r1 | 349 | 0.1739 | 0.1041 |
+| r2 | 277 | 0.0870 | 0.2336 |
+| r3 | 392 | 0.1739 | 0.1737 |
+| mean | | 0.1449 | 0.1705 |
+| sd | | **0.0502** | **0.0648** |
+
+**方差探针（719 档，n=3 可解读）**：
+- metacog sd: rerun 0.0648 vs 原批 0.0290 → **2.23×**（与 300 档 2.21× 一致）
+- cov sd: rerun 0.0502 vs 原批 0.033 → **1.52×**（方向同，46-unit 分辨率 caveat）
+- r1/r3 cov 同为 0.1739（8/46 离散巧合），metacog 不同（0.104 vs 0.174）→ answer 独立，非 cache 伪影
+
+**结论**：cache 共享压低方差假设现在两档（300/719）都是 n=3 可解读地成立（之前 719 是 n=2 单自由度）。draft §7 已更新（commit），措辞从"directionally consistent at 719 (n=2), not interpretable until r3"升级为"supported at both tested tiers (300 and 719, n=3 each), still not a controlled estimate"。
+
+**relay 链推进**：rerun 队列 03:40:04 退出 → nodepth 批 03:40:34 启动（phase 1，max_depth=10，PID 41010/41017 在跑 r1）。nodepth 落地后跑 `q6_719_nodepth_analyze.py`，然后 Q7 扫描。
