@@ -189,14 +189,23 @@ Q6 50 档 3 run search 占比: 10%/40%/22% (均值 24%), 仍低于 GPU 32.7%。
 5. 承重数字: ANOVA F=0.036 的 invariance 现在只能标 "detector-scoped (8-pattern)"
    不能标 "confirmed invariance" — 降级为 suggestive + 带 detector caveat
 
-**再反转 (2026-11-23, 决定性检验, 推翻上一条"不 robust"的过度推断)**:
+**再反转 (2026-11-23, 决定性检验, 精确口径)**:
 字段分布分解显示扩展检测器新增命中 **87% 在 evidence 字段 (核验/修复阶段 b/c),
 只有 5% 在 claim 字段 (监控阶段 a)**。只算 claim 字段 (纯监控轴):
 - 现用: 0.0896/0.0902/0.0961 (100/150/300) — 平坦
 - 扩展: 0.1051/0.1062/0.1139 — **仍平坦**
 - claim 字段 ANOVA: F(2,12)=0.033 (扩展) vs 0.036 (现用) — 几乎相同
-**结论: budget-invariance 是 detector-robust 的 (监控轴 claim 字段, 两检测器都成立)**。
-我之前"不 robust"是把监控轴 (claim) 和核验阶段文本 (evidence) 混了 — 过度推断。
+**精确结论 (承重口径, 2026-11-23 第三次修正)**:
+- 论文 gap_rate 是 **claim+evidence+corrected_claim 三字段混算** (compute_metacog 口径)
+- 三字段混算: 现用平坦 (F=0.036), 扩展**随 budget 升** (0.39/0.41/0.44, F=1.02)
+  → **pooled gap_rate 的 invariance 是 detector-scoped 的, 不 robust**
+- claim 字段 (监控轴): 两检测器都平坦 (F=0.033/0.036)
+  → **监控轴 invariance 是 detector-robust 的** — 这是论文可守的核心
+- evidence 字段 (核验阶段): 扩展下随 budget 升 — 与 vsr budget trend 同向
+- 我前两轮各错一次: 先说"不 robust" (没分解字段), 再说"robust" (把 claim 字段
+  当成了论文口径) — 正确口径: pooled 不 robust, 监控轴 robust
+- n=15 (5/tier) ANOVA 低功效: "平坦" = 未检出 budget 效应, 非证明 invariance
+- draft §6 (ii) 已按此精确口径改写 (22-pattern, F=0.033/1.02, 字段分解)
 
 **真正的新发现 (扩展检测器揭示, 监控轴之外的 budget 效应)**:
 - 核验阶段防御文本 (evidence 字段) 随 budget **上升**: 0.39/0.41/0.44 (100/150/300)
