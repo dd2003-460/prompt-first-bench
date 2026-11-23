@@ -86,12 +86,18 @@ for lo, hi in [(0, 100), (100, 200), (200, 400), (400, 800)]:
     sel = [r["in_cov"] for r in recs if lo <= r["n_nodes"] < hi]
     q7_bins.append({"bin": f"{lo}-{hi}", "n": len(sel),
                     "mean": round(sum(sel) / len(sel), 4) if sel else None})
-# 平台检测: 最高两箱均值差 (参照 GPU 0.361/0.361 判平台)
+# 平台检测: 最高两箱均值差 + 噪声底 (2026-11-24 修: 只报 gap 数值不够 — GPU 的 0.0000 差就在
+# 噪声底 sd≈0.078 内, "gap≈0=平台" 的判读会把噪声当平台; 必须报 gap vs 1×sd 的比值)
 filled = [b for b in q7_bins if b["mean"] is not None]
 plateau = None
+plateau_vs_noise = None
 if len(filled) >= 2:
     top2 = filled[-2:]
     plateau = round(abs(top2[0]["mean"] - top2[1]["mean"]), 4)
+    # 噪声底: 全部 run 的 cov sd → 两箱均值差的 1×sd = sd*sqrt(1/n1 + 1/n2)
+    import math as _m
+    _sds = st.stdev([r["in_cov"] for r in recs]) if len(recs) >= 2 else 0.05
+    plateau_vs_noise = round(plateau / (_sds * _m.sqrt(1/top2[0]["n"] + 1/top2[1]["n"])), 2)
 xs = [r["n_nodes"] for r in recs]; ys = [r["in_cov"] for r in recs]
 if len(xs) >= 3:
     import math
@@ -100,11 +106,64 @@ if len(xs) >= 3:
     q7_cor = round(sum((x - mx) * (y - my) for x, y in zip(xs, ys)) / den, 4) if den else None
 else:
     q7_cor = None
+
+# --- 机制锚 v4: 分段线性断点扫描 (model-agnostic, 2026-11-24 补入) ---
+# v3 只测 log + 饱和 (都失败) 是单边的; v4 用断点扫描直接测"断点在哪最优"。
+# GPU 最优断点 425 / Q6 325, 断点位置跨域一致 (~300-425) 是机制锚 v4 的核心发现。
+# Q7 落地后第三域断点: 若也在 ~300-425 → 三域一致, 机制锚从 n=2 变 n=3。
+def _linreg_ss(p):
+    n = len(p); mx = sum(x for x, _ in p) / n; my = sum(y for _, y in p) / n
+    sxy = sum((x - mx) * (y - my) for x, y in p); sxx = sum((x - mx) ** 2 for x, _ in p)
+    a = sxy / sxx if sxx else 0.0; b = my - a * mx
+    return a, b, sum((y - (a * x + b)) ** 2 for x, y in p)
+q7_bp = None
+if len(xs) >= 8:
+    pts_sorted = sorted(zip(xs, ys))
+    _ss1 = _linreg_ss(pts_sorted)[2]
+    _best = None
+    for _bp in range(150, 700, 25):
+        _L = [(x, y) for x, y in pts_sorted if x < _bp]
+        _R = [(x, y) for x, y in pts_sorted if x >= _bp]
+        if len(_L) < 3 or len(_R) < 3:
+            continue
+        _a1, _b1, _s1 = _linreg_ss(_L); _a2, _b2, _s2 = _linreg_ss(_R)
+        if _best is None or _s1 + _s2 < _best[0]:
+            _best = (_s1 + _s2, _bp, _a1, _a2)
+    if _best:
+        q7_bp = {"ss_single": round(_ss1, 5), "ss_two_seg": round(_best[0], 5),
+                 "optimal_bp": _best[1], "slope_left": round(_best[2], 5),
+                 "slope_right": round(_best[3], 5),
+                 "improvement": round((_ss1 - _best[0]) / _ss1, 4) if _ss1 else None}
+# --- 机制锚 v2: 停止状态通用签名检查 (2026-11-24 补入) ---
+# 全 30 树 (GPU+Q6) 每档都 高 gain + 非空 frontier + streak=0 → 停止状态是通用签名,
+# 平台是 cov 现象不是停止状态现象。Q7 落地后第三域验证: 若 Q7 也全档同型 → 三域一致。
+q7_stop = []
+for f in files:
+    _d = json.load(open(f))
+    _rounds = _d.get("rounds", [])
+    if _rounds:
+        _lr = _rounds[-1]
+        _fr = _lr.get("frontier", 0)
+        if isinstance(_fr, list): _fr = len(_fr)
+        q7_stop.append({"gain": _lr.get("gain"), "frontier": _fr,
+                        "streak": _lr.get("low_gain_streak"),
+                        "final_state": _d.get("final_state")})
+q7_stop_universal = all(s.get("streak") == 0 and (s.get("frontier") or 0) > 0
+                        and (s.get("gain") or 0) > 0.8 for s in q7_stop) if q7_stop else None
+
 print(f"\n=== Q7 realized-node-count 轴 (第三域) ===")
 print(f"  分箱: " + " / ".join(f"{b['bin']}: {b['mean']} (n={b['n']})" for b in q7_bins))
-print(f"  最高两箱差 = {plateau}  (GPU 参照: 0.361/0.361 → 差 0 = 平台)")
+print(f"  最高两箱差 = {plateau}  (vs 噪声底 1×sd = {plateau_vs_noise}×; <1 = 差在噪声内, 平台判读不 robust; GPU 参照: 0.0000/0.078 差, 已标 n=5 caveat)")
 print(f"  cor(in_cov, realized) = {q7_cor}  (GPU 参照: 0.563)")
-print(f"  三域 realized 轴: GPU 平台 ~400 / Q6 ≤379 仍升 / Q7 见上")
+if q7_bp:
+    print(f"  断点扫描 (机制锚 v4): 单段 ss={q7_bp['ss_single']} → 两段 ss={q7_bp['ss_two_seg']} "
+          f"(改善 {q7_bp['improvement']*100:.0f}%), 最优断点={q7_bp['optimal_bp']} "
+          f"(斜率 {q7_bp['slope_left']}→{q7_bp['slope_right']})")
+    print(f"    三域断点: GPU 425 / Q6 325 / Q7 {q7_bp['optimal_bp']} → "
+          f"{'三域一致 (~300-425)' if 300 <= q7_bp['optimal_bp'] <= 425 else 'Q7 偏离 (~300-425), 需查'}")
+if q7_stop is not None:
+    print(f"  停止状态 (机制锚 v2): {len(q7_stop)} runs, 全档 高gain+非空frontier+streak=0: {q7_stop_universal}")
+print(f"  三域 realized 轴: GPU 平台 ~400 / Q6 ~400 后不再升 (nd-r1 719 回落 0.1304, n=1, r2/r3 定 n=3) / Q7 见上")
 
 out = {
     "n_runs": len(recs),
@@ -115,8 +174,12 @@ out = {
         "q7_bins_by_realized": q7_bins,
         "top2_bin_gap": plateau,
         "cor_in_cov_realized": q7_cor,
-        "three_domain_reference": "GPU 平台 ~400 realized 节点 (30 树分箱 0.250/0.325/0.361/0.361, cor=0.563); "
-                                  "Q6 ≤379 realized 仍升 (tier 0.058→0.167); Q7 见 q7_bins_by_realized",
+        "breakpoint_scan_v4": q7_bp,
+        "stop_state_universal_v2": q7_stop_universal,
+        "stop_states": q7_stop,
+        "three_domain_reference": "GPU 平台 ~400 realized 节点 (30 树分箱 0.250/0.325/0.361/0.361, cor=0.563, 断点扫描最优 425); "
+                                  "Q6 ~400 后不再升 (16 点分箱 0.078/0.152/0.130, 断点扫描最优 325; nd-r1 719 回落 0.1304, n=1, r2/r3 定 n=3); "
+                                  "Q7 见 q7_bins_by_realized + breakpoint_scan_v4",
         "caveat": "跨域绝对 cov 不可比 (gold 不同: Q7 52 / Q6 46 / GPU 36 units), 只比形状 (平台 vs 上升)",
     },
     "repair": {"fixed": tot_fix, "rework": tot_rw,
