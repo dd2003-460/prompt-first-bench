@@ -162,6 +162,19 @@ Four structural observations:
 
 All metrics are deterministic functions of saved run JSONs; judge code, calibration record, metacog axis, and the 15-run budget scan are in the repository (paths in the supplementary). Reproduction: `judge_v1.py` + `metacog_axis.py` over `checkpoints/archive/`. The source-anchored numeric verification layer (§4.4 obs4) is `source_verify.py` (fetch each node's cited URL, strict 20-char-window number+unit co-occurrence; no LLM; results in `data/source-verify.json`), and the self-report vs mechanical-verification calibration check is `calibration_check.py` (results in `data/calibration-check.json`). The cross-domain gold converter (§7) is `gold_md_to_units.py` (markdown gold tree → structured units; verified on all five out-of-domain trees Q6–Q10), and the judge's gold-injection flag is `judge_v1.py --gold-units` (GPU default regression-checked at 0.3972). The repetition-degeneration detector (§4.4 cross-domain observation) is `D1-generalization/scripts/degeneration_detector.py` (repeated-block + no-answer-block; validated 5/5 on the Q04 paths, full-corpus scan 2/35 degenerate).
 
+## 9. References
+
+1. Bai, X., et al. (2025). Know Thyself? On the Incapability and Implications of AI Self-Recognition. arXiv:2510.03399.
+2. Gao, Z., et al. (2026). Trustworthy Recursive Self-Improvement with Statistical Guarantees. arXiv:2611.10787.
+3. He, Y., et al. (2026). Mechanistic Critics for Sample-Efficient NPU Design-Space Exploration. arXiv:2611.24733.
+4. Panickssery, A., et al. (2024). LLM Evaluators Recognize and Favor Their Own Generations. arXiv:2404.13076.
+5. Pombal, J., et al. (2026). Self-Preference Bias in Rubric-Based Evaluation of Large Language Models. arXiv:2604.06996.
+6. Scholten, F., et al. (2024). Metacognitive Myopia in Large Language Models. arXiv:2408.05568.
+7. Tamoyan, H., et al. (2025). Factual Self-Awareness in Language Models: Representation, Robustness, and Scaling. arXiv:2505.21399.
+8. Ton, J.-F., et al. (2024). Understanding Chain-of-Thought in LLMs through Information Theory. arXiv:2411.11984.
+9. Yang, J., et al. (2026). Quantifying and Mitigating Self-Preference Bias of LLM Judges. arXiv:2604.22891.
+10. Yuan, Z., et al. (2024). LLM Inference Unveiled: Survey and Roofline Model Insights. arXiv:2402.16363.
+
 ---
 
 *Draft notes (not for submission): numbers from k7-pareto-15run-20261122.md, metacog-budget-scan-v1.1.json, judge-v1-cov-calibration.md, plan-layered-20261122.md (era-matched recompute). Venue target: ICML 2027 workshop. **Deadline verified 2026-11-23 (icml.cc/Conferences/2027/Dates, source ①)**: main-conference abstract 2027-01-14 AoE, full paper 2027-01-22 AoE; conference 2027-08-02~04 San Diego, workshops 08-05~06. Workshop-specific CFP/deadline not yet published (workshop organizers post separately, typically later than main) — re-verify when CFP drops. Related pending experiments: Idea 2 (checkpoint-as-cache, r1–r3 done 2026-11-23: A>B on composite 3/3 reps, cov-driven; B-arm metacog *higher* 3/3 reps — gap rate 0.14 vs 0.06, checkpoint prefix carries verified gap markers; vsr arm split B 0.66 vs A 0.46 on r1–r2 only — r3 excluded, retrieval channel outage: A-r3 90%/B-r3 70% source-empty), rep replication (queued), repair-loop fix (designed).*
