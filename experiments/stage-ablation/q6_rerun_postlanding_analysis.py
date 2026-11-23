@@ -30,17 +30,16 @@ def claim_sets(nodes):
     """claim 内容级集合 (normalized)"""
     return {re.sub(r"\s+", "", n.get("claim", "")) for n in nodes if n.get("claim")}
 
-def overlap_rate(nodes_a, nodes_b):
-    """claim 级重叠率: A 中有多少 claim 在 B 里 (embedding 余弦 ≥0.85 视为同 claim)"""
+def overlap_gradient(nodes_a, nodes_b, thresholds=(0.95, 0.90, 0.85, 0.80, 0.75)):
+    """claim 级重叠率随阈值梯度 (锁内容=0.95处尖峰; 独立采样=平滑梯度+0.95≈0)"""
     from sentence_transformers import SentenceTransformer
-    import numpy as np
     ca, cb = claim_sets(nodes_a), claim_sets(nodes_b)
-    if not ca or not cb: return 0.0
+    if not ca or not cb: return None
     model = SentenceTransformer("all-MiniLM-L6-v2")
     ea = model.encode(list(ca), normalize_embeddings=True)
     eb = model.encode(list(cb), normalize_embeddings=True)
     sim = ea @ eb.T
-    return float((sim.max(axis=1) >= 0.85).mean())
+    return {th: float((sim.max(axis=1) >= th).mean()) for th in thresholds}
 
 def bootstrap_sd_ratio(x, y, n_boot=2000, seed=42):
     """两样本 sd 比值的 bootstrap 95% CI (补 n=3 power 缺口)"""
@@ -65,8 +64,13 @@ for budget in [300, 719]:
         if len(reps) < 2:
             print(f"  {budget} {label}: 仅 {len(reps)} rep, 不可算")
             continue
-        ov = overlap_rate(runs[reps[0]], runs[reps[1]])
-        print(f"  {budget} {label} r{reps[0]}×r{reps[1]}: {ov*100:.1f}%")
+        grad = overlap_gradient(runs[reps[0]], runs[reps[1]])
+        if grad is None:
+            print(f"  {budget} {label}: claim 集为空")
+            continue
+        s = " ".join(f"{th:.2f}:{v*100:.1f}%" for th, v in grad.items())
+        print(f"  {budget} {label} r{reps[0]}×r{reps[1]}: {s}")
+        print(f"      判读: 0.95≈0 且平滑梯度 → 独立采样(非 cache 锁内容); 0.95 尖峰 → cache 锁内容")
 
 print()
 print("=" * 70)
