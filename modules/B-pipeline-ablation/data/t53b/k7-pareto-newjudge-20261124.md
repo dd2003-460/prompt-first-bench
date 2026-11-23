@@ -294,3 +294,8 @@ provenance 确认：K7 批用 new judge 重评（new_cov 字段），rep-scan �
 - 修复：(1) 零成本 realized 节点数 x 轴重分析（已做，draft 现口径）；(2) post-clamp 重跑 GPU 扫描（~10h，vLLM-bound，未排——等 D 拍板是否值得占 vLLM）；(3) Q6 nodepth 批（max_depth=10）在跑，落地后给 Q6 在 ~719 realized 节点的干净点，是"饱和点域依赖"的决定性测试。
 
 **自检**：之前把 commit message 点名的 realized 跨档重叠当"小 caveat"处理，严重性低估——它动摇的是核心 claim 的归因不是精度。D 的 confound 直觉方向对（跨域 regime 不对称），但比 max_depth 差异更根本的是 pre/post-clamp era 差异。
+
+### 修复路径裁决（2026-11-24 04:46 · 自主，可逆）
+(1) post-clamp 重跑 GPU 扫描（~10h，占 vLLM）：**跳过**。理由：draft 已改到 realized 节点数轴口径（commit 94ebf147c/2df481a8b），重跑只给 nominal 轴一个干净版本，边际价值低；且会阻塞 relay 链后面的 Q7 扫描（子项④）和子项②。若 D 认为 nominal 轴干净版本对投稿必要，再排（等 Q7 落地后 vLLM 空窗）。
+(2) realized 节点数 x 轴重分析：**已做**（30 棵 GPU 树分箱，平台 ~400 realized 节点），draft 现口径。
+(3) Q6 nodepth 批（max_depth=10）：在跑（r1 N321 节点，04:44），落地后判定 Q6 在 ~719 realized 节点是平台还是继续升——"饱和点域依赖"的决定性测试。
