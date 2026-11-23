@@ -1,4 +1,4 @@
-# Metacognition Under Compute Limits: Monitoring, Repair, and the Non-Monotonic Budget–Quality Curve in a 27B Research Agent
+# Metacognition Under Compute Limits: Monitoring, Repair, and the Breadth-without-Depth Budget Curve in a 27B Research Agent
 
 *Workshop draft v0.1 — 2026-11-22 — status: DRAFT (numbers verified from local artifacts; see §6 limitations)*
 
@@ -63,7 +63,7 @@ Era-matched (same default budget, same pipeline era), defensive-marking rate ris
 
 Kruskal–Wallis H=39.2, p<0.0001. If gap marking were noise, it would not track an independent difficulty ordering. It is the signature of calibrated uncertainty monitoring — the agent is more defensive exactly where it should be.
 
-**Honest boundaries**: (i) within *soc*, gap_rate correlates with node count (ρ=0.488, p=0.010) — part of the soc effect may be a budget effect; (ii) the gradient is verified at one budget point (150); a budget-stratified replication is planned. A 质询 (adversarial check) initially found the 83-run aggregate mixed two populations (sm-* era vs budget-* scan); era-matching *strengthened* the gradient (gpu 0.102→0.147) and showed the budget scan's gap_rate is non-monotonic in budget (50→0.079, 100→0.209, 150→0.147, 300→0.082, 719→0.089) — a budget effect independent of difficulty.
+**Honest boundaries**: (i) within *soc*, gap_rate correlates with node count (ρ=0.488, p=0.010) — part of the soc effect may be a budget effect; (ii) the gradient is verified at one budget point (150); a budget-stratified replication is planned. A 质询 (adversarial check) initially found the 83-run aggregate mixed two populations (sm-* era vs budget-* scan); era-matching *strengthened* the gradient (gpu 0.102→0.147) and showed the budget scan's gap_rate is non-monotonic in budget (50→0.064, 100→0.134, 150→0.047, 300→0.075, 719→0.081, K7-era n=3/tier, current compute_metacog) — a budget effect independent of difficulty. (The 150→0.147 figure in the earlier draft was the *difficulty-axis* gpu value mis-placed here; corrected 2026-11-23.)
 
 ### 4.3 Budget–quality is flat-to-weakly-non-monotonic
 
@@ -106,7 +106,7 @@ Four structural observations:
 
 1. **For harness design**: rework should be conditioned on the degraded-class (fire only on *contradicted*). This is a one-line change with a measurable prediction: repair fix-rate > 0 and budget reallocation toward depth. (Planned as the next experiment; acceptance via statistical gate, not single-run — per §2 related work, greedy gates misclassify 45.6% of accepts.)
 2. **For evaluation**: a mechanical, frozen judge is feasible and necessary for harness ablation — LLM judges inject family bias and non-determinism into the very variable being measured.
-3. **For compute-limited research**: the non-monotonic curve is a warning against "just give it more budget" — past the peak, extra budget degrades depth.
+3. **For compute-limited research**: the robust (mechanical) finding is that more budget buys *breadth* (more nodes, wider coverage) but not a more *stable or deeper* answer — the L4 conclusion layer does not converge to the gold winner at any tier (0/21), and the mechanical depth layer saturates as a 3-level step (no depth gain past ~300). This is a warning against "just give it more budget": extra budget spreads the tree sideways, not down the gold spine. (The non-monotonic *peak* on the LLM-judged depth axis is a weaker, self-biased, n=3-unsignificant signal — §4.3 — and is not the basis of this implication.)
 4. **For checkpoint reuse** (idea-2 arm, n=2–3/arm, suggestive): resuming from a verified checkpoint trades *coverage* (composite, A>B 3/3 reps) for *metacognitive precision* (gap marking 3/3 reps higher on the resume arm) and *source-verified retrieval quality* (vsr 0.66 vs 0.46 on the two channel-healthy reps; r3 excluded — retrieval channel outage, §4.4). The checkpoint's verified gap nodes act as reusable metacognition seeds — the (a) "judge own information sufficiency" step accumulates across runs rather than restarting. Which arm to prefer depends on the downstream objective: breadth (coverage/composite) vs precision (metacog).
 
 ## 6. Limitations (stated up front)

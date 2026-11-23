@@ -423,3 +423,20 @@ era 差异的成因: K7 (11-22) vs rep-scan (11-23) 之间 pipeline 改了什么
 ### 草稿更新
 
 §4.3 provenance + abstract finding (3): "spread 0.008" → "层间差是层内 sd 的 1/6, ANOVA F(2,12)=0.036 p≫0.05, 预算效应低于噪声分辨率"。
+
+## 补充22 (2026-11-23 12:35): depth 轴定位重写 + §4.2 budget-scan 数字纠错
+
+### 定位重写 (D 授权方向: 如实标 LLM rubric + robust 主张挪 L4)
+
+- 标题: "Non-Monotonic Budget–Quality Curve" → "Breadth-without-Depth Budget Curve"
+- §1 贡献2: "a non-monotonic budget–quality curve" → "robust (mechanical, bias-immune) claim is the L4 zero-convergence (0/21); non-monotonic depth peak confined to self-biased LLM rubric axis"
+- abstract finding (3): 标题改为 "More budget buys breadth, not a more stable answer — the robust claim is mechanical"; peak 限定 LLM 轴 + self-bias 归因 caveat
+- §5 implication 3: 从 "non-monotonic curve 是警告" 改为 "robust mechanical finding (L4 零收敛 + 3-level step 饱和) 是警告; peak 是 weaker self-biased n=3 信号, 不是 implication 基础"
+- 自相矛盾检查: abstract 标题一度写 "peak is a self-bias artifact" (比 §4.3 caveat 说满) → 改为 "not reproduced on the bias-immune axis"
+- 逐字重复检查: "719 buys ~700 nodes vs ~380" 一度出现 2 次 (abstract 首句+末句) → 删末句, 现 ×1
+
+### §4.2 数字纠错 (跨轴 scope 错, 历史遗留)
+
+line 66 budget-scan gap_rate 原值 "50→0.079, 100→0.209, 150→0.147, 300→0.082, 719→0.089" 与当前代码算出的 K7 值 (0.064/0.134/0.047/0.075/0.081) 不符。
+铁证: 原值 150→0.147 = finding 2 的 gpu **难度轴**值 → 难度轴数字误填预算轴声明。
+已修正 + 标注纠错说明。非单调定性结论不变 (100 最高 0.134, 150 最低 0.047)。
