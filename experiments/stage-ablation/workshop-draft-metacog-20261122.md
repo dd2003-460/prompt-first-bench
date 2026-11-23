@@ -82,7 +82,7 @@ Run-to-run sd (0.046) vs the 150-vs-plateau gap (0.041, plateau = mean of 100/30
 
 ### 4.4 Failure modes and continuity (per-layer anatomy)
 
-Per-layer status across 18 era-matched gpu runs (5,812 nodes):
+Per-layer status across 18 era-matched gpu runs (5,812 nodes; pre-rep-scan snapshot — the era-matched set is now 29 trees, §4.3; the per-layer pattern is stable across the larger set, re-verified 2026-11-23: L2–L4 ver% 42.5/48.1/52.8 on 29 trees vs 45.1/43.3/49.0 here):
 
 | layer | nodes | verified | degraded | pending | ver% |
 |---|---|---|---|---|---|
