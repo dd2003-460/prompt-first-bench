@@ -244,3 +244,20 @@ provenance 确认：K7 批用 new judge 重评（new_cov 字段），rep-scan �
 结论：draft 核心 claim（GPU cov ~300 饱和）的承重数字 = 数据源重算值，无漂移。
 
 数字审计覆盖范围（累计）：§7 4 sd 值 + §4.3 9 控制臂统计量 + 核心 claim 池化 cov 曲线 5 档 + abstract 强度 + 104 加法 + References 17/17 真实性 + 跨域 cov 曲线。draft 全部承重数字已对账。
+
+## 核心曲线池化口径 + cor(cov,n_nodes) 同棵 archive 树重验（2026-11-24 04:10）
+
+**池化口径澄清**（draft §4.3 核心曲线 0.259/0.264/0.278/0.358/0.352 的 provenance）：
+- 中间三档（100/150/300）= K7 15 条 (n=3/档) + rep-scan 15 条 (n=5/档) 池化 → n=8/档
+- 300 档验证: (0.4259×3 + 0.3167×5)/8 = 0.3577 ≈ 0.358 ✓
+- 50/719 端点 = K7 only (n=3)
+- 两批同口径: 都评 archive 树、同机械 cov 层、同 36-unit GPU gold
+- 形状在两批内各自成立 (K7: 0.259/0.269/0.287/0.426/0.352; rep-scan: 0.261/0.272/0.317) → 池化曲线非跨批伪影
+- 注: K7-only 300 均值 0.426 与 rep-scan-only 300 均值 0.317 差 0.109，池化后 0.358；这是两批 realized 节点分布不同所致（rep-scan 是 soft cap，300 档 realized 271-462 与 150 档重叠），draft 已注 soft-cap caveat
+
+**cor(cov, n_nodes) 同棵 archive 树重验**（draft 声称 +0.602, t=2.72, df=13）:
+- 15 棵 archive 树逐棵 judge_run 重评 cov + 取 len(nodes) → r=+0.601 (t=2.71, df=13) ✓ 一致
+- 反向验证: 用 rescore json 里的 n_nodes 字段（错位记账值）配同批 cov → r=0.343（错）——正是 draft 警告的 off-by-one 陷阱，rescore json 的 n_nodes 字段不可用于 per-run 配对
+- rescore json 的 cov 值 multiset 与 archive 树 15 棵完全一致（逐档均值全等）→ rescore 评的确实是 archive 树，provenance note "tier means 不受 off-by-one 影响" 声明成立
+
+**结论**: draft 核心 claim（GPU cov ~300 饱和）的曲线值 + 形状 + 相关系数全部对账通过，池化口径已在 draft §4.3 provenance note 显式写明（n=3/8/8/8/3 + 池化公式 + 两批各自形状）。
