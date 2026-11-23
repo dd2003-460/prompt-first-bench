@@ -61,3 +61,16 @@ LLM_URL=127.0.0.1:8787 / LLM_MODEL=qwen3.8-27b（ablation_harness.py:19-20）
 (b) 机械轴只保留 cov（单调、size-confounded，不作预算曲线主张）；
 (c) 真正的预算-质量主张应建立在 L4 zero-convergence（0/15+0/6，机械、
     无 self-bias、跨 budget 稳定）上——这才是 robust 的那条。
+
+## 补充3（10:26）：机械 depth 轴是 3 级阶梯，选项(b)不成立
+28 棵 max_depth 分布：3→12棵(0.6) / 4→14棵(0.8) / 5→2棵(1.0)。
+depth_score=min(max_depth/5,1.0) 只有 {0.6,0.8,1.0} 三个离散值，
+26/28 棵挤在 0.8/1.0 → 无预算区分度。
+（K7 批处理带 --max-depth 5，树深被硬限 5；rep-scan 虽不带但状态机
+默认也止于 5，故两批 max_depth 都 ≤5。）
+
+→ 报 D 的选项 (b)「改用机械 judge_v1 depth」**不成立**：
+  3 级阶梯测不出 peak@150。
+→ 决策空间收窄：depth 轴只能是 LLM rubric judge（judge_v2_depth）。
+  finding #3 重定位为「LLM 判定的深度（self-biased）」的 suggestive 观察；
+  robust 主张留在 L4 zero-convergence（机械/无self-bias/跨budget稳定 0/21）。
