@@ -143,3 +143,18 @@ rep-scan 13 棵 metacog 轴按 budget 档：
 → 补充6 的 metacog budget-invariance 发现 robust（通道故障稳健），
   可作 finding #3 重定位后的核心预算主张（与 L4 zero-convergence、
   vsr 趋势并列）。
+
+## 补充8（10:36）：rep-scan 队列自动评分静默失败的根因
+**根因**：队列脚本的 `python3` 解析到 Homebrew 3.14（/opt/homebrew/bin/python3），
+该环境缺 sentence_transformers（PEP 668 externally-managed，--user/--break-system-packages
+都不宜用）→ judge_v1.judge_run line 181 `from sentence_transformers import
+SentenceTransformer` 抛 ModuleNotFoundError → 被 heredoc try/except 捕获 →
+`[score-err]` 输出到**队列 stdout**（非 $LOG，tee 只给 echo 行）→ 不可见 →
+rep-scan-scores.json 从未被队列写入（7h 静默）。
+**对照**：手动评分用系统 python3（3.9，有 sentence_transformers）→ 正常。
+**影响**：仅评分步骤；run 数据（rep-*.json）正常落盘，手动评分可补全（已做 13 棵）。
+**下次队列的修法**（不碰正在跑的队列）：
+  ① 队列脚本评分段显式用系统 python3（/usr/bin/python3 或 3.9 路径），或
+  ② 建一个带 sentence_transformers 的 venv 并让队列评分段用 venv 的 python，或
+  ③ 评分段 stderr 不吞（去掉 2>/dev/null）+ tee 到 $LOG（让 [score-err] 可见）。
+  最小改动 = ③（可见性）+ ①（正确解释器）。
