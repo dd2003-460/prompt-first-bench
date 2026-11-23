@@ -214,3 +214,30 @@ rep-scan-scores.json 从未被队列写入（7h 静默）。
 **abstract 已改**: 去掉 "Within the GPU domain" 限定 (与跨域 finding 2 矛盾), 改为 "104 unique: 83 cross-domain (含 K7 15) + idea-2 6 + rep-scan 15; K7 是 83 的子集非加法项; finding 1/3/4 GPU 域, finding 2 跨域"。
 
 **教训**: ① 百分比/run 数前先确认 finding 的 scope 限定词; ② n_nodes 匹配做重叠检测必须用"不同值命中" (n_nodes 非唯一, 83 内部 8 碰撞); ③ 同一数字改 2 次以上 = 重复计数红旗, 停手用数据钉死再写。
+
+## 补充12: 检索通道 outage 根因诊断 (11-23 11:00)
+
+**Blocked 项 "root cause 待诊断" 收口**。
+
+**通道架构** (research_hook.py `research_hook`): local_corpus → wikipedia → **ddg** → webllm → arxiv, 每通道独立 cap, 总输出 ≤ max_results=8。
+
+**根因 = DDG 间歇性站级封锁 × 单向熔断器放大**:
+1. **DDG lite TLS 站级封锁** (2026-11-20 笔记, line 349-353): rc=35, 直连+7890 代理都死, 同代理下 wiki/arxiv 正常 → 站级非代理。间歇性 (有时活 9min, 有时 3min 就挂)。
+2. **单向熔断器** (line 354-408): `_ddg_fail_streak >= 2` → 本进程内**永久跳过 DDG**, 无半开/无冷却重试。DDG 在 run 早期挂 → 该 run 后续 ~40min 只剩 wikipedia 兜底 → 空源率飙升。
+
+**放大证据** (SITE-WL 行数 = 白名单过滤次数 = 检索有效调用数):
+| run | SITE-WL | DDG 存活 |
+|---|---|---|
+| 100-r4 | 16 | ~9min (03:25→03:34) |
+| 100-r5 | 3 | ~3min (03:42→03:45) |
+| 150-r4 | 18 | 较长 |
+| 150-r5 | 37 | 最长 |
+→ 间歇性 (同 budget 档内 r4/r5 差异大), 非整夜全死。
+
+**为什么核心 metacog 指标不被污染** (呼应 §8): gap/retrieval/healthy_gap 来自节点打标 (retrieval-independent), 只有 post_retrieval_accuracy + vsr 依赖检索返回。
+
+**修复方案 (半开熔断, 待 rep-scan 队列跑完后实施)**:
+- `_ddg_fail_streak >= 2` 后不再永久跳过, 改为每 ~10min 允许 1 次 probe 调用; probe 成功 → 重置 streak, 失败 → 继续跳过。
+- 同理给 WEBLLM-BROKEN (line 733) 加半开。
+- **为何现在不改**: r7 在跑 (旧代码), r8 是队列最后一个 (~1.5h)。现在改 → r7(旧)/r8(新) 在 300 档内形成通道混淆, 违反 pipeline 固化约束 (不碰 running 实验)。r8 跑完后改, 惠及后续 83-run 语料 + Q6-Q10 budget scan。
+- 可逆性: git 可回滚; 只影响未来 run (Python 启动时加载代码, 不影响 running 进程)。
