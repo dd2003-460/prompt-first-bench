@@ -96,6 +96,14 @@ def main():
             gq = hasq(sg) / len(sg) if sg else 0
             nq2 = hasq(sn) / len(sn) if sn else 0
             print(f'    {src:9s}: {gq*100:5.0f}% (n={len(sg):4d}) / {nq2*100:5.0f}% (n={len(sn):4d})  Δ={100*(gq-nq2):+4.0f}pp')
+        # 补充45: knowledge 缺口内部 [待核验] 标签效应 (最干净的 prompt-elicited 证据)
+        ck = [n for n in nodes if n.get('source') == 'knowledge' and DEFENSIVE_RE.search(str(n.get('claim', '')))]
+        wt = [n for n in ck if TAG.search(str(n.get('claim', '')))]
+        nt = [n for n in ck if not TAG.search(str(n.get('claim', '')))]
+        wq = hasq(wt) / len(wt) if wt else 0
+        nq3 = hasq(nt) / len(nt) if nt else 0
+        zt = z2(wq, len(wt), nq3, len(nt))
+        print(f'  补充45 knowledge缺口内 [待核验]效应: 有tag {wq*100:.0f}% (n={len(wt)}) vs 无tag {nq3*100:.0f}% (n={len(nt)}) z={zt:+.2f}')
         print()
 
 

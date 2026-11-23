@@ -1312,3 +1312,55 @@ depth 爬升后饱和**——breadth（节点数）继续涨，depth 封顶在 5
 
 本轮 inline（机械 depth 直接从节点树算 max_depth，不调 LLM），
 与补充42 的 gap_rate 连续检验同构，可合并进一个 realized-compute 检验脚本
+
+---
+
+## 补充45 — 触发链最直接的 prompt-elicited 证据：knowledge 缺口内部 [待核验] 标签驱动检索
+
+**时间**：2026-11-23 16:00
+**类型**：机制强化（补充43 的 within-source 效应再分层，最干净的 prompt-elicited 证据）
+**触发**：stop_hook 续推，knowledge 缺口"触发 vs 不触发"特征对比
+
+### 问题
+
+补充43：knowledge 源缺口节点 47-59% 触发检索（部分控制）。那"触发的部分"和"没触发的部分"差在哪？
+
+### 特征对比（knowledge 源缺口节点内部）
+
+触发 vs 不触发的特征差异里，**[待核验] 标签**是最强预测因子：
+
+| 域 | 有tag n | 触发率 | 无tag n | 触发率 | z |
+|---|---|---|---|---|---|
+| GPU | 85 | 66% | 14 | 14% | +3.63 |
+| NAT | 42 | 60% | 11 | 0% | +3.52 |
+| SOC | 119 | 54% | 124 | 51% | +0.46 (ns) |
+| 合并 | 246 | 59% | 149 | 44% | +2.96 |
+
+其他特征（深度、claim 长度、含数字、含公式）触发/不触发差异小，不是主因。
+
+### 含义
+
+即使在 knowledge 源缺口节点内部（控制 source + 控制"有缺口"），
+**prompt 注入的 [待核验] 标签本身驱动检索**：
+- GPU/NAT：有 tag 66%/60% 触发，无 tag 14%/0% 触发（差 52-60pp）
+- SOC：tag 效应弱（54% vs 51%，ns）——域特异
+
+**这是目前最直接的 prompt-elicited 证据**：模型标了"我不确定"（knowledge 缺口），
+真正让它去查的是 prompt 注入的 [待核验] 标签，不是模型自发的不确定性。
+去掉标签，knowledge 缺口在 GPU/NAT 几乎不触发（14%/0%）。
+
+### 域特异性
+
+tag 效应在 GPU/NAT 强（z≈+3.5），SOC 弱（ns）。
+SOC 的 [待核验] 命中里 42% 是数学"不确定"术语（补充32），tag 的语义在 SOC 被稀释，
+可能解释 tag 效应在 SOC 弱。
+
+### 对草稿的影响
+
+§4.1 net reading 的 "prompt-elicited form" 现在有了最干净的机制证据：
+within-source (knowledge) + within-gap 对比，[待核验] 标签是触发检索的独立预测因子
+（GPU/NAT z≈+3.5）。触发链的 prompt 依赖性比补充43 的 within-source 效应更强。
+
+### 脚本
+
+本轮 inline（特征对比 + 分层 z），固化进 claim-evidence-separation.py 的扩展
