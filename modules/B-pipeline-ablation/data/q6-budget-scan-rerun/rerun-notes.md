@@ -37,3 +37,17 @@
 - **若 r2/r3 也高**: 独立检索不是"方差被 cache 压低", 而是"均值偏移" — cache 共享假设的解读方向要改 (从"方差"改"均值")
 - **若 r2/r3 回落**: 300-r1 是 outlier, 原方差对照判据不变
 - 等 r2/r3 (shape check + variance check 脚本就位, n=6 定论)
+
+## ★ 300-r1 gap_rate=0 核验 (00:05, 正确口径 DEFENSIVE_RE) — 独立检索系统性不写 gap 标记
+- **正确口径** (metacog_axis.py: DEFENSIVE_RE 查 claim+evidence+corrected_claim, 非 CUR):
+  - 重跑 300-r1: gap_rate=0.0000 (0/252 defensive), metacog=0.2536
+  - 原批 300-r1: gap_rate=0.0233 (7/300), metacog=0.1703
+- **metacog 高的来源分解**: metacog_total = 0.4*gap + 0.3*ret + 0.3*post
+  - rerun: 0.4*0 + 0.3*0.1786 + 0.3*0.667 = 0.2536
+  - 原批: 0.4*0.0233 + 0.3*0.1367 + 0.3*0.400 = 0.1703
+  - **post_retrieval_accuracy 0.667 vs 0.400** — 独立检索后验证率更高 (检索更准), gap=0 但 metacog 反而高
+- **★ 方法论级发现**: gap 标记是 prompt-elicited (prompt 指示模型标不确定 claim)。独立检索下模型系统性不标 (0/252), cache 共享下标 (7/300)。
+  可能机制: 独立检索→模型自己搜→对结果更有信心→不标; cache 共享→模型看到"之前查过"→更倾向标"待核验"
+- **对论文核心 claim 的影响**: monitoring 轴 (gap_rate) 是 gold-free 跨域 general 的核心组件。如果 gap_rate 受检索模式 (cache 共享 vs 独立) 系统性影响, 则检索模式是 monitoring 轴的隐藏混杂变量 — 原批 83-run 语料全是 cache 共享模式, gap_rate 的"跨域不变性"结论可能带检索模式混杂
+- **n=1 (仅 300-r1)**, 需 r2/r3 确认 gap_rate=0 是否稳健。若稳健: monitoring 轴的"不变性"声明需加检索模式限定, 或把检索模式作为新混杂变量进 draft
+- 上一段 (00:03) 的"两种解读"修正: 不是 (a) 展开深→gap 少, 是独立检索→信心高→gap 少 + 检索准→post 高
