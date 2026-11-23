@@ -36,3 +36,12 @@ in the scoring path"核心声明的完整性缺口。
 1. depth 轴定位：LLM rubric judge（改 §3 声明）vs 机械 judge_v1（改 finding #3 数）
 2. rep-scan 是否补 --synth 重跑（才能复现 LLM depth 指标）
 3. §4.3 表是否标注 depth 数出处（judge_v2_depth，LLM）
+
+## 补充（10:21）：self-judge bias 第三层
+judge_v2_depth 的 call_llm 来自 ablation_harness（line 32 import），
+LLM_URL=127.0.0.1:8787 / LLM_MODEL=qwen3.8-27b（ablation_harness.py:19-20）
+= **生成答案的同一个模型**。depth 分数是 27B 给自己的 synthesis answer
+按 rubric 打分 → self-judge bias（模型倾向给自己打高分/风格一致分）。
+论文 §2 引用的 "LLM judges inject family bias" 论证正好适用于此：
+用同族模型当 depth judge，family bias 是 100%（同模型）。
+→ finding #3 的 peak@150 曲线还叠加了 self-bias 混淆。
