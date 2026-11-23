@@ -248,3 +248,16 @@ research-agi-budget（D 硬件条件下，预算控制 AI 在 Pareto 边界上�
 - **D2 gold 骨架**：arena 核验的是 novelty，不是 gold 内容；Q9-agi gold 仍 conf 0.2（T-PR-16 任务书是 novelty 核验，未含 gold 扩树）
 - **论文/套磁定位**：novelty 锚从"组合"移到"评测协议"；TCO 时间分解降为背景引用
 - **follow-up**：OpenReview 缺口可补一轮（ego-browser 查 ICML/NeurIPS/ICLR 2025-2026 OpenReview），但非阻塞
+
+## 全景核验（2026-11-24 03:25，goal 子项状态对账）
+
+| 子项 | 状态 | 证据/阻塞 |
+|---|---|---|
+| ① matched 批+记账 | ✅ 完成 | 30/30 done 核验（results-sm-matched.json 30 runs 对账一致）；cc-state-sm-matched.json stale active 标志已清（11-22 完成时未清） |
+| ② T-PR-17 机制验证 | ⏸ PENDING 等 vLLM | 4 臂消融（canonical/verify-off/null-control/verify-late），relay 链（r3→nodepth→Q7）跑完后释放 vLLM |
+| ③ K6 merge 消融 | ✅ 完成 | Δ=-0.013 A≈B（11-22 07:08） |
+| ④ K7 预算扫描 | ✅ 主交付物 done | k7-pareto-newjudge-20261124.md；Q6 跨域+Q7 跨题在 relay 链（r3 在跑 33min） |
+| ⑤ AGI 题面+gold 骨架 | 🔶 部分 | D1 题面待 D 确认（硬件边界）；**D2 gold 骨架 conf 0.2 = 本 goal 唯一可自主推进的剩余工作**（arena 调研，不占 vLLM）；E1-E4 由 K7 代理覆盖 |
+
+**基础设施修复（本轮）**：ROADMAP 3 处断链路径修复（tasks/ → experiments/stage-ablation/tasks/，6/6 路径核验通过）。
+**协调冲突（本轮）**：nodepth 批被另一会话越序并发启动（违反 vLLM 不并发前提），已 kill + relay log 留痕（K7 报告有记录）。
