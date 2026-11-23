@@ -1108,3 +1108,44 @@ s5_state_machine.py line 590/593：模型在 decompose 时一次性写 claim + s
 ### 脚本
 
 `modules/B-pipeline-ablation/research/claim-evidence-separation.py`（新建）
+
+---
+
+## 补充41 — 预算不变性 claim 的 provenance gap：rep-scan 数据是软上限时代
+
+**时间**：2026-11-23 15:35
+**类型**：provenance caveat（影响承重 claim，需 K7 重跑收口）
+**触发**：stop_hook 续推，查 rep-scan 与 K7 fix 的时间戳
+
+### 发现
+
+预算不变性 claim（cleaned ANOVA F(2,12)=0.003, gap_rate 0.099/0.100/0.107）的数据地基是 rep-scan 15 runs（r4-r8）。时间戳核验：
+- rep-scan 全部 15 runs：2026-11-23 03:25–11:45
+- K7 硬钳位修复（47a8543cd）：2026-11-23 13:44
+
+**rep-scan 全部跑在 K7 fix 之前** → 软上限时代。各 tier 实际节点数：
+
+| tier | 名义 | 实际 min–max | 超上限 |
+|---|---|---|---|
+| 100 | ≤100 | 103–166 | 5/5 |
+| 150 | ≤150 | 178–360 | 5/5 |
+| 300 | ≤300 | 271–462 | 4/5 |
+
+**150-tier 与 300-tier 重叠**（150 max 360 > 300 min 271）。
+
+### 含义
+
+"预算"自变量未被干净操控：名义 150 的 run 可能比名义 300 的 run 节点还多。ANOVA 按名义 tier 分组，测的是"名义预算 tier 是否预测 gap_rate"= no（F=0.003）。但"预算不影响 gap_rate"的解释被削弱——预算变量本身脏。
+
+不变性 claim 的准确表述应是：**在软上限（预算轴未干净操控）下，gap_rate 跨名义 tier 不变**。要升级为"预算（干净操控）不影响 gap_rate"，需要 K7 硬钳位重跑。
+
+### 待办
+
+- K7 硬钳位重跑（100/150/300 各 5 reps，max_nodes 硬钳位生效）→ 干净预算轴 → 重算 ANOVA
+- 需 GPU（vLLM 8787 当前 idle，可跑）
+- 重跑后若 gap_rate 仍不变 → 不变性 claim 升级为干净预算轴，更强
+- 重跑后若 gap_rate 随预算变 → 软上限时代的不变性是 confound 假象，需修正
+
+### 脚本
+
+时间戳核验：`ls -lt` + `git log -1 47a8543cd`（本轮 inline，未单独固化——重跑脚本落地时一并补）
