@@ -1,0 +1,20 @@
+# N67: 性价比排序 Ranking 的解析导数表达式：Ranking = TCO / (Throughput * Quality_Score)，其中 TCO = P_p
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N19
+
+## Claim
+
+性价比排序 Ranking 的解析导数表达式：Ranking = TCO / (Throughput * Quality_Score)，其中 TCO = P_price + E_power * 3yr。对价格 P_price 的一阶偏导 ∂Ranking/∂P_price = 1 / (Throughput * Quality_Score)；对吞吐 T_throughput 的一阶偏导 ∂Ranking/∂T_throughput = -TCO / (T_throughput^2 * Quality_Score)；对电力成本 E_power 的一阶偏导 ∂Ranking/∂E_power = 3yr / (Throughput * Quality_Score)。
+
+## Corrected Claim
+
+性价比排序 Ranking 的解析导数表达式：Ranking = TCO / (Throughput * Quality_Score)，其中 TCO = P_price + E_power * 3yr。对价格 P_price 的一阶偏导 ∂Ranking/∂P_price = 1 / (Throughput * Quality_Score)；对吞吐 T_throughput 的一阶偏导 ∂Ranking/∂T_throughput = -TCO / (T_throughput^2 * Quality_Score)；对电力成本 E_power 的一阶偏导 ∂Ranking/∂E_power = 3yr / (Throughput * Quality_Score)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：对 Ranking = TCO / (T * Q) 求偏导，其中 TCO = P + E*3yr。∂/∂P = 1/(T*Q) 正确；∂/∂T = -TCO/(T^2*Q) 正确；∂/∂E = 3yr/(T*Q) 正确。数学推导无误。

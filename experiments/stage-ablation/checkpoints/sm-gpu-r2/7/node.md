@@ -1,0 +1,20 @@
+# N25: 性价比量化指标定义：定义 Cost-Performance Ratio (CPR) = (Hardware_TCO_3yr + Opex_3yr) / (Thr
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+性价比量化指标定义：定义 Cost-Performance Ratio (CPR) = (Hardware_TCO_3yr + Opex_3yr) / (Throughput_tokens_per_second * Quality_Score)。其中 Quality_Score 为 1 - (Normalized_Quality_Loss)，通过此公式将硬件成本、电力成本、推理速度和质量损失统一量化，用于在决策矩阵中对不同硬件+精度组合进行排序。
+
+## Corrected Claim
+
+性价比量化指标定义：定义 Cost-Performance Ratio (CPR) = (Hardware_TCO_3yr + Opex_3yr) / (Throughput_tokens_per_second * Quality_Score)。其中 Quality_Score 为 1 - (Normalized_Quality_Loss)，通过此公式将硬件成本、电力成本、推理速度和质量损失统一量化，用于在决策矩阵中对不同硬件+精度组合进行排序。
+
+## Evidence
+
+父节点级核验未通过：非正交（子节点之间存在概念重叠和定义矛盾。具体而言，父节点将成本分为 Hardware_TCO 和 Opex 两部分，但子节点1 (Hardware_TCO) 中包含了 'Annual_Power_Cost'，而子节点2 (Opex) 中又包含了 'Annual_Electricity_Cost' 和 'Annual_Cooling_Cost'。这导致电力成本被重复计算或定义模糊（是包含在硬件TCO中还是独立于Opex中？通常TCO指购买+折旧，Opex指运营中的电费/冷却/人力，两者不应重叠）。此外，Hardware_TCO 中的 Power_Cost 与 Opex 中的 Electricity_Cost 在物理意义上高度重合，破坏了正交性。）

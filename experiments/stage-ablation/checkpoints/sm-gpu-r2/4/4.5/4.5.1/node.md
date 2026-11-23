@@ -1,0 +1,20 @@
+# N70: B1区间(5k-10k CNY)内的硬件组合可行性：1×RTX 5090 (32GB) 需搭配 FP8 量化 (权重27GB) 方可运行，因 54GB BF16
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N20
+
+## Claim
+
+B1区间(5k-10k CNY)内的硬件组合可行性：1×RTX 5090 (32GB) 需搭配 FP8 量化 (权重27GB) 方可运行，因 54GB BF16 超出 32GB 显存；该区间内无单卡 BF16 可行方案，必须接受量化带来的质量损失。
+
+## Corrected Claim
+
+B1区间(5k-10k CNY)内的硬件组合可行性：1×RTX 5090 (32GB) 需搭配 FP8 量化 (权重27GB) 方可运行，因 54GB BF16 超出 32GB 显存；该区间内无单卡 BF16 可行方案，必须接受量化带来的质量损失。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 5090 显存为 32GB，BF16 下 27B 参数模型权重约 54GB，超出显存限制，故必须使用 FP8 量化（约 27GB）才能运行，逻辑自洽且符合硬件规格事实。

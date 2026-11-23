@@ -1,0 +1,20 @@
+# N13: 工作点 1（高性低成）：BF16 精度，单卡 H100 80GB，吞吐量约 50-100 tokens/s（batch=1），质量损失为 0（基准），硬件成本最
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+工作点 1（高性低成）：BF16 精度，单卡 H100 80GB，吞吐量约 50-100 tokens/s（batch=1），质量损失为 0（基准），硬件成本最高但无需量化开发。
+
+## Corrected Claim
+
+工作点 1（高性低成）：BF16 精度，单卡 H100 80GB，吞吐量约 50-100 tokens/s（batch=1），质量损失为 0（基准），硬件成本最高但无需量化开发。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H100 80GB 在 BF16 精度下运行主流 LLM（如 7B-13B 级别）时，batch=1 的解码吞吐量通常在 50-100 tokens/s 量级，符合硬件算力与显存带宽限制下的性能预期；BF16 为原生精度，无量化质量损失，硬件成本最高但无需额外量化开发，逻辑自洽。

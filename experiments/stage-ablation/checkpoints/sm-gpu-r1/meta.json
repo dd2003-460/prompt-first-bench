@@ -1,0 +1,117 @@
+{
+  "qid": "gpu",
+  "question": "你要在本地工作站上推理 Qwen3-27B 模型，不设硬性延迟指标（延迟是性能变量，由硬件和部署配置决定，不作为前置约束）；上下文窗口 ≥ 32K tokens 作为容量下限保留。权重精度不限（BF16/FP8/INT8/NVFP4/W4 均可），但必须论证所选精度的质量损失是否可接受。候选硬件：自行搜索确定值得考虑的完整候选集——覆盖你认为所有可能影响性价比排序的架构、代际、容量档位和价格区间（包括消费级、数据中心级、以及任何你认为值得纳入比较的非典型方案）。同时评估单卡与多卡方案的 TCO 差异（如 2× 消费卡 vs 1× 数据卡）。给出性价比最优的完整选卡方案。要求：思考必须最完整，确认没有遗漏任何影响决策的维度；每个关键数字标注来源（刚查到的 vs 凭记忆的），不确定的标 [待核验]；最终推荐必须是条件性的，不能给无条件排名。",
+  "round": 1,
+  "state": "rework",
+  "dropped_redundant": 0,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "可行性覆盖度 (Coverage)：候选集是否无遗漏地包含所有可能影响性价比排序的架构/代际/容量/价格档位（含非典型方案），且满足 32K 上下文容量下限及内存带宽/容量硬约束。",
+      "TCO 准确度 (Cost Accuracy)：单卡与多卡方案的总拥有成本（硬件+电力+运维+机会成本）计算是否基于最新且可溯源的数据，误差范围可控。",
+      "性能-质量权衡量化 (Perf-Quality Trade-off)：不同精度（BF16/FP8/INT8等）下的推理吞吐量/延迟与模型输出质量损失（如困惑度/基准测试分数）的映射关系是否被明确建模。",
+      "不确定性置信度 (Uncertainty Confidence)：关键决策变量（价格波动、散热限制、驱动兼容性）的来源标注（实时/记忆）及置信度等级是否清晰，是否对低置信度变量进行了敏感性分析。",
+      "条件性稳健性 (Conditional Robustness)：最终推荐是否以‘如果…则…’的条件形式呈现，覆盖了不同预算区间、不同精度容忍度和不同并发场景下的最优解，而非单一绝对排名。"
+    ],
+    "composition": "Score = (Coverage × CostAccuracy × PerfQualityModeling) × (1 - UncertaintyPenalty) × ConditionalRobustness",
+    "rationale": "本题核心是在开放硬件市场中寻找局部最优解，因此答案的有效性取决于候选集的完备性（避免遗漏更优解）、成本与性能权衡的量化精度（避免误判）、以及对未知变量（如价格波动）的诚实披露与条件化处理（避免误导）。"
+  },
+  "objective_mode": "formula",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "parent_id": "N1",
+      "issues": [
+        "非正交",
+        "不完备",
+        "有冗余"
+      ],
+      "suggestions": [
+        "重构子节点1：将其作为‘前置约束计算’或‘筛选标准定义’，明确其为筛选依据，而非与硬件候选集并列。",
+        "合并子节点5、6、7：将TCO采购、电力、散热维护合并为一个‘TCO与运维成本评估’子节点，内部通过参数（如功耗、电价、初始投资）区分。",
+        "补充完备性：增加一个子节点专门说明‘被排除的不可行硬件及理由’（如显存<35GB的GPU、带宽<1TB/s的旧架构等），以体现‘排除不可行选项’的要求。",
+        "统一层级：将子节点8（工作点1）改为‘典型高性能配置示例’或移至‘方案评估’阶段，避免与‘候选集筛选’这一过程性任务混杂。"
+      ],
+      "round": 0
+    },
+    {
+      "parent_id": "N2",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "增加一个子节点：‘TCO 综合计算模型’，定义如何结合硬件折旧、电力、散热及维护成本计算年度/周期总拥有成本公式。",
+        "增加一个子节点：‘性价比排序与决策矩阵’，基于TCO模型和性能指标（吞吐量/质量）建立排序标准，以响应父节点中‘用于后续性价比排序’的要求。",
+        "考虑将子节点1（内存占用计算）合并至子节点2和3（候选集筛选）中，作为筛选的量化依据，以减少节点碎片化，或者明确其作为‘可行性约束验证’的独立角色。"
+      ],
+      "round": 0
+    },
+    {
+      "parent_id": "N3",
+      "issues": [
+        "不完备",
+        "有冗余"
+      ],
+      "suggestions": [
+        "补充缺失的关键子节点：增加'FP8/INT8量化质量损失评估'节点，明确在不同精度下的困惑度（Perplexity）或基准测试得分变化。",
+        "补充缺失的关键子节点：增加'吞吐量基准测试'节点，对比BF16/FP8/INT8在目标硬件上的实际Tokens/s增益。",
+        "增加决策节点：增加'最优工作点推荐'节点，基于质量阈值和TCO综合权衡，给出最终推荐的精度档位及硬件组合。",
+        "重构TCO相关节点：将子节点5、6、7合并为一个'TCO综合建模'节点，或者将具体的电力、散热成本作为'TCO评估'下的参数，避免与硬件筛选节点（2,3,4）在逻辑层级上混淆。",
+        "澄清非典型方案：子节点4中的'非典型方案'应明确其是否属于'硬件候选集'的一部分，如果是，应统一在硬件筛选逻辑中处理，并补充其对应的精度支持情况（如M2 Ultra对FP8的支持程度）。"
+      ],
+      "round": 0
+    },
+    {
+      "node_id": "N16",
+      "claim": "价格不确定性量化：定义价格波动系数 CV_price = σ_price / μ_price，基于2024Q4-2025",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性阈值（CV > 0.15）和特定的数据窗口（2024Q4-2025Q1），属于经验事实而非第一性原理可推导的数学或逻辑恒等式。在缺"
+    },
+    {
+      "node_id": "N17",
+      "claim": "性能基准不确定性量化：针对LLM推理吞吐（tokens/s）和延迟（ms/token），区分官方基准（如MLPerf I",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述定义了一套特定的内部数据处理规则（如10%阈值、取最小值策略），属于方法论或工程规范，而非客观存在的物理/数学事实。虽然逻辑自洽，但缺乏外部权威来"
+    },
+    {
+      "node_id": "N24",
+      "claim": "Qwen3-27B 在 NVFP4 或 W4A16 量化下的质量损失基准：根据 NVIDIA TensorRT-LLM ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N25",
+      "claim": "性价比量化指标定义：定义 Cost-Performance Ratio (CPR) = (Hardware_TCO_3y",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N26",
+      "claim": "数据来源标注机制：建立数据标签系统，标记为 [Realtime: Source=WebSearch, Date=2025",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N27",
+      "claim": "显存带宽对 32K 上下文推理延迟的影响量化：在 Decode 阶段，推理延迟主要由显存带宽决定。计算公式为 Laten",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N28",
+      "claim": "多卡互联开销与 TCO 修正：对于 2x 消费级 GPU 方案，PCIe 4.0 x16 链路带宽约为 64 GB/s，",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 26
+}

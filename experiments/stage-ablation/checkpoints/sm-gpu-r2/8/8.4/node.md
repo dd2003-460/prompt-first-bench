@@ -1,0 +1,20 @@
+# N96: 有效带宽修正因子：由于内存控制器效率、ECC 开销及并发访问冲突，实际有效带宽 Effective_BW = Nominal_BW * η，其中 η 通常为 0
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N26, N27, N28
+
+## Claim
+
+有效带宽修正因子：由于内存控制器效率、ECC 开销及并发访问冲突，实际有效带宽 Effective_BW = Nominal_BW * η，其中 η 通常为 0.7-0.85。例如 H100 标称 3.35 TB/s，有效带宽约 2.3-2.8 TB/s。
+
+## Corrected Claim
+
+有效带宽修正因子：由于内存控制器效率、ECC 开销及并发访问冲突，实际有效带宽 Effective_BW = Nominal_BW * η，其中 η 通常为 0.7-0.85。例如 H100 标称 3.35 TB/s，有效带宽约 2.3-2.8 TB/s。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H100标称带宽3.35TB/s，乘以0.7-0.85系数后约为2.345-2.8475TB/s，与陈述中的2.3-2.8TB/s量级一致，符合内存系统有效带宽通常低于标称带宽的工程常识。

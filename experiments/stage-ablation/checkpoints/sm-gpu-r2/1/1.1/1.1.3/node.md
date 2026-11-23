@@ -1,0 +1,24 @@
+# N31: 32K 上下文 KV Cache 内存精确计算：KV_Cache_GB = 2 (K+V) * Layer_Count * KV_Heads * Head_Di
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+32K 上下文 KV Cache 内存精确计算：KV_Cache_GB = 2 (K+V) * Layer_Count * KV_Heads * Head_Dim * Context_Length * Bytes_per_elem / 1e9。代入 L=32, KV_H=8, D=128, C=32768, BF16=2bytes，计算结果为 8.59GB (8589MB)，验证 N6 中 8GB 的估算误差在 10% 以内，但需使用 8.6GB 作为上限约束。
+
+## Corrected Claim
+
+32K 上下文 KV Cache 内存精确计算：KV_Cache_GB = 2 (K+V) * Layer_Count * KV_Heads * Head_Dim * Context_Length * Bytes_per_elem / 1e9。代入 L=32, KV_H=8, D=128, C=32768, BF16=2bytes，计算结果为 8.59GB (8589MB)，验证 N6 中 8GB 的估算误差在 10% 以内，但需使用 8.6GB 作为上限约束。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式推导正确，数值计算准确（2*32*8*128*32768*2 / 1e9 ≈ 8.59GB），误差分析合理。
+
+## Search Query
+
+KV cache size calculation formula GQA 32k context

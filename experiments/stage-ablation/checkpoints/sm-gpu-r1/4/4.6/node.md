@@ -1,0 +1,20 @@
+# N21: 质量容忍度量化指标：定义质量损失容忍阈值 ΔQ_max，以PPL（Perplexity）增加百分比或MMLU准确率下降百分点为度量。例如，若BF16→INT8导
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4, N5
+
+## Claim
+
+质量容忍度量化指标：定义质量损失容忍阈值 ΔQ_max，以PPL（Perplexity）增加百分比或MMLU准确率下降百分点为度量。例如，若BF16→INT8导致PPL增加<2%或MMLU下降<1%，则视为可接受；若超过该阈值，则需降级为更高精度或更换硬件。该阈值需根据具体应用场景（代码生成/对话/推理）差异化设定。
+
+## Corrected Claim
+
+质量容忍度量化指标：定义质量损失容忍阈值 ΔQ_max，以PPL（Perplexity）增加百分比或MMLU准确率下降百分点为度量。例如，若BF16→INT8导致PPL增加<2%或MMLU下降<1%，则视为可接受；若超过该阈值，则需降级为更高精度或更换硬件。该阈值需根据具体应用场景（代码生成/对话/推理）差异化设定。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

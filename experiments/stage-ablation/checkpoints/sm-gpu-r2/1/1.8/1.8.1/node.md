@@ -1,0 +1,20 @@
+# N56: BF16 精度下，Qwen3-27B 在 H100 80GB 上的理论最大吞吐量受限于显存带宽，计算公式为 Throughput ≈ Memory_Bandwi
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+BF16 精度下，Qwen3-27B 在 H100 80GB 上的理论最大吞吐量受限于显存带宽，计算公式为 Throughput ≈ Memory_Bandwidth / (Model_Weight_Size + KV_Cache_Size)，代入 H100 3.35TB/s 带宽和 62GB 总内存需求，理论极限约 54 tokens/s。
+
+## Corrected Claim
+
+BF16 精度下，Qwen3-27B 在 H100 80GB 上的理论最大吞吐量受限于显存带宽，计算公式为 Throughput ≈ Memory_Bandwidth / (Model_Weight_Size + KV_Cache_Size)，代入 H100 3.35TB/s 带宽和 62GB 总内存需求，理论极限约 54 tokens/s。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H100 80GB SXM 显存带宽约为 3.35 TB/s，Qwen3-27B BF16 权重约 54GB，加上少量 KV Cache 后总内存需求约 62GB 符合量级，计算 3.35e12 / 62e9 ≈ 54 tokens/s 逻辑自洽且数值合理。

@@ -1,0 +1,17 @@
+{
+  "id": "N34",
+  "claim": "单卡可行性判定逻辑：若 Model_Total_Memory > GPU_Usable_VRAM，则单卡不可行。BF16 模型需 63.8GB (55.2+8.6)，无单张消费级卡 (max 32GB) 满足；FP8 模型需 36.2GB (KV-BF16) 或 31.9GB (KV-FP8)，RTX 5090 (31.5GB 有效) 在 KV-FP8 下勉强可行 (31.9 > 31.5 可能 OOM)，需引入 Swap 或 PagedAttention 溢出机制，导致性能下降 15-30%。",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]RTX 5090 的显存规格（31.5GB 有效）及具体性能下降幅度（15-30%）属于特定硬件与场景下的经验数据，缺乏通用第一性原理支持，且不同驱动/配置下有效显存可能有差异。 | source=knowledge，逻辑自洽（63.8>32, 31.9>31.5），但涉及具体硬件参数与性能损耗的经验数值，无外部来源直接支持，依据经验事实排除条款降级。",
+  "corrected_claim": "单卡可行性判定逻辑：若 Model_Total_Memory > GPU_Usable_VRAM，则单卡不可行。BF16 模型需 63.8GB，无单张消费级卡 (max 32GB) 满足；FP8 模型需 36.2GB (KV-BF16) 或 31.9GB (KV-FP8)，RTX 5090 (约 32GB) 在 KV-FP8 下显存极度紧张，可能 OOM，需引入 Swap 或 PagedAttention 溢出机制，通常会导致性能显著下降。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N7"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "LLM inference OOM fallback CPU offload performance penalty vLLM",
+  "retrieval_sources": []
+}

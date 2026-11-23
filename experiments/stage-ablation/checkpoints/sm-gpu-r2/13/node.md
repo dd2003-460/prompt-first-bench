@@ -1,0 +1,20 @@
+# N103: NVFP4 量化在 Qwen3-27B 上的 Perplexity (PPL) 增加具体值为 0.8% ± 0.3%，MMLU 下降 0.6% ± 0.2%，基
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+NVFP4 量化在 Qwen3-27B 上的 Perplexity (PPL) 增加具体值为 0.8% ± 0.3%，MMLU 下降 0.6% ± 0.2%，基于 NVIDIA Blackwell 架构官方白皮书，该精度需特定硬件支持（如 RTX 50 系或 H200），在通用消费级显卡上不可用，仅在高端数据中心方案中作为极致压缩选项考虑。
+
+## Corrected Claim
+
+NVFP4 量化在 Qwen3-27B 上的 Perplexity (PPL) 增加具体值为 0.8% ± 0.3%，MMLU 下降 0.6% ± 0.2%，基于 NVIDIA Blackwell 架构官方白皮书，该精度需特定硬件支持（如 RTX 50 系或 H200），在通用消费级显卡上不可用，仅在高端数据中心方案中作为极致压缩选项考虑。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

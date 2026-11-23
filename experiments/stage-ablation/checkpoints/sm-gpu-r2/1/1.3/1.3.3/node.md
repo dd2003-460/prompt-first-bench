@@ -1,0 +1,24 @@
+# N38: 带宽对 Decode 延迟的理论极限影响：Latency_ms = (Weight_Size + KV_Size) / Bandwidth。H100 (3350
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+带宽对 Decode 延迟的理论极限影响：Latency_ms = (Weight_Size + KV_Size) / Bandwidth。H100 (3350 GB/s) FP8: (27.6+8.6)/3350 * 1000 = 10.8 ms/token; L40S (864 GB/s) FP8: (27.6+8.6)/864 * 1000 = 41.9 ms/token。H100 速度是 L40S 的 3.87 倍，但价格可能是 3-5 倍，需结合 TCO 评估。
+
+## Corrected Claim
+
+带宽对 Decode 延迟的理论极限影响：Latency_ms = (Weight_Size + KV_Size) / Bandwidth。H100 (3350 GB/s) FP8: (27.6+8.6)/3350 * 1000 = 10.8 ms/token; L40S (864 GB/s) FP8: (27.6+8.6)/864 * 1000 = 41.9 ms/token。H100 速度是 L40S 的 3.87 倍，但价格可能是 3-5 倍，需结合 TCO 评估。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式符合带宽受限场景下的理论极限定义，数值计算（27.6+8.6=36.2；36.2/3350*1000≈10.8；36.2/864*1000≈41.9；3350/864≈3.87）准确无误，硬件参数（H100/L40S带宽）符合公开规格常识。
+
+## Search Query
+
+LLM inference latency bandwidth bound calculation H100 vs L40S
