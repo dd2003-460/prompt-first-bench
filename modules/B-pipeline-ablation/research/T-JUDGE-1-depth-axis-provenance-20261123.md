@@ -132,3 +132,14 @@ rep-scan 13 棵 metacog 轴按 budget 档：
 → 这条 robust 主张（metacog budget-invariant）不依赖 LLM depth 轴，
   可作 finding #3 重定位后的核心预算主张（与 L4 zero-convergence、
   vsr 趋势并列）。n=5/5/3，suggestive 但方向清晰。
+
+## 补充7（10:33）：metacog budget-invariance 的通道故障稳健性
+对 13 棵 rep-scan 按通道健康度（空源率<50%）分层重算：
+- metacog total 按档：全棵 0.246/0.247/0.239 → 仅健康棵 0.265(n=4)/0.239(n=2)/0.247(n=1)
+  → 跨档仍平，invariance 不被通道故障污染
+- post 分量（受通道影响, 0.3 权重）健康组按档：0.386/0.362/0.389 → 平
+- gap 分量（不依赖通道, 0.4 权重）全棵按档：0.099/0.100/0.130 → 微升
+  （b300 略高，n=3 不显著，如实标注）
+→ 补充6 的 metacog budget-invariance 发现 robust（通道故障稳健），
+  可作 finding #3 重定位后的核心预算主张（与 L4 zero-convergence、
+  vsr 趋势并列）。
