@@ -89,3 +89,13 @@ Q6 队列第 1 个 run (budget 50, 50 nodes) 双 gold 评分:
 
 交叉验证: 队列自动评分 (默认 gpu gold) r1 cov=0.0000 与 B4 跨域读数一致 — 队列 cov 读数对 Q6 系统性偏低是设计使然, B4 正式重评 (域内 gold) 是 cov 轴的权威读数。
 B4 脚本: research/b4_cross_domain_judge.py (字段名已对齐 judge_run 实际返回, 注入验证 total=0.4135 与 gpu corpus 一致)。
+
+## A3 早期数据点 (2026-11-23, Q6 50 档 3 run)
+
+Q6 队列 50 档 3 run 完成 (617/833/499s), A3 自动吸收:
+- Q6 50 档: gap 0.04/0.08/0.12 (均值 0.0800), metacog 0.046/0.252/0.414, judge 0.30/0.31/0.30
+- GPU rep-scan 15 run: gap 均值 0.1023
+- 跨域 Mann-Whitney: U=18, z=-0.533 (ns) — 域不变性在第一个 Q6 数据点成立
+- 注: Q6 只有 50 档 3 run, 5 档完整曲线待队列跑完 (100/150/300/719 档)
+- 队列内评分块静默失败 (python3 - 嵌套 heredoc stdin 被 SM 2>&1 影响), run 数据完好,
+  q6_rescore.py 幂等补评分 (76bee01c7), 队列跑完跑一次重建 15 条
