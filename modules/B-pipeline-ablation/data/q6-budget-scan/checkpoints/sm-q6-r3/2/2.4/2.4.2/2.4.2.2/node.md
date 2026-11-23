@@ -1,0 +1,24 @@
+# N268: 阿里云中国内地流量包（预付费）单价 p_traffic_package ≈ ¥0.18-0.20/GB，适用于流量稳定可预测的场景，60TB/月购买流量包总成本
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N84
+
+## Claim
+
+阿里云中国内地流量包（预付费）单价 p_traffic_package ≈ ¥0.18-0.20/GB，适用于流量稳定可预测的场景，60TB/月购买流量包总成本 ≈ ¥10.8k-12k，比按量付费节省 15-25%
+
+## Corrected Claim
+
+阿里云中国内地流量包（预付费）单价 p_traffic_package ≈ ¥0.18-0.20/GB，适用于流量稳定可预测的场景，60TB/月购买流量包总成本 ≈ ¥10.8k-12k，比按量付费节省 15-25%
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：60TB=61440GB，61440*0.18≈11059，61440*0.20≈12288，与¥10.8k-12k量级一致；阿里云流量包通常比按量付费（约¥0.25/GB）便宜15-25%，符合市场常识。
+
+## Search Query
+
+Alibaba Cloud China mainland CDN traffic package prepay price per GB discount

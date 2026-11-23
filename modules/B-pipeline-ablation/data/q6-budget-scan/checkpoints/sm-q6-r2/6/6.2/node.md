@@ -1,0 +1,30 @@
+# N88: Cloudflare Enterprise带宽计费模式：按承诺带宽（Committed Bandwidth）计费，基础费 $1000/月 + 超出部分 $0.0
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N26
+
+## Claim
+
+Cloudflare Enterprise带宽计费模式：按承诺带宽（Committed Bandwidth）计费，基础费 $1000/月 + 超出部分 $0.05/GB，或按实际流量 $0.08-0.12/GB，取决于合同条款
+
+## Corrected Claim
+
+Cloudflare Enterprise带宽计费模式通常包含承诺带宽（Committed Bandwidth）选项，具体基础费及超额单价（如$0.05/GB等）需根据合同条款协商确定，非固定公开标准价。
+
+## Evidence
+
+[质询]具体数值（$1000/月基础费、$0.05/GB、$0.08-0.12/GB）属于高度定制化的企业合同条款，并非公开固定的标准定价，极易因客户规模、谈判结果及合同年份不同而产生巨大差异，直接断言具体数值存在以偏概全的风险。 | 来源[2]确认了Cloudflare Enterprise套餐的存在及功能，但未提供具体带宽计费数值；来源[1]和[3]主要对比功能或提及计费模型，未直接支持具体的$1000/$0.05等数值。作为经验事实，逻辑自洽但缺乏直接来源支持具体金额。
+
+## Search Query
+
+Cloudflare Enterprise CDN bandwidth pricing committed vs overage
+
+## Retrieval Sources
+
+- {'url': 'https://www.16idc.com/article-detail/cloudflare-free-vs-paid-plan&rut=27fcaefaa2121290bd97223271b015abfecf3803563ffa56df306be6369c0dd8', 'type': 'ddg', 'title': 'Cloudflare 免费版 vs 付费版：各套餐功能对比与选型建议 - 16IDC'}
+- {'url': 'https://www.cloudflare.com/plans/enterprise/externa/&rut=8cb289ba89147242661dabfbfa429bb29d9a833cd770d24ad1673e8bd12f8759', 'type': 'ddg', 'title': 'Enterprise solutions packages | Cloudflare'}
+- {'url': 'https://www.plumephp.com/cloudflare-pricing-guide/&rut=dfbef2d090f81b790f54b8b338e79f9fda10ccbaceb217a2fef5afed9c0038bf', 'type': 'ddg', 'title': 'Cloudflare 定价详解：Free / Pro / Business / Enterprise 四档拆解与成本优化'}

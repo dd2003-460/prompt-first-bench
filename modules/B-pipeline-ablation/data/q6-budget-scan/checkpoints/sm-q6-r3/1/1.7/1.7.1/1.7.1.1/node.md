@@ -1,0 +1,30 @@
+# N223: 各POP点P99 RTT的具体分布值 RTT_P99(i)：需基于10个POP点的地理位置（如北京、上海、广州等）与用户分布加权计算，典型同城P99为20-40
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N69
+
+## Claim
+
+各POP点P99 RTT的具体分布值 RTT_P99(i)：需基于10个POP点的地理位置（如北京、上海、广州等）与用户分布加权计算，典型同城P99为20-40ms，跨区为50-100ms，需列出各点具体值
+
+## Corrected Claim
+
+各POP点P99 RTT需基于地理位置与用户分布加权计算，通常同城P99在20-40ms量级，跨区在50-100ms量级，具体数值需实测或依据特定网络拓扑模型推导，而非固定值。
+
+## Evidence
+
+[质询]该陈述声称需列出10个具体POP点（如北京、上海等）的具体P99 RTT数值，但参考来源均未提供基于地理位置的具体RTT分布数据，且‘典型同城20-40ms’属于经验性工程估算，缺乏特定网络环境下的实证支持，存在将一般性网络常识当作具体项目事实的风险。 | 逻辑上同城/跨区RTT量级符合物理直觉，但参考来源[1][2][3]仅讨论大模型推理延迟指标定义，与网络POP点地理RTT分布无关，无外部证据支持具体数值，属经验事实缺来源支持。
+
+## Search Query
+
+China POP location P99 RTT distribution Beijing Shanghai Guangzhou
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/qq_21201267/article/details/163676899&rut=19afd35559d21dfcb0159f31f344f53e7a68da0bfa9c51d14ac15bbbdad9698b', 'type': 'ddg', 'title': 'Ecdf：怎么看大模型 Ttft 的 P50、P90 和 P99？ - Csdn博客'}
+- {'url': 'https://blog.csdn.net/L698698S/article/details/168659835&rut=fb73baf37fb7345b009168029125007fa8b88ae45aa2eccd6d322bc44ede1034', 'type': 'ddg', 'title': '# 大模型推理性能核心指标详解：TTFT、P95/P99延迟、QPS、吞吐量_p99 ttft-CSDN博客'}
+- {'url': 'https://redis.io/blog/p99-latency/&rut=7d0c2cf85e8ff98aadea43dc64b3f5339f05bc2e66f0d9f80583b6a17ed45c60', 'type': 'ddg', 'title': 'P99 Latency: What It Means & How to Fix It - Redis'}

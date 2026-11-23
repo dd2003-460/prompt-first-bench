@@ -1,24 +1,16 @@
-# N49: 自建节点每GB流量成本 P_bw_self_GB = (物理带宽月租单价 P_mbps * 12 * 1024) / (B_phys * U_util * 86
+# N63: 请求到达率λ的计算：λ = (DAU * req_per_user_per_day) / 86400 * Burst_Factor，其中DAU=5,000,00
 
-- **status**: verified
+- **status**: degraded
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
-- **rework_count**: 0
-- **parent_ids**: N10
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N11
 
 ## Claim
 
-自建节点每GB流量成本 P_bw_self_GB = (物理带宽月租单价 P_mbps * 12 * 1024) / (B_phys * U_util * 86400 * 30 * 8 * 1024^3)，其中 P_mbps 约为 2-5 元/Mbps/月 [时效待核]。
+请求到达率λ的计算：λ = (DAU * req_per_user_per_day) / 86400 * Burst_Factor，其中DAU=5,000,000，req_per_user_per_day为每用户日均请求数（图片+短视频平台典型值20-50次），Burst_Factor为峰值突发系数（典型1.5-3.0，反映早晚高峰），计算得λ ≈ 17-87 req/s（全量）或按POP分摊。
 
 ## Corrected Claim
 
-自建节点每GB流量成本 P_bw_self_GB = (物理带宽月租单价 P_mbps * 12 * 1024) / (B_phys * U_util * 86400 * 30 * 8 * 1024^3)，其中 P_mbps 约为 2-5 元/Mbps/月 [时效待核]。
-
-## Evidence
-
-先验知识/题面给定，逻辑校验通过：公式量纲推导正确（分子为元/月，分母为字节/月，结果为元/字节），且2-5元/Mbps/月符合国内IDC带宽租赁的市场经验量级。
-
-## Search Query
-
-leased line bandwidth cost per GB calculation
+请求到达率λ的计算：λ = (DAU * req_per_user_per_day) / 86400 * Burst_Factor，其中DAU=5,000,000，req_per_user_per_day为每用户日均请求数（图片+短视频平台典型值20-50次），Burst_Factor为峰值突发系数（典型1.5-3.0，反映早晚高峰），计算得λ ≈ 17-87 req/s（全量）或按POP分摊。

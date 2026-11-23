@@ -1,0 +1,24 @@
+# N10: 回源延迟的P99值：T_origin_P99 = RTT_origin_P99 + T_origin_processing_P99 + T_origin_que
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+回源延迟的P99值：T_origin_P99 = RTT_origin_P99 + T_origin_processing_P99 + T_origin_queue_P99，其中RTT_origin为边缘到源站的RTT（通常10-100ms），T_origin_processing为源站处理时间（取决于后端服务）
+
+## Corrected Claim
+
+回源延迟的P99值：T_origin_P99 = RTT_origin_P99 + T_origin_processing_P99 + T_origin_queue_P99，其中RTT_origin为边缘到源站的RTT（通常10-100ms），T_origin_processing为源站处理时间（取决于后端服务）
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（三个子节点分别对应父节点公式中的三项（RTT、处理时间、队列等待），彼此独立无重叠；覆盖完整且无冗余。）
+
+## Search Query
+
+origin server response time P99 for media platform

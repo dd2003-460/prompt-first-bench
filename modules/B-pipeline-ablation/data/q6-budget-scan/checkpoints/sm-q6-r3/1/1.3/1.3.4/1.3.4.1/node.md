@@ -1,0 +1,20 @@
+# N178: 自建POP点缓存查找延迟T_lookup：基于内存中的LRU缓存，查找时间 O(1) ≈ 0.1-0.5ms；若使用SSD存储，IOPS 100,000，单次读
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N49
+
+## Claim
+
+自建POP点缓存查找延迟T_lookup：基于内存中的LRU缓存，查找时间 O(1) ≈ 0.1-0.5ms；若使用SSD存储，IOPS 100,000，单次读取延迟 ≈ 0.1ms；若使用HDD，延迟 ≈ 5-10ms；P99 T_lookup受缓存未命中率影响，未命中时需回源，T_lookup_miss = T_network_origin + T_origin_processing
+
+## Corrected Claim
+
+自建POP点缓存查找延迟T_lookup：基于内存中的LRU缓存，查找时间 O(1) ≈ 0.1-0.5ms；若使用SSD存储，IOPS 100,000，单次读取延迟 ≈ 0.1ms；若使用HDD，延迟 ≈ 5-10ms；P99 T_lookup受缓存未命中率影响，未命中时需回源，T_lookup_miss = T_network_origin + T_origin_processing
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：内存LRU查找O(1)且亚毫秒级、SSD随机读延迟约0.1ms、HDD机械寻道延迟5-10ms均符合硬件性能常识，P99受未命中率影响的逻辑自洽。

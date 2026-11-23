@@ -1,4 +1,4 @@
-# N52: 自建节点年度外包服务成本 C_outsource = 第三方安全审计费(5万元) + 紧急故障响应外包费(10万元) + 网络优化咨询费(5万元)，合计约为 2
+# N48: 源站处理延迟 t_server = t_read + t_encode + t_response，其中 t_read 为存储读取时间（SSD典型 <1ms），t
 
 - **status**: verified
 - **level**: L3
@@ -9,11 +9,11 @@
 
 ## Claim
 
-自建节点年度外包服务成本 C_outsource = 第三方安全审计费(5万元) + 紧急故障响应外包费(10万元) + 网络优化咨询费(5万元)，合计约为 20 万元/年 [时效待核]。
+源站处理延迟 t_server = t_read + t_encode + t_response，其中 t_read 为存储读取时间（SSD典型 <1ms），t_encode 为视频转码或图片压缩时间（典型 10-100ms），t_response 为HTTP响应生成时间（<5ms）；该值反映源站服务器处理请求的耗时。
 
 ## Corrected Claim
 
-自建节点年度外包服务成本 C_outsource = 第三方安全审计费(5万元) + 紧急故障响应外包费(10万元) + 网络优化咨询费(5万元)，合计约为 20 万元/年 [时效待核]。
+源站处理延迟 t_server = t_read + t_encode + t_response，其中 t_read 为存储读取时间（SSD典型 <1ms），t_encode 为视频转码或图片压缩时间（典型 10-100ms），t_response 为HTTP响应生成时间（<5ms）；该值反映源站服务器处理请求的耗时。
 
 ## Evidence
 
@@ -21,4 +21,4 @@
 
 ## Search Query
 
-IT outsourcing security audit cost annual
+video transcoding latency ms

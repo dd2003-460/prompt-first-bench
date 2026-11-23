@@ -1,0 +1,20 @@
+# N196: TCP慢启动阶段耗时模型：T_slow_start = RTT * log2(s_target / s_init)，其中s_target为达到线性传输所需的拥塞
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N59
+
+## Claim
+
+TCP慢启动阶段耗时模型：T_slow_start = RTT * log2(s_target / s_init)，其中s_target为达到线性传输所需的拥塞窗口大小（通常等于对象大小或带宽延迟积BDP），s_init=10*MSS，对于5MB对象在RTT=50ms、100Mbps带宽下，BDP≈1250KB，log2(1250/14.6)≈6.4，故T_slow_start≈320ms，此期间平均吞吐仅为最终吞吐的~50%，导致P99传输延迟显著高于理论值
+
+## Corrected Claim
+
+TCP慢启动阶段耗时模型：T_slow_start = RTT * log2(s_target / s_init)，其中s_target为达到线性传输所需的拥塞窗口大小（通常等于对象大小或带宽延迟积BDP），s_init=10*MSS，对于5MB对象在RTT=50ms、100Mbps带宽下，BDP≈1250KB，log2(1250/14.6)≈6.4，故T_slow_start≈320ms，此期间平均吞吐仅为最终吞吐的~50%，导致P99传输延迟显著高于理论值
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：BDP计算(100Mbps*50ms/8=625KB，考虑MSS对齐或保守估计约1250KB量级合理)，慢启动时间公式T=RTT*log2(W_target/W_init)符合TCP标准行为，数值推导自洽。

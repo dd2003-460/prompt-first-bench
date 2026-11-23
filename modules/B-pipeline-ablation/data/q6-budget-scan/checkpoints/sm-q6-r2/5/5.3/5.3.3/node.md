@@ -1,0 +1,20 @@
+# N80: 预热对 P99 延迟的改善：ΔP99_warm = P99_base - P99_warm ≈ p_miss_base * t_origin * (1 - e^
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N24
+
+## Claim
+
+预热对 P99 延迟的改善：ΔP99_warm = P99_base - P99_warm ≈ p_miss_base * t_origin * (1 - e^(-K/N_unique_hot))，其中 K 为预热对象数
+
+## Corrected Claim
+
+预热对 P99 延迟的改善：ΔP99_warm = P99_base - P99_warm ≈ p_miss_base * t_origin * (1 - e^(-K/N_unique_hot))，其中 K 为预热对象数
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

@@ -1,0 +1,20 @@
+# N306: 图片对象日均新增数 N_img_daily = V_upload_img_daily / s_img_avg，其中 V_upload_img_daily 需从总
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N104
+
+## Claim
+
+图片对象日均新增数 N_img_daily = V_upload_img_daily / s_img_avg，其中 V_upload_img_daily 需从总上传 200GB 中按业务占比（假设 70% 为图片）拆解为 140GB，s_img_avg 取 500KB（图片通常小于视频），故 N_img_daily ≈ 280,000 个
+
+## Corrected Claim
+
+图片对象日均新增数 N_img_daily = V_upload_img_daily / s_img_avg，其中 V_upload_img_daily 需从总上传 200GB 中按业务占比（假设 70% 为图片）拆解为 140GB，s_img_avg 取 500KB（图片通常小于视频），故 N_img_daily ≈ 280,000 个
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：140GB / 500KB = 140 * 1024 MB / 0.5 MB = 286,720，与280,000量级一致，计算逻辑自洽。

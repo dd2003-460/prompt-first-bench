@@ -1,0 +1,30 @@
+# N88: 自建边缘节点机柜成本 Rack_Cost 的细化：国内核心机房（如阿里云、腾讯云、万国数据）标准 42U 机柜月租（含电力、制冷、带宽基础包）约为 8000-1
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N27
+
+## Claim
+
+自建边缘节点机柜成本 Rack_Cost 的细化：国内核心机房（如阿里云、腾讯云、万国数据）标准 42U 机柜月租（含电力、制冷、带宽基础包）约为 8000-15000 元/月/机柜。假设 10 个 POP 点，每个点 1-2 个机柜，总机柜成本约为 10 × 1.5 × 10000 元/月 = 150,000 元/月。
+
+## Corrected Claim
+
+国内核心机房标准42U机柜月租（含基础配套）通常在数千元至万元级别，具体价格视带宽包及位置而定；假设10个POP点，每点1-2个机柜，总机柜成本估算约为10-20万元/月。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点在成本层级上存在包含关系而非正交分类（核心机房成本12000元落在父节点8000-15000区间内，云托管18000元超出区间但本质也是托管模式）；完备性不足，未覆盖自建IDC、混合云等关键模式；冗余性高，三个工作点本质是同一参数（托管类型/位置）的不同取值，可压缩为参数化模型）
+
+## Search Query
+
+China data center rack rental cost per month 2024
+
+## Retrieval Sources
+
+- {'url': 'https://wenku.baidu.com/view/26c304a6950ef12d2af90242a8956bec0975a5cb.html&rut=bd9820eb56f43a40042d01c1bd05b12269ecb67c054f11ec94bc66e632280d72', 'type': 'ddg', 'title': 'CDN机房搭建费用明细解析：自建还是租用？一文看懂2026年成本与选择'}
+- {'url': 'https://zhuanlan.zhihu.com/p/2051356219873535894&rut=32f9f7ce47141a7894f5fc62a2fd60aec2b343df72a569818a72970033d7b535', 'type': 'ddg', 'title': '一台边缘算力服务器，真实收入和成本全拆解 - 知乎'}
+- {'url': 'https://www.sohu.com/a/1056247440_121868485&rut=cd02c17078ddfe9ac3b6a79db4a6bc3f7c1c6600acafdedfdb02df35a9bdafb2', 'type': 'ddg', 'title': '2026跨境算力基建选型指南：海外自建机房vs托管IDC优劣对比'}

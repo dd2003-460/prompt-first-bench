@@ -1,0 +1,24 @@
+# N80: T_queue的负载敏感性：T_queue在低负载（λ/μ < 0.5）时接近0，在高负载（λ/μ > 0.8）时急剧上升；对于P99延迟，T_queue_p9
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N15, N16, N17
+
+## Claim
+
+T_queue的负载敏感性：T_queue在低负载（λ/μ < 0.5）时接近0，在高负载（λ/μ > 0.8）时急剧上升；对于P99延迟，T_queue_p99 ≈ T_queue_mean * 3；因此，在峰值QPS下，T_queue_p99可能达到10-50ms，需通过扩容或限流控制λ/μ < 0.7。
+
+## Corrected Claim
+
+T_queue的负载敏感性：T_queue在低负载（λ/μ < 0.5）时接近0，在高负载（λ/μ > 0.8）时急剧上升；对于P99延迟，T_queue_p99 ≈ T_queue_mean * 3；因此，在峰值QPS下，T_queue_p99可能达到10-50ms，需通过扩容或限流控制λ/μ < 0.7。
+
+## Evidence
+
+[质询]P99延迟与平均延迟的倍数关系（3倍）并非在所有队列模型中恒定，受具体服务时间分布（如指数分布 vs 恒定时间）影响，但在高负载M/M/1或M/G/1系统中，尾部延迟显著高于均值，3倍是一个合理的工程经验估计值，不构成硬逻辑错误。 | 先验知识/题面给定，逻辑校验通过：排队论中负载因子（λ/μ）确实决定队列等待时间，低负载时等待趋近于0，高负载时急剧上升；P99通常显著高于均值，3倍符合常见工程经验；10-50ms的量级在典型微服务场景下合理。
+
+## Search Query
+
+queueing theory P99 latency high load

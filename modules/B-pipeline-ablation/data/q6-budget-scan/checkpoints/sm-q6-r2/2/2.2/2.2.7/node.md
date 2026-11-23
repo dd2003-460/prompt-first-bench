@@ -1,0 +1,28 @@
+# N64: 源站位置与回源路径拓扑：假设源站部署在北京阿里云机房，记录源站到 10 个 POP 点的网络跳数（hop count）及物理距离（km），用于计算回源带宽需求。
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N12, N13, N14
+
+## Claim
+
+源站位置与回源路径拓扑：假设源站部署在北京阿里云机房，记录源站到 10 个 POP 点的网络跳数（hop count）及物理距离（km），用于计算回源带宽需求。
+
+## Corrected Claim
+
+源站位置与回源路径拓扑：假设源站部署在北京阿里云机房，需根据实际网络拓扑和POP点地理位置记录源站到各POP点的网络跳数（hop count）及物理距离（km），用于计算回源带宽需求。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数据（10个POP点的具体跳数和物理距离），这些数值高度依赖于具体的网络拓扑、ISP路由策略及POP点的实际地理位置，无法从第一性原理推导，且参考来源未提供具体数值，属于缺乏直接证据支持的经验事实。 | 经验事实，逻辑自洽但缺来源支持（来源[1]仅提及回源流程概念，未提供具体跳数/距离数据）
+
+## Search Query
+
+Beijing data center to China major cities network hop count physical distance km
+
+## Retrieval Sources
+
+- {'url': 'https://developer.baidu.com/article/detail.html?id=4752409&rut=2d7c1719c80ca1824becb7d15c44df18142e68c942c1ebe282e067538c596119', 'type': 'ddg', 'title': '关于cdn、回源等核心问题深度解析与实操指南-百度开发者中心'}

@@ -1,0 +1,20 @@
+# N258: R_core 对混合策略总成本 Cost_mixed 的敏感性系数：∂Cost_mixed/∂R_core = (Cost_per_TB_self - Cost
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N80, N81, N82
+
+## Claim
+
+R_core 对混合策略总成本 Cost_mixed 的敏感性系数：∂Cost_mixed/∂R_core = (Cost_per_TB_self - Cost_per_TB_cloud) × Total_Traffic_TB，若 Cost_per_TB_self=0.3元/TB，Cost_per_TB_cloud=0.4元/TB，Total_Traffic=2TB/日，则 R_core 每增加 1%，月成本增加 (0.3-0.4)×2×30×0.01 = -0.06元/月，即核心区域占比越高，总成本越低（假设自建单位成本低于公有云）。
+
+## Corrected Claim
+
+R_core 对混合策略总成本 Cost_mixed 的敏感性系数：∂Cost_mixed/∂R_core = (Cost_per_TB_self - Cost_per_TB_cloud) × Total_Traffic_TB，若 Cost_per_TB_self=0.3元/TB，Cost_per_TB_cloud=0.4元/TB，Total_Traffic=2TB/日，则 R_core 每增加 1%，月成本增加 (0.3-0.4)×2×30×0.01 = -0.06元/月，即核心区域占比越高，总成本越低（假设自建单位成本低于公有云）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：成本函数对核心区域占比的偏导数推导符合线性叠加原理，数值计算 (0.3-0.4)*2*30*0.01 = -0.06 准确，且结论方向（自建成本低则占比高总成本低）符合经济直觉。

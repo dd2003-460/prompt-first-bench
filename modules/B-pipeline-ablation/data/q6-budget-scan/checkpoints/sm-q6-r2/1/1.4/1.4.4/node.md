@@ -1,24 +1,24 @@
-# N47: 单个POP点年租金 C_rent_per_pop = 机柜数量(4-8个) * 单柜月租(3000-5000元) * 12个月，取值范围为 14.4-48 万元
+# N44: 缓存一致性延迟 t_consistency = t_invalidate + t_sync，其中 t_invalidate 为缓存失效通知传播时间（典型 1-1
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
 - **parent_ids**: N9
 
 ## Claim
 
-单个POP点年租金 C_rent_per_pop = 机柜数量(4-8个) * 单柜月租(3000-5000元) * 12个月，取值范围为 14.4-48 万元/年 [时效待核]。
+缓存一致性延迟 t_consistency = t_invalidate + t_sync，其中 t_invalidate 为缓存失效通知传播时间（典型 1-10s），t_sync 为数据同步延迟（典型 100ms-1s）；该值影响混合策略中用户获取最新内容的延迟，尤其在高频更新场景下显著。
 
 ## Corrected Claim
 
-单个POP点年租金 C_rent_per_pop = 机柜数量(4-8个) * 单柜月租(3000-5000元) * 12个月，取值范围为 14.4-48 万元/年 [时效待核]。
+缓存一致性延迟 t_consistency = t_invalidate + t_sync，其中 t_invalidate 为缓存失效通知传播时间（典型 1-10s），t_sync 为数据同步延迟（典型 100ms-1s）；该值影响混合策略中用户获取最新内容的延迟，尤其在高频更新场景下显著。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：4*3000*12=14.4万，8*5000*12=48万，计算无误且符合行业量级
+先验知识/题面给定，逻辑校验通过
 
 ## Search Query
 
-colocation rack monthly cost china 2024
+CDN cache invalidation latency seconds

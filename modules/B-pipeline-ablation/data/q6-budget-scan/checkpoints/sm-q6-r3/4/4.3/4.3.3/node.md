@@ -1,0 +1,20 @@
+# N136: 跨域回源时的额外 RTT 惩罚 $\Delta RTT_{cross}$ 的具体数值：当用户所在省份无本地 POP 命中时，需从最近 POP 回源至中心源站或跨
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N36
+
+## Claim
+
+跨域回源时的额外 RTT 惩罚 $\Delta RTT_{cross}$ 的具体数值：当用户所在省份无本地 POP 命中时，需从最近 POP 回源至中心源站或跨域 POP，额外增加的距离 $D_{cross}$ 通常为 500-1500 km，导致 $\Delta RTT_{cross} = 2 \cdot D_{cross} / v_{fiber} + \Delta RTT_{processing}$，预期增加 5-15 ms 传播延迟 + 2-5 ms 处理延迟。
+
+## Corrected Claim
+
+跨域回源时的额外 RTT 惩罚 $\Delta RTT_{cross}$ 的具体数值：当用户所在省份无本地 POP 命中时，需从最近 POP 回源至中心源站或跨域 POP，额外增加的距离 $D_{cross}$ 通常为 500-1500 km，导致 $\Delta RTT_{cross} = 2 \cdot D_{cross} / v_{fiber} + \Delta RTT_{processing}$，预期增加 5-15 ms 传播延迟 + 2-5 ms 处理延迟。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：光纤传播速度约为200,000 km/s，500-1500 km距离对应的单程传播延迟为2.5-7.5 ms，往返（RTT）传播延迟为5-15 ms，与陈述一致；处理延迟2-5 ms符合常规网络节点处理开销量级。

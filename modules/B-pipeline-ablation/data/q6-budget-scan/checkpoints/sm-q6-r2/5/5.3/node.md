@@ -1,24 +1,24 @@
-# N29: 长尾区域定义与公有云覆盖成本：长尾区域指单区域流量占比<2%或自建ROI<1的区域，这些区域通过公有云CDN覆盖，其单位流量成本 C_cloud_tail = 
+# N24: 预热机制 (Pre-warming) 成本：针对已知热点内容的预加载，可减少冷启动期间的回源；预热带宽成本 ≈ 预加载对象总大小 / 预热时间
 
-- **status**: verified
+- **status**: pending
 - **level**: L2
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
 - **parent_ids**: N5
 
 ## Claim
 
-长尾区域定义与公有云覆盖成本：长尾区域指单区域流量占比<2%或自建ROI<1的区域，这些区域通过公有云CDN覆盖，其单位流量成本 C_cloud_tail = (C_cloud_bandwidth + C_cloud_compute) / Traffic_tail
+预热机制 (Pre-warming) 成本：针对已知热点内容的预加载，可减少冷启动期间的回源；预热带宽成本 ≈ 预加载对象总大小 / 预热时间
 
 ## Corrected Claim
 
-长尾区域定义与公有云覆盖成本：长尾区域指单区域流量占比<2%或自建ROI<1的区域，这些区域通过公有云CDN覆盖，其单位流量成本 C_cloud_tail = (C_cloud_bandwidth + C_cloud_compute) / Traffic_tail
+预热机制 (Pre-warming) 成本：针对已知热点内容的预加载，可减少冷启动期间的回源；预热带宽成本 ≈ 预加载对象总大小 / 预热时间
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+父节点级核验未通过：非正交, 不完备, 有冗余（1. 正交性差：子节点4（权衡）实际上涵盖了子节点2（时间窗口）和子节点3（延迟改善）的综合结果，且子节点2和3都依赖于预热对象选择（子节点1），存在逻辑包含关系而非并列关系。2. 完备性不足：父节点定义中强调了“针对已知热点内容”，但未涵盖“预热内容的失效/更新机制”（即热度变化时的动态调整）以及“预热触发条件”（何时开始预热）。3. 冗余：子节点2中的公式 T_warm 与子节点4中的 C_warm 高度耦合，且子节点3中的改善量 ΔP99 本质上是 C_miss 减少的另一种表达，可合并为“预热效果评估”或“成本-收益模型”。）
 
 ## Search Query
 
-long tail CDN region definition public cloud cost per GB
+CDN pre-warming cost benefit analysis

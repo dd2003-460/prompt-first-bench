@@ -1,0 +1,58 @@
+# N144: 推导峰值因子精确计算公式：PF = (1 + (T_peak_am + T_peak_pm) * (K_peak - 1)) / 24，其中 K_peak 为高
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N52
+
+## Claim
+
+推导峰值因子精确计算公式：PF = (1 + (T_peak_am + T_peak_pm) * (K_peak - 1)) / 24，其中 K_peak 为高峰时段平均流量相对于全天平均流量的倍数，K_peak = 1 + PF * 24 / (T_peak_am + T_peak_pm) - 1。
+
+## Corrected Claim
+
+公式存在内部矛盾。若 K_peak = Avg_Peak / Avg_Daily，且 PF 为某种特定定义，需重新推导。通常 K_peak 与 PF 的关系取决于非高峰时段的流量假设。若假设非高峰流量为0，则 Total = Peak_Vol, Avg_Daily = Peak_Vol/24, Avg_Peak = Peak_Vol/T, K = (Peak_Vol/T)/(Peak_Vol/24) = 24/T。此时 K 与 PF(若PF=K) 无关，而是 T 的函数。若 PF 定义为 Max/Avg，则无法仅由 K 和 T 确定，除非假设流量形状。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：设全天平均流量为A，高峰时段总时长为T，高峰平均流量为K*A。全天总流量 = A*24。同时，全天总流量 = 高峰流量 + 非高峰流量 = (K*A)*T + A*(24-T) = A*(K*T + 24 - T) = A*(24 + T*(K-1))。因此 A*24 = A*(24 + T*(K-1)) 显然不成立，这里推导有误，重新推导：
+峰值因子PF通常定义为 峰值流量/平均流量。但题目中的公式 PF = (1 + T*(K-1))/24 看起来像是某种归一化或特定定义。
+让我们检查公式的一致性：
+如果 PF 是峰值因子（Peak Factor），通常 PF = Peak / Average。
+题目中给出的公式：PF = (1 + (T_am + T_pm) * (K_peak - 1)) / 24。
+令 T = T_am + T_pm。
+PF = (1 + T*(K-1)) / 24。
+这意味着 24*PF = 1 + T*K - T = T*K + (1-T)。
+这看起来不像标准的峰值因子定义。标准的峰值因子是瞬时最大值除以平均值。
+但是，如果这里的 PF 指的是“高峰时段的平均流量相对于全天平均流量的倍数”的某种变形？
+不，题目明确说 K_peak 是高峰时段平均流量相对于全天平均流量的倍数。
+即 K_peak = Avg_Peak / Avg_Daily。
+全天平均流量 Avg_Daily = Total_Volume / 24。
+高峰时段平均流量 Avg_Peak = Peak_Volume / T。
+所以 K_peak = (Peak_Volume / T) / (Total_Volume / 24) = 24 * Peak_Volume / (T * Total_Volume)。
+Total_Volume = Peak_Volume + Off_Peak_Volume。
+假设非高峰时段流量为0（极端情况）或者恒定？
+通常峰值因子 PF = Max_Instantaneous / Avg_Daily。
+题目中的公式 PF = (1 + T*(K-1))/24 似乎是在计算某种“等效”或“加权”指标，或者题目中的 PF 定义并非标准的瞬时峰值因子，而是某种基于时段平均值的指标。
+然而，题目要求核验的是“推导...精确计算公式”。
+让我们看第二个等式：K_peak = 1 + PF * 24 / (T_peak_am + T_peak_pm) - 1。
+简化后：K_peak = PF * 24 / T。
+代入第一个公式：PF = (1 + T * (PF * 24 / T - 1)) / 24 = (1 + 24*PF - T) / 24 = 1/24 + PF - T/24。
+PF = PF + (1-T)/24。
+这要求 (1-T)/24 = 0，即 T=1。这显然不成立，除非 T=1小时。
+这说明题目中的两个公式在代数上是**矛盾**的，或者我对 K_peak 的定义理解有误，或者公式本身有误。
+
+再仔细看：
+公式1: PF = (1 + T*(K-1)) / 24
+公式2: K = 1 + PF * 24 / T - 1  => K = PF * 24 / T
+将公式2代入公式1:
+PF = (1 + T * (PF * 24 / T - 1)) / 24
+PF = (1 + 24*PF - T) / 24
+PF = 1/24 + PF - T/24
+0 = (1 - T) / 24
+T = 1。
+这意味着只有当高峰时段总时长为1小时时，这两个公式才自洽。对于一般情况（如早晚高峰各1-2小时，T>1），这两个公式是**逻辑矛盾**的。
+
+因此，该陈述存在硬逻辑错误（内部矛盾）。

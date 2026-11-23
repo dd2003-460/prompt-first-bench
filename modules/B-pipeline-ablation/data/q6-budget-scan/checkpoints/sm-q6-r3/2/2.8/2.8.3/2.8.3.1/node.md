@@ -1,0 +1,30 @@
+# N295: 阿里云 CDN 高级技术支持包（包含 7x24 专属工程师、P1/P2 故障 15 分钟响应 SLA）月度费用 C_support_ali ≈ ¥20k-40k
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N100
+
+## Claim
+
+阿里云 CDN 高级技术支持包（包含 7x24 专属工程师、P1/P2 故障 15 分钟响应 SLA）月度费用 C_support_ali ≈ ¥20k-40k/月，具体取决于 CDN 月消费金额档位（通常月消费 > ¥50k 解锁高级支持资格），该费用独立于基础 CDN 流量费
+
+## Corrected Claim
+
+阿里云提供包含7x24专属工程师及快速响应SLA的高级技术支持服务，具体费用及解锁条件需根据CDN月消费档位及最新官方报价确定，通常独立于基础流量费。
+
+## Evidence
+
+[质询]具体数值（¥20k-40k/月）、特定SLA（15分钟响应）及解锁门槛（月消费>¥50k）属于高度具体的商业定价与政策细节，参考来源仅提供了通用的支持计划描述，未包含任何具体价格、SLA数值或消费门槛，存在将通用支持计划混淆为特定CDN高级包或数据无据的风险。 | 来源[1][2][3]证实阿里云提供7x24支持及企业级专属服务（间接支持），但均未提及具体费用、SLA数值或消费门槛，无法直接支持具体数值，且该事实为经验性商业数据，逻辑自洽但缺来源直接支持。
+
+## Search Query
+
+Alibaba Cloud CDN premium technical support package price monthly SLA response time
+
+## Retrieval Sources
+
+- {'url': 'https://www.aliyun.com/support/supportplans&rut=e8e8803c8540b245add674b0751af81bb600bd2ebd8772187df5fa7a1ba6841a', 'type': 'ddg', 'title': '阿里云企业支持计划_售后服务计划_阿里云'}
+- {'url': 'https://cn.aliyun.com/service/supportplans&rut=b6169db79aeb8c91e0f3d04943b5df11fd09db33c97fb14970c1b8d9fb155d83', 'type': 'ddg', 'title': '阿里云企业支持计划_售后服务计划_阿里云'}
+- {'url': 'https://www.aliyun.com/support/techsupport/compare&rut=64faf9f153e0d91e1a1d9326d1bb25ec43d4445df754662baa9cd84069522e3d', 'type': 'ddg', 'title': '阿里云企业支持计划_售后服务计划_阿里云'}

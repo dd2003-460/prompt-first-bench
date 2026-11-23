@@ -1,20 +1,20 @@
-# N39: 有效带宽 B_effective 受 TCP 慢启动拥塞窗口限制，在短连接或高 RTT 场景下，B_effective ≈ (MSS × cwnd) / RTT
+# N32: 长尾区域（Top 10以外省份）的流量集中度修正：剩余省份中，Top 11-20省份通常贡献长尾流量的 50%-60%，即 P_tail_top10_20 ≈ 
 
-- **status**: verified
+- **status**: degraded
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
-- **rework_count**: 0
+- **rework_count**: 1
 - **parent_ids**: N6
 
 ## Claim
 
-有效带宽 B_effective 受 TCP 慢启动拥塞窗口限制，在短连接或高 RTT 场景下，B_effective ≈ (MSS × cwnd) / RTT，其中 MSS 通常为 1460 bytes，cwnd 初始为 10-20 MSS，导致小对象传输效率低于链路理论带宽。
+长尾区域（Top 10以外省份）的流量集中度修正：剩余省份中，Top 11-20省份通常贡献长尾流量的 50%-60%，即 P_tail_top10_20 ≈ 0.5 * P_tail；此参数用于计算混合策略中公有云CDN需承载的最小流量下限。
 
 ## Corrected Claim
 
-有效带宽 B_effective 受 TCP 慢启动拥塞窗口限制，在短连接或高 RTT 场景下，B_effective ≈ (MSS × cwnd) / RTT，其中 MSS 通常为 1460 bytes，cwnd 初始为 10-20 MSS，导致小对象传输效率低于链路理论带宽。
+长尾区域（Top 10以外省份）的流量集中度修正：剩余省份中，Top 11-20省份通常贡献长尾流量的主要部分（具体比例需根据实际业务数据校准，常见经验值约为50%-60%），即 P_tail_top10_20 ≈ 0.5 * P_tail；此参数用于计算混合策略中公有云CDN需承载的最小流量下限。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：TCP慢启动机制下，初始拥塞窗口（cwnd）通常为10-20 MSS，MSS标准值为1460 bytes，带宽延迟积公式 B ≈ (MSS * cwnd) / RTT 符合网络传输基本原理，短连接或高RTT场景下受限于初始窗口导致有效带宽低于链路理论带宽的结论逻辑自洽且符合工程事实。
+[质询]该陈述包含具体的经验性数值参数（Top 11-20省份贡献长尾流量的50%-60%），这属于特定业务场景下的统计分布特征，无法从第一性原理或数学公理中严格推导出来，且缺乏通用性，不同行业或时期的流量分布可能显著不同。 | 经验事实，逻辑自洽但缺来源支持

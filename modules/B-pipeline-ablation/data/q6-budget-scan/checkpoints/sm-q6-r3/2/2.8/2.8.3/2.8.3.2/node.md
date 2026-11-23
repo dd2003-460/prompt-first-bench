@@ -1,0 +1,30 @@
+# N296: Cloudflare Business/Enterprise 计划技术支持费用结构：Business 计划（$200/月）包含 24/7 支持但无专属工程师；E
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N100
+
+## Claim
+
+Cloudflare Business/Enterprise 计划技术支持费用结构：Business 计划（$200/月）包含 24/7 支持但无专属工程师；Enterprise 计划（定制报价，通常 $5k-15k/月起）包含专属 TAM（Technical Account Manager）和 15 分钟 P1 响应 SLA，需根据平台规模（500 万 DAU）匹配 Enterprise 层级定价
+
+## Corrected Claim
+
+Cloudflare Business 计划（约 $200/月）包含 24/7 支持；Enterprise 计划为定制报价，通常包含专属 TAM 和更高级别的 SLA，具体价格需根据平台规模（如 500 万 DAU）单独询价，无固定公开标准价。
+
+## Evidence
+
+[质询]Enterprise 计划的具体价格区间（$5k-15k/月）及 15 分钟 P1 响应 SLA 属于高度定制化的商业条款，并非公开固定的标准参数，且不同客户规模差异巨大，该具体数值缺乏权威公开来源的直接支持，存在将个别案例或过时信息当作通用标准的风险。 | 来源 [1] 和 [3] 确认了 Business 计划的存在及大致定位，但未提供 Enterprise 的具体价格区间和 SLA 细节；作为经验事实，逻辑自洽但缺乏直接来源支持具体数值。
+
+## Search Query
+
+Cloudflare Enterprise plan pricing dedicated technical account manager SLA response time cost
+
+## Retrieval Sources
+
+- {'url': 'https://www.cloudflare.com/plans/business/&rut=bb3d6cd042cf75fea53d732e6d52008cefaa283282134d3c1c9d218cb7740016', 'type': 'ddg', 'title': 'Business Plan Overview | Cloudflare'}
+- {'url': 'https://www.cloudflare.com/plans/&rut=598c57c90b5e54bf0b1692b9008782def17f1effa68893eeec00e758cf43da80', 'type': 'ddg', 'title': 'Pricing - Cloudflare'}
+- {'url': 'https://www.plumephp.com/cloudflare-pricing-guide/&rut=dfbef2d090f81b790f54b8b338e79f9fda10ccbaceb217a2fef5afed9c0038bf', 'type': 'ddg', 'title': 'Cloudflare 定价详解：Free / Pro / Business / Enterprise 四档拆解与成本优化'}

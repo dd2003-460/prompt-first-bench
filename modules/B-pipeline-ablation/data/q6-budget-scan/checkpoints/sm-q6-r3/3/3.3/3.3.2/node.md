@@ -1,0 +1,20 @@
+# N106: 源站负载成本增量：ΔC_origin_server = (V_download_total * R_origin / s_avg) * C_cpu_per_re
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N28
+
+## Claim
+
+源站负载成本增量：ΔC_origin_server = (V_download_total * R_origin / s_avg) * C_cpu_per_req，其中C_cpu_per_req为源站处理单请求的CPU/内存成本（估算约¥0.001-0.005/req），R_origin每增加1%导致源站QPS增加约 (2TB/s_avg)/100
+
+## Corrected Claim
+
+源站负载成本增量：ΔC_origin_server = (V_download_total * R_origin / s_avg) * C_cpu_per_req，其中C_cpu_per_req为源站处理单请求的CPU/内存成本（估算约¥0.001-0.005/req），R_origin每增加1%导致源站QPS增加约 (2TB/s_avg)/100
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点本质上是同一公式在不同参数（R_origin）下的实例化，存在严重冗余；且仅覆盖了CPU成本，未覆盖父节点公式中可能隐含的其他源站负载成本维度（如内存、带宽出口等，尽管公式主要聚焦CPU，但'负载成本'通常更广泛），导致完备性不足。）

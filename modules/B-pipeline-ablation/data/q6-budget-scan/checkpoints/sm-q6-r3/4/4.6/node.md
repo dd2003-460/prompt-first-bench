@@ -1,0 +1,20 @@
+# N39: 全公有云策略的 P99 延迟成本函数 $C_{pub}(T, s)$：$C_{pub} = C_{bandwidth}^{pub} + C_{req}^{pub
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4, N5, N6
+
+## Claim
+
+全公有云策略的 P99 延迟成本函数 $C_{pub}(T, s)$：$C_{pub} = C_{bandwidth}^{pub} + C_{req}^{pub} + C_{infra}^{pub}$，其中 $C_{bandwidth}^{pub} = \text{Traffic}_{daily} \times P_{99}^{pub}$（按 95th 峰值计费），$P_{99}^{pub} \approx 0.2-0.5 \text{ ¥/GB}$，$C_{req}^{pub} \approx 0.0001-0.0005 \text{ ¥/req}$，无固定基础设施成本。
+
+## Corrected Claim
+
+全公有云策略的 P99 延迟成本函数 $C_{pub}(T, s)$：$C_{pub} = C_{bandwidth}^{pub} + C_{req}^{pub} + C_{infra}^{pub}$，其中 $C_{bandwidth}^{pub} = \text{Traffic}_{daily} \times P_{99}^{pub}$（按 95th 峰值计费），$P_{99}^{pub} \approx 0.2-0.5 \text{ ¥/GB}$，$C_{req}^{pub} \approx 0.0001-0.0005 \text{ ¥/req}$，无固定基础设施成本。
+
+## Evidence
+
+父节点级核验未通过：非正交, 有冗余（子节点3存在严重的逻辑矛盾与定义冲突：父节点明确定义 C_infra^pub 为0（无固定基础设施成本），且 C_pub 仅由带宽和请求成本组成；但子节点3却引入 C_infra^pub 并定义为带宽成本的折扣部分，这不仅与父节点公式 C_pub = C_bw + C_req + C_infra 中 C_infra=0 的前提矛盾，还导致 C_bandwidth 被重复计算（子节点1计算原始带宽成本，子节点3又基于带宽成本计算折扣，若两者相加则重复，若合并则子节点3不应作为独立加项）。此外，子节点1和子节点3都涉及带宽计费的细节，存在内容重叠。）

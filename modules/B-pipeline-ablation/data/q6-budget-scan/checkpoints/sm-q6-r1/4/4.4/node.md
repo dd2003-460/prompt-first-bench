@@ -1,19 +1,19 @@
-# N19: 混合策略中自建POP的流量占比阈值：设核心区域流量占比为α（通常α∈[0.6,0.8]），则混合运维成本 C_hybrid_ops = α * C_sre_se
+# N21: 峰值/均值比 Peak-to-Average Ratio (PAR) = Q_peak / Q_avg；对于 C 端平台，PAR 通常为 3-5 倍，影响带宽预
 
 - **status**: verified
 - **level**: L2
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N4, N5, N6
+- **parent_ids**: N4
 
 ## Claim
 
-混合策略中自建POP的流量占比阈值：设核心区域流量占比为α（通常α∈[0.6,0.8]），则混合运维成本 C_hybrid_ops = α * C_sre_self * (n_pops_self/n_pops_total) + (1-α) * C_cloud_sre，其中 n_pops_self 为自建POP数，n_pops_total=10
+峰值/均值比 Peak-to-Average Ratio (PAR) = Q_peak / Q_avg；对于 C 端平台，PAR 通常为 3-5 倍，影响带宽预留与弹性伸缩成本
 
 ## Corrected Claim
 
-混合策略中自建POP的流量占比阈值：设核心区域流量占比为α（通常α∈[0.6,0.8]），则混合运维成本 C_hybrid_ops = α * C_sre_self * (n_pops_self/n_pops_total) + (1-α) * C_cloud_sre，其中 n_pops_self 为自建POP数，n_pops_total=10
+峰值/均值比 Peak-to-Average Ratio (PAR) = Q_peak / Q_avg；对于 C 端平台，PAR 通常为 3-5 倍，影响带宽预留与弹性伸缩成本
 
 ## Evidence
 
@@ -21,4 +21,4 @@
 
 ## Search Query
 
-hybrid CDN traffic split ratio core region self-hosted POP
+CDN peak to average traffic ratio social media platform

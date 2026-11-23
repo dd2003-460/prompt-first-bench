@@ -1,0 +1,30 @@
+# N102: 公有云CDN峰值溢价率 Peak_Premium_Rate 的确定依据：阿里云CDN按95分位带宽计费时，无显式峰值溢价，但实际成本受流量波动影响；Cloudf
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N32
+
+## Claim
+
+公有云CDN峰值溢价率 Peak_Premium_Rate 的确定依据：阿里云CDN按95分位带宽计费时，无显式峰值溢价，但实际成本受流量波动影响；Cloudflare按GB计费，无峰值溢价但单价较高；典型峰值溢价率10%-20%仅适用于按峰值带宽计费的场景，需根据具体合同核验。
+
+## Corrected Claim
+
+阿里云CDN支持按95分位带宽计费（非默认模式），该模式下无显式峰值溢价，但成本受流量波动影响；Cloudflare通常按GB计费，无峰值溢价但单价较高；典型峰值溢价率10%-20%仅适用于按峰值带宽计费的场景，具体数值需根据合同核验。
+
+## Evidence
+
+[质询]陈述中关于Cloudflare计费模式及具体峰值溢价率（10%-20%）属于经验事实，参考来源仅覆盖阿里云，无法提供外部支持；且阿里云默认计费模式为按流量而非95分位带宽，陈述中“阿里云CDN按95分位带宽计费时”的前提需明确为可选模式而非默认，存在口径混淆风险。 | 来源[2]和[3]证实阿里云支持95带宽峰值计费，但默认按流量计费；来源未覆盖Cloudflare及具体溢价率数值，经验事实缺来源支持。
+
+## Search Query
+
+Alibaba Cloud CDN 95th percentile billing vs peak bandwidth pricing 2024
+
+## Retrieval Sources
+
+- {'url': 'https://developer.aliyun.com/article/1708278&rut=2ddc55f04c3ee490ae5b44019f150c2428eac2400670b83d41207aae16acf9e2', 'type': 'ddg', 'title': '2026最新阿里云cdn收费标准：不同计费模式价格表（基础服务费和增值服务费用整理）-阿里云开发者社区'}
+- {'url': 'https://help.aliyun.com/zh/cdn/product-overview/billing-rules-of-basic-services&rut=8ac269fc0fd33361b507140bc77f95e7de5882f95004416a424fe1397b02bd86', 'type': 'ddg', 'title': '基础服务计费方式定价规则-cdn-阿里云-cdn (Cdn)-阿里云帮助中心'}
+- {'url': 'https://developer.aliyun.com/article/1650572&rut=7809f50661b3b65f1d93c029c7ce7b33256f979b41f3134281944e8455a64504', 'type': 'ddg', 'title': '阿里云cdn怎么收费？看这一篇就够了，Cdn不同计费模式收费价格全解析-阿里云开发者社区'}

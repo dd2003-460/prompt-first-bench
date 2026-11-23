@@ -1,0 +1,29 @@
+# N271: 日均下载流量 V_daily 的构成拆分：V_daily = V_img + V_video + V_other，其中 V_img 为图片下载量，V_video
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N86, N90, N92
+
+## Claim
+
+日均下载流量 V_daily 的构成拆分：V_daily = V_img + V_video + V_other，其中 V_img 为图片下载量，V_video 为短视频下载量，V_other 为其他（如头像、静态资源）。已知 V_daily=2TB，需根据业务日志确定各类型占比（例如图片占60%，短视频占35%，其他5%），以计算加权平均对象大小对带宽突发性的影响。
+
+## Corrected Claim
+
+日均下载流量 V_daily 的构成拆分：V_daily = V_img + V_video + V_other，其中 V_img 为图片下载量，V_video 为短视频下载量，V_other 为其他（如头像、静态资源）。已知 V_daily=2TB，需根据具体业务日志确定各类型实际占比，以计算加权平均对象大小对带宽突发性的影响。
+
+## Evidence
+
+[质询]该陈述中的具体占比数值（图片60%、短视频35%、其他5%）属于特定业务场景下的经验数据，无法从第一性原理或通用逻辑中推导得出，且缺乏特定业务日志作为直接证据支持，存在以偏概全或数据虚构的风险。 | 参考来源[1]为维生素产品，[2]为金融交易量定义，均与网络流量构成无关，无可用外部证据；该事实为经验性业务参数，逻辑自洽但缺来源支持。
+
+## Search Query
+
+image video platform daily download traffic composition breakdown 2TB
+
+## Retrieval Sources
+
+- {'url': 'https://vitalhealthglobal.com/products/v-daily&rut=40f7d70b8e1606fbbf3aeb01f8443b8ac9ecd76bc22fbf291e2bb3b246a8bb9b', 'type': 'ddg', 'title': 'V-DAILY - Vital Health Global'}
+- {'url': 'https://www.investing.com/academy/analysis/average-daily-volume-definition/&rut=543e4b17eab530ecb1f156c843c9422bc8132a3b9087948d46c1c699190956d3', 'type': 'ddg', 'title': 'Average Daily Volume (ADV): What Is It, Calculation & Importance'}

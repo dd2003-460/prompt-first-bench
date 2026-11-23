@@ -1,0 +1,24 @@
+# N158: P99延迟阈值T_target的行业基准细分：对于图片加载，T_target_image ≤ 150ms（首字节）；对于短视频首帧，T_target_video
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N49
+
+## Claim
+
+P99延迟阈值T_target的行业基准细分：对于图片加载，T_target_image ≤ 150ms（首字节）；对于短视频首帧，T_target_video ≤ 200ms（首帧渲染）；综合平台T_target = max(T_target_image, T_target_video) * Weight_mix，Weight_mix为图片与视频请求占比，需根据业务流量结构加权确定最终合规阈值
+
+## Corrected Claim
+
+P99延迟阈值T_target需根据业务流量结构加权确定：通常图片加载关注首字节时间（TTFB），短视频关注首帧渲染时间（LCP/FCP），综合阈值应基于各类型请求占比及业务SLA要求加权计算，具体数值（如150ms/200ms）需依据实际业务监控数据与SLA协议设定。
+
+## Evidence
+
+[质询]该陈述中的具体数值阈值（150ms/200ms）及加权公式属于特定业务场景下的经验性工程参数，并非通用的行业绝对标准或第一性原理可推导的数学事实，不同平台（如抖音、Instagram、淘宝）的SLA定义可能存在差异，且'首字节'与'首帧渲染'的测量口径在行业中并无统一强制标准。 | 先验知识/题面给定，逻辑校验通过；但具体数值为经验事实，缺乏通用行业基准的直接来源支持，故降级为定性表述。
+
+## Search Query
+
+image vs video first byte time SLO benchmark streaming platform

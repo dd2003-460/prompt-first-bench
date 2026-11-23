@@ -1,0 +1,24 @@
+# N55: 境外用户流量处理成本：境外 5% 用户流量 V_overseas = 0.05 * V_dl = 100GB/day，若通过公有云 CDN 境外节点服务，流量单
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N10, N11, N12
+
+## Claim
+
+境外用户流量处理成本：境外 5% 用户流量 V_overseas = 0.05 * V_dl = 100GB/day，若通过公有云 CDN 境外节点服务，流量单价 P_overseas ≈ ¥0.5-1.0/GB（高于境内 ¥0.24/GB）；若通过境内节点服务，需承担跨境带宽成本 P_cross_border ≈ ¥1.5-3.0/GB，且延迟增加 50-100ms
+
+## Corrected Claim
+
+境外用户流量处理成本：境外 5% 用户流量 V_overseas = 0.05 * V_dl = 100GB/day，若通过公有云 CDN 境外节点服务，流量单价 P_overseas ≈ ¥0.5-1.0/GB（高于境内 ¥0.24/GB）；若通过境内节点服务，需承担跨境带宽成本 P_cross_border ≈ ¥1.5-3.0/GB，且延迟增加 50-100ms
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点逻辑清晰且正交：节点1和2分别计算两种独立策略的成本，节点3量化两者的差值，节点4量化非成本维度（延迟）的代价，节点5提供基于成本-风险权衡的最终决策逻辑。没有内容重复或矛盾，且覆盖了父节点中提到的所有关键参数（流量、单价、延迟、决策依据）。）
+
+## Search Query
+
+China CDN overseas traffic price per GB cross-border bandwidth cost 2024

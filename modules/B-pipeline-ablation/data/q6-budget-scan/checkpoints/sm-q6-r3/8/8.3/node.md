@@ -1,0 +1,24 @@
+# N156: 基础DDoS防护的隐性成本边界：虽然C_DDoS_basic名义为0，但超出基础防护阈值（通常5Gbps-10Gbps）后触发按量计费，C_DDoS_Overa
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N48
+
+## Claim
+
+基础DDoS防护的隐性成本边界：虽然C_DDoS_basic名义为0，但超出基础防护阈值（通常5Gbps-10Gbps）后触发按量计费，C_DDoS_Overage = Max(0, Peak_Traffic - Threshold) * p_ddos_overage，其中p_ddos_overage约¥100-500/Gbps/小时，需评估业务峰值是否常触发此阈值
+
+## Corrected Claim
+
+基础DDoS防护的隐性成本边界：虽然C_DDoS_basic名义为0，但超出基础防护阈值（通常5Gbps-10Gbps）后触发按量计费，C_DDoS_Overage = Max(0, Peak_Traffic - Threshold) * p_ddos_overage，其中p_ddos_overage约¥100-500/Gbps/小时，需评估业务峰值是否常触发此阈值
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+cloud DDoS protection overage pricing per Gbps hour

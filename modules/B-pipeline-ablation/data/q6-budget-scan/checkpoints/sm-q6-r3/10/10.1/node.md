@@ -1,0 +1,24 @@
+# N159: 故障切换时间T_failover的构成分解：T_failover = T_detection + T_decision + T_switch，其中T_detec
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N50
+
+## Claim
+
+故障切换时间T_failover的构成分解：T_failover = T_detection + T_decision + T_switch，其中T_detection为健康检查间隔（通常5-10s），T_decision为调度决策时间（<1s），T_switch为DNS/TTL刷新或连接重定向时间（取决于DNS TTL设置，通常300-600s，若用Anycast可降至<1s），总切换时间瓶颈通常在DNS TTL而非硬件
+
+## Corrected Claim
+
+故障切换时间T_failover的构成分解：T_failover = T_detection + T_decision + T_switch，其中T_detection为健康检查间隔（通常5-10s），T_decision为调度决策时间（<1s），T_switch为DNS/TTL刷新或连接重定向时间（取决于DNS TTL设置，通常300-600s，若用Anycast可降至<1s），总切换时间瓶颈通常在DNS TTL而非硬件
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+CDN failover time DNS TTL anycast detection decision switch

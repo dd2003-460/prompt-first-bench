@@ -1,0 +1,24 @@
+# N102: 图片类对象的 Zipf 参数 α_img 通常为 1.0-1.2，因为图片热点集中度较高（头部图片占大部分流量）；短视频类对象的 Zipf 参数 α_video
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N22, N26, N27
+
+## Claim
+
+图片类对象的 Zipf 参数 α_img 通常为 1.0-1.2，因为图片热点集中度较高（头部图片占大部分流量）；短视频类对象的 Zipf 参数 α_video 通常为 0.8-1.0，因为短视频长尾更显著（用户兴趣分散）。
+
+## Corrected Claim
+
+图片类对象的 Zipf 参数 α_img 通常为 1.0-1.2，因为图片热点集中度较高（头部图片占大部分流量）；短视频类对象的 Zipf 参数 α_video 通常为 0.8-1.0，因为短视频长尾更显著（用户兴趣分散）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+Zipf parameter image vs video content distribution

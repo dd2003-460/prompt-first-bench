@@ -1,0 +1,24 @@
+# N29: 回源策略对 P99 的影响：Cache-Aside 模式下，未命中请求的回源延迟 L_origin = L_origin_base + L_backhaul。若
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N5
+
+## Claim
+
+回源策略对 P99 的影响：Cache-Aside 模式下，未命中请求的回源延迟 L_origin = L_origin_base + L_backhaul。若自建 POP 回源中心机房，L_backhaul_self ≈ 20-50 ms；若公有云 CDN 回源，L_backhaul_cloud ≈ 10-30 ms（同区域优化）。P99 受未命中率 (1-H) 放大：L_P99 ≈ H*L_cache + (1-H)*L_origin。
+
+## Corrected Claim
+
+回源策略对 P99 的影响：Cache-Aside 模式下，未命中请求的回源延迟 L_origin = L_origin_base + L_backhaul。若自建 POP 回源中心机房，L_backhaul_self ≈ 20-50 ms；若公有云 CDN 回源，L_backhaul_cloud ≈ 10-30 ms（同区域优化）。P99 受未命中率 (1-H) 放大：L_P99 ≈ H*L_cache + (1-H)*L_origin。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在逻辑维度上是正交的（分别拆解了自建延迟、公有云延迟、总体公式推导、以及特定场景下的敏感性），且没有明显的冗余重复。但是，完备性存在缺陷：父节点明确提到了 L_cache 和 L_origin 对 P99 的影响，但子节点3中虽然给出了 L_cache 的范围，却未独立拆解 L_cache 的构成（如本地内存/磁盘IO、序列化开销等），导致对'缓存侧'延迟的分解缺失，仅聚焦于回源侧和总体效应。此外，父节点强调'回源策略'的影响，子节点1和2仅分解了回源延迟，但未讨论不同策略（如主动预热、边缘计算）对 L_origin 或 H 的动态影响，仅停留在静态延迟分解上。）
+
+## Search Query
+
+CDN origin fetch latency impact on p99 tail latency

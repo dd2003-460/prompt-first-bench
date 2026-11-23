@@ -1,0 +1,20 @@
+# N37: 跨域回源路径惩罚系数 $\alpha_{cross}$：当用户请求未命中本地 POP 需跨域回源时，额外增加的延迟 $\Delta RTT_{cross} = 
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4, N5, N6
+
+## Claim
+
+跨域回源路径惩罚系数 $\alpha_{cross}$：当用户请求未命中本地 POP 需跨域回源时，额外增加的延迟 $\Delta RTT_{cross} = RTT_{prop}(D_{cross}) + RTT_{handshake}$，其中 $D_{cross}$ 为跨域距离（通常 >1500 km），导致 P99 延迟增加 15-30 ms，且带宽成本增加约 20%-40% 因骨干网拥塞。
+
+## Corrected Claim
+
+跨域回源路径惩罚系数 $\alpha_{cross}$：当用户请求未命中本地 POP 需跨域回源时，额外增加的延迟 $\Delta RTT_{cross} = RTT_{prop}(D_{cross}) + RTT_{handshake}$，其中 $D_{cross}$ 为跨域距离（通常 >1500 km），导致 P99 延迟增加 15-30 ms，且带宽成本增加约 20%-40% 因骨干网拥塞。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点公式中的传播延迟、握手延迟以及带宽成本三个独立维度，逻辑上互不重叠（正交）；涵盖了延迟计算和成本量化两个核心方面（完备）；各子节点定义的是不同的物理量或经济参数，不存在数值上的冗余（非冗余）。）

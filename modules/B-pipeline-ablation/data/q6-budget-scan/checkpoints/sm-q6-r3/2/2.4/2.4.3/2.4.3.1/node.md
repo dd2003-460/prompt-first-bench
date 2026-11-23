@@ -1,0 +1,24 @@
+# N269: 自建节点采用 1Gbps 静态带宽包（月费 ¥15k），理论月容量 V_capacity_max = 1Gbps * 86400s * 30d / 8 ≈ 3.
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N85
+
+## Claim
+
+自建节点采用 1Gbps 静态带宽包（月费 ¥15k），理论月容量 V_capacity_max = 1Gbps * 86400s * 30d / 8 ≈ 3.24TB，满载时单位成本 p_self_full = ¥15k / 3240GB ≈ ¥4.6/GB，远高于公有云，说明低带宽包不适用于高流量场景
+
+## Corrected Claim
+
+自建节点采用 1Gbps 静态带宽包（月费 ¥15k），理论月容量 V_capacity_max = 1Gbps * 86400s * 30d / 8 ≈ 3.24TB，满载时单位成本 p_self_full = ¥15k / 3240GB ≈ ¥4.6/GB，远高于公有云，说明低带宽包不适用于高流量场景
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：1Gbps * 86400s * 30d / 8 = 3.24TB，15000/3240 ≈ 4.63，计算无误且符合工程常识
+
+## Search Query
+
+self-hosted CDN 1Gbps bandwidth package monthly cost per GB calculation

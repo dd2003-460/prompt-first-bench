@@ -1,0 +1,24 @@
+# N176: TLS 1.3 完整握手（Full Handshake）的 P99 延迟 T_tls_full_p99 ≈ 1 RTT + 2 * T_cpu_handshak
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N52
+
+## Claim
+
+TLS 1.3 完整握手（Full Handshake）的 P99 延迟 T_tls_full_p99 ≈ 1 RTT + 2 * T_cpu_handshake，其中 T_cpu_handshake（RSA-2048 密钥交换计算）≈ 0.5-1.5ms（取决于 CPU 主频与 OpenSSL 版本），总 P99 约为 15-35ms（含网络 RTT）或纯处理 1-3ms；需区分首连接与 Session Resumption。
+
+## Corrected Claim
+
+TLS 1.3 完整握手（Full Handshake）的 P99 延迟 T_tls_full_p99 ≈ 1 RTT + 2 * T_cpu_handshake，其中 T_cpu_handshake（RSA-2048 密钥交换计算）≈ 0.5-1.5ms（取决于 CPU 主频与 OpenSSL 版本），总 P99 约为 15-35ms（含网络 RTT）或纯处理 1-3ms；需区分首连接与 Session Resumption。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：TLS 1.3 Full Handshake 确实为 1-RTT 延迟，RSA-2048 签名/解密耗时在 0.5-1.5ms 量级符合工程常识，总延迟估算合理。
+
+## Search Query
+
+TLS 1.3 handshake latency CPU RSA-2048 milliseconds P99

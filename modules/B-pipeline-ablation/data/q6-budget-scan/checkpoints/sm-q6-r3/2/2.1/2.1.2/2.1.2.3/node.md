@@ -1,0 +1,24 @@
+# N245: 负载均衡器成本 P_load_balancer 的部署模式差异：若采用硬件负载均衡器（F5/A10），P_load_balancer ≈ ¥20k-50k/台（
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N76
+
+## Claim
+
+负载均衡器成本 P_load_balancer 的部署模式差异：若采用硬件负载均衡器（F5/A10），P_load_balancer ≈ ¥20k-50k/台（初始投资）+ ¥5k-10k/年（许可证）；若采用软件负载均衡器（HAProxy/Nginx/Keepalived），P_load_balancer ≈ 0（软件免费），但需高可用部署（主备双机），隐性成本 ≈ ¥1k-3k/点/月（监控与运维人力分摊），需根据 SLA 要求选择模式
+
+## Corrected Claim
+
+负载均衡器成本 P_load_balancer 的部署模式差异：若采用硬件负载均衡器（F5/A10），P_load_balancer ≈ ¥20k-50k/台（初始投资）+ ¥5k-10k/年（许可证）；若采用软件负载均衡器（HAProxy/Nginx/Keepalived），P_load_balancer ≈ 0（软件免费），但需高可用部署（主备双机），隐性成本 ≈ ¥1k-3k/点/月（监控与运维人力分摊），需根据 SLA 要求选择模式
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+hardware vs software load balancer cost comparison F5 HAProxy CDN edge

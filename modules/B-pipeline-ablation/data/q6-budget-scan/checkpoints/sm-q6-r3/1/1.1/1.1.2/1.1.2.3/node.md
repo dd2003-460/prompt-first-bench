@@ -1,0 +1,24 @@
+# N181: 连接复用率 R_reuse 对队列深度的影响：若 HTTP/2 多路复用，单 TCP 连接可承载 N_streams 个请求，有效并发连接数 K_eff = K
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N53
+
+## Claim
+
+连接复用率 R_reuse 对队列深度的影响：若 HTTP/2 多路复用，单 TCP 连接可承载 N_streams 个请求，有效并发连接数 K_eff = K_tcp * N_streams；P99 队列等待时间与 K_eff 成反比，当 N_streams=100 时，等效队列深度降低 100 倍，P99 可从 50ms 降至 < 1ms，但受限于 CPU 上下文切换开销（约 0.05ms/context switch）。
+
+## Corrected Claim
+
+连接复用率 R_reuse 对队列深度的影响：若 HTTP/2 多路复用，单 TCP 连接可承载 N_streams 个请求，有效并发连接数 K_eff = K_tcp * N_streams；P99 队列等待时间与 K_eff 成反比，当 N_streams=100 时，等效队列深度降低 100 倍，理论上可显著降低 P99 延迟，但实际效果受限于 CPU 上下文切换开销（约 0.05ms/context switch）及其他系统瓶颈。
+
+## Evidence
+
+[质询]将P99延迟从50ms降至<1ms的结论过于绝对，忽略了网络RTT、服务器处理时间等固定开销，且假设队列等待时间是延迟的唯一主导因素，这在真实系统中通常不成立。 | 先验知识/题面给定，逻辑校验通过，但具体数值（50ms降至<1ms）缺乏来源支持且存在经验性假设风险
+
+## Search Query
+
+HTTP/2 multiplexing effect on queue depth P99 latency CDN edge

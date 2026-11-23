@@ -1,0 +1,24 @@
+# N19: 带宽成本-按峰值计费：C_bandwidth_peak = B_peak * p_peak，其中B_peak为月峰值带宽（需基于流量分布计算，通常为日均流量的2
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+带宽成本-按峰值计费：C_bandwidth_peak = B_peak * p_peak，其中B_peak为月峰值带宽（需基于流量分布计算，通常为日均流量的2-3倍），p_peak为每Mbps价格（公有云约¥50-100/Mbps/月，自建约¥20-50/Mbps/月）
+
+## Corrected Claim
+
+带宽成本-按峰值计费：C_bandwidth_peak = B_peak * p_peak，其中B_peak为月峰值带宽（需基于流量分布计算，通常为日均流量的2-3倍），p_peak为每Mbps价格（公有云约¥50-100/Mbps/月，自建约¥20-50/Mbps/月）
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1计算了中间变量B_avg，子节点2计算了最终成本C，两者逻辑上正交（一个是输入/中间态，一个是输出）。但完备性不足：父节点明确提到p_peak（单价）是公式的关键组成部分，且区分了公有云和自建的价格区间，但子节点中完全缺失了关于p_peak的定义、取值或选择依据的子节点，导致无法从子节点直接得出最终的货币成本。）
+
+## Search Query
+
+cloud CDN bandwidth pricing per Mbps 2024

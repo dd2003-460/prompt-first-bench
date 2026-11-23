@@ -1,20 +1,30 @@
-# N6: P99延迟的物理分解公式：P99 = RTT_base + T_queue + T_processing + T_transmission，其中T_transm
+# N6: 用户地理分布熵与核心区域集中度：基于500万日活用户IP分布，计算核心区域（如Top 10省份/城市）覆盖的用户比例 P_core 与长尾区域覆盖比例 P_ta
 
-- **status**: pending
+- **status**: degraded
 - **level**: L2
-- **source**: knowledge
+- **source**: search
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N1
+- **rework_count**: 1
+- **parent_ids**: N1, N2, N3
 
 ## Claim
 
-P99延迟的物理分解公式：P99 = RTT_base + T_queue + T_processing + T_transmission，其中T_transmission = s / B_effective，s为对象大小，B_effective为有效带宽
+用户地理分布熵与核心区域集中度：基于500万日活用户IP分布，计算核心区域（如Top 10省份/城市）覆盖的用户比例 P_core 与长尾区域覆盖比例 P_tail，其中 P_core + P_tail = 1
 
 ## Corrected Claim
 
-P99延迟的物理分解公式：P99 = RTT_base + T_queue + T_processing + T_transmission，其中T_transmission = s / B_effective，s为对象大小，B_effective为有效带宽
+基于用户IP分布数据，可计算核心区域（如Top 10省份/城市）覆盖的用户比例 P_core 与长尾区域覆盖比例 P_tail，二者之和为1。
 
 ## Evidence
 
-父节点级核验未通过：不完备（子节点正交且无冗余，分别覆盖了处理时间、有效带宽和对象大小三个独立变量。但完备性不足：父节点公式明确包含 RTT_base 和 T_queue，而三个子节点均未涉及这两个关键项的物理特性或量级估计，导致分解未覆盖公式中的所有主要组成部分。）
+[质询]该陈述描述的是一个具体的数据分析任务或指标定义（基于500万日活用户IP分布计算P_core和P_tail），属于经验性操作或特定项目设定，而非通用的物理/数学定律。参考来源仅提供了构建此类分析系统的方法论（IP解析、可视化），并未提供该特定场景下的具体数值结果或验证该特定指标定义的唯一正确性，且“500万日活”这一具体规模在来源中未体现，存在口径和具体数值缺乏直接证据支持的风险。 | 逻辑自洽（概率分布之和为1），但参考来源[1][2][3]仅介绍IP地理分布分析的技术实现流程，未直接支持该特定指标（P_core/P_tail）的具体数值或定义的唯一性，属于经验事实/特定项目设定，缺乏直接来源支持。
+
+## Search Query
+
+China mobile internet user geographic distribution top 10 provinces percentage 2024
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_28725959/article/details/160574064&rut=0a1664870629700f13cd01a50bfd0a1205b65d72f42ce9c84f70f53df85c8806', 'type': 'ddg', 'title': '基于开源IP库自建用户地理分布分析系统：从原理到Grafana可视化实战-CSDN博客'}
+- {'url': 'https://blog.csdn.net/talktech/article/details/159247634&rut=2af18c8f1f475dabd395dc8775d546990d4aa20609a44489863a9dfa0b648250', 'type': 'ddg', 'title': '用户地域画像构建：基于IP归属地数据的Python处理流程-CSDN博客'}
+- {'url': 'https://blog.51cto.com/u_17655332/14511263&rut=f4225dca61b21f13d4eb3b1aaa56f452d44918de5a5ce1f33530c1440612c2bb', 'type': 'ddg', 'title': '用户地域画像构建：基于IP归属地数据的Python处理流程_mb69b8f797460c8的技术博客_51CTO博客'}

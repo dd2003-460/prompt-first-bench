@@ -1,0 +1,20 @@
+# N54: 流量调度误差引入的延迟增量：智能DNS/Anycast调度错误率约为0.1-0.5%，错误调度至非最优节点导致额外RTT 20-50ms，对P99的影响为：P9
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N10
+
+## Claim
+
+流量调度误差引入的延迟增量：智能DNS/Anycast调度错误率约为0.1-0.5%，错误调度至非最优节点导致额外RTT 20-50ms，对P99的影响为：P99_final = P99_mix + (error_rate * extra_RTT) / 0.01，若error_rate=0.5%, extra_RTT=50ms，则增量约25ms
+
+## Corrected Claim
+
+流量调度误差引入的延迟增量：智能DNS/Anycast调度错误率约为0.1-0.5%，错误调度至非最优节点导致额外RTT 20-50ms，对P99的影响为：P99_final = P99_mix + (error_rate * extra_RTT) / 0.01，若error_rate=0.5%, extra_RTT=50ms，则增量约25ms
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式推导正确（0.005 * 50 / 0.01 = 25ms），参数量级符合工程常识

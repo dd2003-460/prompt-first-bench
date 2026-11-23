@@ -1,0 +1,26 @@
+# N171: 公有云CDN的DDoS基础防护阈值通常为10-100 Gbps（免费层），超过此阈值触发弹性防护计费，单价约为¥100-500/Gbps/小时；自建节点若未购买
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+公有云CDN的DDoS基础防护阈值通常为10-100 Gbps（免费层），超过此阈值触发弹性防护计费，单价约为¥100-500/Gbps/小时；自建节点若未购买高防IP，基础清洗能力通常限制在5-10 Gbps，超出部分导致业务中断或需额外付费清洗。
+
+## Corrected Claim
+
+公有云CDN的DDoS基础防护阈值通常为500 Mbps-5 Gbps（免费层），超过此阈值触发弹性防护计费；自建节点若未购买高防IP，基础清洗能力通常限制在5-10 Gbps，超出部分导致业务中断或需额外付费清洗。
+
+## Evidence
+
+[质询]数值量级严重错误：参考来源明确指出阿里云DDoS基础防护阈值为500 Mbps~5 Gbps，而陈述中声称公有云CDN基础防护阈值为10-100 Gbps，两者相差10-100倍，且来源直接矛盾。 | 来源[2]和[3]明确说明阿里云免费DDoS基础防护能力为500 Mbps~5 Gbps，与陈述中的10-100 Gbps直接矛盾；来源[1]虽提及GA产品免费开启基础防护，但未支持10-100 Gbps的高阈值说法。
+
+## Retrieval Sources
+
+- {'url': 'https://help.aliyun.com/zh/ga/user-guide/anti-ddos-origin-basic&rut=8dda1cf4fa7ce309eeeea5cf4be1c305a29912b9ca88a9e1ac692ac9cae166dc', 'type': 'ddg', 'title': '全球加速DDoS基础防护-全球加速 (GA)-阿里云帮助中心'}
+- {'url': 'https://help.aliyun.com/zh/anti-ddos/basic-ddos-protection/product-overview/what-is-anti-ddos-basic&rut=6b1fe3278e48a07dd8ab62dc43a983afe5f1268264e03e80b821dda2d21267cc', 'type': 'ddg', 'title': 'DDoS基础防护-DDoS防护 (Anti-DDoS)-阿里云帮助中心'}
+- {'url': 'https://www.alibabacloud.com/help/zh/anti-ddos/basic-ddos-protection/what-is-anti-ddos-basic&rut=07bfdcd1b3d8276a96ce2f6c1312e14d1aa016e2b4bede40019abc459642c3dc', 'type': 'ddg', 'title': 'DDoS基础防护 - DDoS 防护 - 阿里云 - Alibaba Cloud'}

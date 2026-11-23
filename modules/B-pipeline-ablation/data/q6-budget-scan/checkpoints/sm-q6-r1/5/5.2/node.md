@@ -1,4 +1,4 @@
-# N28: 核心区域划分标准：基于用户地理分布，选取覆盖前60%流量的地理区域作为自建核心区域（如中国：北上广深+新一线；全球：Top 10 ISP密集区），具体区域数量与
+# N23: 缓存失效策略：TTL (Time-To-Live) 设置影响命中率与新鲜度；典型 TTL 为 1-24 小时，需平衡存储成本与回源率
 
 - **status**: verified
 - **level**: L2
@@ -9,11 +9,11 @@
 
 ## Claim
 
-核心区域划分标准：基于用户地理分布，选取覆盖前60%流量的地理区域作为自建核心区域（如中国：北上广深+新一线；全球：Top 10 ISP密集区），具体区域数量与单区域流量阈值需根据用户分布数据确定[待核验]
+缓存失效策略：TTL (Time-To-Live) 设置影响命中率与新鲜度；典型 TTL 为 1-24 小时，需平衡存储成本与回源率
 
 ## Corrected Claim
 
-核心区域划分标准：基于用户地理分布，选取覆盖前60%流量的地理区域作为自建核心区域（如中国：北上广深+新一线；全球：Top 10 ISP密集区），具体区域数量与单区域流量阈值需根据用户分布数据确定[待核验]
+缓存失效策略：TTL (Time-To-Live) 设置影响命中率与新鲜度；典型 TTL 为 1-24 小时，需平衡存储成本与回源率
 
 ## Evidence
 
@@ -21,4 +21,4 @@
 
 ## Search Query
 
-CDN core region selection criteria user geographic distribution top ISP
+CDN cache TTL best practices image video platform

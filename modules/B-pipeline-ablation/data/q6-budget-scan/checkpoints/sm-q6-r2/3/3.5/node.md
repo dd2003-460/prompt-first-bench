@@ -1,4 +1,4 @@
-# N19: 混合策略的成本结构：C_hybrid = C_self_core + C_public_tail，其中C_self_core对应核心区域流量（占比α），C_pu
+# N30: 上传路径成本结构：C_upload = V_upload * p_upload + C_processing_upload，其中V_upload为日均上传流量（
 
 - **status**: verified
 - **level**: L2
@@ -9,16 +9,16 @@
 
 ## Claim
 
-混合策略的成本结构：C_hybrid = C_self_core + C_public_tail，其中C_self_core对应核心区域流量（占比α），C_public_tail对应长尾区域流量（占比1-α），α由用户地理分布决定（通常核心区域占60-80%流量）[待核验]
+上传路径成本结构：C_upload = V_upload * p_upload + C_processing_upload，其中V_upload为日均上传流量（200GB/天），p_upload为上传带宽价格（通常低于下载，约¥0.1-0.3/GB），C_processing_upload为转码/处理成本（约¥0.5-2/GB）
 
 ## Corrected Claim
 
-混合策略的成本结构：C_hybrid = C_self_core + C_public_tail，其中C_self_core对应核心区域流量（占比α），C_public_tail对应长尾区域流量（占比1-α），α由用户地理分布决定（通常核心区域占60-80%流量）[待核验]
+上传路径成本结构：C_upload = V_upload * p_upload + C_processing_upload，其中V_upload为日均上传流量（200GB/天），p_upload为上传带宽价格（通常低于下载，约¥0.1-0.3/GB），C_processing_upload为转码/处理成本（约¥0.5-2/GB）
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：混合策略成本分解符合线性叠加原理，核心区域流量占比60-80%符合典型地理分布经验值，无内部矛盾。
+父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点公式中的两个独立变量（p_upload 和 C_processing_upload），内容互不重叠且无矛盾，覆盖了成本结构的两个主要组成部分。）
 
 ## Search Query
 
-hybrid CDN strategy traffic split core vs tail regions
+CDN upload bandwidth pricing and processing cost

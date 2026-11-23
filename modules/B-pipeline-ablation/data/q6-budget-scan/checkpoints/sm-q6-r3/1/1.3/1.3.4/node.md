@@ -1,0 +1,20 @@
+# N49: 自建POP点内部处理延迟T_processing：包括缓存查找（<1ms）、网络转发（<5ms）、协议处理（<10ms），总T_processing通常在15-
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N9
+
+## Claim
+
+自建POP点内部处理延迟T_processing：包括缓存查找（<1ms）、网络转发（<5ms）、协议处理（<10ms），总T_processing通常在15-30ms之间，方差较小
+
+## Corrected Claim
+
+自建POP点内部处理延迟T_processing：包括缓存查找（<1ms）、网络转发（<5ms）、协议处理（<10ms），总T_processing通常在15-30ms之间，方差较小
+
+## Evidence
+
+父节点级核验失败（LLM 错误）：Unterminated string starting at: line 9 column 5 (char 761)

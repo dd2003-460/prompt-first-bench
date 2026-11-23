@@ -1,0 +1,28 @@
+# N181: 公有云CDN边缘节点到用户的P99 RTT：公有云CDN通常拥有更密集的POP点和多运营商BGP接入，用户到最近节点的P99 RTT通常为30-50ms（一线城
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N56, N57, N58
+
+## Claim
+
+公有云CDN边缘节点到用户的P99 RTT：公有云CDN通常拥有更密集的POP点和多运营商BGP接入，用户到最近节点的P99 RTT通常为30-50ms（一线城市）或50-80ms（二三线城市），加权平均P99 RTT约为40-60ms [待核验]
+
+## Corrected Claim
+
+公有云CDN边缘节点到用户的P99 RTT通常显著低于直连源站，具体数值因地域和网络环境而异，一线城市通常优于二三线城市。
+
+## Evidence
+
+[质询]具体数值（30-50ms/50-80ms/40-60ms）属于经验性统计数据，受地域、运营商、网络状况及具体CDN厂商架构影响极大，缺乏通用性，且参考来源未提供具体数值支持。 | 逻辑上CDN边缘节点靠近用户，RTT低于直连源站是合理的，但具体P99数值区间属于经验事实，参考来源[1]仅定性描述RTT应处于低位，未提供具体数值支持，故降级。
+
+## Search Query
+
+Cloudflare Alibaba CDN P99 latency user to edge node distribution
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2025612733257720779&rut=a74ff9d85cd68e888ddad305db6985e1b518012a78640bcc5a734b27ed8843fd', 'type': 'ddg', 'title': 'Cdn性能指标详解：Rtt、Ttl与缓存命中率 - 知乎专栏'}

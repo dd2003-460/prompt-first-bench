@@ -1,0 +1,20 @@
+# N86: 长尾区域公有云成本 C_cloud_tail 需区分流量与请求费用：长尾流量 = F_tail * V_dl = 0.35 * 2TB = 700GB/day，
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N20
+
+## Claim
+
+长尾区域公有云成本 C_cloud_tail 需区分流量与请求费用：长尾流量 = F_tail * V_dl = 0.35 * 2TB = 700GB/day，月流量成本 = 700 * 30 * ¥0.24/GB = ¥5,040/month；长尾请求数 = F_tail * N_req = 0.35 * (5,000,000 * 75) = 131,250,000 req/day，月请求成本 = 131,250,000 * 30 / 1000 * ¥0.04 = ¥157,500/month
+
+## Corrected Claim
+
+长尾区域公有云成本 C_cloud_tail 需区分流量与请求费用：长尾流量 = F_tail * V_dl = 0.35 * 2TB = 700GB/day，月流量成本 = 700 * 30 * ¥0.24/GB = ¥5,040/month；长尾请求数 = F_tail * N_req = 0.35 * (5,000,000 * 75) = 131,250,000 req/day，月请求成本 = 131,250,000 * 30 / 1000 * ¥0.04 = ¥157,500/month
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：流量成本 700GB * 30 * 0.24 = 5040元；请求成本 131,250,000 * 30 / 1000 * 0.04 = 157,500元，计算无误且量级合理。

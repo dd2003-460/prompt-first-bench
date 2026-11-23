@@ -1,0 +1,24 @@
+# N244: 硬件防火墙成本 P_firewall 的吞吐量与许可证绑定：P_firewall = C_hardware + C_license_annual，其中 C_ha
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N76
+
+## Claim
+
+硬件防火墙成本 P_firewall 的吞吐量与许可证绑定：P_firewall = C_hardware + C_license_annual，其中 C_hardware ≈ ¥10k-30k（硬件盒式），C_license_annual ≈ ¥5k-15k/年（基于吞吐量 5Gbps-10Gbps 的许可证费用），若采用软件防火墙（如 pfSense/OPNsense）则 C_hardware ≈ 0，但需占用服务器资源，隐性成本 ≈ ¥2k-5k/点/月（CPU/内存分摊）
+
+## Corrected Claim
+
+硬件防火墙成本 P_firewall 的吞吐量与许可证绑定：P_firewall = C_hardware + C_license_annual，其中 C_hardware ≈ ¥10k-30k（硬件盒式），C_license_annual ≈ ¥5k-15k/年（基于吞吐量 5Gbps-10Gbps 的许可证费用），若采用软件防火墙（如 pfSense/OPNsense）则 C_hardware ≈ 0，但需占用服务器资源，隐性成本 ≈ ¥2k-5k/点/月（CPU/内存分摊）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+hardware firewall cost per Gbps throughput license fee 2024 Fortinet Palo Alto

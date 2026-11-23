@@ -1,4 +1,4 @@
-# N29: 长尾区域定义与公有云覆盖成本：长尾区域指单区域流量占比<2%或自建ROI<1的区域，这些区域通过公有云CDN覆盖，其单位流量成本 C_cloud_tail = 
+# N24: 预热机制 (Pre-warming) 成本：针对已知热点内容的预加载，可减少冷启动期间的回源；预热带宽成本 ≈ 预加载对象总大小 / 预热时间
 
 - **status**: verified
 - **level**: L2
@@ -9,16 +9,16 @@
 
 ## Claim
 
-长尾区域定义与公有云覆盖成本：长尾区域指单区域流量占比<2%或自建ROI<1的区域，这些区域通过公有云CDN覆盖，其单位流量成本 C_cloud_tail = (C_cloud_bandwidth + C_cloud_compute) / Traffic_tail
+预热机制 (Pre-warming) 成本：针对已知热点内容的预加载，可减少冷启动期间的回源；预热带宽成本 ≈ 预加载对象总大小 / 预热时间
 
 ## Corrected Claim
 
-长尾区域定义与公有云覆盖成本：长尾区域指单区域流量占比<2%或自建ROI<1的区域，这些区域通过公有云CDN覆盖，其单位流量成本 C_cloud_tail = (C_cloud_bandwidth + C_cloud_compute) / Traffic_tail
+预热机制 (Pre-warming) 成本：针对已知热点内容的预加载，可减少冷启动期间的回源；预热带宽成本 ≈ 预加载对象总大小 / 预热时间
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+先验知识/题面给定，逻辑校验通过：预热带宽成本在物理定义上确实等于传输数据总量除以时间，符合基本物理/工程直觉。
 
 ## Search Query
 
-long tail CDN region definition public cloud cost per GB
+CDN pre-warming cost benefit analysis

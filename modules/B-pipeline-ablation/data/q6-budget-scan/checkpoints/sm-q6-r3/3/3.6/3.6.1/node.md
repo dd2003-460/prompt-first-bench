@@ -1,0 +1,20 @@
+# N113: 日均下载流量 V_download 的精确值 = 2 TB/day = 2,048 GB/day（基于题面给定数据，假设 1TB=1024GB），月度流量 V_
+
+- **status**: verified
+- **level**: L3
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N31
+
+## Claim
+
+日均下载流量 V_download 的精确值 = 2 TB/day = 2,048 GB/day（基于题面给定数据，假设 1TB=1024GB），月度流量 V_month = 61,440 GB/月，用于计算按流量计费基础
+
+## Corrected Claim
+
+日均下载流量 V_download 的精确值 = 2 TB/day = 2,048 GB/day（基于题面给定数据，假设 1TB=1024GB），月度流量 V_month = 61,440 GB/月，用于计算按流量计费基础
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：2 TB × 1024 GB/TB = 2048 GB/day；2048 GB/day × 30 days/month = 61440 GB/month，计算无误。

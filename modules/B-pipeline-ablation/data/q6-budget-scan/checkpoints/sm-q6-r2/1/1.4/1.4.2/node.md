@@ -1,4 +1,4 @@
-# N47: 针对短视频请求（s_video=5-10MB），在典型B_effective=100Mbps下，T_transmission计算值为 40-80ms，均大于RT
+# N42: TLS握手延迟 t_tls = t_handshake + t_reuse，其中 t_handshake 为完整握手耗时（典型 100-200ms），t_reu
 
 - **status**: verified
 - **level**: L3
@@ -9,12 +9,16 @@
 
 ## Claim
 
-针对短视频请求（s_video=5-10MB），在典型B_effective=100Mbps下，T_transmission计算值为 40-80ms，均大于RTT_base(10-50ms)，判定为带宽受限(bandwidth-bound)
+TLS握手延迟 t_tls = t_handshake + t_reuse，其中 t_handshake 为完整握手耗时（典型 100-200ms），t_reuse 为会话复用节省时间（若启用Session Resumption，t_reuse ≈ t_handshake）；在混合策略中，若自建POP与公有云CDN证书不同，每次路由切换可能触发重新握手。
 
 ## Corrected Claim
 
-针对短视频请求（s_video=5-10MB），在典型B_effective=100Mbps下，T_transmission计算值为 40-80ms，均大于RTT_base(10-50ms)，判定为带宽受限(bandwidth-bound)
+TLS握手延迟 t_tls = t_handshake + t_reuse，其中 t_handshake 为完整握手耗时（典型 100-200ms），t_reuse 为会话复用节省时间（若启用Session Resumption，t_reuse ≈ t_handshake）；在混合策略中，若自建POP与公有云CDN证书不同，每次路由切换可能触发重新握手。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：5MB/100Mbps=40ms, 10MB/100Mbps=80ms，计算无误且大于RTT_base，符合带宽受限判定逻辑
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+TLS handshake latency ms

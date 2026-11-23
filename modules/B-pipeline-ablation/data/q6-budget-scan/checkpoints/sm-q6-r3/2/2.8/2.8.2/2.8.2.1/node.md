@@ -1,0 +1,30 @@
+# N293: 一线城市中级运维工程师（3-5 年经验）年薪中位数 P_salary_mid ≈ ¥350k/年，高级运维工程师（5-8 年经验）年薪中位数 P_salary_
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N99
+
+## Claim
+
+一线城市中级运维工程师（3-5 年经验）年薪中位数 P_salary_mid ≈ ¥350k/年，高级运维工程师（5-8 年经验）年薪中位数 P_salary_senior ≈ ¥550k/年，数据来源于 2024-2025 年招聘平台（如 Boss 直聘/猎聘）北京/上海地区 DevOps/SRE 岗位统计，用于校准 N99 中的经验取值
+
+## Corrected Claim
+
+一线城市中级运维工程师（3-5年经验）年薪中位数约为20-25万元，高级运维工程师（5-8年经验）年薪中位数约为25-35万元（基于全国/通用数据推算，一线城市DevOps/SRE岗位可能略高但难以达到55万中位数）。
+
+## Evidence
+
+[质询]数值量级严重错误：参考来源显示3-5年经验运维工程师月薪约为1.7万-2万元（年薪约20-24万），而陈述中声称年薪中位数为35万，相差近一倍，且来源数据为全国或通用统计，未体现一线城市DevOps/SRE的高溢价足以支撑如此巨大的偏差。 | 来源[1]和[2]显示3-5年经验运维月薪分别为19500元和17141元，对应年薪约23.4万和20.6万，与陈述中的35万/55万严重矛盾。
+
+## Search Query
+
+Beijing Shanghai DevOps SRE engineer salary 2024 median annual pay mid-level senior
+
+## Retrieval Sources
+
+- {'url': 'https://www.liepin.com/zpzhongjiyunweigongchengshi/xinzi/&rut=27aeea279051b1ea289f29d58d8ef92695443b884f8cfcc7e983b37d395239d6', 'type': 'ddg', 'title': '【中级运维工程师薪资待遇_中级运维工程师工资多少】-猎聘'}
+- {'url': 'https://www.liepin.com/zpzhongjiyunwei/xinzi/&rut=5529149330516476f3f546657e4b1cb27a9d391d4d9cc5bbe400d4950cac48c3', 'type': 'ddg', 'title': '【中级运维薪资待遇_中级运维工资多少】-猎聘'}
+- {'url': 'https://www.jobui.com/salary/quanguo-yunweigongchengshi/&rut=0c83bdbeeb1a9e92598d757390ba451549b6d345a9aac55ee022cf5fd7129c1d', 'type': 'ddg', 'title': '运维工程师工资待遇（岗位职责与招聘要求） - 职友集'}

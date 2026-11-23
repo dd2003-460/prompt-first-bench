@@ -1,0 +1,28 @@
+# N177: 中国地理分布下长尾用户比例随POP点布局的敏感性：若10个POP点均匀分布，30-40%用户>500km；若增加至20个POP点，该比例降至15-20%；每增加
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N48
+
+## Claim
+
+中国地理分布下长尾用户比例随POP点布局的敏感性：若10个POP点均匀分布，30-40%用户>500km；若增加至20个POP点，该比例降至15-20%；每增加一个POP点，长尾用户比例减少约2-3%，边际效益递减，需计算新增POP点的固定成本与P99改善带来的流失率降低收益之比
+
+## Corrected Claim
+
+在中国地理分布下，长尾用户比例随POP点数量增加而降低，且呈现边际效益递减特征；具体比例需基于实际人口密度与网络拓扑建模计算，而非简单均匀分布假设下的固定数值。
+
+## Evidence
+
+[质询]具体数值（30-40%、15-20%、2-3%）缺乏公开权威数据支持，属于特定假设下的估算值，易被质疑为无依据的臆测；且‘均匀分布’在中国地理人口分布下并非最优解，实际布局需考虑人口密度，该简化模型可能高估或低估实际效果。 | 来源[1]仅定义长尾效应概念，与POP点布局及具体距离比例无关，无外部证据支持具体数值；但逻辑上增加节点降低平均距离符合几何直觉，边际效益递减符合经济学规律，故保留但降级为定性表述。
+
+## Search Query
+
+China CDN POP point distribution user distance latency reduction
+
+## Retrieval Sources
+
+- {'url': 'https://baike.baidu.com/item/%E9%95%BF%E5%B0%BE%E9%97%AE%E9%A2%98/69390874&rut=04583137e6d3e5f4d86a35cacca40fa4c83ce1f6ae90d783c396fbc45ad404e8', 'type': 'ddg', 'title': '长尾问题_百度百科'}

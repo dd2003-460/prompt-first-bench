@@ -1,0 +1,24 @@
+# N253: 自建节点利用率-成本非线性关系中的低利用率工作点（日均流量<500GB）：C_per_TB_self = C_fixed_daily / (Traffic_TB
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N77, N78, N79
+
+## Claim
+
+自建节点利用率-成本非线性关系中的低利用率工作点（日均流量<500GB）：C_per_TB_self = C_fixed_daily / (Traffic_TB × Utilization_Factor)；假设C_fixed_daily为1000元/天（10个POP点硬件折旧+带宽租赁+运维分摊），Traffic_TB=0.5TB，Utilization_Factor=0.1（10%利用率），则C_per_TB = 1000 / (0.5 × 0.1) = 20,000元/TB，远高于公有云CDN的0.5元/TB，自建方案在此规模下不可行。
+
+## Corrected Claim
+
+自建节点利用率-成本非线性关系中的低利用率工作点（日均流量<500GB）：C_per_TB_self = C_fixed_daily / (Traffic_TB × Utilization_Factor)；假设C_fixed_daily为1000元/天（10个POP点硬件折旧+带宽租赁+运维分摊），Traffic_TB=0.5TB，Utilization_Factor=0.1（10%利用率），则C_per_TB = 1000 / (0.5 × 0.1) = 20,000元/TB，远高于公有云CDN的0.5元/TB，自建方案在此规模下不可行。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学计算 1000/(0.5*0.1)=20000 正确，且 20000元/TB 远高于 0.5元/TB 的结论符合经济直觉，无内部矛盾。
+
+## Search Query
+
+self-hosted CDN cost per TB low utilization scenario

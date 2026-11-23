@@ -1,0 +1,28 @@
+# N63: 对象大小分布的 P50/P95 参数：图片 s_img_P50 ≈ 300KB, s_img_P95 ≈ 1.5MB；短视频 s_video_P50 ≈ 5MB
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N20
+
+## Claim
+
+对象大小分布的 P50/P95 参数：图片 s_img_P50 ≈ 300KB, s_img_P95 ≈ 1.5MB；短视频 s_video_P50 ≈ 5MB, s_video_P95 ≈ 25MB（需根据实际平台数据核验，此处为典型经验值）
+
+## Corrected Claim
+
+对象大小分布的 P50/P95 参数需根据实际平台数据确定，典型经验值可能为：图片 s_img_P50 ≈ 300KB, s_img_P95 ≈ 1.5MB；短视频 s_video_P50 ≈ 5MB, s_video_P95 ≈ 25MB（具体数值因平台、编码格式、分辨率等因素差异较大）
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数值（图片/视频大小分布），属于经验事实而非第一性原理可推导内容。参考来源仅解释分位数的概念和可视化，未提供具体的媒体文件大小数据，无法验证这些数值是否准确或具有普遍代表性。 | 经验事实，逻辑自洽但缺来源支持（来源[1]仅涉及分位数概念，未覆盖具体媒体大小数据）
+
+## Search Query
+
+average image size web P50 P95 distribution short video file size distribution
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2090470641262770092&rut=83ea332e6b1a4987e790ff625ef4e44a48269e51effd7e1b8ec080686b090be2', 'type': 'ddg', 'title': '分位数（p50/p95/p99） 到底在讲什么? - 知乎'}

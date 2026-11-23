@@ -1,0 +1,20 @@
+# N181: 核心区域P99延迟差异的机制分解：公有云P99 = RTT_core + T_processing_cloud + T_transfer_cloud；自建P99
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N50
+
+## Claim
+
+核心区域P99延迟差异的机制分解：公有云P99 = RTT_core + T_processing_cloud + T_transfer_cloud；自建P99 = RTT_core + T_processing_self + T_transfer_self；差异ΔP99 = (T_processing_cloud - T_processing_self) + (T_transfer_cloud - T_transfer_self)；T_processing_cloud通常15-25ms（虚拟化开销），T_processing_self通常10-15ms（专用硬件），ΔT_processing ≈ 5-10ms；T_transfer差异取决于带宽分配，公有云带宽弹性更高，P99带宽波动小，ΔT_transfer ≈ 5-20ms
+
+## Corrected Claim
+
+核心区域P99延迟差异的机制分解：公有云P99 = RTT_core + T_processing_cloud + T_transfer_cloud；自建P99 = RTT_core + T_processing_self + T_transfer_self；差异ΔP99 = (T_processing_cloud - T_processing_self) + (T_transfer_cloud - T_transfer_self)；T_processing_cloud通常15-25ms（虚拟化开销），T_processing_self通常10-15ms（专用硬件），ΔT_processing ≈ 5-10ms；T_transfer差异取决于带宽分配，公有云带宽弹性更高，P99带宽波动小，ΔT_transfer ≈ 5-20ms
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

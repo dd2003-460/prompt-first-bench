@@ -1,0 +1,20 @@
+# N81: 预热带宽成本与回源带宽成本的权衡：C_total = C_warm + C_miss，其中 C_warm = B_warm * T_warm * c_bw，C_
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N24
+
+## Claim
+
+预热带宽成本与回源带宽成本的权衡：C_total = C_warm + C_miss，其中 C_warm = B_warm * T_warm * c_bw，C_miss = p_miss * B_total * c_bw
+
+## Corrected Claim
+
+预热带宽成本与回源带宽成本的权衡：C_total = C_warm + C_miss，其中 C_warm = B_warm * T_warm * c_bw，C_miss = p_miss * B_total * c_bw
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

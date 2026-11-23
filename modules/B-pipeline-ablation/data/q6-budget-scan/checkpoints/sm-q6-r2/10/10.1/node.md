@@ -1,0 +1,20 @@
+# N105: MTTR分解模型：MTTR = T_detect + T_diagnose + T_fix + T_verify，自建节点各阶段典型值为T_detect=5-1
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+MTTR分解模型：MTTR = T_detect + T_diagnose + T_fix + T_verify，自建节点各阶段典型值为T_detect=5-10min（依赖监控覆盖率），T_diagnose=10-20min（多POP故障定位复杂），T_fix=10-20min（硬件更换或配置回滚），T_verify=5-10min，总计30-60min与N30一致
+
+## Corrected Claim
+
+MTTR分解模型：MTTR = T_detect + T_diagnose + T_fix + T_verify，自建节点各阶段典型值为T_detect=5-10min（依赖监控覆盖率），T_diagnose=10-20min（多POP故障定位复杂），T_fix=10-20min（硬件更换或配置回滚），T_verify=5-10min，总计30-60min与N30一致
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：MTTR分解公式符合运维常识，各阶段耗时量级（分钟级）及总和（30-60min）在逻辑上自洽且符合典型SRE场景。

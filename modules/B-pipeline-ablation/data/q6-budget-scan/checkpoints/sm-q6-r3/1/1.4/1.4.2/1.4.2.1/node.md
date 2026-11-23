@@ -1,0 +1,20 @@
+# N202: 元数据库查询T_DB_lookup的P99延迟构成：T_DB_lookup_P99 = T_index_scan + T_network_latency + T
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N61
+
+## Claim
+
+元数据库查询T_DB_lookup的P99延迟构成：T_DB_lookup_P99 = T_index_scan + T_network_latency + T_lock_wait，其中T_index_scan为索引扫描时间（典型0.5-2ms，取决于数据量），T_network_latency为DB网络延迟（典型0.5-1ms），T_lock_wait为锁等待时间（典型0-5ms，高并发时显著增加），P99值通常取T_lock_wait=5ms场景，故T_DB_lookup_P99≈6-8ms，需优化索引和连接池以降低P99
+
+## Corrected Claim
+
+元数据库查询T_DB_lookup的P99延迟构成：T_DB_lookup_P99 = T_index_scan + T_network_latency + T_lock_wait，其中T_index_scan为索引扫描时间（典型0.5-2ms，取决于数据量），T_network_latency为DB网络延迟（典型0.5-1ms），T_lock_wait为锁等待时间（典型0-5ms，高并发时显著增加），P99值通常取T_lock_wait=5ms场景，故T_DB_lookup_P99≈6-8ms，需优化索引和连接池以降低P99
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：各组件延迟量级符合数据库系统典型工程经验，P99取高并发锁等待上限（5ms）的推导逻辑自洽，总延迟6-8ms在合理范围内。

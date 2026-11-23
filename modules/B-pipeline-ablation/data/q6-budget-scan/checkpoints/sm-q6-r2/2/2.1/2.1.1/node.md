@@ -1,20 +1,20 @@
-# N53: 低延迟容忍-最高性能工作点：采用全自建边缘节点方案，T_low=50ms，成本最高但延迟最优，需10个POP点全覆盖核心区域
+# N75: C_server = N_servers_per_POP * P_server + C_storage，其中N_servers_per_POP≈2-4台（取决于
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N11
+- **parent_ids**: N15
 
 ## Claim
 
-低延迟容忍-最高性能工作点：采用全自建边缘节点方案，T_low=50ms，成本最高但延迟最优，需10个POP点全覆盖核心区域
+C_server = N_servers_per_POP * P_server + C_storage，其中N_servers_per_POP≈2-4台（取决于单点QPS需求），P_server≈¥50k-100k/台，C_storage≈¥10k-20k/点（SSD缓存盘）
 
 ## Corrected Claim
 
-低延迟容忍-最高性能工作点：采用全自建边缘节点方案，T_low=50ms，成本最高但延迟最优，需10个POP点全覆盖核心区域
+C_server = N_servers_per_POP * P_server + C_storage，其中N_servers_per_POP≈2-4台（取决于单点QPS需求），P_server≈¥50k-100k/台，C_storage≈¥10k-20k/点（SSD缓存盘）
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：全自建边缘节点确实对应最高成本与最低延迟（50ms量级符合边缘计算典型值），10个POP点覆盖核心区域在工程上合理。
+先验知识/题面给定，逻辑校验通过

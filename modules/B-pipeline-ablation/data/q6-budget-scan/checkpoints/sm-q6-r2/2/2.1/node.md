@@ -1,20 +1,24 @@
-# N11: 每千请求总成本公式：C_total/1000req = (C_infra + C_bandwidth + C_ops) / (R_daily / 1000)，其
+# N15: 基础设施CAPEX：自建10个POP点的初始投资 = N_POP * (C_server + C_network + C_real_estate)，其中C_se
 
-- **status**: pending
+- **status**: verified
 - **level**: L2
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
 - **parent_ids**: N2
 
 ## Claim
 
-每千请求总成本公式：C_total/1000req = (C_infra + C_bandwidth + C_ops) / (R_daily / 1000)，其中R_daily为日请求总数
+基础设施CAPEX：自建10个POP点的初始投资 = N_POP * (C_server + C_network + C_real_estate)，其中C_server为单点服务器成本（约¥50k-100k/台），C_network为网络设备成本（约¥20k-50k/点），C_real_estate为机房租金/建设成本（约¥100k-500k/点/年）
 
 ## Corrected Claim
 
-每千请求总成本公式：C_total/1000req = (C_infra + C_bandwidth + C_ops) / (R_daily / 1000)，其中R_daily为日请求总数
+基础设施CAPEX：自建10个POP点的初始投资 = N_POP * (C_server + C_network + C_real_estate)，其中C_server为单点服务器成本（约¥50k-100k/台），C_network为网络设备成本（约¥20k-50k/点），C_real_estate为机房租金/建设成本（约¥100k-500k/点/年）
 
 ## Evidence
 
-父节点级核验未通过：不完备（子节点仅描述了一种特定的架构方案（全自建边缘节点），未能覆盖父节点公式中涉及的通用成本构成（基础设施、带宽、运维）及其与请求量的通用关系。父节点是一个通用的成本计算模型，而子节点是一个具体的实例化场景，导致内容严重缺失。）
+父节点级核验通过：正交+完备+无冗余（三个子节点分别对应服务器硬件、网络设备、机房设施（租金/电力/制冷），彼此独立且无重叠，完全覆盖了父节点公式中的三个变量，且内部参数分解合理，无冗余。）
+
+## Search Query
+
+CDN edge node CAPEX cost per POP point

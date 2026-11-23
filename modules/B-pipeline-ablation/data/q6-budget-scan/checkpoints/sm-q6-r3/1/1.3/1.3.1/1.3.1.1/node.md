@@ -1,0 +1,24 @@
+# N192: TCP+TLS 1.2 完整握手延迟 T_handshake_tls12 = 2 * RTT + T_server_processing，其中 2*RTT 为 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N58
+
+## Claim
+
+TCP+TLS 1.2 完整握手延迟 T_handshake_tls12 = 2 * RTT + T_server_processing，其中 2*RTT 为 ClientHello/ServerHello+Certificate/Finished 交互，T_server_processing ≈ 1-5 ms（证书验证），总 P99 ≈ 40-100 ms
+
+## Corrected Claim
+
+TCP+TLS 1.2 完整握手延迟 T_handshake_tls12 = 2 * RTT + T_server_processing，其中 2*RTT 为 ClientHello/ServerHello+Certificate/Finished 交互，T_server_processing ≈ 1-5 ms（证书验证），总 P99 ≈ 40-100 ms
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：TLS 1.2 标准握手确实需要 2 个 RTT（ClientHello->ServerHello+Cert, Finished->Finished），服务器处理时间 1-5ms 符合常规，总延迟量级合理。
+
+## Search Query
+
+TLS 1.2 handshake RTT count latency breakdown

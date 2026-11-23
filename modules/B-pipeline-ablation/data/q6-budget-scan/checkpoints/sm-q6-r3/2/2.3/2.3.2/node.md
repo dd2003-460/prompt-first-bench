@@ -1,0 +1,28 @@
+# N82: 预留实例（Reserved Instances）或 Savings Plans 的适用性：公有云 CDN 通常不按实例计费，因此 '预留实例' 概念主要适用于底
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N17
+
+## Claim
+
+预留实例（Reserved Instances）或 Savings Plans 的适用性：公有云 CDN 通常不按实例计费，因此 '预留实例' 概念主要适用于底层计算/存储资源；对于纯 CDN 流量，'预留' 体现为预付费流量包（Prepaid Traffic Package），其单价通常比后付费（Pay-as-you-go）低 10%-20%，需对比预付 60TB 流量包单价与后付费单价的差异。
+
+## Corrected Claim
+
+预留实例（Reserved Instances）或 Savings Plans 的适用性：公有云 CDN 通常不按实例计费，因此 '预留实例' 概念主要适用于底层计算/存储资源；对于纯 CDN 流量，'预留' 体现为预付费流量包（Prepaid Traffic Package），其单价通常比后付费（Pay-as-you-go）低，具体折扣率需对比预付流量包单价与后付费单价的差异。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应纯预付、纯后付和混合策略，逻辑上互斥且覆盖了流量定价的三种主要模式（正交）；父节点核心在于对比预付与后付的差异及适用性，三个子节点完整展示了不同场景下的成本与风险权衡（完备）；虽然都涉及价格参数，但分别代表了不同的业务策略和约束条件（如现金流、波动率容忍度），并非简单的参数取值重复（不冗余）。）
+
+## Search Query
+
+Cloudflare Alibaba Cloud CDN prepaid traffic package vs pay-as-you-go pricing difference
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/633336239&rut=e03c5a93f334df894bd262a946f391055742a4c763aff303b9fda0d8a5770c1e', 'type': 'ddg', 'title': 'AWS Savings Plans 使用指南 - 知乎'}

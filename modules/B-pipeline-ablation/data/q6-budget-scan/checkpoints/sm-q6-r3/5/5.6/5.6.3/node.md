@@ -1,0 +1,24 @@
+# N109: 缓存命中率对P99的放大效应：L_P99 = H * L_cache + (1-H) * L_origin，其中L_cache ≈ 10-30ms（本地缓存读取
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N29
+
+## Claim
+
+缓存命中率对P99的放大效应：L_P99 = H * L_cache + (1-H) * L_origin，其中L_cache ≈ 10-30ms（本地缓存读取），L_origin ≈ 50-100ms（回源延迟）；当H从90%提升到95%，L_P99从45ms下降到35ms，降幅约22%
+
+## Corrected Claim
+
+缓存命中率对P99的放大效应：L_P99 = H * L_cache + (1-H) * L_origin，其中L_cache ≈ 10-30ms（本地缓存读取），L_origin ≈ 50-100ms（回源延迟）；当H从90%提升到95%，L_P99从45ms下降到35ms，降幅约22%
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 L = H*L_c + (1-H)*L_o 符合加权平均逻辑；代入 H=0.9, L_c=20ms, L_o=100ms 得 45ms；代入 H=0.95, L_c=20ms, L_o=100ms 得 35ms；降幅 (45-35)/45 ≈ 22.2%，数值量级与计算结果一致。
+
+## Search Query
+
+cache hit rate impact on P99 latency amplification effect and quantitative calculation

@@ -1,19 +1,19 @@
-# N31: 路由逻辑中的DNS解析延迟贡献：全公有云依赖Anycast DNS，解析延迟<10ms；自建+混合需智能DNS调度，解析延迟可能增加5-20ms，该延迟直接计入
+# N33: 混合策略的扩容弹性成本：Cost_scaling = (Traffic_Growth_Rate × Cost_per_TB_incremental)，其中Tra
 
 - **status**: verified
 - **level**: L2
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
 - **parent_ids**: N5
 
 ## Claim
 
-路由逻辑中的DNS解析延迟贡献：全公有云依赖Anycast DNS，解析延迟<10ms；自建+混合需智能DNS调度，解析延迟可能增加5-20ms，该延迟直接计入每请求P99，需按策略分别计算
+混合策略的扩容弹性成本：Cost_scaling = (Traffic_Growth_Rate × Cost_per_TB_incremental)，其中Traffic_Growth_Rate为月流量增长率（通常5%-10%），Cost_per_TB_incremental为增量带宽成本（自建节点需额外采购硬件，公有云按量付费）。
 
 ## Corrected Claim
 
-路由逻辑中的DNS解析延迟贡献：全公有云依赖Anycast DNS，解析延迟<10ms；自建+混合需智能DNS调度，解析延迟可能增加5-20ms，该延迟直接计入每请求P99，需按策略分别计算
+混合策略的扩容弹性成本：Cost_scaling = (Traffic_Growth_Rate × Cost_per_TB_incremental)，其中Traffic_Growth_Rate为月流量增长率（通常5%-10%），Cost_per_TB_incremental为增量带宽成本（自建节点需额外采购硬件，公有云按量付费）。
 
 ## Evidence
 
@@ -21,4 +21,4 @@
 
 ## Search Query
 
-DNS resolution latency impact CDN anycast vs smart DNS
+hybrid CDN scaling cost incremental

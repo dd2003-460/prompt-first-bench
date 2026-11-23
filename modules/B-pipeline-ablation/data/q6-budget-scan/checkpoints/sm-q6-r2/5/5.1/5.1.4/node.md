@@ -1,0 +1,20 @@
+# N112: P99延迟改善的加权公式：ΔP99_total = P_core × ΔP99_core + (1 - P_core) × ΔP99_tail，其中ΔP99_c
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N28, N29, N30
+
+## Claim
+
+P99延迟改善的加权公式：ΔP99_total = P_core × ΔP99_core + (1 - P_core) × ΔP99_tail，其中ΔP99_core为自建核心节点相比公有云的P99降低值（15-25ms），ΔP99_tail为长尾区域P99变化值（通常为0，因仍走公有云）。
+
+## Corrected Claim
+
+P99延迟改善的加权公式：ΔP99_total = P_core × ΔP99_core + (1 - P_core) × ΔP99_tail，其中ΔP99_core为自建核心节点相比公有云的P99降低值（15-25ms），ΔP99_tail为长尾区域P99变化值（通常为0，因仍走公有云）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：加权公式符合全概率公式/期望值定义，量纲一致（ms），且基于‘长尾仍走公有云’的前提，ΔP99_tail=0 的假设在逻辑上自洽。

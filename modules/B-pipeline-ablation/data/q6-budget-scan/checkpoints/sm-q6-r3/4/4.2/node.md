@@ -1,0 +1,20 @@
+# N35: 10 个自建 POP 的最优选址集合 $S_{10}$：基于重心法（K-Median）在 $P_{region}$ 约束下，应选择覆盖 Top 流量省份的省级核
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4, N5, N6
+
+## Claim
+
+10 个自建 POP 的最优选址集合 $S_{10}$：基于重心法（K-Median）在 $P_{region}$ 约束下，应选择覆盖 Top 流量省份的省级核心城市（如广州、杭州、上海、北京、成都），使得加权平均物理距离 $D_{avg} = \sum P_i \cdot d(i, s_{opt})$ 最小化，预期 $D_{avg}$ 约为 800-1200 km。
+
+## Corrected Claim
+
+10 个自建 POP 的最优选址集合 $S_{10}$：基于重心法（K-Median）在 $P_{region}$ 约束下，应选择覆盖 Top 流量省份的省级核心城市（如广州、杭州、上海、北京、成都），使得加权平均物理距离 $D_{avg} = \sum P_i \cdot d(i, s_{opt})$ 最小化，预期 $D_{avg}$ 约为 800-1200 km。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于中国地理分布及主要流量省份（北上广杭蓉等）的K-Median选址，加权平均距离800-1200km符合物理直觉与工程经验量级。

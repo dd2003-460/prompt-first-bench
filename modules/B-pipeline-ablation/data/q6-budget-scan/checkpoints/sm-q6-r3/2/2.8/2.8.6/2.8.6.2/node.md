@@ -1,0 +1,20 @@
+# N304: 缓存容量约束下的命中率修正：H_cache_eff = H_cache * (1 - e^(-C_cache / (V_hot * T_ttl)))，其中C_c
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N103
+
+## Claim
+
+缓存容量约束下的命中率修正：H_cache_eff = H_cache * (1 - e^(-C_cache / (V_hot * T_ttl)))，其中C_cache为单POP缓存容量（通常500GB-1TB），V_hot为热点内容体积（Top 20%对象），T_ttl为缓存过期时间（通常1-7天）；若C_cache不足，实际命中率比理论值低5-15%
+
+## Corrected Claim
+
+缓存容量约束下的命中率修正：H_cache_eff = H_cache * (1 - e^(-C_cache / (V_hot * T_ttl)))，其中C_cache为单POP缓存容量（通常500GB-1TB），V_hot为热点内容体积（Top 20%对象），T_ttl为缓存过期时间（通常1-7天）；若C_cache不足，实际命中率比理论值低5-15%
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

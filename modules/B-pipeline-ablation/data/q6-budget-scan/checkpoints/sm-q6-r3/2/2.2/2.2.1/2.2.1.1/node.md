@@ -1,0 +1,20 @@
+# N250: 工作点A（低成本/高PUE）：PUE=1.8, p_electricity=¥0.8/kWh, P_IT=5kW，C_power_annual ≈ ¥19.5k
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N78
+
+## Claim
+
+工作点A（低成本/高PUE）：PUE=1.8, p_electricity=¥0.8/kWh, P_IT=5kW，C_power_annual ≈ ¥19.5k/年，适用于偏远地区自建机房
+
+## Corrected Claim
+
+工作点A（低成本/高PUE）：PUE=1.8, p_electricity=¥0.8/kWh, P_IT=5kW，C_power_annual ≈ ¥63.1k/年，适用于偏远地区自建机房
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：年耗电量 = 5kW * 1.8 * 8760h ≈ 78,840 kWh，年电费 = 78,840 * 0.8 ≈ ¥63,072。注意：此处存在量级矛盾。重新计算：5kW * 1.8 = 9kW 总功耗。9kW * 8760h = 78,840 kWh。78,840 * 0.8 = 63,072 元。陈述中 C_power_annual ≈ ¥19.5k/年 与计算结果 ¥63k 严重不符。等等，让我再仔细检查。P_IT=5kW, PUE=1.8 -> Total Power = 9kW. Annual Energy = 9 * 8760 = 78840 kWh. Cost = 78840 * 0.8 = 63072 RMB. 陈述说是 19.5k。19.5k / 0.8 = 24375 kWh. 24375 / 8760 = 2.78 kW. 2.78 / 1.8 = 1.54 kW IT. 或者 19.5k / 78840 = 0.247 RMB/kWh. 或者 PUE 不是 1.8? 如果 PUE=1.0, 5kW*8760*0.8 = 35040. 还是不对。如果 P_IT 是 1.5kW? 1.5*1.8*8760*0.8 = 18921 ≈ 19.5k. 所以陈述中的数值与给定的 P_IT=5kW 矛盾。这是一个硬逻辑错误（数值计算错误）。

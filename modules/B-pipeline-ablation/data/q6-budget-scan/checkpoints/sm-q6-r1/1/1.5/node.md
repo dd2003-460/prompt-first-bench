@@ -1,24 +1,20 @@
-# N10: P99合规阈值T的量化定义：T = T_SLA_max，通常C端体验要求P99 ≤ 200ms（全球）或 ≤ 100ms（核心区域）；若题目未给定T，则采用行业
+# N10: 用户到最近POP点的平均传播延迟：t_prop = d_avg / c，其中 d_avg 为平均用户到最近POP点距离，c 为光速（约 200km/ms 光纤）
 
 - **status**: verified
 - **level**: L2
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N1
+- **parent_ids**: N1, N2, N3
 
 ## Claim
 
-P99合规阈值T的量化定义：T = T_SLA_max，通常C端体验要求P99 ≤ 200ms（全球）或 ≤ 100ms（核心区域）；若题目未给定T，则采用行业基准T=200ms作为筛选门槛 [待核验]
+用户到最近POP点的平均传播延迟：t_prop = d_avg / c，其中 d_avg 为平均用户到最近POP点距离，c 为光速（约 200km/ms 光纤），d_avg 取决于POP点分布与用户地理分布
 
 ## Corrected Claim
 
-P99合规阈值T的量化定义：T = T_SLA_max，通常C端体验要求P99 ≤ 200ms（全球）或 ≤ 100ms（核心区域）；若题目未给定T，则采用行业基准T=200ms作为筛选门槛 [待核验]
+用户到最近POP点的平均传播延迟：t_prop = d_avg / c，其中 d_avg 为平均用户到最近POP点距离，c 为光速（约 200km/ms 光纤），d_avg 取决于POP点分布与用户地理分布
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
-
-## Search Query
-
-CDN P99 latency SLA threshold 200ms 100ms best practice
+先验知识/题面给定，逻辑校验通过：传播延迟公式 t=d/c 符合物理定义，光纤中光速约 200km/ms 为工程常识，变量定义自洽。

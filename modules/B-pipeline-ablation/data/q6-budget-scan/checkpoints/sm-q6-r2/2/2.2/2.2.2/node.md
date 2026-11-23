@@ -1,19 +1,19 @@
-# N55: 工作点2（中性价比最优）：混合架构中核心区域自建5节点+公有云长尾，自建部分N_nodes=5，Capex总额¥400,000/年摊销，结合公有云按量计费，综合
+# N79: 单点设备维护成本 C_maintenance 由硬件保修服务费和备件库成本构成，C_maintenance = N_servers * C_warranty +
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N12
+- **parent_ids**: N16
 
 ## Claim
 
-工作点2（中性价比最优）：混合架构中核心区域自建5节点+公有云长尾，自建部分N_nodes=5，Capex总额¥400,000/年摊销，结合公有云按量计费，综合每千请求基础设施成本约为¥0.5，平衡了固定投入与弹性需求
+单点设备维护成本 C_maintenance 由硬件保修服务费和备件库成本构成，C_maintenance = N_servers * C_warranty + C_spare_parts，其中 C_warranty 为单台服务器年延保费用（约 ¥1k-3k/台），C_spare_parts 为硬盘/内存等易损件预留预算（约 ¥2k-5k/点/年），取决于设备折旧年限和故障率 MTBF。
 
 ## Corrected Claim
 
-工作点2（中性价比最优）：混合架构中核心区域自建5节点+公有云长尾，自建部分N_nodes=5，Capex总额¥400,000/年摊销，结合公有云按量计费，综合每千请求基础设施成本约为¥0.5，平衡了固定投入与弹性需求
+单点设备维护成本 C_maintenance 由硬件保修服务费和备件库成本构成，C_maintenance = N_servers * C_warranty + C_spare_parts，其中 C_warranty 为单台服务器年延保费用（约 ¥1k-3k/台），C_spare_parts 为硬盘/内存等易损件预留预算（约 ¥2k-5k/点/年），取决于设备折旧年限和故障率 MTBF。
 
 ## Evidence
 
@@ -21,4 +21,4 @@
 
 ## Search Query
 
-Hybrid CDN infrastructure cost optimization
+server hardware warranty cost annual maintenance budget IT infrastructure

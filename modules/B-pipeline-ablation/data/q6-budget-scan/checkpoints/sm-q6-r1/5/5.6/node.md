@@ -1,4 +1,4 @@
-# N32: 三种策略的加权P99延迟公式：P99_strategy = Σ (w_i × P99_i)，其中w_i为各区域/路径流量占比，P99_i为该路径的P99延迟；全
+# N29: 回源策略对 P99 的影响：Cache-Aside 模式下，未命中请求的回源延迟 L_origin = L_origin_base + L_backhaul。若
 
 - **status**: verified
 - **level**: L2
@@ -9,11 +9,11 @@
 
 ## Claim
 
-三种策略的加权P99延迟公式：P99_strategy = Σ (w_i × P99_i)，其中w_i为各区域/路径流量占比，P99_i为该路径的P99延迟；全公有云：P99 = P99_cloud；全自建：P99 = P99_self；混合：P99 = 0.65×P99_self + 0.35×P99_cloud（基于N12比例）
+回源策略对 P99 的影响：Cache-Aside 模式下，未命中请求的回源延迟 L_origin = L_origin_base + L_backhaul。若自建 POP 回源中心机房，L_backhaul_self ≈ 20-50 ms；若公有云 CDN 回源，L_backhaul_cloud ≈ 10-30 ms（同区域优化）。P99 受未命中率 (1-H) 放大：L_P99 ≈ H*L_cache + (1-H)*L_origin。
 
 ## Corrected Claim
 
-三种策略的加权P99延迟公式：P99_strategy = Σ (w_i × P99_i)，其中w_i为各区域/路径流量占比，P99_i为该路径的P99延迟；全公有云：P99 = P99_cloud；全自建：P99 = P99_self；混合：P99 = 0.65×P99_self + 0.35×P99_cloud（基于N12比例）
+回源策略对 P99 的影响：Cache-Aside 模式下，未命中请求的回源延迟 L_origin = L_origin_base + L_backhaul。若自建 POP 回源中心机房，L_backhaul_self ≈ 20-50 ms；若公有云 CDN 回源，L_backhaul_cloud ≈ 10-30 ms（同区域优化）。P99 受未命中率 (1-H) 放大：L_P99 ≈ H*L_cache + (1-H)*L_origin。
 
 ## Evidence
 
@@ -21,4 +21,4 @@
 
 ## Search Query
 
-weighted P99 latency calculation hybrid CDN strategy
+CDN origin fetch latency impact on p99 tail latency

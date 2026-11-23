@@ -1,0 +1,20 @@
+# N317: 单节点故障下的P99延迟增量 ΔP99_single = (T_origin - T_edge) = 100-200ms（国内回源基准），对应工作点：高延迟惩罚
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N101
+
+## Claim
+
+单节点故障下的P99延迟增量 ΔP99_single = (T_origin - T_edge) = 100-200ms（国内回源基准），对应工作点：高延迟惩罚/低发生频率（基础故障场景），此值直接作为公式中(T_origin - T_edge)的输入，需乘以故障概率权重得到期望值。
+
+## Corrected Claim
+
+单节点故障下的P99延迟增量 ΔP99_single = (T_origin - T_edge) = 100-200ms（国内回源基准），对应工作点：高延迟惩罚/低发生频率（基础故障场景），此值直接作为公式中(T_origin - T_edge)的输入，需乘以故障概率权重得到期望值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

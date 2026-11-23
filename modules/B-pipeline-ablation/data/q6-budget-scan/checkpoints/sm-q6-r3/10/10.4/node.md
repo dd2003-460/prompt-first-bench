@@ -1,0 +1,24 @@
+# N142: 公有云CDN的MTTR方差较小（±5分钟），因自动化流程标准化；自建节点MTTR方差较大（±30分钟），因人工响应时间波动大，导致P99延迟分布右尾更长，合规风
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N37, N38
+
+## Claim
+
+公有云CDN的MTTR方差较小（±5分钟），因自动化流程标准化；自建节点MTTR方差较大（±30分钟），因人工响应时间波动大，导致P99延迟分布右尾更长，合规风险成本需按方差加权计算
+
+## Corrected Claim
+
+公有云CDN的MTTR方差较小（±5分钟），因自动化流程标准化；自建节点MTTR方差较大（±30分钟），因人工响应时间波动大，导致P99延迟分布右尾更长，合规风险成本需按方差加权计算
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公有云CDN自动化程度高导致MTTR方差小，自建节点人工介入导致方差大，进而影响P99延迟分布及合规风险成本计算，符合运维工程常识与逻辑推导。
+
+## Search Query
+
+mttr variance impact on p99 latency distribution tail risk

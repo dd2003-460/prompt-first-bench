@@ -1,4 +1,4 @@
-# N48: 带宽瓶颈判定的临界对象大小 s_critical = RTT_base × B_effective；在RTT_base=20ms, B_effective=10
+# N43: 路由决策逻辑开销 t_logic = t_algorithm + t_api_call，其中 t_algorithm 为负载均衡算法计算时间（<1ms），t_a
 
 - **status**: verified
 - **level**: L3
@@ -9,12 +9,16 @@
 
 ## Claim
 
-带宽瓶颈判定的临界对象大小 s_critical = RTT_base × B_effective；在RTT_base=20ms, B_effective=100Mbps条件下，s_critical ≈ 2.5MB，该阈值将流量区分为延迟受限区与带宽受限区
+路由决策逻辑开销 t_logic = t_algorithm + t_api_call，其中 t_algorithm 为负载均衡算法计算时间（<1ms），t_api_call 为向控制平面查询路由策略的API调用延迟（典型 5-50ms）；该值反映混合策略中动态路由决策的实时性开销。
 
 ## Corrected Claim
 
-带宽瓶颈判定的临界对象大小 s_critical = RTT_base × B_effective；在RTT_base=20ms, B_effective=100Mbps条件下，s_critical ≈ 0.25MB，该阈值将流量区分为延迟受限区与带宽受限区
+路由决策逻辑开销 t_logic = t_algorithm + t_api_call，其中 t_algorithm 为负载均衡算法计算时间（<1ms），t_api_call 为向控制平面查询路由策略的API调用延迟（典型 5-50ms）；该值反映混合策略中动态路由决策的实时性开销。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：s_critical = RTT × B = 0.02s × (100×10^6 bps / 8) = 0.02 × 12.5×10^6 B = 250,000 B ≈ 0.25MB。注意：此处存在量级错误。重新计算：100Mbps = 12.5MB/s。20ms = 0.02s。0.02s * 12.5MB/s = 0.25MB。原陈述称2.5MB，数值错误。
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+load balancer API call latency ms

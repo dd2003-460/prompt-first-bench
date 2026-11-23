@@ -1,0 +1,28 @@
+# N126: 浙江省流量占比 P_Zhejiang 的具体数值，基于2023-2024年主流互联网平台的公开区域分布报告，预期范围在 10%-12% 之间。
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N34
+
+## Claim
+
+浙江省流量占比 P_Zhejiang 的具体数值，基于2023-2024年主流互联网平台的公开区域分布报告，预期范围在 10%-12% 之间。
+
+## Corrected Claim
+
+浙江省网民规模超5800万人（基于2023年报告），其在全国流量或网民中的具体占比需结合全国总数据进一步计算，预期范围在10%-12%之间（待验证）。
+
+## Evidence
+
+[质询]参考来源仅提供了浙江省网民规模（绝对值），未提供全国网民总规模或流量分布数据，无法直接验证10%-12%的占比数值；且“流量占比”与“网民规模占比”存在口径差异，来源未覆盖具体流量分布报告。 | 来源[1]仅提及浙江网民超5800万，未提供全国基数或流量占比数据，无法直接支持10%-12%的具体数值范围，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+QuestMobile 2024 China user distribution by province Zhejiang percentage
+
+## Retrieval Sources
+
+- {'url': 'https://www.sohu.com/a/796340453_121973378&rut=911312031d7d68dd82ebe3f30d75e91a981fe2873da62e84cc944cc5670daa45', 'type': 'ddg', 'title': '《浙江省互联网行业统计报告（2023）》发布 全省网民规模超5800万人'}

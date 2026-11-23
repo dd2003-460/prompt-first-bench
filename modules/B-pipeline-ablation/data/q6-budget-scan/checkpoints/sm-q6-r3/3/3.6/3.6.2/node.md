@@ -1,0 +1,30 @@
+# N114: 公有云CDN下载带宽单价 p_download_pub 的具体数值：阿里云CDN中国大陆区域按流量计费价格约为 ¥0.24/GB，Cloudflare 国际区约
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N31
+
+## Claim
+
+公有云CDN下载带宽单价 p_download_pub 的具体数值：阿里云CDN中国大陆区域按流量计费价格约为 ¥0.24/GB，Cloudflare 国际区约为 $0.08/GB（需汇率换算），具体价格需查阅最新价目表 [时效待核]
+
+## Corrected Claim
+
+公有云CDN下载带宽单价 p_download_pub 的具体数值：阿里云CDN中国大陆区域按流量计费价格采用阶梯定价，具体单价需查阅最新价目表（常见区间在¥0.2-0.3/GB左右）；Cloudflare 国际区价格约为 $0.08/GB（需汇率换算），具体价格需查阅最新价目表 [时效待核]
+
+## Evidence
+
+[质询]具体数值（¥0.24/GB 和 $0.08/GB）属于经验事实，且阿里云CDN价格通常采用阶梯计费，不同流量区间价格不同，单一数值可能不准确或已过时；Cloudflare价格同样随时间变动，且参考来源中未包含Cloudflare的具体价格数据。 | 来源[1]和[2]确认了阿里云CDN按流量计费的机制及存在地域/阶梯价格表，但未直接提供¥0.24/GB这一具体数值；来源中无Cloudflare价格信息。该陈述为经验事实，逻辑自洽但缺乏直接来源支持具体数值。
+
+## Search Query
+
+Alibaba Cloud CDN pricing per GB China mainland 2024
+
+## Retrieval Sources
+
+- {'url': 'https://developer.aliyun.com/article/1712489&rut=9ac11fc059ec63ddd1ce104c3b0e7d9ac1b1e8c3823c8a667dafda6ca3e1bda1', 'type': 'ddg', 'title': '2026阿里云cdn 计费全攻略：按流量 / 带宽 / 95 峰值 + 基础服务费 + 增值服务价格表'}
+- {'url': 'https://help.aliyun.com/zh/cdn/product-overview/billing-rules-of-basic-services&rut=8ac269fc0fd33361b507140bc77f95e7de5882f95004416a424fe1397b02bd86', 'type': 'ddg', 'title': '基础服务计费方式定价规则-cdn-阿里云-cdn (Cdn)-阿里云帮助中心'}
+- {'url': 'https://help.aliyun.com/zh/cdn/product-overview/billing-overview&rut=5607cac578e6a0a2822f10843ed70c58160107634276405ba09db4d9580720b7', 'type': 'ddg', 'title': 'Cdn如何计费-cdn (Cdn)-阿里云帮助中心'}

@@ -1,19 +1,19 @@
-# N12: 混合策略每千请求总成本计算公式为 C_total_hybrid = (Q_core / Q_total) * C_per_req_self + (Q_tail 
+# N12: 缓存命中率对延迟的影响：P99延迟 = p_hit * t_cache + p_miss * (t_cache + t_origin)，其中 t_cache 为
 
 - **status**: verified
 - **level**: L2
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N1
+- **parent_ids**: N1, N2, N3
 
 ## Claim
 
-混合策略每千请求总成本计算公式为 C_total_hybrid = (Q_core / Q_total) * C_per_req_self + (Q_tail / Q_total) * C_per_req_cloud，其中 Q_core 和 Q_tail 分别为核心区域和长尾区域的请求量占比，C_per_req_self 和 C_per_req_cloud 分别为自建和公有云的每千请求成本。
+缓存命中率对延迟的影响：P99延迟 = p_hit * t_cache + p_miss * (t_cache + t_origin)，其中 t_cache 为边缘缓存命中延迟（通常 < 5ms），p_hit 为缓存命中率
 
 ## Corrected Claim
 
-混合策略每千请求总成本计算公式为 C_total_hybrid = (Q_core / Q_total) * C_per_req_self + (Q_tail / Q_total) * C_per_req_cloud，其中 Q_core 和 Q_tail 分别为核心区域和长尾区域的请求量占比，C_per_req_self 和 C_per_req_cloud 分别为自建和公有云的每千请求成本。
+缓存命中率对延迟的影响：P99延迟 = p_hit * t_cache + p_miss * (t_cache + t_origin)，其中 t_cache 为边缘缓存命中延迟（通常 < 5ms），p_hit 为缓存命中率
 
 ## Evidence
 

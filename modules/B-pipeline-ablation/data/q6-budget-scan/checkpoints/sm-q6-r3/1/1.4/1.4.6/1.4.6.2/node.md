@@ -1,0 +1,24 @@
+# N146: 对比计费单价差异：公有云CDN按95th峰值计费单价 P_bw_95th 通常为 ¥2,000-3,000/Mbps/month（一线城市），自建节点按峰值租赁
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N53
+
+## Claim
+
+对比计费单价差异：公有云CDN按95th峰值计费单价 P_bw_95th 通常为 ¥2,000-3,000/Mbps/month（一线城市），自建节点按峰值租赁单价 P_bw_peak 通常为 ¥1,500-2,000/Mbps/month，需计算两种模式下的月度带宽总成本差值 ΔC_bw = (BW_peak - BW_95th) * (P_bw_peak - P_bw_95th)。
+
+## Corrected Claim
+
+公有云CDN按95th峰值计费与自建节点按峰值租赁的单价存在差异，通常公有云单价略高或持平，具体数值需根据实际合同及市场报价确定，月度带宽总成本差值需结合具体计费模型（如阶梯价、保底带宽等）计算。
+
+## Evidence
+
+[质询]具体价格数值（¥2,000-3,000/Mbps/month）属于高度依赖市场波动、运营商策略及具体合同条款的经验事实，且不同地区/时期差异巨大，无法仅凭逻辑推导得出确切区间；此外，95th峰值计费通常针对月峰值带宽，而自建节点租赁通常按固定带宽或峰值计费，两者计费模型复杂，简单相减可能忽略阶梯定价或最低消费等细节。 | 经验事实，逻辑自洽但缺来源支持（source=knowledge，但具体价格参数属经验数据，无外部来源佐证具体数值区间，故降级）
+
+## Search Query
+
+CDN 95th percentile billing vs peak bandwidth leasing price China

@@ -1,24 +1,20 @@
-# N17: 公有云CDN托管服务的隐性人力成本：C_cloud_sre = 0.1 * C_sre_self_built，因为云厂商承担90%的底层运维，用户仅需配置/监控
+# N19: 读写流量比 R/W = 2TB / 200GB = 10:1；该比值决定带宽成本中下行占比（通常 >90%）及缓存策略的侧重方向
 
 - **status**: verified
 - **level**: L2
-- **source**: knowledge
+- **source**: given
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N4, N5, N6
+- **parent_ids**: N4
 
 ## Claim
 
-公有云CDN托管服务的隐性人力成本：C_cloud_sre = 0.1 * C_sre_self_built，因为云厂商承担90%的底层运维，用户仅需配置/监控，但需保留1名工程师处理业务层问题（成本约为自建团队的10%）
+读写流量比 R/W = 2TB / 200GB = 10:1；该比值决定带宽成本中下行占比（通常 >90%）及缓存策略的侧重方向
 
 ## Corrected Claim
 
-公有云CDN托管服务的隐性人力成本：C_cloud_sre = 0.1 * C_sre_self_built，因为云厂商承担90%的底层运维，用户仅需配置/监控，但需保留1名工程师处理业务层问题（成本约为自建团队的10%）
+读写流量比 R/W = 2TB / 200GB = 10:1；该比值决定带宽成本中下行占比（通常 >90%）及缓存策略的侧重方向
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
-
-## Search Query
-
-public cloud CDN hidden operational cost comparison self-hosted
+先验知识/题面给定，逻辑校验通过：2TB/200GB=10:1计算正确，且读写比10:1通常意味着下行流量占绝对主导（>90%），符合网络流量分布的一般规律。

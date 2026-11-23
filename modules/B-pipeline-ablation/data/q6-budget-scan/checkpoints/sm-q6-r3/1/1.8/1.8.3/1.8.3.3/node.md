@@ -1,0 +1,24 @@
+# N239: 长尾流量对 θ 的侵蚀效应：当用户地理分布发生季节性迁移（如春节返乡潮）或新兴热点区域爆发时，静态 θ 会偏离实际值，动态修正公式 θ_dynamic(t) =
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N74
+
+## Claim
+
+长尾流量对 θ 的侵蚀效应：当用户地理分布发生季节性迁移（如春节返乡潮）或新兴热点区域爆发时，静态 θ 会偏离实际值，动态修正公式 θ_dynamic(t) = P_core_base * (1 - β_seasonal)，其中 β_seasonal 为季节性波动系数（通常 5%-10%），需在成本模型中引入时间变量 t 的加权平均
+
+## Corrected Claim
+
+长尾流量对 θ 的侵蚀效应：当用户地理分布发生季节性迁移（如春节返乡潮）或新兴热点区域爆发时，静态 θ 会偏离实际值，动态修正公式 θ_dynamic(t) = P_core_base * (1 - β_seasonal)，其中 β_seasonal 为季节性波动系数（通常 5%-10%），需在成本模型中引入时间变量 t 的加权平均
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+seasonal traffic fluctuation CDN edge coverage impact China Spring Festival

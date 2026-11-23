@@ -1,0 +1,28 @@
+# N222: Cloudflare CDN P99延迟观测值 P99_observed_cf：P99延迟在高峰时段可能飙升至80-150ms，需结合具体区域数据校准
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N68
+
+## Claim
+
+Cloudflare CDN P99延迟观测值 P99_observed_cf：P99延迟在高峰时段可能飙升至80-150ms，需结合具体区域数据校准
+
+## Corrected Claim
+
+Cloudflare CDN P99延迟在高峰时段可能显著升高，具体数值需结合区域和负载数据校准，参考内部ML推理延迟优化案例（来源[1]）表明高负载下延迟敏感，但80-150ms为经验估计值，缺乏直接观测数据支持。
+
+## Evidence
+
+[质询]来源[1]讨论的是Cloudflare内部机器学习推理延迟（从9.5ms降至18us），而非CDN边缘节点对外的P99网络延迟；且来源未提供80-150ms这一具体数值范围，属于将内部组件延迟与外部CDN观测延迟混淆，且缺乏具体数值支持。 | 来源[1]主题相关（Cloudflare延迟）但内容不匹配（内部ML推理 vs CDN P99），未提供80-150ms数值支持，属间接/无关证据；经验事实（具体延迟数值）缺直接来源支持，逻辑上量级合理但无法验证具体区间。
+
+## Search Query
+
+Cloudflare CDN P99 latency peak hours observation
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2035308671589205797&rut=5d7f902a8a2d833d3173b2d9a9ee02f783641c55bcf7ef0052d37fd0c63778b1', 'type': 'ddg', 'title': 'p99 延迟从 9.5 毫秒降到 18 微秒：Cloudflare 机器学习基础设施重构全记录'}

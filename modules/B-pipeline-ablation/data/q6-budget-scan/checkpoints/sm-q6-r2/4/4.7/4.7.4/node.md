@@ -1,0 +1,24 @@
+# N118: 混合策略的年度总成本 C_annual_hybrid 的展开式：C_annual_hybrid = (Q_core/Q_total) * C_annual_se
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N27
+
+## Claim
+
+混合策略的年度总成本 C_annual_hybrid 的展开式：C_annual_hybrid = (Q_core/Q_total) * C_annual_self_per_req_core + (Q_tail/Q_total) * C_annual_cloud_per_req_tail + C_scheduling_overhead；其中 Q_core 为覆盖在自建 POP 范围内的请求量（约 60%-80%），Q_tail 为剩余请求量；C_scheduling_overhead 包含流量调度算法开发与维护成本，约占自建运维成本的 10%-15%。
+
+## Corrected Claim
+
+混合策略的年度总成本 C_annual_hybrid 的展开式：C_annual_hybrid = (Q_core/Q_total) * C_annual_self_per_req_core + (Q_tail/Q_total) * C_annual_cloud_per_req_tail + C_scheduling_overhead；其中 Q_core 为覆盖在自建 POP 范围内的请求量（约 60%-80%），Q_tail 为剩余请求量；C_scheduling_overhead 包含流量调度算法开发与维护成本，约占自建运维成本的 10%-15%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式结构符合加权平均成本模型，参数范围（60%-80%核心流量，10%-15%调度开销）符合云计算与边缘计算混合架构的工程经验常识，无逻辑矛盾。
+
+## Search Query
+
+Hybrid CDN architecture cost model traffic scheduling overhead

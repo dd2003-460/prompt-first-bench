@@ -1,24 +1,24 @@
-# N9: 传输延迟T_transmission的带宽瓶颈判定：若s/B_link < RTT_base，则为延迟受限（latency-bound），否则为带宽受限（ban
+# N9: 混合策略技术可行性阈值：自建POP与公有云CDN之间的请求路由切换延迟 Δt_switch 需满足 Δt_switch ≤ ε，其中 ε 为可接受的路由抖动上限
 
 - **status**: verified
 - **level**: L2
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N1
+- **parent_ids**: N1, N2, N3
 
 ## Claim
 
-传输延迟T_transmission的带宽瓶颈判定：若s/B_link < RTT_base，则为延迟受限（latency-bound），否则为带宽受限（bandwidth-bound）；短视频平均对象大小s_video ≈ 5-10MB，图片s_img ≈ 0.5-2MB [待核验]
+混合策略技术可行性阈值：自建POP与公有云CDN之间的请求路由切换延迟 Δt_switch 需满足 Δt_switch ≤ ε，其中 ε 为可接受的路由抖动上限（通常 < 5ms），否则混合策略因路由复杂性导致P99恶化
 
 ## Corrected Claim
 
-传输延迟T_transmission的带宽瓶颈判定：若s/B_link < RTT_base，则为延迟受限（latency-bound），否则为带宽受限（bandwidth-bound）；短视频平均对象大小s_video ≈ 5-10MB，图片s_img ≈ 0.5-2MB [待核验]
+混合策略技术可行性阈值：自建POP与公有云CDN之间的请求路由切换延迟 Δt_switch 需满足 Δt_switch ≤ ε，其中 ε 为可接受的路由抖动上限（通常 < 5ms），否则混合策略因路由复杂性导致P99恶化
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：传输延迟判定公式符合网络通信基本原理（带宽瓶颈 vs 延迟瓶颈的临界条件），短视频与图片的典型大小量级符合当前互联网媒体内容的普遍经验值。
+先验知识/题面给定，逻辑校验通过：混合CDN架构中，路由切换延迟若超过毫秒级（如5ms），确实会显著增加长尾延迟（P99），导致混合策略优势丧失，该阈值符合网络工程常识。
 
 ## Search Query
 
-average video file size MB CDN delivery 2024
+hybrid CDN self-built edge node routing switch latency overhead

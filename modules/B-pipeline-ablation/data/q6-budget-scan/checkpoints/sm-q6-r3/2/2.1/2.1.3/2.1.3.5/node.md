@@ -1,0 +1,24 @@
+# N217: 单点POP负载均衡器选型与成本：硬件方案（如F5 BIG-IP i2400）单价¥80,000-150,000，含软件许可；软件方案（HAProxy/Nginx
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N63, N64, N65
+
+## Claim
+
+单点POP负载均衡器选型与成本：硬件方案（如F5 BIG-IP i2400）单价¥80,000-150,000，含软件许可；软件方案（HAProxy/Nginx on Linux）硬件成本¥5,000-10,000，但需配置Keepalived实现高可用，总成本降低90%以上，且性能满足10Gbps流量需求。
+
+## Corrected Claim
+
+单点POP负载均衡器选型与成本：硬件方案（如F5 BIG-IP i2400）单价¥80,000-150,000，含软件许可；软件方案（HAProxy/Nginx on Linux）硬件成本¥5,000-10,000，但需配置Keepalived实现高可用，总成本降低90%以上，且性能满足10Gbps流量需求。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：F5硬件LB单价与开源软件LB成本量级符合市场常识，90%成本降低及10Gbps性能满足需求在逻辑上自洽。
+
+## Search Query
+
+F5 BIG-IP i2400 price vs HAProxy cost comparison

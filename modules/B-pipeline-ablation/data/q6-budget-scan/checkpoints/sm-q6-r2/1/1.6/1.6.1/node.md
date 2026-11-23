@@ -1,4 +1,4 @@
-# N51: 自建节点运维人员数量 N_ops = 基础监控人员(1人) + 每POP点专职维护人员(0.5人) * 10，总计约 6 人，人均年成本约为 15-20 万元 
+# N47: 骨干网延迟 t_backbone = t_hop * N_hops，其中 t_hop 为单跳延迟（典型 5-10ms），N_hops 为从边缘节点到源站的路由跳
 
 - **status**: verified
 - **level**: L3
@@ -9,16 +9,16 @@
 
 ## Claim
 
-自建节点运维人员数量 N_ops = 基础监控人员(1人) + 每POP点专职维护人员(0.5人) * 10，总计约 6 人，人均年成本约为 15-20 万元 [时效待核]。
+骨干网延迟 t_backbone = t_hop * N_hops，其中 t_hop 为单跳延迟（典型 5-10ms），N_hops 为从边缘节点到源站的路由跳数（典型 3-10跳）；该值反映数据在运营商骨干网中的传输耗时。
 
 ## Corrected Claim
 
-自建节点运维人员数量 N_ops = 基础监控人员(1人) + 每POP点专职维护人员(0.5人) * 10，总计约 6 人，人均年成本约为 15-20 万元 [时效待核]。
+骨干网延迟 t_backbone = t_hop * N_hops，其中 t_hop 为单跳延迟（典型 5-10ms），N_hops 为从边缘节点到源站的路由跳数（典型 3-10跳）；该值反映数据在运营商骨干网中的传输耗时。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+先验知识/题面给定，逻辑校验通过：骨干网延迟由单跳延迟乘以跳数构成，典型数值范围（5-10ms/跳，3-10跳）符合网络工程常识，量纲与量级合理。
 
 ## Search Query
 
-network operations center staff size cost per node
+internet backbone latency per hop ms

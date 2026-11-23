@@ -1,24 +1,24 @@
-# N56: 工作点3（高成本低性）：全量公有云CDN策略，无固定Capex摊销，基础设施成本完全转化为按量带宽与请求费，每千请求基础设施成本约为¥1.2-2.0（取决于流量
+# N80: 单点硬件升级成本 C_upgrade 是周期性资本支出在 OPEX 中的摊销或预留，C_upgrade = C_replacement_cycle / T_cy
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N12
+- **parent_ids**: N16
 
 ## Claim
 
-工作点3（高成本低性）：全量公有云CDN策略，无固定Capex摊销，基础设施成本完全转化为按量带宽与请求费，每千请求基础设施成本约为¥1.2-2.0（取决于流量峰值），虽无前期投入但长期运营成本随流量线性增长
+单点硬件升级成本 C_upgrade 是周期性资本支出在 OPEX 中的摊销或预留，C_upgrade = C_replacement_cycle / T_cycle，其中 C_replacement_cycle 为每 3-5 年更换服务器/网络的单次成本增量（约 ¥20k-50k/点），T_cycle 为折旧周期（3-5 年），年均摊销约 ¥5k-15k/点，与 N16 给出的范围一致。
 
 ## Corrected Claim
 
-工作点3（高成本低性）：全量公有云CDN策略，无固定Capex摊销，基础设施成本完全转化为按量带宽与请求费，每千请求基础设施成本约为¥1.2-2.0（取决于流量峰值），虽无前期投入但长期运营成本随流量线性增长
+单点硬件升级成本 C_upgrade 是周期性资本支出在 OPEX 中的摊销或预留，C_upgrade = C_replacement_cycle / T_cycle，其中 C_replacement_cycle 为每 3-5 年更换服务器/网络的单次成本增量（约 ¥20k-50k/点），T_cycle 为折旧周期（3-5 年），年均摊销约 ¥5k-15k/点，与 N16 给出的范围一致。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+先验知识/题面给定，逻辑校验通过：数学推导 C_upgrade = C_replacement_cycle / T_cycle 成立，数值量级（20k-50k / 3-5 ≈ 5k-15k）合理且自洽。
 
 ## Search Query
 
-Public cloud CDN pricing per request bandwidth
+IT hardware refresh cycle cost amortization annual upgrade budget

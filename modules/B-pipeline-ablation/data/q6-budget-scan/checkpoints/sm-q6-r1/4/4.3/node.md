@@ -1,19 +1,19 @@
-# N18: 监控与部署软件许可费：自建需购买Zabbix/Prometheus企业版或商业APM（如Dynatrace），成本≈$500-2000/节点/月；公有云CDN包
+# N20: 对象大小分布：图片平均大小 s_img ≈ 500KB，短视频平均大小 s_video ≈ 10MB；需验证实际 P50/P95 分布以计算缓存容量需求
 
 - **status**: verified
 - **level**: L2
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N4, N5, N6
+- **parent_ids**: N4
 
 ## Claim
 
-监控与部署软件许可费：自建需购买Zabbix/Prometheus企业版或商业APM（如Dynatrace），成本≈$500-2000/节点/月；公有云CDN包含基础监控，高级APM需额外订阅（≈$200-500/月），差值ΔC_software = C_sw_self - C_sw_cloud
+对象大小分布：图片平均大小 s_img ≈ 500KB，短视频平均大小 s_video ≈ 10MB；需验证实际 P50/P95 分布以计算缓存容量需求
 
 ## Corrected Claim
 
-监控与部署软件许可费：自建需购买Zabbix/Prometheus企业版或商业APM（如Dynatrace），成本≈$500-2000/节点/月；公有云CDN包含基础监控，高级APM需额外订阅（≈$200-500/月），差值ΔC_software = C_sw_self - C_sw_cloud
+对象大小分布：图片平均大小 s_img ≈ 500KB，短视频平均大小 s_video ≈ 10MB；需验证实际 P50/P95 分布以计算缓存容量需求
 
 ## Evidence
 
@@ -21,4 +21,4 @@
 
 ## Search Query
 
-enterprise monitoring software cost per node Zabbix Dynatrace 2024
+typical image size distribution social media platform 2024

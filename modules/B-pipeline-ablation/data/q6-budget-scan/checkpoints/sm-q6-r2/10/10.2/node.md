@@ -1,0 +1,20 @@
+# N106: 故障频率建模：自建节点年故障次数N_fault = N_POP * λ_node * k_correlation，其中λ_node=0.5-2次/年/POP（硬
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+故障频率建模：自建节点年故障次数N_fault = N_POP * λ_node * k_correlation，其中λ_node=0.5-2次/年/POP（硬件故障率），k_correlation=1.0-1.5（部分故障为共因如骨干网中断），10个POP年故障5-30次
+
+## Corrected Claim
+
+故障频率建模：自建节点年故障次数N_fault = N_POP * λ_node * k_correlation，其中λ_node=0.5-2次/年/POP（硬件故障率），k_correlation=1.0-1.5（部分故障为共因如骨干网中断），10个POP年故障5-30次
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：10个POP * (0.5-2次/年) * (1.0-1.5) = 5-30次，数值推导自洽，符合数据中心硬件故障率及共因故障的工程经验量级。

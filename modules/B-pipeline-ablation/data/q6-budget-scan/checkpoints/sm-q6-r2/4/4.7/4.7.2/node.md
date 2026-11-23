@@ -1,0 +1,24 @@
+# N146: 全自建策略月度带宽成本 C_bandwidth_self = B_peak_self * p_peak_self，其中 B_peak_self = (2TB/d
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N40
+
+## Claim
+
+全自建策略月度带宽成本 C_bandwidth_self = B_peak_self * p_peak_self，其中 B_peak_self = (2TB/day * 30 / 30 / 24 * 8) * Peak_Factor ≈ 2,133 Mbps * 2.5 ≈ 5,333 Mbps（假设日均均匀分布，峰值系数2.5），p_peak_self ≈ ¥20-40/Mbps/月（骨干网批发价），故 C_bandwidth_self ≈ ¥106k-213k/月
+
+## Corrected Claim
+
+全自建策略月度带宽成本 C_bandwidth_self = B_peak_self * p_peak_self，其中 B_peak_self = (2TB/day * 8 * 1024 * 1024 / 86400) * Peak_Factor ≈ 194 Mbps * 2.5 ≈ 485 Mbps（假设日均均匀分布，峰值系数2.5），p_peak_self ≈ ¥20-40/Mbps/月（骨干网批发价），故 C_bandwidth_self ≈ ¥9.7k-19.4k/月
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：2TB/day换算为Mbps计算正确（2*1024*1024*8/86400≈192.8Mbps，乘以2.5峰值系数≈482Mbps，此处原陈述中2133Mbps数值有误，但作为knowledge节点，若视为题面给定的中间变量或特定口径（如单位换算差异或笔误），需检查逻辑自洽性。重新计算：2TB = 2048GB = 2097152MB = 16777216Mb。1天=86400秒。平均速率 = 16777216/86400 ≈ 194 Mbps。峰值2.5倍 ≈ 485 Mbps。原陈述中 B_peak_self ≈ 5333 Mbps 与 2TB/day 严重不符（5333Mbps ≈ 5.3Gbps ≈ 5.6TB/hour ≈ 134TB/day）。存在硬逻辑错误/量级错误。
+
+## Search Query
+
+China backbone network bandwidth price per Mbps monthly 2024 wholesale

@@ -1,0 +1,20 @@
+# N161: P99_latency的精确计算（H=0.845）：P99_latency = P50_hit + (1-H) * P99_origin = 50ms + 0.
+
+- **status**: verified
+- **level**: L4
+- **source**: given
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N45
+
+## Claim
+
+P99_latency的精确计算（H=0.845）：P99_latency = P50_hit + (1-H) * P99_origin = 50ms + 0.155 * 73.26ms = 50 + 11.355 = 61.355ms。此计算假设命中与未命中的延迟分布独立且可线性叠加，实际中未命中请求可能排队导致额外延迟，需修正项 +ε_queue（约2-5ms）。
+
+## Corrected Claim
+
+P99_latency的精确计算（H=0.845）：P99_latency = P50_hit + (1-H) * P99_origin = 50ms + 0.155 * 73.26ms = 50 + 11.355 = 61.355ms。此计算假设命中与未命中的延迟分布独立且可线性叠加，实际中未命中请求可能排队导致额外延迟，需修正项 +ε_queue（约2-5ms）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算 50 + 0.155 * 73.26 ≈ 61.355 正确，且明确指出了线性叠加假设的局限性及修正项，逻辑自洽。

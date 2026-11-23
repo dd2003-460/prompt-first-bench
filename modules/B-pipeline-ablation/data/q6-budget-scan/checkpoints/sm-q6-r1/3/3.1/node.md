@@ -1,20 +1,30 @@
-# N13: 公网出口带宽计费模式对比：按量计费成本 C_volume = B_used * P_per_GB，其中 B_used 为月度带宽用量（GB），P_per_GB 
+# N26: 请求分布的Zipf参数：α_zipf ∈ [0.8, 1.2]，其中α越小表示长尾越显著，α越大表示热点越集中，图片+短视频平台的典型α值为0.9-1.1，需基
 
 - **status**: degraded
 - **level**: L2
-- **source**: knowledge
+- **source**: search
 - **edge_type**: cartesian
 - **rework_count**: 1
 - **parent_ids**: N3
 
 ## Claim
 
-公网出口带宽计费模式对比：按量计费成本 C_volume = B_used * P_per_GB，其中 B_used 为月度带宽用量（GB），P_per_GB ≈ ¥0.5/GB（阿里云国内）；包月计费成本 C_monthly = B_peak * P_per_GB_monthly * 30，其中 B_peak 为峰值带宽（Gbps），P_per_GB_monthly ≈ ¥0.02/GB/月；95 峰值计费成本 C_95 = B_95 * P_per_GB_95 * 30，其中 B_95 为月度 95 分位带宽（Gbps），P_per_GB_95 ≈ ¥0.015/GB/月；假设 B_peak = 1Gbps，B_95 = 0.8Gbps，则 C_volume = 2TB * 1024 * 0.5 = ¥1,024,000/月，C_monthly = 1Gbps * 30 * 24 * 3600 * 0.02 = ¥51,840/月，C_95 = 0.8Gbps * 30 * 24 * 3600 * 0.015 = ¥38,880/月。
+请求分布的Zipf参数：α_zipf ∈ [0.8, 1.2]，其中α越小表示长尾越显著，α越大表示热点越集中，图片+短视频平台的典型α值为0.9-1.1，需基于实际日志数据校准
 
 ## Corrected Claim
 
-公网出口带宽计费模式对比：按量计费成本 C_volume = B_used * P_per_GB，其中 B_used 为月度实际流出流量（GB），P_per_GB ≈ ¥0.5/GB；包月计费成本 C_monthly = B_peak * P_per_Mbps_monthly * 30，其中 B_peak 为峰值带宽（Mbps），P_per_Mbps_monthly 为每 Mbps 月租；95 峰值计费成本 C_95 = B_95 * P_per_Mbps_95 * 30，其中 B_95 为月度 95 分位带宽（Mbps）。具体成本取决于实际流量与带宽峰值的匹配度，需根据实际业务流量模型计算。
+请求分布通常可用Zipf分布建模，参数α反映热点集中度（α越大越集中）。具体α值需基于实际日志数据校准，不同业务场景（如图片/短视频）的典型值需通过实证分析确定，而非固定为0.9-1.1。
 
 ## Evidence
 
-[质询]数值量级与单位混淆：1Gbps 带宽满跑一个月的数据量约为 3.24 PB (3,240 TB)，而非 2TB。若按 2TB 用量计算按量计费成本，隐含的平均带宽利用率极低（约 0.06%），这与通常对比“峰值带宽”场景下的假设不符；此外，阿里云公网出口按量计费通常基于实际流出流量（GB），而包月/95计费基于带宽峰值（Mbps/Gbps），两者直接对比需明确流量与带宽的转换关系，此处 2TB 的假设缺乏上下文支撑，导致 C_volume 数值可能严重偏离实际高带宽场景。 | 先验知识/题面给定，逻辑校验通过（公式结构正确，但具体参数如 2TB 用量与 1Gbps 峰值的对应关系存在经验性假设，且无外部来源支持具体价格数值，故降级为定性表述）
+[质询]具体数值范围（α ∈ [0.8, 1.2] 及典型值 0.9-1.1）属于经验事实，参考来源仅提供了Zipf分布的数学定义和通用概念，未提供针对“图片+短视频平台”的具体参数统计或校准数据，无法直接支持该特定数值区间。 | 逻辑自洽（Zipf参数α越大分布越集中，符合直觉），但来源[1][2][3]仅涉及Zipf分布定义及通用应用，未覆盖特定业务场景（图片/短视频）的经验参数值，属经验事实缺来源支持。
+
+## Search Query
+
+Zipf parameter for image and video CDN request distribution
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/qq_36069590/article/details/83106894&rut=87a443075388a560051367ed5bc50b3f60bbaf8532ae2aa8a49ae5891e21dbaf', 'type': 'ddg', 'title': '【扫盲】------Zipf分布-CSDN博客'}
+- {'url': 'https://docs.scipy.org.cn/doc/scipy/tutorial/stats/discrete_zipf.html&rut=6610a76c0317b80fd649ef0ffaffed79131e9fa2e58ed192bdb7c824babd0f71', 'type': 'ddg', 'title': 'Zipf (Zeta) 分布 — SciPy v1.18.0 手册 - SciPy 科学计算库'}
+- {'url': 'https://blog.csdn.net/m0_37816922/article/details/130482955&rut=2f756be035176bd37a2327e9070bece1850f400b80aadbebada12c5b40e02521', 'type': 'ddg', 'title': '【分布族谱】Zipf分布及其Python可视化 - CSDN博客'}

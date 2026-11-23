@@ -1,20 +1,20 @@
-# N14: 回源带宽占比与成本：回源带宽比例 R_origin = 1 - H_cache_global，其中 H_cache_global 为全局缓存命中率（假设 95%
+# N27: 缓存命中率模型：H_cache = 1 - (1 / (N_objects * α_zipf))，其中N_objects为可缓存对象总数，α_zipf为Zipf
 
-- **status**: verified
+- **status**: degraded
 - **level**: L2
 - **source**: knowledge
 - **edge_type**: cartesian
-- **rework_count**: 0
+- **rework_count**: 1
 - **parent_ids**: N3
 
 ## Claim
 
-回源带宽占比与成本：回源带宽比例 R_origin = 1 - H_cache_global，其中 H_cache_global 为全局缓存命中率（假设 95%），则 R_origin = 5%；日均回源流量 = 2TB * 5% = 100GB；回源带宽成本 C_origin = 100GB * P_origin_per_GB，其中 P_origin_per_GB ≈ ¥0.3/GB（阿里云回源流量），则 C_origin = ¥30/天 = ¥900/月；若自建节点回源走内网，则 C_origin_self = 0，节省 ¥900/月。
+缓存命中率模型：H_cache = 1 - (1 / (N_objects * α_zipf))，其中N_objects为可缓存对象总数，α_zipf为Zipf参数，典型值为80-95%（热点集中）/50-80%（长尾显著）
 
 ## Corrected Claim
 
-回源带宽占比与成本：回源带宽比例 R_origin = 1 - H_cache_global，其中 H_cache_global 为全局缓存命中率（假设 95%），则 R_origin = 5%；日均回源流量 = 2TB * 5% = 100GB；回源带宽成本 C_origin = 100GB * P_origin_per_GB，其中 P_origin_per_GB ≈ ¥0.3/GB（阿里云回源流量），则 C_origin = ¥30/天 = ¥900/月；若自建节点回源走内网，则 C_origin_self = 0，节省 ¥900/月。
+缓存命中率通常随可缓存对象总数 N_objects 和 Zipf 参数 α_zipf 的增加而提高，典型范围约为 80-95%（热点集中）或 50-80%（长尾显著），具体数值需结合访问分布模型计算，而非简单套用 H = 1 - 1/(N*α) 公式。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：数学推导（2TB * 5% = 100GB, 100GB * 0.3 = 30元）正确，阿里云回源流量单价约0.3元/GB符合市场常识，内网回源免费符合云厂商计费逻辑。
+[质询]公式 H = 1 - 1/(N*α) 在数学上无法直接推导出 80-95% 的典型值，且该公式并非标准的 Zipf 分布缓存命中率解析解（标准模型通常涉及调和级数或更复杂的积分形式），存在将经验参数与特定简化公式强行绑定的风险。 | source=knowledge，逻辑量级自洽（N*α 较大时 H 趋近 1），但公式与典型值的对应关系缺乏严格数学推导支持，且无外部来源验证该特定公式的普适性，故降级。

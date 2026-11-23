@@ -1,0 +1,30 @@
+# N127: 山东省流量占比 P_Shandong 的具体数值，基于2023-2024年主流互联网平台的公开区域分布报告，预期范围在 8%-10% 之间。
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N34
+
+## Claim
+
+山东省流量占比 P_Shandong 的具体数值，基于2023-2024年主流互联网平台的公开区域分布报告，预期范围在 8%-10% 之间。
+
+## Corrected Claim
+
+山东省流量占比 P_Shandong 的具体数值，基于2023-2024年主流互联网平台的公开区域分布报告，预期范围在 8%-10% 之间（注：该数值为经验估计，缺乏直接来源支持，建议进一步核实具体平台数据）。
+
+## Evidence
+
+[质询]参考来源中未包含任何关于互联网平台流量区域分布的具体数据，无法直接验证8%-10%这一具体数值范围；且该数值属于经验事实，缺乏直接来源支持。 | 来源[1][2][3]均为山东省宏观统计或通信行业数据，未涉及互联网平台流量占比，无法提供直接支持；但山东省人口及经济体量较大，8%-10%的流量占比在逻辑上合理，无矛盾。
+
+## Search Query
+
+QuestMobile 2024 China user distribution by province Shandong percentage
+
+## Retrieval Sources
+
+- {'url': 'http://tjj.shandong.gov.cn/col/col6279/index.html&rut=e7e2e9d0acfe45d4204ccd782f0b9e8b36d5b330ec43be8de0710987d5015e1d', 'type': 'ddg', 'title': '山东省统计局 年度数据 - Shandong'}
+- {'url': 'http://tjj.shandong.gov.cn/art/2024/3/3/art_6196_10311526.html&rut=ef868cbf9df1937e4f1f8e0a1ab73a200e7289b28f30474235024f042d7e2d91', 'type': 'ddg', 'title': '2023年山东省国民经济和社会发展统计公报 - Shandong'}
+- {'url': 'https://sdca.miit.gov.cn/zwgk/txfz/art/2025/art_7e7868d6cd2c4353b3b639f14a04b51e.html&rut=ffcddc06b9ebe9c4e4524e370f7d28819adb57817ad649af243dc16c4a16d22f', 'type': 'ddg', 'title': '山东省通信行业2024年发展情况 - sdca.miit.gov.cn'}

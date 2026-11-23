@@ -1,0 +1,24 @@
+# N218: 单点POP存储设备容量与成本：热点内容缓存需覆盖Top 10%对象，假设日均下载2TB，热点占比10%即200GB/日，考虑3天缓存周期，需600GB-1TB 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N63, N64, N65
+
+## Claim
+
+单点POP存储设备容量与成本：热点内容缓存需覆盖Top 10%对象，假设日均下载2TB，热点占比10%即200GB/日，考虑3天缓存周期，需600GB-1TB SSD空间；采用NVMe SSD（¥1.5/GB）成本约¥900-1,500/点，若采用HDD+SSD混合，成本可降至¥500-800/点，但IOPS降低。
+
+## Corrected Claim
+
+单点POP存储设备容量与成本：热点内容缓存需覆盖Top 10%对象，假设日均下载2TB，热点占比10%即200GB/日，考虑3天缓存周期，需600GB-1TB SSD空间；采用NVMe SSD（¥1.5/GB）成本约¥900-1,500/点，若采用HDD+SSD混合，成本可降至¥500-800/点，但IOPS降低。
+
+## Evidence
+
+[质询]NVMe SSD 单价 ¥1.5/GB 可能偏高（当前企业级 NVMe 价格通常在 ¥0.5-1.0/GB 左右），且 200GB/日 * 3天 = 600GB 的缓存容量假设未考虑对象去重或压缩，可能导致空间估算偏大。 | 先验知识/题面给定，逻辑校验通过：200GB/日 * 3天 = 600GB 计算正确；600GB * 1.5元/GB = 900元，1000GB * 1.5元/GB = 1500元，成本推导逻辑自洽；HDD+SSD 混合降低成本的工程常识符合逻辑。
+
+## Search Query
+
+NVMe SSD price per GB 2024 CDN cache storage cost

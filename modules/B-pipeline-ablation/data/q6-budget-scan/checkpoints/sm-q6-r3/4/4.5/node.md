@@ -1,0 +1,20 @@
+# N38: 10 个自建 POP 的覆盖效率指标 $\eta_{coverage}$：定义为 $\eta_{coverage} = \frac{\text{命中本地 POP
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N4, N5, N6
+
+## Claim
+
+10 个自建 POP 的覆盖效率指标 $\eta_{coverage}$：定义为 $\eta_{coverage} = \frac{\text{命中本地 POP 的请求比例}}{\text{总请求比例}}$；对于 10 个 POP，预期 $\eta_{coverage} \approx 75\%-85\%$（取决于用户分布集中度），剩余 15%-25% 流量需回源或走公有云，该比例直接决定混合策略中公有云的流量基数。
+
+## Corrected Claim
+
+10 个自建 POP 的覆盖效率指标 $\eta_{coverage}$：定义为 $\eta_{coverage} = \frac{\text{命中本地 POP 的请求比例}}{\text{总请求比例}}$；对于 10 个 POP，预期 $\eta_{coverage} \approx 75\%-85\%$（取决于用户分布集中度），剩余 15%-25% 流量需回源或走公有云，该比例直接决定混合策略中公有云的流量基数。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1聚焦于η_coverage的理论推导与估算范围（输入侧），子节点2聚焦于基于该指标计算公有云流量基数（输出侧/应用侧）。两者逻辑链条清晰，前者为后者提供参数依据，后者将前者转化为工程可用指标，无重复或矛盾。父节点中关于'取决于用户分布集中度'和'直接决定公有云流量基数'的关键点均被覆盖。）

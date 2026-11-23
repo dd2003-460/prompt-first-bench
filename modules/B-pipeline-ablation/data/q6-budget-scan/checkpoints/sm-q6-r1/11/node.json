@@ -1,11 +1,11 @@
 {
-  "id": "N31",
-  "claim": "混合策略总成本函数构建：C_hybrid = α * C_self_built_total + (1-α) * C_cloud_total + C_hybrid_overhead。其中 C_self_built_total 包含硬件摊销、带宽、运维；C_cloud_total 为公有云成本。假设 α=0.7（70% 流量走自建），则 C_hybrid ≈ 0.7 * (C_hw + C_bw_self + C_ops_self) + 0.3 * C_cloud。需计算 α 在 [0.5, 0.9] 区间内的成本曲线，找到成本最小值点。",
+  "id": "N51",
+  "claim": "单请求成本聚合公式：C_per_req = (C_total_monthly / N_requests_monthly)，其中N_requests_monthly = DAU * req_per_user_per_day * 30，req_per_user_per_day为每用户日均请求数（图片+短视频平台通常为20-50次），C_total_monthly为月度总成本（基础设施+带宽+运维+安全）。",
   "level": "L2",
   "source": "search",
   "status": "degraded",
-  "evidence": "[质询]该陈述包含具体的经验参数假设（α=0.7）和特定的成本构成项（如C_hybrid_overhead），属于经验事实而非第一性原理可推导的数学恒等式。参考来源[1]虽为2023数模C题（涉及混合规划），但摘要未明确展示该特定公式结构及α=0.7的假设；来源[2]和[3]主题不匹配或过于宽泛。缺乏直接来源支持该特定公式形式及参数设定。 | 逻辑自洽（线性加权成本模型符合经济学直觉），但作为经验事实（具体公式结构与参数假设），参考来源未提供直接支持，依据经验事实排除条款降级。",
-  "corrected_claim": "混合策略总成本通常可建模为自建成本与云成本的加权平均，权重为流量分配比例α。具体公式形式（如是否包含额外混合开销项）及最优α值（如0.7）需依据具体业务场景数据或特定竞赛题面条件确定，通用模型中α为变量而非固定假设。",
+  "evidence": "[质询]经验参数缺乏来源支持：'req_per_user_per_day为每用户日均请求数（图片+短视频平台通常为20-50次）'属于具体的经验业务指标，参考来源均未提供该数值范围，且不同平台差异巨大，无法从第一性原理推导。 | 公式逻辑自洽（总成本/总请求数=单请求成本），来源[1]和[2]支持'单请求成本=总成本/请求数'或'全口径成本摊分'的概念，但均未覆盖'图片+短视频平台日均请求数20-50次'这一具体经验参数，故降级。",
+  "corrected_claim": "单请求成本聚合公式：C_per_req = (C_total_monthly / N_requests_monthly)，其中N_requests_monthly = DAU * req_per_user_per_day * 30，req_per_user_per_day为每用户日均请求数（需根据具体业务场景估算），C_total_monthly为月度总成本（基础设施+带宽+运维+安全）。",
   "rework_count": 1,
   "parent_ids": [],
   "objective": null,
@@ -13,19 +13,19 @@
   "search_query": "",
   "retrieval_sources": [
     {
-      "url": "https://github.com/kalipolis/CUMCM2023_C/blob/main/%E4%BB%A3%E7%A0%81/%E7%AC%AC%E4%B8%89%E9%97%AE%E6%B1%82%E8%A7%A3%E6%B7%B7%E5%90%88%E8%A7%84%E5%88%92.py&rut=7ce78cb58f2ea9e2952c5c638af8a55cbeba437067bbde4b21fdc24c6777606f",
+      "url": "https://www.compassingai.com/concept/cost-per-query/&rut=bdc9fdd367a973d0df50135080103774dc48c8e0932f1b8278757bde987ec858",
       "type": "ddg",
-      "title": "CUMCM2023_C/代码/第三问求解混合规划.py at main - GitHub"
+      "title": "Cost per Query Cost per Query | Compassing AI 概念库"
     },
     {
-      "url": "https://github.com/LIJunHong659/Blue-Ocean-Mode/blob/main/C5/5.7%E6%B7%B7%E5%90%88%E6%9C%80%E4%BC%98%E7%AD%96%E7%95%A5%E7%9F%AD%E6%B5%8B%E8%AF%95%E4%B8%8E%E5%B9%B4%E5%BA%A6%E8%BF%90%E8%90%A5%E5%88%86%E6%9E%90/CP01%E6%94%B6%E7%9B%8A%E8%BD%AC%E6%AD%A3%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88.md&rut=aeacec7835277e0c6e2328cba83f5f6bbdaa5a874751f7fa7c4a29a81fde4472",
+      "url": "https://docs.pingcode.com/insights/xhhirw4p3xsphxmubgje94n6&rut=2a2f72541e6f643721fe46108e2fb27972c9e39c31f3f47cee8fca6351f69f5f",
       "type": "ddg",
-      "title": "Blue-Ocean-Mode/C5/5.7混合最优策略短测试与年度 ... - GitHub"
+      "title": "单次LLM请求成本如何计算 - docs.pingcode.com"
     },
     {
-      "url": "https://zhuanlan.zhihu.com/p/2027714699270133234&rut=1e500f11e5e85edfda9724fe2f222fefe6c5d441eced395849a6f426d0662f45",
+      "url": "https://learn.microsoft.com/zh-cn/azure/cost-management-billing/automate/automation-overview&rut=7cb21ea60e09a7c1cd37ffc9940dcec06ba698322fd6948313fd49e05ac4246b",
       "type": "ddg",
-      "title": "运筹说 第153期 | 混合优化策略实战：用Python代码解锁启发式方法的\"组合技\" - 知乎"
+      "title": "成本管理自动化概述 - Microsoft Cost Management"
     }
   ]
 }

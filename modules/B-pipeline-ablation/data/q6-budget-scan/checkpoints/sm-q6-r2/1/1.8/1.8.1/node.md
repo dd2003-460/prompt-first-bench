@@ -1,0 +1,24 @@
+# N53: 自建策略P99延迟的构成：P99_self = P99(t_cache | self) + p_miss_self * t_origin，其中 p_miss_s
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+自建策略P99延迟的构成：P99_self = P99(t_cache | self) + p_miss_self * t_origin，其中 p_miss_self 为自建策略下的回源概率，通常低于公有云策略（因更近的POP点），需根据自建POP点分布与用户地理分布计算。
+
+## Corrected Claim
+
+自建策略P99延迟的构成：P99_self = P99(t_cache | self) + p_miss_self * t_origin，其中 p_miss_self 为自建策略下的回源概率，通常低于公有云策略（因更近的POP点），需根据自建POP点分布与用户地理分布计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+self-hosted CDN P99 latency calculation edge cache miss

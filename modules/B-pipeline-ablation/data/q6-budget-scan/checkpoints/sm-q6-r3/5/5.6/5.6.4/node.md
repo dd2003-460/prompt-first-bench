@@ -1,0 +1,24 @@
+# N110: 未命中率(1-H)的敏感性分析：对于短视频对象（H_vid ≈ 60-80%），未命中率(1-H_vid) ≈ 20-40%，P99延迟中回源部分占比约为40-
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N29
+
+## Claim
+
+未命中率(1-H)的敏感性分析：对于短视频对象（H_vid ≈ 60-80%），未命中率(1-H_vid) ≈ 20-40%，P99延迟中回源部分占比约为40-60%；对于图片对象（H_img ≈ 90-99%），未命中率(1-H_img) ≈ 1-10%，P99延迟中回源部分占比约为1-10%
+
+## Corrected Claim
+
+未命中率(1-H)的敏感性分析：对于短视频对象（H_vid ≈ 60-80%），未命中率(1-H_vid) ≈ 20-40%，P99延迟中回源部分占比约为40-60%；对于图片对象（H_img ≈ 90-99%），未命中率(1-H_img) ≈ 1-10%，P99延迟中回源部分占比约为1-10%
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：未命中率(1-H)与命中率H在数学上互补，数值范围（20-40%对应60-80%，1-10%对应90-99%）完全自洽；P99延迟中回源占比通常与未命中率正相关，量级合理。
+
+## Search Query
+
+cache miss rate sensitivity analysis for video and image objects P99 latency breakdown

@@ -1,0 +1,24 @@
+# N184: 源站异步处理与队列削峰对 P99 的影响：若启用消息队列（如 Kafka/RabbitMQ）削峰，T_origin_processing_P99 包含 T_qu
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N54
+
+## Claim
+
+源站异步处理与队列削峰对 P99 的影响：若启用消息队列（如 Kafka/RabbitMQ）削峰，T_origin_processing_P99 包含 T_queue_wait_origin + T_process_async，其中 T_queue_wait_origin 在峰值流量下可达 10-100ms（取决于消费者并发数），总 P99 可能比同步处理高 5-10 倍，但避免数据库过载导致的级联故障。
+
+## Corrected Claim
+
+源站异步处理与队列削峰对 P99 的影响：若启用消息队列（如 Kafka/RabbitMQ）削峰，T_origin_processing_P99 包含 T_queue_wait_origin + T_process_async，其中 T_queue_wait_origin 在峰值流量下可达 10-100ms（取决于消费者并发数），总 P99 可能比同步处理高 5-10 倍，但避免数据库过载导致的级联故障。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：异步队列削峰确实引入排队延迟（T_queue_wait），在峰值下该延迟显著增加P99，但通过解耦保护后端数据库，符合系统架构设计原理。
+
+## Search Query
+
+asynchronous processing message queue P99 latency origin server peak load

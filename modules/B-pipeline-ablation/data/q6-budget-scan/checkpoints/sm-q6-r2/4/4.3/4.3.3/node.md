@@ -1,0 +1,20 @@
+# N65: 加权平均对象大小 s_avg = (N_img * s_img + N_vid * s_vid) / (N_img + N_vid)，其中 N_img 和 N_
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N20
+
+## Claim
+
+加权平均对象大小 s_avg = (N_img * s_img + N_vid * s_vid) / (N_img + N_vid)，其中 N_img 和 N_vid 为图片与短视频的请求次数比，需根据业务数据确定（例如若图片请求占 80%，视频占 20%，则 s_avg ≈ 0.8*0.5MB + 0.2*10MB = 2.4MB）
+
+## Corrected Claim
+
+加权平均对象大小 s_avg = (N_img * s_img + N_vid * s_vid) / (N_img + N_vid)，其中 N_img 和 N_vid 为图片与短视频的请求次数比，需根据业务数据确定（例如若图片请求占 80%，视频占 20%，则 s_avg ≈ 0.8*0.5MB + 0.2*10MB = 2.4MB）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：加权平均公式定义正确，示例计算 0.8*0.5 + 0.2*10 = 0.4 + 2.0 = 2.4MB 数值准确，量纲一致。

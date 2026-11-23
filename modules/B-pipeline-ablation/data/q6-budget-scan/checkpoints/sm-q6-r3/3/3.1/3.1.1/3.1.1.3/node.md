@@ -1,0 +1,24 @@
+# N206: 公有云 CDN 弹性实例的计费粒度通常为秒级或分钟级，存在最小计费单位（如 60 秒）；对于突发短请求，实际计费时长 = max(Actual_Process_
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N63
+
+## Claim
+
+公有云 CDN 弹性实例的计费粒度通常为秒级或分钟级，存在最小计费单位（如 60 秒）；对于突发短请求，实际计费时长 = max(Actual_Process_Time, Min_Billing_Unit)，导致短请求的单位成本被放大 2-5 倍，需通过连接复用和批量处理优化以降低此开销。
+
+## Corrected Claim
+
+公有云 CDN 弹性实例的计费粒度通常为秒级或分钟级，存在最小计费单位（如 60 秒）；对于突发短请求，实际计费时长 = max(Actual_Process_Time, Min_Billing_Unit)，导致短请求的单位成本被放大 2-5 倍，需通过连接复用和批量处理优化以降低此开销。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+cloud CDN elastic instance billing granularity minimum billing unit impact on cost

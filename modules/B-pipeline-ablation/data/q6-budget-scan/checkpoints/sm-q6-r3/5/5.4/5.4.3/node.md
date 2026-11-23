@@ -1,0 +1,30 @@
+# N104: 不同计费模式下的峰值成本对比：按流量计费（Cost = Traffic_GB × Price_per_GB）无峰值溢价，但单价较高（0.5-1.0元/GB）；按
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N32
+
+## Claim
+
+不同计费模式下的峰值成本对比：按流量计费（Cost = Traffic_GB × Price_per_GB）无峰值溢价，但单价较高（0.5-1.0元/GB）；按95分位带宽计费（Cost = P95_MBps × Unit_Price_MBps_Month）单价较低（0.8元/MB/月）但受峰值影响；按峰值带宽计费（Cost = Peak_MBps × Unit_Price_MBps_Month）成本最高，峰值溢价率隐含在单价中。
+
+## Corrected Claim
+
+不同计费模式下的峰值成本对比：按流量计费无峰值溢价，但单价通常较高；按95分位带宽计费单价相对较低，但成本受流量峰值分布影响；按峰值带宽计费成本通常最高，峰值溢价隐含在单价中。具体单价因运营商和合同而异，需参考实际报价。
+
+## Evidence
+
+父节点级核验未通过：非正交（子节点之间存在事实矛盾与逻辑冲突。1. 价格矛盾：子节点1明确修正父节点中按流量计费单价为0.1-0.2元/GB，但子节点2和3引用的带宽单价（0.8-1.2元/MB/月、1.5-2.5元/MB/月）隐含的流量单价极高（例如0.8元/MB/月换算成流量单价远高于0.1-0.2元/GB），导致子节点之间对‘市场典型值’的认定不一致，破坏了正交性。2. 逻辑矛盾：子节点3声称峰值计费‘仅适用于流量极度平稳场景’，这在商业逻辑上是错误的（峰值计费通常用于流量波动大但希望锁定上限的场景，或者因单价过高而极少使用，而非因为平稳；平稳场景通常用95分位或保底带宽更优）。）
+
+## Search Query
+
+CDN billing models comparison traffic vs 95th percentile vs peak bandwidth cost 2024
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_29235525/article/details/162773768&rut=21a2552a91ccc7af375859c686443a87323b495bd83c77008df658787c235e69', 'type': 'ddg', 'title': 'Cdn 节点成本优化：包端口、95计费、流量计费 3种模式下的配置策略-csdn博客'}
+- {'url': 'https://www.tomvpn.com/%E6%8C%89%E6%B5%81%E9%87%8F%E8%AE%A1%E8%B4%B9%E7%9A%84-vpn/&rut=5f2406eec8268e749b8a4d6bd7d52d3363790da1cd9ec5d9ab911108695ec9a9', 'type': 'ddg', 'title': '按流量计费的 VPN（2026年11月23日更新） - tomvpn.com'}
+- {'url': 'https://blog.csdn.net/weixin_29291185/article/details/162773771&rut=7578aba60d25c1335399389d5626eeac4b8a9c51d409411f457f1fb4bcda8949', 'type': 'ddg', 'title': 'CDN 节点计费与部署优化：95计费 vs 流量计费，3种模式成本实测分析-CSDN博客'}

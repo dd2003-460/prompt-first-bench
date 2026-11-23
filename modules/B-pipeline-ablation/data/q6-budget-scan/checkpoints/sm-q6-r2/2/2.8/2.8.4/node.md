@@ -1,0 +1,24 @@
+# N101: Zipf参数 α_zipf 的校准方法：通过统计对象访问频次排名 r 与频次 f(r) 的关系，拟合 f(r) = C * r^(-α)，其中 C 为归一化常数
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N22, N26, N27
+
+## Claim
+
+Zipf参数 α_zipf 的校准方法：通过统计对象访问频次排名 r 与频次 f(r) 的关系，拟合 f(r) = C * r^(-α)，其中 C 为归一化常数；对于图片+短视频平台，α 的典型值为 0.9-1.1，需基于实际日志数据（如过去30天的访问日志）进行最小二乘拟合。
+
+## Corrected Claim
+
+Zipf参数 α_zipf 的校准方法：通过统计对象访问频次排名 r 与频次 f(r) 的关系，拟合 f(r) = C * r^(-α)，其中 C 为归一化常数；对于图片+短视频平台，α 的典型值为 0.9-1.1，需基于实际日志数据（如过去30天的访问日志）进行最小二乘拟合。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Zipf定律拟合方法描述准确，α值范围符合互联网内容访问分布的经验规律
+
+## Search Query
+
+Zipf parameter estimation method web traffic log fitting

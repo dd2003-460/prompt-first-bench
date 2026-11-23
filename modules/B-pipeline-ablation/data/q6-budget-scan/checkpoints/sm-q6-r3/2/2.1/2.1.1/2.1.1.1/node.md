@@ -1,0 +1,24 @@
+# N240: 单点服务器数量 N_servers_per_POP 的 QPS 驱动公式：N_servers_per_POP = ceil(QPS_pop / QPS_per_
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N75
+
+## Claim
+
+单点服务器数量 N_servers_per_POP 的 QPS 驱动公式：N_servers_per_POP = ceil(QPS_pop / QPS_per_server)，其中 QPS_pop = (DAU * req_per_user_per_day * P_region(i)) / 86400，QPS_per_server 为单台服务器在目标 P99 延迟下可支撑的并发请求数（典型值 5k-10k QPS/台，取决于CPU核心数与缓存策略），需根据核心区域最大流量占比 P_region_max 计算峰值需求
+
+## Corrected Claim
+
+单点服务器数量 N_servers_per_POP 的 QPS 驱动公式：N_servers_per_POP = ceil(QPS_pop / QPS_per_server)，其中 QPS_pop = (DAU * req_per_user_per_day * P_region(i)) / 86400，QPS_per_server 为单台服务器在目标 P99 延迟下可支撑的并发请求数（典型值 5k-10k QPS/台，取决于CPU核心数与缓存策略），需根据核心区域最大流量占比 P_region_max 计算峰值需求
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+CDN edge server QPS capacity per core nginx openresty benchmark 2023

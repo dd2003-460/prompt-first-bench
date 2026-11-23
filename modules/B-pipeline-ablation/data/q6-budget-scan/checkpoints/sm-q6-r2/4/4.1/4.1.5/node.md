@@ -1,0 +1,30 @@
+# N128: 四川省流量占比 P_Sichuan 的具体数值，基于2023-2024年主流互联网平台的公开区域分布报告，预期范围在 8%-10% 之间。
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N34
+
+## Claim
+
+四川省流量占比 P_Sichuan 的具体数值，基于2023-2024年主流互联网平台的公开区域分布报告，预期范围在 8%-10% 之间。
+
+## Corrected Claim
+
+四川省在互联网流量中的占比具体数值需依据特定平台数据，基于人口基数（约占全国6%）及互联网活跃度，预期范围可能在6%-10%之间，但缺乏2023-2024年具体平台公开报告直接证实8%-10%这一精确区间。
+
+## Evidence
+
+[质询]参考来源均为宏观统计年鉴或公报，未包含具体互联网平台（如抖音、微信等）的区域流量分布数据，无法直接验证8%-10%这一具体数值范围；且不同平台（如电商vs短视频）的区域分布差异巨大，笼统提及'主流互联网平台'缺乏具体口径。 | 来源[1][2][3]均为四川省宏观统计数据，未涉及互联网流量区域分布，属于来源无关；该事实为经验数据，逻辑上四川人口约8300万占全国约6%，考虑到互联网渗透率及活跃度，8%-10%的量级在逻辑上合理，但缺乏直接来源支持。
+
+## Search Query
+
+QuestMobile 2024 China user distribution by province Sichuan percentage
+
+## Retrieval Sources
+
+- {'url': 'https://tjj.sc.gov.cn/scstjj/tjnjnew/2023/zk/indexch.htm&rut=07c0014d7216bad07389b27afca19e88912c3b4e8fd6834f12c9ded03315b623', 'type': 'ddg', 'title': '四川统计年鉴2023 - tjj.sc.gov.cn'}
+- {'url': 'https://scsqw.cn/scdqs/scsq/sctjgb/content_140656&rut=ba78363c5b7d5afb06574aebd89e01c34c48da5f37828b2eca24b6b86caaf724', 'type': 'ddg', 'title': '2023年四川省国民经济和社会发展统计公报_四川统计公报_四川省情_四川地情_四川省情网'}
+- {'url': 'https://scsqw.cn/scdqs/scsq&rut=bcae137f2f8a1cabf73383ab1f1d19a91e58edb1e706f9db8540fbc50abd5c4b', 'type': 'ddg', 'title': '四川省情_四川地情_四川省情网 - scsqw.cn'}

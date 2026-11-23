@@ -1,0 +1,30 @@
+# N125: 江苏省流量占比 P_Jiangsu 的具体数值，基于2023-2024年主流互联网平台的公开区域分布报告，预期范围在 10%-13% 之间。
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N34
+
+## Claim
+
+江苏省流量占比 P_Jiangsu 的具体数值，基于2023-2024年主流互联网平台的公开区域分布报告，预期范围在 10%-13% 之间。
+
+## Corrected Claim
+
+江苏省移动互联网用户数约为9300万户（2023年底），其用户数占全国比例约为7%-8%；若指流量占比，因缺乏直接公开数据，无法确认为10%-13%，但鉴于江苏高人均流量特征，流量占比可能高于用户数占比。
+
+## Evidence
+
+[质询]参考来源仅提供了江苏省的绝对用户数（如移动互联网用户9346.8万户），未提供全国总用户数或直接的占比数据，无法直接验证10%-13%这一具体数值范围；且‘流量占比’与‘用户数占比’存在口径差异，来源未覆盖流量维度。 | 来源[1][2]提供了江苏省移动互联网用户数（约9300万+），结合全国移动互联网用户总数（约12-13亿，常识/外部知识），计算出的用户占比约为7%-8%，低于声称的10%-13%；但考虑到江苏经济发达、人均流量高，流量占比可能高于用户占比，逻辑上10%-13%并非不可能，但缺乏直接来源支持该具体数值范围，且用户数占比偏低使得该范围存疑，故降级。
+
+## Search Query
+
+QuestMobile 2024 China user distribution by province Jiangsu percentage
+
+## Retrieval Sources
+
+- {'url': 'https://jsca.miit.gov.cn/zwgk/xysjtj/art/2024/art_82f942644cb043b7ba82739238695d0b.html&rut=b4b21e15747a92f4eb296e26b95f910ec03d07d3e09d471cb8a1acdf1ac1710b', 'type': 'ddg', 'title': '2023年12月江苏省通信行业主要指标完成情况 - miit.gov.cn'}
+- {'url': 'https://jsca.miit.gov.cn/zwgk/xysjtj/art/2024/art_46cc254f26cc4c1eac2116395e66b80b.html&rut=80d04bf3e28f44641e8320243019d121479b9870d76ccf3b668c853be7976007', 'type': 'ddg', 'title': '2023年11月江苏省通信行业主要指标完成情况 - miit.gov.cn'}
+- {'url': 'https://tj.jiangsu.gov.cn/col/col91733/index.html&rut=842928c038e03421a4ff27fc14250591d415c9fc3cefad7ca5d844488226acb0', 'type': 'ddg', 'title': 'tj.jiangsu.gov.cn'}

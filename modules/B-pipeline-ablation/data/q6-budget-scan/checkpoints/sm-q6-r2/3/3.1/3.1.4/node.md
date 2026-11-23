@@ -1,0 +1,28 @@
+# N65: 跨网流量比例 CrossNetRatio 的决定因素：自建 POP 节点的网络接入类型（是否接入三大运营商骨干网），若 POP 位于运营商 IDC 内则 Cro
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N15, N16, N17
+
+## Claim
+
+跨网流量比例 CrossNetRatio 的决定因素：自建 POP 节点的网络接入类型（是否接入三大运营商骨干网），若 POP 位于运营商 IDC 内则 CrossNetRatio 可降至 2-3%，若位于中立 IDC 则可能高达 15-20%
+
+## Corrected Claim
+
+跨网流量比例 CrossNetRatio 受 POP 节点网络接入类型影响：接入运营商骨干网通常能显著降低跨网比例，而位于中立 IDC 则可能导致较高的跨网比例，具体数值视运营商策略和地域而定。
+
+## Evidence
+
+[质询]参考来源[1]是一篇关于音频信号处理（说话人分离）的论文，与网络流量、CDN或POP节点完全无关，属于严重的主题不匹配（Topic Mismatch）。此外，该陈述中的具体数值（2-3% vs 15-20%）属于经验性工程数据，缺乏通用性，不同运营商、地域和业务类型下差异巨大，直接断言具体区间存在以偏概全的风险。 | 参考来源[1]与事实主题（网络流量/CDN）完全无关，无法提供外部支持；该陈述属于经验事实，逻辑上符合网络接入成本与流量路由的基本直觉（接入骨干网减少跨网），但缺乏来源直接支持具体数值，故降级。
+
+## Search Query
+
+cross-network traffic ratio edge node ISP peering cost China
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org/abs/2403.03411&rut=b30ade7f2742ed50ba1c7660bc2cf9bebe5e4eb069d58acb73dd27d944c43dc9', 'type': 'ddg', 'title': '[2403.03411] CrossNet: Leveraging Global, Cross-Band, Narrow-Band, and ...'}

@@ -1,0 +1,20 @@
+# N67: 公有云CDN缓存未命中P99延迟：T_cache_miss_P99_cloud = RTT_user_to_edge_P99 + RTT_edge_to_ori
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+公有云CDN缓存未命中P99延迟：T_cache_miss_P99_cloud = RTT_user_to_edge_P99 + RTT_edge_to_origin_P99 + T_origin_processing_P99 + T_queue_cloud_P99，其中RTT_edge_to_origin_P99典型10-30ms（云内部骨干网），T_origin_processing_P99典型5-18ms（见N45），合计典型40-100ms。
+
+## Corrected Claim
+
+公有云CDN缓存未命中P99延迟：T_cache_miss_P99_cloud = RTT_user_to_edge_P99 + RTT_edge_to_origin_P99 + T_origin_processing_P99 + T_queue_cloud_P99，其中RTT_edge_to_origin_P99典型10-30ms（云内部骨干网），T_origin_processing_P99典型5-18ms（见N45），合计典型40-100ms。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点分别关注回源握手、源站处理、回源传输拥塞，维度正交且无冗余。但父节点明确包含 T_cache_miss_P99_cloud 的总延迟公式，其中 RTT_edge_to_origin_P99 和 T_queue_cloud_P99 是独立项，而子节点仅覆盖了 T_origin_processing_P99 及其相关传输/握手细节，未单独解释 RTT_edge_to_origin_P99 的物理路径构成或 T_queue_cloud_P99（云侧排队）的来源，导致对父节点公式中所有变量的分解不完备。）

@@ -1,0 +1,20 @@
+# N137: 跨域回源传播延迟 $RTT_{prop}(D_{cross})$ 的计算：$RTT_{prop} = 2 \cdot D_{cross} / v_{fiber}
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N37
+
+## Claim
+
+跨域回源传播延迟 $RTT_{prop}(D_{cross})$ 的计算：$RTT_{prop} = 2 \cdot D_{cross} / v_{fiber}$，其中 $v_{fiber} \approx 200,000 \text{ km/s}$；对于典型跨域距离 $D_{cross} \in [1500, 3000] \text{ km}$，$RTT_{prop} \in [15, 30] \text{ ms}$。
+
+## Corrected Claim
+
+跨域回源传播延迟 $RTT_{prop}(D_{cross})$ 的计算：$RTT_{prop} = 2 \cdot D_{cross} / v_{fiber}$，其中 $v_{fiber} \approx 200,000 \text{ km/s}$；对于典型跨域距离 $D_{cross} \in [1500, 3000] \text{ km}$，$RTT_{prop} \in [15, 30] \text{ ms}$。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：光速在光纤中约为真空光速的2/3（约200,000 km/s），往返延迟公式 RTT=2D/v 正确，代入距离区间 [1500, 3000] km 计算得 [15, 30] ms，数值量级与物理直觉一致。

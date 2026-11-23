@@ -1,0 +1,30 @@
+# N213: 公有云CDN单位请求计算/基础设施成本 C_compute_cloud 估算：公有云CDN按流量计费，主要成本为带宽，但隐含了服务器资源调度成本。若仅对比‘计算
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N65
+
+## Claim
+
+公有云CDN单位请求计算/基础设施成本 C_compute_cloud 估算：公有云CDN按流量计费，主要成本为带宽，但隐含了服务器资源调度成本。若仅对比‘计算’部分，公有云边缘节点通常按实例或请求次数计费，但CDN产品通常打包。此处需对比的是‘每千请求的总基础设施成本’。假设公有云CDN每GB成本为0.2元（参考N106），每请求数据量5MB，则 C_compute_cloud_per_req = 0.2 * 0.005 = 0.001元/请求？不，这是带宽成本。纯计算成本在CDN中难以剥离，通常包含在单价中。若强行对比，公有云边缘服务器闲置成本高，单位请求分摊成本通常在 1e-5 到 1e-4 元/请求量级。
+
+## Corrected Claim
+
+公有云CDN单位请求的纯计算/基础设施成本难以从打包价格中精确剥离，通常包含在带宽或请求计费中。若强行估算，基于典型云厂商请求计费标准（如 0.001 USD/万次请求），其量级约为 1e-5 元/请求左右，具体数值因厂商和区域而异。
+
+## Evidence
+
+[质询]该陈述中的具体数值范围（1e-5 到 1e-4 元/请求）属于经验事实，且缺乏直接来源支持。参考来源 [1] 给出的请求单价为 0.001 USD/万次请求（约 0.000007 元/请求），虽然量级接近下限，但来源 [1] 是通用估算器默认值，并非针对“公有云CDN纯计算成本”的权威统计，且来源 [2] 和 [3] 未提供具体的每请求成本数值，无法构成多源一致或直接支持。 | 逻辑自洽（CDN成本确实难以剥离纯计算部分，且边缘节点闲置成本高导致分摊成本存在），但作为经验事实，缺乏直接来源支持具体数值范围，来源 [1] 仅提供间接参考（0.001 USD/10k req ≈ 7e-6 CNY/req，在量级范围内但非直接陈述）。
+
+## Search Query
+
+cloud CDN per request infrastructure cost estimation
+
+## Retrieval Sources
+
+- {'url': 'https://cdn.cloudflew.com/tools/cdn-cost-estimator&rut=8a1115c88a99379ea5bc0a817c632df28585219be3abdcfa8fe8fd6af015d4e1', 'type': 'ddg', 'title': 'Cdn 成本估算器'}
+- {'url': 'https://www.cncloudsecond.com/blog/how-much-does-a-cdn-cost-pricing-factors-cloud-savings-cncloud/&rut=c17f6a9710c52dd0b6bc027696a1a3abe2c444ce1c79bcd69823d3efbde946f7', 'type': 'ddg', 'title': 'CDN费用多少｜费用与优化 - CnCloud'}
+- {'url': 'https://cloud.google.com/cdn/pricing?hl=zh-cn&rut=74fac12a2c12ad0f3ff9712259e6fb7f4eb556c23cf368ae2dd79e79f2660348', 'type': 'ddg', 'title': 'Cloud CDN 价格 | Google Cloud'}

@@ -1,0 +1,24 @@
+# N214: 公有云CDN边缘节点的内部处理延迟T_processing_cloud_P99的构成：T_processing = T_cache_lookup + T_acl
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N66
+
+## Claim
+
+公有云CDN边缘节点的内部处理延迟T_processing_cloud_P99的构成：T_processing = T_cache_lookup + T_acl_check + T_logging，其中T_cache_lookup为内存/SSD缓存查找时间（通常<1ms），T_acl_check为访问控制/鉴权检查（若启用JWT或签名验证，约0.5-2ms），T_logging为异步日志写入（通常<0.1ms，若同步则增加1-5ms），P99值需考虑高并发下的锁竞争
+
+## Corrected Claim
+
+公有云CDN边缘节点的内部处理延迟T_processing_cloud_P99的构成：T_processing = T_cache_lookup + T_acl_check + T_logging，其中T_cache_lookup为内存/SSD缓存查找时间（通常<1ms），T_acl_check为访问控制/鉴权检查（若启用JWT或签名验证，约0.5-2ms），T_logging为异步日志写入（通常<0.1ms，若同步则增加1-5ms），P99值需考虑高并发下的锁竞争
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：CDN边缘节点处理延迟构成符合工程常识，各组件量级（缓存<1ms, ACL 0.5-2ms, 日志<0.1ms）合理，P99受锁竞争影响符合高并发场景逻辑。
+
+## Search Query
+
+CDN edge node internal processing latency cache lookup ACL check logging overhead

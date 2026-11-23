@@ -1,0 +1,24 @@
+# N21: 运维人力成本-自建：C_ops_self = N_engineers * C_salary * (1 + overhead)，其中N_engineers为运维工
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+运维人力成本-自建：C_ops_self = N_engineers * C_salary * (1 + overhead)，其中N_engineers为运维工程师数量（10个POP点需3-5人），C_salary为年薪（约¥200k-500k/人），overhead为社保/福利系数（约30%）
+
+## Corrected Claim
+
+运维人力成本-自建：C_ops_self = N_engineers * C_salary * (1 + overhead)，其中N_engineers为运维工程师数量（10个POP点需3-5人），C_salary为年薪（约¥200k-500k/人），overhead为社保/福利系数（约30%）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+CDN operations team size and salary for 10 POP points

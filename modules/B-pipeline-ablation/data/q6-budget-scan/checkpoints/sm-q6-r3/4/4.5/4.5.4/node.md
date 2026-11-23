@@ -1,0 +1,24 @@
+# N89: 有效回源带宽 B_eff 对成本的影响量化：B_eff = B_total * (1 - H_weighted)，若 B_total = 2TB/日，H_wei
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N23
+
+## Claim
+
+有效回源带宽 B_eff 对成本的影响量化：B_eff = B_total * (1 - H_weighted)，若 B_total = 2TB/日，H_weighted = 75%，则 B_eff = 500GB/日，公有云回源成本 C_origin = B_eff * P_origin (¥/GB)，自建回源成本 C_origin_self = B_eff * P_backbone (¥/GB)，两者单价差异约为 3-5 倍。
+
+## Corrected Claim
+
+有效回源带宽 B_eff 对成本的影响量化：B_eff = B_total * (1 - H_weighted)，若 B_total = 2TB/日，H_weighted = 75%，则 B_eff = 500GB/日，公有云回源成本 C_origin = B_eff * P_origin (¥/GB)，自建回源成本 C_origin_self = B_eff * P_backbone (¥/GB)，两者单价差异约为 3-5 倍。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学计算 2TB * (1-0.75) = 0.5TB = 500GB 正确；公有云回源与自建骨干网带宽成本差异在3-5倍符合行业常识。
+
+## Search Query
+
+origin pull bandwidth cost public cloud vs private backbone

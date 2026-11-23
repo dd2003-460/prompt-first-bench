@@ -1,0 +1,24 @@
+# N230: 运维 SOP 成熟度对 ε_self 的修正项 Δε_sop：Δε_sop = Base_ε * (1 - Maturity_Score)，其中 Maturit
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N71
+
+## Claim
+
+运维 SOP 成熟度对 ε_self 的修正项 Δε_sop：Δε_sop = Base_ε * (1 - Maturity_Score)，其中 Maturity_Score ∈ [0,1] 由自动化部署率、监控覆盖率、故障自愈率加权得出（典型值 0.6-0.9），Base_ε 为无优化时的基础波动系数（约 5%），该修正项直接降低 P99 延迟尾部
+
+## Corrected Claim
+
+运维 SOP 成熟度对 ε_self 的修正项 Δε_sop：Δε_sop = Base_ε * (1 - Maturity_Score)，其中 Maturity_Score ∈ [0,1] 由自动化部署率、监控覆盖率、故障自愈率加权得出（典型值 0.6-0.9），Base_ε 为无优化时的基础波动系数（约 5%），该修正项直接降低 P99 延迟尾部
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+SRE automation maturity score latency tail reduction

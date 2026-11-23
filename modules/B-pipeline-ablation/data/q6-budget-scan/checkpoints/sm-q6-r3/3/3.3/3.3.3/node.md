@@ -1,0 +1,24 @@
+# N107: 缓存命中率H_cache的Zipf分布解析解：H_cache ≈ 1 - (1 - α) / (α * ln(N_objects))，其中N_objects为可
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N28
+
+## Claim
+
+缓存命中率H_cache的Zipf分布解析解：H_cache ≈ 1 - (1 - α) / (α * ln(N_objects))，其中N_objects为可缓存对象总数（图片+短视频去重后数量），α为Zipf参数（N26指出需校准，典型视频平台α≈0.9-1.2），该公式用于从N26/N27推导具体H_cache值
+
+## Corrected Claim
+
+缓存命中率H_cache的Zipf分布解析解：H_cache ≈ 1 - (1 - α) / (α * ln(N_objects))，其中N_objects为可缓存对象总数（图片+短视频去重后数量），α为Zipf参数（N26指出需校准，典型视频平台α≈0.9-1.2），该公式用于从N26/N27推导具体H_cache值
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点公式中的三个核心变量/约束：α（分布参数）、N_objects（规模参数）以及实际物理约束（容量限制）。三者分别定义了公式的输入参数和边界条件，逻辑上互不重叠且共同构成了完整的推导链条。）
+
+## Search Query
+
+Zipf distribution cache hit rate formula

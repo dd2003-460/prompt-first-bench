@@ -1,19 +1,19 @@
-# N28: 决策输出前沿工作点2：中延迟约束-性价比最优策略（P99 ≤ T_mid），对应混合策略的 Pareto 最优点
+# N41: 混合策略的 P99 延迟成本函数 $C_{hyb}(T, s, \theta)$：$C_{hyb} = \theta \cdot C_{self}^{local
 
 - **status**: verified
 - **level**: L2
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N4, N5
+- **parent_ids**: N4, N5, N6
 
 ## Claim
 
-决策输出前沿工作点2：中延迟约束-性价比最优策略（P99 ≤ T_mid），对应混合策略的 Pareto 最优点
+混合策略的 P99 延迟成本函数 $C_{hyb}(T, s, \theta)$：$C_{hyb} = \theta \cdot C_{self}^{local} + (1-\theta) \cdot C_{pub}^{tail} + C_{sync}^{cross}$，其中 $\theta$ 为本地命中流量比例，$C_{sync}^{cross}$ 为跨域同步/回源成本，需最小化 $C_{hyb}$ 关于 $\theta$ 和 POP 选址 $S_{10}$。
 
 ## Corrected Claim
 
-决策输出前沿工作点2：中延迟约束-性价比最优策略（P99 ≤ T_mid），对应混合策略的 Pareto 最优点
+混合策略的 P99 延迟成本函数 $C_{hyb}(T, s, \theta)$：$C_{hyb} = \theta \cdot C_{self}^{local} + (1-\theta) \cdot C_{pub}^{tail} + C_{sync}^{cross}$，其中 $\theta$ 为本地命中流量比例，$C_{sync}^{cross}$ 为跨域同步/回源成本，需最小化 $C_{hyb}$ 关于 $\theta$ 和 POP 选址 $S_{10}$。
 
 ## Evidence
 
