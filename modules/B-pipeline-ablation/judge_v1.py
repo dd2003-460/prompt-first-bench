@@ -220,7 +220,11 @@ def calibrate_cos(model):
         print(f"  p{q}: {np.percentile(off, q):.3f}")
     print(f"  max: {off.max():.3f}  mean: {off.mean():.3f}")
     print("  [说明] 这是 gold 单元间的语义相似度上界。真实模型节点匹配应显著高于此上界才可信。")
-    print("  阈值建议: 取 gold 内部 p99 与 1.0 的中点, 或人工看匹配明细定。当前冻结 0.80。")
+    print("  阈值建议: 取 gold 内部 p99 与 1.0 的中点, 或人工看匹配明细定。")
+    # !! 2026-11-24 澄清: 本函数只出分布供人工选, 不是自动冻结。实际 COS_THRESHOLD=0.70 是
+    #    人工标定 (旧注释"当前冻结 0.80"是 0.70 切换前的残留, 已删): 0.80 下覆盖塌到 0.015,
+    #    人工降到 0.70 后覆盖 0.350 且 per-run 区分度好 (0.11-0.56)。选择依据 = 单语料 (GPU K7)
+    #    实证, 非跨语料验证 — 这是 designer 自由度, 见 draft §6 threshold-sensitivity limitation。
 
 
 def selftest():
