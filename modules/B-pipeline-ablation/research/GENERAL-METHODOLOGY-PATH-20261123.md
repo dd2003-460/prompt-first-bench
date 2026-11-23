@@ -218,6 +218,14 @@ Q6 claim 字段 (监控轴) gap_rate: 50 档 0.0733, 100 档 0.0033, 150 档 0.0
 - 注意: Q6 claim 字段 gap 极低可能因 Q6 题面更定量 (claim 多为数值, 防御措辞集中在
   evidence 的核验文本), 非模型监控能力差异 — 待 D 判断
 
+**Q6 judge 轴跨 budget 早期数据点 (2026-11-23, n=3/3/2, 8/15 队列)**
+- judge total: 50 档 0.305 (0.300/0.314/0.300) → 100 档 0.338 (0.400/0.314/0.300) → 150 档 0.414 (0.414/0.414)
+- 单调升, 主驱动 = depth 阶梯 (0.6→0.8, 3-level step), cov 低 (0.009/0.009/0.028)
+- 与 GPU K7 机械 depth 轴同向 (随 realized node count 升, 饱和于 max_depth=5)
+- 含义: judge 轴的 budget 曲线跨域同形 (depth 驱动, cov 低) — 跨域不变性候选
+- 待队列跑完补 300/719 档看是否饱和 (GPU 在 ~300 节点饱和)
+- 评分块队列内静默失败 (python3 - heredoc stdin 被 SM 2>&1 影响), 已用 q6_rescore.py 补 8/8
+
 **Finding (2) 难度梯度的字段分解 (2026-11-23, 强化论文)**
 脚本: research/finding2-field-decomposition.py (固化, 复现下表)
 口径: 与 finding2-difficulty-gradient-cleaned.py 完全一致 (sm-era, node.json 递归,
