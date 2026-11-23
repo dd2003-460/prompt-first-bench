@@ -485,3 +485,21 @@ D 问"数字含义"触发对凭记忆数字的独立重算, 暴露 0.147 不可�
 **根因 (0.147 为何不可复现)**: 83-run 语料文件的 `file` 字段全是泛化名 (runs-s5-sm-gpu.json, 34 条 gpu 指向同一名字), 无法追溯到实际 run 文件; 11-22 的"质询修正"只存散文没存计算脚本+子集定义。52.5% 能复现是因为它的口径 (18+15=33 树) 在补充16 里钉死了具体文件集; 0.147 的口径 (n=18 sm-era gpu) 没钉死, 且 n=18 与当前 sm-era 19 条不符。
 
 **规则 (固化)**: 任何承重数字必须 (a) 存计算脚本或可复现的逐节点遍历, (b) 口径钉死到具体文件集, (c) 散文记录不算证据。83-run 语料的 file 字段泛化名是隐患 — 后续若再算跨域统计, 应先重建 file→实际路径的映射。
+
+## 补充26 (2026-11-23 13:20): "coverage monotone rise" 不成立 → 修正为 rise-to-plateau
+
+### 发现
+
+定位重写把 "coverage monotone rise" 列为 robust 机械发现, 但 30 棵 era-matched 数据:
+- cov 按档: 0.259/0.264/0.278/0.358/**0.352** (50/100/150/300/719)
+- 719 档 (598 节点均值) cov 比 300 档 (368 节点) **还低** — 不是单调升, 是升到 300 后 plateau
+- cor(cov, n_nodes) = +0.563 (size-confounded, draft 已标)
+- 719 档逐条: r1 (381节点) 0.333 / r2 (665) 0.417 / r3 (747) 0.306 — 大节点不保大 cov
+
+### 修正
+
+§4.3 provenance: "coverage monotone rise (§4.3, size-confounded)" → "coverage rise-to-plateau (0.259/0.264/0.278/0.358/0.352 — rises to 300 then plateaus; 719 is not higher than 300, so 'monotone rise' is not supported at n=8; size-confounded, cor=+0.563)"
+
+### 论点影响 (净增强)
+
+cov 和 mechanical depth 都在 300 后饱和 (depth 3-level step 0.8@300 起 sd=0) → 共同指向 "预算买广度, 边际递减", 与标题 Breadth-without-Depth 一致。plateau 比 monotone rise 更支持论文主张。
