@@ -115,3 +115,11 @@ Q6 50 档 rework 修复率 (node-level, rework>0 的节点中最终 verified):
 - 方向一致: repair low-yield 跨域不变 (Q6 4% vs GPU 3.7%, n=3 runs/50 nodes each)
 - 口径注意: Q6 50 档 n=3, 分母小; 5 档完整曲线待队列跑完
 - 含义: "capability-limited 非 targeting" 诊断 (§4.1) 不是 GPU 域特异, 是 27b 定向修正能力的普遍瓶颈
+
+## Metacog 轴固有变异性 (2026-11-23, cv 对比)
+
+Q6 50 档 gap_rate: n=3 均值 0.0800 sd 0.0400 cv=0.50
+GPU rep-scan: n=15 均值 0.1023 sd 0.0499 cv=0.49
+→ cv 几乎相同 (0.50 vs 0.49): Q6 50 档的"大方差"不是低 budget 不稳定, 是 metacog 轴的固有变异性 (cv≈0.5 常态)
+→ A3 跨域比较的 caveat 钉死: 必须用均值 (Mann-Whitney 等), 单点/单 rep 不可比; n=3 的域内 tier 均值带 cv≈0.5 的不确定性
+→ 对 paper: 任何 metacog 轴的 budget 曲线 claim 都要带 rep 间 sd (skill rule 10: spread 不能藏 sd)
