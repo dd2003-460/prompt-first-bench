@@ -669,3 +669,12 @@ v6 声称 "gain-cov 脱钩是 breadth-without-depth 的机制签名" — 推理�
 - **文件引用 22/22 有出处**: 19 个 pfb 内路径 exists; 2 个 "缺失" 实为主 workspace provenance 指针 (projects/AI-计算科学/D1-generalization/ 下存在, 跨 repo 引用非断链); 1 个 formulas.json 是前瞻性描述(每域待准备标注文件)非引用。
 - **supplementary 索引落盘 (commit 3311d3741)**: draft 引用 supp 17/37/40/41-42/43/45 但 repo 无索引文件——编号体系 = git commit 序列 "补充N"。新建 `experiments/stage-ablation/workshop-draft-supplementary-index-20261124.md` 把 6 编号钉死到定义 commit + 数据源 (7 文件全 exists); §8 "paths in the supplementary" 悬空引用改为指向该索引。
 - 投稿就绪度三条件: 结构完整 ✓ / 最狠质询有防御 ✓ / 承重数字对账 ✓ + 本轮新增: 引用可追溯性 ✓ (行号/文件/supp 编号三类全核验)。
+
+## r2 落地 + draft 降级 (2026-11-24 07:26 落地, 07:50 修正完成)
+
+- **r2 (nodepth 批, 719 realized, max_depth=10): cov = 0.2391** — 独立重算 /usr/bin/python3 judge_run n=719 确认 (proc_6dfa17fc0233)。
+- **打穿 r1 单点结论**: r1=0.1304 (回落) + r2=0.2391 (超原批 max 0.1957), 方向相反, 极差 0.109 = 3.3×原批 sd 0.033。
+- **17 点重算** (q6-realized-axis-17pt-20261124.json): 600-800 箱 [0.1304, 0.2391] mean=0.1847 > 200-400 箱 0.1522, Δ=+0.0326 < 1×sd 0.077 不显著; cor 0.641→0.761 (t=4.54, df=15)。断点最优 325→350 (F(2,13)=4.67, p=0.031), 仍在 ~300-425 范围, 跨域位置 claim 成立。
+- **marginal-yield 口径 (L561)**: r1 = −0.0109/200, r2 = +0.0435/200 (手推 +0.0146 是错的, 已修)。
+- **draft 8 处 r1 单点声明降级为 "n=2 方向未定"** (commit d258eaaeb): §4.3 主体 2 处 + hit-set 段 + stopping-state + marginal-yield + headline + abstract + related work + §7 data note (a)/(d)。残留扫描 0 (合理语境除外)。
+- **r3 在跑** (PID 34766, 07:48 活跃); 队列 relay_v2 PID 34249 活着 → r3 后接 Q7 扫描 (~11h)。
