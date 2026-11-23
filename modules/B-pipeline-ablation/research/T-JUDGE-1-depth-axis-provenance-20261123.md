@@ -503,3 +503,35 @@ D 问"数字含义"触发对凭记忆数字的独立重算, 暴露 0.147 不可�
 ### 论点影响 (净增强)
 
 cov 和 mechanical depth 都在 300 后饱和 (depth 3-level step 0.8@300 起 sd=0) → 共同指向 "预算买广度, 边际递减", 与标题 Breadth-without-Depth 一致。plateau 比 monotone rise 更支持论文主张。
+
+## 补充27 (2026-11-23 13:00): 控制臂 — LLM answer-depth 与机械 tree-depth 不相关 (r=+0.049)
+
+### 发现
+
+同一批 15 个 K7 budget-scan run, 每个 run 同时有:
+- LLM depth 分 (judge_v2_depth.score_run 评 synthesis 答案文本, results-budget-scan.json)
+- 机械 depth 分 (judge_v1 structure.depth_score 评树结构, judge-v1-budget-scan.json)
+
+配对相关:
+- cor(LLM, mech) = **+0.049** (t=0.18, df=13, p≈0.86) — 不相关
+- LLM 在机械 3 档上平: 0.431/0.430/0.441 (mech 0.6/0.8/1.0)
+- cor(LLM, budget) = +0.135 (不显著); cor(mech, budget) = +0.766 (强)
+- cor(LLM, n_nodes) = +0.202 (t=0.74, 不显著) — 也非冗长偏袒
+
+### 关键限定 (对象混淆, skill 第 11 条)
+
+两轴评**不同对象**: LLM 评 prose 答案文本, 机械评树结构。所以 r=+0.049 只能证明
+**answer-depth 不跟踪 tree-depth**, 不能证明 "LLM 无深度信号"。
+正确读法: 两轴独立 + LLM 轴自身 n=3 无显著 budget 趋势 (150-vs-plateau 0.9 run-sd)
+→ peak@150 读作 flat self-biased 轴上的 rubric noise, 而非已证明的 self-preference 机制。
+
+### 过程坑
+
+第一版 pearson 公式漏除 n, 算出 +0.735 (=15×真值); numpy 独立验证真值 +0.049。
+没把 bug 当发现。
+
+### 落盘
+
+- 计算脚本: `research/llm-vs-mech-depth-control-arm.py` (承重数字规则, 可复现)
+- draft 同步: abstract + §4.3 provenance + §4.3 末段 (3 处, commit 93ca6e8f1)
+- skill workshop-number-audit: 10→11 条 (新增第 11 条 对象混淆)
