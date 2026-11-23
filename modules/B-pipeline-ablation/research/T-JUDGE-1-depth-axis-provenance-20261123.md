@@ -397,3 +397,29 @@ abstract 已修: "extends the coverage and L4 axes to n=8/tier, while the metaco
 ### 待查 (未做)
 
 era 差异的成因: K7 (11-22) vs rep-scan (11-23) 之间 pipeline 改了什么? 需 git log 对比两日间的 research_hook / s5_state_machine 改动。若 gap_rate 的 era 敏感, 则 83-run 语料的跨日 metacog 对比都需 era-matched (现有 finding #2 nat/soc/gpu 已 era-matched, 安全)。
+
+## 补充21 (2026-11-23 12:22): gap_rate 预算不变 = ANOVA 不显著, 非"钉在 0.100±0.008"
+
+### 统计澄清
+
+"spread 0.008" 只描述三个层均值的接近度, 藏掉了层内 sd 的真实噪声。
+正确读法 (rep-scan only, n=5/5/5, source ① 同 compute_metacog):
+
+| tier | mean | 层内 sd | 逐条范围 |
+|---|---|---|---|
+| 100 | 0.0992 | 0.0679 | 0.028–0.184 |
+| 150 | 0.1001 | 0.0364 | 0.036–0.124 |
+| 300 | 0.1075 | 0.0524 | 0.028–0.175 |
+
+- 层间均值差 0.0083, 合并层内 sd 0.0499, **比值 0.17** (层间差是层内噪声的 1/6)
+- **单因素 ANOVA F(2,12)=0.036, p ≫ 0.05** → 预算效应在 run-to-run 噪声分辨率之内, 检测不到
+- 正确声明: "预算效应在噪声分辨率内, 检测不到" (强声明), 不是 "gap_rate 钉在 0.100±0.008" (弱声明, 误导)
+
+### 与补充20 的关系
+
+补充20 说 era-scoped (K7 形状不同); 补充21 说即便在 rep-scan era 内部, "不变"也是统计不显著 (ANOVA), 不是精确平坦。
+两者叠加: budget-invariance 声明 = era-scoped (rep-scan) + 统计不显著 (ANOVA F=0.036), 不是 corpus-wide + 精确 0.100。
+
+### 草稿更新
+
+§4.3 provenance + abstract finding (3): "spread 0.008" → "层间差是层内 sd 的 1/6, ANOVA F(2,12)=0.036 p≫0.05, 预算效应低于噪声分辨率"。
