@@ -299,3 +299,9 @@ provenance 确认：K7 批用 new judge 重评（new_cov 字段），rep-scan �
 (1) post-clamp 重跑 GPU 扫描（~10h，占 vLLM）：**跳过**。理由：draft 已改到 realized 节点数轴口径（commit 94ebf147c/2df481a8b），重跑只给 nominal 轴一个干净版本，边际价值低；且会阻塞 relay 链后面的 Q7 扫描（子项④）和子项②。若 D 认为 nominal 轴干净版本对投稿必要，再排（等 Q7 落地后 vLLM 空窗）。
 (2) realized 节点数 x 轴重分析：**已做**（30 棵 GPU 树分箱，平台 ~400 realized 节点），draft 现口径。
 (3) Q6 nodepth 批（max_depth=10）：在跑（r1 N321 节点，04:44），落地后判定 Q6 在 ~719 realized 节点是平台还是继续升——"饱和点域依赖"的决定性测试。
+
+### 分箱值修正（2026-11-24 04:52 · 数字审计）
+draft §7 (d)(i) 的分箱值 0.261/0.317/0.361/0.361 与统一口径重算不符。重算（30 棵 GPU 树：K7 15 用 /tmp/cov-nn-verify.json（archive 树 judge_run 重算，同 36-unit gold），rep-scan 15 用 scores json cov + 真实树 len(nodes)（核验 scores n_nodes 与真实树节点数 15/15 完全一致，无 off-by-one））：
+- 0-200: 0.2500 (n=12) / 200-400: 0.3248 (n=13) / 400-600: 0.3611 (n=3) / 600-800: 0.3611 (n=2)
+- cor(cov, realized_nodes) = +0.5627 (t=3.60, df=28)
+高两箱和 cor 与旧值一致；低两箱旧值（0.261/0.317）来自之前 cov 来源混源的算法，已修正。平台位置（~400 realized 节点）和 cor 不变。draft commit 9202a15d1。
