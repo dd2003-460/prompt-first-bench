@@ -359,3 +359,13 @@ gap-rate-anova-rep-scan.py + gap-detector-domain-bias.py 重跑 + 独立重算 A
 **防御**: 诚实降级落盘 (draft §7 data note (d)(i) 补 plateau-segment caveat: "flat top is a shape statement at n=5, not a controlled estimate — the cor carries the rise, the plateau's flatness is the weaker, low-n half of the claim")。claim 本身没改 (平台位置 ~400 不变), 只把强度标清楚。
 **abstract 检查**: abstract 说 "plateaus near the same ~400-realized-node point" 并指向 §7 data note (d) — caveat 在正文, abstract 不超正文强度, 通过。
 **其余质询 (降级后口径)**: 数字全过 (本轮数字审计) / pre-clamp 已全 draft 口径化 (本轮 3 处修复 + 一致性扫描) / 跨域 confound 已标 "not a clean same-budget different-domains" / 决定性测试已排 (nodepth 在跑 + Q7) — 无新缺口。
+
+## nodepth 分析脚本落地前验证 (2026-11-24 05:16)
+
+r1 进度: total 661/719 节点 (round 4, gain=0.950, streak=0, 还在扩展) — max_depth=10 下深度墙未 binding, 大概率以 max_nodes=719 停止 (干净测试)。
+脚本 q6_719_nodepth_analyze.py 落地前验证 (用原批 run json):
+- run json 结构: 有 rounds key, rounds[-1] 含 gain/frontier/low_gain_streak ✓ (脚本 d["rounds"][-1] 访问路径不会崩)
+- judge_run n_nodes_raw == 真实树 len(nodes) (351=351) ✓ (与之前 Q6 719 重验一致)
+- budget binding 检查 (max realized < 700 → 非干净测试) 能处理 max_nodes hit 场景 ✓
+- 跨域分箱用 q6-scan-scores.json 原批 cov (300 档是 cache-shared 0.1304, draft 用 rep-isolated 0.138 — provenance mix 已在 draft 标注, 形状结论 robust)
+- 结论: 脚本就绪, r1 落地后直接跑, 不需要再摸索。
