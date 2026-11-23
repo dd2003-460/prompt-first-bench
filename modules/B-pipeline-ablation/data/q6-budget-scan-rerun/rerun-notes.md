@@ -66,3 +66,10 @@
 - **与 gap_rate 发现同根因**: 检索模式 (cache 共享 vs 独立) 系统性改变模型行为 — 独立检索→信心高 (gap 少) + 检索准 (post 高) → metacog 系统性高。**两个发现互相印证, 共同指向: 检索模式是 metacog 轴 (含 gap_rate 和 post_retrieval 两个子轴) 的隐藏混杂变量**
 - **对论文 claim 的影响升级**: 不只 monitoring 轴 (gap_rate), 整个 metacog 轴的"跨域不变性"声明都带检索模式混杂 — 原批 83-run 语料全是 cache 共享模式。draft 里 metacog 轴的不变性声明需加检索模式限定, 或把检索模式作为新混杂变量进 draft
 - **n=2, r3 确认**: 若 r3 metacog 也 > 0.2227 → 均值偏移定论; 若 r3 回落 → n=2 巧合, 判读退回方差假设
+
+## draft 影响定位 (01:02) — 检索模式混杂的具体落点
+- **draft 文件**: experiments/stage-ablation/workshop-draft-metacog-20261122.md
+- **不变性声明位置**: L9 (findings 段, "the metacognition axis's invariance finding remains scoped to the rep-scan era") + L94 (provenance note, gap_rate ANOVA F(2,12)=0.036 全段)
+- **draft 已有的限定** (做得很细): rep-scan era 限定 / 8-pattern vs 22-pattern detector-scoped / realized-compute 回归 (cor=-0.034 ns) / 小分母 artifact 排除
+- **draft 没有的限定 = 本轮发现**: 检索模式 (cache 共享 vs 独立检索) 从未被声明为前提, 因为 83-run 语料 + 15 rep-scan 全是 cache 共享模式 — 不变性声明实际是"cache 共享检索模式下"的不变性, 隐含前提未显式化
+- **r3 落地后的 draft 动作**: 若 gap_rate 独立检索下持续 ~0 (n=3 确认) → §6 加一条 scope 限定: "the invariance claim is scoped to the cache-shared retrieval mode; independent-retrieval runs show systematically lower gap marking (0.000/0.01 vs 0.023-0.033) and higher post_retrieval (0.667/1.0 vs 0.400) — retrieval mode is a hidden confound for the metacog axis (gap + post components)"。不撤不变性声明, 加限定 (era/detector 先例同型)
