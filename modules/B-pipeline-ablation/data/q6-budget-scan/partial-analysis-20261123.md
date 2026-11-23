@@ -353,3 +353,11 @@ CUR 口径逐 rep:
 - **为何隔离批更高**: 实时搜索 degraded 率更高 → rework 更多 → 同 claim 重查更多 → run 内命中更多。是"检索质量差→rework 多"的副产物, 不是隔离失效
 - **隔离是否生效的正确判据 = 代码级保证**: cache key 含 rep:1 (research_hook.py:117 _REP_TAG) → 重跑批结构上无法命中预热 cache。CACHE-HIT 率对比是 apples-to-oranges, 不作隔离信号
 - **落地后看 rep 方差 (sd) 才是隔离的实证判据**, 不是命中率
+
+### ★ P1 基线修正: 原批 claim 级重叠率仅 4.7%/4.0%, cache 共享不锁分解树内容（23:50）
+- **实测** (q6_rerun_postlanding_analysis.py, MiniLM cosine≥0.85): 原批 300 r1×r2 = 4.7%, 719 r1×r2 = 4.0%
+- **推翻 P1 原预测**: 之前预测"重跑批重叠率 < 原批"是基于"原批重叠率高"的错误前提 (89-91% 是 id 伪影, 已撤回)
+- **真结论**: cache 共享**不锁分解树内容** — 它只影响 source 检索层 (CACHE-HIT 命中同一批 sources), 分解 LLM (temp=0.7) 每 rep 独立采样 → 节点 claim 内容 rep 间重叠本来就低 (4-5%)
+- **修正后 P1 判据**: 重跑批 ≈ 原批 (都 ~4-5%) → 证实 cache 共享不锁内容, rep 独立性在分解树层天然成立; 重跑批显著 < 原批 (<2%) → rep 独立性更高 (source 新鲜度也变了)
+- **P1 的真正作用**: 排除"cache 共享锁内容"这个替代解释, 让 P2 (sd 回升) 的归因干净 — 如果内容都锁了, sd 低就是 cache 的锅; 内容没锁 (4.7%), sd 低才需要 source 层解释
+- **postlanding 脚本已就绪**: q6_rerun_postlanding_analysis.py (P1 重叠率 + P2 sd+bootstrap CI + P3 域内 gold 后评), 落地一条命令出全部判据
