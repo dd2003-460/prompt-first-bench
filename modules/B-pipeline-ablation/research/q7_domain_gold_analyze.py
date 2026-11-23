@@ -78,14 +78,16 @@ for i in range(1, len(tiers)):
         sat = tiers[i]
         break
 
-# 跨题对比 (Q6 域内 gold 曲线, 来自 q6-gold-rescore.json + rerun)
+# 跨题对比 (Q6 域内 gold 的 cov 曲线 — 与 Q7 cov 轴同口径; 原批 q6-gold-rescore.json)
+# 注意: 原批 300 档三 rep 同分 0.1304 (cache 伪影, sd=0), rerun rep 隔离值 = 0.138
+# (见 draft §4.3 provenance 说明); 形状结论对 300 取 0.1304 或 0.138 均稳健 (单调)
 q6_cmp = None
 q6f = os.path.join(ROOT, "modules", "B-pipeline-ablation", "data", "q6-budget-scan", "q6-gold-rescore.json")
 if os.path.exists(q6f):
     q6 = json.load(open(q6f))
     q6_tiers = {}
     for r in q6:
-        q6_tiers.setdefault(r["budget"], []).append(r["total"])
+        q6_tiers.setdefault(r["budget"], []).append(r["cov"])
     q6_cmp = {b: round(statistics.mean(v), 4) for b, v in sorted(q6_tiers.items())}
 
 result = {
@@ -94,7 +96,7 @@ result = {
     "per_run": [recs[k] for k in sorted(recs)],
     "tier_summary": summary,
     "cov_saturation_point": sat,
-    "q6_total_curve_comparison": q6_cmp,
+    "q6_cov_curve_comparison": q6_cmp,
 }
 json.dump(result, open(OUT, "w"), ensure_ascii=False, indent=1)
 print(f"\n=== Q7 域内 gold 分析 ({len(gu)} units, n={len(recs)} runs) ===")
@@ -103,5 +105,5 @@ for b in tiers:
     print(f"  {b:>4}: n={s['n']} cov={s['cov_mean']:.4f} (sd {s['cov_sd']:.4f}) total={s['total_mean']:.4f} metacog={s['metacog_mean']:.4f} n_nodes={s['n_nodes_mean']}")
 print(f"cov 饱和点: {sat if sat else '未达 (全程增益 >= 0.01)'}")
 if q6_cmp:
-    print(f"Q6 total 曲线对比: {q6_cmp}")
+    print(f"Q6 cov 曲线对比 (原批口径, 300 档 cache 伪影 0.1304): {q6_cmp}")
 print(f"→ {os.path.basename(OUT)}")
