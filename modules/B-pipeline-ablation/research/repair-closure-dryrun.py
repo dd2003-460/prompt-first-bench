@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """补充46 固化: (c) repair 闭环事件级 dry-run
 
-draft §4.1 承重数字来源:
-  - 全局 3.7% (342/9196), no_source 4.9% (106/2184),
-    value_mismatch 1.7% (8/479), other 3.5% (228/6533)
-  - 节点级 6.0% (282/4698)
+draft §4.1 承重数字来源 (80-run corpus, 2026-11-23 重跑确认):
+  - 事件级: no_source 4.0% (116/2874), value_mismatch 2.4% (22/932),
+    other 2.8% (193/6894), global 3.1% (331/10702)
+  - 节点级 (rework_count>0, 最终 status): 3.7% (331/8870)
 
 方法 (与 ad-hoc 分析一致, 口径固定):
   失败模式分类用 run json 的 rework_events.reason (rework 前的 evidence,

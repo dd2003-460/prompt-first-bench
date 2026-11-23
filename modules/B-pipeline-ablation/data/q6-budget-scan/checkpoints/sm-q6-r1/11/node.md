@@ -1,4 +1,4 @@
-# N51: 单请求成本聚合公式：C_per_req = (C_total_monthly / N_requests_monthly)，其中N_requests_monthl
+# N35: P99 延迟目标值 $T$ 的估算方法：基于用户地理分布 $G(x)$ 的加权平均 RTT，若 90% 用户位于核心 3 区域（华东/华南/华北），且自建 PO
 
 - **status**: degraded
 - **level**: L2
@@ -9,18 +9,16 @@
 
 ## Claim
 
-单请求成本聚合公式：C_per_req = (C_total_monthly / N_requests_monthly)，其中N_requests_monthly = DAU * req_per_user_per_day * 30，req_per_user_per_day为每用户日均请求数（图片+短视频平台通常为20-50次），C_total_monthly为月度总成本（基础设施+带宽+运维+安全）。
+P99 延迟目标值 $T$ 的估算方法：基于用户地理分布 $G(x)$ 的加权平均 RTT，若 90% 用户位于核心 3 区域（华东/华南/华北），且自建 POP 覆盖这 3 区域，则 $T_{target} \approx 1.5 \times RTT_{core} + 5\text{ms}$，其中 $RTT_{core}$ 典型值为 20-30ms，故 $T_{target}$ 约为 35-50ms。
 
 ## Corrected Claim
 
-单请求成本聚合公式：C_per_req = (C_total_monthly / N_requests_monthly)，其中N_requests_monthly = DAU * req_per_user_per_day * 30，req_per_user_per_day为每用户日均请求数（需根据具体业务场景估算），C_total_monthly为月度总成本（基础设施+带宽+运维+安全）。
+P99 延迟目标值 $T$ 的估算方法：基于用户地理分布 $G(x)$ 的加权平均 RTT，若 90% 用户位于核心 3 区域（华东/华南/华北），且自建 POP 覆盖这 3 区域，则 $T_{target}$ 可近似估算为 $1.5 \times RTT_{core} + 5\text{ms}$（注：系数与常数项为经验值，需根据实际网络环境校准），其中 $RTT_{core}$ 典型值约为 20-30ms，故 $T_{target}$ 估算范围约为 35-50ms。
 
 ## Evidence
 
-[质询]经验参数缺乏来源支持：'req_per_user_per_day为每用户日均请求数（图片+短视频平台通常为20-50次）'属于具体的经验业务指标，参考来源均未提供该数值范围，且不同平台差异巨大，无法从第一性原理推导。 | 公式逻辑自洽（总成本/总请求数=单请求成本），来源[1]和[2]支持'单请求成本=总成本/请求数'或'全口径成本摊分'的概念，但均未覆盖'图片+短视频平台日均请求数20-50次'这一具体经验参数，故降级。
+[质询]该陈述包含具体的工程经验参数（如1.5倍系数、5ms固定开销、20-30ms核心RTT典型值），这些属于经验事实而非第一性原理可推导的数学或物理定律，且参考来源仅解释P99定义，未提供任何关于地理分布加权RTT估算方法或具体数值的支持。 | 逻辑自洽（1.5*20+5=35, 1.5*30+5=50），但参考来源[1]仅涉及P99定义，与具体估算公式及数值无关，属于经验事实且缺来源支持。
 
 ## Retrieval Sources
 
-- {'url': 'https://www.compassingai.com/concept/cost-per-query/&rut=bdc9fdd367a973d0df50135080103774dc48c8e0932f1b8278757bde987ec858', 'type': 'ddg', 'title': 'Cost per Query Cost per Query | Compassing AI 概念库'}
-- {'url': 'https://docs.pingcode.com/insights/xhhirw4p3xsphxmubgje94n6&rut=2a2f72541e6f643721fe46108e2fb27972c9e39c31f3f47cee8fca6351f69f5f', 'type': 'ddg', 'title': '单次LLM请求成本如何计算 - docs.pingcode.com'}
-- {'url': 'https://learn.microsoft.com/zh-cn/azure/cost-management-billing/automate/automation-overview&rut=7cb21ea60e09a7c1cd37ffc9940dcec06ba698322fd6948313fd49e05ac4246b', 'type': 'ddg', 'title': '成本管理自动化概述 - Microsoft Cost Management'}
+- {'url': 'https://zhuanlan.zhihu.com/p/608621390&rut=9fd29817021b056703c82108e143ee7bea18c9f317d69b9cd4ff0f8df2e0db6c', 'type': 'ddg', 'title': 'Prometheus 中是如何计算 P99 的？ - 知乎'}

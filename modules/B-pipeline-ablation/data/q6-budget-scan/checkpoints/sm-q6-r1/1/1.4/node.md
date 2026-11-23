@@ -1,24 +1,24 @@
-# N9: 混合策略技术可行性阈值：自建POP与公有云CDN之间的请求路由切换延迟 Δt_switch 需满足 Δt_switch ≤ ε，其中 ε 为可接受的路由抖动上限
+# N10: 时间峰值系数 $K_{peak}$ 定义为日峰值带宽与日均带宽之比，即 $K_{peak} = B_{peak} / B_{avg}$；对于 C 端媒体平台，典
 
 - **status**: verified
 - **level**: L2
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N1, N2, N3
+- **parent_ids**: N1
 
 ## Claim
 
-混合策略技术可行性阈值：自建POP与公有云CDN之间的请求路由切换延迟 Δt_switch 需满足 Δt_switch ≤ ε，其中 ε 为可接受的路由抖动上限（通常 < 5ms），否则混合策略因路由复杂性导致P99恶化
+时间峰值系数 $K_{peak}$ 定义为日峰值带宽与日均带宽之比，即 $K_{peak} = B_{peak} / B_{avg}$；对于 C 端媒体平台，典型 $K_{peak}$ 在 1.5 到 2.5 之间，需据此计算峰值带宽需求 $B_{peak} = (2 \text{ TB} / 86400 \text{ s}) \times K_{peak}$。
 
 ## Corrected Claim
 
-混合策略技术可行性阈值：自建POP与公有云CDN之间的请求路由切换延迟 Δt_switch 需满足 Δt_switch ≤ ε，其中 ε 为可接受的路由抖动上限（通常 < 5ms），否则混合策略因路由复杂性导致P99恶化
+时间峰值系数 $K_{peak}$ 定义为日峰值带宽与日均带宽之比，即 $K_{peak} = B_{peak} / B_{avg}$；对于 C 端媒体平台，典型 $K_{peak}$ 在 1.5 到 2.5 之间，需据此计算峰值带宽需求 $B_{peak} = (2 \text{ TB} / 86400 \text{ s}) \times K_{peak}$。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：混合CDN架构中，路由切换延迟若超过毫秒级（如5ms），确实会显著增加长尾延迟（P99），导致混合策略优势丧失，该阈值符合网络工程常识。
+先验知识/题面给定，逻辑校验通过：定义符合带宽工程常识，C端媒体平台峰值系数1.5-2.5属于典型经验范围，量纲与计算逻辑自洽。
 
 ## Search Query
 
-hybrid CDN self-built edge node routing switch latency overhead
+web traffic peak to average ratio media streaming

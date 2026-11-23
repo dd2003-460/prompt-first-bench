@@ -1,24 +1,24 @@
-# N8: 公有云CDN带宽峰值支持能力：公有云CDN单区域带宽峰值上限 B_cloud_max 需满足 B_cloud_max ≥ B_peak，其中 B_peak = 
+# N9: 用户地理分布函数 $G(x)$ 需量化为各区域（如华东、华南、华北、海外）的请求占比 $\alpha_i$，以决定自建 POP 点的选址权重及公有云 CDN 的
 
 - **status**: verified
 - **level**: L2
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N1, N2, N3
+- **parent_ids**: N1
 
 ## Claim
 
-公有云CDN带宽峰值支持能力：公有云CDN单区域带宽峰值上限 B_cloud_max 需满足 B_cloud_max ≥ B_peak，其中 B_peak = (2TB/8) / 86400 * 峰值系数 k_peak，k_peak通常取3-5
+用户地理分布函数 $G(x)$ 需量化为各区域（如华东、华南、华北、海外）的请求占比 $\alpha_i$，以决定自建 POP 点的选址权重及公有云 CDN 的流量分流比例；假设中国境内占比 90%，其中华东 40%、华南 30%、华北 20%。
 
 ## Corrected Claim
 
-公有云CDN带宽峰值支持能力：公有云CDN单区域带宽峰值上限 B_cloud_max 需满足 B_cloud_max ≥ B_peak，其中 B_peak = (2TB/8) / 86400 * 峰值系数 k_peak，k_peak通常取3-5
+用户地理分布函数 $G(x)$ 需量化为各区域（如华东、华南、华北、海外）的请求占比 $\alpha_i$，以决定自建 POP 点的选址权重及公有云 CDN 的流量分流比例；假设中国境内占比 90%，其中华东 40%、华南 30%、华北 20%。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：2TB/8/86400 约为 2.89 Mbps，乘以峰值系数 3-5 后约为 8.7-14.5 Mbps，量级合理且符合 CDN 带宽估算的基本逻辑。
+先验知识/题面给定，逻辑校验通过
 
 ## Search Query
 
-Alibaba Cloud CDN bandwidth limit per region peak traffic
+China internet user geographic distribution by region

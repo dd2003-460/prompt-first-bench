@@ -1,20 +1,28 @@
-# N22: 缓存容量匹配度 C_match = Cache_Size / (s_avg * N_unique_hot)，其中 N_unique_hot 为热点对象数；匹配度
+# N22: 自建节点运维人力成本：10 个 POP 点所需的 SRE/网络工程师 FTE 数量及人均年薪（¥/年），基于每节点平均故障响应时间与监控复杂度估算。
 
-- **status**: verified
+- **status**: degraded
 - **level**: L2
-- **source**: knowledge
+- **source**: search
 - **edge_type**: cartesian
-- **rework_count**: 0
+- **rework_count**: 1
 - **parent_ids**: N5
 
 ## Claim
 
-缓存容量匹配度 C_match = Cache_Size / (s_avg * N_unique_hot)，其中 N_unique_hot 为热点对象数；匹配度 <1 时命中率显著下降
+自建节点运维人力成本：10 个 POP 点所需的 SRE/网络工程师 FTE 数量及人均年薪（¥/年），基于每节点平均故障响应时间与监控复杂度估算。
 
 ## Corrected Claim
 
-缓存容量匹配度 C_match = Cache_Size / (s_avg * N_unique_hot)，其中 N_unique_hot 为热点对象数；匹配度 <1 时命中率显著下降
+自建节点运维需要配置SRE/网络工程师团队，其人力成本取决于POP点数量、故障响应SLA及监控复杂度，具体FTE数量和人均年薪需根据实际业务规模和市场薪资水平估算。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+[质询]该陈述包含具体的经验性数值（FTE数量、人均年薪），属于经验事实，无法从第一性原理推导。参考来源仅讨论SRE云成本管理的宏观概念（FinOps、成本可见性等），未提供针对“10个POP点”的具体人力配置标准或薪资数据，存在来源与具体数值不匹配的问题。 | 逻辑上自建节点确实需要SRE/网络工程师支持，但具体FTE数量和年薪属于经验事实，参考来源[1]仅涉及SRE成本管理概念，未提供具体数值支持，故降级为定性表述。
+
+## Search Query
+
+CDN edge node SRE headcount cost per POP point network engineer salary
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1954959195670549058&rut=598b65fc99232ce75b8454f81037e5a927dd55ea107c65a7da36c456e6607970', 'type': 'ddg', 'title': '雅菲奥朗SRE知识墙分享（十）：『SRE云成本管理的定义与实践』'}

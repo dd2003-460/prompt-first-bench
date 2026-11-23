@@ -1,4 +1,4 @@
-# N16: 基础设施OPEX：自建节点的年运维成本 = N_POP * (C_power + C_maintenance + C_upgrade)，其中C_power为电力
+# N12: 缓存命中率 $H$ 决定回源流量比例，回源带宽成本占比为 $(1-H)$；对于媒体平台，静态资源缓存命中率通常在 90%-95% 之间，需根据内容热度分布（Zi
 
 - **status**: verified
 - **level**: L2
@@ -9,16 +9,16 @@
 
 ## Claim
 
-基础设施OPEX：自建节点的年运维成本 = N_POP * (C_power + C_maintenance + C_upgrade)，其中C_power为电力成本（约¥10k-30k/点/年），C_maintenance为设备维护成本（约¥5k-15k/点/年），C_upgrade为硬件升级成本（约¥10k-20k/点/年）
+缓存命中率 $H$ 决定回源流量比例，回源带宽成本占比为 $(1-H)$；对于媒体平台，静态资源缓存命中率通常在 90%-95% 之间，需根据内容热度分布（Zipf 分布）估算 $H$ 值。
 
 ## Corrected Claim
 
-基础设施OPEX：自建节点的年运维成本 = N_POP * (C_power + C_maintenance + C_upgrade)，其中C_power为电力成本（约¥10k-30k/点/年），C_maintenance为设备维护成本（约¥5k-15k/点/年），C_upgrade为硬件升级成本（约¥10k-20k/点/年）
+缓存命中率 $H$ 决定回源流量比例，回源带宽成本占比为 $(1-H)$；对于媒体平台，静态资源缓存命中率通常在 90%-95% 之间，需根据内容热度分布（Zipf 分布）估算 $H$ 值。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+先验知识/题面给定，逻辑校验通过：缓存命中率H与回源流量比例(1-H)在定义上互补，媒体平台静态资源因内容热度长尾分布（Zipf）通常具有高命中率（90%-95%），符合工程常识与逻辑自洽。
 
 ## Search Query
 
-CDN edge node OPEX annual cost breakdown
+CDN cache hit ratio media content zipf distribution
