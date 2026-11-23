@@ -1364,3 +1364,45 @@ within-source (knowledge) + within-gap 对比，[待核验] 标签是触发检�
 ### 脚本
 
 本轮 inline（特征对比 + 分层 z），固化进 claim-evidence-separation.py 的扩展
+
+## 补充46 — (c) repair 闭环诊断：rework 用错了失败模式 (2026-11-23)
+
+**问题**：(c) repair 闭环"断在最后一步修复"（rework 只修 1.6-2.1%），但 rework 机制本身（rework_angle / rework_directed）存在且执行了。为什么修不好？
+
+**方法**：10359 节点 corpus（archive 全量），按失败模式 × rework 状态交叉统计。失败模式用 evidence 文本正则分类（value_mismatch / no_source / partial / llm_error / other）。
+
+**结果**（分母 = 所有 rework_count>0 节点，4698 个）：
+
+| 失败模式 | rework 数 | 修复数 | fix_rate | 占 rework 失败 % |
+|---|---|---|---|---|
+| no_source | 3187 | 0 | 0.0% | 72.2% |
+| value_mismatch | 588 | 0 | 0.0% | 13.3% |
+| other | 567 | 0 | 0.0% | 12.8% |
+| partial | 43 | 0 | 0.0% | 1.0% |
+| llm_error | 31 | 0 | 0.0% | 0.7% |
+| **post_fix (最终 verified)** | **282** | **282** | **100%** | — |
+| **全局** | **4698** | **282** | **6.0%** | — |
+
+**诊断**：
+1. **72% 的 rework 浪费在 no_source 节点上**（3187/4416 失败 rework）。对"没有来源"的节点做 rework_angle（换角度重搜）是结构性无效——没有来源的节点换角度也搜不到来源。这不是 rework 机制的问题，是触发条件的问题。
+2. **value_mismatch（13.3%）理论上可修**（有矛盾证据 → 定向修正 rework 应该能修），但 588 个全部 0 修复。可能原因：(a) 定向修正的 LLM 调用质量不够（27b 判哪边可信的能力有限）；(b) 矛盾证据本身不够明确（"量级错误"但没给正确值）。
+3. **6.0% 的全局修复率**（282/4698）比之前 era-scoped 的 1.6-2.1% 高，因为 282 个 post_fix 节点跨了所有 era。1.6-2.1% 是 K7/sm-era 子集的口径，6.0% 是全 corpus 口径。两个都对，分母不同。
+
+**Dry-run 修正（同轮，事件级口径）**：用 run json 的 rework_events.reason（**rework 前**的 evidence，比节点最终 evidence 更准——后者被 rework 覆盖了）分类失败模式，join 节点最终 status：
+
+| 失败模式 (rework 前) | attempts | fixed | fix_rate |
+|---|---|---|---|
+| no_source | 2184 | 106 | **4.9%** |
+| other | 6533 | 228 | 3.5% |
+| value_mismatch | 479 | 8 | **1.7%** |
+| 全局 | 9196 | 342 | 3.7% |
+
+**推翻上面的"用错对象"诊断**：no_source 修复率（4.9%）反而最高，value_mismatch 最低（1.7%）。原因：
+- no_source 大多是"这次检索没找到来源"（query 不好/通道问题），不是"来源不存在"——换角度重搜（rework_angle）第二次能搜到，4.9% 合理。
+- value_mismatch 需要定向修正（LLM 判哪边可信 + 产出 corrected claim），27b 做不好，1.7% 是能力瓶颈不是触发条件问题。
+
+**修正后的 (c) 诊断**：rework 修复率低是**全局性的**（3.7%），瓶颈在修复能力（27b 定向修正 + 检索通道），不在触发条件。重设计方向不是"少 rework no_source"，而是：(a) value_mismatch 节点接受不可修、直接 degraded（省 479 次无效尝试）；(b) no_source 的 rework_angle 是唯一有正收益的路径（4.9%），保留；(c) 真正的修复能力升级需要更强模型做定向修正（27b 上限）。
+
+**与论文的关系**：§4.1 finding (1) "repair closure absent" 细化为 "repair closure exists but low-yield (3.7% global fix rate, bottleneck = 27b directed-fix capability, not trigger targeting)"。
+
+**脚本**：本分析为 ad-hoc（未固化脚本），数据源 = archive 全量 node.json。
