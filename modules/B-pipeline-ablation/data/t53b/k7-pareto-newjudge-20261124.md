@@ -678,3 +678,9 @@ v6 声称 "gain-cov 脱钩是 breadth-without-depth 的机制签名" — 推理�
 - **marginal-yield 口径 (L561)**: r1 = −0.0109/200, r2 = +0.0435/200 (手推 +0.0146 是错的, 已修)。
 - **draft 8 处 r1 单点声明降级为 "n=2 方向未定"** (commit d258eaaeb): §4.3 主体 2 处 + hit-set 段 + stopping-state + marginal-yield + headline + abstract + related work + §7 data note (a)/(d)。残留扫描 0 (合理语境除外)。
 - **r3 在跑** (PID 34766, 07:48 活跃); 队列 relay_v2 PID 34249 活着 → r3 后接 Q7 扫描 (~11h)。
+
+## Q7 预检 + 分析脚本 n<3 保护 (2026-11-24 07:55-08:05)
+
+- **Q7 扫描预检全过**: gold-q7-units.json 52 units ✓ / 题面 Q7-storage-arch.txt ✓ / 脚本三坑已处理 (Q6_REP cache 隔离 / /usr/bin/python3 / 评分 stderr 落盘)。relay_v2 phase 2 自动启动, 15 runs ~11h。
+- **分析脚本 n<3 保护 (commit 8a3dc13c2)**: 预跑 q6_719_nodepth_analyze.py 发现跨域 verdict 在 n=2 时输出 "仍升→域依赖" (delta_xd=+0.0819>1×sd 0.0374) — r2=0.2391 离群点单点驱动, recs 端 n=2 时 mean sd 只有 1 自由度, 噪声底低估。与 draft §4.3 "n=2 方向未定" 降级矛盾。修: len(recs)<3 时 verdict 输出 "方向未定, r3 定论"。重跑验证通过。r3 落地后 watchdog (proc_be1ea52a7035) 自动跑此脚本出 n=3 定论。
+- **matched 批记账核验闭环**: cc-state-sm-matched.json 30/30 done + results-sm-matched.json 30 runs 对账 + stale active 标志已清 (11-24 已记账), 子项① 实际完成。
