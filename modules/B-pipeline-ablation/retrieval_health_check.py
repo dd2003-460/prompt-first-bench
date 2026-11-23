@@ -44,6 +44,9 @@ def main():
     if args and args[0] == "--dir":
         d = args[1]
         for rj in sorted(glob.glob(os.path.join(d, "rep-*.json"))):
+            # 只匹配 run 文件 (rep-100-r4-*.json), 跳过 rep-scan-scores.json 等非 run json
+            if not re.search(r"rep-\d+-r\d+-\d{8}-\d{6}\.json$", rj):
+                continue
             rs = re.sub(r"-\d{8}-\d{6}\.json$", ".stdout", rj)
             rows.append(check_one(rj, rs))
     else:
