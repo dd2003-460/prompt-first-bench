@@ -395,3 +395,18 @@ nodepth 脚本 36/46-unit 混箱 bug 是个模式, 系统性排查谁还在混:
 **发现**: 脚本两处判定 (墙对照 delta / 跨域 delta_xd) 用固定阈值 0.01, 但原批 15 棵 cov 的 pooled sd=0.0496 → delta 的 1×sd ≈ 0.031-0.035 (n=3 拆墙 vs n=15 原批)。0.01 < 噪声底 — r1 落地后若 delta 落在 (0.01, 0.031) 区间, 脚本会判"仍升/墙压制", 实际是噪声内的波动。
 **修复**: 两处阈值都换成数据驱动的 1×sd (墙对照: 原批 719 三 rep [0.1304, 0.1739, 0.1957] 的 sd → 1×sd≈0.035; 跨域: low 段 cov 的 sd → 1×sd≈0.031), 判定文本带出实际阈值。
 **影响**: 不影响数据, 只影响 r1 落地后的判定 robustness。若拆墙批 delta 真 > 0.035, 判定不变; 若在 (0.01, 0.035), 旧脚本误判"仍升", 新脚本正确归"噪声内/平台化"。
+
+## D 方法论三问 (2026-11-24 05:25) — judge 客观性 / general 合法性 / 成本+信息获取
+
+D 三问 (原文): ①机械 judge 域特定 (特殊化), 怎么保证客观, 给其他 AI 跑一遍吗? ②不 general 的 bench 能有什么 general 发现, 怎么证明? ③别的 workshop 都要跑不同 bench, DRB judge 付费 API, 深度推理和信息获取问题似乎没解决?
+
+**回答落盘** (qanda-ledger 2026-11-24 节):
+- Q1: judge 机制 general (embedding+确定性+无 self-bias), 域特定的是 gold。"给其他 AI 跑一遍"若指 LLM 交叉打分 = 降级回 LLM judge, 方向反。真 gap = 独立 gold 构建对照没做。
+- Q2: general 发现 = 跨域复现的形状 (饱和点存在+域依赖), 不是单域绝对值; 合法性 = 同机制换 gold 比形状。潜台词成立: general 用人工 gold 劳动换来, 每域重建。
+- Q3: 机械 judge 边际成本≈0 (judge_v1 只有 model.encode, 零 LLM/API, 已 grep 验证); gold 构建成本随域线性。信息获取 = 真 gap (judge 测输出树不测检索质量, retrieval_rate channel-outage 时盲)。
+
+**实证补强 (进行中)**: judge_objectivity_perturbation.py — 不答"gold 对不对"(需独立 gold 对照), 答"给定 gold, cov 对 gold 扰动/阈值选择是否稳健":
+- A. gold 随机删 10% (5 seeds) → |Δcov| vs 噪声底
+- B. cos_threshold 0.75±0.05 → |Δcov|
+- C. 承重 cor(cov, n_nodes) 在 gold 扰动下是否保持
+- 对象: GPU K7 15 棵 archive 树。后台跑 (bge-m3 加载慢), 结果待回填。
