@@ -334,3 +334,8 @@ CUR 口径逐 rep:
 - **metacog 轴完全干净**: compute_metacog 不依赖 gold (gap/ret/post 从 run 自身 nodes 算)
 - **绝对分仍是跨域噪声**: 落地后域内口径用 judge_v1 --gold-units gold-q6-units.json 后评 (同 Q7 流程, gold 文件已建)
 - **结论: 重跑批无需改脚本** (改运行中脚本=风险>收益), sd 判据 + metacog 判据均有效
+
+### ETA 修正: 重跑批 ~7-9h (非 4.5h), 全链路 2.5-3 天（23:31）
+- **节奏对比**: 原批 300-r1 r1→r2 12.8min (预热 cache), 重跑批 14.0min (实时搜索); 原批 30min 到 300 节点, 重跑批 19min 才 89 节点 (每节点实时 arxiv ~12s 无 cache 加速)
+- **修正**: 300-r1 ~70-90min/run × 6 runs ≈ 7-9h; Q7 15 runs 再排后 → 全链路 2.5-3 天
+- **不影响判据**: 慢是 source 新鲜度混杂的代价 (实时搜索), 正是 rep 独立性验证需要的
