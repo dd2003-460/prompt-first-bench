@@ -312,3 +312,12 @@ judge_run + Q6 gold（46 units）+ 真实树 len(nodes)：r1 n=351 cov=0.1739 / 
 - 719 档 tier mean = (0.174+0.196+0.130)/3 = 0.167 ✓（与 draft 一致）。
 - 注意：compaction 摘要里的 "r1=0.130, r2=0.174, r3=0.196" 是 rep 标签错位（按节点数顺序贴了 rep 号），实际 r1=351, r2=379, r3=197。draft 用的是节点数→cov 映射（非 rep 标签），所以 draft 本身正确。
 - 第一次后台跑用错解释器（系统 python3 无 sentence_transformers），换 /usr/bin/python3（队列脚本同款）成功。
+
+## 全文口径一致性扫描 (2026-11-24 05:05, commit 6d95ac20b)
+
+era confound 降级后做全 draft 扫描 (nominal 档标注的 depth/cov 声明逐一核对上下文是否已口径化)。发现 3 处漏网:
+1. abstract "719 buys ~700 nodes vs ~380 at 150" — nominal 档 max-rep 对比 (747 vs 392), pre-clamp 下 nominal 标签与 realized 不单调对应 (150 档 max 392 > 719 档 min 381), 且与同段已改好的 realized 轴声明矛盾 → 改为 "realized node count spans 103–747 across the GPU tiers (pre-clamp soft cap...)" (K7 ground truth: min 103 @50-r1, max 747 @719-r3)。
+2. §4.3 provenance note "rises to 300 then plateaus" — nominal 档表述 → 改为 "rises toward the nominal-300 tier (where realized counts first reliably reach the ~400-realized-node plateau) then plateaus on the realized-node-count axis"。
+3. §4.3 breadth-vs-depth "~700 nodes (tier 719) vs ~380 (tier 150)" — 同 1 的 nominal 对比 → 改为 103–747 span + pre-clamp 重叠标注。
+另: 初版修复里 "~120–460 realized nodes" 的 nominal→realized 映射不干净 (pre-clamp 下 100 档 123–314 与 300 档 364–462 重叠, 区间端点混两批) → 删掉伪精确映射, 改标 pre-clamp 重叠。
+扫描后: 括号差 0, 0 TODO, 98147 字符。draft 现无 nominal 档口径的承重声明残留。
