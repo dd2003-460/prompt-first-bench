@@ -513,3 +513,17 @@ nd-r1 (719 realized, cov 0.1304) 加进 Q6 15 点 realized 轴:
 - **draft 核心 claim 推进**: "饱和点 ~400 realized 节点" 从 GPU 域特有 → 跨域复现 (Q6 n=1, 400-600 箱空, r2/r3 定论)
 - draft 旧句 "saturation point is either above 719 or does not exist" 已改为 "bracketed at ~400 by first wall-free rep (n=1, suggested not established)"; 旧句 "GPU-domain-specific, not a universal law" 改为 "was initially GPU-domain-specific (wall-bound 719 tier appeared to keep rising)"
 - 口径: 46-unit Q6 gold (q6-gold-rescore.json 15 棵 + nd-r1 现算), n_nodes = realized (50-300 = nominal post-clamp, 719 = 墙切 197/351/379)
+
+## r2/r3 落地前预计算: Q6 平台 claim 对 r2 取值 robust (2026-11-24 06:30)
+
+r2 在跑 (N144/719, ~2h 后落地)。预计算 17 点曲线 3 种 scenario (r2 取原批 719 三 rep 的 cov):
+- r2=0.1304 (同 nd-r1): cor=0.592, 600-800 箱 n=2 mean=0.1304, vs 200-400 (0.1522) Δ=-0.0218 → 回落
+- r2=0.1739 (同 orig-r1): cor=0.686, 600-800 箱 n=2 mean=0.1522, Δ=0.0000 → 持平
+- r2=0.1957 (同 orig-r2): cor=0.719, 600-800 箱 n=2 mean=0.1631, Δ=+0.0109 → 持平
+**关键: 3 种 scenario 下 600-800 箱都不高于 200-400 箱** (最极端 Δ=+0.0109 < 噪声底 0.031)
+→ **Q6 平台 claim 对 r2 取值 robust (在原批观测范围内)**: r2/r3 只决定平台强度 (Δ 大小), 不决定方向 (是否回落/持平)
+极端 case (r2=r3=0.1957 全最高): 600-800 箱 n=3 mean=0.1739, vs 200-400 (0.1522) Δ=+0.0217, 仍在噪声底内
+判据:
+- 跨域饱和 ~400 成立: r2/r3 的 719 点 cov ≤ 0.1522 (200-400 箱均值)
+- 域依赖成立: r2/r3 的 719 点 cov > 0.1957 (原批最高 rep) — 但即使如此 Δ 也在噪声底内
+- 噪声底: sd≈0.031 (原批 3 rep)
