@@ -39,7 +39,7 @@ f, budget, rep, wall, out = sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), int
 try:
     rj = judge_run(f)
     rm = compute_metacog(load_run_nodes(f))
-    rec = {"budget": budget, "rep": rep, "wall_s": wall, "n_nodes": rj["n_nodes"],
+    rec = {"budget": budget, "rep": rep, "wall_s": wall, "n_nodes": rj["n_nodes_raw"],
            "judge": {"total": rj["total_score"], "depth": rj["layers"]["structure"]["depth_score"], "cov": rj["layers"]["coverage"]["coverage"]},
            "metacog": {"total": round(rm["metacog_total"],4), "gap": round(rm["gap_rate"],4), "ret": round(rm["retrieval_rate"],4), "hg": round(rm["healthy_gap_rate"],4), "post": round(rm["post_retrieval_accuracy"],4)}}
     scores = json.load(open(out)) if os.path.exists(out) else []
