@@ -30,7 +30,8 @@ D 2026-11-23 纠正："gpu题目的机械判定只能证明这方面没有llm ju
     先跑 coverage 轴即可验证"曲线形状跨域成立"，L1 层可后置。
   - **B1 已完成并验证（2026-11-23）**：`gold_md_to_units.py` 解析 markdown gold →
     structured units（unit_id/depth/raw/text/kind/stop_marker/share）。**Q6-Q10 全部 5 棵
-    验证通过**（Q6 46 units share 全对 / Q7 48 / Q8 36 / Q9 34 / Q10 36，kind=None 全 0）。
+    验证通过**（Q6 46 / Q7 52 / Q8 36 / Q9 34 / Q10 36 units；Q6/Q7 各有 4 个 kind=None，
+    其余 0 —— 2026-11-23 重跑核验，源文档旧记 "Q7 48 / kind=None 全 0" 有误）。
     续行修复：Q8 的 leaf 标记常在节点第二行，解析器从续行补 kind+text（修复前 Q8 有 21 个
     kind=None）。Q6/Q7 各有 4 个 None 是 gold 源"合同与风险(nuisance)"分支本身无
     leaf/split 标记（gold 格式约定，非解析器 bug；coverage 层只读 text，不受影响）。
