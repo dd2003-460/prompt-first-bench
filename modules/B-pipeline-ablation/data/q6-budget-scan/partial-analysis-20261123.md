@@ -46,4 +46,4 @@
 ## 剩余（20:55 更新）
 - 300×3 已完成（r3 20:44 落地）; 719×3 在跑（r1 进行中, pid 11929 队列）
 - 719 是大预算, 粗估 5-6h 后全完
-- 完成后: ① q6_full_analysis.py 出全量方差+CI ② 修 cache key 含 rep 后重跑 300/719 验证方差 ③ 队列评分块 stderr 落盘（修 `2>/dev/null` 吞异常）
+- 完成后: ① q6_full_analysis.py 出全量方差+CI（脚本已含 CI/Welch, f16fd1fc9）② **cache key 修复已完成（21:02, research_hook.py _REP_TAG）**: Q6_REP 环境变量非空时 key 含 rep, 不设=与旧版逐字节一致（已验证）; 重跑 300/719 时队列 export Q6_REP=<rep> 即可 ③ 队列评分块 stderr 落盘（修 `2>/dev/null` 吞异常, 一行改动）

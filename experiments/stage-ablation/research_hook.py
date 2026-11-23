@@ -110,8 +110,16 @@ _SITE_RESTRICT = (" ".join(f"site:{d}" for d in [
 
 
 
+# 2026-11-23: rep 独立性修复 — cache key 原来只含 qid+question，同题多 rep
+# 在 TTL 内共享 source 缓存 → rep 方差被压低（见 q6-budget-scan partial-analysis）。
+# Q6_REP 环境变量非空时 key 含 rep 标识（各 rep 独立检索）；不设 = 行为与旧版完全一致
+# （不影响在跑队列和已有缓存条目）。队列脚本重跑 rep 时 export Q6_REP=<rep> 即可。
+_REP_TAG = os.environ.get("Q6_REP", "").strip()
+
+
 def _cache_path(qid, question):
-    h = _hashlib.sha256(f"{qid}\x00{question}".encode()).hexdigest()[:24]
+    key = f"{qid}\x00{question}" + (f"\x00rep:{_REP_TAG}" if _REP_TAG else "")
+    h = _hashlib.sha256(key.encode()).hexdigest()[:24]
     return os.path.join(_CACHE_DIR, f"{h}.json")
 
 
