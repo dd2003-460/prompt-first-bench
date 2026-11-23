@@ -91,9 +91,11 @@ out = {
 #       cor=0.563); Q6 域在 ≤379 realized 节点仍升 (tier means 0.058→0.167)。
 # 本批给 Q6 在 ~719 realized 节点的数据点: 平台 → 两域都平台但位置不同 (GPU ~400 < Q6 ~719, 仍域依赖);
 # 继续升 → GPU ~400 饱和而 Q6 到 719 未饱和 (强域依赖)。
-# 口径: Q6 域内 gold (46 units), cov 取 q6-scan-scores.json (同 judge 同 gold), n_nodes 用真实树 len(nodes)。
-# 注意: 跨域绝对 cov 不可比 (gold 不同), 只比形状 (平台 vs 上升)。
-scores_path = os.path.join(ROOT, "modules", "B-pipeline-ablation", "data", "q6-budget-scan", "q6-scan-scores.json")
+# 口径: Q6 域内 gold (46 units), cov 取 q6-gold-rescore.json (46-unit in-domain 重评, n_nodes 与真实树 15/15 一致);
+#       n_nodes 用 judge 的 n_nodes_raw (同棵树, 与 Q6 nodepth 脚本一致)。
+# !! 2026-11-24 修复: 原用 q6-scan-scores.json, 其 cov 是 36-unit 标度 (唯一值 0/1/2/3 除以 36 = GPU gold 跨域打分),
+#    与拆墙批的 46-unit cov 混箱会报废跨域形状对比 — 已换成 q6-gold-rescore.json (46-unit, 1/46=0.0217, 6/46=0.1304, 8/46=0.1739)。
+scores_path = os.path.join(ROOT, "modules", "B-pipeline-ablation", "data", "q6-budget-scan", "q6-gold-rescore.json")
 orig = []
 if os.path.exists(scores_path):
     for r in json.load(open(scores_path)):
@@ -101,7 +103,7 @@ if os.path.exists(scores_path):
         if not f:
             continue
         d = json.load(open(f[0]))
-        orig.append({"budget": r["budget"], "rep": r["rep"], "n_nodes": len(d.get("nodes", [])), "cov": r["judge"]["cov"]})
+        orig.append({"budget": r["budget"], "rep": r["rep"], "n_nodes": len(d.get("nodes", [])), "cov": r["cov"]})
 allq6 = sorted(orig + [{"budget": "nd719", "rep": r["rep"], "n_nodes": r["n_nodes"], "cov": r["cov"]} for r in recs],
                key=lambda x: x["n_nodes"])
 bins = []
