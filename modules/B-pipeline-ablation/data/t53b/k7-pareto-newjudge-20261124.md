@@ -637,3 +637,17 @@ v2-v5 的机制推理链有个隐含前提错误: "模型总想展开 (gain 高)
 → draft 3 处 "model wants to expand / model doesn't know" 错误归因已修 (commit ffafc2331)
 → **机制反而更精确了**: gain (词面新颖度, 每 stop 都高) 与 cov (内容覆盖, ~400 后塌) 的**脱钩**本身就是 breadth-without-depth 的机制签名 — 状态机持续产出"措辞新"的 claim (低 n-gram 重叠) 但不命中新 gold 内容
 → 平台是 harness 性质 (词面指标与覆盖指标的脱钩), 不是模型认知性质 (模型"不知道") — 结论方向不变, 归因从模型认知改到 harness 指标层
+
+## 机制锚 v7: v6 "gain-cov 脱钩" 声明被域内检验证伪 (2026-11-24 07:35, 46 树配对)
+
+v6 声称 "gain-cov 脱钩是 breadth-without-depth 的机制签名" — 推理出来没检验。
+直接检验 (46 树: GPU 30 + Q6 16, final-round gain vs 整树 cov 配对):
+- **GPU 域内: cor(final_gain, cov) = +0.505 (t=+3.09, df=28, p<0.01) — 显著正相关, 不是脱钩**
+- Q6 域内: +0.131 (t=0.49, ns)
+- 全池: −0.299 (t=-2.07) — **Simpson 悖论**: 跨域 gold 标度不同 (Q6 cov 标度低 + gain 偏高), 混池符号翻转
+→ **v6 的 "机制签名" 声明被域内数据直接证伪** (commit 7819cd984 已修)
+→ 正确读法: breadth-without-depth 是**边际 (高预算区) 效应**, 不是跨树 gain-cov 独立 —
+  ~400 节点后 novelty 仍高 (gain 0.86-0.958) 但边际覆盖收益 ~0, 限定在边际层面
+→ 教训: v6 是 "推理出机制签名 → 没做直接检验 → 域内一算就翻" 的实例;
+  机制声明必须带直接检验 (cor/ANOVA), 不能只靠 "A 现象 + B 现象 → 所以 A-B 脱钩" 的推理
+→ 11 棵 Q6 树 (gain>0.9 且 cov<0.15) 是 "词面新但不命中 gold" 的直接实例 (边际效应的树级证据)
