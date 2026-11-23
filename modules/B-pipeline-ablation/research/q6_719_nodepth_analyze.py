@@ -85,5 +85,56 @@ out = {
     "note": "原批 719 撞 max_depth=4 墙 (停止时 gain 0.889-0.909 + frontier 54-94 + streak=0 → actively binding); "
             "本批 max_depth=10 拆墙, 是 draft 跨域段'Q6 到 719 仍升'是下界还是真实值的 clean test",
 }
+
+# --- 跨域决定性测试 (2026-11-24 era confound 降级后补入) ---
+# 问题: 饱和点是否域依赖? GPU 域 cov 在 ~400 realized 节点后平台化 (30 树分箱 0.250/0.325/0.361/0.361,
+#       cor=0.563); Q6 域在 ≤379 realized 节点仍升 (tier means 0.058→0.167)。
+# 本批给 Q6 在 ~719 realized 节点的数据点: 平台 → 两域都平台但位置不同 (GPU ~400 < Q6 ~719, 仍域依赖);
+# 继续升 → GPU ~400 饱和而 Q6 到 719 未饱和 (强域依赖)。
+# 口径: Q6 域内 gold (46 units), cov 取 q6-scan-scores.json (同 judge 同 gold), n_nodes 用真实树 len(nodes)。
+# 注意: 跨域绝对 cov 不可比 (gold 不同), 只比形状 (平台 vs 上升)。
+scores_path = os.path.join(ROOT, "modules", "B-pipeline-ablation", "data", "q6-budget-scan", "q6-scan-scores.json")
+orig = []
+if os.path.exists(scores_path):
+    for r in json.load(open(scores_path)):
+        f = glob.glob(os.path.join(ROOT, f"modules/B-pipeline-ablation/data/q6-budget-scan/q6-{r['budget']}-r{r['rep']}-*.json"))
+        if not f:
+            continue
+        d = json.load(open(f[0]))
+        orig.append({"budget": r["budget"], "rep": r["rep"], "n_nodes": len(d.get("nodes", [])), "cov": r["judge"]["cov"]})
+allq6 = sorted(orig + [{"budget": "nd719", "rep": r["rep"], "n_nodes": r["n_nodes"], "cov": r["cov"]} for r in recs],
+               key=lambda x: x["n_nodes"])
+bins = []
+for lo, hi in [(0, 100), (100, 200), (200, 300), (300, 400), (400, 800)]:
+    sel = [r["cov"] for r in allq6 if lo <= r["n_nodes"] < hi]
+    bins.append({"bin": f"{lo}-{hi}", "n": len(sel), "mean": round(sum(sel) / len(sel), 4) if sel else None})
+nd_covs = [r["cov"] for r in recs]
+low_covs = [r["cov"] for r in allq6 if r["n_nodes"] < 400]
+delta_xd = (statistics.mean(nd_covs) - statistics.mean(low_covs)) if nd_covs and low_covs else None
+if max(r["n_nodes"] for r in recs) < 700:
+    budget_note = f"注意: 拆墙批最大 realized={max(r['n_nodes'] for r in recs)} < 700 — run 在预算前停止 (自然收敛或 depth-10 墙), 不是干净的 ~719 预算测试"
+else:
+    budget_note = f"拆墙批 realized {min(r['n_nodes'] for r in recs)}/{max(r['n_nodes'] for r in recs)}, 预算 719 为 binding 约束"
+if delta_xd is None:
+    xd_verdict = "无法判定 (缺数据)"
+elif delta_xd > 0.01:
+    xd_verdict = f"Q6 在 ~719 realized 节点仍升 (Δ={delta_xd:+.4f} vs ≤379 段) → 饱和点域依赖: GPU ~400 饱和, Q6 到 719 未饱和"
+elif delta_xd < -0.01:
+    xd_verdict = f"异常: Q6 在 ~719 realized 节点反降 (Δ={delta_xd:+.4f}) — 需查 (max_depth=10 改变展开策略?)"
+else:
+    xd_verdict = f"Q6 在 ~719 realized 节点平台化 (Δ={delta_xd:+.4f}) → 两域都平台但位置不同 (GPU ~400 < Q6 ~719), 位置仍域依赖"
+print(f"\n=== 跨域决定性测试 (realized-node-count 轴) ===")
+print(f"Q6 全曲线分箱 (原批 15 + 拆墙 {len(recs)}): " + " / ".join(f"{b['bin']}: {b['mean']} (n={b['n']})" for b in bins))
+print(f"{budget_note}")
+print(f"跨域判定: {xd_verdict}")
+
+out["cross_domain"] = {
+    "q6_bins_by_realized": bins,
+    "delta_nd_vs_low": round(delta_xd, 4) if delta_xd is not None else None,
+    "budget_binding_note": budget_note,
+    "verdict": xd_verdict,
+    "gpu_reference": "GPU 30 树分箱 0.250/0.325/0.361/0.361 (0-200/200-400/400-600/600-800), 平台 ~400 realized 节点, cor=0.563 (K7 2026-11-24)",
+    "caveat": "跨域绝对 cov 不可比 (Q6 46-unit gold vs GPU 36-unit gold), 只比形状",
+}
 json.dump(out, open(OUT, "w"), ensure_ascii=False, indent=1)
 print(f"\n落盘 {OUT}")
