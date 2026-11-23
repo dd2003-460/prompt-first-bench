@@ -527,3 +527,14 @@ r2 在跑 (N144/719, ~2h 后落地)。预计算 17 点曲线 3 种 scenario (r2 
 - 跨域饱和 ~400 成立: r2/r3 的 719 点 cov ≤ 0.1522 (200-400 箱均值)
 - 域依赖成立: r2/r3 的 719 点 cov > 0.1957 (原批最高 rep) — 但即使如此 Δ 也在噪声底内
 - 噪声底: sd≈0.031 (原批 3 rep)
+
+## 跨域 ~400 平台点的机制锚 (2026-11-24 06:40, 停止状态对照)
+
+~400 realized 节点平台点的停止状态, 两域同型:
+- GPU 300 档 (realized 364/391/415, pre-clamp): gain 0.887/0.891/0.899, frontier 87/89/98, streak 0, final_state=rework
+- Q6 300 档 (realized 300, post-clamp): gain 0.923/0.933/0.944, frontier 91/103/110, streak 0, final_state=verify/rework/rework
+- 对照 Q6 719 墙切 (realized 197/351/379): gain 0.889-0.909, frontier 54-94, streak 0 (draft 已用的 "actively binding" 签名)
+→ 两域在 ~400 节点平台点都呈现 高 gain + 大非空 frontier + streak 0 = 模型还想展开但边际覆盖收益已掉到 ~0
+→ **平台不是自然饱和, 是预算边界** (breadth-without-depth 起点)
+→ 机制解释: 平台位置 (~400 realized 节点) 域不变 = harness 的边际覆盖收益曲线过零点; 平台高度 (cov 值) 域特定 = gold 标度不同
+→ draft 核心 claim 从"形状一致"升级到"形状 + 机制一致"
