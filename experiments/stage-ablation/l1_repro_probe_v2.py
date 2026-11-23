@@ -30,8 +30,10 @@ def run_one(prompt, label, i, out):
     for dd in dims: print(f"   - {dd[:55]}", flush=True)
     out.write(json.dumps(rec, ensure_ascii=False)+'\n'); out.flush()
 
-out_path = 'research/l1-repro-probe-v2.jsonl'
-with open(out_path, 'w') as out:
+out_path = 'modules/F-theory/research/l1-repro-probe-v2.jsonl'  # 2026-11-23 修: 实际落点 (原 'research/' 相对路径错)
+import os; os.makedirs(os.path.dirname(out_path), exist_ok=True)
+out_mode = 'a' if len(sys.argv) > 2 and sys.argv[2] == 'append' else 'w'  # 扩 n 用 append 不丢数据
+with open(out_path, out_mode) as out:
     for i in range(N_RUNS):
         run_one(full, 'A-full', i, out)
         run_one(abl, 'B-ablated', i, out)
