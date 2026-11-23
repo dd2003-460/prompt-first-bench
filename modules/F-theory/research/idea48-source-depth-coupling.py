@@ -19,7 +19,7 @@ source 类型: knowledge=内部激活 (模型内禀), search=外部证据 (耦�
 import json, glob, os
 from collections import Counter
 
-ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))  # 2026-11-23 修: 脚本在 modules/F-theory/research/, 到 pfb/ 需 4 层 (原 3 层只到 modules/)
 CANDS = (glob.glob(os.path.join(ROOT, 'experiments/stage-ablation/checkpoints/archive/budget-*/runs-s5-sm-gpu.json'))
          + glob.glob(os.path.join(ROOT, 'modules/B-pipeline-ablation/data/rep-scan/*.json')))
 
