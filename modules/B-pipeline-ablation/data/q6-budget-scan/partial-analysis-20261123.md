@@ -108,8 +108,9 @@ CUR 口径逐 rep:
 - 重跑成立前提: Q6_REP 隔离真生效。核验: research_hook.py:117 `_REP_TAG=os.environ.get("Q6_REP","")` → :121 cache key 含 `rep:{_REP_TAG}` → sha256 路径。重跑脚本 export Q6_REP=$rep → 各 rep source 检索独立 → rep 方差真实
 - 级联: source 独立 → prompt 不同 → node LLM cache key 不同 → LLM 响应不共享。机制 sound, 6h 重跑不会白烧
 
-### 719-r2 首轮 = r1 首轮逐字相同（21:41, cache 共享的行为指纹）
-- 719-r2 第 1 轮 `+29 (total 35)` 与 719-r1 第 1 轮完全相同（r1 也是 +29/35）
-- 机制: 原批队列不传 Q6_REP (q6_budget_scan_queue.sh L22 确认) → source cache 跨 rep 共享 → r2 首轮检索全命中 r1 写入的 cache → 首轮分解确定性地复现
+### 719-r2 首轮节点数 = r1 首轮（21:41, cache 共享的行为指纹, 内容级待 r2 落地核验）
+- 719-r2 第 1 轮 `+29 (total 35)` 与 719-r1 第 1 轮**节点数相同**（r1 也是 +29/35）。注意: 这是 SM 行的节点计数匹配, 非 claim 内容逐字匹配 — r2 未落地, 内容级对比待 r2 json 落盘后补（grep 首轮节点 claim 是否同文本）
+- 机制: 原批队列不传 Q6_REP (q6_budget_scan_queue.sh L22 确认) → source cache 跨 rep 共享 → r2 首轮检索命中 r1 写入的 cache → 首轮分解倾向复现
 - 佐证: r1 CACHE-HIT 127 次 (吃 50/100/150/300 档 + 自身 cache), r2 仅 40 次 (r1 已填满, r2 多真调 LLM → 更慢: 279 calls 才到 23 个 SM parent, r1 同节点数 ~97 个 SM 行)
-- 意义: cache 共享压低 rep 方差的假设从"节点重叠率推断"(89-91%) 升级为"首轮逐字复现"的直接行为证据; 重跑批 (Q6_REP 隔离) 的首轮应不再相同 — 这是重跑批的第二个可检验预测 (第一个: rep sd 回升)
+- 混淆变量: 首轮节点数相同也可能来自"搜索引擎结果稳定"(同 query→同结果)而非 cache; 但 CACHE-HIT 计数差 (127 vs 40) 直接证明 cache 跨 run 被命中, 是比节点数更硬的机制证据
+- 意义: cache 共享压低 rep 方差的假设从"节点重叠率推断"(89-91%) 加上"首轮节点数复现 + CACHE-HIT 计数差"两条行为证据; 重跑批 (Q6_REP 隔离) 的首轮节点数应不再相同 — 这是重跑批的第二个可检验预测 (第一个: rep sd 回升)
