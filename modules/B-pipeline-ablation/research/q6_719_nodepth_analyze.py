@@ -134,7 +134,15 @@ else:
 # (原固定阈值 0.01 < 噪声底≈0.031, 会把噪声内的 delta 误判为"仍升")
 _psd_xd = statistics.stdev(low_covs) if len(low_covs) >= 2 else 0.05
 _noise_xd = math.sqrt(_psd_xd**2 / max(len(recs),1) + _psd_xd**2 / max(len(low_covs),1))
-if delta_xd is None:
+# n<3 保护 (2026-11-24): recs 端 n 小时 mean 的 sd 只有 (n-1) 自由度, 估计不可靠;
+# r2=0.2391 是离群点(>原批 max 0.1957), 单点驱动 delta_xd 为正 → 强 verdict 会误导。
+# 与 draft §4.3 降级一致: n<3 时方向未定, r3 落地(n=3)才给强 verdict。
+if len(recs) < 3:
+    _rec_sd = statistics.stdev(nd_covs) if len(nd_covs) > 1 else 0.0
+    xd_verdict = (f"Q6 在 ~719 realized 节点方向未定 (n={len(recs)}<3, recs 内部 sd={_rec_sd:.4f}; "
+                  f"r2=0.2391 离群点>原批 max 0.1957 单点驱动 delta_xd={delta_xd:+.4f}); "
+                  f"r3 落地(n=3)定论 — 与 draft §4.3 降级一致")
+elif delta_xd is None:
     xd_verdict = "无法判定 (缺数据)"
 elif delta_xd > _noise_xd:
     xd_verdict = f"Q6 在 ~719 realized 节点仍升 (Δ={delta_xd:+.4f} > 1×sd={_noise_xd:.4f} vs ≤379 段) → 饱和点域依赖: GPU ~400 饱和, Q6 到 719 未饱和"
