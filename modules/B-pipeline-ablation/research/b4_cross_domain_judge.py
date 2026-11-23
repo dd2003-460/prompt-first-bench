@@ -50,7 +50,7 @@ def main():
         return
     print(f"gold: q6={len(gold_q6)} units, gpu={len(gold_gpu) if gold_gpu else 'MISSING'}")
 
-    q6_runs = sorted(glob.glob(os.path.join(Q6, 'archive', 'q6-*', 'runs-s5-sm-q6.json')))
+    q6_runs = sorted(glob.glob(os.path.join(Q6, 'q6-*.json')))  # run json 直接在 Q6/ (非 archive/)
     print(f"Q6 runs: {len(q6_runs)}")
     results = []
     for rf in q6_runs:
