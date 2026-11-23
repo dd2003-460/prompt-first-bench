@@ -1221,7 +1221,7 @@ gap 节点里 search 源占 68%（baseline 31%），而 search 源节点本来�
 
 - knowledge 源：缺口标记 +30pp (GPU) / +29pp (NAT) / +12pp (SOC)
 - search 源：缺口标记 +9pp (GPU) / +33pp (NAT) / +15pp (SOC)
-- given 源：0%（prompt 规定 query 可为空，符合预期）
+- given 源：0%（GPU/SOC；NAT 33% 但 n=6，小样本噪声，prompt 规定 query 可为空）
 
 **真正的 (a)→(b) 触发 = 缺口标记在分层内把 query 率拉高 12-30pp**。
 79 vs 44 的 headline 数字被 source-mix 放大了（gap 节点 search 源富集 68% vs 31%）。
