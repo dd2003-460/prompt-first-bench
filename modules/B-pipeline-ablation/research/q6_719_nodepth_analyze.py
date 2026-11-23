@@ -67,12 +67,18 @@ delta = mean_nd - orig_cov
 print(f"\n拆墙批 cov mean = {mean_nd:.4f} (n={len(recs)}, sd={statistics.stdev(cows) if len(cows)>1 else 0:.4f})")
 print(f"原批 719 cov = {orig_cov:.4f} (撞墙, realized {min(orig_nn)}/{max(orig_nn)})")
 print(f"Δ = {delta:+.4f}  realized n_nodes: 拆墙 {min(nn)}/{max(nn)} vs 原批 {min(orig_nn)}/{max(orig_nn)}")
-if delta > 0.01:
-    verdict = "墙压制 cov: 拆墙后 cov 显著高于撞墙下界, 原批 0.1667 是下界, Q6 719 真实 cov 更高"
-elif delta < -0.01:
-    verdict = "异常: 拆墙后 cov 反而更低 — 需查 (可能 max_depth=10 改变了展开策略)"
+# 噪声底 (2026-11-24 修): 原批 719 三 rep cov [0.1304, 0.1739, 0.1957] 的 sd → delta 的 1×sd
+# (原固定阈值 0.01 < 噪声底, 会把噪声内的 delta 误判为"墙压制")
+import math
+_orig_reps = [0.1304, 0.1739, 0.1957]  # 原批 719 r3/r1/r2 (46-unit, q6-gold-rescore.json)
+_psd = statistics.stdev(_orig_reps)
+_noise = math.sqrt(_psd**2 / len(_orig_reps) + _psd**2 / max(len(recs),1))
+if delta > _noise:
+    verdict = f"墙压制 cov: 拆墙后 cov 高于撞墙下界 (Δ={delta:+.4f} > 1×sd={_noise:.4f}), 原批 0.1667 是下界, Q6 719 真实 cov 更高"
+elif delta < -_noise:
+    verdict = f"异常: 拆墙后 cov 反而更低 (Δ={delta:+.4f} < -1×sd) — 需查 (可能 max_depth=10 改变了展开策略)"
 else:
-    verdict = "墙虽 binding 但对 cov 贡献小: 拆墙后 cov ≈ 原批, 0.1667 近似真实值"
+    verdict = f"墙虽 binding 但对 cov 贡献小: 拆墙后 cov ≈ 原批 (Δ={delta:+.4f} 在 1×sd={_noise:.4f} 内), 0.1667 近似真实值"
 print(f"判定: {verdict}")
 
 out = {
@@ -117,14 +123,18 @@ if max(r["n_nodes"] for r in recs) < 700:
     budget_note = f"注意: 拆墙批最大 realized={max(r['n_nodes'] for r in recs)} < 700 — run 在预算前停止 (自然收敛或 depth-10 墙), 不是干净的 ~719 预算测试"
 else:
     budget_note = f"拆墙批 realized {min(r['n_nodes'] for r in recs)}/{max(r['n_nodes'] for r in recs)}, 预算 719 为 binding 约束"
+# 噪声底 (2026-11-24 修): low 段 cov 的 sd → delta_xd 的 1×sd
+# (原固定阈值 0.01 < 噪声底≈0.031, 会把噪声内的 delta 误判为"仍升")
+_psd_xd = statistics.stdev(low_covs) if len(low_covs) >= 2 else 0.05
+_noise_xd = math.sqrt(_psd_xd**2 / max(len(recs),1) + _psd_xd**2 / max(len(low_covs),1))
 if delta_xd is None:
     xd_verdict = "无法判定 (缺数据)"
-elif delta_xd > 0.01:
-    xd_verdict = f"Q6 在 ~719 realized 节点仍升 (Δ={delta_xd:+.4f} vs ≤379 段) → 饱和点域依赖: GPU ~400 饱和, Q6 到 719 未饱和"
-elif delta_xd < -0.01:
-    xd_verdict = f"异常: Q6 在 ~719 realized 节点反降 (Δ={delta_xd:+.4f}) — 需查 (max_depth=10 改变展开策略?)"
+elif delta_xd > _noise_xd:
+    xd_verdict = f"Q6 在 ~719 realized 节点仍升 (Δ={delta_xd:+.4f} > 1×sd={_noise_xd:.4f} vs ≤379 段) → 饱和点域依赖: GPU ~400 饱和, Q6 到 719 未饱和"
+elif delta_xd < -_noise_xd:
+    xd_verdict = f"异常: Q6 在 ~719 realized 节点反降 (Δ={delta_xd:+.4f} < -1×sd) — 需查 (max_depth=10 改变展开策略?)"
 else:
-    xd_verdict = f"Q6 在 ~719 realized 节点平台化 (Δ={delta_xd:+.4f}) → 两域都平台但位置不同 (GPU ~400 < Q6 ~719), 位置仍域依赖"
+    xd_verdict = f"Q6 在 ~719 realized 节点平台化/噪声内 (Δ={delta_xd:+.4f}, 1×sd={_noise_xd:.4f}) → 两域都平台但位置不同 (GPU ~400 < Q6 ~719), 位置仍域依赖"
 print(f"\n=== 跨域决定性测试 (realized-node-count 轴) ===")
 print(f"Q6 全曲线分箱 (原批 15 + 拆墙 {len(recs)}): " + " / ".join(f"{b['bin']}: {b['mean']} (n={b['n']})" for b in bins))
 print(f"{budget_note}")
