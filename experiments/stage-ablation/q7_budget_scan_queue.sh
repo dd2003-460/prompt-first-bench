@@ -22,8 +22,11 @@ for budget in 50 100 150 300 719; do
     t0=$(date +%s)
     # Q6_REP 是 research_hook.py 的通用 rep 标识变量名 (历史命名, 非 Q6 专属) —
     # 设值后 cache key 含 rep → rep 间 source 独立, 对 Q7 同样生效
+    # --max-depth 10: D 2026-11-23 指令"不要限制深度" — 默认 max_depth=4 是 harness
+    # 人工约束, 会把约束产物误读为模型行为; 10 层 ≥ gold 主干深度 5, 实质无限制,
+    # 预算 (--max-nodes) 成为唯一约束 → 干净的预算轴
     Q6_REP="$rep" SM_CKPT_DIR="$OUT/checkpoints" /usr/bin/python3 s5_state_machine.py \
-      --question-file "$QFILE" --qid q7 --max-nodes $budget \
+      --question-file "$QFILE" --qid q7 --max-nodes $budget --max-depth 10 \
       > "$OUT/q7-${budget}-r${rep}.stdout" 2>&1
     rc=$?
     t1=$(date +%s)
