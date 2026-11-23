@@ -334,3 +334,37 @@ Blocked 项 "source_verify cache bug: cache=0 on second run" 重验: 当前 cach
 
 - DDG half-open patch (f60f01871) 现在可以 apply (队列已结束, channel-mixing 红线解除)
 - abstract "n=8/tier" 前瞻兑现 (100/150/300 各 n=8 已成立)
+
+## 补充19 (2026-11-23 12:05): §4.4 per-layer 解剖扩到 30 棵 — "链断裂"实为"浅树无 L4"
+
+### 数据 (30 棵 = K7 15 + rep-scan 15, 8,767 节点, 表内自洽已核)
+
+| layer | nodes | verified | degraded | pending | ver% |
+|---|---|---|---|---|---|
+| L1 | 162 | 11 | 0 | 151 | 6.8% |
+| L2 | 855 | 364 | 328 | 163 | 42.6% |
+| L3 | 2759 | 1327 | 1195 | 237 | 48.1% |
+| L4 | 4230 | 2230 | 1943 | 57 | 52.7% |
+
+- 旧 18-run 快照 (5,812 节点) 的 "18/18 无链断裂" 在 30 棵上变成 18/30
+- **真实机制 (连错 3 次才到)**: 12 棵 "失败" 树的 max_depth=3, **根本没有 L4 层** (0 个 L4 节点), 不是"有 L4 但 0 verified"
+  - 50 档 2/3 无 L4, 100 档 7/8 无 L4, 150 档 3/8, 300 档 0/8, 719 档 0/3
+  - 12 棵里只有 1 棵 (100-r5) 在通道故障 FLAG 列表, 其余 11 棵通道健康 → 非 channel artifact
+  - 18 棵 max_depth≥4 的树 18/18 都有 verified L4 节点 → "链断裂"是 depth 的函数, 不是 verification 的函数
+- 这是 §4.3 已确立的 depth~budget (r=0.94) 关系的 per-layer 签名: 低预算→浅树→无 L4
+
+### 连错 3 次的教训 (本会话第 6/7 类 scope 错 + 1 次粒度错)
+
+1. 第一版写 "channel-outage over-represented" — 错 (12 棵里只有 1 棵故障)
+2. 第二版写 "source-unverifiable / carry no verifiable citation" — 错 (status 是模型自评, 不是机械核验)
+3. 第三版写 "model refuses to certify (evidence 读 无来源支持)" — 错 (12 棵失败 run 的 L4 层 0 节点, 没有 degraded L4 可读; 且 0/12 含该措辞)
+4. 第四版 (正确): 先 dump 每棵 max_depth + L4 节点数, 才发现是"无 L4 层"
+**规则: 树结构发现必须先 dump 每棵 max_depth/各层节点数, 再写解读; 不凭 status 计数反推机制**
+
+### 与 obs 4 的关系
+
+obs 4 (zero-convergence 0/21) 是 synthesis 答案的内容声明; obs 2 是树结构 L4 层的存在性声明。两个不同对象, 同一个 (a)→(b)→(c) closure gap: 即使有最终答案, 背后的树常常没有结论层来支撑它。
+
+### 草稿更新
+
+§4.4 表头 18-run/5,812 → 30 棵/8,767; 表体换新数; obs 1 "flat 43-49%" → "rises monotonically 42.6/48.1/52.7%"; obs 2 重写为"无 L4 层 + budget 依赖 + 非 channel artifact + depth 函数"; obs 3 删掉不可复现的 "55% 18-run subset" 括注。

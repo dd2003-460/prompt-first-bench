@@ -1,0 +1,17 @@
+{
+  "id": "N203",
+  "claim": "2x RTX 3090 运行 Qwen3-27B BF16 时，总显存 48GB 不足以容纳 54GB 权重，必须采用 W4 或 INT8 量化。若采用 W4 量化 (权重 ~13.5GB/卡)，理论吞吐量上限 = 960 GB/s / 27GB ≈ 35 tokens/s，扣除 PCIe 通信开销和流水线气泡后，实际吞吐量约为 20-25 tokens/s。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "pending",
+  "evidence": "[质询]吞吐量估算存在逻辑漏洞：1. 2x RTX 3090 总显存为 48GB，若采用 W4 量化，权重约 13.5GB/卡，总权重约 27GB，剩余显存充足，无需强制量化，陈述中“必须采用”的前提与“总显存 48GB 不足以容纳 54GB 权重”在逻辑上虽自洽（54>48），但后续吞吐量计算基于“权重 ~13.5GB/卡”即总权重 27GB，而 960GB/s 是单卡带宽还是总带宽？若为总带宽，27GB 权重读取时间约 28ms，理论上限约 35 tokens/s 合理；但实际吞吐量 20-25 tokens/s 的推导缺乏对 KV Cache 占用、激活值显存占用及具体推理框架（如 vLLM/TensorRT-LLM）效率的考量，且 PCIe 通信开销在双卡并行中通常不是主要瓶颈（若使用 NVLink 或高效 P2P），此处归因于 PCIe 可能不准确。 | 先验知识/题面给定，逻辑校验通过，但吞吐量具体数值缺乏来源支持且推导过程简化，降级为定性表述。",
+  "corrected_claim": "2x RTX 3090 运行 Qwen3-27B BF16 时，总显存 48GB 不足以容纳 54GB 权重，需采用量化（如 W4 或 INT8）。若采用 W4 量化，理论吞吐量上限约为 35 tokens/s，实际吞吐量受 KV Cache、激活值及推理框架效率影响，通常在 15-25 tokens/s 范围内。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N63"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

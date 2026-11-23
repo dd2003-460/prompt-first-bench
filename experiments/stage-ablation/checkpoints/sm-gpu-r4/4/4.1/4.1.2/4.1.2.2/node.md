@@ -1,0 +1,28 @@
+# N169: RTX 4090 在 Qwen3-27B INT8 量化下的实测吞吐量基准值（tokens/s），作为对比基准，需基于 vLLM 或 TensorRT-LLM 
+
+- **status**: pending
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N55
+
+## Claim
+
+RTX 4090 在 Qwen3-27B INT8 量化下的实测吞吐量基准值（tokens/s），作为对比基准，需基于 vLLM 或 TensorRT-LLM 在 32K 上下文下的单卡实测数据，通常范围在 80-120 tokens/s 之间 [待核验]
+
+## Corrected Claim
+
+RTX 4090 在 Qwen3-27B INT8 量化下的实测吞吐量基准值（tokens/s）需基于 vLLM 或 TensorRT-LLM 在 32K 上下文下的单卡实测数据，通常范围在 80-120 tokens/s 之间（待进一步实测验证）
+
+## Evidence
+
+[质询]参考来源仅涉及 RTX 4060 的功耗规格，与 RTX 4090 在 Qwen3-27B INT8 量化下的吞吐量完全无关，无法提供外部证据支持；且该吞吐量数值属于特定硬件、特定模型、特定量化方式及特定推理框架下的经验事实，无法从第一性原理推导。 | 经验事实，逻辑自洽但缺来源支持（来源[1]无关）
+
+## Search Query
+
+NVIDIA RTX 4090 Qwen3-27B INT8 inference benchmark tokens per second vLLM TensorRT-LLM 32k context
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/GeForce_RTX_40_series', 'type': 'gpu_specs', 'title': 'GPU Specs: GeForce\xa0RTX 4060[56][57][58]'}
