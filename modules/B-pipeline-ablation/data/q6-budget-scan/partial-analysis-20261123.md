@@ -327,3 +327,10 @@ CUR 口径逐 rep:
 - **gold 噪声是共模**: 同题两臂用同一 gold(即使跨域), 噪声进两臂 → Δ 抵消。nat -0.114 离群诊断也是同题比较, 不受影响
 - **爆炸半径 = 仅 budget-scan 绝对分 + 跨档比较** (已用 Q6 gold 重评修复); T53b/T53 结论有效
 - **遗留**: nat/soc 无专属 gold (只有 gpu/q6/q7 三个), 绝对分跨域噪声 — 若未来要 nat/soc 的绝对覆盖结论需建专属 gold; 同题相对比较不受限
+
+### 重跑批评分口径核验: GPU gold 对 sd 判据无害（23:50）
+- **重跑批用 judge_run 默认 = GPU gold 评 Q6** (q6_budget_scan_rerun_rep.sh:40), 跨域噪声
+- **但判据 = 重跑 sd vs 原批 sd 的相对比较** (脚本:60 判据行): 两批同用 GPU gold → 跨域噪声是共模, sd 对比有效
+- **metacog 轴完全干净**: compute_metacog 不依赖 gold (gap/ret/post 从 run 自身 nodes 算)
+- **绝对分仍是跨域噪声**: 落地后域内口径用 judge_v1 --gold-units gold-q6-units.json 后评 (同 Q7 流程, gold 文件已建)
+- **结论: 重跑批无需改脚本** (改运行中脚本=风险>收益), sd 判据 + metacog 判据均有效
