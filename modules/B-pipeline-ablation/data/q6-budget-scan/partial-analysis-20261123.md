@@ -103,3 +103,7 @@ CUR 口径逐 rep:
 - in-domain 曲线: 50=0.058 100=0.073 150=0.087 300=0.130 **719r1(~351)=0.174** — 仍在升, 未饱和 (300→351 又 +0.044)
 - **对比 judge total 轴** (0.305→0.338→0.409→0.423→0.400, ~351 持平/微降): cov 轴比 total 轴更晚饱和 — total 的 300 后饱和部分被 cov 继续升 + depth 已顶格 (0.8) 对冲
 - n=1 (仅 r1), 需 r2/r3 确认; 若 r2/r3 也停在 ~350, 则 719 档实质是 ~350 节点第 4 批
+
+### 重跑 cache 隔离机制核验 (21:33, 端到端代码级)
+- 重跑成立前提: Q6_REP 隔离真生效。核验: research_hook.py:117 `_REP_TAG=os.environ.get("Q6_REP","")` → :121 cache key 含 `rep:{_REP_TAG}` → sha256 路径。重跑脚本 export Q6_REP=$rep → 各 rep source 检索独立 → rep 方差真实
+- 级联: source 独立 → prompt 不同 → node LLM cache key 不同 → LLM 响应不共享。机制 sound, 6h 重跑不会白烧
