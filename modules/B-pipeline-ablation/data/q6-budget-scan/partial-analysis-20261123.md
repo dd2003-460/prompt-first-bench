@@ -242,3 +242,10 @@ CUR 口径逐 rep:
 - **budget 与 node_count 在 depth 墙下解耦**: 300 档 = max_nodes 硬顶 (3 rep 全 300 节点, 覆盖恒定 6); 719 档 = max_depth 硬顶 (节点数随机 197-379, 覆盖 6-9)。真实轴是 **node_count → coverage**, budget 只在 depth 墙之前间接控制 node_count
 - **对"719>300"结论的限定**: 719 档优势 (7.67 vs 6.0) 只在树实际长大时成立 (r1/r2), r3 因 frontier 小退化为 300 档水平。budget-coverage 曲线在 719 档有 depth 墙混杂, 不是干净的预算效应
 - **重跑批判据更新**: 300 档 cov sd 从 0 回升仍是 cache 共享判据; 但 719 档对照需按 node_count 归一 (或只取 node_count>300 的 rep), 否则 depth 墙混杂污染
+
+### 降级: "300 cov sd=0 = cache 共享实锤" 不成立 — cov 是粗粒度分辨率饱和, metacog 有真实方差（23:12）
+- **对照**: 300 档 cov 三 rep 全 =6 unit (sd=0), 但 metacog 三 rep = 0.170/0.170/0.223 (sd≈0.026, 非零); gap 0.023/0.033/0.030, ret 0.137/0.147/0.147 都有差异
+- **含义**: cov 是粗粒度 (46 unit, 每 0.0217), 300 节点下三 rep 都饱和到 ~6 unit → sd=0 是**分辨率饱和** (同 struct 饱和在 0.8), 不是 cache 共享独有特征。metacog 细粒度 + gold-free, 显示 rep 有真实方差
+- **对 cache 共享假设的最终定位**: 机制成立 (代码 key 不含 rep + 算术命中>写入), 但**"压低 rep 方差"的行为证据弱** — cov sd=0 被分辨率饱和解释, metacog 无压低迹象。cache 共享主要省网络查询 (wall time), 对内容方差的压低有限
+- **重跑批判据修正**: 判据从"300 cov sd 从 0 回升"改为"**300 metacog sd 对照**" (cov 分辨率饱和, 回升空间有限, 不可靠)。若重跑 metacog sd ≈ 原批 0.026 → cache 共享对内容方差无显著压低 (假设行为影响弱, 结论: cache 共享只省 wall time); 若显著 > 0.026 → 有压低
+- **本轮证据链终态**: cache 共享机制=代码+算术 (硬); 行为影响=弱 (cov 分辨率饱和 + metacog 有方差)。重跑批从"唯一定量手段"降级为"确认 cache 共享是否影响内容方差 (大概率: 不影响)"
