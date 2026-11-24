@@ -83,3 +83,18 @@ CFP 复查（2026-11-24 ego-browser, icml.cc/Conferences/2027/Dates, source ①�
 - 本规划落盘（已完成）。
 - supplementary 索引文件扩展：把 L95/L163 等要移的段落预先编号（S-8/S-9...），压缩时直接搬。
 - **不现在砍 draft 本体**：Q7 在飞，结论可能变，现在砍了 Q7 落地要重做。
+
+## Q7 落地后整合 checklist（2026-11-24 14:57，Q7 占位符 13 处，核心 6 处）
+
+Q7 15 文件落地 + watchdog 双分析跑完后，以下 draft 位置要更新（避免漏改）：
+
+| 行 | 占位符 | Q7 落地后动作 |
+|----|--------|-------------|
+| L9 | "breakpoint ... pending the Q7 third-domain scan" | Q7 断点（realized 轴）出来后填；若 Q7 无显著断点则改"Q7 域断点未检出（F=?, p=?）" |
+| L40 | "Q7 third-domain scan as the confirmation"（×2） | Q7 cov 曲线出来后确认/推翻"budget buys breadth"跨域性 |
+| L133 | "open question that r3 (and the Q7 third-domain scan) must settle" | Q7 719 等价档（300/719）出来后填 |
+| L137 | "Q7 third-domain scan remains the designed confirmation"（×2） | Q7 监控轴 gap 出来后确认跨域模式（GPU 平 / Q6·Q7 微升） |
+| L220 | "second full out-of-domain scan (e.g. Q7)" | Q7 落地后改为"Q7 scan completed, results in §4.X" |
+| L222 | "Q7 max_depth=10 once it lands" | Q7 落地后删"once it lands" |
+
+**⚠️ 14:56 反信号（300-r1 n=1）**：Q7 cov=0.231 > 150 档 0.1795 + 回修率 6.1%（单调升 0/2.2/4.4/6.1%）——若 300-r2/r3 确认，L9/L40/L133 的"Q7 确认 breadth 非 depth"可能要改成"Q7 域 300 档未饱和，breadth 声明域依赖"。等 r2/r3 定。
