@@ -811,3 +811,23 @@ compaction 说"APPROVALS 条目 2 等 D 确认" — 拆开看两者都对, 但 K
   D2 调研等 T-PR-17 落地 (watcher 通知) 再派, 避免同 repo 并发乱。
 → ⑤ 真实状态: D1 等 D (不可自主绕过), D2 调研可自主但排在 T-PR-17 之后。
   本 goal 当前无新的可自主推进任务 — 两条长杆 (r3 / T-PR-17) 在飞, watcher 挂着。
+
+## 2026-11-24 ~08:58 — D1 确认项隐藏缺口: 记忆轴无测量支撑
+
+核验 D1 题面 v1 的 5 因子是否有 metacog_axis 测量维度支撑 (source ①):
+metacog_axis.compute_metacog 实际测 4 量: gap_rate / retrieval_rate / post_acc / healthy_gap_rate
+→ metacog_total = 0.4*gap + 0.3*retrieval + 0.3*post_acc。
+对照 5 因子:
+- 1 模型能力轴 = 跨模型 scaling 曲线 (设计轴, 非单 run 测量, 合法)
+- 2 预算轴 = budget scan ✓
+- 3 检索质量轴 = retrieval_rate + post_acc ✓
+- **4 记忆轴 (跨 session 状态保持) = 无测量维度** — grep 全仓 (modules/B-pipeline-ablation +
+  experiments/stage-ablation) 只有 D1 题面 + taskcard 自己提它, metacog_axis.py /
+  metacog-loop-design 均无 memory/cross-session 维度。
+- 5 自我认识闭环 = metacog_total ✓
+→ D1 确认项 2 ("5 因子增删?") 有一个隐藏决策: 记忆轴当前不可测。
+  D 确认时二选一: (a) 删记忆轴 (对齐现有 metacog_axis 测量, 零额外工作)
+  (b) 保留 → D3 rubric 需新增跨 session 测量维度 (额外设计工作, 且 150 节点单 run
+  预算内"跨 session"本身难定义)。
+  倾向 (a): 记忆轴与"自我认识闭环"在当前单 run 框架下不正交 (闭环已含 gap→重查→查后,
+  跨 session 是另一层, 150 节点预算内测不出)。
