@@ -1,12 +1,26 @@
-# N5: 性能与访问模式匹配：覆盖温数据每日扫描所需的 IOPS 与吞吐量、冷数据随机读延迟容忍度，以及网络带宽瓶颈对实际有效吞吐的影响。
+# N30: 云对象存储温数据（100TB，每日扫描2次）的请求费用：假设平均对象大小100MB，单次扫描产生2,048,000个GET请求，每日总请求4,096,000次，
 
-- **status**: pending
-- **level**: L1
-- **source**: given
+- **status**: degraded
+- **level**: L2
+- **source**: search
 - **edge_type**: cartesian
-- **rework_count**: 0
+- **rework_count**: 1
 - **parent_ids**: (root)
 
 ## Claim
 
-性能与访问模式匹配：覆盖温数据每日扫描所需的 IOPS 与吞吐量、冷数据随机读延迟容忍度，以及网络带宽瓶颈对实际有效吞吐的影响。
+云对象存储温数据（100TB，每日扫描2次）的请求费用：假设平均对象大小100MB，单次扫描产生2,048,000个GET请求，每日总请求4,096,000次，年请求费 ≈ 4,096,000 * 365 * $0.0004/1000requests ≈ $5,983（按S3标准层定价）
+
+## Corrected Claim
+
+云对象存储温数据（100TB，每日扫描2次）的请求费用：假设平均对象大小100MB，单次扫描产生102,400个GET请求（100TB/100MB），每日总请求204,800次，年请求费 ≈ 204,800 * 365 * $0.0004/1000requests ≈ $2,991.52（按S3标准层定价，需核实具体单价）
+
+## Evidence
+
+[质询]来源均为阿里云OSS定价，而陈述明确基于AWS S3标准层定价（$0.0004/1000 requests），存在地域/厂商口径混淆，且参考来源未提供S3具体单价以直接支持该数值。 | 逻辑推导成立（100TB/100MB=102,400对象，2次扫描=204,800请求/日，年费用计算无误），但参考来源[1][2][3]均为阿里云OSS定价，与S3定价无关，无法提供外部直接支持；S3请求费率为经验事实，缺来源支持。
+
+## Retrieval Sources
+
+- {'url': 'https://help.aliyun.com/zh/oss/billing-overview&rut=20a4e60b70be8973e18cefcd6f2fb100293e26b95f3592f62bb8694d97cde4f2', 'type': 'ddg', 'title': 'Oss的计费组成、付费方式和定价-对象存储 (Oss)-阿里云帮助中心'}
+- {'url': 'https://cn.aliyun.com/price/detail/oss&rut=1f434cc06e03a6c94e43387f214943c4149c0bd9b33b5242d3f1909f00e0309e', 'type': 'ddg', 'title': '阿里云定价_oss价格详情_对象存储'}
+- {'url': 'https://developer.aliyun.com/article/1771961&rut=8e79c56d88e646addef7e53c126caa5989effcbd6dc03b9ca79a27f07978d9a5', 'type': 'ddg', 'title': '阿里云 Oss 对象存储服务租用价格表（一年 / 按月 / 按小时报价明细）'}

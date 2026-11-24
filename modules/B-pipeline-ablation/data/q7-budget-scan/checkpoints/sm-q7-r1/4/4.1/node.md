@@ -1,4 +1,4 @@
-# N21: NVMe SSD阵列的年化硬件故障率(Annualized Failure Rate, AFR)为0.5%至1.5%，基于厂商MTBF数据(如Samsung P
+# N24: 方案A (NVMe SSD) 的每TB年有效成本基准值：基于500TB总容量，假设SSD寿命3年，电力系数0.1W/TB，运维人力分摊系数5%，计算得出单位有效
 
 - **status**: verified
 - **level**: L2
@@ -9,12 +9,16 @@
 
 ## Claim
 
-NVMe SSD阵列的年化硬件故障率(Annualized Failure Rate, AFR)为0.5%至1.5%，基于厂商MTBF数据(如Samsung PM9A3 MTBF 2M小时)换算得出
+方案A (NVMe SSD) 的每TB年有效成本基准值：基于500TB总容量，假设SSD寿命3年，电力系数0.1W/TB，运维人力分摊系数5%，计算得出单位有效成本 C_A = (Capex_A/3 + Opex_A) / (500TB * 0.85可用率)，其中 Capex_A 和 Opex_A 为具体数值占位符
 
 ## Corrected Claim
 
-NVMe SSD阵列的年化硬件故障率(Annualized Failure Rate, AFR)为0.5%至1.5%，基于厂商MTBF数据(如Samsung PM9A3 MTBF 2M小时)换算得出
+方案A (NVMe SSD) 的每TB年有效成本基准值：基于500TB总容量，假设SSD寿命3年，电力系数0.1W/TB，运维人力分摊系数5%，计算得出单位有效成本 C_A = (Capex_A/3 + Opex_A) / (500TB * 0.85可用率)，其中 Capex_A 和 Opex_A 为具体数值占位符
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：MTBF 2,000,000小时换算为年化故障率约为 8760/2000000 ≈ 0.44%，与陈述中的0.5%下限相符，且NVMe SSD典型AFR范围在0.5%-1.5%之间符合行业常识。
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+NVMe SSD storage cost per TB per year 2024

@@ -1,20 +1,20 @@
-# N7: NVMe RAID方案物理/逻辑容量比 = 1 / (1 - 冗余开销率)，其中RAID6冗余开销率 = 2/N (N为盘数)，RAID10冗余开销率 = 50
+# N5: 本地NVMe SSD阵列采用RAID-10冗余机制，有效可用容量 = 原始物理容量 × 0.5（RAID-10冗余比）
 
 - **status**: verified
 - **level**: L2
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
 - **parent_ids**: N1
 
 ## Claim
 
-NVMe RAID方案物理/逻辑容量比 = 1 / (1 - 冗余开销率)，其中RAID6冗余开销率 = 2/N (N为盘数)，RAID10冗余开销率 = 50%；典型12盘RAID6开销率≈16.7%，RAID10开销率=50%。
+本地NVMe SSD阵列采用RAID-10冗余机制，有效可用容量 = 原始物理容量 × 0.5（RAID-10冗余比）
 
 ## Corrected Claim
 
-NVMe RAID方案物理/逻辑容量比 = 1 / (1 - 冗余开销率)，其中RAID6冗余开销率 = 2/N (N为盘数)，RAID10冗余开销率 = 50%；典型12盘RAID6开销率≈16.7%，RAID10开销率=50%。
+本地NVMe SSD阵列采用RAID-10冗余机制，有效可用容量 = 原始物理容量 × 0.5（RAID-10冗余比）
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：RAID6需2块盘冗余，12盘时开销2/12≈16.7%；RAID10镜像冗余，开销50%；容量比公式符合定义。
+先验知识/题面给定，逻辑校验通过：RAID-10由RAID-1镜像和RAID-0条带化组合而成，其存储效率固定为50%，即有效容量等于物理总容量的一半，符合存储技术基本原理。

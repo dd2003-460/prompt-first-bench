@@ -1,4 +1,4 @@
-# N46: 运维复杂度指数(OCE) = (故障处理频率 * 平均修复时间(MTTR) + 策略调优工时。HDD分层方案OCE≈(2*24h + 48h) = 96h/年，
+# N34: 本地存储软件许可与监控成本：企业级存储管理软件（如Data ONTAP或VxRail软件）及Zabbix/Prometheus监控栈的年度许可/订阅费用约为¥3
 
 - **status**: degraded
 - **level**: L2
@@ -9,17 +9,18 @@
 
 ## Claim
 
-运维复杂度指数(OCE) = (故障处理频率 * 平均修复时间(MTTR) + 策略调优工时。HDD分层方案OCE≈(2*24h + 48h) = 96h/年，NVMe RAID≈(1*4h + 8h) = 12h/年，云存储≈(0*1h + 16h) = 16h/年。OCE每增加10小时，隐含管理成本增加约¥2,000。
+本地存储软件许可与监控成本：企业级存储管理软件（如Data ONTAP或VxRail软件）及Zabbix/Prometheus监控栈的年度许可/订阅费用约为¥30,000-80,000，占本地方案运维总成本的10%-15%
 
 ## Corrected Claim
 
-运维复杂度指数(OCE)是一种自定义评估指标，其公式为(故障处理频率 * MTTR + 策略调优工时)。在特定估算场景下，HDD分层方案OCE约为96h/年，NVMe RAID约为12h/年，云存储约为16h/年。每增加10小时OCE，隐含管理成本增加约¥2,000（注：具体数值依赖于特定假设和成本模型，非通用标准）。
+企业级存储管理软件（如Data ONTAP或VxRail软件）及Zabbix/Prometheus监控栈的年度许可/订阅费用因部署规模而异，通常占本地方案运维总成本的一定比例（具体数值需根据实际节点数与厂商报价估算）。
 
 ## Evidence
 
-[质询]该陈述中的“运维复杂度指数(OCE)”及其具体计算公式、各存储方案的参数值（如HDD故障频率2次/年、NVMe 1次/年等）以及成本换算系数（¥2,000/10h）均为特定场景下的经验性估算或自定义指标，并非行业标准定义或第一性原理可推导的客观事实。参考来源仅涉及通用的MTTR/MTBF定义，未提供OCE公式或具体存储方案的运维数据，无法验证其数值准确性。 | 逻辑上算术运算自洽（2*24+48=96, 1*4+8=12, 0*1+16=16），但OCE公式及具体参数属于经验事实，参考来源[1][2]仅解释MTTR/MTBF通用概念，未覆盖OCE定义或具体存储运维数据，缺乏直接支持。
+[质询]具体数值（¥30,000-80,000）及占比（10%-15%）属于高度依赖企业规模、部署节点数量和具体配置的经验性估算，缺乏通用标准，且参考来源均未提供该特定金额区间或占比数据，存在以偏概全或数据无据的风险。 | 逻辑上量级合理（企业级软件许可及监控栈年费数万至十万人民币符合中小型企业IT预算常识），但参考来源[1][2][3]仅讨论许可管理优化、成本降低策略及云/本地许可对比，未提供Data ONTAP/VxRail/Zabbix的具体价格或占比数据，属于经验事实且缺直接来源支持。
 
 ## Retrieval Sources
 
-- {'url': 'https://zhuanlan.zhihu.com/p/2082777021214634183&rut=58b631c00dff7ed21a02b9a266d170813e1e238d1ff707dd7f80c65127fd1360', 'type': 'ddg', 'title': '设备管理10大核心指标，一次讲清：OEE、MTBF、MTTR……'}
-- {'url': 'https://zhuanlan.zhihu.com/p/2063197226604697291&rut=2ce6a04bfe835ee0180cb1b145fffd56ad27da933fb68d28aeb31796170aadc1', 'type': 'ddg', 'title': 'OEE、MTBF、MTTR到底是什么？设备管理3大核心公式一次讲懂!'}
+- {'url': 'https://blog.csdn.net/gofarlic/article/details/162494114&rut=d7583f925d13b0b7184b44a702e78491c6dfe035433741533acef9acc71e659c', 'type': 'ddg', 'title': '2026年企业License许可优化指南：如何高效管理软件授权成本-CSDN博客'}
+- {'url': 'https://blog.csdn.net/gofarlic/article/details/155192598&rut=dc0f7e7f80fa0232e5c396a1ee0afaef0ad5d0d7104e4bdddbeed239115d3ae2', 'type': 'ddg', 'title': '软件许可证集中管理方案：降低30%采购成本的实战攻略-csdn博客'}
+- {'url': 'https://gofarlic.com/techArticleDetail?noticeId=366306&rut=840a68abcaaaf40c3eb36de24aa797cf59a60e074469eafbd56809f09effabe8', 'type': 'ddg', 'title': '企业选择云许可还是本地许可？——成本、维护与可伸缩性深度对比 - 格发许可优化'}

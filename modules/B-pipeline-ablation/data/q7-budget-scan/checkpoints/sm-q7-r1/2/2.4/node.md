@@ -1,20 +1,24 @@
-# N16: 电力成本 = (设备总功耗×PUE×电价×24×365)，其中NVMe SSD阵列功耗≈12×10W=120W，HDD阵列功耗≈100×8W=800W，PUE≈
+# N15: 电力消耗成本：本地NVMe SSD阵列功耗约为HDD的2-3倍，500TB NVMe阵列年功耗 ≈ 500TB × 5W/TB × 8760h × ¥0.8/k
 
 - **status**: verified
 - **level**: L2
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
 - **parent_ids**: N2
 
 ## Claim
 
-电力成本 = (设备总功耗×PUE×电价×24×365)，其中NVMe SSD阵列功耗≈12×10W=120W，HDD阵列功耗≈100×8W=800W，PUE≈1.5，电价≈¥0.8/kWh；NVMe年电费≈120×1.5×0.8×8760≈¥1,261，HDD年电费≈800×1.5×0.8×8760≈¥8,405。
+电力消耗成本：本地NVMe SSD阵列功耗约为HDD的2-3倍，500TB NVMe阵列年功耗 ≈ 500TB × 5W/TB × 8760h × ¥0.8/kWh × PUE（1.5）
 
 ## Corrected Claim
 
-电力成本 = (设备总功耗×PUE×电价×24×365)，其中NVMe SSD阵列功耗≈12×10W=120W，HDD阵列功耗≈100×8W=800W，PUE≈1.5，电价≈¥0.8/kWh；NVMe年电费≈120×1.5×0.8×8760≈¥1,261，HDD年电费≈800×1.5×0.8×8760≈¥8,405。
+电力消耗成本：本地NVMe SSD阵列功耗约为HDD的2-3倍，500TB NVMe阵列年功耗 ≈ 500TB × 5W/TB × 8760h × ¥0.8/kWh × PUE（1.5）
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：公式结构正确，数值计算准确（120*1.5*0.8*8760=1261440元/1000=1261.44元；800*1.5*0.8*8760=8409600元/1000=8409.6元，与陈述中的约数一致），参数量级符合工程常识。
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+NVMe SSD power consumption per TB
