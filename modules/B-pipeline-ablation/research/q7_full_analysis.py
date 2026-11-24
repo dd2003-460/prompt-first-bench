@@ -169,9 +169,18 @@ print(f"  cor(in_cov, realized) = {q7_cor}  (GPU 参照: 0.563)")
 if q7_bp:
     print(f"  断点扫描 (机制锚 v4): 单段 ss={q7_bp['ss_single']} → 两段 ss={q7_bp['ss_two_seg']} "
           f"(改善 {q7_bp['improvement']*100:.0f}%), 最优断点={q7_bp['optimal_bp']} "
-          f"(斜率 {q7_bp['slope_left']}→{q7_bp['slope_right']})")
-    print(f"    三域断点: GPU 425 / Q6 325 / Q7 {q7_bp['optimal_bp']} → "
-          f"{'三域一致 (~300-425)' if 300 <= q7_bp['optimal_bp'] <= 425 else 'Q7 偏离 (~300-425), 需查'}")
+          f"(斜率 {q7_bp['slope_left']}→{q7_bp['slope_right']}), F={q7_bp['F']} p={q7_bp['p']}")
+    # 2026-11-24 修: "三域一致" 必须带 p 值条件 — Q6 p=0.100 / GPU p=0.074 都不显著,
+    # draft 口径是 "cannot confirm or refute"; 若 Q7 p 也不显著, 输出 "三域一致" 会
+    # 比 draft 强, 违反 verdict 与 draft 降级一致约束。
+    _pos_ok = 300 <= q7_bp["optimal_bp"] <= 425
+    if _pos_ok and q7_bp["p"] < 0.05:
+        _verdict = "三域一致 (~300-425) 且显著"
+    elif _pos_ok:
+        _verdict = f"位置在 ~300-425 区间但 p={q7_bp['p']} 不显著 — 位置一致, 强度不可确认 (同 Q6/GPU 降级口径)"
+    else:
+        _verdict = f"Q7 断点 {q7_bp['optimal_bp']} 偏离 ~300-425, 需查"
+    print(f"    三域断点: GPU 425 (p=0.074) / Q6 325 (p=0.100) / Q7 {q7_bp['optimal_bp']} (p={q7_bp['p']}) → {_verdict}")
 if q7_stop is not None:
     print(f"  停止状态 (机制锚 v2): {len(q7_stop)} runs, 全档 高gain+非空frontier+streak=0: {q7_stop_universal}")
 print(f"  三域 realized 轴: GPU 平台 ~400 / Q6 ~400 后不再升 (nd-r1 719 回落 0.1304, n=1, r2/r3 定 n=3) / Q7 见上")

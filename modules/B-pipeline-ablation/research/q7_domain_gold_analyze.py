@@ -58,7 +58,7 @@ if not recs:
 tiers = sorted({b for b, _ in recs})
 summary = {}
 for b in tiers:
-    vals = [recs[(b, r)] for r in sorted(recs) if recs[(b, r)]["budget"] == b]
+    vals = [v for v in recs.values() if v["budget"] == b]
     n = len(vals)
     summary[b] = {
         "n": n,
@@ -71,11 +71,21 @@ for b in tiers:
     }
 
 # cov 饱和点: 相邻档边际增益 < 0.01
+# 2026-11-24 修: 附 se_diff — n=3/档时 0.01 阈值在噪声内 (se~0.02),
+# 不标 delta vs se 比值会把噪声当平台, 与 full_analysis 的 plateau_vs_noise 同口径
 sat = None
+sat_delta = None
+sat_se = None
 for i in range(1, len(tiers)):
-    delta = summary[tiers[i]]["cov_mean"] - summary[tiers[i - 1]]["cov_mean"]
+    prev, cur = tiers[i - 1], tiers[i]
+    delta = summary[cur]["cov_mean"] - summary[prev]["cov_mean"]
+    import math as _m
+    se = _m.sqrt(summary[prev]["cov_sd"] ** 2 / max(summary[prev]["n"], 1)
+                 + summary[cur]["cov_sd"] ** 2 / max(summary[cur]["n"], 1))
     if delta < 0.01:
-        sat = tiers[i]
+        sat = cur
+        sat_delta = round(delta, 4)
+        sat_se = round(se, 4)
         break
 
 # 跨题对比 (Q6 域内 gold 的 cov 曲线 — 与 Q7 cov 轴同口径)
@@ -101,6 +111,8 @@ result = {
     "per_run": [recs[k] for k in sorted(recs)],
     "tier_summary": summary,
     "cov_saturation_point": sat,
+    "cov_saturation_delta": sat_delta,
+    "cov_saturation_se_diff": sat_se,
     "q6_cov_curve_comparison": q6_cmp,
     "q6_cov_719_depth_ceiling_lower_bound": q6_cmp_719,
 }
@@ -109,7 +121,13 @@ print(f"\n=== Q7 域内 gold 分析 ({len(gu)} units, n={len(recs)} runs) ===")
 for b in tiers:
     s = summary[b]
     print(f"  {b:>4}: n={s['n']} cov={s['cov_mean']:.4f} (sd {s['cov_sd']:.4f}) total={s['total_mean']:.4f} metacog={s['metacog_mean']:.4f} n_nodes={s['n_nodes_mean']}")
-print(f"cov 饱和点: {sat if sat else '未达 (全程增益 >= 0.01)'}")
+if sat:
+    _ratio = sat_delta / sat_se if sat_se else 0.0
+    print(f"cov 饱和点: {sat} (Δ={sat_delta:+.4f}, se_diff={sat_se}, {_ratio:.2f}×se"
+          + (f" — <1×se, 差在噪声内, 平台判读不 robust" if abs(_ratio) < 1 else "")
+          + ")")
+else:
+    print("cov 饱和点: 未达 (全程增益 >= 0.01)")
 if q6_cmp:
     print(f"Q6 cov 曲线对比 (300 档 rerun rep 隔离 0.138, 719 档单列为深度墙下界): {q6_cmp}")
     print(f"Q6 719 档 cov={q6_cmp_719} — 深度墙下界 (max_depth=4, realized 197/351/379), 不与 Q7 719 直接对比")
