@@ -41,6 +41,16 @@ T4 pilot 夜间无人值守，下列接缝逐一核验过（防"白等一夜"的
   （`/v1/models` 只读确认）。q7 r2 与 T4 pilot 走**完全相同**的 harness+端点+model 名，
   故 LLM 传输链（curl -m 硬超时 POST 8787/v1/chat/completions）已被证实可用。
   残余风险仅 = vLLM 在 T4 启动瞬间是否仍健康（waiter 的 /health+/v1/models 探测兜底）。
+- **无并发 vLLM 消费者**：q7 DONE 时会同时醒来的 3 个 watcher 全是纯 CPU 分析、不调 LLM
+  （overnight-watcher 72034 的 replication-check.py / watchdog 57325 的 gold+full analyze /
+  我的 waiter 88305）。→ T4 启动瞬间**只有我的 pilot 在用 vLLM**，无资源争抢。
+  三者 21:50 核验均存活。
+- **waiter 触发器存活性（最高杠杆风险，21:52 核验）**：waiter 88305 ← 88298
+  （`Ss`=session leader，独立 PGID 88298，TTY=?? 无控制终端）← 99739（hermes python
+  守护）← … ← 99731（PPID=1，挂 launchd）。88298 是独立会话+独立进程组（PGID 88298≠父
+  99739）且无 TTY → 我的 shell 进程组收 SIGHUP/SIGTERM 不波及它，根在 PID 1 链稳定。
+  活体证据：同结构 overnight-watcher 72034 已跨我多个 turn 存活 59+min，waiter 自身
+  存活 19+min → 该启动模式确能脱离我的会话存活，T4 自动触发器不会随会话回收静默死亡。
 - **fail-fast 语义**：任一 cell rc!=0 或 n_nodes<381 → break 2 中止整批（设计如此，
   防坏 checkpoint/坏 patch 污染后续 8 cell）。明早若见 PILOT ABORTED，先读
   报告里首个失败 cell 的 stderr。
