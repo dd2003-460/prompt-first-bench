@@ -55,6 +55,9 @@ CFP 复查（2026-11-24 ego-browser, icml.cc/Conferences/2027/Dates, source ①�
 
 **§4.3 精确词数（2026-11-24 11:28 独立复算, source ①）**：§4.3 全段 (L83-156) = **4,185 词**，其中 provenance 块 (L95-113) = 936 词。provenance 移出后 §4.3 仍 3,249 词——这是"再砍 3,752-6,252 词"缺口的主要来源。§4.3 内可移候选（subagent 分块词数）：Q6 cross-domain 1,278 词 / marginal yield+breakpoint 1,068 词 / hit-set control 628 词 / breadth-vs-depth 346 词 / depth provenance 359 词 / verbosity arm 96 词 / pooling provenance 269 词。
 
+**全节词数（2026-11-24 11:29 独立复算, source ①）**：总 18,148 词。§4 Findings = **8,150 词 (44.9%)**，其中 §4.1=882 / §4.2=630 / **§4.3=4,185 (51% of §4)** / **§4.4=2,451 (30% of §4)**。§6=2,714 / §7=2,831 / Abstract=1,282 / §2=879 / §3=815 / §5=357 / §8=138 / §9=460。
+**缺口 4,700 词的可覆盖路径（2026-11-24 11:31 修正）**：§4.4 支撑细节移 supplementary（**非全移**——L177 是 935 词混合段，含承重 claim "0/15 zero-convergence" + treatment 界定（KV cache≠树 JSON，红线保留正文）+ vsr/metacog 支撑细节；只移支撑细节，保留 claim+treatment ≈ 2,200 词可移）+ §4.3 非承重段移（cross-domain 1,278 + hit-set 628 ≈ 1,906）≈ 4,100 词 → 档位 A 基本可达（差 ~600 词，从 §2/§5 补）；档位 B/C 需再压 §6/§7 超出 60/70% 的部分。
+
 ## 不动的承重件（压缩红线）
 
 - 21 References 全留（投稿必需，字母序已验）。
