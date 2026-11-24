@@ -27,6 +27,19 @@ origin: ai (2026-11-24 07:35, 数字审计之"引用可追溯性"——draft §8
 | 43 | §4.1（within-source (a)→(b) effect 47–59% vs 18–40%） |
 | 45 | §4.1（[待核验] tag 触发 66%/60% vs 14%/0%） |
 
+## 压缩预编号（2026-11-24 11:15，compression-plan-20261124.md 配套）
+
+压缩 pass 执行时以下块移入 supplementary，编号预留（commit hash 压缩落地时回填）：
+
+| 预留编号 | 内容 | 来源块 | 备注 |
+|---------|------|--------|------|
+| 46 | §4 provenance 全段（judge_v2_depth 来源 / 数字核验层 / pooling / cross-domain contrast / pre-computation note / gap_rate / detector-scoped caveat） | draft L95 巨型段（拆分后 31 段） | 正文留 1 句 "provenance 见 supplementary 46"；承重 claim（"Budget buys breadth, not metacognition"）保留正文 |
+| 47 | §8 queued experiments 数据注（L163 8,855 字符） | draft L163 | 正文留 1 句 |
+| 48 | §6 Limitations 移出部分（砍 60% 后移出的条目） | 压缩 pass 产生 | 条目清单压缩时定 |
+| 49 | §7 Future work 移出部分（砍 70% 后移出的条目） | 压缩 pass 产生 | 条目清单压缩时定 |
+
+预编号不改变现有 1–45 编号；完整序列届时 `git log --grep=补充` 可达。
+
 ## 验证记录（2026-11-24 07:35）
 
 - 7 个数据源文件全部 `os.path.exists` 通过（land_rep_run.py / rep-scan-scores.json / prompts.py /
