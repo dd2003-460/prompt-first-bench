@@ -65,6 +65,24 @@
 - 把 T2 的判据（爬层/预言力/边界）接进 judge 机制（resistive formalism 的 judge 维度）
 - 把 T1 的触发阈值用 T2 的基线校准
 - 登记进 research-agi-budget 的子项，作为"AGI 系统能接住 D 思路"的能力证据
+- **✅ 整合完成（2026-11-25，Lead）**：
+
+  **step 2 — judge 整合（核心产出）**：T2 的"爬层"判据只测了**深度**（爬到哪层），没测**方向**（爬到哪个域）——臂B 爬层满分 2.0 却 100% 漂到混沌域。这正好对上 formalism judge 自己的 **flip（bottleneck 身份变）+ shift（存活 bottleneck 内排名变）**结构（`formalism-skeleton.tex` L68-76：judge = surface-vs-deep 修正，ground truth = argmax leaf）。所以接法不是"加第四维"（ad-hoc），而是把爬层按 formalism 已有的 flip/shift 拆开：
+  - **flip（0/1）**= 爬到的机制域身份对不对（相对 ground truth 域，T2 实例 = D 的 loss-landscape/非凸优化域）
+  - **shift（0-2）**= 域内爬多深（原爬层判据保留为 shift 分量）
+  - **align = flip × form**（form = shift+预言力+边界）：形态再高，域错 = 没对准 ground truth → 0。这就是 formalism "score = 修正距离到 argmax leaf" 在思考质量上的实例化——**judge 是 formalism 的性质，不是 ad-hoc labeler**。
+  - **对已有 v2 数据重打分**（判分校准规则：先对齐判据再比；不调 27b、不跑新实验）：
+    | 臂 | flip | shift | 预言力 | 边界 | form(0-6) | align |
+    |----|------|-------|--------|------|-----------|-------|
+    | 臂A | 0 | 1.00 | 0.00 | 1.00 | 2.00 | 0.00 |
+    | 臂B | 0 | 2.00 | 2.00 | 1.67 | 5.67 | 0.00 |
+  - flip 证据 = scores_v2.md 关键词统计（D 机制域词 0/6 样本 0 命中，混沌域 6/6 样本 141 命中）→ 两臂 flip 全 0。
+  - **form 方向未翻转**（臂B 5.67 > 臂A 2.00，与原 v2 总分一致）；新增 align 维度把"形似神未到"精确化：**shift/预言/边界高（形似）+ flip=0（神未到/域错）**。
+  - 意义：T2 发现的"域偏移"不是额外的 ad-hoc 发现，**它就是 formalism 的 flip 分量**——思考质量成为 formalism 的一个性质，与 #53 的 judge 机制同构（GPU 实例：surface-vs-deep 修正；思考实例：域内深度 vs 域身份修正）。
+
+  **step 1 — 阈值校准（诚实结论）**：T2 不提供 T1 触发阈值的**数值**校准点——T2 测的是思考**质量**（爬层/预言/边界），T1 阈值测的是思考**薄度**（430 字符/调用，来自 223 会话扫描基线），两者不同维度。T2 提供的是触发**文案**校准（域锚点 + 因果层指令），已落地 T1（stage-gate 仓 e20a2fb，`_T1_REFLECTION` 加"别顺字面停在怎么算/为什么难，往难的结构原因再爬一层"+通用域锚点核对）。数值阈值（5 轮/430 字符）维持 223 会话基线，待生产 HIT 数据回来再校准（与 T4 阈值同批）。
+
+  **step 3 — 登记**：research-agi-budget 子项⑥已含 T1-T4（`context.think_trigger_branch`），本整合把 T3 从"待 T1+T2"推进到"整合完成"。能力证据落点：27b 在 general 提示下能复刻 D 三步链的**形式**（form 5.67/6），但 flip=0（域偏移 100%）——"AGI 系统能接住 D 思路"的证据是**形式的**，内容的（正确机制域）尚未接住，这正是 think-trigger 要补的（触发词带域锚点+因果层指令）。
 - **T2 实验给出的触发词改进建议（2026-11-25，T3 直接可用）**：
   - T1 当前文案（`_T1_REFLECTION`）："这背后的 general 机制是什么？能推出什么可检验预言？"
   - T2 实验暴露两个缺口：① 27b 顺字面 priming 停在表层机制（100% 滑向混沌域，0/6 触及 D 的 loss landscape 域）；② 27b 停在"怎么算/为什么难"层，没深挖"难的结构原因是什么、难易由什么决定"。
@@ -83,5 +101,5 @@
 |------|--------|------|
 | T1 思考触发 hook 实现 | subagent A | 已提交（stage-gate 仓 1b30bc6 + APPROVALS 08697954，2026-11-25 01:33 复验 5 场景全过） |
 | T2 接着考虑实验（预注册+跑） | subagent B | 完成 2026-11-25 (commit 002eada24) |
-| T3 落点整合（T1+T2 完成后） | Lead（T1+T2 回来后） | 待 T1+T2 |
+| T3 落点整合（T1+T2 完成后） | Lead（T1+T2 回来后） | ✅ 整合完成 2026-11-25（judge 整合：爬层按 formalism flip/shift 拆，align=flip×form；对 v2 数据重打分 form 方向未翻转+新增 align 维度；阈值校准=T2 只给文案校准不给数值点；详见 T3 节） |
 | T4 脚本卡住→general 思考升级触发 | subagent A（与 T1 同批） | 真检测已提交（stage-gate 7229159 + APPROVALS eeae4de1，01:50 验证 9 场景全过+12 生产 session 0 误报） |
