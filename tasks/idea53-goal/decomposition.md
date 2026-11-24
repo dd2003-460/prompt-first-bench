@@ -37,11 +37,11 @@
 | T3 对照臂 | 同上 | 同上文件 control_flat：rate 全等→修正=0.0000（解转发平凡性） | ~10min | ✅ done |
 | T4 生死线判定 | Lead | 主 claim 成立（浅层 43-56% 判错+flat=0）；次级单调假设部分（A100>5090）→ idea53-theory-flip.md | ~5min | ✅ done |
 | T5 venue 决策 | arena 第五轮 | result.md 追加4 @ 7dae6431a | ~30min | ✅ done |
-| T6 短文大纲/负结果 | 按 T4 分支 | 成立→outline.md（claim=surface-vs-deep 修正量+flat 对照+三例复现）；含 W2 预注册冻结 | ~1h | 排队 |
-| T7 预注册合规检查 | Lead | GOAL.md §0.5 commit(eb1b0598c) 时间 < T2 数据产出时间（git log 可查） | ~2min | 排队 |
-| T8 形式 MI 补强 | 待派 | flip/shift→H(surface)-H(surface\|deep) 严格互信息（审稿防御：当前是可解释得分非 MI） | ~30min | 排队 |
+| T6 短文大纲/负结果 | 按 T4 分支 | outline.md（claim=surface-vs-deep 修正量+flat 对照+三例复现+3 对照臂+防御段） | ~1h | ✅ done @ ed2afce5e |
+| T7 预注册合规检查 | Lead | GOAL.md §0.5 commit(eb1b0598c 17:39) < 数据产出(718394ece 18:06)，git log 可查 | ~2min | ✅ done |
+| T8 形式 MI 补强 | Lead 写脚本 | idea53-theory-mi.json：H(D\|S)=0.71-0.77 bits 深层独有信息，flat 对照=0.0（形式化解转发平凡性） | ~30min | ✅ done @ 85a6b6c65 |
 
-总耗时 ~1.5h（T1-T4 已完），无外部依赖（纯数学 + 本地 spec 文件）。
+**T1-T8 全完成**。核心交付：surface-vs-deep 修正量（flip/shift）+ 严格 MI（H(D|S)）+ 负对照归零 + D 三例复现 + 短文大纲 + 预注册合规。
 
 ## 5. 与 #10 的关系
 
