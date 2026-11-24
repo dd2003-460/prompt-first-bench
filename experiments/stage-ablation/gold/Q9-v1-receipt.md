@@ -3,7 +3,7 @@
 - Repo: https://github.com/dd2003-460/prompt-first-bench
 - 当前分支：`arena/78602cd5-prompt-first-bench`
 - 审计基线 commit SHA：`82ad8b689fd52a49824cfe219041fdd5d08a137f`
-- 交付 commit SHA：提交后补记（该 SHA 在本次提交生成前尚不存在；不伪造）。
+- 初始交付 commit SHA（创建 Q9-v1 与本回执）：`d33b5e271`（完整 SHA：`d33b5e271b03651f3b9222f5b085eb21e20e6949`）。该 SHA 在首次提交后由本次回执更新记录；因此本次回执更新本身属于后续 commit，不在文件内自我引用其 SHA。
 - 自审时间：2026-11-24 UTC；交付文件：`experiments/stage-ablation/gold/Q9-v1.md`
 - 状态：本回执是骨架作者自审，不是独立评分，也不是外部交叉核验。
 
