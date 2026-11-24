@@ -73,6 +73,22 @@ T-PR-17 prompt 序列消融
 └── F5. 分析（depth 差异 + Welch/MWU + 效应量；与 K7 的节点数轴正交性核对）
 ```
 
+## F2b 滚雪球新增设计约束（11-24 文献滚雪球 T-PR-17-result.md，commit 81cc016dc）
+
+今日滚雪球确认新颖性弱（"未找到完全同构先例" conf ≤0.55；强近邻 Handoff Debt / HSC-Bench / PIVOT），并给出 8 条方法学建议。其中 4 条是 decomp 尚未覆盖的真缺口，现并入设计（执行前必须落实）：
+
+1. **先定义估计量（别把 4 臂当同一单因子）**：
+   - *operational total effect* = 删 verify / 换序列后质量 + token + 工具调用一起变 → 回答"能否简化 pipeline 省预算"（本 goal 真正要的）。
+   - *sequence-mechanism effect* = 阶段语义 / 次序本身的作用 → 需额外控制 token 长度 / 指令位置 / evidence / 预算。
+   - 两种分开报告，不混成一个笼统"序列效应"。
+2. **verify-off 的证据集混杂**：verify 会联网 / 过滤 / 改写节点，删它不只是删文字——会改变 evidence 集与树状态（未验证节点被直接接受）。当前 monkey-patch `_verify_batch` 标 verified 属"保留复合干预"，必须在分析里报 tool calls / evidence delta，不能把效应只归因"少了 verify 语义"；若要识别纯序列作用，需冻结同一 evidence snapshot replay 工具返回。
+3. **多指标判分（depth 单独会奖励浅树 / 节点膨胀）**：并列报 depth + 节点覆盖 / precision + parent-link 正确率 + verified 比例 + 重复 / 缺失 + 失败率；盲化评分 + 估 judge 噪声。depth 只是其一，不能单指标下结论。
+4. **KV-cache 声明边界**：本实验 treatment = "同一 text / SM checkpoint 重建续跑"，不是恢复完全相同的隐状态 / KV（Stage-Replay 2607.28495 警示：同 token prefix 的 fresh prefill vs retained cache 后缀可能不同）。claim 不得说"恢复了相同隐状态"。
+
+**对外 claim 收窄**（snowball §claim 建议）：写成"stateful pipeline suffix-ablation 设计"，不写"首次证明 LLM 顺序效应" / "此前无 checkpoint continuation 实验"。
+
+**统计补充**：若要声称"序列无影响"，需预设最小重要效应 + 等效性检验，不能用"不显著"代替"相同"（原 n≥5 + CI 保留，加等效性检验）。
+
 ## 缺口清单
 
 | 子项 | 缺什么 | 补法 |
@@ -80,7 +96,7 @@ T-PR-17 prompt 序列消融
 | F2 文献 | ✅ 已交付 81cc016dc（C1 conf 0.62 / C2 conf 0.80 / C3 机制映射） | 方法学缺口已记录：OpenReview 仅 2 次关键词检索非逐 venue 扫描；ACL Anthology 未查；PIVOT/STIG 数字为摘录级 |
 | F3 序列变体 | ✅ 变体区分度已由 C1 定：verify 删除=内容效应（位置解释不了，conf 0.65 真实）；顺序置换=位置效应重灾区（conf 0.60 可冒充）；minimal=长度效应中等（conf 0.55） | null control 分离 |
 | F3 checkpoint 恢复 | resume 是否完整保留状态（parent_ids 持久化 bug 已知，T5 未修） | 核验 checkpoint json 字段完整性，[待核验] |
-| F4 资源 | vLLM 被 K7 占用（719_r2 进行中，~2h 剩） | K7 完成后串行（单变量原则：同负载） |
+| F4 资源 | vLLM 被 q7 719 队列占用（r2 进行中 ETA ~22:20，r3 ~24:15 完）；watcher 已挂自动 post-run | vLLM 释放后串行（单变量原则：同负载）；设计已含 F2b 4 条新约束，释放即按强化设计跑 |
 | F5 判分 | judge 噪声 ~0.1 比预期效应可能更大 | **n≥5**（arena 硬建议，原 n≥3 不够）+ bootstrap CI；若效应 <judge 噪声 → 结论=不可检测而非无影响 |
 
 ## 正交性自检
