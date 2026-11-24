@@ -24,7 +24,7 @@ D 原话: "能把 claim 从『深层修正浅层』推到『树状瓶颈网络�
     (4) within    P(bs≠bd, bsb==bdb)   支对段错 (深层只修正域内段)
   flip_seg = (2)+(4);  flip_br = (2)+(3).
   树结构价值 = 深层修正分解成支级 + 域内两维 (1D 只能给总量),
-  且两维随 rate 结构此消彼长 (mild→域内主导, extreme→支级主导).
+  且主导维度随 rate 制度切换 (mild→域内主导, extreme→支级主导; 分组, 非单调此消彼长).
 
 对照臂:
   ① flat: 4 rate 全=1 → 所有 flip/列联格/H 必须=0 (解转发平凡性 + 同义反复).
@@ -148,7 +148,7 @@ def main():
         a['consistent_with_paper'] = (
             abs(a['flip_segment'] - PAPER_FLIP[g]) < 0.005 and
             abs(a['H_BD_given_BS_segment'] - PAPER_HSEG[g]) < 0.005)
-        # 此消彼长: 支级修正 (flip_br) vs 域内细修正 (within 格) 谁主导
+        # 主导维度: 支级修正 (flip_br) vs 域内细修正 (within 格) 谁主导
         a['dominant_dim'] = ('branch' if a['flip_branch'] > a['cells']['within']
                              else 'within')
         # 对照臂②: 置换 rate (打乱跨段), 修正量应随 rate 结构变化
