@@ -47,6 +47,7 @@
 - 模型：本地 27b（127.0.0.1:8787，OpenAI 兼容 /v1/chat/completions，qwen3.8-27b-mtp）
 - 约束：预注册红线——判据/材料/条件先 commit，再跑数据。不泄露 gold 后半段给 27b（只作判据参照）
 - 验收：两臂各 ≥3 次采样，打分落盘，臂B vs 臂A 差异可量化
+- **完成记录（2026-11-25，subagent B）**：两臂各 3 次采样完成（temp 0.7）。**关键陷阱**：27b 是 thinking 模型，机制推理藏在 `reasoning` 字段（vllm 单独返回），只抓 `content` 会系统性低估——v1 只抓 content 低估了臂B，v2 补抓 reasoning 重评修正。结论：general 提示下臂B 3/3 爬到机制层+推出可检验预言+边界（复刻 D 三步链），臂A 0/3 预言；但 27b 一致把"敏感性"解读成动力系统/混沌（李雅普诺夫），非 D 的软件工程/loss landscape 语境——形似神未到，机制选错域，未触及 D 的信息论洞察。数据/打分：`exp-results/raw_outputs_v2.json` + `scores_v2.md`（v2 主数据）。commits: 38e6b34d6(prereg)→1f9ba50d6→8f255df93(v1)→002eada24(v2)。
 
 ### T4 修脚本卡住→general 思考升级触发（D 2026-11-24 追加）
 - 目标：qqbot/agent 修脚本时若"修烦了"（连续多轮改同一脚本无进展/反复试错），触发 general 思考——退一步想"什么机制才能让 AI general 地思考/解决这个问题"，而不是继续蛮力试
@@ -64,12 +65,12 @@
 
 ## 缺口标注
 - [待核验] stop_hook 能否访问 per-message thinking（决定 T1 走首选还是降级）
-- [待核验] 27b 在 8787 的确切 model 名 + 调用方式（subagent B 用 curl 验证）
+- [已核验 2026-11-25] 27b 在 8787 = `qwen3.8-27b-mtp`（vllm NVFP4，OpenAI 兼容 /v1/chat/completions，thinking 模型：`reasoning` 字段单独返回，只抓 content 丢隐藏思考链）
 - [待标定] 触发阈值 N（连续几轮）和 thinking 阈值（先拍 430/调用，T2 数据回来再校准）
 
 ## 任务表（派发只执行表内条目）
 | 任务 | 执行方 | 状态 |
 |------|--------|------|
 | T1 思考触发 hook 实现 | subagent A | 派发 |
-| T2 接着考虑实验（预注册+跑） | subagent B | 派发 |
+| T2 接着考虑实验（预注册+跑） | subagent B | 完成 2026-11-25 (commit 002eada24) |
 | T3 落点整合 | Lead（T1+T2 回来后） | 待 T1+T2 |
