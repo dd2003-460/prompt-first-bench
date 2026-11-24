@@ -43,7 +43,43 @@
 
 **T1-T8 全完成**。核心交付：surface-vs-deep 修正量（flip/shift）+ 严格 MI（H(D|S)）+ 负对照归零 + D 三例复现 + 短文大纲 + 预注册合规。
 
-## 5. 与 #10 的关系
+## 5. v2 升级：电阻瓶颈树（D 2026-11-24 方法论纠正，预注册）
+
+**动机**：v1 是扁平一层（4 组件直接 sum，瓶颈=argmax），"deep" 只是参数层面（真实 rate vs rate=1），不是结构层面。claim 讲"深层节点的贡献"，模型必须有结构深度。v2 = 两三层电阻瓶颈树。
+
+**树结构（3 层，预注册固定）**：
+- L0 根：wall-clock T
+- L1：3 个 phase，**串联**（T = Σ T_p，类比串联电阻）
+  - P_compute（张量计算阶段）、P_memory（访存阶段）、P_scalar（标量/控制阶段）
+- L2：phase 内资源，**并联**（T_p = max_j t_j，类比并联限流）
+  - P_compute: {fp4, fp16}；P_memory: {bw}；P_scalar: {scalar}
+- 叶子：t_j = f_j / rate_j（f_j = 该资源工作量，rate_j = 硬件速率）
+- 瓶颈 = argmax 叶子（wall-clock 占比最大者）
+
+**浅层 vs 深层**：浅层 rate_j ≡ 1（假设等速）；深层 rate_j = 真实 spec（复用 v1 spec 表 4 卡）。
+
+**度量（与 v1 同口径可比）**：flip_rate（浅层瓶颈≠深层瓶颈比例）、time_shift（|deep_share − shallow_share| 均值）、H(D|S)（严格 MI，D=深层瓶颈，S=浅层瓶颈）。
+
+**对照臂（预注册）**：
+1. flat：rate 全相等 → 修正必须 = 0（模型正确性）
+2. 参数置换：rate 向量随机置换 → 修正跟随 rate 内容，不跟随结构标签
+3. **v1 扁平对照（结构必要性检验，奥卡姆）**：v1 = 单层全串联（T=Σt，瓶颈=argmax）；v2 = 两层串并联混合（compute 相内 max）。对比两者修正量：显著不同 → 树结构必要（claim 升级）；基本相同 → v1 够用（保留 v1，v2 作 robustness）
+
+**生死线（预注册，数据产出前固定）**：
+- 深层叶子修正显著 > 0：flip > 0.3 且 shift > 0.1（v1 实测 0.43-0.56 / 0.17-0.23，阈值取 v1 下沿一半）
+- 跨 ≥3 硬件一致
+- flat = 0
+- v1/v2 对比出结论（必要 or 冗余，两者都接受，不许 cherry-pick）
+
+**输入**：硬件 spec 复用 v1（4090/A100/5090/T5000）；workload 先验：phase 份额 f_p ~ Dirichlet(α=1)（均匀），phase 内资源份额 ~ Dirichlet(α=1)。N=40000 闭式采样。
+
+| 步骤 | 执行 | 验收（机器可查） | 状态 |
+|---|---|---|---|
+| T9 v2 树模型实现 | subagent | idea53-tree-v2.py：3 层树 + 串联 sum/并联 max + 4 硬件 + flat + 置换 + v1 对照，全闭式 | ⬜ |
+| T10 v2 结果+生死线 | subagent 跑 + Lead 复核 | idea53-tree-v2.json：flip/shift/H(D|S) per 硬件 + flat=0 + v1/v2 对比表；生死线判定写入 idea53-tree-v2.md | ⬜ |
+| T11 paper 升级决策 | Lead | 若 v2 成立且结构必要 → paper.md 方法节升级（v1 降为特例对照臂）；若 v2≈v1 → paper 不动，v2 进 robustness 附录 | ⬜ |
+
+## 6. 与 #10 的关系
 
 - #53 成立 → 反哺 #10 analysis 章节（因子树信息增益 = #10 的"瓶颈定位模块"）
 - #53 不成立 → 负结果进 #10 limitation
