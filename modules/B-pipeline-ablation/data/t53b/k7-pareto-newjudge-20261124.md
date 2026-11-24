@@ -1203,6 +1203,6 @@ watch (proc_3dbf15050970) 触发 TP17-ARENA-LANDED sha=9c5745541 (08:59:36)。�
 
 **标度警示 (承重)**: Q7 gold=52 units vs Q6=46 — cov 绝对值跨域比有 ~13% 标度偏移。unit 计数口径更干净: Q7 100 档 ≈ 8.7 units hit vs Q6 719 档 ≈ 7.7 units hit — Q7 每节点效率更高这个方向不依赖 cov 标度。(unit 数=mean cov×gold units: 0.1667×52≈8.7 / 0.167×46≈7.7)
 
-**cache artifact 注记**: Q7 50 档 r2/r3 score 完全相同 (0.3577, cov 0.115) — 11:10 已核验非 cache 共享 (r2/r3 同 score 但 metacog 不同, metacog 从树结构算)。同 score 是离散评分巧合, 保留数据不剔除, 但 50 档有效独立信息 <3。
+**cache artifact 注记**: Q7 50 档 r2/r3 score 完全相同 (0.3577, cov 0.115) — 11:10 核验 metacog 不同; **12:41 树级核验: 三 rep 树 hash 全不同 (r1 6af7ce / r2 c1ec70 / r3 73ad47, 签名=节点 id+parent+status+rework_count 的 md5) → 非 cache 共享, 独立树, 同 score 是离散评分巧合 (cov=hits/52, hit 数相同)。50 档有效 n=3 成立, 不降级。**
 
 **未决**: 150 档 n=1 不可判饱和; 等 15/15 (ETA ~13:55) 后 watchdog 自动跑双分析, 本信号升级为正式三域饱和点表。
