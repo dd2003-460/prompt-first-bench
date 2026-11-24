@@ -78,7 +78,8 @@ D 的终极目标：在 4×V100 硬件上建 research 的 AGI——能自主做�
 读了触发逻辑，"为什么低产"有了具体答案，比 H1-H4 更可操作：
 
 1. **触发是批级二值，非 per-node**（L728-734）：`_should_rework(batch)` = 批内 verified rate < `verify_threshold`(0.85) 才触发。→ **H3 以另一种形式成立**：批里 85% verified 时，剩下 15% 错的节点不触发 rework——粗粒度触发系统性漏掉"少数派错节点"。不是"置信度阈值保守"，是"触发粒度太粗"。
-2. **三域全部 rework 是 angle 模式（盲换角度重搜），directed 模式全 0**（本轮全批核验：Q6 angle 621 / Q7 angle 121 / GPU angle 2298，directed 三域均 0）。**12:59 修正根因**：初版说"directed 死代码因为矛盾很少检出"——错，矛盾其实检得出（rounds_log 的 contradictions_found：Q7-100-r1 检出 4、Q6-300-r1 检出 1、GPU-719-r2 检出 1）。真正根因是**代码级结构性断链**：矛盾扫描只扫 verified 节点（L865），rework 只处理 unverified 节点（L1450），verified 节点后续轮次不再被处理（不在 deduped 里）→ 两个集合不相交 → directed 路径（要求 contradiction_events 的节点落在 rework 目标集）**结构性不可达**，矛盾检得出也永不触发。
+2. **三域全部 rework 是 angle 模式（盲换角度重搜），directed 模式全 0**（本轮全批核验：Q6 angle 621 / Q7 angle 121 / GPU angle 2298，directed 三域均 0）。**13:05 根因最终版（代码级证明，闭合）**：初版说"directed 死代码因为矛盾很少检出"——错，矛盾其实检得出（rounds_log 的 contradictions_found：Q7-100-r1 检出 2+2、Q6-300-r1 检出 1、GPU-719-r2 检出 1）。真正根因是**代码级结构性断链**：矛盾扫描只扫 verified 节点（L865）→ 矛盾事件节点集 ⊆ verified；rework 池 = 本轮 deduped 里 unverified 节点（L1450）；**verified 是主循环内的吸收态**——状态转移只有 pending→verified（L639/699/823/847）和 pending/degraded→degraded（L616/761/785/1231），主循环无 verified→unverified 降级路径（L1155 的 degraded→pending 重置只在 verify-only 模式，不重拆不 rework）→ 两集合结构性不相交 → directed 路径（要求节点同时在 rework 池且有矛盾事件，L764/776）**结构性不可达**，矛盾检得出也永不触发。
+   - **证据等级标注**：这是代码级证明（逐行核状态转移），**非数据验证**——输出 JSON 不落盘 contradiction_events 字段（只有 rounds_log 计数），所以"矛盾节点∩rework 节点"的数据检验做不了（空字段求交=空，13:05 曾误当证据，已撤回）。经验事实 directed=0 与代码证明一致，但代码证明本身才是承重依据。
 3. **max_rework=2**（L119）：每节点最多 rework 2 次，之后直接 degraded 放弃。
 
 **机制结论（取代 H1-H4 的"空处方"）**：修复回路低产 = harness 设计问题，不是模型能力问题（三域全批核验一致）：
