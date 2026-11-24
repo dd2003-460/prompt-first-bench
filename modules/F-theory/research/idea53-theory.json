@@ -1,0 +1,97 @@
+{
+ "design": "factor tree × per-node conditional MI, closed-form, no LLM",
+ "reproduce_check": [
+  {
+   "case": "T5000 50/50 FP16/FP4",
+   "expect": "FP16 占 78-80%",
+   "got": "fp16 0.800",
+   "match": true
+  },
+  {
+   "case": "T5000 70/30",
+   "expect": "FP16 占 63%",
+   "got": "fp16 0.632",
+   "match": true
+  },
+  {
+   "case": "5090 标量 40% + issue 砍半",
+   "expect": "标量占 40%, 慢 40% (T1/T0=1.4)",
+   "got": "scalar_share=0.400, T1/T0=1.400",
+   "match": true
+  }
+ ],
+ "model_ok": true,
+ "per_hardware": {
+  "5090": {
+   "per_node_bits": [
+    0.8224,
+    0.8316,
+    0.0418,
+    0.4732
+   ],
+   "residual_H_bits": 1.5308
+  },
+  "T5000": {
+   "per_node_bits": [
+    0.8735,
+    0.4113,
+    0.0863,
+    0.7386
+   ],
+   "residual_H_bits": 1.7953
+  },
+  "4090": {
+   "per_node_bits": [
+    0.5799,
+    1.312,
+    0.0202,
+    0.1513
+   ],
+   "residual_H_bits": 1.4229
+  },
+  "A100": {
+   "per_node_bits": [
+    0.6353,
+    1.2293,
+    0.0441,
+    0.1968
+   ],
+   "residual_H_bits": 1.4727
+  }
+ },
+ "pooled_cross_hw": {
+  "per_node_bits": [
+   0.4833,
+   0.6849,
+   0.0319,
+   0.2369
+  ],
+  "residual_H_bits": 2.6554
+ },
+ "controls": {
+  "placeholder_flat_rates": {
+   "per_node_bits": [
+    2.0,
+    0.1597,
+    0.516,
+    0.5495
+   ],
+   "expect": "rate 全相等→B=主导类, 细节点增益应显著低于真实 spec"
+  },
+  "param_depth_reassign": {
+   "mean_gain_per_depth_slot": {
+    "0": 0.4432,
+    "1": 0.4076,
+    "2": 0.3652,
+    "3": 0.221
+   },
+   "expect": "若增益跟参数走→各槽≈该参数原增益(与 depth 无关); 跟深度走→槽增益随 depth 升"
+  },
+  "type_control": {
+   "enum_nodes_mean": 0.5841,
+   "judge_nodes_mean": 0.1344,
+   "expect": "判断型>枚举型 → 贡献由类型驱动非深度驱动"
+  }
+ },
+ "conclusion": "深层(判断型)每节点 0.1344 bits vs 浅层(枚举型) 0.5841 bits; 跨硬件一致=False; 生死线=不成立/部分"
+}
