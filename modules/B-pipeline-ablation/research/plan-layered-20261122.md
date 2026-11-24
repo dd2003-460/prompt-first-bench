@@ -46,7 +46,7 @@
 - **A-r1 已评**（idea2-scores.json）: wall 2865s, 316 节点, judge 0.5111（depth 0.8 / cov 0.222, 在 K7 budget-150 区间 0.43-0.52 内）, metacog 0.2365（hg 0.930, post 0.400）。
 - **证据**: idea2_runner.sh（ac6090870）；idea2-run.log；idea2-scores.json。
 - **✅ A/B 配对统计完成 (11-24, 684816ab0, idea2-ab-paired-20261124.md)**: ① wall time B 省 17.4% 但 n=3 不显著 (t=1.121, r1 反慢) + 两臂规模/时序混杂 → 本批不足以支持可靠 wall time 收益；② 前缀一致性: 内容核心 (claim/层级/父子/source) 122/122 逐字一致 ×3 run, 缓存语义内容层成立, evidence/edge_type/status 三 LLM 重生成字段漂移 (标注重算非内容漂移)；③ **预算口径勘误**: 本批跑于硬钳制修复 47a8543cd (11-23 13:44) 之前, "--max-nodes 150/B 臂仅 28 新节点"假设不成立 (realized A 316-435 / B 401-411) → 干净预算轴上重测 wall time 需 47a8543cd 之后代码重跑。
-- **下一步**: (若值得) 硬钳制后代码重跑 idea2 A/B 各 3 reps 验证 wall time 收益; 否则 idea2 收口为"内容层缓存成立 + wall time 收益未证实"。
+- **收口决策 (11-24 20:30, Lead 拍板)**: 不重跑。① 稿子 idea2 claim = metacog precision tradeoff (coverage↓/gap-marking↑), 从未声称 wall time 省时 → 省时只是旁证; ② vLLM 被 719 队列占用, 6 run 重跑 4.5h+ 排到半夜后; ③ n=3 不显著就如实写"未证实"是可防御口径。**idea2 收口为: 内容层缓存成立 (前缀 122/122 逐字一致) + metacog precision tradeoff 成立 + wall time 收益未证实 (本批 pre-clamp 混杂, 干净重测未做)**。
 - **过夜队列已挂**（rep_scan_queue.sh, b8e7d0a13, pid 16572）: idea2 完 → 自动补重复 100/150/300×5 reps（r4-r8 接续 K7, peak 定位优先, 50/719 端点不补）→ 每 run 自动双轴评分 append 到 rep-scan-scores.json。✅ 凌晨 01:43 跑完 15 reps; **唤醒后第一动作已完成 (11-24)**: rep-scan-scores.json 池化 → k7-pareto-newjudge-20261124.md (104 runs, cov ~300 饱和, 拐点≈300) + idea2 配对统计 (684816ab0) + workshop §4.3 已填。
 
 ### L2-5 发表层（v0.1 稿已落盘）
