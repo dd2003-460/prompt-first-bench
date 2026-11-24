@@ -166,9 +166,11 @@ def _seed_nodes(sm, sm_mod, meta, nodes):
     return id2rec
 
 
-def build_sm(arm, ckpt_spec, budget, seed, qid="gpu", question=None):
+def build_sm(arm, ckpt_spec, budget, seed, rep=1, qid="gpu", question=None):
     """构造已种子 checkpoint + 应用臂 patch 的 SM。返回 (sm, sm_mod, log, meta, id2rec)。
-    question 优先取 checkpoint meta['question']（权威，与生产一致），其次参数。"""
+    question 优先取 checkpoint meta['question']（权威，与生产一致），其次参数。
+    rep: null-control 臂的 shuffle rng 按 (seed, rep) 播种——每个 rep 独立重排
+    （否则同 seed 跨 rep 扰动相同，n≥5 的 CI 失效）。canonical/verify-off 不用该 rng。"""
     import s5_state_machine as sm_mod
 
     ckpt = _resolve_ckpt(ckpt_spec)
@@ -182,7 +184,7 @@ def build_sm(arm, ckpt_spec, budget, seed, qid="gpu", question=None):
     meta, nodes = sm._load_checkpoint(ckpt)
     id2rec = _seed_nodes(sm, sm_mod, meta, nodes)
     _wrap_save_checkpoint(sm, log)
-    rng = random.Random(seed)
+    rng = random.Random(f"{seed}:{rep}")  # 复合种子: 同 seed 不同 rep → 独立 shuffle 流
     if arm == "verify-off":
         _patch_verify_off(sm)
     elif arm == "null-control":
@@ -389,7 +391,7 @@ def smoke_test(arm, ckpt_spec, budget, seed):
 def run_arm(arm, ckpt_spec, rep, budget, seed, qid="gpu", out_root=DATA_ROOT):
     """跑一个 cell（arm × checkpoint × rep）。发真实 LLM 调用。返回 metrics dict。"""
     os.makedirs(out_root, exist_ok=True)
-    sm, sm_mod, log, meta, id2rec = build_sm(arm, ckpt_spec, budget, seed, qid=qid)
+    sm, sm_mod, log, meta, id2rec = build_sm(arm, ckpt_spec, budget, seed, rep=rep, qid=qid)
     # checkpoint 输出隔离到本 cell 子目录（防跨 cell 串档）
     cell_ckpt = os.path.join(out_root, f"{arm}_{ckpt_spec}_r{rep}_ckpt")
     os.makedirs(cell_ckpt, exist_ok=True)
