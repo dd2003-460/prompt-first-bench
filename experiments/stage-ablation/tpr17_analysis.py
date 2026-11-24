@@ -326,6 +326,23 @@ def main(argv=None):
             f"UNDERPOWERED: {underpowered} 每臂 rep 数 <5 (F5: n≥5 才能下结论, n=3 会假阳性)。"
             f"当前结果只作 pilot 哨兵 (pipeline 跑通 + 效应方向粗检), 不可当最终结论; "
             f"正式结论需补跑到每臂 n≥5。")
+    # 指标级 power 注记 (2026-11-24 实测 sd 代入配对 TOST, 见 design_notes power 决策表):
+    # 防把弱功效指标的"不等效"误读为"有影响"。
+    max_n = max(n_per_cell.values()) if n_per_cell else 0
+    _pw = {
+        "depth": {3: "17%", 5: "20%", 10: "42%", 15: "73%", 20: "86%"},
+        "verified": {3: "~60%", 5: "94%", 10: "100%"},
+        "parent_link": {3: "~50%", 5: "70%", 10: "96%", 15: "100%"},
+    }
+    def _pw_str(metric, default):
+        return _pw[metric].get(max_n, default)
+    power_note = (
+        f"TOST 判等效 power (实测 sd, 真等效时): depth(sd=0.093,Δ=0.1) n={max_n} 约 "
+        f"{_pw_str('depth', '<17%')}; "
+        f"verified(sd=0.040,Δ=0.1) n={max_n} 约 {_pw_str('verified', '<60%')}; "
+        f"parent_link(sd=0.028,Δ=0.05) n={max_n} 约 {_pw_str('parent_link', '<50%')}。"
+        f"⟹ depth 判'不等效'在 n≤10 下只能读作 underpowered, 非'序列有影响'; "
+        f"verified/parent_link 判等效才是可靠正向证据。")
 
     report = {
         "ts": datetime.now().isoformat(timespec="seconds"),
@@ -333,6 +350,7 @@ def main(argv=None):
         "n_cells": len(cells),
         "n_per_cell": n_per_cell,
         "underpowered": underpowered,
+        "power_note": power_note,
         "problems": problems,
         "comparisons": comparisons,
         "cross_checkpoint_direction": direction_consistency(comparisons),
