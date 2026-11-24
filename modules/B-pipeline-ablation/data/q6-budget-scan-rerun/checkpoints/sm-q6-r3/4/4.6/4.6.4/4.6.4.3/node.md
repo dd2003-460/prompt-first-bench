@@ -1,0 +1,20 @@
+# N246: MTTR<30min的达成概率P(MTTR<30min)随自动化覆盖率A_auto线性增加：P = 0.5 + 0.5 × A_auto，其中A_auto为自动
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N90
+
+## Claim
+
+MTTR<30min的达成概率P(MTTR<30min)随自动化覆盖率A_auto线性增加：P = 0.5 + 0.5 × A_auto，其中A_auto为自动化脚本覆盖的故障类型占比，需A_auto≥60%才能保证P≥0.8，对应需开发的Playbook数量N_required = 0.6 × N_total_fault_types
+
+## Corrected Claim
+
+MTTR<30min的达成概率P(MTTR<30min)通常随自动化覆盖率A_auto增加而提升，具体线性关系及阈值需根据实际运维数据建模确定，而非固定为P = 0.5 + 0.5 × A_auto。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性参数（如基础概率0.5、线性系数0.5、阈值60%），这些并非第一性原理或数学公理可推导的必然结论，而是基于特定行业经验或假设模型的估算值，缺乏普适性。 | source=knowledge，逻辑自洽（数学推导正确：0.5+0.5*0.6=0.8），但具体系数属于经验事实，无外部来源支持，依据经验事实排除条款降级。

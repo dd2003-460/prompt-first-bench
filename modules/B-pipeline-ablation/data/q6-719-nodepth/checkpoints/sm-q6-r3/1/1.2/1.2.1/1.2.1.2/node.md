@@ -1,0 +1,24 @@
+# N154: 路由抖动 σ_routing 的构成公式：σ_routing = sqrt(Σ_{i=1}^{H} σ_hop_i^2)，其中 H 为跳数，σ_hop_i 为第
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N43
+
+## Claim
+
+路由抖动 σ_routing 的构成公式：σ_routing = sqrt(Σ_{i=1}^{H} σ_hop_i^2)，其中 H 为跳数，σ_hop_i 为第 i 跳的抖动。若假设各跳独立同分布且每跳均值抖动为 3ms，标准差约为均值的 0.5-1.0 倍，则 σ_routing ≈ H × σ_hop_std。
+
+## Corrected Claim
+
+若假设各跳独立同分布且每跳抖动标准差为 σ_hop_std，则路由总抖动标准差 σ_routing ≈ sqrt(H) × σ_hop_std。
+
+## Evidence
+
+[质询]公式推导存在逻辑跳跃：若各跳独立同分布，总抖动的标准差应为 sqrt(H) * σ_hop_std，而非 H * σ_hop_std。陈述中直接给出 σ_routing ≈ H × σ_hop_std 仅在特定非独立或线性累积假设下成立，与前提“独立同分布”矛盾。 | 逻辑校验发现内部矛盾：独立随机变量之和的方差等于方差之和，标准差随 sqrt(H) 增长，而非 H。陈述将独立假设与线性累积结果混用，导致量级错误。
+
+## Search Query
+
+network jitter propagation independent hops standard deviation

@@ -1,0 +1,24 @@
+# N160: 每跳延迟贡献 T_hop 的分解：T_hop = T_transmission + T_propagation + T_processing，其中 T_tran
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N45
+
+## Claim
+
+每跳延迟贡献 T_hop 的分解：T_hop = T_transmission + T_propagation + T_processing，其中 T_transmission ≈ 0.1ms（10Gbps 链路），T_propagation ≈ 0.5-1.5ms（取决于距离，光纤速度 200km/ms），T_processing ≈ 0.5-2ms（路由器转发延迟）。总 T_hop 典型值 1-4ms。
+
+## Corrected Claim
+
+每跳延迟贡献 T_hop 的分解：T_hop = T_transmission + T_propagation + T_processing，其中 T_transmission ≈ 0.1ms（10Gbps 链路），T_propagation ≈ 0.5-1.5ms（取决于距离，光纤速度 200km/ms），T_processing ≈ 0.5-2ms（路由器转发延迟）。总 T_hop 典型值 1-4ms。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点公式中的三个独立分量（传输、传播、处理），逻辑上互斥且共同构成总延迟，无重叠或遗漏。虽然T_transmission子节点指出了父节点中0.1ms估算与1MB对象计算结果的矛盾，但这属于数据校准而非概念冗余或正交性破坏。）
+
+## Search Query
+
+router forwarding delay propagation delay transmission delay per hop

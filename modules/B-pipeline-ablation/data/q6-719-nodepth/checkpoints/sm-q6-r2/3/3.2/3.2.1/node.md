@@ -1,0 +1,20 @@
+# N93: 平均对象大小 s 的加权计算公式：s_avg = (N_img * s_img + N_vid * s_vid) / (N_img + N_vid)，其中 N_
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N22
+
+## Claim
+
+平均对象大小 s 的加权计算公式：s_avg = (N_img * s_img + N_vid * s_vid) / (N_img + N_vid)，其中 N_img 和 N_vid 分别为日均图片和视频请求次数，s_img 和 s_vid 分别为平均单张图片大小和平均单个短视频大小。
+
+## Corrected Claim
+
+平均对象大小 s 的加权计算公式：s_avg = (N_img * s_img + N_vid * s_vid) / (N_img + N_vid)，其中 N_img 和 N_vid 分别为日均图片和视频请求次数，s_img 和 s_vid 分别为平均单张图片大小和平均单个短视频大小。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该公式符合加权平均值的数学定义，量纲一致（总字节数/总请求数=平均字节数/请求），无内部矛盾。

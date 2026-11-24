@@ -1,0 +1,20 @@
+# N13: 边缘节点覆盖半径 R_cover = D_max / sqrt(N_pop)，其中 D_max 为用户分布最大距离（~3000km），N_pop 为 POP 点
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+边缘节点覆盖半径 R_cover = D_max / sqrt(N_pop)，其中 D_max 为用户分布最大距离（~3000km），N_pop 为 POP 点数；10 个 POP 点时平均覆盖半径约 950km，决定回源延迟基线。
+
+## Corrected Claim
+
+边缘节点覆盖半径 R_cover = D_max / sqrt(N_pop)，其中 D_max 为用户分布最大距离（~3000km），N_pop 为 POP 点数；10 个 POP 点时平均覆盖半径约 950km，决定回源延迟基线。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算 3000/sqrt(10) ≈ 948.68km，与陈述中的950km一致，量纲与逻辑自洽。

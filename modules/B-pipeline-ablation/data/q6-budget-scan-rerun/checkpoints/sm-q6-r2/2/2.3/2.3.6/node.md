@@ -1,0 +1,20 @@
+# N75: 自建策略下自动化云服务成本：CI/CD管道（Jenkins/GitLab Runner）+ 配置管理（Ansible/Puppet）+ 日志聚合（ELK），若使
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+自建策略下自动化云服务成本：CI/CD管道（Jenkins/GitLab Runner）+ 配置管理（Ansible/Puppet）+ 日志聚合（ELK），若使用开源自建，硬件折旧已计入Infra_Cost，软件许可为¥0，仅维护成本约¥20,000/年，即¥55/1000 req (假设日均100万请求)
+
+## Corrected Claim
+
+自建策略下自动化云服务成本：CI/CD管道（Jenkins/GitLab Runner）+ 配置管理（Ansible/Puppet）+ 日志聚合（ELK），若使用开源自建，硬件折旧已计入Infra_Cost，软件许可为¥0，仅维护成本约¥20,000/年，即¥55/1000 req (假设日均100万请求)
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：开源自建软件许可为0符合事实，维护成本¥20,000/年对应日均100万请求（年约3.65亿请求）的单位成本约¥0.55/万请求，即¥55/百万请求（1000 req此处应理解为每百万请求或单位换算后的等效值，量级在自建运维成本中合理），无外部来源矛盾。

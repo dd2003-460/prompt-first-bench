@@ -1,0 +1,20 @@
+# N360: 峰值 RPS 激进工作点：R_pg = 4.0（基于 N15 流量分布 40%/10% 理论比值），RPS_peak = 12.51 × 4.0 ≈ 50.04
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N114
+
+## Claim
+
+峰值 RPS 激进工作点：R_pg = 4.0（基于 N15 流量分布 40%/10% 理论比值），RPS_peak = 12.51 × 4.0 ≈ 50.04 RPS，用于 P99 延迟压力测试上限
+
+## Corrected Claim
+
+峰值 RPS 激进工作点：R_pg = 4.0（基于 N15 流量分布 40%/10% 理论比值），RPS_peak = 12.51 × 4.0 ≈ 50.04 RPS，用于 P99 延迟压力测试上限
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：12.51 * 4.0 = 50.04，数值计算准确，且符合基于理论比值设定压力测试上限的工程逻辑。

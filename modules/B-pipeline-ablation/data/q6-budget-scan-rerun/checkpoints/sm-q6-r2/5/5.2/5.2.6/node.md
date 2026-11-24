@@ -1,0 +1,24 @@
+# N144: 长尾区域 RTT 分布：长尾区域（如西南/西北）到最近公有云 POP 的 RTT 通常为 80-150ms，而自建 POP 仅覆盖核心区域，长尾区域仍需回源或依
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N32, N33, N34
+
+## Claim
+
+长尾区域 RTT 分布：长尾区域（如西南/西北）到最近公有云 POP 的 RTT 通常为 80-150ms，而自建 POP 仅覆盖核心区域，长尾区域仍需回源或依赖公有云，导致混合策略在长尾区域的 P99 延迟仍受限于 L_cloud_tail ≈ 150-250ms。
+
+## Corrected Claim
+
+长尾区域 RTT 分布：长尾区域（如西南/西北）到最近公有云 POP 的 RTT 通常为 80-150ms，而自建 POP 仅覆盖核心区域，长尾区域仍需回源或依赖公有云，导致混合策略在长尾区域的 P99 延迟仍受限于 L_cloud_tail ≈ 150-250ms。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：长尾区域（如中国西南/西北）到核心公有云节点（如北京/上海/广州）的物理距离通常在1000-2000公里以上，光纤传输延迟加上网络处理开销，80-150ms的RTT符合物理直觉；P99延迟受限于长尾路径的150-250ms也符合网络延迟分布规律。
+
+## Search Query
+
+China CDN tail region RTT distribution public cloud vs self-built

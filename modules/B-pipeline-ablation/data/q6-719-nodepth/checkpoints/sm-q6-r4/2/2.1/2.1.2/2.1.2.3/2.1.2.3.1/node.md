@@ -1,0 +1,24 @@
+# N605: 冗余电源成本 ¥1,000-2,000 的区间过宽，需根据功率因数与效率等级细化：800W 80+ Platinum 电源单价约为 ¥600-800 (如 De
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N208
+
+## Claim
+
+冗余电源成本 ¥1,000-2,000 的区间过宽，需根据功率因数与效率等级细化：800W 80+ Platinum 电源单价约为 ¥600-800 (如 Delta/Dell OEM)，两台共 ¥1,200-1,600；若选用 80+ Titanium 级别 (效率 96% vs 94%)，单价升至 ¥900-1,100，两台共 ¥1,800-2,200。考虑到 PUE 1.5 的机房环境，Platinum 级别的节能收益 (年省电费约 ¥50/台) 不足以覆盖差价，故选 Platinum 级别，成本定为 ¥1,400/台。
+
+## Corrected Claim
+
+冗余电源成本 ¥1,000-2,000 的区间过宽，需根据功率因数与效率等级细化：800W 80+ Platinum 电源单价约为 ¥600-800 (如 Delta/Dell OEM)，两台共 ¥1,200-1,600；若选用 80+ Titanium 级别 (效率 96% vs 94%)，单价升至 ¥900-1,100，两台共 ¥1,800-2,200。考虑到 PUE 1.5 的机房环境，Platinum 级别的节能收益 (年省电费约 ¥50/台) 不足以覆盖差价，故选 Platinum 级别，成本定为 ¥1,400/台。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+800W 80+ Platinum server power supply unit price 2024

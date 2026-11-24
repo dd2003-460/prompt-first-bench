@@ -1,0 +1,24 @@
+# N430: 上海本地场景下网络RTT的理论下限 T_rtt_min = 2 × d / c + T_switch_processing，其中 d=0km, c=3×10^8
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N145
+
+## Claim
+
+上海本地场景下网络RTT的理论下限 T_rtt_min = 2 × d / c + T_switch_processing，其中 d=0km, c=3×10^8 m/s, T_switch_processing 为交换机/网卡典型处理延迟 0.05-0.2ms，故 T_rtt_min ≈ 0.1-0.4ms
+
+## Corrected Claim
+
+上海本地场景下网络RTT的理论下限 T_rtt_min = 2 × d / c + T_switch_processing，其中 d=0km, c=3×10^8 m/s, T_switch_processing 为交换机/网卡典型处理延迟 0.05-0.2ms，故 T_rtt_min ≈ 0.1-0.4ms
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：光速传播项为0，交换机/网卡处理延迟0.05-0.2ms符合典型工程经验值，RTT为往返故乘以2，计算结果0.1-0.4ms量级合理且自洽。
+
+## Search Query
+
+network switch processing latency nanoseconds microsecond datacenter

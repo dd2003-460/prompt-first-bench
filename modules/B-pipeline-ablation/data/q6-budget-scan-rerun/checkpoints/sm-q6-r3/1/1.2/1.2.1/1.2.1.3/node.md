@@ -1,0 +1,20 @@
+# N141: T_origin_fallback 回源延迟量化：T_origin_fallback = (1 - CHR) × T_origin，其中 CHR=90%（基于 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N41
+
+## Claim
+
+T_origin_fallback 回源延迟量化：T_origin_fallback = (1 - CHR) × T_origin，其中 CHR=90%（基于 N16），T_origin 为回源延迟（典型值 100-200ms，取决于源站位置与带宽）；假设 T_origin=150ms，则 T_origin_fallback = 0.1 × 150 = 15ms；P99 值需考虑回源尾延迟，假设 T_origin P99=300ms，则 T_origin_fallback P99 = 0.1 × 300 = 30ms；总 T_pub P99 ≈ T_last_mile P99 + T_edge_proc P99 + T_origin_fallback P99 ≈ 87.75 + 15 + 30 = 132.75ms，接近 150ms 基准。
+
+## Corrected Claim
+
+T_origin_fallback 回源延迟量化：T_origin_fallback = (1 - CHR) × T_origin，其中 CHR=90%（基于 N16），T_origin 为回源延迟（典型值 100-200ms，取决于源站位置与带宽）；假设 T_origin=150ms，则 T_origin_fallback = 0.1 × 150 = 15ms；P99 值需考虑回源尾延迟，假设 T_origin P99=300ms，则 T_origin_fallback P99 = 0.1 × 300 = 30ms；总 T_pub P99 ≈ T_last_mile P99 + T_edge_proc P99 + T_origin_fallback P99 ≈ 87.75 + 15 + 30 = 132.75ms，接近 150ms 基准。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 T_origin_fallback = (1 - CHR) × T_origin 在 CHR=90% 时系数为 0.1，数值计算 0.1*150=15ms 及 0.1*300=30ms 正确，总延迟累加 87.75+15+30=132.75ms 符合算术逻辑，量级合理。

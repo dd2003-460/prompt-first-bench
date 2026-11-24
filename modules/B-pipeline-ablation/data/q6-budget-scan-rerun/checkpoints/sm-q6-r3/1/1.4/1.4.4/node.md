@@ -1,0 +1,20 @@
+# N34: 缓存命中率对P99延迟的影响：若命中率为H，则P99延迟 = H * T_local + (1-H) * T_origin，其中T_local为本地缓存响应时间
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+缓存命中率对P99延迟的影响：若命中率为H，则P99延迟 = H * T_local + (1-H) * T_origin，其中T_local为本地缓存响应时间（约50ms），T_origin为回源响应时间（约300ms）；当H从90%降至85%时，P99延迟增加约15ms（0.05 * 300ms）
+
+## Corrected Claim
+
+缓存命中率对P99延迟的影响：若命中率为H，则P99延迟 = H * T_local + (1-H) * T_origin，其中T_local为本地缓存响应时间（约50ms），T_origin为回源响应时间（约300ms）；当H从90%降至85%时，P99延迟增加约15ms（0.05 * 300ms）
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（三个子节点分别针对公式中的两个核心变量（T_local, T_origin）的微观组成进行拆解修正，以及针对公式本身（线性加权 vs 分布积分）的数学适用性进行修正。三者维度不同（参数细化 vs 模型修正），内容互不重叠且逻辑上相互独立（前两者提供修正后的参数范围，第三者提供计算方法的修正），共同构成了对父节点中简化模型的完整批判与细化。）

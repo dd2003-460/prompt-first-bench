@@ -1,0 +1,20 @@
+# N359: 日均短视频上传量 V_vid 估算：基于 30:70 体积比假设，V_vid = 200GB × 0.7 = 140GB/天，用于计算短视频对象总数及缓存压力。
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N125
+
+## Claim
+
+日均短视频上传量 V_vid 估算：基于 30:70 体积比假设，V_vid = 200GB × 0.7 = 140GB/天，用于计算短视频对象总数及缓存压力。
+
+## Corrected Claim
+
+日均短视频上传量 V_vid 估算：基于 30:70 体积比假设，V_vid = 200GB × 0.7 = 140GB/天，用于计算短视频对象总数及缓存压力。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于30:70体积比假设，200GB * 0.7 = 140GB，计算无误且符合逻辑。

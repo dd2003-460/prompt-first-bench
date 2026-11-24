@@ -1,0 +1,20 @@
+# N34: 缓存命中率对P99延迟的影响：若命中率为H，则P99延迟 = H * T_local + (1-H) * T_origin，其中T_local为本地缓存响应时间
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+缓存命中率对P99延迟的影响：若命中率为H，则P99延迟 = H * T_local + (1-H) * T_origin，其中T_local为本地缓存响应时间（约50ms），T_origin为回源响应时间（约300ms）；当H从90%降至85%时，P99延迟增加约15ms（0.05 * 300ms）
+
+## Corrected Claim
+
+缓存命中率对P99延迟的影响：若命中率为H，则P99延迟 = H * T_local + (1-H) * T_origin，其中T_local为本地缓存响应时间（约50ms），T_origin为回源响应时间（约300ms）；当H从90%降至85%时，P99延迟增加约15ms（0.05 * 300ms）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

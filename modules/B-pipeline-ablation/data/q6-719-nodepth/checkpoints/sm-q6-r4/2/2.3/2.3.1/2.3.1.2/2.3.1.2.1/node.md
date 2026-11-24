@@ -1,0 +1,30 @@
+# N543: 长尾区域（西部+东北）用户请求量占比 w_tail 的精确值：基于2023年中国各省互联网普及率与人口分布，新疆、西藏、青海、甘肃、宁夏、内蒙古、黑龙江7省区合
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N177
+
+## Claim
+
+长尾区域（西部+东北）用户请求量占比 w_tail 的精确值：基于2023年中国各省互联网普及率与人口分布，新疆、西藏、青海、甘肃、宁夏、内蒙古、黑龙江7省区合计请求占比 w_tail ≈ 12.5%（而非N177中假设的20%，需修正）；该值直接决定 P99 延迟分布中尾部区间的权重系数。
+
+## Corrected Claim
+
+长尾区域（西部+东北）用户请求量占比 w_tail 显著低于东部沿海地区，具体数值需基于分省区互联网用户活跃度及流量数据进一步核算，不宜直接假定为固定值如12.5%或20%。
+
+## Evidence
+
+[质询]该数值（12.5%）是一个具体的经验统计值，无法从第一性原理推导。参考来源仅提供了宏观行业报告标题或摘要，未包含分省份的互联网普及率、人口分布或具体的请求量占比数据，因此无法通过现有来源直接验证该精确数值。此外，将‘互联网普及率与人口分布’直接等同于‘请求量占比’存在口径混淆风险（普及率不等于活跃度或流量权重），且12.5%这一具体数值缺乏来源支撑。 | 经验事实，逻辑自洽但缺来源支持。参考来源[1][2][3]均为宏观统计报告，未提供分省区请求量占比的具体数据，无法直接验证12.5%这一数值，故降级为定性表述。
+
+## Search Query
+
+China province internet user distribution 2023 Xinjiang Tibet Qinghai Gansu Ningxia Inner Mongolia Heilongjiang percentage total users
+
+## Retrieval Sources
+
+- {'url': 'https://www.miit.gov.cn/txnj2023/tx_index.html&rut=acb3b78e0aece6f5876196a33c897b03a25682c173c538367e5c7c1f5977f000', 'type': 'ddg', 'title': '2023年中国通信产业统计年鉴 - miit.gov.cn'}
+- {'url': 'http://www3.cnnic.cn/n4/2025/0117/c88-11229.html&rut=40bb97df61a8b02cd175b59ca0f9ae3c261961792324295cac158985a5ba9a6b', 'type': 'ddg', 'title': '第55次《中国互联网络发展状况统计报告》--互联网发展研究'}
+- {'url': 'https://www.miit.gov.cn/jgsj/yxj/xxfb/art/2024/art_7f101ab7d4b54297b4a18710ae16ff83.html&rut=7ca3d4543b1d7439adb3252392fd2a609f75868fedd5979bd20d383c96377777', 'type': 'ddg', 'title': '2023年通信业统计公报 - miit.gov.cn'}

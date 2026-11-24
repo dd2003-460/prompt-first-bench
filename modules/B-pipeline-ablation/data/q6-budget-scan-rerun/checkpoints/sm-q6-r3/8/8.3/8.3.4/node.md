@@ -1,0 +1,30 @@
+# N370: 中国不同省份/城市的商业电价差异显著，一线城市（北上广深）商业电价约为¥0.8-1.2/kWh，二三线城市约为¥0.6-0.9/kWh，需按10个POP所在城市
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N128
+
+## Claim
+
+中国不同省份/城市的商业电价差异显著，一线城市（北上广深）商业电价约为¥0.8-1.2/kWh，二三线城市约为¥0.6-0.9/kWh，需按10个POP所在城市的实际电价加权计算
+
+## Corrected Claim
+
+中国不同省份/城市的商业电价存在显著差异，且普遍实行分时电价机制（峰谷平），具体电价需查询各城市最新工商业目录电价或市场化交易价格，一线城市通常高于二三线城市。
+
+## Evidence
+
+[质询]具体数值区间（0.8-1.2 vs 0.6-0.9）属于经验事实，且未考虑分时电价（峰谷平）的巨大差异，仅凭逻辑无法确定具体数值范围，需依赖具体数据支持。 | 来源[1][2][3]证实了商业电价存在地区差异和分时机制，但未提供具体的一线城市与二三线城市的精确数值区间，属于间接支持。
+
+## Search Query
+
+China commercial electricity price by province 2024 2025 yuan per kWh
+
+## Retrieval Sources
+
+- {'url': 'https://wenku.baidu.com/view/a13bfb84d55abe23482fb4daa58da0116d171f46.html&rut=6df894c4e8b0db6882d933cd20ec292c1b46181546cfba2bcd71de7680a5ff34', 'type': 'ddg', 'title': '商用电多少钱一度？2026年最新电价构成、地区差异与查询指南'}
+- {'url': 'https://wenku.baidu.com/view/8d0b999f80254b35eefdc8d376eeaeaad1f31605.html&rut=04b6ce37bab38425b04838827754d65617ead15b66b8f8fce384fa1740593add', 'type': 'ddg', 'title': '商业电费多少钱一度？2026最新价格表（附各地电价查询）'}
+- {'url': 'https://zhuanlan.zhihu.com/p/2046277048071612214&rut=b1f37d1833be5a6a87237c7185fed46470d13a9af9985dd75e05a19b5c6c747c', 'type': 'ddg', 'title': '全国各省市工商业购电电价和和新能源机制电价汇总（2026年6月）'}

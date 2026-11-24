@@ -1,0 +1,20 @@
+# N345: Dirichlet 采样与成本计算的耦合机制：每次蒙特卡洛迭代 i 中，geo_share_i ~ Dirichlet(α) 生成新的地理分布向量，进而改变每种
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N109
+
+## Claim
+
+Dirichlet 采样与成本计算的耦合机制：每次蒙特卡洛迭代 i 中，geo_share_i ~ Dirichlet(α) 生成新的地理分布向量，进而改变每种策略的有效带宽成本 B_cost_i 和 P99 延迟 P99_i；成本序列 {C_i} 的方差 σ^2 主要来源于 geo_share 的随机性，而非计算误差，因此收敛速度受 Dirichlet 分布集中度（Σα_i）控制：Σα_i 越小（如 10×Σgeo_prior ≈ 10），分布越分散，σ 越大，收敛越慢
+
+## Corrected Claim
+
+Dirichlet 采样与成本计算的耦合机制：每次蒙特卡洛迭代 i 中，geo_share_i ~ Dirichlet(α) 生成新的地理分布向量，进而改变每种策略的有效带宽成本 B_cost_i 和 P99 延迟 P99_i；成本序列 {C_i} 的方差 σ^2 主要来源于 geo_share 的随机性，而非计算误差，因此收敛速度受 Dirichlet 分布集中度（Σα_i）控制：Σα_i 越小（如 10×Σgeo_prior ≈ 10），分布越分散，σ 越大，收敛越慢
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Dirichlet分布的集中度参数Σα_i确实控制分布的分散程度，Σα_i越小分布越分散，导致采样出的geo_share方差越大，进而使依赖该分布的成本序列方差增大，收敛速度变慢，符合统计学基本原理。

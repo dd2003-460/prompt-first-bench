@@ -1,0 +1,30 @@
+# N635: 企业级硬盘备件单价 P_HDD 的取值：基于 2024-2025 年国内主流品牌（如希捷/西数/三星）12TB-18TB 企业级 SATA/SAS 硬盘或 1.
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N218
+
+## Claim
+
+企业级硬盘备件单价 P_HDD 的取值：基于 2024-2025 年国内主流品牌（如希捷/西数/三星）12TB-18TB 企业级 SATA/SAS 硬盘或 1.92TB-3.84TB 企业级 NVMe SSD 的市场均价，P_HDD 典型区间为 ¥800-¥2,500/块，取决于存储介质类型（HDD 成本低但 IOPS 低，SSD 成本高但延迟低，需匹配 N140 中 350k IOPS 峰值需求，若用全闪存则 P_HDD 取 SSD 价）。
+
+## Corrected Claim
+
+企业级硬盘备件单价 P_HDD 的取值：基于 2024-2025 年国内主流品牌 12TB-18TB 企业级 SATA/SAS 硬盘或 1.92TB-3.84TB 企业级 NVMe SSD 的市场均价，P_HDD 典型区间为 ¥1,500-¥8,000/块（HDD）或更高（SSD），具体取决于存储介质类型与容量。
+
+## Evidence
+
+[质询]来源[1]显示2024-2025年主流10TB-18TB企业级SAS HDD价格集中在2000-8000元区间（如18TB约6600元），这与陈述中“¥800-¥2,500/块”的下限及整体区间存在显著偏差，尤其是对于大容量SAS硬盘，¥800-¥2,500可能仅覆盖低端SATA或促销价，未准确反映主流SAS/大容量HDD的市场均价。 | 来源[1]直接提供了2024-2025年企业级HDD的具体价格数据（2000-8000元），与陈述中的区间（800-2500元）部分重叠但上限偏低，且未涵盖SSD价格，属于间接支持且存在数值偏差，故降级。
+
+## Search Query
+
+enterprise SSD HDD price 2024 China server spare parts cost
+
+## Retrieval Sources
+
+- {'url': 'https://www.dt-stor.com/2024/10_3784.html&rut=9e8a38f6209f5d210fccd7ed319f5963a84899c7c10cac17fd355b105dd3b302', 'type': 'ddg', 'title': '企业级存储设备价格分析，采购成本、性能参数全解读 - 硬盘知识 - 深圳道通存储'}
+- {'url': 'https://www.dt-stor.com/2024/02_5465.html&rut=d2ccfa5a8617a4cb6e34d3ea650bb13ee0a7e40743fa7fb58593f27c4dba43ac', 'type': 'ddg', 'title': '企业级硬盘价格，2025年市场行情及选购建议 - 硬盘知识 - 深圳道通存储'}
+- {'url': 'https://max.book118.com/html/2025/0813/8133037113007121.shtm&rut=53ebff44098521accf2bc4b00fdf68a796167f7ada8acd82096681f8592b5eeb', 'type': 'ddg', 'title': '2025年中国机械硬盘（HDD）行业市场行情监测及发展趋向研判报告.docx'}

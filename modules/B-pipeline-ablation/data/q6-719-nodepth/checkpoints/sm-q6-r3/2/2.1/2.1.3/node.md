@@ -1,0 +1,29 @@
+# N61: 单台边缘节点网络设备成本 Network_Equipment_Cost = Switch_Port_Cost + Router_Share，其中 Switch_
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N12
+
+## Claim
+
+单台边缘节点网络设备成本 Network_Equipment_Cost = Switch_Port_Cost + Router_Share，其中 Switch_Port_Cost 为 10Gbps SFP+ 端口约 ¥500/口，Router_Share 为接入路由器分摊成本约 ¥2,000/台，合计约 ¥2,500/台 [时效待核]。
+
+## Corrected Claim
+
+单台边缘节点网络设备成本通常由交换机端口成本和路由器分摊成本组成，具体金额随市场波动，参考量级约为¥2,500/台。
+
+## Evidence
+
+父节点级核验失败（LLM 错误）：Unterminated string starting at: line 10 column 5 (char 887)
+
+## Search Query
+
+10Gbps SFP+ switch port cost enterprise router share cost edge node
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/641875496&rut=4acc8672438c3f3edb5d3e926cff91ee4ac20c8d91fd38c8734288d439601012', 'type': 'ddg', 'title': '边缘计算：成本与效益的平衡 - 知乎'}
+- {'url': 'https://cloud.baidu.com/article/442402&rut=e57bb7f1e9af00f9f354b2bd0b22d024c34c5552847b6ac5961834d3cf974b69', 'type': 'ddg', 'title': '边缘计算的的成本计算：考虑硬件、软件、网络、安全和其他因素'}

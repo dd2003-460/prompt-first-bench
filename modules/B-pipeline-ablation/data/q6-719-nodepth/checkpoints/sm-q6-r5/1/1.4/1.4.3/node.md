@@ -1,0 +1,24 @@
+# N49: 资源冗余系数 R_redundancy = W(t) × (1 + Safety_Margin)，其中 Safety_Margin 为安全余量（通常 20-30
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N10
+
+## Claim
+
+资源冗余系数 R_redundancy = W(t) × (1 + Safety_Margin)，其中 Safety_Margin 为安全余量（通常 20-30%），决定自建节点服务器/带宽的采购规模；公有云按量计费则无需显式冗余，但需预留带宽峰值上限。
+
+## Corrected Claim
+
+资源冗余系数 R_redundancy = W(t) × (1 + Safety_Margin)，其中 Safety_Margin 为安全余量（通常 20-30%），决定自建节点服务器/带宽的采购规模；公有云按量计费则无需显式冗余，但需预留带宽峰值上限。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+CDN infrastructure redundancy factor peak to average ratio safety margin

@@ -1,0 +1,20 @@
+# N241: 单POP带宽瓶颈的峰值安全余量系数 S_bw：为确保P99延迟不因瞬时突发丢包或重传增加，B_pop_provisioned = B_pop_peak × S_
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N77
+
+## Claim
+
+单POP带宽瓶颈的峰值安全余量系数 S_bw：为确保P99延迟不因瞬时突发丢包或重传增加，B_pop_provisioned = B_pop_peak × S_bw，其中 S_bw 通常取 1.5-2.0；若 S_bw=1.5，则单POP需预留 6.93 × 1.5 ≈ 10.4 Gbps 带宽。
+
+## Corrected Claim
+
+单POP带宽瓶颈的峰值安全余量系数 S_bw：为确保P99延迟不因瞬时突发丢包或重传增加，B_pop_provisioned = B_pop_peak × S_bw，其中 S_bw 通常取 1.5-2.0；若 S_bw=1.5，则单POP需预留 6.93 × 1.5 ≈ 10.4 Gbps 带宽。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：6.93 × 1.5 = 10.395 ≈ 10.4，数值计算正确；S_bw取1.5-2.0符合网络工程经验。

@@ -1,0 +1,30 @@
+# N211: 阿里云 CDN 中国内地节点按流量计费（Pay-by-Traffic）的单价阶梯：0-10TB 区间为 ¥0.24/GB，10-50TB 区间为 ¥0.21/G
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N61
+
+## Claim
+
+阿里云 CDN 中国内地节点按流量计费（Pay-by-Traffic）的单价阶梯：0-10TB 区间为 ¥0.24/GB，10-50TB 区间为 ¥0.21/GB，50-100TB 区间为 ¥0.18/GB，需根据日均 2TB（月 60TB）落入的具体阶梯计算加权平均单价
+
+## Corrected Claim
+
+阿里云 CDN 中国内地节点按流量计费采用阶梯价格，需根据当月累计流量落入的具体阶梯区间计算费用，具体单价需查阅阿里云官方最新价格表确认。
+
+## Evidence
+
+[质询]具体单价数值（¥0.24/GB, ¥0.21/GB, ¥0.18/GB）属于经验事实，参考来源摘要仅确认了“按流量阶梯计费”的机制，未提供具体的2026年最新价格表数值，无法直接验证具体金额是否准确或是否已调整。 | 来源[2]和[3]确认了阿里云CDN采用按流量阶梯计费模式，但摘要中未包含具体单价数值，属于经验事实且缺乏直接来源支持具体价格，故降级。
+
+## Search Query
+
+Aliyun CDN China mainland pricing per GB tiered 0-10TB 10-50TB 2024
+
+## Retrieval Sources
+
+- {'url': 'https://help.aliyun.com/zh/cdn/product-overview/billing-overview&rut=5607cac578e6a0a2822f10843ed70c58160107634276405ba09db4d9580720b7', 'type': 'ddg', 'title': 'Cdn如何计费-cdn (Cdn)-阿里云帮助中心'}
+- {'url': 'https://developer.aliyun.com/article/1712489&rut=9ac11fc059ec63ddd1ce104c3b0e7d9ac1b1e8c3823c8a667dafda6ca3e1bda1', 'type': 'ddg', 'title': '2026阿里云cdn 计费全攻略：按流量 / 带宽 / 95 峰值 + 基础服务费 + 增值服务价格表'}
+- {'url': 'https://developer.aliyun.com/article/1708278&rut=2ddc55f04c3ee490ae5b44019f150c2428eac2400670b83d41207aae16acf9e2', 'type': 'ddg', 'title': '2026最新阿里云cdn收费标准：不同计费模式价格表（基础服务费和增值服务费用整理）-阿里云开发者社区'}

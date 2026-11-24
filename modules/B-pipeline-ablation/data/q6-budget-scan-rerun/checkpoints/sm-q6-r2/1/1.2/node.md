@@ -1,0 +1,24 @@
+# N7: 公有云 CDN（阿里云/Cloudflare）的全球 P99 延迟基准值约为 150ms（基于全球边缘节点覆盖密度及 Anycast 路由优化，假设用户均匀分布
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+公有云 CDN（阿里云/Cloudflare）的全球 P99 延迟基准值约为 150ms（基于全球边缘节点覆盖密度及 Anycast 路由优化，假设用户均匀分布或集中于一二线城市）
+
+## Corrected Claim
+
+公有云 CDN（阿里云/Cloudflare）的全球 P99 延迟基准值约为 150ms（基于全球边缘节点覆盖密度及 Anycast 路由优化，假设用户均匀分布或集中于一二线城市）
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间存在逻辑依赖但非正交性冲突（子节点2为子节点1提供参数），但存在严重的完备性缺失：父节点明确基于“全球边缘节点覆盖密度”和“Anycast路由优化”，而子节点仅拆解了延迟构成和缓存命中率，完全遗漏了“网络传输路径/骨干网延迟（T_backbone）”以及“Anycast路由/地理分布对延迟的具体影响机制”。此外，子节点1中的公式 T_pub = T_last_mile + T_edge_processing + T_origin_fallback 存在物理逻辑错误，忽略了客户端到边缘节点之间的骨干网/中间网络传输延迟，且将回源延迟简单加权相加在P99场景下并不准确（P99通常是取最大值或特定分位数的合成，而非简单线性加权平均，除非明确说明是期望值，但此处标注为P99基准值，逻辑不自洽）。）
+
+## Search Query
+
+Alibaba Cloud CDN global P99 latency benchmark 150ms Cloudflare P99 latency report

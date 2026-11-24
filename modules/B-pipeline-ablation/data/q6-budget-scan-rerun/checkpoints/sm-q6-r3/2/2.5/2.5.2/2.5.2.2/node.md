@@ -1,0 +1,30 @@
+# N219: Cloudflare Pro 计划是否包含无限带宽流量（Bandwidth Unmetered）：若包含，则长尾 18TB/月 流量成本为 $0（仅基础月费 $
+
+- **status**: verified
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N64
+
+## Claim
+
+Cloudflare Pro 计划是否包含无限带宽流量（Bandwidth Unmetered）：若包含，则长尾 18TB/月 流量成本为 $0（仅基础月费 $25），否则需按超额流量单价 $0.08/GB 计算，月成本 $1,440
+
+## Corrected Claim
+
+Cloudflare Pro 计划是否包含无限带宽流量（Bandwidth Unmetered）：若包含，则长尾 18TB/月 流量成本为 $0（仅基础月费 $25），否则需按超额流量单价 $0.08/GB 计算，月成本 $1,440
+
+## Evidence
+
+来源[1]和[2]为Cloudflare官方Pro计划页面，直接支持Pro计划包含无限带宽（Unmetered Bandwidth）这一核心事实，从而推导出流量成本为$0的结论。
+
+## Search Query
+
+Cloudflare Pro plan unlimited bandwidth data transfer limits
+
+## Retrieval Sources
+
+- {'url': 'https://www.cloudflare.com/plans/pro/&rut=5dea87418d1c945fc160c8cc624da5a766380e03d681a44eea354aed068e6b0b', 'type': 'ddg', 'title': 'Pro Plan Overview | Features & Pricing | Cloudflare'}
+- {'url': 'https://www.cloudflare.com/zh-cn/plans/pro/&rut=982444a875615c3446d3eb08f6ec77d8ea77d9c54be2e138a9a12f32818c7717', 'type': 'ddg', 'title': 'Pro 计划概览 | 功能与定价 | Cloudflare'}
+- {'url': 'https://eastondev.com/blog/zh/posts/dev/20251201-cloudflare-pricing-compare/&rut=ddc25e749bddb07a3b4857bd1d65886dac9de81430b649fd86d26f1a6af26454', 'type': 'ddg', 'title': 'Cloudflare Free Plan Limits 2026：免费、Pro、Business怎么选'}

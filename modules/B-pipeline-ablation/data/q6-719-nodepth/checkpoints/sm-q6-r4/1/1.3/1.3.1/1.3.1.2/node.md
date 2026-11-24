@@ -1,0 +1,20 @@
+# N163: T_processing（CPU 处理时间）主要消耗在 TLS 握手与解密、HTTP 解析及缓存键哈希计算上，典型值 0.1-1ms；若启用硬件加速（如 AES
+
+- **status**: pending
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N46
+
+## Claim
+
+T_processing（CPU 处理时间）主要消耗在 TLS 握手与解密、HTTP 解析及缓存键哈希计算上，典型值 0.1-1ms；若启用硬件加速（如 AES-NI），TLS 开销可降低至 0.05ms，否则纯软件实现约为 0.5-1ms
+
+## Corrected Claim
+
+T_processing（CPU 处理时间）主要消耗在 TLS 握手与解密、HTTP 解析及缓存键哈希计算上，典型值 0.1-1ms；若启用硬件加速（如 AES-NI），TLS 开销可降低至 0.05ms，否则纯软件实现约为 0.5-1ms
+
+## Evidence
+
+父节点级核验未通过：有冗余（子节点将父节点中的‘TLS 开销’拆分为‘软件实现’和‘硬件加速’两个并列子节点，这属于同一参数在不同配置下的取值，而非正交的独立功能模块，存在结构性冗余。）

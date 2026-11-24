@@ -1,0 +1,20 @@
+# N120: 自建10个POP点单点故障风险的成本惩罚项 = P_POP_Failure × (Affected_Traffic_Ratio × Business_Loss_
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N34
+
+## Claim
+
+自建10个POP点单点故障风险的成本惩罚项 = P_POP_Failure × (Affected_Traffic_Ratio × Business_Loss_Per_Unit_Traffic × Recovery_Time)，其中P_POP_Failure为单POP年故障率，Affected_Traffic_Ratio=0.1，Business_Loss_Per_Unit_Traffic为每GB流量损失价值。
+
+## Corrected Claim
+
+自建10个POP点单点故障风险的成本惩罚项 = P_POP_Failure × (Affected_Traffic_Ratio × Business_Loss_Per_Unit_Traffic × Recovery_Time)，其中P_POP_Failure为单POP年故障率，Affected_Traffic_Ratio=0.1，Business_Loss_Per_Unit_Traffic为每GB流量损失价值。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（父节点公式包含四个变量：P_POP_Failure, Affected_Traffic_Ratio, Business_Loss_Per_Unit_Traffic, Recovery_Time。子节点分别详细推导了 P_POP_Failure, Business_Loss_Per_Unit_Traffic 和 Recovery_Time 这三个关键且复杂的参数，而 Affected_Traffic_Ratio 在父节点中已直接给定常数 (0.1)，无需进一步分解。三个子节点分别对应不同的物理/业务维度（硬件可靠性、经济价值、运维流程），彼此独立且无逻辑重叠，覆盖了公式中所有需要推导的核心变量。）

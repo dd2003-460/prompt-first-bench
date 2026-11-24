@@ -1,0 +1,20 @@
+# N261: 公有云弹性伸缩工作点2（中峰谷比）：R_pg=3.0，E_pub=2.0，若 B_avg=26.4 Mbps，则 B_peak=79.2 Mbps，额外带宽成本
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N83
+
+## Claim
+
+公有云弹性伸缩工作点2（中峰谷比）：R_pg=3.0，E_pub=2.0，若 B_avg=26.4 Mbps，则 B_peak=79.2 Mbps，额外带宽成本增量约为平均带宽成本的200%
+
+## Corrected Claim
+
+公有云弹性伸缩工作点2（中峰谷比）：R_pg=3.0，E_pub=2.0，若 B_avg=26.4 Mbps，则 B_peak=79.2 Mbps，额外带宽成本增量约为平均带宽成本的200%
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：B_peak = B_avg * R_pg = 26.4 * 3.0 = 79.2 Mbps，计算正确；额外带宽成本增量 = (B_peak - B_avg) / B_avg = (79.2 - 26.4) / 26.4 = 2.0 = 200%，逻辑自洽。

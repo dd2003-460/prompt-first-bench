@@ -1,0 +1,28 @@
+# N127: C_capex_annual 计算细节：自建硬件成本 = (服务器单价 * 数量 + 网络设备单价 * 数量) / 5年折旧期；阿里云 ECS 同配置 5 年包
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N32
+
+## Claim
+
+C_capex_annual 计算细节：自建硬件成本 = (服务器单价 * 数量 + 网络设备单价 * 数量) / 5年折旧期；阿里云 ECS 同配置 5 年包年包月价格约为按量付费的 40%，自建需对比两者残值率（服务器 5 年残值约 5%）。
+
+## Corrected Claim
+
+自建硬件成本 = (服务器单价 * 数量 + 网络设备单价 * 数量) / 5年折旧期；阿里云 ECS 同配置 5 年包年包月价格通常显著低于按量付费（具体折扣率需查询实时报价，常见区间约30%-50%），自建需对比两者残值率（服务器 5 年残值率需根据具体资产处置策略估算，常见假设约5%）。
+
+## Evidence
+
+父节点级核验未通过：非正交, 有冗余（子节点3和子节点4本质上是对同一变量（自建POP数量N）在不同取值（N=10 vs N=0）下的场景描述，属于参数化的不同实例而非正交维度，存在结构性冗余；且子节点2已计算出具体对比数据，子节点3/4再次重复定性结论，逻辑层级混乱。）
+
+## Search Query
+
+Alibaba Cloud ECS 5-year reserved instance price vs on-demand ratio
+
+## Retrieval Sources
+
+- {'url': 'https://set.baidu.com/view/3623e1e3aaf8941ea76e58fafab069dc5022476e.html&rut=eb8c23032fb302fb5c50888b52bf6a4f560f8b3683abb450b96d55a9c73d106e', 'type': 'ddg', 'title': '资本性支出 (Capex)计算公式全解与实务应用'}

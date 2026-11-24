@@ -1,0 +1,20 @@
+# N159: 自建POP专用运维人力成本 C_ops_self = N_ops_self * S_ops / 12，其中 N_ops_self 遵循 1人管理 2-4 个 P
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N39
+
+## Claim
+
+自建POP专用运维人力成本 C_ops_self = N_ops_self * S_ops / 12，其中 N_ops_self 遵循 1人管理 2-4 个 POP 的比例（即 N_ops_self = ceil(N_pop / 3)），S_ops (含社保公积金) 约为 20-30 万元/年/人，此部分独立于公有云 API 调用费用
+
+## Corrected Claim
+
+自建POP专用运维人力成本 C_ops_self = N_ops_self * S_ops / 12，其中 N_ops_self 遵循 1人管理 2-4 个 POP 的比例（即 N_ops_self = ceil(N_pop / 3)），S_ops (含社保公积金) 约为 20-30 万元/年/人，此部分独立于公有云 API 调用费用
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

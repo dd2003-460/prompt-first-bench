@@ -1,0 +1,28 @@
+# N216: 各POP点流量相关性系数 ρ 的估算方法：基于用户地理分布的时空相关性，若用户集中在东部沿海地区（如 N134 所示），则东部POP点流量高度相关（ρ ≈ 0.
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N66
+
+## Claim
+
+各POP点流量相关性系数 ρ 的估算方法：基于用户地理分布的时空相关性，若用户集中在东部沿海地区（如 N134 所示），则东部POP点流量高度相关（ρ ≈ 0.7-0.9），而东西部POP点流量相关性较低（ρ ≈ 0.2-0.4）；加权平均相关性 ρ_avg = Σ(w_i × w_j × ρ_ij) / (Σw_i × Σw_j)，其中 w_i 为各POP点流量权重，ρ_ij 为第 i 和第 j 个POP点的相关系数
+
+## Corrected Claim
+
+各POP点流量相关性系数 ρ 的估算方法：基于用户地理分布的时空相关性，用户集中区域的POP点流量相关性较高，而地理分散区域的POP点流量相关性较低；加权平均相关性 ρ_avg 可通过各POP点流量权重及其两两相关系数计算得出。
+
+## Evidence
+
+[质询]具体数值范围（ρ ≈ 0.7-0.9 和 0.2-0.4）属于经验性估算，缺乏通用理论支持，且高度依赖于具体的网络拓扑和用户分布细节，无法从第一性原理严格推导；参考来源仅提及空间相关性存在，未提供具体数值或加权平均公式。 | 来源[1]间接支持了网络流量具有空间相关性的概念，但未提供具体的相关性系数数值范围或加权平均计算公式，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+CDN traffic correlation between POP points geographic distribution time series
+
+## Retrieval Sources
+
+- {'url': 'https://xueshu.baidu.com/usercenter/paper/show?paperid=1c2n0jv089420gp01f1d0r8062445220&rut=4fad48d6b29336b2601d2c146267ed57d35b6cba6093ef6bba0500f4e8e325d9', 'type': 'ddg', 'title': '基于时空特征融合的城市网络流量预测 - 百度学术'}

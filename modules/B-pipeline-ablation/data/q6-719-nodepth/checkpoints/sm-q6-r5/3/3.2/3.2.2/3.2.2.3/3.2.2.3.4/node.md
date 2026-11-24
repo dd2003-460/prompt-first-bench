@@ -1,0 +1,24 @@
+# N664: 月均 60TB 流量下，阿里云 CDN 加权平均单价 P_avg_tier = ¥0.1817/GB 的对比基准：与自建带宽单位成本 P_bw_self = C
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N224, N225, N227
+
+## Claim
+
+月均 60TB 流量下，阿里云 CDN 加权平均单价 P_avg_tier = ¥0.1817/GB 的对比基准：与自建带宽单位成本 P_bw_self = C_bandwidth_rent_fixed / Traffic_out_effective 对比，当自建固定月租 C_bandwidth_rent_fixed = ¥75,000/月（10 POP * 10Gbps * ¥7,500/Gbps/月）且实际出网流量 Traffic_out_effective = 400GB/天 * 30 = 12TB/月时，P_bw_self = 75,000/12,000 = ¥6.25/GB，远高于公有云 ¥0.1817/GB，表明在 60TB 月流量规模下，公有云 CDN 单位流量成本优势显著，自建方案仅在流量 > 500TB/月时才具备成本竞争力。
+
+## Corrected Claim
+
+月均 60TB 流量下，阿里云 CDN 加权平均单价 P_avg_tier = ¥0.1817/GB 的对比基准：与自建带宽单位成本 P_bw_self = C_bandwidth_rent_fixed / Traffic_out_effective 对比，当自建固定月租 C_bandwidth_rent_fixed = ¥75,000/月（10 POP * 10Gbps * ¥7,500/Gbps/月）且实际出网流量 Traffic_out_effective = 400GB/天 * 30 = 12TB/月时，P_bw_self = 75,000/12,000 = ¥6.25/GB，远高于公有云 ¥0.1817/GB，表明在 60TB 月流量规模下，公有云 CDN 单位流量成本优势显著，自建方案仅在流量 > 500TB/月时才具备成本竞争力。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算 75000/12000=6.25 正确，且 6.25 > 0.1817 的结论符合逻辑；关于 500TB 阈值的推导（75000/0.1817 ≈ 412TB，考虑利用率后约 500TB）在量级上合理。
+
+## Search Query
+
+self-hosted CDN bandwidth cost vs cloud CDN unit price comparison

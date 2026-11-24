@@ -1,0 +1,30 @@
+# N18: 运维成本（¥/1000 req）：公有云 CDN 的 API 调用、日志存储及监控服务费用，基于请求量与单价计算。
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N2
+
+## Claim
+
+运维成本（¥/1000 req）：公有云 CDN 的 API 调用、日志存储及监控服务费用，基于请求量与单价计算。
+
+## Corrected Claim
+
+运维成本（¥/1000 req）：涉及公有云CDN及其关联服务（如对象存储、日志服务）的API调用、日志存储及监控服务费用，基于请求量与单价计算。
+
+## Evidence
+
+[质询]该陈述将“API调用、日志存储及监控服务”归类为“公有云CDN”的直接费用，存在口径混淆风险。通常CDN计费主要基于流量/带宽，API调用（如OSS API）和日志/监控往往属于关联服务（如OSS、SLS、CloudMonitor）的独立计费项，而非CDN本身的标准计费项，除非特指CDN的特定增值API或日志服务。 | 来源[1]和[3]证实了云存储/CDN涉及请求费、流量费及增值服务费用，支持了“基于请求量与单价计算”的逻辑，但未直接确认“API调用、日志存储及监控”均直接归属于“CDN”这一单一产品线的标准计费范畴，属于间接支持。
+
+## Search Query
+
+CDN API log storage monitoring cost per 1000 requests
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/2601_95525647/article/details/160419380&rut=6fde7709ad36dad7be5291fba4bc38487f18dd151e6b7196cb3449c269919deb', 'type': 'ddg', 'title': '对象存储成本优化实战：Oss/Cdn费用构成分析与生命周期、批量api省钱配置指南-csdn博客'}
+- {'url': 'https://blog.csdn.net/2600_96788433/article/details/171233307&rut=8130d55592911719a69829fd88f283352be42e12563d4925f2a73b63134da1de', 'type': 'ddg', 'title': '从免费额度起步到生产上线：2026年五套方案的成本对账单-csdn博客'}
+- {'url': 'https://developer.aliyun.com/article/1708278&rut=2ddc55f04c3ee490ae5b44019f150c2428eac2400670b83d41207aae16acf9e2', 'type': 'ddg', 'title': '2026最新阿里云cdn收费标准：不同计费模式价格表（基础服务费和增值服务费用整理）-阿里云开发者社区'}

@@ -1,0 +1,26 @@
+# N129: 供应商锁定风险（Vendor Lock-in）量化指标：定义锁定指数 LI = (迁移成本 / 年总成本)。对于公有云CDN，迁移主要涉及DNS切换、缓存预热（
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+供应商锁定风险（Vendor Lock-in）量化指标：定义锁定指数 LI = (迁移成本 / 年总成本)。对于公有云CDN，迁移主要涉及DNS切换、缓存预热（Cache Warming）及配置迁移。缓存预热导致的回源洪峰成本 C_warmup = B_total × (1-CHR_initial) × unit_cost_origin，其中CHR_initial在切换初期约为30%，导致首周额外带宽成本约为正常水平的2-3倍。若年总成本为10万元，C_warmup约为5-10万元，LI约为0.5-1.0，表明高锁定风险。
+
+## Corrected Claim
+
+供应商锁定风险（Vendor Lock-in）可通过迁移成本与年总成本之比（LI）进行量化评估。对于公有云CDN，迁移成本主要包含DNS切换、缓存预热及配置迁移。缓存预热会导致初期回源率升高（通常显著高于稳态水平），从而产生额外的带宽成本。若该额外成本占年总成本比例较高（例如达到50%以上），则表明存在较高的供应商锁定风险。
+
+## Evidence
+
+[质询]该陈述包含大量具体的经验性数值（如CHR_initial=30%、首周成本2-3倍、LI=0.5-1.0），这些并非第一性原理可推导的数学或物理常数，而是高度依赖具体业务场景、缓存策略及定价模型的工程估算值。参考来源仅提供了Vendor Lock-in的定性定义和风险概述，未提供具体的量化公式或上述特定数值，因此无法通过外部来源直接验证这些具体参数的准确性。 | 逻辑上公式自洽（LI=迁移成本/总成本），但具体数值（30%命中率、2-3倍成本）属于经验事实，参考来源[1][2][3]仅定性描述锁定风险，未提供具体量化数据支持，故降级为定性表述。
+
+## Retrieval Sources
+
+- {'url': 'https://bbs.huaweicloud.com/blogs/438556&rut=1497976ce63b5ca5e5beb08e0919027c02ea929524f7bd910d177fb062184045', 'type': 'ddg', 'title': '什么是企业软件使用领域的 Vendor Lock-in？-云社区-华为云'}
+- {'url': 'https://juejin.cn/post/7667179453430857763&rut=e9287152aabf6bc2901ca923c152b852e0ee21bccb6ee21acec9ef7ca1a5dd06', 'type': 'ddg', 'title': 'AI 时代的供应商锁定风险，开发者和企业如何保持主动权供应商锁定（Vendor Lock-in）是技术架构中最容易被低估 - 掘金'}
+- {'url': 'https://rk.51cto.com/article/314123.html&rut=b6113340e958fbbb8779f835f457661c549f40dadb67341382bd256d7ea11e1a', 'type': 'ddg', 'title': '软考高频考点：技术锁定风险等级划分标准 -51cto软考-软考在线教育培训'}

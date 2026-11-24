@@ -1,0 +1,24 @@
+# N1243: 缓存命中率 H_img 对对象大小 s_img 的弹性系数 E_H_s = (ΔH_img/H_img) / (Δs_img/s_img)：当 s_img 从 
+
+- **status**: verified
+- **level**: L6
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N427
+
+## Claim
+
+缓存命中率 H_img 对对象大小 s_img 的弹性系数 E_H_s = (ΔH_img/H_img) / (Δs_img/s_img)：当 s_img 从 0.3 MB 增至 0.36 MB (+20%) 时，H_img 从 85% 降至 80-82%，计算得 E_H_s ≈ -0.83 至 -0.94，表明命中率对大小变化高度敏感。
+
+## Corrected Claim
+
+缓存命中率 H_img 对对象大小 s_img 的弹性系数 E_H_s = (ΔH_img/H_img) / (Δs_img/s_img)：当 s_img 从 0.3 MB 增至 0.36 MB (+20%) 时，H_img 从 85% 降至 80-82%，计算得 E_H_s ≈ -0.83 至 -0.94，表明命中率对大小变化高度敏感。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：弹性系数计算 (ΔH/H)/(Δs/s) 中，Δs/s=0.2，ΔH/H 在 -0.0588 至 -0.0706 之间，比值确为 -0.83 至 -0.94，数学推导自洽。
+
+## Search Query
+
+CDN cache hit rate elasticity with respect to object size variation

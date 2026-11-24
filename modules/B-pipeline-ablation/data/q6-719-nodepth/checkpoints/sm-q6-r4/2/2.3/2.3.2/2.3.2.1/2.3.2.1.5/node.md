@@ -1,0 +1,30 @@
+# N656: 腾讯云CDN 请求数计费阶梯：月请求量 < 10 亿次，单价 ¥0.04/万次；10 亿 ≤ 月请求量 < 100 亿次，单价 ¥0.035/万次；月请求量 ≥
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N224, N225, N226
+
+## Claim
+
+腾讯云CDN 请求数计费阶梯：月请求量 < 10 亿次，单价 ¥0.04/万次；10 亿 ≤ 月请求量 < 100 亿次，单价 ¥0.035/万次；月请求量 ≥ 100 亿次，单价 ¥0.03/万次（需确认最新定价，此处为典型阶梯结构）
+
+## Corrected Claim
+
+腾讯云CDN 请求数计费采用阶梯定价模式，月请求量越大单价越低（具体单价需查阅最新官方定价页面，典型结构为月请求量<10亿次、10亿-100亿次、≥100亿次三档）。
+
+## Evidence
+
+[质询]具体数值（¥0.04/万次等）属于经验事实，且腾讯云CDN请求数计费通常按“月累计请求量”阶梯定价，但具体单价随时间调整，摘要中未提供确切数值，存在数值过时或口径不符的风险。 | 来源[3]为腾讯云CDN定价页面，主题相关，但摘要未包含具体阶梯单价数值，无法直接支持具体金额；逻辑上阶梯定价结构合理，但具体数值缺乏直接证据支持，依据经验事实排除条款降级。
+
+## Search Query
+
+腾讯云 CDN 请求数 计费 阶梯 价格 10亿 100亿 折扣
+
+## Retrieval Sources
+
+- {'url': 'https://cloud.tencent.com/document/product/228/70927&rut=f77ebd6e0c4098e5ec7fdaa0757f1c6e5555c5355c48b2e9815e6d93dfe6407b', 'type': 'ddg', 'title': '内容分发网络 Cdn 计费说明_腾讯云'}
+- {'url': 'https://cloud.tencent.com/document/product/228/2949&rut=542d233b8262f3993114a18c919001fdeb3f7eb243434a2d2580d5feca18250a', 'type': 'ddg', 'title': '内容分发网络 Cdn 计费概述_腾讯云'}
+- {'url': 'https://buy.cloud.tencent.com/price/cdn&rut=8b12217b52d13da99b4933ecc75cfa4a8ac8bd87880c93a6d88ec92b6400052a', 'type': 'ddg', 'title': '内容分发网络 Cdn定价 _ 内容分发网络 Cdn价格 _ 内容分发网络 Cdn计费模式 - 腾讯云'}

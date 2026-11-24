@@ -1,0 +1,24 @@
+# N11: TCP 握手与 TLS 协商延迟：TCP 握手 = 1 RTT，TLS 1.3 协商 = 1 RTT，TLS 1.2 协商 = 2 RTT，总连接建立延迟 = 
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+TCP 握手与 TLS 协商延迟：TCP 握手 = 1 RTT，TLS 1.3 协商 = 1 RTT，TLS 1.2 协商 = 2 RTT，总连接建立延迟 = 2-3 RTT [待核验]。
+
+## Corrected Claim
+
+TCP 握手与 TLS 协商延迟：TCP 握手 = 1 RTT，TLS 1.3 协商 = 1 RTT，TLS 1.2 协商 = 2 RTT，总连接建立延迟 = 2-3 RTT [待核验]。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1和2分别覆盖了TLS 1.3和1.2的基础延迟，彼此正交且无冗余；子节点3引入了P99统计维度，与基础协议延迟维度不同，也保持正交。但父节点明确提到了'总连接建立延迟 = 2-3 RTT'，子节点仅给出了确定性的理论值（2或3 RTT）以及一个独立的P99公式，缺失了对'2-3 RTT'这一范围的解释（即缺少将不同协议版本映射到该范围的逻辑，或明确说明该范围对应的是TLS 1.3和1.2的并集），导致对父节点中'范围'这一关键信息的覆盖不完备。）
+
+## Search Query
+
+TLS 1.3 handshake RTT count

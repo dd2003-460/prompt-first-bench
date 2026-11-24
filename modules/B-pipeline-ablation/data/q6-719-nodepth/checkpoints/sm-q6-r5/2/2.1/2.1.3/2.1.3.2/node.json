@@ -1,0 +1,17 @@
+{
+  "id": "N162",
+  "claim": "L_transform 的条件分支量化：1. 仅分发预转码内容（主流场景）：L_transform < 1ms（仅涉及格式检查/重封装头）。2. 边缘实时转码（少数场景）：对于 1.5MB 短视频，基于 CPU 转码效率（如 x264 fast preset），L_transform ≈ 50-100ms；若使用 GPU 加速，可降至 10-20ms。由于 95% 请求为读预转码内容，加权平均 L_transform ≈ 0.95*1ms + 0.05*50ms = 3.45ms。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "pending",
+  "evidence": "父节点级核验未通过：有冗余（子节点在逻辑上是正交的（基于硬件加速类型的不同），且覆盖了父节点提到的主要场景（预转码分发、CPU转码、GPU转码）。然而，存在明显的冗余：三个子节点本质上是对同一个数学模型 $L_{weighted} = p_{pre} L_{pre} + (1-p_{pre}) L_{transcode}$ 中不同参数（$L_{transcode}$ 的取值及对应的硬件配置）的实例化，而非独立的定性分支。它们可以压缩为一个包含变量（硬件类型、转码延迟、适用场景）的参数化节点。）",
+  "corrected_claim": "L_transform 的条件分支量化：1. 仅分发预转码内容（主流场景）：L_transform < 1ms（仅涉及格式检查/重封装头）。2. 边缘实时转码（少数场景）：对于 1.5MB 短视频，基于 CPU 转码效率（如 x264 fast preset），L_transform ≈ 50-100ms；若使用 GPU 加速，可降至 10-20ms。由于 95% 请求为读预转码内容，加权平均 L_transform ≈ 0.95*1ms + 0.05*50ms = 3.45ms。",
+  "rework_count": 0,
+  "parent_ids": [
+    "N52"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "",
+  "retrieval_sources": []
+}

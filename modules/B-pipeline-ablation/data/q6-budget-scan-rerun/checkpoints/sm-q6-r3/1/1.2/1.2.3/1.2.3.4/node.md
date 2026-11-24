@@ -1,0 +1,30 @@
+# N164: 5G网络切片对延迟方差的优化效果：采用URLLC（超可靠低延迟通信）切片的5G网络，RTT方差可压缩至±2-5ms，P99延迟稳定在20-40ms；但URLLC
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N45, N46, N47
+
+## Claim
+
+5G网络切片对延迟方差的优化效果：采用URLLC（超可靠低延迟通信）切片的5G网络，RTT方差可压缩至±2-5ms，P99延迟稳定在20-40ms；但URLLC切片需额外成本（约增加带宽成本10-20%），且覆盖范围有限（通常仅核心城区），需评估是否值得为P99优化支付溢价
+
+## Corrected Claim
+
+5G URLLC切片通过专用资源预留和调度优化，能显著降低延迟方差并提升P99延迟稳定性（具体数值依部署环境而异，通常可达毫秒级低方差）；但需预留额外网络资源，导致运营成本增加，且覆盖范围通常限于核心区域，需根据业务对P99延迟的敏感度评估成本效益。
+
+## Evidence
+
+[质询]陈述中关于“RTT方差压缩至±2-5ms”、“P99延迟稳定在20-40ms”以及“带宽成本增加10-20%”的具体数值缺乏通用标准支持，属于特定部署场景下的经验数据或推测，不同运营商和场景下差异巨大，且参考来源未提供这些具体量化指标。 | 来源[1][2][3]证实了URLLC技术旨在降低时延和方差，但均未提供具体的RTT方差数值、P99延迟范围或具体的成本溢价比例，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+5G URLLC network slice latency variance cost premium coverage
+
+## Retrieval Sources
+
+- {'url': 'https://13115299.s21i.faiusr.com/61/1/ABUIABA9GAAgyY6MlAYo7tS72AE.pdf&rut=2e76ccab4a4de65b0eeb2b68786b1f8ff54c42bb75eccc472a54310c060fb51c', 'type': 'ddg', 'title': 'PDF 中国联通5gurllc技术白皮书 V3'}
+- {'url': 'https://blog.csdn.net/HiWangWenBing/article/details/111647644&rut=3f0833f2db5e7cf93b99a51b098b8c251c60c34514069242969f9898eeedd513', 'type': 'ddg', 'title': '图解通信原理与案例分析-25：5g Nr超可靠低时延通信urllc是通过什么技术降低延时的？-csdn博客'}
+- {'url': 'https://blog.csdn.net/weixin_28308325/article/details/164411039&rut=3cdedb6c8f4371344edccc686bcd92a751187007a8eea461317caa4c2b64b96f', 'type': 'ddg', 'title': '5G网络切片与QoS保障：空口参数优化实现毫秒级低时延通信-CSDN博客'}

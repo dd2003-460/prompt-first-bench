@@ -1,0 +1,20 @@
+# N315: 单POP点峰值带宽 B_peak_pop 的精确计算：B_peak_pop = (RPS_peak × s_avg_bytes × 8) / (1000^3) 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N100, N101, N102
+
+## Claim
+
+单POP点峰值带宽 B_peak_pop 的精确计算：B_peak_pop = (RPS_peak × s_avg_bytes × 8) / (1000^3) × Gbps_factor，基于 N114 RPS_peak=37.5, s_avg=1.85MB (N112)，单POP平均 RPS=3.75，单POP峰值 RPS=11.25，带宽 = 11.25 × 1.85MB × 8 / 1000 ≈ 0.166 Gbps；考虑冗余系数 2.0，设计带宽 B_design = 0.33 Gbps，远低于 N101 假设的 1Gbps，导致传输延迟项需重新计算
+
+## Corrected Claim
+
+单POP点峰值带宽 B_peak_pop 的精确计算：B_peak_pop = (RPS_peak × s_avg_bytes × 8) / (1000^3) × Gbps_factor，基于 N114 RPS_peak=37.5, s_avg=1.85MB (N112)，单POP平均 RPS=3.75，单POP峰值 RPS=11.25，带宽 = 11.25 × 1.85MB × 8 / 1000 ≈ 0.166 Gbps；考虑冗余系数 2.0，设计带宽 B_design = 0.33 Gbps，远低于 N101 假设的 1Gbps，导致传输延迟项需重新计算
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算过程 11.25 * 1.85 * 8 / 1000 ≈ 0.166 Gbps 及冗余后 0.33 Gbps 数值准确，逻辑自洽。

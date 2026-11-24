@@ -1,0 +1,24 @@
+# N618: N_decay 参数的经验估计：基于中国地理面积 960 万 km² 和典型用户分布，N_decay ≈ 5-8 意味着第 5-8 个 POP 之后边际收益急剧
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N203
+
+## Claim
+
+N_decay 参数的经验估计：基于中国地理面积 960 万 km² 和典型用户分布，N_decay ≈ 5-8 意味着第 5-8 个 POP 之后边际收益急剧下降，但实际最优 POP 数量 N_opt 需满足 ΔC_per_pop < ΔL_per_pop * Lambda_latency_cost，其中 Lambda_latency_cost 为每毫秒延迟对应的营收损失系数
+
+## Corrected Claim
+
+N_decay 参数的经验估计：基于中国地理面积 960 万 km² 和典型用户分布，N_decay ≈ 5-8 意味着第 5-8 个 POP 之后边际收益急剧下降，但实际最优 POP 数量 N_opt 需满足 ΔC_per_pop < ΔL_per_pop * Lambda_latency_cost，其中 Lambda_latency_cost 为每毫秒延迟对应的营收损失系数
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：N_decay 作为经验参数描述边际收益递减符合经济学直觉，N_opt 的优化条件（成本增量 < 延迟收益增量）在量纲和逻辑上自洽，属于合理的工程建模假设。
+
+## Search Query
+
+CDN optimal number of POP points marginal cost latency tradeoff

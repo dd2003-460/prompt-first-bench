@@ -1,0 +1,30 @@
+# N248: Cloudflare单租户带宽上限机制：Cloudflare无传统意义上的'硬带宽上限'，而是基于分布式网络容量动态调度；但存在'Fair Use'条款，若单客
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N80
+
+## Claim
+
+Cloudflare单租户带宽上限机制：Cloudflare无传统意义上的'硬带宽上限'，而是基于分布式网络容量动态调度；但存在'Fair Use'条款，若单客户带宽占用超过网络总容量的 1%-2%（具体比例未公开，需个案协商），可能触发限流或要求迁移至专用基础设施；实际峰值 69.3Gbps 远低于触发阈值，故无硬性约束。
+
+## Corrected Claim
+
+Cloudflare无传统意义上的'硬带宽上限'，而是基于分布式网络容量动态调度；存在'Fair Use'条款，若单客户带宽占用过高可能触发限流或要求迁移至专用基础设施（具体触发阈值未公开，需个案协商）。
+
+## Evidence
+
+[质询]陈述中关于'单客户带宽占用超过网络总容量的 1%-2%'的具体阈值缺乏公开权威来源支持，属于未经验证的内部推测或谣言；此外，'69.3Gbps'这一具体峰值数据在提供的参考来源中完全未提及，无法通过现有证据链验证其真实性和相关性。 | 来源[2]间接支持'无硬性带宽上限'及'基于容量动态调度/降级'的逻辑，但所有来源均未提及'1%-2%'的具体阈值或'69.3Gbps'的具体数值，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+Cloudflare fair use policy bandwidth limit single tenant threshold
+
+## Retrieval Sources
+
+- {'url': 'https://www.zlooks.cn/blog/posts/cloudflare-tunnel-50k-routes-tenant-lifecycle-20261019&rut=555f9f06dc18636ad60fafeee73ef56a5cac9c75c921f20830f293e43501dcdb', 'type': 'ddg', 'title': 'Cloudflare Tunnel 扩容：租户连接如何管理 | Zlooks.Hub'}
+- {'url': 'https://www.cnblogs.com/masx200/articles/19239818&rut=ded3c75de6bddc10218c824651ddafff018b4463480c63e65eefb9ea8693f443', 'type': 'ddg', 'title': 'Cloudflare WARP 与 Tunnel：VPS 网络经济学、性能、安全及弹性架构分析报告'}
+- {'url': 'https://www.csdn.net/detail/webblog_51682237/100730&rut=74419016373515107993b0cf98d85cae6098b91203e2f4e6aceee72be2f8e6d3', 'type': 'ddg', 'title': 'Cloudflare流量闸门机制与双边商业模式解析 - CSDN'}

@@ -1,0 +1,24 @@
+# N264: 混合策略中核心流量与长尾流量的划分阈值 Q_split 通常设定为请求频率的 P90 分位数，即前 10% 最热门的对象（贡献约 60-80% 流量）由自建核心
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N92
+
+## Claim
+
+混合策略中核心流量与长尾流量的划分阈值 Q_split 通常设定为请求频率的 P90 分位数，即前 10% 最热门的对象（贡献约 60-80% 流量）由自建核心 POP 承载，剩余 90% 对象由公有云 CDN 承载
+
+## Corrected Claim
+
+混合策略中核心流量与长尾流量的划分阈值 Q_split 通常设定为请求频率的 P90 分位数，即前 10% 最热门的对象（贡献约 60-80% 流量）由自建核心 POP 承载，剩余 90% 对象由公有云 CDN 承载
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+hybrid CDN strategy traffic split threshold P90 popular objects

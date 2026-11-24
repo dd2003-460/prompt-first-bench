@@ -1,0 +1,24 @@
+# N21: 流量非线性特征：Cost(Traffic) = a × Traffic^b，其中 b > 1 表示规模不经济，b < 1 表示规模经济，b 值由具体策略和云厂商
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+流量非线性特征：Cost(Traffic) = a × Traffic^b，其中 b > 1 表示规模不经济，b < 1 表示规模经济，b 值由具体策略和云厂商定价决定 [待核验]。
+
+## Corrected Claim
+
+流量非线性特征：Cost(Traffic) = a × Traffic^b，其中 b > 1 表示规模不经济，b < 1 表示规模经济，b 值由具体策略和云厂商定价决定 [待核验]。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：幂函数模型 Cost = a*T^b 中，b>1 导致边际成本递增（规模不经济），b<1 导致边际成本递减（规模经济），符合经济学基本定义及云资源定价常见非线性特征。
+
+## Search Query
+
+CDN traffic cost nonlinearity power law

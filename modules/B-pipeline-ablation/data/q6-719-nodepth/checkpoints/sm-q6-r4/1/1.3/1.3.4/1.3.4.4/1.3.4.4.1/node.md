@@ -1,0 +1,20 @@
+# N518: 空间命中率与请求命中率的定义差异：Request_Hit_Rate = (Cached_Requests) / (Total_Requests)，Space_H
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N174
+
+## Claim
+
+空间命中率与请求命中率的定义差异：Request_Hit_Rate = (Cached_Requests) / (Total_Requests)，Space_Hit_Rate = (Cached_Data_Size) / (Total_Data_Size)，若大对象（>10MB）请求频率低但占用空间大，则 Space_Hit_Rate < Request_Hit_Rate，偏差量 Δ = Request_Hit_Rate - Space_Hit_Rate ≈ 0.1-0.2
+
+## Corrected Claim
+
+空间命中率与请求命中率的定义差异：Request_Hit_Rate = (Cached_Requests) / (Total_Requests)，Space_Hit_Rate = (Cached_Data_Size) / (Total_Data_Size)，若大对象（>10MB）请求频率低但占用空间大，则 Space_Hit_Rate < Request_Hit_Rate，偏差量 Δ = Request_Hit_Rate - Space_Hit_Rate ≈ 0.1-0.2
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：定义符合加权平均原理，大对象低频高占比导致空间命中率低于请求命中率，偏差量级0.1-0.2在合理范围内

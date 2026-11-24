@@ -1,0 +1,24 @@
+# N161: 工作点C（低命中/高延迟风险）：假设长尾区域公有云CDN缓存命中率 CHR_tail=70%，回源延迟 T_origin_fallback=200ms（因回源流
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N48
+
+## Claim
+
+工作点C（低命中/高延迟风险）：假设长尾区域公有云CDN缓存命中率 CHR_tail=70%，回源延迟 T_origin_fallback=200ms（因回源流量增加导致源站负载升高或网络拥塞），则P99_tail ≈ 120ms + 10ms + 0.3*200ms = 190ms，此工作点代表最差情况，若P99目标T<190ms，则该工作点不可行，需评估降低CHR或优化源站位置的成本代价。
+
+## Corrected Claim
+
+工作点C（低命中/高延迟风险）：假设长尾区域公有云CDN缓存命中率 CHR_tail=70%，回源延迟 T_origin_fallback=200ms（因回源流量增加导致源站负载升高或网络拥塞），则P99_tail ≈ 120ms + 10ms + 0.3*200ms = 190ms，此工作点代表最差情况，若P99目标T<190ms，则该工作点不可行，需评估降低CHR或优化源站位置的成本代价。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算 120+10+0.3*200=190 正确，且符合 CDN 延迟构成的基本逻辑（基础延迟+回源概率*回源延迟）。
+
+## Search Query
+
+CDN origin fallback latency impact on P99 tail

@@ -1,0 +1,24 @@
+# N103: 源站位置解耦验证：当用户请求命中 L1 边缘缓存时，RTT_origin = 0；当 L1 Miss 需回源 L2 时，RTT_edge_origin 由 L2
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N25
+
+## Claim
+
+源站位置解耦验证：当用户请求命中 L1 边缘缓存时，RTT_origin = 0；当 L1 Miss 需回源 L2 时，RTT_edge_origin 由 L2 节点位置决定而非源站，因此 P99 延迟主要受 L1 覆盖密度影响，源站物理位置对最终 P99 的贡献 < 5%。
+
+## Corrected Claim
+
+源站位置解耦验证：当用户请求命中 L1 边缘缓存时，RTT_origin = 0；当 L1 Miss 需回源 L2 时，RTT_edge_origin 由 L2 节点位置决定而非源站，因此 P99 延迟主要受 L1 覆盖密度影响，源站物理位置对最终 P99 的贡献 < 5%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：CDN架构中L1命中确实消除源站RTT，L2回源时源站位置影响被L2位置主导，P99延迟主要受边缘覆盖密度影响符合网络延迟构成原理。
+
+## Search Query
+
+CDN cache hit ratio origin server latency impact

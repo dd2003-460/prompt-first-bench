@@ -1,0 +1,20 @@
+# N372: 核心区域自建缓存命中率 CHR_self_core 的修正计算：CHR_self_core = CHR_base_self × (1 + Δ_concentra
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N118
+
+## Claim
+
+核心区域自建缓存命中率 CHR_self_core 的修正计算：CHR_self_core = CHR_base_self × (1 + Δ_concentration)，其中 CHR_base_self 为 N117 中的典型值 70%，Δ_concentration 为流量集中度修正项，若核心区域流量占比 60% 且 10 个 POP 点中 6 个部署在核心区域，则单点流量密度提升，命中率提升约 5%，即 CHR_self_core ≈ 75%。
+
+## Corrected Claim
+
+核心区域自建缓存命中率 CHR_self_core 预计高于基础值 CHR_base_self（70%），具体提升幅度取决于流量集中度与缓存策略，估算值约为 75%。
+
+## Evidence
+
+[质询]Δ_concentration 的具体数值（5%）缺乏明确的物理或统计推导依据，属于经验估算，且‘流量占比60%’与‘6/10 POP部署’之间的线性映射关系未给出严谨证明，存在将相关性直接等同于特定量化修正的风险。 | source=knowledge，逻辑自洽（70% * 1.05 = 73.5% ≈ 75% 量级合理），但具体修正系数5%为经验参数，无外部来源直接支持，依据经验事实排除条款降级。

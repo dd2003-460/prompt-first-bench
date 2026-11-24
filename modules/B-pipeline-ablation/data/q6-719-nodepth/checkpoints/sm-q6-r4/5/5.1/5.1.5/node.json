@@ -1,0 +1,25 @@
+{
+  "id": "N108",
+  "claim": "自建POP点N-1容忍下的单点故障恢复时间 T_failover 通常为 5-15 分钟（基于 DNS TTL 或 Anycast 路由切换），期间受影响 10% 流量的 P99 延迟上升至 T_origin + T_failover_queue，量化为 ΔP99_failover = 0.1 × (T_origin + T_failover_queue) + 0.9 × T_cache",
+  "level": "L3",
+  "source": "search",
+  "status": "pending",
+  "evidence": "父节点级核验未通过：不完备（子节点在正交性上表现良好，分别量化了DNS切换、Anycast切换和队列延迟三个独立维度。但在完备性上存在缺失：父节点公式 ΔP99_failover = 0.1 × (T_origin + T_failover_queue) + 0.9 × T_cache 中明确包含 T_origin（源站延迟）和 T_cache（缓存命中延迟/基线延迟）这两个关键参数，但三个子节点均未对 T_origin 或 T_cache 进行定义、估算或说明其取值范围，导致无法独立复现父节点的量化结果。）",
+  "corrected_claim": "自建POP点单点故障恢复时间取决于DNS TTL或Anycast路由切换机制，期间受影响流量的P99延迟会因回源增加而上升，具体数值需根据实际网络配置和流量分布确定。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N27",
+    "N28",
+    "N29"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "edge node failover time DNS TTL anycast latency impact",
+  "retrieval_sources": [
+    {
+      "url": "https://zhuanlan.zhihu.com/p/358001378&rut=d18df473b389e13543189c37d828e345121c16ce253de9ea2a1c31f337c74bdf",
+      "type": "ddg",
+      "title": "数仓集群管理：单节点故障rto机制分析 - 知乎"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+# N683: 回源带宽冗余对 P99 延迟的边际贡献：增加 B_redundant 可降低回源排队延迟 L_queue_backhaul；根据排队论 M/M/1 模型，L_q
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N233
+
+## Claim
+
+回源带宽冗余对 P99 延迟的边际贡献：增加 B_redundant 可降低回源排队延迟 L_queue_backhaul；根据排队论 M/M/1 模型，L_queue = λ / (μ - λ)，其中 λ 为到达率，μ 为服务率；当带宽利用率 ρ = λ/μ 从 0.8 降至 0.6（通过增加冗余带宽），L_queue 从 4 * L_service 降至 1.5 * L_service；若 L_service = 10ms，则 L_queue 减少 25ms；因此，投资 ¥675/月 的冗余带宽可换取 P99 延迟降低 25ms，若 P99 目标 T=100ms，此投资是必要的；若 T=200ms，此投资可节省。
+
+## Corrected Claim
+
+回源带宽冗余对 P99 延迟的边际贡献：增加 B_redundant 可降低回源排队延迟 L_queue_backhaul；根据排队论 M/M/1 模型，L_queue = λ / (μ - λ)，其中 λ 为到达率，μ 为服务率；当带宽利用率 ρ = λ/μ 从 0.8 降至 0.6（通过增加冗余带宽），L_queue 从 4 * L_service 降至 1.5 * L_service；若 L_service = 10ms，则 L_queue 减少 25ms；因此，投资 ¥675/月 的冗余带宽可换取 P99 延迟降低 25ms，若 P99 目标 T=100ms，此投资是必要的；若 T=200ms，此投资可节省。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：M/M/1排队论公式 L_queue = λ/(μ-λ) 在 ρ=0.8 时 L_queue = 4*L_service，在 ρ=0.6 时 L_queue = 1.5*L_service，差值为 2.5*L_service = 25ms（当 L_service=10ms），数学推导自洽。

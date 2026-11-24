@@ -1,0 +1,20 @@
+# N74: 运维工程师数量 N_eng 的职能分解：N_eng = N_network_eng + N_storage_eng + N_devops_eng，其中 N_ne
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+运维工程师数量 N_eng 的职能分解：N_eng = N_network_eng + N_storage_eng + N_devops_eng，其中 N_network_eng 为网络工程师（负责POP互联、BGP配置，自建需1-2人），N_storage_eng 为存储/缓存工程师（负责缓存策略、淘汰算法，自建需1-2人），N_devops_eng 为DevOps/SRE（负责监控、告警、自动化部署，自建需1-2人）；公有云方案仅需0.5-1名SRE负责集成和监控，无需底层网络/存储专家。
+
+## Corrected Claim
+
+运维工程师数量 N_eng 的职能分解：N_eng = N_network_eng + N_storage_eng + N_devops_eng，其中 N_network_eng 为网络工程师（负责POP互联、BGP配置，自建需1-2人），N_storage_eng 为存储/缓存工程师（负责缓存策略、淘汰算法，自建需1-2人），N_devops_eng 为DevOps/SRE（负责监控、告警、自动化部署，自建需1-2人）；公有云方案仅需0.5-1名SRE负责集成和监控，无需底层网络/存储专家。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点A和B代表了运维团队配置的两个不同策略（低成本高自动化 vs 高冗余高人力），在人力构成、成本、SLA目标上互斥且无逻辑矛盾。父节点中提到的'公有云方案仅需0.5-1名SRE'这一关键分支未被子节点覆盖，导致分解不完备，因为公有云场景下网络/存储专家通常由云厂商承担，这与自建场景（子节点A/B隐含的自建或混合自建逻辑）有本质区别。）

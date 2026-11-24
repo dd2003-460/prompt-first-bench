@@ -1,0 +1,28 @@
+# N476: 峰值时长 T_peak 的分布特征：假设峰值集中在 4 小时（如 19:00-23:00），但实际流量曲线可能呈现双峰或长尾，需验证 T_peak=4h 是否覆
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N152
+
+## Claim
+
+峰值时长 T_peak 的分布特征：假设峰值集中在 4 小时（如 19:00-23:00），但实际流量曲线可能呈现双峰或长尾，需验证 T_peak=4h 是否覆盖 95% 的峰值流量；若 T_peak 缩短至 2h，W_peak 将翻倍，影响带宽采购决策。
+
+## Corrected Claim
+
+峰值时长 T_peak 的分布特征需根据实际流量曲线验证（如是否覆盖95%峰值流量）；若 T_peak 缩短，W_peak 将相应增加（在总峰值流量不变的前提下，时长减半则带宽翻倍），具体数值需结合实际业务数据确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性假设（如“19:00-23:00”为典型峰值时段、“T_peak缩短至2h则W_peak翻倍”的具体工程推论），这些属于特定业务场景下的经验事实或统计规律，无法从第一性原理严格推导，且参考来源仅涉及通用峰值检测算法，未提供关于流量分布特征或带宽采购决策的具体数据支持。 | 逻辑上，若峰值流量总量固定，峰值时长减半确实会导致平均峰值带宽翻倍，逻辑自洽；但参考来源[1]仅讨论峰值检测算法，与流量分布特征及带宽采购决策无关，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+video platform daily traffic peak duration distribution 95th percentile
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/549588865&rut=d3f4c1409a280349420dc5d5185d559fa21a5bb8ad4f9fe41e9aaec84bf2eb9b', 'type': 'ddg', 'title': '推荐一个非常实用的峰值查找算法（peak detection）'}

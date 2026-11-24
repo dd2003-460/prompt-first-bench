@@ -1,0 +1,20 @@
+# N125: 短视频与图片对象的访问频率差异导致混合长尾分布：图片对象Zipf指数α_img≈1.0，短视频对象α_vid≈0.8，总请求分布为加权混合 P_total = 
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N36
+
+## Claim
+
+短视频与图片对象的访问频率差异导致混合长尾分布：图片对象Zipf指数α_img≈1.0，短视频对象α_vid≈0.8，总请求分布为加权混合 P_total = w_img × P_img + w_vid × P_vid，其中w_img和w_vid由用户上传比例决定。
+
+## Corrected Claim
+
+短视频与图片对象的访问频率差异导致混合长尾分布：图片对象Zipf指数α_img≈1.0，短视频对象α_vid≈0.8，总请求分布为加权混合 P_total = w_img × P_img + w_vid × P_vid，其中w_img和w_vid由用户上传比例决定。
+
+## Evidence
+
+父节点级核验未通过：有冗余（子节点1和子节点2本质上是同一参数（上传量估算）的两个分量，存在高度冗余；此外，子节点4描述的加权公式在父节点中已作为定义给出，子节点仅重复了该定义而未提供新的独立分析维度（如具体的非线性机制或计算步骤），导致信息密度低且与父节点定义重叠。）

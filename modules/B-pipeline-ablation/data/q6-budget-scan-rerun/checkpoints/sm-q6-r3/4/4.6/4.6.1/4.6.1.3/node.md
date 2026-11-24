@@ -1,0 +1,20 @@
+# N277: 公有云长尾部分峰值带宽预留成本计算基准：C_idle_pub_tail = C_peak_pub_tail × 0（按量付费无闲置成本，但需计入峰值带宽预留成本
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N88
+
+## Claim
+
+公有云长尾部分峰值带宽预留成本计算基准：C_idle_pub_tail = C_peak_pub_tail × 0（按量付费无闲置成本，但需计入峰值带宽预留成本 C_peak_pub_tail 作为固定支出部分），具体数值依赖 N90 的子节点计算结果
+
+## Corrected Claim
+
+公有云长尾部分峰值带宽预留成本计算基准：C_idle_pub_tail = C_peak_pub_tail × 0（按量付费无闲置成本，但需计入峰值带宽预留成本 C_peak_pub_tail 作为固定支出部分），具体数值依赖 N90 的子节点计算结果
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公有云按量付费模式下，未使用的带宽资源不产生闲置成本（C_idle=0），但峰值带宽预留作为固定支出需单独计算，符合云计算计费逻辑。

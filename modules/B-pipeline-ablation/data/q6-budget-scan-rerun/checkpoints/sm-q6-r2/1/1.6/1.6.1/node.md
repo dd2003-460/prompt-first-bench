@@ -1,0 +1,28 @@
+# N39: 一线城市用户占比25%（125万DAU），该部分用户主要使用核心区域自建POP，平均延迟贡献权重25%，P99延迟约50-80ms；该比例基于CNNIC 202
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N8
+
+## Claim
+
+一线城市用户占比25%（125万DAU），该部分用户主要使用核心区域自建POP，平均延迟贡献权重25%，P99延迟约50-80ms；该比例基于CNNIC 2024报告及抖音/快手用户画像数据校准
+
+## Corrected Claim
+
+一线城市用户占比约25%，主要使用核心区域自建POP，平均延迟贡献权重25%，P99延迟约50-80ms（具体数值需依据最新CNNIC报告及平台用户画像数据校准）
+
+## Evidence
+
+[质询]具体数值（25%占比、125万DAU、50-80ms延迟）及特定来源（CNNIC 2024、抖音/快手画像）在参考来源中完全缺失，且参考来源仅讨论网络环境差异，未提供用户占比或具体延迟数据，属于缺乏直接证据支持的经验事实。 | 参考来源[1]仅提及不同线级城市网络环境差异，未提供一线城市用户占比、DAU具体数值或P99延迟数据，无法直接支持该陈述的具体参数；逻辑上数值量级合理，但作为经验事实缺乏来源直接支持。
+
+## Search Query
+
+CNNIC 2024 China internet users geographic distribution first tier cities percentage
+
+## Retrieval Sources
+
+- {'url': 'https://www.sohu.com/a/1011185299_121924045&rut=f3ec20d23fad9aabd1d9bdaf00f76eaf106012a7457bacaac506ce86651d105c', 'type': 'ddg', 'title': '2025用户网络洞察报告_应用_占比_移动 - 搜狐'}

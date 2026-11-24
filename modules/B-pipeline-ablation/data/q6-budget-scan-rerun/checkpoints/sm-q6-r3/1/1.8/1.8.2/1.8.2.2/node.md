@@ -1,0 +1,24 @@
+# N185: M/M/c 模型中的服务率 μ 的量化定义：μ = 1 / E[S]，其中 E[S] 为平均服务时间。对于图片/短视频平台，E[S] 包括磁盘 I/O 时间（N
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N68
+
+## Claim
+
+M/M/c 模型中的服务率 μ 的量化定义：μ = 1 / E[S]，其中 E[S] 为平均服务时间。对于图片/短视频平台，E[S] 包括磁盘 I/O 时间（NVMe SSD 随机读延迟 ~0.1ms，顺序读 ~0.01ms，基于 4TB NVMe 规格）和网络传输时间（10Gbps 下传输 1MB 需 0.8ms）。若对象大小 s_avg=2MB，则 E[S] ≈ 0.1ms (I/O) + 1.6ms (Transfer) = 1.7ms，故 μ ≈ 588 req/s/核心，需乘以 CPU 核心数（6348 有 28 核，双路 56 核）得到总服务率。
+
+## Corrected Claim
+
+M/M/c 模型中的服务率 μ 的量化定义：μ = 1 / E[S]，其中 E[S] 为平均服务时间。对于图片/短视频平台，E[S] 包括磁盘 I/O 时间（NVMe SSD 随机读延迟 ~0.1ms，顺序读 ~0.01ms，基于 4TB NVMe 规格）和网络传输时间（10Gbps 下传输 1MB 需 0.8ms）。若对象大小 s_avg=2MB，则 E[S] ≈ 0.1ms (I/O) + 1.6ms (Transfer) = 1.7ms，故 μ ≈ 588 req/s/核心，需乘以 CPU 核心数（6348 有 28 核，双路 56 核）得到总服务率。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：M/M/c模型中μ=1/E[S]定义正确；NVMe SSD延迟量级（~0.1ms）及10Gbps传输速率计算（1MB/0.8ms）符合工程常识；算术推导（1.7ms -> ~588 req/s）准确。
+
+## Search Query
+
+NVMe SSD random read latency 0.1ms 10Gbps transfer time 1MB calculation

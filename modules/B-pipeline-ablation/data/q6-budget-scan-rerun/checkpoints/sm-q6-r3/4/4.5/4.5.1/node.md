@@ -1,0 +1,20 @@
+# N85: 全自建策略闲置容量成本 C_idle 的量化公式：C_idle_annual = (C_total_self - B_avg) × unit_cost_per_
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N21
+
+## Claim
+
+全自建策略闲置容量成本 C_idle 的量化公式：C_idle_annual = (C_total_self - B_avg) × unit_cost_per_Mbps_month × 12 / (Total_Annual_Requests / 1000)，其中 C_total_self = 10 × C_pop，C_pop 需根据单点峰值流量 B_peak_pop 和利用率目标 U_self_target (40%-60%) 反推：C_pop = B_peak_pop / U_self_target
+
+## Corrected Claim
+
+全自建策略闲置容量成本 C_idle 的量化公式：C_idle_annual = (C_total_self - B_avg) × unit_cost_per_Mbps_month × 12 / (Total_Annual_Requests / 1000)，其中 C_total_self = 10 × C_pop，C_pop 需根据单点峰值流量 B_peak_pop 和利用率目标 U_self_target (40%-60%) 反推：C_pop = B_peak_pop / U_self_target
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点之间在利用率取值上互斥（正交），但存在严重冗余：三个子节点本质上是同一公式在不同参数（U_self）下的实例化，而非独立的知识维度。此外，父节点明确定义了基于峰值流量 B_peak_pop 和单点成本 C_pop 的计算路径，但所有子节点均错误地假设 C_total_self = B_avg / U_self（即基于平均流量和线性成本），完全忽略了父节点中 C_total_self = 10 * C_pop 及 B_peak_pop 的定义，导致逻辑断裂且未覆盖父节点关于峰值流量反推的关键方面。）

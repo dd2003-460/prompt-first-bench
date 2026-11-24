@@ -1,0 +1,26 @@
+# N421: 协议演进迁移成本（HTTP/3 vs HTTP/2）：HTTP/3（基于QUIC）能显著降低弱网环境下的P99延迟（预计降低20-30%），但自建节点需升级内核
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+协议演进迁移成本（HTTP/3 vs HTTP/2）：HTTP/3（基于QUIC）能显著降低弱网环境下的P99延迟（预计降低20-30%），但自建节点需升级内核支持及证书管理。迁移成本包括：1) 代码重构与测试（0.5 FTE，约15万元）；2) 客户端兼容性回退逻辑开发（0.2 FTE，约6万元）；3) 潜在的性能回归风险导致的额外监控成本（10%）。公有云CDN通常由服务商统一升级，用户侧仅需配置开关，迁移成本接近0。此差异影响长期技术演进风险。
+
+## Corrected Claim
+
+HTTP/3（基于QUIC）能显著降低弱网环境下的P99延迟（实测或预计降低20-40%），但自建节点需升级内核支持及证书管理。迁移成本包括代码重构、兼容性回退逻辑开发及额外监控成本，具体数值视项目规模而定（通常涉及少量人力投入）。公有云CDN通常由服务商统一升级，用户侧仅需配置开关，迁移成本接近0。
+
+## Evidence
+
+[质询]陈述中关于迁移成本的具体数值（0.5 FTE/15万元、0.2 FTE/6万元、10%监控成本）属于高度依赖具体项目规模、团队薪资水平及业务复杂度的经验性估算，缺乏通用标准或第一性原理支持，且参考来源未提供此类具体成本数据，存在以偏概全或数据虚构的风险。 | 来源[1][2][3]支持HTTP/3基于QUIC及性能优势（如降低延迟、解决队头阻塞），但均未提供具体的迁移成本数值（FTE/金额）；该部分为经验事实，逻辑自洽但缺来源直接支持，故降级。
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/qq_16242613/article/details/157102944&rut=5aa0993fadea50eb372b0347a9192a8117ec6ec04474693f4bbd0890ad2e27d3', 'type': 'ddg', 'title': 'Http/2 与 Http/3 深度对比：从二进制帧到quic协议的全面演进'}
+- {'url': 'https://blog.csdn.net/weixin_30899023/article/details/167402407&rut=b934544f00815ac017099a25d9db02e8de84214c6b35e570905f46b8d507ab91', 'type': 'ddg', 'title': 'HTTP/2 vs HTTP/3：从队头阻塞到QUIC的演进与选型实践-CSDN博客'}
+- {'url': 'https://devpress.csdn.net/avi/6a35939a662f9a54cb81ffc7.html&rut=5be95a21dbbe836e7c7e84337bc8c50a48b0f7c582d8f78f0882cffa9a7eeb3d', 'type': 'ddg', 'title': 'Http/2与http/3 (Quic)协议深度对比：从理论到实践的性能优化指南'}

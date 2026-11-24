@@ -1,0 +1,20 @@
+# N200: C_ops_pop 的单 POP 运维成本：C_ops_pop = (N_eng_pop * C_eng + C_monitoring_pop) / N_pop
+
+- **status**: pending
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N63
+
+## Claim
+
+C_ops_pop 的单 POP 运维成本：C_ops_pop = (N_eng_pop * C_eng + C_monitoring_pop) / N_pops；假设 10 个 POP 共享 3 名工程师（¥40k/月/人），监控工具 ¥10k/月，则 C_ops_pop = (120,000 + 10,000) / 10 = ¥13,000/月/POP
+
+## Corrected Claim
+
+C_ops_pop 的单 POP 运维成本：C_ops_pop = (N_eng_pop * C_eng + C_monitoring_pop) / N_pops；假设 10 个 POP 共享 3 名工程师（¥40k/月/人），监控工具 ¥10k/月，则 C_ops_pop = (120,000 + 10,000) / 10 = ¥13,000/月/POP
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备, 有冗余（1. 正交性/一致性错误：父节点明确假设工程师3人（¥40k/月/人）和监控成本¥10k/月，但子节点5分解出3人且总成本¥115k（与父节点¥120k接近但单价不同），子节点6却得出监控成本¥6k/POP（即总¥60k），这与父节点假设的总监控成本¥10k严重矛盾（差6倍）。2. 完备性缺失：父节点公式仅包含人力和监控，但子节点引入了服务器、存储、带宽等硬件成本，这些在父节点公式中未体现，导致子节点集合比父节点定义的范围更广，或者父节点公式定义错误。通常C_ops指运维，若包含硬件则应称为C_infra或C_total。若父节点仅指纯运维，则子节点1-4属于冗余且越界；若父节点指总成本，则公式错误。）

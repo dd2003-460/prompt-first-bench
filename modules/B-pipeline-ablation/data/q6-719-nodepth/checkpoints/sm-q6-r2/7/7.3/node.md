@@ -1,0 +1,24 @@
+# N177: 请求类型占比 P_img 和 P_video：假设图片请求占 70% (P_img=0.7)，短视频请求占 30% (P_video=0.3)，基于 C 端平台
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N45
+
+## Claim
+
+请求类型占比 P_img 和 P_video：假设图片请求占 70% (P_img=0.7)，短视频请求占 30% (P_video=0.3)，基于 C 端平台浏览行为统计（图片加载频率远高于视频播放）。
+
+## Corrected Claim
+
+请求类型占比 P_img 和 P_video：假设图片请求占 70% (P_img=0.7)，短视频请求占 30% (P_video=0.3)，基于 C 端平台浏览行为统计（图片加载频率远高于视频播放）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+social media traffic split image vs video requests percentage

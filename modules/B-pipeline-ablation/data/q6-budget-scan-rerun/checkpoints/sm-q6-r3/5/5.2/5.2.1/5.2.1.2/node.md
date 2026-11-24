@@ -1,0 +1,24 @@
+# N310: 每请求内存开销模型：C_mem(s) = RPS(s) × Mem_per_req × Cost_per_GB_hour，其中 Mem_per_req 包含连接
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N99
+
+## Claim
+
+每请求内存开销模型：C_mem(s) = RPS(s) × Mem_per_req × Cost_per_GB_hour，其中 Mem_per_req 包含连接缓冲、元数据缓存等，Mem_per_req ≈ 10KB + s × 0.01（1% 对象数据驻留内存）；s 从 500KB 增至 5MB 时，Mem_per_req 从 15KB 增至 60KB（增加 4 倍），但 RPS 降低 10 倍，总内存成本降低约 60%，表明 s 增大对内存资源成本有利，但需考虑内存容量上限约束。
+
+## Corrected Claim
+
+每请求内存开销模型：C_mem(s) = RPS(s) × Mem_per_req × Cost_per_GB_hour，其中 Mem_per_req 包含连接缓冲、元数据缓存等，Mem_per_req ≈ 10KB + s × 0.01（1% 对象数据驻留内存）；s 从 500KB 增至 5MB 时，Mem_per_req 从 15KB 增至 60KB（增加 4 倍），但 RPS 降低 10 倍，总内存成本降低约 60%，表明 s 增大对内存资源成本有利，但需考虑内存容量上限约束。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学推导显示当s从500KB增至5MB时，Mem_per_req从15KB增至60KB（4倍），RPS降低10倍，总内存成本变化为(4/10)=0.4，即降低60%，与陈述一致。
+
+## Search Query
+
+CDN memory footprint per request object size buffer allocation

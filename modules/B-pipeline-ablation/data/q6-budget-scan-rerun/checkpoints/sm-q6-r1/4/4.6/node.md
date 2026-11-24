@@ -1,0 +1,24 @@
+# N22: 混合策略的弹性伸缩系数：弹性系数 E_hybrid = w_core × E_self_core + w_tail × E_pub_tail，核心区域自建部分的
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+混合策略的弹性伸缩系数：弹性系数 E_hybrid = w_core × E_self_core + w_tail × E_pub_tail，核心区域自建部分的弹性受限，长尾区域公有云部分弹性灵活，混合策略的弹性响应时间 T_scale_hybrid 取决于流量切换机制（如 DNS 解析切换或智能路由），典型切换时间为秒级至分钟级，弹性成本为两部分加权平均。
+
+## Corrected Claim
+
+混合策略的弹性伸缩系数：弹性系数 E_hybrid = w_core × E_self_core + w_tail × E_pub_tail，核心区域自建部分的弹性受限，长尾区域公有云部分弹性灵活，混合策略的弹性响应时间 T_scale_hybrid 取决于流量切换机制（如 DNS 解析切换或智能路由），典型切换时间为秒级至分钟级，弹性成本为两部分加权平均。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+hybrid CDN traffic switching mechanism DNS intelligent routing response time second level

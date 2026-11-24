@@ -1,0 +1,20 @@
+# N632: 工作点A（高性低成）的单机月均请求承载量 Q_cap_A = (CPU核数 * 单核并发处理能力 * 平均响应时间) / (1 - 安全余量)，假设单核处理10
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N211
+
+## Claim
+
+工作点A（高性低成）的单机月均请求承载量 Q_cap_A = (CPU核数 * 单核并发处理能力 * 平均响应时间) / (1 - 安全余量)，假设单核处理1000 req/s，平均响应50ms，安全余量20%，计算得 Q_cap_A ≈ 2,560,000 req/月；需验证该值是否满足单POP峰值流量需求。
+
+## Corrected Claim
+
+工作点A（高性低成）的单机月均请求承载量 Q_cap_A = (CPU核数 * 单核并发处理能力 * 平均响应时间) / (1 - 安全余量)，假设单核处理1000 req/s，平均响应50ms，安全余量20%，计算得 Q_cap_A ≈ 2,560,000 req/月；需验证该值是否满足单POP峰值流量需求。
+
+## Search Query
+
+high density cdn edge node throughput per core benchmark

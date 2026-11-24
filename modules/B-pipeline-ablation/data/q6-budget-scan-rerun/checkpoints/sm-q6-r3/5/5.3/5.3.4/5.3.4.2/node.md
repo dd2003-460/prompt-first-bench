@@ -1,0 +1,20 @@
+# N278: T_process_center≤15ms的组件分解：$T_{process} = T_{lookup} + T_{auth} + T_{compression
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N101
+
+## Claim
+
+T_process_center≤15ms的组件分解：$T_{process} = T_{lookup} + T_{auth} + T_{compression} + T_{queue}$，其中 $T_{lookup}$ 为对象查找时间（1-3ms，基于SSD+内存缓存），$T_{auth}$ 为鉴权时间（0-2ms，若启用签名URL），$T_{compression}$ 为压缩时间（2-5ms，对图片/视频流式压缩），$T_{queue}$ 为队列等待时间（0-5ms，取决于负载）；P99处理时间通常为10-20ms，需量化中心机房服务器利用率（ρ=50%-70%）对 $T_{queue}$ 的影响
+
+## Corrected Claim
+
+T_process_center≤15ms的组件分解：$T_{process} = T_{lookup} + T_{auth} + T_{compression} + T_{queue}$，其中 $T_{lookup}$ 为对象查找时间（1-3ms，基于SSD+内存缓存），$T_{auth}$ 为鉴权时间（0-2ms，若启用签名URL），$T_{compression}$ 为压缩时间（2-5ms，对图片/视频流式压缩），$T_{queue}$ 为队列等待时间（0-5ms，取决于负载）；P99处理时间通常为10-20ms，需量化中心机房服务器利用率（ρ=50%-70%）对 $T_{queue}$ 的影响
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：各组件耗时量级（SSD查找1-3ms、鉴权0-2ms、压缩2-5ms、队列0-5ms）符合常规工程经验，总和范围（3-15ms）与P99（10-20ms）及利用率影响描述在逻辑上自洽且无内部矛盾。

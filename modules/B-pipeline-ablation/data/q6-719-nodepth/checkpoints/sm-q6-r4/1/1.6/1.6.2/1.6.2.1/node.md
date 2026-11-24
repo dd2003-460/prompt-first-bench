@@ -1,0 +1,20 @@
+# N197: TLS 1.2 Full Handshake 需要 2 RTT：第一个 RTT 用于 ClientHello 和 ServerHello+Certificate
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N57
+
+## Claim
+
+TLS 1.2 Full Handshake 需要 2 RTT：第一个 RTT 用于 ClientHello 和 ServerHello+Certificate+ServerKeyExchange，第二个 RTT 用于 ClientKeyExchange+Finished 和 Server Finished。
+
+## Corrected Claim
+
+TLS 1.2 Full Handshake 需要 2 RTT：第一个 RTT 用于 ClientHello 和 ServerHello+Certificate+ServerKeyExchange，第二个 RTT 用于 ClientKeyExchange+Finished 和 Server Finished。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点逻辑清晰，正交性好：子节点1和2分别对应父节点中提到的两个RTT的传输内容分解，子节点3补充了父节点未明确提及但影响总耗时的计算开销（证书验证），三者互不重叠。完备性方面，覆盖了父节点描述的两个RTT结构以及隐含的性能瓶颈（计算开销）。无冗余，各子节点关注点不同（传输耗时 vs 计算耗时）。）

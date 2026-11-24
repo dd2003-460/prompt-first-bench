@@ -1,0 +1,20 @@
+# N74: 公有云 CDN 利用率 U_pub 的成本影响函数：Cost_per_1k ∝ 1/U_pub。当 U_pub 从 30% 降至 15% 时，单位成本翻倍。需量
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N17
+
+## Claim
+
+公有云 CDN 利用率 U_pub 的成本影响函数：Cost_per_1k ∝ 1/U_pub。当 U_pub 从 30% 降至 15% 时，单位成本翻倍。需量化在 B_avg = 26.4 Mbps 固定情况下，不同 B_peak_pub 值（如 50/100/200 Mbps）对应的 U_pub 和每千请求成本。
+
+## Corrected Claim
+
+公有云 CDN 利用率 U_pub 的成本影响函数：Cost_per_1k ∝ 1/U_pub。当 U_pub 从 30% 降至 15% 时，单位成本翻倍。需量化在 B_avg = 26.4 Mbps 固定情况下，不同 B_peak_pub 值（如 50/100/200 Mbps）对应的 U_pub 和每千请求成本。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（1. 正交性：三个子节点分别对应不同的利用率区间（低/中/高），逻辑上互斥且无矛盾，符合正交性。2. 完备性：父节点明确要求量化 B_peak_pub 为 50/100/200 Mbps 时的情况，但子节点计算出的 B_peak_pub 分别为 176/88/44 Mbps，完全未覆盖父节点指定的特定数值点，导致未满足父节点的具体量化要求。3. 冗余：三个子节点本质上是同一公式（Cost = f(U_pub)）在不同参数值下的实例化。在学术分解中，这种‘参数扫描’通常应合并为一个子节点，通过表格或公式统一呈现，而非拆分为三个结构完全相同的子节点，这属于结构性冗余。）

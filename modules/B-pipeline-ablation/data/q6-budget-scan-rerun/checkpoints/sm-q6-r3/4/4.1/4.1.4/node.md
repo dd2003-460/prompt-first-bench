@@ -1,0 +1,20 @@
+# N76: 公有云 CDN 弹性伸缩成本 C_scale_pub 的量化：C_scale_pub = (B_peak_pub - B_avg) × T_scale_pub 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N17
+
+## Claim
+
+公有云 CDN 弹性伸缩成本 C_scale_pub 的量化：C_scale_pub = (B_peak_pub - B_avg) × T_scale_pub × unit_cost_per_Mbps_hour。基于 B_peak_pub = 95.04 Mbps，B_avg = 26.4 Mbps，T_scale_pub = 5 分钟 = 1/12 小时，unit_cost = 0.06 元/Mbps/月 ≈ 0.0000083 元/Mbps/秒。需计算每日弹性伸缩成本并摊销到每千请求。
+
+## Corrected Claim
+
+公有云 CDN 弹性伸缩成本 C_scale_pub 的量化：C_scale_pub = (B_peak_pub - B_avg) × T_scale_pub × unit_cost_per_Mbps_hour。基于 B_peak_pub = 95.04 Mbps，B_avg = 26.4 Mbps，T_scale_pub = 5 分钟 = 1/12 小时，unit_cost = 0.06 元/Mbps/月 ≈ 0.0000083 元/Mbps/秒。需计算每日弹性伸缩成本并摊销到每千请求。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1和子节点2分别对应公有云CDN的两种主要计费模式（按量/流量计费 vs 包年包月/带宽计费），逻辑上互斥且覆盖了主流场景，不存在重复或矛盾。父节点中关于'每日成本摊销到每千请求'的计算步骤属于通用后处理逻辑，已隐含在两个子节点的最终成本量化目标中，无需单独列为子节点。）

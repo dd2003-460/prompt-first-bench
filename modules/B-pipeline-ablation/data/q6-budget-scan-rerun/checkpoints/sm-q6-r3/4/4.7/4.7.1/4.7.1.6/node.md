@@ -1,0 +1,24 @@
+# N220: RTT_access_self 的排队延迟分量 RTT_queue_access 由接入链路负载率 ρ_access 决定，M/M/1 模型下 RTT_queu
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N87, N88, N89
+
+## Claim
+
+RTT_access_self 的排队延迟分量 RTT_queue_access 由接入链路负载率 ρ_access 决定，M/M/1 模型下 RTT_queue_access = ρ_access / (μ_access * (1 - ρ_access))，其中 μ_access 为接入链路服务率，通常需确保 ρ_access < 0.5 以控制 P99 延迟 < 10ms。
+
+## Corrected Claim
+
+RTT_access_self 的排队延迟分量 RTT_queue_access 由接入链路负载率 ρ_access 决定，M/M/1 模型下 RTT_queue_access = ρ_access / (μ_access * (1 - ρ_access))，其中 μ_access 为接入链路服务率，通常需确保 ρ_access < 0.5 以控制 P99 延迟 < 10ms。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：M/M/1排队模型公式正确，ρ<0.5时平均等待时间约为1/(μ)，若μ≥200/s则P99延迟可控制在10ms内，量级合理。
+
+## Search Query
+
+network queueing delay M/M/1 model load factor

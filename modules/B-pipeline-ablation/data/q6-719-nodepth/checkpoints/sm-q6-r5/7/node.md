@@ -1,0 +1,24 @@
+# N29: 读写比例与请求频率模型：定义读请求占比 R_ratio = 95%（C端典型值），写请求（上传）5%；日均读请求数 N_read = (2TB * 1024 *
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+读写比例与请求频率模型：定义读请求占比 R_ratio = 95%（C端典型值），写请求（上传）5%；日均读请求数 N_read = (2TB * 1024 * 1024 KB / s_avg) * R_ratio，其中 s_avg 取 1.5MB（图片+短视频加权均值）进行基准计算，得出 N_read ≈ 1.34 * 10^9 次/日，用于归一化单位请求成本。
+
+## Corrected Claim
+
+在假设读请求占比为95%且平均文件大小为1.5MB的基准模型下，2TB数据量对应的日均读请求数约为1.34 * 10^9次。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点分别定义了读占比、平均对象大小和写流量验证，彼此独立且无矛盾（正交）。但父节点的核心目标是计算日均读请求数 N_read 及其归一化成本，而三个子节点仅提供了输入参数（R_ratio, s_avg, 写流量），缺失了关键的推导步骤：即如何从总流量/总对象数结合 R_ratio 和 s_avg 计算出 N_read 的具体数值（1.34 * 10^9）。因此未覆盖父节点关于'得出 N_read'这一关键方面。）
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/611768153&rut=8d4d470782d522bf3f1a92250996e48f320a4b3ce952bdf45b45a650f65f2857', 'type': 'ddg', 'title': '深入浅出ssd：一文读懂顺序读写、随机读写、4k读写、Iops值等，值得一读的科普文 - 知乎'}

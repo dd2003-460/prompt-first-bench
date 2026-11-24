@@ -1,0 +1,20 @@
+# N743: N255 平均负载工作点下峰值时段的带宽利用率 ρ_peak = B_down_peak / B_down_avg_leased，若 B_down_peak =
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N255
+
+## Claim
+
+N255 平均负载工作点下峰值时段的带宽利用率 ρ_peak = B_down_peak / B_down_avg_leased，若 B_down_peak = 555.6 Mbps (基于 N256)，ρ_peak = 555.6 / 185.2 ≈ 3.0，远超 1.0，导致排队延迟 T_queue 急剧上升，P99 延迟将严重超标
+
+## Corrected Claim
+
+N255 平均负载工作点下峰值时段的带宽利用率 ρ_peak = B_down_peak / B_down_avg_leased，若 B_down_peak = 555.6 Mbps (基于 N256)，ρ_peak = 555.6 / 185.2 ≈ 3.0，远超 1.0，导致排队延迟 T_queue 急剧上升，P99 延迟将严重超标
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：555.6/185.2≈3.0，利用率远超1.0导致排队延迟激增符合排队论基本直觉

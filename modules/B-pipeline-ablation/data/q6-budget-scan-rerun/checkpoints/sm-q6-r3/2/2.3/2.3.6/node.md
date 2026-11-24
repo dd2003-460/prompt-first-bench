@@ -1,0 +1,20 @@
+# N75: 自建策略下自动化云服务成本：CI/CD管道（Jenkins/GitLab Runner）+ 配置管理（Ansible/Puppet）+ 日志聚合（ELK），若使
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+自建策略下自动化云服务成本：CI/CD管道（Jenkins/GitLab Runner）+ 配置管理（Ansible/Puppet）+ 日志聚合（ELK），若使用开源自建，硬件折旧已计入Infra_Cost，软件许可为¥0，仅维护成本约¥20,000/年，即¥55/1000 req (假设日均100万请求)
+
+## Corrected Claim
+
+自建策略下自动化云服务成本：CI/CD管道（Jenkins/GitLab Runner）+ 配置管理（Ansible/Puppet）+ 日志聚合（ELK），若使用开源自建，硬件折旧已计入Infra_Cost，软件许可为¥0，仅维护成本约¥20,000/年，即¥55/1000 req (假设日均100万请求)
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别针对‘人力维护成本’和‘硬件折旧增量’两个不同的成本维度进行修正，彼此正交且无重复。父节点仅提到了维护成本和软件许可，未明确硬件折旧的归属细节，子节点2补充了硬件折旧的潜在遗漏，子节点1修正了人力成本的估算偏差，共同覆盖了成本核算的关键方面。）

@@ -1,0 +1,20 @@
+# N266: 在低利用率工作点（U_self=40%）下，闲置容量成本占比最高：C_idle_annual ≈ (C_total_self - B_avg) × unit_c
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N85
+
+## Claim
+
+在低利用率工作点（U_self=40%）下，闲置容量成本占比最高：C_idle_annual ≈ (C_total_self - B_avg) × unit_cost × 12 / 394,600，其中 C_total_self = B_avg / 0.4，闲置带宽为 B_avg/0.4 - B_avg = 1.5 × B_avg，导致 C_idle 约为总带宽成本的 60%（假设单位成本线性）。
+
+## Corrected Claim
+
+在低利用率工作点（U_self=40%）下，闲置容量成本占比最高：C_idle_annual ≈ (C_total_self - B_avg) × unit_cost × 12 / 394,600，其中 C_total_self = B_avg / 0.4，闲置带宽为 B_avg/0.4 - B_avg = 1.5 × B_avg，导致 C_idle 约为总带宽成本的 60%（假设单位成本线性）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：闲置带宽占比为 (1/0.4 - 1) = 1.5，总带宽成本占比为 1/0.4 = 2.5，闲置成本占比 = 1.5 / 2.5 = 60%，数学推导自洽。

@@ -1,0 +1,24 @@
+# N81: 长尾区域公有云带宽 B_peak_pub_tail 的计费基准：长尾区域流量权重 w_tail=0.4，对应平均带宽 B_avg_tail = 26.4 Mbp
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N19
+
+## Claim
+
+长尾区域公有云带宽 B_peak_pub_tail 的计费基准：长尾区域流量权重 w_tail=0.4，对应平均带宽 B_avg_tail = 26.4 Mbps * 0.4 = 10.56 Mbps，峰值带宽 B_peak_tail = 10.56 * 3 = 31.68 Mbps。公有云按峰值或95分位带宽计费，假设按峰值计费，则需预留 31.68 Mbps 的带宽配额。实际月成本 Cost_tail = B_peak_tail * unit_price_per_Mbps_month。若单价为 0.1 元/Mbps/月（等效），则月成本约为 3.17 元（此处单位需根据实际阶梯价格修正，通常按GB或Mbps月租）。
+
+## Corrected Claim
+
+长尾区域公有云带宽 B_peak_pub_tail 的计费基准：长尾区域流量权重 w_tail=0.4，对应平均带宽 B_avg_tail = 26.4 Mbps * 0.4 = 10.56 Mbps，峰值带宽 B_peak_tail = 10.56 * 3 = 31.68 Mbps。公有云按峰值或95分位带宽计费，假设按峰值计费，则需预留 31.68 Mbps 的带宽配额。实际月成本 Cost_tail = B_peak_tail * unit_price_per_Mbps_month。若单价为 0.1 元/Mbps/月（等效），则月成本约为 3.17 元（此处单位需根据实际阶梯价格修正，通常按GB或Mbps月租）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算（26.4*0.4=10.56, 10.56*3=31.68, 31.68*0.1=3.168≈3.17）准确无误，量纲与计费逻辑自洽。
+
+## Search Query
+
+public cloud CDN tail bandwidth cost calculation

@@ -1,0 +1,24 @@
+# N16: 对象大小分布模型：图片请求占 70%（平均大小 500KB），短视频请求占 30%（平均大小 5MB）；加权平均对象大小 s = 0.7×0.5MB + 0.3
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+对象大小分布模型：图片请求占 70%（平均大小 500KB），短视频请求占 30%（平均大小 5MB）；加权平均对象大小 s = 0.7×0.5MB + 0.3×5MB = 2.05MB；该值影响每千请求的带宽消耗量（2.05MB × 1000 = 2.05GB/千请求）
+
+## Corrected Claim
+
+对象大小分布模型：图片请求占 70%（平均大小 500KB），短视频请求占 30%（平均大小 5MB）；加权平均对象大小 s = 0.7×0.5MB + 0.3×5MB = 1.85MB；该值影响每千请求的带宽消耗量（1.85MB × 1000 = 1.85GB/千请求）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：加权平均计算 0.7*0.5 + 0.3*5 = 0.35 + 1.5 = 1.85MB，但题目陈述中写的是 2.05MB。等等，让我重新计算：0.7 * 0.5 = 0.35, 0.3 * 5 = 1.5, 0.35 + 1.5 = 1.85MB。题目中声称 s = 2.05MB，这与计算结果 1.85MB 不符。这是一个硬逻辑错误（算术错误）。
+
+## Search Query
+
+Image video platform object size distribution weighted average 500KB 5MB 70% 30% bandwidth per 1000 requests

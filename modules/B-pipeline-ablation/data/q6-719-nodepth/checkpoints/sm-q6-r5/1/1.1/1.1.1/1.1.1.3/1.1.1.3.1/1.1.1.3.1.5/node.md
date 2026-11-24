@@ -1,0 +1,24 @@
+# N1250: ITU-T P.800 主观评分中位数 ≥ 4.5 对应的客观质量阈值：基于 SSIM（结构相似性指数）或 VMAF（Video Multimethod Ass
+
+- **status**: degraded
+- **level**: L6
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N428, N429, N430
+
+## Claim
+
+ITU-T P.800 主观评分中位数 ≥ 4.5 对应的客观质量阈值：基于 SSIM（结构相似性指数）或 VMAF（Video Multimethod Assessment Fusion）的量化映射，JPEG q=95 在 1080p 下的 SSIM 值需 ≥ 0.95 或 VMAF ≥ 95 分，否则需提升至 q=100 或 HEIC 高码率
+
+## Corrected Claim
+
+ITU-T P.800 主观评分中位数 ≥ 4.5 通常对应较高的客观质量指标，但 SSIM 或 VMAF 的具体阈值取决于视频内容复杂度。对于高保真需求，JPEG q=95 或 HEIC 高码率通常能提供接近无损的视觉质量，但无法保证在所有内容下 SSIM 均 ≥ 0.95 或 VMAF ≥ 95。
+
+## Evidence
+
+[质询]该陈述将主观评分（MOS）与客观指标（SSIM/VMAF）之间的映射关系具体化为固定阈值（如 SSIM ≥ 0.95 或 VMAF ≥ 95），并断言 JPEG q=95 在 1080p 下必然满足此条件。然而，SSIM 和 VMAF 的值高度依赖于视频内容（如纹理复杂度、运动幅度）、编码参数（如 GOP 结构、量化参数细节）以及具体的测试序列。不存在一个普适的、与内容无关的固定阈值能确保主观中位数 ≥ 4.5。此外，JPEG 是静态图像标准，直接用于视频流（1080p 暗示视频）存在概念混淆，通常视频使用 H.264/H.265 等标准，若指静态图像序列，其质量表现也随内容剧烈波动，无法一概而论。 | 经验事实，逻辑自洽但缺来源支持；且存在概念混淆（JPEG 用于视频流）及过度泛化（固定阈值映射主观评分）的逻辑缺陷。
+
+## Search Query
+
+ITU-T P.800 MOS 4.5 SSIM VMAF threshold JPEG quality 95 1080p

@@ -1,0 +1,30 @@
+# N184: 2TB NVMe SSD（企业级）2024-2025年实际采购单价：基于N65待核验项，2TB企业级NVMe SSD（如Samsung PM9A3/Intel 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N48
+
+## Claim
+
+2TB NVMe SSD（企业级）2024-2025年实际采购单价：基于N65待核验项，2TB企业级NVMe SSD（如Samsung PM9A3/Intel D7-P5520）单盘价格约为¥1,500-2,500/盘；若配置2块RAID1，总存储成本为¥3,000-5,000；N48原估算¥2,000-3,000仅覆盖单盘，需修正为¥3,000-5,000（含冗余）。
+
+## Corrected Claim
+
+2TB企业级NVMe SSD单盘价格通常在¥1,500-2,500区间（需实时市场报价确认），配置2块RAID1的总存储成本约为¥3,000-5,000。
+
+## Evidence
+
+[质询]具体型号（Samsung PM9A3/Intel D7-P5520）的2024-2025年精确采购单价属于经验事实，且受市场波动影响大，参考来源仅提供了价格查询入口，未提供具体数值支持，无法直接验证¥1,500-2,500这一具体区间。 | 逻辑自洽（2块RAID1成本为单盘2倍），但参考来源[1][2][3]仅为主题相关的商品列表页，未提供具体价格数据，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+2TB enterprise NVMe SSD price 2024 Samsung PM9A3 RMB
+
+## Retrieval Sources
+
+- {'url': 'https://detail.zol.com.cn/solid_state_drive/s5976_s8156/&rut=bb6905a7c144d5f8a6cc95ab7ab0750189eeae321b08f51ce65e8eec9f23880b', 'type': 'ddg', 'title': '【2tb以上企业级固态硬盘】2tb以上企业级固态硬盘报价及图片大全-zol中关村在线'}
+- {'url': 'https://detail.zol.com.cn/solid_state_drive/p26793_s8156/&rut=2f328453eb04ce4ade1de47ba6d96f125e890ed5cc242c8a6fde975833ad9320', 'type': 'ddg', 'title': '【2tb企业级固态硬盘】2tb企业级固态硬盘报价及图片大全-zol中关村在线'}
+- {'url': 'https://www.amazon.com/2tb-nvme/s?k=2tb+nvme&rut=ebfdf85fd220ed5ab63ff951ac7231bf76e3bce33039887cdebb1ced37b506b0', 'type': 'ddg', 'title': 'Amazon.com: 2tb Nvme'}

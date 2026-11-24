@@ -1,0 +1,24 @@
+# N54: 公有云 CDN 边缘处理时间 T_proc_edge 的 P99 值：通常包含 TLS 握手、HTTP 解析、缓存查找等，P99(T_proc_edge) 约为
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+公有云 CDN 边缘处理时间 T_proc_edge 的 P99 值：通常包含 TLS 握手、HTTP 解析、缓存查找等，P99(T_proc_edge) 约为 5-15ms，具体取决于边缘节点负载和软件栈效率。
+
+## Corrected Claim
+
+公有云 CDN 边缘处理时间 T_proc_edge 的 P99 值：通常包含 TLS 握手、HTTP 解析、缓存查找等，P99(T_proc_edge) 约为 5-15ms，具体取决于边缘节点负载和软件栈效率。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+CDN edge server processing time P99 latency 5-15ms TLS HTTP

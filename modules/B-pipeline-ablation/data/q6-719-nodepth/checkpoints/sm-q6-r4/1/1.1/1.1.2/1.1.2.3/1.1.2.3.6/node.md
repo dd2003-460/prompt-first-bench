@@ -1,0 +1,20 @@
+# N448: 高码率工作点的视觉质量 MOS 评分验证：1080p H.265 @ 4Mbps 在静态场景下 MOS ≈ 4.6，在动态场景下 MOS ≈ 4.3；P99 场
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N142
+
+## Claim
+
+高码率工作点的视觉质量 MOS 评分验证：1080p H.265 @ 4Mbps 在静态场景下 MOS ≈ 4.6，在动态场景下 MOS ≈ 4.3；P99 场景下取最低值 4.3 < 4.5，表明该工作点在动态内容上略低于 MOS ≥ 4.5 约束，需提升至 5Mbps 或采用 4K 源转码。
+
+## Corrected Claim
+
+高码率工作点的视觉质量 MOS 评分验证：1080p H.265 @ 4Mbps 在静态场景下 MOS ≈ 4.6，在动态场景下 MOS ≈ 4.3；P99 场景下取最低值 4.3 < 4.5，表明该工作点在动态内容上略低于 MOS ≥ 4.5 约束，需提升至 5Mbps 或采用 4K 源转码。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

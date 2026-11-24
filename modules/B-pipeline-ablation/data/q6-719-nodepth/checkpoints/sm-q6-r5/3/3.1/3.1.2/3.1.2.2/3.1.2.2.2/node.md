@@ -1,0 +1,24 @@
+# N636: 工作点B的电力成本敏感性系数 E_power = (ΔC_power / C_power) / (ΔPUE / PUE)，当PUE从1.4降至1.2时，C_po
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N212
+
+## Claim
+
+工作点B的电力成本敏感性系数 E_power = (ΔC_power / C_power) / (ΔPUE / PUE)，当PUE从1.4降至1.2时，C_power从¥453.60降至¥388.80，降幅14.3%；若电价从¥0.8升至¥1.0，C_power升至¥567.00，增幅25%。与A相比，B的电力成本占比更高（27.2% vs 25.2%），对PUE优化更敏感。
+
+## Corrected Claim
+
+工作点B的电力成本敏感性系数 E_power = (ΔC_power / C_power) / (ΔPUE / PUE)，当PUE从1.4降至1.2时，C_power从¥453.60降至¥388.80，降幅14.3%；若电价从¥0.8升至¥1.0，C_power升至¥567.00，增幅25%。与A相比，B的电力成本占比更高（27.2% vs 25.2%），对PUE优化更敏感。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算自洽（PUE降幅14.3%对应成本降幅14.3%，电价涨幅25%对应成本涨幅25%），符合电力成本与PUE及电价线性相关的物理/经济直觉。
+
+## Search Query
+
+standard server power consumption PUE sensitivity cost analysis

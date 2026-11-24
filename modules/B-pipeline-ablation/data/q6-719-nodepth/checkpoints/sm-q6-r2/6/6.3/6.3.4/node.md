@@ -1,0 +1,24 @@
+# N168: 策略切换临界点 T_switch 满足 P99_public(T_switch) = P99_self(T_switch)，由于公有云节点密度更高，通常 P99
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N42
+
+## Claim
+
+策略切换临界点 T_switch 满足 P99_public(T_switch) = P99_self(T_switch)，由于公有云节点密度更高，通常 P99_public < P99_self，因此不存在因延迟导致的从公有云转向自建的临界点，除非自建POP通过多线BGP接入将 RTT_user_pop 降低至 < 20ms。
+
+## Corrected Claim
+
+策略切换临界点 T_switch 满足 P99_public(T_switch) = P99_self(T_switch)，由于公有云节点密度更高，通常 P99_public < P99_self，因此不存在因延迟导致的从公有云转向自建的临界点，除非自建POP通过多线BGP接入将 RTT_user_pop 降低至 < 20ms。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公有云节点密度高导致P99延迟通常低于自建，故不存在因延迟劣势而切换的临界点，除非自建通过多线BGP将RTT降至极低水平（如<20ms）以消除差距，逻辑自洽且符合网络工程常识。
+
+## Search Query
+
+CDN vs self-hosted edge node latency comparison critical point

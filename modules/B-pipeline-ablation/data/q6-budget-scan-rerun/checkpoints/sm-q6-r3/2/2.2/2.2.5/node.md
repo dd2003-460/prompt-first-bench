@@ -1,0 +1,20 @@
+# N64: 自建POP策略下，Inbound_Traffic_TB 的带宽预留成本计算：需预留的入向带宽 = (Daily_Upload_Traffic_TB (0.2TB
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+自建POP策略下，Inbound_Traffic_TB 的带宽预留成本计算：需预留的入向带宽 = (Daily_Upload_Traffic_TB (0.2TB) + Daily_Download_Miss_Traffic_TB) / 86400s * 8 * 1024^2，通常入向带宽需求仅为出向的10%-20%，成本占比低
+
+## Corrected Claim
+
+自建POP策略下，Inbound_Traffic_TB 的带宽预留成本计算：需预留的入向带宽 = (Daily_Upload_Traffic_TB (0.2TB) + Daily_Download_Miss_Traffic_TB) / 86400s * 8 * 1024^2，通常入向带宽需求仅为出向的10%-20%，成本占比低
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在逻辑维度上正交（需求计算、成本占比、隐性影响），无重复或矛盾。但存在完备性缺失：父节点明确给出了基于平均流量的带宽预留计算公式（(Daily_Upload + Daily_Download_Miss) / 86400 * 8 * 1024^2），而子节点1引入了'Peak_Factor_Inbound'进行峰值计算，未明确说明该峰值系数如何关联或修正父节点中的基础平均带宽预留逻辑，导致父节点指定的特定计算路径未被直接覆盖。此外，父节点强调'通常入向带宽需求仅为出向的10%-20%'，子节点2虽然验证了成本占比符合此描述，但未独立验证带宽量级本身的比例关系，仅通过成本反推，逻辑链条略显跳跃。）

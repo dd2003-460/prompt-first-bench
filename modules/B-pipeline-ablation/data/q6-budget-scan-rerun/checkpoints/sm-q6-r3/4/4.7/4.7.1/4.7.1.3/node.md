@@ -1,0 +1,20 @@
+# N284: 公有云CDN P99延迟基线 P99_baseline 的构成公式：P99_baseline = T_propagation + T_queue + T_tra
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N91
+
+## Claim
+
+公有云CDN P99延迟基线 P99_baseline 的构成公式：P99_baseline = T_propagation + T_queue + T_transfer + T_origin_tail，其中 T_propagation ≈ 20-50ms（取决于用户到最近PoP距离），T_queue ≈ 5-10ms（边缘节点排队延迟），T_transfer ≈ s/1024 / Bandwidth_per_user × 1000 ms，T_origin_tail 为回源请求的P99延迟（通常 200-500ms）× (1-CHR) 的概率加权；该分解用于识别哪个组件对总P99贡献最大，从而确定优化重点。
+
+## Corrected Claim
+
+公有云CDN P99延迟基线 P99_baseline 的构成公式：P99_baseline = T_propagation + T_queue + T_transfer + T_origin_tail，其中 T_propagation ≈ 20-50ms（取决于用户到最近PoP距离），T_queue ≈ 5-10ms（边缘节点排队延迟），T_transfer ≈ s/1024 / Bandwidth_per_user × 1000 ms，T_origin_tail 为回源请求的P99延迟（通常 200-500ms）× (1-CHR) 的概率加权；该分解用于识别哪个组件对总P99贡献最大，从而确定优化重点。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

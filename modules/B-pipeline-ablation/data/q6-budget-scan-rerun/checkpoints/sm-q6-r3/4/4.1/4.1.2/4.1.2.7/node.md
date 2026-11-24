@@ -1,0 +1,30 @@
+# N198: 阿里云CDN SLA赔偿条款具体数值：阿里云CDN服务等级协议承诺月度可用性≥99.9%。若可用性低于99.9%但≥99.0%，赔偿金额为月度服务费的10%；若
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N71, N72, N74
+
+## Claim
+
+阿里云CDN SLA赔偿条款具体数值：阿里云CDN服务等级协议承诺月度可用性≥99.9%。若可用性低于99.9%但≥99.0%，赔偿金额为月度服务费的10%；若低于99.0%但≥95.0%，赔偿30%；若低于95.0%，赔偿50%。赔偿上限为月度服务费的100%。注意：SLA通常不直接涵盖P99延迟超标，除非合同特别约定，因此P99延迟超标通常无直接赔偿，仅可用性故障有赔偿。
+
+## Corrected Claim
+
+阿里云CDN SLA承诺月度可用性≥99.9%，并设有阶梯式赔偿机制（具体比例需查阅最新官方文档确认，通常随可用性降低而递增），赔偿上限为月度服务费的100%。SLA通常不直接涵盖P99延迟超标。
+
+## Evidence
+
+[质询]参考来源摘要中未包含具体的赔偿百分比数值（如10%、30%、50%），无法直接验证这些具体数值是否准确，存在数值记忆偏差或版本更新导致的不一致风险。 | 来源[1][2][3]确认了阿里云CDN SLA的存在及主题相关性，但摘要未提供具体赔偿比例数值，属于间接支持；逻辑上阶梯式赔偿符合行业惯例，但具体数值缺乏直接文本证据支持。
+
+## Search Query
+
+Alibaba Cloud CDN SLA compensation percentage availability
+
+## Retrieval Sources
+
+- {'url': 'https://help.aliyun.com/zh/cdn/support/alibaba-cloud-cdn-sla&rut=3956d40b61723b624586e57a9ca801bbecb2bb04169a8328aa7a4c0cbff04394', 'type': 'ddg', 'title': 'Cdn服务等级协议sla的服务可用性指标与赔偿方案-cdn-阿里云'}
+- {'url': 'http://terms.aliyun.com/legal-agreement/terms/suit_bu1_ali_cloud/suit_bu1_ali_cloud201803050950_21147.html&rut=4ea3dffc5b57a36309cd0a05201504fd407668bd99f18ab73a0500d16bf07fb8', 'type': 'ddg', 'title': 'CDN服务等级协议 - aliyun.com'}
+- {'url': 'https://www.alibabacloud.com/help/zh/legal/latest/content-delivery-network-service-level-agreement&rut=b204a44dcb369131155c400cc02c7f9c36ce6a921f1e6b2174fb2544606cb7bb', 'type': 'ddg', 'title': '了解 CDN 服务等级协议 - 内容分发网络 (CDN) -Alibaba Cloud'}

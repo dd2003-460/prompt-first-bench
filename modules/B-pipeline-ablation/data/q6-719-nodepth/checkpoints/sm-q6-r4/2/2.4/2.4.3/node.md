@@ -1,0 +1,24 @@
+# N70: 自建单元价格 (Self_Built_Unit_Price) = (Self_Built_Monthly_Cost / Core_Requests)，其中 Se
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N15, N16, N17
+
+## Claim
+
+自建单元价格 (Self_Built_Unit_Price) = (Self_Built_Monthly_Cost / Core_Requests)，其中 Self_Built_Monthly_Cost 包含 5 个核心 POP 的折旧、带宽及运维分摊，需从 N12/N13/N26 推导单 POP 月度成本后乘以 5 再除以核心区域请求数。
+
+## Corrected Claim
+
+自建单元价格 (Self_Built_Unit_Price) = (Self_Built_Monthly_Cost / Core_Requests)，其中 Self_Built_Monthly_Cost 包含 5 个核心 POP 的折旧、带宽及运维分摊，需从 N12/N13/N26 推导单 POP 月度成本后乘以 5 再除以核心区域请求数。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点正交且完备：'Core_Monthly_Requests' 对应公式分母，其余三个子节点（折旧、带宽、运维）精确覆盖了父节点中 'Self_Built_Monthly_Cost' 定义的三个核心成本构成要素。各子节点代表不同的成本类别或计算维度，无重复或矛盾。）
+
+## Search Query
+
+edge node cost per request self-built vs cloud cdn unit economics

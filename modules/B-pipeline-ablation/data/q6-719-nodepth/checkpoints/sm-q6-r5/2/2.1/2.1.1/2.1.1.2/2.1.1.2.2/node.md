@@ -1,0 +1,20 @@
+# N487: 队列等待时间 L_queue_wait 的 M/M/1 排队论修正：当 L_util > 80% 时，经验公式失效，需使用 L_queue_wait = L_s
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N156
+
+## Claim
+
+队列等待时间 L_queue_wait 的 M/M/1 排队论修正：当 L_util > 80% 时，经验公式失效，需使用 L_queue_wait = L_service / (1 - L_util)；例如 L_service = 2 ms，L_util = 90% 时，L_queue_wait = 2 / 0.1 = 20 ms，远高于经验公式的 2 ms，表明极端负载下延迟呈非线性爆炸增长。
+
+## Corrected Claim
+
+队列等待时间 L_queue_wait 的 M/M/1 排队论修正：当 L_util > 80% 时，经验公式失效，需使用 L_queue_wait = L_service / (1 - L_util)；例如 L_service = 2 ms，L_util = 90% 时，L_queue_wait = 2 / 0.1 = 20 ms，远高于经验公式的 2 ms，表明极端负载下延迟呈非线性爆炸增长。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：M/M/1 排队论中平均等待时间公式为 Wq = Ws / (1 - ρ)，当 ρ=0.9 时，Wq = 2ms / 0.1 = 20ms，计算正确且符合排队论基本原理。

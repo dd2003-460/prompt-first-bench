@@ -1,0 +1,29 @@
+# N282: 公有云CDN区域级配置对P99延迟的边际贡献递减效应：定义第k个配置区域的边际延迟降低量 ΔP99_k = P99_{k-1} - P99_k，实证表明当 k 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N91
+
+## Claim
+
+公有云CDN区域级配置对P99延迟的边际贡献递减效应：定义第k个配置区域的边际延迟降低量 ΔP99_k = P99_{k-1} - P99_k，实证表明当 k > 10 时，ΔP99_k < 1ms；具体地，从 10 到 30 个区域，平均 ΔP99_per_region 从 8ms 降至 2ms，导致总优化空间饱和于 ~60ms，而非线性累加。
+
+## Corrected Claim
+
+公有云CDN区域级配置对P99延迟的边际贡献通常呈现递减效应，随着配置区域数量增加，单个新增区域带来的延迟降低量逐渐减小，总优化空间存在饱和点，但具体数值需依据实际业务场景和实测数据确定。
+
+## Evidence
+
+[质询]该陈述包含极其具体的经验性数值（如k>10时ΔP99<1ms，10到30区域平均从8ms降至2ms，总优化空间饱和于~60ms），这些具体参数值无法从第一性原理推导，且参考来源中未包含任何关于CDN区域级配置数量与P99延迟边际贡献递减效应的量化数据或实证研究，属于缺乏来源支持的具体经验事实。 | 逻辑上符合边际效用递减的一般规律，但具体数值（8ms, 2ms, 60ms等）在提供的参考来源[1]和[2]中均无直接支持或间接佐证，来源主要讨论P99概念、Istio Sidecar影响等，未覆盖CDN区域配置的具体量化模型。
+
+## Search Query
+
+CDN regional configuration P99 latency marginal benefit diminishing returns
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/2600_94959998/article/details/157125128&rut=358e43b59793c09407c94409edead8bfb627400604ddc58a38e2000d2d2bc761', 'type': 'ddg', 'title': '深入解析p99延迟：从概念到优化的实战指南 - Csdn博客'}
+- {'url': 'https://wenku.csdn.net/column/8mfauqoy959t&rut=60cb15093ebc67badb208504b65d2a692b711d7038e372be0424797150486baa', 'type': 'ddg', 'title': '从单体到云原生的性能范式迁移（独家量化报告）：Istio Sidecar注入率每+1%，P99延迟↑14.2ms；eBPF替代iptables ...'}

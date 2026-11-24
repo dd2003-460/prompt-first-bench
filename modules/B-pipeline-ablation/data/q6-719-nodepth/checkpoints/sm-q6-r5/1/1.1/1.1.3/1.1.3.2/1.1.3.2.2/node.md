@@ -1,0 +1,20 @@
+# N453: 平衡工作点下的单请求传输延迟 L_trans_bal = s_avg / Bandwidth = 1.41 MB / (10 Gbps / 8) ≈ 1.13 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N144
+
+## Claim
+
+平衡工作点下的单请求传输延迟 L_trans_bal = s_avg / Bandwidth = 1.41 MB / (10 Gbps / 8) ≈ 1.13 ms，传输延迟约为图片工作点的 2.1 倍，成为 P99 延迟的主要构成部分之一。
+
+## Corrected Claim
+
+平衡工作点下的单请求传输延迟 L_trans_bal = s_avg / Bandwidth = 1.41 MB / (10 Gbps / 8) ≈ 1.13 ms，传输延迟约为图片工作点的 2.1 倍，成为 P99 延迟的主要构成部分之一。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：1.41MB / 1.25GBps ≈ 1.128ms，计算准确；2.1倍关系符合逻辑推导（若图片工作点延迟约为0.54ms，则1.13/0.54≈2.1），且作为P99延迟主要构成部分符合高带宽低延迟场景下的直觉。

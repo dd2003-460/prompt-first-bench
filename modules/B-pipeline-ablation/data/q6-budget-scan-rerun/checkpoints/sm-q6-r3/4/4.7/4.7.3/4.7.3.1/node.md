@@ -1,0 +1,20 @@
+# N315: 公有云CDN故障检测时间（Detection_Time_Cloud）通常由健康检查间隔决定，典型配置为5-10秒/次，连续2次失败触发，故Detection_T
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N123
+
+## Claim
+
+公有云CDN故障检测时间（Detection_Time_Cloud）通常由健康检查间隔决定，典型配置为5-10秒/次，连续2次失败触发，故Detection_Time_Cloud ≈ 10-20s；自建POP若依赖人工监控或简易脚本，Detection_Time_Self ≈ 60-300s。
+
+## Corrected Claim
+
+公有云CDN故障检测时间（Detection_Time_Cloud）通常由健康检查间隔决定，典型配置为5-10秒/次，连续2次失败触发，故Detection_Time_Cloud ≈ 10-20s；自建POP若依赖人工监控或简易脚本，Detection_Time_Self ≈ 60-300s。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公有云CDN健康检查通常配置为秒级（5-10s）且连续2次失败触发，计算得10-20s符合工程常识；自建环境依赖人工或简易脚本，分钟级（60-300s）延迟符合实际运维场景，量级合理且无内部矛盾。

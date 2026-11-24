@@ -1,0 +1,20 @@
+# N110: Dirichlet 分布参数 α_i 的先验估计：基于 N39 的一手数据，设 α_i = 10 × geo_share_prior_i，其中 geo_shar
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N33
+
+## Claim
+
+Dirichlet 分布参数 α_i 的先验估计：基于 N39 的一手数据，设 α_i = 10 × geo_share_prior_i，其中 geo_share_prior_i 为 N39 中确定的基准占比；例如，若某核心省份占比 0.15，则 α_i = 1.5；该参数化确保采样出的 geo_share 分布围绕先验均值波动，且总和为 1，避免极端不均衡的采样点。
+
+## Corrected Claim
+
+Dirichlet 分布参数 α_i 的先验估计：基于 N39 的一手数据，设 α_i = 10 × geo_share_prior_i，其中 geo_share_prior_i 为 N39 中确定的基准占比；例如，若某核心省份占比 0.15，则 α_i = 1.5；该参数化确保采样出的 geo_share 分布围绕先验均值波动，且总和为 1，避免极端不均衡的采样点。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Dirichlet分布参数α_i与均值E[geo_share_i]=α_i/Σα_j成正比，设定α_i=k×prior_i可确保采样均值围绕先验占比波动且总和为1，符合概率分布基本性质。

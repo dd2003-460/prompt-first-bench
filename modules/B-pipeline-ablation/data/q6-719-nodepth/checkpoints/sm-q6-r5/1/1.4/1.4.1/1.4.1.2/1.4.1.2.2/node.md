@@ -1,0 +1,20 @@
+# N465: 流量计费月度成本模型：Cost_traffic = Traffic_effective_monthly * P_traffic，其中 Traffic_effec
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N149
+
+## Claim
+
+流量计费月度成本模型：Cost_traffic = Traffic_effective_monthly * P_traffic，其中 Traffic_effective_monthly = 2TB * 30 * (1 - H_avg) * 1024 GB/TB，H_avg 为平均缓存命中率（0.8-0.9），P_traffic 为流量单价（¥/GB），该模型适用于 D_peak > 0.15 的长时高峰场景，变动成本主导。
+
+## Corrected Claim
+
+流量计费月度成本模型：Cost_traffic = Traffic_effective_monthly * P_traffic，其中 Traffic_effective_monthly = 2TB * 30 * (1 - H_avg) * 1024 GB/TB，H_avg 为平均缓存命中率（0.8-0.9），P_traffic 为流量单价（¥/GB），该模型适用于 D_peak > 0.15 的长时高峰场景，变动成本主导。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式量纲正确（TB转GB系数1024，乘以天数30，乘以单价¥/GB，结果为月度成本¥），缓存命中率H_avg取值0.8-0.9符合CDN/边缘计算典型场景，D_peak>0.15作为长时高峰场景的阈值在工程上合理，变动成本主导的假设与流量计费模型一致。

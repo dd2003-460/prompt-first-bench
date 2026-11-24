@@ -1,0 +1,24 @@
+# N25: 共享随机源：流量波动系数 K_t，定义为 t 时刻实际流量与日均流量的比值，服从非平稳随机过程，峰值时段 K_peak ≈ 3-5，低谷 K_valley ≈ 
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+共享随机源：流量波动系数 K_t，定义为 t 时刻实际流量与日均流量的比值，服从非平稳随机过程，峰值时段 K_peak ≈ 3-5，低谷 K_valley ≈ 0.5-1。该随机源同时驱动带宽需求、节点负载和缓存命中率变化，是所有下游风险投影的共同输入。
+
+## Corrected Claim
+
+共享随机源：流量波动系数 K_t，定义为 t 时刻实际流量与日均流量的比值，服从非平稳随机过程，峰值时段 K_peak ≈ 3-5，低谷 K_valley ≈ 0.5-1。该随机源同时驱动带宽需求、节点负载和缓存命中率变化，是所有下游风险投影的共同输入。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点严格遵循 K_t = K_base + K_event + K_noise 的加法分解结构，分别定义了结构、基线参数、事件参数和噪声特性，逻辑上互斥且共同构成了父节点定义的完整随机过程模型，无重复或矛盾。）
+
+## Search Query
+
+CDN traffic fluctuation coefficient peak to average ratio 3x 5x stochastic process

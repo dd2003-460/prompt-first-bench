@@ -1,0 +1,20 @@
+# N85: 混合策略下公有云部分出口带宽成本 (C_bw_cloud, ¥/1000 req) 计算为 (V_tail * Unit_Price_cloud) / Q_da
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N17
+
+## Claim
+
+混合策略下公有云部分出口带宽成本 (C_bw_cloud, ¥/1000 req) 计算为 (V_tail * Unit_Price_cloud) / Q_day_total * 1000，其中 V_tail 为长尾区域日均下载流量（GB），Unit_Price_cloud 为公有云 CDN 出口带宽单价（¥/GB）。
+
+## Corrected Claim
+
+混合策略下公有云部分出口带宽成本 (C_bw_cloud, ¥/1000 req) 计算为 (V_tail * Unit_Price_cloud) / Q_day_total * 1000，其中 V_tail 为长尾区域日均下载流量（GB），Unit_Price_cloud 为公有云 CDN 出口带宽单价（¥/GB）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式量纲分析显示 (GB * ¥/GB) / 无量纲 * 无量纲 = ¥，与目标单位 ¥/1000 req 在数值定义上自洽（假设 Q_day_total 为无量纲的请求数或已归一化），且符合成本分摊的基本逻辑。

@@ -1,0 +1,24 @@
+# N374: 单POP硬件配置基线：为满足单点承载约200Gbps峰值带宽及高IOPS缓存需求，单POP需配置2台双路Xeon服务器（每台128GB内存，2x 3.84TB 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N127
+
+## Claim
+
+单POP硬件配置基线：为满足单点承载约200Gbps峰值带宽及高IOPS缓存需求，单POP需配置2台双路Xeon服务器（每台128GB内存，2x 3.84TB NVMe SSD），硬件采购成本约¥80,000/POP（服务器¥60k+网络设备¥20k），10个POP总Capex为¥800,000。
+
+## Corrected Claim
+
+单POP硬件配置基线：为满足单点承载约200Gbps峰值带宽及高IOPS缓存需求，单POP需配置2台双路Xeon服务器（每台128GB内存，2x 3.84TB NVMe SSD），硬件采购成本约¥80,000/POP（服务器¥60k+网络设备¥20k），10个POP总Capex为¥800,000。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：2台双路Xeon服务器配置128GB内存和NVMe SSD，硬件成本约6万元符合市场常规量级，总Capex计算（80k*10=800k）逻辑自洽。
+
+## Search Query
+
+Alibaba Cloud ECS eci.g7.2xlarge price 5 year commitment vs self-hosted server cost

@@ -1,0 +1,30 @@
+# N723: 工作点1（1Gbps自建）的固定月租成本 F_line_1G 为 ¥5,000/月，该数值基于国内普通机房 1Gbps 共享带宽或小型专线的市场报价 [待核验]
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N249
+
+## Claim
+
+工作点1（1Gbps自建）的固定月租成本 F_line_1G 为 ¥5,000/月，该数值基于国内普通机房 1Gbps 共享带宽或小型专线的市场报价 [待核验]
+
+## Corrected Claim
+
+工作点1（1Gbps自建）的固定月租成本 F_line_1G 约为 ¥5,000/月，该数值基于国内普通机房 1Gbps 共享带宽或小型专线的市场报价估算
+
+## Evidence
+
+[质询]来源未提供具体的1Gbps带宽月租报价，无法直接验证¥5,000/月这一具体数值是否准确反映当前国内市场行情，存在经验事实缺乏直接证据支持的风险。 | 经验事实，逻辑自洽但缺来源支持（来源[1][2][3]仅讨论自建与云服务的总体成本对比，未提供1Gbps带宽的具体月租报价）
+
+## Search Query
+
+China 1Gbps bandwidth lease monthly cost colocation
+
+## Retrieval Sources
+
+- {'url': 'https://www.fanqiangdao.com/post/selfhost-vs-airport-12month-tco-ledger-2026/&rut=cb2c9a4b001bd2d86d5e511ba422cdc6d1f93326cd51f9aa2954e3c5c3433a2a', 'type': 'ddg', 'title': '2026年自建节点vs机场总持有成本账本：12个月真实开支拆解与盈亏平衡点 — fanqiangdao.com'}
+- {'url': 'https://www.htstack.com/news/58542.shtml&rut=2e8babf2bb63c3652e8fa0785743b4e806161c7e038e6154221a2fe6375a27dd', 'type': 'ddg', 'title': '自己搭建VPS多少钱？全面解析自建服务器成本与方案选择'}
+- {'url': 'https://www.htstack.com/news/157074.shtml&rut=110b6a4c47bef3b1a35ccb3beba9872e5a583d481333044e162d5f9a983f6eee', 'type': 'ddg', 'title': '自己弄个服务器多少钱？从入门到高阶的完整成本解析-行业资讯-衡天云'}

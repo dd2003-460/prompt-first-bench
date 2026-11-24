@@ -1,0 +1,30 @@
+# N231: 阿里云基础DDoS防护免费阈值5Gbps适用于单IP或单域名，若C端平台使用多个CDN节点IP，总防护阈值是否为5Gbps/IP还是5Gbps/账户，需确认计费
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N86
+
+## Claim
+
+阿里云基础DDoS防护免费阈值5Gbps适用于单IP或单域名，若C端平台使用多个CDN节点IP，总防护阈值是否为5Gbps/IP还是5Gbps/账户，需确认计费口径
+
+## Corrected Claim
+
+阿里云基础DDoS防护提供500Mbps-5Gbps免费阈值，针对账号下的公网IP资产（如ECS、SLB）提供防护；具体在多IP场景下是每IP独立享受阈值还是账户共享，需查阅最新计费细则或咨询官方确认。
+
+## Evidence
+
+[质询]陈述中关于“5Gbps适用于单IP或单域名”的具体口径描述缺乏来源直接支持，且来源[3]明确指出防护是针对“阿里云账号下的...公网IP资产”，暗示了按IP计费的逻辑，但未明确排除按账户聚合或域名维度的可能性，存在口径混淆风险。 | 来源[1][2][3]确认了5Gbps免费阈值及针对公网IP资产的防护范围，但未明确界定多IP场景下是独立计算还是账户共享，属于经验事实且缺乏直接来源支持具体计费口径细节。
+
+## Search Query
+
+Alibaba Cloud DDoS basic protection 5Gbps threshold per IP or per account
+
+## Retrieval Sources
+
+- {'url': 'https://help.aliyun.com/zh/anti-ddos/basic-ddos-protection/product-overview/what-is-anti-ddos-basic&rut=6b1fe3278e48a07dd8ab62dc43a983afe5f1268264e03e80b821dda2d21267cc', 'type': 'ddg', 'title': 'DDoS基础防护-DDoS防护 (Anti-DDoS)-阿里云帮助中心'}
+- {'url': 'https://developer.aliyun.com/article/1689711&rut=b96fdf6a4abe35bbd4960c27e30a1f341129da16c6dd64bc3110c2e6f533d496', 'type': 'ddg', 'title': '阿里云服务器DDoS基础防护介绍，500Mbps-5Gbps免费防护力，流量清洗流程参考'}
+- {'url': 'https://help.aliyun.com/zh/anti-ddos/basic-ddos-protection/product-overview/billing-of-anti-ddos-origin-basic&rut=c18dde81520c1c5d15cf50bcfeef07f3b5635f6428f866f38a786813ff0a8098', 'type': 'ddg', 'title': 'DDoS基础防护支持哪些云产品以及如何计费-DDoS防护 (Anti-DDoS)-阿里云帮助中心'}

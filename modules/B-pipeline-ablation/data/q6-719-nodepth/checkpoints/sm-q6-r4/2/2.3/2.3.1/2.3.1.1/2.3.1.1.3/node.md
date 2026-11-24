@@ -1,0 +1,30 @@
+# N647: 回源流量（Origin Pull Traffic）单价与系数：公有云CDN通常对回源流量单独计费或免费（取决于带宽包类型），需确认阿里云/Cloudflare的
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N221, N222, N223
+
+## Claim
+
+回源流量（Origin Pull Traffic）单价与系数：公有云CDN通常对回源流量单独计费或免费（取决于带宽包类型），需确认阿里云/Cloudflare的回源流量单价（¥/GB）及是否包含在标准流量包内，以计算总带宽成本。
+
+## Corrected Claim
+
+阿里云CDN回源流量通常单独计费（公式：流量GB×单价），具体单价需查阅阿里云官网最新价格表或控制台，不同带宽包类型可能影响计费方式。
+
+## Evidence
+
+[质询]该陈述是一个行动指令/待办事项（'需确认...单价'），而非一个已确认的事实结论。它没有提供具体的数值或明确的计费规则结论，因此无法被'验证'为真，只能被评估为逻辑上合理的下一步操作。此外，来源[3]仅给出了计算公式，未提供具体单价数值，来源[2]指出独立出账但未明确是否免费或具体单价，导致无法从来源中直接提取出'单价是多少'这一事实。 | 来源[2]和[3]证实了阿里云CDN回源流量是独立计费项且有计算公式，支持了'需确认单价'这一逻辑前提，但来源未提供具体单价数值，且陈述本身为待办事项而非事实结论，故降级。
+
+## Search Query
+
+阿里云 CDN 回源流量 计费 价格 免费额度
+
+## Retrieval Sources
+
+- {'url': 'https://help.aliyun.com/zh/oss/traffic-fees&rut=ae34107ae81ca4af378bd96ae849ac6559f004622d4e9253c5e55404650e791b', 'type': 'ddg', 'title': '流量费用-对象存储 (Oss)-阿里云帮助中心'}
+- {'url': 'https://help.aliyun.com/zh/cdn/product-overview/billing-of-oss-content-acceleration&rut=d489a658be3e4f065943b8be8074ff4503e553f35415f3dd0264563cb68045cd', 'type': 'ddg', 'title': 'Cdn加速oss计费说明-cdn (Cdn)-阿里云帮助中心'}
+- {'url': 'https://developer.aliyun.com/ask/652758&rut=95f5b6fe03c007ee15ae9f7b0f062a3f952446a4ef5892dd23e308ad6ee817ef', 'type': 'ddg', 'title': 'Cdn回源oss如何计算回源流量费用_问答-阿里云开发者社区'}

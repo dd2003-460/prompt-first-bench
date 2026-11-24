@@ -1,0 +1,24 @@
+# N14: 混合策略基础设施成本：核心自建 5 个 POP 点（覆盖 70% 用户），硬件+机柜+网络设备 CAPEX ≈ ¥300,000-1,000,000，月租 ≈ 
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+混合策略基础设施成本：核心自建 5 个 POP 点（覆盖 70% 用户），硬件+机柜+网络设备 CAPEX ≈ ¥300,000-1,000,000，月租 ≈ ¥30,000-100,000；长尾 30% 流量走公有云 CDN，月流量成本 ≈ ¥10,000-20,000
+
+## Corrected Claim
+
+混合策略基础设施成本：核心自建 5 个 POP 点（覆盖 70% 用户），硬件+机柜+网络设备 CAPEX ≈ ¥300,000-1,000,000，月租 ≈ ¥30,000-100,000；长尾 30% 流量走公有云 CDN，月流量成本 ≈ ¥10,000-20,000
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：5个POP点的硬件与机柜成本量级（30万-100万CAPEX）及月租（3万-10万）符合中小规模自建边缘节点的市场行情；30%长尾流量走公有云CDN的成本估算（1万-2万/月）在常规流量规模下逻辑自洽，无内部矛盾。
+
+## Search Query
+
+hybrid CDN infrastructure cost core self-hosted 5 POP long-tail public cloud

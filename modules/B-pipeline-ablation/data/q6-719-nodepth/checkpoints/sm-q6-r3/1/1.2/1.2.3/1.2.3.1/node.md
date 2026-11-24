@@ -1,0 +1,24 @@
+# N159: BGP 路由跳数 Hops 的估算模型：Hops ≈ 2 + (1 if Cross_Network else 0) + (1 if Cross_Region 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N45
+
+## Claim
+
+BGP 路由跳数 Hops 的估算模型：Hops ≈ 2 + (1 if Cross_Network else 0) + (1 if Cross_Region else 0)，其中基础 2 跳为用户 ISP 到边缘 POP，跨网和跨域各增加 1 跳。典型值 2-4 跳，极端情况 5-6 跳。
+
+## Corrected Claim
+
+BGP 路由跳数 Hops 的估算模型：Hops ≈ 2 + (1 if Cross_Network else 0) + (1 if Cross_Region else 0)，其中基础 2 跳为用户 ISP 到边缘 POP，跨网和跨域各增加 1 跳。典型值 2-4 跳，极端情况 5-6 跳。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：BGP 路由跳数模型符合网络拓扑常识，基础 2 跳（用户-ISP-边缘）及跨网/跨域增量逻辑自洽，典型值 2-4 跳符合实际网络经验。
+
+## Search Query
+
+BGP hop count estimation user to CDN edge node

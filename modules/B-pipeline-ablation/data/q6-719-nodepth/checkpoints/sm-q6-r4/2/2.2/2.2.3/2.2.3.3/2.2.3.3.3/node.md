@@ -1,0 +1,30 @@
+# N636: 服务器内存备件单价 P_RAM 的取值：基于 2024-2025 年 DDR4/DDR5 ECC RDIMM 内存条（16GB-64GB 规格）的市场均价，P_
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N218
+
+## Claim
+
+服务器内存备件单价 P_RAM 的取值：基于 2024-2025 年 DDR4/DDR5 ECC RDIMM 内存条（16GB-64GB 规格）的市场均价，P_RAM 典型区间为 ¥300-¥1,500/条，取决于容量（16GB vs 64GB）及代际（DDR4 vs DDR5），需与服务器主板支持的最大单条容量匹配。
+
+## Corrected Claim
+
+服务器内存备件单价 P_RAM 的取值：基于 DDR4/DDR5 ECC RDIMM 内存条（16GB-64GB 规格）的市场行情，P_RAM 典型区间约为 ¥300-¥1,500/条（注：具体价格随市场波动，2026年数据显示价格有显著上涨趋势），取决于容量及代际，需与服务器主板支持的最大单条容量匹配。
+
+## Evidence
+
+[质询]来源[2]和[3]均指向2026年的市场情况（如'2026 RAM Price Fix'、'2026年价格'），且提到2026年价格翻倍，这与陈述中'2024-2025年'的时间窗口存在潜在冲突或数据滞后风险；此外，来源未提供2024-2025年具体的¥300-¥1,500数值区间，仅能证明服务器内存价格波动大且DDR4/DDR5存在价差，无法直接证实该特定历史区间的准确性。 | 逻辑自洽：服务器ECC RDIMM因包含ECC校验和寄存器，单价显著高于普通UDIMM，16GB-64GB容量区间对应¥300-¥1,500符合一般市场认知量级；但参考来源[1][2][3]主要覆盖2026年或实时价格趋势，未直接提供2024-2025年的具体均价数据，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+server DDR4 DDR5 RAM stick price 2024 China
+
+## Retrieval Sources
+
+- {'url': 'https://memoryindex.io/dram-prices&rut=28c3765002e9e7d1963530c8c4ee78645f0e87a261f64475e30480cfa98fde50', 'type': 'ddg', 'title': 'DRAM Prices Today — DDR5 & DDR4 Spot vs Contract Price Chart'}
+- {'url': 'https://pcserverandparts.com/news/refurbished-ddr4-server-memory-2026-server-ram-price-crisis/&rut=5719a69880c1c80ee2fef8fee67fdbd43d10ff9c0ced0e5a51d824573d00badb', 'type': 'ddg', 'title': 'Refurbished DDR4 Server Memory: The 2026 RAM Price Fix'}
+- {'url': 'https://vramglass.com/zh/ddr4&rut=3289e258d749f8755cb8144f6789e3df53da71f7b24c6dbf7ae3b0a2e2beb26c', 'type': 'ddg', 'title': 'Ddr4 内存价格走势：台式机与服务器内存条价格（2026）'}

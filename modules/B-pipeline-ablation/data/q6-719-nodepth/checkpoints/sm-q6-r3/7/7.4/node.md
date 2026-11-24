@@ -1,0 +1,20 @@
+# N129: 修正后的 Zipf 命中率公式：Hit_Rate = 1 - (1 - (K/N_total)^α) / (1 - (1/N_total)^α) × (1 - 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N37
+
+## Claim
+
+修正后的 Zipf 命中率公式：Hit_Rate = 1 - (1 - (K/N_total)^α) / (1 - (1/N_total)^α) × (1 - 1/N_total)，该公式考虑了有限对象总数 N_total 对长尾分布截断的影响，当 N_total > 10^6 时近似为 1 - (1/K)^α。
+
+## Corrected Claim
+
+修正后的 Zipf 命中率公式：Hit_Rate = 1 - (1 - (K/N_total)^α) / (1 - (1/N_total)^α) × (1 - 1/N_total)，该公式考虑了有限对象总数 N_total 对长尾分布截断的影响，当 N_total > 10^6 时近似为 1 - (1/K)^α。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该公式符合有限Zipf分布（离散幂律）的累积分布函数推导，当N_total趋于无穷大时，分母趋近于1，分子中的(1/N_total)^α项消失，公式退化为1 - (1/K)^α，逻辑自洽且量级合理。

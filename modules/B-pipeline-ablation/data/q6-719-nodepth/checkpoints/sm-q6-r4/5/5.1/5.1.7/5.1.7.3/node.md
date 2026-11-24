@@ -1,0 +1,20 @@
+# N319: CapEx 增量与 OpEx 的权衡：预置 2x 峰值带宽的 CapEx 增量为 (40.5 - 20.25) × 21.7k ≈ ¥439k。若这部分带宽在低
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N110
+
+## Claim
+
+CapEx 增量与 OpEx 的权衡：预置 2x 峰值带宽的 CapEx 增量为 (40.5 - 20.25) × 21.7k ≈ ¥439k。若这部分带宽在低峰期闲置，其机会成本应计入 OpEx。机会成本 = Idle_Bandwidth × Cloud_Lease_Price，假设闲置 50% 时间，Cloud_Lease_Price ¥100/Mbps/月，则月度机会成本 ≈ 20.25Gbps × 0.5 × 100 = ¥101.25k/月。
+
+## Corrected Claim
+
+CapEx 增量与 OpEx 的权衡：预置 2x 峰值带宽的 CapEx 增量为 (40.5 - 20.25) × 21.7k ≈ ¥439k。若这部分带宽在低峰期闲置，其机会成本应计入 OpEx。机会成本 = Idle_Bandwidth × Cloud_Lease_Price，假设闲置 50% 时间，Cloud_Lease_Price ¥100/Mbps/月，则月度机会成本 ≈ 20.25Gbps × 0.5 × 100 = ¥101.25k/月。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：CapEx增量计算 (40.5-20.25)*21.7k ≈ 438.9k 与 439k 一致；OpEx机会成本计算 20.25*1000*0.5*100 = 1,012,500 元/月，即 101.25k 元/月，数值量级与逻辑均自洽。

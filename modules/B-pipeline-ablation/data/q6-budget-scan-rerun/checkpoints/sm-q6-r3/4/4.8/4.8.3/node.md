@@ -1,0 +1,24 @@
+# N95: 回源带宽限制阈值对缓存失效的影响：设定单POP点回源带宽上限为 B_limit_pop = 0.5 * B_peak_pop（即峰值带宽的50%），当实际回源需
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N24
+
+## Claim
+
+回源带宽限制阈值对缓存失效的影响：设定单POP点回源带宽上限为 B_limit_pop = 0.5 * B_peak_pop（即峰值带宽的50%），当实际回源需求超过该阈值时，缓存命中率下降 ΔCHR_limit ≈ 10%-20%，导致部分请求降级为直连源站，P99延迟增加 ΔP99_limit ≈ 50-100ms；该阈值需根据源站承载能力动态调整。
+
+## Corrected Claim
+
+回源带宽限制阈值对缓存失效的影响：设定单POP点回源带宽上限为 B_limit_pop = 0.5 * B_peak_pop（即峰值带宽的50%），当实际回源需求超过该阈值时，缓存命中率下降 ΔCHR_limit ≈ 10%-20%，导致部分请求降级为直连源站，P99延迟增加 ΔP99_limit ≈ 50-100ms；该阈值需根据源站承载能力动态调整。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别覆盖了阈值设定的物理约束（源站能力）、命中率下降的量化模型、延迟增加的物理成因（RTT/处理时间）以及动态调整的控制算法。这四个维度分别对应了‘边界条件’、‘核心指标关联’、‘性能影响机理’和‘控制策略’，彼此独立且互补，无逻辑重叠或矛盾，共同完整解释了父节点中提到的现象及其约束。）
+
+## Search Query
+
+origin bandwidth limit impact on cache hit rate and P99 latency CDN

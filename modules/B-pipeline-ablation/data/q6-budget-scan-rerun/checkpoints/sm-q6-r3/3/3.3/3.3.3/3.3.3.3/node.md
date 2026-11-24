@@ -1,0 +1,24 @@
+# N231: 短视频分片传输对 P99 的影响量化：若将 5MB 短视频分为 10 个 500KB 分片并行下载，有效传输时间 T_transmit_parallel = (
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N71
+
+## Claim
+
+短视频分片传输对 P99 的影响量化：若将 5MB 短视频分为 10 个 500KB 分片并行下载，有效传输时间 T_transmit_parallel = (s / N_chunks) / B_link。假设 N_chunks=10, B_link=10Mbps，T_transmit_parallel ≈ 500KB / 1.25MB/ms ≈ 400ms? 不，单位换算：10Mbps = 1.25MB/s。500KB / 1.25MB/s = 0.4s = 400ms。这仍然很高。需修正：若带宽为 100Mbps (光纤)，1.25MB/s * 10 = 12.5MB/s。500KB / 12.5MB/s = 0.04s = 40ms。此时 P99 可能达标。需量化不同用户带宽分布下的达标率。
+
+## Corrected Claim
+
+短视频分片传输对 P99 的影响量化：若将 5MB 短视频分为 10 个 500KB 分片并行下载，有效传输时间 T_transmit_parallel = (s / N_chunks) / B_link。假设 N_chunks=10, B_link=10Mbps，T_transmit_parallel ≈ 500KB / 1.25MB/ms ≈ 400ms? 不，单位换算：10Mbps = 1.25MB/s。500KB / 1.25MB/s = 0.4s = 400ms。这仍然很高。需修正：若带宽为 100Mbps (光纤)，1.25MB/s * 10 = 12.5MB/s。500KB / 12.5MB/s = 0.04s = 40ms。此时 P99 可能达标。需量化不同用户带宽分布下的达标率。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：单位换算（10Mbps=1.25MB/s, 100Mbps=12.5MB/s）及时间计算（500KB/1.25MB/s=0.4s, 500KB/12.5MB/s=0.04s）均符合物理定律与数学逻辑，数值量级合理。
+
+## Search Query
+
+video chunking parallel download latency improvement CDN

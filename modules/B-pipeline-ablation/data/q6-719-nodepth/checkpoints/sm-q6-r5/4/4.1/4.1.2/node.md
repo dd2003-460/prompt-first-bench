@@ -1,0 +1,24 @@
+# N78: 单POP计算/存储瓶颈 CPU_pop：处理1.5MB对象的CPU开销约为0.1-0.5ms/req（含TLS握手+对象分片+响应头生成），单台服务器（16核）
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N19, N20, N21
+
+## Claim
+
+单POP计算/存储瓶颈 CPU_pop：处理1.5MB对象的CPU开销约为0.1-0.5ms/req（含TLS握手+对象分片+响应头生成），单台服务器（16核）最大并发处理能力 Q_max = 1000ms / 0.3ms = 3333 req/s，对应带宽上限 3333 * 1.5MB = 5Gbps
+
+## Corrected Claim
+
+单POP计算/存储瓶颈 CPU_pop：处理1.5MB对象的CPU开销约为0.1-0.5ms/req（含TLS握手+对象分片+响应头生成），单台服务器（16核）最大并发处理能力 Q_max = 1000ms / 0.3ms = 3333 req/s，对应带宽上限 3333 * 1.5MB = 5Gbps
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：1.5MB * 3333 req/s ≈ 5.0004 Gbps，数值量级与计算逻辑自洽。
+
+## Search Query
+
+CDN edge server CPU overhead per request TLS handshake latency

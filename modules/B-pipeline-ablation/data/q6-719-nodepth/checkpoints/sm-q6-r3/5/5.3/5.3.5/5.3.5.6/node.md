@@ -1,0 +1,20 @@
+# N307: K_event(t) 的统计分布：事件发生频率 λ_event ≈ 2-5 次/月，持续时间 T_event ~ Uniform(30min, 4h)，幅度 Δ
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N99, N100, N101
+
+## Claim
+
+K_event(t) 的统计分布：事件发生频率 λ_event ≈ 2-5 次/月，持续时间 T_event ~ Uniform(30min, 4h)，幅度 ΔK_event ~ Uniform(0.5, 2.0)；事件期间 K_t = K_base(t) + ΔK_event，导致瞬时带宽需求激增，需验证 CDN 弹性扩容或自建节点过载风险。
+
+## Corrected Claim
+
+K_event(t) 的统计分布：事件发生频率 λ_event ≈ 2-5 次/月，持续时间 T_event ~ Uniform(30min, 4h)，幅度 ΔK_event ~ Uniform(0.5, 2.0)；事件期间 K_t = K_base(t) + ΔK_event，导致瞬时带宽需求激增，需验证 CDN 弹性扩容或自建节点过载风险。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

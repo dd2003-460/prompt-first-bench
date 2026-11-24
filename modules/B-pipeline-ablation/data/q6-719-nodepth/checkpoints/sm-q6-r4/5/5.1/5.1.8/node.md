@@ -1,0 +1,24 @@
+# N111: 混合方案核心POP单点故障影响面为 20% 用户流量（5 POP 中 1 个故障），故障期间该 20% 流量的 P99 延迟上升至 T_cloud_fallba
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N27, N28, N29
+
+## Claim
+
+混合方案核心POP单点故障影响面为 20% 用户流量（5 POP 中 1 个故障），故障期间该 20% 流量的 P99 延迟上升至 T_cloud_fallback = RTT_to_cloud + T_cloud_processing，量化为 ΔP99_hybrid = 0.2 × (T_cloud_fallback - T_cache) + 0.8 × 0
+
+## Corrected Claim
+
+混合方案核心POP单点故障影响面为 20% 用户流量（5 POP 中 1 个故障），故障期间该 20% 流量的 P99 延迟上升至 T_cloud_fallback = RTT_to_cloud + T_cloud_processing，量化为 ΔP99_hybrid = 0.2 × (T_cloud_fallback - T_cache) + 0.8 × 0
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：5个POP中1个故障占比20%符合算术逻辑，加权延迟公式在数学上自洽且量纲正确。
+
+## Search Query
+
+hybrid CDN core POP failure fallback latency impact

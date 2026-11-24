@@ -1,0 +1,30 @@
+# N325: 自建核心区域骨干网带宽单价 unit_cost_core 的构成拆解：unit_cost_core = (Annual_Lease_Cost + Annual_
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N103, N104, N105
+
+## Claim
+
+自建核心区域骨干网带宽单价 unit_cost_core 的构成拆解：unit_cost_core = (Annual_Lease_Cost + Annual_Bandwidth_Lease) / Annual_Throughput_GB；基于 N124（机房租金 6 万/年）和 N125（带宽 40 万/年），单 POP 点年总基础设施成本 62.92 万，若年吞吐量 B_core_annual = 100TB，则 unit_cost_core ≈ 62.92 万 / 100,000GB ≈ 0.63 元/GB（此处需修正 N104 中 0.08 元/GB 的低估，实际自建单位成本因固定成本高而显著高于公有云长尾单价的直觉预期，或需重新定义‘核心区域’为多 POP 聚合后的平均成本）。
+
+## Corrected Claim
+
+基于假设的机房租金（6万/年）和带宽成本（40万/年）及100TB年吞吐量，估算的单POP点自建核心区域骨干网带宽单价约为0.63元/GB。此数值为基于特定假设的经验估算，缺乏通用外部数据支持，实际成本需根据具体供应商报价和规模效应重新核算。
+
+## Evidence
+
+[质询]该陈述属于具体的经验性成本估算（涉及特定机房租金、带宽价格及吞吐量假设），无法从第一性原理推导。参考来源均为无关的SAP计算器或华为网络路由协议文档，未提供支撑该具体数值（0.63元/GB）或成本构成逻辑的外部证据。 | 逻辑校验通过：62.92万/100,000GB ≈ 0.6292元/GB，计算无误；但参考来源[1][2][3]均与自建骨干网成本拆解无关，无法提供外部支持，且该事实为经验数据，故降级。
+
+## Search Query
+
+China backbone network bandwidth lease cost per GB 2024 self-built edge node
+
+## Retrieval Sources
+
+- {'url': 'https://ai-core-calculator.cfapps.eu10.hana.ondemand.com/&rut=4e3712d15e160d9220f8347729162598fff91e7cff6c6162098bf153dd56908f', 'type': 'ddg', 'title': 'SAP AI Core Cost Calculator'}
+- {'url': 'https://support.huawei.com/enterprise/zh/doc/EDOC1100293937/f37fa1ab&rut=a1e34dc0e28b165cf4238a413f27383f1a81ccc08a61dbc4399fae9f80db9d4d', 'type': 'ddg', 'title': 'IGP cost值设计 - CloudWAN V100R022C00 电子政务外网解决方案最佳实践 - 华为'}
+- {'url': 'https://support.huawei.com/enterprise/zh/doc/EDOC1100489875/3118f388&rut=a486bd2c8bad9245ff2bde77259122b2a37ac88e8b9de2e31d330af9bc03b2d0', 'type': 'ddg', 'title': 'IGP cost值设计 - CloudWAN V100R024C00 金融云骨干网络解决方案最佳实践 - 华为'}

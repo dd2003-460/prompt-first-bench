@@ -1,0 +1,24 @@
+# N8: 自建 10 个 POP 点（假设覆盖中国主要省级节点）的 P99 延迟基准值约为 200ms（受限于节点密度低，长尾地区回源距离增加，导致尾延迟显著高于公有云）
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+自建 10 个 POP 点（假设覆盖中国主要省级节点）的 P99 延迟基准值约为 200ms（受限于节点密度低，长尾地区回源距离增加，导致尾延迟显著高于公有云）
+
+## Corrected Claim
+
+自建 10 个 POP 点（假设覆盖中国主要省级节点）的 P99 延迟基准值约为 200ms（受限于节点密度低，长尾地区回源距离增加，导致尾延迟显著高于公有云）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：10个节点覆盖中国主要省份，节点密度远低于公有云（通常数百个边缘节点），长尾地区回源距离显著增加，P99延迟200ms符合物理直觉与工程经验。
+
+## Search Query
+
+Self-hosted CDN 10 PoP points China P99 latency 200ms edge node density impact

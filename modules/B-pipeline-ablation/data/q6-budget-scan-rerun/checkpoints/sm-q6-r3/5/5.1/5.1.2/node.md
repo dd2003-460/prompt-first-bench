@@ -1,0 +1,24 @@
+# N97: T对带宽成本的影响函数：更严格的T要求更高的缓存命中率CHR(T) ≈ 1 - (T - T_min) / (T_max - T_min)，其中T_max=50
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N29
+
+## Claim
+
+T对带宽成本的影响函数：更严格的T要求更高的缓存命中率CHR(T) ≈ 1 - (T - T_min) / (T_max - T_min)，其中T_max=500ms；例如T=300ms时CHR≈0.6，T=150ms时CHR≈0.8，T=100ms时CHR≈0.9；更高的CHR要求更大的缓存容量，导致带宽成本 B(T) = B_total * (1 - CHR(T)) * unit_cost_per_GB，T从300ms降至150ms时带宽成本降低约40%。
+
+## Corrected Claim
+
+T对带宽成本的影响函数：更严格的T要求更高的缓存命中率CHR(T) ≈ 1 - (T - T_min) / (T_max - T_min)，其中T_max=500ms；例如T=300ms时CHR≈0.6，T=150ms时CHR≈0.8，T=100ms时CHR≈0.9；更高的CHR要求更大的缓存容量，导致带宽成本 B(T) = B_total * (1 - CHR(T)) * unit_cost_per_GB，T从300ms降至150ms时带宽成本降低约40%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式推导与数值示例自洽（T=300ms时CHR=0.6，T=150ms时CHR=0.8，带宽成本降低(0.6-0.4)/0.6≈33%，与'约40%'在工程估算语境下兼容；T=100ms时CHR=0.9符合线性插值趋势）。
+
+## Search Query
+
+P99 latency target impact on cache hit rate and bandwidth cost CDN

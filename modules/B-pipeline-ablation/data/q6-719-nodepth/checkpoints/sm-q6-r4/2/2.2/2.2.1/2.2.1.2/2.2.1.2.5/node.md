@@ -1,0 +1,24 @@
+# N620: 工作点B（中负载/性价比最优）：2台服务器满载率50%，总功耗P_total=450W（225W/台，含NVMe读写），对应月均用电量324kWh，远低于基础包
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N212, N213, N214
+
+## Claim
+
+工作点B（中负载/性价比最优）：2台服务器满载率50%，总功耗P_total=450W（225W/台，含NVMe读写），对应月均用电量324kWh，远低于基础包，总电力成本¥800/月，单位流量电力成本最低。
+
+## Corrected Claim
+
+工作点B（中负载/性价比最优）：2台服务器满载率50%，总功耗P_total=450W（225W/台，含NVMe读写），对应月均用电量324kWh，远低于基础包，总电力成本¥800/月，单位流量电力成本最低。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：2台服务器总功耗450W，月均用电量计算为 450W * 24h * 30d / 1000 = 324kWh，数值自洽；成本与负载率描述符合逻辑。
+
+## Search Query
+
+edge server 50% load power consumption NVMe

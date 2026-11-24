@@ -1,0 +1,20 @@
+# N294: 视频请求P99延迟降低量 ΔP99_video 与带宽利用率 U 及视频请求占比 f_video 相关：ΔP99_video = 40ms * (1 - (1-
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N94
+
+## Claim
+
+视频请求P99延迟降低量 ΔP99_video 与带宽利用率 U 及视频请求占比 f_video 相关：ΔP99_video = 40ms * (1 - (1-U)^2) * f_video，其中 f_video=0.3（N16给定），在 U=0.8 时 ΔP99_video ≈ 40 * (1-0.04) * 0.3 ≈ 11.5ms
+
+## Corrected Claim
+
+视频请求P99延迟降低量 ΔP99_video 与带宽利用率 U 及视频请求占比 f_video 相关：ΔP99_video = 40ms * (1 - (1-U)^2) * f_video，其中 f_video=0.3（N16给定），在 U=0.8 时 ΔP99_video ≈ 40 * (1-0.04) * 0.3 ≈ 11.5ms
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式代入 U=0.8, f_video=0.3 计算得 40 * (1 - 0.04) * 0.3 = 40 * 0.96 * 0.3 = 11.52ms，与陈述中的 ≈11.5ms 一致，数值量级合理且无内部矛盾。

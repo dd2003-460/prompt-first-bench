@@ -1,0 +1,20 @@
+# N620: N_add 的下界约束由单 POP 最大承载请求量 R_max_pop 决定：N_add ≥ ceil((R_daily * w_target_region) 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N204
+
+## Claim
+
+N_add 的下界约束由单 POP 最大承载请求量 R_max_pop 决定：N_add ≥ ceil((R_daily * w_target_region) / R_max_pop) - N_existing_region，其中 R_max_pop 受限于单节点带宽瓶颈（10Gbps / s_avg * (1-H)）和 CPU 处理能力（典型单核 10k-50k req/s），取两者最小值
+
+## Corrected Claim
+
+N_add 的下界约束由单 POP 最大承载请求量 R_max_pop 决定：N_add ≥ ceil((R_daily * w_target_region) / R_max_pop) - N_existing_region，其中 R_max_pop 受限于单节点带宽瓶颈（10Gbps / s_avg * (1-H)）和 CPU 处理能力（典型单核 10k-50k req/s），取两者最小值
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式结构符合容量规划基本逻辑（总需求/单点容量-现有容量），带宽与CPU瓶颈取最小值的约束符合系统性能瓶颈原理，量纲与数值量级合理。

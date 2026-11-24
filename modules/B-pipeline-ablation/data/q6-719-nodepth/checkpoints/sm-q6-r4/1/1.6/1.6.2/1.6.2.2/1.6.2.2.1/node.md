@@ -1,0 +1,20 @@
+# N576: TLS 1.2 Session Resumption (Session ID) 模式下，服务器需维护会话状态存储（Session Cache），其内存占用与最大
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N198
+
+## Claim
+
+TLS 1.2 Session Resumption (Session ID) 模式下，服务器需维护会话状态存储（Session Cache），其内存占用与最大并发会话数成正比，通常限制为 100k-1M 个活跃会话，超出后命中率下降
+
+## Corrected Claim
+
+TLS 1.2 Session Resumption (Session ID) 模式下，服务器需维护会话状态存储（Session Cache），其内存占用与最大并发会话数成正比，通常限制为 100k-1M 个活跃会话，超出后命中率下降
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

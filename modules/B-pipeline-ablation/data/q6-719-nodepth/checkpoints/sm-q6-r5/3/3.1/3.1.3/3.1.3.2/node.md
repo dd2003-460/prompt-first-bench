@@ -1,0 +1,24 @@
+# N214: 工作点B（低成本/低缓存命中率）：Hot_Data_Size 设为日均下载量的 15%（300GB/天），保留 3 天热数据即 0.9TB；Hot_Spillo
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N68
+
+## Claim
+
+工作点B（低成本/低缓存命中率）：Hot_Data_Size 设为日均下载量的 15%（300GB/天），保留 3 天热数据即 0.9TB；Hot_Spillover_Ratio 取 1.2 以最小化存储开销；N_storage = (0.9TB + 0) * 1.2 = 1.08TB/POP。此配置下缓存命中率 H 预计降至 75%，回源率增加至 25%，但单 POP 存储成本降低约 70%。
+
+## Corrected Claim
+
+工作点B（低成本/低缓存命中率）：Hot_Data_Size 设为日均下载量的 15%（300GB/天），保留 3 天热数据即 0.9TB；Hot_Spillover_Ratio 取 1.2 以最小化存储开销；N_storage = (0.9TB + 0) * 1.2 = 1.08TB/POP。此配置下缓存命中率 H 预计降至 75%，回源率增加至 25%，但单 POP 存储成本降低约 70%。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（两个子节点分别计算了工作点B的存储成本和回源带宽增量成本，两者属于不同的成本维度（资本/固定成本 vs 运营/变动成本），互不重叠且逻辑独立。父节点主要描述了配置参数及其对命中率/回源率的影响，子节点将这些影响转化为具体的金钱成本，覆盖了‘低成本’这一核心结论的量化验证，因此是完备的。）
+
+## Search Query
+
+CDN cache hit rate vs storage capacity relationship 75% hit rate

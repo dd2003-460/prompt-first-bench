@@ -1,0 +1,20 @@
+# N579: C 端用户重连频率对 Session Resumption 命中率的影响：假设用户平均会话间隔为 5 分钟，Session Ticket 有效期为 7 天，则单
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N199
+
+## Claim
+
+C 端用户重连频率对 Session Resumption 命中率的影响：假设用户平均会话间隔为 5 分钟，Session Ticket 有效期为 7 天，则单次访问内重连概率 P_resumption = 1 - exp(-Interval/Ticket_Validity)，对于高频用户（日均 10 次访问），P_resumption ≈ 99%
+
+## Corrected Claim
+
+C 端用户重连频率对 Session Resumption 命中率的影响：假设用户平均会话间隔为 5 分钟，Session Ticket 有效期为 7 天，则对于高频用户（日均 10 次访问），由于访问间隔远小于 Ticket 有效期，理论上 Session Resumption 命中率应接近 100%，但实际命中率受 Ticket 保存、服务器配置等因素影响，无法仅通过简单指数公式精确计算为 99%。
+
+## Evidence
+
+[质询]公式 P_resumption = 1 - exp(-Interval/Ticket_Validity) 在逻辑上存在严重缺陷：该公式计算的是在给定时间间隔内发生一次特定事件（如会话结束或重连触发）的概率，而非 Session Resumption 的命中率。Session Resumption 命中率取决于用户是否在 Ticket 有效期内再次发起连接，且该连接能成功复用之前的会话状态。若用户日均访问 10 次，平均间隔为 144 分钟（2.4 小时），远小于 7 天有效期，理论上命中率应接近 100%，但公式中的 'Interval' 定义模糊（是平均间隔还是单次间隔？），且 '重连概率' 与 '命中率' 概念混淆。此外，该公式未考虑 Ticket 被服务器撤销、客户端未保存 Ticket 等实际因素，导致推导出的 99% 缺乏严谨性。 | 先验知识/题面给定，逻辑校验未通过：公式推导存在概念混淆和逻辑漏洞，无法从第一性原理严格推出该结论。

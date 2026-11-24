@@ -1,0 +1,20 @@
+# N162: 内容热度分布对缓存命中率的影响系数：Zipf分布参数α通常取0.9-1.1，命中率HitRate = 1 - (H(N_pop*C_cache_pop) / N
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N64
+
+## Claim
+
+内容热度分布对缓存命中率的影响系数：Zipf分布参数α通常取0.9-1.1，命中率HitRate = 1 - (H(N_pop*C_cache_pop) / N_req)，其中H(k)为前k个热点对象的累计请求占比，当α=1.0且N_req=75M/day时，前1000个对象覆盖约50%请求，前10000个覆盖约80%
+
+## Corrected Claim
+
+内容热度分布对缓存命中率的影响系数：Zipf分布参数α通常取0.9-1.1，命中率HitRate = 1 - (H(N_pop*C_cache_pop) / N_req)，其中H(k)为前k个热点对象的累计请求占比，当α=1.0且N_req=75M/day时，前1000个对象覆盖约50%请求，前10000个覆盖约80%
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Zipf分布α=1.0时，前k项占比约为ln(k)/ln(N)，当N_req=75M/day且假设对象总数N在百万级时，前1000项占比约50%、前10000项占比约80%符合数学推导量级；公式定义自洽。

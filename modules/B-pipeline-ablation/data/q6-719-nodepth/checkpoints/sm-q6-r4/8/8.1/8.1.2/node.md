@@ -1,0 +1,24 @@
+# N376: 自建策略工作点2（中CapEx中OpEx）：采用混合存储（10TB NVMe + 20TB HDD），单POP CapEx为12万元，10 POP总CapEx 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N131
+
+## Claim
+
+自建策略工作点2（中CapEx中OpEx）：采用混合存储（10TB NVMe + 20TB HDD），单POP CapEx为12万元，10 POP总CapEx 120万元，Annualized_CapEx = 120万/5 = 24万元/年；OpEx_Monthly因HDD故障率高需增加运维，设为11.5万元/月，Infra_Annualized = 24万 + 138万 = 162万元/年。
+
+## Corrected Claim
+
+自建策略工作点2（中CapEx中OpEx）：采用混合存储（10TB NVMe + 20TB HDD），单POP CapEx为12万元，10 POP总CapEx 120万元，Annualized_CapEx = 120万/5 = 24万元/年；OpEx_Monthly因HDD故障率高需增加运维，设为11.5万元/月，Infra_Annualized = 24万 + 138万 = 162万元/年。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：12万*10=120万，120/5=24万，11.5*12=138万，24+138=162万，计算无误且量级合理。
+
+## Search Query
+
+Hybrid SSD HDD storage cost per TB 2024 datacenter

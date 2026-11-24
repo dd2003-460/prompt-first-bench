@@ -1,0 +1,20 @@
+# N195: TCP Handshake 占用 1 RTT，TLS 1.3 Full Handshake 占用 1 RTT，因此首次连接总延迟为 2 RTT；若结合 TCP 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N56
+
+## Claim
+
+TCP Handshake 占用 1 RTT，TLS 1.3 Full Handshake 占用 1 RTT，因此首次连接总延迟为 2 RTT；若结合 TCP Fast Open (TFO)，TCP 握手可与 TLS ClientHello 合并，理论上可降至 1 RTT 完成连接和加密协商。
+
+## Corrected Claim
+
+TCP Handshake 占用 1 RTT，TLS 1.3 Full Handshake 占用 1 RTT，因此首次连接总延迟为 2 RTT；若结合 TCP Fast Open (TFO)，TCP 握手可与 TLS ClientHello 合并，理论上可降至 1 RTT 完成连接和加密协商。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1解释基础延迟（1 RTT）及其不可消除性，子节点2解释优化机制（TFO）如何将延迟降至1 RTT。两者分别描述了“基线状态”和“优化状态”，逻辑上互补且不重叠，共同完整覆盖了父节点中提到的2 RTT基线和1 RTT优化的核心逻辑。）

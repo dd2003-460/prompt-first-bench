@@ -1,0 +1,30 @@
+# N135: Cloudflare在亚太区域（含中国边缘节点）的Bandwidth Overages单价为 $0.08/GB（约 ¥0.57/GB），基础套餐内的免费流量额度
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N33
+
+## Claim
+
+Cloudflare在亚太区域（含中国边缘节点）的Bandwidth Overages单价为 $0.08/GB（约 ¥0.57/GB），基础套餐内的免费流量额度为 500GB/月
+
+## Corrected Claim
+
+Cloudflare在亚太区域（含中国边缘节点）的Bandwidth Overages单价及基础套餐免费流量额度需参考其最新官方定价页，当前来源未提供具体数值。
+
+## Evidence
+
+[质询]参考来源均未提供具体的单价数值（$0.08/GB）或免费流量额度（500GB/月），且Cloudflare中国网络通常作为独立产品计费，其定价结构与全球标准套餐可能不同，存在将全球通用定价或过时数据直接套用于中国特定区域的风险。 | 来源[1][2][3]仅介绍Cloudflare中国网络的功能、合作伙伴及ICP要求，未包含任何具体价格或流量额度数据，无法直接支持该经验事实；逻辑上数值量级合理，但缺乏来源佐证。
+
+## Search Query
+
+Cloudflare bandwidth overage pricing Asia Pacific per GB 2024
+
+## Retrieval Sources
+
+- {'url': 'https://www.cloudflare.com/products/china-network/&rut=93720f33654631ccbcde12e4bdd06963327f9fbd75bdb7e34582bfae958dc5ff', 'type': 'ddg', 'title': 'Cloudflare China Network - High-Performance Web Solutions in China'}
+- {'url': 'https://www.cloudflare.com/zh-cn/bandwidth-alliance/&rut=406efb7fdc76690a7e97ea318741772075e459bd911e0fc1cd76603cdf43daba', 'type': 'ddg', 'title': 'Cloudflare云服务_数据传输_高速云数据传输服务_|Cloudflare中国官网'}
+- {'url': 'https://developers.cloudflare.com/china-network/faq/&rut=2b6daf214b13bc720b33017a75bd1d8ba81584e89dc8c4e3e79d940e44ebbb1d', 'type': 'ddg', 'title': 'FAQ · Cloudflare China Network docs'}

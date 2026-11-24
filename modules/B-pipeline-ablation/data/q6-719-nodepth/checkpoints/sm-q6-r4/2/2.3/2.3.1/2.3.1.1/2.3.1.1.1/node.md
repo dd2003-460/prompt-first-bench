@@ -1,0 +1,30 @@
+# N645: 阿里云CDN国内公网下行流量阶梯单价精确值：需核实当前（2026年）官方定价页中，月用量 0-5TB、5-50TB、50TB-100TB 各档位的具体单价（¥/
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N221, N222, N223
+
+## Claim
+
+阿里云CDN国内公网下行流量阶梯单价精确值：需核实当前（2026年）官方定价页中，月用量 0-5TB、5-50TB、50TB-100TB 各档位的具体单价（¥/GB），以替换 N221 中的估算值（0.24/0.20/0.15）。
+
+## Corrected Claim
+
+阿里云CDN国内公网下行流量采用阶梯计费模式，具体单价需查阅阿里云官方实时定价页，当前估算值（0.24/0.20/0.15 ¥/GB）未经来源直接证实。
+
+## Evidence
+
+[质询]参考来源摘要仅提供了计费模式（按流量、阶梯累进）和地域分类的定性描述，未包含具体的数值单价（¥/GB），无法直接验证 0.24/0.20/0.15 或任何具体数值的准确性；且 CDN 价格随时间波动，缺乏实时数据支持。 | 来源 [1] 和 [3] 确认了阿里云 CDN 采用按流量阶梯计费模式，但摘要中缺失具体价格数值，属于间接支持计费逻辑但无法支持具体数值，符合经验事实缺来源支持的降级条件。
+
+## Search Query
+
+阿里云 CDN 国内 流量 阶梯 计费 价格 2026
+
+## Retrieval Sources
+
+- {'url': 'https://developer.aliyun.com/article/1708278&rut=2ddc55f04c3ee490ae5b44019f150c2428eac2400670b83d41207aae16acf9e2', 'type': 'ddg', 'title': '2026最新阿里云cdn收费标准：不同计费模式价格表（基础服务费和增值服务费用整理）-阿里云开发者社区'}
+- {'url': 'https://www.aliyun.com/price/detail/cdn&rut=7deffc4f1d34859bcb7594b9f5ea62952b3f14c06ecc370a5099c3c282977b06', 'type': 'ddg', 'title': '阿里云定价_CDN价格详情'}
+- {'url': 'https://developer.aliyun.com/article/1712324&rut=d8565d970a3a9aca50dcc1aea6197e5d759235d1f16a243bf38b555228e803a3', 'type': 'ddg', 'title': '2026阿里云cdn收费全揭秘!3种计费模式 + 完整价格表一次看懂'}

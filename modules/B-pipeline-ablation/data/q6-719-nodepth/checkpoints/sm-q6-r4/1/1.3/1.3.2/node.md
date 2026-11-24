@@ -1,0 +1,20 @@
+# N47: T_origin（回源延迟）的构成：T_origin = RTT_to_origin + T_processing_origin + T_transfer_or
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+T_origin（回源延迟）的构成：T_origin = RTT_to_origin + T_processing_origin + T_transfer_origin，其中 RTT_to_origin 为用户到源站的 RTT（典型值 50-200ms），T_processing_origin 为源站处理时间（典型值 5-50ms），T_transfer_origin 为源站到边缘传输时间（由对象大小和带宽决定）
+
+## Corrected Claim
+
+T_origin（回源延迟）的构成：T_origin = RTT_to_origin + T_processing_origin + T_transfer_origin，其中 RTT_to_origin 为用户到源站的 RTT（典型值 50-200ms），T_processing_origin 为源站处理时间（典型值 5-50ms），T_transfer_origin 为源站到边缘传输时间（由对象大小和带宽决定）
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点严格对应父节点公式中的三个独立项（RTT、处理、传输），概念上互不重叠（正交）。三者共同构成了完整的回源延迟模型（完备）。虽然RTT和处理时间都涉及网络/系统开销，但在网络延迟建模中，RTT通常指链路传播与排队延迟，而处理时间指服务器内部计算与I/O延迟，二者在架构上是分离的组件，不属于同一参数的不同取值，因此无冗余。）

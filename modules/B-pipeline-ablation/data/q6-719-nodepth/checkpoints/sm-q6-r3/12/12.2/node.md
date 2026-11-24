@@ -1,0 +1,20 @@
+# N406: 自建10 POP总带宽成本 Bandwidth_Self_Built_Monthly = 5 × Price_1st_Tier + 5 × Price_2nd_
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N142
+
+## Claim
+
+自建10 POP总带宽成本 Bandwidth_Self_Built_Monthly = 5 × Price_1st_Tier + 5 × Price_2nd_Tier = 5 × 20,000 + 5 × 12,000 = ¥160,000/月，该值不包含BGP多线接入额外费用（通常为单线价格的1.2-1.5倍）
+
+## Corrected Claim
+
+自建10 POP总带宽成本 Bandwidth_Self_Built_Monthly = 5 × Price_1st_Tier + 5 × Price_2nd_Tier = 5 × 20,000 + 5 × 12,000 = ¥160,000/月，该值不包含BGP多线接入额外费用（通常为单线价格的1.2-1.5倍）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算 5*20000 + 5*12000 = 160000 正确；BGP多线接入费用高于单线（1.2-1.5倍）符合行业常识；来源标记为knowledge，无需外部证据支持。

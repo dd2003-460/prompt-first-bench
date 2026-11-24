@@ -1,0 +1,20 @@
+# N20: 缓存友好度与内容复用率：Hit_Rate = f(Content_Unique_Ratio, Cache_TTL, User_Overlap)，图片内容复用率通
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+缓存友好度与内容复用率：Hit_Rate = f(Content_Unique_Ratio, Cache_TTL, User_Overlap)，图片内容复用率通常高于短视频，短视频因个性化推荐导致缓存命中率降低
+
+## Corrected Claim
+
+缓存友好度与内容复用率：Hit_Rate = f(Content_Unique_Ratio, Cache_TTL, User_Overlap)，图片内容复用率通常高于短视频，短视频因个性化推荐导致缓存命中率降低
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点严重偏离父节点主题。父节点讨论的是‘缓存友好度与内容复用率’（即Hit_Rate及其影响因素），而子节点1和2讨论的是‘带宽成本’和‘存储IOPS’，属于完全不同的成本/性能维度，与缓存命中率无直接逻辑从属关系，导致分解不连贯且不完备。）

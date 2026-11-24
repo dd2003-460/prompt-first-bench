@@ -1,0 +1,24 @@
+# N366: LTV (单用户年度贡献) 的分解公式：LTV = ARPU_monthly × 12 × (1 - Churn_monthly_base)^-1，其中 ARP
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N124
+
+## Claim
+
+LTV (单用户年度贡献) 的分解公式：LTV = ARPU_monthly × 12 × (1 - Churn_monthly_base)^-1，其中 ARPU_monthly 为月均每用户收入（含广告/会员），Churn_monthly_base 为基准月流失率（通常 5%-10%）。对于 C 端图片平台，ARPU 通常在 ¥5-20 区间，导致 LTV 范围在 ¥60-240 之间，与题面 ¥50-200 吻合。
+
+## Corrected Claim
+
+LTV (单用户年度贡献) 的分解公式：LTV = ARPU_monthly × 12 × (1 - Churn_monthly_base)^-1，其中 ARPU_monthly 为月均每用户收入（含广告/会员），Churn_monthly_base 为基准月流失率（通常 5%-10%）。对于 C 端图片平台，ARPU 通常在 ¥5-20 区间，导致 LTV 范围在 ¥60-240 之间，与题面 ¥50-200 吻合。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式推导正确（LTV=ARPU/Churn），数值量级合理（ARPU 5-20元，Churn 5%-10%对应LTV 60-240元，与题面50-200元吻合）
+
+## Search Query
+
+social media platform ARPU monthly revenue per user 2024

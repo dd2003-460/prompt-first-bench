@@ -1,0 +1,24 @@
+# N236: 单 POP 月度运维成本 Ops_Per_POP = (SRE_Staff_Cost_Monthly / Total_Pops) + (Tool_Cost_Mo
+
+- **status**: pending
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N70
+
+## Claim
+
+单 POP 月度运维成本 Ops_Per_POP = (SRE_Staff_Cost_Monthly / Total_Pops) + (Tool_Cost_Monthly / Total_Pops) + (Monitoring_Maintenance_Cost / Total_Pops)，其中 SRE_Staff_Cost_Monthly 为总 SRE 人力成本（2人 × ¥25k/月 = ¥50k），Tool_Cost_Monthly 为监控工具链成本（¥3k/月），Monitoring_Maintenance_Cost 为日常维护与故障处理成本（估算 ¥5k-10k/月），需按 5 个核心 POP 分摊。
+
+## Corrected Claim
+
+单 POP 月度运维成本 Ops_Per_POP = (SRE_Staff_Cost_Monthly / Total_Pops) + (Tool_Cost_Monthly / Total_Pops) + (Monitoring_Maintenance_Cost / Total_Pops)，其中 SRE_Staff_Cost_Monthly 为总 SRE 人力成本（2人 × ¥25k/月 = ¥50k），Tool_Cost_Monthly 为监控工具链成本（¥3k/月），Monitoring_Maintenance_Cost 为日常维护与故障处理成本（估算 ¥5k-10k/月），需按 5 个核心 POP 分摊。
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备, 有冗余（1. 非正交：第4个子节点计算的是请求量（Requests），而非运维成本（Cost），维度不同且未参与成本计算；第1、2、3个子节点是同一公式在不同参数下的取值，属于场景枚举而非独立正交维度。2. 不完备：第4个子节点未给出对应的Ops_Per_POP值，无法作为父节点公式的一个有效实例。3. 冗余：前三个子节点本质上是同一成本模型在不同人力/工具配置下的参数化结果，应合并为一个参数化公式或表格，而非拆分为三个独立的‘子节点’。）
+
+## Search Query
+
+CDN edge node operations and maintenance cost SRE staff monitoring tool monthly cost

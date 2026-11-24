@@ -1,0 +1,20 @@
+# N427: H_img = 85% 的敏感性边界：若对象大小 s_img 从 0.3 MB 增加 20% 至 0.36 MB，H_img 预计下降至 80-82%；需计算该
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N138
+
+## Claim
+
+H_img = 85% 的敏感性边界：若对象大小 s_img 从 0.3 MB 增加 20% 至 0.36 MB，H_img 预计下降至 80-82%；需计算该命中率下降导致的带宽成本增量 ΔC_bw，以验证 '边际效用最优' 是否仍成立。
+
+## Corrected Claim
+
+H_img = 85% 的敏感性边界：若对象大小 s_img 从 0.3 MB 增加 20% 至 0.36 MB，H_img 预计下降至 80-82%；需计算该命中率下降导致的带宽成本增量 ΔC_bw，以验证 '边际效用最优' 是否仍成立。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

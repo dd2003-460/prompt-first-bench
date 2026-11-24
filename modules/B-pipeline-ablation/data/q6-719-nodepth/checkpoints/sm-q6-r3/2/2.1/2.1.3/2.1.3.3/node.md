@@ -1,0 +1,20 @@
+# N163: L_encode 的具体量化值：对于 HTTP/2 或 HTTP/3 响应编码及 TLS 加密开销，在现代 x86_64 服务器上，单次请求的 L_encode
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N52
+
+## Claim
+
+L_encode 的具体量化值：对于 HTTP/2 或 HTTP/3 响应编码及 TLS 加密开销，在现代 x86_64 服务器上，单次请求的 L_encode ≈ 0.2-0.5ms。若启用 Brotli 压缩（对 JSON/Meta 数据），可能增加 0.1ms，但对二进制图片/视频无效。取保守值 L_encode = 0.5ms。
+
+## Corrected Claim
+
+L_encode 的具体量化值：对于 HTTP/2 或 HTTP/3 响应编码及 TLS 加密开销，在现代 x86_64 服务器上，单次请求的 L_encode ≈ 0.2-0.5ms。若启用 Brotli 压缩（对 JSON/Meta 数据），可能增加 0.1ms，但对二进制图片/视频无效。取保守值 L_encode = 0.5ms。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

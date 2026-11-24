@@ -1,0 +1,17 @@
+{
+  "id": "N511",
+  "claim": "边缘缓存容量阈值 C_threshold 的计算：C_threshold = N_top10_objects * s_avg，其中 N_top10_objects 为承载 80% 流量的对象数量。对于 500 万 DAU 平台，若日均上传 200GB 且 Top 10% 对象平均大小 2MB，则需缓存约 50,000 个对象，总容量需 ≥ 100GB；若单 POP 分配缓存 < 100GB，H_static 将从 90% 线性下降至 80% 以下，每减少 10GB 容量，H_static 下降约 1%。",
+  "level": "L5",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值推导存在内部矛盾：若需缓存50,000个对象且平均大小2MB，总容量应为100GB（50,000 * 2MB = 100,000MB ≈ 100GB），这与陈述一致。但陈述前半部分定义 C_threshold = N_top10_objects * s_avg，其中 N_top10_objects 为承载80%流量的对象数量。通常 Top 10% 对象承载 80% 流量（帕累托法则），若总对象数为 500万 DAU 对应的上传对象数，需明确总对象数。假设日均上传200GB，平均对象大小未知，无法直接得出总对象数。若 Top 10% 对象平均大小 2MB，且需缓存 50,000 个对象，则隐含总对象数为 500,000 个（50,000 / 10%）。若总对象数为 500,000，日均上传 200GB，则平均对象大小为 200GB / 500,000 = 0.4MB。这与 Top 10% 对象平均大小 2MB 不矛盾（头部对象更大）。然而，'H_static 将从 90% 线性下降至 80% 以下，每减少 10GB 容量，H_static 下降约 1%' 这一经验规律缺乏通用理论支持，属于特定场景下的经验拟合，且线性下降假设在缓存容量接近阈值时通常不成立（往往是非线性的）。 | 先验知识/题面给定，逻辑校验通过，但经验参数（如命中率下降率）缺乏通用来源支持，且线性假设存疑，故降级。",
+  "corrected_claim": "边缘缓存容量阈值 C_threshold 的计算：C_threshold = N_top10_objects * s_avg。对于 500 万 DAU 平台，若日均上传 200GB 且 Top 10% 对象平均大小 2MB，估算需缓存约 50,000 个对象，总容量需 ≥ 100GB。若单 POP 分配缓存低于 100GB，H_static 将显著下降，具体下降幅度取决于对象访问分布，通常呈非线性关系，而非简单的每减少 10GB 下降 1%。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N164"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "CDN cache capacity sizing top 10 percent objects hit rate degradation",
+  "retrieval_sources": []
+}

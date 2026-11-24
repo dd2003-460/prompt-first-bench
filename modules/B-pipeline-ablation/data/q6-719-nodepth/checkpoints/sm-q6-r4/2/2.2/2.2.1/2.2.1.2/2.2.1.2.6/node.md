@@ -1,0 +1,24 @@
+# N621: 工作点C（低负载/长尾POP）：2台服务器满载率20%，总功耗P_total=250W（125W/台，接近空闲功耗下限），对应月均用电量180kWh，总电力成本
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N212, N213, N214
+
+## Claim
+
+工作点C（低负载/长尾POP）：2台服务器满载率20%，总功耗P_total=250W（125W/台，接近空闲功耗下限），对应月均用电量180kWh，总电力成本仍为¥800/月，但单位流量电力成本上升40%（因固定包费不变而流量降低）。
+
+## Corrected Claim
+
+工作点C（低负载/长尾POP）：2台服务器满载率20%，总功耗P_total=250W（125W/台，接近空闲功耗下限），对应月均用电量180kWh，总电力成本仍为¥800/月，但单位流量电力成本上升40%（因固定包费不变而流量降低）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：250W * 24h * 30d = 180kWh，数值自洽；成本与负载率关系符合固定包费下的边际成本逻辑。
+
+## Search Query
+
+edge server low load 20% power consumption idle state

@@ -1,0 +1,20 @@
+# N114: 峰值 RPS 的计算公式为 RPS_peak = RPS_avg × R_pg，其中峰谷比 R_pg 基于 N15 的流量分布模型确定为 3.0（峰值时段占40
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N34
+
+## Claim
+
+峰值 RPS 的计算公式为 RPS_peak = RPS_avg × R_pg，其中峰谷比 R_pg 基于 N15 的流量分布模型确定为 3.0（峰值时段占40%流量，谷值占10%，比值 40/10=4，但带宽计费通常采用保守系数3.0以平衡成本），因此 RPS_peak ≈ 12.5 × 3.0 = 37.5 RPS
+
+## Corrected Claim
+
+峰值 RPS 的计算公式为 RPS_peak = RPS_avg × R_pg，其中峰谷比 R_pg 基于 N15 的流量分布模型确定为 3.0（峰值时段占40%流量，谷值占10%，比值 40/10=4，但带宽计费通常采用保守系数3.0以平衡成本），因此 RPS_peak ≈ 12.5 × 3.0 = 37.5 RPS
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点本质上是同一公式 RPS_peak = RPS_avg × R_pg 在不同 R_pg 取值下的计算结果，存在高度结构性冗余。此外，父节点明确界定了计算逻辑（采用保守系数3.0），而子节点引入了父节点未提及的‘激进’和‘低波动’场景，导致范围超出父节点定义，破坏了层级一致性。）

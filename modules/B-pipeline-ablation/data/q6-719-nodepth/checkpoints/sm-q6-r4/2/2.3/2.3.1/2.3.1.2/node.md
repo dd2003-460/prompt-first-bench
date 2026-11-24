@@ -1,0 +1,30 @@
+# N222: 请求数成本补充：公有云 CDN 除流量费外，通常按请求数（Requests）计费。阿里云 CDN 请求数单价约 ¥0.04/万次。日均请求数 R 取决于对象大小
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N66
+
+## Claim
+
+请求数成本补充：公有云 CDN 除流量费外，通常按请求数（Requests）计费。阿里云 CDN 请求数单价约 ¥0.04/万次。日均请求数 R 取决于对象大小：若 s_avg = 1MB，R = 2,000,000 次/天 = 60,000,000 次/月，请求成本 = 6,000 万次 × ¥0.04/万次 = ¥240/月。若 s_avg = 10MB，R = 200,000 次/天 = 6,000,000 次/月，请求成本 = ¥24/月。该成本占比小（<2%），但需计入总成本。
+
+## Corrected Claim
+
+公有云 CDN 除流量费外，通常按请求数（Requests）计费。阿里云 CDN 请求数单价因区域和套餐而异（需查询最新官方价格表）。日均请求数 R 取决于对象大小：若 s_avg = 1MB，R = 2,000,000 次/天 = 60,000,000 次/月；若 s_avg = 10MB，R = 200,000 次/天 = 6,000,000 次/月。请求成本 = 月请求数 × 单价，该成本占比通常较小，但需计入总成本。
+
+## Evidence
+
+[质询]阿里云CDN请求数单价的具体数值（¥0.04/万次）属于经验事实，参考来源中未提供该具体价格，且不同区域/套餐价格可能不同，存在口径混淆风险。 | 来源[2]确认阿里云CDN按请求数计费，来源[3]提及计费方式，但均未提供具体单价¥0.04/万次；逻辑推导（流量/对象大小=请求数，请求数*单价=成本）自洽，但关键参数缺直接来源支持。
+
+## Search Query
+
+Alibaba Cloud CDN request price per 10000 requests
+
+## Retrieval Sources
+
+- {'url': 'https://cloud.google.com/cdn/pricing?hl=zh-cn&rut=74fac12a2c12ad0f3ff9712259e6fb7f4eb556c23cf368ae2dd79e79f2660348', 'type': 'ddg', 'title': 'Cloud CDN 价格 | Google Cloud'}
+- {'url': 'https://help.aliyun.com/zh/cdn/product-overview/faq-about-the-billing-of-requests&rut=1c0f34c295fef609fa2c9cd791f27c8a0d38981f255ffe5287fbcef0089b7011', 'type': 'ddg', 'title': '关于请求数计费的常见问题有哪些-cdn (Cdn)-阿里云帮助中心'}
+- {'url': 'https://toolsbar.cn/reviews/aliyun-cdn&rut=2e83c14ac643a8bb30474ca2509712919a7357e03aa98b26afc78e5358c23093', 'type': 'ddg', 'title': '阿里云 Cdn 选型指南： 计费方式、资源包与回源 Oss 怎么算'}

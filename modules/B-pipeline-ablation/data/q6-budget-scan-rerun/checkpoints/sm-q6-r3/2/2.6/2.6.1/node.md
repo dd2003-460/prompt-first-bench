@@ -1,0 +1,28 @@
+# N65: 2024-2025年企业级NVMe SSD（如Intel D7系列/Samsung PM9A3）在1.92TB和3.84TB容量档位下的实际采购单价及每TB成本
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N15
+
+## Claim
+
+2024-2025年企业级NVMe SSD（如Intel D7系列/Samsung PM9A3）在1.92TB和3.84TB容量档位下的实际采购单价及每TB成本（¥/TB），用于修正N15中的¥800-1,200估算区间。
+
+## Corrected Claim
+
+2024-2025年企业级NVMe SSD（如Intel D7系列/Samsung PM9A3）在1.92TB和3.84TB容量档位下的实际采购单价及每TB成本需参考具体供应商报价，现有资料未提供确切数值以修正N15中的¥800-1,200估算区间。
+
+## Evidence
+
+[质询]参考来源仅提供了2026年的市场格局定性描述，完全缺失2024-2025年具体型号（Intel D7/Samsung PM9A3）在1.92TB/3.84TB档位的具体采购单价或每TB成本数据，无法验证N15中¥800-1,200估算区间的准确性。 | 来源[1]主题相关但仅含定性描述，无具体价格数据支持；该事实为经验性市场价格数据，逻辑上自洽（企业级SSD单价通常高于消费级，且随容量增加单价递减），但缺乏直接来源支持具体数值区间，故降级。
+
+## Search Query
+
+enterprise NVMe SSD price per TB 2024 1.92TB 3.84TB CNY
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2088289705192441299&rut=97ae8c1f75132c34035e351cddde526c4e2196cb65d356fa63ecb61ec0d18602', 'type': 'ddg', 'title': '2026年企业级NVMe SSD推荐哪些品牌？ - 知乎'}

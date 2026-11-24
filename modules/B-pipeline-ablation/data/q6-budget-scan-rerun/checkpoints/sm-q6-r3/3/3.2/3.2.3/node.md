@@ -1,0 +1,20 @@
+# N67: 峰谷比 R_pg 的业务特异性修正：图片/短视频平台的 R_pg 通常高于平均 Web 流量。基于日活 500 万、日均下载 2TB，假设用户在线时长 4 小时
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N15
+
+## Claim
+
+峰谷比 R_pg 的业务特异性修正：图片/短视频平台的 R_pg 通常高于平均 Web 流量。基于日活 500 万、日均下载 2TB，假设用户在线时长 4 小时，峰值 3 小时，则 R_pg = (2TB/3h) / (2TB/24h) = 8x (理论上限)。实际受缓存命中率影响，R_pg_eff = R_pg × (1 - CHR_peak) / (1 - CHR_avg)。需量化 R_pg_eff 在 3.5–5.0 区间的具体值。
+
+## Corrected Claim
+
+峰谷比 R_pg 的业务特异性修正：图片/短视频平台的 R_pg 通常高于平均 Web 流量。基于日活 500 万、日均下载 2TB，假设用户在线时长 4 小时，峰值 3 小时，则 R_pg = (2TB/3h) / (2TB/24h) = 8x (理论上限)。实际受缓存命中率影响，R_pg_eff = R_pg × (1 - CHR_peak) / (1 - CHR_avg)。需量化 R_pg_eff 在 3.5–5.0 区间的具体值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学计算 (24/3=8) 正确，业务逻辑（媒体流量峰谷比高于普通Web）符合常识，公式推导自洽。

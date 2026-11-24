@@ -1,0 +1,30 @@
+# N233: Cloudflare Enterprise Plan带宽阶梯计价规则：月流量<1TB时$0.15/GB，1-10TB时$0.12/GB，>10TB时$0.08/
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N80
+
+## Claim
+
+Cloudflare Enterprise Plan带宽阶梯计价规则：月流量<1TB时$0.15/GB，1-10TB时$0.12/GB，>10TB时$0.08/GB（基于2024年Enterprise合同模板）
+
+## Corrected Claim
+
+Cloudflare Enterprise Plan 通常采用定制合同，带宽成本随流量增加呈阶梯式下降，但具体单价（如 $0.15/GB 等）需以实际签署的合同为准，公开渠道未统一披露固定阶梯价。
+
+## Evidence
+
+[质询]Cloudflare Enterprise 计划通常采用定制合同（Custom Pricing），公开网页极少直接列出具体的阶梯单价（如 $0.15/GB 等精确数值），这些数值可能来自非公开的合同模板或第三方推测，存在将特定客户案例或过时数据当作通用标准规则的风险。 | 来源 [1] 和 [2] 仅提及 Enterprise 为定制方案或包含高级功能，未提供具体的带宽阶梯单价数值；来源 [3] 虽讨论定价但摘要未包含具体数值。该陈述属于经验事实（具体价格参数），逻辑上量级合理（符合 CDN 行业阶梯降价规律），但缺乏直接来源支持具体数值，故降级。
+
+## Search Query
+
+Cloudflare Enterprise Plan bandwidth pricing tiers 2024
+
+## Retrieval Sources
+
+- {'url': 'https://www.cloudflare.com/plans/&rut=598c57c90b5e54bf0b1692b9008782def17f1effa68893eeec00e758cf43da80', 'type': 'ddg', 'title': 'Pricing - Cloudflare'}
+- {'url': 'https://www.cloudflare.com/plans/enterprise/externa/&rut=8cb289ba89147242661dabfbfa429bb29d9a833cd770d24ad1673e8bd12f8759', 'type': 'ddg', 'title': 'Enterprise solutions packages | Cloudflare'}
+- {'url': 'https://www.plumephp.com/cloudflare-pricing-guide/&rut=dfbef2d090f81b790f54b8b338e79f9fda10ccbaceb217a2fef5afed9c0038bf', 'type': 'ddg', 'title': 'Cloudflare 定价详解：Free / Pro / Business / Enterprise 四档拆解与成本优化'}

@@ -1,0 +1,24 @@
+# N21: 预算硬约束过滤：设月度总预算 B_total，若 自建方案月度成本 Cost_self_hosted > B_total 或 公有云方案月度成本 Cost_cl
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+预算硬约束过滤：设月度总预算 B_total，若 自建方案月度成本 Cost_self_hosted > B_total 或 公有云方案月度成本 Cost_cloud > B_total，则相应方案被剔除；混合方案需验证 Cost_hybrid ≤ B_total。[待核验] B_total 具体值，假设 B_total = 500,000 CNY/月 作为基准进行可行性初筛。
+
+## Corrected Claim
+
+预算硬约束过滤：设月度总预算 B_total，若 自建方案月度成本 Cost_self_hosted > B_total 或 公有云方案月度成本 Cost_cloud > B_total，则相应方案被剔除；混合方案需验证 Cost_hybrid ≤ B_total。[待核验] B_total 具体值，假设 B_total = 500,000 CNY/月 作为基准进行可行性初筛。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+CDN infrastructure monthly cost budget constraint 500k CNY self-hosted vs cloud

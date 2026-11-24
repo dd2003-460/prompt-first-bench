@@ -1,0 +1,20 @@
+# N494: 光纤介质折射率修正系数 n_fiber ≈ 1.5，导致实际信号传播速度 v = c/n ≈ 200,000 km/s；在计算 D_i / v 时，需使用此速度
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N158
+
+## Claim
+
+光纤介质折射率修正系数 n_fiber ≈ 1.5，导致实际信号传播速度 v = c/n ≈ 200,000 km/s；在计算 D_i / v 时，需使用此速度而非真空光速，以反映物理传输延迟。
+
+## Corrected Claim
+
+光纤介质折射率修正系数 n_fiber ≈ 1.5，导致实际信号传播速度 v = c/n ≈ 200,000 km/s；在计算 D_i / v 时，需使用此速度而非真空光速，以反映物理传输延迟。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：光纤折射率典型值约为1.5，光速c≈300,000 km/s，计算v=c/n≈200,000 km/s符合物理定律及工程常识。

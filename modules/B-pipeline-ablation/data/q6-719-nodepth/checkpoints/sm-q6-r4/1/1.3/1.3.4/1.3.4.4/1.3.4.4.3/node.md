@@ -1,0 +1,20 @@
+# N520: 缓存容量 S_edge 对 Space_Hit_Rate 的边际效应：d(Space_Hit_Rate)/d(S_edge) = - (1/S_edge²) ×
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N174
+
+## Claim
+
+缓存容量 S_edge 对 Space_Hit_Rate 的边际效应：d(Space_Hit_Rate)/d(S_edge) = - (1/S_edge²) × Σ(s_i² × P(i not in cache))，若 S_edge 从 1TB 增至 2TB，Space_Hit_Rate 提升约 5-10%，但 Request_Hit_Rate 仅提升 1-2%，导致边际收益递减
+
+## Corrected Claim
+
+缓存容量 S_edge 对 Space_Hit_Rate 的边际效应通常大于对 Request_Hit_Rate 的边际效应，随着 S_edge 增加，两者均呈现边际收益递减趋势，但 Space_Hit_Rate 的提升幅度通常更为显著。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值（5-10% vs 1-2%），这些数值高度依赖于具体的工作负载特征（如Zipf指数、对象大小分布），并非普适的物理或数学定律。在没有特定负载参数的前提下，断言具体的百分比提升范围缺乏严谨性，属于将特定场景的经验数据泛化为一般结论。 | source=knowledge，逻辑上边际收益递减符合缓存理论直觉，但具体数值（5-10% vs 1-2%）为经验事实，缺乏通用来源支持，故降级为定性表述。

@@ -1,0 +1,24 @@
+# N493: 对象存储元数据查询（Head/Get Object Metadata）的独立延迟 T_meta_lookup 典型值为 1-5ms，主要取决于元数据索引的存储介
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N166
+
+## Claim
+
+对象存储元数据查询（Head/Get Object Metadata）的独立延迟 T_meta_lookup 典型值为 1-5ms，主要取决于元数据索引的存储介质（SSD vs HDD）及网络往返次数，该值独立于数据块读取时间
+
+## Corrected Claim
+
+对象存储元数据查询（Head/Get Object Metadata）的独立延迟 T_meta_lookup 典型值为 1-5ms，主要取决于元数据索引的存储介质（SSD vs HDD）及网络往返次数，该值独立于数据块读取时间
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+S3 OSS metadata lookup latency benchmark ms

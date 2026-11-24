@@ -1,0 +1,30 @@
+# N405: 一线城市10Gbps端口月租中位数 Price_1st_Tier = ¥20,000/月，二线城市10Gbps端口月租中位数 Price_2nd_Tier = 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N142
+
+## Claim
+
+一线城市10Gbps端口月租中位数 Price_1st_Tier = ¥20,000/月，二线城市10Gbps端口月租中位数 Price_2nd_Tier = ¥12,000/月，该差异源于带宽资源稀缺性与机房等级，需通过至少3家IDC供应商报价验证
+
+## Corrected Claim
+
+一线城市10Gbps端口月租通常高于二线城市，具体价格因供应商和机房等级而异，需通过多家IDC供应商报价验证，典型范围可能在¥10,000-¥30,000/月之间。
+
+## Evidence
+
+[质询]具体数值（¥20,000/月 和 ¥12,000/月）属于经验事实，缺乏直接来源支持，且不同IDC供应商报价差异巨大，中位数需大量样本统计，单一或少数来源无法确证该特定中位数。 | 来源[3]间接支持一线城市（如洛杉矶/纽约类比国内一线）因成本较高价格更贵，但未提供具体中位数数值；来源[1][2]为具体产品报价，非市场统计中位数。逻辑上价格差异合理，但具体数值缺乏直接证据。
+
+## Search Query
+
+China IDC 10Gbps port monthly rental price tier-1 vs tier-2 cities 2024
+
+## Retrieval Sources
+
+- {'url': 'https://tooserver.net/hong-kong-high-bandwidth-dedicated-servers/&rut=456e3891f327a338ab36022cbb835ed57cab23e2e424b1c53698dc91c97fe45a', 'type': 'ddg', 'title': '香港大带宽服务器 | 1G/10G独享不限流量 | ￥2999/月起 - TooServer'}
+- {'url': 'https://serverroom.net/zh/10g&rut=ff813dc3b3ac8f0a34dbc24a214ce1319a24c659f97ded52ff2bdf815fce9f9d', 'type': 'ddg', 'title': '10Gbps 独立服务器，每台机器独享端口 - Server Room'}
+- {'url': 'https://www.htstack.com/news/180827.shtml&rut=0b547b614763c6de208cf0868c91353c030b0b2b8d7099f7fd78e7f0b27cc692', 'type': 'ddg', 'title': '大宽带 vps 美国租用多少钱？2026年 1Gbps-10Gbps 带宽报价表'}

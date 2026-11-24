@@ -1,0 +1,20 @@
+# N471: 回源带宽利用率 U_backhaul 的 M/M/1 排队模型：L_queue = (U_backhaul / (1 - U_backhaul)) * (1/μ
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N151
+
+## Claim
+
+回源带宽利用率 U_backhaul 的 M/M/1 排队模型：L_queue = (U_backhaul / (1 - U_backhaul)) * (1/μ)，其中 μ 为服务率（1/平均服务时间），当 U_backhaul = 0.75 时，L_queue ≈ 3 * (1/μ)，若平均服务时间 10ms，则 L_queue ≈ 30ms，导致 A_p99 从 0.5 升至 1.2，超过安全阈值。
+
+## Corrected Claim
+
+回源带宽利用率 U_backhaul 的 M/M/1 排队模型：L_queue = (U_backhaul / (1 - U_backhaul)) * (1/μ)，其中 μ 为服务率（1/平均服务时间），当 U_backhaul = 0.75 时，L_queue ≈ 3 * (1/μ)，若平均服务时间 10ms，则 L_queue ≈ 30ms，导致 A_p99 从 0.5 升至 1.2，超过安全阈值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：M/M/1模型中L_queue公式正确，数值代入计算无误（0.75/0.25=3，3*10ms=30ms），且排队延迟增加导致P99上升符合直觉。

@@ -1,0 +1,24 @@
+# N262: 核心区域自建节点的P99延迟贡献项 L_p99_self = L_edge_self + L_backhaul_self*(1-H_self) + L_proc
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N87
+
+## Claim
+
+核心区域自建节点的P99延迟贡献项 L_p99_self = L_edge_self + L_backhaul_self*(1-H_self) + L_proc_self，其中核心区域通常邻近源站，L_backhaul_self 显著低于长尾区域，H_self 通常高于全局平均（因流量集中度高），需量化 L_backhaul_self ≈ 20-50ms 及 H_self ≈ 85%-90%。
+
+## Corrected Claim
+
+核心区域自建节点的P99延迟贡献项 L_p99_self = L_edge_self + L_backhaul_self*(1-H_self) + L_proc_self，其中核心区域通常邻近源站，L_backhaul_self 显著低于长尾区域，H_self 通常高于全局平均（因流量集中度高），需量化 L_backhaul_self ≈ 20-50ms 及 H_self ≈ 85%-90%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+CDN edge latency backhaul core region high cache hit rate

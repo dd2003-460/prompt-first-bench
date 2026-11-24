@@ -1,0 +1,24 @@
+# N171: 图片对象大小 s_img 的对数正态分布参数：均值 μ_img = ln(2MB) ≈ 0.69，标准差 σ_img = 0.5，导致 P99 图片大小约为 5
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N49
+
+## Claim
+
+图片对象大小 s_img 的对数正态分布参数：均值 μ_img = ln(2MB) ≈ 0.69，标准差 σ_img = 0.5，导致 P99 图片大小约为 5.5MB，用于计算回源带宽分布
+
+## Corrected Claim
+
+图片对象大小 s_img 的对数正态分布参数：均值 μ_img = ln(2MB) ≈ 0.69，标准差 σ_img = 0.5，导致 P99 图片大小约为 5.5MB，用于计算回源带宽分布
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：ln(2MB)≈0.69 符合对数正态分布均值定义，σ=0.5 时 P99 约为 5.5MB 符合正态分布 2.33σ 偏移规律，数值量级与逻辑自洽。
+
+## Search Query
+
+image file size log-normal distribution parameters social media

@@ -1,0 +1,30 @@
+# N44: 自建10个POP点在T=300ms约束下的P99延迟达标率：核心区域（覆盖70-80%用户）P99延迟约50-100ms，达标率100%；长尾区域（覆盖20-3
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N9, N10, N11
+
+## Claim
+
+自建10个POP点在T=300ms约束下的P99延迟达标率：核心区域（覆盖70-80%用户）P99延迟约50-100ms，达标率100%；长尾区域（覆盖20-30%用户）因回源中心机房，P99延迟约300-500ms，达标率约50-80%，整体加权达标率约80-90% [待核验]
+
+## Corrected Claim
+
+自建10个POP点在T=300ms约束下，核心区域（覆盖70-80%用户）P99延迟通常较低，达标率接近100%；长尾区域（覆盖20-30%用户）因回源中心机房，P99延迟较高，达标率显著降低，整体加权达标率预计处于较高水平（具体数值需实测验证）。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点存在逻辑依赖导致的非严格正交性（N95依赖N94），且缺失核心区域（Core Region）的延迟分解与达标率验证，导致对父节点中‘核心区域100%达标’这一关键结论缺乏支撑，完备性不足。）
+
+## Search Query
+
+Self-built CDN POP points P99 latency tail users back-to-origin delay China
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/DebugVibe/article/details/159189955&rut=d99ce107bc78bd9023f804dfc09f58fe850a4deaed0d43d91c9546942b73f7cd', 'type': 'ddg', 'title': '"模型能跑通，但P99延迟超标300ms"？——MCP 2026AI推理链路性能断点定位术：从PCIe带宽争抢到KV C'}
+- {'url': 'https://blog.csdn.net/2600_94959702/article/details/157227534&rut=a28c2f5bd23d334a04ff6730c0a9e0c83ed080cd03abe672ef0626105d712d55', 'type': 'ddg', 'title': '深入解析p99延迟：原理、测量与优化实战 - Csdn博客'}
+- {'url': 'https://bigolab.com/guides/6359-ai-k6-load-testing-p95-p99-latency-throughput-bottleneck-analysis&rut=b548e604e35c6c47f506189956fe0f9e144b38e5605bc3e826ece50c54d2a63a', 'type': 'ddg', 'title': '用 AI 编写 k6 高并发压测脚本并系统解读 P95/P99 延迟拐点、吞吐曲线与服务器资源瓶颈'}

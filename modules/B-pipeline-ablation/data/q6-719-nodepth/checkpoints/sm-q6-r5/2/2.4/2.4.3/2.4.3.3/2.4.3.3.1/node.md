@@ -1,0 +1,24 @@
+# N588: 工作点 A（高密度东部区域）：假设东部单 POP 承载 40% 流量（200GB/天下载，s=1MB，则 R_east ≈ 800,000 req/s 峰值? 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N193
+
+## Claim
+
+工作点 A（高密度东部区域）：假设东部单 POP 承载 40% 流量（200GB/天下载，s=1MB，则 R_east ≈ 800,000 req/s 峰值? 不，日均 2TB/1MB=2000M req/天，峰值系数3倍，80% 读，东部 40% 份额 -> 峰值 λ_east ≈ 1,920 req/s per POP? 修正：总日均 2000M req，峰值 3x=6000M req/day=69,444 req/s 总峰值。东部 40% -> 27,778 req/s 总。10 POP 若均匀分布东部密度高，假设东部 5 POP 承载 60% 流量，单 POP λ ≈ 3,333 req/s。ρ = 3,333 / 16,000 ≈ 0.21，远低于 1，M/M/1 模型有效，无需多服务器并行修正。
+
+## Corrected Claim
+
+工作点 A（高密度东部区域）：假设东部单 POP 承载 40% 流量（200GB/天下载，s=1MB，则 R_east ≈ 800,000 req/s 峰值? 不，日均 2TB/1MB=2000M req/天，峰值系数3倍，80% 读，东部 40% 份额 -> 峰值 λ_east ≈ 1,920 req/s per POP? 修正：总日均 2000M req，峰值 3x=6000M req/day=69,444 req/s 总峰值。东部 40% -> 27,778 req/s 总。10 POP 若均匀分布东部密度高，假设东部 5 POP 承载 60% 流量，单 POP λ ≈ 3,333 req/s。ρ = 3,333 / 16,000 ≈ 0.21，远低于 1，M/M/1 模型有效，无需多服务器并行修正。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：日均2TB/1MB=2000M req，峰值3x=6000M req/day≈69,444 req/s，东部40%≈27,778 req/s，5 POP承载60%即16,667 req/s，单POP≈3,333 req/s，ρ=3,333/16,000≈0.21，计算自洽且量级合理。
+
+## Search Query
+
+CDN edge node traffic distribution east china high density

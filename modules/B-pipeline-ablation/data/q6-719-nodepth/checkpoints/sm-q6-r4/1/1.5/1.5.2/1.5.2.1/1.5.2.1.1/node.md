@@ -1,0 +1,20 @@
+# N548: 在高 IOPS 低延迟工作点：使用 NVMe SSD 存储层，随机读延迟 T_io ≈ 50us，配合内核优化（如 zero-copy），总处理延迟 T_pro
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N186
+
+## Claim
+
+在高 IOPS 低延迟工作点：使用 NVMe SSD 存储层，随机读延迟 T_io ≈ 50us，配合内核优化（如 zero-copy），总处理延迟 T_processing_img ≈ 1.5ms，适合对 P99 极度敏感的核心区域。
+
+## Corrected Claim
+
+在高 IOPS 低延迟工作点：使用 NVMe SSD 存储层，随机读延迟 T_io ≈ 50us，配合内核优化（如 zero-copy），总处理延迟 T_processing_img ≈ 1.5ms，适合对 P99 极度敏感的核心区域。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：NVMe SSD 随机读延迟通常在 10-100us 量级，50us 符合典型值；总处理延迟 1.5ms 包含 I/O 及内核处理开销，量级合理且自洽。

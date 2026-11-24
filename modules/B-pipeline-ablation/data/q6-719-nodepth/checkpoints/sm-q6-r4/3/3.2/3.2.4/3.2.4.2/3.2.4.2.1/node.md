@@ -1,0 +1,20 @@
+# N745: N256 峰值保障工作点的峰值下行带宽 B_down_peak = B_down_avg × Peak_Factor，代入 185.2 Mbps × 3.0 ≈
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N256
+
+## Claim
+
+N256 峰值保障工作点的峰值下行带宽 B_down_peak = B_down_avg × Peak_Factor，代入 185.2 Mbps × 3.0 ≈ 555.6 Mbps，此带宽需覆盖晚间高峰（如 20:00-22:00）的 P99 流量需求
+
+## Corrected Claim
+
+N256 峰值保障工作点的峰值下行带宽 B_down_peak = B_down_avg × Peak_Factor，代入 185.2 Mbps × 3.0 ≈ 555.6 Mbps，此带宽需覆盖晚间高峰（如 20:00-22:00）的 P99 流量需求
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：185.2 × 3.0 = 555.6 计算正确，峰值带宽覆盖 P99 流量符合网络工程基本逻辑。

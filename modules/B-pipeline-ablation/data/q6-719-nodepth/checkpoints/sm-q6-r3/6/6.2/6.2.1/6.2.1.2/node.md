@@ -1,0 +1,24 @@
+# N318: 阶梯计费下的成本阶梯跳变风险：若月度流量因波动跨越阶梯边界（如从 50TB 升至 51TB），成本增幅非线性。定义边界敏感度 S_tier = (Cost_ti
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N104
+
+## Claim
+
+阶梯计费下的成本阶梯跳变风险：若月度流量因波动跨越阶梯边界（如从 50TB 升至 51TB），成本增幅非线性。定义边界敏感度 S_tier = (Cost_tier2 - Cost_tier1) / (Traffic_tier2 - Traffic_tier1)；在 50TB 边界，S_tier 从 0.21 跃升至 0.18（单价下降但总量增加），需计算跨越边界的概率 P_cross = P(Monthly_Traffic > 50TB) 并修正期望成本。
+
+## Corrected Claim
+
+阶梯计费下的成本阶梯跳变风险：若月度流量因波动跨越阶梯边界（如从 50TB 升至 51TB），成本增幅非线性。定义边界敏感度 S_tier = (Cost_tier2 - Cost_tier1) / (Traffic_tier2 - Traffic_tier1)；在 50TB 边界，S_tier 从 0.21 降至 0.18（单价下降导致边际成本降低），需计算跨越边界的概率 P_cross = P(Monthly_Traffic > 50TB) 并修正期望成本。
+
+## Evidence
+
+[质询]数值逻辑矛盾：陈述称 S_tier 从 0.21 跃升至 0.18，但 0.18 < 0.21，数值上是下降而非跃升（除非定义 S_tier 为负值或语境特殊，但通常敏感度/边际成本随阶梯下降而降低，此处描述与数值方向矛盾，且具体数值 0.21/0.18 缺乏来源支持，属于经验事实）。 | 先验知识/题面给定，逻辑校验发现数值方向描述与数值本身矛盾（0.18 小于 0.21 却称为跃升），且具体参数值无来源支持，属经验事实缺来源。
+
+## Search Query
+
+cdn tiered pricing cost jump boundary sensitivity analysis

@@ -1,0 +1,20 @@
+# N575: 工作点3（高成本低性/多运营商绕行）：AS_Hops=5，单跳延迟 L_hop ≈ 5ms，增加4个AS跳导致延迟+20ms，总延迟 L_total ≈ 45m
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N187
+
+## Claim
+
+工作点3（高成本低性/多运营商绕行）：AS_Hops=5，单跳延迟 L_hop ≈ 5ms，增加4个AS跳导致延迟+20ms，总延迟 L_total ≈ 45ms。
+
+## Corrected Claim
+
+工作点3（高成本低性/多运营商绕行）：AS_Hops=5，单跳延迟 L_hop ≈ 5ms，增加4个AS跳导致延迟+20ms，总延迟 L_total ≈ 45ms。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：AS_Hops=5意味着相比基准（通常隐含为1跳或本地）增加了4跳，4 * 5ms = 20ms，总延迟45ms符合逻辑推导（45-20=25ms基准延迟，量级合理）。

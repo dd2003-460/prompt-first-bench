@@ -1,0 +1,24 @@
+# N499: 图片类对象（占比 90%）的平均大小 s_image 分布服从对数正态分布，中位数为 200KB，P99 为 2MB，加权平均 s_image_avg ≈ 35
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N168
+
+## Claim
+
+图片类对象（占比 90%）的平均大小 s_image 分布服从对数正态分布，中位数为 200KB，P99 为 2MB，加权平均 s_image_avg ≈ 350KB（考虑长尾），而非简单的 300KB 固定值
+
+## Corrected Claim
+
+图片类对象（占比 90%）的平均大小 s_image 分布服从对数正态分布，中位数为 200KB，P99 为 2MB，加权平均 s_image_avg ≈ 350KB（考虑长尾），而非简单的 300KB 固定值
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：对数正态分布具有长尾特性，均值（350KB）大于中位数（200KB）符合统计规律，且P99（2MB）与中位数的比例关系在对数正态分布中是合理的量级。
+
+## Search Query
+
+image file size distribution log-normal average 300KB 2MB

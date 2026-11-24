@@ -1,0 +1,20 @@
+# N79: C_max_pop 取 min(带宽瓶颈, 计算瓶颈)：带宽允许6.93Gbps但计算仅允许5Gbps，故 C_max_pop = 5Gbps；需满足 2TB/
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N19, N20, N21
+
+## Claim
+
+C_max_pop 取 min(带宽瓶颈, 计算瓶颈)：带宽允许6.93Gbps但计算仅允许5Gbps，故 C_max_pop = 5Gbps；需满足 2TB/10 = 0.2TB/POP = 200GB/POP 日均流量 ≤ 5Gbps * 0.8 * 86400s = 345GB，条件满足
+
+## Corrected Claim
+
+C_max_pop 取 min(带宽瓶颈, 计算瓶颈)：带宽允许6.93Gbps但计算仅允许5Gbps，故 C_max_pop = 5Gbps；需满足 2TB/10 = 0.2TB/POP = 200GB/POP 日均流量 ≤ 5Gbps * 0.8 * 86400s = 345GB，条件满足
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点分别定义了计算瓶颈和带宽瓶颈，二者正且不重复。但父节点明确给出了具体的数值结论（C_max_pop = 5Gbps）以及基于该结论的流量校验（0.2TB/POP <= 345GB），而子节点中计算瓶颈推导出的数值（6.72Gbps）与父节点声称的“计算仅允许5Gbps”存在数据不一致，且子节点完全缺失了关于“日均流量需求”这一关键约束条件的定义或计算逻辑，导致无法复现父节点的最终判定逻辑。）

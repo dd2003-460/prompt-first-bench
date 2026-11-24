@@ -1,0 +1,20 @@
+# N201: 自建POP回源流量总量计算公式：Total_Origin_Traffic_TB = Total_Daily_Download_TB * Miss_Rate_Se
+
+- **status**: verified
+- **level**: L4
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N65
+
+## Claim
+
+自建POP回源流量总量计算公式：Total_Origin_Traffic_TB = Total_Daily_Download_TB * Miss_Rate_Self，其中Miss_Rate_Self由N139定义（10个POP下约为20%），代入日均2TB得Total_Origin_Traffic_TB ≈ 0.4TB/天
+
+## Corrected Claim
+
+自建POP回源流量总量计算公式：Total_Origin_Traffic_TB = Total_Daily_Download_TB * Miss_Rate_Self，其中Miss_Rate_Self由N139定义（10个POP下约为20%），代入日均2TB得Total_Origin_Traffic_TB ≈ 0.4TB/天
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：2TB * 20% = 0.4TB，计算无误且符合定义

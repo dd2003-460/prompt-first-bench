@@ -1,0 +1,24 @@
+# N532: R_high = 50 次/人/天的构成分解：R_high = R_browse + R_interaction + R_background，其中 R_bac
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N179
+
+## Claim
+
+R_high = 50 次/人/天的构成分解：R_high = R_browse + R_interaction + R_background，其中 R_background（预加载/缓存预热/心跳）典型值为 20 次，R_browse 为 25 次，R_interaction 为 5 次；需验证高频场景下预加载请求对带宽峰值的影响系数（通常峰值/均值比 = 1.5-2.0）。
+
+## Corrected Claim
+
+R_high = 50 次/人/天的构成分解：R_high = R_browse + R_interaction + R_background，其中 R_background（预加载/缓存预热/心跳）典型值为 20 次，R_browse 为 25 次，R_interaction 为 5 次；需验证高频场景下预加载请求对带宽峰值的影响系数（通常峰值/均值比 = 1.5-2.0）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：各分项之和（20+25+5=50）与总值一致，量级符合常规移动端/客户端请求频率经验值，峰值/均值比1.5-2.0亦在合理范围内。
+
+## Search Query
+
+video app preloading bandwidth peak to average ratio

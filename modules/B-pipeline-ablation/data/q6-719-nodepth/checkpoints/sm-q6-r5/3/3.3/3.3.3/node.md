@@ -1,0 +1,20 @@
+# N76: 监控与工具成本 C_monitoring 的组件拆解：C_monitoring = C_observability_suite + C_security_too
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+监控与工具成本 C_monitoring 的组件拆解：C_monitoring = C_observability_suite + C_security_tools + C_automation_platform，其中 C_observability_suite 为监控套件（如Prometheus+Grafana自建免费，或Datadog/Prometheus Cloud ¥5k-15k/月），C_security_tools 为安全工具（WAF/DDoS防护，自建需额外购买或自建，¥3k-10k/月），C_automation_platform 为自动化部署平台（Ansible/Terraform免费，或商业CI/CD ¥2k-5k/月）；公有云通常包含基础监控，额外成本较低。
+
+## Corrected Claim
+
+监控与工具成本 C_monitoring 的组件拆解：C_monitoring = C_observability_suite + C_security_tools + C_automation_platform，其中 C_observability_suite 为监控套件（如Prometheus+Grafana自建免费，或Datadog/Prometheus Cloud ¥5k-15k/月），C_security_tools 为安全工具（WAF/DDoS防护，自建需额外购买或自建，¥3k-10k/月），C_automation_platform 为自动化部署平台（Ansible/Terraform免费，或商业CI/CD ¥2k-5k/月）；公有云通常包含基础监控，额外成本较低。
+
+## Evidence
+
+父节点级核验未通过：有冗余（子节点代表了同一成本模型在不同技术选型（自建/混合/全托管）下的具体实例，而非正交的独立组件。它们共享相同的结构（C_observability + C_security + C_automation），只是参数取值不同，属于同一维度的离散采样，存在结构性冗余。）

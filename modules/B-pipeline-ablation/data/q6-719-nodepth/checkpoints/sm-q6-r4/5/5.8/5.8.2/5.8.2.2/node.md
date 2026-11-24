@@ -1,0 +1,24 @@
+# N349: 预置容量 Provisioned_Capacity 与溢出概率 P_Overflow 的关系：若预置 2x 峰值带宽（即 11 Gbps），则正常波动下 P_O
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N121
+
+## Claim
+
+预置容量 Provisioned_Capacity 与溢出概率 P_Overflow 的关系：若预置 2x 峰值带宽（即 11 Gbps），则正常波动下 P_Overflow ≈ 0。但若遭遇突发热点（如明星发布），流量可能瞬间达到 5x 峰值。基于泊松分布或正态分布假设，超出 2x 预置容量的概率 P_Overflow 约为 2%-5%（取决于流量平滑度）。
+
+## Corrected Claim
+
+预置容量 Provisioned_Capacity 与溢出概率 P_Overflow 的关系：若预置 2x 峰值带宽（即 11 Gbps），则正常波动下 P_Overflow ≈ 0。但若遭遇突发热点（如明星发布），流量可能瞬间达到 5x 峰值。基于泊松分布或正态分布假设，超出 2x 预置容量的概率 P_Overflow 取决于具体的流量平滑度与分布参数，在典型互联网流量模型下可能处于较低水平（如百分之几的量级）。
+
+## Evidence
+
+[质询]该陈述将具体的经验概率数值（2%-5%）与特定的流量模型（泊松/正态）及倍数关系（2x预置，5x突发）强行绑定，缺乏通用的数学推导支持。泊松分布或正态分布的尾部概率高度依赖于具体的均值、方差或平滑度参数，仅凭“2x预置”和“5x突发”无法唯一确定2%-5%这一具体区间，属于缺乏具体场景参数支撑的经验性断言。 | 先验知识/题面给定，逻辑校验通过（量纲与量级在工程直觉上合理，无内部矛盾），但具体概率数值为经验事实，缺乏来源直接支持或严格推导，故降级。
+
+## Search Query
+
+probability of traffic burst exceeding 2x provisioned capacity CDN

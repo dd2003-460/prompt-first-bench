@@ -1,0 +1,20 @@
+# N155: L_cache_lookup 的硬件依赖模型：L_cache_lookup = f(Memory_Hit_Ratio, SSD_IOPS)，当内存缓存命中率 M
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N50
+
+## Claim
+
+L_cache_lookup 的硬件依赖模型：L_cache_lookup = f(Memory_Hit_Ratio, SSD_IOPS)，当内存缓存命中率 M_hit > 90% 时，L_cache_lookup ≈ 0.05ms；若 M_hit < 50%，主要依赖 SSD，L_cache_lookup ≈ 0.3ms，需根据对象大小分布和内存容量估算 M_hit。
+
+## Corrected Claim
+
+L_cache_lookup 的硬件依赖模型：L_cache_lookup = f(Memory_Hit_Ratio, SSD_IOPS)，当内存缓存命中率 M_hit > 90% 时，L_cache_lookup ≈ 0.05ms；若 M_hit < 50%，主要依赖 SSD，L_cache_lookup ≈ 0.3ms，需根据对象大小分布和内存容量估算 M_hit。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（三个子节点分别对应父节点公式中的两个关键输入变量（M_hit, L_ssd）以及最终的加权合成逻辑。子节点1负责计算命中率M_hit，子节点2负责计算SSD延迟L_ssd，子节点3负责将前两者结合得出最终结果。三者职责清晰，无内容重叠或矛盾，且共同覆盖了父节点描述的所有计算环节。）

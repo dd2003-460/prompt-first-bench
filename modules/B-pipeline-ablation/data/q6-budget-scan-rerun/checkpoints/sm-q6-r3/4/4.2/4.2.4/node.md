@@ -1,0 +1,24 @@
+# N113: 自建10 POP P99延迟的缓存未命中修正项：P99延迟需考虑未命中率(1-H)对尾部延迟的影响，公式为 L_p99_corrected = L_hit * 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N23
+
+## Claim
+
+自建10 POP P99延迟的缓存未命中修正项：P99延迟需考虑未命中率(1-H)对尾部延迟的影响，公式为 L_p99_corrected = L_hit * H + L_miss * (1-H)，其中L_hit为命中时延迟（L_local），L_miss为未命中时延迟（L_local+L_backhaul+α*L_local），H为缓存命中率（0.85）
+
+## Corrected Claim
+
+自建10 POP P99延迟的缓存未命中修正项：P99延迟需考虑未命中率(1-H)对尾部延迟的影响，公式为 L_p99_corrected = L_hit * H + L_miss * (1-H)，其中L_hit为命中时延迟（L_local），L_miss为未命中时延迟（L_local+L_backhaul+α*L_local），H为缓存命中率（0.85）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该公式基于全概率公式（Total Probability Law）对延迟进行加权平均，量纲一致（时间单位），且符合缓存系统延迟构成的基本逻辑（命中走本地，未命中走回源）。
+
+## Search Query
+
+self-built CDN P99 latency cache miss correction

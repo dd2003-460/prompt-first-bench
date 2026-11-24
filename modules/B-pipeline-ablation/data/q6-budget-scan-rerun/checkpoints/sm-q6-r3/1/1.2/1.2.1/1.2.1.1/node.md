@@ -1,0 +1,20 @@
+# N139: T_last_mile 典型值分布：基于 4G/5G/Wi-Fi 混合接入，4G 典型 RTT 80-120ms，5G 典型 RTT 20-50ms，Wi-Fi
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N41
+
+## Claim
+
+T_last_mile 典型值分布：基于 4G/5G/Wi-Fi 混合接入，4G 典型 RTT 80-120ms，5G 典型 RTT 20-50ms，Wi-Fi 典型 RTT 5-20ms；假设用户接入比例为 4G:5G:Wi-Fi = 50:30:20（基于 N14 城市分布），加权平均 T_last_mile = 0.5×100 + 0.3×35 + 0.2×10 = 58.5ms；P99 值需考虑尾部分布，假设 T_last_mile P99 ≈ 1.5 × 均值 ≈ 87.75ms。
+
+## Corrected Claim
+
+T_last_mile 典型值分布：基于 4G/5G/Wi-Fi 混合接入，4G 典型 RTT 80-120ms，5G 典型 RTT 20-50ms，Wi-Fi 典型 RTT 5-20ms；假设用户接入比例为 4G:5G:Wi-Fi = 50:30:20（基于 N14 城市分布），加权平均 T_last_mile = 0.5×100 + 0.3×35 + 0.2×10 = 58.5ms；P99 值需考虑尾部分布，假设 T_last_mile P99 ≈ 1.5 × 均值 ≈ 87.75ms。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：4G/5G/Wi-Fi的RTT典型值符合工程常识，加权平均计算（0.5*100+0.3*35+0.2*10=58.5）及P99估算逻辑自洽。

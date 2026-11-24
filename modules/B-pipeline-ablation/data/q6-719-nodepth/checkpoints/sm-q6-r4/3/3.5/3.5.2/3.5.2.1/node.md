@@ -1,0 +1,24 @@
+# N261: 自建节点单次扩容的资本支出增量 ΔCapEx 由新增服务器、存储设备及机房端口升级费用构成，典型值约为 500k-1.5M 元/次（取决于扩容规模如 10Gbp
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N91
+
+## Claim
+
+自建节点单次扩容的资本支出增量 ΔCapEx 由新增服务器、存储设备及机房端口升级费用构成，典型值约为 500k-1.5M 元/次（取决于扩容规模如 10Gbps 至 40Gbps），该值决定扩容点的横坐标位置
+
+## Corrected Claim
+
+自建节点单次扩容的资本支出增量 ΔCapEx 由新增服务器、存储设备及机房端口升级费用构成，典型值约为 500k-1.5M 元/次（取决于扩容规模如 10Gbps 至 40Gbps），该值决定扩容点的横坐标位置
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+edge node expansion capital expenditure cost 10Gbps to 40Gbps upgrade

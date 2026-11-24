@@ -1,0 +1,20 @@
+# N471: 核心/长尾流量比例 (w_core) 的量化依据：基于 Zipf 分布 (N123) 计算 Top K 对象贡献的流量比例，若自建 POP 缓存容量 S_edg
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N158
+
+## Claim
+
+核心/长尾流量比例 (w_core) 的量化依据：基于 Zipf 分布 (N123) 计算 Top K 对象贡献的流量比例，若自建 POP 缓存容量 S_edge 能覆盖 Top K 对象，则 w_core = P_topK，否则 w_core = min(1, S_edge / Size_TopK)。
+
+## Corrected Claim
+
+核心/长尾流量比例 (w_core) 的量化依据：基于 Zipf 分布 (N123) 计算 Top K 对象贡献的流量比例，若自建 POP 缓存容量 S_edge 能覆盖 Top K 对象，则 w_core = P_topK，否则 w_core = min(1, S_edge / Size_TopK)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于Zipf分布计算Top K流量占比是CDN缓存命中率建模的标准方法，容量覆盖逻辑（min(1, S/Size)）符合物理直觉与数学定义。

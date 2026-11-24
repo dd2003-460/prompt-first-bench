@@ -1,0 +1,24 @@
+# N37: 针对日活500万的用户群体，基于Zipf定律估算，若热门对象集合大小为K，则缓存命中率 Hit_Rate ≈ 1 - (1/K)^alpha，其中 alpha 
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+针对日活500万的用户群体，基于Zipf定律估算，若热门对象集合大小为K，则缓存命中率 Hit_Rate ≈ 1 - (1/K)^alpha，其中 alpha 通常取 0.8-1.0，K 需根据日均上传200GB及对象平均大小 s 推算出的总对象数确定。
+
+## Corrected Claim
+
+针对日活500万的用户群体，基于Zipf定律的长尾分布特性，缓存命中率通常随热门对象集合大小K的增加而提升，具体数值需结合实际访问分布参数（如Zipf指数）进行模拟估算，而非直接套用固定公式。
+
+## Evidence
+
+[质询]公式 Hit_Rate ≈ 1 - (1/K)^alpha 并非 Zipf 定律的标准数学推导结果，而是特定假设下的近似模型；且 alpha 取值 0.8-1.0 属于经验参数，缺乏通用理论支持，不同场景下差异较大。 | 来源[1]仅定义 Zipf 定律为频率与排名成反比，未提供该特定缓存命中率公式或 alpha 经验值，属于经验事实且缺乏直接来源支持。
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Zipf%27s_law&rut=e6c7c662e46924944246fd5ca8a45951675f0cc2e15d7b81dc19fa35df54840c', 'type': 'ddg', 'title': "Zipf's law - Wikipedia"}

@@ -1,0 +1,24 @@
+# N93: 公有云CDN的'0人力/0工具链'假设在极端场景下失效：当发生大规模DDoS攻击或配置错误导致全站故障时，需临时雇佣外部安全专家或咨询顾问，单次事件成本约为 5
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N22
+
+## Claim
+
+公有云CDN的'0人力/0工具链'假设在极端场景下失效：当发生大规模DDoS攻击或配置错误导致全站故障时，需临时雇佣外部安全专家或咨询顾问，单次事件成本约为 50k-200k 元，年化期望成本需乘以故障概率（通常 <1%）。
+
+## Corrected Claim
+
+公有云CDN的'0人力/0工具链'假设在极端场景下失效：当发生大规模DDoS攻击或配置错误导致全站故障时，需临时雇佣外部安全专家或咨询顾问，产生额外成本，年化期望成本需乘以故障概率。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别定义了概率参数（P_incident）、单次成本参数（Cost_Expert）和最终的期望成本计算公式（Expected_Cost_Emergency）。三者逻辑层级清晰，分别对应输入变量1、输入变量2和合成结果，无内容重叠或矛盾，且完整覆盖了父节点中关于概率、单次成本区间及年化期望成本计算的所有关键信息。）
+
+## Search Query
+
+cloud CDN incident response external consultant cost DDoS mitigation

@@ -1,0 +1,24 @@
+# N621: 公有云 CDN 缓存加速包/对象存储的阶梯定价结构：Price_per_GB = P_base + P_volume_discount(V)，其中 V 为存储总
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N205
+
+## Claim
+
+公有云 CDN 缓存加速包/对象存储的阶梯定价结构：Price_per_GB = P_base + P_volume_discount(V)，其中 V 为存储总量，P_base ≈ ¥0.12/GB/月（基础价），当 V > 10TB 时 P_volume_discount ≈ 0.1-0.2（折扣率），导致实际单价降至 ¥0.08-0.10/GB/月；低于 1TB 时通常无折扣或溢价 20%
+
+## Corrected Claim
+
+公有云 CDN 缓存加速包/对象存储通常采用阶梯定价结构：Price_per_GB = P_base + P_volume_discount(V)。随着存储总量 V 增加，单位价格通常呈下降趋势（量越大单价越低），具体基础价和折扣幅度因云厂商、地域及合同类型而异，需参考各厂商最新官方价目表。
+
+## Evidence
+
+[质询]具体数值（如基础价¥0.12/GB/月、折扣率0.1-0.2）属于特定厂商（如阿里云、腾讯云等）的实时商业定价策略，具有高度时效性和地域性，且不同厂商、不同区域（国内/海外）定价差异巨大，无法作为通用事实从第一性原理推导，极易因厂商调价或地区差异而失效。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Alibaba Cloud CDN cache storage pricing tier 2024 CNY per GB

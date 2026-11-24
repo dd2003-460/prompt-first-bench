@@ -1,0 +1,24 @@
+# N9: 混合策略（核心区域自建+长尾走公有云）的 P99 延迟基准值约为 180ms（核心区域低延迟 100ms 与长尾公有云 250ms 的加权平均，权重取决于流量分
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+混合策略（核心区域自建+长尾走公有云）的 P99 延迟基准值约为 180ms（核心区域低延迟 100ms 与长尾公有云 250ms 的加权平均，权重取决于流量分布，假设核心区域占 60% 流量）
+
+## Corrected Claim
+
+混合策略的 P99 延迟主要受长尾公有云路径影响，预计接近或高于 250ms，而非核心与长尾延迟的加权平均值。
+
+## Evidence
+
+[质询]P99 延迟是尾部延迟指标，不能通过不同服务延迟的加权算术平均（0.6*100 + 0.4*250 = 160ms）来估算。P99 取决于最慢的那 1% 请求，通常由长尾路径（公有云）主导，实际 P99 应接近或高于长尾路径的 P99（250ms），而非两者的平均值。此外，陈述中计算出的加权平均值为 160ms，与声称的 180ms 存在数值不一致。 | 逻辑校验失败：P99 延迟不可通过加权平均计算，且陈述内部数值（180ms vs 计算值 160ms）矛盾。
+
+## Search Query
+
+Hybrid CDN strategy P99 latency weighted average core region self-hosted long-tail public cloud

@@ -1,0 +1,20 @@
+# N123: 故障恢复时间对P99延迟的放大效应：Effective_Downtime = Detection_Time + Failover_Time + Cache_Wa
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N27
+
+## Claim
+
+故障恢复时间对P99延迟的放大效应：Effective_Downtime = Detection_Time + Failover_Time + Cache_Warmup_Time，公有云通常<30s（自动切换），自建可能>5min（人工介入或脚本延迟），导致故障期间P99延迟从正常值飙升至Origin_Latency（~300ms），需量化故障窗口内的加权P99劣化幅度
+
+## Corrected Claim
+
+故障恢复时间对P99延迟的放大效应：Effective_Downtime = Detection_Time + Failover_Time + Cache_Warmup_Time，公有云通常<30s（自动切换），自建可能>5min（人工介入或脚本延迟），导致故障期间P99延迟从正常值飙升至Origin_Latency（~300ms），需量化故障窗口内的加权P99劣化幅度
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：故障恢复时间公式符合系统可用性基本定义，公有云自动切换与自建人工介入的时间量级差异符合工程常识，P99延迟在缓存失效期间回退至源站延迟（Origin Latency）符合CDN/缓存架构的基本工作原理。

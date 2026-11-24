@@ -1,0 +1,20 @@
+# N317: Bandwidth_Capex_Per_Gbps 的估算：自建边缘节点的带宽 CapEx 通常不直接按 Gbps 计价，而是通过端口硬件和线路租赁摊销。假设 1
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N110
+
+## Claim
+
+Bandwidth_Capex_Per_Gbps 的估算：自建边缘节点的带宽 CapEx 通常不直接按 Gbps 计价，而是通过端口硬件和线路租赁摊销。假设 10Gbps 端口硬件成本为 ¥50k，线路年租为 ¥200k/10Gbps，按 3 年折旧，则 Bandwidth_Capex_Per_Gbps ≈ (50k + 200k×3) / 3 / 10 = ¥21.7k/Gbps。
+
+## Corrected Claim
+
+Bandwidth_Capex_Per_Gbps 的估算：自建边缘节点的带宽 CapEx 通常不直接按 Gbps 计价，而是通过端口硬件和线路租赁摊销。假设 10Gbps 端口硬件成本为 ¥50k，线路年租为 ¥200k/10Gbps，按 3 年折旧，则 Bandwidth_Capex_Per_Gbps ≈ (50k + 200k×3) / 3 / 10 = ¥21.7k/Gbps。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算 (50000 + 200000*3) / 3 / 10 = 650000 / 30 = 21666.67 ≈ 21.7k，量纲与逻辑自洽。

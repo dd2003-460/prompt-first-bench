@@ -1,0 +1,20 @@
+# N496: TCP 慢启动与拥塞窗口对有效带宽的影响：在短连接或新连接场景下，初始拥塞窗口 (IW) 通常为 10-14 MSS，导致前几个 RTT 的有效带宽远低于链路容
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N159
+
+## Claim
+
+TCP 慢启动与拥塞窗口对有效带宽的影响：在短连接或新连接场景下，初始拥塞窗口 (IW) 通常为 10-14 MSS，导致前几个 RTT 的有效带宽远低于链路容量；对于 1.5MB 对象，若 RTT=50ms，前 10 个 RTT 传输数据量仅为 ~100KB，需计入 L_transmission 的额外开销。
+
+## Corrected Claim
+
+TCP 慢启动与拥塞窗口对有效带宽的影响：在短连接或新连接场景下，初始拥塞窗口 (IW) 通常为 10-14 MSS，导致前几个 RTT 的有效带宽远低于链路容量；对于 1.5MB 对象，若 RTT=50ms，前 10 个 RTT 传输数据量仅为 ~100KB，需计入 L_transmission 的额外开销。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：TCP慢启动机制下，前10个RTT传输量约为10*10MSS=100KB（假设MSS=1KB），远低于1.5MB，符合指数增长规律及网络工程常识。

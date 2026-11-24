@@ -1,0 +1,20 @@
+# N219: 自建策略 CI/CD 与配置管理的人力维护成本修正：N75 声称维护成本 ¥20,000/年，但 Jenkins/GitLab Runner 集群 + Ansi
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N75
+
+## Claim
+
+自建策略 CI/CD 与配置管理的人力维护成本修正：N75 声称维护成本 ¥20,000/年，但 Jenkins/GitLab Runner 集群 + Ansible 集群的维护通常需 0.2-0.5 FTE 的 SRE 时间。假设 0.3 FTE，年薪 ¥200,000，则成本为 ¥60,000/年。若包含日志聚合（ELK）的索引优化与存储清理（通常占 ELK 运维 50% 工作量），总维护成本应修正为 ¥80,000-120,000/年，折合 ¥219-329/1000 req，远高于 N75 的 ¥55/1000 req。
+
+## Corrected Claim
+
+自建策略 CI/CD 与配置管理的人力维护成本修正：N75 声称维护成本 ¥20,000/年，但 Jenkins/GitLab Runner 集群 + Ansible 集群的维护通常需 0.2-0.5 FTE 的 SRE 时间。假设 0.3 FTE，年薪 ¥200,000，则成本为 ¥60,000/年。若包含日志聚合（ELK）的索引优化与存储清理（通常占 ELK 运维 50% 工作量），总维护成本应修正为 ¥80,000-120,000/年，折合 ¥219-329/1000 req，远高于 N75 的 ¥55/1000 req。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：0.3 FTE * 200k = 60k，加上ELK运维成本后80k-120k的量级符合SRE人力成本常识，且单位换算（80k/365k req ≈ 219/1000 req）在数学上自洽。

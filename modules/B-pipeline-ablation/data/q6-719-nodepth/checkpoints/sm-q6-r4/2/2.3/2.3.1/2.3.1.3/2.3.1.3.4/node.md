@@ -1,0 +1,20 @@
+# N549: N_POP=20时‘高覆盖-高成本’工作点的Pareto最优性判断：比较N_POP=10与N_POP=20的每千请求成本 C_per_1000_req = C_
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N178
+
+## Claim
+
+N_POP=20时‘高覆盖-高成本’工作点的Pareto最优性判断：比较N_POP=10与N_POP=20的每千请求成本 C_per_1000_req = C_total_monthly / R_daily * 1000，其中 C_total_monthly = C_infra + C_ops + C_bw_out，C_ops(10) = 3人 * ¥40k/月 = ¥120k/月，C_ops(20) = 5人 * ¥40k/月 = ¥200k/月，C_bw_out(10) = 200GB/天 * 30天 * ¥0.2/GB = ¥1,200/月（公有云回源），C_bw_out(20) = 150GB/天 * 30天 * ¥0.2/GB = ¥900/月（命中率提升），故 C_per_1000_req(10) = (116,418 + 120,000 + 1,200) / 1.34e9 * 1000 = ¥0.177/千请求，C_per_1000_req(20) = (232,836 + 200,000 + 900) / 1.34e9 * 1000 = ¥0.326/千请求；P99延迟降低3ms，成本增加84%，若P99目标T=50ms，两者均满足，N_POP=10更划算；若T=30ms，N_POP=20更优。
+
+## Corrected Claim
+
+N_POP=20时‘高覆盖-高成本’工作点的Pareto最优性判断：比较N_POP=10与N_POP=20的每千请求成本 C_per_1000_req = C_total_monthly / R_daily * 1000，其中 C_total_monthly = C_infra + C_ops + C_bw_out，C_ops(10) = 3人 * ¥40k/月 = ¥120k/月，C_ops(20) = 5人 * ¥40k/月 = ¥200k/月，C_bw_out(10) = 200GB/天 * 30天 * ¥0.2/GB = ¥1,200/月（公有云回源），C_bw_out(20) = 150GB/天 * 30天 * ¥0.2/GB = ¥900/月（命中率提升），故 C_per_1000_req(10) = (116,418 + 120,000 + 1,200) / 1.34e9 * 1000 = ¥0.177/千请求，C_per_1000_req(20) = (232,836 + 200,000 + 900) / 1.34e9 * 1000 = ¥0.326/千请求；P99延迟降低3ms，成本增加84%，若P99目标T=50ms，两者均满足，N_POP=10更划算；若T=30ms，N_POP=20更优。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算准确（C_ops, C_bw_out, C_per_1000_req 数值均正确），Pareto 最优性判断逻辑自洽（在满足延迟约束前提下，成本更低者更优；若延迟不满足则需更高成本方案），无内部矛盾。

@@ -1,0 +1,24 @@
+# N32: T、s、geo_share 的联合敏感性分析范围：定义三维参数空间 (T, s, geo_share)，T ∈ [100ms, 500ms]，s ∈ [100K
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N5
+
+## Claim
+
+T、s、geo_share 的联合敏感性分析范围：定义三维参数空间 (T, s, geo_share)，T ∈ [100ms, 500ms]，s ∈ [100KB, 5MB]，geo_share ∈ {均匀分布, Zipf(α=1.0), Zipf(α=1.5)}，共 5×5×3=75 个组合点，对每个组合点计算三种策略的每千请求 P99 成本 C_strategy(T, s, geo_share)，输出 75×3 的成本矩阵，用于判断哪个策略在大多数参数组合下最划算。
+
+## Corrected Claim
+
+T、s、geo_share 的联合敏感性分析范围：定义三维参数空间 (T, s, geo_share)，T ∈ [100ms, 500ms]，s ∈ [100KB, 5MB]，geo_share ∈ {均匀分布, Zipf(α=1.0), Zipf(α=1.5)}，共 5×5×3=75 个组合点，对每个组合点计算三种策略的每千请求 P99 成本 C_strategy(T, s, geo_share)，输出 75×3 的成本矩阵，用于判断哪个策略在大多数参数组合下最划算。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别定义了采样网格（输入空间）、决策规则（输出处理）和参数耦合分析（高阶效应），三者逻辑独立且互不重叠，共同完整覆盖了父节点关于敏感性分析范围、计算流程及结果判定的所有关键方面，不存在冗余或矛盾。）
+
+## Search Query
+
+joint sensitivity analysis T s geographic distribution 75 combinations cost matrix CDN strategy comparison

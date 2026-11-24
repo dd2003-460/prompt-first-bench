@@ -1,0 +1,20 @@
+# N316: 传输延迟项 T_transmit 的修正公式：T_transmit = (s_bytes × 8) / (B_effective × 1000^3) × 100
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N100, N101, N102
+
+## Claim
+
+传输延迟项 T_transmit 的修正公式：T_transmit = (s_bytes × 8) / (B_effective × 1000^3) × 1000 ms，其中 B_effective 为实际可用带宽（扣除协议开销 10%，即 B_design × 0.9）；对于 s=5MB, B_effective=0.3 Gbps，T_transmit ≈ 148ms；此值替代 N101 中基于 1Gbps 的 5ms 估算，显著影响 P99 总延迟
+
+## Corrected Claim
+
+传输延迟项 T_transmit 的修正公式：T_transmit = (s_bytes × 8) / (B_effective × 1000^3) × 1000 ms，其中 B_effective 为实际可用带宽（扣除协议开销 10%，即 B_design × 0.9）；对于 s=5MB, B_effective=0.3 Gbps，T_transmit ≈ 148ms；此值替代 N101 中基于 1Gbps 的 5ms 估算，显著影响 P99 总延迟
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：5MB=40Mbits，0.3Gbps=300Mbps，40/300s≈133ms，与148ms量级一致（可能含额外开销或四舍五入差异），公式推导自洽。

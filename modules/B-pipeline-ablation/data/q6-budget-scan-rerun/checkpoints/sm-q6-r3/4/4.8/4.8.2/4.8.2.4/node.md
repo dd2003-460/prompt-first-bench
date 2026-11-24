@@ -1,0 +1,20 @@
+# N295: QoS对混合策略核心区域SLA达标率的影响量化：SLA达标率提升 ΔSLA = (P99_before - P99_after) / (T - P99_befo
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N94
+
+## Claim
+
+QoS对混合策略核心区域SLA达标率的影响量化：SLA达标率提升 ΔSLA = (P99_before - P99_after) / (T - P99_before)，若 T=300ms, P99_before=280ms, P99_after=260ms，则 ΔSLA ≈ 20/20 = 100%（即从临界不达标转为达标），需计算该区域请求量权重 w_core=0.6 对整体SLA的贡献
+
+## Corrected Claim
+
+QoS对混合策略核心区域SLA达标率的影响量化：SLA达标率提升 ΔSLA = (P99_before - P99_after) / (T - P99_before)，若 T=300ms, P99_before=280ms, P99_after=260ms，则 ΔSLA ≈ 20/20 = 100%（即从临界不达标转为达标），需计算该区域请求量权重 w_core=0.6 对整体SLA的贡献
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式定义清晰，数值代入计算正确（(280-260)/(300-280)=1），量纲一致，符合SLA达标率提升的量化逻辑。

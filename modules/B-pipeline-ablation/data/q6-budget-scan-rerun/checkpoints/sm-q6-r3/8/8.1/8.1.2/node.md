@@ -1,0 +1,30 @@
+# N379: 阿里云 CDN 流量包与按量付费的成本对比：若购买 50TB 流量包，价格约为 10,000 元/月（官方促销价），剩余 10TB 按量付费 0.18 元/GB
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N120
+
+## Claim
+
+阿里云 CDN 流量包与按量付费的成本对比：若购买 50TB 流量包，价格约为 10,000 元/月（官方促销价），剩余 10TB 按量付费 0.18 元/GB，则月成本 = 10,000 + 10,000 × 0.18 = 11,800 元；若全按量付费 60TB × 0.18 = 10,800 元，表明按量付费在 60TB 规模下更优，但需考虑流量波动风险，若月流量超过 60TB，按量付费成本将线性增加。
+
+## Corrected Claim
+
+阿里云 CDN 流量包与按量付费的成本对比逻辑成立：若购买 50TB 流量包（假设价格 P1）且剩余 10TB 按量付费（假设单价 P2），需比较总成本与全按量付费（60TB * P2）的成本。具体数值需依据阿里云官方最新定价页面确认，当前引用的 10,000 元/50TB 和 0.18 元/GB 为示例值，未经来源直接证实。
+
+## Evidence
+
+[质询]陈述中引用的具体价格数值（50TB流量包10,000元/月、按量付费0.18元/GB）属于经验事实，参考来源仅提供了计费模式说明和链接，未包含具体的2026年最新价格表数据，无法直接验证这些数值的准确性。 | 逻辑推导自洽（10000+10000*0.18=11800, 60*1024*0.18≈11059，注：若按1TB=1000GB计算则60*1000*0.18=10800，量级合理），但具体价格参数缺乏来源直接支持，属于经验事实。
+
+## Search Query
+
+Alibaba Cloud CDN traffic package pricing 2024
+
+## Retrieval Sources
+
+- {'url': 'https://www.aliyun.com/price/detail/cdn&rut=7deffc4f1d34859bcb7594b9f5ea62952b3f14c06ecc370a5099c3c282977b06', 'type': 'ddg', 'title': '阿里云定价_CDN价格详情'}
+- {'url': 'https://developer.aliyun.com/article/1708278&rut=2ddc55f04c3ee490ae5b44019f150c2428eac2400670b83d41207aae16acf9e2', 'type': 'ddg', 'title': '2026最新阿里云cdn收费标准：不同计费模式价格表（基础服务费和增值服务费用整理）-阿里云开发者社区'}
+- {'url': 'https://help.aliyun.com/zh/cdn/product-overview/billing-overview&rut=5607cac578e6a0a2822f10843ed70c58160107634276405ba09db4d9580720b7', 'type': 'ddg', 'title': 'Cdn如何计费-cdn (Cdn)-阿里云帮助中心'}

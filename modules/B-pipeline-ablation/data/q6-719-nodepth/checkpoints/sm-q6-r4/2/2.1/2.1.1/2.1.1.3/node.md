@@ -1,0 +1,24 @@
+# N205: NIC_Cost 中 10Gbps 双口 NIC 的单价 ¥2,000 为入门级万兆网卡价格，若需支持 SR-IOV 或 RDMA（RoCE），价格上升至 ¥3
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N59
+
+## Claim
+
+NIC_Cost 中 10Gbps 双口 NIC 的单价 ¥2,000 为入门级万兆网卡价格，若需支持 SR-IOV 或 RDMA（RoCE），价格上升至 ¥3,000-5,000，需根据边缘节点是否支持虚拟化或高性能计算需求选择。
+
+## Corrected Claim
+
+NIC_Cost 中 10Gbps 双口 NIC 的单价 ¥2,000 为入门级万兆网卡价格，若需支持 SR-IOV 或 RDMA（RoCE），价格上升至 ¥3,000-5,000，需根据边缘节点是否支持虚拟化或高性能计算需求选择。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+10Gbps dual port NIC price SR-IOV RDMA RoCE 2024

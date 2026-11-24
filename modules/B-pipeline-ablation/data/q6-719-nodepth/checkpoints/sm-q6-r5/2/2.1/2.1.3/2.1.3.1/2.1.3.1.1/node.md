@@ -1,0 +1,20 @@
+# N501: 工作点 A（极致低延迟/高安全冗余）：采用边缘节点本地 JWKS 缓存验证 + 每 5 分钟主动刷新公钥。L_auth = T_jwt_verify_local
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N161
+
+## Claim
+
+工作点 A（极致低延迟/高安全冗余）：采用边缘节点本地 JWKS 缓存验证 + 每 5 分钟主动刷新公钥。L_auth = T_jwt_verify_local (0.2ms) + T_jwks_sync_amortized (0.01ms) ≈ 0.21ms。此工作点将鉴权延迟压至物理下限，但增加了密钥同步的运维复杂度，适用于对 P99 极度敏感的核心区域。
+
+## Corrected Claim
+
+工作点 A（极致低延迟/高安全冗余）：采用边缘节点本地 JWKS 缓存验证 + 每 5 分钟主动刷新公钥。L_auth = T_jwt_verify_local (0.2ms) + T_jwks_sync_amortized (0.01ms) ≈ 0.21ms。此工作点将鉴权延迟压至物理下限，但增加了密钥同步的运维复杂度，适用于对 P99 极度敏感的核心区域。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：本地JWT验证耗时0.2ms符合CPU运算量级，JWKS同步摊销耗时0.01ms符合低频高吞吐场景下的平均开销估算，总延迟0.21ms量级合理且无内部矛盾。

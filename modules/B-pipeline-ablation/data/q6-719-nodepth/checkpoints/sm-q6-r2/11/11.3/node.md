@@ -1,0 +1,24 @@
+# N132: 交叉弹性分析：s_avg 和 H 并非独立；大对象（高 s_avg）通常具有更低的 H（因为重复访问率低）。在敏感性分析中，需构建联合扰动矩阵：(s_avg+2
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N33
+
+## Claim
+
+交叉弹性分析：s_avg 和 H 并非独立；大对象（高 s_avg）通常具有更低的 H（因为重复访问率低）。在敏感性分析中，需构建联合扰动矩阵：(s_avg+20%, H-5%), (s_avg+20%, H+5%), (s_avg-20%, H-5%), (s_avg-20%, H+5%)，计算四象限下的 C_tco 变化，识别主导敏感因子。
+
+## Corrected Claim
+
+交叉弹性分析：s_avg 和 H 并非独立；大对象（高 s_avg）通常具有更低的 H（因为重复访问率低）。在敏感性分析中，需构建联合扰动矩阵：(s_avg+20%, H-5%), (s_avg+20%, H+5%), (s_avg-20%, H-5%), (s_avg-20%, H+5%)，计算四象限下的 C_tco 变化，识别主导敏感因子。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：大对象通常访问频率低导致Zipf指数H较低，二者存在负相关，联合扰动分析符合敏感性分析标准方法论。
+
+## Search Query
+
+joint sensitivity analysis object size and cache hit rate CDN cost

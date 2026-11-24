@@ -1,0 +1,29 @@
+# N389: 高性能缓存服务器工作点 C（高成本低性）：配置 2x Intel Xeon Platinum 8380 + 1TB DDR4 + 4TB NVMe，BOM 成本
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N123
+
+## Claim
+
+高性能缓存服务器工作点 C（高成本低性）：配置 2x Intel Xeon Platinum 8380 + 1TB DDR4 + 4TB NVMe，BOM 成本 ≈ 14.2 万元/台，年折旧 4.73 万元/台/年；单点缓存容量 4TB，支持 40Gbps 带宽，适用于高流量核心 POP 点（geo_share_i > 15%）；P99 延迟基准 180ms，成本效率比 = 142,000 / 4096 ≈ 34.67 元/GB，较工作点 B 降低 16.5%，但单点成本增加 67%。
+
+## Corrected Claim
+
+高性能缓存服务器工作点 C（高成本低性）：配置 2x Intel Xeon Platinum 8380 + 1TB DDR4 + 4TB NVMe，BOM 成本约 14.2 万元/台，年折旧约 4.73 万元/台/年；单点缓存容量 4TB，支持 40Gbps 带宽，适用于高流量核心 POP 点（geo_share_i > 15%）；P99 延迟基准 180ms，成本效率比约 34.67 元/GB，较工作点 B 降低约 16.5%，但单点成本增加约 67%。
+
+## Evidence
+
+[质询]BOM成本14.2万元与单点成本增加67%、成本效率比降低16.5%等具体数值缺乏来源支持，且来源[1]提及的CPU型号（Gold 6326）与陈述中的Platinum 8380不符，来源[2]提及的8480C也与8380不符，无法验证具体硬件配置对应的成本及性能指标。 | 经验事实，逻辑自洽但缺来源支持；来源[1]和[2]均未提供Platinum 8380的具体BOM成本、折旧率或性能基准数据，无法直接支持或反驳具体数值。
+
+## Search Query
+
+Intel Xeon Platinum 8380 1TB RAM 4TB NVMe server BOM cost 2024
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1969340977371149713&rut=133829cee33b8a04e7a18f9ab1aa2d9669480ded88cae92091d25ad961b30186', 'type': 'ddg', 'title': '服务器硬件配置清单 - 知乎专栏'}
+- {'url': 'https://www.intel.com/content/www/us/en/products/sku/231730/intel-xeon-platinum-8480c-processor-105m-cache-2-00-ghz/specifications.html&rut=ae7391d7a544ff13efb2a1e8d604c75cea9b366ec5f096fa70c678b5a9cc9db6', 'type': 'ddg', 'title': 'Intel® Xeon® Platinum 8480C Processor'}

@@ -1,0 +1,24 @@
+# N529: U_corrected 对缓存命中率上限的传导：U_corrected 增加导致 Unique_Hot_Objects_Size 增大，进而降低 Hit_Rat
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N177
+
+## Claim
+
+U_corrected 对缓存命中率上限的传导：U_corrected 增加导致 Unique_Hot_Objects_Size 增大，进而降低 Hit_Rate_actual = min(1, S_edge / (Unique_Hot_Objects_Size × Retention_Time))，若 U_corrected 从 84k 增至 252k（×3），命中率上限可能从 95% 降至 70%，需重新计算 P99 延迟分布
+
+## Corrected Claim
+
+U_corrected 对缓存命中率上限的传导：U_corrected 增加导致 Unique_Hot_Objects_Size 增大，进而降低 Hit_Rate_actual = min(1, S_edge / (Unique_Hot_Objects_Size × Retention_Time))，若 U_corrected 从 84k 增至 252k（×3），命中率上限可能从 95% 降至 70%，需重新计算 P99 延迟分布
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：U_corrected增加导致Unique_Hot_Objects_Size增大，分母变大，Hit_Rate_actual=min(1, S_edge/(Unique_Hot_Objects_Size × Retention_Time))必然降低，符合缓存命中率的基本逻辑。
+
+## Search Query
+
+cache hit rate upper bound unique object size retention time formula

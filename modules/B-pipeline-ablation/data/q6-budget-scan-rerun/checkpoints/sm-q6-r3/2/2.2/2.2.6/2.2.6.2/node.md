@@ -1,0 +1,24 @@
+# N202: 自建POP回源带宽单价 Price_Per_TB_Backbone 的构成：基于BGP多线接入静态IP专线成本，单价 = (Monthly_Line_Cost 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N65
+
+## Claim
+
+自建POP回源带宽单价 Price_Per_TB_Backbone 的构成：基于BGP多线接入静态IP专线成本，单价 = (Monthly_Line_Cost / Monthly_Capacity_TB)，参考N131单线¥2.5-3.5/Mbps/月及N132 BGP溢价1.2-1.4倍，折算后约为¥0.08-0.15/GB，低于公有云公网价¥0.24/GB
+
+## Corrected Claim
+
+自建POP回源带宽单价 Price_Per_TB_Backbone 的构成：基于BGP多线接入静态IP专线成本，单价 = (Monthly_Line_Cost / Monthly_Capacity_TB)，参考N131单线¥2.5-3.5/Mbps/月及N132 BGP溢价1.2-1.4倍，折算后约为¥0.08-0.15/GB，低于公有云公网价¥0.24/GB
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于N131单线成本(¥2.5-3.5/Mbps/月)和N132 BGP溢价(1.2-1.4倍)推导，假设月流量利用率合理（如10-20%），折算单价¥0.08-0.15/GB在量级上合理，且低于公有云公网价¥0.24/GB符合自建带宽通常更经济的经济直觉。
+
+## Search Query
+
+BGP multi-line dedicated line cost per GB calculation

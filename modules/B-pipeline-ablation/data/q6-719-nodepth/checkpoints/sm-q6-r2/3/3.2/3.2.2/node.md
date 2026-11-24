@@ -1,0 +1,29 @@
+# N94: 图片请求占比 P_img 与视频请求占比 P_vid 的分布比例，需根据平台业务日志确定；假设 P_img = 80%, P_vid = 20% 作为基准情景，
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N22
+
+## Claim
+
+图片请求占比 P_img 与视频请求占比 P_vid 的分布比例，需根据平台业务日志确定；假设 P_img = 80%, P_vid = 20% 作为基准情景，[待核验]。
+
+## Corrected Claim
+
+图片请求占比 P_img 与视频请求占比 P_vid 的分布比例需根据具体平台业务日志确定；在缺乏具体数据时，可假设 P_img = 80%, P_vid = 20% 作为示例情景，但需注明该假设的局限性。
+
+## Evidence
+
+[质询]该陈述中的具体数值（P_img=80%, P_vid=20%）属于经验事实，缺乏通用性，不同平台（如社交媒体、电商、视频流媒体）的流量结构差异巨大，直接假设此比例作为基准情景缺乏普适依据，且参考来源完全未提供相关数据支持。 | 参考来源[1]和[2]均为无关网页或失效链接，未提供关于图片与视频请求占比的任何数据支持；该数值为经验假设，逻辑上自洽（比例和为100%）但缺乏外部证据，依据经验事实排除条款降级。
+
+## Search Query
+
+social media platform image vs video traffic ratio statistics
+
+## Retrieval Sources
+
+- {'url': 'https://my.mail.ru/video/embed/9148137502752644046&rut=9ad7199ed6bc167e747803b42d85eb862cf8e506e8f529ac91f6f1bb28c1d203', 'type': 'ddg', 'title': 'nbar201010_480 :: video.mail.ru'}
+- {'url': 'https://prmovie.com/&rut=df8d5b1aafd7f6e49942e05f967053997671f5f65c4efe365c287e94ccf2955f', 'type': 'ddg', 'title': 'prmovie.com'}

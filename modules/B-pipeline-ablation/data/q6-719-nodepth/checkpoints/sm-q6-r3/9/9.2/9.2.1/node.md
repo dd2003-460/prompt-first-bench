@@ -1,0 +1,24 @@
+# N389: 高ARPU长周期用户群LTV工作点：LTV_Base = ARPU(¥30/月) × Lifetime(12个月) = ¥360/用户，Retention_El
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N137
+
+## Claim
+
+高ARPU长周期用户群LTV工作点：LTV_Base = ARPU(¥30/月) × Lifetime(12个月) = ¥360/用户，Retention_Elasticity = 1.5（高弹性），则ΔLTV_per_ms = 0.008% × 360 × 1.5 = ¥0.0432/用户/ms。
+
+## Corrected Claim
+
+高ARPU长周期用户群LTV工作点：LTV_Base = ARPU(¥30/月) × Lifetime(12个月) = ¥360/用户，Retention_Elasticity = 1.5（高弹性），则ΔLTV_per_ms = 0.008% × 360 × 1.5 = ¥0.0432/用户/ms。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：LTV计算（30*12=360）及弹性调整公式（0.00008*360*1.5=0.0432）数值与逻辑均自洽。
+
+## Search Query
+
+high ARPU user lifetime value calculation

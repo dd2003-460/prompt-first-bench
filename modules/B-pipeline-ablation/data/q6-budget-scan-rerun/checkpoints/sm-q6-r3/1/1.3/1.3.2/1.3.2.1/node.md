@@ -1,0 +1,24 @@
+# N147: 单 POP 缓存容量与热点内容覆盖率的量化关系：单 POP 缓存容量 C_pop = 2TB NVMe SSD；在 Zipf(α=1.2) 分布下，覆盖 80%
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N44
+
+## Claim
+
+单 POP 缓存容量与热点内容覆盖率的量化关系：单 POP 缓存容量 C_pop = 2TB NVMe SSD；在 Zipf(α=1.2) 分布下，覆盖 80% 请求所需的最小缓存大小 S_80 约为总数据集大小的 20%；若总数据集 2TB，S_80 ≈ 400GB；由于单 POP 仅服务 1-2 省（流量占比 ~10%），其本地热点内容池远小于全国热点，导致本地 CHR 比全国 CHR 低 15-20%。
+
+## Corrected Claim
+
+单 POP 缓存容量与热点内容覆盖率的量化关系：单 POP 缓存容量 C_pop = 2TB NVMe SSD；在 Zipf(α=1.2) 分布下，覆盖 80% 请求所需的最小缓存大小 S_80 约为总数据集大小的 20%；若总数据集 2TB，S_80 ≈ 400GB；由于单 POP 仅服务 1-2 省（流量占比 ~10%），其本地热点内容池远小于全国热点，导致本地 CHR 比全国 CHR 低 15-20%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Zipf(α=1.2) 分布下覆盖 80% 请求需约 20% 数据量符合累积分布函数特性（CDF(0.2)≈0.8），数值量级合理；单 POP 服务局部区域导致热点集中度低于全国，CHR 降低 15-20% 符合缓存局部性原理。
+
+## Search Query
+
+Zipf distribution cache size 80% coverage content distribution local vs global

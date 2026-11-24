@@ -1,0 +1,20 @@
+# N191: 单台边缘服务器硬件成本构成公式：C_server = C_CPU + C_RAM + C_NIC + C_Storage + C_Chassis，其中 C_St
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N50
+
+## Claim
+
+单台边缘服务器硬件成本构成公式：C_server = C_CPU + C_RAM + C_NIC + C_Storage + C_Chassis，其中 C_Storage 需根据缓存策略（N66/N77）确定容量，C_NIC 需满足峰值带宽（N99）要求。
+
+## Corrected Claim
+
+单台边缘服务器硬件成本构成公式：C_server = C_CPU + C_RAM + C_NIC + C_Storage + C_Chassis，其中 C_Storage 需根据缓存策略（N66/N77）确定容量，C_NIC 需满足峰值带宽（N99）要求。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

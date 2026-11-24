@@ -1,0 +1,24 @@
+# N597: T_video_optimal（高性低成工作点）：设定短视频首帧 P99 延迟为 300ms，基于 Netflix/YouTube QoE 研究，300ms 内
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N195, N196, N197
+
+## Claim
+
+T_video_optimal（高性低成工作点）：设定短视频首帧 P99 延迟为 300ms，基于 Netflix/YouTube QoE 研究，300ms 内首帧加载可确保 >95% 用户留存，需支持高带宽预缓冲（Pre-buffering）和边缘节点视频分片优化，成本最高。
+
+## Corrected Claim
+
+T_video_optimal（高性低成工作点）：设定短视频首帧 P99 延迟为 300ms，基于行业QoE研究，该延迟水平通常能保障较高的用户留存率，需支持高带宽预缓冲（Pre-buffering）和边缘节点视频分片优化，成本最高。
+
+## Evidence
+
+[质询]将具体的300ms P99延迟阈值与'>95%用户留存'建立直接因果联系缺乏严谨的单一来源支持，且不同平台（Netflix vs YouTube）的QoE模型和留存定义存在差异，该数值可能过于绝对化。 | 先验知识/题面给定，逻辑校验通过：300ms作为首帧延迟阈值在视频流媒体领域属于合理的工程经验值，高延迟确实影响留存，但具体百分比需视具体业务场景而定，故降级为定性表述。
+
+## Search Query
+
+Short video first frame latency 300ms QoE retention rate Netflix YouTube

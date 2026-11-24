@@ -1,0 +1,20 @@
+# N65: 自建POP策略下，Cross_Region_Traffic_TB 指POP节点回源至中心源站的专线/骨干网流量，其成本公式为：Sum(POP_i_Origin_
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+自建POP策略下，Cross_Region_Traffic_TB 指POP节点回源至中心源站的专线/骨干网流量，其成本公式为：Sum(POP_i_Origin_Traffic_TB) * Price_Per_TB_Backbone，其中Price_Per_TB_Backbone通常低于公有云公网价格，约为¥0.1-0.2/GB（专线分摊）
+
+## Corrected Claim
+
+自建POP策略下，Cross_Region_Traffic_TB 指POP节点回源至中心源站的专线/骨干网流量，其成本公式为：Sum(POP_i_Origin_Traffic_TB) * Price_Per_TB_Backbone，其中Price_Per_TB_Backbone通常低于公有云公网价格，约为¥0.1-0.2/GB（专线分摊）
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别独立定义了公式中的流量变量（Total_Origin_Traffic_TB）、单价变量（Price_Per_TB_Backbone）以及整体敏感性分析（Sensitivity_Share），三者逻辑清晰、互不重叠且无矛盾。它们共同构成了父节点成本公式的完整推导链条，没有发现将同一参数拆分为多个子节点的冗余情况。）

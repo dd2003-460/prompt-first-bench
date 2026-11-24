@@ -1,0 +1,30 @@
+# N125: 单 POP 点网络接入带宽成本：每个 POP 点需接入 10Gbps 或 40Gbps 骨干网带宽，按包年计费，10Gbps 带宽包年费用约为 30-50 万元
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N37
+
+## Claim
+
+单 POP 点网络接入带宽成本：每个 POP 点需接入 10Gbps 或 40Gbps 骨干网带宽，按包年计费，10Gbps 带宽包年费用约为 30-50 万元/年（视运营商和地区而定），40Gbps 约为 80-120 万元/年；假设单 POP 点配置 10Gbps 接入，年带宽接入成本为 40 万元。
+
+## Corrected Claim
+
+单 POP 点网络接入带宽成本：每个 POP 点需接入 10Gbps 或 40Gbps 骨干网带宽，按包年计费。具体费用视运营商和地区而定，通常 10Gbps 带宽包年费用在数十万元量级，40Gbps 相应更高；假设单 POP 点配置 10Gbps 接入，年带宽接入成本估算为 40 万元。
+
+## Evidence
+
+[质询]具体带宽包年费用（10Gbps 30-50万元/年）属于高度依赖地区、运营商及具体商务谈判的经验性市场数据，参考来源中未包含任何具体的价格信息，无法通过现有证据直接验证该数值量级的准确性。 | 逻辑自洽（40Gbps 约为 10Gbps 的 2-3 倍符合带宽成本非线性增长的一般规律），但参考来源 [1][2][3] 仅涉及 10G 宽带技术、运营商线路架构及政策，均未提供具体的带宽租赁价格数据，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+China CDN POP point 10Gbps bandwidth annual cost ISP 2024
+
+## Retrieval Sources
+
+- {'url': 'https://www.gizmochina.com/2024/03/21/10g-cloud-broadband-internet-china/&rut=ca08799b47f690c8c726601be8690adc95bc07f9f77e8ce2d63460a58d1bfad1', 'type': 'ddg', 'title': "A 90GB File Downloaded in 72 Seconds? World's First 10G ... - Gizmochina"}
+- {'url': 'https://vpsdeck.com/china-isp-premium-routes-guide/&rut=76f2ae63e063ed3cfbf0398ffa34a3621f261276c47bc30b0164a18c42a11ac8', 'type': 'ddg', 'title': '中国三大运营商精品线路完全指南：CN2 GIA / 9929 / CMIN2 一篇搞懂 | VPSDeck'}
+- {'url': 'https://www.lightreading.com/broadband/china-officials-push-for-10g-optical&rut=6add9b60c75941c1428d668283f3946ada037cdc666bd8d326674f3f2f91e57d', 'type': 'ddg', 'title': 'China officials push for 10G optical - lightreading.com'}

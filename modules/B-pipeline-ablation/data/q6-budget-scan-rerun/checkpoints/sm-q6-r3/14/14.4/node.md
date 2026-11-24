@@ -1,0 +1,24 @@
+# N417: 混合策略扩容瓶颈的对比量化：混合策略中，核心区域自建部分扩容瓶颈成本 C_bottleneck_hybrid_core = w_core × C_bottlen
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N132
+
+## Claim
+
+混合策略扩容瓶颈的对比量化：混合策略中，核心区域自建部分扩容瓶颈成本 C_bottleneck_hybrid_core = w_core × C_bottleneck_self，长尾区域公有云部分扩容近乎即时（T_lead_pub ≈ 0），因此 C_bottleneck_hybrid = w_core × C_bottleneck_self + w_tail × 0；相比全自建，混合策略扩容瓶颈成本降低 w_tail 比例（40%），但需权衡核心区域自建的高固定成本
+
+## Corrected Claim
+
+混合策略扩容瓶颈的对比量化：混合策略中，核心区域自建部分扩容瓶颈成本 C_bottleneck_hybrid_core = w_core × C_bottleneck_self，长尾区域公有云部分扩容近乎即时（T_lead_pub ≈ 0），因此 C_bottleneck_hybrid = w_core × C_bottleneck_self + w_tail × 0；相比全自建，混合策略扩容瓶颈成本降低 w_tail 比例（40%），但需权衡核心区域自建的高固定成本
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：混合策略成本由加权平均构成，若长尾部分扩容成本为0，则总成本降低比例确实等于长尾权重（40%），数学推导自洽。
+
+## Search Query
+
+hybrid CDN scaling bottleneck cost comparison self-built vs public cloud

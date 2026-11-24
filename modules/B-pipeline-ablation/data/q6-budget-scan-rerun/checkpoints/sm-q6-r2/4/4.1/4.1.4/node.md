@@ -1,0 +1,20 @@
+# N76: 公有云 CDN 弹性伸缩成本 C_scale_pub 的量化：C_scale_pub = (B_peak_pub - B_avg) × T_scale_pub 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N17
+
+## Claim
+
+公有云 CDN 弹性伸缩成本 C_scale_pub 的量化：C_scale_pub = (B_peak_pub - B_avg) × T_scale_pub × unit_cost_per_Mbps_hour。基于 B_peak_pub = 95.04 Mbps，B_avg = 26.4 Mbps，T_scale_pub = 5 分钟 = 1/12 小时，unit_cost = 0.06 元/Mbps/月 ≈ 0.0000083 元/Mbps/秒。需计算每日弹性伸缩成本并摊销到每千请求。
+
+## Corrected Claim
+
+公有云 CDN 弹性伸缩成本 C_scale_pub 的量化：C_scale_pub = (B_peak_pub - B_avg) × T_scale_pub × unit_cost_per_Mbps_hour。基于 B_peak_pub = 95.04 Mbps，B_avg = 26.4 Mbps，T_scale_pub = 5 分钟 = 1/12 小时，unit_cost = 0.06 元/Mbps/月 ≈ 0.0000083 元/Mbps/秒。需计算每日弹性伸缩成本并摊销到每千请求。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

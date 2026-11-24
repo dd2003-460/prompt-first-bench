@@ -1,0 +1,30 @@
+# N236: 华北地区用户地理分布细分：北京 p_beijing=0.12, 河北 p_hebei=0.08，用于计算华北区域用户到最近 POP（如北京 POP）的加权 RT
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N60, N61, N62
+
+## Claim
+
+华北地区用户地理分布细分：北京 p_beijing=0.12, 河北 p_hebei=0.08，用于计算华北区域用户到最近 POP（如北京 POP）的加权 RTT。
+
+## Corrected Claim
+
+华北地区用户地理分布细分：北京和河北为主要组成部分，用于计算华北区域用户到最近 POP（如北京 POP）的加权 RTT（具体概率权重需依据实际用户分布数据确定）。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性参数（北京 p=0.12, 河北 p=0.08），这些数值并非物理定律或数学公理，而是基于特定假设或数据集的统计估计。参考来源仅提供了北京POI和行政区划数据，并未提供华北地区用户地理分布的具体概率权重，因此无法从来源中直接验证这些具体数值的准确性。 | 逻辑上，使用加权概率计算平均RTT是合理的网络建模方法，且北京作为华北核心城市占比高于河北符合一般直觉；但具体数值（0.12, 0.08）属于经验事实，参考来源[1][2][3]仅涉及北京地理数据，未覆盖华北用户分布统计，无法提供直接支持。
+
+## Search Query
+
+China mobile internet user distribution by province 2023 Beijing Hebei
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_09785/article/details/143008032&rut=27396310e29378996fef33922e4587feb6b2da8dd8d390aa24f1edfafb17c21a', 'type': 'ddg', 'title': '【免费下载】 北京市poi数据_超级全_已分类-csdn博客'}
+- {'url': 'https://blog.csdn.net/gitblog_06728/article/details/148235676&rut=1b8639bf9c3d91b61f86db9d5147901e9bb19bb345739ee55fbed9b82d878a09', 'type': 'ddg', 'title': '北京市行政区划及人口shp数据下载：助力GIS研究与分析-CSDN博客'}
+- {'url': 'https://www.beijingcitylab.org/data.html&rut=fb822c3f89e14c034a384fd1fb9a46838e1a0a4cbec7db60bd08e87905f6fe4a', 'type': 'ddg', 'title': 'Data / 数据 · Beijing City Lab'}

@@ -1,0 +1,30 @@
+# N55: 自建10个POP点所需的骨干网带宽租赁总成本：基于峰值带宽需求 B_peak = B_avg × R_pg (26.4 Mbps × 3 = 79.2 Mbps
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N12
+
+## Claim
+
+自建10个POP点所需的骨干网带宽租赁总成本：基于峰值带宽需求 B_peak = B_avg × R_pg (26.4 Mbps × 3 = 79.2 Mbps)，假设每个POP点独立租赁或共享骨干网，需确定单Mbps月租价（中国骨干网典型价格约100-300元/Mbps/月），计算年成本 = (总峰值带宽 × 单价 × 12) + 预付带宽包摊销成本。
+
+## Corrected Claim
+
+自建10个POP点所需的骨干网带宽租赁总成本需基于峰值带宽需求（如 B_peak = B_avg × R_pg）及实际市场询价确定；参考来源未提供具体单价，建议以实际运营商报价为准，此处估算值（100-300元/Mbps/月）仅为经验参考。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性价格参数（中国骨干网典型价格约100-300元/Mbps/月）和特定的带宽计算假设，这些属于市场经验数据而非第一性原理可推导事实，且参考来源中未提供相关价格或成本数据支持。 | 逻辑推导自洽（峰值带宽计算及成本公式结构合理），但参考来源[1][2][3]仅涉及SD-WAN技术架构、时延测试及部署方案，均未包含骨干网带宽租赁价格或具体成本数据，属于经验事实且缺乏来源直接支持。
+
+## Search Query
+
+China backbone network bandwidth leasing cost per Mbps monthly 2024 2025 POP point dedicated line price
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/2401_87378292/article/details/162793504&rut=d85f0f1bd7837922ee4c3f4f37b9cee247c9da8e75cfbd9b66b2e73cb29f50ac', 'type': 'ddg', 'title': '企业部署SD-WAN专线，先别急着签合同——用这个工具自己测测POP点骨干网时延，比ping靠谱多了-CSDN博客'}
+- {'url': 'https://support.huawei.com/enterprise/zh/doc/EDOC1100212003&rut=c4b946efd89805312f5840d9c485150dd1699af90da14f43c63577aece313248', 'type': 'ddg', 'title': '01 SD-WAN解决方案（在线阅读版）.pdf - （eBook）SD-WAN解决方案 - 华为'}
+- {'url': 'https://support.huawei.com/enterprise/zh/doc/EDOC1100342030/a60f84c9&rut=80218a3989e443390d71710ec9f2459b6a7c1cbbf5d56c77a47efe57ef3c2b88', 'type': 'ddg', 'title': '用户需求分析 - SD-WAN V100R023C00 最佳实践（AR1000V，NCE-Campus） - 华为'}

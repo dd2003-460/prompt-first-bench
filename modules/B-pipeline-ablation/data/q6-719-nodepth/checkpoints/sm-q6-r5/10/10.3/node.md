@@ -1,0 +1,24 @@
+# N129: 归一化分母 R_daily/1000 的修正：需区分读请求和写请求；上传（写）请求的 CDN 成本结构不同（通常按入口带宽计费或免费），若写请求占比 5%，则分
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N32
+
+## Claim
+
+归一化分母 R_daily/1000 的修正：需区分读请求和写请求；上传（写）请求的 CDN 成本结构不同（通常按入口带宽计费或免费），若写请求占比 5%，则分母应为 (R_read_daily + R_write_daily * 0.5) / 1000，以反映不同请求类型的成本权重。
+
+## Corrected Claim
+
+归一化分母 R_daily/1000 的修正：需区分读请求和写请求；上传（写）请求的 CDN 成本结构通常与读请求不同（如按入口带宽计费或免费），若写请求占比 5%，分母应调整为 (R_read_daily + R_write_daily * w) / 1000，其中 w 为写请求相对于读请求的成本权重系数，需根据具体 CDN 计费策略确定。
+
+## Evidence
+
+[质询]写请求成本权重设为0.5缺乏通用标准，不同CDN厂商计费模式差异巨大（如按流量计费、按请求数计费或混合计费），该系数属于特定场景下的经验假设而非普适事实。 | 先验知识/题面给定，逻辑校验通过，但具体权重系数0.5为经验参数，缺乏通用来源支持，故降级。
+
+## Search Query
+
+CDN upload traffic billing model vs download traffic cost difference

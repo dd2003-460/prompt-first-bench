@@ -1,0 +1,20 @@
+# N93: 全公有云策略月度总成本 C_total_cloud = C_bw_cloud + C_req_cloud + C_support_cloud，其中 C_supp
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N23
+
+## Claim
+
+全公有云策略月度总成本 C_total_cloud = C_bw_cloud + C_req_cloud + C_support_cloud，其中 C_support_cloud 为技术支持与SLA保障费用（通常为带宽成本的5-10%），估算为 ¥12,288 * 0.1 ≈ ¥1,229/月。
+
+## Corrected Claim
+
+全公有云策略月度总成本 C_total_cloud = C_bw_cloud + C_req_cloud + C_support_cloud，其中 C_support_cloud 为技术支持与SLA保障费用（通常为带宽成本的5-10%），估算为 ¥12,288 * 0.1 ≈ ¥1,229/月。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应带宽流量、请求次数和技术支持费，符合父节点公式定义的三个组成部分，概念上互不重叠（正交），且完整覆盖了总成本的构成（完备）。虽然支持费基于前两项计算，但这属于成本结构的依赖关系而非分类冗余。）

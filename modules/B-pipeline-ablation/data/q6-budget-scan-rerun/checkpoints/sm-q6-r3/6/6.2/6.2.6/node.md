@@ -1,0 +1,30 @@
+# N351: Cloudflare Pro套餐具体包含流量额度：Pro套餐每月包含500GB-2TB流量（依账户历史用量和区域），超出部分按$0.06/GB计费；Pro套餐基
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N121, N122, N123
+
+## Claim
+
+Cloudflare Pro套餐具体包含流量额度：Pro套餐每月包含500GB-2TB流量（依账户历史用量和区域），超出部分按$0.06/GB计费；Pro套餐基础月费为$20/月 [时效待核]
+
+## Corrected Claim
+
+Cloudflare Pro 套餐基础月费为 $20/月，提供基本安全和性能服务；流量使用受公平使用政策限制，超出部分通常按 $0.06/GB 计费，但具体包含额度依账户情况而定，无固定 500GB-2TB 的官方标准区间。
+
+## Evidence
+
+[质询]Cloudflare Pro 套餐通常不设定固定的“包含流量额度”（如500GB-2TB），而是基于“公平使用政策”（Fair Use Policy）进行限制，超出部分通常按 $0.06/GB 计费，但具体阈值并非固定的 500GB-2TB 区间，且该区间描述缺乏官方明确支持，属于经验性推测或过时信息。 | 来源 [1] 和 [2] 为 Cloudflare 官方 Pro 计划页面，但未在摘要中明确提及具体的流量额度数值（500GB-2TB）或超出计费标准，仅确认了 Pro 计划的存在和基础功能；来源 [3] 为第三方博客，未提供具体流量额度数据。由于缺乏直接来源支持具体数值，且该数值属于经验事实，无法从第一性原理推出，故降级。
+
+## Search Query
+
+Cloudflare Pro plan included traffic allowance 2024
+
+## Retrieval Sources
+
+- {'url': 'https://www.cloudflare.com/zh-cn/plans/pro/&rut=982444a875615c3446d3eb08f6ec77d8ea77d9c54be2e138a9a12f32818c7717', 'type': 'ddg', 'title': 'Pro 计划概览 | 功能与定价 | Cloudflare'}
+- {'url': 'https://www.cloudflare.com/plans/pro/&rut=5dea87418d1c945fc160c8cc624da5a766380e03d681a44eea354aed068e6b0b', 'type': 'ddg', 'title': 'Pro Plan Overview | Features & Pricing | Cloudflare'}
+- {'url': 'https://blog.tangwudi.com/technology/homedatacenter13116/&rut=70f17bb6e7d489088714799fefe7b7fe38239bf0f73f47d148bcdb96513ba5fd', 'type': 'ddg', 'title': 'Cloudflare Pro 深度体验：从 Free 到 Pro，到底值不值得升级？ - 无敌的个人博客'}

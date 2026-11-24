@@ -1,0 +1,20 @@
+# N303: 工作集大小 W_set = R_daily * s_avg * (1 - Temporal_Decay_Rate)，其中 Temporal_Decay_Rate
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N99, N100, N101
+
+## Claim
+
+工作集大小 W_set = R_daily * s_avg * (1 - Temporal_Decay_Rate)，其中 Temporal_Decay_Rate 为内容时效衰减率（图片/短视频平台通常为 50%-70%/天）；若 W_set > C_cap_total，则缓存命中率 H_self 受容量限制，H_self ≈ C_cap_total / W_set * 0.85（考虑 LRU 效率损耗）。
+
+## Corrected Claim
+
+工作集大小 W_set = R_daily * s_avg * (1 - Temporal_Decay_Rate)，其中 Temporal_Decay_Rate 为内容时效衰减率（图片/短视频平台通常为 50%-70%/天）；若 W_set > C_cap_total，则缓存命中率 H_self 受容量限制，H_self ≈ C_cap_total / W_set * 0.85（考虑 LRU 效率损耗）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

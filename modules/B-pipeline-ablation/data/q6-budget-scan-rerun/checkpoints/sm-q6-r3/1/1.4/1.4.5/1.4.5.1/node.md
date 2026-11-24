@@ -1,0 +1,24 @@
+# N229: M/M/1 队列平均等待时间公式：T_queue_avg = (ρ / (μ * (1 - ρ)))，其中 ρ 为利用率，μ 为服务速率（1/服务时间），该公式
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N60, N61, N62
+
+## Claim
+
+M/M/1 队列平均等待时间公式：T_queue_avg = (ρ / (μ * (1 - ρ)))，其中 ρ 为利用率，μ 为服务速率（1/服务时间），该公式用于计算 P50/P95 延迟中的排队分量。
+
+## Corrected Claim
+
+M/M/1 队列平均等待时间公式：T_queue_avg = (ρ / (μ * (1 - ρ)))，其中 ρ 为利用率，μ 为服务速率（1/服务时间），该公式用于计算 P50/P95 延迟中的排队分量。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：M/M/1 队列平均等待时间公式 T_queue_avg = ρ / (μ * (1 - ρ)) 是排队论中的标准结论，量纲正确（时间），逻辑自洽。
+
+## Search Query
+
+M/M/1 queue average waiting time formula rho mu

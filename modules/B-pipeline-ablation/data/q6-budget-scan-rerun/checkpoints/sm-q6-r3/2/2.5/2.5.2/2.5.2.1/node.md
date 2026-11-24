@@ -1,0 +1,28 @@
+# N218: 阿里云 CDN 中国内地按流量计费单价阶梯：0-10TB 区间为 ¥0.24/GB，10-50TB 区间为 ¥0.21/GB，50TB+ 区间为 ¥0.18/G
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N64
+
+## Claim
+
+阿里云 CDN 中国内地按流量计费单价阶梯：0-10TB 区间为 ¥0.24/GB，10-50TB 区间为 ¥0.21/GB，50TB+ 区间为 ¥0.18/GB（需核实最新阶梯，通常月流量 18TB 落入第二或第三阶梯，若落入 ¥0.21/GB，月成本修正为 ¥3,780）
+
+## Corrected Claim
+
+阿里云 CDN 中国内地按流量计费采用超额累进方式，起始单价为 ¥0.24/GB，用量越大单价越低（具体阶梯阈值及后续单价需以官方最新价目表为准）。
+
+## Evidence
+
+[质询]来源[1]仅确认了起始单价0.24元/GB和超额累进机制，但未提供具体的阶梯阈值（如10TB、50TB）及对应单价（0.21、0.18），且提到最高降至0.15元/GB，与claim中的0.18元/GB存在潜在差异，具体阶梯数值缺乏直接证据支持。 | 来源[1]间接支持了计费模式（超额累进）和起始价格（0.24元/GB），但未直接证实具体的阶梯划分和后续单价，属于经验事实且缺乏完整来源支持。
+
+## Search Query
+
+阿里云 CDN 按流量计费 价格阶梯 2024
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/lfjrjr/cdn-pricing-models&rut=9c962577aade9a2fad04bcfdbafea8cf95db8d20b1a5f61d848277c1e92c521e', 'type': 'ddg', 'title': '阿里云cdn价格表，Cdn如何收费的：三种计费模式对比+流量包年费明细，10tb包918元、每gb约0.09元'}

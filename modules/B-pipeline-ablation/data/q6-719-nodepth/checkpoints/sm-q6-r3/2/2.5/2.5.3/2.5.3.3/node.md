@@ -1,0 +1,20 @@
+# N204: 迭代求解 N_add 的收敛边界：当 L_p99_current - T_target < ΔL_per_pop(N_pop + N_add) 时停止，若初始缺
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N64, N65, N66
+
+## Claim
+
+迭代求解 N_add 的收敛边界：当 L_p99_current - T_target < ΔL_per_pop(N_pop + N_add) 时停止，若初始缺口 > 50ms 且 T_target < 80ms，则需 N_add ≥ 3 才能满足约束
+
+## Corrected Claim
+
+迭代求解 N_add 的收敛边界：当 L_p99_current - T_target < ΔL_per_pop(N_pop + N_add) 时停止。具体所需的 N_add 数值取决于初始缺口、目标延迟及单次 pop 的延迟增量，需根据实际系统参数计算确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（如50ms、80ms、N_add ≥ 3），这些数值并非由第一性原理或通用数学逻辑严格推导得出，而是依赖于特定的系统参数（如单次pop的延迟分布、目标延迟T_target的具体值等）。缺乏具体上下文时，无法验证'N_add ≥ 3'这一具体数值是否必然成立，存在因参数假设不同而导致结论错误的风险。 | 先验知识/题面给定，逻辑校验通过（不等式方向与收敛逻辑自洽），但具体数值阈值属于经验事实，缺乏外部来源直接支持，故降级。

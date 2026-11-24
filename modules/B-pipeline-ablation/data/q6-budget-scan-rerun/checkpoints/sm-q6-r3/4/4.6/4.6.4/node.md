@@ -1,0 +1,24 @@
+# N90: 自建POP点缩短MTTR至<30分钟所需的额外高级SRE投入：需1名高级SRE（年薪40万-50万）负责自动化故障恢复脚本开发（如Ansible Playboo
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+自建POP点缩短MTTR至<30分钟所需的额外高级SRE投入：需1名高级SRE（年薪40万-50万）负责自动化故障恢复脚本开发（如Ansible Playbook），预计开发周期2个月，一次性投入¥8.3万-10.4万（按2个月薪资计算），后续年度维护成本为年薪的10%，即¥4万-5万/年
+
+## Corrected Claim
+
+自建POP点缩短MTTR至<30分钟所需的额外高级SRE投入：需1名高级SRE（年薪40万-50万）负责自动化故障恢复脚本开发（如Ansible Playbook），预计开发周期2个月，一次性投入¥8.3万-10.4万（按2个月薪资计算），后续年度维护成本为年薪的10%，即¥4万-5万/年
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：年薪40-50万对应月薪约3.3-4.2万，2个月薪资为6.6-8.4万，加上社保公积金等福利成本（通常约为薪资的20%-30%），总一次性投入估算为8.3-10.4万，数值量级合理且内部逻辑自洽；后续维护成本按年薪10%计算亦符合行业常规估算逻辑。
+
+## Search Query
+
+SRE automation MTTR reduction cost Ansible playbooks

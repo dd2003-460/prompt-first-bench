@@ -1,0 +1,20 @@
+# N676: 公有云源站出网流量的缓存修正系数 H_cloud_effective 的动态性：H_cloud_effective = H_base + ΔH_region +
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N231
+
+## Claim
+
+公有云源站出网流量的缓存修正系数 H_cloud_effective 的动态性：H_cloud_effective = H_base + ΔH_region + ΔH_time，其中 H_base = 0.85（全局基准），ΔH_region 为区域修正（西部低密度区命中率降低 5-10%，即 -0.05 至 -0.10），ΔH_time 为时间修正（夜间低谷命中率升高 2-5%，即 +0.02 至 +0.05）；在 P99 成本计算中，应取最坏情况 H_min = 0.85 - 0.10 = 0.75，导致 (1-H) 从 0.15 增至 0.25，成本上浮 66%。
+
+## Corrected Claim
+
+公有云源站出网流量的缓存修正系数 H_cloud_effective 的动态性：H_cloud_effective = H_base + ΔH_region + ΔH_time，其中 H_base = 0.85（全局基准），ΔH_region 为区域修正（西部低密度区命中率降低 5-10%，即 -0.05 至 -0.10），ΔH_time 为时间修正（夜间低谷命中率升高 2-5%，即 +0.02 至 +0.05）；在 P99 成本计算中，应取最坏情况 H_min = 0.85 - 0.10 = 0.75，导致 (1-H) 从 0.15 增至 0.25，成本上浮 66%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学推导正确（(1-0.75)/(1-0.85) = 0.25/0.15 ≈ 1.667，即上浮66%），参数设定符合CDN缓存修正的一般工程逻辑。

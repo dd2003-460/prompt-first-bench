@@ -1,0 +1,24 @@
+# N57: 自建 POP 用户到节点 RTT 的 P99 估算：10 个 POP 覆盖中国主要城市，假设 70% 用户距最近 POP <200km（RTT<30ms），30
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N9
+
+## Claim
+
+自建 POP 用户到节点 RTT 的 P99 估算：10 个 POP 覆盖中国主要城市，假设 70% 用户距最近 POP <200km（RTT<30ms），30% 用户距 200-500km（RTT 30-60ms），则 P99(RTT_user_pop) ≈ 60ms。
+
+## Corrected Claim
+
+自建 POP 用户到节点 RTT 的 P99 估算：10 个 POP 覆盖中国主要城市，假设 70% 用户距最近 POP <200km（RTT<30ms），30% 用户距 200-500km（RTT 30-60ms），则 P99(RTT_user_pop) ≈ 60ms。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于给定的距离-RTT映射假设（<200km对应<30ms，200-500km对应30-60ms），P99分位数落在30%用户所在的200-500km区间内，该区间RTT上限为60ms，故估算P99≈60ms在逻辑和量级上自洽。
+
+## Search Query
+
+Self-built POP geographic coverage RTT P99 latency estimate 60ms China

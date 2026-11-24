@@ -1,0 +1,20 @@
+# N140: T_edge_processing 缓存命中场景量化：T_edge_proc = t_cpu + t_io，其中 t_cpu 为请求处理 CPU 耗时（典型值 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N41
+
+## Claim
+
+T_edge_processing 缓存命中场景量化：T_edge_proc = t_cpu + t_io，其中 t_cpu 为请求处理 CPU 耗时（典型值 1-5ms，基于 N35 缓存命中率 90%），t_io 为 SSD 读取耗时（NVMe SSD 随机读 IOPS > 1M，1MB 对象读取 < 1ms）；缓存命中时 T_edge_proc ≈ 2-6ms；P99 值受 CPU 调度抖动影响，假设 T_edge_proc P99 ≈ 10-15ms。
+
+## Corrected Claim
+
+T_edge_processing 缓存命中场景量化：T_edge_proc = t_cpu + t_io，其中 t_cpu 为请求处理 CPU 耗时（典型值 1-5ms，基于 N35 缓存命中率 90%），t_io 为 SSD 读取耗时（NVMe SSD 随机读 IOPS > 1M，1MB 对象读取 < 1ms）；缓存命中时 T_edge_proc ≈ 2-6ms；P99 值受 CPU 调度抖动影响，假设 T_edge_proc P99 ≈ 10-15ms。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：NVMe SSD随机读延迟通常在微秒级，1MB顺序/随机读<1ms符合工程常识；CPU处理1-5ms及P99抖动10-15ms符合典型边缘计算场景量级，数值自洽。

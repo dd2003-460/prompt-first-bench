@@ -1,0 +1,20 @@
+# N447: 华东区域最近 POP 平均距离 d_avg ≈ 50-100km 的地理分布模型：假设 POP 位于上海市中心，用户均匀分布于半径 100km 圆内，平均距离 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N148, N149, N150
+
+## Claim
+
+华东区域最近 POP 平均距离 d_avg ≈ 50-100km 的地理分布模型：假设 POP 位于上海市中心，用户均匀分布于半径 100km 圆内，平均距离 d_avg = (2/3) × 100km = 66.7km，传播延迟 = 66.7km / (2×10^8 m/s) ≈ 0.33ms，RTT ≈ 0.67ms。
+
+## Corrected Claim
+
+华东区域最近 POP 平均距离 d_avg ≈ 50-100km 的地理分布模型：假设 POP 位于上海市中心，用户均匀分布于半径 100km 圆内，平均距离 d_avg = (2/3) × 100km = 66.7km，传播延迟 = 66.7km / (2×10^8 m/s) ≈ 0.33ms，RTT ≈ 0.67ms。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：均匀圆盘内点到圆心平均距离公式为2R/3，光速计算量级正确

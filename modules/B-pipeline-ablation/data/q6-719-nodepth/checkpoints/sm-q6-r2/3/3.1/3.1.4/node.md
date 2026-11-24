@@ -1,0 +1,20 @@
+# N69: 单GB存储月成本 C_storage 的类型区分：C_storage = C_ssd_if_hot + C_hdd_if_cold，其中 C_ssd_if_ho
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N16
+
+## Claim
+
+单GB存储月成本 C_storage 的类型区分：C_storage = C_ssd_if_hot + C_hdd_if_cold，其中 C_ssd_if_hot 为SSD成本（¥0.5-1.0/GB/月，因边缘节点需高IOPS和低延迟，通常使用NVMe SSD），C_hdd_if_cold 为HDD成本（¥0.1-0.2/GB/月，仅用于非实时回源缓存或日志存储）；鉴于边缘节点对延迟敏感，主要成本由SSD主导，取 C_storage ≈ ¥0.8/GB/月 作为基准。
+
+## Corrected Claim
+
+单GB存储月成本 C_storage 的类型区分：C_storage = C_ssd_if_hot + C_hdd_if_cold，其中 C_ssd_if_hot 为SSD成本（¥0.5-1.0/GB/月，因边缘节点需高IOPS和低延迟，通常使用NVMe SSD），C_hdd_if_cold 为HDD成本（¥0.1-0.2/GB/月，仅用于非实时回源缓存或日志存储）；鉴于边缘节点对延迟敏感，主要成本由SSD主导，取 C_storage ≈ ¥0.8/GB/月 作为基准。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：SSD与HDD的成本量级符合市场常识，边缘节点以SSD为主且取¥0.8/GB/月作为基准在逻辑上自洽。

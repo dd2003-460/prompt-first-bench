@@ -1,0 +1,20 @@
+# N437: 标准工作点的缓存命中率 H_video=80% 的量化依据：对象大小 s=4.0MB，边缘节点 SSD 缓存（5TB/POP）可容纳 N_hot = 5000G
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N141
+
+## Claim
+
+标准工作点的缓存命中率 H_video=80% 的量化依据：对象大小 s=4.0MB，边缘节点 SSD 缓存（5TB/POP）可容纳 N_hot = 5000GB / 4.0MB ≈ 1.25M 个对象；相比低码率（2.5M 个）覆盖度减半，导致命中率从 90% 降至 80%（基于 Zipf 分布中频对象覆盖不足）。
+
+## Corrected Claim
+
+标准工作点的缓存命中率 H_video=80% 的量化依据：对象大小 s=4.0MB，边缘节点 SSD 缓存（5TB/POP）可容纳 N_hot = 5000GB / 4.0MB ≈ 1.25M 个对象；相比低码率（2.5M 个）覆盖度减半，导致命中率从 90% 降至 80%（基于 Zipf 分布中频对象覆盖不足）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：5000GB/4MB=1.25M对象，覆盖度减半导致命中率从90%降至80%符合Zipf分布特性

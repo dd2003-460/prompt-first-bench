@@ -1,0 +1,24 @@
+# N55: 公有云 CDN 回源延迟 T_origin_fetch 的 P99 值：当 L1 缓存未命中时，需从 L2 或源站获取数据，P99(T_origin_fetch
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+公有云 CDN 回源延迟 T_origin_fetch 的 P99 值：当 L1 缓存未命中时，需从 L2 或源站获取数据，P99(T_origin_fetch) 约为 50-150ms（取决于源站位置和带宽），若 L2 命中率 H_L2=90%，则加权贡献为 (1-H_L1)*(1-H_L2)*150ms。
+
+## Corrected Claim
+
+公有云 CDN 回源延迟 T_origin_fetch 的 P99 值：当 L1 缓存未命中时，需从 L2 或源站获取数据，P99(T_origin_fetch) 约为 50-150ms（取决于源站位置和带宽），若 L2 命中率 H_L2=90%，则加权贡献为 (1-H_L1)*(1-H_L2)*150ms。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+CDN origin fetch latency P99 50-150ms L2 cache miss penalty

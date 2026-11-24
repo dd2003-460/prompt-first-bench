@@ -1,0 +1,30 @@
+# N134: 阿里云CDN在中国大陆的官方流量单价为 ¥0.24/GB（标准计费），在特定促销或高用量阶梯下可低至 ¥0.15-0.20/GB
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N33
+
+## Claim
+
+阿里云CDN在中国大陆的官方流量单价为 ¥0.24/GB（标准计费），在特定促销或高用量阶梯下可低至 ¥0.15-0.20/GB
+
+## Corrected Claim
+
+阿里云CDN在中国大陆采用按流量阶梯计费模式，具体单价随用量阶梯及促销活动动态调整，通常处于较低区间（如0.15-0.24元/GB量级），具体数值需以官网实时报价为准。
+
+## Evidence
+
+[质询]具体数值（¥0.24/GB 及促销价 ¥0.15-0.20/GB）属于经验事实，参考来源摘要中仅提及计费模式（按流量、按带宽）和阶梯计费机制，未直接列出具体单价数值，无法从现有摘要中直接验证该特定价格点。 | 来源[1][2][3]确认了阿里云CDN存在按流量计费及阶梯价格机制，逻辑自洽，但摘要未包含具体单价数值，属于间接支持，且具体价格随时间/活动变动，需降级为定性表述。
+
+## Search Query
+
+Alibaba Cloud CDN pricing China per GB 2024
+
+## Retrieval Sources
+
+- {'url': 'https://www.aliyun.com/price/detail/cdn&rut=7deffc4f1d34859bcb7594b9f5ea62952b3f14c06ecc370a5099c3c282977b06', 'type': 'ddg', 'title': '阿里云定价_CDN价格详情'}
+- {'url': 'https://help.aliyun.com/zh/cdn/product-overview/billing-overview&rut=5607cac578e6a0a2822f10843ed70c58160107634276405ba09db4d9580720b7', 'type': 'ddg', 'title': 'Cdn如何计费-cdn (Cdn)-阿里云帮助中心'}
+- {'url': 'https://developer.aliyun.com/article/1708278&rut=2ddc55f04c3ee490ae5b44019f150c2428eac2400670b83d41207aae16acf9e2', 'type': 'ddg', 'title': '2026最新阿里云cdn收费标准：不同计费模式价格表（基础服务费和增值服务费用整理）-阿里云开发者社区'}

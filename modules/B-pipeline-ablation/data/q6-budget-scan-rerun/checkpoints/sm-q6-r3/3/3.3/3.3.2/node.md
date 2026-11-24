@@ -1,0 +1,20 @@
+# N70: 缓存命中率对有效对象大小的影响：实际传输带宽 B_transferred = B_total × (1 - CHR)。有效对象大小 s_eff = s_avg 
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N16
+
+## Claim
+
+缓存命中率对有效对象大小的影响：实际传输带宽 B_transferred = B_total × (1 - CHR)。有效对象大小 s_eff = s_avg × (1 - CHR)。公有云 CDN CHR 通常为 80-90%，自建 10 POP 点 CHR 通常为 60-75%。需量化各策略下的 s_eff 值，例如公有云 s_eff_pub = 2.05MB × 0.15 = 0.3075MB，自建 s_eff_self = 2.05MB × 0.30 = 0.615MB。
+
+## Corrected Claim
+
+缓存命中率对有效对象大小的影响：实际传输带宽 B_transferred = B_total × (1 - CHR)。有效对象大小 s_eff = s_avg × (1 - CHR)。公有云 CDN CHR 通常为 80-90%，自建 10 POP 点 CHR 通常为 60-75%。需量化各策略下的 s_eff 值，例如公有云 s_eff_pub = 2.05MB × 0.15 = 0.3075MB，自建 s_eff_self = 2.05MB × 0.30 = 0.615MB。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点1和2本质上是对同一公式（成本占比）在不同CHR参数下的实例化计算，存在结构性冗余；且父节点核心定义是'有效对象大小 s_eff'，但子节点1和2偏离主题转向了'带宽成本占比'，导致主题不聚焦，未严格围绕 s_eff 的量化展开。）

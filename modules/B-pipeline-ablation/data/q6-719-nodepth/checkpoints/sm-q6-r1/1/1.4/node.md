@@ -1,0 +1,30 @@
+# N10: 混合策略（核心自建+长尾公有云）下，单请求端到端延迟分布的 P99 值（单位：ms），需加权计算核心区域与长尾区域的延迟贡献。
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+混合策略（核心自建+长尾公有云）下，单请求端到端延迟分布的 P99 值（单位：ms），需加权计算核心区域与长尾区域的延迟贡献。
+
+## Corrected Claim
+
+在混合策略（核心自建+长尾公有云）架构下，单请求端到端延迟的P99值需通过加权计算核心区域与长尾区域的延迟贡献得出，具体数值取决于各区域的流量占比及各自的延迟分布特征。
+
+## Evidence
+
+[质询]该陈述描述的是一个具体的工程指标（P99延迟值）及其计算方法，属于经验事实。参考来源仅提供了P99延迟的一般性理论、成因分析和优化手段，并未提供“混合策略（核心自建+长尾公有云）”这一特定架构下的具体P99数值或加权计算的具体实证数据，因此无法从来源中直接验证该具体数值或特定场景下的分布特征。 | 逻辑上，混合架构下端到端延迟确实需要加权计算各区域贡献，且P99是衡量长尾延迟的标准指标，逻辑自洽。但来源[1][2][3]仅讨论P99的一般原理和微服务/分布式系统优化，未覆盖“核心自建+长尾公有云”这一特定混合策略的具体延迟数值或加权模型，属于间接相关但缺乏直接支持。
+
+## Search Query
+
+hybrid CDN strategy P99 latency core self-hosted long-tail public cloud
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/a4453368/article/details/156147482&rut=4adb83a37e86eaf24045f6f5ae9f8855765f40c8fbb2284596bc70b8f9c1b724', 'type': 'ddg', 'title': '分布式系统长尾延迟p95 和 P99 背后的数学与实战-csdn博客'}
+- {'url': 'https://blog.csdn.net/2600_94959806/article/details/157278713&rut=7bfe7a1a59e2409e289f8dea35f35d798a153a566c741cd61b14c70fd6cf9d40', 'type': 'ddg', 'title': '如何优化微服务架构中的p99延迟：从理论到实践-csdn博客'}
+- {'url': 'https://bigolab.com/guides/6359-ai-k6-load-testing-p95-p99-latency-throughput-bottleneck-analysis&rut=b548e604e35c6c47f506189956fe0f9e144b38e5605bc3e826ece50c54d2a63a', 'type': 'ddg', 'title': '用 AI 编写 k6 高并发压测脚本并系统解读 P95/P99 延迟拐点、吞吐曲线与服务器资源瓶颈'}

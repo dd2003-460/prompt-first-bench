@@ -1,0 +1,29 @@
+# N376: 年度机房+电力总成本需包含网络接入费用：单POP点双线接入（电信+联通/移动）月费约为¥5000-15000/线，10个POP年度网络接入成本为¥120万-36
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N130
+
+## Claim
+
+年度机房+电力总成本需包含网络接入费用：单POP点双线接入（电信+联通/移动）月费约为¥5000-15000/线，10个POP年度网络接入成本为¥120万-360万，此部分在N130中未包含
+
+## Corrected Claim
+
+年度机房+电力总成本需包含网络接入费用：单POP点双线接入（电信+联通/移动）月费因带宽和地区差异较大，通常每条线路月费在数千元至数万元不等，10个POP年度网络接入成本需根据实际带宽需求估算，此部分在N130中未包含
+
+## Evidence
+
+[质询]数值量级与具体价格属于经验事实，缺乏权威来源直接支持；且‘双线接入’通常指两条独立线路，若按10个POP*2线*12月计算，下限应为¥120万，上限¥360万，逻辑上成立，但具体单价¥5000-15000/线/月在不同地区、带宽大小下波动极大，该区间可能偏低或仅适用于低带宽场景，存在以偏概全的风险。 | 经验事实，逻辑自洽但缺来源支持（来源[1][2]未提供具体网络接入单价，仅涉及认证和机房托管概览）
+
+## Search Query
+
+China data center dual ISP network access cost per month 2024
+
+## Retrieval Sources
+
+- {'url': 'https://www.sohu.com/a/1008639170_121124371&rut=15c054c6652d76e9edefa735935f174fbf0e1a138766f8adb824e90e5391c1c5', 'type': 'ddg', 'title': '数据中心成本：从建设到运营的全面拆解_系统_电力_支出'}
+- {'url': 'https://wenku.baidu.com/noteview/773f4073ad8271fe910ef12d2af90242a895ab00.html&rut=dfd76cccd0988c49b9af60db75cfecf3bdff53b7129a1aca97d1d33d886c12cf', 'type': 'ddg', 'title': '数据中心机房收费标准详解与成本优化指南（最新版）'}

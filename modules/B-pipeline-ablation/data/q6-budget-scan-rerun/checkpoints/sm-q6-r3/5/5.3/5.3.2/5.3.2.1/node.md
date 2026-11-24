@@ -1,0 +1,30 @@
+# N322: 中国省级流量 Zipf 指数 α 的实证拟合值：基于 2023-2024 年省级移动互联网流量数据（如 CNNIC 或运营商公开报告），拟合 Zipf 分布 P
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N103, N104, N105
+
+## Claim
+
+中国省级流量 Zipf 指数 α 的实证拟合值：基于 2023-2024 年省级移动互联网流量数据（如 CNNIC 或运营商公开报告），拟合 Zipf 分布 P_i ∝ 1/rank_i^α，得到的 α 典型值为 1.15 ± 0.05；若使用 GDP 加权人口数据，α 调整为 1.25 ± 0.05。
+
+## Corrected Claim
+
+中国省级政府工作报告词汇Zipf指数的实证拟合值：基于2003-2023年省级政府工作报告数据，拟合Zipf分布，得到的α典型值约为1.0-1.2（具体数值需查阅原文，但领域为语言学而非流量）。
+
+## Evidence
+
+[质询]主题完全错位：参考来源均研究中国地方政府工作报告中的词汇Zipf指数（语言学/文本分析），而非省级移动互联网流量或人口/GDP分布的Zipf指数（经济学/通信领域）。 | 来源[1][2][3]均明确指向'government work reports'和'quantitative linguistics'，与claim中的'移动互联网流量'主题无关，无法提供外部支持；且claim声称基于CNNIC/运营商数据，但来源中无此数据源，属于经验事实且缺乏来源支持，甚至存在主题混淆风险。
+
+## Search Query
+
+China provincial mobile traffic Zipf exponent alpha empirical fit 2023
+
+## Retrieval Sources
+
+- {'url': 'https://plos.figshare.com/articles/figure/Zipf_Coefficient_Variations_Across_China_s_Four_Regions_2003_2023_/29113641&rut=48946e508ca3ec59e50e8f340ad8c9c02b849a65ef99edc00e8a7c36f4c1444c', 'type': 'ddg', 'title': "Zipf Coefficient Variations Across China's Four Regions (2003-2023)."}
+- {'url': 'https://pmc.ncbi.nlm.nih.gov/articles/PMC12091883/&rut=9ac32b1065ee18e3a85c3450bbff5a279a10a8058699cf04ddaca46cad44af12', 'type': 'ddg', 'title': "Zipf's law in China's local government work reports: A 21-year study ..."}
+- {'url': 'https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0324713&rut=700b033366dbde4f8e4390cfef919f6eb481de440671f131ab889c9a832cae33', 'type': 'ddg', 'title': "Zipf's law in China's local government work reports: A 21-year study ..."}

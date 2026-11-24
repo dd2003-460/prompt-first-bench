@@ -1,0 +1,20 @@
+# N292: 单POP带宽峰值需求 B_peak_pop = (Q_pop / (30 * 24 * 3600)) * 8 * K_peak_factor，其中 K_peak
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N96
+
+## Claim
+
+单POP带宽峰值需求 B_peak_pop = (Q_pop / (30 * 24 * 3600)) * 8 * K_peak_factor，其中 K_peak_factor 为峰值系数（假设4），计算得 B_peak_pop ≈ 1.33Gbps，需据此选择运营商带宽档位（如1.5Gbps或2Gbps）。
+
+## Corrected Claim
+
+单POP带宽峰值需求 B_peak_pop = (Q_pop / (30 * 24 * 3600)) * 8 * K_peak_factor，其中 K_peak_factor 为峰值系数（假设4），计算得 B_peak_pop ≈ 1.33Gbps，需据此选择运营商带宽档位（如1.5Gbps或2Gbps）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式结构符合带宽计算逻辑（流量/时间*8*峰值系数），数值量级合理（假设Q_pop为特定值时，1.33Gbps与1.5/2Gbps档位匹配），无内部矛盾。

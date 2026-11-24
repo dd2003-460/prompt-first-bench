@@ -42,6 +42,6 @@
 ## 状态
 - [x] 题面选定（Q1 GPU 原题，深 gold 37 节点，27b 深 gold 基线 21 份现成）
 - [x] 任务书指纹填入
-- [ ] 派发 arena
-- [ ] 回执核验（git 序列，不信页面汇报）
-- [ ] rubric-v3 机械判分 + 对照报告
+- [x] 派发 arena（session 01a20a1b-ee9f-71d4-a001-e285e40c487c，分支预期 arena/e285e40c-prompt-first-bench，11-24 派发，执行中）
+- [x] 回执核验（git 序列：fetch→cat-file→diff 仅 result.md +73→任务书指纹 55ab1492… 复算一致）
+- [x] rubric-v3 机械判分：Q1 自身 5 锚点 8/8 全中（14x误读/1.68x/1.31x/NVLink-TP/4缺口）。**发现 gold 错配**：37 节点树是 3090 成本题，非 Q1（H100 吞吐题）；Q1 实际 gold = Q1-gpu-h100.md 的 5 锚点。N-3.1 微架构家族观察项不适用 Q1。

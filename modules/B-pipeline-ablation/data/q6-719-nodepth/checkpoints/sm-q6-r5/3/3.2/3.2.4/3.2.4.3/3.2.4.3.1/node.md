@@ -1,0 +1,20 @@
+# N681: 回源带宽峰值冗余 B_redundant 的动态计算：B_redundant = (Peak_Backhaul_Traffic - Avg_Backhaul_T
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N233
+
+## Claim
+
+回源带宽峰值冗余 B_redundant 的动态计算：B_redundant = (Peak_Backhaul_Traffic - Avg_Backhaul_Traffic) * Safety_Factor，其中 Peak_Backhaul_Traffic 由 N102 的突发事件驱动，假设事件期间局部流量+100%，则 Peak_Backhaul_Traffic ≈ Avg_Backhaul_Traffic * 2；Avg_Backhaul_Traffic = 2TB/day * (1-H) / 24h ≈ 40GB/h ≈ 90Mbps（若 H=0.85）；则 B_redundant ≈ 90Mbps * 1.5 ≈ 135Mbps；若按峰值计费，需购买 135Mbps 的额外带宽包，月成本 ≈ 135/100 * ¥500 ≈ ¥675/月（假设 ¥500/100Mbps/月）。
+
+## Corrected Claim
+
+回源带宽峰值冗余 B_redundant 的动态计算：B_redundant = (Peak_Backhaul_Traffic - Avg_Backhaul_Traffic) * Safety_Factor，其中 Peak_Backhaul_Traffic 由 N102 的突发事件驱动，假设事件期间局部流量+100%，则 Peak_Backhaul_Traffic ≈ Avg_Backhaul_Traffic * 2；Avg_Backhaul_Traffic = 2TB/day * (1-H) / 24h ≈ 40GB/h ≈ 90Mbps（若 H=0.85）；则 B_redundant ≈ 90Mbps * 1.5 ≈ 135Mbps；若按峰值计费，需购买 135Mbps 的额外带宽包，月成本 ≈ 135/100 * ¥500 ≈ ¥675/月（假设 ¥500/100Mbps/月）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：单位换算（2TB/day * 0.15 / 24h ≈ 40GB/h ≈ 90Mbps）及成本计算（135/100 * 500 = 675）均准确自洽。

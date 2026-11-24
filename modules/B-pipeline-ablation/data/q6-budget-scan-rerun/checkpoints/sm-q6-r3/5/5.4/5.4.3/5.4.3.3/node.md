@@ -1,0 +1,20 @@
+# N341: 主效应项的量化定义：∂C/∂T 在 T_j 处的离散近似为 [C(T_j+1,s_k,geo_m) - C(T_j,s_k,geo_m)] / ΔT；∂C/∂s
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N108
+
+## Claim
+
+主效应项的量化定义：∂C/∂T 在 T_j 处的离散近似为 [C(T_j+1,s_k,geo_m) - C(T_j,s_k,geo_m)] / ΔT；∂C/∂s 在 s_k 处的离散近似为 [C(T_j,s_k+1,geo_m) - C(T_j,s_k,geo_m)] / Δs；主效应项取绝对值均值作为基准
+
+## Corrected Claim
+
+主效应项的量化定义：∂C/∂T 在 T_j 处的离散近似为 [C(T_j+1,s_k,geo_m) - C(T_j,s_k,geo_m)] / ΔT；∂C/∂s 在 s_k 处的离散近似为 [C(T_j,s_k+1,geo_m) - C(T_j,s_k,geo_m)] / Δs；主效应项取绝对值均值作为基准
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：离散导数定义符合数值分析标准，主效应取绝对值均值作为基准在敏感性分析中逻辑自洽。

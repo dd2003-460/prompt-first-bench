@@ -1,0 +1,30 @@
+# N62: 单 POP 机房租赁成本 Colocation_Cost = Rack_Unit_Cost × N_Racks，其中 Rack_Unit_Cost 为 42U 
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N13
+
+## Claim
+
+单 POP 机房租赁成本 Colocation_Cost = Rack_Unit_Cost × N_Racks，其中 Rack_Unit_Cost 为 42U 机柜月租约 ¥3,000/月/柜，假设每 POP 部署 2 台服务器需 1 个标准机柜（含电力接口），N_Racks=1，故 Colocation_Cost ≈ ¥3,000/月/POP [时效待核]。
+
+## Corrected Claim
+
+单 POP 机房租赁成本 Colocation_Cost = Rack_Unit_Cost × N_Racks，其中 Rack_Unit_Cost 为 42U 机柜月租，假设每 POP 部署 2 台服务器需 1 个标准机柜，N_Racks=1。具体月租价格因地域和市场（零售/批发）而异，参考国际零售市场约为 $999-$3,199/月，国内具体价格需依据当地供应商报价核定。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1聚焦于机柜租赁的固定费率与地域差异（价格维度），子节点2聚焦于电力容量与计费模式（技术/计量维度），两者角度不同且无矛盾，具备正交性。但父节点公式 Colocation_Cost = Rack_Unit_Cost × N_Racks 暗示 Rack_Unit_Cost 是一个综合单价，而子节点2指出电力成本分为‘基础包’和‘超额kWh计费’两部分。子节点1仅讨论了基础月租，未明确说明超额电力费是否包含在 Rack_Unit_Cost 中，还是应作为独立项处理。这导致对父节点公式中 Rack_Unit_Cost 的定义存在歧义（是纯租金还是租金+基础电力？超额部分如何计入？），因此未完全覆盖父节点成本构成的所有关键方面。）
+
+## Search Query
+
+China colocation 42U rack monthly price 2024 edge node hosting cost
+
+## Retrieval Sources
+
+- {'url': 'https://www.servermania.com/kb/articles/server-colocation-cost&rut=91e953b04e10ee3b14c7728e1531f6a56af988fc932051cf01b94b2d966bddb7', 'type': 'ddg', 'title': '2026 Colocation Costs & Pricing Overview | ServerMania'}
+- {'url': 'https://encoradvisors.com/data-center-colocation-pricing/&rut=b4e68a2504ae248ee9d1eb5b6efe2aab523435e91f2c507a39e7776dd64fe7a6', 'type': 'ddg', 'title': 'Data Center Colocation Pricing: 2026 Cost Per Rack & kW'}
+- {'url': 'https://www.gigenet.com/blog/colocation-pricing-explained/&rut=10d9b2eb494d2a65858d18271d5ee5226b12caa774c94833751085579b67aef0', 'type': 'ddg', 'title': 'Colocation Pricing 2026: 1U to Full Rack Costs — GigeNET'}

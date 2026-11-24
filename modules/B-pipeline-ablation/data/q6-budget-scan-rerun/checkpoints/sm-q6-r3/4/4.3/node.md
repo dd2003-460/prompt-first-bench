@@ -1,0 +1,24 @@
+# N19: 混合策略的资源利用率模型：利用率 U_hybrid = (B_served_core / C_core_self) × w_core + (B_served_t
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+混合策略的资源利用率模型：利用率 U_hybrid = (B_served_core / C_core_self) × w_core + (B_served_tail / B_peak_pub_tail) × w_tail，其中 w_core 和 w_tail 分别为核心区域和长尾区域的流量权重，B_served_core 由核心区域（如中国东部/美国东部）的地理分布决定，B_served_tail 为剩余流量，混合策略的目标是将自建部分利用率维持在 50%–70%，公有云部分按量付费无预留浪费。
+
+## Corrected Claim
+
+混合策略的资源利用率模型：利用率 U_hybrid = (B_served_core / C_core_self) × w_core + (B_served_tail / B_peak_pub_tail) × w_tail，其中 w_core 和 w_tail 分别为核心区域和长尾区域的流量权重，B_served_core 由核心区域（如中国东部/美国东部）的地理分布决定，B_served_tail 为剩余流量，混合策略的目标是将自建部分利用率维持在 50%–70%，公有云部分按量付费无预留浪费。
+
+## Evidence
+
+父节点级核验未通过：非正交（子节点3指出的‘量纲错误’与子节点1和2中基于原始公式隐含逻辑进行的数值推导存在逻辑矛盾。如果公式本身在子节点3中被判定为错误，那么子节点1和2基于该错误前提（或至少是未修正前提）的计算过程在学术严谨性上是不自洽的。此外，子节点1和2虽然计算对象不同（自建vs公有云），但都依赖于相同的‘峰值=3*平均’假设，且未明确区分‘利用率’定义在成本维度和带宽维度上的统一性，导致正交性受损。）
+
+## Search Query
+
+hybrid CDN architecture core region self-hosted tail region public cloud traffic split ratio

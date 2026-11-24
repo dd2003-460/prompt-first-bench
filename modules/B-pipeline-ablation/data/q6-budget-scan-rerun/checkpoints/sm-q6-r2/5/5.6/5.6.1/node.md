@@ -1,0 +1,24 @@
+# N111: 公有云CDN DNS切换机制与延迟：基于TTL（Time To Live）的DNS切换，TTL通常设为60-300秒，切换生效时间 = TTL + 递归DNS缓
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N36
+
+## Claim
+
+公有云CDN DNS切换机制与延迟：基于TTL（Time To Live）的DNS切换，TTL通常设为60-300秒，切换生效时间 = TTL + 递归DNS缓存刷新时间，实际切换窗口为TTL的1-3倍，需量化阿里云/Cloudflare默认TTL配置及最低可设TTL值
+
+## Corrected Claim
+
+公有云CDN DNS切换机制与延迟：基于TTL（Time To Live）的DNS切换，TTL通常设为60-300秒，切换生效时间 = TTL + 递归DNS缓存刷新时间，实际切换窗口为TTL的1-3倍，需量化阿里云/Cloudflare默认TTL配置及最低可设TTL值
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+Alibaba Cloud CDN DNS TTL minimum value

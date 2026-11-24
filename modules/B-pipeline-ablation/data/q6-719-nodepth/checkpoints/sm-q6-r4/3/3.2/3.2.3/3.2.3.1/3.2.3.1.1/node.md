@@ -1,0 +1,20 @@
+# N733: 保守工作点（16.67 Mbps）下的月度带宽租赁成本 C_bandwidth_16M = 16.67 Mbps × Price_Mbps_Month，若按二线
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N252
+
+## Claim
+
+保守工作点（16.67 Mbps）下的月度带宽租赁成本 C_bandwidth_16M = 16.67 Mbps × Price_Mbps_Month，若按二线城市 ¥200/Mbps/月计算，C_bandwidth_16M ≈ ¥3,334/月，远低于100Gbps配置
+
+## Corrected Claim
+
+保守工作点（16.67 Mbps）下的月度带宽租赁成本 C_bandwidth_16M = 16.67 Mbps × Price_Mbps_Month，若按二线城市 ¥200/Mbps/月计算，C_bandwidth_16M ≈ ¥3,334/月，远低于100Gbps配置
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：16.67 × 200 = 3334，计算无误；16.67 Mbps 远低于 100 Gbps (100,000 Mbps)，量级对比合理。

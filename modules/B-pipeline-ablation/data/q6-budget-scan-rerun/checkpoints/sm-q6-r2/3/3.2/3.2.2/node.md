@@ -1,0 +1,20 @@
+# N66: 自建节点峰值带宽预留系数 K_self 的计算：K_self = B_peak_self / B_avg，其中 B_peak_self = max_i (B_a
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N15
+
+## Claim
+
+自建节点峰值带宽预留系数 K_self 的计算：K_self = B_peak_self / B_avg，其中 B_peak_self = max_i (B_avg × geo_share_i × R_pg_i)，i=1..10。由于各POP点流量非同步，总峰值带宽 < 10 × 单点峰值。假设各POP流量独立同分布，总峰值 B_peak_total ≈ B_avg × R_pg × sqrt(10) / sqrt(10) (若完全独立) 或更接近 B_avg × R_pg × 1.2 (若部分相关)。需量化 K_self 在 2.0–2.5 区间的具体值。
+
+## Corrected Claim
+
+K_self 的计算需基于各POP流量相关性模型。若假设部分相关，K_self 通常在 1.5-2.5 之间，具体值取决于流量同步率；原公式中独立分布下的峰值估算需修正为包含峰值因子的统计模型，而非简单代数简化。
+
+## Evidence
+
+[质询]公式推导存在逻辑矛盾：若各POP流量独立同分布，总峰值带宽的统计特性（如均值或标准差）与 sqrt(10) 相关，但陈述中给出的 'B_avg × R_pg × sqrt(10) / sqrt(10)' 简化为 B_avg × R_pg，这忽略了峰值通常高于均值的物理事实（即峰值系数应大于1），且未明确 B_peak_total 是统计期望还是绝对最大值，导致 K_self 的计算基础模糊。 | 先验知识/题面给定，逻辑校验发现公式推导存在内部矛盾（独立分布下的峰值估算公式简化后丢失了峰值放大效应），且无外部来源支持具体数值区间。

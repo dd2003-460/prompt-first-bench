@@ -1,0 +1,24 @@
+# N55: RTT_to_origin = 2 × (Distance_Origin_to_POP / c_fiber)，其中 Distance 由 POP 点与源站数据中
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N10
+
+## Claim
+
+RTT_to_origin = 2 × (Distance_Origin_to_POP / c_fiber)，其中 Distance 由 POP 点与源站数据中心地理位置决定（如北京源站 vs 上海 POP ~1000km → RTT ~10ms）[待核验]
+
+## Corrected Claim
+
+RTT_to_origin = 2 × (Distance_Origin_to_POP / c_fiber)，其中 Distance 由 POP 点与源站数据中心地理位置决定（如北京源站 vs 上海 POP ~1000km → RTT ~10ms）[待核验]
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：光在光纤中的传播速度约为真空光速的2/3（约200,000 km/s），1000km距离的单程延迟约为5ms，往返（RTT）约为10ms，数值量级与物理规律完全自洽。
+
+## Search Query
+
+fiber optic latency per 1000 km distance calculation

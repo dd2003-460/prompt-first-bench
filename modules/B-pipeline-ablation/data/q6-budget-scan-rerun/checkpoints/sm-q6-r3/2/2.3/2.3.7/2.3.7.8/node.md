@@ -1,0 +1,24 @@
+# N228: Cloudflare Pro Plan在P99敏感场景下的失效模式：当用户地理分布高度分散（HHI>0.15）或高峰时段流量激增时，Cloudflare边缘节点
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N76, N77, N78
+
+## Claim
+
+Cloudflare Pro Plan在P99敏感场景下的失效模式：当用户地理分布高度分散（HHI>0.15）或高峰时段流量激增时，Cloudflare边缘节点可能因负载过高导致P99延迟升至200ms+，需量化HHI指数与P99延迟劣化幅度的关系，并评估是否需升级至Enterprise Plan（$1,000+/月）以获得SLA保障
+
+## Corrected Claim
+
+Cloudflare Pro Plan在用户地理分布高度分散或高峰时段流量激增时，边缘节点可能因负载过高导致P99延迟显著上升（具体幅度取决于实际负载与节点分布），需评估是否升级至Enterprise Plan以获得更严格的SLA保障。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（HHI>0.15）和具体的性能劣化数值（P99延迟升至200ms+），这些并非Cloudflare官方文档中明确定义的通用失效模式或SLA标准，而是基于特定场景的推测或特定案例的经验总结，缺乏普遍适用的官方依据。 | 先验知识/题面给定，逻辑校验通过。虽然逻辑上高负载导致延迟增加是合理的，但具体的HHI阈值和延迟数值属于经验事实，且无外部来源支持，故降级。
+
+## Search Query
+
+Cloudflare P99 latency degradation high traffic HHI index 2024

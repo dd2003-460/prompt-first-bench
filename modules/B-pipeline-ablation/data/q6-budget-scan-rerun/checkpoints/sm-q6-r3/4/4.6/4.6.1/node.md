@@ -1,0 +1,20 @@
+# N88: 混合策略弹性成本 C_idle_hybrid 的加权公式：C_idle_hybrid = w_core × C_idle_self_core + w_tail 
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N22
+
+## Claim
+
+混合策略弹性成本 C_idle_hybrid 的加权公式：C_idle_hybrid = w_core × C_idle_self_core + w_tail × C_idle_pub_tail，其中 w_core = 0.6, w_tail = 0.4 (基于N14地理分布)，C_idle_self_core 为自建核心区域闲置成本，C_idle_pub_tail 为公有云长尾区域按量付费成本（无闲置成本，但需计算峰值带宽预留成本）
+
+## Corrected Claim
+
+混合策略弹性成本 C_idle_hybrid 的加权公式：C_idle_hybrid = w_core × C_idle_self_core + w_tail × C_idle_pub_tail，其中 w_core = 0.6, w_tail = 0.4 (基于N14地理分布)，C_idle_self_core 为自建核心区域闲置成本，C_idle_pub_tail 为公有云长尾区域按量付费成本（无闲置成本，但需计算峰值带宽预留成本）
+
+## Evidence
+
+父节点级核验未通过：非正交, 有冗余（子节点A和B本质上是同一参数（U_target）在不同取值下的实例，属于冗余而非正交；且父节点明确包含'峰值带宽预留成本'，但子节点3将其设为0并标记为依赖外部计算，导致该关键成本项在当前分解层级未闭合。）

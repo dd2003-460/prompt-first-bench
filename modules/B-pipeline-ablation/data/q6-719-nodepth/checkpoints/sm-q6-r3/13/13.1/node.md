@@ -1,0 +1,30 @@
+# N409: 阿里云CDN第一阶梯流量阈值 Threshold_1 = 10TB/月，对应单价 ¥0.25/GB；第二阶梯 Threshold_2 = 100TB/月，对应单
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N143
+
+## Claim
+
+阿里云CDN第一阶梯流量阈值 Threshold_1 = 10TB/月，对应单价 ¥0.25/GB；第二阶梯 Threshold_2 = 100TB/月，对应单价 ¥0.20/GB；第三阶梯 Threshold_3 = 无限，对应单价 ¥0.15/GB，该阶梯结构需根据阿里云官网最新定价确认
+
+## Corrected Claim
+
+阿里云CDN采用按流量阶梯累进计费模式，具体阶梯阈值（如10TB、100TB）及对应单价（如¥0.25/GB等）需根据阿里云官网最新定价及所选地域确认。
+
+## Evidence
+
+[质询]具体数值（10TB/100TB阈值及0.25/0.20/0.15单价）属于经验事实，参考来源摘要仅确认了“阶梯计费”机制，未提供具体数值，且阿里云CDN价格随地域（中国大陆/海外）和促销活动波动极大，无法仅凭逻辑推导确定具体金额。 | 来源[1][3]确认了阿里云CDN采用“按流量阶梯累进计费”的模式，逻辑自洽，但摘要中未包含具体的阈值（10TB/100TB）和单价（0.25/0.20/0.15）数据，属于经验事实且缺乏直接来源支持具体数值。
+
+## Search Query
+
+Alibaba Cloud CDN traffic tiered pricing thresholds 2024
+
+## Retrieval Sources
+
+- {'url': 'https://developer.aliyun.com/article/1712489&rut=9ac11fc059ec63ddd1ce104c3b0e7d9ac1b1e8c3823c8a667dafda6ca3e1bda1', 'type': 'ddg', 'title': '2026阿里云cdn 计费全攻略：按流量 / 带宽 / 95 峰值 + 基础服务费 + 增值服务价格表'}
+- {'url': 'https://help.aliyun.com/zh/cdn/product-overview/billing-overview&rut=5607cac578e6a0a2822f10843ed70c58160107634276405ba09db4d9580720b7', 'type': 'ddg', 'title': 'Cdn如何计费-cdn (Cdn)-阿里云帮助中心'}
+- {'url': 'https://developer.aliyun.com/article/1708278&rut=2ddc55f04c3ee490ae5b44019f150c2428eac2400670b83d41207aae16acf9e2', 'type': 'ddg', 'title': '2026最新阿里云cdn收费标准：不同计费模式价格表（基础服务费和增值服务费用整理）-阿里云开发者社区'}

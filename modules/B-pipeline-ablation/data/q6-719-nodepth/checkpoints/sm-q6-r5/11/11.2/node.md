@@ -1,0 +1,24 @@
+# N131: H 扰动对 C_infra 的影响机制：H 降低 20%（如从 90% 降至 72%），回源率增加，导致源站服务器负载增加，需扩容源站 N_servers；自建
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N33
+
+## Claim
+
+H 扰动对 C_infra 的影响机制：H 降低 20%（如从 90% 降至 72%），回源率增加，导致源站服务器负载增加，需扩容源站 N_servers；自建方案中，回源流量增加导致骨干网带宽成本 C_backhaul 增加，弹性系数 E_infra 取决于源站冗余度。
+
+## Corrected Claim
+
+H 扰动对 C_infra 的影响机制：H 降低 20%（如从 90% 降至 72%），回源率增加，导致源站服务器负载增加，需扩容源站 N_servers；自建方案中，回源流量增加导致骨干网带宽成本 C_backhaul 增加，弹性系数 E_infra 取决于源站冗余度。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H（命中率）降低导致回源率上升，进而增加源站负载和带宽成本，符合CDN/缓存系统的基本工作原理。
+
+## Search Query
+
+origin server capacity scaling requirement for CDN cache miss rate increase

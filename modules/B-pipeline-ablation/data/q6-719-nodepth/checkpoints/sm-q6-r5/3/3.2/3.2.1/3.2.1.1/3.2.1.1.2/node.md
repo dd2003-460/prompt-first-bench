@@ -1,0 +1,20 @@
+# N648: 公有云缓存容量与命中率的 Trade-off 工作点 1（高容量高命中率）：假设公有云全局缓存池容量 C_pool ≥ 50TB，可覆盖 Top 95% 热对象
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N217
+
+## Claim
+
+公有云缓存容量与命中率的 Trade-off 工作点 1（高容量高命中率）：假设公有云全局缓存池容量 C_pool ≥ 50TB，可覆盖 Top 95% 热对象，此时 H_cloud ≈ 0.95，适用于对延迟极度敏感且预算充足的场景，对应带宽成本最低。
+
+## Corrected Claim
+
+公有云缓存容量与命中率的 Trade-off 工作点 1（高容量高命中率）：假设公有云全局缓存池容量 C_pool ≥ 50TB，可覆盖 Top 95% 热对象，此时 H_cloud ≈ 0.95，适用于对延迟极度敏感且预算充足的场景，对应带宽成本最低。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：缓存容量与命中率正相关，高容量覆盖Top 95%热对象对应高命中率及低带宽成本，符合缓存基本原理。

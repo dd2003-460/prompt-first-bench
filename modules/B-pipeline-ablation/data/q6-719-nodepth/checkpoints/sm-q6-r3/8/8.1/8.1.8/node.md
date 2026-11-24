@@ -1,0 +1,30 @@
+# N364: Cloudflare Business 计划（$200/月/域名）的 CDN 流量费用：包含无限 CDN 流量，但带宽峰值超过 100Gbps 或日均流量超过 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N121, N122, N123
+
+## Claim
+
+Cloudflare Business 计划（$200/月/域名）的 CDN 流量费用：包含无限 CDN 流量，但带宽峰值超过 100Gbps 或日均流量超过 10TB 时，需联系销售定制企业级合同，单价可能降至 $0.05/GB 以下，需对比阿里云阶梯单价进行成本优势分析。
+
+## Corrected Claim
+
+Cloudflare Business 计划（$200/月/域名）包含无限 CDN 流量。对于极高流量场景（如带宽峰值或日均流量极大），通常需联系销售定制企业级合同以获取更优单价，具体阈值和折扣需以官方销售报价为准。
+
+## Evidence
+
+[质询]陈述中关于“带宽峰值超过 100Gbps 或日均流量超过 10TB 时，需联系销售定制企业级合同”的具体阈值（100Gbps/10TB）以及“单价可能降至 $0.05/GB 以下”的具体数值，在提供的参考来源中均未找到直接支持。来源 [1] 和 [2] 仅确认了 Business 计划的存在和无限流量特性，但未提及具体的触发企业级合同的流量阈值或具体折扣单价；来源 [3] 为社区讨论，虽提及价格昂贵需谈判，但未提供具体阈值和单价数据。这些具体参数属于经验事实，缺乏来源直接支持。 | 来源 [1] 和 [2] 直接支持 Cloudflare Business 计划包含无限 CDN 流量这一核心事实，但关于触发企业级合同的具体流量阈值（100Gbps/10TB）及具体单价（$0.05/GB）缺乏来源支持，属于经验事实，逻辑自洽但缺来源直接佐证，故降级。
+
+## Search Query
+
+Cloudflare Business plan CDN bandwidth pricing enterprise
+
+## Retrieval Sources
+
+- {'url': 'https://www.cloudflare.com/plans/business/&rut=bb3d6cd042cf75fea53d732e6d52008cefaa283282134d3c1c9d218cb7740016', 'type': 'ddg', 'title': 'Business Plan Overview | Cloudflare'}
+- {'url': 'https://www.cloudflare.com/zh-cn/plans/&rut=129c23725ca678adf98669a07a56e5f8ed4d74206f871eb48919e18bef9e81fd', 'type': 'ddg', 'title': 'Cloudflare 产品_服务列表_收费计划_服务定价_Cloudflare 中国官网'}
+- {'url': 'https://www.v2ex.com/t/1104812&rut=f3e2c7c915e4e5fc5cba32a4816281a942785948228025146fcbf89652d9ee12', 'type': 'ddg', 'title': '有人知道 Cloudflare 的商业版本比 Cloudfront / Fastly 等 CDN 大厂流量贵多少吗？之前和别的部门员工聊到不用 ...'}

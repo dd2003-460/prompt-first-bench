@@ -1,0 +1,20 @@
+# N338: 突发流量前5-15秒内P99延迟的额外成本量化：ΔP99_cold_start = T_cold_start × (1 - Hit_Rate_cold_star
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N118
+
+## Claim
+
+突发流量前5-15秒内P99延迟的额外成本量化：ΔP99_cold_start = T_cold_start × (1 - Hit_Rate_cold_start)，其中 Hit_Rate_cold_start 在冷启动期间接近0（缓存未预热），因此 ΔP99 ≈ T_cold_start，即5-15秒，该延迟会导致用户流失率上升，需结合 N136 的留存率弹性计算损失。
+
+## Corrected Claim
+
+突发流量前5-15秒内，由于缓存未预热，部分请求需经历冷启动过程，导致P99延迟显著上升，具体增加量取决于冷启动耗时、请求分布及缓存预热策略，需结合具体系统参数和留存率弹性模型进行量化评估。
+
+## Evidence
+
+[质询]公式 ΔP99_cold_start = T_cold_start × (1 - Hit_Rate_cold_start) 存在量纲和逻辑错误：P99延迟是时间量纲，而 T_cold_start 通常指冷启动耗时（时间），Hit_Rate 是无量纲比率。若 T_cold_start 是时间，乘积仍是时间，看似量纲一致，但逻辑上 P99 延迟的增加量并不直接等于冷启动耗时乘以未命中率，因为 P99 是统计分位数，受请求分布影响，且冷启动期间并非所有请求都经历完整冷启动耗时，该公式过于简化且缺乏理论依据。 | 先验知识/题面给定，逻辑校验未通过：公式推导存在逻辑缺陷，P99延迟增加量不能简单用冷启动耗时乘以未命中率表示，且冷启动期间命中率接近0的假设虽合理，但整体公式缺乏严谨性。

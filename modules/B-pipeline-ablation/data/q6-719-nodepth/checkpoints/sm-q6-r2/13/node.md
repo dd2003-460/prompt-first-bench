@@ -1,0 +1,26 @@
+# N197: 自建 POP 节点的单次故障平均修复时间 (MTTR) 通常为 30-60 分钟，而公有云 CDN 的 SLA 承诺故障恢复时间 (RTO) 通常 < 5 分钟
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+自建 POP 节点的单次故障平均修复时间 (MTTR) 通常为 30-60 分钟，而公有云 CDN 的 SLA 承诺故障恢复时间 (RTO) 通常 < 5 分钟；若自建策略无法实现自动化快速切换，其因故障导致的潜在业务损失成本 (Cost_of_Downtime) 需按 (MTTR - RTO) * Revenue_per_min 计入隐性成本。
+
+## Corrected Claim
+
+自建 POP 节点的单次故障平均修复时间 (MTTR) 通常在 30-60 分钟量级（视自动化程度而定），而公有云 CDN 通常提供比自建更短的故障恢复时间（具体 RTO 需参考各厂商 SLA，部分高端服务可达分钟级）；若自建策略无法实现自动化快速切换，其因故障导致的潜在业务损失成本 (Cost_of_Downtime) 需按 (MTTR - RTO) * Revenue_per_min 计入隐性成本。
+
+## Evidence
+
+[质询]陈述中关于“公有云 CDN 的 SLA 承诺故障恢复时间 (RTO) 通常 < 5 分钟”属于具体的经验性商业规格/服务等级承诺，不同云厂商、不同服务等级（如标准版 vs 企业版）差异巨大，且“通常”这一量化断言缺乏普遍适用的行业标准支持，容易将特定厂商的最佳实践或营销话术泛化为通用事实。 | 来源 [1][2][3] 仅涉及 MTTR 的定义、计算及缩短策略（如 AIOps 将 MTTR 降至 30 分钟），未提供公有云 CDN 具体 RTO < 5 分钟的直接证据或行业通用标准，属于经验事实缺来源支持。
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_30522983/article/details/162800530&rut=187211d79649077095d706ad1f2ba8122916115bc8cffe1abe0d9f264076eecf', 'type': 'ddg', 'title': 'Mttf/Mttr/Mtbf 3 大指标详解：从公式推导到 Sre 实践应用-csdn博客'}
+- {'url': 'https://www.manageengine.cn/it-operations-management/articles/mttr-reduction-aiops-guide.html&rut=05018c00be8e8ece89f8b695d6a669a455b93b4f36af7887406f6b85b9658611', 'type': 'ddg', 'title': '一次故障的30分钟极速修复——智能运维如何把MTTR降至30分钟以内 - ManageEngine Article Blogs'}
+- {'url': 'https://cloud.tencent.com/developer/article/2357578&rut=70103e937ce1c62e9f88c525437525d69e68f7b409b5d4d294b7b26f5d3374fc', 'type': 'ddg', 'title': '【稳定性】关于缩短mttr的探索-腾讯云开发者社区-腾讯云'}

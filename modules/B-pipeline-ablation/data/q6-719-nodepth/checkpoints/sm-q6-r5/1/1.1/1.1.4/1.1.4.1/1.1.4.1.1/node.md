@@ -1,0 +1,20 @@
+# N458: 工作点 A（高清短视频主导）的 P99 延迟瓶颈修正：由于 s_video=4.0MB 导致传输时间 T_trans = 4.0*8/100 ≈ 320ms，远
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N146
+
+## Claim
+
+工作点 A（高清短视频主导）的 P99 延迟瓶颈修正：由于 s_video=4.0MB 导致传输时间 T_trans = 4.0*8/100 ≈ 320ms，远超 T=100ms 目标，因此 P99 瓶颈从缓存命中切换为回源传输，实际 L_p99 ≈ L_backhaul + T_trans，导致该工作点下纯自建策略在 T=100ms 约束下不可行，必须依赖边缘缓存预热或降低 T 至 350ms 以上。
+
+## Corrected Claim
+
+工作点 A（高清短视频主导）的 P99 延迟瓶颈修正：由于 s_video=4.0MB 导致传输时间 T_trans = 4.0*8/100 ≈ 320ms，远超 T=100ms 目标，因此 P99 瓶颈从缓存命中切换为回源传输，实际 L_p99 ≈ L_backhaul + T_trans，导致该工作点下纯自建策略在 T=100ms 约束下不可行，必须依赖边缘缓存预热或降低 T 至 350ms 以上。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：传输时间计算 4.0MB * 8 / 100Mbps = 320ms 正确，且 320ms > 100ms 导致瓶颈切换的逻辑自洽。

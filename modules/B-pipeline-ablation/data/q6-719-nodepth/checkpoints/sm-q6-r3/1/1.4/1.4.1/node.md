@@ -1,0 +1,24 @@
+# N50: Unique Objects (U) = Total_Upload_Volume / Avg_Object_Size_s，其中 Total_Upload_Vol
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N9
+
+## Claim
+
+Unique Objects (U) = Total_Upload_Volume / Avg_Object_Size_s，其中 Total_Upload_Volume = 200 GB/day，Avg_Object_Size_s 需区分图片与短视频两类对象（图片典型 200KB，短视频典型 10MB）[待核验]
+
+## Corrected Claim
+
+Unique Objects (U) = Total_Upload_Volume / Avg_Object_Size_s，其中 Total_Upload_Volume = 200 GB/day，Avg_Object_Size_s 需区分图片与短视频两类对象（图片典型 200KB，短视频典型 10MB）[待核验]
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1和2分别计算图片和短视频的基数，两者正交且不矛盾；子节点3处理去重/版本修正，逻辑独立。但父节点公式中明确提到 Avg_Object_Size_s 需区分两类对象（200KB vs 10MB），而子节点1中却使用了 2MB 作为图片大小，这与父节点设定的参数（200KB）严重矛盾，导致计算逻辑不一致，且未明确说明为何使用 2MB（可能是假设而非事实），造成完备性缺失（参数定义不闭环）和潜在的内部矛盾。）
+
+## Search Query
+
+average file size image vs short video upload platform statistics

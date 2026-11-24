@@ -1,0 +1,20 @@
+# N1267: 低码率工作点下，视频流量实际出网量 Q_video_out_low = (F_video * D_daily * (1 - H_low))，其中 F_video
+
+- **status**: verified
+- **level**: L6
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N434
+
+## Claim
+
+低码率工作点下，视频流量实际出网量 Q_video_out_low = (F_video * D_daily * (1 - H_low))，其中 F_video=0.6, D_daily=2TB, H_low=0.9，计算得 Q_video_out_low = 0.6 * 2TB * 0.1 = 120GB/天。
+
+## Corrected Claim
+
+低码率工作点下，视频流量实际出网量 Q_video_out_low = (F_video * D_daily * (1 - H_low))，其中 F_video=0.6, D_daily=2TB, H_low=0.9，计算得 Q_video_out_low = 0.6 * 2TB * 0.1 = 120GB/天。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：0.6 * 2TB * (1 - 0.9) = 0.6 * 2TB * 0.1 = 1.2TB = 120GB，计算无误且量纲合理。

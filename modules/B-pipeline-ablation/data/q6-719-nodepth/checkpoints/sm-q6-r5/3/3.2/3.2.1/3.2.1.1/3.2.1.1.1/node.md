@@ -1,0 +1,20 @@
+# N647: 公有云缓存命中率 H_cloud 的构成公式：H_cloud = H_global_pool * (1 - P_cold_miss)，其中 H_global_p
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N217
+
+## Claim
+
+公有云缓存命中率 H_cloud 的构成公式：H_cloud = H_global_pool * (1 - P_cold_miss)，其中 H_global_pool 为全局缓存池对热对象的覆盖能力（受限于总缓存容量与对象热度分布），P_cold_miss 为长尾冷对象请求占比（通常 5-10%），该公式解释了为何公有云能达到 90% 的高命中率。
+
+## Corrected Claim
+
+公有云缓存命中率 H_cloud 主要取决于全局缓存池对热对象的覆盖能力，受限于总缓存容量与对象热度分布（如 Zipf 分布），长尾冷对象请求占比通常较低（约 5-10%），共同作用使得公有云能达到 90% 左右的高命中率。
+
+## Evidence
+
+[质询]公式逻辑存在概念混淆：H_global_pool 通常定义为缓存池内命中请求占总请求的比例（即命中率本身），若再乘以 (1 - P_cold_miss)，会导致量纲或定义上的重复计算或逻辑矛盾。通常命中率直接由缓存容量与访问分布决定，而非通过这种乘积形式推导。此外，'通常 5-10%' 为经验值，缺乏普适性。 | 先验知识/题面给定，但公式逻辑不自洽（H_global_pool 定义与乘积项存在概念重叠或矛盾），且无外部来源支持该特定公式形式。

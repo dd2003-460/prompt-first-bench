@@ -1,0 +1,20 @@
+# N339: 交互项 ∂²C/∂T∂s 的离散近似计算：在 T 和 s 的相邻采样点 (T_j, s_k), (T_j+1, s_k), (T_j, s_k+1), (T_j
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N108
+
+## Claim
+
+交互项 ∂²C/∂T∂s 的离散近似计算：在 T 和 s 的相邻采样点 (T_j, s_k), (T_j+1, s_k), (T_j, s_k+1), (T_j+1, s_k+1) 上，∂²C/∂T∂s ≈ [C(T_j+1,s_k+1) - C(T_j+1,s_k) - C(T_j,s_k+1) + C(T_j,s_k)] / [(ΔT)(Δs)]，单位 (元/千请求)/(ms·MB)
+
+## Corrected Claim
+
+交互项 ∂²C/∂T∂s 的离散近似计算：在 T 和 s 的相邻采样点 (T_j, s_k), (T_j+1, s_k), (T_j, s_k+1), (T_j+1, s_k+1) 上，∂²C/∂T∂s ≈ [C(T_j+1,s_k+1) - C(T_j+1,s_k) - C(T_j,s_k+1) + C(T_j,s_k)] / [(ΔT)(Δs)]，单位 (元/千请求)/(ms·MB)
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该公式是二阶混合偏导数在二维网格上的标准中心/前向差分近似（离散拉普拉斯算子形式），量纲推导正确（C的单位除以T和s的单位），符合数值分析基本原理。

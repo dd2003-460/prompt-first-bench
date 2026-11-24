@@ -1,0 +1,24 @@
+# N83: 单POP节点月均带宽租赁成本 Bandwidth_Rent_Monthly = Reserved_Bandwidth_Mbps * Unit_Price_Per
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N15
+
+## Claim
+
+单POP节点月均带宽租赁成本 Bandwidth_Rent_Monthly = Reserved_Bandwidth_Mbps * Unit_Price_Per_Mbps_Month，其中Reserved_Bandwidth_Mbps需覆盖该POP的峰值下行流量（Peak_Daily_Traffic_TB * 8 * 1000 / Peak_Hours），Unit_Price参考N36中的¥2.6-10/Mbps/月区间
+
+## Corrected Claim
+
+单POP节点月均带宽租赁成本 Bandwidth_Rent_Monthly = Reserved_Bandwidth_Mbps * Unit_Price_Per_Mbps_Month，其中Reserved_Bandwidth_Mbps需覆盖该POP的峰值下行流量（Peak_Daily_Traffic_TB * 8 * 1000 / Peak_Hours），Unit_Price参考N36中的¥2.6-10/Mbps/月区间
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：带宽租赁成本公式符合商业逻辑，峰值带宽换算公式（TB*8*1000/小时数）量纲正确，单价区间引用自题面N36，无内部矛盾。
+
+## Search Query
+
+data center dedicated bandwidth cost per Mbps China tier 1 city

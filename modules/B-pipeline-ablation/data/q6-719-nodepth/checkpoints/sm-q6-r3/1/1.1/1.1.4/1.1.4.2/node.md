@@ -1,0 +1,20 @@
+# N147: 工作点 B（静态图片主导）：设视频流量占比 F_video=0.2，图片占比 F_img=0.8；视频平均大小 s_video=3.0MB，图片 s_img=0
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N37
+
+## Claim
+
+工作点 B（静态图片主导）：设视频流量占比 F_video=0.2，图片占比 F_img=0.8；视频平均大小 s_video=3.0MB，图片 s_img=0.5MB。计算得 s_avg = 0.8*0.5 + 0.2*3.0 = 1.0 MB。此工况下缓存命中率 H 预计维持在 90% 以上，单位请求带宽成本最低，但总请求数 R_daily 增加 40%，需验证 CDN 请求数计费阈值。
+
+## Corrected Claim
+
+工作点 B（静态图片主导）：设视频流量占比 F_video=0.2，图片占比 F_img=0.8；视频平均大小 s_video=3.0MB，图片 s_img=0.5MB。计算得 s_avg = 0.8*0.5 + 0.2*3.0 = 1.0 MB。此工况下缓存命中率 H 预计维持在 90% 以上，单位请求带宽成本最低，但总请求数 R_daily 增加 40%，需验证 CDN 请求数计费阈值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：加权平均计算 0.8*0.5 + 0.2*3.0 = 1.0 MB 正确；静态图片主导场景下缓存命中率高于视频场景符合CDN工程常识，逻辑自洽。

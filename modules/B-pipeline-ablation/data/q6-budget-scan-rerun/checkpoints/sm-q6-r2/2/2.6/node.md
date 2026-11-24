@@ -1,0 +1,30 @@
+# N15: 存储介质成本差异：自建 POP 点需本地 NVMe SSD 缓存（每点 2-4TB），单 TB NVMe SSD 成本 ≈ ¥800-1,200，10 点总存储
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N2
+
+## Claim
+
+存储介质成本差异：自建 POP 点需本地 NVMe SSD 缓存（每点 2-4TB），单 TB NVMe SSD 成本 ≈ ¥800-1,200，10 点总存储成本 ≈ ¥16,000-48,000（一次性）；公有云 CDN 无本地存储成本，但缓存命中率依赖云端调度
+
+## Corrected Claim
+
+存储介质成本差异：自建 POP 点需本地 NVMe SSD 缓存（每点 2-4TB），单 TB NVMe SSD 成本随市场波动（参考区间 ¥800-1,200），10 点总存储成本估算约为 ¥16,000-48,000（一次性）；公有云 CDN 无本地存储成本，但缓存命中率依赖云端调度
+
+## Evidence
+
+[质询]单TB NVMe SSD成本¥800-1,200属于具体市场价格经验事实，且2026年SSD市场波动较大，该数值缺乏实时市场数据直接支持，存在价格偏差风险。 | 来源[3]证实了自建NVMe缓存架构的可行性及成本优势（单位成本低），但未提供具体单价；来源[1]对比了自托管NVMe成本但侧重构建缓存场景；逻辑上10点*2-4TB*800-1200元/TB计算无误，但具体单价为经验事实，缺直接来源支持。
+
+## Search Query
+
+NVMe SSD price per TB 2024 edge cache storage cost
+
+## Retrieval Sources
+
+- {'url': 'https://bex.co/zh/blog/2026/07/17/depot-per-gb-cache-vs-self-hosted-nvme&rut=14bb4994cb95ef120812e6cb881addf75923389d3d7ab585d16ab5bdc50f8e6f', 'type': 'ddg', 'title': 'Depot 的缓存计量与自有 NVMe 对比：每 GB 0.20 美元对真实缓存占用的实际成本 | bex.co'}
+- {'url': 'https://blog.csdn.net/weixin_29188997/article/details/170661193&rut=95b0c64df6858f23b769ccd467e608db56396035fe66b10f4dae1f01a15eb2af', 'type': 'ddg', 'title': '2026年固态硬盘涨价潮下如何选购SSD：颗粒、主控、缓存与PCIe接口全解析-CSDN博客'}
+- {'url': 'https://blog.csdn.net/weixin_43272162/article/details/167084025&rut=0e5a871f0a61b17689cb5d38834cea167f63bc53acc7590a1d5644c97fb6e29a', 'type': 'ddg', 'title': '跨会话 KV Cache 持久化落地：自建 NVMe-Tiered 缓存架构与冷热分级-CSDN博客'}

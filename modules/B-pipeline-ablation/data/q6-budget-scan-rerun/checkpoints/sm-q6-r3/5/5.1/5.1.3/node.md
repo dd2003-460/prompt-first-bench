@@ -1,0 +1,24 @@
+# N98: T对运维成本的影响函数：更严格的T要求更频繁的监控和更快的故障响应，运维人力成本 C_ops(T) = C_ops_base * (1 + α_T * (T_b
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N29
+
+## Claim
+
+T对运维成本的影响函数：更严格的T要求更频繁的监控和更快的故障响应，运维人力成本 C_ops(T) = C_ops_base * (1 + α_T * (T_base - T) / T_base)，其中C_ops_base=60万元/年（2名运维），α_T=0.5（敏感度系数），T_base=300ms；例如T=150ms时运维成本增加50%至90万元/年，T=100ms时增加100%至120万元/年。
+
+## Corrected Claim
+
+T对运维成本的影响函数：更严格的T要求更频繁的监控和更快的故障响应，运维人力成本 C_ops(T) = C_ops_base * (1 + α_T * (T_base - T) / T_base)，其中C_ops_base=60万元/年（2名运维），α_T=0.5（敏感度系数），T_base=300ms；例如T=150ms时运维成本增加25%至75万元/年，T=100ms时增加33.3%至80万元/年。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在维度上正交（基础设施、风险赔付、人力细分），无逻辑矛盾。但存在严重的完备性问题：父节点明确给出的核心公式 C_ops(T) 仅包含人力成本部分（C_ops_base 被定义为2名运维人力），而子节点1引入了父节点公式中未包含的'监控基础设施成本'，子节点2引入了'SLA赔付风险'，这导致子节点集合构成了一个比父节点更复杂的总成本模型，而非对父节点既有公式的分解。此外，父节点公式中的 C_ops_base 被严格限定为'人力'，但子节点1声称 C_ops_base 包含'非人力部分'，这与父节点定义直接冲突，破坏了语义一致性。）
+
+## Search Query
+
+P99 latency target impact on CDN operations and maintenance cost

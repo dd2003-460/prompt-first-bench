@@ -1,0 +1,29 @@
+# N73: 公有云 CDN 预留带宽 B_peak_pub 的精确计算：B_peak_pub = B_avg × R_pg × (1 + buffer_factor)。基于
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N17
+
+## Claim
+
+公有云 CDN 预留带宽 B_peak_pub 的精确计算：B_peak_pub = B_avg × R_pg × (1 + buffer_factor)。基于 B_avg = 26.4 Mbps，R_pg = 3.0，buffer_factor = 0.2 (20% 冗余)，B_peak_pub = 26.4 × 3.0 × 1.2 = 95.04 Mbps。需量化该值对应的月成本，基于阿里云 CDN 峰值带宽单价（如 0.06 元/Mbps/月）。
+
+## Corrected Claim
+
+公有云 CDN 预留带宽 B_peak_pub 的估算公式为 B_peak_pub = B_avg × R_pg × (1 + buffer_factor)。基于 B_avg = 26.4 Mbps，R_pg = 3.0，buffer_factor = 0.2，计算得 B_peak_pub = 95.04 Mbps。月成本需根据具体云厂商（如阿里云）当时的 CDN 峰值带宽实际单价进行查询计算，此处引用的 0.06 元/Mbps/月 仅为示例参考值，非固定事实。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（阿里云CDN峰值带宽单价0.06元/Mbps/月）和特定的工程估算系数（R_pg=3.0, buffer_factor=0.2），这些属于经验事实，无法从第一性原理推导。参考来源仅讨论云服务器带宽概念，未提供CDN具体定价或该特定计算公式的权威支持，存在参数过时或口径不符的风险。 | 逻辑计算自洽（26.4*3.0*1.2=95.04），但参考来源[1][2]仅涉及云服务器带宽概念，与CDN预留带宽定价及具体系数无关，无法提供直接支持；依据经验事实排除条款，缺乏来源支持的经验参数应降级。
+
+## Search Query
+
+Alibaba Cloud CDN reserved bandwidth pricing per Mbps monthly
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2053546859487032657&rut=5ea0d532912dcfb0bcee6df49b8d12a270ae063006b663b597414c06f0b6d9eb', 'type': 'ddg', 'title': '云服务器的"峰值带宽"和"独享带宽"有什么区别？新手别被参数绕晕了 - 知乎'}
+- {'url': 'https://www.zhihu.com/question/638987344&rut=d9201062f57b2f9ed319e9720c6779c97520f47f53aca88b5e68f6d43cb30bf5', 'type': 'ddg', 'title': '云服务器公网带宽选择多少合适？有计算公式吗？ - 知乎'}

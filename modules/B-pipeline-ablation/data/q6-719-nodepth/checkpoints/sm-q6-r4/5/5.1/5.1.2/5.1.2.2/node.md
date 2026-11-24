@@ -1,0 +1,24 @@
+# N302: 队列等待时间 T_queue 的计算：在 T_scaling 期间，超出预置容量的请求进入队列，T_queue ≈ (Current_Traffic - Pro
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N105
+
+## Claim
+
+队列等待时间 T_queue 的计算：在 T_scaling 期间，超出预置容量的请求进入队列，T_queue ≈ (Current_Traffic - Provisioned_Capacity) / (Service_Rate × Queue_Length)，其中 Service_Rate 为单节点处理能力，Queue_Length 为排队请求数，需结合具体带宽和对象大小估算。
+
+## Corrected Claim
+
+队列等待时间 T_queue 的计算通常基于利特尔法则（Little's Law）或 M/M/1 排队模型，例如 T_queue ≈ Queue_Length / Service_Rate（若 Service_Rate 为系统总处理能力），具体需结合到达率和服务率估算，原公式中分母乘以 Queue_Length 导致逻辑错误。
+
+## Evidence
+
+[质询]公式量纲与逻辑存在严重错误：T_queue 代表时间，而右侧 (Current_Traffic - Provisioned_Capacity) / (Service_Rate × Queue_Length) 的量纲推导显示其结果并非时间单位（通常排队论中等待时间与队列长度成正比，而非成反比；且分母乘以 Queue_Length 会导致队列越长等待时间越短，违背直觉）。此外，Current_Traffic 和 Provisioned_Capacity 的单位未明确（是请求数还是速率），导致公式无法直接成立。 | 先验知识/题面给定，但逻辑校验发现公式量纲及物理意义不自洽（排队时间不应与队列长度成反比），且无外部来源支持该特定错误公式。
+
+## Search Query
+
+queue waiting time calculation during cloud resource scaling delay

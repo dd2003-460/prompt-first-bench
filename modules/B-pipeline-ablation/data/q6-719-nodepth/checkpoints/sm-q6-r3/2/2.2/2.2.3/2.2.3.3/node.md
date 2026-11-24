@@ -1,0 +1,24 @@
+# N218: 备件储备摊销计算：Spare_Parts_Amortization = (Total_Spare_Inventory_Value / Useful_Life_M
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N64
+
+## Claim
+
+备件储备摊销计算：Spare_Parts_Amortization = (Total_Spare_Inventory_Value / Useful_Life_Months)，假设每 POP 配备 2 块硬盘 + 1 条内存 + 1 张网卡作为备件，总价值约 ¥5,000，备件平均使用寿命（更换周期）为 12 个月，则摊销成本 ≈ ¥5,000 / 12 ≈ ¥417/月/POP，与 N64 中 ¥500 估算接近，验证了该量级。
+
+## Corrected Claim
+
+备件储备摊销计算：Spare_Parts_Amortization = (Total_Spare_Inventory_Value / Useful_Life_Months)，假设每 POP 配备 2 块硬盘 + 1 条内存 + 1 张网卡作为备件，总价值约 ¥5,000，备件平均使用寿命（更换周期）为 12 个月，则摊销成本 ≈ ¥5,000 / 12 ≈ ¥417/月/POP，与 N64 中 ¥500 估算接近，验证了该量级。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：5000/12≈417，量级与500一致，符合备件摊销基本逻辑
+
+## Search Query
+
+datacenter spare parts inventory amortization cost per month

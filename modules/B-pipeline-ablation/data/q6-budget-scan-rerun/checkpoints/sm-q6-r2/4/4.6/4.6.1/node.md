@@ -1,0 +1,20 @@
+# N88: 混合策略弹性成本 C_idle_hybrid 的加权公式：C_idle_hybrid = w_core × C_idle_self_core + w_tail 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N22
+
+## Claim
+
+混合策略弹性成本 C_idle_hybrid 的加权公式：C_idle_hybrid = w_core × C_idle_self_core + w_tail × C_idle_pub_tail，其中 w_core = 0.6, w_tail = 0.4 (基于N14地理分布)，C_idle_self_core 为自建核心区域闲置成本，C_idle_pub_tail 为公有云长尾区域按量付费成本（无闲置成本，但需计算峰值带宽预留成本）
+
+## Corrected Claim
+
+混合策略弹性成本 C_idle_hybrid 的加权公式：C_idle_hybrid = w_core × C_idle_self_core + w_tail × C_idle_pub_tail，其中 w_core = 0.6, w_tail = 0.4 (基于N14地理分布)，C_idle_self_core 为自建核心区域闲置成本，C_idle_pub_tail 为公有云长尾区域按量付费成本（无闲置成本，但需计算峰值带宽预留成本）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

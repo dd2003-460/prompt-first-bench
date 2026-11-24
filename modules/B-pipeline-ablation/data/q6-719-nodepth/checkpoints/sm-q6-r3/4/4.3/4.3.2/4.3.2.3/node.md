@@ -1,0 +1,20 @@
+# N286: 引入高级部署策略（蓝绿/金丝雀）带来的额外月度人力成本增量 ΔDevOps_Cost = (High_Freq_DevOps_Cost - Base_DevOp
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N99
+
+## Claim
+
+引入高级部署策略（蓝绿/金丝雀）带来的额外月度人力成本增量 ΔDevOps_Cost = (High_Freq_DevOps_Cost - Base_DevOps_Cost) = 50k - 25k = 25k 元/月，该增量需与 N139 中计算的延迟降低带来的 LTV 增益进行 ROI 比对。
+
+## Corrected Claim
+
+引入高级部署策略（蓝绿/金丝雀）带来的额外月度人力成本增量 ΔDevOps_Cost = (High_Freq_DevOps_Cost - Base_DevOps_Cost) = 50k - 25k = 25k 元/月，该增量需与 N139 中计算的延迟降低带来的 LTV 增益进行 ROI 比对。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算 50k - 25k = 25k 正确，且 ROI 比对逻辑符合基本经济直觉。

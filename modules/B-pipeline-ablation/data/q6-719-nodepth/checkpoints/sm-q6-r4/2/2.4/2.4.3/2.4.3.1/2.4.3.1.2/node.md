@@ -1,0 +1,20 @@
+# N675: 工作点B（典型中位）：假设核心区域用户占比 Core_User_Ratio=0.6，日均人均请求 Avg_Requests_Per_User=35，则 Core
+
+- **status**: verified
+- **level**: L5
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N233
+
+## Claim
+
+工作点B（典型中位）：假设核心区域用户占比 Core_User_Ratio=0.6，日均人均请求 Avg_Requests_Per_User=35，则 Core_Monthly_Requests = 5,000,000 × 0.6 × 35 × 30 = 315,000,000 次/月，对应每千请求分母为 315,000。
+
+## Corrected Claim
+
+工作点B（典型中位）：假设核心区域用户占比 Core_User_Ratio=0.6，日均人均请求 Avg_Requests_Per_User=35，则 Core_Monthly_Requests = 5,000,000 × 0.6 × 35 × 30 = 315,000,000 次/月，对应每千请求分母为 315,000。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：5,000,000 × 0.6 × 35 × 30 = 315,000,000，每千请求分母为 315,000，计算无误。

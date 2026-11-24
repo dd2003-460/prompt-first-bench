@@ -1,0 +1,24 @@
+# N407: 故障期间P99延迟增量 ΔP99 的计算公式：ΔP99 = max(0, RTT_fallback - RTT_normal) + T_queue_fallba
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N130
+
+## Claim
+
+故障期间P99延迟增量 ΔP99 的计算公式：ΔP99 = max(0, RTT_fallback - RTT_normal) + T_queue_fallback，其中 RTT_fallback 为流量切换至邻近POP或回源的往返时延（典型值 50-150ms），RTT_normal 为正常时延（典型值 20-50ms），T_queue_fallback 为故障期间因带宽受限或回源拥塞导致的排队时延（需通过排队论 M/M/1 模型估算，λ_queue = 故障期间到达率，μ_queue = 处理率）
+
+## Corrected Claim
+
+故障期间P99延迟增量 ΔP99 的计算公式：ΔP99 = max(0, RTT_fallback - RTT_normal) + T_queue_fallback，其中 RTT_fallback 为流量切换至邻近POP或回源的往返时延（典型值 50-150ms），RTT_normal 为正常时延（典型值 20-50ms），T_queue_fallback 为故障期间因带宽受限或回源拥塞导致的排队时延（需通过排队论 M/M/1 模型估算，λ_queue = 故障期间到达率，μ_queue = 处理率）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+CDN failover latency increase RTT queueing delay M/M/1 model

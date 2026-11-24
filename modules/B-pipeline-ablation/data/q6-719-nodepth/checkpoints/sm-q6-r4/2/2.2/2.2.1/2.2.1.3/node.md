@@ -1,0 +1,20 @@
+# N166: P_TTL_expire 的计算公式：P_TTL_expire = 1 - exp(-λ_t * T_request_interval)，其中 λ_t 为对象过
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N53
+
+## Claim
+
+P_TTL_expire 的计算公式：P_TTL_expire = 1 - exp(-λ_t * T_request_interval)，其中 λ_t 为对象过期率（1/TTL）。若 TTL 设为 1 小时（3600s），且用户平均请求间隔为 30 分钟（1800s），则 P_TTL_expire = 1 - exp(-1800/3600) ≈ 39.3%。若 TTL 设为 24 小时，P_TTL_expire ≈ 1.7%。通常 CDN 采用分层 TTL，核心内容 TTL 长，边缘内容 TTL 短，加权平均 P_TTL_expire ≈ 10%-15%。
+
+## Corrected Claim
+
+P_TTL_expire 的计算公式：P_TTL_expire = 1 - exp(-λ_t * T_request_interval)，其中 λ_t 为对象过期率（1/TTL）。若 TTL 设为 1 小时（3600s），且用户平均请求间隔为 30 分钟（1800s），则 P_TTL_expire = 1 - exp(-1800/3600) ≈ 39.3%。若 TTL 设为 24 小时，P_TTL_expire ≈ 1.7%。通常 CDN 采用分层 TTL，核心内容 TTL 长，边缘内容 TTL 短，加权平均 P_TTL_expire ≈ 10%-15%。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1聚焦于空间/层级维度（TTL分层加权），子节点2聚焦于时间/统计维度（请求间隔分布修正）。两者分别处理了父节点中‘分层TTL’和‘请求间隔’两个独立变量的细化与校准，互不重叠且无矛盾。父节点中的基础公式计算被作为子节点1和2中的具体实例或基准数据引用，未单独列为子节点，符合分解逻辑。）

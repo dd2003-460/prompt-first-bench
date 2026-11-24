@@ -1,0 +1,24 @@
+# N167: 在 T=150ms 阈值下，公有云CDN的P99延迟（约160ms）超标（ΔT = 160 - 150 = 10ms > 0），不合规；而自建POP的P99延迟
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N42
+
+## Claim
+
+在 T=150ms 阈值下，公有云CDN的P99延迟（约160ms）超标（ΔT = 160 - 150 = 10ms > 0），不合规；而自建POP的P99延迟（约150ms）处于边界（ΔT = 0），需依赖具体缓存命中率 H_pop > 0.95 才能确保合规。
+
+## Corrected Claim
+
+在 T=150ms 阈值下，公有云CDN的P99延迟（约160ms）超标（ΔT = 160 - 150 = 10ms > 0），不合规；而自建POP的P99延迟（约150ms）处于边界（ΔT = 0），需依赖具体缓存命中率 H_pop > 0.95 才能确保合规。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：160ms > 150ms 判定超标，150ms = 150ms 判定边界，算术与逻辑自洽。
+
+## Search Query
+
+CDN P99 latency threshold 150ms compliance

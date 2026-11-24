@@ -1,0 +1,29 @@
+# N104: 核心区域与长尾区域的单位带宽成本差异系数：自建 POP 点所在核心区域的骨干网带宽单价 unit_cost_core 约为 0.08 元/GB（因自建机房议价能
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N31
+
+## Claim
+
+核心区域与长尾区域的单位带宽成本差异系数：自建 POP 点所在核心区域的骨干网带宽单价 unit_cost_core 约为 0.08 元/GB（因自建机房议价能力强），长尾区域公有云 CDN 带宽单价 unit_cost_tail 约为 0.25 元/GB（因流量分散且无规模效应），成本差异系数 D_cost = unit_cost_tail / unit_cost_core ≈ 3.1，该系数直接决定混合策略中流量切分比例对总成本的影响斜率。
+
+## Corrected Claim
+
+核心区域与长尾区域的单位带宽成本存在显著差异，通常核心区域因规模效应和议价能力成本更低，长尾区域成本更高，成本差异系数 D_cost 通常在 2-4 之间，具体数值需根据实际采购合同确定。
+
+## Evidence
+
+[质询]具体数值（0.08元/GB 和 0.25元/GB）属于高度依赖市场波动、具体运营商合同及地域差异的经验事实，缺乏通用标准，且参考来源完全未覆盖此具体价格数据，存在数值不准确或时效性过强的风险。 | 逻辑上成本差异系数计算正确（0.25/0.08≈3.125），且核心区域因规模效应成本低于长尾区域符合经济直觉；但参考来源[1]讨论海上通信物理限制，[2]讨论骨干网架构，均与具体带宽单价无关，属于经验事实且缺来源支持。
+
+## Search Query
+
+China CDN bandwidth price per GB vs dedicated line price 2024
+
+## Retrieval Sources
+
+- {'url': 'https://www.sohu.com/a/1103074200_120123616&rut=0604d4f189375e7e5543d2feefc1a32bd21d0a19aa21e21bf237c0480e29141d', 'type': 'ddg', 'title': '带宽与距离的矛盾：海上自组网超视距电台该如何做业务取舍_核心_中继'}
+- {'url': 'https://www.tup.tsinghua.edu.cn/upload/books/yz/089409-01.pdf&rut=5f7c321f79194a4ba4f3f866ac9dab269d2cb830b87029ff34f3a75f934cb989', 'type': 'ddg', 'title': 'PDF 骨干网组网架构和方案'}

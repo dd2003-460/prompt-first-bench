@@ -1,0 +1,20 @@
+# N561: 工作点A（高成本/低延迟）：在东部高密度区部署20个微POP点，覆盖半径 R=50km，L_prop = 0.25ms，RTT_base = 2.5ms，相比N
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N183
+
+## Claim
+
+工作点A（高成本/低延迟）：在东部高密度区部署20个微POP点，覆盖半径 R=50km，L_prop = 0.25ms，RTT_base = 2.5ms，相比N183基准点降低2ms物理延迟，但节点数量翻倍导致单点带宽利用率下降30%，基础设施成本增加40%。
+
+## Corrected Claim
+
+工作点A（高成本/低延迟）：在东部高密度区部署20个微POP点，覆盖半径 R=50km，L_prop = 0.25ms，RTT_base = 2.5ms，相比N183基准点降低2ms物理延迟，但节点数量翻倍导致单点带宽利用率下降30%，基础设施成本增加40%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：物理延迟降低与节点密度增加导致的成本/利用率变化符合网络工程基本直觉，数值量级合理。

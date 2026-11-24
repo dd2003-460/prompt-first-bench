@@ -1,0 +1,20 @@
+# N16: 基础设施成本 C_infra = (N_servers * C_server + N_storage * C_storage) / R_daily * 1000
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+基础设施成本 C_infra = (N_servers * C_server + N_storage * C_storage) / R_daily * 1000，其中 N_servers 为服务器数量，C_server 为单服务器月成本（¥2000-5000），N_storage 为存储容量，C_storage 为单 GB 月成本（¥0.1-0.5）。
+
+## Corrected Claim
+
+基础设施成本 C_infra = (N_servers * C_server + N_storage * C_storage) / R_daily * 1000，其中 N_servers 为服务器数量，C_server 为单服务器月成本（¥2000-5000），N_storage 为存储容量，C_storage 为单 GB 月成本（¥0.1-0.5）。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点公式中的四个独立变量（N_servers, C_server, N_storage, C_storage），逻辑上互不重叠且无矛盾，完整覆盖了公式的所有组成部分，且各自内部包含具体的计算逻辑或成本构成，不存在单纯的参数冗余。）

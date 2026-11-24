@@ -1,0 +1,20 @@
+# N309: 2x峰值带宽预置的合理性验证：若 Peak_Average_Ratio = 4，则 2x 平均带宽仅覆盖 50% 峰值，溢出概率 P_Overflow 将显著上
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N107
+
+## Claim
+
+2x峰值带宽预置的合理性验证：若 Peak_Average_Ratio = 4，则 2x 平均带宽仅覆盖 50% 峰值，溢出概率 P_Overflow 将显著上升（如从 1% 升至 10-20%），需重新评估 N121 中的弹性不足成本惩罚项，或调整预置倍数为 3x-4x 以匹配实际峰均比。
+
+## Corrected Claim
+
+2x峰值带宽预置的合理性验证：若 Peak_Average_Ratio = 4，则 2x 平均带宽仅覆盖 50% 峰值，溢出概率 P_Overflow 将显著上升（如从 1% 升至 10-20%），需重新评估 N121 中的弹性不足成本惩罚项，或调整预置倍数为 3x-4x 以匹配实际峰均比。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：当峰均比为4时，2x平均带宽确实仅覆盖50%峰值，导致溢出概率显著上升，需调整预置倍数或成本模型，逻辑自洽且符合网络容量规划基本原理。

@@ -1,0 +1,23 @@
+{
+  "id": "N83",
+  "claim": "自建 POP 点的回源带宽月度成本 (C_bw_month, ¥/月) 采用阶梯定价模型：C_bw_month = (B_peak * Unit_Price_95th) * 1000 + (V_origin_excess * Unit_Price_95th_excess)，其中 Unit_Price_95th 为 95th 百分位带宽单价（¥/Mbps/月），Unit_Price_95th_excess 为超量流量计费单价（¥/GB）。",
+  "level": "L3",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]该公式将带宽成本（基于峰值或95分位带宽）与流量成本（基于超量流量）混合在一个简单的加法模型中，且未明确定义 B_peak 与 95th 百分位的关系（通常95计费是基于95分位带宽而非峰值，若 B_peak 为峰值则量级可能偏高；若 B_peak 为95分位带宽则命名误导）。此外，'超量流量'的定义（是超出带宽承诺的流量还是总流量？）在公式中表述模糊，Unit_Price_95th_excess 的单位是 ¥/GB，但 V_origin_excess 未明确是总回源流量还是超出某阈值的流量，存在口径混淆风险。 | 参考来源[1]仅讨论自建与租用CDN的宏观成本对比，未提供具体的回源带宽阶梯定价公式或单价参数，属于无关来源。该公式逻辑上自洽（带宽费+流量费是常见计费模式），但作为经验事实（具体计费模型结构），缺乏直接来源支持，且公式细节（如B_peak定义、超量定义）存在歧义，故降级。",
+  "corrected_claim": "自建 POP 点的回源带宽月度成本通常包含带宽租赁费（基于95th百分位带宽或峰值带宽）和可能的流量超额费，具体公式取决于运营商合同，常见形式为 C_bw_month = (B_95th * Unit_Price_95th) + (V_excess * Unit_Price_excess)，其中 B_95th 为95th百分位带宽，V_excess 为超出承诺带宽对应的流量或总流量（视合同而定）。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N16"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "China telecom 95th percentile bandwidth pricing per Mbps per month CDN origin pull cost",
+  "retrieval_sources": [
+    {
+      "url": "https://wenku.baidu.com/view/26c304a6950ef12d2af90242a8956bec0975a5cb.html&rut=bd9820eb56f43a40042d01c1bd05b12269ecb67c054f11ec94bc66e632280d72",
+      "type": "ddg",
+      "title": "CDN机房搭建费用明细解析：自建还是租用？一文看懂2026年成本与选择"
+    }
+  ]
+}

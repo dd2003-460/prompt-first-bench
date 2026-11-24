@@ -1,0 +1,28 @@
+# N60: 单台边缘节点存储硬件成本 Storage_Cost = N_Disks × Disk_Price，其中 N_Disks=8 (RAID10 或 NVMe)，Di
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N12
+
+## Claim
+
+单台边缘节点存储硬件成本 Storage_Cost = N_Disks × Disk_Price，其中 N_Disks=8 (RAID10 或 NVMe)，Disk_Price 为 2TB NVMe SSD 约 ¥1,500/块，合计约 ¥12,000/台 [时效待核]。
+
+## Corrected Claim
+
+单台边缘节点存储硬件成本 Storage_Cost = N_Disks × Disk_Price，其中 N_Disks=8 (RAID10 或 NVMe)，Disk_Price 为 2TB NVMe SSD 的市场参考价（约 ¥1,000-¥2,000/块，随市场波动），合计约 ¥8,000-¥16,000/台。
+
+## Evidence
+
+[质询]具体硬件价格（¥1,500/块 2TB NVMe）属于随市场波动的经验事实，且不同品牌、渠道价格差异较大，单一数值缺乏实时市场数据支撑，存在时效性和口径偏差风险。 | 来源[1]仅讨论边缘计算成本控制的宏观概念，未提供具体硬件单价或配置细节，无法直接支持具体数值；该事实为经验性市场数据，逻辑自洽但缺乏直接来源支持。
+
+## Search Query
+
+2TB NVMe SSD enterprise price 2024 edge server storage cost
+
+## Retrieval Sources
+
+- {'url': 'https://developer.baidu.com/article/detail.html?id=444073&rut=7f2e8ab27638f439457827e8f8ebfebfe1b51f9ca8bbacf4c9b607487232a0a1', 'type': 'ddg', 'title': '边缘计算的的成本控制：优化计算、存储和网络资源-百度开发者中心'}

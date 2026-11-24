@@ -1,0 +1,20 @@
+# N311: Anycast 路由切换的 T_failover 量化：T_failover_anycast = BGP_Convergence_Time + Route_Pr
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N108
+
+## Claim
+
+Anycast 路由切换的 T_failover 量化：T_failover_anycast = BGP_Convergence_Time + Route_Propagation_Time，其中 BGP_Convergence_Time 为BGP协议收敛时间（通常 1-5 min），Route_Propagation_Time 为路由表更新传播时间（通常 30-120s），因此 T_failover_anycast ∈ [1.5-6.5 min]，通常快于DNS切换。
+
+## Corrected Claim
+
+Anycast 路由切换的 T_failover 量化：T_failover_anycast = BGP_Convergence_Time + Route_Propagation_Time，其中 BGP_Convergence_Time 为BGP协议收敛时间（通常 1-5 min），Route_Propagation_Time 为路由表更新传播时间（通常 30-120s），因此 T_failover_anycast ∈ [1.5-6.5 min]，通常快于DNS切换。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：BGP收敛时间（1-5分钟）与路由传播时间（30-120秒）的量级符合网络工程常识，且Anycast切换确实依赖BGP收敛而非DNS TTL，逻辑自洽。

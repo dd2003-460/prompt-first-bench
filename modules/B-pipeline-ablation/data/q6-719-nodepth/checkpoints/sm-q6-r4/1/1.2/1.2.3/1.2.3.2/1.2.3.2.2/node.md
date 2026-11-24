@@ -1,0 +1,20 @@
+# N477: T_propagation（传播延迟）计算式：T_propagation = Distance_km / 200 km/ms。核心区域用户到最近 POP 距离通
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N160
+
+## Claim
+
+T_propagation（传播延迟）计算式：T_propagation = Distance_km / 200 km/ms。核心区域用户到最近 POP 距离通常 <100km，T_propagation ≈ 0.5ms；长尾区域用户距离 >500km，T_propagation ≈ 2.5ms。该值决定 P99 延迟的地理下限。
+
+## Corrected Claim
+
+T_propagation（传播延迟）计算式：T_propagation = Distance_km / 200 km/ms。核心区域用户到最近 POP 距离通常 <100km，T_propagation ≈ 0.5ms；长尾区域用户距离 >500km，T_propagation ≈ 2.5ms。该值决定 P99 延迟的地理下限。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：光速在光纤中约为200km/ms，距离除以速度得到延迟，数值量级（100km对应0.5ms，500km对应2.5ms）符合物理直觉且计算正确。

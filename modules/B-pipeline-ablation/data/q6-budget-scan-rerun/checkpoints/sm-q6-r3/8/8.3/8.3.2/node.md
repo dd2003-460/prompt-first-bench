@@ -1,0 +1,28 @@
+# N385: 公有云 CDN 带宽计费的隐藏成本项：除基础流量费外，需计入 HTTPS 请求费（阿里云约 0.04 元/万次）、WAF 防护费（若启用，约 0.5 元/GB）
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N122
+
+## Claim
+
+公有云 CDN 带宽计费的隐藏成本项：除基础流量费外，需计入 HTTPS 请求费（阿里云约 0.04 元/万次）、WAF 防护费（若启用，约 0.5 元/GB）及 DDoS 防护费（基础版免费，高级版约 100 元/天）；在日均 2TB 场景下，HTTPS 请求费年成本 ≈ 0.04 × (394,595/10) = 1,578 元，WAF 费若全量启用年成本 ≈ 0.5 × 730,000 = 365,000 元，需将这些项加入总成本计算。
+
+## Corrected Claim
+
+公有云 CDN 带宽计费存在隐藏成本项，通常包括 HTTPS 请求费、WAF 防护费及 DDoS 防护费等。具体单价需参考各云厂商最新官方报价（例如阿里云 HTTPS 请求费、WAF 按量计费单价等），在日均 2TB 场景下，需根据实际请求量和启用的高级安全服务等级计算这些附加项的年成本并计入总预算。
+
+## Evidence
+
+[质询]具体价格数值（如HTTPS 0.04元/万次、WAF 0.5元/GB、DDoS 100元/天）属于经验事实，且不同云厂商、不同计费模式（按量/包年包月）及不同时期价格差异巨大，仅凭逻辑自洽无法确认为当前准确的市场价格。 | 来源[1]主题相关但仅提及HTTPS成本疑问，未提供具体数值支持；该节点为search类型，涉及具体经验价格参数，缺乏直接来源支持，依据经验事实排除条款降级。
+
+## Search Query
+
+Aliyun CDN HTTPS request fee WAF DDoS protection cost per GB
+
+## Retrieval Sources
+
+- {'url': 'https://www.sohu.com/a/914032074_122436788&rut=f479c4eb529512bc92d63d30130832114ce3c6eb40b4264d7e5dbe92cf977f49', 'type': 'ddg', 'title': '阿里云cdn Https加速成本解析：证书费用、安全防护成本，是否包含在基础报价？_服务_客户_高防'}

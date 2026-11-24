@@ -1,0 +1,20 @@
+# N63: 自建POP策略下，Outbound_Traffic_TB 的计费逻辑为：Peak_Bandwidth_Mbps × 86400s / 8 / 1024^2，其中
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+自建POP策略下，Outbound_Traffic_TB 的计费逻辑为：Peak_Bandwidth_Mbps × 86400s / 8 / 1024^2，其中Peak_Bandwidth_Mbps = Avg_Bandwidth_Mbps × Peak_Factor (2-4)，Avg_Bandwidth_Mbps = 2TB/day / 86400s * 8 * 1024^2 ≈ 2960 Mbps，故峰值带宽需求约为 5920-11840 Mbps
+
+## Corrected Claim
+
+自建POP策略下，Outbound_Traffic_TB 的计费逻辑为：Peak_Bandwidth_Mbps × 86400s / 8 / 1024^2，其中Peak_Bandwidth_Mbps = Avg_Bandwidth_Mbps × Peak_Factor (2-4)，Avg_Bandwidth_Mbps = 2TB/day / 86400s * 8 * 1024^2 ≈ 2960 Mbps，故峰值带宽需求约为 5920-11840 Mbps
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间维度清晰（基础模型、多POP分摊/溢价、利用率/有效成本），正交性良好且无冗余。但完备性不足：父节点明确定义了计费公式（Peak × Time / Size），隐含了按流量或时长的计费逻辑，而子节点1直接跳到了月度带宽租赁成本（Monthly_Bandwidth_Cost），缺失了从‘TB流量’到‘Mbps带宽’再到‘具体计费金额’的完整闭环推导（即未体现父节点公式中的时间/单位换算因子对最终成本的影响，或假设了纯带宽包月模式而未说明）。）

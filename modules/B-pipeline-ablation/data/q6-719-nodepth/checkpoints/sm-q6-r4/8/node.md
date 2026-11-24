@@ -1,0 +1,24 @@
+# N38: P99 合规成本（¥/1000 req）的最终计算公式为：Total_Cost_P99 = (Infra_Annualized + Bandwidth_Mont
+
+- **status**: verified
+- **level**: L2
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+P99 合规成本（¥/1000 req）的最终计算公式为：Total_Cost_P99 = (Infra_Annualized + Bandwidth_Monthly + Ops_Monthly + Risk_Premium) / (Monthly_Requests / 1000)，其中 Monthly_Requests = DAU × Avg_Requests_Per_User × 30，需分别代入三种策略的具体数值进行对比。
+
+## Corrected Claim
+
+P99 合规成本的一种估算模型为：Total_Cost_P99 = (Infra_Annualized + Bandwidth_Monthly + Ops_Monthly + Risk_Premium) / (Monthly_Requests / 1000)，其中 Monthly_Requests = DAU × Avg_Requests_Per_User × 30。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点严格对应父节点公式中的四个加数项（Infra, Bandwidth, Ops, Risk），逻辑上互斥且无重叠。每个子节点清晰定义了不同策略下的计算逻辑或取值，虽然包含具体数值，但这是为了执行对比所必需的参数实例化，而非结构性冗余。所有关键组件均已覆盖，无遗漏。）
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1907850060240257948&rut=f8568459f53c969be6c08e9ce6f128269cd34bc1378fc3538a037e0cd1594e62', 'type': 'ddg', 'title': '运维必懂：监控指标中的 P90、P95、P99，到底是个啥？'}

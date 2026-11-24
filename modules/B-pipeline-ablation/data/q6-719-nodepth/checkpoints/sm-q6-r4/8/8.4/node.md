@@ -1,0 +1,20 @@
+# N134: Risk_Premium 计算：Risk_Premium = Elasticity_Penalty + Geo_Policy_Premium，其中 Elasti
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N38
+
+## Claim
+
+Risk_Premium 计算：Risk_Premium = Elasticity_Penalty + Geo_Policy_Premium，其中 Elasticity_Penalty 由单点故障概率 × 业务损失估算（自建 10% × 500k = 50k 元/月，公有云 0），Geo_Policy_Premium 由 N31/N32 给出（自建 50k 元/月，混合 25k 元/月，公有云 0）。
+
+## Corrected Claim
+
+Risk_Premium 计算：Risk_Premium = Elasticity_Penalty + Geo_Policy_Premium，其中 Elasticity_Penalty 由单点故障概率 × 业务损失估算（自建 10% × 500k = 50k 元/月，公有云 0），Geo_Policy_Premium 由 N31/N32 给出（自建 50k 元/月，混合 25k 元/月，公有云 0）。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点代表了不同的架构策略（自建、混合、公有云）及其对应的风险参数取值。虽然它们共享相同的计算公式（父节点定义），但每个子节点展示了公式在不同输入参数（如POP数量、故障影响比例、SLA等级）下的具体实例化结果，属于对父节点公式的‘应用示例’或‘场景分解’，而非对公式本身的重复定义。它们覆盖了高/中/低冗余及不同成本敏感度的典型场景，逻辑上互斥且完备。）

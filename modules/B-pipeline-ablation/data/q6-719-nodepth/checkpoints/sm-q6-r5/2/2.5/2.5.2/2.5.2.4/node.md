@@ -1,0 +1,20 @@
+# N201: C_deployment_pop 的年化分摊：C_deployment_pop = C_deployment_one_time / 5年 / 12月；假设单 P
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N63
+
+## Claim
+
+C_deployment_pop 的年化分摊：C_deployment_pop = C_deployment_one_time / 5年 / 12月；假设单 POP 一次性部署成本 ¥80,000，则 C_deployment_pop = 80,000 / 60 ≈ ¥1,333/月/POP；此成本包括硬件安装、网络接入、初始配置等
+
+## Corrected Claim
+
+C_deployment_pop 的年化分摊：C_deployment_pop = C_deployment_one_time / 5年 / 12月；假设单 POP 一次性部署成本 ¥80,000，则 C_deployment_pop = 80,000 / 60 ≈ ¥1,333/月/POP；此成本包括硬件安装、网络接入、初始配置等
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1和2分别拆解了硬件和网络成本，两者在概念上是正交的（互不重叠）。子节点3指出了父节点假设值与子节点1+2之和的矛盾，并提出了修正建议，这构成了对父节点假设的有效验证和修正，而非冗余。虽然子节点3依赖于前两个节点的计算结果，但这属于逻辑推导而非内容重复。）

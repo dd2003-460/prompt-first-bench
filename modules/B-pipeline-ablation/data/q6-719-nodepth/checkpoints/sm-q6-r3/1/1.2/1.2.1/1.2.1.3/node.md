@@ -1,0 +1,24 @@
+# N155: 自建边缘节点最后一跳（Last Mile）的接入网抖动特性：光纤接入（FTTH）σ_congestion 通常 < 1ms，而 4G/5G 无线接入 σ_con
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N43
+
+## Claim
+
+自建边缘节点最后一跳（Last Mile）的接入网抖动特性：光纤接入（FTTH）σ_congestion 通常 < 1ms，而 4G/5G 无线接入 σ_congestion 可达 5-20ms，取决于基站负载与信号强度，需根据用户接入方式分布加权计算。
+
+## Corrected Claim
+
+自建边缘节点最后一跳（Last Mile）的接入网抖动特性：光纤接入（FTTH）σ_congestion 通常 < 1ms，而 4G/5G 无线接入 σ_congestion 可达 5-20ms，取决于基站负载与信号强度，需根据用户接入方式分布加权计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：FTTH基于光纤传输，物理层抖动极低（通常<1ms）；4G/5G无线接入受无线信道衰落、基站调度及负载影响，抖动显著高于有线（5-20ms符合工程经验量级），加权计算逻辑自洽。
+
+## Search Query
+
+fiber vs 4g 5g network jitter variance ms

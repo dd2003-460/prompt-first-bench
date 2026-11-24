@@ -1,0 +1,24 @@
+# N69: T_process_self 的量化分解：自建服务器处理延迟包括内核协议栈开销（2-5ms）、用户态缓存查找（<1ms）、SSL 解密（1-3ms），P99 贡
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+T_process_self 的量化分解：自建服务器处理延迟包括内核协议栈开销（2-5ms）、用户态缓存查找（<1ms）、SSL 解密（1-3ms），P99 贡献典型值为 5-15ms，低于公有云因无虚拟化开销
+
+## Corrected Claim
+
+T_process_self 的量化分解：自建服务器处理延迟包括内核协议栈开销（2-5ms）、用户态缓存查找（<1ms）、SSL 解密（1-3ms），P99 贡献典型值为 5-15ms，低于公有云因无虚拟化开销
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点中明确列出的三个主要延迟来源（内核协议栈、SSL解密、用户态缓存），三者属于不同的软件/硬件处理阶段，逻辑上互斥且无重叠。父节点提到的'无虚拟化开销'是相对于公有云的对比结论，而非需要进一步分解的延迟组件，因此未单独列为子节点是合理的。所有子节点均提供了具体的微观机制和量化依据，覆盖了父节点声称的所有关键方面。）
+
+## Search Query
+
+Self-built server processing latency kernel protocol stack SSL decryption P99

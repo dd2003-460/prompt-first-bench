@@ -1,0 +1,20 @@
+# N456: 视频主导工作点下的单请求传输延迟 L_trans_vid = s_avg / Bandwidth = 2.89 MB / (10 Gbps / 8) ≈ 2.3
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N145
+
+## Claim
+
+视频主导工作点下的单请求传输延迟 L_trans_vid = s_avg / Bandwidth = 2.89 MB / (10 Gbps / 8) ≈ 2.31 ms，是图片工作点的 4.3 倍，且在 P99 负载下因带宽竞争导致的排队延迟 L_queue 将显著增加，需额外计入 5-10 ms 的估计值。
+
+## Corrected Claim
+
+视频主导工作点下的单请求传输延迟 L_trans_vid = s_avg / Bandwidth = 2.89 MB / (10 Gbps / 8) ≈ 2.31 ms，是图片工作点的 4.3 倍，且在 P99 负载下因带宽竞争导致的排队延迟 L_queue 将显著增加，需额外计入 5-10 ms 的估计值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：2.89MB / 1.25GBps ≈ 2.31ms 计算正确，且 2.31ms 约为 0.54ms (图片典型值) 的 4.3 倍，量级合理。

@@ -1,0 +1,28 @@
+# N43: 公有云CDN在T=300ms约束下的P99延迟达标率：核心城市（一线）P99延迟通常<150ms，达标率100%；二线城市P99延迟约150-250ms，达标率
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N9, N10, N11
+
+## Claim
+
+公有云CDN在T=300ms约束下的P99延迟达标率：核心城市（一线）P99延迟通常<150ms，达标率100%；二线城市P99延迟约150-250ms，达标率约95-99%；三线及以下P99延迟约250-400ms，达标率约70-90%，整体加权达标率约90-95% [待核验]
+
+## Corrected Claim
+
+公有云CDN在T=300ms约束下的P99延迟达标率通常较高，核心城市表现优于下沉市场，但具体数值因服务商、节点分布及业务类型而异，需参考具体厂商SLA报告。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（如一线<150ms、二线150-250ms、整体达标率90-95%），属于特定云厂商或特定网络环境下的经验数据，无法从第一性原理推导，且不同CDN服务商、不同业务场景（静态/动态）差异巨大，缺乏通用性。 | 参考来源[1]仅解释P99延迟的定义和重要性，未提供具体CDN延迟数值或达标率数据，属于无关来源；该事实为经验事实，逻辑自洽但缺来源支持。
+
+## Search Query
+
+Alibaba Cloud CDN P99 latency by city tier China 2023 2024 SLA report
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/20519740300&rut=d71624f64bb1f8a6f2d084455c640bf167ea2b001b9c9be224b30e5dae8f3e24', 'type': 'ddg', 'title': 'P90、P95、P99时延：你以为的平均值，其实骗了你! - 知乎'}

@@ -1,0 +1,28 @@
+# N23: 请求地理分布比例：核心区域（自建 POP 覆盖区）与长尾区域（公有云覆盖区）的请求量占比，决定混合策略的成本权重。
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N3
+
+## Claim
+
+请求地理分布比例：核心区域（自建 POP 覆盖区）与长尾区域（公有云覆盖区）的请求量占比，决定混合策略的成本权重。
+
+## Corrected Claim
+
+请求地理分布比例（核心区域与长尾区域）是决定混合策略成本权重的关键因素，具体占比需根据实际业务流量监测数据确定。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1提供了核心区域占比 P_core 的基础计算公式，子节点2提供了基于流量密度差异的修正系数 K_density。两者在逻辑上是正交的（基础估算 vs 修正因子）。然而，父节点明确要求“请求量占比”（即最终用于成本权重的比例），而子节点仅提供了“基础公式”和“修正系数”，缺失了将二者结合得出最终 P_core_final 的明确步骤或公式。此外，父节点隐含需要同时确定长尾区域占比（P_tail = 1 - P_core），子节点未显式提及这一互补关系，导致在直接用于“成本权重”决策时存在逻辑断点。）
+
+## Search Query
+
+user geographic distribution China social media platform core vs long-tail regions
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/694211327&rut=c49ca49d34eb259760341057b010a61885e7692cfefa18cd7161b078dc3392e3', 'type': 'ddg', 'title': '阿里云全球基础设施展示，公共云地域、边缘节点、超级数据中心分布图'}

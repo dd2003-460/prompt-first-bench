@@ -1,0 +1,20 @@
+# N432: 低码率视频（720p, 1Mbps）在弱网环境（<4G，带宽 1-2 Mbps）下的缓冲比 Buffer_Ratio = s_video / (Bandwidt
+
+- **status**: pending
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N140
+
+## Claim
+
+低码率视频（720p, 1Mbps）在弱网环境（<4G，带宽 1-2 Mbps）下的缓冲比 Buffer_Ratio = s_video / (Bandwidth * T_buffer_window)，若 T_buffer_window=2s，则 Buffer_Ratio = 2.0MB / (1.5Mbps * 2s) ≈ 5.33，远高于 1.0，表明需依赖预加载策略而非实时流式传输，这影响了边缘节点需缓存的最小对象粒度。
+
+## Corrected Claim
+
+低码率视频（720p, 1Mbps）在弱网环境（带宽 1.5Mbps）下，若 T_buffer_window=2s，则 Buffer_Ratio = 2.0MB / (1.5Mbps * 2s) ≈ 0.67，低于 1.0，表明在 2 秒窗口内带宽不足以覆盖视频数据量，需依赖预加载或降低码率策略。
+
+## Evidence
+
+父节点级核验未通过：非正交（子节点2和子节点4存在逻辑重叠与计算矛盾。子节点2指出弱网下传输延迟约为10.67秒（基于带宽瓶颈），而子节点4在计算Buffer_Ratio时隐含假设了瞬时带宽或忽略了传输延迟对缓冲区填充的影响，且两者都在解释‘弱网’对‘缓冲/传输’的影响，主题耦合度高。此外，子节点1讨论容器格式对s_video的影响，子节点4讨论预加载策略对T_buffer_window的影响，虽然维度不同，但都旨在解决‘Buffer_Ratio > 1’的问题，逻辑上属于同一优化路径的不同分支，正交性略弱。）

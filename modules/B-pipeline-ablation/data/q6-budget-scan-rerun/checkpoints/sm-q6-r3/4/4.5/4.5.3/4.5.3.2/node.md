@@ -1,0 +1,24 @@
+# N273: 在二三线城市标准 POP 点工作点下，带宽单位成本 unit_cost_per_Mbps_month = (1500 + 300) = 1800 元/Mbps/
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N87
+
+## Claim
+
+在二三线城市标准 POP 点工作点下，带宽单位成本 unit_cost_per_Mbps_month = (1500 + 300) = 1800 元/Mbps/月，取骨干网和接入带宽的中位值，适用于大多数非核心区域节点，成本中等且覆盖范围广。
+
+## Corrected Claim
+
+在二三线城市标准 POP 点工作点下，带宽单位成本通常处于中等水平，具体数值需根据当期运营商报价及具体城市等级确定，不宜固定为单一数值。
+
+## Evidence
+
+[质询]具体数值（1500+300=1800元/Mbps/月）属于高度依赖市场波动、运营商政策及具体城市等级的经验事实，无法从第一性原理推导，且缺乏实时市场数据支持其精确性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+China secondary city CDN bandwidth pricing 2024

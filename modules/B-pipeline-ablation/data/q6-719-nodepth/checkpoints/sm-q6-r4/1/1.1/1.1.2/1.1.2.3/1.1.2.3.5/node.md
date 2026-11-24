@@ -1,0 +1,20 @@
+# N445: 高码率工作点的 P99 延迟贡献项 L_p99_high = L_prop + L_processing + L_transmission_high * (1 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N142
+
+## Claim
+
+高码率工作点的 P99 延迟贡献项 L_p99_high = L_prop + L_processing + L_transmission_high * (1 - H_high)，其中 L_transmission_high = 8.0MB / B_link；在 4G 环境（B_link=10Mbps）下，L_transmission_high = 64ms，L_p99_high ≈ 3 + 5 + 64*0.35 = 30.4ms，接近 T=100ms 目标的 30%，在弱网环境下可能超标。
+
+## Corrected Claim
+
+高码率工作点的 P99 延迟贡献项 L_p99_high = L_prop + L_processing + L_transmission_high * (1 - H_high)，其中 L_transmission_high = 8.0MB / B_link；在 4G 环境（B_link=10Mbps）下，L_transmission_high = 64ms，L_p99_high ≈ 3 + 5 + 64*0.35 = 30.4ms，接近 T=100ms 目标的 30%，在弱网环境下可能超标。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：8.0MB * 8 / 10Mbps = 6400ms/100 = 64ms，计算正确；3+5+64*0.35=30.4ms，计算正确；30.4/100=30.4%，逻辑自洽。

@@ -1,0 +1,26 @@
+# N131: 技术债务（Technical Debt）年化利息量化：自建边缘节点需维护自定义缓存策略、负载均衡脚本及监控Agent。假设每年需投入0.2 FTE用于重构和优化
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+技术债务（Technical Debt）年化利息量化：自建边缘节点需维护自定义缓存策略、负载均衡脚本及监控Agent。假设每年需投入0.2 FTE用于重构和优化代码以适配新硬件或协议（如HTTP/3），年薪30万元，则年技术债务利息 C_debt = 0.2 × 30万 = 6万元。相比之下，公有云CDN的技术债务由厂商承担，用户侧 C_debt ≈ 0。在5年周期内，自建策略累计技术债务成本约为30万元，需在TCO中单独列项。
+
+## Corrected Claim
+
+技术债务利息可通过维护人力成本量化（如：年利息 = 维护FTE × 年薪）。在自建边缘节点场景中，若假设年维护投入为0.2 FTE且年薪30万元，则年利息约为6万元；该数值为基于特定假设的估算，实际成本需根据具体团队和技术栈调整。
+
+## Evidence
+
+[质询]0.2 FTE的维护投入假设属于特定场景下的经验估算，缺乏通用性，且不同技术栈和团队规模下差异巨大，无法作为普适事实直接验证。 | 来源[2]和[3]支持技术债务利息可通过人力成本量化（间接支持方法论），但无来源直接支持0.2 FTE或30万年薪的具体数值假设，属经验事实缺直接来源支持。
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/jiang_style/article/details/163020135&rut=639d7b02c6c3265b85b15872467a914ec55863a20d38d2053d27f987197fdac1', 'type': 'ddg', 'title': '技术债务的量化管理：从SonarQube规则体系到技术债利息计算的工程化落地实践-CSDN博客'}
+- {'url': 'https://docs.pingcode.com/insights/rt4p7cd2m5uvv8gy3rb0nn6i&rut=193769762f13df698412c4f35ad683c6fea16ff667420c097a3412b588f9e436', 'type': 'ddg', 'title': '技术债务的利息成本量化计算方法 - docs.pingcode.com'}
+- {'url': 'https://worktile.com/insights/uw64wlyh9rczr8bjaxnc23uy&rut=96500827087056aa8f14661a2df9789055762a2cc3b180206715c3808693d18a', 'type': 'ddg', 'title': '技术债务利息成本的量化计算模型 - worktile.com'}

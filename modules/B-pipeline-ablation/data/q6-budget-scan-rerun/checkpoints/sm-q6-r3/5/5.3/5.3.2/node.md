@@ -1,0 +1,20 @@
+# N103: Zipf 分布参数 α 的地理流量拟合值：针对中国移动互联网流量，Zipf 指数 α 的典型拟合值为 1.2 ± 0.1（基于省级人口与 GDP 加权数据），该
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N31
+
+## Claim
+
+Zipf 分布参数 α 的地理流量拟合值：针对中国移动互联网流量，Zipf 指数 α 的典型拟合值为 1.2 ± 0.1（基于省级人口与 GDP 加权数据），该值用于计算长尾地区（排名 i > 10 的省份）的流量占比 geo_share_i ∝ 1/i^1.2，从而量化长尾区域的带宽需求 B_tail = B_total × Σ_{i>10} geo_share_i。
+
+## Corrected Claim
+
+Zipf 分布参数 α 的地理流量拟合值：针对中国移动互联网流量，Zipf 指数 α 的典型拟合值为 1.2 ± 0.1（基于省级人口与 GDP 加权数据），该值用于计算长尾地区（排名 i > 10 的省份）的流量占比 geo_share_i ∝ 1/i^1.2，从而量化长尾区域的带宽需求 B_tail = B_total × Σ_{i>10} geo_share_i。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

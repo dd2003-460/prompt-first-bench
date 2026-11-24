@@ -1,0 +1,20 @@
+# N607: 单POP运维人力成本 C_eng_pop 的职能分解：C_eng_pop = (N_eng_network * C_rate_net + N_eng_syste
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N198, N199, N200
+
+## Claim
+
+单POP运维人力成本 C_eng_pop 的职能分解：C_eng_pop = (N_eng_network * C_rate_net + N_eng_system * C_rate_sys) / 10，其中 N_eng_network = 1（网络工程师，负责链路监控），N_eng_system = 2（系统工程师，负责节点部署与故障排查），C_rate_net = ¥45k/月，C_rate_sys = ¥35k/月，合计 ¥115,000/月/10POP = ¥11,500/月/POP。
+
+## Corrected Claim
+
+单POP运维人力成本 C_eng_pop 的职能分解：C_eng_pop = (N_eng_network * C_rate_net + N_eng_system * C_rate_sys) / 10，其中 N_eng_network = 1（网络工程师，负责链路监控），N_eng_system = 2（系统工程师，负责节点部署与故障排查），C_rate_net = ¥45k/月，C_rate_sys = ¥35k/月，合计 ¥115,000/月/10POP = ¥11,500/月/POP。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算 (1*45000 + 2*35000) / 10 = 115000 / 10 = 11500，数值量级与工程人力成本常识相符，无内部矛盾。

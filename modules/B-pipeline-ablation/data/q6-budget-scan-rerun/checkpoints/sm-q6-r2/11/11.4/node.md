@@ -1,0 +1,20 @@
+# N183: P99延迟合规性在故障期间的破坏程度：当单POP故障时，受影响用户的P99延迟从正常值 L_normal_p99 跃升至 L_failover_p99（通常>1
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N44
+
+## Claim
+
+P99延迟合规性在故障期间的破坏程度：当单POP故障时，受影响用户的P99延迟从正常值 L_normal_p99 跃升至 L_failover_p99（通常>1000ms或超时），导致整体P99分布尾部被拉长，合规率 Compliant_Rate = 1 - (U_impact * P(failover_latency > T))，其中 T 为P99目标值。
+
+## Corrected Claim
+
+P99延迟合规性在故障期间的破坏程度：当单POP故障时，受影响用户的P99延迟从正常值 L_normal_p99 跃升至 L_failover_p99（通常>1000ms或超时），导致整体P99分布尾部被拉长，合规率 Compliant_Rate = 1 - (U_impact * P(failover_latency > T))，其中 T 为P99目标值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

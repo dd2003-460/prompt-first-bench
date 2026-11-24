@@ -1,0 +1,28 @@
+# N91: 自建 POP 点自动化运维工具及监控订阅费用（¥/1000 req）= (C_tool_monthly * 12) / (Q_day * 365) * 1000
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N19
+
+## Claim
+
+自建 POP 点自动化运维工具及监控订阅费用（¥/1000 req）= (C_tool_monthly * 12) / (Q_day * 365) * 1000，其中 C_tool_monthly 为监控（如 Prometheus/Zabbix 商业版或云监控）、日志分析（如 ELK/CloudWatch 自建替代）及 CI/CD 工具的月度订阅或许可费用，典型值范围 5k-20k CNY/月，[待核验]。
+
+## Corrected Claim
+
+自建 POP 点自动化运维工具及监控订阅费用（¥/1000 req）= (C_tool_monthly * 12) / (Q_day * 365) * 1000，其中 C_tool_monthly 为监控、日志分析及 CI/CD 工具的月度费用，具体数值需根据实际选型（开源/商业）及规模确定，典型值范围待进一步调研。
+
+## Evidence
+
+[质询]典型值范围（5k-20k CNY/月）缺乏具体来源支持，且不同规模/技术栈（如开源Prometheus vs 商业云监控）成本差异巨大，该区间可能偏高或偏低，属于经验事实且无直接证据。 | 逻辑公式自洽，但参考来源[1]讨论的是Cloudflare Workers订阅管理，与自建POP点运维工具成本无关，无法提供外部支持；经验事实缺来源支持。
+
+## Search Query
+
+open source monitoring tools cost vs commercial subscription enterprise
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2029581661826752540&rut=e2b7c9c2d7dbd943b355831959a0576e85f314910ad3fde0c9d46bc7894a3c44', 'type': 'ddg', 'title': '我用 AI 写了套订阅管理系统，部署在 Cloudflare 上，省下每月 2000 元管理成本'}

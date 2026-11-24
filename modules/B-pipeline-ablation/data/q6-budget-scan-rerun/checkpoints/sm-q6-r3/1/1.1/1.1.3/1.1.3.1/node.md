@@ -1,0 +1,24 @@
+# N150: 重尾延迟分布的尾部比率量化：在 Pareto 分布（形状参数 α=1.5）下，P99/P95 ≈ 1.63，P99/P50 ≈ 3.5；在 Log-Normal
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N45
+
+## Claim
+
+重尾延迟分布的尾部比率量化：在 Pareto 分布（形状参数 α=1.5）下，P99/P95 ≈ 1.63，P99/P50 ≈ 3.5；在 Log-Normal 分布（μ=ln(50), σ=0.5）下，P99/P95 ≈ 1.45，P99/P50 ≈ 2.8；需根据实际 CDN 延迟分布拟合 α 或 σ 以确定精确倍率
+
+## Corrected Claim
+
+重尾延迟分布的尾部比率量化：在 Pareto 分布（形状参数 α=1.5）下，P99/P95 ≈ 1.63，P99/P50 ≈ 3.5；在 Log-Normal 分布（μ=ln(50), σ=0.5）下，P99/P95 ≈ 1.45，P99/P50 ≈ 2.8；需根据实际 CDN 延迟分布拟合 α 或 σ 以确定精确倍率
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Pareto(α=1.5) 的 P99/P95 理论值为 (0.05/0.01)^(1/1.5) ≈ 1.63，P99/P50 为 (0.5/0.01)^(1/1.5) ≈ 3.5；Log-Normal(μ=ln50, σ=0.5) 的 P99/P95 理论值为 exp(0.5*(2.326-1.645)) ≈ 1.45，P99/P50 为 exp(0.5*(2.326-0)) ≈ 2.8，数值计算准确且符合重尾分布特性。
+
+## Search Query
+
+Pareto distribution P99 P95 ratio alpha 1.5 latency

@@ -1,0 +1,24 @@
+# N354: Zipf 指数 α 的拟合方法 = 对日志中的对象访问频次进行对数-对数线性回归，斜率的绝对值即为 α。对于图片+短视频混合平台，若图片占比 70%、视频占比 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N123
+
+## Claim
+
+Zipf 指数 α 的拟合方法 = 对日志中的对象访问频次进行对数-对数线性回归，斜率的绝对值即为 α。对于图片+短视频混合平台，若图片占比 70%、视频占比 30%，且图片 α_img=1.0、视频 α_vid=0.8，则混合分布的等效 α_mix 需通过加权调和平均或数值模拟确定，通常 α_mix ≈ 0.9，该值直接决定 P_top10 的计算结果。
+
+## Corrected Claim
+
+Zipf 指数 α 的拟合方法 = 对日志中的对象访问频次进行对数-对数线性回归，斜率的绝对值即为 α。对于图片+短视频混合平台，若图片占比 70%、视频占比 30%，且图片 α_img=1.0、视频 α_vid=0.8，则混合分布的等效 α_mix 需通过加权调和平均或数值模拟确定，通常 α_mix ≈ 0.9，该值直接决定 P_top10 的计算结果。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Zipf指数定义及混合分布等效指数的估算逻辑自洽，数值量级合理。
+
+## Search Query
+
+Zipf alpha fitting mixed content platform image video log-log regression

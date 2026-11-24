@@ -1,0 +1,20 @@
+# N416: 固定运维成本 F_ops_fixed 取值：F_ops_fixed = N133中自建策略的Ops_Monthly = ¥105k/月（包含SRE人力¥50k 
+
+- **status**: verified
+- **level**: L4
+- **source**: given
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N144
+
+## Claim
+
+固定运维成本 F_ops_fixed 取值：F_ops_fixed = N133中自建策略的Ops_Monthly = ¥105k/月（包含SRE人力¥50k + 工具链¥3k + 其他¥52k，基于N23和N133的推导）。
+
+## Corrected Claim
+
+固定运维成本 F_ops_fixed 取值：F_ops_fixed = N133中自建策略的Ops_Monthly = ¥105k/月（包含SRE人力¥50k + 工具链¥3k + 其他¥52k，基于N23和N133的推导）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过（50+3+52=105，数值自洽）

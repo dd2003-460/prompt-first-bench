@@ -1,0 +1,24 @@
+# N1236: 缓存命中率 H_img 的理论上限 H_max 由工作集大小 W_set 与缓存容量 C_cache 决定：H_max = min(1, C_cache / W
+
+- **status**: verified
+- **level**: L6
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N424
+
+## Claim
+
+缓存命中率 H_img 的理论上限 H_max 由工作集大小 W_set 与缓存容量 C_cache 决定：H_max = min(1, C_cache / W_set)；若 W_set 因对象变小而增大（更多独特对象被访问），H_max 可能不升反降，需计算 W_set 的变化率。
+
+## Corrected Claim
+
+缓存命中率 H_img 的理论上限 H_max 由工作集大小 W_set 与缓存容量 C_cache 决定：H_max = min(1, C_cache / W_set)；若 W_set 因对象变小而增大（更多独特对象被访问），H_max 可能不升反降，需计算 W_set 的变化率。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+cache hit rate upper bound based on working set size and cache capacity

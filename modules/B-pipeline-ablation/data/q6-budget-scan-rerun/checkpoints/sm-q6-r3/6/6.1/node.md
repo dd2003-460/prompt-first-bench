@@ -1,0 +1,20 @@
+# N112: 日均总请求量的精确计算公式为 R_total_daily = Total_Download_Bytes / s_avg_bytes，其中 s_avg_bytes
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N34
+
+## Claim
+
+日均总请求量的精确计算公式为 R_total_daily = Total_Download_Bytes / s_avg_bytes，其中 s_avg_bytes 必须使用加权平均对象大小（N16中为1.85MB，N34中误用2.05MB需修正），修正后日均请求量 = 2,000,000 MB / 1.85 MB ≈ 1,081,081 次/天
+
+## Corrected Claim
+
+日均总请求量的精确计算公式为 R_total_daily = Total_Download_Bytes / s_avg_bytes，其中 s_avg_bytes 必须使用加权平均对象大小（N16中为1.85MB，N34中误用2.05MB需修正），修正后日均请求量 = 2,000,000 MB / 1.85 MB ≈ 1,081,081 次/天
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（1. 完备性缺失：父节点的核心是‘精确计算公式’及‘基于修正值1.85MB的基准计算’，但子节点仅提供了两个极端假设场景（下限/上限），完全遗漏了父节点中明确指出的‘修正后基准值’（1,081,081次/天）这一关键结论。2. 冗余性高：两个子节点本质上是同一公式 R = Total / s_avg 在不同参数 s_avg 下的取值，属于‘参数敏感性分析’或‘边界情况’，而非独立的概念分解。它们可以合并为一个‘参数敏感性分析’节点，或者将‘基准值’作为第三个必要节点。）

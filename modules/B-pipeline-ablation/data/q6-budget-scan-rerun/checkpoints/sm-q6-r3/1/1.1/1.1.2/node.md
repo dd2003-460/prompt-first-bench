@@ -1,0 +1,24 @@
+# N40: C 端图片/短视频体验 SLA 标准量化：Web Vitals LCP (Largest Contentful Paint) 阈值 2.5s 中，网络延迟占比通
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N6
+
+## Claim
+
+C 端图片/短视频体验 SLA 标准量化：Web Vitals LCP (Largest Contentful Paint) 阈值 2.5s 中，网络延迟占比通常为 40%-60%，即允许的网络 P99 延迟上限为 1000ms-1500ms；但针对首屏关键资源 (Critical Resources)，行业最佳实践要求 P99 < 300ms 以确保 LCP < 1.5s (Good 等级)，T=300ms 是平衡用户体验与基础设施成本的拐点
+
+## Corrected Claim
+
+Web Vitals LCP 阈值 2.5s 中，网络延迟占比通常为 40%-60%，对应允许的网络 P99 延迟上限约为 1000ms-1500ms；针对首屏关键资源，行业最佳实践通常建议 P99 < 300ms 以优化 LCP 表现，但具体阈值需结合资源大小与渲染耗时综合评估，300ms 并非绝对物理拐点。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1聚焦于技术层面的延迟构成拆解（网络/解析/资源），子节点2聚焦于业务层面的成本-体验权衡模型，两者维度不同（技术vs经济）且互补，无重复或矛盾。父节点中的SLA标准（LCP阈值）和P99要求已在子节点1中通过具体数值推导覆盖，T=300ms拐点的来源在子节点2中通过数学模型解释，覆盖了父节点的所有关键逻辑。）
+
+## Search Query
+
+Web Vitals LCP threshold network latency percentage critical resources P99 300ms best practice

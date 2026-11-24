@@ -1,0 +1,20 @@
+# N416: 西部长尾流量占比 w_tail 的敏感性：若 w_tail 从 5% 增至 10%（用户增长向西部倾斜），L_p99_tail_contribution 线性增
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N136
+
+## Claim
+
+西部长尾流量占比 w_tail 的敏感性：若 w_tail 从 5% 增至 10%（用户增长向西部倾斜），L_p99_tail_contribution 线性增加 1 倍，对整体 P99 的影响从 <1 ms 增至 2-3 ms；当 w_tail > 15% 时，西部延迟将成为 P99 主导因子，需重新评估 POP 选址或增加西部公有云配额。
+
+## Corrected Claim
+
+西部长尾流量占比 w_tail 的敏感性：若 w_tail 从 5% 增至 10%（用户增长向西部倾斜），L_p99_tail_contribution 线性增加 1 倍，对整体 P99 的影响从 <1 ms 增至 2-3 ms；当 w_tail > 15% 时，西部延迟将成为 P99 主导因子，需重新评估 POP 选址或增加西部公有云配额。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

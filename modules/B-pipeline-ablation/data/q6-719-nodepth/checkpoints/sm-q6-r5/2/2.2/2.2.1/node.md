@@ -1,0 +1,24 @@
+# N53: H_effective = H_static × H_dynamic，其中 H_static 为静态对象（图片/预转码视频）缓存命中率（80-95%），H_dy
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+H_effective = H_static × H_dynamic，其中 H_static 为静态对象（图片/预转码视频）缓存命中率（80-95%），H_dynamic 为动态/长尾对象命中率，受 TTL 和用户重复请求率影响；H_dynamic = P_repeat × (1 - P_TTL_expire)，P_repeat 为用户 24h 内重复请求同一对象的概率（10-30%），P_TTL_expire 为请求时对象已过期概率（5-20%）。
+
+## Corrected Claim
+
+H_effective = H_static × H_dynamic，其中 H_static 为静态对象（图片/预转码视频）缓存命中率（80-95%），H_dynamic 为动态/长尾对象命中率，受 TTL 和用户重复请求率影响；H_dynamic = P_repeat × (1 - P_TTL_expire)，P_repeat 为用户 24h 内重复请求同一对象的概率（10-30%），P_TTL_expire 为请求时对象已过期概率（5-20%）。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在逻辑上是正交的，分别对应公式中的不同变量（H_static, P_repeat, P_TTL_expire）以及一个具体场景。但是，父节点明确给出了 H_dynamic 的完整计算公式 H_dynamic = P_repeat × (1 - P_TTL_expire)，而子节点仅提供了一个具体的“工作点”示例（Frontier Workpoint 1），缺少对 H_dynamic 这一中间变量本身的通用定义或基准值推导。虽然通过前三个子节点可以计算出 H_dynamic，但作为分解，缺少一个专门界定 H_dynamic 基准值或通用计算逻辑的节点，导致对父节点中 H_dynamic 这一关键组成部分的覆盖不够直接和完备。）
+
+## Search Query
+
+effective cache hit rate dynamic content TTL expiration user repeat request probability

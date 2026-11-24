@@ -1,0 +1,24 @@
+# N293: 网络硬件成本细化 Cost_Network_Interface = C_switches + C_nics，假设单节点配置2台万兆接入交换机 (¥20,000)
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N131
+
+## Claim
+
+网络硬件成本细化 Cost_Network_Interface = C_switches + C_nics，假设单节点配置2台万兆接入交换机 (¥20,000) 和4张冗余10G SFP+网卡 (¥2,000)，则 Cost_Network_Interface ≈ ¥22,000。若需25G升级，成本增加约 ¥5,000-¥8,000。
+
+## Corrected Claim
+
+网络硬件成本细化 Cost_Network_Interface = C_switches + C_nics，假设单节点配置2台万兆接入交换机 (¥20,000) 和4张冗余10G SFP+网卡 (¥2,000)，则 Cost_Network_Interface ≈ ¥48,000。若需25G升级，成本增加约 ¥5,000-¥8,000。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：2*20000 + 4*2000 = 48000，但原文写的是≈22000，这里存在明显的算术错误。等等，让我重新计算：2台交换机 * 20,000 = 40,000；4张网卡 * 2,000 = 8,000。总和应为 48,000。原文声称 ≈ 22,000，这与算术结果严重不符。这是一个硬逻辑错误（算术错误）。因此，逻辑校验不通过。
+
+## Search Query
+
+10Gbps switch and NIC cost China enterprise

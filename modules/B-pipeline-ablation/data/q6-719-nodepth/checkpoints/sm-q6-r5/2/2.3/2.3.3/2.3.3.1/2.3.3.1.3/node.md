@@ -1,0 +1,24 @@
+# N560: 工作点 3（高成本低性）：R=1000km（西部长尾覆盖），L_prop=5ms，RTT_base=2*5+2.5=12.5ms；此工作点下，西部用户延迟 12
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N182
+
+## Claim
+
+工作点 3（高成本低性）：R=1000km（西部长尾覆盖），L_prop=5ms，RTT_base=2*5+2.5=12.5ms；此工作点下，西部用户延迟 12.5ms+5ms=17.5ms，若叠加抖动 L_jitter_p99=20-45ms，则 P99 延迟可达 37.5-62.5ms，接近或超过 T=100ms 阈值；成本 C_infra 不变（仍为 10 POP），但需增加回源带宽以应对高延迟导致的重试，带宽成本增加 10-20%。
+
+## Corrected Claim
+
+工作点 3（高成本低性）：R=1000km（西部长尾覆盖），L_prop=5ms，RTT_base=2*5+2.5=12.5ms；此工作点下，西部用户延迟 12.5ms+5ms=17.5ms，若叠加抖动 L_jitter_p99=20-45ms，则 P99 延迟可达 37.5-62.5ms，接近或超过 T=100ms 阈值；成本 C_infra 不变（仍为 10 POP），但需增加回源带宽以应对高延迟导致的重试，带宽成本增加 10-20%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTT计算（2*5+2.5=12.5ms）及P99延迟叠加（12.5+5+20~45=37.5~62.5ms）算术正确，量级符合网络工程常识，无内部矛盾。
+
+## Search Query
+
+CDN western China long tail latency 1000km jitter P99

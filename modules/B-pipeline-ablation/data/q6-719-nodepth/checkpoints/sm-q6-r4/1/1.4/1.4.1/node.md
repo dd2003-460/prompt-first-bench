@@ -1,0 +1,24 @@
+# N50: Unique Objects (U) = Total_Upload_Volume / Avg_Object_Size_s，其中 Total_Upload_Vol
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N9
+
+## Claim
+
+Unique Objects (U) = Total_Upload_Volume / Avg_Object_Size_s，其中 Total_Upload_Volume = 200 GB/day，Avg_Object_Size_s 需区分图片与短视频两类对象（图片典型 200KB，短视频典型 10MB）[待核验]
+
+## Corrected Claim
+
+Unique Objects (U) = Total_Upload_Volume / Avg_Object_Size_s，其中 Total_Upload_Volume = 200 GB/day，Avg_Object_Size_s 需区分图片与短视频两类对象（图片典型 200KB，短视频典型 10MB）[待核验]
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别处理了图片对象、视频对象以及非唯一性（重复/转码）修正，三者维度不同（对象类型 vs 数据质量修正），无重叠或矛盾。完备性上，涵盖了父节点公式中分子（总量拆分）和分母（对象大小隐含在数量计算中）以及隐含的‘唯一性’假设的修正。虽然子节点1和2结构相似，但它们对应不同的对象类型和参数，属于必要的分类计算，不构成冗余。）
+
+## Search Query
+
+average file size image vs short video upload platform statistics

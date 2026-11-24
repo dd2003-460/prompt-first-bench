@@ -1,0 +1,24 @@
+# N315: 噪声导致的回源带宽方差 Var(B_backhaul_noise) = (R_daily * s_avg)² * Var((1-H(t)))，其中 Var(H(
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: stochastic
+- **rework_count**: 1
+- **parent_ids**: N103
+
+## Claim
+
+噪声导致的回源带宽方差 Var(B_backhaul_noise) = (R_daily * s_avg)² * Var((1-H(t)))，其中 Var(H(t)) ≈ (∂H/∂K_noise)² * σ_noise²；由于 H(t) 对 K_noise 的敏感度 ∂H/∂K_noise ≈ -0.05/ms（经验值），Var(B_backhaul_noise) ≈ (2TB * 1.5MB/req)² * (0.05*0.075)²，用于计算带宽成本的标准差。
+
+## Corrected Claim
+
+噪声导致的回源带宽方差 Var(B_backhaul_noise) 应基于请求数 N 和单请求带宽 B_req 计算，即 Var(B) ≈ N * B_req² * Var(H(t))。其中 Var(H(t)) ≈ (∂H/∂K_noise)² * σ_noise²。需注意 ∂H/∂K_noise 的单位应与噪声度量单位一致（如 1/dB 或 1/W），且最终方差需结合具体请求规模进行归一化，避免量级溢出。
+
+## Evidence
+
+[质询]数值量级与单位存在严重逻辑矛盾：1. 敏感度 ∂H/∂K_noise ≈ -0.05/ms 单位不合理，命中率 H 无量纲，噪声 K 通常以 dB 或功率为单位，'每毫秒'作为噪声单位无物理意义；2. 计算中 (2TB * 1.5MB/req) 量级巨大（约 3e12 MB），若直接作为带宽方差项，结果将远超实际网络带宽范围，且未体现请求数 N 或时间 T 的归一化，导致方差量级失真；3. 经验值 -0.05/ms 缺乏通用标准支持，属于特定场景下的拟合参数，直接作为通用公式系数缺乏普适性。 | 先验知识/题面给定，但逻辑校验发现单位量纲错误（ms 作为噪声单位）及数值量级不合理（未归一化的巨大乘积），无法通过基本物理/经济直觉检验。
+
+## Search Query
+
+variance of backhaul traffic due to cache hit rate noise

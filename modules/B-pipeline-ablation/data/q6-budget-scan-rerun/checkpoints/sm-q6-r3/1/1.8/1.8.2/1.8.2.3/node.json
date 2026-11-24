@@ -1,0 +1,17 @@
+{
+  "id": "N186",
+  "claim": "P99 排队延迟在 M/M/c 模型下的精确计算式：T_queue_P99 不能仅用平均等待时间近似，需使用 Erlang C 公式计算 P(wait>0) 后，结合指数分布的尾部概率。具体地，若 ρ=0.6, c=10000, μ=588*56=32928 req/s，则 P(wait) = (cμ/λ)^(c+1) * (1-ρ) / (c! * (1-ρ)) [需数值计算]，P99 等待时间 = -ln(0.01) / (cμ - λ) * P(wait) / (1-P(wait)) [近似]。需验证在 ρ=0.6-0.7 区间内，该公式是否仍符合 N68 声称的 2-10ms 典型值，若不符需修正模型（如 M/M/c/K 有限队列）。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]公式表述存在严重逻辑与数学错误：1. Erlang C 公式中分母不应包含 (1-ρ) 的重复或错误组合，标准公式为 P(wait) = ( (cρ)^c / c! ) * (1-ρ) / (1 - ρ * ( (cρ)^c / c! ) )，原文公式结构混乱；2. P99 等待时间公式将 P(wait) 作为线性因子乘在指数尾部上，这是错误的，M/M/c 等待时间分布是混合分布（原子质量在0 + 指数尾部），P99 应直接由指数尾部的分位数决定（若 P99 > P(wait)），而非乘以 P(wait)/(1-P(wait))；3. 数值量级存疑：c=10000, ρ=0.6 时，系统极度稳定，P(wait) 极小，P99 延迟应接近 0，与 2-10ms 的典型值可能不符，需具体计算验证。 | 先验知识/题面给定，但逻辑校验发现公式推导存在硬错误（Erlang C 公式结构错误及 P99 计算逻辑错误），无法直接验证为正确。",
+  "corrected_claim": "P99 排队延迟在 M/M/c 模型下需使用 Erlang C 公式计算 P(wait>0)，若 P99 分位点落在等待时间非零区间，则 P99 等待时间 = -ln(1-0.99) / (cμ - λ) = -ln(0.01) / (cμ - λ)，而非乘以概率因子。需重新计算 ρ=0.6, c=10000 时的具体数值以验证是否落在 2-10ms 区间。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N68"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "Erlang C formula P99 queue delay calculation M/M/c high utilization correction",
+  "retrieval_sources": []
+}

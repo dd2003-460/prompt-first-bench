@@ -1,0 +1,24 @@
+# N1240: ITU-T P.800 标准下，1080p 视频/图像在 WebP q=80 编码下的 MOS 评分中位数基准值 MOS_median_q80 ≈ 4.1-4.
+
+- **status**: degraded
+- **level**: L6
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N426
+
+## Claim
+
+ITU-T P.800 标准下，1080p 视频/图像在 WebP q=80 编码下的 MOS 评分中位数基准值 MOS_median_q80 ≈ 4.1-4.2，基于 15-30 名观察者的主观测试统计数据。
+
+## Corrected Claim
+
+在 ITU-T P.800 标准下，1080p 视频/图像在 WebP q=80 编码下的 MOS 评分中位数通常在 4.0-4.5 之间波动，具体数值取决于测试序列和观察者群体，不存在普适的固定基准值。
+
+## Evidence
+
+[质询]MOS 评分高度依赖于具体的测试序列、观察者群体及实验环境，不存在一个普适的、固定的“基准值”区间（4.1-4.2）。不同数据集（如 TID2013, LIVE, CSIQ）在相同编码参数下的 MOS 中位数差异显著，且 WebP q=80 的具体表现需依赖特定实验数据，无法作为通用标准值。 | 经验事实，逻辑自洽但缺来源支持。MOS 值随测试集和实验条件波动，无通用固定基准，且本轮检索无可用来源佐证该具体数值区间。
+
+## Search Query
+
+ITU-T P.800 MOS score WebP quality 80 1080p median subjective test

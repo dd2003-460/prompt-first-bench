@@ -1,0 +1,20 @@
+# N203: ΔL_per_pop 的边际递减函数形式：ΔL_per_pop(N) = ΔL_base * exp(-N / N_decay)，其中 N_decay ≈ 5-
+
+- **status**: pending
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N64, N65, N66
+
+## Claim
+
+ΔL_per_pop 的边际递减函数形式：ΔL_per_pop(N) = ΔL_base * exp(-N / N_decay)，其中 N_decay ≈ 5-8，反映新增 POP 对长尾用户覆盖效率的指数衰减
+
+## Corrected Claim
+
+ΔL_per_pop 的边际递减函数形式：ΔL_per_pop(N) = ΔL_base * exp(-N / N_decay)，其中 N_decay ≈ 5-8，反映新增 POP 对长尾用户覆盖效率的指数衰减
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点分别讨论了模型的失效条件（理论局限）、修正后的模型形式（空间维度）以及参数估计与优化条件（经济维度），三者逻辑独立且无重复，正交性良好。但完备性不足：父节点核心是‘边际递减函数形式’，子节点2引入了 W_region 修正项，子节点3讨论了 N_opt 的经济约束，但缺少对基础参数 ΔL_base（基础延迟降低量）的界定，且未明确 N 的定义（是总POP数还是新增POP数），导致函数定义在物理意义上不完整。）

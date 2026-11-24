@@ -1,0 +1,30 @@
+# N403: 阿里云CDN请求单价 Unit_Price_Request 通常为 ¥0.01/千次（即 ¥0.00001/次），腾讯云为 ¥0.015/千次，该价格与流量单价
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N141
+
+## Claim
+
+阿里云CDN请求单价 Unit_Price_Request 通常为 ¥0.01/千次（即 ¥0.00001/次），腾讯云为 ¥0.015/千次，该价格与流量单价独立计费，需根据实际供应商定价页确认最新数值
+
+## Corrected Claim
+
+阿里云CDN和腾讯云CDN均提供基于请求次数的计费选项，该费用通常与流量费用独立计算。具体单价（如阿里云约¥0.01/千次，腾讯云约¥0.015/千次）为常见参考值，但会随供应商定价策略调整，需以官方最新定价页为准。
+
+## Evidence
+
+[质询]具体数值（阿里云¥0.01/千次，腾讯云¥0.015/千次）属于经验事实，参考来源仅提供了流量计费模式和基础服务/增值服务的分类，未提供具体的请求单价数值，无法通过现有来源直接验证具体价格数字的准确性。 | 来源[3]确认CDN计费分为基础服务和增值服务，且基础服务默认按流量计费，这与陈述中'价格与流量单价独立计费'的逻辑相符；但所有来源均未提及具体的请求单价数值（如¥0.01/千次），属于经验事实缺来源直接支持。
+
+## Search Query
+
+Alibaba Cloud CDN request pricing per 1000 requests 2024
+
+## Retrieval Sources
+
+- {'url': 'https://developer.aliyun.com/article/1708278&rut=2ddc55f04c3ee490ae5b44019f150c2428eac2400670b83d41207aae16acf9e2', 'type': 'ddg', 'title': '2026最新阿里云cdn收费标准：不同计费模式价格表（基础服务费和增值服务费用整理）-阿里云开发者社区'}
+- {'url': 'https://developer.aliyun.com/article/1712324&rut=d8565d970a3a9aca50dcc1aea6197e5d759235d1f16a243bf38b555228e803a3', 'type': 'ddg', 'title': '2026阿里云cdn收费全揭秘!3种计费模式 + 完整价格表一次看懂'}
+- {'url': 'https://www.aliyun.com/price/detail/cdn&rut=7deffc4f1d34859bcb7594b9f5ea62952b3f14c06ecc370a5099c3c282977b06', 'type': 'ddg', 'title': '阿里云定价_CDN价格详情'}

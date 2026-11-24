@@ -1,0 +1,20 @@
+# N1268: 标准工作点下，视频流量实际出网量 Q_video_out_std = (F_video * D_daily * (1 - H_std))，其中 F_video=
+
+- **status**: verified
+- **level**: L6
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N434
+
+## Claim
+
+标准工作点下，视频流量实际出网量 Q_video_out_std = (F_video * D_daily * (1 - H_std))，其中 F_video=0.6, D_daily=2TB, H_std=0.8，计算得 Q_video_out_std = 0.6 * 2TB * 0.2 = 240GB/天。
+
+## Corrected Claim
+
+标准工作点下，视频流量实际出网量 Q_video_out_std = (F_video * D_daily * (1 - H_std))，其中 F_video=0.6, D_daily=2TB, H_std=0.8，计算得 Q_video_out_std = 0.6 * 2TB * 0.2 = 240GB/天。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：0.6 * 2TB * (1 - 0.8) = 0.6 * 2 * 0.2 TB = 0.24 TB = 240GB，计算无误。

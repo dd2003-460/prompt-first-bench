@@ -1,0 +1,20 @@
+# N111: 混合策略路由决策逻辑函数：Route(user_ip, object_id) = IF (GeoIP(user_ip) IN Core_Zones AND Q_
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N27
+
+## Claim
+
+混合策略路由决策逻辑函数：Route(user_ip, object_id) = IF (GeoIP(user_ip) IN Core_Zones AND Q_obj_24h(object_id) > H_threshold) THEN Self_POP ELSE Public_CDN，该逻辑决定了 P_core 的实际取值及流量分配比例。
+
+## Corrected Claim
+
+混合策略路由决策逻辑函数：Route(user_ip, object_id) = IF (GeoIP(user_ip) IN Core_Zones AND Q_obj_24h(object_id) > H_threshold) THEN Self_POP ELSE Public_CDN，该逻辑决定了 P_core 的实际取值及流量分配比例。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

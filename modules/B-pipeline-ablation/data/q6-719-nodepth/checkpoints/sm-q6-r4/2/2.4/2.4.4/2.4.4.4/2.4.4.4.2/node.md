@@ -1,0 +1,24 @@
+# N696: 公有云CDN回源流量成本在中等缓存命中率工作点（Hit_Rate_Cloud = 80%，对应混合策略中长尾区域未预热场景）的量化值：Origin_Fetch_
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N240
+
+## Claim
+
+公有云CDN回源流量成本在中等缓存命中率工作点（Hit_Rate_Cloud = 80%，对应混合策略中长尾区域未预热场景）的量化值：Origin_Fetch_Traffic_GB = 2,000,000 GB × 0.20 = 400,000 GB，Cloud_Origin_Fetch_Cost = 400,000 × ¥0.15 = ¥60,000/月，此工作点回源成本显著上升，需与N123的Zipf分布指数α耦合计算实际命中率上限。
+
+## Corrected Claim
+
+公有云CDN回源流量成本在中等缓存命中率工作点（Hit_Rate_Cloud = 80%，对应混合策略中长尾区域未预热场景）的量化值：Origin_Fetch_Traffic_GB = 2,000,000 GB × 0.20 = 400,000 GB，Cloud_Origin_Fetch_Cost = 400,000 × ¥0.15 = ¥60,000/月，此工作点回源成本显著上升，需与N123的Zipf分布指数α耦合计算实际命中率上限。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学计算 2,000,000 * 0.20 = 400,000 及 400,000 * 0.15 = 60,000 准确无误，量纲与数值量级符合公有云CDN回源计费的常规工程估算逻辑。
+
+## Search Query
+
+Alibaba Cloud CDN origin fetch traffic pricing medium cache hit rate 80%

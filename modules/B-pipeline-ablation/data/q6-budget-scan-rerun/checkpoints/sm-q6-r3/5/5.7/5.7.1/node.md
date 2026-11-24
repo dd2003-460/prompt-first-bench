@@ -1,0 +1,28 @@
+# N116: 自建POP带宽采购模式与单价：10个POP×10Gbps=100Gbps总带宽，采购模式为'保底+超量'或'固定包月'，单价区间¥300-600/Gbps/月，
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N37
+
+## Claim
+
+自建POP带宽采购模式与单价：10个POP×10Gbps=100Gbps总带宽，采购模式为'保底+超量'或'固定包月'，单价区间¥300-600/Gbps/月，需明确各运营商（电信/联通/移动）在10个POP城市的实际签约单价及最低保底比例（通常为30%-50%）
+
+## Corrected Claim
+
+自建POP带宽采购通常采用'保底+超量'或'固定包月'模式，具体单价及保底比例需根据各运营商在特定城市的实际签约情况确定，无统一固定标准。
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备（子节点与父节点主题严重偏离。父节点关注'自建POP带宽采购模式、单价及运营商签约细节'（商务/成本维度），而所有子节点均关注'CDN切换期间的流量影响、延迟计算及公式推导'（技术/性能维度）。子节点未覆盖父节点的核心内容（如单价区间、保底比例、运营商差异），且子节点1和子节点4存在概念混淆（将DNS TTL与BGP收敛或切换时间混用计算受影响流量比例，逻辑上不严谨，且两者分别讨论公有云和自建POP的切换，虽场景不同但均偏离父节点主题）。）
+
+## Search Query
+
+China edge POP bandwidth cost per Gbps monthly 2024
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2010666344874521893&rut=f0eb950b1d5c8bdba9b559af4903e846b54c19add2ca74b78212ed643f20bf20', 'type': 'ddg', 'title': '2026速卖通自运营（POP）开店流程详解：入驻流程&资质要求'}

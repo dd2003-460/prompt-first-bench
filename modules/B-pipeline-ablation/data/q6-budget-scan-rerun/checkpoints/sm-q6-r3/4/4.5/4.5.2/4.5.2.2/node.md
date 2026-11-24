@@ -1,0 +1,20 @@
+# N270: 在 Zipf(α=1.5) 长尾分布工作点下，单点峰值流量 B_peak_pop = (26.4 Mbps × 3.0) × 0.25 ≈ 19.8 Mbps（
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N86
+
+## Claim
+
+在 Zipf(α=1.5) 长尾分布工作点下，单点峰值流量 B_peak_pop = (26.4 Mbps × 3.0) × 0.25 ≈ 19.8 Mbps（假设最大 POP 占比 25%），此时头部 POP 点需扩容至 20Gbps 接入带宽，单点基础设施成本增加约 150%，但能更好地覆盖核心区域高流量。
+
+## Corrected Claim
+
+在 Zipf(α=1.5) 长尾分布工作点下，若单点峰值流量计算值为 19.8 Mbps，则无需扩容至 20 Gbps；若确需 20 Gbps 带宽，则原始流量基数或占比假设需重新校准以匹配该量级。
+
+## Evidence
+
+[质询]数值逻辑存在内部矛盾：26.4 Mbps × 3.0 × 0.25 的数学结果约为 19.8 Mbps，但结论却要求扩容至 20 Gbps（20,000 Mbps），两者相差约 1000 倍，量级严重不符，无法从前提推导出结论。 | 逻辑校验失败：计算结果（~20 Mbps）与所需带宽（20 Gbps）量级不一致，存在硬逻辑错误；虽 source 为 knowledge，但 challenge 成立且无法排除，故降档。

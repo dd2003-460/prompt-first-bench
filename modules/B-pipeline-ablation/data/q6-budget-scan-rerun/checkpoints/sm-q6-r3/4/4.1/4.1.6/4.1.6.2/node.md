@@ -1,0 +1,20 @@
+# N290: 均匀分布策略的冗余成本量化：由于流量分布不均（HHI>0.15），均匀分布导致低流量区域（如西北、东北，合计流量占比<10%）的POP节点利用率低于20%。计算
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N107
+
+## Claim
+
+均匀分布策略的冗余成本量化：由于流量分布不均（HHI>0.15），均匀分布导致低流量区域（如西北、东北，合计流量占比<10%）的POP节点利用率低于20%。计算闲置容量成本：Idle_Cost = (Total_POP_Capacity - Actual_Required_Capacity) * Unit_Storage_Cost + (Idle_Bandwidth_Mbps * Unit_Bandwidth_Cost)。假设单POP设计容量为20Gbps，低流量区实际仅需2Gbps，则闲置带宽成本占比约为 (18/20)*100% = 90%的带宽资源被浪费，直接推高每千请求固定成本。
+
+## Corrected Claim
+
+均匀分布策略的冗余成本量化：由于流量分布不均（HHI>0.15），均匀分布导致低流量区域（如西北、东北，合计流量占比<10%）的POP节点利用率低于20%。计算闲置容量成本：Idle_Cost = (Total_POP_Capacity - Actual_Required_Capacity) * Unit_Storage_Cost + (Idle_Bandwidth_Mbps * Unit_Bandwidth_Cost)。假设单POP设计容量为20Gbps，低流量区实际仅需2Gbps，则闲置带宽成本占比约为 (18/20)*100% = 90%的带宽资源被浪费，直接推高每千请求固定成本。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学计算 (18/20)*100%=90% 正确，且符合资源闲置成本的基本经济逻辑。

@@ -1,0 +1,20 @@
+# N209: 工作点 2（中性价比最优）：Utilization_target = 60%，Server_BW_capacity = 10Gbps，N_servers = c
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N64, N65, N66
+
+## Claim
+
+工作点 2（中性价比最优）：Utilization_target = 60%，Server_BW_capacity = 10Gbps，N_servers = ceil(69.3 * 24 / (10 * 0.6)) = ceil(69.3 * 24 / 6) = ceil(277.2) = 278 台，平衡硬件成本与 P99 抖动容忍度
+
+## Corrected Claim
+
+工作点 2（中性价比最优）：Utilization_target = 60%，Server_BW_capacity = 10Gbps，N_servers = ceil(69.3 * 24 / (10 * 0.6)) = ceil(69.3 * 24 / 6) = ceil(277.2) = 278 台，平衡硬件成本与 P99 抖动容忍度
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算 ceil(69.3 * 24 / (10 * 0.6)) = ceil(277.2) = 278 正确，且符合容量规划基本逻辑。

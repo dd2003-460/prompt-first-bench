@@ -1,0 +1,20 @@
+# N157: 混合策略的成本基线为 C_total_hybrid = (C_infra_hybrid + C_bandwidth_hybrid + C_ops_hybrid 
+
+- **status**: verified
+- **level**: L3
+- **source**: given
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N35, N36, N37
+
+## Claim
+
+混合策略的成本基线为 C_total_hybrid = (C_infra_hybrid + C_bandwidth_hybrid + C_ops_hybrid + C_hidden_hybrid) / Q_day * 1000 ≈ ¥0.3元/千请求，其中 C_infra_hybrid 仅含核心区域5个POP的折旧，C_bandwidth_hybrid 含自建带宽和公有云回源带宽。
+
+## Corrected Claim
+
+混合策略的成本基线为 C_total_hybrid = (C_infra_hybrid + C_bandwidth_hybrid + C_ops_hybrid + C_hidden_hybrid) / Q_day * 1000 ≈ ¥0.3元/千请求，其中 C_infra_hybrid 仅含核心区域5个POP的折旧，C_bandwidth_hybrid 含自建带宽和公有云回源带宽。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

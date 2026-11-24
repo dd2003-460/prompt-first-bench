@@ -1,0 +1,30 @@
+# N378: 阿里云 CDN 阶梯定价的精确边界：0-10TB/月 0.24 元/GB，10-50TB/月 0.21 元/GB，50TB+/月 0.18 元/GB；日均 2T
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N120
+
+## Claim
+
+阿里云 CDN 阶梯定价的精确边界：0-10TB/月 0.24 元/GB，10-50TB/月 0.21 元/GB，50TB+/月 0.18 元/GB；日均 2TB 对应月均 60TB，处于 50TB+ 档位，但需确认是否采用累进计费（前 50TB 按 0.21 元/GB，后 10TB 按 0.18 元/GB）还是全额按最高档计费，若为累进计费，月成本 = 50,000 × 0.21 + 10,000 × 0.18 = 10,500 + 1,800 = 12,300 元，而非 10,800 元。
+
+## Corrected Claim
+
+阿里云 CDN 采用阶梯累进计费模式。若日均 2TB（月均 60TB），且假设价格档位为 0-10TB/0.24元、10-50TB/0.21元、50TB+/0.18元，则月成本应为累进计算：10,000×0.24 + 40,000×0.21 + 10,000×0.18 = 2,400 + 8,400 + 1,800 = 12,600 元（注：原陈述中前50TB统一按0.21计算忽略了0-10TB的更高单价，且具体单价需以官方最新价目表为准）。
+
+## Evidence
+
+[质询]具体价格数值（0.24/0.21/0.18元/GB）及阶梯边界（10TB/50TB）属于经验事实，参考来源摘要仅确认了“阶梯累进”的计费逻辑，未提供具体的价格表数值，无法直接验证这些具体数字的准确性。 | 来源[1]明确支持“阶梯累进”计费逻辑（当月按账户维度进行阶梯累进），证实了累进计费模式下成本计算逻辑（前50TB按低档，超出部分按高档）在原理上是成立的，但具体单价数值缺乏来源直接支持，故降级。
+
+## Search Query
+
+Alibaba Cloud CDN pricing tier progressive billing 2024
+
+## Retrieval Sources
+
+- {'url': 'https://developer.aliyun.com/article/1708278&rut=2ddc55f04c3ee490ae5b44019f150c2428eac2400670b83d41207aae16acf9e2', 'type': 'ddg', 'title': '2026最新阿里云cdn收费标准：不同计费模式价格表（基础服务费和增值服务费用整理）-阿里云开发者社区'}
+- {'url': 'https://developer.aliyun.com/article/1704662&rut=d5cf89626988be0d3d32bc26749ab2a3c7deafb7c3f650882865d2a48432a069', 'type': 'ddg', 'title': '阿里云 Cdn 价格多少钱？2026年阿里云 Cdn 收费标准详解'}
+- {'url': 'https://www.aliyun.com/price/detail/cdn&rut=7deffc4f1d34859bcb7594b9f5ea62952b3f14c06ecc370a5099c3c282977b06', 'type': 'ddg', 'title': '阿里云定价_CDN价格详情'}

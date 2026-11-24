@@ -1,0 +1,24 @@
+# N54: H_self_hosted = H_cloud - ΔH_capacity，其中 ΔH_capacity 为自建节点因存储容量限制导致的命中率损失，ΔH_cap
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+H_self_hosted = H_cloud - ΔH_capacity，其中 ΔH_capacity 为自建节点因存储容量限制导致的命中率损失，ΔH_capacity = min(15%, (C_cloud_storage - C_self_storage) / C_cloud_storage × H_cloud)，C_cloud_storage 为公有云 CDN 单区域缓存容量（TB 级），C_self_storage 为自建单 POP 缓存容量（通常 1-10TB）。
+
+## Corrected Claim
+
+H_self_hosted = H_cloud - ΔH_capacity，其中 ΔH_capacity 为自建节点因存储容量限制导致的命中率损失，ΔH_capacity = min(15%, (C_cloud_storage - C_self_storage) / C_cloud_storage × H_cloud)，C_cloud_storage 为公有云 CDN 单区域缓存容量（TB 级），C_self_storage 为自建单 POP 缓存容量（通常 1-10TB）。
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备, 有冗余（子节点存在严重逻辑矛盾和冗余。1. 矛盾：子节点2设定基准 C_self=80TB，但子节点3和4直接假设 C_self 为 100TB 和 150TB，未说明为何偏离基准或这是否代表不同场景，导致参数定义不一致。2. 冗余：子节点3和4本质上是同一公式在不同输入参数下的计算实例（Case Study），而非独立的理论维度或结构组成部分。3. 不完备：公式中 H_cloud 在子节点中直接被赋予固定值（90%/85%），但未作为独立变量节点定义其来源或分布，导致公式输入不完整。）
+
+## Search Query
+
+self-hosted CDN cache capacity limitation hit rate loss compared to public cloud

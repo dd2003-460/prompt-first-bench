@@ -1,0 +1,20 @@
+# N436: 标准工作点（1080p, 2Mbps）在主流 4G/5G 环境（带宽 5-20 Mbps）下的缓冲比 Buffer_Ratio = 4.0MB / (10Mbp
+
+- **status**: pending
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N141
+
+## Claim
+
+标准工作点（1080p, 2Mbps）在主流 4G/5G 环境（带宽 5-20 Mbps）下的缓冲比 Buffer_Ratio = 4.0MB / (10Mbps * 2s) ≈ 2.0，略高于 1.0，表明在平均带宽下需轻微预加载，但在 5G 高带宽（20Mbps）下 Buffer_Ratio = 1.0，可实现无缝播放，无需额外缓冲机制。
+
+## Corrected Claim
+
+标准工作点（1080p, 2Mbps）在主流 4G/5G 环境（带宽 5-20 Mbps）下的缓冲比 Buffer_Ratio = 4.0MB / (10Mbps * 2s) ≈ 2.0，略高于 1.0，表明在平均带宽下需轻微预加载，但在 5G 高带宽（20Mbps）下 Buffer_Ratio = 1.0，可实现无缝播放，无需额外缓冲机制。
+
+## Evidence
+
+父节点级核验未通过：有冗余（子节点分别对应4G、5G和弱网三种带宽场景，彼此正交且覆盖了父节点提到的主要带宽范围。然而，三个子节点本质上是同一公式在不同带宽参数下的具体计算实例，存在高度结构性冗余。）

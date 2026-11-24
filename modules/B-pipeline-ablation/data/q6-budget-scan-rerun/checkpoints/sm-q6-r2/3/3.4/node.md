@@ -1,0 +1,20 @@
+# N19: 请求时间分布与峰值系数：Peak_QPS = Avg_QPS * Peak_Factor，其中Peak_Factor典型值为2-4，影响基础设施容量规划与公有云
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+请求时间分布与峰值系数：Peak_QPS = Avg_QPS * Peak_Factor，其中Peak_Factor典型值为2-4，影响基础设施容量规划与公有云弹性计费成本
+
+## Corrected Claim
+
+请求时间分布与峰值系数：Peak_QPS = Avg_QPS * Peak_Factor，其中Peak_Factor典型值为2-4，影响基础设施容量规划与公有云弹性计费成本
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点与父节点核心主题（QPS时间分布与峰值系数）严重脱节。父节点关注的是流量随时间的波动特征（Peak_Factor），而子节点分别讨论了成本计算（带宽）、IOPS需求（写入）和缓存命中率（静态基准），均未涉及QPS的时间分布、峰值系数推导或其对基础设施容量规划的具体影响。此外，子节点1和2属于静态容量/成本计算，与‘时间分布’这一动态属性无关。）

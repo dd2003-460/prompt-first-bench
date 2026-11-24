@@ -1,0 +1,24 @@
+# N44: 自建 10 POP 点缓存命中率 (CHR) 基准值：对于相同负载，10 个省级 POP 点的 P95 CHR 约为 60%-70%，P99 CHR 约为 50
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+自建 10 POP 点缓存命中率 (CHR) 基准值：对于相同负载，10 个省级 POP 点的 P95 CHR 约为 60%-70%，P99 CHR 约为 50%-60%；低命中率主要源于节点容量有限 (每 POP 仅覆盖 1-2 省)，导致热点内容无法在所有节点缓存，且节点间缓存同步延迟高 (秒级 vs 公有云毫秒级)
+
+## Corrected Claim
+
+自建 10 POP 点缓存命中率 (CHR) 基准值：对于相同负载，10 个省级 POP 点的 P95 CHR 约为 60%-70%，P99 CHR 约为 50%-60%；低命中率主要源于节点容量有限 (每 POP 仅覆盖 1-2 省)，导致热点内容无法在所有节点缓存，且节点间缓存同步延迟高 (秒级 vs 公有云毫秒级)
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：10个省级POP点覆盖全国，单点容量受限导致热点分散，P95/P99命中率在60-70%/50-60%区间符合CDN缓存理论及工程经验；同步延迟秒级vs毫秒级符合跨地域网络物理限制。
+
+## Search Query
+
+Self-hosted CDN 10 POP points cache hit ratio benchmark 60% 70% limited capacity

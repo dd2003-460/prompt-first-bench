@@ -1,0 +1,24 @@
+# N145: 地理分布对带宽成本的影响：不同区域带宽价格差异约 20-30%（东部 vs 西部），当 p_core 变化时，加权平均带宽成本 C_bandwidth_avg 
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N32, N33, N34
+
+## Claim
+
+地理分布对带宽成本的影响：不同区域带宽价格差异约 20-30%（东部 vs 西部），当 p_core 变化时，加权平均带宽成本 C_bandwidth_avg = Σ p_i * C_bandwidth_i 随之变化，p_core 每增加 10%，C_bandwidth_avg 下降约 2-5%（因东部带宽价格略高但流量集中）。
+
+## Corrected Claim
+
+地理分布对带宽成本的影响：不同区域带宽价格存在差异，当 p_core 变化时，加权平均带宽成本 C_bandwidth_avg = Σ p_i * C_bandwidth_i 随之变化。具体变化幅度取决于各区域相对价格及流量分布结构，需结合具体市场数据计算，不能简单断定为固定下降 2-5%。
+
+## Evidence
+
+[质询]数值量级与因果逻辑存疑：通常东部经济发达地区带宽需求大、竞争激烈，价格往往低于或持平于西部，而非‘略高’；且‘流量集中导致成本下降’与‘东部价格高’存在逻辑张力，若东部价格高且流量向东部集中，加权平均成本应上升而非下降，除非西部价格极高或存在其他未说明的规模效应，该具体数值（2-5%）缺乏通用理论支持。 | 先验知识/题面给定，但逻辑校验发现内部因果链条存在矛盾（高价格区域流量集中通常推高平均成本，而非降低），且具体数值缺乏来源支持，故降级。
+
+## Search Query
+
+Regional bandwidth price variation China CDN cost geographic distribution

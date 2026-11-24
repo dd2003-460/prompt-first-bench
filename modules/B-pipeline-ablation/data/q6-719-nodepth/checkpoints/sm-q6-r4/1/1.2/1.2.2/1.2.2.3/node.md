@@ -1,0 +1,24 @@
+# N158: 混合策略下 P99 延迟的分布叠加效应：P99_hybrid = max(P99_core, P99_cloud_fallback) 的加权近似，需考虑 20%
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N44
+
+## Claim
+
+混合策略下 P99 延迟的分布叠加效应：P99_hybrid = max(P99_core, P99_cloud_fallback) 的加权近似，需考虑 20% 流量走自建核心（低 P99）和 80% 流量走公有云（高 P99）时的整体分位数计算，通常高于纯自建但低于纯公有云。
+
+## Corrected Claim
+
+混合策略下 P99 延迟通常高于纯自建但低于纯公有云。其数值取决于流量比例和两个子系统的延迟分布，不能简单用 max(P99_core, P99_cloud) 加权近似，而应基于混合分布函数计算第 99 百分位数。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别涵盖了混合分位数的数学定义（精确计算）、权重参数 w_core 的确定依据（流量比例）以及子分布 F_cloud 的边界条件（故障退化）。三者分别对应公式中的逆函数操作、权重参数和输入分布定义，逻辑上相互独立且共同构成了完整的计算闭环，无重叠或矛盾。）
+
+## Search Query
+
+weighted percentile calculation hybrid CDN latency distribution

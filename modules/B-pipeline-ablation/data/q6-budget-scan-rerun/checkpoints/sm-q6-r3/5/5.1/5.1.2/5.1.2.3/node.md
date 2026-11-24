@@ -1,0 +1,30 @@
+# N305: T 与 CHR 的非线性修正项：N97 中的线性近似 CHR(T) ≈ 1 - (T - T_min) / (T_max - T_min) 在 T < 200m
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N97
+
+## Claim
+
+T 与 CHR 的非线性修正项：N97 中的线性近似 CHR(T) ≈ 1 - (T - T_min) / (T_max - T_min) 在 T < 200ms 区间失效，实际需引入网络抖动修正项 σ_jitter，修正公式为 CHR_eff(T) = 1 - (T - T_min) / (T_max - T_min) - k_jitter × σ_jitter / T，其中 k_jitter ≈ 0.1，σ_jitter ≈ 10ms；该修正导致低 T 区间（如 100-150ms）的实际带宽成本比线性模型预测高 15-20%，因为尾延迟对缓存失效更敏感。
+
+## Corrected Claim
+
+T 与 CHR 的非线性修正项：N97 中的线性近似 CHR(T) ≈ 1 - (T - T_min) / (T_max - T_min) 在低延迟区间可能失效，实际需引入网络抖动修正项以反映尾延迟对缓存失效的敏感性，导致低 T 区间的实际带宽成本高于线性模型预测。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（k_jitter ≈ 0.1, σ_jitter ≈ 10ms）及特定的量化影响（15-20%），这些属于经验事实，无法从第一性原理推导，且参考来源中未提供这些具体数值或公式的支持。 | 逻辑上，引入抖动修正项以反映尾延迟对缓存失效的影响是合理的，且量纲一致；但参考来源[1][2][3]仅讨论了CDN延迟、缓存命中率及尾延迟的一般性概念，未提供具体的非线性修正公式或特定参数值，属于间接支持或无关，无法直接验证具体数值。
+
+## Search Query
+
+CDN tail latency cache miss rate non-linear relationship jitter correction
+
+## Retrieval Sources
+
+- {'url': 'https://www.vergecloud.com/blog/what-is-a-cache-miss/&rut=95d910ad450b87fc496fbc40df50d5c6a1c82d20eee5fbb184833b1614d15679', 'type': 'ddg', 'title': 'What Is a Cache Miss? CDN Causes, Fixes and Hit Ratios'}
+- {'url': 'https://vibgrate.com/benchmarks/cdn-latency-benchmark/&rut=deb1bb64f9684e218e4d96f1716d39da7efe97b03932ceaa4be09f70e5510ea9', 'type': 'ddg', 'title': 'CDN Latency Benchmark - vibgrate.com'}
+- {'url': 'https://blog.paessler.com/cdn-performance-metrics&rut=2a9f9915e832d2d7954e8f5a4610536a0116031e256f0c481ea46fac7c3ae891', 'type': 'ddg', 'title': 'CDN Performance Metrics: What to Track and How to Monitor'}

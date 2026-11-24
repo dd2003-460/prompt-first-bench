@@ -1,0 +1,20 @@
+# N701: Hit_Rate_Core 的理论上限由 Zipf 分布决定：Hit_Rate_Max = 1 - (1/N_top)^(1-α)，其中 N_top 为缓存容量
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N242
+
+## Claim
+
+Hit_Rate_Core 的理论上限由 Zipf 分布决定：Hit_Rate_Max = 1 - (1/N_top)^(1-α)，其中 N_top 为缓存容量可容纳的 Top N 对象数，α 为 Zipf 指数 (0.8-1.2)。若缓存容量限制 N_top=1000，α=1.0，则 Hit_Rate_Max ≈ 1 - 1/1000 = 0.999；若 α=0.8，Hit_Rate_Max ≈ 0.99。实际命中率受限于 N124 的存储约束，通常取 0.85-0.95。
+
+## Corrected Claim
+
+Hit_Rate_Core 的理论上限由 Zipf 分布决定：Hit_Rate_Max = 1 - (1/N_top)^(1-α)，其中 N_top 为缓存容量可容纳的 Top N 对象数，α 为 Zipf 指数 (0.8-1.2)。若缓存容量限制 N_top=1000，α=1.0，则 Hit_Rate_Max ≈ 1 - 1/1000 = 0.999；若 α=0.8，Hit_Rate_Max ≈ 0.99。实际命中率受限于 N124 的存储约束，通常取 0.85-0.95。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式推导符合Zipf分布累积概率定义，数值计算（1-1/1000=0.999, 1-1000^-0.2≈0.99）准确，量级合理。

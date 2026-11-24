@@ -1,0 +1,20 @@
+# N137: LCP 延迟构成拆解：LCP = T_network + T_parse_render + T_resource_fetch，其中 T_network 占比 4
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N40
+
+## Claim
+
+LCP 延迟构成拆解：LCP = T_network + T_parse_render + T_resource_fetch，其中 T_network 占比 40%-60%（基于 N40 假设），T_parse_render 为 HTML/CSS 解析与渲染耗时（典型值 50-100ms，取决于页面复杂度），T_resource_fetch 为关键资源（图片/字体）下载耗时（若图片大小 500KB，带宽 10Mbps，则 T_resource_fetch ≈ 400ms）；P99 LCP < 1.5s 要求 T_network < 300ms 且 T_resource_fetch < 500ms。
+
+## Corrected Claim
+
+LCP 延迟构成拆解：LCP = T_network + T_parse_render + T_resource_fetch，其中 T_network 占比 40%-60%（基于 N40 假设），T_parse_render 为 HTML/CSS 解析与渲染耗时（典型值 50-100ms，取决于页面复杂度），T_resource_fetch 为关键资源（图片/字体）下载耗时（若图片大小 500KB，带宽 10Mbps，则 T_resource_fetch ≈ 400ms）；P99 LCP < 1.5s 要求 T_network < 300ms 且 T_resource_fetch < 500ms。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：带宽计算（500KB/10Mbps≈400ms）符合物理直觉，LCP构成拆解逻辑自洽，且作为knowledge节点无需外部来源支持。

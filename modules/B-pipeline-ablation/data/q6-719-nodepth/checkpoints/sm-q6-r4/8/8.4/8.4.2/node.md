@@ -1,0 +1,20 @@
+# N382: 混合5核心POP方案（中冗余/中固定成本工作点）：Elasticity_Penalty = 5 × (0.1 × 0.3 × 500k) = 75k元/月（假设
+
+- **status**: verified
+- **level**: L4
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N134
+
+## Claim
+
+混合5核心POP方案（中冗余/中固定成本工作点）：Elasticity_Penalty = 5 × (0.1 × 0.3 × 500k) = 75k元/月（假设核心POP故障影响30%流量，见N116加权逻辑），Geo_Policy_Premium = 5 × 5k = 25k元/月（基于N134），总 Risk_Premium = 100k元/月。
+
+## Corrected Claim
+
+混合5核心POP方案（中冗余/中固定成本工作点）：Elasticity_Penalty = 5 × (0.1 × 0.3 × 500k) = 75k元/月（假设核心POP故障影响30%流量，见N116加权逻辑），Geo_Policy_Premium = 5 × 5k = 25k元/月（基于N134），总 Risk_Premium = 100k元/月。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算 5*(0.1*0.3*500000) + 5*5000 = 75000 + 25000 = 100000 正确，且符合题面给定的加权逻辑与参数假设。

@@ -1,0 +1,24 @@
+# N1238: WebP q=80 文件大小对图像内容复杂度的敏感度系数：s_webp_q80 = s_base * (1 + k_complexity * (C_curren
+
+- **status**: degraded
+- **level**: L6
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N425
+
+## Claim
+
+WebP q=80 文件大小对图像内容复杂度的敏感度系数：s_webp_q80 = s_base * (1 + k_complexity * (C_current - C_base))，其中 C_current 为图像复杂度指标（如边缘密度），k_complexity ≈ 0.1-0.2，用于量化偏离 ±20% 的具体触发条件。
+
+## Corrected Claim
+
+WebP q=80 文件大小随图像内容复杂度增加而增大，具体敏感度系数 k_complexity 需根据特定图像数据集回归确定，通常呈正相关但非线性，不宜固定为 0.1-0.2 的线性模型。
+
+## Evidence
+
+[质询]该公式为经验拟合模型，k_complexity 的具体数值范围（0.1-0.2）及线性关系假设缺乏通用理论支持，不同图像内容（如纹理 vs 平滑渐变）对压缩率的影响非线性且差异巨大，单一系数难以准确量化。 | source=knowledge，逻辑结构自洽（复杂度越高文件越大），但具体系数 k_complexity 为经验参数，无来源直接支持其精确范围，依据经验事实排除条款降级。
+
+## Search Query
+
+WebP compression size sensitivity image complexity edge density factor

@@ -1,0 +1,24 @@
+# N86: 公有云CDN DDoS防护弹性计费风险成本：阿里云基础DDoS防护免费（5Gbps内），超出部分按¥500/Gbps/月计费；若遭遇100Gbps攻击，月度额外
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N29
+
+## Claim
+
+公有云CDN DDoS防护弹性计费风险成本：阿里云基础DDoS防护免费（5Gbps内），超出部分按¥500/Gbps/月计费；若遭遇100Gbps攻击，月度额外成本¥47.5万；Cloudflare Free计划提供无限量DDoS防护，年度成本¥0，但可能触发速率限制
+
+## Corrected Claim
+
+公有云CDN DDoS防护弹性计费风险成本：阿里云基础DDoS防护免费（假设5Gbps内），若超出部分按¥500/Gbps/月计费，遭遇100Gbps攻击时，月度额外成本约为¥4.75万（(100-5)*500）；若单价为¥5000/Gbps/月，则成本为¥47.5万。Cloudflare Free计划提供无限量DDoS防护，年度成本¥0，但可能触发速率限制。
+
+## Evidence
+
+[质询]阿里云基础DDoS防护（免费层）通常包含的是基础清洗能力，具体阈值（如5Gbps）及超出部分的计费标准（¥500/Gbps/月）属于具体的商业定价策略，可能随时间、地域或产品版本变化，且不同套餐（如DDoS高防IP vs 基础防护）计费逻辑不同，此处将特定价格作为通用事实存在时效性和口径混淆风险。 | source=knowledge，逻辑自洽（100Gbps-5Gbps=95Gbps，95*500=47500元/月，此处计算有误，95*500=47500，而非47.5万。等等，95 * 500 = 47,500。陈述中说¥47.5万，即475,000。计算错误：95 * 500 = 47,500。如果单价是¥5000/Gbps/月，则是47.5万。或者如果单价是¥500，总额是4.75万。陈述中数值量级与单价不匹配，存在硬逻辑/计算错误。
+
+## Search Query
+
+Alibaba Cloud DDoS overage pricing Cloudflare unlimited DDoS protection

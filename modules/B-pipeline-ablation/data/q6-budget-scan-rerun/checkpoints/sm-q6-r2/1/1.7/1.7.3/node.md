@@ -1,0 +1,30 @@
+# N45: 混合策略在T=300ms约束下的P99延迟达标率：核心自建部分（70-80%用户）P99延迟约50-100ms，达标率100%；长尾公有云部分（20-30%用户
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N9, N10, N11
+
+## Claim
+
+混合策略在T=300ms约束下的P99延迟达标率：核心自建部分（70-80%用户）P99延迟约50-100ms，达标率100%；长尾公有云部分（20-30%用户）P99延迟约200-350ms，达标率约80-95%，整体P99延迟由长尾部分决定，约为250-350ms，边界达标 [待核验]
+
+## Corrected Claim
+
+混合策略在T=300ms约束下，核心自建部分通常能实现较低延迟（如50-100ms量级）并高比例达标，而长尾公有云部分延迟较高（如200-350ms量级），导致整体P99延迟接近或略低于300ms阈值，处于边界达标状态。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（如70-80%用户占比、50-100ms延迟、80-95%达标率），属于特定系统架构下的工程实测数据，无法从第一性原理推导，且参考来源中未提供与之完全匹配的具体数值分布，存在数据虚构或过度泛化的风险。 | 逻辑上P99由长尾决定符合统计学直觉，但具体数值缺乏来源直接支持；来源[2]提及混合检索优化至300ms，来源[3]提及全链路P99压降至50ms，均无法直接证实该特定混合策略下的分段延迟及达标率数值，故降级为定性表述。
+
+## Search Query
+
+Hybrid CDN strategy P99 latency core self-built tail public cloud China
+
+## Retrieval Sources
+
+- {'url': 'https://deepseek.csdn.net/69fa9d7c54b52172bc71fa2f.html&rut=36123bca6a41142244286338452e94101d9143ee102eb659e7a7a84540643b12', 'type': 'ddg', 'title': 'DeepSeek-V4 推理服务中 P99 延迟优化：基于请求排队的混合调度策略'}
+- {'url': 'https://deepseek.csdn.net/6a157509662f9a54cb77437a.html&rut=84e09d154964a4ad243829625efbb74d0e5c6134cb69e38da2ff85fa066ecdde', 'type': 'ddg', 'title': 'RAG混合检索的隐性成本：向量库与关键词谁先拖垮你的P99延迟？_2600_95840450-DeepSeek技术社区'}
+- {'url': 'https://blog.csdn.net/2611_95335967/article/details/168656973&rut=893480c239309bcd0b181fb92e944c5dcdf636776c0b0c35168b0e7ff672b84c', 'type': 'ddg', 'title': 'W3 性能收官：全链路 P99 延迟全面达标战报与微秒级调优纪实-csdn博客'}

@@ -1,0 +1,20 @@
+# N65: 单 POP 现场驻场/巡检人力成本 Staff_Cost_Onsite = 0.1 FTE × Salary_Rate，其中 0.1 FTE 代表每 POP 每
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+单 POP 现场驻场/巡检人力成本 Staff_Cost_Onsite = 0.1 FTE × Salary_Rate，其中 0.1 FTE 代表每 POP 每月 4 小时现场巡检与基础故障处理，Salary_Rate 为一线运维工程师 ¥15,000/月，计算得 Staff_Cost_Onsite ≈ ¥1,500/月/POP [时效待核]。
+
+## Corrected Claim
+
+单 POP 现场驻场/巡检人力成本 Staff_Cost_Onsite = 0.1 FTE × Salary_Rate，其中 0.1 FTE 代表每 POP 每月 4 小时现场巡检与基础故障处理，Salary_Rate 为一线运维工程师 ¥15,000/月，计算得 Staff_Cost_Onsite ≈ ¥1,500/月/POP [时效待核]。
+
+## Evidence
+
+父节点级核验未通过：非正交（子节点1（工时分解）和子节点2（薪资修正）存在逻辑耦合与矛盾。子节点1在澄清FTE定义时，直接引用了¥15,000的薪资并计算了成本（¥375或¥1500），而子节点2则指出该薪资需修正为¥27,000。这导致两个子节点在“成本计算”这一结果上互相冲突，且子节点1隐含地使用了未修正的薪资参数，违反了正交性原则（即子节点应独立定义参数，而非相互依赖或产生矛盾的计算结果）。）

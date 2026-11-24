@@ -1,0 +1,20 @@
+# N503: 工作点 C（高兼容/高延迟）：采用每次请求回源验证 Token（Remote Token Validation）。L_auth = L_prop_origin 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N161
+
+## Claim
+
+工作点 C（高兼容/高延迟）：采用每次请求回源验证 Token（Remote Token Validation）。L_auth = L_prop_origin (5-10ms) + L_processing_origin (5-10ms) ≈ 10-20ms。此工作点消除了本地密钥管理，但引入网络 RTT，导致 P99 延迟显著升高，仅适用于无状态要求极低或安全合规强制远程审计的场景。
+
+## Corrected Claim
+
+工作点 C（高兼容/高延迟）：采用每次请求回源验证 Token（Remote Token Validation）。L_auth = L_prop_origin (5-10ms) + L_processing_origin (5-10ms) ≈ 10-20ms。此工作点消除了本地密钥管理，但引入网络 RTT，导致 P99 延迟显著升高，仅适用于无状态要求极低或安全合规强制远程审计的场景。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：远程验证Token确实需增加一次网络往返（RTT），5-10ms传播+5-10ms处理=10-20ms符合典型网络延迟量级，且消除了本地密钥管理符合无状态架构逻辑。

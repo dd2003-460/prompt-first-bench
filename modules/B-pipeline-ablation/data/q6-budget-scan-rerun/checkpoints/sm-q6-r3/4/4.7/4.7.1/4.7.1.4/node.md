@@ -1,0 +1,30 @@
+# N217: NVMe SSD 随机读延迟 T_ssd_read 取决于队列深度和并发数：单队列单命令 (QD1) 约 50-100μs，高并发 (QD32) 下平均延迟可升
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N87, N88, N89
+
+## Claim
+
+NVMe SSD 随机读延迟 T_ssd_read 取决于队列深度和并发数：单队列单命令 (QD1) 约 50-100μs，高并发 (QD32) 下平均延迟可升至 100-500μs，需根据边缘节点实际 IOPS 负载确定 P99 延迟，通常取 0.1-0.5ms。
+
+## Corrected Claim
+
+NVMe SSD 随机读延迟受队列深度影响显著：单队列单命令 (QD1) 通常在几十微秒量级，高并发 (QD32) 下平均延迟会上升，具体数值需根据实际硬件型号和负载测试确定，一般设计时建议预留 0.1-0.5ms 的 P99 延迟余量。
+
+## Evidence
+
+[质询]具体数值范围（QD1 50-100μs, QD32 100-500μs）属于经验事实，不同品牌、型号及固件版本的NVMe SSD性能差异巨大，且高并发下延迟通常显著高于低并发，但具体量级需实测数据支持，现有来源仅定性提及延迟受队列深度影响，未提供该特定数值区间。 | 来源[1]和[3]确认了队列深度（QD）对NVMe SSD延迟有显著影响，且NVMe随机读延迟通常在微秒级，逻辑自洽；但来源未直接提供QD1和QD32下的具体微秒数值范围，属于经验事实缺直接来源支持。
+
+## Search Query
+
+NVMe SSD random read latency microseconds queue depth
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/guoweifeng216/article/details/163354799&rut=aac3d031481ff835c55ca5f441df3bc2f79d300ef53515aca0e486a5210c58d3', 'type': 'ddg', 'title': 'SSD读写速度深度解析：顺序读写vs随机读写、IOPS、延迟，你的硬盘性能到底怎么看？_rnd4kq8t1-CSDN博客'}
+- {'url': 'https://cloud.tencent.com/developer/news/119714&rut=5a9f48ad03982ebdc22eaabc815184b2927a0617ed7f8e68fdc4f9dba57de22c', 'type': 'ddg', 'title': 'NVMe SSD可以有多快？实测性能全分析 - 腾讯云开发者社区-腾讯云'}
+- {'url': 'https://blog.csdn.net/weixin_50919088/article/details/151757986&rut=8f0eb5c50dd9b980a86a89b35c028078ebc57c5c846f479629880150aec8a669', 'type': 'ddg', 'title': '别被7 GB/s忽悠!NVMe SSD七大"暗病"测试全解：从顺序到随机、单盘到跨Socket，一篇踩坑指南带你在csdn'}

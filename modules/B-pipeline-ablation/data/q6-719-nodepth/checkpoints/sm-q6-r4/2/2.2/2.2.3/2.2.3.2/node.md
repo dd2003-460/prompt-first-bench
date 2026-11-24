@@ -1,0 +1,24 @@
+# N217: 维修成本分解：Repair_Cost = Parts_Cost + Labor_Cost，其中 Parts_Cost 为关键部件（硬盘/内存/网卡）平均更换成本
+
+- **status**: pending
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N64
+
+## Claim
+
+维修成本分解：Repair_Cost = Parts_Cost + Labor_Cost，其中 Parts_Cost 为关键部件（硬盘/内存/网卡）平均更换成本，约 ¥1,500-¥3,000；Labor_Cost 为远程或现场更换人工成本，约 ¥500-¥1,000/次，合计单次维修成本 ¥2,000-¥4,000，取中值 ¥3,000 进行敏感性分析。
+
+## Corrected Claim
+
+维修成本分解：Repair_Cost = Parts_Cost + Labor_Cost，其中 Parts_Cost 为关键部件（硬盘/内存/网卡）平均更换成本，约 ¥1,500-¥3,000；Labor_Cost 为远程或现场更换人工成本，约 ¥500-¥1,000/次，合计单次维修成本 ¥2,000-¥4,000，取中值 ¥3,000 进行敏感性分析。
+
+## Evidence
+
+父节点级核验未通过：非正交（子节点3（敏感性分析）重复定义了父节点公式及子节点1、2中已确定的成本参数，且将TCO计算逻辑混入成本分解中，导致与子节点1、2在参数取值上存在逻辑重叠和潜在矛盾（如中值计算不一致：父节点称¥3,000，子节点3称¥2,250）。）
+
+## Search Query
+
+datacenter server hardware replacement cost parts labor average

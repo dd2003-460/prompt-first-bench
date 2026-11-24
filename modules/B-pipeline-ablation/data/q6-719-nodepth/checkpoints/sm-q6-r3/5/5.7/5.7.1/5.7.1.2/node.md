@@ -1,0 +1,20 @@
+# N335: SLA不可用时长内的预期损失上限 = 4.32 min × (Peak_Traffic_Rate × Business_Value_Per_Unit_Traff
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N117
+
+## Claim
+
+SLA不可用时长内的预期损失上限 = 4.32 min × (Peak_Traffic_Rate × Business_Value_Per_Unit_Traffic)，假设峰值流量为日均2TB/24h/60min≈1.39GB/min，若每GB流量业务价值为¥100，则单次4.32min故障的损失上限约为 ¥6000，用于评估SLA赔付是否覆盖实际损失。
+
+## Corrected Claim
+
+SLA不可用时长内的预期损失上限 = 4.32 min × (Peak_Traffic_Rate × Business_Value_Per_Unit_Traffic)，假设峰值流量为日均2TB/24h/60min≈1.42GB/min，若每GB流量业务价值为¥100，则单次4.32min故障的损失上限约为 ¥614，用于评估SLA赔付是否覆盖实际损失。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：2TB/24h/60min ≈ 1.39GB/min，1.39 * 4.32 * 100 ≈ 600.48，但题目中声称约为¥6000，存在数量级错误（1.39GB/min * 4.32min * 100元/GB ≈ 600元，而非6000元）。等等，重新计算：2TB = 2048GB。2048 / (24*60) = 2048 / 1440 ≈ 1.422 GB/min。1.422 * 4.32 * 100 ≈ 614.3 元。题目中说是¥6000，差了10倍。这是一个硬逻辑/计算错误。

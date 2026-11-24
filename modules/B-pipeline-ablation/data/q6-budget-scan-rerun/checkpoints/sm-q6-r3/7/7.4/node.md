@@ -1,0 +1,20 @@
+# N119: 回源带宽成本敏感度分析：每 1% CHR 降低导致回源带宽增加 ΔB_origin = B_total × 0.01，对应成本增加 ΔCost = ΔB_ori
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N35
+
+## Claim
+
+回源带宽成本敏感度分析：每 1% CHR 降低导致回源带宽增加 ΔB_origin = B_total × 0.01，对应成本增加 ΔCost = ΔB_origin × unit_cost_origin；公有云回源单价约为边缘单价的 1.5-2 倍，因此 CHR 每降低 10% 总带宽成本增加 15-20%
+
+## Corrected Claim
+
+回源带宽成本敏感度分析：每 1% CHR 降低导致回源带宽增加 ΔB_origin = B_total × 0.01，对应成本增加 ΔCost = ΔB_origin × unit_cost_origin；公有云回源单价约为边缘单价的 1.5-2 倍，因此 CHR 每降低 10% 总带宽成本增加 15-20%
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

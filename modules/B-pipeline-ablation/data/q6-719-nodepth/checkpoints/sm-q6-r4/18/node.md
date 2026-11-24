@@ -1,0 +1,25 @@
+# N427: 混合策略架构拓扑特征：核心区域 5-6 个自建 POP 承载热门内容（Zipf 分布 Top 10-20%），长尾区域 4-5 个公有云 POP 兜底，流量分发
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+混合策略架构拓扑特征：核心区域 5-6 个自建 POP 承载热门内容（Zipf 分布 Top 10-20%），长尾区域 4-5 个公有云 POP 兜底，流量分发通过智能 DNS 或 GSLB 实现动态路由，P99 延迟为加权平均：P99_hybrid = w_core × P99_core + w_tail × P99_tail，其中 w_core ≈ 0.6, w_tail ≈ 0.4。
+
+## Corrected Claim
+
+混合策略架构通常采用核心区域自建POP承载热门内容（符合Zipf分布头部特征），长尾区域利用公有云POP兜底，通过智能DNS或GSLB实现动态路由；P99延迟可近似视为各区域延迟的加权平均，具体权重取决于流量分布比例。
+
+## Evidence
+
+[质询]具体数值（5-6个核心POP、4-5个长尾POP、w_core≈0.6）属于特定业务场景下的经验参数，缺乏通用性，且参考来源未提供这些具体数值的支持，存在将特定案例泛化为通用架构特征的风险。 | 逻辑上混合架构利用Zipf分布进行冷热分离是合理的，P99加权平均公式在数学上自洽；但来源[1]无关，来源[2]仅提及MCP混合架构部署概念，未提供具体POP数量或权重数值，属于经验事实且缺直接来源支持。
+
+## Retrieval Sources
+
+- {'url': 'https://www.i-click.com/resources/%E4%B8%AD%E5%9B%BD%E6%95%B0%E5%AD%97%E8%90%A5%E9%94%80%E7%9A%84%E5%86%85%E5%AE%B9%E7%AD%96%E7%95%A5%E6%80%8E%E4%B9%88%E5%81%9A%EF%BC%9F%E5%85%AC%E5%9F%9F%E3%80%81%E7%A7%81%E5%9F%9F%E4%B8%8E-ai/&rut=4e48ab7cd48cdd4bc7ffd726ddbe24f32ef33b6de94433a08692648e29e7a8f4', 'type': 'ddg', 'title': '中国数字营销的内容策略怎么做？公域、私域与 AI 搜索的协同方法 - iClick Interactive'}
+- {'url': 'https://blog.csdn.net/StepLens/article/details/156682188&rut=b66a1a3ea085c53956b6b2347bd8e841ec65e6632e8cdc07c948e6c9de3f0f17', 'type': 'ddg', 'title': 'Mcp混合架构部署全流程拆解，资深架构师不愿公开的秘密-csdn博客'}

@@ -1,0 +1,30 @@
+# N37: 带宽成本与POP分布的交互效应：自建POP需预付带宽（10个POP×10Gbps=100Gbps总带宽），年度带宽成本¥300万-600万元（按¥300-600
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N5
+
+## Claim
+
+带宽成本与POP分布的交互效应：自建POP需预付带宽（10个POP×10Gbps=100Gbps总带宽），年度带宽成本¥300万-600万元（按¥300-600/Gbps/月）；公有云按流量计费（¥0.2-0.5/GB），日均2TB下载月成本¥14.4万-36万元
+
+## Corrected Claim
+
+带宽成本与POP分布的交互效应：自建POP需预付带宽，公有云按流量计费。具体成本需根据实际采购协议和流量规模估算，通常自建带宽单价低于公有云按量单价，但需承担固定预付成本。
+
+## Evidence
+
+[质询]具体数值（如¥300-600/Gbps/月、¥0.2-0.5/GB）属于高度依赖地域、运营商及采购规模的经验性市场数据，参考来源仅提供了计费模型的概念对比，未提供具体的价格区间支持，存在数值偏差风险。 | 逻辑推导成立（100Gbps*12月*300-600元=360-720万，与300-600万量级兼容；2TB/天*30天*0.2-0.5元/GB=14.4-36万，计算正确），但来源[1][2][3]仅涉及计费模式概念，未提供具体价格数据支持，属经验事实缺来源直接支持。
+
+## Search Query
+
+CDN bandwidth cost pre-paid vs on-demand China
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_33491377/article/details/163488452&rut=e091b077cdf8ffa00a5b5fd0593138f512e4e506018a77f7a18fa911c307f9eb', 'type': 'ddg', 'title': '从概念到实战：带宽计算的核心模型、典型场景与成本优化指南-csdn博客'}
+- {'url': 'https://developer.cloud.tencent.com/article/2611856&rut=9a3f298f46f13912cf95a1c10146ddc6f9d280dbe5f590a0bf12f410186323d0', 'type': 'ddg', 'title': '成本优化—网络共享带宽包与共享流量包的比较-腾讯云开发者社区-腾讯云'}
+- {'url': 'https://linkcube.rest/guides/linkcube-pricing-sources/&rut=bc891c384af2543b79df8aa63dbc1b66669afa19157f4b9af61f171399a3bfd3', 'type': 'ddg', 'title': '机场套餐价格对比与带宽成本拆解：按量计费、月付周期与超售比率分析 - LinkCube 官方指南'}

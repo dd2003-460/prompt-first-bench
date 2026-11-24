@@ -1,0 +1,29 @@
+# N596: 支持 SR-IOV 的 10Gbps 双口 NIC (如 Intel X710-DA2) 的 2024 年市场均价约为 ¥2,500-3,500/张，溢价约 5
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N205
+
+## Claim
+
+支持 SR-IOV 的 10Gbps 双口 NIC (如 Intel X710-DA2) 的 2024 年市场均价约为 ¥2,500-3,500/张，溢价约 50-70%，其核心价值在于支持虚拟机直通 (Passthrough)，若自建节点采用虚拟化架构 (KVM/VMware) 以隔离不同租户或业务线，SR-IOV 可减少 CPU 虚拟化开销约 10-15%，否则为无效支出。
+
+## Corrected Claim
+
+支持 SR-IOV 的 10Gbps 双口 NIC (如 Intel X710-DA2) 在虚拟化架构 (KVM/VMware) 中通过虚拟机直通 (Passthrough) 可减少 CPU 虚拟化开销，其核心价值在于提升网络 I/O 效率；具体市场均价及性能提升比例需参考实时市场报价及特定负载下的基准测试数据。
+
+## Evidence
+
+[质询]陈述包含具体的2024年市场价格（¥2,500-3,500）和性能提升数值（10-15%），属于经验事实。参考来源仅为Intel官方产品规格页，不包含任何市场定价数据或具体的性能基准测试对比数据，无法直接支持这些具体数值。 | 来源[1][2]确认了Intel X710-DA2是一款支持SR-IOV的10Gbps双口网卡，逻辑上自洽；但来源未覆盖2024年具体均价及10-15%的CPU开销减少比例，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+Intel X710-DA2 SR-IOV NIC price 2024 virtualization overhead reduction
+
+## Retrieval Sources
+
+- {'url': 'https://www.intel.com/content/www/us/en/products/sku/83964/intel-ethernet-converged-network-adapter-x710da2/downloads.html&rut=1e49b8d285741e8c4c5406f756567d7b4d86b50a41aeaa70b129020577a510b0', 'type': 'ddg', 'title': 'Intel® Ethernet Converged Network Adapter X710-DA2'}
+- {'url': 'https://www.intel.com/content/www/us/en/products/sku/83964/intel-ethernet-converged-network-adapter-x710da2/specifications.html&rut=214245a194b05566a01b8722de3d67abdb86db782178eeced2c5b07c6f4287d2', 'type': 'ddg', 'title': 'Intel® Ethernet Converged Network Adapter X710-DA2'}

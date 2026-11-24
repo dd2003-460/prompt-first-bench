@@ -1,0 +1,30 @@
+# N189: 接入网单跳延迟 L_hop_access 的 P99 值约为 50-100ms（受无线信号波动、基站拥塞影响），是 P99 延迟的主要贡献者；对于移动用户，接入
+
+- **status**: pending
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N60
+
+## Claim
+
+接入网单跳延迟 L_hop_access 的 P99 值约为 50-100ms（受无线信号波动、基站拥塞影响），是 P99 延迟的主要贡献者；对于移动用户，接入网 P99 延迟比有线用户高 3-5 倍。
+
+## Corrected Claim
+
+接入网单跳延迟 L_hop_access 的 P99 值通常显著高于有线网络，受无线信号波动、基站拥塞影响，是移动用户 P99 延迟的主要贡献者之一（具体数值需依据特定网络环境实测，一般无线P99可达数十至百毫秒级）。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点按4G和5G技术代际划分，逻辑上正交；但父节点中关于'移动用户比有线用户高3-5倍'的关键对比信息未在子节点中体现，导致覆盖不全；同时，两个子节点本质上是同一参数在不同技术场景下的取值，存在结构性冗余，宜合并为单一节点以参数形式表达。）
+
+## Search Query
+
+mobile network access latency P99 4G 5G jitter
+
+## Retrieval Sources
+
+- {'url': 'https://devpress.csdn.net/v1/article/detail/157311634&rut=a83c183a9a6718657f0d0f46c06a4880caa8bd9113c8f2ff224cdaf82007847f', 'type': 'ddg', 'title': 'AI辅助开发中的P99延迟优化实战：从监控到调优_网关 Gate-腾讯云开发者社区'}
+- {'url': 'https://blog.csdn.net/2600_94959702/article/details/157227534&rut=a28c2f5bd23d334a04ff6730c0a9e0c83ed080cd03abe672ef0626105d712d55', 'type': 'ddg', 'title': '深入解析p99延迟：原理、测量与优化实战 - Csdn博客'}
+- {'url': 'https://www.lunati.cloud/blog/p99-latency-teardown/&rut=eded0c09425a8550ec24c9adee93f64fc7db764aa8f0cbfa608000569cc6543f', 'type': 'ddg', 'title': '把登录接口的 P99 从 320ms 压到 48ms：一次完整的延迟拆解 · Lunati'}

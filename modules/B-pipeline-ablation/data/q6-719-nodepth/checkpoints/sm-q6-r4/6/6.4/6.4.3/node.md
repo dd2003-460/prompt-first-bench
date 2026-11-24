@@ -1,0 +1,30 @@
+# N115: 公有云部分吸收缓存失效风险的机制：公有云CDN全局缓存池更大，H_cloud(t) 下降幅度小于自建节点 H_self(t)，量化为 ΔH_cloud ≈ 0.
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N28
+
+## Claim
+
+公有云部分吸收缓存失效风险的机制：公有云CDN全局缓存池更大，H_cloud(t) 下降幅度小于自建节点 H_self(t)，量化为 ΔH_cloud ≈ 0.5 * ΔH_self，需验证具体云厂商缓存预热策略。
+
+## Corrected Claim
+
+公有云CDN通常拥有更大的全局缓存池和更广泛的节点分布，理论上在缓存失效时可能比自建节点具有更强的缓冲能力（H_cloud(t) 下降幅度可能小于 H_self(t)），但具体量化比例（如 ΔH_cloud ≈ 0.5 * ΔH_self）需根据具体云厂商的缓存预热策略和实际负载情况进行验证，当前缺乏通用量化标准。
+
+## Evidence
+
+[质询]数值量级与具体系数缺乏依据：陈述中给出的 'ΔH_cloud ≈ 0.5 * ΔH_self' 是一个具体的经验量化关系，但参考来源中完全未提及此类对比数据或比例系数，属于无来源支持的特定经验参数。 | 逻辑上公有云CDN因节点多、缓存池大，确实可能比自建节点具有更强的缓存失效缓冲能力（定性合理），但具体量化系数0.5在参考来源[1][2][3]中均无支持，且来源主要讨论缓存机制原理而非失效风险量化对比，属于经验事实缺来源支持。
+
+## Search Query
+
+Alibaba Cloud CDN cache hit rate fluctuation during traffic spike
+
+## Retrieval Sources
+
+- {'url': 'https://docs.cloud.google.com/cdn/docs/troubleshooting-steps?hl=zh-cn&rut=ee609c8b79e598fe1a7f902a6162fe34d6818747bbd056770d579960b9c4d765', 'type': 'ddg', 'title': '排查 Cloud CDN 问题 | Google Cloud Documentation'}
+- {'url': 'https://docs.cloud.google.com/cdn/docs/caching?hl=zh-cn&rut=e8cfb8b7169c19954adb61165dee62a851bcc213bc5f61a12d6cef760edfcce1', 'type': 'ddg', 'title': '缓存概览 | Cloud CDN | Google Cloud Documentation'}
+- {'url': 'https://server.hk/cnblog/209705/&rut=aca17d2dda48051b328562dcd2e47db15b65208d53f85a92d6264d2a596703c0', 'type': 'ddg', 'title': 'CDN缓存污染防护：关键方法与实战要点 - Server.HK'}

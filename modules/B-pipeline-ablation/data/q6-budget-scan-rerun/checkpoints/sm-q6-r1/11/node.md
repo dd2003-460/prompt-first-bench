@@ -1,0 +1,26 @@
+# N44: Failure Domain and MTTR Impact on P99 Cost: In self-built architectures, a singl
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+Failure Domain and MTTR Impact on P99 Cost: In self-built architectures, a single POP failure affects a larger percentage of users (10% per POP) compared to public cloud (redundant multi-POP). The cost of downtime is quantified as Downtime_Cost = (Traffic_Share * ARPU * Downtime_Minutes) / Q_day * 1000. For 10% traffic share and 30-min outage, this adds ~0.05-0.1% to the per-1000-request cost, requiring higher redundancy investment.
+
+## Corrected Claim
+
+在自建架构中，单个POP故障通常影响较大比例用户（具体比例取决于架构设计，如10%），相比公有云冗余架构风险更高。停机成本可通过流量份额、ARPU及停机时长估算，具体数值需根据实际业务参数计算，通常要求更高的冗余投入以控制P99成本影响。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性参数（如'10% per POP'的故障影响范围、'0.05-0.1%'的成本增量估算），这些属于特定架构下的经验事实，无法从第一性原理严格推导，且参考来源均未提供相关数据支持。 | 逻辑上公式量纲自洽（Traffic_Share为比例，ARPU为金额，Downtime_Minutes/Q_day为时间比例，结果为单位请求成本增量），但参考来源[1][2][3]仅讨论P99延迟定义及重要性，未涉及故障域、MTTR或具体成本计算公式，属于经验事实且缺来源支持。
+
+## Retrieval Sources
+
+- {'url': 'https://www.radview.com/blog/p99-latency-why-matters-how-measure-load-testing/&rut=c0278702409b308b24c15aac94d90a56ceb7bfb4ef042fe3a48c14a108034dc8', 'type': 'ddg', 'title': 'P99 Latency: What It Is & How to Measure It in Load Testing'}
+- {'url': 'https://qaskills.sh/blog/performance-test-percentiles-p95-p99-guide&rut=6caba03b5f9e027aea0a085e4c7ded7a796b5fdc6132b5dc2aaa1057d8034efd', 'type': 'ddg', 'title': 'Performance Percentiles: p50, p95, p99 Explained (2026)'}
+- {'url': 'https://redis.io/blog/p99-latency/&rut=7d0c2cf85e8ff98aadea43dc64b3f5339f05bc2e66f0d9f80583b6a17ed45c60', 'type': 'ddg', 'title': 'P99 Latency: What It Means & How to Fix It - Redis'}

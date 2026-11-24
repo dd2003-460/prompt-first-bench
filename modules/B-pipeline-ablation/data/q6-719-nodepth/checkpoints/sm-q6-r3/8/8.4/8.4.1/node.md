@@ -1,0 +1,20 @@
+# N381: 自建10 POP方案（高冗余/高固定成本工作点）：Elasticity_Penalty = 10 × (0.1 × 0.1 × 500k) = 50k元/月（基
+
+- **status**: verified
+- **level**: L4
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N134
+
+## Claim
+
+自建10 POP方案（高冗余/高固定成本工作点）：Elasticity_Penalty = 10 × (0.1 × 0.1 × 500k) = 50k元/月（基于N120参数），Geo_Policy_Premium = 10 × 5k = 50k元/月（基于N115/N134），总 Risk_Premium = 100k元/月。
+
+## Corrected Claim
+
+自建10 POP方案（高冗余/高固定成本工作点）：Elasticity_Penalty = 10 × (0.1 × 0.1 × 500k) = 50k元/月（基于N120参数），Geo_Policy_Premium = 10 × 5k = 50k元/月（基于N115/N134），总 Risk_Premium = 100k元/月。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算 10*(0.1*0.1*500000)=50000 及 10*5000=50000 正确，总和 100000 正确，量纲与数值量级合理。

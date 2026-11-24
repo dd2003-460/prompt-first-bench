@@ -1,0 +1,20 @@
+# N135: 回源场景下的 TCP+TLS 握手开销量化：TCP 三次握手需 1 RTT，TLS 1.3 握手需 1 RTT（若未复用 Session）。总握手延迟 = 2 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N31, N32, N33
+
+## Claim
+
+回源场景下的 TCP+TLS 握手开销量化：TCP 三次握手需 1 RTT，TLS 1.3 握手需 1 RTT（若未复用 Session）。总握手延迟 = 2 * RTT_origin。基于 N98 的 19.5ms RTT，握手总延迟 ≈ 39ms。若启用 TLS Session Resumption，可省去 TLS 握手，延迟降至 19.5ms。
+
+## Corrected Claim
+
+回源场景下的 TCP+TLS 握手开销量化：TCP 三次握手需 1 RTT，TLS 1.3 握手需 1 RTT（若未复用 Session）。总握手延迟 = 2 * RTT_origin。基于 N98 的 19.5ms RTT，握手总延迟 ≈ 39ms。若启用 TLS Session Resumption，可省去 TLS 握手，延迟降至 19.5ms。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：TCP三次握手与TLS 1.3握手各需1 RTT，总延迟2*19.5ms=39ms，Session Resumption省去TLS握手后为1 RTT，计算与网络协议原理一致。

@@ -1,0 +1,20 @@
+# N114: 混合策略下自建部分需预留的回源带宽冗余 B_redundant = Peak_Backhaul_Traffic * Safety_Factor，其中 Safet
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N28
+
+## Claim
+
+混合策略下自建部分需预留的回源带宽冗余 B_redundant = Peak_Backhaul_Traffic * Safety_Factor，其中 Safety_Factor 通常取 1.5-2.0，以吸收 H(t) 降至 70% 时的瞬时流量峰值。
+
+## Corrected Claim
+
+混合策略下自建部分需预留的回源带宽冗余 B_redundant = Peak_Backhaul_Traffic * Safety_Factor，其中 Safety_Factor 通常取 1.5-2.0，以吸收 H(t) 降至 70% 时的瞬时流量峰值。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（三个子节点分别对应父节点公式中的三个核心要素：Peak_Backhaul_Traffic（基础负载计算）、Safety_Factor（安全系数确定及敏感性）、以及带宽冗余的经济性评估（机会成本）。三者逻辑层次分明，分别解决了‘量’、‘系数’和‘成本效益’问题，无重复且无矛盾，共同构成了完整的决策闭环。）

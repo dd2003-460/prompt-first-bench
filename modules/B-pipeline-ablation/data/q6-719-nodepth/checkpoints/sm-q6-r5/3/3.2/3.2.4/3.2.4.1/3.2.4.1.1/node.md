@@ -1,0 +1,20 @@
+# N675: 公有云源站出网带宽单价 P_origin_out 的计费模式分解：P_origin_out = P_traffic_base + P_peak_surcharg
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N231
+
+## Claim
+
+公有云源站出网带宽单价 P_origin_out 的计费模式分解：P_origin_out = P_traffic_base + P_peak_surcharge，其中 P_traffic_base 为基础流量单价（阿里云/腾讯云通常为 ¥0.8-1.0/GB，按量付费），P_peak_surcharge 为峰值带宽溢价（若采用95th峰值计费，需额外支付峰值带宽超出基础包部分的差额，约 ¥0.2-0.5/GB 或固定月租 ¥500-2000/100Mbps）；对于 2TB/天 的稳定流量，若未购买资源包，实际单价取 ¥0.9/GB 基准。
+
+## Corrected Claim
+
+公有云源站出网带宽单价 P_origin_out 的计费模式分解：P_origin_out = P_traffic_base + P_peak_surcharge，其中 P_traffic_base 为基础流量单价（阿里云/腾讯云通常为 ¥0.8-1.0/GB，按量付费），P_peak_surcharge 为峰值带宽溢价（若采用95th峰值计费，需额外支付峰值带宽超出基础包部分的差额，约 ¥0.2-0.5/GB 或固定月租 ¥500-2000/100Mbps）；对于 2TB/天 的稳定流量，若未购买资源包，实际单价取 ¥0.9/GB 基准。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

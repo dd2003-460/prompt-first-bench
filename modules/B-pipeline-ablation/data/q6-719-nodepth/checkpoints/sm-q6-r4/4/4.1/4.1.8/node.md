@@ -1,0 +1,24 @@
+# N84: 公有云方案月度成本 Cost_cloud = 流量费 + 请求费；按阿里云CDN流量单价0.2 CNY/GB计算，2TB = 2048GB，月度流量费 = 20
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N19, N20, N21
+
+## Claim
+
+公有云方案月度成本 Cost_cloud = 流量费 + 请求费；按阿里云CDN流量单价0.2 CNY/GB计算，2TB = 2048GB，月度流量费 = 2048 * 0.2 * 30 = 12,288 CNY；请求费按0.01 CNY/千次请求，1.34*10^9 req/day * 30 * 0.01/1000 = 402 CNY，总计 Cost_cloud ≈ 12,690 CNY/月
+
+## Corrected Claim
+
+公有云方案月度成本 Cost_cloud = 流量费 + 请求费；按阿里云CDN流量单价0.2 CNY/GB计算，2TB = 2048GB，月度流量费 = 2048 * 0.2 * 30 = 12,288 CNY；请求费按0.01 CNY/千次请求，1.34*10^9 req/day * 30 * 0.01/1000 = 402 CNY，总计 Cost_cloud ≈ 12,690 CNY/月
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+Alibaba Cloud CDN pricing per GB per request 2024

@@ -1,0 +1,30 @@
+# N16: 带宽成本（¥/1000 req）：自建 POP 点的回源带宽费用，基于回源流量比例与带宽单价计算。
+
+- **status**: verified
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+带宽成本（¥/1000 req）：自建 POP 点的回源带宽费用，基于回源流量比例与带宽单价计算。
+
+## Corrected Claim
+
+带宽成本（¥/1000 req）：自建 POP 点的回源带宽费用，基于回源流量比例与带宽单价计算。
+
+## Evidence
+
+来源[2]明确定义了回源流量比及回源带宽的计算逻辑，来源[1]和[3]证实了回源带宽是CDN成本的主要组成部分且可通过优化降低，逻辑上基于流量比例与单价计算成本符合经济直觉，且无来源矛盾。
+
+## Search Query
+
+origin pull bandwidth cost for self-hosted CDN
+
+## Retrieval Sources
+
+- {'url': 'https://www.ctyun.cn/developer/article/835299946000453&rut=224c3594dfb381171111909d7e3e47cb8c91f17d0467200c1271a53f9c152ab1', 'type': 'ddg', 'title': '回源带宽成本压降路径：天翼云cdn分层缓存与热点预取的协同优化实践-天翼云开发者社区 - 天翼云'}
+- {'url': 'https://support.huaweicloud.com/topic/1393672-3-C&rut=7c629729857349c811d9fb832f17edc7faa9353fecd47a97093abe683b73e178', 'type': 'ddg', 'title': 'Cdn回源带宽计算_性能指标-华为云'}
+- {'url': 'https://cloud.tencent.com/developer/article/2721250&rut=f8890bafb8fed8ba51c2c174c5c2d5111c076067dd69d828f820994b6de0da7b', 'type': 'ddg', 'title': '腾讯云国际版云服务代理商：账单异常排查与降本指南 Cdn、Gaap及ai实操-腾讯云开发者社区-腾讯云'}

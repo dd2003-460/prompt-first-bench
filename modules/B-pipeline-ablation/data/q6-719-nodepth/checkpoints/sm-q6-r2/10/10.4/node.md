@@ -1,0 +1,30 @@
+# N190: 公有云 CDN 在中国大陆的 P99 延迟中，用户到边缘节点的 RTT 贡献约为 20-50ms（一线城市）至 40-80ms（三四线城市），主要受限于节点分布
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N48, N49
+
+## Claim
+
+公有云 CDN 在中国大陆的 P99 延迟中，用户到边缘节点的 RTT 贡献约为 20-50ms（一线城市）至 40-80ms（三四线城市），主要受限于节点分布密度及跨运营商网络延迟
+
+## Corrected Claim
+
+公有云 CDN 在中国大陆的 P99 延迟中，用户到边缘节点的 RTT 贡献通常受限于节点分布密度及跨运营商网络延迟，一线城市通常低于三四线城市，但具体数值需依据实际网络环境测量。
+
+## Evidence
+
+[质询]参考来源均聚焦于大模型推理、TCP协议或通用P99概念，完全未涉及CDN网络架构、中国大陆节点分布密度或跨运营商RTT的具体数值，属于来源与事实主题不匹配（无关）。 | 逻辑上，中国大陆一线城市节点密集RTT低（20-50ms），三四线城市节点稀疏且跨运营商延迟高（40-80ms）符合网络物理直觉；但参考来源[1][2][3]均与CDN网络延迟无关，无法提供外部证据支持，且该具体数值区间属于经验事实，非第一性原理可推导。
+
+## Search Query
+
+Alibaba Cloud CDN P99 latency China user to edge node RTT benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/lady_mumu/article/details/167701898&rut=f65b7c478c380419b56f57020c4cc2bd28c5e97d4961cabde2d531be59767d7f', 'type': 'ddg', 'title': '大模型评测中的长尾延迟度量：P99.9 尾部延迟归因与 Tcp Ack 延迟确认消解_长尾延时-csdn博客'}
+- {'url': 'https://blog.csdn.net/2600_94959998/article/details/157125128&rut=358e43b59793c09407c94409edead8bfb627400604ddc58a38e2000d2d2bc761', 'type': 'ddg', 'title': '深入解析p99延迟：从概念到优化的实战指南 - Csdn博客'}
+- {'url': 'https://blog.51cto.com/u_16363139/15026121&rut=50ad286b2f1ae9ae598332668db0fe7c3f5440339224ff58a28103cc79e4ce02', 'type': 'ddg', 'title': '大模型推理性能核心指标详解：TTFT、P95/P99延迟、QPS、吞吐量_wx65577d39daa1c的技术博客_51CTO博客'}

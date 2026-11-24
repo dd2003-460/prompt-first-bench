@@ -1,0 +1,20 @@
+# N485: 混合查找延迟 L_cache_lookup 的加权公式：L_cache_lookup = M_hit * L_mem + (1 - M_hit) * L_ssd
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N155
+
+## Claim
+
+混合查找延迟 L_cache_lookup 的加权公式：L_cache_lookup = M_hit * L_mem + (1 - M_hit) * L_ssd，其中 L_mem ≈ 0.05 ms（DRAM 访问延迟），L_ssd 为 N394 计算的 SSD 延迟；例如当 M_hit = 80% 且 L_ssd = 0.2 ms 时，L_cache_lookup = 0.8 * 0.05 + 0.2 * 0.2 = 0.06 ms。
+
+## Corrected Claim
+
+混合查找延迟 L_cache_lookup 的加权公式：L_cache_lookup = M_hit * L_mem + (1 - M_hit) * L_ssd，其中 L_mem ≈ 0.05 ms（DRAM 访问延迟），L_ssd 为 N394 计算的 SSD 延迟；例如当 M_hit = 80% 且 L_ssd = 0.2 ms 时，L_cache_lookup = 0.8 * 0.05 + 0.2 * 0.2 = 0.06 ms。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：加权平均公式逻辑自洽，DRAM延迟0.05ms符合工程常识，数值计算0.8*0.05+0.2*0.2=0.06正确。

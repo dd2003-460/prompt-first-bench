@@ -1,0 +1,20 @@
+# N601: 基于寿命修正后的 36 个月存储硬件摊销成本公式为：Amortized_Storage_Cost = (Initial_CapEx + N_Replacemen
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N206
+
+## Claim
+
+基于寿命修正后的 36 个月存储硬件摊销成本公式为：Amortized_Storage_Cost = (Initial_CapEx + N_Replacements * Replacement_Cost) / 36，其中 N_Replacements = ceil(36*30 / Life_Days) - 1；若选用企业级 (Life=1000天, Cost=¥2000)，N_Replacements=0，总成本 ¥2000；若选用消费级 (Life=300天, Cost=¥1500)，N_Replacements=3，总成本 ¥1500 + 3*¥1500 = ¥6000，企业级在 3 年周期内反而更便宜，推翻'消费级更划算'的直觉。
+
+## Corrected Claim
+
+基于寿命修正后的 36 个月存储硬件摊销成本公式为：Amortized_Storage_Cost = (Initial_CapEx + N_Replacements * Replacement_Cost) / 36，其中 N_Replacements = ceil(36*30 / Life_Days) - 1；若选用企业级 (Life=1000天, Cost=¥2000)，N_Replacements=0，总成本 ¥2000；若选用消费级 (Life=300天, Cost=¥1500)，N_Replacements=3，总成本 ¥1500 + 3*¥1500 = ¥6000，企业级在 3 年周期内反而更便宜，推翻'消费级更划算'的直觉。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：企业级寿命1000天>36个月(约1080天)需替换0次，总成本2000元；消费级寿命300天，36个月(1080天)内需替换ceil(1080/300)-1=3次，总成本1500+3*1500=6000元，计算无误且结论符合逻辑。

@@ -1,0 +1,20 @@
+# N627: 电价-带宽 trade-off 临界点：定义单位带宽电力成本比 R = (P_Servers × PUE × Energy_Rate) / Bandwidth_
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N215
+
+## Claim
+
+电价-带宽 trade-off 临界点：定义单位带宽电力成本比 R = (P_Servers × PUE × Energy_Rate) / Bandwidth_Mbps，当 R < 0.5 ¥/Mbps/月 时，中西部节点在同等流量负载下比东部节点更具成本优势；若 R > 0.8，则东部节点因带宽充裕导致的回源率降低带来的隐性收益可能抵消电价劣势。
+
+## Corrected Claim
+
+电价-带宽 trade-off 临界点：定义单位带宽电力成本比 R = (P_Servers × PUE × Energy_Rate) / Bandwidth_Mbps。通常认为当 R 较低时（如低于特定阈值），中西部节点在同等流量负载下比东部节点更具成本优势；若 R 较高，东部节点因带宽充裕导致的回源率降低带来的隐性收益可能抵消电价劣势。具体临界值需根据实际业务模型测算。
+
+## Evidence
+
+[质询]阈值数值（0.5和0.8）缺乏公开权威数据支持，属于特定模型下的经验参数，且'隐性收益抵消'的量化逻辑过于简化，未考虑网络延迟对用户体验及业务转化的非线性影响。 | 先验知识/题面给定，逻辑校验通过；但具体阈值属于经验事实，缺乏外部来源直接支持，故降级。

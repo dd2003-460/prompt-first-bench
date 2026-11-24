@@ -1,0 +1,24 @@
+# N173: 当用户地理分布从集中（80%核心/20%长尾）变为分散（50%核心/50%长尾）时，混合策略的带宽成本 C_bandwidth_mix 从 0.8*C_band
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N44
+
+## Claim
+
+当用户地理分布从集中（80%核心/20%长尾）变为分散（50%核心/50%长尾）时，混合策略的带宽成本 C_bandwidth_mix 从 0.8*C_bandwidth_self + 0.2*C_bandwidth_public 变为 0.5*C_bandwidth_self + 0.5*C_bandwidth_public，由于 C_bandwidth_public > C_bandwidth_self，总带宽成本上升约 40%。
+
+## Corrected Claim
+
+当用户地理分布从集中（80%核心/20%长尾）变为分散（50%核心/50%长尾）时，混合策略的带宽成本 C_bandwidth_mix 从 0.8*C_bandwidth_self + 0.2*C_bandwidth_public 变为 0.5*C_bandwidth_self + 0.5*C_bandwidth_public。由于 C_bandwidth_public > C_bandwidth_self，总带宽成本将上升，具体上升幅度取决于 C_bandwidth_public 与 C_bandwidth_self 的比值。
+
+## Evidence
+
+[质询]「总带宽成本上升约 40%」这一具体数值缺乏前提条件支持。成本上升的百分比取决于 C_bandwidth_public 与 C_bandwidth_self 的具体比值（例如，若 C_public = 2 * C_self，成本从 1.0 升至 1.5，上升 50%；若 C_public = 1.5 * C_self，成本从 0.9 升至 1.25，上升约 38.9%）。在没有给定具体成本比率的情况下，断言「约 40%」属于经验事实或特定假设下的计算结果，而非逻辑必然。 | source=knowledge，逻辑结构自洽（权重变化导致成本结构改变，且因公共带宽更贵导致总成本上升），但具体数值「40%」依赖于未给出的成本比率参数，属于经验事实/特定假设，无法仅凭逻辑推导唯一确定，故降级。
+
+## Search Query
+
+Hybrid CDN cost model geographic traffic split

@@ -1,0 +1,24 @@
+# N84: 单POP节点月均电力成本 Power_Cost_Monthly = N_servers * Server_Power_Watts * 24 * 30 * PUE
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N15
+
+## Claim
+
+单POP节点月均电力成本 Power_Cost_Monthly = N_servers * Server_Power_Watts * 24 * 30 * PUE * Electricity_Price_Per_kWh，其中Server_Power_Watts典型为300-500W/台，PUE通常1.3-1.5，Electricity_Price约¥0.6-0.8/kWh（含机房加价）
+
+## Corrected Claim
+
+单POP节点月均电力成本 Power_Cost_Monthly = N_servers * Server_Power_Watts * 24 * 30 * PUE * Electricity_Price_Per_kWh，其中Server_Power_Watts典型为300-500W/台，PUE通常1.3-1.5，Electricity_Price约¥0.6-0.8/kWh（含机房加价）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+data center PUE average China 2024 electricity cost per kWh

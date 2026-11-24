@@ -1,0 +1,20 @@
+# N470: 混合策略整体 P99 的精确计算：P99_hybrid = F_hybrid^{-1}(0.99)，其中 F_hybrid(x) = 0.2 * F_core(
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N158
+
+## Claim
+
+混合策略整体 P99 的精确计算：P99_hybrid = F_hybrid^{-1}(0.99)，其中 F_hybrid(x) = 0.2 * F_core(x) + 0.8 * F_cloud(x)，需分别拟合 F_core 和 F_cloud 的 CDF 后求逆函数，而非简单 max 或加权平均。
+
+## Corrected Claim
+
+混合策略整体 P99 的精确计算：P99_hybrid = F_hybrid^{-1}(0.99)，其中 F_hybrid(x) = 0.2 * F_core(x) + 0.8 * F_cloud(x)，需分别拟合 F_core 和 F_cloud 的 CDF 后求逆函数，而非简单 max 或加权平均。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：混合分布的CDF定义为各分量CDF的加权平均，分位数定义为CDF的反函数，数学推导自洽。

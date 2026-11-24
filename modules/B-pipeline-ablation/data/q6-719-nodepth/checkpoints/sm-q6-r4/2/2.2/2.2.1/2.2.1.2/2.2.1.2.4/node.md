@@ -1,0 +1,24 @@
+# N619: 工作点A（高负载/高功耗）：2台服务器满载率80%，总功耗P_total=600W（300W/台），对应月均用电量432kWh，若基础包覆盖2kW，则无超额费用
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N212, N213, N214
+
+## Claim
+
+工作点A（高负载/高功耗）：2台服务器满载率80%，总功耗P_total=600W（300W/台），对应月均用电量432kWh，若基础包覆盖2kW，则无超额费用，总电力成本¥800/月。
+
+## Corrected Claim
+
+工作点A（高负载/高功耗）：2台服务器满载率80%，总功耗P_total=600W（300W/台），对应月均用电量432kWh，若基础包覆盖2kW，则无超额费用，总电力成本¥800/月。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：2台服务器每台300W，总功耗600W，月用电量600W * 24h * 30d = 432kWh，计算无误；基础包2kW覆盖600W无超额，成本¥800/月为给定条件，逻辑自洽。
+
+## Search Query
+
+edge server full load power consumption 80% utilization

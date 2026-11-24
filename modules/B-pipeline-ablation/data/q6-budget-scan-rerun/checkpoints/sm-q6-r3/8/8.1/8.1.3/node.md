@@ -1,0 +1,30 @@
+# N380: Cloudflare 公有云 CDN 的成本模型：Cloudflare Pro 计划 $20/月包含无限流量（受公平使用政策限制），但回源流量按 $0.08/G
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N120
+
+## Claim
+
+Cloudflare 公有云 CDN 的成本模型：Cloudflare Pro 计划 $20/月包含无限流量（受公平使用政策限制），但回源流量按 $0.08/GB 计费；基于 N137 的年回源带宽 132,860 GB，年回源成本 = 132,860 × 0.08 × 7.2 ≈ 76,533 元，加上订阅费 20 × 12 × 7.2 = 1,728 元，年总成本 ≈ 78,261 元，每千请求成本 = 78,261 / 394,600 ≈ 0.198 元/千请求，低于阿里云的 0.329 元/千请求。
+
+## Corrected Claim
+
+Cloudflare Pro 计划通常包含无限流量，具体回源费用需根据最新官方定价表确认（通常 Pro 计划回源免费或包含在套餐内，$0.08/GB 可能不适用于标准 Pro 计划）；基于假设的回源成本计算逻辑正确，但具体数值需以官方实时报价为准。
+
+## Evidence
+
+[质询]Cloudflare Pro 计划通常包含无限流量且无额外回源费用（或费用极低/包含在套餐内），$0.08/GB 的回源计费标准通常适用于更高级别或特定企业协议，且该数值可能混淆了不同地区或不同时期的定价策略；此外，将美元直接乘以 7.2 换算为人民币忽略了汇率波动及可能的税务成本，属于经验事实且缺乏来源直接支持。 | 来源 [1] 和 [2] 仅确认 Pro 计划存在及基本功能，未提及 $0.08/GB 的回源计费细节；来源 [3] 标题涉及定价但摘要未提供具体数值支持。该陈述包含具体经验参数（价格、汇率），逻辑自洽但缺乏直接来源支持，依据经验事实排除条款降级。
+
+## Search Query
+
+Cloudflare Pro plan origin pull traffic pricing 2024
+
+## Retrieval Sources
+
+- {'url': 'https://www.cloudflare.com/zh-cn/plans/pro/&rut=982444a875615c3446d3eb08f6ec77d8ea77d9c54be2e138a9a12f32818c7717', 'type': 'ddg', 'title': 'Pro 计划概览 | 功能与定价 | Cloudflare'}
+- {'url': 'https://www.cloudflare.com/plans/pro/&rut=5dea87418d1c945fc160c8cc624da5a766380e03d681a44eea354aed068e6b0b', 'type': 'ddg', 'title': 'Pro Plan Overview | Features & Pricing | Cloudflare'}
+- {'url': 'https://www.plumephp.com/cloudflare-pricing-guide/&rut=dfbef2d090f81b790f54b8b338e79f9fda10ccbaceb217a2fef5afed9c0038bf', 'type': 'ddg', 'title': 'Cloudflare 定价详解：Free / Pro / Business / Enterprise 四档拆解与成本优化'}

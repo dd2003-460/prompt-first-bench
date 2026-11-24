@@ -1,0 +1,28 @@
+# N268: 自建5个POP（北上广深+成都/武汉）的流量占比计算：P_self = Σ(P_i for i in {Beijing, Shanghai, Guangzhou
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N98
+
+## Claim
+
+自建5个POP（北上广深+成都/武汉）的流量占比计算：P_self = Σ(P_i for i in {Beijing, Shanghai, Guangzhou, Shenzhen, Chengdu, Wuhan}) = 8.2% + 7.5% + 5.1% + 4.8% + 3.9% + 3.5% = 33.0%（若采用修正后的Top10数据），原62.3%数据需重新验证其来源及城市选择逻辑
+
+## Corrected Claim
+
+自建5个POP（北上广深+成都/武汉）的流量占比计算逻辑为P_self = Σ(P_i)，若采用特定修正数据，其和为33.0%；但具体各城市流量占比数值（如北京8.2%等）缺乏可靠来源直接支持，需进一步核实数据来源及城市选择逻辑。
+
+## Evidence
+
+[质询]参考来源[1]讨论的是“省份”维度的算力部署规模（PFlops），而事实节点N268讨论的是“城市”维度的流量占比（%），两者统计口径、指标类型（算力规模 vs 流量占比）及地理粒度（省 vs 市）均不匹配，无法用来源[1]验证具体的城市流量百分比数值。 | 逻辑上加法运算正确（8.2+7.5+5.1+4.8+3.9+3.5=33.0），但参考来源[1]主题为省份算力规模，与城市流量占比无关，无法提供外部支持；作为经验事实（具体流量分布数据），缺乏直接来源支持，故降级。
+
+## Search Query
+
+Beijing Shanghai Guangzhou Shenzhen Chengdu Wuhan combined internet user share China
+
+## Retrieval Sources
+
+- {'url': 'https://www.toutiao.com/article/7615872363577508352/&rut=3cbb86a20802a1a3b16afc6147f93085366c8330b45feacadbd60f10e7e8b011', 'type': 'ddg', 'title': '前10大省份算力部署+规模全景统计（2026最新 - 今日头条'}

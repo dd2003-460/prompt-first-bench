@@ -1,0 +1,24 @@
+# N757: 在月流量 60TB 的工作点，若采用阿里云 CDN 国内标准计费，有效单价 a_cloud = 0.18 元/GB，月度带宽成本 = 60 × 1024 × 0
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N260
+
+## Claim
+
+在月流量 60TB 的工作点，若采用阿里云 CDN 国内标准计费，有效单价 a_cloud = 0.18 元/GB，月度带宽成本 = 60 × 1024 × 0.18 ≈ 11,059 元/月
+
+## Corrected Claim
+
+在月流量 60TB 的工作点，若采用阿里云 CDN 国内标准计费，有效单价 a_cloud = 0.18 元/GB，月度带宽成本 = 60 × 1024 × 0.18 ≈ 11,059 元/月
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：60TB转换为GB为60*1024=61440GB，乘以单价0.18元/GB，计算结果11059.2元，与陈述一致。
+
+## Search Query
+
+Aliyun CDN pricing 10-100TB tier 0.18 CNY/GB

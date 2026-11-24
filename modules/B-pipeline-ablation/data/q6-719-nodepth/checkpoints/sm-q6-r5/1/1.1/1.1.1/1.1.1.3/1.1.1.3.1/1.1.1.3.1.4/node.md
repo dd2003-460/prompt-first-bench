@@ -1,0 +1,30 @@
+# N1249: JPEG q=95 在 1080p 分辨率下的平均文件大小 S_jpeg_q95 与 HEIC 同视觉质量下的文件大小 S_heic_equiv 的比值，用于计
+
+- **status**: degraded
+- **level**: L6
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N428, N429, N430
+
+## Claim
+
+JPEG q=95 在 1080p 分辨率下的平均文件大小 S_jpeg_q95 与 HEIC 同视觉质量下的文件大小 S_heic_equiv 的比值，用于计算带宽成本增量 ΔC_bw = (S_jpeg_q95 - S_heic_equiv) * R_daily * P_bw_unit
+
+## Corrected Claim
+
+JPEG q=95 与 HEIC 同视觉质量下的文件大小比值取决于图像内容复杂度，通常 HEIC 比 JPEG 小 30%-50%，但具体数值需实测，无法从现有来源得出固定比值。
+
+## Evidence
+
+[质询]该陈述定义了一个具体的数值比值（S_jpeg_q95 / S_heic_equiv），但参考来源中完全缺失 HEIC 格式的相关数据，无法验证该比值的具体数值或量级；且不同图像内容（如截图 vs 照片）下该比值波动极大，缺乏特定场景限定。 | 来源[1][2][3]仅涉及 JPEG 与 PNG/WebP 的对比或 JPEG 质量参数分析，均未提供 HEIC 与 JPEG 的文件大小对比数据，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+JPEG quality 95 file size vs HEIC equivalent quality 1080p bandwidth cost
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_44673517/article/details/166949433&rut=abc5fb46e34e8bb06e13d20d9f124c3bf320e0ca9294162b6fc761974d9e8766', 'type': 'ddg', 'title': '截图别存 JPEG：同一张界面图 JPEG q95 比 PNG 大 56%，WebP 无损只有它的 1/6-CSDN博客'}
+- {'url': 'https://compressopanda.com/blog/jpeg-quality-75-85-95-visual-test/&rut=80f3a2da6a4ec87f6bb5bbcc475fedc51c960af4ef8a4c14febec300d7f8933e', 'type': 'ddg', 'title': 'JPEG Quality 75 vs 85 vs 95: Real Sizes and PSNR (2026 Test)'}
+- {'url': 'https://blog.csdn.net/weixin_32311823/article/details/158272627&rut=b03a6eba08a85a48812141501a23dd2e24ca76aab49678b221290fa95521ed2d', 'type': 'ddg', 'title': 'WuliArt Qwen-Image Turbo新手教程：图像质量参数（JPEG 95%）对文件体积影响分析-CSDN博客'}

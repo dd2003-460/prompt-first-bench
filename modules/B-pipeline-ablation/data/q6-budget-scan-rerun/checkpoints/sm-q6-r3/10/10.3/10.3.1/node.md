@@ -1,0 +1,29 @@
+# N394: 混合策略下预热Top 1000对象后的综合P99延迟计算：P99_mix_prefetch = 0.623 * P99_self_prefetch + 0.37
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N137
+
+## Claim
+
+混合策略下预热Top 1000对象后的综合P99延迟计算：P99_mix_prefetch = 0.623 * P99_self_prefetch + 0.377 * P99_cloud_prefetch + T_switch，其中P99_self_prefetch基于本地高命中率（>95%）降低回源概率，P99_cloud_prefetch基于公有云边缘缓存命中，需量化预热后各路径P99的具体数值变化
+
+## Corrected Claim
+
+混合策略下预热Top 1000对象后的综合P99延迟可通过加权平均模型估算：P99_mix_prefetch ≈ w1 * P99_self_prefetch + w2 * P99_cloud_prefetch + T_switch，其中权重w1/w2及命中率需根据实际流量分布和缓存策略量化确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（权重0.623/0.377、命中率>95%）和特定的系统架构假设（本地/公有云混合预热），属于经验事实而非第一性原理可推导内容。参考来源主要讨论DeepSeek-V4推理服务的调度与批处理优化，未涉及具体的缓存预热权重分配或混合P99延迟的特定计算公式，无法提供直接支持。 | 逻辑上加权平均公式自洽，但具体数值（0.623, 0.377, >95%）为经验参数，参考来源[1][2]主题相关但缺乏对该特定混合策略参数及公式的直接支持，依据经验事实排除条款降级。
+
+## Search Query
+
+CDN prefetch top objects P99 latency improvement calculation
+
+## Retrieval Sources
+
+- {'url': 'https://deepseek.csdn.net/69fa9d7c54b52172bc71fa2f.html&rut=36123bca6a41142244286338452e94101d9143ee102eb659e7a7a84540643b12', 'type': 'ddg', 'title': 'DeepSeek-V4 推理服务中 P99 延迟优化：基于请求排队的混合调度策略'}
+- {'url': 'https://deepseek.csdn.net/6a222c8710ee7a33f277cacd.html&rut=0c107cf781307db4b01e03c21451b4061e4ab919029bd3bbbc6a24645fa3ce48', 'type': 'ddg', 'title': 'DeepSeek-V4 推理延迟 P99 压测实战：从 vLLM 批处理到投机解码的取舍'}

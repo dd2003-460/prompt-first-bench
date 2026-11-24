@@ -1,0 +1,26 @@
+# N418: 公有云 CDN SLA 违约赔偿具体条款量化：阿里云/Cloudflare 企业级 SLA 通常承诺 99.9% 可用性，若月度可用性低于此值，赔偿上限为月度服
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+公有云 CDN SLA 违约赔偿具体条款量化：阿里云/Cloudflare 企业级 SLA 通常承诺 99.9% 可用性，若月度可用性低于此值，赔偿上限为月度服务费的 30%-50%；若 P99 延迟超过合同阈值 (如 200ms)，通常不直接赔偿金钱，而是提供等值服务抵扣券 (Credit)，抵扣比例约为超标时长/总时长的 2 倍，最高不超过月费 10%。
+
+## Corrected Claim
+
+公有云 CDN SLA（如阿里云）通常承诺 99.9% 可用性，若月度可用性低于此值，会提供基于月度服务费一定比例的服务抵扣（具体比例视厂商及合同而定，阿里云通常为10%-30%不等）；关于 P99 延迟等性能指标的违约赔偿，通常不直接赔偿现金，而是提供等值服务抵扣券，具体计算规则（如抵扣比例、上限）因厂商和具体合同条款而异，并非统一的'2倍超标时长'或'10%上限'。
+
+## Evidence
+
+[质询]陈述中关于P99延迟违约赔偿的具体机制（如'抵扣比例约为超标时长/总时长的2倍'、'最高不超过月费10%'）属于高度具体的经验性合同条款细节，且将阿里云与Cloudflare混同描述。参考来源仅证实了阿里云CDN存在99.9%可用性SLA及赔偿方案，但未提供关于P99延迟赔偿的具体计算公式或比例，也未证实Cloudflare有完全相同的条款。该具体数值缺乏来源支持，且不同厂商、不同合同版本间差异巨大，直接量化为固定比例存在以偏概全的风险。 | 来源[1][2][3]证实了阿里云CDN SLA包含99.9%可用性指标及赔偿方案，支持了陈述的前半部分（可用性赔偿）；但来源未覆盖P99延迟赔偿的具体计算逻辑（2倍比例、10%上限），且未涉及Cloudflare，故具体量化条款缺乏直接证据支持，判定为degraded。
+
+## Retrieval Sources
+
+- {'url': 'https://help.aliyun.com/zh/cdn/support/alibaba-cloud-cdn-sla&rut=3956d40b61723b624586e57a9ca801bbecb2bb04169a8328aa7a4c0cbff04394', 'type': 'ddg', 'title': 'Cdn服务等级协议sla的服务可用性指标与赔偿方案-cdn-阿里云'}
+- {'url': 'http://terms.aliyun.com/legal-agreement/terms/suit_bu1_ali_cloud/suit_bu1_ali_cloud201803050950_21147.html&rut=4ea3dffc5b57a36309cd0a05201504fd407668bd99f18ab73a0500d16bf07fb8', 'type': 'ddg', 'title': 'CDN服务等级协议 - aliyun.com'}
+- {'url': 'https://www.alibabacloud.com/help/zh/legal/latest/content-delivery-network-service-level-agreement&rut=b204a44dcb369131155c400cc02c7f9c36ce6a921f1e6b2174fb2544606cb7bb', 'type': 'ddg', 'title': '了解 CDN 服务等级协议 - 内容分发网络 (CDN) -Alibaba Cloud'}

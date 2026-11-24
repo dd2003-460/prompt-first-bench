@@ -1,0 +1,24 @@
+# N56: Total_Connect_Latency_TLS1.3 = 1 RTT (TCP Handshake) + 1 RTT (TLS 1.3 Handshake)
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N11
+
+## Claim
+
+Total_Connect_Latency_TLS1.3 = 1 RTT (TCP Handshake) + 1 RTT (TLS 1.3 Handshake) = 2 RTT；若启用 0-RTT 恢复会话，则 TLS 协商延迟可降至 0 RTT（仅首次连接为 2 RTT）[待核验]
+
+## Corrected Claim
+
+Total_Connect_Latency_TLS1.3 = 1 RTT (TCP Handshake) + 1 RTT (TLS 1.3 Handshake) = 2 RTT；若启用 0-RTT 恢复会话，则 TLS 协商延迟可降至 0 RTT（仅首次连接为 2 RTT）[待核验]
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别解释了TLS 1.3握手机制（1 RTT原因）、总延迟构成及TFO优化（2 RTT及1 RTT场景）、以及0-RTT恢复会话机制（0 RTT场景），三者分别对应父节点公式中的不同项和不同连接状态，逻辑清晰且无重复。）
+
+## Search Query
+
+TLS 1.3 0-RTT resumption latency reduction

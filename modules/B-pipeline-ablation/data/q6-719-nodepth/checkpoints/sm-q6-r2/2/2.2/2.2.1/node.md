@@ -1,0 +1,24 @@
+# N72: 单 POP 点服务器台数 N_server 由日均请求量 Q_day (2,048,000) 除以单服务器最大 QPS 容量 C_qps (如 50,000 Q
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+单 POP 点服务器台数 N_server 由日均请求量 Q_day (2,048,000) 除以单服务器最大 QPS 容量 C_qps (如 50,000 QPS) 得出，并需乘以冗余系数 R (通常 1.5-2.0) 以应对峰值负载，即 N_server = (Q_day / 86400 / C_qps) * R。
+
+## Corrected Claim
+
+单 POP 点服务器台数 N_server 由日均请求量 Q_day (2,048,000) 除以单服务器最大 QPS 容量 C_qps (如 50,000 QPS) 得出，并需乘以冗余系数 R (通常 1.5-2.0) 以应对峰值负载，即 N_server = (Q_day / 86400 / C_qps) * R。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 N_server = (Q_day / 86400 / C_qps) * R 在量纲和逻辑上自洽，符合服务器容量规划的基本原理。
+
+## Search Query
+
+web server max QPS capacity nginx apache benchmark 50000

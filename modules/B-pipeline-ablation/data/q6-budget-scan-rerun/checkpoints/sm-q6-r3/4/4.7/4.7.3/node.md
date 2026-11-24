@@ -1,0 +1,20 @@
+# N123: 故障恢复时间对P99延迟的放大效应：Effective_Downtime = Detection_Time + Failover_Time + Cache_Wa
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N27
+
+## Claim
+
+故障恢复时间对P99延迟的放大效应：Effective_Downtime = Detection_Time + Failover_Time + Cache_Warmup_Time，公有云通常<30s（自动切换），自建可能>5min（人工介入或脚本延迟），导致故障期间P99延迟从正常值飙升至Origin_Latency（~300ms），需量化故障窗口内的加权P99劣化幅度
+
+## Corrected Claim
+
+故障恢复时间对P99延迟的放大效应：Effective_Downtime = Detection_Time + Failover_Time + Cache_Warmup_Time，公有云通常<30s（自动切换），自建可能>5min（人工介入或脚本延迟），导致故障期间P99延迟从正常值飙升至Origin_Latency（~300ms），需量化故障窗口内的加权P99劣化幅度
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应公式中的三个时间分量（检测、切换、预热）以及最终的量化指标（P99劣化），逻辑上正交且无重复。第4个子节点正确区分了‘瞬时P99’（故障期间）和‘加权P99’（全天平均），准确回应了父节点中‘量化...劣化幅度’的要求，覆盖了父节点所有关键方面。）

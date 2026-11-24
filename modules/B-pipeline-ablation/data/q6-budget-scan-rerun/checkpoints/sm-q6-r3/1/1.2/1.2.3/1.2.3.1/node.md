@@ -1,0 +1,24 @@
+# N116: 边缘节点到源站的单向网络传输延迟 $T_{net} = D_{geo}/v + T_{prop} + T_{queue}$，其中 $D_{geo}$ 为物理距离
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N25
+
+## Claim
+
+边缘节点到源站的单向网络传输延迟 $T_{net} = D_{geo}/v + T_{prop} + T_{queue}$，其中 $D_{geo}$ 为物理距离（km），$v \approx 200,000$ km/s（光纤折射率修正），$T_{prop}$ 为协议栈处理耗时（约 1-5ms），$T_{queue}$ 为排队延迟（取决于链路利用率，典型 <1ms）。
+
+## Corrected Claim
+
+边缘节点到源站的单向网络传输延迟 $T_{net} = D_{geo}/v + T_{prop} + T_{queue}$，其中 $D_{geo}$ 为物理距离（km），$v \approx 200,000$ km/s（光纤折射率修正），$T_{prop}$ 为协议栈处理耗时（约 1-5ms），$T_{queue}$ 为排队延迟（取决于链路利用率，典型 <1ms）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：光纤中光速约为真空光速的2/3（约200,000 km/s），协议栈处理与排队延迟的量级符合网络工程常识，公式结构自洽。
+
+## Search Query
+
+fiber optic signal propagation speed km/s networking delay calculation

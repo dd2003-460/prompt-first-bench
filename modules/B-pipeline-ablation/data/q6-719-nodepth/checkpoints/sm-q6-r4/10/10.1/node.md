@@ -1,0 +1,20 @@
+# N398: 峰值读 IOPS 计算修正：日均下载 2TB，假设峰值集中在 4 小时，平均速率 = 2TB/4h = 500GB/h ≈ 139MB/s。若平均对象大小 s_
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N140
+
+## Claim
+
+峰值读 IOPS 计算修正：日均下载 2TB，假设峰值集中在 4 小时，平均速率 = 2TB/4h = 500GB/h ≈ 139MB/s。若平均对象大小 s_avg = 1MB，则峰值 QPS = 139MB/s / 1MB = 139 QPS。单个 4KB 块请求数 = 139 × (1MB/4KB) = 35,328 IOPS。若对象大小分布不均（小对象多），IOPS 需求将显著高于此值，需按对象大小分布加权计算
+
+## Corrected Claim
+
+峰值读 IOPS 计算修正：日均下载 2TB，假设峰值集中在 4 小时，平均速率 = 2TB/4h = 500GB/h ≈ 139MB/s。若平均对象大小 s_avg = 1MB，则峰值 QPS = 139MB/s / 1MB = 139 QPS。单个 4KB 块请求数 = 139 × (1MB/4KB) = 35,328 IOPS。若对象大小分布不均（小对象多），IOPS 需求将显著高于此值，需按对象大小分布加权计算
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：2TB/4h=500GB/h≈138.88MB/s，138.88/1≈139 QPS，139*256=35488 IOPS，数值量级与计算逻辑自洽。

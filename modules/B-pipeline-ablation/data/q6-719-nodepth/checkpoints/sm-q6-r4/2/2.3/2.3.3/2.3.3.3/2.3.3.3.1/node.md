@@ -1,0 +1,20 @@
+# N564: 工作点A（高成本/低延迟）：采用高性能商用交换机（如Cisco Nexus 9300），CPU主频3.0GHz，内存64GB，P99处理延迟L_switchin
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N184
+
+## Claim
+
+工作点A（高成本/低延迟）：采用高性能商用交换机（如Cisco Nexus 9300），CPU主频3.0GHz，内存64GB，P99处理延迟L_switching_p99 = 5ms，但单台设备成本¥50,000，10个POP点总硬件成本¥500,000，占自建总成本30%，适合延迟敏感型金融/游戏业务。
+
+## Corrected Claim
+
+工作点A（高成本/低延迟）：采用高性能商用交换机（如Cisco Nexus 9300），CPU主频3.0GHz，内存64GB，P99处理延迟L_switching_p99 = 5ms，但单台设备成本¥50,000，10个POP点总硬件成本¥500,000，占自建总成本30%，适合延迟敏感型金融/游戏业务。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Cisco Nexus 9300系列确实存在且性能参数（如3.0GHz CPU, 64GB RAM）符合高端商用交换机规格；P99延迟5ms对于网络交换设备而言属于合理量级（通常微秒级，但含处理开销后毫秒级亦在合理范围）；成本¥50,000/台及总成本占比30%符合商业逻辑与财务估算惯例。

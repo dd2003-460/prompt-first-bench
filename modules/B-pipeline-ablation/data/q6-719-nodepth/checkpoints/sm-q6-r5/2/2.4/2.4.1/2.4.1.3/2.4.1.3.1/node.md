@@ -1,0 +1,20 @@
+# N573: 工作点1（高性低成/同运营商骨干直连）：AS_Hops=1，单跳延迟 L_hop ≈ 5ms，无跨运营商结算成本，总延迟 L_total ≈ 5ms。
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N187
+
+## Claim
+
+工作点1（高性低成/同运营商骨干直连）：AS_Hops=1，单跳延迟 L_hop ≈ 5ms，无跨运营商结算成本，总延迟 L_total ≈ 5ms。
+
+## Corrected Claim
+
+工作点1（高性低成/同运营商骨干直连）：AS_Hops=1，单跳延迟 L_hop ≈ 5ms，无跨运营商结算成本，总延迟 L_total ≈ 5ms。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：AS_Hops=1 意味着单跳，无跨运营商结算符合直连定义，5ms 延迟符合骨干网单跳物理量级。

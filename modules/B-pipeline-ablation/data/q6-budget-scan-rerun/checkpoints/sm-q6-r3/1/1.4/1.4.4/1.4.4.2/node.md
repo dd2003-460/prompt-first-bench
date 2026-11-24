@@ -1,0 +1,24 @@
+# N142: 回源响应时间 T_origin 的组成：T_origin = T_rtt_origin + T_origin_processing + T_transfer_t
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N34
+
+## Claim
+
+回源响应时间 T_origin 的组成：T_origin = T_rtt_origin + T_origin_processing + T_transfer_time。对于未命中请求，T_rtt_origin 取决于回源数据中心距离（通常 50-100ms RTT），T_origin_processing ≈ 10-20ms，T_transfer_time = Object_Size / Bandwidth。若对象大小 s=500KB，带宽 1Gbps，传输时间 ≈ 4ms。综合 T_origin 基准值约为 70-130ms，修正 N34 中 300ms 的高估（300ms 可能包含了慢速回源或大对象）。
+
+## Corrected Claim
+
+回源响应时间 T_origin 的组成：T_origin = T_rtt_origin + T_origin_processing + T_transfer_time。对于未命中请求，T_rtt_origin 取决于回源数据中心距离（通常 50-100ms RTT），T_origin_processing ≈ 10-20ms，T_transfer_time = Object_Size / Bandwidth。若对象大小 s=500KB，带宽 1Gbps，传输时间 ≈ 4ms。综合 T_origin 基准值约为 70-130ms，修正 N34 中 300ms 的高估（300ms 可能包含了慢速回源或大对象）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：传输时间计算正确（500KB*8/1Gbps=4ms），RTT与处理时间量级符合常规网络工程经验，总耗时70-130ms与分项之和自洽。
+
+## Search Query
+
+CDN origin server latency breakdown rtt processing transfer time

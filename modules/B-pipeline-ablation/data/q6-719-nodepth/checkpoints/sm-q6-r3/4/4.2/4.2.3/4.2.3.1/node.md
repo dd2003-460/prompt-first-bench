@@ -1,0 +1,20 @@
+# N278: AIOps 自动化方案的 3 年总拥有成本 TCO_AIOps_3yr = Initial_Investment + (1 × Staff_Cost_Month
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N97
+
+## Claim
+
+AIOps 自动化方案的 3 年总拥有成本 TCO_AIOps_3yr = Initial_Investment + (1 × Staff_Cost_Monthly × 36)，其中 Initial_Investment 取中位值 150k 元，Staff_Cost_Monthly 为 25k 元/人/月，计算得 150k + 900k = 1050k 元。
+
+## Corrected Claim
+
+AIOps 自动化方案的 3 年总拥有成本 TCO_AIOps_3yr = Initial_Investment + (1 × Staff_Cost_Monthly × 36)，其中 Initial_Investment 取中位值 150k 元，Staff_Cost_Monthly 为 25k 元/人/月，计算得 150k + 900k = 1050k 元。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：150k + (1 * 25k * 36) = 150k + 900k = 1050k，计算无误且量级合理。

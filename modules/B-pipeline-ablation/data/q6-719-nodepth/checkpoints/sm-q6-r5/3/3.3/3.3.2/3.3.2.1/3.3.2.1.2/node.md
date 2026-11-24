@@ -1,0 +1,20 @@
+# N691: 一线分布对运维效率的隐性成本：通勤/出差成本 C_travel = (N_trips_per_month * C_trip_cost) + (Daily_Ove
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N236
+
+## Claim
+
+一线分布对运维效率的隐性成本：通勤/出差成本 C_travel = (N_trips_per_month * C_trip_cost) + (Daily_Overtime_Premium)；假设每月需2次现场巡检，C_trip_cost ≈ ¥2k/次，日常远程协作效率损失导致加班时数增加 10%，C_overtime ≈ ¥5k/月；总隐性成本 ≈ ¥9k/月，需从 TCO 中单独列出，不应仅看基本工资。
+
+## Corrected Claim
+
+一线分布对运维效率的隐性成本：通勤/出差成本 C_travel = (N_trips_per_month * C_trip_cost) + (Daily_Overtime_Premium)；假设每月需2次现场巡检，C_trip_cost ≈ ¥2k/次，日常远程协作效率损失导致加班时数增加 10%，C_overtime ≈ ¥5k/月；总隐性成本 ≈ ¥9k/月，需从 TCO 中单独列出，不应仅看基本工资。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算正确（2*2k + 5k = 9k），量级符合一线运维隐性成本的常见估算范围，且作为TCO分析的一部分逻辑自洽。

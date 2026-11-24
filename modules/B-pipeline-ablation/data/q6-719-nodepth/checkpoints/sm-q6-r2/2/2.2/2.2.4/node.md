@@ -1,0 +1,24 @@
+# N75: 单 POP 点机房租赁及电力成本 C_colo 约为 5,000-10,000 元/月，取决于机柜数量 (如 2-4 个 42U 机柜) 及 PUE 值 (通常
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+单 POP 点机房租赁及电力成本 C_colo 约为 5,000-10,000 元/月，取决于机柜数量 (如 2-4 个 42U 机柜) 及 PUE 值 (通常 1.4-1.6)，需结合当地 IDC 费率计算。
+
+## Corrected Claim
+
+单 POP 点机房租赁及电力成本 C_colo 约为 5,000-10,000 元/月，取决于机柜数量 (如 2-4 个 42U 机柜) 及 PUE 值 (通常 1.4-1.6)，需结合当地 IDC 费率计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：2-4个机柜在二三线城市或普通IDC的月租及电力成本（含PUE 1.4-1.6）通常在5000-10000元区间，量级合理且符合行业常识。
+
+## Search Query
+
+IDC colocation cost per rack per month China 42U PUE 1.5

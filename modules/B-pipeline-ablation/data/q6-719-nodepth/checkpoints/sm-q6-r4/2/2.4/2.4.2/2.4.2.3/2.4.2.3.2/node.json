@@ -1,0 +1,17 @@
+{
+  "id": "N672",
+  "claim": "混合策略加权 P99 延迟的精确计算：P99_hybrid = 0.6 × P99_core + 0.4 × P99_tail，其中 P99_core ≈ 50ms（自建缓存命中），P99_tail ≈ 80ms（公有云长尾），P99_hybrid ≈ 0.6×50 + 0.4×80 = 62ms，需验证该值是否满足 P99 ≤ T 约束（T 待核验）。",
+  "level": "L5",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]P99（第99百分位数）是统计分位数，不具备线性可加性。混合系统的P99延迟不能简单通过流量权重对两个子系统的P99进行线性加权平均计算（即 P99_hybrid ≠ 0.6*P99_core + 0.4*P99_tail）。这种计算方式混淆了“平均延迟”与“分位数延迟”的统计口径，属于典型的统计概念错误。 | 逻辑校验失败：分位数（Quantile）不满足线性组合性质，混合分布的P99取决于整体CDF的逆函数，而非各部分P99的加权平均。虽然数值量级（62ms）在工程直觉上可能接近真实值，但计算公式本身在统计学上是错误的。",
+  "corrected_claim": "混合策略的P99延迟不能通过 0.6 × P99_core + 0.4 × P99_tail 直接计算。需基于整体延迟分布函数求解，或采用保守估计（如取 max(P99_core, P99_tail) 或根据具体流量分布模拟）。若仅做粗略工程估算，62ms 可作为参考量级，但不应表述为精确计算公式。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N232"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

@@ -1,0 +1,20 @@
+# N207: 最优合规路径选择阈值：当 (1 - H_current) / (H_target - H_current) * C_cache_upgrade < N_add 
+
+- **status**: pending
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N64, N65, N66
+
+## Claim
+
+最优合规路径选择阈值：当 (1 - H_current) / (H_target - H_current) * C_cache_upgrade < N_add * C_pop_marginal 时选择缓存扩容，否则选择增加 POP；C_pop_marginal ≈ ¥8000-12000/月/POP
+
+## Corrected Claim
+
+最优合规路径选择阈值：当 (1 - H_current) / (H_target - H_current) * C_cache_upgrade < N_add * C_pop_marginal 时选择缓存扩容，否则选择增加 POP；C_pop_marginal ≈ ¥8000-12000/月/POP
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点分别定义了不等式两侧的成本变量，内容正且不重复。但父节点的核心是‘决策阈值’（即何时选择扩容 vs 何时增加POP），子节点仅解释了成本构成，缺失了对决策逻辑本身（如临界点计算、具体决策流程或阈值含义）的覆盖，导致不完备。）

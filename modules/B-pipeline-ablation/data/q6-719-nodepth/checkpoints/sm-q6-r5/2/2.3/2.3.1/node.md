@@ -1,0 +1,28 @@
+# N56: D_max 的精确几何定义：用户分布凸包（Convex Hull）的最大外接圆直径，或基于 Top 80% 用户分布的最小包围圆直径；中国境内典型值需根据具体省
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N13
+
+## Claim
+
+D_max 的精确几何定义：用户分布凸包（Convex Hull）的最大外接圆直径，或基于 Top 80% 用户分布的最小包围圆直径；中国境内典型值需根据具体省份加权质心计算，非固定 3000km。
+
+## Corrected Claim
+
+D_max 通常基于用户分布的几何特征（如凸包或最小包围圆）计算，具体定义（如是否剔除尾部用户）及典型数值需依据特定业务文档或数据分布确定，非通用固定值。
+
+## Evidence
+
+[质询]该陈述包含具体的工程/业务定义（如'Top 80% 用户'、'非固定 3000km'），属于经验事实或特定系统内部规范，无法从第一性原理推导，且参考来源仅解释通用数学概念，未提供该特定业务定义的佐证。 | 来源[1]仅定义通用凸包概念，与特定业务指标 D_max 的定义及中国境内具体数值无关，属经验事实且缺直接来源支持。
+
+## Search Query
+
+China user geographic distribution convex hull diameter telecom edge node coverage
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/707325000&rut=9b8f8519bfb3db62856cdce2b9e256ac43a104925264e4ffaee5cfd7bdb91a60', 'type': 'ddg', 'title': 'Convex Hull（凸包） - 知乎'}

@@ -1,0 +1,20 @@
+# N328: T_failover_cloud（流量切换时间）：依赖DNS TTL或Anycast路由切换。若TTL设为300秒，平均切换延迟为150秒；若采用Anycast
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N96
+
+## Claim
+
+T_failover_cloud（流量切换时间）：依赖DNS TTL或Anycast路由切换。若TTL设为300秒，平均切换延迟为150秒；若采用Anycast，切换时间<1秒。公有云CDN通常采用Anycast+低TTL组合，取T_failover = 5秒作为保守估计。
+
+## Corrected Claim
+
+T_failover_cloud（流量切换时间）：依赖DNS TTL或Anycast路由切换。若TTL设为300秒，平均切换延迟为150秒；若采用Anycast，切换时间<1秒。公有云CDN通常采用Anycast+低TTL组合，取T_failover = 5秒作为保守估计。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：DNS TTL 300s 的平均切换延迟 150s 符合统计学预期（TTL/2），Anycast 切换 <1s 符合 BGP 收敛特性，5s 作为保守估计在工程上合理且自洽。

@@ -1,0 +1,24 @@
+# N557: 有效覆盖半径 R_eff 的加权公式修正：R_eff 不应使用 sqrt(Σ(g_i * d_i^2)) 计算，因为 P99 延迟对距离是线性敏感的，而非平方敏
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N181
+
+## Claim
+
+有效覆盖半径 R_eff 的加权公式修正：R_eff 不应使用 sqrt(Σ(g_i * d_i^2)) 计算，因为 P99 延迟对距离是线性敏感的，而非平方敏感；正确的 P99 加权延迟应使用 L_p99 = Σ(g_i * L_i)，其中 L_i = d_i / v_fiber + L_processing；若东部 g_east=0.6, d_east=300km, L_east=1.5ms+5ms=6.5ms；西部 g_west=0.2, d_west=1200km, L_west=6ms+5ms=11ms；中部 g_mid=0.2, d_mid=600km, L_mid=3ms+5ms=8ms；则加权平均延迟 = 0.6*6.5 + 0.2*11 + 0.2*8 = 3.9+2.2+1.6=7.7ms，而 P99 取最大延迟或高分位延迟，约为 11ms（西部主导），比均匀假设的 25ms 低，但比平均 7.7ms 高。
+
+## Corrected Claim
+
+有效覆盖半径 R_eff 的加权公式修正：R_eff 不应使用 sqrt(Σ(g_i * d_i^2)) 计算，因为 P99 延迟对距离是线性敏感的，而非平方敏感；正确的 P99 加权延迟应使用 L_p99 = Σ(g_i * L_i)，其中 L_i = d_i / v_fiber + L_processing；若东部 g_east=0.6, d_east=300km, L_east=1.5ms+5ms=6.5ms；西部 g_west=0.2, d_west=1200km, L_west=6ms+5ms=11ms；中部 g_mid=0.2, d_mid=600km, L_mid=3ms+5ms=8ms；则加权平均延迟 = 0.6*6.5 + 0.2*11 + 0.2*8 = 3.9+2.2+1.6=7.7ms，而 P99 取最大延迟或高分位延迟，约为 11ms（西部主导），比均匀假设的 25ms 低，但比平均 7.7ms 高。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：加权平均计算正确（0.6*6.5+0.2*11+0.2*8=7.7ms），P99取高分位（西部11ms）符合统计直觉，且线性延迟模型在光纤传输中成立。
+
+## Search Query
+
+weighted P99 latency calculation population distribution CDN

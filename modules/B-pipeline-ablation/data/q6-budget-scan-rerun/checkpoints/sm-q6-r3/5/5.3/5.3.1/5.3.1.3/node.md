@@ -1,0 +1,24 @@
+# N269: 长尾流量分配逻辑：非Top5城市流量占比 P_tail = 1 - P_self - P_cloud_core，其中P_cloud_core为西安/南京/杭州等
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N98
+
+## Claim
+
+长尾流量分配逻辑：非Top5城市流量占比 P_tail = 1 - P_self - P_cloud_core，其中P_cloud_core为西安/南京/杭州等次级城市流量，若P_self=33.0%，P_cloud_core=9.1%（西安3.1%+南京2.8%+杭州4.2%中扣除已含部分），则P_tail=57.9%，混合策略中公有云承载比例 = P_tail + (1 - P_self) × H_cloud_effective，需量化公有云对长尾的覆盖效率
+
+## Corrected Claim
+
+长尾流量分配逻辑：非Top5城市流量占比 P_tail = 1 - P_self - P_cloud_core，其中P_cloud_core为西安/南京/杭州等次级城市流量，若P_self=33.0%，P_cloud_core=9.1%（西安3.1%+南京2.8%+杭州4.2%中扣除已含部分），则P_tail=57.9%，混合策略中公有云承载比例 = P_tail + (1 - P_self) × H_cloud_effective，需量化公有云对长尾的覆盖效率
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算 1 - 0.33 - 0.091 = 0.579 正确，公式定义自洽，无外部来源矛盾。
+
+## Search Query
+
+long tail traffic distribution CDN hybrid strategy public cloud coverage

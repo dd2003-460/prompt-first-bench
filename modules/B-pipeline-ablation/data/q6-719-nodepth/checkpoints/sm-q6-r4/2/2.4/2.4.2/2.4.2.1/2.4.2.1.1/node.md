@@ -1,0 +1,30 @@
+# N666: 长尾区域人均请求数 17 次/日的实证分布：基于 C 端短视频/图片平台日志，长尾区域（非核心城市）用户日均请求数均值 μ_tail = 17，标准差 σ_ta
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N230
+
+## Claim
+
+长尾区域人均请求数 17 次/日的实证分布：基于 C 端短视频/图片平台日志，长尾区域（非核心城市）用户日均请求数均值 μ_tail = 17，标准差 σ_tail ≈ 5，P90 请求数 ≈ 25，P99 请求数 ≈ 40，该分布用于验证 40% 流量占比假设的稳健性。
+
+## Corrected Claim
+
+长尾区域（非核心城市）用户日均请求数通常显著低于核心城市，具体分布参数（如均值、标准差、分位数）需基于特定平台的实际日志数据进行实证分析，无法仅凭通用逻辑确定具体数值。
+
+## Evidence
+
+[质询]该陈述包含具体的经验统计参数（μ=17, σ≈5, P90≈25, P99≈40），属于特定平台日志的实证数据，无法从第一性原理或通用逻辑中推导得出，且参考来源均未提供此类具体数值支持。 | 经验事实，逻辑自洽但缺来源支持（参考来源[1]-[3]仅涉及视频分发平台介绍，未包含用户请求频率的具体统计分布数据）。
+
+## Search Query
+
+short video platform user request distribution long tail region daily active users
+
+## Retrieval Sources
+
+- {'url': 'https://www.distribution.ai/blog/video-distribution-platforms&rut=a303189265c5b8f96599fa5d8c25db47758c256cde471975525d6194e8dcc529', 'type': 'ddg', 'title': 'Best Video Distribution Platforms in 2026'}
+- {'url': 'https://versusmedia.com/insights/7-best-platforms-for-short-film-distribution/&rut=05b3f475a42e54c7914af5ced5d9a701014fb9f85284626070b401c37d559a62', 'type': 'ddg', 'title': '7 Best Platforms for Short Film Distribution - VersusMedia'}
+- {'url': 'https://klipist.com/submissions/&rut=a5bf9895847dd2b55b5f27773a1d026093737cff38b202520b7c8aa0b029f170', 'type': 'ddg', 'title': 'Submit Your Short Film for Distribution | Klipist'}

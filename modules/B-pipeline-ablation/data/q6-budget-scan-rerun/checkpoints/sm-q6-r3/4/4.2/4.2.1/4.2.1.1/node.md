@@ -1,0 +1,20 @@
+# N246: 均匀分布假设下的单 POP 峰值流量基准：B_peak_pop_uniform = (2TB/86400s * 8 * 3) / 10 = 7.92 Mbps，
+
+- **status**: verified
+- **level**: L4
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N77
+
+## Claim
+
+均匀分布假设下的单 POP 峰值流量基准：B_peak_pop_uniform = (2TB/86400s * 8 * 3) / 10 = 7.92 Mbps，此值为容量规划的下限约束，对应 Zipf α→∞ 的退化情形。
+
+## Corrected Claim
+
+均匀分布假设下的单 POP 峰值流量基准：B_peak_pop_uniform = (2TB/86400s * 8 * 3) / 10 = 7.92 Mbps，此值为容量规划的下限约束，对应 Zipf α→∞ 的退化情形。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算正确（2TB/86400s * 8 * 3 / 10 = 7.92 Mbps），且均匀分布对应 Zipf α→∞ 的退化情形在逻辑上自洽。

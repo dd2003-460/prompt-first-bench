@@ -1,0 +1,20 @@
+# N690: 情景1（全一线）的人力成本敏感性：C_eng_Tier1 = N_eng * P_avg_Tier1 * (1 + C_benefits_rate)，其中 P_
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N236
+
+## Claim
+
+情景1（全一线）的人力成本敏感性：C_eng_Tier1 = N_eng * P_avg_Tier1 * (1 + C_benefits_rate)，其中 P_avg_Tier1 = ¥55k，C_benefits_rate 为五险一金及福利附加率 30%，故单人月综合成本 = 55k * 1.3 = ¥71.5k；5人总成本 = 5 * 71.5k = ¥357.5k/月；对比二线平均综合成本 ¥50k/人，总成本 ¥250k/月，一线溢价 ΔC_geo = ¥107.5k/月。
+
+## Corrected Claim
+
+情景1（全一线）的人力成本敏感性：C_eng_Tier1 = N_eng * P_avg_Tier1 * (1 + C_benefits_rate)，其中 P_avg_Tier1 = ¥55k，C_benefits_rate 为五险一金及福利附加率 30%，故单人月综合成本 = 55k * 1.3 = ¥71.5k；5人总成本 = 5 * 71.5k = ¥357.5k/月；对比二线平均综合成本 ¥50k/人，总成本 ¥250k/月，一线溢价 ΔC_geo = ¥107.5k/月。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
