@@ -16,8 +16,13 @@ from collections import Counter
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 
-def load(tag):
-    fs = sorted(glob.glob(os.path.join(HERE, f'q7-719-{tag}-*.json')))
+def load(tag, budget=719):
+    """tag='r1' → q7-{budget}-r1-*.json; tag='300-r1' → q7-300-r1-*.json (跨 budget 基线)."""
+    if '-' in tag:
+        pat = f'q7-{tag}-*.json'
+    else:
+        pat = f'q7-{budget}-{tag}-*.json'
+    fs = sorted(glob.glob(os.path.join(HERE, pat)))
     if not fs:
         return None
     return json.load(open(fs[-1]))
@@ -96,10 +101,20 @@ def main():
     print(f"r2: n={s2['n']} max_L=L{s2['max_level']} L5={s2['l5_nodes']}({s2['l5_verified']}ver) "
           f"ver_rate={s2['verified_rate']:.3f} L4_ver={s2['l4_verified_rate']:.2f} "
           f"redundant={s2['dropped_redundant']} judge={j2}")
-    # 复现判定: 三个机制特征
+    # 复现判定: 三个机制特征 (跨预算签名, 基线=300 独立 run, 非 r1 同 budget 内比较)
+    # 机制结论 (marginal-mechanism 文档) 是 300→719 的签名: ver 0.720→0.647, redundant 43→371.
+    # 复现问题 = "r2@719 相对 300 基线是否也有同样签名", 不是 "r2 是否比 r1 更稀释".
+    base = load('300-r1')  # 300 独立 run (ver=0.720, redundant=43)
+    if base is not None:
+        sb = struct(base)
+        base_ver, base_red = sb['verified_rate'], sb['dropped_redundant']
+    else:
+        base_ver, base_red = s1['verified_rate'], s1['dropped_redundant']  # 300 缺失时退回 r1 (有偏差)
     l5_replicates = s2['l5_nodes'] > 0 and s2['max_level'] >= 5
-    dilution_replicates = s2['verified_rate'] < s1['verified_rate']
-    redundancy_replicates = s2['dropped_redundant'] > s1['dropped_redundant']
+    dilution_replicates = s2['verified_rate'] < base_ver
+    redundancy_replicates = s2['dropped_redundant'] > base_red
+    if base is not None:
+        print(f"[基线=300-r1: ver={base_ver:.3f} redundant={base_red}]")
     verdicts = {
         'L5 长出': l5_replicates,
         '核验稀释(verified率降)': dilution_replicates,
