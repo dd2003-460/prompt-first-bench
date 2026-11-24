@@ -1011,3 +1011,15 @@ q7_domain_gold_analyze.py（116 行）独立核验：
 **draft 更新（14 处，全清残留）**：abstract/related work/findings×8/limitations×3 的 "unresolved at n=2 / pending r3 / 17 points / two wall-free / 0.1847" → n=3 口径（18 points / three wall-free / 0.1956 / 1.21× pooled se / F(2,14)=2.73 p=0.10 / cor 0.805 t=5.43 df=16 / ss 0.0220→0.0158）。措辞纪律：magnitude open at n=3（1.21× 边际可分辨，非"方向已定"）；cross-domain 仍 pending Q7（第三域扫描在飞）。subagent 派单失败（repetition loop），改 Lead 直接精确编辑。
 
 **核验**：残留扫描 0（unresolved at n=2 / pending r3 / r3 in flight / r3 pending / 17 points including / two wall-free 719 / 0.1847 / 0.91× / F(2,13)=2.93 全 0）；四条件过（括号差 0 / 0 TODO / 21 refs 字母序 / 120,048 字符 / 17,984 词）。两处 "sub-noise" 残留是 GPU 阈值敏感性语境（0.75/0.80 阈值），非 Q6 bin，正确保留。
+
+## 2026-11-24 ~10:28 分析脚本 verdict 与 draft 一致性核验（红队"分析脚本 verdict 不能超 draft 降级"约束）
+
+**发现矛盾**：r3 watchdog 落盘的 18 点分析 JSON 给强 verdict（"Q6 到 719 未饱和, Δ=+0.0927 > 1×sd, 域依赖"），draft 刚更新成"magnitude open at n=3, 1.21× se 边际可分辨"。谁引用 JSON 谁拿到膨胀结论。
+
+**根因（q6_719_nodepth_analyze.py 两个口径 bug）**：
+1. 基线 `low_covs = 所有 n<400`（含 0-100 低预算段 mean 0.058）→ delta 膨胀 +0.0927（正确基线=紧邻 400 的 200-400 bin 0.1522 → +0.0435）。
+2. 噪声底只用 low 端 sd（0.0308），nd 端 sd 0.0575 更大被忽略 → 1×sd=0.0314 偏小，强 verdict 偏松。
+
+**修**（commit 4fa3b7ffb）：基线改 200-400 bin；噪声底改池化 se=sqrt(se_nd²+se_low²)=0.0360；verdict 三级分级（≥1.96×se 显著 / 1-1.96×se magnitude open 边际可分辨 / <1×se 平台）。重跑落盘，verdict 与 draft §4.3 一致（Δ=+0.0435=1.21×se, magnitude open）。
+
+**Q7 两脚本同查**：full 版用"最高两箱差"（相邻箱，无低段膨胀）+ 池化 sd 噪声底 ✓；domain_gold 版只报饱和点位置无强 verdict ✓——无同类 bug，不修。
