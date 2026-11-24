@@ -106,14 +106,14 @@ T-PR-17 prompt 序列消融
 | T1 | 定位 3 checkpoint（719-r1 归档 sm-gpu-r1/r2/r3）+ preflight（JSON schema + parent-link 完整性，重点核验 T5 parent_ids 持久化 bug） | ✅ 11-24 21:07 完成 (3e3859d31, Lead 核验过) | r1=33/r2=132/r3=381 节点, dangling=0, T5 全命中（r1 5 个=gap_check 补充, r2/r3 亦命中）, 3/3 pass |
 | T2 | 写 tpr17 runner（canonical/verify-off/null-control 3 臂，monkey-patch，不改 s5_state_machine.py）+ 每 call 记录 token/tool calls/evidence delta（F2b 1/2/3） | ✅ 同上 | tpr17_runner.py 448 行, s5_state_machine.py 0 改动 |
 | T3 | 冒烟测试（dry-run：patch 加载 + checkpoint 加载 + 首个 prompt 可构造，不发 LLM 调用） | ✅ 同上 | 9/9 全过（3 臂 × 3 ckpt）, smoke_matrix.json 独立复算确认 |
-| T4 | 正式配对 run（分级：先 pilot 再 scale，见下） | 🔒 vLLM 阻塞 | 队列 r2 ~22:46 / r3 ~01:00（22:06 实测节奏修正: r2 72.3%@104min, 比 r1 慢 26%） |
+| T4 | 正式配对 run（分级：先 pilot 再 scale，见下） | 🔒 vLLM 阻塞 | 队列 r2 ~22:40 / r3 ~00:55（22:11 双轨核验: 线性外推 22:46 + 周期模式 22:35-22:45; LLM call 节奏是"峰→谷→峰→尾"周期性非劣化, r2 第二峰 22:00-22:15=360 calls 与 r1 第二峰 378 几乎重合, r3 预期同 ~114-120min） |
 | T5 | 分析（多指标 + 等效性检验 + bootstrap CI） | 🔒 依赖 T4 | F2b 3 |
 
 **T4 分级执行计划（11-24 21:10 Lead 核算，pace=6.31 nodes/min 来自 719-r1 实测 114min/719 节点；checkpoint 实际节点数来自 preflight 3e3859d31：r1(L1)=33 / r2(L2)=132 / r3(L3)=381）**：
 
 | 档 | 规格 | 时长估算 | 决策规则 |
 |---|---|---|---|
-| pilot | 3 臂 × L3 ckpt(381) × n=3，budget=719（new≈338 节点/run ≈0.89h） | ~8h | vLLM 释放后第一个跑（~01:00 起，~09:00 完；22:06 实测 ETA 修正） |
+| pilot | 3 臂 × L3 ckpt(381) × n=3，budget=719（new≈338 节点/run ≈0.89h） | ~8h | vLLM 释放后第一个跑（~00:55 起，~09:00 完；22:11 双轨 ETA） |
 | scale | 3 臂 × 3 ckpt(33/132/381) × n=5，budget=719 | ~64h（过夜+次日+次晨） | pilot 效应 > judge 噪声(~0.1) 且方向稳定 → 起 scale |
 | 停 | — | — | pilot 效应 < 噪声 → 结论="不可检测"（F5 既定语义），不烧 64h |
 
