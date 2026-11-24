@@ -845,3 +845,17 @@ metacog_axis.compute_metacog 实际测 4 量: gap_rate / retrieval_rate / post_a
   "记忆轴删还是留(建议删)" 改为 "5 因子清单确认(记忆轴作为 coverage 判定点,
   不需要量化测量)"。D 仍可能基于其他理由(150 节点单 run 跨 session 难操作化)
   选择删, 但"无测量支撑"不是有效理由。
+
+## 2026-11-24 ~09:02 — D1 题面 post_acc 口径不一致修正
+
+核验 D1 确认项 3 (排序键口径) 时撞出真不一致 (source ①, 代码 vs 题面):
+- 题面 L44 原写: "测量口径 = 检索节点查完后 verified/degraded 占比, 即 post_acc"
+- metacog_axis.py L118 实际: post_acc = verified/(verified+contradicted)
+  — unverifiable + ambiguous 不进分母 (v1.1 设计: unverifiable = 健康缺口, 不算失败)
+- 字面 "verified/degraded 占比" = verified/(verified+degraded), degraded 含
+  contradicted+unverifiable+ambiguous → 与代码口径不同, unverifiable 被错误计入分母。
+- 这正是题面自己审计表 (L88-108) 警告的 construct mismatch 教训: 题面描述口径
+  ≠ 实际测量代码 → gold 建定时踩同一个坑。
+修正: 题面 L44 改为 "verified/(verified+contradicted) 占比, 即 metacog_axis 的
+post_acc; unverifiable 与 ambiguous 不进分母"。审计表 L99 / 因子清单 L84 只引用
+post_acc 名字没写错公式, 不用改。

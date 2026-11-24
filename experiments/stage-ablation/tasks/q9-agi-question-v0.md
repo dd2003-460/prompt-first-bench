@@ -41,7 +41,9 @@
 
 排序键（唯一目标函数）：单位预算下的闭环成功率
 （gap 标记 → 补全信息 → 补全后判断可验证 的端到端比率；
-测量口径 = 检索节点查完后 verified/degraded 占比，即 post_acc）。
+测量口径 = 检索节点查完后 verified/(verified+contradicted) 占比，即 metacog_axis 的
+post_acc；unverifiable（查完知道"查不到"）与 ambiguous 不进分母——v1.1 设计，
+unverifiable 是健康缺口不算自我认识失败）。
 "最快可靠" = 在同等闭环成功率下预算消耗更少，或同等预算下成功率更高。
 
 硬件条件（你的全部资源）：
