@@ -41,7 +41,7 @@
 - 不同轴、不冲突，但都改 SM → 必须串行，T-PR-17 先（pilot 已在跑）
 
 ## 待办
-- [ ] pilot 后：subagent 读 SM directed/rework 代码，确认 Fix-A/B 具体修改点（路由条件 + pool 构造 diff）
-- [ ] 应用修改（git commit）
+- [x] pilot 后：subagent 读 SM directed/rework 代码，确认 Fix-A/B 具体修改点（路由条件 + pool 构造 diff）→ **2026-11-24 23:30 完成**，见 `repair-loop-diff-prep-20261124.md`（两缺陷证实 + 3 份 ready diff + 4 臂执行序列 + P-A 功效/口径注记）
+- [ ] 应用修改（git commit）——**注意 4 臂序列**：baseline 臂必须跑未修改 SM（prep §4 的 5 步序列，勿先 apply 再跑臂）
 - [ ] 跑 4 臂（budget=300, Q6, n=3）
 - [ ] 分析：修复率矩阵（4 臂 × rework 类型）+ P-A/P-B/P-A+B 判别
