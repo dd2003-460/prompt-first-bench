@@ -1199,9 +1199,11 @@ watch (proc_3dbf15050970) 触发 TP17-ARENA-LANDED sha=9c5745541 (08:59:36)。�
 
 **边际**: 50→100 Δ=+0.064 (n=3/3, 唯一两侧 n≥3 的档间差); 100→150 Δ=+0.006 (n=1, 不可判)。
 
-**初步信号 (方向判断, 非结论)**: Q7 在 100 节点 cov 0.167 ≈ Q6 在 719 节点的水平 (0.167) — 若 150/300 档维持平, Q7 饱和点 ~100-150, 比 GPU (~400) 和 Q6 (719 未饱和) 都早 → 三域三档饱和点, **域依赖强化**。
+**初步信号 (方向判断, 非结论)**: Q7 在 100 realized 节点 cov 0.167 ≈ Q6 原批 719 预算档的水平 (0.167, 但该档撞 max_depth=4 墙, realized 仅 197/351/379 ≈ 309) — **正确对比是 Q7 100 realized vs Q6 ~309 realized → Q7 每节点效率 ~3× 更高 (非 7×; 7× 是把 Q6 预算标签当 realized 的口径错误, 12:50 修正)**。若 150/300 档维持平, Q7 饱和点 ~100-150 realized, 比 GPU (~400 realized 断点) 和 Q6 (719 realized 拆墙批 0.1956 未饱和) 都早 → 三域三档饱和点 (realized 轴, 口径统一), **域依赖强化**。
 
-**标度警示 (承重)**: Q7 gold=52 units vs Q6=46 — cov 绝对值跨域比有 ~13% 标度偏移。unit 计数口径更干净: Q7 100 档 ≈ 8.7 units hit vs Q6 719 档 ≈ 7.7 units hit — Q7 每节点效率更高这个方向不依赖 cov 标度。(unit 数=mean cov×gold units: 0.1667×52≈8.7 / 0.167×46≈7.7)
+**realized 轴口径注 (承重)**: Q7 realized=budget 精确相等 (50/50/50, 100/100/100, 150/150/150, hard cap 无 confound); GPU 是 soft cap (同档 realized 离散 4.1×, 如 50 档 423/175/103)。跨域饱和点比较必须统一在 realized 节点轴 (断点扫描口径), Q7 无换算问题, GPU/Q6 需用 realized 而非预算标签。
+
+**标度警示 (承重)**: Q7 gold=52 units vs Q6=46 — cov 绝对值跨域比有 ~13% 标度偏移。unit 计数口径更干净: Q7 100 realized 档 ≈ 8.7 units hit vs Q6 原批 719 预算档 (~309 realized) ≈ 7.7 units hit — Q7 每节点效率更高这个方向不依赖 cov 标度。(unit 数=mean cov×gold units: 0.1667×52≈8.7 / 0.167×46≈7.7)
 
 **cache artifact 注记**: Q7 50 档 r2/r3 score 完全相同 (0.3577, cov 0.115) — 11:10 核验 metacog 不同; **12:41 树级核验: 三 rep 树 hash 全不同 (r1 6af7ce / r2 c1ec70 / r3 73ad47, 签名=节点 id+parent+status+rework_count 的 md5) → 非 cache 共享, 独立树, 同 score 是离散评分巧合 (cov=hits/52, hit 数相同)。50 档有效 n=3 成立, 不降级。**
 
