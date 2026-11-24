@@ -313,10 +313,26 @@ def main(argv=None):
             continue
         comparisons.append(compare(cells, ckpt, cfg))
 
+    # 样本量核验（F5: n≥5 才能下结论; n=3 的 pilot 是 fail-fast 哨兵, CI 宽, 不可当最终结论）
+    n_per_cell = {}
+    for ckpt in [c.strip() for c in a.checkpoints.split(",") if c.strip()]:
+        for arm in ARMS:
+            n = sum(1 for (aa, cc, _r) in cells if aa == arm and cc == ckpt)
+            if n:
+                n_per_cell[f"{arm}@{ckpt}"] = n
+    underpowered = {k: v for k, v in n_per_cell.items() if v < 5}
+    if underpowered:
+        problems.append(
+            f"UNDERPOWERED: {underpowered} 每臂 rep 数 <5 (F5: n≥5 才能下结论, n=3 会假阳性)。"
+            f"当前结果只作 pilot 哨兵 (pipeline 跑通 + 效应方向粗检), 不可当最终结论; "
+            f"正式结论需补跑到每臂 n≥5。")
+
     report = {
         "ts": datetime.now().isoformat(timespec="seconds"),
         "prespecified_config": cfg,
         "n_cells": len(cells),
+        "n_per_cell": n_per_cell,
+        "underpowered": underpowered,
         "problems": problems,
         "comparisons": comparisons,
         "cross_checkpoint_direction": direction_consistency(comparisons),
