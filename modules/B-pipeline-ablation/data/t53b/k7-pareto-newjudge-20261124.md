@@ -1103,3 +1103,11 @@ budget=100 r3: cov=0.173 (score 0.3865 depth=0.600 metacog=0.0670)。
 - Δ=+0.0643, se_diff=0.0210, **3.06×se (n=3/3)**
 比 11:40 的 n=1 vs n=3 初步信号强一个量级: storage 域 budget effect 现在两档都 n=3 且 3×se 可分辨。
 仍非承重声明: 全曲线 (5 budget × 3 rep = 15 run) 未落地, 断点位置/形状等 watchdog 双分析。方向与 GPU (plateau ~400) / Q6 (still-rising n=3) 一致 — 第三域 replication, 非新发现 (D 信号检查: 与已有两域模式一致, 无文献覆盖冲突)。
+
+## T-PR-17 arena 分支落地核验 (2026-11-24 11:58, source ① git)
+
+watch (proc_3dbf15050970) 触发 TP17-ARENA-LANDED sha=9c5745541 (08:59:36)。核验:
+- 9c5745541 "Add T-PR-17 prompt sequence literature review" = 176 行 T-PR-17-result.md (experiments/stage-ablation/tasks/), **与本地已验收消化版本相同**。
+- 81cc016dc = 75 行早期版 (tasks/T-PR-17-result.md), 已被 176 行版替代。
+- **结论: 落地 = 无新信息**, 本地 T-PR-17-result.md 已验收 + 8 条方法学建议已消化 (11-23)。子项② (prompt 去污染修复 / T-PR-17) 闭环。
+- watch 进程已 exit 0 自退, 无需清理。
