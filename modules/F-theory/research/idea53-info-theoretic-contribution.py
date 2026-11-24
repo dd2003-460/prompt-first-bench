@@ -1,201 +1,156 @@
 #!/usr/bin/env python3
-"""#53 核心 claim 因果测量 — 各层对根判定的信息贡献 (2026-11-24, 直接计算, 非消融).
+"""#53 信息论直接计算 — 各层对供给侧瓶颈判定的信息贡献 (节点级二值 MI, 纯 math).
 
-claim: LLM 研究树/推理树中, 深层节点对系统瓶颈判定 (供给侧: SM频率/指令吞吐/发射率/
-内存带宽/occupancy) 的信息贡献更大. 这是因果测量 (信息论量), 不是描述性 level 分布
-(后者已测: L4 富集三源显著 p<0.05, commit 0e866871c).
+claim: LLM 研究树/推理树中, 深层节点对系统瓶颈判定 (供给侧: SM频率/指令吞吐/
+发射率/内存带宽/occupancy) 的信息贡献更大.
 
-度量 (按优先级, n 不够降级, 不卡高阶度量):
-  1. 首选 互信息 I(L_k; 根判定) — bge-m3 算各层节点文本与根判定文本相似度, 需联合分布
-     (n 够才算, n<30 直接降级)
-  2. 次选 条件熵降低 H(根)-H(根|L_k) — 同上, n 够才算
-  3. 降级 贡献排名 — 各层供给侧瓶颈判定节点数 / 总瓶颈判定节点数 (哪层贡献最大,
-     不依赖 n 大, 最稳健)
+测量 = 直接信息论计算 (节点级二值互信息, 纯 math, 无嵌入, 不重跑不消融):
+  每个节点打二值标签 is_bottleneck = (SUPPLY 词 ∧ JUDGE 词 命中).
+  I(layer; is_bottleneck) = H(bottleneck) - H(bottleneck|layer)
+    = Σ_k P(L_k)·[H(bottleneck) - H(bottleneck|L_k)]
+    ΔH(L_k)   = H(bottleneck) - H(bottleneck|L_k)  层 L_k 的 per-node 信息贡献
+    P(L_k)·ΔH = 层 L_k 对总互信息的加权贡献
+  n = 节点数 (3849/5497/18243), underpowered 不成立 → 这是 #53 claim 的严格
+  信息论版本 (知道节点的层, 能预测它是不是瓶颈判定节点).
 
-根判定 = run 树根节点 (N-0) 判定文本, 或最终结论 (answer 字段).
-  ①rep-scan 无 answer → 根 = L1 节点 claim 拼接
-  ②t53b 有 answer → 根 = answer
-  ③stage-ablation 无 answer → 根 = L1 节点 claim 拼接
+为什么不用树级 MI I(L_k; 根判定): n=树数 (15/18/26) < 30 underpowered, 且 L1
+(根层) 与根判定天然共线 → L1 的 MI 是编码伪影, 方向反了 (L1 最大), 不支撑
+claim. 故删掉, 只保留节点级 MI + 贡献排名.
 
-边界 (D taste: claim 圈在测得出来的范围):
-  只算测得动的词: 内存带宽/occupancy/MFU/Kernel Launch
-  指令吞吐(n=2)/issue率(n=0)/warp(n=0) n≈0, 不硬塞结论, 单独标 "n 不足测不了".
+为什么纯 math 不跑嵌入: bge-m3 CPU 编码 27k 文本 >45min + macOS regex 循环导入
+坑. 节点级二值联合分布 n 足够大, 纯 math 即可, 完全 sidestep 嵌入依赖.
 
-同族 judge (27b 评 27b) 分数仅相对有效. 供给侧词表复用
-idea53-supply-bottleneck-enrichment.py (硬件供给词 ∧ 判定词), 不重新定义.
+诚实边界 (claim 弱化版): 节点级 MI 测的是"层 → 节点是否瓶颈判定"的信息流,
+不是"层 → 最终结论(根判定)"的信息流 (后者需树级 MI, n 不够测不了). 所以
+#53 claim 目前能支撑的是"深层节点更可能是瓶颈判定节点" (节点级), 不是
+"深层节点对最终结论的信息贡献更大" (根级, 测不了). 这是诚实边界.
 
-架构: 本脚本纯数学 (不 import sentence_transformers). 词表/树加载在
-idea53_common.py (子进程提取词表, 避开 enrichment 的 import re 污染).
-高阶信息论量 (MI/条件熵) 用分类编码 (根判定二值 × 层瓶颈二值), 不依赖
-bge-m3 嵌入 — 因 n_trees<30 underpowered 且 bge-m3 连续版 CPU>45min.
+数据: 复用 idea53-supply-bottleneck-enrichment.py 的三份 GPU run 树 (level 口径
+不同, 分源测) + SUPPLY/JUDGE/MICRO 词表.
+对照: 需求侧 (DEMAND) 同法算, 看深度梯度是否供给侧特有.
+边界: 只算测得动的词 (内存带宽/occupancy/MFU/Kernel Launch n 够); 指令吞吐/issue
+率/warp n≈0, 不单独下结论.
 """
-import json, os, math, sys
-from collections import Counter, defaultdict
+import importlib.util, json, math, os
+from collections import Counter
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, HERE)
-from idea53_common import (SUPPLY, JUDGE, MICRO, text_of, load_trees,
-                           MEASURABLE, UNMEASURABLE)
+SCRIPT = os.path.join(HERE, 'idea53-supply-bottleneck-enrichment.py')
+_spec = importlib.util.spec_from_file_location('idea53', SCRIPT)
+mod = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(mod)  # enrichment 顶层只 import json/glob/re/math, 无 transformers, 安全
+
+MEASURABLE = ['内存带宽', 'occupancy/占用率', 'MFU', 'Kernel Launch']
+UNMEASURABLE = ['指令吞吐', 'issue rate/发射', 'warp']
 
 
-def contribution_ranking(trees):
-    """降级度量 (最稳健): 各层供给侧瓶颈判定节点数 / 总瓶颈判定节点数."""
-    out = {}
-    for name, tl in trees.items():
-        lv_cnt = Counter(); n_total = 0
-        for _, _, ns in tl:
-            for nd in ns:
-                n_total += 1
-                if SUPPLY.search(text_of(nd)) and JUDGE.search(text_of(nd)):
-                    lv_cnt[nd['level']] += 1
-        tot = sum(lv_cnt.values())
-        out[name] = (lv_cnt, tot, n_total)
-    return out
-
-
-def micro_counts(trees):
-    """D 点名词: 各层命中数 (测得动 vs 测不了)."""
-    out = {}
-    for name, tl in trees.items():
-        per = {k: Counter() for k in MICRO}
-        for _, _, ns in tl:
-            for nd in ns:
-                t = text_of(nd)
-                for k, rx in MICRO.items():
-                    if rx.search(t):
-                        per[k][nd['level']] += 1
-        out[name] = per
-    return out
-
-
-def _entropy(p):
-    return -sum(pi * math.log2(pi) for pi in p if pi > 0)
-
-
-def mutual_info_bits(pairs):
-    """pairs: list of (a, b) 离散取值. 返回 I(A;B) bits."""
-    n = len(pairs)
-    if n == 0:
+def bintext(p):
+    """二值熵 (bits). p 在 0/1 边界时熵为 0."""
+    if p <= 0.0 or p >= 1.0:
         return 0.0
-    ca, cb, cab = Counter(), Counter(), Counter()
-    for a, b in pairs:
-        ca[a] += 1; cb[b] += 1; cab[(a, b)] += 1
-    mi = 0.0
-    for (a, b), n_ab in cab.items():
-        p_ab = n_ab / n
-        p_a = ca[a] / n
-        p_b = cb[b] / n
-        mi += p_ab * math.log2(p_ab / (p_a * p_b))
-    return mi
+    return -(p * math.log2(p) + (1.0 - p) * math.log2(1.0 - p))
 
 
-def info_theoretic(trees):
-    """首选/次选: 互信息 I(L_k;根判定) + 条件熵降低 (分类信息论量, 纯数学).
-
-    编码 (categorical, 不依赖 bge-m3 嵌入):
-      根判定 R = 每树根文本二值 (含供给侧瓶颈判定语言? 1:0)
-      L_k = 每树第 k 层是否含瓶颈判定节点 (二值 1:0)
-    联合分布 = 各树 (R, L_k) 取值, n = 树数 (15/18/26).
-    n_trees < 30 → 高阶度量 underpowered, 仅作方向参考 (任务规则: n<30 直接降级,
-    主结论以度量3 贡献排名为准).
-
-    注: bge-m3 连续相似度版 (任务首选) 需对 27648 条文本编码, CPU 上 >45min
-    且 n_trees<30 同样 underpowered → 降级到本分类 MI + 贡献排名.
-    """
+def node_level_mi(nodes, label_fn):
+    """节点级二值互信息 I(layer; is_bottleneck), 按层分解. n=节点数, underpowered 不成立."""
+    n = len(nodes)
+    if n == 0:
+        return {}, 0.0, 0.0, 0
+    pairs = [(nd['level'], bool(label_fn(mod.text_of(nd)))) for nd in nodes]
+    levels = sorted({l for l, _ in pairs})
+    n_b = sum(1 for _, b in pairs if b)
+    p_b = n_b / n
+    H_b = bintext(p_b)
     out = {}
-    for name, tl in trees.items():
-        per_tree = []
-        for tid, root, ns in tl:
-            root_bin = 1 if (SUPPLY.search(root) and JUDGE.search(root)) else 0
-            layer_bin = {}
-            for nd in ns:
-                if SUPPLY.search(text_of(nd)) and JUDGE.search(text_of(nd)):
-                    layer_bin[nd['level']] = 1
-            per_tree.append((root_bin, layer_bin, tid))
-        layers = sorted(set(lv for _, lb, _ in per_tree for lv in lb))
-        H_root = _entropy([sum(r for r, _, _ in per_tree) / len(per_tree)])
-        res = {}
-        for lv in layers:
-            pairs = [(r, lb.get(lv, 0)) for r, lb, _ in per_tree]
-            mi = mutual_info_bits(pairs)
-            by_b = defaultdict(list)
-            for r, b in pairs:
-                by_b[b].append(r)
-            H_root_given = sum(
-                len(v) / len(pairs) * _entropy([sum(v) / len(v)])
-                for v in by_b.values()
-            )
-            res[lv] = {'MI_bits': mi, 'H_root': H_root,
-                       'H_root_given': H_root_given,
-                       'reduction': H_root - H_root_given}
-        out[name] = {'n_trees': len(per_tree), 'H_root': H_root,
-                     'layers': res}
-    return out
+    total = 0.0
+    for lv in levels:
+        sub = [b for l, b in pairs if l == lv]
+        n_lv = len(sub)
+        p_lv_b = sum(sub) / n_lv
+        H_given = bintext(p_lv_b)
+        dH = H_b - H_given          # ≥0, per-node 信息贡献
+        P_lv = n_lv / n
+        contrib = P_lv * dH         # 加权贡献
+        total += contrib
+        out[lv] = dict(n=n_lv, n_b=sum(sub), p_b=p_lv_b, H_given=H_given,
+                       dH=dH, P=P_lv, contrib=contrib)
+    return out, total, H_b, n
+
+
+def contribution_ranking(nodes):
+    """节点级贡献排名: 各层瓶颈判定节点占比 (节点级 MI 的简化, 最稳健)."""
+    lv_cnt = Counter(); n = 0
+    for nd in nodes:
+        n += 1
+        if mod.SUPPLY.search(mod.text_of(nd)) and mod.JUDGE.search(mod.text_of(nd)):
+            lv_cnt[nd['level']] += 1
+    return lv_cnt, sum(lv_cnt.values()), n
+
+
+def micro_counts(nodes):
+    per = {k: Counter() for k in mod.MICRO}
+    for nd in nodes:
+        t = mod.text_of(nd)
+        for k, rx in mod.MICRO.items():
+            if rx.search(t):
+                per[k][nd['level']] += 1
+    return per
+
+
+SUPPLY_LABEL = lambda t: bool(mod.SUPPLY.search(t) and mod.JUDGE.search(t))
+DEMAND_LABEL = lambda t: bool(mod.DEMAND.search(t))
+
+
+def report(name, nodes, label_fn, tag):
+    out, total, H_b, n = node_level_mi(nodes, label_fn)
+    if not out:
+        print(f'\n### {name} [{tag}]: 无节点'); return
+    print(f'\n### {name} [{tag}] | 节点 {n} | H({tag})={H_b:.4f} bits | I(layer;{tag})={total:.4f} bits')
+    print(f'{"层":4s} {"n":>6s} {"判定n":>6s} {"判定率":>7s} {"H|层":>8s} {"ΔH贡献":>8s} {"P(层)":>7s} {"加权贡献":>9s}')
+    for lv in sorted(out):
+        o = out[lv]
+        print(f'{lv:4s} {o["n"]:6d} {o["n_b"]:6d} {o["p_b"]:7.1%} '
+              f'{o["H_given"]:8.4f} {o["dH"]:8.4f} {o["P"]:7.1%} {o["contrib"]:9.4f}')
+    by_dH = sorted(out.items(), key=lambda kv: -kv[1]['dH'])
+    by_contrib = sorted(out.items(), key=lambda kv: -kv[1]['contrib'])
+    print(f'  per-node 信息贡献最大: {by_dH[0][0]} (ΔH={by_dH[0][1]["dH"]:.4f})')
+    print(f'  加权总贡献最大: {by_contrib[0][0]} (P·ΔH={by_contrib[0][1]["contrib"]:.4f})')
 
 
 def main():
-    trees = load_trees()
-    print('#53 因果测量 — 各层对根判定的信息贡献 (直接计算, 非消融)\n')
-    for name, tl in trees.items():
-        print(f'### {name}: {len(tl)} 树, {sum(len(ns) for _, _, ns in tl)} 节点')
-
-    # ---- 降级度量 (主, 最稳健): 贡献排名 ----
-    cr = contribution_ranking(trees)
-    print('\n=== 度量3 (降级, 主) 贡献排名: 各层供给侧瓶颈判定节点占比 ===')
-    print('说明: 不依赖 n 大, 最稳健. 哪层占比最大 = 哪层对瓶颈判定贡献最大.')
-    for name, (lv_cnt, tot, n_total) in cr.items():
-        print(f'\n[{name}] 总瓶颈判定节点 n={tot} / 全体 {n_total}')
-        for lv in sorted(lv_cnt):
-            frac = lv_cnt[lv] / tot if tot else 0
-            bar = '#' * int(frac * 40)
-            print(f'  {lv}: {lv_cnt[lv]:5d} ({frac:5.1%}) {bar}')
-        if tot:
-            mx = max(lv_cnt, key=lv_cnt.get)
-            print(f'  -> 贡献最大层: {mx} ({lv_cnt[mx]/tot:.1%})')
-
-    # ---- D 点名词: 测得动 vs 测不了 ----
-    mc = micro_counts(trees)
-    print('\n=== 边界核验: D 点名微架构词 (测得动 vs n 不足) ===')
-    for name, per in mc.items():
-        print(f'\n[{name}]')
+    print('#53 信息论直接计算 — 各层对瓶颈判定的信息贡献 (节点级二值 MI, 纯 math, 无嵌入)')
+    srcs = mod.collect_sources()
+    result = {'sources': {}, 'node_level_mi_supply': {}, 'node_level_mi_demand': {},
+              'contribution_ranking': {}, 'micro_counts': {},
+              'measurable_terms': MEASURABLE, 'unmeasurable_terms': UNMEASURABLE}
+    for name, nodes in srcs:
+        result['sources'][name] = {'n_nodes': len(nodes)}
+        report(name, nodes, SUPPLY_LABEL, '供给侧瓶颈')
+        report(name, nodes, DEMAND_LABEL, '需求侧对照')
+        out_s, total_s, Hb_s, _ = node_level_mi(nodes, SUPPLY_LABEL)
+        result['node_level_mi_supply'][name] = {
+            'n_nodes': len(nodes), 'H_bottleneck_bits': Hb_s,
+            'total_MI_bits': total_s,
+            'layers': {lv: o for lv, o in out_s.items()}}
+        out_d, total_d, Hb_d, _ = node_level_mi(nodes, DEMAND_LABEL)
+        result['node_level_mi_demand'][name] = {
+            'n_nodes': len(nodes), 'H_demand_bits': Hb_d,
+            'total_MI_bits': total_d,
+            'layers': {lv: o for lv, o in out_d.items()}}
+        lv_cnt, tot, n = contribution_ranking(nodes)
+        result['contribution_ranking'][name] = {
+            'total_bottleneck': tot, 'total_nodes': n,
+            'layers': {lv: {'count': c, 'frac': c / tot if tot else 0}
+                       for lv, c in lv_cnt.items()}}
+        per = micro_counts(nodes)
+        result['micro_counts'][name] = {k: dict(v) for k, v in per.items()}
+        print(f'\n[{name}] 微架构分词:')
         for k in MEASURABLE + UNMEASURABLE:
-            c = per[k]
-            tot = sum(c.values())
-            tag = '测得动' if k in MEASURABLE else 'n不足测不了'
+            c = per[k]; totk = sum(c.values())
+            tag = '测得动' if k in MEASURABLE else 'n不足'
             dist = ' '.join(f'{lv}:{c.get(lv, 0)}' for lv in sorted(c))
-            print(f'  {k:16s} n={tot:5d} [{tag}] {dist}')
-
-    # ---- 首选/次选: 互信息 + 条件熵 (分类信息论量, n_trees<30 → underpowered) ----
-    it = info_theoretic(trees)
-    print('\n=== 度量1/2 (首选/次选) 互信息 I(L_k;根判定) + 条件熵降低 ===')
-    print('说明: 根判定=每树根文本二值(含供给侧瓶颈判定?), L_k=每树第k层含瓶颈节点二值.')
-    print('      联合分布 n=树数 (15/18/26) < 30 → 高阶度量 underpowered, 仅作方向参考.')
-    print('      bge-m3 连续版 (任务首选) 需编码 27648 文本, CPU>45min 且同样 underpowered')
-    print('      → 降级到本分类 MI + 度量3 贡献排名 (主结论). 同族 judge 仅相对有效.')
-    for name, d in it.items():
-        print(f'\n[{name}] n_trees={d["n_trees"]} H(根)={d["H_root"]:.3f} bits')
-        for lv, r in d['layers'].items():
-            print(f'  {lv}: I(L;根)={r["MI_bits"]:.4f} bits  '
-                  f'H(根|L)={r["H_root_given"]:.4f}  ΔH={r["reduction"]:+.4f}')
-
-    # ---- 落盘 JSON ----
-    result = {
-        'sources': {name: {'n_trees': len(tl),
-                           'n_nodes': sum(len(ns) for _, _, ns in tl)}
-                    for name, tl in trees.items()},
-        'contribution_ranking': {
-            name: {lv: {'count': c, 'frac': c / tot if tot else 0}
-                   for lv, c in cr[name][0].items()} |
-            {'total_bottleneck': cr[name][1], 'total_nodes': cr[name][2]}
-            for name in cr},
-        'micro_counts': {
-            name: {k: dict(v) for k, v in per.items()}
-            for name, per in mc.items()},
-        'info_theoretic': it,
-        'measurable_terms': MEASURABLE,
-        'unmeasurable_terms': UNMEASURABLE,
-    }
-    out_json = HERE + '/idea53-info-theoretic-contribution.json'
+            print(f'  {k:16s} n={totk:5d} [{tag}] {dist}')
+    out_json = os.path.join(HERE, 'idea53-info-theoretic-contribution.json')
     with open(out_json, 'w') as fh:
         json.dump(result, fh, ensure_ascii=False, indent=2)
     print(f'\n[落盘] JSON -> {out_json}')
