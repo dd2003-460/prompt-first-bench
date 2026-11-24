@@ -33,7 +33,7 @@
 - 验收：hook 改动后，模拟"连续纯执行"场景能触发反思注入（有日志证据）
 - **状态核验（2026-11-25，subagent B 查得）**：T1 **已实现但未提交**——`tools/stage-gate` 是独立 git 仓库（branch main），stop_hook.py 当前 working tree ` M` 未 commit（1249 行 vs 基线 1108 行，+141 行），已含 `_THINK_TRIGGERS`/`_T1_REFLECTION`/`t1-thin-thinking` 触发器+反思注入（"这背后的 general 机制是什么？能推出什么可检验预言？"）+冷却门控 `_THINK_COOLDOWN=3`。该仓库最近提交停在 2026-11-23（T1 之前）。回滚点：根仓库 commit `ace22cfa`（改动前快照）。**尚缺**：T1 commit（tools/stage-gate 仓库）+ APPROVALS.md 留痕（框架源码改动=不可逆类红线）。归属 subagent A，Lead 接手 T3 前先确认 T1 是否已补 commit。
 - **✅ 风险已解除（2026-11-25 01:19 提交，01:33 复验）**：T1+T4 已 commit 至 stage-gate 仓 `1b30bc6`（working tree 与 HEAD 零 diff），APPROVALS 留痕根仓 `08697954`。复验：隔离环境（HOME 沙箱）5 场景全过——薄思考触发/冷却/厚思考不触发/可插拔架构/audit 留痕（`think-trigger HIT t1-thin-thinking stats=[(100,1)×5]`）。
-- **T4 状态（同批核验）**：goal 计划子项⑥列了 T4（"修脚本卡住→general 思考升级触发"），但本 decomposition 原本漏了 T4——现补登：T4 **已实现**（stop_hook.py 含 `t4-stubborn-spin` 触发器 + `_T4_REFLECTION`"别蛮力试了，退一步：这个问题的 general 机制是什么？"）。**01:34 复核**：槽位已随 `1b30bc6` 提交（恒 False 预留；真检测=后续把 `_trigger_t4_stubborn_spin` 改成读 tool_calls 文件参数+tool 角色报错文本，主流程零改动）。T4 验收：连续卡住（同一报错≥2次/脚本反复失败）时触发反思注入。
+- **T4 状态（同批核验 + 01:50 真检测落地）**：goal 计划子项⑥列了 T4（"修脚本卡住→general 思考升级触发"），但本 decomposition 原本漏了 T4——现补登：T4 **真检测已实现并提交**（stage-gate 仓 `7229159`，APPROVALS 留痕 `eeae4de1`）。`_trigger_t4_stubborn_spin` 从恒 False 槽位改成真检测：`_session_thinking_stats` 每轮新增 `errors`（tool 结果归一化报错签名）+ `paths`（编辑类工具结构化 path），触发条件=同一报错签名最近 10 轮内 ≥2 次 **或** 同一文件最近 6 轮被改 ≥5 次且窗口内有报错（无报错的正当迭代不触发）。验证：隔离沙箱 9 场景全过（T4-A 重复报错触发/T4-B 文件打转+报错触发/同文件全成功不触发/不同报错不触发/护栏噪音不触发 + T1 回归 5 场景）+ 真实数据 12 生产 session 0 误报 0 crash。T4 验收已达成：连续卡住（同一报错≥2次/脚本反复失败）时触发反思注入。
 
 ### T2 "接着考虑"实验（验证 27b 能否接住 D 的思考链）
 - 目标：验证 27b 能否"像 D 一样考虑、接着考虑"——给 D 爬层链的前半段，看 27b 能否续出后半段（机制+预言力）
@@ -84,4 +84,4 @@
 | T1 思考触发 hook 实现 | subagent A | 已提交（stage-gate 仓 1b30bc6 + APPROVALS 08697954，2026-11-25 01:33 复验 5 场景全过） |
 | T2 接着考虑实验（预注册+跑） | subagent B | 完成 2026-11-25 (commit 002eada24) |
 | T3 落点整合（T1+T2 完成后） | Lead（T1+T2 回来后） | 待 T1+T2 |
-| T4 脚本卡住→general 思考升级触发 | subagent A（与 T1 同批） | 槽位已提交（1b30bc6，t4-stubborn-spin 恒 False 预留；真检测=后续把 _trigger_t4_stubborn_spin 改成读 tool_calls 文件参数+tool 角色报错文本，主流程零改动） |
+| T4 脚本卡住→general 思考升级触发 | subagent A（与 T1 同批） | 真检测已提交（stage-gate 7229159 + APPROVALS eeae4de1，01:50 验证 9 场景全过+12 生产 session 0 误报） |
