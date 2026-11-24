@@ -68,7 +68,7 @@ CFP 复查（2026-11-24 ego-browser, icml.cc/Conferences/2027/Dates, source ①�
 - novelty 防御（related work 3 条 handoff 近邻定位）保留。
 - §4.4 KV cache ≠ 树 JSON checkpoint treatment 界定保留（T-PR-17 建议 8）。
 - 括号差 0 / 0 TODO 状态压缩后必须保持。
-- **§4.1 rework 机制链（2026-11-24 新增，压缩后必须正文可见）**：directed 路径结构性不可达（0/8,870 node-level rework events，contradiction scan L865 只扫 verified + rework L1450 只处理 unverified + verified 吸收态）+ 单尝试（rework_count 恒=1 全 8,870，rework 池只含当轮新节点）+ repair 不喂进测量（L821 仅 verified 才覆盖 claim，否则留 corrected_claim 不被 judge 打分 → 85.3% 进 catch-all degraded 终态）+ 72.6% 实质改变（模型修得动）。这条链是"断点在修复回路不在监控"claim 的机制支撑，移走 = claim 失去防御。
+- **§4.1 rework 机制链（2026-11-24 新增，压缩后必须正文可见）**：directed 路径结构性不可达（0/8,870 node-level rework events，contradiction scan L865 只扫 verified + rework L1450 只处理 unverified + verified 吸收态）+ 单尝试（rework_count 恒=1 全 8,870，rework 池只含当轮新节点）+ executed path 从不改 claim（angle 路径 L839-850 换检索词重验同一 claim，corrected 只进 corrected_claim 不被 judge 打分；唯一写 claim 的 L821 在 directed 死路径 → 85.3% 进 catch-all degraded 终态）+ 72.6% 实质改变（模型修得动）。这条链是"断点在修复回路不在监控"claim 的机制支撑，移走 = claim 失去防御。
 - **§6 单尝试 rework 设计约束 limitation（2026-11-24 新增）**：与 §4.1 机制链配套，是"为什么每个节点只修一次"的审稿人防御，保留。
 
 ## 执行顺序（等 CFP + Q7 定型）
