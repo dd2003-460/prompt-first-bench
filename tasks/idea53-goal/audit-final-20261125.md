@@ -1,5 +1,12 @@
 # idea53 审计最终报告（微信线程 B/C 收口）
 
+# origin: ai · 2026-11-25
+
+## 可复现性核验（05:40，@ 718394ece worktree 实跑）
+- 两锚点存在且 origin/tmp-lit-snowball 可达：eb1b0598c (17:39:54 预注册) / 718394ece (18:06:28 数据)，时序正确。
+- `idea53-theory-flip.py` 实跑复现 abstract 核心：flip 0.434-0.563 (=43-56%) ✓ / shift 0.1655-0.2307 (=0.17-0.23) ✓ / flat control 精确 0 ✓ / 三手工锚点 match=True ✓ / 单调性 False（与 "not determined by extremity" 一致）✓。
+- **未闭合**：abstract 的 H(D|S)=0.71-0.77 bits 在 research/ md+json 里 grep 不到该值；`idea53-theory.py` 实跑出 per-node 0.1344(深层)/0.5841(浅层)，口径不同。0.71-0.77 的确切出处脚本/聚合口径 [待核验]——投前必须闭合（要么找到产 0.71-0.77 的脚本并写进 paper 复现命令，要么改 abstract 数字）。
+
 # origin: ai · 2026-11-25 04:50 · subagent sa-0-aa026ddc 产出（832s，04:45 被 stop，报告从 live 转录 salvage）
 # 触发：D 微信 2026-11-24 10:25/16:09/20:25 三连问（arena 碰撞核查 + 免费 venue + 预印本平台）
 
