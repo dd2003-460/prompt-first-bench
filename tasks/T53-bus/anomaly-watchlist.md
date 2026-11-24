@@ -126,9 +126,11 @@
 - **执行边界**：①②③ 中 ①② 改 SM 代码=62 run 后（同质性约束）；③ 是统计口径，04-verify 现在就能按"组合去重"算，现有 62 run 数据可用正确口径出结论，不必等改代码重跑。
 **对 D 之前决策的修正**："L1 污染作为负结果报告"这条作废——真实负结果是"parent_ids 丢失使 25% 节点脱离 L1 骨架（字段丢失率 3-12%，脱离率 25% 双口径），树=干净骨架+25% 漂浮孤儿簇"，不是分解质量问题。05-accept 对标 DESIGN.md 时，"judge gate 保证分解质量"假设**未被证伪**（L1 实际干净），需改口径。
 
-**matched 批跨批 judge 漂移（2026-11-24 22:4x，04-verify 必须处理）**：
-- 现象：同 qid+arm=gpu/formula，旧批（results.json，11-18~11-21，runs_matched）cov=0 2/10、depth 0.344；新批（results-sm-matched.json，11-21~11-22，runs_sm_matched）cov=0 **7/10**、depth 0.358。**depth 持平但 cov=0 翻倍** → 非 pipeline 崩溃（崩溃会 depth 一起掉），是 judge 口径变化。
-- 根因（git log 时间线对齐）：judge_v2_depth.py 在两批之间 3 次改动——cbc92a202（11-19 19:19，GPU_RUBRIC 补微架构分解要点 ★F-D）落在旧批中途（旧批 pre/post 切分：gpu 1/7 vs 2/13，单此一项解释不了 7/10）；5d4eac6cb（11-21 23:35，judge 窗口 12k→40k）+ 1ce794ac6（11-22 00:08，窗口→50k）落在两批之间。**新批 30 runs 全部在 50k 窗口下判**，旧批 60 runs 横跨 12k/40k/50k 三种窗口。
-- 结论：**两批 cov 不可直接比**（judge 版本不一致）。旧批内部按 rubric 变更切分也不干净（post-rubric 仍 2/13）。cov=0 飙升 = rubric 加严 + 窗口放大（50k 看到更多 gold 点 → 更容易全 0）的叠加，现有数据分不开两因子各自贡献。
-- 04-verify 动作：① matched 批的 cov 对比**只在同批内**做（新批 30 runs 同 judge 版本，批内可比）；② 跨批 cov 趋势（旧→新）标"judge 漂移污染"不作证据；③ 若要跨批可比，需固定 judge 版本重判一批（零 LLM 成本，judge 是本地评分）；④ depth 指标受 judge 窗口影响较小（depth 是树结构量非 judge 量），跨批 depth 对比相对稳健但仍建议同批内做。
+**matched 批跨批 judge 漂移（2026-11-24 22:4x，04-verify 必须处理；22:5x 修正窗口假说）**：
+- 现象：同 qid+arm=gpu/formula，旧批（results.json，11-18~11-21，runs_matched）cov=0 2/10、depth 0.344、answer 均值 5554 字符；新批（results-sm-matched.json，11-21~11-22，runs_sm_matched）cov=0 **7/10**、depth 0.358、answer 均值 7843 字符。**depth 持平但 cov=0 翻倍** → 非 pipeline 崩溃（崩溃会 depth 一起掉），是评分口径/输入变化。
+- **窗口放大假说=红鲱鱼（22:5x 实测推翻）**：judge 窗口 12k→40k→50k（commit 5d4eac6cb/1ce794ac6）看似是因子，但实测**新批 30 answer 全 ≤10986、旧批 30 全 ≤8084，无一触及 12k 窗口** → 窗口从未截断任何内容，对 cov=0 飙升贡献为零。此前把"窗口放大"列为因子是误判。
+- **真实因子=pipeline/prompt 变更**：两批之间（11-21 13:37~11-22 06:50）SM prompt 大改——5d4eac6cb（synth FULL v2：prompt 结论→推导链、per-level token 按节点数缩放 250tok/节点）、1ce794ac6（synth FULL v3：解禁 prompt 覆盖 RL 简洁偏好、L4 3.5x 输出）。answer 从均值 5554→7843 字符（更长）但更长≠更对齐 gold → 配合 rubric 加严（cbc92a202 GPU_RUBRIC 补微架构要点 ★F-D，落在旧批中途）→ 新批更容易全 0。
+- **judge 非零成本（修正）**：judge_v2_depth.score_run 走 `from ablation_harness import call_llm`（每 run 1 次 LLM call，max_tokens=2000）→ **重判需 vLLM，非零 LLM 成本**。vLLM 被 q7 占用期间无法重判。
+- 结论：**两批 cov 不可直接比**（pipeline+prompt+rubric 三重不一致）。cov=0 飙升 = prompt 解禁致 answer 变长变散 + rubric 加严的叠加，现有数据分不开两因子各自贡献。
+- 04-verify 动作：① matched 批 cov 对比**只在同批内**做（新批 30 runs 同 pipeline+judge 版本，批内可比）；② 跨批 cov 趋势（旧→新）标"pipeline/prompt/rubric 漂移污染"不作证据；③ 跨批可比需固定 pipeline+judge 版本重判（**需 vLLM，非零成本**，待 q7 释放后）；④ depth 是树结构量非 judge 量，跨批 depth 对比相对稳健但仍建议同批内做。
 - 附带确认：matched 批记账完整（cc-state-sm-matched.json 11-24 03:23 核验 30/30 done，results 30 runs 对账一致，recover_sm_matched.py 已从 archive 恢复 driver bug 期间 19 轮）。
