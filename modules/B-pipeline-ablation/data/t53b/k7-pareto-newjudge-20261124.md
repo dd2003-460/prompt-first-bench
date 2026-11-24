@@ -768,3 +768,20 @@ v6 声称 "gain-cov 脱钩是 breadth-without-depth 的机制签名" — 推理�
 **规则**: 核验承重数字前, 先 grep K7 看是否已核验过 + 读 K7 记录的口径陷阱, 不盲核。
 
 **结论**: draft 投稿就绪度四条件闭环, 无阻塞。剩余工作=relay 链在飞 (r3→18pt n=3 定论, Q7→第三域断点), 落地后 watchdog 自动补数, 不需手动干预。
+
+## 2026-11-24 ~08:48 — T-PR-17 文献滚雪球派发 arena (② 前置, 不占 vLLM)
+
+- 发现: decomposition 表把 ② T-PR-17 整个标"⏸ PENDING 等 vLLM"是误判 — 任务书主体是文献滚雪球
+  (C1 阶段顺序效应 / C2 checkpoint 续跑 / C3 lost-in-middle 机制映射), 调研不占 vLLM,
+  只有后续 4 臂机制验证才占。relay 链在飞期间这是唯一可自主并行的工作。
+- 派发 (ego-browser, 2026-11-24 08:48): 会话 01a20afe-cbc2-7852-9a9e-280c1afea7fe,
+  仓库 dd2003-460/prompt-first-bench, 绑定分支 arena/f65a5a27-prompt-first-bench (HEAD 3bfd2cbc),
+  agent 自建分支 **arena/1afea7fe-prompt-first-bench** (核验用此 refspec fetch)。
+- 门禁: 任务书已在 arena 分支 HEAD (84a100761 已含, worktree 隔离确认, 无需 push);
+  任务书 sha256_16 = 3153398feb1af439 (回执指纹); prompt 显式声明仓库+分支+HEAD;
+  分支 chip 从 tmp-lit-snowball 切到 arena/f65a5a27 (Radix dialog, aria-controls 定位)。
+- 检索纪律已写进 prompt: arXiv 走 abs 页 (API 连挂 3 次) / OpenReview 2025-2026 必查 /
+  否定性 conf≤0.6 / 检索记录逐条落盘。
+- 核验 (完成后): git fetch origin arena/1afea7fe-prompt-first-bench → show T-PR-17-result.md →
+  独立复算任务书 sha256 (防读旧版) + 数字/ID 抽查。方法学缺口 (通道故障/未检索 venue) 登记 follow-up。
+- 完成信号: 页面 "Create PR" 按钮态 ≠ 已 push — 先查页面点 Create PR 再 ls-remote。
