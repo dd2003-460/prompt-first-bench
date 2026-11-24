@@ -11,7 +11,13 @@ cat "$(ls -t modules/B-pipeline-ablation/data/tpr17/tpr17-pilot-report-*.md | he
 - `PILOT COMPLETE — 9/9 cells` → 进 1
 - `PILOT ABORTED` → 看中止原因（哪个 cell rc!=0 或 sanity=LOW/ERR），
   读该 cell 的 stdout（在报告里），判断是 LLM 故障 / budget 瞬耗 / 结构性 bug。
-  结构性 bug → 修 runner 重跑；LLM 故障 → 查 vLLM 健康后重跑。
+  **瞬时 LLM 故障（502/超时，已知模式见 q7-300-r2-dup-rootcause）→ 直接跑 resume 脚本补跑缺失 cell**：
+  ```
+  bash experiments/stage-ablation/tpr17-pilot-resume.sh
+  ```
+  它跳过已成功的 cell（n_nodes>=381 且 n_llm_calls>=50），只补跑缺失/退化的，
+  单 cell 再失败不中止（继续跑下一个），跑完汇总 done/skip/fail。fail>0 时 rc=1 提示人工复查。
+  **结构性 bug（runner 自身 crash / patch 错误）→ 先修 runner 再跑 resume**（resume 会重跑该 cell）。
 
 ## 1. 识别退化 cell（零进度伪装成成功）
 sanity floor 只抓崩溃；零进度 run 会以 n_nodes=381 过 floor。逐个 cell 看：
