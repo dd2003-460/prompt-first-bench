@@ -690,3 +690,20 @@ v6 声称 "gain-cov 脱钩是 breadth-without-depth 的机制签名" — 推理�
 - **Q7 分析脚本预检**: q7_domain_gold_analyze.py 已存在且逻辑完整 (域内 gold 52 units + 饱和点定位 + Q6 跨题对比, 719 档单列为深度墙下界不直接对比); 跨题对比数据源 q6-gold-rescore.json 15 runs/5 档全在, 719 档 0.1667 与脚本口径一致。
 - **Q7 watchdog 起 (proc_50c68c9d1a00)**: relay_v2 phase 2 跑完 Q7 队列后不自动跑分析 (与 r3 gap 同构), 补 watchdog 等 15 文件落地自动跑 q7_domain_gold_analyze.py。
 - **整条链现在全自动无断点**: r3 (在跑 N177) → 队列脚本结束 → relay_v2 phase 2 自动启动 Q7 扫描 (~11h) → Q7 watchdog 自动跑域内 gold 分析; 并行 r3 watchdog (proc_be1ea52a7035) 等 r3 落地自动跑 18 点分析。两个 watchdog 都 notify_on_complete, 落地后收通知。
+
+## 2026-11-24 ~08:15 — abstract 17pt 断点数字修正 + r2 hits 落盘 (commit 9d8b9078e)
+
+**投稿硬伤级发现（承重数字复现不出来）**：
+- abstract 原写 "17-point Q6 optimum shifts to 350, F(2,13)=4.67, p=0.031" — 独立重算复现不出来。
+- 17pt 原始数据重算（source ①，本轮）：bp=350 处 F(2,13)=2.934, p=0.089（不显著）；bp=400 是退化拟合（右段 2 点同 x=719，ss=0 假象）。
+- 16pt 口径（15 wall-bound + r1）完全复现 v4：bp=325, F(2,12)=7.327, p=0.0083 ✓（v4 的 325 是 16 点口径，不是 15 点）。
+- 上轮 4.67/0.031 是手推没落盘、无法溯源 → 按"承重数字必须独立复现"红线修正。
+- abstract 现改为：16pt 可复现数字（F(2,12)=7.33, p=0.008）+ "adding the second wall-free rep weakens the Q6 breakpoint (bp=350, F(2,13)=2.93, p=0.089, ns)"。
+- 17pt 数据文件新增 breakpoint_scan_v4（16pt+17pt 双口径，source ①）。
+- 残留扫描：4.67 / "17-point Q6 optimum" / "shifts to 350" 全 0；0.031 仅剩合法语境（noise floor）。
+
+**r2 hits 落盘（nodepth-r1r2-hits-20261124.json）**：
+- r2 命中 11 units（0,6,8,14,16,20,21,22,24,25,33），r1 命中 6（0,8,9,14,21,25）。
+- r2 恰好补回 r1 丢的 3 个（6 缓存命中率 / 24 电价 / 33 握手 RTT），多命中 3 个（16 静态请求单价 / 20 自建固定成本 / 22 缓存节点 capex），只丢 1 个（9 计费模式）。
+- r1∩r2 = 5/6 — 719 点方向差是 unit 级 run-to-run 方差，不是系统性深度效应。
+- 机制解读：r1 的 719 节点扩张没产出 orig-r2（379 节点）已命中之外的新 gold unit；r2 的 719 节点扩张产出了 4 个原批没命中的 unit。两个 rep 的 hit-set 差异解释了 cov 0.1304 vs 0.2391 的方向反转。
