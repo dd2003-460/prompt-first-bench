@@ -35,9 +35,12 @@ T4 pilot 夜间无人值守，下列接缝逐一核验过（防"白等一夜"的
   tokens_total/n_llm_calls/tool_calls/evidence_delta_chars/parent_link_accuracy）
   全部存在。n_nodes=381 ≥ CKPT_FLOOR=381（sanity 阈值，>= 含等号）。
 - **sm.run(skip_l1=True)**：签名确认接受 skip_l1（L1139），与生产 --resume 同路径。
-- **唯一未测接缝 = LLM 往返本身**（vLLM 占用中无法 dry 测）。waiter 的
-  vLLM 健康探测 + 首 cell fail-fast 就是这道闸：首 cell 若 LLM 不通会 rc!=0
-  → ABORT 整批并写报告，不会静默烧 7 小时。
+- **LLM 往返接缝（原"唯一未测"）→ 已由活体验证**：8787 实例此刻正服务 q7 r2，
+  1104 次 LLM call / 0 失败 / 0 重试（21:49 实测）。harness 请求 model 名
+  `qwen3.8-27b` 被 8787 proxy 正确映射到 served 的 `qwen3.8-27b-mtp`
+  （`/v1/models` 只读确认）。q7 r2 与 T4 pilot 走**完全相同**的 harness+端点+model 名，
+  故 LLM 传输链（curl -m 硬超时 POST 8787/v1/chat/completions）已被证实可用。
+  残余风险仅 = vLLM 在 T4 启动瞬间是否仍健康（waiter 的 /health+/v1/models 探测兜底）。
 - **fail-fast 语义**：任一 cell rc!=0 或 n_nodes<381 → break 2 中止整批（设计如此，
   防坏 checkpoint/坏 patch 污染后续 8 cell）。明早若见 PILOT ABORTED，先读
   报告里首个失败 cell 的 stderr。
