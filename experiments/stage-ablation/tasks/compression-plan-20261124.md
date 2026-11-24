@@ -9,6 +9,7 @@ workshop 论文惯例 4-8 页 ≈ 3-5K 词 → 超 4-6×。
 CFP 复查（2026-11-24 ego-browser, icml.cc/Conferences/2027/Dates, source ①）：
 - 主会 abstract 2027-01-14 AoE / full 2027-01-22 AoE；workshops 8/5-6。
 - **workshop 专属 CFP 仍未发布**（与 11-23 笔记一致，核验日期刷新到 11-24）。
+- **venue 已锚定 = ICML 2027 workshop**（draft notes "Venue target: ICML 2027 workshop"，非猜测）；workshop CFP 通常与主会同窗或略晚（主会 abstract 1/14 前会发）。
 - 但压缩**方向**不依赖精确页数：workshop 几乎总是 4-8 页，砍什么/移 supplementary 现在就能定。
   精确页数只影响"砍到 4 页还是 6 页"，不影响"哪些段落该进 supplementary"。
 
