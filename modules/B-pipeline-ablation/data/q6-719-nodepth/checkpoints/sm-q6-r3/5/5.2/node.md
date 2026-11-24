@@ -1,24 +1,30 @@
-# N28: 自建10个POP点应对流量突增的弹性能力为有限弹性（需预置2x峰值带宽），冗余能力为10 POP点（N-1容忍），单点故障风险为1/10=10%（单个POP故障
+# N34: 自建POP的带宽成本为固定月租费 ¥/月 加上超量部分 ¥/GB，固定月租费与带宽峰值 Q_peak 成正比，比例系数 k_bw 由运营商合同决定，典型值为 ¥
 
-- **status**: verified
+- **status**: degraded
 - **level**: L2
-- **source**: knowledge
+- **source**: search
 - **edge_type**: cartesian
-- **rework_count**: 0
+- **rework_count**: 1
 - **parent_ids**: N5
 
 ## Claim
 
-自建10个POP点应对流量突增的弹性能力为有限弹性（需预置2x峰值带宽），冗余能力为10 POP点（N-1容忍），单点故障风险为1/10=10%（单个POP故障影响10%流量）
+自建POP的带宽成本为固定月租费 ¥/月 加上超量部分 ¥/GB，固定月租费与带宽峰值 Q_peak 成正比，比例系数 k_bw 由运营商合同决定，典型值为 ¥1000-5000/Mbps/月。
 
 ## Corrected Claim
 
-自建10个POP点应对流量突增的弹性能力为有限弹性（需预置2x峰值带宽），冗余能力为10 POP点（N-1容忍），单点故障风险为1/10=10%（单个POP故障影响10%流量）
+自建POP的带宽成本通常由固定月租费（与带宽峰值成正比）和超量流量费组成，具体单价取决于运营商合同及地区，无统一固定标准。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：10个POP点构成N-1冗余，单点故障影响1/10流量，符合基本数学逻辑；2x峰值带宽预置是应对突增的常见工程经验值，逻辑自洽。
+[质询]具体数值范围（¥1000-5000/Mbps/月）属于高度依赖地区、运营商及合同类型的经验事实，不同市场（如国内 vs 海外、BGP vs 静态IP）差异巨大，该区间可能仅适用于特定高端专线场景，缺乏普适性证据支持。 | 来源[1]和[2]讨论了带宽成本结构（固定月租+超量）及按Mbps计费的模式，间接支持了成本模型逻辑，但未提供具体的¥1000-5000/Mbps/月这一典型数值范围，属于经验事实缺直接来源支持。
 
 ## Search Query
 
-CDN POP point failure impact 10% traffic
+China dedicated line bandwidth cost per Mbps per month edge node infrastructure pricing
+
+## Retrieval Sources
+
+- {'url': 'https://linkcube.rest/guides/linkcube-pricing-sources/&rut=bc891c384af2543b79df8aa63dbc1b66669afa19157f4b9af61f171399a3bfd3', 'type': 'ddg', 'title': '机场套餐价格对比与带宽成本拆解：按量计费、月付周期与超售比率分析 - LinkCube 官方指南'}
+- {'url': 'https://fanqiangdao.com/post/selfhost-node-vs-airport-business-threshold-guide-2026/&rut=1bfdf64d594b7463c663d28831f193a11036b6bc1f1d747ac39a0e4c1509cd9e', 'type': 'ddg', 'title': '2026年自建节点不等于自建机场：一个人开机场的带宽账、面板风险与法律边界 — fanqiangdao.com'}
+- {'url': 'https://www.fanqiangdao.com/post/selfhost-vs-airport-12month-tco-ledger-2026/&rut=cb2c9a4b001bd2d86d5e511ba422cdc6d1f93326cd51f9aa2954e3c5c3433a2a', 'type': 'ddg', 'title': '2026年自建节点vs机场总持有成本账本：12个月真实开支拆解与盈亏平衡点 — fanqiangdao.com'}

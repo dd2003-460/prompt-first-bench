@@ -923,3 +923,11 @@ arena 分支 arena/1afea7fe-prompt-first-bench 落地 (HEAD 9c5745541, 08:59 CST
 5. **文件拉取**: T-PR-17-result.md 从 arena 分支拉进 tmp-lit-snowball (最小动作,
    不 merge 整个 arena 分支 — 分支基于旧 HEAD 3bfd2cbc, 含其他会话的 commit)。
 → ② T-PR-17 文献滚雪球: 完成 + 验收通过。后续 4 臂机制验证 (占 vLLM) 仍排 r3+Q7 后。
+
+## 08:5x draft novelty 声明核验 + handoff 领域定位补强（T-PR-17 落地后）
+
+T-PR-17 结论"不能声称 LLM 顺序效应/checkpoint continuation 无先例"→ 核 draft：
+1. **claim 本身没踩坑**：Finding 4 是描述性经验发现，全文无"first/novel/无先例"式声明（grep first|novel|unprecedented|to our knowledge 0 命中 checkpoint 相关）。
+2. **真实防御缺口**：References 17 条无一条 handoff 文献，Related work 无该领域定位——审稿人最狠一刀"checkpoint 发现与 agent handoff 研究同域为什么不引"。
+3. **修复**：Related work 加 1 条定位（Handoff Debt 2606.02875 / HSC-Bench 2610.36523 / Handoff Tax 2608.24358）：同域不同干预不同测量对象（跨 agent 信息交接测效率 vs 同一模型从自己 verified checkpoint 续跑测 metacog 轴 trade-off），claim 降级为"measured instance, not first demonstration"。References 17→20 条，3 条新引用 arXiv abs 独立核验（2610.36523=HSC-Bench Li et al. ✓ / 2608.24358=Handoff Tax Ganz et al. ✓ / 2606.02875=Handoff Debt KC & Budathoki ✓，T-PR-17 报告亦确认全部 ID 通过 abs 直核）。
+4. **投稿四条件复核**：20 refs 字母序 ✓ 括号差 0 ✓ 0 TODO ✓ 116,290 字符。

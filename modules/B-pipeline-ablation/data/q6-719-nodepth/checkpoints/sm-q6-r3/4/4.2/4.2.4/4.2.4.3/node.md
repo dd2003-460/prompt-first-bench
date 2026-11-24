@@ -1,0 +1,20 @@
+# N347: CPU 负载因子 F_cpu 对 P99 延迟的非线性影响：当单机 CPU 利用率 U_cpu > 80% 时，上下文切换导致 T_proc_pop_p99 增
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N107
+
+## Claim
+
+CPU 负载因子 F_cpu 对 P99 延迟的非线性影响：当单机 CPU 利用率 U_cpu > 80% 时，上下文切换导致 T_proc_pop_p99 增加 ΔT_ctx ≈ 5-15ms；当 U_cpu < 50% 时，ΔT_ctx ≈ 0ms
+
+## Corrected Claim
+
+CPU 负载因子 F_cpu 对 P99 延迟的非线性影响：当单机 CPU 利用率 U_cpu > 80% 时，上下文切换导致 T_proc_pop_p99 增加 ΔT_ctx ≈ 5-15ms；当 U_cpu < 50% 时，ΔT_ctx ≈ 0ms
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

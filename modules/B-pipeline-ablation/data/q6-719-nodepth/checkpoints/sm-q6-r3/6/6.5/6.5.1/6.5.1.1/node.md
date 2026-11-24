@@ -1,0 +1,20 @@
+# N520: 混合策略P99延迟的加权公式 P99_mix = P_core * P99_core + P_tail * P99_tail，其中P99_core和P99_ta
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N172
+
+## Claim
+
+混合策略P99延迟的加权公式 P99_mix = P_core * P99_core + P_tail * P99_tail，其中P99_core和P99_tail需分别计算核心区域和长尾区域的P99延迟，不能简单用平均值代替。
+
+## Corrected Claim
+
+混合策略P99延迟不能通过简单的加权公式 P99_mix = P_core * P99_core + P_tail * P99_tail 计算，因为P99是分位数而非线性统计量。正确方法是合并核心区域和长尾区域的延迟分布数据后，重新计算整体分布的P99延迟，或基于概率分布模型进行精确推导。
+
+## Evidence
+
+[质询]公式在数学定义上存在严重错误：P99是百分位数（分位数），不是期望值或线性统计量，因此不能通过加权求和（P_core * P99_core + P_tail * P99_tail）来计算混合分布的P99。正确的做法是合并两个区域的数据分布后重新计算整体P99，或者根据具体分布模型进行积分/查表，而非简单的线性加权。 | 逻辑校验失败：百分位数不具备线性可加性，加权公式违背基本统计学原理；虽source为knowledge，但存在硬逻辑错误（量纲/定义错误），故判degraded以修正表述。

@@ -1,20 +1,20 @@
-# N96: 自建监控工具链成本 3k 元/月（Prometheus+Grafana+Alertmanager）假设使用云托管版；若自建开源栈并利用现有闲置服务器部署，边际成
+# N105: 自建 POP 缓存命中率 H_pop 的计算公式为 H_pop = min(1, C_pop_total / W_active)，其中 C_pop_total 
 
 - **status**: verified
 - **level**: L3
-- **source**: knowledge
-- **edge_type**: cartesian
+- **source**: given
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N23
+- **parent_ids**: N26
 
 ## Claim
 
-自建监控工具链成本 3k 元/月（Prometheus+Grafana+Alertmanager）假设使用云托管版；若自建开源栈并利用现有闲置服务器部署，边际成本可降至 0 元，但需额外增加 0.5 人/月的维护工作量（折算 12.5k 元/月），总成本反而上升。
+自建 POP 缓存命中率 H_pop 的计算公式为 H_pop = min(1, C_pop_total / W_active)，其中 C_pop_total 为 10 个 POP 的总缓存容量（GB），W_active 为热点内容工作集大小（GB），H_pop 直接决定跳数为 1 的请求比例。
 
 ## Corrected Claim
 
-自建监控工具链成本 3k 元/月（Prometheus+Grafana+Alertmanager）假设使用云托管版；若自建开源栈并利用现有闲置服务器部署，边际成本可降至 0 元，但需额外增加 0.5 人/月的维护工作量（折算 12.5k 元/月），总成本反而上升。
+自建 POP 缓存命中率 H_pop 的计算公式为 H_pop = min(1, C_pop_total / W_active)，其中 C_pop_total 为 10 个 POP 的总缓存容量（GB），W_active 为热点内容工作集大小（GB），H_pop 直接决定跳数为 1 的请求比例。
 
 ## Evidence
 
-父节点级核验通过：正交+完备+无冗余（子节点分别拆解了硬件/存储成本、人力维护成本、以及总成本对比与隐性收益，三者维度清晰（资源、人力、综合决策），无逻辑重叠或矛盾。虽然子节点2修正了父节点中0.5人/月的假设，但这属于对前提假设的细化与纠偏，而非节点间的冗余。）
+父节点级核验通过：正交+完备+无冗余（子节点分别覆盖了公式中的两个核心变量（C_pop_total, W_active）的计算逻辑，以及该指标对系统性能（延迟）和实际有效性（一致性开销）的影响。各节点关注点不同（硬件配置、业务分布、性能影响、算法修正），无逻辑重叠或矛盾，且完整解释了父节点公式的构成及后续影响。）

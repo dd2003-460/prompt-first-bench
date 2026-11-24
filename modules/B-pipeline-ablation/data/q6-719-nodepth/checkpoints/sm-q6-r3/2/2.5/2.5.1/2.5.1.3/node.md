@@ -1,20 +1,20 @@
-# N197: 权重 w_img 和 w_video 的确定：基于请求量占比，w_img = 60%（图片请求占比），w_video = 40%（短视频请求占比）；T_targ
+# N276: 日均回源流量绝对值 V_origin (GB/day) 的具体计算：在日均下载 2TB (2048GB) 且 H_self=0.90 (即 R_origin=0
 
 - **status**: verified
 - **level**: L4
-- **source**: knowledge
+- **source**: given
 - **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N62
+- **parent_ids**: N81
 
 ## Claim
 
-权重 w_img 和 w_video 的确定：基于请求量占比，w_img = 60%（图片请求占比），w_video = 40%（短视频请求占比）；T_target = 0.6 * 100ms + 0.4 * 500ms = 260ms；此加权方式假设各类型请求对用户体验贡献线性可加
+日均回源流量绝对值 V_origin (GB/day) 的具体计算：在日均下载 2TB (2048GB) 且 H_self=0.90 (即 R_origin=0.10) 的典型场景下，V_origin = 2048GB * 0.10 = 204.8 GB/day。
 
 ## Corrected Claim
 
-权重 w_img 和 w_video 的确定：基于请求量占比，w_img = 60%（图片请求占比），w_video = 40%（短视频请求占比）；T_target = 0.6 * 100ms + 0.4 * 500ms = 260ms；此加权方式假设各类型请求对用户体验贡献线性可加
+日均回源流量绝对值 V_origin (GB/day) 的具体计算：在日均下载 2TB (2048GB) 且 H_self=0.90 (即 R_origin=0.10) 的典型场景下，V_origin = 2048GB * 0.10 = 204.8 GB/day。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：加权平均计算 0.6*100 + 0.4*500 = 60 + 200 = 260ms 正确，线性可加假设在工程估算中合理。
+先验知识/题面给定，逻辑校验通过：2048GB * 0.10 = 204.8GB，计算无误且量纲一致。

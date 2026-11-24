@@ -1,0 +1,20 @@
+# N593: 自建 POP 在核心区域（距离 <100km）的 P99 延迟 P99_core 约为 30-40ms（RTT 10-20ms + 处理 10-15ms + 回
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N194
+
+## Claim
+
+自建 POP 在核心区域（距离 <100km）的 P99 延迟 P99_core 约为 30-40ms（RTT 10-20ms + 处理 10-15ms + 回源惩罚 0-5ms），在 T=100ms 下合规率 R_core ≈ 100%。
+
+## Corrected Claim
+
+自建 POP 在核心区域（距离 <100km）的 P99 延迟 P99_core 约为 30-40ms（RTT 10-20ms + 处理 10-15ms + 回源惩罚 0-5ms），在 T=100ms 下合规率 R_core ≈ 100%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：核心区域距离<100km，RTT 10-20ms符合物理极限，加上处理与回源惩罚后P99延迟30-40ms远低于100ms阈值，合规率接近100%符合逻辑。

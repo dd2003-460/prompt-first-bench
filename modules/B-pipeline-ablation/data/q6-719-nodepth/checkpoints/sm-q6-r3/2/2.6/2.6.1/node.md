@@ -1,0 +1,20 @@
+# N84: 混合策略下自建部分回源带宽成本 (C_bw_self, ¥/1000 req) 计算为 (C_bw_self_month / Q_day_total) * 10
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N17
+
+## Claim
+
+混合策略下自建部分回源带宽成本 (C_bw_self, ¥/1000 req) 计算为 (C_bw_self_month / Q_day_total) * 1000，其中 C_bw_self_month 为自建 POP 部分产生的回源带宽月成本，Q_day_total 为日均总请求量。
+
+## Corrected Claim
+
+混合策略下自建部分回源带宽成本 (C_bw_self, ¥/1000 req) 计算为 (C_bw_self_month / Q_day_total) * 1000，其中 C_bw_self_month 为自建 POP 部分产生的回源带宽月成本，Q_day_total 为日均总请求量。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别定义了流量计算逻辑（V_origin_self）和成本计算逻辑（C_bw_self_month），两者逻辑独立且互补，共同构成了父节点中 C_bw_self_month 的完整推导链条，且公式内部逻辑自洽，无重复或矛盾。）

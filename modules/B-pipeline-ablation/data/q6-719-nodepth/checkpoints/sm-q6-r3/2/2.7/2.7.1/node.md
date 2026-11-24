@@ -1,0 +1,30 @@
+# N87: 公有云 CDN 的 API 调用成本 (C_api, ¥/1000 req) 计算为 (Q_api * Unit_Price_api) / Q_day_tota
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N18
+
+## Claim
+
+公有云 CDN 的 API 调用成本 (C_api, ¥/1000 req) 计算为 (Q_api * Unit_Price_api) / Q_day_total * 1000，其中 Q_api 为日均 API 调用次数（通常与请求量成比例，系数 k_api 约为 0.1-0.5），Unit_Price_api 为 API 调用单价（¥/1000 次）。
+
+## Corrected Claim
+
+公有云 CDN 的 API 调用成本 (C_api, ¥/1000 req) 通常与日均 API 调用次数 (Q_api) 和单价 (Unit_Price_api) 相关，Q_api 往往与业务请求量存在正相关关系，但具体比例系数 k_api 需根据实际业务场景和云厂商计费策略确定，无通用固定值。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（系数 k_api 约为 0.1-0.5）和特定的成本分摊公式，这些属于经验事实而非第一性原理可推导的数学或物理定律。参考来源仅涉及 CDN API 的集成和调试方法，未提供关于 API 调用频率与请求量比例关系或具体成本计算模型的数据支持。 | 逻辑自洽，但参考来源 [1][2][3] 仅涵盖 API 集成概览，未涉及成本计算模型或 k_api 系数的经验值，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+Alibaba Cloud CDN API request pricing per 1000 requests
+
+## Retrieval Sources
+
+- {'url': 'https://www.alibabacloud.com/help/en/cdn/developer-reference/using-openapi&rut=4ea99a3b1ad9b8ae936d5d74cfd0c22bbb67ac10bf4288f97aa38b6951cdb483', 'type': 'ddg', 'title': 'CDN:Integration overview - Alibaba Cloud'}
+- {'url': 'https://www.alibabacloud.com/help/en/cdn/developer-reference/api-reference/&rut=93e878df4033427be6a6af0bb039cbbdff81a6e9ef9dffbd5608f31309dbc3fe', 'type': 'ddg', 'title': 'API Reference - CDN - Alibaba Cloud'}
+- {'url': 'https://help.aliyun.com/en/cdn/developer-reference/using-openapi&rut=709efc313ac9548a1537fea5ae4180e8b7a1d263b06647da889dc947b30f3324', 'type': 'ddg', 'title': 'Alibaba Cloud CDN integration overview-CDN (CDN)-阿里云帮助中心'}

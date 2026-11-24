@@ -1,20 +1,24 @@
-# N138: 单位用户成本差 (Self_Built_Cost - Cloud_Cost) / Monthly_Users 计算：Monthly_Users = DAU × 
+# N185: 多线 BGP 接入的成本与延迟权衡：部署 BGP 多线接入可增加 20-50% 的带宽成本，但可将跨网 P99 延迟降低 10-20ms，消除跨网调度延迟。
 
-- **status**: pending
+- **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N39
+- **parent_ids**: N47
 
 ## Claim
 
-单位用户成本差 (Self_Built_Cost - Cloud_Cost) / Monthly_Users 计算：Monthly_Users = DAU × 30 = 1.5 × 10^8，Self_Built_Cost 和 Cloud_Cost 由 N38 公式分别计算得出，成本差除以用户数得到单位用户成本差（典型值 ¥0.01-0.1/用户/月）。
+多线 BGP 接入的成本与延迟权衡：部署 BGP 多线接入可增加 20-50% 的带宽成本，但可将跨网 P99 延迟降低 10-20ms，消除跨网调度延迟。
 
 ## Corrected Claim
 
-单位用户成本差 (Self_Built_Cost - Cloud_Cost) / Monthly_Users 计算：Monthly_Users = DAU × 30 = 1.5 × 10^8，Self_Built_Cost 和 Cloud_Cost 由 N38 公式分别计算得出，成本差除以用户数得到单位用户成本差（典型值 ¥0.01-0.1/用户/月）。
+多线 BGP 接入的成本与延迟权衡：部署 BGP 多线接入可增加 20-50% 的带宽成本，但可将跨网 P99 延迟降低 10-20ms，消除跨网调度延迟。
 
 ## Evidence
 
-父节点级核验未通过：不完备（子节点存在逻辑错误和完备性缺失。1. 冗余/逻辑错误：前两个子节点（小规模、大规模）仅改变流量变量，但计算结果显示自建成本始终远高于公有云（¥250k vs ¥12k/¥60k），这导致‘自建主导工作点’的命名与数据矛盾，且未展示真正的成本交叉点（Break-even Point）。2. 完备性缺失：父节点关注‘单位用户成本差’，子节点应覆盖‘何时自建更优’或‘成本平衡点’，但现有节点未提供自建成本低于公有云的场景（通常需要极高的流量规模或极低的公有云价格假设，当前数据下自建从未占优，导致分析结论片面）。）
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+BGP multi-line access cost vs latency benefit China CDN

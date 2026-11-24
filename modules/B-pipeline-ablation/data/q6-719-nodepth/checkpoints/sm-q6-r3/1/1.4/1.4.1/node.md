@@ -1,24 +1,20 @@
-# N50: Unique Objects (U) = Total_Upload_Volume / Avg_Object_Size_s，其中 Total_Upload_Vol
+# N60: 核心区域（自建POP）的P99延迟 P99_core = RTT_user_pop_core_p99 + T_proc_pop + (1 - H_self) *
 
 - **status**: pending
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N9
+- **parent_ids**: N10
 
 ## Claim
 
-Unique Objects (U) = Total_Upload_Volume / Avg_Object_Size_s，其中 Total_Upload_Volume = 200 GB/day，Avg_Object_Size_s 需区分图片与短视频两类对象（图片典型 200KB，短视频典型 10MB）[待核验]
+核心区域（自建POP）的P99延迟 P99_core = RTT_user_pop_core_p99 + T_proc_pop + (1 - H_self) * (RTT_pop_origin + T_transfer_origin)，其中RTT_user_pop_core_p99基于核心区域用户到最近POP的地理分布计算，H_self为自建POP缓存命中率。
 
 ## Corrected Claim
 
-Unique Objects (U) = Total_Upload_Volume / Avg_Object_Size_s，其中 Total_Upload_Volume = 200 GB/day，Avg_Object_Size_s 需区分图片与短视频两类对象（图片典型 200KB，短视频典型 10MB）[待核验]
+核心区域（自建POP）的P99延迟 P99_core = RTT_user_pop_core_p99 + T_proc_pop + (1 - H_self) * (RTT_pop_origin + T_transfer_origin)，其中RTT_user_pop_core_p99基于核心区域用户到最近POP的地理分布计算，H_self为自建POP缓存命中率。
 
 ## Evidence
 
-父节点级核验未通过：不完备（子节点1和2分别计算图片和短视频的基数，两者正交且不矛盾；子节点3处理去重/版本修正，逻辑独立。但父节点公式中明确提到 Avg_Object_Size_s 需区分两类对象（200KB vs 10MB），而子节点1中却使用了 2MB 作为图片大小，这与父节点设定的参数（200KB）严重矛盾，导致计算逻辑不一致，且未明确说明为何使用 2MB（可能是假设而非事实），造成完备性缺失（参数定义不闭环）和潜在的内部矛盾。）
-
-## Search Query
-
-average file size image vs short video upload platform statistics
+父节点级核验未通过：不完备, 有冗余（子节点实质上是同一数学模型在三个不同参数组合（H_self, RTT, T_proc）下的实例化，属于典型的参数扫描而非结构分解。虽然这三个点在工作负载或成本效益上有所区分（正交性尚可），但它们并未覆盖父节点公式中各变量的独立物理意义或约束条件（如RTT的地理分布特性、T_proc的处理逻辑、H_self的缓存策略独立性），因此不完备。此外，多个子节点重复了相同的计算逻辑和变量结构，存在显著冗余。）

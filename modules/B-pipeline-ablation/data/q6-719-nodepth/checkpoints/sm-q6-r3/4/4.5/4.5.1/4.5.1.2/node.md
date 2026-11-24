@@ -1,19 +1,19 @@
-# N294: Patch_Validation_Cost = (Patch_Cycles_Per_Month × 10_Pops) × (Validation_Hours_P
+# N373: Zipf 分布参数 α 的典型值：对于社交媒体图片内容，α 通常在 0.8-1.0 之间，表示内容热度分布较为平坦（长尾效应明显）；对于短视频，α 可能在 1.
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N102
+- **parent_ids**: N115
 
 ## Claim
 
-Patch_Validation_Cost = (Patch_Cycles_Per_Month × 10_Pops) × (Validation_Hours_Per_Patch × Hourly_Ops_Cost + Rollback_Probability × Rollback_Cost)，其中 Patch_Cycles 通常为 2-4 次/月（安全补丁），Validation_Hours 取决于自动化程度，手动验证约 4h/POP/次，自动化约 0.5h/POP/次。
+Zipf 分布参数 α 的典型值：对于社交媒体图片内容，α 通常在 0.8-1.0 之间，表示内容热度分布较为平坦（长尾效应明显）；对于短视频，α 可能在 1.0-1.2 之间，表示头部内容更集中。α 值直接影响缓存命中率，α 越小，缓存效率越低。
 
 ## Corrected Claim
 
-Patch_Validation_Cost = (Patch_Cycles_Per_Month × 10_Pops) × (Validation_Hours_Per_Patch × Hourly_Ops_Cost + Rollback_Probability × Rollback_Cost)，其中 Patch_Cycles 通常为 2-4 次/月（安全补丁），Validation_Hours 取决于自动化程度，手动验证约 4h/POP/次，自动化约 0.5h/POP/次。
+Zipf 分布参数 α 的典型值：对于社交媒体图片内容，α 通常在 0.8-1.0 之间，表示内容热度分布较为平坦（长尾效应明显）；对于短视频，α 可能在 1.0-1.2 之间，表示头部内容更集中。α 值直接影响缓存命中率，α 越小，缓存效率越低。
 
 ## Evidence
 
@@ -21,4 +21,4 @@ Patch_Validation_Cost = (Patch_Cycles_Per_Month × 10_Pops) × (Validation_Hours
 
 ## Search Query
 
-software patch management cost validation hours per node
+Zipf alpha parameter social media image video content popularity

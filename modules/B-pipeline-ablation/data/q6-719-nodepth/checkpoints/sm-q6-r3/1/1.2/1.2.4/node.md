@@ -1,0 +1,24 @@
+# N55: 公有云 CDN 回源延迟 T_origin_fetch 的 P99 值：当 L1 缓存未命中时，需从 L2 或源站获取数据，P99(T_origin_fetch
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+公有云 CDN 回源延迟 T_origin_fetch 的 P99 值：当 L1 缓存未命中时，需从 L2 或源站获取数据，P99(T_origin_fetch) 约为 50-150ms（取决于源站位置和带宽），若 L2 命中率 H_L2=90%，则加权贡献为 (1-H_L1)*(1-H_L2)*150ms。
+
+## Corrected Claim
+
+公有云 CDN 回源延迟 T_origin_fetch 的 P99 值：当 L1 缓存未命中时，需从 L2 或源站获取数据，P99(T_origin_fetch) 约为 50-150ms（取决于源站位置和带宽），若 L2 命中率 H_L2=90%，则加权贡献为 (1-H_L1)*(1-H_L2)*150ms。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间存在严重的逻辑矛盾（非正交）和完备性缺失。1. 矛盾：父节点定义 T_origin_fetch 为“L1未命中时从L2或源站获取”，暗示这是一个包含L2响应的整体延迟；但子节点仅分解了“L2到源站”的RTT和“源站响应”，完全遗漏了L2本身的处理延迟及L1到L2的网络延迟，导致子节点之和无法构成父节点。2. 逻辑错误：子节点3中“L2到源站RTT”与子节点4“源站响应”是串联关系，但父节点公式中仅使用了150ms作为常数，未体现这种分解关系，且子节点提供的具体数值（30ms+10ms=40ms）与父节点引用的150ms量级不符，说明分解未能解释父节点中的关键参数。）
+
+## Search Query
+
+CDN origin fetch latency P99 50-150ms L2 cache miss penalty

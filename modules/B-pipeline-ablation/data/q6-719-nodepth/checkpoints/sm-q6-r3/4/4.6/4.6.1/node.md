@@ -1,0 +1,24 @@
+# N118: 用户到最近公有云CDN边缘节点的物理距离 D_user_edge 的 P99 值，基于阿里云/Cloudflare 在中国/全球的节点分布密度（>1000 节点
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+用户到最近公有云CDN边缘节点的物理距离 D_user_edge 的 P99 值，基于阿里云/Cloudflare 在中国/全球的节点分布密度（>1000 节点）及用户地理分布，估算为 50-200km，对应 RTT_user_edge P99 ≈ 5-20ms（光速传播延迟 + 路由开销）。
+
+## Corrected Claim
+
+用户到最近公有云CDN边缘节点的物理距离 D_user_edge 的 P99 值，基于阿里云/Cloudflare 在中国/全球的节点分布密度（>1000 节点）及用户地理分布，估算为 50-200km，对应 RTT_user_edge P99 ≈ 5-20ms（光速传播延迟 + 路由开销）。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1聚焦于物理距离的估算（基于节点密度和地理分布），子节点2聚焦于RTT与距离的转换关系（传播延迟+路由开销）。两者分别处理‘距离是多少’和‘距离如何转化为延迟’，逻辑上正交且互补，共同完整覆盖了父节点中关于距离和RTT的估算依据。不存在冗余，因为一个是输入变量（距离），一个是转换函数/输出变量（RTT）。）
+
+## Search Query
+
+Alibaba Cloud CDN node distribution China distance RTT

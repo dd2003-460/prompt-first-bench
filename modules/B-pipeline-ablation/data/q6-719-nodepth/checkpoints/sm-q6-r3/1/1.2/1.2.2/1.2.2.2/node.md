@@ -1,24 +1,20 @@
-# N157: Pareto 分布下 P99 延迟的长尾修正：若 RTT 服从 Pareto 分布（形状参数 α > 1），则 P99 = x_min / (0.01)^(1/
+# N209: 长尾区域（20%用户）的 P99 用户到边缘节点 RTT 估算为 40ms，基于距离 d=700km 代入公式 RTT = 0.05*700 + 5 = 40m
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N44
+- **parent_ids**: N53
 
 ## Claim
 
-Pareto 分布下 P99 延迟的长尾修正：若 RTT 服从 Pareto 分布（形状参数 α > 1），则 P99 = x_min / (0.01)^(1/α)。对于网络延迟，α 通常在 1.5-2.5 之间，导致 P99 远大于均值，需通过尾部拟合确定 α。
+长尾区域（20%用户）的 P99 用户到边缘节点 RTT 估算为 40ms，基于距离 d=700km 代入公式 RTT = 0.05*700 + 5 = 40ms（假设 20% 用户距离最近节点 500-1000km，取 P99 对应的上界距离 700km）
 
 ## Corrected Claim
 
-Pareto 分布下 P99 延迟的长尾修正：若 RTT 服从 Pareto 分布（形状参数 α > 1），则 P99 = x_min / (0.01)^(1/α)。对于网络延迟，α 通常在 1.5-2.5 之间，导致 P99 远大于均值，需通过尾部拟合确定 α。
+长尾区域（20%用户）的 P99 用户到边缘节点 RTT 估算为 40ms，基于距离 d=700km 代入公式 RTT = 0.05*700 + 5 = 40ms（假设 20% 用户距离最近节点 500-1000km，取 P99 对应的上界距离 700km）
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：Pareto分布的P99公式推导正确，α取值范围符合网络延迟长尾特征的经验规律
-
-## Search Query
-
-pareto distribution network latency tail shape parameter alpha
+先验知识/题面给定，逻辑校验通过：公式 RTT = 0.05*700 + 5 = 40ms 计算正确，且 700km 光纤传输延迟约 35ms 加上 5ms 处理/排队延迟符合物理直觉与工程经验。

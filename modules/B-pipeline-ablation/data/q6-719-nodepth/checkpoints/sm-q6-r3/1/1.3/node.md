@@ -1,24 +1,30 @@
-# N8: 缓存命中率 (Cache Hit Rate) 对延迟的影响：P99_Latency = Hit_Rate × T_cache + (1 - Hit_Rate) 
+# N9: 自建 10 个 POP 点策略下，单请求端到端延迟分布的 P99 值（单位：ms），需考虑节点覆盖半径与回源链路延迟。
 
-- **status**: verified
+- **status**: pending
 - **level**: L2
-- **source**: knowledge
-- **edge_type**: cartesian
-- **rework_count**: 0
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
 - **parent_ids**: N1
 
 ## Claim
 
-缓存命中率 (Cache Hit Rate) 对延迟的影响：P99_Latency = Hit_Rate × T_cache + (1 - Hit_Rate) × T_origin，其中 T_cache 为边缘节点处理时间，T_origin 为回源延迟。
+自建 10 个 POP 点策略下，单请求端到端延迟分布的 P99 值（单位：ms），需考虑节点覆盖半径与回源链路延迟。
 
 ## Corrected Claim
 
-缓存命中率 (Cache Hit Rate) 对延迟的影响：P99_Latency = Hit_Rate × T_cache + (1 - Hit_Rate) × T_origin，其中 T_cache 为边缘节点处理时间，T_origin 为回源延迟。
+在自建10个POP点的策略下，单请求端到端延迟的P99值需通过实际压测或基于节点覆盖半径与回源链路延迟的模型计算得出，具体数值取决于网络拓扑与负载情况。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+父节点级核验未通过：不完备（子节点分别对应延迟公式中的各个分量（RTT、处理、回源），逻辑上正且不重复。但父节点明确要求考虑'节点覆盖半径与回源链路延迟'，虽然子节点2和4涉及了距离和链路，但缺乏对'覆盖半径'如何具体影响P99分布的量化建模（例如未区分不同覆盖半径下的概率权重或具体距离分布对P99的精确贡献，仅做了粗略估算），且未明确说明自建POP的源站位置策略对回源延迟的具体影响机制（仅给出范围）。更关键的是，P99是尾部延迟，子节点中直接相加各分量的P99值（P99(A)+P99(B)）在统计上是不严谨的，通常应使用卷积或保守上界估算，这里公式本身存在方法论缺陷，导致分解在技术严谨性上不完备。）
 
 ## Search Query
 
-CDN cache hit rate latency formula
+self-hosted CDN 10 PoPs P99 latency estimation model
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_32822843/article/details/166651398&rut=ecf44168648624aa7c4824882fc73609f60a277d13b78fa13a0b638995c80012', 'type': 'ddg', 'title': 'P99延迟从120ms降至800微秒：核心服务延迟优化实战-CSDN博客'}
+- {'url': 'https://blog.csdn.net/2600_94959702/article/details/157227534&rut=a28c2f5bd23d334a04ff6730c0a9e0c83ed080cd03abe672ef0626105d712d55', 'type': 'ddg', 'title': '深入解析p99延迟：原理、测量与优化实战 - Csdn博客'}
+- {'url': 'https://raybyte.cn/post/2026/10/15/89a6b648&rut=77ffc51580fe5eca2db894b60ce366be7675e9e0e0948c3e091bb11122dcb885', 'type': 'ddg', 'title': '性能测试中百分位延迟指标的解读与优化思路 | RayByte'}

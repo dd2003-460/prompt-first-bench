@@ -1,24 +1,20 @@
-# N297: 变动运维成本系数 C_var_per_pop 包含每个 POP 独立的日志存储费用、独立的安全漏洞扫描订阅及网络监控探针成本，估算约为 5k 元/月/POP（基
+# N377: POP-L2 缓存命中率 H_L2_self 在 L1 Miss 条件下的条件概率为 H_L2_self = (1 - Miss_Rate_L2) * P(Hi
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N103
+- **parent_ids**: N116
 
 ## Claim
 
-变动运维成本系数 C_var_per_pop 包含每个 POP 独立的日志存储费用、独立的安全漏洞扫描订阅及网络监控探针成本，估算约为 5k 元/月/POP（基于 N23 中 SRE 人力分摊至单节点的变动部分及第三方服务单价）。
+POP-L2 缓存命中率 H_L2_self 在 L1 Miss 条件下的条件概率为 H_L2_self = (1 - Miss_Rate_L2) * P(Hit_L2 | Miss_L1)，受 L2 容量 C_pop_L2 (TB) 与 L1 未命中对象的大小分布影响，典型值为 0.3-0.5。
 
 ## Corrected Claim
 
-变动运维成本系数 C_var_per_pop 包含每个 POP 独立的日志存储费用、独立的安全漏洞扫描订阅及网络监控探针成本，估算约为 5k 元/月/POP（基于 N23 中 SRE 人力分摊至单节点的变动部分及第三方服务单价）。
+POP-L2 缓存命中率 H_L2_self 在 L1 Miss 条件下的条件概率为 H_L2_self = (1 - Miss_Rate_L2) * P(Hit_L2 | Miss_L1)，受 L2 容量 C_pop_L2 (TB) 与 L1 未命中对象的大小分布影响，典型值为 0.3-0.5。
 
 ## Evidence
 
 先验知识/题面给定，逻辑校验通过
-
-## Search Query
-
-CDN edge node monitoring log storage cost per node per month

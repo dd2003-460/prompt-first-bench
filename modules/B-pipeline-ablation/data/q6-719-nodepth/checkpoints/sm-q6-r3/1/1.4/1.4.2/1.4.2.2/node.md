@@ -1,24 +1,20 @@
-# N179: 人均日请求数 R_per_user 的高频激进估计：R_high = 50 次/人/天，对应总请求数 R_total_high = 5,000,000 × 50
+# N234: 工作点2（中性价比最优）：H_l1=0.90, H_l2=0.95，RTT_user_edge_tail_p99=50ms，T_proc_edge=8ms，L1
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N51
+- **parent_ids**: N61
 
 ## Claim
 
-人均日请求数 R_per_user 的高频激进估计：R_high = 50 次/人/天，对应总请求数 R_total_high = 5,000,000 × 50 = 250,000,000 次/天，适用于重度用户或高频刷新场景
+工作点2（中性价比最优）：H_l1=0.90, H_l2=0.95，RTT_user_edge_tail_p99=50ms，T_proc_edge=8ms，L1 Miss项=0.10*25ms=2.5ms，L2 Miss项=0.10*0.05*60ms=0.3ms，P99_tail ≈ 60.8ms，满足 T=150ms。
 
 ## Corrected Claim
 
-人均日请求数 R_per_user 的高频激进估计：R_high = 50 次/人/天，对应总请求数 R_total_high = 5,000,000 × 50 = 250,000,000 次/天，适用于重度用户或高频刷新场景
+工作点2（中性价比最优）：H_l1=0.90, H_l2=0.95，RTT_user_edge_tail_p99=50ms，T_proc_edge=8ms，L1 Miss项=0.10*25ms=2.5ms，L2 Miss项=0.10*0.05*60ms=0.3ms，P99_tail ≈ 60.8ms，满足 T=150ms。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：5,000,000 × 50 = 250,000,000 计算正确，且50次/人/天作为高频激进估计在量级上合理。
-
-## Search Query
-
-heavy user daily request count video streaming platform
+先验知识/题面给定，逻辑校验通过：各项延迟相加（50+8+2.5+0.3=60.8ms）与结论一致，且满足150ms约束。

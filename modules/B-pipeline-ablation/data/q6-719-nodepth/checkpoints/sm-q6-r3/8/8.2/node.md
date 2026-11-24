@@ -1,20 +1,20 @@
-# N132: Bandwidth_Monthly 计算：Bandwidth_Monthly = (Daily_Download_Volume × 30) × Unit_Pri
+# N180: 日均平均带宽 B_avg (Mbps) 的计算：B_avg = (日均下载量 2TB * 8 * 1024 * 1024) / 86400 ≈ 493.8 Mb
 
-- **status**: verified
+- **status**: pending
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N38
+- **parent_ids**: N46
 
 ## Claim
 
-Bandwidth_Monthly 计算：Bandwidth_Monthly = (Daily_Download_Volume × 30) × Unit_Price_GB + (Daily_Upload_Volume × 30) × Unit_Price_Upload_GB，其中 Unit_Price_GB 因策略而异：公有云取 CDN 下行单价（约 ¥0.15-0.25/GB），自建取机房带宽租赁单价（约 ¥100-300/Mbps/月，需转换为 GB 单价：Price_GB = Price_Mbps / (Mbps×3600×30/8)）。
+日均平均带宽 B_avg (Mbps) 的计算：B_avg = (日均下载量 2TB * 8 * 1024 * 1024) / 86400 ≈ 493.8 Mbps，作为峰值计算的基础值。
 
 ## Corrected Claim
 
-Bandwidth_Monthly 计算：Bandwidth_Monthly = (Daily_Download_Volume × 30) × Unit_Price_GB + (Daily_Upload_Volume × 30) × Unit_Price_Upload_GB，其中 Unit_Price_GB 因策略而异：公有云取 CDN 下行单价（约 ¥0.15-0.25/GB），自建取机房带宽租赁单价（约 ¥100-300/Mbps/月，需转换为 GB 单价：Price_GB = Price_Mbps / (Mbps×3600×30/8)）。
+日均平均带宽 B_avg (Mbps) 的计算：B_avg = (日均下载量 2TB * 8 * 1024 * 1024) / 86400 ≈ 493.8 Mbps，作为峰值计算的基础值。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：带宽月费计算公式逻辑自洽，Mbps转GB单价的换算公式（Price_Mbps / (Mbps×3600×30/8)）在量纲和数值上均正确（1 Mbps 30天约等于 3.24 TB，即 3,240 GB，若单价为 ¥100/Mbps/月，则折合 ¥0.03/GB，符合自建机房带宽成本远低于公有云CDN单价的常识），公有云CDN单价范围也符合市场常识。
+父节点级核验未通过：不完备（父节点描述的是‘日均平均带宽’的计算过程（基于总流量2TB/86400秒），而子节点描述的是‘对象平均大小’（图片1MB、视频10MB）。这两者在逻辑层级和因果关系上存在严重错位：对象大小是用于估算总流量或请求次数的参数，而不是带宽计算公式本身的分解部分。子节点并未覆盖父节点‘带宽计算’这一核心动作（如除以86400、单位换算等关键步骤），而是引入了与父节点公式直接推导无关的独立参数定义。）

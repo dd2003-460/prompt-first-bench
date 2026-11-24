@@ -1,24 +1,20 @@
-# N51: Total Requests (R) = DAU × Avg_Requests_Per_User_Day，其中 DAU = 5,000,000，Avg_Requ
+# N61: 长尾区域（公有云CDN）的P99延迟 P99_tail = RTT_user_edge_tail_p99 + T_proc_edge + (1 - H_l1) 
 
 - **status**: pending
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N9
+- **parent_ids**: N10
 
 ## Claim
 
-Total Requests (R) = DAU × Avg_Requests_Per_User_Day，其中 DAU = 5,000,000，Avg_Requests_Per_User_Day 由平台类型决定（图片+短视频平台典型值 20-50 次/人/天）[待核验]
+长尾区域（公有云CDN）的P99延迟 P99_tail = RTT_user_edge_tail_p99 + T_proc_edge + (1 - H_l1) * (RTT_edge_l2 + (1 - H_l2) * (RTT_l2_origin + T_transfer_origin))，其中H_l1和H_l2分别为L1和L2缓存命中率。
 
 ## Corrected Claim
 
-Total Requests (R) = DAU × Avg_Requests_Per_User_Day，其中 DAU = 5,000,000，Avg_Requests_Per_User_Day 由平台类型决定（图片+短视频平台典型值 20-50 次/人/天）[待核验]
+长尾区域（公有云CDN）的P99延迟 P99_tail = RTT_user_edge_tail_p99 + T_proc_edge + (1 - H_l1) * (RTT_edge_l2 + (1 - H_l2) * (RTT_l2_origin + T_transfer_origin))，其中H_l1和H_l2分别为L1和L2缓存命中率。
 
 ## Evidence
 
-父节点级核验未通过：非正交, 有冗余（子节点1和子节点2本质上是同一参数（人均请求数）在不同假设下的取值，属于参数敏感性分析而非正交维度，存在冗余；子节点3是约束校验，与前两者维度不同，但前两者的结构导致整体分解逻辑不清晰。）
-
-## Search Query
-
-average daily API requests per user social media platform
+父节点级核验未通过：不完备, 有冗余（子节点实质上是同一公式在不同参数组合下的三个采样点（工作点），而非对公式中不同物理机制或组件的独立分解。它们存在严重的参数冗余（本质是同一个多维参数空间的离散取值），且仅覆盖了特定的性能-成本权衡点，未覆盖公式中所有变量的独立影响或边界情况，因此不完备。）

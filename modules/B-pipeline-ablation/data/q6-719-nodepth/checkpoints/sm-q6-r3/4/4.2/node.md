@@ -1,4 +1,4 @@
-# N23: 自建10个POP点的监控体系运维人力投入为2人/月（SRE），对应人力成本为2×25k=50k元/月，工具链成本（Prometheus+Grafana+Aler
+# N26: 全自建10 POP策略的路由逻辑采用基于IP地理库的静态映射，单请求跳数为 1（用户->自建POP）或 2（用户->POP->源站，当POP未命中时），其中PO
 
 - **status**: verified
 - **level**: L2
@@ -9,16 +9,12 @@
 
 ## Claim
 
-自建10个POP点的监控体系运维人力投入为2人/月（SRE），对应人力成本为2×25k=50k元/月，工具链成本（Prometheus+Grafana+Alertmanager）为3k元/月
+全自建10 POP策略的路由逻辑采用基于IP地理库的静态映射，单请求跳数为 1（用户->自建POP）或 2（用户->POP->源站，当POP未命中时），其中POP未命中率取决于缓存命中率 H_pop。
 
 ## Corrected Claim
 
-自建10个POP点的监控体系运维人力投入为2人/月（SRE），对应人力成本为2×25k=50k元/月，工具链成本（Prometheus+Grafana+Alertmanager）为3k元/月
+全自建10 POP策略的路由逻辑采用基于IP地理库的静态映射，单请求跳数为 1（用户->自建POP）或 2（用户->POP->源站，当POP未命中时），其中POP未命中率取决于缓存命中率 H_pop。
 
 ## Evidence
 
-父节点级核验通过：正交+完备+无冗余（子节点分别针对‘人力单价/地域’、‘工具链部署模式’和‘人力数量/自动化程度’三个独立维度进行拆解，彼此正交且无重叠；共同覆盖了父节点中人力成本（人数x单价）和工具链成本的所有关键变量，无冗余。）
-
-## Search Query
-
-SRE engineer monthly salary China 2024
+先验知识/题面给定，逻辑校验通过

@@ -1,30 +1,20 @@
-# N66: 公有云 CDN 月流量成本 Traffic_Cost = Total_Monthly_Traffic × Unit_Price_Per_GB，其中 Total_
+# N76: 混合策略自建部分基础设施成本 C_infra_self 为 10 个 POP 点的硬件折旧与机房租赁成本总和，即 10 * (N_server * C_serv
 
-- **status**: degraded
+- **status**: verified
 - **level**: L3
-- **source**: search
+- **source**: knowledge
 - **edge_type**: cartesian
-- **rework_count**: 1
+- **rework_count**: 0
 - **parent_ids**: N14
 
 ## Claim
 
-公有云 CDN 月流量成本 Traffic_Cost = Total_Monthly_Traffic × Unit_Price_Per_GB，其中 Total_Monthly_Traffic = 2TB/day × 30 days = 60TB = 61,440GB，Unit_Price_Per_GB 取阿里云/Cloudflare 中国区边缘流量均价 ¥0.25/GB（含跨网费），计算得 Traffic_Cost ≈ 61,440 × 0.25 = ¥15,360/月 [时效待核]。
+混合策略自建部分基础设施成本 C_infra_self 为 10 个 POP 点的硬件折旧与机房租赁成本总和，即 10 * (N_server * C_server_dep + C_colo_monthly)。
 
 ## Corrected Claim
 
-公有云 CDN 月流量成本 Traffic_Cost = Total_Monthly_Traffic × Unit_Price_Per_GB，其中 Total_Monthly_Traffic = 2TB/day × 30 days = 60TB = 61,440GB，Unit_Price_Per_GB 需根据实际供应商定价确定（参考阿里云/Cloudflare 中国区边缘流量均价，含跨网费），计算得 Traffic_Cost ≈ 61,440 × Unit_Price_Per_GB/月。
+混合策略自建部分基础设施成本 C_infra_self 为 10 个 POP 点的硬件折旧与机房租赁成本总和，即 10 * (N_server * C_server_dep + C_colo_monthly)。
 
 ## Evidence
 
-[质询]Unit_Price_Per_GB 取 ¥0.25/GB 为经验事实，且来源未提供具体数值支持，无法确认该价格是否准确反映当前阿里云/Cloudflare 中国区边缘流量均价（含跨网费）。 | 逻辑推导成立（2TB/day × 30 days = 60TB = 61,440GB，61,440 × 0.25 = ¥15,360），但经验事实（Unit_Price_Per_GB = ¥0.25/GB）缺来源直接支持，来源 [1][2][3] 仅说明计费模式，未提供具体价格数值。
-
-## Search Query
-
-Aliyun CDN traffic price per GB 2024 Cloudflare China CDN pricing
-
-## Retrieval Sources
-
-- {'url': 'https://docsv4.qingcloud.com/user_guide/network/cdn/billing/price/&rut=5d61c86496841278c91ca524d0b4c5ad19e7808d0663d81deed8f9349d13e860', 'type': 'ddg', 'title': 'Cdn 计费 - 公有云文档中心'}
-- {'url': 'https://help.aliyun.com/zh/cdn/product-overview/billing-overview&rut=5607cac578e6a0a2822f10843ed70c58160107634276405ba09db4d9580720b7', 'type': 'ddg', 'title': 'Cdn如何计费-cdn (Cdn)-阿里云帮助中心'}
-- {'url': 'https://developer.aliyun.com/article/1708278&rut=2ddc55f04c3ee490ae5b44019f150c2428eac2400670b83d41207aae16acf9e2', 'type': 'ddg', 'title': '2026最新阿里云cdn收费标准：不同计费模式价格表（基础服务费和增值服务费用整理）-阿里云开发者社区'}
+先验知识/题面给定，逻辑校验通过

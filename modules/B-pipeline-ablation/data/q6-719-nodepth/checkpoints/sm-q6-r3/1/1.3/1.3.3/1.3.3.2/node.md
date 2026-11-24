@@ -1,19 +1,19 @@
-# N169: Total_Requests（日均总请求数）= DAU × Avg_Requests_Per_User，其中 DAU = 5,000,000；Avg_Reque
+# N226: 高配硬件工作点：使用高性能边缘服务器（如 16C64G + NVMe SSD），缓存命中路径优化后，P99(T_proc_pop) ≈ 10ms，接近公有云水平
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N48
+- **parent_ids**: N58
 
 ## Claim
 
-Total_Requests（日均总请求数）= DAU × Avg_Requests_Per_User，其中 DAU = 5,000,000；Avg_Requests_Per_User 典型值为 10-50 次/用户/天，取中值 30 次，则 Total_Requests = 5,000,000 × 30 = 150,000,000 次/天
+高配硬件工作点：使用高性能边缘服务器（如 16C64G + NVMe SSD），缓存命中路径优化后，P99(T_proc_pop) ≈ 10ms，接近公有云水平，但硬件折旧成本 C_infra 增加约 50%
 
 ## Corrected Claim
 
-Total_Requests（日均总请求数）= DAU × Avg_Requests_Per_User，其中 DAU = 5,000,000；Avg_Requests_Per_User 典型值为 10-50 次/用户/天，取中值 30 次，则 Total_Requests = 5,000,000 × 30 = 150,000,000 次/天
+高配硬件工作点：使用高性能边缘服务器（如 16C64G + NVMe SSD），缓存命中路径优化后，P99(T_proc_pop) ≈ 10ms，接近公有云水平，但硬件折旧成本 C_infra 增加约 50%
 
 ## Evidence
 

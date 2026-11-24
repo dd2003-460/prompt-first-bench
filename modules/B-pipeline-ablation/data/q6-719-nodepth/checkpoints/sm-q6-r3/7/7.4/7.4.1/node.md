@@ -1,24 +1,20 @@
-# N371: Zipf 指数 α 的精确估计需通过幂律拟合日志数据获得，若缺乏数据，采用保守值 α=0.8 进行敏感性分析，此时 Hit_Rate 对 K 的变化敏感度为 d
+# N540: s_weighted 的基准计算：在 P_img=0.7, P_video=0.3, s_img=1.0MB, s_video=10MB 的典型参数下，s_we
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N129
+- **parent_ids**: N178
 
 ## Claim
 
-Zipf 指数 α 的精确估计需通过幂律拟合日志数据获得，若缺乏数据，采用保守值 α=0.8 进行敏感性分析，此时 Hit_Rate 对 K 的变化敏感度为 d(Hit_Rate)/dK ≈ -α/K^(α+1)。
+s_weighted 的基准计算：在 P_img=0.7, P_video=0.3, s_img=1.0MB, s_video=10MB 的典型参数下，s_weighted = 0.7*1.0 + 0.3*10 = 3.7MB，该值超过 s_critical (3.2MB)，表明默认场景下自建策略在带宽成本上已具备优势。
 
 ## Corrected Claim
 
-Zipf 指数 α 的精确估计需通过幂律拟合日志数据获得，若缺乏数据，采用保守值 α=0.8 进行敏感性分析，此时 Hit_Rate 对 K 的变化敏感度为 d(Hit_Rate)/dK ≈ -α/K^(α+1)。
+s_weighted 的基准计算：在 P_img=0.7, P_video=0.3, s_img=1.0MB, s_video=10MB 的典型参数下，s_weighted = 0.7*1.0 + 0.3*10 = 3.7MB，该值超过 s_critical (3.2MB)，表明默认场景下自建策略在带宽成本上已具备优势。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：幂律分布下命中率对缓存大小K的导数形式符合微积分基本定理及Zipf分布性质，量纲与符号（负相关）合理。
-
-## Search Query
-
-Zipf exponent estimation content distribution
+先验知识/题面给定，逻辑校验通过：加权平均计算 0.7*1.0 + 0.3*10 = 3.7 正确，且 3.7 > 3.2 的比较逻辑自洽。

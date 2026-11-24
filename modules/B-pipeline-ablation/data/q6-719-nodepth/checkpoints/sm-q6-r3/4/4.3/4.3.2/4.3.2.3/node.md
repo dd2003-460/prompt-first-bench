@@ -1,20 +1,20 @@
-# N286: 引入高级部署策略（蓝绿/金丝雀）带来的额外月度人力成本增量 ΔDevOps_Cost = (High_Freq_DevOps_Cost - Base_DevOp
+# N357: 缓存未命中惩罚成本 C_miss_penalty 的具体构成：C_miss_penalty = (1 - HitRate) * Q_day * (C_bandw
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N99
+- **parent_ids**: N110
 
 ## Claim
 
-引入高级部署策略（蓝绿/金丝雀）带来的额外月度人力成本增量 ΔDevOps_Cost = (High_Freq_DevOps_Cost - Base_DevOps_Cost) = 50k - 25k = 25k 元/月，该增量需与 N139 中计算的延迟降低带来的 LTV 增益进行 ROI 比对。
+缓存未命中惩罚成本 C_miss_penalty 的具体构成：C_miss_penalty = (1 - HitRate) * Q_day * (C_bandwidth_public - C_bandwidth_self) + (1 - HitRate) * Q_day * T_latency_penalty_value，其中 T_latency_penalty_value 为每毫秒超标对应的业务损失或 SLA 罚款折算值。
 
 ## Corrected Claim
 
-引入高级部署策略（蓝绿/金丝雀）带来的额外月度人力成本增量 ΔDevOps_Cost = (High_Freq_DevOps_Cost - Base_DevOps_Cost) = 50k - 25k = 25k 元/月，该增量需与 N139 中计算的延迟降低带来的 LTV 增益进行 ROI 比对。
+缓存未命中惩罚成本 C_miss_penalty 的具体构成：C_miss_penalty = (1 - HitRate) * Q_day * (C_bandwidth_public - C_bandwidth_self) + (1 - HitRate) * Q_day * T_latency_penalty_value，其中 T_latency_penalty_value 为每毫秒超标对应的业务损失或 SLA 罚款折算值。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：算术运算 50k - 25k = 25k 正确，且 ROI 比对逻辑符合基本经济直觉。
+先验知识/题面给定，逻辑校验通过

@@ -1,0 +1,20 @@
+# N249: 公有云CDN存储费用计算中，存储总容量 S_total 的确定公式：S_total = Q_day * s_weighted * RetentionDays，其
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N69, N70, N71
+
+## Claim
+
+公有云CDN存储费用计算中，存储总容量 S_total 的确定公式：S_total = Q_day * s_weighted * RetentionDays，其中 RetentionDays 为内容平均保留天数（假设 30 天），s_weighted 为加权平均对象大小（由 N178 提供），用于修正 N71 中假设的 10TB 固定值。
+
+## Corrected Claim
+
+公有云CDN存储费用计算中，存储总容量 S_total 的确定公式：S_total = Q_day * s_weighted * RetentionDays，其中 RetentionDays 为内容平均保留天数（假设 30 天），s_weighted 为加权平均对象大小（由 N178 提供），用于修正 N71 中假设的 10TB 固定值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 S_total = Q_day * s_weighted * RetentionDays 符合存储容量=流量*平均大小*保留时间的物理/经济直觉，量纲一致（GB/day * GB * days 需单位换算，但逻辑结构正确），且明确为修正假设值的工程估算模型。

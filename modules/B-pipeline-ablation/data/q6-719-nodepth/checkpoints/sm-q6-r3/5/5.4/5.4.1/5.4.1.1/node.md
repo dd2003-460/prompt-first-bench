@@ -1,24 +1,24 @@
-# N323: 公有云CDN单区域服务中断概率 P_cloud_outage 的基准值为 0.001% (10^-5)，基于头部云厂商（AWS/Aliyun）过去3年SLO报告
+# N454: 低配工作点：4核CPU (¥1000) + 16GB RAM (¥800) + 杂项(¥400) = ¥2200，适用于纯静态图片缓存场景，单台并发处理能力约 
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N113
+- **parent_ids**: N143
 
 ## Claim
 
-公有云CDN单区域服务中断概率 P_cloud_outage 的基准值为 0.001% (10^-5)，基于头部云厂商（AWS/Aliyun）过去3年SLO报告中的可用性下限（99.999%）推导，该值用于计算月度预期中断次数 (0.001% × 43200 min ≈ 0.043 min/月)。
+低配工作点：4核CPU (¥1000) + 16GB RAM (¥800) + 杂项(¥400) = ¥2200，适用于纯静态图片缓存场景，单台并发处理能力约 5k QPS
 
 ## Corrected Claim
 
-公有云CDN单区域服务中断概率 P_cloud_outage 的基准值为 0.001% (10^-5)，基于头部云厂商（AWS/Aliyun）过去3年SLO报告中的可用性下限（99.999%）推导，该值用于计算月度预期中断次数 (0.001% × 43200 min ≈ 0.043 min/月)。
+低配工作点：4核CPU (¥1000) + 16GB RAM (¥800) + 杂项(¥400) = ¥2200，适用于纯静态图片缓存场景，单台并发处理能力约 5k QPS
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：99.999%可用性对应0.001%中断率，月度分钟数43200，计算0.001% * 43200 = 0.0432 min，数值量级与推导逻辑自洽。
+先验知识/题面给定，逻辑校验通过：4核CPU+16GB内存配置在纯静态图片缓存场景下，5k QPS的并发处理能力符合常规工程经验量级，成本估算逻辑自洽。
 
 ## Search Query
 
-AWS SLO availability 99.999% historical outage minutes 2023
+entry-level x86 server cost 4 core 16GB 2024

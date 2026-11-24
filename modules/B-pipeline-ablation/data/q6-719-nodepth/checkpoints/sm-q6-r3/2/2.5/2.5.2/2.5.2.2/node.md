@@ -1,20 +1,24 @@
-# N199: C_bw_pop 的单 POP 带宽成本：C_bw_pop = B_pop_peak * P_bw_monthly；假设单 POP 峰值带宽 5Gbps，P_b
+# N278: 高峰时段时长 Peak_Window_Hours 的定义：指每日中带宽需求超过平均值 1.5 倍的小时数。对于 C 端视频平台，通常集中在 19:00-23:0
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N63
+- **parent_ids**: N82
 
 ## Claim
 
-C_bw_pop 的单 POP 带宽成本：C_bw_pop = B_pop_peak * P_bw_monthly；假设单 POP 峰值带宽 5Gbps，P_bw_monthly = ¥2000/Gbps/月，则 C_bw_pop = 5 * 2000 = ¥10,000/月/POP；此值基于运营商专线报价，需根据实际地域和带宽需求调整
+高峰时段时长 Peak_Window_Hours 的定义：指每日中带宽需求超过平均值 1.5 倍的小时数。对于 C 端视频平台，通常集中在 19:00-23:00，Peak_Window_Hours 典型值为 4-6 小时。
 
 ## Corrected Claim
 
-C_bw_pop 的单 POP 带宽成本：C_bw_pop = B_pop_peak * P_bw_monthly；假设单 POP 峰值带宽 5Gbps，P_bw_monthly = ¥2000/Gbps/月，则 C_bw_pop = 5 * 2000 = ¥10,000/月/POP；此值基于运营商专线报价，需根据实际地域和带宽需求调整
+高峰时段时长 Peak_Window_Hours 的定义：指每日中带宽需求超过平均值 1.5 倍的小时数。对于 C 端视频平台，通常集中在 19:00-23:00，Peak_Window_Hours 典型值为 4-6 小时。
 
 ## Evidence
 
 先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+CDN peak window hours definition evening traffic

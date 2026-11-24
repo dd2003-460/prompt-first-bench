@@ -1,20 +1,20 @@
-# N165: RTT_to_origin（用户到源站 RTT）取决于用户地理位置分布与源站位置，典型值 50-200ms；若源站位于核心区域（如北京），覆盖 80% 用户，其
+# N223: 核心区域工作点（70%用户）：距离 d<100km，根据 RTT=0.05*d+5，RTT<10ms；考虑跨网惩罚 ΔT_cross≈15ms，P99_RTT_
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N47
+- **parent_ids**: N57
 
 ## Claim
 
-RTT_to_origin（用户到源站 RTT）取决于用户地理位置分布与源站位置，典型值 50-200ms；若源站位于核心区域（如北京），覆盖 80% 用户，其 RTT 均值约为 30-50ms，而覆盖 20% 长尾用户的 RTT 约为 100-200ms，加权平均 RTT ≈ 0.8×40ms + 0.2×150ms = 62ms
+核心区域工作点（70%用户）：距离 d<100km，根据 RTT=0.05*d+5，RTT<10ms；考虑跨网惩罚 ΔT_cross≈15ms，P99_RTT_core ≈ 25ms
 
 ## Corrected Claim
 
-RTT_to_origin（用户到源站 RTT）取决于用户地理位置分布与源站位置，典型值 50-200ms；若源站位于核心区域（如北京），覆盖 80% 用户，其 RTT 均值约为 30-50ms，而覆盖 20% 长尾用户的 RTT 约为 100-200ms，加权平均 RTT ≈ 0.8×40ms + 0.2×150ms = 62ms
+核心区域工作点（70%用户）：距离 d<100km，根据 RTT=0.05*d+5，RTT<10ms；考虑跨网惩罚 ΔT_cross≈15ms，P99_RTT_core ≈ 25ms
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：加权平均计算正确（0.8*40 + 0.2*150 = 62），RTT数值量级符合网络工程常识
+先验知识/题面给定，逻辑校验通过：RTT计算(0.05*100+5=10ms)与跨网惩罚叠加(10+15=25ms)符合算术逻辑，量级合理。

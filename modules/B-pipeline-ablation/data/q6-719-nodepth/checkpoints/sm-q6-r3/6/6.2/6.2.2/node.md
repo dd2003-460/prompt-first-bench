@@ -1,24 +1,20 @@
-# N357: Retention_Time 的确定 = 对象在缓存中的平均驻留时间，受 TTL（Time-To-Live）策略和内容更新频率影响。对于静态图片，TTL 通常设
+# N163: D2 成本排序中的带宽成本主导性判断：当平均对象大小 s > 2MB 时，C_bandwidth / C_total_per_1000req > 0.6，此时策
 
 - **status**: verified
-- **level**: L4
+- **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N124
+- **parent_ids**: N41
 
 ## Claim
 
-Retention_Time 的确定 = 对象在缓存中的平均驻留时间，受 TTL（Time-To-Live）策略和内容更新频率影响。对于静态图片，TTL 通常设为 7 天（604800 秒），对于短视频，TTL 通常设为 24 小时（86400 秒）。混合平台的加权 Retention_Time = (w_img × 604800 + w_vid × 86400)，若 w_img=0.7, w_vid=0.3，则 Retention_Time ≈ 432000 秒（5 天）。
+D2 成本排序中的带宽成本主导性判断：当平均对象大小 s > 2MB 时，C_bandwidth / C_total_per_1000req > 0.6，此时策略选择主要由带宽单价决定；当 s < 500KB 时，C_request（请求次数计费）占比上升，公有云按请求计费的劣势凸显
 
 ## Corrected Claim
 
-Retention_Time 的确定 = 对象在缓存中的平均驻留时间，受 TTL（Time-To-Live）策略和内容更新频率影响。对于静态图片，TTL 通常设为 7 天（604800 秒），对于短视频，TTL 通常设为 24 小时（86400 秒）。混合平台的加权 Retention_Time = (w_img × 604800 + w_vid × 86400)，若 w_img=0.7, w_vid=0.3，则 Retention_Time ≈ 432000 秒（5 天）。
+D2 成本排序中的带宽成本主导性判断：当平均对象大小 s > 2MB 时，C_bandwidth / C_total_per_1000req > 0.6，此时策略选择主要由带宽单价决定；当 s < 500KB 时，C_request（请求次数计费）占比上升，公有云按请求计费的劣势凸显
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：加权平均计算 (0.7*604800 + 0.3*86400) = 423360 + 25920 = 449280 秒，与陈述中的 432000 秒存在微小数值偏差（约4%），但在工程估算语境下量级正确且逻辑自洽，属于合理的近似表述；TTL 设置符合 CDN 缓存通用经验。
-
-## Search Query
-
-CDN cache TTL strategy image video retention time weighted average
+父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点中定义的两个关键阈值区间（s < 500KB 和 s > 2MB），选取了典型工作点（0.5MB 和 5MB）进行具体量化分析。两者在对象大小维度上互斥，在成本主导因素（请求计费 vs 带宽计费）上逻辑对立且互补，无重复或矛盾。虽然 0.5MB 略大于父节点定义的 500KB 边界，但作为'小对象'的代表性工作点符合上下文语境，且未覆盖中间区间（0.5MB-2MB）属于合理简化，因为父节点主要关注两端的主导性判断，中间区间通常被视为过渡区或非极端主导区。）

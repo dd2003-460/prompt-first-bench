@@ -40,6 +40,7 @@ Three contributions:
 - **Budget/effort scaling in reasoning**: compute-optimal scaling (Kaplan, arXiv:2001.08361; Chinchilla, arXiv:2203.15556) fixes the task and varies scale; we fix the task *and* the model and vary the harness budget — the regime where scaling-law promises do not apply (no loss to optimize, metacognition is not a parametric capability). Saturation of reasoning effort with problem complexity is documented empirically (effort rises with problem size only up to a critical complexity, beyond which it plateaus or declines; arXiv:2503.15113), and compute-optimal test-time allocation shows not every problem deserves more compute (arXiv:2408.03314). **Our contribution is not the existence of saturation — diminishing returns is the default expectation — but locating the saturation point and testing whether it is domain-dependent (the first two wall-free Q6 reps at 719 realized nodes (cov 0.1304 and 0.2391, direction unresolved at n=2 — r1 falls back, r2 rises, §4.3) leave the Q6 curve's behavior past ~400 nodes open, with r3 and the Q7 third-domain scan as the confirmation)**: the budget–coverage curve plateaus near ~400 *realized* nodes on the GPU domain's gold (the nominal ~300 tier is where realized node counts first reliably reach the plateau; the GPU batch ran *pre-clamp* as a soft cap — commit 47a8543cd landed after both GPU batches — so realized node counts overlap across nominal tiers and the clean x-axis is realized node count, not nominal budget, §4.3) but was still rising at the wall-bound tested realized node counts on the Q6 domain's gold (≤379 realized nodes; the Q6 719 tier is depth-wall-bound, so the clean ~719-realized-node test is the queued depth-ceiling-free batch — first two reps landed 2026-11-24: cov 0.1304 (r1, *below* the wall-bound 0.167 tier mean) and 0.2391 (r2, *above* the original batch's maximum 0.1957), direction unresolved at n=2, §4.3). **The cross-domain comparison is confounded by a harness-regime difference** (GPU pre-clamp soft cap vs Q6 post-clamp hard cap, different max_depth), so the domain-dependence question is stated on *realized node count*, not nominal budget: GPU plateaus at ~400 realized nodes; Q6 rises through ≤379 realized nodes (wall-bound tier) and the two wall-free reps (719 realized, cov 0.1304 and 0.2391) are opposite in direction, so whether Q6 stops rising past ~400 is open — but the two domains were measured over different realized-node-count ranges, so this is not a clean "same budget, different domains" contrast; the decisive test is the Q6 depth-ceiling-free 719 batch (r3 pending) plus the Q7 third-domain scan. No prior theorem or scaling law predicts where the saturation point falls for an agent's reference-tree coverage, which is what we measure.
 - **Self-preference bias in LLM judges**: LLMs systematically favor their own generations when acting as evaluators — established since arXiv:2404.13076 (Panickssery et al., 2024), quantified at scale on 20 models with an automated, human-gold-free framework (arXiv:2604.22891), and shown to persist even on fully objective rubric-based verdicts (arXiv:2604.06996), with self-recognition itself failing at near-chance (arXiv:2510.03399). Our depth axis is an instance of this bias (same model judges its own synthesis, §4.3 provenance); the coverage and conclusion layers are constructed to be *immune* (mechanical, no LLM in the scoring path), which is the paper's structural answer to a bias the literature documents but does not eliminate by construction.
 - **Deep-research benchmarks** (DREAM, arXiv:2602.18940; DR-Bench, arXiv:2510.02190; BrowseComp, arXiv:2504.12516): assume tool access and measure end-to-end success; we isolate the harness under a no-weight-update constraint with a mechanical judge.
+- **Checkpoint continuation / agent handoff** (Handoff Debt, arXiv:2606.02875; HSC-Bench, arXiv:2610.36523; Handoff Tax, arXiv:2608.24358): fix a repository/history checkpoint and compare *cross-agent* handoff information (raw trace vs summary vs structured notes), measuring takeover efficiency (agent events, tokens, solved rate). Our Finding 4 is the same domain with a different intervention and measured object: the *same model* resumes from its *own* verified tree checkpoint (no successor agent, no information-compression choice), and the measured trade-off is on the metacognition axis (gap-marking rate and source-verified retrieval quality rise, coverage falls) rather than on handoff cost. A literature snowball check (T-PR-17, 2026-11-24) found no prior work pairing a fixed state-machine checkpoint with metacognition-axis outcomes, so the finding is stated as a measured instance, not as a first demonstration of checkpoint reuse.
 
 ## 4. Findings
 
@@ -170,19 +171,22 @@ All metrics are deterministic functions of saved run JSONs; judge code, calibrat
 2. Bai, X., et al. (2025). Know Thyself? On the Incapability and Implications of AI Self-Recognition. arXiv:2510.03399.
 3. Estermann, B., Wattenhofer, R. (2025). Reasoning Effort and Problem Complexity: A Scaling Analysis in LLMs. arXiv:2503.15113.
 4. Gao, Z., et al. (2026). Trustworthy Recursive Self-Improvement with Statistical Guarantees. arXiv:2611.10787.
-5. He, Y., et al. (2026). Mechanistic Critics for Sample-Efficient NPU Design-Space Exploration. arXiv:2611.24733.
-6. Hoffmann, J., et al. (2022). Training Compute-Optimal Large Language Models. arXiv:2203.15556.
-7. Kaplan, J., et al. (2020). Scaling Laws for Neural Language Models. arXiv:2001.08361.
-8. Panickssery, A., et al. (2024). LLM Evaluators Recognize and Favor Their Own Generations. arXiv:2404.13076.
-9. Pombal, J., et al. (2026). Self-Preference Bias in Rubric-Based Evaluation of Large Language Models. arXiv:2604.06996.
-10. Scholten, F., et al. (2024). Metacognitive Myopia in Large Language Models. arXiv:2408.05568.
-11. Snell, C., Lee, J., Xu, K., Kumar, A. (2024). Scaling LLM Test-Time Compute Optimally can be More Effective than Scaling Model Parameters. arXiv:2408.03314.
-12. Tamoyan, H., et al. (2025). Factual Self-Awareness in Language Models: Representation, Robustness, and Scaling. arXiv:2505.21399.
-13. Ton, J.-F., et al. (2024). Understanding Chain-of-Thought in LLMs through Information Theory. arXiv:2411.11984.
-14. Wei, J., et al. (2025). BrowseComp: A Simple Yet Challenging Benchmark for Browsing Agents. arXiv:2504.12516.
-15. Yao, Y., et al. (2025). Dr. Bench: A Multidimensional Evaluation for Deep Research Agents. arXiv:2510.02190.
-16. Yang, J., et al. (2026). Quantifying and Mitigating Self-Preference Bias of LLM Judges. arXiv:2604.22891.
-17. Yuan, Z., et al. (2024). LLM Inference Unveiled: Survey and Roofline Model Insights. arXiv:2402.16363.
+5. Ganz, R., Shpigel Nacson, M., Kalyanpur, A., Litman, R. (2026). The Handoff Tax: Continuing Non-Native Trajectories in LLM Agents. arXiv:2608.24358.
+6. He, Y., et al. (2026). Mechanistic Critics for Sample-Efficient NPU Design-Space Exploration. arXiv:2611.24733.
+7. Hoffmann, J., et al. (2022). Training Compute-Optimal Large Language Models. arXiv:2203.15556.
+8. Kaplan, J., et al. (2020). Scaling Laws for Neural Language Models. arXiv:2001.08361.
+9. KC, D., Budathoki, A. (2026). Handoff Debt: The Rediscovery Cost When Coding Agents Take Over Interrupted Tasks. arXiv:2606.02875.
+10. Li, W., Li, G., Li, D., Maeda, K., Ogawa, T., Haseyama, M. (2026). Benchmarking Task Takeover Across Agent Handoffs (HSC-Bench). arXiv:2610.36523.
+11. Panickssery, A., et al. (2024). LLM Evaluators Recognize and Favor Their Own Generations. arXiv:2404.13076.
+12. Pombal, J., et al. (2026). Self-Preference Bias in Rubric-Based Evaluation of Large Language Models. arXiv:2604.06996.
+13. Scholten, F., et al. (2024). Metacognitive Myopia in Large Language Models. arXiv:2408.05568.
+14. Snell, C., Lee, J., Xu, K., Kumar, A. (2024). Scaling LLM Test-Time Compute Optimally can be More Effective than Scaling Model Parameters. arXiv:2408.03314.
+15. Tamoyan, H., et al. (2025). Factual Self-Awareness in Language Models: Representation, Robustness, and Scaling. arXiv:2505.21399.
+16. Ton, J.-F., et al. (2024). Understanding Chain-of-Thought in LLMs through Information Theory. arXiv:2411.11984.
+17. Wei, J., et al. (2025). BrowseComp: A Simple Yet Challenging Benchmark for Browsing Agents. arXiv:2504.12516.
+18. Yao, Y., et al. (2025). Dr. Bench: A Multidimensional Evaluation for Deep Research Agents. arXiv:2510.02190.
+19. Yang, J., et al. (2026). Quantifying and Mitigating Self-Preference Bias of LLM Judges. arXiv:2604.22891.
+20. Yuan, Z., et al. (2024). LLM Inference Unveiled: Survey and Roofline Model Insights. arXiv:2402.16363.
 
 ---
 

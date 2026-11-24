@@ -1,20 +1,20 @@
-# N180: 请求数与对象大小的耦合验证：若 R_total = 100M 次/天，s_avg = 3.6MB，则理论下载量为 360TB/天，与题面 2TB/天 严重不符，
+# N235: 工作点3（高成本低性）：H_l1=0.80, H_l2=0.90，RTT_user_edge_tail_p99=60ms，T_proc_edge=12ms，L1
 
 - **status**: verified
 - **level**: L4
-- **source**: given
+- **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N51
+- **parent_ids**: N61
 
 ## Claim
 
-请求数与对象大小的耦合验证：若 R_total = 100M 次/天，s_avg = 3.6MB，则理论下载量为 360TB/天，与题面 2TB/天 严重不符，表明题面数据隐含了高缓存命中率（Hit_Rate > 99%）或 R_per_user 实际远低于 20，需重新校准 R_per_user 或确认缓存命中率假设
+工作点3（高成本低性）：H_l1=0.80, H_l2=0.90，RTT_user_edge_tail_p99=60ms，T_proc_edge=12ms，L1 Miss项=0.20*30ms=6ms，L2 Miss项=0.20*0.10*80ms=1.6ms，P99_tail ≈ 79.6ms，满足 T=200ms 但回源成本占比高。
 
 ## Corrected Claim
 
-请求数与对象大小的耦合验证：若 R_total = 100M 次/天，s_avg = 3.6MB，则理论下载量为 360TB/天，与题面 2TB/天 严重不符，表明题面数据隐含了高缓存命中率（Hit_Rate > 99%）或 R_per_user 实际远低于 20，需重新校准 R_per_user 或确认缓存命中率假设
+工作点3（高成本低性）：H_l1=0.80, H_l2=0.90，RTT_user_edge_tail_p99=60ms，T_proc_edge=12ms，L1 Miss项=0.20*30ms=6ms，L2 Miss项=0.20*0.10*80ms=1.6ms，P99_tail ≈ 79.6ms，满足 T=200ms 但回源成本占比高。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：100,000,000 * 3.6MB = 360,000,000MB = 360TB，与2TB/天存在巨大差异，推导出的缓存命中率需求（>99.4%）在逻辑上自洽且符合高缓存场景的工程直觉。
+先验知识/题面给定，逻辑校验通过：各项延迟相加（60+12+6+1.6=79.6ms）符合线性叠加模型，且79.6ms < 200ms，数值量级与逻辑自洽。

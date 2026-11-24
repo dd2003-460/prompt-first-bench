@@ -1,20 +1,24 @@
-# N112: 缓存失效期间的回源带宽增量 ΔTraffic_back = R_daily * s_avg * (1-H_peak) - R_daily * s_avg * (
+# N169: 当平均对象大小 s 从 1MB 增至 5MB 时，公有云CDN的带宽成本 C_bandwidth_public 从 (2000GB * ¥0.25/GB) / 
 
-- **status**: pending
+- **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N28
+- **parent_ids**: N43
 
 ## Claim
 
-缓存失效期间的回源带宽增量 ΔTraffic_back = R_daily * s_avg * (1-H_peak) - R_daily * s_avg * (1-H_steady)，即 2TB * 0.2 - 2TB * 0.1 = 0.2TB = 200GB/日，用于计算额外带宽成本。
+当平均对象大小 s 从 1MB 增至 5MB 时，公有云CDN的带宽成本 C_bandwidth_public 从 (2000GB * ¥0.25/GB) / 2048000 * 1000 ≈ ¥0.24/1000req 线性增至 (2000GB * ¥0.25/GB) / 409600 * 1000 ≈ ¥1.22/1000req（假设请求量随s增大而减少，总流量不变）。
 
 ## Corrected Claim
 
-缓存失效期间的回源带宽增量 ΔTraffic_back = R_daily * s_avg * (1-H_peak) - R_daily * s_avg * (1-H_steady)，即 2TB * 0.2 - 2TB * 0.1 = 0.2TB = 200GB/日，用于计算额外带宽成本。
+当平均对象大小 s 从 1MB 增至 5MB 时，公有云CDN的带宽成本 C_bandwidth_public 从 (2000GB * ¥0.25/GB) / 2048000 * 1000 ≈ ¥0.24/1000req 线性增至 (2000GB * ¥0.25/GB) / 409600 * 1000 ≈ ¥1.22/1000req（假设请求量随s增大而减少，总流量不变）。
 
 ## Evidence
 
-父节点级核验失败（LLM 错误）：Expecting value: line 9 column 134 (char 873)
+先验知识/题面给定，逻辑校验通过：计算过程 (2000*0.25)/2048000*1000 ≈ 0.244 和 (2000*0.25)/409600*1000 ≈ 1.220 均正确，且符合总流量不变时带宽成本与平均对象大小成正比的逻辑。
+
+## Search Query
+
+Alibaba Cloud CDN bandwidth cost per GB 2024

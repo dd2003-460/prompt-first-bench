@@ -1,20 +1,20 @@
-# N271: 公有云日志存储与分析成本计算：Log_Cost_Monthly = Log_Volume_Monthly × Unit_Price_Log_GB，其中 Unit
+# N324: D_user_edge_p99 的几何计算需基于用户分布密度 ρ(u) 与 POP 位置集合 {P_i}，计算第 99 百分位的欧氏距离或路由距离 d_99 =
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N94
+- **parent_ids**: N101
 
 ## Claim
 
-公有云日志存储与分析成本计算：Log_Cost_Monthly = Log_Volume_Monthly × Unit_Price_Log_GB，其中 Unit_Price_Log_GB 为云厂商日志服务单价（阿里云SLS约为¥0.2-0.5/GB/月，含索引费用），若 Log_Volume_Monthly = 3000TB，则 Log_Cost_Monthly ≈ 3000×1024×0.35 ≈ ¥1,075,200/月，远高于N94声称的5k-15k元/月，表明N94的估算可能仅针对抽样日志或压缩后数据，需明确计费口径是原始日志还是采样日志。
+D_user_edge_p99 的几何计算需基于用户分布密度 ρ(u) 与 POP 位置集合 {P_i}，计算第 99 百分位的欧氏距离或路由距离 d_99 = min_i(dist(u, P_i))，而非简单平均。
 
 ## Corrected Claim
 
-公有云日志存储与分析成本计算：Log_Cost_Monthly = Log_Volume_Monthly × Unit_Price_Log_GB，其中 Unit_Price_Log_GB 为云厂商日志服务单价（阿里云SLS约为¥0.2-0.5/GB/月，含索引费用），若 Log_Volume_Monthly = 3000TB，则 Log_Cost_Monthly ≈ 3000×1024×0.35 ≈ ¥1,075,200/月，远高于N94声称的5k-15k元/月，表明N94的估算可能仅针对抽样日志或压缩后数据，需明确计费口径是原始日志还是采样日志。
+D_user_edge_p99 的几何计算需基于用户分布密度 ρ(u) 与 POP 位置集合 {P_i}，计算第 99 百分位的欧氏距离或路由距离 d_99 = min_i(dist(u, P_i))，而非简单平均。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：3000TB转换为GB为3,072,000GB，乘以单价0.35元/GB/月，计算结果约为1,075,200元/月，量级与逻辑均正确，且远高于5k-15k元/月的对比结论成立。
+先验知识/题面给定，逻辑校验通过：基于用户分布密度和POP位置计算第99百分位距离是标准的网络覆盖/延迟建模方法，逻辑自洽且符合工程直觉。

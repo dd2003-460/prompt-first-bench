@@ -1,24 +1,30 @@
-# N104: 公有云CDN的SLA 99.99% 对应的月度不可用时间上限为 4.32 分钟（计算式：60min × 24h × 30d × (1 - 0.9999)），P9
+# N134: 阿里云CDN在中国大陆的官方流量单价为 ¥0.24/GB（标准计费），在特定促销或高用量阶梯下可低至 ¥0.15-0.20/GB
 
-- **status**: verified
+- **status**: degraded
 - **level**: L3
-- **source**: knowledge
+- **source**: search
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N27, N28, N29
+- **rework_count**: 1
+- **parent_ids**: N33
 
 ## Claim
 
-公有云CDN的SLA 99.99% 对应的月度不可用时间上限为 4.32 分钟（计算式：60min × 24h × 30d × (1 - 0.9999)），P99 延迟合规性不直接受此可用性 SLA 约束，而是受 QoS 延迟承诺约束
+阿里云CDN在中国大陆的官方流量单价为 ¥0.24/GB（标准计费），在特定促销或高用量阶梯下可低至 ¥0.15-0.20/GB
 
 ## Corrected Claim
 
-公有云CDN的SLA 99.99% 对应的月度不可用时间上限为 4.32 分钟（计算式：60min × 24h × 30d × (1 - 0.9999)），P99 延迟合规性不直接受此可用性 SLA 约束，而是受 QoS 延迟承诺约束
+阿里云CDN在中国大陆采用按流量阶梯计费模式，具体单价随用量阶梯及促销活动动态调整，通常处于较低区间（如0.15-0.24元/GB量级），具体数值需以官网实时报价为准。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：计算式 60*24*30*0.0001 = 4.32 分钟数学正确；SLA 定义仅约束可用性（Up-time），不直接约束延迟（Latency），延迟由 QoS 或独立 SLA 条款约束，逻辑自洽。
+[质询]具体数值（¥0.24/GB 及促销价 ¥0.15-0.20/GB）属于经验事实，参考来源摘要中仅提及计费模式（按流量、按带宽）和阶梯计费机制，未直接列出具体单价数值，无法从现有摘要中直接验证该特定价格点。 | 来源[1][2][3]确认了阿里云CDN存在按流量计费及阶梯价格机制，逻辑自洽，但摘要未包含具体单价数值，属于间接支持，且具体价格随时间/活动变动，需降级为定性表述。
 
 ## Search Query
 
-cloud CDN SLA 99.99 downtime minutes calculation
+Alibaba Cloud CDN pricing China per GB 2024
+
+## Retrieval Sources
+
+- {'url': 'https://www.aliyun.com/price/detail/cdn&rut=7deffc4f1d34859bcb7594b9f5ea62952b3f14c06ecc370a5099c3c282977b06', 'type': 'ddg', 'title': '阿里云定价_CDN价格详情'}
+- {'url': 'https://help.aliyun.com/zh/cdn/product-overview/billing-overview&rut=5607cac578e6a0a2822f10843ed70c58160107634276405ba09db4d9580720b7', 'type': 'ddg', 'title': 'Cdn如何计费-cdn (Cdn)-阿里云帮助中心'}
+- {'url': 'https://developer.aliyun.com/article/1708278&rut=2ddc55f04c3ee490ae5b44019f150c2428eac2400670b83d41207aae16acf9e2', 'type': 'ddg', 'title': '2026最新阿里云cdn收费标准：不同计费模式价格表（基础服务费和增值服务费用整理）-阿里云开发者社区'}

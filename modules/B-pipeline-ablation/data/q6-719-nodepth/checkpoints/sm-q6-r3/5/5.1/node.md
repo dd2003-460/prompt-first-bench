@@ -1,24 +1,30 @@
-# N27: 公有云CDN应对流量突增的弹性能力为无限弹性（自动扩容），冗余能力为多AZ多Region，单点故障风险为0（SLA 99.99%）
+# N33: 公有云CDN的带宽单价按流量计费，单位价格为 ¥/GB，阿里云和Cloudflare的单价差异约为 20-50%，具体值需查询最新价目表。
 
 - **status**: degraded
 - **level**: L2
-- **source**: knowledge
+- **source**: search
 - **edge_type**: cartesian
 - **rework_count**: 1
 - **parent_ids**: N5
 
 ## Claim
 
-公有云CDN应对流量突增的弹性能力为无限弹性（自动扩容），冗余能力为多AZ多Region，单点故障风险为0（SLA 99.99%）
+公有云CDN的带宽单价按流量计费，单位价格为 ¥/GB，阿里云和Cloudflare的单价差异约为 20-50%，具体值需查询最新价目表。
 
 ## Corrected Claim
 
-公有云CDN具备高弹性扩容能力（自动应对流量突增），采用多AZ多Region冗余架构，显著降低单点故障风险（SLA通常达99.99%）。
+公有云CDN的带宽单价可按流量计费，单位价格为 ¥/GB（或 $/GB），阿里云和Cloudflare的具体单价需查询最新价目表，两者存在差异但具体比例随地域和用量波动。
 
 ## Evidence
 
-[质询]「单点故障风险为0」是绝对化表述，在工程实践中任何系统都无法保证风险绝对为0，且「无限弹性」在物理资源限制下也不严谨，属于过度承诺。 | 先验知识/题面给定，逻辑校验通过，但绝对化表述（风险为0、无限弹性）缺乏严谨性，降级为定性表述。
+[质询]陈述中关于阿里云和Cloudflare单价差异约为20-50%的具体数值缺乏来源支持，且不同地域、不同流量阶梯下的价格差异极大，该固定百分比范围可能不准确或具有误导性。 | 来源[1][2][3]证实阿里云CDN支持按流量计费且单位为GB，但所有来源均未提供Cloudflare的价格数据，无法验证20-50%的差异范围，属于经验事实缺来源支持。
 
 ## Search Query
 
-public cloud CDN SLA 99.99% multi-region
+Alibaba Cloud CDN pricing per GB Cloudflare bandwidth cost comparison 2024
+
+## Retrieval Sources
+
+- {'url': 'https://www.aliyun.com/price/detail/cdn&rut=7deffc4f1d34859bcb7594b9f5ea62952b3f14c06ecc370a5099c3c282977b06', 'type': 'ddg', 'title': '阿里云定价_CDN价格详情'}
+- {'url': 'https://help.aliyun.com/zh/cdn/product-overview/billing-overview&rut=5607cac578e6a0a2822f10843ed70c58160107634276405ba09db4d9580720b7', 'type': 'ddg', 'title': 'Cdn如何计费-cdn (Cdn)-阿里云帮助中心'}
+- {'url': 'https://developer.aliyun.com/article/1708278&rut=2ddc55f04c3ee490ae5b44019f150c2428eac2400670b83d41207aae16acf9e2', 'type': 'ddg', 'title': '2026最新阿里云cdn收费标准：不同计费模式价格表（基础服务费和增值服务费用整理）-阿里云开发者社区'}

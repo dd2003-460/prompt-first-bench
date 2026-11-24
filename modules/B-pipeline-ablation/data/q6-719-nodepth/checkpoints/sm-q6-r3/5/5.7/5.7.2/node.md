@@ -1,24 +1,20 @@
-# N118: 公有云CDN弹性扩容的冷启动延迟（Cold Start Latency）通常为5-15秒，在突发流量（如热点事件）前5-15秒内P99延迟会因连接建立和资源调度
+# N158: 单POP月度机房租赁及电力成本 C_pop_maintenance = P_rack * N_racks + P_power * PUE * N_racks *
 
-- **status**: verified
+- **status**: pending
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N33
+- **parent_ids**: N39
 
 ## Claim
 
-公有云CDN弹性扩容的冷启动延迟（Cold Start Latency）通常为5-15秒，在突发流量（如热点事件）前5-15秒内P99延迟会因连接建立和资源调度显著上升，需量化该时段内的额外延迟成本。
+单POP月度机房租赁及电力成本 C_pop_maintenance = P_rack * N_racks + P_power * PUE * N_racks * 24h * 30d，其中 P_rack (机柜月租) 约为 3000-8000 元/机柜，N_racks 约为 1-2 个/POP，P_power (单柜功耗) 约为 5-8 kW，PUE 通常为 1.3-1.5
 
 ## Corrected Claim
 
-公有云CDN弹性扩容的冷启动延迟（Cold Start Latency）通常为5-15秒，在突发流量（如热点事件）前5-15秒内P99延迟会因连接建立和资源调度显著上升，需量化该时段内的额外延迟成本。
+单POP月度机房租赁及电力成本 C_pop_maintenance = P_rack * N_racks + P_power * PUE * N_racks * 24h * 30d，其中 P_rack (机柜月租) 约为 3000-8000 元/机柜，N_racks 约为 1-2 个/POP，P_power (单柜功耗) 约为 5-8 kW，PUE 通常为 1.3-1.5
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
-
-## Search Query
-
-public cloud CDN cold start latency burst traffic p99
+父节点级核验未通过：有冗余（子节点分别代表了高成本和低成本两种典型场景，逻辑上互斥且覆盖了主要分布区间，正交且完备。然而，从知识分解的角度看，这两个子节点本质上是同一个公式在不同参数（租金、功耗、电价）下的具体实例化计算，属于同一变量的不同取值，存在结构性冗余。）

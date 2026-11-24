@@ -1,6 +1,6 @@
-# N25: 自建10个POP点的安全加固与故障排查运维人力投入为1人/月（Security/Incident Response），对应人力成本为1×25k=25k元/月，安
+# N28: 公有云CDN的缓存层级为两级：L1边缘节点（高并发低容量）和L2中间层节点（低并发高容量），回源路径为 L1 Miss -> L2 -> 源站，L2命中率为 H
 
-- **status**: pending
+- **status**: verified
 - **level**: L2
 - **source**: knowledge
 - **edge_type**: cartesian
@@ -9,16 +9,12 @@
 
 ## Claim
 
-自建10个POP点的安全加固与故障排查运维人力投入为1人/月（Security/Incident Response），对应人力成本为1×25k=25k元/月，安全工具链成本（WAF+IDS）为5k元/月
+公有云CDN的缓存层级为两级：L1边缘节点（高并发低容量）和L2中间层节点（低并发高容量），回源路径为 L1 Miss -> L2 -> 源站，L2命中率为 H_L2。
 
 ## Corrected Claim
 
-自建10个POP点的安全加固与故障排查运维人力投入为1人/月（Security/Incident Response），对应人力成本为1×25k=25k元/月，安全工具链成本（WAF+IDS）为5k元/月
+公有云CDN的缓存层级为两级：L1边缘节点（高并发低容量）和L2中间层节点（低并发高容量），回源路径为 L1 Miss -> L2 -> 源站，L2命中率为 H_L2。
 
 ## Evidence
 
-父节点级核验未通过：不完备（子节点分别处理了‘工具成本’和‘人力成本敏感性’，两者维度不同，具有正交性。但父节点明确包含‘故障排查运维人力投入’这一固定基线成本（1人/月），而子节点仅提供了人力成本的‘敏感性/变化区间’，未明确分解出基线人力成本项，导致对父节点中固定人力成本部分的覆盖不完整。）
-
-## Search Query
-
-security engineer monthly salary China 2024
+先验知识/题面给定，逻辑校验通过

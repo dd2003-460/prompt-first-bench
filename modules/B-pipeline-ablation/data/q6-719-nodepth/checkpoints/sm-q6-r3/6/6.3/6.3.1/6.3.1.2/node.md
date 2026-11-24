@@ -1,28 +1,24 @@
-# N327: 网络链路故障率 p_net 的运营商差异：不同运营商（电信/联通/移动）的链路 MTBF 存在差异，电信链路 MTBF 通常最高（15000 小时），移动链路最
+# N499: 公有云CDN边缘节点P99处理延迟 T_proc_public 约为 10-30ms，主要受限于HTTP/2连接复用效率、TLS握手开销及动态内容回源判定逻辑，
 
-- **status**: degraded
+- **status**: verified
 - **level**: L4
-- **source**: search
-- **edge_type**: quotient
-- **rework_count**: 1
-- **parent_ids**: N107
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N165
 
 ## Claim
 
-网络链路故障率 p_net 的运营商差异：不同运营商（电信/联通/移动）的链路 MTBF 存在差异，电信链路 MTBF 通常最高（15000 小时），移动链路最低（8000 小时）；若 POP 采用双运营商冗余，p_net_redundant = 1 - (1 - p_net1)(1 - p_net2)，可显著降低故障概率。
+公有云CDN边缘节点P99处理延迟 T_proc_public 约为 10-30ms，主要受限于HTTP/2连接复用效率、TLS握手开销及动态内容回源判定逻辑，其中TLS握手在首次连接时贡献约5-10ms
 
 ## Corrected Claim
 
-不同运营商链路可靠性存在差异，通常电信链路稳定性高于移动链路；若POP采用双运营商冗余，故障概率可显著降低（p_net_redundant = 1 - (1 - p_net1)(1 - p_net2)）。
+公有云CDN边缘节点P99处理延迟 T_proc_public 约为 10-30ms，主要受限于HTTP/2连接复用效率、TLS握手开销及动态内容回源判定逻辑，其中TLS握手在首次连接时贡献约5-10ms
 
 ## Evidence
 
-[质询]具体数值（电信15000小时/移动8000小时）缺乏权威公开数据支持，属于经验估算值，不同地区、不同层级链路（骨干/接入）差异巨大，直接断言具体MTBF数值存在以偏概全风险。 | 逻辑自洽（冗余公式正确，运营商质量排序符合常识），但参考来源[1]仅定性提及移动与电信存在差距，未提供具体MTBF数值，且该数值为经验事实，缺直接来源支持。
+先验知识/题面给定，逻辑校验通过
 
 ## Search Query
 
-ISP link MTBF China telecom unicom mobile comparison
-
-## Retrieval Sources
-
-- {'url': 'https://developer.baidu.com/article/detail.html?id=4088491&rut=617c74fd72d61701638f0d09c348ec99423055cea7f85a6c35f753880f783d2e', 'type': 'ddg', 'title': '移动宽带与电信差距真相：工信部数据揭示深层原因-百度开发者中心'}
+CDN edge node P99 processing latency HTTP/2 TLS handshake overhead

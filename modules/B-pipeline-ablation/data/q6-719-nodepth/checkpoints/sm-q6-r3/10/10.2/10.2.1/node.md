@@ -1,24 +1,24 @@
-# N379: 电力成本C_power_monthly：单台服务器平均功耗P_server_avg=300W，10个POP共20台服务器，月电费 = 20 * 0.3kW * 
+# N574: 自建 10 个 POP 点的具体选址列表：北京、上海、广州、深圳、成都、武汉、西安、南京、杭州、郑州，这 10 个城市覆盖了中国 60% 以上的互联网用户和 8
 
-- **status**: verified
+- **status**: degraded
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N128
+- **rework_count**: 1
+- **parent_ids**: N188
 
 ## Claim
 
-电力成本C_power_monthly：单台服务器平均功耗P_server_avg=300W，10个POP共20台服务器，月电费 = 20 * 0.3kW * 24h * 30d * ¥0.8/kWh = ¥3,456/月；若考虑PUE=1.5，实际电费为¥5,184/月。
+自建 10 个 POP 点的具体选址列表：北京、上海、广州、深圳、成都、武汉、西安、南京、杭州、郑州，这 10 个城市覆盖了中国 60% 以上的互联网用户和 80% 以上的商业流量。
 
 ## Corrected Claim
 
-电力成本C_power_monthly：单台服务器平均功耗P_server_avg=300W，10个POP共20台服务器，月电费 = 20 * 0.3kW * 24h * 30d * ¥0.8/kWh = ¥3,456/月；若考虑PUE=1.5，实际电费为¥5,184/月。
+自建 10 个 POP 点的具体选址列表：北京、上海、广州、深圳、成都、武汉、西安、南京、杭州、郑州，这 10 个城市是中国主要的互联网和商业流量中心。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：基础电费计算 20 * 0.3 * 24 * 30 * 0.8 = 3456 正确；PUE 调整后 3456 * 1.5 = 5184 正确。
+[质询]「覆盖60%以上互联网用户和80%以上商业流量」属于具体的经验统计数据，缺乏权威来源支持，且不同统计口径（如活跃用户vs注册用户，商业流量vs总流量）下数值波动较大，存在夸大或口径混淆的风险。 | 经验事实，逻辑自洽但缺来源支持
 
 ## Search Query
 
-server power consumption 300W data center PUE 1.5 electricity cost China 0.8 CNY/kWh
+China top 10 cities internet users traffic distribution

@@ -1,24 +1,20 @@
-# N298: 隐性运维成本规模效应指数 β 的推导：通过对比 N=10 时总成本 105k 元/月与 N=20 时的预估成本，若 C_total(N) = C_fixed +
+# N378: 两级缓存的整体回源率 H_miss_total = (1 - H_L1_self) * (1 - H_L2_self)，该值直接决定回源带宽需求 B_peak_
 
-- **status**: verified
+- **status**: degraded
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: quotient
-- **rework_count**: 0
-- **parent_ids**: N103
+- **rework_count**: 1
+- **parent_ids**: N116
 
 ## Claim
 
-隐性运维成本规模效应指数 β 的推导：通过对比 N=10 时总成本 105k 元/月与 N=20 时的预估成本，若 C_total(N) = C_fixed + C_var_per_pop × N，则 β 并非严格 1/10，而是取决于 C_fixed 在总成本中的占比，需代入具体 C_fixed 和 C_var 值验证 116k 的估算是否成立。
+两级缓存的整体回源率 H_miss_total = (1 - H_L1_self) * (1 - H_L2_self)，该值直接决定回源带宽需求 B_peak_origin 和回源成本 C_origin，若 H_miss_total > 0.1，则回源成本占比将超过总带宽成本的 20%。
 
 ## Corrected Claim
 
-隐性运维成本规模效应指数 β 的推导：通过对比 N=10 时总成本 105k 元/月与 N=20 时的预估成本，若 C_total(N) = C_fixed + C_var_per_pop × N，则 β 并非严格 1/10，而是取决于 C_fixed 在总成本中的占比，需代入具体 C_fixed 和 C_var 值验证 116k 的估算是否成立。
+两级缓存的整体回源率 H_miss_total = (1 - H_L1_self) * (1 - H_L2_self)，该值直接决定回源带宽需求 B_peak_origin 和回源成本 C_origin。回源成本占比取决于回源率及回源与边缘带宽的单位成本比，具体阈值需结合实际定价模型计算。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：成本模型 C_total(N) = C_fixed + C_var_per_pop × N 中，若 C_fixed > 0，则边际成本递减，规模效应指数 β 确实不等于 1（或 1/10 等线性比例），而是取决于固定成本占比，推导逻辑自洽。
-
-## Search Query
-
-operational cost scaling law edge computing nodes sub-linear growth
+[质询]陈述中关于“H_miss_total > 0.1 则回源成本占比超过总带宽成本的 20%”的定量结论缺乏前提条件（如回源带宽与边缘带宽的单价比、流量分布等），属于经验性断言，无法仅从缓存命中率公式推导得出，存在逻辑跳跃。 | source=knowledge，公式 H_miss_total = (1 - H_L1_self) * (1 - H_L2_self) 逻辑自洽且符合两级缓存原理；但后半部分关于成本占比的定量阈值（0.1对应20%）属于经验事实，缺乏来源支持且依赖未给定的经济参数，故降级。

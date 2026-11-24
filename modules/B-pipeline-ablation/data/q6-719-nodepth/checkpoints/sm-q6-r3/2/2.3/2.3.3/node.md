@@ -1,20 +1,20 @@
-# N58: 覆盖半径到回源延迟的转换系数：光速在光纤中约为 200,000 km/s，单程延迟 L_one_way = R_cover / 200,000 * 1000 m
+# N78: 混合策略总基础设施成本 C_infra_mix 为自建部分与公有云部分的加权平均，即 C_infra_mix = P_core * C_infra_self_p
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N13
+- **parent_ids**: N14
 
 ## Claim
 
-覆盖半径到回源延迟的转换系数：光速在光纤中约为 200,000 km/s，单程延迟 L_one_way = R_cover / 200,000 * 1000 ms；往返延迟 RTT_base = 2 * L_one_way + L_switching（交换机处理延迟 1-5ms）。
+混合策略总基础设施成本 C_infra_mix 为自建部分与公有云部分的加权平均，即 C_infra_mix = P_core * C_infra_self_per_req + (1-P_core) * C_infra_cloud_per_req，其中 P_core 为核心区域流量占比。
 
 ## Corrected Claim
 
-覆盖半径到回源延迟的转换系数：光速在光纤中约为 200,000 km/s，单程延迟 L_one_way = R_cover / 200,000 * 1000 ms；往返延迟 RTT_base = 2 * L_one_way + L_switching（交换机处理延迟 1-5ms）。
+混合策略总基础设施成本 C_infra_mix 为自建部分与公有云部分的加权平均，即 C_infra_mix = P_core * C_infra_self_per_req + (1-P_core) * C_infra_cloud_per_req，其中 P_core 为核心区域流量占比。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：光速在光纤中约为真空光速的2/3（约200,000 km/s），公式推导符合物理直觉，交换机延迟量级合理。
+父节点级核验通过：正交+完备+无冗余（子节点分别对应公式中的两个具体数值工作点（高占比、中低占比）和一个决策边界条件，三者逻辑独立且互补，共同覆盖了公式在不同参数区间下的表现及策略切换阈值，无重复或矛盾。）

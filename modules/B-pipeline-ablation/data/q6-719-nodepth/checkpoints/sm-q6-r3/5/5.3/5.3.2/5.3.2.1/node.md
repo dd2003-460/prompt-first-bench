@@ -1,20 +1,24 @@
-# N291: 单POP月度出网流量需求 Q_pop = (Total_Daily_Download * 30 * (1 - H_pop)) / 10，其中 Total_Dai
+# N449: Cloudflare Free和Pro套餐对中国大陆用户不提供直接服务（需通过合作伙伴或第三方代理），因此其$0请求计费在中国大陆场景下实际不可用，需计入接入成
 
-- **status**: verified
+- **status**: degraded
 - **level**: L4
-- **source**: knowledge
+- **source**: search
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N96
+- **rework_count**: 1
+- **parent_ids**: N141
 
 ## Claim
 
-单POP月度出网流量需求 Q_pop = (Total_Daily_Download * 30 * (1 - H_pop)) / 10，其中 Total_Daily_Download = 2TB，H_pop 为单POP稳态缓存命中率（假设85%），计算得 Q_pop ≈ 900GB/月。
+Cloudflare Free和Pro套餐对中国大陆用户不提供直接服务（需通过合作伙伴或第三方代理），因此其$0请求计费在中国大陆场景下实际不可用，需计入接入成本或改用其他节点
 
 ## Corrected Claim
 
-单POP月度出网流量需求 Q_pop = (Total_Daily_Download * 30 * (1 - H_pop)) / 10，其中 Total_Daily_Download = 2TB，H_pop 为单POP稳态缓存命中率（假设85%），计算得 Q_pop ≈ 900GB/月。
+Cloudflare Free和Pro套餐在中国大陆的直接可用性受限，通常需通过合规合作伙伴或特定配置接入，因此其标准$0请求计费模式在中国大陆场景下可能不适用或需额外成本，建议评估接入可行性或考虑替代节点。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：2TB * 30 * (1 - 0.85) / 10 = 60TB * 0.15 / 10 = 9TB / 10 = 0.9TB = 900GB，计算无误。
+[质询]该陈述包含具体的商业政策细节（如'需通过合作伙伴或第三方代理'、'$0请求计费'的具体适用性），属于经验事实。由于检索失败，无法验证Cloudflare当前对中国大陆的具体服务策略是否完全如陈述所述（例如，是否真的完全不可用，或者是否有特定的合规通道），且'实际不可用'的结论可能过于绝对，忽略了部分企业级合规接入的可能性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+Cloudflare China availability partners pricing mainland China

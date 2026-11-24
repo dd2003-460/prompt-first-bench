@@ -1,24 +1,24 @@
-# N290: DDoS_Attack_Frequency_Cost_Delta = (Monthly_Attacks - Annual_Attacks/12) × (MTTD
+# N364: L1 未命中率 Miss_L1 在 2TB 日均下载量下的估算值约为 0.05-0.15，基于 L1 边缘节点（公有云或自建 POP）通常配置 500GB-2T
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N101
+- **parent_ids**: N113
 
 ## Claim
 
-DDoS_Attack_Frequency_Cost_Delta = (Monthly_Attacks - Annual_Attacks/12) × (MTTD_Hours × Hourly_Sec_Cost + MTTR_Hours × Hourly_Sec_Cost + Mitigation_Fee_Per_Event)，其中 MTTD/MTTR 为平均检测/响应时间，Mitigation_Fee 为云清洗服务单次费用（典型 ¥5k-20k/次）。
+L1 未命中率 Miss_L1 在 2TB 日均下载量下的估算值约为 0.05-0.15，基于 L1 边缘节点（公有云或自建 POP）通常配置 500GB-2TB 本地 SSD 缓存容量及 24 小时 TTL 策略，对于高热度图片内容（Zipf 分布）的缓存效率。
 
 ## Corrected Claim
 
-DDoS_Attack_Frequency_Cost_Delta = (Monthly_Attacks - Annual_Attacks/12) × (MTTD_Hours × Hourly_Sec_Cost + MTTR_Hours × Hourly_Sec_Cost + Mitigation_Fee_Per_Event)，其中 MTTD/MTTR 为平均检测/响应时间，Mitigation_Fee 为云清洗服务单次费用（典型 ¥5k-20k/次）。
+L1 未命中率 Miss_L1 在 2TB 日均下载量下的估算值约为 0.05-0.15，基于 L1 边缘节点（公有云或自建 POP）通常配置 500GB-2TB 本地 SSD 缓存容量及 24 小时 TTL 策略，对于高热度图片内容（Zipf 分布）的缓存效率。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+先验知识/题面给定，逻辑校验通过：基于Zipf分布特性，500GB-2TB缓存容量在2TB日均流量下覆盖头部热点内容，0.05-0.15的未命中率符合CDN缓存效率的工程经验量级。
 
 ## Search Query
 
-DDoS mitigation service cost per event incident fee
+CDN L1 cache miss rate 2TB daily traffic 500GB SSD

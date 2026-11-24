@@ -1,20 +1,24 @@
-# N82: 公有云CDN下行平均带宽需求 = (2TB/day) / (24h × 3600s) ≈ 9.88 Mbps，若考虑峰值系数2.0，峰值下行带宽需求约为 19.
+# N96: 平均单个短视频大小 s_vid，基于典型 C 端短视频参数（H.264/HEVC，分辨率 720p，时长 15s，码率 2-4 Mbps）估算，典型值约为 5-
 
-- **status**: verified
+- **status**: pending
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N18, N19, N20
+- **parent_ids**: N22
 
 ## Claim
 
-公有云CDN下行平均带宽需求 = (2TB/day) / (24h × 3600s) ≈ 9.88 Mbps，若考虑峰值系数2.0，峰值下行带宽需求约为 19.76 Mbps。
+平均单个短视频大小 s_vid，基于典型 C 端短视频参数（H.264/HEVC，分辨率 720p，时长 15s，码率 2-4 Mbps）估算，典型值约为 5-10 MB，取中值 7.5 MB = 0.00713 GB，[时效待核]。
 
 ## Corrected Claim
 
-公有云CDN下行平均带宽需求 = (2TB/day) / (24h × 3600s) ≈ 9.88 Mbps，若考虑峰值系数2.0，峰值下行带宽需求约为 19.76 Mbps。
+平均单个短视频大小 s_vid，基于典型 C 端短视频参数（H.264/HEVC，分辨率 720p，时长 15s，码率 2-4 Mbps）估算，典型值约为 5-10 MB，取中值 7.5 MB = 0.00713 GB，[时效待核]。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：2TB/day 换算为 2*1024*1024*1024*8 / (24*3600) ≈ 9.88 Mbps，乘以峰值系数 2.0 得 19.76 Mbps，计算无误。
+父节点级核验未通过：有冗余（子节点在参数组合上互斥（正交），且覆盖了低、中、高不同场景（完备）。但本质上，这三个子节点只是同一公式 s_vid = (码率 * 时长) / 8 在不同输入参数下的计算结果，属于同一参数的离散取值，而非结构性的分解维度，因此存在冗余。）
+
+## Search Query
+
+average short video file size 720p 15 seconds bitrate

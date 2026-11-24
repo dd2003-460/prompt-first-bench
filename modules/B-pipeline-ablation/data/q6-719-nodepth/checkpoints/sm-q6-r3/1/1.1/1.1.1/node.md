@@ -1,20 +1,24 @@
-# N40: 物理距离 d 的计算公式为 Haversine 公式：d = 2R × arcsin(sqrt(sin²((lat2-lat1)/2) + cos(lat1)c
+# N50: P99 延迟目标 T 的行业基准值：对于 C 端图片/短视频平台，P99 延迟的行业 SLA 标准通常为 200ms（宽松）或 100ms（严格），需根据业务对
 
-- **status**: pending
+- **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N6
+- **parent_ids**: N7
 
 ## Claim
 
-物理距离 d 的计算公式为 Haversine 公式：d = 2R × arcsin(sqrt(sin²((lat2-lat1)/2) + cos(lat1)cos(lat2)sin²((lon2-lon1)/2)))，其中 R=6371km，lat/lon 为用户坐标与最近 POP 坐标
+P99 延迟目标 T 的行业基准值：对于 C 端图片/短视频平台，P99 延迟的行业 SLA 标准通常为 200ms（宽松）或 100ms（严格），需根据业务对用户体验的敏感度选择具体阈值。
 
 ## Corrected Claim
 
-物理距离 d 的计算公式为 Haversine 公式：d = 2R × arcsin(sqrt(sin²((lat2-lat1)/2) + cos(lat1)cos(lat2)sin²((lon2-lon1)/2)))，其中 R=6371km，lat/lon 为用户坐标与最近 POP 坐标
+P99 延迟目标 T 的行业基准值：对于 C 端图片/短视频平台，P99 延迟的行业 SLA 标准通常为 200ms（宽松）或 100ms（严格），需根据业务对用户体验的敏感度选择具体阈值。
 
 ## Evidence
 
-父节点级核验未通过：不完备, 有冗余（子节点本质上是同一物理模型（距离对RTT的影响）在三个不同距离量级下的具体实例化，属于参数取值不同而非概念正交；且父节点核心是‘Haversine公式定义’，子节点未覆盖公式变量定义、适用前提或边界条件等关键方面，仅展示了应用结果。）
+父节点级核验通过：正交+完备+无冗余（子节点详细阐述了父节点中提到的两个基准值（100ms和200ms）分别对应的具体业务场景（高频浏览 vs 视频起播/详情），不仅覆盖了父节点的所有关键信息，还补充了选择依据，逻辑清晰且无内部矛盾。由于只有一个子节点，不存在子节点间的正交性或冗余问题。）
+
+## Search Query
+
+CDN P99 latency SLA standard image video platform 200ms 100ms

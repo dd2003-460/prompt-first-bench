@@ -1,20 +1,24 @@
-# N139: 长期 ROI 判断阈值：ΔLTV > Unit_Cost_Diff 的临界条件为 ΔRetention > Unit_Cost_Diff / (LTV_Base
+# N186: 无 BGP 接入时的跨网延迟惩罚 ΔT_cross (ms)：当用户运营商与 POP 接入运营商不一致时，P99 延迟增加 ΔT_cross ≈ 15-25ms
 
-- **status**: verified
+- **status**: pending
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N39
+- **parent_ids**: N47
 
 ## Claim
 
-长期 ROI 判断阈值：ΔLTV > Unit_Cost_Diff 的临界条件为 ΔRetention > Unit_Cost_Diff / (LTV_Base × Retention_Elasticity)，若 Unit_Cost_Diff = ¥0.05/用户/月，LTV_Base = ¥100，Elasticity = 1.2，则临界 ΔRetention > 0.00042（0.042%），即 P99 延迟需降低约 4.2ms 才能覆盖成本差。
+无 BGP 接入时的跨网延迟惩罚 ΔT_cross (ms)：当用户运营商与 POP 接入运营商不一致时，P99 延迟增加 ΔT_cross ≈ 15-25ms，需纳入 P99_self 的计算。
 
 ## Corrected Claim
 
-长期 ROI 判断阈值：ΔLTV > Unit_Cost_Diff 的临界条件为 ΔRetention > Unit_Cost_Diff / (LTV_Base × Retention_Elasticity)，若 Unit_Cost_Diff = ¥0.05/用户/月，LTV_Base = ¥100，Elasticity = 1.2，则临界 ΔRetention > 0.00042（0.042%），即 P99 延迟需降低约 4.2ms 才能覆盖成本差。
+无 BGP 接入时的跨网延迟惩罚 ΔT_cross (ms)：当用户运营商与 POP 接入运营商不一致时，P99 延迟增加 ΔT_cross ≈ 15-25ms，需纳入 P99_self 的计算。
 
 ## Evidence
 
-父节点级核验通过：正交+完备+无冗余（子节点分别对应了临界值计算（中性价比/盈亏平衡）、高于临界值的可行场景（低延迟/高成本）以及低于临界值的不可行场景（高延迟/低成本）。三者基于同一数学模型（ROI = ΔLTV - Unit_Cost_Diff）的不同参数取值区间进行划分，逻辑上互斥且共同覆盖了阈值判断的正负两侧及边界，符合正交性和完备性要求。虽然它们本质上是同一公式在不同参数下的应用，但在学术分解中，将'边界条件'、'正向验证'和'负向反例'作为独立节点有助于清晰展示判断逻辑的完整性，不属于冗余。）
+父节点级核验未通过：非正交, 不完备, 有冗余（子节点存在逻辑矛盾与冗余。子节点1计算基准值为14ms取整15ms，子节点3声称P99上限为30-40ms，这与父节点明确定义的15-25ms范围直接矛盾。此外，子节点1（基准）和子节点2（距离修正）本质上是同一个函数 ΔT_cross(d) 的不同分段或参数，属于冗余拆分。）
+
+## Search Query
+
+CDN POP cross-ISP latency penalty ms

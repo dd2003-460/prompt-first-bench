@@ -1,26 +1,26 @@
-# N39: 决策敏感性分析指标：当自建策略的 P99 延迟降低 1ms 带来的用户留存率提升转化为 LTV（生命周期价值）增加量 ΔLTV，若 ΔLTV > (Self_B
+# N47: 中国主要互联网骨干网（电信、联通、移动）之间的跨网延迟差异，典型 RTT 差值为 10-30ms，自建 POP 若未部署多线 BGP 接入，P99 延迟将受限于
 
-- **status**: verified
+- **status**: pending
 - **level**: L2
 - **source**: search
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 1
 - **parent_ids**: (root)
 
 ## Claim
 
-决策敏感性分析指标：当自建策略的 P99 延迟降低 1ms 带来的用户留存率提升转化为 LTV（生命周期价值）增加量 ΔLTV，若 ΔLTV > (Self_Built_Cost - Cloud_Cost) / Monthly_Users，则自建策略在长期 ROI 上优于公有云。
+中国主要互联网骨干网（电信、联通、移动）之间的跨网延迟差异，典型 RTT 差值为 10-30ms，自建 POP 若未部署多线 BGP 接入，P99 延迟将受限于跨网调度延迟。
 
 ## Corrected Claim
 
-决策敏感性分析指标：若自建策略通过降低P99延迟带来的用户留存率提升所转化的LTV增加量 ΔLTV，大于单位用户的自建与公有云成本差 (Self_Built_Cost - Cloud_Cost) / Monthly_Users，则在长期ROI上自建策略可能优于公有云（需结合具体业务弹性系数验证）。
+中国主要互联网骨干网（电信、联通、移动）之间存在跨网延迟差异，通常高于同网延迟；自建 POP 若未部署多线 BGP 接入，P99 延迟将受限于跨网调度及路由绕行带来的额外延迟。
 
 ## Evidence
 
-父节点级核验通过：正交+完备+无冗余（子节点逻辑清晰且正交：节点1负责估算输入变量（ΔRetention），节点2定义核心计算模型（ΔLTV公式），节点3计算对比基准（单位成本差），节点4进行综合判断与阈值推导。四者分别对应‘输入估算’、‘模型定义’、‘基准计算’和‘决策逻辑’，无重叠且无矛盾，完整覆盖了父节点中从数据估算到最终ROI判断的全过程。）
+父节点级核验未通过：非正交, 有冗余（子节点2、3、4在“跨网延迟差异”这一核心概念上存在严重重叠。子节点2量化了基础差异，子节点4量化了无BGP时的惩罚（本质是差异的具体场景），子节点3量化了有BGP时的改善（本质是差异的消除）。这三者描述的是同一物理现象（跨网RTT）在不同条件下的数值表现，而非正交的独立维度。此外，子节点1（同网RTT）虽然是背景信息，但与父节点强调的“跨网差异”及“P99受限于跨网调度”的核心论点关联度较弱，属于外围背景而非核心分解。）
 
 ## Retrieval Sources
 
-- {'url': 'https://zhengtianqi.github.io/posts/%E8%BF%90%E7%BB%B4/%E5%90%8E%E7%AB%AF%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%E5%85%A8%E6%99%AF%EF%BC%9A%E4%BB%8EP99%E5%88%B0%E5%85%A8%E7%BB%B4%E5%BA%A6%E7%9B%91%E6%8E%A7%E4%BD%93%E7%B3%BB.html&rut=5dcb96a37d19925e6299fdffc8d42c9aa225dbde44e6b0ccf17b50f545c18c9e', 'type': 'ddg', 'title': '后端性能指标全景：从p99到全维度监控体系 | 郑天祺的博客'}
-- {'url': 'https://blog.csdn.net/2600_94959702/article/details/157227534&rut=a28c2f5bd23d334a04ff6730c0a9e0c83ed080cd03abe672ef0626105d712d55', 'type': 'ddg', 'title': '深入解析p99延迟：原理、测量与优化实战 - Csdn博客'}
-- {'url': 'https://juejin.cn/post/7613332545427013666&rut=15d29ed9ea90c226691abe8b101464c332b11085c4bd7e5bc816541c5b17ff19', 'type': 'ddg', 'title': '用"平均延迟"换"尾延迟"：把 P99/P999 稳住的实战思路很多系统的事故现场都长这样：监控看起来"平均延迟挺漂亮" - 掘金'}
+- {'url': 'https://blog.csdn.net/weixin_33686714/article/details/159840568&rut=dfa2a1482bb3d1f3894d2a36e4483838c4ccf8156ba802ce9f23ad926fc89dd5', 'type': 'ddg', 'title': '三大运营商骨干网技术对比：从架构设计到实际性能优化-csdn博客'}
+- {'url': 'https://www.htstack.com/news/131446.shtml&rut=c0bb7a4feb6151b43d054f43253a6c210a813a6701f3e9264391a72dd73cbdb4', 'type': 'ddg', 'title': '不同运营商机房 跨网访问 延时多少？实测数据与优化方案全解析'}
+- {'url': 'https://juejin.cn/post/7482208912467148838&rut=4109bff7f02c367c4798730251da8d40785c52e531210f6514948664a2b711a3', 'type': 'ddg', 'title': '三大运营商骨干网架构深度剖析：线路建设与用户体验详细分析了中国电信、中国联通、中国移动的互联网线路建设和运营，以及从稳定 - 掘金'}

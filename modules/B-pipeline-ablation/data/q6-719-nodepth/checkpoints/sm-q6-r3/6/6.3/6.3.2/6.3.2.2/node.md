@@ -1,20 +1,24 @@
-# N330: 负载率-L_p99非线性映射函数：基于排队论M/M/1模型近似，L_p99(L) = L_p99_base × (1 + (L/L_base)^3)；当L_ba
+# N502: 自建POP节点P99处理延迟 T_proc_self 约为 15-25ms，高于公有云CDN的 10-30ms 下限，主要因硬件性能较低、缺乏全球负载均衡优化及
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N108
+- **parent_ids**: N166
 
 ## Claim
 
-负载率-L_p99非线性映射函数：基于排队论M/M/1模型近似，L_p99(L) = L_p99_base × (1 + (L/L_base)^3)；当L_base=60%, L_p99_base=50ms时，L_neighbor=75%对应的L_p99_fault = 50ms × (1 + (75/60)^3) ≈ 50 × 2.89 ≈ 144.5ms，落在100-150ms区间上限。
+自建POP节点P99处理延迟 T_proc_self 约为 15-25ms，高于公有云CDN的 10-30ms 下限，主要因硬件性能较低、缺乏全球负载均衡优化及缓存算法效率稍逊
 
 ## Corrected Claim
 
-负载率-L_p99非线性映射函数：基于排队论M/M/1模型近似，L_p99(L) = L_p99_base × (1 + (L/L_base)^3)；当L_base=60%, L_p99_base=50ms时，L_neighbor=75%对应的L_p99_fault = 50ms × (1 + (75/60)^3) ≈ 50 × 2.89 ≈ 144.5ms，落在100-150ms区间上限。
+自建POP节点P99处理延迟 T_proc_self 约为 15-25ms，高于公有云CDN的 10-30ms 下限，主要因硬件性能较低、缺乏全球负载均衡优化及缓存算法效率稍逊
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：数学计算 (75/60)^3 = 1.953，1+1.953=2.953，50*2.953≈147.6ms，与陈述中的≈144.5ms（基于2.89系数）在误差范围内一致，且符合M/M/1排队论中负载率对尾部延迟的非线性放大效应。
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+Self-built POP node processing latency hardware performance comparison

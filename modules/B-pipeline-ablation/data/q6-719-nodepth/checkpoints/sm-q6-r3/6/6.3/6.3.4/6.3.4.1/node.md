@@ -1,20 +1,20 @@
-# N335: 缓存预热时间 T_warmup 的影响：POP故障后恢复时，缓存命中率 H(t) 从0%逐步恢复至85%，平均预热时间 T_warmup≈2-4小时（取决于对象
+# N506: 公有云CDN的P99延迟对T_switch的依赖函数 P99_public(T) 在 T ∈ [100, 300]ms 区间内近似为常数 C_pub ≈ 160
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N110
+- **parent_ids**: N168
 
 ## Claim
 
-缓存预热时间 T_warmup 的影响：POP故障后恢复时，缓存命中率 H(t) 从0%逐步恢复至85%，平均预热时间 T_warmup≈2-4小时（取决于对象访问频率）；在 T_warmup 期间，回源率高于稳态值，需额外计算预热期间的回源带宽成本和延迟惩罚。
+公有云CDN的P99延迟对T_switch的依赖函数 P99_public(T) 在 T ∈ [100, 300]ms 区间内近似为常数 C_pub ≈ 160ms（基于N167及节点密度事实），其斜率 d(P99_public)/dT ≈ 0，因为节点密度和路由拓扑不随业务定义的SLA阈值T变化。
 
 ## Corrected Claim
 
-缓存预热时间 T_warmup 的影响：POP故障后恢复时，缓存命中率 H(t) 从0%逐步恢复至85%，平均预热时间 T_warmup≈2-4小时（取决于对象访问频率）；在 T_warmup 期间，回源率高于稳态值，需额外计算预热期间的回源带宽成本和延迟惩罚。
+公有云CDN的P99延迟对T_switch的依赖函数 P99_public(T) 在 T ∈ [100, 300]ms 区间内近似为常数 C_pub ≈ 160ms（基于N167及节点密度事实），其斜率 d(P99_public)/dT ≈ 0，因为节点密度和路由拓扑不随业务定义的SLA阈值T变化。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+先验知识/题面给定，逻辑校验通过：CDN基础设施（节点密度、路由拓扑）是物理/网络层属性，独立于业务层定义的SLA阈值T，因此P99延迟在T变化时保持恒定符合逻辑直觉。

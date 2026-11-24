@@ -1,24 +1,20 @@
-# N269: 年化期望应急成本 Expected_Cost_Emergency = P_incident × Cost_Expert，若 P_incident = 0.5% 
+# N322: 跨运营商接入对 D_user_edge_p99 的等效距离惩罚 ΔD_cross：当用户运营商与 CDN 节点接入运营商不一致时，等效距离增加 ΔD_cross
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N93
+- **parent_ids**: N100
 
 ## Claim
 
-年化期望应急成本 Expected_Cost_Emergency = P_incident × Cost_Expert，若 P_incident = 0.5% 且 Cost_Expert = 100k 元，则 Expected_Cost_Emergency = 500 元/年，该值在 N38 的总成本公式中作为 Ops_Monthly 的修正项加入（除以 12 得到月度值）
+跨运营商接入对 D_user_edge_p99 的等效距离惩罚 ΔD_cross：当用户运营商与 CDN 节点接入运营商不一致时，等效距离增加 ΔD_cross ≈ 100-200km（对应 RTT 增加 5-10ms），导致长尾区域 P99 距离从 200km 升至 300-400km，RTT 基础值升至 20-25ms。
 
 ## Corrected Claim
 
-年化期望应急成本 Expected_Cost_Emergency = P_incident × Cost_Expert，若 P_incident = 0.5% 且 Cost_Expert = 100k 元，则 Expected_Cost_Emergency = 500 元/年，该值在 N38 的总成本公式中作为 Ops_Monthly 的修正项加入（除以 12 得到月度值）
+跨运营商接入对 D_user_edge_p99 的等效距离惩罚 ΔD_cross：当用户运营商与 CDN 节点接入运营商不一致时，等效距离增加 ΔD_cross ≈ 100-200km（对应 RTT 增加 5-10ms），导致长尾区域 P99 距离从 200km 升至 300-400km，RTT 基础值升至 20-25ms。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：0.5% * 100,000 = 500，数学计算正确，量纲一致（元/年），符合成本期望值定义。
-
-## Search Query
-
-annualized expected cost of cloud incident response
+先验知识/题面给定，逻辑校验通过：跨运营商接入通常涉及额外的路由跳数或次优路径，导致等效距离增加100-200km及RTT增加5-10ms符合网络工程常识与物理直觉，数值量级合理。

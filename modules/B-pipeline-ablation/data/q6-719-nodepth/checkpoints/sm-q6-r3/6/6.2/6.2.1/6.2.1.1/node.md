@@ -1,28 +1,20 @@
-# N317: 阿里云 CDN 2024-2025 最新阶梯单价表核验：需确认 60TB 月度流量所属阶梯的具体单价。若 50-100TB 区间单价为 ¥0.18/GB，则月度
+# N492: 公有云CDN按量付费模式下的基础设施/请求成本 C_req_public = Q_day * P_req * Price_req，其中 Price_req ≈ 
 
-- **status**: degraded
+- **status**: verified
 - **level**: L4
-- **source**: search
-- **edge_type**: stochastic
-- **rework_count**: 1
-- **parent_ids**: N104
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N162
 
 ## Claim
 
-阿里云 CDN 2024-2025 最新阶梯单价表核验：需确认 60TB 月度流量所属阶梯的具体单价。若 50-100TB 区间单价为 ¥0.18/GB，则月度成本 = 60,000GB * 0.18 = ¥10,800；若实际单价因区域或合约不同存在 ±10% 偏差，需建立单价区间 [0.162, 0.198] 进行敏感性分析。
+公有云CDN按量付费模式下的基础设施/请求成本 C_req_public = Q_day * P_req * Price_req，其中 Price_req ≈ ¥0.0001-0.0002/req，Q_day ≈ 2,048,000，计算得 C_req_public ≈ ¥205-410/天，折算为 ¥0.10-0.20/1000req
 
 ## Corrected Claim
 
-阿里云 CDN 2024-2025 阶梯单价需以官方最新报价为准。若假设 50-100TB 区间单价为 ¥0.18/GB，则 60TB 月度成本约为 ¥10,800；建议建立单价区间 [0.162, 0.198] 进行敏感性分析以覆盖潜在的区域或合约差异。
+公有云CDN按量付费模式下的基础设施/请求成本 C_req_public = Q_day * P_req * Price_req，其中 Price_req ≈ ¥0.0001-0.0002/req，Q_day ≈ 2,048,000，计算得 C_req_public ≈ ¥205-410/天，折算为 ¥0.10-0.20/1000req
 
 ## Evidence
 
-[质询]具体单价数值（¥0.18/GB）属于经验事实，且阿里云CDN价格受区域（中国大陆/海外）、资源包抵扣、合约折扣等多重因素影响，单一来源未提供2024-2025年确切的阶梯单价表，无法排除该数值为过时数据或特定合约价而非标准公开价的可能性。 | 来源[1]仅介绍计费模式，未提供具体阶梯单价数值，无法直接支持¥0.18/GB这一具体经验参数；逻辑上计算过程自洽，但缺乏外部证据确认具体单价，故降级。
-
-## Search Query
-
-Alibaba Cloud CDN pricing tier 2024 60TB monthly traffic cost CNY
-
-## Retrieval Sources
-
-- {'url': 'https://zhuanlan.zhihu.com/p/2055458562520961329&rut=0fb438c0b27f2a8f008dd5684fba916a6c7657661c35811fdec6102229f4efe8', 'type': 'ddg', 'title': '阿里云cdn价格表：一张图看懂，Cdn计费一目了然 - 知乎'}
+先验知识/题面给定，逻辑校验通过：计算过程 2,048,000 * 0.0001 = 204.8 和 2,048,000 * 0.0002 = 409.6 符合算术逻辑；单价 ¥0.0001-0.0002/req 符合公有云CDN按量付费的市场量级常识。

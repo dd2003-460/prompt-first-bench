@@ -1,20 +1,24 @@
-# N79: C_max_pop 取 min(带宽瓶颈, 计算瓶颈)：带宽允许6.93Gbps但计算仅允许5Gbps，故 C_max_pop = 5Gbps；需满足 2TB/
+# N102: 网络中间件引入的额外延迟 T_overhead_edge，包括 TCP 握手、TLS 加密解密、HTTP 头处理及 CDN 内部路由查找，典型 P99 值在 5
 
 - **status**: pending
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N19, N20, N21
+- **parent_ids**: N25
 
 ## Claim
 
-C_max_pop 取 min(带宽瓶颈, 计算瓶颈)：带宽允许6.93Gbps但计算仅允许5Gbps，故 C_max_pop = 5Gbps；需满足 2TB/10 = 0.2TB/POP = 200GB/POP 日均流量 ≤ 5Gbps * 0.8 * 86400s = 345GB，条件满足
+网络中间件引入的额外延迟 T_overhead_edge，包括 TCP 握手、TLS 加密解密、HTTP 头处理及 CDN 内部路由查找，典型 P99 值在 5-15ms 之间，与用户地理距离无关但受并发负载影响。
 
 ## Corrected Claim
 
-C_max_pop 取 min(带宽瓶颈, 计算瓶颈)：带宽允许6.93Gbps但计算仅允许5Gbps，故 C_max_pop = 5Gbps；需满足 2TB/10 = 0.2TB/POP = 200GB/POP 日均流量 ≤ 5Gbps * 0.8 * 86400s = 345GB，条件满足
+网络中间件引入的额外延迟 T_overhead_edge，包括 TCP 握手、TLS 加密解密、HTTP 头处理及 CDN 内部路由查找，典型 P99 值在 5-15ms 之间，与用户地理距离无关但受并发负载影响。
 
 ## Evidence
 
-父节点级核验未通过：不完备（子节点分别定义了计算瓶颈和带宽瓶颈，逻辑正交且无冗余。但父节点结论中 C_max_pop = 5Gbps，而子节点计算出的带宽瓶颈 C_bw_pop = 7.5Gbps，计算瓶颈 C_comp_pop = 6.72Gbps，两者取 min 应为 6.72Gbps，而非 5Gbps。子节点未解释 5Gbps 的来源（如是否包含其他未提及的限制因素），导致子节点推导结果与父节点结论不一致，存在逻辑断裂。）
+父节点级核验未通过：不完备（子节点在逻辑上是正交的（分别对应连接建立、安全层、路由调度、资源竞争），且没有明显的参数冗余。但是，父节点明确提到了‘HTTP 头处理’，而四个子节点中均未涵盖此部分（通常归类于应用层解析或序列化延迟），导致覆盖范围不完备。）
+
+## Search Query
+
+CDN edge node processing latency P99 overhead

@@ -1,24 +1,20 @@
-# N178: 人均日请求数 R_per_user 的低频保守估计：R_low = 20 次/人/天，对应总请求数 R_total_low = 5,000,000 × 20 =
+# N233: 工作点1（高性低成）：H_l1=0.95, H_l2=0.98，RTT_user_edge_tail_p99=40ms，T_proc_edge=5ms，L1 M
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N51
+- **parent_ids**: N61
 
 ## Claim
 
-人均日请求数 R_per_user 的低频保守估计：R_low = 20 次/人/天，对应总请求数 R_total_low = 5,000,000 × 20 = 100,000,000 次/天，适用于轻度用户为主的场景
+工作点1（高性低成）：H_l1=0.95, H_l2=0.98，RTT_user_edge_tail_p99=40ms，T_proc_edge=5ms，L1 Miss项=0.05*20ms=1ms，L2 Miss项=0.05*0.02*50ms=0.05ms，P99_tail ≈ 46ms，满足 T=100ms。
 
 ## Corrected Claim
 
-人均日请求数 R_per_user 的低频保守估计：R_low = 20 次/人/天，对应总请求数 R_total_low = 5,000,000 × 20 = 100,000,000 次/天，适用于轻度用户为主的场景
+工作点1（高性低成）：H_l1=0.95, H_l2=0.98，RTT_user_edge_tail_p99=40ms，T_proc_edge=5ms，L1 Miss项=0.05*20ms=1ms，L2 Miss项=0.05*0.02*50ms=0.05ms，P99_tail ≈ 46ms，满足 T=100ms。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：5,000,000 × 20 = 100,000,000 计算正确，且20次/人/天符合轻度用户场景的保守估计量级。
-
-## Search Query
-
-average daily API requests per user social media platform
+先验知识/题面给定，逻辑校验通过：各项延迟数值相加（40+5+1+0.05=46.05ms）与结论46ms一致，且小于100ms阈值，计算自洽。

@@ -1,20 +1,24 @@
-# N63: 单 POP 电力成本 Power_Cost = P_Servers × P_Efficiency × Energy_Rate × 720h，其中 P_Serve
+# N73: 单台边缘服务器硬件成本 C_server 约为 20,000-50,000 元，取决于 CPU 核心数 (如 32-64 核)、内存 (64-128GB) 及 
 
-- **status**: verified
+- **status**: pending
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
 - **parent_ids**: N13
 
 ## Claim
 
-单 POP 电力成本 Power_Cost = P_Servers × P_Efficiency × Energy_Rate × 720h，其中 P_Servers 为 2 台服务器总功耗约 500W（含散热冗余），P_Efficiency 取 PUE=1.5，Energy_Rate 为商业电价 ¥0.8/kWh，计算得 Power_Cost ≈ 500W × 1.5 × 0.8 ¥/kWh × 720h ≈ ¥4,320/月/POP [时效待核]。
+单台边缘服务器硬件成本 C_server 约为 20,000-50,000 元，取决于 CPU 核心数 (如 32-64 核)、内存 (64-128GB) 及 SSD 配置 (如 2x 1TB NVMe)，需根据具体配置清单计算。
 
 ## Corrected Claim
 
-单 POP 电力成本 Power_Cost = P_Servers × P_Efficiency × Energy_Rate × 720h，其中 P_Servers 为 2 台服务器总功耗约 500W（含散热冗余），P_Efficiency 取 PUE=1.5，Energy_Rate 为商业电价 ¥0.8/kWh，计算得 Power_Cost ≈ 500W × 1.5 × 0.8 ¥/kWh × 720h ≈ ¥4,320/月/POP [时效待核]。
+单台边缘服务器硬件成本 C_server 约为 20,000-50,000 元，取决于 CPU 核心数 (如 32-64 核)、内存 (64-128GB) 及 SSD 配置 (如 2x 1TB NVMe)，需根据具体配置清单计算。
 
 ## Evidence
 
-父节点级核验通过：正交+完备+无冗余（三个子节点分别对应公式中的三个核心变量（P_Servers, PUE, Energy_Rate），彼此独立且无逻辑重叠；共同覆盖了公式的所有关键参数维度，无冗余。）
+父节点级核验未通过：不完备（父节点定义了较宽的成本范围（20k-50k）及多种配置变量（32-64核等），并强调需根据具体配置计算。子节点仅提供了一个特定基准配置（32核/64GB）的价格区间（25k-35k）及成本占比，未能覆盖父节点中提到的更高配置（如64核、128GB）对应的成本情况，也未提供针对不同配置的通用计算方法或参数化模型，导致信息不完备。）
+
+## Search Query
+
+edge server hardware cost 32 core 64GB RAM 1TB NVMe price China

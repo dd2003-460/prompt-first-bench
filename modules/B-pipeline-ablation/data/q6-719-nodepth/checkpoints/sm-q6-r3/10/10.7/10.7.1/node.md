@@ -1,0 +1,20 @@
+# N590: 公有云 CDN 在长尾区域（距离 >500km）的 P99 延迟构成分解：RTT_user_edge (≈55-75ms) + T_proc_edge (≈10
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N193
+
+## Claim
+
+公有云 CDN 在长尾区域（距离 >500km）的 P99 延迟构成分解：RTT_user_edge (≈55-75ms) + T_proc_edge (≈10-15ms) + T_miss_penalty (若未命中，≈20-30ms)，总 P99 约为 85-120ms，其中 RTT 是主要瓶颈。
+
+## Corrected Claim
+
+公有云 CDN 在长尾区域（距离 >500km）的 P99 延迟构成分解：RTT_user_edge (≈55-75ms) + T_proc_edge (≈10-15ms) + T_miss_penalty (若未命中，≈20-30ms)，总 P99 约为 85-120ms，其中 RTT 是主要瓶颈。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：55-75ms RTT + 10-15ms 处理 + 20-30ms 回源惩罚，总和范围 85-120ms 计算自洽，且符合长尾区域 CDN 延迟构成的工程经验。

@@ -1,20 +1,20 @@
-# N344: 回源带宽冗余的机会成本：预留但未使用的带宽比例 U_redundant = (B_redundant - B_actual_avg) / B_redundant
+# N515: 修正后的自建POP回源成本计算：回源流量 V_origin(s) = V_total * (1 - H_pop(s))。若 s 增大导致 H_pop 下降（例如
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N114
+- **parent_ids**: N170
 
 ## Claim
 
-回源带宽冗余的机会成本：预留但未使用的带宽比例 U_redundant = (B_redundant - B_actual_avg) / B_redundant，其中 B_actual_avg 为平均回源带宽；若 U_redundant > 30%，则建议采用弹性带宽计费模式（按小时付费）替代固定预留，成本降低幅度 = U_redundant * (P_fixed - P_elastic)，其中 P_fixed 为固定带宽单价，P_elastic 为弹性带宽单价。
+修正后的自建POP回源成本计算：回源流量 V_origin(s) = V_total * (1 - H_pop(s))。若 s 增大导致 H_pop 下降（例如从 0.9 降至 0.7），则 V_origin 增加。假设 V_total=2000GB，H_pop=0.7，则 V_origin = 600GB。C_bandwidth_self = (600 * 0.135) / Q_day(s) * 1000。若 s=5MB, Q_day=409600，则 C_bandwidth_self = (81) / 409.6 ≈ ¥0.198/1000req。
 
 ## Corrected Claim
 
-回源带宽冗余的机会成本：预留但未使用的带宽比例 U_redundant = (B_redundant - B_actual_avg) / B_redundant，其中 B_actual_avg 为平均回源带宽；若 U_redundant > 30%，则建议采用弹性带宽计费模式（按小时付费）替代固定预留，成本降低幅度 = U_redundant * (P_fixed - P_elastic)，其中 P_fixed 为固定带宽单价，P_elastic 为弹性带宽单价。
+修正后的自建POP回源成本计算：回源流量 V_origin(s) = V_total * (1 - H_pop(s))。若 s 增大导致 H_pop 下降（例如从 0.9 降至 0.7），则 V_origin 增加。假设 V_total=2000GB，H_pop=0.7，则 V_origin = 600GB。C_bandwidth_self = (600 * 0.135) / Q_day(s) * 1000。若 s=5MB, Q_day=409600，则 C_bandwidth_self = (81) / 409.6 ≈ ¥0.198/1000req。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+先验知识/题面给定，逻辑校验通过：公式 V_origin = 2000 * (1-0.7) = 600GB 正确；成本计算 (600 * 0.135) / 409.6 ≈ 0.198 数值推导无误，量纲与逻辑自洽。

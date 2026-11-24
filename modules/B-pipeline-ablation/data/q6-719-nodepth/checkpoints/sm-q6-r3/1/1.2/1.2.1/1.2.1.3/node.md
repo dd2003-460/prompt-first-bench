@@ -1,24 +1,20 @@
-# N155: 自建边缘节点最后一跳（Last Mile）的接入网抖动特性：光纤接入（FTTH）σ_congestion 通常 < 1ms，而 4G/5G 无线接入 σ_con
+# N207: P99(T_origin_fetch) 的量化估算：回源延迟包含 POP 到源站 RTT 与传输时间。假设源站位于核心区域，RTT_pop_origin ≈ 3
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N43
+- **parent_ids**: N52
 
 ## Claim
 
-自建边缘节点最后一跳（Last Mile）的接入网抖动特性：光纤接入（FTTH）σ_congestion 通常 < 1ms，而 4G/5G 无线接入 σ_congestion 可达 5-20ms，取决于基站负载与信号强度，需根据用户接入方式分布加权计算。
+P99(T_origin_fetch) 的量化估算：回源延迟包含 POP 到源站 RTT 与传输时间。假设源站位于核心区域，RTT_pop_origin ≈ 30ms；对于 Miss 请求，传输时间 T_transfer = s_weighted / B_origin。若 s_weighted=2MB, B_origin=1Gbps，T_transfer ≈ 16ms，故 P99(T_origin_fetch) ≈ 30 + 16 = 46ms。
 
 ## Corrected Claim
 
-自建边缘节点最后一跳（Last Mile）的接入网抖动特性：光纤接入（FTTH）σ_congestion 通常 < 1ms，而 4G/5G 无线接入 σ_congestion 可达 5-20ms，取决于基站负载与信号强度，需根据用户接入方式分布加权计算。
+P99(T_origin_fetch) 的量化估算：回源延迟包含 POP 到源站 RTT 与传输时间。假设源站位于核心区域，RTT_pop_origin ≈ 30ms；对于 Miss 请求，传输时间 T_transfer = s_weighted / B_origin。若 s_weighted=2MB, B_origin=1Gbps，T_transfer ≈ 16ms，故 P99(T_origin_fetch) ≈ 30 + 16 = 46ms。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：FTTH基于光纤传输，物理层抖动极低（通常<1ms）；4G/5G无线接入受无线信道衰落、基站调度及负载影响，抖动显著高于有线（5-20ms符合工程经验量级），加权计算逻辑自洽。
-
-## Search Query
-
-fiber vs 4g 5g network jitter variance ms
+先验知识/题面给定，逻辑校验通过：2MB / 1Gbps = 16ms 计算正确，RTT 30ms 符合核心区域回源典型量级，总延迟 46ms 逻辑自洽。

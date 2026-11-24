@@ -1,20 +1,20 @@
-# N175: 日均上传图片数量估算：N_img = (200GB × 0.8) / 2MB = 80,000 张/天，假设每张图片被上传 1 次，用于计算唯一对象数的图片部分
+# N230: 工作点1（高性低成）：H_self=0.98（极高缓存命中），RTT_user_pop_core_p99=15ms，T_proc_pop=5ms，回源项(1-H
 
 - **status**: verified
 - **level**: L4
-- **source**: given
+- **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N50
+- **parent_ids**: N60
 
 ## Claim
 
-日均上传图片数量估算：N_img = (200GB × 0.8) / 2MB = 80,000 张/天，假设每张图片被上传 1 次，用于计算唯一对象数的图片部分
+工作点1（高性低成）：H_self=0.98（极高缓存命中），RTT_user_pop_core_p99=15ms，T_proc_pop=5ms，回源项(1-H_self)*50ms=1ms，P99_core ≈ 21ms，满足 T=100ms。
 
 ## Corrected Claim
 
-日均上传图片数量估算：N_img = (200GB × 0.8) / 2MB = 80,000 张/天，假设每张图片被上传 1 次，用于计算唯一对象数的图片部分
+工作点1（高性低成）：H_self=0.98（极高缓存命中），RTT_user_pop_core_p99=15ms，T_proc_pop=5ms，回源项(1-H_self)*50ms=1ms，P99_core ≈ 21ms，满足 T=100ms。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：200GB * 0.8 = 160GB = 160,000MB，160,000MB / 2MB = 80,000，计算无误且量级合理。
+先验知识/题面给定，逻辑校验通过：0.98*15 + 0.02*50 + 5 = 14.7 + 1 + 5 = 20.7ms ≈ 21ms，且 21ms < 100ms，数值量级与逻辑自洽。
