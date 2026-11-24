@@ -87,3 +87,27 @@
 - 总计 **3-4 周到 arXiv 可投稿态**；窗口对齐：ARR 2027-01-04 为 stretch（5.5 周，仓促且领域错配，不建议）；**主推双轨 = NeurIPS 2027 E&D（5 月，~6 个月缓冲，概率最高）+ ICML 2027 workshop（6 月 CFP，作为 short 文先挂先发）**；ICML main 1/14 窗口留给 #10 主线论文（分解树已排），#53 不挤。
 
 第五轮检索记录：web 5 次（NeurIPS 2026 E&D CFP 实抓 neurips.cc/Conferences/2026/CallForEvaluationsDatasets：abstract 5/4+full 5/6+notification 9/24+分析型免 code；ARR dates.md GitHub 实读：ACL 2027=ARR 2027-01-04 cycle、EMNLP 2027 未公布；Thought Anchors v4=ICLR 2026 在审；Step Entropy abs=Accepted by ICLR2026；ICML 2027 CFP 实抓 icml.cc：1/14+1/22+decision 5/3+8 页）+ GitHub API 0 次。接收率参照数字均标未验证；概率估计为主观判断非事实。本节曾因快照分叉 rebase 失误丢失一次（rebase 中 --ours/--theirs 取向错误致空提交被 drop），已重新追加。
+
+## 追加5 第六轮 · 最终闭式 paper 碰撞核查 + 非 arXiv 源覆盖 + venue 匹配（TASK-round6-final-paper）
+> 2026-11-25 执行。对象：闭式 paper《How Much Does Microarchitecture Matter? A Closed-Form, Pre-Registered Measure of the Incremental Contribution of Deep Judgments in GPU Bottleneck Diagnosis》（9pp, idea53-round6 @ 49c9c8d8b，跨分支读取系任务书明文授权）。核心=闭式 surface-vs-deep 判定增量度量（flip rate P(S≠D) 43-56% + time shift 0.17-0.23 + H(D|S)=0.71-0.77 bits），4 平台×40000 采样 workload，3 手推锚点，flat-rate 控制+24 排列控制，预注册 commit eb1b0598c 先于数据生成。任务书指纹已验证（6d50c871 ✓）。检索：arXiv abs 实抓 4 次（Lead 4 近邻逐个核验）+ web 8 次 + GitHub API 2 次；接收率数字除官网实抓外标**未验证**。
+
+| 检索源 | 撞车/近邻（URL+版本） | 与最终 paper 距离 | 是否撞车 | conf |
+|---|---|---|---|---|
+| arXiv（Lead 4 近邻独立核验，全部属实） | TME 缺项修正（arXiv:2610.10924v1, 2026-10-07, cs.AR，闭式 OI* 阈值）；spec→UX 回归（arXiv:2402.08964v1, 2024-02-14, Google, ML4Systems@NeurIPS23 spotlight，学习式 GBRT 非闭式）；Microflow（arXiv:2607.13184v1 2026-07-14→v2 09-18，仿真因果归因 stall→prefetcher 决策）；LLM 推理 GPU 系统刻画（arXiv:2512.01644v1, 2025-12-01，四维框架含微架构根因分析） | 均为域近邻：闭式硬件阈值推导/学习式 spec 预测/仿真因果追踪/实证刻画——无一是「判定增量信息的闭式度量+预注册」 | 近邻 | 0.75 |
+| arXiv（独立补充，Lead 未列） | **SA-Scheduler**（ACM 10.1145/3842670）：kernel 结构先验→解析瓶颈模型→**不跑 runtime profiling** 判 C/M1/M2/M3 regime（LLM 辅助提特征）——与本 paper「spec+prior 闭式判瓶颈不跑 GPU」同族度最高；MLSYSIM 第一性原理 22-walls binding-constraint 求解器（arXiv:2607.02558）；微基准驱动跨 GPU 解析建模（arXiv:2605.04178v1, 2026-05-05, B200/MI300A, MAE 8.4% 未验证）；瓶颈翻转叙事（arXiv:2608.13696v1, 2026-08-13，L4→GH200 memory→compute bound；arXiv:2503.08311 large-batch 仍 memory-bound 反常识实证） | SA-Scheduler 用途不同（调度 vs 判定度量）且无信息论读数；其余均无 surface-vs-deep 增量结构 | 近邻 | 0.7 |
+| IEEE（非 arXiv） | 计数器诊断线：分布式性能诊断（ieeexplore.ieee.org/document/5488457）、带宽计数器测量（6489714）——实测 counters 路线，年份**未验证**（疑窗外交错） | 实测式非闭式、无判定增量度量 | 否 | 0.6 |
+| ACM（非 arXiv，实核 DL 页） | **AMALI 解析模型判 LLM 推理瓶颈（ISCA'25**，dl.acm.org/doi/proceedings/10.1145/3695053——原文口径「GPU analytical model is a commonly used tool for architects to precisely identify bottlenecks quickly」）；shared-memory atomic 排队模型判瓶颈（10.1145/3725798.3725801, 2025-05）；GCStack+GCScaler stall accounting（ISCA'25） | 解析模型判瓶颈=架构界**成熟常规实践**（顶会正文口径可引）；但均无「判定增量信息」读数与预注册协议 | 近邻 | 0.75 |
+| 专利 | US20240134769A1（Google Patents, 2024，codesign DSE bottleneck cost graph 归因器：按子成本相对贡献识别瓶颈节点）；SCUT 2025「AI 加速器性能故障诊断方法」（经 PatSnap 二手转述 eureka.patsnap.com，**未验证**原文） | 成本图归因/roofline 式故障诊断——非信息论判定增量 | 否/近邻 | 0.65 |
+| 工业白皮书 | AMD ROCm 性能指南（rocm.docs.amd.com：profile→判 compute/memory bound→roofline workflow）；LBNL hierarchical roofline（amcr.lbl.gov/cug19）、Instruction Roofline（escholarship.org）；Agner 微架构手册 | 实测 profile+roofline=工业标准路径；全为实测法无闭式判定增量 | 否 | 0.8 |
+| GitHub API | closed+form+bottleneck+model 1 无关命中；surface+deep+diagnosis+gpu **0 命中** | 无同构实现 | 否 | 0.7 |
+
+**① 碰撞总判断**：**未撞车（窄空白）** conf 0.7——「surface-vs-deep 判定增量的闭式信息论度量（flip/time-shift/H(D|S)）+ 预注册 + 三控制臂」组合未见同构；但**外围三圈近邻密集**：闭式解析判瓶颈本身是架构界常规（AMALI/ISCA'25 明文）、瓶颈翻转与交互非线性有实证线（2608.13696/2503.08311）、不跑硬件的先验解析判定已有发表（SA-Scheduler）。Lead 初判 conf 0.6 → 本轮升至 0.7（多源覆盖 + 4 近邻属实 + 新增近邻均无同构读数）。
+**② venue 排序**（paper 性质：纯闭式数学测量、无 GPU 实验、无 eval/dataset 交付物）：
+1. **arXiv 即时挂网**（0 元，锁预注册时间戳；前置必做）。
+2. **ICML 2027 ML4Systems 类 workshop**（CFP ~2027-05-06；P≈0.5-0.6 conf 0.5——同类文有直接先例：2402.08964 即 ML4Systems@NeurIPS23 spotlight；闭式+预注册叙事对 workshop 口味）。
+3. **MLSys workshop**（域最对口，解析性能建模/瓶颈判定是核心话题，MLSYSIM 类工作聚集地；P≈0.5 conf 0.5；主会需系统贡献，闭式文不合，只投 workshop）。
+4. **NeurIPS 2027 E&D**（错配：track 主旨=evaluation/dataset 交付物，本 paper 两者皆无；除非把 40000-workload 采样器+闭式模型打包成可复用 artifact；P≈0.05-0.08 conf 0.6）。
+5. ACL 2027 Findings：砍（无语言组件，P<0.02）。
+**③ 最难一击**：「解析模型判 GPU 瓶颈是领域常规工具（AMALI/ISCA'25 原文口径可证），T5000 的 30%→63% 就是 roofline 算术——你没有发现任何新现象，所谓 closed-form measurement 无任何实验验证，凭什么算 contribution？」**守得住，三条件**：a) 贡献锚点从「发现非线性」移到「增量信息的正式定义+可预注册可复现测量协议」（roofline 给方向不给增量读数，H(D|S) 是新量）；b) 用**已发表的公开 profile 数据**做 2-3 个 spot-check 验证闭式 flip 方向（二手验证不违反无 GPU 设定，堵住「无实验」）；c) 预注册记录+控制臂在 rebuttal 直接可链。若审稿人坚持架构会议口径（MLSys/ISCA 审稿人），风险最高；ML/跨学科 workshop 口径下守面最大。
+
+第六轮检索记录：arXiv abs 实抓 4 次（2610.10924/2402.08964/2607.13184/2512.01644 全部属实，版本日期已录）+ web 8 次（closed-form analytical GPU bottleneck；mutual information performance counters IEEE；NVIDIA roofline whitepaper；patent bottleneck analysis；ACM TOMES/analytical；AMD roofline guide；GitHub×2 经 bash API）+ GitHub API 2 次（均无同构命中）。AMALI/SA-Scheduler/GCStack 的 ACM DL 页为检索返回的 DL 页面摘要（未读全文）；SCUT 专利为 PatSnap 二手转述**未验证**；IEEE 两篇年份**未验证**；接收率/概率为主观估计标 conf。
