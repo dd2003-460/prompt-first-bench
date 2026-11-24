@@ -137,6 +137,19 @@ T4 pilot 夜间无人值守，下列接缝逐一核验过（防"白等一夜"的
   ⟹ waiter 将执行的生产路径（build_sm(rep,qid)→SM_CKPT_DIR 隔离→run(skip_l1)→臂 patch 在
   run 内执行）在 LLM 边界前无结构性崩溃；零真实 LLM 调用（sentinel 在网络前 raise）。
   这是 T4 起飞的最后一道闸门验证。
+- **checkpoint 节点数更正（22:26，preflight.json 实测，替代此前误报的 381/291/190）**：
+  r1=33 节点（L1+L2），r2=132（+L3 99），r3=381（+L4 249）。r3 是最深（L4）。
+  waiter floor CKPT_FLOOR=381（r3）**正确**。T5 bug 命中全 3（r1=5/r2=9/r3=14 gap 节点，
+  此前数字正确）。
+- **r2 进度读数更正（22:26）**：q7 stdout 的 N 号**非时间顺序**——r2 的 N434 是 rework-angle
+  节点（日志 "rework-angle N434: verified via 'RAID-6...'"），顺序分解只到 ~N259。
+  r2 现已进入**后期 rework 慢速阶段**（非"分解的 60%"）。此前按 N434/719 估进度是误读。
+  ⟹ r2 剩余时间难精确估（rework 阶段每节点多 LLM call），保守看 r2 完 ≈ 23:30-00:30，
+  r3 完 ≈ 01:20-02:20，**vLLM 释放 ≈ 01:30-02:30**，pilot 完 ≈ 11-25 09:30-10:30。
+  （比 22:17 的相位感知区间更保守，因 rework 阶段速率低于纯分解。）
+- **T4 每 run 时长含义**：T4 从 r3(381) 续跑至 budget 719，但 q7 同 budget 的 run 自然
+  饱和在 ~425 节点（非填满 719）→ T4 每 run 实际新增 ~44-80 节点（非 338），
+  52min/run 估计（44 节点 × 71s）是合理下界，若饱和点更高则更久。明早判据 >78min 仍适用。
 - 每 cell n≥5 + bootstrap CI（judge 噪声 ~0.1，n=3 会假阳性）；checkpoint 分开统计（Handoff Tax：效应随方向反转，不混池）。
 - 若声称"序列无影响"需等效性检验（预设最小重要效应），不能用"不显著"代替"相同"。
 - claim 边界：stateful pipeline suffix-ablation 设计，不说"恢复相同隐状态/KV"（F2b 4）。
