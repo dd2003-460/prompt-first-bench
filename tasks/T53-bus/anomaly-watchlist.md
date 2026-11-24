@@ -143,4 +143,5 @@
   - **soc: Δdepth=+0.003, Δcov=+0.186**（f 0.900 / t 0.714）→ depth 持平但 formula 覆盖率更高。
 - **结论：formula 臂的优势是域依赖的**——在 nat（推理域）和 soc（覆盖域）有净增益，在 gpu（硬件/算力域）中性（两臂都弱）。这解释了为何 gpu 是"弱域"：不是某个臂在 gpu 上退化，而是 gpu 题面对两臂都难。
 - 口径注意：gpu/formula 在 POST-rubric 层仅 n=3（另 7 个 gpu/formula 落在 PRE-rubric 层），Δ 的 n 偏薄；但"两臂在 gpu 同等弱"的定性结论对 n 稳健（cov 0.111 vs 0.107 本就接近）。
+- **分数时效核验（22:5x，防"分数是后来重算的"伪分层）**：results.json 与 runs/ 内嵌分数对账——**coverage 60/60 完全一致**（judge 原始分，run 时算）；**depth 19/60 有小幅出入**（0.01-0.19，run 文件 mtime 晚 60-140h = 11-24 模块重组 c4455d61c 拷贝+重算）。⟹ **Δcov 结论完全有效**（原始分）；**Δdepth 是统一重算值的对比**（同一新 depth 公式作用于全部 60 runs，系统性偏移在臂间相消，相对差异仍可比，但绝对值非 run 时原值）。
 - 与上一条（跨批 judge 漂移）的关系：跨批 cov 飙升（新批 gpu cov=0 7/10）= prompt 解禁 + rubric 加严的**测量口径**变化；本条（同批 clean 层）= **真实实验**信号（gpu 题面固有难 + formula 优势域依赖）。两者正交，04-verify 应分开处理：跨批 cov 不作证据，同批 clean 层 cov/depth 臂间 Δ 可作证据。
