@@ -1093,3 +1093,13 @@ claim 清单 subagent 报 merge 消融 (0.4129/0.4261) 在 draft absent。核验
 
 budget=100: r1 cov=0.192 / r2 cov=0.135 (同档方差大, run-to-run 交换)。
 档间差: 50 档 mean 0.102 (n=3) vs 100 档 mean 0.164 (n=2) → budget effect 方向仍成立, 但档内 sd 大, 承重结论等 15 点全落地 + 双分析。
+
+## Q7 budget=100 r3 落地, 50→100 档间差升级 n=3/3 (2026-11-24 11:55, source ① relay 日志 + 独立复算)
+
+budget=100 r3: cov=0.173 (score 0.3865 depth=0.600 metacog=0.0670)。
+档间差 (独立复算, se_diff 各 bin 自带 sd):
+- budget=50: n=3 mean=0.1023 sd=0.0219 (0.077/0.115/0.115)
+- budget=100: n=3 mean=0.1667 sd=0.0290 (0.192/0.135/0.173)
+- Δ=+0.0643, se_diff=0.0210, **3.06×se (n=3/3)**
+比 11:40 的 n=1 vs n=3 初步信号强一个量级: storage 域 budget effect 现在两档都 n=3 且 3×se 可分辨。
+仍非承重声明: 全曲线 (5 budget × 3 rep = 15 run) 未落地, 断点位置/形状等 watchdog 双分析。方向与 GPU (plateau ~400) / Q6 (still-rising n=3) 一致 — 第三域 replication, 非新发现 (D 信号检查: 与已有两域模式一致, 无文献覆盖冲突)。
