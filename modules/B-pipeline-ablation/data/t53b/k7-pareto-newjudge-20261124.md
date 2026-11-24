@@ -1079,3 +1079,12 @@ proc_50c68c9d1a00 (SIGTERM -15) 是重复启动的 watchdog 副本; 本体 PID 5
 落地: 09:45/10:09/10:27/10:38 (4/15), 平均间隔 18 分/run (非之前估的 ~11h 总时长)。
 剩余 11 runs → **ETA 13:55** (~2.5h 后 15 文件全落地, watchdog 57325 自动跑双分析)。
 watchdog 触发条件 n>=15, 断点风险: 1 run 永久失败则不触发 (回退方案: 手动跑双分析脚本, 已记录)。
+
+## merge 消融不在 draft 的判断 (2026-11-24 11:40, Lead 判断, source ① grep)
+
+claim 清单 subagent 报 merge 消融 (0.4129/0.4261) 在 draft absent。核验:
+- draft 全文 0 处提 merge/concat 消融 (grep 确认)。
+- merge 消融 = ③ 子项, 测 synth 阶段 merge on/off 是否压缩元凶: A concat=0.4129 vs B merge=0.4261, Δ=-0.0132 (A flat = merge 非元凶, per-layer 自压缩) — **负结果**。
+- draft 承重 claim 链 (budget buys breadth / L4 zero-convergence / hit-set 机制) 不依赖 merge 消融。
+- draft repair-loop fix 定位 = "designed and predicted, not yet run" (§1 workshop scope), merge 消融是 fix 的机制探针之一, 负结果不支撑 fix 预测。
+**判断: scope 外, 不该加进 draft** — 加了撑长 draft 且负结果对核心 claim 无增益。若审稿人问 "depth 压缩机制", 答: per-layer 自压缩 (merge 消融排除 synth merge), 细节在 supplementary (届时补 1 句即可, 不需正文)。
