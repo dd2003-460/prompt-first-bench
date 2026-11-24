@@ -88,8 +88,24 @@ def ols_r2(xs, ys, ws):
     return max(0.0, 1.0 - ss_res / syy)
 
 
-def info_contribution(nodes):
-    """对一份数据源算全部信息论量. 返回 dict."""
+def y1_pred(nd):
+    """Y1 = 供给侧资源词 ∧ 瓶颈判定词 (主信号, 与描述性锚点 0e866871c 同口径)."""
+    t = text_of(nd)
+    return bool(SUPPLY.search(t) and JUDGE.search(t))
+
+
+# D 2026-11-24 点名 6 微架构词 (base.MICRO 的 key) — 精确硬件供给信号 (Y2, 对照 Y1)
+_D6 = ['内存带宽', 'SM频率/clock/降频', 'issue rate/发射', '指令吞吐', 'occupancy/占用率', 'warp']
+
+
+def y2_pred(nd):
+    """Y2 = D 点名 6 微架构词命中 (内存带宽/SM频率/发射率/指令吞吐/occupancy/warp)."""
+    t = text_of(nd)
+    return any(_anchor.MICRO[k].search(t) for k in _D6)
+
+
+def info_contribution(nodes, y_pred):
+    """对一份数据源算全部信息论量. y_pred: 节点→bool 的判定谓词 (Y1/Y2). 返回 dict."""
     from collections import Counter
     n = len(nodes)
     if n == 0:
@@ -97,7 +113,7 @@ def info_contribution(nodes):
     lv_cnt = Counter(); y_cnt = Counter(); lv_y = Counter()
     for nd in nodes:
         x = nd['level']
-        y = 1 if (SUPPLY.search(text_of(nd)) and JUDGE.search(text_of(nd))) else 0
+        y = 1 if y_pred(nd) else 0
         lv_cnt[x] += 1; y_cnt[y] += 1; lv_y[(x, y)] += 1
     p = y_cnt[1] / n                       # P(Y=1) 基率
     H_Y = bern_entropy(p)                  # ①
@@ -166,18 +182,25 @@ def fmt_src(name, r):
 
 def main():
     print('#53 信息论因果测量 — 各层对供给侧瓶颈判定的信息贡献 (直接计算, 不消融不重跑)')
+    print('两个 Y: Y1=SUPPLY∧JUDGE (主信号) / Y2=D 点名 6 微架构词 (精确硬件信号).')
     results = {}
     for name, nodes in collect_sources():
-        r = info_contribution(nodes)
-        if r is None:
+        r1 = info_contribution(nodes, y1_pred)
+        r2 = info_contribution(nodes, y2_pred)
+        if r1 is None:
             print(f'\n### {name}: 无节点'); continue
-        results[name] = r
-        print(fmt_src(name, r))
-    # 跨源汇总
-    print('\n### 跨源汇总 (level 口径不同, 分源, 不可合并比倍数)')
+        results[name] = r1
+        print(fmt_src(name + ' [Y1 供给侧∧判定]', r1))
+        if r2 is not None:
+            results[name + ':Y2'] = r2
+            print(fmt_src(name + ' [Y2 D点名6微架构词]', r2))
+    # 跨源汇总 (Y1)
+    print('\n### 跨源汇总 Y1 (level 口径不同, 分源, 不可合并比倍数)')
     print(f'{"源":>26s} {"I(X;Y)":>8s} {"max层":>5s} {"max占比":>7s} '
           f'{"R²_ols":>7s} {"I-I_lin":>8s} {"非线性?":>8s}')
     for name, r in results.items():
+        if name.endswith(':Y2'):
+            continue
         nonlin = '是' if (r['nonlin_gap'] > 0.005 and r['r2_ols'] < 0.95) else '弱/否'
         print(f'{name:>26s} {r["I"]:8.4f} {r["max_layer"]:>5s} '
               f'{r["per"][r["max_layer"]]["frac"]:7.0%} {r["r2_ols"]:7.3f} '
@@ -185,8 +208,8 @@ def main():
     # 落盘
     out = {
         'claim': '#53: 深层节点对供给侧瓶颈判定的信息贡献更大 (非线性模型下)',
-        'method': '直接信息论计算 (互信息/条件熵/逐层贡献分解), 不消融不重跑',
-        'operationalization': 'Y = SUPPLY∧JUDGE (与描述性锚点 0e866871c 同口径)',
+        'method': '直接信息论计算 (互信息/条件熵/逐层 KL 贡献分解 c(x)=P(x)·D_KL(P(Y|x)||P(Y)), Σc=I), 不消融不重跑',
+        'operationalization': 'Y1 = SUPPLY∧JUDGE (与描述性锚点 0e866871c 同口径); Y2 = D 点名 6 微架构词 (内存带宽/SM频率/发射率/指令吞吐/occupancy/warp)',
         'sources': {},
     }
     for name, r in results.items():
