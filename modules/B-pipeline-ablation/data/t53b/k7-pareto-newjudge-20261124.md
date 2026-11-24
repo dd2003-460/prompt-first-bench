@@ -902,3 +902,24 @@ r3 落地后 watchdog 自动跑 q6_719_nodepth_analyze.py — n≥3 分支的断
 → r3 自动分析链承重件全核验: n≥3 verdict 逻辑 (F 闭式公式已验证) + 断点扫描 x/y
   配对干净 + 退化段保护在 + bins 正确。watchdog 自动落盘的结论可信, 无需落地后
   手动复查断点数字 (verdict 方向仍需对 r3 实际 cov 看一眼, 但数字口径已钉死)。
+
+## 2026-11-24 ~09:15 — T-PR-17 arena 验收通过 (分支落地 9c5745541)
+
+arena 分支 arena/1afea7fe-prompt-first-bench 落地 (HEAD 9c5745541, 08:59 CST)。
+核验 (source ①):
+1. **任务书 SHA 独立复算**: git show 分支上 T-PR-17-task.md | shasum -a 256 =
+   3153398feb1af439f1fc4e80c3515685ee7c7834bd997a614dd2a0eb275fe405 = 报告声称值 ✓
+2. **arXiv ID 抽查 3/3** (web_extract abs 页):
+   - 2307.03172 = Lost in the Middle (Liu et al., TACL) ✓
+   - 2606.02875 = Handoff Debt (KC & Budathoki, 4 handoff views, 75 tasks/181 handoff points) ✓
+   - 2605.11225 = PIVOT (PLAN-INSPECT-EVOLVE-VERIFY 四阶段) ✓
+3. **产出质量**: 176 行, C1 部分先例 conf 0.76 / C2 强近邻 conf 0.82 / C3 位置效应
+   中介机制 conf 0.88 (单机制不足 0.86); 否定性结论按纪律压低 ≤0.55; 24 条检索记录
+   逐字落盘; 8 条方法学建议 (估计量定义/checkpoint 冻结审计/外部信息分离/长度位置
+   对照/可置换阶段集合/成对重复统计/depth 分数防浅树/KV cache 状态层级)。
+4. **关键结论**: 不能声称"LLM 顺序效应"或"checkpoint continuation"无先例;
+   可窄化 claim = "固定 SM checkpoint 上四种后缀序列 + gold-tree depth 比较的
+   同构设计未找到 (conf ≤0.55, 有限检索结论)"。
+5. **文件拉取**: T-PR-17-result.md 从 arena 分支拉进 tmp-lit-snowball (最小动作,
+   不 merge 整个 arena 分支 — 分支基于旧 HEAD 3bfd2cbc, 含其他会话的 commit)。
+→ ② T-PR-17 文献滚雪球: 完成 + 验收通过。后续 4 臂机制验证 (占 vLLM) 仍排 r3+Q7 后。
