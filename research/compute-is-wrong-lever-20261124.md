@@ -104,6 +104,16 @@ D 的终极目标：在 4×V100 硬件上建 research 的 AGI——能自主做�
 - **判读**：B 臂 value_mismatch > 2.4% → 瓶颈在 harness（架构），方向判断成立；B 臂也不升 → 瓶颈在模型能力（H2）。
 - **执行时机**：等 Q7 落地后（改 s5_state_machine.py 污染在飞 Q7）。方案选择需再读 `_rework_directed` 实现确认输入契约（矛盾事件结构 vs 节点状态）。
 
+**H2/H4 机制分解数据（2026-11-24 13:50，subagent deleg_35078f46 salvage，Q6 完整 / GPU·Q7 被 token 截断）**：
+- **Q6 原批 15 run（2727 节点 / 621 reworked）**：
+  - **rework_count 恒=1（100%）**：621 个 reworked 节点无一 rework_count≥2——max_rework=2 从未用满。根因非预算紧，而是 **L750 rework 目标集只含当轮批**（节点 rework 一次后不在下轮池里，见上"精确根因"）。
+  - **73% 实质改变**（454/621）：模型**修得动**——corrected_claim 与 claim 有实质差异（difflib 相似度 < 0.7）。H2"修不动"被数据削弱。
+  - **27% 无实质变化**（167/621）：空转——rework 后 claim 几乎没变（相似度 ≥ 0.7）。例：N6 claim "RTX 4090 显存带宽 1008 GB/s，均价 $1600-$2000 [时效待核]" → corrected "…均价随时间波动，需查询实时市场数据"（把具体数字换成"待查"，实质信息量下降）。
+  - **85% reworked 节点最终 degraded**（530/621）：修了但**没被验证接受**。最终 status 分布：degraded 530 (85%) / pending 59 (10%) / verified 32 (5%)。实质改变节点同样 87% degraded（395/454）。
+- **三域矛盾信号 100% 浪费**：contradictions_found 总计 **35**（GPU 24 / Q6 4 / Q7 7），对应 directed rework = **0**——检出的矛盾信号全部因 directed 路径结构性不可达而浪费。
+- **机制分解更新（H2 vs H4）**：H4（回路断裂）证据更强且是结构性的——(a) rework_count 恒=1（节点只修一次就出局）；(b) 73% 修得动但 85% 不被接受（修了白修）；(c) 35 个矛盾信号 0 转化（directed 死路径）。瓶颈不是"模型修不动"（H2 弱），而是"修了不被接受 + 只修一次 + 矛盾信号浪费"（H4 强）。
+- **对 P2 的含义**：接通 directed 只是三处断裂之一。完整修复需同时：① rework 池含历史轮 pending（让节点能修多次）；② directed 路径可达（让矛盾信号转化为定向修复）；③ 修后验证接受率提升（73% 修得动但 85% degraded → 验证标准或修复质量有问题）。P2 实验应测这三处各自的边际贡献，不只测 directed。
+
 ## 与 draft 的关系
 
 workshop draft 的 headline "budget buys breadth, not metacognition" 目前只当测量结果报。本 note 把它升级为**方向判断**，但 12:18 修正后范围收窄：draft 的 headline 本身是域内（GPU）结果，draft §4.3 已诚实标注 Q6 监控轴 invariance does not transfer。本 note 的贡献是把"修复回路低产"从 draft 的一个测量数字，升级为**跨域机制 + 对 D autoresearch 目标的设计约束**（带 P1/P2 预言）——这是 general 的那一层。draft §5/§6 可加一段指向（带 P1/P2），把测量结果变成对 D 目标有预言力的设计约束；但 headline 不能改成跨域普适版（Q6 反例在 draft 里已写）。
