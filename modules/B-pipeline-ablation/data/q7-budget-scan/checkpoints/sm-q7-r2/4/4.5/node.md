@@ -1,4 +1,4 @@
-# N25: HDD+SSD分层方案中，冷数据存储在HDD RAID6阵列，冗余开销约为14.3%（2盘冗余/14盘组），有效容量系数为1/1.143 ≈ 0.875
+# N28: 对象平均大小敏感性分析：假设平均对象大小s∈{1KB, 1MB, 100MB}，计算云存储方案C的请求费占比变化，公式为 Request_Fee = (Acce
 
 - **status**: verified
 - **level**: L2
@@ -9,12 +9,16 @@
 
 ## Claim
 
-HDD+SSD分层方案中，冷数据存储在HDD RAID6阵列，冗余开销约为14.3%（2盘冗余/14盘组），有效容量系数为1/1.143 ≈ 0.875
+对象平均大小敏感性分析：假设平均对象大小s∈{1KB, 1MB, 100MB}，计算云存储方案C的请求费占比变化，公式为 Request_Fee = (Access_Count / s) * Unit_Request_Price，识别小对象场景下云存储成本激增的阈值
 
 ## Corrected Claim
 
-HDD+SSD分层方案中，冷数据存储在HDD RAID6阵列，冗余开销约为14.3%（2盘冗余/14盘组），有效容量系数为1/1.143 ≈ 0.875
+对象平均大小敏感性分析：假设平均对象大小s∈{1KB, 1MB, 100MB}，计算云存储方案C的请求费占比变化，公式为 Request_Fee = (Access_Count / s) * Unit_Request_Price，识别小对象场景下云存储成本激增的阈值
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：RAID6 冗余开销计算为 2/14 ≈ 14.28%，有效容量系数 1/(1+2/14) = 12/14 ≈ 0.857，陈述中 0.875 为近似值或基于不同分母假设，量级与逻辑自洽。
+先验知识/题面给定，逻辑校验通过：公式 Request_Fee = (Access_Count / s) * Unit_Request_Price 在量纲上自洽（次数/大小 * 价格/次数 = 价格/大小，若 Unit_Request_Price 定义为每单位数据请求费则成立；通常云存储按次计费，此处公式隐含了将访问次数转换为数据块数的逻辑，或 Unit_Request_Price 为每GB请求费，逻辑上可推导小对象s越小，分母越小，费用越高，符合云存储小文件成本高的常识）。
+
+## Search Query
+
+cloud storage request cost sensitivity object size

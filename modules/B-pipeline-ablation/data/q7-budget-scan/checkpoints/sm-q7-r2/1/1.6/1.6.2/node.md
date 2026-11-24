@@ -1,20 +1,20 @@
-# N54: HDD+SSD分层RTO代价 = 1e-4 * 4h * Hourly_Business_Impact，其中P_DataLoss_Event=1e-4/年（HD
+# N51: HDD预留空间率通常为10%-15%（用于RAID重建空间和碎片管理），在RAID-6配置下，10%预留是合理下限，15%为推荐值，公式：有效容量 = 物理容量
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N12
+- **parent_ids**: N10
 
 ## Claim
 
-HDD+SSD分层RTO代价 = 1e-4 * 4h * Hourly_Business_Impact，其中P_DataLoss_Event=1e-4/年（HDD机械故障率较高），RTO_Hours=4h（热数据SSD无重建延迟，冷数据HDD重建时间>6h但可异步），计算结果约为$40/年
+HDD预留空间率通常为10%-15%（用于RAID重建空间和碎片管理），在RAID-6配置下，10%预留是合理下限，15%为推荐值，公式：有效容量 = 物理容量 × (1 - 0.15)
 
 ## Corrected Claim
 
-HDD+SSD分层RTO代价 = 1e-4 * 4h * Hourly_Business_Impact，其中P_DataLoss_Event=1e-4/年（HDD机械故障率较高），RTO_Hours=4h（热数据SSD无重建延迟，冷数据HDD重建时间>6h但可异步），计算结果约为$40/年
+HDD预留空间率通常为10%-15%（用于RAID重建空间和碎片管理），在RAID-6配置下，10%预留是合理下限，15%为推荐值，公式：有效容量 = 物理容量 × (1 - 0.15)
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：公式结构符合风险成本计算逻辑（概率×时间×单位损失），数值量级（1e-4/年故障率、4小时RTO）在工程常识范围内，且source为knowledge，无需外部来源支持。
+先验知识/题面给定，逻辑校验通过

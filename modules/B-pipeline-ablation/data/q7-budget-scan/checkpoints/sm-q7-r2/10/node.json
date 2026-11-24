@@ -1,11 +1,11 @@
 {
-  "id": "N47",
-  "claim": "性能成本权衡边界：当每日扫描数据量超过10TB且要求平均延迟<50ms时，云对象存储因网络延迟(>100ms)不满足需求，必须选择本地NVMe；若扫描数据量<1TB且延迟容忍>1s，云存储因无需维护硬件，TCO通常低于本地HDD方案。",
+  "id": "N38",
+  "claim": "本地 NVMe SSD 阵列的电力成本：NVMe SSD 功耗约 6-8W/盘，500TB 需约 50-100 块盘，加上服务器主板、CPU、内存、网络，单节点功耗约 500-800W。假设 3 节点集群，总功耗 1500-2400W。PUE=1.5，电价 ¥0.8/kWh，年电费 = (1500-2400W * 1.5 * 24h * 365d / 1000) * 0.8 ≈ ¥16,000-¥25,000/年。",
   "level": "L2",
   "source": "search",
-  "status": "degraded",
-  "evidence": "[质询]陈述中关于云对象存储网络延迟（>100ms）和TCO对比的具体数值阈值属于经验性工程参数，且不同云厂商、地域及网络配置下差异巨大，缺乏通用性；参考来源仅提及10TB数据量和毫秒级延迟需求，未提供云存储与本地NVMe/HDD在特定延迟/吞吐量下的TCO对比数据或网络延迟具体数值，无法直接支持该精确边界结论。 | 来源[1]和[3]确认了10TB数据量下毫秒级延迟的工程挑战，但未提供云存储网络延迟具体数值或TCO对比，属于间接支持；该事实为经验性工程权衡，逻辑自洽但缺乏直接来源支持具体数值边界。",
-  "corrected_claim": "在日均扫描数据量超过10TB且要求平均延迟<50ms的高性能场景下，云对象存储通常因网络往返延迟难以满足低延迟要求，本地NVMe是更可靠的选择；而在数据量较小（如<1TB）且延迟容忍度较高（>1s）的场景下，云存储因免运维和弹性扩展，TCO通常优于本地HDD方案。",
+  "status": "pending",
+  "evidence": "父节点级核验未通过：非正交, 有冗余（子节点之间存在严重的逻辑依赖和计算冗余。子节点2基于子节点1修正后的单节点功耗进行总功耗推导，子节点3又基于子节点2的结果计算电费。这种线性推导链条导致子节点并非正交（独立）的维度，而是同一计算流程的不同步骤。此外，子节点1和2中关于功耗参数的修正存在重复描述，且最终电费结果（¥21,677）落在父节点原始估算区间（¥16,000-25,000）内，说明分解主要是在验证/微调同一参数，而非探索独立的关键方面。）",
+  "corrected_claim": "本地 NVMe SSD 阵列的电力成本估算：基于单节点功耗 500-800W 的假设（实际高密度存储节点可能更高），3 节点集群总功耗 1500-2400W，PUE=1.5，电价 ¥0.8/kWh，年电费约为 ¥16,000-¥25,000。",
   "rework_count": 1,
   "parent_ids": [],
   "objective": null,
@@ -13,19 +13,19 @@
   "search_query": "",
   "retrieval_sources": [
     {
-      "url": "https://www.kingbase.com.cn/explore/tech-blog/%E5%AE%9E%E6%97%B6%E6%95%B0%E4%BB%93%E6%9E%B6%E6%9E%84%E5%AE%9E%E6%88%98%EF%BC%9Akingbasees-v9-%E5%A6%82%E4%BD%95%E6%94%AF%E6%92%91-10tb-%E6%B5%B7%E9%87%8F%E6%95%B0%E6%8D%AE%E6%B8%85%E6%B4%97/&rut=7360a6173d588179e97467351c80a4b296ecb585f522bfc4b3c3c4c1c8b35b7d",
+      "url": "https://blog.csdn.net/weixin_29194693/article/details/168510174&rut=e045f898195bf64e532662b166bef5fccfdb3ffa675e13bd23dcaa07aa45a540",
       "type": "ddg",
-      "title": "实时数仓架构实战：KingbaseES V9 如何支撑 10TB 海量数据清洗 - 数据库平替用金仓"
+      "title": "NVMe SSD自适应功耗优化：APST机制、算法设计与固件实践-CSDN博客"
     },
     {
-      "url": "https://cloud.tencent.com/developer/article/2657394&rut=8a25abf587b769440cb933786b25b490e7e48006c0ae6c63da3442f73687c69a",
+      "url": "https://blog.csdn.net/zhuzongpeng/article/details/156773768&rut=099989ac7de11637a50ee5afb4445d1612288f31da9f345eb211d684226d633b",
       "type": "ddg",
-      "title": "腾讯云对象存储：破解ai与大数据场景下的海量数据存储与性能瓶颈-腾讯云开发者社区-腾讯云"
+      "title": "NVMe SSD自适应功耗优化_nmve硬盘功耗-CSDN博客"
     },
     {
-      "url": "https://www.kingbase.com.cn/explore/tech-blog/%E5%B7%A5%E4%B8%9A%E7%BD%91%E7%BB%9C%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86%EF%BC%9A10tb-%E5%AE%9E%E6%97%B6%E6%B5%81%E5%85%A5%E5%BA%93%E9%9B%B6%E5%BB%B6%E8%BF%9F%E5%AE%9E%E6%88%98%E5%A4%8D%E7%9B%98/&rut=27ebeeca80b0f543d3f30a43e6d8e2c14cb5ccede98c1f9cd2b0a71087e49401",
+      "url": "https://ngabbs.com/read.php?tid=25315011&rut=b434d288e845537cde4f839ddea9af3a2049aceff568ea377e089eb361a0be3b",
       "type": "ddg",
-      "title": "工业网络数据管理：10tb 实时流入库零延迟实战复盘 - 数据库平替用金仓"
+      "title": "11款市售主流nvme Ssd详细性能及功耗详细横评 [我是搬运工] Nga玩家社区"
     }
   ]
 }

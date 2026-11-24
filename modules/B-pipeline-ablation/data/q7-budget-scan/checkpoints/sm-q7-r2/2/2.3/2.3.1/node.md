@@ -1,0 +1,30 @@
+# N63: 云对象存储标准层（Standard）单价：AWS S3 Standard在中国区（如新加坡/东京）约为$0.023/GB/月，国内阿里云OSS标准存储约为¥0.
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N14
+
+## Claim
+
+云对象存储标准层（Standard）单价：AWS S3 Standard在中国区（如新加坡/东京）约为$0.023/GB/月，国内阿里云OSS标准存储约为¥0.12/GB/月，需根据具体云厂商和区域确定基准单价
+
+## Corrected Claim
+
+云对象存储标准层（Standard）单价：AWS S3 Standard在亚太区域（如新加坡/东京）约为$0.023/GB/月，国内阿里云OSS标准存储约为¥0.12/GB/月，具体价格需根据云厂商、区域及最新官方定价页面确定。
+
+## Evidence
+
+[质询]参考来源仅包含定价页面的通用描述和元数据说明，未提供具体的单价数值（如$0.023/GB/月或¥0.12/GB/月），无法直接验证具体价格数值；且AWS中国区（aws.amazon.com/cn）通常指AWS中国区域（宁夏/北京），而新加坡/东京属于AWS亚太区域，存在区域口径混淆的可能。 | 来源[1][2][3]均为S3定价页面，但摘要中未包含具体存储单价数值，属于间接相关但无直接数据支持；逻辑上价格量级符合常识，但具体数值缺乏来源直接佐证，且区域描述存在歧义。
+
+## Search Query
+
+AWS S3 Standard storage price per GB month China region 2024 Alibaba Cloud OSS standard storage price
+
+## Retrieval Sources
+
+- {'url': 'https://aws.amazon.com/cn/s3/pricing/&rut=76ca5b0ccc400c66eabd71d747989025406fd64f0a96d6b6b228107e58d4b242', 'type': 'ddg', 'title': 'S3 Pricing - aws.amazon.com'}
+- {'url': 'https://www.amazonaws.cn/s3/pricing/&rut=effbb9e0e2bb283b012daf4dd6d07702dd07cc46a57f8d03036200587b93f0f3', 'type': 'ddg', 'title': 'Amazon S3 定价'}
+- {'url': 'https://www.amazonaws.cn/en/s3/pricing/&rut=7824be0f8a1a09975bd979742327be48f2b225b6f9b61678ffa87cf5ca726542', 'type': 'ddg', 'title': 'Amazon S3 Pricing'}

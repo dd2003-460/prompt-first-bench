@@ -1,0 +1,25 @@
+# N109: NVMe SSD阵列的年化故障率（AFR）与预期年故障次数：企业级NVMe SSD AFR通常为0.5%-1.0%（基于MTBF 2,000,000小时），72
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: (root)
+
+## Claim
+
+NVMe SSD阵列的年化故障率（AFR）与预期年故障次数：企业级NVMe SSD AFR通常为0.5%-1.0%（基于MTBF 2,000,000小时），72块盘集群年预期故障次数 = 72 * 0.75% ≈ 0.54次/年，即平均1.85年发生一次单盘故障，需确保RAID5/6重建时间小于下一块盘故障间隔，以维持数据可用性。
+
+## Corrected Claim
+
+企业级NVMe SSD的AFR通常在0.5%-1.0%范围内（具体数值依厂商和型号而异），基于此估算72块盘集群年预期故障次数约为0.54次，平均约1.85年发生一次单盘故障。
+
+## Evidence
+
+[质询]来源未提供具体的AFR数值或MTBF数据，无法直接验证0.5%-1.0%这一经验参数；且该参数属于特定硬件规格的经验事实，非第一性原理可推导。 | 逻辑推导自洽（72*0.0075=0.54, 1/0.54≈1.85），但参考来源[1][2]仅讨论可靠性概念和寿命机制，未提供具体AFR数值支持，属于经验事实缺来源直接支持。
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/421089170&rut=f4287a4c6178d2fa4a75cb2a9bd0b06b3cfaac1682bad70f68adc5eb98b5d1de', 'type': 'ddg', 'title': 'Ssd可靠性指标mttf、Mtbf、Afr解析 - 知乎专栏'}
+- {'url': 'https://zhuanlan.zhihu.com/p/2010096956383453604&rut=e66f32b24358a2ad592fd3ec09cee1a01d024cb1cdf7ce73beeee2917867e91c', 'type': 'ddg', 'title': '企业级 NVMe SSD 极限寿命与衰减机制深度分析报告 - 知乎'}

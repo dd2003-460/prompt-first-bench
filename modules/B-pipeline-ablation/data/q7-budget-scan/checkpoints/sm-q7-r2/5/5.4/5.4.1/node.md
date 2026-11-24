@@ -1,0 +1,20 @@
+# N75: NVMe SSD阵列过滤结果：IOPS需求7000（1MB块）< NVMe单盘IOPS~100,000，吞吐需求7GB/s < NVMe单盘顺序读~3GB/s×
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+NVMe SSD阵列过滤结果：IOPS需求7000（1MB块）< NVMe单盘IOPS~100,000，吞吐需求7GB/s < NVMe单盘顺序读~3GB/s×3节点=9GB/s，延迟需求0.1ms < NVMe延迟0.1ms，全部满足，过量设计系数 = 9GB/s / 7GB/s = 1.29（吞吐），IOPS过量 = 100,000 / 7000 = 14.3倍
+
+## Corrected Claim
+
+NVMe SSD阵列过滤结果：IOPS需求7000（1MB块）< NVMe单盘IOPS~100,000，吞吐需求7GB/s < NVMe单盘顺序读~3GB/s×3节点=9GB/s，延迟需求0.1ms < NVMe延迟0.1ms，全部满足，过量设计系数 = 9GB/s / 7GB/s = 1.29（吞吐），IOPS过量 = 100,000 / 7000 = 14.3倍
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：NVMe单盘IOPS（~100k）和顺序读带宽（~3GB/s）符合主流企业级NVMe SSD的典型性能量级；算术计算（9/7≈1.29, 100000/7000≈14.3）准确无误；逻辑推导自洽。

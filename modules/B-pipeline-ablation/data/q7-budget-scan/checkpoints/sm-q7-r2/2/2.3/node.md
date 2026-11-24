@@ -1,4 +1,4 @@
-# N15: 云存储服务费 = (存储量×单价 + 请求次数×请求单价 + 数据取回量×取回单价)，其中S3 Standard单价≈$0.023/GB/月，Standard-
+# N14: 云对象存储服务费：S3标准存储约¥0.12/GB/月，低频存储约¥0.08/GB/月，归档存储约¥0.03/GB/月，500TB年服务费 ≈ 500×1024×
 
 - **status**: degraded
 - **level**: L2
@@ -9,22 +9,22 @@
 
 ## Claim
 
-云存储服务费 = (存储量×单价 + 请求次数×请求单价 + 数据取回量×取回单价)，其中S3 Standard单价≈$0.023/GB/月，Standard-IA≈$0.0125/GB/月，Glacier≈$0.004/GB/月；500TB冷数据用Glacier、20%温数据用Standard-IA，月费≈500×80%×1024×0.004 + 500×20%×1024×0.0125 ≈ $1,638 + $1,280 = $2,918/月。
+云对象存储服务费：S3标准存储约¥0.12/GB/月，低频存储约¥0.08/GB/月，归档存储约¥0.03/GB/月，500TB年服务费 ≈ 500×1024×12×加权平均单价
 
 ## Corrected Claim
 
-云存储服务费通常包含存储、请求和取回费用。若按AWS S3历史典型单价估算（Standard-IA≈$0.0125/GB/月, Glacier≈$0.004/GB/月），500TB数据中80%冷数据存Glacier、20%温数据存Standard-IA，月存储费约为$2,918（不含请求和取回费用，具体价格需以实时官网为准）。
+云对象存储服务费：S3标准存储、低频存储、归档存储单价因区域而异（例如中国区域标准存储约为¥0.12/GB/月量级），500TB年服务费 ≈ 500×1024×12×加权平均单价
 
 ## Evidence
 
-[质询]参考来源均为阿里云OSS的计费文档，与陈述中明确指出的AWS S3服务及其具体单价（$0.023/GB/月等）在主题和领域上不匹配，无法提供外部支持；且S3具体单价属于经验事实，随时间和地区波动，缺乏来源直接证实。 | 逻辑推导成立（500*0.8*1024*0.004=1638.4, 500*0.2*1024*0.0125=1280, 总和2918.4），但参考来源[1][2][3]均为阿里云OSS计费说明，与AWS S3无关，属于经验事实且缺来源支持。
+[质询]具体数值（¥0.12/GB/月等）属于经验事实，且不同区域（如中国宁夏/北京 vs 全球其他区域）及汇率波动会导致价格差异，参考来源摘要未提供具体数值，无法直接验证该特定数值是否准确对应当前所有区域或特定区域。 | 逻辑推导成立（500TB转GB及年费计算公式正确），但具体单价为经验事实，参考来源[1][2][3]仅确认S3存在分层存储及按GB计费模式，未提供具体数值支持，故降级。
 
 ## Search Query
 
-AWS S3 pricing standard IA glacier 2024
+AWS S3 pricing per GB month 2024
 
 ## Retrieval Sources
 
-- {'url': 'https://help.aliyun.com/zh/oss/billing-overview&rut=20a4e60b70be8973e18cefcd6f2fb100293e26b95f3592f62bb8694d97cde4f2', 'type': 'ddg', 'title': 'Oss的计费组成、付费方式和定价-对象存储 (Oss)-阿里云帮助中心'}
-- {'url': 'https://www.alibabacloud.com/help/zh/oss/billing-overview&rut=097fc671895595d0e60ce23475ad02584a2df9a1245d9910136d168d6df24318', 'type': 'ddg', 'title': 'Oss的计费组成、付费方式和定价 - 对象存储 Oss - 阿里云'}
-- {'url': 'https://help.aliyun.com/zh/oss/api-operation-calling-fees&rut=00f0177205a15cea7ab03cebd6048f69406bfedda0215d7a006bc6dcf6d8cbd0', 'type': 'ddg', 'title': '什么情况下会产生PutRequest和GetRequest费用-对象存储 (OSS)-阿里云帮助中心'}
+- {'url': 'https://aws.amazon.com/cn/s3/pricing/&rut=76ca5b0ccc400c66eabd71d747989025406fd64f0a96d6b6b228107e58d4b242', 'type': 'ddg', 'title': 'S3 Pricing - aws.amazon.com'}
+- {'url': 'https://www.amazonaws.cn/s3/pricing/&rut=effbb9e0e2bb283b012daf4dd6d07702dd07cc46a57f8d03036200587b93f0f3', 'type': 'ddg', 'title': 'Amazon S3 定价'}
+- {'url': 'https://costgoat.com/pricing/amazon-s3&rut=85a9fbf5d8e3c93731df3916135d393aa3faee42c6d2e1337971c2dca987bb44', 'type': 'ddg', 'title': 'S3 Cost Calculator: Amazon S3 Pricing per GB (Nov 2026)'}

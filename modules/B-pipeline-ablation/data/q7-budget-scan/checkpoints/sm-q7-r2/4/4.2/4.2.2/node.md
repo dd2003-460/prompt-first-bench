@@ -1,0 +1,20 @@
+# N57: HDD分层恢复吞吐5TB/h的瓶颈分解：40块10TB HDD RAID6，单盘顺序读速≈180MB/s，聚合读速=40×180MB/s=7.2GB/s=25.
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N23
+
+## Claim
+
+HDD分层恢复吞吐5TB/h的瓶颈分解：40块10TB HDD RAID6，单盘顺序读速≈180MB/s，聚合读速=40×180MB/s=7.2GB/s=25.9TB/h；但RAID6重建时需校验+读取，实际恢复吞吐≈50%聚合读速=13TB/h；若考虑SSD热层100TB恢复，SSD读速≈500MB/s/盘×10盘=5GB/s=18TB/h；综合恢复吞吐≈min(13, 18)=13TB/h（非5TB/h），5TB/h为保守估计（含校验开销）
+
+## Corrected Claim
+
+HDD分层恢复吞吐5TB/h的瓶颈分解：40块10TB HDD RAID6，单盘顺序读速≈180MB/s，聚合读速=40×180MB/s=7.2GB/s=25.9TB/h；但RAID6重建时需校验+读取，实际恢复吞吐≈50%聚合读速=13TB/h；若考虑SSD热层100TB恢复，SSD读速≈500MB/s/盘×10盘=5GB/s=18TB/h；综合恢复吞吐≈min(13, 18)=13TB/h（非5TB/h），5TB/h为保守估计（含校验开销）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：40块10TB HDD RAID6聚合读速7.2GB/s（25.9TB/h），考虑RAID6重建开销后实际吞吐约13TB/h，SSD层18TB/h，综合瓶颈为13TB/h，5TB/h为保守估计，数值量级与逻辑自洽。

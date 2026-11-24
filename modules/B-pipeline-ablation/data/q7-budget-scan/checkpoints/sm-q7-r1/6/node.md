@@ -1,26 +1,16 @@
-# N31: 云对象存储冷数据取回费用阈值：若冷数据（400TB）发生1%的意外访问，从低频存储（IA）取回1TB数据的费用约为$10（$0.01/GB * 1000GB），
+# N6: 横切因子：不确定性、增长率与区域差异：覆盖年增长率对500TB基线的影响、对象存储区域差异（S3/OSS定价与延迟）、平均对象大小对请求计费的影响等横切量
 
-- **status**: degraded
-- **level**: L2
-- **source**: search
+- **status**: verified
+- **level**: L1
+- **source**: given
 - **edge_type**: cartesian
-- **rework_count**: 1
+- **rework_count**: 0
 - **parent_ids**: (root)
 
 ## Claim
 
-云对象存储冷数据取回费用阈值：若冷数据（400TB）发生1%的意外访问，从低频存储（IA）取回1TB数据的费用约为$10（$0.01/GB * 1000GB），从归档存储（Glacier Instant Retrieval）取回1TB约为$25（$0.025/GB），显著高于标准存储
-
-## Corrected Claim
-
-云对象存储冷数据取回费用显著高于标准存储。以 AWS S3 为例，若冷数据（400TB）发生1%的意外访问，从低频存储（IA）取回1TB数据的费用约为$10（基于$0.01/GB估算），从归档存储（Glacier Instant Retrieval）取回1TB约为$25（基于$0.025/GB估算）。具体费用需依据所选云厂商及区域的实际定价为准。
+横切因子：不确定性、增长率与区域差异：覆盖年增长率对500TB基线的影响、对象存储区域差异（S3/OSS定价与延迟）、平均对象大小对请求计费的影响等横切量
 
 ## Evidence
 
-[质询]陈述中引用的具体单价（$0.01/GB 和 $0.025/GB）及对应的云厂商（隐含 AWS S3 标准，因提及 Glacier Instant Retrieval）属于经验事实，参考来源均为腾讯云和天翼云，其计费标准与 AWS 不同，无法直接支持该具体数值；且不同云厂商或不同区域的价格存在差异，单一数值不具备普适性。 | 逻辑推导成立（1TB=1000GB，$0.01*1000=$10，$0.025*1000=$25），但参考来源[1][2][3]均为国内云厂商（腾讯云/天翼云）的计费说明，未包含 AWS S3 的具体单价，属于经验事实缺来源直接支持，故降级。
-
-## Retrieval Sources
-
-- {'url': 'https://cloud.tencent.com/document/product/436/53862&rut=291549f410b4fdb0fc4b7767716f163fe3198b17a0c865a49f6f10870224451f', 'type': 'ddg', 'title': '对象存储 数据取回费用_腾讯云'}
-- {'url': 'https://www.ctyun.cn/document/10026735/10240016&rut=0b44046dafcc4a28e911a83486b32d35f8b4017c15f57b0f4a8ea847c7fd7848', 'type': 'ddg', 'title': '数据取回费用-对象存储 Zos-计费说明-计费项 - 天翼云'}
-- {'url': 'https://intl.cloud.tencent.com/zh/document/product/436/40097&rut=ac50885189791bcb9c785ec96337049b8d1fbfcf064ff3b9a1edb0341ab388f9', 'type': 'ddg', 'title': '数据取回费用 - intl.cloud.tencent.com'}
+父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点中明确列出的三个核心横切因子（增长率、区域差异、对象大小）以及隐含的‘不确定性’维度。各节点关注点独立：一个关注时间维度（TCO/增长），一个关注空间/供应商维度（区域/定价），一个关注数据粒度维度（请求计费），一个关注风险缓冲。内容无重叠，且覆盖了父节点描述的所有关键方面。）

@@ -1,29 +1,24 @@
-# N13: NVMe SSD硬件折旧成本 = (单盘价格×盘数) / 使用寿命(年)，其中企业级NVMe SSD(如Samsung PM9A3 3.84TB)单价≈¥4,0
+# N12: 硬件折旧成本：本地NVMe SSD阵列年折旧 = 硬件采购成本 / 折旧年限（典型3-5年），NVMe SSD单价约为¥3000-5000/TB，500TB需1
 
-- **status**: degraded
+- **status**: pending
 - **level**: L2
-- **source**: search
+- **source**: knowledge
 - **edge_type**: quotient
-- **rework_count**: 1
+- **rework_count**: 0
 - **parent_ids**: N2
 
 ## Claim
 
-NVMe SSD硬件折旧成本 = (单盘价格×盘数) / 使用寿命(年)，其中企业级NVMe SSD(如Samsung PM9A3 3.84TB)单价≈¥4,000-5,000，使用寿命≈5年(基于DWPD=1)，12盘阵列年折旧≈¥9,600-12,000。
+硬件折旧成本：本地NVMe SSD阵列年折旧 = 硬件采购成本 / 折旧年限（典型3-5年），NVMe SSD单价约为¥3000-5000/TB，500TB需1000TB物理容量（RAID-10），年折旧 ≈ ¥600,000-1,000,000
 
 ## Corrected Claim
 
-NVMe SSD硬件折旧成本 = (单盘价格×盘数) / 使用寿命(年)，其中企业级NVMe SSD使用寿命通常约为5年(基于DWPD=1)，具体年折旧金额需根据实时市场单价计算。
+硬件折旧成本：本地NVMe SSD阵列年折旧 = 硬件采购成本 / 折旧年限（典型3-5年），NVMe SSD单价约为¥3000-5000/TB，500TB需1000TB物理容量（RAID-10），年折旧 ≈ ¥600,000-1,000,000
 
 ## Evidence
 
-[质询]具体型号（Samsung PM9A3 3.84TB）的市场单价（¥4,000-5,000）属于经验事实，且价格随市场波动，参考来源未提供该具体数值，无法排除价格偏差或过时风险。 | 折旧公式逻辑自洽，来源[1][2]间接支持企业级SSD寿命与DWPD/擦写次数的关联，但缺乏对具体单价的直接支持，属经验事实缺来源。
+父节点级核验未通过：非正交, 不完备（1. 正交性违背：子节点3（电力成本）不属于父节点（硬件折旧成本）的范畴，折旧仅指资产价值随时间的摊销，不包含运营期间的电力消耗，二者属于不同的成本科目（CAPEX vs OPEX）。2. 完备性/范围错误：父节点明确限定为“折旧”，子节点3引入了无关的电力成本，导致分解偏离主题。）
 
 ## Search Query
 
-Samsung PM9A3 3.84TB NVMe SSD price 2024
-
-## Retrieval Sources
-
-- {'url': 'https://zhuanlan.zhihu.com/p/2010096956383453604&rut=e66f32b24358a2ad592fd3ec09cee1a01d024cb1cdf7ce73beeee2917867e91c', 'type': 'ddg', 'title': '企业级 NVMe SSD 极限寿命与衰减机制深度分析报告 - 知乎'}
-- {'url': 'https://zhuanlan.zhihu.com/p/93028605&rut=f42ea9ced22181ba312e7c32956ecd4760d8e346bec972c52ba664fb59e085a7', 'type': 'ddg', 'title': '固态硬盘能用多少年?小白记住这个计算公式,以免数据丢失'}
+NVMe SSD price per TB 2024

@@ -1,0 +1,20 @@
+# N101: NVMe SSD 功耗修正：N38 假设单盘 6-8W 偏低，企业级 NVMe SSD（如 Samsung PM9A3, Intel P5510）典型功耗为 8
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N38
+
+## Claim
+
+NVMe SSD 功耗修正：N38 假设单盘 6-8W 偏低，企业级 NVMe SSD（如 Samsung PM9A3, Intel P5510）典型功耗为 8-15W（读写混合负载），待机 2-5W。500TB 有效容量需 550TB 物理容量（含冗余），假设使用 7.68TB 盘，需 72 块盘。总磁盘功耗 = 72 * 12W ≈ 864W。加上主板/CPU/内存/网络，单节点功耗应修正为 1000-1500W（而非 500-800W）。
+
+## Corrected Claim
+
+NVMe SSD 功耗修正：N38 假设单盘 6-8W 偏低，企业级 NVMe SSD（如 Samsung PM9A3, Intel P5510）典型功耗为 8-15W（读写混合负载），待机 2-5W。500TB 有效容量需 550TB 物理容量（含冗余），假设使用 7.68TB 盘，需 72 块盘。总磁盘功耗 = 72 * 12W ≈ 864W。加上主板/CPU/内存/网络，单节点功耗应修正为 1000-1500W（而非 500-800W）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：企业级NVMe SSD功耗范围（8-15W）及整机功耗估算（1000-1500W）符合工程常识与物理量级，计算逻辑自洽。

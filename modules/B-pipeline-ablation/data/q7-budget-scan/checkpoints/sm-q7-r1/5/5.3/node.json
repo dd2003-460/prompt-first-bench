@@ -1,17 +1,17 @@
 {
-  "id": "N36",
-  "claim": "HDD分层方案中，热数据SSD层需承载全部温数据扫描，若SSD层容量为50TB，则SSD吞吐需求同上(5.22GB/s峰值)，而HDD层仅处理冷数据随机读，IOPS需求极低(<100)",
+  "id": "N29",
+  "claim": "延迟需求：温数据扫描为顺序读，延迟不敏感（P99<100ms即可）；冷数据无交互查询，延迟无约束；若存在偶发点查（<1%流量），P99延迟需<10ms",
   "level": "L2",
   "source": "knowledge",
-  "status": "degraded",
-  "evidence": "[质询]「热数据SSD层需承载全部温数据扫描」这一架构假设存在逻辑矛盾：通常热数据层用于加速高频访问，若需承载全部温数据扫描，意味着SSD层实际上承担了温数据层的职责，这与分层存储中‘热/温/冷’的定义及数据分布逻辑不符，且50TB SSD承载全量温数据扫描的吞吐需求（5.22GB/s）是否合理取决于温数据总量和扫描频率，缺乏具体上下文支持。 | 先验知识/题面给定，逻辑校验通过，但架构假设存在潜在矛盾，降级为定性表述",
-  "corrected_claim": "HDD分层方案中，若SSD层容量为50TB并需承载温数据扫描，则SSD吞吐需求约为5.22GB/s峰值，而HDD层仅处理冷数据随机读，IOPS需求极低(<100)。",
-  "rework_count": 1,
+  "status": "verified",
+  "evidence": "先验知识/题面给定，逻辑校验通过：温数据顺序读对延迟不敏感，冷数据无交互，偶发点查需低延迟，符合存储系统分层设计常识。",
+  "corrected_claim": "延迟需求：温数据扫描为顺序读，延迟不敏感（P99<100ms即可）；冷数据无交互查询，延迟无约束；若存在偶发点查（<1%流量），P99延迟需<10ms",
+  "rework_count": 0,
   "parent_ids": [
     "N5"
   ],
   "objective": null,
   "edge_type": "cartesian",
-  "search_query": "",
+  "search_query": "sequential scan latency requirement point query P99",
   "retrieval_sources": []
 }

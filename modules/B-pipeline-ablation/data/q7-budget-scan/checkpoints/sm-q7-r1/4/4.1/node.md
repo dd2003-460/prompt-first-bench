@@ -1,19 +1,19 @@
-# N24: 方案A (NVMe SSD) 的每TB年有效成本基准值：基于500TB总容量，假设SSD寿命3年，电力系数0.1W/TB，运维人力分摊系数5%，计算得出单位有效
+# N22: RTO目标值（小时）：基于业务连续性要求，定义最大允许中断时间 T_rto [待核验：需业务方确认，假设温数据中断导致分析任务停滞，冷数据无实时性要求，取温数据
 
 - **status**: verified
 - **level**: L2
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
 - **parent_ids**: N4
 
 ## Claim
 
-方案A (NVMe SSD) 的每TB年有效成本基准值：基于500TB总容量，假设SSD寿命3年，电力系数0.1W/TB，运维人力分摊系数5%，计算得出单位有效成本 C_A = (Capex_A/3 + Opex_A) / (500TB * 0.85可用率)，其中 Capex_A 和 Opex_A 为具体数值占位符
+RTO目标值（小时）：基于业务连续性要求，定义最大允许中断时间 T_rto [待核验：需业务方确认，假设温数据中断导致分析任务停滞，冷数据无实时性要求，取温数据RTO=4h，冷数据RTO=24h]
 
 ## Corrected Claim
 
-方案A (NVMe SSD) 的每TB年有效成本基准值：基于500TB总容量，假设SSD寿命3年，电力系数0.1W/TB，运维人力分摊系数5%，计算得出单位有效成本 C_A = (Capex_A/3 + Opex_A) / (500TB * 0.85可用率)，其中 Capex_A 和 Opex_A 为具体数值占位符
+RTO目标值（小时）：基于业务连续性要求，定义最大允许中断时间 T_rto [待核验：需业务方确认，假设温数据中断导致分析任务停滞，冷数据无实时性要求，取温数据RTO=4h，冷数据RTO=24h]
 
 ## Evidence
 
@@ -21,4 +21,4 @@
 
 ## Search Query
 
-NVMe SSD storage cost per TB per year 2024
+internal data lake RTO requirement standard hours

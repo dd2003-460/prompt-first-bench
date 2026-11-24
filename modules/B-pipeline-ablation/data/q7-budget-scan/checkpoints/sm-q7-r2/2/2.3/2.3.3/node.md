@@ -1,0 +1,30 @@
+# N65: 云对象存储归档层（Archive/Glacier）单价：AWS S3 Glacier Instant Retrieval约为$0.004/GB/月，阿里云OSS
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N14
+
+## Claim
+
+云对象存储归档层（Archive/Glacier）单价：AWS S3 Glacier Instant Retrieval约为$0.004/GB/月，阿里云OSS归档存储约为¥0.03/GB/月，比标准层低约75%-85%
+
+## Corrected Claim
+
+云对象存储归档层单价：AWS S3 Glacier Instant Retrieval约为$0.004/GB/月（需进一步核实具体区域价格），阿里云OSS归档存储约为¥0.03/GB/月（需独立来源核实），通常归档层比标准层低约75%-85%。
+
+## Evidence
+
+[质询]参考来源仅包含AWS S3 Glacier的相关页面，完全缺失阿里云OSS归档存储的价格数据，且AWS来源摘要中未直接列出$0.004/GB/月的具体数值，无法通过现有来源验证阿里云价格及两者对比的百分比。 | 来源[1][2][3]仅覆盖AWS S3 Glacier，与阿里云OSS价格无关；AWS具体单价未在摘要中直接体现，属于经验事实且缺乏多源支持，故降级。
+
+## Search Query
+
+AWS S3 Glacier Instant Retrieval storage price per GB month Alibaba Cloud OSS archive storage price
+
+## Retrieval Sources
+
+- {'url': 'https://aws.amazon.com/cn/s3/storage-classes/glacier/&rut=635d412def622651dc3e181ab060091f41a5c60596318335dbaa01882a1e23c3', 'type': 'ddg', 'title': '安全档案存储 — Amazon S3 Glacier 存储类 — AWS'}
+- {'url': 'https://aws.amazon.com/cn/s3/glacier/pricing/&rut=c2a08dc470434200ac6bc8f190d8eaaccc1ed5b0cca6f42503984dcc9780b00a', 'type': 'ddg', 'title': 'Amazon S3 Glacier API 定价 | Amazon Web Services - aws.amazon.com'}
+- {'url': 'https://docs.aws.amazon.com/zh_cn/whitepapers/latest/how-aws-pricing-works/amazon-s3-glacier.html&rut=376339b3acd07cf5cfdbba481d4762c828cd138ee1514ab361b46062f776dcdc', 'type': 'ddg', 'title': 'Amazon S3 Glacier - AWS 定价的工作原理'}

@@ -1,0 +1,24 @@
+# N98: HDD+SSD分层方案中，温数据（100TB SSD层）的RTO量化值：SSD层RAID-10重建时间<1小时，冷数据（400TB HDD层）若发生故障需从独立
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N23
+
+## Claim
+
+HDD+SSD分层方案中，温数据（100TB SSD层）的RTO量化值：SSD层RAID-10重建时间<1小时，冷数据（400TB HDD层）若发生故障需从独立备份系统恢复，备份恢复时间取决于备份介质（磁带库≈4-8小时/400TB，异地快照≈2-4小时/400TB），总RTO≈3-6小时，可能超出RTO=4h目标，需配置增量备份或更高带宽恢复通道
+
+## Corrected Claim
+
+HDD+SSD分层方案中，温数据（100TB SSD层）的RTO量化值：SSD层RAID-10重建时间<1小时，冷数据（400TB HDD层）若发生故障需从独立备份系统恢复，备份恢复时间取决于备份介质（磁带库≈4-8小时/400TB，异地快照≈2-4小时/400TB），总RTO≈3-6小时，可能超出RTO=4h目标，需配置增量备份或更高带宽恢复通道
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：SSD RAID-10重建速度极快（<1h合理），HDD层依赖备份恢复，磁带/快照恢复400TB数据耗时数小时符合工程常识，总RTO估算逻辑自洽。
+
+## Search Query
+
+HDD RAID-6 rebuild time 400TB backup restore RTO

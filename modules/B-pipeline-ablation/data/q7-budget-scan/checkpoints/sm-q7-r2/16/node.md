@@ -1,0 +1,26 @@
+# N111: S3/OSS对象存储的‘软’RTO约束：S3本身SLA为99.9%可用性，但‘恢复’指数据可访问性。若发生区域级故障，S3 Multi-Region复制同步延迟
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: (root)
+
+## Claim
+
+S3/OSS对象存储的‘软’RTO约束：S3本身SLA为99.9%可用性，但‘恢复’指数据可访问性。若发生区域级故障，S3 Multi-Region复制同步延迟通常为分钟级，但数据一致性检查需额外时间。对于RTO=4h的温数据，S3满足要求；但对于RTO=1h的高敏感场景，需依赖本地缓存层（Cache Layer），否则S3的API限流和网络抖动可能导致实际恢复时间超过1h，需计入¥5,000/h的SLA违约罚金风险。
+
+## Corrected Claim
+
+S3/OSS对象存储的SLA通常保证99.9%以上的可用性，但区域级故障下的数据恢复时间（RTO）受复制延迟和网络状况影响。对于RTO要求严格（如1h）的场景，仅依赖对象存储可能无法满足，建议结合本地缓存层以降低恢复时间风险；具体罚金需依据实际合同条款确定。
+
+## Evidence
+
+[质询]陈述中关于S3 Multi-Region复制延迟为分钟级、API限流导致恢复超1h以及¥5,000/h罚金风险的具体数值和因果推断属于经验性工程细节，参考来源仅涵盖阿里云OSS的SLA定义，未提供S3的具体复制延迟数据或罚金标准，且将S3特性直接套用于OSS场景存在口径混淆风险。 | 来源[1]和[3]确认了对象存储SLA的存在及高可用性架构，但未直接支持S3复制延迟分钟级或具体罚金金额；逻辑上RTO约束与缓存层依赖关系自洽，但具体数值缺乏直接来源支持，属经验事实。
+
+## Retrieval Sources
+
+- {'url': 'http://terms.aliyun.com/legal-agreement/terms/suit_bu1_ali_cloud/suit_bu1_ali_cloud201803021527_93160.html&rut=465e2cfb874eb421bedfeddf85c8859f80d347b39efa6548bd94f8bd62b47771', 'type': 'ddg', 'title': '对象存储OSS服务等级协议 - aliyun.com'}
+- {'url': 'https://support.huaweicloud.com/intl/zh-cn/tr-central-201-usermanual-obs/obs_faq_0175.html&rut=714bab09c38241f5a7a3f104012e1a4e1eed8f6d56459866fbf9a011caf10b1f', 'type': 'ddg', 'title': 'Obs的sla及约束_持久性和可用性_常见问题_用户指南（安卡拉区域）_对象存储服务 Obs-华为云'}
+- {'url': 'https://developer.aliyun.com/article/766513&rut=74893df27aaecbfc1a045034893b4fd0ecd12ebd9abc08b0265a769efda61943', 'type': 'ddg', 'title': '提升 10 倍!阿里云对象存储 Oss 可用性 Sla 技术揭秘'}

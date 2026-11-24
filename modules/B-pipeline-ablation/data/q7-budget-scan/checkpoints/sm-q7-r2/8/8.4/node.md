@@ -1,0 +1,24 @@
+# N96: HDD+SSD 分层方案的混合采购策略：为避免单一供应商锁定，建议 HDD 与 SSD 分别采购最优性价比品牌；HDD 选择 Seagate Exos 或 WD
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N36
+
+## Claim
+
+HDD+SSD 分层方案的混合采购策略：为避免单一供应商锁定，建议 HDD 与 SSD 分别采购最优性价比品牌；HDD 选择 Seagate Exos 或 WD Ultrastar（价格较低，±5%），SSD 选择 Kioxia 或 Intel（价格较低，±10%）；混合采购的总成本较单一品牌采购可降低 5%-8%，但需确保固件兼容性（RAID 控制器支持多品牌混合）
+
+## Corrected Claim
+
+HDD+SSD 分层方案建议采用混合采购策略以避免单一供应商锁定。通常可分别选择市场上性价比最优的HDD（如Seagate Exos或WD Ultrastar系列）和SSD（如Kioxia或Intel/Solidigm系列）品牌。混合采购可能在特定市场周期内带来成本优化，但具体节省比例（如5%-8%）需根据实时报价评估。实施前必须严格验证所选多品牌设备在目标RAID控制器及操作系统下的固件兼容性、SMART支持及掉电保护机制的一致性。
+
+## Evidence
+
+[质询]具体品牌推荐（Seagate/WD/Kioxia/Intel）及具体的成本降低幅度（5%-8%）属于高度依赖市场实时波动的经验事实，且不同企业级SSD/HDD的固件兼容性并非仅由RAID控制器决定，还涉及SMART数据格式、掉电保护机制等底层差异，‘确保固件兼容性’的表述过于简化，存在技术风险。 | 经验事实，逻辑自洽但缺来源支持；混合采购降低供应商锁定风险符合商业逻辑，但具体品牌性价比排名及成本节省比例随市场波动，无固定标准，且兼容性描述不够严谨。
+
+## Search Query
+
+mixed brand HDD SSD RAID compatibility cost optimization strategy

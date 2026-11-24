@@ -1052,3 +1052,11 @@ q7_domain_gold_analyze.py（116 行）独立核验：
 - marginal yield (K7 L561 口径: (c−200-400 bin mean)/400×200): r1=−0.0109, r2=+0.0435, r3=+0.0326 — 与 draft 声明精确对上
 
 **n=3 承重统计数字全部独立复现通过**：断点 F(2,14)=2.727 p=0.100 ss 0.0220/0.01583 ✓、pooled cor=0.8053 t=5.432 df=16 ✓、se_diff=0.0360→1.21× ✓、marginal yield 三点 ✓。draft 的 n=3 承重数字无一处未复现。
+
+## Q7 budget=50 r1/r2/r3 同分异常核验 (2026-11-24 11:10)
+
+**现象**: relay 日志 run2/run3 score=0.3577 depth=0.550 cov=0.115 metacog=0.0450 四量全同。
+**核验 (source ① 本轮工具)**: 树 SHA256 不同 (nodes 字段哈希 DIFFER), final_state r1=rework vs r2/r3=verify, rework_events 不同 → **非 cache 复用, 是独立 run, 数据有效**。
+**同分解释**: cov=0.115=6/52 量化 (都命中 6 unit); 关键词 ad-hoc hitset 0 命中是因为 judge_v1 走 bge-m3 embedding 非关键词匹配 (口径不对, 不追)。
+**承重判断**: budget=50 是低预算端 (基线 bin), 非承重点; 承重分析在高预算 bin (100+ run)。即使 budget=50 run-to-run 方差偏低, 不影响主声明。watchdog 落地 15 文件后用真 judge (q7_full_analysis + q7_domain_gold_analyze) 做正式分析。
+**结论**: Q7 数据有效, 不阻塞, 不等。
