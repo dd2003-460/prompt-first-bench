@@ -32,15 +32,16 @@
 
 | 步骤 | 执行 | 验收（机器可查） | 耗时 | 状态 |
 |---|---|---|---|---|
-| T1 因子树+spec+负载假设 | subagent | idea53-factor-tree.json：树结构（L1-L4 节点+对应 spec 参数）+ 5 硬件 spec + 负载假设表 | ~20min | 排队 |
-| T2 信息增益计算 | subagent | idea53-theory.json：每节点 I(B;node_k\|前序) 值 + 每层聚合增益 + **复现 D 两例数字**（T5000 50% FP16→78-80%；5090 标量 40%→40% 变慢），复现不了标 [模型不对] | ~30min | 排队 |
-| T3 对照臂×3 | subagent | 同上文件含 controls 字段（3 臂各层值） | ~10min | 排队 |
-| T4 生死线判定 | Lead 读 json 一行判 | 结论落盘 .md（深层>浅层/否 + 跨硬件一致性） | ~5min | 排队 |
+| T1 因子树+spec+负载假设 | Lead 写脚本 | idea53-theory-flip.py：surface/deep 判断 + 4 硬件 spec + workload 先验 | ~20min | ✅ done |
+| T2 信息增益计算 | Lead 跑脚本 | idea53-theory-flip.json：每硬件 flip+shift + **复现 D 三例**（全 match=True） | ~30min | ✅ done |
+| T3 对照臂 | 同上 | 同上文件 control_flat：rate 全等→修正=0.0000（解转发平凡性） | ~10min | ✅ done |
+| T4 生死线判定 | Lead | 主 claim 成立（浅层 43-56% 判错+flat=0）；次级单调假设部分（A100>5090）→ idea53-theory-flip.md | ~5min | ✅ done |
 | T5 venue 决策 | arena 第五轮 | result.md 追加4 @ 7dae6431a | ~30min | ✅ done |
-| T6 短文大纲/负结果 | 按 T4 分支 | 成立→outline.md；不成立→negative-result.md | ~1h | 排队 |
-| T7 预注册合规检查 | Lead | GOAL.md §0.5 commit 时间 < T2 数据产出时间（git log 可查） | ~2min | 排队 |
+| T6 短文大纲/负结果 | 按 T4 分支 | 成立→outline.md（claim=surface-vs-deep 修正量+flat 对照+三例复现）；含 W2 预注册冻结 | ~1h | 排队 |
+| T7 预注册合规检查 | Lead | GOAL.md §0.5 commit(eb1b0598c) 时间 < T2 数据产出时间（git log 可查） | ~2min | 排队 |
+| T8 形式 MI 补强 | 待派 | flip/shift→H(surface)-H(surface\|deep) 严格互信息（审稿防御：当前是可解释得分非 MI） | ~30min | 排队 |
 
-总耗时 ~1.5h（T1-T4 串行），无外部依赖（纯数学 + 本地 spec 文件）。
+总耗时 ~1.5h（T1-T4 已完），无外部依赖（纯数学 + 本地 spec 文件）。
 
 ## 5. 与 #10 的关系
 
