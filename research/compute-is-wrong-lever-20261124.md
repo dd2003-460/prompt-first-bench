@@ -73,6 +73,27 @@ D 的终极目标：在 4×V100 硬件上建 research 的 AGI——能自主做�
 
 **未决**：H2/H4 的树数据分析（派 subagent）；H1/H3 的触发日志是否存在（待查 s5_state_machine.py 是否记录 rework 触发置信度）。
 
+**12:58 代码级机制核验（source ① 本轮读 s5_state_machine.py L728-788 + Q6 文件 rework_events）——H1-H4 被具体机制取代**：
+
+读了触发逻辑，"为什么低产"有了具体答案，比 H1-H4 更可操作：
+
+1. **触发是批级二值，非 per-node**（L728-734）：`_should_rework(batch)` = 批内 verified rate < `verify_threshold`(0.85) 才触发。→ **H3 以另一种形式成立**：批里 85% verified 时，剩下 15% 错的节点不触发 rework——粗粒度触发系统性漏掉"少数派错节点"。不是"置信度阈值保守"，是"触发粒度太粗"。
+2. **三域全部 rework 是 angle 模式（盲换角度重搜），directed 模式全 0**（本轮全批核验：Q6 angle 621 / Q7 angle 121 / GPU angle 2298，directed 三域均 0；None 是父节点级核验事件非节点 rework）。directed（定向矛盾修正，D34 加的、设计上最有效的修复路径）依赖 contradiction_events，三域都没检出足够矛盾 → **从未触发**。→ 最有力的修复路径在**所有域**是死代码，不只是 Q6。
+3. **max_rework=2**（L119）：每节点最多 rework 2 次，之后直接 degraded 放弃。
+
+**机制结论（取代 H1-H4 的"空处方"）**：修复回路低产 = harness 设计问题，不是模型能力问题（三域全批核验一致）：
+- 批级粗触发漏掉少数派错节点（触发粒度）
+- 只有盲重搜路径，定向修正三域从未触发（路径单一 + 依赖矛盾检测）
+- 2 次即弃（预算过紧）
+
+**对 D autoresearch 目标的设计含义（具体改法，不再是空话）**：
+1. 触发粒度 batch → node（per-node verified 失败即触发）
+2. 打开 directed 路径（加强矛盾检测，让 directed 有输入）
+3. max_rework 2 → 更高（或按节点重要性分配）
+**这三条全是 harness 改动，零算力/零模型改动**——与 note 核心判断"修复回路靠架构"一致，且现在"架构"有了具体指代。
+
+**P2 预言因此可设计**：改这三条 harness（不加预算）应使回修率显著升；若升不了 → 说明瓶颈在模型修复能力（H2），本判断的"架构瓶颈"版被削弱。
+
 ## 与 draft 的关系
 
 workshop draft 的 headline "budget buys breadth, not metacognition" 目前只当测量结果报。本 note 把它升级为**方向判断**，但 12:18 修正后范围收窄：draft 的 headline 本身是域内（GPU）结果，draft §4.3 已诚实标注 Q6 监控轴 invariance does not transfer。本 note 的贡献是把"修复回路低产"从 draft 的一个测量数字，升级为**跨域机制 + 对 D autoresearch 目标的设计约束**（带 P1/P2 预言）——这是 general 的那一层。draft §5/§6 可加一段指向（带 P1/P2），把测量结果变成对 D 目标有预言力的设计约束；但 headline 不能改成跨域普适版（Q6 反例在 draft 里已写）。
