@@ -1,0 +1,47 @@
+# T-REPAIR-1 repair loop 实验设计（2026-11-24 22:40 · Lead 方向判断）
+
+> origin: ai · 触发：给 D 的 pfb 上限判断中"repair loop 是唯一还开着的高杠杆"落成可执行设计。机制依据 = workshop-draft-metacog §5 implication-1（刚读，①类）。
+
+## 背景（workshop §5，不重述）
+- 节点级修复率 3.7%，85.3% 的 rework 节点落 degraded 终态
+- 72.6% 的 Q6 rework 节点产出实质不同的 corrected_claim，但执行路径（angle）从不写回 claim
+- 两个结构缺陷：(a) directed-fix 路径不可达（0/8,870 事件）(b) 单次尝试（rework_count 恒=1，pool 只含当前轮新节点）
+- max_rework=2 参数从未被行使——上限是结构性的（pool 组成），不是参数
+
+## 两个正交修复
+- **Fix-A（directed 可达）**：让 directed-fix 分支可达。唯一 claim-writing 路径（L821）在 directed 分支里。修改点 = 使 directed 分支可达的路由条件。[具体条件待 subagent 读 SM 确认]
+- **Fix-B（re-entry）**：让 reworked 节点跨轮重入 rework pool。修改点 = pool 构造（L1450，现从本轮 deduped 建）→ 并入上轮 rework 失败的节点。[具体 diff 待 subagent 确认]
+- 正交性：A=路径可达性，B=尝试次数，各自独立可测
+
+## 实验设计
+- 析因 2×2：baseline / A / B / A+B（4 臂）
+- budget=300（中段，cov 未饱和，修复效应才有空间显现）
+- 域：Q6（rework 节点最多 621，对修复效应最敏感）
+- 自变量：两修复。因变量：节点级修复率（rework 节点中 claim 被实质改写且过验证的比例）
+- 控制：与 baseline 同 budget/域/seed
+
+## 预测（可测，workshop §5 导出）
+- **P-A**：Fix-A 后 value_mismatch 修复率 > blind-re-search 2.4% 基线；no_source rework（4.0%）不变
+- **P-B**：Fix-B 后整体节点级修复率 > 单次 3.7% 基线
+- **P-A+B**：若正交，A+B 臂 ≥ max(A,B)；若亚可加/超可加 = 新发现（说明两修复有交互）
+- **判别**：若 A、B 都不升 → 瓶颈转移到 fixer 能力或 contradiction 证据，届时才考虑"停止 rework value_mismatch"
+
+## 验收
+- 统计门禁（非单 run）：修复率差 > within-run 噪声（judge 噪声 ~0.1）；n=3 suggestive，正式 claim 需 n≥5 + bootstrap CI
+- 等效性：若声称"A 无效"需等效性检验（预设最小效应），不能用"不显著"代替"无效"
+
+## 时序约束（关键）
+- **必须在 T-PR-17 pilot 完成后（~09:00）**：pilot runner import s5_state_machine.py，现在改 SM 破坏单变量前提
+- r3 队列也在跑（import SM），双重冻结
+- 执行序：pilot 完 → 确认 SM 不再被 import → 应用 Fix-A/B（git commit 留回滚点）→ 跑 4 臂
+
+## 与 T-PR-17 关系
+- T-PR-17 = verify 阶段 4 臂 suffix 消融（canonical/verify-off/null-control/verify-late）
+- T-REPAIR-1 = rework 阶段修复环改造
+- 不同轴、不冲突，但都改 SM → 必须串行，T-PR-17 先（pilot 已在跑）
+
+## 待办
+- [ ] pilot 后：subagent 读 SM directed/rework 代码，确认 Fix-A/B 具体修改点（路由条件 + pool 构造 diff）
+- [ ] 应用修改（git commit）
+- [ ] 跑 4 臂（budget=300, Q6, n=3）
+- [ ] 分析：修复率矩阵（4 臂 × rework 类型）+ P-A/P-B/P-A+B 判别

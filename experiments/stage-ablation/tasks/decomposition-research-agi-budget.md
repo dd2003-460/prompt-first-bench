@@ -263,3 +263,10 @@ research-agi-budget（D 硬件条件下，预算控制 AI 在 Pareto 边界上�
 
 **基础设施修复（本轮）**：ROADMAP 3 处断链路径修复（tasks/ → experiments/stage-ablation/tasks/，6/6 路径核验通过）。
 **协调冲突（本轮）**：nodepth 批被另一会话越序并发启动（违反 vLLM 不并发前提），已 kill + relay log 留痕（K7 报告有记录）。
+
+## T-REPAIR-1 repair loop 实验（2026-11-24 22:40 设计）
+- **状态**：📐 设计完成，待 pilot 后执行（SM 冻结至 ~09:00）
+- **设计**：（2×2 析因 Fix-A directed可达 × Fix-B re-entry, budget=300 Q6, 预测 P-A/P-B/P-A+B）
+- **依据**：workshop §5 implication-1（repair 是唯一还开着的高杠杆, 当前 3.7%）
+- **时序**：pilot(~09:00)完 → 确认 SM 不被 import → 应用修改 → 跑 4 臂
+
