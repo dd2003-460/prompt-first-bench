@@ -72,8 +72,8 @@
   "cause": "r2 中途崩溃 (17:31:50 TypeError: cannot unpack non-iterable NoneType) 后从 checkpoint 恢复, 恢复出同一棵树",
   "impact": "budget=300 实际独立重复=2 (r1,r3), 非 3; 其余档 (50/100/150) 三重复全独立 (SHA1 各异)",
   "fix": "曲线按 300 独立重复=2 重算; 300-r2 不计入均值",
-  "root_cause": "checkpoint 文件名跨 rep 共享 (runs-s5-sm-q7-checkpoint.json): r2 崩溃后 --resume 捡到 r1 留下的 checkpoint → 恢复出 r1 的树。harness 污染 bug: 任何未来 crash-recovery 都会静默继承前一 rep 的树。修复: checkpoint 路径按 rep 隔离",
-  "severity": "harness-level: 影响所有 crash-recovery 场景, 不只本次"
+  "root_cause": "盲 cp 共享固定名输出文件 (runs-s5-sm-q7.json): 队列无 set -e, r2 崩溃 (TypeError @17:31:50) 后继续, cp 拷走 r1 完成时写的旧文件。已排除 checkpoint 继承: 队列不带 --resume, s5_state_machine.py main() 仅在 --resume flag 存在时读 checkpoint (line 1683-1686), 无 auto-resume; 719-r1 stdout 确认从 L1 全新启动。残留风险: 719 任一 rep 崩溃 → 拷走上一 rep 旧文件 (可能跨 budget, 如 719-r1 崩则拷 300-r3 的)。处置: 队列跑完后 SHA1 查重 + n_nodes 合理性检查 (719 档应 ~700+, 若 ~300 即跨 budget 污染), 坏 rep 隔离重跑。修复 (未来队列): 输出按 rep 命名或 cp 前校验 mtime。不干预运行中队列 (bash 运行中改 .sh 会损坏解析)。",
+  "severity": "队列级: 仅影响崩溃 rep 的数据有效性, 不污染健康 rep; 719-r1 健康 (全新启动已验证)"
  },
  "per_unit_efficiency": {
   "50->100": 0.001308,
