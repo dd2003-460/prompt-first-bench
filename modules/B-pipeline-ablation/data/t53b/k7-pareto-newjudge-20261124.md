@@ -962,3 +962,17 @@ r3 落地后 relay_v2 phase 2 自动接 Q7 的接力逻辑核验（承重件，�
   - 移 supplementary：§4 各 finding 的逐 run 明细（vsr 逐 rep 值、metacog 逐 rep 分解、hit-set 对比）、§6 的 detector 口径细节（22-pattern 扩展）、§7 的 future-work 长论证。supplementary 索引文件已有 7 编号体系，扩编号即可。
   - 目标：正文压到 ~8K 词（8 页保守目标），supplementary 承接 ~9K 词。
 - 状态：已知项，等 ① CFP 发布定页数 ② r3/Q7 落地定结论 → 再做压缩 pass。
+
+## 09:2x Q7 分析脚本承重件核验（Q7 启动前最后一块）
+
+q7_domain_gold_analyze.py（116 行）独立核验：
+- 输入匹配：glob q7-*-r*.json + regex 匹配队列输出 ✓；gold 52 units ✓；judge_run 签名 ✓
+- 饱和点逻辑：相邻档边际增益 <0.01，tier_summary 带 cov_sd + n ✓
+- Q6 跨题对比：300 档 rerun 隔离值 0.138（cache 伪影已修）、719 档单列深度墙下界 ✓
+- 无强 verdict：只输出饱和点位置 + Q6 对比，不输出"域依赖/仍升"（比 full 版安全）✓
+- full_analysis 版（断点扫描 + 跨域 verdict + F 检验）之前已细验（退化段保护 + n<3 verdict 保护）✓
+
+**断点风险**：watchdog 触发条件 n>=15（15 文件全落地）。若 1 个 run 永久失败（s5 崩溃 + checkpoint 恢复不了），n 永远 <15，watchdog 永远不触发，Q7 分析不自动跑。
+- 概率低（s5 有 checkpoint + 队列串行），但后果是 Q7 分析卡住。
+- **回退方案**：若 Q7 卡在 n<15 超 12h，手动检查哪个 run 失败 → resume 或跳过（改 watchdog 触发条件为 n>=14 重启）。
+- 不改当前运行的 watchdog（PID 57325 已加载脚本，改文件对运行中进程无效）。
