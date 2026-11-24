@@ -19,9 +19,9 @@
 
 ## 完整性问题（subagent 临终新发现）
 
-result.md 现存节从"追加2（=第三轮）"开始，**R1 首轮 + R2 节缺失**。70dca8efa（02:05）的 commit message 声称"追加#53 撞车核验"，其 diff 确实加了 #53 节——**内容加过但被后续 rebase drop**（追加4 自曝过一次 rebase 丢失第五轮，这次是 R1/R2）。
-- 影响：低。R1/R2 内容可从 `git show 70dca8efa:tasks/IDEA-review/result.md` 恢复，且其结论已被 R3-R5 覆盖。
-- 处置：不重追加（旧 claim 域，对最终 paper 无决策价值）；在 arena 台账记一笔"rebase 丢节×2，内容可 git 恢复"。
+result.md 现存节从"追加2（=第三轮）"开始，无"追加1"节——**经全 refs 历史核验（2026-11-25 05:18，git log --all -S'追加1' 零命中 + 逐版本 heading 比对）：R1 内容从来不是独立节，而是以表格行形式在 70dca8efa 落入（diff 加的是 #53 表格行，非节），当前 tip 表格里 #53 仍在（14 处出现），不存在"被 rebase drop"**。真正发生过 rebase 丢失并被重追加的是"追加4"（第五轮，7dae6431a commit message 自曝）。原判断"R1/R2 被 rebase drop"系误判（把"无独立节"读成"节被丢"）。
+- 影响：无。R1 内容（表格行）在当前 tip 完整可读；R3-R5 结论在追加2-5 节。
+- 处置：无需恢复；arena 台账已记"rebase 丢节×1（追加4，已重追加）"。
 
 ## 三个待决（parent 编排）—— ①②③ 全闭环，剩 arXiv 投稿决策（等 D"投"）
 
