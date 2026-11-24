@@ -122,3 +122,10 @@ workshop draft 的 headline "budget buys breadth, not metacognition" 目前只�
 3. "value_mismatch 2.4%" 数字本身没错（angle 模式实测），但**它的机制解释错了**——它测的是盲重搜，不是 adjudication。
 
 **处置**：这是 draft 的承重机制声明（§4.1 finding 1 + §5 implications），不是边角数字。Q7 落地 + 压缩 pass 时必须一起修：把 "capability bottleneck" 重写成 "harness gap（directed path structurally unreachable）"，把 "route to stronger model" 改成 "make directed path reachable + then test whether a stronger fixer helps"。P2 预言（接通 directed 后回修率应升）正好是这个修复的可检验版本。
+
+**修复执行记录（13:15-13:20，已落地 commit f101f8ba3 + 742427103）**：
+- 4 处 patch 全部落地（L51/L53/L183/L189），旧声明 0 残留，grep 核验通过。
+- L189 内部矛盾已修：初版 patch 让 (a)"stop reworking value_mismatch" 与 (b)"make directed reachable" 冲突（(a) 是旧框架下"2.4%=wasted"的结论，新框架下 2.4% 只是 blind-re-search baseline，stop reworking 应推迟到 directed 测过之后）。改为"2.4% 是 baseline 非 ceiling，stop reworking 推迟到 directed 路径测过之后，只有那时才 warranted"。
+- abstract (L9) / L21 不受影响：L9 只报 "1.6–2.1%" 数字无机制归因；L21 的 "capability bottleneck" 指 bare-arm L4 breakage（0/6 到 conclusion layer），是独立 claim，与 directed 路径无关。
+
+**遗留（非本发现引入，number-consistency pass 时处理）**：draft 现有文本标 "80-run corpus"（10,702 event-level attempts），但 archive 实际 83 个 run 文件；本发现插入文本用 "83 runs"（9,196 node-level rework events，含 node_id 字段）。两者是不同口径（event-level vs node-level）且集合略不同，0 对 80/83 都成立（claim 稳健），但分母不一致会让读者困惑。number pass 时统一口径（建议：明确 "83-run archive corpus"，event-level 10,702 / node-level 9,196 各标各的分母）。
