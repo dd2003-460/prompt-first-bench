@@ -115,8 +115,10 @@ workshop draft 的 headline "budget buys breadth, not metacognition" 目前只�
 **矛盾**：draft 把低回修率归因到一个**从未被执行的机制**（directed adjudication）。"27b 判断不了矛盾哪边可信"这个诊断，证据上不支持——因为判断矛盾哪边可信的代码路径（`_rework_directed`）根本没跑过。2.4% 是盲重搜碰巧修好矛盾类节点的比例，不是 adjudication 能力上限。
 
 **对 draft 的影响（投稿硬伤级）**：
-1. §4.1 的 "Bottleneck: 27b directed-fix capability" 声明**站不住**——directed 没跑过，无法声称是模型能力瓶颈。
-2. §5 的提议修复 "route directed-fix to a stronger model" **方向错**——真问题是 directed 路径不可达（harness 设计），换更强模型不会让一条死路径活过来。真修复是**接通 directed 路径**（harness 改动，零模型改动）。
+- **影响面（grep 全文核验）**：机制声明 "directed-fix capability / cannot reliably judge which side of a contradiction is credible" 出现在 **4 处**：L51（§4.1 finding 1 末句 "Bottleneck: 27b directed-fix capability"）、L53（§4.1 Claim "the missing piece is *fix capability* — the 27b model cannot reliably judge..."）、L183（§4.4 "Predicted failure mode: ...capability, not targeting: a stronger directed-fix model"）、L189（§5 implication 1 "route directed-fix to a stronger model or human step where capability is the ceiling"）。
+- **不受影响**：L21（abstract）的 "capability bottleneck" 指的是 **bare-arm control**（breakage 是能力瓶颈非 prompt artifact）——那是另一个独立 claim（n=6 bare arm），与 directed 路径无关，不受本发现影响。
+1. L51/L53 的 "Bottleneck: 27b directed-fix capability" 声明**站不住**——directed 没跑过（全 83 文件 0 次），无法声称是模型能力瓶颈。
+2. L183/L189 的提议修复 "route directed-fix to a stronger model" **方向错**——真问题是 directed 路径不可达（harness 设计），换更强模型不会让一条死路径活过来。真修复是**接通 directed 路径**（harness 改动，零模型改动）。
 3. "value_mismatch 2.4%" 数字本身没错（angle 模式实测），但**它的机制解释错了**——它测的是盲重搜，不是 adjudication。
 
 **处置**：这是 draft 的承重机制声明（§4.1 finding 1 + §5 implications），不是边角数字。Q7 落地 + 压缩 pass 时必须一起修：把 "capability bottleneck" 重写成 "harness gap（directed path structurally unreachable）"，把 "route to stronger model" 改成 "make directed path reachable + then test whether a stronger fixer helps"。P2 预言（接通 directed 后回修率应升）正好是这个修复的可检验版本。
