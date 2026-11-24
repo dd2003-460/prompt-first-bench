@@ -7,7 +7,9 @@
 
 ## 结论（一行）
 
-**未见直接撞车**：四元组合（闭式数学 × 增量贡献测量 × 深浅判断对比 × 瓶颈诊断）在 arXiv 检索范围内无同构工作。最近邻 4 个全部可切割（见下表）。conf 0.6（单源 arXiv 相关性排序检索，非穷尽；待 arena 交叉核验升 conf）。
+**未见直接撞车**：四元组合（闭式数学 × 增量贡献测量 × 深浅判断对比 × 瓶颈诊断）在 arXiv 检索范围内无同构工作。最近邻 4 个全部可切割（见下表）。conf 0.6（单源 arXiv 相关性排序检索，非穷尽）。
+
+> **2026-11-25 05:10 更新（arena round6 交叉核验完成）**：conf 0.6 → **0.7**。arena 会话 01a20b11 第六轮（commit bb387d43f @ arena/f8477718-prompt-first-bench，result.md 追加5 节，git 核验通过：指纹 6d50c871 ✓ + 4 近邻逐个 arXiv abs 实抓属实 + 非 arXiv 源全查）。新增近邻 5 个（SA-Scheduler ACM 10.1145/3842670 同族度最高但用途=调度无信息论读数 / AMALI ISCA'25 / MLSYSIM 2607.02558 / 微基准解析建模 2605.04178 / 瓶颈翻转 2608.13696）——均无「surface-vs-deep 判定增量信息的闭式度量+预注册」同构读数。总判断：**未撞车（窄空白）conf 0.7**。venue 排序：arXiv 即时 → ICML 2027 ML4Systems 类 workshop (P≈0.5-0.6) → MLSys workshop (P≈0.5) → NeurIPS E&D 错配 (P≈0.05-0.08) → ACL 砍。最难一击 + 三条件防守见 result.md 追加5。
 
 ## 最近邻 4 个（全部可切割）
 
@@ -35,5 +37,5 @@ paper 的不可约组合 = **闭式**（不跑 GPU，纯 spec+workload prior 解
 ## 下一步
 
 1. [已做] 初判落盘（本文件）
-2. [待做] arena 交叉核验轮：对最终 paper 做 GPU 性能建模域碰撞核查（任务书待写，走 pfb 固定 arena 会话）
-3. [待做] 补 References（0 引用→≥15，机械活，初判的 4 个最近邻是第一批）
+2. [已做 2026-11-25 05:10] arena 交叉核验轮（round6）：commit bb387d43f，conf 0.6→0.7，venue 排序 + 最难一击已出
+3. [进行中] 补 References（0 引用→≥15）：暂存 6 条已核验 bib @ submission-staging/references.bib（a2363cc10）；round6 新增近邻（SA-Scheduler/AMALI/MLSYSIM/2605.04178/2608.13696）是第二批，待并入
