@@ -106,8 +106,18 @@ T-PR-17 prompt 序列消融
 | T1 | 定位 3 checkpoint（719-r1 归档 sm-gpu-r1/r2/r3）+ preflight（JSON schema + parent-link 完整性，重点核验 T5 parent_ids 持久化 bug） | ⏳ 11-24 20:57 派 subagent | preflight 失败=记录为结果，不静默剔除 |
 | T2 | 写 tpr17 runner（canonical/verify-off/null-control 3 臂，monkey-patch，不改 s5_state_machine.py）+ 每 call 记录 token/tool calls/evidence delta（F2b 1/2/3） | ⏳ 同上 | 冒烟禁碰 vLLM（719 队列占用） |
 | T3 | 冒烟测试（dry-run：patch 加载 + checkpoint 加载 + 首个 prompt 可构造，不发 LLM 调用） | ⏳ 同上 | vLLM 释放(~24:15)后起正式 run |
-| T4 | 正式配对 run（每 cell n≥5，checkpoint 分开统计） | 🔒 vLLM 阻塞 | 队列 r2 ~22:20 / r3 ~24:15 |
+| T4 | 正式配对 run（分级：先 pilot 再 scale，见下） | 🔒 vLLM 阻塞 | 队列 r2 ~22:20 / r3 ~24:15 |
 | T5 | 分析（多指标 + 等效性检验 + bootstrap CI） | 🔒 依赖 T4 | F2b 3 |
+
+**T4 分级执行计划（11-24 21:00 Lead 核算，pace=6.31 nodes/min 来自 719-r1 实测 114min/719 节点）**：
+
+| 档 | 规格 | 时长估算 | 决策规则 |
+|---|---|---|---|
+| pilot | 3 臂 × L3 ckpt(122) × n=3，budget=300（new≈178 节点/run） | ~4-5h | vLLM 释放后第一个跑（~24:15 起，~05:00 完） |
+| scale | 3 臂 × 3 ckpt(L1/L2/L3) × n=5，budget=300 | ~27h（过夜+次日） | pilot 效应 > judge 噪声(~0.1) 且方向稳定 → 起 scale |
+| 停 | — | — | pilot 效应 < 噪声 → 结论="不可检测"（F5 既定语义），不烧 27h |
+
+理由：全规格 3arm×3ckpt×n5@719 = 45 runs ≈ 63h 不可行（vLLM 共享 + J4 102 条排队）；budget=300 已够（Q7 曲线显示 300 后边际递减，T-PR-17 测序列效应不需要 719 的深度）；n=3 pilot 低于 arena 硬建议 n≥5，但 pilot 的目的只是"可检测性门控"，scale 档仍守 n≥5；L3 先行因 Handoff Tax 效应随方向反转 → L3 是最深 ckpt、剩余序列最短、效应最集中处，先在这里看有没有信号最省钱。
 
 ## 正交性自检
 
