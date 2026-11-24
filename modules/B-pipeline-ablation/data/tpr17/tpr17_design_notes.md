@@ -50,7 +50,14 @@ T4 pilot 夜间无人值守，下列接缝逐一核验过（防"白等一夜"的
   守护）← … ← 99731（PPID=1，挂 launchd）。88298 是独立会话+独立进程组（PGID 88298≠父
   99739）且无 TTY → 我的 shell 进程组收 SIGHUP/SIGTERM 不波及它，根在 PID 1 链稳定。
   活体证据：同结构 overnight-watcher 72034 已跨我多个 turn 存活 59+min，waiter 自身
-  存活 19+min → 该启动模式确能脱离我的会话存活，T4 自动触发器不会随会话回收静默死亡。
+  存活 19+min → 该启动模式确能脱离会话存活，T4 自动触发器不会随会话回收静默死亡。
+- **runner↔analysis 端到端拼接（21:53 核验）**：用真实 post-run pipeline 生成 3 个 cell
+  文件（canonical/verify-off/null-control_r3_r1.json，各 ~160KB 含 final_tree）喂给
+  `tpr17_analysis.py --out <dir> --checkpoints r3` → EXIT=0 无崩溃，n_cells=3、
+  n_per_cell 正确、UNDERPOWERED 哨兵按设计触发（n=1<5）、comparison 结构建好
+  （operational/sequence 两 estimator 空 = n=1 零方差被 guard 成 None，正确行为非 bug）。
+  → T4 出结果后"一键 `tpr17_analysis.py` 出报告"链路成立，runner 输出与分析脚本输入
+  的 schema 拼接无缝。
 - **fail-fast 语义**：任一 cell rc!=0 或 n_nodes<381 → break 2 中止整批（设计如此，
   防坏 checkpoint/坏 patch 污染后续 8 cell）。明早若见 PILOT ABORTED，先读
   报告里首个失败 cell 的 stderr。
