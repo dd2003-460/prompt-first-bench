@@ -145,3 +145,10 @@
 - 口径注意：gpu/formula 在 POST-rubric 层仅 n=3（另 7 个 gpu/formula 落在 PRE-rubric 层），Δ 的 n 偏薄；但"两臂在 gpu 同等弱"的定性结论对 n 稳健（cov 0.111 vs 0.107 本就接近）。
 - **分数时效核验（22:5x，防"分数是后来重算的"伪分层）**：results.json 与 runs/ 内嵌分数对账——**coverage 60/60 完全一致**（judge 原始分，run 时算）；**depth 19/60 有小幅出入**（0.01-0.19，run 文件 mtime 晚 60-140h = 11-24 模块重组 c4455d61c 拷贝+重算）。⟹ **Δcov 结论完全有效**（原始分）；**Δdepth 是统一重算值的对比**（同一新 depth 公式作用于全部 60 runs，系统性偏移在臂间相消，相对差异仍可比，但绝对值非 run 时原值）。
 - 与上一条（跨批 judge 漂移）的关系：跨批 cov 飙升（新批 gpu cov=0 7/10）= prompt 解禁 + rubric 加严的**测量口径**变化；本条（同批 clean 层）= **真实实验**信号（gpu 题面固有难 + formula 优势域依赖）。两者正交，04-verify 应分开处理：跨批 cov 不作证据，同批 clean 层 cov/depth 臂间 Δ 可作证据。
+- **显著性升级（22:5x，Welch t，formula vs text 同 qid，clean 层）**：
+  - **nat/depth: Δ=+0.113, p=0.006 显著**（f 0.650 / t 0.537, n=10/10）→ formula 在 nat 显著加深推理。
+  - **soc/coverage: Δ=+0.186, p=0.006 显著**（f 0.900 / t 0.714, n=10/10）→ formula 在 soc 显著提高覆盖。
+  - **gpu/coverage: Δ=+0.005, p=0.955；gpu/depth: Δ=-0.025, p=0.287 均不显著**（n_f=3 偏薄）→ 两臂在 gpu 无可检出差异，但**功效不足**（min detectable Δ=0.135 cov / 0.078 depth）→ 只能读作"未检出 ≥0.135 的差异"，**不能**读作"两臂在 gpu 完全相同"。
+  - 其余不显著：nat/coverage p=0.137、soc/depth p=0.938。
+  - **方法注记**：p 值用正态近似 t 分布（dof 5-18）；正态近似 p ≤ 精确 t 分布 p，故"显著"判定在精确 t 下仍成立（稳健），"不显著"判定偏保守（精确 t 下更不显著）。n_f=3 的 gpu 层功效最低。
+  - **可防御结论（04-verify 可用）**：formula 臂的优势是**域×指标特异的**——nat 上显在 depth（推理深度）、soc 上显在 coverage（覆盖广度）、gpu 上两指标均未检出差异（但功效不足）。"gpu 是弱域"= 两臂 cov 均 ~0.11 的描述性事实 + 功效不足的等性检验，**不宜**升级为"gpu 上 formula 无效应"的强结论。
