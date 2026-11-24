@@ -31,6 +31,7 @@
   - 降级：stop_hook 无法访问 per-message thinking → 每 K 轮（如 5）周期性注入一次反思轮（不依赖 thinking 检测）
 - 约束：框架源码改动 = 不可逆类，留痕 APPROVALS.md + git commit 回滚点，改完告知
 - 验收：hook 改动后，模拟"连续纯执行"场景能触发反思注入（有日志证据）
+- **状态核验（2026-11-25，subagent B 查得）**：T1 **已实现但未提交**——`tools/stage-gate` 是独立 git 仓库（branch main），stop_hook.py 当前 working tree ` M` 未 commit（1249 行 vs 基线 1108 行，+141 行），已含 `_THINK_TRIGGERS`/`_T1_REFLECTION`/`t1-thin-thinking` 触发器+反思注入（"这背后的 general 机制是什么？能推出什么可检验预言？"）+冷却门控 `_THINK_COOLDOWN=3`。该仓库最近提交停在 2026-11-23（T1 之前）。回滚点：根仓库 commit `ace22cfa`（改动前快照）。**尚缺**：T1 commit（tools/stage-gate 仓库）+ APPROVALS.md 留痕（框架源码改动=不可逆类红线）。归属 subagent A，Lead 接手 T3 前先确认 T1 是否已补 commit。
 
 ### T2 "接着考虑"实验（验证 27b 能否接住 D 的思考链）
 - 目标：验证 27b 能否"像 D 一样考虑、接着考虑"——给 D 爬层链的前半段，看 27b 能否续出后半段（机制+预言力）
@@ -71,6 +72,6 @@
 ## 任务表（派发只执行表内条目）
 | 任务 | 执行方 | 状态 |
 |------|--------|------|
-| T1 思考触发 hook 实现 | subagent A | 派发 |
+| T1 思考触发 hook 实现 | subagent A | 已实现未提交（2026-11-25 核验，待 commit+APPROVALS） |
 | T2 接着考虑实验（预注册+跑） | subagent B | 完成 2026-11-25 (commit 002eada24) |
 | T3 落点整合 | Lead（T1+T2 回来后） | 待 T1+T2 |
