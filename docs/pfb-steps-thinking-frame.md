@@ -101,7 +101,7 @@ pfb 不是六个串行关卡，是一条**逼近"压缩-解压往返无损不动
 | 改动 | 落点 | 类型 | 优先级 |
 |---|---|---|---|
 | 01 加"正交完备检查"+ 换挡信号 | pfb/loop/01-goal-decomposition.md | SOP | ✅ 完成 2026-11-25（pfb ef2afb5f6 + workspace b8469a09，两档换挡：加项优先/换基最后） |
-| 02 加"证据质量分级"（一手/二手） | pfb/loop/02-information-research.md | SOP | ✅ 完成 2026-11-25（同上两仓，一手=有效likelihood/二手=噪声防渐进漂移） |
+| 02 加"证据质量分级"（bias 可识别性） | pfb/loop/02-information-research.md | SOP | ✅ 完成 2026-11-25（四档：一手/可校准二手/不可校准二手/系统性偏差；判据=bias 可识别+可估计，可校准二手校正后降权使用，D 纠正"二手=噪声"过绝对） |
 | 02.5 单列"效度判据"+ 选域①②语言 | pfb/loop/02.5-cross-check.md | SOP | ✅ 完成 2026-11-25（效度=准确/独立/客观；选域①校验范围②迁移条件显式环节） |
 | 04.5 加"发现新条件→换基"判断（选域③） | pfb/loop/04.5-final-review.md | SOP | ✅ 完成 2026-11-25（选域③+regime突变检查：历史证据突然全失效→丢弃旧压缩回01非02） |
 | gear-shift 信号实现（think-trigger） | pfb/tasks/think-trigger/ + stop_hook | 代码 | ✅ 完成 2026-11-25（T1 薄思考触发 stage-gate 1b30bc6 + T4 打转真检测 7229159 + T3 判据整合 7d2584ac6） |
