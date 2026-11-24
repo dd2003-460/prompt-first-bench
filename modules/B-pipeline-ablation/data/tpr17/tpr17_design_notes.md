@@ -91,6 +91,16 @@ T4 pilot 夜间无人值守，下列接缝逐一核验过（防"白等一夜"的
   ⟹ null-control 臂全程保持乱序 state 块，不会中途退化成 canonical（若退化则
   sequence_mechanism_effect 估计被污染）。**注意**：此结论依赖 SM 无重新赋值——
   若日后 SM 加了 `self.confirmed = [...]` 会破坏 wrapper，改 SM 后须重审此条。
+- **T4 分析路径 n=5 有方差端到端验证（22:13，此前只测过 n=1 零方差）**：
+  用 n=5/臂 + 向 null-control 注入 +0.08 depth 效应的合成 cell 跑 `tpr17_analysis.py`，
+  结果统计自洽、方向正确：
+  - depth（注入效应）→ TOST equivalent=False（CI 越出 Δ=0.1）+ welch_p=0.031 + d=1.74
+    ⟹ 注入效应被正确检出
+  - verified/parent_link（无注入）→ TOST equivalent=True（CI 界内）⟹ 正确判等效
+  - 零方差指标 → guard "CI 退化为点" + equivalent=True ⟹ 正确
+  - operational_total_effect → 方向性 Welch/MWU+bootstrap，无 TOST ⟹ 符合设计
+  ⟹ T4 出结果后一键分析的完整链路在有方差数据上方向正确（TOST 符号/CI 方向 bug
+  只会在 n≥2 有方差时暴露，本次首次覆盖）。
 - **fail-fast 语义**：任一 cell rc!=0 或 n_nodes<381 → break 2 中止整批（设计如此，
   防坏 checkpoint/坏 patch 污染后续 8 cell）。明早若见 PILOT ABORTED，先读
   报告里首个失败 cell 的 stderr。
