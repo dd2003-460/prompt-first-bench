@@ -1,0 +1,220 @@
+\section*{Abstract}\label{abstract}
+
+Diagnosing the performance bottleneck of a GPU workload is a compositional judgment: which component (tensor compute at a given precision, the scalar/issue path, or memory bandwidth) dominates wall-clock time depends on the \emph{interaction} between workload composition and microarchitectural rates, not on workload composition alone. We formalize the incremental contribution of a deep microarchitectural judgment relative to a surface (shallow enumeration) judgment as the amount by which the deep judgment \emph{corrects} the surface one --- direction correction (bottleneck-type flip) and granularity correction (time-share shift) --- and show that this quantity, together with the strict mutual information it induces, is computable in closed form from hardware specifications and a workload prior, with no experiments and no learned components. Across four platforms (RTX 5090, Thor T5000, RTX 4090, A100) and 40,000 sampled workloads, the surface judgment --- which assumes all component rates are equal, so that time is proportional to workload share --- misidentifies the bottleneck type on 43--56\% of workloads, and the deep correction (time shift) ranges from 0.17 to 0.23. Strict mutual information confirms the same split: deep-only information \(H(D|S)\) is 0.71--0.77 bits, and vanishes exactly to 0.0 under a flat-rate control, ruling out the trivial explanation that deep nodes merely forward surface information. Three hand-derived anchors reproduce exactly. The correction is not determined by the \emph{extremity} of the rate ratio (A100, ratio 44.3, exceeds 5090, ratio 51.9); the dominant interaction component is a candidate driver, to be tested on a wider hardware panel. A tree generalization (2-way branch split: compute vs memory) shows the correction decomposes into a branch-level and a within-branch component whose dominant dimension flips from within-branch (mild-rate platform) to branch-level (extreme-rate platforms) --- structure the flat 1D model cannot represent. All criteria were preregistered (commit \texttt{eb1b0598c}, 17:39) before data generation (\texttt{718394ece}, 18:06).
+
+\subsection{1. Introduction}\label{introduction}
+
+GPU performance diagnosis is routinely framed as a linear attribution problem: roofline-style analysis maps a workload to a compute- or memory-bound regime, and step-level attribution methods assign credit to components in proportion to their share. This framing silently assumes that time is proportional to workload share --- i.e., that all components run at comparable rates. We argue that this assumption is precisely the part a diagnosis is supposed to test.
+
+Two observations motivate the paper. First, bottleneck determination is nonlinear in its inputs: on the Jetson Thor T5000, FP16 accounts for only 30\% of a 70/30 FP4/FP16 workload, yet after rate interaction it consumes 63\% of time --- and 80\% at 50/50. A small share is not a small contribution. Linear attribution systematically underestimates such interaction terms, which is why we measure \emph{information} rather than share or ablation. Second, the diagnosis has a natural two-level structure: a \emph{surface} judgment that enumerates workload classes under equal rates, and a \emph{deep} judgment that applies true microarchitectural rates. The question we ask is quantitative: how much does the deep level add?
+
+We answer with a closed-form surface-vs-deep model. The surface judgment \(S\) assumes \(\text{rate}_i = 1\) for all components, so time share is proportional to workload share and the bottleneck is the dominant workload class. The deep judgment \(D\) applies the true per-component rates, \(t_i = f_i / \text{rate}_i\), and takes the bottleneck as \(\arg\max_i t_i\). The incremental contribution of \(D\) is defined as the amount by which \(D\) corrects \(S\): the flip rate \(P(S \neq D)\) and the expected time-share shift. We complement these interpretable scores with strict mutual information \(H(D)\), \(H(D|S)\), \(I(S;D)\) over the bottleneck-class distribution.
+
+\textbf{Claim.} Under nonlinear bottleneck determination, the incremental contribution of a deep microarchitectural judgment node equals the amount by which it corrects the surface judgment; this quantity is computable in closed form, is positive on every real platform and scales with the rate-ratio structure rather than its extremity alone, and vanishes under the negative control in which all rates are equal.
+
+\textbf{Contributions.} (i) A closed-form surface-vs-deep model validated by three exactly reproduced hand-derived anchors. (ii) Measurement across four hardware platforms and 40,000 workloads: 43--56\% flip, 0.17--0.23 time shift, 0.71--0.77 bits of deep-only mutual information. (iii) Two measured controls --- a flat-rate control that zeroes the correction exactly, and a 24-permutation parameter--depth reordering that leaves it invariant --- plus a type control (design-level, §5), addressing the forwarding-triviality and tautology objections. (iv) A preregistration record: criteria committed before data generation. (v) A tree generalization (§4.5): the correction decomposes into branch-level and within-branch components whose dominant dimension flips from within-branch (mild) to branch-level (extreme) --- a hierarchical structure the flat model cannot represent, with the pre-registered flat control inherited.
+
+\subsection{2. Why This Quantity: From Nonlinearity to a Correction Measure}\label{why-this-quantity-from-nonlinearity-to-a-correction-measure}
+
+A reviewer's first question is why the incremental contribution of a deep node should be measured at all, and why by this quantity. The chain of reasoning is:
+
+\textbf{Nonlinearity rules out share-based attribution.} Bottleneck determination is a compositional function of interacting factors: precision compute rates, workload composition, scalar/issue share, and bandwidth. The T5000 instance makes the nonlinearity concrete: FP16 at 30\% workload share becomes 63\% of time once rates are applied, and 80\% at 50\% share. Under a linear model, share and contribution coincide; here they diverge by a factor of two. Any measure that inherits the linearity assumption (share, ablation under fixed context) will systematically underweight the interacting component.
+
+\textbf{Information, not attribution, is the right family of measures.} Mutual information captures nonlinear dependence without a linearity assumption: \(I(S;D) > 0\) holds even when \(D\) is a nonlinear function of \(S\). Moreover, the decomposition \(H(D) = H(D|S) + I(S;D)\) isolates exactly the quantity we care about --- \(H(D|S)\) is the information about the bottleneck that survives even after the surface judgment is known, i.e., the deep-only contribution.
+
+\textbf{A two-level structure makes the increment well-defined.} The diagnosis decomposes into a surface level (enumeration of workload classes under equal rates) and a deep level (microarchitectural rate application). Conditioning the deep judgment on the surface one, \(H(D|S)\), is the natural ``incremental information'' of the deep level given the surface level. This is the same structure as any hierarchical explanation: the value of a refinement is what it changes in the coarser judgment.
+
+\textbf{The correction is the operational form of the increment.} Concretely, \(D\) corrects \(S\) in two ways: (i) \emph{direction correction} --- the bottleneck type flips (\(S \neq D\)), e.g., surface says ``not compute-bound'' while the microarchitecture says ``40\% slower than the surface estimate''; (ii) \emph{granularity correction} --- the time share of the true bottleneck component is revised, e.g., surface ``possibly compute-bound'' becomes ``FP16 is 78\% of time plus a hidden bandwidth killer.'' Flip rate and time shift are the interpretable, per-workload scores of this correction; strict MI is its information-theoretic formalization. Both are computable in closed form from specifications and a workload prior.
+
+\subsection{3. Method: A Closed-Form Surface-vs-Deep Model}\label{method-a-closed-form-surface-vs-deep-model}
+
+\textbf{Setup.} We consider a workload with four components \(i \in \{\text{FP4}, \text{FP16}, \text{scalar}, \text{bandwidth}\}\) with shares \(f_i\) (a probability simplex) and per-component rates \(\text{rate}_i\) derived from hardware specifications. The bottleneck is the component with maximal time share.
+
+\textbf{Surface judgment \(S\).} Assume all rates are equal (\(\text{rate}_i = 1\)). Then time share is proportional to workload share, \(t_i = f_i\), and the surface bottleneck is \(\arg\max_i f_i\) --- the dominant workload class. This is the judgment a pure enumeration of workload composition yields.
+
+\textbf{Deep judgment \(D\).} Apply the true rates: \(t_i = f_i / \text{rate}_i\) (normalized), and the deep bottleneck is \(\arg\max_i t_i\). Rates are normalized so that the dominant component's rate is the reference; the \emph{rate-ratio structure} (max/min and which component dominates) is the only hardware input.
+
+\textbf{Incremental contribution (interpretable scores).} For each sampled workload we compute: - \textbf{Flip rate} \(\hat{P}(S \neq D)\): the fraction of workloads on which the deep judgment changes the bottleneck type (direction correction). - \textbf{Time shift} \(\mathbb{E}\big[|t^D_{b^*} - t^S_{b^*}|\big]\) where \(b^* = D\)'s bottleneck: the expected magnitude by which the deep judgment revises the time share of the true bottleneck (granularity correction).
+
+\textbf{Strict mutual information.} Let \(S, D \in \{1,\dots,4\}\) be the bottleneck-class variables under the workload prior. We compute \(H(D)\), \(H(D|S)\), and \(I(S;D) = H(D) - H(D|S)\) exactly from the joint distribution \(P(S,D)\) induced by sampling. \(H(D|S)\) is the deep-only information: the bottleneck uncertainty that remains even after the surface judgment is known.
+
+\textbf{Hardware.} Four platforms, dense (non-sparse) specifications:
+
+{{
+\begin{longtable}{@{}llll@{}}
+\toprule\noalign{}
+Platform & FP16 TFLOPS & FP4 TFLOPS & Bandwidth GB/s \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+RTX 5090 (GB202) & 419 & 1677 & 1792 \\
+Thor T5000 (Jetson) & \textasciitilde258 (derived) & 1035 & 273 \\
+RTX 4090 (AD102) & 114 & --- (no native FP4) & 1008 \\
+A100 80G SXM (Ampere) & 312 & --- (no native FP4) & 2039 \\
+\end{longtable}
+}
+
+The 4090 and A100 lack native FP4; their FP4 rates are taken as \(0.5 \times\) FP16 (a conservative proxy; see Limitations). Scalar/issue rates follow the per-platform issue-path assumptions used in the anchors below.
+
+\textbf{Workload prior.} \(f \sim \text{Dirichlet}(1,1,1,1)\) (uniform over the simplex), \(N = 40{,}000\) samples per platform.
+
+\textbf{Validation anchors.} The model must exactly reproduce three hand-derived cases: (1) T5000, 50/50 FP16/FP4 → FP16 occupies 80\% of time; (2) T5000, 70/30 → 63\%; (3) 5090, scalar at 40\% with issue rate halved → overall 40\% slower. All three are reproduced (computed 0.800, 0.632, 1.400×); we treat this as the model-correctness gate.
+
+\subsection{4. Results}\label{results}
+
+\textbf{Main result: the surface judgment is wrong on a majority of workloads.} Per platform, over \(N=40{,}000\) sampled workloads:
+
+{{
+\begin{longtable}{@{}
+  >{\raggedright\arraybackslash}p{0.18\linewidth}
+  >{\raggedright\arraybackslash}p{0.18\linewidth}
+  >{\raggedright\arraybackslash}p{0.18\linewidth}
+  >{\raggedright\arraybackslash}p{0.18\linewidth}
+  >{\raggedright\arraybackslash}p{0.18\linewidth}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Platform
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Rate ratio (max/min)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Flip rate \(P(S \neq D)\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Time shift
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Typical flips
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+4090 & 287.4 & 0.563 & 0.2307 & bandwidth→FP4, scalar→FP4 \\
+5090 & 51.9 & 0.527 & 0.2004 & scalar→FP16, bandwidth→FP16 \\
+A100 & 44.3 & 0.556 & 0.2183 & scalar→FP4, bandwidth→FP4 \\
+T5000 & 9.9 & 0.434 & 0.1655 & scalar→FP16, scalar→bandwidth \\
+\end{longtable}
+}
+
+The surface judgment misidentifies the bottleneck type on 43--56\% of workloads, and the deep judgment revises the bottleneck's time share by 0.17--0.23 in expectation. The T5000 --- the mildest rate structure (ratio 9.9) --- shows the smallest correction; the 4090, with the most extreme ratio (287.4, driven by the absence of native FP4), the largest.
+
+\textbf{Strict mutual information.} The information-theoretic formalization over the bottleneck-class variables:
+
+{{
+\begin{longtable}{@{}llll@{}}
+\toprule\noalign{}
+Platform & \(H(D)\) (bits) & \(H(D|S)\) (bits) & \(I(S;D)\) (bits) \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+5090 & 1.1429 & 0.7667 & 0.3762 \\
+T5000 & 1.3511 & 0.7639 & 0.5871 \\
+4090 & 0.9857 & 0.7128 & 0.2729 \\
+A100 & 1.0312 & 0.7464 & 0.2848 \\
+\textbf{flat control} & 1.9999 & \textbf{0.0} & 1.9999 \\
+\end{longtable}
+}
+
+Deep-only information \(H(D|S)\) is 0.71--0.77 bits on every real platform: even after the surface judgment is fully known, most of the bottleneck uncertainty remains. Under the flat control (all rates equal by construction), \(H(D|S) = 0.0\) exactly --- the deep level carries no information beyond the surface one, as it must, since the two judgments are then identical. The deep-only information is thus attributable to the rate-ratio structure, not to any generic property of having a second level.
+
+\textbf{Structure, not extremity.} The correction does not track the extremity of the rate ratio: the A100 (ratio 44.3, shift 0.2183) exceeds the 5090 (ratio 51.9, shift 0.2004), breaking strict monotonicity in max/min ratio. A component-dominance account is consistent with the data: on the A100 the FP4-targeted flips dominate (scalar→FP4 6786, bw→FP4 6738 of 40000 samples), on the 5090 the FP16-targeted flips do (scalar→FP16 7553, bw→FP16 5775). With four platforms we do not claim a scaling law; we claim the falsifiable statement that extremity alone does not determine the correction, and that the dominant interaction component is a candidate driver --- to be tested on a wider hardware panel.
+
+\textbf{Tree generalization: the correction has a hierarchical structure.} The 1D model treats the four components as a flat set. But the diagnosis has a natural tree structure: components group into branches, and the bottleneck is determined first at the branch level (which branch dominates) and then at the segment level (which segment within the branch). We test whether the deep correction decomposes along this hierarchy, and whether the decomposition reveals structure the flat model cannot represent.
+
+We group the four components into two branches --- compute (FP4, FP16) and memory/control (scalar, bandwidth) --- and compute the bottleneck at both levels. The deep correction then decomposes into a 2×2 contingency over whether the deep judgment corrects the surface one at the segment level and at the branch level:
+
+{{
+\begin{longtable}{@{}
+  >{\raggedright\arraybackslash}p{0.15\linewidth}
+  >{\raggedright\arraybackslash}p{0.15\linewidth}
+  >{\raggedright\arraybackslash}p{0.15\linewidth}
+  >{\raggedright\arraybackslash}p{0.15\linewidth}
+  >{\raggedright\arraybackslash}p{0.15\linewidth}
+  >{\raggedright\arraybackslash}p{0.15\linewidth}
+  >{\raggedright\arraybackslash}p{0.15\linewidth}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Platform (ratio)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+both correct
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+co-flip
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+branch-only
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+within-branch
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(P(\text{branch flip})\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+dominant dim
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+T5000 (9.9) & 0.530 & 0.145 & 0.036 & 0.290 & 0.181 & within \\
+A100 (44.3) & 0.399 & 0.442 & 0.045 & 0.114 & 0.487 & branch \\
+5090 (51.9) & 0.409 & 0.335 & 0.064 & 0.191 & 0.399 & branch \\
+4090 (287.4) & 0.394 & 0.451 & 0.044 & 0.112 & 0.495 & branch \\
+\end{longtable}
+}
+
+The four cells sum to 1 (additive self-consistency), and the segment-level flip rate (co-flip + within-branch) reproduces the 1D main result exactly (0.434 / 0.556 / 0.527 / 0.563), confirming the tree model is a correct generalization of the flat model, not a different model.
+
+The new observation the flat model cannot express: the deep correction decomposes into two dimensions --- a \emph{branch-level} component (which branch is the bottleneck) and a \emph{within-branch} component (which segment within the correct branch) --- and the dominant dimension differs by rate regime. On the mildest-rate platform (T5000, ratio 9.9) the within-branch component dominates (0.290 vs 0.181); on the three extreme-rate platforms the branch-level component dominates (0.40--0.50 vs 0.11--0.19). Within the three extreme platforms the split is stable (branch 0.399--0.495, within 0.112--0.191) and does not track rate extremity continuously --- with four platforms we characterize the mild-vs-extreme contrast, not a continuous trade-off curve. The flat control zeros both dimensions exactly (both-correct = 1.0), so the decomposition inherits the pre-registered negative control.
+
+\textbf{Scope of the tree generalization.} This is a post-hoc structural extension motivated by the flat model's limitation (it cannot represent a hierarchical correction), not part of the original pre-registration; the flat control it inherits is the pre-registered one. With four platforms and a specific 2-way branch split (compute vs memory), the mild-vs-extreme contrast is a 4-point structural observation (3 extreme platforms cluster, 1 mild platform distinct), not a scaling law or continuous trade-off. The falsifiable content is the decomposition itself and the mild-vs-extreme dominance contrast, both of which the flat 1D model cannot represent.
+
+\textbf{Anchors.} All three hand-derived validation cases reproduce exactly (0.800 vs 80\%, 0.632 vs 63\%, 1.400× vs 40\% slower), confirming the model's correctness before the main results are interpreted.
+
+\subsection{5. Control Arms}\label{control-arms}
+
+Three controls target the three objections a reviewer would raise against ``deep beats surface.'' The first two are measured arms in the surface-vs-deep model; the third is a design-level argument, and we report the data that bears on it honestly.
+
+\textbf{(1) Flat-rate control (forwarding triviality) --- measured.} A placeholder hardware with all rates equal to 1. Result: flip = 0.0000, time shift = 0.0000, \(H(D|S) = 0.0\) --- the correction is \emph{exactly} zero, not merely small. This rules out the trivial explanation that a deep node's information is just a forward of the surface information (which would be mathematically guaranteed for any enumerable quantity): the measured increment is attributable to the rate-ratio structure alone.
+
+\textbf{(2) Parameter--depth reordering (tautology) --- measured.} The objection: ``deep'' is defined by depth, so of course deeper nodes carry more information --- the claim is tautological. We test this directly by permuting the rate vector across the four components (all 24 permutations, holding the rate multiset fixed) and recomputing the correction on the same 40,000 workloads. If the increment tracked the \emph{label} (which component is called ``deep''), it would change with the permutation; if it tracks the rate-ratio \emph{content} (the multiset), it should not. The identity permutation exactly reproduces the main results (flip 0.5266/0.4344/0.5627/0.5559, shift 0.2004/0.1655/0.2307/0.2183 for 5090/T5000/4090/A100), and across all 24 permutations the correction varies only within a narrow Monte-Carlo band (e.g.~5090 flip 0.5251--0.5304, shift 0.1992--0.2013). The increment is thus a function of the rate-ratio content, not of the depth label: the criterion is de-depth-ified and the tautology objection is resolved by measurement, not by construction alone.
+
+\textbf{(3) Intra-level type control (type × depth confound) --- design-level argument, with a caveat.} Within a level we compare judgment-type nodes (applying a rate ratio) against enumeration-type nodes (reporting a share). In the surface-vs-deep model the two types are \emph{not} confounded with depth: the surface node is enumeration-type and the deep node is judgment-type, and the measured increment is the difference between them. The earlier node-level model, however, confounded type with depth (nodes 0--1 shallow+enumeration, 2--3 deep+judgment), and there the type control came out \emph{against} the hypothesis (enumeration-type 0.5841 bits vs.~judgment-type 0.1344 bits per node). We do not use that number as evidence; it is a confounded measurement from a different model. The clean type isolation is the surface-vs-deep split itself, which is the measured result in §4.
+
+\subsection{6. Preregistration and Defense}\label{preregistration-and-defense}
+
+\textbf{HARKing declaration.} All criteria, formulas, and the make-or-break test (deep-only information \(> 0\) on real platforms and \(= 0\) on the flat control) were committed to the project repository \emph{before} the data were generated: preregistration commit \texttt{eb1b0598c} at 17:39 precedes the data-producing commit \texttt{718394ece} at 18:06 on 2026-11-24; the ordering is verifiable via \texttt{git\ log}. No criterion was adjusted after seeing the results; the one post-hoc change was a \emph{weakening} of a secondary hypothesis (monotonicity in extremity → dependence on structure, §4), made because the data contradicted the stronger form.
+
+\textbf{Forwarding-triviality response.} For any \emph{enumerable} quantity, a deep node that merely re-expresses surface information is guaranteed to add nothing new --- and, conversely, any deep node that restates the surface judgment adds information only in the trivial sense of forwarding it. The flat control (control (1)) shows the measured increment is not of this kind: with the rate-ratio structure removed, the increment is exactly zero, so the 0.71--0.77 bits of deep-only information on real platforms is carried by the rate-ratio structure specifically.
+
+\textbf{Tautology response.} ``Deep nodes contribute more'' is tautological only if ``deep'' is the definition of ``contributes.'' Control (2) severs this by measurement: permuting the rate vector across components (24 permutations, rate multiset fixed) leaves the correction invariant within a narrow Monte-Carlo band, so the increment tracks the rate-ratio content, not the depth label. The claim is an empirical statement about where rate-ratio information sits in the decomposition, not a restatement of the definition.
+
+\textbf{Scope of the claim.} We claim a \emph{measurement result} --- the incremental contribution of deep microarchitectural judgments is large, closed-form, and attributable to rate-ratio structure --- not a universal law about reasoning systems. The setting is GPU bottleneck diagnosis with four real platforms and a uniform workload prior; generalization to other domains is left open.
+
+\subsection{7. Limitations}\label{limitations}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Interpretable scores vs.~strict MI.} Flip rate and time shift are interpretable per-workload scores; they are not themselves mutual information. We complement them with strict \(H(D)\), \(H(D|S)\), \(I(S;D)\) computed over the bottleneck-class distribution (§4), which is the formal quantity the claim rests on.
+\item
+  \textbf{No native FP4 on two platforms.} The 4090 and A100 lack native FP4 units; their FP4 rates are taken as \(0.5 \times\) FP16 as a proxy (unverified against silicon). The 4090's extreme rate ratio (287.4) is partly an artifact of this proxy, and its flip/shift values should be read with that caveat.
+\item
+  \textbf{Workload prior.} \(f \sim \text{Dirichlet}(1,1,1,1)\) is uniform over the simplex and does not model the precision mix of real LLM inference workloads (which are typically low-precision-heavy). The absolute flip rates would shift under a biased prior; the flat-control zeroing and the structural-scaling observation are prior-robust by construction.
+\item
+  \textbf{Monotonicity is not strict.} The correction correlates with rate-ratio \emph{structure}, not with extremity alone: A100 (ratio 44.3) exceeds 5090 (ratio 51.9) in time shift. We therefore do not claim a monotone function of max/min ratio, and with four platforms do not claim a scaling law (Sec. 4).
+\item
+  \textbf{Tree generalization is post-hoc and 4-point.} The §4.5 hierarchical decomposition (branch-level vs within-branch) was motivated by the flat model's limitation after the main results, not pre-registered; it inherits the pre-registered flat control, and the mild-vs-extreme dominance contrast is a 4-point structural observation (3 extreme platforms cluster, 1 mild platform distinct) on a fixed 2-way branch split (compute vs memory), not a scaling law or continuous trade-off. The branch split is the natural one for GPU diagnosis, but alternative splits (e.g., by precision) are untested.
+\item
+  \textbf{Single-domain validation.} All four platforms are GPUs and all anchors are hand-derived from specifications; no measured trace is used. External validation on real workloads is future work.
+\item
+  \textbf{One of three controls is design-level, not a measured arm.} The flat-rate control ((1)) and the parameter--depth reordering ((2)) are measured arms in the surface-vs-deep model. The intra-level type control ((3)) rests on the model's construction (the surface and deep judgments differ only in the rate vector). The earlier node-level model, where type was confounded with depth, gave a type control \emph{against} the hypothesis (enumeration-type 0.5841 bits vs.~judgment-type 0.1344 bits per node); we do not use that number as evidence. A future version should measure (3) as an explicit arm in the surface-vs-deep model.
+\end{itemize}
+
+\subsection{8. Conclusion and Related Work}\label{conclusion-and-related-work}
+
+\textbf{Conclusion.} We measured the incremental contribution of a deep microarchitectural judgment relative to a surface enumeration judgment in GPU bottleneck diagnosis, in closed form, with preregistered criteria. The surface judgment is wrong on 43--56\% of workloads; the deep correction is 0.17--0.23 in time shift and 0.71--0.77 bits of deep-only mutual information; and the correction vanishes exactly when the rate-ratio structure is removed. The tree generalization adds a structural observation the flat model cannot express: the correction decomposes into branch-level and within-branch components whose dominant dimension flips from within-branch (mild-rate platform) to branch-level (extreme-rate platforms). The practical reading: in nonlinear compositional diagnosis, the deep level is not a refinement --- it is the load-bearing part of the judgment, and its contribution is computable before any experiment is run.
+
+\textbf{Related work.} Roofline analysis and step-level attribution methods assume time is proportional to resource share and attribute linearly; our result quantifies exactly the error that assumption makes, per platform. Information-theoretic analyses of reasoning trajectories (e.g., step-entropy and probing-trajectory measurements) measure information in \emph{observed} chains; here the quantity is \emph{derived} from specifications, which is what makes the closed-form and the negative control possible. Bottleneck diagnosis in systems (e.g., Amdahl-style decomposition) treats rates as given inputs; we instead treat the \emph{judgment about} the rates as the object of measurement.
+
+\section*{AI Use Disclosure}
+
+Per arXiv policy on generative AI tools: no AI system is listed as an author of this work. Generative AI language tools were used in the drafting and verification assistance stages; all authors take full responsibility for the content. All quantitative results in this paper are produced by the closed-form computation scripts referenced in the text and are reproducible from the cited commit anchors.
+
+\end{document}
