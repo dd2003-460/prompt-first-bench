@@ -1,0 +1,45 @@
+{
+  "kind": "ralph_web_llm_cross_check",
+  "purpose": "D2 Q9-v1 gold skeleton Lead-side independent cross-verification (agent env lacked second-agent channel; Lead executes per corrected acceptance criteria)",
+  "observed_at": "2026-11-24T20:22:22+0800",
+  "channel": "ego-browser (ego-lite logged-in session)",
+  "successful_provider_ids": ["perplexity", "chatgpt"],
+  "provider_details": [
+    {
+      "provider": "perplexity",
+      "session_url": "https://www.perplexity.ai/session/3f9eb863-0476-42b3-9cf6-37aaa494ad17",
+      "answer_saved": "/tmp/d2-verify-perplexity.txt",
+      "model_note": "free tier, model not displayed"
+    },
+    {
+      "provider": "chatgpt",
+      "session_url": "https://chatgpt.com/c/6b05815d-3fcc-83ee-b38d-e271831413e9",
+      "answer_saved": "/tmp/d2-verify-chatgpt.txt",
+      "model_note": "logged-in default model, not displayed"
+    }
+  ],
+  "responses": [
+    {
+      "provider": "perplexity",
+      "q1_methodology": "Equal 0.20 top-level weights NOT defensible without explicit value model: capability/reliability are hard constraints not tradeable objectives; time vs cost weights encode unstated economic assumption; intervention-levers is a search/action space, giving it objective weight double-counts its influence. Partition NOT cleanly orthogonal (reliability consumes time+cost; levers are inputs vs outcomes; time/cost near-collinear on fixed HW). S-a/S-b/S-c sound as uncertainty taxonomy but incomplete as decision policy: S-c needs evidence-acquisition decision rule, not terminal 'unknown'; confidence 0-1 must not enter EV/Bayesian calcs without calibrated mapping; S-a computable-but-wrong risk needs provenance/audit checks.",
+      "q2_correction": "CORRECT and material. Treatment-label error: +0.182 is the S0->S5 prompt-level ablation contrast (n=15/arm, local judge), not an SM-arm causal effect. Carrying it as SM effect would let a large mislabeled estimate drive arm selection. Caveats: n=15 small, local judge bias risk, ablation not automatically causal without exchangeability; SM p~0.32 = 'no detectable effect at current power', not proof of zero. Downstream handling: keep +0.182 under prompt-level ablation (preliminary S-b, with CI + replication req); represent SM arm as 'no statistically detectable effect'; do not let +0.182 enter SM-arm expected capability/ranking/allocation.",
+      "verdict": "methodology: sound epistemic labels, flawed objective structure (equal weights + non-orthogonal partition); correction: confirmed correct and material"
+    },
+    {
+      "provider": "chatgpt",
+      "q1_methodology": "Equal 0.20 NOT defensible as primary decision structure: implies compensability between non-interchangeable dimensions; capability/reliability are hard gates. Fix: lexicographic objective (satisfy gates, then min time/cost with explicit trade-off rule; intervention potential as secondary criterion); equal weights OK only as descriptive dashboard weights. NOT orthogonal: category error (capability/reliability=outcomes; time/cost=resources; levers=controllable inputs); reliability consumes time/cost; fix = separate decision variables / performance outcomes / resource constraints / feasibility gates, explicit causal DAG. S-a/S-b/S-c useful but insufficient: classifies evidence-acquisition requirements, not evidence quality; add provenance/measurement-uncertainty/sample-size/reproducibility fields; S-c should report interval + decision threshold + what observation would resolve it.",
+      "q2_correction": "CORRECT and important. Two different contrasts: +0.182 = S5-S0 prompt-level ablation (n=15/arm, local judge); +0.025 = SM arm's own measured effect (p~0.32, n.s.). Attributing +0.182 to SM arm = treatment-attribution error, not labeling inconsistency. Material: overstates SM evidence ~7.3x, distorts expected capability, intervention prioritization, time-to-threshold, cost-effectiveness. Qualification: p~0.32 does not establish SM effect is zero, only insufficient evidence at conventional significance. Required correction: preserve +0.182 under prompt-level ablation; attribute +0.025 to SM arm; no transfer.",
+      "verdict": "methodology: equal weights + partition fail as decision structure, lexicographic + DAG fix; correction: confirmed correct and material (7.3x overstatement)"
+    }
+  ],
+  "agreement": {
+    "q1": "Both independently converge: (1) equal 0.20 weighting not defensible as optimization objective (hard gates vs tradeable objectives); (2) partition not orthogonal, levers are inputs not outcomes, needs causal DAG; (3) S-a/S-b/S-c sound but needs evidence-quality fields + S-c resolution policy. Convergence = 2/2 independent sources.",
+    "q2": "Both independently confirm the +0.182 re-attribution is correct and material (treatment-label/attribution error; ~7.3x overstatement if carried as SM effect); both add the same caveat that p~0.32 != effect is zero. Convergence = 2/2."
+  },
+  "lead_deterministic_checks": {
+    "structure": "37 nodes, depth 0-5, 21 leaves J1-J21 contiguous, leaf weights sum 1.00, 5 dims x 0.20 — verified by static parse of Q9-v1.md at origin/arena/78602cd5-prompt-first-bench:8fe85a2f4",
+    "isolation": "prompt-side isolation declared; gold tree/weights/formulas not leaked into prompt (receipt item 6)",
+    "correction_grounding": "+0.182 = S5-S0 confirmed locally at paper-draft.md:9 (abstract) and optimize-T35/audit-raw-out.txt:50 (+0.1819); T53b SM arm real effect +0.025 p~0.32 per memory 11-07 record — agent's correction grounded, not fabricated"
+  },
+  "conclusion": "PASS with noted weaknesses. Q9-v1 structurally sound and epistemically disciplined; +0.182 correction validated by 2/2 independent web-LLM sources + local records. Methodology weaknesses (equal-weight objective, non-orthogonal partition) are v1 limitations to address in v2 (lexicographic objective + causal DAG + evidence-quality fields), not blockers for v1 acceptance."
+}
