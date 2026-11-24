@@ -167,3 +167,4 @@ T4 pilot 夜间无人值守，下列接缝逐一核验过（防"白等一夜"的
   各异（decompose/edge/parent_check/rework/contradiction），单一 stub 无法正确满足所有 → stub run
   测的是 stub 不是 runner，false-confidence 风险高。T4 起 run 前如需端到端演练，建议用真实 vLLM
   跑 1 个最小 cell（budget 小、1 rep）先验证，而非 stub。
+- **T4 连接点终验（22:5x）**：① 端口匹配——harness `LLM_URL=127.0.0.1:8787` = waiter 探测端口 = 实际 vLLM 服务端口（qwen3.8-27b-mtp 在 8787 活），pilot 启动后 LLM 调用连通。② **反缓存保障（防伪重复）**——SM 的 `call_llm` 从 `ablation_harness` import，harness 的 `call_llm` **无条件**给每个 prompt 加 4 个随机不可见空格扰动（`\u200b`/`\u200c`/空，L483-485）→ 相同 prompt 的 hash 每次不同 → proxy 缓存不返回相同答案 → **3 臂×3 reps 真独立重复**。消除 S8B 事故（r2/r3 逐字相同）在 T4 复发的风险——否则 reps 方差=0，TOST 全废。单 call 全空扰动概率 (1/3)^4≈1.2%，单 run 数百 call 全空≈0 → 独立性实质成立。
