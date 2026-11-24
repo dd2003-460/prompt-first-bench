@@ -163,5 +163,51 @@ out["cross_domain"] = {
     "gpu_reference": "GPU 30 树分箱 0.250/0.325/0.361/0.361 (0-200/200-400/400-600/600-800), 平台 ~400 realized 节点, cor=0.563 (K7 2026-11-24)",
     "caveat": "跨域绝对 cov 不可比 (Q6 46-unit gold vs GPU 36-unit gold), 只比形状",
 }
+# --- 断点扫描 (机制锚 v4 口径, 2026-11-24 补入 — r3 落地 n=3 定论的承重数字) ---
+# 口径: 两段折线, bp 扫 150-700 step 25, 左段 x<bp / 右段 x>=bp, F(2, n-4) 检验。
+# 退化保护: 任一段 distinct x < 2 (如 bp=400 时右段 3 点全 x=719) → ss=0 是假象, 跳过该 bp。
+def _fit1(xs, ys):
+    nn = len(xs); xm = sum(xs) / nn; ym = sum(ys) / nn
+    sxy = sum((a - xm) * (b - ym) for a, b in zip(xs, ys))
+    sxx = sum((a - xm) ** 2 for a in xs)
+    if sxx == 0:
+        return None, ym, 0.0
+    m = sxy / sxx; c = ym - m * xm
+    return m, c, sum((b - (m * a + c)) ** 2 for a, b in zip(xs, ys))
+
+_bp_pts = [(r["n_nodes"], r["cov"]) for r in allq6]
+_bp_x = [p[0] for p in _bp_pts]; _bp_y = [p[1] for p in _bp_pts]
+_bp_n = len(_bp_x)
+_m, _c, _ss_full = _fit1(_bp_x, _bp_y)
+_bp_best = None
+for _bp in range(150, 701, 25):
+    _xl = [a for a in _bp_x if a < _bp]; _yl = [b for b, a in zip(_bp_y, _bp_x) if a < _bp]
+    _xr = [a for a in _bp_x if a >= _bp]; _yr = [b for b, a in zip(_bp_y, _bp_x) if a >= _bp]
+    if len(_xl) < 2 or len(_xr) < 2:
+        continue
+    if len(set(_xl)) < 2 or len(set(_xr)) < 2:
+        continue  # 退化段 (distinct x < 2)
+    _m1, _, _s1 = _fit1(_xl, _yl); _m2, _, _s2 = _fit1(_xr, _yr)
+    if _m1 is None or _m2 is None:
+        continue
+    _tot = _s1 + _s2
+    if _bp_best is None or _tot < _bp_best[0]:
+        _bp_best = (_tot, _bp, _m1, _m2)
+if _bp_best is not None and _bp_n > 4:
+    _ss2, _bp_opt, _m1, _m2 = _bp_best
+    _F = ((_ss_full - _ss2) / 2) / (_ss2 / (_bp_n - 4))
+    _p = ((_bp_n - 4) / ((_bp_n - 4) + 2 * _F)) ** ((_bp_n - 4) / 2)
+    _bp_scan = {"n": _bp_n, "ss_single": round(_ss_full, 5), "ss_two_seg": round(_ss2, 5),
+                "optimal_bp": _bp_opt, "slope_left": round(_m1, 5), "slope_right": round(_m2, 5),
+                "F": round(_F, 3), "df": [2, _bp_n - 4], "p": round(_p, 4),
+                "note": "v4 口径 (bp 150-700 step 25, x<bp/x>=bp, 退化段跳过)。16pt 复现 v4: bp=325 F(2,12)=7.327 p=0.0083 (K7 2026-11-24)。"}
+    print(f"\n=== 断点扫描 (机制锚 v4, n={_bp_n}) ===")
+    print(f"单段 ss={_ss_full:.5f} → 两段 ss={_ss2:.5f} (改善 {(_ss_full - _ss2) / _ss_full * 100:.0f}%), "
+          f"最优断点={_bp_opt} (斜率 {_m1:.5f}→{_m2:.5f}), F(2,{_bp_n - 4})={_F:.3f} p={_p:.4f}")
+else:
+    _bp_scan = None
+    print("\n断点扫描: 数据不足 (n<5 或无有效断点)")
+
+out["breakpoint_scan_v4"] = _bp_scan
 json.dump(out, open(OUT, "w"), ensure_ascii=False, indent=1)
 print(f"\n落盘 {OUT}")
