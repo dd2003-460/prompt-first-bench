@@ -1023,3 +1023,13 @@ q7_domain_gold_analyze.py（116 行）独立核验：
 **修**（commit 4fa3b7ffb）：基线改 200-400 bin；噪声底改池化 se=sqrt(se_nd²+se_low²)=0.0360；verdict 三级分级（≥1.96×se 显著 / 1-1.96×se magnitude open 边际可分辨 / <1×se 平台）。重跑落盘，verdict 与 draft §4.3 一致（Δ=+0.0435=1.21×se, magnitude open）。
 
 **Q7 两脚本同查**：full 版用"最高两箱差"（相邻箱，无低段膨胀）+ 池化 sd 噪声底 ✓；domain_gold 版只报饱和点位置无强 verdict ✓——无同类 bug，不修。
+
+## 2026-11-24 ~10:38 r3 hit-set 落盘 + 机制结论升 n=3
+
+**r3 hits（nodepth-r3-hits-20261124.json）**：
+- r3 命中 10 units（0,6,8,10,14,16,21,22,25,33），n=719。
+- vs 原批 union：新增 1 个（16 HTTPS 静态请求单价），recover 4 个（6/10/22/33，原批命中过但 r1 漏）。
+- r3∩r2 = 9/10（高度重叠），r3∩r1 = 5/6。
+- 三个 nd rep 的"原批从未命中"集合：r1=∅、r2={16,20}、r3={16} → **稳定新增只有 unit 16**（r2/r3 都命中），unit 20 是 r2 单点。
+
+**机制结论（n=2→n=3，更强）**：719 节点扩张相对原批的"新覆盖"很有限（稳定新增 1 个 unit），且三个 nd rep 的 hit-set 互相高度重叠（r3∩r2=9/10）——覆盖内容趋于收敛，cov 反转是 unit 级 run-to-run 交换，不是系统性深度效应。

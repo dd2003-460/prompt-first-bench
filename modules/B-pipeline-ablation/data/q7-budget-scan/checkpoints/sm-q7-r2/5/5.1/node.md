@@ -1,4 +1,4 @@
-# N29: 运维人力成本年化：Ops_Cost = (Num_Engineers × Hourly_Rate × Hours_Per_Year × Allocation_R
+# N34: 温数据(100TB)每日扫描1-2次，假设平均对象大小1MB，则每日IOPS需求为100TB/1MB*1.5次/日 = 1.5亿次IOPS/日 ≈ 1,736 
 
 - **status**: verified
 - **level**: L2
@@ -9,16 +9,12 @@
 
 ## Claim
 
-运维人力成本年化：Ops_Cost = (Num_Engineers × Hourly_Rate × Hours_Per_Year × Allocation_Ratio)，其中Allocation_Ratio为该存储系统占工程师总工时的比例，典型值：本地SSD阵列0.2~0.5人/年，HDD+SSD分层0.3~0.6人/年，云存储0.05~0.15人/年（主要监控与策略调优）
+温数据(100TB)每日扫描1-2次，假设平均对象大小1MB，则每日IOPS需求为100TB/1MB*1.5次/日 = 1.5亿次IOPS/日 ≈ 1,736 IOPS(平均)，峰值可达5x即8,680 IOPS
 
 ## Corrected Claim
 
-运维人力成本年化：Ops_Cost = (Num_Engineers × Hourly_Rate × Hours_Per_Year × Allocation_Ratio)，其中Allocation_Ratio为该存储系统占工程师总工时的比例，典型值：本地SSD阵列0.2~0.5人/年，HDD+SSD分层0.3~0.6人/年，云存储0.05~0.15人/年（主要监控与策略调优）
+温数据(100TB)每日扫描1-2次，假设平均对象大小1MB，则每日IOPS需求为100TB/1MB*1.5次/日 = 1.5亿次IOPS/日 ≈ 1,736 IOPS(平均)，峰值可达5x即8,680 IOPS
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
-
-## Search Query
-
-storage ops engineer cost allocation ratio
+先验知识/题面给定，逻辑校验通过：100TB=10^8 MB，10^8 * 1.5 = 1.5*10^8 次/日；1.5*10^8 / 86400 ≈ 1736 IOPS；1736 * 5 ≈ 8680 IOPS。计算无误。

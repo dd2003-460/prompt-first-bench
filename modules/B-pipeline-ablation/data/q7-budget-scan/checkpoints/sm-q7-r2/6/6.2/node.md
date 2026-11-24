@@ -1,4 +1,4 @@
-# N34: 统一口径成本公式：Cost_Per_TB_Year = (Hardware_CapEx/Useful_Life + Cloud_Fee + Power_Cost
+# N41: SSD写入寿命：NVMe SSD TBW(总写入字节)为1,000TB/盘，假设每日写入量为温数据扫描产生的缓存更新1TB/日，则寿命=1000TB/1TB*日
 
 - **status**: verified
 - **level**: L2
@@ -9,12 +9,12 @@
 
 ## Claim
 
-统一口径成本公式：Cost_Per_TB_Year = (Hardware_CapEx/Useful_Life + Cloud_Fee + Power_Cost + Ops_Cost + Expected_RTO_Cost + Expansion_Cost) / Effective_Capacity_TB，其中Useful_Life：SSD 5年，HDD 5年，云存储按年付费无CapEx
+SSD写入寿命：NVMe SSD TBW(总写入字节)为1,000TB/盘，假设每日写入量为温数据扫描产生的缓存更新1TB/日，则寿命=1000TB/1TB*日=1000日≈2.7年，需考虑更换成本
 
 ## Corrected Claim
 
-统一口径成本公式：Cost_Per_TB_Year = (Hardware_CapEx/Useful_Life + Cloud_Fee + Power_Cost + Ops_Cost + Expected_RTO_Cost + Expansion_Cost) / Effective_Capacity_TB，其中Useful_Life：SSD 5年，HDD 5年，云存储按年付费无CapEx
+SSD写入寿命：NVMe SSD TBW(总写入字节)为1,000TB/盘，假设每日写入量为温数据扫描产生的缓存更新1TB/日，则寿命=1000TB/1TB*日=1000日≈2.7年，需考虑更换成本
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：成本公式结构符合TCO（总拥有成本）基本定义，将CapEx摊销、OpEx（云费/电力/运维）、风险成本（RTO）及扩容成本纳入分子，除以有效容量得到单位成本，量纲与逻辑自洽；SSD/HDD 5年寿命及云存储无CapEx为行业通用经验参数，符合常识。
+先验知识/题面给定，逻辑校验通过：1000TB / 1TB/日 = 1000日，1000/365 ≈ 2.74年，计算无误且符合SSD寿命估算的基本逻辑。
