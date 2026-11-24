@@ -97,4 +97,4 @@ Q7 15 文件落地 + watchdog 双分析跑完后，以下 draft 位置要更新�
 | L220 | "second full out-of-domain scan (e.g. Q7)" | Q7 落地后改为"Q7 scan completed, results in §4.X" |
 | L222 | "Q7 max_depth=10 once it lands" | Q7 落地后删"once it lands" |
 
-**⚠️ 14:56 反信号（300-r1 n=1）**：Q7 cov=0.231 > 150 档 0.1795 + 回修率 6.1%（单调升 0/2.2/4.4/6.1%）——若 300-r2/r3 确认，L9/L40/L133 的"Q7 确认 breadth 非 depth"可能要改成"Q7 域 300 档未饱和，breadth 声明域依赖"。等 r2/r3 定。
+**⚠️ 14:56 反信号（300-r1 n=1，15:35 降级）**：Q7 cov=0.231 > 150 档 0.1795 + 回修率 6.1%（0/2.2/4.4/6.1%）——但 15:35 核验后信号弱：300 档 49 个 reworked 里 9 个是检索通道失败（噪声），3 个 fixed 无法归类到 no_source/value_mismatch 硬类。若 300-r2/r3 用 repair-closure-dryrun.py 生产口径重分类后仍确认，L9/L40/L133 的"Q7 确认 breadth 非 depth"可能要改成"Q7 域 300 档未饱和，breadth 声明域依赖"。等 r2/r3 定。
