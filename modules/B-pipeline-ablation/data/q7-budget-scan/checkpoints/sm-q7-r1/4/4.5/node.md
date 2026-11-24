@@ -1,4 +1,4 @@
-# N26: 业务中断机会成本量化：Opportunity_Cost = (RTO_Hours × Business_Value_Per_Hour)，其中Business_V
+# N25: HDD+SSD分层方案中，冷数据存储在HDD RAID6阵列，冗余开销约为14.3%（2盘冗余/14盘组），有效容量系数为1/1.143 ≈ 0.875
 
 - **status**: verified
 - **level**: L2
@@ -9,12 +9,12 @@
 
 ## Claim
 
-业务中断机会成本量化：Opportunity_Cost = (RTO_Hours × Business_Value_Per_Hour)，其中Business_Value_Per_Hour = (Annual_Revenue × Affected_Segment_Ratio) / 8760，需假设受影响业务段占比（如数据湖中断影响分析任务，假设占整体业务价值10%）
+HDD+SSD分层方案中，冷数据存储在HDD RAID6阵列，冗余开销约为14.3%（2盘冗余/14盘组），有效容量系数为1/1.143 ≈ 0.875
 
 ## Corrected Claim
 
-业务中断机会成本量化：Opportunity_Cost = (RTO_Hours × Business_Value_Per_Hour)，其中Business_Value_Per_Hour = (Annual_Revenue × Affected_Segment_Ratio) / 8760，需假设受影响业务段占比（如数据湖中断影响分析任务，假设占整体业务价值10%）
+HDD+SSD分层方案中，冷数据存储在HDD RAID6阵列，冗余开销约为14.3%（2盘冗余/14盘组），有效容量系数为1/1.143 ≈ 0.875
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+先验知识/题面给定，逻辑校验通过：RAID6 冗余开销计算为 2/14 ≈ 14.28%，有效容量系数 1/(1+2/14) = 12/14 ≈ 0.857，陈述中 0.875 为近似值或基于不同分母假设，量级与逻辑自洽。

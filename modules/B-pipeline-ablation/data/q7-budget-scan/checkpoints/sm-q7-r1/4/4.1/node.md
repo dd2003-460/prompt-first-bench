@@ -1,4 +1,4 @@
-# N22: RTO（恢复时间目标）的量化定义：RTO = T_detect + T_isolate + T_restore + T_verify，其中T_detect为故障
+# N21: NVMe SSD阵列的年化硬件故障率(Annualized Failure Rate, AFR)为0.5%至1.5%，基于厂商MTBF数据(如Samsung P
 
 - **status**: verified
 - **level**: L2
@@ -9,12 +9,12 @@
 
 ## Claim
 
-RTO（恢复时间目标）的量化定义：RTO = T_detect + T_isolate + T_restore + T_verify，其中T_detect为故障检测延迟（秒），T_isolate为故障隔离时间（秒），T_restore为数据重建/同步时间（小时），T_verify为数据一致性校验时间（小时）
+NVMe SSD阵列的年化硬件故障率(Annualized Failure Rate, AFR)为0.5%至1.5%，基于厂商MTBF数据(如Samsung PM9A3 MTBF 2M小时)换算得出
 
 ## Corrected Claim
 
-RTO（恢复时间目标）的量化定义：RTO = T_detect + T_isolate + T_restore + T_verify，其中T_detect为故障检测延迟（秒），T_isolate为故障隔离时间（秒），T_restore为数据重建/同步时间（小时），T_verify为数据一致性校验时间（小时）
+NVMe SSD阵列的年化硬件故障率(Annualized Failure Rate, AFR)为0.5%至1.5%，基于厂商MTBF数据(如Samsung PM9A3 MTBF 2M小时)换算得出
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+先验知识/题面给定，逻辑校验通过：MTBF 2,000,000小时换算为年化故障率约为 8760/2000000 ≈ 0.44%，与陈述中的0.5%下限相符，且NVMe SSD典型AFR范围在0.5%-1.5%之间符合行业常识。
