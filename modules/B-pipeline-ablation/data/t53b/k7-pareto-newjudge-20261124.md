@@ -1067,3 +1067,9 @@ budget=50 档 cov: 0.077 (r1) / 0.115 (r2) / 0.115 (r3); budget=100 档 r1 cov=0
 budget 50→100 cov 升 ~0.08-0.12 → **budget effect 在 storage 域 (第三域) 初步成立**。
 **非承重声明**: n=1 (100 档) vs n=3 (50 档), 等 15 文件落地 + watchdog 双分析 (q7_full_analysis + q7_domain_gold_analyze) 后定。
 draft 跨域泛化 claim 若 Q7 正式分析确认, 从 2 域 (GPU+Q6) 升 3 域; 若否定, 需降级。
+
+## Q7 watchdog 重复实例被杀 (2026-11-24 11:22, 非断点)
+
+proc_50c68c9d1a00 (SIGTERM -15) 是重复启动的 watchdog 副本; 本体 PID 57325 (08:22:40 启动, 02:59:53 etime) 活着,
+逻辑健康 (等 15 文件 → q7_domain_gold_analyze + q7_full_analysis 双分析 → break)。relay_v2 PID 34249 活着, 扫描队列 PID 99447 活着。
+**接力链无断点, 无需重启。**
