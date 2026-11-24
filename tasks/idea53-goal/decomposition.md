@@ -34,8 +34,8 @@
 | T2 两条梯度 | 同上 | 同上文件含 i_coarse[i][layer] + i_fine_cond[i][layer]，三源 | ~10min | 排队 |
 | T3 对照臂×4 | 同上 | 同上文件含 controls 字段（4 臂各层值） | ~10min | 排队 |
 | T4 生死线判定 | Lead 读 json 一行判 | 结论落盘 .md（升/不升 + 三源一致性） | ~5min | 排队 |
-| T5 venue 决策 | arena 第五轮 | result.md 追加4 小节 commit（对标+venue+概率） | ~30min | running |
-| T6 短文大纲/负结果 | 按 T4 分支 | 成立→outline.md（claim/方法/结果/对照/limitation）；不成立→negative-result.md | ~1h | 排队 |
+| T5 venue 决策 | arena 第五轮 | result.md 追加4 小节 commit（对标+venue+概率）@ 7dae6431a | ~30min | ✅ done |
+| T6 短文大纲/负结果 | 按 T4 分支 | 成立→outline.md（claim/方法/结果/对照/limitation）；不成立→negative-result.md；含 W2 预注册冻结（OpenReview/OSF 免费存档） | ~1h | 排队 |
 | T7 预注册合规检查 | Lead | GOAL.md commit 时间(20c029300 16:18) < T1 数据产出时间（git log 可查） | ~2min | 排队 |
 
 总耗时 ~2.5h（T1-T4 串行 + T5 并行），无外部依赖（27b 本地 + arena 免费）。
