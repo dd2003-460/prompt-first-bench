@@ -264,6 +264,20 @@ gate `_should_rework(deduped)` 保持只判本轮批次（最小改动，不动 
 | Fix-A 单独 `git apply --check` + 应用后 py_compile | ✅ OK |
 | Fix-B 单独 `git apply --check` + 应用后 py_compile | ✅ OK |
 | 顺序 A→B（scratch 副本） | ✅ OK（区域不相交：A 在 L34-40/L764-772/L800-805 区，B 在 L1449-1453 区） |
+| **运行时冒烟测试（2026-11-25 00:47，mock LLM/检索/核验，真实字节码端到端）** | ✅ 6/6 断言通过 |
+
+**运行时冒烟测试明细**（scratch 副本 apply 组合 diff 后 import 真实 SM，mock
+`ablation_harness.call_llm` / `search_node` / `verify_node`，脚本
+`~/.hermes/cache/scratch/repair_smoke_test.py` 可复跑）：
+1. Fix-A 路由触发：无正式 contradiction_events 的失败节点（evidence 含"不一致/版本不匹配"）
+   → 第 1 次 rework `mode=directed`（原始 SM 同场景 = `angle`，A/B 对照证实路由差异确由 Fix-A 引起）
+2. 失败终态：directed 失败 → `degraded` + `rework_count=1`
+3. Fix-B 重入：pool merge 表达式捞到该 degraded rc=1 节点
+4. 第 2 次尝试：`attempt=2`（max_rework=2 首次在真实字节码上被行使）+ directed 成功
+   → `verified` + claim 回写（3.35TB/s → 900GB/s）
+5. 上界兜底：rc=2 达 max_rework 后第 3 次拒绝重入（L760 检查生效，rc 保持 2）
+6. self_conflict 块无运行时异常（hunk 3 的 `node`/`node.retrieval_sources` 取值自洽，
+   第 1/4 项的 directed 调用全程走过 hunk 3 建块路径）
 
 - **依赖**：A、B 正交（路由条件 vs pool 组成），可单独 apply 也可组合；2×2 四臂实验直接对应
   baseline / A / B / A+B。
