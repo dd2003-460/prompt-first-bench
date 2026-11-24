@@ -215,6 +215,22 @@ gate `_should_rework(deduped)` 保持只判本轮批次（最小改动，不动 
 `0 < n.rework_count < max_rework` 排除，永久退出 pool。✓
 另：contribution-filter 剪掉的节点（L1231 `p.status = "degraded"`）rework_count=0，
 不满足 `rc>0` 条件 → 不进重入池，剪枝语义保持不变（只有"rework 过且失败"的节点才重入）。
+
+**gate 语义正确性 + 搭便车延迟 + resume 跨 run 边缘（2026-11-25 00:30 新验证，闭合 §3 三条隐含假设）**：
+- **gate 为何不能改判 `unverified`**（否则破坏基线可比性）：`_should_rework(batch)` =
+  `verified/len(batch) < 0.85`（L730-734，verify_threshold=0.85）。`unverified` 按构造全非
+  verified → rate≡0 → 恒 True → 每轮只要有失败就 rework，比基线激进得多。故 gate 必须留在
+  `deduped`（当前 diff 正确），re-entered 节点是"搭便车者"：仅当本轮 gate 触发时才被 rework。
+- **搭便车延迟量化**（实证）：251 个 run 的 meta 中 **100% 含 ≥1 条 node-level rework 事件**
+  （median 37/run, mean 58, max 345）→ gate（verified_rate<0.85）在几乎所有 run 里触发，
+  重入延迟 ≤1-2 轮，**不是瓶颈**（worst case：某 run 连续几轮全 good 才推迟，但语料未见）。
+- **crash-resume 边缘**（关键正确性）：pool merge 扫 `self.nodes`（非 `deduped`）。resume 路径
+  （L1719-1720）把同一 run 中断前的节点全量恢复进 `self.nodes`（含 rc=1 的 degraded 节点），
+  L1734 重载 `rework_events` → 崩溃续跑后这些节点仍会被 merge 捕获并重入。✓ 若 merge 只扫
+  `deduped` 则会漏掉"中断前已失败、续跑后应重试"的节点（本 diff 用 `self.nodes` 规避该坑）。
+- **无重叠/无双重重入**：本轮 `deduped` 节点创建时 rc=0，`_verify_batch` 不改 rc，`_rework` 在
+  pool 构造之后才调用 → 本轮内 deduped 节点 rc≡0，不满足 `0<rc` → 与 merge 列表零重叠；
+  跨轮失败节点 rc=1 不在本轮 deduped → 只进 merge 列表。每轮每节点至多重入 1 次。✓
 **A×B 交互量化（P-A+B 判别用，本次新算）**：Fix-B 重入候选（degraded rc=1）10,041 个中
 1,089 个（10.8%）evidence 命中 VM 正则 —— A+B 组合下这些节点第 1 轮 directed 失败后
 第 2 轮重入时**再次路由 directed**（evidence 未变仍命中），消耗 2 次 directed 尝试。
