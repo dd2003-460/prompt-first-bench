@@ -931,3 +931,14 @@ T-PR-17 结论"不能声称 LLM 顺序效应/checkpoint continuation 无先例"�
 2. **真实防御缺口**：References 17 条无一条 handoff 文献，Related work 无该领域定位——审稿人最狠一刀"checkpoint 发现与 agent handoff 研究同域为什么不引"。
 3. **修复**：Related work 加 1 条定位（Handoff Debt 2606.02875 / HSC-Bench 2610.36523 / Handoff Tax 2608.24358）：同域不同干预不同测量对象（跨 agent 信息交接测效率 vs 同一模型从自己 verified checkpoint 续跑测 metacog 轴 trade-off），claim 降级为"measured instance, not first demonstration"。References 17→20 条，3 条新引用 arXiv abs 独立核验（2610.36523=HSC-Bench Li et al. ✓ / 2608.24358=Handoff Tax Ganz et al. ✓ / 2606.02875=Handoff Debt KC & Budathoki ✓，T-PR-17 报告亦确认全部 ID 通过 abs 直核）。
 4. **投稿四条件复核**：20 refs 字母序 ✓ 括号差 0 ✓ 0 TODO ✓ 116,290 字符。
+
+## 09:1x T-PR-17 方法学建议消化（Finding 4 resume treatment 界定）
+
+T-PR-17 建议 8（KV cache ≠ 树 JSON checkpoint, arXiv:2607.28495）打在 Finding 4 "resume" 措辞：
+- runner 确认 B 臂 = `--resume $CKPT` 读回树 JSON（skip_l1, 固定前缀 122 节点 L1=6+L2=28+L3=88），是序列化树状态重建，非 KV cache 恢复。
+- draft 原措辞未界定 treatment 恢复什么状态 → 审稿人可用 KV-cache divergence 文献质疑。
+- 修：§4.4 obs 4 加 treatment 界定（"reconstructed continuation, not a state restoration... KV cache and hidden state are NOT carried over... scoped to that treatment, cf. arXiv:2607.28495"）。
+- 2607.28495 abs 独立核验（Stage-Replay Divergence Follows the KV Cache, Lorup, Openhagen, 2026-07-30 ✓）。
+- References 20→21 条，execute_code 脚本按首作者字母序重排（顺带修正 Gao/Ganz、Yao/Yang 两处顺序）。
+- 投稿四条件复核：21 refs 字母序 ✓ 括号差 0 ✓ 0 TODO ✓ 116,963 字符。
+- 其余 7 条方法学建议（估计量定义/checkpoint 审计/外部信息分离/长度位置 counterbalance/可置换阶段/成对重复统计/depth 分数）针对 T-PR-17 后续 4 臂机制验证实验（占 vLLM，未跑），不影响 draft 现有 claim——draft 的 arm split 已标 n=2/arm suggestive + 小分母 caveat。
