@@ -74,12 +74,12 @@
 
 ## 6. 验收标准（逐项勾选）
 
-- [ ] idea53-cross-gradient.json 落盘：I(L_k;V_coarse) 各层值 + I(L_k;V_fine|V_coarse) 各层值 + 三对照臂
-- [ ] 生死线判定：fine-conditional 随深度升/不升，明确结论
-- [ ] 预注册合规：判据在数据出来**之前**已落盘（本文件 commit 时间 < 数据产出时间）
-- [ ] venue 决策：免费渠道排序 + 概率估计（arena 第五轮回执）
-- [ ] 若成立：短文大纲（claim+方法+结果+对照臂）落盘；若不成立：负结果记录（排除什么错误解释）
-- [ ] IDEA-INDEX #53 行更新最终状态
+- [x] idea53-cross-gradient.json 落盘（转向后口径：surface-vs-deep flip/shift + 三对照臂，见 idea53-theory-flip.json；旧 V_coarse/V_fine 路线作废）
+- [x] 生死线判定：主 claim 成立（浅层 43-56% 判错 + flat 对照=0）；次级单调假设部分（A100>5090）→ idea53-theory-flip.md
+- [x] 预注册合规：eb1b0598c (17:39) < 718394ece (18:06)，git log 可查（T7 done）
+- [x] venue 决策：双轨 NeurIPS'27 E&D (P 0.30) + ICML'27 workshop (P 0.55) + arXiv 兜底（arena 第五轮 @ 7dae6431a）
+- [x] 成立分支：outline.md（T6 @ ed2afce5e）+ **paper.md 全文 8 节 2745 词（2026-11-24 18:14，数字逐条回溯 idea53-theory-flip.json / idea53-theory-mi.json / SPECS）**
+- [ ] IDEA-INDEX #53 行更新最终状态（待做）
 
 ## 7. Arena 核验看法汇总（qqbot 接手必读，来源 pfb/tasks/IDEA-review/result.md）
 
