@@ -1,0 +1,58 @@
+{
+ "design": "边际收益分析: judge_total 增量 / 单位 wall-time, 性价比拐点检测 (q7, 27b)",
+ "method": "sigma 从 rep 极差估计 (range/d2(n), d2(2)=1.128 d2(3)=1.693); sem_delta=sqrt(sem_a^2+sem_b^2); z=d/sem_delta; judge_per_hour=d_judge/d_wall_h",
+ "segments": [
+  {
+   "from": 50,
+   "to": 100,
+   "d_judge": 0.0654,
+   "sem_delta": 0.0283,
+   "z": 2.31,
+   "d_wall_h": 0.072,
+   "judge_per_hour": 0.913
+  },
+  {
+   "from": 100,
+   "to": 150,
+   "d_judge": 0.073,
+   "sem_delta": 0.0293,
+   "z": 2.49,
+   "d_wall_h": 0.165,
+   "judge_per_hour": 0.442
+  },
+  {
+   "from": 150,
+   "to": 300,
+   "d_judge": 0.0949,
+   "sem_delta": 0.0873,
+   "z": 1.09,
+   "d_wall_h": 1.169,
+   "judge_per_hour": 0.081
+  },
+  {
+   "from": 300,
+   "to": 719,
+   "d_judge": 0.0757,
+   "sem_delta": 0.0873,
+   "z": 0.87,
+   "d_wall_h": 0.927,
+   "judge_per_hour": 0.082
+  }
+ ],
+ "finding": "judge_per_hour 单调递减 0.913→0.442→0.081→0.082 (原始口径); 校正 era confound 后 150 之后为 0.169/0.082. 性价比拐点在 budget≈150 稳健 (两种口径一致), 但拐点后是否继续衰减受 era confound 限制, 当前数据不能分辨",
+ "significance": "50→100 (z=2.3) 与 100→150 (z=2.5) 显著; 150→300 (z=1.1) 与 300→719 (z=0.9) 不显著 (n=2-3 reps, 功效不足) — 高预算段只能 claim '边际性价比骤降', 不能 claim '无增益'",
+ "caveat": "wall_time 含 27b 推理开销, 跨硬件不可直接迁移; 300 档 n=2 (r2 复制剔除)",
+ "source": "q7-budget-response-curve.json (f6af606fb)",
+ "robustness": {
+  "per_node_s": {
+   "50": 21.1,
+   "100": 13.1,
+   "150": 12.7,
+   "300": 20.4,
+   "719": 13.1
+  },
+  "confound": "300 档 per-node 20.4s vs 719 档 13.1s — era confound (300 档跑在 11-24 下午, 719 档 11-24 晚-11-25 凌晨), 与 q7-full-analysis.json 已记录的 era confound 一致",
+  "corrected_150_300": "若 300 档按 719 档速率 13.1s/node 计, 150->300 judge/h = 0.169 (原始 0.081)",
+  "verdict": "校正后 150 之后的性价比仍显著低于 100->150 (0.442 vs 0.169/0.081), 拐点结论稳健; 但 '150 后边际收益掉 10 倍' 应降级为 '掉 2.6-10 倍 (era confound 区间)', 且 300->719 持平的 claim 在校正口径下不成立 (0.169 vs 0.082)"
+ }
+}
