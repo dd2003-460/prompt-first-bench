@@ -121,6 +121,8 @@ T-PR-17 prompt 序列消融
 
 理由（时长为 21:12 代码复算值，非心算）：全规格 3arm×3ckpt×n5@719 = 45 runs ≈ 64h（初版 63h 基于错误的 122 节点数，数值巧合接近但推导错）；scale 64h 太长，若 pilot 通过可考虑降 n=3（27 runs ≈ 26h）或只跑 L2+L3 两档（30 runs ≈ 42h）——pilot 结果出来再定；n=3 pilot 低于 arena 硬建议 n≥5，但 pilot 的目的只是"可检测性门控"，scale 档仍守 n≥5；L3 先行因 Handoff Tax 效应随方向反转 → L3 是最深 ckpt、剩余序列最短、效应最集中处，先在这里看有没有信号最省钱。
 
+**waiter 链路核验（21:37 Lead 端到端过完，commit 3b4691138，明早勿重跑）**：DONE 检测✓（queue.sh L66 同文件同串）/ 健康端点✓（/health 与 /v1/models 均 200）/ 9-cell 命令参数✓（与 runner argparse 对齐，seed 默认 42）/ 落盘文件名✓（`{arm}_r3_r{rep}.json` 无 tpr17- 前缀，与 runner L435 一致）/ sanity floor 381✓（preflight r3=381）/ 报告 metric key✓（n_nodes/depth/verified_ratio/tokens_total/n_llm_calls/tool_calls/evidence_delta_chars/parent_link_accuracy 均在 compute_metrics 顶层返回）/ fail-fast✓（rc≠0 或 n_nodes<381 → break 2 中止整批）/ python 解释器✓（裸 python3 与 /usr/bin/python3 同为 3.9.6）/ 模块 import✓（py_compile + exec_module OK）/ rep 独立性✓（subagent 已修 run_arm 漏传 rep → null-control 臂跨 rep shuffle 流独立，n=3 CI 不虚窄）。残留风险：waiter 跑工作树非 commit，若 subagent 24:15 前改了 runner 引入语法错 → 首个 cell rc≠0 fail-fast，损失 ~10min，报告可查。
+
 ## 正交性自检
 
 - F2（文献）vs F4（实验）：一个查先例一个跑数据，不重叠 ✓
