@@ -884,3 +884,21 @@ post_acc 名字没写错公式, 不用改。
 → ③ 真实状态: 已完成 (11-22 07:08), compaction "③ 已完成" 是对的, 我 09:05 的修正是误报。
   教训: 判"没跑"前 grep 全仓 (含 /tmp + decomposition 记录), 不能只看 repo + K7。
   /tmp 产物已归档进 repo (防重启丢失)。
+
+## 2026-11-24 ~09:12 — r3 自动分析链承重件核验: 断点扫描 x/y 跨文件配对
+
+r3 落地后 watchdog 自动跑 q6_719_nodepth_analyze.py — n≥3 分支的断点扫描是承重数字,
+自动落盘没人手动复查, 落地前预核:
+1. **x 轴双口径一致**: 原批 15 点用 run 文件 len(nodes) (脚本 L119), 拆墙 3 点用
+   judge n_nodes_raw (L48)。用 r1/r2 真实数据核验: len(nodes)=719 = n_nodes_raw=719 ✓
+   (两口径同树同值, x 轴无混标度)。
+2. **y 轴跨文件配对**: 原批 15 点 cov 来自 q6-gold-rescore.json (46-unit), x 来自
+   各自 run 文件 — 跨文件配对。逐条核验 rescore.n_nodes vs run 文件 len(nodes):
+   15/15 一致, 0 错位。cov 值与 K7 记录一致 (719 三 rep 0.1739/0.1957/0.1304 =
+   8/46/9/46/6/46 ✓)。
+3. **off-by-one 陷阱边界确认**: Q6 rescore json 的 n_nodes 字段是干净的 (15/15 对);
+   K7 记录的 off-by-one 错位是 GPU rescore json (gpu-rescore-newjudge-20261124.json)
+   特有的 — 两文件不同, 不能把 GPU 的陷阱套到 Q6。
+→ r3 自动分析链承重件全核验: n≥3 verdict 逻辑 (F 闭式公式已验证) + 断点扫描 x/y
+  配对干净 + 退化段保护在 + bins 正确。watchdog 自动落盘的结论可信, 无需落地后
+  手动复查断点数字 (verdict 方向仍需对 r3 实际 cov 看一眼, 但数字口径已钉死)。
