@@ -1060,3 +1060,10 @@ q7_domain_gold_analyze.py（116 行）独立核验：
 **同分解释**: cov=0.115=6/52 量化 (都命中 6 unit); 关键词 ad-hoc hitset 0 命中是因为 judge_v1 走 bge-m3 embedding 非关键词匹配 (口径不对, 不追)。
 **承重判断**: budget=50 是低预算端 (基线 bin), 非承重点; 承重分析在高预算 bin (100+ run)。即使 budget=50 run-to-run 方差偏低, 不影响主声明。watchdog 落地 15 文件后用真 judge (q7_full_analysis + q7_domain_gold_analyze) 做正式分析。
 **结论**: Q7 数据有效, 不阻塞, 不等。
+
+## Q7 第三域初步信号 (2026-11-24 11:25, source ① relay 日志)
+
+budget=50 档 cov: 0.077 (r1) / 0.115 (r2) / 0.115 (r3); budget=100 档 r1 cov=0.192。
+budget 50→100 cov 升 ~0.08-0.12 → **budget effect 在 storage 域 (第三域) 初步成立**。
+**非承重声明**: n=1 (100 档) vs n=3 (50 档), 等 15 文件落地 + watchdog 双分析 (q7_full_analysis + q7_domain_gold_analyze) 后定。
+draft 跨域泛化 claim 若 Q7 正式分析确认, 从 2 域 (GPU+Q6) 升 3 域; 若否定, 需降级。
