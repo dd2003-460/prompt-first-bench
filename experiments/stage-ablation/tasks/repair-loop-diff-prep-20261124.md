@@ -181,6 +181,10 @@ no_source 不命中 → 保持 angle，4.0% 基线口径不变）。不新增状
   与 contradiction 度量；成功时 L826-827 的 `ev["fixed"]=True` 只作用于临时 dict，无副作用。
 - 成本：value_mismatch 占比 ~8.7%（932/10,702，dry-run 口径）的 rework 事件改走 directed（max_tokens 1500 vs angle 800）。
 - 裁决 prompt 文案说"两个已核验节点互相矛盾"，self_conflict 块头是 claim侧/来源侧 —— 措辞轻微不匹配，功能不受影响（未改 prompts.py，保单文件 diff）。
+- **self_conflict 块运行时安全（2026-11-25 00:35 核验）**：块内引用 `node.retrieval_sources`
+  （diff L47）——该字段确为 NodeRecord 成员（L382 `default_factory=list`，L622 填充，
+  元素为 `{url,type,title}` dict，与 `s.get("title") or s.get("url")` 取值匹配）→ 无
+  AttributeError 风险；空列表时 `src_txt or '（无来源）'` 兜底。
 
 ## §3 Fix-B diff（re-entry）
 
