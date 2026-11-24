@@ -126,6 +126,17 @@ T4 pilot 夜间无人值守，下列接缝逐一核验过（防"白等一夜"的
 - **waiter 残余风险（不改运行中脚本，bash 增量读文件，编辑会破坏执行）**：sanity floor n_nodes≥381
   只抓崩溃（json 未写/损坏）；若某 run 零进度（LLM 拒扩/budget 瞬耗）n_nodes=381 仍过 floor，
   产出退化 cell。明早分析时看 n_llm_calls≈0/tokens≈0 识别（正常 cell 有数百 calls）。
+- **run_arm 生产路径哨兵验证（22:22，补 smoke 未覆盖的 run() 路径）**：
+  smoke_test 只手工复刻首 prompt，从不调 `run()`；waiter 的 `--mode run` 走 `run_arm`→
+  `sm.run(skip_l1=True)`，是另一条路径。用 sentinel（patch sm_mod.call_llm 在首调 raise
+  SentinelLLM + no-op _probe_network 保持全 dry）驱动 3 臂 run_arm：
+  - 3 臂全部到达 LLM 边界（sentinel 各触发 1 次，SentinelLLM 正常传播，无 OTHER 异常）
+  - 真实 run() 构造的首 prompt len=10232（decompose 真 prompt，非 smoke 手工版），3 臂一致
+  - skip_l1=True 生效（"[SM] L1 already seeded (381 nodes), skipping decompose"），cell_ckpt
+    目录 3 臂均创建
+  ⟹ waiter 将执行的生产路径（build_sm(rep,qid)→SM_CKPT_DIR 隔离→run(skip_l1)→臂 patch 在
+  run 内执行）在 LLM 边界前无结构性崩溃；零真实 LLM 调用（sentinel 在网络前 raise）。
+  这是 T4 起飞的最后一道闸门验证。
 - 每 cell n≥5 + bootstrap CI（judge 噪声 ~0.1，n=3 会假阳性）；checkpoint 分开统计（Handoff Tax：效应随方向反转，不混池）。
 - 若声称"序列无影响"需等效性检验（预设最小重要效应），不能用"不显著"代替"相同"。
 - claim 边界：stateful pipeline suffix-ablation 设计，不说"恢复相同隐状态/KV"（F2b 4）。
