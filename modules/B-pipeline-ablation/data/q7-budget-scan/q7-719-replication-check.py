@@ -147,6 +147,8 @@ def main():
           f"逐特征 {feat_count['L5']}/{n_test} L5, {feat_count['dil']}/{n_test} 稀释, {feat_count['red']}/{n_test} 冗余")
     if n_full == n_test and n_test >= 2:
         print('→ 机制复现成立: 所有独立 rep 复现 L5 生长+稀释+冗余, 非 r1 偶然, 可落 workshop.')
+    elif n_full == n_test and n_test == 1:
+        print('→ 1/1 独立 rep 三特征全中 (强证据, 非定论): n_test=1, 需 r3 落盘后 2/2 全中方可定论.')
     elif n_full >= 1:
         print('→ 部分复现: 部分独立 rep 复现, 需人工判读哪些特征成立, 谨慎落文.')
     else:
