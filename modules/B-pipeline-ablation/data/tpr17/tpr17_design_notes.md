@@ -31,3 +31,9 @@
 - claim 边界：stateful pipeline suffix-ablation 设计，不说"恢复相同隐状态/KV"（F2b 4）。
 - runner 已就绪：`tpr17_runner.py --mode run --arm {canonical,verify-off,null-control} --checkpoint {r1,r2,r3} --rep N --budget 719`。
 - 冒烟已 9/9 过（3 臂 × 3 checkpoint，零 LLM 调用）；compute_metrics 在 3 checkpoint 数值自洽。
+- run 路径（build_sm→run(skip_l1=True)→compute_metrics）用**组合验证**而非 stub dry-run：
+  seeding 已镜像 production --resume（8 个 SM 级字段全核验一致）+ run() 是生产代码（产出 r1/r2/r3
+  的就是它）+ compute_metrics 已验证。未做 stub dry-run 的原因：call_llm 在 ~6 处被调用且返回格式
+  各异（decompose/edge/parent_check/rework/contradiction），单一 stub 无法正确满足所有 → stub run
+  测的是 stub 不是 runner，false-confidence 风险高。T4 起 run 前如需端到端演练，建议用真实 vLLM
+  跑 1 个最小 cell（budget 小、1 rep）先验证，而非 stub。

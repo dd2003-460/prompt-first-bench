@@ -159,6 +159,20 @@ def _seed_nodes(sm, sm_mod, meta, nodes):
                 pass
     sm._nid = mx
     sm.ckpt_round = int(meta.get("round", 0) or 0)
+    # ── 镜像 production --resume (s5_state_machine.py L1728-1735) 的 SM 级状态恢复 ──
+    # 缺这些会让 run 路径偏离生产 resume（leak_hits_total/rework_events 计数从 0 起算，
+    # 而非继承 ckpt 累计值）。对 3 臂是 common-mode（同 ckpt 同初值，臂间差分抵消），
+    # 但影响"复现生产"的保真度 → 按 meta 恢复。
+    def _as_int(v, default=0):  # E14: ckpt 字段类型防御（bool/int 归一）
+        return v if isinstance(v, int) and not isinstance(v, bool) else default
+    sm.dropped_redundant = _as_int(meta.get("dropped_redundant", 0))
+    sm.leak_hits_total = _as_int(meta.get("leak_hits_total", 0))
+    sm.network_degraded = meta.get("network_degraded", False)  # run() 开头 _probe_network 会重置
+    sm.objective = meta.get("objective")
+    sm.objective_mode = meta.get("objective_mode", "formula")
+    sm.challenge_log = meta.get("challenge_log", [])
+    sm.rework_events = meta.get("rework_events", [])
+    sm.contradiction_events = meta.get("contradiction_events", [])
     # confirmed: 非 pending 节点（镜像 main resume）
     for rec in sm.nodes:
         if rec.status != "pending":
