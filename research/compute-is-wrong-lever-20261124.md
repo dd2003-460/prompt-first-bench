@@ -98,3 +98,25 @@ D 的终极目标：在 4×V100 硬件上建 research 的 AGI——能自主做�
 ## 与 draft 的关系
 
 workshop draft 的 headline "budget buys breadth, not metacognition" 目前只当测量结果报。本 note 把它升级为**方向判断**，但 12:18 修正后范围收窄：draft 的 headline 本身是域内（GPU）结果，draft §4.3 已诚实标注 Q6 监控轴 invariance does not transfer。本 note 的贡献是把"修复回路低产"从 draft 的一个测量数字，升级为**跨域机制 + 对 D autoresearch 目标的设计约束**（带 P1/P2 预言）——这是 general 的那一层。draft §5/§6 可加一段指向（带 P1/P2），把测量结果变成对 D 目标有预言力的设计约束；但 headline 不能改成跨域普适版（Q6 反例在 draft 里已写）。
+
+## 13:10 投稿硬伤：draft 核心机制声明被代码级发现推翻（待修）
+
+**draft 现有声明（§4.1 L51/53 + §5 L183/189，承重）**：
+- "Bottleneck: **27b directed-fix capability** (judging which side of a contradiction is credible and producing a corrected claim), not trigger targeting."
+- "the missing piece is *fix capability* — the 27b model cannot reliably judge which side of a contradiction is credible"
+- 提议修复："route **directed-fix** to a stronger model or human step where capability is the ceiling"
+- 承重数字："value_mismatch fix rate 2.4% (22/932)"
+
+**代码级发现（本 note 13:05 闭合，全 83 文件 archive corpus 核验）**：
+- directed 模式在**全部 83 个 archive run**（draft 的 by-reason fix rate 的实际数据源）里**一次都没触发**——9,196 个节点级 rework 事件全是 angle 模式（盲换角度重搜），directed = 0。
+- directed 路径结构性不可达（verified 是主循环吸收态，矛盾扫描只扫 verified、rework 只处理 unverified，两集合不相交）。
+- **关键**：`repair-closure-dryrun.py` L76-84 的 fix rate 计算**按 `reason` 文本分类、不按 `mode` 过滤**——所以 "value_mismatch fix rate 2.4%" 测的是 **angle 模式（盲重搜）** 在矛盾类节点上的表现，**不是**模型"判断矛盾哪边可信"的能力。
+
+**矛盾**：draft 把低回修率归因到一个**从未被执行的机制**（directed adjudication）。"27b 判断不了矛盾哪边可信"这个诊断，证据上不支持——因为判断矛盾哪边可信的代码路径（`_rework_directed`）根本没跑过。2.4% 是盲重搜碰巧修好矛盾类节点的比例，不是 adjudication 能力上限。
+
+**对 draft 的影响（投稿硬伤级）**：
+1. §4.1 的 "Bottleneck: 27b directed-fix capability" 声明**站不住**——directed 没跑过，无法声称是模型能力瓶颈。
+2. §5 的提议修复 "route directed-fix to a stronger model" **方向错**——真问题是 directed 路径不可达（harness 设计），换更强模型不会让一条死路径活过来。真修复是**接通 directed 路径**（harness 改动，零模型改动）。
+3. "value_mismatch 2.4%" 数字本身没错（angle 模式实测），但**它的机制解释错了**——它测的是盲重搜，不是 adjudication。
+
+**处置**：这是 draft 的承重机制声明（§4.1 finding 1 + §5 implications），不是边角数字。Q7 落地 + 压缩 pass 时必须一起修：把 "capability bottleneck" 重写成 "harness gap（directed path structurally unreachable）"，把 "route to stronger model" 改成 "make directed path reachable + then test whether a stronger fixer helps"。P2 预言（接通 directed 后回修率应升）正好是这个修复的可检验版本。
