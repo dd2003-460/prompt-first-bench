@@ -126,7 +126,7 @@ Depth score by nominal budget tier (n=3/tier, bootstrap 95% CI; realized node co
 
 **open at n=3, direction leaning still-rising
 
-** (all three wall-free reps landed 2026-11-24): adding the three nd points (719 realized nodes, cov 0.1304 / 0.2391 / 0.2174) to the 15-point realized-axis curve (q6-realized-axis-17pt-20261124.json, extended to 18 points) puts the 600–800-node bin at mean 0.1956 (n=3) — *above* the 200–400-node bin mean (0.1522) by +0.0435, which is 
+** (all three wall-free reps landed 2026-11-24): adding the three nd points (719 realized nodes, cov 0.1304 / 0.2391 / 0.2174) to the 15-point realized-axis curve of the original Q6 budget-scan batch (18-point analysis in data/q6-719-nodepth/q6-719-nodepth-analysis.json; the intermediate 17-point snapshot q6-realized-axis-17pt-20261124.json is the n=2-era state, not the analysis source) puts the 600–800-node bin at mean 0.1956 (n=3) — *above* the 200–400-node bin mean (0.1522) by +0.0435, which is 
 
 **1.21× the pooled se (0.0360), so the magnitude is marginally resolvable at n=3 — barely above noise, not conventionally significant
 
