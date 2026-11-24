@@ -56,8 +56,15 @@ for f in sorted(glob.glob(os.path.join(ND, "q6-719-nd-r*.json"))):
               f"total={rj['total_score']:.4f} stop_gain={last.get('gain')} frontier={last.get('frontier')}")
     except Exception as e:
         print(f"  [nd-r{rep}-err] {e}")
+        if isinstance(e, ModuleNotFoundError):
+            print(f"!! 解释器缺依赖 ({e.name}) — 换 /usr/bin/python3 (带 sentence_transformers) 重跑, 不是 relay 问题")
+            sys.exit(1)
 
 if not recs:
+    n_files = len(glob.glob(os.path.join(ND, "q6-719-nd-r*.json")))
+    if n_files:
+        print(f"!! {n_files} 个 run 文件存在但 judge 全失败 — 查上方 [nd-r*-err], 不是 relay 没跑到")
+        sys.exit(1)
     print("!! 无落地 run — relay 还没跑到 nodepth 批, 退出")
     sys.exit(0)
 
