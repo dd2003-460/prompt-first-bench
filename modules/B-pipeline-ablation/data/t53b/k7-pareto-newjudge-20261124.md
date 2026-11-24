@@ -737,3 +737,20 @@ v6 声称 "gain-cov 脱钩是 breadth-without-depth 的机制签名" — 推理�
 - 重启 watchdog: 旧 47310 kill, 新 57325 (proc_47df9e9bb87c, notify_on_complete)。
 - 教训: watchdog 脚本内容必须核验"引用的是不是我要的那个脚本" — 同名近似脚本 (domain_gold vs full)
   是陷阱, 修 bug 前先 grep 引用链。
+
+## 2026-11-24 ~08:40 — GPU 断点 425 独立复现 → 发现 v4 记的是次优断点 (draft 已改 475)
+
+- 独立复现 v4 的 GPU 断点: judge-v1-budget-scan.json (15 runs) 和 gpu-rescore-newjudge (15 runs)
+  都复现不出 425 (都给出 bp=150)。
+- 找到真实数据源: **rep-scan/era-matched.json (30 runs, GPU 域)** — 分箱 0.2500/0.3248/0.3611/0.3611、
+  单段 ss=0.12033、bp=425 的 ss=0.10015 全部精确复现 v4 ✓。
+- **但全局最优断点是 475, 不是 425**: bp=475 ss=0.09848, F(2,26)=2.884, p=0.074 (marginal);
+  bp=425 ss=0.10015, F=2.619, p=0.092 — 425 是次优 (ss 差 0.00167, 1.7%)。
+  v5 的 F 检验恰好在 425 处算 (p=0.092 对上), 所以 v4/v5 记的"最优断点 425"是次优断点。
+- 落盘: gpu-30pt-breakpoint-recompute-20261124.json (source/n/bins/ss_single/bp_425/bp_475/bp_400/note)。
+- **draft 已修正 (本轮)**: abstract + §4.3 全部从 "GPU 425 / Q6 325, ~300–425" 改为
+  "GPU 475 / Q6 325, ~300–475"; GPU F 检验从 F(2,26)=2.62 p=0.092 改为 F(2,26)=2.88 p=0.074;
+  ss 改善从 0.1203→0.1002 改为 0.1203→0.0985; 425 保留为"nearly as good as the optimum (1.7% worse)"。
+  跨域位置 claim 从 ~300–425 扩为 ~300–475 (GPU 最优 475 落在 425 外)。
+- 教训: v4 的"最优断点"是 F 检验算在某个 bp 处的值, 不是全局扫描最优 — 承重数字进 draft 前
+  必须独立跑全局扫描, 不能只复现 v4 记的那个 bp。
