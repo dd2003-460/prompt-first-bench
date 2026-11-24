@@ -126,6 +126,8 @@ if len(xs) >= 8:
         _R = [(x, y) for x, y in pts_sorted if x >= _bp]
         if len(_L) < 3 or len(_R) < 3:
             continue
+        if len(set(x for x, _ in _L)) < 2 or len(set(x for x, _ in _R)) < 2:
+            continue  # 退化段: distinct x < 2 → ss=0 是假象 (2026-11-24 补, 同 18pt 脚本)
         _a1, _b1, _s1 = _linreg_ss(_L); _a2, _b2, _s2 = _linreg_ss(_R)
         if _best is None or _s1 + _s2 < _best[0]:
             _best = (_s1 + _s2, _bp, _a1, _a2)
