@@ -78,17 +78,17 @@ D 的终极目标：在 4×V100 硬件上建 research 的 AGI——能自主做�
 读了触发逻辑，"为什么低产"有了具体答案，比 H1-H4 更可操作：
 
 1. **触发是批级二值，非 per-node**（L728-734）：`_should_rework(batch)` = 批内 verified rate < `verify_threshold`(0.85) 才触发。→ **H3 以另一种形式成立**：批里 85% verified 时，剩下 15% 错的节点不触发 rework——粗粒度触发系统性漏掉"少数派错节点"。不是"置信度阈值保守"，是"触发粒度太粗"。
-2. **三域全部 rework 是 angle 模式（盲换角度重搜），directed 模式全 0**（本轮全批核验：Q6 angle 621 / Q7 angle 121 / GPU angle 2298，directed 三域均 0；None 是父节点级核验事件非节点 rework）。directed（定向矛盾修正，D34 加的、设计上最有效的修复路径）依赖 contradiction_events，三域都没检出足够矛盾 → **从未触发**。→ 最有力的修复路径在**所有域**是死代码，不只是 Q6。
+2. **三域全部 rework 是 angle 模式（盲换角度重搜），directed 模式全 0**（本轮全批核验：Q6 angle 621 / Q7 angle 121 / GPU angle 2298，directed 三域均 0）。**12:59 修正根因**：初版说"directed 死代码因为矛盾很少检出"——错，矛盾其实检得出（rounds_log 的 contradictions_found：Q7-100-r1 检出 4、Q6-300-r1 检出 1、GPU-719-r2 检出 1）。真正根因是**代码级结构性断链**：矛盾扫描只扫 verified 节点（L865），rework 只处理 unverified 节点（L1450），verified 节点后续轮次不再被处理（不在 deduped 里）→ 两个集合不相交 → directed 路径（要求 contradiction_events 的节点落在 rework 目标集）**结构性不可达**，矛盾检得出也永不触发。
 3. **max_rework=2**（L119）：每节点最多 rework 2 次，之后直接 degraded 放弃。
 
 **机制结论（取代 H1-H4 的"空处方"）**：修复回路低产 = harness 设计问题，不是模型能力问题（三域全批核验一致）：
 - 批级粗触发漏掉少数派错节点（触发粒度）
-- 只有盲重搜路径，定向修正三域从未触发（路径单一 + 依赖矛盾检测）
+- directed 路径结构性不可达：矛盾扫描扫 verified、rework 只处理 unverified，两集合不相交（路径断链）
 - 2 次即弃（预算过紧）
 
 **对 D autoresearch 目标的设计含义（具体改法，不再是空话）**：
 1. 触发粒度 batch → node（per-node verified 失败即触发）
-2. 打开 directed 路径（加强矛盾检测，让 directed 有输入）
+2. **接通 directed 路径**（核心修复）：让矛盾扫描覆盖 unverified 节点，或让 verified 节点可被 rework 回退（打破两集合不相交）
 3. max_rework 2 → 更高（或按节点重要性分配）
 **这三条全是 harness 改动，零算力/零模型改动**——与 note 核心判断"修复回路靠架构"一致，且现在"架构"有了具体指代。
 
