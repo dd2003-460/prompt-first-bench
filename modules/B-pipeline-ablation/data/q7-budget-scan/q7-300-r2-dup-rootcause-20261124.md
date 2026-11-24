@@ -29,6 +29,12 @@ rep 失败（rc≠0）时，`runs-s5-sm-q7.json` 残留上一个成功 rep 的�
 - **不修 s5_state_machine.py（队列运行中）**：r3 未启动，会 import 改后文件，破坏单变量前提。修复=队列 DONE 后给 call_llm 返回值加 None 守卫（follow-up）。
 - 风险兜底：719-r2/r3 若踩同款崩溃 → watcher claim-set 复制标志捕获，最差 719 档 n=3→n=2，可接受。
 
+## 作用域核验（22:26，系统性 vs 单点）
+- 同款 `if [ -f ] cp` 模式存在于 5-7 个 rep 队列脚本（q6_budget_scan / q6_rerun / q6_rerun_rep / q6_719_nodepth / rep_scan / idea2_runner / q7）。
+- 历史队列日志 rc 分布：q6-rerun 6×rc=0、q6-nodepth 3×rc=0、**q7 12×rc=0 + 1×rc=1（= 300-r2，唯一触发实例）**。
+- 结论：bug 是系统性模式但历史只触发 1 次；其余批次（Q6 全部 / rep-scan / idea2）rc 全 0，数据干净。Q6 300 档 sd=0.000 的 6 个 run 文件 sha256 全不同（已核验），非复制污染。
+- 修复（队列 DONE 后）：所有 rep 队列脚本 cp 前加 `rc=0` 检查 + 输出文件 mtime ≥ run 开始时间比对。
+
 ## 状态
 - 300 档：n=2，曲线已正确，无后续动作。
 - 719 档：r2 在跑（~22:40 落盘），r3 排队（~00:55 完），watcher 72026 兜底。
