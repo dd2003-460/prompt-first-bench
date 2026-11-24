@@ -872,3 +872,15 @@ post_acc 名字没写错公式, 不用改。
   前置 = A(matched 批)完成 + vLLM 负载释放。matched 30/30 已落地, 但 merge 消融
   要重跑 719 节点树 synth (~834s) 占 vLLM — 当前 r3 + Q7 在飞占着 vLLM,
   不能并发 (vLLM 不并发前提)。→ ③ 排在 r3+Q7 落地后。
+
+## 2026-11-24 ~09:08 — 再修正: ③ merge 消融确实已完成 (上一条 09:05 修正错了)
+
+上一条 (09:05) 判"③ 脚本写好没跑"是错的 — 依据 (repo 无 json + K7 无记录) 不完整:
+- decomposition L202 有完整记录: "C K6 merge 消融 ✅ 完成 (07:08): Arm A concat = 0.4129
+  vs Arm B merge = 0.4261, Δ=-0.0132 → merge 不是主要瓶颈 (A≈B)"
+- 产物在 /tmp 不在 repo: /tmp/merge-ablation/merge-ablation-merge-ablation-concat.json
+  (11-22 07:08, 123KB) — 独立验证: arm=concat, n_nodes=719, depth_score=0.4129,
+  coverage=0.067, elapsed 395.9s, source_run=runs-s5-sm-gpu-resume.json ✓ 与记录一致
+→ ③ 真实状态: 已完成 (11-22 07:08), compaction "③ 已完成" 是对的, 我 09:05 的修正是误报。
+  教训: 判"没跑"前 grep 全仓 (含 /tmp + decomposition 记录), 不能只看 repo + K7。
+  /tmp 产物已归档进 repo (防重启丢失)。
