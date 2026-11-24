@@ -51,6 +51,33 @@
 - [ ] 若成立：短文大纲（claim+方法+结果+对照臂）落盘；若不成立：负结果记录（排除什么错误解释）
 - [ ] IDEA-INDEX #53 行更新最终状态
 
+## 7. Arena 核验看法汇总（qqbot 接手必读，来源 pfb/tasks/IDEA-review/result.md）
+
+**四轮结论链**（commits 70dca8efa→81be67cb9→82a67df96，第五轮投稿策略 running）：
+- R1：强近邻 IGRPO(2607.06223)/Thought Anchors(2506.19143)/2411.11984，剩空白=深度梯度实证+瓶颈定位，conf 0.45
+- R2（信息论精化）：转发平凡性一击（深层>浅层对可枚举信息数学必然）→ 需条件化 I(L_k;Y|L_<k)
+- R3：conf 0.7，workshop/短文级，独立顶会难；链式域已撞（2601.23163 NeurIPS'26 E&D / 2508.03346 / 2604.06695）
+- R4（枚举vs判断精化，当前 claim）：conf 0.6 条件可发表；撞车三线占位（DDx 三阶段 2602.03340 / 信息增益消歧 2402.03271+2605.05386 / 步类型分类学 2512.14332+2512.00729）；**未见同构=树×类型×深度×信息贡献测量+两级判定交叉梯度**；最难一击=同义反复+HARKing+概念已占位三连击；守法=判据去深度化+层内类型对照+预注册 held-out+三控制臂（本 goal §4 已全落实）
+
+**接受率对标（赛道先例，未验证=检索片段数字）**：
+- 2601.23163 → NeurIPS'26 E&D **已接收**（trace 级信息分析，最接近对标）
+- 2610.00571 SLIDER → ICLR'26 LLM 逻辑推理 **workshop 已接收**（PID 分解步间信息，方法学先例）
+- 2512.14332 ReasonType → 步类型分类学（"各类型贡献不等"已实证，我们的撞车也是赛道热度证据）
+- 结论：E&D/workshop 赛道**接受**此类 trace 分析短文；主会 analysis section 是更高目标（并入 #10 时）
+
+**论文格式（短文路线）**：
+- 长度：4-6 页（E&D/Findings 标准）或 workshop 5 页
+- 结构：①claim（枚举vs判断的增量贡献）②方法（交叉梯度+PID 可选升级）③数据（三源 run 树 n=3849/5497/18243）④结果（两条梯度+四对照臂）⑤held-out 预注册检验 ⑥limitation（held-out 单域/词表 coarse 级/V_fine 27b 打标质量）
+- 必含防御段：HARKing 声明（预注册 commit 20c029300 时间戳早于数据）+ 转发平凡性回应（条件化消解）+ 同义反复回应（层内类型对照解 type×depth 混淆）
+
+## 8. qqbot 接手入口
+
+- 状态机：stage-gate goal_id `idea53-cross-gradient`（全平台共享，~/.hermes/.stage-gate/idea53-cross-gradient.json）
+- 分解树+任务表：本目录 decomposition.md（T1-T7，机器可查验收）
+- 预注册：GOAL.md §4 @ 20c029300（16:18）
+- 在跑：T1-T3 subagent deleg_53e3a082 / T5 arena 第五轮（session 01a20b11，分支 arena/f8477718-prompt-first-bench）
+- 接手动作：等 T1-T3 回执 → T4 生死线判定 → T6 分支（短文大纲/负结果）→ T7 合规检查 → stage_advance
+
 ## 约束
 
 - 纯离线计算，不跑新实验（D 指令）
