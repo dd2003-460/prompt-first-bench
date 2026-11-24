@@ -724,3 +724,16 @@ v6 声称 "gain-cov 脱钩是 breadth-without-depth 的机制签名" — 推理�
 - 补退化段保护 (distinct x < 2 跳过), 与 18pt 脚本同口径。
 - mock 测试: 高档位 3 点同 x=380 场景, bp=400 被正确跳过, 最优断点 225 (无假象)。
 - r3 健康确认: N198 卡 6 分钟是长搜索阶段 (curl 子进程活跃 + LLM 调用正常), 同 r2 误报模式。
+
+## 2026-11-24 ~08:35 — Q7 watchdog gap 修复 (重大: 修了个不跑的脚本)
+
+- 发现: Q7 watchdog 原只跑 q7_domain_gold_analyze.py (116 行, 无断点扫描);
+  我上一轮修退化段保护的 q7_full_analysis.py (202 行, 含第三域断点 = 机制锚 v4 核心 claim)
+  **没被任何 watchdog/relay 引用** — 修了个不跑的脚本, 真正的 gap 是 Q7 落地后第三域断点没人算。
+- 修: watchdog v2 两个脚本都跑 (q7_domain_gold_analyze.py 域内 gold 52-unit +
+  q7_full_analysis.py 全曲线含断点扫描/退化保护/stop-state/跨域 36-unit)。
+- 数据依赖核验: gold-gpu-units.json (9452B) + gold-q7-units.json (15619B) 都在;
+  q7_full_analysis dry-run 无 q7 文件时优雅退出 ✓。
+- 重启 watchdog: 旧 47310 kill, 新 57325 (proc_47df9e9bb87c, notify_on_complete)。
+- 教训: watchdog 脚本内容必须核验"引用的是不是我要的那个脚本" — 同名近似脚本 (domain_gold vs full)
+  是陷阱, 修 bug 前先 grep 引用链。
