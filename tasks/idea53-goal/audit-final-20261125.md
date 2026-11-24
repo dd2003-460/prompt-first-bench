@@ -7,7 +7,7 @@
 
 1. **碰撞核查**：做过五轮（`arena/f8477718` @ 7dae6431a），但**全查旧 claim 域**（LLM 推理树/交叉梯度 MI 框架）；D 17:39 转向闭式数学（eb1b0598c）后**零轮针对最终 paper**。"NeurIPS'27 E&D P0.30 / workshop P0.55" 基于旧 claim 新颖性，**不可作最终 paper 的决策依据**。
 2. **预印本**：未定案。arXiv 包就绪但 D 无背书（路 1 走不通，只能套磁找背书人或 workshop/OpenReview 先行）；D 20:25 追问无闭环。免费替代：GitHub commit hash（已在 repo，0 元防篡改锁时间戳）。
-3. **paper**：数学内核可投（预注册合规 + 数字审计过），但 **0 引用、无 References 节、无 track 交付物**（E&D 要 eval/dataset）——"可打磨态"非"可投态"。
+3. **paper**：数学内核可投（预注册合规 + 数字审计过）；**0 引用问题已有修复工具**（2026-11-25 05:25：merge_references.py + 锚点映射 15 key 全覆盖，端到端编译验证通过 15 bibitem/10页/0 undefined/0 unicode err @ 17aaf0921），剩 track 交付物（E&D 要 eval/dataset，venue 排序已避开 E&D）——"可打磨态"→"投后一键可投态"。
 
 ## 证据链
 
@@ -29,7 +29,7 @@ result.md 现存节从"追加2（=第三轮）"开始，无"追加1"节——**�
 |---|---|---|
 | ① | 预印本路线 | **已闭环（2026-11-25 04:47）**：GitHub hash 时间戳已锁——孤儿分支 `idea53-preprint-ts-v3` @ `52d33c17`（2026-11-25 04:47:21 +0800），只含 submission/ 7 文件（paper.pdf/tex + body/header/formalism-skeleton + SHA256SUMS），零 WIP 泄漏，远程已验证 200。D 20:25 原话授权（"github 如果有 hash 防止篡改也行"）。arXiv 背书套磁 = 并行支线，不阻塞。 |
 | ② | 对最终闭式 paper 重做 arena 碰撞核查（GPU 性能建模域） | **已闭环（2026-11-25 05:12）**：round6 回执 git 核验通过（commit bb387d43f @ arena/f8477718，result.md 追加5 节，指纹 6d50c871 ✓）。结论：未撞车（窄空白）conf 0.7；venue 排序 arXiv→ICML27 ML4Systems workshop (P≈0.5-0.6)→MLSys workshop (P≈0.5)→E&D 错配 (P≈0.05-0.08)；最难一击 + 三条件防守见 result.md 追加5。详见 collision-final-paper-firstpass-20261125.md 05:10 更新节 |
-| ③ | 补 References（0 引用→≥15 条正式引用） | **已备好（2026-11-25 05:15）**：15 条全部已核验 bib @ submission-staging/references.bib（1df8c91d7），arXiv API + Crossref 逐条核验（非凭 agent 汇报）。并入 paper.tex 时机 = arXiv 投稿决策时（bundle 已锁 @ 52d33c17，改动需 D 确认节奏） |
+| ③ | 补 References（0 引用→≥15 条正式引用） | **merge 工具就绪+编译验证（2026-11-25 05:25）**：15 条已核验 bib @ submission-staging/references.bib（1df8c91d7）+ merge_references.py 一键脚本（锚点映射 4 组 15 key 全覆盖，出版版 bib 去中文 note，端到端 pdflatex+bibtex 验证 15 bibitem/10 页/0 undefined citation @ 17aaf0921）。执行 = D "投" 后跑 `python3 merge_references.py`（幂等） |
 
 ## 时间戳锁记录（2026-11-25 04:47）
 
