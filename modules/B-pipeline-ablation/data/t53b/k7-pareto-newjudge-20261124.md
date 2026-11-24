@@ -859,3 +859,16 @@ metacog_axis.compute_metacog 实际测 4 量: gap_rate / retrieval_rate / post_a
 修正: 题面 L44 改为 "verified/(verified+contradicted) 占比, 即 metacog_axis 的
 post_acc; unverifiable 与 ambiguous 不进分母"。审计表 L99 / 因子清单 L84 只引用
 post_acc 名字没写错公式, 不用改。
+
+## 2026-11-24 ~09:05 — 修正: ③ merge 消融"已完成"是 compaction 误记
+
+核验 compaction 声明"③ merge 消融已完成" (source ①, 文件系统):
+- merge_ablation.py 脚本存在 (Arm A concat vs Arm B merge 0.4261 设计, 用法
+  python3 merge_ablation.py <archived_run.json> <qid> <out_prefix>)
+- **无产出 json** (find *merge*ablation*.json 空)
+- **K7 无任何 merge 消融记录** (grep merge消融/Arm A/per-layer 全空)
+- decomposition C 节仍标"等 A 完成, vLLM 负载释放后"
+→ ③ 真实状态: 脚本写好但没跑, 不是"已完成"。compaction 摘要误记。
+  前置 = A(matched 批)完成 + vLLM 负载释放。matched 30/30 已落地, 但 merge 消融
+  要重跑 719 节点树 synth (~834s) 占 vLLM — 当前 r3 + Q7 在飞占着 vLLM,
+  不能并发 (vLLM 不并发前提)。→ ③ 排在 r3+Q7 落地后。
