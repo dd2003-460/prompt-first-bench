@@ -134,3 +134,13 @@
 - 结论：**两批 cov 不可直接比**（pipeline+prompt+rubric 三重不一致）。cov=0 飙升 = prompt 解禁致 answer 变长变散 + rubric 加严的叠加，现有数据分不开两因子各自贡献。
 - 04-verify 动作：① matched 批 cov 对比**只在同批内**做（新批 30 runs 同 pipeline+judge 版本，批内可比）；② 跨批 cov 趋势（旧→新）标"pipeline/prompt/rubric 漂移污染"不作证据；③ 跨批可比需固定 pipeline+judge 版本重判（**需 vLLM，非零成本**，待 q7 释放后）；④ depth 是树结构量非 judge 量，跨批 depth 对比相对稳健但仍建议同批内做。
 - 附带确认：matched 批记账完整（cc-state-sm-matched.json 11-24 03:23 核验 30/30 done，results 30 runs 对账一致，recover_sm_matched.py 已从 archive 恢复 driver bug 期间 19 轮）。
+
+**matched 批旧批(clean 层)臂间消融（2026-11-24 22:5x，回答"gpu 弱是臂特异还是题面固有"）**：
+- 干净层=旧批（runs_matched，60 runs）的 **POST-rubric 层（11-19 19:19 后，n=53）**：该层内 rubric 版本统一（新）、judge 窗口统一（12k，窗口变更 11-21 23:35 在旧批结束 11-21 13:37 之后）→ 层内 formula/text 两臂可比。PRE-rubric 层仅 7 runs 且全是 gpu/formula（无 text 臂）→ 不可做臂间比，弃用。
+- 臂间 Δ（formula − text，同 qid，POST-rubric 层）：
+  - **gpu: Δdepth=-0.025, Δcov=+0.005**（f cov 0.111 / t 0.107，f depth 0.360 / t 0.385）→ **两臂在 gpu 上同等弱** → gpu 弱是**题面固有**（storage/硬件题难），非 formula 臂特异。
+  - **nat: Δdepth=+0.113**（f 0.650 / t 0.537）→ formula 臂在 nat 明显更强。
+  - **soc: Δdepth=+0.003, Δcov=+0.186**（f 0.900 / t 0.714）→ depth 持平但 formula 覆盖率更高。
+- **结论：formula 臂的优势是域依赖的**——在 nat（推理域）和 soc（覆盖域）有净增益，在 gpu（硬件/算力域）中性（两臂都弱）。这解释了为何 gpu 是"弱域"：不是某个臂在 gpu 上退化，而是 gpu 题面对两臂都难。
+- 口径注意：gpu/formula 在 POST-rubric 层仅 n=3（另 7 个 gpu/formula 落在 PRE-rubric 层），Δ 的 n 偏薄；但"两臂在 gpu 同等弱"的定性结论对 n 稳健（cov 0.111 vs 0.107 本就接近）。
+- 与上一条（跨批 judge 漂移）的关系：跨批 cov 飙升（新批 gpu cov=0 7/10）= prompt 解禁 + rubric 加严的**测量口径**变化；本条（同批 clean 层）= **真实实验**信号（gpu 题面固有难 + formula 优势域依赖）。两者正交，04-verify 应分开处理：跨批 cov 不作证据，同批 clean 层 cov/depth 臂间 Δ 可作证据。
