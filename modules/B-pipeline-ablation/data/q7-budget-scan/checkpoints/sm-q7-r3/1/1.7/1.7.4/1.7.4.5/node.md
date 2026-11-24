@@ -1,0 +1,24 @@
+# N189: HDD 工作负载混合比的时间序列建模：基于 7x24 小时日志，冷数据 80% 的访问模式呈泊松分布，平均每小时 0.1 次读/写操作，Idle 状态占 30%
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N61, N62, N63
+
+## Claim
+
+HDD 工作负载混合比的时间序列建模：基于 7x24 小时日志，冷数据 80% 的访问模式呈泊松分布，平均每小时 0.1 次读/写操作，Idle 状态占 30%，Spin-down 状态占 60%，需通过监控系统（如 Prometheus）采集实际 IOPS 和时间戳进行验证。
+
+## Corrected Claim
+
+HDD 工作负载混合比的时间序列建模通常基于 7x24 小时日志分析。在某些冷数据场景中，访问模式可能近似泊松分布，且设备常处于 Idle 或 Spin-down 状态。具体参数（如冷数据占比、平均 IOPS、状态占比）需通过监控系统（如 Prometheus）采集实际数据进行验证和校准，而非采用固定通用值。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性参数（冷数据占比80%、泊松分布均值0.1次/小时、Idle/Spin-down比例30%/60%），这些并非通用物理定律或数学公理，而是特定场景下的统计观测值，缺乏普遍适用性，且无来源支持其作为通用标准。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体数值无法从第一性原理推导）
+
+## Search Query
+
+cold data access pattern Poisson distribution HDD workload mix read write idle spin-down

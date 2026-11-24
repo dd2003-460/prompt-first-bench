@@ -1,20 +1,24 @@
-# N101: NVMe SSD 功耗修正：N38 假设单盘 6-8W 偏低，企业级 NVMe SSD（如 Samsung PM9A3, Intel P5510）典型功耗为 8
+# N133: 云对象存储的‘隐性’电力与机房成本无法从用户账单中分离，但在 TCO 对比中，应关注云厂商的 PUE（Power Usage Effectiveness）差异；
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N38
+- **parent_ids**: N35
 
 ## Claim
 
-NVMe SSD 功耗修正：N38 假设单盘 6-8W 偏低，企业级 NVMe SSD（如 Samsung PM9A3, Intel P5510）典型功耗为 8-15W（读写混合负载），待机 2-5W。500TB 有效容量需 550TB 物理容量（含冗余），假设使用 7.68TB 盘，需 72 块盘。总磁盘功耗 = 72 * 12W ≈ 864W。加上主板/CPU/内存/网络，单节点功耗应修正为 1000-1500W（而非 500-800W）。
+云对象存储的‘隐性’电力与机房成本无法从用户账单中分离，但在 TCO 对比中，应关注云厂商的 PUE（Power Usage Effectiveness）差异；自建 IDC 典型 PUE 为 1.4-1.6，而大型云厂商 PUE 可低至 1.1-1.2，这意味着同等 IT 负载下，云端的实际电力消耗更低，但该优势已体现在其较高的单位存储价格中。
 
 ## Corrected Claim
 
-NVMe SSD 功耗修正：N38 假设单盘 6-8W 偏低，企业级 NVMe SSD（如 Samsung PM9A3, Intel P5510）典型功耗为 8-15W（读写混合负载），待机 2-5W。500TB 有效容量需 550TB 物理容量（含冗余），假设使用 7.68TB 盘，需 72 块盘。总磁盘功耗 = 72 * 12W ≈ 864W。加上主板/CPU/内存/网络，单节点功耗应修正为 1000-1500W（而非 500-800W）。
+云对象存储的‘隐性’电力与机房成本无法从用户账单中分离，但在 TCO 对比中，应关注云厂商的 PUE（Power Usage Effectiveness）差异；自建 IDC 典型 PUE 为 1.4-1.6，而大型云厂商 PUE 可低至 1.1-1.2，这意味着同等 IT 负载下，云端的实际电力消耗更低，但该优势已体现在其较高的单位存储价格中。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：企业级NVMe SSD功耗范围（8-15W）及整机功耗估算（1000-1500W）符合工程常识与物理量级，计算逻辑自洽。
+先验知识/题面给定，逻辑校验通过：PUE定义及行业典型值（自建IDC 1.4-1.6 vs 云厂商 1.1-1.2）符合工程常识，TCO分析逻辑自洽。
+
+## Search Query
+
+cloud provider PUE vs on-premise data center PUE comparison efficiency

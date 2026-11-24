@@ -1,0 +1,20 @@
+# N277: 紧急人力成本 C_emergency 的修正公式为 C_emergency = N_engineers * Hourly_Wage * T_effective 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N89
+
+## Claim
+
+紧急人力成本 C_emergency 的修正公式为 C_emergency = N_engineers * Hourly_Wage * T_effective * Overtime_Multiplier；假设 N_engineers=2, Hourly_Wage=¥500/h, Overtime_Multiplier=1.5 (夜间/周末加班费率)，若 T_downtime=12h，T_effective=9.6h，则 C_emergency = 2 * 500 * 9.6 * 1.5 = ¥14,400；原公式未考虑加班倍率和效率衰减，导致成本低估。
+
+## Corrected Claim
+
+紧急人力成本 C_emergency 的修正公式为 C_emergency = N_engineers * Hourly_Wage * T_effective * Overtime_Multiplier；假设 N_engineers=2, Hourly_Wage=¥500/h, Overtime_Multiplier=1.5 (夜间/周末加班费率)，若 T_downtime=12h，T_effective=9.6h，则 C_emergency = 2 * 500 * 9.6 * 1.5 = ¥14,400；原公式未考虑加班倍率和效率衰减，导致成本低估。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算 2*500*9.6*1.5=14400 正确，公式结构符合人力成本估算常识，且 source 为 knowledge，无需外部来源支持。

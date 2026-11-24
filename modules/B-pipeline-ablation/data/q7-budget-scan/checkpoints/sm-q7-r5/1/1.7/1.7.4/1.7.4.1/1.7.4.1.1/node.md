@@ -1,0 +1,24 @@
+# N421: TLC NAND 单页编程能量 E_program_TLC ≈ 3.5-4.0 μJ/page，其中 60% 消耗在字线 (WL) 脉冲充电，30% 在位线 (
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N185
+
+## Claim
+
+TLC NAND 单页编程能量 E_program_TLC ≈ 3.5-4.0 μJ/page，其中 60% 消耗在字线 (WL) 脉冲充电，30% 在位线 (BL) 偏置，10% 在数据泵 (Data Pump) 开关损耗；QLC 因需 4 次编程，单次有效数据能耗比 TLC 高约 15-20%
+
+## Corrected Claim
+
+TLC NAND 单页编程能量 E_program_TLC ≈ 3.5-4.0 μJ/page，其中 60% 消耗在字线 (WL) 脉冲充电，30% 在位线 (BL) 偏置，10% 在数据泵 (Data Pump) 开关损耗；QLC 因需 4 次编程，单次有效数据能耗比 TLC 高约 15-20%
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+TLC NAND flash program energy consumption per page breakdown word line bit line

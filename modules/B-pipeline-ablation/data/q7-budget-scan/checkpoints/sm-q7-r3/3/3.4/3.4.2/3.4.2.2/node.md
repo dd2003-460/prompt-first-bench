@@ -1,0 +1,24 @@
+# N224: 增量恢复的数据版本管理前置成本：支持10TB增量恢复需保留过去24小时的快照/版本元数据，假设元数据存储开销为数据量的10%，额外云存储成本 = 10TB × 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N69
+
+## Claim
+
+增量恢复的数据版本管理前置成本：支持10TB增量恢复需保留过去24小时的快照/版本元数据，假设元数据存储开销为数据量的10%，额外云存储成本 = 10TB × 10% × ¥15/TB/月 × 12月 = ¥180/年，且需启用S3 Versioning功能（$0.02/1k PUT requests）
+
+## Corrected Claim
+
+增量恢复的数据版本管理前置成本：支持10TB增量恢复需保留过去24小时的快照/版本元数据，假设元数据存储开销为数据量的10%，额外云存储成本 = 10TB × 10% × ¥15/TB/月 × 12月 = ¥180/年，且需启用S3 Versioning功能（$0.02/1k PUT requests）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算正确（10*0.1*15*12=180），S3 Versioning及存储单价符合AWS公开定价常识，逻辑自洽。
+
+## Search Query
+
+S3 versioning cost per 1000 PUT requests

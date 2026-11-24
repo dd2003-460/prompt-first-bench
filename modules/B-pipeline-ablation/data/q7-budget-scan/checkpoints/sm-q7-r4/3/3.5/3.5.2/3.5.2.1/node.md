@@ -1,0 +1,30 @@
+# N281: S3 GET 请求单价验证：AWS S3 Standard 存储类 GET 请求单价为 $0.0004/1,000 请求（即 $0.0000004/次），而非 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N97
+
+## Claim
+
+S3 GET 请求单价验证：AWS S3 Standard 存储类 GET 请求单价为 $0.0004/1,000 请求（即 $0.0000004/次），而非 $0.0004/次。题面中 $0.0004/次 为 1000 倍误差。正确单价 $0.0000004/次，500TB/128KB = 3.9e9 次请求，成本 = 3.9e9 × $0.0000004 = $1,560，折合 ¥11,232（汇率 7.2）。若使用 S3 One Zone-IA，GET 单价相同，但存储单价更低。
+
+## Corrected Claim
+
+AWS S3 Standard 存储类 GET 请求单价通常为 $0.0004/1,000 请求（即 $0.0000004/次），具体价格需以 AWS 官方定价页实时数据为准。
+
+## Evidence
+
+[质询]参考来源仅提供了S3定价页面的通用描述和请求速率更新，未包含具体的GET请求单价数值（$0.0004/1,000 requests），无法直接验证该具体价格点。 | 经验事实，逻辑自洽但缺来源支持（来源[1]为定价页但摘要未含具体数值，无法直接证实单价）。
+
+## Search Query
+
+AWS S3 GET request pricing per 1000 requests 2024
+
+## Retrieval Sources
+
+- {'url': 'https://aws.amazon.com/s3/pricing/&rut=8e789a9b57c1d1132b418a651cdae3fe2248e8eb9555e4d9bfe07ab2a5a530bd', 'type': 'ddg', 'title': 'S3 Pricing - aws.amazon.com'}
+- {'url': 'https://aws.amazon.com/about-aws/whats-new/2026/11/amazon-s3-increases-read-request-rate/&rut=efaa60bc6f8a825908417e4e6bc5ee9cbfffc68a05da70f543b4daf3b46a11bd', 'type': 'ddg', 'title': 'Amazon S3 increases the read request rate for general purpose buckets ...'}
+- {'url': 'https://docs.aws.amazon.com/AmazonS3/latest/userguide/aws-usage-report-understand.html&rut=14609f34c9c1580d3ef61ead7edf3b435cfde086694f9c036a33a065689cb2a8', 'type': 'ddg', 'title': 'Understanding your AWS billing and usage reports for Amazon S3'}

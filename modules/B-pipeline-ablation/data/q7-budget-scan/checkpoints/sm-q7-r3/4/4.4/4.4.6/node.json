@@ -1,0 +1,17 @@
+{
+  "id": "N114",
+  "claim": "云对象存储 S3 大规模数据恢复带宽限制：恢复 100TB 温数据时，受限于 S3 单账户前缀 List 速率 (5,500 requests/sec) 及单流下载带宽 (~5GB/s)，实际恢复时间 ≈ 100TB / 5GB/s ≈ 5.7 小时；若使用 S3 Batch Operations 或高并发多线程，可缩短至 1-2 小时。",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值量级与工程常识存在偏差：S3 单账户前缀 List 速率限制通常为 5,500 requests/sec，但恢复 100TB 数据主要瓶颈在于网络带宽和并发连接数，而非 List 操作（除非对象极小且数量极多）。此外，'单流下载带宽 ~5GB/s' 这一数值对于单个 TCP 流而言过高（通常受限于 RTT 和窗口大小，单流很难达到 5GB/s，除非是极短距离或特殊优化），更可能是指聚合带宽或特定高并发下的总带宽。若按 5GB/s 计算，100TB / 5GB/s = 20,000s ≈ 5.5 小时，数学上自洽，但前提假设（单流 5GB/s）在常规云环境中不成立，通常需高并发才能达到此聚合速率。 | 先验知识/题面给定，逻辑校验通过（数学计算 100TB/5GB/s ≈ 5.7h 正确），但经验参数（单流 5GB/s）在常规网络环境下存疑，且无外部来源支持，故降级。",
+  "corrected_claim": "云对象存储 S3 大规模数据恢复带宽限制：恢复 100TB 温数据时，若聚合下载带宽达到 ~5GB/s，实际恢复时间 ≈ 100TB / 5GB/s ≈ 5.7 小时；若使用 S3 Batch Operations 或高并发多线程提升聚合带宽，可缩短至 1-2 小时。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N27"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

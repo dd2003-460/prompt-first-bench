@@ -1,0 +1,28 @@
+# N7: HDD 每 TB 硬件采购成本（元/TB），基于 2024-2025 年企业级 16TB/18TB CMR 硬盘的平均市场价
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+HDD 每 TB 硬件采购成本（元/TB），基于 2024-2025 年企业级 16TB/18TB CMR 硬盘的平均市场价
+
+## Corrected Claim
+
+2024年9月前HDD每TB存储成本低于100元，2024年下半年起受厂商涨价影响，2024-2025年企业级CMR硬盘实际采购成本需结合最新市场报价确认，可能高于100元/TB。
+
+## Evidence
+
+[质询]来源仅提供了2024年9月前“不到100元/TB”的历史数据及涨价事件描述，缺乏2024-2025年企业级16TB/18TB CMR硬盘的具体平均市场价数值，无法直接验证当前成本是否仍维持在该量级或已显著上升。 | 来源[1]提及2024年9月前每TB成本不到100元，并指出随后发生涨价，但未提供2024-2025年企业级硬盘的具体最新均价，属于间接支持且存在时间滞后风险。
+
+## Search Query
+
+enterprise HDD price per TB 2024 16TB 18TB CMR
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2023898029191623624&rut=97258e93947eb5aa831f7c10da7f2489c0c114ba2afee9babeaa18edd471be8b', 'type': 'ddg', 'title': '机械硬盘突然贵了？一文读懂hdd涨价真相与未来走势 - 知乎'}

@@ -1,20 +1,20 @@
-# N72: 温数据顺序读IOPS需求 IOPS_seq = T_peak / Block_Size = 7GB/s / 1MB = 7000 IOPS（若块大小1MB）；若
+# N109: NVMe SSD硬件成本敏感性分析：若单价从¥3,000/TB降至¥2,000/TB，年折旧从¥541,500降至¥361,000，降幅33%；若升至¥4,00
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N29
+- **parent_ids**: N28
 
 ## Claim
 
-温数据顺序读IOPS需求 IOPS_seq = T_peak / Block_Size = 7GB/s / 1MB = 7000 IOPS（若块大小1MB）；若块大小4MB，则 IOPS_seq = 7GB/s / 4MB = 1750 IOPS；与N27中估算的11-22 IOPS差异巨大，需澄清N27是基于总扫描时长24h而非4h窗口，实际4h窗口内IOPS为7000（1MB块）
+NVMe SSD硬件成本敏感性分析：若单价从¥3,000/TB降至¥2,000/TB，年折旧从¥541,500降至¥361,000，降幅33%；若升至¥4,000/TB，年折旧升至¥722,000，增幅33%
 
 ## Corrected Claim
 
-温数据顺序读IOPS需求 IOPS_seq = T_peak / Block_Size = 7GB/s / 1MB = 7000 IOPS（若块大小1MB）；若块大小4MB，则 IOPS_seq = 7GB/s / 4MB = 1750 IOPS；与N27中估算的11-22 IOPS差异巨大，需澄清N27是基于总扫描时长24h而非4h窗口，实际4h窗口内IOPS为7000（1MB块）
+NVMe SSD硬件成本敏感性分析：若单价从¥3,000/TB降至¥2,000/TB，年折旧从¥541,500降至¥361,000，降幅33%；若升至¥4,000/TB，年折旧升至¥722,000，增幅33%
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：7GB/s ÷ 1MB = 7000 IOPS，7GB/s ÷ 4MB = 1750 IOPS，数学推导正确，量纲一致。
+先验知识/题面给定，逻辑校验通过：基于线性比例关系，3000->2000为-33.3%，3000->4000为+33.3%，数值计算准确且符合经济直觉。

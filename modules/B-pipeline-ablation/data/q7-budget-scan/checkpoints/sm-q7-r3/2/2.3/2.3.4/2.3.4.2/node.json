@@ -1,0 +1,17 @@
+{
+  "id": "N188",
+  "claim": "阿里云OSS对单个Bucket的QPS限制约为10,000 req/s（GET）和5,000 req/s（PUT），若数据湖扫描产生突发高并发（如每秒50,000次GET），将触发503 SlowDown错误；需评估限流导致的重试成本：假设重试率为10%，每次重试增加100ms延迟，额外延迟成本 = 50,000 * 0.1 * 0.1s = 500s ≈ 8.3分钟/峰值时段，需通过客户端限速或分片上传/下载来规避。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]阿里云OSS的QPS限制并非固定的全局常数，而是根据Bucket所在地域、账户等级及是否开启特定功能动态调整，且通常远高于此数值（例如单地域可达数万至数十万QPS），此处引用的10,000/5,000阈值缺乏具体上下文，可能严重低估了实际容量，导致对503错误触发条件的误判。 | source=knowledge，逻辑推导自洽（50,000*0.1*0.1=500s计算正确），但QPS具体阈值为经验事实且随配置变化，缺乏当前最新官方文档直接支持该固定数值，故降级。",
+  "corrected_claim": "阿里云OSS对单个Bucket的QPS限制取决于地域和账户配置，通常远高于10,000 req/s；若突发流量超过实际配额将触发503 SlowDown。假设在低配额场景下（如10,000 QPS）发生50,000 req/s的突发请求，且10%请求重试增加100ms延迟，则额外延迟成本约为500秒（8.3分钟）。建议通过客户端限速或分片处理来规避限流风险。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N56"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "Alibaba Cloud OSS bucket QPS limit throttling 503 SlowDown",
+  "retrieval_sources": []
+}

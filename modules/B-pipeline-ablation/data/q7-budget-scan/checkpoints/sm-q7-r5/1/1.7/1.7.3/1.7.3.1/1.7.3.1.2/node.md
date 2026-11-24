@@ -1,0 +1,24 @@
+# N416: 主控 ECC (LDPC) 纠错功耗占比 P_ECC = 0.25 * P_ctrl_logic，其中 P_ctrl_logic 约为总主控功耗的 40%；在随
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N183
+
+## Claim
+
+主控 ECC (LDPC) 纠错功耗占比 P_ECC = 0.25 * P_ctrl_logic，其中 P_ctrl_logic 约为总主控功耗的 40%；在随机读场景下，由于坏块率导致的重读率 (Rerun Rate) 增加 5-10%，ECC 计算负载相应增加 15-20%
+
+## Corrected Claim
+
+主控 ECC (LDPC) 纠错功耗通常占主控逻辑功耗的一定比例（例如约 25%）；在随机读场景下，坏块率导致的重读率增加会相应提升 ECC 计算负载，具体增幅取决于控制器设计与坏块分布。
+
+## Evidence
+
+[质询]数值缺乏通用标准支持：P_ECC=0.25*P_ctrl_logic 和 Rerun Rate 5-10% 导致 ECC 负载增加 15-20% 均为特定设计假设或经验估算，非行业通用常数，不同控制器架构差异巨大。 | 先验知识/题面给定，逻辑校验通过（量纲一致，因果关系合理），但具体数值为经验参数，无外部来源直接支持，故降级。
+
+## Search Query
+
+NVMe controller ECC LDPC power consumption percentage random read workload

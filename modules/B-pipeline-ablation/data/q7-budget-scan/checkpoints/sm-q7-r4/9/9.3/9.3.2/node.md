@@ -1,0 +1,20 @@
+# N282: SSD 缓存层在频繁读写场景下的平均功耗 W_SSD_avg 应基于工作负载加权：假设 50% 时间处于 Active Read/Write (15W), 50
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N132
+
+## Claim
+
+SSD 缓存层在频繁读写场景下的平均功耗 W_SSD_avg 应基于工作负载加权：假设 50% 时间处于 Active Read/Write (15W), 50% 时间处于 Idle (2.5W)，则 W_SSD_avg ≈ 8.75W，而非接近满载的 15W
+
+## Corrected Claim
+
+SSD 缓存层在频繁读写场景下的平均功耗 W_SSD_avg 应基于工作负载加权：假设 50% 时间处于 Active Read/Write (15W), 50% 时间处于 Idle (2.5W)，则 W_SSD_avg ≈ 8.75W，而非接近满载的 15W
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算正确（0.5*15 + 0.5*2.5 = 8.75），符合加权平均定义，且SSD功耗量级符合工程常识。

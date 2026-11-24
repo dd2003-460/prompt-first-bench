@@ -1,0 +1,24 @@
+# N71: HDD层重建时间公式修正：T_rebuild_HDD = (有效数据量/重建带宽)，重建带宽=min(读带宽总和, 写带宽总和)，RAID6重建需读N-1块盘写
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N20, N21, N22
+
+## Claim
+
+HDD层重建时间公式修正：T_rebuild_HDD = (有效数据量/重建带宽)，重建带宽=min(读带宽总和, 写带宽总和)，RAID6重建需读N-1块盘写1块盘，实际重建速率受限于最慢盘，400TB/200MB/s≈55.5小时
+
+## Corrected Claim
+
+HDD层重建时间公式修正：T_rebuild_HDD = (有效数据量/重建带宽)，重建带宽=min(读带宽总和, 写带宽总和)，RAID6重建需读N-1块盘写1块盘，实际重建速率受限于最慢盘，400TB/200MB/s≈55.5小时
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点本质上是同一重建模型在不同磁盘容量/性能参数下的三个采样值，属于参数扫描而非独立概念，存在高度结构冗余；同时父节点明确提及“RAID6重建需读N-1块盘写1块盘”及“受限于最慢盘”，但子节点仅关注写带宽和I/O抑制，未涵盖读带宽瓶颈或RAID6具体的读写并行逻辑，导致对父节点关键机制覆盖不全。）
+
+## Search Query
+
+RAID6 rebuild time calculation formula bandwidth limited

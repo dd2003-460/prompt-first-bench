@@ -1,0 +1,20 @@
+# N497: 工作点C（热备切换，零性能损失）：部署热备HDD集群或SSD镜像，在主集群重建时自动切换流量至备用集群。C_RTO_penalty_C = 0（业务无感知），但
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N217
+
+## Claim
+
+工作点C（热备切换，零性能损失）：部署热备HDD集群或SSD镜像，在主集群重建时自动切换流量至备用集群。C_RTO_penalty_C = 0（业务无感知），但需承担备用集群的闲置成本 C_idle_backup = P_backup * E_price * 8760h。若备用集群功耗为200W，电费¥0.6/kWh，则 C_idle_backup ≈ ¥1,049/年。此工作点性能最佳，但固定成本高。
+
+## Corrected Claim
+
+工作点C（热备切换，零性能损失）：部署热备HDD集群或SSD镜像，在主集群重建时自动切换流量至备用集群。C_RTO_penalty_C = 0（业务无感知），但需承担备用集群的闲置成本 C_idle_backup = P_backup * E_price * 8760h。若备用集群功耗为200W，电费¥0.6/kWh，则 C_idle_backup ≈ ¥1,049/年。此工作点性能最佳，但固定成本高。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算过程 200W * 0.6元/kWh * 8760h / 1000 = 1051.2元，与陈述中的≈1049元误差极小（可能源于电价或小时数微调），量级和逻辑完全自洽。

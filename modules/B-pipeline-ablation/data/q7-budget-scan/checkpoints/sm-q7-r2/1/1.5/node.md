@@ -1,24 +1,20 @@
-# N9: 文件系统开销率：ext4/XFS文件系统元数据占用约为总容量的5%，公式：有效容量 = 物理容量 × (1 - 0.05)
+# N10: HDD+SSD 分层架构中 HDD 侧的有效容量转换系数，假设纠删码 EC(4,2) 或 RAID 6，有效容量 = 总物理容量 × (N-k)/N
 
-- **status**: verified
+- **status**: pending
 - **level**: L2
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N1
+- **parent_ids**: N1, N2, N3
 
 ## Claim
 
-文件系统开销率：ext4/XFS文件系统元数据占用约为总容量的5%，公式：有效容量 = 物理容量 × (1 - 0.05)
+HDD+SSD 分层架构中 HDD 侧的有效容量转换系数，假设纠删码 EC(4,2) 或 RAID 6，有效容量 = 总物理容量 × (N-k)/N
 
 ## Corrected Claim
 
-文件系统开销率：ext4/XFS文件系统元数据占用约为总容量的5%，公式：有效容量 = 物理容量 × (1 - 0.05)
+HDD+SSD 分层架构中 HDD 侧的有效容量转换系数，假设纠删码 EC(4,2) 或 RAID 6，有效容量 = 总物理容量 × (N-k)/N
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
-
-## Search Query
-
-ext4 filesystem metadata overhead percentage
+父节点级核验未通过：不完备, 有冗余（1. 冗余性高：子节点2和子节点3本质上是同一类计算逻辑（基于物理容量和冗余策略推导有效容量），只是采用了不同的存储技术（EC vs RAID）。它们不是独立的维度，而是‘转换系数计算方法’这一主题下的两个具体实例或分支，应当合并或抽象为一个关于‘不同冗余策略下系数计算模型’的节点。2. 不完备：父节点核心是‘转换系数’的定义和计算，但子节点1讨论的是‘硬件选型’（16TB vs 18TB），这属于前置输入条件，而非‘有效容量转换’本身的逻辑分解；同时缺少对通用公式（Efficiency = Data/N）与具体实现差异的理论层分解。）

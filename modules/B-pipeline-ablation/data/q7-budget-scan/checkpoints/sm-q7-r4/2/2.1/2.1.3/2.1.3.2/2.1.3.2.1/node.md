@@ -1,0 +1,20 @@
+# N497: 工作点C的SSD年磨损写入量 (Annual_Wear_Bytes) 计算：基于500TB原始容量与WAF=2，日写入量 = 500 * 10^6 MB * 2
+
+- **status**: verified
+- **level**: L5
+- **source**: given
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N167
+
+## Claim
+
+工作点C的SSD年磨损写入量 (Annual_Wear_Bytes) 计算：基于500TB原始容量与WAF=2，日写入量 = 500 * 10^6 MB * 2 * 365 = 3.65 * 10^11 MB/年。
+
+## Corrected Claim
+
+工作点C的SSD年磨损写入量 (Annual_Wear_Bytes) 计算：基于500TB原始容量与WAF=2，日写入量 = 500 * 10^6 MB * 2 * 365 = 3.65 * 10^11 MB/年。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：500 * 10^6 * 2 * 365 = 3.65 * 10^11，计算无误且量级合理。

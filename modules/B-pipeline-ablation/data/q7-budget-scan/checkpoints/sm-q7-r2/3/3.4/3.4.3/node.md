@@ -1,24 +1,20 @@
-# N99: 云对象存储（S3/OSS）的RTO量化值：基于99.999%持久性承诺，数据恢复时间主要受限于带宽限制（默认125Mbps/账户，可申请提升至1Gbps+），5
+# N70: 工作点C（RTO=4h, HDD+SSD分层）：SSD层故障恢复快（T_rebuild < 1h），HDD层故障恢复慢（T_rebuild > 24h）；加权平
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N23
+- **parent_ids**: N20
 
 ## Claim
 
-云对象存储（S3/OSS）的RTO量化值：基于99.999%持久性承诺，数据恢复时间主要受限于带宽限制（默认125Mbps/账户，可申请提升至1Gbps+），500TB数据在1Gbps带宽下恢复时间≈500*1024*8/1000/3600≈11.4小时，远超RTO=4h目标；若仅恢复关键温数据（100TB），恢复时间≈2.3小时，满足RTO=4h目标，但冷数据恢复不满足
+工作点C（RTO=4h, HDD+SSD分层）：SSD层故障恢复快（T_rebuild < 1h），HDD层故障恢复慢（T_rebuild > 24h）；加权平均RTO代价取决于故障概率分布，假设SSD故障概率 10%，HDD 90%，C_rto = 0.1×0 + 0.9×(24-4)h×¥5000/h = ¥90,000
 
 ## Corrected Claim
 
-云对象存储（S3/OSS）的RTO量化值：基于99.999%持久性承诺，数据恢复时间主要受限于带宽限制（默认125Mbps/账户，可申请提升至1Gbps+），500TB数据在1Gbps带宽下恢复时间≈500*1024*8/1000/3600≈11.4小时，远超RTO=4h目标；若仅恢复关键温数据（100TB），恢复时间≈2.3小时，满足RTO=4h目标，但冷数据恢复不满足
+工作点C（RTO=4h, HDD+SSD分层）：SSD层故障恢复快（T_rebuild < 1h），HDD层故障恢复慢（T_rebuild > 24h）；加权平均RTO代价取决于故障概率分布，假设SSD故障概率 10%，HDD 90%，C_rto = 0.1×0 + 0.9×(24-4)h×¥5000/h = ¥90,000
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：带宽换算与时间估算符合物理直觉（500TB/1Gbps≈11.4h，100TB≈2.3h），且S3默认带宽限制及持久性承诺符合行业常识。
-
-## Search Query
-
-AWS S3 data recovery time 500TB bandwidth limit RTO
+先验知识/题面给定，逻辑校验通过：计算过程 0.1*0 + 0.9*(24-4)*5000 = 90,000 正确，量纲与数值量级合理。

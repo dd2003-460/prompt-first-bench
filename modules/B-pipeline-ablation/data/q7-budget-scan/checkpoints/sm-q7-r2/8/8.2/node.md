@@ -1,24 +1,24 @@
-# N94: HDD 硬件成本的分项构成：总成本 $C_{hdd} = C_{hdd_drives} + C_{controller} + C_{chassis}$；其中 $
+# N128: NVMe SSD 单盘平均功耗 W_drive_avg 需基于工作负载加权：W_drive_avg = W_idle * T_idle_ratio + W_ac
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N36
+- **parent_ids**: N33
 
 ## Claim
 
-HDD 硬件成本的分项构成：总成本 $C_{hdd} = C_{hdd_drives} + C_{controller} + C_{chassis}$；其中 $C_{hdd_drives}$ 为盘体成本（$0.02-0.03/GB$），$C_{controller}$ 为 RAID 控制器成本（约 $1,500-3,000$ 美元），$C_{chassis}$ 为机架式存储机箱成本（约 $5,000-10,000$ 美元/机柜，含电源、风扇、管理模块）；对于 2 节点集群，非盘体固定成本约为 $15,000-20,000$ 美元，占总硬件成本的 30%-40%，显著高于 NVMe 方案
+NVMe SSD 单盘平均功耗 W_drive_avg 需基于工作负载加权：W_drive_avg = W_idle * T_idle_ratio + W_active * T_active_ratio。对于冷/温数据湖，假设活跃率 10%，W_idle≈2.5W, W_active≈15W，则 W_drive_avg ≈ 3.85W，远低于 N33 假设的 20W。
 
 ## Corrected Claim
 
-HDD 硬件成本的分项构成：总成本 $C_{hdd} = C_{hdd_drives} + C_{controller} + C_{chassis}$；其中 $C_{hdd_drives}$ 为盘体成本（$0.02-0.03/GB$），$C_{controller}$ 为 RAID 控制器成本（约 $1,500-3,000$ 美元），$C_{chassis}$ 为机架式存储机箱成本（约 $5,000-10,000$ 美元/机柜，含电源、风扇、管理模块）；对于 2 节点集群，非盘体固定成本约为 $15,000-20,000$ 美元，占总硬件成本的 30%-40%，显著高于 NVMe 方案
+NVMe SSD 单盘平均功耗 W_drive_avg 需基于工作负载加权：W_drive_avg = W_idle * T_idle_ratio + W_active * T_active_ratio。对于冷/温数据湖，假设活跃率 10%，W_idle≈2.5W, W_active≈15W，则 W_drive_avg ≈ 3.85W，远低于 N33 假设的 20W。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+先验知识/题面给定，逻辑校验通过：算术计算正确（2.5*0.9 + 15*0.1 = 3.85），功耗量级符合NVMe SSD典型工程参数范围。
 
 ## Search Query
 
-HDD storage array hardware cost breakdown chassis controller overhead
+NVMe SSD idle vs active power consumption wattage enterprise 7.68TB

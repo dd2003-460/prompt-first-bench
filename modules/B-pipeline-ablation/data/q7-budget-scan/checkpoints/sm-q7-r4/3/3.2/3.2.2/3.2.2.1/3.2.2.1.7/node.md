@@ -1,0 +1,20 @@
+# N699: SSD活跃时间占比的约束条件：SSD层主要处理缓存命中请求，其活跃时间占比 T_active_SSD = Cache_Hit_Rate * HDD_T_acti
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N258, N259, N260
+
+## Claim
+
+SSD活跃时间占比的约束条件：SSD层主要处理缓存命中请求，其活跃时间占比 T_active_SSD = Cache_Hit_Rate * HDD_T_active_inverse；若Cache_Hit_Rate=0.8，则SSD活跃占比 ≈ 0.8 * (1/0.2) 的归一化值，实际取决于缓存算法与请求分布；若访问高度倾斜（Zipf α>1.5），SSD活跃占比可能 > 0.5，此时功耗需按 0.5*25W + 0.5*6W = 15.5W 计算，年电费增加 58%。
+
+## Corrected Claim
+
+SSD活跃时间占比受缓存命中率及请求分布影响。若Cache_Hit_Rate=0.8且访问高度倾斜（Zipf α>1.5），SSD活跃占比可能显著高于HDD。在特定功耗模型下（如SSD 25W, HDD 6W），若SSD活跃占比达到0.5，混合功耗为15.5W，相较于纯HDD场景（6W）功耗增加约158%，具体电费增幅需结合基准场景确定。
+
+## Evidence
+
+[质询]公式 T_active_SSD = Cache_Hit_Rate * HDD_T_active_inverse 缺乏明确的物理或系统定义支撑，且“HDD_T_active_inverse”这一术语非标准，逻辑推导链条存在模糊性；此外，从功耗计算到“年电费增加58%”的结论依赖于未给出的基准功耗假设，数值跳跃较大。 | 先验知识/题面给定，但逻辑校验发现公式定义模糊且数值推导依赖隐含假设，无法确证其严谨性，故降级。

@@ -1,0 +1,20 @@
+# N65: 工作点A（NVMe SSD）：扫描耗时 T_scan = 100TB / (N_drives × 3GB/s) ≈ 9分钟，因 T_scan < SLA(2h)
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N19
+
+## Claim
+
+工作点A（NVMe SSD）：扫描耗时 T_scan = 100TB / (N_drives × 3GB/s) ≈ 9分钟，因 T_scan < SLA(2h)，隐性等待成本 C_wait = 0；主要成本为高 CapEx 溢价
+
+## Corrected Claim
+
+工作点A（NVMe SSD）：扫描耗时 T_scan = 100TB / (N_drives × 3GB/s) ≈ 9分钟，因 T_scan < SLA(2h)，隐性等待成本 C_wait = 0；主要成本为高 CapEx 溢价
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点A和B代表两种不同的架构方案（纯NVMe vs 分层），彼此正交且不冗余。但是，父节点明确限定为“工作点A（NVMe SSD）”，而子节点B引入了“HDD层”和“分层方案”，这超出了父节点的定义范围，导致子集与父集在逻辑层级上不匹配（子节点B不应属于工作点A的子项，而应是并列的工作点）。此外，父节点中关于T_scan的计算（9分钟）与子节点A中的计算（55分钟）存在数值矛盾（虽然都小于SLA，但具体估算逻辑不一致，需统一假设）。）

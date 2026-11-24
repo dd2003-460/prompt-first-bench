@@ -1,0 +1,20 @@
+# N440: RAID6 重建期间 SSD 层 P99 延迟上升的具体机制：重建线程占用 NVMe 队列深度 Q_depth_used = Q_max * f_throttl
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N193
+
+## Claim
+
+RAID6 重建期间 SSD 层 P99 延迟上升的具体机制：重建线程占用 NVMe 队列深度 Q_depth_used = Q_max * f_throttle (30-50%)，剩余业务可用队列深度 Q_avail = Q_max * (1-f_throttle)，导致业务 I/O 排队时间 T_queue = T_service / (Q_avail/Q_arrival_rate) 激增
+
+## Corrected Claim
+
+RAID6 重建期间 SSD 层 P99 延迟上升的具体机制：重建线程占用 NVMe 队列深度 Q_depth_used = Q_max * f_throttle (30-50%)，剩余业务可用队列深度 Q_avail = Q_max * (1-f_throttle)。由于可用队列深度减少，业务 I/O 在队列中的等待时间增加，导致 P99 延迟激增。具体排队延迟需根据到达率和服务率通过排队论模型（如 M/M/c）计算，而非简单的代数除法。
+
+## Evidence
+
+[质询]公式 T_queue = T_service / (Q_avail/Q_arrival_rate) 存在严重的量纲错误和逻辑谬误。T_service 是时间单位，分母 (Q_avail/Q_arrival_rate) 中 Q_avail 无量纲（或为整数），Q_arrival_rate 是频率（1/时间），因此分母量纲为时间，整个表达式量纲为无量纲数，无法等于时间 T_queue。此外，排队延迟通常随负载增加而增加，该公式暗示可用队列深度越大（分母越大），延迟越小，虽方向正确但数学形式完全错误，不符合 M/M/c 或其他标准排队论模型。 | 先验知识/题面给定，但逻辑校验发现核心公式存在量纲错误（时间/时间=无量纲≠时间）及排队论逻辑不自洽，无法验证其正确性。

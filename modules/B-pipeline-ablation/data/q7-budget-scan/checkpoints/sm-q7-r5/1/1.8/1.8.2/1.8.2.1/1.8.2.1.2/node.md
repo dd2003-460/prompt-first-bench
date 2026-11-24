@@ -1,0 +1,24 @@
+# N437: WD Gold 16TB (UH721616ALE6L4) 在 Spin-down 状态下的实测待机功耗为 0.5W - 0.7W，具体取决于固件版本（v1.0
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N191
+
+## Claim
+
+WD Gold 16TB (UH721616ALE6L4) 在 Spin-down 状态下的实测待机功耗为 0.5W - 0.7W，具体取决于固件版本（v1.0 为 0.7W，v2.0+ 为 0.5W）。该数值基于 WD 官方 datasheet 中的 'Standby Power' 指标及 Linux 内核 smartmontools 采集的实时电流读数（电压 5V/12V 通道分别测量）。若系统 BIOS 设置为 'Max Performance' 模式，禁用 APM，则 Spin-down 状态可能被强制维持为 Idle（0.9W），导致功耗估算偏差 +40%。
+
+## Corrected Claim
+
+WD Gold 16TB (UH721616ALE6L4) 在 Spin-down 状态下的实测待机功耗通常在 0.5W - 0.9W 之间，具体数值受固件版本及系统电源管理策略（如 APM 设置）影响。
+
+## Evidence
+
+[质询]具体固件版本（v1.0/v2.0）对应的精确功耗数值（0.7W/0.5W）以及BIOS设置导致的+40%偏差属于高度具体的经验数据，缺乏公开权威来源直接佐证，且不同批次/固件的实际表现可能存在差异，易产生过度精确的误导。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体固件功耗数值及BIOS影响系数）
+
+## Search Query
+
+WD Gold 16TB UH721616ALE6L4 standby power consumption watts firmware v2.0

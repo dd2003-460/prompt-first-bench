@@ -1,0 +1,24 @@
+# N495: 基于 DWPD 的寿命耗尽概率模型：数据丢失风险不仅来自 MTBF（电子故障），更来自写入寿命耗尽。假设 32TB SSD，DWPD=0.5，日写入量 = 32
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N166
+
+## Claim
+
+基于 DWPD 的寿命耗尽概率模型：数据丢失风险不仅来自 MTBF（电子故障），更来自写入寿命耗尽。假设 32TB SSD，DWPD=0.5，日写入量 = 32TB * 0.5 = 16TB/天；总写入寿命 TBW = 32TB * 3650天 * 0.5 = 58,400TB；若实际写入模式符合 DWPD，则寿命为 10 年；但若实际写入超过 DWPD（如日志频繁重写），寿命将按比例缩短；数据丢失概率 P_EOL = 1 - exp(-T_actual / T_life)；若 T_actual=5年，T_life=10年，P_EOL = 1 - exp(-0.5) ≈ 39.3%。
+
+## Corrected Claim
+
+基于 DWPD 的寿命耗尽概率模型：数据丢失风险不仅来自 MTBF（电子故障），更来自写入寿命耗尽。假设 32TB SSD，DWPD=0.5，日写入量 = 32TB * 0.5 = 16TB/天；总写入寿命 TBW = 32TB * 3650天 * 0.5 = 58,400TB；若实际写入模式符合 DWPD，则寿命为 10 年；但若实际写入超过 DWPD（如日志频繁重写），寿命将按比例缩短；数据丢失概率 P_EOL = 1 - exp(-T_actual / T_life)；若 T_actual=5年，T_life=10年，P_EOL = 1 - exp(-0.5) ≈ 39.3%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：TBW计算（32*3650*0.5=58400）正确，寿命推导（58400/16=3650天≈10年）正确，指数分布概率计算（1-exp(-0.5)≈0.393）正确。
+
+## Search Query
+
+SSD end of life probability model write amplification DWPD

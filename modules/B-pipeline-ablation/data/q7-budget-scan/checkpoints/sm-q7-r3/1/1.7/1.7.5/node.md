@@ -1,0 +1,24 @@
+# N62: NVMe SSD 阵列的系统级附加功耗开销（W/TB），包括 RAID 控制器、背板、风扇及交换机端口分摊，通常估算为每 TB 有效容量增加 0.5-1.0W 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+NVMe SSD 阵列的系统级附加功耗开销（W/TB），包括 RAID 控制器、背板、风扇及交换机端口分摊，通常估算为每 TB 有效容量增加 0.5-1.0W 的系统开销。
+
+## Corrected Claim
+
+NVMe SSD 阵列的系统级附加功耗开销（W/TB），包括 RAID 控制器、背板、风扇及交换机端口分摊，通常估算为每 TB 有效容量增加 0.5-1.0W 的系统开销。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+raid controller power consumption per tb overhead data center

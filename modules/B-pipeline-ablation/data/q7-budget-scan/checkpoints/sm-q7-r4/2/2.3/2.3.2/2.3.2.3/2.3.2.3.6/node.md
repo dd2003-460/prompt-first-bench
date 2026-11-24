@@ -1,0 +1,30 @@
+# N578: 阿里云OSS冷归档存储GET请求单价为¥0.01/万次（同N73），若冷数据年访问率为5%（20TB），每次访问平均对象大小128KB，则年请求次数 = 20 
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N207, N208, N209
+
+## Claim
+
+阿里云OSS冷归档存储GET请求单价为¥0.01/万次（同N73），若冷数据年访问率为5%（20TB），每次访问平均对象大小128KB，则年请求次数 = 20 * 1024 * 1024 / 128 * 10,000 = 1.6e9 次，年请求成本 = 1.6e9 / 10,000 * 0.01 = ¥1,600，折合每TB年成本 = ¥3.2/TB/年。
+
+## Corrected Claim
+
+阿里云OSS冷归档存储GET请求单价若为¥0.01/万次，20TB数据年访问率5%，平均对象128KB，则年请求次数为1.6e9次，年请求成本为¥1,600，折合每TB年成本为¥80/TB/年。
+
+## Evidence
+
+[质询]陈述中引用的具体单价（¥0.01/万次）及计算结果属于经验事实，参考来源仅提供了计费逻辑和最佳实践，未包含具体的价格数值，无法通过提供的来源直接验证该单价的准确性。 | 逻辑推导过程自洽（20TB*1024*1024/128KB*5% = 1.6e9次请求，1.6e9/10000*0.01=1600元，1600/20=80元/TB... 等等，这里发现计算错误：1600元是总成本，除以20TB应该是80元/TB，而不是3.2元/TB。让我重新检查计算。
+
+## Search Query
+
+Alibaba Cloud OSS Cold Archive Storage GET request cost
+
+## Retrieval Sources
+
+- {'url': 'https://help.aliyun.com/zh/oss/user-guide/deep-cold-archive-storage-usage-best-practices&rut=ff05bb1049f1f8ca16616c616f530efde79cb96aeef587900ddbdcfbc765b551', 'type': 'ddg', 'title': '使用深度冷归档存储的最佳实践-对象存储 (Oss)-阿里云帮助中心'}
+- {'url': 'https://help.aliyun.com/zh/oss/api-operation-calling-fees&rut=00f0177205a15cea7ab03cebd6048f69406bfedda0215d7a006bc6dcf6d8cbd0', 'type': 'ddg', 'title': '什么情况下会产生PutRequest和GetRequest费用-对象存储 (OSS)-阿里云帮助中心'}
+- {'url': 'https://www.aliyun.com/product/oss/pricing&rut=1571abf034d1a5a3470fc49c230fb2b3d44b874a666dcc1e6447c4b3263c62f5', 'type': 'ddg', 'title': '对象存储选型与定价_云存储服务-阿里云'}

@@ -1,0 +1,20 @@
+# N277: HDD+SSD 分层总功耗 P_total_Hybrid_corrected = 117W (HDD) + 62W (SSD) + 90W (Infra) ≈ 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N130
+
+## Claim
+
+HDD+SSD 分层总功耗 P_total_Hybrid_corrected = 117W (HDD) + 62W (SSD) + 90W (Infra) ≈ 269W。对比纯 NVMe SSD 方案的 ~2000W+，功耗降低约 87%，电力成本优势显著
+
+## Corrected Claim
+
+HDD+SSD 分层总功耗 P_total_Hybrid_corrected = 117W (HDD) + 62W (SSD) + 90W (Infra) ≈ 269W。对比纯 NVMe SSD 方案的 ~2000W+，功耗降低约 87%，电力成本优势显著
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算正确（117+62+90=269），功耗降低比例计算正确（(2000-269)/2000 ≈ 86.55% ≈ 87%），量级符合数据中心存储架构常识。

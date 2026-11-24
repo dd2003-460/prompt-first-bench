@@ -1,0 +1,24 @@
+# N128: NVMe SSD 单盘平均功耗 W_drive_avg 需基于工作负载加权：W_drive_avg = W_idle * T_idle_ratio + W_ac
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N33
+
+## Claim
+
+NVMe SSD 单盘平均功耗 W_drive_avg 需基于工作负载加权：W_drive_avg = W_idle * T_idle_ratio + W_active * T_active_ratio。对于冷/温数据湖，假设活跃率 10%，W_idle≈2.5W, W_active≈15W，则 W_drive_avg ≈ 3.85W，远低于 N33 假设的 20W。
+
+## Corrected Claim
+
+NVMe SSD 单盘平均功耗 W_drive_avg 需基于工作负载加权：W_drive_avg = W_idle * T_idle_ratio + W_active * T_active_ratio。对于冷/温数据湖，假设活跃率 10%，W_idle≈2.5W, W_active≈15W，则 W_drive_avg ≈ 3.85W，远低于 N33 假设的 20W。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点在概念上是正交的（分别针对空闲功耗、活跃功耗、冷数据活跃率、温数据活跃率），没有直接矛盾。但是存在冗余：冷数据和温数据的活跃率修正本质上是同一个变量（T_active_ratio）在不同数据分层下的取值，可以合并为一个关于“分层数据活跃率计算”的子节点。此外，完备性不足：父节点公式 W_drive_avg = W_idle * T_idle_ratio + W_active * T_active_ratio 中隐含了 T_idle_ratio + T_active_ratio = 1 的约束，子节点未明确提及这一归一化条件；且父节点提到“远低于 N33 假设的 20W”，子节点未提供最终修正后的 W_drive_avg 计算结果以直接回应这一对比结论。）
+
+## Search Query
+
+NVMe SSD idle vs active power consumption wattage enterprise 7.68TB

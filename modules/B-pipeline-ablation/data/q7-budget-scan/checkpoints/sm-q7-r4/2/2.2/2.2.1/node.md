@@ -1,0 +1,28 @@
+# N50: 工作点A（高SSD配比）：为提升温数据扫描速度，将SSD层扩大至200TB（¥50,000 @¥250/TB），HDD层300TB（¥10,500 @¥35/T
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N12
+
+## Claim
+
+工作点A（高SSD配比）：为提升温数据扫描速度，将SSD层扩大至200TB（¥50,000 @¥250/TB），HDD层300TB（¥10,500 @¥35/TB）；分层管理硬件（智能缓存控制器）¥15,000；服务器¥30,000；总CapEx ≈ ¥105,500，折合¥211/有效TB，性能优于均衡配置但成本较高。
+
+## Corrected Claim
+
+工作点A（高SSD配比）：将SSD层扩大至200TB，HDD层300TB，加上分层管理硬件及服务器，总CapEx估算约为¥105,500（基于特定假设单价），折合约¥211/有效TB。注：具体单价需根据实际采购行情核实。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（三个子节点分别聚焦于成本修正、性能量化和干扰成本，维度清晰且互不重叠。子节点1对父节点中错误的单位成本进行了必要的逻辑修正（基于有效容量），子节点2和3分别量化了正常场景和异常场景下的性能/时间成本，共同构成了对工作点A的全面评估。）
+
+## Search Query
+
+tiered storage SSD HDD ratio cost optimization 2026
+
+## Retrieval Sources
+
+- {'url': 'https://www.toutiao.com/article/7569982661389861414/&rut=ae2e09c74de5b35df76f0b17b369c1faba3c537a8e73b70a68ceb6c89d1e6db3', 'type': 'ddg', 'title': 'Ai爆火带飞200tb+ Ssd!Plc闪存喊冤：再给我3年 - 今日头条'}

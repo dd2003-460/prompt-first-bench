@@ -1,0 +1,24 @@
+# N270: RAID 控制器与背板功耗绝对值估算：对于支持 471 块 NVMe SSD 的大型阵列，主 RAID/HBA 控制器功耗约为 25-35W，PCIe 背板及线
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N129
+
+## Claim
+
+RAID 控制器与背板功耗绝对值估算：对于支持 471 块 NVMe SSD 的大型阵列，主 RAID/HBA 控制器功耗约为 25-35W，PCIe 背板及线缆损耗约为 50-70W，合计 P_ctrl_backplane ≈ 75-105W，而非简单的百分比关系
+
+## Corrected Claim
+
+RAID 控制器与背板功耗绝对值估算：对于支持 471 块 NVMe SSD 的大型阵列，主 RAID/HBA 控制器功耗约为 25-35W，PCIe 背板及线缆损耗约为 50-70W，合计 P_ctrl_backplane ≈ 75-105W，而非简单的百分比关系
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RAID控制器功耗通常在20-40W区间，大规模NVMe背板及线缆损耗在50-70W区间符合工程常识，总量级合理。
+
+## Search Query
+
+large scale nvme raid controller backplane power consumption watts

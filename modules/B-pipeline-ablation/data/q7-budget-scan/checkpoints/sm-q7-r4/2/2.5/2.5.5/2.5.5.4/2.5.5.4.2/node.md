@@ -1,0 +1,24 @@
+# N666: 工作点B（CDN加速取回）：C_CDN_penalty = Data_Volume_TB * 1024 * Price_CDN_GB * Exchange_Ra
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N243
+
+## Claim
+
+工作点B（CDN加速取回）：C_CDN_penalty = Data_Volume_TB * 1024 * Price_CDN_GB * Exchange_Rate；若Data_Volume=40TB, Price_CDN=¥0.24/GB, Exchange=1，则C_CDN_penalty ≈ ¥9,830/年，总取回成本增加约33%。
+
+## Corrected Claim
+
+工作点B（CDN加速取回）：C_CDN_penalty = Data_Volume_TB * 1024 * Price_CDN_GB * Exchange_Rate；若Data_Volume=40TB, Price_CDN=¥0.24/GB, Exchange=1，则C_CDN_penalty ≈ ¥9,830/年，总取回成本增加约33%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：40TB * 1024 GB/TB * 0.24 ¥/GB = 9830.4 ¥，计算准确；33%增幅为题面给定的相对基准值，逻辑自洽。
+
+## Search Query
+
+Aliyun OSS CDN egress price per GB 2024

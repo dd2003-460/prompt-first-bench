@@ -1,0 +1,20 @@
+# N550: 温数据对象总数计算：假设 100TB 温数据由 128MB 对象组成，对象数 N_objects = 100 * 1024 * 1024 MB / 128 MB
+
+- **status**: verified
+- **level**: L5
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N181
+
+## Claim
+
+温数据对象总数计算：假设 100TB 温数据由 128MB 对象组成，对象数 N_objects = 100 * 1024 * 1024 MB / 128 MB = 819,200 个。
+
+## Corrected Claim
+
+温数据对象总数计算：假设 100TB 温数据由 128MB 对象组成，对象数 N_objects = 100 * 1024 * 1024 MB / 128 MB = 819,200 个。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：100TB转换为MB为100*1024*1024=104,857,600MB，除以128MB得到819,200，计算准确无误。

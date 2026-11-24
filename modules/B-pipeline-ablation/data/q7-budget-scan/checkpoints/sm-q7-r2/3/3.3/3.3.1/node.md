@@ -1,24 +1,20 @@
-# N94: 500TB总容量物理约束：本地NVMe SSD阵列需1000TB物理容量（RAID-10冗余比0.5），假设单盘2TB，需500块SSD；HDD+SSD分层需H
+# N65: 工作点A（NVMe SSD）：扫描耗时 T_scan = 100TB / (N_drives × 3GB/s) ≈ 9分钟，因 T_scan < SLA(2h)
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N22
+- **parent_ids**: N19
 
 ## Claim
 
-500TB总容量物理约束：本地NVMe SSD阵列需1000TB物理容量（RAID-10冗余比0.5），假设单盘2TB，需500块SSD；HDD+SSD分层需HDD 400TB/0.833≈480TB物理容量（RAID-6冗余比0.833）+ SSD 100TB/0.5=200TB物理容量（RAID-10），假设HDD单盘16TB需30块，SSD单盘8TB需25块；云存储无物理容量限制，逻辑容量500TB即可
+工作点A（NVMe SSD）：扫描耗时 T_scan = 100TB / (N_drives × 3GB/s) ≈ 9分钟，因 T_scan < SLA(2h)，隐性等待成本 C_wait = 0；主要成本为高 CapEx 溢价
 
 ## Corrected Claim
 
-500TB总容量物理约束：本地NVMe SSD阵列需1000TB物理容量（RAID-10冗余比0.5），假设单盘2TB，需500块SSD；HDD+SSD分层需HDD 400TB/0.833≈480TB物理容量（RAID-6冗余比0.833）+ SSD 100TB/0.5=200TB物理容量（RAID-10），假设HDD单盘16TB需30块，SSD单盘8TB需25块；云存储无物理容量限制，逻辑容量500TB即可
+工作点A（NVMe SSD）：扫描耗时 T_scan = 100TB / (N_drives × 3GB/s) ≈ 9分钟，因 T_scan < SLA(2h)，隐性等待成本 C_wait = 0；主要成本为高 CapEx 溢价
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：RAID-10冗余比0.5及RAID-6冗余比0.833符合标准定义，物理容量计算（500/0.5=1000, 400/0.833≈480, 100/0.5=200）及盘数估算（1000/2=500, 480/16=30, 200/8=25）均准确无误。
-
-## Search Query
-
-RAID 10 RAID 6 capacity calculation physical to logical TB
+先验知识/题面给定，逻辑校验通过：100TB / (10 * 3GB/s) ≈ 555s ≈ 9.25min < 2h，推导自洽

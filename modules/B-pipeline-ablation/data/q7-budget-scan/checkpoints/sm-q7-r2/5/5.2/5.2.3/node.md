@@ -1,20 +1,20 @@
-# N71: 冷数据批量恢复吞吐需求 T_cold_restore = 10TB/h（基于N23中S3恢复吞吐下限5-20TB/h的中位数偏保守取值，用于校验存储层能否支撑R
+# N95: 本地 NVMe SSD 扩容的人工成本 Migration_Labor_Cost 等于 迁移所需工时 (Labor_Hours) 乘以 时薪 (Labor_Ra
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N28
+- **parent_ids**: N27
 
 ## Claim
 
-冷数据批量恢复吞吐需求 T_cold_restore = 10TB/h（基于N23中S3恢复吞吐下限5-20TB/h的中位数偏保守取值，用于校验存储层能否支撑RTO=24h内的400TB恢复，实际需 T_restore < 24h，即 T_cold_restore > 400TB/24h ≈ 16.7TB/h，若按10TB/h则需40h，不满足RTO，需提升至16.7TB/h或延长RTO）
+本地 NVMe SSD 扩容的人工成本 Migration_Labor_Cost 等于 迁移所需工时 (Labor_Hours) 乘以 时薪 (Labor_Rate)，假设 Labor_Hours=16h (2人*8h), Labor_Rate=¥500/h，则 Cost = 16 * 500。
 
 ## Corrected Claim
 
-冷数据批量恢复吞吐需求 T_cold_restore = 10TB/h（基于N23中S3恢复吞吐下限5-20TB/h的中位数偏保守取值，用于校验存储层能否支撑RTO=24h内的400TB恢复，实际需 T_restore < 24h，即 T_cold_restore > 400TB/24h ≈ 16.7TB/h，若按10TB/h则需40h，不满足RTO，需提升至16.7TB/h或延长RTO）
+本地 NVMe SSD 扩容的人工成本 Migration_Labor_Cost 等于 迁移所需工时 (Labor_Hours) 乘以 时薪 (Labor_Rate)，假设 Labor_Hours=16h (2人*8h), Labor_Rate=¥500/h，则 Cost = 16 * 500。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：400TB/24h≈16.7TB/h，10TB/h需40h，推导自洽
+先验知识/题面给定，逻辑校验通过

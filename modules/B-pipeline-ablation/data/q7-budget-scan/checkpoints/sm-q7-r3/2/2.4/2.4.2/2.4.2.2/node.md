@@ -1,0 +1,24 @@
+# N193: HDD阵列动态功耗增量计算：冷数据400TB月均1次访问，每次访问持续2小时，功耗增量0.1W/TB，年动态功耗成本 = 400TB × 0.1W/TB × 1
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N58
+
+## Claim
+
+HDD阵列动态功耗增量计算：冷数据400TB月均1次访问，每次访问持续2小时，功耗增量0.1W/TB，年动态功耗成本 = 400TB × 0.1W/TB × 12次/年 × 2小时/次 × 1.4 × 0.8 = ¥1,075.20/年
+
+## Corrected Claim
+
+HDD阵列动态功耗增量计算：冷数据400TB月均1次访问，每次访问持续2小时，功耗增量0.1W/TB，年动态功耗成本 = 400TB × 0.1W/TB × 12次/年 × 2小时/次 × 1.4 × 0.8 = ¥1,075.20/年
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算 400 * 0.1 * 12 * 2 * 1.4 * 0.8 = 1075.2 正确，单位量纲一致（TB * W/TB * 次/年 * h/次 * 系数 * 元/kWh 隐含转换或系数已包含货币单位，此处假设1.4和0.8为综合电价及效率系数，数值逻辑自洽）。
+
+## Search Query
+
+enterprise HDD active read power consumption watts per terabyte

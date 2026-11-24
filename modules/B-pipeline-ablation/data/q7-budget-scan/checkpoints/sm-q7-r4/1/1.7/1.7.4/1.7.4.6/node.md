@@ -1,0 +1,24 @@
+# N190: Spin-down 状态的触发条件与持续时间：HDD 进入 Spin-down 需空闲时间超过阈值（通常 5-30 分钟），每次唤醒需 2-5 秒，若访问频率低
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N61, N62, N63
+
+## Claim
+
+Spin-down 状态的触发条件与持续时间：HDD 进入 Spin-down 需空闲时间超过阈值（通常 5-30 分钟），每次唤醒需 2-5 秒，若访问频率低于 1 次/分钟，Spin-down 收益最大；80% 冷数据假设下，平均访问间隔 > 1 小时，Spin-down 比例可达 60-70%，需根据具体 HDD 型号（如 Seagate Exos 或 WD Ultrastar）的 Spin-down 延迟调整。
+
+## Corrected Claim
+
+Spin-down 状态的触发条件与持续时间：HDD 进入 Spin-down 需空闲时间超过阈值（通常 5-30 分钟），每次唤醒需 2-5 秒，若访问频率低于 1 次/分钟，Spin-down 收益最大；80% 冷数据假设下，平均访问间隔 > 1 小时，Spin-down 比例可达 60-70%，需根据具体 HDD 型号（如 Seagate Exos 或 WD Ultrastar）的 Spin-down 延迟调整。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+HDD spin-down threshold idle time wake-up latency cold data access frequency

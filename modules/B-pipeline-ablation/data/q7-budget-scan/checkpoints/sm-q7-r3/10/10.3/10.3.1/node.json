@@ -1,0 +1,33 @@
+{
+  "id": "N382",
+  "claim": "S3 生命周期转换（Standard to IA/Archive）的后台执行速率与完成时间估算：AWS 文档指出转换可能在几小时内完成，但无严格 SLA。对于 500TB 数据（假设 128MB 对象，共 4,194,304 个对象），若 API 限流 3500 req/s，理论最小转换时间 T_min = 4,194,304 / 3500 ≈ 20分钟。实际可能因后端队列延长至数小时。",
+  "level": "L4",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]核心计算逻辑存在根本性错误：S3 生命周期转换（Lifecycle Transition）是由 AWS 后端异步执行的批量操作，并不受用户 API 请求速率限制（API Rate Limit）的约束。将 API 限流（3500 req/s）作为后台转换速率的上限来计算理论最小时间（T_min）是混淆了控制平面（Control Plane）与数据平面/后台处理（Data Plane/Backend Processing）的概念。此外，AWS 官方文档通常指出大规模转换可能需要数天甚至更久，而非简单的几小时，且未提供基于 API 限流的线性估算模型。 | 来源 [1] 和 [2] 确认了 S3 支持生命周期转换功能，但未提及任何关于后台执行速率受 API 限流约束或具体的时间估算公式；来源 [3] 为第三方博客，未提供权威的技术参数支持该特定计算逻辑。该陈述中的 T_min 推导基于错误的前提（API 限流决定后台转换速度），属于逻辑/概念错误。",
+  "corrected_claim": "S3 生命周期转换由 AWS 后端异步执行，其完成时间取决于数据量、对象数量及 AWS 内部处理队列，不受用户 API 请求速率限制的直接约束。对于 500TB 数据，转换时间通常为几天，具体时长无严格 SLA，建议参考 AWS 官方关于大规模迁移/转换的最佳实践或联系 AWS 支持获取预估。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N130"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "AWS S3 lifecycle transition execution time and rate limits",
+  "retrieval_sources": [
+    {
+      "url": "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/userguide/lifecycle-transition-general-considerations.html&rut=879f52716adf9c3249a4ace8c75b1d37465af66e7599c6f84131ce6bb02de750",
+      "type": "ddg",
+      "title": "使用 Amazon S3 生命周期转换对象 - Amazon Simple Storage Service"
+    },
+    {
+      "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/lifecycle-transition-general-considerations.html&rut=4952959d496c72a3e81fdc2f6668534d54601651b7edf919a8cfbc9635eaaa98",
+      "type": "ddg",
+      "title": "Transitioning objects using Amazon S3 Lifecycle"
+    },
+    {
+      "url": "https://blog.csdn.net/2501_93891110/article/details/154136326&rut=9fd04b8ce848cb1b62844cb9e75ea9c8d1b264006e2a06ad9c545bbe17448100",
+      "type": "ddg",
+      "title": "AWS S3 生命周期管理进阶：配置 \"标准→低频→归档\" 存储类别自动转换（成本对比）_s3解冻加速-CSDN博客"
+    }
+  ]
+}

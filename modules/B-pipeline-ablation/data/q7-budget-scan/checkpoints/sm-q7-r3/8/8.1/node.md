@@ -1,0 +1,24 @@
+# N127: NVMe SSD 阵列总功耗 P_total_NVMe = P_drives + P_infra，其中 P_drives = N_disks * W_drive
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N33
+
+## Claim
+
+NVMe SSD 阵列总功耗 P_total_NVMe = P_drives + P_infra，其中 P_drives = N_disks * W_drive_avg，P_infra = (P_controller + P_backplane + P_cooling_fan + P_PDU_loss)。
+
+## Corrected Claim
+
+NVMe SSD 阵列总功耗 P_total_NVMe = P_drives + P_infra，其中 P_drives = N_disks * W_drive_avg，P_infra = (P_controller + P_backplane + P_cooling_fan + P_PDU_loss)。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点公式中的两个主要加数项（P_drives 和 P_infra），二者在定义上互斥且无重叠；P_infra 的展开完全基于 P_drives 的推导，逻辑链条清晰，未出现相互矛盾或重复计算的情况。）
+
+## Search Query
+
+data center storage array power consumption breakdown drives infrastructure overhead

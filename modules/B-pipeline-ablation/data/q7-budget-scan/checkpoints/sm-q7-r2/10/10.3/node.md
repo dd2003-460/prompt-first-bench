@@ -1,20 +1,20 @@
-# N103: NVMe 阵列年电费重算：基于修正后总功耗 3096W（含 PUE），年耗电量 = 3.096kW * 24h * 365d = 27,096 kWh。电价 ¥
+# N130: 生命周期转换过程中的数据一致性窗口风险成本：在转换期间（Standard -> Infrequent Access -> Archive），对象状态处于过渡态，
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N38
+- **parent_ids**: N35
 
 ## Claim
 
-NVMe 阵列年电费重算：基于修正后总功耗 3096W（含 PUE），年耗电量 = 3.096kW * 24h * 365d = 27,096 kWh。电价 ¥0.8/kWh，年电费 = 27,096 * 0.8 ≈ ¥21,677。此结果与 N38 原估算（¥16,000-25,000）中值接近，但下限被低估（原估算未考虑高密度节点的高非磁盘功耗）。
+生命周期转换过程中的数据一致性窗口风险成本：在转换期间（Standard -> Infrequent Access -> Archive），对象状态处于过渡态，可能产生短暂的读取失败或高延迟。Risk_Cost = P_transition_failure * Impact_Per_Failure。对于海量小文件（1MB），转换元数据更新量大，API限流可能导致转换任务排队，延长过渡期。需估算转换任务的总耗时 T_transit = Total_Objects / (Rate_Limit * Batch_Size)，并计算在此期间若发生读取请求的失败重试成本。
 
 ## Corrected Claim
 
-NVMe 阵列年电费重算：基于修正后总功耗 3096W（含 PUE），年耗电量 = 3.096kW * 24h * 365d = 27,096 kWh。电价 ¥0.8/kWh，年电费 = 27,096 * 0.8 ≈ ¥21,677。此结果与 N38 原估算（¥16,000-25,000）中值接近，但下限被低估（原估算未考虑高密度节点的高非磁盘功耗）。
+生命周期转换过程中的数据一致性窗口风险成本：在转换期间（Standard -> Infrequent Access -> Archive），对象状态处于过渡态，可能产生短暂的读取失败或高延迟。Risk_Cost = P_transition_failure * Impact_Per_Failure。对于海量小文件（1MB），转换元数据更新量大，API限流可能导致转换任务排队，延长过渡期。需估算转换任务的总耗时 T_transit = Total_Objects / (Rate_Limit * Batch_Size)，并计算在此期间若发生读取请求的失败重试成本。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：3.096kW * 8760h = 27,120.96 kWh（原文27,096存在微小计算误差，约0.09%，不影响量级和结论），27,096 * 0.8 = 21,676.8 ≈ 21,677，数值推导自洽，且结论与N38区间兼容。
+先验知识/题面给定，逻辑校验通过

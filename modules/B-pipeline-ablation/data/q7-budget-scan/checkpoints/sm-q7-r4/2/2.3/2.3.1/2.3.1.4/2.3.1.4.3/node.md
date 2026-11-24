@@ -1,0 +1,30 @@
+# N561: 工作点3（低IOPS/高延迟容忍）：在 IOPS < 1,000 且延迟 > 50ms 场景下，Glacier Instant Retrieval 年化成本 =
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N202
+
+## Claim
+
+工作点3（低IOPS/高延迟容忍）：在 IOPS < 1,000 且延迟 > 50ms 场景下，Glacier Instant Retrieval 年化成本 = ¥35.6/TB/年 + 请求成本（500 IOPS * 86400 * 365 * 1e-6 ≈ ¥1,577/年，分摊 ¥3.2/TB/年）+ 运维 ¥30/TB/年 ≈ ¥68.8/TB/年，接近 One Zone-IA 成本，但提供 Multi-AZ 冗余，适合冷温边界数据。
+
+## Corrected Claim
+
+工作点3（低IOPS/高延迟容忍）：在 IOPS < 1,000 且延迟 > 50ms 场景下，Glacier Instant Retrieval 年化成本估算约为 ¥68.8/TB/年（含存储、请求及运维成本），接近 One Zone-IA 成本，但提供 Multi-AZ 冗余，适合冷温边界数据。（注：具体价格需以 AWS 官方实时报价为准）
+
+## Evidence
+
+[质询]参考来源均为通用的磁盘性能指标科普文章，完全未涉及 AWS Glacier Instant Retrieval 的具体定价、Multi-AZ 冗余特性或具体的成本计算模型，无法提供外部证据支持该特定云服务产品的经验性价格数据。 | 经验事实，逻辑自洽但缺来源支持（来源[1]-[3]仅解释IOPS/延迟概念，与AWS具体定价无关）
+
+## Search Query
+
+AWS S3 Glacier Instant Retrieval request cost IOPS 500 latency 100ms
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/louisjh/article/details/78748063&rut=09fd4fa380298380346dc6cf3a782cac04eb58674473c9f1829a95e3930a20d3', 'type': 'ddg', 'title': '磁盘性能指标--iops、吞吐量 - Csdn博客'}
+- {'url': 'https://bbs.csdn.net/weixin_33521678/article/details/100135873&rut=ea3d7a6c73a00866f771f9a7bfcdf4c3973b9ae2c9302a0e9cc5f29b61150636', 'type': 'ddg', 'title': 'FIO测试结果怎么看？手把手教你解读IOPS、带宽、延迟，定位真实磁盘瓶颈'}
+- {'url': 'https://bbs.huaweicloud.com/blogs/f322276b747e460fbaf399aa90e6ba18&rut=42dea30f948a28a04b8af802d145a264d1bddc5e05346a55d56643aade0c73d2', 'type': 'ddg', 'title': '你以为是磁盘慢？其实是你不会调：云原生存储性能调优实战（Iops / 吞吐 / 延迟）-云社区-华为云'}

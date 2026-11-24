@@ -1,0 +1,20 @@
+# N393: 工作点A（高持久性/高成本）：AWS S3 Standard 采用 EC (Erasure Coding) 跨 3 AZ 分布，持久性 11 nines (10
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N173
+
+## Claim
+
+工作点A（高持久性/高成本）：AWS S3 Standard 采用 EC (Erasure Coding) 跨 3 AZ 分布，持久性 11 nines (10^-11)，单价 $0.023/GB/月，隐含冗余系数 k_redundancy ≈ 1.4-1.6（EC 8+4 或类似），单位有效容量成本 C_eff_A = Price * k_redundancy ≈ $0.032-$0.037/GB/月
+
+## Corrected Claim
+
+工作点A（高持久性/高成本）：AWS S3 Standard 采用 EC (Erasure Coding) 跨 3 AZ 分布，持久性 11 nines (10^-11)，单价 $0.023/GB/月，隐含冗余系数 k_redundancy ≈ 1.4-1.6（EC 8+4 或类似），单位有效容量成本 C_eff_A = Price * k_redundancy ≈ $0.032-$0.037/GB/月
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：S3 Standard 11 nines 持久性及 $0.023/GB/月 单价符合 AWS 公开文档常识；EC 8+4 编码冗余系数 1.5 处于 1.4-1.6 区间，计算逻辑自洽。

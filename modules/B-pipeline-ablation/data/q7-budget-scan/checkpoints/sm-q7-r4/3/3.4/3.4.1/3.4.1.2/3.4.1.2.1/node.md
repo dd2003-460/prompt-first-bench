@@ -1,0 +1,20 @@
+# N638: 快照存储冗余成本的精确计算：C_snapshot_storage = V_snapshot * Storage_Price_Per_TB * Retention
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N221
+
+## Claim
+
+快照存储冗余成本的精确计算：C_snapshot_storage = V_snapshot * Storage_Price_Per_TB * Retention_Months / 12；假设快照采用 COW (Copy-On-Write) 且数据变化率为 5%/月，平均快照体积为原始数据的 15%，则 V_snapshot = 500TB * 0.15 = 75TB；若本地 SSD 价格为 ¥300/TB/年，则 C_snapshot_storage = 75 * 300 = ¥22,500/年。
+
+## Corrected Claim
+
+快照存储冗余成本的精确计算：C_snapshot_storage = V_snapshot * Storage_Price_Per_TB * Retention_Months / 12；假设快照采用 COW (Copy-On-Write) 且数据变化率为 5%/月，平均快照体积为原始数据的 15%，则 V_snapshot = 500TB * 0.15 = 75TB；若本地 SSD 价格为 ¥300/TB/年，则 C_snapshot_storage = 75 * 300 = ¥22,500/年。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式推导正确（75TB * 300元/TB/年 = 22,500元/年），数值量级符合常规云存储成本估算逻辑。

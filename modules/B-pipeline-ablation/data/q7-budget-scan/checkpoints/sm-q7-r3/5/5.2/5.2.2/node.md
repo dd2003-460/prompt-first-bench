@@ -1,0 +1,20 @@
+# N94: 本地 NVMe SSD 扩容的停机迁移时间 Downtime_Hours 等于 迁移数据量 (Migration_Data_Size) 除以 迁移吞吐量 (Mi
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N27
+
+## Claim
+
+本地 NVMe SSD 扩容的停机迁移时间 Downtime_Hours 等于 迁移数据量 (Migration_Data_Size) 除以 迁移吞吐量 (Migration_Throughput)，假设迁移 100TB 数据，吞吐量 500MB/s，则 Downtime = 100*1024^3 / 500 / 3600 小时。
+
+## Corrected Claim
+
+本地 NVMe SSD 扩容的停机迁移时间 Downtime_Hours 等于 迁移数据量 (Migration_Data_Size) 除以 迁移吞吐量 (Migration_Throughput)，假设迁移 100TB 数据，吞吐量 500MB/s，则 Downtime = 100*1024^3 / 500 / 3600 小时。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点正交，分别讨论了吞吐量的技术约束和停机带来的业务成本。但是，父节点明确定义为‘停机迁移时间’的计算公式及结果，子节点未包含该核心计算逻辑或最终数值结果，仅提供了输入参数的背景（吞吐量）和外部影响（成本），未能完整覆盖父节点关于‘时间计算’这一核心定义的方面。）

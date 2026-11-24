@@ -1,0 +1,30 @@
+# N568: 阿里云 OSS 单 Bucket 实际 QPS 限制机制：默认软限制可能较低（如 10k QPS），但可通过工单申请提升或自动分区（Partition Key）
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N188
+
+## Claim
+
+阿里云 OSS 单 Bucket 实际 QPS 限制机制：默认软限制可能较低（如 10k QPS），但可通过工单申请提升或自动分区（Partition Key）实现横向扩展。对于 50,000 QPS 的突发负载，若未做分区设计，确会触发限流；若做了均匀分区，实际单分区压力降低，限流概率大幅下降。
+
+## Corrected Claim
+
+阿里云 OSS 单 Bucket 存在系统级 QPS 限制，若请求集中在少数分区（如使用顺序前缀）易触发限流；通过均匀分区（Partition Key）分散热点可降低单分区压力，减少限流概率。具体 QPS 阈值需参考最新官方文档或咨询技术支持，而非固定为 10k。
+
+## Evidence
+
+[质询]陈述中提到的“默认软限制可能较低（如 10k QPS）”这一具体数值缺乏来源支持，且阿里云 OSS 官方文档通常强调 QPS 限制取决于底层分区分布，并未统一规定所有 Bucket 的默认全局 QPS 上限为 10k，该数值可能因地域、账号等级或历史策略而异，存在以偏概全或数据过时的风险。 | 来源 [1] 和 [3] 证实了 OSS 存在系统级 QPS 上限及超限限流机制，来源 [2] 证实了顺序前缀导致热点分区从而引发限流的问题，支持了“分区设计影响限流概率”的逻辑；但所有来源均未提及“10k QPS”这一具体默认值，也未明确提及“工单申请提升”的具体流程细节，故具体数值部分缺乏直接证据支持。
+
+## Search Query
+
+Alibaba Cloud OSS bucket QPS limit partition key best practice
+
+## Retrieval Sources
+
+- {'url': 'https://help.aliyun.com/zh/oss/troubleshoot-bandwidth-or-qps-overrun-for-buckets-in-oss&rut=8e4c214b9e0cea8905c87721913891b91cde16bf13eef5559c03eb8bd784cfb2', 'type': 'ddg', 'title': '排查OSS Bucket因带宽或QPS超限导致的限流-OSS-阿里云-对象存储 (OSS)-阿里云帮助中心'}
+- {'url': 'https://help.aliyun.com/zh/oss/user-guide/limits&rut=31f005056b6898909adda3fa2423f8d87d7e50e2899b1c704eac8b7e5186be80', 'type': 'ddg', 'title': 'Oss使用限制及性能指标-对象存储 (Oss)-阿里云帮助中心'}
+- {'url': 'https://www.alibabacloud.com/help/zh/oss/troubleshoot-bandwidth-or-qps-overrun-for-buckets-in-oss&rut=f4484da9bc597eca69b1509436dee4fd4bfec42275db5e734ba2db390095f2fd', 'type': 'ddg', 'title': '对象存储 OSS：OSS中Bucket出现带宽或QPS超限的排查方法'}

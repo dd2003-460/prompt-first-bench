@@ -1,0 +1,30 @@
+# N563: 工作点2（低频访问/中取回延迟）：在年访问次数 1-10 次且 RTO 4-12h 场景下，Glacier Flexible Retrieval 年化成本 = 
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N203
+
+## Claim
+
+工作点2（低频访问/中取回延迟）：在年访问次数 1-10 次且 RTO 4-12h 场景下，Glacier Flexible Retrieval 年化成本 = ¥32.1/TB/年 + 取回成本（500TB * 1024GB * $0.01/GB * 7.2 ≈ ¥36,864/年，分摊 ¥73.7/TB/年）+ 运维 ¥20/TB/年 ≈ ¥125.8/TB/年，取回延迟 1-3 小时，适合低频冷数据。
+
+## Corrected Claim
+
+工作点2（低频访问/中取回延迟）：在年访问次数 1-10 次且 RTO 4-12h 场景下，基于AWS Glacier Flexible Retrieval标准定价估算，年化成本约为 ¥125.8/TB/年（含存储、取回及运维），取回延迟 1-3 小时，适合低频冷数据。
+
+## Evidence
+
+[质询]参考来源均为通用的RTO/RPO概念介绍或灾备架构选型文章，未包含AWS Glacier的具体定价数据（存储费、取回费）或汇率换算细节，无法验证具体的¥32.1/TB/年及¥73.7/TB/年等数值。 | 逻辑推导自洽（500TB*1024GB*$0.01/GB*7.2≈$36,864≈¥265k，分摊至500TB约为¥530/TB? 等等，这里计算有误：500TB * 1024 GB/TB * $0.01/GB = $5120。$5120 * 7.2 = ¥36,864。分摊到500TB，即 ¥36,864 / 500 TB = ¥73.728/TB。计算正确。总成本 32.1 + 73.7 + 20 = 125.8。逻辑无误。但来源[1][2][3]均未提供AWS Glacier的具体价格，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+AWS S3 Glacier Flexible Retrieval standard retrieval cost $0.01/GB 500TB annual
+
+## Retrieval Sources
+
+- {'url': 'https://developer.aliyun.com/article/1718869&rut=5e48b541c56fbc9cfccb502cb542ecddedccf0ea1536f8787e6599268855d4f0', 'type': 'ddg', 'title': '别等业务中断才补坑!Rto/Rpo 核心逻辑与全场景灾备架构选型全攻略'}
+- {'url': 'https://juejin.cn/post/7619994737622024232&rut=f86067d09190a5bba1d7423015a3833c1cd2a8e3cfea27283a4716cccb2150fb', 'type': 'ddg', 'title': '别等业务中断才补坑!Rto/Rpo 核心逻辑与全场景灾备架构选型全攻略本文系统解析容灾备份核心知识：阐明其作为业务"生命 - 掘金'}
+- {'url': 'https://docs.oneprocloud.com/zh/product-overview/presales/hyperbdr-rpo-rto-planning-best-practices.html&rut=a23ed9bba3abe9d38479e7ff4aba5f92ea9251bed7484f8cf2610fbcc26c4dac', 'type': 'ddg', 'title': 'Rpo & Rto 最佳实践'}

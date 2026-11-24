@@ -1,24 +1,20 @@
-# N92: NVMe SSD 采购的批量折扣与供应商定价差异：单盘采购价格（List Price）通常为 $0.15-0.18/GB，但批量采购（>100 盘）可获得 10
+# N117: 网络带宽瓶颈下的扫描时间 T_net_s3：假设出口带宽为10Gbps (≈1.25GB/s)，传输500TB数据所需时间 T_net = 500,000GB 
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N35
+- **parent_ids**: N32
 
 ## Claim
 
-NVMe SSD 采购的批量折扣与供应商定价差异：单盘采购价格（List Price）通常为 $0.15-0.18/GB，但批量采购（>100 盘）可获得 10%-15% 的折扣，实际成交价约为 $0.12-0.15/GB$；不同品牌（Samsung, Intel, Kioxia）价格差异约为 ±10%，需在成本模型中采用加权平均价格或选取性价比最优品牌（如 Kioxia 通常比 Samsung 便宜 5%-10%）
+网络带宽瓶颈下的扫描时间 T_net_s3：假设出口带宽为10Gbps (≈1.25GB/s)，传输500TB数据所需时间 T_net = 500,000GB / 1.25GB/s = 400,000秒 ≈ 111小时；由于 T_net >> T_min_s3，瓶颈在网络带宽而非API限流，需重新评估云存储在大文件顺序扫描场景下的优势。
 
 ## Corrected Claim
 
-NVMe SSD 采购的批量折扣与供应商定价差异：单盘采购价格（List Price）通常为 $0.15-0.18/GB，但批量采购（>100 盘）可获得 10%-15% 的折扣，实际成交价约为 $0.12-0.15/GB$；不同品牌（Samsung, Intel, Kioxia）价格差异约为 ±10%，需在成本模型中采用加权平均价格或选取性价比最优品牌（如 Kioxia 通常比 Samsung 便宜 5%-10%）
+网络带宽瓶颈下的扫描时间 T_net_s3：假设出口带宽为10Gbps (≈1.25GB/s)，传输500TB数据所需时间 T_net = 500,000GB / 1.25GB/s = 400,000秒 ≈ 111小时；由于 T_net >> T_min_s3，瓶颈在网络带宽而非API限流，需重新评估云存储在大文件顺序扫描场景下的优势。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
-
-## Search Query
-
-enterprise NVMe SSD bulk purchase discount price comparison Samsung Intel Kioxia
+先验知识/题面给定，逻辑校验通过：单位换算正确（10Gbps=1.25GB/s），算术计算准确（500000/1.25=400000s≈111h），逻辑推导自洽。

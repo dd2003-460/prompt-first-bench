@@ -1,0 +1,24 @@
+# N519: 云厂商请求单价的地域差异修正：阿里云 OSS 在中国内地（杭州/北京）与海外区域（新加坡/美西）的请求单价可能存在差异，通常海外区域单价略高或持平；AWS S3
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N224
+
+## Claim
+
+云厂商请求单价的地域差异修正：阿里云 OSS 在中国内地（杭州/北京）与海外区域（新加坡/美西）的请求单价可能存在差异，通常海外区域单价略高或持平；AWS S3 在不同 Region 间价格一致（除个别特殊区域）；对于跨境数据湖，若数据存储在海外但访问来自国内，还需考虑数据传输延迟对业务效率的间接成本，但不直接影响 API 单价
+
+## Corrected Claim
+
+云厂商请求单价的地域差异修正：阿里云 OSS 在中国内地（杭州/北京）与海外区域（新加坡/美西）的请求单价可能存在差异，通常海外区域单价略高或持平；AWS S3 在不同 Region 间价格一致（除个别特殊区域）；对于跨境数据湖，若数据存储在海外但访问来自国内，还需考虑数据传输延迟对业务效率的间接成本，但不直接影响 API 单价
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+cloud object storage pricing regional differences China vs overseas

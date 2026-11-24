@@ -1,0 +1,20 @@
+# N17: 冷数据访问SLA定义：极少访问意味着月度访问频率<1次，可接受延迟为分钟级；云对象存储Standard-IA/Infrequent Access层满足此SLA，
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+冷数据访问SLA定义：极少访问意味着月度访问频率<1次，可接受延迟为分钟级；云对象存储Standard-IA/Infrequent Access层满足此SLA，本地HDD层也满足，但NVMe SSD层存在资源浪费；隐性成本包括：过度配置高性能介质导致的CapEx溢价
+
+## Corrected Claim
+
+冷数据访问SLA定义：极少访问意味着月度访问频率<1次，可接受延迟为分钟级；云对象存储Standard-IA/Infrequent Access层满足此SLA，本地HDD层也满足，但NVMe SSD层存在资源浪费；隐性成本包括：过度配置高性能介质导致的CapEx溢价
+
+## Evidence
+
+父节点级核验未通过：不完备（父节点包含两个主要部分：1. SLA定义及存储层匹配性分析（Standard-IA/HDD满足，NVMe浪费）；2. 隐性成本量化。子节点仅覆盖了第2点中的NVMe CapEx溢价量化，完全遗漏了第1点中关于SLA具体定义、云存储层与本地HDD层的匹配性论证以及‘为何NVMe不适用’的逻辑推导过程。因此完备性不足。）

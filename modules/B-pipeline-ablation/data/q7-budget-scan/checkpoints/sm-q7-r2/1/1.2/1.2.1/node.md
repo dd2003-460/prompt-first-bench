@@ -1,24 +1,24 @@
-# N43: HDD+SSD分层中HDD部分采用RAID6配置（N=8），冗余系数R_hdd = 1.25，有效容量为物理容量的80%，提供双盘故障保护
+# N39: 2024-2025年主流品牌（Seagate/WDC/Toshiba）企业级16TB CMR HDD的单盘均价区间（元/盘），受2024下半年涨价影响需区分季度
 
-- **status**: verified
+- **status**: degraded
 - **level**: L3
-- **source**: knowledge
-- **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N8
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N7
 
 ## Claim
 
-HDD+SSD分层中HDD部分采用RAID6配置（N=8），冗余系数R_hdd = 1.25，有效容量为物理容量的80%，提供双盘故障保护
+2024-2025年主流品牌（Seagate/WDC/Toshiba）企业级16TB CMR HDD的单盘均价区间（元/盘），受2024下半年涨价影响需区分季度数据
 
 ## Corrected Claim
 
-HDD+SSD分层中HDD部分采用RAID6配置（N=8），冗余系数R_hdd = 1.25，有效容量为物理容量的80%，提供双盘故障保护
+2024-2025年主流品牌（Seagate/WDC/Toshiba）企业级16TB CMR HDD的市场价格受2024下半年供应链调整影响出现波动，具体单盘均价需结合特定季度、采购渠道及型号进行查询，通常处于数百至一千余元人民币区间（视具体市场而定）。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：RAID6在N=8时冗余系数为1+2/8=1.25，有效容量占比80%，且具备双盘故障保护能力，数值与定义完全自洽。
+[质询]缺乏具体数值支撑，且‘单盘均价’受采购渠道（OEM vs 零售）、具体型号（如Exos X18 vs IronWolf Pro）及汇率波动影响极大，笼统给出区间易产生误导；此外，2024下半年涨价主要源于HDD产能向QLC SSD转移及原材料成本，但不同品牌涨幅不一，简单归因于‘涨价’可能掩盖结构性差异。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体价格区间及季度变化细节）
 
 ## Search Query
 
-HDD RAID6 redundancy ratio cold data
+enterprise 16TB CMR HDD price 2024 2025 Seagate WDC cost

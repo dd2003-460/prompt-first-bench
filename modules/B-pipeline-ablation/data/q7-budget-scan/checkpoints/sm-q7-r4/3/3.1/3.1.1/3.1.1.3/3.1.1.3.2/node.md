@@ -1,0 +1,30 @@
+# N672: RAID 控制器功耗修正：LSI MegaRAID SAS 3108 或 Broadcom 9560-8i 双端口控制器在满载重建或高 IOPS 场景下功耗可达
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N249, N250, N251
+
+## Claim
+
+RAID 控制器功耗修正：LSI MegaRAID SAS 3108 或 Broadcom 9560-8i 双端口控制器在满载重建或高 IOPS 场景下功耗可达 30-40W/块，而非静态 15W；2 块控制器在温数据扫描高峰期的瞬时功耗 = 2 * 35W = 70W，需取峰值与均值加权（假设 20% 时间处于高负载，80% 时间空闲，加权 = 0.2*70 + 0.8*15 = 26W/块，总 52W）。
+
+## Corrected Claim
+
+RAID 控制器（如 LSI SAS3108/Broadcom 9560-8i）在满载重建或高 IOPS 场景下功耗显著高于静态待机状态（通常静态约 10-15W，峰值可达 30-40W 以上）；在温数据扫描高峰期，若假设 20% 时间处于高负载（~35W/块），80% 时间空闲（~15W/块），则单块加权平均功耗约为 26W，2 块控制器总功耗约为 52W。
+
+## Evidence
+
+[质询]具体功耗数值（30-40W峰值、15W静态）及负载占比（20%/80%）属于特定硬件的经验性工程估算，缺乏通用标准或公开数据直接支持，且不同固件/电压下波动较大。 | 来源[1][2]确认了LSI SAS3108/Broadcom 9560-8i为同一类RAID控制器，但未提供具体功耗曲线；逻辑计算（0.2*70+0.8*15=26）自洽，但核心参数为经验假设，属经验事实且缺直接来源支持。
+
+## Search Query
+
+LSI MegaRAID 9560-8i power consumption watts spec
+
+## Retrieval Sources
+
+- {'url': 'https://support.huawei.com/enterprise/en/doc/EDOC1000163569/8ef3f134/lsi-sas3108&rut=0b775a8f101242888cd2e793024fc035b55cd224af4f4dae8d1506d60146c2dc', 'type': 'ddg', 'title': 'LSI SAS3108 - RAID Controller Card User Guide (x86) 20 - Huawei'}
+- {'url': 'https://support.huawei.com/enterprise/zh/doc/EDOC1100048779/f7461c3f&rut=056ebd3a8e6f6f66c5686093923cabd3fa364f50ad54ecea917e278582f095ac', 'type': 'ddg', 'title': 'LSI SAS3108 - RAID控制卡 用户指南 (Arm) 27 - 华为'}
+- {'url': 'https://www.cnblogs.com/luxf0/p/17630732.html&rut=5bb3b345ba90d58606ad06637e8bf7e7a44576b4e4816786ce73c114a53f80bf', 'type': 'ddg', 'title': '【硬件相关】LSI MegaRAID阵列卡配置管理 - Luxf0 - 博客园'}

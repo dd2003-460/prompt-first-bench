@@ -1,0 +1,20 @@
+# N608: 工作点 C 的总年化折旧成本修正值：C_dep_total_corrected = C_dep_ssd + C_dep_hdd = 14,250 + 64,80
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N206
+
+## Claim
+
+工作点 C 的总年化折旧成本修正值：C_dep_total_corrected = C_dep_ssd + C_dep_hdd = 14,250 + 64,800 = ¥79,050/年，显著低于原估算的 ¥801,000/年。
+
+## Corrected Claim
+
+工作点 C 的总年化折旧成本修正值：C_dep_total_corrected = C_dep_ssd + C_dep_hdd = 14,250 + 64,800 = ¥79,050/年，显著低于原估算的 ¥801,000/年。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算 14,250 + 64,800 = 79,050 正确，且 79,050 < 801,000 符合‘显著低于’的描述。

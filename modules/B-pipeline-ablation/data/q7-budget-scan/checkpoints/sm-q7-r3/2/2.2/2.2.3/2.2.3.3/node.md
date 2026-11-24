@@ -1,0 +1,24 @@
+# N178: 工作点C的性能降级量化：SSD层缩减至50TB，温数据命中率从100%降至50%（假设100TB温数据均匀分布，仅50TB命中SSD，其余50TB落HDD）。混
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N52
+
+## Claim
+
+工作点C的性能降级量化：SSD层缩减至50TB，温数据命中率从100%降至50%（假设100TB温数据均匀分布，仅50TB命中SSD，其余50TB落HDD）。混合扫描时间 T_mix = (50TB/7GB/s) + (50TB/0.25GB/s) ≈ 7.1h + 200h = 207.1h（严重超时），表明工作点C在高频扫描下不可行，除非温数据实际体积≤50TB。
+
+## Corrected Claim
+
+工作点C的性能降级量化：SSD层缩减至50TB，温数据命中率从100%降至50%（假设100TB温数据均匀分布，仅50TB命中SSD，其余50TB落HDD）。混合扫描时间 T_mix = (50TB/7GB/s) + (50TB/0.25GB/s) ≈ 7.1h + 200h = 207.1h（严重超时），表明工作点C在高频扫描下不可行，除非温数据实际体积≤50TB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算正确（50/7≈7.14, 50/0.25=200, 总和≈207.1），物理直觉合理（HDD速度远低于SSD导致长尾延迟主导总耗时），符合存储分层性能退化的一般规律。
+
+## Search Query
+
+ssd cache hit ratio performance impact hdd fallback latency

@@ -1,20 +1,24 @@
-# N60: HDD 分层在 HDD 机械寻道约束下的恢复工作点：Restore_Throughput=5TB/h, Data_Size=400TB(冷), T_restor
+# N80: RAID 6 重建时的奇偶校验计算开销 Parity_Calc_Overhead 约为重建时间的 10%-20%，即 T_rebuild_total = T_r
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N24
+- **parent_ids**: N23
 
 ## Claim
 
-HDD 分层在 HDD 机械寻道约束下的恢复工作点：Restore_Throughput=5TB/h, Data_Size=400TB(冷), T_restore=81h (含2h overhead)
+RAID 6 重建时的奇偶校验计算开销 Parity_Calc_Overhead 约为重建时间的 10%-20%，即 T_rebuild_total = T_read + T_write + T_parity_calc，需将校验开销纳入总重建时长估算
 
 ## Corrected Claim
 
-HDD 分层在 HDD 机械寻道约束下的恢复工作点：Restore_Throughput=5TB/h, Data_Size=400TB(冷), T_restore=81h (含2h overhead)
+RAID 6 重建时的奇偶校验计算开销 Parity_Calc_Overhead 约为重建时间的 10%-20%，即 T_rebuild_total = T_read + T_write + T_parity_calc，需将校验开销纳入总重建时长估算
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：400TB / 5TB/h = 80h，加上 2h overhead 等于 81h，数值计算自洽且符合 HDD 恢复场景的量级直觉。
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+RAID 6 rebuild parity calculation overhead percentage

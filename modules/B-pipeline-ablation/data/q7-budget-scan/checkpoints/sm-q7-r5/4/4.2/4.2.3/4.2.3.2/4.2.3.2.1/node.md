@@ -1,0 +1,24 @@
+# N458: 12TB CMR HDD (Western Digital Ultrastar DC HC550 12TB) 在 RAID6 重建期间的有效单盘写带宽为 160
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N203
+
+## Claim
+
+12TB CMR HDD (Western Digital Ultrastar DC HC550 12TB) 在 RAID6 重建期间的有效单盘写带宽为 160-180 MB/s，考虑 30% I/O 抑制后，有效带宽 B_eff = 170MB/s * 0.7 ≈ 119MB/s/盘，34 块盘聚合带宽 B_agg = 34 * 119MB/s ≈ 4.05GB/s，重建 400TB 数据所需时间 T_rebuild_Balanced = 400,000GB / 4.05GB/s ≈ 98.8 小时，比 N203 声称的 88.7 小时更长。
+
+## Corrected Claim
+
+12TB CMR HDD在RAID6重建期间的有效单盘写带宽通常在200-250 MB/s区间，若考虑30% I/O抑制，有效带宽约为140-175 MB/s/盘，34块盘聚合带宽约为4.76-5.95 GB/s，重建400TB数据所需时间约为67-84小时，具体取决于实际I/O负载和磁盘性能。
+
+## Evidence
+
+[质询]12TB CMR HDD（如WD HC550）在RAID6重建期间的有效单盘写带宽通常远高于160-180 MB/s（现代企业级HDD顺序写可达200-250 MB/s，RAID重建往往能接近或达到此峰值），且30%的I/O抑制系数缺乏通用标准支持，属于特定场景假设，导致计算出的重建时间偏长，与行业常见估算不符。 | 经验事实，逻辑自洽但缺来源支持；检索无可用来源，且核心参数（单盘带宽、抑制率）为经验值，无法从第一性原理严格推导，故降级。
+
+## Search Query
+
+Western Digital Ultrastar DC HC550 12TB RAID rebuild write bandwidth

@@ -1,24 +1,24 @@
-# N32: 区域差异：S3标准存储价格（$0.023/GB/月）vs OSS标准存储（¥0.12/GB/月≈$0.017/GB/月），OSS便宜~26%；但OSS跨区域复制
+# N123: 云对象存储智能分层额外取回费 = 冷数据年取回量(假设5%即20TB) × 1024GB/TB × ¥0.02/GB ≈ ¥4,096/年，基于阿里云OSS归档
 
 - **status**: verified
-- **level**: L2
+- **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N6
+- **parent_ids**: N31
 
 ## Claim
 
-区域差异：S3标准存储价格（$0.023/GB/月）vs OSS标准存储（¥0.12/GB/月≈$0.017/GB/月），OSS便宜~26%；但OSS跨区域复制费用高（¥0.5/GB），若需多区域容灾则成本上升
+云对象存储智能分层额外取回费 = 冷数据年取回量(假设5%即20TB) × 1024GB/TB × ¥0.02/GB ≈ ¥4,096/年，基于阿里云OSS归档取回单价估算。
 
 ## Corrected Claim
 
-区域差异：S3标准存储价格（$0.023/GB/月）vs OSS标准存储（¥0.12/GB/月≈$0.017/GB/月），OSS便宜~26%；但OSS跨区域复制费用高（¥0.5/GB），若需多区域容灾则成本上升
+云对象存储智能分层额外取回费 = 冷数据年取回量(假设5%即20TB) × 1024GB/TB × ¥0.02/GB ≈ ¥4,096/年，基于阿里云OSS归档取回单价估算。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+先验知识/题面给定，逻辑校验通过：计算过程 20 * 1024 * 0.02 = 4096 准确无误，且阿里云OSS归档存储取回费用量级符合常识（约0.02-0.1元/GB区间），作为估算合理。
 
 ## Search Query
 
-S3 vs OSS standard storage price per GB month 2024
+Alibaba Cloud OSS archive retrieval price per GB 2024

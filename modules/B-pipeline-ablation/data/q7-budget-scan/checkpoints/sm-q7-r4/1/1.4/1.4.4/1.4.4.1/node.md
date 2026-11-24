@@ -1,0 +1,20 @@
+# N131: 本地 NVMe SSD 阵列在 3 年规划周期内的硬件折旧成本 = CAPEX_total × (1 - 残值率)，其中残值率假设为 0（企业级 SSD 3 年
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N38
+
+## Claim
+
+本地 NVMe SSD 阵列在 3 年规划周期内的硬件折旧成本 = CAPEX_total × (1 - 残值率)，其中残值率假设为 0（企业级 SSD 3 年后通常无市场残值或按报废处理），即 3 年总折旧 = 初始购置成本。
+
+## Corrected Claim
+
+本地 NVMe SSD 阵列在 3 年规划周期内的硬件折旧成本 = CAPEX_total × (1 - 残值率)，其中残值率假设为 0（企业级 SSD 3 年后通常无市场残值或按报废处理），即 3 年总折旧 = 初始购置成本。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在残值率为0的假设下，总折旧等于初始成本符合会计折旧基本逻辑，且企业级SSD3年无残值符合行业常识。

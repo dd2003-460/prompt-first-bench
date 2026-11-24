@@ -1,0 +1,24 @@
+# N724: 缓存污染导致的TLB miss率增量：业务I/O与重建I/O竞争L2/L3缓存导致TLB命中率下降，假设基础miss rate为1%，污染后上升至3%，每次mi
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N253
+
+## Claim
+
+缓存污染导致的TLB miss率增量：业务I/O与重建I/O竞争L2/L3缓存导致TLB命中率下降，假设基础miss rate为1%，污染后上升至3%，每次miss带来的额外内存访问延迟为100ns，累计到每GB数据的额外耗时 T_cache_pollution = Data_Size * (0.03 - 0.01) * 100ns。
+
+## Corrected Claim
+
+缓存污染导致的TLB miss率增量：业务I/O与重建I/O竞争L2/L3缓存导致TLB命中率下降，假设基础miss rate为1%，污染后上升至3%，每次miss带来的额外内存访问延迟为100ns，累计到每GB数据的额外耗时 T_cache_pollution = Data_Size * (0.03 - 0.01) * 100ns。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+cache pollution TLB miss rate impact on I/O performance percentage

@@ -1,0 +1,20 @@
+# N384: 工作点B（N=24）的年化RTO代价 C_RTO_B：基于单盘故障概率 P_fail_drive_yearly ≈ 1/MTBF_drive (假设MTBF=1
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N170
+
+## Claim
+
+工作点B（N=24）的年化RTO代价 C_RTO_B：基于单盘故障概率 P_fail_drive_yearly ≈ 1/MTBF_drive (假设MTBF=1,000,000h)，48块盘的年故障次数 λ = 48 * 8760 / 1000000 ≈ 0.42次/年，每次故障业务中断损失 L_hourly * T_rebuild_single，C_RTO_B = λ * L_hourly * 22.2h
+
+## Corrected Claim
+
+工作点B（N=24）的年化RTO代价 C_RTO_B：基于单盘故障概率 P_fail_drive_yearly ≈ 1/MTBF_drive (假设MTBF=1,000,000h)，48块盘的年故障次数 λ = 48 * 8760 / 1000000 ≈ 0.42次/年，每次故障业务中断损失 L_hourly * T_rebuild_single，C_RTO_B = λ * L_hourly * 22.2h
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：λ计算正确（48*8760/1e6≈0.42），成本公式符合RTO定义（频率×单次损失×恢复时间），量纲与量级合理。

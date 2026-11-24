@@ -1,0 +1,24 @@
+# N328: 云对象存储带宽瓶颈对 IOPS 的隐含限制：若平均对象大小 128KB，37,926 IOPS 对应的聚合带宽需求 = 37,926 * 128KB ≈ 4.7
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N120
+
+## Claim
+
+云对象存储带宽瓶颈对 IOPS 的隐含限制：若平均对象大小 128KB，37,926 IOPS 对应的聚合带宽需求 = 37,926 * 128KB ≈ 4.76 GB/s；若客户端出口带宽仅 10Gbps (1.25GB/s)，则实际 IOPS 上限 = 1.25GB/s / 128KB ≈ 10,240 IOPS，低于 37,926 需求，因此带宽成为比 API 限流更严格的瓶颈，需升级至 40Gbps 专线才能满足 IOPS 峰值。
+
+## Corrected Claim
+
+云对象存储带宽瓶颈对 IOPS 的隐含限制：若平均对象大小 128KB，37,926 IOPS 对应的聚合带宽需求 = 37,926 * 128KB ≈ 4.76 GB/s；若客户端出口带宽仅 10Gbps (1.25GB/s)，则实际 IOPS 上限 = 1.25GB/s / 128KB ≈ 10,240 IOPS，低于 37,926 需求，因此带宽成为比 API 限流更严格的瓶颈，需升级至 40Gbps 专线才能满足 IOPS 峰值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：10Gbps = 1.25GB/s，1.25GB/s / 128KB = 10,240 IOPS，计算无误且逻辑自洽
+
+## Search Query
+
+S3 egress bandwidth limit 10Gbps IOPS calculation 128KB object

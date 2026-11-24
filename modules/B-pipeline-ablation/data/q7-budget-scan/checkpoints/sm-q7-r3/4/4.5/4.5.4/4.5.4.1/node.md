@@ -1,0 +1,20 @@
+# N276: 紧急人力成本中的实际工作时长 T_downtime 并非完全线性，需考虑加班效率衰减因子 Efficiency_Decay；若 T_downtime > 8h，
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N89
+
+## Claim
+
+紧急人力成本中的实际工作时长 T_downtime 并非完全线性，需考虑加班效率衰减因子 Efficiency_Decay；若 T_downtime > 8h，工程师效率下降 20%，有效工时 T_effective = T_downtime * 0.8；假设 T_downtime = 12h，则 T_effective = 9.6h，用于计算实际人力投入。
+
+## Corrected Claim
+
+紧急人力成本中的实际工作时长 T_downtime 并非完全线性，需考虑加班效率衰减因子 Efficiency_Decay；若 T_downtime > 8h，工程师效率下降 20%，有效工时 T_effective = T_downtime * 0.8；假设 T_downtime = 12h，则 T_effective = 9.6h，用于计算实际人力投入。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

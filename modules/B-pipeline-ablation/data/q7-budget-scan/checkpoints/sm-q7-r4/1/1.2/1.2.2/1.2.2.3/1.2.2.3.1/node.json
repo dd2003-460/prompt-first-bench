@@ -1,0 +1,17 @@
+{
+  "id": "N443",
+  "claim": "条带大小对随机读IOPS的影响量化：假设单盘随机读IOPS为150 (4K block)。默认条带128KB时，一次随机读可能跨越多个盘，但通常RAID控制器会尽量对齐。若条带增大至1MB，随机读请求的扇区对齐概率降低，导致更多跨条带读，进而增加寻道次数。经验公式：IOPS_effective ≈ IOPS_single_disk * (Stripe_Size / Block_Size)^-0.5 (粗略估计)。对于4K随机读，条带从128KB增至1MB (8倍)，IOPS下降约 sqrt(8) ≈ 2.8倍，即从 32*150=4800 IOPS 降至 ~1700 IOPS。",
+  "level": "L5",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]该陈述中引用的“经验公式” IOPS_effective ≈ IOPS_single_disk * (Stripe_Size / Block_Size)^-0.5 并非存储领域的标准公认公式，且其推导逻辑存在严重缺陷。首先，随机读IOPS主要受限于磁盘机械寻道时间，条带大小主要影响的是跨条带读取时的I/O放大（Amplification）和并发度，而非直接通过这种幂律关系决定总IOPS。其次，计算示例中从4800降至1700（约2.8倍下降）的结论过于绝对，忽略了现代RAID控制器缓存、预读机制以及多盘并行处理的能力，实际性能损失通常远小于此线性/平方根比例，除非系统完全缺乏优化且负载极度不利。 | 先验知识/题面给定，逻辑校验发现引用的经验公式缺乏普遍适用性且量级估算过于粗糙，虽非硬逻辑错误（如量纲错误），但作为定量结论缺乏可靠依据，故降级。",
+  "corrected_claim": "条带大小对随机读IOPS有负面影响，主要源于跨条带读取导致的I/O放大和寻道开销增加。然而，具体的IOPS下降幅度高度依赖于RAID控制器算法、缓存策略及负载特征，不存在通用的简单幂律公式（如 (Stripe_Size / Block_Size)^-0.5）来精确量化此影响。通常建议保持条带大小与典型I/O块大小对齐以优化随机性能，但不应依赖特定倍数关系进行精确预测。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N147"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

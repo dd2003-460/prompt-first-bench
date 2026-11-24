@@ -1,0 +1,24 @@
+# N39: 2024-2025年主流品牌（Seagate/WDC/Toshiba）企业级16TB CMR HDD的单盘均价区间（元/盘），受2024下半年涨价影响需区分季度
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N7
+
+## Claim
+
+2024-2025年主流品牌（Seagate/WDC/Toshiba）企业级16TB CMR HDD的单盘均价区间（元/盘），受2024下半年涨价影响需区分季度数据
+
+## Corrected Claim
+
+2024-2025年主流品牌（Seagate/WDC/Toshiba）企业级16TB CMR HDD的市场价格受2024下半年供应链调整影响出现波动，具体单盘均价需结合特定季度、采购渠道及型号进行查询，通常处于数百至一千余元人民币区间（视具体市场而定）。
+
+## Evidence
+
+[质询]缺乏具体数值支撑，且‘单盘均价’受采购渠道（OEM vs 零售）、具体型号（如Exos X18 vs IronWolf Pro）及汇率波动影响极大，笼统给出区间易产生误导；此外，2024下半年涨价主要源于HDD产能向QLC SSD转移及原材料成本，但不同品牌涨幅不一，简单归因于‘涨价’可能掩盖结构性差异。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体价格区间及季度变化细节）
+
+## Search Query
+
+enterprise 16TB CMR HDD price 2024 2025 Seagate WDC cost

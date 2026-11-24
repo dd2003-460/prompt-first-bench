@@ -1,0 +1,24 @@
+# N320: Western Digital Ultrastar HC560 16TB CMR HDD 在2024年Q1-Q2的中国大陆渠道均价为 ¥880 - ¥950/盘
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N143
+
+## Claim
+
+Western Digital Ultrastar HC560 16TB CMR HDD 在2024年Q1-Q2的中国大陆渠道均价为 ¥880 - ¥950/盘，对应每TB成本 ¥55 - ¥59/TB，略高于Seagate同级产品，主要因品牌溢价及渠道结构差异。
+
+## Corrected Claim
+
+Western Digital Ultrastar HC560 16TB CMR HDD 在2024年Q1-Q2的中国大陆渠道价格大致处于 ¥800 - ¥1000/盘 区间，每TB成本约 ¥50 - ¥62/TB，通常略高于或持平于Seagate同级产品，具体取决于渠道和促销情况。
+
+## Evidence
+
+[质询]具体价格区间（¥880-¥950）及与Seagate的价差属于实时变动的市场经验数据，缺乏权威来源佐证，且不同渠道（电商/线下/批发）价格波动大，固定区间描述可能不准确。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+WD Ultrastar HC560 16TB price 2024 Q1 Q2 China

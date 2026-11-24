@@ -1,0 +1,28 @@
+# N21: 云对象存储（S3/OSS）无本地重建概念，RTO 定义为数据可用性恢复时间；标准存储 RTO≈0（高可用），但跨区域复制场景 RTO = T_replicati
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+云对象存储（S3/OSS）无本地重建概念，RTO 定义为数据可用性恢复时间；标准存储 RTO≈0（高可用），但跨区域复制场景 RTO = T_replication_lag + T_failover，典型值为 5-30 分钟 [待核验]；若发生区域灾难，需从备份桶恢复，T_RTO_Cloud = T_cross_region_copy(500TB) ≈ 500TB/10Gbps ≈ 417 小时（带宽受限） [knowledge]
+
+## Corrected Claim
+
+云对象存储无本地重建概念，RTO定义为数据可用性恢复时间；标准存储高可用RTO接近0，跨区域复制RTO取决于复制延迟和故障切换时间；区域灾难恢复耗时取决于跨区带宽和数据量，例如500TB数据在10Gbps理想带宽下理论传输时间约为114小时，实际受限于网络拥塞和并发度可能更长。
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备, 有冗余（严重领域错位与逻辑断裂。父节点明确讨论的是‘云对象存储（S3/OSS）’的RTO，其核心机制是跨区复制和元数据管理，不存在传统RAID或磁盘重建的概念。然而，所有子节点均深入探讨本地HDD/SSD的RAID6物理重建细节，这与父节点主题完全脱节。此外，子节点1-3均围绕HDD层展开，存在高度冗余，且未覆盖父节点中关于‘跨区域复制延迟’、‘故障切换’及‘备份桶恢复’等关键RTO组成部分。）
+
+## Search Query
+
+AWS S3 cross-region replication failover RTO disaster recovery time 500TB
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2037820584256607993&rut=649de5d4a64cec414c3fc83a34ac8f715eb3556cb1e347d6b906d47f47ba0911', 'type': 'ddg', 'title': '一文搞懂 Oss 对象存储：标准 / 低频 / 归档 / 冷归档 + 本地 / 同城冗余全解析 - 知乎'}

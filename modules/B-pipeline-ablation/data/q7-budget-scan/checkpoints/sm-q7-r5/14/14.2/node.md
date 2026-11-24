@@ -1,0 +1,24 @@
+# N298: 本地存储分批采购的折旧加权平均成本：若5年内分两次扩容（Year 2 和 Year 4），第一次扩容因规模小单价高（假设+15%），第二次扩容单价正常；总折旧 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N138
+
+## Claim
+
+本地存储分批采购的折旧加权平均成本：若5年内分两次扩容（Year 2 和 Year 4），第一次扩容因规模小单价高（假设+15%），第二次扩容单价正常；总折旧 C_local_5y = (C_initial/5) × 5 + (C_expand1/3) × 3 + (C_expand2/1) × 1，需根据每次扩容的实际TB数和当时市场价计算，通常总成本系数为初始配置的2.2-2.5倍。
+
+## Corrected Claim
+
+本地存储分批采购的折旧加权平均成本：若5年内分两次扩容（Year 2 和 Year 4），第一次扩容因规模小单价高（假设+15%），第二次扩容单价正常；总折旧 C_local_5y = (C_initial/5) × 5 + (C_expand1/3) × 3 + (C_expand2/1) × 1，需根据每次扩容的实际TB数和当时市场价计算，通常总成本系数为初始配置的2.2-2.5倍。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：折旧公式符合直线法逻辑，分批采购因规模效应缺失导致单价上升及总成本系数2.2-2.5倍的估算符合IT基础设施采购的一般经济规律。
+
+## Search Query
+
+local storage phased expansion depreciation weighted average

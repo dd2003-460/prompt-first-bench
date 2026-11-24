@@ -1,0 +1,24 @@
+# N367: NVMe SSD RAID6 (N=24, M=2) 工作点的年化电力成本：基于修正后的单盘平均功耗 8.75W（N282 修正值，修正自矛盾检测中 N265 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N162
+
+## Claim
+
+NVMe SSD RAID6 (N=24, M=2) 工作点的年化电力成本：基于修正后的单盘平均功耗 8.75W（N282 修正值，修正自矛盾检测中 N265 与 N282 的空闲功耗冲突，采用负载加权更合理的 8.75W 而非静态 1.5W 或 2.5W），总功耗 P_total = 24 * 8.75W + 100W (Infra) ≈ 310W，年电费 = 0.31 kW * 8760 h * ¥0.8/kWh ≈ ¥2,170。
+
+## Corrected Claim
+
+NVMe SSD RAID6 (N=24, M=2) 工作点的年化电力成本：基于修正后的单盘平均功耗 8.75W（N282 修正值，修正自矛盾检测中 N265 与 N282 的空闲功耗冲突，采用负载加权更合理的 8.75W 而非静态 1.5W 或 2.5W），总功耗 P_total = 24 * 8.75W + 100W (Infra) ≈ 310W，年电费 = 0.31 kW * 8760 h * ¥0.8/kWh ≈ ¥2,170。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算正确（24*8.75+100=310W; 0.31kW*8760h*0.8元/kWh≈2170元），功耗假设符合NVMe SSD典型负载加权功耗范围，基础设施开销估算合理。
+
+## Search Query
+
+Data center electricity price China 2024

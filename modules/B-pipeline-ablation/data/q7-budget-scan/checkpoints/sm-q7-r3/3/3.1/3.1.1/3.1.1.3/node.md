@@ -1,0 +1,24 @@
+# N249: 非介质组件功耗分解：RAID 控制器（2 块 × 15W = 30W）、背板风扇（10 个 × 3W = 30W）、主机 CPU/内存共享开销（估算 200W）
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N86
+
+## Claim
+
+非介质组件功耗分解：RAID 控制器（2 块 × 15W = 30W）、背板风扇（10 个 × 3W = 30W）、主机 CPU/内存共享开销（估算 200W），合计非介质功耗 ≈ 260W；若介质功耗为 1138.5W（NVMe 方案），则总功耗 = 1138.5 + 260 = 1398.5W，而非 5175W × 1.2。
+
+## Corrected Claim
+
+非介质组件功耗分解：RAID 控制器（2 块 × 15W = 30W）、背板风扇（10 个 × 3W = 30W）、主机 CPU/内存共享开销（估算 200W），合计非介质功耗 ≈ 260W；若介质功耗为 1138.5W（NVMe 方案），则总功耗 = 1138.5 + 260 = 1398.5W，而非 5175W × 1.2。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算正确（30+30+200=260, 1138.5+260=1398.5），功耗分解逻辑自洽，符合服务器功耗估算常识。
+
+## Search Query
+
+RAID controller power consumption watts enterprise typical

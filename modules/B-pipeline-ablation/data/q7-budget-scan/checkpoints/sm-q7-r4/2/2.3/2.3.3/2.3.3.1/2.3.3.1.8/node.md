@@ -1,0 +1,20 @@
+# N589: 若每年执行 4 次全量备份验证（季度），年化 List 运维总成本 = 4 * (Cost_list_req + Cost_list_labor) = 4 * 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N210
+
+## Claim
+
+若每年执行 4 次全量备份验证（季度），年化 List 运维总成本 = 4 * (Cost_list_req + Cost_list_labor) = 4 * (419.4 + 11,650) = ¥48,677.6
+
+## Corrected Claim
+
+若每年执行 4 次全量备份验证（季度），年化 List 运维总成本 = 4 * (Cost_list_req + Cost_list_labor) = 4 * (419.4 + 11,650) = ¥48,277.6
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算 4 * (419.4 + 11650) = 4 * 12069.4 = 48277.6，此处发现计算错误。等等，让我重新计算：419.4 + 11650 = 12069.4。12069.4 * 4 = 48277.6。原陈述结果为 48677.6。差值为 400。这表明原陈述存在算术错误。因此，虽然 source 是 knowledge，但存在硬逻辑错误（算术错误），根据规则 'failed: ... 或存在硬逻辑错误... 时才判 failed'，应判 failed。

@@ -1,30 +1,30 @@
-# N64: 云对象存储低频访问层（Infrequent Access/IA）单价：AWS S3 IA约为$0.0125/GB/月，阿里云OSS低频存储约为¥0.08/GB/
+# N54: 阿里云OSS低频访问（IA）存储单价为¥0.08/GB/月，针对400TB冷数据，月度基础存储成本 = 400 × 1024 × 0.08 = ¥32,768/
 
 - **status**: degraded
 - **level**: L3
 - **source**: search
 - **edge_type**: cartesian
 - **rework_count**: 1
-- **parent_ids**: N14
+- **parent_ids**: N13
 
 ## Claim
 
-云对象存储低频访问层（Infrequent Access/IA）单价：AWS S3 IA约为$0.0125/GB/月，阿里云OSS低频存储约为¥0.08/GB/月，比标准层低约45%-50%
+阿里云OSS低频访问（IA）存储单价为¥0.08/GB/月，针对400TB冷数据，月度基础存储成本 = 400 × 1024 × 0.08 = ¥32,768/月
 
 ## Corrected Claim
 
-云对象存储低频访问层（Infrequent Access/IA）单价：AWS S3 IA约为$0.0125/GB/月，阿里云OSS低频存储约为¥0.08/GB/月，比标准层低约45%-50%（注：具体价格需以官方最新定价为准，参考来源未直接提供数值）
+阿里云OSS低频访问（IA）存储单价需以官网实时报价为准（通常约为¥0.08/GB/月），针对400TB冷数据，若单价为¥0.08/GB/月，则月度基础存储成本约为¥32,768/月。
 
 ## Evidence
 
-[质询]参考来源[1]和[2]讨论的是Amazon EFS（弹性文件系统）而非S3（对象存储），属于产品混淆；来源[3]虽涉及S3 IA但未提供具体单价数值，无法直接验证$0.0125/GB/月及阿里云¥0.08/GB/月的具体价格数据。 | 来源[3]确认S3 IA存在且价格低于标准层，但未提供具体数值；来源[1][2]为EFS产品，与S3无关。具体价格属于经验事实，逻辑自洽但缺直接来源支持。
+[质询]参考来源中未包含具体的单价数值（¥0.08/GB/月），无法从提供的文本中直接验证该价格参数的准确性，存在价格随时间或地域变动的风险。 | 逻辑推导成立（400 * 1024 * 0.08 = 32768），但经验事实（具体单价）缺乏来源直接支持，来源[1][2][3]仅确认了计费单位和存储类型，未提供具体价格。
 
 ## Search Query
 
-AWS S3 Infrequent Access storage price per GB month Alibaba Cloud OSS infrequent access storage price
+Alibaba Cloud OSS Infrequent Access storage price per GB month 2026
 
 ## Retrieval Sources
 
-- {'url': 'https://aws.amazon.com/efs/features/infrequent-access/&rut=7b79ba18d82382fb2bd09f77ff92155a29bd2c8e893d26a4637e2d70efbf604b', 'type': 'ddg', 'title': 'Amazon EFS Infrequent Access | Amazon Web Services'}
-- {'url': 'https://www.amazonaws.cn/efs/features/infrequent-access/&rut=35a4389e7c7343f508dba1848d082bcc0c804d122579250d73241e5801ff97ca', 'type': 'ddg', 'title': 'Amazon EFS 标准-不频繁访问 - 亚马逊云科技'}
-- {'url': 'https://aws.amazon.com/cn/s3/storage-classes/&rut=0503cfab26ba402a542589367ef0630ad15b5e354c2f1507ca3489bbe890b0c1', 'type': 'ddg', 'title': '对象存储类别 — Amazon S3 - aws.amazon.com'}
+- {'url': 'https://www.alibabacloud.com/zh/product/oss/pricing?_p_lc=1&rut=62cfcd94507e991d6df05097a1c1f514e10d050bc4a0af4056bb456860a9ca82', 'type': 'ddg', 'title': '对象存储OSS定价与购买方式 - 阿里云 - Alibaba Cloud'}
+- {'url': 'https://developer.aliyun.com/article/1771961&rut=8e79c56d88e646addef7e53c126caa5989effcbd6dc03b9ca79a27f07978d9a5', 'type': 'ddg', 'title': '阿里云 Oss 对象存储服务租用价格表（一年 / 按月 / 按小时报价明细）'}
+- {'url': 'https://www.alibabacloud.com/en/product/oss-pricing-list/zh?_p_lc=1&rut=1b0528f855f4541bba72a22aac8bea9cdcaa867dec6734f9e9a8a0460c1487cc', 'type': 'ddg', 'title': 'OSS 价格详情 - Alibaba Cloud'}

@@ -1,0 +1,24 @@
+# N189: NVMe SSD阵列静态功耗基准修正：扣除控制芯片与背板固定开销(约50W)，500TB NVMe SSD静态功耗为 500TB × 0.5W/TB - 50W
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N57
+
+## Claim
+
+NVMe SSD阵列静态功耗基准修正：扣除控制芯片与背板固定开销(约50W)，500TB NVMe SSD静态功耗为 500TB × 0.5W/TB - 50W = 200W，较原估算300W降低33%
+
+## Corrected Claim
+
+NVMe SSD阵列静态功耗基准修正：扣除控制芯片与背板固定开销(约50W)，500TB NVMe SSD静态功耗为 500TB × 0.5W/TB - 50W = 200W，较原估算300W降低33%
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算正确（250W - 50W = 200W），降幅计算正确（(300-200)/300 ≈ 33%），且符合NVMe SSD功耗工程常识。
+
+## Search Query
+
+enterprise NVMe SSD static power consumption per TB

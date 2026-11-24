@@ -1,0 +1,28 @@
+# N683: 元数据冗余安全边际成本：为消除单点故障，需将元数据从本地盘迁移至云原生元数据服务（如 DynamoDB 或 RDS Multi-AZ）；假设 5×10^8 条记
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N235, N236, N237
+
+## Claim
+
+元数据冗余安全边际成本：为消除单点故障，需将元数据从本地盘迁移至云原生元数据服务（如 DynamoDB 或 RDS Multi-AZ）；假设 5×10^8 条记录，DynamoDB 存储成本 ≈ ¥0.25/GB·月，索引大小 500GB -> ¥125/月，读写请求成本 (假设 1000 RPS) ≈ ¥50/月，合计 C_meta_redundant ≈ ¥175/月 ≈ ¥2,100/年，约为总存储费用 (500TB*¥0.8*12=¥4,800) 的 43%，高于 5%-10% 的估算，表明小文件场景下元数据成本不可忽略。
+
+## Corrected Claim
+
+元数据冗余安全边际成本：为消除单点故障，需将元数据迁移至云原生元数据服务。假设 5×10^8 条记录，索引大小 500GB。若使用 DynamoDB（按国际区价格估算，存储约 $0.25/GB/月，折合人民币约 ¥1.8/GB/月），存储成本约为 ¥900/月，加上读写请求成本，合计 C_meta_redundant 约为 ¥1,000+/月，年成本约为 ¥12,000+，远高于总存储费用（¥4,800/年），表明小文件场景下元数据成本不仅不可忽略，甚至可能超过数据本身存储成本。
+
+## Evidence
+
+[质询]DynamoDB 在中国区域通常以美元计价，且其存储单价（约 $0.25/GB/月）换算成人民币远高于 ¥0.25/GB/月（约 ¥1.8/GB/月），导致计算出的月度成本（¥125）严重低估实际成本（应为 ¥900+），进而导致年度成本和占比计算错误。 | 参考来源 [1] 仅讨论私有云架构概念，未提供 DynamoDB 具体价格或元数据成本数据，无法支持该数值结论；且基于公开市场常识，DynamoDB 存储单价与陈述中使用的 ¥0.25/GB/月 存在数量级偏差，属于经验事实错误。
+
+## Search Query
+
+DynamoDB pricing per item storage request cost object store metadata
+
+## Retrieval Sources
+
+- {'url': 'https://eyun.baidu.com/knowledge/ab26ca3224a249e384b2e54ecc489f96.html&rut=54312e68e849dee6e64788c3f7812cdc623b2e53199d8e985cdfc69d6a4017a9', 'type': 'ddg', 'title': '分布式存储多副本冗余+安全监控全量审计：私有云架构助力企业避开单点故障、防范数据泄露并满足监管审计要求'}

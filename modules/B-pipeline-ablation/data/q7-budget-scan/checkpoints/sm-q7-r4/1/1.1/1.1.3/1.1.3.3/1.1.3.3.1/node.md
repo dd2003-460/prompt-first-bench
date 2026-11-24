@@ -1,0 +1,20 @@
+# N425: RAID-10读吞吐的控制器瓶颈验证：N141假设聚合吞吐为单盘的60%（3.0GB/s），基于单盘5GB/s。然而，NVMe SSD的PCIe通道通常独立。若
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N141
+
+## Claim
+
+RAID-10读吞吐的控制器瓶颈验证：N141假设聚合吞吐为单盘的60%（3.0GB/s），基于单盘5GB/s。然而，NVMe SSD的PCIe通道通常独立。若12块盘分布在多个PCIe插槽，理论聚合读吞吐应接近 N_parallel * Single_Disk_Throughput。假设控制器支持16 lanes，12块盘可并行，理论上限 ~60GB/s。实际受限于文件系统、内存带宽或应用层IO并发。3.0GB/s 极低，可能反映的是单队列深度(QD=1)或特定软件栈瓶颈，而非硬件上限。
+
+## Corrected Claim
+
+RAID-10读吞吐的控制器瓶颈验证：N141假设聚合吞吐为单盘的60%（3.0GB/s），基于单盘5GB/s。然而，NVMe SSD的PCIe通道通常独立。若12块盘分布在多个PCIe插槽，理论聚合读吞吐应接近 N_parallel * Single_Disk_Throughput。假设控制器支持16 lanes，12块盘可并行，理论上限 ~60GB/s。实际受限于文件系统、内存带宽或应用层IO并发。3.0GB/s 极低，可能反映的是单队列深度(QD=1)或特定软件栈瓶颈，而非硬件上限。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：NVMe SSD基于PCIe接口，多盘并行时理论聚合带宽确实远高于单盘，3.0GB/s远低于12块NVMe盘的理论上限（~60GB/s），符合软件栈或低队列深度瓶颈的特征，逻辑自洽。

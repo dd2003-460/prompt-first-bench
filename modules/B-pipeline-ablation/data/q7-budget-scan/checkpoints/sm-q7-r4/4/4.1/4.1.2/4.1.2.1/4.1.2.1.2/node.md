@@ -1,0 +1,20 @@
+# N669: RAID-6 相比 RAID-5 的数据可靠性增益量化：RAID-5 年丢失概率 P_5 ≈ 2Np (近似) 或 N(N-1)p^2 (双盘故障主导)；RAI
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N231
+
+## Claim
+
+RAID-6 相比 RAID-5 的数据可靠性增益量化：RAID-5 年丢失概率 P_5 ≈ 2Np (近似) 或 N(N-1)p^2 (双盘故障主导)；RAID-6 年丢失概率 P_6 ≈ C(N,3)p^3 (三盘故障主导) 或 N(N-1)(N-2)p^3。在 p=1e-10 时，P_5 由单盘故障后的重建失败主导，约为 N * (T_rebuild/8760) * p。若 T_rebuild=12h (NVMe) 或 342h (HDD)，P_5 显著高于 P_6。P_6/P_5 比值反映可靠性提升倍数，通常 RAID-6 比 RAID-5 可靠 1-2 个数量级。
+
+## Corrected Claim
+
+RAID-6 相比 RAID-5 的数据可靠性增益量化：RAID-5 年丢失概率 P_5 ≈ 2Np (近似) 或 N(N-1)p^2 (双盘故障主导)；RAID-6 年丢失概率 P_6 ≈ C(N,3)p^3 (三盘故障主导) 或 N(N-1)(N-2)p^3。在 p=1e-10 时，P_5 由单盘故障后的重建失败主导，约为 N * (T_rebuild/8760) * p。若 T_rebuild=12h (NVMe) 或 342h (HDD)，P_5 显著高于 P_6。P_6/P_5 比值反映可靠性提升倍数，通常 RAID-6 比 RAID-5 可靠 1-2 个数量级。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

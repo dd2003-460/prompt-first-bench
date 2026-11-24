@@ -1,0 +1,24 @@
+# N182: NVMe SSD从Idle到Random Read唤醒的功耗跃升斜率与延迟：唤醒延迟通常为毫秒级(ms)，但在高并发场景下，部分SSD可能处于半激活状态，导致平
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N59
+
+## Claim
+
+NVMe SSD从Idle到Random Read唤醒的功耗跃升斜率与延迟：唤醒延迟通常为毫秒级(ms)，但在高并发场景下，部分SSD可能处于半激活状态，导致平均Idle功耗向Active功耗漂移，需在长期平均值计算中引入0.1-0.5W的‘预热损耗’修正项。
+
+## Corrected Claim
+
+NVMe SSD从Idle到Random Read唤醒的功耗跃升斜率与延迟：唤醒延迟通常为毫秒级(ms)，但在高并发场景下，部分SSD可能处于半激活状态，导致平均Idle功耗向Active功耗漂移，需在长期平均值计算中引入0.1-0.5W的‘预热损耗’修正项。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+NVMe SSD wake up latency power transition idle to active

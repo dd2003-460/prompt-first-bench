@@ -1,0 +1,24 @@
+# N287: 高级存储工程师的有效时薪修正 Labor_Rate_eff = Base_Rate * Skill_Multiplier + Overtime_Premium；
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N95
+
+## Claim
+
+高级存储工程师的有效时薪修正 Labor_Rate_eff = Base_Rate * Skill_Multiplier + Overtime_Premium；一线城市高级存储工程师 Base_Rate ≈ ¥500/h，Skill_Multiplier=1.5 (资深溢价)，若涉及夜间/周末操作 Overtime_Premium=1.5x，则 Labor_Rate_eff ≈ ¥750-¥1125/h，导致总成本上浮 50%-125%。
+
+## Corrected Claim
+
+高级存储工程师的有效时薪修正 Labor_Rate_eff = Base_Rate * Skill_Multiplier + Overtime_Premium；一线城市高级存储工程师 Base_Rate ≈ ¥500/h，Skill_Multiplier=1.5 (资深溢价)，若涉及夜间/周末操作 Overtime_Premium=1.5x，则 Labor_Rate_eff ≈ ¥750-¥1125/h，导致总成本上浮 50%-125%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基础费率500元乘以技能系数1.5等于750元，若叠加加班溢价（通常理解为在基础或技能调整后费率上再乘1.5倍，即750*1.5=1125元），区间750-1125元符合算术逻辑；成本上浮比例50%（750/500-1）至125%（1125/500-1）计算正确。
+
+## Search Query
+
+Senior Storage Engineer hourly rate China overtime premium

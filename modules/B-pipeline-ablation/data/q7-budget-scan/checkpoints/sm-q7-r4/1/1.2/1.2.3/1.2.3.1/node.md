@@ -1,0 +1,24 @@
+# N148: 分层方案总有效容量与纯NVMe方案的单位成本对比：分层方案总有效容量547.2TB，假设SSD层CapEx为16 * 8TB * ¥100/TB = ¥12,8
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N41
+
+## Claim
+
+分层方案总有效容量与纯NVMe方案的单位成本对比：分层方案总有效容量547.2TB，假设SSD层CapEx为16 * 8TB * ¥100/TB = ¥12,800，HDD层CapEx为32 * 16TB * ¥30/TB = ¥15,360，总CapEx = ¥28,160；纯NVMe方案需192TB标称（16块12TB SSD），有效容量140.16TB，CapEx = 16 * 12TB * ¥100/TB = ¥19,200；单位有效容量成本：分层 = ¥28,160 / 547.2TB ≈ ¥51.5/TB，纯NVMe = ¥19,200 / 140.16TB ≈ ¥137/TB；分层方案单位成本低62%，但需考虑SSD层的高IOPS价值，若温数据扫描SLA要求严格，纯NVMe的隐性成本更低（见N123），需综合TCO判断。
+
+## Corrected Claim
+
+分层方案总有效容量与纯NVMe方案的单位成本对比：分层方案总有效容量547.2TB，假设SSD层CapEx为16 * 8TB * ¥100/TB = ¥12,800，HDD层CapEx为32 * 16TB * ¥30/TB = ¥15,360，总CapEx = ¥28,160；纯NVMe方案需192TB标称（16块12TB SSD），有效容量140.16TB，CapEx = 16 * 12TB * ¥100/TB = ¥19,200；单位有效容量成本：分层 = ¥28,160 / 547.2TB ≈ ¥51.5/TB，纯NVMe = ¥19,200 / 140.16TB ≈ ¥137/TB；分层方案单位成本低62%，但需考虑SSD层的高IOPS价值，若温数据扫描SLA要求严格，纯NVMe的隐性成本更低（见N123），需综合TCO判断。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1聚焦于修正分层方案的计算逻辑与成本参数，子节点2聚焦于修正纯NVMe方案的规模假设与成本计算，两者分别针对父节点中两个对比对象的独立错误进行纠正，内容不重叠且互补，共同构成了对父节点结论的全面修正。虽然涉及相同的对比维度，但针对不同实体（分层 vs 纯NVMe）的参数修正，不构成冗余。）
+
+## Search Query
+
+tiered storage vs pure SSD unit cost per TB effective capacity

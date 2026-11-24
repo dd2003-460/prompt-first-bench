@@ -1,0 +1,24 @@
+# N129: NVMe SSD 阵列基础设施开销 P_infra 的量化估算：通常控制器/背板功耗约为总盘数的 5-10%，散热风扇功耗与总发热量成正比（P_fan ≈ 0.
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N33
+
+## Claim
+
+NVMe SSD 阵列基础设施开销 P_infra 的量化估算：通常控制器/背板功耗约为总盘数的 5-10%，散热风扇功耗与总发热量成正比（P_fan ≈ 0.1 * P_total），PDU 转换效率 η≈0.95，故 P_infra ≈ (P_drives * 0.1) + (P_total * 0.1) + (P_total * 0.05)。
+
+## Corrected Claim
+
+NVMe SSD 阵列基础设施开销 P_infra 的量化估算：通常控制器/背板功耗约为总盘数的 5-10%，散热风扇功耗与总发热量成正比（P_fan ≈ 0.1 * P_total），PDU 转换效率 η≈0.95，故 P_infra ≈ (P_drives * 0.1) + (P_total * 0.1) + (P_total * 0.05)。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（四个子节点分别针对父节点公式中的三个主要组成部分（控制器/背板、风扇、电源转换）进行了独立的物理机制修正和数值细化，最后通过一个综合公式汇总，逻辑清晰且互不重叠。各节点关注点不同（硬件绝对功耗 vs 热力学非线性 vs 电气效率链 vs 最终合成），没有内容上的重复或矛盾。）
+
+## Search Query
+
+storage array controller backplane fan power consumption percentage of drive power

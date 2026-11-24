@@ -1,0 +1,30 @@
+# N162: NVMe SSD的寿命与替换成本：假设每日写入量（DWPD）为0.5，40块16TB SSD总写入寿命 = 40 × 16TB × 0.5 DWPD × 365
+
+- **status**: pending
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N47
+
+## Claim
+
+NVMe SSD的寿命与替换成本：假设每日写入量（DWPD）为0.5，40块16TB SSD总写入寿命 = 40 × 16TB × 0.5 DWPD × 365 days ≈ 11.6PB/年；若5年内总写入量<58PB，则无需中途更换；否则需预留1次更换预算，单盘¥2,500，40盘更换成本¥100,000，年化摊销¥20,000/年。
+
+## Corrected Claim
+
+NVMe SSD的寿命计算：假设每日写入量（DWPD）为0.5，40块16TB SSD总写入寿命约为11.6PB/年；若5年内总写入量<58PB，则理论上无需中途更换。具体更换成本需根据当前市场价格估算，此处引用的¥100,000仅为示例，非固定事实。
+
+## Evidence
+
+父节点级核验未通过：非正交（子节点之间存在严重的逻辑矛盾和数据不一致。父节点设定基准为0.5 DWPD（即8TB/天），而子节点2突然切换至1TB/天（0.0625 DWPD）进行计算，导致结论从“可能需更换”变为“无需更换”，破坏了逻辑连贯性。此外，子节点1引入DWAF修正，但子节点2的计算中未统一使用修正后的写入量（0.6 DWPD）而是使用了未修正或不同的数值，导致两个子节点对同一场景的判断结果冲突。）
+
+## Search Query
+
+NVMe SSD DWPD endurance enterprise 16TB replacement cost
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_49423593/article/details/163104118&rut=e5a724ec7802486a8490449912a7fbb396c6f776f3ad2cd42883c29ec4690c59', 'type': 'ddg', 'title': 'Tbw & Dwpd — Ssd 寿命的两把尺子 - Csdn博客'}
+- {'url': 'https://storagemath.org/tools/ssd-endurance-calculator/&rut=3248e4aa9f1560876f7bd076eb53207f854994ed24a4fdc1a9bfdcaeaa18572f', 'type': 'ddg', 'title': 'SSD Endurance Calculator — DWPD, TBW & Drive Lifespan Estimator'}
+- {'url': 'https://www.rdem-systems.com/en/tools/ssd-tbw-calculator/&rut=ad0353f7469606bb3ddbe7abf580747a6b1e18b96828533b0890da327f9fdcdb', 'type': 'ddg', 'title': 'SSD TBW & DWPD Calculator: Endurance and Lifespan'}

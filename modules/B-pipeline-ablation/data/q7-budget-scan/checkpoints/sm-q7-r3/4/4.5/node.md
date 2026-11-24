@@ -1,0 +1,29 @@
+# N23: NVMe SSD 阵列加速恢复的额外资源成本：若需将 RTO 从 24h 压缩至 4h，需临时增加 6 倍 IOPS 的写入能力，对应额外 SSD 容量或云端爆
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+NVMe SSD 阵列加速恢复的额外资源成本：若需将 RTO 从 24h 压缩至 4h，需临时增加 6 倍 IOPS 的写入能力，对应额外 SSD 容量或云端爆发带宽费用，估算 C_expedited_NVMe ≈ ¥5,000-15,000/次 [待核验]
+
+## Corrected Claim
+
+NVMe SSD 阵列加速恢复需临时增加显著的高 IOPS 写入能力以压缩 RTO，这将产生额外的 SSD 容量或云端爆发带宽费用，具体成本取决于实际 I/O 负载规模及云服务定价策略，通常需根据具体业务场景进行详细估算。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点覆盖了性能需求（IOPS）和本地硬件成本两个维度，但父节点明确提到了“云端爆发带宽费用”这一替代方案及具体的总成本范围（¥5,000-15,000），现有子节点缺失了对云端方案的量化分析，且未能通过计算验证父节点给出的成本区间是否与子节点推导出的硬件成本（¥300,000/次或折旧后成本）在逻辑上自洽（存在数量级矛盾风险）。）
+
+## Search Query
+
+NVMe array temporary expansion cost for rapid RAID rebuild emergency
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1944312616748052680&rut=632fb81cbad13e15a8fb4d5bce93e1fe4b9475672cab9e2d2f41cbc08b87a66f', 'type': 'ddg', 'title': 'NVMe与AI：RAID为何强势回归？ - 知乎'}
+- {'url': 'https://zhuanlan.zhihu.com/p/24702007501&rut=25abbd3c293756eb6616fab94c5e4c22ff0674cf112d19000469cea4ec4dbc66', 'type': 'ddg', 'title': '从多控阵列到全闪革命：RDMA+NVMe-oF重构高端存储新范式'}

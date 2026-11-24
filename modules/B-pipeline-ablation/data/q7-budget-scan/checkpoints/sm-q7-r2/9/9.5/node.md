@@ -1,0 +1,24 @@
+# N126: 若随机读块大小缩小至 512B，IOPS 需求增加 8 倍，达 2,000 IOPS/秒，仍低于单节点能力；但若并发查询数 > 10，队列延迟 = 并发数 * 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N36
+
+## Claim
+
+若随机读块大小缩小至 512B，IOPS 需求增加 8 倍，达 2,000 IOPS/秒，仍低于单节点能力；但若并发查询数 > 10，队列延迟 = 并发数 * 平均服务时间 / IOPS 容量，可能超过 SLA 阈值（如 100ms）。
+
+## Corrected Claim
+
+若随机读块大小缩小至 512B，IOPS 需求增加 8 倍，达 2,000 IOPS/秒，仍低于单节点能力；但若并发查询数 > 10，队列延迟 = 并发数 * 平均服务时间 / IOPS 容量，可能超过 SLA 阈值（如 100ms）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：512B块大小下IOPS需求增加8倍至2000 IOPS/秒，单节点能力通常可覆盖；并发查询数>10时，队列延迟公式（并发数*平均服务时间/IOPS容量）在合理参数下可能超过100ms SLA阈值，逻辑自洽且量级合理。
+
+## Search Query
+
+SSD IOPS latency under concurrent load queuing delay

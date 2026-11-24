@@ -1,0 +1,20 @@
+# N308: 误判数据若在SSD层的基准读取耗时 T_read_ssd_base，计算公式 T_read_ssd_base = V_misjudge / T_agg_ssd；
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N104
+
+## Claim
+
+误判数据若在SSD层的基准读取耗时 T_read_ssd_base，计算公式 T_read_ssd_base = V_misjudge / T_agg_ssd；假设SSD层聚合吞吐 T_agg_ssd = 7000 MB/s (基于N122单盘7GB/s，假设10盘聚合或等效高性能路径)，则 T_read_ssd_base = 5,000,000 / 7000 ≈ 714秒 ≈ 0.198小时。
+
+## Corrected Claim
+
+误判数据若在SSD层的基准读取耗时 T_read_ssd_base，计算公式 T_read_ssd_base = V_misjudge / T_agg_ssd；假设SSD层聚合吞吐 T_agg_ssd = 7000 MB/s (基于N122单盘7GB/s，假设10盘聚合或等效高性能路径)，则 T_read_ssd_base = 5,000,000 / 7000 ≈ 714秒 ≈ 0.198小时。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：5,000,000 / 7000 ≈ 714.28秒，换算为小时约0.198小时，计算无误且量级合理。

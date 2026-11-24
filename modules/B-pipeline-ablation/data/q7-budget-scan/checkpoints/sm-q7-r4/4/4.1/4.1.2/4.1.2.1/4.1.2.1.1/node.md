@@ -1,0 +1,20 @@
+# N668: RAID-6 有效容量率与年化存储成本的精确关联：对于 N=12 盘 RAID-6，有效容量率 R_eff = (N-2)/N = 10/12 = 83.33%
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N231
+
+## Claim
+
+RAID-6 有效容量率与年化存储成本的精确关联：对于 N=12 盘 RAID-6，有效容量率 R_eff = (N-2)/N = 10/12 = 83.33%。若单盘价格 P_disk，则每有效 TB 成本 C_per_TB_RAID6 = P_disk / (Capacity_per_Disk * R_eff)。相比无冗余裸盘，成本倍数 = 1/R_eff = 1.2。若考虑 RAID-5 (R_eff=91.67%)，成本倍数 = 1.091。RAID-6 相比 RAID-5 的边际成本溢价 = (1.2 - 1.091) / 1.091 ≈ 10%。
+
+## Corrected Claim
+
+RAID-6 有效容量率与年化存储成本的精确关联：对于 N=12 盘 RAID-6，有效容量率 R_eff = (N-2)/N = 10/12 = 83.33%。若单盘价格 P_disk，则每有效 TB 成本 C_per_TB_RAID6 = P_disk / (Capacity_per_Disk * R_eff)。相比无冗余裸盘，成本倍数 = 1/R_eff = 1.2。若考虑 RAID-5 (R_eff=91.67%)，成本倍数 = 1.091。RAID-6 相比 RAID-5 的边际成本溢价 = (1.2 - 1.091) / 1.091 ≈ 10%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RAID-6 (N=12) 有效容量率 (12-2)/12=83.33%，成本倍数 1/0.8333=1.2；RAID-5 (N=12) 有效容量率 (12-1)/12=91.67%，成本倍数 1/0.9167≈1.091；边际溢价 (1.2-1.091)/1.091≈10%，计算无误。

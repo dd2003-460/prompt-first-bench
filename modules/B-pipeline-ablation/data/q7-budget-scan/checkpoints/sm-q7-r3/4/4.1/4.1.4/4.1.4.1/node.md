@@ -1,0 +1,20 @@
+# N237: NVMe SSD RAID 6 的年化 RTO 代价计算需修正为：若 T_rebuild > RTO_target (2h)，则单次故障成本 = (T_rebu
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N77
+
+## Claim
+
+NVMe SSD RAID 6 的年化 RTO 代价计算需修正为：若 T_rebuild > RTO_target (2h)，则单次故障成本 = (T_rebuild - RTO_target) × 业务损失率；若 T_rebuild <= RTO_target，则单次故障成本为 0（无停机损失），需结合N100的重建时间进行条件判断。
+
+## Corrected Claim
+
+NVMe SSD RAID 6 的年化 RTO 代价计算需修正为：若 T_rebuild > RTO_target (2h)，则单次故障成本 = (T_rebuild - RTO_target) × 业务损失率；若 T_rebuild <= RTO_target，则单次故障成本为 0（无停机损失），需结合N100的重建时间进行条件判断。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该公式符合IT基础设施成本计算的基本逻辑（停机时间超出RTO部分产生损失，未超出则无额外停机损失），且明确引用了N100的重建时间作为条件判断依据，内部自洽。

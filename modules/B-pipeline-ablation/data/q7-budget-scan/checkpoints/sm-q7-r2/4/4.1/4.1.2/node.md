@@ -1,20 +1,24 @@
-# N54: 冷数据RTO=24h的量化依据：冷数据中断仅影响历史回溯效率，折算损失¥100/h；24h中断损失¥2,400；若RTO收紧至12h，损失¥1,200；若放宽至
+# N68: NVMe SSD RAID6 重建的持续写入带宽限制（GB/s/drive），受限于 NVMe 队列深度和后台垃圾回收（GC），典型持续重写带宽约为 1-2 G
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N22
+- **parent_ids**: N19
 
 ## Claim
 
-冷数据RTO=24h的量化依据：冷数据中断仅影响历史回溯效率，折算损失¥100/h；24h中断损失¥2,400；若RTO收紧至12h，损失¥1,200；若放宽至48h，损失¥4,800；冷数据RTO对方案选择影响极小（三方案均能满足24h恢复），主要约束来自温数据RTO
+NVMe SSD RAID6 重建的持续写入带宽限制（GB/s/drive），受限于 NVMe 队列深度和后台垃圾回收（GC），典型持续重写带宽约为 1-2 GB/s per drive，而非峰值顺序写带宽。
 
 ## Corrected Claim
 
-冷数据RTO=24h的量化依据：冷数据中断仅影响历史回溯效率，折算损失¥100/h；24h中断损失¥2,400；若RTO收紧至12h，损失¥1,200；若放宽至48h，损失¥4,800；冷数据RTO对方案选择影响极小（三方案均能满足24h恢复），主要约束来自温数据RTO
+NVMe SSD RAID6 重建的持续写入带宽限制（GB/s/drive），受限于 NVMe 队列深度和后台垃圾回收（GC），典型持续重写带宽约为 1-2 GB/s per drive，而非峰值顺序写带宽。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：算术计算正确（100*24=2400, 100*12=1200, 100*48=4800），且冷数据低价值导致RTO约束弱的逻辑符合业务常识。
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+nvme raid rebuild sustained write bandwidth gb/s background gc limit

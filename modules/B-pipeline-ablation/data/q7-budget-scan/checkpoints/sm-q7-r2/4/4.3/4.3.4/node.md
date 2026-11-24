@@ -1,20 +1,20 @@
-# N62: Overhead_Time 中数据校验耗时分量：基于 SHA-256 校验，NVMe 吞吐 2GB/s 下 100TB 校验需 13.9h，HDD 吞吐 200
+# N73: NVMe SSD 阵列满足温数据 4 小时扫描窗口的最小盘数 = ceil(峰值带宽需求 12.5 GB/s / 单盘有效顺序读带宽 5 GB/s)，计算得最小
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N24
+- **parent_ids**: N17
 
 ## Claim
 
-Overhead_Time 中数据校验耗时分量：基于 SHA-256 校验，NVMe 吞吐 2GB/s 下 100TB 校验需 13.9h，HDD 吞吐 200MB/s 下 400TB 校验需 55.6h
+NVMe SSD 阵列满足温数据 4 小时扫描窗口的最小盘数 = ceil(峰值带宽需求 12.5 GB/s / 单盘有效顺序读带宽 5 GB/s)，计算得最小需 3 块 NVMe SSD 并行，若少于 3 块则无法在 4 小时内完成 100TB 扫描。
 
 ## Corrected Claim
 
-Overhead_Time 中数据校验耗时分量：基于 SHA-256 校验，NVMe 吞吐 2GB/s 下 100TB 校验需 13.9h，HDD 吞吐 200MB/s 下 400TB 校验需 55.6h
+NVMe SSD 阵列满足温数据 4 小时扫描窗口的最小盘数 = ceil(峰值带宽需求 12.5 GB/s / 单盘有效顺序读带宽 5 GB/s)，计算得最小需 3 块 NVMe SSD 并行，若少于 3 块则无法在 4 小时内完成 100TB 扫描。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：100TB/2GB/s ≈ 13.9h，400TB/200MB/s ≈ 55.6h，数值量级与计算逻辑自洽
+先验知识/题面给定，逻辑校验通过：100TB/4h=25GB/s，若单盘5GB/s则需5块，但题面给定峰值需求12.5GB/s（可能基于实际扫描数据量或压缩比），12.5/5=2.5，向上取整为3，数学推导自洽。

@@ -1,0 +1,20 @@
+# N424: RAID-10故障期间的数据可用性风险：在 T_rebuild 期间，故障组的冗余度从2降为1（单点故障）。若此时另一块盘也发生故障（MTBF=100,000小
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N140
+
+## Claim
+
+RAID-10故障期间的数据可用性风险：在 T_rebuild 期间，故障组的冗余度从2降为1（单点故障）。若此时另一块盘也发生故障（MTBF=100,000小时），双盘故障概率 P_double_fail = T_rebuild / MTBF * 2（近似）。对于 T_rebuild=1.61h，P_double_fail ≈ 3.22e-5。虽然概率低，但若发生，数据丢失。此风险需纳入RTO代价评估。
+
+## Corrected Claim
+
+RAID-10故障期间的数据可用性风险：在 T_rebuild 期间，故障组的冗余度从2降为1（单点故障）。若此时另一块盘也发生故障（MTBF=100,000小时），双盘故障概率 P_double_fail = T_rebuild / MTBF * 2（近似）。对于 T_rebuild=1.61h，P_double_fail ≈ 3.22e-5。虽然概率低，但若发生，数据丢失。此风险需纳入RTO代价评估。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RAID-10故障后冗余度降低及双盘故障概率近似计算符合可靠性工程基本原理，数值量级合理。

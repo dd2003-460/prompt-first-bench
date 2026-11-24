@@ -1,0 +1,20 @@
+# N484: 文件系统元数据开销细化：XFS或EXT4在存储500M个小对象(1MB avg)时，inode表和extent tree的开销约为数据量的2-3%，而非统一的5
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N163
+
+## Claim
+
+文件系统元数据开销细化：XFS或EXT4在存储500M个小对象(1MB avg)时，inode表和extent tree的开销约为数据量的2-3%，而非统一的5%。若取3%，则元数据占用 = 576TB * 3% = 17.28TB，最终可用容量 = 576 - 17.28 = 558.72TB。
+
+## Corrected Claim
+
+文件系统元数据开销细化：XFS或EXT4在存储500M个小对象(1MB avg)时，inode表和extent tree的开销约为数据量的2-3%，而非统一的5%。若取3%，则元数据占用 = 576TB * 3% = 17.28TB，最终可用容量 = 576 - 17.28 = 558.72TB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：XFS/EXT4在1MB平均块大小下，inode及extent树开销确实在2-3%量级，远低于小文件场景下的5%以上；算术计算576*0.03=17.28及576-17.28=558.72正确。

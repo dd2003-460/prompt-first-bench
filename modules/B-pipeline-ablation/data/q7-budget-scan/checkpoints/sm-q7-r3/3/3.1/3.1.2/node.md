@@ -1,0 +1,24 @@
+# N87: PUE (Power Usage Effectiveness) 取值影响最终电费，本地自建机房PUE通常为1.3-1.5，托管机房PUE可能为1.2-1.4，需
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N21
+
+## Claim
+
+PUE (Power Usage Effectiveness) 取值影响最终电费，本地自建机房PUE通常为1.3-1.5，托管机房PUE可能为1.2-1.4，需根据实际机房类型选取参数。
+
+## Corrected Claim
+
+PUE (Power Usage Effectiveness) 取值影响最终电费，本地自建机房PUE通常为1.3-1.5，托管机房PUE可能为1.2-1.4，需根据实际机房类型选取参数。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别覆盖了本地自建机房PUE依据、托管机房PUE依据以及电价与PUE联合敏感性分析，三者维度不同（场景取值 vs 场景取值 vs 敏感性/联合建模），逻辑上正交且互补，共同构成了父节点关于PUE取值及电费影响的完整解释，未发现明显冗余或重复。）
+
+## Search Query
+
+data center PUE average value local vs colocation

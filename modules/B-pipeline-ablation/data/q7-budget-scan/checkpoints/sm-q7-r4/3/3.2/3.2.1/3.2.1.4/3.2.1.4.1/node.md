@@ -1,0 +1,24 @@
+# N688: HDD+SSD分层方案中，存储子系统关联的CPU与内存功耗分摊值 = 整机CPU/内存总功耗(300-400W) × 存储IO负载占比(假设15%-20%)，估
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N256
+
+## Claim
+
+HDD+SSD分层方案中，存储子系统关联的CPU与内存功耗分摊值 = 整机CPU/内存总功耗(300-400W) × 存储IO负载占比(假设15%-20%)，估算为45W-80W
+
+## Corrected Claim
+
+HDD+SSD分层方案中，存储子系统关联的CPU与内存功耗分摊值 = 整机CPU/内存总功耗(300-400W) × 存储IO负载占比(假设15%-20%)，估算为45W-80W
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：300-400W乘以15%-20%的计算区间为45W-80W，数学推导正确且符合服务器功耗分摊的工程常识。
+
+## Search Query
+
+storage server CPU memory power consumption ratio to total system power

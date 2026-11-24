@@ -1,0 +1,20 @@
+# N123: NVMe vs HDD vs Cloud 扫描成本综合对比：NVMe日隐性成本¥20,000，HDD日隐性成本¥89,000，Cloud日隐性成本¥1,090,
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N33
+
+## Claim
+
+NVMe vs HDD vs Cloud 扫描成本综合对比：NVMe日隐性成本¥20,000，HDD日隐性成本¥89,000，Cloud日隐性成本¥1,090,000（未优化）或¥202,000（优化后）；结合CapEx/OpEx，NVMe在高频扫描场景下综合成本最低，尽管其硬件成本最高，但避免了巨额的空闲成本。
+
+## Corrected Claim
+
+NVMe vs HDD vs Cloud 扫描成本综合对比：NVMe日隐性成本¥20,000，HDD日隐性成本¥89,000，Cloud日隐性成本¥1,090,000（未优化）或¥202,000（优化后）；结合CapEx/OpEx，NVMe在高频扫描场景下综合成本最低，尽管其硬件成本最高，但避免了巨额的空闲成本。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间存在逻辑依赖导致的非完全正交性（节点4依赖于前三个节点的TCO结果），且遗漏了父节点中关于'Cloud优化前后对比'这一关键维度的独立分析，导致覆盖不全。此外，各子节点公式中的变量定义（如C_power, C_opex）在不同节点间缺乏统一标准，存在潜在的不一致性风险。）

@@ -1,0 +1,30 @@
+# N671: NVMe SSD 介质功耗修正：12TB 企业级 NVMe 盘待机功耗约 6W，高负载（持续读写）功耗约 12W；207 块盘在 80% 冷/20% 温负载下的
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N249, N250, N251
+
+## Claim
+
+NVMe SSD 介质功耗修正：12TB 企业级 NVMe 盘待机功耗约 6W，高负载（持续读写）功耗约 12W；207 块盘在 80% 冷/20% 温负载下的加权平均功耗 = 207 * (0.8*6 + 0.2*12) = 207 * 7.2 = 1490.4W（而非 N249 引用的 1138.5W，需核实具体型号如 Samsung PM9A3 或 Intel P5520 的规格书数据）。
+
+## Corrected Claim
+
+12TB企业级NVMe SSD的功耗需依据具体型号（如Samsung PM9A3或Intel P5520）的数据手册确定，通常待机功耗在5-8W区间，高负载功耗在10-15W区间；若采用6W/12W估算，则207块盘在80%冷/20%温负载下的加权平均功耗约为1490.4W。
+
+## Evidence
+
+[质询]具体功耗数值（待机6W/高负载12W）属于特定型号的经验参数，不同厂商和容量（如12TB vs 7.68TB）差异较大，且参考来源未提供具体数值支持，存在以偏概全或数据过时的风险。 | 逻辑计算正确（207 * 7.2 = 1490.4），但参考来源[1][2][3]仅讨论NVMe功耗管理技术原理，未提供12TB企业级SSD的具体功耗规格数据，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+12TB enterprise NVMe SSD power consumption idle active watts datasheet
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/zhuzongpeng/article/details/156773768&rut=099989ac7de11637a50ee5afb4445d1612288f31da9f345eb211d684226d633b', 'type': 'ddg', 'title': 'NVMe SSD自适应功耗优化_nmve硬盘功耗-CSDN博客'}
+- {'url': 'https://chinaaet.com/article/3000177540&rut=43d130d8c793cd03a815b08d27fc5ebd97df1419a72fb614b43a921a917784b5', 'type': 'ddg', 'title': '天硕G40系列低功耗SSD：从NVMe电源状态到固件深度优化的工程实践'}
+- {'url': 'https://blog.csdn.net/weixin_29290863/article/details/159571354&rut=26444ebd4255d2138cf4efa02bbe6044545501fe55db1414f428d227c86279f7', 'type': 'ddg', 'title': 'NVMe SSD电源管理避坑指南：如何平衡性能与功耗的5个关键设置-CSDN博客'}

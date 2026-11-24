@@ -1,0 +1,20 @@
+# N413: 冷数据低随机读工作点：I/O占比2%（其中Read 2%, Write 0%），Idle 98%，HDD平均功耗 W_HDD_low_read ≈ 0.02*8
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N180
+
+## Claim
+
+冷数据低随机读工作点：I/O占比2%（其中Read 2%, Write 0%），Idle 98%，HDD平均功耗 W_HDD_low_read ≈ 0.02*8W + 0.98*0.75W ≈ 0.88W，SSD平均功耗 W_SSD_low_read ≈ 0.02*15W + 0.98*1.2W ≈ 1.48W，体现读操作对功耗的边际贡献
+
+## Corrected Claim
+
+冷数据低随机读工作点：I/O占比2%（其中Read 2%, Write 0%），Idle 98%，HDD平均功耗 W_HDD_low_read ≈ 0.02*8W + 0.98*0.75W ≈ 0.88W，SSD平均功耗 W_SSD_low_read ≈ 0.02*15W + 0.98*1.2W ≈ 1.48W，体现读操作对功耗的边际贡献
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算正确（0.02*8+0.98*0.75=0.88; 0.02*15+0.98*1.2=1.48），功耗参数符合HDD/SSD典型量级，加权平均逻辑自洽。

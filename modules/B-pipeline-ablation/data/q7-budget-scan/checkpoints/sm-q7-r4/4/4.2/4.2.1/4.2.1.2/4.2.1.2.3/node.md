@@ -1,0 +1,30 @@
+# N680: 低成本/高延迟工作点：采用 AWS S3 Glacier Instant Retrieval 或 Deep Archive，年持久性 P_loss = 10^-
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N235, N236, N237
+
+## Claim
+
+低成本/高延迟工作点：采用 AWS S3 Glacier Instant Retrieval 或 Deep Archive，年持久性 P_loss = 10^-11，取回延迟 T_lat ≈ 1-12 hours (视等级)，年单位成本 C_unit_low ≈ ¥0.04-0.10/TB·月，适用场景为合规归档或冷备份，决策变量转为出口带宽成本 C_egress 而非存储单价。
+
+## Corrected Claim
+
+低成本/高延迟工作点：采用 AWS S3 Glacier Flexible Retrieval 或 Deep Archive，年持久性 P_loss = 10^-11，取回延迟 T_lat ≈ 分钟至小时级（视等级），年单位成本 C_unit_low ≈ ¥30-40/TB·月（基于 $0.004-0.00099/GB-month 估算），适用场景为合规归档或冷备份，决策变量转为出口带宽成本 C_egress 而非存储单价。注：S3 Glacier Instant Retrieval 为毫秒级延迟，成本较高，不属于高延迟工作点。
+
+## Evidence
+
+[质询]数值量级与口径混淆：1. 取回延迟描述错误，S3 Glacier Instant Retrieval 的设计目标是毫秒级（millisecond）低延迟，而非 1-12 小时（这是 Flexible Retrieval 或 Deep Archive 的特征，Instant Retrieval 并不符合此延迟范围）；2. 成本单位混淆，AWS 官方定价通常以 GB 为单位（如 $0.004/GB-month），换算为 TB 后数值需乘以 1024，且 ¥0.04-0.10/TB·月 的量级远低于实际市场价（实际约为 ¥30-40/TB·月），存在数量级错误。 | 来源 [1] 明确指出 S3 Glacier Instant Retrieval 具有毫秒级（milliseconds）访问性能，与陈述中的 '1-12 hours' 矛盾；来源 [3] 确认了 99.999999999% (10^-11) 的持久性，但未提供具体价格，且陈述中的价格量级与常识及 AWS 定价结构（GB 计价）不符，逻辑校验发现内部矛盾（将不同存储类的延迟特征混用）。
+
+## Search Query
+
+AWS S3 Glacier Deep Archive pricing retrieval time cost comparison
+
+## Retrieval Sources
+
+- {'url': 'https://aws.amazon.com/s3/storage-classes/glacier/instant-retrieval/&rut=d14d7370165dc6d3fb5911d678b739b760e7c41b9550505634a7ee530ca11135', 'type': 'ddg', 'title': 'Amazon S3 Glacier Instant Retrieval Storage Class - AWS'}
+- {'url': 'https://aws.amazon.com/cn/s3/storage-classes/glacier/&rut=635d412def622651dc3e181ab060091f41a5c60596318335dbaa01882a1e23c3', 'type': 'ddg', 'title': '安全档案存储 — Amazon S3 Glacier 存储类 — AWS'}
+- {'url': 'https://docs.aws.amazon.com/zh_cn/whitepapers/latest/how-aws-pricing-works/amazon-s3-glacier.html&rut=376339b3acd07cf5cfdbba481d4762c828cd138ee1514ab361b46062f776dcdc', 'type': 'ddg', 'title': 'Amazon S3 Glacier - AWS 定价的工作原理'}

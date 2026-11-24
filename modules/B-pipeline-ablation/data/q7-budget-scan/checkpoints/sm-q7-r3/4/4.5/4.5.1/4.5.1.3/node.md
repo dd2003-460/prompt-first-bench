@@ -1,0 +1,20 @@
+# N269: 业务恢复验证时间 T_verify 的量化分解：T_verify = T_metadata_check + T_data_integrity_sample；假设
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N86
+
+## Claim
+
+业务恢复验证时间 T_verify 的量化分解：T_verify = T_metadata_check + T_data_integrity_sample；假设元数据检查（目录树遍历）需0.5小时，数据完整性抽样（随机读取1%数据块并校验CRC）需1.5小时（基于500TB x 1% = 5TB，读取速度1GB/s），则 T_verify = 2小时，与父节点假设一致，但该值随抽样比例线性变化。
+
+## Corrected Claim
+
+业务恢复验证时间 T_verify 的量化分解：T_verify = T_metadata_check + T_data_integrity_sample；假设元数据检查（目录树遍历）需0.5小时，数据完整性抽样（随机读取1%数据块并校验CRC）需1.5小时（基于500TB x 1% = 5TB，读取速度1GB/s），则 T_verify = 2小时，与父节点假设一致，但该值随抽样比例线性变化。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：5TB数据以1GB/s读取耗时约1.39小时，加上0.5小时元数据检查，总时长约1.89小时，四舍五入或保守估计为2小时，量级与逻辑自洽。

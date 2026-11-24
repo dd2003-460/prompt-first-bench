@@ -1,0 +1,30 @@
+# N185: 阿里云OSS低频访问（IA）存储的数据取回费用单价为¥0.03/GB（标准取回模式），而非范围¥0.03-0.05；对于400TB冷数据，若每月取回率为1%（4
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N55
+
+## Claim
+
+阿里云OSS低频访问（IA）存储的数据取回费用单价为¥0.03/GB（标准取回模式），而非范围¥0.03-0.05；对于400TB冷数据，若每月取回率为1%（4TB = 4096GB），月度取回成本 = 4096 * 0.03 = ¥122.88/月；此费用仅在数据从IA层被读取时产生，不包含存储费。
+
+## Corrected Claim
+
+阿里云OSS低频访问（IA）存储的数据取回费用通常约为¥0.03/GB（具体以官方实时定价为准）；对于400TB冷数据，若每月取回率为1%（4TB = 4096GB），月度取回成本估算约为¥122.88/月；此费用仅在数据从IA层被读取时产生，不包含存储费。
+
+## Evidence
+
+[质询]具体单价¥0.03/GB属于经验事实（具体参数值），参考来源仅确认了计费项的存在和计量单位（GB/TB），但未提供具体的价格数值，无法排除不同地域或时期价格波动导致数值不准确的可能性。 | 来源[1][2]确认OSS存在低频访问数据取回费用，来源[3]确认1TB=1024GB及计费单位为GB，逻辑计算4096*0.03=122.88正确，但缺乏直接来源支持具体单价0.03元/GB，属经验事实缺来源支持。
+
+## Search Query
+
+Alibaba Cloud OSS IA retrieval fee per GB 2024
+
+## Retrieval Sources
+
+- {'url': 'https://www.alibabacloud.com/help/zh/oss/data-processing-fees&rut=e38d89eb046a353bd4e9a55687abdf1399762c59d4a426202d26b617b45e19d8', 'type': 'ddg', 'title': 'OSS数据处理费用说明 - 对象存储 OSS - 阿里云 - Alibaba Cloud'}
+- {'url': 'https://help.aliyun.com/zh/oss/data-processing-fees&rut=b15fc372b173424fa68a60215fcb09f768069127a2cdba9742a8c1222e9ea8c8', 'type': 'ddg', 'title': 'Oss数据处理费用说明-对象存储 (Oss)-阿里云帮助中心'}
+- {'url': 'https://cn.aliyun.com/price/detail/oss&rut=1f434cc06e03a6c94e43387f214943c4149c0bd9b33b5242d3f1909f00e0309e', 'type': 'ddg', 'title': '阿里云定价_oss价格详情_对象存储'}

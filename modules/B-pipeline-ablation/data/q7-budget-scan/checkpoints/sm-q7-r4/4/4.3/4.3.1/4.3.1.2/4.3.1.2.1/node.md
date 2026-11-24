@@ -1,0 +1,30 @@
+# N714: 实测工作点1（高性能/高成本）：配置 Intel D7-P5520 (7.68TB, 6.8GB/s写) + LSI 9460-8i 控制器；实测重建速率 2.
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N249
+
+## Claim
+
+实测工作点1（高性能/高成本）：配置 Intel D7-P5520 (7.68TB, 6.8GB/s写) + LSI 9460-8i 控制器；实测重建速率 2.1 GB/s (75.6 GB/h)；重建 7.68TB 耗时 = 7.68 / 75.6 * 60 ≈ 6.1 小时；期间前台I/O延迟增加 50%，吞吐量下降 30%。
+
+## Corrected Claim
+
+重建 7.68TB 耗时计算错误：7.68TB ≈ 7680GB，7680GB / 75.6GB/h ≈ 101.7 小时，而非 6.1 小时。
+
+## Evidence
+
+[质询]参考来源仅包含D7-P5520的产品介绍和通用评测，完全缺失关于LSI 9460-8i控制器组合下的具体重建速率（2.1 GB/s）、耗时计算及前台I/O性能影响（延迟+50%，吞吐-30%）的实测数据，属于缺乏来源支持的特定场景经验事实。 | 逻辑校验通过（7.68TB / 75.6GB/h ≈ 1.016h? 等等，这里有个计算错误需要仔细检查。7.68 TB = 7680 GB。7680 / 75.6 ≈ 101.7 小时。原陈述说 7.68 / 75.6 * 60 ≈ 6.1 小时。这里单位换算有误：7.68 TB 是 7680 GB，不是 7.68 GB。或者作者把 7.68 TB 当作 7.68 * 1000 GB? 不，通常 TB 到 GB 是 *1000 或 *1024。如果是 7.68 TB，除以 75.6 GB/h，结果应该是约 100 小时。原陈述的计算 7.68 / 75.6 * 60 暗示它把 7.68 当作小时相关的单位？或者它认为 7.68 TB 等于 7.68 * 1000 GB，然后 7680 / 75.6 = 101.7 小时。原陈述算出 6.1 小时，这意味着它可能误用了单位，比如把 7.68 TB 当成了 7.68 * 1000 MB? 不对。让我们重新看：7.68 / 75.6 * 60。如果 7.68 是 TB，75.6 是 GB/h。单位不匹配。如果 7.68 是 TB，应该转换为 GB：7680 GB。7680 / 75.6 ≈ 101.7 小时。原陈述得出 6.1 小时，这在数量级上是错误的。这是一个硬逻辑/计算错误。因此 logic_ok 应为 false，status 应为 failed。
+
+## Search Query
+
+Intel D7-P5520 RAID-6 rebuild speed LSI 9460 benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://www.solidigmtech.com.cn/products/data-center/d7/p5520.html&rut=c1f380115f2861df5f8ab77402038d8010c14c3231a27bdcf3a6ba625255e590', 'type': 'ddg', 'title': 'D7-P5520 PCIe 4.0 NVMe SSD for Data Centers | Solidigm'}
+- {'url': 'https://www.eet-china.com/mp/a144743.html&rut=b945c2c4a766767bfc9ca15b3504509216751f6bceb261d1a9249f9271702899', 'type': 'ddg', 'title': '站在巨人肩上：SolidigmD7-P5520企业级SSD评测-电子工程专辑'}
+- {'url': 'https://www.solidigm.com/products/data-center/d7/p5520.html&rut=cd7a5458d45f93b028b771159d27b89df22a55d9c13feb3db904c1e48500f392', 'type': 'ddg', 'title': 'D7-P5520 PCIe 4.0 NVMe SSD for Data Centers | Solidigm'}

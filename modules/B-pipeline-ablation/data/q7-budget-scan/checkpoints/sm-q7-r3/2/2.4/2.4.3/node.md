@@ -1,0 +1,30 @@
+# N73: OSS GET 请求单价：¥0.01/万次（即 ¥1e-6/次）；年请求成本 = 7.85e10 * 1e-6 ≈ ¥78,500/年。
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N16
+
+## Claim
+
+OSS GET 请求单价：¥0.01/万次（即 ¥1e-6/次）；年请求成本 = 7.85e10 * 1e-6 ≈ ¥78,500/年。
+
+## Corrected Claim
+
+OSS GET 请求单价通常为 ¥0.01/万次（具体视存储类型而定）；若按此单价及 7.85e10 次请求量计算，年请求成本约为 ¥78,500。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别针对标准存储（具体数值计算）和低频存储（约束条件及影响）进行了说明，两者侧重点不同，无逻辑矛盾。虽然父节点数值（7.85e10）与子节点数值（7.65e10）存在细微差异，但这属于不同存储类型或不同假设下的具体实例化，不构成正交性冲突。子节点覆盖了单价、计算逻辑及特殊存储类型的限制，基本完备。）
+
+## Search Query
+
+阿里云 OSS GET 请求 价格 每万次 2024
+
+## Retrieval Sources
+
+- {'url': 'https://help.aliyun.com/zh/oss/billing-overview&rut=20a4e60b70be8973e18cefcd6f2fb100293e26b95f3592f62bb8694d97cde4f2', 'type': 'ddg', 'title': 'Oss的计费组成、付费方式和定价-对象存储 (Oss)-阿里云帮助中心'}
+- {'url': 'https://developer.aliyun.com/article/1704273&rut=14db771f48c3da8f08d6609f407704c9a549a94f0391bc553853f3e5822bfbcf', 'type': 'ddg', 'title': '2026年阿里云对象存储OSS最新收费标准价格表：'}
+- {'url': 'https://help.aliyun.com/zh/oss/billing-examples&rut=85e299211bdce9ccacf35465ee2b7af3085cbbba0dfc6f380c1e355f3d17402b', 'type': 'ddg', 'title': 'Oss费用的计算方法-对象存储 (Oss)-阿里云帮助中心'}

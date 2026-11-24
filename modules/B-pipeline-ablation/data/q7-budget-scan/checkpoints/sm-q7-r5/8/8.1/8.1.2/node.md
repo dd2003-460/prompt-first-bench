@@ -1,0 +1,20 @@
+# N264: P_infra 量化展开：P_infra = 0.1*P_drives(控制器/背板) + 0.1*(P_drives+0.1*P_drives)(风扇) + 
+
+- **status**: pending
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N127
+
+## Claim
+
+P_infra 量化展开：P_infra = 0.1*P_drives(控制器/背板) + 0.1*(P_drives+0.1*P_drives)(风扇) + 0.05*(P_drives+0.2*P_drives)(PDU损耗) ≈ 0.31*P_drives
+
+## Corrected Claim
+
+P_infra 量化展开：P_infra = 0.1*P_drives(控制器/背板) + 0.1*(P_drives+0.1*P_drives)(风扇) + 0.05*(P_drives+0.2*P_drives)(PDU损耗) ≈ 0.31*P_drives
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点本质上是同一公式在不同硬件配置下的参数化实例，存在严重冗余；且工作点B和C中修改了父节点定义的系数（如风扇、PDU损耗比例），导致子节点与父节点的通用定义产生逻辑冲突，未能保持父节点公式的完整性。）

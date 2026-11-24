@@ -1,0 +1,24 @@
+# N226: SSD层故障重建时间的量化修正：NVMe SSD RAID-5/6重建瓶颈在于读放大与写回，假设12盘阵列单盘故障，重建需读取其余11盘数据并重写新盘，T_re
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N70
+
+## Claim
+
+SSD层故障重建时间的量化修正：NVMe SSD RAID-5/6重建瓶颈在于读放大与写回，假设12盘阵列单盘故障，重建需读取其余11盘数据并重写新盘，T_rebuild_ssd = (Capacity_RAID / Read_Thruput_Aggregate) + (Write_Thruput_Overhead)；若聚合读速20GB/s，写速5GB/s，T_rebuild ≈ 500TB/20GB/s + 500TB/5GB/s ≈ 7.3h + 29.2h ≈ 36.5h，远超N70假设的<1h
+
+## Corrected Claim
+
+SSD层故障重建时间的量化修正：NVMe SSD RAID-5/6重建瓶颈在于读放大与写回，假设12盘阵列单盘故障，重建需读取其余11盘数据并重写新盘，T_rebuild_ssd = (Capacity_RAID / Read_Thruput_Aggregate) + (Write_Thruput_Overhead)；若聚合读速20GB/s，写速5GB/s，T_rebuild ≈ 500TB/20GB/s + 500TB/5GB/s ≈ 7.3h + 29.2h ≈ 36.5h，远超N70假设的<1h
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算正确（500TB/20GB/s≈7.3h, 500TB/5GB/s≈29.2h, 总和≈36.5h），符合RAID重建的基本物理逻辑（需读取所有存活盘数据并写入新盘），且SSD重建时间通常远长于HDD的直觉认知在此场景下成立（因RAID-5/6重建涉及大量随机/顺序混合IO及写放大，且此处假设了较低的聚合吞吐以体现瓶颈，结论方向正确）。
+
+## Search Query
+
+NVMe RAID rebuild time read write bottleneck

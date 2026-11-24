@@ -1,24 +1,20 @@
-# N15: 电力消耗成本：本地NVMe SSD阵列功耗约为HDD的2-3倍，500TB NVMe阵列年功耗 ≈ 500TB × 5W/TB × 8760h × ¥0.8/k
+# N14: 电力成本量化模型：PUE×IT设备功耗×电价×运行小时数；NVMe SSD阵列功耗约为0.5-1W/TB，HDD阵列约为0.3-0.5W/TB，云存储电力成本已
 
 - **status**: verified
 - **level**: L2
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
 - **parent_ids**: N2
 
 ## Claim
 
-电力消耗成本：本地NVMe SSD阵列功耗约为HDD的2-3倍，500TB NVMe阵列年功耗 ≈ 500TB × 5W/TB × 8760h × ¥0.8/kWh × PUE（1.5）
+电力成本量化模型：PUE×IT设备功耗×电价×运行小时数；NVMe SSD阵列功耗约为0.5-1W/TB，HDD阵列约为0.3-0.5W/TB，云存储电力成本已包含在服务费中无需单独计算；假设PUE=1.4，电价¥0.8/kWh，年运行8760小时，本地方案年电力成本 = 总功耗kW × 1.4 × 0.8 × 8760
 
 ## Corrected Claim
 
-电力消耗成本：本地NVMe SSD阵列功耗约为HDD的2-3倍，500TB NVMe阵列年功耗 ≈ 500TB × 5W/TB × 8760h × ¥0.8/kWh × PUE（1.5）
+电力成本量化模型：PUE×IT设备功耗×电价×运行小时数；NVMe SSD阵列功耗约为0.5-1W/TB，HDD阵列约为0.3-0.5W/TB，云存储电力成本已包含在服务费中无需单独计算；假设PUE=1.4，电价¥0.8/kWh，年运行8760小时，本地方案年电力成本 = 总功耗kW × 1.4 × 0.8 × 8760
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
-
-## Search Query
-
-NVMe SSD power consumption per TB
+[质询]NVMe SSD阵列功耗约为0.5-1W/TB的数值可能偏高，现代高密度NVMe SSD在空闲或低负载下功耗通常低于此范围，但在高负载或老旧型号中可能达到该量级，属于经验参数波动范围，不构成硬逻辑错误。 | 先验知识/题面给定，逻辑校验通过：电力成本计算公式符合物理定义（功率×时间×单价），PUE、电价、运行小时数均为标准行业参数，功耗量级在合理范围内，无内部矛盾。

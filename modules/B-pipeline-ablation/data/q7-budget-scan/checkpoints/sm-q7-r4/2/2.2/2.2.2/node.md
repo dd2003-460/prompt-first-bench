@@ -1,0 +1,28 @@
+# N51: 工作点B（标准配比）：SSD层100TB（¥25,000 @¥250/TB），HDD层400TB（¥14,000 @¥35/TB）；分层软件许可/硬件¥10,0
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N12
+
+## Claim
+
+工作点B（标准配比）：SSD层100TB（¥25,000 @¥250/TB），HDD层400TB（¥14,000 @¥35/TB）；分层软件许可/硬件¥10,000；服务器¥30,000；总CapEx ≈ ¥79,000，折合¥158/有效TB，满足基本SLA，是大多数数据湖的推荐起点。
+
+## Corrected Claim
+
+工作点B（标准配比）：SSD层100TB，HDD层400TB；假设SSD单价¥250/TB，HDD单价¥35/TB，分层软件/硬件¥10,000，服务器¥30,000，则总CapEx约为¥79,000，折合¥158/有效TB。此配置通常被视为满足基本SLA的数据湖推荐起点，但具体成本需根据实际采购价格调整。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点分别涵盖了电力（OpEx）、折旧（CapEx摊销）、人力（OpEx）和容量修正（CapEx/性能基准），彼此维度独立且无逻辑冲突，正交性好。但完备性不足：父节点强调'满足基本SLA'，子节点仅计算了静态电力，未包含动态I/O功耗或网络/冷却增量；此外，未提及软件许可的后续维护费（Renewal/Maintenance），通常占初始许可费的15%-20%，这是TCO分析的关键遗漏。）
+
+## Search Query
+
+HDD SSD tiered storage typical configuration cost 100TB SSD 400TB HDD
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/634851956&rut=f31a7ce9687aa30e0b858d15533efdd636f55d9e847c0364285920663bb5747a', 'type': 'ddg', 'title': '[Sauron] 基于真实100TB数据的SSD组与评测 - 知乎'}

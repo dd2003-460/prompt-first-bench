@@ -1,20 +1,24 @@
-# N47: XFS文件系统元数据开销率随卷大小变化：在500TB卷中，inode密度默认配置下，元数据占用约为总容量的3%-4%（低于ext4的5%），公式修正为：有效容量
+# N51: HDD 单盘标准容量选择：企业级 CMR HDD 主流大容量型号为 16TB 或 18TB，选择 16TB 便于标准化采购，选择 18TB 可降低盘数从而优化 
 
-- **status**: degraded
+- **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: cartesian
-- **rework_count**: 1
-- **parent_ids**: N9
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N10
 
 ## Claim
 
-XFS文件系统元数据开销率随卷大小变化：在500TB卷中，inode密度默认配置下，元数据占用约为总容量的3%-4%（低于ext4的5%），公式修正为：有效容量 = 物理容量 × (1 - 0.035)
+HDD 单盘标准容量选择：企业级 CMR HDD 主流大容量型号为 16TB 或 18TB，选择 16TB 便于标准化采购，选择 18TB 可降低盘数从而优化 EC 冗余比例
 
 ## Corrected Claim
 
-XFS文件系统元数据开销率随卷大小增加而降低，在超大卷（如500TB）中，默认配置下元数据占用通常较低（具体比例取决于块大小和inode配置，一般在1%-5%区间），有效容量计算需根据实际元数据占比修正。
+HDD 单盘标准容量选择：企业级 CMR HDD 主流大容量型号为 16TB 或 18TB，选择 16TB 便于标准化采购，选择 18TB 可降低盘数从而优化 EC 冗余比例
 
 ## Evidence
 
-[质询]具体数值（3%-4%）及与ext4的对比属于经验性工程数据，受具体块大小、inode大小及文件系统版本影响极大，缺乏通用性；且'低于ext4的5%'这一对比在特定配置下可能不成立（如ext4使用64k块时元数据占比可能更低）。 | source=knowledge，逻辑自洽（元数据占比随卷增大而降低符合文件系统原理），但具体百分比为经验值，无来源直接支持，依据经验事实排除条款降级。
+先验知识/题面给定，逻辑校验通过：16TB和18TB确为企业级CMR HDD的主流大容量规格，且大容量硬盘减少盘数从而优化EC冗余比例符合存储架构基本原理。
+
+## Search Query
+
+enterprise cmr hdd 16tb 18tb price per tb

@@ -1,0 +1,20 @@
+# N541: 工作点C中软件分层的监控与告警系统建设成本：需部署Prometheus+Grafana栈监控ARC命中率、ZFS池健康度及IO延迟百分位，初期搭建及集成成本约¥
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N177
+
+## Claim
+
+工作点C中软件分层的监控与告警系统建设成本：需部署Prometheus+Grafana栈监控ARC命中率、ZFS池健康度及IO延迟百分位，初期搭建及集成成本约¥5,000，年维护许可证及人工成本约¥3,000/年，此项在原¥10,000估算中被遗漏。
+
+## Corrected Claim
+
+工作点C中软件分层的监控与告警系统建设成本：需部署Prometheus+Grafana栈监控ARC命中率、ZFS池健康度及IO延迟百分位，初期搭建及集成成本约¥5,000，年维护许可证及人工成本约¥3,000/年，此项在原¥10,000估算中被遗漏。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

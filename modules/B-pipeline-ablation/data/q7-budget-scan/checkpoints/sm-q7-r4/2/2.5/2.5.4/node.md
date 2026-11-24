@@ -1,0 +1,30 @@
+# N78: OSS 低频访问（IA）层存储价格：¥0.08/GB/月，折合 ¥57.6/TB/年；400TB 冷数据年存储成本 = 400 * 57.6 = ¥23,040
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N17
+
+## Claim
+
+OSS 低频访问（IA）层存储价格：¥0.08/GB/月，折合 ¥57.6/TB/年；400TB 冷数据年存储成本 = 400 * 57.6 = ¥23,040/年。
+
+## Corrected Claim
+
+OSS 低频访问（IA）层存储价格约为 ¥0.08/GB/月（需以阿里云官网实时报价为准），折合 ¥57.6/TB/年；400TB 冷数据年存储成本约为 ¥23,040/年。
+
+## Evidence
+
+[质询]参考来源摘要中未包含具体的单价数值（¥0.08/GB/月），无法直接验证该具体价格是否准确，且OSS价格可能随地域、时间或促销活动变动，存在经验事实缺乏直接来源支持的风险。 | 逻辑推导成立（400TB * 57.6元/TB/年 = 23,040元/年），但参考来源[1][2][3]仅涉及计费模式或归档规则，未直接提供低频访问层的具体单价，属于经验事实缺来源直接支持。
+
+## Search Query
+
+阿里云 OSS 低频访问 存储价格 每GB每月 2024
+
+## Retrieval Sources
+
+- {'url': 'https://help.aliyun.com/zh/oss/billing-overview&rut=20a4e60b70be8973e18cefcd6f2fb100293e26b95f3592f62bb8694d97cde4f2', 'type': 'ddg', 'title': 'Oss的计费组成、付费方式和定价-对象存储 (Oss)-阿里云帮助中心'}
+- {'url': 'https://www.alibabacloud.com/zh/product/oss-pricing-list/zh?_p_lc=1&rut=40e63ec8dc12993212614bb84e64edc64b1e7aed8d9838ac1d72daf64144f112', 'type': 'ddg', 'title': 'OSS 价格详情 - Alibaba Cloud'}
+- {'url': 'https://developer.aliyun.com/article/1704273&rut=14db771f48c3da8f08d6609f407704c9a549a94f0391bc553853f3e5822bfbcf', 'type': 'ddg', 'title': '2026年阿里云对象存储OSS最新收费标准价格表：'}

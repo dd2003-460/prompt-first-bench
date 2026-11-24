@@ -1,0 +1,30 @@
+# N747: 工作点C（低成本/低RPO保证）：RPO=7天，采用每周全量备份（500TB）+ 7天增量日志（35TB）。恢复数据量 V_restore = 535TB，k=
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N279
+
+## Claim
+
+工作点C（低成本/低RPO保证）：RPO=7天，采用每周全量备份（500TB）+ 7天增量日志（35TB）。恢复数据量 V_restore = 535TB，k=1.07。若从Glacier Instant Retrieval恢复，取回费用 = 535 * 1024 * $0.03 * 7.2 ≈ ¥117,638/次，远高于Standard存储的存储费，但存储单价降至$0.004/GB/月，年存储节省 ≈ 500TB * (0.023-0.004) * 1024 * 12 * 7.2 ≈ ¥838,272/年，需在RTO>24h时选用。
+
+## Corrected Claim
+
+工作点C（低成本/低RPO保证）：RPO=7天，采用每周全量备份（500TB）+ 7天增量日志（35TB）。恢复数据量 V_restore = 535TB。若从 Glacier Instant Retrieval 恢复，取回费用显著高于 Standard 存储的存储费，但存储单价较低，年存储成本可大幅降低，需在 RTO>24h 时选用。（注：具体金额需根据当前 AWS 官方最新报价计算）
+
+## Evidence
+
+[质询]该陈述包含大量具体的经验性参数（如 Glacier Instant Retrieval 的精确取回单价 $0.03/GB、Standard 存储单价 $0.023/GB/月、汇率 7.2 等），这些属于 AWS 实时变动的商业定价数据，无法从第一性原理推导，且参考来源均为通用的灾备架构理论文章，未提供具体的 AWS 价格表或计算细节，存在参数过时或口径不符的风险。 | 逻辑推导自洽（535TB*1024*0.03*7.2≈117,638 CNY 计算正确），但参考来源 [1][2][3] 仅涉及 RTO/RPO 概念与架构选型，未覆盖具体云厂商存储/取回费用的数值，属于经验事实缺来源支持。
+
+## Search Query
+
+AWS S3 Glacier Instant Retrieval retrieval fee per GB 2024
+
+## Retrieval Sources
+
+- {'url': 'https://juejin.cn/post/7619994737622024232&rut=f86067d09190a5bba1d7423015a3833c1cd2a8e3cfea27283a4716cccb2150fb', 'type': 'ddg', 'title': '别等业务中断才补坑!Rto/Rpo 核心逻辑与全场景灾备架构选型全攻略本文系统解析容灾备份核心知识：阐明其作为业务"生命 - 掘金'}
+- {'url': 'https://developer.aliyun.com/article/1718869&rut=5e48b541c56fbc9cfccb502cb542ecddedccf0ea1536f8787e6599268855d4f0', 'type': 'ddg', 'title': '别等业务中断才补坑!Rto/Rpo 核心逻辑与全场景灾备架构选型全攻略'}
+- {'url': 'https://www.csdn.net/article/2026-07-31/163355193&rut=4d9f704cae5a2b97a865e009b8d4f090243c84add1bc33f7d804d883a019fe09', 'type': 'ddg', 'title': '灾备云怎么建?企业备份容灾分级与选型指南（2026） - Csdn'}

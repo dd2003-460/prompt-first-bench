@@ -1,0 +1,20 @@
+# N815: 网络 RTT 波动对 T_ack 的影响建模：T_ack = T_base_ack + k * Var(RTT)；若 T_base_ack=20ms, k=0.
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N303
+
+## Claim
+
+网络 RTT 波动对 T_ack 的影响建模：T_ack = T_base_ack + k * Var(RTT)；若 T_base_ack=20ms, k=0.5, Var(RTT)=100ms²，则 T_ack = 20 + 0.5*100 = 70ms，导致 T_read_staleness = 70 + 100(P95) = 170ms，低于 1.5s 阈值，但若 Var(RTT) 增至 1000ms²（拥塞），T_ack=520ms, T_staleness=620ms
+
+## Corrected Claim
+
+网络 RTT 波动对 T_ack 的影响建模：T_ack = T_base_ack + k * Var(RTT)；若 T_base_ack=20ms, k=0.5, Var(RTT)=100ms²，则 T_ack = 20 + 0.5*100 = 70ms，导致 T_read_staleness = 70 + 100(P95) = 170ms，低于 1.5s 阈值，但若 Var(RTT) 增至 1000ms²（拥塞），T_ack=520ms, T_staleness=620ms
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算正确（20+50=70, 70+100=170; 20+500=520, 520+100=620），单位量级合理，符合线性建模假设。

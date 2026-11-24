@@ -1,0 +1,24 @@
+# N490: 聚合带宽非线性修正：145块HDD并行写入时，受限于磁盘阵列控制器的PCIe通道带宽和背板交换芯片，实际聚合带宽仅为理论值的80%。理论21.3GB/s × 0
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N213, N214, N215
+
+## Claim
+
+聚合带宽非线性修正：145块HDD并行写入时，受限于磁盘阵列控制器的PCIe通道带宽和背板交换芯片，实际聚合带宽仅为理论值的80%。理论21.3GB/s × 0.8 = 17.04GB/s，重建400TB冷数据需400,000GB / 17.04GB/s ≈ 23,474秒 ≈ 6.5小时，而非理想值5.6小时。
+
+## Corrected Claim
+
+聚合带宽非线性修正：145块HDD并行写入时，受限于磁盘阵列控制器的PCIe通道带宽和背板交换芯片，实际聚合带宽仅为理论值的80%。理论21.3GB/s × 0.8 = 17.04GB/s，重建400TB冷数据需400,000GB / 17.04GB/s ≈ 23,474秒 ≈ 6.5小时，而非理想值5.6小时。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算准确（400000/17.04≈23474s≈6.5h），工程假设（80%效率系数）符合存储系统常见经验值，无内部矛盾。
+
+## Search Query
+
+disk array controller PCIe bandwidth limit aggregate write throughput

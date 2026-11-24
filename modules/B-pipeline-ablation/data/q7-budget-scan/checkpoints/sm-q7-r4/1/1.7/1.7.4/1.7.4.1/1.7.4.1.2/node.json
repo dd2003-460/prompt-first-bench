@@ -1,0 +1,17 @@
+{
+  "id": "N422",
+  "claim": "DRAM 刷新功耗 P_dram_refresh = C_mem * V^2 * f_refresh，对于 8GB LPDDR4 缓存，f_refresh=32kHz, V=1.1V, C_mem≈100pF/bit，计算得 P_dram_refresh ≈ 1.2-1.5W，占写功耗总预算的 30-40%，是不可优化的固定底噪",
+  "level": "L5",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值量级严重不符：根据公式 P = C * V^2 * f，代入 C=100pF/bit, V=1.1V, f=32kHz，单bit功耗约为 0.396 pW。8GB LPDDR4 包含约 64 Gbit (8*1024^3*8)，总功耗约为 64e9 * 0.396e-12 W ≈ 25 mW (0.025W)。这与陈述中的 1.2-1.5W 相差约 50-60 倍。此外，DRAM 刷新通常只涉及阵列电容的一部分或特定行，且 100pF/bit 的电容值对于现代 DRAM 单元而言也偏大（典型 DRAM 单元电容在 10-30fF 量级，虽然这里可能是指等效负载电容，但即便按此计算，数量级依然对不上）。 | 逻辑校验发现数值量级错误：基于给定参数计算得出的功耗（~25mW）与声称值（1.2-1.5W）存在巨大差异，且来源缺失无法佐证该异常高值。",
+  "corrected_claim": "DRAM 刷新功耗 P_dram_refresh = C_mem * V^2 * f_refresh，对于 8GB LPDDR4 缓存，若 f_refresh=32kHz, V=1.1V, C_mem≈100pF/bit，计算得 P_dram_refresh ≈ 25mW，远低于 1.2-1.5W；若实际功耗确为 1.2-1.5W，则需重新核实电容值、频率或电压参数。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N185"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "LPDDR4 refresh power consumption calculation formula SSD controller",
+  "retrieval_sources": []
+}

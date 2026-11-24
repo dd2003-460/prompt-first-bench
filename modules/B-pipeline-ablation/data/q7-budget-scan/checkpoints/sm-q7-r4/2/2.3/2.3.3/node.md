@@ -1,0 +1,30 @@
+# N55: 云对象存储数据取回费用（Retrieval Fee）通常为¥0.03-0.05/GB，若每月冷数据取回率为1%（4TB），月度取回成本 ≈ 4096GB × ¥
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N13
+
+## Claim
+
+云对象存储数据取回费用（Retrieval Fee）通常为¥0.03-0.05/GB，若每月冷数据取回率为1%（4TB），月度取回成本 ≈ 4096GB × ¥0.04 = ¥163.84/月
+
+## Corrected Claim
+
+云对象存储数据取回费用因厂商和存储层级而异（通常低频存储约¥0.01-0.03/GB，归档存储更高），若假设单价为¥0.04/GB且每月冷数据取回率为1%（4TB），月度取回成本约为¥163.84。
+
+## Evidence
+
+[质询]具体价格数值（¥0.03-0.05/GB）属于经验事实，不同云厂商及存储层级（低频/归档/深度归档）差异巨大，且参考来源摘要中未包含具体单价，无法验证该特定数值范围的准确性。 | 逻辑计算正确（4096 * 0.04 = 163.84），来源[1][2][3]证实了取回费用的存在及计费逻辑，但未提供具体单价支持，属经验事实缺来源直接支持。
+
+## Search Query
+
+Alibaba Cloud OSS data retrieval fee per GB Infrequent Access 2026
+
+## Retrieval Sources
+
+- {'url': 'https://cloud.tencent.com/document/product/436/53862&rut=291549f410b4fdb0fc4b7767716f163fe3198b17a0c865a49f6f10870224451f', 'type': 'ddg', 'title': '对象存储 数据取回费用_腾讯云'}
+- {'url': 'https://support.huaweicloud.com/price-obs/obs_42_0006.html&rut=1f42b6fc9685dbf160efa9c338574b6da5d7723dfcb8a45f72cb45d0ef9d30fb', 'type': 'ddg', 'title': '数据恢复费用_计费项_计费说明_对象存储服务 Obs-华为云'}
+- {'url': 'https://www.ctyun.cn/document/10026735/10240016&rut=0b44046dafcc4a28e911a83486b32d35f8b4017c15f57b0f4a8ea847c7fd7848', 'type': 'ddg', 'title': '数据取回费用-对象存储 Zos-计费说明-计费项 - 天翼云'}

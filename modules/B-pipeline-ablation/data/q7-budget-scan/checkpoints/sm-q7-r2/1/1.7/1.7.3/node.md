@@ -1,20 +1,24 @@
-# N55: 云存储请求费用修正：针对温数据每日2次扫描，若平均对象大小为1MB（而非N30假设的100MB），则单次扫描请求数=100TB/1MB=102,400,000次
+# N60: NVMe SSD 在 Random Read 状态下的典型功耗（W/drive），基于 7.68TB 企业级 PCIe Gen4 SSD 规格书，典型值约为 1
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N11
+- **parent_ids**: N12
 
 ## Claim
 
-云存储请求费用修正：针对温数据每日2次扫描，若平均对象大小为1MB（而非N30假设的100MB），则单次扫描请求数=100TB/1MB=102,400,000次，年请求费 = 102,400,000 × 2 × 365 × ¥0.01/万次 ≈ ¥7,475,200/年，显著高于N30估算，需根据实际对象大小分布确定
+NVMe SSD 在 Random Read 状态下的典型功耗（W/drive），基于 7.68TB 企业级 PCIe Gen4 SSD 规格书，典型值约为 18-22W。
 
 ## Corrected Claim
 
-云存储请求费用修正：针对温数据每日2次扫描，若平均对象大小为1MB（而非N30假设的100MB），则单次扫描请求数=100TB/1MB=102,400,000次，年请求费 = 102,400,000 × 2 × 365 × ¥0.01/万次 ≈ ¥7,475,200/年，显著高于N30估算，需根据实际对象大小分布确定
+NVMe SSD 在 Random Read 状态下的典型功耗（W/drive），基于 7.68TB 企业级 PCIe Gen4 SSD 规格书，典型值约为 18-22W。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：100TB=102,400,000MB，单次扫描请求数计算正确；年请求费=102,400,000×2×365×0.01/10,000=7,475,200元，数值量级与计算逻辑自洽。
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+enterprise nvme ssd 7.68tb random read power consumption watts

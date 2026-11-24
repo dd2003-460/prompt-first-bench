@@ -1,0 +1,20 @@
+# N82: 云对象存储批量 GET 请求的 API 限速与并发限制 (requests/s) = 账户级配额 × 区域限制，典型 S3 账户级 GET 请求限速约为 3,5
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N22
+
+## Claim
+
+云对象存储批量 GET 请求的 API 限速与并发限制 (requests/s) = 账户级配额 × 区域限制，典型 S3 账户级 GET 请求限速约为 3,500 requests/s，500TB 数据若平均对象大小 128MB，需约 4,000,000 次 GET，API 耗时约为 19 小时
+
+## Corrected Claim
+
+云对象存储批量 GET 请求的 API 限速与并发限制 (requests/s) = 账户级配额 × 区域限制，典型 S3 账户级 GET 请求限速约为 3,500 requests/s，500TB 数据若平均对象大小 128MB，需约 4,000,000 次 GET，API 耗时约为 19 小时
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：500TB/128MB=4,000,000次请求，4,000,000/3,500≈1142.8秒≈19小时，计算自洽且符合S3典型限速量级

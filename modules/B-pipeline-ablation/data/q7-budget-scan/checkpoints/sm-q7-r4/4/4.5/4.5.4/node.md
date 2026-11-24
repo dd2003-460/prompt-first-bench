@@ -1,0 +1,20 @@
+# N89: 紧急人力成本 Emergency_Labor_Cost 等于 参与应急的工程师数量 (N_engineers) 乘以 人均时薪 (Hourly_Wage) 乘以
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N25
+
+## Claim
+
+紧急人力成本 Emergency_Labor_Cost 等于 参与应急的工程师数量 (N_engineers) 乘以 人均时薪 (Hourly_Wage) 乘以 实际工作时长 (T_downtime)，假设 N_engineers=2, Hourly_Wage=¥500/h，则 C_emergency = 2 * 500 * T_downtime。
+
+## Corrected Claim
+
+紧急人力成本 Emergency_Labor_Cost 等于 参与应急的工程师数量 (N_engineers) 乘以 人均时薪 (Hourly_Wage) 乘以 实际工作时长 (T_downtime)，假设 N_engineers=2, Hourly_Wage=¥500/h，则 C_emergency = 2 * 500 * T_downtime。
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备, 有冗余（子节点之间存在逻辑依赖和定义重叠（非正交），且引入了未定义的变量（Overtime_Multiplier）导致覆盖不全（不完备）。子节点1仅定义了T_effective的计算规则，子节点2直接引用该结果并引入新参数Overtime_Multiplier重新定义总成本，两者共同构成了对父节点公式的修正，而非独立并列的子项。此外，父节点公式简单线性，子节点引入了复杂的条件逻辑（>8h衰减）和额外参数（加班倍率），但未完整涵盖所有可能的边界情况或参数来源，且两个子节点本质上是同一修正模型的两个步骤，存在冗余。）

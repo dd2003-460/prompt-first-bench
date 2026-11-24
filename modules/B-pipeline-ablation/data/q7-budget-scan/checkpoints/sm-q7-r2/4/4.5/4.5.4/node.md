@@ -1,0 +1,20 @@
+# N89: 紧急人力成本 Emergency_Labor_Cost 等于 参与应急的工程师数量 (N_engineers) 乘以 人均时薪 (Hourly_Wage) 乘以
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N25
+
+## Claim
+
+紧急人力成本 Emergency_Labor_Cost 等于 参与应急的工程师数量 (N_engineers) 乘以 人均时薪 (Hourly_Wage) 乘以 实际工作时长 (T_downtime)，假设 N_engineers=2, Hourly_Wage=¥500/h，则 C_emergency = 2 * 500 * T_downtime。
+
+## Corrected Claim
+
+紧急人力成本 Emergency_Labor_Cost 等于 参与应急的工程师数量 (N_engineers) 乘以 人均时薪 (Hourly_Wage) 乘以 实际工作时长 (T_downtime)，假设 N_engineers=2, Hourly_Wage=¥500/h，则 C_emergency = 2 * 500 * T_downtime。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

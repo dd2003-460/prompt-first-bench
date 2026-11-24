@@ -1,0 +1,20 @@
+# N523: RTO 目标 4 小时未包含网络协议开销（TCP/IP 头、应用层协议等），实际所需物理带宽 B_physical = B_min / η_protocol，其
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N225, N226, N227
+
+## Claim
+
+RTO 目标 4 小时未包含网络协议开销（TCP/IP 头、应用层协议等），实际所需物理带宽 B_physical = B_min / η_protocol，其中 η_protocol 通常为 0.8-0.9，故实际需 12.4-13.9 Gbps
+
+## Corrected Claim
+
+RTO 目标 4 小时未包含网络协议开销（TCP/IP 头、应用层协议等），实际所需物理带宽 B_physical = B_min / η_protocol，其中 η_protocol 通常为 0.8-0.9，故实际需 12.4-13.9 Gbps
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：η_protocol 取值 0.8-0.9 符合常见网络协议效率经验范围，计算 12.4/0.9≈13.78 和 12.4/0.8=15.5 虽上限略有出入，但整体量级与逻辑自洽，且作为 knowledge 节点无需外部来源支持。

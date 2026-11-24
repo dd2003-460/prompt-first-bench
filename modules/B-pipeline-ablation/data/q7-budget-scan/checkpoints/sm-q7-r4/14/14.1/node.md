@@ -1,0 +1,24 @@
+# N297: 云对象存储5年TCO积分公式精确化：C_cloud_5y = ∫₀⁵ (P_storage(t) × V(t)) dt + C_requests_5y + C_
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N138
+
+## Claim
+
+云对象存储5年TCO积分公式精确化：C_cloud_5y = ∫₀⁵ (P_storage(t) × V(t)) dt + C_requests_5y + C_egress_5y，其中 V(t) = 500 × (1.15)^t，P_storage(t) 为阶梯定价（标准/低频/归档），若假设所有数据保持在标准层，积分结果约为 500 × [((1.15)^6 - 1)/ln(1.15)] × P_unit，需代入具体单价计算。
+
+## Corrected Claim
+
+云对象存储5年TCO积分公式精确化：C_cloud_5y = ∫₀⁵ (P_storage(t) × V(t)) dt + C_requests_5y + C_egress_5y，其中 V(t) = 500 × (1.15)^t，P_storage(t) 为阶梯定价（标准/低频/归档），若假设所有数据保持在标准层，积分结果约为 500 × [((1.15)^6 - 1)/ln(1.15)] × P_unit，需代入具体单价计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：积分公式推导正确，V(t)为指数增长函数，其定积分结果符合数学规律，量纲与逻辑自洽。
+
+## Search Query
+
+cloud storage TCO integral linear growth calculation

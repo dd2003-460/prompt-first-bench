@@ -1,0 +1,20 @@
+# N483: RAID-5 vs RAID-6容错能力对比：20盘RAID-5仅容忍1盘故障，重建时间极长且风险高。对于640TB大容量池，推荐RAID-6（容忍2盘故障）。
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N163
+
+## Claim
+
+RAID-5 vs RAID-6容错能力对比：20盘RAID-5仅容忍1盘故障，重建时间极长且风险高。对于640TB大容量池，推荐RAID-6（容忍2盘故障）。RAID-6有效容量 = 640TB * (1 - 2/20) = 576TB，比RAID-5少32TB。
+
+## Corrected Claim
+
+RAID-5 vs RAID-6容错能力对比：20盘RAID-5仅容忍1盘故障，重建时间极长且风险高。对于640TB大容量池，推荐RAID-6（容忍2盘故障）。RAID-6有效容量 = 640TB * (1 - 2/20) = 576TB，比RAID-5少32TB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RAID-5/6容错机制及容量计算公式符合定义，数值推导正确（640*(1-2/20)=576, 640*(1-1/20)=592, 差值32TB）。

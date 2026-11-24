@@ -1,0 +1,20 @@
+# N302: HDD+SSD 分层方案中，承载混合介质的存储服务器主机成本及专用背板成本：由于需同时支持 NVMe SSD (U.2/E1.S) 和 SATA/SAS HDD
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+HDD+SSD 分层方案中，承载混合介质的存储服务器主机成本及专用背板成本：由于需同时支持 NVMe SSD (U.2/E1.S) 和 SATA/SAS HDD (3.5"/2.5")，需选用支持混插的机型（如 Supermicro 4129R-TN 或 Dell R740xd），此类机型因背板复杂度和 PSU 功率要求，单价通常比普通计算节点高 15%-20%，约为 ¥150,000 - ¥180,000/台，且需额外预算 ¥5,000 - ¥10,000 用于定制混插背板或转接件。
+
+## Corrected Claim
+
+HDD+SSD 分层方案中，承载混合介质的存储服务器主机成本及专用背板成本：由于需同时支持 NVMe SSD (U.2/E1.S) 和 SATA/SAS HDD (3.5"/2.5")，需选用支持混插的机型（如 Supermicro 4129R-TN 或 Dell R740xd），此类机型因背板复杂度和 PSU 功率要求，单价通常比普通计算节点高 15%-20%，约为 ¥150,000 - ¥180,000/台，且需额外预算 ¥5,000 - ¥10,000 用于定制混插背板或转接件。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

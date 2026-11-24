@@ -1,0 +1,24 @@
+# N698: avg_obj_size = 1MB 是数据湖场景的常见假设，但若对象大小为 100KB，GET 请求数增加 10 倍，年增成本升至 ¥365,000；若对象大
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N289
+
+## Claim
+
+avg_obj_size = 1MB 是数据湖场景的常见假设，但若对象大小为 100KB，GET 请求数增加 10 倍，年增成本升至 ¥365,000；若对象大小为 10MB，成本降至 ¥3,650；需根据实际数据湖对象的直方图分布计算加权平均对象大小，以修正请求成本模型。
+
+## Corrected Claim
+
+avg_obj_size = 1MB 是数据湖场景的常见假设，但若对象大小为 100KB，GET 请求数增加 10 倍，年增成本升至 ¥365,000；若对象大小为 10MB，成本降至 ¥3,650；需根据实际数据湖对象的直方图分布计算加权平均对象大小，以修正请求成本模型。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于线性成本模型，对象大小缩小10倍导致请求数增加10倍，成本相应增加10倍（¥36,500 -> ¥365,000）；对象大小扩大10倍导致请求数减少10倍，成本相应降低10倍（¥36,500 -> ¥3,650）。数值量级与逻辑关系自洽。
+
+## Search Query
+
+object storage request cost sensitivity analysis object size distribution

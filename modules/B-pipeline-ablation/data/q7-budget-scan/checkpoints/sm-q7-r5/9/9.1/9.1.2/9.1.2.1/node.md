@@ -1,0 +1,20 @@
+# N661: SSD 缓存层物理盘数 N_SSD 修正：采用 7.68TB 企业级 NVMe SSD（如 Samsung PM9A3 或 Intel P5510），裸容量需求
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N275
+
+## Claim
+
+SSD 缓存层物理盘数 N_SSD 修正：采用 7.68TB 企业级 NVMe SSD（如 Samsung PM9A3 或 Intel P5510），裸容量需求 100TB，RAID6 冗余因子 1.25（或 EC 8+2 等效 1.25），N_raw = 100 / 7.68 ≈ 13.02，N_physical = ceil(13.02 * 1.25) = 17 块。N275 声称的 14 块未正确应用 RAID 冗余系数或使用了错误的单盘容量假设（若按 1.92TB 计算需 55 块，见 N281 修正）。
+
+## Corrected Claim
+
+SSD 缓存层物理盘数 N_SSD 修正：采用 7.68TB 企业级 NVMe SSD（如 Samsung PM9A3 或 Intel P5510），裸容量需求 100TB，RAID6 冗余因子 1.25（或 EC 8+2 等效 1.25），N_raw = 100 / 7.68 ≈ 13.02，N_physical = ceil(13.02 * 1.25) = 17 块。N275 声称的 14 块未正确应用 RAID 冗余系数或使用了错误的单盘容量假设（若按 1.92TB 计算需 55 块，见 N281 修正）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：100TB / 7.68TB ≈ 13.02，乘以1.25冗余系数后为16.275，向上取整为17，计算无误且符合RAID6/EC冗余逻辑。

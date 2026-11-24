@@ -1,0 +1,20 @@
+# N319: IOPS 计算中的对象大小敏感性：若对象大小从 128KB 变为 1MB，IOPS_avg 降至约 1,208 IOPS，峰值需求降至 2,416 IOPS，对
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N117
+
+## Claim
+
+IOPS 计算中的对象大小敏感性：若对象大小从 128KB 变为 1MB，IOPS_avg 降至约 1,208 IOPS，峰值需求降至 2,416 IOPS，对存储选型无影响；若对象大小变为 16KB，IOPS_avg 升至 77,288 IOPS，峰值需求 154,576 IOPS，可能影响小容量 SSD 方案
+
+## Corrected Claim
+
+IOPS 计算中的对象大小敏感性：若对象大小从 128KB 变为 1MB，IOPS_avg 降至约 1,208 IOPS，峰值需求降至 2,416 IOPS，对存储选型无影响；若对象大小变为 16KB，IOPS_avg 升至 77,288 IOPS，峰值需求 154,576 IOPS，可能影响小容量 SSD 方案
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：IOPS与对象大小成反比，128KB到1MB（8倍）IOPS降至1/8左右（1208*8≈9664，原值可能为9664），128KB到16KB（1/8）IOPS升至8倍（77288/8≈9661），数值量级与比例关系完全自洽，符合存储性能基本物理规律。

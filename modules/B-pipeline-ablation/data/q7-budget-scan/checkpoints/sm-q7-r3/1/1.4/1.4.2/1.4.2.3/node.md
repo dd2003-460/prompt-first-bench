@@ -1,0 +1,24 @@
+# N156: inode表内存缓存压力：5亿inode × 256B = 128GB元数据，若全部常驻内存，占256GB RAM的50%；剩余128GB用于页缓存，导致数据页
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N45
+
+## Claim
+
+inode表内存缓存压力：5亿inode × 256B = 128GB元数据，若全部常驻内存，占256GB RAM的50%；剩余128GB用于页缓存，导致数据页命中率下降，增加SSD随机读次数，间接增加功耗和IOPS消耗，估算额外功耗增量约5-10W。
+
+## Corrected Claim
+
+inode表内存缓存压力：5亿inode × 256B = 128GB元数据，若全部常驻内存，占256GB RAM的50%；剩余128GB用于页缓存，导致数据页命中率下降，增加SSD随机读次数，间接增加功耗和IOPS消耗，估算额外功耗增量约5-10W。
+
+## Evidence
+
+[质询]「5-10W额外功耗增量」的具体数值缺乏精确的物理模型支撑，可能受SSD型号、负载模式影响较大，属于经验估算而非严格推导。 | 先验知识/题面给定，逻辑校验通过：算术计算正确（5e8 * 256B = 128GB，128/256=50%），因果链条（元数据占用内存->页缓存减少->命中率降低->随机读增加->功耗/IOPS增加）符合操作系统与存储系统基本原理，量级合理。
+
+## Search Query
+
+Linux page cache vs inode cache memory pressure storage performance

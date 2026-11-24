@@ -1,0 +1,24 @@
+# N144: 2024年Q4-2025年Q1主流品牌（Seagate Exos X20/Toshiba MG08）企业级16TB CMR HDD（7200rpm, SATA）
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N39
+
+## Claim
+
+2024年Q4-2025年Q1主流品牌（Seagate Exos X20/Toshiba MG08）企业级16TB CMR HDD（7200rpm, SATA）的国内渠道均价区间为 ¥1,100 - ¥1,300/盘，对应每TB成本约 ¥69 - ¥81/TB，受全球HDD产能紧张及AI服务器需求拉动导致价格上涨25-35%。
+
+## Corrected Claim
+
+2024年Q4-2025年Q1主流品牌（Seagate Exos X20/Toshiba MG08）企业级16TB CMR HDD（7200rpm, SATA）的国内渠道均价大致处于千元以上区间，受全球HDD产能紧张及AI服务器需求拉动，价格出现显著上涨。
+
+## Evidence
+
+[质询]具体价格区间（¥1,100-¥1,300）和涨幅（25-35%）属于特定时间点的市场经验数据，缺乏实时市场报价支撑，且不同渠道（电商/线下/批发）价差较大，精确区间易失真。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）。
+
+## Search Query
+
+Seagate Exos X20 16TB price increase 2024 Q4 2025 AI server demand

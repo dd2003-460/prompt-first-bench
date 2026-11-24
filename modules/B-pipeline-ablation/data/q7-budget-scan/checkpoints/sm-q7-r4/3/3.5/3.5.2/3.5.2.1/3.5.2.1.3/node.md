@@ -1,0 +1,30 @@
+# N753: 工作点C（批量读取优化/极低请求成本）：使用S3 Select或Range Get，每次请求读取10MB数据块。500TB数据需50,000次Range Get
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N281
+
+## Claim
+
+工作点C（批量读取优化/极低请求成本）：使用S3 Select或Range Get，每次请求读取10MB数据块。500TB数据需50,000次Range Get完成全量读取。请求成本 = 50,000 * $0.0000004 * 7.2 ≈ ¥1.44/次。但S3 Select API有额外扫描费用（$1/TB scanned），年扫描成本 = 500 * $1 * 7.2 ≈ ¥3,600/年，综合成本低于全量GET，适合大对象分析场景。
+
+## Corrected Claim
+
+工作点C（批量读取优化）：对于500TB数据，若采用S3 Select进行全量扫描，需考虑其按扫描量（GB）计费及潜在最低消费，成本远高于普通GET请求；若采用Range Get分块读取，50,000次请求的请求费约为¥1.44，但需权衡小请求带来的延迟开销，通常建议使用Multipart Download或更大块大小以优化性能。
+
+## Evidence
+
+[质询]S3 Select 的计费模式并非简单的 '$1/TB scanned'，而是基于 'GB scanned' 且通常包含最低消费（如 $1.00 per 128GB 或类似阶梯），且 S3 Select 主要用于对象内部分数据提取而非全量 Range Get 替代；此外，将 500TB 数据拆分为 10MB 块进行 50,000 次请求在工程上极不高效（通常建议更大块或使用 Multipart Download），且 S3 Select 并不适用于所有对象类型（如非文本/CSV/Parquet 格式需额外处理），此处将 S3 Select 与 Range Get 混用并简化计费逻辑存在事实偏差。 | 参考来源 [1][2][3] 仅涉及 S3 性能优化通用原则和批量操作功能介绍，未提供 S3 Select 具体单价、Range Get 精确费率或 500TB 场景下的具体成本计算数据，无法直接支持或反驳具体数值，但逻辑上成本估算框架自洽。
+
+## Search Query
+
+AWS S3 Select pricing per TB scanned 2024
+
+## Retrieval Sources
+
+- {'url': 'https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/userguide/optimizing-performance.html&rut=b683b433446fff2d981494e8c89c00daaeb080acbc58a810a1e4c5f85130c65c', 'type': 'ddg', 'title': '最佳实践设计模式：优化 Amazon S3 性能 - Amazon Simple Storage Service'}
+- {'url': 'https://aws.amazon.com/cn/s3/features/batch-operations/&rut=df0a695d6d3e683430a22756af45b614ad6fbcfa0ef61b9e7621c1e799ff3e07', 'type': 'ddg', 'title': 'Amazon S3 批量操作 - AWS'}
+- {'url': 'https://docs.amazonaws.cn/AmazonS3/latest/userguide/optimizing-performance.html&rut=da3afebc6307a3cdcc38868fd0ee9a8cb9bab22fa734c0645aebdd219421a84c', 'type': 'ddg', 'title': '最佳实践设计模式：优化 Amazon S3 性能 - Amazon Simple Storage Service'}

@@ -1,0 +1,29 @@
+# N249: NVMe RAID-6重建速率的实测工作点1（高性能低成本）：使用Intel D7-P5520 NVMe SSD（顺序写2.5GB/s），RAID控制器为LSI
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N78
+
+## Claim
+
+NVMe RAID-6重建速率的实测工作点1（高性能低成本）：使用Intel D7-P5520 NVMe SSD（顺序写2.5GB/s），RAID控制器为LSI 9460-8i（3.2GB/s），实测Rebuild_Rate=2.1GB/s=75.6GB/h；重建1.92TB耗时=1.92TB/75.6GB/h≈25.7小时，期间阵列性能下降30%
+
+## Corrected Claim
+
+NVMe RAID-6重建速率实测：使用Intel D7-P5520 NVMe SSD，若重建速率为2.1GB/s，则重建1.92TB耗时约15分钟；若重建耗时25.7小时，则实际平均重建速率约为20.7MB/s。原陈述中速率与耗时数据存在数量级矛盾。
+
+## Evidence
+
+[质询]参考来源仅提供了ODCC NVMe RAID测试报告的标题和简介，未包含具体的硬件型号（Intel D7-P5520, LSI 9460-8i）及对应的实测数据（2.1GB/s, 25.7小时），无法从现有摘要中直接验证这些具体数值。 | 逻辑校验通过：2.1GB/s * 3600s/h = 7560GB/h ≈ 7.56TB/h，此处原文单位换算有误（2.1GB/s应为约7.56TB/h而非75.6GB/h，或者原文意指210MB/s? 但2.1GB/s是合理的高性能SSD重建速率）。重新计算：2.1 GB/s * 3600 = 7560 GB/h。原文写 75.6 GB/h，相差100倍。若重建速率为2.1GB/s，则1.92TB(1920GB)耗时 1920/7560 h ≈ 0.25h (15分钟)。若耗时25.7小时，则速率应为 1920/25.7 ≈ 74.7 GB/h ≈ 20.7 MB/s。这与“高性能”及“2.1GB/s”严重矛盾。因此，陈述中存在严重的数值量级/单位换算错误（2.1GB/s 不等于 75.6GB/h，也不等于 25.7小时重建1.92TB）。
+
+## Search Query
+
+Intel D7-P5520 NVMe RAID-6 rebuild rate LSI 9460-8i measured
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/721396458&rut=6840234b243512f61ddcb52b3751f0a66d74941fd85aacfd80a9e371781e3e0d', 'type': 'ddg', 'title': 'ODCC NVMe SSD RAID 性能测试技术报告 (附批注) - 知乎'}
+- {'url': 'https://www.toutiao.com/article/7417285156521722379/&rut=9c4b3754d647bd90cd55055983241f20cd3f513c6332b1362caf76e011caee2a', 'type': 'ddg', 'title': 'ODCC NVMe SSD RAID 性能测试技术报告 (附批注) - 今日头条'}

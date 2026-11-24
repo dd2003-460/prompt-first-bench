@@ -1,0 +1,20 @@
+# N611: 小文件场景下年均请求次数估算公式：Req_annual = (Data_Volume_TB * 1024 * 1024 / Avg_Obj_Size_MB) *
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N256
+
+## Claim
+
+小文件场景下年均请求次数估算公式：Req_annual = (Data_Volume_TB * 1024 * 1024 / Avg_Obj_Size_MB) * Access_Freq_Per_Obj_Per_Day * 365；代入 Data=500TB, Avg_Obj=1MB, Freq=1/day，则 Req_annual ≈ 500 * 1024 * 365 ≈ 1.87亿次/年 [knowledge]
+
+## Corrected Claim
+
+小文件场景下年均请求次数估算公式：Req_annual = (Data_Volume_TB * 1024 * 1024 / Avg_Obj_Size_MB) * Access_Freq_Per_Obj_Per_Day * 365；代入 Data=500TB, Avg_Obj=1MB, Freq=1/day，则 Req_annual ≈ 500 * 1024 * 365 ≈ 1.87亿次/年 [knowledge]
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：单位换算正确（500TB=500*1024*1024 MB），计算过程 500*1024*365 ≈ 186,368,000 与 1.87亿 一致。

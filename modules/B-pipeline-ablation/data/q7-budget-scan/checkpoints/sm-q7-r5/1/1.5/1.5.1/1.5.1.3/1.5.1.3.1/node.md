@@ -1,0 +1,24 @@
+# N375: 20TB CMR HDD (Seagate Exos 20E) 的年化故障率 (AFR) 约为 1.5%-2.0%，显著高于 16TB 盘的 1.2%，导致 R
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N165
+
+## Claim
+
+20TB CMR HDD (Seagate Exos 20E) 的年化故障率 (AFR) 约为 1.5%-2.0%，显著高于 16TB 盘的 1.2%，导致 RAID6/EC 组内双盘故障概率 P_2fail ≈ (AFR * N_disks)^2 / 2，对于 22 块盘组，P_2fail_annual ≈ (0.0175 * 22)^2 / 2 ≈ 0.37%，需计入数据丢失风险成本 [待核验]
+
+## Corrected Claim
+
+20TB CMR HDD (Seagate Exos 20E) 的年化故障率 (AFR) 通常高于 16TB 盘，导致 RAID6/EC 组内双盘故障概率增加，需计入数据丢失风险成本。
+
+## Evidence
+
+[质询]AFR数值（1.5%-2.0% vs 1.2%）及由此推导的双盘故障概率属于经验统计数据，缺乏当前检索来源支持，且不同批次/负载下波动较大，精确数值难以从第一性原理推出。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+Seagate Exos 20E annualized failure rate AFR vs 16E

@@ -1,24 +1,24 @@
-# N90: NVMe SSD 有效容量与物理容量的换算细节：企业级 NVMe SSD 标称容量通常为 1.92TB 或 3.84TB，但格式化后可用容量（Usable Ca
+# N125: NVMe SSD阵列5年直线折旧模型中，C_hw_total = 471块(1.92TB SSD) × ¥3,000/块 = ¥1,413,000，基于2024
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N35
+- **parent_ids**: N32
 
 ## Claim
 
-NVMe SSD 有效容量与物理容量的换算细节：企业级 NVMe SSD 标称容量通常为 1.92TB 或 3.84TB，但格式化后可用容量（Usable Capacity）约为标称值的 90%-95%（受文件系统元数据、保留空间影响）；因此 550TB 物理标称容量对应的有效可用容量约为 $550 \times 0.92 \approx 506TB$，需确保覆盖 500TB 业务数据 + 元数据开销（N10: 1-3%），故实际采购需向上取整至 576TB 或 640TB 物理容量
+NVMe SSD阵列5年直线折旧模型中，C_hw_total = 471块(1.92TB SSD) × ¥3,000/块 = ¥1,413,000，基于2024-2025年企业级NVMe SSD市场均价估算。
 
 ## Corrected Claim
 
-NVMe SSD 有效容量与物理容量的换算细节：企业级 NVMe SSD 标称容量通常为 1.92TB 或 3.84TB，但格式化后可用容量（Usable Capacity）约为标称值的 90%-95%（受文件系统元数据、保留空间影响）；因此 550TB 物理标称容量对应的有效可用容量约为 $550 \times 0.92 \approx 506TB$，需确保覆盖 500TB 业务数据 + 元数据开销（N10: 1-3%），故实际采购需向上取整至 576TB 或 640TB 物理容量
+NVMe SSD阵列5年直线折旧模型中，C_hw_total = 471块(1.92TB SSD) × ¥3,000/块 = ¥1,413,000，基于2024-2025年企业级NVMe SSD市场均价估算。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：企业级NVMe SSD的Overhead（含FTL、元数据、预留空间）通常在5%-10%之间，90%-95%的可用率符合工程常识；550TB * 0.92 ≈ 506TB 的数学计算正确，且506TB > 500TB + 元数据开销，逻辑自洽。
+先验知识/题面给定，逻辑校验通过：算术计算正确（471 * 3000 = 1,413,000），且¥3,000/块对于1.92TB企业级NVMe SSD在2024-2025年的市场均价估算符合行业常识量级。
 
 ## Search Query
 
-enterprise NVMe SSD usable capacity vs nominal capacity overhead percentage
+enterprise NVMe SSD 1.92TB price 2024 2025

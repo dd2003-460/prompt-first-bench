@@ -1,20 +1,30 @@
-# N9: 云对象存储（S3/OSS）的冗余系数 R_cloud = 1.0（逻辑容量=物理容量，冗余由服务商内部承担，不计入用户侧开销）
+# N8: 云对象存储（S3/OSS）标准存储每 GB 月单价（元/GB·月）及低频/归档存储价格梯度
 
-- **status**: verified
+- **status**: degraded
 - **level**: L2
-- **source**: knowledge
-- **edge_type**: quotient
-- **rework_count**: 0
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
 - **parent_ids**: N1, N2, N3
 
 ## Claim
 
-云对象存储（S3/OSS）的冗余系数 R_cloud = 1.0（逻辑容量=物理容量，冗余由服务商内部承担，不计入用户侧开销）
+云对象存储（S3/OSS）标准存储每 GB 月单价（元/GB·月）及低频/归档存储价格梯度
 
 ## Corrected Claim
 
-云对象存储（S3/OSS）的冗余系数 R_cloud = 1.0（逻辑容量=物理容量，冗余由服务商内部承担，不计入用户侧开销）
+云对象存储（S3/OSS）提供标准、低频、归档等多种存储类型，通常采用按量付费或资源包模式，具体每GB月单价需查阅官方实时价格表，一般呈现标准>低频>归档的价格梯度。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+[质询]参考来源仅提供了计费模式、存储类型分类及计量单位定义，未包含具体的“元/GB·月”数值价格，无法验证具体的单价梯度。 | 来源[1][2][3]确认了OSS存在标准、低频、归档等存储类型及按量付费模式，但未提供具体价格数值，属于经验事实且缺乏直接数据支持。
+
+## Search Query
+
+AWS S3 pricing standard infrequent access archive per GB month 2024
+
+## Retrieval Sources
+
+- {'url': 'https://developer.aliyun.com/article/1704273&rut=14db771f48c3da8f08d6609f407704c9a549a94f0391bc553853f3e5822bfbcf', 'type': 'ddg', 'title': '2026年阿里云对象存储OSS最新收费标准价格表：'}
+- {'url': 'https://developer.aliyun.com/article/1771961&rut=8e79c56d88e646addef7e53c126caa5989effcbd6dc03b9ca79a27f07978d9a5', 'type': 'ddg', 'title': '阿里云 Oss 对象存储服务租用价格表（一年 / 按月 / 按小时报价明细）'}
+- {'url': 'https://cn.aliyun.com/price/detail/oss&rut=1f434cc06e03a6c94e43387f214943c4149c0bd9b33b5242d3f1909f00e0309e', 'type': 'ddg', 'title': '阿里云定价_oss价格详情_对象存储'}

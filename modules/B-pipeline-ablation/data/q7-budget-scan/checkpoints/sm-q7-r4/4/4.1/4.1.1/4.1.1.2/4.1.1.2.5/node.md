@@ -1,0 +1,29 @@
+# N766: HDD 重建期间的数据完整性验证成本：重建完成后需执行 CRC 校验，校验吞吐约 500MB/s，16TB 数据校验时间 ≈ 3.2 小时，计入总 MTTR
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N285
+
+## Claim
+
+HDD 重建期间的数据完整性验证成本：重建完成后需执行 CRC 校验，校验吞吐约 500MB/s，16TB 数据校验时间 ≈ 3.2 小时，计入总 MTTR
+
+## Corrected Claim
+
+重建完成后需执行 CRC 校验，若校验吞吐约 500MB/s，16TB 数据校验时间约为 9.3 小时（而非 3.2 小时），计入总 MTTR
+
+## Evidence
+
+[质询]500MB/s 的 CRC 校验吞吐率对于现代企业级 HDD 而言偏低（通常受限于磁盘顺序读取速度，可达 100-200MB/s 以上，且 RAID 控制器或软件校验往往能利用多盘并行或更高带宽，实际耗时可能更短），且参考来源未提供该具体数值，属于缺乏直接证据支持的特定经验参数。 | 逻辑计算正确（16*1024/500/3600 ≈ 0.09h? 不对，16TB=16384GB=16777216MB。16777216/500 = 33554s ≈ 9.3小时。等等，让我重新算一下。16TB = 16 * 1024 GB = 16384 GB。如果单位是 MB/s，16384 * 1024 MB / 500 MB/s = 33554 秒 = 9.32 小时。题目说 3.2 小时。3.2小时 = 11520秒。11520 * 500 = 5,760,000 MB = 5.49 TB。这里存在严重的数值矛盾。16TB 数据以 500MB/s 的速度校验，绝对不可能只要 3.2 小时。除非 16TB 是指 16 * 1000^4 bytes? 不，通常 TB 指 1024^4。或者 500MB/s 是 500 * 1000^2? 即使按十进制，16*10^12 / (500*10^6) = 32000s ≈ 8.9小时。怎么算都不是 3.2 小时。3.2小时对应的是约 5.5TB 的数据量，或者校验速度高达 1.5GB/s 以上。因此，该陈述存在硬性的数学/逻辑错误（数值量级不符）。
+
+## Search Query
+
+RAID rebuild post-rebuild data integrity verification time CRC checksum
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_29323551/article/details/164696443&rut=166b2aca5a0f1fe2fd7174fbf5c228854ab5b783d6c8fc60c3741f0306a90d97', 'type': 'ddg', 'title': '数据恢复的终点是完整性验证：从镜像到校验的实战指南-csdn博客'}
+- {'url': 'https://ram.icmm.net.cn/zh-cn/blog/raid-rebuild-preparation-before-replacing-enterprise-drive/&rut=2acfe0d4c3b3ca71bf9ae09e8d6db1ae539bcbeeebcce141694ee72b9186654b', 'type': 'ddg', 'title': '更换企业级硬盘前的RAID重建准备 | Yuanxin Memory'}

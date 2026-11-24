@@ -1,0 +1,20 @@
+# N811: 云对象存储 3 副本写入扇出延迟 T_fanout 并非固定 10ms，而是受网络拓扑影响：若 3 个副本位于同一可用区（AZ），T_fanout ≈ 1-2m
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N302
+
+## Claim
+
+云对象存储 3 副本写入扇出延迟 T_fanout 并非固定 10ms，而是受网络拓扑影响：若 3 个副本位于同一可用区（AZ），T_fanout ≈ 1-2ms（交换机转发延迟）；若跨 AZ 分布，T_fanout ≈ 5-15ms（光纤传输+路由跳数），在 AWS S3 标准存储中，通常保证同 AZ 冗余，故 T_ack 下限应修正为 RTT(50ms) + T_write(5ms) + T_fanout_same_AZ(1.5ms) ≈ 56.5ms。
+
+## Corrected Claim
+
+云对象存储 3 副本写入扇出延迟 T_fanout 并非固定 10ms，而是受网络拓扑影响：若 3 个副本位于同一可用区（AZ），T_fanout ≈ 1-2ms（交换机转发延迟）；若跨 AZ 分布，T_fanout ≈ 5-15ms（光纤传输+路由跳数），在 AWS S3 标准存储中，通常保证同 AZ 冗余，故 T_ack 下限应修正为 RTT(50ms) + T_write(5ms) + T_fanout_same_AZ(1.5ms) ≈ 56.5ms。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：同AZ交换机转发延迟（~1ms）与跨AZ光纤传输延迟（~5-15ms）符合数据中心网络物理常识，AWS S3同AZ冗余机制及延迟叠加计算（50+5+1.5=56.5ms）逻辑自洽且量级合理。

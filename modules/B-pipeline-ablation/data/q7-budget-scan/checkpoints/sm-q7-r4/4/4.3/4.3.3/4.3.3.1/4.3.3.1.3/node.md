@@ -1,0 +1,24 @@
+# N731: 重建限速对后台GC/Trim的影响：HDD无GC，但SSD层若有镜像或缓存，限速重建可能推迟TRIM/GC操作，导致后续写入性能下降；量化指标为延迟GC导致的写
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N255
+
+## Claim
+
+重建限速对后台GC/Trim的影响：HDD无GC，但SSD层若有镜像或缓存，限速重建可能推迟TRIM/GC操作，导致后续写入性能下降；量化指标为延迟GC导致的写放大因子 WAF_increase，假设延迟24小时，WAF从2.0升至2.5，增加寿命消耗 Δ_life = (2.5 - 2.0) * Data_Written_During_Delay。
+
+## Corrected Claim
+
+重建限速对后台GC/Trim的影响：HDD无GC，但SSD层若有镜像或缓存，限速重建可能推迟TRIM/GC操作，导致后续写入性能下降；量化指标为延迟GC导致的写放大因子 WAF_increase，假设延迟24小时，WAF从2.0升至2.5，增加寿命消耗 Δ_life = (2.5 - 2.0) * Data_Written_During_Delay。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+RAID rebuild throttling impact on SSD GC TRIM write amplification

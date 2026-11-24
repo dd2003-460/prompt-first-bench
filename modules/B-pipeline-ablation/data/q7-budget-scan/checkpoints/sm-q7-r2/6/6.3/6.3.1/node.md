@@ -1,24 +1,20 @@
-# N84: 对象数量与请求次数模型：总对象数 N_obj = Total_Data_Size / Avg_Object_Size。若 Avg_Object_Size = 1
+# N118: NVMe SSD 寿命计算公式：寿命(年) = (TBW_per_drive × num_drives) / (Annual_Writes × Write_Am
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N33
+- **parent_ids**: N31
 
 ## Claim
 
-对象数量与请求次数模型：总对象数 N_obj = Total_Data_Size / Avg_Object_Size。若 Avg_Object_Size = 1MB，N_obj = 500 × 10^9；若 Avg_Object_Size = 100MB，N_obj = 5 × 10^6。年请求次数取决于访问模式：假设温数据每日扫描 1 次，冷数据每月访问 1 次，则年请求次数 ≈ N_obj_warm × 365 + N_obj_cold × 12。
+NVMe SSD 寿命计算公式：寿命(年) = (TBW_per_drive × num_drives) / (Annual_Writes × Write_Amplification)；以 150 块 4TB SSD（TBW=3000TB/块）为例，寿命 = (3000×150) / (100×1.5) = 3000 年，远超 5 年周期，寿命不是瓶颈
 
 ## Corrected Claim
 
-对象数量与请求次数模型：总对象数 N_obj = Total_Data_Size / Avg_Object_Size。若 Avg_Object_Size = 1MB，N_obj = 500 × 10^9；若 Avg_Object_Size = 100MB，N_obj = 5 × 10^6。年请求次数取决于访问模式：假设温数据每日扫描 1 次，冷数据每月访问 1 次，则年请求次数 ≈ N_obj_warm × 365 + N_obj_cold × 12。
+NVMe SSD 寿命计算公式：寿命(年) = (TBW_per_drive × num_drives) / (Annual_Writes × Write_Amplification)；以 150 块 4TB SSD（TBW=3000TB/块）为例，寿命 = (3000×150) / (100×1.5) = 3000 年，远超 5 年周期，寿命不是瓶颈
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：数值计算正确（500GB/1MB=500,000,000=5×10^8? 等等，500GB = 500 * 10^9 bytes? 不，通常 1GB=10^9 bytes 或 2^30。若按十进制 500GB=5*10^11 bytes。1MB=10^6 bytes。5*10^11 / 10^6 = 5*10^5? 不对。让我们重新检查量级。
-
-## Search Query
-
-S3 request count estimation based on object size and access frequency
+先验知识/题面给定，逻辑校验通过：公式量纲正确（TB/TB=无量纲，但此处TBW为总写入量，Annual_Writes为年写入量，比值即为年数），数值计算 (3000*150)/(100*1.5) = 450000/150 = 3000 正确，结论符合逻辑。

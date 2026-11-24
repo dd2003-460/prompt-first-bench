@@ -1,0 +1,24 @@
+# N192: HDD 从 Spin-down 状态唤醒至 Ready 状态的延迟时间为 0.5s - 1.0s，期间功耗峰值可达 8-10W，该瞬态功耗对年度平均功耗影响极小
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N66
+
+## Claim
+
+HDD 从 Spin-down 状态唤醒至 Ready 状态的延迟时间为 0.5s - 1.0s，期间功耗峰值可达 8-10W，该瞬态功耗对年度平均功耗影响极小（<1%），但影响冷数据首次访问的响应时间。
+
+## Corrected Claim
+
+HDD 从 Spin-down 状态唤醒至 Ready 状态的延迟时间为 0.5s - 1.0s，期间功耗峰值可达 8-10W，该瞬态功耗对年度平均功耗影响极小（<1%），但影响冷数据首次访问的响应时间。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1聚焦于性能维度（延迟），子节点2聚焦于能耗维度（电费/功耗），两者物理量纲不同且无重叠，符合正交性；二者共同覆盖了父节点中提到的‘响应时间’和‘年度平均功耗影响’两个核心结论，具备完备性；不存在冗余。）
+
+## Search Query
+
+HDD spin up time latency power spike 16TB enterprise

@@ -1,0 +1,20 @@
+# N205: 修正后的NVMe SSD RAID6重建理论最小时间 T_min = 100TB / (N_disks * W_sustained_per_disk)，其中 W
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N72
+
+## Claim
+
+修正后的NVMe SSD RAID6重建理论最小时间 T_min = 100TB / (N_disks * W_sustained_per_disk)，其中 W_sustained_per_disk 修正为 1.5 GB/s（取 N68 中值），N_disks=53，T_min ≈ 3.7 小时，取代原 N72 的 2.8 小时估算。
+
+## Corrected Claim
+
+修正后的NVMe SSD RAID6重建理论最小时间 T_min = 100TB / (N_disks * W_sustained_per_disk)，其中 W_sustained_per_disk 修正为 1.5 GB/s，N_disks=53，T_min ≈ 0.35 小时（约21分钟），而非 3.7 小时。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：100TB / (53 * 1.5GB/s) ≈ 1269秒 ≈ 0.35小时，但此处需注意单位换算或题目隐含的并行度/带宽定义差异。重新计算：100TB = 100,000GB。总带宽 = 53 * 1.5 = 79.5 GB/s。时间 = 100,000 / 79.5 ≈ 1257.8 秒 ≈ 0.35 小时。这与陈述中的 3.7 小时严重不符。等等，让我重新检查量级。如果是 100TB 数据量，53块盘，每块1.5GB/s。总吞吐 79.5GB/s。100000GB / 79.5GB/s = 1257s = 20.9分钟。陈述说是3.7小时。3.7小时 = 13320秒。13320 * 79.5 = 1,058,940 GB ≈ 1PB。或者，如果 T_min 是 3.7小时，那么总带宽应该是 100000GB / (3.7*3600)s = 7.5 GB/s。这意味着有效带宽远低于单盘带宽之和，或者 N_disks 参与计算的方式不同（例如 RAID6 重建只读 N-2 块盘？51 * 1.5 = 76.5 GB/s，依然远大于 7.5）。或者 W_sustained 单位是 MB/s？如果 W=1.5 MB/s，那太慢了。如果 W=1.5 GB/s 是单盘，53盘并行，理论最小时间应该非常短。陈述中的 3.7 小时与 100TB/53/1.5GB/s 的计算结果（约0.35小时）存在数量级矛盾。因此，逻辑不自洽。

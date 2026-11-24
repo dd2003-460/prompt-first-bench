@@ -1,0 +1,20 @@
+# N460: 12TB CMR HDD 方案的 RTO 代价 C_RTO_Balanced = (L_hourly * T_rebuild_Balanced + C_expe
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N203
+
+## Claim
+
+12TB CMR HDD 方案的 RTO 代价 C_RTO_Balanced = (L_hourly * T_rebuild_Balanced + C_expedited) * P_failure_yearly，假设 L_hourly = ¥1,000/h，C_expedited = ¥5,000，P_failure_yearly = 0.05，则 C_RTO_Balanced ≈ (1000 * 98.8 + 5000) * 0.05 ≈ ¥5,190/年，比 16TB CMR 方案高 19.4%。
+
+## Corrected Claim
+
+12TB CMR HDD 方案的 RTO 代价 C_RTO_Balanced = (L_hourly * T_rebuild_Balanced + C_expedited) * P_failure_yearly，假设 L_hourly = ¥1,000/h，C_expedited = ¥5,000，P_failure_yearly = 0.05，则 C_RTO_Balanced ≈ (1000 * 98.8 + 5000) * 0.05 ≈ ¥5,190/年，比 16TB CMR 方案高 19.4%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算 (1000*98.8+5000)*0.05=5190 正确，且 5190/4346.4≈1.194 符合“高19.4%”的描述（隐含16TB方案重建时间约为82.7小时，逻辑自洽）。

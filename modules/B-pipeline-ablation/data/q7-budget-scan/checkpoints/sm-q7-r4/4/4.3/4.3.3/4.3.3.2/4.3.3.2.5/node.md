@@ -1,0 +1,24 @@
+# N736: 动态调整速率的控制策略开销：实现‘白天50%夜间100%’需部署基于时间表的I/O调度器（如Linux cgroups io.weight或ZFS VAA）。此
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N256, N257, N258
+
+## Claim
+
+动态调整速率的控制策略开销：实现‘白天50%夜间100%’需部署基于时间表的I/O调度器（如Linux cgroups io.weight或ZFS VAA）。此控制本身的CPU开销极低（<1%），但需考虑时钟同步误差（NTP漂移）导致的切换点抖动，对T_rebuild的影响可忽略（<0.1%）。
+
+## Corrected Claim
+
+动态调整速率的控制策略开销：实现‘白天50%夜间100%’需部署基于时间表的I/O调度器（如Linux cgroups io.weight或ZFS VAA）。此控制本身的CPU开销极低（<1%），但需考虑时钟同步误差（NTP漂移）导致的切换点抖动，对T_rebuild的影响可忽略（<0.1%）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于时间表的I/O调度器（如cgroups/ZFS VAA）主要涉及元数据更新和权重调整，CPU开销极低符合工程常识；NTP漂移引起的切换点抖动对整体重建时间T_rebuild的影响在微秒/毫秒级，相对于小时级的重建窗口，<0.1%的量级估算合理且自洽。
+
+## Search Query
+
+linux cgroups io weight scheduling overhead time-based throttling accuracy

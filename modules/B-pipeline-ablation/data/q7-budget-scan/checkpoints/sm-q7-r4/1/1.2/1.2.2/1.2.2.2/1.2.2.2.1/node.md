@@ -1,0 +1,20 @@
+# N440: HDD层静态功耗基线的精确计算：32块16TB企业级HDD，单盘静态功耗 P_idle = 6W，总静态功率 P_static_total = 32 * 6W 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N146
+
+## Claim
+
+HDD层静态功耗基线的精确计算：32块16TB企业级HDD，单盘静态功耗 P_idle = 6W，总静态功率 P_static_total = 32 * 6W = 192W = 0.192kW。年静态能耗 E_static = 0.192kW * 8760h * 1.4 (PUE) = 2358.4 kWh。年静态电费 C_static = 2358.4 * 0.8 ¥/kWh = ¥1,886.7。
+
+## Corrected Claim
+
+HDD层静态功耗基线的精确计算：32块16TB企业级HDD，单盘静态功耗 P_idle = 6W，总静态功率 P_static_total = 32 * 6W = 192W = 0.192kW。年静态能耗 E_static = 0.192kW * 8760h * 1.4 (PUE) = 2358.4 kWh。年静态电费 C_static = 2358.4 * 0.8 ¥/kWh = ¥1,886.7。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算正确（32*6=192W; 0.192*8760*1.4≈2358.4kWh; 2358.4*0.8≈1886.7¥），参数符合企业级HDD典型功耗范围。

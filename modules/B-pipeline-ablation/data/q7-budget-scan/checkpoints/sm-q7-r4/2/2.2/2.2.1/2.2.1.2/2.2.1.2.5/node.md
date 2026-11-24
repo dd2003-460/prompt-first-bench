@@ -1,0 +1,24 @@
+# N518: SSD层因缓存未命中回源HDD的双重I/O等待量化：若5%温数据（5TB）误存HDD，且SSD缓存未命中，每次扫描需从HDD读取5TB。HDD读取时间 T_HD
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N170, N171, N172
+
+## Claim
+
+SSD层因缓存未命中回源HDD的双重I/O等待量化：若5%温数据（5TB）误存HDD，且SSD缓存未命中，每次扫描需从HDD读取5TB。HDD读取时间 T_HDD = 5000GB / 2.5GB/s = 2000s；SSD读取时间 T_SSD = 5000GB / 7GB/s = 714s；额外等待 ΔT = 1286s ≈ 0.36h。年额外成本 = 0.36h * 2 * 365 * ¥5000/h ≈ ¥1,314,000/年（修正N171中的2000s为实际净增量）。
+
+## Corrected Claim
+
+SSD层因缓存未命中回源HDD的双重I/O等待量化：若5%温数据（5TB）误存HDD，且SSD缓存未命中，每次扫描需从HDD读取5TB。HDD读取时间 T_HDD = 5000GB / 2.5GB/s = 2000s；SSD读取时间 T_SSD = 5000GB / 7GB/s = 714s；额外等待 ΔT = 1286s ≈ 0.36h。年额外成本 = 0.36h * 2 * 365 * ¥5000/h ≈ ¥1,314,000/年（修正N171中的2000s为实际净增量）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算正确（2000s-714s=1286s≈0.357h；0.357*2*365*5000≈1,306,000，与1,314,000误差<1%，源于四舍五入差异），量纲与物理直觉合理。
+
+## Search Query
+
+hybrid storage misplacement cost calculation SSD HDD latency difference

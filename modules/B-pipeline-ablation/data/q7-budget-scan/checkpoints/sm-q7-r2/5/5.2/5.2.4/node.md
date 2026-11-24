@@ -1,0 +1,20 @@
+# N103: S3 温数据吞吐依赖并发连接数：S3 单桶吞吐量受限于分区 (Partition)，默认 3500 GET/s + 5500 PUT/s，假设每次读取 1MB，
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N26
+
+## Claim
+
+S3 温数据吞吐依赖并发连接数：S3 单桶吞吐量受限于分区 (Partition)，默认 3500 GET/s + 5500 PUT/s，假设每次读取 1MB，需并发连接数 = 6.94GB/s / 1MB × 1000 = 7000 并发，超过默认限制，需申请提高配额或分桶设计
+
+## Corrected Claim
+
+S3 温数据吞吐依赖并发连接数：S3 单桶吞吐量受限于分区 (Partition)，默认 3500 GET/s + 5500 PUT/s，假设每次读取 1MB，需并发连接数 = 6.94GB/s / 1MB × 1000 = 7000 并发，超过默认限制，需申请提高配额或分桶设计
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：S3默认单桶限制为3500 GET/s和5500 PUT/s，若每次读取1MB，理论最大吞吐为3.5GB/s，低于6.94GB/s需求，因此确实需要增加并发或分桶，逻辑自洽。

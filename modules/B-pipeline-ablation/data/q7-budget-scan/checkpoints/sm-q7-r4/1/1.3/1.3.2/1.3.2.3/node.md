@@ -1,0 +1,20 @@
+# N127: SSD 缓存命中率阈值推导（基于吞吐量而非 IOPS）：HDD 层 30 块盘总顺序读吞吐 = 30 × 200MB/s = 6GB/s。温数据扫描需求 1.7
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N33
+
+## Claim
+
+SSD 缓存命中率阈值推导（基于吞吐量而非 IOPS）：HDD 层 30 块盘总顺序读吞吐 = 30 × 200MB/s = 6GB/s。温数据扫描需求 1.74GB/s，HDD 层自身吞吐能力 (6GB/s) 大于需求 (1.74GB/s)，理论上 HDD 层可独立满足吞吐量 SLA。但若 SLA 要求扫描时间 < 1 小时，需 1.74GB/s 持续吞吐，HDD 可覆盖。SSD 缓存主要价值在于降低 HDD 机械臂寻道时间对随机小文件的延迟影响，而非提升顺序吞吐上限。
+
+## Corrected Claim
+
+SSD 缓存命中率阈值推导（基于吞吐量而非 IOPS）：HDD 层 30 块盘总顺序读吞吐 = 30 × 200MB/s = 6GB/s。温数据扫描需求 1.74GB/s，HDD 层自身吞吐能力 (6GB/s) 大于需求 (1.74GB/s)，理论上 HDD 层可独立满足吞吐量 SLA。但若 SLA 要求扫描时间 < 1 小时，需 1.74GB/s 持续吞吐，HDD 可覆盖。SSD 缓存主要价值在于降低 HDD 机械臂寻道时间对随机小文件的延迟影响，而非提升顺序吞吐上限。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：30*200MB/s=6GB/s > 1.74GB/s，且SSD主要优化随机延迟而非顺序吞吐上限，符合存储系统基本原理。

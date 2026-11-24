@@ -1,0 +1,24 @@
+# N620: 工作点B（3.84TB SSD）的5年RTO风险成本 C_RTO_B_5y = (L_hourly * T_RTO_B + C_expedited_B) * P
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N259
+
+## Claim
+
+工作点B（3.84TB SSD）的5年RTO风险成本 C_RTO_B_5y = (L_hourly * T_RTO_B + C_expedited_B) * P_failure_yearly * 5，其中 T_RTO_B 基于 N68/N72 修正后的 NVMe 重建带宽（1-2 GB/s/drive 持续写，修正自 N72 的高估）计算，P_failure_yearly 基于 3.84TB SSD 的 MTBF 估算
+
+## Corrected Claim
+
+工作点B（3.84TB SSD）的5年RTO风险成本 C_RTO_B_5y = (L_hourly * T_RTO_B + C_expedited_B) * P_failure_yearly * 5，其中 T_RTO_B 基于修正后的 NVMe 重建带宽计算，P_failure_yearly 基于 3.84TB SSD 的 MTBF 估算（具体数值需进一步验证）
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（如3.84TB SSD的MTBF、NVMe重建带宽1-2GB/s），这些属于经验事实而非第一性原理可推导内容，且缺乏外部来源支持以验证其数值准确性或合理性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+NVMe SSD 3.84TB MTBF RAID6 rebuild time impact on RTO cost

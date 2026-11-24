@@ -1,0 +1,20 @@
+# N207: 考虑 I/O 抑制效应后的有效重建时间 T_effective = T_min / (1 - I/O_throttling_factor)，若业务 I/O 占用
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N72
+
+## Claim
+
+考虑 I/O 抑制效应后的有效重建时间 T_effective = T_min / (1 - I/O_throttling_factor)，若业务 I/O 占用导致重建带宽下降 40%（取 N67 中值），则 T_effective ≈ 3.7h / 0.6 ≈ 6.2 小时，这才是用于 RTO 评估的真实耗时。
+
+## Corrected Claim
+
+考虑 I/O 抑制效应后的有效重建时间 T_effective = T_min / (1 - I/O_throttling_factor)，若业务 I/O 占用导致重建带宽下降 40%（取 N67 中值），则 T_effective ≈ 3.7h / 0.6 ≈ 6.2 小时，这才是用于 RTO 评估的真实耗时。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 T_effective = T_min / (1 - factor) 符合带宽竞争下的时间膨胀逻辑，数值计算 3.7 / 0.6 ≈ 6.17 正确，量级合理。

@@ -1,0 +1,20 @@
+# N623: Cache_Miss_Expansion_Factor (CMF) 的组成分解：CMF = Overhead_Metadata + Overhead_Alloc
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N213
+
+## Claim
+
+Cache_Miss_Expansion_Factor (CMF) 的组成分解：CMF = Overhead_Metadata + Overhead_Allocation_Granularity。对于 1MB 平均对象大小，元数据开销 (对象头+索引) 约为 4KB/对象，即 0.4% 容量损耗；分配粒度 (Allocation Unit) 若为 4KB，则 1MB 对象浪费 0%，但若存在大量小文件 (<4KB)，浪费率可达 50%。假设数据湖以 1MB 大对象为主，Metadata_Overhead ≈ 0.5%，Fragmentation_Overhead ≈ 5% (文件系统碎片)，则 CMF ≈ 0.055，修正后 V_ssd_phys = 100TB / (1 - 0.055) ≈ 105.8TB。
+
+## Corrected Claim
+
+Cache_Miss_Expansion_Factor (CMF) 的组成分解：CMF = Overhead_Metadata + Overhead_Allocation_Granularity。对于 1MB 平均对象大小，元数据开销 (对象头+索引) 约为 4KB/对象，即 0.4% 容量损耗；分配粒度 (Allocation Unit) 若为 4KB，则 1MB 对象浪费 0%，但若存在大量小文件 (<4KB)，浪费率可达 50%。假设数据湖以 1MB 大对象为主，Metadata_Overhead ≈ 0.5%，Fragmentation_Overhead ≈ 5% (文件系统碎片)，则 CMF ≈ 0.055，修正后 V_ssd_phys = 100TB / (1 - 0.055) ≈ 105.8TB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：CMF定义及数值计算（100/(1-0.055)≈105.8）符合算术逻辑，参数假设在工程常识范围内。

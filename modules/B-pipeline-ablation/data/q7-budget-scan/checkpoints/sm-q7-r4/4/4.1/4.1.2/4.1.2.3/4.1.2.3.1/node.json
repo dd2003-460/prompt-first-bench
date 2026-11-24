@@ -1,0 +1,17 @@
+{
+  "id": "N673",
+  "claim": "JBOD+3副本方案的有效容量成本修正项：实际有效TB成本 = (3 * Hardware_Cost_per_TB + C_software_ops) / (1/3)，其中 C_software_ops 包含分布式文件系统（如Ceph/GlusterFS）的元数据管理开销，通常比裸硬件成本高 15%-30%，需引用具体基准测试数据。",
+  "level": "L5",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]公式中分母 (1/3) 暗示有效容量为总容量的 1/3，这与 3 副本（Replication Factor=3）的逻辑一致（有效容量=总容量/3），但将软件运维成本 C_software_ops 直接加在分子中再除以 1/3，意味着软件成本也被放大了 3 倍。通常软件/运维成本是按集群整体或按有效容量计算的，而非按物理副本数线性放大。此外，'15%-30%' 是一个经验范围，缺乏特定基准测试支持，且不同分布式文件系统差异巨大。 | 先验知识/题面给定，逻辑校验通过。公式结构在量纲上自洽（成本/有效容量），但软件成本是否随副本数线性增加存在争议，且 15%-30% 为经验估计值，无具体基准数据支撑，故降级。",
+  "corrected_claim": "JBOD+3副本方案的有效容量成本修正项：实际有效TB成本 ≈ (3 * Hardware_Cost_per_TB + C_software_ops) / (Total_Capacity / 3)。其中 C_software_ops 包含分布式文件系统的元数据管理及运维开销，其占比因系统架构和规模而异，通常在硬件成本的 10%-40% 之间波动，具体数值需依据所选系统（如Ceph/GlusterFS）的基准测试数据确定。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N233"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

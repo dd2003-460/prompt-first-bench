@@ -1,0 +1,24 @@
+# N378: EC(8,6) 重建带宽瓶颈量化：重建 1 块 16TB 盘需读取其余 7 块盘的数据并计算异或，聚合读带宽需求 B_rebuild_read = 16TB /
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N167
+
+## Claim
+
+EC(8,6) 重建带宽瓶颈量化：重建 1 块 16TB 盘需读取其余 7 块盘的数据并计算异或，聚合读带宽需求 B_rebuild_read = 16TB / T_max_rebuild。若限制重建时间 T_max = 4h，则需 B = 16*1024GB / 4h ≈ 4096 GB/h ≈ 1.14 GB/s。单盘持续读速 150MB/s，7 盘聚合 1.05 GB/s，略低于需求，导致重建时间延长至 4.15h，RTO 代价增加约 3.75% [待核验]
+
+## Corrected Claim
+
+EC(8,6) 重建带宽瓶颈量化：重建 1 块 16TB 盘需读取其余 7 块盘的数据并计算异或，聚合读带宽需求 B_rebuild_read = 16TB / T_max_rebuild。若限制重建时间 T_max = 4h，则需 B = 16*1024GB / 4h ≈ 4096 GB/h ≈ 1.14 GB/s。单盘持续读速 150MB/s，7 盘聚合 1.05 GB/s，略低于需求，导致重建时间延长至 4.15h，RTO 代价增加约 3.75% [待核验]
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：16TB/4h=4096GB/h≈1.14GB/s，7*150MB/s=1.05GB/s，1.05<1.14导致时间延长至4.15h，RTO增加3.75%，数值与逻辑均自洽
+
+## Search Query
+
+Erasure coding 8 6 rebuild bandwidth requirement calculation

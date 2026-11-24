@@ -1,0 +1,24 @@
+# N227: HDD层故障重建时间的量化修正：HDD RAID-6（双盘冗余）重建12盘阵列中2块故障盘，T_rebuild_hdd = (Data_Size / Seque
+
+- **status**: pending
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N70
+
+## Claim
+
+HDD层故障重建时间的量化修正：HDD RAID-6（双盘冗余）重建12盘阵列中2块故障盘，T_rebuild_hdd = (Data_Size / Sequential_Read_Speed_Aggregate) × Parity_Overhead_Factor；若12块16TB HDD聚合读速3GB/s，Parity_Overhead=1.5，T_rebuild_hdd = 500TB / 3GB/s × 1.5 ≈ 250,000s ≈ 69.4h，超出24h假设
+
+## Corrected Claim
+
+HDD层故障重建时间的量化修正：HDD RAID-6（双盘冗余）重建12盘阵列中2块故障盘，T_rebuild_hdd = (Data_Size / Sequential_Read_Speed_Aggregate) × Parity_Overhead_Factor；若12块16TB HDD聚合读速3GB/s，Parity_Overhead=1.5，T_rebuild_hdd = 500TB / 3GB/s × 1.5 ≈ 250,000s ≈ 69.4h，超出24h假设
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备, 有冗余（1. 正交性问题：工作点B和C均基于RAID-5，而父节点明确限定为RAID-6语境下的量化修正，子节点引入RAID-5属于维度跳跃，导致子节点间在“冗余等级”上不正交（B/C同为单冗余，与A双冗余对比尚可，但B/C之间仅在速度上差异，本质是同一策略的不同参数）。2. 完备性问题：父节点核心是“HDD RAID-6...重建2块故障盘”，子节点B和C完全偏离了“RAID-6”和“2块故障盘”的前提（RAID-5无法同时重建2块盘而不丢数据，除非是降级运行或特殊算法，此处逻辑存疑且未解释），因此未能覆盖父节点定义的特定场景。3. 冗余问题：三个子节点本质上是同一公式 `T = Size / Speed * Overhead` 在不同输入参数（Speed, Overhead, RAID Level）下的计算实例，属于典型的参数化变体，而非独立的结构性分解。）
+
+## Search Query
+
+HDD RAID 6 rebuild time 12 disks 16TB

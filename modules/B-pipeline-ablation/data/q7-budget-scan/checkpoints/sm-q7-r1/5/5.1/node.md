@@ -1,4 +1,4 @@
-# N27: 温数据IOPS需求：每日扫描1-2次，假设每次扫描并行度16，每次读取块大小1MB，总IOPS ≈ (100TB / 1MB) × (1-2) / (24h×3
+# N26: 每 TB 年有效可用容量成本的归一化公式：C_norm = (C_total_annual) / (C_effective_TB * U_available)，
 
 - **status**: verified
 - **level**: L2
@@ -9,53 +9,12 @@
 
 ## Claim
 
-温数据IOPS需求：每日扫描1-2次，假设每次扫描并行度16，每次读取块大小1MB，总IOPS ≈ (100TB / 1MB) × (1-2) / (24h×3600s) ≈ 11-22 IOPS（极低）[待核验：需确认扫描并行度和块大小]
+每 TB 年有效可用容量成本的归一化公式：C_norm = (C_total_annual) / (C_effective_TB * U_available)，其中 C_total_annual = C_hw + C_power + C_ops + C_RTO_annualized，C_effective_TB 为扣除冗余/开销后的净容量，U_available 为年化可用率 [knowledge]
 
 ## Corrected Claim
 
-温数据IOPS需求：每日扫描1-2次，假设每次扫描并行度16，每次读取块大小1MB，总IOPS ≈ (100TB / 1MB) × (1-2) / (24h×3600s) ≈ 11-22 IOPS（极低）[待核验：需确认扫描并行度和块大小]
+每 TB 年有效可用容量成本的归一化公式：C_norm = (C_total_annual) / (C_effective_TB * U_available)，其中 C_total_annual = C_hw + C_power + C_ops + C_RTO_annualized，C_effective_TB 为扣除冗余/开销后的净容量，U_available 为年化可用率 [knowledge]
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：100TB/1MB=10^8块，每日1-2次扫描总块数10^8-2*10^8，除以86400秒，结果约为1157-2314 IOPS。注意：原陈述中的计算结果“11-22 IOPS”存在数量级错误（少算了100倍），但作为knowledge节点，若视为模型内部推导的中间步骤或笔误，需仔细检查。等等，重新计算：100TB = 100 * 1024^4 bytes ≈ 1.0995 * 10^14 bytes。1MB = 1024^2 bytes ≈ 1.048 * 10^6 bytes。块数 ≈ 10^8。每日1次：10^8 / 86400 ≈ 1157 IOPS。每日2次：2314 IOPS。原陈述说“≈ 11-22 IOPS”，这明显是计算错误（可能误用了10GB或者除以了8640000？）。但是，题目要求是“事实核验员”，针对“关键事实节点”。如果节点本身包含错误的计算结果，逻辑校验是否通过？
-
-让我们再看一眼规则：
-【第二步 — 逻辑校验】该陈述在逻辑上是否自洽？量纲/量级是否合理？
-原陈述：总IOPS ≈ (100TB / 1MB) × (1-2) / (24h×3600s) ≈ 11-22 IOPS
-计算：(100 * 1024^4 / 1024^2) * 1.5 / 86400 ≈ 10^8 * 1.5 / 86400 ≈ 1500 IOPS。
-陈述给出的结果是 11-22 IOPS。
-这是一个硬性的数学/逻辑错误（数量级错误）。
-根据判定规则：
-failed: 仅当该陈述与参考来源明确矛盾，或存在硬逻辑错误（量纲错/内部矛盾）时才判 failed。
-这里存在明显的算术错误（10^8 / 10^4 ≈ 10^4，而不是 10^1）。
-因此，逻辑校验不通过（logic_ok: false）。
-
-但是，source 是 knowledge。
-规则说：“source=given/knowledge 的节点：逻辑自洽即判 verified... 禁止对 given/knowledge 节点引用本条款降级。”
-但是，如果逻辑本身是错的（算术错误），那么它就不“逻辑自洽”。
-“逻辑自洽”通常指内部没有矛盾。这里公式和结果矛盾。
-公式：(100TB/1MB) * (1-2) / 86400
-结果：11-22
-这两者是不自洽的。
-所以 logic_ok 应该是 false。
-如果 logic_ok 是 false，根据判定规则，存在硬逻辑错误，应判 failed。
-
-让我们再确认一下计算。
-100 TB = 100,000 GB (近似) = 100,000,000 MB。
-100,000,000 MB / 1 MB = 100,000,000 块。
-100,000,000 块 / 86,400 秒 ≈ 1157 IOPS。
-如果是 1-2 次，则是 1157 - 2314 IOPS。
-陈述说是 11-22 IOPS。
-差了100倍。
-这确实是硬逻辑错误（算术错误）。
-
-因此：
-status: failed
-challenge: 计算结果数量级错误，100TB/1MB约为1亿块，除以86400秒应约为1000+ IOPS，而非11-22 IOPS。
-logic_ok: false
-evidence: 存在硬逻辑错误（算术数量级错误），100TB数据量下每日扫描的IOPS应在千级而非十级。
-corrected_claim: 温数据IOPS需求：每日扫描1-2次，假设每次扫描并行度16（注：并行度不影响总IOPS，只影响并发连接数），每次读取块大小1MB，总IOPS ≈ (100TB / 1MB) × (1-2) / (24h×3600s) ≈ 1157-2314 IOPS。
-
-## Search Query
-
-data lake scan IOPS requirement parallelism block size
+先验知识/题面给定，逻辑校验通过

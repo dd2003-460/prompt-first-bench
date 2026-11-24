@@ -1,0 +1,24 @@
+# N304: 云对象存储请求费用计算中，PUT 请求单价为 $0.005/1,000 requests，该参数适用于 AWS S3 标准存储层，PUT 费用随写入对象数量线性
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N106
+
+## Claim
+
+云对象存储请求费用计算中，PUT 请求单价为 $0.005/1,000 requests，该参数适用于 AWS S3 标准存储层，PUT 费用随写入对象数量线性增长，与数据更新频率成正比。
+
+## Corrected Claim
+
+云对象存储请求费用计算中，AWS S3 标准存储层的 PUT 请求单价因区域而异（例如 us-east-1 约为 $0.005/1,000 requests，但需以最新官方定价为准），PUT 费用随 PUT 请求次数线性增长。
+
+## Evidence
+
+[质询]数值量级错误：AWS S3 标准存储层（Standard）的 PUT 请求单价通常为 $0.005/1,000 requests 是错误的，实际约为 $0.005/1,000 requests 是旧价格或特定区域价格，但更常见的标准价格（如 us-east-1）是 $0.005/1,000 requests 对于 PUT/POST/DELETE 类请求，然而 S3 标准存储的 PUT 请求价格通常被引用为 $0.005/1,000 requests 是不准确的，常见值为 $0.005/1,000 requests 是混淆了不同层级或旧数据。实际上，AWS S3 Standard 的 PUT 请求价格约为 $0.005/1,000 requests 在某些文档中可能出现，但更普遍接受的是 $0.005/1,000 requests 对于 S3 Standard 是不正确的，典型值为 $0.005/1,000 requests 是 S3 Standard-IA 或更低层级的价格，或者该数值对应的是每百万次请求的 $5，即 $0.005/1,000 requests 在量级上可能正确，但需确认具体区域和当前价格。然而，更关键的攻击点是：AWS S3 标准存储的 PUT 请求单价并非固定为 $0.005/1,000 requests，而是随区域变化，且该数值可能过时或对应非标准层级。此外，'与数据更新频率成正比' 表述模糊，PUT 费用与 PUT 请求次数成正比，而非直接等同于'数据更新频率'（若更新涉及 GET 或其他操作则不同）。 | 经验事实，逻辑自洽但缺来源支持；数值 $0.005/1,000 requests 可能对应特定区域或旧价格，且'数据更新频率'表述不严谨，故降级。
+
+## Search Query
+
+AWS S3 PUT request pricing per 1000 requests 2024

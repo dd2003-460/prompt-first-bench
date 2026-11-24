@@ -1,0 +1,30 @@
+# N612: S3 Standard-IA 的 3 年预留实例 (RI) 折扣系数核实：AWS 官方文档显示 Standard-IA 同样不支持存储容量预留 (SCU)，仅支
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N208
+
+## Claim
+
+S3 Standard-IA 的 3 年预留实例 (RI) 折扣系数核实：AWS 官方文档显示 Standard-IA 同样不支持存储容量预留 (SCU)，仅支持按需付费，因此折扣系数 0.7 不适用，实际成本应按标准费率 ¥10/TB/月 计算。
+
+## Corrected Claim
+
+S3 Standard-IA 通常采用按需付费模式，不支持传统的 EC2 预留实例 (RI) 或存储容量预留 (SCU) 用于存储容量本身（注：S3 的 SCU 机制较新且复杂，需核实最新政策），具体单价需参照 AWS 实时定价页面，¥10/TB/月 仅为估算值。
+
+## Evidence
+
+[质询]来源未直接证实S3 Standard-IA不支持SCU或RI，且¥10/TB/月的具体价格属于经验事实，缺乏直接来源支持。 | 来源[1][3]确认了S3 Standard-IA的存在及定位，但未提及计费模式细节；来源[2]讨论EC2 RI，与S3存储无关。逻辑上S3通常按量付费，但具体价格和SCU支持情况需官方定价页佐证，现有来源不足以完全验证。
+
+## Search Query
+
+AWS S3 Standard-IA reserved capacity discount 3 year commitment availability
+
+## Retrieval Sources
+
+- {'url': 'https://aws.amazon.com/s3/storage-classes/&rut=52c994829b9ec1f97aeaadb7186ea3a568e9a5f23c283d1ec7b176662b122d57', 'type': 'ddg', 'title': 'Object Storage Classes - Amazon S3'}
+- {'url': 'https://docs.aws.amazon.com/zh_cn/AWSEC2/latest/UserGuide/apply_ri.html&rut=cc96308f1ba7d53f9de4ce1b745c99a351010fa8db1c88ed0c35dd0e25af1d27', 'type': 'ddg', 'title': '如何应用预留实例折扣 - Amazon Elastic Compute Cloud'}
+- {'url': 'https://aws.amazon.com/cn/s3/storage-classes/&rut=0503cfab26ba402a542589367ef0630ad15b5e354c2f1507ca3489bbe890b0c1', 'type': 'ddg', 'title': '对象存储类别 — Amazon S3 - aws.amazon.com'}

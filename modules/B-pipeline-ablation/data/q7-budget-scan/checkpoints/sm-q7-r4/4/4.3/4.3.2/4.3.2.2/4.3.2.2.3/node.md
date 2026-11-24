@@ -1,0 +1,24 @@
+# N725: 校验计算与I/O重叠度（Overlap Factor）：在并行架构下，Parity计算可与磁盘I/O流水线化，实际增加的端到端延迟 T_extra = T_pa
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N253
+
+## Claim
+
+校验计算与I/O重叠度（Overlap Factor）：在并行架构下，Parity计算可与磁盘I/O流水线化，实际增加的端到端延迟 T_extra = T_parity_calc * (1 - Overlap_Ratio)；若Overlap_Ratio=0.8，则15%的计算耗时仅转化为3%的总延迟增加。
+
+## Corrected Claim
+
+校验计算与I/O重叠度（Overlap Factor）：在并行架构下，Parity计算可与磁盘I/O流水线化，实际增加的端到端延迟 T_extra = T_parity_calc * (1 - Overlap_Ratio)；若Overlap_Ratio=0.8，则15%的计算耗时仅转化为3%的总延迟增加。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式 T_extra = T_parity_calc * (1 - Overlap_Ratio) 符合流水线重叠的基本定义；数值计算 15% * (1 - 0.8) = 15% * 0.2 = 3% 准确无误，量纲与逻辑自洽。
+
+## Search Query
+
+RAID parity calculation overlap with disk I/O pipeline efficiency

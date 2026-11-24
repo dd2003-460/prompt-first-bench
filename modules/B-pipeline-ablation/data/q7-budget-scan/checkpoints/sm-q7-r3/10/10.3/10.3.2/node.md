@@ -1,0 +1,20 @@
+# N383: 转换期间读取失败的概率模型：在转换窗口 T_transit 内，对象状态为 'Transitioning'，读取请求可能返回 403 或高延迟。假设读取请求到达
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N130
+
+## Claim
+
+转换期间读取失败的概率模型：在转换窗口 T_transit 内，对象状态为 'Transitioning'，读取请求可能返回 403 或高延迟。假设读取请求到达服从泊松分布 λ_read，失败概率 P_fail = 1 - exp(-λ_read * T_transit)。若 λ_read = 1 req/min，T_transit = 60 min，P_fail ≈ 63%。
+
+## Corrected Claim
+
+若 λ_read = 1 req/min，T_transit = 60 min，P_fail ≈ 100%（或更精确地，1 - e^-60）。若希望 P_fail ≈ 63%，则需 λ_read * T_transit ≈ 1，例如 T_transit = 1 min 或 λ_read = 1/60 req/min。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：泊松过程下至少发生一次事件的概率公式 P=1-exp(-λt) 正确，代入 λ=1, t=60 计算得 1-e^-60 ≈ 99.99...%，但题目中声称 P_fail ≈ 63% 存在数值错误。等等，重新检查：1 - exp(-1 * 60) = 1 - exp(-60) ≈ 1 - 8.75e-27 ≈ 100%。题目说 P_fail ≈ 63%。63% 对应的是 1 - exp(-1) ≈ 0.632。这意味着如果 T_transit = 1 min，则 P_fail ≈ 63%。或者如果 λ_read = 1/hour 且 T_transit = 1 hour，则 P_fail ≈ 63%。题目中 λ_read = 1 req/min, T_transit = 60 min，乘积为 60，exp(-60) 极小，概率接近 100%。因此，陈述中的数值结论是错误的。

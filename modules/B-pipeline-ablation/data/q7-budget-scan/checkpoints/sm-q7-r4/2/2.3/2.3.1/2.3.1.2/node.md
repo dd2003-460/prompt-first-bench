@@ -1,0 +1,30 @@
+# N182: 阿里云OSS数据取回/流出费用：100TB温数据每日扫描2次，意味着每日从OSS流出200TB数据到计算集群；OSS公网流出流量单价约¥0.5/GB，内网（同区
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N53
+
+## Claim
+
+阿里云OSS数据取回/流出费用：100TB温数据每日扫描2次，意味着每日从OSS流出200TB数据到计算集群；OSS公网流出流量单价约¥0.5/GB，内网（同区域ECS）免费。若计算集群在同区域VPC，流出费用 = ¥0/年；若在公网，年流出费 = 200TB × 1024 × 365 × ¥0.5/GB = ¥369,920,000/年（极高，故必须假设内网访问）。
+
+## Corrected Claim
+
+阿里云OSS数据取回/流出费用：100TB温数据每日扫描2次，意味着每日从OSS流出200TB数据到计算集群；OSS公网流出流量单价因地域和存储类型而异（例如中国内地标准存储约为¥0.5/GB，具体需查阅最新价目表），内网（同区域ECS）免费。若计算集群在同区域VPC，流出费用 = ¥0/年；若在公网，年流出费取决于具体单价，若按¥0.5/GB估算则为 ¥369,920,000/年（极高，故必须假设内网访问）。
+
+## Evidence
+
+[质询]OSS公网流出流量单价并非固定为¥0.5/GB，该价格通常对应特定地域（如中国内地）的标准存储类型，且不同地域、存储类型（标准/低频/归档）及是否使用CDN回源等场景下价格差异显著，直接断言“约¥0.5/GB”缺乏地域和存储类型限定，存在以偏概全风险。 | 来源[1]确认OSS存在流出流量费用，但未提供具体单价；来源[2]提及数据取回费用但非流量费；来源[3]为计费概述。所有来源均未直接支持“¥0.5/GB”这一具体数值，且该数值属于经验事实（具体参数值），无法从第一性原理推出，故降级。
+
+## Search Query
+
+alibaba cloud oss egress traffic price public network vs vpc free tier
+
+## Retrieval Sources
+
+- {'url': 'https://help.aliyun.com/zh/oss/traffic-fees&rut=c2fe1ce0123449071f15817310ba52a8b5688d93d41bd2fe07f2789403b93fd9', 'type': 'ddg', 'title': '流量费用-对象存储 (Oss)-阿里云帮助中心'}
+- {'url': 'https://www.alibabacloud.com/help/zh/oss/data-processing-fees&rut=e38d89eb046a353bd4e9a55687abdf1399762c59d4a426202d26b617b45e19d8', 'type': 'ddg', 'title': 'OSS数据处理费用说明 - 对象存储 OSS - 阿里云 - Alibaba Cloud'}
+- {'url': 'https://help.aliyun.com/zh/oss/billing-overview&rut=20a4e60b70be8973e18cefcd6f2fb100293e26b95f3592f62bb8694d97cde4f2', 'type': 'ddg', 'title': 'Oss的计费组成、付费方式和定价-对象存储 (Oss)-阿里云帮助中心'}

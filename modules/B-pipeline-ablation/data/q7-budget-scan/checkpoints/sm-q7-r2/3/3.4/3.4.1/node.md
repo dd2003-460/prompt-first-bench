@@ -1,24 +1,20 @@
-# N97: 本地NVMe SSD阵列在RAID-10配置下的实际RTO（恢复时间目标）量化值：基于1000TB物理容量、双控制器热备及BBU电池，RAID-10重建时间通常
+# N68: 工作点A（RTO=4h, 本地NVMe）：故障卷重建时间 T_rebuild = 50TB / 100GB/h = 500h >> 4h，超出SLA时长 Δt 
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N23
+- **parent_ids**: N20
 
 ## Claim
 
-本地NVMe SSD阵列在RAID-10配置下的实际RTO（恢复时间目标）量化值：基于1000TB物理容量、双控制器热备及BBU电池，RAID-10重建时间通常<1小时，加上业务切换时间，总RTO≈1.5-2小时，满足RTO=4h目标
+工作点A（RTO=4h, 本地NVMe）：故障卷重建时间 T_rebuild = 50TB / 100GB/h = 500h >> 4h，超出SLA时长 Δt = 496h，RTO代价 C_rto = 496h × ¥5000/h = ¥2,480,000；需依赖快照/备份实现快速恢复而非在线重建
 
 ## Corrected Claim
 
-本地NVMe SSD阵列在RAID-10配置下的实际RTO（恢复时间目标）量化值：基于1000TB物理容量、双控制器热备及BBU电池，RAID-10重建时间通常<1小时，加上业务切换时间，总RTO≈1.5-2小时，满足RTO=4h目标
+工作点A（RTO=4h, 本地NVMe）：故障卷重建时间 T_rebuild = 50TB / 100GB/h = 500h >> 4h，超出SLA时长 Δt = 496h，RTO代价 C_rto = 496h × ¥5000/h = ¥2,480,000；需依赖快照/备份实现快速恢复而非在线重建
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：1000TB RAID-10 重建时间受限于磁盘 I/O 带宽，通常确实在小时级以内，加上切换时间总 RTO 在 1.5-2 小时符合工程常识，且满足 4h 目标。
-
-## Search Query
-
-RAID-10 rebuild time NVMe SSD 1000TB
+先验知识/题面给定，逻辑校验通过：算术运算正确（50000GB/100GB/h=500h, 500-4=496h, 496*5000=2,480,000），量纲一致，结论符合存储恢复逻辑。

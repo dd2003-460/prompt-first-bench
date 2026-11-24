@@ -1,0 +1,20 @@
+# N557: 3.84TB NVMe SSD 方案下的年电力成本 C_elec_NVMe_3.84TB = P_total_3.84TB * 24 * 365 * E_pri
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N239
+
+## Claim
+
+3.84TB NVMe SSD 方案下的年电力成本 C_elec_NVMe_3.84TB = P_total_3.84TB * 24 * 365 * E_price / 1000，其中 P_total_3.84TB = 3762W (N252)，E_price = ¥0.8/kWh，故 C_elec_NVMe_3.84TB = 3.762 kW * 8760 h * 0.8 ¥/kWh ≈ ¥26,400/年
+
+## Corrected Claim
+
+3.84TB NVMe SSD 方案下的年电力成本 C_elec_NVMe_3.84TB = P_total_3.84TB * 24 * 365 * E_price / 1000，其中 P_total_3.84TB = 3762W (N252)，E_price = ¥0.8/kWh，故 C_elec_NVMe_3.84TB = 3.762 kW * 8760 h * 0.8 ¥/kWh ≈ ¥26,400/年
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：3.762 kW × 8760 h × 0.8 ¥/kWh = 26,399.808 ≈ 26,400，计算无误。

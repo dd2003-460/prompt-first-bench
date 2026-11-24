@@ -1,24 +1,29 @@
-# N28: 对象平均大小敏感性分析：假设平均对象大小s∈{1KB, 1MB, 100MB}，计算云存储方案C的请求费占比变化，公式为 Request_Fee = (Acce
+# N23: NVMe SSD 阵列加速恢复的额外资源成本：若需将 RTO 从 24h 压缩至 4h，需临时增加 6 倍 IOPS 的写入能力，对应额外 SSD 容量或云端爆
 
-- **status**: verified
+- **status**: degraded
 - **level**: L2
-- **source**: knowledge
+- **source**: search
 - **edge_type**: cartesian
-- **rework_count**: 0
+- **rework_count**: 1
 - **parent_ids**: N4
 
 ## Claim
 
-对象平均大小敏感性分析：假设平均对象大小s∈{1KB, 1MB, 100MB}，计算云存储方案C的请求费占比变化，公式为 Request_Fee = (Access_Count / s) * Unit_Request_Price，识别小对象场景下云存储成本激增的阈值
+NVMe SSD 阵列加速恢复的额外资源成本：若需将 RTO 从 24h 压缩至 4h，需临时增加 6 倍 IOPS 的写入能力，对应额外 SSD 容量或云端爆发带宽费用，估算 C_expedited_NVMe ≈ ¥5,000-15,000/次 [待核验]
 
 ## Corrected Claim
 
-对象平均大小敏感性分析：假设平均对象大小s∈{1KB, 1MB, 100MB}，计算云存储方案C的请求费占比变化，公式为 Request_Fee = (Access_Count / s) * Unit_Request_Price，识别小对象场景下云存储成本激增的阈值
+NVMe SSD 阵列加速恢复需临时增加显著的高 IOPS 写入能力以压缩 RTO，这将产生额外的 SSD 容量或云端爆发带宽费用，具体成本取决于实际 I/O 负载规模及云服务定价策略，通常需根据具体业务场景进行详细估算。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：公式 Request_Fee = (Access_Count / s) * Unit_Request_Price 在量纲上自洽（次数/大小 * 价格/次数 = 价格/大小，若 Unit_Request_Price 定义为每单位数据请求费则成立；通常云存储按次计费，此处公式隐含了将访问次数转换为数据块数的逻辑，或 Unit_Request_Price 为每GB请求费，逻辑上可推导小对象s越小，分母越小，费用越高，符合云存储小文件成本高的常识）。
+[质询]该陈述包含具体的经验性成本估算（¥5,000-15,000/次）和特定的IOPS倍数关系（6倍），这些属于市场/工程经验数据，无法从第一性原理推导。参考来源仅讨论NVMe与RAID的技术架构及性能优势，完全未涉及具体的恢复成本估算或RTO压缩的资源费用量化，因此缺乏直接的外部证据支持。 | 逻辑上，缩短RTO确实需要更高的I/O吞吐能力，从而增加硬件或带宽成本，量级在特定场景下可能合理；但参考来源[1][2]仅涉及NVMe技术背景与RAID回归的技术原因，未提供关于加速恢复成本的具体数值或估算模型，属于经验事实且缺来源支持。
 
 ## Search Query
 
-cloud storage request cost sensitivity object size
+NVMe array temporary expansion cost for rapid RAID rebuild emergency
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1944312616748052680&rut=632fb81cbad13e15a8fb4d5bce93e1fe4b9475672cab9e2d2f41cbc08b87a66f', 'type': 'ddg', 'title': 'NVMe与AI：RAID为何强势回归？ - 知乎'}
+- {'url': 'https://zhuanlan.zhihu.com/p/24702007501&rut=25abbd3c293756eb6616fab94c5e4c22ff0674cf112d19000469cea4ec4dbc66', 'type': 'ddg', 'title': '从多控阵列到全闪革命：RDMA+NVMe-oF重构高端存储新范式'}

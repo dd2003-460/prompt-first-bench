@@ -1,0 +1,20 @@
+# N604: 冷数据年取回量的计算公式：V_retrieval_annual = V_cold_total × p_access_freq × avg_obj_size_ra
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N253, N254, N255
+
+## Claim
+
+冷数据年取回量的计算公式：V_retrieval_annual = V_cold_total × p_access_freq × avg_obj_size_ratio，其中 V_cold_total=400TB，p_access_freq 为年访问比例，avg_obj_size_ratio 为单次访问涉及的数据占比（假设 100% 对象被完整读取），若 p_access_freq=5%，则 V_retrieval_annual = 20TB
+
+## Corrected Claim
+
+冷数据年取回量的计算公式：V_retrieval_annual = V_cold_total × p_access_freq × avg_obj_size_ratio，其中 V_cold_total=400TB，p_access_freq 为年访问比例，avg_obj_size_ratio 为单次访问涉及的数据占比（假设 100% 对象被完整读取），若 p_access_freq=5%，则 V_retrieval_annual = 20TB
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：400TB * 5% * 100% = 20TB，计算无误且定义清晰。

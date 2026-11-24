@@ -1,0 +1,24 @@
+# N66: HDD 在 Spin-down（休眠）状态下的典型功耗（W/drive），基于 16TB CMR 硬盘规格，典型值约为 0.5-1.0W。
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+HDD 在 Spin-down（休眠）状态下的典型功耗（W/drive），基于 16TB CMR 硬盘规格，典型值约为 0.5-1.0W。
+
+## Corrected Claim
+
+HDD 在 Spin-down（休眠）状态下的典型功耗（W/drive），基于 16TB CMR 硬盘规格，典型值约为 0.5-1.0W。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1准确覆盖了父节点关于典型稳态功耗的核心定义；但子节点2主要描述的是‘唤醒延迟’和‘瞬态峰值功耗’，这超出了父节点‘典型功耗（稳态）’的范畴，导致信息边界模糊。虽然两者不冲突，但子节点2引入了与‘典型功耗’无关的时序和瞬态指标，使得分解不够聚焦。）
+
+## Search Query
+
+16tb cmr hdd spin down power consumption watts

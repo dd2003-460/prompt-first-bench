@@ -1,0 +1,20 @@
+# N257: HDD+SSD分层方案修正后总功耗 P_total = P_HDD + P_SSD + P_Controller + P_Fans = 240W + 411.6
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N88
+
+## Claim
+
+HDD+SSD分层方案修正后总功耗 P_total = P_HDD + P_SSD + P_Controller + P_Fans = 240W + 411.6W + 60W + 150W = 861.6W；对比原N88估算的1570W，主要差异在于原估算可能高估了SSD活跃功耗占比或包含了未分摊的整机功耗，修正后年电费成本将显著降低。
+
+## Corrected Claim
+
+HDD+SSD分层方案修正后总功耗 P_total = P_HDD + P_SSD + P_Controller + P_Fans = 240W + 411.6W + 60W + 150W = 861.6W；对比原N88估算的1570W，主要差异在于原估算可能高估了SSD活跃功耗占比或包含了未分摊的整机功耗，修正后年电费成本将显著降低。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术求和 240+411.6+60+150=861.6 正确，且 861.6W < 1570W 符合‘修正后功耗降低’的定性描述，无内部矛盾。

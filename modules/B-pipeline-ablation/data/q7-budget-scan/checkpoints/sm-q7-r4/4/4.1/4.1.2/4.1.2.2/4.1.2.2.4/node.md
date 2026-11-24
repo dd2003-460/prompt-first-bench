@@ -1,0 +1,30 @@
+# N784: S3 GET 请求计费单位澄清：AWS S3 请求费率为 $0.40 每 1,000 次请求（即 $0.0004/次），N289 中“$0.0004/1000 
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N288, N289, N290
+
+## Claim
+
+S3 GET 请求计费单位澄清：AWS S3 请求费率为 $0.40 每 1,000 次请求（即 $0.0004/次），N289 中“$0.0004/1000 请求”表述错误，实际单价为 $0.0004/次；修正后 4.1e9 次请求成本 = 4.1e9 × $0.0004 = $1,640,000 ≈ ¥11,808,000，远高于出口流量成本，不可忽略
+
+## Corrected Claim
+
+AWS S3 GET 请求费率通常为 $0.40 每 1,000 次请求（即 $0.0004/次），基于此估算 4.1e9 次请求成本约为 $1,640,000。
+
+## Evidence
+
+[质询]参考来源仅提供了S3定价页面的通用描述和配额管理链接，未包含具体的GET请求费率数值（$0.40/1,000 requests），无法从提供的文本中直接验证该具体价格参数。 | 逻辑计算正确（4.1e9 * 0.0004 = 1,640,000），但参考来源[2]虽指向S3定价页，摘要中未列出具体费率数值，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+AWS S3 request pricing GET per 1000 requests 2024
+
+## Retrieval Sources
+
+- {'url': 'https://docs.aws.amazon.com/AmazonS3/latest/userguide/Quotas.html&rut=a6656117983377a888d38852271ec3cdb6da98cdfb295b94846e1e6a6fe13fb5', 'type': 'ddg', 'title': 'Quotas - Amazon Simple Storage Service - docs.aws.amazon.com'}
+- {'url': 'https://aws.amazon.com/s3/pricing/&rut=8e789a9b57c1d1132b418a651cdae3fe2248e8eb9555e4d9bfe07ab2a5a530bd', 'type': 'ddg', 'title': 'S3 Pricing - aws.amazon.com'}
+- {'url': 'https://docs.aws.amazon.com/AmazonS3/latest/userguide/aws-usage-report-understand.html&rut=14609f34c9c1580d3ef61ead7edf3b435cfde086694f9c036a33a065689cb2a8', 'type': 'ddg', 'title': 'Understanding your AWS billing and usage reports for Amazon S3'}

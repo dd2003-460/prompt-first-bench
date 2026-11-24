@@ -1,0 +1,24 @@
+# N295: 异构扩容引发的运维工时增量 ΔT_ops：由于需同时管理HDD（机械）和SSD（固态）两套不同的故障模式与重建策略，运维复杂度系数 k_complexity 从
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N137
+
+## Claim
+
+异构扩容引发的运维工时增量 ΔT_ops：由于需同时管理HDD（机械）和SSD（固态）两套不同的故障模式与重建策略，运维复杂度系数 k_complexity 从 1.0 上升至 1.2，导致年化运维人力成本增加 ΔC_ops = 0.5 FTE × ¥200k × (1.2 - 1.0) = ¥20,000/年。
+
+## Corrected Claim
+
+异构扩容引发的运维工时增量 ΔT_ops：由于需同时管理HDD（机械）和SSD（固态）两套不同的故障模式与重建策略，运维复杂度系数 k_complexity 从 1.0 上升至 1.2，导致年化运维人力成本增加 ΔC_ops = 0.5 FTE × ¥200k × (1.2 - 1.0) = ¥20,000/年。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算 0.5 * 200,000 * 0.2 = 20,000 正确，且异构存储增加运维复杂度的定性逻辑符合工程常识。
+
+## Search Query
+
+heterogeneous storage ops overhead complexity factor

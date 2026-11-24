@@ -1,0 +1,20 @@
+# N629: 混合架构总年电力成本汇总：C_power_hybrid_total = C_power_ssd + C_power_hdd = ¥686.78 + ¥1,569
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N215
+
+## Claim
+
+混合架构总年电力成本汇总：C_power_hybrid_total = C_power_ssd + C_power_hdd = ¥686.78 + ¥1,569.79 = ¥2,256.57/年。该数值需与纯NVMe方案（500TB*0.7W*8760*1.4*0.8/1000 ≈ ¥13,735/年）及纯HDD方案进行对比，验证分层策略在电力维度的节约幅度（约83%）。
+
+## Corrected Claim
+
+混合架构总年电力成本汇总：C_power_hybrid_total = C_power_ssd + C_power_hdd = ¥686.78 + ¥1,569.79 = ¥2,256.57/年。该数值需与纯NVMe方案（500TB*0.7W*8760*1.4*0.8/1000 ≈ ¥13,735/年）及纯HDD方案进行对比，验证分层策略在电力维度的节约幅度（约83%）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：加法运算 686.78 + 1569.79 = 2256.57 正确；对比计算 (13735 - 2256.57) / 13735 ≈ 83.6%，与“约83%”相符，数值量级与逻辑自洽。

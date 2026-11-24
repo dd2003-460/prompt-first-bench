@@ -1,0 +1,24 @@
+# N192: HDD阵列静态功耗基准修正：企业级HDD静态功耗0.3W/TB，400TB HDD层静态功耗 = 400TB × 0.3W/TB = 120W，较原估算160W
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N58
+
+## Claim
+
+HDD阵列静态功耗基准修正：企业级HDD静态功耗0.3W/TB，400TB HDD层静态功耗 = 400TB × 0.3W/TB = 120W，较原估算160W降低25%
+
+## Corrected Claim
+
+HDD阵列静态功耗基准修正：企业级HDD静态功耗0.3W/TB，400TB HDD层静态功耗 = 400TB × 0.3W/TB = 120W，较原估算160W降低25%
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点1聚焦于底层硬件参数（单盘功耗及换算的单位功耗基准），子节点2聚焦于基于该参数对总功耗的计算修正及与旧估值的对比分析。两者逻辑层层递进，分别解决了‘为什么原假设错误’和‘修正后结果如何’的问题，无重叠且无矛盾。）
+
+## Search Query
+
+enterprise HDD static power consumption watts per terabyte

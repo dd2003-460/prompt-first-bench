@@ -1,24 +1,20 @@
-# N95: 500TB总容量扩展性约束：本地NVMe SSD阵列最大单阵列容量受控制器通道数限制，典型企业级存储控制器支持<1000块盘，500块SSD在限制内；HDD+S
+# N66: 工作点B（HDD+SSD分层，最优性价比）：SSD层缓存命中率 η=90% 时，有效扫描吞吐 T_eff = η×T_ssd + (1-η)×T_hdd；若 η
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N22
+- **parent_ids**: N19
 
 ## Claim
 
-500TB总容量扩展性约束：本地NVMe SSD阵列最大单阵列容量受控制器通道数限制，典型企业级存储控制器支持<1000块盘，500块SSD在限制内；HDD+SSD分层HDD 30块+SSD 25块共55块盘，在限制内；云存储无扩展性限制，可线性扩展至PB级
+工作点B（HDD+SSD分层，最优性价比）：SSD层缓存命中率 η=90% 时，有效扫描吞吐 T_eff = η×T_ssd + (1-η)×T_hdd；若 η=90%，T_scan ≈ 10TB/3GB/s + 90TB/250MB/s ≈ 6.4h，超过SLA(2h)，隐性成本 C_wait = (6.4-2)h × ¥5000/h × 2/day
 
 ## Corrected Claim
 
-500TB总容量扩展性约束：本地NVMe SSD阵列最大单阵列容量受控制器通道数限制，典型企业级存储控制器支持<1000块盘，500块SSD在限制内；HDD+SSD分层HDD 30块+SSD 25块共55块盘，在限制内；云存储无扩展性限制，可线性扩展至PB级
+工作点B（HDD+SSD分层，最优性价比）：SSD层缓存命中率 η=90% 时，有效扫描吞吐 T_eff = η×T_ssd + (1-η)×T_hdd；若 η=90%，T_scan ≈ 10TB/3GB/s + 90TB/250MB/s ≈ 6.4h，超过SLA(2h)，隐性成本 C_wait = (6.4-2)h × ¥5000/h × 2/day
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：企业级存储控制器通道数限制通常在数百至千块盘量级，500块SSD及55块混合盘均在合理物理限制范围内；云存储线性扩展至PB级符合分布式存储基本架构原理。
-
-## Search Query
-
-enterprise storage controller maximum disk count limit NVMe HDD
+先验知识/题面给定，逻辑校验通过：计算过程 10TB/3GB/s≈0.93h, 90TB/250MB/s≈5.47h, 总和≈6.4h，成本 (6.4-2)*5000*2=44000，数值量级与逻辑自洽。

@@ -1,0 +1,20 @@
+# N544: 工作点C混合扫描时间的并行化重算：若SSD与HDD层可并行读取，总扫描时间 T_mix_parallel = max(T_ssd_part, T_hdd_par
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N178
+
+## Claim
+
+工作点C混合扫描时间的并行化重算：若SSD与HDD层可并行读取，总扫描时间 T_mix_parallel = max(T_ssd_part, T_hdd_part)。假设HDD聚合吞吐为2.5GB/s，50TB数据在HDD上耗时 = 50,000GB / 2.5GB/s = 20,000s ≈ 5.6h；SSD部分耗时7.1h/2(并行减半?) 或保持7.1h（若独立通道），则总时间由较慢者主导，约为5.6-7.1h，远小于串行估算的207.1h。
+
+## Corrected Claim
+
+若SSD与HDD层可并行读取，总扫描时间 T_mix_parallel = max(T_ssd_part, T_hdd_part)。假设HDD聚合吞吐为2.5GB/s，50TB数据在HDD上耗时约5.6h；若SSD部分独立通道耗时为7.1h，则总时间由较慢者主导，约为7.1h，远小于串行估算的207.1h。
+
+## Evidence
+
+[质询]SSD部分耗时的计算逻辑存在严重歧义和潜在错误：'7.1h/2(并行减半?)'缺乏物理依据，并行化通常指不同存储介质间的重叠，而非同一介质内部带宽翻倍；若SSD独立通道耗时仍为7.1h，则总时间应为max(5.6h, 7.1h)=7.1h，而非模糊的区间，且未明确SSD数据量与吞吐的具体对应关系。 | 先验知识/题面给定，逻辑校验发现SSD耗时推导存在未定义的假设（并行减半无依据），导致最终时间范围表述不严谨，虽大方向正确但细节逻辑不自洽。

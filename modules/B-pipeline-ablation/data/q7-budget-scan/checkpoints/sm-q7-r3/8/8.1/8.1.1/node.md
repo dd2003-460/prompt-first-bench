@@ -1,0 +1,20 @@
+# N263: P_drives 计算修正：基于N128加权平均功耗3.85W，P_drives = 67块(7.68TB方案) * 3.85W ≈ 257.95W，而非N12
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N127
+
+## Claim
+
+P_drives 计算修正：基于N128加权平均功耗3.85W，P_drives = 67块(7.68TB方案) * 3.85W ≈ 257.95W，而非N125隐含的高功耗假设
+
+## Corrected Claim
+
+P_drives 计算修正：基于N128加权平均功耗3.85W，P_drives = 67块(7.68TB方案) * 3.85W ≈ 257.95W，而非N125隐含的高功耗假设
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：67 * 3.85 = 257.95，算术正确且符合物理直觉

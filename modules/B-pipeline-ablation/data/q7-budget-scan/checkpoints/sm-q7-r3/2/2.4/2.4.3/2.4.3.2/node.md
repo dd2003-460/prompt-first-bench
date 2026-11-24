@@ -1,0 +1,24 @@
+# N224: 阿里云 OSS 低频访问（IA）存储的 GET 请求单价同样为 ¥0.01/万次，但存在最低存储时长（30天）和最小计量单位（64KB）限制；若数据对象小于 6
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N73
+
+## Claim
+
+阿里云 OSS 低频访问（IA）存储的 GET 请求单价同样为 ¥0.01/万次，但存在最低存储时长（30天）和最小计量单位（64KB）限制；若数据对象小于 64KB，实际计费容量增加，间接影响存储成本而非请求成本，但请求单价本身不变。
+
+## Corrected Claim
+
+阿里云 OSS 低频访问（IA）存储的 GET 请求单价同样为 ¥0.01/万次，但存在最低存储时长（30天）和最小计量单位（64KB）限制；若数据对象小于 64KB，实际计费容量增加，间接影响存储成本而非请求成本，但请求单价本身不变。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+Alibaba Cloud OSS IA storage minimum size pricing

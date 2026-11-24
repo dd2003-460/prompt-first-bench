@@ -1,4 +1,4 @@
-# N35: 本地 NVMe SSD 阵列的硬件采购成本：2024-2025年企业级 NVMe SSD 价格约为 $0.10-$0.15/GB，500TB 有效容量需约 55
+# N32: NVMe SSD阵列的5年直线折旧模型：硬件购置成本除以5年寿命，年摊销额 = C_hw_total / 5；相比HDD的5-7年折旧周期，SSD的高单价导致其
 
 - **status**: degraded
 - **level**: L2
@@ -9,16 +9,18 @@
 
 ## Claim
 
-本地 NVMe SSD 阵列的硬件采购成本：2024-2025年企业级 NVMe SSD 价格约为 $0.10-$0.15/GB，500TB 有效容量需约 550TB 物理容量（含冗余），硬件成本约为 $55,000-$82,500，折合 ¥400,000-¥600,000（按汇率 7.2 计算）。
+NVMe SSD阵列的5年直线折旧模型：硬件购置成本除以5年寿命，年摊销额 = C_hw_total / 5；相比HDD的5-7年折旧周期，SSD的高单价导致其前期资本支出（CAPEX）占比远高于OPEX，需在TCO计算中单独列出折旧项以对比现金流影响。
 
 ## Corrected Claim
 
-2024-2025年企业级 NVMe SSD 价格约为 $0.10-$0.15/GB（需进一步核实具体市场数据），500TB 有效容量需约 550TB 物理容量（含冗余），硬件成本约为 $55,000-$82,500，折合 ¥400,000-¥600,000（按汇率 7.2 计算）。
+NVMe SSD阵列可采用直线折旧模型，年摊销额 = (C_hw_total - 残值) / 折旧年限。由于SSD单价较高且技术迭代快，其前期资本支出（CAPEX）通常高于HDD，需在TCO计算中单独列出折旧项以对比现金流影响。
 
 ## Evidence
 
-[质询]参考来源[1]主要讨论消费级/个人电脑SSD选购，未提供2024-2025年企业级NVMe SSD的具体价格数据（$0.10-$0.15/GB），且企业级与消费级价格存在显著差异，来源无法直接支持该经验事实。 | 经验事实，逻辑自洽但缺来源支持（来源[1]主题不匹配，未覆盖企业级SSD价格）
+[质询]该陈述包含具体的行业经验参数（NVMe SSD 5年寿命、HDD 5-7年寿命）以及基于这些参数的经济结论（SSD CAPEX占比远高于OPEX）。虽然直线折旧公式本身正确，但具体的折旧年限和成本结构对比属于经验事实，无法仅从第一性原理推导，且参考来源仅提供了通用的直线折旧公式，未提供存储介质特定的折旧年限或TCO对比数据。 | 来源[1][2][3]直接支持了直线折旧的计算逻辑（年摊销=成本/年限），但未覆盖NVMe/HDD的具体折旧年限及CAPEX/OPEX对比这一经验事实部分，故降级。
 
 ## Retrieval Sources
 
-- {'url': 'https://zhuanlan.zhihu.com/p/630917426&rut=ba27302a42f67fed7d8d6e992d8a10d4afe62beb061b1985e930439e7bebfd4b', 'type': 'ddg', 'title': '2026.11月版 SSD固态硬盘/选购指南/性价比选择推荐 [NVMe PCIe4.0 PCIe5.0 电脑M.2接口 多为原厂 高速度 ...'}
+- {'url': 'https://beancount.io/zh/blog/2026/04/03/straight-line-depreciation-formula-examples-how-to-calculate&rut=74365794d0dc1062b3708ca2b64dfcd2dbc084d0a551d75b9c96d1a7974c2c35', 'type': 'ddg', 'title': '直线折旧法：公式、实际案例及计算方法 | Beancount.io'}
+- {'url': 'https://calc.patrache.studio/zh/finance/depreciation-calculator/&rut=d2506f4052218b2d85f0de9f54722c4fc8abcaa5ad435605535a67ab12060c86', 'type': 'ddg', 'title': '折旧计算器 | Patrache Studio Calc'}
+- {'url': 'https://calculatorlib.com/zh/linear-depreciation-calculator&rut=2768bc48ac268d0ce9d4bec5f523c7d615e249c3e067b566f5d56e7924347545', 'type': 'ddg', 'title': '直线法折旧计算器（平均年限法）| 年折旧额与账面价值 - CalculatorLib'}

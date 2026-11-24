@@ -1,0 +1,24 @@
+# N463: NVMe SSD RAID6 重建的聚合带宽瓶颈修正：理论聚合带宽 53 disks * 1.5 GB/s/disk = 79.5 GB/s，但受限于 PCIe
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N205
+
+## Claim
+
+NVMe SSD RAID6 重建的聚合带宽瓶颈修正：理论聚合带宽 53 disks * 1.5 GB/s/disk = 79.5 GB/s，但受限于 PCIe Gen4 x16 控制器背板聚合上限（约 25 GB/s）及 RAID 控制器单口限速，实际有效重建带宽 W_eff 约为 10-12 GB/s。
+
+## Corrected Claim
+
+NVMe SSD RAID6 重建的聚合带宽瓶颈修正：理论聚合带宽 53 disks * 1.5 GB/s/disk = 79.5 GB/s，但受限于 PCIe Gen4 x16 控制器背板聚合上限（约 25 GB/s）及 RAID 控制器单口限速，实际有效重建带宽 W_eff 约为 10-12 GB/s。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe Gen4 x16 理论带宽约 32GB/s，扣除协议开销后实际背板带宽约 25GB/s 符合工程常识；RAID6 重建受限于控制器单口及背板瓶颈，有效带宽降至 10-12GB/s 量级符合实际系统表现。
+
+## Search Query
+
+PCIe Gen4 x16 bandwidth limit RAID controller rebuild speed bottleneck

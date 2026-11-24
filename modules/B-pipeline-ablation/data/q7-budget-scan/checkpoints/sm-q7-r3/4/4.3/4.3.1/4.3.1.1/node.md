@@ -1,0 +1,24 @@
+# N248: NVMe RAID-6重建速率的理论上限 Rebuild_Rate_max = min(NVMe_Sequential_Write_IOPS * Block_S
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N78
+
+## Claim
+
+NVMe RAID-6重建速率的理论上限 Rebuild_Rate_max = min(NVMe_Sequential_Write_IOPS * Block_Size, RAID_Controller_Compute_TBW)；典型企业级NVMe顺序写IOPS=1,000,000，Block_Size=4KB，理论上限=4GB/s；RAID控制器算力通常为2-4GB/s，故Rebuild_Rate_max≈2-4GB/s，N78声称的80-120GB/h（2.2-3.3GB/s）处于合理区间
+
+## Corrected Claim
+
+NVMe RAID-6重建速率的理论上限 Rebuild_Rate_max = min(NVMe_Sequential_Write_IOPS * Block_Size, RAID_Controller_Compute_TBW)；典型企业级NVMe顺序写IOPS=1,000,000，Block_Size=4KB，理论上限=4GB/s；RAID控制器算力通常为2-4GB/s，故Rebuild_Rate_max≈2-4GB/s，N78声称的80-120GB/h（2.2-3.3GB/s）处于合理区间
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：单位换算正确（1M IOPS * 4KB = 4GB/s），80-120GB/h 换算为 2.2-3.3GB/s 符合 RAID 控制器算力瓶颈的典型范围，数值量级合理。
+
+## Search Query
+
+NVMe sequential write IOPS RAID controller throughput limit rebuild rate

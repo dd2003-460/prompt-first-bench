@@ -1,0 +1,24 @@
+# N696: 云厂商电价 E_price 并非统一 ¥0.6/kWh，而是随区域 (Region) 浮动，如阿里云杭州区约 ¥0.55/kWh，深圳区约 ¥0.65/kWh，
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N288
+
+## Claim
+
+云厂商电价 E_price 并非统一 ¥0.6/kWh，而是随区域 (Region) 浮动，如阿里云杭州区约 ¥0.55/kWh，深圳区约 ¥0.65/kWh，且包含绿电溢价；若 E_price 波动 ±10%，C_elec_cloud_per_TB 波动亦为 ±10%，但该绝对值仅占存储单价的 0.5-2%，对总 TCO 影响 <0.02%，可视为常数处理。
+
+## Corrected Claim
+
+云厂商电价 E_price 并非统一 ¥0.6/kWh，而是随区域 (Region) 浮动，如阿里云杭州区约 ¥0.55/kWh，深圳区约 ¥0.65/kWh，且包含绿电溢价；若 E_price 波动 ±10%，C_elec_cloud_per_TB 波动亦为 ±10%，但该绝对值仅占存储单价的 0.5-2%，对总 TCO 影响 <0.02%，可视为常数处理。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：电价随区域浮动符合电力市场常识，±10%线性传导至电费成本符合数学定义，且电费占存储TCO比例极低（通常<1%）导致对总TCO影响微乎其微，逻辑自洽。
+
+## Search Query
+
+cloud provider electricity price variation by region impact on storage cost

@@ -1,20 +1,24 @@
-# N57: 工作点C（小对象/高开销）：平均对象大小=1MB，元数据开销率≈2.0%，有效容量系数=1/1.02≈0.980；适用于IoT传感器数据等海量小文件，元数据管理
+# N43: 阿里云OSS低频访问存储（IA/Infrequent Access）的公开单价（元/GB/月），用于冷数据80%部分的成本计算
 
-- **status**: verified
+- **status**: degraded
 - **level**: L3
-- **source**: knowledge
-- **edge_type**: quotient
-- **rework_count**: 0
-- **parent_ids**: N9
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N8
 
 ## Claim
 
-工作点C（小对象/高开销）：平均对象大小=1MB，元数据开销率≈2.0%，有效容量系数=1/1.02≈0.980；适用于IoT传感器数据等海量小文件，元数据管理成本显著增加，需考虑S3 Batch Operations优化。
+阿里云OSS低频访问存储（IA/Infrequent Access）的公开单价（元/GB/月），用于冷数据80%部分的成本计算
 
 ## Corrected Claim
 
-工作点C（小对象/高开销）：平均对象大小=1MB，元数据开销率≈2.0%，有效容量系数=1/1.02≈0.980；适用于IoT传感器数据等海量小文件，元数据管理成本显著增加，需考虑S3 Batch Operations优化。
+阿里云OSS低频访问存储（IA）的单价需查阅最新官方价格页确认，通常约为0.10-0.15元/GB/月（具体以实时报价为准），且需注意最低存储时长和最小计量单位限制。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：1/1.02≈0.980计算正确，2%元数据开销对应1MB对象在工程上合理（如S3元数据开销通常较低，但此处设定为特定场景或包含额外索引开销，逻辑自洽）。
+[质询]具体单价属于经验事实（商业定价），且随时间调整，若无最新官方文档支持，数值极易过时或错误；此外，OSS IA存储通常有最低存储时长（如30天）和最小计量单位（如64KB）限制，简单按GB/月计算可能忽略这些隐性成本因素。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，无法验证具体单价数值）
+
+## Search Query
+
+Alibaba Cloud OSS infrequent access IA storage price per GB month 2025

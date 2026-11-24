@@ -1,0 +1,20 @@
+# N65: 工作点A（NVMe SSD）：扫描耗时 T_scan = 100TB / (N_drives × 3GB/s) ≈ 9分钟，因 T_scan < SLA(2h)
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N19
+
+## Claim
+
+工作点A（NVMe SSD）：扫描耗时 T_scan = 100TB / (N_drives × 3GB/s) ≈ 9分钟，因 T_scan < SLA(2h)，隐性等待成本 C_wait = 0；主要成本为高 CapEx 溢价
+
+## Corrected Claim
+
+工作点A（NVMe SSD）：扫描耗时 T_scan = 100TB / (N_drives × 3GB/s) ≈ 9分钟，因 T_scan < SLA(2h)，隐性等待成本 C_wait = 0；主要成本为高 CapEx 溢价
+
+## Evidence
+
+父节点级核验未通过：非正交, 有冗余（子节点B并非独立的‘工作点’，而是子节点A的附加层级（HDD层），导致两者在成本结构上存在包含关系而非并列关系（非正交）；此外，子节点A中重复了父节点已定义的通用公式和结论，且将具体的参数假设（如N_drives=10）硬编码在节点描述中，具有冗余性。）

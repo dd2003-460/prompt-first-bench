@@ -1,0 +1,20 @@
+# N442: HDD层总年电力成本与故障维护成本对比：总电力成本 C_power_total = C_static + C_dynamic = ¥1,886.7 + ¥9.4
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N146
+
+## Claim
+
+HDD层总年电力成本与故障维护成本对比：总电力成本 C_power_total = C_static + C_dynamic = ¥1,886.7 + ¥9.4 ≈ ¥1,896/年。故障更换成本 C_failure：假设年故障率0.5%，32块盘期望故障数 0.16块/年。单盘成本 ¥2,000 (16TB企业级HDD市场价)，则 C_failure = 0.16 * 2000 = ¥320/年。总持有成本中的硬件相关项 C_hw_annual = C_power + C_failure ≈ ¥2,216/年。
+
+## Corrected Claim
+
+HDD层总年电力成本与故障维护成本对比：总电力成本 C_power_total = C_static + C_dynamic = ¥1,886.7 + ¥9.4 ≈ ¥1,896/年。故障更换成本 C_failure：假设年故障率0.5%，32块盘期望故障数 0.16块/年。单盘成本 ¥2,000 (16TB企业级HDD市场价)，则 C_failure = 0.16 * 2000 = ¥320/年。总持有成本中的硬件相关项 C_hw_annual = C_power + C_failure ≈ ¥2,216/年。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算正确（1886.7+9.4≈1896, 0.005*32=0.16, 0.16*2000=320, 1896+320=2216），参数假设（0.5%年故障率、¥2000/盘）符合企业级HDD常见工程估算范围。

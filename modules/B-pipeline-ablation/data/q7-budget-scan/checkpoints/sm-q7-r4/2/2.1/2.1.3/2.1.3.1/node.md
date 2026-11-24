@@ -1,0 +1,24 @@
+# N166: 工作点C (消费级/入门级NVMe, DWPD=0.5) 的故障率模型修正：企业级NVMe MTBF通常为2,000,000-3,000,000小时，而消费级/
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N49
+
+## Claim
+
+工作点C (消费级/入门级NVMe, DWPD=0.5) 的故障率模型修正：企业级NVMe MTBF通常为2,000,000-3,000,000小时，而消费级/入门级MTBF可能低至1,000,000小时或更低；年化故障概率 P_fail_annual = 1 - exp(-8760 / MTBF)；若MTBF=1,000,000h，P_fail ≈ 0.86%；需结合RAID重建时间计算数据丢失风险。
+
+## Corrected Claim
+
+工作点C (消费级/入门级NVMe, DWPD=0.5) 的故障率模型修正：企业级NVMe MTBF通常为2,000,000-3,000,000小时，而消费级/入门级MTBF可能低至1,000,000小时或更低；年化故障概率 P_fail_annual = 1 - exp(-8760 / MTBF)；若MTBF=1,000,000h，P_fail ≈ 0.86%；需结合RAID重建时间计算数据丢失风险。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点逻辑清晰且互斥：子节点1聚焦于MTBF数据的实证修正与局限性（指出MTBF非主要瓶颈）；子节点2聚焦于写入寿命（Endurance/DWPD）这一主导故障模式的量化模型；子节点3聚焦于系统层面的RAID重建窗口风险计算。三者分别对应‘基础参数校准’、‘核心失效机制建模’、‘系统级风险综合’，无重叠且共同覆盖了父节点中提到的MTBF修正、DWPD约束及RAID重建三个关键方面。）
+
+## Search Query
+
+consumer NVMe SSD MTBF vs enterprise

@@ -1,0 +1,26 @@
+# N32: NVMe SSD阵列的5年直线折旧模型：硬件购置成本除以5年寿命，年摊销额 = C_hw_total / 5；相比HDD的5-7年折旧周期，SSD的高单价导致其
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+NVMe SSD阵列的5年直线折旧模型：硬件购置成本除以5年寿命，年摊销额 = C_hw_total / 5；相比HDD的5-7年折旧周期，SSD的高单价导致其前期资本支出（CAPEX）占比远高于OPEX，需在TCO计算中单独列出折旧项以对比现金流影响。
+
+## Corrected Claim
+
+NVMe SSD阵列可采用直线折旧模型，年摊销额 = (C_hw_total - 残值) / 折旧年限。由于SSD单价较高且技术迭代快，其前期资本支出（CAPEX）通常高于HDD，需在TCO计算中单独列出折旧项以对比现金流影响。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1和2分别定义了总成本和年摊销额，逻辑上正且不重复。但父节点明确提到‘相比HDD...需在TCO计算中单独列出折旧项以对比现金流影响’，而子节点仅给出了SSD的具体数值和与HDD方案的简单对比结论，缺乏对‘TCO中单独列出折旧项’这一方法论层面的具体拆解或结构说明，未完全覆盖父节点关于TCO计算策略的关键方面。）
+
+## Retrieval Sources
+
+- {'url': 'https://beancount.io/zh/blog/2026/04/03/straight-line-depreciation-formula-examples-how-to-calculate&rut=74365794d0dc1062b3708ca2b64dfcd2dbc084d0a551d75b9c96d1a7974c2c35', 'type': 'ddg', 'title': '直线折旧法：公式、实际案例及计算方法 | Beancount.io'}
+- {'url': 'https://calc.patrache.studio/zh/finance/depreciation-calculator/&rut=d2506f4052218b2d85f0de9f54722c4fc8abcaa5ad435605535a67ab12060c86', 'type': 'ddg', 'title': '折旧计算器 | Patrache Studio Calc'}
+- {'url': 'https://calculatorlib.com/zh/linear-depreciation-calculator&rut=2768bc48ac268d0ce9d4bec5f523c7d615e249c3e067b566f5d56e7924347545', 'type': 'ddg', 'title': '直线法折旧计算器（平均年限法）| 年折旧额与账面价值 - CalculatorLib'}

@@ -1,20 +1,24 @@
-# N50: 本地文件系统（XFS/Ext4）元数据开销 M_meta_local 的基准值：在500TB数据量、平均对象/文件块大小4KB-1MB混合场景下，inode表+
+# N46: NVMe SSD 单盘标准容量选择：主流企业级 NVMe SSD 单盘容量通常为 3.84TB 或 7.68TB，选择 7.68TB 可最小化盘数从而降低 RA
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N10
+- **parent_ids**: N9
 
 ## Claim
 
-本地文件系统（XFS/Ext4）元数据开销 M_meta_local 的基准值：在500TB数据量、平均对象/文件块大小4KB-1MB混合场景下，inode表+目录项+日志区占用约为总逻辑容量的1.5%（中位估计），即有效容量损耗 = 500TB × 1.5% = 7.5TB
+NVMe SSD 单盘标准容量选择：主流企业级 NVMe SSD 单盘容量通常为 3.84TB 或 7.68TB，选择 7.68TB 可最小化盘数从而降低 RAID 6 中 (N-2)/N 的冗余损耗率
 
 ## Corrected Claim
 
-本地文件系统（XFS/Ext4）元数据开销 M_meta_local 的基准值：在500TB数据量、平均对象/文件块大小4KB-1MB混合场景下，inode表+目录项+日志区占用约为总逻辑容量的1.5%（中位估计），即有效容量损耗 = 500TB × 1.5% = 7.5TB
+NVMe SSD 单盘标准容量选择：主流企业级 NVMe SSD 单盘容量通常为 3.84TB 或 7.68TB，选择 7.68TB 可最小化盘数从而降低 RAID 6 中 (N-2)/N 的冗余损耗率
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+先验知识/题面给定，逻辑校验通过：3.84TB和7.68TB确实是当前主流企业级NVMe SSD的标准容量档位；RAID 6冗余损耗率公式(N-2)/N随N增大而减小，因此选择更大容量单盘减少总盘数N，确实能降低相对冗余损耗率。
+
+## Search Query
+
+enterprise nvme ssd standard capacity 3.84TB 7.68TB

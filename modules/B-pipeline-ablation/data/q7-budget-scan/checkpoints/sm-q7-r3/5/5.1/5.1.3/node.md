@@ -1,0 +1,20 @@
+# N119: HDD+SSD 分层聚合 IOPS 供给 = SSD 层 IOPS (100,000 × 42) + HDD 层 IOPS (200 × 40 × 并行度修正)
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N31
+
+## Claim
+
+HDD+SSD 分层聚合 IOPS 供给 = SSD 层 IOPS (100,000 × 42) + HDD 层 IOPS (200 × 40 × 并行度修正) ≈ 4,200,000 + 8,000 = 4,208,000 IOPS，满足 IOPS_peak 需求
+
+## Corrected Claim
+
+HDD+SSD 分层聚合 IOPS 供给 = SSD 层 IOPS (100,000 × 42) + HDD 层 IOPS (200 × 40 × 并行度修正) ≈ 4,200,000 + 8,000 = 4,208,000 IOPS，满足 IOPS_peak 需求
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间逻辑独立，分别关注SSD层、HDD层基础计算和并行度修正，无重叠或矛盾（正交性合格）。但父节点公式中明确包含“并行度修正”项，而子节点3仅提供了修正系数的取值建议，未展示应用该系数后的最终聚合结果（即未验证修正后的总IOPS是否仍满足IOPS_peak需求），导致对父节点结论的支撑不完整（完备性不足）。各子节点代表不同维度的计算细节，不属于同一参数的不同取值，无冗余。）

@@ -1,0 +1,20 @@
+# N637: 因重建导致业务暂停的成本 C_pause：C_pause = T_pause * (Revenue_Per_Hour + Opportunity_Cost_Ho
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N220
+
+## Claim
+
+因重建导致业务暂停的成本 C_pause：C_pause = T_pause * (Revenue_Per_Hour + Opportunity_Cost_Hourly)，其中 T_pause = T_rebuild * Bandwidth_Overlap_Ratio；若 T_rebuild=10h, Bandwidth_Overlap_Ratio=1.0 (完全暂停), Revenue_Per_Hour=¥10,000/h, Opportunity_Cost_Hourly=¥5,000/h，则 C_pause = 10 * 15,000 = ¥150,000。
+
+## Corrected Claim
+
+因重建导致业务暂停的成本 C_pause：C_pause = T_pause * (Revenue_Per_Hour + Opportunity_Cost_Hourly)，其中 T_pause = T_rebuild * Bandwidth_Overlap_Ratio；若 T_rebuild=10h, Bandwidth_Overlap_Ratio=1.0 (完全暂停), Revenue_Per_Hour=¥10,000/h, Opportunity_Cost_Hourly=¥5,000/h，则 C_pause = 10 * 15,000 = ¥150,000。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式定义清晰，代入数值计算 10 * (10000 + 5000) = 150,000 正确，量纲与逻辑自洽。

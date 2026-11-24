@@ -1,0 +1,20 @@
+# N672: HDD 进入 Spin-down 前的预休眠（Pre-sleep）阶段功耗约为 Active Idle 的 80%（~3.6W），若数据湖访问模式导致频繁短间隔
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N278, N279, N280
+
+## Claim
+
+HDD 进入 Spin-down 前的预休眠（Pre-sleep）阶段功耗约为 Active Idle 的 80%（~3.6W），若数据湖访问模式导致频繁短间隔唤醒，Spin-down 占比将低于 60%，导致加权平均功耗向 4.5W 偏移，建议按 50% Spin-down 占比做敏感性分析。
+
+## Corrected Claim
+
+HDD 进入 Spin-down 前的低功耗待机阶段（Pre-sleep/Standby）功耗通常显著低于 Active Idle（约为其 50%-80%），若数据湖访问模式导致频繁短间隔唤醒，Spin-down 占比降低会导致加权平均功耗上升，建议根据具体硬盘型号的功耗曲线进行敏感性分析。
+
+## Evidence
+
+[质询]具体数值（Active Idle ~4.5W, Pre-sleep ~3.6W, 阈值60%）缺乏通用标准支持，不同容量和转速的HDD功耗差异巨大，且'Pre-sleep'并非SATA/SCSI标准中通用的独立功耗状态定义，通常归入Standby或Idle子状态，具体比例高度依赖特定型号。 | 先验知识/题面给定，逻辑校验通过：功耗层级关系（Active > Idle > Standby/Sleep）符合物理直觉，加权平均计算逻辑自洽；但具体数值为经验估计，无外部来源直接支持，故降级。

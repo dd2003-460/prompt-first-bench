@@ -1,0 +1,24 @@
+# N368: NVMe SSD RAID6 (N=24, M=2) 工作点的年化 RTO 代价：基于 N94 公式，假设 MTBF=10^6h，P_failure=0.087
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N162
+
+## Claim
+
+NVMe SSD RAID6 (N=24, M=2) 工作点的年化 RTO 代价：基于 N94 公式，假设 MTBF=10^6h，P_failure=0.087/年，T_RTO=2.8h (N72)，业务损失率 L_hourly 假设为 ¥500/h（需根据实际业务校准），C_RTO_annual = (500 * 2.8 + 0) * 0.087 ≈ ¥122。
+
+## Corrected Claim
+
+NVMe SSD RAID6 (N=24, M=2) 工作点的年化 RTO 代价：基于 N94 公式，假设 MTBF=10^6h，P_failure=0.087/年，T_RTO=2.8h (N72)，业务损失率 L_hourly 假设为 ¥500/h（需根据实际业务校准），C_RTO_annual = (500 * 2.8 + 0) * 0.087 ≈ ¥122。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算过程 (500 * 2.8 + 0) * 0.087 = 1400 * 0.087 = 121.8 ≈ 122，数值量级与算术逻辑自洽。
+
+## Search Query
+
+Business downtime cost per hour estimate

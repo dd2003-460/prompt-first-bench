@@ -1,0 +1,20 @@
+# N554: 3.84TB NVMe SSD 方案下的年化 RTO 代价 C_RTO_NVMe_3.84TB = P_failure_yearly_3.84TB * (L_h
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N238
+
+## Claim
+
+3.84TB NVMe SSD 方案下的年化 RTO 代价 C_RTO_NVMe_3.84TB = P_failure_yearly_3.84TB * (L_hourly * T_RTO_3.84TB + C_expedited)，其中 L_hourly 为业务损失率（假设 ¥10,000/小时），T_RTO_3.84TB = 3.56 小时 (N248)，C_expedited 为紧急修复成本（假设 ¥50,000/次），P_failure_yearly_3.84TB = 2.07 次/年 (N249)，故 C_RTO_NVMe_3.84TB ≈ 2.07 * (10,000 * 3.56 + 50,000) ≈ 2.07 * 85,600 ≈ ¥177,192/年
+
+## Corrected Claim
+
+3.84TB NVMe SSD 方案下的年化 RTO 代价 C_RTO_NVMe_3.84TB = P_failure_yearly_3.84TB * (L_hourly * T_RTO_3.84TB + C_expedited)，其中 L_hourly 为业务损失率（假设 ¥10,000/小时），T_RTO_3.84TB = 3.56 小时 (N248)，C_expedited 为紧急修复成本（假设 ¥50,000/次），P_failure_yearly_3.84TB = 2.07 次/年 (N249)，故 C_RTO_NVMe_3.84TB ≈ 2.07 * (10,000 * 3.56 + 50,000) ≈ 2.07 * 85,600 ≈ ¥177,192/年
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算 2.07 * (10000 * 3.56 + 50000) = 2.07 * 85600 = 177192 准确无误，公式结构符合RTO成本定义。

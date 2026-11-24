@@ -1,24 +1,30 @@
-# N29: 区域差异敏感性分析：假设云存储区域价格系数r∈{0.8, 1.0, 1.2}，计算方案C的成本变化 ΔC_C = C_C * (r - 1)，同时考虑本地方案A
+# N24: HDD+SSD 分层加速恢复成本：冷数据 HDD 层重建瓶颈是顺序写入带宽，加速需并行多盘或临时 SSD 缓存，估算 C_expedited_Hybrid ≈ 
 
-- **status**: verified
+- **status**: degraded
 - **level**: L2
-- **source**: knowledge
+- **source**: search
 - **edge_type**: cartesian
-- **rework_count**: 0
+- **rework_count**: 1
 - **parent_ids**: N4
 
 ## Claim
 
-区域差异敏感性分析：假设云存储区域价格系数r∈{0.8, 1.0, 1.2}，计算方案C的成本变化 ΔC_C = C_C * (r - 1)，同时考虑本地方案A/B因电力价格差异导致的成本变化，公式为 ΔC_local = C_local * (Electricity_Price_Diff / Base_Price)
+HDD+SSD 分层加速恢复成本：冷数据 HDD 层重建瓶颈是顺序写入带宽，加速需并行多盘或临时 SSD 缓存，估算 C_expedited_Hybrid ≈ ¥2,000-8,000/次（取决于并行度） [待核验]
 
 ## Corrected Claim
 
-区域差异敏感性分析：假设云存储区域价格系数r∈{0.8, 1.0, 1.2}，计算方案C的成本变化 ΔC_C = C_C * (r - 1)，同时考虑本地方案A/B因电力价格差异导致的成本变化，公式为 ΔC_local = C_local * (Electricity_Price_Diff / Base_Price)
+HDD+SSD 分层加速恢复：冷数据 HDD 层重建瓶颈是顺序写入带宽，加速需并行多盘或临时 SSD 缓存。具体恢复成本取决于硬件配置与数据规模，需根据实际环境评估，通常涉及额外 SSD 资源或并行 I/O 开销。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+[质询]该陈述包含具体的经验性成本估算（¥2,000-8,000/次），这属于特定场景下的经济/工程参数，无法从第一性原理或通用逻辑中严格推导得出，且不同硬件配置、数据量级下差异巨大，缺乏普适性。 | 逻辑上HDD重建受限于顺序写带宽，SSD缓存或并行可加速，技术原理自洽；但参考来源[1][2][3]仅讨论冷热分层的架构设计与性能优化，均未提供具体的恢复成本数值或价格区间，属于经验事实且缺来源直接支持。
 
 ## Search Query
 
-cloud storage regional price difference sensitivity
+HDD RAID rebuild acceleration parallel write cost estimate
+
+## Retrieval Sources
+
+- {'url': 'https://help.aliyun.com/zh/oss/user-guide/enable-the-automatic-storage-tiering-feature-for-the-oss-hdfs-service&rut=bc510e4759ea0cbb0bf951f00acc366afc3776ebf74f6587d515715664477ea5', 'type': 'ddg', 'title': '通过oss-hdfs服务的冷热分层存储实现低成本存储冷数据'}
+- {'url': 'https://blog.csdn.net/jingjing45678/article/details/149634159&rut=b7055d8e5760ee39840e4af4b90cd370647aa1ea61113f163b793bdf831add5d', 'type': 'ddg', 'title': '数据库存储分层架构搭建：热数据 Ssd 存储、冷数据归档的配置操作及性能对比分析_冷热温数据存储架构设计-csdn博客'}
+- {'url': 'https://blog.csdn.net/m0_74225871/article/details/148190086&rut=d4a94b6045873c8859a00d2210fde76fae9591119f9f6689659eb3e4bd34bcd0', 'type': 'ddg', 'title': 'SSD加速磁盘冷热分区：DiskLruCache魔改实现60%空间利用率提升_diskfresh刷新冷数据-CSDN博客'}

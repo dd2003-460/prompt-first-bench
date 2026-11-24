@@ -1,0 +1,24 @@
+# N460: 高成本低性工作点：平均对象大小 4KB 时，inode 开销 6.25%，总元数据开销 6.75%；若数据量 500TB，元数据占用 33.75TB，需额外预留
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N170
+
+## Claim
+
+高成本低性工作点：平均对象大小 4KB 时，inode 开销 6.25%，总元数据开销 6.75%；若数据量 500TB，元数据占用 33.75TB，需额外预留 35TB 物理空间，成本增加 7%，且 IOPS 需求激增（对象数增加 16 倍），可能触发 IOPS 瓶颈。
+
+## Corrected Claim
+
+高成本低性工作点：平均对象大小 4KB 时，inode 开销 6.25%，总元数据开销 6.75%；若数据量 500TB，元数据占用 33.75TB，需额外预留 35TB 物理空间，成本增加 7%，且 IOPS 需求激增（对象数增加 16 倍），可能触发 IOPS 瓶颈。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：4KB对象下inode(256B)占比6.25%及总元数据6.75%符合ext4/xfs典型元数据开销量级，500TB*6.75%=33.75TB计算正确，IOPS随对象数线性增长符合存储系统基本规律。
+
+## Search Query
+
+XFS metadata overhead tiny file 4KB inode size IOPS impact

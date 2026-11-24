@@ -1,0 +1,20 @@
+# N289: HDD 阵列的 PUE（Power Usage Effectiveness）影响：数据中心 PUE 通常 1.3-1.5，意味着每 1kWh IT 负载需 1.
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N102
+
+## Claim
+
+HDD 阵列的 PUE（Power Usage Effectiveness）影响：数据中心 PUE 通常 1.3-1.5，意味着每 1kWh IT 负载需 1.3-1.5kWh 总电力；若 PUE=1.4，则实际每 TB 年电费 = ¥3.72 * 1.4 = ¥5.21/TB·年；若 PUE=1.5，则为 ¥5.58/TB·年，接近 N102 的 ¥7.5 但仍有差距，需考虑更保守的电价或 PUE。
+
+## Corrected Claim
+
+HDD 阵列的 PUE（Power Usage Effectiveness）影响：数据中心 PUE 通常 1.3-1.5，意味着每 1kWh IT 负载需 1.3-1.5kWh 总电力；若 PUE=1.4，则实际每 TB 年电费 = ¥3.72 * 1.4 = ¥5.21/TB·年；若 PUE=1.5，则为 ¥5.58/TB·年，接近 N102 的 ¥7.5 但仍有差距，需考虑更保守的电价或 PUE。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PUE定义及乘法运算正确，数值量级符合数据中心常识

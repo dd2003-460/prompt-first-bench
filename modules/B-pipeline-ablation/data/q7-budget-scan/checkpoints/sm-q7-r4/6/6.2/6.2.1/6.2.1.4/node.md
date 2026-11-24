@@ -1,0 +1,20 @@
+# N606: 批量取回（Batch Retrieval）的年成本计算：C_batch = V_retrieval_annual × Price_batch_GB，若 V_re
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N253, N254, N255
+
+## Claim
+
+批量取回（Batch Retrieval）的年成本计算：C_batch = V_retrieval_annual × Price_batch_GB，若 V_retrieval_annual=20TB=20480GB，Price_batch_GB=¥0.02，则 C_batch = 20480 × 0.02 = ¥409.6/年，但需计入延迟时间 T_delay_batch（通常 5-12 小时）对 RTO 的影响
+
+## Corrected Claim
+
+批量取回（Batch Retrieval）的年成本计算：C_batch = V_retrieval_annual × Price_batch_GB，若 V_retrieval_annual=20TB=20480GB，Price_batch_GB=¥0.02，则 C_batch = 20480 × 0.02 = ¥409.6/年，但需计入延迟时间 T_delay_batch（通常 5-12 小时）对 RTO 的影响
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算 20480 * 0.02 = 409.6 正确，单位换算 20TB=20480GB 符合二进制标准，AWS S3 Batch Retrieval 价格量级（约 $0.02/GB）及延迟特性（数小时至数天）符合工程常识。

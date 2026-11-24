@@ -1,0 +1,33 @@
+{
+  "id": "N479",
+  "claim": "Update-heavy 数据湖（如 Parquet 分区重写）在保留 2 个版本时，若新旧对象大小相等（S_old ≈ S_new），R_version = 100%，导致云存储实际计费容量为逻辑数据量的 2 倍；典型数据湖因覆盖写且旧版本定期清理，实际 R_version 区间为 10%-30%，需通过 S3 存储桶访问日志中 PUT/DELETE 对象大小差值统计得出。",
+  "level": "L5",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]陈述中关于“典型数据湖实际 R_version 区间为 10%-30%”的具体数值缺乏普遍适用的行业基准支持，不同数据湖架构（如是否启用 ACID 事务、清理策略频率）差异巨大，该数值可能仅为特定场景下的经验估计，易被质疑为以偏概全。 | 来源 [1] 和 [3] 证实了 Parquet 不可变性及分区重写/覆盖写的机制，逻辑上支持保留多版本会导致存储冗余（R_version 高），但未提供具体的 10%-30% 统计区间或 S3 日志统计方法的具体实证数据，属于间接支持。",
+  "corrected_claim": "Update-heavy 数据湖（如 Parquet 分区重写）在保留 2 个版本且新旧对象大小相等时，理论存储冗余率 R_version 可达 100%；实际场景中因覆盖写及定期清理，冗余率通常显著低于理论最大值，具体数值需根据 S3 存储桶访问日志中 PUT/DELETE 对象大小差值进行统计评估。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N177"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "S3 storage class versioning overhead percentage typical data lake append vs update",
+  "retrieval_sources": [
+    {
+      "url": "https://blog.csdn.net/bestpasu/article/details/148666856&rut=8d091f7ca7e9a2c8c192818a6e3c76d717672f71975385c3858396d232d80d9c",
+      "type": "ddg",
+      "title": "Parquet不可变性解析与高效更新方案 - CSDN博客"
+    },
+    {
+      "url": "https://learn.microsoft.com/zh-cn/azure/databricks/migration/parquet-to-delta-lake&rut=1177b3c02121b767c14b4a894855ae282f44e0be281fe9c7af5815e043e19c97",
+      "type": "ddg",
+      "title": "将 Parquet 数据湖迁移到 Delta Lake - Azure Databricks"
+    },
+    {
+      "url": "https://blog.csdn.net/weixin_26713521/article/details/108224888&rut=93c252c0bd17c776a8776c2a7db382be3a18bdd9aea62314a022cd6dc151cac4",
+      "type": "ddg",
+      "title": "数据湖 data lake_在Data Lake中高效更新TB级数据的模式-CSDN博客"
+    }
+  ]
+}

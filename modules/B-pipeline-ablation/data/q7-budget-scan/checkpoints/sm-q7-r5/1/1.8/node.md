@@ -1,0 +1,29 @@
+# N13: HDD 单位容量功耗（W/TB），基于 16TB HDD 典型空闲 4-5W、读写 8-10W 计算
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+HDD 单位容量功耗（W/TB），基于 16TB HDD 典型空闲 4-5W、读写 8-10W 计算
+
+## Corrected Claim
+
+HDD 单位容量功耗（W/TB），基于 16TB HDD 典型空闲约 4-5W、读写约 5-10W（视负载及型号而定）计算
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间存在逻辑依赖和覆盖缺失。父节点关注的是‘单位容量功耗（W/TB）’，这是一个综合指标，需要结合不同状态下的功耗（W/drive）和工作负载占比（Time Ratio）来计算加权平均功耗，再除以总容量。然而，子节点1提供了负载比例，子节点2仅提供了Spin-down状态的功耗，缺少了Active（Read/Write/Idle）状态下的具体功耗数值（尽管父节点描述中提到了，但作为分解的子节点未明确列出为独立变量或参数，导致计算链条不完整）。更关键的是，子节点1中的'5% Read, 5% Write, 30% Idle'属于Active状态，而子节点2只给了Spin-down功耗，没有给出Active状态的功耗参数化定义，导致无法直接从这两个子节点得出父节点所需的W/TB，除非隐含使用了父节点标题中的背景信息，这违反了分解的自包含性原则。此外，子节点1和子节点2并非完全正交，因为负载比例直接影响功耗计算，二者是乘法关系而非独立维度，但在分解树上通常视为输入参数，故正交性勉强接受，主要问题在于完备性：缺少Active状态功耗的显式子节点。）
+
+## Search Query
+
+enterprise HDD power consumption watts idle active 16TB
+
+## Retrieval Sources
+
+- {'url': 'https://www.zhihu.com/question/642618994&rut=26c339bb21b1a49c4835b4bb70c72bc311b91d9aae5c3d6fcfd99944da1716f4', 'type': 'ddg', 'title': '希捷16tb功耗多少？ - 知乎'}
+- {'url': 'https://zhidao.baidu.com/question/1055485736253777779.html&rut=f0627ddbb81f633f87fb5b2b649f29823007f8ac243c438b27f3afa6aadc2c57', 'type': 'ddg', 'title': '西部数据氦气硬盘16t功耗 - 百度知道'}

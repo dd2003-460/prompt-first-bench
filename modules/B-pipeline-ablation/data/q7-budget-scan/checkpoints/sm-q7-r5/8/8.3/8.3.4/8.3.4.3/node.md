@@ -1,0 +1,20 @@
+# N657: 工作点C（低功耗/低成本）：采用精简单控架构（P_ctrl_backplane≈50W）和低转速智能调速风扇（P_fan_actual≈15W），此时P_inf
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N273
+
+## Claim
+
+工作点C（低功耗/低成本）：采用精简单控架构（P_ctrl_backplane≈50W）和低转速智能调速风扇（P_fan_actual≈15W），此时P_infra_corrected = 50 + 15 + (2000+50+15)*0.1 ≈ 281W，但故障域增大，需权衡MTBF下降带来的RTO成本增加。
+
+## Corrected Claim
+
+工作点C（低功耗/低成本）：采用精简单控架构（P_ctrl_backplane≈50W）和低转速智能调速风扇（P_fan_actual≈15W），此时P_infra_corrected = 50 + 15 + (2000+50+15)*0.1 ≈ 281W，但故障域增大，需权衡MTBF下降带来的RTO成本增加。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算正确（50+15+2065*0.1=281.5≈281），功耗量级符合工程常识，故障域与MTBF/RTO的权衡逻辑自洽。

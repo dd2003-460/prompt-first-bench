@@ -1,0 +1,20 @@
+# N374: Metadata_Update_Cost 的量化：假设每个对象更新元数据耗时 1ms CPU 时间，500TB 含 5 亿对象 (1MB avg)，总 CPU 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N127
+
+## Claim
+
+Metadata_Update_Cost 的量化：假设每个对象更新元数据耗时 1ms CPU 时间，500TB 含 5 亿对象 (1MB avg)，总 CPU 时间 = 500,000,000 * 1ms = 500,000s ≈ 139h；若 CPU 成本 ¥100/h，则 Metadata_Update_Cost = 139 * 100 = ¥13,900/次，年化 ¥5,073,500/年。
+
+## Corrected Claim
+
+Metadata_Update_Cost 的量化：假设每个对象更新元数据耗时 1ms CPU 时间，500TB 含 5 亿对象 (1MB avg)，总 CPU 时间 = 500,000,000 * 1ms = 500,000s ≈ 139h；若 CPU 成本 ¥100/h，则 Metadata_Update_Cost = 139 * 100 = ¥13,900/次，年化 ¥5,073,500/年。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：5亿对象*1ms=500,000秒≈138.9小时，138.9小时*100元/小时≈13,890元/次，年化约507万元，数值量级与计算逻辑自洽。

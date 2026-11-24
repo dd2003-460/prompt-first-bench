@@ -1,0 +1,26 @@
+# N31: 云对象存储（S3/OSS）500TB数据全量存储的年服务费估算：假设500TB全部存入标准存储（Standard），单价约¥0.12/GB/月，年成本 = 50
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+云对象存储（S3/OSS）500TB数据全量存储的年服务费估算：假设500TB全部存入标准存储（Standard），单价约¥0.12/GB/月，年成本 = 500 * 1024 * 1024 GB * 0.12 * 12 ≈ ¥73.4M；若采用智能分层（80%冷数据转IA/Archive），平均单价降至¥0.05/GB/月，年成本约¥30.2M，但需计入请求费和取回费。
+
+## Corrected Claim
+
+云对象存储（S3/OSS）500TB数据全量存储的年服务费估算：假设500TB全部存入标准存储，若单价约为¥0.12/GB/月，则年成本约为¥73.4M；若采用智能分层（80%冷数据转IA/Archive），平均单价可能降低，年成本可能降至¥30M左右，但需额外计入请求费和取回费。（注：具体单价需以实时官网报价为准）
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点仅涵盖了‘智能分层’策略下的两项额外费用（请求费和取回费），完全缺失了‘标准存储全量’这一基准方案的详细成本构成（如基础存储费明细），也未覆盖父节点中提到的‘标准存储’与‘智能分层’两种主要场景的对比核心数据（即基础存储费本身的差异）。此外，父节点提到了‘年服务费估算’，子节点只给出了‘额外’费用，未给出总成本的完整拆解。）
+
+## Retrieval Sources
+
+- {'url': 'https://help.aliyun.com/zh/oss/billing-overview&rut=20a4e60b70be8973e18cefcd6f2fb100293e26b95f3592f62bb8694d97cde4f2', 'type': 'ddg', 'title': 'Oss的计费组成、付费方式和定价-对象存储 (Oss)-阿里云帮助中心'}
+- {'url': 'https://developer.aliyun.com/article/1704273&rut=14db771f48c3da8f08d6609f407704c9a549a94f0391bc553853f3e5822bfbcf', 'type': 'ddg', 'title': '2026年阿里云对象存储OSS最新收费标准价格表：'}
+- {'url': 'https://developer.aliyun.com/article/1771961&rut=8e79c56d88e646addef7e53c126caa5989effcbd6dc03b9ca79a27f07978d9a5', 'type': 'ddg', 'title': '阿里云 Oss 对象存储服务租用价格表（一年 / 按月 / 按小时报价明细）'}

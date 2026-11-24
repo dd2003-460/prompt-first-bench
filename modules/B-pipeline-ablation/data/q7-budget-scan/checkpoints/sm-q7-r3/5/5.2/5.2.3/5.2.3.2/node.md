@@ -1,0 +1,24 @@
+# N286: RAID 重建期间的 I/O 阻塞导致的数据迁移工时 T_rebuild_block = T_rebuild * (1 - IO_Throttle_Factor
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N95
+
+## Claim
+
+RAID 重建期间的 I/O 阻塞导致的数据迁移工时 T_rebuild_block = T_rebuild * (1 - IO_Throttle_Factor)；对于 500TB 数据池，RAID-6 重建时间 T_rebuild ≈ 24-48h（取决于硬盘数量与背板带宽），期间需人工值守监控，增加工时 T_monitor = T_rebuild * 0.5h/hour ≈ 12-24h。
+
+## Corrected Claim
+
+RAID 重建期间因 I/O 节流导致的性能下降会影响业务响应，但不会直接线性增加'数据迁移工时'。对于 500TB 数据池，RAID-6 重建时间 T_rebuild 通常在 24-48 小时之间（取决于硬件配置）。监控工时 T_monitor 取决于运维策略，若采用半自动监控，可能约为重建时间的 10%-50%，即 2.4-24 小时，而非固定的 0.5 倍率。
+
+## Evidence
+
+[质询]公式 T_rebuild_block = T_rebuild * (1 - IO_Throttle_Factor) 存在严重的逻辑和量纲错误。首先，'I/O 阻塞'通常指 I/O 停滞或延迟增加，而非直接等同于'数据迁移工时'；其次，若 IO_Throttle_Factor 是节流因子（通常 <1），则 (1-Factor) 表示未被节流的比例，将其乘以重建时间得到的是'有效重建时间'或'非阻塞时间'，而非'阻塞导致的额外工时'或'总工时'。此外，T_monitor = T_rebuild * 0.5h/hour 的量纲推导混乱，0.5h/hour 是比率，乘以小时得到小时，逻辑上意味着监控工时是重建时间的一半，但这并非 RAID 重建的通用标准，而是特定运维策略的经验值，缺乏普适性。 | 先验知识/题面给定，逻辑校验发现公式定义与变量含义不匹配，且监控工时系数为经验值，缺乏通用性支持。
+
+## Search Query
+
+RAID 6 rebuild time estimation large capacity array downtime

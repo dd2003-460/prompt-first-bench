@@ -1,0 +1,24 @@
+# N165: HDD工作点3（极致密度20TB+）：选用20TB或22TB HDD，单价约¥600-650/盘，400TB有效数据需约22-20块盘，冗余开销进一步降至13%
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N51
+
+## Claim
+
+HDD工作点3（极致密度20TB+）：选用20TB或22TB HDD，单价约¥600-650/盘，400TB有效数据需约22-20块盘，冗余开销进一步降至13%以下，但需确认服务器背板是否支持高密度盘位及散热限制。
+
+## Corrected Claim
+
+HDD工作点3（极致密度20TB+）：选用20TB或22TB HDD，400TB有效数据需约20-22块盘，冗余开销取决于具体RAID策略，需确认服务器背板是否支持高密度盘位及散热限制。
+
+## Evidence
+
+[质询]具体价格（¥600-650/盘）和冗余开销比例（<13%）属于随市场波动和经验配置变化的经验事实，缺乏实时数据支持，且不同RAID级别下冗余率差异巨大，无法仅凭逻辑推导确定具体数值。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+enterprise 20TB 22TB CMR HDD price and availability 2024

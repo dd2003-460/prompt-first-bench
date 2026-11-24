@@ -1,0 +1,24 @@
+# N451: 多版本保留2份的存储冗余系数计算：有效计费容量 V_billable = V_logical * (1 + Version_Overhead_Ratio)。其中
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N152
+
+## Claim
+
+多版本保留2份的存储冗余系数计算：有效计费容量 V_billable = V_logical * (1 + Version_Overhead_Ratio)。其中 Version_Overhead_Ratio 取决于对象存储的多版本实现机制。若为独立对象复制，Ratio=1.0（即200%容量）；若为块级引用计数（Copy-on-Write），Ratio取决于数据重复度，假设去重率为50%，则 Ratio=1.5。题目给定1500TB，隐含 Ratio=2.0 (1500/500)，需验证此系数是否符合所选云厂商（如S3多版本存储是否按完整副本计费）。
+
+## Corrected Claim
+
+多版本保留2份的存储冗余系数计算：有效计费容量 V_billable = V_logical * (1 + Version_Overhead_Ratio)。其中 Version_Overhead_Ratio 取决于对象存储的多版本实现机制。若为独立对象复制，Ratio=1.0（即200%容量）；若为块级引用计数（Copy-on-Write），Ratio取决于数据重复度，假设去重率为50%，则 Ratio=1.5。题目给定1500TB，隐含 Ratio=2.0 (1500/500)，需验证此系数是否符合所选云厂商（如S3多版本存储是否按完整副本计费）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式定义清晰，数值推导（1500/500=3倍总容量，对应1+2.0开销）符合算术逻辑，且正确指出了需根据具体云厂商计费策略（全量副本vs增量/COW）验证系数的必要性。
+
+## Search Query
+
+AWS S3 multi-versioning storage pricing full copy vs incremental

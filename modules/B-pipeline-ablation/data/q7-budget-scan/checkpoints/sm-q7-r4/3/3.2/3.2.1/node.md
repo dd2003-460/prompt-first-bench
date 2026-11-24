@@ -1,0 +1,24 @@
+# N88: HDD+SSD分层方案的总功耗应包含HDD、SSD、控制器及风扇，修正后总功耗 = (40*8W + 42*25W + 系统开销) ≈ 1370W + 200W
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N22
+
+## Claim
+
+HDD+SSD分层方案的总功耗应包含HDD、SSD、控制器及风扇，修正后总功耗 = (40*8W + 42*25W + 系统开销) ≈ 1370W + 200W = 1570W。
+
+## Corrected Claim
+
+HDD+SSD分层方案的总功耗应包含HDD、SSD、控制器及风扇，修正后总功耗 = (40*8W + 42*25W + 系统开销) ≈ 1370W + 200W = 1570W。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点涵盖了HDD、SSD、控制器、风扇/系统开销四个独立组成部分，逻辑清晰且无重叠。第5个子节点作为汇总节点，虽然包含了计算过程，但其核心功能是整合前四个子节点的结果并进行对比分析，属于合理的层级结构（叶子节点+汇总节点），不构成冗余。所有组件均被覆盖，满足完备性要求。）
+
+## Search Query
+
+hybrid storage array power consumption HDD SSD overhead

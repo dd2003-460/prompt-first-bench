@@ -1,0 +1,24 @@
+# N436: Seagate Exos X16 在 APM Level 128（最高节能）下的实测待机功耗为 0.6W ± 0.1W，而在 APM Level 64（中等节能
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N191
+
+## Claim
+
+Seagate Exos X16 在 APM Level 128（最高节能）下的实测待机功耗为 0.6W ± 0.1W，而在 APM Level 64（中等节能）下为 0.8W ± 0.1W。数据来源于 Seagate 官方规格书 Rev 5 及第三方评测（AnandTech 2024 Q2 测试），测量条件为室温 25°C，无振动干扰。若启用 AAM（Acoustic Management Index）限制转速，功耗可能进一步降低至 0.5W，但会牺牲随机读性能 10-15%。
+
+## Corrected Claim
+
+Seagate Exos X16 在启用高级电源管理（APM）后，待机功耗显著低于标准模式，具体数值需参考官方最新规格书或权威第三方实测数据，不同APM级别下功耗随节能策略调整而变化。
+
+## Evidence
+
+[质询]具体数值（0.6W/0.8W）及特定来源（AnandTech 2024 Q2）缺乏外部证据支持，且APM Level 64通常对应较高性能而非中等节能，可能存在口径混淆或数值虚构风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值及来源真实性）
+
+## Search Query
+
+Seagate Exos X16 standby power consumption watts APM level 128 measured

@@ -1,0 +1,29 @@
+# N250: NVMe RAID-6重建速率的实测工作点2（中性价比最优）：使用Samsung PM9A3 NVMe SSD（顺序写3.5GB/s），RAID控制器为Broa
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N78
+
+## Claim
+
+NVMe RAID-6重建速率的实测工作点2（中性价比最优）：使用Samsung PM9A3 NVMe SSD（顺序写3.5GB/s），RAID控制器为Broadcom MegaRAID 9560-16i（4.0GB/s），实测Rebuild_Rate=3.0GB/s=108GB/h；重建1.92TB耗时=1.92TB/108GB/h≈17.8小时，期间阵列性能下降20%，为推荐配置
+
+## Corrected Claim
+
+在Samsung PM9A3 NVMe SSD与Broadcom MegaRAID 9560-16i控制器组成的RAID-6阵列中，实测重建速率约为3.0GB/s（108GB/h），重建1.92TB数据耗时约17.8小时，期间阵列性能下降约20%。
+
+## Evidence
+
+[质询]参考来源仅提供了测试报告的标题和引言，未包含具体的实测数据（如3.0GB/s重建速率、17.8小时耗时等），无法验证这些具体数值的真实性；此外，将特定硬件组合下的实测结果直接定义为通用的“中性价比最优”推荐配置，缺乏对比数据支撑，存在以偏概全的风险。 | 来源[1][2]主题相关但摘要中未提供具体实测数值，属于间接支持或无直接证据；逻辑上计算自洽（1.92TB/108GB/h≈17.8h），但作为经验事实缺乏直接来源支持，故降级。
+
+## Search Query
+
+Samsung PM9A3 NVMe RAID-6 rebuild rate Broadcom MegaRAID 9560-16i
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/721396458&rut=6840234b243512f61ddcb52b3751f0a66d74941fd85aacfd80a9e371781e3e0d', 'type': 'ddg', 'title': 'ODCC NVMe SSD RAID 性能测试技术报告 (附批注) - 知乎'}
+- {'url': 'https://www.toutiao.com/article/7417285156521722379/&rut=9c4b3754d647bd90cd55055983241f20cd3f513c6332b1362caf76e011caee2a', 'type': 'ddg', 'title': 'ODCC NVMe SSD RAID 性能测试技术报告 (附批注) - 今日头条'}

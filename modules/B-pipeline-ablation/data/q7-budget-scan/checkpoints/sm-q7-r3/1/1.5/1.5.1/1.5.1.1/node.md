@@ -1,0 +1,24 @@
+# N163: HDD工作点1（标准16TB）：选用Seagate Exos X18或WD Gold 16TB，单价约¥500/盘，400TB有效数据需约26块盘（RAID6 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N51
+
+## Claim
+
+HDD工作点1（标准16TB）：选用Seagate Exos X18或WD Gold 16TB，单价约¥500/盘，400TB有效数据需约26块盘（RAID6 N=28, M=2），物理总容量448TB，冗余开销16.7%。
+
+## Corrected Claim
+
+HDD工作点1（标准16TB）：选用Seagate Exos X18或WD Gold 16TB，单价约¥1200/盘（需根据实时市场价调整），400TB有效数据需约26块盘（RAID6 N=28, M=2），物理总容量448TB，冗余开销16.7%。
+
+## Evidence
+
+[质询]单价约¥500/盘对于16TB企业级硬盘（如Seagate Exos X18或WD Gold）而言严重偏低，当前市场主流价格通常在¥1000-1500以上，存在明显的数值量级错误。 | 经验事实，逻辑自洽但缺来源支持；且单价数值与市场常识严重不符，无法验证其准确性。
+
+## Search Query
+
+enterprise 16TB CMR HDD price per unit 2024

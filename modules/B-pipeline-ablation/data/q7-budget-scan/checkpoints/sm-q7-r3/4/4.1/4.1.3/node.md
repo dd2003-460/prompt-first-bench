@@ -1,0 +1,24 @@
+# N100: 业务单位时间价值(¥/小时) = 年营收(¥) × 业务中断敏感度系数(0.1-0.5) / 8760；对于内部数据湖，若支撑核心业务，系数取0.3，典型值 ¥
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N26
+
+## Claim
+
+业务单位时间价值(¥/小时) = 年营收(¥) × 业务中断敏感度系数(0.1-0.5) / 8760；对于内部数据湖，若支撑核心业务，系数取0.3，典型值 ¥1,000-10,000/小时 [待核验]
+
+## Corrected Claim
+
+业务单位时间价值(¥/小时) = 年营收(¥) × 业务中断敏感度系数(0.1-0.5) / 8760；对于内部数据湖，若支撑核心业务，系数取0.3，典型值 ¥1,000-10,000/小时 [待核验]
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+IT disaster recovery business impact analysis cost per hour downtime

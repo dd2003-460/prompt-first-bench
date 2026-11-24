@@ -1,0 +1,24 @@
+# N272: PDU 与 UPS 转换效率链：PDU 效率 η_pdu ≈ 0.98，UPS 在线模式效率 η_ups ≈ 0.92-0.95（取决于负载率，最佳负载率 50
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N129
+
+## Claim
+
+PDU 与 UPS 转换效率链：PDU 效率 η_pdu ≈ 0.98，UPS 在线模式效率 η_ups ≈ 0.92-0.95（取决于负载率，最佳负载率 50-70% 时效率最高），故从 IT 负载到市电输入的总转换效率 η_total ≈ 0.90-0.93，意味着额外电力损耗约为 7-10%，而非 5%
+
+## Corrected Claim
+
+PDU 与 UPS 转换效率链：PDU 效率 η_pdu ≈ 0.98，UPS 在线模式效率 η_ups ≈ 0.92-0.95（取决于负载率，最佳负载率 50-70% 时效率最高），故从 IT 负载到市电输入的总转换效率 η_total ≈ 0.90-0.93，意味着额外电力损耗约为 7-10%，而非 5%
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PDU效率~0.98与UPS在线双变换效率~0.92-0.95相乘，总效率约0.90-0.93，损耗7-10%符合工程常识
+
+## Search Query
+
+ups pdu power conversion efficiency data center tco calculation

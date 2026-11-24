@@ -1,0 +1,24 @@
+# N623: 工作点C（1.92TB SSD）的5年RTO风险成本 C_RTO_C_5y = (L_hourly * T_RTO_C + C_expedited_C) * P
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N260
+
+## Claim
+
+工作点C（1.92TB SSD）的5年RTO风险成本 C_RTO_C_5y = (L_hourly * T_RTO_C + C_expedited_C) * P_failure_yearly * 5，其中 T_RTO_C 基于 N68/N72 修正后的 NVMe 重建带宽计算，由于盘数加倍，RAID6 重建涉及更多盘，需评估对重建时间和失败概率的影响
+
+## Corrected Claim
+
+工作点C（1.92TB SSD）的5年RTO风险成本计算公式在逻辑上自洽，但具体参数（如T_RTO_C、P_failure_yearly）需依赖实际硬件规格和可靠性数据进一步验证。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（如1.92TB SSD、5年周期、特定变量定义），属于经验事实而非纯逻辑推导；且缺乏外部来源验证其具体数值或公式参数的合理性，仅能确认逻辑结构自洽。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+NVMe SSD 1.92TB RAID6 rebuild time with 266 drives impact on RTO

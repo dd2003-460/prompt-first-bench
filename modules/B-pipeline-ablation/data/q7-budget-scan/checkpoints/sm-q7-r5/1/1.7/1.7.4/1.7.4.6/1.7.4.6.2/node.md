@@ -1,0 +1,20 @@
+# N434: Spin-down 比例 P_spin_down 的解析解：在泊松到达过程下，磁盘处于 Spin-down 状态的概率 P_spin_down = exp(-λ
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N190
+
+## Claim
+
+Spin-down 比例 P_spin_down 的解析解：在泊松到达过程下，磁盘处于 Spin-down 状态的概率 P_spin_down = exp(-λ * T_spin_down)，其中 λ 为访问率（ops/s），T_spin_down 为空闲超时阈值（s）。若 λ = 0.01 ops/s，T_spin_down = 600s（10分钟），则 P_spin_down = exp(-6) ≈ 0.25%；若 T_spin_down = 300s（5分钟），P_spin_down = exp(-3) ≈ 5%。这表明 N190 声称的 60-70% Spin-down 比例仅在 λ < 0.001 ops/s（每小时 < 3.6 次访问）且 T_spin_down > 10 分钟时才成立，需严格限定访问频率上限。
+
+## Corrected Claim
+
+Spin-down 比例 P_spin_down 的解析解：在泊松到达过程下，磁盘处于 Spin-down 状态的概率 P_spin_down = exp(-λ * T_spin_down)，其中 λ 为访问率（ops/s），T_spin_down 为空闲超时阈值（s）。若 λ = 0.01 ops/s，T_spin_down = 600s（10分钟），则 P_spin_down = exp(-6) ≈ 0.25%；若 T_spin_down = 300s（5分钟），P_spin_down = exp(-3) ≈ 5%。这表明 N190 声称的 60-70% Spin-down 比例仅在 λ < 0.001 ops/s（每小时 < 3.6 次访问）且 T_spin_down > 10 分钟时才成立，需严格限定访问频率上限。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：泊松分布下空闲时间超过阈值的概率公式正确，数值计算准确（exp(-6)≈0.0025, exp(-3)≈0.0498），结论推导符合数学逻辑。

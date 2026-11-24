@@ -1,0 +1,20 @@
+# N636: NVMe RAID 重建所需带宽 B_rebuild 的估算：基于磁盘物理极限，假设单盘最大写带宽为 1GB/s（NVMe顺序写典型值），RAID 5/6 重建
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N220
+
+## Claim
+
+NVMe RAID 重建所需带宽 B_rebuild 的估算：基于磁盘物理极限，假设单盘最大写带宽为 1GB/s（NVMe顺序写典型值），RAID 5/6 重建需读取所有幸存盘数据，若阵列有 N 块盘，则 B_rebuild ≈ (N-1)/N * Single_Disk_Write_Bandwidth * Rebuild_Efficiency_Factor；对于 10 盘阵列，B_rebuild ≈ 0.9 * 1GB/s * 0.8 ≈ 0.72 GB/s。
+
+## Corrected Claim
+
+NVMe RAID 重建所需带宽 B_rebuild 的估算：基于磁盘物理极限，假设单盘最大写带宽为 1GB/s（NVMe顺序写典型值），RAID 5/6 重建需读取所有幸存盘数据，若阵列有 N 块盘，则 B_rebuild ≈ (N-1)/N * Single_Disk_Write_Bandwidth * Rebuild_Efficiency_Factor；对于 10 盘阵列，B_rebuild ≈ 0.9 * 1GB/s * 0.8 ≈ 0.72 GB/s。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

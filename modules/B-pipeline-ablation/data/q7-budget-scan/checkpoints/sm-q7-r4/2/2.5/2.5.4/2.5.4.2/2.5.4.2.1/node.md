@@ -1,0 +1,20 @@
+# N657: 400TB 冷数据在 OSS IA 层的纯存储年化成本计算：C_storage = 400 TB * 1024 GB/TB * 0.08 ¥/GB/月 * 12
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N238
+
+## Claim
+
+400TB 冷数据在 OSS IA 层的纯存储年化成本计算：C_storage = 400 TB * 1024 GB/TB * 0.08 ¥/GB/月 * 12 月 = ¥393,216/年；此计算假设数据量恒定且无版本控制产生的冗余存储。
+
+## Corrected Claim
+
+400TB 冷数据在 OSS IA 层的纯存储年化成本计算：C_storage = 400 TB * 1024 GB/TB * 0.08 ¥/GB/月 * 12 月 = ¥393,216/年；此计算假设数据量恒定且无版本控制产生的冗余存储。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：400*1024*0.08*12 = 393,216，计算无误且符合OSS IA层定价量级

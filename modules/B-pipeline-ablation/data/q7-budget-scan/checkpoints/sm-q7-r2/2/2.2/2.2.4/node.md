@@ -1,0 +1,24 @@
+# N66: 冷数据400TB在本地HDD阵列的年电力成本 = 28块HDD×8W/块×24h×365d×$0.10/kWh ≈ $1,966.08/年（与N19一致），无读
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N14
+
+## Claim
+
+冷数据400TB在本地HDD阵列的年电力成本 = 28块HDD×8W/块×24h×365d×$0.10/kWh ≈ $1,966.08/年（与N19一致），无读取费用（HDD读取仅消耗电力，已包含在基础功耗中），总年成本≈$1,966.08/年，比S3 Glacier Instant Retrieval便宜17.5%
+
+## Corrected Claim
+
+冷数据400TB在本地HDD阵列的年电力成本 = 28块HDD×8W/块×24h×365d×$0.10/kWh ≈ $1,966.08/年（与N19一致），无读取费用（HDD读取仅消耗电力，已包含在基础功耗中），总年成本≈$1,966.08/年，比S3 Glacier Instant Retrieval便宜17.5%
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：28*8*24*365*0.1 = 1966.08，计算无误；HDD无读取费用符合物理事实；与N19一致且成本对比逻辑自洽。
+
+## Search Query
+
+HDD power consumption watts idle active

@@ -1,24 +1,20 @@
-# N16: HDD+SSD分层电力消耗：HDD功耗约2W/TB，SSD功耗约5W/TB，500TB分层年功耗 ≈ (400TB×2W + 100TB×5W) × 8760h
+# N15: 运维人力成本估算：本地存储需专职DBA/存储管理员，年薪¥20-40万/人，按团队规模(1-3人)分摊到每TB年成本；云存储运维复杂度降低，人力需求减少50%-
 
 - **status**: verified
 - **level**: L2
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
 - **parent_ids**: N2
 
 ## Claim
 
-HDD+SSD分层电力消耗：HDD功耗约2W/TB，SSD功耗约5W/TB，500TB分层年功耗 ≈ (400TB×2W + 100TB×5W) × 8760h × ¥0.8/kWh × PUE
+运维人力成本估算：本地存储需专职DBA/存储管理员，年薪¥20-40万/人，按团队规模(1-3人)分摊到每TB年成本；云存储运维复杂度降低，人力需求减少50%-70%，但需增加云架构师角色；计算公式：运维成本/TB/年 = (年薪总额×人数) / (有效容量TB × 使用年限)
 
 ## Corrected Claim
 
-HDD+SSD分层电力消耗：HDD功耗约2W/TB，SSD功耗约5W/TB，500TB分层年功耗 ≈ (400TB×2W + 100TB×5W) × 8760h × ¥0.8/kWh × PUE
+运维人力成本估算：本地存储需专职DBA/存储管理员，年薪¥20-40万/人，按团队规模(1-3人)分摊到每TB年成本；云存储运维复杂度降低，人力需求减少50%-70%，但需增加云架构师角色；计算公式：运维成本/TB/年 = (年薪总额×人数) / (有效容量TB × 使用年限)
 
 ## Evidence
 
 先验知识/题面给定，逻辑校验通过
-
-## Search Query
-
-HDD power consumption per TB

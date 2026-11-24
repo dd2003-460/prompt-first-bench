@@ -1,0 +1,20 @@
+# N210: RAID 重建期间需要额外 SSD 缓存的物理容量 C_cache = (Rebuild_Rate_GBps * T_RTO_hours * 3600s/hou
+
+- **status**: pending
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N83
+
+## Claim
+
+RAID 重建期间需要额外 SSD 缓存的物理容量 C_cache = (Rebuild_Rate_GBps * T_RTO_hours * 3600s/hour) / (Cache_Efficiency_Ratio)，若重建速率 10GB/s，RTO 4h，缓存效率 0.5，则 C_cache = 10 * 4 * 3600 / 0.5 ≈ 288TB，远超 N83 的 50-100TB 估算，说明原假设过于乐观。
+
+## Corrected Claim
+
+RAID 重建期间需要额外 SSD 缓存的物理容量 C_cache = (Rebuild_Rate_GBps * T_RTO_hours * 3600s/hour) / (Cache_Efficiency_Ratio)，若重建速率 10GB/s，RTO 4h，缓存效率 0.5，则 C_cache = 10 * 4 * 3600 / 0.5 ≈ 288TB，远超 N83 的 50-100TB 估算，说明原假设过于乐观。
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备, 有冗余（子节点本质上是同一公式在不同参数组合下的计算结果，属于参数变体而非正交的逻辑分支；且子节点得出的PB级容量结论与父节点中'远超50-100TB估算'的语境脱节，未覆盖父节点关于'原假设过于乐观'这一核心批判点的归因分析或修正方案，反而引入了新的、更极端的数值，导致逻辑断裂。）

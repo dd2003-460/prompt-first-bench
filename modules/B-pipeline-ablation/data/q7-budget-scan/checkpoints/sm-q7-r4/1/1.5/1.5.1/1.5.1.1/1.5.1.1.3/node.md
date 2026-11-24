@@ -1,0 +1,24 @@
+# N371: Seagate Exos X18 16TB HDD 工作点的年化 RTO 代价：基于 N12 公式，假设 MTBF=10^6h，P_failure=0.087/
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N163
+
+## Claim
+
+Seagate Exos X18 16TB HDD 工作点的年化 RTO 代价：基于 N12 公式，假设 MTBF=10^6h，P_failure=0.087/年，T_RTO=7.7h (N85，修正自矛盾检测中 N69 与 N85 的带宽冲突，采用更保守的 100MB/s/盘 或基于聚合带宽 14.5GB/s 的 7.7h)，业务损失率 L_hourly 假设为 ¥500/h，C_RTO_annual = (500 * 7.7 + 0) * 0.087 ≈ ¥335。
+
+## Corrected Claim
+
+Seagate Exos X18 16TB HDD 工作点的年化 RTO 代价：基于 N12 公式，假设 MTBF=10^6h，P_failure=0.087/年，T_RTO=7.7h (N85，修正自矛盾检测中 N69 与 N85 的带宽冲突，采用更保守的 100MB/s/盘 或基于聚合带宽 14.5GB/s 的 7.7h)，业务损失率 L_hourly 假设为 ¥500/h，C_RTO_annual = (500 * 7.7 + 0) * 0.087 ≈ ¥335。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算过程 (500 * 7.7 + 0) * 0.087 = 3850 * 0.087 = 334.95 ≈ 335，数值量级与算术逻辑自洽。
+
+## Search Query
+
+Business downtime cost per hour estimate

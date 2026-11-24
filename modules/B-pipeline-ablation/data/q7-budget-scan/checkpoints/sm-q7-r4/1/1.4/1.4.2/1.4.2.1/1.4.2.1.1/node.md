@@ -1,0 +1,20 @@
+# N352: 7.68TB SSD 阵列的物理总容量 C_phys_768 计算：N_disks * C_single = 120 * 7.68TB = 921.6TB。这与
+
+- **status**: verified
+- **level**: L5
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N157
+
+## Claim
+
+7.68TB SSD 阵列的物理总容量 C_phys_768 计算：N_disks * C_single = 120 * 7.68TB = 921.6TB。这与 N157 声称的 918TB 存在微小差异，源于 N157 可能使用了不同的向上取整逻辑或容量标称值（部分 SSD 标称 7.68TB 实为 7.37TiB，若按 TiB 转 TB 会有偏差，但此处统一按厂商标称 TB 计算）。
+
+## Corrected Claim
+
+7.68TB SSD 阵列的物理总容量 C_phys_768 计算：N_disks * C_single = 120 * 7.68TB = 921.6TB。这与 N157 声称的 918TB 存在微小差异，源于 N157 可能使用了不同的向上取整逻辑或容量标称值（部分 SSD 标称 7.68TB 实为 7.37TiB，若按 TiB 转 TB 会有偏差，但此处统一按厂商标称 TB 计算）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：120 * 7.68 = 921.6 计算正确，且对与 N157 差异的解释符合存储行业标称容量（TB vs TiB）的常识逻辑。

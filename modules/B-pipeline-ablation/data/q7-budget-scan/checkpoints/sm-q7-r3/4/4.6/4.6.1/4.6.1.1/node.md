@@ -1,0 +1,20 @@
+# N215: 修正HDD重建带宽参数：根据矛盾检测，N69指出企业级7200rpm HDD典型顺序写带宽为150-200 MB/s/盘，而非N85使用的100 MB/s/盘。
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N85
+
+## Claim
+
+修正HDD重建带宽参数：根据矛盾检测，N69指出企业级7200rpm HDD典型顺序写带宽为150-200 MB/s/盘，而非N85使用的100 MB/s/盘。采用保守值150 MB/s/盘，145块HDD的聚合写带宽 = 145 * 150 MB/s = 21,750 MB/s ≈ 21.3 GB/s。
+
+## Corrected Claim
+
+修正HDD重建带宽参数：根据矛盾检测，N69指出企业级7200rpm HDD典型顺序写带宽为150-200 MB/s/盘，而非N85使用的100 MB/s/盘。采用保守值150 MB/s/盘，145块HDD的聚合写带宽 = 145 * 150 MB/s = 21,750 MB/s ≈ 21.3 GB/s。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：145 * 150 = 21750 MB/s，换算为 GB/s 约为 21.3 GB/s，计算无误且符合企业级HDD带宽常识。

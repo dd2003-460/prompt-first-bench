@@ -1,0 +1,24 @@
+# N84: 云对象存储增量恢复策略可将 RTO 降低至小时级：仅恢复最近变更的数据（假设日增 10TB），T_rto_incremental = 10TB / 125MB/
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N24
+
+## Claim
+
+云对象存储增量恢复策略可将 RTO 降低至小时级：仅恢复最近变更的数据（假设日增 10TB），T_rto_incremental = 10TB / 125MB/s ≈ 2.3 小时，需结合备份策略设计增量恢复流程
+
+## Corrected Claim
+
+云对象存储增量恢复策略可将 RTO 降低至小时级：仅恢复最近变更的数据（假设日增 10TB），T_rto_incremental = 10TB / 125MB/s ≈ 2.3 小时，需结合备份策略设计增量恢复流程
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在架构策略上具有正交性（全量 vs 纯增量 vs 混合），且无重复计算。但完备性不足：父节点核心论点是‘增量策略可将RTO降低至小时级’，而子节点1（全量恢复，RTO>100h）和子节点3（混合策略，RTO~1h）偏离了该特定论点的主干，属于对比基线或优化变体，而非对‘增量恢复策略’本身的分解。此外，父节点提到的‘需结合备份策略设计增量恢复流程’这一关键实施约束未在子节点中体现为独立维度，而是被隐含在成本/复杂度描述中，导致逻辑层级不一致。）
+
+## Search Query
+
+cloud storage incremental recovery strategy RTO reduction

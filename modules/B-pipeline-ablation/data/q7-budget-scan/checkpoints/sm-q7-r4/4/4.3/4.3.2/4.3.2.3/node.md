@@ -1,0 +1,20 @@
+# N254: 在小文件/随机分布数据工作点（高CPU负载，低IO效率），若数据块平均大小<4KB，RAID-6校验的元数据查找与随机访问导致CPU开销激增至IO时间的30%，
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N80
+
+## Claim
+
+在小文件/随机分布数据工作点（高CPU负载，低IO效率），若数据块平均大小<4KB，RAID-6校验的元数据查找与随机访问导致CPU开销激增至IO时间的30%，即 T_parity_calc ≈ 0.30 * T_read_write；此时Parity_Calc_Overhead系数取上限20%以上，且IO本身因随机寻址变慢，总重建时间非线性增长
+
+## Corrected Claim
+
+在小文件/随机分布数据工作点（高CPU负载，低IO效率），若数据块平均大小<4KB，RAID-6校验的元数据查找与随机访问导致CPU开销激增至IO时间的30%，即 T_parity_calc ≈ 0.30 * T_read_write；此时Parity_Calc_Overhead系数取上限20%以上，且IO本身因随机寻址变慢，总重建时间非线性增长
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

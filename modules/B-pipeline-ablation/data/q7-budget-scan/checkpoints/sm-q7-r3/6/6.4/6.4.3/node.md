@@ -1,0 +1,20 @@
+# N336: 扩展HDD池的投资回收期（Payback Period）计算：T_payback = CapEx_Increment / ΔC_net_annual_savin
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N114
+
+## Claim
+
+扩展HDD池的投资回收期（Payback Period）计算：T_payback = CapEx_Increment / ΔC_net_annual_saving；ΔC_net_annual_saving = ΔC_op_annual - ΔC_op_new = ¥19,610,000 - ¥20,584 ≈ ¥19,589,416/年；T_payback = ¥57,600 / ¥19,589,416 ≈ 0.0029年 ≈ 1.06天；由于节省远大于成本，投资几乎立即回收。
+
+## Corrected Claim
+
+扩展HDD池的投资回收期（Payback Period）计算：T_payback = CapEx_Increment / ΔC_net_annual_saving；ΔC_net_annual_saving = ΔC_op_annual - ΔC_op_new = ¥19,610,000 - ¥20,584 ≈ ¥19,589,416/年；T_payback = ¥57,600 / ¥19,589,416 ≈ 0.0029年 ≈ 1.06天；由于节省远大于成本，投资几乎立即回收。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算正确（57600/19589416≈0.00294年，换算天数≈1.07天，与1.06天误差在合理舍入范围内），量纲一致，逻辑自洽。

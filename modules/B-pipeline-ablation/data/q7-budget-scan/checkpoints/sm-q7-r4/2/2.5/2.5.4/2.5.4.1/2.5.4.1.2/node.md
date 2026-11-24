@@ -1,0 +1,20 @@
+# N655: OSS IA 层年化单位成本计算式：C_annual_per_TB = Price_monthly_per_GB * 12 * 1024 * Exchange_
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N237
+
+## Claim
+
+OSS IA 层年化单位成本计算式：C_annual_per_TB = Price_monthly_per_GB * 12 * 1024 * Exchange_Rate(1) = 0.08 * 12 * 1024 = ¥983.04/TB/年，其中 Exchange_Rate 因货币为人民币故为 1。
+
+## Corrected Claim
+
+OSS IA 层年化单位成本计算式：C_annual_per_TB = Price_monthly_per_GB * 12 * 1024 * Exchange_Rate(1) = 0.08 * 12 * 1024 = ¥983.04/TB/年，其中 Exchange_Rate 因货币为人民币故为 1。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：0.08 * 12 * 1024 = 983.04，计算无误，单位换算（GB到TB为1024倍）及年化逻辑正确。

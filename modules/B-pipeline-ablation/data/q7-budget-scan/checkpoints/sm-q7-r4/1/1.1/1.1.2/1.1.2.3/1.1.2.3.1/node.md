@@ -1,0 +1,20 @@
+# N414: 工作点B (RAID-5) 的读取并行度修正：RAID-5顺序读可并行读取所有非Parity盘，理论并行度=N=12（若Stripe跨越所有盘），而非N-1=1
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N138
+
+## Claim
+
+工作点B (RAID-5) 的读取并行度修正：RAID-5顺序读可并行读取所有非Parity盘，理论并行度=N=12（若Stripe跨越所有盘），而非N-1=11；若控制器支持12通道并行，聚合吞吐 ≈ 12 * 5GB/s * Efficiency_Factor，Efficiency_Factor受控制器PCIe带宽限制（如PCIe 4.0 x16 ≈ 7.8GB/s），故实际聚合吞吐受限于控制器带宽≈7.8GB/s，而非2.0GB/s。
+
+## Corrected Claim
+
+工作点B (RAID-5) 的读取并行度修正：RAID-5顺序读可并行读取所有非Parity盘，理论并行度=N=12（若Stripe跨越所有盘），而非N-1=11；若控制器支持12通道并行，聚合吞吐 ≈ 12 * 5GB/s * Efficiency_Factor，Efficiency_Factor受控制器PCIe带宽限制（如PCIe 4.0 x16 ≈ 7.8GB/s），故实际聚合吞吐受限于控制器带宽≈7.8GB/s，而非2.0GB/s。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RAID-5顺序读确实可并行读取所有数据盘（N=12），且PCIe 4.0 x16带宽约7.8GB/s构成瓶颈，计算逻辑自洽。

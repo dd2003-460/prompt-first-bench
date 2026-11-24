@@ -1,0 +1,24 @@
+# N90: 修正N22中HDD RAID6重建时间估算：18TB HDD顺序读取速度约200MB/s，RAID6重建需读取10块盘数据并写入1块新盘，总数据量18TB，理论
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N22
+
+## Claim
+
+修正N22中HDD RAID6重建时间估算：18TB HDD顺序读取速度约200MB/s，RAID6重建需读取10块盘数据并写入1块新盘，总数据量18TB，理论最短时间 = 18TB / 200MB/s ≈ 25小时；考虑I/O争用和校验计算开销，实际重建时间通常为40-72小时，而非N22中的8小时；因此HDD方案RTO应修正为40-72小时，若RTO目标为4小时，超出部分36-68小时，按$10,000/小时损失，单次RTO代价 = $360,000-$680,000。
+
+## Corrected Claim
+
+修正N22中HDD RAID6重建时间估算：18TB HDD顺序读取速度约200MB/s，RAID6重建需读取10块盘数据并写入1块新盘，总数据量18TB，理论最短时间 = 18TB / 200MB/s ≈ 25小时；考虑I/O争用和校验计算开销，实际重建时间通常为40-72小时，而非N22中的8小时；因此HDD方案RTO应修正为40-72小时，若RTO目标为4小时，超出部分36-68小时，按$10,000/小时损失，单次RTO代价 = $360,000-$680,000。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：18TB/200MB/s≈25小时理论下限，考虑开销后40-72小时符合工程常识，成本计算逻辑自洽。
+
+## Search Query
+
+RAID 6 rebuild time 18TB HDD 10 disks estimated hours

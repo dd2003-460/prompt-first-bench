@@ -1,0 +1,20 @@
+# N255: HDD+SSD分层方案中，RAID控制器及背板的功耗估算：企业级双控制器RAID卡（如Broadcom LSI 9500系列）单卡功耗约15W-20W，双控共约
+
+- **status**: pending
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N88
+
+## Claim
+
+HDD+SSD分层方案中，RAID控制器及背板的功耗估算：企业级双控制器RAID卡（如Broadcom LSI 9500系列）单卡功耗约15W-20W，双控共约35W；背板及硬盘托架供电模块功耗约20W-30W；合计系统控制开销约60W。
+
+## Corrected Claim
+
+HDD+SSD分层方案中，RAID控制器及背板的功耗估算：企业级双控制器RAID卡（如Broadcom LSI 9500系列）单卡功耗约15W-20W，双控共约35W；背板及硬盘托架供电模块功耗约20W-30W；合计系统控制开销约60W。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点严重偏离了父节点的定义范围。父节点仅涵盖‘RAID控制器及背板’的功耗（约60W），而子节点引入了‘关联CPU/内存’和‘关联主板/PCIe’等无关组件，导致范围扩大至145W。这破坏了分解的层级一致性（Scope Mismatch），使得子节点不再是对父节点的细化或修正，而是变成了另一个更大范围的估算。此外，虽然只有一个子节点不存在正交性问题，但其内容未能准确对应父节点的核心对象。）

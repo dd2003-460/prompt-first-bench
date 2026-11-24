@@ -1,0 +1,20 @@
+# N713: 理论上限合成与修正：Rebuild_Rate_max = min(SSD_Write_Limit, Controller_Compute_Limit, Back
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N248
+
+## Claim
+
+理论上限合成与修正：Rebuild_Rate_max = min(SSD_Write_Limit, Controller_Compute_Limit, Backplane_Bandwidth)。若背板PCIe 4.0 x4带宽为 ~7.8 GB/s，则三者取最小值；通常Controller_Compute或SSD_Write为瓶颈，理论上限约为 4-6 GB/s（14-22 GB/h），而非更高值。
+
+## Corrected Claim
+
+理论上限合成与修正：Rebuild_Rate_max = min(SSD_Write_Limit, Controller_Compute_Limit, Backplane_Bandwidth)。若背板PCIe 4.0 x4带宽为 ~7.8 GB/s，则三者取最小值；通常Controller_Compute或SSD_Write为瓶颈，理论上限约为 4-6 GB/s（14-22 GB/h），而非更高值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe 4.0 x4 理论带宽约 7.88 GB/s，实际有效带宽略低；SSD 写入和控制器计算通常低于此带宽，故取最小值后 4-6 GB/s 的量级符合工程常识与物理限制。

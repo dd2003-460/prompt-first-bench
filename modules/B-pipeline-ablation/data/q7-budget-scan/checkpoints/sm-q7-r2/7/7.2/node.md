@@ -1,24 +1,20 @@
-# N91: NVMe SSD 硬件成本的分项构成：总成本 $C_{nvme} = C_{ssd} + C_{controller} + C_{backplane} + C_
+# N126: NVMe SSD阵列5年直线折旧模型中，年摊销额 = ¥1,413,000 / 5 = ¥282,600/年，远高于HDD+SSD分层方案的¥80,200/年，
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N35
+- **parent_ids**: N32
 
 ## Claim
 
-NVMe SSD 硬件成本的分项构成：总成本 $C_{nvme} = C_{ssd} + C_{controller} + C_{backplane} + C_{cables}$；其中 $C_{ssd}$ 为 SSD 盘体成本（$0.10-0.15/GB$），$C_{controller}$ 为 RAID 控制器/卡成本（约 $2,000-5,000$ 美元/卡，假设 2 卡冗余），$C_{backplane}$ 为背板与线缆成本（约 $500-1,000$ 美元/节点）；对于 3 节点集群，非 SSD 部件固定成本约为 $15,000-25,000$ 美元，占总硬件成本的 15%-25%，不可忽略
+NVMe SSD阵列5年直线折旧模型中，年摊销额 = ¥1,413,000 / 5 = ¥282,600/年，远高于HDD+SSD分层方案的¥80,200/年，反映SSD高CAPEX特性。
 
 ## Corrected Claim
 
-NVMe SSD 硬件成本的分项构成：总成本 $C_{nvme} = C_{ssd} + C_{controller} + C_{backplane} + C_{cables}$；其中 $C_{ssd}$ 为 SSD 盘体成本（$0.10-0.15/GB$），$C_{controller}$ 为 RAID 控制器/卡成本（约 $2,000-5,000$ 美元/卡，假设 2 卡冗余），$C_{backplane}$ 为背板与线缆成本（约 $500-1,000$ 美元/节点）；对于 3 节点集群，非 SSD 部件固定成本约为 $15,000-25,000$ 美元，占总硬件成本的 15%-25%，不可忽略
+NVMe SSD阵列5年直线折旧模型中，年摊销额 = ¥1,413,000 / 5 = ¥282,600/年，远高于HDD+SSD分层方案的¥80,200/年，反映SSD高CAPEX特性。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
-
-## Search Query
-
-NVMe SSD array hardware cost breakdown controller backplane cable overhead
+先验知识/题面给定，逻辑校验通过：1,413,000除以5等于282,600，计算无误；SSD单位容量成本高于HDD导致总CAPEX更高符合行业常识，逻辑自洽。

@@ -1,0 +1,28 @@
+# N557: 工作点2（中等RTO/中等成本）：在 RTO 4-12h 场景下，One Zone-IA 需搭配 10Gbps 跨区复制链路，复制带宽成本 = 500TB * 
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N201
+
+## Claim
+
+工作点2（中等RTO/中等成本）：在 RTO 4-12h 场景下，One Zone-IA 需搭配 10Gbps 跨区复制链路，复制带宽成本 = 500TB * 1024GB / 10Gbps * 8 * 3600 ≈ 139小时/次全量同步，若每日增量同步 5% 数据，年出口流量成本 ≈ ¥16,500，分摊至 500TB 为 ¥33/TB/年，总成本 ≈ ¥89.1 + 33 + 50 ≈ ¥172/TB/年，接近 Multi-AZ 标准存储成本。
+
+## Corrected Claim
+
+工作点2（中等RTO/中等成本）：在 RTO 4-12h 场景下，One Zone-IA 需搭配 10Gbps 跨区复制链路。500TB 全量同步耗时约为 1.4 小时（500*1024*8/10/3600），满足 RTO 要求。具体年出口流量成本及总成本需依据实际云服务商单价重新核算，原陈述中的 ¥172/TB/年 及 139小时 同步时间计算错误。
+
+## Evidence
+
+[质询]计算逻辑存在严重量纲错误：将500TB数据除以10Gbps带宽得出的时间单位应为秒（或换算后的小时数极小），而非139小时；且139小时远超RTO 4-12h的限制，导致方案在逻辑上不可行；此外，¥16,500的年成本与500TB数据量的比例关系缺乏明确的单价依据，疑似数值捏造或计算错误。 | 来源[1]仅定义RTO/RPO概念，未提供存储成本或带宽计算数据，无法支持具体数值；且陈述内部计算逻辑（500TB/10Gbps≈139h）违背基本物理量纲（实际约1.4小时），存在硬逻辑错误。
+
+## Search Query
+
+AWS S3 One Zone-IA cross-region replication cost calculation 10Gbps bandwidth
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/704113264&rut=c4cbc4b8021ed6554bb0cd9139adee637ff2f10195f2fed8b7d5e68f4be38dce', 'type': 'ddg', 'title': 'Rto（恢复时间目标）和rpo（恢复点目标） - 知乎'}

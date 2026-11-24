@@ -1,0 +1,24 @@
+# N649: 增量恢复的元数据一致性检查成本：为确保 10TB 增量数据的完整性，需比对源端与目标端的 MD5/ETag 或 CRC64；对于 10TB 数据，若平均对象 1
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N224
+
+## Claim
+
+增量恢复的元数据一致性检查成本：为确保 10TB 增量数据的完整性，需比对源端与目标端的 MD5/ETag 或 CRC64；对于 10TB 数据，若平均对象 1MB，共 10,000,000 个对象，校验计算时间 T_verify ≈ 10,000,000 * T_hash_per_object，假设 T_hash=1ms，则 T_verify ≈ 10,000s ≈ 2.8 小时，需计入 RTO 总时长。
+
+## Corrected Claim
+
+增量恢复的元数据一致性检查成本：为确保 10TB 增量数据的完整性，需比对源端与目标端的 MD5/ETag 或 CRC64；对于 10TB 数据，若平均对象 1MB，共 10,000,000 个对象，校验计算时间 T_verify ≈ 10,000,000 * T_hash_per_object，假设 T_hash=1ms，则 T_verify ≈ 10,000s ≈ 2.8 小时，需计入 RTO 总时长。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：10TB/1MB=10^7对象，10^7*1ms=10^4s≈2.8h，计算无误且符合工程估算逻辑
+
+## Search Query
+
+data integrity verification time MD5 10 million objects

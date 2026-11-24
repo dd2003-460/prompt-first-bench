@@ -1,0 +1,24 @@
+# N729: 限速重建下的第二盘故障概率 P_fail_2nd：在47.8小时重建窗口内，假设单盘年故障率AFR=2%，则小时故障率 λ = 0.02 / 8760 ≈ 2.
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N255
+
+## Claim
+
+限速重建下的第二盘故障概率 P_fail_2nd：在47.8小时重建窗口内，假设单盘年故障率AFR=2%，则小时故障率 λ = 0.02 / 8760 ≈ 2.28e-6/h。对于N=20块盘的RAID-6组，剩余19块盘中任意一块故障的概率 P = 1 - (1 - λ * T_window)^19 ≈ 19 * 2.28e-6 * 47.8 ≈ 0.21%。
+
+## Corrected Claim
+
+限速重建下的第二盘故障概率 P_fail_2nd：在47.8小时重建窗口内，假设单盘年故障率AFR=2%，则小时故障率 λ = 0.02 / 8760 ≈ 2.28e-6/h。对于N=20块盘的RAID-6组，剩余19块盘中任意一块故障的概率 P = 1 - (1 - λ * T_window)^19 ≈ 19 * 2.28e-6 * 47.8 ≈ 0.21%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：AFR转小时故障率计算正确（0.02/8760≈2.28e-6），二项分布近似计算正确（1-(1-λT)^19 ≈ 19*λT ≈ 0.0021），量级与逻辑自洽。
+
+## Search Query
+
+RAID rebuild window second disk failure probability AFR calculation

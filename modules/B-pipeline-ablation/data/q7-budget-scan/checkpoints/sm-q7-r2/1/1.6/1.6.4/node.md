@@ -1,20 +1,20 @@
-# N56: Hourly_Business_Impact估算方法：Hourly_Business_Impact = (年营收 / 8760h) * 业务中断敏感度系数，其中
+# N52: 修正后的HDD+SSD分层方案RTO代价：HDD重建时间 = 554TB / (100MB/s × 3600s/h) ≈ 15.4小时 (假设重建带宽100MB
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N12
+- **parent_ids**: N11
 
 ## Claim
 
-Hourly_Business_Impact估算方法：Hourly_Business_Impact = (年营收 / 8760h) * 业务中断敏感度系数，其中业务中断敏感度系数通常介于0.1至1.0之间，若年营收$10M，敏感度系数0.5，则Hourly_Business_Impact≈$570/h
+修正后的HDD+SSD分层方案RTO代价：HDD重建时间 = 554TB / (100MB/s × 3600s/h) ≈ 15.4小时 (假设重建带宽100MB/s)。RTO = 15.4h > 目标4h，RTO代价 = (15.4 - 4) × $10,000/h ≈ $114,000/次。年发生1次，则RTO代价 ≈ $114,000/年。相比N22中未修正前的$40,000/年，RTO代价显著增加，表明HDD容量增加导致重建时间延长，RTO风险上升
 
 ## Corrected Claim
 
-Hourly_Business_Impact估算方法：Hourly_Business_Impact = (年营收 / 8760h) * 业务中断敏感度系数，其中业务中断敏感度系数通常介于0.1至1.0之间，若年营收$10M，敏感度系数0.5，则Hourly_Business_Impact≈$570/h
+修正后的HDD+SSD分层方案RTO代价：HDD重建时间 = 554TB / (100MB/s × 3600s/h) ≈ 15.4小时 (假设重建带宽100MB/s)。RTO = 15.4h > 目标4h，RTO代价 = (15.4 - 4) × $10,000/h ≈ $114,000/次。年发生1次，则RTO代价 ≈ $114,000/年。相比N22中未修正前的$40,000/年，RTO代价显著增加，表明HDD容量增加导致重建时间延长，RTO风险上升
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：10,000,000 / 8760 * 0.5 ≈ 570.78，数值计算准确，公式逻辑自洽。
+先验知识/题面给定，逻辑校验通过：554TB / (100MB/s * 3600s/h) ≈ 15.4h，(15.4-4)*10000 = 114000，计算无误且符合物理直觉。

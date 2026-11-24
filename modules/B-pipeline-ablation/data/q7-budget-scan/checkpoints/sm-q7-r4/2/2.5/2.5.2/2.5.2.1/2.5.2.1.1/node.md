@@ -1,0 +1,20 @@
+# N590: 工作点A的监控工具订阅费隐性成本：基础托管虽无专职运维，但需购买云厂商监控服务（如CloudWatch Basic/Prometheus）。假设500TB数据产
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N198
+
+## Claim
+
+工作点A的监控工具订阅费隐性成本：基础托管虽无专职运维，但需购买云厂商监控服务（如CloudWatch Basic/Prometheus）。假设500TB数据产生5000个指标，云监控费用约为$0.10/metric/month，年费用 = 5000 * 0.10 * 12 * 7.2 ≈ ¥43,200。折合每TB成本 = ¥43,200 / 500TB = ¥86.4/TB/yr。
+
+## Corrected Claim
+
+工作点A的监控工具订阅费隐性成本：基础托管虽无专职运维，但需购买云厂商监控服务（如CloudWatch Basic/Prometheus）。假设500TB数据产生5000个指标，云监控费用约为$0.10/metric/month，年费用 = 5000 * 0.10 * 12 * 7.2 ≈ ¥43,200。折合每TB成本 = ¥43,200 / 500TB = ¥86.4/TB/yr。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算过程 5000 * 0.10 * 12 * 7.2 = 43200 正确，43200 / 500 = 86.4 正确，量纲与数值量级符合云监控计费常识。

@@ -1,20 +1,24 @@
-# N56: NVMe SSD阵列恢复吞吐30TB/h的瓶颈分解：单节点10GbE网卡带宽上限=10Gbps=1.25GB/s=4.5TB/h；3节点集群总带宽=13.5TB
+# N69: HDD层400TB冷数据的RAID6/EC重建瓶颈带宽为单盘持续写入速度，典型企业级7200rpm HDD顺序写入带宽约为150-200 MB/s/盘（非100
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N23
+- **parent_ids**: N20, N21, N22
 
 ## Claim
 
-NVMe SSD阵列恢复吞吐30TB/h的瓶颈分解：单节点10GbE网卡带宽上限=10Gbps=1.25GB/s=4.5TB/h；3节点集群总带宽=13.5TB/h；但NVMe SSD本地读速可达7GB/s/盘，12盘RAID6聚合读速≈84GB/s=302TB/h，故网络带宽（13.5TB/h）为瓶颈，实际恢复吞吐≈13.5TB/h（非30TB/h），需升级至25GbE或40GbE网络才能突破
+HDD层400TB冷数据的RAID6/EC重建瓶颈带宽为单盘持续写入速度，典型企业级7200rpm HDD顺序写入带宽约为150-200 MB/s/盘（非100MB/s），需根据具体盘型修正
 
 ## Corrected Claim
 
-NVMe SSD阵列恢复吞吐30TB/h的瓶颈分解：单节点10GbE网卡带宽上限=10Gbps=1.25GB/s=4.5TB/h；3节点集群总带宽=13.5TB/h；但NVMe SSD本地读速可达7GB/s/盘，12盘RAID6聚合读速≈84GB/s=302TB/h，故网络带宽（13.5TB/h）为瓶颈，实际恢复吞吐≈13.5TB/h（非30TB/h），需升级至25GbE或40GbE网络才能突破
+HDD层400TB冷数据的RAID6/EC重建瓶颈带宽为单盘持续写入速度，典型企业级7200rpm HDD顺序写入带宽约为150-200 MB/s/盘（非100MB/s），需根据具体盘型修正
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：10Gbps换算为1.25GB/s及4.5TB/h正确，3节点聚合13.5TB/h正确，NVMe SSD聚合读速远超网络带宽，网络确为瓶颈，推导自洽。
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+enterprise HDD sequential write speed MB/s 7200rpm 2024

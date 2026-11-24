@@ -1,0 +1,24 @@
+# N140: 2024-2025年主流品牌（Solidigm D5-P5336/WDC Ultrastar DC SN740）企业级7.68TB NVMe SSD（PCIe 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N36
+
+## Claim
+
+2024-2025年主流品牌（Solidigm D5-P5336/WDC Ultrastar DC SN740）企业级7.68TB NVMe SSD（PCIe Gen5/Gen4, QLC/MLC混合）的国内渠道均价区间为 ¥1,100 - ¥1,450/盘，对应每TB成本约 ¥143 - ¥189/TB，主要受QLC颗粒成本下降驱动。
+
+## Corrected Claim
+
+2024-2025年主流品牌（Solidigm D5-P5336/WDC Ultrastar DC SN740）企业级7.68TB NVMe SSD的国内渠道均价区间通常远高于¥1,450/盘，具体价格需根据最新市场行情核实，原陈述中的价格区间疑似存在数量级错误。
+
+## Evidence
+
+[质询]数值量级严重偏离市场常识：2024-2025年企业级7.68TB NVMe SSD（尤其是PCIe Gen4/Gen5）的市场价格通常在人民币数千元至万元级别（例如¥3,000-¥8,000+），¥1,100-¥1,450的价格区间更接近消费级SSD或极低端的工业级产品，甚至低于许多大容量消费级SSD的成本价，极大概率存在数量级错误或型号混淆（如将7.68TB误标为7.68GB，或价格单位错误）。 | 无可用外部证据；逻辑校验发现价格量级与企业级SSD市场普遍认知严重不符，违反基本经济直觉（企业级SSD单价远高于消费级，且7.68TB容量成本不可能低至¥143/TB）。
+
+## Search Query
+
+Solidigm D5-P5336 7.68TB price 2025 enterprise NVMe QLC

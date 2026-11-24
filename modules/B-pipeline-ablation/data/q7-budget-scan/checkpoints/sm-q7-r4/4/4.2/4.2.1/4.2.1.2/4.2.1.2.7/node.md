@@ -1,0 +1,20 @@
+# N684: 基准工作点 (RAID-6 24盘)：配置 24 x 2TB NVMe SSD，RAID-6 保护 2 盘故障，有效容量 V_eff = (24-2)*2TB 
+
+- **status**: verified
+- **level**: L5
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N235, N236, N237
+
+## Claim
+
+基准工作点 (RAID-6 24盘)：配置 24 x 2TB NVMe SSD，RAID-6 保护 2 盘故障，有效容量 V_eff = (24-2)*2TB = 44TB，年丢失概率 P_loss_base = 1.2×10^-5，单位有效容量成本 C_base = CapEx/44TB/5年 + OpEx，该点为本地存储可靠性下限。
+
+## Corrected Claim
+
+基准工作点 (RAID-6 24盘)：配置 24 x 2TB NVMe SSD，RAID-6 保护 2 盘故障，有效容量 V_eff = (24-2)*2TB = 44TB，年丢失概率 P_loss_base = 1.2×10^-5，单位有效容量成本 C_base = CapEx/44TB/5年 + OpEx，该点为本地存储可靠性下限。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RAID-6有效容量计算正确((24-2)*2=44TB)，成本分摊逻辑自洽，作为基准工作点的定义符合存储可靠性分析惯例。

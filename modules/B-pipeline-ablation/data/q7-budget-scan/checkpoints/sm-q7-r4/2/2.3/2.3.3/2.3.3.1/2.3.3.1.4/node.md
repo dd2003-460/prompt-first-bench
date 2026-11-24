@@ -1,0 +1,24 @@
+# N585: List API 触发的 GET/HEAD 类请求总次数 N_req = N_obj / 1000 = 4.194e6 次，阿里云 OSS 标准存储请求单价为 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N210
+
+## Claim
+
+List API 触发的 GET/HEAD 类请求总次数 N_req = N_obj / 1000 = 4.194e6 次，阿里云 OSS 标准存储请求单价为 ¥0.01/万次
+
+## Corrected Claim
+
+List API 触发的 GET/HEAD 类请求总次数 N_req = N_obj / 1000 = 4.194e6 次，阿里云 OSS 标准存储请求单价为 ¥0.01/万次
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：List API 通常每返回 1000 个对象计为一次请求，故 N_req = N_obj / 1000 符合 API 行为逻辑；阿里云 OSS 标准存储 GET/HEAD 请求单价 ¥0.01/万次 符合公开定价常识（0.01元/万次 = 0.000001元/次），数值量级合理。
+
+## Search Query
+
+Alibaba Cloud OSS request price per 10000 times

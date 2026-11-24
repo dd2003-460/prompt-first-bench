@@ -1,0 +1,24 @@
+# N274: HDD 集群功耗 P_HDD_cluster 修正：基于 N131 的 4.675W/盘，若使用 16TB 盘，400TB 冷数据需 25 块盘（RAID6 冗
+
+- **status**: pending
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N130
+
+## Claim
+
+HDD 集群功耗 P_HDD_cluster 修正：基于 N131 的 4.675W/盘，若使用 16TB 盘，400TB 冷数据需 25 块盘（RAID6 冗余后），P_HDD_cluster = 25 * 4.675W ≈ 117W。注意：N130 原公式未考虑 RAID 冗余导致的物理盘数增加
+
+## Corrected Claim
+
+HDD 集群功耗 P_HDD_cluster 修正：基于 N131 的 4.675W/盘，若使用 16TB 盘，400TB 冷数据需 25 块盘（RAID6 冗余后），P_HDD_cluster = 25 * 4.675W ≈ 117W。注意：N130 原公式未考虑 RAID 冗余导致的物理盘数增加
+
+## Evidence
+
+父节点级核验未通过：非正交, 有冗余（子节点存在严重冗余和逻辑混淆。子节点1和子节点3都涉及RAID冗余系数的计算及盘数推导，内容重叠。子节点2混合了两种不同的功耗假设（N279 vs N274），且其基础（27块盘）依赖于子节点1的结论，导致结构上不是并列的正交关系，而是串行依赖。此外，子节点1中的公式推导过程过于详细，应作为计算步骤而非独立的知识模块。）
+
+## Search Query
+
+hdd cluster power consumption raid6 redundancy overhead

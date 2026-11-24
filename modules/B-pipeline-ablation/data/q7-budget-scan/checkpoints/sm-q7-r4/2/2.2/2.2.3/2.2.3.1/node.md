@@ -1,0 +1,24 @@
+# N176: 工作点C的静态电力成本计算：SSD功耗 50TB × 0.8W/TB = 40W，HDD功耗 450TB × 0.4W/TB = 180W，服务器基础功耗 50
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N52
+
+## Claim
+
+工作点C的静态电力成本计算：SSD功耗 50TB × 0.8W/TB = 40W，HDD功耗 450TB × 0.4W/TB = 180W，服务器基础功耗 50W，总IT功耗 270W = 0.27kW；年电费 = 0.27kW × 1.4(PUE) × 0.8(¥/kWh) × 8760h ≈ ¥2,655/年。
+
+## Corrected Claim
+
+工作点C的静态电力成本计算：SSD功耗 50TB × 0.8W/TB = 40W，HDD功耗 450TB × 0.4W/TB = 180W，服务器基础功耗 50W，总IT功耗 270W = 0.27kW；年电费 = 0.27kW × 1.4(PUE) × 0.8(¥/kWh) × 8760h ≈ ¥2,655/年。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别针对SSD功耗、HDD功耗、服务器基础功耗进行独立修正，最后汇总重算，逻辑清晰且互不重叠。涵盖了父节点中所有主要能耗组件（存储、主机）及最终计算步骤，无遗漏。各子节点代表不同的物理组件或计算阶段，并非同一参数的简单变体，因此不存在冗余。）
+
+## Search Query
+
+enterprise hdd power consumption idle active watt

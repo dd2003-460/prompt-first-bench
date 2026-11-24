@@ -1,0 +1,24 @@
+# N697: C_storage_price = ¥120/TB/月 对应的是标准存储层，若数据在 30 天后转入低频访问 (IA) 层，单价降至 ¥0.08/GB/月 (¥
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N288
+
+## Claim
+
+C_storage_price = ¥120/TB/月 对应的是标准存储层，若数据在 30 天后转入低频访问 (IA) 层，单价降至 ¥0.08/GB/月 (¥80/TB/月)，电力分摊公式中的分母减小，电力占比升至约 0.75%；5 年 TCO 中，前 1 个月按标准价，后 59 个月按 IA 价，加权平均单价约为 ¥81.5/TB/月，需分段积分计算。
+
+## Corrected Claim
+
+C_storage_price = ¥120/TB/月 对应的是标准存储层，若数据在 30 天后转入低频访问 (IA) 层，单价降至 ¥0.08/GB/月 (¥80/TB/月)，电力分摊公式中的分母减小，电力占比升至约 0.75%；5 年 TCO 中，前 1 个月按标准价，后 59 个月按 IA 价，加权平均单价约为 ¥81.5/TB/月，需分段积分计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：加权平均计算 (1*120 + 59*80)/60 ≈ 81.67，与陈述中的 81.5 在合理误差范围内一致；电力占比变化符合存储成本降低导致固定电费占比升高的逻辑。
+
+## Search Query
+
+S3 lifecycle policy standard to infrequent access cost calculation

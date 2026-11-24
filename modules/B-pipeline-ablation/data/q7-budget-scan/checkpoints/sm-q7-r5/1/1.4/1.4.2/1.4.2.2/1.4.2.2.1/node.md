@@ -1,0 +1,20 @@
+# N355: 3.84TB 方案的 RAID6 有效可用容量 C_eff_384 计算：C_eff = (N_disks - 2) * C_single = (237 - 2
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N158
+
+## Claim
+
+3.84TB 方案的 RAID6 有效可用容量 C_eff_384 计算：C_eff = (N_disks - 2) * C_single = (237 - 2) * 3.84TB = 235 * 3.84TB = 902.4TB。与 7.68TB 方案的 907.2TB 相比，有效容量略低，但均远超 500TB 需求，差异主要体现在硬件成本和功耗上，而非容量不足。
+
+## Corrected Claim
+
+3.84TB 方案的 RAID6 有效可用容量 C_eff_384 计算：C_eff = (N_disks - 2) * C_single = (237 - 2) * 3.84TB = 235 * 3.84TB = 902.4TB。与 7.68TB 方案的 907.2TB 相比，有效容量略低，但均远超 500TB 需求，差异主要体现在硬件成本和功耗上，而非容量不足。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RAID6 有效容量公式 (N-2)*C 正确，算术运算 235*3.84=902.4 无误，且与 7.68TB 方案对比逻辑自洽。

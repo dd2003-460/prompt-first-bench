@@ -1,0 +1,24 @@
+# N360: NVMe方案的5年总拥有成本(TCO)计算：TCO_NVMe = (CapEx_NVMe * 500TB + C_power_NVMe * 5 + C_opex
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N123
+
+## Claim
+
+NVMe方案的5年总拥有成本(TCO)计算：TCO_NVMe = (CapEx_NVMe * 500TB + C_power_NVMe * 5 + C_opex_NVMe * 5 + C_hidden_NVMe * 5) - Residual_Value_NVMe。其中CapEx_NVMe约¥150/TB，C_hidden_NVMe基于N122的¥20,000/天年化。
+
+## Corrected Claim
+
+NVMe方案的5年总拥有成本(TCO)计算：TCO_NVMe = (CapEx_NVMe * 500TB + C_power_NVMe * 5 + C_opex_NVMe * 5 + C_hidden_NVMe * 5) - Residual_Value_NVMe。其中CapEx_NVMe约¥150/TB，C_hidden_NVMe基于N122的¥20,000/天年化。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：TCO公式结构符合标准总拥有成本定义（资本支出+运营支出-残值），数值量级（¥150/TB CapEx, ¥20k/天隐性成本）在数据中心存储场景下合理且自洽。
+
+## Search Query
+
+NVMe SSD 5 year TCO per TB enterprise

@@ -1,0 +1,24 @@
+# N276: 共享基础设施 P_Shared_Infra 量化：HDD+SSD 混合阵列的控制器需同时管理两种介质，功耗略高于纯 HDD，约为 40-50W；背板混合供电损耗
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N130
+
+## Claim
+
+共享基础设施 P_Shared_Infra 量化：HDD+SSD 混合阵列的控制器需同时管理两种介质，功耗略高于纯 HDD，约为 40-50W；背板混合供电损耗约为 30W；散热风扇因总热量低（~200W IT 负载），P_fan ≈ 15-20W。合计 P_Shared_Infra ≈ 85-100W
+
+## Corrected Claim
+
+共享基础设施 P_Shared_Infra 量化：HDD+SSD 混合阵列的控制器需同时管理两种介质，功耗略高于纯 HDD，约为 40-50W；背板混合供电损耗约为 30W；散热风扇因总热量低（~200W IT 负载），P_fan ≈ 15-20W。合计 P_Shared_Infra ≈ 85-100W
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：各分项功耗（控制器40-50W+背板30W+风扇15-20W）之和在85-100W区间内，量级符合小型混合存储阵列的工程常识。
+
+## Search Query
+
+hybrid hdd ssd storage array controller power consumption
