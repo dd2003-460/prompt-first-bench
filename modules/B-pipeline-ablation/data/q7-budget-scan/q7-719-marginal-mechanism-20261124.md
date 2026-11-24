@@ -27,3 +27,7 @@
 - 单 rep 对单 rep 的结构对比（n=1），719 r2/r3 在途，到位后需复验 L5 是否稳定出现（若 r2/r3 也没长出 L5，则"719 长出 L5"是 r1 偶然，本机制结论要降级）。
 - 300-r1 的 judge 0.5154 是该档较低 rep（n=2 均值 0.5846），单 rep 对单 rep 的 Δ+0.148 偏高；曲线口径的 Δ+0.079 更保守，两者都报告。
 - verified 率稀释的因果方向（是"节点多导致摊薄"还是"深层更难核验"）未分离，本文只陈述相关性。
+
+## 数据质量 caveat (11-24 21:05 补)
+
+T5 parent_ids 持久化 bug 影响本批全部档位（系统性，非 719 特有）：719-r1 17/719 empty parent_ids（5 L1 given=合法根 + 12 search 节点 bug 签名，≤5/轮模式疑 gap_check added_extra[:5] 路径）；300-r1/r2 各 14/300；50-r1 11/50。dangling=0（无指向不存在节点）。本文 L5 增长/verified 稀释（status 字段）/冗余计数均不依赖 parent_ids，结论不受影响；但任何 parent-link 正确率类指标须先剔 empty 节点。T-PR-17 preflight 正在逐 checkpoint 精查（subagent sa-0-07937e31）。
