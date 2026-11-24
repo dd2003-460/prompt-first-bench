@@ -31,7 +31,7 @@ v2 修正 (2026-11-24 23:4x 发现): curve JSON 不止 rows 一处依赖 719 —
   已验证能精确复现当前 curve 里的拟合参数 (-0.1280/0.1219/0.9883), 方法无误。
 conclusion 文字: 对 719 依赖的数值 token 做受保护替换 (只在找到旧值时才替换, 漏配则 WARN 让 Lead 人工核)。
 """
-import glob, json, os, sys, math, hashlib, datetime
+import glob, json, os, sys, math, re, hashlib, datetime
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 CURVE = os.path.join(HERE, "q7-budget-response-curve.json")
@@ -138,7 +138,10 @@ def main():
     new_lin_pred = round(xi + xs * BUDGET, 2)
 
     # ---- conclusion 文字的 719 依赖 token (受保护替换: 只在找到旧值时替换) ----
-    # 旧值取自当前 curve (可能是 n=1 或 n=2 时代), 新值按 new_jt 重算。
+    # 幂等关键: 旧 token 与新 token 用同一格式化函数构建 (小数位与 curve 存储值无关, 恒同一格式)。
+    # 否则第一次 apply 后结论文字值变成新值, 而候选旧值取自 curve 存储值 (位数不同) → 第二次 apply 漏配 WARN。
+    # 硬编码 n=1 时代值 (0.6635/-0.032/0.079/0.98) 仅作首次 apply 的兜底 (curve 存储值当时还是 n=2/n=1 混合,
+    # 未必匹配结论文字); 动态值 (取自当前 curve) 保证后续 apply 命中。
     old_fits = curve.get("fits", {})
     old_log = old_fits.get("log_saturation", {})
     old_li, old_ls = old_log.get("intercept"), old_log.get("slope")
@@ -146,51 +149,47 @@ def main():
     old_res = round(old_jt_719 - (old_li + old_ls * math.log(BUDGET)), 3) if None not in (old_jt_719, old_li, old_ls) else None
     old_r2_5pt = old_log.get("r2")
     old_pue_300_719 = curve.get("per_unit_efficiency", {}).get("300->719")
-    old_marg_txt = None  # 结论文字里的 "+0.079" 来自 n=1 时代 (0.6635-0.5846), 单独处理
-    old_lin_pred_txt = None
+    old_lin = old_fits.get("linear", {})
+    old_xi, old_xs = old_lin.get("intercept"), old_lin.get("slope")
+    old_linpred_val = round(old_xi + old_xs * BUDGET, 2) if None not in (old_xi, old_xs) else None
 
-    # 结论文字里已知 719 依赖 token 的候选旧值 (按当前 curve 实际值优先, 否则用 n=1 时代已知值)
-    cand_old_jt = [old_jt_719, 0.6635]
-    cand_old_res = [old_res, -0.032]
-    cand_old_r2 = [old_r2_5pt, 0.988]
-    cand_old_pue = [old_pue_300_719, 0.00019]
-    cand_old_marg = [round(old_jt_719 - jt_300, 3), 0.079]
-    cand_old_linpred = [0.98]
+    # 每个语义: (名字, 格式化函数, 候选旧值列表, 新值)。旧/新 token 用同一 fmt 构建 → 幂等。
+    def _fmt_jt(v): return f"719 实测点 ({v})"
+    def _fmt_res(v): return f"残差 {v:+.3f}".replace("+", "")
+    def _fmt_r2(v): return f"R^2={round(v, 3)}"
+    def _fmt_pue(v): return f"300→719={v:.5f}"
+    def _fmt_marg(v): return f"只 +{round(v, 3)}"
+    def _fmt_linp(v): return f"pred 719≈{round(v, 2)}"
+
+    sems = [
+        ("jt 实测点", _fmt_jt, [v for v in [old_jt_719, 0.6635] if v is not None], new_jt),
+        ("residual", _fmt_res, [v for v in [old_res, -0.032] if v is not None], new_jt - (li + ls * math.log(BUDGET))),
+        ("r2", _fmt_r2, [v for v in [old_r2_5pt, 0.988] if v is not None], lr2),
+        ("pue", _fmt_pue, [v for v in [old_pue_300_719, 0.00019] if v is not None], new_pue),
+        ("marg", _fmt_marg, [v for v in [round(old_jt_719 - jt_300, 3), 0.079] if v is not None], new_marg),
+        ("linpred", _fmt_linp, [v for v in [old_linpred_val, 0.98] if v is not None], new_lin_pred),
+    ]
 
     conclusion = curve.get("conclusion", "")
-    repl = [
-        (f"719 实测点 ({c})", f"719 实测点 ({new_jt})") for c in cand_old_jt
-    ] + [
-        (f"残差 {c:+.3f}".replace("+", "").replace("-", "-"), f"残差 {new_jt - (li + ls * math.log(BUDGET)):+.3f}".replace("+", "")) for c in cand_old_res
-    ] + [
-        (f"R^2={c}", f"R^2={round(lr2, 3)}") for c in cand_old_r2
-    ] + [
-        (f"300→719={c}", f"300→719={new_pue:.5f}") for c in cand_old_pue
-    ] + [
-        (f"只 +{c}", f"只 +{new_marg:.3f}") for c in cand_old_marg
-    ] + [
-        (f"pred 719≈{c}", f"pred 719≈{new_lin_pred}") for c in cand_old_linpred
-    ] + [
-        (f"719 档当前 n={c}", f"719 档当前 n={n_reps} (已回填)") for c in [1, 2]
-    ]
+    # n= 子句: 正则整体归一 (幂等 — 重复 apply 时旧值已带 "(已回填)" 后缀, 纯 token 替换会漏配且后缀翻倍)
+    conclusion, n_hits = re.subn(
+        r"719 档当前 n=\d+(?: \(已回填\))?",
+        f"719 档当前 n={n_reps} (已回填)",
+        conclusion,
+    )
     new_conclusion, missed = conclusion, []
-    for old, new in repl:
-        if old in new_conclusion:
-            new_conclusion = new_conclusion.replace(old, new, 1)
-        # 不在此处判 missed (同一语义可能有多个候选旧值, 命中其一即可)
-    # 判断每个语义是否至少命中一个候选
-    sem_groups = {
-        "jt 实测点": [f"719 实测点 ({c})" for c in cand_old_jt],
-        "residual": [f"残差 {c:+.3f}".replace("+", "").replace("-", "-") for c in cand_old_res],
-        "r2": [f"R^2={c}" for c in cand_old_r2],
-        "pue": [f"300→719={c}" for c in cand_old_pue],
-        "marg": [f"只 +{c}" for c in cand_old_marg],
-        "linpred": [f"pred 719≈{c}" for c in cand_old_linpred],
-        "n": [f"719 档当前 n={c}" for c in [1, 2]],
-    }
-    for sem, olds in sem_groups.items():
-        if not any(o in conclusion for o in olds):
+    for sem, fmt, olds, new_val in sems:
+        hit = False
+        for ov in olds:
+            old_tok, new_tok = fmt(ov), fmt(new_val)
+            if old_tok in new_conclusion:
+                new_conclusion = new_conclusion.replace(old_tok, new_tok, 1)
+                hit = True
+                break
+        if not hit:
             missed.append(sem)
+    if n_hits == 0:
+        missed.append("n= 子句 (正则未命中, 请人工核)")
 
     # ---- 打印 ----
     print(f"=== 719 档回填 (dry-run={'NO' if apply else 'YES'}) ===")
