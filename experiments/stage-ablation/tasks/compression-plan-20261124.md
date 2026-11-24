@@ -40,17 +40,20 @@ CFP 复查（2026-11-24 ego-browser, icml.cc/Conferences/2027/Dates, source ①�
 
 ## 压缩目标（2026-11-24 11:30 词数模拟修正）
 
-**词数模拟（source ① execute_code）**：总 18,148 词。四动作（provenance 3,770 词全移留 1 句 / abstract 1,282→250 / §6 2,714 砍 60% / §7 2,831 砍 70%）后 = **9,752 词**。
+**词数模拟（2026-11-24 11:30 初版, source ① execute_code）**：总 18,148 词。四动作后 ≈ 9,752 词。
+**修正（11:28, L95 拆行后精确值）**：provenance 块实际 936 词（初版 3,770 是拆行前整巨型行含 findings 的误算）。四动作（provenance 936 移留 1 句 / abstract 1,282→250 / §6 2,714 砍 60% / §7 2,831 砍 70%）后 = **~10,692 词**。
 
-**规划原档位（3.5-6K）不可达**——四动作后还差 3.7-6.3K 词。缺口在 §4 Findings（43.8% 字符，provenance 移出后仍是大头）+ §2 Setup + §3 Related。
+**规划原档位（3.5-6K）不可达**——四动作后还差 4.7-7.2K 词。缺口在 §4 Findings（43.8% 字符，provenance 移出后仍是大头）+ §2 Setup + §3 Related。
 
 | 档位 | 词数 | 四动作后需再砍 | 来源 |
 |------|------|--------------|------|
-| A（保守） | ~6,000 | 3,752 | §4 非承重 finding 段 + §2 judge 定义 + §3 部分近邻 |
-| B（标准） | ~4,500 | 5,252 | A + §4 更多 finding 移 supplementary |
-| C（激进） | ~3,500 | 6,252 | B + §3 related 大幅压 |
+| A（保守） | ~6,000 | 4,692 | §4 非承重 finding 段 + §2 judge 定义 + §3 部分近邻 |
+| B（标准） | ~4,500 | 6,192 | A + §4 更多 finding 移 supplementary |
+| C（激进） | ~3,500 | 7,192 | B + §3 related 大幅压 |
 
 **承重 claim 清单（subagent 在飞）决定哪些 §4 finding 可移**——承重 claim 必须正文可见，非承重的移 supplementary。
+
+**§4.3 精确词数（2026-11-24 11:28 独立复算, source ①）**：§4.3 全段 (L83-156) = **4,185 词**，其中 provenance 块 (L95-113) = 936 词。provenance 移出后 §4.3 仍 3,249 词——这是"再砍 3,752-6,252 词"缺口的主要来源。§4.3 内可移候选（subagent 分块词数）：Q6 cross-domain 1,278 词 / marginal yield+breakpoint 1,068 词 / hit-set control 628 词 / breadth-vs-depth 346 词 / depth provenance 359 词 / verbosity arm 96 词 / pooling provenance 269 词。
 
 ## 不动的承重件（压缩红线）
 
