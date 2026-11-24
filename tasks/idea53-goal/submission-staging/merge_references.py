@@ -4,7 +4,7 @@
 #       python3 merge_references.py            (执行 merge, 幂等: 已 merge 则跳过)
 # 输入: merge-anchors.json (锚点映射, 15 bib key 全覆盖) + references.bib
 # 输出: paper.tex 插入 \citep + bibliography 节 + submission/references.bib 拷贝
-import json, os, sys, shutil
+import json, os, re, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SUB = os.path.join(HERE, "..", "submission")
@@ -33,8 +33,23 @@ def main():
                           ANCHORS["bib_block"] + ANCHORS["bib_insert_before"])
     if not dry:
         open(tex_path, "w", encoding="utf-8").write(tex)
-        shutil.copy(os.path.join(HERE, "references.bib"), os.path.join(SUB, "references.bib"))
-        print("WROTE paper.tex (+\\citep×4 组 + bibliography) + submission/references.bib")
+        # 出版版 references.bib: 去掉 % 注释行 + note 字段(验证备忘, 不进出版内容;
+        # 中文 note 会让 pdflatex utf8 inputenc 渲染 .bbl 时报 Unicode 错误)
+        src = open(os.path.join(HERE, "references.bib"), encoding="utf-8").read()
+        # 出版版 references.bib: 去掉 % 注释行 + note 字段(验证备忘, 不进出版内容;
+        # 中文 note 会让 pdflatex utf8 inputenc 渲染 .bbl 时报 Unicode 错误)
+        clean_lines = []
+        for l in src.splitlines():
+            s = l.lstrip()
+            if s.startswith("%"):
+                continue
+            if re.match(r'^\s*note\s*=', l, re.I):
+                continue
+            clean_lines.append(l)
+        clean = "\n".join(clean_lines) + "\n"
+        assert not re.search(r'[\u4e00-\u9fff]', clean), "出版版仍含中文"
+        open(os.path.join(SUB, "references.bib"), "w", encoding="utf-8").write(clean)
+        print("WROTE paper.tex (+\\citep×4 组 + bibliography) + submission/references.bib (出版版: 无注释/无 note)")
     else:
         print("DRY-RUN: 全部锚点匹配, 未改文件")
 
