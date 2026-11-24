@@ -138,7 +138,7 @@ def main():
     ws = sample_workloads(N, SEED)
     out = {'design': 'tree bottleneck network (2 branch x 2 seg); deep correction '
                      'decomposes into branch-level + within-branch dims (2x2 table), '
-                     'dims trade off with rate structure',
+                     'dominant dim flips within->branch mild->extreme (grouping, not monotone)',
            'n_workloads': N, 'n_perm': N_PERM, 'specs': {}}
     for g, spec in SPECS.items():
         rates = [spec[c] for c in SEGMENTS]
