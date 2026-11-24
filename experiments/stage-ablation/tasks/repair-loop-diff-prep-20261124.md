@@ -264,3 +264,6 @@ gate `_should_rework(deduped)` 保持只判本轮批次（最小改动，不动 
 - 本文档：`experiments/stage-ablation/tasks/repair-loop-diff-prep-20261124.md`
 - 可直接 apply 的 diff（从本文档机械生成并经上述验证）：
   `tasks/repair-loop-fix-a.diff` / `tasks/repair-loop-fix-b.diff` / `tasks/repair-loop-fixes-combined.diff`
+- **回滚点 commit**：`a769da809`（tmp-lit-snowball，2026-11-24 23:59，含上述 5 文件；
+  SM 本体未含在内——apply 前的 SM 状态 = 该 commit 的 `experiments/stage-ablation/s5_state_machine.py`，
+  任意臂失败可 `git checkout a769da809 -- <file>` 或 `git revert` 恢复）。
