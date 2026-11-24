@@ -1088,3 +1088,8 @@ claim 清单 subagent 报 merge 消融 (0.4129/0.4261) 在 draft absent。核验
 - draft 承重 claim 链 (budget buys breadth / L4 zero-convergence / hit-set 机制) 不依赖 merge 消融。
 - draft repair-loop fix 定位 = "designed and predicted, not yet run" (§1 workshop scope), merge 消融是 fix 的机制探针之一, 负结果不支撑 fix 预测。
 **判断: scope 外, 不该加进 draft** — 加了撑长 draft 且负结果对核心 claim 无增益。若审稿人问 "depth 压缩机制", 答: per-layer 自压缩 (merge 消融排除 synth merge), 细节在 supplementary (届时补 1 句即可, 不需正文)。
+
+## Q7 budget=100 r2 落地 (2026-11-24 11:39, source ① relay 日志)
+
+budget=100: r1 cov=0.192 / r2 cov=0.135 (同档方差大, run-to-run 交换)。
+档间差: 50 档 mean 0.102 (n=3) vs 100 档 mean 0.164 (n=2) → budget effect 方向仍成立, 但档内 sd 大, 承重结论等 15 点全落地 + 双分析。
