@@ -105,6 +105,7 @@ D 的终极目标：在 4×V100 硬件上建 research 的 AGI——能自主做�
 - **执行时机**：等 Q7 落地后（改 s5_state_machine.py 污染在飞 Q7）。方案选择需再读 `_rework_directed` 实现确认输入契约（矛盾事件结构 vs 节点状态）。
 
 **H2/H4 机制分解数据（2026-11-24 13:50，subagent deleg_35078f46 salvage，Q6 完整 / GPU·Q7 被 token 截断）**：
+- **rework_count 恒=1 跨域核验（14:10，独立复算）**：GPU 2298 / Q6 621 / Q6-rerun 460 / Q7(9 文件) 139——四批全恒=1，单尝试瓶颈是跨域机制非 Q6 特有。已进 draft §4.1/§5（commit 3eac3a1fe）。
 - **Q6 原批 15 run（2727 节点 / 621 reworked）**：
   - **rework_count 恒=1（100%）**：621 个 reworked 节点无一 rework_count≥2——max_rework=2 从未用满。根因非预算紧，而是 **L750 rework 目标集只含当轮批**（节点 rework 一次后不在下轮池里，见上"精确根因"）。
   - **73% 实质改变**（454/621）：模型**修得动**——corrected_claim 与 claim 有实质差异（difflib 相似度 < 0.7）。H2"修不动"被数据削弱。
