@@ -25,12 +25,15 @@
 ## 两个诚实边界（整合进 workshop 前必须处理）
 1. **n=1**：719 当前只有 r1，r2/r3 在途。workshop 自身纪律 = 719 点要 n=3 才落文。r2/r3 到位后用
    `q7-719-replication-check.py` 复现判定 + 重算 cov 均值区间。
-2. **harness-regime confound**：GPU 批 pre-clamp（soft cap），Q6/Q7 post-clamp（hard cap），max_depth 不同。
-   workshop §4.3 已声明 domain-dependence 要在 **realized node count** 上说，不是 nominal budget。
-   Q7 719-r1 实测 719 节点（已验证），但 300 档的 realized 数需对账后才能做干净的「同 realized 数跨域」对比。
+2. **harness-regime confound（已定性 20:55）**：GPU 批 pre-clamp（soft cap，realized 50→103-423 / 719→381-747 大量重叠），
+   Q7 批 post-clamp（hard cap，`47a8543cd` 11-23 13:44 之后；队列 11-23 22:55 起）。
+   **实测 Q7 各档 realized==nominal 精确相等**（50/100/150/300/719 零 overshoot）→ Q7 是干净预算轴，GPU 是脏轴。
+   因此 confound 的具体形态 = 树生长动力学本身不同（硬钳制改变每轮展开行为），不只是"测量口径"。
+   跨域对比必须在 realized node count 轴上做：Q7 的 nominal 可直接当 realized 用，GPU 必须用实测 realized。
+   300 档 n=2 独立 rep 已再确认（r1/r2 claim-set 哈希相同=复制，r3 独立；与曲线 JSON 一致）。
 
 ## 下一步（r2/r3 落盘后）
 - [ ] 重跑 `q7-719-replication-check.py`（机制复现判定）
 - [ ] 重算 Q7 cov 轴 719 档 n=3 均值 + 区间
-- [ ] 对账 300/719 档 realized node count（绕开 nominal budget 混淆）
-- [ ] 决定是否落进 workshop §4.3（三域 cov 对比表 + domain-dependence 初读）
+- [x] 对账 300/719 档 realized node count（20:55 完成：Q7 各档 realized==nominal 精确相等，干净轴；见边界 2）
+- [ ] 决定是否落进 workshop §4.3（三域 cov 对比表 + domain-dependence 初读；GPU 用实测 realized 对齐）
