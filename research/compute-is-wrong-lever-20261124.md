@@ -117,9 +117,13 @@ D 的终极目标：在 4×V100 硬件上建 research 的 AGI——能自主做�
 
 ## 与 draft 的关系
 
-workshop draft 的 headline "budget buys breadth, not metacognition" 目前只当测量结果报。本 note 把它升级为**方向判断**，但 12:18 修正后范围收窄：draft 的 headline 本身是域内（GPU）结果，draft §4.3 已诚实标注 Q6 监控轴 invariance does not transfer。本 note 的贡献是把"修复回路低产"从 draft 的一个测量数字，升级为**跨域机制 + 对 D autoresearch 目标的设计约束**（带 P1/P2 预言）——这是 general 的那一层。draft §5/§6 可加一段指向（带 P1/P2），把测量结果变成对 D 目标有预言力的设计约束；但 headline 不能改成跨域普适版（Q6 反例在 draft 里已写）。
+workshop draft 的 headline "budget buys breadth, not metacognition" 目前只当测量结果报。本 note 把它升级为**方向判断**，但 12:18 修正后范围收窄：draft 的 headline 本身是域内（GPU）结果，draft §4.3 已诚实标注 Q6 监控轴 invariance does not transfer。本 note 的贡献是把"修复回路低产"从 draft 的一个测量数字，升级为**跨域机制 + 对 D autoresearch 目标的设计约束**（带 P1/P2 预言）——这是 general 的那一层。**升级状态（2026-11-24 14:15）**：
+- **已进 draft**（commit 3eac3a1fe）：机制（H4 回路断裂 > H2 修不动：72.6% 修得动但 85.3% degraded + rework_count 恒=1 跨 4 批）进 §4.1；P2 可执行改动（(a) directed reachable + (b) re-entry + 正交预言）进 §5。这直接挡住审稿人"是不是 27b 太弱"——数据答"72.6% 修得动，是 harness 只给一次机会 + 修了不被接受"。
+- **等 Q7**：P1 跨域声明（修复回路回修率不随预算升）现在是"两域完整（GPU/Q6）+ 一域初步（Q7 9/15，低档平）"，等 Q7 落地后升级"三域完整"。draft 现在报 fix rate 数字（1.6-2.1% / 3.7% / 5.2%）但没明确写"不随预算升"的跨域趋势声明——这条等 Q7 第三域完整后补。
+- **不进 draft**：P2 实验本身（改 harness 跑两臂）是 future work，draft §5 只写"planned as the next experiments"，不展开实验设计。
+- **headline 不能改成跨域普适版**：Q6 监控轴反例在 draft §4.3 已写，headline 保持域内（GPU）结果 + 跨域机制（修复回路）的区分。
 
-## 13:10 投稿硬伤：draft 核心机制声明被代码级发现推翻（待修）
+## 13:10 投稿硬伤：draft 核心机制声明被代码级发现推翻（已修，13:15-13:25 收口）
 
 **draft 现有声明（§4.1 L51/53 + §5 L183/189，承重）**：
 - "Bottleneck: **27b directed-fix capability** (judging which side of a contradiction is credible and producing a corrected claim), not trigger targeting."
