@@ -101,34 +101,56 @@ def main():
     print(f"r2: n={s2['n']} max_L=L{s2['max_level']} L5={s2['l5_nodes']}({s2['l5_verified']}ver) "
           f"ver_rate={s2['verified_rate']:.3f} L4_ver={s2['l4_verified_rate']:.2f} "
           f"redundant={s2['dropped_redundant']} judge={j2}")
-    # 复现判定: 三个机制特征 (跨预算签名, 基线=300 独立 run, 非 r1 同 budget 内比较)
-    # 机制结论 (marginal-mechanism 文档) 是 300→719 的签名: ver 0.720→0.647, redundant 43→371.
-    # 复现问题 = "r2@719 相对 300 基线是否也有同样签名", 不是 "r2 是否比 r1 更稀释".
+    # 复现判定: 3 特征 (跨预算签名, 基线=300-r1 独立 run)
+    # 签名 S 由 300→719 转移定义 (r1 vs 300-r1 首次观察): L5 生长 + 核验稀释 + 冗余暴涨.
+    # r1 是签名定义不是检验 → 不入复现分母; 独立 rep (r2, r3) 才是复现核验对象.
+    # (旧版误把 r2 跟 r1 同 budget 内比, 与跨预算签名性质不符, 已修.)
     base = load('300-r1')  # 300 独立 run (ver=0.720, redundant=43)
-    if base is not None:
-        sb = struct(base)
-        base_ver, base_red = sb['verified_rate'], sb['dropped_redundant']
+    if base is None:
+        print('[基线 300-r1 缺失, 无法判定复现]'); sys.exit(0)
+    sb = struct(base)
+    base_ver, base_red = sb['verified_rate'], sb['dropped_redundant']
+    print(f"[基线=300-r1: ver={base_ver:.3f} redundant={base_red}]")
+
+    def sig(s):
+        return {
+            'L5': s['l5_nodes'] > 0 and s['max_level'] >= 5,
+            'dil': s['verified_rate'] < base_ver,
+            'red': s['dropped_redundant'] > base_red,
+        }
+
+    sig1 = sig(s1)
+    print("\nr1 (签名定义, 参考): " + ' '.join(f"{k}={'✓' if v else '✗'}" for k, v in sig1.items()))
+
+    # r2/r3 = 独立复现核验 (r3 落盘前 n_test=1, 落盘后 n_test=2)
+    tests = [('r2', s2)]
+    r3 = load('r3')
+    if r3 is not None:
+        s3 = struct(r3); j3 = judge_of('r3')
+        print(f"r3: n={s3['n']} max_L=L{s3['max_level']} L5={s3['l5_nodes']}({s3['l5_verified']}ver) "
+              f"ver_rate={s3['verified_rate']:.3f} L4_ver={s3['l4_verified_rate']:.2f} "
+              f"redundant={s3['dropped_redundant']} judge={j3}")
+        tests.append(('r3', s3))
+    n_test = len(tests)
+    n_full = 0
+    feat_count = {'L5': 0, 'dil': 0, 'red': 0}
+    print("复现核验 (独立 rep vs 300 基线):")
+    for tag, s in tests:
+        sg = sig(s)
+        full = all(sg.values())
+        n_full += full
+        for k in feat_count:
+            feat_count[k] += sg[k]
+        line = ' '.join(f"{k}={'✓' if v else '✗'}" for k, v in sg.items())
+        print(f"  {tag}: {line}  [{'全中' if full else '部分'}]")
+    print(f"\n机制复现: {n_full}/{n_test} 独立 rep 三特征全中; "
+          f"逐特征 {feat_count['L5']}/{n_test} L5, {feat_count['dil']}/{n_test} 稀释, {feat_count['red']}/{n_test} 冗余")
+    if n_full == n_test and n_test >= 2:
+        print('→ 机制复现成立: 所有独立 rep 复现 L5 生长+稀释+冗余, 非 r1 偶然, 可落 workshop.')
+    elif n_full >= 1:
+        print('→ 部分复现: 部分独立 rep 复现, 需人工判读哪些特征成立, 谨慎落文.')
     else:
-        base_ver, base_red = s1['verified_rate'], s1['dropped_redundant']  # 300 缺失时退回 r1 (有偏差)
-    l5_replicates = s2['l5_nodes'] > 0 and s2['max_level'] >= 5
-    dilution_replicates = s2['verified_rate'] < base_ver
-    redundancy_replicates = s2['dropped_redundant'] > base_red
-    if base is not None:
-        print(f"[基线=300-r1: ver={base_ver:.3f} redundant={base_red}]")
-    verdicts = {
-        'L5 长出': l5_replicates,
-        '核验稀释(verified率降)': dilution_replicates,
-        '冗余暴涨': redundancy_replicates,
-    }
-    n_pass = sum(verdicts.values())
-    print(f"\n机制复现: L5={verdicts['L5 长出']} 稀释={verdicts['核验稀释(verified率降)']} "
-          f"冗余={verdicts['冗余暴涨']}  ({n_pass}/3)")
-    if n_pass == 3:
-        print('→ 机制复现成立: 719 的 L5 生长+稀释+冗余不是 r1 偶然, 可落 workshop.')
-    elif n_pass >= 1:
-        print('→ 部分复现: 机制部分稳健, 需人工判读哪些特征成立, 谨慎落文.')
-    else:
-        print('→ 不复现: r1 的 L5 是偶然, 机制结论降级, 不落 workshop.')
+        print('→ 不复现: 719 的 L5 是 r1 偶然, 机制结论降级, 不落 workshop.')
 
 
 if __name__ == '__main__':
