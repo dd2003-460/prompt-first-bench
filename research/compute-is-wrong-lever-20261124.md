@@ -106,6 +106,8 @@ D 的终极目标：在 4×V100 硬件上建 research 的 AGI——能自主做�
 
 **H2/H4 机制分解数据（2026-11-24 13:50，subagent deleg_35078f46 salvage，Q6 完整 / GPU·Q7 被 token 截断）**：
 - **rework_count 恒=1 跨域核验（14:10，独立复算）**：GPU 2298 / Q6 621 / Q6-rerun 460 / Q7(9 文件) 139——四批全恒=1，单尝试瓶颈是跨域机制非 Q6 特有。已进 draft §4.1/§5（commit 3eac3a1fe）。
+- **Q7 监控轴 metacog 机制（2026-11-24 14:20，subagent deleg_765a6a9c salvage，来源①本轮刚算）**：Q7 域 retrieval_rate（ret = n_search/n_total）随预算下降（50 档 0.160 → 100 档 0.153 → 150 档 0.104），但**这是机械稀释非检索退化**——n_search 绝对数 100→150 几乎不变（15.3→15.7/rep），ret 掉纯粹是分母 n_total 涨 50 的稀释。含义：Q7 域监控轴的"retrieval 占比随预算降"不能解读为"模型检索行为退化"，是树变宽的算术效应。跨域比监控轴必须用 gap 字段（retrieval-independent），不能用 ret（含分母效应）——与 note 既有"metacog 总量含 retrieval_rate 不可跨域比"口径一致，此处给出 Q7 域的具体机制证据。
+- **Q7 cov 初步（9 文件，top1 口径，subagent deleg_765a6a9c salvage）**：50 档 mean≈0.1023 / 100 档 mean=0.1667（与 relay 日志吻合）/ 150 档 0.1538-0.211（n=3 待 subagent 落盘定稿）。depth 分层：gold 最大 depth=3，150 档 23.3% 节点 depth>3（对 cov 零贡献）→ Q7 域高预算档的"宽度"有相当部分是 gold 无对应深层 unit 的冗余节点。
 - **Q6 原批 15 run（2727 节点 / 621 reworked）**：
   - **rework_count 恒=1（100%）**：621 个 reworked 节点无一 rework_count≥2——max_rework=2 从未用满。根因非预算紧，而是 **L750 rework 目标集只含当轮批**（节点 rework 一次后不在下轮池里，见上"精确根因"）。
   - **73% 实质改变**（454/621）：模型**修得动**——corrected_claim 与 claim 有实质差异（difflib 相似度 < 0.7）。H2"修不动"被数据削弱。
