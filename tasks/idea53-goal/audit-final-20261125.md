@@ -44,3 +44,4 @@ result.md 现存节从"追加2（=第三轮）"开始，无"追加1"节——**�
 - commit：`52d33c17ca8d8090520c41f0494dc09301b479ba` @ 2026-11-25 04:47:21 +0800
 - 内容：`tasks/idea53-goal/submission/{paper.pdf, paper.tex, body.tex, header.tex, formalism-skeleton.{pdf,tex}, SHA256SUMS.txt}`
 - 注意：v1/v2 两次误提交（孤儿分支索引未清，带入全 tasks/ WIP）已即时删除远程分支，最终版 v3 验证过完整树后才推
+- **v4 重锁（2026-11-25 05:45）**：paper.tex 补 §6 Reproducibility 段（2d5fb05f6）+ 新增 `idea53-hds-recompute.py` 入 bundle → v3 过期。孤儿分支 `idea53-preprint-ts-v4` @ `e8754392a`（8 文件，`git archive` 解包后 `sha256sum -c` 全过，哈希自洽）。v4 尚未推远程（推 = 对外动作，随"投"一起做）
