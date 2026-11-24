@@ -99,6 +99,16 @@ T-PR-17 prompt 序列消融
 | F4 资源 | vLLM 被 q7 719 队列占用（r2 进行中 ETA ~22:20，r3 ~24:15 完）；watcher 已挂自动 post-run | vLLM 释放后串行（单变量原则：同负载）；设计已含 F2b 4 条新约束，释放即按强化设计跑 |
 | F5 判分 | judge 噪声 ~0.1 比预期效应可能更大 | **n≥5**（arena 硬建议，原 n≥3 不够）+ bootstrap CI；若效应 <judge 噪声 → 结论=不可检测而非无影响 |
 
+## 任务表（派发只执行表内条目）
+
+| # | 任务 | 状态 | 备注 |
+|---|---|---|---|
+| T1 | 定位 3 checkpoint（719-r1 归档 sm-gpu-r1/r2/r3）+ preflight（JSON schema + parent-link 完整性，重点核验 T5 parent_ids 持久化 bug） | ⏳ 11-24 20:57 派 subagent | preflight 失败=记录为结果，不静默剔除 |
+| T2 | 写 tpr17 runner（canonical/verify-off/null-control 3 臂，monkey-patch，不改 s5_state_machine.py）+ 每 call 记录 token/tool calls/evidence delta（F2b 1/2/3） | ⏳ 同上 | 冒烟禁碰 vLLM（719 队列占用） |
+| T3 | 冒烟测试（dry-run：patch 加载 + checkpoint 加载 + 首个 prompt 可构造，不发 LLM 调用） | ⏳ 同上 | vLLM 释放(~24:15)后起正式 run |
+| T4 | 正式配对 run（每 cell n≥5，checkpoint 分开统计） | 🔒 vLLM 阻塞 | 队列 r2 ~22:20 / r3 ~24:15 |
+| T5 | 分析（多指标 + 等效性检验 + bootstrap CI） | 🔒 依赖 T4 | F2b 3 |
+
 ## 正交性自检
 
 - F2（文献）vs F4（实验）：一个查先例一个跑数据，不重叠 ✓
