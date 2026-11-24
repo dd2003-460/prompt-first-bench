@@ -258,6 +258,7 @@ research-agi-budget（D 硬件条件下，预算控制 AI 在 Pareto 边界上�
 | ③ K6 merge 消融 | ✅ 完成 | Δ=-0.013 A≈B（11-22 07:08） |
 | ④ K7 预算扫描 | ✅ 主交付物 done | k7-pareto-newjudge-20261124.md；Q6 跨域+Q7 跨题在 relay 链（r3 在跑 33min） |
 | ⑤ AGI 题面+gold 骨架 | 🔶 部分 | D1 题面待 D 确认（硬件边界）；**D2 gold 骨架 Q9-v1 已交付+Lead 核验通过 (11-24 20:22)**：agent @ 8fe85a2f4（37 节点/深度 5/21 叶/权重和 1.00/题面隔离），agent 主动纠错 +0.182 归属（实为 S0→S5 prompt 级，非 SM 因果；SM 真实 δ=+0.025 p~0.32），Lead 本地实锤 + web-LLM 2/2 独立源（Perplexity+ChatGPT）确认纠错正确且重大；方法学 v1 弱点（等权 0.20/五维不正交）归 v2 修。回执 web-llm/d2-q9v1-lead-verify-20261124.json；E1-E4 由 K7 代理覆盖 |
+| ⑤-D2-v2 gold 骨架方法学修正 | ✅ 完成 (11-24 20:25-20:31) | `gold/Q9-v2.md`：① N-0 改 lexicographic（硬门 capability/reliability 先判，门内 min w_t·T+w_c·C；0.20 权重降级为描述性 dashboard）② N-5 重标决策变量层（输入非结果，消 double-count）③ 证据质量登记表 21 行（provenance/uncertainty/n/reproducibility，未跑实验一律 NA）。验收复算：v2 与 v1 树结构一致（37 节点/深度 5/21 叶 J1-J21/权重和 1.00），v1 保留供审计。改动纯方法学层，叶公式/权重数值未动 |
 
 **基础设施修复（本轮）**：ROADMAP 3 处断链路径修复（tasks/ → experiments/stage-ablation/tasks/，6/6 路径核验通过）。
 **协调冲突（本轮）**：nodepth 批被另一会话越序并发启动（违反 vLLM 不并发前提），已 kill + relay log 留痕（K7 报告有记录）。
