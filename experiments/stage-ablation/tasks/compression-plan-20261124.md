@@ -41,9 +41,10 @@ CFP 复查（2026-11-24 ego-browser, icml.cc/Conferences/2027/Dates, source ①�
 ## 压缩目标（2026-11-24 11:30 词数模拟修正）
 
 **词数模拟（2026-11-24 11:30 初版, source ① execute_code）**：总 18,148 词。四动作后 ≈ 9,752 词。
-**修正（11:28, L95 拆行后精确值）**：provenance 块实际 936 词（初版 3,770 是拆行前整巨型行含 findings 的误算）。四动作（provenance 936 移留 1 句 / abstract 1,282→250 / §6 2,714 砍 60% / §7 2,831 砍 70%）后 = **~10,692 词**。
+**修正 2（11:28, L95 拆行后精确值）**：provenance 块实际 936 词。~~四动作后 ~10,692 词~~
+**修正 4（2026-11-24 11:45, source ① execute_code 独立复算, 推翻修正 2 的 936）**：provenance 块实际 = **L95–L153 = 3,788 词**（修正 2 只数了 L95-113，漏 L114-153 的 Detector-scoped caveat / Provenance caveat 等 2,852 词子段）。四动作（provenance 全移留 1 句 / abstract 1,282→250 / §6 砍 60% / §7 砍 70%）后 = **~9,757 词**。
 
-**规划原档位（3.5-6K）不可达**——四动作后还差 4.7-7.2K 词。缺口在 §4 Findings（43.8% 字符，provenance 移出后仍是大头）+ §2 Setup + §3 Related。
+**规划原档位（3.5-6K）不可达**——四动作后还差 3.8-5.3K 词。缺口在 §4 Findings（provenance 移出后 §4.3 仍 ~420 词 findings 正文 + §4.4 2,451）+ §2 Setup + §3 Related。
 
 | 档位 | 词数 | 四动作后需再砍 | 来源 |
 |------|------|--------------|------|
@@ -53,10 +54,12 @@ CFP 复查（2026-11-24 ego-browser, icml.cc/Conferences/2027/Dates, source ①�
 
 **承重 claim 清单（subagent 在飞）决定哪些 §4 finding 可移**——承重 claim 必须正文可见，非承重的移 supplementary。
 
-**§4.3 精确词数（2026-11-24 11:28 独立复算, source ①）**：§4.3 全段 (L83-156) = **4,185 词**，其中 provenance 块 (L95-113) = 936 词。provenance 移出后 §4.3 仍 3,249 词——这是"再砍 3,752-6,252 词"缺口的主要来源。§4.3 内可移候选（subagent 分块词数）：Q6 cross-domain 1,278 词 / marginal yield+breakpoint 1,068 词 / hit-set control 628 词 / breadth-vs-depth 346 词 / depth provenance 359 词 / verbosity arm 96 词 / pooling provenance 269 词。
+**§4.3 精确词数（2026-11-24 11:28 独立复算, source ①）**：§4.3 全段 (L83-156) = **4,203 词**，其中 provenance 块 (L95-153) = 3,788 词（修正 4 推翻 936）。**§4.3 正文 findings 仅 ~415 词**（L83-94 + L155-156）——§4.3 的"大"几乎全在 provenance 块。
+**provenance 块不可全移（2026-11-24 11:45 承重核验, source ①）**：块内 0.8053（pooled cor）/ F(2,26)（GPU 断点）块外 0 次出现 + L153 主 claim "Budget buys breadth, not metacognition" 块外 0 次 → 全移 supplementary 违反承重红线。
+**修正 5（2026-11-24 11:52, 诚实重分类, 推翻修正 4 的"可移 3,000-3,400"）**：§4.3 L95-153 **不是 provenance 块，是论文心脏**。逐段角色分类（source ① 逐段读）：承重 findings（hit-set 三方核心 5 units / pooled cor 0.805 / 1.21× se 0.0360 / F(2,12)=7.33 / F(2,14)=2.73 / F(2,26)=2.88 / marginal yield / cross-domain contrast / verbosity bias / ANOVA invariance / 主 claim "Budget buys breadth"）= **2,137 词必留** + 混合段（L137 pre-comp falsified + stopping-state universal signature / L153 soft-cap 方法学 + 主 claim）= 1,369 词 + 纯 provenance/方法学（commit 链 / pooling 口径 / detector-scoped caveat / pre-comp 头）= **282 词可移**。可移上限 ≈ **829 词**（纯 prov 282 + 混合段可移部分 ~547），必留下限 ≈ 2,958 词。**§4.3 不可靠"移 provenance"压缩**——它 90% 是承重 findings。
 
-**全节词数（2026-11-24 11:29 独立复算, source ①）**：总 18,148 词。§4 Findings = **8,150 词 (44.9%)**，其中 §4.1=882 / §4.2=630 / **§4.3=4,185 (51% of §4)** / **§4.4=2,451 (30% of §4)**。§6=2,714 / §7=2,831 / Abstract=1,282 / §2=879 / §3=815 / §5=357 / §8=138 / §9=460。
-**缺口 4,700 词的可覆盖路径（2026-11-24 11:31 修正）**：§4.4 支撑细节移 supplementary（**非全移**——L177 是 935 词混合段，含承重 claim "0/15 zero-convergence" + treatment 界定（KV cache≠树 JSON，红线保留正文）+ vsr/metacog 支撑细节；只移支撑细节，保留 claim+treatment ≈ 2,200 词可移）+ §4.3 非承重段移（cross-domain 1,278 + hit-set 628 ≈ 1,906）≈ 4,100 词 → 档位 A 基本可达（差 ~600 词，从 §2/§5 补）；档位 B/C 需再压 §6/§7 超出 60/70% 的部分。
+**全节词数（2026-11-24 11:29 独立复算, source ①）**：总 18,148 词。§4 Findings = **8,150 词 (44.9%)**，其中 §4.1=882 / §4.2=630 / **§4.3=4,203 (51.5% of §4, 含 provenance 3,788)** / **§4.4=2,451 (30% of §4)**。§6=2,714 / §7=2,831 / Abstract=1,282 / §2=879 / §3=815 / §5=357 / §8=138 / §9=460。
+**缺口覆盖路径修正 5（2026-11-24 11:52, 推翻修正 4 的 5,200-5,600 词路径）**：§4.3 可移仅 ~829 词（非 3,000-3,400）+ §4.4 支撑细节 ~2,200 ≈ **3,000 词可移**。四动作后 ~9,757 − 3,000 = **~6,750 词 → 档位 A（~6,000）差 ~750 词，档位 B/C 不可达**。剩余缺口只能靠：① abstract 砍更深（250→150 词）② §6/§7 砍超 60/70% 的部分 ③ §2 judge 定义移 supplementary ④ §4.1/§4.2 非承重段移。**结论：压缩到 4-5 页（~4.5-5K 词）需要动承重 findings 的措辞密度（不删数字、压叙述），不是移段落能解决的**——这是压缩 pass 的真正难度所在，11:31/11:45 的"移段落可达档位 A/B"判断全部作废。
 
 ## 不动的承重件（压缩红线）
 
