@@ -9,12 +9,17 @@ D 2026-11-24 taste: general + 简洁/压缩(一个概念) + 预言力(约束).
   Y  = 供给侧瓶颈判定信号 (节点 claim+evidence+corrected_claim 命中)
   L  = run 树 level (L1..L4/L5)
   I(L;Y) = H(Y) - H(Y|L)                       总互信息 (bit)
-  contribution(ℓ) = P(L=ℓ)·[H(Y) - H(Y|L=ℓ)]   正确加性分解, Σ_ℓ = I(L;Y), 各项 ≥0
-    (注意: 不能用 P(lv)·pmi(Y;lv) — pmi 的期望是联合分布, 不满足 Σ P(lv)·pmi = I(L;Y),
+  contribution(ℓ) = P(L=ℓ)·[H(Y) - H(Y|L=ℓ)]   正确加性分解, Σ_ℓ = I(L;Y)
+    (注意: 单项可为负 — H(Y|L=ℓ) 可 > H(Y) 当 ℓ 的条件分布比 Y 边缘更"散".
+     不能用 P(lv)·pmi(Y;lv) — pmi 的期望是联合分布, 不满足 Σ P(lv)·pmi = I(L;Y),
      会出负项/份额>100%, 已实测验证. 正确形式是 P(lv) 乘"条件熵差".)
     因果读法 (不消融的"降级贡献"): 若 level ℓ 对 Y 无预测力 (H(Y|L=ℓ)=H(Y)),
     则 contribution(ℓ)=0, I(L;Y) 降级 contribution(ℓ) — 即"降级贡献". 排名 = 哪层
     对瓶颈判定信号贡献最大.
+    实测 (2026-11-24): L4 (瓶颈判定层) contribution 全源为负 — 这是基率伪影的
+    信息论签名: 描述性 L4 富集 (hit 率高于边缘) 是 n 大 + 文本长的伪影, 信息论上
+    深层节点反而比浅层携带更少瓶颈判定信息 (I(Deep;Y) < I(Shallow;Y), 全源一致).
+    #53 核心 claim (深层节点信息贡献更大) 被本测量证伪.
   D claim 直接检验: I(Deep;Y) vs I(Shallow;Y), Deep={L3,L4(,L5)},
   Shallow={L1,L2} — 深层指示符 vs 浅层指示符 各自携带多少瓶颈判定信息.
   I(Deep;Y) = Σ_{ℓ∈Deep} contribution(ℓ) (加性分解的直接推论).
