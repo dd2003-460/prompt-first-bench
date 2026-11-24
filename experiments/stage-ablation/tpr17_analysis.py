@@ -121,6 +121,7 @@ def repaired_depth(tree):
 def _welch(a, b):
     """Welch t-test（不等方差）。返回 (t, p, cohens_d)。"""
     from scipy import stats
+    import math
     if len(a) < 2 or len(b) < 2:
         return None, None, None
     t, p = stats.ttest_ind(a, b, equal_var=False)
@@ -129,15 +130,24 @@ def _welch(a, b):
     sp = ((na - 1) * va + (nb - 1) * vb) / (na + nb - 2)
     # 零/近零方差: Cohen's d 未定义（sp→0 时 d 爆炸）→ 报 None
     d = (mean(a) - mean(b)) / (sp ** 0.5) if sp > 1e-9 else None
-    return float(t), float(p), d
+    # 两组都常数 (零方差): scipy 返回 t=p=NaN → 归一为 None (防 NaN 进 JSON)
+    if t is None or (isinstance(t, float) and math.isnan(t)):
+        return None, None, None
+    if p is None or (isinstance(p, float) and math.isnan(p)):
+        p = None
+    return float(t), (float(p) if p is not None else None), d
 
 
 def _mwu(a, b):
     """Mann-Whitney U（非参数稳健对照）。返回 (U, p)。"""
     from scipy import stats
+    import math
     if len(a) < 2 or len(b) < 2:
         return None, None
     u, p = stats.mannwhitneyu(a, b, alternative="two-sided")
+    # 全并列 (零方差): p=NaN → 归一 None (防 NaN 进 JSON)
+    if p is None or (isinstance(p, float) and math.isnan(p)):
+        return (float(u) if u is not None else None), None
     return float(u), float(p)
 
 
@@ -172,6 +182,7 @@ def _tost(a, b, delta_min):
     diff = mean(a) - mean(b)
     if se < 1e-12:
         # 零方差（常数数据）: CI 退化为点。|diff|<Δ_min ⟹ 等效
+        # ci95 约定 = (lo, hi, mean_diff)，与 _bootstrap_ci 一致；compare() 消费 [2] 作 mean
         return {"equivalent": abs(diff) < delta_min, "p_low": None, "p_high": None,
                 "ci95": (diff, diff, diff), "delta_min": delta_min,
                 "note": "zero-variance: CI 退化为点"}
@@ -362,6 +373,19 @@ def main(argv=None):
             "该指标跨 ckpt 不可混池。depth_repaired = T5 修复后 depth（max(链深, level)）。"),
     }
     out_path = os.path.join(a.out, "tpr17_analysis.json")
+
+    def _sanitize(o):
+        """NaN/Inf → None（strict JSON 不含 NaN token；零方差指标在真实数据里常见）。"""
+        import math
+        if isinstance(o, float):
+            return None if (math.isnan(o) or math.isinf(o)) else o
+        if isinstance(o, dict):
+            return {k: _sanitize(v) for k, v in o.items()}
+        if isinstance(o, (list, tuple)):
+            return [_sanitize(v) for v in o]
+        return o
+
+    report = _sanitize(report)
     json.dump(report, open(out_path, "w"), ensure_ascii=False, indent=1)
     print(json.dumps(report, ensure_ascii=False, indent=1))
     print(f"\n[analysis] → {out_path}")
