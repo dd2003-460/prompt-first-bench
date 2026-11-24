@@ -54,3 +54,36 @@
 - **对照臂**：第三轮三条（深度置换/fake-run 占位/浅深配平）+ 层内类型对照 + held-out 树预注册检验。
 
 第四轮检索记录：web 6 次（uncertainty of thoughts information gain；reasoning step type taxonomy；differential diagnosis coarse to fine；partial information decomposition LLM reasoning；coarse fine conditional information gain depth；BALAR）+ GitHub API 2 次（enumeration+localization+reasoning 0 命中；diagnosis+tree+node+LLM 1 无关命中）。数字类条目（UoT +38.1%/+57.8%、BALAR +14.6-38.5%、Step-RRI +10pt、CAPO 277,534 步）出自检索片段标**未验证**。
+
+## 追加4 #53 投稿策略（第五轮 · 免费渠道约束下的 venue/对标/概率/最快路径）
+> 2026-11-24 第五轮。claim 锁定第四轮精化版：深层对微架构级判断（V_fine|V_coarse）增量贡献>浅层枚举，测量=交叉梯度，数据=三份 GPU run 树（n=3849/5497/18243，纯离线零重跑）。约束：0 元投稿（接收后注册费另计，非投稿费）。检索：web 5 次（NeurIPS E&D CFP/ARR cycles/Thought Anchors venue/Step Entropy 决定/ICML 2027 CFP），GitHub API 0 次；CFP 类信息（日期/费用/长度）来自官网页实抓或检索片段；接收率数字除标注外均**未验证**。
+
+**A. 对标（5 个最接近，venue+接收情况实核）**
+| 对标 | URL | venue/接收 | 与 #53 距离 |
+|---|---|---|---|
+| Probing the Trajectories of Reasoning Traces | arxiv.org/abs/2601.23163 | **NeurIPS'26 E&D 已录**（abs comments 实抓）；42 页+30 图 5 表（论文规格标未验证） | 最近：轨迹级深度方向信息贡献+长度/形式/token 三控制臂——#53 的链式版正面参照 |
+| Step Entropy (Making Slow Thinking Faster) | arxiv.org/abs/2508.03346 | **ICLR 2026 正刊已录**（abs comments "Accepted by ICLR2026", v2 2026-02-16） | 零重跑逐步信息贡献（链式、服务压缩）——证明"信息贡献度量"类方法文可上正刊；#53 需硬切割（树×类型×交叉梯度） |
+| SLIDER (PID for reasoning) | arxiv.org/abs/2610.00571 | ICLR 2026 Workshop on Logical Reasoning of LLMs 已录（abs comments） | 测量方法学最近邻：PID unique/redundant/synergistic 分解 |
+| Thought Anchors | arxiv.org/abs/2506.19143 | ICLR 2026 在审（v4 头页 "Under review", 2025-10-27）**未录用确认** | 反事实重要度+开源工具，同类分析文在正刊通道的在审状态参照 |
+| UoT | arxiv.org/abs/2402.03271 | NeurIPS 2024 正刊（GitHub repo 头证实） | IG 驱动假设消歧（方法文非分析文），弱相关参照 |
+
+**B. venue 排序（0 元投稿，周期/费用/概率）**
+| venue | 截稿/结果 | 接收率参照（未验证） | 投稿费 | P(全守法)/P(半守法) |
+|---|---|---|---|---|
+| NeurIPS 2027 E&D | ~2027-05-04/06，9 月出结果（2026 CFP 实抓推断） | 前身 D&B 历史约 40%（未验证）；分析型免 code（2026 CFP 明文） | 0 元（投稿无费） | **0.30 / 0.15** ←主推 |
+| ICML 2027 workshop（会期 8/5-6） | CFP 约 2027-05~06 | workshop 通常 40-60%（未验证） | 0 元 | 0.55 / 0.35 |
+| NeurIPS 2027 workshop | CFP 约 2027-08~09 | 同上（未验证） | 0 元 | 0.55 / 0.35 |
+| MLSys 2027 workshop | ~2027-02~03（未验证） | 未验证 | 0 元（标未验证） | 0.45 / 0.25（域最对口，方法异质减分） |
+| ACL 2027 Findings（ARR 1 月 cycle） | ARR **2027-01-04**（实抓），commitment 后出结果 | main ~20-25% + Findings ~13-15%（reviewpaper.ai 2026-10，未验证） | ARR 投稿 0 元；接收后 *ACL 注册费强制（未验证数额） | 0.20 / 0.10（gpu 域在 ACL 读者边缘） |
+| ICML 2027 main | abstract 2027-01-14 / full 01-22，decision 5/3（CFP 实抓，8 页正文） | main 基准约 24%（历史常识，未验证） | 0 元 | 0.08 / 0.04（独立短文 8 页撑不满+单系统；该窗口留给 #10 主线） |
+| arXiv | 即时 | 不适用 | 0 元全流程 | 兜底必做 |
+
+概率为**主观估计**（非检索事实），理由：全守法=四条件（判据去深度化+层内类型对照+预注册 held-out+三控制臂）+交叉梯度成立——E&D 主推理由：赛道对口（2601.23163 同构先例已录）、分析型论文免 code 硬性要求（2026 E&D CFP 明文）、预注册+控制臂是该 track 加分项；半守法（缺层内对照或 held-out）各档约打 0.5-0.6 折，因最狠一击（同义反复+HARKing）在缺预注册时几乎必然成立。交叉梯度不成立情形：全部失效，仅剩方法论短文 workshop P≈0.2、E&D<0.05，arXiv 兜底。接收后注册费是"没钱"约束的残余风险：最便宜闭环 = arXiv 挂网（0 元）+ workshop（部分线上免费，未验证）；NeurIPS/ICML 正刊主会注册费未验证（数百至千美元级），被录后可考虑学术免费通道（student volunteer 等，未验证）。
+
+**C. 最快路径（数据在手→可投稿，纯离线零实验）**
+- W1（1-2 周）：类型判据打标管线（结构 fanout+排除式谓词+交叉参照三判据，judge+正则混合+抽样人核）+两级 MI 管线（I(L;V_coarse) 与 I(L;V_fine|V_coarse)）+三控制臂脚本——对应 #10 分解树 T10-5（估 8h 人时×并行+judge 抽样）。
+- W2（1 周）：**预注册冻结**（交叉梯度方向+held-out 树/域划分先锁定，OpenReview/OSF 免费存档）→ 跑主结果+held-out 验证。
+- W3（1 周）：4 页短文（对标 2601.23163 的叙事结构：协议+控制臂+交叉梯度图）+D 内审 → **arXiv 挂网（免费锁时间戳）**。
+- 总计 **3-4 周到 arXiv 可投稿态**；窗口对齐：ARR 2027-01-04 为 stretch（5.5 周，仓促且领域错配，不建议）；**主推双轨 = NeurIPS 2027 E&D（5 月，~6 个月缓冲，概率最高）+ ICML 2027 workshop（6 月 CFP，作为 short 文先挂先发）**；ICML main 1/14 窗口留给 #10 主线论文（分解树已排），#53 不挤。
+
+第五轮检索记录：web 5 次（NeurIPS 2026 E&D CFP 实抓 neurips.cc/Conferences/2026/CallForEvaluationsDatasets：abstract 5/4+full 5/6+notification 9/24+分析型免 code；ARR dates.md GitHub 实读：ACL 2027=ARR 2027-01-04 cycle、EMNLP 2027 未公布；Thought Anchors v4=ICLR 2026 在审；Step Entropy abs=Accepted by ICLR2026；ICML 2027 CFP 实抓 icml.cc：1/14+1/22+decision 5/3+8 页）+ GitHub API 0 次。接收率参照数字均标未验证；概率估计为主观判断非事实。本节曾因快照分叉 rebase 失误丢失一次（rebase 中 --ours/--theirs 取向错误致空提交被 drop），已重新追加。
