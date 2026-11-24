@@ -32,6 +32,8 @@
 - 约束：框架源码改动 = 不可逆类，留痕 APPROVALS.md + git commit 回滚点，改完告知
 - 验收：hook 改动后，模拟"连续纯执行"场景能触发反思注入（有日志证据）
 - **状态核验（2026-11-25，subagent B 查得）**：T1 **已实现但未提交**——`tools/stage-gate` 是独立 git 仓库（branch main），stop_hook.py 当前 working tree ` M` 未 commit（1249 行 vs 基线 1108 行，+141 行），已含 `_THINK_TRIGGERS`/`_T1_REFLECTION`/`t1-thin-thinking` 触发器+反思注入（"这背后的 general 机制是什么？能推出什么可检验预言？"）+冷却门控 `_THINK_COOLDOWN=3`。该仓库最近提交停在 2026-11-23（T1 之前）。回滚点：根仓库 commit `ace22cfa`（改动前快照）。**尚缺**：T1 commit（tools/stage-gate 仓库）+ APPROVALS.md 留痕（框架源码改动=不可逆类红线）。归属 subagent A，Lead 接手 T3 前先确认 T1 是否已补 commit。
+- **⚠️ 生产运行中但未提交（2026-11-25 核验，风险升级）**：T1 机制**已在生产跑**——`~/.hermes/.stage-gate/.think-trigger.json` 状态文件 ts=2026-11-25 01:21（本会话收到的 stop_hook 续推消息即来自含 T1 机制的 stop_hook）。但改动在 tools/stage-gate working tree 未 commit → 任何人对该仓库做 git checkout/stash/reset 会**静默丢失 T1+T4 功能**（无报错）。commit 紧迫性高于一般"待提交"。
+- **T4 状态（同批核验）**：goal 计划子项⑥列了 T4（"修脚本卡住→general 思考升级触发"），但本 decomposition 原本漏了 T4——现补登：T4 **已实现**（stop_hook.py 含 `t4-stubborn-spin` 触发器 + `_T4_REFLECTION`"别蛮力试了，退一步：这个问题的 general 机制是什么？"），同样在未提交的 working tree 里。T4 验收：连续卡住（同一报错≥2次/脚本反复失败）时触发反思注入。
 
 ### T2 "接着考虑"实验（验证 27b 能否接住 D 的思考链）
 - 目标：验证 27b 能否"像 D 一样考虑、接着考虑"——给 D 爬层链的前半段，看 27b 能否续出后半段（机制+预言力）
@@ -74,4 +76,5 @@
 |------|--------|------|
 | T1 思考触发 hook 实现 | subagent A | 已实现未提交（2026-11-25 核验，待 commit+APPROVALS） |
 | T2 接着考虑实验（预注册+跑） | subagent B | 完成 2026-11-25 (commit 002eada24) |
-| T3 落点整合 | Lead（T1+T2 回来后） | 待 T1+T2 |
+| T3 落点整合（T1+T2 完成后） | Lead（T1+T2 回来后） | 待 T1+T2 |
+| T4 脚本卡住→general 思考升级触发 | subagent A（与 T1 同批） | 已实现未提交（2026-11-25 核验，t4-stubborn-spin 触发器，与 T1 同批 commit） |
