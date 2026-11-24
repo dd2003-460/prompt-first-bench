@@ -34,3 +34,23 @@
 ④ 见最难一击行——核心威胁是转发平凡性+L4 循环性；条件化+三对照臂+盲化可守，但若审稿人坚持「组合=incremental」，方法论辩护空间小，应用域辩护（供给侧指标的深度梯度是可跨系统复验的经验问题）需至少一个非本系统的外部树复验。
 
 第三轮检索记录：web 6 次（mutual information reasoning steps depth offline trajectory；quantify information contribution entropy reduction post-hoc no re-run；LLM agent GPU kernel bottleneck profiling；conditional mutual information hierarchical tree attribution；depth shallow deep steps contribution analysis；GitHub×2）+ arXiv abs 实抓 2601.23163（v1 2026-01-30/v2 2026-11-16, NeurIPS'26 E&D）。数字类条目（ECE 0.186→0.312、KernelPro 加速比等）出自检索片段标**未验证**。
+
+## 追加3 #53 枚举vs判断精化（第四轮 · claim 重释后重核）
+> 2026-11-24 第四轮。claim 修正：第三轮核验的「深层对瓶颈判定信息贡献更大（整体）」被节点级 MI 证伪（浅层 ΔH 高）系**读错**——浅层=枚举候选（"可能是 L2 cache"），深层=判断具体哪一环（"容量还是带宽瓶颈？"），词表标签偏向枚举型节点，故「浅层主导」实为「浅层对枚举贡献大」。精化 claim = **深层对微架构级判断（具体哪一环）的增量贡献更大，即枚举没有的部分**，非整体信息贡献。
+> 检索：web 6 次 + GitHub API 2 次；本轮新增引文来自检索返回的 arXiv abs 页片段（2610.00571/2605.05386 含 abs 元数据），abs 页直抓沿用前轮（2411.11984/2611.24733/2601.23163）；数字标未验证。
+
+| idea | 撞车核验（2024-2026 实检：URL+标题+版本） | 增量空间 | conf | 可发表性 | 最难审稿人一击 |
+|---|---|---|---|---|---|
+| #53 精化：深层对「判断（具体哪一环）」的增量贡献 > 浅层枚举 | 「枚举vs判断」区分本身已被充分占位（三线）：①临床 DDx 线=假设形成→收窄→鉴别确认的成熟操作化：MentalSeek-Dx（arXiv:2602.03340, 2026-02，三阶段 hypothetico-deductive 轨迹，且实测"粗分类准、细粒度鉴别骤降"=枚举易判断难）、MEDDxAgent（arXiv:2502.19175v2, 2025-06-13，迭代式 DDx 收窄）、Active DDx（arXiv:2605.07305, 2026-05，六候选逐轮收窄至确诊）；②信息增益消歧线：UoT（arXiv:2402.03271, NeurIPS2024, GitHub zhiyuanhubj/UoT，预期信息增益选问题区分假设，+38.1% 未验证）、BALAR（arXiv:2605.05386v2, 2026-05-06→09-28，结构化信念+expected-MI 选澄清问题，+14.6-38.5% 未验证）、Active inference（Nat.Commun. s41467-026-77209-5，前轮已核，期望 IG over models=消歧）；③步类型分类学线：ReasonType/Step-Tagging（arXiv:2512.14332v1, 2025-12——Exploration vs Verification/Final Answer 分类+明证"各类型贡献不等"（早停判据分析））、CAPO 认知分类学（arXiv:2512.00729, 2025-11/12，五组 17 类含 Evaluation-of-Alternatives/Conclusion-Decision，277,534 步标注，未验证）；Thought Anchors（前轮已核：planning/backtracking 句=锚点，类型相关重要度）。测量方法学占位：SLIDER（arXiv:2610.00571v1, 2026-09-30, ICLR2026 LLM 逻辑推理 workshop——**PID 分解步间对最终答案的信息为 unique/redundant/synergistic**，Step-RRI 查冗余，冗余类识别 +10pt 未验证）。**未见同构**：树结构×节点类型×深度方向的贡献测量+粗/细两级判定的交叉梯度；GitHub enumeration+localization+reasoning **0 命中** | 窄空白（组合级，且比第三轮认定的更窄）：区分（概念）与类型化贡献不等（步级实证）均已有；残余=「按类型×深度分层的信息贡献测量协议 + 粗标签级/细机制级两级判定的交叉梯度」——novelty 在测量协议不在概念 | 0.6 | 条件可发表（make-or-break=交叉梯度实验）：交叉梯度成立→E&D/Findings 级（SLIDER=ICLR26 workshop 先例、2601.23163=NeurIPS'26 E&D 先例，赛道已被证实接受此类 trace 分析文），并升级 #10 主线 analysis 章节（可证伪预测+文献支撑区分有效性）；不成立（细粒度条件 MI 不随深度升）→仅方法论短文。注意已证伪一次+事后重释=HARKing 风险，必须预注册 held-out 检验 | 「'深=判断'是你自己的结构定义推出的——发现'深节点对判断贡献大'是同义反复；且这是对已证伪 claim 的事后重释（HARKing），枚举/判断区分与'类型影响贡献'都已被步类型分类学（2512.14332）和 DDx 线占位，新意只剩在私有树数据上算 MI」。守得住，四条件：①分类判据不得用深度（见④）②层内对照：固定深度层内判断型 vs 枚举型 fine-MI 比较（解 type×depth 混淆——两者强相关，必须证明贡献由类型驱动而非深度驱动，或反之）③预注册交叉梯度在 held-out 树/域检验（HARKing 防御）④三轮三控制臂照旧+浅深节点数配平 |
+
+**四个核验问题简答**：
+① 可发表性：**条件可发表，conf 0.6**。判定实验=交叉梯度（见④）；成立→E&D/Findings+主线 analysis 章节（价值高于第三轮评估，因带可证伪预测与领域文献背书）；不成立→方法论短文。venue 建议：ICML 2027 主会 analysis section（并入 #10）或 NeurIPS'27 E&D。
+② 撞车：区分已被三线占位（DDx 三阶段/信息增益消歧/步类型分类学）；「类型影响贡献」步级已有（2512.14332）；**未见**：树×类型×深度×信息贡献测量+两级判定交叉梯度。
+③ 最难一击=同义反复+HARKing+概念已被占位三连击；守法=判据去深度化+层内类型对照+预注册 held-out+三控制臂（见上表）。
+④ 测量方法（词表标签做不到，判据如下，全部不用深度信息）：
+- **类型判据**：(a) 结构判据：兄弟 fanout 高+枚举集合语言=枚举型；叶/终局节点+收敛=判断型（先验可定义，与深度相关但不共线——同层两类并存才有效力）；(b) 语言判据：排除式谓词（"排除 X"/"not X because"/"ruled out"）、对比连接（"A 而非 B"）、机制粒度增量（引入祖先节点没有的更细机制词，如父="L2 受限"子="容量 vs 带宽"）；(c) 交叉参照判据（操作定义）：节点内容是否在兄弟枚举项之间做判别——判别者=判断型，仅罗列=枚举型。三判据可用 judge+正则混合打标，抽样人核一致性。
+- **关键测量设计（把第三轮误读转成可证伪预测）**：定义两级判定变量 V_coarse（资源类标签级："算力受限/带宽受限"——词表可测，词表只用于此级，偏向问题消解）与 V_fine（机制级："容量 vs 带宽"/"issue rate vs decode width"——需 judge+结构化字段）。计算两条梯度：I(L_k; V_coarse) 与 I(L_k; V_fine | V_coarse)。精化 claim 预测**交叉梯度**：浅层主导 coarse（=第三轮实测的"浅层主导"，恰是 claim 的另一半而非反例）、深层主导 fine-conditional。若 fine-conditional 梯度不升，精化 claim 死。
+- **方法学升级（可选）**：用 SLIDER 式 PID（2610.00571 先例）替代裸 MI——unique(V_fine; L_k | L_{<k}, V_coarse) 分量即"判断增量"的正式信息论定义，冗余分量自动吸收枚举转发，直接消解转发平凡性。
+- **对照臂**：第三轮三条（深度置换/fake-run 占位/浅深配平）+ 层内类型对照 + held-out 树预注册检验。
+
+第四轮检索记录：web 6 次（uncertainty of thoughts information gain；reasoning step type taxonomy；differential diagnosis coarse to fine；partial information decomposition LLM reasoning；coarse fine conditional information gain depth；BALAR）+ GitHub API 2 次（enumeration+localization+reasoning 0 命中；diagnosis+tree+node+LLM 1 无关命中）。数字类条目（UoT +38.1%/+57.8%、BALAR +14.6-38.5%、Step-RRI +10pt、CAPO 277,534 步）出自检索片段标**未验证**。
