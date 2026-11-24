@@ -1,0 +1,24 @@
+# N10: 本地存储电力成本 = (500TB / 1.805) * Power_Density_W_per_TB * 24h * 365d * P_Electricity
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+本地存储电力成本 = (500TB / 1.805) * Power_Density_W_per_TB * 24h * 365d * P_Electricity，其中Power_Density_W_per_TB约为5W/TB（NVMe）或2W/TB（HDD），P_Electricity为当地电价（如$0.10-kWh）
+
+## Corrected Claim
+
+本地存储电力成本 = (500TB / 1.805) * Power_Density_W_per_TB * 24h * 365d * P_Electricity，其中Power_Density_W_per_TB约为5W/TB（NVMe）或2W/TB（HDD），P_Electricity为当地电价（如$0.10-kWh）
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间存在逻辑包含关系而非完全正交：子节点3（休眠机制）是对子节点2（HDD+SSD分层）的优化/修正，而非独立的并列场景。此外，父节点公式中的除数1.805（通常指有效容量转换系数）在子节点中未明确定义，且子节点3中提到的'HDD层电力成本从$5,000降至$1,250'与子节点2中计算的总成本$6,500在数值构成上存在隐含依赖，导致子节点3不是独立正交的项，而是子节点2的子集或变体。）
+
+## Search Query
+
+data center power consumption per TB NVMe HDD watts

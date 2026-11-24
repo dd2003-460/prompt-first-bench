@@ -1,0 +1,24 @@
+# N12: RTO代价 = P_DataLoss_Event * RTO_Hours * Hourly_Business_Impact，其中P_DataLoss_Event
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+RTO代价 = P_DataLoss_Event * RTO_Hours * Hourly_Business_Impact，其中P_DataLoss_Event为年数据丢失概率（本地约1e-4，云约1e-6），RTO_Hours为恢复时间目标（本地约4h，云约1h），Hourly_Business_Impact为每小时业务中断损失（需根据具体业务场景估算）
+
+## Corrected Claim
+
+RTO代价 = P_DataLoss_Event * RTO_Hours * Hourly_Business_Impact，其中P_DataLoss_Event为年数据丢失概率（本地约1e-4，云约1e-6），RTO_Hours为恢复时间目标（本地约4h，云约1h），Hourly_Business_Impact为每小时业务中断损失（需根据具体业务场景估算）
+
+## Evidence
+
+父节点级核验未通过：有冗余（子节点1（本地NVMe）和子节点2（HDD+SSD分层）在数值计算上完全冗余，两者均使用相同的P_DataLoss_Event (1e-4) 和 RTO_Hours (4h) 得出相同结果 ($40/年)。虽然物理介质不同，但在RTO代价模型中，若未体现HDD重建对RTO的实际影响（如RTO应大于4h或概率更高），则这两个节点构成了同一参数组合的重复实例，而非正交的独立维度。此外，子节点4是参数估算方法，与子节点1-3（具体场景计算）存在层级混合，但主要问题在于1和2的数值冗余。）
+
+## Search Query
+
+data recovery RTO cost calculation cloud vs on-premise

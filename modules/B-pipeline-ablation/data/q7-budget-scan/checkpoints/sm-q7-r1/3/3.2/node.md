@@ -1,24 +1,24 @@
-# N17: 温数据（20%）访问频率对成本影响：每日1-2次扫描导致云存储产生高频GET请求费用（约$0.40/1000 requests），本地存储无请求费用但需考虑IO
+# N19: NVMe SSD阵列方案带宽：假设单块NVMe SSD顺序读带宽为5GB/s，1000TB裸容量对应约200块SSD（每块5TB），总带宽 = 200 * 5G
 
 - **status**: verified
 - **level**: L2
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
 - **parent_ids**: N3
 
 ## Claim
 
-温数据（20%）访问频率对成本影响：每日1-2次扫描导致云存储产生高频GET请求费用（约$0.40/1000 requests），本地存储无请求费用但需考虑IOPS限制
+NVMe SSD阵列方案带宽：假设单块NVMe SSD顺序读带宽为5GB/s，1000TB裸容量对应约200块SSD（每块5TB），总带宽 = 200 * 5GB/s = 1000GB/s，远超温数据需求（1.2-2.3GB/s），可行性高。
 
 ## Corrected Claim
 
-温数据（20%）访问频率对成本影响：每日1-2次扫描导致云存储产生高频GET请求费用（约$0.40/1000 requests），本地存储无请求费用但需考虑IOPS限制
+NVMe SSD阵列方案带宽：假设单块NVMe SSD顺序读带宽为5GB/s，1000TB裸容量对应约200块SSD（每块5TB），总带宽 = 200 * 5GB/s = 1000GB/s，远超温数据需求（1.2-2.3GB/s），可行性高。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：云存储按请求计费（S3标准约$0.40/1000 GET）与本地存储无请求费但受I/O限制符合基本经济与技术直觉，数值量级合理。
+先验知识/题面给定，逻辑校验通过：单盘5GB/s带宽与5TB容量符合主流企业级NVMe SSD规格，200块SSD总带宽1000GB/s远超1.2-2.3GB/s需求，量级合理且无内部矛盾。
 
 ## Search Query
 
-S3 GET request pricing per 1000 requests daily scan cost
+NVMe SSD sequential read bandwidth 5TB

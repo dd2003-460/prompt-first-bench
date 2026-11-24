@@ -994,3 +994,20 @@ q7_domain_gold_analyze.py（116 行）独立核验：
 **核验**：投稿四条件复核通过（21 refs 字母序 ✓ / 0 TODO ✓ / 括号差 0 ✓ / 118,629 字符）。
 
 **意义**：审稿人"为什么 bge-m3"一刀现在有实证防御（不是"预期稳健"而是"实测 shape 稳健"）；同时诚实声明 level 跨模型不可比——防御 + 诚实降级双到位。
+
+## 2026-11-24 ~10:10 r3 落地 → draft n=3 承重更新（14 处编辑 + 1 处统计口径自纠）
+
+**r3 落地**：q6-719-nd-r3-20261124-072646.json（rc=0, wall 8276s, cov=0.2174, n=719）。r3 watchdog 09:46:37 DONE（18 点分析落盘 q6-719-nodepth-analysis.json），relay_v2 phase 2 09:45:07 自动启动 Q7 扫描（15 runs ~11h）——整条链无断点，r3 落地后全自动接力成功。
+
+**n=3 统计口径（承重，独立重算）**：
+- reps: r1=0.1304, r2=0.2391, r3=0.2174；mean=0.1956, sd=0.0575
+- 2/3 reps（r2, r3）高于原批撞墙 max 0.1957；r1 低离群
+- 600-800 bin (n=3) 0.1956 vs 200-400 bin (n=5) 0.1522：Δ+0.0435，**se_diff=0.0360（200-400 sd=0.0308/n=5 + 600-800 sd=0.0575/n=3 池化）→ 1.21×**
+- **口径自纠**：初算 se_diff=0.0478（0.91×）错用了 600-800 bin 的 sd 当 200-400 bin 的 sd → 结论会从"不可分辨"翻成"边际可分辨"。用正确 bin 的 sd 重算 = 1.21×（边际可分辨，barely above noise，非 conventional significant）。教训：se_diff 的每个 sd 必须来自对应 bin 自己的数据，不能跨 bin 借。
+- 18pt pooled cor=0.8053, t=5.432, df=16（17pt 是 0.761/4.54/15）
+- 断点 18pt: bp=325, F(2,14)=2.727, p=0.100（16pt p=0.008 → 17pt 0.089 → 18pt 0.100，wall-free reps 加入后弱化到不显著）
+- r3 marginal yield = +0.0326/200（(0.2174−0.1522)/2，与 r1/r2 同口径）
+
+**draft 更新（14 处，全清残留）**：abstract/related work/findings×8/limitations×3 的 "unresolved at n=2 / pending r3 / 17 points / two wall-free / 0.1847" → n=3 口径（18 points / three wall-free / 0.1956 / 1.21× pooled se / F(2,14)=2.73 p=0.10 / cor 0.805 t=5.43 df=16 / ss 0.0220→0.0158）。措辞纪律：magnitude open at n=3（1.21× 边际可分辨，非"方向已定"）；cross-domain 仍 pending Q7（第三域扫描在飞）。subagent 派单失败（repetition loop），改 Lead 直接精确编辑。
+
+**核验**：残留扫描 0（unresolved at n=2 / pending r3 / r3 in flight / r3 pending / 17 points including / two wall-free 719 / 0.1847 / 0.91× / F(2,13)=2.93 全 0）；四条件过（括号差 0 / 0 TODO / 21 refs 字母序 / 120,048 字符 / 17,984 词）。两处 "sub-noise" 残留是 GPU 阈值敏感性语境（0.75/0.80 阈值），非 Q6 bin，正确保留。

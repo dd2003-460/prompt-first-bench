@@ -1,0 +1,20 @@
+# N56: Hourly_Business_Impact估算方法：Hourly_Business_Impact = (年营收 / 8760h) * 业务中断敏感度系数，其中
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+Hourly_Business_Impact估算方法：Hourly_Business_Impact = (年营收 / 8760h) * 业务中断敏感度系数，其中业务中断敏感度系数通常介于0.1至1.0之间，若年营收$10M，敏感度系数0.5，则Hourly_Business_Impact≈$570/h
+
+## Corrected Claim
+
+Hourly_Business_Impact估算方法：Hourly_Business_Impact = (年营收 / 8760h) * 业务中断敏感度系数，其中业务中断敏感度系数通常介于0.1至1.0之间，若年营收$10M，敏感度系数0.5，则Hourly_Business_Impact≈$570/h
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：10,000,000 / 8760 * 0.5 ≈ 570.78，数值计算准确，公式逻辑自洽。

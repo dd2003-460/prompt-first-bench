@@ -1,4 +1,4 @@
-# N15: 云对象存储有效容量 = 500TB（无RAID损耗，但需考虑版本控制、删除标记等元数据开销约5-10%，保守按500TB * 0.95 = 475TB计算）
+# N16: 电力消耗：NVMe SSD阵列方案需计算1000TB SSD的功耗（假设单TB SSD功耗约0.5W，总功耗 = 1000 * 1024 * 0.5W ≈ 51
 
 - **status**: verified
 - **level**: L2
@@ -9,11 +9,11 @@
 
 ## Claim
 
-云对象存储有效容量 = 500TB（无RAID损耗，但需考虑版本控制、删除标记等元数据开销约5-10%，保守按500TB * 0.95 = 475TB计算）
+电力消耗：NVMe SSD阵列方案需计算1000TB SSD的功耗（假设单TB SSD功耗约0.5W，总功耗 = 1000 * 1024 * 0.5W ≈ 512kW，需结合服务器整体功耗），HDD+SSD分层方案需计算200TB SSD + 480.2TB HDD的功耗（HDD单TB功耗约0.05W，SSD约0.5W），云对象存储方案无本地电力消耗。
 
 ## Corrected Claim
 
-云对象存储有效容量 = 500TB（无RAID损耗，但需考虑版本控制、删除标记等元数据开销约5-10%，保守按500TB * 0.95 = 475TB计算）
+电力消耗：NVMe SSD阵列方案需计算1000TB SSD的功耗（假设单TB SSD功耗约0.5W，总功耗 = 1000 * 1024 * 0.5W ≈ 512kW，需结合服务器整体功耗），HDD+SSD分层方案需计算200TB SSD + 480.2TB HDD的功耗（HDD单TB功耗约0.05W，SSD约0.5W），云对象存储方案无本地电力消耗。
 
 ## Evidence
 
@@ -21,4 +21,4 @@
 
 ## Search Query
 
-S3 OSS usable capacity metadata overhead versioning
+NVMe SSD power consumption per TB HDD power consumption per TB

@@ -1,0 +1,28 @@
+# N37: HDD+SSD分层中SSD层硬件成本 = (100TB / 1.805) * P_SSD，其中P_SSD为2026年企业级SATA/SAS SSD单价，约为$0
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N7, N8, N9
+
+## Claim
+
+HDD+SSD分层中SSD层硬件成本 = (100TB / 1.805) * P_SSD，其中P_SSD为2026年企业级SATA/SAS SSD单价，约为$0.10-$0.15/TB（即$400-$600/4TB），需根据具体型号核验
+
+## Corrected Claim
+
+HDD+SSD分层中SSD层硬件成本 = (100TB / 1.805) * P_SSD，其中P_SSD为2026年企业级SATA/SAS SSD预估单价，需根据具体型号及市场趋势进一步核验。
+
+## Evidence
+
+[质询]2026年企业级SSD单价属于未来预测值，且$0.10-$0.15/TB（即$400-$600/4TB）这一具体数值缺乏当前市场数据的直接支撑，存在价格波动和型号差异导致的估算偏差风险。 | 来源[1]仅介绍SSD/HDD技术架构，未提供具体价格数据；该事实为经验性价格预测，逻辑自洽但缺乏直接来源支持，依据经验事实排除条款降级。
+
+## Search Query
+
+2026 enterprise SATA SSD price per TB 4TB 8TB bulk purchase
+
+## Retrieval Sources
+
+- {'url': 'https://cloud.baidu.com/article/5754616&rut=5d5430b5888d57b98b51489db445c1817188c2adaebc6a3bb26fe5bd9f16930a', 'type': 'ddg', 'title': '2025年存储设备选型指南：SSD/HDD技术解析与场景化配置'}

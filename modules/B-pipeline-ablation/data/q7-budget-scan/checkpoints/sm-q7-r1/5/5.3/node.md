@@ -1,4 +1,4 @@
-# N24: 计算集群区域敏感性：若计算集群位于AWS us-east-1，云对象存储的出站带宽成本为$0.09/GB；若数据需跨区域传输至us-west-2，增加$0.02
+# N31: 容量扩展弹性成本：扩展成本 = (Additional_TB × Unit_Cost_Per_TB × Overhead_Factor)，其中Overhead_
 
 - **status**: verified
 - **level**: L2
@@ -9,11 +9,11 @@
 
 ## Claim
 
-计算集群区域敏感性：若计算集群位于AWS us-east-1，云对象存储的出站带宽成本为$0.09/GB；若数据需跨区域传输至us-west-2，增加$0.02/GB跨区费用；本地存储无此成本，但若集群与存储分离（如存储在北京，计算在上海），网络延迟从1ms升至30ms，温数据扫描时间增加30x，等效于IOPS需求增加30x，NVMe阵列需从40块扩至120块，硬件成本增加3x
+容量扩展弹性成本：扩展成本 = (Additional_TB × Unit_Cost_Per_TB × Overhead_Factor)，其中Overhead_Factor反映扩展过程中的数据迁移/再平衡成本，本地SSD阵列Overhead_Factor~1.0~1.2（需停机或热迁移），HDD+SSD分层~1.1~1.3（需重平衡热冷数据），云存储~1.0（按需扩容，无迁移成本）
 
 ## Corrected Claim
 
-计算集群区域敏感性：若计算集群位于AWS us-east-1，云对象存储的出站带宽成本为$0.09/GB；若数据需跨区域传输至us-west-2，增加$0.02/GB跨区费用；本地存储无此成本，但若集群与存储分离（如存储在北京，计算在上海），网络延迟从1ms升至30ms，温数据扫描时间增加30x，等效于IOPS需求增加30x，NVMe阵列需从40块扩至120块，硬件成本增加3x
+容量扩展弹性成本：扩展成本 = (Additional_TB × Unit_Cost_Per_TB × Overhead_Factor)，其中Overhead_Factor反映扩展过程中的数据迁移/再平衡成本，本地SSD阵列Overhead_Factor~1.0~1.2（需停机或热迁移），HDD+SSD分层~1.1~1.3（需重平衡热冷数据），云存储~1.0（按需扩容，无迁移成本）
 
 ## Evidence
 

@@ -1,4 +1,4 @@
-# N8: HDD+SSD分层硬件成本 = (100TB / 1.805) * P_SSD + (400TB / 1.805) * P_HDD，其中P_SSD约为$100-
+# N8: HDD+SSD分层方案中，HDD部分采用RAID-6（假设12盘组，2盘冗余），有效容量系数 = (12-2)/12 ≈ 83.3%；SSD部分采用RAID-1
 
 - **status**: verified
 - **level**: L2
@@ -9,16 +9,16 @@
 
 ## Claim
 
-HDD+SSD分层硬件成本 = (100TB / 1.805) * P_SSD + (400TB / 1.805) * P_HDD，其中P_SSD约为$100-TB（热层），P_HDD约为$25-TB（冷层），100TB/400TB基于20%温/80%冷数据分布
+HDD+SSD分层方案中，HDD部分采用RAID-6（假设12盘组，2盘冗余），有效容量系数 = (12-2)/12 ≈ 83.3%；SSD部分采用RAID-10或无冗余（若依赖上层纠删），系数不同。需分别计算热层（SSD）和冷层（HDD）的有效容量系数。
 
 ## Corrected Claim
 
-HDD+SSD分层硬件成本 = (100TB / 1.805) * P_SSD + (400TB / 1.805) * P_HDD，其中P_SSD约为$100-TB（热层），P_HDD约为$25-TB（冷层），100TB/400TB基于20%温/80%冷数据分布
+HDD+SSD分层方案中，HDD部分采用RAID-6（假设12盘组，2盘冗余），有效容量系数 = (12-2)/12 ≈ 83.3%；SSD部分采用RAID-10或无冗余（若依赖上层纠删），系数不同。需分别计算热层（SSD）和冷层（HDD）的有效容量系数。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+先验知识/题面给定，逻辑校验通过：RAID-6在12盘组中保留2盘冗余，有效容量系数(12-2)/12=83.3%符合定义；SSD部分RAID-10或无冗余的系数差异描述符合存储架构常识。
 
 ## Search Query
 
-enterprise HDD price per TB 2026 SSD caching tier cost
+HDD RAID-6 effective capacity ratio 12 disk
