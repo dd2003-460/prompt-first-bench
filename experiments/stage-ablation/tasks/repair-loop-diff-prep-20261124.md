@@ -160,6 +160,15 @@ no_source 不命中 → 保持 angle，4.0% 基线口径不变）。不新增状
   按 Q6 budget=300 每 run ~50-150 条 node-level rework 事件估，directed 事件 ≈ 5-15/run，
   n=3 共 ~15-45 个 directed 样本——对 2.4% 基线做功效检验偏紧（judge 噪声 ~0.1），
   若 P-A 判"无效"需按设计文档 §验收走等效性检验而非"不显著"。
+- **逐事件严格一致性核验（2026-11-25 00:05，闭合上条"同量级"的模糊表述）**：
+  ① 正则字节级相同——dry-run `RE_VALUE_MISMATCH` 与 Fix-A `_RE_VALUE_MISMATCH` 字面量
+  逐字符相等（`不一致|不匹配|矛盾|虚构|版本不|数值.{0,6}不符|量级|mismatch|contradict`），均 re.I；
+  ② 输入同一字符串——SM L771 记录 `"reason": node.evidence[:80]`（路由 L765 之后、rework
+  LLM 调用之前，无中间改写），全语料 14,511 节点级事件中 reason 长度 >80 的为 0，
+  即 reason ≡ 路由时刻的 evidence[:80]；
+  ③ 逐事件零偏差——对全部 14,511 事件：`RE_VM.search(reason[:80])` 命中 ⟺ dry-run
+  classify(reason)=='value_mismatch'，不一致数 = **0**。
+  结论：Fix-A 的 directed 事件集 ≡ 下游 value_mismatch 人口（构造上成立，非近似）。
 - **口径重叠注记（P-A 解释用，本次新算）**：1,467 条 directed 路由中 169 条（11.5%）
   同时命中 no_source 正则（"数值量级缺乏来源支持"这类含冲突词又含缺源词的 evidence）。
   这不是误伤——dry-run 分类器口径本就是"VM 先、NS 后"（repair-closure-dryrun.py L25-26
