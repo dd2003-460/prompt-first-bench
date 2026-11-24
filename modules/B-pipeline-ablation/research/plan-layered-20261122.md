@@ -41,12 +41,13 @@
 - **阻塞**: 题面措辞需 D 一句话确认；gold 骨架 arena 外包优先。
 - **下一步**: D 确认后 → gold 调研（arena）→ rubric 判定点。
 
-### L2-4 实验层（在跑）
-- **结论**: Idea 2（checkpoint-as-cache）A/B 各 3 reps 在跑（22:13 起）。**口径**: B 臂新预算仅 28 节点（150−122 前缀）→ B vs A 质量对比不公平；B 臂正确解读 = wall time 节省 + 前缀一致性（同前缀节点是否逐字/语义一致），质量只作旁证。
+### L2-4 实验层（配对统计完成 11-24）
+- **结论**: Idea 2（checkpoint-as-cache）A/B 各 3 reps 跑完（22:13 起）。**口径**: ~~B 臂新预算仅 28 节点~~（勘误: 本批跑于硬钳制 47a8543cd 之前, max_nodes 未硬顶, 见下）；B 臂正确解读 = wall time 节省 + 前缀一致性，质量只作旁证。
 - **A-r1 已评**（idea2-scores.json）: wall 2865s, 316 节点, judge 0.5111（depth 0.8 / cov 0.222, 在 K7 budget-150 区间 0.43-0.52 内）, metacog 0.2365（hg 0.930, post 0.400）。
 - **证据**: idea2_runner.sh（ac6090870）；idea2-run.log；idea2-scores.json。
-- **下一步**: B-r1 完 → 前缀一致性检查（B 前 122 节点 vs ckpt 逐字 diff）+ wall time 配对 → A2/B2/A3/B3 → 全量统计。
-- **过夜队列已挂**（rep_scan_queue.sh, b8e7d0a13, pid 16572）: idea2 完 → 自动补重复 100/150/300×5 reps（r4-r8 接续 K7, peak 定位优先, 50/719 端点不补）→ 每 run 自动双轴评分 append 到 rep-scan-scores.json。预计 ~11h（凌晨完）。**唤醒后第一动作**: 读 rep-scan-scores.json + idea2 全量 → 配对统计 + peak 定位 + 填稿 §4.3。
+- **✅ A/B 配对统计完成 (11-24, 684816ab0, idea2-ab-paired-20261124.md)**: ① wall time B 省 17.4% 但 n=3 不显著 (t=1.121, r1 反慢) + 两臂规模/时序混杂 → 本批不足以支持可靠 wall time 收益；② 前缀一致性: 内容核心 (claim/层级/父子/source) 122/122 逐字一致 ×3 run, 缓存语义内容层成立, evidence/edge_type/status 三 LLM 重生成字段漂移 (标注重算非内容漂移)；③ **预算口径勘误**: 本批跑于硬钳制修复 47a8543cd (11-23 13:44) 之前, "--max-nodes 150/B 臂仅 28 新节点"假设不成立 (realized A 316-435 / B 401-411) → 干净预算轴上重测 wall time 需 47a8543cd 之后代码重跑。
+- **下一步**: (若值得) 硬钳制后代码重跑 idea2 A/B 各 3 reps 验证 wall time 收益; 否则 idea2 收口为"内容层缓存成立 + wall time 收益未证实"。
+- **过夜队列已挂**（rep_scan_queue.sh, b8e7d0a13, pid 16572）: idea2 完 → 自动补重复 100/150/300×5 reps（r4-r8 接续 K7, peak 定位优先, 50/719 端点不补）→ 每 run 自动双轴评分 append 到 rep-scan-scores.json。✅ 凌晨 01:43 跑完 15 reps; **唤醒后第一动作已完成 (11-24)**: rep-scan-scores.json 池化 → k7-pareto-newjudge-20261124.md (104 runs, cov ~300 饱和, 拐点≈300) + idea2 配对统计 (684816ab0) + workshop §4.3 已填。
 
 ### L2-5 发表层（v0.1 稿已落盘）
 - **结论**: workshop 稿 v0.1 写完（workshop-draft-metacog-20261122.md, edacf05b7+8c266fc8e+f501166f9）。四发现: ①监控在/修复缺（rework 修复率 1.6-2.1%, loop=filter 非 repair cycle）②gap 难度校准（era-matched nat<soc<gpu 全 p<0.001）③预算-质量非单调（150=peak, sd<spread）④loop 连续但不累积（验证率跨层平坦, 无链断, 树绕开未验证节点生长）。限制节前置（单模型/self-judge/n=3/mech 诊断/执行者连续性 meta）。
