@@ -942,3 +942,11 @@ T-PR-17 建议 8（KV cache ≠ 树 JSON checkpoint, arXiv:2607.28495）打在 F
 - References 20→21 条，execute_code 脚本按首作者字母序重排（顺带修正 Gao/Ganz、Yao/Yang 两处顺序）。
 - 投稿四条件复核：21 refs 字母序 ✓ 括号差 0 ✓ 0 TODO ✓ 116,963 字符。
 - 其余 7 条方法学建议（估计量定义/checkpoint 审计/外部信息分离/长度位置 counterbalance/可置换阶段/成对重复统计/depth 分数）针对 T-PR-17 后续 4 臂机制验证实验（占 vLLM，未跑），不影响 draft 现有 claim——draft 的 arm split 已标 n=2/arm suggestive + 小分母 caveat。
+
+## 09:1x relay_v2 端到端接力核验（承重接力点）
+
+r3 落地后 relay_v2 phase 2 自动接 Q7 的接力逻辑核验（承重件，之前只验了 Q7 pre-flight 没验接力判断）：
+- relay_v2 进程活着（PID 34249），等 rerun PID 25483 退出 → phase 1（q6 队列）→ phase 2（Q7 队列）顺序执行。
+- phase 1 队列 = `for rep in 1 2 3` 循环，r3 跑完 `done` 退出 → phase 2 自动接 Q7。
+- 失败模式：队列脚本 `set -u` 不用 `set -e`，r3 即使 rc≠0 也记 MISSING 然后正常退出 → phase 2 照样启动（不断链）。
+- 结论：r3 落地 → 队列 DONE → phase 2 自动接 Q7，无断点，r3 崩溃也不断链。
