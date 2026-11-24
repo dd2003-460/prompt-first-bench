@@ -23,6 +23,12 @@ rep 失败（rc≠0）时，`runs-s5-sm-q7.json` 残留上一个成功 rep 的�
 2. 评分 JSON（q7-scan-scores.json）里被污染的 rep 条目**不要手工删**（保留审计痕迹），分析时按 watcher 报告的标志剔除。
 3. 队列脚本（PID 99447 运行中）**不要改**（bash 增量读脚本，运行中编辑会损坏执行）。修复留给队列结束后：cp 前比对输出文件 mtime ≥ run 开始时间，或 rc≠0 时不 cp。
 
+## 300-r2 崩溃根因（22:24 补查）
+- 崩溃链：vLLM proxy 瞬时 502（17:29 多次 retry 失败）→ `call_llm` 重试耗尽返回 None → `s5_pipeline.py:243` `out, _ = call_llm(...)` 解包 None → TypeError FATAL（s5_state_machine.py L637 _verify_batch 线程池内抛出）。
+- 性质：瞬时 infra 故障 + 代码未处理 None，非系统性 bug。r2 当前调用正常（502 已恢复）。
+- **不修 s5_state_machine.py（队列运行中）**：r3 未启动，会 import 改后文件，破坏单变量前提。修复=队列 DONE 后给 call_llm 返回值加 None 守卫（follow-up）。
+- 风险兜底：719-r2/r3 若踩同款崩溃 → watcher claim-set 复制标志捕获，最差 719 档 n=3→n=2，可接受。
+
 ## 状态
 - 300 档：n=2，曲线已正确，无后续动作。
 - 719 档：r2 在跑（~22:40 落盘），r3 排队（~00:55 完），watcher 72026 兜底。
