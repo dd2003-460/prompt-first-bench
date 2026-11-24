@@ -66,6 +66,21 @@ T4 pilot 夜间无人值守，下列接缝逐一核验过（防"白等一夜"的
   只能解读为"功效不足以证明等效"（underpowered）；只有 equiv=True 才是正向证据
   （序列无实质影响）。要可靠判等效需更大 n（80% power 所需 n 未及量化，估计 n≥15-20
   @sd=0.1）→ 若 T4 pilot 判不等效，正式实验须扩 n 或缩小 Δ_min 前重新做 power 分析。
+- **实测 sd + 最终 power 决策表（22:05，用 q7 budget 50/100/150/300 的 12 个独立 run 实测
+  run-to-run 方差，替代"假设 sd"）**：
+  - 实测 sd（跨 4 档 budget 各 3 rep，保守取最大）：depth=0.093、verified=0.040、
+    parent_link=0.028。
+  - 配对 TOST 判等效 power（真等效）：
+    | 指标 | sd | Δ_min | n=5 | n=10 | n=15 | n=20 |
+    | depth | 0.093 | 0.10 | 20% | 42% | 73% | 86% |
+    | verified | 0.040 | 0.10 | **94%** | 100% | 100% | 100% |
+    | parent_link | 0.028 | 0.05 | 70% | **96%** | 100% | 100% |
+  - **⟹ 实验设计结论**：depth 是 TOST 瓶颈（低功效，n=20 才 86%）；verified/parent_link
+    方差小、功效高，n=5~10 即可可靠判等效。→ T5 主结论（序列机制效应）应**锚定
+    verified + parent_link**（高功效、可防御），depth 仅作辅助（弱功效，判不等效时
+    只能读作 underpowered 非"有影响"）。T4 正式实验 n 分配：verified/parent_link 导向
+    n=10（25h GPU）已足够，depth 若要可靠判等效需 n≥20（50h）——按预算取舍。
+  - GPU 预算（每 run ~50min 实测, 3 臂）：n=5→12.5h / n=10→25h / n=15→37.5h / n=20→50h。
 - **fail-fast 语义**：任一 cell rc!=0 或 n_nodes<381 → break 2 中止整批（设计如此，
   防坏 checkpoint/坏 patch 污染后续 8 cell）。明早若见 PILOT ABORTED，先读
   报告里首个失败 cell 的 stderr。
