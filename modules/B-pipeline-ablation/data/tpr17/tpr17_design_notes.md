@@ -23,7 +23,9 @@
 - r3 有 1 个生产重复 claim（compute_metrics dup=1）→ precision 指标非零基线，跨臂比较时留意。
 
 ## T4 执行约束
-- vLLM 被 q7 719 队列占用（PID 59750/99447），~24:15 释放后才可起正式 run。严禁 kill/干扰。
+- vLLM 被 q7 719 队列占用（PID 59750/99447）。21:19 核验：r1 已完成（18:28 落盘 1.2MB json），
+  **r2 仍在跑**（stdout 21:19 还在写），r3 未开始 → 释放时间晚于早前 ~24:15 估计，
+  实际约深夜~凌晨（r2+r3 各 ~2.5-3h）。严禁 kill/干扰。
 - 每 cell n≥5 + bootstrap CI（judge 噪声 ~0.1，n=3 会假阳性）；checkpoint 分开统计（Handoff Tax：效应随方向反转，不混池）。
 - 若声称"序列无影响"需等效性检验（预设最小重要效应），不能用"不显著"代替"相同"。
 - claim 边界：stateful pipeline suffix-ablation 设计，不说"恢复相同隐状态/KV"（F2b 4）。
