@@ -408,9 +408,72 @@ def run_arm(arm, ckpt_spec, rep, budget, seed, qid="gpu", out_root=DATA_ROOT):
     return metrics
 
 
+def t5_impact(specs):
+    """T5 bug 影响量化（T1 深化）：gap 节点（parent_ids 丢失）对 depth 指标的失真。
+    关键结论供 T4/T5 设计:
+      - 3 臂从同一 checkpoint 续跑 → 同样的坏链 → common-mode，臂间差分里抵消
+      - 但 gap 前沿节点续拆时子节点 depth 被压低 → 若各臂展开 gap 前沿数量不同，
+        depth 差会部分反映"谁展开了坏节点"而非序列效应 → 分析阶段须按 level 修复
+    返回 per-checkpoint dict。"""
+    out = {}
+    for spec in specs:
+        path = _resolve_ckpt(spec)
+        if not os.path.isdir(path):
+            out[spec] = {"exists": False}
+            continue
+        nodes = _read_tree(path)
+        id2n = {n["id"]: n for n in nodes}
+        gap = {n["id"] for n in nodes
+               if str(n.get("level")) != "L1" and not (n.get("parent_ids") or [])}
+
+        def _depth(nid, seen=None):
+            if seen is None:
+                seen = set()
+            if nid in seen:
+                return 0
+            seen.add(nid)
+            n = id2n.get(nid)
+            if n is None or not (n.get("parent_ids") or []):
+                return 1
+            return 1 + max(_depth(p, seen) for p in n["parent_ids"] if p in id2n)
+
+        def _chain_has_gap(nid, seen=None):
+            if seen is None:
+                seen = set()
+            if nid in seen:
+                return False
+            seen.add(nid)
+            n = id2n[nid]
+            if nid in gap:
+                return True
+            return any(_chain_has_gap(p, seen) for p in (n.get("parent_ids") or []) if p in id2n)
+
+        cur_max = max((_depth(n["id"]) for n in nodes), default=0)
+        # 修复下界：level 字段完好 → 正确链接的 L{k} 节点 depth >= k
+        fix_max = max((int(str(n["level"]).lstrip("L")) for n in nodes), default=0)
+        affected = sum(1 for n in nodes if _chain_has_gap(n["id"]))
+        from collections import Counter
+        out[spec] = {
+            "exists": True,
+            "n_nodes": len(nodes),
+            "gap_roots": len(gap),
+            "gap_ids": sorted(gap, key=lambda x: int(x[1:])),
+            "gap_levels": dict(Counter(id2n[g]["level"] for g in gap)),
+            "max_depth_current_links": cur_max,
+            "max_depth_repaired_floor": fix_max,
+            "nodes_with_understated_depth": affected,
+            "understatement_frac": round(affected / len(nodes), 4) if nodes else 0.0,
+        }
+    out["_design_note"] = (
+        "T5 失真对 3 臂是 common-mode（同一 checkpoint 同一坏链），臂间差分抵消；"
+        "但 gap 前沿节点续拆的子节点 depth 被压低，若各臂展开 gap 前沿数量不同会引入混淆。"
+        "T5 分析阶段：depth 用 level 字段修复（depth>=level）或把 gap 节点重挂到 level-1 最近节点。")
+    return out
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="T-PR-17 prompt 序列消融 runner（3 臂）")
-    ap.add_argument("--mode", choices=["preflight", "smoke", "run"], default="run")
+    ap.add_argument("--mode", choices=["preflight", "t5-impact", "smoke", "run"], default="run")
     ap.add_argument("--arm", choices=ARMS, default="canonical")
     ap.add_argument("--checkpoint", default="r1", help="r1/r2/r3 或完整路径")
     ap.add_argument("--checkpoints", default="r1,r2,r3", help="preflight: 逗号分隔列表")
@@ -431,6 +494,17 @@ def main(argv=None):
         print(json.dumps(report, ensure_ascii=False, indent=1))
         print(f"\n[preflight] overall_ok={ok} → {out_path}")
         return 0 if ok else 2
+
+    if a.mode == "t5-impact":
+        specs = [s.strip() for s in a.checkpoints.split(",") if s.strip()]
+        impact = t5_impact(specs)
+        out_path = os.path.join(a.out, "t5_impact.json")
+        os.makedirs(a.out, exist_ok=True)
+        impact["ts"] = datetime.datetime.now().isoformat(timespec="seconds")
+        json.dump(impact, open(out_path, "w"), ensure_ascii=False, indent=1)
+        print(json.dumps(impact, ensure_ascii=False, indent=1))
+        print(f"\n[t5-impact] → {out_path}")
+        return 0
 
     if a.mode == "smoke":
         ok, info = smoke_test(a.arm, a.checkpoint, a.budget, a.seed)
