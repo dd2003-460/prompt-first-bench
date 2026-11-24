@@ -1130,9 +1130,9 @@ watch (proc_3dbf15050970) 触发 TP17-ARENA-LANDED sha=9c5745541 (08:59:36)。�
 
 - Q6: ANOVA F(2,12)=0.036, p≫0.05 (draft L9)
 - GPU: gap_rate 0.134/0.047/0.075 跨档无趋势 (K7 era 口径)
-- Q7 初步 (n=7, 12:10 修正): 用 gap 字段（监控轴，与 GPU/Q6 可比）= 50 档 0.000/0.000/0.000，100 档 0.000/0.020/0.010，150 档 r1 0.0133 — **比 GPU 监控轴 (0.105/0.106/0.114) 更平**，方向强化不变性，待 15/15 全量重算。
+- Q7 初步 (n=7, 12:16 修正): gap 字段 50 档 0.000×3 / 100 档 0.000/0.020/0.010 / 150 档 r1 0.0133 — **形状与 Q6 同（低水平、50 档后微升），与 GPU（高水平 0.105/0.106/0.114、平）不同**。若 15/15 确认 → "监控轴不变性"降级为 **GPU 域特异结果**（draft 已定性 "the invariance is thus currently a GPU-domain result"）；**跨域复现的是"低产修复回路"（GPU 1.6-3.7% / Q6 5.2%），不是"不变性"**。
   - **口径错误修正 (12:10)**: 初版误用 metacog 总量（retrieval_rate+gap+vsr 复合，50 档 0.3480/0.0480/0.3480, 100 档 0.0450/0.0380/0.0670）——总量含 retrieval_rate 与 gap_rate 不同标度，不可跨域比。r2/r3 同 score 0.3577 但 metacog 不同 → metacog 从树结构算非 cache 共享，排除 cache artifact 假设。
-  - **Q7 文件无 score 字段**（只有 nodes/rework_events 等原始结构），score 只存 relay 日志——分析脚本落地后需从 nodes 重算，不能依赖日志。
+  - **Q7 文件无 score 字段**（只有 nodes/rework_events 等原始结构），score 只存 relay 日志——分析脚本落地后从 nodes 重算（q7_domain_gold_analyze.py L39-47 已实现，不依赖日志）。
 
 ### 机制 story (draft "Budget buys breadth, not metacognition" 的机制层)
 

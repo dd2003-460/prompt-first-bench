@@ -6,11 +6,14 @@
 
 **"知道自己不知道"（gap 检测 / 元认知）不随算力 scaling，随架构。** 想提升它，加预算无效，只能改修复回路或换模型。
 
-## 从数据怎么推出来（三条证据，非单点）
+## 从数据怎么推出来（证据强度分层，12:16 矛盾修正后）
 
-1. **元认知是预算不变量**：GPU 域监控轴（claim-field gap rate）跨预算档 0.105/0.106/0.114 平（ANOVA F(2,12)=0.036, p≫0.05）。注意这是 underpowered null（21.5% power for large effect），只能读"没检测到预算效应"，不能读"证明不变"——但方向是"预算买不到"。
-2. **修复回路低产且跨域复现**：GPU 域 flagged 节点只回头修 1.6–3.7%（node-level era-scoped / global），Q6 复现 5.2%（32/621，同量级）。树是"绕着 52.5% 未验证节点往前长"（5630/10730），不是修好它们。这条是测出来的、有牙齿的、跨域复现的——比 #1 的 null 强。
-3. **Q7 第三域初步强化**（n=7，12:10 口径修正后）：Q7 gap 字段 50 档 0.000×3 / 100 档 0.000/0.020/0.010 / 150 档 r1 0.0133，比 GPU 监控轴更平。待 15/15 全量重算。
+**12:16 修正**：初版把三域都说成"强化不变性"，错。draft 自己写了 Q6 监控轴 invariance **does not transfer**（"the invariance is thus currently a GPU-domain result"）。三域实际不一致：
+
+1. **元认知预算不变量 = GPU 域结果，不是三域结果**：GPU 域监控轴（claim-field gap rate）跨预算档 0.105/0.106/0.114 平（ANOVA F(2,12)=0.036, p≫0.05）。underpowered null（21.5% power），只能读"没检测到"。
+2. **Q6 是反例（低水平 + 50 档后非平）**：claim-field gap rate 0.073/0.003/0.016/0.026 @ 50/100/150/300（n=3/档，draft 原文），719 档 0.000/0.029/0.005（rep 间大 spread）。与 GPU 的 flat 0.105/0.106/0.114 不同形——**Q6 水平低一个量级且 50 档后非平**。draft 定性："the invariance is thus currently a GPU-domain result, which is exactly the cross-domain validation this scan was designed to test"。
+3. **修复回路低产是唯一跨域复现的**：GPU 域 flagged 节点只回头修 1.6–3.7%（node-level era-scoped / global），Q6 复现 5.2%（32/621，同量级，draft 明确 "does transfer"）。树是"绕着 52.5% 未验证节点往前长"（5630/10730）。**这条是测出来的、有牙齿的、跨域复现的——是下面方向判断的真正承重证据，比 #1 的域内 null 强。**
+4. **Q7 第三域初步**（n=7，12:10 口径修正后）：gap 字段 50 档 0.000×3 / 100 档 0.000/0.020/0.010 / 150 档 r1 0.0133。形状与 Q6 同（低水平、50 档后微升）而非与 GPU 同（高水平、平）——**若 15/15 确认，"不变性"进一步降级为 GPU 域特异，"低产修复回路"仍是跨域机制**。
 
 ## 对 D 目标意味着什么（预言力，可证伪）
 
