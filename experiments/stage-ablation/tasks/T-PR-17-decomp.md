@@ -103,21 +103,23 @@ T-PR-17 prompt 序列消融
 
 | # | 任务 | 状态 | 备注 |
 |---|---|---|---|
-| T1 | 定位 3 checkpoint（719-r1 归档 sm-gpu-r1/r2/r3）+ preflight（JSON schema + parent-link 完整性，重点核验 T5 parent_ids 持久化 bug） | ⏳ 11-24 20:57 派 subagent | preflight 失败=记录为结果，不静默剔除 |
-| T2 | 写 tpr17 runner（canonical/verify-off/null-control 3 臂，monkey-patch，不改 s5_state_machine.py）+ 每 call 记录 token/tool calls/evidence delta（F2b 1/2/3） | ⏳ 同上 | 冒烟禁碰 vLLM（719 队列占用） |
-| T3 | 冒烟测试（dry-run：patch 加载 + checkpoint 加载 + 首个 prompt 可构造，不发 LLM 调用） | ⏳ 同上 | vLLM 释放(~24:15)后起正式 run |
+| T1 | 定位 3 checkpoint（719-r1 归档 sm-gpu-r1/r2/r3）+ preflight（JSON schema + parent-link 完整性，重点核验 T5 parent_ids 持久化 bug） | ✅ 11-24 21:07 完成 (3e3859d31, Lead 核验过) | r1=33/r2=132/r3=381 节点, dangling=0, T5 全命中（r1 5 个=gap_check 补充, r2/r3 亦命中）, 3/3 pass |
+| T2 | 写 tpr17 runner（canonical/verify-off/null-control 3 臂，monkey-patch，不改 s5_state_machine.py）+ 每 call 记录 token/tool calls/evidence delta（F2b 1/2/3） | ✅ 同上 | tpr17_runner.py 448 行, s5_state_machine.py 0 改动 |
+| T3 | 冒烟测试（dry-run：patch 加载 + checkpoint 加载 + 首个 prompt 可构造，不发 LLM 调用） | ✅ 同上 | 9/9 全过（3 臂 × 3 ckpt）, smoke_matrix.json 独立复算确认 |
 | T4 | 正式配对 run（分级：先 pilot 再 scale，见下） | 🔒 vLLM 阻塞 | 队列 r2 ~22:20 / r3 ~24:15 |
 | T5 | 分析（多指标 + 等效性检验 + bootstrap CI） | 🔒 依赖 T4 | F2b 3 |
 
-**T4 分级执行计划（11-24 21:00 Lead 核算，pace=6.31 nodes/min 来自 719-r1 实测 114min/719 节点）**：
+**T4 分级执行计划（11-24 21:10 Lead 核算，pace=6.31 nodes/min 来自 719-r1 实测 114min/719 节点；checkpoint 实际节点数来自 preflight 3e3859d31：r1(L1)=33 / r2(L2)=132 / r3(L3)=381）**：
 
 | 档 | 规格 | 时长估算 | 决策规则 |
 |---|---|---|---|
-| pilot | 3 臂 × L3 ckpt(122) × n=3，budget=300（new≈178 节点/run） | ~4-5h | vLLM 释放后第一个跑（~24:15 起，~05:00 完） |
-| scale | 3 臂 × 3 ckpt(L1/L2/L3) × n=5，budget=300 | ~27h（过夜+次日） | pilot 效应 > judge 噪声(~0.1) 且方向稳定 → 起 scale |
-| 停 | — | — | pilot 效应 < 噪声 → 结论="不可检测"（F5 既定语义），不烧 27h |
+| pilot | 3 臂 × L3 ckpt(381) × n=3，budget=719（new≈338 节点/run ≈0.89h） | ~8h | vLLM 释放后第一个跑（~24:15 起，~08:00 完） |
+| scale | 3 臂 × 3 ckpt(33/132/381) × n=5，budget=719 | ~64h（过夜+次日+次晨） | pilot 效应 > judge 噪声(~0.1) 且方向稳定 → 起 scale |
+| 停 | — | — | pilot 效应 < 噪声 → 结论="不可检测"（F5 既定语义），不烧 64h |
 
-理由：全规格 3arm×3ckpt×n5@719 = 45 runs ≈ 63h 不可行（vLLM 共享 + J4 102 条排队）；budget=300 已够（Q7 曲线显示 300 后边际递减，T-PR-17 测序列效应不需要 719 的深度）；n=3 pilot 低于 arena 硬建议 n≥5，但 pilot 的目的只是"可检测性门控"，scale 档仍守 n≥5；L3 先行因 Handoff Tax 效应随方向反转 → L3 是最深 ckpt、剩余序列最短、效应最集中处，先在这里看有没有信号最省钱。
+**budget=719 而非 300（勘误 21:10）**：初版计划写 budget=300 + L3(122)，两处皆错——L3 实际 381 节点（122 是 idea2 budget-150 批的 sm-gpu-r2，张冠李戴），300 < 381 则 cap 小于已有节点数、续跑无意义。改 budget=719 = 源 run（budget-719-r1）原生预算，同 regime 混淆最小，且 Q7 曲线显示 719 档 cov 仍在涨（0.3269），序列效应在深树上更有检出空间。
+
+理由（时长为 21:12 代码复算值，非心算）：全规格 3arm×3ckpt×n5@719 = 45 runs ≈ 64h（初版 63h 基于错误的 122 节点数，数值巧合接近但推导错）；scale 64h 太长，若 pilot 通过可考虑降 n=3（27 runs ≈ 26h）或只跑 L2+L3 两档（30 runs ≈ 42h）——pilot 结果出来再定；n=3 pilot 低于 arena 硬建议 n≥5，但 pilot 的目的只是"可检测性门控"，scale 档仍守 n≥5；L3 先行因 Handoff Tax 效应随方向反转 → L3 是最深 ckpt、剩余序列最短、效应最集中处，先在这里看有没有信号最省钱。
 
 ## 正交性自检
 
