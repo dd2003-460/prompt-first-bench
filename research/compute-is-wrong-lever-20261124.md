@@ -93,7 +93,16 @@ D 的终极目标：在 4×V100 硬件上建 research 的 AGI——能自主做�
 3. max_rework 2 → 更高（或按节点重要性分配）
 **这三条全是 harness 改动，零算力/零模型改动**——与 note 核心判断"修复回路靠架构"一致，且现在"架构"有了具体指代。
 
-**P2 预言因此可设计**：改这三条 harness（不加预算）应使回修率显著升；若升不了 → 说明瓶颈在模型修复能力（H2），本判断的"架构瓶颈"版被削弱。
+**P2 实验设计（2026-11-24 13:30 具体化，13:40 修正——初版"1 行改动"被主循环结构推翻）**：
+- **初版错误**：以为把 L865 矛盾扫描过滤从 `verified` 扩到 `pending` 就能接通 directed。错——rework 池（L1450）= 本轮 `deduped` 的 unverified，而 `deduped` 只含**本轮 decompose 的新节点**（L1198 `new_nodes=[]` 每轮重置，L1368-1375 从 new_nodes 构建，L1407 extend）。上一轮遗留的 pending 节点**不进入**下一轮 rework 池。所以矛盾事件即使引用 pending 节点，这些节点也不在 rework 池里，`contra_idx.get(node.id)` 仍全空。
+- **精确根因（第二层）**：directed 不可达是**双集合不相交**——(a) 矛盾事件节点集 ⊆ verified（L865 只扫 verified）；(b) rework 池 = 本轮新节点（L1450 + L1198）；(c) verified 是吸收态。新节点创建时是 pending，不可能同时是 verified；旧 pending 节点不进 rework 池。两个条件（在 rework 池 ∩ 有矛盾事件）结构性永不满足。
+- **真修复方向（架构级，非 1 行）**：三选一——① rework 池改为"全部 unverified 节点"（含历史轮 pending）+ 矛盾扫描扩到 pending；② 矛盾事件触发时对冲突双方节点做**定向重验**（新路径，不依赖 rework 池）；③ 矛盾事件引用 verified 节点时，把该 verified 节点**降级回 pending** 并加入下轮 rework 池（破坏吸收态，需同步改状态机）。方案 ② 最干净（不动状态机不变量），③ 最激进。
+- **假设 H**：接通 directed（任一方案）后，value_mismatch 类节点回修率 > 2.4%（blind-re-search baseline，80-run corpus 实测）。
+- **控制臂**：A = 当前 harness（baseline）；B = 接通 directed（选定方案）。同预算/同题/同 rep（3 rep），max_rework=2 不变。
+- **度量**：value_mismatch 类节点回修率（fixed/reworked，同 draft 331/8,870 口径）。
+- **内部对照（关键）**：no_source 类节点 directed 不触发（无矛盾事件），两臂都应 ≈4.0%（纯 angle）。B 臂 no_source ≈ A 臂而 value_mismatch 升 → 升的是 directed 功劳。
+- **判读**：B 臂 value_mismatch > 2.4% → 瓶颈在 harness（架构），方向判断成立；B 臂也不升 → 瓶颈在模型能力（H2）。
+- **执行时机**：等 Q7 落地后（改 s5_state_machine.py 污染在飞 Q7）。方案选择需再读 `_rework_directed` 实现确认输入契约（矛盾事件结构 vs 节点状态）。
 
 ## 与 draft 的关系
 
