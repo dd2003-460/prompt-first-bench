@@ -290,8 +290,12 @@ gate `_should_rework(deduped)` 保持只判本轮批次（最小改动，不动 
   719-r3（PID 16780，22:35 起，round 3 / 246 节点，budget=719 未饱和，按 719-r1/r2 的
   6,843/7,982s wall 估 ~1-2.2h 内完成）；其后 waiter（PID 88305）自动串行启 9-cell pilot
   （3 臂 × n=3，每 cell resume r3 ckpt 跑到 budget 719，fail-fast）。
-  ⇒ SM 冻结预计持续到明日白天；解冻判据 = `grep 'PILOT COMPLETE' $REP`（report 在
-  `modules/B-pipeline-ablation/data/tpr17/`）+ `ps` 无 s5_state_machine 进程。
+  ⇒ SM 冻结预计持续到明日白天；解冻判据 = `grep 'PILOT COMPLETE'
+  modules/B-pipeline-ablation/data/tpr17/tpr17-pilot-report-*.md`（**只 grep report 文件，
+  勿 grep 整个目录**——2026-11-25 00:48 发现 `tpr17-morning-runbook.md` 正文含
+  "PILOT COMPLETE" 字样（描述触发条件），全目录 grep 会误判已解冻；waiter 实际把
+  `PILOT COMPLETE — 9/9 cells` 写入 `$REP=tpr17-pilot-report-$(date +%Y%m%d-%H%M%S).md`，
+  见 tpr17-pilot-waiter.sh L11/L65）+ `ps` 无 s5_state_machine 进程。
 - **应用后核验建议**：跑 1 轮 Q6 冒烟，看日志出现 `[SM] rework-directed`（Fix-A 生效）
   与 `attempt: 2` 的 rework_events（Fix-B 生效）；对照 `rework_events.mode` 分布 directed>0。
 - **⚠️ 4 臂执行序列（析因成立的前提，设计文档"应用 Fix-A/B → 跑 4 臂"的字面序有缺陷）**：
