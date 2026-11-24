@@ -1,24 +1,24 @@
-# N9: 云对象存储基础服务费 = 500TB * P_OSS_Standard + 500TB * 0.8 * P_OSS_IA，其中P_OSS_Standard约为$
+# N9: 云对象存储（S3/OSS）的有效容量系数：由于对象存储通常不暴露底层RAID细节，且用户支付的是逻辑存储容量，有效容量系数视为100%（1.0），但需考虑元数据
 
 - **status**: verified
 - **level**: L2
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
 - **parent_ids**: N1
 
 ## Claim
 
-云对象存储基础服务费 = 500TB * P_OSS_Standard + 500TB * 0.8 * P_OSS_IA，其中P_OSS_Standard约为$0.023-GB/月，P_OSS_IA约为$0.0125-GB/月，按年折算需乘以12
+云对象存储（S3/OSS）的有效容量系数：由于对象存储通常不暴露底层RAID细节，且用户支付的是逻辑存储容量，有效容量系数视为100%（1.0），但需考虑元数据开销（通常<5%），故实际可用系数约为0.95-1.0。
 
 ## Corrected Claim
 
-云对象存储基础服务费 = 500TB * P_OSS_Standard + 500TB * 0.8 * P_OSS_IA，其中P_OSS_Standard约为$0.023-GB/月，P_OSS_IA约为$0.0125-GB/月，按年折算需乘以12
+云对象存储（S3/OSS）的有效容量系数：由于对象存储通常不暴露底层RAID细节，且用户支付的是逻辑存储容量，有效容量系数视为100%（1.0），但需考虑元数据开销（通常<5%），故实际可用系数约为0.95-1.0。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+父节点级核验通过：正交+完备+无冗余（子节点分别量化了‘元数据开销’和‘版本控制/生命周期开销’两个独立且正交的容量影响因素，共同构成了父节点中有效容量系数的完整推导逻辑，无重复或矛盾。）
 
 ## Search Query
 
-AWS S3 standard vs infrequent access pricing per GB month 2026
+S3 object storage metadata overhead percentage

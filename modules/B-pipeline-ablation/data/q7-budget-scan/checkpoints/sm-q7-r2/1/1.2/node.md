@@ -1,6 +1,6 @@
-# N8: HDD+SSD分层硬件成本 = (100TB / 1.805) * P_SSD + (400TB / 1.805) * P_HDD，其中P_SSD约为$100-
+# N8: HDD+SSD分层方案中，HDD部分采用RAID-6（假设12盘组，2盘冗余），有效容量系数 = (12-2)/12 ≈ 83.3%；SSD部分采用RAID-1
 
-- **status**: verified
+- **status**: pending
 - **level**: L2
 - **source**: knowledge
 - **edge_type**: cartesian
@@ -9,16 +9,16 @@
 
 ## Claim
 
-HDD+SSD分层硬件成本 = (100TB / 1.805) * P_SSD + (400TB / 1.805) * P_HDD，其中P_SSD约为$100-TB（热层），P_HDD约为$25-TB（冷层），100TB/400TB基于20%温/80%冷数据分布
+HDD+SSD分层方案中，HDD部分采用RAID-6（假设12盘组，2盘冗余），有效容量系数 = (12-2)/12 ≈ 83.3%；SSD部分采用RAID-10或无冗余（若依赖上层纠删），系数不同。需分别计算热层（SSD）和冷层（HDD）的有效容量系数。
 
 ## Corrected Claim
 
-HDD+SSD分层硬件成本 = (100TB / 1.805) * P_SSD + (400TB / 1.805) * P_HDD，其中P_SSD约为$100-TB（热层），P_HDD约为$25-TB（冷层），100TB/400TB基于20%温/80%冷数据分布
+HDD+SSD分层方案中，HDD部分采用RAID-6（假设12盘组，2盘冗余），有效容量系数 = (12-2)/12 ≈ 83.3%；SSD部分采用RAID-10或无冗余（若依赖上层纠删），系数不同。需分别计算热层（SSD）和冷层（HDD）的有效容量系数。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+父节点级核验未通过：非正交, 有冗余（子节点3（总系数）是子节点1和2计算结果的线性组合与汇总，导致信息严重冗余；且子节点2内部混合了策略选择与具体数值计算，逻辑层级不清晰。）
 
 ## Search Query
 
-enterprise HDD price per TB 2026 SSD caching tier cost
+HDD RAID-6 effective capacity ratio 12 disk

@@ -131,16 +131,24 @@ for lo, hi in [(0, 100), (100, 200), (200, 300), (300, 400), (400, 800)]:
     sel = [r["cov"] for r in allq6 if lo <= r["n_nodes"] < hi]
     bins.append({"bin": f"{lo}-{hi}", "n": len(sel), "mean": round(sum(sel) / len(sel), 4) if sel else None})
 nd_covs = [r["cov"] for r in recs]
-low_covs = [r["cov"] for r in allq6 if r["n_nodes"] < 400]
+# !! 2026-11-24 口径修 (与 draft §4.3 对齐): 基线必须用紧邻 400 的 300-400 bin, 不能用所有 n<400
+# (含 0-100 低预算段 mean 0.058, 会把 delta 抬成 +0.0927 的膨胀值 → 强 verdict 与 draft 的
+# "magnitude open at n=3, 1.21x se 边际可分辨" 矛盾)。draft 口径 = 600-800 bin vs 200-400 bin。
+# 此处基线取 200-400 bin (300-400 子段并入, 与 draft 的 200-400 bin 同口径)。
+low_covs = [r["cov"] for r in allq6 if 200 <= r["n_nodes"] < 400]
 delta_xd = (statistics.mean(nd_covs) - statistics.mean(low_covs)) if nd_covs and low_covs else None
 if max(r["n_nodes"] for r in recs) < 700:
     budget_note = f"注意: 拆墙批最大 realized={max(r['n_nodes'] for r in recs)} < 700 — run 在预算前停止 (自然收敛或 depth-10 墙), 不是干净的 ~719 预算测试"
 else:
     budget_note = f"拆墙批 realized {min(r['n_nodes'] for r in recs)}/{max(r['n_nodes'] for r in recs)}, 预算 719 为 binding 约束"
-# 噪声底 (2026-11-24 修): low 段 cov 的 sd → delta_xd 的 1×sd
-# (原固定阈值 0.01 < 噪声底≈0.031, 会把噪声内的 delta 误判为"仍升")
-_psd_xd = statistics.stdev(low_covs) if len(low_covs) >= 2 else 0.05
-_noise_xd = math.sqrt(_psd_xd**2 / max(len(recs),1) + _psd_xd**2 / max(len(low_covs),1))
+# 噪声底 (2026-11-24 修): 池化 se = sqrt(se_nd^2 + se_low^2), 两端 sd 都进 (原只用 low 端 sd,
+# nd 端 n=3 sd=0.0575 > low 端 0.0308, 低估 nd 端不确定度 → 强 verdict 偏松)。
+# 与 draft §4.3 同口径: delta/se_diff, 1.0x 边际可分辨, 1.96x conventional significant。
+_nd_sd = statistics.stdev(nd_covs) if len(nd_covs) >= 2 else 0.05
+_low_sd = statistics.stdev(low_covs) if len(low_covs) >= 2 else 0.05
+_se_nd = _nd_sd / math.sqrt(max(len(nd_covs), 1))
+_se_low = _low_sd / math.sqrt(max(len(low_covs), 1))
+_noise_xd = math.sqrt(_se_nd**2 + _se_low**2)
 # n<3 保护 (2026-11-24): recs 端 n 小时 mean 的 sd 只有 (n-1) 自由度, 估计不可靠;
 # r2=0.2391 是离群点(>原批 max 0.1957), 单点驱动 delta_xd 为正 → 强 verdict 会误导。
 # 与 draft §4.3 降级一致: n<3 时方向未定, r3 落地(n=3)才给强 verdict。
@@ -151,12 +159,17 @@ if len(recs) < 3:
                   f"r3 落地(n=3)定论 — 与 draft §4.3 降级一致")
 elif delta_xd is None:
     xd_verdict = "无法判定 (缺数据)"
-elif delta_xd > _noise_xd:
-    xd_verdict = f"Q6 在 ~719 realized 节点仍升 (Δ={delta_xd:+.4f} > 1×sd={_noise_xd:.4f} vs ≤379 段) → 饱和点域依赖: GPU ~400 饱和, Q6 到 719 未饱和"
-elif delta_xd < -_noise_xd:
-    xd_verdict = f"Q6 在 ~719 realized 节点回落 (Δ={delta_xd:+.4f} < -1×sd) → 跨域一致: 两域都在 ~400 realized 节点后不再升 (GPU 平台 ~400, Q6 719 点回到 ≤400 水平)"
+elif abs(delta_xd) >= 1.96 * _noise_xd:
+    xd_verdict = (f"Q6 在 ~719 realized 节点显著{'仍升' if delta_xd>0 else '回落'} "
+                  f"(Δ={delta_xd:+.4f} = {abs(delta_xd)/_noise_xd:.2f}×se ≥ 1.96×se, vs 200-400 bin) → "
+                  f"{'饱和点域依赖: GPU ~400 饱和, Q6 到 719 未饱和' if delta_xd>0 else '跨域一致: 两域都在 ~400 realized 节点后不再升'}")
+elif abs(delta_xd) > _noise_xd:
+    xd_verdict = (f"Q6 在 ~719 realized 节点 magnitude open (Δ={delta_xd:+.4f} = {abs(delta_xd)/_noise_xd:.2f}×se, "
+                  f"1.0×se < |Δ| < 1.96×se — 边际可分辨, barely above noise, 非 conventional significant; vs 200-400 bin) → "
+                  f"方向偏{'仍升' if delta_xd>0 else '回落'}但幅度未定, 与 draft §4.3 降级一致")
 else:
-    xd_verdict = f"Q6 在 ~719 realized 节点平台化/噪声内 (Δ={delta_xd:+.4f}, 1×sd={_noise_xd:.4f}) → 跨域一致 (弱平台): 两域都在 ~400 realized 节点后不再升, 平台强度在噪声内"
+    xd_verdict = (f"Q6 在 ~719 realized 节点平台化/噪声内 (Δ={delta_xd:+.4f} = {abs(delta_xd)/_noise_xd:.2f}×se < 1×se, vs 200-400 bin) → "
+                  f"跨域一致 (弱平台): 两域都在 ~400 realized 节点后不再升, 平台强度在噪声内")
 print(f"\n=== 跨域决定性测试 (realized-node-count 轴) ===")
 print(f"Q6 全曲线分箱 (原批 15 + 拆墙 {len(recs)}): " + " / ".join(f"{b['bin']}: {b['mean']} (n={b['n']})" for b in bins))
 print(f"{budget_note}")

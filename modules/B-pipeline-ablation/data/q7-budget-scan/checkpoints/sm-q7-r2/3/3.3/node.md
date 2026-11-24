@@ -1,24 +1,24 @@
-# N18: 数据分层适配总成本调整 = 基础存储成本 * (1 + Access_Frequency_Factor)，其中Access_Frequency_Factor为访
+# N20: HDD+SSD分层方案带宽：SSD层200TB裸容量，假设单块SSD为5TB，共40块，总带宽 = 40 * 5GB/s = 200GB/s，远超温数据需求（1
 
 - **status**: verified
 - **level**: L2
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
 - **parent_ids**: N3
 
 ## Claim
 
-数据分层适配总成本调整 = 基础存储成本 * (1 + Access_Frequency_Factor)，其中Access_Frequency_Factor为访问频率修正系数（云存储约0.1-0.2，本地存储约0）
+HDD+SSD分层方案带宽：SSD层200TB裸容量，假设单块SSD为5TB，共40块，总带宽 = 40 * 5GB/s = 200GB/s，远超温数据需求（1.2-2.3GB/s），可行性高。
 
 ## Corrected Claim
 
-数据分层适配总成本调整 = 基础存储成本 * (1 + Access_Frequency_Factor)，其中Access_Frequency_Factor为访问频率修正系数（云存储约0.1-0.2，本地存储约0）
+HDD+SSD分层方案带宽：SSD层200TB裸容量，假设单块SSD为5TB，共40块，总带宽 = 40 * 5GB/s = 200GB/s，远超温数据需求（1.2-2.3GB/s），可行性高。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+先验知识/题面给定，逻辑校验通过：40块5TB SSD总容量200TB，单块5GB/s带宽乘以40块等于200GB/s，远超1.2-2.3GB/s需求，计算与量级均合理。
 
 ## Search Query
 
-storage access frequency cost adjustment factor cloud vs local
+SSD sequential read bandwidth 5TB

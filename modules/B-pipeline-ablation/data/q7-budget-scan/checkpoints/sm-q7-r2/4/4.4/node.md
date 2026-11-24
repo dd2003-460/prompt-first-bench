@@ -1,0 +1,24 @@
+# N25: 云对象存储的T_restore计算：云存储无传统‘重建’概念，故障由多副本/纠删码自动处理，用户侧RTO主要取决于网络可用性与API限流，典型RTO < 1小时
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+云对象存储的T_restore计算：云存储无传统‘重建’概念，故障由多副本/纠删码自动处理，用户侧RTO主要取决于网络可用性与API限流，典型RTO < 1小时（SLA承诺99.9%可用性对应年中断<8.76小时），实际恢复时间近似为0（对用户透明），但数据迁移/恢复场景下T_restore = Data_Size / Network_Throughput
+
+## Corrected Claim
+
+云对象存储的T_restore计算：云存储无传统‘重建’概念，故障由多副本/纠删码自动处理，用户侧RTO主要取决于网络可用性与API限流，典型RTO < 1小时（SLA承诺99.9%可用性对应年中断<8.76小时），实际恢复时间近似为0（对用户透明），但数据迁移/恢复场景下T_restore = Data_Size / Network_Throughput
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：云存储架构特性（多副本/EC）与RTO定义符合行业共识，SLA换算数学正确（99.9%对应年中断约8.76小时），恢复时间公式符合物理直觉。
+
+## Search Query
+
+S3 OSS RTO SLA 99.9 availability

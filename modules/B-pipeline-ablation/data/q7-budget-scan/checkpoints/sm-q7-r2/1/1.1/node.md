@@ -1,24 +1,24 @@
-# N7: 本地NVMe SSD阵列硬件成本 = (500TB / 1.805) * 2.5 * P_NVMe，其中P_NVMe为2026年企业级NVMe SSD每TB采购
+# N7: NVMe SSD RAID阵列的有效容量系数：采用RAID-6（假设4盘组，2盘冗余）时，有效容量 = 裸容量 * (4-2)/4 = 50%；若采用RAID-
 
-- **status**: verified
+- **status**: pending
 - **level**: L2
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
 - **parent_ids**: N1
 
 ## Claim
 
-本地NVMe SSD阵列硬件成本 = (500TB / 1.805) * 2.5 * P_NVMe，其中P_NVMe为2026年企业级NVMe SSD每TB采购价（约$150-TB，需按最新报价核验），2.5为RAID6冗余及预留空间系数
+NVMe SSD RAID阵列的有效容量系数：采用RAID-6（假设4盘组，2盘冗余）时，有效容量 = 裸容量 * (4-2)/4 = 50%；若采用RAID-10（2盘组，1盘冗余），有效容量 = 裸容量 * 50%。需根据实际磁盘数量和RAID级别确定具体系数，此处以RAID-6为例，系数为0.5。
 
 ## Corrected Claim
 
-本地NVMe SSD阵列硬件成本 = (500TB / 1.805) * 2.5 * P_NVMe，其中P_NVMe为2026年企业级NVMe SSD每TB采购价（约$150-TB，需按最新报价核验），2.5为RAID6冗余及预留空间系数
+NVMe SSD RAID阵列的有效容量系数：采用RAID-6（假设4盘组，2盘冗余）时，有效容量 = 裸容量 * (4-2)/4 = 50%；若采用RAID-10（2盘组，1盘冗余），有效容量 = 裸容量 * 50%。需根据实际磁盘数量和RAID级别确定具体系数，此处以RAID-6为例，系数为0.5。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+父节点级核验未通过：不完备（子节点内容偏向于RAID级别的选择建议（定性权衡），而父节点核心在于计算有效容量系数的具体数值和逻辑（定量计算）。子节点未完整覆盖父节点中关于RAID-6在4盘组时的具体计算示例（50%）以及RAID-10的通用系数定义，反而引入了父节点未提及的N=12场景和选择建议，导致对父节点核心定义（系数计算）的覆盖不全。）
 
 ## Search Query
 
-enterprise NVMe SSD price per TB 2026 RAID6 overhead
+RAID-6 effective capacity ratio calculation
