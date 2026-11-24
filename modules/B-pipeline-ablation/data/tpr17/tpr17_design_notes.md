@@ -81,6 +81,16 @@ T4 pilot 夜间无人值守，下列接缝逐一核验过（防"白等一夜"的
     只能读作 underpowered 非"有影响"）。T4 正式实验 n 分配：verified/parent_link 导向
     n=10（25h GPU）已足够，depth 若要可靠判等效需 n≥20（50h）——按预算取舍。
   - GPU 预算（每 run ~50min 实测, 3 臂）：n=5→12.5h / n=10→25h / n=15→37.5h / n=20→50h。
+- **null-control wrapper 生命周期审计（22:10，防静默退化成 canonical）**：
+  ShuffledList 包装时序 = `_seed_nodes`（赋值 `self.confirmed`）→ `_patch_null_control`
+  （包装），顺序正确（wrapper 不被种子绕过）。SM 源码全量 grep `self.confirmed`：
+  仅 3 处写操作全是 `.append(...)`（L619/642/701），**无 `self.confirmed = [...]` 重新赋值**
+  → 主循环运行中 wrapper 不会被静默丢弃。两个消费者都过 wrapper：L507
+  `self.confirmed[-40:]`（_decompose_layer state 块，负切片 ShuffledList 泛化处理）+
+  L1385 `judge_necessary_batch(cand_list, self.confirmed, ...)`（完整列表）。
+  ⟹ null-control 臂全程保持乱序 state 块，不会中途退化成 canonical（若退化则
+  sequence_mechanism_effect 估计被污染）。**注意**：此结论依赖 SM 无重新赋值——
+  若日后 SM 加了 `self.confirmed = [...]` 会破坏 wrapper，改 SM 后须重审此条。
 - **fail-fast 语义**：任一 cell rc!=0 或 n_nodes<381 → break 2 中止整批（设计如此，
   防坏 checkpoint/坏 patch 污染后续 8 cell）。明早若见 PILOT ABORTED，先读
   报告里首个失败 cell 的 stderr。
