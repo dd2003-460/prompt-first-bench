@@ -23,13 +23,13 @@ result.md 现存节从"追加2（=第三轮）"开始，**R1 首轮 + R2 节缺�
 - 影响：低。R1/R2 内容可从 `git show 70dca8efa:tasks/IDEA-review/result.md` 恢复，且其结论已被 R3-R5 覆盖。
 - 处置：不重追加（旧 claim 域，对最终 paper 无决策价值）；在 arena 台账记一笔"rebase 丢节×2，内容可 git 恢复"。
 
-## 三个待决（parent 编排）
+## 三个待决（parent 编排）—— ①②③ 全闭环，剩 arXiv 投稿决策（等 D"投"）
 
 | # | 事项 | 我的判断 |
 |---|---|---|
 | ① | 预印本路线 | **已闭环（2026-11-25 04:47）**：GitHub hash 时间戳已锁——孤儿分支 `idea53-preprint-ts-v3` @ `52d33c17`（2026-11-25 04:47:21 +0800），只含 submission/ 7 文件（paper.pdf/tex + body/header/formalism-skeleton + SHA256SUMS），零 WIP 泄漏，远程已验证 200。D 20:25 原话授权（"github 如果有 hash 防止篡改也行"）。arXiv 背书套磁 = 并行支线，不阻塞。 |
-| ② | 对最终闭式 paper 重做 arena 碰撞核查（GPU 性能建模域） | **该做**：D 三连催的"其余 idea 问一遍"在旧 claim 上闭环了，但最终 paper 没问过。纯离线检索，不碰 vLLM/pilot |
-| ③ | 补 References（0 引用→≥15 条正式引用） | **该做**：机械活，subagent 离线可干（arXiv/GitHub 检索），不碰 vLLM |
+| ② | 对最终闭式 paper 重做 arena 碰撞核查（GPU 性能建模域） | **已闭环（2026-11-25 05:12）**：round6 回执 git 核验通过（commit bb387d43f @ arena/f8477718，result.md 追加5 节，指纹 6d50c871 ✓）。结论：未撞车（窄空白）conf 0.7；venue 排序 arXiv→ICML27 ML4Systems workshop (P≈0.5-0.6)→MLSys workshop (P≈0.5)→E&D 错配 (P≈0.05-0.08)；最难一击 + 三条件防守见 result.md 追加5。详见 collision-final-paper-firstpass-20261125.md 05:10 更新节 |
+| ③ | 补 References（0 引用→≥15 条正式引用） | **已备好（2026-11-25 05:15）**：15 条全部已核验 bib @ submission-staging/references.bib（1df8c91d7），arXiv API + Crossref 逐条核验（非凭 agent 汇报）。并入 paper.tex 时机 = arXiv 投稿决策时（bundle 已锁 @ 52d33c17，改动需 D 确认节奏） |
 
 ## 时间戳锁记录（2026-11-25 04:47）
 
