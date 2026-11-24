@@ -73,6 +73,11 @@ research-agi-budget（D 硬件条件下，预算控制 AI 在 Pareto 边界上�
     ├── E3. 跑预算扫描（每档 ≥3 reps，同负载）
     │   └── 原子：batch driver，spec 驱动
     └── E4. Pareto 曲线（预算 vs 质量，找拐点 = 性价比最优点）
+        │   ⚠ 口径修订（D 2026-11-24 08:02 质疑："pareto 理论上算不出来，为什么不质疑和修改"）：
+        │   Pareto 前沿=理论构造（需完整 trade-off 结构，开放任务不可算）→ 改**经验预算响应曲线**
+        │   （budget→质量实测 n≥3 均值+CI，拐点=边际增益/边际成本跌破阈值）。q7 已按此口径执行
+        │   （n=3：jt 0.6603/cov 0.3205，300→719 边际 +0.0757，commit 653bcc22e）。
+        │   信号登记：D1-persona-align/memory/objfunc-signal-log.md（2026-11-24 Pareto 条）。
         └── 原子：stats + 画图，拐点 = 边际质量增益/边际预算成本 最大化的点
 ```
 
