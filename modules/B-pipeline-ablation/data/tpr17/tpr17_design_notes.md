@@ -23,9 +23,19 @@
 - r3 有 1 个生产重复 claim（compute_metrics dup=1）→ precision 指标非零基线，跨臂比较时留意。
 
 ## T4 执行约束
-- vLLM 被 q7 719 队列占用（PID 59750/99447）。21:19 核验：r1 已完成（18:28 落盘 1.2MB json），
-  **r2 仍在跑**（stdout 21:19 还在写），r3 未开始 → 释放时间晚于早前 ~24:15 估计，
-  实际约深夜~凌晨（r2+r3 各 ~2.5-3h）。严禁 kill/干扰。
+- **pilot 时长实测校准（2026-11-24 21:45，来自 q7 r1 完整 run，同代码路径同 regime）**：
+  q7 r1 = 719 节点/4 轮/6843s(114min)，per-round n_new=35/90/255/334。
+  第 4 轮（380→719，334 新节点）墙钟 ≈ 43-52min（verify 起点 19:30:03 → DONE 20:22:11，
+  不含第 4 轮 decompose 则 52min 为下界）。T4 pilot 每 run 从 381 续跑至 719（338 新节点）
+  ≈ 同 regime → **每 run ~45-55min，9 run 串行 ≈ 7-8h**（与 Lead 全 run pace 粗估 0.89h/run
+  吻合，粗估被实测背书）。LLM call 延迟 mean 4.3s/median 2.4s/p90 8.4s/max 240s，
+  晚期/早期比仅 1.07x（context 增长效应小，均匀 pace 假设成立）。
+  **明早判据**：pilot 单 run >70min 无新落盘 = 可疑（正常 ~50min）；
+  9 run 总 >10h 未完 = 查 vLLM 健康 + 首个 cell 日志。
+- vLLM 被 q7 719 队列占用（PID 59750/99447）。**实测校准 ETA（21:44）**：
+  r2 起跑 20:22:37（已跑 81.6min），按 r1 实测 114min/run → r2 ≈ 22:17 完，
+  r3 ≈ 23:31 完 → **vLLM 释放 ≈ 23:30-23:45**，waiter 随后起 9-cell pilot
+  （~7-8h）→ **pilot 完 ≈ 次日 07:00-07:30**。严禁 kill/干扰。
 - 每 cell n≥5 + bootstrap CI（judge 噪声 ~0.1，n=3 会假阳性）；checkpoint 分开统计（Handoff Tax：效应随方向反转，不混池）。
 - 若声称"序列无影响"需等效性检验（预设最小重要效应），不能用"不显著"代替"相同"。
 - claim 边界：stateful pipeline suffix-ablation 设计，不说"恢复相同隐状态/KV"（F2b 4）。
