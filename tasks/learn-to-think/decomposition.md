@@ -24,7 +24,7 @@ learn-to-think
 │   ├── 输入：D 原话前半段（claude 会话 L320-399 调试大型工程排查思路）
 │   ├── gold：D 后半段（只作判据，绝不泄露给 27b）
 │   ├── 判据：爬到机制层 + 推出 ≥1 个 D 原文没有的可检验预言
-│   └── [待核验] 27b 在 D 机制域的实际表现（T2 域偏移实验 0/6 命中是负信号，需正面验证）
+│   └── [协议已锁 2026-11-25] 臂C 预注册 @ exp03-armc-prereg-20261125.md (5e6294aba): 域锚点+因果层指令, H1=flip 0→1 可证伪, 复用 T2 A/B 只新跑 C 3 次; 等 pilot 释放 8787
 ├── 04-eval       评测：如何判定"思考得像 D"
 │   ├── formalism 维度（form 5.67/6 但 flip=0 → "形似神未到"）
 │   ├── align 维度（flip×form，T3 新增）
@@ -47,6 +47,6 @@ learn-to-think
 ## 当前状态
 - 01-mechanism：部分完成（假设 + D 修正已落盘 d-thinking-mechanism-first-principles-20261124.md）
 - 02-trigger：完成（T1-T5 全落地，commits a34e187d7/e0cdbcf6d/7d2584ac6/9d37b2fa3/35d498b8a）
-- 03-experiment：待跑（pilot 占 vLLM，结束后执行）
+- 03-experiment：协议已锁（臂C 预注册 5e6294aba，等 pilot 释放 8787 后执行）
 - 04-eval：部分（form/align 维度已有，预言质量缺）
 - 05-generalize：待启动

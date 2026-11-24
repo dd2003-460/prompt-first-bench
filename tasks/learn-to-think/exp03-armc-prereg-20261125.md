@@ -67,4 +67,5 @@ D 前半段 + 以下完整指令（逐字，不增不减）：
 - 预注册红线：本文件先 commit 再跑数据
 
 ## 预注册 commit
-- commit hash: 待回填（本文件 commit 后回填，不改变预注册内容时间戳）
+- commit hash: 5e6294aba（首预注册 commit，2026-11-25 05:19 +0800）
+- 说明：hash 指向首次预注册 commit（本行回填在后续 commit 中，不改变预注册内容的时间戳）
