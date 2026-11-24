@@ -1,19 +1,17 @@
 {
-  "id": "N79",
-  "claim": "C_max_pop 取 min(带宽瓶颈, 计算瓶颈)：带宽允许6.93Gbps但计算仅允许5Gbps，故 C_max_pop = 5Gbps；需满足 2TB/10 = 0.2TB/POP = 200GB/POP 日均流量 ≤ 5Gbps * 0.8 * 86400s = 345GB，条件满足",
+  "id": "N102",
+  "claim": "网络中间件引入的额外延迟 T_overhead_edge，包括 TCP 握手、TLS 加密解密、HTTP 头处理及 CDN 内部路由查找，典型 P99 值在 5-15ms 之间，与用户地理距离无关但受并发负载影响。",
   "level": "L3",
   "source": "knowledge",
   "status": "pending",
-  "evidence": "父节点级核验未通过：不完备（子节点分别解释了计算瓶颈和带宽瓶颈的推导，二者正交且不冗余。但父节点明确结论为 C_max_pop = 5Gbps（基于计算瓶颈），而子节点中计算瓶颈推导出的结果为 6.72Gbps，与父节点引用的 5Gbps 不一致；同时子节点未解释为何最终取 5Gbps 而非 6.72Gbps（可能隐含其他约束或参数不同），导致逻辑链条断裂，不完备。）",
-  "corrected_claim": "C_max_pop 取 min(带宽瓶颈, 计算瓶颈)：带宽允许6.93Gbps但计算仅允许5Gbps，故 C_max_pop = 5Gbps；需满足 2TB/10 = 0.2TB/POP = 200GB/POP 日均流量 ≤ 5Gbps * 0.8 * 86400s = 345GB，条件满足",
+  "evidence": "父节点级核验未通过：不完备（子节点之间逻辑正交，分别覆盖了传输层、安全层、路由层和排队层。但完备性不足，父节点明确提到的“HTTP 头处理”延迟在子节点中缺失。此外，TCP 握手和 TLS 握手通常发生在连接建立阶段，而 CDN 路由和排队发生在请求处理阶段，虽然分类合理，但缺少应用层协议处理环节导致无法完全覆盖父节点定义的总延迟。）",
+  "corrected_claim": "网络中间件引入的额外延迟 T_overhead_edge，包括 TCP 握手、TLS 加密解密、HTTP 头处理及 CDN 内部路由查找，典型 P99 值在 5-15ms 之间，与用户地理距离无关但受并发负载影响。",
   "rework_count": 0,
   "parent_ids": [
-    "N19",
-    "N20",
-    "N21"
+    "N25"
   ],
   "objective": null,
-  "edge_type": "quotient",
-  "search_query": "",
+  "edge_type": "cartesian",
+  "search_query": "CDN edge node processing latency P99 overhead",
   "retrieval_sources": []
 }

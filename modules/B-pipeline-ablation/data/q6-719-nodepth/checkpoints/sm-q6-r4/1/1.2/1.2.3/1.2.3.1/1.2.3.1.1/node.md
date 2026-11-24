@@ -1,20 +1,24 @@
-# N473: 跨网 (Cross_Network) 判定标准：用户 ISP 与边缘 POP 所属 AS 不同即为跨网，国内主要 ISP (电信/联通/移动) 之间跨网概率约为
+# N642: TLS 1.3 单次 RTT 握手 (1-RTT Handshake) 中，客户端发送 ClientHello 包含密钥交换信息，服务器响应 ServerHel
 
-- **status**: verified
+- **status**: degraded
 - **level**: L5
 - **source**: knowledge
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N159
+- **rework_count**: 1
+- **parent_ids**: N212
 
 ## Claim
 
-跨网 (Cross_Network) 判定标准：用户 ISP 与边缘 POP 所属 AS 不同即为跨网，国内主要 ISP (电信/联通/移动) 之间跨网概率约为 30-40%，需根据用户 ISP 分布加权计算平均跳数增量。
+TLS 1.3 单次 RTT 握手 (1-RTT Handshake) 中，客户端发送 ClientHello 包含密钥交换信息，服务器响应 ServerHello 和 Finished，总延迟 = 1 * RTT_user_edge + T_server_processing，其中 T_server_processing < 1ms。
 
 ## Corrected Claim
 
-跨网 (Cross_Network) 判定标准：用户 ISP 与边缘 POP 所属 AS 不同即为跨网，国内主要 ISP (电信/联通/移动) 之间跨网概率约为 30-40%，需根据用户 ISP 分布加权计算平均跳数增量。
+TLS 1.3 单次 RTT 握手 (1-RTT Handshake) 中，客户端发送 ClientHello 包含密钥交换信息，服务器响应 ServerHello 和 Finished，总延迟 = 1 * RTT_user_edge + T_server_processing，其中 T_server_processing 取决于服务器处理速度，通常远小于 RTT_user_edge。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+[质询]T_server_processing < 1ms 是一个具体的经验性能指标，受服务器负载、硬件配置、网络栈实现及地理位置影响极大，并非 TLS 1.3 协议本身的固有属性或第一性原理可推导的必然结论；在缺乏特定基准测试数据支持的情况下，将其作为通用事实陈述存在以偏概全的风险。 | source=knowledge，TLS 1.3 1-RTT 握手流程逻辑自洽，但 T_server_processing < 1ms 属于经验事实，缺乏来源直接支持且无法从第一性原理严格推出，故降级。
+
+## Search Query
+
+TLS 1.3 1-RTT handshake latency breakdown server processing time

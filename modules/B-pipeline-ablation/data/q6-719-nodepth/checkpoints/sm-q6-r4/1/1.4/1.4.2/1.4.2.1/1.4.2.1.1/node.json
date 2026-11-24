@@ -1,17 +1,17 @@
 {
-  "id": "N530",
-  "claim": "R_low = 20 次/人/天的构成分解：R_low = R_browse + R_interaction，其中 R_browse（页面加载/列表刷新）典型值为 15 次，R_interaction（点赞/评论/分享等API调用）典型值为 5 次，需验证该比例是否符合图片+短视频平台的用户行为基准（如抖音/Instagram基准数据）。",
+  "id": "N700",
+  "claim": "工作点1下公有云CDN L1边缘节点出口带宽成本 C_bw_cloud_L1 为 ¥0.0075/1000req，计算依据为 L1 命中率 0.95，仅 5% 流量回源 L2，L1 出口流量为 2TB * 0.95 = 1.9TB，按公有云 CDN 出口单价 ¥0.15/GB 计算，(1900GB * 0.15) / 2048000 * 1000 ≈ ¥0.139/1000req，此处修正为仅计算 L1 直接响应部分，若含 L2 回源需额外计算。",
   "level": "L5",
   "source": "knowledge",
-  "status": "verified",
-  "evidence": "先验知识/题面给定，逻辑校验通过",
-  "corrected_claim": "R_low = 20 次/人/天的构成分解：R_low = R_browse + R_interaction，其中 R_browse（页面加载/列表刷新）典型值为 15 次，R_interaction（点赞/评论/分享等API调用）典型值为 5 次，需验证该比例是否符合图片+短视频平台的用户行为基准（如抖音/Instagram基准数据）。",
-  "rework_count": 0,
+  "status": "degraded",
+  "evidence": "[质询]数值量级与计算逻辑存在严重矛盾：陈述声称成本为 ¥0.0075/1000req，但随后给出的计算过程 (1900GB * 0.15) / 2048000 * 1000 实际结果约为 ¥0.139/1000req（如陈述中自述），两者相差近20倍。此外，'L1出口流量'通常指L1节点向用户提供的流量，若L1命中率为0.95，则L1出口流量应接近总流量2TB，而非2TB*0.95（这通常是L1回源流量或L2出口流量的逻辑，取决于具体架构定义，但此处计算逻辑混乱）。 | 逻辑校验失败：陈述内部数值自相矛盾（声称0.0075 vs 计算得出0.139），且流量计算逻辑（L1出口=总流量*命中率）在CDN架构中通常不成立（L1出口通常等于总请求流量，回源流量才等于总流量*(1-命中率)），导致成本估算基础错误。",
+  "corrected_claim": "工作点1下公有云CDN L1边缘节点出口带宽成本计算存在逻辑错误。若L1命中率为0.95，L1向用户提供的出口流量约为2TB（假设所有请求都经过L1），回源L2流量约为0.1TB。若仅计算L1出口带宽成本，应按2TB * ¥0.15/GB计算；若计算总带宽成本（含回源），需分别计算L1出口和L2出口/回源成本。原陈述中数值与计算过程不符，且流量定义混淆。",
+  "rework_count": 1,
   "parent_ids": [
-    "N178"
+    "N233"
   ],
   "objective": null,
   "edge_type": "cartesian",
-  "search_query": "social media app average API requests per user per day benchmark",
+  "search_query": "",
   "retrieval_sources": []
 }

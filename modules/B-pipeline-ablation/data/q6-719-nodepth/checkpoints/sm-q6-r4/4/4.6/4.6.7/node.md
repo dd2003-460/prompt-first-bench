@@ -1,0 +1,24 @@
+# N124: 回源数据传输时间 T_transfer_origin，基于对象大小 s 和源站出口带宽 B_origin，计算公式为 T_transfer_origin = s
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+回源数据传输时间 T_transfer_origin，基于对象大小 s 和源站出口带宽 B_origin，计算公式为 T_transfer_origin = s / B_origin，P99 值受源站带宽限制和拥塞影响。
+
+## Corrected Claim
+
+回源数据传输时间 T_transfer_origin，基于对象大小 s 和源站出口带宽 B_origin，计算公式为 T_transfer_origin = s / B_origin，P99 值受源站带宽限制和拥塞影响。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间存在正交性（一个关注动态负载/拥塞影响，一个关注静态带宽规格规划），但完备性不足。父节点明确提到 P99 值受“拥塞”影响，而子节点1仅讨论了源站入口利用率导致的本地拥塞，完全缺失了对网络路径拥塞（如骨干网、中间链路丢包/重传）或源站出口侧拥塞的讨论。此外，父节点公式 T=s/B 隐含了带宽是固定变量，子节点2仅给出单点规格建议，未涵盖带宽波动或突发流量对公式中 B 有效值的影响。）
+
+## Search Query
+
+CDN origin pull transfer time calculation

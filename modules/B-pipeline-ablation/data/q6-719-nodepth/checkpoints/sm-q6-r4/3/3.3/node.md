@@ -1,24 +1,28 @@
-# N19: 峰值带宽预留成本 = Peak_Bandwidth × Reserved_Bandwidth_Price，其中 Peak_Bandwidth = Average
+# N23: 请求地理分布比例：核心区域（自建 POP 覆盖区）与长尾区域（公有云覆盖区）的请求量占比，决定混合策略的成本权重。
 
-- **status**: verified
+- **status**: pending
 - **level**: L2
-- **source**: knowledge
+- **source**: search
 - **edge_type**: quotient
-- **rework_count**: 0
+- **rework_count**: 1
 - **parent_ids**: N3
 
 ## Claim
 
-峰值带宽预留成本 = Peak_Bandwidth × Reserved_Bandwidth_Price，其中 Peak_Bandwidth = Average_Bandwidth × Peak_Factor，Peak_Factor 通常取 1.5-3.0 [待核验]。
+请求地理分布比例：核心区域（自建 POP 覆盖区）与长尾区域（公有云覆盖区）的请求量占比，决定混合策略的成本权重。
 
 ## Corrected Claim
 
-峰值带宽预留成本 = Peak_Bandwidth × Reserved_Bandwidth_Price，其中 Peak_Bandwidth = Average_Bandwidth × Peak_Factor，Peak_Factor 通常取 1.5-3.0 [待核验]。
+请求地理分布比例（核心区域与长尾区域）是决定混合策略成本权重的关键因素，具体占比需根据实际业务流量监测数据确定。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+父节点级核验未通过：不完备（子节点1定义了核心区域占比 P_core 的基础计算公式，子节点2定义了用于修正该估算的密度差异系数 K_density。两者在逻辑上是互补的（一个是基础值，一个是修正因子），不存在重复或矛盾，因此正交。然而，父节点明确要求获取“核心区域与长尾区域”的请求量占比以决定成本权重。子节点仅提供了 P_core 的计算/修正方法，完全缺失了长尾区域占比 P_tail 的明确定义或计算逻辑（尽管隐含 P_tail = 1 - P_core，但在学术分解中，明确界定两个关键决策变量的获取方式更为严谨，且父节点强调的是两者的比例关系以决定权重，仅定义一方略显单薄，尤其是如果成本模型对长尾区域的单位成本敏感度不同，需要明确其独立的数据来源或估算逻辑，而不仅仅是补集）。更关键的是，父节点的核心目的是“决定混合策略的成本权重”，这通常不仅取决于流量占比，还取决于各区域的单位服务成本差异。虽然子节点聚焦于“请求量占比”，但若父节点隐含了通过占比来推导成本权重，那么缺少对“长尾区域”独立估算逻辑的描述（例如长尾区域是否基于公有云账单或特定模型估算，而非简单补集）可能导致完备性不足。不过，最直接的缺失是：父节点要求的是“比例”，子节点只给了一个参数的公式，没有明确给出另一个参数（长尾）的处理方式，导致“比例”这一完整信息未完全显式化。）
 
 ## Search Query
 
-CDN peak bandwidth reservation cost factor
+user geographic distribution China social media platform core vs long-tail regions
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/694211327&rut=c49ca49d34eb259760341057b010a61885e7692cfefa18cd7161b078dc3392e3', 'type': 'ddg', 'title': '阿里云全球基础设施展示，公共云地域、边缘节点、超级数据中心分布图'}

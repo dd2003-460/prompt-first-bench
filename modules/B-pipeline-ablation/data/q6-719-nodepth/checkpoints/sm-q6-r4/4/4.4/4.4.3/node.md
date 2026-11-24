@@ -1,0 +1,24 @@
+# N114: L1 到 L2 的回源延迟 RTT_L1_L2 通常为 5-20ms（取决于 L1 与 L2 节点间的地理距离和网络质量），L2 到源站的回源延迟 RTT_L2
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N28
+
+## Claim
+
+L1 到 L2 的回源延迟 RTT_L1_L2 通常为 5-20ms（取决于 L1 与 L2 节点间的地理距离和网络质量），L2 到源站的回源延迟 RTT_L2_origin 通常为 20-50ms，总回源延迟 RTT_origin_total = RTT_L1_L2 + RTT_L2_origin + T_transfer_origin，其中 T_transfer_origin 取决于对象大小 s 和源站带宽。
+
+## Corrected Claim
+
+L1 到 L2 的回源延迟 RTT_L1_L2 通常为 5-20ms（取决于 L1 与 L2 节点间的地理距离和网络质量），L2 到源站的回源延迟 RTT_L2_origin 通常为 20-50ms，总回源延迟 RTT_origin_total = RTT_L1_L2 + RTT_L2_origin + T_transfer_origin，其中 T_transfer_origin 取决于对象大小 s 和源站带宽。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点公式中的三个组成部分（RTT_L1_L2, RTT_L2_origin, T_transfer_origin）以及总延迟的统计估算（P99），逻辑上互斥且无重复。子节点1细化了RTT_L1_L2在不同架构下的取值，子节点2细化了RTT_L2_origin在不同地理距离下的取值，子节点3定义了T_transfer_origin的计算公式，子节点4基于前三者进行综合估算。虽然子节点1和2都涉及距离对延迟的影响，但它们针对不同链路（L1-L2 vs L2-Origin），属于不同参数的不同场景，不构成冗余。）
+
+## Search Query
+
+CDN L1 L2 origin server latency breakdown

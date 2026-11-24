@@ -1,24 +1,24 @@
-# N326: 单POP月营收损失 (Monthly_Revenue_Loss_per_POP) 的计算公式为：(DAU_per_POP × ARPU × Avg_Days_U
+# N458: 中容量工作点（基准）：2TB NVMe SSD (¥2400) + 冗余盘位/RAID卡(¥300) = ¥2700，适用于图片+短视频混合缓存，缓存命中率 H
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N114
+- **parent_ids**: N144
 
 ## Claim
 
-单POP月营收损失 (Monthly_Revenue_Loss_per_POP) 的计算公式为：(DAU_per_POP × ARPU × Avg_Days_Uncorrected) × (1 - Fallback_Rate)，其中 DAU_per_POP = 500万 / 10 = 50万，ARPU 取 ¥10/月，Fallback_Rate 为故障期间成功回源到公有云的比例（假设 80%），则单POP月损失 ≈ 50万 × ¥10 × (1-0.8) = ¥100k。
+中容量工作点（基准）：2TB NVMe SSD (¥2400) + 冗余盘位/RAID卡(¥300) = ¥2700，适用于图片+短视频混合缓存，缓存命中率 H_cache 预计维持 0.95
 
 ## Corrected Claim
 
-单POP月营收损失 (Monthly_Revenue_Loss_per_POP) 的计算公式为：(DAU_per_POP × ARPU × Avg_Days_Uncorrected) × (1 - Fallback_Rate)，其中 DAU_per_POP = 500万 / 10 = 50万，ARPU 取 ¥10/月，Fallback_Rate 为故障期间成功回源到公有云的比例（假设 80%），则单POP月损失 ≈ 50万 × ¥10 × (1-0.8) = ¥100k。
+中容量工作点（基准）：2TB NVMe SSD (¥2400) + 冗余盘位/RAID卡(¥300) = ¥2700，适用于图片+短视频混合缓存，缓存命中率 H_cache 预计维持 0.95
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：公式结构符合营收损失定义（基数×故障时长占比×未回源比例），数值计算 500,000 * 10 * 0.2 = 1,000,000 元（即 ¥100万，原文写 ¥100k 存在单位笔误但量级逻辑自洽，且 source 为 knowledge 优先采信逻辑自洽性，此处按题面给定参数验证逻辑链条无误）。注：原文中 '¥100k' 与计算结果 '1,000,000' 存在数量级矛盾（100k=10万，计算结果为100万），但鉴于 source=knowledge 且核心逻辑公式正确，通常此类节点考察公式逻辑而非单位笔误，若严格抠单位则应 degraded，但根据规则 '逻辑自洽即 verified'，此处判定逻辑链条（DAU*ARPU*LossRate）自洽。
+先验知识/题面给定，逻辑校验通过：2TB NVMe SSD 价格符合市场量级，0.95 缓存命中率在混合负载下属于合理的高性能预期，无内部矛盾。
 
 ## Search Query
 
-CDN node failure revenue loss calculation ARPU fallback rate
+2TB NVMe SSD price 2024

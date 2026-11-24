@@ -1,24 +1,20 @@
-# N50: Unique Objects (U) = Total_Upload_Volume / Avg_Object_Size_s，其中 Total_Upload_Vol
+# N60: 核心区域（自建POP）的P99延迟 P99_core = RTT_user_pop_core_p99 + T_proc_pop + (1 - H_self) *
 
-- **status**: verified
+- **status**: pending
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N9
+- **parent_ids**: N10
 
 ## Claim
 
-Unique Objects (U) = Total_Upload_Volume / Avg_Object_Size_s，其中 Total_Upload_Volume = 200 GB/day，Avg_Object_Size_s 需区分图片与短视频两类对象（图片典型 200KB，短视频典型 10MB）[待核验]
+核心区域（自建POP）的P99延迟 P99_core = RTT_user_pop_core_p99 + T_proc_pop + (1 - H_self) * (RTT_pop_origin + T_transfer_origin)，其中RTT_user_pop_core_p99基于核心区域用户到最近POP的地理分布计算，H_self为自建POP缓存命中率。
 
 ## Corrected Claim
 
-Unique Objects (U) = Total_Upload_Volume / Avg_Object_Size_s，其中 Total_Upload_Volume = 200 GB/day，Avg_Object_Size_s 需区分图片与短视频两类对象（图片典型 200KB，短视频典型 10MB）[待核验]
+核心区域（自建POP）的P99延迟 P99_core = RTT_user_pop_core_p99 + T_proc_pop + (1 - H_self) * (RTT_pop_origin + T_transfer_origin)，其中RTT_user_pop_core_p99基于核心区域用户到最近POP的地理分布计算，H_self为自建POP缓存命中率。
 
 ## Evidence
 
-父节点级核验通过：正交+完备+无冗余（子节点分别处理了图片对象、视频对象以及非唯一性（重复/转码）修正，三者维度不同（对象类型 vs 数据质量修正），无重叠或矛盾。完备性上，涵盖了父节点公式中分子（总量拆分）和分母（对象大小隐含在数量计算中）以及隐含的‘唯一性’假设的修正。虽然子节点1和2结构相似，但它们对应不同的对象类型和参数，属于必要的分类计算，不构成冗余。）
-
-## Search Query
-
-average file size image vs short video upload platform statistics
+父节点级核验未通过：不完备, 有冗余（子节点本质上是同一公式在不同参数组合下的三个具体实例（工作点），而非正交的独立维度。虽然参数组合互斥（不矛盾），但它们共同覆盖了‘性能-成本’权衡空间的不同区间，因此作为独立子节点存在严重冗余。此外，父节点公式仅涉及延迟计算，未包含成本项，但子节点3引入了‘成本’概念，导致子节点包含父节点未定义的逻辑，且未覆盖非核心区域或网络抖动等潜在方面。）

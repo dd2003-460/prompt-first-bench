@@ -1,24 +1,24 @@
-# N329: 损失值与营收匹配度检验公式：Match_Ratio = Assumed_Loss / (DAU_per_POP × ARPU)，若 Match_Ratio < 
+# N461: 多线BGP接入工作点：BGP多线路由器(¥3000) + 双口万兆交换机(¥2000) + 光模块/线缆(¥500) = ¥5500，适用于三网接入，消除跨网延
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N115
+- **parent_ids**: N145
 
 ## Claim
 
-损失值与营收匹配度检验公式：Match_Ratio = Assumed_Loss / (DAU_per_POP × ARPU)，若 Match_Ratio < 0.2，则假设损失仅为营收的 20% 以下，属于“部分服务降级”场景（如延迟升高导致体验下降但用户未流失）；若 Match_Ratio > 0.5，则属于“服务中断”场景。当前 50k / 500k = 0.1，符合部分降级场景，需确认 N115 的 5k 风险溢价是否仅覆盖降级损失而非中断损失。
+多线BGP接入工作点：BGP多线路由器(¥3000) + 双口万兆交换机(¥2000) + 光模块/线缆(¥500) = ¥5500，适用于三网接入，消除跨网延迟惩罚 ΔT_cross，带宽成本增加 20-50%
 
 ## Corrected Claim
 
-损失值与营收匹配度检验公式：Match_Ratio = Assumed_Loss / (DAU_per_POP × ARPU)，若 Match_Ratio < 0.2，则假设损失仅为营收的 20% 以下，属于“部分服务降级”场景（如延迟升高导致体验下降但用户未流失）；若 Match_Ratio > 0.5，则属于“服务中断”场景。当前 50k / 500k = 0.1，符合部分降级场景，需确认 N115 的 5k 风险溢价是否仅覆盖降级损失而非中断损失。
+多线BGP接入工作点：BGP多线路由器(¥3000) + 双口万兆交换机(¥2000) + 光模块/线缆(¥500) = ¥5500，适用于三网接入，消除跨网延迟惩罚 ΔT_cross，带宽成本增加 20-50%
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：公式定义清晰，数值计算 50k/500k=0.1 正确，且 0.1 < 0.2 符合‘部分服务降级’的逻辑判定条件，内部自洽。
+先验知识/题面给定，逻辑校验通过：硬件成本量级（BGP路由器+万兆交换机+光模块约5500元）符合市场常见配置价格区间；多线BGP接入确实能消除跨网延迟惩罚，且通常伴随带宽成本增加，逻辑自洽。
 
 ## Search Query
 
-CDN risk premium partial degradation vs full outage loss modeling
+BGP router price 2024

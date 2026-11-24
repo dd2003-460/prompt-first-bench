@@ -1,20 +1,24 @@
-# N367: 加权平均对象大小 s_avg 的精确值：s_avg = (N_img × s_img + N_vid × s_vid) / (N_img + N_vid) = 
+# N536: 高码率工作点（H.265 + 4K + 60s）：s_video_high ≈ 30-45 MB，基于 H.265 编码比特率 4.0-6.0 Mbps 及 6
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N127
+- **parent_ids**: N176
 
 ## Claim
 
-加权平均对象大小 s_avg 的精确值：s_avg = (N_img × s_img + N_vid × s_vid) / (N_img + N_vid) = (200k × 0.3MB + 14k × 10MB) / 214k ≈ 1.07MB，该值用于计算总请求数 R_total = 2TB / 1.07MB ≈ 1.96M 次/天。
+高码率工作点（H.265 + 4K + 60s）：s_video_high ≈ 30-45 MB，基于 H.265 编码比特率 4.0-6.0 Mbps 及 60 秒时长的计算，此工作点适用于高端设备用户或高质量内容，带宽成本为中码率点的 3-5 倍，视觉质量 VMAF 约 95+，接近无损。
 
 ## Corrected Claim
 
-加权平均对象大小 s_avg 的精确值：s_avg = (N_img × s_img + N_vid × s_vid) / (N_img + N_vid) = (200k × 0.3MB + 14k × 10MB) / 214k ≈ 1.07MB，该值用于计算总请求数 R_total = 2TB / 1.07MB ≈ 1.96M 次/天。
+高码率工作点（H.265 + 4K + 60s）：s_video_high ≈ 30-45 MB，基于 H.265 编码比特率 4.0-6.0 Mbps 及 60 秒时长的计算，此工作点适用于高端设备用户或高质量内容，带宽成本为中码率点的 3-5 倍，视觉质量 VMAF 约 95+，接近无损。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：加权平均计算 (200*0.3 + 14*10)/214 ≈ 1.07MB 正确，总请求数 2048/1.07 ≈ 1914k (约1.9M-2.0M) 量级合理，符合数学推导。
+先验知识/题面给定，逻辑校验通过：4.0-6.0 Mbps 比特率乘以 60 秒时长，换算为 30-45 MB 数据量，数学计算准确；H.265 在 4K 60fps 下 4-6 Mbps 属于高码率区间，VMAF 95+ 符合高质量编码预期，带宽成本倍数关系逻辑自洽。
+
+## Search Query
+
+H.265 4K 60s video file size bitrate 4-6Mbps

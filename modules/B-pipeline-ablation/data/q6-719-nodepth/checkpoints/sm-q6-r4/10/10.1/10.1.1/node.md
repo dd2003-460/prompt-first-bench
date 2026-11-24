@@ -1,24 +1,24 @@
-# N374: 单POP硬件配置基线：为满足单点承载约200Gbps峰值带宽及高IOPS缓存需求，单POP需配置2台双路Xeon服务器（每台128GB内存，2x 3.84TB 
+# N571: 阿里云在中国大陆的边缘节点数量 N_ali 约为 2800-3200 个，其中省级节点覆盖率 100%，地级市覆盖率 > 80%，平均每个地级市有 3-5 个接
 
-- **status**: verified
+- **status**: degraded
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N127
+- **rework_count**: 1
+- **parent_ids**: N187
 
 ## Claim
 
-单POP硬件配置基线：为满足单点承载约200Gbps峰值带宽及高IOPS缓存需求，单POP需配置2台双路Xeon服务器（每台128GB内存，2x 3.84TB NVMe SSD），硬件采购成本约¥80,000/POP（服务器¥60k+网络设备¥20k），10个POP总Capex为¥800,000。
+阿里云在中国大陆的边缘节点数量 N_ali 约为 2800-3200 个，其中省级节点覆盖率 100%，地级市覆盖率 > 80%，平均每个地级市有 3-5 个接入点。
 
 ## Corrected Claim
 
-单POP硬件配置基线：为满足单点承载约200Gbps峰值带宽及高IOPS缓存需求，单POP需配置2台双路Xeon服务器（每台128GB内存，2x 3.84TB NVMe SSD），硬件采购成本约¥80,000/POP（服务器¥60k+网络设备¥20k），10个POP总Capex为¥800,000。
+阿里云在中国大陆拥有大规模边缘节点网络，覆盖所有省级行政区及绝大多数地级市，具体节点数量随业务动态调整，通常维持在数千个量级。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：2台双路Xeon服务器配置128GB内存和NVMe SSD，硬件成本约6万元符合市场常规量级，总Capex计算（80k*10=800k）逻辑自洽。
+[质询]具体数值（2800-3200个节点、3-5个接入点/市）属于高度动态且非公开披露的运营数据，缺乏官方实时统计支持，存在将特定时期或特定业务线（如CDN vs 边缘计算）数据混淆的风险。 | 先验知识/题面给定，逻辑校验通过（量级符合中国边缘节点部署常识），但具体数值缺乏来源直接支持，且属于经验事实，故降级。
 
 ## Search Query
 
-Alibaba Cloud ECS eci.g7.2xlarge price 5 year commitment vs self-hosted server cost
+Alibaba Cloud CDN edge nodes count China 2024

@@ -1,20 +1,20 @@
-# N33: 公有云CDN的弹性与风险溢价总成本惩罚项为0元/月（无弹性不足或单点故障风险，无地缘政策风险）
+# N39: 自建POP的固定成本摊销随 POP 数量 N_pop 增加而摊薄，单位请求固定成本 C_fixed_per_req = C_fixed_total / Q_to
 
-- **status**: degraded
+- **status**: verified
 - **level**: L2
 - **source**: knowledge
-- **edge_type**: cartesian
-- **rework_count**: 1
+- **edge_type**: quotient
+- **rework_count**: 0
 - **parent_ids**: N5
 
 ## Claim
 
-公有云CDN的弹性与风险溢价总成本惩罚项为0元/月（无弹性不足或单点故障风险，无地缘政策风险）
+自建POP的固定成本摊销随 POP 数量 N_pop 增加而摊薄，单位请求固定成本 C_fixed_per_req = C_fixed_total / Q_total，其中 C_fixed_total 为所有POP的硬件摊销+运维人力成本。
 
 ## Corrected Claim
 
-在理想化假设下（即忽略弹性不足、单点故障及地缘政策风险），公有云CDN的弹性与风险溢价总成本惩罚项可视为0元/月。
+自建POP的固定成本摊销随 POP 数量 N_pop 增加而摊薄，单位请求固定成本 C_fixed_per_req = C_fixed_total / Q_total，其中 C_fixed_total 为所有POP的硬件摊销+运维人力成本。
 
 ## Evidence
 
-[质询]该陈述包含强烈的经验性假设（即公有云CDN完全无弹性不足、单点故障及地缘政策风险），这与现实世界中云服务可能存在的SLA违约、区域隔离或合规风险相悖，属于对复杂商业/技术环境的过度简化。 | source=knowledge，逻辑上若前提（无风险）成立则结论（0元惩罚）自洽，但该前提为经验性断言且缺乏来源支持，无法排除实际存在风险的可能性，故降级。
+父节点级核验通过：正交+完备+无冗余（子节点分别对应硬件、机房运维（租赁+电力）、人力三个独立成本维度，相互正交且无重复。三者相加构成了父节点中定义的 C_fixed_total（所有POP的硬件摊销+运维人力成本），逻辑上完备覆盖了固定成本的构成要素。）

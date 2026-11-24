@@ -1,0 +1,24 @@
+# N474: 计费口径选择边界条件：当 Q_traffic < 50TB/月 或 B_peak < 1Gbps 时，按流量计费更优；当 Q_traffic > 100TB/月
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N153
+
+## Claim
+
+计费口径选择边界条件：当 Q_traffic < 50TB/月 或 B_peak < 1Gbps 时，按流量计费更优；当 Q_traffic > 100TB/月 或 B_peak > 5Gbps 时，按带宽计费通常更优，当前 60TB/2Gbps 处于混合敏感区。
+
+## Corrected Claim
+
+计费口径选择通常取决于流量与带宽的比值及具体服务商定价：在低流量/低带宽场景下按流量计费往往更优，高流量/高带宽场景下按带宽计费通常更优；具体切换阈值（如50TB/1Gbps等）需根据实际服务商价格表计算确定，当前60TB/2Gbps处于需详细成本对比的敏感区。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（50TB/1Gbps, 100TB/5Gbps），这些数值高度依赖于具体的云服务商定价策略、带宽单价与流量单价的比值，以及业务流量的时间分布特征（如是否突发）。不同厂商或不同区域的价格差异可能导致这些边界条件发生显著偏移，因此将其作为通用事实陈述缺乏普适性依据。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体阈值无法从第一性原理严格推导，属于依赖市场价格的经验参数）
+
+## Search Query
+
+Alibaba Cloud CDN pricing model traffic vs bandwidth peak threshold China

@@ -1,24 +1,24 @@
-# N528: 去重算法对 Duplicity_Factor 的影响：使用强哈希（SHA-256）可识别完全相同的重复上传，降低 Reupload_Rate 至 5%；使用弱哈
+# N698: 工作点3下自建POP回源带宽月成本 C_bw_self_month 为 ¥45,000，计算公式为 300GB/天 * 30天 * ¥5/GB（假设自建回源专线
 
 - **status**: verified
 - **level**: L5
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N177
+- **parent_ids**: N232
 
 ## Claim
 
-去重算法对 Duplicity_Factor 的影响：使用强哈希（SHA-256）可识别完全相同的重复上传，降低 Reupload_Rate 至 5%；使用弱哈希（MD5）可能误判相似内容，Reupload_Rate 升至 15%；感知哈希（pHash）适用于图片相似性去重，但计算开销增加，需权衡去重精度与计算成本
+工作点3下自建POP回源带宽月成本 C_bw_self_month 为 ¥45,000，计算公式为 300GB/天 * 30天 * ¥5/GB（假设自建回源专线或运营商批发价远低于公有云零售价，且含固定月租摊销），具体单价需根据运营商合约确定，此处采用行业典型批发价 ¥5/GB 估算。
 
 ## Corrected Claim
 
-去重算法对 Duplicity_Factor 的影响：使用强哈希（SHA-256）可识别完全相同的重复上传，降低 Reupload_Rate 至 5%；使用弱哈希（MD5）可能误判相似内容，Reupload_Rate 升至 15%；感知哈希（pHash）适用于图片相似性去重，但计算开销增加，需权衡去重精度与计算成本
+工作点3下自建POP回源带宽月成本 C_bw_self_month 为 ¥45,000，计算公式为 300GB/天 * 30天 * ¥5/GB（假设自建回源专线或运营商批发价远低于公有云零售价，且含固定月租摊销），具体单价需根据运营商合约确定，此处采用行业典型批发价 ¥5/GB 估算。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+先验知识/题面给定，逻辑校验通过：300GB/天 * 30天 * ¥5/GB = 45,000元，计算无误，且¥5/GB作为批发价估算在量级上合理。
 
 ## Search Query
 
-hash algorithm deduplication accuracy SHA-256 MD5 pHash image video
+CDN backhaul bandwidth wholesale price China CNY per GB

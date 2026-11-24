@@ -1,20 +1,20 @@
-# N204: 迭代求解 N_add 的收敛边界：当 L_p99_current - T_target < ΔL_per_pop(N_pop + N_add) 时停止，若初始缺
+# N282: 回源带宽月度成本 C_bw_month (¥/月) 的具体计算示例：假设 B_peak = 35.5 Mbps，Unit_Price_95th = ¥20/Mb
 
-- **status**: pending
+- **status**: verified
 - **level**: L4
-- **source**: knowledge
+- **source**: given
 - **edge_type**: cartesian
-- **rework_count**: 1
-- **parent_ids**: N64, N65, N66
+- **rework_count**: 0
+- **parent_ids**: N83
 
 ## Claim
 
-迭代求解 N_add 的收敛边界：当 L_p99_current - T_target < ΔL_per_pop(N_pop + N_add) 时停止，若初始缺口 > 50ms 且 T_target < 80ms，则需 N_add ≥ 3 才能满足约束
+回源带宽月度成本 C_bw_month (¥/月) 的具体计算示例：假设 B_peak = 35.5 Mbps，Unit_Price_95th = ¥20/Mbps/月，且无超量流量，则 C_bw_month = 35.5 * 20 = ¥710/月。
 
 ## Corrected Claim
 
-迭代求解 N_add 的收敛边界：当 L_p99_current - T_target < ΔL_per_pop(N_pop + N_add) 时停止。具体所需的 N_add 数值取决于初始缺口、目标延迟及单次 pop 的延迟增量，需根据实际系统参数计算确定。
+回源带宽月度成本 C_bw_month (¥/月) 的具体计算示例：假设 B_peak = 35.5 Mbps，Unit_Price_95th = ¥20/Mbps/月，且无超量流量，则 C_bw_month = 35.5 * 20 = ¥710/月。
 
 ## Evidence
 
-父节点级核验未通过：不完备（子节点之间存在逻辑断层且未覆盖父节点核心条件。父节点明确给出了基于延迟缺口（L_p99_current - T_target）的停止条件和特定阈值（>50ms, <80ms）下的 N_add≥3 约束。然而，子节点1仅提供了 ΔL 的近似公式，未展示如何将其代入父节点的停止不等式以推导 N_add；子节点2讨论的是基于带宽/CPU承载量的下界，这与父节点强调的“延迟收敛”约束属于不同的约束维度（资源容量 vs 性能延迟），且未说明两者如何共同决定最终的 N_add（取最大值？还是其他逻辑？）。此外，父节点中具体的数值条件（50ms, 80ms, N_add≥3）在子节点中完全缺失，导致分解未能解释这些具体边界是如何从子节点逻辑中推导出来的。）
+先验知识/题面给定，逻辑校验通过：乘法运算 35.5 * 20 = 710 正确，单位换算逻辑自洽（Mbps * ¥/Mbps/月 = ¥/月），且无超量流量假设下直接相乘符合95th计费模型的基本逻辑。

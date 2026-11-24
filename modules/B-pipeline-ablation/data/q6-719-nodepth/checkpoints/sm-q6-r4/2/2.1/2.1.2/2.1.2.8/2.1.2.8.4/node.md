@@ -1,0 +1,20 @@
+# N750: 工作点 B（中性价比最优）：采用 1 块 25Gbps 网卡 + 48 核 CPU + eBPF 加速 + 本地 NVMe SSD，单台服务器稳定 QPS 容量
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N250, N252, N253
+
+## Claim
+
+工作点 B（中性价比最优）：采用 1 块 25Gbps 网卡 + 48 核 CPU + eBPF 加速 + 本地 NVMe SSD，单台服务器稳定 QPS 容量 C_qps 约为 35,000，通过内核旁路降低 CPU 开销，网络利用率达 70%，单位 QPS 硬件成本最低。
+
+## Corrected Claim
+
+工作点 B（中性价比最优）：采用 1 块 25Gbps 网卡 + 48 核 CPU + eBPF 加速 + 本地 NVMe SSD，单台服务器稳定 QPS 容量 C_qps 约为 35,000，通过内核旁路降低 CPU 开销，网络利用率达 70%，单位 QPS 硬件成本最低。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

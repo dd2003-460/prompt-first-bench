@@ -1,24 +1,24 @@
-# N390: 低ARPU短周期用户群LTV工作点：LTV_Base = ARPU(¥5/月) × Lifetime(3个月) = ¥15/用户，Retention_Elast
+# N562: 电信-移动跨网 RTT 的 P99 值：电信用户访问移动边缘节点的跨省 P99 RTT 典型值为 40-60ms，比同网电信跨省 RTT 高 15-30ms，移
 
-- **status**: verified
+- **status**: degraded
 - **level**: L4
-- **source**: knowledge
-- **edge_type**: quotient
-- **rework_count**: 0
-- **parent_ids**: N137
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N184
 
 ## Claim
 
-低ARPU短周期用户群LTV工作点：LTV_Base = ARPU(¥5/月) × Lifetime(3个月) = ¥15/用户，Retention_Elasticity = 1.0（低弹性），则ΔLTV_per_ms = 0.003% × 15 × 1.0 = ¥0.00045/用户/ms。
+电信-移动跨网 RTT 的 P99 值：电信用户访问移动边缘节点的跨省 P99 RTT 典型值为 40-60ms，比同网电信跨省 RTT 高 15-30ms，移动网络在跨省流量高峰时段（晚 8-11 点）P99 延迟波动更大，Jitter 增加 10-20ms。
 
 ## Corrected Claim
 
-低ARPU短周期用户群LTV工作点：LTV_Base = ARPU(¥5/月) × Lifetime(3个月) = ¥15/用户，Retention_Elasticity = 1.0（低弹性），则ΔLTV_per_ms = 0.003% × 15 × 1.0 = ¥0.00045/用户/ms。
+电信用户访问移动边缘节点的跨省 P99 RTT 通常高于同网电信跨省 RTT，且在移动网络跨省流量高峰时段（晚 8-11 点）P99 延迟波动及 Jitter 可能显著增加。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：LTV计算（5*3=15）及弹性公式应用（0.003%*15*1.0=0.00045）数值与逻辑均自洽。
+[质询]具体数值（40-60ms, 15-30ms, 10-20ms）属于经验性网络性能指标，受具体地理位置、运营商内部路由策略、QoS策略及实时网络负载影响极大，缺乏通用性，且无来源支持其作为“典型值”的普适性。 | 经验事实，逻辑自洽（跨网通常因路由绕行或互联带宽限制导致延迟高于同网，高峰时段抖动增加符合网络常识），但缺来源支持。
 
 ## Search Query
 
-low ARPU user lifetime value calculation
+China Telecom to China Mobile cross-network P99 RTT jitter peak hour latency 2023

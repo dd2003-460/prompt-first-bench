@@ -1,0 +1,29 @@
+# N719: 新一线城市（成都、杭州、武汉、南京、重庆、天津、苏州、西安、郑州、长沙）的移动互联网 C 端用户占比合计约为 22.0%-25.0%，具体数值取决于是否包含苏州
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N239
+
+## Claim
+
+新一线城市（成都、杭州、武汉、南京、重庆、天津、苏州、西安、郑州、长沙）的移动互联网 C 端用户占比合计约为 22.0%-25.0%，具体数值取决于是否包含苏州/东莞等强二线城市；若包含前 10 大新一线城市，占比约为 22.5%。
+
+## Corrected Claim
+
+新一线城市（成都、杭州、武汉、南京、重庆、天津、苏州、西安、郑州、长沙等）的移动互联网 C 端用户占比合计约为 22.0%-25.0%（具体数值需依据特定年份的行业报告核实，当前来源未提供确切数据）。
+
+## Evidence
+
+[质询]参考来源仅提供了新一线城市的名单定义和具体城市列表，完全缺失关于这些城市移动互联网C端用户占比的具体数值数据，无法验证22.0%-25.0%这一具体统计结论。 | 来源[1]和[2]确认了新一线城市的定义及包含成都、杭州等核心城市，但均未提供用户占比数据，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+China new first-tier cities mobile internet user share percentage 2023 Chengdu Hangzhou Wuhan
+
+## Retrieval Sources
+
+- {'url': 'https://wenku.baidu.com/view/5e51413523d3240c844769eae009581b6bd9bd24.html&rut=efa66d22e4c91fe6e506a041e28d8ec2f41f6013cae822370223e83e8d7b1eee', 'type': 'ddg', 'title': '2026年新一线城市名单出炉!15座城市上榜，无锡重返，昆明遗憾出局'}
+- {'url': 'https://baike.baidu.com/item/%E6%96%B0%E4%B8%80%E7%BA%BF%E5%9F%8E%E5%B8%82/12703052&rut=bda2b7dd06dd7d9973b9730a28492d6546cf960f9fdd15653df26f40071e2090', 'type': 'ddg', 'title': '新一线城市_百度百科'}

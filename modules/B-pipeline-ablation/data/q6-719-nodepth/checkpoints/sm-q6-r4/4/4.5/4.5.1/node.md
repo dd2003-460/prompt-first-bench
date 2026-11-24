@@ -1,24 +1,24 @@
-# N102: 隐性运维成本修正项：Total_Ops_Cost = 105k + (Failure_Rate × MTTR_Hours × Hourly_Ops_Cost) 
+# N115: 自建 POP 单级缓存命中率 H_self_single = 1 - (W / C_pop)^(1/α)，其中 W 为内容工作集大小，C_pop 为 POP 总
 
-- **status**: pending
+- **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N26
+- **parent_ids**: N29
 
 ## Claim
 
-隐性运维成本修正项：Total_Ops_Cost = 105k + (Failure_Rate × MTTR_Hours × Hourly_Ops_Cost) + (Patch_Frequency × Patch_Validation_Hours × Hourly_Ops_Cost)，其中 Failure_Rate 由硬件/软件故障率决定，MTTR 由 10 POP 分布及备件库存决定。
+自建 POP 单级缓存命中率 H_self_single = 1 - (W / C_pop)^(1/α)，其中 W 为内容工作集大小，C_pop 为 POP 总存储容量，α 为 Zipf 分布参数（通常 α=0.8-1.2），当 W > C_pop 时 H_self_single < 0.5，当 W < C_pop/2 时 H_self_single > 0.8。
 
 ## Corrected Claim
 
-隐性运维成本修正项：Total_Ops_Cost = 105k + (Failure_Rate × MTTR_Hours × Hourly_Ops_Cost) + (Patch_Frequency × Patch_Validation_Hours × Hourly_Ops_Cost)，其中 Failure_Rate 由硬件/软件故障率决定，MTTR 由 10 POP 分布及备件库存决定。
+自建 POP 单级缓存命中率 H_self_single = 1 - (W / C_pop)^(1/α)，其中 W 为内容工作集大小，C_pop 为 POP 总存储容量，α 为 Zipf 分布参数（通常 α=0.8-1.2），当 W > C_pop 时 H_self_single < 0.5，当 W < C_pop/2 时 H_self_single > 0.8。
 
 ## Evidence
 
-父节点级核验未通过：非正交（子节点1（Hardware_Failure_Cost）中包含了Spare_Part_Replacement_Cost，而子节点3（Spare_Part_Inventory_CapEx）是备件库存成本。在运维成本模型中，备件消耗（OpEx）与库存持有（CapEx/OpEx）通常被视为不同维度的成本，但若未明确区分‘消耗’与‘持有’，且子节点1未排除库存影响，可能存在边界模糊。更严重的问题是：父节点公式中Failure_Rate项仅包含人力成本(MTTR*Hourly)，未显式包含硬件更换成本，但子节点1引入了Spare_Part_Replacement_Cost，导致子节点1超出了父节点公式的定义范围，造成子节点内部逻辑与父节点公式不一致，破坏了正交性和一致性。）
+先验知识/题面给定，逻辑校验通过
 
 ## Search Query
 
-Operational cost correction failure rate MTTR patch validation hours
+Zipf distribution cache hit rate formula

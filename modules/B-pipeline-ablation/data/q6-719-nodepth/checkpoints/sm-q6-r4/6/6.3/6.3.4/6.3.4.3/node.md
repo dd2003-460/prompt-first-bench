@@ -1,20 +1,20 @@
-# N337: 回源带宽成本增量 ΔC_backhaul = ΔTraffic_back × P_backhaul_tier；其中 ΔTraffic_back = 200GB/
+# N508: 临界点存在的数学条件：若 C_pub < C_self 且两条曲线斜率均为0，则方程 P99_public(T) = P99_self(T) 无解；临界点仅在 
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N110
+- **parent_ids**: N168
 
 ## Claim
 
-回源带宽成本增量 ΔC_backhaul = ΔTraffic_back × P_backhaul_tier；其中 ΔTraffic_back = 200GB/日（来自N112），P_backhaul_tier 为源站出口带宽单价（¥0.5-1.0/GB，取决于运营商专线价格）；月度增量成本 = 200GB × 30 × ¥0.75 ≈ ¥4,500/月，占总故障成本约10%。
+临界点存在的数学条件：若 C_pub < C_self 且两条曲线斜率均为0，则方程 P99_public(T) = P99_self(T) 无解；临界点仅在 C_self < C_pub 或引入动态变量（如随T变化的缓存预热策略）时存在，当前静态模型下无解。
 
 ## Corrected Claim
 
-回源带宽成本增量 ΔC_backhaul = ΔTraffic_back × P_backhaul_tier；其中 ΔTraffic_back = 200GB/日（来自N112），P_backhaul_tier 为源站出口带宽单价（¥0.5-1.0/GB，取决于运营商专线价格）；月度增量成本 = 200GB × 30 × ¥0.75 ≈ ¥4,500/月，占总故障成本约10%。
+临界点存在的数学条件：若 C_pub < C_self 且两条曲线斜率均为0，则方程 P99_public(T) = P99_self(T) 无解；临界点仅在 C_self < C_pub 或引入动态变量（如随T变化的缓存预热策略）时存在，当前静态模型下无解。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：200GB/日 × 30天 × ¥0.75/GB = ¥4,500/月，计算无误；带宽单价¥0.5-1.0/GB符合运营商专线市场常见量级；占比10%为基于总故障成本的合理估算，无内部矛盾。
+先验知识/题面给定，逻辑校验通过：若两条曲线斜率均为0（即常数函数），且截距不同（C_pub < C_self），则两直线平行无交点，方程无解，逻辑自洽。

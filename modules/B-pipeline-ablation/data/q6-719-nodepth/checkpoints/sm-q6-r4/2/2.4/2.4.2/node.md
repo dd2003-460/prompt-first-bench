@@ -1,20 +1,30 @@
-# N69: 长尾区域流量占比 (Tail_Traffic_Ratio) = 1 - Core_Traffic_Ratio = 40%，即 Tail_Traffic = 0.
+# N80: 公有云 CDN 流量单价 P_bandwidth 约为 0.2-0.5 元/GB，具体数值取决于厂商 (阿里云/Cloudflare)、地域 (国内/海外) 及
 
-- **status**: verified
+- **status**: degraded
 - **level**: L3
-- **source**: given
+- **source**: search
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N15, N16, N17
+- **rework_count**: 1
+- **parent_ids**: N15
 
 ## Claim
 
-长尾区域流量占比 (Tail_Traffic_Ratio) = 1 - Core_Traffic_Ratio = 40%，即 Tail_Traffic = 0.4 × 2TB/天，这部分流量由公有云 CDN 承接。
+公有云 CDN 流量单价 P_bandwidth 约为 0.2-0.5 元/GB，具体数值取决于厂商 (阿里云/Cloudflare)、地域 (国内/海外) 及用量阶梯，需查询最新价目表确定。
 
 ## Corrected Claim
 
-长尾区域流量占比 (Tail_Traffic_Ratio) = 1 - Core_Traffic_Ratio = 40%，即 Tail_Traffic = 0.4 × 2TB/天，这部分流量由公有云 CDN 承接。
+公有云 CDN 流量单价 P_bandwidth 通常在 0.15-1.31 元/GB 之间（以阿里云国内为例），具体数值取决于厂商、地域及用量阶梯，需查询最新价目表确定。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：1 - 0.6 = 0.4，数值计算正确，且符合长尾流量由公有云承接的常规架构逻辑。
+[质询]来源[2]显示阿里云国内流量阶梯价下限为0.15元/GB，低于陈述中的0.2元/GB下限；且来源未覆盖Cloudflare等海外厂商，无法验证其价格是否落在0.2-0.5元/GB区间，存在以偏概全风险。 | 来源[1]和[2]直接支持阿里云国内CDN流量单价在0.15-1.31元/GB区间，与陈述的0.2-0.5元/GB部分重叠但下限不符；来源[3]仅说明计费模式未提供具体数值。因缺乏Cloudflare等海外厂商数据且阿里云下限低于陈述值，无法完全验证，故降级。
+
+## Search Query
+
+Alibaba Cloud CDN pricing per GB 2024 Cloudflare bandwidth pricing
+
+## Retrieval Sources
+
+- {'url': 'https://developer.aliyun.com/article/1708278&rut=2ddc55f04c3ee490ae5b44019f150c2428eac2400670b83d41207aae16acf9e2', 'type': 'ddg', 'title': '2026最新阿里云cdn收费标准：不同计费模式价格表（基础服务费和增值服务费用整理）-阿里云开发者社区'}
+- {'url': 'https://developer.aliyun.com/article/1712489&rut=9ac11fc059ec63ddd1ce104c3b0e7d9ac1b1e8c3823c8a667dafda6ca3e1bda1', 'type': 'ddg', 'title': '2026阿里云cdn 计费全攻略：按流量 / 带宽 / 95 峰值 + 基础服务费 + 增值服务价格表'}
+- {'url': 'https://docsv4.qingcloud.com/user_guide/network/cdn/billing/price/&rut=5d61c86496841278c91ca524d0b4c5ad19e7808d0663d81deed8f9349d13e860', 'type': 'ddg', 'title': 'Cdn 计费 - 公有云文档中心'}

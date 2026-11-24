@@ -1,20 +1,24 @@
-# N114: 混合策略下自建部分需预留的回源带宽冗余 B_redundant = Peak_Backhaul_Traffic * Safety_Factor，其中 Safet
+# N170: 当平均对象大小 s 从 1MB 增至 5MB 时，自建POP的带宽成本 C_bandwidth_self 主要取决于回源流量，若缓存命中率 H_pop 保持 0
 
-- **status**: verified
+- **status**: pending
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N28
+- **rework_count**: 1
+- **parent_ids**: N43
 
 ## Claim
 
-混合策略下自建部分需预留的回源带宽冗余 B_redundant = Peak_Backhaul_Traffic * Safety_Factor，其中 Safety_Factor 通常取 1.5-2.0，以吸收 H(t) 降至 70% 时的瞬时流量峰值。
+当平均对象大小 s 从 1MB 增至 5MB 时，自建POP的带宽成本 C_bandwidth_self 主要取决于回源流量，若缓存命中率 H_pop 保持 0.9 不变，回源流量从 200GB 增至 1000GB，成本从 (200GB * ¥0.1/GB) / 2048000 * 1000 ≈ ¥0.01/1000req 增至 (1000GB * ¥0.1/GB) / 409600 * 1000 ≈ ¥0.24/1000req。
 
 ## Corrected Claim
 
-混合策略下自建部分需预留的回源带宽冗余 B_redundant = Peak_Backhaul_Traffic * Safety_Factor，其中 Safety_Factor 通常取 1.5-2.0，以吸收 H(t) 降至 70% 时的瞬时流量峰值。
+当平均对象大小 s 从 1MB 增至 5MB 时，若总请求数保持不变，回源流量从 200GB 增至 1000GB，成本应从 (200GB * ¥0.1/GB) / 2048000 * 1000 ≈ ¥0.01/1000req 增至 (1000GB * ¥0.1/GB) / 2048000 * 1000 ≈ ¥0.05/1000req；若分母变化为 409600，则需明确总请求数或总流量约束条件的变化。
 
 ## Evidence
 
-父节点级核验通过：正交+完备+无冗余（三个子节点分别对应公式中的核心变量（Peak_Backhaul_Traffic）、调节参数（Safety_Factor）以及最终的经济/工程决策（机会成本/计费模式），维度清晰，无逻辑重叠。子节点1完成了具体数值推导，子节点2分析了参数敏感性，子节点3引入了成本优化视角，共同构成了完整的决策链。）
+父节点级核验未通过：不完备（子节点之间存在逻辑依赖但主题正交（分别讨论单价、命中率、综合计算），无重复或矛盾。然而，父节点明确设定了条件“若缓存命中率 H_pop 保持 0.9 不变”，子节点2却直接否定该前提（称其并非恒定），这导致子节点2与父节点的核心假设冲突，未能作为父节点结论下的合理分解（如敏感性分析），而是变成了对父节点前提的质疑，破坏了分解的层级一致性。）
+
+## Search Query
+
+Self-hosted CDN origin pull bandwidth cost

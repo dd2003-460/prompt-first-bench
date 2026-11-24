@@ -1,20 +1,24 @@
-# N332: MTTR (T_fault) 的分解：T_fault = T_detect + T_dispatch + T_repair；对于自建POP，T_detect≈1
+# N504: 公有云CDN在 T=150ms 阈值下超标 10ms 的根因是长尾区域用户占比 20% 导致的 RTT_user_edge_tail 中位数 10-20ms 叠
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N109
+- **parent_ids**: N167
 
 ## Claim
 
-MTTR (T_fault) 的分解：T_fault = T_detect + T_dispatch + T_repair；对于自建POP，T_detect≈15min（监控告警），T_dispatch≈30min（工程师响应），T_repair≈135min（硬件更换/链路切换），总计约4小时；公有云CDN通常T_fault<15min（自动故障转移），需对比两种策略的T_fault差异。
+公有云CDN在 T=150ms 阈值下超标 10ms 的根因是长尾区域用户占比 20% 导致的 RTT_user_edge_tail 中位数 10-20ms 叠加 T_proc_public 30ms 及 P99_origin_public 50-100ms，使整体 P99 达到 160ms
 
 ## Corrected Claim
 
-MTTR (T_fault) 的分解：T_fault = T_detect + T_dispatch + T_repair；对于自建POP，T_detect≈15min（监控告警），T_dispatch≈30min（工程师响应），T_repair≈135min（硬件更换/链路切换），总计约4小时；公有云CDN通常T_fault<15min（自动故障转移），需对比两种策略的T_fault差异。
+公有云CDN在 T=150ms 阈值下超标 10ms 的根因是长尾区域用户占比 20% 导致的 RTT_user_edge_tail 中位数 10-20ms 叠加 T_proc_public 30ms 及 P99_origin_public 50-100ms，使整体 P99 达到 160ms
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+先验知识/题面给定，逻辑校验通过：10ms(超标) + 150ms(阈值) = 160ms(P99)，且各分项延迟（RTT 10-20ms + Proc 30ms + Origin 50-100ms）在量级上合理支撑了P99达到160ms的结论，无内部矛盾。
+
+## Search Query
+
+CDN P99 latency exceedance root cause long-tail users

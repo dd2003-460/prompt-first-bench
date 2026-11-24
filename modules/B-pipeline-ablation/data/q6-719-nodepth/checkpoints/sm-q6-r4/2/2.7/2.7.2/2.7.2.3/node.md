@@ -1,0 +1,24 @@
+# N294: 公有云 CDN 日志存储单价 Unit_Price_log 约为 ¥0.12-0.25/GB/月，阿里云 OSS 标准存储约为 ¥0.12/GB/月，Cloud
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N88
+
+## Claim
+
+公有云 CDN 日志存储单价 Unit_Price_log 约为 ¥0.12-0.25/GB/月，阿里云 OSS 标准存储约为 ¥0.12/GB/月，Cloudflare Logpush 费用取决于目标存储（如 S3）的存储成本，约为 $0.023/GB/月（约 ¥0.16/GB/月）。
+
+## Corrected Claim
+
+公有云 CDN 日志存储及对象存储（如 OSS/S3）的单价通常在 ¥0.1-0.3/GB/月 量级，具体费用取决于云厂商、存储类型、地域及数据量阶梯，需以各厂商最新官方定价为准。
+
+## Evidence
+
+[质询]具体价格数值（如阿里云OSS ¥0.12/GB/月、Cloudflare S3 $0.023/GB/月）属于随时间、地域和促销策略变动的经验事实，且不同云厂商定价差异大，缺乏实时来源支持时，具体数值极易过时或存在地域偏差（例如阿里云OSS标准存储在部分区域可能更低或更高，S3价格随存储量阶梯变化）。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源），具体单价无法通过第一性原理推导，故降级为定性表述。
+
+## Search Query
+
+Cloudflare Logpush pricing Aliyun OSS storage cost per GB month

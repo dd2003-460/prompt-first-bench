@@ -1,0 +1,20 @@
+# N659: L2缓存未命中率 H_miss_L2 的低成本工作点：H_miss_L2 = 0.2，采用最小化L2部署（仅3个核心区域节点，C_L2_low=5TB/节点）且
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N217
+
+## Claim
+
+L2缓存未命中率 H_miss_L2 的低成本工作点：H_miss_L2 = 0.2，采用最小化L2部署（仅3个核心区域节点，C_L2_low=5TB/节点）且无内容同步机制，H_miss_L2 = 1 - (C_L2_low_total/W_global)，导致源站回源流量增加一倍，P99 延迟中源站响应时间占比上升
+
+## Corrected Claim
+
+L2缓存未命中率 H_miss_L2 的低成本工作点：H_miss_L2 = 0.2，采用最小化L2部署（仅3个核心区域节点，C_L2_low=5TB/节点）且无内容同步机制，H_miss_L2 = 1 - (C_L2_low_total/W_global)，导致源站回源流量增加一倍，P99 延迟中源站响应时间占比上升
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H_miss_L2 = 1 - (C_total/W_global) 符合缓存未命中率定义；容量减半（假设原为10TB/节点或等效总量）导致未命中率从0.1升至0.2，回源流量翻倍，P99延迟中源站占比上升，逻辑自洽且量级合理。

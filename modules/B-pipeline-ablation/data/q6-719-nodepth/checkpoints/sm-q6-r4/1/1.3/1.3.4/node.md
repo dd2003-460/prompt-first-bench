@@ -1,28 +1,24 @@
-# N49: 对象大小 s 的分布特征：图片+短视频平台的对象大小呈双峰分布，图片平均大小 1-5MB，短视频平均大小 5-50MB，加权平均对象大小 s_avg ≈ 10M
+# N59: 自建 POP 回源延迟 T_origin_fetch_self 的 P99 值：POP 到源站的链路通常为专线或 BGP 多线，P99(T_origin_fet
 
 - **status**: pending
 - **level**: L3
-- **source**: search
+- **source**: knowledge
 - **edge_type**: cartesian
-- **rework_count**: 1
-- **parent_ids**: N8
+- **rework_count**: 0
+- **parent_ids**: N9
 
 ## Claim
 
-对象大小 s 的分布特征：图片+短视频平台的对象大小呈双峰分布，图片平均大小 1-5MB，短视频平均大小 5-50MB，加权平均对象大小 s_avg ≈ 10MB（基于 80% 图片 + 20% 短视频的假设）
+自建 POP 回源延迟 T_origin_fetch_self 的 P99 值：POP 到源站的链路通常为专线或 BGP 多线，P99(T_origin_fetch_self) 约为 30-80ms，低于公有云的回源延迟（因路径更短且可控）。
 
 ## Corrected Claim
 
-对象大小 s 的分布特征：图片+短视频平台的对象大小呈双峰分布，图片平均大小通常在 1-5MB 量级，短视频平均大小通常在 5-50MB 量级，在 80% 图片 + 20% 短视频的假设下，加权平均对象大小 s_avg 约为 10MB 量级（具体数值需依据实际平台数据验证）。
+自建 POP 回源延迟 T_origin_fetch_self 的 P99 值：POP 到源站的链路通常为专线或 BGP 多线，P99(T_origin_fetch_self) 约为 30-80ms，低于公有云的回源延迟（因路径更短且可控）。
 
 ## Evidence
 
-父节点级核验未通过：非正交（子节点3中计算的加权平均值（3.6MB）与父节点中给出的假设值（10MB）存在严重数值矛盾，导致逻辑不闭环；此外，子节点3重复了子节点1和2中已定义的期望值计算逻辑，存在结构上的轻微重叠。）
+父节点级核验未通过：不完备, 有冗余（子节点在逻辑上是同构的（均为“接入方式+延迟+成本”的组合），存在严重冗余；且父节点提到的“路径更短且可控”这一关键定性优势未在子节点中体现，仅罗列了数值区间，缺乏对“可控性”或“稳定性”维度的覆盖，导致不完备。）
 
 ## Search Query
 
-average image and short video file size social media platform 2024
-
-## Retrieval Sources
-
-- {'url': 'https://zhuanlan.zhihu.com/p/344490134&rut=8cac115b80cc34f48eddf6fcbe66b5869fbc6045a0aeaf458ec0d3ccc50ad0d3', 'type': 'ddg', 'title': '9.描述统计学-数据分布描述 - 知乎 - 知乎专栏'}
+Self-built POP origin fetch latency P99 30-80ms dedicated line BGP

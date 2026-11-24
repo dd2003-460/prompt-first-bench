@@ -1,0 +1,24 @@
+# N587: 跨网延迟增量 ΔT_cross 的统计分布：在 2024-2025 年中国大陆主要运营商间（电信-联通、电信-移动、联通-移动），ΔT_cross 的 P99 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N192
+
+## Claim
+
+跨网延迟增量 ΔT_cross 的统计分布：在 2024-2025 年中国大陆主要运营商间（电信-联通、电信-移动、联通-移动），ΔT_cross 的 P99 值分别为 18ms, 22ms, 15ms，而非简单的 5-15ms 范围，需取 P99 以计算合规率。
+
+## Corrected Claim
+
+跨网延迟增量 ΔT_cross 的统计分布：在 2024-2025 年中国大陆主要运营商间，ΔT_cross 的 P99 值通常高于简单的 5-15ms 范围，具体数值需根据实际网络环境测量确定，计算合规率时应取 P99 值。
+
+## Evidence
+
+[质询]具体数值（18ms, 22ms, 15ms）属于高度依赖时间、地域和具体网络路径的经验数据，缺乏公开权威基准支持，且不同测试环境差异巨大，极易因口径混淆（如是否包含TCP握手、DNS解析等）导致数值偏差。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体P99数值）
+
+## Search Query
+
+China ISP cross-network latency P99 Telecom Unicom Mobile 2024 measurement

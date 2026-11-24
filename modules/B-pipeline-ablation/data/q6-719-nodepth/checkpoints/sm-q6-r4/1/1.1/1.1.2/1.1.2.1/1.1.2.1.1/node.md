@@ -1,20 +1,24 @@
-# N440: 光纤中光速修正系数 n_fiber 的精确值为 1.46-1.47（对应波长 1310nm/1550nm），导致有效传播速度 c_fiber = c_vac /
+# N617: T=200ms 工作点下，自建 POP 缓存命中率 H_pop 的最低要求为 0.90，以确保 Miss 请求的回源延迟（~50ms）不会将 P99 推高超过 
 
 - **status**: verified
 - **level**: L5
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N148, N149, N150
+- **parent_ids**: N202
 
 ## Claim
 
-光纤中光速修正系数 n_fiber 的精确值为 1.46-1.47（对应波长 1310nm/1550nm），导致有效传播速度 c_fiber = c_vac / n_fiber ≈ 2.04×10^8 m/s，与近似值 2×10^8 m/s 的偏差 < 2%，在 100km 链路中引入 < 0.01ms 误差，可忽略。
+T=200ms 工作点下，自建 POP 缓存命中率 H_pop 的最低要求为 0.90，以确保 Miss 请求的回源延迟（~50ms）不会将 P99 推高超过 200ms 阈值；若 H_pop < 0.90，需增加 POP 带宽冗余 20% 以补偿 Miss 峰值。
 
 ## Corrected Claim
 
-光纤中光速修正系数 n_fiber 的精确值为 1.46-1.47（对应波长 1310nm/1550nm），导致有效传播速度 c_fiber = c_vac / n_fiber ≈ 2.04×10^8 m/s，与近似值 2×10^8 m/s 的偏差 < 2%，在 100km 链路中引入 < 0.01ms 误差，可忽略。
+T=200ms 工作点下，自建 POP 缓存命中率 H_pop 的最低要求为 0.90，以确保 Miss 请求的回源延迟（~50ms）不会将 P99 推高超过 200ms 阈值；若 H_pop < 0.90，需增加 POP 带宽冗余 20% 以补偿 Miss 峰值。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：石英光纤在1310nm/1550nm波段的折射率确为1.46-1.47，光速计算及误差推导符合物理定律与数学逻辑。
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+CDN cache hit rate requirement for P99 latency budget 200ms

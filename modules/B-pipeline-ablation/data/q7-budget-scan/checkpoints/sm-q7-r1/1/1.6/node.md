@@ -1,0 +1,24 @@
+# N12: RTO代价 = P_DataLoss_Event * RTO_Hours * Hourly_Business_Impact，其中P_DataLoss_Event
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+RTO代价 = P_DataLoss_Event * RTO_Hours * Hourly_Business_Impact，其中P_DataLoss_Event为年数据丢失概率（本地约1e-4，云约1e-6），RTO_Hours为恢复时间目标（本地约4h，云约1h），Hourly_Business_Impact为每小时业务中断损失（需根据具体业务场景估算）
+
+## Corrected Claim
+
+RTO代价 = P_DataLoss_Event * RTO_Hours * Hourly_Business_Impact，其中P_DataLoss_Event为年数据丢失概率（本地约1e-4，云约1e-6），RTO_Hours为恢复时间目标（本地约4h，云约1h），Hourly_Business_Impact为每小时业务中断损失（需根据具体业务场景估算）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+data recovery RTO cost calculation cloud vs on-premise

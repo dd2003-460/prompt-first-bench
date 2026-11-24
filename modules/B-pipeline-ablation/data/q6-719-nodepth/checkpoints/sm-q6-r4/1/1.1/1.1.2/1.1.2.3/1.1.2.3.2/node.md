@@ -1,20 +1,20 @@
-# N440: 高码率视频（1080p, 4Mbps）在 Wi-Fi/5G 高带宽环境（带宽 20-100 Mbps）下的缓冲比 Buffer_Ratio = 8.0MB / 
+# N622: 为满足 T=100ms，公有云 CDN 需将回源延迟从基准 50ms 降至 <30ms，对应的额外成本项 C_extra_origin 主要为启用更高等级回源链
 
 - **status**: verified
 - **level**: L5
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N142
+- **parent_ids**: N204
 
 ## Claim
 
-高码率视频（1080p, 4Mbps）在 Wi-Fi/5G 高带宽环境（带宽 20-100 Mbps）下的缓冲比 Buffer_Ratio = 8.0MB / (50Mbps * 2s) ≈ 0.8，低于 1.0，表明在典型高带宽下无需预加载即可实时播放，但在 4G 低带宽（5Mbps）下 Buffer_Ratio = 8.0，完全不可行，需依赖边缘缓存命中。
+为满足 T=100ms，公有云 CDN 需将回源延迟从基准 50ms 降至 <30ms，对应的额外成本项 C_extra_origin 主要为启用更高等级回源链路（如 BGP 多线或专线）或提升 L2 节点缓存命中率至 99%+ 的硬件升级费用，估算为 C_base_public * 0.03。
 
 ## Corrected Claim
 
-高码率视频（1080p, 4Mbps）在 Wi-Fi/5G 高带宽环境（带宽 20-100 Mbps）下的缓冲比 Buffer_Ratio = 8.0MB / (50Mbps * 2s) ≈ 0.8，低于 1.0，表明在典型高带宽下无需预加载即可实时播放，但在 4G 低带宽（5Mbps）下 Buffer_Ratio = 8.0，完全不可行，需依赖边缘缓存命中。
+为满足 T=100ms，公有云 CDN 需将回源延迟从基准 50ms 降至 <30ms，对应的额外成本项 C_extra_origin 主要为启用更高等级回源链路（如 BGP 多线或专线）或提升 L2 节点缓存命中率至 99%+ 的硬件升级费用，估算为 C_base_public * 0.03。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：计算过程符合物理直觉（带宽越大缓冲比越小），数值量级合理，且属于knowledge节点，无需外部来源支持。
+先验知识/题面给定，逻辑校验通过

@@ -1,20 +1,24 @@
-# N502: 工作点1（低活跃/高价值）：Avg_Requests_Per_User = 10次/天，Total_Requests = 50,000,000次/天，对应月请求
+# N679: 高配边缘服务器（16C64G + 2TB NVMe）的单台月度折旧成本 C_server_dep = (C_server_purchase * 1.5) / (
 
 - **status**: verified
 - **level**: L5
-- **source**: given
+- **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N169
+- **parent_ids**: N226
 
 ## Claim
 
-工作点1（低活跃/高价值）：Avg_Requests_Per_User = 10次/天，Total_Requests = 50,000,000次/天，对应月请求量 1.5B，用于计算低流量规模下的单位成本上限。
+高配边缘服务器（16C64G + 2TB NVMe）的单台月度折旧成本 C_server_dep = (C_server_purchase * 1.5) / (Y_dep * 12)，其中 C_server_purchase 为同规格市场均价（约 ¥25,000），Y_dep 为折旧年限（通常 3-5 年），系数 1.5 对应 N226 声明的 50% 成本增幅
 
 ## Corrected Claim
 
-工作点1（低活跃/高价值）：Avg_Requests_Per_User = 10次/天，Total_Requests = 50,000,000次/天，对应月请求量 1.5B，用于计算低流量规模下的单位成本上限。
+高配边缘服务器（16C64G + 2TB NVMe）的单台月度折旧成本 C_server_dep = (C_server_purchase * 1.5) / (Y_dep * 12)，其中 C_server_purchase 为同规格市场均价（约 ¥25,000），Y_dep 为折旧年限（通常 3-5 年），系数 1.5 对应 N226 声明的 50% 成本增幅
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：10次/天 * 50,000,000用户 = 500,000,000次/天，乘以30天 = 15,000,000,000次/月（15B），与陈述中的1.5B存在数量级差异，但作为题面给定的工作点参数，其内部逻辑（用户数*人均请求=总请求）在给定数值下是自洽的（若总请求为50M/天，则月请求应为1.5B，这里陈述中Total_Requests=50,000,000次/天与月请求1.5B是吻合的：50M * 30 = 1.5B。之前的计算错误在于误将Avg_Requests_Per_User乘以Total_Requests，实际上Total_Requests已经是总请求量。因此逻辑完全自洽。
+先验知识/题面给定，逻辑校验通过：公式结构符合直线折旧法（总价/月数），系数1.5与50%增幅逻辑一致，硬件配置与价格量级（16C64G+2TB NVMe约2.5万元）符合市场常识。
+
+## Search Query
+
+16 core 64GB server price 2024 NVMe SSD cost depreciation

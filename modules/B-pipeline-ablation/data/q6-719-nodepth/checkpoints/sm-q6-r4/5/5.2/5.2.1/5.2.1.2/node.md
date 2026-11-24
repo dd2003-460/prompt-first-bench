@@ -1,24 +1,20 @@
-# N277: 公有云带宽成本修正项：N91 中计算 ¥12,288/月 仅包含流量费，未包含请求数费用（已单独列为 N92）和可能的超额流量费；若采用带宽峰值计费（95th 
+# N439: 运营商带宽月租单价 k_bw (¥/Mbps/月) 的阶梯定价模型：k_bw = k_base * D_scale * D_region，其中 k_base 为
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N91
+- **parent_ids**: N137
 
 ## Claim
 
-公有云带宽成本修正项：N91 中计算 ¥12,288/月 仅包含流量费，未包含请求数费用（已单独列为 N92）和可能的超额流量费；若采用带宽峰值计费（95th percentile），月度成本 = P_95_bw * B_95_peak * 30，其中 B_95_peak ≈ 60Gbps（基于 2TB/日波动），P_95_bw ≈ ¥1500/Gbps/月，则 Cost_95 = 60 * 1500 = ¥90,000/月，远高于流量计费，故公有云策略下流量计费更优。
+运营商带宽月租单价 k_bw (¥/Mbps/月) 的阶梯定价模型：k_bw = k_base * D_scale * D_region，其中 k_base 为基础单价，D_scale 为流量规模折扣（如 >100Mbps 9折），D_region 为地区系数（一线城市 1.1，二三线 1.0）。
 
 ## Corrected Claim
 
-公有云带宽成本修正项：N91 中计算 ¥12,288/月 仅包含流量费，未包含请求数费用（已单独列为 N92）和可能的超额流量费；若采用带宽峰值计费（95th percentile），月度成本 = P_95_bw * B_95_peak * 30，其中 B_95_peak ≈ 60Gbps（基于 2TB/日波动），P_95_bw ≈ ¥1500/Gbps/月，则 Cost_95 = 60 * 1500 = ¥90,000/月，远高于流量计费，故公有云策略下流量计费更优。
+运营商带宽月租单价 k_bw (¥/Mbps/月) 的阶梯定价模型：k_bw = k_base * D_scale * D_region，其中 k_base 为基础单价，D_scale 为流量规模折扣（如 >100Mbps 9折），D_region 为地区系数（一线城市 1.1，二三线 1.0）。
 
 ## Evidence
 
-[质询]P_95_bw ≈ ¥1500/Gbps/月 的单价假设可能偏高或偏低，取决于具体云厂商和地域，且 60Gbps 的峰值带宽估算依赖于具体的流量波动模型，存在经验参数不确定性。 | 先验知识/题面给定，逻辑校验通过：计算过程 60 * 1500 = 90,000 正确，且 90,000 > 12,288 的结论在给定参数下成立，符合公有云带宽计费通常高于流量计费（在低利用率或高峰值场景下）的一般经济直觉。
-
-## Search Query
-
-Alibaba Cloud CDN 95th percentile bandwidth pricing vs traffic pricing
+先验知识/题面给定，逻辑校验通过

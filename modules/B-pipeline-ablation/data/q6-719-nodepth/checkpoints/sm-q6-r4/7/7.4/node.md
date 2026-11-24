@@ -1,20 +1,20 @@
-# N129: 修正后的 Zipf 命中率公式：Hit_Rate = 1 - (1 - (K/N_total)^α) / (1 - (1/N_total)^α) × (1 - 
+# N178: 加权平均对象大小 s_weighted (MB) 的计算公式：s_weighted = P_img * s_img + P_video * s_video，用于
 
-- **status**: verified
+- **status**: pending
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N37
+- **parent_ids**: N45
 
 ## Claim
 
-修正后的 Zipf 命中率公式：Hit_Rate = 1 - (1 - (K/N_total)^α) / (1 - (1/N_total)^α) × (1 - 1/N_total)，该公式考虑了有限对象总数 N_total 对长尾分布截断的影响，当 N_total > 10^6 时近似为 1 - (1/K)^α。
+加权平均对象大小 s_weighted (MB) 的计算公式：s_weighted = P_img * s_img + P_video * s_video，用于替代单一假设值 s 以更精确计算 Q_day。
 
 ## Corrected Claim
 
-修正后的 Zipf 命中率公式：Hit_Rate = 1 - (1 - (K/N_total)^α) / (1 - (1/N_total)^α) × (1 - 1/N_total)，该公式考虑了有限对象总数 N_total 对长尾分布截断的影响，当 N_total > 10^6 时近似为 1 - (1/K)^α。
+加权平均对象大小 s_weighted (MB) 的计算公式：s_weighted = P_img * s_img + P_video * s_video，用于替代单一假设值 s 以更精确计算 Q_day。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：该公式符合有限Zipf分布（离散幂律）的累积分布函数推导，当N_total趋于无穷大时，分母趋近于1，分子中的(1/N_total)^α项消失，公式退化为1 - (1/K)^α，逻辑自洽且量级合理。
+父节点级核验未通过：不完备, 有冗余（子节点本质上是同一公式在不同参数取值下的数值示例（基准、低值、高值），存在严重的逻辑冗余，未能覆盖公式本身的定义、变量物理意义或通用计算逻辑等关键方面。）

@@ -1,24 +1,29 @@
-# N93: 公有云CDN的'0人力/0工具链'假设在极端场景下失效：当发生大规模DDoS攻击或配置错误导致全站故障时，需临时雇佣外部安全专家或咨询顾问，单次事件成本约为 5
+# N100: 用户到最近公有云 CDN 边缘节点的 P99 距离 D_user_edge_p99 (km)，基于阿里云/Cloudflare 节点分布图与用户地理分布数据计算
 
 - **status**: verified
 - **level**: L3
-- **source**: knowledge
-- **edge_type**: quotient
+- **source**: search
+- **edge_type**: cartesian
 - **rework_count**: 1
-- **parent_ids**: N22
+- **parent_ids**: N25
 
 ## Claim
 
-公有云CDN的'0人力/0工具链'假设在极端场景下失效：当发生大规模DDoS攻击或配置错误导致全站故障时，需临时雇佣外部安全专家或咨询顾问，单次事件成本约为 50k-200k 元，年化期望成本需乘以故障概率（通常 <1%）。
+用户到最近公有云 CDN 边缘节点的 P99 距离 D_user_edge_p99 (km)，基于阿里云/Cloudflare 节点分布图与用户地理分布数据计算，典型值在 50-200km 之间，直接决定 RTT_user_edge 的物理下限。
 
 ## Corrected Claim
 
-公有云CDN的'0人力/0工具链'假设在极端场景下失效：当发生大规模DDoS攻击或配置错误导致全站故障时，需临时雇佣外部安全专家或咨询顾问，产生额外成本，年化期望成本需乘以故障概率。
+用户到最近公有云 CDN 边缘节点的 P99 距离 D_user_edge_p99 (km) 直接决定 RTT_user_edge 的物理下限，其典型值通常在几十至几百公里范围内（具体数值需依据特定云厂商节点分布及用户地理分布实测数据确定）。
 
 ## Evidence
 
-父节点级核验通过：正交+完备+无冗余（子节点分别定义了概率参数、单次成本结构和年化期望成本计算逻辑，三者逻辑独立且互不重叠（正交）；完整覆盖了父节点中关于故障概率、单次成本区间及年化期望计算的描述（完备）；各节点代表不同的数学变量或公式步骤，不存在重复取值或冗余信息。）
+父节点级核验通过：正交+完备+无冗余（子节点按用户地理分布（核心/长尾）和接入属性（跨运营商）进行了正交分解，覆盖了距离构成的主要维度，且未出现重复或矛盾。）
 
 ## Search Query
 
-cloud CDN incident response external consultant cost DDoS mitigation
+Alibaba Cloud CDN node distribution China average distance
+
+## Retrieval Sources
+
+- {'url': 'https://developer.baidu.com/article/detail.html?id=4172016&rut=3ad18be3a346aa75c5f26e21cc433dcc5c9a75c38e96ca66493faecd0b8c64ef', 'type': 'ddg', 'title': 'Cdn 如何精准定位：解析用户到最近边缘节点的技术路径-百度开发者中心'}
+- {'url': 'https://developer.baidu.com/article/detail.html?id=4171944&rut=1cef040b4e7e56b8ea2be96e4400cb8c8d95953ecaa5bcfa90fef25735dc170b', 'type': 'ddg', 'title': 'Cdn边缘节点解析机制：从请求到最优节点的全流程揭秘-百度开发者中心'}

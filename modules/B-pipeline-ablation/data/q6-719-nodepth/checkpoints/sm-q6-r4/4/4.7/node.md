@@ -1,0 +1,20 @@
+# N31: 自建POP的P99延迟构成项包括：用户到POP RTT (RTT_user_pop) + POP处理时间 (T_proc_pop) + 回源延迟 (若Miss:
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+自建POP的P99延迟构成项包括：用户到POP RTT (RTT_user_pop) + POP处理时间 (T_proc_pop) + 回源延迟 (若Miss: RTT_pop_origin + T_transfer_origin)，自建POP的RTT_user_pop通常低于公有云CDN（因物理距离更近或专用线路），但T_proc_pop可能高于公有云（因硬件性能差异）。
+
+## Corrected Claim
+
+自建POP的P99延迟构成项包括：用户到POP RTT (RTT_user_pop) + POP处理时间 (T_proc_pop) + 回源延迟 (若Miss: RTT_pop_origin + T_transfer_origin)，自建POP的RTT_user_pop通常低于公有云CDN（因物理距离更近或专用线路），但T_proc_pop可能高于公有云（因硬件性能差异）。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点准确分解了父节点中提到的 RTT_user_pop、T_proc_pop 以及回源延迟（RTT_pop_origin + T_transfer_origin）的各个组成部分，并补充了影响回源概率的关键参数 Miss_rate_pop。各子节点分别对应不同的物理或逻辑延迟项，无重复或矛盾，且覆盖了父节点所有关键维度。）

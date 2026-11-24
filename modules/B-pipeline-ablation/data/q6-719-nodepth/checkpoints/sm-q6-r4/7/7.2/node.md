@@ -1,20 +1,24 @@
-# N127: 总对象数 N_total = Total_Upload_Volume / s_avg，其中 s_avg 为平均对象大小（图片约 200KB-500KB，短视频约
+# N176: 短视频对象平均大小 s_video (MB) 的典型估算值为 5-15 MB，基于 15-60 秒时长、1080p 分辨率及 H.265/AV1 编码比特率（2
 
-- **status**: verified
+- **status**: pending
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N37
+- **parent_ids**: N45
 
 ## Claim
 
-总对象数 N_total = Total_Upload_Volume / s_avg，其中 s_avg 为平均对象大小（图片约 200KB-500KB，短视频约 5MB-20MB），若混合媒体需加权平均：s_avg = (Img_Count×s_img + Vid_Count×s_vid) / (Img_Count + Vid_Count)。
+短视频对象平均大小 s_video (MB) 的典型估算值为 5-15 MB，基于 15-60 秒时长、1080p 分辨率及 H.265/AV1 编码比特率（2-5 Mbps）的计算：s_video = bit_rate * duration。
 
 ## Corrected Claim
 
-总对象数 N_total = Total_Upload_Volume / s_avg，其中 s_avg 为平均对象大小（图片约 200KB-500KB，短视频约 5MB-20MB），若混合媒体需加权平均：s_avg = (Img_Count×s_img + Vid_Count×s_vid) / (Img_Count + Vid_Count)。
+短视频对象平均大小 s_video (MB) 的典型估算值为 5-15 MB，基于 15-60 秒时长、1080p 分辨率及 H.265/AV1 编码比特率（2-5 Mbps）的计算：s_video = bit_rate * duration。
 
 ## Evidence
 
-父节点级核验通过：正交+完备+无冗余（子节点分别对应图片计数、视频计数、加权平均大小及总容量约束，逻辑上相互独立且互补，共同构成了父节点中 N_total 和 s_avg 的完整推导链条，未发现重复或矛盾。）
+父节点级核验未通过：有冗余（子节点代表了同一物理量 s_video 在不同参数配置（分辨率、时长、编码）下的具体实例，而非该变量定义的独立正交维度。它们本质上是同一公式 s_video = bitrate * duration 的不同取值，属于参数化变体而非结构性分解，因此存在概念上的冗余。）
+
+## Search Query
+
+average short video file size 1080p H.265 MB

@@ -1,20 +1,24 @@
-# N474: 跨域 (Cross_Region) 判定标准：用户 IP 归属地与 POP 所在省份/区域不同即为跨域，基于用户地理分布 (N123 隐含) 计算跨域概率，典型
+# N643: TLS 1.3 会话复用 (Session Resumption) 或 0-RTT (Early Data) 可将握手延迟降至 0ms（0-RTT）或接近 0m
 
-- **status**: verified
+- **status**: degraded
 - **level**: L5
 - **source**: knowledge
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N159
+- **rework_count**: 1
+- **parent_ids**: N212
 
 ## Claim
 
-跨域 (Cross_Region) 判定标准：用户 IP 归属地与 POP 所在省份/区域不同即为跨域，基于用户地理分布 (N123 隐含) 计算跨域概率，典型国内跨域概率约为 20-30%，每跨一域增加 1-2 跳。
+TLS 1.3 会话复用 (Session Resumption) 或 0-RTT (Early Data) 可将握手延迟降至 0ms（0-RTT）或接近 0ms（Session Resumption），若平台启用 HTTP/2 + TLS 1.3 会话复用，P99 握手延迟可忽略不计（<1ms）。
 
 ## Corrected Claim
 
-跨域 (Cross_Region) 判定标准：用户 IP 归属地与 POP 所在省份/区域不同即为跨域，基于用户地理分布 (N123 隐含) 计算跨域概率，典型国内跨域概率约为 20-30%，每跨一域增加 1-2 跳。
+TLS 1.3 会话复用 (Session Resumption) 可将握手开销降至 1-RTT，0-RTT (Early Data) 可将握手开销降至 0-RTT。在低延迟网络环境下，启用 HTTP/2 + TLS 1.3 会话复用可显著降低握手延迟，使其接近网络 RTT 下限。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+[质询]将'握手延迟'与'网络往返时间(RTT)'混淆。Session Resumption 仍需 1-RTT，0-RTT 虽无额外握手 RTT 但受限于物理网络延迟，无法在任意网络环境下保证 P99 < 1ms（除非是本地回环或极低延迟专线）。 | 先验知识/题面给定，逻辑校验通过。但'P99 < 1ms'属于经验性性能指标，受网络环境影响极大，非绝对物理定律，且无外部来源支持该具体数值阈值，故降级。
+
+## Search Query
+
+TLS 1.3 session resumption 0-RTT early data latency savings

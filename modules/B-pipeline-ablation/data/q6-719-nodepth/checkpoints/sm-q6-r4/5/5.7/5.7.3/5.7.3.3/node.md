@@ -1,24 +1,20 @@
-# N343: 公有云CDN服务中断导致的业务损失 L_outage 量化公式：L_outage = (Monthly_Revenue × Downtime_Ratio) × 
+# N487: 在最高可靠性/低故障率工作点下，N_pop=10 时 N_ops_self = ceil(10/2) = 5 人（1人管2个POP），S_ops 取高端 30万
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N119
+- **parent_ids**: N159, N160, N161
 
 ## Claim
 
-公有云CDN服务中断导致的业务损失 L_outage 量化公式：L_outage = (Monthly_Revenue × Downtime_Ratio) × (1 - Churn_Rate_Factor)，其中 Monthly_Revenue = DAU × ARPU × 30 = 5,000,000 × ¥2 × 30 = ¥300,000,000（假设ARPU=¥2/月），Downtime_Ratio 为故障时长占月度总时长的比例，Churn_Rate_Factor 为故障期间用户永久流失系数（通常取0.05-0.1）。
+在最高可靠性/低故障率工作点下，N_pop=10 时 N_ops_self = ceil(10/2) = 5 人（1人管2个POP），S_ops 取高端 30万元/年，C_ops_self = 5 * 300000 / 12 = ¥125,000/月，分摊到 Q_day=2,048,000 请求后为 ¥61.04/1000 req
 
 ## Corrected Claim
 
-公有云CDN服务中断导致的业务损失 L_outage 量化公式：L_outage = (Monthly_Revenue × Downtime_Ratio) × (1 - Churn_Rate_Factor)，其中 Monthly_Revenue = DAU × ARPU × 30 = 5,000,000 × ¥2 × 30 = ¥300,000,000（假设ARPU=¥2/月），Downtime_Ratio 为故障时长占月度总时长的比例，Churn_Rate_Factor 为故障期间用户永久流失系数（通常取0.05-0.1）。
+在最高可靠性/低故障率工作点下，N_pop=10 时 N_ops_self = ceil(10/2) = 5 人（1人管2个POP），S_ops 取高端 30万元/年，C_ops_self = 5 * 300000 / 12 = ¥125,000/月，分摊到 Q_day=2,048,000 请求后为 ¥61.04/1000 req
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：公式结构符合业务损失估算的基本逻辑（收入×中断比例×留存系数），数值计算 5,000,000 × 2 × 30 = 300,000,000 准确无误，量纲合理。
-
-## Search Query
-
-business loss estimation formula for CDN outage monthly revenue downtime ratio
+先验知识/题面给定，逻辑校验通过：ceil(10/2)=5，5*300000/12=125000，125000/2048000*1000≈61.035，四舍五入为61.04，计算无误。

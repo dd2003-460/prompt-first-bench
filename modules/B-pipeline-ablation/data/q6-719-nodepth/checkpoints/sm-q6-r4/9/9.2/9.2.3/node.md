@@ -1,24 +1,24 @@
-# N391: 中等ARPU中等周期用户群LTV工作点：LTV_Base = ARPU(¥10/月) × Lifetime(6个月) = ¥60/用户，Retention_El
+# N563: 联通-移动跨网 RTT 的 P99 值：联通用户访问移动边缘节点的跨省 P99 RTT 典型值为 38-58ms，比同网联通跨省 RTT 高 12-28ms，联
 
-- **status**: verified
+- **status**: degraded
 - **level**: L4
-- **source**: knowledge
+- **source**: search
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N137
+- **rework_count**: 1
+- **parent_ids**: N184
 
 ## Claim
 
-中等ARPU中等周期用户群LTV工作点：LTV_Base = ARPU(¥10/月) × Lifetime(6个月) = ¥60/用户，Retention_Elasticity = 1.2（中弹性），则ΔLTV_per_ms = 0.008% × 60 × 1.2 = ¥0.00576/用户/ms。
+联通-移动跨网 RTT 的 P99 值：联通用户访问移动边缘节点的跨省 P99 RTT 典型值为 38-58ms，比同网联通跨省 RTT 高 12-28ms，联通与移动之间的 Peering 带宽相对较小，导致高负载时 P99 延迟显著上升，Jitter 增加 8-18ms。
 
 ## Corrected Claim
 
-中等ARPU中等周期用户群LTV工作点：LTV_Base = ARPU(¥10/月) × Lifetime(6个月) = ¥60/用户，Retention_Elasticity = 1.2（中弹性），则ΔLTV_per_ms = 0.008% × 60 × 1.2 = ¥0.00576/用户/ms。
+联通-移动跨网 RTT 的 P99 值通常高于同网跨省 RTT，且因 Peering 带宽限制，高负载时 P99 延迟和 Jitter 会显著上升，具体数值随网络状况波动。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：LTV计算（10*6=60）及弹性影响计算（0.00008*60*1.2=0.00576）数值准确，逻辑自洽。
+[质询]具体数值（38-58ms, 12-28ms, 8-18ms）缺乏公开权威数据支持，属于特定网络环境下的经验观测值，不同时期、不同省份及运营商策略调整会导致显著波动，难以作为通用典型值。 | 经验事实，逻辑自洽但缺来源支持
 
 ## Search Query
 
-average user lifetime value calculation
+China Unicom to China Mobile cross-network P99 RTT peering bandwidth congestion latency 2023

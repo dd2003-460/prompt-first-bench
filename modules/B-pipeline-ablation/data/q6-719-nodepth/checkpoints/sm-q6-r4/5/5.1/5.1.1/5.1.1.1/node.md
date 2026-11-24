@@ -1,30 +1,24 @@
-# N299: 公有云 CDN 的 P99 延迟 QoS 承诺通常未在标准 SLA 中量化，而是通过‘最佳努力’（Best Effort）或‘建议值’形式存在，实际 P99 延
+# N431: 阿里云CDN中国大陆区域按流量计费的官方标准单价为 ¥0.24/GB，该价格适用于标准CDN服务且无特殊协议约束。
 
 - **status**: degraded
 - **level**: L4
 - **source**: search
 - **edge_type**: cartesian
 - **rework_count**: 1
-- **parent_ids**: N104
+- **parent_ids**: N134, N135, N136
 
 ## Claim
 
-公有云 CDN 的 P99 延迟 QoS 承诺通常未在标准 SLA 中量化，而是通过‘最佳努力’（Best Effort）或‘建议值’形式存在，实际 P99 延迟上限 T_P99_SLA 需参考特定云厂商（如阿里云/Cloudflare）的高级 QoS 合同条款，若无合同约束，则 T_P99_SLA 视为无穷大，仅受物理网络限制。
+阿里云CDN中国大陆区域按流量计费的官方标准单价为 ¥0.24/GB，该价格适用于标准CDN服务且无特殊协议约束。
 
 ## Corrected Claim
 
-公有云 CDN 的标准 SLA 通常主要承诺可用性（Uptime）和服务积分，P99 延迟等性能指标往往不在标准 SLA 中量化承诺，而是通过‘最佳努力’或特定高级合同条款约定；若无特定合同约束，P99 延迟无硬性 SLA 上限。
+阿里云CDN中国大陆区域按流量计费的标准单价约为 ¥0.24/GB（具体价格需以阿里云官网实时公示为准，可能随时间或套餐类型变化）。
 
 ## Evidence
 
-[质询]该陈述包含具体的商业合同细节（如阿里云/Cloudflare的高级QoS条款具体形式），属于经验事实。参考来源仅展示了标准SLA的标题和通用条款（如可用性、服务积分），并未直接展示或证实‘P99延迟未在标准SLA中量化’这一具体断言，也未提供高级合同的具体内容作为直接证据。 | 逻辑自洽，符合行业常识（标准SLA通常关注可用性而非具体延迟分位数），但参考来源[1][2][3]仅涉及标准SLA的通用框架，未直接提供关于P99延迟承诺缺失或高级合同具体条款的直接证据，属于间接支持。
+[质询]阿里云CDN价格具有高度时效性和地域细分特性（如区分闲时/忙时、不同带宽峰值或流量包），且经常调整，'¥0.24/GB'这一具体数值可能已过时或仅适用于特定历史时期/特定套餐，缺乏当前有效来源支持。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，无法验证具体单价的时效性与准确性）
 
 ## Search Query
 
-Cloudflare Alibaba Cloud CDN SLA P99 latency guarantee contract terms
-
-## Retrieval Sources
-
-- {'url': 'https://www.alibabacloud.com/help/en/legal/latest/content-delivery-network-service-level-agreement&rut=117bad3f5859e1e34a76bc281bb8a3e2bdda686052c078ab29ccdc8c3d64c267', 'type': 'ddg', 'title': 'Content Delivery Network (CDN) Service Level Agreement - Alibaba Cloud'}
-- {'url': 'https://www.alibabacloud.com/help/zh/legal/latest/content-delivery-network-service-level-agreement&rut=b204a44dcb369131155c400cc02c7f9c36ce6a921f1e6b2174fb2544606cb7bb', 'type': 'ddg', 'title': '了解 CDN 服务等级协议 - 内容分发网络 (CDN) -Alibaba Cloud'}
-- {'url': 'https://www.cloudflare.com/business-sla/&rut=072aa4fd9092d66abed20a612b0dbbf7027ff325dcd2200658d00ce6146a9293', 'type': 'ddg', 'title': 'Business Service Level Agreement | Cloudflare'}
+Alibaba Cloud CDN China mainland pricing per GB 2024

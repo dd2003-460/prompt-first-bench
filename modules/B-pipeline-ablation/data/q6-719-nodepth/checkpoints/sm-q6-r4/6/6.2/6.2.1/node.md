@@ -1,24 +1,20 @@
-# N356: Unique_Hot_Objects_Size 的估算 = Top K 对象的总大小，其中 K 由缓存容量 S_edge 和平均对象大小 s_avg 决定（K 
+# N162: D2 成本排序中的基础设施成本占比 C_infra_share = C_infra / C_total_per_1000req，对于公有云 CDN 策略，C_i
 
-- **status**: verified
-- **level**: L4
+- **status**: pending
+- **level**: L3
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N124
+- **parent_ids**: N41
 
 ## Claim
 
-Unique_Hot_Objects_Size 的估算 = Top K 对象的总大小，其中 K 由缓存容量 S_edge 和平均对象大小 s_avg 决定（K = S_edge / s_avg）。若 S_edge = 100TB，s_avg = 5MB，则 K = 20,000 个对象。根据 Zipf 分布，Top 20,000 对象的总大小 ≈ K × s_avg × (1 + 修正因子)，修正因子反映长尾对象的累积效应，通常取 1.2-1.5，故 Unique_Hot_Objects_Size ≈ 120-150TB。
+D2 成本排序中的基础设施成本占比 C_infra_share = C_infra / C_total_per_1000req，对于公有云 CDN 策略，C_infra 通常包含节点资源摊销（若包月）或纯请求计费（若按量），需明确区分是‘资源成本’还是‘请求成本’，避免与带宽成本重复计算
 
 ## Corrected Claim
 
-Unique_Hot_Objects_Size 的估算 = Top K 对象的总大小，其中 K 由缓存容量 S_edge 和平均对象大小 s_avg 决定（K = S_edge / s_avg）。若 S_edge = 100TB，s_avg = 5MB，则 K = 20,000 个对象。根据 Zipf 分布，Top 20,000 对象的总大小 ≈ K × s_avg × (1 + 修正因子)，修正因子反映长尾对象的累积效应，通常取 1.2-1.5，故 Unique_Hot_Objects_Size ≈ 120-150TB。
+D2 成本排序中的基础设施成本占比 C_infra_share = C_infra / C_total_per_1000req，对于公有云 CDN 策略，C_infra 通常包含节点资源摊销（若包月）或纯请求计费（若按量），需明确区分是‘资源成本’还是‘请求成本’，避免与带宽成本重复计算
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：K=20,000计算正确，修正因子1.2-1.5符合Zipf分布长尾累积的工程经验估算惯例，量级合理。
-
-## Search Query
-
-CDN cache hot objects size estimation Zipf top K cumulative size
+父节点级核验未通过：不完备（子节点正交，分别对应‘按量’和‘包月’两种互斥的计费模式，无重复。但不完备，父节点明确提到‘需明确区分是资源成本还是请求成本，避免与带宽成本重复计算’，这暗示了成本结构中可能存在的独立项或边界条件（如带宽是否包含在节点费中，或是否有独立的流量/带宽成本项）。当前子节点仅给出了两种总价公式，未显式处理‘避免重复计算’这一逻辑约束，也未覆盖‘混合计费’或‘带宽单独计费’等其他常见公有云CDN成本场景，导致对父节点中关于成本构成清晰度的要求覆盖不足。）

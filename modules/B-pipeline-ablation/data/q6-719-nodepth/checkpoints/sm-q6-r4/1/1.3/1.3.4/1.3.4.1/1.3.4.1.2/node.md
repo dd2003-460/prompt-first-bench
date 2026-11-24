@@ -1,20 +1,24 @@
-# N509: P99 短视频大小具体数值：假设短视频均大小 s_vid=10MB (ln(10)≈2.30)，σ_vid=0.8，计算得 P99_vid = exp(2.30
+# N683: 同省/同城 BGP 专线的 RTT_pop_origin_p99 物理下限验证：基于光纤传播速度 200,000 km/s，同省最大距离 300km 对应的单向
 
 - **status**: verified
 - **level**: L5
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N171
+- **parent_ids**: N227
 
 ## Claim
 
-P99 短视频大小具体数值：假设短视频均大小 s_vid=10MB (ln(10)≈2.30)，σ_vid=0.8，计算得 P99_vid = exp(2.30 + 2.326×0.8) ≈ exp(4.16) ≈ 64.1 MB，用于计算高带宽突发场景下的源站压力。
+同省/同城 BGP 专线的 RTT_pop_origin_p99 物理下限验证：基于光纤传播速度 200,000 km/s，同省最大距离 300km 对应的单向传播延迟为 1.5ms，往返 RTT 理论最小值为 3ms，加上交换机处理延迟 2-3ms，总 RTT ≈ 5-6ms，支撑 N227 的 5-10ms 区间下限
 
 ## Corrected Claim
 
-P99 短视频大小具体数值：假设短视频均大小 s_vid=10MB (ln(10)≈2.30)，σ_vid=0.8，计算得 P99_vid = exp(2.30 + 2.326×0.8) ≈ exp(4.16) ≈ 64.1 MB，用于计算高带宽突发场景下的源站压力。
+同省/同城 BGP 专线的 RTT_pop_origin_p99 物理下限验证：基于光纤传播速度 200,000 km/s，同省最大距离 300km 对应的单向传播延迟为 1.5ms，往返 RTT 理论最小值为 3ms，加上交换机处理延迟 2-3ms，总 RTT ≈ 5-6ms，支撑 N227 的 5-10ms 区间下限
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：对数正态分布P99计算公式 exp(μ + 2.326σ) 应用正确，数值计算 exp(2.30 + 1.8608) = exp(4.1608) ≈ 64.1 准确无误。
+先验知识/题面给定，逻辑校验通过：光纤传播速度约200,000 km/s，300km单向延迟1.5ms，往返3ms，加上设备处理延迟2-3ms，总RTT 5-6ms符合物理直觉与工程经验。
+
+## Search Query
+
+fiber optic propagation delay calculation 300km RTT lower bound

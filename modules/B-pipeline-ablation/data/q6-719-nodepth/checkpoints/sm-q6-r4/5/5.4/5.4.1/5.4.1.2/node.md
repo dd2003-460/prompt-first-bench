@@ -1,24 +1,24 @@
-# N324: SLA赔付条款中的“服务积分”或“现金赔付”覆盖率通常为实际损失的 10%-30%（上限为月度费用的 100%），因此显性风险溢价成本 Residual_Ris
+# N455: 中配工作点（基准）：8核CPU (¥1500) + 32GB RAM (¥1000) + 杂项(¥500) = ¥3000，适用于图片+短视频混合缓存，单台并发
 
-- **status**: verified
+- **status**: degraded
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N113
+- **rework_count**: 1
+- **parent_ids**: N143
 
 ## Claim
 
-SLA赔付条款中的“服务积分”或“现金赔付”覆盖率通常为实际损失的 10%-30%（上限为月度费用的 100%），因此显性风险溢价成本 Residual_Risk_Cost = (1 - Coverage_Ratio) × Expected_Loss，其中 Coverage_Ratio 需从合同条款中提取，典型值取 0.5 进行保守估算。
+中配工作点（基准）：8核CPU (¥1500) + 32GB RAM (¥1000) + 杂项(¥500) = ¥3000，适用于图片+短视频混合缓存，单台并发处理能力约 10k QPS，性价比最优
 
 ## Corrected Claim
 
-SLA赔付条款中的“服务积分”或“现金赔付”覆盖率通常为实际损失的 10%-30%（上限为月度费用的 100%），因此显性风险溢价成本 Residual_Risk_Cost = (1 - Coverage_Ratio) × Expected_Loss，其中 Coverage_Ratio 需从合同条款中提取，典型值取 0.5 进行保守估算。
+中配工作点（基准）：8核CPU (¥1500) + 32GB RAM (¥1000) + 杂项(¥500) = ¥3000，适用于图片+短视频混合缓存，单台并发处理能力约 1k-5k QPS（视具体优化而定），性价比适中
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+[质询]数值量级与硬件配置严重不符：8核CPU+32GB RAM的硬件配置在常规Web/缓存场景下，单台并发处理能力通常难以稳定达到10k QPS（通常需更高核心数或特定优化架构），且¥3000的硬件成本与10k QPS的性能指标在性价比上存在逻辑张力（通常高QPS对应更高硬件投入）。 | 经验事实，逻辑自洽但缺来源支持；且硬件配置与QPS量级存在明显不匹配嫌疑，无法从第一性原理严格推出，故降级。
 
 ## Search Query
 
-cloud CDN SLA service credit coverage ratio percentage limit
+mid-range x86 server cost 8 core 32GB 2024

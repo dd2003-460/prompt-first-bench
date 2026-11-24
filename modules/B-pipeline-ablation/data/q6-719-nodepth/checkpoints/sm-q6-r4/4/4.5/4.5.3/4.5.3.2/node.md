@@ -1,0 +1,20 @@
+# N380: 自建 POP 回源链路的排队延迟 T_queue_origin 取决于源站出口带宽利用率 U_origin，当 U_origin < 70% 时 T_queue
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N117
+
+## Claim
+
+自建 POP 回源链路的排队延迟 T_queue_origin 取决于源站出口带宽利用率 U_origin，当 U_origin < 70% 时 T_queue_origin ≈ 0，当 U_origin > 90% 时 T_queue_origin 可激增至 50-100ms，需通过源站带宽扩容或负载均衡消除。
+
+## Corrected Claim
+
+自建 POP 回源链路的排队延迟 T_queue_origin 取决于源站出口带宽利用率 U_origin，当 U_origin < 70% 时 T_queue_origin ≈ 0，当 U_origin > 90% 时 T_queue_origin 可激增至 50-100ms，需通过源站带宽扩容或负载均衡消除。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于排队论（M/M/1模型），当利用率U<70%时队列长度极短，延迟可忽略；当U>90%时，延迟随1/(1-U)急剧增加，50-100ms的量级符合高负载下的网络排队延迟特征，且扩容/负载均衡是标准解决方案。

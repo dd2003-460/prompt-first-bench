@@ -1,17 +1,17 @@
 {
-  "id": "N541",
-  "claim": "工作点C的P99延迟风险：50%命中率下，50%请求经历回源延迟，P99延迟≈0.5×T_origin + 0.5×T_cache；若T_origin=300ms, T_cache=50ms，则P99=175ms，接近典型T_target=200ms上限，无安全余量，需监控回源队列深度。",
+  "id": "N716",
+  "claim": "长尾区域延迟 CDF F_tail(x) 的解析表达式取决于混合策略中长尾流量去向：若长尾走公有云，F_tail(x) = F_cloud(x)（公有云 CDF，见 N53/N54）；若长尾走自建 POP（假设），则 F_tail(x) = F_pop_tail(x)，其 P99 值比 F_core 高 10-20ms（见 N191）。",
   "level": "L5",
   "source": "knowledge",
-  "status": "degraded",
-  "evidence": "[质询]P99延迟的计算逻辑存在严重错误：P99（第99百分位数）代表的是最慢的1%请求的延迟，而非所有请求延迟的加权平均值。在50%命中率下，最慢的1%请求几乎必然全部落在未命中（回源）的50%请求中，因此P99应接近T_origin（300ms），而不是0.5×300 + 0.5×50 = 175ms。175ms实际上是平均延迟（Mean Latency）或中位数附近的值，将其标记为P99属于统计概念混淆。 | 逻辑校验失败：P99是尾部延迟指标，不应通过概率加权平均计算。若T_origin=300ms，P99必然≥300ms（假设回源延迟分布右偏或至少不低于均值），因此175ms的结论违背基本统计直觉。",
-  "corrected_claim": "工作点C的延迟风险：50%命中率下，平均延迟≈0.5×T_origin + 0.5×T_cache = 175ms；但P99延迟主要由回源请求决定，若T_origin=300ms，则P99≈300ms（或更高），远超典型T_target=200ms上限，存在严重超时风险，需重点监控回源队列深度及长尾延迟。",
-  "rework_count": 1,
+  "status": "verified",
+  "evidence": "先验知识/题面给定，逻辑校验通过：该陈述定义了条件分支下的CDF映射关系，逻辑自洽且量级合理（10-20ms延迟差异符合网络架构常识），无内部矛盾。",
+  "corrected_claim": "长尾区域延迟 CDF F_tail(x) 的解析表达式取决于混合策略中长尾流量去向：若长尾走公有云，F_tail(x) = F_cloud(x)（公有云 CDF，见 N53/N54）；若长尾走自建 POP（假设），则 F_tail(x) = F_pop_tail(x)，其 P99 值比 F_core 高 10-20ms（见 N191）。",
+  "rework_count": 0,
   "parent_ids": [
-    "N183"
+    "N238"
   ],
   "objective": null,
-  "edge_type": "cartesian",
+  "edge_type": "quotient",
   "search_query": "",
   "retrieval_sources": []
 }

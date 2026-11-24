@@ -1,0 +1,24 @@
+# N393: L1边缘节点到L2中间层节点的物理距离 d_L1_L2 (km) 的典型分布：同城/邻省L2通常为 50-200km，跨省骨干节点通常为 500-1500km，
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N122
+
+## Claim
+
+L1边缘节点到L2中间层节点的物理距离 d_L1_L2 (km) 的典型分布：同城/邻省L2通常为 50-200km，跨省骨干节点通常为 500-1500km，基于中国三大运营商骨干网拓扑结构。
+
+## Corrected Claim
+
+L1边缘节点到L2中间层节点的物理距离 d_L1_L2 (km) 的典型分布：同城/邻省L2通常为 50-200km，跨省骨干节点通常为 500-1500km，基于中国三大运营商骨干网拓扑结构。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于中国地理尺度及运营商网络层级结构，L1（边缘/接入）到L2（区域/省际）距离在50-200km符合同城/邻省物理距离，L2到骨干节点500-1500km符合跨省骨干网拓扑特征，量级合理且无内部矛盾。
+
+## Search Query
+
+China backbone network topology distance between edge and aggregation nodes

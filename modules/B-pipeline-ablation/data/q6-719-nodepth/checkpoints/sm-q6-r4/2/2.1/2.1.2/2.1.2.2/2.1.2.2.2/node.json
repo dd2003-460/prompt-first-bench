@@ -1,17 +1,35 @@
 {
-  "id": "N603",
-  "claim": "RAID10 在 NVMe 环境下的写入放大系数 (Write Amplification Factor, WAF) 为 2.0 (每 1 字节用户数据写入 2 字节物理数据)，而 RAID5 为 4.0；结合 N406 的 DWPD 计算，RAID10 的有效 DWPD 为标称值的一半 (0.5 DWPD)，这进一步缩短了 SSD 寿命，需将 N408 中的 Life_Days 除以 2 重新计算更换频率。",
+  "id": "N731",
+  "claim": "阿里云CDN动态请求计费的叠加逻辑为：总请求成本 = (Q_dynamic * P_request_ali) + (V_origin * P_bw_origin)，其中 Q_dynamic 为未命中缓存的请求数，V_origin 为回源产生的流量（GB），P_bw_origin 为回源带宽单价（通常高于普通出口带宽，约为 ¥0.5-1.0/GB）。",
   "level": "L5",
-  "source": "knowledge",
-  "status": "verified",
-  "evidence": "先验知识/题面给定，逻辑校验通过：RAID10 写入放大系数为 2.0（镜像写入），RAID5 为 4.0（读-改-写），符合存储原理；DWPD 与 WAF 成反比，逻辑自洽。",
-  "corrected_claim": "RAID10 在 NVMe 环境下的写入放大系数 (Write Amplification Factor, WAF) 为 2.0 (每 1 字节用户数据写入 2 字节物理数据)，而 RAID5 为 4.0；结合 N406 的 DWPD 计算，RAID10 的有效 DWPD 为标称值的一半 (0.5 DWPD)，这进一步缩短了 SSD 寿命，需将 N408 中的 Life_Days 除以 2 重新计算更换频率。",
-  "rework_count": 0,
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]来源未提供回源带宽单价的具体数值范围（¥0.5-1.0/GB），且阿里云CDN计费通常区分“回源流量”与“回源带宽”，具体单价随地域和计费模式（按量/包年包月）波动，该具体数值区间缺乏直接来源支持，属于经验事实。 | 来源[1][2][3]确认了阿里云CDN包含基础服务（流量/带宽）和增值服务（请求数）的计费结构，逻辑上支持总成本由请求数和回源流量/带宽组成，但均未直接给出回源带宽单价为¥0.5-1.0/GB的具体数值，属于经验事实缺来源直接支持。",
+  "corrected_claim": "阿里云CDN动态请求计费的叠加逻辑为：总请求成本 = (Q_dynamic * P_request_ali) + (V_origin * P_bw_origin)，其中 Q_dynamic 为未命中缓存的请求数，V_origin 为回源产生的流量（GB），P_bw_origin 为回源带宽/流量单价（具体价格需参考阿里云官网实时报价，通常高于普通出口带宽）。",
+  "rework_count": 1,
   "parent_ids": [
-    "N207"
+    "N244",
+    "N245",
+    "N246"
   ],
   "objective": null,
   "edge_type": "cartesian",
-  "search_query": "NVMe RAID10 write amplification factor impact on SSD endurance DWPD",
-  "retrieval_sources": []
+  "search_query": "Alibaba Cloud CDN origin fetch bandwidth pricing dynamic request cost calculation",
+  "retrieval_sources": [
+    {
+      "url": "https://help.aliyun.com/zh/cdn/product-overview/billing-overview&rut=2cb52aad46530de559a07b5bd49dbfc609d7fbedfe6bf0dc3ad82d3e2800dd3a",
+      "type": "ddg",
+      "title": "Cdn如何计费-cdn (Cdn)-阿里云帮助中心"
+    },
+    {
+      "url": "https://help.aliyun.com/zh/cdn/product-overview/billing-rules-of-basic-services&rut=22e872a8ba0621d069f308257bb98eeb8660a5ea03067d9731daae44ee6b1d71",
+      "type": "ddg",
+      "title": "基础服务计费方式定价规则-cdn-阿里云-cdn (Cdn)-阿里云帮助中心"
+    },
+    {
+      "url": "https://developer.aliyun.com/article/1708278&rut=66e9e7546af3c7e07123555f3dccddc3909def48b1744a7ee072b3c27142d968",
+      "type": "ddg",
+      "title": "2026最新阿里云cdn收费标准：不同计费模式价格表（基础服务费和增值服务费用整理）-阿里云开发者社区"
+    }
+  ]
 }

@@ -1,20 +1,20 @@
-# N180: 请求数与对象大小的耦合验证：若 R_total = 100M 次/天，s_avg = 3.6MB，则理论下载量为 360TB/天，与题面 2TB/天 严重不符，
+# N235: 工作点3（高成本低性）：H_l1=0.80, H_l2=0.90，RTT_user_edge_tail_p99=60ms，T_proc_edge=12ms，L1
 
 - **status**: verified
 - **level**: L4
-- **source**: given
-- **edge_type**: quotient
+- **source**: knowledge
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N51
+- **parent_ids**: N61
 
 ## Claim
 
-请求数与对象大小的耦合验证：若 R_total = 100M 次/天，s_avg = 3.6MB，则理论下载量为 360TB/天，与题面 2TB/天 严重不符，表明题面数据隐含了高缓存命中率（Hit_Rate > 99%）或 R_per_user 实际远低于 20，需重新校准 R_per_user 或确认缓存命中率假设
+工作点3（高成本低性）：H_l1=0.80, H_l2=0.90，RTT_user_edge_tail_p99=60ms，T_proc_edge=12ms，L1 Miss项=0.20*30ms=6ms，L2 Miss项=0.20*0.10*80ms=1.6ms，P99_tail ≈ 79.6ms，满足 T=200ms 但回源成本占比高。
 
 ## Corrected Claim
 
-请求数与对象大小的耦合验证：若 R_total = 100M 次/天，s_avg = 3.6MB，则理论下载量为 360TB/天，与题面 2TB/天 严重不符，表明题面数据隐含了高缓存命中率（Hit_Rate > 99%）或 R_per_user 实际远低于 20，需重新校准 R_per_user 或确认缓存命中率假设
+工作点3（高成本低性）：H_l1=0.80, H_l2=0.90，RTT_user_edge_tail_p99=60ms，T_proc_edge=12ms，L1 Miss项=0.20*30ms=6ms，L2 Miss项=0.20*0.10*80ms=1.6ms，P99_tail ≈ 79.6ms，满足 T=200ms 但回源成本占比高。
 
 ## Evidence
 
-父节点级核验通过：正交+完备+无冗余（子节点1侧重于基于假设命中率反推真实请求频率（R_per_user），子节点2侧重于基于假设请求频率反推对象大小或修正命中率，并引入对象粒度（分片vs完整文件）的定性分析。两者分别针对父节点中提出的两个校准方向（校准R_per_user或确认Hit_Rate/s_avg）进行了具体的量化验证，逻辑上互补且无重叠，覆盖了父节点指出的数据矛盾的核心解决路径。）
+父节点级核验通过：正交+完备+无冗余（子节点1专注于成本维度（回源带宽成本计算及占比），子节点2专注于延迟维度（P99延迟中回源项的权重修正及总延迟重新计算）。两者分别处理父节点中‘高成本’和‘高延迟/余量’两个不同的性能指标，维度正交，无重复或矛盾。同时，父节点明确提到了‘回源成本占比高’和‘P99_tail满足约束’，两个子节点分别详细展开并修正了这两点，覆盖了父节点的关键方面。）

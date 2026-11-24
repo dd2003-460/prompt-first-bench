@@ -1,0 +1,24 @@
+# N359: 路由决策逻辑中的 GeoIP(user_ip) 精度对 P_core 的影响：GeoIP 定位误差 ΔGeo 导致边界用户误路由的概率 P_error ≈ (Δ
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N111
+
+## Claim
+
+路由决策逻辑中的 GeoIP(user_ip) 精度对 P_core 的影响：GeoIP 定位误差 ΔGeo 导致边界用户误路由的概率 P_error ≈ (ΔGeo / Zone_Radius)^2，误路由导致的额外成本 C_error = P_error * Q_day * (C_public - C_self)，需纳入总成本优化。
+
+## Corrected Claim
+
+路由决策逻辑中的 GeoIP(user_ip) 精度对 P_core 的影响：GeoIP 定位误差 ΔGeo 导致边界用户误路由的概率 P_error ≈ (ΔGeo / Zone_Radius)^2，误路由导致的额外成本 C_error = P_error * Q_day * (C_public - C_self)，需纳入总成本优化。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+GeoIP accuracy impact on CDN routing cost

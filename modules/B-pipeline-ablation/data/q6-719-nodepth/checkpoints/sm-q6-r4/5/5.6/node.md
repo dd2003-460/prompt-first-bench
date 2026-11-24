@@ -1,24 +1,20 @@
-# N32: 混合方案（核心5 POP自建+长尾公有云）的地缘/政策风险溢价为25k元/月（5个核心POP×5k元/月/POP，长尾部分无风险）
+# N38: 规模效应导致公有云CDN的带宽单价随总流量 Q_total 增加而降低，折扣率 D_scale 与 Q_total 成正比，典型为 Q_total > 10TB
 
 - **status**: verified
 - **level**: L2
 - **source**: knowledge
-- **edge_type**: cartesian
-- **rework_count**: 0
+- **edge_type**: quotient
+- **rework_count**: 1
 - **parent_ids**: N5
 
 ## Claim
 
-混合方案（核心5 POP自建+长尾公有云）的地缘/政策风险溢价为25k元/月（5个核心POP×5k元/月/POP，长尾部分无风险）
+规模效应导致公有云CDN的带宽单价随总流量 Q_total 增加而降低，折扣率 D_scale 与 Q_total 成正比，典型为 Q_total > 10TB/月 时享受 8 折，> 50TB/月 时享受 6 折。
 
 ## Corrected Claim
 
-混合方案（核心5 POP自建+长尾公有云）的地缘/政策风险溢价为25k元/月（5个核心POP×5k元/月/POP，长尾部分无风险）
+规模效应导致公有云CDN的带宽单价随总流量 Q_total 增加而降低，通常采用阶梯定价模式，流量越大单价越低（具体阈值和折扣率因厂商而异）。
 
 ## Evidence
 
-父节点级核验通过：正交+完备+无冗余（子节点分别阐述了公有云风险（排除项）、自建节点风险机制、单POP溢价参数推导、以及整体组合的风险加权修正，四个维度逻辑独立且互补，无重复或矛盾。）
-
-## Search Query
-
-hybrid CDN policy risk cost 25k per month
+父节点级核验通过：正交+完备+无冗余（子节点分别对应流量计算、基准单价、折扣逻辑和最终单价，逻辑链条清晰且互不重叠。虽然最终单价是前几项的推导结果，但在成本分解模型中，将其作为独立的‘实际单价’节点有助于后续直接引用计算总成本，不属于冗余。所有关键变量（Q_total, P_base, D_scale, P_actual）均已覆盖。）

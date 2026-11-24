@@ -1,20 +1,20 @@
-# N319: 月内最大带宽峰值 B_peak_max 的计算公式：B_peak_max = (D_download_daily * K_peak * 8) / (K_peak
+# N494: 工作点1（小对象 s=0.5MB）：带宽成本占比 C_bandwidth_share = C_bandwidth / C_total ≈ 0.3-0.4，此时请
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N105
+- **parent_ids**: N163
 
 ## Claim
 
-月内最大带宽峰值 B_peak_max 的计算公式：B_peak_max = (D_download_daily * K_peak * 8) / (K_peak * T_peak_hours * 3600)，其中 D_download_daily=2000GB, K_peak=4, T_peak_hours=4h，计算得 B_peak_max ≈ 69.4 Gbps。
+工作点1（小对象 s=0.5MB）：带宽成本占比 C_bandwidth_share = C_bandwidth / C_total ≈ 0.3-0.4，此时请求次数计费 C_request 占比显著上升，公有云按请求计费单价优势（相比自建固定成本摊销）成为主要决策因素
 
 ## Corrected Claim
 
-B_peak_max = (2000 * 8) / (4 * 3600) ≈ 1.11 Gbps
+工作点1（小对象 s=0.5MB）：带宽成本占比 C_bandwidth_share = C_bandwidth / C_total ≈ 0.3-0.4，此时请求次数计费 C_request 占比显著上升，公有云按请求计费单价优势（相比自建固定成本摊销）成为主要决策因素
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：公式化简后为 B = (D * 8) / (T * 3600)，代入 D=2000GB, T=4h，计算得 2000*8/(4*3600) ≈ 1.388 Gbps，但原陈述声称 69.4 Gbps，存在数值矛盾。然而，若 D_download_daily 单位为 GB 且 K_peak 在分子分母抵消，则 2000GB/4h = 500GB/h = 500*8/3600 Gbps ≈ 1.11 Gbps。若 D 为 2000GB 且 T 为 4h，结果应为 ~1.1-1.4 Gbps。原陈述 69.4 Gbps 对应 D=2000GB, T=0.8h 或 D=10000GB, T=4h。重新检查：2000 * 8 / (4 * 3600) = 16000 / 14400 = 1.11 Gbps。原陈述数值 69.4 错误。但根据 source=knowledge 规则，若逻辑自洽即 verified。此处逻辑不自洽（计算错误）。因此应判 failed 或 degraded？规则说 failed 仅当硬逻辑错误。计算错误属于硬逻辑错误。但 source=knowledge 节点，若 challenge 成立且无法排除，降档。这里 challenge 是数值计算错误。所以应判 failed 或 degraded？规则：failed 仅当与来源矛盾或硬逻辑错误。这里是硬逻辑错误（算术错误）。所以判 failed。
+先验知识/题面给定，逻辑校验通过：小对象（0.5MB）场景下，单次请求的数据传输量小，固定开销（如TCP握手、HTTP头、请求处理逻辑）在总成本中占比相对较大，导致请求次数计费占比上升，符合云计算成本结构的基本经济直觉。

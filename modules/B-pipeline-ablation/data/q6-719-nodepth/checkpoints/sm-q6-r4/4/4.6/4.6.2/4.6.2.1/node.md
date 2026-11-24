@@ -1,0 +1,24 @@
+# N384: 公有云CDN边缘节点TLS握手开销 P99 值：若启用会话复用 (Session Resumption) 且命中率 R_resume > 90%，TLS开销约为
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N119
+
+## Claim
+
+公有云CDN边缘节点TLS握手开销 P99 值：若启用会话复用 (Session Resumption) 且命中率 R_resume > 90%，TLS开销约为 0.5-1.5ms；若未复用（Full Handshake），开销约为 10-30ms（取决于 RTT 和 RSA/ECDHE 算法）。
+
+## Corrected Claim
+
+公有云CDN边缘节点TLS握手开销 P99 值：若启用会话复用 (Session Resumption) 且命中率 R_resume > 90%，TLS开销约为 0.5-1.5ms；若未复用（Full Handshake），开销约为 10-30ms（取决于 RTT 和 RSA/ECDHE 算法）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：TLS会话复用（如Session Ticket）仅需1-RTT且计算量小，耗时通常在1-2ms量级；完整握手（Full Handshake）需2-RTT及非对称加密运算，耗时通常在10-30ms量级，符合网络协议基本物理规律及工程经验。
+
+## Search Query
+
+CDN edge node TLS handshake P99 latency session resumption vs full handshake

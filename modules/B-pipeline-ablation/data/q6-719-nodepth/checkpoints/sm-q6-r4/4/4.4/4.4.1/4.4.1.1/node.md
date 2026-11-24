@@ -1,24 +1,24 @@
-# N287: WAF_Throughput_Cost = Peak_QPS_per_POP × Rule_Complexity_Factor × Unit_Pricing_P
+# N361: 公有云 CDN L1 边缘节点的缓存容量 C_L1 具体数值：阿里云 CDN L1 节点单节点缓存容量通常为 500GB-2TB（SSD），Cloudflare
 
-- **status**: verified
+- **status**: degraded
 - **level**: L4
-- **source**: knowledge
+- **source**: search
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N100
+- **rework_count**: 1
+- **parent_ids**: N112
 
 ## Claim
 
-WAF_Throughput_Cost = Peak_QPS_per_POP × Rule_Complexity_Factor × Unit_Pricing_Per_Rule_Sec，其中 Peak_QPS_per_POP = Total_Daily_Requests / 10 / 86400 × Peak_Factor(2.5)，Rule_Complexity_Factor 典型值为 1.5-3.0（取决于正则/CC规则数量），Unit_Pricing 需根据具体厂商（如阿里云/Cloudflare）按量计费标准确定。
+公有云 CDN L1 边缘节点的缓存容量 C_L1 具体数值：阿里云 CDN L1 节点单节点缓存容量通常为 500GB-2TB（SSD），Cloudflare L1 节点容量因区域而异，平均约 1-5TB，具体需查询官方文档或实测节点配置。
 
 ## Corrected Claim
 
-WAF_Throughput_Cost = Peak_QPS_per_POP × Rule_Complexity_Factor × Unit_Pricing_Per_Rule_Sec，其中 Peak_QPS_per_POP = Total_Daily_Requests / 10 / 86400 × Peak_Factor(2.5)，Rule_Complexity_Factor 典型值为 1.5-3.0（取决于正则/CC规则数量），Unit_Pricing 需根据具体厂商（如阿里云/Cloudflare）按量计费标准确定。
+公有云 CDN L1 边缘节点的缓存容量 C_L1 因厂商、区域及硬件配置而异，通常处于 TB 级别（如数百 GB 至数 TB），具体数值需查询官方文档或实测节点配置。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+[质询]具体数值（500GB-2TB, 1-5TB）属于经验事实，缺乏官方文档或权威实测数据支持，且不同时期、不同硬件配置下节点容量差异巨大，固定区间可能不准确。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
 
 ## Search Query
 
-cloud WAF pricing per rule per second cost model
+Alibaba Cloud CDN L1 edge node cache capacity specification

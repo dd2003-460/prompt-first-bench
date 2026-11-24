@@ -1,20 +1,20 @@
-# N534: 基于题面 2TB 回源量与 200GB 上传量的实际请求数反推：若 Hit_Rate = 99%（行业典型值），则实际日请求数 R_actual = Origi
+# N709: 工作点3的每千请求回源带宽成本 C_bw_origin_per_1000req 计算为 (V_origin_day * Unit_Price_origin) /
 
 - **status**: verified
 - **level**: L5
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N180
+- **parent_ids**: N235
 
 ## Claim
 
-基于题面 2TB 回源量与 200GB 上传量的实际请求数反推：若 Hit_Rate = 99%（行业典型值），则实际日请求数 R_actual = Origin_Traffic / (s_avg × (1 - Hit_Rate)) = 2,048GB / (3.6MB × 0.01) ≈ 56,888,889 次/天，对应人均请求数 R_per_user_actual = 56,888,889 / 5,000,000 ≈ 11.4 次/人/天，表明 R_low=20 和 R_high=50 均为高估，真实值应在 10-15 区间。
+工作点3的每千请求回源带宽成本 C_bw_origin_per_1000req 计算为 (V_origin_day * Unit_Price_origin) / Q_day * 1000，其中 V_origin_day = Q_day * s * (1 - H_l1) + Q_day * s * H_l1 * (1 - H_l2) = 2,048,000 * 1MB * 0.2 + 2,048,000 * 1MB * 0.8 * 0.1 = 409.6GB + 163.84GB ≈ 573.44GB/天，Unit_Price_origin 为运营商回源带宽单价（典型 ¥0.1-0.2/GB），该成本项占 C_total_per_1000req 的比例通常 >50%。
 
 ## Corrected Claim
 
-基于题面 2TB 回源量与 200GB 上传量的实际请求数反推：若 Hit_Rate = 99%（行业典型值），则实际日请求数 R_actual = Origin_Traffic / (s_avg × (1 - Hit_Rate)) = 2,048GB / (3.6MB × 0.01) ≈ 56,888,889 次/天，对应人均请求数 R_per_user_actual = 56,888,889 / 5,000,000 ≈ 11.4 次/人/天，表明 R_low=20 和 R_high=50 均为高估，真实值应在 10-15 区间。
+工作点3的每千请求回源带宽成本 C_bw_origin_per_1000req 计算为 (V_origin_day * Unit_Price_origin) / Q_day * 1000，其中 V_origin_day = Q_day * s * (1 - H_l1) + Q_day * s * H_l1 * (1 - H_l2) = 2,048,000 * 1MB * 0.2 + 2,048,000 * 1MB * 0.8 * 0.1 = 409.6GB + 163.84GB ≈ 573.44GB/天，Unit_Price_origin 为运营商回源带宽单价（典型 ¥0.1-0.2/GB），该成本项占 C_total_per_1000req 的比例通常 >50%。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：基于题面数据（2TB回源、200GB上传、500万用户）及假设参数（99%命中率、3.6MB平均大小），数学推导过程自洽，数值量级合理。
+先验知识/题面给定，逻辑校验通过：数值计算准确（409.6+163.84=573.44GB），公式推导符合CDN回源带宽成本逻辑，量级合理。

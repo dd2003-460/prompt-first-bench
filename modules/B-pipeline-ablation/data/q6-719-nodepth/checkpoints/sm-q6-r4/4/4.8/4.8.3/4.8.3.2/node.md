@@ -1,0 +1,20 @@
+# N426: 工作点2（中核心占比/平衡点）：P_core=0.6 时，C_total_mix = 0.6*C_self + 0.4*C_public，P99_mix ≈ 0
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N132
+
+## Claim
+
+工作点2（中核心占比/平衡点）：P_core=0.6 时，C_total_mix = 0.6*C_self + 0.4*C_public，P99_mix ≈ 0.6*100ms + 0.4*150ms = 120ms，为成本与延迟的平衡最优解，适合 T=150ms 约束。
+
+## Corrected Claim
+
+工作点2（中核心占比/平衡点）：P_core=0.6 时，C_total_mix = 0.6*C_self + 0.4*C_public，P99_mix ≈ 0.6*100ms + 0.4*150ms = 120ms，为成本与延迟的平衡最优解，适合 T=150ms 约束。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：加权平均计算正确（0.6*100+0.4*150=120），且120ms < 150ms约束，符合平衡点定义。

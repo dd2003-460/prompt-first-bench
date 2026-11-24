@@ -1,24 +1,29 @@
-# N100: 安全工具链成本分解：Security_Cost = 10 × (WAF_Throughput_Cost + IDS_Sensor_License) + 1 × 
+# N112: 公有云 CDN L1 边缘节点的缓存容量 C_L1 通常为 100GB-1TB（取决于节点规模），L2 中间层节点的缓存容量 C_L2 通常为 10TB-100
 
-- **status**: verified
+- **status**: degraded
 - **level**: L3
-- **source**: knowledge
-- **edge_type**: quotient
-- **rework_count**: 0
-- **parent_ids**: N25
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N28
 
 ## Claim
 
-安全工具链成本分解：Security_Cost = 10 × (WAF_Throughput_Cost + IDS_Sensor_License) + 1 × SOC_Integration_Fee，其中 WAF_Throughput_Cost 由单 POP 峰值 QPS 及规则复杂度决定，IDS_Sensor_License 由流量监控带宽决定。
+公有云 CDN L1 边缘节点的缓存容量 C_L1 通常为 100GB-1TB（取决于节点规模），L2 中间层节点的缓存容量 C_L2 通常为 10TB-100TB，L1/L2 容量比通常为 1:10 到 1:100，具体数值需查询阿里云/Cloudflare 官方文档或实测。
 
 ## Corrected Claim
 
-安全工具链成本分解：Security_Cost = 10 × (WAF_Throughput_Cost + IDS_Sensor_License) + 1 × SOC_Integration_Fee，其中 WAF_Throughput_Cost 由单 POP 峰值 QPS 及规则复杂度决定，IDS_Sensor_License 由流量监控带宽决定。
+公有云 CDN 通常采用分层缓存架构，L1 边缘节点缓存容量通常小于 L2 中间层节点，具体容量取决于节点硬件配置与厂商策略，需查询阿里云/Cloudflare 等官方文档获取确切数值。
 
 ## Evidence
 
-父节点级核验通过：正交+完备+无冗余（三个子节点分别对应父节点公式中的三个独立变量（WAF、IDS、SOC），定义清晰且互不重叠，覆盖了所有关键成本项，且各自具有独立的计算逻辑和参数来源，不存在冗余。）
+[质询]具体数值范围（100GB-1TB, 10TB-100TB）属于经验事实，且不同厂商（如Cloudflare vs 阿里云）及节点规模差异巨大，缺乏统一标准，参考来源未提供具体容量数据，无法验证该特定数值区间的准确性。 | 逻辑自洽（L2容量大于L1符合层级缓存设计原则），但参考来源[1][2]仅描述三级架构概念，未提供具体缓存容量数值，属于经验事实且缺来源直接支持。
 
 ## Search Query
 
-WAF cost per QPS IDS license per bandwidth SOC integration fee
+Alibaba Cloud CDN L1 L2 cache capacity specification
+
+## Retrieval Sources
+
+- {'url': 'https://cloud.baidu.com/article/4623040&rut=6383e26c600ca3b7efe94c8e901424efbd1e70f5aa8ced283dd9a5c74b416e98', 'type': 'ddg', 'title': '秒懂边缘云 | Cdn缓存全攻略：从配置到优化实战指南'}
+- {'url': 'https://cloud.baidu.com/article/4172017&rut=467cda9d10b9086787ecf941b2588fd5a4dd5927f626255eb296c27ba9626447', 'type': 'ddg', 'title': '秒懂边缘云 | Cdn缓存配置全解析：从入门到优化实践'}

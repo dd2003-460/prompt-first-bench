@@ -1,30 +1,20 @@
-# N276: 阿里云 CDN 流量阶梯单价 P_bw_tier 的具体数值：根据 2024-2025 年阿里云官网价格，月流量 0-10TB 单价约 ¥0.24/GB，10-
+# N438: 单 POP 峰值带宽需求 Q_peak_pop_Mbps 的计算公式：Q_peak_pop_Mbps = (B_avg_Mbps * K_peak * W_po
 
-- **status**: degraded
+- **status**: verified
 - **level**: L4
-- **source**: search
-- **edge_type**: cartesian
-- **rework_count**: 1
-- **parent_ids**: N91
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N137
 
 ## Claim
 
-阿里云 CDN 流量阶梯单价 P_bw_tier 的具体数值：根据 2024-2025 年阿里云官网价格，月流量 0-10TB 单价约 ¥0.24/GB，10-50TB 单价约 ¥0.22/GB，50TB 以上单价约 ¥0.20/GB；日均 2TB 月度 60TB 落在 50TB+ 阶梯，P_bw_tier 应取 ¥0.20/GB 而非基准价 ¥0.2/GB（此处基准价已接近，但需确认最新折扣）。
+单 POP 峰值带宽需求 Q_peak_pop_Mbps 的计算公式：Q_peak_pop_Mbps = (B_avg_Mbps * K_peak * W_pop) * (1 + H_miss * Overhead)，其中 W_pop 为该 POP 承载的流量权重（通常 1/N_pop），H_miss 为缓存未命中率，Overhead 为协议开销（约 5-10%）。
 
 ## Corrected Claim
 
-阿里云 CDN 采用流量阶梯累进计费，月流量 60TB 通常适用比低流量阶梯更低的单价（具体数值需查阅最新官网价格表，通常低于 ¥0.24/GB 的起步价）。
+单 POP 峰值带宽需求 Q_peak_pop_Mbps 的计算公式：Q_peak_pop_Mbps = (B_avg_Mbps * K_peak * W_pop) * (1 + H_miss * Overhead)，其中 W_pop 为该 POP 承载的流量权重（通常 1/N_pop），H_miss 为缓存未命中率，Overhead 为协议开销（约 5-10%）。
 
 ## Evidence
 
-[质询]具体数值（¥0.24/0.22/0.20）属于经验事实，参考来源摘要仅确认了“阶梯累进计费”机制，未提供具体的价格数值，无法直接验证具体单价是否准确，且阿里云价格随地域（中国大陆/海外）和促销活动波动较大，存在口径混淆风险。 | 来源[1][2][3]确认了阿里云CDN采用“按流量阶梯累进计费”的模式，支持了“月流量60TB落在更高阶梯”的逻辑推导，但摘要中未包含具体单价数值，属于间接支持；具体数值缺乏直接来源支持，故降级。
-
-## Search Query
-
-Alibaba Cloud CDN pricing tier 50TB per GB 2024
-
-## Retrieval Sources
-
-- {'url': 'https://developer.aliyun.com/article/1708278&rut=2ddc55f04c3ee490ae5b44019f150c2428eac2400670b83d41207aae16acf9e2', 'type': 'ddg', 'title': '2026最新阿里云cdn收费标准：不同计费模式价格表（基础服务费和增值服务费用整理）-阿里云开发者社区'}
-- {'url': 'https://developer.aliyun.com/article/1712324&rut=d8565d970a3a9aca50dcc1aea6197e5d759235d1f16a243bf38b555228e803a3', 'type': 'ddg', 'title': '2026阿里云cdn收费全揭秘!3种计费模式 + 完整价格表一次看懂'}
-- {'url': 'https://www.aliyun.com/price/detail/cdn&rut=7deffc4f1d34859bcb7594b9f5ea62952b3f14c06ecc370a5099c3c282977b06', 'type': 'ddg', 'title': '阿里云定价_CDN价格详情'}
+先验知识/题面给定，逻辑校验通过

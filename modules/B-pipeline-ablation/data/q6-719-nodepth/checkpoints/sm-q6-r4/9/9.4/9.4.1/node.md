@@ -1,20 +1,24 @@
-# N392: 低延迟/高成本工作点：假设自建策略通过优化缓存使 P99 延迟比公有云低 10ms，对应 ΔRetention = 0.05%（基于 N136 系数 0.005
+# N568: 跨网延迟惩罚 ΔT_cross 的基准值（同省/邻省，距离<200km）为 15ms，基于三大运营商骨干网互联点的物理距离与路由跳数（通常2-3跳）计算：ΔT_
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N139
+- **parent_ids**: N186
 
 ## Claim
 
-低延迟/高成本工作点：假设自建策略通过优化缓存使 P99 延迟比公有云低 10ms，对应 ΔRetention = 0.05%（基于 N136 系数 0.005%/ms），则 ΔLTV = 0.0005 × 100 × 1.2 = ¥0.06/用户/月；此时若 Unit_Cost_Diff = ¥0.10/用户/月，则 ROI < 0，该工作点不可行
+跨网延迟惩罚 ΔT_cross 的基准值（同省/邻省，距离<200km）为 15ms，基于三大运营商骨干网互联点的物理距离与路由跳数（通常2-3跳）计算：ΔT_base = 2 * (200km / 200km/s) + 2 * T_hop ≈ 2ms + 2*6ms = 14ms，取整为 15ms。
 
 ## Corrected Claim
 
-低延迟/高成本工作点：假设自建策略通过优化缓存使 P99 延迟比公有云低 10ms，对应 ΔRetention = 0.05%（基于 N136 系数 0.005%/ms），则 ΔLTV = 0.0005 × 100 × 1.2 = ¥0.06/用户/月；此时若 Unit_Cost_Diff = ¥0.10/用户/月，则 ROI < 0，该工作点不可行
+跨网延迟惩罚 ΔT_cross 的基准值（同省/邻省，距离<200km）为 15ms，基于三大运营商骨干网互联点的物理距离与路由跳数（通常2-3跳）计算：ΔT_base = 2 * (200km / 200km/s) + 2 * T_hop ≈ 2ms + 2*6ms = 14ms，取整为 15ms。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：计算过程 0.0005 * 100 * 1.2 = 0.06 正确，且 0.06 < 0.10 导致 ROI 为负的结论符合经济直觉。
+先验知识/题面给定，逻辑校验通过：光速传播延迟计算正确（200km/200km/s=1ms，往返2ms），路由跳数延迟估算合理（2-3跳，每跳约5-10ms），总延迟14ms取整为15ms符合工程惯例。
+
+## Search Query
+
+China telecom interconnection latency cross-ISP RTT base value

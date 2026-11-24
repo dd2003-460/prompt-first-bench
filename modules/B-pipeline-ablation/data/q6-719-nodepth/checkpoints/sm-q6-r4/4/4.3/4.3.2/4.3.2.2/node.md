@@ -1,20 +1,24 @@
-# N285: 标准发布（每日 1 次）下的 DevOps 人力成本 Base_DevOps_Cost = 1.0 × Staff_Cost_Monthly × 30 = 1.
+# N356: 热对象数量 N_hot(H) 的估算模型：基于 Zipf 分布，N_hot(H) ≈ N_total_objects * (1/H)^(1/α-1)，其中 α 
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N99
+- **parent_ids**: N110
 
 ## Claim
 
-标准发布（每日 1 次）下的 DevOps 人力成本 Base_DevOps_Cost = 1.0 × Staff_Cost_Monthly × 30 = 1.0 × 25k = 25k 元/月，作为基准对比值。
+热对象数量 N_hot(H) 的估算模型：基于 Zipf 分布，N_hot(H) ≈ N_total_objects * (1/H)^(1/α-1)，其中 α 为 Zipf 指数（典型值 1.0-1.2），N_total_objects 为平台总对象数，该公式决定了存储压力与阈值的关系。
 
 ## Corrected Claim
 
-标准发布（每日 1 次）下的 DevOps 人力成本 Base_DevOps_Cost = 1.0 × Staff_Cost_Monthly × 30 = 1.0 × 25k = 25k 元/月，作为基准对比值。
+热对象数量 N_hot(H) 的估算模型：基于 Zipf 分布，N_hot(H) ≈ N_total_objects * (1/H)^(1/α-1)，其中 α 为 Zipf 指数（典型值 1.0-1.2），N_total_objects 为平台总对象数，该公式决定了存储压力与阈值的关系。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：公式 1.0 * 25k = 25k 计算正确，量纲（元/月）一致，符合基准成本定义的逻辑。
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+Zipf distribution cache hit rate threshold calculation

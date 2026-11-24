@@ -1,20 +1,24 @@
-# N128: 热门对象集合大小 K 与缓存容量 C_cache 的关系：K ≈ C_cache / s_avg，其中 C_cache 为单 POP 点或集群的总缓存容量，K 
+# N177: 请求类型占比 P_img 和 P_video：假设图片请求占 70% (P_img=0.7)，短视频请求占 30% (P_video=0.3)，基于 C 端平台
 
-- **status**: pending
+- **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N37
+- **parent_ids**: N45
 
 ## Claim
 
-热门对象集合大小 K 与缓存容量 C_cache 的关系：K ≈ C_cache / s_avg，其中 C_cache 为单 POP 点或集群的总缓存容量，K 必须小于 N_total，若 K ≥ N_total 则 Hit_Rate 上限为 100%。
+请求类型占比 P_img 和 P_video：假设图片请求占 70% (P_img=0.7)，短视频请求占 30% (P_video=0.3)，基于 C 端平台浏览行为统计（图片加载频率远高于视频播放）。
 
 ## Corrected Claim
 
-热门对象集合大小 K 与缓存容量 C_cache 的关系：K ≈ C_cache / s_avg，其中 C_cache 为单 POP 点或集群的总缓存容量，K 必须小于 N_total，若 K ≥ N_total 则 Hit_Rate 上限为 100%。
+请求类型占比 P_img 和 P_video：假设图片请求占 70% (P_img=0.7)，短视频请求占 30% (P_video=0.3)，基于 C 端平台浏览行为统计（图片加载频率远高于视频播放）。
 
 ## Evidence
 
-父节点级核验未通过：不完备（子节点正交且无冗余，分别定义了公式中的两个关键变量 C_cache 和 s_avg。但父节点中明确提到的约束条件 'K 必须小于 N_total' 以及 '若 K ≥ N_total 则 Hit_Rate 上限为 100%' 未在子节点中体现，导致分解不完备。）
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+social media traffic split image vs video requests percentage

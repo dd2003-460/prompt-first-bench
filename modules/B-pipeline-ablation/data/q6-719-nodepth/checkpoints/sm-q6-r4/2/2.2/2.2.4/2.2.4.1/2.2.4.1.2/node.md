@@ -1,20 +1,29 @@
-# N640: 现场巡检工时 Staff_Cost_Onsite 的精确计算：Staff_Cost_Onsite = FTE_Onsite × Salary_Rate_Corr
+# N763: 机柜租金通常包含基础电力配额（如 5-8kW），超出配额的电力成本按 ¥0.8-1.2/kWh 另行计费，单台边缘服务器功耗约 300-500W，月电费约 ¥2
 
-- **status**: verified
+- **status**: degraded
 - **level**: L5
-- **source**: knowledge
+- **source**: search
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N219
+- **rework_count**: 1
+- **parent_ids**: N256
 
 ## Claim
 
-现场巡检工时 Staff_Cost_Onsite 的精确计算：Staff_Cost_Onsite = FTE_Onsite × Salary_Rate_Corrected，其中 FTE_Onsite 由巡检频率决定（见 N411），Salary_Rate_Corrected 由 N220 修正后薪资决定。若 FTE_Onsite = 0.05（每周 1 次，2h/次），Salary_Rate_Corrected = ¥27,000（N220 修正值），则 Staff_Cost_Onsite = 0.05 × 27,000 = ¥1,350/月/POP；若 FTE_Onsite = 0.1（每周 2 次，2h/次），则 Staff_Cost_Onsite = 0.1 × 27,000 = ¥2,700/月/POP。
+机柜租金通常包含基础电力配额（如 5-8kW），超出配额的电力成本按 ¥0.8-1.2/kWh 另行计费，单台边缘服务器功耗约 300-500W，月电费约 ¥200-400。
 
 ## Corrected Claim
 
-现场巡检工时 Staff_Cost_Onsite 的精确计算：Staff_Cost_Onsite = FTE_Onsite × Salary_Rate_Corrected，其中 FTE_Onsite 由巡检频率决定（见 N411），Salary_Rate_Corrected 由 N220 修正后薪资决定。若 FTE_Onsite = 0.05（每周 1 次，2h/次），Salary_Rate_Corrected = ¥27,000（N220 修正值），则 Staff_Cost_Onsite = 0.05 × 27,000 = ¥1,350/月/POP；若 FTE_Onsite = 0.1（每周 2 次，2h/次），则 Staff_Cost_Onsite = 0.1 × 27,000 = ¥2,700/月/POP。
+机柜租金通常包含基础电力配额（常见为8-10kW，部分为5-8kW），超出配额的电力成本另行计费（具体单价视运营商而定，通常在¥0.8-1.5/kWh区间），单台边缘服务器功耗约300-500W，具体月电费取决于机柜密度及当地电价。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：乘法运算 0.05*27000=1350 和 0.1*27000=2700 正确，量纲一致（FTE为无量纲比例，薪资为月度金额，结果为月度成本），符合成本计算基本逻辑。
+[质询]基础电力配额数值存在来源冲突：来源[2]指出通常包含8-10kW，而陈述称5-8kW，范围不完全重合；且单台服务器月电费估算（¥200-400）隐含了极高的单机柜密度（约10-15台/柜）或特定的电价假设，缺乏来源直接支持该具体金额区间。 | 来源[1]和[2]支持机柜按功率定价及包含基础电力的模式，但来源[2]给出的基础电力配额（8-10kW）与陈述（5-8kW）存在偏差，且无来源直接支持具体的超额电价（¥0.8-1.2/kWh）及单台服务器月电费（¥200-400）的具体数值，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+data center electricity price per kWh China
+
+## Retrieval Sources
+
+- {'url': 'https://www.dcim.co/learn/rack-rental-pricing-method/&rut=43edceede0f74edc4eaa67ab73075a408d0e6ea539ae47aa82ccef804a2d5908', 'type': 'ddg', 'title': '机柜租用怎么算价格：按功率还是按 U 位 - Toplink'}
+- {'url': 'https://www.htstack.com/news/150957.shtml&rut=f5d9c0856d17aaa5d34f33b732432e2bf93d20865e6b81683ea73eb96fce57a8', 'type': 'ddg', 'title': '运营商机柜租赁常见疑问解答：成本、服务与选型全指南'}

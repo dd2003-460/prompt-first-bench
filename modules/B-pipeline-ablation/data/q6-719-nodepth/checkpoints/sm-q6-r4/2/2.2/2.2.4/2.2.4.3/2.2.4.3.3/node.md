@@ -1,0 +1,20 @@
+# N770: 机柜数量 N_rack 与负载率 Load_factor 的约束关系：单柜标准功率上限通常为 6-10kW，若服务器满载功耗超过单柜上限，需增加机柜数量，N_r
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N258
+
+## Claim
+
+机柜数量 N_rack 与负载率 Load_factor 的约束关系：单柜标准功率上限通常为 6-10kW，若服务器满载功耗超过单柜上限，需增加机柜数量，N_rack = ceil(P_total_IT / P_cabinet_max)，其中 P_cabinet_max 为机房单柜电力上限。
+
+## Corrected Claim
+
+机柜数量 N_rack 与负载率 Load_factor 的约束关系：单柜标准功率上限通常为 6-10kW，若服务器满载功耗超过单柜上限，需增加机柜数量，N_rack = ceil(P_total_IT / P_cabinet_max)，其中 P_cabinet_max 为机房单柜电力上限。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

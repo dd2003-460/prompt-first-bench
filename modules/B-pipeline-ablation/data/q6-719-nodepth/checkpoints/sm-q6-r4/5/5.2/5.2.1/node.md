@@ -1,20 +1,20 @@
-# N91: 全公有云策略月度带宽成本 C_bw_cloud = 2TB * 1024 GB/TB * 30 days * P_bw_tier，其中 P_bw_tier 为对
+# N137: 自建POP的固定月租费计算公式为 C_fixed_monthly = Q_peak_Mbps * k_bw，其中 Q_peak_Mbps 为峰值带宽需求（Mbp
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N23
+- **parent_ids**: N34
 
 ## Claim
 
-全公有云策略月度带宽成本 C_bw_cloud = 2TB * 1024 GB/TB * 30 days * P_bw_tier，其中 P_bw_tier 为对应流量阶梯的单价（假设基准价 ¥0.2/GB），计算得 2048 * 30 * 0.2 = ¥12,288/月。
+自建POP的固定月租费计算公式为 C_fixed_monthly = Q_peak_Mbps * k_bw，其中 Q_peak_Mbps 为峰值带宽需求（Mbps），k_bw 为运营商单 Mbps 月租单价（¥/Mbps/月）
 
 ## Corrected Claim
 
-全公有云策略月度带宽成本 C_bw_cloud = 2TB * 1024 GB/TB * 30 days * P_bw_tier，其中 P_bw_tier 为对应流量阶梯的单价（假设基准价 ¥0.2/GB），计算得 2048 * 30 * 0.2 = ¥12,288/月。
+自建POP的固定月租费计算公式为 C_fixed_monthly = Q_peak_Mbps * k_bw，其中 Q_peak_Mbps 为峰值带宽需求（Mbps），k_bw 为运营商单 Mbps 月租单价（¥/Mbps/月）
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：2TB转换为2048GB，乘以30天及单价0.2元/GB，计算结果12288元正确。
+父节点级核验通过：正交+完备+无冗余（父节点公式 C_fixed_monthly = Q_peak_Mbps * k_bw 包含两个主要变量。子节点1专门定义了 Q_peak_Mbps（带宽需求），子节点2专门定义了 k_bw（单价）。两者分别对应公式中的两个乘数，内容互不重叠且无矛盾，符合正交性。同时，这两个子节点完整覆盖了父节点公式中所有需要进一步展开的关键参数，符合完备性。不存在冗余情况。）

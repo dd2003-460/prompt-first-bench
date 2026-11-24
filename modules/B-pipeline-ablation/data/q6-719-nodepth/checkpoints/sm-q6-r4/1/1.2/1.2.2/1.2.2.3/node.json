@@ -1,17 +1,17 @@
 {
-  "id": "N158",
-  "claim": "混合策略下 P99 延迟的分布叠加效应：P99_hybrid = max(P99_core, P99_cloud_fallback) 的加权近似，需考虑 20% 流量走自建核心（低 P99）和 80% 流量走公有云（高 P99）时的整体分位数计算，通常高于纯自建但低于纯公有云。",
+  "id": "N210",
+  "claim": "跨网接入惩罚项 ΔT_cross_net = 15ms，当用户运营商与 CDN 节点接入运营商不一致时（中国三大运营商跨网场景），P99 延迟增加 15ms（基于 N184/N192 的 10-20ms 区间取中值），需叠加到基础 RTT 上",
   "level": "L4",
   "source": "knowledge",
   "status": "verified",
-  "evidence": "父节点级核验通过：正交+完备+无冗余（子节点分别涵盖了混合分位数的数学定义（精确计算）、权重参数 w_core 的确定依据（流量比例）以及子分布 F_cloud 的边界条件（故障退化）。三者分别对应公式中的逆函数操作、权重参数和输入分布定义，逻辑上相互独立且共同构成了完整的计算闭环，无重叠或矛盾。）",
-  "corrected_claim": "混合策略下 P99 延迟通常高于纯自建但低于纯公有云。其数值取决于流量比例和两个子系统的延迟分布，不能简单用 max(P99_core, P99_cloud) 加权近似，而应基于混合分布函数计算第 99 百分位数。",
-  "rework_count": 1,
+  "evidence": "父节点级核验通过：正交+完备+无冗余（三个子节点分别解释了延迟增量的物理来源（路由跳数）、触发概率（ISP分布重合度）以及伴随的丢包影响（TCP重传），维度互斥且互补。虽然第三个子节点提到的5-10ms重传延迟在严格意义上可能包含在父节点的15ms总惩罚中，或者作为额外的恶化因素，但作为对'跨网导致延迟增加'这一现象的完整归因分析，它提供了必要的上下文细节，未构成逻辑矛盾或重复。）",
+  "corrected_claim": "跨网接入惩罚项 ΔT_cross_net = 15ms，当用户运营商与 CDN 节点接入运营商不一致时（中国三大运营商跨网场景），P99 延迟增加 15ms（基于 N184/N192 的 10-20ms 区间取中值），需叠加到基础 RTT 上",
+  "rework_count": 0,
   "parent_ids": [
-    "N44"
+    "N53"
   ],
   "objective": null,
   "edge_type": "cartesian",
-  "search_query": "weighted percentile calculation hybrid CDN latency distribution",
+  "search_query": "",
   "retrieval_sources": []
 }

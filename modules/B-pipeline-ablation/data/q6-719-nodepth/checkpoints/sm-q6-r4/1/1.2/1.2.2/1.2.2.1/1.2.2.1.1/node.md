@@ -1,20 +1,30 @@
-# N464: CDN 边缘节点 RTT 对数正态分布参数 μ 的估算：μ = ln(Geometric_Mean_RTT)，若实测 P50 RTT 为 20ms，则 μ ≈ 
+# N633: 核心区域用户到最近 CDN 节点的距离分布 P99 (km)：基于阿里云/Cloudflare 在核心城市（北上广深等）的节点密度（每 50km 半径内至少 1
 
-- **status**: verified
+- **status**: degraded
 - **level**: L5
-- **source**: knowledge
-- **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N156
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N208
 
 ## Claim
 
-CDN 边缘节点 RTT 对数正态分布参数 μ 的估算：μ = ln(Geometric_Mean_RTT)，若实测 P50 RTT 为 20ms，则 μ ≈ ln(20) ≈ 2.996，该值直接决定 P99 延迟的基准水平。
+核心区域用户到最近 CDN 节点的距离分布 P99 (km)：基于阿里云/Cloudflare 在核心城市（北上广深等）的节点密度（每 50km 半径内至少 1 个节点），80% 用户 P99 距离并非 200km，而是更接近 50-100km，原假设 200km 过于保守，需修正为 d_p99_core ≈ 80km。
 
 ## Corrected Claim
 
-CDN 边缘节点 RTT 对数正态分布参数 μ 的估算：μ = ln(Geometric_Mean_RTT)，若实测 P50 RTT 为 20ms，则 μ ≈ ln(20) ≈ 2.996，该值直接决定 P99 延迟的基准水平。
+基于阿里云在中国内地拥有2300+节点且覆盖31个省级区域的高密度布局，核心城市用户到最近CDN节点的距离显著低于200km，原假设过于保守，实际P99距离预计处于较低量级（如50-100km区间），具体数值需实测确认。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：对数正态分布中位数等于 exp(μ)，故 μ=ln(P50)；ln(20)≈2.996 计算正确；μ 确实决定分布中心位置，进而影响 P99 基准。
+[质询]陈述中的具体数值（P99距离≈80km）及推导前提（每50km半径内至少1个节点）属于经验性估算，参考来源仅提供了节点总数（2300+）和覆盖范围（31省），并未提供具体的地理密度数据或用户距离分布统计，无法直接验证该精确数值。 | 来源[1]证实阿里云在中国内地拥有2300+节点且覆盖31个省级区域，支持了节点密度较高的定性判断，但缺乏具体距离分布数据以直接支持80km这一精确数值，故降级为定性表述。
+
+## Search Query
+
+Alibaba Cloud CDN node density core cities user distance P99
+
+## Retrieval Sources
+
+- {'url': 'https://www.alibabacloud.com/help/zh/cdn/product-overview/pop-distribution&rut=23ff9bdacde7e29a0a8ed002418dc8bdee6318ca06066d47e6ed8eb8d8afa4b3', 'type': 'ddg', 'title': '全球节点分布与覆盖范围 - CDN - 阿里云 - Alibaba Cloud'}
+- {'url': 'https://help.aliyun.com/zh/cdn/product-overview/pop-distribution&rut=5e0247e564c51aa0ba600ac90f243180e35c623d3216c39f3cd8860dafe6d14f', 'type': 'ddg', 'title': '全球节点资源规格与覆盖范围-cdn-阿里云'}
+- {'url': 'https://www.alibabacloud.com/help/tc/cdn/product-overview/pop-distribution&rut=65484337fe9cc017deed014ec2a440ce7276f7fabb3e08ae3b57c86c3ecbdfa8', 'type': 'ddg', 'title': 'CDN全球高效能節點分布與覆蓋地區-CDN-阿里雲 - Alibaba Cloud'}

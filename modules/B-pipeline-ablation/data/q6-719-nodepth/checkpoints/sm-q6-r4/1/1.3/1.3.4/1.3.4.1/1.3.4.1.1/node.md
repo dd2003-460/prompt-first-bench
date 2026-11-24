@@ -1,20 +1,24 @@
-# N508: P99 图片大小具体数值：基于 μ_img=0.69 (ln(2MB)), σ_img=0.5，计算得 P99_img = exp(0.69 + 2.326×0
+# N682: 同省/同城 BGP 专线的单 GB 带宽成本 C_bandwidth_per_GB 由月度固定租金分摊得出：C_bandwidth_per_GB = (B_pe
 
 - **status**: verified
 - **level**: L5
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N171
+- **parent_ids**: N227
 
 ## Claim
 
-P99 图片大小具体数值：基于 μ_img=0.69 (ln(2MB)), σ_img=0.5，计算得 P99_img = exp(0.69 + 2.326×0.5) ≈ exp(1.853) ≈ 6.38 MB，用于确定回源带宽峰值需求。
+同省/同城 BGP 专线的单 GB 带宽成本 C_bandwidth_per_GB 由月度固定租金分摊得出：C_bandwidth_per_GB = (B_peak_Mbps * k_bw_monthly) / (Q_daily_GB * 30)，其中 B_peak_Mbps 为 95 峰值带宽，k_bw_monthly 为 ¥15-25/Mbps/月（同省专线典型价），Q_daily_GB 为日均回源流量
 
 ## Corrected Claim
 
-P99 图片大小具体数值：基于 μ_img=0.69 (ln(2MB)), σ_img=0.5，计算得 P99_img = exp(0.69 + 2.326×0.5) ≈ exp(1.853) ≈ 6.38 MB，用于确定回源带宽峰值需求。
+同省/同城 BGP 专线的单 GB 带宽成本 C_bandwidth_per_GB 由月度固定租金分摊得出：C_bandwidth_per_GB = (B_peak_Mbps * k_bw_monthly) / (Q_daily_GB * 30)，其中 B_peak_Mbps 为 95 峰值带宽，k_bw_monthly 为 ¥15-25/Mbps/月（同省专线典型价），Q_daily_GB 为日均回源流量
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：对数正态分布P99计算公式正确，数值推导 exp(0.69 + 2.326*0.5) = exp(1.853) ≈ 6.38 准确无误。
+先验知识/题面给定，逻辑校验通过：公式量纲正确（Mbps * ¥/Mbps/月 / (GB/天 * 30天) = ¥/GB），且同省BGP专线价格区间（¥15-25/Mbps/月）符合行业常识。
+
+## Search Query
+
+China BGP dedicated line cost per Mbps monthly intra-provincial price

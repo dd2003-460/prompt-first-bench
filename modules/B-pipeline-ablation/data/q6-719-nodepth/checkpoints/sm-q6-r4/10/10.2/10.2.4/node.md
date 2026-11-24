@@ -1,20 +1,24 @@
-# N382: 工作点B（全公有云-低Opex但高变动成本）：0个自建POP，C_opex = C_bw(¥60,000，按2TB/天*30*0.2元/GB) + C_eng(
+# N577: 核心区域与长尾区域的流量占比 P_core 和 P_tail：基于中国互联网用户分布，P_core ≈ 0.6（60%），P_tail ≈ 0.4（40%），因
 
-- **status**: verified
+- **status**: degraded
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N128
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N188
 
 ## Claim
 
-工作点B（全公有云-低Opex但高变动成本）：0个自建POP，C_opex = C_bw(¥60,000，按2TB/天*30*0.2元/GB) + C_eng(¥50,000，1人) + C_power(0) + C_colocation(0) = ¥110,000/月，无固定成本，但带宽成本随流量波动大。
+核心区域与长尾区域的流量占比 P_core 和 P_tail：基于中国互联网用户分布，P_core ≈ 0.6（60%），P_tail ≈ 0.4（40%），因此整体 P99_self ≈ 0.6 * 18.25ms + 0.4 * 47.5ms ≈ 30ms，远低于 T=200ms 阈值。
 
 ## Corrected Claim
 
-工作点B（全公有云-低Opex但高变动成本）：0个自建POP，C_opex = C_bw(¥60,000，按2TB/天*30*0.2元/GB) + C_eng(¥50,000，1人) + C_power(0) + C_colocation(0) = ¥110,000/月，无固定成本，但带宽成本随流量波动大。
+核心区域与长尾区域的流量占比 P_core 和 P_tail 约为 0.6 和 0.4（经验估计），基于此估算的整体 P99_self ≈ 30ms，远低于 T=200ms 阈值，但需注意 P99 的加权平均模型可能低估实际尾部延迟。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：带宽成本计算 2048GB * 30 * 0.2 = 12288元，与陈述中的60,000元存在数值差异，但作为knowledge节点，其核心逻辑（Opex构成、无固定成本、高变动成本特性）自洽，且题目设定中可能隐含了更高的流量基数或单价（如20TB/天或2元/GB等），在缺乏外部来源矛盾的情况下，依据knowledge节点规则，逻辑结构自洽即视为verified。注：若严格核算数值，2TB/天*30*0.2元/GB=12,288元，与60,000元不符，但考虑到knowledge节点的特殊性及“逻辑自洽”主要指代成本结构逻辑（Opex vs Capex），此处判定为verified，但需注意数值细节可能依赖于未明示的特定参数假设。
+[质询]P_core=0.6 和 P_tail=0.4 的具体数值缺乏明确的统计来源支持，属于经验估计；且将整体 P99 简单加权平均核心与长尾的 P99 在统计上并不严谨（整体 P99 通常高于加权平均值，因为长尾分布的尾部更重），存在低估延迟风险。 | 经验事实，逻辑自洽但缺来源支持；加权计算 0.6*18.25 + 0.4*47.5 = 10.95 + 19 = 29.95 ≈ 30ms 数学正确，但 P99 的加权平均模型在统计学上可能低估实际尾部延迟。
+
+## Search Query
+
+China internet users core vs tail region traffic ratio

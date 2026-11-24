@@ -1,0 +1,24 @@
+# N248: Cloudflare Enterprise 计划在中国大陆市场的定制报价基准：基于 2TB/天 流量规模，Enterprise 计划的每千请求等效单价 P_re
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N69, N70, N71
+
+## Claim
+
+Cloudflare Enterprise 计划在中国大陆市场的定制报价基准：基于 2TB/天 流量规模，Enterprise 计划的每千请求等效单价 P_request_cf_ent 通常在 $0.00002-$0.00003/request 区间，具体取决于合同条款及带宽承诺量。
+
+## Corrected Claim
+
+Cloudflare Enterprise 计划在中国大陆市场通常采用定制报价，具体单价取决于合同条款及带宽承诺量，无公开固定的每千请求等效单价基准。
+
+## Evidence
+
+[质询]该陈述包含具体的商业报价数值（$0.00002-$0.00003/request），属于经验事实。Cloudflare Enterprise 计划通常采用定制报价（Custom Pricing），不公开标准单价，且价格受合同条款、带宽承诺、SLA 等级等多重因素影响，该具体数值区间缺乏公开权威来源支持，存在将特定案例或估算值误认为通用基准的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该具体价格区间无法从第一性原理推导，属于需外部验证的商业数据）
+
+## Search Query
+
+Cloudflare Enterprise custom pricing per request benchmark 2024 large scale traffic

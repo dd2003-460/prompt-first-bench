@@ -1,24 +1,20 @@
-# N494: 对象存储数据块读取（Read Block）的延迟 T_data_read 受 IOPS 限制，在 10k IOPS 源站负载下，单请求排队等待时间 T_queu
+# N674: 长尾区域跨网惩罚 ΔT_cross_tail 的量化构成：主要源于长距离 BGP 路由跳数增加（平均 3-5 跳）及骨干网拥塞，典型值为 15-25ms，其中 
 
 - **status**: verified
 - **level**: L5
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N166
+- **parent_ids**: N224
 
 ## Claim
 
-对象存储数据块读取（Read Block）的延迟 T_data_read 受 IOPS 限制，在 10k IOPS 源站负载下，单请求排队等待时间 T_queue ≈ 1/(10000 * (1-ρ))，若利用率 ρ=0.5，则 T_queue ≈ 0.1ms，加上 SSD 随机读物理延迟 0.1-0.5ms，总数据读取时间约 0.2-0.6ms
+长尾区域跨网惩罚 ΔT_cross_tail 的量化构成：主要源于长距离 BGP 路由跳数增加（平均 3-5 跳）及骨干网拥塞，典型值为 15-25ms，其中 5-10ms 为路由开销，10-15ms 为骨干网排队延迟。
 
 ## Corrected Claim
 
-对象存储数据块读取（Read Block）的延迟 T_data_read 受 IOPS 限制，在 10k IOPS 源站负载下，单请求排队等待时间 T_queue ≈ 1/(10000 * (1-ρ))，若利用率 ρ=0.5，则 T_queue ≈ 0.1ms，加上 SSD 随机读物理延迟 0.1-0.5ms，总数据读取时间约 0.2-0.6ms
+长尾区域跨网惩罚 ΔT_cross_tail 的量化构成：主要源于长距离 BGP 路由跳数增加（平均 3-5 跳）及骨干网拥塞，典型值为 15-25ms，其中 5-10ms 为路由开销，10-15ms 为骨干网排队延迟。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：基于M/M/1排队模型，10k IOPS下ρ=0.5时排队延迟0.1ms及SSD随机读延迟0.1-0.5ms的量级符合工程常识与物理直觉。
-
-## Search Query
-
-SSD random read latency IOPS queueing theory M/M/1
+先验知识/题面给定，逻辑校验通过

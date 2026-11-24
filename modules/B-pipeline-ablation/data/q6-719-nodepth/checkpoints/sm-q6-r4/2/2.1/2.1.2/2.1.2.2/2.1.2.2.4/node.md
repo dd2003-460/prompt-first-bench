@@ -1,0 +1,30 @@
+# N733: 阿里云CDN包年包月模式仅适用于带宽/流量包，不适用于纯请求次数计费；对于以请求次数为主要计费维度的动态请求，无包年包月选项，必须按量付费。因此 N245 中‘
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N244, N245, N246
+
+## Claim
+
+阿里云CDN包年包月模式仅适用于带宽/流量包，不适用于纯请求次数计费；对于以请求次数为主要计费维度的动态请求，无包年包月选项，必须按量付费。因此 N245 中‘转为包年包月模式’的前提不成立，实际单价 P_request_ali_discounted 仅由阶梯折扣决定，不随购买时长变化。
+
+## Corrected Claim
+
+阿里云CDN基础服务主要支持按流量和带宽峰值计费，存在静态HTTPS请求数包等预付费资源包；对于动态请求次数，通常采用按量付费模式，具体是否支持包年包月需以官方最新计费文档为准，不能绝对断定无此选项。
+
+## Evidence
+
+[质询]来源未明确提及‘请求次数’计费模式是否存在包年包月选项，仅展示了流量和带宽的计费方式，无法完全排除请求数包存在预付费（包年包月）的可能性，存在口径覆盖不全的风险。 | 来源[2]明确基础服务支持按流量、带宽峰值计费，来源[1]提及存在‘静态HTTPS请求数包’（通常为预付费资源包），但未明确说明动态请求次数是否支持包年包月；逻辑上动态请求通常按量计费，但缺乏直接来源证实‘无包年包月选项’这一绝对性结论，故降级。
+
+## Search Query
+
+Alibaba Cloud CDN subscription model dynamic request billing availability
+
+## Retrieval Sources
+
+- {'url': 'https://help.aliyun.com/zh/cdn/product-overview/billing-overview&rut=2cb52aad46530de559a07b5bd49dbfc609d7fbedfe6bf0dc3ad82d3e2800dd3a', 'type': 'ddg', 'title': 'Cdn如何计费-cdn (Cdn)-阿里云帮助中心'}
+- {'url': 'https://help.aliyun.com/zh/cdn/product-overview/billing-rules-of-basic-services&rut=22e872a8ba0621d069f308257bb98eeb8660a5ea03067d9731daae44ee6b1d71', 'type': 'ddg', 'title': '基础服务计费方式定价规则-cdn-阿里云-cdn (Cdn)-阿里云帮助中心'}
+- {'url': 'https://developer.aliyun.com/article/1708278&rut=66e9e7546af3c7e07123555f3dccddc3909def48b1744a7ee072b3c27142d968', 'type': 'ddg', 'title': '2026最新阿里云cdn收费标准：不同计费模式价格表（基础服务费和增值服务费用整理）-阿里云开发者社区'}

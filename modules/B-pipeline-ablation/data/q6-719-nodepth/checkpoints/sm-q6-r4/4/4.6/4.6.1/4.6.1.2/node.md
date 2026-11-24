@@ -1,0 +1,20 @@
+# N383: 用户到公有云 CDN 边缘节点的 RTT_user_edge P99 值由物理传播延迟和路由开销组成，公式为 RTT_user_edge_P99 ≈ 0.05 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N118
+
+## Claim
+
+用户到公有云 CDN 边缘节点的 RTT_user_edge P99 值由物理传播延迟和路由开销组成，公式为 RTT_user_edge_P99 ≈ 0.05 * D_user_edge_P99 + 5 + ΔT_routing，其中 ΔT_routing 为跨运营商或路由跳数带来的额外延迟，典型值为 5-15ms。
+
+## Corrected Claim
+
+用户到公有云 CDN 边缘节点的 RTT_user_edge P99 值由物理传播延迟和路由开销组成，公式为 RTT_user_edge_P99 ≈ 0.05 * D_user_edge_P99 + 5 + ΔT_routing，其中 ΔT_routing 为跨运营商或路由跳数带来的额外延迟，典型值为 5-15ms。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：光速传播延迟系数0.05ms/km符合物理常识，路由开销典型值5-15ms符合网络工程经验，公式结构自洽。

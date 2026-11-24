@@ -1,20 +1,24 @@
-# N137: LTV 增加量 ΔLTV 计算：ΔLTV = ΔRetention × LTV_Base × Retention_Elasticity，其中 LTV_Base 
+# N184: 跨网 RTT 差异量化：电信-联通、电信-移动、联通-移动之间的跨网 RTT 通常比同网高 10-30ms，且 P99 延迟波动更大（Jitter 增加 5-1
 
-- **status**: pending
+- **status**: verified
 - **level**: L3
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N39
+- **parent_ids**: N47
 
 ## Claim
 
-LTV 增加量 ΔLTV 计算：ΔLTV = ΔRetention × LTV_Base × Retention_Elasticity，其中 LTV_Base 为单用户生命周期价值（由 ARPU × 平均生命周期决定，典型值 ¥50-200/用户），Retention_Elasticity 为留存率对延迟的弹性系数（通常 1.0-1.5）。
+跨网 RTT 差异量化：电信-联通、电信-移动、联通-移动之间的跨网 RTT 通常比同网高 10-30ms，且 P99 延迟波动更大（Jitter 增加 5-15ms）。
 
 ## Corrected Claim
 
-LTV 增加量 ΔLTV 计算：ΔLTV = ΔRetention × LTV_Base × Retention_Elasticity，其中 LTV_Base 为单用户生命周期价值（由 ARPU × 平均生命周期决定，典型值 ¥50-200/用户），Retention_Elasticity 为留存率对延迟的弹性系数（通常 1.0-1.5）。
+跨网 RTT 差异量化：电信-联通、电信-移动、联通-移动之间的跨网 RTT 通常比同网高 10-30ms，且 P99 延迟波动更大（Jitter 增加 5-15ms）。
 
 ## Evidence
 
-父节点级核验未通过：有冗余（子节点在逻辑上是正交的（分别对应高、中、低不同用户画像的工作点），且覆盖了公式中参数的不同取值场景，具备完备性。然而，从结构上看，这三个子节点本质上是同一计算公式在特定参数集下的实例化（Instance），而非独立的子概念或子模块。它们之间高度重复，仅数值不同，属于典型的‘参数化冗余’。）
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+China cross-ISP latency difference Telecom Unicom Mobile ms

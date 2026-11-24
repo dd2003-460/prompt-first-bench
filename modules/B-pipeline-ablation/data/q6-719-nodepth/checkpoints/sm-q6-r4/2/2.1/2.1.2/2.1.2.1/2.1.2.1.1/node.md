@@ -1,24 +1,30 @@
-# N599: 企业级 NVMe SSD (如 Samsung PM9A3 2TB) 的 DWPD (Daily Write Per Drive) 典型值为 1.0 DWPD，
+# N723: 阿里云CDN中国大陆按量付费模式下，静态HTTPS请求的计费单价 P_request_ali 精确值为 ¥0.045/1000 requests（基于2024-
 
 - **status**: degraded
 - **level**: L5
-- **source**: knowledge
+- **source**: search
 - **edge_type**: cartesian
 - **rework_count**: 1
-- **parent_ids**: N206
+- **parent_ids**: N243
 
 ## Claim
 
-企业级 NVMe SSD (如 Samsung PM9A3 2TB) 的 DWPD (Daily Write Per Drive) 典型值为 1.0 DWPD，而消费级 (WD SN850) 通常未标注或仅为 0.3 DWPD，这决定了在日均写入 200GB/平台 (假设10 POP 分摊，单 POP 20GB/天) 场景下，企业级 SSD 的理论寿命为 1000 天 (1.0 DWPD * 2TB / 20GB)，消费级仅为 300 天，需据此计算 36 个月折旧期内的更换频率修正系数。
+阿里云CDN中国大陆按量付费模式下，静态HTTPS请求的计费单价 P_request_ali 精确值为 ¥0.045/1000 requests（基于2024-2025年官方标准价目表，不含企业协议折扣）。
 
 ## Corrected Claim
 
-企业级 NVMe SSD (如 Samsung PM9A3 2TB) 的 DWPD 典型值为 1.0，而消费级 (WD SN850 2TB) 的等效 DWPD 约为 1.6 (基于 1200TB TBW 估算)。在单 POP 20GB/天写入场景下，企业级 SSD 理论寿命约为 100 天 (2000GB * 1.0 / 20GB)，消费级约为 160 天 (2000GB * 1.6 / 20GB)。
+阿里云CDN中国大陆按量付费模式下，静态HTTPS请求单独计费，具体单价需查阅最新官方价目表（参考来源未提供确切数值）。
 
 ## Evidence
 
-[质询]Samsung PM9A3 2TB 的官方 DWPD 规格通常为 1.0（部分批次或特定型号如 PM9A1 可能不同，但 PM9A3 确为 1.0），然而 WD SN850 作为消费级旗舰，其官方规格通常不直接标注 DWPD，而是提供 TBW（Total Bytes Written）。WD SN850 2TB 的 TBW 约为 1200TB，计算得出的等效 DWPD 约为 1.6 (1200TB / 2TB / 365天 ≈ 1.6)，远高于陈述中的 0.3。0.3 DWPD 更接近低端消费级 SSD（如 WD Blue 或某些 QLC 盘）的水平，而非 SN850 这种高性能 TLC 盘。因此，将 SN850 的 DWPD 定为 0.3 存在事实性偏差，导致寿命计算（300天）严重低估。 | 先验知识/题面给定，逻辑校验通过。虽然计算逻辑（寿命=容量*DWPD/日均写入）自洽，但 WD SN850 的典型 DWPD 值（约1.6）与陈述中的 0.3 存在显著偏差，属于经验事实参数错误，故降级。
+[质询]参考来源仅确认了计费模式（按量后付费）和计费对象（静态HTTPS请求数），但未提供具体的单价数值（¥0.045/1000 requests）。该数值属于经验事实（具体价格参数），无法从第一性原理推导，且来源摘要中缺失关键数值证据，存在价格随时间或区域变动的可能性，无法排除其他数值。 | 来源[1]和[3]确认了阿里云CDN静态HTTPS请求按量计费的事实，但摘要中未包含具体单价数值，属于间接支持；该事实为经验参数，逻辑自洽但缺直接来源支持具体数值。
 
 ## Search Query
 
-Samsung PM9A3 2TB DWPD spec vs WD SN850 2TB DWPD spec
+Aliyun CDN China pricing static HTTPS requests per 1000 2024
+
+## Retrieval Sources
+
+- {'url': 'https://help.aliyun.com/zh/cdn/product-overview/billing-of-https-requests-for-static-content&rut=8f50dec506a4ed52696032de6c7e3ada6a4c8791ae1e5f86272ac89237ba1cfe', 'type': 'ddg', 'title': '静态https请求数的计费标准及示例-cdn (Cdn)-阿里云帮助中心'}
+- {'url': 'https://help.aliyun.com/zh/cdn/product-overview/billing-overview&rut=2cb52aad46530de559a07b5bd49dbfc609d7fbedfe6bf0dc3ad82d3e2800dd3a', 'type': 'ddg', 'title': 'Cdn如何计费-cdn (Cdn)-阿里云帮助中心'}
+- {'url': 'https://www.alibabacloud.com/help/zh/cdn/product-overview/billing-of-https-requests-for-static-content&rut=b359de018c657fb63b8134d42221acf859b61bfff956e242369591009acb741d', 'type': 'ddg', 'title': '静态https请求数的计费标准及示例 - Cdn - 阿里云'}

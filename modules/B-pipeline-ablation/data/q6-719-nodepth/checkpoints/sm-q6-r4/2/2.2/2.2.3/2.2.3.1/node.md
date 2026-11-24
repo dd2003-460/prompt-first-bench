@@ -1,24 +1,24 @@
-# N216: 硬件故障率分解：Hardware_Failure_Rate = Base_Failure_Rate + Age_Penalty，其中 Base_Failure_
+# N255: 硬件折旧年限 Y_dep 的行业标准通常采用 3 年直线折旧法，这是基于服务器性能衰减曲线（3 年后故障率显著上升且能效比降低）及税务合规要求确定的，残值率通常
 
-- **status**: pending
+- **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N64
+- **parent_ids**: N74
 
 ## Claim
 
-硬件故障率分解：Hardware_Failure_Rate = Base_Failure_Rate + Age_Penalty，其中 Base_Failure_Rate 为服务器硬件平均年故障率（MTBF 倒数），典型值 3%-5%（即 MTBF ≈ 20-33 年）；Age_Penalty 为服役年限修正系数，通常每满 3 年故障率增加 50%-100%，若服务器平均服役 2 年，则 Age_Penalty ≈ 0，总故障率 ≈ 4%/年。
+硬件折旧年限 Y_dep 的行业标准通常采用 3 年直线折旧法，这是基于服务器性能衰减曲线（3 年后故障率显著上升且能效比降低）及税务合规要求确定的，残值率通常设为 5%（即 5% 的资产价值作为电子废弃物回收残值）。
 
 ## Corrected Claim
 
-硬件故障率分解：Hardware_Failure_Rate = Base_Failure_Rate + Age_Penalty，其中 Base_Failure_Rate 为服务器硬件平均年故障率（MTBF 倒数），典型值 3%-5%（即 MTBF ≈ 20-33 年）；Age_Penalty 为服役年限修正系数，通常每满 3 年故障率增加 50%-100%，若服务器平均服役 2 年，则 Age_Penalty ≈ 0，总故障率 ≈ 4%/年。
+硬件折旧年限 Y_dep 的行业标准通常采用 3 年直线折旧法，这是基于服务器性能衰减曲线（3 年后故障率显著上升且能效比降低）及税务合规要求确定的，残值率通常设为 5%（即 5% 的资产价值作为电子废弃物回收残值）。
 
 ## Evidence
 
-父节点级核验未通过：非正交（子节点2（Age_Penalty函数）与父节点定义存在严重矛盾。父节点定义 Age_Penalty 为加性项（Base + Penalty），且数值为百分比/系数；子节点2将其定义为乘性因子（Base × (1+Penalty)），且计算出的 Age_Penalty 值（2.24）远超父节点描述的“50%-100%”范围，导致逻辑不一致。此外，子节点3属于故障后果分析，超出了“故障率分解”这一纯量化定义的范畴，虽不直接重复，但破坏了主题聚焦。）
+先验知识/题面给定，逻辑校验通过：3年直线折旧及5%残值率符合IT硬件行业通用会计惯例及税务合规标准，逻辑自洽。
 
 ## Search Query
 
-server hardware annual failure rate MTBF baseline
+server hardware depreciation years standard 3 year straight line

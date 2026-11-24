@@ -1,20 +1,24 @@
-# N364: 敏感性分析区间：对 α_img 在 [0.9, 1.1]、α_vid 在 [0.7, 0.9] 范围内进行网格搜索，计算对应 Hit_Rate_mix 的变化幅
+# N533: 高保真工作点（HEIC + 4K）：s_img_high ≈ 2.0-3.5 MB，基于 HEIC q=90 及 4K 分辨率（3840x2160）的典型文件大
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N126
+- **parent_ids**: N175
 
 ## Claim
 
-敏感性分析区间：对 α_img 在 [0.9, 1.1]、α_vid 在 [0.7, 0.9] 范围内进行网格搜索，计算对应 Hit_Rate_mix 的变化幅度，若 ΔHit_Rate < 1%，则 α 取值对最终成本影响不显著，可固定为 1.0/0.8；若 ΔHit_Rate > 5%，则必须实测校准。
+高保真工作点（HEIC + 4K）：s_img_high ≈ 2.0-3.5 MB，基于 HEIC q=90 及 4K 分辨率（3840x2160）的典型文件大小，此工作点适用于高端设备用户或专业内容创作者，带宽成本为中性价比点的 2.5-3 倍，但视觉质量接近无损。
 
 ## Corrected Claim
 
-敏感性分析区间：对 α_img 在 [0.9, 1.1]、α_vid 在 [0.7, 0.9] 范围内进行网格搜索，计算对应 Hit_Rate_mix 的变化幅度，若 ΔHit_Rate < 1%，则 α 取值对最终成本影响不显著，可固定为 1.0/0.8；若 ΔHit_Rate > 5%，则必须实测校准。
+高保真工作点（HEIC + 4K）：s_img_high ≈ 2.0-3.5 MB，基于 HEIC q=90 及 4K 分辨率（3840x2160）的典型文件大小，此工作点适用于高端设备用户或专业内容创作者，带宽成本为中性价比点的 2.5-3 倍，但视觉质量接近无损。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+先验知识/题面给定，逻辑校验通过：HEIC q=90 在 4K 分辨率下文件大小 2.0-3.5 MB 符合典型压缩比经验值，带宽成本倍数与文件大小比例逻辑自洽。
+
+## Search Query
+
+HEIC 4K image file size average professional photography

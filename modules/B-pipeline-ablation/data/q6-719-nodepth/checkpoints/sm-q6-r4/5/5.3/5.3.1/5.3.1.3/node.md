@@ -1,24 +1,20 @@
-# N289: 单POP机房租赁成本 C_colocation_pop = N_racks * P_rack，其中 N_racks ≈ 2个机柜，P_rack ≈ ¥500-1
+# N448: 阿里云CDN请求计费对图片（P_img=0.7）和视频（P_video=0.3）无差异化定价，统一适用 ¥0.045/千次 单价
 
-- **status**: verified
+- **status**: degraded
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N95
+- **rework_count**: 1
+- **parent_ids**: N140
 
 ## Claim
 
-单POP机房租赁成本 C_colocation_pop = N_racks * P_rack，其中 N_racks ≈ 2个机柜，P_rack ≈ ¥500-1000/柜/月，计算得 ¥1,000-2,000/月。
+阿里云CDN请求计费对图片（P_img=0.7）和视频（P_video=0.3）无差异化定价，统一适用 ¥0.045/千次 单价
 
 ## Corrected Claim
 
-单POP机房租赁成本 C_colocation_pop = N_racks * P_rack，其中 N_racks ≈ 2个机柜，P_rack ≈ ¥500-1000/柜/月，计算得 ¥1,000-2,000/月。
+阿里云CDN请求计费可能对图片和视频采用统一单价，但具体单价（如¥0.045/千次）需以官方最新价目表为准，且主流计费模式通常为流量计费。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：2机柜 * (500-1000元/柜/月) = 1000-2000元/月，计算无误且符合国内IDC市场常规价格量级。
-
-## Search Query
-
-colocation rack cost monthly 2 racks
+[质询]阿里云CDN计费通常基于流量（GB）而非请求次数（千次），且不同资源类型（图片/视频）在缓存命中率、平均文件大小上差异巨大，若按请求计费，统一单价在商业逻辑上极不合理，更可能是基于流量的差异化或统一单价，此处‘¥0.045/千次’的具体数值及‘无差异化’的结论缺乏权威来源支持，存在将特定场景或过时/错误信息当作通用事实的风险。 | source=knowledge，逻辑上自洽（统一单价是可能的定价策略），但具体数值¥0.045/千次及‘无差异化’属于经验事实/具体参数，且无外部来源支持，根据规则降级。

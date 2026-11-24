@@ -1,17 +1,17 @@
 {
-  "id": "N160",
-  "claim": "每跳延迟贡献 T_hop 的分解：T_hop = T_transmission + T_propagation + T_processing，其中 T_transmission ≈ 0.1ms（10Gbps 链路），T_propagation ≈ 0.5-1.5ms（取决于距离，光纤速度 200km/ms），T_processing ≈ 0.5-2ms（路由器转发延迟）。总 T_hop 典型值 1-4ms。",
+  "id": "N213",
+  "claim": "HTTP/2 请求解析与路由查找延迟 P99 为 2ms，基于内存中的 LRU 缓存查找（O(1) 复杂度）和 HTTP/2 多路复用头部解析，假设边缘节点内存足够大（> 64GB）以避免磁盘 I/O",
   "level": "L4",
   "source": "knowledge",
-  "status": "verified",
-  "evidence": "父节点级核验通过：正交+完备+无冗余（子节点分别对应父节点公式中的三个独立分量（传输、传播、处理），逻辑上互斥且共同构成总延迟，无重叠或遗漏。虽然T_transmission子节点指出了父节点中0.1ms估算与1MB对象计算结果的矛盾，但这属于数据校准而非概念冗余或正交性破坏。）",
-  "corrected_claim": "每跳延迟贡献 T_hop 的分解：T_hop = T_transmission + T_propagation + T_processing，其中 T_transmission ≈ 0.1ms（10Gbps 链路），T_propagation ≈ 0.5-1.5ms（取决于距离，光纤速度 200km/ms），T_processing ≈ 0.5-2ms（路由器转发延迟）。总 T_hop 典型值 1-4ms。",
+  "status": "pending",
+  "evidence": "父节点级核验未通过：不完备（子节点在概念上是正交的（分别对应缓存命中率、协议解析、路由查找），且无冗余。但存在两个主要问题：1. 完备性缺失：父节点明确包含'HTTP/2 多路复用头部解析'，而子节点仅覆盖了'HPACK 解码'，遗漏了流控制、帧组装/拆解等与多路复用核心机制相关的解析开销；2. 逻辑矛盾：父节点声称总延迟 P99 为 2ms，但子节点给出的组件 P99 之和（0.5ms + 1.5ms = 2.0ms）在数学上意味着缓存查找（通常应极快，<0.1ms）的延迟为 0，且忽略了组件间可能存在的串行依赖或并行执行逻辑，导致总延迟推导不严谨。）",
+  "corrected_claim": "HTTP/2 请求解析与路由查找延迟 P99 为 2ms，基于内存中的 LRU 缓存查找（O(1) 复杂度）和 HTTP/2 多路复用头部解析，假设边缘节点内存足够大（> 64GB）以避免磁盘 I/O",
   "rework_count": 0,
   "parent_ids": [
-    "N45"
+    "N54"
   ],
   "objective": null,
   "edge_type": "cartesian",
-  "search_query": "router forwarding delay propagation delay transmission delay per hop",
+  "search_query": "",
   "retrieval_sources": []
 }

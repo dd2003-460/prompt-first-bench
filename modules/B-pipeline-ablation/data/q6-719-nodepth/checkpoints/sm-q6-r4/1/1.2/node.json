@@ -1,17 +1,33 @@
 {
-  "id": "N7",
-  "claim": "网络抖动 (Jitter) 对 P99 的影响：P99_RTT ≈ RTT_mean + 3 × σ_RTT，其中 σ_RTT 取决于链路拥塞程度与路由跳数，通常每跳增加 1-5ms 抖动 [待核验]。",
+  "id": "N8",
+  "claim": "公有云 CDN 策略下，单请求端到端延迟分布的 P99 值（单位：ms），需基于其全球节点密度与回源架构估算。",
   "level": "L2",
-  "source": "knowledge",
-  "status": "degraded",
-  "evidence": "[质询]P99 与均值及标准差的线性关系（P99 ≈ Mean + 3σ）仅在正态分布假设下近似成立，而网络延迟分布通常呈长尾（如帕累托或混合分布），此时 P99 往往远大于 Mean + 3σ；此外，'每跳增加 1-5ms 抖动' 是一个高度依赖具体网络环境（如骨干网 vs 接入网、有线 vs 无线）的经验值，缺乏普适性，且不同跳数的贡献并非简单的线性叠加。 | 先验知识/题面给定，逻辑校验通过但存在统计假设局限（正态分布假设不适用于长尾网络延迟）及经验参数泛化风险，故降级为定性表述。",
-  "corrected_claim": "网络抖动 (Jitter) 显著影响 P99 延迟。在近似正态分布的短链路场景中，P99_RTT 可粗略估计为 RTT_mean + 3 × σ_RTT；但在长尾分布的实际网络中，P99 通常远高于此线性估计。σ_RTT 受链路拥塞与路由跳数影响，典型单跳抖动贡献在毫秒级（如 1-5ms），但具体数值高度依赖网络拓扑与负载状况。",
+  "source": "search",
+  "status": "pending",
+  "evidence": "父节点级核验未通过：非正交, 有冗余（1. 正交性违规：子节点1（公式）定义了整体结构，而子节点2、3、4分别定义了公式中的具体变量，这种'定义+实例'的混合导致层级混淆。更严重的是，子节点4中引入了新的变量H_L2并给出了加权公式，这与子节点1中仅基于H_L1的公式在逻辑上不完全一致（子节点1未体现L2层级对回源延迟的影响，而子节点4隐含了多层级逻辑），存在潜在的逻辑矛盾或定义冲突。2. 冗余性：子节点1本质上是其他三个子节点的聚合逻辑，若将子节点1视为'分解框架'，则它不应作为一个独立的'数据估算'节点与具体数值节点并列，或者应将具体数值作为子节点1的属性，而非独立节点。此外，子节点4中关于H_L2的描述使得其不仅仅是一个简单的延迟值，而是引入了新的概率分布逻辑，增加了复杂度。）",
+  "corrected_claim": "公有云 CDN 策略下，单请求端到端延迟分布的 P99 值通常在几十毫秒到几百毫秒之间（取决于具体厂商、节点距离及回源情况），需基于具体服务商的监控数据或公开基准测试估算，而非单一固定值。",
   "rework_count": 1,
   "parent_ids": [
     "N1"
   ],
   "objective": null,
-  "edge_type": "cartesian",
-  "search_query": "network jitter P99 latency impact per hop ms",
-  "retrieval_sources": []
+  "edge_type": "quotient",
+  "search_query": "Alibaba Cloud CDN P99 latency global distribution 2024",
+  "retrieval_sources": [
+    {
+      "url": "https://blog.csdn.net/2600_94959998/article/details/157125128&rut=358e43b59793c09407c94409edead8bfb627400604ddc58a38e2000d2d2bc761",
+      "type": "ddg",
+      "title": "深入解析p99延迟：从概念到优化的实战指南 - Csdn博客"
+    },
+    {
+      "url": "https://blog.csdn.net/2600_94959702/article/details/157227534&rut=a28c2f5bd23d334a04ff6730c0a9e0c83ed080cd03abe672ef0626105d712d55",
+      "type": "ddg",
+      "title": "深入解析p99延迟：原理、测量与优化实战 - Csdn博客"
+    },
+    {
+      "url": "https://blog.openresty.com/cn/p99-latency/&rut=233dd5c3a18a3791af688572afb0f24354b8415ef888957190725cafc9e9c8eb",
+      "type": "ddg",
+      "title": "P99 延迟：为什么平均值会骗人，以及如何诊断最慢的 1% - OpenResty 官方博客"
+    }
+  ]
 }

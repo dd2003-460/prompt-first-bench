@@ -1,24 +1,20 @@
-# N529: U_corrected 对缓存命中率上限的传导：U_corrected 增加导致 Unique_Hot_Objects_Size 增大，进而降低 Hit_Rat
+# N699: 工作点3下因低缓存命中率导致的额外运维成本增量 ΔC_ops 为 ¥0.002/1000req，源于回源请求增加导致的日志量激增和监控告警频率上升，估算基于日志
 
 - **status**: verified
 - **level**: L5
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N177
+- **parent_ids**: N232
 
 ## Claim
 
-U_corrected 对缓存命中率上限的传导：U_corrected 增加导致 Unique_Hot_Objects_Size 增大，进而降低 Hit_Rate_actual = min(1, S_edge / (Unique_Hot_Objects_Size × Retention_Time))，若 U_corrected 从 84k 增至 252k（×3），命中率上限可能从 95% 降至 70%，需重新计算 P99 延迟分布
+工作点3下因低缓存命中率导致的额外运维成本增量 ΔC_ops 为 ¥0.002/1000req，源于回源请求增加导致的日志量激增和监控告警频率上升，估算基于日志存储成本增加 50% 及人工排查时间增加 10%。
 
 ## Corrected Claim
 
-U_corrected 对缓存命中率上限的传导：U_corrected 增加导致 Unique_Hot_Objects_Size 增大，进而降低 Hit_Rate_actual = min(1, S_edge / (Unique_Hot_Objects_Size × Retention_Time))，若 U_corrected 从 84k 增至 252k（×3），命中率上限可能从 95% 降至 70%，需重新计算 P99 延迟分布
+工作点3下因低缓存命中率导致的额外运维成本增量 ΔC_ops 为 ¥0.002/1000req，源于回源请求增加导致的日志量激增和监控告警频率上升，估算基于日志存储成本增加 50% 及人工排查时间增加 10%。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：U_corrected增加导致Unique_Hot_Objects_Size增大，分母变大，Hit_Rate_actual=min(1, S_edge/(Unique_Hot_Objects_Size × Retention_Time))必然降低，符合缓存命中率的基本逻辑。
-
-## Search Query
-
-cache hit rate upper bound unique object size retention time formula
+先验知识/题面给定，逻辑校验通过

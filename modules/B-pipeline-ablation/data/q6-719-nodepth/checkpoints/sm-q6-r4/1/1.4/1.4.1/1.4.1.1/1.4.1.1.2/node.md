@@ -1,24 +1,24 @@
-# N522: 平均单张图片大小 s_img 的分布特征：假设均值为2MB，但实际服从对数正态分布，P95大小约为5-10MB，需考虑压缩算法（WebP/AVIF）对大小的影响
+# N692: H_self=0.98 场景下，RTT_user_pop_core_p99=15ms 对应的用户地理分布约束：核心区域用户需距离最近 POP 点 D < 200
 
 - **status**: verified
 - **level**: L5
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N175
+- **parent_ids**: N230
 
 ## Claim
 
-平均单张图片大小 s_img 的分布特征：假设均值为2MB，但实际服从对数正态分布，P95大小约为5-10MB，需考虑压缩算法（WebP/AVIF）对大小的影响，修正后的有效均值 s_img_eff = 2MB × Compression_Factor (0.5-0.8)
+H_self=0.98 场景下，RTT_user_pop_core_p99=15ms 对应的用户地理分布约束：核心区域用户需距离最近 POP 点 D < 200km（基于 RTT_ms ≈ 0.05 * d + 5，解得 d < 200km），即 10 个 POP 需覆盖 80% 的 DAU 用户，且 POP 间距需小于 400km 以确保无覆盖盲区。
 
 ## Corrected Claim
 
-平均单张图片大小 s_img 的分布特征：假设均值为2MB，但实际服从对数正态分布，P95大小约为5-10MB，需考虑压缩算法（WebP/AVIF）对大小的影响，修正后的有效均值 s_img_eff = 2MB × Compression_Factor (0.5-0.8)
+H_self=0.98 场景下，RTT_user_pop_core_p99=15ms 对应的用户地理分布约束：核心区域用户需距离最近 POP 点 D < 200km（基于 RTT_ms ≈ 0.05 * d + 5，解得 d < 200km），即 10 个 POP 需覆盖 80% 的 DAU 用户，且 POP 间距需小于 400km 以确保无覆盖盲区。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：图片大小服从对数正态分布符合经验规律，P95为均值2.5-5倍合理，压缩因子0.5-0.8符合WebP/AVIF典型性能，数值量级自洽。
+先验知识/题面给定，逻辑校验通过：基于公式 RTT_ms ≈ 0.05 * d + 5，代入 RTT=15ms 解得 d < 200km，数学推导正确；POP 间距小于 2 倍覆盖半径（400km）以确保无盲区符合几何覆盖逻辑。
 
 ## Search Query
 
-average image file size web upload MB distribution log-normal
+user distance to POP point RTT 15ms geographic coverage constraint

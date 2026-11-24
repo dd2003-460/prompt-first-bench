@@ -1,20 +1,20 @@
-# N163: T_processing（CPU 处理时间）主要消耗在 TLS 握手与解密、HTTP 解析及缓存键哈希计算上，典型值 0.1-1ms；若启用硬件加速（如 AES
+# N222: 在 T=150ms 阈值下，若 H_pop=0.90 且回源延迟 P99(T_origin_fetch_self)=120ms，则 (1-H_pop)*P99(
 
 - **status**: pending
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N46
+- **parent_ids**: N56
 
 ## Claim
 
-T_processing（CPU 处理时间）主要消耗在 TLS 握手与解密、HTTP 解析及缓存键哈希计算上，典型值 0.1-1ms；若启用硬件加速（如 AES-NI），TLS 开销可降低至 0.05ms，否则纯软件实现约为 0.5-1ms
+在 T=150ms 阈值下，若 H_pop=0.90 且回源延迟 P99(T_origin_fetch_self)=120ms，则 (1-H_pop)*P99(T_origin_fetch_self) = 12ms，该工作点下回源延迟贡献占比显著，需确保 RTT+Proc 之和 < 138ms 才能合规
 
 ## Corrected Claim
 
-T_processing（CPU 处理时间）主要消耗在 TLS 握手与解密、HTTP 解析及缓存键哈希计算上，典型值 0.1-1ms；若启用硬件加速（如 AES-NI），TLS 开销可降低至 0.05ms，否则纯软件实现约为 0.5-1ms
+在 T=150ms 阈值下，若 H_pop=0.90 且回源延迟 P99(T_origin_fetch_self)=120ms，则 (1-H_pop)*P99(T_origin_fetch_self) = 12ms，该工作点下回源延迟贡献占比显著，需确保 RTT+Proc 之和 < 138ms 才能合规
 
 ## Evidence
 
-父节点级核验未通过：有冗余（子节点将父节点中的‘TLS 开销’拆分为‘软件实现’和‘硬件加速’两个并列子节点，这属于同一参数在不同配置下的取值，而非正交的独立功能模块，存在结构性冗余。）
+父节点级核验失败（LLM 错误）：Unterminated string starting at: line 9 column 5 (char 788)

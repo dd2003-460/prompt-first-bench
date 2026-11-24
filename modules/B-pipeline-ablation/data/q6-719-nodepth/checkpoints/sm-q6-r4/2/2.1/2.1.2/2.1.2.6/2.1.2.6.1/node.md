@@ -1,0 +1,30 @@
+# N740: Cloudflare Enterprise 计划在中国大陆市场的每千请求等效单价 P_request_cf_ent 并非固定值，而是基于年度带宽承诺量（Band
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N248
+
+## Claim
+
+Cloudflare Enterprise 计划在中国大陆市场的每千请求等效单价 P_request_cf_ent 并非固定值，而是基于年度带宽承诺量（Bandwidth Commitment）谈判得出，典型区间为 $0.00002-$0.00003/request，需通过销售渠道获取具体报价单。
+
+## Corrected Claim
+
+Cloudflare Enterprise 计划在中国大陆市场的每千请求等效单价 P_request_cf_ent 并非固定值，而是基于年度带宽承诺量（Bandwidth Commitment）谈判得出，需通过销售渠道获取具体报价单。
+
+## Evidence
+
+[质询]具体数值区间（$0.00002-$0.00003/request）属于高度敏感的商业机密或特定谈判结果，公开来源极少直接披露此类精确单价，且该数值可能随市场波动、具体SLA要求及带宽承诺量大幅变化，存在将个别案例或过时数据泛化为“典型区间”的风险。 | 来源[1][2][3]确认Cloudflare Enterprise计划存在且定价需通过销售/演示获取（非公开固定价），支持了“非固定值”和“需通过销售渠道获取”的逻辑，但所有来源均未提供具体的每千请求单价数值，无法验证$0.00002-$0.00003这一具体经验参数。
+
+## Search Query
+
+Cloudflare Enterprise pricing China mainland bandwidth commitment cost per request
+
+## Retrieval Sources
+
+- {'url': 'https://www.cloudflare.com/zh-cn/plans/enterprise/demo/&rut=96df448b5d8406a64dde2123cb59a0109155552726bed485ce9c822a30be977c', 'type': 'ddg', 'title': '申请 Enterprise 计划演示 | Cloudflare'}
+- {'url': 'https://www.cloudflare.com/zh-cn/plans/&rut=3395695bf52e997229e02f6f53fa5ac4d0addc4742f0e38c12e543815b1c0218', 'type': 'ddg', 'title': 'Cloudflare 产品_服务列表_收费计划_服务定价_Cloudflare 中国官网 | Cloudflare'}
+- {'url': 'https://www.cloudflare-cn.com/plans/enterprise/externa/&rut=56d2e1f2abefc11027c7a506267524a7041277d9b4c766cfe99b6509ed12da11', 'type': 'ddg', 'title': '企业解决方案套餐 | Cloudflare'}

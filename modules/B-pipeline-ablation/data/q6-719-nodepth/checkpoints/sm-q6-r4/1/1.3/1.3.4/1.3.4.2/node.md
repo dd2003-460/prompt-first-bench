@@ -1,24 +1,20 @@
-# N172: 短视频对象大小 s_vid 的对数正态分布参数：均值 μ_vid = ln(10MB) ≈ 2.30，标准差 σ_vid = 0.8，导致 P99 短视频大小约
+# N228: 工作点2（中性价比最优）：采用跨省BGP多线接入，RTT_pop_origin_p99 ≈ 15-30ms，带宽成本 C_bandwidth_per_GB ≈ 
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N49
+- **parent_ids**: N59
 
 ## Claim
 
-短视频对象大小 s_vid 的对数正态分布参数：均值 μ_vid = ln(10MB) ≈ 2.30，标准差 σ_vid = 0.8，导致 P99 短视频大小约为 50MB，需区分单文件与分片存储策略
+工作点2（中性价比最优）：采用跨省BGP多线接入，RTT_pop_origin_p99 ≈ 15-30ms，带宽成本 C_bandwidth_per_GB ≈ ¥0.25/GB，总 P99(T_origin_fetch_self) ≈ 25-40ms，满足 T=150ms 约束。
 
 ## Corrected Claim
 
-短视频对象大小 s_vid 的对数正态分布参数：均值 μ_vid = ln(10MB) ≈ 2.30，标准差 σ_vid = 0.8，导致 P99 短视频大小约为 50MB，需区分单文件与分片存储策略
+工作点2（中性价比最优）：采用跨省BGP多线接入，RTT_pop_origin_p99 ≈ 15-30ms，带宽成本 C_bandwidth_per_GB ≈ ¥0.25/GB，总 P99(T_origin_fetch_self) ≈ 25-40ms，满足 T=150ms 约束。
 
 ## Evidence
 
-父节点级核验通过：正交+完备+无冗余（子节点之间逻辑清晰且相互独立：子节点1负责验证父节点中关于P99数值的内部一致性（指出27.8MB与50MB的矛盾），子节点2和3分别针对两种不同的存储策略（单文件vs分片）建立带宽/延迟模型，子节点4探讨缓存命中率这一独立维度。四个节点覆盖了父节点提及的‘分布参数’、‘P99大小’、‘单文件策略’、‘分片策略’及‘策略区分’的所有关键方面，无重复或矛盾，且各自代表独立的建模维度，不构成冗余。）
-
-## Search Query
-
-short video file size distribution parameters CDN caching
+先验知识/题面给定，逻辑校验通过：跨省BGP接入的RTT量级（15-30ms）及带宽成本（¥0.25/GB）符合中国网络基础设施的一般工程经验，总延迟估算（25-40ms）在逻辑上自洽且满足150ms约束。

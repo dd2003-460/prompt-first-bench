@@ -1,0 +1,20 @@
+# N428: 工作点1（保守估计/高P99）：假设 F_core 和 F_tail 为指数分布，P99_mix = max(P99_core, P99_tail) 当 P_c
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N133
+
+## Claim
+
+工作点1（保守估计/高P99）：假设 F_core 和 F_tail 为指数分布，P99_mix = max(P99_core, P99_tail) 当 P_core < 0.5 时成立，此时 P99_mix ≈ 150ms（长尾主导），用于 T=150ms 合规性边界检验。
+
+## Corrected Claim
+
+工作点1（保守估计/高P99）：假设 F_core 和 F_tail 为指数分布，P99_mix = max(P99_core, P99_tail) 当 P_core < 0.5 时成立，此时 P99_mix ≈ 150ms（长尾主导），用于 T=150ms 合规性边界检验。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：在混合分布中，若某一分量（长尾）的P99显著高于另一分量且其权重足以覆盖总体99%分位点，则混合P99由该分量主导，近似成立。

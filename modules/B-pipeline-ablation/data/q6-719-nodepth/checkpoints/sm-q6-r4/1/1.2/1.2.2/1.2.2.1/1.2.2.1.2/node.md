@@ -1,20 +1,24 @@
-# N465: CDN 边缘节点 RTT 对数正态分布参数 σ 的估算：σ = Std_Dev(ln(RTT))，典型 CDN 服务的 σ 范围为 0.2-0.5，若 σ=0.
+# N634: 核心区域 RTT 的修正值：基于修正后的距离 d_p99_core = 80km，代入公式 RTT = 0.05*80 + 5 = 9ms，相比原估算 15ms
 
 - **status**: verified
 - **level**: L5
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N156
+- **parent_ids**: N208
 
 ## Claim
 
-CDN 边缘节点 RTT 对数正态分布参数 σ 的估算：σ = Std_Dev(ln(RTT))，典型 CDN 服务的 σ 范围为 0.2-0.5，若 σ=0.3，则 P99 = exp(μ + 2.326×0.3)，相比 P50 增加约 exp(0.698) ≈ 2.01 倍。
+核心区域 RTT 的修正值：基于修正后的距离 d_p99_core = 80km，代入公式 RTT = 0.05*80 + 5 = 9ms，相比原估算 15ms 降低 6ms，更准确反映核心区域用户的高密度节点覆盖优势。
 
 ## Corrected Claim
 
-CDN 边缘节点 RTT 对数正态分布参数 σ 的估算：σ = Std_Dev(ln(RTT))，典型 CDN 服务的 σ 范围为 0.2-0.5，若 σ=0.3，则 P99 = exp(μ + 2.326×0.3)，相比 P50 增加约 exp(0.698) ≈ 2.01 倍。
+核心区域 RTT 的修正值：基于修正后的距离 d_p99_core = 80km，代入公式 RTT = 0.05*80 + 5 = 9ms，相比原估算 15ms 降低 6ms，更准确反映核心区域用户的高密度节点覆盖优势。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：对数正态分布定义及分位数计算公式正确，数值推导（exp(2.326*0.3)≈2.01）准确，σ范围符合CDN网络延迟波动的一般工程经验。
+先验知识/题面给定，逻辑校验通过：公式 RTT = 0.05*80 + 5 计算结果为 9ms，与陈述一致；相比原估算 15ms 降低 6ms 的算术正确；核心区域距离短导致 RTT 低符合物理直觉。
+
+## Search Query
+
+CDN RTT calculation 80km distance fiber latency

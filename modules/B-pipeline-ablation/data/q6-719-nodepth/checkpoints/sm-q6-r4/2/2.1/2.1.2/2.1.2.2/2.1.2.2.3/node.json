@@ -1,17 +1,35 @@
 {
-  "id": "N604",
-  "claim": "背板与线缆成本 ¥500-1,000 的估算需区分 PCIe 4.0 SFF-8654 背板 (约 ¥300-500) 与 PCIe 5.0 SFF-TA-1001 背板 (约 ¥800-1,200)；鉴于当前主流服务器平台 (如 Intel Xeon Scalable 4th Gen) 仅支持 PCIe 4.0，且 NVMe SSD 带宽瓶颈通常在 3.5GB/s (PCIe 4.0 x4)，无需升级 PCIe 5.0，故取 ¥400 为合理估值，节省 ¥600/台。",
+  "id": "N732",
+  "claim": "阿里云CDN请求计费的阶梯折扣阈值：当日均请求量 Q_day > 1亿次/天时，触发第一级折扣，单价降至 ¥0.04/1000 requests；当 Q_day > 10亿次/天时，触发第二级折扣，单价降至 ¥0.03/1000 requests。对于本平台 Q_day ≈ 200万次/天，未达到任何折扣阈值，适用基准价 ¥0.05/1000 requests。",
   "level": "L5",
-  "source": "knowledge",
-  "status": "verified",
-  "evidence": "先验知识/题面给定，逻辑校验通过：PCIe 4.0 x4 理论带宽约 6.3GB/s，实际 NVMe SSD 受限于闪存介质通常瓶颈在 3.5-7GB/s 区间，当前主流平台确实以 PCIe 4.0 为主，成本估算符合工程常识。",
-  "corrected_claim": "背板与线缆成本 ¥500-1,000 的估算需区分 PCIe 4.0 SFF-8654 背板 (约 ¥300-500) 与 PCIe 5.0 SFF-TA-1001 背板 (约 ¥800-1,200)；鉴于当前主流服务器平台 (如 Intel Xeon Scalable 4th Gen) 仅支持 PCIe 4.0，且 NVMe SSD 带宽瓶颈通常在 3.5GB/s (PCIe 4.0 x4)，无需升级 PCIe 5.0，故取 ¥400 为合理估值，节省 ¥600/台。",
-  "rework_count": 0,
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]阿里云CDN请求计费（通常指HTTPS请求数）通常按“月”或“年”累计阶梯计费，而非“日均请求量”触发折扣；且具体阈值（1亿/10亿）和单价（0.04/0.03/0.05）属于具体商业参数，参考来源未提供详细价格表，无法验证其准确性，存在口径混淆（日均vs月度累计）及数值不可靠的风险。 | 参考来源[1][2][3]仅提及CDN计费模式（流量/带宽/HTTPS请求等）及存在阶梯计费，但未提供具体的请求数阶梯阈值（1亿/10亿）及对应单价（0.04/0.03/0.05），属于经验事实且缺乏直接来源支持，逻辑上自洽但无法外部核验。",
+  "corrected_claim": "阿里云CDN请求计费存在阶梯折扣，但具体阈值（如日均1亿/10亿）及单价（¥0.04/¥0.03/¥0.05 per 1000 requests）需以阿里云官方最新价格表为准，参考来源未提供具体数值。",
+  "rework_count": 1,
   "parent_ids": [
-    "N207"
+    "N244",
+    "N245",
+    "N246"
   ],
   "objective": null,
   "edge_type": "cartesian",
-  "search_query": "PCIe 4.0 SFF-8654 backplane price vs PCIe 5.0 SFF-TA-1001 backplane price",
-  "retrieval_sources": []
+  "search_query": "Alibaba Cloud CDN request volume tiered discount threshold 100 million requests",
+  "retrieval_sources": [
+    {
+      "url": "https://developer.aliyun.com/article/1708278&rut=66e9e7546af3c7e07123555f3dccddc3909def48b1744a7ee072b3c27142d968",
+      "type": "ddg",
+      "title": "2026最新阿里云cdn收费标准：不同计费模式价格表（基础服务费和增值服务费用整理）-阿里云开发者社区"
+    },
+    {
+      "url": "https://developer.aliyun.com/article/1712489&rut=6dd50d93c1d36b4a1035f566c97313588d7707bad6a9ad467bbdad2e097f5c7c",
+      "type": "ddg",
+      "title": "2026阿里云cdn 计费全攻略：按流量 / 带宽 / 95 峰值 + 基础服务费 + 增值服务价格表"
+    },
+    {
+      "url": "https://help.aliyun.com/zh/cdn/product-overview/billing-overview&rut=2cb52aad46530de559a07b5bd49dbfc609d7fbedfe6bf0dc3ad82d3e2800dd3a",
+      "type": "ddg",
+      "title": "Cdn如何计费-cdn (Cdn)-阿里云帮助中心"
+    }
+  ]
 }

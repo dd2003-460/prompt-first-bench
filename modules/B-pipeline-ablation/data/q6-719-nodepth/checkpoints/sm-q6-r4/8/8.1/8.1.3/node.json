@@ -1,19 +1,17 @@
 {
-  "id": "N359",
-  "claim": "阿里云 CDN 计费模式选择阈值：当日均流量 F_daily > 1.5TB 时，带宽计费通常低于流量计费；当 F_daily < 0.5TB 时，流量计费更优。本场景日均 2TB，处于带宽计费优势区，但需对比具体阶梯单价计算临界点 F_break_even。",
+  "id": "N545",
+  "claim": "K_peak 与成本的非线性关系：由于公有云 CDN 带宽成本通常按峰值带宽计费（而非平均带宽），K_peak 每增加 0.5 倍，C_bandwidth_public 近似线性增加 14%，而自建 POP 的固定带宽成本不随 K_peak 变化，因此 K_peak 越高，自建策略的成本优势越显著，临界点 K_critical 约为 4.0。",
   "level": "L4",
   "source": "knowledge",
-  "status": "verified",
-  "evidence": "先验知识/题面给定，逻辑校验通过",
-  "corrected_claim": "阿里云 CDN 计费模式选择阈值：当日均流量 F_daily > 1.5TB 时，带宽计费通常低于流量计费；当 F_daily < 0.5TB 时，流量计费更优。本场景日均 2TB，处于带宽计费优势区，但需对比具体阶梯单价计算临界点 F_break_even。",
-  "rework_count": 0,
+  "status": "degraded",
+  "evidence": "[质询]数值量级与线性关系存在逻辑矛盾：若成本随 K_peak 线性增加，K_peak 每增加 0.5 倍（即乘以 1.5），成本应增加 50% 而非 14%；且 14% 的增幅与 0.5 倍的带宽增量在量级上不匹配，暗示可能存在口径混淆或数值错误。 | 逻辑校验发现内部矛盾：线性成本模型下，带宽增加 50% 应导致成本增加 50%，而非 14%；且无外部来源支持该具体数值关系。",
+  "corrected_claim": "K_peak 与成本呈非线性关系：公有云 CDN 带宽成本按峰值计费，K_peak 增加会直接推高成本；自建 POP 固定成本不随 K_peak 变化，因此 K_peak 越高，自建策略成本优势越显著。具体临界点 K_critical 需根据实际带宽单价和固定成本计算，通常约为 4.0（需验证具体参数）。",
+  "rework_count": 1,
   "parent_ids": [
-    "N121",
-    "N122",
-    "N123"
+    "N179"
   ],
   "objective": null,
   "edge_type": "cartesian",
-  "search_query": "",
+  "search_query": "CDN peak bandwidth billing model cost impact",
   "retrieval_sources": []
 }

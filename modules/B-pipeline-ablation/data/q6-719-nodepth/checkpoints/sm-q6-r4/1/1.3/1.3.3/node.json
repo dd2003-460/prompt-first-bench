@@ -1,17 +1,17 @@
 {
-  "id": "N48",
-  "claim": "缓存命中率 Hit_Rate 的计算：Hit_Rate = 1 - (Unique_Objects / Total_Requests)，其中 Unique_Objects = Daily_Uploads / Avg_Object_Size，Total_Requests = DAU × Avg_Requests_Per_User，日均上传 200GB，DAU 500 万，Avg_Requests_Per_User 典型值 10-50 次/用户/天",
+  "id": "N58",
+  "claim": "自建 POP 处理时间 T_proc_pop 的 P99 值：由于硬件可能不如公有云边缘节点高性能，P99(T_proc_pop) 约为 10-20ms，略高于公有云的 5-15ms。",
   "level": "L3",
   "source": "knowledge",
   "status": "pending",
-  "evidence": "父节点级核验未通过：非正交, 不完备（1. 正交性违规：父节点定义 Hit_Rate 为简单的 '1 - Unique_Objects / Total_Requests'（即基于请求与对象比值的近似），而子节点3却引入了完全独立的 Zipf 分布修正公式。这两个公式在数学逻辑和物理含义上相互矛盾（子节点1和2服务于父节点公式，子节点3服务于另一个未声明的公式），导致子节点之间逻辑不连贯。2. 完备性缺失：父节点公式中的 Total_Requests 依赖于 Avg_Requests_Per_User，该参数在父节点中给出范围(10-50)但未明确用于最终计算的值，子节点2虽计算了中值情况，但未能覆盖父节点中隐含的‘范围敏感性’或‘最终取值决策’这一关键方面，且子节点3引入了父节点未提及的新变量（K, N_total, α），导致分解偏离了父节点定义的特定计算路径。）",
-  "corrected_claim": "缓存命中率 Hit_Rate 的计算：Hit_Rate = 1 - (Unique_Objects / Total_Requests)，其中 Unique_Objects = Daily_Uploads / Avg_Object_Size，Total_Requests = DAU × Avg_Requests_Per_User，日均上传 200GB，DAU 500 万，Avg_Requests_Per_User 典型值 10-50 次/用户/天",
+  "evidence": "父节点级核验未通过：有冗余（子节点分别描述了低配和高配硬件下的性能表现，两者互斥且无矛盾（正交）。它们覆盖了父节点中'10-20ms'区间的两端，解释了为什么自建POP会有这个范围（完备）。然而，这两个子节点本质上是同一变量（硬件配置等级）的两个离散取值，属于参数化的不同实例，而非两个独立的逻辑维度，因此存在结构性冗余。）",
+  "corrected_claim": "自建 POP 处理时间 T_proc_pop 的 P99 值：由于硬件可能不如公有云边缘节点高性能，P99(T_proc_pop) 约为 10-20ms，略高于公有云的 5-15ms。",
   "rework_count": 0,
   "parent_ids": [
-    "N8"
+    "N9"
   ],
   "objective": null,
-  "edge_type": "quotient",
-  "search_query": "",
+  "edge_type": "cartesian",
+  "search_query": "Self-built POP server processing time P99 latency 10-20ms",
   "retrieval_sources": []
 }

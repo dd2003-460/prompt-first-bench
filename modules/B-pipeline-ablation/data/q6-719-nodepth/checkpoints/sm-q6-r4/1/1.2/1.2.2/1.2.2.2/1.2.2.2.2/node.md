@@ -1,20 +1,24 @@
-# N468: Pareto 分布最小值 x_min 的确定：x_min 应取为网络 RTT 的物理下限，即光传播延迟 + 协议栈处理延迟，典型值约为 1ms (本地) 至 2
+# N636: 长尾区域 RTT 的修正值：基于修正后的距离 d_p99_tail = 400km，代入公式 RTT = 0.05*400 + 5 = 25ms，相比原估算 4
 
 - **status**: verified
 - **level**: L5
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N157
+- **parent_ids**: N209
 
 ## Claim
 
-Pareto 分布最小值 x_min 的确定：x_min 应取为网络 RTT 的物理下限，即光传播延迟 + 协议栈处理延迟，典型值约为 1ms (本地) 至 20ms (跨国)，需根据用户地理分布加权确定全局 x_min。
+长尾区域 RTT 的修正值：基于修正后的距离 d_p99_tail = 400km，代入公式 RTT = 0.05*400 + 5 = 25ms，相比原估算 40ms 降低 15ms，反映长尾区域虽节点稀疏但非极端偏远，P99 延迟更可控。
 
 ## Corrected Claim
 
-Pareto 分布最小值 x_min 的确定：x_min 应取为网络 RTT 的物理下限，即光传播延迟 + 协议栈处理延迟，典型值约为 1ms (本地) 至 20ms (跨国)，需根据用户地理分布加权确定全局 x_min。
+长尾区域 RTT 的修正值：基于修正后的距离 d_p99_tail = 400km，代入公式 RTT = 0.05*400 + 5 = 25ms，相比原估算 40ms 降低 15ms，反映长尾区域虽节点稀疏但非极端偏远，P99 延迟更可控。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：Pareto分布用于建模网络延迟时，x_min确实对应物理及协议栈处理的最小延迟下限，1ms-20ms的量级符合本地至跨国网络的典型RTT物理极限。
+先验知识/题面给定，逻辑校验通过：公式 RTT = 0.05*400 + 5 计算结果为 25ms，与陈述一致；25ms 相比 40ms 降低 15ms，数值逻辑自洽。
+
+## Search Query
+
+CDN RTT calculation 400km distance fiber latency

@@ -1,4 +1,4 @@
-# N60: 单台边缘节点存储硬件成本 Storage_Cost = N_Disks × Disk_Price，其中 N_Disks=8 (RAID10 或 NVMe)，Di
+# N69: 阿里云CDN的请求计费单价 P_request_ali，根据阿里云最新价目表，静态HTTPS请求约为 ¥0.045/1000 requests，动态请求约为 ¥
 
 - **status**: degraded
 - **level**: L3
@@ -9,20 +9,22 @@
 
 ## Claim
 
-单台边缘节点存储硬件成本 Storage_Cost = N_Disks × Disk_Price，其中 N_Disks=8 (RAID10 或 NVMe)，Disk_Price 为 2TB NVMe SSD 约 ¥1,500/块，合计约 ¥12,000/台 [时效待核]。
+阿里云CDN的请求计费单价 P_request_ali，根据阿里云最新价目表，静态HTTPS请求约为 ¥0.045/1000 requests，动态请求约为 ¥0.05/1000 requests。[时效待核：2024-2025价格变动]
 
 ## Corrected Claim
 
-单台边缘节点存储硬件成本 Storage_Cost = N_Disks × Disk_Price，其中 N_Disks=8 (RAID10 或 NVMe)，Disk_Price 为 2TB NVMe SSD 的市场参考价（约 ¥1,000-¥2,000/块，随市场波动），合计约 ¥8,000-¥16,000/台。
+阿里云CDN主要采用按下行流量或带宽峰值计费，部分场景或增值服务可能涉及请求数计费，具体单价需查阅最新官方价目表，静态/动态请求单价约为¥0.045-0.05/1000 requests（需以实时官网为准）。
 
 ## Evidence
 
-[质询]具体硬件价格（¥1,500/块 2TB NVMe）属于随市场波动的经验事实，且不同品牌、渠道价格差异较大，单一数值缺乏实时市场数据支撑，存在时效性和口径偏差风险。 | 来源[1]仅讨论边缘计算成本控制的宏观概念，未提供具体硬件单价或配置细节，无法直接支持具体数值；该事实为经验性市场数据，逻辑自洽但缺乏直接来源支持。
+[质询]阿里云CDN的标准计费模式通常基于“下行流量”（GB）或“带宽峰值”（Mbps），而非直接按“请求次数”（Requests）计费。虽然存在“请求数”作为增值服务或特定场景（如全站加速DCDN的某些计费项）的计费维度，但将其作为基础CDN的核心计费单价（且区分静态/动态HTTPS请求的具体单价）缺乏普遍性，且具体数值（0.045/0.05元/千次）极易随区域、套餐及时间变动，属于高度易变的经验事实。 | 参考来源[1]和[3]主要描述的是按流量（GB）或带宽计费的阶梯价格，未直接提供按“请求次数”计费的具体单价表；来源[2]为计费概览，未列出具体数值。该陈述属于经验事实，逻辑上虽无硬伤（存在按请求计费的可能性），但缺乏来源直接支持具体数值，且与主流按流量计费的描述存在口径差异风险。
 
 ## Search Query
 
-2TB NVMe SSD enterprise price 2024 edge server storage cost
+Alibaba Cloud CDN request pricing 2024 static dynamic
 
 ## Retrieval Sources
 
-- {'url': 'https://developer.baidu.com/article/detail.html?id=444073&rut=7f2e8ab27638f439457827e8f8ebfebfe1b51f9ca8bbacf4c9b607487232a0a1', 'type': 'ddg', 'title': '边缘计算的的成本控制：优化计算、存储和网络资源-百度开发者中心'}
+- {'url': 'https://developer.aliyun.com/article/1708278&rut=2ddc55f04c3ee490ae5b44019f150c2428eac2400670b83d41207aae16acf9e2', 'type': 'ddg', 'title': '2026最新阿里云cdn收费标准：不同计费模式价格表（基础服务费和增值服务费用整理）-阿里云开发者社区'}
+- {'url': 'https://help.aliyun.com/zh/cdn/product-overview/billing-overview&rut=5607cac578e6a0a2822f10843ed70c58160107634276405ba09db4d9580720b7', 'type': 'ddg', 'title': 'Cdn如何计费-cdn (Cdn)-阿里云帮助中心'}
+- {'url': 'https://www.aliyun.com/price/detail/cdn&rut=7deffc4f1d34859bcb7594b9f5ea62952b3f14c06ecc370a5099c3c282977b06', 'type': 'ddg', 'title': '阿里云定价_CDN价格详情'}

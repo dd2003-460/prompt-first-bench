@@ -1,20 +1,24 @@
-# N512: 分片存储策略下的带宽消耗模型：将 s_vid 拆分为 N_chunks 个 1MB 分片，并行下载时 T_transfer_parallel = max(T_c
+# N687: 跨省 BGP 多线接入的稳定性与延迟交互效应：多线接入提供冗余，但主备切换（Failover）时间 T_failover 通常为 1-5s，在 P99 统计窗口
 
-- **status**: verified
+- **status**: degraded
 - **level**: L5
 - **source**: knowledge
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N172
+- **rework_count**: 1
+- **parent_ids**: N228
 
 ## Claim
 
-分片存储策略下的带宽消耗模型：将 s_vid 拆分为 N_chunks 个 1MB 分片，并行下载时 T_transfer_parallel = max(T_chunk_i)，若采用 4 路并行，T_transfer ≈ s_vid / (4 × Bandwidth_link)，但需增加 N_chunks 次 HTTP 请求头开销（约 0.5ms/请求），总延迟 T_total = T_transfer_parallel + N_chunks × 0.5ms
+跨省 BGP 多线接入的稳定性与延迟交互效应：多线接入提供冗余，但主备切换（Failover）时间 T_failover 通常为 1-5s，在 P99 统计窗口（1分钟）内，若发生切换，该窗口内的请求延迟会突增至 50-100ms，因此 P99 计算需包含 0.1% 的 Failover 概率修正项，导致 P99 比平均延迟高 5-10ms
 
 ## Corrected Claim
 
-分片存储策略下的带宽消耗模型：将 s_vid 拆分为 N_chunks 个 1MB 分片，并行下载时 T_transfer_parallel = max(T_chunk_i)，若采用 4 路并行，T_transfer ≈ s_vid / (4 × Bandwidth_link)，但需增加 N_chunks 次 HTTP 请求头开销（约 0.5ms/请求），总延迟 T_total = T_transfer_parallel + N_chunks × 0.5ms
+跨省 BGP 多线接入提供冗余，主备切换时间 T_failover 通常在秒级（如 1-5s）。在 P99 统计窗口内，若发生切换，受影响请求的延迟会显著增加。P99 延迟受 Failover 事件影响，但具体增量取决于切换频率、受影响请求比例及基础延迟，通常 P99 会高于平均延迟，但“高 5-10ms”这一具体数值需结合具体业务流量模型计算，不宜作为通用固定值。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+[质询]数值量级与统计逻辑存在矛盾：P99 代表第 99 百分位，意味着只有 1% 的请求超过该值。若 Failover 概率为 0.1%（即 1000 次中 1 次），且每次 Failover 导致延迟突增 50-100ms，那么 P99 的延迟应主要由正常流量的尾部决定，Failover 事件（仅占 0.1%）通常不会显著拉高 P99 值至“比平均高 5-10ms”的固定量级，除非平均延迟极低或 Failover 期间所有请求都受影响且持续整个窗口，这与“1-5s 切换时间”和“1分钟窗口”的统计分布逻辑不完全自洽。此外，1-5s 的 Failover 时间在 BGP 多线接入中偏长（通常 BGP 收敛在秒级，但应用层感知可能更快或更慢，取决于具体实现），且 50-100ms 的突增幅度对于跨省链路而言可能偏小（跨省基础延迟通常已在 20-50ms，切换瞬间可能更高）。 | 先验知识/题面给定，逻辑校验发现统计概率（0.1%）与 P99 影响幅度（5-10ms）之间的因果推导不够严谨，且缺乏外部来源支持具体数值。
+
+## Search Query
+
+BGP multi-line failover time impact on P99 latency CDN edge

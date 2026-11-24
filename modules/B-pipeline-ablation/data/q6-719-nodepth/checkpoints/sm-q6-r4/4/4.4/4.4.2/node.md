@@ -1,24 +1,24 @@
-# N101: Security 人力成本敏感性：若遭遇 DDoS 攻击频率从每年 1 次增加到每月 1 次，或需 7x24 小时安全监控响应，所需 Security 人力投入
+# N113: L2 命中率 H_L2 的计算模型：H_L2 = 1 - (Miss_L1 * (1 - H_origin))，其中 Miss_L1 为 L1 未命中率，H_o
 
 - **status**: verified
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N25
+- **parent_ids**: N28
 
 ## Claim
 
-Security 人力成本敏感性：若遭遇 DDoS 攻击频率从每年 1 次增加到每月 1 次，或需 7x24 小时安全监控响应，所需 Security 人力投入将从 1 人/月增加至 2-3 人/月，对应成本区间为 50k-75k 元/月。
+L2 命中率 H_L2 的计算模型：H_L2 = 1 - (Miss_L1 * (1 - H_origin))，其中 Miss_L1 为 L1 未命中率，H_origin 为源站缓存命中率（通常为 0，即直接回源）；H_L2 受内容工作集大小 W 与 L2 容量 C_L2 之比影响，当 W/C_L2 < 0.5 时 H_L2 > 0.8，否则 H_L2 显著下降。
 
 ## Corrected Claim
 
-Security 人力成本敏感性：若遭遇 DDoS 攻击频率从每年 1 次增加到每月 1 次，或需 7x24 小时安全监控响应，所需 Security 人力投入将从 1 人/月增加至 2-3 人/月，对应成本区间为 50k-75k 元/月。
+L2 命中率 H_L2 的计算模型：H_L2 = 1 - (Miss_L1 * (1 - H_origin))，其中 Miss_L1 为 L1 未命中率，H_origin 为源站缓存命中率（通常为 0，即直接回源）；H_L2 受内容工作集大小 W 与 L2 容量 C_L2 之比影响，当 W/C_L2 < 0.5 时 H_L2 > 0.8，否则 H_L2 显著下降。
 
 ## Evidence
 
-父节点级核验通过：正交+完备+无冗余（子节点逻辑清晰且互不重叠：节点1聚焦于攻击事件驱动的额外运维/清洗成本（基于频率变化），节点2聚焦于7x24监控模式下的人力固定成本增量，节点3定义了人力投入的决策逻辑（跳变阈值）及分析方法论。三者分别对应‘事件成本’、‘人员成本’和‘逻辑约束’，共同完整覆盖了父节点中关于DDoS频率增加和7x24监控导致成本从1人/月升至2-3人/月（50k-75k元/月）的全部关键方面。）
+先验知识/题面给定，逻辑校验通过
 
 ## Search Query
 
-Security headcount scaling with DDoS frequency 24/7 monitoring response
+CDN L2 cache hit rate calculation model

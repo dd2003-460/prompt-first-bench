@@ -1,0 +1,30 @@
+# N748: 阿里云 OSS 标准存储无强制最低存储时长限制（区别于低频/归档存储），但删除或覆盖数据时若存储时长不足 30 天，需按 30 天全量计费，即罚金系数为 1.0
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N250, N252, N253
+
+## Claim
+
+阿里云 OSS 标准存储无强制最低存储时长限制（区别于低频/归档存储），但删除或覆盖数据时若存储时长不足 30 天，需按 30 天全量计费，即罚金系数为 1.0（补足至 30 天费用）。
+
+## Corrected Claim
+
+阿里云 OSS 标准存储通常无最低存储时长限制，但具体计费规则（如删除时是否补足30天费用）需以阿里云官方最新计费文档为准，现有参考来源未直接证实该特定罚金系数。
+
+## Evidence
+
+[质询]参考来源仅明确提及低频访问存储有30天最低存储时间要求，未直接提供标准存储的计费细则，无法从现有摘要中直接证实标准存储‘无强制最低存储时长限制’及‘删除时补足30天费用’的具体规则，存在来源覆盖不足的风险。 | 来源[3]间接支持了不同存储类型存在不同最低存储时间要求的逻辑（低频为30天），但未直接覆盖标准存储的具体计费惩罚机制；该事实属于经验性产品规格，逻辑自洽但缺乏直接来源支持。
+
+## Search Query
+
+Aliyun OSS standard storage minimum duration penalty delete before 30 days
+
+## Retrieval Sources
+
+- {'url': 'https://help.aliyun.com/zh/oss/user-guide/overview-53/&rut=94e4106ed2f4649f4b6b8db9ae03852ed4c0e69abfbc2bdcd3f1ed5403faee9d', 'type': 'ddg', 'title': 'Oss有哪几种存储类型-对象存储 (Oss)-阿里云帮助中心'}
+- {'url': 'https://help.aliyun.com/zh/oss/user-guide/convert-storage-classes&rut=5daccc3939023f5eecfc2e874f0af8087624bb1b23751bf09adaf4abf3d451d4', 'type': 'ddg', 'title': '转换文件存储类型-对象存储 (Oss)-阿里云帮助中心'}
+- {'url': 'https://www.alibabacloud.com/help/zh/oss/user-guide/product-function-node-oss&rut=11659a041ec46f714da6c16ef1cd52cef93880288dc9b403649168a208db1b8c', 'type': 'ddg', 'title': '功能特性 - 对象存储 OSS - 阿里云 - Alibaba Cloud'}

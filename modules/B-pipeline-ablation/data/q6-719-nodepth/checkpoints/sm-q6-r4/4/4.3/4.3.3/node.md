@@ -1,0 +1,20 @@
+# N111: 混合策略路由决策逻辑函数：Route(user_ip, object_id) = IF (GeoIP(user_ip) IN Core_Zones AND Q_
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N27
+
+## Claim
+
+混合策略路由决策逻辑函数：Route(user_ip, object_id) = IF (GeoIP(user_ip) IN Core_Zones AND Q_obj_24h(object_id) > H_threshold) THEN Self_POP ELSE Public_CDN，该逻辑决定了 P_core 的实际取值及流量分配比例。
+
+## Corrected Claim
+
+混合策略路由决策逻辑函数：Route(user_ip, object_id) = IF (GeoIP(user_ip) IN Core_Zones AND Q_obj_24h(object_id) > H_threshold) THEN Self_POP ELSE Public_CDN，该逻辑决定了 P_core 的实际取值及流量分配比例。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点分别关注路由逻辑中的输入定义（Core_Zones）、输入精度误差（GeoIP）和动态参数计算（Q_obj_24h），三者维度不同，无重叠或矛盾，正交性良好。但完备性不足：父节点明确提到该逻辑决定“流量分配比例”及 P_core 的实际取值，但子节点仅讨论了触发条件（IF...THEN...ELSE）的构成要素，未涉及当条件满足/不满足时具体的流量权重分配策略（如是否全量切换或按比例混合），也未涵盖 H_threshold 的设定逻辑或 Self_POP 与 Public_CDN 之间的具体负载平衡机制。）

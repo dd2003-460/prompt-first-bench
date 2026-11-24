@@ -1,24 +1,20 @@
-# N495: 签名验证（HMAC-SHA256 或 RSA）的 CPU 处理时间 T_auth 在通用 x86 服务器上约为 0.1-0.5ms/请求，若启用硬件加速（如 I
+# N675: 长尾区域 P99_RTT_tail 的修正公式：P99_RTT_tail = 0.05 * D_tail_p99 + 5 + ΔT_cross_tail + J
 
 - **status**: verified
 - **level**: L5
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N166
+- **parent_ids**: N224
 
 ## Claim
 
-签名验证（HMAC-SHA256 或 RSA）的 CPU 处理时间 T_auth 在通用 x86 服务器上约为 0.1-0.5ms/请求，若启用硬件加速（如 Intel QAT）可降至 0.05ms，该过程独立于 I/O 操作，可与元数据查询并行执行以优化总处理时间
+长尾区域 P99_RTT_tail 的修正公式：P99_RTT_tail = 0.05 * D_tail_p99 + 5 + ΔT_cross_tail + Jitter_P99_tail，其中 Jitter_P99_tail 为长尾区域网络抖动 P99 值，通常为 10-15ms，导致总 P99 约为 45-65ms 而非简单的 50ms。
 
 ## Corrected Claim
 
-签名验证（HMAC-SHA256 或 RSA）的 CPU 处理时间 T_auth 在通用 x86 服务器上约为 0.1-0.5ms/请求，若启用硬件加速（如 Intel QAT）可降至 0.05ms，该过程独立于 I/O 操作，可与元数据查询并行执行以优化总处理时间
+长尾区域 P99_RTT_tail 的修正公式：P99_RTT_tail = 0.05 * D_tail_p99 + 5 + ΔT_cross_tail + Jitter_P99_tail，其中 Jitter_P99_tail 为长尾区域网络抖动 P99 值，通常为 10-15ms，导致总 P99 约为 45-65ms 而非简单的 50ms。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
-
-## Search Query
-
-HMAC SHA256 signature verification CPU latency ms benchmark
+先验知识/题面给定，逻辑校验通过：公式各项量纲一致（均为时间单位ms），数值量级符合网络延迟经验规律（基础延迟+抖动+跨域延迟），且source为knowledge，无需外部来源支持。

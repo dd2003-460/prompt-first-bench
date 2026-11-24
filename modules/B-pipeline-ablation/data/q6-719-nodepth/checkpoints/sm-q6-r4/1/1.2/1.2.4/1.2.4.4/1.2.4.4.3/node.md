@@ -1,0 +1,24 @@
+# N665: 应用层处理延迟 T_app_logic 的 P99 值为 5ms，包含鉴权验证（JWT/Token 解析）、访问控制列表（ACL）检查及响应头组装，假设无复杂业
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N219
+
+## Claim
+
+应用层处理延迟 T_app_logic 的 P99 值为 5ms，包含鉴权验证（JWT/Token 解析）、访问控制列表（ACL）检查及响应头组装，假设无复杂业务逻辑（如实时转码或 AI 推理），仅做静态资源分发。
+
+## Corrected Claim
+
+应用层处理延迟 T_app_logic 的 P99 值为 5ms，包含鉴权验证（JWT/Token 解析）、访问控制列表（ACL）检查及响应头组装，假设无复杂业务逻辑（如实时转码或 AI 推理），仅做静态资源分发。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+CDN origin server application layer latency JWT validation ACL check

@@ -1,24 +1,28 @@
-# N97: 监控体系的人力投入中，2人/月的配置基于10个POP点的常态运维；若引入AIOps自动化告警与自愈机制，可将人力需求降至 1人/月，但需一次性投入 100k-2
+# N106: 用户到自建 POP 的 P99 距离 D_user_pop_p99 (km)，基于 10 个 POP 的地理坐标与用户分布计算，典型值在 100-300km 之
 
 - **status**: pending
 - **level**: L3
-- **source**: knowledge
-- **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N23
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N26
 
 ## Claim
 
-监控体系的人力投入中，2人/月的配置基于10个POP点的常态运维；若引入AIOps自动化告警与自愈机制，可将人力需求降至 1人/月，但需一次性投入 100k-200k 元开发/采购费用，摊销后3年总成本可能低于2人方案。
+用户到自建 POP 的 P99 距离 D_user_pop_p99 (km)，基于 10 个 POP 的地理坐标与用户分布计算，典型值在 100-300km 之间，由于 POP 数量少，其 P99 距离通常大于公有云 CDN 的 D_user_edge_p99。
 
 ## Corrected Claim
 
-监控体系的人力投入中，2人/月的配置基于10个POP点的常态运维；若引入AIOps自动化告警与自愈机制，可将人力需求降至 1人/月，但需一次性投入 100k-200k 元开发/采购费用，摊销后3年总成本可能低于2人方案。
+用户到自建 POP 的 P99 距离 D_user_pop_p99 (km) 基于地理坐标与用户分布计算，由于 POP 数量少，其 P99 距离通常大于公有云 CDN 的 D_user_edge_p99。
 
 ## Evidence
 
-父节点级核验未通过：不完备（子节点之间逻辑清晰且互不重叠（正交），无冗余。但存在关键信息缺失：父节点明确指出 AIOps 一次性投入区间为 100k-200k 元，而子节点仅采用了中位值 150k 元进行单点计算，未覆盖区间范围或敏感性分析，导致无法完整验证父节点关于“摊销后总成本可能低于2人方案”的结论（例如在 200k 投入下盈亏平衡点会变化）。）
+父节点级核验未通过：非正交, 有冗余（子节点3（整体计算）逻辑上依赖于子节点1和2，导致概念重叠；且子节点4（RTT转换）超出了父节点“距离定义”的范畴，属于下游指标，破坏了正交性。子节点1和2本质上是同一参数在不同用户群体下的取值，存在结构性冗余。）
 
 ## Search Query
 
-AIOps monitoring automation cost reduction SRE headcount
+self-built CDN POP node coverage radius distance
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1907850060240257948&rut=f8568459f53c969be6c08e9ce6f128269cd34bc1378fc3538a037e0cd1594e62', 'type': 'ddg', 'title': '运维必懂：监控指标中的 P90、P95、P99，到底是个啥？'}

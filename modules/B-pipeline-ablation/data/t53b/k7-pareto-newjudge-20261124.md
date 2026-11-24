@@ -976,3 +976,21 @@ q7_domain_gold_analyze.py（116 行）独立核验：
 - 概率低（s5 有 checkpoint + 队列串行），但后果是 Q7 分析卡住。
 - **回退方案**：若 Q7 卡在 n<15 超 12h，手动检查哪个 run 失败 → resume 或跳过（改 watchdog 触发条件为 n>=14 重启）。
 - 不改当前运行的 watchdog（PID 57325 已加载脚本，改文件对运行中进程无效）。
+
+## 2026-11-24 ~09:50 embedding 模型跨模型重评（红队"基础设施可靠性"触发）
+
+**触发**：judge_v1 承重基础设施 = BAAI/bge-m3 + 阈值 0.70。阈值已验（sweep 0.3185 / shape-robustness），gold 已验（扰动 10%），但 embedding 模型选择本身从未被质疑——审稿人第二刀"为什么是 bge-m3，换 all-MiniLM 呢？"。且 draft 原文没点名 embedding 模型（可复现性硬伤：审稿人无法复现 cov）。
+
+**做了**：
+1. draft §3 L-cov 定义句补 bge-m3 点名（可复现性）。
+2. 写 embedding_model_robustness.py：15 K7 树 + GPU gold 36 units，bge-m3 vs all-MiniLM-L6-v2（两模型均已缓存，不占 vLLM 不下载），官方 0.70 阈值。
+3. 结果（data/embedding-model-robustness-20261124.json）：
+   - **shape-robust**：cor(cov,n_nodes) 0.601 (bge-m3) vs 0.692 (MiniLM)，同向同量级 → budget–coverage 相关性/上升/平台 shape 结论对 embedding 模型选择稳健。
+   - **level-sensitive**：mean 0.3185 vs 0.1963，逐树 level cor 仅 0.553 → 绝对覆盖值仍是 bge-m3-scoped。
+   - 0.80 阈值两模型均值碰巧相同（0.0148）：验证为巧合非缓存 bug（逐树命中列表不同，layer_coverage 每次重编码 gold 无缓存）。
+   - **verdict 逻辑 bug 自纠**：初版误用 per-tree level cor（0.553）判 shape → 错判 model-sensitive；正确判据 = cor(cov,n_nodes) 跨模型稳定性 → shape-robust。教训：shape 稳健性看 shape 量跨模型稳定性，不看 level 量。
+4. draft §6 加 bullet "Embedding-model choice — now cross-model tested"（shape robust + level bge-m3-scoped 诚实声明 + 0.80 巧合说明）。
+
+**核验**：投稿四条件复核通过（21 refs 字母序 ✓ / 0 TODO ✓ / 括号差 0 ✓ / 118,629 字符）。
+
+**意义**：审稿人"为什么 bge-m3"一刀现在有实证防御（不是"预期稳健"而是"实测 shape 稳健"）；同时诚实声明 level 跨模型不可比——防御 + 诚实降级双到位。

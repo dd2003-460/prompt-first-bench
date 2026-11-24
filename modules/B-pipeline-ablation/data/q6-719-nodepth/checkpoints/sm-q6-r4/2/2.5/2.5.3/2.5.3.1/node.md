@@ -1,20 +1,24 @@
-# N202: 在 N_pop=10 的基线下，每增加 1 个 POP 点平均降低的 P99 延迟 ΔL_per_pop ≈ 8-12ms，主要源于覆盖半径缩小带来的传播延迟降
+# N280: 95th 百分位带宽单价 Unit_Price_95th (¥/Mbps/月) 的市场行情：在中国大陆，自建或托管机房的 95th 计费模式，普通 BGP 多线
 
-- **status**: pending
+- **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N64, N65, N66
+- **parent_ids**: N83
 
 ## Claim
 
-在 N_pop=10 的基线下，每增加 1 个 POP 点平均降低的 P99 延迟 ΔL_per_pop ≈ 8-12ms，主要源于覆盖半径缩小带来的传播延迟降低（物理极限约束）
+95th 百分位带宽单价 Unit_Price_95th (¥/Mbps/月) 的市场行情：在中国大陆，自建或托管机房的 95th 计费模式，普通 BGP 多线带宽单价约为 ¥15-¥25/Mbps/月；若为单线（如仅电信），单价约为 ¥5-¥10/Mbps/月。
 
 ## Corrected Claim
 
-在 N_pop=10 的基线下，每增加 1 个 POP 点平均降低的 P99 延迟 ΔL_per_pop ≈ 8-12ms，主要源于覆盖半径缩小带来的传播延迟降低（物理极限约束）
+95th 百分位带宽单价 Unit_Price_95th (¥/Mbps/月) 的市场行情：在中国大陆，自建或托管机房的 95th 计费模式，普通 BGP 多线带宽单价约为 ¥15-¥25/Mbps/月；若为单线（如仅电信），单价约为 ¥5-¥10/Mbps/月。
 
 ## Evidence
 
-父节点级核验失败（LLM 错误）：Unterminated string starting at: line 9 column 5 (char 691)
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+China BGP bandwidth price per Mbps month 95th percentile

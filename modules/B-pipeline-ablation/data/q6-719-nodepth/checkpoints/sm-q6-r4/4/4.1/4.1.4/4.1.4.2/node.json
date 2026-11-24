@@ -1,33 +1,17 @@
 {
-  "id": "N248",
-  "claim": "Cloudflare单租户带宽上限机制：Cloudflare无传统意义上的'硬带宽上限'，而是基于分布式网络容量动态调度；但存在'Fair Use'条款，若单客户带宽占用超过网络总容量的 1%-2%（具体比例未公开，需个案协商），可能触发限流或要求迁移至专用基础设施；实际峰值 69.3Gbps 远低于触发阈值，故无硬性约束。",
+  "id": "N331",
+  "claim": "L2 中间层节点的位置分布策略（如每省 1-2 个 L2）决定了 RTT_edge_origin 的上限，若 L2 覆盖半径 R_l2 < 500km，则 RTT_edge_origin < 50ms，对 P99 贡献 < 10%。",
   "level": "L4",
-  "source": "search",
+  "source": "knowledge",
   "status": "degraded",
-  "evidence": "[质询]陈述中关于'单客户带宽占用超过网络总容量的 1%-2%'的具体阈值缺乏公开权威来源支持，属于未经验证的内部推测或谣言；此外，'69.3Gbps'这一具体峰值数据在提供的参考来源中完全未提及，无法通过现有证据链验证其真实性和相关性。 | 来源[2]间接支持'无硬性带宽上限'及'基于容量动态调度/降级'的逻辑，但所有来源均未提及'1%-2%'的具体阈值或'69.3Gbps'的具体数值，属于经验事实且缺乏直接来源支持。",
-  "corrected_claim": "Cloudflare无传统意义上的'硬带宽上限'，而是基于分布式网络容量动态调度；存在'Fair Use'条款，若单客户带宽占用过高可能触发限流或要求迁移至专用基础设施（具体触发阈值未公开，需个案协商）。",
+  "evidence": "[质询]该陈述将复杂的网络延迟（RTT）简化为仅由物理距离（L2覆盖半径）决定的线性关系，忽略了网络拓扑跳数、设备处理延迟、拥塞状况以及具体运营商骨干网质量等关键变量。'R_l2 < 500km 则 RTT < 50ms' 是一个经验性工程估算，而非物理定律，在特定网络架构或拥塞场景下可能不成立（例如跨洋或高延迟骨干网即使距离短也可能超过50ms，或者距离稍远但直连骨干网可能低于50ms）。此外，'对P99贡献<10%' 是一个高度依赖具体业务流量分布和边缘节点性能的统计结论，无法仅从L2位置策略推导得出。 | 先验知识/题面给定，逻辑校验通过。虽然数值关系（500km对应50ms）在典型光纤传输速度下量级合理（光速在光纤中约200,000 km/s，500km单程约2.5ms，往返5ms，加上处理延迟通常远低于50ms），但该陈述包含具体的经验阈值和统计贡献比例，属于经验事实。由于source为knowledge，且无外部来源矛盾，但存在将复杂网络行为过度简化的风险，故降级为定性表述以保留其工程指导意义但避免绝对化。",
+  "corrected_claim": "L2 中间层节点的位置分布策略（如每省 1-2 个 L2）通常有助于降低 RTT_edge_origin。在典型网络环境下，若 L2 覆盖半径 R_l2 < 500km，RTT_edge_origin 往往能控制在较低水平（如 < 50ms），从而显著降低其对 P99 延迟的贡献占比。",
   "rework_count": 1,
   "parent_ids": [
-    "N80"
+    "N103"
   ],
   "objective": null,
   "edge_type": "cartesian",
-  "search_query": "Cloudflare fair use policy bandwidth limit single tenant threshold",
-  "retrieval_sources": [
-    {
-      "url": "https://www.zlooks.cn/blog/posts/cloudflare-tunnel-50k-routes-tenant-lifecycle-20261019&rut=555f9f06dc18636ad60fafeee73ef56a5cac9c75c921f20830f293e43501dcdb",
-      "type": "ddg",
-      "title": "Cloudflare Tunnel 扩容：租户连接如何管理 | Zlooks.Hub"
-    },
-    {
-      "url": "https://www.cnblogs.com/masx200/articles/19239818&rut=ded3c75de6bddc10218c824651ddafff018b4463480c63e65eefb9ea8693f443",
-      "type": "ddg",
-      "title": "Cloudflare WARP 与 Tunnel：VPS 网络经济学、性能、安全及弹性架构分析报告"
-    },
-    {
-      "url": "https://www.csdn.net/detail/webblog_51682237/100730&rut=74419016373515107993b0cf98d85cae6098b91203e2f4e6aceee72be2f8e6d3",
-      "type": "ddg",
-      "title": "Cloudflare流量闸门机制与双边商业模式解析 - CSDN"
-    }
-  ]
+  "search_query": "",
+  "retrieval_sources": []
 }

@@ -1,0 +1,24 @@
+# N121: 公有云CDN L2 中间层节点缓存未命中率 Miss_rate_L2，通常为 1-5%，L2 节点容量更大且更接近源站，Miss 后需回源，影响最终回源延迟。
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+公有云CDN L2 中间层节点缓存未命中率 Miss_rate_L2，通常为 1-5%，L2 节点容量更大且更接近源站，Miss 后需回源，影响最终回源延迟。
+
+## Corrected Claim
+
+公有云CDN L2 中间层节点缓存未命中率 Miss_rate_L2，通常为 1-5%，L2 节点容量更大且更接近源站，Miss 后需回源，影响最终回源延迟。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点正交且无冗余，但完备性不足。父节点核心是‘Miss_rate_L2’及其对‘回源延迟’的影响，但子节点仅覆盖了容量（物理基础）、流量关系（数学定义）和带宽需求（资源影响），缺失了关键维度：1. Miss_rate_L2 的具体影响因素（如缓存策略、内容热度分布、TTL设置）；2. Miss 后回源延迟的具体构成（RTT + 源站处理时间）及 L2 如何通过聚合请求降低源站压力从而间接影响延迟。）
+
+## Search Query
+
+CDN L2 intermediate node cache hit ratio

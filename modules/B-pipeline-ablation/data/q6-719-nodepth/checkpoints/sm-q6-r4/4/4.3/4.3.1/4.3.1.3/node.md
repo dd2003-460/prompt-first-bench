@@ -1,20 +1,20 @@
-# N283: CI/CD 工具链月度总成本 CI_CD_Monthly = 10 × (Compute_Resource_Cost + Artifact_Storage_Co
+# N354: P_core 的最终计算值：P_core = (DAU_in_coverage / 5,000,000)，假设覆盖内 DAU 为 350 万，则 P_core 
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N98
+- **parent_ids**: N109
 
 ## Claim
 
-CI/CD 工具链月度总成本 CI_CD_Monthly = 10 × (Compute_Resource_Cost + Artifact_Storage_Cost) + License_Fee，代入 N153 和 N154 数值：10 × (750 + 0.6) + 5000 (假设商业工具 License 5k/月) = 7506 + 5000 ≈ 12.5k 元/月。
+P_core 的最终计算值：P_core = (DAU_in_coverage / 5,000,000)，假设覆盖内 DAU 为 350 万，则 P_core = 3,500,000 / 5,000,000 = 0.70；若覆盖内 DAU 为 250 万，则 P_core = 0.50
 
 ## Corrected Claim
 
-CI/CD 工具链月度总成本 CI_CD_Monthly = 10 × (Compute_Resource_Cost + Artifact_Storage_Cost) + License_Fee，代入 N153 和 N154 数值：10 × (750 + 0.6) + 5000 (假设商业工具 License 5k/月) = 7506 + 5000 ≈ 12.5k 元/月。
+P_core 的最终计算值：P_core = (DAU_in_coverage / 5,000,000)，假设覆盖内 DAU 为 350 万，则 P_core = 3,500,000 / 5,000,000 = 0.70；若覆盖内 DAU 为 250 万，则 P_core = 0.50
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：算术运算 10*(750+0.6)+5000 = 7506+5000 = 12506，约等于 12.5k，数值量级与逻辑自洽。
+先验知识/题面给定，逻辑校验通过：算术运算 3,500,000/5,000,000=0.7 及 2,500,000/5,000,000=0.5 正确，公式定义清晰且无内部矛盾。

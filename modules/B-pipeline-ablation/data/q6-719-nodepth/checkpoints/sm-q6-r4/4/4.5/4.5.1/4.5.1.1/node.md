@@ -1,24 +1,24 @@
-# N293: Hardware_Failure_Cost = (Annual_Failure_Rate × 10_Pops) × (MTTR_Hours × Hourly_O
+# N372: 内容工作集大小 W 的独立估算：基于 200GB 日均上传量，假设 50% 内容在 24 小时内被访问，75% 在 7 天内被访问，则 W ≈ 200GB * 
 
-- **status**: verified
+- **status**: degraded
 - **level**: L4
-- **source**: knowledge
+- **source**: search
 - **edge_type**: cartesian
-- **rework_count**: 0
-- **parent_ids**: N102
+- **rework_count**: 1
+- **parent_ids**: N115
 
 ## Claim
 
-Hardware_Failure_Cost = (Annual_Failure_Rate × 10_Pops) × (MTTR_Hours × Hourly_Ops_Cost + Spare_Part_Replacement_Cost)，其中 Annual_Failure_Rate 典型值为 5%-10%（服务器/存储），MTTR 受备件库存影响，若无本地备件 MTTR 可达 24h，有备件则 4h。
+内容工作集大小 W 的独立估算：基于 200GB 日均上传量，假设 50% 内容在 24 小时内被访问，75% 在 7 天内被访问，则 W ≈ 200GB * 0.5 * 1 + 200GB * 0.75 * 7 ≈ 1.25TB (近似值，需考虑去重和热度分布)。
 
 ## Corrected Claim
 
-Hardware_Failure_Cost = (Annual_Failure_Rate × 10_Pops) × (MTTR_Hours × Hourly_Ops_Cost + Spare_Part_Replacement_Cost)，其中 Annual_Failure_Rate 典型值为 5%-10%（服务器/存储），MTTR 受备件库存影响，若无本地备件 MTTR 可达 24h，有备件则 4h。
+内容工作集大小 W 的估算：基于 200GB 日均上传量，若假设 50% 内容在 24 小时内被访问、75% 在 7 天内被访问，则理论工作集约为 1.25TB；但实际值需根据真实访问热度分布、去重率及缓存策略调整，此数值仅为粗略上界估计。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过
+[质询]该估算基于假设的访问分布（50%在24h内，75%在7天内），属于经验性假设而非第一性原理可推导事实；且未考虑内容去重、热度长尾分布及实际缓存命中率，导致数值可能显著偏离真实工作集大小。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该数值依赖未验证的访问分布假设）
 
 ## Search Query
 
-data center hardware failure rate MTTR impact on ops cost
+content working set size 200GB daily upload 7 days retention

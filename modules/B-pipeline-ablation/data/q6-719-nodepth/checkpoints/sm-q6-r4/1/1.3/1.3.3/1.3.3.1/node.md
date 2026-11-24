@@ -1,20 +1,20 @@
-# N168: Unique_Objects（日均新增唯一对象数）= Daily_Upload_Volume / s_avg，其中 Daily_Upload_Volume = 
+# N225: 低配硬件工作点：使用通用型服务器（如 8C16G），CPU 瓶颈导致并发处理延迟增加，P99(T_proc_pop) ≈ 20ms，主要耗时在 TLS 握手及元
 
-- **status**: pending
+- **status**: verified
 - **level**: L4
 - **source**: knowledge
-- **edge_type**: quotient
+- **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N48
+- **parent_ids**: N58
 
 ## Claim
 
-Unique_Objects（日均新增唯一对象数）= Daily_Upload_Volume / s_avg，其中 Daily_Upload_Volume = 200GB；若 s_avg 为图片 300KB 与短视频 10MB 的加权平均（假设 90% 图片，10% 视频），则 s_avg ≈ 0.9×0.3MB + 0.1×10MB = 1.27MB，Unique_Objects ≈ 200GB / 1.27MB ≈ 161,417 个/天
+低配硬件工作点：使用通用型服务器（如 8C16G），CPU 瓶颈导致并发处理延迟增加，P99(T_proc_pop) ≈ 20ms，主要耗时在 TLS 握手及元数据查询
 
 ## Corrected Claim
 
-Unique_Objects（日均新增唯一对象数）= Daily_Upload_Volume / s_avg，其中 Daily_Upload_Volume = 200GB；若 s_avg 为图片 300KB 与短视频 10MB 的加权平均（假设 90% 图片，10% 视频），则 s_avg ≈ 0.9×0.3MB + 0.1×10MB = 1.27MB，Unique_Objects ≈ 200GB / 1.27MB ≈ 161,417 个/天
+低配硬件工作点：使用通用型服务器（如 8C16G），CPU 瓶颈导致并发处理延迟增加，P99(T_proc_pop) ≈ 20ms，主要耗时在 TLS 握手及元数据查询
 
 ## Evidence
 
-父节点级核验未通过：不完备（子节点在逻辑上是正交的，分别修正了图片大小、视频大小和去重率这三个独立的变量。但是，分解存在严重的完备性缺陷：父节点公式明确为 Unique_Objects = Daily_Upload_Volume / s_avg，这是一个基于‘总上传量’的宏观估算。子节点1和2虽然细化了 s_avg 的构成，但子节点3引入了‘去重率’这一在父节点公式中完全未体现的新变量，且未说明去重发生在上传量统计之前还是之后，导致子节点3与父节点定义的数学模型不一致（父节点隐含的是毛新增或去重后的总量，子节点3试图修正唯一性，但未修正分母或分子的定义）。更关键的是，如果去重发生在上传量统计阶段，Daily_Upload_Volume 本身可能就需要调整，或者公式结构需要改变，目前的分解未能统一数学框架。）
+先验知识/题面给定，逻辑校验通过：在8C16G通用型服务器资源受限场景下，TLS握手（涉及多次网络往返及CPU加密计算）与元数据查询（涉及I/O或内存查找）确实是主要耗时瓶颈，P99延迟达到20ms符合低配硬件下的性能直觉与量级预期。

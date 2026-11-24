@@ -1,20 +1,24 @@
-# N74: 运维工程师数量 N_eng 的职能分解：N_eng = N_network_eng + N_storage_eng + N_devops_eng，其中 N_ne
+# N97: 核心区域请求占比 P_core 的计算公式为 P_core = Σ(核心区域日活用户数 * 人均请求频次) / 总日请求量，其中核心区域定义为自建 10 个 P
 
 - **status**: pending
 - **level**: L3
 - **source**: knowledge
-- **edge_type**: cartesian
+- **edge_type**: quotient
 - **rework_count**: 0
-- **parent_ids**: N18
+- **parent_ids**: N23
 
 ## Claim
 
-运维工程师数量 N_eng 的职能分解：N_eng = N_network_eng + N_storage_eng + N_devops_eng，其中 N_network_eng 为网络工程师（负责POP互联、BGP配置，自建需1-2人），N_storage_eng 为存储/缓存工程师（负责缓存策略、淘汰算法，自建需1-2人），N_devops_eng 为DevOps/SRE（负责监控、告警、自动化部署，自建需1-2人）；公有云方案仅需0.5-1名SRE负责集成和监控，无需底层网络/存储专家。
+核心区域请求占比 P_core 的计算公式为 P_core = Σ(核心区域日活用户数 * 人均请求频次) / 总日请求量，其中核心区域定义为自建 10 个 POP 物理覆盖半径（约 500km）内的用户群体。
 
 ## Corrected Claim
 
-运维工程师数量 N_eng 的职能分解：N_eng = N_network_eng + N_storage_eng + N_devops_eng，其中 N_network_eng 为网络工程师（负责POP互联、BGP配置，自建需1-2人），N_storage_eng 为存储/缓存工程师（负责缓存策略、淘汰算法，自建需1-2人），N_devops_eng 为DevOps/SRE（负责监控、告警、自动化部署，自建需1-2人）；公有云方案仅需0.5-1名SRE负责集成和监控，无需底层网络/存储专家。
+核心区域请求占比 P_core 的计算公式为 P_core = Σ(核心区域日活用户数 * 人均请求频次) / 总日请求量，其中核心区域定义为自建 10 个 POP 物理覆盖半径（约 500km）内的用户群体。
 
 ## Evidence
 
-父节点级核验未通过：不完备, 有冗余（子节点将‘自建方案’中的不同人力配置（A和B）并列，但完全遗漏了父节点中明确提到的‘公有云方案’这一关键分支。此外，子节点A和B本质上是同一类方案（自建）在不同资源投入下的参数化变体，存在结构性冗余，应合并或重构为‘自建’与‘公有云’两个正交分支。）
+父节点级核验未通过：不完备（子节点存在逻辑矛盾（数值与结论不符）且关键缺失（未解释总请求量）。子节点2中，若Q_core从180万升至225万，且假设总请求量不变（即总请求量需大于225万），P_core的占比应上升而非下降（例如若总请求量为200万，P_core从0.9升至1.1；若总请求量随分子同步变化才可能下降，但前提假设‘总请求量不变’导致逻辑错误）。此外，父节点公式分母为‘总日请求量’，子节点未提供该参数值或估算逻辑，导致P_core的具体数值（如0.88）无法复现，不完备。）
+
+## Search Query
+
+CDN POP coverage radius user distribution calculation

@@ -1,20 +1,20 @@
-# N281: 单 POP CI/CD 计算资源成本 Compute_Resource_Cost = (Daily_Builds × Avg_Build_Duration_Ho
+# N352: 核心城市 DAU 占比估算：基于中国互联网用户地理分布统计，一线+新一线城市（北上广深+杭州成都等）DAU 占比约为 35-45%，二线及以下城市占比 55-6
 
 - **status**: verified
 - **level**: L4
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N98
+- **parent_ids**: N109
 
 ## Claim
 
-单 POP CI/CD 计算资源成本 Compute_Resource_Cost = (Daily_Builds × Avg_Build_Duration_Hours × CPU_Cost_Per_Hour) × 30，假设每日构建 10 次，平均耗时 0.5 小时，CPU 成本 5 元/小时，则单 POP 月成本为 (10 × 0.5 × 5) × 30 = 750 元。
+核心城市 DAU 占比估算：基于中国互联网用户地理分布统计，一线+新一线城市（北上广深+杭州成都等）DAU 占比约为 35-45%，二线及以下城市占比 55-65%，需结合具体平台用户画像修正
 
 ## Corrected Claim
 
-单 POP CI/CD 计算资源成本 Compute_Resource_Cost = (Daily_Builds × Avg_Build_Duration_Hours × CPU_Cost_Per_Hour) × 30，假设每日构建 10 次，平均耗时 0.5 小时，CPU 成本 5 元/小时，则单 POP 月成本为 (10 × 0.5 × 5) × 30 = 750 元。
+核心城市 DAU 占比估算：基于中国互联网用户地理分布统计，一线+新一线城市（北上广深+杭州成都等）DAU 占比约为 35-45%，二线及以下城市占比 55-65%，需结合具体平台用户画像修正
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：公式结构正确，数值计算 (10 * 0.5 * 5) * 30 = 750 准确无误，量纲一致。
+先验知识/题面给定，逻辑校验通过

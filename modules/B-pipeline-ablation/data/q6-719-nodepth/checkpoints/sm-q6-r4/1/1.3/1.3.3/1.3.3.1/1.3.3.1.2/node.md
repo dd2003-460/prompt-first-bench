@@ -1,24 +1,20 @@
-# N500: 短视频类对象（占比 10%）的平均大小 s_video 高度依赖编码码率与时长，假设平均时长 15s、码率 2Mbps，则 s_video_avg = 2Mbp
+# N677: 低配硬件元数据查询延迟分解：P99(T_meta_query) = T_db_lookup + T_cache_check + T_response_encod
 
 - **status**: verified
 - **level**: L5
 - **source**: knowledge
 - **edge_type**: cartesian
 - **rework_count**: 0
-- **parent_ids**: N168
+- **parent_ids**: N225
 
 ## Claim
 
-短视频类对象（占比 10%）的平均大小 s_video 高度依赖编码码率与时长，假设平均时长 15s、码率 2Mbps，则 s_video_avg = 2Mbps × 15s / 8 ≈ 3.75MB，而非 10MB 的粗略估计
+低配硬件元数据查询延迟分解：P99(T_meta_query) = T_db_lookup + T_cache_check + T_response_encode，其中 T_db_lookup 为 5-10ms（SSD 随机读），T_cache_check 为 1-3ms，T_response_encode 为 1-2ms，总计 7-15ms。
 
 ## Corrected Claim
 
-短视频类对象（占比 10%）的平均大小 s_video 高度依赖编码码率与时长，假设平均时长 15s、码率 2Mbps，则 s_video_avg = 2Mbps × 15s / 8 ≈ 3.75MB，而非 10MB 的粗略估计
+低配硬件元数据查询延迟分解：P99(T_meta_query) = T_db_lookup + T_cache_check + T_response_encode，其中 T_db_lookup 为 5-10ms（SSD 随机读），T_cache_check 为 1-3ms，T_response_encode 为 1-2ms，总计 7-15ms。
 
 ## Evidence
 
-先验知识/题面给定，逻辑校验通过：2Mbps × 15s / 8 = 3.75MB，计算无误且符合物理直觉
-
-## Search Query
-
-short video average file size bitrate duration calculation 2Mbps 15s
+先验知识/题面给定，逻辑校验通过：SSD随机读、缓存检查及序列化延迟的量级符合工程常识，且各分项之和与总延迟范围（7-15ms）在数学上自洽。

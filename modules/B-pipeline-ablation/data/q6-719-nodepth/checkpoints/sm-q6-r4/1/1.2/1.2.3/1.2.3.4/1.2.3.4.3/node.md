@@ -1,0 +1,20 @@
+# N653: TLS 会话复用率 R_tls_reuse 为 0.95，基于 HTTP/2 多路复用和 TLS 会话 ID 缓存，95% 的请求复用已有 TLS 会话，避免完
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N215
+
+## Claim
+
+TLS 会话复用率 R_tls_reuse 为 0.95，基于 HTTP/2 多路复用和 TLS 会话 ID 缓存，95% 的请求复用已有 TLS 会话，避免完整握手，故 T_tls_p99 仅对 5% 的新连接生效
+
+## Corrected Claim
+
+TLS 会话复用率 R_tls_reuse 为 0.95，基于 HTTP/2 多路复用和 TLS 会话 ID 缓存，95% 的请求复用已有 TLS 会话，避免完整握手，故 T_tls_p99 仅对 5% 的新连接生效
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
