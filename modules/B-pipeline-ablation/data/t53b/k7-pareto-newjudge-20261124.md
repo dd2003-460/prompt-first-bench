@@ -797,3 +797,17 @@ r3 落地后 relay_v2 phase 2 自动启动 q7_budget_scan_queue.sh (15 runs ~11h
 5. 文件名 pattern 匹配: 队列输出 q7-${budget}-r${rep}-${ts}.json vs 分析脚本 glob q7-*-r*-[0-9]*.json ✓
 6. stdout pattern: 队列 q7-${budget}-r${rep}.stdout vs 分析脚本 f"q7-{budget}-r{rep}.stdout" ✓
 → Q7 长杆无已知阻塞, r3 落地后自动接力可放心跑。
+
+## 2026-11-24 ~08:55 — ⑤ D2 gold 骨架阻塞点澄清 (K7 vs compaction 矛盾)
+
+K7 前段说"⑤ D2 gold 骨架 conf 0.2 = 本 goal 唯一可自主推进的剩余工作 (arena 调研, 不占 vLLM)",
+compaction 说"APPROVALS 条目 2 等 D 确认" — 拆开看两者都对, 但 K7 那句过度乐观:
+- **D1 题面 = 真阻塞**: v1 已起草 (q9-agi-question-v0.md, 11-23), 等 D 一句话确认 (硬规则 3:
+  题面=D 的目标, AI 不能代定)。核心待定 = AGI 能力阈值怎么定。
+- **D2 gold 骨架 = 依赖 D1**: decomp 缺口标注"AGI 可操作定义 (D 的 AGI = 什么能力阈值)"
+  恰恰是 D1 题面要 D 确认的核心 → D2 建 gold 树依赖题面冻结, 不是完全独立可自主。
+  D2 调研部分 (验证题面 v1 的 5 贡献因子是否完整) 可派 arena, 但建树要等 D1。
+- **并发约束**: T-PR-17 正在 arena 跑 (同 pfb repo, arena/f65a5a27 分支) — 一仓库一会话,
+  D2 调研等 T-PR-17 落地 (watcher 通知) 再派, 避免同 repo 并发乱。
+→ ⑤ 真实状态: D1 等 D (不可自主绕过), D2 调研可自主但排在 T-PR-17 之后。
+  本 goal 当前无新的可自主推进任务 — 两条长杆 (r3 / T-PR-17) 在飞, watcher 挂着。
