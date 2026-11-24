@@ -132,9 +132,18 @@ if len(xs) >= 8:
         if _best is None or _s1 + _s2 < _best[0]:
             _best = (_s1 + _s2, _bp, _a1, _a2)
     if _best:
+        # F 检验 (与 18pt/GPU v4 同口径): F = ((ss1-ss2)/2) / (ss2/(n-4)), p 用 F(2,n-4) sf
+        _n_pts = len(pts_sorted)
+        _F = ((_ss1 - _best[0]) / 2) / (_best[0] / (_n_pts - 4)) if _best[0] > 0 else float('inf')
+        try:
+            from scipy import stats as _st
+            _p = float(_st.f.sf(_F, 2, _n_pts - 4))
+        except ImportError:
+            _p = ((_n_pts - 4) / ((_n_pts - 4) + 2 * _F)) ** ((_n_pts - 4) / 2)  # 闭式 (df1=2), 与 scipy 一致 (11-24 验证)
         q7_bp = {"ss_single": round(_ss1, 5), "ss_two_seg": round(_best[0], 5),
                  "optimal_bp": _best[1], "slope_left": round(_best[2], 5),
                  "slope_right": round(_best[3], 5),
+                 "F": round(_F, 3), "df": [2, _n_pts - 4], "p": round(_p, 4),
                  "improvement": round((_ss1 - _best[0]) / _ss1, 4) if _ss1 else None}
 # --- 机制锚 v2: 停止状态通用签名检查 (2026-11-24 补入) ---
 # 全 30 树 (GPU+Q6) 每档都 高 gain + 非空 frontier + streak=0 → 停止状态是通用签名,
