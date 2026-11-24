@@ -17,7 +17,8 @@
   的"题面 v1 草稿"段（D 确认后冻结，以届时版本为准）
 - 硬件: 4× V100-SXM2-16GB (cc 7.0, TP=4), Qwen3-27B NVFP4 vLLM,
   不改权重只用 prompt+外部工具, 预算 150 研究节点（定值）
-- 排序键: 单位预算闭环成功率 = gap 标记→补全→补全后 verified/degraded 占比 (post_acc)
+- 排序键: 单位预算闭环成功率 = gap 标记→补全→补全后 verified/(verified+contradicted) 占比
+  (metacog_axis post_acc; unverifiable/ambiguous 不进分母, 同 q9-agi-question-v0.md L44 口径)
 - 记忆轴机制锚点（防调研发散）: pfb/research/q9-memory-axis-design-20261124.md
   题面"记忆轴（跨 session 状态保持）"有具体机制先例——DreamCoder/LILO 的
   跨 run claim 库（verified claim 抽取→相似度注入→省重新发现节点）。
