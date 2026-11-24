@@ -22,6 +22,26 @@
 - **verified 状态非单调**：r1 里 verified 的 N12/N13/N14 在 r2 被 rework 周期重开成 pending（evidence 从 16 字符 stub 补到 247-356 字符，进了 r2 rework_events）。→ "verified 比例"指标随轮次非单调上升，T5 解读时别当成单调累积量。
 - r3 有 1 个生产重复 claim（compute_metrics dup=1）→ precision 指标非零基线，跨臂比较时留意。
 
+## T4 无人值守风险清单（21:48 核验，逐项有证据）
+T4 pilot 夜间无人值守，下列接缝逐一核验过（防"白等一夜"的静默失败）：
+- **waiter python 环境**：waiter 的 `python3` = /opt/homebrew/bin/python3 (3.14.4)，
+  clean env 下 `import s5_state_machine` + `import tpr17_runner` 均 OK。
+  sanity check 用 /usr/bin/python3 (3.9.6) 纯 stdlib 解析 json，无依赖风险。
+- **文件名契约**：runner 写 `{arm}_{ckpt_spec}_r{rep}.json`（L435）= 如
+  `null-control_r3_r1.json`；waiter sanity 读 `$OUT/${arm}_r3_r${rep}.json`、
+  summary glob `*/canonical_r3_r*.json` 等均精确匹配（arm 含连字符也匹配）。
+- **post-run pipeline**：build_sm→compute_metrics→_tree_dump→json roundtrip
+  在真实 381 节点树上 3 臂全通，waiter 读的键（n_nodes/depth/verified_ratio/
+  tokens_total/n_llm_calls/tool_calls/evidence_delta_chars/parent_link_accuracy）
+  全部存在。n_nodes=381 ≥ CKPT_FLOOR=381（sanity 阈值，>= 含等号）。
+- **sm.run(skip_l1=True)**：签名确认接受 skip_l1（L1139），与生产 --resume 同路径。
+- **唯一未测接缝 = LLM 往返本身**（vLLM 占用中无法 dry 测）。waiter 的
+  vLLM 健康探测 + 首 cell fail-fast 就是这道闸：首 cell 若 LLM 不通会 rc!=0
+  → ABORT 整批并写报告，不会静默烧 7 小时。
+- **fail-fast 语义**：任一 cell rc!=0 或 n_nodes<381 → break 2 中止整批（设计如此，
+  防坏 checkpoint/坏 patch 污染后续 8 cell）。明早若见 PILOT ABORTED，先读
+  报告里首个失败 cell 的 stderr。
+
 ## T4 执行约束
 - **pilot 时长实测校准（2026-11-24 21:45，来自 q7 r1 完整 run，同代码路径同 regime）**：
   q7 r1 = 719 节点/4 轮/6843s(114min)，per-round n_new=35/90/255/334。
