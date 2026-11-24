@@ -58,6 +58,14 @@ T4 pilot 夜间无人值守，下列接缝逐一核验过（防"白等一夜"的
   （operational/sequence 两 estimator 空 = n=1 零方差被 guard 成 None，正确行为非 bug）。
   → T4 出结果后"一键 `tpr17_analysis.py` 出报告"链路成立，runner 输出与分析脚本输入
   的 schema 拼接无缝。
+- **TOST power 警示（21:58 量化，T5 主结论解读的关键约束）**：TOST 实现方向正确
+  （明确界内→equiv=True / 明确界外→False / n<2 守卫→None / 单侧 p 符号全对），
+  但在真实方差（sd~0.1 = 设计文档 F3/F5 的 K7 同序列 run 间方差）下 power 极低：
+  真等效时判等效概率 n=3 仅 17%、n=5 仅 17%（sd=0.05 乐观情形 n=5 才 80%）。
+  **⟹ T5 解读铁律**：若 TOST 判"不等效"，在 n≤5 且 sd~0.1 下**不能解读为"序列有影响"**，
+  只能解读为"功效不足以证明等效"（underpowered）；只有 equiv=True 才是正向证据
+  （序列无实质影响）。要可靠判等效需更大 n（80% power 所需 n 未及量化，估计 n≥15-20
+  @sd=0.1）→ 若 T4 pilot 判不等效，正式实验须扩 n 或缩小 Δ_min 前重新做 power 分析。
 - **fail-fast 语义**：任一 cell rc!=0 或 n_nodes<381 → break 2 中止整批（设计如此，
   防坏 checkpoint/坏 patch 污染后续 8 cell）。明早若见 PILOT ABORTED，先读
   报告里首个失败 cell 的 stderr。
