@@ -950,3 +950,15 @@ r3 落地后 relay_v2 phase 2 自动接 Q7 的接力逻辑核验（承重件，�
 - phase 1 队列 = `for rep in 1 2 3` 循环，r3 跑完 `done` 退出 → phase 2 自动接 Q7。
 - 失败模式：队列脚本 `set -u` 不用 `set -e`，r3 即使 rc≠0 也记 MISSING 然后正常退出 → phase 2 照样启动（不断链）。
 - 结论：r3 落地 → 队列 DONE → phase 2 自动接 Q7，无断点，r3 崩溃也不断链。
+
+## 09:2x 投稿缺口：长度/页数适配（四条件未覆盖的第 5 项）
+
+红队退一步发现：draft 17,536 词 vs ICML workshop 典型 4–8 页（4,000–10,000 词），超 1.5–4×。
+- 各节字符：Abstract 8.5K / Intro 3.2K / Setup 5.9K / Related 5.4K / **Findings 51.3K** / Implications 2.4K / Limitations 16.7K / Future 18.4K / Data 1.2K / Refs 3.5K。
+- §4 Findings 占 44%（~8K 词），是压缩主战场；§6/§7 合计 35K 也偏重。
+- **不现在压缩**：① CFP 未发布，目标页数未知（draft footer 已标"CFP 出来再核"），朝未知目标使劲=返工风险；② r3/Q7 在飞，719 点方向未定，压缩应在结论定型后做。
+- **压缩策略骨架（不依赖 CFP 的部分）**：
+  - 留正文：4 个 finding 的核心数字 + 控制臂 + provenance caveat 的"结论级"部分；abstract 已按 skill 第 8 条限定强度。
+  - 移 supplementary：§4 各 finding 的逐 run 明细（vsr 逐 rep 值、metacog 逐 rep 分解、hit-set 对比）、§6 的 detector 口径细节（22-pattern 扩展）、§7 的 future-work 长论证。supplementary 索引文件已有 7 编号体系，扩编号即可。
+  - 目标：正文压到 ~8K 词（8 页保守目标），supplementary 承接 ~9K 词。
+- 状态：已知项，等 ① CFP 发布定页数 ② r3/Q7 落地定结论 → 再做压缩 pass。
