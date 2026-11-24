@@ -73,11 +73,13 @@
 
 **输入**：硬件 spec 复用 v1（4090/A100/5090/T5000）；workload 先验：phase 份额 f_p ~ Dirichlet(α=1)（均匀），phase 内资源份额 ~ Dirichlet(α=1)。N=40000 闭式采样。
 
+> **状态对账（2026-11-24）**：树推广实际经 2×2 支/段路线实现（commits `9f482c999` 模型 + `f80c58337` 并进 paper §4.5，四格列联表+段级精确复现1D+flat归零）；本节的 3 层 phase×resource 预注册是更深的下一步设计、非当前 paper 所用。
+
 | 步骤 | 执行 | 验收（机器可查） | 状态 |
 |---|---|---|---|
-| T9 v2 树模型实现 | subagent | idea53-tree-v2.py：3 层树 + 串联 sum/并联 max + 4 硬件 + flat + 置换 + v1 对照，全闭式 | ⬜ |
-| T10 v2 结果+生死线 | subagent 跑 + Lead 复核 | idea53-tree-v2.json：flip/shift/H(D|S) per 硬件 + flat=0 + v1/v2 对比表；生死线判定写入 idea53-tree-v2.md | ⬜ |
-| T11 paper 升级决策 | Lead | 若 v2 成立且结构必要 → paper.md 方法节升级（v1 降为特例对照臂）；若 v2≈v1 → paper 不动，v2 进 robustness 附录 | ⬜ |
+| T9 v2 树模型实现 | subagent | idea53-tree-v2.py：3 层树 + 串联 sum/并联 max + 4 硬件 + flat + 置换 + v1 对照，全闭式 | ✅ 经 2×2 路线完成（QQ 会话，9f482c999） |
+| T10 v2 结果+生死线 | subagent 跑 + Lead 复核 | idea53-tree-v2.json：flip/shift/H(D|S) per 硬件 + flat=0 + v1/v2 对比表；生死线判定写入 idea53-tree-v2.md | ✅ 经 2×2 路线完成（QQ 会话，f80c58337 并进 paper §4.5） |
+| T11 paper 升级决策 | Lead | 若 v2 成立且结构必要 → paper.md 方法节升级（v1 降为特例对照臂）；若 v2≈v1 → paper 不动，v2 进 robustness 附录 | ✅ 本措辞修复即 T11 的 paper 升级动作（mild-vs-extreme 分组口径，2026-11-24） |
 
 ## 6. 与 #10 的关系
 
