@@ -185,6 +185,13 @@ no_source 不命中 → 保持 angle，4.0% 基线口径不变）。不新增状
   （diff L47）——该字段确为 NodeRecord 成员（L382 `default_factory=list`，L622 填充，
   元素为 `{url,type,title}` dict，与 `s.get("title") or s.get("url")` 取值匹配）→ 无
   AttributeError 风险；空列表时 `src_txt or '（无来源）'` 兜底。
+- **hunk 3 变量作用域 + 事件流自洽（2026-11-25 00:40 核验）**：hunk 3 在 `_rework_directed`
+  （L790 `def _rework_directed(self, node, events)`）的 blocks 循环内，`node` 是方法参数 →
+  作用域内必然可用，无 NameError。self_conflict 事件构造为 `a==b==node.id` → 循环里
+  `other_id=ev["b"]=node.id`、`other=by_id.get(node.id)`=节点自身（非 None）→ 通过
+  `if not other: continue` 守卫进入 self_conflict 分支，`node.evidence`/`node.retrieval_sources`
+  取值自洽。整条 directed 路径（hunk 2 构造事件 → hunk 3 建块 → L806 裁决 prompt →
+  L814 重搜重验 → L820-827 成功回写）无未定义变量/None 引用。
 
 ## §3 Fix-B diff（re-entry）
 
