@@ -100,8 +100,8 @@ pfb 不是六个串行关卡，是一条**逼近"压缩-解压往返无损不动
 
 | 改动 | 落点 | 类型 | 优先级 |
 |---|---|---|---|
-| 01 加"正交完备检查"+ 换挡信号 | pfb/loop/01-goal-decomposition.md | SOP | 高（压缩环入口） |
-| 02 加"证据质量分级"（一手/二手） | pfb/loop/02-information-research.md | SOP | 高（数据质量门） |
+| 01 加"正交完备检查"+ 换挡信号 | pfb/loop/01-goal-decomposition.md | SOP | ✅ 完成 2026-11-25（pfb ef2afb5f6 + workspace b8469a09，两档换挡：加项优先/换基最后） |
+| 02 加"证据质量分级"（一手/二手） | pfb/loop/02-information-research.md | SOP | ✅ 完成 2026-11-25（同上两仓，一手=有效likelihood/二手=噪声防渐进漂移） |
 | 02.5 单列"效度判据"+ 选域①②语言 | pfb/loop/02.5-cross-check.md | SOP | 中 |
 | 04.5 加"发现新条件→换基"判断（选域③） | pfb/loop/04.5-final-review.md | SOP | 中 |
 | gear-shift 信号实现（think-trigger） | pfb/tasks/think-trigger/ + stop_hook | 代码 | 高（A subagent 在做） |
