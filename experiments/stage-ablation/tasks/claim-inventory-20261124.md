@@ -5,6 +5,7 @@
 > 承重 = 删了会动摇主结论/主方法；非承重 = 支撑性/背景/细节/诊断。
 > 行号 = draft 内 1-indexed 行。同一承重数字多处出现时，「数字」列列出全部行号（压缩时至少保留 1 处正文可见）。
 > 词数基线（压缩前，按节）：Abstract 1280 / §1 476 / §2 877 / §3 810 / §4.1 874 / §4.2 624 / §4.3 4180 / §4.4 2443 / §5 355 / §6 2709 / §7 2828 / §8 134 / §9 458。合计 ~18,085 词。
+> **覆盖状态（2026-11-24 补全）**：明细表已覆盖 Abstract→§9 全部节，共 **194 条 claim**（Abstract 23 / §1 3 / §2 13 / §3 6 / §4.1 15 / §4.2 8 / §4.3 41 / §4.4 20 / §5 10 / §6 26 / §7 20 / §8 4 / §9 5），其中 **承重 141 条**（Abstract–§4 95 / §5 9 / §6 17 / §7 16 / §8 1 / §9 3）。§0 为独立的承重数字 cross-reference，不计入明细 194。
 
 ## 0. 承重数字总览（context 给定的承重集，逐一核对落点）
 
@@ -199,3 +200,90 @@
 | §4.4 | L185 | obs 5: self-report calibrated in direction weak in strength; verified 0.78 (n=9 ns), degraded 0.56 (n=191), pending 0.55 (n=20) | 0.78, 0.56, 0.55 | 否 | 校准细节 |
 | §4.4 | L185 | 56% of degraded-marked nodes still have claimed number on cited page; under-claiming not over-claiming | 56% | 否 | 校准方向细节 |
 <!-- CHUNK2_S4_END -->
+### §5 Implications (L187–L192)
+
+| 节 | 行号 | claim 摘要 (≤30 词) | 数字 | 承重? | 理由 (≤15 词) |
+|---|---|---|---|---|---|
+| §5 | L189 | directed-fix path structurally unreachable: 0/8,870 node-level rework events across 80-run corpus | 0/8,870 | 是 | 路径可达性承重 |
+| §5 | L189 | single-attempt design: rework_count=1 for all 8,870 reworked nodes; every node gets exactly one repair attempt | 8,870, count=1 | 是 | 单尝试设计约束承重 |
+| §5 | L189 | 72.6% of Q6 reworked nodes produce substantively different corrected_claim, but angle path never rewrites node claim (only claim-writing path L821 in unreachable branch) | 72.6%, L821 | 是 | 修复未落地承重 |
+| §5 | L189 | 85.3% of Q6 reworked nodes end in degraded terminal state | 85.3% | 是 | 终端态承重 |
+| §5 | L189 | 2.4% value_mismatch = blind-re-search baseline not ceiling; no_source 4.0% retained; single-attempt fix 3.7% baseline | 2.4%, 4.0%, 3.7% | 是 | 修复预测基线承重 |
+| §5 | L189 | two orthogonal changes separately testable (path reachability vs attempt count); greedy gates misclassify 45.6% of accepts | 45.6% | 否 | 实验设计细节 |
+| §5 | L190 | mechanical frozen judge feasible & necessary for harness ablation; LLM judges inject family bias + non-determinism | — | 是 | 评估方法 claim |
+| §5 | L191 | more budget buys breadth + modest saturating depth: tier means 0.625/0.725/0.800 (100/150/300), 0.933 (719), r=+0.944 n=30, saturates max_depth=5 (~n=665) | 0.625/0.725/0.800, 0.933, r=+0.944, ~n=665 | 是 | 预算-广度承重 |
+| §5 | L191 | L4 conclusion layer does not converge to gold winner at any tier (0/21); warning against "just give it more budget" | 0/21 | 是 | 主 claim 承重 |
+| §5 | L192 | checkpoint reuse trades coverage (composite A>B 3/3) for metacognitive precision (gap marking 3/3 higher on resume arm) + vsr 0.66 vs 0.46 (r3 excluded) | 3/3, 0.66 vs 0.46 | 是 | checkpoint 权衡承重 |
+### §6 Limitations (L194–L213)
+
+| 节 | 行号 | claim 摘要 (≤30 词) | 数字 | 承重? | 理由 (≤15 词) |
+|---|---|---|---|---|---|
+| §6 | L196 | quality axis gold-conditioned: each domain needs own frozen reference tree; general = method + gold-free metacog axis, not quality scores | 3 domains | 是 | 核心 scope limit |
+| §6 | L197 | "mechanical" = deterministic scoring not designer-free: gold tree is designer artifact (origin: ai, 2026-11-22 rebuild, original lost) | origin: ai | 是 | 参考树偏差承重 |
+| §6 | L197 | reference harder than model output: mean coverage ~0.32, spread 0.11–0.56; self-transcription would sit ~1.0 (not self-copy) | 0.32, 0.11–0.56 | 否 | 偏差缓解 (i) |
+| §6 | L197 | cross-domain near-zero coverage: Q6 vs GPU gold ≤8% every tier vs 6–13% in-domain; leakage check 0 hits; same-family 27B prior NOT controlled | ≤8%, 6–13%, 0 hits | 是 | 参考树 question-specific 承重 |
+| §6 | L198 | no independent gold cross-check: perturbation (drop 10% units, 5 seeds) moves mean cov ≤0.0215 (< 1× sd 0.0926); cor 0.601→0.641 | 0.0215, 0.0926, 0.601→0.641 | 否 | 构造敏感性细节 |
+| §6 | L198 | threshold sweep: 0.70→0.3185, 0.65→0.496, 0.80→~0.015 (0.85→0.000) = 30× swing over 0.15 window; 0.70 manually calibrated | 0.3185/0.496/0.015, 30× | 是 | 阈值自由度承重 |
+| §6 | L198 | shape cor(cov,n_nodes) 0.802/0.601/0.388/0.132 at 0.65/0.70/0.75/0.80; low-budget rise detectable only ≤0.70; plateau sub-noise at all | 0.802/0.601/0.388/0.132 | 是 | 形状 threshold-scoped 承重 |
+| §6 | L199 | embedding-model robustness: shape robust (cor 0.601 bge-m3 vs 0.692 MiniLM); levels model-sensitive (0.3185 vs 0.1963, per-tree 0.553) | 0.601/0.692, 0.3185/0.1963 | 是 | 嵌入模型自由度承重 |
+| §6 | L200 | judge scores output tree not acquisition process; provenance blind spot; source-anchored verification only partial (URL-retained subset) | — | 是 | 测量盲点承重 |
+| §6 | L201 | single model 27B; no capability curve (7b/27b/70b planned not run); scoped to "open-weight ~27B" | 27B | 否 | 模型单一 caveat |
+| §6 | L202 | self-judge bias: depth axis same-family; r=0.861 with older LLM-judge cov axis; heterogeneous re-judging blocked (no API key) | r=0.861 | 否 | 自偏轴细节 |
+| §6 | L203 | n=3/budget at 50/719, n=8/tier at 100/150/300; depth gradient 0.625/0.725/0.800 era-consistent; 300 saturates (sd=0, 8/8@0.8); 50/719 95% CI ±0.29 | 0.625/0.725/0.800, ±0.29 | 是 | 样本量承重 |
+| §6 | L203 | power analysis: ANOVA F(2,12)=0.036, per-tier 0.099/0.100/0.108, pooled sd 0.085; power to detect large effect (f=0.40)=21.5%, medium (f=0.25)=11.0% → severely underpowered | F=0.036, 21.5%, 11.0% | 是 | 功效不足承重（防过度解读 null） |
+| §6 | L204 | mech layer diagnostic-only: 0/4 idea-2 trees share any variable (orthogonal quantity spaces); numeric self-consistency lives in L1 physical layer | 0/4 | 否 | 机械层限制 |
+| §6 | L205 | one question family (gpu) for gold; other 2 domains metacog-only; five out-of-domain gold trees Q6–Q10 ready for next scans | Q6–Q10 | 否 | 单问题族 caveat |
+| §6 | L206 | construct mismatch: question 32K floor + search own candidates vs gold 64K fixed + fixed set (3090/M2Ultra/L40S/A100/V100/TPU); all 20 trees take 32K; coverage partially confounded | 32K vs 64K, 20 trees | 是 | 构造错配 confound 承重 |
+| §6 | L207 | provenance retention gap: 60.6% search-tagged nodes (1330/2196) no stored URL; retention 0–100% across runs (pipeline not model) | 60.6%, 1330/2196 | 是 | URL 保留缺口承重 |
+| §6 | L208 | retrieval-channel silent outage: 70–90% source-empty; idea-2 r3 A-r3 90%/B-r3 70% vs 2%/36% healthy; whitelist log dozens→0–8; r3 vsr excluded | 90%/70% vs 2%/36% | 是 | 通道静默故障承重 |
+| §6 | L209 | detector domain bias: soc 42% hits = mathematical "uncertainty" concept vs GPU 15%; soc gap_rate inflated ~1.7×; cross-domain levels not comparable | 42% vs 15%, ~1.7× | 是 | 检测器域偏承重 |
+| §6 | L209 | 8-pattern pooled flat F(2,12)=0.036 but 22-pattern rises 0.39/0.41/0.44 (F=1.02); monitoring axis flat under both (0.090/0.090/0.096; 0.105/0.106/0.114; F=0.033) → invariance detector-scoped | F=0.036, 0.39/0.41/0.44, F=0.033 | 是 | 不变性 detector-scoped 承重 |
+| §6 | L209 | node-level coupling survives cleaning: search-source 71.0% vs 27.7% (GPU); z +16.24/+8.13/+11.73 all p<0.001 | 71.0% vs 27.7%, z all p<0.001 | 否 | 耦合稳健性细节 |
+| §6 | L210 | gap marker prompt-elicited not spontaneous (prompts.py:78,312): 82% GPU / 72% nat / 51% soc of hits are instructed tag; gap_rate measures elicited not spontaneous monitoring | 82%/72%/51% | 是 | prompt-elicited 承重 |
+| §6 | L211 | workshop scope: measurement + diagnosis paper not fix; repair-loop fix designed + predicted not yet run | — | 否 | scope 定位 |
+| §6 | L212 | single-attempt rework = harness design choice not model limit: rework_count=1 for all 8,870 (621 Q6/139 Q7); max_rework=2 never exercised (structural ceiling) | 8,870, 621/139, count=1 | 是 | 单尝试设计约束承重 |
+| §6 | L212 | 72.6% Q6 reworked produce different corrected_claim but angle path never rewrites claim (L821 unreachable); node ends degraded (85.3%) | 72.6%, L821, 85.3% | 是 | 修复未落地 + 终端态承重 |
+| §6 | L213 | executor continuity (meta): agent itself continuity-bound (passively triggered); goal state-machine records where to resume not drives resumption | — | 否 | 执行者连续性 caveat |
+### §7 Future work (L215–L222)
+
+| 节 | 行号 | claim 摘要 (≤30 词) | 数字 | 承重? | 理由 (≤15 词) |
+|---|---|---|---|---|---|
+| §7 | L217 | structural stop-criterion axis (L2): agent over-expands 50 vs 24 (2.08:1), near-orthogonal to depth score (r=−0.23); not yet in composite | 50/24, 2.08:1, r=−0.23 | 是 | 新诊断轴承重 |
+| §7 | L218 | tree-level conditional information gain for bottleneck localization; components mature but tree-level combo unclaimed (closest 2611.24733 zero overlap) | 2611.24733 | 否 | 后续方向 + novelty |
+| §7 | L219 | replication (5 added reps/tier at 100/150/300, n=3→8) settles mechanical curve not LLM-depth peak; 7b/70b capability curve planned | n=3→8 | 否 | 复制 + 能力轴 |
+| §7 | L220 | general-methodology needs 2–3 more domains; 5 frozen gold trees exist (Q6–Q10, 41-node, 2026-11-07); converter validated (Q6 46/Q7 52/Q8 36/Q9 34/Q10 36 units) | Q6–Q10, 46/52/36/34/36 | 是 | 泛化路径 + 资产承重 |
+| §7 | L220 | Q6 budget scan complete (15/15); in-domain coverage rises with budget: 0.058/0.073/0.087/0.130/0.167 at 50/100/150/300/719 (300 cache-suppressed sd=0) | 0.058/0.073/0.087/0.130/0.167 | 是 | 跨域曲线承重 |
+| §7 | L222 | rep-isolated rerun: metacog sd 0.0673 (300) / 0.0648 (719) vs cache-shared 0.0304 / 0.0290 → ~2.2× spread; first behavioral evidence cache-sharing suppresses rep variance | 0.0673/0.0648 vs 0.0304/0.0290, ~2.2× | 是 | 缓存抑制方差承重 |
+| §7 | L222 | 300-tier rerun: r1 depth-ceiling (252 nodes) vs r2/r3 budget-cap (300); 719 rerun all depth-ceiling-bound (349/277/392, max_depth=4) → does not test 719 budget cleanly | 252/300, 349/277/392 | 否 | 停止机制 confound 细节 |
+| §7 | L220 | cross-domain coverage near-zero: Q6 runs scored against GPU gold 0.009/0.009/0.019/0.046 (same tiers), 0–3 of 36 gold units ≤8% → validates gold-conditionality scope limit | 0.009/0.019/0.046, ≤8% | 是 | 跨域近零承重（gold 条件性） |
+| §7 | L220 | Q6 719 tier: 3 reps realized 197/351/379 nodes → coverage 0.130/0.174/0.196; realized node count explains within-719 spread (197≈300-tier level) | 197/351/379, 0.130/0.174/0.196 | 是 | realized 节点数解释承重 |
+| §7 | L222 | GPU 719 tier: coverage does NOT rise with realized node count (381→0.333, 665→0.417, 747→0.306; most-nodes rep lowest) → plateau not a depth-wall artifact | 381/665/747, 0.333/0.417/0.306 | 是 | plateau 非深度墙承重 |
+| §7 | L222 | GPU nominal budget axis contaminated: realized node counts overlap across tiers (nominal-50 r1=423 > nominal-300 r1=364; 300 spans 364–415; 719 spans 381–747) | 423/364, 364–415, 381–747 | 是 | x 轴污染 confound 承重 |
+| §7 | L222 | re-binning 30 GPU trees by REALIZED node count: cor(cov,realized)=+0.563 (t=+3.60, df=28); plateau at ~400 realized nodes not nominal ~300 (bins 0.250/0.325/0.361/0.361) | +0.563, t=+3.60, ~400 | 是 | realized 轴主结果承重 |
+| §7 | L222 | plateau-segment caveat: flat top rests on top 2 bins only (n=3+n=2=5); bin means 0.361/0.361 gap 0.0000 vs noise floor sd≈0.078 → flatness is low-n shape statement, cor carries the rise | n=5, 0.361/0.361, sd≈0.078 | 是 | plateau 弱半承重（防过度解读） |
+| §7 | L222 | GPU batch uniformly truncated: all 15 K7 trees final_state=rework, gain 0.86–0.92, non-empty frontier 24–252, max_level≤5 → none converged naturally | 0.86–0.92, 24–252 | 否 | 截断态细节 |
+| §7 | L222 | era confound (checked 2026-11-24, commit 47a8543cd): GPU K7 + rep-scan = pre-clamp (soft cap), Q6 original + rerun = post-clamp (hard cap); cross-domain contrast compares different regimes + max_depth 5 vs 4 | 47a8543cd, 5 vs 4 | 是 | era confound 承重 |
+| §7 | L220 | within-tier rep variance large: at budget 100 the 3 reps score 0.130/0.044/0.044; a budget-100 rep (0.130) exceeds every budget-150 rep → realized node count not a clean monotonic predictor across all 15 runs | 0.130/0.044/0.044 | 是 | 曲线解读 confound 承重 |
+| §7 | L220 | in-domain composite = 0.5·tree-depth + 0.5·coverage (both mechanical); post-300 rise carried entirely by coverage — tree-depth saturates 0.800 from 150 tier (Δdepth=0 across 719 reps; Q6 gold max depth 3 vs GPU 5) → curve purely coverage-driven | 0.5/0.5, 0.800, depth 3 vs 5 | 是 | 覆盖驱动主结果承重 |
+| §7 | L220 | cross-domain residual = fixed set of 5 generic hardware-cost units (purchase amortization/power/electricity/failure/feasibility); none of 8 cache/hit-rate units ever match → domain specificity strong but not binary; raw-markdown gold → exactly zero, enriched gold → ≤8% | 5 units, 8 cache units | 是 | 跨域特异性 nuance 承重 |
+| §7 | L220 | monitoring-axis invariance does NOT transfer to Q6: claim-field gap rate 0.073/0.003/0.016/0.026 at 50/100/150/300 (719 reps 0.000/0.029/0.005), low + non-flat after 50, vs GPU flat 0.105/0.106/0.114 → invariance currently a GPU-domain-only result | 0.073/0.003/0.016/0.026, 0.105/0.106/0.114 | 是 | 不变性不跨域承重（关键负结果） |
+| §7 | L220 | repair low-yield DOES transfer: Q6 32/621 = 5.2% (same frozen metric as GPU 3.7% = 331/8870, §4.1) → "low-yield repair tail" not a GPU-domain artifact (n=15) | 32/621=5.2%, 3.7%=331/8870 | 是 | 修复低收益跨域承重 |
+### §8 Data & code (L224–L226)
+
+| 节 | 行号 | claim 摘要 (≤30 词) | 数字 | 承重? | 理由 (≤15 词) |
+|---|---|---|---|---|---|
+| §8 | L226 | all metrics deterministic functions of saved run JSONs; judge code + calibration + metacog axis + 15-run scan in repo (paths in supplementary-index) | 15-run | 是 | 可复现性 claim |
+| §8 | L226 | source-anchored verification = source_verify.py (strict 20-char-window number+unit co-occurrence, no LLM); calibration = calibration_check.py | 20-char | 否 | 验证层方法细节 |
+| §8 | L226 | gold converter gold_md_to_units.py verified on all 5 out-of-domain trees; judge gold-injection regression-checked GPU default 0.3972 | 0.3972 | 否 | 回归检查细节 |
+| §8 | L226 | degeneration detector (repeated-block + no-answer-block) validated 5/5 on Q04, full-corpus 2/35 degenerate | 5/5, 2/35 | 否 | 退化检测细节 |
+
+### §9 References (L228–L250) + draft notes (L255)
+
+| 节 | 行号 | claim 摘要 (≤30 词) | 数字 | 承重? | 理由 (≤15 词) |
+|---|---|---|---|---|---|
+| §9 | L230–L250 | reference list: 21 refs (no load-bearing numbers; citations only) | 21 refs | 否 | 参考文献结构 |
+| §9 | L241/L242/L248 | self-preference-bias cluster supports judge-bias claim: Panickssery 2404.13076, Pombal 2604.06996, Yang 2604.22891 | 3 refs | 是 | 支撑 judge-bias 承重 claim |
+| §9 | L243 | metacognitive myopia ref (Scholten 2408.05568) supports metacog-axis framing | 2408.05568 | 否 | 框架支撑 |
+| §9 | L255 | deadline verified 2026-11-23 (ICML 2027 workshop; main abstract 2027-01-14 / full 2027-01-22 AoE; conf 2027-08-02~04 San Diego; workshop CFP not yet published) | 2027-01-14/22, 08-02~04 | 是 | venue/deadline 承重 |
+| §9 | L255 | Idea 2 r1–r3 data note: A>B composite 3/3 (cov-driven); B-arm gap rate 0.14 vs 0.06; vsr B 0.66 vs A 0.46 (r1–r2, r3 excluded) | 3/3, 0.14/0.06, 0.66/0.46 | 是 | checkpoint 数据 note 承重 |
+<!-- CHUNK3_END -->
