@@ -1,7 +1,7 @@
 {
  "design": "budget-response curve: judge_total vs node budget (Q7, 27b, 3 reps/budget, 719 pending)",
- "source": "q7-scan-scores.json (12 completed points: 50/100/150/300 x 3)",
- "pending": "719 (full gold scale) still running as of 19:19",
+ "source": "q7-scan-scores.json (13 条: 50/100/150/300 x 3 + 719 r1)",
+ "pending": "719 r2/r3 在途 (r1 已落分 0.6635 @ 20:28); 300 档 n=2 独立 rep 不变 (r1=r2 复制已剔除)",
  "rows": [
   {
    "budget": 50,
@@ -43,22 +43,32 @@
    "depth_mean": 0.867,
    "wall_s_mean": 6116,
    "note": "r2 剔除 (r1 复制)"
+  },
+  {
+   "budget": 719,
+   "n_reps": 1,
+   "judge_total_mean": 0.6635,
+   "judge_total_min": 0.6635,
+   "judge_total_max": 0.6635,
+   "cov_mean": 0.3269,
+   "note": "r1 落分 2026-11-24 20:28; r2/r3 在途, n_reps 到位后回填 min/max"
   }
  ],
  "fits": {
   "log_saturation": {
    "formula": "jt = intercept + slope*ln(budget)",
-   "intercept": -0.1771,
-   "slope": 0.1326,
-   "r2": 0.9863,
-   "pred_719": 0.6953
+   "intercept": -0.128,
+   "slope": 0.1219,
+   "r2": 0.9883,
+   "n_pts": 5,
+   "pred_note": "719 实测 0.6635 残差 -0.032, 拟合内"
   },
   "linear": {
    "formula": "jt = intercept + slope*budget",
-   "intercept": 0.3246,
-   "slope": 0.000906,
-   "r2": 0.9555,
-   "pred_719": 0.9763
+   "intercept": 0.3898,
+   "slope": 0.000422,
+   "r2": 0.8309,
+   "n_pts": 5
   }
  },
  "marginal_gains": {
@@ -66,7 +76,7 @@
   "100->150": 0.073,
   "150->300": 0.0949
  },
- "conclusion": "judge_total 随预算 log 饱和 (R^2=0.986 >> 线性 0.921): 单位预算效率 50→100=0.0013, 100→150=0.0015, 150→300=0.0006 — 明确递减, Pareto 前沿凹。预测 719=0.70 (log) vs 0.91 (线性上界)。300 档独立重复=2 (r2=r1 复制, checkpoint 跨 rep 共享 bug, 已剔除)。含义: 固定成本预算买 log 质量, 边际效率在 budget~150 后显著下降; 预算控制实验的核心定量结论 = 凹 Pareto 前沿 (log 饱和), 不是线性回报。",
+ "conclusion": "judge_total 随预算 log 饱和, 719 实测点 (0.6635) 落入拟合残差 -0.032 内, 5 点 R^2=0.988 (4 点时 0.986): 凹 Pareto 前沿在 2.4x 预算跨度上依然成立。单位效率 50→100=0.0013, 100→150=0.0015, 150→300=0.0006, 300→719=0.00019 — 3.4x 继续递减, 边际回报在 budget>300 后趋平 (719 相对 300 只 +0.079)。线性模型 (pred 719≈0.98) 被实测否决。预算控制实验核心定量结论不变且更强: 固定成本预算买 log 质量, 最优预算点在边际效率跌破机会成本处, 不是越大越好。719 档当前 n=1, r2/r3 到位后回填区间。",
  "anomaly": {
   "finding": "300-r1 与 300-r2 SHA1 相同 (0250d88535de), r2 是 r1 的字节级复制",
   "cause": "r2 中途崩溃 (17:31:50 TypeError: cannot unpack non-iterable NoneType) 后从 checkpoint 恢复, 恢复出同一棵树",
@@ -78,6 +88,7 @@
  "per_unit_efficiency": {
   "50->100": 0.001308,
   "100->150": 0.00146,
-  "150->300": 0.000633
+  "150->300": 0.000633,
+  "300->719": 0.000188
  }
 }
