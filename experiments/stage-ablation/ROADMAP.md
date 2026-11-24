@@ -59,10 +59,10 @@ TCO 时间分解 = 背景引用（十年老题，不能当 novelty）。套磁�
 | `modules/IDEA-INDEX.md` | 统一 idea 池 (#1-50) |
 | `modules/B-pipeline-ablation/reports/t53b/anatomy-0.5184.md` | 0.5184 解剖报告 |
 
-## 当前阻塞与下一步（11-24 01:15 更新）
+## 当前阻塞与下一步（11-24 20:59 更新）
 
-1. **Q6 重跑批在跑**（relay_v2 链，~02:00 完 300-r3）→ 完成后自动接 719 nodepth 批（3 rep, ~2.5h）→ Q7 扫描（15 runs, ~11h）。落地后：Q6 719 独立检索数据 + cache 对照 n=3 + cov 饱和点跨题验证
-2. **K7 主交付物已出**（k7-pareto-newjudge-20261124.md, commit 2133853d4）：cov 轴 ~300 节点饱和（池化 n=8），metacog 轴独立于预算（ρ≈0）——预算只控制覆盖度不控制元认知。待 Q7 落地后跨题确认
+1. **Q7 719 r2/r3 过夜跑中**（r1 已完成：719 节点/judge 0.6635/cov 0.3269，曲线 5 点 R²=0.988；r2 ETA ~22:20，r3 ~24:15）。watcher 自动 post-run（SHA 查重 + replication-check + 报告）。落地后：cov 轴 n=3 + Q7 三域 cov 对比（GPU 饱和/Q6/Q7 未饱和 → 域依赖性初判成立）决定是否落 workshop §4.3
+2. **K7 主交付物已出**（k7-pareto-newjudge-20261124.md, commit 2133853d4）：cov 轴 ~300 节点饱和（池化 n=8），metacog 轴独立于预算（ρ≈0）——预算只控制覆盖度不控制元认知。719-r1 边际机制已分解（+0.079 = 新 L5 层，非均匀提质）
 3. T-JUDGE-1 J4 兜底 102 条（等 vLLM 释放）
-4. T-PR-17 执行（等 vLLM 释放，monkey-patch）
-5. D 确认 Q9-agi 3 个 [待核验]（AGI 操作化/硬件边界/可靠性定义）→ gold 扩树
+4. T-PR-17：设计已强化（滚雪球 4 约束并入 F2b, c3153c956；新颖性弱 conf≤0.55 → claim 收窄为 suffix-ablation 设计）；runner + checkpoint preflight + 冒烟已派 subagent（sa-0-07937e31）；正式 run 等 vLLM 释放
+5. D 确认 Q9-agi 硬件边界 → gold 已交付 Q9-v1（37 节点）+ v2 方法论修复（lexicographic 目标/证据质量登记, 885debea5），Lead 双源 web-LLM 核验通过（d2-q9v1-lead-verify-20261124.json）
