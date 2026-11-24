@@ -785,3 +785,15 @@ v6 声称 "gain-cov 脱钩是 breadth-without-depth 的机制签名" — 推理�
 - 核验 (完成后): git fetch origin arena/1afea7fe-prompt-first-bench → show T-PR-17-result.md →
   独立复算任务书 sha256 (防读旧版) + 数字/ID 抽查。方法学缺口 (通道故障/未检索 venue) 登记 follow-up。
 - 完成信号: 页面 "Create PR" 按钮态 ≠ 已 push — 先查页面点 Create PR 再 ls-remote。
+
+## 2026-11-24 ~08:50 — Q7 11h 长杆 pre-flight 核验 (落地前最后一道闸)
+
+r3 落地后 relay_v2 phase 2 自动启动 q7_budget_scan_queue.sh (15 runs ~11h) — 脚本错了 11h 后才发现=白跑一轮。
+落地前核验 (source ①, 全部通过):
+1. gold-q7-units.json: dict 含 units, n=52, unit 结构 {unit_id,depth,raw,text,kind,stop_marker,share} ✓
+2. 题面 bench/questions/Q7-storage-arch.txt: 存在 2442B ✓
+3. judge_run 签名含 gold_units 参数 (run_json/model/cos_threshold/gold_units/gold_formulas) ✓
+4. 门禁6 同题核对: gold root "每 TB 年有效可用容量成本 c_TBY" vs 题面 "SSD RAID vs HDD+SSD 分层 vs 云对象存储 (storage)" — 同题 ✓
+5. 文件名 pattern 匹配: 队列输出 q7-${budget}-r${rep}-${ts}.json vs 分析脚本 glob q7-*-r*-[0-9]*.json ✓
+6. stdout pattern: 队列 q7-${budget}-r${rep}.stdout vs 分析脚本 f"q7-{budget}-r{rep}.stdout" ✓
+→ Q7 长杆无已知阻塞, r3 落地后自动接力可放心跑。
