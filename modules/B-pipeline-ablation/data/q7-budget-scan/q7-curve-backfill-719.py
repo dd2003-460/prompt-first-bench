@@ -84,12 +84,17 @@ def main():
         kept.append((rep, base, cs, n))
 
     reps_with_score = []
+    missing_score = []
     for rep, base, cs, n in kept:
         rec = by_rep.get(rep)
         if rec is None:
-            print(f"[warn] rep {rep} ({base}) 在 q7-scan-scores.json 无分数记录 — 跳过 (r3 落盘后队列会自动 append)")
+            missing_score.append((rep, base))
             continue
         reps_with_score.append((rep, rec, base, n))
+    if missing_score:
+        for rep, base in missing_score:
+            print(f"[abort] rep {rep} ({base}) 有 run 文件但 q7-scan-scores.json 无分数记录 — run/score 分歧 (队列 append 失败或竞态?), 拒绝写入以防静默写低 n 并谎称 n=3。请查 /tmp/q7-budget-scan.log 确认队列 append 后重跑。")
+        return
     if not reps_with_score:
         print("[abort] 719 档无可用 rep — 不写"); return
 
@@ -226,7 +231,7 @@ def main():
     pue["300->719"] = new_pue
     curve["conclusion"] = new_conclusion
     curve["updated_at"] = datetime.datetime.now().astimezone().isoformat(timespec="seconds")
-    curve["pending"] = f"719 档已回填 n={n_reps} (r1/r2/r3 独立); 300 档 n=2 独立 rep 不变 (r2 复制已剔除)"
+    curve["pending"] = f"719 档已回填 n={n_reps} ({'/'.join('r'+str(r[0]) for r in reps_with_score)} 独立); 300 档 n=2 独立 rep 不变 (r2 复制已剔除)"
     curve["source"] = f"q7-scan-scores.json ({len(scores)} 条; 719 n={n_reps} 独立 claim-set, 300-r2 复制剔除)"
     json.dump(curve, open(CURVE, "w"), ensure_ascii=False, indent=1)
     print(f"\n[applied] curve JSON 已写: {CURVE}")
