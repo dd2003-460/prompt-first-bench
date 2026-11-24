@@ -85,5 +85,6 @@ D 前半段 + "接着考虑，往一般机制想，推出可检验的预言"
 
 ## 预注册 commit
 - commit message: prereg think-trigger exp
-- commit hash: __TODO__（commit 后回填）
-- commit 时间: __TODO__
+- commit hash: 38e6b34d6274cea5b2d237847f0739e9d3b3d3f1
+- commit 时间: 2026-11-25 00:33:27 +0800
+- 说明：hash 指向首次预注册 commit（本行回填在后续 commit 中，不改变预注册内容的时间戳）
