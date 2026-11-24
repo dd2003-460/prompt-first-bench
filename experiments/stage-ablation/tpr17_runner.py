@@ -402,6 +402,18 @@ def smoke_test(arm, ckpt_spec, budget, seed):
     return ok, info
 
 
+def _tree_dump(sm):
+    """最终树紧凑落盘（T5 分析用：重算 T5 修复后的 depth / 重算 parent-link）。
+    只存必要字段（id/claim/level/status/parent_ids/edge_type/rework_count），
+    381 节点 ~30KB，不存 evidence/retrieval_sources（大且分析不需要）。"""
+    return [
+        {"id": n.id, "claim": n.claim, "level": n.level, "status": n.status,
+         "parent_ids": list(n.parent_ids or []), "edge_type": n.edge_type,
+         "rework_count": n.rework_count}
+        for n in sm.nodes
+    ]
+
+
 def run_arm(arm, ckpt_spec, rep, budget, seed, qid="gpu", out_root=DATA_ROOT):
     """跑一个 cell（arm × checkpoint × rep）。发真实 LLM 调用。返回 metrics dict。"""
     os.makedirs(out_root, exist_ok=True)
@@ -417,6 +429,7 @@ def run_arm(arm, ckpt_spec, rep, budget, seed, qid="gpu", out_root=DATA_ROOT):
         "seed": seed, "qid": qid, "final_state": result.final_state,
         "n_rework_events": len(result.rework_events),
         "leak_hits_total": result.leak_hits_total,
+        "final_tree": _tree_dump(sm),  # T5 分析: 重算修复后 depth / parent-link
         "ts": datetime.datetime.now().isoformat(timespec="seconds"),
     })
     out_path = os.path.join(out_root, f"{arm}_{ckpt_spec}_r{rep}.json")
