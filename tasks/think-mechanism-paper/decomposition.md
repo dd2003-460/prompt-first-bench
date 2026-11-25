@@ -33,7 +33,7 @@ think-mechanism-paper
 | T1 | 起草英文 LaTeX | subagent | `draft/paper.tex` 编译 0 error + 8-15 页 + 数字映射表 `draft/number-trace.md` | **DONE**（r1 死于 27b 输出上限；r2 sa-0-b2c986a9 增量写入协议成功：paper.tex 476 行 + paper.pdf 8pp 0 err + number-trace 24 映射 + titles.md；Lead 独立复验：重编译 0 err/8pp/无 undefined/红线词 0/7-7 全限定/AI-use 在 §395） |
 | T2 | 引用核验 | Lead | `receipts/citations-verify-*.json` 100% 有 URL | **DONE**（6 条实查：Newman 2005/Kaspschak 2020/Koh&Liang 2017/Daubechies 1988/Skalse 2022/Gallego 2025；抓到 1 条记忆伪造风险 Everitt 1811.07861=硬件仿真论文，已换真实文献；占位 cite 清零，最终重编译 0 err/0 undefined，commit e7c901ddc） |
 | T3 | arena review | Lead | `arena-review-report-raw-*.md` 归档 + 抽验 ≥3 条 ID | **DONE**（回执核验：任务书 sha256 原样带回 ✓；paper blob sha1 cf4f5335 本地复算一致 ✓ 证明读了全文；Q1 六条 arXiv ID 抽验 6/6 真实且日期吻合 ✓。报告：`arena-review-report-raw-20261126.md` + `receipts/arena-review-receipt-verify-20261126.json`。判决：需修改后投 conf 0.7，top-3 修改=①Def1 非平凡性约束+全文 ≈id ②derivations 降级 ③worked example+最小 pilot；另 Q3c 两处越界表述、Q1 Chaitin 2006 必引、Q5b LLM 套壳观感） |
-| T4a | 文本修订 | subagent | 修订稿编译 0 err + arena 修改①②④⑤⑥ 落地 + 红线词仍 0 | 待派发 |
+| T4a | 文本修订 | subagent | 修订稿编译 0 err + arena 修改①②④⑤⑥ 落地 + 红线词仍 0 | **r2 运行中** deleg_f520fcdb（r1 deleg_3c624701 真失败：被 hook 带去读源文件烧完上下文，0 编辑落盘；r2 协议=T1 r2 同款：只读 4 输入文件+每 M 点小 patch 即落盘+终答 ≤3 行） |
 | T4b | 最小 pilot | subagent | 5 prompt×27b before/after 结果表 + 机械审计分（checklist 出自模板本身） | **DONE**（round-2 正式，commit c704a6637：10/10 ok，A 3/5 vs B 5/5，raw 原始返回字节级一致，截断+窗口位置声明在位；Lead verify_t4b.py ALL PASS。round-1 被 00:47 Lead checkout 误伤丢盘，保留在 thinkmech-review df624a6bd 历史。sub 收尾撞 27b 重复循环报 failed，实际全交付） |
 | T4c | pilot 填入论文 | → 并入 T4a M7 | pilot 分数表+解读+局限声明进 Protocol 节末 | 并入 T4a（T4b 数据在盘上后 T4a 直接填，省一轮派发） |
 | T5 | 时间戳锁 | Lead | 孤儿分支 + SHA256SUMS 远程验证 200 | 等 D"投" |
