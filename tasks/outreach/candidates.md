@@ -68,13 +68,13 @@
 - 合作角度（推断）：闭式瓶颈测量可作为其设计空间搜索的先验约束
 - 优先级：中 — 硬件设计侧交叉
 
-### SA-Scheduler 团队（TODAES 2026, DOI 10.1145/3842670；作者本地仅存 "Zhang and Zhang and Wang and others"，全名 [待核验]）
+### SA-Scheduler 团队（TODAES 2026, DOI 10.1145/3842670；机构 [待核验]；作者本地仅存 "Zhang and Zhang and Wang and others"，全名 [待核验]）
 - 代表工作：Structure-Derived Bottleneck-Aware Scheduling for Multitasking MCM-GPUs（出处：references.bib saScheduler2026，Crossref 核验）
 - 连接点：kernel 结构先验→解析瓶颈模型→不跑 runtime profiling 判 regime——idea53 碰撞核查标的同族度最高近邻（用途=调度，无信息论读数）
 - 合作角度（推断）：把其解析瓶颈模型升级为带信息论读数的增量贡献测量
 - 优先级：高 — 同族度最高近邻（需先补全作者名单）
 
-### AMALI 团队（ISCA'25, DOI 10.1145/3695053.3731064；作者本地仅存 "Cao and Wu and Chen and An and others"，全名 [待核验]）
+### AMALI 团队（ISCA'25, DOI 10.1145/3695053.3731064；机构 [待核验]；作者本地仅存 "Cao and Wu and Chen and An and others"，全名 [待核验]）
 - 代表工作：AMALI: An Analytical Model for Accurately Modeling LLM Inference on Modern GPUs（出处：references.bib amali2025）
 - 连接点：原文口径"GPU analytical model 帮 architect 快速精确定位瓶颈"——idea53 碰撞核查的"最难一击"引文锚点
 - 合作角度（推断）：AMALI 解析模型 + idea53 增量贡献度量 = 分析模型的"判断质量"量化
@@ -190,19 +190,19 @@
 - 合作角度（推断）：把 pfb 的 gates.py 式阶段门禁作为其流水线的可选插件（其 citation grounding 弱正是 DREAM 指出的）
 - 优先级：高 — pfb 直接打的对象，工程合作可行性最高
 
-### navinsreyas（GitHub；真名 [待核验]）
+### navinsreyas（GitHub；机构 [待核验]；真名 [待核验]）
 - 代表工作：research-agent（LangGraph, MIT；显式来源权威度打分：base 0.5 + authority +0.2 + freshness +0.2 + depth +0.1）（出处：competitor-survey.md §1）
 - 连接点：唯一见到显式来源权威度打分的开源项目——pfb 的交叉验证置信度（双源印证）是其单源打分的升级
 - 合作角度（推断）：把其启发式 scorer 升级为双源印证结构
 - 优先级：中 — 来源可信度方向的直接近邻（需先确认身份）
 
-### OPPO OpenResearcher 团队（arXiv:2603.20278, EMNLP 2026 main.42；作者名单本地未存，[待核验]）
+### OPPO OpenResearcher 团队（arXiv:2603.20278, EMNLP 2026 main.42；机构 [待核验]；作者名单本地未存，[待核验]）
 - 代表工作：OpenResearcher（离线语料 15M doc + 三原语合成 97K 轨迹→SFT 30B-A3B）（出处：competitor-survey.md §1）
 - 连接点：训练透明的 deep research pipeline；BrowseComp-Plus 54.8%
 - 合作角度（推断）：pfb 的流程归因可用于其轨迹合成的质量控制
 - 优先级：中 — 训练透明 pipeline（需先补全作者名单）
 
-### 阿里 Tongyi DeepResearch 团队（30.5B MoE；作者名单本地未存，[待核验]）
+### 阿里 Tongyi DeepResearch 团队（30.5B MoE；机构 [待核验]；作者名单本地未存，[待核验]）
 - 代表工作：Tongyi DeepResearch（RL 长程搜索，开源权重）（出处：competitor-survey.md §1）
 - 连接点：DREAM 中 CI≈1.03（几乎不做 claim 落地）——正是 pfb 三道闸要解的问题
 - 合作角度（推断）：pfb 的 claim grounding 维度可作为其评测补充
