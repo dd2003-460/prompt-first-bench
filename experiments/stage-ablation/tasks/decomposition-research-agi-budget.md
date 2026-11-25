@@ -260,7 +260,7 @@ research-agi-budget（D 硬件条件下，预算控制 AI 在 Pareto 边界上�
 | 子项 | 状态 | 证据/阻塞 |
 |---|---|---|
 | ① matched 批+记账 | ✅ 完成 | 30/30 done 核验（results-sm-matched.json 30 runs 对账一致）；cc-state-sm-matched.json stale active 标志已清（11-22 完成时未清） |
-| ② T-PR-17 机制验证 | ⏸ PENDING 等 vLLM | 4 臂消融（canonical/verify-off/null-control/verify-late），relay 链（r3→nodepth→Q7）跑完后释放 vLLM |
+| ② T-PR-17 机制验证 | 🔄 pilot 7/8 cells done (11-25 09:30) | 3 臂消融（canonical/verify-off/null-control；runner ARMS 注册 3 臂，无 verify-late——旧行"4 臂"系早期残留，11-25 修正）。null-control r3 在跑(~10:00 完)；完成后跑 tpr17_analysis.py（纯 CPU，不等 vLLM） |
 | ③ K6 merge 消融 | ✅ 完成 | Δ=-0.013 A≈B（11-22 07:08） |
 | ④ K7 预算扫描 | ✅ 主交付物 done | k7-pareto-newjudge-20261124.md；Q6 跨域+Q7 跨题在 relay 链（r3 在跑 33min） |
 | ⑤ AGI 题面+gold 骨架 | 🔶 部分 | D1 题面待 D 确认（硬件边界）；**D2 gold 骨架 Q9-v1 已交付+Lead 核验通过 (11-24 20:22)**：agent @ 8fe85a2f4（37 节点/深度 5/21 叶/权重和 1.00/题面隔离），agent 主动纠错 +0.182 归属（实为 S0→S5 prompt 级，非 SM 因果；SM 真实 δ=+0.025 p~0.32），Lead 本地实锤 + web-LLM 2/2 独立源（Perplexity+ChatGPT）确认纠错正确且重大；方法学 v1 弱点（等权 0.20/五维不正交）归 v2 修。回执 web-llm/d2-q9v1-lead-verify-20261124.json；E1-E4 由 K7 代理覆盖 |

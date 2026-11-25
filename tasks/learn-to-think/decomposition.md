@@ -47,6 +47,7 @@ learn-to-think
 ## 当前状态
 - 01-mechanism：部分完成（假设 + D 修正已落盘 d-thinking-mechanism-first-principles-20261124.md）
 - 02-trigger：完成（T1-T5 全落地，commits a34e187d7/e0cdbcf6d/7d2584ac6/9d37b2fa3/35d498b8a）
-- 03-experiment：协议已锁（臂C 预注册 5e6294aba，等 pilot 释放 8787 后执行）
-- 04-eval：部分（form/align 维度已有，预言质量缺）
-- 05-generalize：待启动
+- 03-experiment：协议已锁（臂C 预注册 5e6294aba，runner 44350b270 dry-run 过；已入 post-pilot 队列 STEP4，等 pilot 释放 8787 后自动执行）
+- 04-eval：设计完成（form/align 已有 + 预言质量=ε_pred 由 lossless-criterion-operationalization.md 闭合：04-eval 三维=(压缩比, ε_rep[=align], ε_pred)；待 Arm C 产出后跑评分）
+- 05-generalize：待启动（前置=03 出结果）
+- stage-gate 同步：00-decomp 门禁 4/4 过（分解树/缺口清单/待核验标记均在），推进中
