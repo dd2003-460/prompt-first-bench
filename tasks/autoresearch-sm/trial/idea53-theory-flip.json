@@ -1,0 +1,80 @@
+{
+ "design": "surface-vs-deep judgment correction; deep info = rate-ratio correction to surface",
+ "reproduce_check": [
+  {
+   "case": "T5000 50/50",
+   "expect": "FP16 80%",
+   "got": "0.800",
+   "match": true
+  },
+  {
+   "case": "T5000 70/30",
+   "expect": "FP16 63%",
+   "got": "0.632",
+   "match": true
+  },
+  {
+   "case": "5090 标量40%+issue砍半",
+   "expect": "标量40%, 慢40%",
+   "got": "scal=0.400, T1/T0=1.400",
+   "match": true
+  }
+ ],
+ "model_ok": true,
+ "per_hardware": {
+  "5090": {
+   "flip_rate": 0.526625,
+   "mean_time_shift": 0.2004010625251755,
+   "top_flips": {
+    "scalar->fp16": 7553,
+    "bw->fp16": 5775,
+    "fp4->fp16": 5331,
+    "scalar->fp4": 1225,
+    "scalar->bw": 1100
+   },
+   "ratio_extremity": 51.9
+  },
+  "T5000": {
+   "flip_rate": 0.434375,
+   "mean_time_shift": 0.1654691039364547,
+   "top_flips": {
+    "scalar->fp16": 4721,
+    "scalar->bw": 4445,
+    "fp4->fp16": 3899,
+    "fp4->bw": 3729,
+    "scalar->fp4": 356
+   },
+   "ratio_extremity": 9.9
+  },
+  "4090": {
+   "flip_rate": 0.5627,
+   "mean_time_shift": 0.23073898759619554,
+   "top_flips": {
+    "bw->fp4": 6850,
+    "scalar->fp4": 6828,
+    "scalar->fp16": 3000,
+    "bw->fp16": 2966,
+    "fp16->fp4": 2804
+   },
+   "ratio_extremity": 287.4
+  },
+  "A100": {
+   "flip_rate": 0.555925,
+   "mean_time_shift": 0.21834607375875648,
+   "top_flips": {
+    "scalar->fp4": 6786,
+    "bw->fp4": 6738,
+    "scalar->fp16": 2963,
+    "bw->fp16": 2846,
+    "fp16->fp4": 2804
+   },
+   "ratio_extremity": 44.3
+  }
+ },
+ "control_flat": {
+  "flip_rate": 0.0,
+  "mean_time_shift": 2.7026991755718655e-17,
+  "expect": "rate 全等→深层=表面, 修正≈0"
+ },
+ "conclusion": "深层修正量(mean_time_shift) 按 ratio 极端度排序 ['4090', '5090', 'A100', 'T5000']: [0.2307, 0.2004, 0.2183, 0.1655]; 随极端度单调降=False; 占位硬件修正=0.0000(应≈0); 生死线=部分/不成立"
+}
