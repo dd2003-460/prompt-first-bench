@@ -1,0 +1,537 @@
+{
+ "ts": "2026-11-25T09:37:59",
+ "prespecified_config": {
+  "prespecified_at": "2026-11-24T21:36:45+08:00",
+  "locked_before_t4_data": true,
+  "rationale": "Δ_min 在 T4 任何 cell 数据落盘前预设（防 p-hacking：看到数据后调 Δ_min = 等效性检验无效）。依据: depth/verified/failure 取 K7 同序列同预算 run 间方差 ~0.1（设计文档 F3 实证反证 + F5 judge 噪声）; parent_link_accuracy 结构性指标取 0.05（更严等效声明）; n_nodes 取 ~5% of 381; 计数指标取 2。",
+  "delta_min": {
+   "depth": 0.1,
+   "depth_repaired": 0.1,
+   "verified_ratio": 0.1,
+   "parent_link_accuracy": 0.05,
+   "failure_rate": 0.1,
+   "n_nodes": 20,
+   "duplicate_nodes": 2,
+   "missing_link_nodes": 2
+  },
+  "estimator_semantics": {
+   "operational_total_effect": "verify-off vs canonical, 方向性（答'能否简化 pipeline 省预算'）, Welch/MWU + bootstrap CI, 不做 TOST",
+   "sequence_mechanism_effect": "null-control vs canonical, TOST 等效性（答'序列只是搬运工?' = D 收敛假说直接检验）, equivalent=true ⟹ 效应<Δ_min ⟹ 序列无实质影响"
+  },
+  "notes": [
+   "checkpoint 分开统计（Handoff Tax 效应随方向反转, 不混池）+ cross_checkpoint_direction 一致性检查",
+   "depth_repaired = max(parent链深, level), T5 gap 节点 parent_ids 丢失的下界修复",
+   "tokens_total/tool_calls/evidence_delta_chars 不做等效性检验（operational 方向性指标, F2b 2）",
+   "若声称'序列无影响'必须 equivalent=true（TOST）, 不能用'不显著'代替'相同'"
+  ]
+ },
+ "n_cells": 8,
+ "n_per_cell": {
+  "canonical@r3": 3,
+  "verify-off@r3": 3,
+  "null-control@r3": 2
+ },
+ "underpowered": {
+  "canonical@r3": 3,
+  "verify-off@r3": 3,
+  "null-control@r3": 2
+ },
+ "power_note": "TOST 判等效 power (实测 sd, 真等效时): depth(sd=0.093,Δ=0.1) n=3 约 17%; verified(sd=0.040,Δ=0.1) n=3 约 ~60%; parent_link(sd=0.028,Δ=0.05) n=3 约 ~50%。⟹ depth 判'不等效'在 n≤10 下只能读作 underpowered, 非'序列有影响'; verified/parent_link 判等效才是可靠正向证据。",
+ "problems": [
+  "UNDERPOWERED: {'canonical@r3': 3, 'verify-off@r3': 3, 'null-control@r3': 2} 每臂 rep 数 <5 (F5: n≥5 才能下结论, n=3 会假阳性)。当前结果只作 pilot 哨兵 (pipeline 跑通 + 效应方向粗检), 不可当最终结论; 正式结论需补跑到每臂 n≥5。"
+ ],
+ "comparisons": [
+  {
+   "checkpoint": "r3",
+   "operational_total_effect": {
+    "depth": {
+     "verify_off_mean": 4.0,
+     "canonical_mean": 4.0,
+     "diff_voff_minus_can": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "welch_t": null,
+     "welch_p": null,
+     "cohens_d": null,
+     "mwu_U": 4.5,
+     "mwu_p": 1.0,
+     "n": [
+      3,
+      3
+     ]
+    },
+    "verified_ratio": {
+     "verify_off_mean": 0.6221666666666666,
+     "canonical_mean": 0.4487666666666667,
+     "diff_voff_minus_can": 0.1734,
+     "ci95": [
+      0.14740000000000003,
+      0.1948
+     ],
+     "welch_t": 13.00630069510751,
+     "welch_p": 0.0032112233640231875,
+     "cohens_d": 10.61960004807319,
+     "mwu_U": 9.0,
+     "mwu_p": 0.1,
+     "n": [
+      3,
+      3
+     ]
+    },
+    "parent_link_accuracy": {
+     "verify_off_mean": 0.9804,
+     "canonical_mean": 0.9804,
+     "diff_voff_minus_can": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "welch_t": null,
+     "welch_p": null,
+     "cohens_d": null,
+     "mwu_U": 4.5,
+     "mwu_p": 1.0,
+     "n": [
+      3,
+      3
+     ]
+    },
+    "failure_rate": {
+     "verify_off_mean": 0.3778333333333333,
+     "canonical_mean": 0.5512333333333334,
+     "diff_voff_minus_can": -0.17339999999999997,
+     "ci95": [
+      -0.1948,
+      -0.14739999999999992
+     ],
+     "welch_t": -13.006300695107504,
+     "welch_p": 0.0032112233640232087,
+     "cohens_d": -10.619600048073181,
+     "mwu_U": 0.0,
+     "mwu_p": 0.1,
+     "n": [
+      3,
+      3
+     ]
+    },
+    "n_nodes": {
+     "verify_off_mean": 719.0,
+     "canonical_mean": 719.0,
+     "diff_voff_minus_can": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "welch_t": null,
+     "welch_p": null,
+     "cohens_d": null,
+     "mwu_U": 4.5,
+     "mwu_p": 1.0,
+     "n": [
+      3,
+      3
+     ]
+    },
+    "duplicate_nodes": {
+     "verify_off_mean": 2.0,
+     "canonical_mean": 3.0,
+     "diff_voff_minus_can": -1.0,
+     "ci95": [
+      -4.0,
+      1.0
+     ],
+     "welch_t": -0.6546536707079772,
+     "welch_p": 0.549110438917692,
+     "cohens_d": -0.5345224838248488,
+     "mwu_U": 3.0,
+     "mwu_p": 0.6428348264908044,
+     "n": [
+      3,
+      3
+     ]
+    },
+    "missing_link_nodes": {
+     "verify_off_mean": 14.0,
+     "canonical_mean": 14.0,
+     "diff_voff_minus_can": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "welch_t": null,
+     "welch_p": null,
+     "cohens_d": null,
+     "mwu_U": 4.5,
+     "mwu_p": 1.0,
+     "n": [
+      3,
+      3
+     ]
+    },
+    "depth_repaired": {
+     "verify_off_mean": 5.0,
+     "canonical_mean": 5.0,
+     "diff_voff_minus_can": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "welch_t": null,
+     "welch_p": null,
+     "cohens_d": null,
+     "mwu_U": 4.5,
+     "mwu_p": 1.0,
+     "n": [
+      3,
+      3
+     ]
+    },
+    "tokens_total": {
+     "verify_off_mean": 622576.6666666666,
+     "canonical_mean": 622933.0,
+     "diff_voff_minus_can": -356.3333333333333,
+     "ci95": [
+      -4399.0,
+      5841.0
+     ],
+     "n": [
+      3,
+      3
+     ]
+    },
+    "tool_calls": {
+     "verify_off_mean": 19.0,
+     "canonical_mean": 36.666666666666664,
+     "diff_voff_minus_can": -17.666666666666668,
+     "ci95": [
+      -50.0,
+      0.0
+     ],
+     "n": [
+      3,
+      3
+     ]
+    },
+    "evidence_delta_chars": {
+     "verify_off_mean": 0.0,
+     "canonical_mean": 0.0,
+     "diff_voff_minus_can": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "n": [
+      3,
+      3
+     ]
+    }
+   },
+   "sequence_mechanism_effect": {
+    "depth": {
+     "null_mean": 4.0,
+     "canonical_mean": 4.0,
+     "diff_null_minus_can": 0.0,
+     "tost": {
+      "equivalent": true,
+      "p_low": null,
+      "p_high": null,
+      "ci95": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "delta_min": 0.1,
+      "note": "zero-variance: CI 退化为点"
+     },
+     "welch_p": null,
+     "cohens_d": null,
+     "n": [
+      2,
+      3
+     ]
+    },
+    "verified_ratio": {
+     "null_mean": 0.43185,
+     "canonical_mean": 0.4487666666666667,
+     "diff_null_minus_can": -0.024349999999999983,
+     "tost": {
+      "equivalent": true,
+      "p_low": 0.018052771809462426,
+      "p_high": 0.008376367428530549,
+      "ci95": [
+       -0.057099999999999984,
+       0.008400000000000019,
+       -0.024349999999999983
+      ],
+      "delta_min": 0.1
+     },
+     "welch_p": 0.4627038010423828,
+     "cohens_d": -0.7786549888823334,
+     "n": [
+      2,
+      3
+     ]
+    },
+    "parent_link_accuracy": {
+     "null_mean": 0.9804,
+     "canonical_mean": 0.9804,
+     "diff_null_minus_can": 0.0,
+     "tost": {
+      "equivalent": true,
+      "p_low": null,
+      "p_high": null,
+      "ci95": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "delta_min": 0.05,
+      "note": "zero-variance: CI 退化为点"
+     },
+     "welch_p": null,
+     "cohens_d": null,
+     "n": [
+      2,
+      3
+     ]
+    },
+    "failure_rate": {
+     "null_mean": 0.5681499999999999,
+     "canonical_mean": 0.5512333333333334,
+     "diff_null_minus_can": 0.02435000000000004,
+     "tost": {
+      "equivalent": true,
+      "p_low": 0.00837636742853055,
+      "p_high": 0.018052771809462336,
+      "ci95": [
+       -0.008399999999999963,
+       0.05710000000000004,
+       0.02435000000000004
+      ],
+      "delta_min": 0.1
+     },
+     "welch_p": 0.4627038010423854,
+     "cohens_d": 0.7786549888823273,
+     "n": [
+      2,
+      3
+     ]
+    },
+    "n_nodes": {
+     "null_mean": 719.0,
+     "canonical_mean": 719.0,
+     "diff_null_minus_can": 0.0,
+     "tost": {
+      "equivalent": true,
+      "p_low": null,
+      "p_high": null,
+      "ci95": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "delta_min": 20,
+      "note": "zero-variance: CI 退化为点"
+     },
+     "welch_p": null,
+     "cohens_d": null,
+     "n": [
+      2,
+      3
+     ]
+    },
+    "duplicate_nodes": {
+     "null_mean": 1.5,
+     "canonical_mean": 3.0,
+     "diff_null_minus_can": -0.5,
+     "tost": {
+      "equivalent": false,
+      "p_low": 0.3605305696520956,
+      "p_high": 0.039910346195640066,
+      "ci95": [
+       -2.0,
+       1.0,
+       -0.5
+      ],
+      "delta_min": 2
+     },
+     "welch_p": 0.3294606856863048,
+     "cohens_d": -0.8911327886790068,
+     "n": [
+      2,
+      3
+     ]
+    },
+    "missing_link_nodes": {
+     "null_mean": 14.0,
+     "canonical_mean": 14.0,
+     "diff_null_minus_can": 0.0,
+     "tost": {
+      "equivalent": true,
+      "p_low": null,
+      "p_high": null,
+      "ci95": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "delta_min": 2,
+      "note": "zero-variance: CI 退化为点"
+     },
+     "welch_p": null,
+     "cohens_d": null,
+     "n": [
+      2,
+      3
+     ]
+    },
+    "depth_repaired": {
+     "null_mean": 5.0,
+     "canonical_mean": 5.0,
+     "diff_null_minus_can": 0.0,
+     "tost": {
+      "equivalent": true,
+      "p_low": null,
+      "p_high": null,
+      "ci95": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "delta_min": 0.1,
+      "note": "zero-variance: CI 退化为点"
+     },
+     "welch_p": null,
+     "cohens_d": null,
+     "n": [
+      2,
+      3
+     ]
+    }
+   }
+  }
+ ],
+ "cross_checkpoint_direction": {
+  "operational_total_effect": {
+   "depth": {
+    "signs_by_ckpt": {
+     "r3": -1
+    },
+    "consistent_direction": true
+   },
+   "depth_repaired": {
+    "signs_by_ckpt": {
+     "r3": -1
+    },
+    "consistent_direction": true
+   },
+   "duplicate_nodes": {
+    "signs_by_ckpt": {
+     "r3": -1
+    },
+    "consistent_direction": true
+   },
+   "evidence_delta_chars": {
+    "signs_by_ckpt": {
+     "r3": -1
+    },
+    "consistent_direction": true
+   },
+   "failure_rate": {
+    "signs_by_ckpt": {
+     "r3": -1
+    },
+    "consistent_direction": true
+   },
+   "missing_link_nodes": {
+    "signs_by_ckpt": {
+     "r3": -1
+    },
+    "consistent_direction": true
+   },
+   "n_nodes": {
+    "signs_by_ckpt": {
+     "r3": -1
+    },
+    "consistent_direction": true
+   },
+   "parent_link_accuracy": {
+    "signs_by_ckpt": {
+     "r3": -1
+    },
+    "consistent_direction": true
+   },
+   "tokens_total": {
+    "signs_by_ckpt": {
+     "r3": -1
+    },
+    "consistent_direction": true
+   },
+   "tool_calls": {
+    "signs_by_ckpt": {
+     "r3": -1
+    },
+    "consistent_direction": true
+   },
+   "verified_ratio": {
+    "signs_by_ckpt": {
+     "r3": 1
+    },
+    "consistent_direction": true
+   }
+  },
+  "sequence_mechanism_effect": {
+   "depth": {
+    "signs_by_ckpt": {
+     "r3": -1
+    },
+    "consistent_direction": true
+   },
+   "depth_repaired": {
+    "signs_by_ckpt": {
+     "r3": -1
+    },
+    "consistent_direction": true
+   },
+   "duplicate_nodes": {
+    "signs_by_ckpt": {
+     "r3": -1
+    },
+    "consistent_direction": true
+   },
+   "failure_rate": {
+    "signs_by_ckpt": {
+     "r3": 1
+    },
+    "consistent_direction": true
+   },
+   "missing_link_nodes": {
+    "signs_by_ckpt": {
+     "r3": -1
+    },
+    "consistent_direction": true
+   },
+   "n_nodes": {
+    "signs_by_ckpt": {
+     "r3": -1
+    },
+    "consistent_direction": true
+   },
+   "parent_link_accuracy": {
+    "signs_by_ckpt": {
+     "r3": -1
+    },
+    "consistent_direction": true
+   },
+   "verified_ratio": {
+    "signs_by_ckpt": {
+     "r3": -1
+    },
+    "consistent_direction": true
+   }
+  }
+ },
+ "_interpretation": "operational_total_effect = verify-off vs canonical（方向性，答'能否简化省预算'）；sequence_mechanism_effect = null-control vs canonical（TOST 等效性，答'序列只是搬运工?'=D 收敛假说直接检验）。等效(equivalent=true) ⟹ 效应 < Δ_min ⟹ 序列无实质影响。cross_checkpoint_direction.consistent_direction=false ⟹ Handoff Tax 方向反转，该指标跨 ckpt 不可混池。depth_repaired = T5 修复后 depth（max(链深, level)）。"
+}
