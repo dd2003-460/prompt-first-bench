@@ -115,9 +115,9 @@
   - 注意：域锚点内容需按实际问题域调整（本例是 loss landscape；其他问题域需换锚点），不宜写死成单一域。
 
 ## 缺口标注
-- [待核验] stop_hook 能否访问 per-message thinking（决定 T1 走首选还是降级）
+- [已核验 2026-11-25] stop_hook **能**访问 per-message thinking，T1 走首选路径：`stop_hook.py` L507/L528 读 `~/.hermes/state.db` messages 表 assistant 行的 `reasoning` 列（per-message thinking，非聚合），已提交 stage-gate `1b30bc6` + 5 场景复验全过。
 - [已核验 2026-11-25] 27b 在 8787 = `qwen3.8-27b-mtp`（vllm NVFP4，OpenAI 兼容 /v1/chat/completions，thinking 模型：`reasoning` 字段单独返回，只抓 content 丢隐藏思考链）
-- [待标定] 触发阈值 N（连续几轮）和 thinking 阈值（先拍 430/调用，T2 数据回来再校准）
+- [标定结论 2026-11-25] 触发阈值 N/430：T3 整合判 **T2 数据只给文案校准、不给数值点**（T2 测思考质量/爬层，T1 阈值测思考薄度，不同维度）→ 阈值保持先拍值 N=5、430/调用（223 会话扫描基线），留待生产数据积累后校准（`stop_hook.py` L410/L411 注释已注明）。
 
 ## 任务表（派发只执行表内条目）
 | 任务 | 执行方 | 状态 |
