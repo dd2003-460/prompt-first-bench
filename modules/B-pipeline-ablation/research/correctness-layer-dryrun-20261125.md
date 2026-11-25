@@ -47,6 +47,21 @@ cov 列（judge_v1 bge-m3 口径）与 CORR 列对照：arm_a[2] cov=0.083 但 C
 ## 复现
 
 - 脚本：`correctness_layer_v0.py`（同目录），`python3 correctness_layer_v0.py`
+- 扰动自测：`python3 correctness_layer_v0.py --selftest`（5 断言，验证判别由探针因果驱动）
 - 机器可读结果：`correctness-layer-dryrun-20261125.json`（同目录，含每轴 detail）
 - 依赖：python3 stdlib + sentence-transformers bge-m3（仅 cov 对照列；无 bge-m3 时 cov=NA，CORR 不受影响）
 - 确定性已实测：连跑两次 JSON sha256 一致（fae4efa9…，2026-11-25）。
+
+## 扰动自测（2026-11-25，`--selftest` 5/5 PASS）
+
+n=2 的 100% 准确率是相关性证据；扰动自测补因果证据——定向变异文本，判别必须随对应探针翻转：
+
+| 变异 | 预期 | 实际 | 验证的轴 |
+|---|---|---|---|
+| 基线 arm_a[0] | A1 | A1 ✓ | — |
+| 基线 arm_a[2] | A3 | A3 ✓ | — |
+| V1: arm_a[2] 强推荐行 2×4090→4×3090 | 脱离 A3 | indeterminate ✓（winner 进强推荐行→R_low=0.0→P_A3=E1×R=0.0<0.5；C 仍 1.0→P_A1=0） | R 轴因果 |
+| V2: arm_a[2] 全文 3090→3080 | 翻成 A1 | A1 ✓ | C 轴因果 |
+| V3: arm_a[0] 注入 4×3090 候选行+评估行（不加强推荐） | 翻成 A3 | A3 ✓ | E 轴因果 |
+
+结论：判别不是对这两条样本过拟合——抹掉卡型就翻 A1、补上评估上下文就翻 A3、winner 进强推荐就脱离 A3。三轴各自有独立因果作用。

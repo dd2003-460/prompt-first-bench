@@ -221,6 +221,35 @@ def cov_score(text):
     return round(len(matched) / len(units), 3)
 
 
+# ---------------- 扰动自测（判别规则的因果性，非 n=2 相关性） ----------------
+def selftest():
+    """5 断言: 基线 2 + 变异 3。全过 = 判别由探针因果驱动, 非对样本过拟合。"""
+    samples = {n: t for n, t in load_samples()}
+    a0, a2 = samples["arm_a[0]"], samples["arm_a[2]"]
+    results = []
+    # 基线
+    r = judge_text(a0); results.append(("baseline arm_a[0]→A1", r["verdict"] == "A1", r["verdict"]))
+    r = judge_text(a2); results.append(("baseline arm_a[2]→A3", r["verdict"] == "A3", r["verdict"]))
+    # V1 R 轴因果: arm_a[2] 强推荐行改为推 4×3090 → 应脱离 A3
+    v1 = a2.replace("主推荐: 方案 B (2×RTX 4090, INT4 AWQ)",
+                    "主推荐: 方案 D (4×RTX 3090, INT4 AWQ)")
+    assert v1 != a2, "V1 替换未命中(文本变了?), 需更新 pattern"
+    r = judge_text(v1); results.append(("V1 winner进强推荐→非A3", r["verdict"] != "A3", r["verdict"]))
+    # V2 C 轴因果: arm_a[2] 抹掉 3090 → 应翻成 A1
+    r = judge_text(a2.replace("3090", "3080")); results.append(("V2 抹3090→A1",
+                                                                 r["verdict"] == "A1", r["verdict"]))
+    # V3 E 轴因果: arm_a[0] 注入 4×3090 候选+评估行(不加强推荐) → 应翻成 A3
+    inj = ("\n| D | 4×RTX 3090 | 96 GB | INT4 | ✅ 可行 |\n"
+           "| D | 4×RTX 3090 (二手) | 10-15 t/s | TCO $5,839 |\n")
+    r = judge_text(a0 + inj); results.append(("V3 注入评估上下文→A3",
+                                              r["verdict"] == "A3", r["verdict"]))
+    ok = all(p for _, p, _ in results)
+    for name, p, got in results:
+        print(f"  [{'PASS' if p else 'FAIL'}] {name} → {got}")
+    print(f"selftest: {'ALL PASS' if ok else 'FAIL'} ({sum(p for _,p,_ in results)}/{len(results)})")
+    return ok
+
+
 # ---------------- main ----------------
 GT = {"arm_a[0]": "A1", "arm_a[2]": "A3"}  # salvage 已验证的 ground truth
 
@@ -255,4 +284,6 @@ def main():
     print(f"\nJSON → {OUT_JSON}")
 
 if __name__ == "__main__":
+    if "--selftest" in sys.argv:
+        sys.exit(0 if selftest() else 1)
     main()
