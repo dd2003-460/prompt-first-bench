@@ -241,8 +241,10 @@ def cov_score(nodes):
 
 # ---------------- 扰动自测（判别规则的因果性，非 n=2 相关性） ----------------
 def selftest():
-    """8 断言: 基线 3(A1/A3/A2) + 变异 3 + 阳性对照 1 + A2 因果 1。
-    全过 = 三型判别由探针因果驱动, 非对样本过拟合, 且不'全判病'。"""
+    """9 断言: 基线 3(A1/A3/A2) + 变异 3 + 阳性对照 1 + A2 因果 1 + FP 边界刻画 1。
+    全过 = 三型判别由探针因果驱动, 非对样本过拟合, 且不'全判病'。
+    V7 是特征化断言: 钉住 v0 已知假阳性(winner 评估+无关键词推荐→误判 A3),
+    v1 加弱推荐语义兜底后此项须故意翻成 indeterminate(改断言)。"""
     samples = {n: t for n, t, _ in load_samples()}
     a0, a2 = samples["arm_a[0]"], samples["arm_a[2]"]
     results = []
@@ -275,6 +277,13 @@ def selftest():
     # V6 A2 因果: arm_a[1] 抹掉 3090 → 卡型消失 → 应翻成 A1
     r = judge_text(a1.replace("3090", "3080")); results.append(("V6 A2抹3090→A1",
                                                                 r["verdict"] == "A1", r["verdict"]))
+    # V7 FP 边界刻画: winner 被完整评估(E1>0)且被推荐, 但推荐语句不含 STRONG_REC 关键词
+    #   → v0 已知假阳性(误判 A3)。此断言钉住该行为, 作为 v1 修法的回归哨兵:
+    #   v1 加弱推荐语义兜底后此项应翻 indeterminate, 届时改断言为 == "indeterminate"。
+    lines = [ln for ln in a2.split("\n") if not STRONG_REC.search(ln)]
+    fp = "\n".join(lines) + "\n综上, 综合性价比来看, 建议优先部署 4×RTX 3090 方案。\n"
+    r = judge_text(fp); results.append(("V7 FP边界(winner评估+无关键词推荐)→A3[v0已知假阳性,v1修]",
+                                        r["verdict"] == "A3", r["verdict"]))
     ok = all(p for _, p, _ in results)
     for name, p, got in results:
         print(f"  [{'PASS' if p else 'FAIL'}] {name} → {got}")
