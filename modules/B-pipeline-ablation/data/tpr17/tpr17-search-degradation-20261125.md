@@ -48,9 +48,10 @@ grep -n 'BROKEN' modules/B-pipeline-ablation/data/tpr17/tpr17-pilot-report-20261
 - **决策：不中途改 research_hook.py**（队列在跑，改了会造成 STEP1 无搜索 vs STEP2-4 有搜索的队列内口径不一致 = 新 confound）。修复（bing 区域化/429 退避/换端点）等队列 DONE 后统一做。
 
 **修复方向（队列 DONE 后）**：
-- bing 通道加 `&setmkt=en-US&mkt=en-US` 强制美国区（当前 `setlang=en` 只设语言不设市场，日本 IP 落日本区）；
+- ~~bing 通道加 `&setmkt=en-US&mkt=en-US` 强制美国区~~ **已测无效（10:40）**：`mkt=en-US&setmkt=en-US` 下 bing 返回美国公寓网站广告（Summer Place Apartments），`setlang=en` 下返回日本 Google 地图——**两种参数都是无关垃圾**。结论：不是参数问题，是 **IP 级质量降级**（本机出口 IP 被所有搜索后端喂垃圾/广告），mkt 参数救不了。
 - 429 通道加指数退避 + 请求间隔（pilot 连续查询无节流是限流诱因）；
 - 考虑把 `_probe_network` 探针从 wikipedia 换成 bing（当前探针端点和被限流的 API 端点是同一个域，首页可达≠API 可用，探针语义已失真）。
+- **根本出路**：搜索取证要么换出口（代理/服务器端），要么接受"无 live search"作为实验条件（当前 4 个排队实验都按此条件跑，判读时统一带 caveat）。
 
 **核验命令（可复现）**：
 ```
