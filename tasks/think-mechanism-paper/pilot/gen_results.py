@@ -81,6 +81,7 @@ def main():
     L.append("3. **无统计检验**：5 个二值分不构成可检验的差异；B−A 仅作方向性观察。")
     L.append("4. **分数是机械 checklist 非质量分**：0/1 由关键词/结构存在性判定（见 audit-rubric.md 的正则组），不衡量答案质量、正确性或推理深度；命中关键词≠真正执行了对应思考纪律。")
     L.append("5. **采样噪声**：temperature=0.7，单次采样结果含随机性；finish_reason=length 的 run 输出可能被 max_tokens=1500 截断（截断本身如实记录在 runs.json）。")
+    L.append("6. **截断影响（重要）**：所有 run max_tokens=1500，9/10 finish_reason=length（输出在 1500 token 处截断），rubric 是对截断后文本打分；两条件相同上限，对照受控公平，但\"结构存在性\"检查受截断影响（写到一半可能丢后续结构项）。")
     L.append("")
     L.append("## 文件清单")
     L.append("")

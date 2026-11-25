@@ -61,8 +61,9 @@ def check_T3(t):
                         r"pilot study", r"小规模实验", r"最小实验"])
     branch_a = quant
     branch_b = needs_meas and probe
+    # Rubric T3: 二选一满足=1 (OR, not AND)
     return {"quantitative_number": quant, "needs_measurement": needs_meas,
-            "probe_design": probe}, [branch_a, branch_b]
+            "probe_design": probe}, [branch_a or branch_b]
 
 def check_T4(t):
     """dimension-by-dimension condition-gap check (>=3 dims listed) + borrow/don't-borrow conclusion"""
