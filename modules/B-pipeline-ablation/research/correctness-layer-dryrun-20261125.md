@@ -40,8 +40,13 @@ cov 列（judge_v1 bge-m3 口径）与 CORR 列对照：arm_a[2] cov=0.083 但 C
 4. **S 轴全 0**：gold 带宽门数字（774/1034/1574）、KV 点值（24.7）、decode 代数签名（W+n×KV）在全部 7 样本均未实例化——这是 coverage 陷阱的又一量化证据（词汇覆盖 ≠ gold 结构落地），但也说明 S 轴在本批数据上无区分度，需更多样本验证。
 5. **权重 0.35/0.25/0.20/0.20 是 v0 初值**，未经标定；跨 run 比较前需按判分校准规则对齐档位。本 dry-run 只验证"能否机械区分 A1/A3"，不做质量提升 claim。
 
+## 边界案例（无 ground truth，只记录）
+
+**arm_a[1] → indeterminate（3090 进候选集但推 2×3090 非 4×3090）**：C=0.500（3090 有 12 次有效提及，但 4×3090 配置 0 次——它评估的是 2×3090 方案 A 并推荐它），P_A1=0.500（<0.7 不判 A1），P_A3=0.000（E1=0，4×3090 配置从未被评估，R 中性）。这是判别规则的诚实边界：**winner 卡型进了候选集、但 winner 配置（4×）没进**——既非纯 A1（卡型在）也非 A3（配置没被评估），判 indeterminate 是正确行为而非漏判。若 D 认为"卡型在但配置错"应算第三类断点（候选集粒度错误），v1 可加 C2 单列诊断。
+
 ## 复现
 
 - 脚本：`correctness_layer_v0.py`（同目录），`python3 correctness_layer_v0.py`
 - 机器可读结果：`correctness-layer-dryrun-20261125.json`（同目录，含每轴 detail）
 - 依赖：python3 stdlib + sentence-transformers bge-m3（仅 cov 对照列；无 bge-m3 时 cov=NA，CORR 不受影响）
+- 确定性已实测：连跑两次 JSON sha256 一致（fae4efa9…，2026-11-25）。
