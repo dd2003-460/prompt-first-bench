@@ -51,18 +51,26 @@ def call_judge(pred_text):
         "model": MODEL,
         "messages": [{"role": "user", "content": JUDGE_PROMPT.format(gold=GOLD, pred=pred_text[:3000])}],
         "temperature": 0.0,
-        "max_tokens": 300,
+        "max_tokens": 2000,  # 2026-11-25 21:43 修: 300→2000, 27b 思考模型 CoT 超 300 截断致 JSON 丢失 (discrim-test 2/2 parse_error)
     }).encode("utf-8")
     for attempt in range(1, 4):
         try:
             req = urllib.request.Request(BASE, data=payload, headers={"Content-Type": "application/json"})
-            with urllib.request.urlopen(req, timeout=120) as r:
+            with urllib.request.urlopen(req, timeout=300) as r:
                 d = json.loads(r.read().decode("utf-8"))
             txt = d["choices"][0]["message"].get("content", "").strip()
-            # 提取 JSON (容忍 markdown 围栏)
+            # 提取 JSON (容忍 markdown 围栏 + CoT 前缀): 取最后一个能 parse 且含 aligned 的扁平 JSON
+            # (原贪婪 \{.*\} 从 CoT 首个 { 起匹配, 若 CoT 含花括号则 json.loads 失败)
             import re
-            m = re.search(r"\{.*\}", txt, re.S)
-            return json.loads(m.group(0)) if m else {"raw": txt, "parse_error": True}
+            cand = None
+            for m in re.finditer(r"\{[^{}]*\}", txt):
+                try:
+                    c = json.loads(m.group(0))
+                    if isinstance(c, dict) and "aligned" in c:
+                        cand = c
+                except Exception:
+                    pass
+            return cand if cand is not None else {"raw": txt, "parse_error": True}
         except Exception as e:
             print(f"[judge] attempt {attempt}: {repr(e)}", flush=True)
             time.sleep(attempt * 5)
