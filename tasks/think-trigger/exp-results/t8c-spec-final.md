@@ -196,8 +196,10 @@ N-5.2 带宽门与 c_pass 的 decode 项**代数同构**（t8b-smoke-report.md �
   - 两臂 token 预算相等（24576）= token-matched 的定义；容差见预注册 §1。
 - [ ] **V100 价格假设复核**：确认仍按题面 $2500（③类假设）；若期间 V100 实价核验落到
       <$2033（§2 脆弱性披露的翻转点），winner 锚点重定后再跑。
-- [ ] **correctness judge 就绪**：J1 三型判别器（`correctness_layer_v0.py`，
-      commits 92aa24a76→fb60263ac 链，selftest 11/11）可用；winner 锚 = 4×3090/W4/n=2。
+- [ ] **correctness judge 就绪（已核 2026-11-25）**：J1 三型判别器（`correctness_layer_v0.py`，
+      winner 锚 = 4×3090/W4/n=2）对 T8c 格式验证通过：`t8c_judge_format_probe.py` 4/4
+      （CORRECT→indeterminate / ERR_A1→A1 / ERR_A2→A2 / ERR_A3→A3）+ selftest 11/11 无回归。
+      修了 v1.2：EVAL_NUM 补 c_pass/¢/task/每任务（T8c 评估签名是 c_pass 表，缺则 A3 漏判）。
 - [ ] **runner 改造点（已核 2026-11-25）**：`run_exp_t8b.py` 硬编码旧题面（L14-18 `Q`=32K/自行搜索/
       宽性价比）与 `MAX_A=16384`（L10）——**T8c 须新建 `run_exp_t8c.py`**：`Q` 替换为 §4 冻结题面全文、
       `MAX_A=24576`、`MAX_B=4096` 不变、`STAGES` 六阶段指令复用不动。不得直接改 T8b 脚本（T8b 数据可追溯性）。

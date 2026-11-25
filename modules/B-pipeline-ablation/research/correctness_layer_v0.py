@@ -40,7 +40,12 @@ WEAK_REC = re.compile(r"建议|优先|推荐|部署|选用|采纳")
 #   若 NEG_REC 漏掉"未采用"→ 整行被误判为推荐 winner → 假 indeterminate(应 A3)
 NEG_REC = re.compile(r"不建议|不推荐|不采纳|不可行|淘汰|放弃|排除|否决"
                      r"|未采用|未选择|未采纳|未部署|未选用|未推荐")
-EVAL_NUM = re.compile(r"t/s|tok/s|tokens?/s|TCO|成本|\$|元|/GB|分\b|\d+\s*W\b")
+EVAL_NUM = re.compile(r"t/s|tok/s|tokens?/s|TCO|成本|\$|元|/GB|分\b|\d+\s*W\b"
+                      r"|c_pass|¢|/task|每任务")
+# v1.2 (2026-11-25, T8c 格式适配): 补 c_pass/¢/task/每任务——T8c 题面(§4)的评估签名
+#   是 c_pass 数值表, T8b 的 TCO/$/tok/s 签名在此格式下不出现; 不加则 T8c 输出的
+#   winner 评估行 E1=0 → A3 漏判(假 indeterminate)。与 N 轴 cp0679 锚语境
+#   (c_pass|¢|cent|/task|每任务|成本) 同源。T8b 基线无回归(selftest 11/11 复验)。
 # gold 数值锚（name, gold值, 数字正则, 语境正则, 语境窗口）← calc.py / gold-tree N-5.2
 # 语境要求防误报: "24 GB"(显存) 不误触 KV 锚; 1008 GB/s(4090) 不误触 936 锚(936 用精确值)
 NUM_ANCHORS = [
