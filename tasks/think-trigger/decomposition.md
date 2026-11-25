@@ -127,3 +127,4 @@
 | T3 落点整合（T1+T2 完成后） | Lead（T1+T2 回来后） | ✅ 整合完成 2026-11-25（judge 整合：爬层按 formalism flip/shift 拆，align=flip×form；对 v2 数据重打分 form 方向未翻转+新增 align 维度；阈值校准=T2 只给文案校准不给数值点；详见 T3 节） |
 | T4 | 修脚本卡住→general 思考升级触发 | ✅ 真检测已提交 (stage-gate 7229159 + APPROVALS eeae4de1, 9场景全过+12生产session 0误报) |
 | T5 | 流程索引层（咒语=调度器，索引+检索+执行） | ✅ 已实施 2026-11-25（ROUTING.md + CLAUDE.md 调度器路由；遗留 L30 编号外观项待 D 同意） |
+| T6 SOP 检查点效果验证（prompt 级代理） | Lead | ✅ 2026-11-25：检查点块 3/3 结构自查+2/3 新预言，域不回退——SOP 核心机制 prompt 级有效；完整 agent 级 A/B 待异族 judge |
