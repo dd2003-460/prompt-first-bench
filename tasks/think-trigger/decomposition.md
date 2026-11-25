@@ -128,3 +128,4 @@
 | T4 | 修脚本卡住→general 思考升级触发 | ✅ 真检测已提交 (stage-gate 7229159 + APPROVALS eeae4de1, 9场景全过+12生产session 0误报) |
 | T5 | 流程索引层（咒语=调度器，索引+检索+执行） | ✅ 已实施 2026-11-25（ROUTING.md + CLAUDE.md 调度器路由；遗留 L30 编号外观项待 D 同意） |
 | T6 SOP 检查点效果验证（prompt 级代理） | Lead | ✅ 2026-11-25：检查点块 3/3 结构自查+2/3 新预言，域不回退——SOP 核心机制 prompt 级有效；完整 agent 级 A/B 待异族 judge |
+| T7 always 层加牙（自评式→可执行式） | Lead | ✅ 2026-11-25：D 问'为何不 always/不留 SOP'→T2b 证 always+泛化自评无效(0/3)、T6 证可执行检查点有效(3/3)→routing.json self-check 从'不用回答'升'每轮一行可执行自问(内部不播报)'；SOP 已在 CLAUDE.md+loop/*.md+ROUTING.md；常态薄(92.8%无思考)由 always 可执行自问补 |
