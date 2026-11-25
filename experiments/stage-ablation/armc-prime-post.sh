@@ -42,6 +42,11 @@ if [ -f "$LT/armc_prime_raw_outputs.json" ]; then
   ( cd "$LT" && python3 -u armc-eps-screen.py armc_prime_raw_outputs.json ) >> "$LOG" 2>&1
   rc2=$?
   log "ARMCP-2 eps-screen rc=$rc2"
+  # C3: ε_pred 终审判官 (LLM, 3 样本 ~30s; 机械筛查的语义确认, 防鹦鹉学舌)
+  log "ARMCP-3 eps-judge START"
+  ( cd "$LT" && python3 -u eps-judge.py armc_prime_raw_outputs.json ) >> "$LOG" 2>&1
+  rc3=$?
+  log "ARMCP-3 eps-judge rc=$rc3"
   # 产物核验 (skill #24: 3 样本 + 非空)
   python3 -c "
 import json,sys
