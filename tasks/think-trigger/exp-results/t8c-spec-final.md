@@ -86,6 +86,7 @@ T8c 数据作废重跑。此为已知限制，不掩盖。
 ```
 c_pass = c_hour / ( U × λ_raw × G )        [¢/task]
 c_hour = 摊销 + 电费 + 故障                  [$ / 小时, 整机]
+gpu_price = 单价 × n_cards                  [整机 GPU 总价, 不是单卡价]
 摊销   = (gpu_price + HOST_PRICE − gpu_price×RESID) / H_HOURS
 电费   = (n_cards×TDP + 300) / 1000 × ELEC
 故障   = P_FAIL × gpu_price / H_HOURS
@@ -155,6 +156,7 @@ N-5.2 带宽门与 c_pass 的 decode 项**代数同构**（t8b-smoke-report.md �
 【c_pass 公式与参数（按此公式计算，勿自改口径）】
   c_pass = c_hour / (U × λ_raw × G) × 100          [¢/task]
   c_hour = 摊销 + 电费 + 故障                        [$ / 小时, 整机]
+  gpu_price = 单价 × n_cards                        [整机 GPU 总价, 不是单卡价!]
   摊销   = (gpu_price + 2000 − gpu_price×0.40) / 26280
   电费   = (n_cards×TDP + 300) / 1000 × 0.12
   故障   = 0.20 × gpu_price / 26280

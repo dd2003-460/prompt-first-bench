@@ -42,6 +42,7 @@ Q = (
     "【c_pass 公式与参数（按此公式计算，勿自改口径）】\n"
     "  c_pass = c_hour / (U × λ_raw × G) × 100          [¢/task]\n"
     "  c_hour = 摊销 + 电费 + 故障                        [$ / 小时, 整机]\n"
+    "  gpu_price = 单价 × n_cards                        [整机 GPU 总价, 不是单卡价!]\n"
     "  摊销   = (gpu_price + 2000 − gpu_price×0.40) / 26280\n"
     "  电费   = (n_cards×TDP + 300) / 1000 × 0.12\n"
     "  故障   = 0.20 × gpu_price / 26280\n"
