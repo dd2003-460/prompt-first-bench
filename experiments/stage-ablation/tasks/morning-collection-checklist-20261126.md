@@ -76,3 +76,5 @@ for p in 15606 19059 36173 43915; do kill -0 $p 2>/dev/null && echo "$p STILL AL
 
 - 19:14 t-repair1-analysis.py 真实数据预跑验证（9/12 runs, 脚本未在跑, 安全）：✅ 正确池化 9 runs + bootstrap CI + 臂数守卫（<4 臂 FATAL rc=1, 不算垃圾析因）+ 部分数据优雅降级（fixAB 2 reps/fixB 0 reps 标"不可用"）。**重要 caveat（脚本自动标, 明早必读）**：fixA rep 间修复率 spread=0.036 超过池化 CI 宽度一半 → bootstrap 把 rep 当独立样本低估不确定性 → TOST/显著性读法降权, **以 rep 级方向一致性为准**。部分文件 t-repair1-analysis.json 已落（明早真跑覆盖）。
 - 19:14 gateway 重启（第 7 次）未杀后台：5 PID 全活, 无需重挂。fixAB-r3 跑到 201/831 调用。
+
+- 19:16 ARM4 (fixB) reverse-apply 预检 PASS（/tmp 副本模拟, 不碰运行中 SM）：`git apply -R fix-a.diff` 干净 + py_compile OK + marker 门禁正确（Fix-B=1/Fix-A=0）+ diff 仅 -33/+5（只撤 Fix-A 路由, 不动 Fix-B pool 构造）。**夜间链最大单点故障（reverse 失败→FATAL→fixB 整臂丢→4 臂析因做不了）已排除**。fixAB-r3 完→ARM4 起跑时无需人工干预。
