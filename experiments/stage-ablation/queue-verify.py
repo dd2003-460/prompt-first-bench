@@ -32,11 +32,32 @@ CHECKS = [
          else (len(d) if isinstance(d, list) else -1))))(json.load(open(p)))),
 ]
 
+def check_rc(log):
+    """从 log 解析所有 rc=N 行；任一 rc!=0 → FAIL（队列脚本只记 rc 不 abort，
+    产物级检查之外必须独立核 rc：产物新鲜但 rc!=0 = 步骤内部降级/部分失败）。"""
+    txt = open(log).read()
+    rcs = re.findall(r"\[(\d{2}:\d{2}:\d{2})\]\s*(\S[^\r\n]*?)\s+rc=(\d+)", txt)
+    if not rcs:
+        return None  # 无 rc 行（旧格式 log），跳过不判
+    bad = [(t, name, rc) for t, name, rc in rcs if rc != "0"]
+    return (len(bad) == 0, rcs, bad)
+
+
 def main():
     if len(sys.argv) < 2:
         print("用法: queue-verify.py <queue_log_path>")
         sys.exit(2)
     log = sys.argv[1]
+    # rc 检查层（先于产物检查）
+    rc_res = check_rc(log)
+    if rc_res is not None:
+        ok, rcs, bad = rc_res
+        for t, name, rc in rcs:
+            mark = "OK  " if rc == "0" else "BAD "
+            print("%s rc=%s  [%s] %s" % (mark, rc, t, name.strip()))
+        if not ok:
+            print("\nrc 检查 FAIL: %d 步 rc!=0 → 产物即使新鲜也不可信，逐 BAD 项排查" % len(bad))
+            sys.exit(1)
     # 新鲜度基准: QUEUE-START 时间戳
     base = time.time()
     m = re.search(r"\[(\d{2}):(\d{2}):(\d{2})\] QUEUE-START", open(log).read())
