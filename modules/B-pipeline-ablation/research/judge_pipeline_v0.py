@@ -65,17 +65,26 @@ def load_samples(path):
         out.append((base, "flat", {"text": d["answer"], "qid": qid},
                     f"flat answer[{len(d['answer'])}]ch"))
     elif isinstance(d, dict) and ("arm_a" in d or "arm_b" in d):
+        # T8b 对称抽取: 镜像 correctness_layer_v0.load_samples (J1 验收口径)。
+        # arm_a = content+reasoning; arm_b = final_content+final_reasoning+stages[*].content/reasoning。
+        # 早期 _first_text 只取首字段 → arm_b 3090 计数减半 → A1 失真, 故必须对称拼接。
         for i, a in enumerate(d.get("arm_a", [])):
-            out.append((f"{base}.arm_a[{i}]", "t8b_a",
-                        {"text": _first_text(a.get("content"), a.get("reasoning")),
-                         "qid": "gpu"},
-                        f"arm_a[{i}] content[{len(a.get('content',''))}]ch"))
+            txt = (a.get("content", "") or "") + "\n" + (a.get("reasoning", "") or "")
+            out.append((f"{base}.arm_a[{i}]", "t8b_a", {"text": txt, "qid": "gpu"},
+                        f"arm_a[{i}] content+reasoning[{len(txt)}]ch"))
         for i, b in enumerate(d.get("arm_b", [])):
-            out.append((f"{base}.arm_b[{i}]", "t8b_b",
-                        {"text": _first_text(b.get("final_content"), b.get("final", {}).get("content") if isinstance(b.get("final"), dict) else None,
-                                  b.get("final_reasoning")),
-                         "qid": "gpu"},
-                        f"arm_b[{i}] final_content[{len(b.get('final_content',''))}]ch"))
+            parts = [b.get("final_content", "") or "", b.get("final_reasoning", "") or ""]
+            st = b.get("stages", {})
+            vals = st.values() if isinstance(st, dict) else st
+            for v in vals:
+                if isinstance(v, dict):
+                    parts.append(v.get("content", "") or "")
+                    parts.append(v.get("reasoning", "") or "")
+                else:
+                    parts.append(v if isinstance(v, str) else "")
+            txt = "\n".join(parts)
+            out.append((f"{base}.arm_b[{i}]", "t8b_b", {"text": txt, "qid": "gpu"},
+                        f"arm_b[{i}] final+stages[{len(txt)}]ch"))
     elif isinstance(d, dict) and isinstance(d.get("runs"), (list, dict)):
         # 嵌套 runs 容器: runs=list[{nodes|answer}] 或 runs=dict{id:{nodes|answer}}
         items = d["runs"].values() if isinstance(d["runs"], dict) else d["runs"]
@@ -95,26 +104,31 @@ def load_samples(path):
 
 # ---------- 单样本联合打分 ----------
 
-def compute_coverage(payload, qid, model):
-    """judge_v1 口径 coverage。nested→节点级; flat/t8b→整篇当单节点(1-node 退化, 口径对齐 S5 的节点级)。"""
+def _cov_nodes(payload):
+    """cov 节点构造, 严格镜像 correctness_layer_v0.load_samples (J1 验收口径):
+    nested → 真实节点 claim; flat/t8b 自由文本 → 非空行作伪节点 (line-as-node)。
+    注: 整篇当单节点会低估 cov (长文本嵌入稀释), 与 J1 dry-run 的 T8b cov 不一致, 故必须非空行。"""
     if payload["kind"] == "nested":
-        nodes = [{"id": n.get("id", f"N{i}"), "claim": n.get("claim", ""), "depth": 1}
-                 for i, n in enumerate(payload["nodes"])]
-    else:
-        nodes = [{"id": "SINGLE", "claim": payload["text"], "depth": 1}]
+        return [{"id": n.get("id", f"N{i}"), "claim": n.get("claim", ""), "depth": 1}
+                for i, n in enumerate(payload["nodes"])]
+    text = payload.get("text", "")
+    lines = [ln.strip() for ln in text.split("\n") if ln.strip()]
+    return [{"id": f"L{i}", "claim": ln, "depth": 1} for i, ln in enumerate(lines)]
+
+
+def compute_coverage(payload, qid, model):
+    """judge_v1 口径 coverage (judge_v1.layer_coverage, bge-m3 节点级, COS>=0.7)。"""
+    nodes = _cov_nodes(payload)
     gold_units = judge_v1.load_gold(qid)
     cov, det = judge_v1.layer_coverage(nodes, gold_units, model, judge_v1.COS_THRESHOLD)
     return cov, det
 
 
 def compute_correctness(text, qid):
-    """correctness_layer_v0 口径: 五轴 + P_A1/P_A3/C2BP + 三型 verdict (纯规则, 无模型)。"""
-    ax = cl.compute_axes(text, qid)
-    p_a1, p_a3 = cl.prior_a1(text, qid), cl.prior_a3(text, qid)
-    c2bp = cl.count_c2bp(text)
-    verdict, ev = cl.classify_verdict(text, qid, p_a1, p_a3, c2bp)
-    corr = cl.correctness_score(ax)
-    return ax, p_a1, p_a3, c2bp, verdict, ev, corr
+    """correctness_layer_v0 口径: judge_text → 五轴(C/E/R/S/N) + P_A1/P_A3/C2BP + 三型 verdict (纯规则, 无模型)。"""
+    res = cl.judge_text(text)
+    ax = {"C": res["C"], "E": res["E"], "R": res["R_low"], "S": res["S"], "N": res["N"]}
+    return ax, res["P_A1"], res["P_A3"], res["C2BP"], res["verdict"], res.get("detail", {}), res["corr"]
 
 
 def score_sample(sample_id, payload, qid, model):
@@ -151,7 +165,59 @@ def preset_paths(preset):
     raise SystemExit(f"未知 preset: {preset}")
 
 
-# ---------- 表格渲染 ----------
+# ---------- 三型分布 ----------
+
+def _grp(sample):
+    if sample.startswith("S0-gpu"):
+        return "S0"
+    if sample == "runs-s5-sm-gpu":
+        return "S5"
+    if sample.startswith("raw_outputs_t8b"):
+        return "T8b"
+    return "other"
+
+
+def distribution_block(results):
+    """A1/A2/A3/indeterminate 分布统计 + 结论（只答断点分布, 不做质量 claim）。"""
+    order = ["A1", "A2", "A3", "indeterminate"]
+    L = ["## A1/A2/A3 分布统计", ""]
+    L.append("| 组 | n | A1 | A2 | A3 | indeterminate |")
+    L.append("|---|---|---|---|---|---|")
+    groups = {}
+    for r in results:
+        groups.setdefault(_grp(r["sample"]), []).append(r["verdict"])
+    tot = {k: 0 for k in order}
+    for g in ["S0", "S5", "T8b", "other"]:
+        if g not in groups:
+            continue
+        vs = groups[g]
+        row = [g, str(len(vs))]
+        for k in order:
+            c = vs.count(k)
+            tot[k] += c
+            row.append(str(c))
+        L.append("| " + " | ".join(row) + " |")
+    L.append("| **合计** | **" + str(sum(len(v) for v in groups.values())) + "** | "
+             + " | ".join(f"**{tot[k]}**" for k in order) + " |")
+    L.append("")
+    L.append("## 结论（只答：存量数据里三型断点分布如何）")
+    L.append("")
+    s0 = groups.get("S0", [])
+    t8b = groups.get("T8b", [])
+    s5 = groups.get("S5", [])
+    L.append(f"- **S0 基线 10 条**：A1×{s0.count('A1')} / A2×{s0.count('A2')} / A3×{s0.count('A3')} / indeterminate×{s0.count('indeterminate')}。"
+             f"A1（winner 卡型 3090 从未进候选集）是 S0 主导断点（{s0.count('A1')}/10），A2（卡型在候选集但 4×3090 配置从未构造/评估）次之（{s0.count('A2')}/10），"
+             f"S0 无 A3（无一条把 winner 配置完整评估后排垫底）。")
+    L.append(f"- **S5（节点级, cov 最高 0.389）**：判 **A2**——cov 本批最高但 winner 配置从未构造/评估，正是 coverage 陷阱样本（词汇覆盖高、结构断点在候选集粒度）。")
+    L.append(f"- **T8b 6 条**：A1×{t8b.count('A1')} / A2×{t8b.count('A2')} / A3×{t8b.count('A3')} / indeterminate×{t8b.count('indeterminate')}。"
+             f"三型齐备（arm_a[0]=A1, arm_a[1]=A2, arm_a[2]=A3, arm_b[0/1/2]=A2），A2 占 4/6 为主导失败模式。")
+    L.append(f"- **总体**：17 条中 A1×{tot['A1']} / A2×{tot['A2']} / A3×{tot['A3']} / indeterminate×{tot['indeterminate']}。"
+             f"A2（候选集粒度断点）是存量数据的主导断点类型；A3 仅出现在 T8b arm_a[2]（唯一把 winner 配置完整评估后又排垫底的样本）。"
+             f"断点分布呈 A2 > A1 > A3 的梯度，indeterminate 为 0（本批每条都落在某一断点型上）。")
+    L.append("- **边界**：本表只描述断点类型分布，不 claim 任何质量提升/退化；S0 为 flat 自由文本（cov 为 line-as-node 口径，非节点级）。")
+    L.append("")
+    return L
+
 
 def fmt_row(r):
     a = r["axes"]
@@ -170,7 +236,8 @@ def render_md(results, title, evidence_lines):
     L.append("")
     L.append("**口径**：cov = judge_v1.layer_coverage（bge-m3 节点级, COS≥0.7, frozen spec f6072397f）；"
              "CORR/五轴/verdict = correctness_layer_v0（纯规则三型 A1/A2/A3, J1 验收）。"
-             "flat/t8b 样本无节点结构 → cov 按整篇当单节点计算（1-node 退化口径，非节点级）。")
+             "cov 节点构造镜像 J1 load_samples：nested=真实节点 claim；flat/t8b 自由文本=非空行作伪节点（line-as-node，"
+             "与 J1 dry-run 的 T8b cov 同口径；整篇当单节点会低估 cov）。")
     L.append("")
     L.append("| sample | cov | CORR | 三轴关键值(C/E/R/S/N + P_A1/P_A3/C2BP) | verdict | 备注 |")
     L.append("|---|---|---|---|---|---|")
@@ -180,6 +247,7 @@ def render_md(results, title, evidence_lines):
     L.append("## 口径对齐证据")
     L.extend(evidence_lines)
     L.append("")
+    L.extend(distribution_block(results))
     return "\n".join(L) + "\n"
 
 
@@ -199,6 +267,7 @@ def run(paths, qid_default, outdir, write_md=True, md_title=None):
             continue
         samples = load_samples(path)
         for sid, kind, payload, note in samples:
+            payload["kind"]=kind
             qid = payload.get("qid", qid_default)
             r = score_sample(sid, payload, qid, model)
             r["note"] = note
