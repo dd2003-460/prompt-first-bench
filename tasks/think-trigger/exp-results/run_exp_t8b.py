@@ -60,6 +60,13 @@ def repeat_score(t):
         g = tuple(words[i:i+5]); seen[g] = seen.get(g, 0) + 1; maxrep = max(maxrep, seen[g])
     return maxrep
 
+def save_stage_sidecar(run_i, sid, r, outdir):
+    """每 stage 增量落盘：即使 run 中途崩溃，前面 stage 的文本也可从 sidecar 恢复"""
+    sd = os.path.join(outdir, "t8b_stages")
+    os.makedirs(sd, exist_ok=True)
+    spath = os.path.join(sd, f"B{run_i}_{sid}.json")
+    json.dump(r, open(spath, "w"), ensure_ascii=False, indent=2)
+
 def cost(u):
     return u.get("completion_tokens", 0) if isinstance(u, dict) else 0
 
@@ -78,7 +85,8 @@ def run_arm_a():
         time.sleep(1)
     return samples
 
-def run_arm_b():
+def run_arm_b(result, outpath):
+    outdir = os.path.dirname(os.path.abspath(outpath))
     samples = []
     for i in range(1, 4):
         tag = f"B-pfb-run{i}"
@@ -93,6 +101,7 @@ def run_arm_b():
                       "repeat5": repeat_score(r["content"] + r["reasoning"]),
                       "completion_tokens": cost(r["usage"])})
             stage_outs[sid] = r
+            save_stage_sidecar(i, sid, r, outdir)
             tot_tok += cost(r["usage"])
             print(f"[{tag}-{sid}] OK content={r['content_chars']} finish={r['finish_reason']} "
                   f"tok={r['completion_tokens']} repeat5={r['repeat5']} {r['elapsed_s']}s", flush=True)
@@ -111,6 +120,9 @@ def run_arm_b():
             "final_reasoning": final["reasoning"],
         })
         print(f"[{tag}] DONE total_tok={tot_tok} elapsed={samples[-1]['total_elapsed_s']}s", flush=True)
+        result["arm_b"] = samples
+        json.dump(result, open(outpath, "w"), ensure_ascii=False, indent=2)
+        print(f"WROTE arm_b run{i} (incremental)", flush=True)
     return samples
 
 def main():
@@ -129,7 +141,7 @@ def main():
     if mode in ("all", "b"):
         if mode == "b" and os.path.exists(outpath):
             result = json.load(open(outpath))
-        result["arm_b"] = run_arm_b()
+        run_arm_b(result, outpath)
         result["finished_at"] = time.strftime("%Y-%m-%d %H:%M:%S %z")
         json.dump(result, open(outpath, "w"), ensure_ascii=False, indent=2)
         print("WROTE arm_b + finished", flush=True)
