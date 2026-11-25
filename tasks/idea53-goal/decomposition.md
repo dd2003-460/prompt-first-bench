@@ -158,3 +158,11 @@ D 直觉："他们没涉及更复杂的乘性结构？也没有涉及更现代�
 - 定位: P1/P3=加性代数首个完整闭式包, 与0708.1718互为代数对偶; related work必引2509.01424+1902.01235
 - 遗留[待核验]: OpenReview "Flip Probability Scores"(nuezWeGYKN, 403需人工点开); Whittle 1980书目
 - 讲解note已回填: idea53-study-note-20261125.md §2/§4
+
+### §2.5 补查完成（2026-11-25, deleg_99b709d8, Lead 已验收）
+- 产出: pfb/research/idea53-phase-transition-followup-20261125.md (101行, 16组查询, 14 abs验证, 2 Crossref)
+- Lead 验收: commit链只动本文件; 2001.01878/2111.15527/1506.02615 abs抽核为真
+- 核心结论: 两相变=同一数学家族非同一物(0.75, IB有dI(Y;Z)/dβ跳跃, 新稿无精确量跳跃); EBM framing可用但树载体无先例(0.7); NN landscape层级=涌现vs设计互补(0.7)
+- 论文定位: related work引2001.01878/1907.07331划界一句; EBM仅解读层; landscape作outlook
+- 勘误: dispatch context的1506.02615凭记忆给错(实为宇宙学论文), sub abs验证抓出→Saxe ICLR 2018 (DOI 10.1088/1742-5468/ab3985)
+- 遗留[待核验]: Tishby 1999/2000×2 + LeCun 2006 书目 (Crossref未命中, 存在性有旁证)
