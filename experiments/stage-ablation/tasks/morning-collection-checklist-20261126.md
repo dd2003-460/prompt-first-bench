@@ -62,3 +62,5 @@ for p in 15606 19059 36173 43915; do kill -0 $p 2>/dev/null && echo "$p STILL AL
 
 - **13:45 进度修正 → 13:58 再修正（r2 已完成，推翻"卡住"误判）**：13:45 基于 SM 事件率误判 r2 减速卡住、ETA 13-16h；实际 r2 已于 **13:48 DONE（91min）**，LLM 中位耗时与 r1 持平（2.9s vs 2.8s），慢在尾部（p90 20.4s vs 9.6s，树长→verify 批变大，max prompt 193k vs 106k），r2 调用量 755 已超 r1 全程 686。**正确 ETA：每 rep ~90min，剩 10 reps ≈ 15h → 11-26 凌晨~清晨完成**。chain gated on PID 退出，不受时间影响。判活标准：stdout mtime 持续推进 + LLM call 交替 start/done（勿用 SM 事件率，它不是限速因子）。
 - **14:05 已知限制（收数时带上）**：执行器未设 Q6_REP → 检索缓存跨 rep 共享（r2 有 17 次命中复用 r1 快照）。LLM temp=0.0 确定性 + 早期树各臂对称 → 非差异化混淆，定性为已知限制不中断 run；若重跑须在 rep 循环加 `export Q6_REP=$rep`。rep_spread caveat 是运行时兜底。详见设计文档 14:05 条。
+
+- 18:55 夜间进度快照：baseline 97/121/93 reworks（r3 仅 229 节点），fixA 128/122/92（r3 仅 203 节点），fixAB-r1 148 reworks（300 节点）。**异常已查明**：两个 r3 节点数 <300 是因命中 `max_depth=4 hit`（深度上限，合法终止非 bug）——r3 树长得更深更早触顶。析因脚本按 rate 归一化不受影响，但 rep 间节点数不同（300/300/229、300/300/203）→ 节点级池化时勿假设等 n。
