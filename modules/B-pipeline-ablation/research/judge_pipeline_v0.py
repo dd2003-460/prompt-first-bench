@@ -95,6 +95,10 @@ def load_samples(path):
             elif isinstance(it, dict) and isinstance(it.get("answer"), str):
                 out.append((sid, "flat", {"text": it["answer"], "qid": it.get("qid", "gpu")},
                             f"runs[{j}] answer[{len(it['answer'])}]ch"))
+            elif isinstance(it, dict) and isinstance(it.get("output_text"), str):
+                # arena-judge-s6s7-pack.json 形态: runs=dict{id:{prompt,output_text,tokens_out,...}}
+                out.append((sid, "flat", {"text": it["output_text"], "qid": it.get("qid", "gpu")},
+                            f"runs[{j}] output_text[{len(it['output_text'])}]ch"))
             else:
                 out.append((sid, "unknown", {}, "runs item schema 未识别"))
     else:
