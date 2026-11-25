@@ -87,3 +87,19 @@ J1 dry-run 只报了 T8b+S5 的 cov（上文已 100% 复现）；S0 10 条 cov �
 本整合层在 flat/nested/t8b 三类 schema 上 cov 均与 J1 同源（同一 gold 文件 + 同一非空行节点构造 +
 同一 COS≥0.7 阈值）。correctness 轴（CORR/verdict）纯规则无模型, 本就与 J1 同函数（`judge_text`）,
 无口径漂移风险。→ 整合层 17 条联合分（cov+CORR+verdict）口径可信, 可用于后续跨 run 比较。
+
+## 补充分析 2：coverage 单轴判别力 vs 双轴（17 条, 非质量 claim）
+
+**coverage 陷阱的最直接形态——cov top3 全是断点样本**：按 cov 排序"覆盖最好"的前 3 名
+（S5 0.389 / arm_a[0] 0.361 / arm_a[1] 0.333）verdict 分别为 A2 / A1 / A2——**3/3 全是三型断点样本,
+零健康样本**。单看 coverage 会把断点最深的样本排到"覆盖最好"的位置, 这正是 correctness 层要修的陷阱。
+
+- **单轴 cov 无法分开 A1 vs A2**：A1 cov 区间 [0.056, 0.361] 与 A2 cov 区间 [0.111, 0.389] 大幅重叠
+  （arm_a[0] A1 的 cov=0.361 甚至高于 8/9 条 A2）——coverage 单轴在 A1/A2 上判别力不足。
+- **CORR 轴同样不完美**：A1 CORR 区间 [0.086, 0.229] 与 A2 [0.210, 0.452] 在 0.210-0.229 有边界重叠
+  （S0-r1/r2 A2 的 CORR 0.232/0.414 与 S0-r5 A1 的 0.229 接近）——单 CORR 轴也需三型级联裁决兜底。
+- **coverage 单轴误导率**（cov≥中位 0.222 且 CORR<中位 0.232）= 1/17（arm_a[0]：cov 0.361 高 / CORR 0.114 低,
+  verdict A1）——误导集中在 A1 型（winner 卡型从未进候选集但词汇覆盖尚可）, 与 A1 定义自洽。
+- **结论**：cov 与 CORR 各有盲区（cov 盲区=A1/A2 不分, CORR 盲区=边界重叠）, 双轴 + 三型级联才把 17 条
+  全部分到确定断点型（indeterminate=0）。这是"correctness 层必要性"的第二条定量证据
+  （第一条 = Pearson 0.462 互补性）。
