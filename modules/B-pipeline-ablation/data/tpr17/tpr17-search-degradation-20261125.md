@@ -51,7 +51,7 @@ grep -n 'BROKEN' modules/B-pipeline-ablation/data/tpr17/tpr17-pilot-report-20261
 - ~~bing 通道加 `&setmkt=en-US&mkt=en-US` 强制美国区~~ **已测无效（10:40）**：`mkt=en-US&setmkt=en-US` 下 bing 返回美国公寓网站广告（Summer Place Apartments），`setlang=en` 下返回日本 Google 地图——**两种参数都是无关垃圾**。结论：不是参数问题，是 **IP 级质量降级**（本机出口 IP 被所有搜索后端喂垃圾/广告），mkt 参数救不了。
 - 429 通道加指数退避 + 请求间隔（pilot 连续查询无节流是限流诱因）；
 - 考虑把 `_probe_network` 探针从 wikipedia 换成 bing（当前探针端点和被限流的 API 端点是同一个域，首页可达≠API 可用，探针语义已失真）。
-- **根本出路**：搜索取证要么换出口（代理/服务器端），要么接受"无 live search"作为实验条件（当前 4 个排队实验都按此条件跑，判读时统一带 caveat）。
+- **根本出路**：~~换出口（代理/服务器端）~~ **已排除（11:00 实测）**：LAN 服务器 10.20.33.188 出口更差（wiki API 000 连接失败、ipify 空），无干净出口可用。**最终决定：接受"无 live search"为实验条件**——当前 4 个排队实验（队列 STEP1-4 + T-REPAIR-1 4 臂）都按此条件跑，判读时统一带 caveat；臂间对比不受影响（同条件），跨批对比（vs 11-23 前的 K7/Q6 基线）需注意搜索质量漂移。
 
 **核验命令（可复现）**：
 ```
