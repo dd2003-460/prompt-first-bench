@@ -250,6 +250,50 @@ def selftest():
     return ok
 
 
+# ---------------- 锚值一致性核验（回应硬要求#1: 复用现有 gold 基础设施, 无平行 gold 漂移） ----------------
+def verify_anchors():
+    """N 轴锚值硬编码在 NUM_ANCHORS, 源 = calc.py 参数表 + gold-gpu-units.json N-5.2。
+    逐一比对源文件实际值 vs 脚本硬编码值, 全一致 = 复用忠实, 无平行 gold 漂移。"""
+    import importlib.util
+    calc_path = os.path.join(PFB, "bench/rubric-v3/tasks/T0-local-27b/reference/calc.py")
+    spec = importlib.util.spec_from_file_location("calc_gold", calc_path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"无法加载 calc.py: {calc_path}")
+    calc = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(calc)
+    src = {
+        "bw936":  calc.HARDWARE["3090"]["bw"],
+        "w4_14gb": calc.W_BYTES["W4"],
+        "w8_27gb": calc.W_BYTES["W8"],
+        "kv24_7":  calc.KV_PER_STREAM,
+        "pf594":   calc.PREFILL_FLOPS / 1e12,
+    }
+    # cp0679 特殊: gold 锚 = L5§4 文档化点值 0.679 (calc.py docstring 验收锚),
+    # calc.py 实算值依赖 tp_eff=0.81 标定 (实算 0.680713)。
+    # 核验方式: 锚值须在 10% 容差内贴近实算值 (非严格相等, 因标定差 0.25%)。
+    cp_computed = calc.c_pass("3090", 4, "W4", 2)[0]
+    units = json.load(open(UNITS_PATH))["units"]
+    n52 = next(u for u in units if u["unit_id"] == "N-5.2")
+    m = re.search(r"W4\s+(\d+)\s*/\s*W8\s+(\d+)\s*/\s*W16\s+(\d+)", n52["raw"])
+    src.update({"cp0679": cp_computed, "bwgate": float(m.group(1)) if m else None})
+    my = {name: gold for name, gold, *_ in NUM_ANCHORS}
+    rows, all_ok = [], True
+    for name, mine in my.items():
+        s = src.get(name)
+        tol = NUM_TOL if name == "cp0679" else 1e-6
+        ok = s is not None and abs(s - mine) / mine < tol
+        all_ok = all_ok and ok
+        rows.append((name, mine, s, ok))
+    for name, mine, s, ok in rows:
+        sv = f"{s:g}" if s is not None else "MISSING"
+        note = ""
+        if name == "cp0679":
+            note = f"  (calc.py 实算={cp_computed:.4f}, 差 {abs(cp_computed-mine)/mine*100:.2f}%, 在 10% 容差内)"
+        print(f"  [{'OK' if ok else 'DRIFT'}] {name:<9s} 脚本={mine:<8g} 源={sv}{note}")
+    print(f"verify_anchors: {'ALL MATCH (复用忠实, 无平行 gold 漂移)' if all_ok else 'DRIFT FOUND (平行 gold 风险!)'}")
+    return all_ok
+
+
 # ---------------- main ----------------
 GT = {"arm_a[0]": "A1", "arm_a[2]": "A3"}  # salvage 已验证的 ground truth
 
@@ -286,4 +330,6 @@ def main():
 if __name__ == "__main__":
     if "--selftest" in sys.argv:
         sys.exit(0 if selftest() else 1)
+    if "--verify-anchors" in sys.argv:
+        sys.exit(0 if verify_anchors() else 1)
     main()

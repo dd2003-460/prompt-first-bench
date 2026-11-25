@@ -44,10 +44,27 @@ cov 列（judge_v1 bge-m3 口径）与 CORR 列对照：arm_a[2] cov=0.083 但 C
 
 **arm_a[1] → indeterminate（3090 进候选集但推 2×3090 非 4×3090）**：C=0.500（3090 有 12 次有效提及，但 4×3090 配置 0 次——它评估的是 2×3090 方案 A 并推荐它），P_A1=0.500（<0.7 不判 A1），P_A3=0.000（E1=0，4×3090 配置从未被评估，R 中性）。这是判别规则的诚实边界：**winner 卡型进了候选集、但 winner 配置（4×）没进**——既非纯 A1（卡型在）也非 A3（配置没被评估），判 indeterminate 是正确行为而非漏判。若 D 认为"卡型在但配置错"应算第三类断点（候选集粒度错误），v1 可加 C2 单列诊断。
 
+## 锚值一致性核验（`--verify-anchors`，回应硬要求 #1"复用现有 gold 基础设施，不新建平行 gold"）
+
+N 轴锚值硬编码在脚本里，存在"平行 gold 漂移"风险（源文件改了脚本不跟）。逐一对比源文件实际值 vs 脚本硬编码值：
+
+| 锚 | 脚本值 | 源（calc.py / gold-gpu-units.json） | 判定 |
+|---|---|---|---|
+| bw936 | 936 | calc.py HARDWARE["3090"].bw = 936 | OK |
+| w4_14gb | 14 | calc.py W_BYTES["W4"] = 14 | OK |
+| w8_27gb | 27 | calc.py W_BYTES["W8"] = 27 | OK |
+| kv24_7 | 24.7 | calc.py KV_PER_STREAM = 24.7 | OK |
+| pf594 | 594 | calc.py PREFILL_FLOPS/1e12 = 594 | OK |
+| cp0679 | 0.679 | calc.py 实算 0.680713（tp_eff=0.81 标定） | OK（差 0.25%，10% 容差内） |
+| bwgate | 774 | gold-gpu-units.json N-5.2 "W4 774 / W8 1034 / W16 1574" | OK |
+
+**7/7 一致，复用忠实，无平行 gold 漂移。** cp0679 的唯一 nuance：锚定的是 L5§4 文档化 gold 点值 0.679（calc.py docstring 明示的验收锚），非重建版实算值——差异来自 tp_eff 标定，0.25% 远在容差内，属有据可查的口径选择而非漂移。
+
 ## 复现
 
 - 脚本：`correctness_layer_v0.py`（同目录），`python3 correctness_layer_v0.py`
 - 扰动自测：`python3 correctness_layer_v0.py --selftest`（5 断言，验证判别由探针因果驱动）
+- 锚值核验：`python3 correctness_layer_v0.py --verify-anchors`（7 锚 vs 源文件，验证无平行 gold 漂移）
 - 机器可读结果：`correctness-layer-dryrun-20261125.json`（同目录，含每轴 detail）
 - 依赖：python3 stdlib + sentence-transformers bge-m3（仅 cov 对照列；无 bge-m3 时 cov=NA，CORR 不受影响）
 - 确定性已实测：连跑两次 JSON sha256 一致（fae4efa9…，2026-11-25）。
