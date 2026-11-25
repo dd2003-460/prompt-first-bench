@@ -59,3 +59,5 @@ for p in 15606 19059 36173 43915; do kill -0 $p 2>/dev/null && echo "$p STILL AL
 - l4-disambig-judge 1-2卡 regex 已修（数字在前 2×card + 中文 N张, 11-25 鉴别力测试发现）
 - vllm-catchup C3 gptr 用 .venv-gptr（系统 python3 无 gpt_researcher）
 - armC' prompt 只给轴名不给 gold 结论（防鹦鹉学舌, ε_pred 不退化成复述测试）
+
+- **13:45 进度修正（r2 减速实测）**：r2 同点位（~108 SM 事件）用了 74min，r1 全程仅 54min；LLM 中位耗时 5.1s vs r1 2.8s（树变大→verify 批变长，prompt_len 9.7k→46k）。**ETA 后移：剩余 ~10.5 reps × ~75-90min ≈ 13-16h → 预计 11-26 凌晨~上午完成**（原估 18:00-20:00 作废）。收数窗口相应放宽到 11-26 全天；chain 自动触发不受影响（gated on PID 退出，不依赖时间）。若 11-26 中午前 r2/r3 仍未完成属正常，勿误判卡死（判据：stdout mtime 持续推进 + LLM call 交替 start/done）。
