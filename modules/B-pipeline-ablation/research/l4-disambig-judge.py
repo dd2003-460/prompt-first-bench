@@ -58,10 +58,12 @@ def judge(synth_path, tree_path):
         if m:
             hits4[card] = m
     # 结论区 1-2 卡组合（B 判据）
+    # 2026-11-25 鉴别力测试补全: 原 regex 只覆盖 card×N / ×N card，漏 数字在前 2×card
+    # 和中文 N张 card —— 而预注册 B 判据原文例子就是 "2×3090"，必须命中。
     hits12 = {}
     for card in CARD_TYPES:
         c = re.escape(card)
-        m = re.findall(rf"{c}\s*[×xX*]\s*[12](?!\d)|[×xX*]\s*[12]\s*{c}", tail)
+        m = re.findall(rf"{c}\s*[×xX*]\s*[12](?!\d)|[×xX*]\s*[12]\s*{c}|\b[12]\s*[×xX*]\s*{c}|\b[12]\s*张\s*{c}", tail)
         if m:
             hits12[card] = m
     if hits4:
