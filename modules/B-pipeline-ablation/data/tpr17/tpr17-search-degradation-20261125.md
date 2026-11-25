@@ -24,3 +24,38 @@ pilot 全程（11-24 原 run → 11-25 resume）搜索后端持续降级：
 grep -n 'BROKEN' modules/B-pipeline-ablation/data/tpr17/tpr17-pilot-resume-20261125-033733.log
 grep -n 'BROKEN' modules/B-pipeline-ablation/data/tpr17/tpr17-pilot-report-20261124-213055.md
 ```
+
+## 追加：10:20 逐通道探活（pilot 结束后、队列 STEP1 进行中）
+
+逐通道直连测试（纯 HTTP，不碰 vLLM）：
+
+| 通道 | 状态 | 证据 |
+|---|---|---|
+| wikipedia API | **429 Too Many Requests** | `curl https://en.wikipedia.org` = 301（首页可达）但 API 查询 429（换 UA 也 429）→ 本机 IP 被 API 级限流，疑似 pilot 整夜高频查询触发 |
+| arXiv API | **429** | http/https 均 429 |
+| DuckDuckGo | **SSL EOF** | `URLError: EOF occurred in violation of protocol` |
+| webllm（perplexity/chatgpt-web 等） | **全挂** | 队列 STEP1 开头 `[WEBLLM-BROKEN] all endpoints failed` |
+| bing.com / cn.bing.com | **HTTP 200 但区域化垃圾** | 直连返回 ~10-20 结果但全是日本区推广（google.co.jp/adwords）；`_bing_search` 解析正常（n=3）但内容无用 |
+
+**根因分层**：
+1. `_probe_network` 探针本身**通过**（wikipedia 首页 301 → healthy=True）——所以不是探针短路问题，10:20 一度怀疑的"探针挡 bing"排除。
+2. 真根因 = **本机出口 IP 被 wikipedia/arxiv API 限流（429）+ ddg 连接层封锁 + webllm 端点全挂**，与 05:27 记录的"本机网络层封锁"同源且加重（新增 API 级 429 限流）。
+3. bing 是唯一 HTTP 层存活通道，但地域化为日本区 → 对英文技术查询无有效结果。
+
+**对队列 4 步的影响**：
+- STEP1 L4-disambig：主判读（4 卡是否出现）**不依赖搜索**——预注册设计把候选固定为 5 类正是消歧的一部分；搜索降级只伤 verify 取证（corrected_claim 预期=0，同 pilot）。实验有效，结论带"无 live search"caveat。
+- STEP2 gptr / STEP3 J4 / STEP4 ArmC：取证质量同样受限；gptr 有 pfb_retriever 多通道但底层同受 429/EOF 影响。
+- **决策：不中途改 research_hook.py**（队列在跑，改了会造成 STEP1 无搜索 vs STEP2-4 有搜索的队列内口径不一致 = 新 confound）。修复（bing 区域化/429 退避/换端点）等队列 DONE 后统一做。
+
+**修复方向（队列 DONE 后）**：
+- bing 通道加 `&setmkt=en-US&mkt=en-US` 强制美国区（当前 `setlang=en` 只设语言不设市场，日本 IP 落日本区）；
+- 429 通道加指数退避 + 请求间隔（pilot 连续查询无节流是限流诱因）；
+- 考虑把 `_probe_network` 探针从 wikipedia 换成 bing（当前探针端点和被限流的 API 端点是同一个域，首页可达≠API 可用，探针语义已失真）。
+
+**核验命令（可复现）**：
+```
+curl -s -m 8 -o /dev/null -w "%{http_code}" https://en.wikipedia.org          # 301（首页 OK）
+curl -s -m 8 -o /dev/null -w "%{http_code}" "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=test&format=json"  # 429（API 限流）
+curl -s -m 8 -o /dev/null -w "%{http_code}" https://www.bing.com              # 200
+python3 -c "import sys; sys.path.insert(0,'.'); import research_hook as RH; print(RH._bing_search('RTX 3090 memory bandwidth', 3))"  # n=3 但日本区垃圾
+```
