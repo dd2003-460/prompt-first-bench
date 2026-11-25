@@ -30,9 +30,9 @@ think-mechanism-paper
 
 | # | 任务 | 执行 | 验收（一行） | 状态 |
 |---|---|---|---|---|
-| T1 | 起草英文 LaTeX | subagent | `draft/paper.tex` 编译 0 error + 8-15 页 + 数字映射表 `draft/number-trace.md` | 重派中（r1 sa-0-1340cfd4 死于 27b 输出上限：读完源文件后一次性大写入被截断×4，磁盘零产出；r2 sa-0-b2c986a9 带增量写入协议：每 section <40 行独立落盘） |
-| T2 | 引用核验 | Lead | `receipts/citations-verify-*.json` 100% 有 URL | 待 T1 |
-| T3 | arena review | Lead | `arena-review-report-raw-*.md` 归档 + 抽验 ≥3 条 ID | 待 T2 |
+| T1 | 起草英文 LaTeX | subagent | `draft/paper.tex` 编译 0 error + 8-15 页 + 数字映射表 `draft/number-trace.md` | **DONE**（r1 死于 27b 输出上限；r2 sa-0-b2c986a9 增量写入协议成功：paper.tex 476 行 + paper.pdf 8pp 0 err + number-trace 24 映射 + titles.md；Lead 独立复验：重编译 0 err/8pp/无 undefined/红线词 0/7-7 全限定/AI-use 在 §395） |
+| T2 | 引用核验 | Lead | `receipts/citations-verify-*.json` 100% 有 URL | **DONE**（6 条实查：Newman 2005/Kaspschak 2020/Koh&Liang 2017/Daubechies 1988/Skalse 2022/Gallego 2025；抓到 1 条记忆伪造风险 Everitt 1811.07861=硬件仿真论文，已换真实文献；占位 cite 清零，最终重编译 0 err/0 undefined，commit e7c901ddc） |
+| T3 | arena review | Lead | `arena-review-report-raw-*.md` 归档 + 抽验 ≥3 条 ID | **已派发 2026-11-25 深夜**（任务书 @ thinkmech-review 4bcae542e，sha256 db07c0aa；回执走对话提取，待核验） |
 | T4 | 修订 | subagent | 修订稿编译过 + arena Q5 红线清零 | 待 T3 |
 | T5 | 时间戳锁 | Lead | 孤儿分支 + SHA256SUMS 远程验证 200 | 等 D"投" |
 
