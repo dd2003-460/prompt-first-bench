@@ -48,6 +48,7 @@ winner 配置 = **4×RTX 3090 / W4 / n=2**（gold 稳定结构 = 准入规则 N-
   - A3 判定的真正承重轴是 R（散文关键词行），不是 E1（表格评估，2 行即 `min(n/2,1)` 饱和在 1.0，无区分度）。表格格式扰动（pipe→space/newline、表格压平散文、单元格爆炸）下 A3 判定全稳健——E1 掉行但饱和值不变。
   - **假阳性边界**：若 winner 被完整评估（E1>0）且被推荐，但推荐表述**不含 STRONG_REC 关键词**（如"建议优先部署 4×RTX 3090"），则检测不到强推荐行 → `picked=any([])=False` → R_low 默认 1.0 → **误判 A3**。对照组（推荐走关键词散文行 / 推荐埋表格含"最终推荐"）均正确判 indeterminate。
   - **v1 修法（已实现，2026-11-25）**：R 轴增加"无关键词推荐"兜底——若 E1>0 且无任何 STRONG_REC 行，则扫描全文含 CFG4 的弱推荐语义行（`建议|优先|推荐|部署|选用|采纳`），命中 winner 且非否定语境 → R_low=0；有 STRONG_REC 行但未含 winner → 保持 R_low=1（A3 信号，不启用兜底）。否定守卫覆盖"不X"+"未X"两族否定（v1.1 补 `未采用|未选择|未采纳|未部署|未选用|未推荐`，防"未采用 4×3090, 建议优先部署 2×4090"这类行被误读为推荐 winner）。**已验证**：V7（winner 评估+无关键词推荐 → indeterminate，v0 误判 A3 已修）+ V8（"不X"否定 → 仍 A3）+ V9（"未X"否定 → 仍 A3，v1.1），selftest 11/11；基线 7 样本判定不变（dry-run 3/3 保持）。本批 7 样本无此情形（winner 推荐均走关键词行或表格），修复不影响存量结论，是跨 run 推广的前置条件。
+  - **v1.2 EVAL_NUM 补 c_pass/¢/task/每任务（2026-11-25，T8c 格式适配）**：T8c 题面（t8c-spec-final.md §4）要求输出 c_pass 数值表，T8b 的 TCO/$/tok/s 评估签名在该格式下不出现——缺这些 token 时 T8c 输出的 winner 评估行 E1=0 → A3 漏判（假 indeterminate）。验证：`tasks/think-trigger/exp-results/t8c_judge_format_probe.py` 4/4（T8c 格式 CORRECT/A1/A2/A3 四型探针）+ selftest 11/11 无回归（T8b 基线不变）。commit feb568b59。
 
 ### 轴 S：gold 树结构对齐（准入规则 + 计算路径的机械签名）
 - **S_band**（N-5.2 带宽准入）：`774|1034|1574` 紧邻 `GB/s` 的出现，`min(n/1,1)`。
