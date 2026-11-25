@@ -302,6 +302,20 @@ def main():
              "（连裸数字都无，输出引用的带宽均为硬件实测值如 936/2039/3350 GB/s）；"
              "② n52_gate 正则过阳性对照（构造含『774 GB/s…不满足，淘汰』的文本→命中）与阴性对照（纯描述性带宽→不命中），"
              "正则非恒 False。故 0/6 为真实缺失，非检测盲区。")
+    # 两臂各自对比：多阶段流程是否改善约束门推理
+    def arm_gate_counts(probes):
+        return (sum(1 for p in probes if p["gates"]["n52_gate"]),
+                sum(1 for p in probes if (p["gates"]["n51_formula"] or p["gates"]["n51_qual"])),
+                len(probes))
+    a52, a51, an = arm_gate_counts(probe_a)
+    b52, b51, bn = arm_gate_counts(probe_b)
+    L.append("")
+    L.append(f"> **两臂对比**（smoke 问题：多阶段流程是否改善约束门推理？）："
+             f"N-5.2 带宽门 A {a52}/{an} vs B {b52}/{bn}；N-5.1 显存门槛 A {a51}/{an} vs B {b51}/{bn}。"
+             + ("**两臂在约束门实例化上零差异——六阶段流程既未改善也未恶化约束门推理，"
+                "带宽门缺失是两臂共性（模型能力层），不是流程引入的。**"
+                if (a52==b52 and a51==b51) else
+                "两臂在约束门实例化上有差异，见上表。"))
     if n_n52 == 0:
         L.append("→ **共性断点**：所有输出都把带宽当描述性因素（decode 吞吐/卡间 PCIe 瓶颈）谈，"
                  "但**没有一个**把 N-5.2 带宽准入下限实例化为逐候选 pass/fail 门。")
