@@ -29,6 +29,8 @@
 
 ⟹ verified_ratio 在本实验里测的是"账面核验状态"，不是"节点质量"。质量要看结构指标——结构指标全部无差异。
 
+**⚠️ 结构惰性结论的效力边界（红队自检 11-25 10:15 补）**：三臂 n_nodes 全=719（budget 硬顶绑定）+ depth 全=4（max_depth 封顶）→ 两个 clamp 压死了"省 rework 周期 → 多长节点/更深树"这条自由度。若 verify-off 真有结构收益，在本 harness 下**测不出来**（被顶住）。故"结构惰性"仅在 clamp 条件下成立；全预算/放开 depth 重跑前，不能外推为"verify 无结构作用"。
+
 ## 统计效力声明（design notes 铁律）
 
 - n=3/臂 < 5 → **UNDERPOWERED 哨兵**（analysis.json problems 字段明示），只能读方向粗检，不可下最终结论。
