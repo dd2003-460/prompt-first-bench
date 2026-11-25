@@ -65,10 +65,10 @@ run_arm() {
       cp runs-s5-sm-q6.json "$dst"
       log "arm=$arm rep=$rep rc=$rc wall_s=$dur out=$(basename $dst)"
       # 提取 rework 统计(析因核心: mode 分布 + attempt 分布 + 修复率) + judge 评分
-      python3 - "$dst" "$arm" "$rep" "$dur" "$OUT/t-repair1-stats.json" 2>/dev/null << 'PYEOF'
+      python3 - "$dst" "$arm" "$rep" "$dur" "$OUT/t-repair1-stats.json" "$LOG" 2>/dev/null << 'PYEOF'
 import sys, json, os
 sys.path.insert(0, '/Users/a1-6/Desktop/workspace/pfb/modules/B-pipeline-ablation')
-f, arm, rep, dur, out = sys.argv[1], sys.argv[2], int(sys.argv[3]), int(sys.argv[4]), sys.argv[5]
+f, arm, rep, dur, out, logf = sys.argv[1], sys.argv[2], int(sys.argv[3]), int(sys.argv[4]), sys.argv[5], sys.argv[6]
 d = json.load(open(f))
 nodes = d.get("nodes", [])
 rew = d.get("rework_events", [])
@@ -98,8 +98,9 @@ scores.append(rec)
 json.dump(scores, open(out, "w"), ensure_ascii=False, indent=1)
 rr = rec["rework"]["repair_rate"]
 log2 = f"  [stat] arm={arm} r{rep} n_nodes={rec['n_nodes']} rework={rec['rework']['n_events']} mode={mode_dist} repair_rate={rr} judge={rec['judge'].get('total','NA')}"
+with open(logf, "a") as _lf:
+    _lf.write("[" + __import__("datetime").datetime.now().strftime("%H:%M:%S") + "] " + log2 + "\n")
 print(log2)
-open("/dev/stderr","w").write(log2+"\n")
 PYEOF
     else
       log "arm=$arm rep=$rep rc=$rc wall_s=$dur out=MISSING"
