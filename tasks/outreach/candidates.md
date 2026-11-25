@@ -316,6 +316,30 @@
 - 合作角度（推断）：连接较弱
 - 优先级：低 — 库合成参照
 
+### D. Zhou / N. Schärli / L. Hou 等（机构 [待核验]）
+- 代表工作：Least-to-Most Prompting (arXiv:2205.10625, ICLR 2023)（出处：paper-draft.md ref 16）
+- 连接点：逐步分解链是 pfb 分解树的最早 prompt 形态；pfb 测"分解深度/宽度的增量贡献"正是 L2M 缺的定量层
+- 合作角度（推断）：把 L2M 的分解步数升级为带闭式边际贡献的结构目标
+- 优先级：中 — 分解谱系锚点
+
+### L. Wang / W. Xu / Y. Lan 等（机构 [待核验]）
+- 代表工作：Plan-and-Solve Prompting (arXiv:2305.04091, ACL 2023)（出处：paper-draft.md ref 17）
+- 连接点：显式"先生成计划再执行"两阶段——pfb 的 decompose→research 两阶段同构
+- 合作角度（推断）：pfb 的 stage-ablation 归因可量化其 plan 阶段的增量贡献
+- 优先级：中 — 两阶段分解近邻
+
+### S. Schulhoff / M. Ilie / N. Balepur 等（机构 [待核验]）
+- 代表工作：The Prompt Report: A Systematic Survey of Prompt Engineering Techniques (arXiv:2406.06608)（出处：paper-draft.md ref 18）
+- 连接点：prompt 工程技术分类学——pfb 的 prompt-stage 消融落在该分类学的可测维度上
+- 合作角度（推断）：用 pfb 的消融方法学给其分类学补"各技术增量贡献"的定量列
+- 优先级：中 — 分类学宿主
+
+### K. Tian / E. Mitchell / A. Zhou 等（机构 [待核验]）
+- 代表工作：Just Ask for Calibration (arXiv:2305.14975, EMNLP 2023)（出处：paper-draft.md ref 20）
+- 连接点：校准置信度 elicitation——pfb 的 judge 置信度/verbalized confidence 测量同域
+- 合作角度（推断）：其校准策略可作 pfb judge 置信度校准的对照基线
+- 优先级：中 — 校准方向
+
 ## C. 推理过程测量 / 元认知 / 统计保证（pfb 测量层交叉域）
 
 ### J.-F. Ton（et al.；机构 [待核验]）
@@ -426,6 +450,140 @@
 - 合作角度（推断）：同 B 节
 - 优先级：中 — 与 B 节合并
 
+### M. Xiong / Z. Hu / X. He 等（机构 [待核验]）
+- 代表工作：Can LLMs Express Their Uncertainty? (arXiv:2306.13063, ICLR 2024)（出处：paper-draft.md ref 3）
+- 连接点：置信度 elicitation 实证评测——pfb 的 verbalized confidence 测量同域
+- 合作角度（推断）：其 elicitation 策略矩阵可作 pfb judge 置信度采集的对照设计
+- 优先级：中 — 不确定性测量方向
+
+### S. Kadavath / T. Conerly / A. Askell 等（Anthropic 署名本地未存，机构 [待核验]）
+- 代表工作：Language Models (Mostly) Know What They Know (arXiv:2207.05221)（出处：paper-draft.md ref 4）
+- 连接点：P(IK) 自评校准——pfb 的"模型自知分解质量"假设的理论锚点
+- 合作角度（推断）：P(IK) 框架可形式化 pfb 中"judge 自知力"的测量
+- 优先级：中 — 自知力理论锚点
+
+### S. Lin / J. Hilton / O. Evans（机构 [待核验]）
+- 代表工作：Teaching Models to Express Their Uncertainty in Words (arXiv:2205.14334, TMLR 2022)（出处：paper-draft.md ref 19）
+- 连接点：verbalized uncertainty 的奠基工作——pfb 的 verbalized confidence 直接继承该范式
+- 合作角度（推断）：pfb 的 stage 级置信度分解是其"整句置信度"的细粒度延伸
+- 优先级：中 — 范式源头
+
+### L. Kuhn / Y. Gal / S. Farquhar（机构 [待核验]）
+- 代表工作：Semantic Uncertainty (arXiv:2302.09664, ICLR 2023 Spotlight)（出处：paper-draft.md ref 21）
+- 连接点：语义不变性下的不确定性估计——pfb 的"同义改写鲁棒性"检验同思路
+- 合作角度（推断）：语义聚类置信度可作 pfb judge verdict 方差分析的补充维度
+- 优先级：低 — 方法学相邻
+
+### L. Meyer / S. Rossi / W. Chen / T. Laurent / Y. Li（机构 [待核验]）
+- 代表工作：An Analysis of Training-Free Self-Reported Confidence in Language Models (arXiv:2609.20541)（出处：paper-draft.md ref 22）
+- 连接点：免训练自评置信度分析——与 pfb 的 judge 置信度噪声地板（±0.10）直接可比
+- 合作角度（推断）：其置信度分解项可并入 pfb 的 judge 可靠性诊断
+- 优先级：中 — 自评置信度同域
+
+### Y. Xu / A. Wang / J. Ren 等（机构 [待核验]）
+- 代表工作：Iterative Synergy Between Verbalized Reasoning and Hidden Features for LLM Confidence Estimation (arXiv:2609.34454)（出处：paper-draft.md ref 23）
+- 连接点：verbalized reasoning × hidden features 的置信度融合——pfb 的 judge 双通道（文本+logprob）同构
+- 合作角度（推断）：其融合策略可作 pfb judge 置信度通道的消融对照
+- 优先级：低 — 置信度融合细节
+
+### S. Es / J. James / L. Espinosa-Anke / S. Schockaert（机构 [待核验]）
+- 代表工作：RAGAs (arXiv:2309.15217, EACL 2024 Demo)（出处：paper-draft.md ref 24）
+- 连接点：RAG 自动评测框架——pfb 的 citation-grounding 门（gate 2）与其 faithfulness 指标同域
+- 合作角度（推断）：RAGAs 指标可作 pfb 三门中引用门的交叉验证
+- 优先级：中 — 引用门交叉验证
+
+### J. Saad-Falcon / O. Khattab / C. Potts / M. Zaharia（机构 [待核验]）
+- 代表工作：ARES (arXiv:2311.09476, NAACL 2024)（出处：paper-draft.md ref 25）
+- 连接点：LLM-as-judge 的 RAG 自动评测——pfb 的 dual-judge 可靠性问题与其 judge 校准问题同域
+- 合作角度（推断）：其 judge 蒸馏/校准方法可迁移到 pfb 的 judge 可靠性测量
+- 优先级：中 — judge 校准同域
+
+### D. Ru / L. Qiu / X. Hu 等（机构 [待核验]）
+- 代表工作：RAGChecker (arXiv:2408.08067, NeurIPS 2024 D&B)（出处：paper-draft.md ref 26）
+- 连接点：细粒度 RAG 诊断（factual correctness/consistency/noise sensitivity）——pfb 的 M1 assertion-set 评测同粒度
+- 合作角度（推断）：其噪声敏感性维度可并入 pfb 的 gold 完整性诊断
+- 优先级：低 — 诊断维度相邻
+
+
+
+### R. Meyes / M. Lu / C. Waubert de Puiseau / T. Meisen（机构 [待核验]）
+- 代表工作：Ablation Studies in Artificial Neural Networks (arXiv:1901.08644)（出处：paper-draft.md ref 30）
+- 连接点：消融方法学综述——pfb 的 stage-ablation 是其"组件贡献测量"在 agent 流水线的迁移
+- 合作角度（推断）：其消融分类学可作 pfb stage-ablation 的方法学定位参照
+- 优先级：低 — 方法学参照
+
+### E. Miller（机构 [待核验]）
+- 代表工作：Adding Error Bars to Evals: A Statistical Approach to LM Evaluations (arXiv:2411.00640)（出处：paper-draft.md ref 31）
+- 连接点：eval 误差棒的统计方法——pfb 的 ±0.10 噪声地板与 n=5 功效限制正是其问题域
+- 合作角度（推断）：其 bootstrap/CI 方法可直接用于 pfb 的 arm 效应显著性检验
+- 优先级：高 — pfb 统计层最直接的方法学供给者
+
+### C. Park / J. Yoon / S. Han / H. Moon / H. Lim（机构 [待核验]）
+- 代表工作：AgentHop: A Diagnostic Benchmark for Agentic Multi-Hop QA over Scientific Citation Graphs (arXiv:2609.34428, NeurIPS 2026 E&D)（出处：paper-draft.md ref 32）
+- 连接点：多跳引用图诊断基准——pfb 的 citation-grounding 门同域
+- 合作角度（推断）：pfb 的引用门可在其基准上做多跳扩展测试
+- 优先级：低 — 基准同域
+
+### G. Dominici / T. McMillan / F. Barez / M. Langheinrich / M. Gjoreski（机构 [待核验]）
+- 代表工作：CausalCoT: Mitigating Attention Leakage via Context Isolation (arXiv:2610.31639)（出处：paper-draft.md ref 33）
+- 连接点：CoT 中注意力泄漏的因果隔离——pfb 的 stage 隔离（context isolation）同思路
+- 合作角度（推断）：其隔离机制可作 pfb stage 边界设计的对照
+- 优先级：低 — 隔离机制相邻
+
+### I. Khan / T. V. Nguyen / Y. Xia 等（机构 [待核验]）
+- 代表工作：Role-Enhanced Zero-Shot CoT: A Large-Scale Evaluation (arXiv:2610.29073)（出处：paper-draft.md ref 34）
+- 连接点：role 增强 CoT 的大规模评测——pfb 的 prompt-stage 消融同方法学
+- 合作角度（推断）：pfb 的消融归因可量化其 role 组件的增量贡献
+- 优先级：低 — 评测方法学相邻
+
+### K. C. Ayyagari（机构 [待核验]）
+- 代表工作：Pinned and Still Unstable: Within-Judge Verdict Variance and the Noise Floor of LLM-as-Judge Leaderboards (arXiv:2609.33044)（出处：paper-draft.md ref 35）
+- 连接点：judge 内部 verdict 方差与噪声地板——与 pfb 的 ±0.10 噪声地板测量直接同题
+- 合作角度（推断）：pfb 的 45-run 重打分数据可作其噪声地板模型的独立验证
+- 优先级：高 — judge 噪声地板同题作者
+
+### S. Chae / M. Kim / D. Jung / S. Choi / S. Jung（机构 [待核验]）
+- 代表工作：Self- and Other-Labels Induce Bidirectional Bias in LLM Judges (arXiv:2608.18091, Findings EMNLP 2026)（出处：paper-draft.md ref 36）
+- 连接点：judge 双向偏差——pfb 的 same-family judge self-preference 风险同域
+- 合作角度（推断）：其偏差方向分析可并入 pfb 的 judge 可靠性诊断
+- 优先级：中 — judge 偏差同域
+
+### V. Kumar / D. Rathore / A. Moitra（机构 [待核验]）
+- 代表工作：All Verdicts are Not Equal: Rethinking LLM Judge Reliability (arXiv:2610.12083, AACL-IJCNLP 2026)（出处：paper-draft.md ref 37）
+- 连接点：judge 可靠性重思——pfb 的 dual-judge 可靠性是同一问题的实证侧
+- 合作角度（推断）：pfb 的异族 judge 对照可作其可靠性框架的验证场景
+- 优先级：高 — judge 可靠性同题
+
+### Y. Yin / J. Wu / A. Kumar / S. Novotney / D. Liu / E. Babinsky（机构 [待核验]）
+- 代表工作：The Judge Can Debias Itself (arXiv:2610.24320)（出处：paper-draft.md ref 38）
+- 连接点：judge 自去偏——pfb 的 judge 偏差测量是其去偏的前置
+- 合作角度（推断）：pfb 的偏差量化可作其自去偏效果的度量
+- 优先级：中 — 去偏前置测量
+
+### V. Polshkov / M. Pitera / J. Yang 等（机构 [待核验]）
+- 代表工作：WANDR: A Benchmark for Wide and Deep Research (arXiv:2608.14747)（出处：paper-draft.md ref 39）
+- 连接点："wide and deep" 研究基准——pfb 的分解树"深×广"目标函数正对应其两维
+- 合作角度（推断）：S_α 的 n·ln kₙ 结构效用可直接用作 WANDR 类任务的生成目标
+- 优先级：中 — 深广两维同构
+
+### Y.-C. Hsiao（机构 [待核验]）
+- 代表工作：Rethinking Verbalized Confidence for LLM-as-a-Judge (arXiv:2609.10996)（出处：paper-draft.md ref 40）
+- 连接点：judge 的 verbalized confidence 兼容性漂移——pfb 的 judge 置信度测量同域
+- 合作角度（推断）：其兼容性分析可解释 pfb 跨 judge 的置信度漂移
+- 优先级：低 — 置信度细节
+
+### D. Ghosh / S. Kumar / A. Garg（机构 [待核验]）
+- 代表工作：Confidence Signal Validity in LLMs (arXiv:2610.25846)（出处：paper-draft.md ref 41）
+- 连接点：置信度信号效度——pfb 的 judge 置信度效度检验同题
+- 合作角度（推断）：其效度指标可作 pfb judge 置信度的验证标准
+- 优先级：低 — 效度细节
+
+### N. Schwager / S. Münker / A. Plum / A. Rettinger（机构 [待核验]）
+- 代表工作：Token Probabilities as Confidence Estimators: A Calibration Study (arXiv:2611.07735, WNUT 2026)（出处：paper-draft.md ref 42）
+- 连接点：token prob 作置信度估计的校准——pfb 的 logprob 通道同方法
+- 合作角度（推断）：其校准曲线可作 pfb logprob 通道的校准参照
+- 优先级：低 — 校准细节
+
 ## D. 目标函数 / reward / 压缩（pfb 理论层交叉域）
 
 ### Ng / Harada / Russell（机构 [待核验]）
@@ -482,6 +640,36 @@
 - 合作角度（推断）：连接较弱，管线搜索参照
 - 优先级：低 — 管线搜索参照
 
+### Xie et al.（机构 [待核验]；全名本地未存）
+- 代表工作：Text2Reward (arXiv:2309.11489, ICLR'24)（出处：longterm-vision-survey.md §L1）
+- 连接点：NL 目标→稠密 shaped reward 程序——"从任务描述自动推导目标函数"的原型之一
+- 合作角度（推断）：pfb 的闭式结构目标函数（S_α）可作其 reward 程序的结构性约束
+- 优先级：中 — 目标函数自动生成谱系
+
+### AhmadiTeshnizi et al.（机构 [待核验]；全名本地未存）
+- 代表工作：OptiMUS / OptiMUS-0.3 (arXiv:2310.06116 / 2407.19633)（出处：longterm-vision-survey.md §L1/§5）
+- 连接点：LLM 生成优化目标函数 + 求解器闭环验证——"目标函数自动生成+真值闭环"原型
+- 合作角度（推断）：pfb 的独立 judge 覆盖率机制可作其求解器闭环的推理管线对应物
+- 优先级：中 — 目标函数闭环验证
+
+### λ-RLM（Y-Combinator for LLMs）团队（arXiv:2603.20105；机构 [待核验]；作者名单本地未存）
+- 代表工作：受限运行时 Split/Map/Reduce 组合子递归分解，结构参数 (k\*, τ\*, d) 显式化（出处：longterm-vision-survey.md §3 条目 3）
+- 连接点：survey 判"半同构（最接近的工程形态）"——深广参数显式可解析但由外部 planner 注入
+- 合作角度（推断）：把其外部 planner 计算注入的结构参数换成模型可读的闭式目标函数（S_α 用法）
+- 优先级：中 — 最接近工程形态，结构参数同构
+
+### IBC/VOI 推理时预算控制团队（arXiv:2605.05701；机构 [待核验]；作者名单本地未存）
+- 代表工作：运行时按"单位预算边际任务价值"在检索/分解/提交间选点（出处：longterm-vision-survey.md §3 条目 5）
+- 连接点：边际思想与 S_α 的 Δ=ln((kₙ+1)/kₙ) 同源——外部启发式打分 vs prompt 内闭式公式
+- 合作角度（推断）：用闭式边际公式替换其 critic 值变化启发式，做消融对照
+- 优先级：中 — 边际价值同源
+
+### AMFT 团队（arXiv:2508.06944；机构 [待核验]；作者名单本地未存）
+- 代表工作：把 SFT/RL 平衡权重 μ 当可学习参数做元梯度优化（出处：longterm-vision-survey.md §5 条目 5）
+- 连接点："α 类权衡参数可被元学习"的直接存在性证明（pfb Q4/G7 关键证据）
+- 合作角度（推断）：pfb 的 α 在线调节 + 其元梯度路径 = 双层可辨识性的接合点
+- 优先级：中 — α 元学习存在性证明
+
 ## E. 信息论 / 压缩理论锚点（D1-academic-AI 引用列表）
 
 ### N. Tishby / N. Zaslavsky（机构 [待核验]）
@@ -534,8 +722,8 @@
 
 ## 汇总
 
-- 候选总数：**86 人/团队**（高 15 / 中 27 / 低 44；其中 4 个团队作者名单本地不全标 [待核验]：SA-Scheduler、AMALI、OPPO OpenResearcher、阿里 Tongyi DeepResearch；另有 Marom/Han et al. 等多处仅存单名或 et al.）
-- 覆盖本地文献 15 份（见文件头）
-- 机构可证仅 3 处：ScientistTwo=Google Cloud AI Research（scientisttwo-comparison.md）、TRUST=浙大/乔治华盛顿（trust-2611.10787-note.md）、BATS=UCSB/Google/NYU（collision-snowball.md）；其余机构一律 [待核验]
+- 候选总数：**117 条**（高 18 / 中 45 / 低 54；其中 Y. Du 一条为指向 B 节 M. Du 的合并指针，实际唯一人/团队 116；4 个团队作者名单本地不全标 [待核验]：SA-Scheduler、AMALI、OPPO OpenResearcher、阿里 Tongyi DeepResearch；另有多处仅存单名/et al./匿名团队）
+- 覆盖本地文献 16 份（见文件头）
+- 机构可证 4 处：ScientistTwo=Google Cloud AI Research（scientisttwo-comparison.md）、TRUST=浙大/乔治华盛顿（trust-2611.10787-note.md）、BATS=UCSB/Google/NYU（objective-function-priorart-SNOWBALL-T51.md）、Eureka= NVIDIA/UPenn（longterm-vision-survey.md §L1）；其余机构一律 [待核验]
 - 邮箱：本地文献无任何邮箱信息，全部 [待核验]（discover 阶段不联网，不补）
 
