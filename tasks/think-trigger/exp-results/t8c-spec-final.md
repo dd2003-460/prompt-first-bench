@@ -181,6 +181,9 @@ N-5.2 带宽门与 c_pass 的 decode 项**代数同构**（t8b-smoke-report.md �
 - [ ] **oracle 验证**：`python3 tasks/think-trigger/exp-results/gold_gpu_oracle.py` exit 0 且
       输出含 `winner=3090×4/W4/n=2 ✅`、`c_pass=0.681≈0.679 ✅`、`N-5.2 6/6 ✅`。
       oracle 种子 commit = `d41ab1bf7`（已核：`git show --stat d41ab1bf7`）。
+- [ ] **题面自洽验证**：`python3 tasks/think-trigger/exp-results/t8c_spec_selfcheck.py` exit 0
+      且打印 `PASS`（参数从 §4 题面独立转录、不 import calc.py，防题面笔误；
+      2026-11-25 实跑 PASS：winner=3090×4/W4/n=2 ✅ c_pass=0.6807≈0.681 ✅ 淘汰 5/5 ✅）。
 - [ ] **题面冻结**：§4 题面正文冻结 commit hash = `2c16f644f`（§3/§4/§5 落盘 commit；
       其后仅本清单 hash 行回填，题面正文未动）。
 - [ ] **预注册冻结**：`t8c-preregistration.md` 判据 commit hash = `8c168c2a4`
