@@ -27,7 +27,9 @@ CHECKS = [
     ("STEP3 J4 adjudicated", os.path.join(BJ, "tjudge1-llm-fallback-all-adjudicated.json"),
      lambda p: (lambda d: (isinstance(d, list) and len(d) > 0, "%d records" % len(d)))(json.load(open(p)))),
     ("STEP4 armC", os.path.join(PFB, "tasks", "learn-to-think", "exp03-armc", "armc_raw_outputs.json"),
-     lambda p: (lambda d: (isinstance(d, list) and len(d) >= 3, "%d records (预期>=3)" % len(d)))(json.load(open(p)))),
+     lambda p: (lambda d: ((lambda n: (n >= 3, "%d samples (预期>=3)" % n))(
+         len(d["samples"]) if isinstance(d, dict) and "samples" in d
+         else (len(d) if isinstance(d, list) else -1))))(json.load(open(p)))),
 ]
 
 def main():

@@ -1,0 +1,40 @@
+# L4-disambig 判读备忘录（2026-11-25）
+
+# origin: ai · 队列 STEP1 树完成(300节点) + synth 崩(GOLD KeyError, 已修) 后的机械判读
+# 主判读 A/B/C/D 待 synth 恢复后由 l4-disambig-judge.py 机械执行（vllm-catchup.sh C2 步）。
+# 本文件先落次级观测（prereg 冻结的备查项），不预设立场。
+
+## 运行状态
+
+- 树：✅ 完成（n_nodes=300, final_state=rework, 11:15 落盘 runs-s5-sm-l4-disambig.json）
+- synth：❌ 原崩（GOLD 缺 'l4-disambig' → judge() KeyError → SM 优雅降级 rc=0，假绿）
+- 修复：s8b_pilot.py 补 GOLD['l4-disambig']（8 要点，题面显式要求机械导出，非事后编造）
+- 恢复：l4-synth-recover.py（从 runs JSON 重建 NodeRecord → synthesize_answer，免重跑 300 节点树）
+- 排程：vllm-catchup.sh PID 36173（门控 T-REPAIR-1 PID 15606 退出 + vLLM ready）
+
+## 次级观测（机械，prereg 备查项，不耗 vLLM）
+
+| 观测项 | 结果 | 判读 |
+|---|---|---|
+| 树内 4 卡候选节点数 | **12**（N22/N92-N95/N259/N300/N301 等） | decompose 侧候选生成 OK——4 卡配置被显式生成并进入成本比较 |
+| 4 卡卡型 | 全 A100×4（未见 3090×4） | 若结论区落 A100×4 → 判读 C（部分 A：候选生成 OK、卡型选择有偏差）；若另有 3090×4 进结论区 → A |
+| 64K 锚遵守 | 64K 节点 48 / 32K 节点 **0** | 消歧生效：未退回 32K 口径 |
+| c_pass 口径遵守 | c_pass/¢/task 节点 47 | 口径被遵守（N20-N22 工作点全用 ¢/sec + c_pass 推导） |
+
+**初步方向（conf 0.6，待结论区确认）**：主判读大概率落在 **C**（4 卡出现但 A100 而非 3090）或 **A**（若结论区出现任意×4 且 3090×4 在候选内）。无论如何，**B（仍 1-2 卡）基本排除**——树内 4 卡候选 12 个 + 成本比较链完整，候选生成缺口坐实的概率高。
+
+## 主判读（待 synth）
+
+prereg 冻结判据（l4-disambig-prereg-20261125.md）：
+- A：结论区出现 4 卡配置（任意卡型×4）→ 候选生成缺口坐实，H1 关闭
+- B：结论区仍 1-2 卡 → 更深机制（H1-lite 复活）
+- C：4 卡但非 3090 → 部分 A（卡型偏差）
+- D：无结论区 → 无效
+
+结论区 = synth 文件 answer 最后 2000 字符（l4-disambig-judge.py 口径）。
+
+## 与 H1 残留的关系
+
+上游判决（l4-audit-design-20261125.md 第 4 条）：H3b 主导 + TCO 定量复核。
+本实验判别 H1 残留的精确机制：候选生成缺口 vs 推理能力缺口。
+次级观测已指向"候选生成 OK"（12 个 4 卡节点），主判读确认后 H1 残留可关闭或收窄到卡型选择层。
