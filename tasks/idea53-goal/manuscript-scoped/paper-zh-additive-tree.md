@@ -168,7 +168,9 @@ $$\boxed{I_2=\tfrac12(\alpha\beta\sigma)^2\left(1-\mathbb E\sum_i p_i^2\right)} 
 
 ---
 
-## 7. 与既有工作的切割
+## 7. 相关工作与定位
+
+### 7.0 与既有工具的切割
 
 信息增益（ID3，Quinlan 1986）、roofline、PID 分解（Williams & Beer 2010）都是既有工具，本文不主张它们新。Specification Self-Correction（Gallego 2025, arXiv:2507.18742）在推理时做自然语言的规范批判与改写，不用信息增益、树或条件熵，也不训权重；本文是它的**前置**：只提供"节点分数怎么算"。
 
@@ -179,6 +181,32 @@ $$\boxed{I_2=\tfrac12(\alpha\beta\sigma)^2\left(1-\mathbb E\sum_i p_i^2\right)} 
 | PID | 多源分布 | 独有/冗余/协同 | 否 | 无 | 无 |
 | SSC (2507.18742) | rubric + 输出 | 改写规范 | 否 | 无 | 无 |
 | **本文** | spec + 负载先验 | 节点分数 + 三口径判据 | **是（P1/P3）** | **是（=0）** | **是（$\alpha\beta\sigma$ 域、对角性）** |
+
+### 7.1 组合结构扰动理论：乘性代数对偶与场论最近邻
+
+**乘性层（product-form 排队网络）。** Zeitak & Melamed (arXiv:0708.1718) 对 product-form Jackson 网络做参数微扰分析：性能指标对参数的导数有闭式，product-form 的节点边际局部化是乘性世界的"对角弹性"等价物。它与本文互为代数对偶——乘性代数 vs 加性代数——而两边都尚未给出 argmax 翻转的闭式（本文 P1 补上的是加性侧）。
+
+**场论层（层级最大熵 via RG）。** Asadi et al. (arXiv:2509.01424) 用 renormalization group 流定义尺度层级上的最大熵条件，粗粒化=逐层条件化，是"层级结构＋逐层条件化＋信息/熵语义"最近的先例。划界：其层级是变量尺度层级（lattice/场），本文层级是被判断量的分解树；该文全文无树结构（tree×0），不做节点翻转。
+
+**拓扑层背书。** 串并联系统可靠性（Barrera, arXiv:2107.13333）是加性树在可靠性代数下的同构特例——"加性树是一般组合打分的一个实例"由此获得背书，而其递归分解的闭式可靠性不含微扰翻转语义。PERT 关键路径的 max-plus 闭式（Kobayashi, arXiv:1202.6457）管"瓶颈=max"代数，与本文"求和=加性"代数互补，同样无翻转闭式。
+
+### 7.2 信息瓶颈相变：共享软-硬极限结构，层级不同
+
+Shwartz-Ziv & Tishby (arXiv:1703.00810) 观察到训练中的压缩相（representation transition）；Wu & Fischer (arXiv:2001.01878) 将其定义为 IB loss landscape 的定性改变，$dI(Y;Z)/d\beta$ 跳跃；Wu, Fischer, Chuang & Tegmark (arXiv:1907.07331) 进一步刻画 $\beta$ 选错时平凡表示成为全局最小的尖锐相变。划界（一句话）：IB 压缩相变是全局极小的改变（解层面，$dI(Y;Z)/d\beta$ 跳跃）；本文的 $\beta\to\infty$ 是微扰展开的失效（近似层面，无精确量跳跃）；两者共享软-硬极限结构（$\beta$=Lagrange 乘子，$\beta\to\infty$=零温极限）但层级不同。
+
+### 7.3 鲁棒性证书与 judge 分流
+
+Singla (arXiv:1902.01235) 给 ReLU 网络的对抗鲁棒性证书：证书半径内预测必不翻转，半径外才细审；margin 代理证书（arXiv:2611.08035）同属此系。划界：证书给**确定性不变性保证**（扰动界内必不翻），本文 P1 给**概率性翻转率**（可设阈值 $\varepsilon$，$P(\text{flip})<\varepsilon$ 即免审）——后者是 judge 经济学的新机制：允许小概率漏判换大比例免审。接口上，P1 可作解析分流判据（$m$ 大→机械放行，$m$ 小→送 judge），唯一额外测量项是标定 $\sigma$，flat 归零负控制可作假设校验。撞车核查：Kedziora (arXiv:2407.03194) 度量集成预测在采样扰动下的不稳定性；"Additive Decision Tree Ensembles 的敏感性验证"（OpenReview h0vC0fm1q7, ICLR 2025）给扰动界验证输出变化——方向与本文相反（给扰动界验证输出 vs 给扰动分布算翻转闭式），对象是 GBDT/RF 而非瓶颈分解树，故不构成覆盖。
+
+### 7.4 能量模型解读层与 loss landscape 展望
+
+**EBM 读法（仅解读层）。** "节点分=能量项、整树=层级能量景观、最优判断=基态"的读法有先例：Hopfield (PNAS 1982, 79(8):2554) 中网络动力学沿能量函数下降、稳态=基态；层级 EBM（Dong & Wu, arXiv:2310.08431）的配分函数按层分解、推理=逐层采样。本文仅作解读层使用，不 claim 模型是 EBM；现有层级 EBM 的层级均来自网络层/认知管线，无一以判断分解树为载体。
+
+**Loss landscape 展望（开放问题）。** 若判断树的层级结构由训练网络实现，预期在 loss landscape 上表现为盆地层级——Embedding Principle 给出宽度/深度层级的临界点嵌套（arXiv:2111.15527, 2205.13283），精度盆地层级≈统计力学相态的先例见 arXiv:2512.11866。此为开放问题，不作本文 claim。
+
+### 7.5 适用域划界声明
+
+本文闭式解依赖两个结构条件：① 弹性矩阵对角（扰动不跨叶传播）② 结构为树（无环）。乘性可分解结构（product-form）仍在范围内（对角性等价物存在，见 7.1）；耦合结构（非对角弹性）与一般图超出范围，为后续工作。
 
 ---
 
