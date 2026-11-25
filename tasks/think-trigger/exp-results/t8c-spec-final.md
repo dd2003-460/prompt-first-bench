@@ -200,7 +200,10 @@ N-5.2 带宽门与 c_pass 的 decode 项**代数同构**（t8b-smoke-report.md �
       winner 锚 = 4×3090/W4/n=2）对 T8c 格式验证通过：`t8c_judge_format_probe.py` 4/4
       （CORRECT→indeterminate / ERR_A1→A1 / ERR_A2→A2 / ERR_A3→A3）+ selftest 11/11 无回归。
       修了 v1.2：EVAL_NUM 补 c_pass/¢/task/每任务（T8c 评估签名是 c_pass 表，缺则 A3 漏判）。
-- [ ] **runner 改造点（已核 2026-11-25）**：`run_exp_t8b.py` 硬编码旧题面（L14-18 `Q`=32K/自行搜索/
-      宽性价比）与 `MAX_A=16384`（L10）——**T8c 须新建 `run_exp_t8c.py`**：`Q` 替换为 §4 冻结题面全文、
-      `MAX_A=24576`、`MAX_B=4096` 不变、`STAGES` 六阶段指令复用不动。不得直接改 T8b 脚本（T8b 数据可追溯性）。
+- [ ] **runner 改造点（已建已核 2026-11-25）**：`run_exp_t8b.py` 硬编码旧题面（L14-18 `Q`=32K/自行搜索/
+      宽性价比）与 `MAX_A=16384`（L10）——**已新建 `run_exp_t8c.py`**：`Q` = §4 冻结题面全文
+      （AST 抽取与 spec §4 围栏块逐字比对 MATCH，1671 字符）、`MAX_A=24576`、`MAX_B=4096` 不变、
+      `STAGES` 六阶段指令复用 T8b 不动、Arm A' user message = 题面全文（不拼 DIRECT 后缀，
+      §4 输出要求已含来源标注条款）、输出 `raw_outputs_t8c.json` + `t8c_stages/` sidecar。
+      不得直接改 T8b 脚本（T8b 数据可追溯性）。
 - [ ] **端点健康**：vLLM 127.0.0.1:8787 `/v1/models` 返回 qwen3.8-27b-mtp（本轮已核 ①类）。
