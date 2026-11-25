@@ -22,14 +22,16 @@ PREREG 效度注记（2026-11-25 11:00 分析前核查）:
 统计口径（设计文档 §验收）:
   - 节点级修复率 = rework_count>0 且最终 status==verified 的比例（strict, 与 dryrun 同口径）
   - n=3 臂内 → bootstrap CI (B=2000, 节点级重采样); n=3 只 suggestive, 正式 claim 需 n≥5
-  - 等效性: 声称"无效"需 TOST（预设最小效应 0.05, 对齐 T-PR-17 先例）
+  - 等效性: 声称"无效"需 TOST（预设最小效应 0.10, T-PR-17 先例; 0.05 在 n=150 下不可行, 见 MIN_EFFECT 注释）
 """
 import json, glob, os, sys, math, re
 import random
 
 DATA = "/Users/a1-6/Desktop/workspace/pfb/modules/B-pipeline-ablation/data/t-repair1"
 ARMS = ["baseline", "fixA", "fixAB", "fixB"]
-MIN_EFFECT = 0.05  # TOST 预设最小效应（对齐 T-PR-17 ±0.1 的半宽, 节点级修复率波动小, 收紧到 0.05）
+MIN_EFFECT = 0.10  # TOST 预设最小效应（T-PR-17 先例 ±0.1 半宽）。
+# 2026-11-25 功效核算: 曾收紧到 0.05, 但 n=150/臂 p≈0.06 时差值 CI 宽≈0.107 > 2*0.05=0.10
+# → margin=0.05 下 TOST 等效结论永不触发, "无效"与"不显著"无法区分。恢复 0.10 使 TOST 可行。
 BOOT_B = 2000
 RNG = random.Random(20261125)
 
