@@ -2,8 +2,7 @@
 """TASK-T4b pilot runner: 5 prompts x 2 conditions = 10 serial API calls.
 Incremental append to runs.json after EACH run (anti-truncation protocol).
 Raw API responses saved to raw/<run_id>.json for no-fabrication audit."""
-import json, os, time, sys
-import requests
+import json, os, time, sys, urllib.request, urllib.error
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 RUNS_JSON = os.path.join(BASE, "runs.json")
@@ -54,19 +53,28 @@ def call_api(system, user, max_retries=2):
         "max_tokens": MAX_TOKENS,
     }
     last_err = None
+    latency = 0.0
     for attempt in range(max_retries + 1):
         t0 = time.time()
         try:
-            r = requests.post(ENDPOINT, json=payload, timeout=TIMEOUT_S)
+            req = urllib.request.Request(
+                ENDPOINT,
+                data=json.dumps(payload).encode("utf-8"),
+                headers={"Content-Type": "application/json"},
+                method="POST",
+            )
+            with urllib.request.urlopen(req, timeout=TIMEOUT_S) as resp:
+                r_status = resp.status
+                r_body = resp.read().decode("utf-8")
             latency = time.time() - t0
-            if r.status_code != 200:
-                last_err = f"HTTP {r.status_code}: {r.text[:300]}"
+            if r_status != 200:
+                last_err = f"HTTP {r_status}: {r_body[:300]}"
                 print(f"    attempt {attempt+1} failed: {last_err}", flush=True)
                 if attempt < max_retries:
                     time.sleep(2)
                     continue
                 return None, latency, last_err
-            data = r.json()
+            data = json.loads(r_body)
             choice = data["choices"][0]
             return {
                 "text": choice["message"]["content"],
