@@ -16,9 +16,12 @@ gold_gpu_oracle.py — 独立 gold 预言机（T8c token-matched 对照的 oracl
 #   - N-5.2 带宽门公式: 本轮从 gold 三档下限精确恢复 + 6/6 gold 判断校验 (见 t8b-smoke-report.md §3.2)
 #   - 并发约定 n = n_cards//2 (2 卡/流): 部署驱动 (gold SHARED 注 n=min(n_speed,n_cap)), 非自由优化变量;
 #     本约定精确复现 gold winner 3090×4/W4/n=2 (0.681)。
-#   - 候选集: 只用 calc.py HARDWARE 里已有 ①类规格的卡 (3090 / V100)。
-#     T8b 的另外 4 类 (4090/L40S/A100/H100/M2Ultra) 缺 ①类价格/算力规格, 留待 T8c 补齐——
-#     本预言机不凭记忆填它们的数 (来源三分法 ③类风险), 故此处候选集是 2 卡子集。
+#   - 候选集: 默认 sweep 用 calc.py HARDWARE 里已有 ①类规格的卡 (3090 / V100)——
+#     这是 gold 树候选集 (gold-tree.md L94: 3090/M2Ultra/L40S/A100 + V100/TPU/Groq/Cerebras/SambaNova)
+#     中规格齐全的 2 卡子集, 保证复现 gold winner。
+#     另 4 类 (L40S/A100/H100/M2Ultra) 在 KB 缺 flops/price (null=[待核验]), 不凭记忆填 (③类风险)。
+#     4090 例外: KB 有完整 ①类规格 (rtx-4090.json, conf 0.85), 但 4090 不在 gold 候选集内——
+#     见下方 4090 敏感性分析: 一旦把 4090 加入候选集, gold winner 翻转为 4090×4/W4/n=2。
 #
 # 验收锚 (跑本脚本应全过):
 #   ① winner = 3090×4/W4/n=2
@@ -88,6 +91,34 @@ def sweep(cards=("3090", "V100"), max_cards=4, quants=("W4", "W8", "W16")):
     return ranked, eliminated
 
 
+def check_4090_flip():
+    """4090 候选集敏感性: 把 4090 加入候选集后 gold winner 是否翻转.
+    ①类来源: 4090 规格取 KB rtx-4090.json (conf 0.85, NVIDIA 官网 2026-11-20 抓取),
+    口径与 calc.py 3090 一致 (FP16 non-tensor = 2×FP32: 3090→71, 4090→165.2)。
+    4090 不在 gold 候选集 (gold-tree.md L94), 但 T8b 题面『候选硬件: 自行搜索』→
+    模型自然纳入 4090。本函数量化: 一旦纳入, 成本最优从 3090×4/W4/n=2 翻转为 4090×4/W4/n=2。
+    返回 (flip: bool, c_4090, c_3090, breakeven_price).
+    """
+    # 4090: 165.2 TFLOPS (FP16 non-tensor), 1008 GB/s, 24GB, 450W, $1599 MSRP (KB rtx-4090.json)
+    spec = dict(tf_peak=165.2e12, bw=1008.0, mem=24.0, tdp=450.0)
+    calc.HARDWARE["4090"] = dict(spec, price_each=1599.0)
+    c4090, _, _ = calc.c_pass("4090", 4, "W4", 2)
+    c3090, _, _ = calc.c_pass("3090", 4, "W4", 2)
+    flip = c4090 < c3090
+    # 盈亏平衡价: 4090 c_pass = 3090 c_pass 时的单价 (二分)
+    lo, hi = 500.0, 5000.0
+    for _ in range(60):
+        mid = (lo + hi) / 2
+        calc.HARDWARE["4090"] = dict(spec, price_each=mid)
+        c, _, _ = calc.c_pass("4090", 4, "W4", 2)
+        if c < c3090:
+            lo = mid
+        else:
+            hi = mid
+    breakeven = (lo + hi) / 2
+    return flip, c4090, c3090, breakeven
+
+
 def check_gold_judgments():
     """N-5.2 门对 gold-tree.md 6 个判断的复算 (①类校验)."""
     # gold-tree.md N-5.2: 划掉 M2Ultra(560)·L40S×1·A100×1-W16·3090×2-W8/W16; 赢家 3090×4/W4
@@ -139,6 +170,14 @@ def main():
           f"N-5.2 6/6 {'✅' if ok6 else '❌'}")
     print(f"结论: gold winner 复现 {'成立' if win_ok and c_ok else '失败'}"
           f" (oracle 可用于 T8c token-matched 对照的独立参照)")
+
+    # 4090 候选集敏感性 (①类: KB rtx-4090.json conf 0.85)
+    flip, c4090, c3090, breakeven = check_4090_flip()
+    print(f"\n[4090 候选集敏感性] (4090 不在 gold 候选集, 但 T8b 题面『自行搜索』会纳入)")
+    print(f"    4090×4/W4/n=2 = {c4090:.3f}  vs  3090×4/W4/n=2 = {c3090:.3f}  "
+          f"→ winner {'翻转为 4090' if flip else '不变'}  (盈亏平衡价 ≈ ${breakeven:.0f})")
+    print(f"    → gold winner 3090×4/W4/n=2 是『候选集不含 4090』的条件性结论;")
+    print(f"      4090 一旦入候选集, 成本最优变 4090×4/W4/n=2 (construct mismatch 第三维: 候选集依赖)")
     print(f"{'=' * 68}")
     return 0 if (win_ok and c_ok and ok6) else 1
 
