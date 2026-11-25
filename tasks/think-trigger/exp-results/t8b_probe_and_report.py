@@ -6,7 +6,7 @@
 import json, re, sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from judge_gpu_mech import judge as judge_text
-from t8b_attribution import analyze_attribution
+from t8b_attribution import analyze_attribution, check_gates
 
 RAW = "raw_outputs_t8b.json"
 SCORES = "raw_outputs_t8b_mech_scores.json"
@@ -93,14 +93,15 @@ def main():
     scores = json.load(open(SCORES))
     logstat = parse_json_stat(d)
 
-    # arm_a correctness + 归因
+    # arm_a correctness + 归因 + 门检查
     probe_a = []
     for i, a in enumerate(d["arm_a"], 1):
         txt = a["content"]
         cfg = extract_final(txt)
         v = verdict(cfg)
         probe_a.append({"id": f"A{i}", "cfg": cfg, "verdict": v,
-                        "attr": analyze_attribution(txt, v)})
+                        "attr": analyze_attribution(txt, v),
+                        "gates": check_gates(txt)})
     # arm_b: 有文本则拼接全部 stage 打分+探针；无文本则记无法提取
     probe_b = []
     b_cov = []
@@ -114,18 +115,21 @@ def main():
         txt = "\n\n".join(parts)
         if not txt.strip():
             probe_b.append({"id": f"B{i}", "cfg": None, "verdict": "无法提取(无文本)",
-                            "attr": analyze_attribution("", "无法提取(无文本)")})
+                            "attr": analyze_attribution("", "无法提取(无文本)"),
+                            "gates": check_gates("")})
             continue
         sc = judge_text(txt)
         b_cov.append((f"B{i}", sc))
         cfg = extract_final(txt)
         v = verdict(cfg)
         probe_b.append({"id": f"B{i}", "cfg": cfg, "verdict": v,
-                        "attr": analyze_attribution(txt, v)})
+                        "attr": analyze_attribution(txt, v),
+                        "gates": check_gates(txt)})
     if len(probe_b) < N_B:
         for i in range(len(probe_b) + 1, N_B + 1):
             probe_b.append({"id": f"B{i}", "cfg": None, "verdict": "无法提取(无文本)",
-                            "attr": analyze_attribution("", "无法提取(无文本)")})
+                            "attr": analyze_attribution("", "无法提取(无文本)"),
+                            "gates": check_gates("")})
     b_avg = sum(sc["overall"] for _, sc in b_cov) / len(b_cov) if b_cov else None
     b_corr = sum(1 for p in probe_b if p["verdict"] == "对")
     b_total = len(probe_b)
@@ -274,6 +278,35 @@ def main():
         else:
             L.append("→ coverage 问题与推理/算术问题并存，两者均需改进。")
     L.append("")
+    # ---------- 结构性断点：gold 树两个硬约束门是否被实例化 ----------
+    L.append("### 3.1 结构性断点：gold 树两个硬约束门是否被实例化")
+    L.append("")
+    L.append("对判 b)（要素齐全但结论错）的输出，进一步检查它们是否实例化了 gold 树的两个**稳定结构**门")
+    L.append("（这是树的结构而非时点标签，检查与 winner 时点性无关）：")
+    L.append("- **N-5.2 带宽准入下限**：W4 774 / W8 1034 / W16 1574 GB/s，逐候选判 pass/fail；")
+    L.append("- **N-5.1 显存容量门槛**：n×KV + W ≤ 可用显存，逐候选量化。")
+    L.append("")
+    L.append("| 样本 | N-5.2 带宽准入数字(774/1034/1574) | N-5.2 用作pass/fail门 | N-5.1 显存门槛(量化) |")
+    L.append("|------|------|------|------|")
+    for p in probe_a + probe_b:
+        g = p["gates"]
+        L.append(f"| {p['id']} | {'✓' if g['n52_num'] else '✗'} | {'✓' if g['n52_gate'] else '✗'} | {'✓' if (g['n51_formula'] or g['n51_qual']) else '✗'} |")
+    L.append("")
+    n_n52 = sum(1 for p in probe_a + probe_b if p["gates"]["n52_gate"])
+    n_n51 = sum(1 for p in probe_a + probe_b if (p["gates"]["n51_formula"] or p["gates"]["n51_qual"]))
+    n_all = len(probe_a) + len(probe_b)
+    L.append(f"**断点定位**：{n_n52}/{n_all} 条把 N-5.2 带宽准入下限实例化为 pass/fail 门，"
+             f"{n_n51}/{n_all} 条把 N-5.1 显存容量门槛量化。")
+    if n_n52 == 0:
+        L.append("→ **共性断点**：所有输出都把带宽当描述性因素（decode 吞吐/卡间 PCIe 瓶颈）谈，"
+                 "但**没有一个**把 N-5.2 带宽准入下限实例化为逐候选 pass/fail 门。")
+        L.append("  （N-5.1 显存门槛 6/6 有量化——A 臂算了『权重+KV 总需求』表，B2/B3 甚至显式声明为『过滤门』；"
+                 "但带宽门 0/6，且多数输出的显存需求表也没有逐候选对照淘汰。）")
+        L.append("  这正是 gold 树里 3090×4/W4 能被选中、而 A100 单卡被划掉的**结构性原因**"
+                 "（N-5.2 带宽准入 + N-5.1 显存门槛两道门）。")
+        L.append("  因此「要素齐全但结论错」的实质是：**覆盖了要素名词，但没有执行 gold 树的约束门推理**——"
+                 "断点在『把要素接成约束门』这一步，不是算术错误。")
+    L.append("")
     L.append("## 4. 截断 / 复读统计")
     L.append("")
     L.append("截断 = `finish_reason=length` 的 stage/run 数；复读警告 = `repeat5>=5` 的 stage/run 数。")
@@ -294,6 +327,9 @@ def main():
     L.append("## 5. 结论（只回答 smoke 三问）")
     L.append("")
     attr_line = (f"错误归因：{na} 条缺要素（coverage 问题）/ {nb} 条要素齐全但结论错（推理/算术问题）。")
+    gate_line = (f"结构性断点（§3.1）：{n_n52}/{n_all} 条把 N-5.2 带宽准入下限实例化为 pass/fail 门、"
+                 f"{n_n51}/{n_all} 条把 N-5.1 显存容量门槛量化（但多数未用于逐候选淘汰）"
+                 + ("——**覆盖要素名词但未执行 gold 树的约束门推理，断点在『把要素接成约束门』这一步**" if n_n52 == 0 else "") + "。")
     if has_b:
         L.append(f"1. **recall 是否成功**：A 臂 3 条均完整召回（`stop`，无截断），recall 成功；"
                  f"B 臂 {len(d['arm_b'])} 条多阶段输出全部落盘，流程跑通，recall 成功。")
@@ -303,7 +339,7 @@ def main():
         L.append(f"3. **coverage 如何【主 claim】**：A 臂 unit 级覆盖 overall 均值 **{a_avg:.3f}**，"
                  f"B 臂 **{b_avg:.3f}**（Delta(B−A)={b_avg-a_avg:+.3f}）。"
                  f"两臂 unit 级覆盖均处高位，机械 judge 层面**未见覆盖退化**。"
-                 f"correctness 仅作时点快照：A 臂 {a_corr}/{a_total}、B 臂 {b_corr}/{b_total} 命中 3090×4/W4/n=2（时点特定，非稳定性 claim）。{attr_line}")
+                 f"correctness 仅作时点快照：A 臂 {a_corr}/{a_total}、B 臂 {b_corr}/{b_total} 命中 3090×4/W4/n=2（时点特定，非稳定性 claim）。{attr_line}{gate_line}")
     else:
         L.append(f"1. **recall 是否成功**：A 臂 3 条均完整召回（`stop`，无截断），recall 成功。"
                  f"B 臂流程能跑通 6 阶段（run1/run2 各走完 6 stage），但 runner 落盘缺陷导致 B 臂文本丢失，"

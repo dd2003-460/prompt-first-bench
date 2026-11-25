@@ -28,6 +28,26 @@ KEY_ELEMENTS = [
 CRITICAL = ["3090卡型", "W4/INT4精度", "多卡/4卡判断"]
 
 
+def check_gates(text):
+    """检查输出是否实例化了 gold 树的两个硬约束门（稳定结构，非时点标签）：
+    - N-5.2 带宽准入下限（W4 774 / W8 1034 / W16 1574 GB/s，逐候选 pass/fail）
+    - N-5.1 显存容量门槛（n×KV + W ≤ 可用显存，逐候选量化）
+    返回 dict，各项 bool。
+    """
+    n52_num = bool(re.search(r"(774|1034|1574)\s?GB", text, re.I))
+    n52_gate = n52_num and bool(re.search(
+        r"(pass|fail|准入|淘汰|划掉|不满足|低于).{0,80}(带宽|GB/s)|(带宽|GB/s).{0,80}(pass|fail|准入|淘汰|划掉|不满足)",
+        text, re.I | re.S))
+    n51_formula = bool(re.search(
+        r"(n\s*[×x*]\s*KV|KV\s*[+＋].{0,20}W|W\s*[+＋].{0,20}KV).{0,60}(≤|<=|显存)",
+        text, re.I | re.S))
+    n51_qual = bool(re.search(
+        r"显存.{0,30}(≥|>=|容纳|大于|需).{0,40}(权重|W\b).{0,30}KV|KV.{0,30}(Cache)?.{0,30}(显存|容量).{0,20}(需求|门槛|下限)",
+        text, re.I | re.S))
+    return {"n52_num": n52_num, "n52_gate": n52_gate,
+            "n51_formula": n51_formula, "n51_qual": n51_qual}
+
+
 def analyze_attribution(text, verdict):
     """对 correctness 判 错/无法提取 的输出做归因。
     返回 dict: covered/missing/crit_missing/category('a'|'b'|None)。
