@@ -35,7 +35,11 @@ STRONG_REC = re.compile(r"主推荐|首选|最终推荐|最终方案|推荐方�
 # v1 弱推荐语义兜底: 无 STRONG_REC 行时, 含 CFG4 的弱推荐行命中 winner → R_low=0
 #   防假阳性: winner 被评估+推荐但推荐语句无关键词(如"建议优先部署 4×RTX 3090")→ 误判 A3
 WEAK_REC = re.compile(r"建议|优先|推荐|部署|选用|采纳")
-NEG_REC = re.compile(r"不建议|不推荐|不采纳|不可行|淘汰|放弃|排除|否决")
+# 否定守卫: 覆盖"不X"(v1) + "未X"(v1.1) 两族否定, 防弱兜底把"否定 winner"误读为"推荐 winner"
+#   v1.1 补: "未采用 4×3090, 建议优先部署 2×4090" 这类行(否定 winner+推荐他项)
+#   若 NEG_REC 漏掉"未采用"→ 整行被误判为推荐 winner → 假 indeterminate(应 A3)
+NEG_REC = re.compile(r"不建议|不推荐|不采纳|不可行|淘汰|放弃|排除|否决"
+                     r"|未采用|未选择|未采纳|未部署|未选用|未推荐")
 EVAL_NUM = re.compile(r"t/s|tok/s|tokens?/s|TCO|成本|\$|元|/GB|分\b|\d+\s*W\b")
 # gold 数值锚（name, gold值, 数字正则, 语境正则, 语境窗口）← calc.py / gold-tree N-5.2
 # 语境要求防误报: "24 GB"(显存) 不误触 KV 锚; 1008 GB/s(4090) 不误触 936 锚(936 用精确值)
@@ -255,10 +259,11 @@ def cov_score(nodes):
 
 # ---------------- 扰动自测（判别规则的因果性，非 n=2 相关性） ----------------
 def selftest():
-    """9 断言: 基线 3(A1/A3/A2) + 变异 3 + 阳性对照 1 + A2 因果 1 + FP 边界刻画 1。
+    """11 断言: 基线 3(A1/A3/A2) + 变异 3 + 阳性对照 1 + A2 因果 1
+    + FP 边界已修 1(V7) + 否定守卫 2(V8 不X族 / V9 未X族)。
     全过 = 三型判别由探针因果驱动, 非对样本过拟合, 且不'全判病'。
-    V7 是特征化断言: 钉住 v0 已知假阳性(winner 评估+无关键词推荐→误判 A3),
-    v1 加弱推荐语义兜底后此项须故意翻成 indeterminate(改断言)。"""
+    V7 钉住 v0 假阳性已修(winner 评估+无关键词推荐→indeterminate, v1 兜底);
+    V8/V9 钉住否定守卫两族(不X/未X)——winner 被评估但被否定→仍 A3, 兜底不误救。"""
     samples = {n: t for n, t, _ in load_samples()}
     a0, a2 = samples["arm_a[0]"], samples["arm_a[2]"]
     results = []
@@ -302,6 +307,11 @@ def selftest():
     neg = "\n".join(lines) + "\n综上, 4×RTX 3090 成本过高, 不推荐, 建议优先部署 2×RTX 4090 方案。\n"
     r = judge_text(neg); results.append(("V8 否定守卫(winner评估+被否定)→仍A3[兜底不误救]",
                                          r["verdict"] == "A3", r["verdict"]))
+    # V9 否定守卫"未X"族(v1.1): winner 被评估但被"未采用"否定 → 兜底不应误救, 仍 A3
+    #   回归哨兵: 若 NEG_REC 漏掉"未X"否定族, 此项会翻成 indeterminate 报警
+    neg2 = "\n".join(lines) + "\n综上, 4×RTX 3090 功耗过高, 未采用, 建议优先部署 2×RTX 4090 方案。\n"
+    r = judge_text(neg2); results.append(("V9 否定守卫未X族(winner评估+未采用)→仍A3[v1.1]",
+                                          r["verdict"] == "A3", r["verdict"]))
     ok = all(p for _, p, _ in results)
     for name, p, got in results:
         print(f"  [{'PASS' if p else 'FAIL'}] {name} → {got}")
