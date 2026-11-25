@@ -35,14 +35,6 @@ _SM_SEED = int(_os.environ.get("SM_SEED", "-1"))
 if _SM_SEED >= 0:
     _random.seed(_SM_SEED)
 
-# Fix-A (T-REPAIR-1, 2026-11-24): value_mismatch 失败特征 —— 与
-# modules/B-pipeline-ablation/research/repair-closure-dryrun.py 的分类口径一致。
-# directed-fix 分支的路由条件: 有正式 contradiction_events, 或该特征命中节点失败
-# evidence → directed（对立方 = 节点自己检索到的来源）。此前只有正式 contradiction_events
-# 能触发 directed, 但矛盾扫描只扫 verified 节点而 rework 候选是本轮 unverified 节点
-# → directed 结构性不可达（语料 0 事件）。
-_RE_VALUE_MISMATCH = re.compile(r'不一致|不匹配|矛盾|虚构|版本不|数值.{0,6}不符|量级|mismatch|contradict', re.I)
-
 
 # ─────────────────────────────────────────────
 # 防泄漏
@@ -770,16 +762,6 @@ class DecompStateMachine:
                 continue
             node.rework_count += 1
             events = contra_idx.get(node.id, [])
-            if not events and _RE_VALUE_MISMATCH.search((node.evidence or "")[:80]):
-                # Fix-A: value_mismatch（来源存在但与 claim 冲突）同样路由 directed-fix,
-                # 对立方 = 节点自己的检索来源。no_source（检索失败/无来源）不命中该
-                # 特征 → 保持 angle, 基线口径不变。
-                # 口径 = evidence[:80]: 与 rework_events.reason 记录口径（本函数下方
-                # 记录的 node.evidence[:80]）及 repair-closure-dryrun.py 分类器完全一致,
-                # 保证 mode==directed 的事件集 ≡ 下游 value_mismatch 人口。
-                events = [{"a": node.id, "b": node.id, "self_conflict": True,
-                           "a_claim": node.claim[:80], "b_claim": "来源侧",
-                           "desc": "核验失败: 来源内容与 claim 冲突 (value_mismatch)"}]
             mode = "directed" if events else "angle"
             self.rework_events.append({
                 "node_id": node.id,
@@ -816,21 +798,11 @@ class DecompStateMachine:
             if not other:
                 continue
             a_node = by_id.get(ev["a"])
-            if ev.get("self_conflict"):
-                # Fix-A 自冲突: 对立方是节点自己的检索来源, 不是树内另一节点
-                _srcs = node.retrieval_sources or []
-                src_txt = "; ".join(str(s.get("title") or s.get("url") or "")[:60] for s in _srcs[:5])
-                blocks.append(
-                    f"claim侧 {ev['a']}: {ev['a_claim']}\n  evidence: {node.evidence[:200]}\n"
-                    f"来源侧（实际检索到的来源）: {src_txt or '（无来源）'}\n"
-                    f"矛盾描述: {ev['desc']}"
-                )
-            else:
-                blocks.append(
-                    f"节点A {ev['a']}: {ev['a_claim']}\n  evidence: {(a_node.evidence[:200] if a_node else '（缺失）')}\n"
-                    f"节点B {ev['b']}: {ev['b_claim']}\n  evidence: {other.evidence[:200]}\n"
-                    f"矛盾描述: {ev['desc']}"
-                )
+            blocks.append(
+                f"节点A {ev['a']}: {ev['a_claim']}\n  evidence: {(a_node.evidence[:200] if a_node else '（缺失）')}\n"
+                f"节点B {ev['b']}: {ev['b_claim']}\n  evidence: {other.evidence[:200]}\n"
+                f"矛盾描述: {ev['desc']}"
+            )
         prompt = prompts.contradiction_adjudication_prompt(blocks, node.id, node.claim)
         out, _ = _cll(prompt, max_tokens=1500, temperature=0.0, retries=2)
         d = _extract_json(out or "") or {}
