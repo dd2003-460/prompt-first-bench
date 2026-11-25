@@ -66,21 +66,58 @@ ERR_A3 = HEADER + (
     "备选: 4×3090/W4/n=2（c_pass 更低但供应稳定性差, 列次选）。\n"
 ) + TAIL
 
+# 5) CORRECT_TBL: 表格行格式(卡型/卡数分列)的正确答案——winner 评估行+推荐行均为表格
+CORRECT_TBL = (
+    "### 1. 可行配置枚举（两道门通过者, 按 c_pass 升序）\n"
+    "| 卡型 | 卡数 | 精度 | n | c_pass (¢/task) |\n"
+    "|---|---|---|---|---|\n"
+    "| RTX 3090 | 4 | W4 | 2 | 0.681 |\n"
+    "| V100 SXM2 | 4 | W4 | 2 | 0.761 |\n"
+    "| RTX 3090 | 4 | W8 | 2 | 0.764 |\n"
+    "\n### 2. 最优选卡方案\n"
+    "| **RTX 3090** | 4 | W4 | 2 | **0.681** | —（**最优选**） |\n"
+    "\n### 3. 淘汰原因\n"
+    "| RTX 3090 | 2 | W8 | 1 | 显存 25.85>24 装不下 |\n"
+    "| V100 SXM2 | 2 | W16 | 1 | 显存 39.35>32 装不下 |\n"
+    "\n【精度论证】W4 质量损失可接受 [待核验]。\n"
+    "【来源标注】936 GB/s / 24.7 GB/流 = 题面给定; c_pass = 按题面公式推导。\n"
+)
+
+# 6) ERR_A3_TBL: 表格行格式的 A3——winner(3090×4) 被完整评估(0.681)但推荐 V100
+#    (模拟 smoke 第一批 A 臂 run2 的真实形态, 含 gpu_price 单卡价误读口径)
+ERR_A3_TBL = (
+    "### 1. 可行配置枚举（两道门通过者, 按 c_pass 升序）\n"
+    "| 卡型 | 卡数 | 精度 | n | c_pass (¢/task) | 备注 |\n"
+    "|---|---|---|---|---|---|\n"
+    "| **V100** | 4 | W4 | 2 | **0.437** | —（**最优选**） |\n"
+    "| RTX 3090 | 4 | W4 | 2 | 0.521 | c_pass 更高 |\n"
+    "| RTX 3090 | 4 | W8 | 2 | 0.584 | c_pass 更高 |\n"
+    "\n### 2. 最优选卡方案\n"
+    "**V100 SXM2 × 4 卡 × W4 × n=2**, c_pass = 0.4374 ¢/task（全局最低）。\n"
+    "\n### 3. 淘汰原因\n"
+    "- **RTX 3090 W8/W16 2卡**：显存不足（W8 2卡需 25.85 GB/卡 > 24 GB）。\n"
+    "- **RTX 3090 所有配置**：算力和带宽均低于 V100, c_pass 全面劣势。\n"
+    "\n【精度论证】W4 质量损失可接受 [待核验]。\n"
+    "【来源标注】936 GB/s / 24.7 GB/流 = 题面给定; c_pass = 按题面公式推导。\n"
+)
+
 CASES = [("CORRECT", CORRECT, "indeterminate"),
          ("ERR_A1", ERR_A1, "A1"),
          ("ERR_A2", ERR_A2, "A2"),
-         ("ERR_A3", ERR_A3, "A3")]
+         ("ERR_A3", ERR_A3, "A3"),
+         ("CORRECT_TBL", CORRECT_TBL, "indeterminate"),
+         ("ERR_A3_TBL", ERR_A3_TBL, "A3")]
 
 fails = 0
 for name, text, want in CASES:
     j = judge_text(text)
     ok = j["verdict"] == want
     fails += (not ok)
-    print(f"{name:<9} 期望={want:<14} 实际={j['verdict']:<14} "
+    print(f"{name:<13} 期望={want:<14} 实际={j['verdict']:<14} "
           f"C={j['C']} E={j['E']} R_low={j['R_low']} P_A1={j['P_A1']} P_A3={j['P_A3']} "
           f"C2BP={j['C2BP']} {'✅' if ok else '❌'}")
 print()
 if fails:
-    print(f"FAIL — {fails}/4 误判: J1 判别器对 T8c 格式未就绪, 修判别器或改题面输出格式后再跑")
+    print(f"FAIL — {fails}/{len(CASES)} 误判: J1 判别器对 T8c 格式未就绪, 修判别器或改题面输出格式后再跑")
     raise SystemExit(1)
-print("PASS — J1 判别器对 T8c 题面输出格式 4/4 正确, smoke 三型标签可信")
+print(f"PASS — J1 判别器对 T8c 题面输出格式 {len(CASES)}/{len(CASES)} 正确(含表格行格式), smoke 三型标签可信")

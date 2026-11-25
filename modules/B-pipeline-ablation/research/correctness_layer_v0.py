@@ -30,8 +30,23 @@ CFG4 = re.compile(
     r"4\s*[×xX✕*]\s*(?:RTX\s*)?3090"
     r"|(?:RTX\s*)?3090\s*[×xX✕*]\s*4(?!\d)"
     r"|[4四]\s*(?:张|卡|块)\s*(?:RTX\s*)?3090"
-    r"|(?:RTX\s*)?3090\s+[4四]\s*(?:张|卡|块)")
-STRONG_REC = re.compile(r"主推荐|首选|最终推荐|最终方案|推荐方案|最佳方案|最优方案|综合推荐|最终结论|推荐：|推荐:")
+    r"|(?:RTX\s*)?3090\s+[4四]\s*(?:张|卡|块)"
+    r"|(?:RTX\s*)?3090[\s*]*\|\s*4\s*\|"
+    r"|\|\s*4\s*\|[\s*|]{0,12}?(?:RTX\s*)?3090")
+# v1.3 (2026-11-25, T8c smoke 第一批格式适配): 补表格行变体——模型把 卡型/卡数 分列
+#   输出(`| RTX 3090 | 4 | W4 |`, 常带 markdown 加粗 `**RTX 3090**`), 原 CFG4 只认内联
+#   `4×3090` → winner 评估行 E1=0 → A3 漏判(假 indeterminate)。安全性: 卡数限 2-4(题面),
+#   `\|\s*4\s*\|` 不会撞 40; 淘汰行(`| 3090 | 2 | W8 |`)卡数≠4 不命中; 即便命中也只增 E1
+#   (饱和在 1.0 无区分度, 设计文档 §轴E), R 轴只扫推荐行(STRONG_REC/WEAK_REC),
+#   淘汰行非推荐行 → 无误救。另: axis_e 表格模式(c_pass 表头存在时 CFG4 行即评估行,
+#   因数值列是纯数字行级 EVAL_NUM 不命中)+ STRONG_REC 补「最优选」(模型实际推荐词)。
+#   验证: selftest 11/11 无回归(T8b 样本无 c_pass 表头, 表格模式不触发)
+#   + t8c_judge_format_probe.py 6/6(新增表格格式 CORRECT/A3 样本)。
+STRONG_REC = re.compile(r"主推荐|首选|最终推荐|最终方案|推荐方案|最佳方案|最优方案|综合推荐|最终结论|推荐：|推荐:|最优选")
+# v1.3 补 最优选: T8c smoke 第一批模型推荐行用「最优选」(不在原 STRONG_REC), 缺则
+#   表格格式正确答案走 E1=0 中性路径(侥幸 indeterminate)而非「winner 被选中 R_low=0」路径。
+#   安全性: 否定守卫(NEG_REC)对 STRONG_REC 行同样生效; 「最优选」出现在非 winner 行时
+#   picked=False → R_low=1(A3 信号保持), 不误救。
 # v1 弱推荐语义兜底: 无 STRONG_REC 行时, 含 CFG4 的弱推荐行命中 winner → R_low=0
 #   防假阳性: winner 被评估+推荐但推荐语句无关键词(如"建议优先部署 4×RTX 3090")→ 误判 A3
 WEAK_REC = re.compile(r"建议|优先|推荐|部署|选用|采纳")
@@ -113,9 +128,15 @@ def axis_c(text):
 
 # ---------------- 轴 E: 评估完整性（A3 诊断轴） ----------------
 def axis_e(text):
-    """E = 0.5*E1 + 0.5*E2。E1: 4×3090 配置评估行; E2: 3090 规格行(非否定)。"""
+    """E = 0.5*E1 + 0.5*E2。E1: 4×3090 配置评估行; E2: 3090 规格行(非否定)。
+    v1.3 表格模式: 若文本含 c_pass 表头行(列签名在表头而非每行), 则含 CFG4 的行
+    即视为评估行(数值列是纯数字, 行级 EVAL_NUM 不命中)。散文/无表头文本走原逻辑。"""
     lines = text.split("\n")
-    e1_rows = sum(1 for ln in lines if CFG4.search(ln) and EVAL_NUM.search(ln))
+    table_mode = bool(re.search(r"c_pass\s*[（(]¢/task[）)]", text))
+    if table_mode:
+        e1_rows = sum(1 for ln in lines if CFG4.search(ln))
+    else:
+        e1_rows = sum(1 for ln in lines if CFG4.search(ln) and EVAL_NUM.search(ln))
     e1 = min(e1_rows / 2.0, 1.0)
     e2_rows = 0
     for ln in lines:
