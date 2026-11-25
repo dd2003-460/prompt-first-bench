@@ -275,5 +275,7 @@ research-agi-budget（D 硬件条件下，预算控制 AI 在 Pareto 边界上�
 - **设计**：（2×2 析因 Fix-A directed可达 × Fix-B re-entry, budget=300 Q6, n=3/臂, 预测 P-A/P-B/P-A+B）
 - **依据**：workshop §5 implication-1（repair 是唯一还开着的高杠杆, 当前 3.7%）
 - **执行器**：t-repair1-4arm.sh（commit 71c3c5358+481fb91c7）——序列 baseline→A→A+B→B（每步 commit 留痕, 审计链 H0(0,0)→H_A(1,0)→H_AB(1,1)→H_B(0,1)→restore(0,0)）；每臂独立 SM_CKPT_DIR 防陈旧子树；同 SM_SEED=42；marker 校验 + py_compile 门禁 + 失败即中止；收尾 restore-commit 保审计链线性。临时 repo 干跑验证：终态 SM 逐字节还原（md5 44f6c4b5）。
-- **时序**：队列(4 步, ~2-4h) → T-REPAIR-1 4 臂(12 runs × ~45min ≈ 9h)
+- **分析**：t-repair1-analysis.py（commit b6ec6059e+46d6c8d6f）——节点级修复率+bootstrap CI+TOST+P-A/P-B/P-A+B 机械判别；rc 感知（executor log 解析 per-rep rc, 失败 rep 排除防旧文件冒充）；6+2 单测过。watcher t-repair1-postcheck.sh 自动跑。
+- **Prereg 效度注记（11-25 分析前核查）**：Q6-300 基线 rework 事件 mode 全 angle(167), value_mismatch=0 → P-A 主判别在 Q6 域分母=0 不可直接测，降级间接观察。**Follow-up（不阻塞本批）**：P-A 正式测需 gpu 域补 4 臂（gpu 域 value_mismatch 分母>0，80-run corpus 基线 2.4%=22/932）；另注意搜索降级条件下 rework 事件构成可能漂移（no_source 占比升），跨批对比带 caveat。
+- **时序**：队列(4 步, ~2-4h) → T-REPAIR-1 4 臂(12 runs × ~45min ≈ 9h) → 自动分析
 
