@@ -186,8 +186,10 @@ N-5.2 带宽门与 c_pass 的 decode 项**代数同构**（t8b-smoke-report.md �
 - [ ] **题面自洽验证**：`python3 tasks/think-trigger/exp-results/t8c_spec_selfcheck.py` exit 0
       且打印 `PASS`（参数从 §4 题面独立转录、不 import calc.py，防题面笔误；
       2026-11-25 实跑 PASS：winner=3090×4/W4/n=2 ✅ c_pass=0.6807≈0.681 ✅ 淘汰 5/5 ✅）。
-- [ ] **题面冻结**：§4 题面正文冻结 commit hash = `2c16f644f`（§3/§4/§5 落盘 commit；
-      其后仅本清单 hash 行回填，题面正文未动）。
+- [ ] **题面冻结**：§4 题面正文冻结 commit hash = `dfb59aa9b`（第 4 处歧义消解后重冻：
+      `gpu_price` 增补显式定义=单价×n_cards 整机总价；初版冻结 `2c16f644f` 的 smoke 第一批
+      两臂 6/6 全读成单卡价致 winner 翻转，数据作废归档 `invalid-runs/`，见
+      `invalid-runs/NOTE-ambiguity4.md`）。判据冻结 `8c168c2a4` 不变（判据不依赖题面 hash）。
 - [ ] **预注册冻结**：`t8c-preregistration.md` 判据 commit hash = `8c168c2a4`
       （§2 power + §3 判据 + §4 决策规则，先于 T8c 任何数据 commit）。
 - [ ] **两臂 prompt 模板**：
@@ -204,7 +206,7 @@ N-5.2 带宽门与 c_pass 的 decode 项**代数同构**（t8b-smoke-report.md �
       修了 v1.2：EVAL_NUM 补 c_pass/¢/task/每任务（T8c 评估签名是 c_pass 表，缺则 A3 漏判）。
 - [ ] **runner 改造点（已建已核 2026-11-25）**：`run_exp_t8b.py` 硬编码旧题面（L14-18 `Q`=32K/自行搜索/
       宽性价比）与 `MAX_A=16384`（L10）——**已新建 `run_exp_t8c.py`**：`Q` = §4 冻结题面全文
-      （AST 抽取与 spec §4 围栏块逐字比对 MATCH，1671 字符）、`MAX_A=24576`、`MAX_B=4096` 不变、
+      （AST 抽取与 spec §4 围栏块逐字比对 MATCH，1741 字符，含 gpu_price 定义行）、`MAX_A=24576`、`MAX_B=4096` 不变、
       `STAGES` 六阶段指令复用 T8b 不动、Arm A' user message = 题面全文（不拼 DIRECT 后缀，
       §4 输出要求已含来源标注条款）、输出 `raw_outputs_t8c.json` + `t8c_stages/` sidecar。
       不得直接改 T8b 脚本（T8b 数据可追溯性）。
