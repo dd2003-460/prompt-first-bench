@@ -1,0 +1,1 @@
+../../tasks/idea53-goal/collision-final-paper-firstpass-20261125.md

@@ -1,0 +1,1 @@
+../../tasks/idea53-goal/paper.md
