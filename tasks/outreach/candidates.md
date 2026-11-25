@@ -456,11 +456,11 @@
 - 合作角度（推断）：其 elicitation 策略矩阵可作 pfb judge 置信度采集的对照设计
 - 优先级：中 — 不确定性测量方向
 
-### S. Kadavath / T. Conerly / A. Askell 等（Anthropic 署名本地未存，机构 [待核验]）
-- 代表工作：Language Models (Mostly) Know What They Know (arXiv:2207.05221)（出处：paper-draft.md ref 4）
-- 连接点：P(IK) 自评校准——pfb 的"模型自知分解质量"假设的理论锚点
-- 合作角度（推断）：P(IK) 框架可形式化 pfb 中"judge 自知力"的测量
-- 优先级：中 — 自知力理论锚点
+### S. Kadavath / T. Conerly / A. Askell 等（机构 [待核验]）
+- 代表工作：Language Models (Mostly) Know What They Know (arXiv:2207.05221)（出处：paper-draft.md ref 4 + L49；stages/02/research.md 核验 E2）
+- 连接点：paper-draft.md L49 将其与 Xiong 并列引用于"LLMs 普遍过度自信"——pfb 的 M2 置信度测量正针对该过度自信问题
+- 合作角度（推断）：其自评置信度方向与 pfb 的 M2 同域，可作 pfb 置信度测量的对照基线
+- 优先级：中 — 过度自信/自评置信度方向
 
 ### S. Lin / J. Hilton / O. Evans（机构 [待核验]）
 - 代表工作：Teaching Models to Express Their Uncertainty in Words (arXiv:2205.14334, TMLR 2022)（出处：paper-draft.md ref 19）
@@ -475,16 +475,16 @@
 - 优先级：低 — 方法学相邻
 
 ### L. Meyer / S. Rossi / W. Chen / T. Laurent / Y. Li（机构 [待核验]）
-- 代表工作：An Analysis of Training-Free Self-Reported Confidence in Language Models (arXiv:2609.20541)（出处：paper-draft.md ref 22）
-- 连接点：免训练自评置信度分析——与 pfb 的 judge 置信度噪声地板（±0.10）直接可比
-- 合作角度（推断）：其置信度分解项可并入 pfb 的 judge 可靠性诊断
+- 代表工作：An Analysis of Training-Free Self-Reported Confidence in Language Models (arXiv:2609.20541)（出处：paper-draft.md ref 22 + L51；stages/02/research.md N20）
+- 连接点：本地口径（N20）= 同批 TriviaQA 上对比 verbalized / P(True) / 3-sample agreement 三信号：verbalized 最强（AUROC 0.956/0.937）、三样本一致性明显更弱（0.765/0.790），且 3 次采样放大共有误解——直接解释 pfb M2 在 S6 跳到 0.618 而 S0 仅 0.037
+- 合作角度（推断）：其三信号对比框架可作 pfb 置信度信号选择的对照设计
 - 优先级：中 — 自评置信度同域
 
 ### Y. Xu / A. Wang / J. Ren 等（机构 [待核验]）
-- 代表工作：Iterative Synergy Between Verbalized Reasoning and Hidden Features for LLM Confidence Estimation (arXiv:2609.34454)（出处：paper-draft.md ref 23）
-- 连接点：verbalized reasoning × hidden features 的置信度融合——pfb 的 judge 双通道（文本+logprob）同构
-- 合作角度（推断）：其融合策略可作 pfb judge 置信度通道的消融对照
-- 优先级：低 — 置信度融合细节
+- 代表工作：When Words Fall Short: Iterative Synergy Between Verbalized Reasoning and Hidden Features for LLM Confidence Estimation (arXiv:2609.34454)（出处：paper-draft.md ref 23 + L51；stages/02/research.md N21）
+- 连接点：本地口径（N21）= 反方证据：内置 confidence estimator 可显著优于 verbalized confidence；paper-draft.md L51 引其"post-retrieval evidence confidence 优于 post-answer verbalized"——pfb 的 M2 是 verbalized 路线，该结论直接约束 pfb 置信度读数的上界
+- 合作角度（推断）：其"语言置信度非上界"结论可作为 pfb M2 提升归因（prompt 层效应 vs 内部读出）的对照
+- 优先级：中 — verbalized 置信度上界的反方证据
 
 ### S. Es / J. James / L. Espinosa-Anke / S. Schockaert（机构 [待核验]）
 - 代表工作：RAGAs (arXiv:2309.15217, EACL 2024 Demo)（出处：paper-draft.md ref 24）
@@ -493,15 +493,15 @@
 - 优先级：中 — 引用门交叉验证
 
 ### J. Saad-Falcon / O. Khattab / C. Potts / M. Zaharia（机构 [待核验]）
-- 代表工作：ARES (arXiv:2311.09476, NAACL 2024)（出处：paper-draft.md ref 25）
-- 连接点：LLM-as-judge 的 RAG 自动评测——pfb 的 dual-judge 可靠性问题与其 judge 校准问题同域
-- 合作角度（推断）：其 judge 蒸馏/校准方法可迁移到 pfb 的 judge 可靠性测量
+- 代表工作：ARES (arXiv:2311.09476, NAACL 2024)（出处：paper-draft.md ref 25；stages/02/research.md N13）
+- 连接点：本地口径（N13）= 用合成训练数据微调轻量 judge + PPI 校正，是"用 LLM 当评测器但要纠偏"的范式——与 pfb 的 dual-judge 可靠性同题
+- 合作角度（推断）：其 PPI 校正方法可迁移到 pfb 的 judge 可靠性纠偏
 - 优先级：中 — judge 校准同域
 
 ### D. Ru / L. Qiu / X. Hu 等（机构 [待核验]）
-- 代表工作：RAGChecker (arXiv:2408.08067, NeurIPS 2024 D&B)（出处：paper-draft.md ref 26）
-- 连接点：细粒度 RAG 诊断（factual correctness/consistency/noise sensitivity）——pfb 的 M1 assertion-set 评测同粒度
-- 合作角度（推断）：其噪声敏感性维度可并入 pfb 的 gold 完整性诊断
+- 代表工作：RAGChecker (arXiv:2408.08067, NeurIPS 2024 D&B)（出处：paper-draft.md ref 26；stages/02/research.md N14）
+- 连接点：本地口径（N14）= 把检索与生成分开诊断的细粒度指标（claim-level precision/recall）——与 pfb S7V 的 claim-level 验证同构
+- 合作角度（推断）：其 claim-level 指标可作 pfb S7V 验证的对照坐标系
 - 优先级：低 — 诊断维度相邻
 
 
@@ -513,9 +513,9 @@
 - 优先级：低 — 方法学参照
 
 ### E. Miller（机构 [待核验]）
-- 代表工作：Adding Error Bars to Evals: A Statistical Approach to LM Evaluations (arXiv:2411.00640)（出处：paper-draft.md ref 31）
-- 连接点：eval 误差棒的统计方法——pfb 的 ±0.10 噪声地板与 n=5 功效限制正是其问题域
-- 合作角度（推断）：其 bootstrap/CI 方法可直接用于 pfb 的 arm 效应显著性检验
+- 代表工作：Adding Error Bars to Evals: A Statistical Approach to LM Evaluations (arXiv:2411.00640)（出处：paper-draft.md ref 31；modules/F-theory/research/interpretability/literature-survey.md 条目 3-7）
+- 连接点：本地口径 = 聚类 SE 可比朴素 SE 大 3 倍以上、比较两配置必须做 item-level 配对差、给出功效公式（δ、α、β→n）——pfb 的 n=5 功效限制与 ±0.10 噪声地板正是其问题域
+- 合作角度（推断）：其功效公式可直接算出 pfb 各 arm 效应所需最小 n，配对差方法可重做 pfb 的 S1→S5 比较
 - 优先级：高 — pfb 统计层最直接的方法学供给者
 
 ### C. Park / J. Yoon / S. Han / H. Moon / H. Lim（机构 [待核验]）
@@ -579,9 +579,9 @@
 - 优先级：低 — 效度细节
 
 ### N. Schwager / S. Münker / A. Plum / A. Rettinger（机构 [待核验]）
-- 代表工作：Token Probabilities as Confidence Estimators: A Calibration Study (arXiv:2611.07735, WNUT 2026)（出处：paper-draft.md ref 42）
-- 连接点：token prob 作置信度估计的校准——pfb 的 logprob 通道同方法
-- 合作角度（推断）：其校准曲线可作 pfb logprob 通道的校准参照
+- 代表工作：Token Probabilities as Confidence Estimators: A Calibration Study (arXiv:2611.07735, WNUT 2026)（出处：paper-draft.md ref 42 + L51）
+- 连接点：本地口径（L51）= open-weight logprobs 随规模退化（ECE 0.20→0.006 需微调）——pfb 的 M2 走 verbalized 路线，该结论支持 pfb 不依赖 logprob 通道的选择
+- 合作角度（推断）：其 logprob 退化结论可作 pfb 坚持 verbalized 路线的依据佐证
 - 优先级：低 — 校准细节
 
 ## D. 目标函数 / reward / 压缩（pfb 理论层交叉域）
@@ -722,7 +722,7 @@
 
 ## 汇总
 
-- 候选总数：**117 条**（高 18 / 中 45 / 低 54；其中 Y. Du 一条为指向 B 节 M. Du 的合并指针，实际唯一人/团队 116；4 个团队作者名单本地不全标 [待核验]：SA-Scheduler、AMALI、OPPO OpenResearcher、阿里 Tongyi DeepResearch；另有多处仅存单名/et al./匿名团队）
+- 候选总数：**117 条**（高 18 / 中 46 / 低 53；其中 Y. Du 一条为指向 B 节 M. Du 的合并指针，实际唯一人/团队 116；4 个团队作者名单本地不全标 [待核验]：SA-Scheduler、AMALI、OPPO OpenResearcher、阿里 Tongyi DeepResearch；另有多处仅存单名/et al./匿名团队）
 - 覆盖本地文献 16 份（见文件头）
 - 机构可证 4 处：ScientistTwo=Google Cloud AI Research（scientisttwo-comparison.md）、TRUST=浙大/乔治华盛顿（trust-2611.10787-note.md）、BATS=UCSB/Google/NYU（objective-function-priorart-SNOWBALL-T51.md）、Eureka= NVIDIA/UPenn（longterm-vision-survey.md §L1）；其余机构一律 [待核验]
 - 邮箱：本地文献无任何邮箱信息，全部 [待核验]（discover 阶段不联网，不补）
