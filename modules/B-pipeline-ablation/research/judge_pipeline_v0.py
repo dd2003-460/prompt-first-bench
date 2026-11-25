@@ -328,6 +328,52 @@ def _alignment_evidence(results):
     return lines
 
 
+# ---------- 回归守卫: 口径对齐 selftest ----------
+
+SELFTEST_EXP = {
+    "runs-s5-sm-gpu": ("cov", 0.389, 0.01),
+    "raw_outputs_t8b.arm_a[0]": ("verdict", "A1", None),
+    "raw_outputs_t8b.arm_a[1]": ("verdict", "A2", None),
+    "raw_outputs_t8b.arm_a[2]": ("verdict", "A3", None),
+    "raw_outputs_t8b.arm_b[0]": ("verdict", "A2", None),
+    "raw_outputs_t8b.arm_b[1]": ("verdict", "A2", None),
+    "raw_outputs_t8b.arm_b[2]": ("verdict", "A2", None),
+}
+
+
+def selftest():
+    """口径对齐回归守卫: 一条命令复验 S5 cov≈0.389 + T8b 6 verdict (J1 基准)。
+    改动 correctness_layer / judge_v1 / 抽取逻辑后跑本命令, 漂移立刻被抓 (exit 1)。
+    只跑 S5+T8b (7 样本, 快), 不含 S0 (10 样本, 慢)。"""
+    from sentence_transformers import SentenceTransformer
+    t0 = time.time()
+    model = SentenceTransformer(MODEL_NAME)
+    paths = [STOCK_S5, STOCK_T8B]
+    results = []
+    for path in paths:
+        for sid, kind, payload, note in load_samples(path):
+            payload["kind"] = kind
+            results.append(score_sample(sid, payload, "gpu", model))
+    fails = []
+    for sid, (field, exp, tol) in SELFTEST_EXP.items():
+        r = next((x for x in results if x["sample"] == sid), None)
+        if r is None:
+            fails.append(f"{sid}: 样本缺失"); continue
+        if field == "cov":
+            ok = abs(r["cov"] - exp) <= tol
+            got = f"{r['cov']:.4f}"
+        else:
+            ok = r["verdict"] == exp
+            got = r["verdict"]
+        mark = "PASS" if ok else "FAIL"
+        print(f"  [{mark}] {sid}: {field}={got} (期望 {exp}{f'±{tol}' if tol else ''})")
+        if not ok:
+            fails.append(f"{sid}: {field}={got} != {exp}")
+    print(f"selftest: {'ALL PASS' if not fails else f'{len(fails)} FAIL: {fails}'} "
+          f"({time.time()-t0:.1f}s)")
+    return 0 if not fails else 1
+
+
 def main():
     ap = argparse.ArgumentParser(description="judge_v1 + correctness_layer_v0 联合打分入口")
     ap.add_argument("files", nargs="*", help="run 文件路径(任意 schema)")
@@ -336,7 +382,12 @@ def main():
     ap.add_argument("--outdir", default=_HERE, help="输出目录")
     ap.add_argument("--no-md", action="store_true", help="不写 md")
     ap.add_argument("--md-title", default=None)
+    ap.add_argument("--selftest", action="store_true",
+                    help="口径对齐回归守卫: 复验 S5 cov≈0.389 + T8b 6 verdict (J1 基准), 漂移 exit 1")
     a = ap.parse_args()
+    if a.selftest:
+        import sys as _sys
+        _sys.exit(selftest())
     paths = list(a.files)
     if a.preset:
         paths += preset_paths(a.preset)
