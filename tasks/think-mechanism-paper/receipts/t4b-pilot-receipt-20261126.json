@@ -1,0 +1,89 @@
+{
+ "kind": "t4b_pilot_receipt",
+ "observed_at": "2026-11-26T00:51:12+08:00",
+ "task": "TASK-T4b-pilot.md",
+ "endpoint": "http://127.0.0.1:8787/v1/chat/completions",
+ "model": "qwen3.8-27b-mtp",
+ "runs_ok": "10/10",
+ "errors": 0,
+ "scores": {
+  "A_baseline": "3/5",
+  "B_treatment": "5/5",
+  "per_cell": {
+   "P1A": 0,
+   "P1B": 1,
+   "P2A": 1,
+   "P2B": 1,
+   "P3A": 1,
+   "P3B": 1,
+   "P4A": 1,
+   "P4B": 1,
+   "P5A": 0,
+   "P5B": 1
+  }
+ },
+ "finish_reason_distribution": {
+  "length": 9,
+  "stop": 1
+ },
+ "deliverables": {
+  "runs.json": {
+   "path": "tasks/think-mechanism-paper/pilot/runs.json",
+   "sha256": "e2e76804b62b424885239644a29767dcc52d598843d2ae55dbc9ee2d16274863",
+   "runs": 10,
+   "all_status_ok": true
+  },
+  "audit-rubric.md": {
+   "path": "tasks/think-mechanism-paper/pilot/audit-rubric.md",
+   "sha256": "63f345f0787715bb85507f981c91e821f0be741c95071c7d97b8ae1a78cc8e92"
+  },
+  "results.md": {
+   "path": "tasks/think-mechanism-paper/pilot/results.md",
+   "sha256": "4d34944c729b3b410051d073ff52d61918612eb7189ff9e15fcf96b5db217d83",
+   "has_truncation_limitation": true,
+   "has_interpretation_section": true
+  }
+ },
+ "no_fabrication_audit": {
+  "raw_api_responses": [
+   "P1-A.json",
+   "P1-B.json",
+   "P2-A.json",
+   "P2-B.json",
+   "P3-A.json",
+   "P3-B.json",
+   "P4-A.json",
+   "P4-B.json",
+   "P5-A.json",
+   "P5-B.json"
+  ],
+  "spot_checked_raw_vs_runs_json": [
+   "P1-A",
+   "P5-B"
+  ],
+  "method": "raw/<run_id>.json choices[0].message.content == runs.json full_text (byte-equal)"
+ },
+ "constraints_honored": {
+  "serial_with_1s_gap": true,
+  "incremental_append_per_run": true,
+  "retry_policy": "2 retries, none triggered",
+  "paper_tex_untouched": true
+ },
+ "incident_note": "首轮 10 run（00:42-00:45）产物在 00:47 仓库树重写中被清除（pilot/ 与 receipts/ 为未跟踪目录，未入 git/stash；T5 t5-timestamp-lock.sh 的 prep 未执行，孤儿分支不存在）。本回执为 00:50 起重跑的产物；端点/参数不变，分数按新采样计。",
+ "known_caveats": [
+  "n=1/cell, single model, no statistical test (declared in results.md limitations)",
+  "9/10 outputs truncated at max_tokens=1500; rubric scored truncated text (results.md limitation #6)",
+  "mechanical keyword/structure rubric, not a quality score"
+ ],
+ "out_of_scope_observations": [
+  "00:47 树重写后 main 工作树中 tasks/think-mechanism-paper/ 仅剩 t5-timestamp-lock.sh；draft/paper.tex、paper.pdf、number-trace.md、revision-log.md 不在工作树（git ls-tree HEAD 为空）。",
+  "完整项目树存在于分支 thinkmech-review（含 draft/paper.tex 及 _sec/ 分节文件）。",
+  "pfb 仓处于未解决 merge 状态（git status 有 DU 冲突条目）——subagent 未触碰。",
+  "风险：t5-timestamp-lock.sh prep 会因 MISSING paper.tex/paper.pdf 等失败，直至 Lead 恢复这些文件或解决 merge。pilot 4 文件（runs.json/results.md/audit-rubric.md/scores.json）已由本 subagent 重跑落盘，prep 的 pilot 侧输入齐全。"
+ ],
+ "durability": {
+  "backup_copy": "/Users/a1-6/Desktop/workspace/t4b-pilot-backup-20261126/ (verified byte-equal to pfb deliverables)",
+  "git_commit": "e73215d7 (outer workspace repo, scoped to backup dir only; pfb repo untouched — mid-merge)",
+  "pfb_repo_status": "deliverables untracked in pfb (mid-merge, commit deferred to Lead)"
+ }
+}
