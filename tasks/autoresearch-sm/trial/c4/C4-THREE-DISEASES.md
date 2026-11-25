@@ -88,3 +88,19 @@ ESCALATE_HUMAN_AT=4 均未触及) — 每轮有新发现, 计数器行为正确�
 | ① 陷入局部 | 7 轮 finding 记账, stale 峰值 0, pivot 未触发 (每轮有新发现, 正确) | 计数器正确; 触发路径未实测 |
 | ② 无常设批判 | verdict=WARN, still_unresolved=1 (major), 3/5 点已化解 | 协议可跑通; 双线程同模型, 独立性受限 |
 | ③ 失效不传播 | 副本 resume→VERIFY, 真实 resume→COMPLETE, 2/2 符合预期 | 状态机行为符合设计; 无自动失效检测器 |
+
+## Lead 验收修正 (2026-11-25, 作用域核对)
+
+**P_4 (ID3/C4.5 定位缺失, major) 在 paper 层面已被化解** — kill-argument 的作用域是
+trial/ 的 6 份复算材料, 这些材料确实不含 related work; 但 paper 正文已引 ID3
+(Quinlan 1986) 并含对照表:
+- tasks/idea53-goal/manuscript-scoped/paper-zh.md:83 (ID3 行: 数据分布/分裂属性/需数据)
+- tasks/idea53-goal/manuscript-scoped/paper-en.md:83 (同表英文版)
+- tasks/idea53-goal/manuscript-scoped/paper-zh-additive-tree.tex:239,248
+  ("信息增益（ID3，Quinlan 1986）…都是既有工具，本文不主张它们新" + 对照表)
+
+**修正后判定**: verdict=WARN 在 trial/ 材料范围内机械成立 (映射表输入未变), 但
+**paper 层面的 major 缺口 = 0** — P_4 是"复算回执未附 related work"的材料范围问题,
+非 paper 缺陷。kill-argument 下次对 paper 级 claim 审时, 材料清单必须含
+manuscript-scoped/ 的 related work 节, 否则会重复产生此类假 major。
+(本条本身即病③的实例: 批判产出的 major 点被 paper 既有证据推翻, 修正落盘传播。)

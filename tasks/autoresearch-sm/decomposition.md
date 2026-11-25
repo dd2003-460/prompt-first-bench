@@ -26,7 +26,7 @@ ARIS 件接入
 | C2 | 6 批判 prompt 提取→任务书模板 | sub | 完成(同 C1) | 6 模板落盘 prompts/ + 黑白名单+映射表 |
 | C3a | idea53 数字复算+状态机驱动（executor 半） | sub | 完成(deleg_dfb37a94, 6ac87dafc→2b545def8) | TRIAL-RECEIPT.md + 7 条 finding + acceptance-request.md；重算 ALL_MATCH |
 | C3b | 验收半（accept 落库） | Lead | 完成(f0bd0f636) | 两 phase accepted (deterministic:lead-verify)；run→COMPLETE |
-| C4 | 验收 vs 三个病 | Lead | 下一步 | 三病各一个可测数字 |
+| C4 | 验收 vs 三个病 | Lead | 完成(deleg_10fb47d3, 95d3fbfc1+bc46b0174; Lead 修正落盘) | 三病各一个可测数字 (C4-THREE-DISEASES.md)；P_4 假 major 已修正 (paper 已引 ID3) |
 | B1 | 自建 MVP（备选） | 待定 | 阻塞: C 试完 | 见 SM-PROPOSAL §5 |
 | U1 | 直装 Claude Code 对照 | 待定 | 阻塞: C 跑顺+D 确认订阅 | — |
 
@@ -37,6 +37,6 @@ C1=脚本层（引擎无关 .py），C2=prompt 层（批判协议），C3=集成
 - ~~C1+C2 sub 在途~~ 完成 (70376e4bd)
 - ~~C3a 试跑~~ 完成 (deleg_dfb37a94, 6ac87dafc→2b545def8)；第一次派发 502 挂 (deleg_43186cdd)，第二次带饱和度预检通过
 - ~~C3b 验收~~ 完成 (f0bd0f636)：**验收通道偏离任务书**——原计划 arena 跨族 LLM，实际用 deterministic 通道（纯闭式计算 claim，确定性核验更强且合规；run_state.py 内置该通道，C3b-verdict.md 记录了理由）
-- C4 待做：三病各一个可测数字（打转轮数=iteration_log stale 轨迹；批判拦截=kill-argument 未跑→缺口；claim 失效传播=未测→缺口）
-- kill-argument 批判本轮未跑（C3b 范围收窄为 accept 落库）——C4 时补，或并入下一个真实任务
+- ~~C4~~ 完成 (deleg_10fb47d3, 95d3fbfc1+bc46b0174)：三病可测数字落盘 C4-THREE-DISEASES.md；Lead 验收修正 P_4 假 major（paper 已引 ID3 Quinlan 1986 + 对照表，kill-argument 材料范围太窄所致）
+- 剩余缺口（不阻塞闭环结论，C5 候选）：① pivot 触发路径未实测（需受控副本注入 ≥2 轮零 finding）② kill-argument 双线程同模型，独立性弱于原设计 ③ 无自动失效检测器（病③只证明了状态回退会传播，没证明谁去触发回退）④ kill-argument 对 paper 级 claim 审时材料清单须含 related work 节
 - D 是否有 Claude 订阅未知（只影响 U1 对照）
