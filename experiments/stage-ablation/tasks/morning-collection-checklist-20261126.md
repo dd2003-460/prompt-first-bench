@@ -81,5 +81,6 @@ for p in 15606 19059 36173 43915; do kill -0 $p 2>/dev/null && echo "$p STILL AL
 
 - 19:20 交叉验证手工补做（析因脚本头部声称的"stats.json 交叉验证 + q6-300 外部参照"代码未实现, 只写在注释——文档/实现落差, 明早不改脚本, 手工补）：
   ① stats.json vs 手工重算（从 runs json）：**8/8 runs 全对上**（n_rc_pos/n_verified/repair_rate 逐项一致, baseline 0.060/0.039/0.061, fixA 0.048/0.012/0.046, fixAB 0.013/0.021）→ 数据管道无损坏。
-  ② **judge.err="No module named 'sentence_transformers'" 全 8 rep**：已知坑（4e9c175db, 后台 PATH 缺用户 python 目录）, 且 t-repair1-analysis.py 0 处引用 judge → **不影响主析因**。若要语义 judge 分, 明早用用户 python 手动跑 judge_v1 补（次要, 非 gate）。
+  ② **judge.err="No module named 'sentence_transformers'" 全 8 rep**：已知坑（4e9c175db, 后台 PATH 缺用户 python 目录）, 且 t-repair1-analysis.py 0 处引用 judge → **不影响主析因**。**域错配定性（19:22）**：judge_v1 的 gold 是 GPU 域（gold-gpu-units.json 36 units, COS_THRESHOLD 0.70 按 GPU gold 标定）, T-REPAIR-1 是 Q6-network-arch → 覆盖层 cosine 对 Q6 节点无效, judge 成功分数也无意义。**judge 缺口非真缺口, 明早不用补**（域错配 + 析因不依赖双保险）。
   ③ q6-300 外部参照（11-23 未修改 SM 3 reps）文件齐全, 但析因未纳入 → 明早如需"同日跨臂 vs 跨日同臂"方差对照, 手工算。
+- 19:24 **跨日复现性对照（手工算, 效度点正式确立）**：q6-300 (11-23) rr=0.059/0.042/0.098, degraded=47/63/50 vs baseline (今天) rr=0.060/0.039/0.061, degraded=47/60/55。同 SM 同题隔两天同带 → **baseline 跨日复现, 4 臂析因的臂间差异可归因于 Fix 而非 baseline 漂移**。"verify 标准 × L4 经验常数结构性不兼容"的墙（degraded 47-63 量级）跨日稳定。
