@@ -278,4 +278,5 @@ research-agi-budget（D 硬件条件下，预算控制 AI 在 Pareto 边界上�
 - **分析**：t-repair1-analysis.py（commit b6ec6059e+46d6c8d6f）——节点级修复率+bootstrap CI+TOST+P-A/P-B/P-A+B 机械判别；rc 感知（executor log 解析 per-rep rc, 失败 rep 排除防旧文件冒充）；6+2 单测过。watcher t-repair1-postcheck.sh 自动跑。
 - **Prereg 效度注记（11-25 分析前核查）**：Q6-300 基线 rework 事件 mode 全 angle(167), value_mismatch=0 → P-A 主判别在 Q6 域分母=0 不可直接测，降级间接观察。**Follow-up（不阻塞本批）**：P-A 正式测需 gpu 域补 4 臂（gpu 域 value_mismatch 分母>0，80-run corpus 基线 2.4%=22/932）；另注意搜索降级条件下 rework 事件构成可能漂移（no_source 占比升），跨批对比带 caveat。
 - **时序**：队列(4 步, ~2-4h) → T-REPAIR-1 4 臂(12 runs × ~45min ≈ 9h) → 自动分析
+- **进度核验（2026-11-25 15:45, subagent）**：4/12 reps 完成（baseline r1-3 + fixA r1，全 rc=0），t-repair1-stats.json 4 条目与日志一致；postcheck(PID 19059)+执行器(PID 15606) 均存活健康。**外观陷阱（勿误判）**：postcheck 的 "arms runs json count" 行用递归 `find arms/ -name '*.json'`，会把每臂 `checkpoints/` 下的 node.json（~1260 个）一并计入 → 完成时该行显示 ~1266 而非 12，**正常**（runs json 是 `arms/<arm>/<arm>-r<rep>-<ts>.json` 顶层文件，分析脚本 t-repair1-analysis.py L44 用非递归 glob `{arm}-r*.json` 不受影响，已核验）。
 
