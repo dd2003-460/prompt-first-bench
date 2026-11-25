@@ -111,7 +111,7 @@ pfb 不是六个串行关卡，是一条**逼近"压缩-解压往返无损不动
 | 04.5 加"发现新条件→换基"判断（选域③） | pfb/loop/04.5-final-review.md | SOP | ✅ 完成 2026-11-25（选域③+regime突变检查：历史证据突然全失效→丢弃旧压缩回01非02） |
 | gear-shift 信号实现（think-trigger） | pfb/tasks/think-trigger/ + stop_hook | 代码 | ✅ 完成 2026-11-25（T1 薄思考触发 stage-gate 1b30bc6 + T4 打转真检测 7229159 + T3 判据整合 7d2584ac6） |
 | 01 分解树支持因子分解（乘性） | pfb 数据结构 | 架构 | 低（等 T2 数据） |
-| 咒语=调度器（索引+检索+执行，T5 流程索引层） | pfb/docs + tasks/think-trigger | 架构 | 🔶 已登记+路由表初稿，待 D 确认方向后实施（D 2026-11-25 重新框定） |
+| 咒语=调度器（索引+检索+执行，T5 流程索引层） | pfb/loop/ROUTING.md + CLAUDE.md | 架构 | ✅ 已实施 2026-11-25（路由表 4 类+默认六阶段宁全勿漏；CLAUDE.md 触发词改"先路由再执行"；遗留 L30 编号外观项待 D 同意） |
 
 注：workspace/loop/prompt-first/ 与 pfb/loop/ 两份 SOP 当前一致，改要同步。
 
