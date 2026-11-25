@@ -24,11 +24,15 @@ IDEA2 = os.path.join(HERE, "..", "data", "idea2")
 SIDECAR = os.path.join(HERE, "..", "gold-gpu-formulas.json")
 
 trees = []
-# K7 15: budget-*/runs-s5-sm-gpu.json (排除 -synth)
-for f in sorted(glob.glob(os.path.join(ARCH, "budget-*", "runs-s5-sm-gpu.json"))):
+# K7 15: budget-*/runs-s5-sm-gpu-synth.json (2026-11-25 修复: 原读非 synth 版,
+# 其 answer 字段恒为空 → 0/15 是"空串不含 3090×4"的空验证, 数据换掉脚本照样输出 0/21。
+# synth 版才是真 answer(18-26K 字符合成报告), 0/15 用 synth 真 answer 手工复判确认仍成立。)
+for f in sorted(glob.glob(os.path.join(ARCH, "budget-*", "runs-s5-sm-gpu-synth.json"))):
     trees.append(("K7", os.path.basename(os.path.dirname(f)), f))
-# idea2 6
+# idea2 6: 只取树文件(排除 idea2-scores.json 评分文件)
 for f in sorted(glob.glob(os.path.join(IDEA2, "idea2-*.json"))):
+    if f.endswith("-scores.json"):
+        continue
     trees.append(("idea2", os.path.basename(f), f))
 
 n = 0
