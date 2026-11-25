@@ -5,6 +5,7 @@
 > 口径（D 2026-11-25 指令）：数量优先，覆盖 pfb/idea53 相关领域完整作者集合；合作角度一句话（基于已发表工作推断，标注推断）；优先级降权但保留。
 > idea53 = GPU 瓶颈诊断的闭式测量（microarchitecture 增量贡献，信息论读数）；pfb = 1-loop 流水线在 27B 开放权重上的 stage-ablation。
 > 覆盖的本地文献（16 份）：tasks/idea53-goal/submission-staging/references.bib、experiments/stage-ablation/scientisttwo-comparison.md、experiments/stage-ablation/competitor-survey.md、experiments/stage-ablation/paper-draft.md、experiments/stage-ablation/workshop-draft-metacog-20261122.md、experiments/stage-ablation/tasks/T-PR-17-result.md、experiments/stage-ablation/research/longterm-vision-survey.md、experiments/stage-ablation/research/prompt-decomposition-collision.md、experiments/stage-ablation/research/collision-snowball.md、experiments/stage-ablation/research/objective-function-priorart-SNOWBALL-T51.md、modules/D-decomp-state-machine/research/2026-11-11-idea-research.md、modules/IDEA-INDEX.md、tasks/idea53-goal/collision-final-paper-firstpass-20261125.md、research/trust-2611.10787-note.md、research/dreamcoder-lilo-stitch-collision-20261123.md、projects/AI-计算科学/D1-academic-AI/papers/*.tex（D10-D42 引用列表）。
+> 来源核验闭环（2026-11-25）：① 任务书点名的 `lit-survey/IDEA-INDEX.md` 实际位于 `modules/IDEA-INDEX.md`（已覆盖）；② `tasks/idea53-goal/submission/{paper.tex,body.tex}` 是 D 本人 idea53 投稿论文（作者 Yifeng Xiao/UCAS），Related Work 为纯散文、无 \cite/\bibitem，参考文献全在 references.bib 15 条（已逐条核验全覆盖）——贡献 0 新候选；③ references.bib 15 条系统/GPU 核心源逐条比对，无遗漏。
 
 ## A. 系统/性能建模 + GPU 效率（idea53 核心交叉域）
 
