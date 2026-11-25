@@ -22,12 +22,14 @@ We present a descriptive formalization of ``general'' thinking---reasoning that
 moves beyond a single domain---organized as a compression--decomposition round
 trip. We define understanding as a \emph{lossless round-trip fixed point}: a
 compression $\Cmap$ from phenomena to models and a decompression $\Dmap$ from
-models to predictions such that $\Dmap\circ\Cmap$ acts as the identity on the
-domain of interest. Losslessness is taken to mean uniqueness plus reproducibility
+models to predictions such that $\Dmap\circ\Cmap$ acts as the identity up to a
+controlled tolerance ($\approx\mathrm{id}$). Losslessness is taken, in an
+operational sense, to mean tolerance-bounded uniqueness of the round trip
 (equivalently, controlled predictive quality). From this single condition we
 derive four facets (predictive power, perturbation, fitness, leading-term
-anchoring) and two derivations (basis choice via multiresolution analysis, and a
-two-stage domain-selection-then-refinement procedure whose order cannot be
+anchoring) and sketch two structural observations (basis choice via
+multiresolution analysis, and a two-stage
+domain-selection-then-refinement procedure whose order cannot be
 reversed). We test the framework against seven thinking-style hypotheses drawn
 from the source corpus and obtain 7/7 internal consistency (explicitly an
 internal consistency check on the source corpus, not external validation). We
@@ -50,8 +52,10 @@ artificial cognition.
 
 We make three contributions. \emph{First}, a core formalization: understanding
 as a lossless round-trip fixed point of a compression--decomposition pair
-($\Dmap\circ\Cmap=\mathrm{id}$), with losslessness defined as uniqueness plus
-reproducibility. \emph{Second}, a consistency test: we derive seven
+($\Dmap\circ\Cmap\approx\mathrm{id}$ within a controlled tolerance, with a
+non-triviality clause requiring measurable compression savings), with
+losslessness defined operationally as tolerance-bounded uniqueness of the round
+trip. \emph{Second}, a consistency test: we derive seven
 thinking-style hypotheses from the framework and obtain 7/7 internal consistency
 on the source corpus (an internal consistency check, not external validation).
 \emph{Third}, an actionable protocol: five injectable prompt templates
@@ -75,28 +79,49 @@ the accompanying number-trace file).
 A model $m$ of a phenomenon space $\mathcal{X}$ constitutes \emph{understanding}
 if there exist a compression $\Cmap:\mathcal{X}\to\mathcal{M}$ (phenomena to
 model) and a decompression $\Dmap:\mathcal{M}\to\mathcal{X}$ (model to
-phenomena/predictions) such that $\Dmap\circ\Cmap = \mathrm{id}$ on the domain of
-interest. A compression state satisfying this condition is called a
-\emph{lossless round-trip fixed point}.
+phenomena/predictions) such that (i) $\Dmap\circ\Cmap \approx \mathrm{id}$ on the
+domain of interest within a controlled tolerance band $\tau$, and (ii)
+\emph{non-triviality}: the compressed representation is measurably smaller than
+the input representation, i.e.\ the size of $\Cmap(x)$ is strictly less than the
+size of the input representation of $x$ minus a slack $\epsilon>0$. A
+compression state satisfying both conditions is called a \emph{lossless
+round-trip fixed point}.
+\begin{remark}
+Clause (ii) rules out the vacuous case $\Cmap=\Dmap=\mathrm{id}$, under which
+clause (i) holds trivially and ``understanding'' would be empty. In Kolmogorov
+form, clause (ii) reads $K(\Cmap(x)) < K(x) - \epsilon$; Kolmogorov complexity
+is uncomputable, so this form is offered as intuition only, while the
+representation-size form above is the operational reading.
+\end{remark}
 \end{definition}
 
 \paragraph{Losslessness.}
-We take ``lossless'' to mean \emph{unique} plus \emph{reproducible}: the
-compressed state decompresses back to the same phenomenon (up to controlled
-tolerance) on every attempt. In the source corpus this is phrased equivalently
-as \emph{predictive quality}: a compressed state that uniquely and reproducibly
-expands back to the phenomena carries the predictive power that losslessness
-demands. Losslessness is therefore a property of the round trip, not of the
-compression ratio alone.
+We use ``lossless'' in an operational sense, distinct from
+information-theoretic invertibility: the compressed state decompresses back to
+the same phenomenon within the tolerance band $\tau$ on every attempt, and two
+compressions of the same input yield decompressed outputs whose difference lies
+within $\tau$. Because $\Dmap$ is a function, reproducibility is inherited from
+determinism; the substantive content of the condition is the
+tolerance-bounded uniqueness of the round trip. In the source corpus this is
+phrased equivalently as \emph{predictive quality}: a compressed state that
+uniquely expands back to the phenomena carries the predictive power that
+losslessness demands. Losslessness is therefore a property of the round trip,
+not of the compression ratio alone.
 
 \paragraph{Self-reference is finite.}
 Finding the fixed point is a self-referential task (the model must account for
 its own compression), but the fixed-point equation $x' = x$ is typically
-\emph{finite}: it is solved by iteration converging to a solution (as in solving
-$Ce^{t}$-type recursions), not an infinite regress. Pathological self-reference
-(G\"odel-type incompleteness) applies only to degenerate self-referential
-systems; ordinary modeling fixed points are well-posed. This finiteness is what
-makes the definition operational rather than circular.
+\emph{finite} in the modeling cases we consider: it is approached by iteration
+(as in $Ce^{t}$-type recursions), not an infinite regress. No general
+convergence condition is asserted here; we treat convergence as an empirical
+observation about the cases considered, not a theorem. The claim about
+pathological self-reference is deliberately narrow: incompleteness results such
+as G\"odel's require a system expressive enough to encode arithmetic, and
+systems lacking that expressive power fall outside their scope. We do not claim
+a corollary of any incompleteness theorem; we only exclude the pathological
+self-referential kind from ordinary modeling fixed points, which remain
+well-posed. This finiteness is what makes the definition operational rather
+than circular.
 
 \paragraph{Reading the definition.}
 The definition is deliberately weak: it names a condition, not a mechanism. Its
@@ -108,7 +133,8 @@ facet failed (Section~\ref{sec:facets}).
 \section{Four Facets of the Round Trip}
 \label{sec:facets}
 
-The single condition $\Dmap\circ\Cmap=\mathrm{id}$ has four faces. Each facet is
+The single condition $\Dmap\circ\Cmap\approx\mathrm{id}$ (within tolerance) has
+four faces. Each facet is
 a way the round trip can be examined, stressed, or made to fail.
 
 \paragraph{1. Predictive power (temporal direction).}
@@ -130,9 +156,9 @@ taste judgment.
 
 \paragraph{3. Fitness (the landscape of thinking).}
 There is no binary ``wrong''; there is a continuous \emph{fitness} measure on
-candidate models. Progress is gradient descent on this landscape: incremental,
-local moves are robust to noise, which is why stepwise refinement outperforms
-occasional wholesale replacement. Fitness is the facet that makes the framework
+candidate models. Progress, as a metaphor, resembles gradient descent on this landscape:
+incremental, local moves are robust to noise, which is why stepwise refinement
+outperforms occasional wholesale replacement. Fitness is the facet that makes the framework
 compatible with empirical work: it is the quantity that experiments can measure.
 
 \paragraph{4. Leading-term anchoring (robustness to randomness).}
@@ -140,20 +166,23 @@ Robustness to randomness comes from anchoring on the leading term: the leading
 term occupies the widest valley in the fitness landscape, so it is the safest
 thing to grasp first; perturbations are then handled term by term. ``Anchor the
 leading term, then process corrections'' is the operational form of
-perturbative thinking, and it explains why a model that misses its leading term
-fails even when its details are elaborate.
+perturbative thinking, and it offers a reading of why a model that misses its
+leading term fails even when its details are elaborate.
 
 Together the four facets partition the work of closing the round trip:
 \emph{where} to expand (prediction), \emph{how} to expand (perturbation),
 \emph{what good looks like} (fitness), and \emph{what to hold onto}
 (leading-term anchoring).
-\section{Two Derivations}
+\section{Two Structural Observations}
 \label{sec:derivations}
 
-From the core definition we derive two structural results. Both concern the
-\emph{choice of basis} in which the round trip is expressed.
+From the core definition we sketch two structural observations. Both concern the
+\emph{choice of basis} in which the round trip is expressed. We state these as
+heuristic arguments, not theorems: the first is an algebraic identification
+under explicit conditions, and the second is a structural sketch with a
+counterexample, without a measure or a proof.
 
-\subsection{Derivation 1: Basis Choice (why perturbation and hierarchy are equivalent)}
+\subsection{Observation 1: Basis Choice (perturbation and hierarchy share a series structure)}
 \label{sec:basis}
 
 Perturbation series and hierarchical (level-by-level) structures are both
@@ -187,7 +216,7 @@ multiresolution analysis. This answers how to describe a factorized structure
 that is not a single-root split: as a tensor product of rooted trees, one
 factor per root.
 
-\subsection{Derivation 2: Two-Stage Compression (domain selection then refinement; order cannot be reversed)}
+\subsection{Observation 2: Two-Stage Compression (domain selection then refinement; order should not be reversed)}
 \label{sec:twostage}
 
 General (structural) compression is responsible for \emph{selecting the domain};
@@ -197,7 +226,20 @@ the domain of applicability, and that domain must be fixed by general thinking.
 Reversing the order---refining before selecting the domain---means deriving
 precisely in the wrong domain, which drives the result farther off, not closer.
 
-This explains an empirical observation: in some respects formula-level methods
+\paragraph{A minimal counterexample.}
+Take a phenomenon space that is a union of two regimes: a linear regime
+$x\in[0,1]$ with dynamics $y=x$, and a saturating regime $x>1$ with dynamics
+$y=\min(x,1)$. A formula-level method that fits a smooth interpolant across both
+regimes (refining first) produces a single curved surface that is accurate
+nowhere near the kink at $x=1$ and exports the curvature into the linear regime.
+Selecting the domain first (two regimes, piecewise treatment) and then refining
+within each (linear fit on $[0,1]$, constant on $x>1$) is exact in both. The
+cost of the reversed order is not a small perturbation but a systematic bias in
+whichever regime the wrong prior leaked into; this is the sense in which the
+order cannot be reversed.
+
+This is consistent with an empirical observation: in some respects formula-level
+methods
 are better while general thinking is not. Formula-level compression excels in
 the refinement stage (precise, derivable) but helps little---and can even harm---
 in the domain-selection stage, by inducing premature priors.
@@ -295,6 +337,57 @@ architecture. Prefer the remedy ``make the world closed'' (synthetic domains /
 executable verification).
 \end{enumerate}
 
+\subsection{A Minimal Pilot (preliminary)}
+\label{sec:pilot}
+
+To check that the templates are injectable and fire mechanically, we ran a
+minimal pilot: five prompts (one per template) under two conditions---(A)
+baseline system prompt, (B) the T1--T5 templates injected into the system
+prompt---on a single local model (qwen3.8-27b-mtp, temperature 0.7, max 1500
+tokens, $n{=}1$ per cell). Scoring
+is a mechanical 0/1 checklist derived from the templates' own structural
+requirements (keyword/structure presence), not a quality judgment.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{llcccc}
+\toprule
+Prompt & Template & A baseline & B treatment & B$-$A & finish (A/B) \\
+\midrule
+P1 & T1 & 0 & 1 & 1 & length/length \\
+P2 & T2 & 1 & 1 & 0 & length/length \\
+P3 & T3 & 1 & 1 & 0 & length/length \\
+P4 & T4 & 1 & 1 & 0 & length/length \\
+P5 & T5 & 0 & 1 & 1 & stop/length \\
+\midrule
+Total & & 3/5 & 5/5 & & \\
+\bottomrule
+\end{tabular}
+\caption{Minimal pilot: mechanical 0/1 checklist scores, 5 prompts $\times$ 2
+conditions, single model, $n{=}1$/cell. 9/10 runs were truncated at the shared
+1500-token cap.}
+\label{tab:pilot}
+\end{table}
+
+The B$-$A difference appears only on P1 (T1 special-case verification) and P5
+(T5 naming the step lacking ground truth): in these two prompts the target
+structure is not named by the prompt itself, so only the injected template
+supplies it. For P2--P4 the prompt wording already names the target structure
+(``single formula'', ``testable quantitative prediction'', ``dimension by
+dimension''), so the baseline scores full and the template adds nothing. The
+pilot therefore measures \emph{completion of dimensions the prompt does not
+induce}, not a general gain from the templates. Because condition B's longer
+system prompt pushes content toward the truncation window, part of the B$-$A
+difference may reflect window position rather than the template effect.
+
+\paragraph{Pilot limitations.}
+$n{=}1$ per cell (no statistical significance claim); a single model (no
+extrapolation to other models or scales); no statistical test (five binary
+scores do not support one); and the scores are mechanical checklist hits, not
+measures of answer quality, correctness, or depth of reasoning. Raw responses
+and the scoring rubric are released alongside this paper for independent
+re-auditing.
 \paragraph{Positioning.}
 The five templates are the operational layer of the framework: T1--T2 are the
 ``climb one level'' move (concrete $\to$ cost model $\to$ unified form, original
@@ -312,34 +405,43 @@ We position the framework against four adjacent literatures.
 
 \paragraph{Compression as understanding.}
 Zipf's law and power laws in cognition treat linguistic and cognitive structure
-as evidence of compression-based processing~\cite{newman_powerlaws_2005}. \emph{Our
-difference:} we do not fit a power law to data; we define understanding as a
-round-trip identity ($\Dmap\circ\Cmap=\mathrm{id}$) and use compression as the
-\emph{operational criterion} for when a model is understood, not as a statistical
-signature.
+as evidence of compression-based processing~\cite{newman_powerlaws_2005}.
+Chaitin's program ``epistemology as information theory''~\cite{chaitin_epistemology_2006}
+takes the stronger slogan that understanding \emph{is} compression, and
+predictive-compression accounts of competence develop that line on the
+cognitive-science side~\cite{queloz_beckmann_2026}. In contrast, we do not fit
+a power law to data and we do not adopt a one-way compression--explanation
+view: we define understanding as a round-trip identity
+($\Dmap\circ\Cmap\approx\mathrm{id}$ within tolerance, with a non-triviality
+clause) and use compression as the \emph{operational criterion} for when a
+model is understood, not as a statistical signature. The round-trip structure
+--- the demand that the model decompress back to the phenomena --- is the
+feature that the one-way views do not formalize.
 
 \paragraph{Perturbation theory in machine learning.}
 Perturbative and influence-based analyses of neural networks characterize how
-small changes in parameters or training data propagate to predictions~\cite{kaspschak_nnpt_2020,koh_liang_influence_2017}. \emph{Our difference:}
-we use perturbation not to analyze a fixed model but as the \emph{method} by
-which a thinker builds understanding term by term, with necessity governed by
-round-trip closure (add a correction only when the round trip fails to close).
+small changes in parameters or training data propagate to
+predictions~\cite{kaspschak_nnpt_2020,koh_liang_influence_2017}. Whereas those
+analyses study a fixed model after the fact, our use of perturbation is the
+\emph{method} by which a thinker builds understanding term by term, with
+necessity governed by round-trip closure (add a correction only when the round
+trip fails to close).
 
 \paragraph{Multiresolution analysis.}
 Multiresolution analysis (Haar, Daubechies, Faber--Schauder) provides nested,
 locally supported bases with $V_j\subset V_{j+1}$~\cite{daubechies_1988}.
-\emph{Our difference:} we identify multiresolution bases as the rigorous
-counterpart of \emph{hierarchical thinking} (tier $=$ scale, jump $=$
-exponential scale $2^j$), and use sparsity of coefficients as the criterion for
-basis optimality in reasoning, not for signal denoising.
+Here we identify multiresolution bases as the rigorous counterpart of
+\emph{hierarchical thinking} (tier $=$ scale, jump $=$ exponential scale $2^j$),
+and use sparsity of coefficients as the criterion for basis optimality in
+reasoning, not for signal denoising.
 
 \paragraph{Active learning of specifications / reward hacking as specification discovery.}
 Work on reward hacking and specification gaming characterizes misbehavior as a
-symptom of underspecified objectives~\cite{skalse_reward_hacking_2022,gallego_spec_self_correction_2025}. \emph{Our
-difference:} our T5 template locates the bottleneck as the step lacking cheap,
-reliable ground truth, and prescribes ``making the world closed'' (synthetic
-domains with known truth) as the primary remedy---a diagnostic-then-remedy
-protocol rather than a safety argument.
+symptom of underspecified objectives~\cite{skalse_reward_hacking_2022,gallego_spec_self_correction_2025}.
+Our T5 template differs in target and remedy: it locates the bottleneck as the
+step lacking cheap, reliable ground truth, and prescribes ``making the world
+closed'' (synthetic domains with known truth) as the primary remedy---a
+diagnostic-then-remedy protocol rather than a safety argument.
 \section{Limitations}
 \label{sec:limitations}
 
@@ -358,9 +460,18 @@ cognitive variable, and it makes no claim about the mechanism of human or AI
 thinking.
 
 \paragraph{Template effectiveness untested.}
-The five templates (T1--T5) are claimed to be injectable and operable. Whether
-injection improves downstream task performance is untested; that is the role of
-independent experiments, which we do not perform here.
+The five templates (T1--T5) are claimed to be injectable and operable. The
+minimal pilot (Section~\ref{sec:pilot}) checks mechanical injectability---whether
+the templates fire under a mechanical checklist---but whether injection improves
+downstream task performance remains untested; that is the role of independent
+experiments, which we do not perform here.
+
+\paragraph{Non-triviality clause is operational, not cognitive.}
+The non-triviality requirement in Definition~1 (measurable compression savings)
+is an operational constraint on what counts as a compression state; it is not a
+claim about how human or AI understanding actually works. A model could be
+useful without satisfying the clause, and satisfying the clause does not
+establish that understanding in any cognitive sense has occurred.
 
 \paragraph{Single corpus source.}
 All structural evidence comes from one source corpus (an anonymized set of
@@ -372,11 +483,13 @@ question.
 
 We presented a descriptive formalization of general thinking in which
 understanding is a lossless round-trip fixed point of a compression--decompression
-pair ($\Dmap\circ\Cmap=\mathrm{id}$, lossless $=$ unique $+$ reproducible). From
-this single condition we derived four facets (predictive power, perturbation,
-fitness, leading-term anchoring) and two structural results (basis choice via
-multiresolution analysis; two-stage domain-selection-then-refinement with
-irreversible order). The framework reproduces seven thinking-style hypotheses
+pair ($\Dmap\circ\Cmap\approx\mathrm{id}$ within a controlled tolerance, with a
+non-triviality clause; losslessness in the operational sense of
+tolerance-bounded uniqueness of the round trip). From this single condition we
+derived four facets (predictive power, perturbation, fitness, leading-term
+anchoring) and sketched two structural observations (basis choice via
+multiresolution analysis; two-stage domain-selection-then-refinement whose order
+should not be reversed). The framework reproduces seven thinking-style hypotheses
 with 7/7 internal consistency on the source corpus (an internal consistency
 check, not external validation), and we distilled it into five injectable prompt
 templates (T1--T5) with explicit triggers and actions.
@@ -453,6 +566,12 @@ this paper.
 \bibitem{newman_powerlaws_2005}
 M.~E.~J. Newman. Power laws, Pareto distributions and Zipf's law.
 \emph{Contemporary Physics}, 46(5):323--351, 2005. doi:10.1080/00107510500052444.
+\bibitem{chaitin_epistemology_2006}
+G.~J. Chaitin. ``Epistemology as Information Theory: From Leibniz to $\Omega$.''
+2006. arXiv preprint math/0506552 (submitted 2005-06-27).
+\bibitem{queloz_beckmann_2026}
+M.~Queloz and P.~Beckmann. Why we care about understanding: Competence through
+predictive compression. arXiv:2609.04962, 2026.
 \bibitem{kaspschak_nnpt_2020}
 B.~Kaspschak and U.-G. Meißner. A neural network perturbation theory based on
 the Born series. arXiv:2009.03192, 2020.

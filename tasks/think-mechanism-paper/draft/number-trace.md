@@ -33,9 +33,13 @@ Source files:
 | 22 | T4 analogy audit: trigger = borrowing case/analogy/prior; action = check Δ per dimension + sensitivity s_k, ε·uniform floor | T4 | TPL | 37–38 |
 | 23 | T5 criterion bottleneck: trigger = framework formed; action = find step lacking cheap reliable ground truth; remedy "make world closed" | T5 | TPL | 39–40 |
 | 24 | Evolution trajectory v1→v4 (compression+prediction 5/7 → perturbation+fitness 7/7 → fixed point → hierarchy) | v1–v4 | CORE | 58 |
+| 25 | Pilot: 5 prompts × 2 conditions, A baseline 3/5, B treatment 5/5, B−A delta only on P1 (T1) and P5 (T5) | 3/5, 5/5, 10 runs | PILOT | pilot/runs.json + scores.json |
+| 26 | Pilot: 9/10 runs finish_reason=length at max_tokens=1500 (P5-A stop at 1458); single model qwen3.8-27b-mtp, temperature 0.7, n=1/cell | 9/10, 1500 | PILOT | pilot/runs.json |
 
 ## Non-claim numerics (formatting only, not traced)
 - `11pt` document class, table column widths (4.6/5.2/5.4 cm), `\begin{thebibliography}{9}` label, `2^{j}` scale symbol, `5/7`/`7/7` ratios already traced above.
 
 ## Coverage
-All claim-bearing numbers in the paper (7/7, 5/7, 5 templates, 4 facets, 2 derivations, 3-step domain selection, D∘C=id, multiresolution 2^j, tensor product, v1–v4) are mapped above. No number in the paper lacks a source mapping.
+All claim-bearing numbers in the paper (7/7, 5/7, 5 templates, 4 facets, 2 structural observations, 3-step domain selection, D∘C≈id, multiresolution 2^j, tensor product, v1–v4, pilot 3/5 vs 5/5 + 9/10 truncation) are mapped above. No number in the paper lacks a source mapping.
+
+PILOT = `/Users/a1-6/Desktop/workspace/pfb/tasks/think-mechanism-paper/pilot/` (T4b round-2, commit c704a6637; Lead verify_t4b.py ALL PASS: 10/10 runs ok, raw byte-equal to runs.json).
