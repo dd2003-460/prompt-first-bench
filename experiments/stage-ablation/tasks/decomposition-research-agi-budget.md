@@ -260,11 +260,12 @@ research-agi-budget（D 硬件条件下，预算控制 AI 在 Pareto 边界上�
 | 子项 | 状态 | 证据/阻塞 |
 |---|---|---|
 | ① matched 批+记账 | ✅ 完成 | 30/30 done 核验（results-sm-matched.json 30 runs 对账一致）；cc-state-sm-matched.json stale active 标志已清（11-22 完成时未清） |
-| ② T-PR-17 机制验证 | 🔄 pilot 7/8 cells done (11-25 09:30) | 3 臂消融（canonical/verify-off/null-control；runner ARMS 注册 3 臂，无 verify-late——旧行"4 臂"系早期残留，11-25 修正）。null-control r3 在跑(~10:00 完)；完成后跑 tpr17_analysis.py（纯 CPU，不等 vLLM） |
+| ② T-PR-17 机制验证 | ✅ pilot 9/9 cells 完成 (11-25 10:18) + 正式报告 | r3 落盘 10:18（71min/1263 calls）。**正式报告 tpr17-pilot-report-20261125.md**：① 测量盲区修正——run JSON 计数器只 wrap sm_mod 绑定，verify_node 走 s5_pipeline 自有 import 绕过（漏 ~1150 verify calls），PREVIEW"只省 356 tokens"作废；真实信号=verify 是成本中心（stdout 真计数 canonical ~1238 vs verify-off ~491 calls，wall 75 vs 23min，新窗口 rework 186 vs 21 砍 89%，树结构零变化）② TOST 首判：null-control vs canonical verified_ratio CI[-0.057,+0.008]⊂±0.1 → 序列机制等效（D 收敛假说 pilot 层面支持，n=3 UNDERPOWERED sentinel）③ 质量价值本 pilot 不可判（搜索降级 corrected_claim=0 全臂）。runner 计数器已修（3 处 wrap+哨兵防嵌套，fake 替身验证）。clamp 边界：结构惰性仅在 budget 719 硬顶+depth 4 封顶下成立。commit 3d2b74a62+d3b36b9ea |
 | ③ K6 merge 消融 | ✅ 完成 | Δ=-0.013 A≈B（11-22 07:08） |
 | ④ K7 预算扫描 | ✅ 完成（relay 链 11-25 全收口） | k7-pareto-newjudge-20261124.md；三待办收口：Q6 719 nodepth 3 reps 落盘+analysis（cov 0.1304/0.2391/0.2174）；300-r3 cache 对照独立评分 0.3077（vs r1/r2 复制 0.2308）；Q7 跨题 719 n=3（replication 2/2 全中 finalized, q7-719-replication-check-r3-20261125.txt）+ workshop §4.3 n=3 同步（2f0556fd4） |
 | ⑤ AGI 题面+gold 骨架 | 🔶 部分 | D1 题面待 D 确认（硬件边界）；**D2 gold 骨架 Q9-v1 已交付+Lead 核验通过 (11-24 20:22)**：agent @ 8fe85a2f4（37 节点/深度 5/21 叶/权重和 1.00/题面隔离），agent 主动纠错 +0.182 归属（实为 S0→S5 prompt 级，非 SM 因果；SM 真实 δ=+0.025 p~0.32），Lead 本地实锤 + web-LLM 2/2 独立源（Perplexity+ChatGPT）确认纠错正确且重大；方法学 v1 弱点（等权 0.20/五维不正交）归 v2 修。回执 web-llm/d2-q9v1-lead-verify-20261124.json；E1-E4 由 K7 代理覆盖 |
 | ⑤-D2-v2 gold 骨架方法学修正 | ✅ 完成 (11-24 20:25-20:31) | `gold/Q9-v2.md`：① N-0 改 lexicographic（硬门 capability/reliability 先判，门内 min w_t·T+w_c·C；0.20 权重降级为描述性 dashboard）② N-5 重标决策变量层（输入非结果，消 double-count）③ 证据质量登记表 21 行（provenance/uncertainty/n/reproducibility，未跑实验一律 NA）。验收复算：v2 与 v1 树结构一致（37 节点/深度 5/21 叶 J1-J21/权重和 1.00），v1 保留供审计。改动纯方法学层，叶公式/权重数值未动 |
+| ⑥ 思考触发分支 T1-T4 | ✅ 全部完成 (11-25) | T1 hook 已实现+commit（stage-gate 仓 1b30bc6，APPROVALS 08697954；隔离沙箱 5 场景过）；T2 接着考虑实验完成（臂B 3/3 爬机制层+预言，臂A 0/3；但域偏移 100% 漂到混沌域——flip=0，形式接住内容未接住；v2 补抓 reasoning 修正低估）；T4 真检测落地（7229159，同一报错签名 10 轮≥2 次或同文件 6 轮改≥5 次且有报错；12 生产 session 0 误报）；T3 整合完成（T2 爬层判据拆成 formalism 的 flip/shift 两分量接进 judge，非 ad-hoc 第四维；阈值维持 223 会话基线待生产 HIT 数据校准）。证据：tasks/think-trigger/decomposition.md |
 
 **基础设施修复（本轮）**：ROADMAP 3 处断链路径修复（tasks/ → experiments/stage-ablation/tasks/，6/6 路径核验通过）。
 **协调冲突（本轮）**：nodepth 批被另一会话越序并发启动（违反 vLLM 不并发前提），已 kill + relay log 留痕（K7 报告有记录）。
