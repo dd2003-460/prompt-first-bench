@@ -60,10 +60,19 @@ N 轴锚值硬编码在脚本里，存在"平行 gold 漂移"风险（源文件�
 
 **7/7 一致，复用忠实，无平行 gold 漂移。** cp0679 的唯一 nuance：锚定的是 L5§4 文档化 gold 点值 0.679（calc.py docstring 明示的验收锚），非重建版实算值——差异来自 tp_eff 标定，0.25% 远在容差内，属有据可查的口径选择而非漂移。
 
+## 假阳性核验（"2/2"只测了已知负例，补两项独立核验）
+
+"2/2 判别准确率"只在两条已知负例（arm_a[0]=A1、arm_a[2]=A3）上成立，本身不构成"能区分"的充分证据。补两项核验堵住假阳性漏洞：
+
+1. **arm_b 三条 A1 判定不是抽取假象**：`load_samples` 只读各 stage 的 `content` 字段（丢 `reasoning`），3090 计数偏低（arm_b[2] 全量 15 → 抽取 6）。改用深遍历（含 reasoning）重抽：arm_b[0/1/2] 全量 3090 计数 = 9/4/15，但 **4×3090 配置构造仍全为 0**。即 A1（winner 配置从未进入候选集）是真实的候选构建断点，不因抽取口径改变。
+2. **阳性对照（防"全判病"）**：把 arm_a[2] 的强推荐从 2×4090 改成 4×3090（winner 被完整评估 + 被推荐），层应判 indeterminate（既非 A1 也非 A3）。实测 C=1.0 / P_A1=0.0 / P_A3=0.0 → indeterminate ✓。对照：原 arm_a[2]（推 4090）仍 A3 ✓。已固化为 selftest 第 6 断言（V4）。
+
+**结论**：层不是"凡 coverage 够就判病"——它只在 (C 低 / E1·R_low 高) 两个互斥方向上触发，正常样本落 indeterminate。6/6 自测（含 V4）通过。
+
 ## 复现
 
 - 脚本：`correctness_layer_v0.py`（同目录），`python3 correctness_layer_v0.py`
-- 扰动自测：`python3 correctness_layer_v0.py --selftest`（5 断言，验证判别由探针因果驱动）
+- 扰动自测：`python3 correctness_layer_v0.py --selftest`（6 断言：基线 2 + 变异 3 + 阳性对照 1，验证判别由探针因果驱动且不"全判病"）
 - 锚值核验：`python3 correctness_layer_v0.py --verify-anchors`（7 锚 vs 源文件，验证无平行 gold 漂移）
 - 机器可读结果：`correctness-layer-dryrun-20261125.json`（同目录，含每轴 detail）
 - 依赖：python3 stdlib + sentence-transformers bge-m3（仅 cov 对照列；无 bge-m3 时 cov=NA，CORR 不受影响）

@@ -223,7 +223,7 @@ def cov_score(text):
 
 # ---------------- 扰动自测（判别规则的因果性，非 n=2 相关性） ----------------
 def selftest():
-    """5 断言: 基线 2 + 变异 3。全过 = 判别由探针因果驱动, 非对样本过拟合。"""
+    """6 断言: 基线 2 + 变异 3 + 阳性对照 1。全过 = 判别由探针因果驱动, 非对样本过拟合, 且不'全判病'。"""
     samples = {n: t for n, t in load_samples()}
     a0, a2 = samples["arm_a[0]"], samples["arm_a[2]"]
     results = []
@@ -243,6 +243,12 @@ def selftest():
            "| D | 4×RTX 3090 (二手) | 10-15 t/s | TCO $5,839 |\n")
     r = judge_text(a0 + inj); results.append(("V3 注入评估上下文→A3",
                                               r["verdict"] == "A3", r["verdict"]))
+    # V4 阳性对照: winner 被完整评估且被强推荐 → 既非 A1 也非 A3 (防"全判病"假阳性)
+    v4 = a2.replace("主推荐: 方案 B (2×RTX 4090, INT4 AWQ)",
+                    "主推荐: 方案 D (4×RTX 3090, INT4 AWQ)")
+    assert v4 != a2, "V4 替换未命中"
+    r = judge_text(v4); results.append(("V4 阳性对照(winner评估+推荐)→非A1非A3",
+                                        r["verdict"] == "indeterminate", r["verdict"]))
     ok = all(p for _, p, _ in results)
     for name, p, got in results:
         print(f"  [{'PASS' if p else 'FAIL'}] {name} → {got}")
