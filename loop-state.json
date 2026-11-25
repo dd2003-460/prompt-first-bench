@@ -1,193 +1,200 @@
 {
- "active_tasks": {},
- "allowed_actions": [
-  "advance",
-  "rollback",
-  "blocked_human",
-  "skip_blocked",
-  "candidate",
-  "explore",
-  "dispatch",
-  "join",
-  "clarify",
-  "repair_prompt"
- ],
- "clarification_history": [],
- "current_artifact": "loop-artifacts/stages/02.5/r1/state.json",
- "exploration_history": [],
- "field_tasks": [
-  {
-   "attribute": "请填写 cross_validation 的正交因素分解",
-   "concept": "阶段 01 输出：cross_validation",
-   "disposition": "pending",
-   "flow_only": false,
-   "id": "02.5-r1-field-01-cross_validation-54a7379f66",
-   "input_refs": [
-    "loop-artifacts/stages/02.5/r1/fields.json"
-   ],
-   "instruction": "只处理字段 `阶段 01 输出：cross_validation`，不要读取完整 loop-events.md。先在这个任务文件的 `field` 对象中增量填写；不要修改 loop-state.json。读取后立即提交，不要规划总报告；网页工具最多尝试两次，若没有有效结果就保存待补状态。字段可以多轮修改，已填内容必须保留。填写后优先运行 `ralph field-apply . loop-artifacts/stages/02.5/r1/tasks/02.5-r1-field-01-cross_validation-54a7379f66.json`，由 runtime 校验并原子合并；如果命令不可用，再把同一个单字段 JSON 返回给主 Agent。research_required 暂无证据时可以先保存为 research_required + 空 evidence_refs，但必须在 rationale 标注待补证据，不得伪造来源。不需要 SendMessage、TaskGet 或其他协调工具；写完任务文件并运行 field-apply 后直接结束。",
-   "output_schema": {
-    "attribute": "string",
-    "concept": "阶段 01 输出：cross_validation",
-    "confidence": "number 0..1",
-    "disposition": "confirmed|inferred|assumed_default|research_required",
-    "evidence_refs": "array[string]",
-    "rationale": "string",
-    "role": "string"
-   },
-   "path": "loop-artifacts/stages/02.5/r1/tasks/02.5-r1-field-01-cross_validation-54a7379f66.json",
-   "revision": "r1",
-   "role": "cross_validation",
-   "schema_version": 1,
-   "stage_id": "02.5",
-   "status": "ready",
-   "type": "field_task"
-  }
- ],
- "graph_tasks": [],
- "history": [
-  {
-   "action": "advance",
-   "internal_state": "stage_02",
-   "revision": "r1",
-   "stage_id": "01"
-  },
-  {
-   "action": "advance",
-   "internal_state": "stage_02_5",
-   "revision": "r1",
-   "stage_id": "02"
-  },
-  {
-   "time": "2026-11-06T19:25",
-   "action": "goal-pfb-v3-benchmark-hardening-complete",
-   "summary": "v3 benchmark hardening goal 完成: RESULTS-FINAL.md (61 runs, bootstrap CI + sign test, S5-S0 +0.190 p=0.001**), stages/04 execution-log @8439759, stages/04.5 review pass-with-notes @90a8b84, 已 push。遗留: B2 异族 judge blocked-on-external, U4 bootstrap-cis.json 陈旧文件待清理。下一步 goal: gold-gap 补全 (Q5 维度完备性 prompt patch)。"
-  },
-  {
-   "ts": "2026-11-06T12:18:00+08:00",
-   "event": "goal-complete",
-   "goal": "pfb-v3-gold-gap",
-   "result": "PASS — Q5 S8G 5-rep last3 mean=0.836 (r5=0.851), M1/M4=1.0, 无泄漏; acceptance @5a7f375",
-   "next_goal": "pfb-s8g-generalization (Q1/Q4 验证 + S7V 基线补跑)"
-  }
- ],
- "last_action": "T53b 诊断闭环: 死因=SM 纯 Python 阶段 CPU 冻结(非 E18 误杀); sample 替代 py-spy(免root) 但栈区分不了健康vs冻结(对照组); kill 分布分散=随机冻结+自愈有效, 不动 SM 代码; coverage=0.0 是真信号非 judge bug; 04-verify 必须按 (qid,arm) 二维分组",
- "last_event_id": "7f9fd156-f9ba-490e-a2e6-caec7c1228b4",
- "last_exploration": null,
- "last_result": {
-  "action": "advance",
-  "artifact_refs": [],
-  "evidence": [
-   "loop-artifacts/stages/01/r1/evidence/unknown-local-probe-r266.md",
-   "loop-artifacts/stages/02/r1/fields.json",
-   "loop-artifacts/stages/02/r1/evidence/runtime-validator-bug-r267.md"
+  "active_tasks": {},
+  "allowed_actions": [
+    "advance",
+    "rollback",
+    "blocked_human",
+    "skip_blocked",
+    "candidate",
+    "explore",
+    "dispatch",
+    "join",
+    "clarify",
+    "repair_prompt"
   ],
-  "message": "阶段 02 调研闭环：本地非 Qwen 端点不存在（r266 探测实证）；外部 API key 环境变量中不存在，按任务书失败降级条款处置为 blocked_human（需用户提供 key），不阻塞其他任务。judge_format_compatibility 保留 research_required（依赖用户 key 解锁后实测回填，不伪造结论）。required_outputs research_findings 已回填 4 项子字段。",
-  "next_stage": "02.5",
-  "payload": {
-   "questions": [
-    "异源 judge 需要非 Qwen family 的可调用端点。本机探测确认无任何非 Qwen 本地模型（LM Studio/Ollama 未运行，唯一端点 127.0.0.1:8787 仅服务 qwen3.8-27b），环境变量中也无任何外部 provider key。请提供以下之一：(a) 任一非 Qwen 厂商 API key（Anthropic/OpenAI/Gemini/Mistral/DeepSeek 等）；(b) 启动 LM Studio 或 Ollama 并加载一个非 Qwen 模型；(c) 确认接受用当前 qwen3.8-27b 同源复判+人工抽审的降级方案（conf-0.2，T8 结论标注同源偏差风险）。收到后继续验收标准 2-5。"
-   ],
-   "stage_review": "字段表 12 项：local_endpoint_probe(confirmed,0.9)、external_api_credentials(assumed_default,0.8→blocked_human 通道)、non_qwen_judge_availability(confirmed,0.9) 均带 evidence_refs + observed_at；judge_format_compatibility 如实保留 research_required（无法单方面验证的事实，不绕过调研）；known/unknown 主字段 confirmed 并附 HTTPS 可复核来源。边界：外部凭据属用户侧输入，走 blocked_human 而非伪造完成。"
-  },
-  "revision": "r1",
-  "rollback_to": null,
-  "stage_id": "02",
-  "status": "blocked_human"
- },
- "plan": {
-  "joins": [],
-  "nodes": [],
-  "parallel_groups": [],
-  "revision": "r1"
- },
- "project_id": "pfb",
- "queue": {
-  "blocked_human": [],
-  "candidates": [],
-  "ready": []
- },
- "run_history": [],
- "schema_version": 4,
- "stage": {
-  "failure_condition": "核验不足或矛盾未处置",
-  "id": "02.5",
-  "input_description": "02 的调研结果与字段；逐字段派 subagent 去问多种网页 LLM + 权威数据，检查矛盾",
-  "name": "调研后交叉验证",
-  "on_failure": "02",
-  "on_human_block": "exploration",
-  "on_success": "03",
-  "required_outputs": [
-   "cross_validation"
+  "clarification_history": [],
+  "current_artifact": "loop-artifacts/stages/02.5/r1/state.json",
+  "exploration_history": [],
+  "field_tasks": [
+    {
+      "attribute": "请填写 cross_validation 的正交因素分解",
+      "concept": "阶段 01 输出：cross_validation",
+      "disposition": "pending",
+      "flow_only": false,
+      "id": "02.5-r1-field-01-cross_validation-54a7379f66",
+      "input_refs": [
+        "loop-artifacts/stages/02.5/r1/fields.json"
+      ],
+      "instruction": "只处理字段 `阶段 01 输出：cross_validation`，不要读取完整 loop-events.md。先在这个任务文件的 `field` 对象中增量填写；不要修改 loop-state.json。读取后立即提交，不要规划总报告；网页工具最多尝试两次，若没有有效结果就保存待补状态。字段可以多轮修改，已填内容必须保留。填写后优先运行 `ralph field-apply . loop-artifacts/stages/02.5/r1/tasks/02.5-r1-field-01-cross_validation-54a7379f66.json`，由 runtime 校验并原子合并；如果命令不可用，再把同一个单字段 JSON 返回给主 Agent。research_required 暂无证据时可以先保存为 research_required + 空 evidence_refs，但必须在 rationale 标注待补证据，不得伪造来源。不需要 SendMessage、TaskGet 或其他协调工具；写完任务文件并运行 field-apply 后直接结束。",
+      "output_schema": {
+        "attribute": "string",
+        "concept": "阶段 01 输出：cross_validation",
+        "confidence": "number 0..1",
+        "disposition": "confirmed|inferred|assumed_default|research_required",
+        "evidence_refs": "array[string]",
+        "rationale": "string",
+        "role": "string"
+      },
+      "path": "loop-artifacts/stages/02.5/r1/tasks/02.5-r1-field-01-cross_validation-54a7379f66.json",
+      "revision": "r1",
+      "role": "cross_validation",
+      "schema_version": 1,
+      "stage_id": "02.5",
+      "status": "ready",
+      "type": "field_task"
+    }
   ],
-  "revision": "r1",
-  "success_condition": "每个关键调研字段有逐 claim validation_records（≥2 独立具体来源、日期、裁决），矛盾已记录并更新 confidence"
- },
- "status": "active",
- "task": {
-  "description": "【目标】T37 已完成。下一步：(1) arXiv 手动上传（需成璐登录）；(2) S7V full re-score (~15min vLLM) 补全 paired test n=15；(3) 投稿格式适配（目标期刊待定）。当前可推进：S7V re-score + 论文终稿 polish。",
-  "source": "T37 complete → next goal"
- },
- "task_intake": null,
- "task_intake_history": [],
- "last_update": "2026-11-24",
- "next_steps": [
-  "T-L4-AUDIT 实验1(M1-M4 审计): 已派 subagent, 纯分析 719/300 已有 agent 树 + gold 21 结论, 不调 LLM 不占 vLLM, 可与 r3/pilot 并行; 结论修正 pfb 上限判断(H1/H2/H3 主导)",
-  "明早: ①读 q7-719-postrun-report(watcher 72026, 队列~00:55 DONE, replication-check 已支持 r3 自动纳入→看 2/2 还是 1/2) ②r3 落盘后 curve JSON 回填 n=3 + cov n=3 ③workshop §4.3 合并 subagent 增量草稿(workshop-sec43-q7-increment-20261124.md, 已修正: gold 52/46/37 + 300 n=2 口径 + 复现 1/1) ④读 tpr17-pilot-report(waiter 88298, ~09:00) ⑤T-REPAIR-1 起 4 臂(SM 冻结解除后) ⑥Welch t 结论(86836a2d1)已可落 workshop formula 消融节",
-  "干净 → replication-check 机制复现判定 + cov轴n=3回填 + Q7三域cov对比决定是否落workshop§4.3",
-  "污染 → 坏rep隔离重跑 (blind cp 根因已知: 输出按rep命名修复)",
-  "T-PR-17 pilot: waiter 88298 已自动接管(队列DONE→vLLM探测→9cell pilot fail-fast→tpr17-pilot-report-*.md); 醒来读报告: 9/9→T5分析(tpr17_analysis.py,Δ_min已预设); ABORT→查waiter报告定位(首个cell rc/sanity)",
-  "pilot效应>judge噪声(~0.1)→起scale(3arm×3ckpt×n5@719~64h,或降n=3~26h/L2+L3~42h); <噪声→结论=不可检测(F5语义)",
-  "idea53 arXiv: submission就绪(9pp PDF), 等D投",
-  "⚠️ 明早对账 2 项 (22:45 Lead 发现): ① T-PR-17 subagent 报告 checkpoint 节点数 381/291/190 与 meta.json 权威值 33/132/381(r1/r2/r3) 不符 — meta+preflight(3e3859d31) 为准, pilot floor=381 正确, 但 subagent 最终报告的节点数需核对是否笔误/不同口径 ② subagent 发现 gpu cov=0 飙升 = judge 口径变化(rubric 补微架构要点 + 窗口 12k→50k) 非 pipeline 崩溃(depth 持平 0.344→0.358) — 威胁 matched 批跨批可比性, 它正在追, 明早读其结论决定是否影响 workshop 跨批 claim"
- ],
- "last_updated": "2026-11-06T06:15:00+08:00",
- "tasks": {
-  "T8-C3-fullloop-matrix": {
-   "status": "done-generation-pending-judge",
-   "completed": "2026-11-06",
-   "commit": "ac2f8a3",
-   "summary": "42 cells (32 valid + 10 degenerate finding). Key: evidence component causes 38% S02 degeneration in no-tool env. S04 quality robust to ablation (66-80% coverage all configs). Local judge self-bias confirmed (all 10/10). Arena hetero-judge pending.",
-   "findings": [
-    "F1: evidence tool instructions → execution-mode collapse (protocol-env interaction)",
-    "F2: S04 final report quality independent of component presence",
-    "F3: B-2del-fo S01 shows structural scaffolding needed for goal decomposition"
-   ],
-   "blocked_on": "arena hetero-judge (publication-grade scoring)"
-  }
- },
- "blocked_notes": {
-  "pfb-hardening-v2": {
-   "stage": "phase1-fix-pipeline (1/5)",
-   "gate_unmet": [
-    "nat cov >= 0.634",
-    "gpu depth >= 0.50",
-    "soc cov >= 0.898",
-    "fix committed+pushed",
-    "bench report updated"
-   ],
-   "root_cause": "中文 DRB 题检索通道全盲（Perplexity 免费额度用完 + DDG 中文质量差 + zh-wiki 零命中）",
-   "fix_direction": "等 Perplexity 额度重置 / 接 bing 国际版 / 接其他 LLM API（需 key）/ 升级 Pro（花钱）",
-   "bench_report": "s5-sm-bench-report.md 已更新（14:14），指标未达标",
-   "next_action": "Step 1: M1/M2 跑完后算 gpu depth 消融（不依赖 DRB 题）；Step 2: 检索通道修复后重跑 nat cov",
-   "updated_at": "2026-11-15T14:30:00+08:00"
+  "graph_tasks": [],
+  "history": [
+    {
+      "action": "advance",
+      "internal_state": "stage_02",
+      "revision": "r1",
+      "stage_id": "01"
+    },
+    {
+      "action": "advance",
+      "internal_state": "stage_02_5",
+      "revision": "r1",
+      "stage_id": "02"
+    },
+    {
+      "time": "2026-11-06T19:25",
+      "action": "goal-pfb-v3-benchmark-hardening-complete",
+      "summary": "v3 benchmark hardening goal 完成: RESULTS-FINAL.md (61 runs, bootstrap CI + sign test, S5-S0 +0.190 p=0.001**), stages/04 execution-log @8439759, stages/04.5 review pass-with-notes @90a8b84, 已 push。遗留: B2 异族 judge blocked-on-external, U4 bootstrap-cis.json 陈旧文件待清理。下一步 goal: gold-gap 补全 (Q5 维度完备性 prompt patch)。"
+    },
+    {
+      "ts": "2026-11-06T12:18:00+08:00",
+      "event": "goal-complete",
+      "goal": "pfb-v3-gold-gap",
+      "result": "PASS — Q5 S8G 5-rep last3 mean=0.836 (r5=0.851), M1/M4=1.0, 无泄漏; acceptance @5a7f375",
+      "next_goal": "pfb-s8g-generalization (Q1/Q4 验证 + S7V 基线补跑)"
+    },
+    {
+      "ts": "2026-11-25T14:24:39+08:00",
+      "event": "goal-complete",
+      "goal": "outreach-O1-pfb-author-candidates",
+      "result": "PASS — tasks/outreach/candidates.md 117 条(唯一 116 人/团队, 高18/中45/低54), 全本地文献可证(102 arXiv ID+3 DOI 零悬空), 机构可证 4 处其余[待核验]; commits 6baab1d63+3a9d06691+40ccf188a",
+      "next_goal": "outreach 外查阶段(ego-browser 补全 [待核验] 作者全名/机构/邮箱) — 需 Lead 授权, 超 discover 边界"
+    }
+  ],
+  "last_action": "T53b 诊断闭环: 死因=SM 纯 Python 阶段 CPU 冻结(非 E18 误杀); sample 替代 py-spy(免root) 但栈区分不了健康vs冻结(对照组); kill 分布分散=随机冻结+自愈有效, 不动 SM 代码; coverage=0.0 是真信号非 judge bug; 04-verify 必须按 (qid,arm) 二维分组",
+  "last_event_id": "7f9fd156-f9ba-490e-a2e6-caec7c1228b4",
+  "last_exploration": null,
+  "last_result": {
+    "action": "advance",
+    "artifact_refs": [],
+    "evidence": [
+      "loop-artifacts/stages/01/r1/evidence/unknown-local-probe-r266.md",
+      "loop-artifacts/stages/02/r1/fields.json",
+      "loop-artifacts/stages/02/r1/evidence/runtime-validator-bug-r267.md"
+    ],
+    "message": "阶段 02 调研闭环：本地非 Qwen 端点不存在（r266 探测实证）；外部 API key 环境变量中不存在，按任务书失败降级条款处置为 blocked_human（需用户提供 key），不阻塞其他任务。judge_format_compatibility 保留 research_required（依赖用户 key 解锁后实测回填，不伪造结论）。required_outputs research_findings 已回填 4 项子字段。",
+    "next_stage": "02.5",
+    "payload": {
+      "questions": [
+        "异源 judge 需要非 Qwen family 的可调用端点。本机探测确认无任何非 Qwen 本地模型（LM Studio/Ollama 未运行，唯一端点 127.0.0.1:8787 仅服务 qwen3.8-27b），环境变量中也无任何外部 provider key。请提供以下之一：(a) 任一非 Qwen 厂商 API key（Anthropic/OpenAI/Gemini/Mistral/DeepSeek 等）；(b) 启动 LM Studio 或 Ollama 并加载一个非 Qwen 模型；(c) 确认接受用当前 qwen3.8-27b 同源复判+人工抽审的降级方案（conf-0.2，T8 结论标注同源偏差风险）。收到后继续验收标准 2-5。"
+      ],
+      "stage_review": "字段表 12 项：local_endpoint_probe(confirmed,0.9)、external_api_credentials(assumed_default,0.8→blocked_human 通道)、non_qwen_judge_availability(confirmed,0.9) 均带 evidence_refs + observed_at；judge_format_compatibility 如实保留 research_required（无法单方面验证的事实，不绕过调研）；known/unknown 主字段 confirmed 并附 HTTPS 可复核来源。边界：外部凭据属用户侧输入，走 blocked_human 而非伪造完成。"
+    },
+    "revision": "r1",
+    "rollback_to": null,
+    "stage_id": "02",
+    "status": "blocked_human"
   },
-  "t53-decomp-sm": {
-   "stage": "04-arena-exec (5/7)",
-   "gate_unmet": [
-    "arena 已读到任务书",
-    "arena 引用了 loop 路径",
-    "loop-artifacts/ 有 D35 产出",
-    "arena 已 commit+push D35"
-   ],
-   "root_cause": "D35 任务书要求等 T-PR-16 完成后串行执行；T-PR-16 有产出但 D35 产出不在 arena 分支",
-   "arena_branch_latest": "0fb0c1ea（D35 任务书）",
-   "next_action": "确认 arena 是否还在跑 T-PR-16→D35 串行；没跑就重发 D35 任务书",
-   "updated_at": "2026-11-15T14:30:00+08:00"
-  }
- },
- "current_focus": "719 r2/r3 过夜跑中(队列~01:00完(22:06实测修正: r2~22:46/r3~01:00)); 双 watcher: q7-postrun PID 72026 + T-PR-17 pilot-waiter PID 88298(均 persist_on_release); 队列DONE→watcher自动post-run(SHA1查重+n_nodes健全性+replication-check)→waiter自动起pilot(3臂×L3(381)×n=3@719 ~8h fail-fast); 醒来第一动作=读两份报告(q7-719-postrun-report-*.md + tpr17-pilot-report-*.md)",
- "last_progress": "11-24 21:00-21:41: T-PR-17 T1-T3 完成(subagent sa-0-07937e31, 3e3859d31, Lead独立核验); subagent追加: T2保真度_seed_nodes镜像production resume的8个SM状态字段(1c7bc7f1d)+T5分析脚本+预设Δ_min config(21:36:45锁定,TOST只压mechanism臂,c374dfe2c)+样本量UNDERPOWERED哨兵(b23e125d5)+修复run_arm漏传rep(null-control跨rep shuffle流独立,n=3 CI不虚窄); Lead: pilot-waiter挂上(88298,persist,3b4691138)+waiter链路11项端到端核验(DONE检测/健康端点200/9cell参数/落盘文件名/floor381/报告key/fail-fast/python3.9.6/import/rep修复/顶层n_nodes,d7bd8db79)+分析接缝核验(analysis读文件名↔runner落盘对齐,final_tree L432在位)+并发拓扑(watcher纯本地零LLM,24:15与waiter同触发不抢vLLM); r2 21:41健康推进; 22:06 ETA实测修正: r2 72.3%@104min(1419/1962 calls), 节奏比r1慢26%, r2 ETA 22:46/r3 01:00/队列DONE 01:00/pilot 01:00-09:00(8fcdf29fc); 22:11 双轨ETA核验: LLM call节奏是峰谷周期非劣化, r2第二峰22:00-22:15=360calls≈r1第二峰378, r2 ETA 22:35-22:45, r3 ~00:55, 队列DONE ~00:55; 22:35 D3 rubric→v2 同步完成(build_q9_units.py 确定性脚本, gold-q9-units.json 37units/11gate, judge_run PASS, 710e72de3); 22:30 发现 T-PR-17 subagent 并未 STATIC(22:29 仍在改 analysis.py NaN 防护, 正当修复, runner 仍冻结 git 干净, pilot 不受影响); 22:38 r2 正常完成(rc=0, 22:35:39 DONE 719 nodes, SHA 独立无污染, 已计分 r1 jt=0.6635/cov=0.3269 vs r2 jt=0.6442/cov=0.2885); r3 22:36 起跑, ETA ~00:55; 719 档现 n=2; 22:45 checkpoint 权威值确认(meta 33/132/381, r3=381 floor 正确), subagent 节点数差异+cov=0 口径变化 2 项挂明早对账; 22:52 719 机制复现 3/3 确认(r2 落盘后, 修 replication-check 判据基线 r1→300-r1 跨预算, ea71103fd) — 单 rep 悬念解除, workshop §4.3 可落; 新细节: 300-r3 偶发 L5(19节点)=L5 生长是概率+规模非硬阈值; 22:55 机制归因精化(全15run): 稀释跟L5出现绑定(有L5组0.660 vs 无L5组0.707, Δ-0.047)非budget本身; L5=概率+规模(300-r3偶发19节点); 冗余随budget单调升(10→354); 净结论=预算用核验质量+冗余换覆盖深度 (38f1aa92d); 22:57 复现框架修正(26dd5e090): r1=签名定义非检验不入分母, 独立rep(r2,r3)才是核验对象; r2全中=1/1强证据非定论, r3落盘2/2才成立; replication-check 重写支持 r3 自动纳入; marginal-mechanism 措辞勘误(旧版误把 r1 计入=3/3 过强); subagent §B 已 steer 用修正措辞; 23:06 两 subagent 到自然终点: T-PR-17 完成 matched 批 Welch t 显著性(commit 86836a2d1: nat/depth p=0.006, soc/coverage p=0.006 显著, gpu 两指标不显著但功效不足 min Δ=0.135 → formula 优势域×指标特异, 可防御结论); §4.3 增量草稿完成(commit 899dff8ec)+Lead 修正复现措辞 3/3→1/1(7763e4822). 过夜链绿: r3 271/~1940 ETA 00:55, 三 watcher 活(72026/99447/88298); 01:50 应 D 指令停 stop hook(HALT)+开探索模式: ego-browser 与 ChatGPT 交叉验证 pfb 上限判断, 对话指出归因漏洞(0/21 可能是测量/节点类型/上游机制假性上限, 非纯模型深度墙), 落 T-L4-AUDIT 设计(M1-M4 审计最便宜判别实验, 不重跑)",
- "updated_at": "2026-11-25T01:50:00+08:00",
- "last_sync": "2026-11-24T21:15+0800"
+  "plan": {
+    "joins": [],
+    "nodes": [],
+    "parallel_groups": [],
+    "revision": "r1"
+  },
+  "project_id": "pfb",
+  "queue": {
+    "blocked_human": [],
+    "candidates": [],
+    "ready": []
+  },
+  "run_history": [],
+  "schema_version": 4,
+  "stage": {
+    "failure_condition": "核验不足或矛盾未处置",
+    "id": "02.5",
+    "input_description": "02 的调研结果与字段；逐字段派 subagent 去问多种网页 LLM + 权威数据，检查矛盾",
+    "name": "调研后交叉验证",
+    "on_failure": "02",
+    "on_human_block": "exploration",
+    "on_success": "03",
+    "required_outputs": [
+      "cross_validation"
+    ],
+    "revision": "r1",
+    "success_condition": "每个关键调研字段有逐 claim validation_records（≥2 独立具体来源、日期、裁决），矛盾已记录并更新 confidence"
+  },
+  "status": "active",
+  "task": {
+    "description": "【目标】T37 已完成。下一步：(1) arXiv 手动上传（需成璐登录）；(2) S7V full re-score (~15min vLLM) 补全 paired test n=15；(3) 投稿格式适配（目标期刊待定）。当前可推进：S7V re-score + 论文终稿 polish。",
+    "source": "T37 complete → next goal"
+  },
+  "task_intake": null,
+  "task_intake_history": [],
+  "last_update": "2026-11-24",
+  "next_steps": [
+    "T-L4-AUDIT 实验1(M1-M4 审计): 已派 subagent, 纯分析 719/300 已有 agent 树 + gold 21 结论, 不调 LLM 不占 vLLM, 可与 r3/pilot 并行; 结论修正 pfb 上限判断(H1/H2/H3 主导)",
+    "明早: ①读 q7-719-postrun-report(watcher 72026, 队列~00:55 DONE, replication-check 已支持 r3 自动纳入→看 2/2 还是 1/2) ②r3 落盘后 curve JSON 回填 n=3 + cov n=3 ③workshop §4.3 合并 subagent 增量草稿(workshop-sec43-q7-increment-20261124.md, 已修正: gold 52/46/37 + 300 n=2 口径 + 复现 1/1) ④读 tpr17-pilot-report(waiter 88298, ~09:00) ⑤T-REPAIR-1 起 4 臂(SM 冻结解除后) ⑥Welch t 结论(86836a2d1)已可落 workshop formula 消融节",
+    "干净 → replication-check 机制复现判定 + cov轴n=3回填 + Q7三域cov对比决定是否落workshop§4.3",
+    "污染 → 坏rep隔离重跑 (blind cp 根因已知: 输出按rep命名修复)",
+    "T-PR-17 pilot: waiter 88298 已自动接管(队列DONE→vLLM探测→9cell pilot fail-fast→tpr17-pilot-report-*.md); 醒来读报告: 9/9→T5分析(tpr17_analysis.py,Δ_min已预设); ABORT→查waiter报告定位(首个cell rc/sanity)",
+    "pilot效应>judge噪声(~0.1)→起scale(3arm×3ckpt×n5@719~64h,或降n=3~26h/L2+L3~42h); <噪声→结论=不可检测(F5语义)",
+    "idea53 arXiv: submission就绪(9pp PDF), 等D投",
+    "⚠️ 明早对账 2 项 (22:45 Lead 发现): ① T-PR-17 subagent 报告 checkpoint 节点数 381/291/190 与 meta.json 权威值 33/132/381(r1/r2/r3) 不符 — meta+preflight(3e3859d31) 为准, pilot floor=381 正确, 但 subagent 最终报告的节点数需核对是否笔误/不同口径 ② subagent 发现 gpu cov=0 飙升 = judge 口径变化(rubric 补微架构要点 + 窗口 12k→50k) 非 pipeline 崩溃(depth 持平 0.344→0.358) — 威胁 matched 批跨批可比性, 它正在追, 明早读其结论决定是否影响 workshop 跨批 claim"
+  ],
+  "last_updated": "2026-11-06T06:15:00+08:00",
+  "tasks": {
+    "T8-C3-fullloop-matrix": {
+      "status": "done-generation-pending-judge",
+      "completed": "2026-11-06",
+      "commit": "ac2f8a3",
+      "summary": "42 cells (32 valid + 10 degenerate finding). Key: evidence component causes 38% S02 degeneration in no-tool env. S04 quality robust to ablation (66-80% coverage all configs). Local judge self-bias confirmed (all 10/10). Arena hetero-judge pending.",
+      "findings": [
+        "F1: evidence tool instructions → execution-mode collapse (protocol-env interaction)",
+        "F2: S04 final report quality independent of component presence",
+        "F3: B-2del-fo S01 shows structural scaffolding needed for goal decomposition"
+      ],
+      "blocked_on": "arena hetero-judge (publication-grade scoring)"
+    }
+  },
+  "blocked_notes": {
+    "pfb-hardening-v2": {
+      "stage": "phase1-fix-pipeline (1/5)",
+      "gate_unmet": [
+        "nat cov >= 0.634",
+        "gpu depth >= 0.50",
+        "soc cov >= 0.898",
+        "fix committed+pushed",
+        "bench report updated"
+      ],
+      "root_cause": "中文 DRB 题检索通道全盲（Perplexity 免费额度用完 + DDG 中文质量差 + zh-wiki 零命中）",
+      "fix_direction": "等 Perplexity 额度重置 / 接 bing 国际版 / 接其他 LLM API（需 key）/ 升级 Pro（花钱）",
+      "bench_report": "s5-sm-bench-report.md 已更新（14:14），指标未达标",
+      "next_action": "Step 1: M1/M2 跑完后算 gpu depth 消融（不依赖 DRB 题）；Step 2: 检索通道修复后重跑 nat cov",
+      "updated_at": "2026-11-15T14:30:00+08:00"
+    },
+    "t53-decomp-sm": {
+      "stage": "04-arena-exec (5/7)",
+      "gate_unmet": [
+        "arena 已读到任务书",
+        "arena 引用了 loop 路径",
+        "loop-artifacts/ 有 D35 产出",
+        "arena 已 commit+push D35"
+      ],
+      "root_cause": "D35 任务书要求等 T-PR-16 完成后串行执行；T-PR-16 有产出但 D35 产出不在 arena 分支",
+      "arena_branch_latest": "0fb0c1ea（D35 任务书）",
+      "next_action": "确认 arena 是否还在跑 T-PR-16→D35 串行；没跑就重发 D35 任务书",
+      "updated_at": "2026-11-15T14:30:00+08:00"
+    }
+  },
+  "current_focus": "719 r2/r3 过夜跑中(队列~01:00完(22:06实测修正: r2~22:46/r3~01:00)); 双 watcher: q7-postrun PID 72026 + T-PR-17 pilot-waiter PID 88298(均 persist_on_release); 队列DONE→watcher自动post-run(SHA1查重+n_nodes健全性+replication-check)→waiter自动起pilot(3臂×L3(381)×n=3@719 ~8h fail-fast); 醒来第一动作=读两份报告(q7-719-postrun-report-*.md + tpr17-pilot-report-*.md)",
+  "last_progress": "11-24 21:00-21:41: T-PR-17 T1-T3 完成(subagent sa-0-07937e31, 3e3859d31, Lead独立核验); subagent追加: T2保真度_seed_nodes镜像production resume的8个SM状态字段(1c7bc7f1d)+T5分析脚本+预设Δ_min config(21:36:45锁定,TOST只压mechanism臂,c374dfe2c)+样本量UNDERPOWERED哨兵(b23e125d5)+修复run_arm漏传rep(null-control跨rep shuffle流独立,n=3 CI不虚窄); Lead: pilot-waiter挂上(88298,persist,3b4691138)+waiter链路11项端到端核验(DONE检测/健康端点200/9cell参数/落盘文件名/floor381/报告key/fail-fast/python3.9.6/import/rep修复/顶层n_nodes,d7bd8db79)+分析接缝核验(analysis读文件名↔runner落盘对齐,final_tree L432在位)+并发拓扑(watcher纯本地零LLM,24:15与waiter同触发不抢vLLM); r2 21:41健康推进; 22:06 ETA实测修正: r2 72.3%@104min(1419/1962 calls), 节奏比r1慢26%, r2 ETA 22:46/r3 01:00/队列DONE 01:00/pilot 01:00-09:00(8fcdf29fc); 22:11 双轨ETA核验: LLM call节奏是峰谷周期非劣化, r2第二峰22:00-22:15=360calls≈r1第二峰378, r2 ETA 22:35-22:45, r3 ~00:55, 队列DONE ~00:55; 22:35 D3 rubric→v2 同步完成(build_q9_units.py 确定性脚本, gold-q9-units.json 37units/11gate, judge_run PASS, 710e72de3); 22:30 发现 T-PR-17 subagent 并未 STATIC(22:29 仍在改 analysis.py NaN 防护, 正当修复, runner 仍冻结 git 干净, pilot 不受影响); 22:38 r2 正常完成(rc=0, 22:35:39 DONE 719 nodes, SHA 独立无污染, 已计分 r1 jt=0.6635/cov=0.3269 vs r2 jt=0.6442/cov=0.2885); r3 22:36 起跑, ETA ~00:55; 719 档现 n=2; 22:45 checkpoint 权威值确认(meta 33/132/381, r3=381 floor 正确), subagent 节点数差异+cov=0 口径变化 2 项挂明早对账; 22:52 719 机制复现 3/3 确认(r2 落盘后, 修 replication-check 判据基线 r1→300-r1 跨预算, ea71103fd) — 单 rep 悬念解除, workshop §4.3 可落; 新细节: 300-r3 偶发 L5(19节点)=L5 生长是概率+规模非硬阈值; 22:55 机制归因精化(全15run): 稀释跟L5出现绑定(有L5组0.660 vs 无L5组0.707, Δ-0.047)非budget本身; L5=概率+规模(300-r3偶发19节点); 冗余随budget单调升(10→354); 净结论=预算用核验质量+冗余换覆盖深度 (38f1aa92d); 22:57 复现框架修正(26dd5e090): r1=签名定义非检验不入分母, 独立rep(r2,r3)才是核验对象; r2全中=1/1强证据非定论, r3落盘2/2才成立; replication-check 重写支持 r3 自动纳入; marginal-mechanism 措辞勘误(旧版误把 r1 计入=3/3 过强); subagent §B 已 steer 用修正措辞; 23:06 两 subagent 到自然终点: T-PR-17 完成 matched 批 Welch t 显著性(commit 86836a2d1: nat/depth p=0.006, soc/coverage p=0.006 显著, gpu 两指标不显著但功效不足 min Δ=0.135 → formula 优势域×指标特异, 可防御结论); §4.3 增量草稿完成(commit 899dff8ec)+Lead 修正复现措辞 3/3→1/1(7763e4822). 过夜链绿: r3 271/~1940 ETA 00:55, 三 watcher 活(72026/99447/88298); 01:50 应 D 指令停 stop hook(HALT)+开探索模式: ego-browser 与 ChatGPT 交叉验证 pfb 上限判断, 对话指出归因漏洞(0/21 可能是测量/节点类型/上游机制假性上限, 非纯模型深度墙), 落 T-L4-AUDIT 设计(M1-M4 审计最便宜判别实验, 不重跑)",
+  "updated_at": "2026-11-25T01:50:00+08:00",
+  "last_sync": "2026-11-24T21:15+0800"
 }
