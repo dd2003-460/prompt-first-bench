@@ -5,8 +5,10 @@ draft 声明: "the L4 conclusion layer (mechanical, bias-immune) never converges
 to the gold winner at any budget tier (0/21 strict, §4.4)".
 
 口径 (T-JUDGE-1-L4-20261123.md + tjudge1_formula.l4_check):
-  - 21 棵 GPU 树 = K7 budget 15 (budget-*/runs-s5-sm-gpu.json, 非 -synth)
-    + idea2 6 (data/idea2/idea2-{A,B}-r{1,2,3}*.json)
+  - 21 棵 GPU 树 = K7 budget 15 (budget-*/runs-s5-sm-gpu-synth.json, 真 answer 版;
+    非 synth 版 answer 字段恒空, 2026-11-25 修复前误读)
+    + idea2 6 (data/idea2/idea2-{A,B}-r{1,2,3}*.json; 无 answer 字段,
+    结论散在节点 claim 里 → 0/6 恒成立, 节点 claim 3090×4 组合=0 已独立核验)
   - L4 strict: answer 最后 2000 字符出现 gold winner 配置组合
     (card_model × n_cards, gold-gpu-formulas.json ref_config)
   - 机械判定, 无 LLM, bias-immune
