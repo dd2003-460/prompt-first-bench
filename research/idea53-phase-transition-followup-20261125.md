@@ -75,3 +75,27 @@
 - Embedding Principle 系：层级=临界点按网络宽度/深度的嵌套——优化几何的**后验**属性，与任务逻辑结构无关。与新稿分解树（**先验**任务结构 + 闭式节点分）不可直接类比。
 - 2512.11866 的盆地层级："编码哪个类"的层级——语义上最接近"判断的层级"，但是数值/经验（MNIST）无闭式。它是 D 直觉的最强现存支持：判断的层级结构确实会以盆地层级形式出现在 loss landscape 上。
 - 对 D 问题的直接回答："又会成为 NN 优化问题"**部分成立**——若判断树由训练网络实现，树结构预期在 loss landscape 上表现为盆地层级（先例 2512.11866）；但现有文献的层级是涌现的（训练后），新稿的树是设计的（训练前）。两者互补而非同一。
+## 5. 对论文的影响（定位建议）
+
+**若"同一物"成立**（未采纳，备查）：把新稿 β→∞ 失效定位为 IB 相变的实例，引 2001.01878/1907.07331，claim 首次给出 IB 转变图的闭式有效域（αβσ≤0.4）。
+**若不成立**（采纳，conf 0.75）：related work 引 2001.01878/1907.07331/1703.00810 并显式划界一句："IB 压缩相变是全局极小的改变（解层面）；我们的 β→∞ 是微扰展开的失效（近似层面）；两者共享软-硬极限结构（β=Lagrange 乘子，β→∞=零温极限）但层级不同。"不展开——展开会被审稿人要求证明"同一物"。
+**EBM framing**：related work 加一段：EBM 读法有先例（Hopfield 1982；2310.08431；2608.12398），本文仅作解读层使用，不 claim 模型是 EBM。
+**loss landscape**：引 2512.11866（盆地层级↔相变）+ 2111.15527/2205.13283（Embedding Principle），回应 D 直觉：判断树的层级结构预期在 loss landscape 上表现为盆地层级——作为 **open problem/outlook** 一句带过，不作本文 claim。
+
+## 6. 查询日志 + 缺口清单
+
+**查询日志（全部新查，与主调研 84 组零重叠）：**
+- arXiv export API 16 组：Q1-ib-phase n=10（取 2001.01878）；Q1-ib-reptrans n=0；Q1-ib-comp n=10（2509.26327/2105.04405 为背景）；Q1-ib-zerotemp n=1（无关）；Q1-ib-theory-dl n=10；Q2-ebm-hier n=10（取 2608.12398/2310.08431/2501.13997）；Q2-ebm-tree n=2（全无关）；Q2-ebm-ground n=2；Q2-ebm-decide n=10（无对口）；Q2-hier-energy-decide n=0；Q3-ll-hier n=10（取 2111.15527/2205.13283/2407.20724）；Q3-ll-tree n=7（取 2406.16988）；Q3-ll-nested n=1；Q3-ll-basin n=2（取 2512.11866）；Q3-modeconn n=10（背景）；Q3-grok-phase n=10（取 2310.03789）。
+- abs/id_list 验证 14 ID：2001.01878、1907.07331、2608.12398、2310.08431、2111.15527、2205.13283、2512.11866、2406.16988、1703.00810、2310.03789、2407.20724、2509.26327、2105.04405、**1506.02615（查出为宇宙学论文→纠正任务上下文错误）**。
+- Crossref：Hopfield 1982 ✅（10.1073/pnas.79.8.2554, PNAS 79(8):2554）；Saxe 2018 ✅（10.1088/1742-5468/ab3985）；Tishby 1999/2000、MIRP 2000、LeCun 2006 ❌ 未命中（标 [待核验]）。
+- Semantic Scholar：限流，仅 1 条命中（Saxe 2018，与 Crossref 互证）。
+- 原始数据：`~/.hermes/cache/scratch/idea53-pt-followup-{arxiv,abs,classics2,final}.json`。
+
+**缺口清单：**
+1. [待核验] Tishby Pereira Bialek PRL 1999 "The Information-Based Algorithm" 卷页/DOI——Crossref 检索未命中；存在性确认（1907.07331 摘要引用）。
+2. [待核验] Tishby Pereira Bialek 2000 "The Information Bott Method and its Application to Learning" 书目细节。
+3. [待核验] Tishby 2000 "The Mutual Information Reconstruction Principle" 书目细节。
+4. [待核验] LeCun Bergstra Bordes 2006 "A Tutorial on Energy-Based Models"（TNNLS）卷页——Crossref 未命中。
+5. Saxe et al. 2018 无 arXiv ID（标题检索零命中）——引 ICLR 2018 / DOI 10.1088/1742-5468/ab3985。
+6. 2501.13997 仅 API 检索元数据、未读全文 abs——引用时降档或删除。
+7. **任务上下文勘误**："On the Information Bottleneck Theory of Deep Learning"（2017/2018）= Saxe et al. ICLR 2018，**不是** arXiv:1506.02615（后者是 2015 宇宙学论文）——讲解 note 需同步更正。
