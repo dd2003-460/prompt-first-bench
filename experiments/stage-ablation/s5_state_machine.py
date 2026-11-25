@@ -1448,14 +1448,6 @@ class DecompStateMachine:
 
             # ── J_verify → REWORK? ──
             unverified = [n for n in deduped if n.status != "verified"]
-            # Fix-B (T-REPAIR-1, 2026-11-24): 上轮 rework 失败的节点并入本轮 pool,
-            # 使 reworked 节点可跨轮重入。上轮 rework 失败以 status=degraded +
-            # rework_count>0 终态（见 _rework 失败分支）；此前 pool 只含本轮 deduped
-            # 新节点（rework_count≡0）→ rework_count≡1, max_rework=2 从未行使。
-            # 上界 = max_rework: 已耗尽的节点不再重入。
-            unverified = unverified + [n for n in self.nodes
-                                       if 0 < n.rework_count < self.cfg.max_rework
-                                       and n.status == "degraded"]
             if unverified and self._should_rework(deduped):
                 self.state = State.REWORK
                 self._rework(unverified)
