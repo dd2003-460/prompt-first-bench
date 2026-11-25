@@ -49,6 +49,8 @@ NUM_TOL = 0.10
 
 def load_samples():
     """返回 [(name, text, nodes), ...]：T8b 6 条 + S5 1 条（设计 §4 归一化）。
+    对称抽取：arm_a 与 arm_b 都取 content+reasoning（含 final_*），
+    早期版本 arm_b 只取 content 造成不对称（3090 计数减半, arm_b A1 判定失真）。
     nodes = 用于 cov 的节点列表（judge_v1 口径按节点 claim 编码）：
     S5 = 真实节点 claim；T8b 自由文本无节点，用非空行作节点近似。"""
     d = json.load(open(T8B_PATH))
@@ -57,12 +59,15 @@ def load_samples():
         text = a.get("content", "") + "\n" + a.get("reasoning", "")
         out.append((f"arm_a[{i}]", text, [ln.strip() for ln in text.split("\n") if ln.strip()]))
     for i, b in enumerate(d["arm_b"]):
-        parts = [b.get("final_content", "") or ""]
+        parts = [b.get("final_content", "") or "", b.get("final_reasoning", "") or ""]
         st = b.get("stages", {})
         vals = st.values() if isinstance(st, dict) else st
         for v in vals:
-            c = v.get("content", "") if isinstance(v, dict) else (v if isinstance(v, str) else "")
-            parts.append(c or "")
+            if isinstance(v, dict):
+                parts.append(v.get("content", "") or "")
+                parts.append(v.get("reasoning", "") or "")
+            else:
+                parts.append(v if isinstance(v, str) else "")
         text = "\n".join(parts)
         out.append((f"arm_b[{i}]", text, [ln.strip() for ln in text.split("\n") if ln.strip()]))
     s5 = json.load(open(S5_PATH))
@@ -178,17 +183,25 @@ def judge_text(text):
     corr = W_C * c + W_E * e + W_S * s + W_N * n
     p_a1 = 1.0 - c
     p_a3 = e_d["e1"] * r
+    # A2 (候选集粒度断点, dry-run 新发现): winner 卡型充分出现(C1e≥0.5)
+    # 但 winner 配置从未构造(C2<0.5)且从未评估(E1<0.5) → 非A1(卡型在)非A3(配置没评估)。
+    # 与 A3 严格互斥(E1 条件相反); 与 A1 仅在 C2=0 且 C1e∈[0.5,0.6] 边界点重叠,
+    # 由判定优先级裁决(A1 先判, 卡型边缘出现时保守归 A1)。观测数据上三型完全分离。
+    c2bp = c_d["c1e"] >= 0.5 and c_d["c2"] < 0.5 and e_d["e1"] < 0.5
     if p_a1 >= TH_A1 and p_a3 >= TH_A3:
         verdict = "A1+A3"
     elif p_a1 >= TH_A1:
         verdict = "A1"
     elif p_a3 >= TH_A3:
         verdict = "A3"
+    elif c2bp:
+        verdict = "A2"
     else:
         verdict = "indeterminate"
     return {"corr": round(corr, 3), "C": round(c, 3), "E": round(e, 3),
             "R_low": round(r, 3), "S": round(s, 3), "N": round(n, 3),
-            "P_A1": round(p_a1, 3), "P_A3": round(p_a3, 3), "verdict": verdict,
+            "P_A1": round(p_a1, 3), "P_A3": round(p_a3, 3), "C2BP": c2bp,
+            "verdict": verdict,
             "detail": {"C": c_d, "E": e_d, "R": r_d, "S": s_d, "N": n_d}}
 
 
@@ -228,7 +241,8 @@ def cov_score(nodes):
 
 # ---------------- 扰动自测（判别规则的因果性，非 n=2 相关性） ----------------
 def selftest():
-    """6 断言: 基线 2 + 变异 3 + 阳性对照 1。全过 = 判别由探针因果驱动, 非对样本过拟合, 且不'全判病'。"""
+    """8 断言: 基线 3(A1/A3/A2) + 变异 3 + 阳性对照 1 + A2 因果 1。
+    全过 = 三型判别由探针因果驱动, 非对样本过拟合, 且不'全判病'。"""
     samples = {n: t for n, t, _ in load_samples()}
     a0, a2 = samples["arm_a[0]"], samples["arm_a[2]"]
     results = []
@@ -254,6 +268,13 @@ def selftest():
     assert v4 != a2, "V4 替换未命中"
     r = judge_text(v4); results.append(("V4 阳性对照(winner评估+推荐)→非A1非A3",
                                         r["verdict"] == "indeterminate", r["verdict"]))
+    # V5 A2 基线: arm_a[1] 卡型充分出现但 4×3090 从未构造/评估 → 候选集粒度断点
+    a1 = samples["arm_a[1]"]
+    r = judge_text(a1); results.append(("V5 基线 arm_a[1]→A2(候选集粒度断点)",
+                                        r["verdict"] == "A2", r["verdict"]))
+    # V6 A2 因果: arm_a[1] 抹掉 3090 → 卡型消失 → 应翻成 A1
+    r = judge_text(a1.replace("3090", "3080")); results.append(("V6 A2抹3090→A1",
+                                                                r["verdict"] == "A1", r["verdict"]))
     ok = all(p for _, p, _ in results)
     for name, p, got in results:
         print(f"  [{'PASS' if p else 'FAIL'}] {name} → {got}")
@@ -306,7 +327,9 @@ def verify_anchors():
 
 
 # ---------------- main ----------------
-GT = {"arm_a[0]": "A1", "arm_a[2]": "A3"}  # salvage 已验证的 ground truth
+GT = {"arm_a[0]": "A1", "arm_a[2]": "A3", "arm_a[1]": "A2"}
+# arm_a[1]=A2 为推导型 ground truth: 独立探针已验证(3090 提及 12 次 + 4×3090 构造 0 次
+# = A2 定义本身), 非 salvage 实锤, 报告中单独标注。
 
 def main():
     samples = load_samples()
@@ -323,12 +346,13 @@ def main():
                or (r["gt"] in r["verdict"])]
     acc = len(correct) / len(known) if known else None
     print(f"{'sample':12s} {'cov':>5s} {'CORR':>6s} {'C':>5s} {'E':>5s} {'R':>5s} "
-          f"{'S':>5s} {'N':>5s} {'P_A1':>5s} {'P_A3':>5s}  verdict  gt")
+          f"{'S':>5s} {'N':>5s} {'P_A1':>5s} {'P_A3':>5s} {'C2BP':>5s}  verdict  gt")
     for r in rows:
         cov = f"{r['cov']:.3f}" if r["cov"] is not None else "NA"
-        print(f"{r['sample']:12s} {cov:>5s} {r['corr']:>6.3f} {r['C']:>5.3f} "
-              f"{r['E']:>5.3f} {r['R_low']:>5.3f} {r['S']:>5.3f} {r['N']:>5.3f} "
-              f"{r['P_A1']:>5.3f} {r['P_A3']:>5.3f}  {r['verdict']:<12s} {r['gt'] or '-'}")
+        c2bp = "1" if r["C2BP"] else "0"
+        print(f"{r['sample']:12s} {cov:>5s} {r['corr']:6.3f} {r['C']:5.3f} "
+              f"{r['E']:5.3f} {r['R_low']:5.3f} {r['S']:5.3f} {r['N']:5.3f} "
+              f"{r['P_A1']:5.3f} {r['P_A3']:5.3f} {c2bp:>5s}  {r['verdict']:<12s} {r['gt'] or '-'}")
     print(f"\n判别准确率 (已知 {len(known)} 条: "
           + ", ".join(f"{r['sample']}={r['gt']}→{r['verdict']}" for r in known)
           + f") = {acc:.0%}" if acc is not None else "\n无已知样本")
