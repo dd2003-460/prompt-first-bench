@@ -64,3 +64,6 @@ for p in 15606 19059 36173 43915; do kill -0 $p 2>/dev/null && echo "$p STILL AL
 - **14:05 已知限制（收数时带上）**：执行器未设 Q6_REP → 检索缓存跨 rep 共享（r2 有 17 次命中复用 r1 快照）。LLM temp=0.0 确定性 + 早期树各臂对称 → 非差异化混淆，定性为已知限制不中断 run；若重跑须在 rep 循环加 `export Q6_REP=$rep`。rep_spread caveat 是运行时兜底。详见设计文档 14:05 条。
 
 - 18:55 夜间进度快照：baseline 97/121/93 reworks（r3 仅 229 节点），fixA 128/122/92（r3 仅 203 节点），fixAB-r1 148 reworks（300 节点）。**异常已查明**：两个 r3 节点数 <300 是因命中 `max_depth=4 hit`（深度上限，合法终止非 bug）——r3 树长得更深更早触顶。析因脚本按 rate 归一化不受影响，但 rep 间节点数不同（300/300/229、300/300/203）→ 节点级池化时勿假设等 n。
+
+- 19:00 口径澄清（防析因混淆）：析因脚本 t-repair1-analysis.py 用**节点级**口径（rework_count>0 且 status==verified，与设计文档 §验收 一致）。stdout 的 `reworks=` 是**事件级**（含重复 rework）。r1 对照：节点级 base 50 / fixA 84 / fixAB 79（fixAB 不偏高，之前 148 事件级是重复 rework 所致，max_rework=2）。**明早只看节点级，stdout 事件级仅作监控。**
+- 19:00 链条重挂：armc-prime-post 新 PID 69029（等 36173 退出 → vLLM ready → armC' 3 样本 + 机械评分 + eps-judge）。全链 4 PID 存活：15606(exec)→19059(postcheck)→36173(catchup)→69029(armc-prime)。
