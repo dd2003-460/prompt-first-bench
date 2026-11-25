@@ -32,16 +32,23 @@ CFG4 = re.compile(
     r"|[4四]\s*(?:张|卡|块)\s*(?:RTX\s*)?3090"
     r"|(?:RTX\s*)?3090\s+[4四]\s*(?:张|卡|块)"
     r"|(?:RTX\s*)?3090[\s*]*\|\s*4\s*\|"
-    r"|\|\s*4\s*\|[\s*|]{0,12}?(?:RTX\s*)?3090")
+    r"|\|\s*4\s*\|[\s*|]{0,12}?(?:RTX\s*)?3090"
+    r"|卡型[\s*]*[：:][^\n]{0,20}?(?:RTX\s*)?3090[^\n]{0,20}?卡数[\s*]*[：:]\s*4\b"
+    r"|(?:RTX\s*)?3090[^\n]{0,20}?卡数[\s*]*[：:]\s*4\b[^\n]{0,20}?卡型")
 # v1.3 (2026-11-25, T8c smoke 第一批格式适配): 补表格行变体——模型把 卡型/卡数 分列
 #   输出(`| RTX 3090 | 4 | W4 |`, 常带 markdown 加粗 `**RTX 3090**`), 原 CFG4 只认内联
-#   `4×3090` → winner 评估行 E1=0 → A3 漏判(假 indeterminate)。安全性: 卡数限 2-4(题面),
-#   `\|\s*4\s*\|` 不会撞 40; 淘汰行(`| 3090 | 2 | W8 |`)卡数≠4 不命中; 即便命中也只增 E1
-#   (饱和在 1.0 无区分度, 设计文档 §轴E), R 轴只扫推荐行(STRONG_REC/WEAK_REC),
-#   淘汰行非推荐行 → 无误救。另: axis_e 表格模式(c_pass 表头存在时 CFG4 行即评估行,
-#   因数值列是纯数字行级 EVAL_NUM 不命中)+ STRONG_REC 补「最优选」(模型实际推荐词)。
+#   `4×3090` → winner 评估行 E1=0 → A3 漏判(假 indeterminate)。
+#   v1.3.1 (同日, 第2批 smoke A 臂 3/3 误判 A3 修复): 补「卡型：RTX 3090 … 卡数：4」
+#   同行列表变体——模型推荐段用 `- **卡型**：RTX 3090 | - **卡数**：4` 分行列表,
+#   推荐行(STRONG_REC 段)无 CFG4 命中 → picked=False → 正确答案误判 A3。
+#   安全性: ① 卡数限 4(题面 2-4 卡, `4\b` 不撞 40); ② 要求同行共现(卡型+3090+卡数:4),
+#   跨行不命中(推荐行与淘汰行通常不同行); ③ 淘汰行含 NEG_REC 词(淘汰/装不下/不足)
+#   → R 轴否定守卫仍生效, 即便命中也不误救(R_low 保持 1); ④ selftest 11/11 无回归。
+#   另: axis_e 表格模式(c_pass 表头存在时 CFG4 行即评估行, 因数值列是纯数字行级
+#   EVAL_NUM 不命中)+ STRONG_REC 补「最优选」(模型实际推荐词)。
 #   验证: selftest 11/11 无回归(T8b 样本无 c_pass 表头, 表格模式不触发)
-#   + t8c_judge_format_probe.py 6/6(新增表格格式 CORRECT/A3 样本)。
+#   + t8c_judge_format_probe.py 6/6(新增表格格式 CORRECT/A3 样本)
+#   + 第2批 smoke A 臂 3/3 实跑数据复核(推荐 3090×4 正确答案 → indeterminate)。
 STRONG_REC = re.compile(r"主推荐|首选|最终推荐|最终方案|推荐方案|最佳方案|最优方案|综合推荐|最终结论|推荐：|推荐:|最优选")
 # v1.3 补 最优选: T8c smoke 第一批模型推荐行用「最优选」(不在原 STRONG_REC), 缺则
 #   表格格式正确答案走 E1=0 中性路径(侥幸 indeterminate)而非「winner 被选中 R_low=0」路径。
@@ -163,7 +170,37 @@ def axis_r(text, e1_rows):
         return 0.5, {"strong_rec_lines": 0, "note": "E1=0, R 未定义, 中性 0.5"}
     rec_lines = [ln for ln in text.split("\n") if STRONG_REC.search(ln)]
     if rec_lines:
-        picked = any(CFG4.search(ln) for ln in rec_lines)
+        # v1.3.1 (2026-11-25, 第2批 smoke A 臂误判 A3 修复): 推荐行本身含 winner
+        #   (CFG4 非否定) → picked; 或推荐行是纯标题(不含任何卡型, 如「最优选卡方案」)
+        #   → 检查紧随 2 行配置详情(含 CFG4 非否定) → picked。
+        #   安全性: 含具体卡型的推荐行(如「主推荐: 2×4090」)不查下一行, 防 T8b
+        #   arm_a[2](推荐 4090 + 后续表格含 3090 评估行)误判 picked → 保 A3。
+        lines = text.split("\n")
+        picked = False
+        for i, ln in enumerate(lines):
+            if not STRONG_REC.search(ln):
+                continue
+            if CFG4.search(ln) and not NEG_REC.search(ln):
+                picked = True
+                break
+            if not re.search(r"\b(?:3090|4090|V100|A100|A6000|H100)\b", ln):
+                # 窗口联合检查: 逐行 CFG4 打不中「卡型/卡数 分 bullet 行」(3090 与
+                #   卡数:4 分属两行), 改为窗口内共现: 3090 与 卡数:4 同窗 + 非否定。
+                #   T8b 全样本扫描零潜在误伤(2026-11-25 实跑验证)。
+                win = "\n".join(lines[i + 1:i + 4])
+                if re.search(r"(?:RTX\s*)?3090", win) \
+                   and re.search(r"卡数[\s*]*[：:][^\n]{0,10}?4\b", win) \
+                   and not NEG_REC.search(win):
+                    picked = True
+                    break
+                for nxt in lines[i + 1:i + 4]:
+                    if re.match(r"\s*(?:#{1,6}\s|\d+[\.、]|---)", nxt):
+                        break
+                    if CFG4.search(nxt) and not NEG_REC.search(nxt):
+                        picked = True
+                        break
+                if picked:
+                    break
         return (0.0 if picked else 1.0), {"strong_rec_lines": len(rec_lines),
                                           "winner_in_strong_rec": picked, "weak_fallback": False}
     # 兜底: 无强推荐行 → 弱推荐语义扫描(否定守卫)
