@@ -81,12 +81,117 @@ T8c 数据作废重跑。此为已知限制，不掩盖。
 
 ## 3. 歧义③ 消解：c_pass 口径（公式 + 参数 + 同构性）
 
-<!-- SEC:cpass -->
+**终稿写法**：目标函数 = **最小化 c_pass（¢/task）**，公式与参数全部写进题面（模型不需自查口径）：
+
+```
+c_pass = c_hour / ( U × λ_raw × G )        [¢/task]
+c_hour = 摊销 + 电费 + 故障                  [$ / 小时, 整机]
+摊销   = (gpu_price + HOST_PRICE − gpu_price×RESID) / H_HOURS
+电费   = (n_cards×TDP + 300) / 1000 × ELEC
+故障   = P_FAIL × gpu_price / H_HOURS
+λ_raw  = 3600 / t_task                       [task / 小时]
+t_task = t_prefill + t_decode/n              [秒]
+t_prefill = PREFILL_FLOPs / (n_cards × TF_peak × MFU × tp_eff)
+t_decode  = OUT_TOK × (W_bytes + n×KV) / (n_cards × BW_peak × η_bw × tp_eff)
+```
+
+**参数取值（全部 ①类，来源 calc.py L38-50，逐条）**：
+
+| 参数 | 取值 | 来源 |
+|------|------|------|
+| U（利用率） | 0.35 | calc.py L48 ①类（L5§2 黑盒取中位数） |
+| G（通过率） | 0.68 | calc.py L48 ①类 |
+| ELEC（电价） | $0.12/kWh | calc.py L48 ①类 |
+| MFU | 0.45 | calc.py L48 ①类 |
+| η_bw（带宽效率） | 0.80 | calc.py L48 ①类 |
+| HOST_PRICE（4 卡主机） | $2000 | calc.py L39 ①类（L4） |
+| RESID（残值率） | 0.40 | calc.py L40 ①类（L4 B8） |
+| H_HOURS（摊销时长） | 26280 h（3 年） | calc.py L41 ①类（L4） |
+| P_FAIL（3 年故障概率） | 0.20 | calc.py L42 ①类（L4 B8） |
+| PREFILL_FLOPs | 594 TFLOP | calc.py L43 ①类（L4: 2×27e9×5898） |
+| OUT_TOK（输出 token） | 655 | calc.py L44 ①类（L3: decode 655） |
+| tp_eff（多卡互联效率） | 0.81 | calc.py L45 ①类（**标定值**：文档标 S-a 未钉数值，0.81 使点值对上 0.679；排名结论不依赖其绝对值——tp_eff 同乘 prefill/decode） |
+| W_bytes | W4=14.0 / W8=27.0 / W16=54.0 GB | calc.py L49 ①类（27e9×bits/8） |
+| KV（@64K 单流） | 24.7 GB/流 | calc.py L50 ①类（B7「我」口径 46 层/16 KV 头） |
+| 卡规格（TF_peak/BW/mem/TDP/price） | 见 §2 表 | calc.py L33/L36 ①类 |
+
+**与 calc.py 的同构性**：题面公式与 `calc.py` 的 `c_pass()`（L53-67）**逐行同构**——
+同一公式、同一参数表、同一单位（c_hour 美元/小时 ÷ 吞吐 → 美元/task ×100 → ¢/task）。
+模型按题面公式算出的 c_pass 应能对上 oracle 数值（winner 0.681），对不上即可机械判「算术/推导错」。
+N-5.2 带宽门与 c_pass 的 decode 项**代数同构**（t8b-smoke-report.md §3.1 已证：
+把目标每流速率 r=20 代入 t_decode 分子即得带宽准入下限 20×(W+n×KV)/n_cards），
+故题面同时给出：带宽准入下限 W4=774 / W8=1034 / W16=1574 GB/s（每卡有效带宽 = BW_peak×0.80
+须 ≥ 每卡需求 20×(W_bytes + n×24.7)/n_cards，一卡一流口径 n=n_cards）。
+
+**验收锚（oracle 实跑，本轮）**：c_pass(3090×4/W4/n=2) = 0.681 ≈ 0.679（calc.py 标定值，
+差 0.3%）；六弹性 6/6、prefill:decode=40:60、winner 排名 3090×4/W4/n=2 < 3090×2/W4/n=1
+（calc.py `main()` 4/4 验收锚全过，t8b-smoke-report.md §3.1 已记录）。
 
 ## 4. T8c 题面正文（冻结版，两臂共用）
 
-<!-- SEC:prompt -->
+两臂共用以下题面（冻结版）。Arm A'（直接求解）= 单次调用喂此题面；Arm B'（六阶段）= 此题面作 01 阶段输入，harness 驱动 01→02→02.5→03→04→04.5（同 T8b `run_exp_t8b.py`）。
+
+```
+你要在本地工作站上部署 Qwen3-27B 模型推理。严格按以下约束与成本模型求解
+（本题面已给出全部所需数字，不需要也不允许外部查询）：
+
+【硬约束】
+1. 上下文窗口定值 64K tokens（KV 缓存按 64K 计，27B 单流 KV ≈ 24.7 GB/流）。
+2. 解码吞吐目标：每流 ≥20 tok/s（≈50 ms/token）。不达标的配置直接淘汰（带宽准入门，见下）。
+3. 并发约定：n = floor(n_cards / 2)（2 卡/流，部署约定，不是自由优化变量）。
+4. 目标函数：最小化 c_pass（每个通过任务的成本，¢/task）。c_pass 最低的配置为最优。
+
+【候选硬件（固定，不得自行扩大或替换）】
+  RTX 3090    显存 24 GB   峰值带宽 936 GB/s   峰值算力(FP16 non-tensor) 71 TFLOPS   TDP 350 W   单价 $1050
+  V100 SXM2   显存 32 GB   峰值带宽 900 GB/s   峰值算力(FP16 non-tensor) 125 TFLOPS  TDP 250 W   单价 $2500
+卡数：单机 2-4 卡。精度：W4/W8/W16 可选（权重体积 W4=14 GB / W8=27 GB / W16=54 GB），
+需论证所选精度的质量损失是否可接受。
+
+【两道准入门（不满足即淘汰）】
+- 显存门：(W_bytes + n×24.7) / n_cards ≤ 单卡显存。
+- 带宽门：每卡有效带宽 = 峰值带宽×0.80 ≥ 每卡需求 20×(W_bytes + n×24.7)/n_cards。
+  等价固定阈值（一卡一流口径）：W4 ≥ 774 GB/s，W8 ≥ 1034 GB/s，W16 ≥ 1574 GB/s（峰值带宽口径）。
+
+【c_pass 公式与参数（按此公式计算，勿自改口径）】
+  c_pass = c_hour / (U × λ_raw × G) × 100          [¢/task]
+  c_hour = 摊销 + 电费 + 故障                        [$ / 小时, 整机]
+  摊销   = (gpu_price + 2000 − gpu_price×0.40) / 26280
+  电费   = (n_cards×TDP + 300) / 1000 × 0.12
+  故障   = 0.20 × gpu_price / 26280
+  λ_raw  = 3600 / t_task                            [task/小时]
+  t_task = t_prefill + t_decode / n                 [秒]
+  t_prefill = 594e12 / (n_cards × TF_peak × 0.45 × 0.81)
+  t_decode  = 655 × (W_bytes + n×24.7) / (n_cards × BW_peak × 0.80 × 0.81)
+参数含义：U=0.35 利用率；G=0.68 通过率；2000$ 4卡主机；0.40 残值率；26280h 3年摊销；
+0.20 三年故障概率；594 TFLOP prefill 算力；655 输出 token 数；0.45 MFU；
+0.81 多卡互联效率；0.80 带宽效率；0.12 $/kWh 电价。
+
+【输出要求】
+1. 枚举所有通过两道门的可行配置（卡型×卡数×精度×n），逐个算出 c_pass。
+2. 给出最优选卡方案（c_pass 最低者）：卡型×卡数×精度×n。
+3. 逐项说明其余候选为何被淘汰（显存装不下 / 带宽不达标 / c_pass 更高）。
+4. 论证所选精度的质量损失是否可接受。
+5. 关键数字标来源（题面给定 vs 你推导的），不确定标 [待核验]。
+```
 
 ## 5. 执行清单（跑 T8c 前 checklist）
 
-<!-- SEC:checklist -->
+跑 T8c 数据前逐条过（全部机械可验，任一不过 → 不跑）：
+
+- [ ] **oracle 验证**：`python3 tasks/think-trigger/exp-results/gold_gpu_oracle.py` exit 0 且
+      输出含 `winner=3090×4/W4/n=2 ✅`、`c_pass=0.681≈0.679 ✅`、`N-5.2 6/6 ✅`。
+      oracle 种子 commit = `d41ab1bf7`（已核：`git show --stat d41ab1bf7`）。
+- [ ] **题面冻结**：§4 题面正文 commit hash = `<SPEC_FINAL_HASH>`（本文件终稿 commit；
+      跑数后题面只读，改动须另开版本）。
+- [ ] **预注册冻结**：`t8c-preregistration.md` commit hash = `<PREREG_HASH>`（判据先于数据 commit）。
+- [ ] **两臂 prompt 模板**：
+  - Arm A'（直接求解）：单次调用，user message = §4 题面全文，`max_tokens=24576`
+    （= 24K 预算，见预注册 §1），temp=0.7，model=qwen3.8-27b-mtp（endpoint 127.0.0.1:8787）。
+  - Arm B'（六阶段）：01 阶段 user message = §4 题面全文，harness 同 `run_exp_t8b.py`
+    （01→02→02.5→03→04→04.5，每阶段 max_tokens=4096，累积上下文），总预算 6×4096=24576。
+  - 两臂 token 预算相等（24576）= token-matched 的定义；容差见预注册 §1。
+- [ ] **V100 价格假设复核**：确认仍按题面 $2500（③类假设）；若期间 V100 实价核验落到
+      <$2033（§2 脆弱性披露的翻转点），winner 锚点重定后再跑。
+- [ ] **correctness judge 就绪**：J1 三型判别器（`correctness_layer_v0.py`，
+      commits 92aa24a76→fb60263ac 链，selftest 11/11）可用；winner 锚 = 4×3090/W4/n=2。
+- [ ] **端点健康**：vLLM 127.0.0.1:8787 `/v1/models` 返回 qwen3.8-27b-mtp（本轮已核 ①类）。
