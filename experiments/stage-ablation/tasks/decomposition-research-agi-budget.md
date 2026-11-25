@@ -271,8 +271,9 @@ research-agi-budget（D 硬件条件下，预算控制 AI 在 Pareto 边界上�
 **协调冲突（本轮）**：nodepth 批被另一会话越序并发启动（违反 vLLM 不并发前提），已 kill + relay log 留痕（K7 报告有记录）。
 
 ## T-REPAIR-1 repair loop 实验（2026-11-24 22:40 设计）
-- **状态**：📐 设计完成，待 pilot 后执行（SM 冻结至 ~09:00）
-- **设计**：（2×2 析因 Fix-A directed可达 × Fix-B re-entry, budget=300 Q6, 预测 P-A/P-B/P-A+B）
+- **状态**：🚀 已 arm（11-25 10:50, PID 15606 proc_51a33a51c46b），Gate 等 post-pilot 队列 PID 1892 退出 + vLLM 就绪后自动串跑 4 臂
+- **设计**：（2×2 析因 Fix-A directed可达 × Fix-B re-entry, budget=300 Q6, n=3/臂, 预测 P-A/P-B/P-A+B）
 - **依据**：workshop §5 implication-1（repair 是唯一还开着的高杠杆, 当前 3.7%）
-- **时序**：pilot(~09:00)完 → 确认 SM 不被 import → 应用修改 → 跑 4 臂
+- **执行器**：t-repair1-4arm.sh（commit 71c3c5358+481fb91c7）——序列 baseline→A→A+B→B（每步 commit 留痕, 审计链 H0(0,0)→H_A(1,0)→H_AB(1,1)→H_B(0,1)→restore(0,0)）；每臂独立 SM_CKPT_DIR 防陈旧子树；同 SM_SEED=42；marker 校验 + py_compile 门禁 + 失败即中止；收尾 restore-commit 保审计链线性。临时 repo 干跑验证：终态 SM 逐字节还原（md5 44f6c4b5）。
+- **时序**：队列(4 步, ~2-4h) → T-REPAIR-1 4 臂(12 runs × ~45min ≈ 9h)
 
