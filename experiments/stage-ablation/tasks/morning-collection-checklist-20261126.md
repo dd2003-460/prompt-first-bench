@@ -23,6 +23,7 @@ for p in 15606 19059 36173 43915; do kill -0 $p 2>/dev/null && echo "$p STILL AL
   - P-A: value_mismatch 分母=0(Q6 域) → 看 indirect（angle + 节点级是否随 A 升）
   - P-A+B: interaction ∈ {orthogonal, superadditive, subadditive}
   - discriminant: A、B 都不升 → 瓶颈在 fixer 能力/contradiction 证据
+  - **TOST 读法（13:05 修正后）**: P-B 差值 CI 落在 [-0.1, +0.1] 内才可判"等效/无效"；落在外且不显著 = 功效不足（power=0.8 需 p1≈0.16，即救回 ~15 节点/臂），不下"无效"结论
 - **Fix-A/B 效应方向（已预注册）**: 降 degraded 计数（baseline 缺陷=改写后过不了验证, 43/50 angle→degraded）
 
 ## 2. L4 消歧主判读（learn-to-think H1 残留机制判别）
