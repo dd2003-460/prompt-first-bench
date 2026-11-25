@@ -67,3 +67,6 @@ for p in 15606 19059 36173 43915; do kill -0 $p 2>/dev/null && echo "$p STILL AL
 
 - 19:00 口径澄清（防析因混淆）：析因脚本 t-repair1-analysis.py 用**节点级**口径（rework_count>0 且 status==verified，与设计文档 §验收 一致）。stdout 的 `reworks=` 是**事件级**（含重复 rework）。r1 对照：节点级 base 50 / fixA 84 / fixAB 79（fixAB 不偏高，之前 148 事件级是重复 rework 所致，max_rework=2）。**明早只看节点级，stdout 事件级仅作监控。**
 - 19:00 链条重挂：armc-prime-post 新 PID 69029（等 36173 退出 → vLLM ready → armC' 3 样本 + 机械评分 + eps-judge）。全链 4 PID 存活：15606(exec)→19059(postcheck)→36173(catchup)→69029(armc-prime)。
+
+- 19:10 eps-judge 鉴别力测试：机械半边离线验证 PASS（POS 构造正例 HIT=7 / armC 3 负例信息论轴=0 / FP 无关语境"先验"过命中→证实两级设计必要）。判官半边挂链 PID 71865（gate 36173，vLLM 释放后 ~30s 跑完，先于 armC-prime 验证判官可信度；FAIL 则明早 armC' 判决需 D 人工终核）。
+- 19:10 夜间链最终形态：15606(exec fixAB-r2)→19059(postcheck)→36173(catchup)→{69029 armc-prime, 71865 eps-judge-discrim} 同门 36173 退出后并发，eps-judge 仅 2 样本 ~30s 先完。
