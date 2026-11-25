@@ -24,7 +24,8 @@ ARIS 件接入
 | A | ARIS 4 工具+2 批判 skill 机制提取 | sub | 完成(deleg_ea67ecf4) | scratch/aris-mechanism-detail-20261125.md |
 | C1 | 4 脚本 copy+model_family 适配+import 验证 | sub | 派发中(deleg_97a2d654) | pfb/tools/aris/ 文件存在 + import 不报错 |
 | C2 | 6 批判 prompt 提取→任务书模板 | sub | 与 C1 同 sub | 6 个模板落盘 + 各含黑白名单+映射表 |
-| C3 | idea53 最小闭环试跑 | sub/arena | 待 C1+C2 | 闭环产物落盘（iteration_log jsonl + 验收回执 + 批判 JSON） |
+| C3a | idea53 数字复算+状态机驱动（executor 半） | sub | 派发中 | TRIAL-RECEIPT.md + iteration_log jsonl + acceptance-request.md |
+| C3b | arena 跨族验收 + kill-argument 批判（验收半） | Lead | 待 C3a | accept() 落库 + 批判 verdict（代码算） |
 | C4 | 验收 vs 三个病 | Lead | 待 C3 | 三病各一个可测数字 |
 | B1 | 自建 MVP（备选） | 待定 | 阻塞: C 试完 | 见 SM-PROPOSAL §5 |
 | U1 | 直装 Claude Code 对照 | 待定 | 阻塞: C 跑顺+D 确认订阅 | — |
@@ -33,6 +34,7 @@ ARIS 件接入
 C1=脚本层（引擎无关 .py），C2=prompt 层（批判协议），C3=集成试跑，C4=验收。C1/C2 同源合一个 sub，C3 依赖 C1+C2。
 
 ## 在途 / 空缺
-- C1+C2 sub 在途（deleg_97a2d654）
+- C1+C2 sub 在途（deleg_97a2d654，6/6 prompt + 7 .py 已落盘，收尾中）
+- C3a 试跑 sub 本轮派发（含稳定性检查，防与 C1+C2 写冲突）
 - D 是否有 Claude 订阅未知（只影响 U1 对照，不影响 C）
 - idea53 的 venue 轮 arena 报告仍未回（不阻塞 C 路径）
