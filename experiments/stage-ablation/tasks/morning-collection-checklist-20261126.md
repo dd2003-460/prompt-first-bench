@@ -78,3 +78,8 @@ for p in 15606 19059 36173 43915; do kill -0 $p 2>/dev/null && echo "$p STILL AL
 - 19:14 gateway 重启（第 7 次）未杀后台：5 PID 全活, 无需重挂。fixAB-r3 跑到 201/831 调用。
 
 - 19:16 ARM4 (fixB) reverse-apply 预检 PASS（/tmp 副本模拟, 不碰运行中 SM）：`git apply -R fix-a.diff` 干净 + py_compile OK + marker 门禁正确（Fix-B=1/Fix-A=0）+ diff 仅 -33/+5（只撤 Fix-A 路由, 不动 Fix-B pool 构造）。**夜间链最大单点故障（reverse 失败→FATAL→fixB 整臂丢→4 臂析因做不了）已排除**。fixAB-r3 完→ARM4 起跑时无需人工干预。
+
+- 19:20 交叉验证手工补做（析因脚本头部声称的"stats.json 交叉验证 + q6-300 外部参照"代码未实现, 只写在注释——文档/实现落差, 明早不改脚本, 手工补）：
+  ① stats.json vs 手工重算（从 runs json）：**8/8 runs 全对上**（n_rc_pos/n_verified/repair_rate 逐项一致, baseline 0.060/0.039/0.061, fixA 0.048/0.012/0.046, fixAB 0.013/0.021）→ 数据管道无损坏。
+  ② **judge.err="No module named 'sentence_transformers'" 全 8 rep**：已知坑（4e9c175db, 后台 PATH 缺用户 python 目录）, 且 t-repair1-analysis.py 0 处引用 judge → **不影响主析因**。若要语义 judge 分, 明早用用户 python 手动跑 judge_v1 补（次要, 非 gate）。
+  ③ q6-300 外部参照（11-23 未修改 SM 3 reps）文件齐全, 但析因未纳入 → 明早如需"同日跨臂 vs 跨日同臂"方差对照, 手工算。
