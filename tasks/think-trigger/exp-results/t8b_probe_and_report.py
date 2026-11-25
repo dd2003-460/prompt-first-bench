@@ -62,6 +62,15 @@ def verdict(cfg):
         return "对"
     return "错"
 
+def classify(cfg):
+    """把 错 细分为断点层次：卡型跑偏(候选阶段) vs 卡型对配置断(数量/精度)。
+    对 T8c 设计含义不同：前者=候选集/早期筛选问题，后者=winner 可达但推导断。"""
+    if cfg is None:
+        return "无法提取"
+    if cfg["card"] != GOLD_CARD:
+        return "卡型跑偏(候选阶段)"
+    return "卡型对,配置断(数量/精度)"
+
 # ---------- 截断/复读统计（从 JSON 直接读，比 log 可靠）----------
 def parse_json_stat(d):
     stat = {"A": {"length":0, "repeat":0, "runs":0, "reps":[]},
@@ -100,6 +109,7 @@ def main():
         cfg = extract_final(txt)
         v = verdict(cfg)
         probe_a.append({"id": f"A{i}", "cfg": cfg, "verdict": v,
+                        "cls": classify(cfg),
                         "attr": analyze_attribution(txt, v),
                         "gates": check_gates(txt)})
     # arm_b: 有文本则拼接全部 stage 打分+探针；无文本则记无法提取
@@ -115,6 +125,7 @@ def main():
         txt = "\n\n".join(parts)
         if not txt.strip():
             probe_b.append({"id": f"B{i}", "cfg": None, "verdict": "无法提取(无文本)",
+                            "cls": "无法提取(无文本)",
                             "attr": analyze_attribution("", "无法提取(无文本)"),
                             "gates": check_gates("")})
             continue
@@ -123,11 +134,13 @@ def main():
         cfg = extract_final(txt)
         v = verdict(cfg)
         probe_b.append({"id": f"B{i}", "cfg": cfg, "verdict": v,
+                        "cls": classify(cfg),
                         "attr": analyze_attribution(txt, v),
                         "gates": check_gates(txt)})
     if len(probe_b) < N_B:
         for i in range(len(probe_b) + 1, N_B + 1):
             probe_b.append({"id": f"B{i}", "cfg": None, "verdict": "无法提取(无文本)",
+                            "cls": "无法提取(无文本)",
                             "attr": analyze_attribution("", "无法提取(无文本)"),
                             "gates": check_gates("")})
     b_avg = sum(sc["overall"] for _, sc in b_cov) / len(b_cov) if b_cov else None
@@ -214,16 +227,25 @@ def main():
              "② 数量只认 `N×卡型` 紧邻写法，`4 张 3090` 这类写法会漏检；③ 精度取窗口内首个命中，"
              "若尾部先提 INT8 后提 W4 会取到 INT8。故 correctness 是**下界估计**（漏检只会低估，不会虚高）。")
     L.append("")
-    L.append("| 样本 | 提取到的最终推荐 (卡型/数量/精度) | 判定 |")
-    L.append("|------|----------------------------------|------|")
+    L.append("| 样本 | 提取到的最终推荐 (卡型/数量/精度) | 判定 | 断点层次 |")
+    L.append("|------|----------------------------------|------|----------|")
     for p in probe_a:
         c = p["cfg"]
         cfgstr = f"{c['card']}×{c['qty']} / {c['prec'] or '—'}" if c else "—"
-        L.append(f"| {p['id']} | {cfgstr} | **{p['verdict']}** |")
+        L.append(f"| {p['id']} | {cfgstr} | **{p['verdict']}** | {p['cls']} |")
     for p in probe_b:
         c = p["cfg"]
         cfgstr = f"{c['card']}×{c['qty']} / {c['prec'] or '—'}" if c else "—（无文本）"
-        L.append(f"| {p['id']} | {cfgstr} | **{p['verdict']}** |")
+        L.append(f"| {p['id']} | {cfgstr} | **{p['verdict']}** | {p['cls']} |")
+    L.append("")
+    from collections import Counter
+    cls_cnt = Counter(p["cls"] for p in probe_a + probe_b)
+    n_drift = cls_cnt.get("卡型跑偏(候选阶段)", 0)
+    n_conf = cls_cnt.get("卡型对,配置断(数量/精度)", 0)
+    L.append(f"**断点层次分布**：卡型跑偏（候选阶段）{n_drift}/6、卡型对但配置断（数量/精度）{n_conf}/6。")
+    L.append(f"→ 错误主要发生在**候选阶段**（{n_drift}/6 连 3090 都未选为最终推荐，选了 A100/L40S），"
+             f"而非 winner 可达后的推导——这与 §3.2 的题面 mismatch 一致：32K 画像下 3090×4 的竞争力排序本就不同于 gold 的 64K 画像。"
+             f"唯一卡型对的样本（A2：3090×2/INT8）断在数量与精度（2≠4、INT8≠W4），属 winner 可达但推导断。")
     L.append("")
     b_corr_str = (f"**{b_corr}/{b_total} 对**" if has_b
                   else f"**0/{N_B}（全部无法提取，无文本）**")
