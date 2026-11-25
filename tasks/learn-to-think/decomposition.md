@@ -49,6 +49,6 @@ learn-to-think
 - 02-trigger：完成（T1-T5 全落地，commits a34e187d7/e0cdbcf6d/7d2584ac6/9d37b2fa3/35d498b8a）
 - 03-experiment：协议已锁（臂C 预注册 5e6294aba，runner 44350b270 dry-run 过；已入 post-pilot 队列 STEP4，等 pilot 释放 8787 后自动执行）
 - 04-eval：设计完成（form/align 已有 + 预言质量=ε_pred 由 lossless-criterion-operationalization.md 闭合：04-eval 三维=(压缩比, ε_rep[=align], ε_pred)；待 Arm C 产出后跑评分）
-- 05-generalize：待启动（前置=03 出结果）
+- 05-generalize：待启动（前置=03 出结果）。**跨域实例已到手（11-25 13:05，机械分析，非实验）**：L4 消歧实验（gpu 选卡域，loss-landscape 域之外）显示"模型不知道自己缺 3090×4"——3090 被 62 节点认真评估但只配 ≤2 卡，3090×4 从未组装成定价候选，反事实 c_pass 与 A100×4 打平（≈1.08，机会成本真实）。跨域对照（gpu-resume 自由搜索域）：3090 边缘化两域一致（强先验），但 L4 显式"卡数由 c_pass 推导"指令只对主流卡生效（A100 执行了 N302，3090 未执行）。→ 机制假说：**先验压制候选组合空间，显式指令覆盖不到被先验压制的候选**——这正是"缺口→调研→更新记忆"机制应捕获的实例。详见 `experiments/stage-ablation/tasks/l4-disambig-judgement-20261125.md`（跨域对照节）。此实例可作为 05 迁移判据的第二个域锚点（gpu 选卡域），待 03 armC' 出结果后一起评。
 - stage-gate 同步：00-decomp→05-accept 全推进（11-25 09:40-10:00，门禁逐项物理核验过）。**05-accept 终判（11-25 11:40）：爬到机制层 ✓ ∧ ε_pred≥1/N ✗（0/3）→ 单项不达标 → 回 03 发补充任务书 armC'**。H1 成立（flip 0/3→3/3，T3 原词表机械复算）。详见 verify.md 数据层对照。
 - **armC' 补充任务书（11-25 11:40 签发，回 03）**：臂C 域锚点加信息论轴（"难易可能与信息量/先验有关"），3 样本，判据不变（preregistration.md 冻结判据）。ε_pred 判据 = 预言与 D 后半段 gold 结构对齐（信息量/先验轴）。排程：vllm-catchup.sh 之后（4 次 LLM 调用：3 样本 + 备用）。即使再失败 = 有效负结果（27b 机制深度上限=几何层，信息论洞察 prompt 不可达）。
