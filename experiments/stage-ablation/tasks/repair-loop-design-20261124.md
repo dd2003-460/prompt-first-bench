@@ -48,3 +48,4 @@
 
 ## 运行中核验记录
 - **2026-11-25 12:35 分析链动态对账（baseline-r1 真实数据）**：执行器 [stat] `rework=97 mode={unknown:47, angle:50} repair_rate=0.06` 与 `t-repair1-analysis.py` 直接计算完全一致——47 个"unknown"= parent-review 事件（`{parent_id, issues, suggestions}` 结构，无 mode 键，非解析失败），`event_modes()` 第 85-86 行 `if not mode: continue` 正确排除；节点级 n_rework_nodes=50 / n_fixed=3 / n_corrected=50，3/50=0.06 与执行器 repair_rate 吻合。→ 4 臂 mode 比较不被 parent-review 污染，明早 postcheck 自动析因的数据链在真实数据上验证通过（比静态预验证强一档：动态数字对账）。
+- **2026-11-25 12:40 baseline-r1 效度+画像**：leak_hits=0（无 gold 泄露，效度 OK）；status 分布 verified 218 / pending 35 / degraded 47。degraded 47 全部来自 SM 第 761 行（rework_count≥max_rework 放弃），非检索失败（evidence 全为"质询"型：被挑战→改写→反复不过验证）；43/50 angle rework 节点最终 degraded。→ **baseline 缺陷画像闭合：不是"没 rework"（rework=50、corrected=50 全改写），是"改写后过不了验证"（3/50 verified，43 耗尽预算）**。Fix-A/B 预期效应方向=降低 degraded 计数（修复环路由/pool 让改写更对路）。
