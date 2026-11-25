@@ -72,3 +72,9 @@ judge 的 cov 层测的是"模型树节点覆盖 gold 树单元的比例"。这�
 - gold: `bench/rubric-v3/ablation/gold-tree.md` (frozen ed552c4)
 - 模型树: `modules/B-pipeline-ablation/data/idea2/idea2-A-r1-20261122-230045.json`
 - 本记录: `modules/B-pipeline-ablation/research/construct-mismatch-20261123.md`
+
+## 2026-11-25 追加：32K 题面约束的来源与统计核查（D 质疑"32K 画像有调查统计吗"）
+- 32K 出处：sm-gpu-r1/meta.json 原始题面"上下文窗口 ≥ 32K tokens 作为容量下限保留"，T8b 题面继承。是设计参数，非统计导出；pfb 内无任何 context-length survey。
+- 本地统计（2026-11-25，本 agent 系统 14056 user 轮次/2007 session，字符累计÷2 粗估 token，未扣压缩=上界）：P10≈38.5K，P50≫64K，≥32K 占 91.3%，≥64K 占 87.3%。→ 32K/64K 对该场景均为松约束，取值本身不影响候选淘汰。
+- 真正问题 = 题面(≥32K) 与 gold 锚点(@64K, gold-tree.md L123) 不一致，带宽下限差 16-32%（T8b 报告已量化）。
+- 处置：T8c 题面定值统一 @64K（对齐 gold 稳定部分），32K 从题面删除；如需真实性 claim 引本分布（64K 仍为松约束，选择任意但自洽）。
