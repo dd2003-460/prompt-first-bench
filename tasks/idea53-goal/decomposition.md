@@ -86,3 +86,41 @@
 - #53 成立 → 反哺 #10 analysis 章节（因子树信息增益 = #10 的"瓶颈定位模块"）
 - #53 不成立 → 负结果进 #10 limitation
 - 两 goal 不互斥
+
+## 7. 推广调研（2026-11-25 D 指令：新中文版更形式化/general，查信息/公式/物理早有相关设想吗）
+
+> 触发：D 在 manuscript-scoped/ 下做了新中文版 paper-zh-additive-tree.md（P1-P3 命题式），
+> 提出 4 个推广方向，要求先查"信息/公式/物理方面是不是早就有相关设想"。
+> 数学骨架（调研锚点）：加性树 log t_i = log f_i - α·log rate_i（对数空间加法）→ 对角弹性
+> ∂log t_i/∂log rate_k = -α·1[i=k] → P1 翻转闭式 Φ(-m/(ασ√2)) + P3 级数
+> I₂=½(αβσ)²(1-EΣp²)（Fisher 形式）+ P2 三口径分离（翻转率/信息量/修正）。
+
+### 分解树（正交子项）
+- G1 拓扑推广：树之外的结构（DAG/网络/串并联混合/超图）上"节点打分"有没有现成理论
+  - 缺口：非加性（网络有交叉项）时对角弹性破坏 → 闭式还活着吗？新稿自己承认这是边界
+  - 候选线索 [待核验]：电路理论（Kirchhoff/有效电阻）、tensor network、可靠性理论（series-parallel network reliability）
+- G2 公式推广：更复杂结构的解析公式从哪来
+  - 缺口：max（瓶颈）+ sum（串联）混合 = max-plus 代数？softmax(β·log t) = 配分函数？
+  - 候选线索 [待核验]：tropical geometry、统计力学（Z=Σexp(-βE), β→∞=ground state）、Jaynes 最大熵
+- G3 拓扑↔公式对应：两端互推哪端快
+  - 缺口：有没有"图结构 ↔ 代数结构"的成熟对应（谱图理论：有效电阻↔commute time↔Laplacian 伪逆是已知的）
+  - 候选线索 [待核验]：spectral graph theory、RG 重整化（层级粗粒化）、MDL/Kolmogorov
+- G4 物理应用→加速 judge（有效预言）：闭式判据能否预言"哪些判断会在扰动下翻转"，
+  只让边界案例过 LLM judge，其余机械预言
+  - 缺口：与主线 research-agi-budget（预算控制）+ 机械 judge 支线（变量代入）的接口
+  - 候选线索 [待核验]：微扰论/线性响应（Fisher 信息=静态磁化率）、绝热定理
+- G5 撞车分层判定（collision-research 方法论）：
+  - 宽主题层（扰动论/信息增益）= 老 [预期]
+  - 理论层（加性树上翻转闭式+级数信息增益）= ? [待核验]
+  - 经验交集层（GPU 瓶颈分解树评分+精确零负控制+预注册）= ? [待核验]
+  - 概念级验证：找 1-2 篇概念最近的论文读全文 grep 特征词（additive tree / flip probability / Fisher / partition function + bottleneck）
+
+### 任务表
+| 任务 | 内容 | 执行者 | 状态 | 验收 |
+|---|---|---|---|---|
+| G1-G5 调研 | 四象限搜索+概念级验证+分层 verdict | sub | 派发中 | pfb/research/idea53-generalization-survey-20261125.md |
+| G4 接口设计 | judge 加速与主线接口（依赖 G1-G3 结论） | Lead | 待调研 | 接口草案落盘 |
+
+### 留空（不编）
+- 各候选线索是否真有对应理论/论文 = [待核验]，全部交给 G1-G5
+- 新稿 P1/P3 闭式在文献中是否已有 = [待核验]（G5 理论层）
