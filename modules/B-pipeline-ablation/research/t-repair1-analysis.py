@@ -69,6 +69,19 @@ def parse_rep_rc(log_path):
     return rc
 
 
+def parse_rerun_rc(log_path):
+    """从补跑 log 提取 {(arm,rep): rc}。行格式: <arm>-r<N> rerun rc=N wall_s=M out=...
+    2026-11-25: fixB-r3 补跑后, 补跑 log 的 rc 覆盖 executor log 的旧失败记录。"""
+    rc = {}
+    if not os.path.exists(log_path):
+        return rc
+    for line in open(log_path):
+        m = re.search(r"(\w+)-r(\d+) rerun rc=(\d+) ", line)
+        if m:
+            rc[(m.group(1), int(m.group(2)))] = int(m.group(3))
+    return rc
+
+
 def node_repair(d):
     """节点级: (n_rework_nodes, n_fixed_strict, n_corrected)"""
     nodes = d.get("nodes", [])
@@ -132,6 +145,10 @@ def main():
     rep_rc = {}
     for lf in exec_logs:
         rep_rc.update(parse_rep_rc(lf))
+    # 补跑 log 覆盖: 失败的 rep 若已被补跑成功重生成, 补跑 rc 覆盖 executor 旧记录
+    rerun_logs = sorted(glob.glob(os.path.join(sa_logs, "*-r*-rerun-*.log")))
+    for lf in rerun_logs:
+        rep_rc.update(parse_rerun_rc(lf))
     if rep_rc:
         bad = {k: v for k, v in rep_rc.items() if v != 0}
         if bad:
