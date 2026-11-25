@@ -25,3 +25,37 @@
 | 决策树分裂对扰动的敏感性 | 2407.03194 (Kedziora, 2024, 集成预测不稳定性) | 度量集成预测在采样扰动下的不稳定 | **相邻不同机制**：测"预测输出"不稳定，非"瓶颈叶 argmax 翻转"闭式 | 0.6 |
 
 **G1 定位建议**：可站在可靠性理论的"递归分解组合结构"之上——串并联可靠性=加性树在可靠性代数下的同构特例，可作为"加性树是更一般组合打分的一个实例"的背书；但翻转闭式是新稿独有的增量。
+
+## 3. G2 公式：更复杂结构的解析公式从哪来
+
+按代数层分三段（D 2026-11-25 扩展：乘性层 + 场论层必须单独判）。
+
+### 3a 加性/对数加性层（新稿所在层）
+
+| 发现 | ID/年份 | 机制 | 与新稿重叠判定 | conf |
+|---|---|---|---|---|
+| softmax↔Boltzmann 同构 | 教科书级（exponential family；R2 查询 n=1 仅 "Exponential families from a single KL identity"） | p_i∝exp(β·log t_i)=t_i^β，即叶贡献的幂律分布；β 角色=Boltzmann 温度倒数 | **宽主题层撞车（预期老）**：同构本身无新意；新稿增量=在同构上叠微扰展开得 I₂ 二阶闭式 | 0.85 |
+| max-plus/tropical 代数 | 1202.6457 (Kobayashi, 2012, "Tropical geometry of PERT") | PERT 关键路径=max-plus 最长路径；串(max)并(sum)混合=tropical 多项式 | **相邻不同机制**：max-plus 管"瓶颈=max"代数，新稿管"求和=加性"代数；混合串并联恰是 tropical 的地盘，但 tropical 侧无微扰翻转闭式（全文 grep：tropical×38, max-plus×4, flip=0） | 0.75 |
+| Jaynes 最大熵 + Fisher 信息 | 0708.2879 (Dimitrov, 2007)；0907.2732 (2009, maxent 原理↔Riemann 度量) | maxent 分布=指数族；Fisher 信息度量=maxent 推断的几何 | **宽主题层撞车（预期老）**：新稿 I₂ 的 Fisher 形式在此框架内是标准件 | 0.85 |
+| Fisher 信息=静态响应/涨落 | R2-fisher-susceptibility n=8（top: fidelity susceptibility & QFI） | 统计力学教科书：Fisher 信息=参数响应的涨落形式（fluctuation-dissipation） | **宽主题层撞车（预期老）** | 0.85 |
+
+### 3b 乘性层（D 扩展①：节点值相乘/级联/乘积形式）
+
+| 发现 | ID/年份 | 机制 | 与新稿重叠判定 | conf |
+|---|---|---|---|---|
+| **Jackson 网络扰动论** | 0708.1718 (Zeitak & Melamed, 2007, "Dynamics of Jackson networks: perturbation theory") | 乘积形式（product-form）排队网络的参数微扰分析：性能指标（平均逗留时间）对参数的导数闭式；乘积形式⇒节点边际局部化 | **同机制不同包装（乘性层的对角弹性等价物）**：乘积形式的局部性=乘性世界的"对角弹性"；全文 grep：perturbation×32, diagonal×5, product form×2（抽取完整性已验证 len=53942）。**但无 argmax 翻转闭式** | 0.8 |
+| product-form 稳态渐近 | 2304.01499 (Dai, 2023, GJN 渐近 product-form)；0905.3158 (Mairesse, 2009, 亏零 Petri 网 product-form) | 乘积形式=各节点边际之积的精确/渐近成立条件 | **相邻不同机制**：给"何时乘积形式成立"的判据，不是微扰翻转 | 0.7 |
+| 乘法噪声下的翻转概率 | —（R4-flip-multiplicative n=8 全为无关物理/通信） | — | **未找到（空白确认）**：乘性结构下闭式翻转概率无先例 | 0.7 |
+
+**G2b 关键问题回答**：乘性结构下"对角弹性"等价物**存在**（product-form 排队扰动论，0708.1718 为 arXiv 代表；经典基础=Whittle 1980 排队网络扰动分析专著，非 arXiv [待核验]）；闭式翻转概率**不存活**（未找到，空白）。
+
+### 3c 场论/RG 层（D 扩展②：更现代的结构）
+
+| 发现 | ID/年份 | 机制 | 与新稿重叠判定 | conf |
+|---|---|---|---|---|
+| **层级最大熵 via RG** | 2509.01424 (Asadi et al., 2025, "Hierarchical Maximum Entropy via the Renormalization Group") | RG 流定义尺度层级上的最大熵条件；粗粒化=逐层条件化 | **相邻不同机制（场论层最接近先例）**：同为"层级结构+逐层条件化+信息/熵"，但其层级=变量尺度层级（lattice/场），新稿层级=被判断量的分解树；全文 grep：renormalization×48, hierarchical×66, maximum entropy×27, coarse-graining×5, **tree×0**（抽取完整性已验证 len=80293）——它不做树 | 0.75 |
+| 树张量网络 TTNS / MERA | 1302.2298 (Nakatani, 2013, TTNS 量子化学)；2110.08794 (Qian, 2021, "From Tree Tensor Network to MERA") | 张量网络建在树上(TTNS)；MERA=2D 推广；二者关系有显式构造 | **相邻不同机制**：回答了"树 vs 更一般层级结构"的方向（树=张量网络的特例，MERA 是其推广），但无"节点分数/翻转"语义 | 0.75 |
+| RG↔深度学习层级 | 1301.3124 (Bény & Bauer, 2013)；2010.00029 (Hu, 2020, RG-Flow 层级流模型)；1710.02079 (Foreman, 2017, RG-inspired ML 格点场论) | NN 层≈RG 粗粒化块；层级流模型用 RG 可解释 | **相邻不同机制**：层级粗粒化=树的逐层条件化？部分同构（逐层条件化语义共享），但 RG 侧无判断/翻转语义 | 0.7 |
+| 格点场上的"节点分数"理论 | —（R3-lattice-field-theory/lattice-spin-node 命中均为物理解算，无 per-site importance 理论） | — | **未找到（空白确认）**：连续场/格点场上的节点重要性打分无现成理论 | 0.65 |
+
+**G2c 关键问题回答**：D 的直觉"他们没涉及乘性和场论"**部分成立**——乘性层有排队扰动论（局部性/对角弹性等价物存在，翻转闭式不存在）；场论层有 2025 年的层级 maxent-via-RG 与 TTNS/MERA 框架（层级+条件化+信息语义存在），但"格点场上的节点分数"理论确属空白。**树不是已知的"场粗粒化极限"**——反向命题（树=场的 RG 极限）未找到先例，只有正向（树=张量网络特例）。
