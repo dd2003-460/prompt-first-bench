@@ -31,6 +31,9 @@ DATA_ROOT = "/Users/a1-6/Desktop/workspace/pfb/modules/B-pipeline-ablation/data/
 CKPT_BASE = os.path.join(HERE, "checkpoints/archive/budget-719-r1-20261122-143216")
 ARMS = ["canonical", "verify-off", "null-control"]
 
+# _wrap_call_llm 的模块级哨兵：存真正的原始 call_llm（每 cell 重 wrap 时防双层嵌套）
+_ORIG_CALL_LLM = None
+
 
 class ShuffledList:
     """包装 self.confirmed：切片返回 shuffle 副本（state 块乱序），append 透传。
@@ -74,16 +77,39 @@ class CallLog:
 
 
 def _wrap_call_llm(sm_mod, log):
-    """包 s5_state_machine.call_llm：记录每 call 的 token（F2b 约束 1）。"""
-    orig = sm_mod.call_llm
+    """记录每 call 的 token（F2b 约束 1）。
+
+    2026-11-25 修复（tpr17-pilot-report §2 测量盲区）：旧版只 patch sm_mod.call_llm
+    绑定，但 verify_node（s5_pipeline.py L39 模块级 import）和 s5_state_machine 内 7 处
+    函数级局部 import 都绕过它 → verify/rework 的 ~1150 个调用漏数（run JSON 三臂
+    n_llm_calls 全 ~85、tokens_total 全 ~620k，与 stdout 真实计数 1238 vs 491 矛盾）。
+    现 patch 三处：
+      1. ablation_harness 模块属性 = 咽喉点，覆盖所有 `from ablation_harness import call_llm`
+         的函数级局部 import（import 时从模块对象取当前属性）
+      2. s5_pipeline 模块属性 = 覆盖其 L39 模块级 import 的绑定
+      3. sm_mod 模块属性 = 覆盖 s5_state_machine L24 模块级 import 的绑定
+    每处都包一层，log_call 只记一次（wrapped 内调 orig，orig 是上一层的 wrapped 或原始
+    call_llm——为避免双层计数，1/2/3 共享同一个 _base（ablation_harness 原始函数），
+    各 wrapped 直接调 _base，不链式嵌套。"""
+    import importlib
+    ab = importlib.import_module("ablation_harness")
+    sp = importlib.import_module("s5_pipeline")
+    # 模块级哨兵存原始函数：本函数每 cell 调一次（_build_sm），第二次进来时
+    # ab.call_llm 已是上次的 wrapped，直接取会双层嵌套 → 计数翻倍。
+    global _ORIG_CALL_LLM
+    if _ORIG_CALL_LLM is None:
+        _ORIG_CALL_LLM = ab.call_llm
+    _base = _ORIG_CALL_LLM  # 永远是真正的原始 call_llm
 
     def wrapped(prompt, *a, **k):
-        content, usage = orig(prompt, *a, **k)
+        content, usage = _base(prompt, *a, **k)
         log.log_call("llm", usage.get("in", 0), usage.get("out", 0))
         return content, usage
 
+    ab.call_llm = wrapped
+    sp.call_llm = wrapped
     sm_mod.call_llm = wrapped
-    return orig
+    return _base
 
 
 def _wrap_save_checkpoint(sm, log):
