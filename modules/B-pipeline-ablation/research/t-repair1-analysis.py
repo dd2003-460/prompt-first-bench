@@ -24,7 +24,7 @@ PREREG 效度注记（2026-11-25 11:00 分析前核查）:
   - n=3 臂内 → bootstrap CI (B=2000, 节点级重采样); n=3 只 suggestive, 正式 claim 需 n≥5
   - 等效性: 声称"无效"需 TOST（预设最小效应 0.05, 对齐 T-PR-17 先例）
 """
-import json, glob, os, sys, math
+import json, glob, os, sys, math, re
 import random
 
 DATA = "/Users/a1-6/Desktop/workspace/pfb/modules/B-pipeline-ablation/data/t-repair1"
@@ -34,8 +34,11 @@ BOOT_B = 2000
 RNG = random.Random(20261125)
 
 
-def load_arm_runs(arm):
-    """自动发现某臂的 3 个 runs json（按 mtime 取最新, 防重跑残留）。"""
+def load_arm_runs(arm, rep_rc):
+    """自动发现某臂的 3 个 runs json（按 mtime 取最新, 防重跑残留）。
+    rep_rc: {(arm,rep): rc} 从 executor log 解析; rc!=0 的 rep 排除
+    （SM 失败时不写 runs json, executor 复制的是上一个成功 rep 的旧文件——
+    不排除会把旧数据当新 rep 用, 空验证）。"""
     pat = os.path.join(DATA, "arms", arm, f"{arm}-r*.json")
     fs = [f for f in glob.glob(pat) if "-r1-" in f or "-r2-" in f or "-r3-" in f]
     by_rep = {}
@@ -43,7 +46,25 @@ def load_arm_runs(arm):
         for rep in (1, 2, 3):
             if f"-r{rep}-" in f:
                 by_rep[rep] = f  # glob 按文件名排序, 同名后写的覆盖=最新
-    return {rep: json.load(open(f)) for rep, f in sorted(by_rep.items())}
+    out = {}
+    for rep, f in sorted(by_rep.items()):
+        rc = rep_rc.get((arm, rep))
+        if rc is not None and rc != 0:
+            continue  # executor 记录该 rep 失败, 文件是旧数据
+        out[rep] = json.load(open(f))
+    return out
+
+
+def parse_rep_rc(log_path):
+    """从 executor log 提取 {(arm,rep): rc}。行格式: arm=X rep=Y rc=N wall_s=M out=..."""
+    rc = {}
+    if not os.path.exists(log_path):
+        return rc
+    for line in open(log_path):
+        m = re.match(r"\[[\d:]+\] arm=(\w+) rep=(\d+) rc=(\d+) ", line)
+        if m:
+            rc[(m.group(1), int(m.group(2)))] = int(m.group(3))
+    return rc
 
 
 def node_repair(d):
@@ -103,9 +124,20 @@ def main():
         "P-A 主判别(value_mismatch 修复率)在 Q6 域分母=0(基线 mode 全 angle) → 降级间接观察; "
         "正式测 P-A 需 gpu 域补臂(follow-up)")
 
+    # executor log 里的 per-rep rc（rc!=0 的 rep 排除, 防旧文件冒充新 rep）
+    sa_logs = "/Users/a1-6/Desktop/workspace/pfb/experiments/stage-ablation/logs"
+    exec_logs = sorted(glob.glob(os.path.join(sa_logs, "t-repair1-4arm-*.log")))
+    rep_rc = {}
+    for lf in exec_logs:
+        rep_rc.update(parse_rep_rc(lf))
+    if rep_rc:
+        bad = {k: v for k, v in rep_rc.items() if v != 0}
+        if bad:
+            out["caveats"].append(f"executor log 记录 {len(bad)} 个 rep 失败(rc!=0), 已从分析排除: {bad}")
+
     arm_stats = {}
     for arm in ARMS:
-        runs = load_arm_runs(arm)
+        runs = load_arm_runs(arm, rep_rc)
         reps = sorted(runs.keys())
         if len(reps) < 3:
             out["caveats"].append(f"臂 {arm} 只有 {len(reps)} reps(<3), 结果不可用")
