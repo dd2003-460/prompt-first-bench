@@ -50,4 +50,4 @@ learn-to-think
 - 03-experiment：协议已锁（臂C 预注册 5e6294aba，runner 44350b270 dry-run 过；已入 post-pilot 队列 STEP4，等 pilot 释放 8787 后自动执行）
 - 04-eval：设计完成（form/align 已有 + 预言质量=ε_pred 由 lossless-criterion-operationalization.md 闭合：04-eval 三维=(压缩比, ε_rep[=align], ε_pred)；待 Arm C 产出后跑评分）
 - 05-generalize：待启动（前置=03 出结果）
-- stage-gate 同步：00-decomp 门禁 4/4 过（分解树/缺口清单/待核验标记均在），推进中
+- stage-gate 同步：00-decomp→05-accept 全推进（11-25 09:40-10:00，门禁逐项物理核验过）。**当前停在 05-accept，blocked 等 Arm C 数据**（队列 STEP4 自动跑 3 次调用→四维打分→verify.md 数据层回填→验收终判）。验收标准=爬到机制层∧ε_pred≥1/N，数据回填后执行。
