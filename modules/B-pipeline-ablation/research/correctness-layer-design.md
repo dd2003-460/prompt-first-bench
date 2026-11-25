@@ -76,6 +76,7 @@ gold 锚（值 ← calc.py / gold-tree N-5.2）：936 GB/s（3090 带宽）、14
   - **A2 与 A1 仅在边界点重叠**：A1 要求 `C ≤ 0.3` 即 `C1e + C2 ≤ 0.6`；C2 量化为 {0, 0.5, 1}，故重叠区 = `C2 = 0 且 C1e ∈ [0.5, 0.6]`（C1e = eff/4 量化，即恰好 eff=2 次有效提及）且 `E1 < 0.5`。该点由判定优先级裁决（A1 先判）：卡型仅边缘出现（2 次）时归 A1 侧，保守不误报 A2。
   - **A1 与 A3 仅在退化情形重叠**：否定语境可压低 C1e 而 E1 仍 >0（如"4×3090 遗漏，成本 $X"行），此时 P_A1 与 P_A3 可同时 ≥ 阈值。由判定优先级裁决（A1 先判）。
   - **唯一标签保证**：判定是优先级级联（A1 → A3 → A2 → indeterminate），每样本恰得一个标签，无歧义。观测数据上三型信号完全分离（dry-run §6：A1 型 C1e=0，A2 型 C1e=1.0 且 E1=0，A3 型 E1=1.0 且 C=1.0），边界点未出现。
+  - **边界重叠的实测安全裕度**（`--sensitivity` 量化，见 dry-run §阈值敏感性）：三维扫 TH_A1×TH_A3×C1e_th（245 体素），A1/A3 样本全网格 100% 稳定；A2 样本 71% 稳定，最近翻转需 TH_A1 从 0.7 降到 0.5（0.2 偏移，且翻转方向是保守归 A1，不产生危险误判）。即上述 A1/A2 理论重叠点在真实数据上未被踩到，"能机械区分三型"的 claim 可防御。
 
 ## §4 输入归一化
 
@@ -103,6 +104,7 @@ gold 锚（值 ← calc.py / gold-tree N-5.2）：936 GB/s（3090 带宽）、14
 5. 其余 4 条（arm_b[0..2]、S5）无 ground truth，只报判定类型，不作准确率分母。
 6. 分数表落盘 `correctness-layer-dryrun-20261125.md`，每样本一行：cov / C / E / S / N / CORR / P_A1 / P_A3 / C2BP / 判定。
 7. 扰动自测（`--selftest`，8 断言）：基线 3（A1/A3/A2）+ 变异 3（R/C/E 轴因果翻转）+ 阳性对照 1（winner 评估+推荐 → indeterminate）+ A2↔A1 因果边界 1（抹 3090 → A2 翻 A1）。全过 = 三型判别由探针因果驱动，非对样本过拟合。
+8. 阈值敏感性（`--sensitivity`）：三维扫 TH_A1×TH_A3×C1e_th，量化 §3 标注的 A1/A2 理论重叠点在真实数据上是否被踩到。实测：A1/A3 样本全网格 100% 稳定，A2 样本 71% 稳定（最近翻转需 TH_A1 从 0.7 降到 0.5），重叠点未被踩到 → claim 可防御（dry-run §阈值敏感性）。
 
 ## §7 局限与诚实边界
 
@@ -132,6 +134,9 @@ gold 数值锚实例化情况（本轮探针复验）：774/1034/1574、24.7、5
 
 - 设计：本文件；原型：`correctness_layer_v0.py`（同目录，独立运行，无 LLM，无网络）；dry-run：`correctness-layer-dryrun-20261125.md`。
 - 运行：`python3 correctness_layer_v0.py`（默认跑 T8b 6 条 + S5，打印分数表 + 写 JSON）。
+- 扰动自测：`python3 correctness_layer_v0.py --selftest`（8 断言）。
+- 锚值核验：`python3 correctness_layer_v0.py --verify-anchors`（7 锚 vs 源文件）。
+- 阈值敏感性：`python3 correctness_layer_v0.py --sensitivity`（量化 A1/A2 理论边界的安全裕度）。
 - 依赖：python3 stdlib + （可选）sentence-transformers bge-m3 仅用于 cov 对照列；无 bge-m3 时 cov 列标 NA，CORR 不受影响。
 
 ## §10 核心 finding（dry-run 实证回扣设计动机）

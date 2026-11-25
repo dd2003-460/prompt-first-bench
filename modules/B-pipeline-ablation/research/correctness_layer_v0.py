@@ -174,7 +174,7 @@ def axis_n(text):
 W_C, W_E, W_S, W_N = 0.35, 0.25, 0.20, 0.20
 TH_A1, TH_A3 = 0.7, 0.5
 
-def judge_text(text):
+def judge_text(text, th_a1=TH_A1, th_a3=TH_A3, c1e_th=0.5):
     c, c_d = axis_c(text)
     e, e_d = axis_e(text)
     r, r_d = axis_r(text, e_d["e1_rows"])
@@ -183,16 +183,16 @@ def judge_text(text):
     corr = W_C * c + W_E * e + W_S * s + W_N * n
     p_a1 = 1.0 - c
     p_a3 = e_d["e1"] * r
-    # A2 (候选集粒度断点, dry-run 新发现): winner 卡型充分出现(C1e≥0.5)
+    # A2 (候选集粒度断点, dry-run 新发现): winner 卡型充分出现(C1e≥c1e_th)
     # 但 winner 配置从未构造(C2<0.5)且从未评估(E1<0.5) → 非A1(卡型在)非A3(配置没评估)。
-    # 与 A3 严格互斥(E1 条件相反); 与 A1 仅在 C2=0 且 C1e∈[0.5,0.6] 边界点重叠,
+    # 与 A3 严格互斥(E1 条件相反); 与 A1 在 C2=0 且 C1e 接近 c1e_th 时有边界重叠,
     # 由判定优先级裁决(A1 先判, 卡型边缘出现时保守归 A1)。观测数据上三型完全分离。
-    c2bp = c_d["c1e"] >= 0.5 and c_d["c2"] < 0.5 and e_d["e1"] < 0.5
-    if p_a1 >= TH_A1 and p_a3 >= TH_A3:
+    c2bp = c_d["c1e"] >= c1e_th and c_d["c2"] < 0.5 and e_d["e1"] < 0.5
+    if p_a1 >= th_a1 and p_a3 >= th_a3:
         verdict = "A1+A3"
-    elif p_a1 >= TH_A1:
+    elif p_a1 >= th_a1:
         verdict = "A1"
-    elif p_a3 >= TH_A3:
+    elif p_a3 >= th_a3:
         verdict = "A3"
     elif c2bp:
         verdict = "A2"
@@ -326,6 +326,42 @@ def verify_anchors():
     return all_ok
 
 
+# ---------------- 阈值敏感性分析（判分校准：阈值=判据档位，须核对扰动下是否稳健） ----------------
+def sensitivity():
+    """量化'三型判别对阈值扰动的稳健性'——回应 §3 标注的理论边界
+    (A1/A2 在 C1e 接近 0.5 时的重叠点)。做法：对已知 3 条(gt)三维扫
+    TH_A1 × TH_A3 × C1e_th，报告每条样本判定保持正确的阈值体素占比 +
+    距默认阈值最近的翻转点。占比越高 = 判别越不靠阈值微调(非过拟合)。
+    C1e_th 是 A1↔A2 的真正铰链(A2 要求 C1e≥c1e_th, A1 要求 C≤0.3)，重点扫它。"""
+    samples = {n: t for n, t, _ in load_samples()}
+    grid_a = [round(0.4 + 0.1 * i, 1) for i in range(7)]   # TH_A1 0.4..1.0
+    grid_b = [round(0.4 + 0.1 * i, 1) for i in range(7)]   # TH_A3 0.4..1.0
+    grid_c = [0.3, 0.4, 0.5, 0.6, 0.7]                     # C1e_th (A1↔A2 铰链)
+    out = {}
+    for name, gt in GT.items():
+        text = samples[name]
+        stable, flips = 0, []
+        total = len(grid_a) * len(grid_b) * len(grid_c)
+        for ta in grid_a:
+            for tb in grid_b:
+                for tc in grid_c:
+                    r = judge_text(text, th_a1=ta, th_a3=tb, c1e_th=tc)
+                    if r["verdict"] == gt or gt in r["verdict"]:
+                        stable += 1
+                    else:
+                        flips.append((abs(ta - TH_A1) + abs(tb - TH_A3)
+                                      + abs(tc - 0.5), ta, tb, tc, r["verdict"]))
+        frac = stable / total
+        nearest = min(flips) if flips else None
+        out[name] = {"gt": gt, "stable_frac": round(frac, 3), "nearest_flip": nearest}
+        print(f"  {name:<10s} gt={gt:<5s} 稳定占比={frac:.0%} ({stable}/{total}) "
+              + (f"最近翻转@TH_A1={nearest[1]}/TH_A3={nearest[2]}/C1e_th={nearest[3]}→{nearest[4]}"
+                 if nearest else "全网格稳定"))
+    all_ok = all(o["stable_frac"] >= 0.5 for o in out.values())
+    print(f"sensitivity: {'ROBUST (已知样本过半阈值体素稳定)' if all_ok else 'FRAGILE (窄稳定区, 阈值敏感)'}")
+    return all_ok
+
+
 # ---------------- main ----------------
 GT = {"arm_a[0]": "A1", "arm_a[2]": "A3", "arm_a[1]": "A2"}
 # arm_a[1]=A2 为推导型 ground truth: 独立探针已验证(3090 提及 12 次 + 4×3090 构造 0 次
@@ -367,4 +403,6 @@ if __name__ == "__main__":
         sys.exit(0 if selftest() else 1)
     if "--verify-anchors" in sys.argv:
         sys.exit(0 if verify_anchors() else 1)
+    if "--sensitivity" in sys.argv:
+        sys.exit(0 if sensitivity() else 1)
     main()
