@@ -85,6 +85,16 @@ T8b 用**同一 harness**（`run_exp_t8b.py` MAX_A=16384 单次 / MAX_B=4096 每
 - **下界机制已代码核验**（非推断）：`t8b_probe_and_report.py` L117-133 对 B 臂逐 stage 取 `s.get("content","")` 拼接后送 `judge_text` 打分——content 即截断后文本（cap 4096 内的部分）。coverage=单元命中率，截断只删不加提及 ⇒ 每样本 coverage **单调不增**（理论例外：截断点恰好切断短语可能制造伪提及，如 `3090×2`→`3090`，单元级影响可忽略）⇒ B coverage 是**下界**，Δ 偏差方向钉死（偏向显示退化）。
 - 系统性结论：pfb 六阶段 harness 的 per-stage 4096 cap 对"评估/收尾"类阶段是**结构性不足**，T8b/T8c 两代 smoke 都中招——这是 harness 层 bug，不是模型或流程能力问题。
 
+## 独立核验：Arm A 3/3 = 答对（不依赖 indeterminate 标签，19:40 raw 文本直读）
+核心结论"Arm A 3/3 推荐 3090（正确 winner）"有**两根独立支柱**，互不依赖：
+- **支柱 1（judge 标签）**：CORRECT→indeterminate 映射三处钉死且一致——spec L205（`t8c-spec-final.md` "CORRECT→indeterminate / ERR_A1→A1…"）+ probe CASES（`t8c_judge_format_probe.py` L104 `("CORRECT", CORRECT, "indeterminate")`）+ 代码 L281（`correctness_layer_v0.py` else 分支 `verdict="indeterminate"`）。
+- **支柱 2（raw 文本直读，本轮新增）**：绕过 judge，直接读 A 臂原始输出，3/3 均**显式推荐 3090×4/W4/n=2**（c_pass 0.681/0.6807/0.681，三 run 一致，= gold 0.681）：
+  - run1：`### **最优解：RTX 3090 × 4 卡 + W4 精度 + n=2**`（显式最优解标题）
+  - run2：`**RTX 3090 × 4 卡 + W4 量化 + n=2 并发流**` + 表格加粗行 `| **4** | **RTX 3090** | **4** | **W4** | **2** | **0.6807** |` + "4卡 W4 达到 0.7601(V100) 仍高于 3090 的 0.6807"
+  - run3：`**RTX 3090 × 4, W4, $n=2$**` 结论行 + 表格加粗 `| **RTX 3090 × 4, W4** | … | **0.681** |`
+  - 否决语境检查：3090 的 W16/W8 配置被显式否决（显存门 25.85>24GB / c_pass 更高），但 **3090×4/W4/n=2 本身三 run 无一否决**，均为最终推荐。
+⇒ 即使 judge 映射有误，raw 文本也独立支持"Arm A 3/3 = 正确 winner"。核心结论**双支柱加固**，可防御性最大化。
+
 ## 边界
 - 本诊断为只读分析（读 raw_outputs_t8c.json 实算），未改任何实验代码/预注册。
 - runner 改动点（`run_exp_t8c.py` L18 `MAX_B` 标量→按 stage 字典）**仅在本文档记录供 Lead 决策，未实际改代码**（遵守"不改实验代码"边界）。
