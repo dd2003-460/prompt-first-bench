@@ -73,3 +73,6 @@ for p in 15606 19059 36173 43915; do kill -0 $p 2>/dev/null && echo "$p STILL AL
 
 - 19:12 ETA 前移：fixAB-r2 18:55 完成（162n, 也命中 max_depth=4），r3 18:55 起跑中。fixAB 是倒数第二臂，最后一臂 fixB 未跑。按 ~50min/rep 估：fixAB-r3 ~19:45 完 → fixB 3 rep ~22:15 完 → **全链 ETA 从"凌晨~清晨"前移到今晚 ~22:00-23:00**（若 fixB rep 慢则顺延，明早收数不受影响）。
 - 19:12 r1 机械指纹闭合（commit 70b28d7bd）：baseline directed=0（缺陷铁证）/ fixA directed=4（Fix-A ✓）/ fixAB multi-rework=25（Fix-B ✓）但 25/25 全 degraded 救回 0 → 悲观支（墙在 verify 标准非尝试次数）。r1-only 不定论。
+
+- 19:14 t-repair1-analysis.py 真实数据预跑验证（9/12 runs, 脚本未在跑, 安全）：✅ 正确池化 9 runs + bootstrap CI + 臂数守卫（<4 臂 FATAL rc=1, 不算垃圾析因）+ 部分数据优雅降级（fixAB 2 reps/fixB 0 reps 标"不可用"）。**重要 caveat（脚本自动标, 明早必读）**：fixA rep 间修复率 spread=0.036 超过池化 CI 宽度一半 → bootstrap 把 rep 当独立样本低估不确定性 → TOST/显著性读法降权, **以 rep 级方向一致性为准**。部分文件 t-repair1-analysis.json 已落（明早真跑覆盖）。
+- 19:14 gateway 重启（第 7 次）未杀后台：5 PID 全活, 无需重挂。fixAB-r3 跑到 201/831 调用。
