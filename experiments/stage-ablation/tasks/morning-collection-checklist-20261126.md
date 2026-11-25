@@ -70,3 +70,6 @@ for p in 15606 19059 36173 43915; do kill -0 $p 2>/dev/null && echo "$p STILL AL
 
 - 19:10 eps-judge 鉴别力测试：机械半边离线验证 PASS（POS 构造正例 HIT=7 / armC 3 负例信息论轴=0 / FP 无关语境"先验"过命中→证实两级设计必要）。判官半边挂链 PID 71865（gate 36173，vLLM 释放后 ~30s 跑完，先于 armC-prime 验证判官可信度；FAIL 则明早 armC' 判决需 D 人工终核）。
 - 19:10 夜间链最终形态：15606(exec fixAB-r2)→19059(postcheck)→36173(catchup)→{69029 armc-prime, 71865 eps-judge-discrim} 同门 36173 退出后并发，eps-judge 仅 2 样本 ~30s 先完。
+
+- 19:12 ETA 前移：fixAB-r2 18:55 完成（162n, 也命中 max_depth=4），r3 18:55 起跑中。fixAB 是倒数第二臂，最后一臂 fixB 未跑。按 ~50min/rep 估：fixAB-r3 ~19:45 完 → fixB 3 rep ~22:15 完 → **全链 ETA 从"凌晨~清晨"前移到今晚 ~22:00-23:00**（若 fixB rep 慢则顺延，明早收数不受影响）。
+- 19:12 r1 机械指纹闭合（commit 70b28d7bd）：baseline directed=0（缺陷铁证）/ fixA directed=4（Fix-A ✓）/ fixAB multi-rework=25（Fix-B ✓）但 25/25 全 degraded 救回 0 → 悲观支（墙在 verify 标准非尝试次数）。r1-only 不定论。
