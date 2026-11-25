@@ -147,23 +147,36 @@ def main():
         n_rw = n_fx = n_cc = 0
         all_vec = []  # 节点 0/1 向量(bootstrap 用)
         ev_agg = {}
+        rep_rates = []  # 每 rep 节点级修复率 (rep 间方差监控用)
         for rep in reps:
             d = runs[rep]
             rw, fx, cc = node_repair(d)
             n_rw += rw; n_fx += fx; n_cc += cc
+            if rw:
+                rep_rates.append(fx / rw)
             nodes = d.get("nodes", [])
             rc_nodes = [n for n in nodes if (int(n.get("rework_count", 0) or 0)) > 0]
             all_vec += [1 if n.get("status") == "verified" else 0 for n in rc_nodes]
             for mode, (a, f) in event_modes(d).items():
                 ea, ef = ev_agg.get(mode, (0, 0))
                 ev_agg[mode] = (ea + a, ef + f)
+        ci = bootstrap_ci(n_fx, n_rw)
+        spread = (max(rep_rates) - min(rep_rates)) if len(rep_rates) >= 2 else None
         arm_stats[arm] = {
             "n_reps": len(reps),
             "node": {"n_rework": n_rw, "n_fixed": n_fx, "n_corrected": n_cc,
                      "repair_rate": rate(n_fx, n_rw),
-                     "ci95": bootstrap_ci(n_fx, n_rw)},
+                     "ci95": ci,
+                     "per_rep_rates": rep_rates, "rep_spread": spread},
             "events": {m: {"n": a, "fixed": f, "rate": rate(f, a)} for m, (a, f) in sorted(ev_agg.items())},
         }
+        # rep 间方差监控: spread 超过池化 CI 宽度的一半 → 节点级 bootstrap 低估真实不确定性
+        if spread is not None and ci is not None:
+            ci_w = ci[1] - ci[0]
+            if spread > 0.5 * ci_w:
+                out["caveats"].append(
+                    f"臂 {arm} rep 间修复率 spread={spread:.3f} (per-rep={rep_rates}) 超过池化 CI 宽度 {ci_w:.3f} 的一半 → "
+                    f"节点级 bootstrap 把 rep 当独立样本, 低估真实不确定性; TOST/显著性读法降权, 以 rep 级方向一致性为准")
         out["arms"][arm] = arm_stats[arm]
 
     if len(arm_stats) < 4:
