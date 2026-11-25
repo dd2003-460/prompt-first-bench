@@ -60,4 +60,4 @@ for p in 15606 19059 36173 43915; do kill -0 $p 2>/dev/null && echo "$p STILL AL
 - vllm-catchup C3 gptr 用 .venv-gptr（系统 python3 无 gpt_researcher）
 - armC' prompt 只给轴名不给 gold 结论（防鹦鹉学舌, ε_pred 不退化成复述测试）
 
-- **13:45 进度修正（r2 减速实测）**：r2 同点位（~108 SM 事件）用了 74min，r1 全程仅 54min；LLM 中位耗时 5.1s vs r1 2.8s（树变大→verify 批变长，prompt_len 9.7k→46k）。**ETA 后移：剩余 ~10.5 reps × ~75-90min ≈ 13-16h → 预计 11-26 凌晨~上午完成**（原估 18:00-20:00 作废）。收数窗口相应放宽到 11-26 全天；chain 自动触发不受影响（gated on PID 退出，不依赖时间）。若 11-26 中午前 r2/r3 仍未完成属正常，勿误判卡死（判据：stdout mtime 持续推进 + LLM call 交替 start/done）。
+- **13:45 进度修正 → 13:58 再修正（r2 已完成，推翻"卡住"误判）**：13:45 基于 SM 事件率误判 r2 减速卡住、ETA 13-16h；实际 r2 已于 **13:48 DONE（91min）**，LLM 中位耗时与 r1 持平（2.9s vs 2.8s），慢在尾部（p90 20.4s vs 9.6s，树长→verify 批变大，max prompt 193k vs 106k），r2 调用量 755 已超 r1 全程 686。**正确 ETA：每 rep ~90min，剩 10 reps ≈ 15h → 11-26 凌晨~清晨完成**。chain gated on PID 退出，不受时间影响。判活标准：stdout mtime 持续推进 + LLM call 交替 start/done（勿用 SM 事件率，它不是限速因子）。
