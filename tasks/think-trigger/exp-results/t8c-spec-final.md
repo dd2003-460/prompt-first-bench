@@ -41,7 +41,43 @@ W_bytes∈{14,27,54} 来自 calc.py L49 ①类；r=20 tok/s 即 ④ 解码吞吐
 
 ## 2. 歧义② 消解：候选集显式定死
 
-<!-- SEC:candset -->
+**终稿写法**：候选集定死为 **2 卡：RTX 3090（24GB）、V100 SXM2（32GB）**，可单机 2-4 卡，不得自行扩大或替换。
+
+**为什么是这 2 卡**（不是 gold 全候选集 7 类）：
+1. **winner 必须可由 ①类规格复算**。oracle（`gold_gpu_oracle.py`，commit d41ab1bf7）的 sweep
+   只覆盖 calc.py HARDWARE 里有完整 ①类规格的卡 = 3090 + V100。gold 树其余候选
+   （M2Ultra/L40S/A100，gold-tree.md L94 ①类）在 KB 缺 flops/price（null=[待核验]），
+   不凭记忆填数（③类风险，oracle docstring 明示）。→ 定死 2 卡 = 定死在「规格可复算」的交集上。
+2. **4090 必须排除**（敏感性已证，本轮 oracle 实跑复现）：`check_4090_flip()` →
+   4090×4/W4/n=2 = 0.635 < 3090×4/W4/n=2 = 0.681，winner 翻转为 4090（盈亏平衡价 ≈ $1905，
+   远高于 KB MSRP $1599 / NE street $1699-1899，`knowledge-base/hardware-staging/rtx-4090.json`
+   ①类 conf 0.85）。T8b 题面「自行搜索」让模型自由纳入 4090 → 对照被污染（t8b-smoke-report.md §3.2）。
+3. **M2Ultra/L40S/A100 排除**：规格不全（KB `mac-studio-m5-ultra.json`/`l40s.json`/`a100.json`
+   ①类但 flops/price 为 null）。它们已被 gold 树 N-5.2 带宽门划掉（M2Ultra 448<774 fail、
+   L40S 691<774 fail、A100×1/W16 1548<1574 fail，oracle `check_gold_judgments()` 6/6 实跑吻合），
+   不影响 winner；T8c 不测「模型能否复现淘汰推理」，测的是「同预算下流程 vs 直接求解的 correctness」。
+
+**每张卡的 ①类规格来源**（题面直接给出，模型不需自查）：
+
+| 卡 | 显存 | 峰值带宽 | 峰值算力(FP16 non-tensor) | TDP | 单价(题面钉死) | 来源 |
+|----|------|---------|--------------------------|-----|--------------|------|
+| RTX 3090 | 24GB | 936 GB/s | 71 TFLOPS | 350W | **$1050** | calc.py L33 ①类（gold L4 口径）；KB `knowledge-base/hardware/rtx-3090.json` ①类 conf 0.5 二手价 $1500-2000（与 gold 口径不一致，题面取 gold 口径保 winner 复现） |
+| V100 SXM2 | 32GB | 900 GB/s | 125 TFLOPS | 250W | **$2500** | calc.py L36 ①类（规格源 `datacenter-cards.json`；价格原文标 [待核验, 2026 市场价] → 本实验按 ③类假设钉死，见下方脆弱性披露） |
+
+**⚠ 脆弱性披露（必须随题面一起读）**：winner 对 V100 价格假设敏感——本轮实跑（python 二分，
+calc.py 同参数）：V100 单价 **< $2033** 时 V100×4/W4/n=2 反超 3090×4/W4/n=2 成为 winner；
+V100=$2500（题面值）时 0.761 > 0.681，3090 稳赢。3090 一侧对价格极不敏感（>$5000 才被反超，
+远超任何现实价）。→ **T8c 的 correctness 锚点 = 「题面钉死价格下的 winner」**，即
+3090×4/W4/n=2；若后续 V100 实价核验（③→①升级）落在 $2033 以下，winner 锚点须重定，
+T8c 数据作废重跑。此为已知限制，不掩盖。
+
+**oracle 实跑验证（本轮，命令 `python3 tasks/think-trigger/exp-results/gold_gpu_oracle.py`，exit 0）**：
+- winner = **3090×4/W4/n=2** ✅（期望一致）
+- c_pass(winner) = 0.681 ≈ 0.679（calc.py 标定值，差 0.3% < 1% 容差）✅
+- N-5.2 带宽门对 gold 6 个 pass/fail 判断 6/6 吻合 ✅
+- 可行配置排序 top-3：3090×4/W4/n=2 (0.681) < V100×4/W4/n=2 (0.761) < 3090×4/W8/n=2 (0.764)
+- 淘汰 5 配置：3090×2/W8、3090×2/W16、3090×3/W16、3090×4/W16（N-5.1 显存门）、V100×2/W16
+- 4090 敏感性复现：4090×4/W4/n=2 = 0.635 → 若入候选集 winner 翻转（排除依据，见上）
 
 ## 3. 歧义③ 消解：c_pass 口径（公式 + 参数 + 同构性）
 
