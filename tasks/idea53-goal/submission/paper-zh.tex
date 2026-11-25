@@ -1,0 +1,283 @@
+% origin: ai · 2026-11-25 · idea53 中文版（重构，非翻译）
+% 重构要点（D 2026-11-25 判英文稿"非常粗糙"）：
+%   1) T5000 直觉开场（30% 占比 → 63% 时间），最强钩子前置
+%   2) "修正"立成概念核心（方向修正 + 粒度修正），不平铺
+%   3) 两张示意图：瓶颈模型（fig:bottleneck）+ 树模型（fig:tree），直接标注哪个因素影响更大
+%   4) 每条 caveat 只说一次；防御内容织进方法/对照，不单独封"Defense"章
+%   5) 正文真引用（\cite），related work 补教科书先例定位（Quinlan 1986/1993 + 层次化 roofline）
+%   6) 排版修复：机构名溢出（\par 换行）、7 列表溢出（tabular+\resizebox）、双重编号（\section 替代 \subsection）
+% 数字与英文版 paper.tex 完全一致（测量论文，数字即内容）
+% 编译：xelatex paper-zh.tex && bibtex paper-zh && xelatex paper-zh.tex && xelatex paper-zh.tex
+% [待D确认] 作者中文名（项目内未存，暂用拼音）
+
+\documentclass[12pt]{ctexart}
+\usepackage[a4paper, margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,calc}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue]{hyperref}
+\usepackage[numbers,sort&compress]{natbib}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\providecommand{\tightlist}{}
+
+\title{\textbf{微架构究竟有多重要？}\\\large GPU 瓶颈诊断中深层判断增量贡献的闭式、预注册测量}
+
+% 机构名：\par 自然换行（原稿 \\ 强制单行导致溢出右边界）
+\author{%
+  \textbf{Xia Yifeng}\thanks{通讯作者。Email: xiaoyifeng25@mails.ucas.ac.cn}\\
+  {\small 中国科学院大学杭州高等研究院 数理基础科学学院，杭州 310024}\\
+  {\small 中国科学院大学，北京 100049}\\
+  {\small 中国科学院理论物理研究所，北京 100190}
+}
+
+\date{\today}
+\begin{document}
+\maketitle
+
+\section*{摘要}\label{abstract}
+
+GPU 工作负载的瓶颈诊断是一个组合判断：哪个组件（某精度下的张量计算、标量/发射通路、内存带宽）支配墙钟时间，取决于\emph{工作负载构成}与\emph{微架构速率}的交互，而不取决于负载构成本身。我们把深层微架构判断相对表面（浅层枚举）判断的\textbf{增量贡献}形式化为深层判断对表面判断的\textbf{修正量}——方向修正（瓶颈类型翻转）与粒度修正（时间占比偏移）——并证明该量及其诱导的严格互信息可以从硬件规格与工作负载先验\emph{闭式计算}，无需实验、无学习组件。在四个平台（RTX 5090、Thor T5000、RTX 4090、A100）与 40{,}000 个采样工作负载上：表面判断（假设各组件速率相等，时间正比于负载占比）在 43--56\% 的工作负载上判错瓶颈类型，深层修正（时间偏移）为 0.17--0.23。严格互信息给出同一结论：深层独有信息 $H(D|S)$ 为 0.71--0.77 bits，且在等速率对照下\emph{恰好}归零——排除了"深层节点只是转发表面信息"的平凡解释。三个手推锚点被精确复现。修正量不由速率比的\emph{极端程度}决定（A100 比值 44.3 的修正超过 5090 比值 51.9），主导交互分量是候选驱动因素，待更宽硬件面板检验。树推广（二分：计算 vs 内存）显示修正分解为分支级与分支内两个分量，主导维度从分支内（温和速率平台）翻转为分支级（极端速率平台）——这是扁平 1D 模型无法表示的结构。全部判据在数据生成前预注册（commit \texttt{eb1b0598c}，17:39，早于数据生成 \texttt{718394ece}，18:06）。
+
+\section{引言}\label{introduction}
+
+先看一个具体数字。在 Jetson Thor T5000 上，一个 FP4/FP16 = 70/30 的工作负载，FP16 只占负载的 30\%，但计入真实速率交互后，它消耗 63\% 的时间；50/50 时是 80\%。\textbf{占比小不等于贡献小}——瓶颈判定对输入是非线性的。
+
+GPU 性能诊断通常被框定为线性归因问题：roofline 类分析把工作负载映射到计算受限或访存受限的区间\cite{roofline2009,rooflineHier2020,rooflineTime2020}，步级归因方法按占比给组件分配信用。这套框架悄悄假设了时间正比于负载占比——即所有组件以可比速率运行。本文的出发点是：\textbf{这个假设恰恰是诊断本应检验的那部分}。
+
+由此引出本文的问题。诊断天然有两层结构：\emph{表面判断}在等速率假设下枚举负载类别，\emph{深层判断}代入真实微架构速率。问题是定量的：\textbf{深层比表面多了多少？}
+
+我们用闭式的表面--深层模型作答。表面判断 $S$ 假设 $\text{rate}_i = 1$，时间占比正比于负载占比，瓶颈为主导负载类；深层判断 $D$ 代入真实速率，$t_i = f_i/\text{rate}_i$，瓶颈为 $\arg\max_i t_i$。$D$ 的增量贡献定义为它对 $S$ 的修正量：翻转率 $P(S \neq D)$（方向修正）与期望时间占比偏移（粒度修正）。我们用严格互信息 $H(D)$、$H(D|S)$、$I(S;D)$ 作为信息论形式化。
+
+\textbf{主张。}在非线性瓶颈判定下，深层微架构判断节点的增量贡献等于它对表面判断的修正量；该量可闭式计算，在每个真实平台上为正，随速率比\emph{结构}（而非极端程度）变化，且在等速率负对照下归零。
+
+\textbf{贡献。}(i) 闭式表面--深层模型，由三个精确复现的手推锚点验证。(ii) 四平台 $\times$ 40{,}000 工作负载的测量：43--56\% 翻转率、0.17--0.23 时间偏移、0.71--0.77 bits 深层独有互信息。(iii) 两个实测对照臂——等速率对照（修正恰好归零）与 24 置换参数--深度重排（修正在 Monte-Carlo 带宽内不变）——外加一个设计级类型对照，回应转发平凡性与同义反复两类质疑。(iv) 预注册记录：判据先于数据生成提交。(v) 树推广（§4.5）：修正分解为分支级与分支内分量，主导维度随速率体制翻转——扁平模型无法表示的层级结构，继承预注册的等速率对照。
+
+\section{为什么是这个量：从非线性到修正度量}\label{why}
+
+\textbf{非线性排除占比归因。}瓶颈判定是组合函数：精度算力比 $\times$ 负载构成 $\times$ 标量/发射占比 $\times$ 带宽。上面的 T5000 例子使其具体：30\% 的负载占比在速率交互后变成 63\% 的时间占比。线性归因系统性低估这类交互项——这正是我们测量\emph{信息}而非占比或消融的原因。
+
+\textbf{信息，而非归因，是正确的度量族。}互信息捕捉非线性依赖：即使 $D$ 是 $S$ 的非线性函数，$I(S;D) > 0$ 依然成立。恒等式
+\[
+H(D) = H(D|S) + I(S;D)
+\]
+把瓶颈类的总熵拆成两部分：$I(S;D)$ 是表面判断携带的部分，$H(D|S)$ 是知道表面判断后\emph{仍然幸存}的瓶颈不确定性。任何层级化解释的结构都是这样：一层细化的价值，在于它在粗层之上改变了什么。
+
+\textbf{两级结构使增量良定义。}把深层判断条件化于表面判断之上——$H(D|S)$——就是"增量信息"的自然概念。操作上，$D$ 以两种方式修正 $S$：
+\begin{enumerate}
+  \item \textbf{方向修正}：瓶颈类型翻转（$S \neq D$）。表面说"计算受限"，微架构层说"标量通路才是瓶颈"。
+  \item \textbf{粒度修正}：真实瓶颈组件的时间占比被重估。表面说"FP16 占 30\%"，微架构层说"占 63\%，且还有一个被隐藏的带宽杀手"。
+\end{enumerate}
+翻转率与时间偏移是修正的可解释、逐工作负载分数；严格互信息是它的信息论形式化。两者都能从规格与负载先验闭式计算。
+
+\section{方法：闭式表面--深层模型}\label{method}
+
+\textbf{设定。}工作负载含四个组件 $i \in \{\text{FP4}, \text{FP16}, \text{scalar}, \text{bandwidth}\}$，每个组件有占比 $f_i$（构成概率单纯形）与由硬件规格导出的每组件速率 $r_i$。瓶颈是时间占比最大的组件。
+
+\textbf{表面判断 $S$。}假设所有速率相等（$r_i = 1$）：时间占比正比于负载占比，$t_i = f_i$，表面瓶颈为 $\arg\max_i f_i$。这是纯枚举负载构成能得到的判断。
+
+\textbf{深层判断 $D$。}代入真实速率：$t_i = f_i / r_i$（归一化后），深层瓶颈为 $\arg\max_i t_i$。速率归一化后，主导组件的速率作为参考——\textbf{速率比结构}（最大值/最小值，以及哪个组件占优）是唯一的硬件输入（图~\ref{fig:bottleneck}）。
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[
+  box/.style={draw, rounded corners=2pt, minimum height=1.0cm, align=center, font=\small, inner sep=4pt},
+  arr/.style={-{Stealth[length=2.5mm]}, thick},
+  lab/.style={font=\footnotesize, align=center}
+]
+\node[box, minimum width=3.0cm, fill=gray!8] (f) {$f=(f_{\mathrm{FP4}}, f_{\mathrm{FP16}},$\\ $f_{\mathrm{sc}}, f_{\mathrm{bw}})$\\[2pt]\footnotesize 工作负载构成\\（Dirichlet 单纯形采样）};
+\node[box, above right=0.9cm and 1.7cm of f, minimum width=3.6cm, fill=blue!6] (rs) {\footnotesize 表面判断 $S$\\[2pt] $r_i \equiv 1$，$t_i = f_i$\\ 瓶颈 $S = \arg\max_i f_i$};
+\node[box, below right=0.9cm and 1.7cm of f, minimum width=3.6cm, fill=orange!12] (rd) {\footnotesize 深层判断 $D$\\[2pt] $r_i =$ 真实速率，$t_i = f_i/r_i$\\ 瓶颈 $D = \arg\max_i t_i$};
+\node[box, right=2.0cm of $(rs)!0.5!(rd)$, minimum width=3.2cm, fill=green!10] (corr) {\footnotesize \textbf{修正}（本文测量对象）\\[3pt]\footnotesize 方向：翻转率 $P(S\neq D)$\\ \footnotesize 粒度：时间偏移 $\mathbb{E}[\Delta t]$};
+\draw[arr] (f.east) -- (rs.west);
+\draw[arr] (f.east) -- (rd.west);
+\draw[arr] (rs.east) -- (corr.west);
+\draw[arr] (rd.east) -- (corr.west);
+\node[lab, below=0.7cm of rd, draw, dashed, rounded corners=2pt, fill=yellow!18, align=center, minimum width=5.2cm] (ann) {%
+  \textbf{直接结论：}修正由\textbf{速率比结构}决定，\\ 不由负载构成单独决定。\\ 去掉速率结构（flat 对照）$\Rightarrow$ 修正\textbf{恰好为 0}};
+\draw[dashed, -{Stealth[length=2mm]}] (ann.north) -- (rd.south);
+\end{tikzpicture}
+\caption{瓶颈模型。左：负载构成 $f$；中：表面判断（等速率）与深层判断（真实速率）；右：两者的差异即本文测量的修正量。虚线框为直接结论：硬件侧唯一输入是速率比结构，去掉它修正恰好归零（§5 对照 1）。}
+\label{fig:bottleneck}
+\end{figure}
+
+\textbf{增量贡献（可解释分数）。}对每个采样工作负载计算：
+\begin{itemize}
+  \item \textbf{翻转率} $P(S \neq D)$：深层判断改变瓶颈类型的工作负载比例（方向修正）。
+  \item \textbf{时间偏移} $\mathbb{E}\big[|t^{D}_{b^{*}} - t^{S}_{b^{*}}|\big]$，其中 $b^{*}$ 是 $D$ 的瓶颈：深层判断如何重估真实瓶颈的时间占比（粒度修正）。
+\end{itemize}
+
+\textbf{严格互信息。}设 $S, D \in \{1,\dots,4\}$ 为瓶颈类变量，从联合分布 $P(S,D)$ 采样精确计算 $H(D)$、$H(D|S)$、$I(S;D)$。$H(D|S)$ 是深层独有信息：知道表面判断后仍存的瓶颈不确定性。
+
+\textbf{硬件。}四个平台的稠密（非稀疏）规格：
+
+\begin{table}[t]
+\centering
+\begin{tabular}{@{}llll@{}}
+\toprule
+平台 & FP16 TFLOPS & FP4 TFLOPS & 带宽 GB/s \\
+\midrule
+RTX 5090 (GB202) & 419 & 1677 & 1792 \\
+Thor T5000 (Jetson) & $\sim$258（推导值） & 1035 & 273 \\
+RTX 4090 (AD102) & 114 & ---（无原生 FP4） & 1008 \\
+A100 80G SXM (Ampere) & 312 & ---（无原生 FP4） & 2039 \\
+\bottomrule
+\end{tabular}
+\caption{四个平台的硬件规格。4090 与 A100 无原生 FP4，其 FP4 速率取 $0.5 \times$ FP16 作保守代理（见 §7 局限性）。标量/发射速率沿用下文锚点所用的每平台发射通路假设。}
+\label{tab:hw}
+\end{table}
+
+\textbf{负载先验。}$f \sim \text{Dirichlet}(1,1,1,1)$（单纯形上均匀），每平台 $N = 40{,}000$ 个采样。
+
+\textbf{验证锚点。}模型必须精确复现三个手推案例：(1) T5000，50/50 FP16/FP4 $\to$ FP16 占 80\% 时间；(2) T5000，70/30 $\to$ 63\%；(3) 5090，标量 40\% 且发射速率减半 $\to$ 整体慢 40\%。三者全部复现（计算值 0.800、0.632、$1.400\times$）；我们把它作为模型正确性闸门。
+
+\section{结果}\label{results}
+
+\textbf{主结果：表面判断在多数工作负载上是错的。}每平台、$N=40{,}000$ 采样上：
+
+\begin{table}[t]
+\centering
+\begin{tabular}{@{}lllll@{}}
+\toprule
+平台 & 速率比 (max/min) & 翻转率 $P(S\neq D)$ & 时间偏移 & 典型翻转 \\
+\midrule
+4090 & 287.4 & 0.563 & 0.2307 & BW$\to$FP4, SC$\to$FP4 \\
+5090 & 51.9 & 0.527 & 0.2004 & SC$\to$FP16, BW$\to$FP16 \\
+A100 & 44.3 & 0.556 & 0.2183 & SC$\to$FP4, BW$\to$FP4 \\
+T5000 & 9.9 & 0.434 & 0.1655 & SC$\to$FP16, SC$\to$BW \\
+\bottomrule
+\end{tabular}
+\caption{主结果。SC = scalar，BW = bandwidth。表面判断在 43--56\% 的工作负载上判错瓶颈类型，深层判断以期望 0.17--0.23 重估瓶颈的时间占比。T5000（速率结构最温和，比值 9.9）修正最小；4090（比值 287.4，无原生 FP4 所致）最大。}
+\label{tab:main}
+\end{table}
+
+\textbf{严格互信息。}瓶颈类变量上的信息论形式化：
+
+\begin{table}[t]
+\centering
+\begin{tabular}{@{}lccc@{}}
+\toprule
+平台 & $H(D)$ (bits) & $H(D|S)$ (bits) & $I(S;D)$ (bits) \\
+\midrule
+5090 & 1.1429 & 0.7667 & 0.3762 \\
+T5000 & 1.3511 & 0.7639 & 0.5871 \\
+4090 & 0.9857 & 0.7128 & 0.2729 \\
+A100 & 1.0312 & 0.7464 & 0.2848 \\
+\textbf{flat 对照} & 1.9999 & \textbf{0.0} & 1.9999 \\
+\bottomrule
+\end{tabular}
+\caption{严格互信息。每个真实平台上 $H(D|S)$ 均为 0.71--0.77 bits：表面判断完全已知后，瓶颈的大部分不确定性仍在。等速率对照（构造上所有速率相等）下 $H(D|S) = 0.0$ \emph{恰好}——深层判断与表面判断此时相同，深层层不携带任何超越表面的信息。深层独有信息因此归因于速率比结构，而非"有第二层"这一通用性质。}
+\label{tab:mi}
+\end{table}
+
+\textbf{结构，而非极端程度。}修正不跟踪速率比的极端程度：A100（比值 44.3，偏移 0.2183）超过 5090（比值 51.9，偏移 0.2004），打破了 max/min 比值的严格单调性。数据与"组件主导"解释一致：A100 上以 FP4 为目标的翻转占优（scalar$\to$FP4 6786、bw$\to$FP4 6738 / 40000 采样），5090 上以 FP16 为目标的翻转占优（scalar$\to$FP16 7553、bw$\to$FP16 5775）。四个平台不足以主张标度律；我们主张的是可证伪陈述：\textbf{极端程度本身不决定修正，主导交互分量是候选驱动因素}——待更宽硬件面板检验。
+
+\textbf{树推广：修正具有层级结构。}1D 模型把四个组件当作扁平集合。但诊断有天然的树结构：组件归入分支，瓶颈先在分支级确定（哪个分支主导）、再在段级确定（分支内哪一段）。我们检验深层修正是否沿此层级分解，以及分解是否揭示扁平模型无法表示的结构。
+
+把四个组件分成两个分支——计算（FP4, FP16）与内存/控制（scalar, bandwidth）——在两级上分别计算瓶颈。深层修正分解为 2$\times$ 2 列联：深层判断是否在段级、分支级修正表面判断（图~\ref{fig:tree}）：
+
+\begin{figure}[t]
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[
+  box/.style={draw, rounded corners=2pt, minimum height=0.75cm, align=center, font=\small, inner sep=3pt},
+  lab/.style={font=\footnotesize, align=center}
+]
+\node[box, fill=gray!10] (root) {工作负载 $f$};
+\node[box, below left=1.1cm and 1.4cm of root, fill=blue!6, minimum width=3.4cm] (comp) {计算分支\\[2pt] FP4 \quad FP16};
+\node[box, below right=1.1cm and 1.4cm of root, fill=orange!12, minimum width=3.4cm] (mem) {内存/控制分支\\[2pt] scalar \quad bandwidth};
+\node[box, below left=0.9cm and 0.5cm of comp, minimum width=2.0cm, fill=blue!3, font=\footnotesize] (fp4) {FP4};
+\node[box, below right=0.9cm and 0.5cm of comp, minimum width=2.0cm, fill=blue!3, font=\footnotesize] (fp16) {FP16};
+\node[box, below left=0.9cm and 0.5cm of mem, minimum width=2.0cm, fill=orange!5, font=\footnotesize] (sc) {scalar};
+\node[box, below right=0.9cm and 0.5cm of mem, minimum width=2.0cm, fill=orange!5, font=\footnotesize] (bw) {bandwidth};
+\draw (root.south) -- (comp.north);
+\draw (root.south) -- (mem.north);
+\draw (comp.south) -- (fp4.north);
+\draw (comp.south) -- (fp16.north);
+\draw (mem.south) -- (sc.north);
+\draw (mem.south) -- (bw.north);
+\node[lab, left=0.4cm of $(comp.north)!0.5!(mem.north)$] {分支级判断};
+\node[lab, left=0.4cm of $(fp4.north)!0.5!(sc.north)$] {段级判断};
+\node[below=0.9cm of $(fp4)!0.5!(bw)$, draw, dashed, rounded corners=2pt, fill=yellow!18, align=left, font=\footnotesize, text width=9.2cm, inner sep=4pt] (ann2) {%
+  \textbf{直接结论：}主导维度随速率体制翻转。\\
+  温和平台（T5000，9.9）$\to$ \textbf{分支内}主导（0.290 vs 0.181）；\\
+  三个极端平台（A100/5090/4090）$\to$ \textbf{分支级}主导（0.40--0.50 vs 0.11--0.19）。\\
+  等速率对照下两维度均恰好归零。};
+\end{tikzpicture}%
+}
+\caption{树模型。瓶颈判定先在分支级、再在段级进行；深层修正相应分解为分支级分量与分支内分量。虚线框为直接结论：哪个维度影响更大取决于速率体制（表~\ref{tab:tree}）。}
+\label{fig:tree}
+\end{figure}
+
+\begin{table}[t]
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{@{}lcccccl@{}}
+\toprule
+平台 (比值) & 两级都对 & 共翻转 & 仅分支 & 仅分支内 & $P$(分支翻转) & 主导维度 \\
+\midrule
+T5000 (9.9) & 0.530 & 0.145 & 0.036 & 0.290 & 0.181 & 分支内 \\
+A100 (44.3) & 0.399 & 0.442 & 0.045 & 0.114 & 0.487 & 分支 \\
+5090 (51.9) & 0.409 & 0.335 & 0.064 & 0.191 & 0.399 & 分支 \\
+4090 (287.4) & 0.394 & 0.451 & 0.044 & 0.112 & 0.495 & 分支 \\
+\bottomrule
+\end{tabular}%
+}
+\caption{树分解（2$\times$ 2 列联，四格之和为 1）。段级翻转率（共翻转 + 仅分支内）精确复现 1D 主结果（0.434 / 0.556 / 0.527 / 0.563），确认树模型是扁平模型的正确推广而非另一个模型。}
+\label{tab:tree}
+\end{table}
+
+扁平模型无法表达的新观察：深层修正分解为两个维度——\emph{分支级}分量（哪个分支是瓶颈）与\emph{分支内}分量（正确分支内哪一段）——且主导维度随速率体制不同。最温和速率平台（T5000，比值 9.9）上分支内分量主导（0.290 vs 0.181）；三个极端速率平台上分支级分量主导（0.40--0.50 vs 0.11--0.19）。三个极端平台内部划分稳定（分支 0.399--0.495，分支内 0.112--0.191），不连续跟踪速率极端程度——四个平台只能刻画温和 vs 极端的对照，不是连续权衡曲线。等速率对照把两个维度都恰好归零（两级都对 = 1.0），故分解继承预注册的负对照。
+
+\textbf{树推广的作用域。}这是由扁平模型局限（无法表示层级修正）激发的\emph{事后}结构扩展，不属于原预注册；它继承的等速率对照是预注册的那个。四个平台 + 特定二分（计算 vs 内存）下，温和 vs 极端对照是 4 点结构观察（3 个极端平台聚簇、1 个温和平台分离），不是标度律或连续权衡。可证伪内容是分解本身与温和 vs 极端的主导对照，两者扁平 1D 模型都无法表示。
+
+\textbf{锚点。}三个手推验证案例全部精确复现（0.800 vs 80\%、0.632 vs 63\%、$1.400\times$ vs 慢 40\%），在主结果解读之前确认了模型正确性。
+
+\section{对照臂}\label{controls}
+
+三个对照瞄准"深层胜过表面"的三类质疑。前两个是表面--深层模型内的实测臂；第三个是设计级论证，我们如实报告与之相关的数据。
+
+\textbf{(1) 等速率对照（转发平凡性）——实测。}占位硬件，所有速率 = 1。结果：flip = 0.0000，时间偏移 = 0.0000，$H(D|S) = 0.0$——修正\emph{恰好}为零，不是仅仅很小。这排除了平凡解释（深层节点的信息只是表面信息的转发——对任何可枚举量这在数学上都成立）：实测增量可完全归因于速率比结构。
+
+\textbf{(2) 参数--深度重排（同义反复）——实测。}质疑是："深层"由深度定义，所以深层节点当然携带更多信息——主张是同义反复。我们直接在四个组件上置换速率向量（全部 24 个置换，速率多重集固定），在同一批 40{,}000 工作负载上重算修正。若增量跟踪\emph{标签}（哪个组件被称为"深层"），它随置换改变；若跟踪速率比\emph{内容}（多重集），它不应改变。恒等置换精确复现主结果（flip 0.5266/0.4344/0.5627/0.5559，shift 0.2004/0.1655/0.2307/0.2183，对应 5090/T5000/4090/A100），24 个置换下修正只在狭窄 Monte-Carlo 带宽内变化（如 5090 flip 0.5251--0.5304，shift 0.1992--0.2013）。增量因此是速率比内容的函数而非深度标签的函数：判据被去深度化，同义反复质疑由测量而非仅由构造解决。
+
+\textbf{(3) 层内类型对照（类型 $\times$ 深度混淆）——设计级论证，带 caveat。}层内比较判断型节点（应用速率比）与枚举型节点（报告占比）。在表面--深层模型中两类型\emph{不}与深度混淆：表面节点是枚举型、深层节点是判断型，实测增量即两者之差。早期的节点级模型把类型与深度混淆（节点 0--1 浅+枚举，2--3 深+判断），那里的类型对照\emph{反对}假设（枚举型 0.5841 bits vs 判断型 0.1344 bits / 节点）。我们不把那个数字当证据——它是另一个模型的混淆测量。干净的类型隔离就是表面--深层划分本身，即 §4 的实测结果。
+
+\section{预注册与可复现性}\label{prereg}
+
+\textbf{HARKing 声明。}所有判据、公式与生死线检验（真实平台深层独有信息 $>0$、flat 对照 $=0$）在数据生成\emph{之前}提交到项目仓库：预注册 commit \texttt{eb1b0598c}（17:39）早于数据生成 commit \texttt{718394ece}（18:06），2026-11-24；顺序可用 \texttt{git log} 验证。没有任何判据在看到结果后调整；唯一的事后改动是对次要假设的\emph{弱化}（极端程度单调 $\to$ 结构依赖，§4），因为数据与更强形式矛盾。预注册 + 复制的范式先例见 \cite{camerer2018}。
+
+\textbf{可复现性。}每个定量结果都是 §3--§5 公式、四个硬件速率向量（表~\ref{tab:hw}）、负载先验 $f \sim \text{Dirichlet}(1,1,1,1)$ 与固定种子（42，40{,}000 采样）的确定性函数；采样后无随机成分。具体地：翻转率（43--56\%）、时间偏移范围（0.17--0.23）、三个手推锚点与非单调观察由逐工作负载的表面--深层计算产生（脚本 \texttt{idea53-theory-flip.py}，commit \texttt{718394ece}）；严格量 $H(D)$、$H(D|S)$、$I(S;D)$ 由 §3 定义的四个瓶颈类联合分布 $P(S,D)$ 计算（仅从定义独立重算得 $H(D|S) \in [0.7134, 0.7693]$，flat 对照下恰好 0.0）。计算脚本随源稿提交；上文公式自足，无脚本亦可复现全部数字。互信息估计方法学参见 \cite{kraskov2004}（本文用精确采样计算而非估计器，故不直接依赖其渐近性质）。
+
+\section{局限性}\label{limitations}
+
+\begin{itemize}
+  \item \textbf{可解释分数 vs 严格互信息。}翻转率与时间偏移是可解释的逐工作负载分数，本身不是互信息；主张依赖的形式化量是 §4 的严格 $H(D)$、$H(D|S)$、$I(S;D)$。
+  \item \textbf{两平台无原生 FP4。}4090 与 A100 无原生 FP4 单元，FP4 速率取 $0.5 \times$ FP16 代理（未经硅片验证）。4090 的极端比值（287.4）部分是该代理的伪影，其 flip/shift 值应带此 caveat 解读。
+  \item \textbf{负载先验。}$\text{Dirichlet}(1,1,1,1)$ 在单纯形上均匀，不建模真实 LLM 推理负载的精度混合（通常低精度为主）。偏先验下绝对翻转率会变；flat 对照归零与结构观察按构造对先验稳健。
+  \item \textbf{单调性不严格。}修正与速率比\emph{结构}相关而非仅极端程度：A100（44.3）时间偏移超过 5090（51.9）。我们不主张 max/min 比值的单调函数，四个平台也不足以主张标度律。
+  \item \textbf{树推广是事后、4 点的。}§4.5 的层级分解由主结果之后扁平模型的局限激发，未预注册；它继承预注册的 flat 对照，温和 vs 极端主导对照是固定二分（计算 vs 内存）上的 4 点结构观察。按精度等其他划分未检验。
+  \item \textbf{单域验证。}四个平台全是 GPU，锚点全由规格手推，未用实测 trace。真实负载上的外部验证是后续工作。
+  \item \textbf{三个对照之一为设计级。}flat 对照（1）与参数--深度重排（2）是实测臂；层内类型对照（3）依赖模型构造（表面与深层判断仅速率向量不同）。早期节点级模型中类型与深度混淆，其类型对照\emph{反对}假设（0.5841 vs 0.1344 bits/节点），我们不采用该数字。后续版本应在表面--深层模型内把 (3) 做成显式实测臂。
+\end{itemize}
+
+\section{结论与相关工作}\label{conclusion}
+
+\textbf{结论。}我们在 GPU 瓶颈诊断中，以闭式、预注册判据测量了深层微架构判断相对表面枚举判断的增量贡献。表面判断在 43--56\% 的工作负载上是错的；深层修正在时间偏移上为 0.17--0.23、在深层独有互信息上为 0.71--0.77 bits；去掉速率比结构时修正恰好归零。树推广补上一个扁平模型无法表达的结构观察：修正分解为分支级与分支内分量，主导维度从分支内（温和速率平台）翻转为分支级（极端速率平台）。实践含义：在非线性组合诊断中，深层不是精化——它是判断的承重部分，且其贡献在任何实验运行之前就可计算。
+
+\textbf{相关工作。}
+\emph{性能建模与瓶颈诊断。}Roofline 分析及步级归因方法假设时间正比于资源占比、线性归因\cite{roofline2009,amdahl2008,amdahlExt2021}；层次化 roofline 把性能模型组织成多层结构\cite{rooflineHier2020,rooflineTime2020}，面向深度学习应用的逐层分析。我们的结果量化了"时间正比于占比"这一假设逐平台犯的错误。解析性能建模（AMALI \cite{amali2025}、MLSYSIM \cite{mlsysim2026}、微基准驱动的跨架构解析模型 \cite{microbenchAnalytic2026}）把速率当作给定输入、目标是预测墙钟时间；本文把\emph{关于速率的判断}本身当作测量对象。结构先验驱动的瓶颈感知调度 \cite{saScheduler2026} 与瓶颈翻转的实证观察 \cite{memoryWallFlip2026,memoryGap2025} 与本文的 flip 概念相邻，但未给出闭式增量度量。
+\emph{教科书先例：增量信息作为条件熵。}"某一层相对上一层的增量信息 = 条件熵"是决策树学习的标准信息增益：ID3/C4.5 以 $IG(T,a) = H(T) - H(T|a) = I(T;A)$ 作为分裂选择准则\cite{quinlan1986,quinlan1993}，适用于\emph{从带标签数据中学出的}分类树、离散属性（连续属性经阈值分箱处理）。本文的 $H(D) = H(D|S) + I(S;D)$ 与它是同一恒等式，但用法不同：那里 IG 是建树时的\emph{选择准则}，这里它是固定诊断结构上\emph{逐层贡献的测量}；树不是学出来的而是从硬件规格推导的；且本文的等速率负对照给出 $H(D|S) = 0.0$ 的\emph{恰好}归零，教科书场景无对应物。这是本文与教科书机器的边界，也是贡献所在。
+\emph{推理轨迹的信息论分析。}步熵与探测轨迹类工作测量\emph{观测到的}链中的信息\cite{stepEntropy2025}；本文的量\emph{从规格推导}，这正是闭式与负对照可能的原因。
+
+\section*{AI 使用披露}
+
+按 arXiv 生成式 AI 工具政策：本工作不列任何 AI 系统为作者。生成式 AI 语言工具用于起草与验证辅助阶段；全体作者对内容负全责。本文全部定量结果由文中引用的闭式计算脚本产生，可从引用的 commit 锚点复现。
+
+\bibliographystyle{plainnat}
+\bibliography{references-zh}
+
+\end{document}
