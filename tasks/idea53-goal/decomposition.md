@@ -166,3 +166,10 @@ D 直觉："他们没涉及更复杂的乘性结构？也没有涉及更现代�
 - 论文定位: related work引2001.01878/1907.07331划界一句; EBM仅解读层; landscape作outlook
 - 勘误: dispatch context的1506.02615凭记忆给错(实为宇宙学论文), sub abs验证抓出→Saxe ICLR 2018 (DOI 10.1088/1742-5468/ab3985)
 - 遗留[待核验]: Tishby 1999/2000×2 + LeCun 2006 书目 (Crossref未命中, 存在性有旁证)
+
+### G9 related work 写入完成（2026-11-25, deleg_be176989, Lead 已验收）
+- 产出: paper-zh-additive-tree.md/.tex §7 扩写为「相关工作与定位」(7.0-7.5) + abstract 定位叙事
+- Lead 验收: 3 commit 只动目标文件; 16/16 引用 ID 双文件命中; xelatex 双pass 9页PDF无error
+- 结构: 7.1 组合结构扰动理论(0708.1718对偶/2509.01424最近邻/2107.13333+1202.6457背书) / 7.2 IB划界3句 / 7.3 鲁棒性证书+judge分流(1902.01235+2611.08035+撞车核查) / 7.4 EBM解读层+landscape outlook / 7.5 适用域划界(对角+树)
+- 定位叙事: "组合结构扰动理论在加性代数上的第一个完整闭式包", 教科书成分明示不claim新意
+- 遗留: 英文版 paper-en.md 未同步 (venue 轮若走英文需补); judge加速定量接口实验仍未做 (note §3.2-2)
