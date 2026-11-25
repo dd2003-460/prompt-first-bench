@@ -1,0 +1,311 @@
+% 工作文档 · 2026-11-25 · idea53 中文稿（加性树 + 微扰 + 级数）
+% 由 paper-zh-additive-tree.md 转写；数字全部回查 idea53-additive-tree-perturbation.json
+% 编译: xelatex paper-zh-additive-tree.tex && xelatex paper-zh-additive-tree.tex
+% 注意: 这是独立稿，不进 submission/，不触碰 SHA256SUMS.txt 锁定的 7 个文件
+\documentclass[12pt]{ctexart}
+\usepackage[a4paper,margin=2.4cm]{geometry}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,calc}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue]{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\providecommand{\tightlist}{}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\rate}{\mathrm{rate}}
+\newcommand{\flip}{\mathrm{flip}}
+
+\title{\textbf{加性树上的微扰敏感性与级数信息增益}\\[4pt]\large 一个可解析的分解树节点评分基础}
+
+\author{\textbf{肖逸峰}\thanks{工作文档；通讯邮箱见项目记录。}}
+\date{2026年11月25日}
+
+\begin{document}
+\maketitle
+
+\noindent\textbf{工作文档声明.} 本稿替换旧的「测量协议」叙事（\texttt{paper-zh.md}）：旧稿把树当作四维列联表的附属观察，本稿把\textbf{可分解的加性树}放到中心，并把「深层节点主导」从枚举结果升级为\textbf{可推导、可证伪的解析命题}。定位仍是\textbf{前置工作}：树、GPU 公式、四个平台都是玩具模型；不解决对齐问题，不声称首次。三个命题全部可复算；复算脚本见 \texttt{idea53-additive-tree-\allowbreak perturbation.py}。
+
+\begin{abstract}
+把判断拆成一棵树后，「深层节点值多少分」要能算，而不是靠枚举猜。我们给出一条解析路线：若叶节点写成 $t_i=f_i/\rate_i^{\alpha}$，取对数后 $\log t_i=\log f_i-\alpha\log\rate_i$ 是\textbf{加性的}——这是全部严格性的来源。于是对速率施加小扰动 $\delta$，叶判断的翻转概率有闭式 $P(\flip)=\Phi\!\big(-m/(\alpha\sigma\sqrt2)\big)$，$m$ 是两个最大时间份额的对数间距；在软判断下，信息增益有二阶闭式 $I_2=\tfrac12(\alpha\beta\sigma)^2\big(1-\E\sum_i p_i^2\big)$，即 Fisher 信息形式。我们在四个 GPU 规格上验证：翻转概率的解析值与采样值相对误差 0.5--8.2\%；级数在 $\alpha\beta\sigma\le0.4$ 时给出 85--92\% 的真实信息量，超过此域系统性高估；硬 argmax（$\beta\to\infty$）下级数必然失效，必须改用闭式翻转概率。我们还发现「深层在哪个层面主导」没有唯一答案：按翻转率、按信息量、按浅层到深层的修正，三者给出的主导层面互不相同。因此本文的交付物不是一个主导结论，而是\textbf{三种口径的分离定义与各自的闭式判据}——它可被证伪，且不含对「统一主导」的过度声称。定位：宽主题成分（softmax↔Boltzmann 同构、Fisher 信息、最大熵推断）皆为教科书级既有，本文不主张其新意；本文的新意在于 P1/P3 构成「组合结构扰动理论」在\textbf{加性代数}上的第一个完整闭式包（对角弹性＋翻转闭式＋信息增益闭式＋flat 归零负控制）。
+\end{abstract}
+
+\section{从「枚举打分」到「解析打分」}
+
+旧版做法是把浅层判断 $S$ 和深层判断 $D$ 各枚举一遍，再数翻转比例。这能跑出数字，但有两个毛病：
+
+\begin{itemize}
+  \item 换一个公式就得重跑一遍采样。没有可迁移的表达式。
+  \item 「深层主导」含义不清。翻转次数多、信息量大、修正幅度大，被当成同一件事。
+\end{itemize}
+
+本稿换一个起点。先把判断写成一棵\textbf{可分解的树}，再让打分从树的结构里推出来。
+
+\textbf{加性树}（本文的核心结构）：一棵树，父节点的值等于子节点值之和。以 GPU 为例，四片叶对应四类计算：
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+  level 1/.style={sibling distance=7.4cm},
+  level 2/.style={sibling distance=3.7cm},
+  edge from parent/.style={->,draw,gray},
+  every node/.style={align=center,font=\small}
+]
+\node (root) {$T$\\[-1pt]{\footnotesize 总延迟（加法）}}
+  child { node (b0) {$\mathrm{branch}_0$\\[-1pt]{\footnotesize compute}}
+    child { node [font=\small] {$t_{\mathrm{fp4}}$\\[-2pt]{\footnotesize $=f_{\mathrm{fp4}}/\rate_{\mathrm{fp4}}^{\alpha}$}} }
+    child { node [font=\small] {$t_{\mathrm{fp16}}$\\[-2pt]{\footnotesize $=f_{\mathrm{fp16}}/\rate_{\mathrm{fp16}}^{\alpha}$}} }
+  }
+  child { node (b1) {$\mathrm{branch}_1$\\[-1pt]{\footnotesize memory/control}}
+    child { node [font=\small] {$t_{\mathrm{scalar}}$\\[-2pt]{\footnotesize $=f_{\mathrm{scalar}}/\rate_{\mathrm{scalar}}^{\alpha}$}} }
+    child { node [font=\small] {$t_{\mathrm{bw}}$\\[-2pt]{\footnotesize $=f_{\mathrm{bw}}/\rate_{\mathrm{bw}}^{\alpha}$}} }
+  };
+\end{tikzpicture}
+\caption{加性树示例。每个父节点的值等于子节点之和；叶节点为 $f_i/\rate_i^{\alpha}$。「瓶颈」是时间份额最大的叶；也可以先问哪个 branch 大，再问 branch 内哪片叶大——这两问给出不同判断层级（第 \ref{sec:three} 节）。}
+\label{fig:tree}
+\end{figure}
+
+「瓶颈」是时间份额最大的那片叶；在树上也可以先问哪个 branch 大，再问 branch 内哪片叶大。这两问给出不同的判断层级，第 \ref{sec:three} 节会看到它们不能混为一谈。
+
+\textbf{公式是可换的。} 上面用 $t_i=f_i/\rate_i$（$\alpha=1$）。也可以换成 $t_i=f_i/\rate_i^2$（$\alpha=2$，速率影响加倍），或换成别的单调形式。本文保留 $\alpha$ 作参数，第 \ref{sec:structure} 节报告换结构后的结果。
+
+\section{三个术语，先说人话}
+
+后面反复用三个词，先各给一句直白定义和一个例子。不引入更多概念。
+
+\begin{table}[htbp]
+\centering\small
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{@{}p{2.1cm}p{7.6cm}p{6.4cm}@{}}
+\toprule
+词 & 直白定义 & 例子 \\
+\midrule
+\textbf{弹性} (elasticity) & 输入变 1\%，输出变百分之几。本文输入是速率，输出是延迟。 & 速率翻倍 ($+100\%$) 若延迟减半 ($-50\%$)，弹性 $=-0.5$ \\
+\textbf{soft-argmax}（软取最大） & 不硬选最大的那个，而是给每个候选一个概率，越大的概率越高。参数 $\beta$ 控制「有多硬」：$\beta$ 越大越接近硬选；$\beta\to\infty$ 就是直接取最大。 & 四个分数 3/2/1/0，$\beta=1$ 时概率约 0.64/0.24/0.09/0.03，不是 1/0/0/0 \\
+\textbf{Fisher 信息} & 一个量对参数有多敏感：改动参数后，输出分布变化越大，Fisher 信息越大。本文用它当「信息增益的局部额度」。 & 若速率稍变就把瓶颈从 A 翻到 B，则该方向的 Fisher 信息大 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\textbf{为什么取对数。} $t_i=f_i/\rate_i^{\alpha}$ 直接看是除法、非线性；取对数变成
+\[
+\log t_i=\log f_i-\alpha\log\rate_i .
+\]
+右边是两项相加。这一步把所有严格性买下来了：对数空间里，加法树成立，微扰可以直接线性展开。
+
+\section{命题 P1：翻转概率有闭式}
+
+\textbf{设定.} 负载份额 $f$ 从 Dirichlet$(1,1,1,1)$ 采样（即四个分量在单纯形上均匀）。真实速率固定。对每片叶的\textbf{对数速率}加独立小扰动：
+\[
+\log\rate_k\ \to\ \log\rate_k+\delta_k,\qquad \delta_k\sim N(0,\sigma^2).
+\]
+
+\textbf{弹性是纯对角的.} 在 $\log t_i=\log f_i-\alpha\log\rate_i$ 里，第 $k$ 个速率只出现在第 $k$ 片叶：
+\[
+\frac{\partial\log t_i}{\partial\log\rate_k}=-\alpha\,\mathbf{1}[i=k].
+\]
+这一点很关键：深层节点之间没有交叉项，\textbf{加性树的「可分解」就体现在这个对角矩阵上}。非加性公式（例如分母里出现 $\sum_j\rate_j$）会立刻产生非对角项，闭式随之失效——这是模型的可证伪边界。
+
+\textbf{翻转判据.} 设当前最大叶为 $i$、次大为 $j$，定义对数间距 $m=\log t_i-\log t_j\ (\ge 0)$。扰动后 $i$ 被 $j$ 超过，当且仅当 $\alpha(\delta_i-\delta_j)>m$。因 $\delta_i-\delta_j\sim N(0,2\sigma^2)$：
+\[
+\boxed{P(\flip)=\Phi\!\left(-\frac{m}{\alpha\sigma\sqrt2}\right)}
+\]
+$\Phi$ 是标准正态累积分布。这个式子不需要重跑采样：给一个负载点，代入它的间距 $m$，立刻得到该点的翻转概率。\textbf{这就是「级数的信息增益好算」的第一层含义}：加性结构把判断稳定性变成一个闭式。
+
+\textbf{数值验证}（$\sigma=0.15$，每平台 20,000 个负载）：
+
+\begin{table}[htbp]
+\centering\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+平台 & 解析 $P(\flip)$ & 采样 $P(\flip)$ & 相对误差 \\
+\midrule
+5090  & 0.0437 & 0.0476 & 8.2\% \\
+T5000 & 0.0545 & 0.0548 & 0.5\% \\
+4090  & 0.0390 & 0.0396 & 1.3\% \\
+A100  & 0.0407 & 0.0416 & 2.1\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+注意这里的翻转率（4--5\%）\textbf{不等于}旧稿的 43--56\%。旧稿比较的是「速率全设为 1」与「真实速率」两个固定判断之间的差，是一次大跳跃；这里是给真实速率加 15\% 小扰动后的局部稳定性。两者是不同的量，不能互相替代，也不矛盾。
+
+\section{命题 P2：「深层在哪个层面主导」必须拆成三种口径}
+\label{sec:three}
+
+这是本稿最重要的修正。旧稿说「T5000 是 within 主导、其余 branch 主导」，但没有说明用的是哪种「主导」。实际上至少有三种合法定义，它们\textbf{互相不一致}：
+
+\begin{table}[htbp]
+\centering\small
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{@{}lp{6.0cm}p{7.6cm}@{}}
+\toprule
+口径 & 定义 & 怎么算 \\
+\midrule
+(a) 翻转率主导 & 小扰动下，branch 判断翻转多还是叶判断翻转多 & P2 的解析式 + 采样 \\
+(b) 信息量主导 & branch 层级贡献的信息增益大，还是 branch 内叶层级大 & Fisher 闭式分解 $I=I_{\mathrm{branch}}+I_{\mathrm{within}}$ \\
+(c) 修正主导（旧稿口径） & 从浅层（速率=1）跳到深层（真实速率），修正发生在 branch 还是叶内 & $2\times2$ 列联表四格 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+三种口径的实测结果（$\sigma=0.15$，(b) 用 $\beta=4$）：
+
+\begin{table}[htbp]
+\centering\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+平台 & (a) 翻转率 & (b) 信息量 & (c) 修正（旧稿） \\
+\midrule
+5090  & within & branch & branch \\
+T5000 & branch & branch & within \\
+4090  & within & within & branch \\
+A100  & within & within & branch \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{没有一行是全一致的.} 这不是计算错误：翻转率数的是「边界附近有多脆弱」，信息量算的是「分布整体被挪动了多少」，修正量测的是「从假设到现实跨了多大步」。三者回答的是三个不同问题。
+
+\textbf{结论写成方法论，而不是结论：} 任何「深层在某层面主导」的断言都必须先声明口径。本稿交付的是三种口径的分离定义与各自闭式判据；把三者混说成「深层主导」是错误表述。这一条可以直接挡住审稿人最常见的追问。
+
+\textbf{flat 对照（必须为零）.} 令扰动幅度 $\sigma=0$，则 $P(\flip)=\Phi(-\infty)=0$，且 $I_2\propto\sigma^2=0$。所有口径同时精确归零——不是接近零。这排除「只要有两层就自动有增量」的平凡解释。
+
+\section{命题 P3：级数信息增益的闭式与有效域}
+
+\textbf{软判断.} 硬取最大（argmax）在并列处不可微，不能做级数。先把判断软化成概率：
+\[
+p_i=\mathrm{softmax}(\beta\log t_i)_i=\frac{e^{\beta\log t_i}}{\sum_j e^{\beta\log t_j}}.
+\]
+
+\textbf{二阶闭式.} 对扰动 $\delta$，信息增益 $I(\delta;D)=\E_\delta\,D_{\mathrm{KL}}\big(p(\delta)\,\|\,\E p\big)$ 的二阶项为
+\[
+\boxed{I_2=\tfrac12(\alpha\beta\sigma)^2\left(1-\E\sum_i p_i^2\right)} .
+\]
+括号里的 $1-\sum p_i^2$ 是分布「有多不集中」的度量（越均匀越大），$(\alpha\beta\sigma)^2$ 是「扰动有多大」。\textbf{整项只依赖当前分布，不需要重采样}——这是用户猜想的严格版本：信息增益确实有闭式级数，但要付出两个代价——判断必须软化，且只能在小扰动域用。
+
+\textbf{有效域扫描}（T5000，$I_{\rm mc}$ 为直接采样估计）：
+
+\begin{table}[htbp]
+\centering\small
+\begin{tabular}{@{}cccccc@{}}
+\toprule
+$\beta$ & $\sigma$ & $\alpha\beta\sigma$ & $I_2$（闭式） & $I_{\rm mc}$ & $I_{\rm mc}/I_2$ \\
+\midrule
+1  & 0.05 & 0.05 & 0.00063 & 0.00058 & 0.92 \\
+2  & 0.10 & 0.20 & 0.00613 & 0.00557 & 0.91 \\
+4  & 0.15 & 0.60 & 0.02932 & 0.02527 & 0.86 \\
+8  & 0.15 & 1.20 & 0.05958 & 0.04506 & 0.76 \\
+32 & 0.15 & 4.80 & 0.24377 & 0.08592 & 0.35 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{读法：}
+\begin{itemize}
+  \item $\alpha\beta\sigma\lesssim0.4$：闭式给出 85--92\% 的真实值，二阶够用。
+  \item $\alpha\beta\sigma\gtrsim1$：系统性高估，必须加高阶项或改用 P1 的闭式翻转概率。
+  \item $\beta\to\infty$：软化消失，回到硬 argmax，弹性在并列处无定义，\textbf{级数在数学上失效}。此时 P1 仍然成立。
+\end{itemize}
+
+\textbf{这条边界是本稿的硬贡献}：它说明「信息增益可解析计算」不是无条件的，条件就是「判断足够软、扰动足够小」。把它写清楚，比笼统声称「可计算」更可信。
+
+\section{换公式结构的结果（含负面结果）}
+\label{sec:structure}
+
+用户提出「甚至可以改变公式的结构」。我们测了 $\alpha:1\to2$（速率影响加倍）：
+
+\begin{table}[htbp]
+\centering\small
+\begin{tabular}{@{}lcc@{}}
+\toprule
+平台 & $\alpha=1$ 主导（口径 a） & $\alpha=2$ 主导（口径 a） \\
+\midrule
+T5000 & branch & branch \\
+5090  & within & within \\
+A100  & within & within \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{主导层面没有变.} 这是个负面结果，但它是可证明的：$\alpha$ 对所有分量\textbf{同等}缩放对数间距 $m$，而主导取决于间距的\textbf{相对}大小，所以排序不变。要改变主导，得改的是\textbf{分组结构}（把哪两片叶放进同一个 branch）或引入\textbf{非对角的交互项}，不是改指数。
+
+换句话说：公式里「改数字」不改结论，「改结构」才改结论。这恰好印证加性树的核心地位——\textbf{结构，而非参数，决定深层节点的账怎么记}。
+
+\section{相关工作与定位}
+\label{sec:related}
+
+\subsection{与既有工具的切割}
+
+信息增益（ID3，Quinlan 1986）、roofline、PID 分解（Williams \& Beer 2010）都是既有工具，本文不主张它们新。Specification Self-Correction（Gallego 2025, arXiv:2507.18742）在推理时做自然语言的规范批判与改写，不用信息增益、树或条件熵，也不训权重；本文是它的\textbf{前置}：只提供「节点分数怎么算」。
+
+\begin{table}[htbp]
+\centering\small
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{@{}llllll@{}}
+\toprule
+工作 & 输入 & 输出 & 闭式可算 & 精确零对照 & 可证伪边界 \\
+\midrule
+ID3 信息增益 & 数据分布 & 分裂属性 & 否 & 无 & 无 \\
+roofline & 算力/带宽 & 瓶颈区间 & 是 & 无 & 无 \\
+PID & 多源分布 & 独有/冗余/协同 & 否 & 无 & 无 \\
+SSC (2507.18742) & rubric + 输出 & 改写规范 & 否 & 无 & 无 \\
+\textbf{本文} & spec + 负载先验 & 节点分数 + 三口径判据 & \textbf{是 (P1/P3)} & \textbf{是 ($=0$)} & \textbf{是 ($\alpha\beta\sigma$ 域、对角性)} \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\subsection{组合结构扰动理论：乘性代数对偶与场论最近邻}
+\label{sec:combo}
+
+\textbf{乘性层（product-form 排队网络）.} Zeitak \& Melamed (arXiv:0708.1718) 对 product-form Jackson 网络做参数微扰分析：性能指标对参数的导数有闭式，product-form 的节点边际局部化是乘性世界的「对角弹性」等价物。它与本文互为代数对偶——乘性代数 vs 加性代数——而两边都尚未给出 argmax 翻转的闭式（本文 P1 补上的是加性侧）。
+
+\textbf{场论层（层级最大熵 via RG）.} Asadi et al.\ (arXiv:2509.01424) 用 renormalization group 流定义尺度层级上的最大熵条件，粗粒化=逐层条件化，是「层级结构＋逐层条件化＋信息/熵语义」最近的先例。划界：其层级是变量尺度层级（lattice/场），本文层级是被判断量的分解树；该文全文无树结构（tree$\times 0$），不做节点翻转。
+
+\textbf{拓扑层背书.} 串并联系统可靠性（Barrera, arXiv:2107.13333）是加性树在可靠性代数下的同构特例——「加性树是一般组合打分的一个实例」由此获得背书，而其递归分解的闭式可靠性不含微扰翻转语义。PERT 关键路径的 max-plus 闭式（Kobayashi, arXiv:1202.6457）管「瓶颈=max」代数，与本文「求和=加性」代数互补，同样无翻转闭式。
+
+\subsection{信息瓶颈相变：共享软-硬极限结构，层级不同}
+
+Shwartz-Ziv \& Tishby (arXiv:1703.00810) 观察到训练中的压缩相（representation transition）；Wu \& Fischer (arXiv:2001.01878) 将其定义为 IB loss landscape 的定性改变，$dI(Y;Z)/d\beta$ 跳跃；Wu, Fischer, Chuang \& Tegmark (arXiv:1907.07331) 进一步刻画 $\beta$ 选错时平凡表示成为全局最小的尖锐相变。划界（一句话）：IB 压缩相变是全局极小的改变（解层面，$dI(Y;Z)/d\beta$ 跳跃）；本文的 $\beta\to\infty$ 是微扰展开的失效（近似层面，无精确量跳跃）；两者共享软-硬极限结构（$\beta$=Lagrange 乘子，$\beta\to\infty$=零温极限）但层级不同。
+
+\subsection{鲁棒性证书与 judge 分流}
+
+Singla (arXiv:1902.01235) 给 ReLU 网络的对抗鲁棒性证书：证书半径内预测必不翻转，半径外才细审；margin 代理证书（arXiv:2611.08035）同属此系。划界：证书给\textbf{确定性不变性保证}（扰动界内必不翻），本文 P1 给\textbf{概率性翻转率}（可设阈值 $\varepsilon$，$P(\flip)<\varepsilon$ 即免审）——后者是 judge 经济学的新机制：允许小概率漏判换大比例免审。接口上，P1 可作解析分流判据（$m$ 大→机械放行，$m$ 小→送 judge），唯一额外测量项是标定 $\sigma$，flat 归零负控制可作假设校验。撞车核查：Kedziora (arXiv:2407.03194) 度量集成预测在采样扰动下的不稳定性；「Additive Decision Tree Ensembles 的敏感性验证」（OpenReview h0vC0fm1q7, ICLR 2025）给扰动界验证输出变化——方向与本文相反（给扰动界验证输出 vs 给扰动分布算翻转闭式），对象是 GBDT/RF 而非瓶颈分解树，故不构成覆盖。
+
+\subsection{能量模型解读层与 loss landscape 展望}
+
+\textbf{EBM 读法（仅解读层）.} 「节点分=能量项、整树=层级能量景观、最优判断=基态」的读法有先例：Hopfield (PNAS 1982, 79(8):2554) 中网络动力学沿能量函数下降、稳态=基态；层级 EBM（Dong \& Wu, arXiv:2310.08431）的配分函数按层分解、推理=逐层采样。本文仅作解读层使用，不 claim 模型是 EBM；现有层级 EBM 的层级均来自网络层/认知管线，无一以判断分解树为载体。
+
+\textbf{Loss landscape 展望（开放问题）.} 若判断树的层级结构由训练网络实现，预期在 loss landscape 上表现为盆地层级——Embedding Principle 给出宽度/深度层级的临界点嵌套（arXiv:2111.15527, 2205.13283），精度盆地层级≈统计力学相态的先例见 arXiv:2512.11866。此为开放问题，不作本文 claim。
+
+\subsection{适用域划界声明}
+
+本文闭式解依赖两个结构条件：① 弹性矩阵对角（扰动不跨叶传播）② 结构为树（无环）。乘性可分解结构（product-form）仍在范围内（对角性等价物存在，见 \ref{sec:combo}）；耦合结构（非对角弹性）与一般图超出范围，为后续工作。
+
+\section{局限}
+\begin{itemize}
+  \item \textbf{加性是假设，不是发现.} 分母含求和的非加性公式会破坏对角弹性，P1/P3 的闭式随之失效。这是模型的边界，也是可证伪点。
+  \item \textbf{软判断引入 $\beta$ 自由度.} 硬判断的分数怎么取，本文只给翻转概率（P1），没给对应的信息增益闭式。
+  \item 4090 与 A100 无原生 FP4，以 $0.5\times$ FP16 代理；极端 ratio 部分是代理产物。
+  \item 负载先验为均匀 Dirichlet，未建模真实推理的低精度偏置。
+  \item 三口径不一致意味着「主导」是判据依赖的；任何单口径结论都不足以称「深层更重要的普遍规律」。
+  \item 四平台、单一域、无实测 trace。外部公开数据 spot-check 是未来工作。
+  \item 全部判据与生死线先于数据生成提交（commit \texttt{eb1b0598c} 早于 \texttt{718394ece}）；唯一事后改动是把「主导随极端度单调」弱化为「依赖结构与口径」。
+\end{itemize}
+
+\section{结论}
+
+我们把「给分解树节点打分」从枚举升级为解析：加性树（$\log t_i=\log f_i-\alpha\log\rate_i$）给出对角弹性，进而给出翻转概率闭式 $P(\flip)=\Phi(-m/(\alpha\sigma\sqrt2))$ 与级数信息增益闭式 $I_2=\tfrac12(\alpha\beta\sigma)^2(1-\E\sum p_i^2)$。两者都在 $\sigma=0$ 时精确归零，翻转概率与采样误差 0.5--8.2\%，级数在 $\alpha\beta\sigma\le0.4$ 时保留 85--92\% 信息量、超出后失效——边界条件明确。我们还证明「深层主导」依口径而变，三种合法定义的结论互不一致。交付物因此是\textbf{可计算、可证伪、口径分离的评分基础}，不是任何关于目标函数或对齐问题的结论。
+
+\section*{附：本版与旧版的关系（工作文档，不进正式稿）}
+\begin{itemize}
+  \item 旧 \texttt{paper-zh.md}：两层枚举 + 4 点列联表，数字 43--56\% flip、0.71--0.77 bits，定位「测量协议」。
+  \item 本版：加性树 + 微扰 + 级数，数字 4--5\% 局部 flip、$I_2$ 闭式与有效域，定位「解析评分基础」。
+  \item 两版的 flip 不是同一个量（大跳跃 vs 小扰动），不可混算。旧版数字仍有效，作为「从假设到现实」的修正量口径 (c)。
+  \item 复算：\texttt{modules/F-theory/research/idea53-additive-tree-perturbation.py}（本版），\texttt{idea53-theory-flip.py} / \texttt{idea53-resistor-model.py}（旧版）。
+  \item 英文版待本版中文定稿后再写（用户要求：先中文）。
+\end{itemize}
+
+\end{document}
