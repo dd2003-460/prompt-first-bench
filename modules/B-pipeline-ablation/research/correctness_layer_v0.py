@@ -48,11 +48,14 @@ NUM_TOL = 0.10
 
 
 def load_samples():
-    """返回 [(name, text), ...]：T8b 6 条 + S5 1 条（设计 §4 归一化）。"""
+    """返回 [(name, text, nodes), ...]：T8b 6 条 + S5 1 条（设计 §4 归一化）。
+    nodes = 用于 cov 的节点列表（judge_v1 口径按节点 claim 编码）：
+    S5 = 真实节点 claim；T8b 自由文本无节点，用非空行作节点近似。"""
     d = json.load(open(T8B_PATH))
     out = []
     for i, a in enumerate(d["arm_a"]):
-        out.append((f"arm_a[{i}]", a.get("content", "") + "\n" + a.get("reasoning", "")))
+        text = a.get("content", "") + "\n" + a.get("reasoning", "")
+        out.append((f"arm_a[{i}]", text, [ln.strip() for ln in text.split("\n") if ln.strip()]))
     for i, b in enumerate(d["arm_b"]):
         parts = [b.get("final_content", "") or ""]
         st = b.get("stages", {})
@@ -60,9 +63,11 @@ def load_samples():
         for v in vals:
             c = v.get("content", "") if isinstance(v, dict) else (v if isinstance(v, str) else "")
             parts.append(c or "")
-        out.append((f"arm_b[{i}]", "\n".join(parts)))
+        text = "\n".join(parts)
+        out.append((f"arm_b[{i}]", text, [ln.strip() for ln in text.split("\n") if ln.strip()]))
     s5 = json.load(open(S5_PATH))
-    out.append(("S5", "\n".join(n.get("claim", "") for n in s5["nodes"])))
+    s5_nodes = [n.get("claim", "") for n in s5["nodes"]]
+    out.append(("S5", "\n".join(s5_nodes), s5_nodes))
     return out
 
 
@@ -192,9 +197,10 @@ COS_THRESHOLD = 0.70  # 同 judge_v1.py 标定值（frozen, 只读引用）
 _cov_model = None
 _cov_gold = None
 
-def cov_score(text):
-    """judge_v1 口径: 句子级 bge-m3 top-1 cosine vs 36 gold units, >=0.70 计命中。
-    无 bge-m3 时返回 None（dry-run 表标 NA）。"""
+def cov_score(nodes):
+    """judge_v1 口径: 节点级 bge-m3 top-1 cosine vs 36 gold units, >=0.70 计命中
+    (同 judge_v1.layer_coverage: 按节点 claim 编码, 非 512 字切片——切片口径会低估,
+    实测 S5 切片 0.139 vs 节点级 0.389)。无 bge-m3 时返回 None（dry-run 表标 NA）。"""
     global _cov_model, _cov_gold
     if _cov_model is None:
         try:
@@ -212,8 +218,7 @@ def cov_score(text):
         return None
     import numpy as np
     gold_emb, units = _cov_gold
-    chunks = [text[i:i + 512] for i in range(0, len(text), 512)]
-    emb = _cov_model.encode(chunks, normalize_embeddings=True)
+    emb = _cov_model.encode(nodes, normalize_embeddings=True)
     sim = emb @ gold_emb.T
     top1 = sim.argmax(axis=1)
     top1_sim = sim[np.arange(len(emb)), top1]
@@ -224,7 +229,7 @@ def cov_score(text):
 # ---------------- 扰动自测（判别规则的因果性，非 n=2 相关性） ----------------
 def selftest():
     """6 断言: 基线 2 + 变异 3 + 阳性对照 1。全过 = 判别由探针因果驱动, 非对样本过拟合, 且不'全判病'。"""
-    samples = {n: t for n, t in load_samples()}
+    samples = {n: t for n, t, _ in load_samples()}
     a0, a2 = samples["arm_a[0]"], samples["arm_a[2]"]
     results = []
     # 基线
@@ -306,10 +311,10 @@ GT = {"arm_a[0]": "A1", "arm_a[2]": "A3"}  # salvage 已验证的 ground truth
 def main():
     samples = load_samples()
     rows = []
-    for name, text in samples:
+    for name, text, nodes in samples:
         r = judge_text(text)
         r["sample"] = name
-        r["cov"] = cov_score(text)
+        r["cov"] = cov_score(nodes)
         r["gt"] = GT.get(name)
         rows.append(r)
     # 判别准确率（只对已知类型的样本）
