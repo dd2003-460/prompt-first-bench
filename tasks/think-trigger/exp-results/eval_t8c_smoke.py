@@ -12,7 +12,11 @@
 #   - 分流（预注册 §4，pre-commit 不许事后改）：
 #       分离迹象 s_B'≥2/3 且 s_A'≤1/3 → 扩 n=9/臂（执行 W1+W2+W3）
 #       无分离（两臂 s 均≤1/3 或 B'≤A'）→ 停止，如实报告
-#       边界：B' 全 A3（方向正但 W3 负）→ 结构进步非赢，停止
+#       边界：B' 断点样本全 A3（方向正但 W3 负）→ 结构进步非赢，停止
+# 注（pre-data 逻辑澄清，非 post-hoc 修订）：预注册 §4 边界情形原文「s_B'=2/3 且 B' 全是 A3」
+#   自相矛盾（全 A3 ⇒ s_B'=0，与 s_B'=2/3 不可共存）。本脚本按唯一自洽解释实现：
+#   分离迹象触发时，B' 的**断点样本**（s=0 者）全为 A3（无 A1/A2）→ 判「结构进步非赢」停止。
+#   主判据 W1/W2/W3、n=9、power 均不受影响；如需改解释须重新冻结预注册（跑数前）。
 import json, sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                 "../../../modules/B-pipeline-ablation/research"))
@@ -100,8 +104,9 @@ def decide(rows):
     elif a["s_frac"] <= 1/3 and b["s_frac"] <= 1/3:
         decision = "停止：无分离（两臂 s 均 ≤1/3），效应低于可测下限"
     elif b["s_frac"] >= 2/3 and a["s_frac"] <= 1/3:
-        if set(b["labels"]) == {"A3"}:
-            decision = "停止：边界情形（B' 全 A3，方向正但 W3 负，结构进步非赢）"
+        bp_labels = [l for l in b["labels"] if l != "indeterminate"]
+        if bp_labels and set(bp_labels) == {"A3"}:
+            decision = "停止：边界情形（B' 断点样本全 A3，断点后移但未选对，结构进步非赢）"
         else:
             decision = "扩样 n=9/臂：分离迹象（s_B'≥2/3 且 s_A'≤1/3），执行 W1+W2+W3"
     else:
