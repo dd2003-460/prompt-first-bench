@@ -32,6 +32,10 @@ CFG4 = re.compile(
     r"|[4四]\s*(?:张|卡|块)\s*(?:RTX\s*)?3090"
     r"|(?:RTX\s*)?3090\s+[4四]\s*(?:张|卡|块)")
 STRONG_REC = re.compile(r"主推荐|首选|最终推荐|最终方案|推荐方案|最佳方案|最优方案|综合推荐|最终结论|推荐：|推荐:")
+# v1 弱推荐语义兜底: 无 STRONG_REC 行时, 含 CFG4 的弱推荐行命中 winner → R_low=0
+#   防假阳性: winner 被评估+推荐但推荐语句无关键词(如"建议优先部署 4×RTX 3090")→ 误判 A3
+WEAK_REC = re.compile(r"建议|优先|推荐|部署|选用|采纳")
+NEG_REC = re.compile(r"不建议|不推荐|不采纳|不可行|淘汰|放弃|排除|否决")
 EVAL_NUM = re.compile(r"t/s|tok/s|tokens?/s|TCO|成本|\$|元|/GB|分\b|\d+\s*W\b")
 # gold 数值锚（name, gold值, 数字正则, 语境正则, 语境窗口）← calc.py / gold-tree N-5.2
 # 语境要求防误报: "24 GB"(显存) 不误触 KV 锚; 1008 GB/s(4090) 不误触 936 锚(936 用精确值)
@@ -121,13 +125,23 @@ def axis_e(text):
 
 # ---------------- 轴 R: 排序结局 ----------------
 def axis_r(text, e1_rows):
-    """R_low: 配置被评估过(E1>0)时, 强推荐行是否含 4×3090。被选中→0, 垫底→1; 未评估→0.5。"""
+    """R_low: 配置被评估过(E1>0)时, 强推荐行是否含 4×3090。被选中→0, 垫底→1; 未评估→0.5。
+    v1 兜底: 无任何强推荐行时(推荐表述无关键词), 扫含 CFG4 的弱推荐语义行,
+    命中 winner(且非否定语境)→ R_low=0, 防假阳性误判 A3。
+    有强推荐行但未含 winner → 保持 R_low=1(A3 信号, 不启用兜底)。"""
     if e1_rows == 0:
         return 0.5, {"strong_rec_lines": 0, "note": "E1=0, R 未定义, 中性 0.5"}
     rec_lines = [ln for ln in text.split("\n") if STRONG_REC.search(ln)]
-    picked = any(CFG4.search(ln) for ln in rec_lines)
-    r_low = 0.0 if picked else 1.0
-    return r_low, {"strong_rec_lines": len(rec_lines), "winner_in_strong_rec": picked}
+    if rec_lines:
+        picked = any(CFG4.search(ln) for ln in rec_lines)
+        return (0.0 if picked else 1.0), {"strong_rec_lines": len(rec_lines),
+                                          "winner_in_strong_rec": picked, "weak_fallback": False}
+    # 兜底: 无强推荐行 → 弱推荐语义扫描(否定守卫)
+    weak_hits = [ln for ln in text.split("\n")
+                 if CFG4.search(ln) and WEAK_REC.search(ln) and not NEG_REC.search(ln)]
+    picked = len(weak_hits) > 0
+    return (0.0 if picked else 1.0), {"strong_rec_lines": 0, "winner_in_strong_rec": False,
+                                      "weak_fallback": True, "weak_hit_lines": len(weak_hits)}
 
 
 # ---------------- 轴 S: gold 树结构签名 ----------------
@@ -277,13 +291,17 @@ def selftest():
     # V6 A2 因果: arm_a[1] 抹掉 3090 → 卡型消失 → 应翻成 A1
     r = judge_text(a1.replace("3090", "3080")); results.append(("V6 A2抹3090→A1",
                                                                 r["verdict"] == "A1", r["verdict"]))
-    # V7 FP 边界刻画: winner 被完整评估(E1>0)且被推荐, 但推荐语句不含 STRONG_REC 关键词
-    #   → v0 已知假阳性(误判 A3)。此断言钉住该行为, 作为 v1 修法的回归哨兵:
-    #   v1 加弱推荐语义兜底后此项应翻 indeterminate, 届时改断言为 == "indeterminate"。
+    # V7 FP 边界(已修): winner 被完整评估(E1>0)且被推荐, 但推荐语句不含 STRONG_REC 关键词
+    #   → v0 误判 A3(假阳性); v1 弱推荐语义兜底后应判 indeterminate(R_low=0)。
+    #   此断言钉住修复: 若未来兜底逻辑退化, 此项会翻回 A3 报警。
     lines = [ln for ln in a2.split("\n") if not STRONG_REC.search(ln)]
     fp = "\n".join(lines) + "\n综上, 综合性价比来看, 建议优先部署 4×RTX 3090 方案。\n"
-    r = judge_text(fp); results.append(("V7 FP边界(winner评估+无关键词推荐)→A3[v0已知假阳性,v1修]",
-                                        r["verdict"] == "A3", r["verdict"]))
+    r = judge_text(fp); results.append(("V7 FP边界已修(winner评估+无关键词推荐)→非A3[v1兜底生效]",
+                                        r["verdict"] != "A3", r["verdict"]))
+    # V8 否定守卫: winner 被评估但被否定("不推荐 4×RTX 3090")→ 兜底不应误救, 仍 A3
+    neg = "\n".join(lines) + "\n综上, 4×RTX 3090 成本过高, 不推荐, 建议优先部署 2×RTX 4090 方案。\n"
+    r = judge_text(neg); results.append(("V8 否定守卫(winner评估+被否定)→仍A3[兜底不误救]",
+                                         r["verdict"] == "A3", r["verdict"]))
     ok = all(p for _, p, _ in results)
     for name, p, got in results:
         print(f"  [{'PASS' if p else 'FAIL'}] {name} → {got}")
