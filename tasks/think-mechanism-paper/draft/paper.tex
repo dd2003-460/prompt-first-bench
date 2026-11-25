@@ -1,0 +1,474 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+\newcommand{\Cmap}{C}
+\newcommand{\Dmap}{D}
+
+\title{Understanding as a Lossless Round-Trip Fixed Point:\\
+A Descriptive Formalization of General Thinking with an Injectable Protocol}
+\author{[Author]}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We present a descriptive formalization of ``general'' thinking---reasoning that
+moves beyond a single domain---organized as a compression--decomposition round
+trip. We define understanding as a \emph{lossless round-trip fixed point}: a
+compression $\Cmap$ from phenomena to models and a decompression $\Dmap$ from
+models to predictions such that $\Dmap\circ\Cmap$ acts as the identity on the
+domain of interest. Losslessness is taken to mean uniqueness plus reproducibility
+(equivalently, controlled predictive quality). From this single condition we
+derive four facets (predictive power, perturbation, fitness, leading-term
+anchoring) and two derivations (basis choice via multiresolution analysis, and a
+two-stage domain-selection-then-refinement procedure whose order cannot be
+reversed). We test the framework against seven thinking-style hypotheses drawn
+from the source corpus and obtain 7/7 internal consistency (explicitly an
+internal consistency check on the source corpus, not external validation). We
+finally distill five injectable prompt templates (T1--T5), each with a trigger
+condition and an action, and position them as an agent-prompt injection protocol.
+We claim injectability and operability only; effectiveness is left to independent
+experiments.
+\end{abstract}
+\section{Introduction}
+\label{sec:intro}
+
+Why can ``how to think generally'' be formalized at all? General thinking---
+moving from a concrete solution to a cost model to a unified form, checking that
+the original solution is a special case, and landing every qualitative claim on
+a testable number---looks like a craft. We argue that it has a stable internal
+structure that admits a \emph{descriptive} formalization: a small set of
+principles from which the observed practices follow as consequences. Our
+contribution is descriptive; it is not a claim about the mechanisms of human or
+artificial cognition.
+
+We make three contributions. \emph{First}, a core formalization: understanding
+as a lossless round-trip fixed point of a compression--decomposition pair
+($\Dmap\circ\Cmap=\mathrm{id}$), with losslessness defined as uniqueness plus
+reproducibility. \emph{Second}, a consistency test: we derive seven
+thinking-style hypotheses from the framework and obtain 7/7 internal consistency
+on the source corpus (an internal consistency check, not external validation).
+\emph{Third}, an actionable protocol: five injectable prompt templates
+(T1--T5), each specifying a trigger condition and an action, positioned as an
+agent-prompt injection protocol.
+
+\paragraph{Scope and honesty.}
+This paper is a descriptive formalization plus an actionable protocol. We do
+\emph{not} claim to have discovered the mechanism of human or AI thinking, nor
+do we offer cognitive-science conclusions. The consistency test is
+self-referential: the framework was constructed from and tested on the same
+corpus. Template effectiveness is pending independent experiments; we claim
+injectability and operability only. All quantitative statements (7/7, five
+templates, four facets) are traceable to the source corpus (see the appendix and
+the accompanying number-trace file).
+\section{Core Formalization: Understanding as a Lossless Round-Trip Fixed Point}
+\label{sec:core}
+
+\begin{definition}[Lossless round-trip fixed point]
+\label{def:fixedpoint}
+A model $m$ of a phenomenon space $\mathcal{X}$ constitutes \emph{understanding}
+if there exist a compression $\Cmap:\mathcal{X}\to\mathcal{M}$ (phenomena to
+model) and a decompression $\Dmap:\mathcal{M}\to\mathcal{X}$ (model to
+phenomena/predictions) such that $\Dmap\circ\Cmap = \mathrm{id}$ on the domain of
+interest. A compression state satisfying this condition is called a
+\emph{lossless round-trip fixed point}.
+\end{definition}
+
+\paragraph{Losslessness.}
+We take ``lossless'' to mean \emph{unique} plus \emph{reproducible}: the
+compressed state decompresses back to the same phenomenon (up to controlled
+tolerance) on every attempt. In the source corpus this is phrased equivalently
+as \emph{predictive quality}: a compressed state that uniquely and reproducibly
+expands back to the phenomena carries the predictive power that losslessness
+demands. Losslessness is therefore a property of the round trip, not of the
+compression ratio alone.
+
+\paragraph{Self-reference is finite.}
+Finding the fixed point is a self-referential task (the model must account for
+its own compression), but the fixed-point equation $x' = x$ is typically
+\emph{finite}: it is solved by iteration converging to a solution (as in solving
+$Ce^{t}$-type recursions), not an infinite regress. Pathological self-reference
+(G\"odel-type incompleteness) applies only to degenerate self-referential
+systems; ordinary modeling fixed points are well-posed. This finiteness is what
+makes the definition operational rather than circular.
+
+\paragraph{Reading the definition.}
+The definition is deliberately weak: it names a condition, not a mechanism. Its
+role is organizational---every practice we describe below (prediction,
+perturbation, fitness, anchoring, basis choice, two-stage compression) is a
+consequence of demanding the round trip close. Where the round trip cannot be
+closed, the framework says the model is not yet understood, and points to which
+facet failed (Section~\ref{sec:facets}).
+\section{Four Facets of the Round Trip}
+\label{sec:facets}
+
+The single condition $\Dmap\circ\Cmap=\mathrm{id}$ has four faces. Each facet is
+a way the round trip can be examined, stressed, or made to fail.
+
+\paragraph{1. Predictive power (temporal direction).}
+Predictive power is the round trip executed in the temporal direction: expanding
+from the compressed state forward into future phenomena. The error is
+controlled and nonzero---a perfect identity on the past is neither expected nor
+required; what matters is that the expansion's error stays within a known bound.
+In the source corpus this is the face used to grade models: a model earns its
+keep by expanding into testable, falsifiable predictions.
+
+\paragraph{2. Perturbation (how the round trip is achieved).}
+Perturbation theory is the \emph{implementation} of the round trip: represent
+the decompression as a leading term plus successive corrections, and the round
+trip closes within a convergence radius ($\Dmap\circ\Cmap\approx\mathrm{id}$).
+Necessity enters as a rule: higher-order terms are added only when the leading
+terms fail to close the round trip. This turns ``how much detail to keep'' into
+a measurable question (which correction term first exceeds tolerance), not a
+taste judgment.
+
+\paragraph{3. Fitness (the landscape of thinking).}
+There is no binary ``wrong''; there is a continuous \emph{fitness} measure on
+candidate models. Progress is gradient descent on this landscape: incremental,
+local moves are robust to noise, which is why stepwise refinement outperforms
+occasional wholesale replacement. Fitness is the facet that makes the framework
+compatible with empirical work: it is the quantity that experiments can measure.
+
+\paragraph{4. Leading-term anchoring (robustness to randomness).}
+Robustness to randomness comes from anchoring on the leading term: the leading
+term occupies the widest valley in the fitness landscape, so it is the safest
+thing to grasp first; perturbations are then handled term by term. ``Anchor the
+leading term, then process corrections'' is the operational form of
+perturbative thinking, and it explains why a model that misses its leading term
+fails even when its details are elaborate.
+
+Together the four facets partition the work of closing the round trip:
+\emph{where} to expand (prediction), \emph{how} to expand (perturbation),
+\emph{what good looks like} (fitness), and \emph{what to hold onto}
+(leading-term anchoring).
+\section{Two Derivations}
+\label{sec:derivations}
+
+From the core definition we derive two structural results. Both concern the
+\emph{choice of basis} in which the round trip is expressed.
+
+\subsection{Derivation 1: Basis Choice (why perturbation and hierarchy are equivalent)}
+\label{sec:basis}
+
+Perturbation series and hierarchical (level-by-level) structures are both
+``leading term plus successive corrections''---the same series structure,
+algebraically equivalent. They differ only in the \emph{semantics of the order}:
+precision in perturbation, concept in hierarchy. When conceptual crossings
+(coupling terms) exist, the equivalence breaks down and a joint basis is
+required.
+
+\paragraph{The basis is freely choosable.}
+Among perturbation bases, hierarchical bases, tree bases, and Hilbert-space
+bases, the optimal basis is the one in which the expansion coefficients are most
+sparse (least redundant)---i.e., the most compressed representation. Sparsity of
+coefficients is thus the criterion for basis optimality, and it is exactly the
+round-trip condition applied to the representation itself.
+
+\paragraph{Hierarchy/tree corresponds strictly to multiresolution bases.}
+The rigorous counterpart of hierarchy and tree is multiresolution analysis
+(Haar, Daubechies, Faber--Schauder)~\cite{daubechies_1988}: compared with
+Fourier bases, multiresolution bases add \emph{locality} (basis functions with
+local support) and \emph{nestedness} ($V_j \subset V_{j+1}$, tier $=$ scale).
+``Jumping levels'' corresponds to exponential scales $2^{j}$ combined with
+tree-like branching. Orthogonality can be preserved (Haar and Daubechies bases
+are $L^{2}$-orthogonal), so the round-trip identity is not sacrificed.
+
+\paragraph{Multiplicative structure as tensor products.}
+Multiplicative (factorized) structure unifies with the same picture: a single
+rooted tree is branching; a product of multiple roots is a tensor product
+($1\mathrm{D}\otimes1\mathrm{D}\otimes\cdots$), and the two are unified under
+multiresolution analysis. This answers how to describe a factorized structure
+that is not a single-root split: as a tensor product of rooted trees, one
+factor per root.
+
+\subsection{Derivation 2: Two-Stage Compression (domain selection then refinement; order cannot be reversed)}
+\label{sec:twostage}
+
+General (structural) compression is responsible for \emph{selecting the domain};
+formula-level compression is responsible for \emph{refining within the domain}
+(lossless derivation). The ``losslessness'' of formula-level work is relative to
+the domain of applicability, and that domain must be fixed by general thinking.
+Reversing the order---refining before selecting the domain---means deriving
+precisely in the wrong domain, which drives the result farther off, not closer.
+
+This explains an empirical observation: in some respects formula-level methods
+are better while general thinking is not. Formula-level compression excels in
+the refinement stage (precise, derivable) but helps little---and can even harm---
+in the domain-selection stage, by inducing premature priors.
+
+\paragraph{Domain selection is a three-step process.}
+Domain selection is not a static judgment but a process: (i) verify the range in
+which the axioms hold; (ii) transfer the axioms that still hold, together with
+their conditions; (iii) think about and experiment with new conditions of
+applicability. This fills the gap in the reasoning chain between induction and
+deduction (induction $\to$ condition verification $\to$ transfer $\to$
+experiment $\to$ deduction $\to$ predictive quality), where previously only
+deduction was explicit.
+
+\paragraph{Meta-criterion.}
+Any mathematical metaphor is itself ``compression plus selection''. Its value is
+measured by whether it yields falsifiable predictions: if yes, it is useful; if
+no, it is empty compression and should be discarded.
+\section{Consistency Test: Seven Thinking-Style Hypotheses}
+\label{sec:consistency}
+
+The source corpus contains seven thinking-style hypotheses (paraphrased; exact
+wording in Appendix~\ref{app:hypotheses}). We derive each from the framework and
+check whether the derivation hits.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{p{4.6cm}p{5.2cm}c}
+\toprule
+Hypothesis (source corpus) & Derived from framework & Hit \\
+\midrule
+Escalating style $\to$ stepwise refinement & Perturbation: leading term + successive corrections & \checkmark \\
+Negation style $\to$ fitness optimization & Fitness landscape: no binary wrong, continuous fitness & \checkmark \\
+Compression judgment $\to$ leading term = most compressed & Basis choice: sparsest expansion = most compressed & \checkmark \\
+Cannot compress $=$ do not understand & Round trip fails: leading term not anchored & \checkmark \\
+Long time scale $\to$ many perturbation orders & Perturbation convergence: radius requires enough orders & \checkmark \\
+Operational theory $\to$ measurable fitness & Fitness: the quantity experiments can measure & \checkmark \\
+Sensitive to who is thinking $\to$ AI degradation = fitness drop & Fitness landscape: degraded agent = lower fitness & \checkmark \\
+\bottomrule
+\end{tabular}
+\caption{Seven thinking-style hypotheses derived from the framework. 7/7 hit.
+This is an \emph{internal consistency check} on the source corpus---the
+framework was constructed from and tested on the same corpus (self-referential)---
+not external validation.}
+\label{tab:seven}
+\end{table}
+
+All seven hypotheses are recovered: 7/7. For comparison, the older
+``compression + prediction'' framing recovered only 5/7.
+
+\paragraph{Honesty of the test.}
+We state the status of this result explicitly. This is an \emph{internal
+consistency check} on the source corpus: the framework was constructed from and
+tested on the same corpus, so the test is self-referential. It demonstrates
+that the formalization is internally coherent and that its facets are
+sufficient to reproduce the observed thinking styles \emph{within} the corpus.
+It is \emph{not} external validation: no independent corpus, no held-out
+examples, and no cross-subject replication are involved. We claim internal
+consistency, not external validity.
+\section{Actionable Protocol: Five Injectable Templates}
+\label{sec:protocol}
+
+We distill the framework into five templates (T1--T5), each with a trigger
+condition and an action. Each template is a short instruction that can be
+injected into an agent prompt as a thinking habit. We position them as an
+\emph{agent-prompt injection protocol}: the claim is that they are
+\emph{injectable and operable} (well-defined triggers, executable actions,
+composable). We do \emph{not} claim effectiveness; that is pending independent
+experiments.
+
+\begin{enumerate}[leftmargin=2em,itemsep=2pt]
+\item \textbf{T1 Cost model.} \emph{Trigger:} a concrete solution has been
+found, or ``is $X$ optimal?'' is asked. \emph{Action:} write down the cost model
+(what is being costed, under what assumptions) and the unified form; verify the
+original solution is a special case; if it cannot be derived, name the missing
+assumption.
+\item \textbf{T2 Unified coverage.} \emph{Trigger:} facing several seemingly
+unrelated methods/systems. \emph{Action:} find one formula or analogy covering
+all of them (compression rate / information gain per cost / channel bandwidth),
+and write out each term's degeneracy conditions.
+\item \textbf{T3 Quantitative landing.} \emph{Trigger:} a qualitative conclusion
+is given. \emph{Action:} immediately quantify it into a testable number
+(success-rate expression / bandwidth lower bound / expected number of tests); if
+it cannot be quantified, mark it ``needs measurement'' and design the cheapest
+probe.
+\item \textbf{T4 Analogy audit.} \emph{Trigger:} about to borrow a historical
+case / analogy / prior. \emph{Action:} check dimension-by-dimension the
+condition difference $\Delta$ and the conclusion's sensitivity $s_k$; if
+sensitive and mismatched, do not borrow; attach an $\varepsilon\cdot$uniform
+floor to prevent confident errors.
+\item \textbf{T5 Criterion bottleneck.} \emph{Trigger:} a framework has taken
+shape. \emph{Action:} find the ``criterion bottleneck''---which step in the loop
+lacks cheap, reliable ground truth; that step is the real bottleneck, not the
+architecture. Prefer the remedy ``make the world closed'' (synthetic domains /
+executable verification).
+\end{enumerate}
+
+\paragraph{Positioning.}
+The five templates are the operational layer of the framework: T1--T2 are the
+``climb one level'' move (concrete $\to$ cost model $\to$ unified form, original
+solution as special case); T3 is predictive power (conclusions land on testable
+numbers); T4 is the robustness discipline of leading-term anchoring applied to
+borrowed priors; T5 is the fitness-landscape move (locate where ground truth is
+missing). Their value proposition is \emph{operability}: each has a crisp
+trigger and a mechanical action, so they can be injected into a prompt and
+audited for whether they fired. Whether they improve downstream task performance
+is an empirical question we leave open.
+\section{Related Work}
+\label{sec:related}
+
+We position the framework against four adjacent literatures.
+
+\paragraph{Compression as understanding.}
+Zipf's law and power laws in cognition treat linguistic and cognitive structure
+as evidence of compression-based processing~\cite{newman_powerlaws_2005}. \emph{Our
+difference:} we do not fit a power law to data; we define understanding as a
+round-trip identity ($\Dmap\circ\Cmap=\mathrm{id}$) and use compression as the
+\emph{operational criterion} for when a model is understood, not as a statistical
+signature.
+
+\paragraph{Perturbation theory in machine learning.}
+Perturbative and influence-based analyses of neural networks characterize how
+small changes in parameters or training data propagate to predictions~\cite{kaspschak_nnpt_2020,koh_liang_influence_2017}. \emph{Our difference:}
+we use perturbation not to analyze a fixed model but as the \emph{method} by
+which a thinker builds understanding term by term, with necessity governed by
+round-trip closure (add a correction only when the round trip fails to close).
+
+\paragraph{Multiresolution analysis.}
+Multiresolution analysis (Haar, Daubechies, Faber--Schauder) provides nested,
+locally supported bases with $V_j\subset V_{j+1}$~\cite{daubechies_1988}.
+\emph{Our difference:} we identify multiresolution bases as the rigorous
+counterpart of \emph{hierarchical thinking} (tier $=$ scale, jump $=$
+exponential scale $2^j$), and use sparsity of coefficients as the criterion for
+basis optimality in reasoning, not for signal denoising.
+
+\paragraph{Active learning of specifications / reward hacking as specification discovery.}
+Work on reward hacking and specification gaming characterizes misbehavior as a
+symptom of underspecified objectives~\cite{skalse_reward_hacking_2022,gallego_spec_self_correction_2025}. \emph{Our
+difference:} our T5 template locates the bottleneck as the step lacking cheap,
+reliable ground truth, and prescribes ``making the world closed'' (synthetic
+domains with known truth) as the primary remedy---a diagnostic-then-remedy
+protocol rather than a safety argument.
+\section{Limitations}
+\label{sec:limitations}
+
+We enumerate the limitations explicitly.
+
+\paragraph{Self-referential consistency test.}
+The 7/7 consistency result is an internal consistency check on the source
+corpus: the framework was constructed from and tested on the same corpus. It
+establishes internal coherence, not external validity. No held-out corpus,
+independent subject, or cross-domain replication is involved.
+
+\paragraph{Conceptual framework, not empirical result.}
+The framework is a descriptive formalization. It organizes observed thinking
+practices into a structure from which they are derivable; it does not measure a
+cognitive variable, and it makes no claim about the mechanism of human or AI
+thinking.
+
+\paragraph{Template effectiveness untested.}
+The five templates (T1--T5) are claimed to be injectable and operable. Whether
+injection improves downstream task performance is untested; that is the role of
+independent experiments, which we do not perform here.
+
+\paragraph{Single corpus source.}
+All structural evidence comes from one source corpus (an anonymized set of
+benchmark conversations, from which only structural features are used). The
+framework's generality across other corpora, subjects, or domains is an open
+question.
+\section{Conclusion}
+\label{sec:conclusion}
+
+We presented a descriptive formalization of general thinking in which
+understanding is a lossless round-trip fixed point of a compression--decompression
+pair ($\Dmap\circ\Cmap=\mathrm{id}$, lossless $=$ unique $+$ reproducible). From
+this single condition we derived four facets (predictive power, perturbation,
+fitness, leading-term anchoring) and two structural results (basis choice via
+multiresolution analysis; two-stage domain-selection-then-refinement with
+irreversible order). The framework reproduces seven thinking-style hypotheses
+with 7/7 internal consistency on the source corpus (an internal consistency
+check, not external validation), and we distilled it into five injectable prompt
+templates (T1--T5) with explicit triggers and actions.
+
+The contribution is deliberately scoped: a descriptive formalization plus an
+actionable, auditable protocol. We do not claim to have discovered the mechanism
+of thinking; we claim that a small formalization coherently accounts for the
+observed practices \emph{within} the source corpus and yields an injectable
+operational layer whose effectiveness awaits independent experiments.
+
+\paragraph{Statement of AI use.}
+This manuscript was drafted with AI assistance (large-language-model generation
+of the LaTeX draft and formalization) and was reviewed, edited, and approved by
+a human author, who takes full responsibility for its content, claims, and
+honesty. No AI system is listed as an author.
+\appendix
+\section{The Seven Hypotheses: Source Corpus Wording and Mapping}
+\label{app:hypotheses}
+
+Table~\ref{tab:seven} gives the paraphrase and derivation. Table~\ref{tab:seven_raw}
+gives the original (Chinese) wording from the source corpus alongside the
+English paraphrase used in the paper, for traceability.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{p{5.4cm}p{5.4cm}}
+\toprule
+Source corpus wording (original) & English paraphrase (paper) \\
+\midrule
+升级式$\to$微扰逐级精细化 & Escalating style $\to$ stepwise (perturbative) refinement \\
+否定式$\to$适配度优化 & Negation style $\to$ fitness optimization \\
+压缩判断$\to$主项=最压缩 & Compression judgment $\to$ leading term $=$ most compressed \\
+压不动=没懂$\to$主项没抓稳 & Cannot compress $=$ do not understand $\to$ leading term not anchored \\
+时间尺度长$\to$微扰收敛需足够多阶 & Long time scale $\to$ perturbation convergence needs enough orders \\
+操作性理论$\to$适配度可测量 & Operational theory $\to$ fitness is measurable \\
+对谁在想敏感$\to$AI退化=适配度下降 & Sensitive to who is thinking $\to$ AI degradation $=$ fitness drop \\
+\bottomrule
+\end{tabular}
+\caption{Original wording (source corpus) versus the English paraphrase used in
+Section~\ref{sec:consistency}. 7/7 hit, internal consistency only.}
+\label{tab:seven_raw}
+\end{table}
+
+\section{Number Traceability}
+\label{app:trace}
+
+Every quantitative statement in this paper maps to the source corpus as follows
+(the accompanying \texttt{number-trace.md} gives file paths and line numbers):
+
+\begin{itemize}
+\item \textbf{7/7 consistency} --- the seven hypotheses and the 7/7 (vs.\ 5/7
+for the older ``compression + prediction'' framing) are recorded in the
+``inspection'' section of the core-framework source file.
+\item \textbf{Five templates (T1--T5)} --- the five injectable templates with
+triggers and actions are recorded in the ``injectable templates'' section of the
+template source file.
+\item \textbf{Four facets} --- the four facets (predictive power, perturbation,
+fitness, leading-term anchoring) are recorded in the ``facets'' section of the
+core-framework source file.
+\item \textbf{Two derivations} --- basis choice (multiresolution bases) and
+two-stage compression (domain selection $\to$ refinement) are recorded in the
+two ``derivation'' sections of the core-framework source file.
+\item \textbf{Three-step domain selection} --- the three-step process
+(axiom-range verification, conditional transfer, new-condition experimentation)
+is recorded in the two-stage-compression derivation section.
+\end{itemize}
+
+The source corpus is private; only structural features and the paraphrased
+hypotheses above are used. No verbatim benchmark-conversation content appears in
+this paper.
+
+\begin{thebibliography}{9}
+\bibitem{newman_powerlaws_2005}
+M.~E.~J. Newman. Power laws, Pareto distributions and Zipf's law.
+\emph{Contemporary Physics}, 46(5):323--351, 2005. doi:10.1080/00107510500052444.
+\bibitem{kaspschak_nnpt_2020}
+B.~Kaspschak and U.-G. Meißner. A neural network perturbation theory based on
+the Born series. arXiv:2009.03192, 2020.
+\bibitem{koh_liang_influence_2017}
+P.~W. Koh and P.~Liang. Understanding black-box predictions via influence
+functions. arXiv:1703.04730, 2017.
+\bibitem{daubechies_1988}
+I.~Daubechies. Orthonormal bases of compactly supported wavelets.
+\emph{Communications on Pure and Applied Mathematics}, 41(7):909--999, 1988.
+doi:10.1002/cpa.3160410705.
+\bibitem{skalse_reward_hacking_2022}
+J.~Skalse, N.~H.~R. Howe, D.~Krasheninnikov, and D.~Krueger. Defining and
+characterizing reward hacking. arXiv:2209.13085, 2022.
+\bibitem{gallego_spec_self_correction_2025}
+V.~Gallego et al. Specification self-correction: mitigating in-context reward
+hacking through test-time refinement. arXiv:2507.18742, 2025.
+\end{thebibliography}
+
+\end{document}
