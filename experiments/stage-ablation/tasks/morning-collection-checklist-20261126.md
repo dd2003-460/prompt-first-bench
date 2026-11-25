@@ -2,16 +2,25 @@
 # origin: ai · 2026-11-25 12:45 写 · 覆盖 T-REPAIR-1 → postcheck → vllm-catchup → armc-prime-post 全链
 # 用途: 明早按序收数, 每项给预期范围(基于 baseline-r1 实测), 出界=链条异常, 先查 log 再下结论。
 
+## ⭐ 2026-11-25 22:30 夜间已收（三条线全到里程碑, 明早只需核验不需重收）
+1. **T-REPAIR-1 4 臂析因 DONE**（fixB-r3 补跑 22:19 成功, 独立 run 480471B）：baseline 5.18% / fixA 3.42% / fixAB 1.61% / fixB 5.56%。P-B TOST 等效, A+B subadditive → **A/B fix 策略无效, 瓶颈在 fixer 能力** → 符号化 Fix-C 路线确立。commit 40eae02b9, 分析 JSON `data/t-repair1/t-repair1-analysis.json`。
+2. **armC' ε_pred 3/3 全轴2**（修复版 judge 重判, commit c7cb311ba）：eps-judge.py 有 harness bug（max_tokens=300 截断 CoT 致 JSON 丢失）, 修后重判三组——原始 armC 仍 0/3（真实负结果）/ armC' 3/3 对齐信息论轴 / 判别力测试 PASS。→ **05-accept 判据首次全达标, H1 扩展成立**。⚠️ 明早必读：runner 日志里的 0/3 是旧版 judge parse_error 产物, **以磁盘 `armc_prime_raw_outputs_judge.json`（n_aligned=3, judged_at 21:44:28）为准**。待 D 人工终核（同族判官仅相对有效, lossless L69 双标注者）。
+3. **L4 消歧**：catchup 21:40 完成, l4-disambig FRESH（synth 落盘）, gptr STALE（summary 旧）, tjudge1-J4 FRESH。L4 verdict 判读仍按 §2 预期 C（conf 0.7）。
+4. **符号化 prompt 草案 v1 落盘**（commit 672f9b1d2）：`experiments/stage-ablation/tasks/symbolization-prompt-draft.md`。下一步：参数卡 schema + 机械重算脚本 + Fix-C 臂设计（T-REPAIR-1 已完, 前置解除）。
+- 明早动作：①核验上面 4 条的 commit/文件在位（git log + ls）②D 人工终核 armC' 3 条对齐判定 ③Fix-C 臂设计开工（符号化 prompt 已就绪）。
+
 ## 0. 进程终态（全应已退出）
 | PID | 角色 | 预期终态 |
 |---|---|---|
 | 15606 | T-REPAIR-1 executor | 退出, 12 rep 全完 (baseline/fixA/fixAB/fixB × 3) |
 | 19059 | t-repair1-postcheck | 退出, 已跑 t-repair1-analysis.py |
 | 36173 | vllm-catchup | 退出, C1-C4 全跑 |
-| 43915 | armc-prime-post | 退出, armC' 3 样本 + screen + judge 全跑 |
+| 69029 | armc-prime-post | 退出, armC' 3 样本 + screen + judge 全跑 |
+| 71865 | eps-judge-discrim | 退出, 判官鉴别力测试落盘 |
 ```bash
-for p in 15606 19059 36173 43915; do kill -0 $p 2>/dev/null && echo "$p STILL ALIVE (查为何)" || echo "$p exited"; done
+for p in 15606 19059 36173 69029 71865; do kill -0 $p 2>/dev/null && echo "$p STILL ALIVE (查为何)" || echo "$p exited"; done
 ```
+注：43915 是 14:20 被 gateway 重启杀的旧 PID，已重挂为 69029（19:00），表中勿再查 43915。
 
 ## 1. T-REPAIR-1 4 臂（research-agi-budget ⑥ 主产出）
 - 读 `experiments/stage-ablation/logs/t-repair1-4arm-*.log`（执行器）+ `logs/t-repair1-postcheck-*.log`
@@ -85,3 +94,4 @@ for p in 15606 19059 36173 43915; do kill -0 $p 2>/dev/null && echo "$p STILL AL
   ③ q6-300 外部参照（11-23 未修改 SM 3 reps）文件齐全, 但析因未纳入 → 明早如需"同日跨臂 vs 跨日同臂"方差对照, 手工算。
 - 19:34 **learn-to-think 夜间链并发安全核验（eps-judge-discrim vs armc-prime-post 同 gate 36173 退出）**：两脚本 36173 退出后同时启动并发抢 vLLM，疑"顺序缺口"（判官测试应先于 armC' 用判官）。核验结论=**非问题**：①eps-judge.py 输出文件名从输入派生（`argv[1].replace('.json','_judge.json')`）→ armC' 写 `armc_prime_raw_outputs_judge.json`、discrim 写 `discrim-test_judge.json`，**不同输入不同输出无覆盖**；②时序上判官测试 ~30s ≪ armC' 生成 2-3min，实际几乎必然先完成；③软门禁设计成立——判官 FAIL 不拦 armC'（机械筛查是主判据），discrim 结果独立落盘，明早解读时据此决定是否需 D 人工终核（lossless L69 双标注者），最坏情况=armC' 判官结果需人工核，正是设计的 fallback。learn-to-think 夜间链最后未验环节闭合。
 - 19:24 **跨日复现性对照（手工算, 效度点正式确立）**：q6-300 (11-23) rr=0.059/0.042/0.098, degraded=47/63/50 vs baseline (今天) rr=0.060/0.039/0.061, degraded=47/60/55。同 SM 同题隔两天同带 → **baseline 跨日复现, 4 臂析因的臂间差异可归因于 Fix 而非 baseline 漂移**。"verify 标准 × L4 经验常数结构性不兼容"的墙（degraded 47-63 量级）跨日稳定。
+- 20:12 **Q6 域 degraded 两路径实测拆分（Fix-C 预期空间校准, 推翻 GPU 域外推）**：用 T-REPAIR-1 真实 evidence 按 `evidence.startswith('检索失败')` 拆——**检索失败路径仅 0-9%（均值~4%）, verify 墙 85-100%**（baseline r1-r3: 47/60/55 degraded, 检索失败 0/4/2; fixA: 7/0/3; fixAB r1-r2: 0/1）。T-PR-17 GPU 域的"38% 检索路径"是代码推断非实测, **不能搬到 Q6**。含义：①明早 4 臂析因里检索失败是 common-mode 噪声（臂间差分基本抵消）；②Fix-C（改 verify 判据）在 Q6 的理论修复上限 ~90% degraded（不是 GPU 域的 43%）——若 T-REPAIR-1 明早判 TOST 等效, Fix-C 臂的预期收益空间按 ~90% 评估。详见 repair-loop-design-20261124.md 20:05/20:12 条。
