@@ -61,7 +61,8 @@ D 问的「逐点 overall」= 路径 A。下面逐节。
 
 - judge 对**部分匹配的要点给部分分**（连续插值，见 §1）。例如 4 层要点「给了量级和对比但没推导出数值」→ 0.65-0.75（prompt 394）；「给了公式但没代入参数」→ 该层位置一半（395）。
 - 只有**完全没触及**该要点才 0 分。所以不是「对不上就没分」，而是「对到什么深度给多少分」。
-- 二值口径（路径 B，`s8b_pilot.judge`）才是 0/1：gold 要点逐条「覆盖/未覆盖」，`coverage = 覆盖数/总要点数`（s5_state_machine.py:1640）。r03 的 `coverage=0.133` 即 15 条 gold 要点里 2 条被覆盖（judge.scores 有 2 个 1，见 §3）。**二值口径下才是「对不上就没分」**——但那是 gate 的 cov 指标，不是 D 问的逐点 overall。
+- 二值口径（路径 B，`s8b_pilot.judge`，一手核验 s8b_pilot.py:157-180）才是 0/1：gold 要点逐条「覆盖/未覆盖」，**prompt 原文「覆盖=1，未覆盖或答错=0；部分覆盖按 0 计并在 reason 说明」**，`covered = sum(1 for s in scores[:n_pts] if s == 1)`、`coverage = covered/n_pts`——二值口径下连"部分覆盖"都按 0 计，是**最严格**的「对不上就没分」。r03 的 `coverage=0.133` 即 15 条 gold 要点里 2 条被覆盖（judge.scores 有 2 个 1，见 §3）。**但那是 gate 的 cov 指标，不是 D 问的逐点 overall。**
+- ⚠️ **两套 gold 要点集大小不一（一手核验）**：二值 judge 用 `s8b_pilot.GOLD`（nat=6 / soc=7 / **gpu=15**），深度 judge 用 `judge_v2_depth` 内嵌 rubric（NAT=6 / SOC=7 / **GPU=38**）。nat/soc 两套点数一致，**唯 gpu 二值 15 点 vs 深度 38 点是不同大小的两套要点集**——所以 r03 的 `coverage=0.133`（2/15）与 38 点深度 `overall` 不是同一套 gold，引用 gpu 数字时必须先标是哪套。
 
 > 一句话：冗余在**目标函数**里被罚（β·redundancy·n_nodes，默认 β=3，`--beta 0` 关掉）；分解不完整无独立罚项，漏要点只是拉低覆盖分；judge 评分**给部分分**（连续插值），「对不上就没分」只对二值 coverage 口径成立，对逐点 overall 不成立。
 
@@ -128,6 +129,7 @@ D 问的「逐点 overall」= 路径 A。下面逐节。
 - 聚合公式：`experiments/stage-ablation/judge_v2_depth.py:408-467`（score_run）、`:33-41`（`_w3/_w4` k·ln(k+1) 权重，K=3 实际 [0.098,0.312,0.590]）、`:388-404`（judge prompt 原文）
 - 六维总分：`experiments/stage-ablation/score.py:232-233,267,307`
 - 冗余罚项：`experiments/stage-ablation/s5_state_machine.py:121,349-395,1716-1721`；`--beta` commit `112b03f38`
+- 二值 cov 口径：`experiments/stage-ablation/s8b_pilot.py:157-180`（judge，GOLD[gpu]=15 点 vs 深度 GPU_RUBRIC=38 点）；r03 coverage=0.133 出自 `ablation-runs/gpu_formula_r03.json`（非 _judge.json）
 - r03 数据：`ablation-runs/gpu_formula_r03_judge.json`（raw 100 键全 0.33 / point_scores 38 键全 0 / overall 0.0）；修复 commit `a8ae30551`（message 点名 r03）
 - 口径标注：`state-machine-status-20261126.md` §2/§5；canonical 基准 `modules/A-eval-infra/research/scoring-v3-gatefixed.md`
 - judge 端点：`ablation_harness.py:19`（127.0.0.1:8787，本地 proxy→27B；本次未调用任何端点）
