@@ -14,7 +14,7 @@ correctness_layer_v0.py — pfb judge correctness 层原型（机械 + 连续，
 轴: C 候选构建 / E 评估完整性 / R 排序结局 / S 结构签名 / N 数值容差
 判别: P_A1 = 1-C ; P_A3 = E1*R_low ; 阈值见设计 §3
 """
-import json, re, sys, os
+import json, re, sys, os, functools
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PFB = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
@@ -25,16 +25,29 @@ OUT_JSON = os.path.join(HERE, "correctness-layer-dryrun-20261125.json")
 
 NEG_WIN = 40          # 否定语境窗口（±字符）
 NEG_PAT = re.compile(r"遗漏|未覆盖|缺失|缺少|未纳入|没考虑|漏掉|没提|不考虑|排除")
-# winner 配置 4×3090 正则族（设计 §2 C2）
-CFG4 = re.compile(
-    r"4\s*[×xX✕*]\s*(?:RTX\s*)?3090"
-    r"|(?:RTX\s*)?3090\s*[×xX✕*]\s*4(?!\d)"
-    r"|[4四]\s*(?:张|卡|块)\s*(?:RTX\s*)?3090"
-    r"|(?:RTX\s*)?3090\s+[4四]\s*(?:张|卡|块)"
-    r"|(?:RTX\s*)?3090[\s*]*\|\s*4\s*\|"
-    r"|\|\s*4\s*\|[\s*|]{0,12}?(?:RTX\s*)?3090"
-    r"|卡型[\s*]*[：:][^\n]{0,20}?(?:RTX\s*)?3090[^\n]{0,20}?卡数[\s*]*[：:]\s*4\b"
-    r"|(?:RTX\s*)?3090[^\n]{0,20}?卡数[\s*]*[：:]\s*4\b[^\n]{0,20}?卡型")
+# winner 配置 4×<卡型> 正则族（设计 §2 C2）——参数化（重锚 2026-11-26）。
+# 原硬编码 3090；现按 winner 卡型生成。V100 无 "RTX " 前缀、3090 常有 → 前缀对两者都可选（向后兼容）。
+@functools.lru_cache(maxsize=None)
+def _winner_patterns(card):
+    """winner 卡型 → (card_re, cfg4_re)。card_re=卡型提及; cfg4_re=4×卡型配置提及（8 变体）。"""
+    c = re.escape(card)
+    card_re = re.compile(c)
+    cfg4_re = re.compile(
+        "4\\s*[×xX✕*]\\s*(?:RTX\\s*)?" + c +
+        "|(?:RTX\\s*)?" + c + "\\s*[×xX✕*]\\s*4(?![0-9])" +
+        "|[4四]\\s*(?:张|卡|块)\\s*(?:RTX\\s*)?" + c +
+        "|(?:RTX\\s*)?" + c + "\\s+[4四]\\s*(?:张|卡|块)" +
+        "|(?:RTX\\s*)?" + c + "[\\s*]*\\|\\s*4\\s*\\|" +
+        "|\\|\\s*4\\s*\\|[\\s*|]{0,12}?(?:RTX\\s*)?" + c +
+        "|卡型[\\s*]*[：:][^\\n]{0,20}?(?:RTX\\s*)?" + c + "[^\\n]{0,20}?卡数[\\s*]*[：:]\\s*4\\b" +
+        "|(?:RTX\\s*)?" + c + "[^\\n]{0,20}?卡数[\\s*]*[：:]\\s*4\\b[^\\n]{0,20}?卡型")
+    return card_re, cfg4_re
+
+# 当前 run 的 winner（重锚 2026-11-26：①类价 $975 → V100×4/W4/n=2 c_pass 0.4979 < 3090 0.6807）。
+# 不再是硬编码 3090；judge_text 默认取此值，T8b 3090 世界分析显式传 winner="3090"。
+WINNER_CARD = "V100"
+# 向后兼容别名：3090 世界配置正则（T8b 分析 / selftest 3090 世界 fixture 用）。
+CFG4 = _winner_patterns("3090")[1]
 # v1.3 (2026-11-25, T8c smoke 第一批格式适配): 补表格行变体——模型把 卡型/卡数 分列
 #   输出(`| RTX 3090 | 4 | W4 |`, 常带 markdown 加粗 `**RTX 3090**`), 原 CFG4 只认内联
 #   `4×3090` → winner 评估行 E1=0 → A3 漏判(假 indeterminate)。
@@ -121,33 +134,35 @@ def neg_mask(text, pat):
 
 
 # ---------------- 轴 C: 候选构建对齐（A1 诊断轴） ----------------
-def axis_c(text):
-    """C = 0.5*C1e + 0.5*C2。C1e: 3090 有效提及(扣否定语境); C2: 4×3090 配置提及。"""
-    masks = neg_mask(text, re.compile(r"3090"))
+def axis_c(text, winner="3090"):
+    """C = 0.5*C1e + 0.5*C2。C1e: winner 卡型有效提及(扣否定语境); C2: 4×winner 配置提及。"""
+    card_re, cfg4_re = _winner_patterns(winner)
+    masks = neg_mask(text, card_re)
     neg = sum(1 for _, n in masks if n)
     eff = max(len(masks) - neg, 0)
     c1e = min(eff / 4.0, 1.0)
-    c2 = min(len(CFG4.findall(text)) / 2.0, 1.0)
+    c2 = min(len(cfg4_re.findall(text)) / 2.0, 1.0)
     return 0.5 * c1e + 0.5 * c2, {"c1_total": len(masks), "c1_neg": neg,
                                   "c1e": round(c1e, 3), "c2": round(c2, 3),
-                                  "cfg4_hits": len(CFG4.findall(text))}
+                                  "cfg4_hits": len(cfg4_re.findall(text)), "winner": winner}
 
 
 # ---------------- 轴 E: 评估完整性（A3 诊断轴） ----------------
-def axis_e(text):
-    """E = 0.5*E1 + 0.5*E2。E1: 4×3090 配置评估行; E2: 3090 规格行(非否定)。
-    v1.3 表格模式: 若文本含 c_pass 表头行(列签名在表头而非每行), 则含 CFG4 的行
+def axis_e(text, winner="3090"):
+    """E = 0.5*E1 + 0.5*E2。E1: 4×winner 配置评估行; E2: winner 卡型规格行(非否定)。
+    v1.3 表格模式: 若文本含 c_pass 表头行(列签名在表头而非每行), 则含 4×winner 的行
     即视为评估行(数值列是纯数字, 行级 EVAL_NUM 不命中)。散文/无表头文本走原逻辑。"""
+    card_re, cfg4_re = _winner_patterns(winner)
     lines = text.split("\n")
     table_mode = bool(re.search(r"c_pass\s*[（(]¢/task[）)]", text))
     if table_mode:
-        e1_rows = sum(1 for ln in lines if CFG4.search(ln))
+        e1_rows = sum(1 for ln in lines if cfg4_re.search(ln))
     else:
-        e1_rows = sum(1 for ln in lines if CFG4.search(ln) and EVAL_NUM.search(ln))
+        e1_rows = sum(1 for ln in lines if cfg4_re.search(ln) and EVAL_NUM.search(ln))
     e1 = min(e1_rows / 2.0, 1.0)
     e2_rows = 0
     for ln in lines:
-        if "3090" not in ln:
+        if not card_re.search(ln):
             continue
         i = text.find(ln)
         ctx = text[max(0, i - NEG_WIN):i + len(ln) + NEG_WIN]
@@ -157,22 +172,23 @@ def axis_e(text):
             e2_rows += 1
     e2 = min(e2_rows / 2.0, 1.0)
     return 0.5 * e1 + 0.5 * e2, {"e1": round(e1, 3), "e1_rows": e1_rows,
-                                 "e2": round(e2, 3), "e2_rows": e2_rows}
+                                 "e2": round(e2, 3), "e2_rows": e2_rows, "winner": winner}
 
 
 # ---------------- 轴 R: 排序结局 ----------------
-def axis_r(text, e1_rows):
-    """R_low: 配置被评估过(E1>0)时, 强推荐行是否含 4×3090。被选中→0, 垫底→1; 未评估→0.5。
-    v1 兜底: 无任何强推荐行时(推荐表述无关键词), 扫含 CFG4 的弱推荐语义行,
+def axis_r(text, e1_rows, winner="3090"):
+    """R_low: 配置被评估过(E1>0)时, 强推荐行是否含 4×winner。被选中→0, 垫底→1; 未评估→0.5。
+    v1 兜底: 无任何强推荐行时(推荐表述无关键词), 扫含 4×winner 的弱推荐语义行,
     命中 winner(且非否定语境)→ R_low=0, 防假阳性误判 A3。
     有强推荐行但未含 winner → 保持 R_low=1(A3 信号, 不启用兜底)。"""
+    card_re, cfg4_re = _winner_patterns(winner)
     if e1_rows == 0:
         return 0.5, {"strong_rec_lines": 0, "note": "E1=0, R 未定义, 中性 0.5"}
     rec_lines = [ln for ln in text.split("\n") if STRONG_REC.search(ln)]
     if rec_lines:
         # v1.3.1 (2026-11-25, 第2批 smoke A 臂误判 A3 修复): 推荐行本身含 winner
-        #   (CFG4 非否定) → picked; 或推荐行是纯标题(不含任何卡型, 如「最优选卡方案」)
-        #   → 检查紧随 2 行配置详情(含 CFG4 非否定) → picked。
+        #   (4×winner 非否定) → picked; 或推荐行是纯标题(不含任何卡型, 如「最优选卡方案」)
+        #   → 检查紧随 2 行配置详情(含 4×winner 非否定) → picked。
         #   安全性: 含具体卡型的推荐行(如「主推荐: 2×4090」)不查下一行, 防 T8b
         #   arm_a[2](推荐 4090 + 后续表格含 3090 评估行)误判 picked → 保 A3。
         lines = text.split("\n")
@@ -180,15 +196,15 @@ def axis_r(text, e1_rows):
         for i, ln in enumerate(lines):
             if not STRONG_REC.search(ln):
                 continue
-            if CFG4.search(ln) and not NEG_REC.search(ln):
+            if cfg4_re.search(ln) and not NEG_REC.search(ln):
                 picked = True
                 break
             if not re.search(r"\b(?:3090|4090|V100|A100|A6000|H100)\b", ln):
-                # 窗口联合检查: 逐行 CFG4 打不中「卡型/卡数 分 bullet 行」(3090 与
-                #   卡数:4 分属两行), 改为窗口内共现: 3090 与 卡数:4 同窗 + 非否定。
+                # 窗口联合检查: 逐行 4×winner 打不中「卡型/卡数 分 bullet 行」(winner 与
+                #   卡数:4 分属两行), 改为窗口内共现: winner 与 卡数:4 同窗 + 非否定。
                 #   T8b 全样本扫描零潜在误伤(2026-11-25 实跑验证)。
                 win = "\n".join(lines[i + 1:i + 4])
-                if re.search(r"(?:RTX\s*)?3090", win) \
+                if card_re.search(win) \
                    and re.search(r"卡数[\s*]*[：:][^\n]{0,10}?4\b", win) \
                    and not NEG_REC.search(win):
                     picked = True
@@ -196,7 +212,7 @@ def axis_r(text, e1_rows):
                 for nxt in lines[i + 1:i + 4]:
                     if re.match(r"\s*(?:#{1,6}\s|\d+[\.、]|---)", nxt):
                         break
-                    if CFG4.search(nxt) and not NEG_REC.search(nxt):
+                    if cfg4_re.search(nxt) and not NEG_REC.search(nxt):
                         picked = True
                         break
                 if picked:
@@ -205,7 +221,7 @@ def axis_r(text, e1_rows):
                                           "winner_in_strong_rec": picked, "weak_fallback": False}
     # 兜底: 无强推荐行 → 弱推荐语义扫描(否定守卫)
     weak_hits = [ln for ln in text.split("\n")
-                 if CFG4.search(ln) and WEAK_REC.search(ln) and not NEG_REC.search(ln)]
+                 if cfg4_re.search(ln) and WEAK_REC.search(ln) and not NEG_REC.search(ln)]
     picked = len(weak_hits) > 0
     return (0.0 if picked else 1.0), {"strong_rec_lines": 0, "winner_in_strong_rec": False,
                                       "weak_fallback": True, "weak_hit_lines": len(weak_hits)}
@@ -255,10 +271,10 @@ def axis_n(text):
 W_C, W_E, W_S, W_N = 0.35, 0.25, 0.20, 0.20
 TH_A1, TH_A3 = 0.7, 0.5
 
-def judge_text(text, th_a1=TH_A1, th_a3=TH_A3, c1e_th=0.5):
-    c, c_d = axis_c(text)
-    e, e_d = axis_e(text)
-    r, r_d = axis_r(text, e_d["e1_rows"])
+def judge_text(text, th_a1=TH_A1, th_a3=TH_A3, c1e_th=0.5, winner=WINNER_CARD):
+    c, c_d = axis_c(text, winner)
+    e, e_d = axis_e(text, winner)
+    r, r_d = axis_r(text, e_d["e1_rows"], winner)
     s, s_d = axis_s(text)
     n, n_d = axis_n(text)
     corr = W_C * c + W_E * e + W_S * s + W_N * n
@@ -322,59 +338,75 @@ def cov_score(nodes):
 
 # ---------------- 扰动自测（判别规则的因果性，非 n=2 相关性） ----------------
 def selftest():
-    """11 断言: 基线 3(A1/A3/A2) + 变异 3 + 阳性对照 1 + A2 因果 1
+    """11 断言(3090 世界, T8b 基线) + 2 断言(V100 世界, 参数化接线验证)。
+    3090 世界: 基线 3(A1/A3/A2) + 变异 3 + 阳性对照 1 + A2 因果 1
     + FP 边界已修 1(V7) + 否定守卫 2(V8 不X族 / V9 未X族)。
     全过 = 三型判别由探针因果驱动, 非对样本过拟合, 且不'全判病'。
     V7 钉住 v0 假阳性已修(winner 评估+无关键词推荐→indeterminate, v1 兜底);
-    V8/V9 钉住否定守卫两族(不X/未X)——winner 被评估但被否定→仍 A3, 兜底不误救。"""
+    V8/V9 钉住否定守卫两族(不X/未X)——winner 被评估但被否定→仍 A3, 兜底不误救。
+    重锚 2026-11-26: judge_text 默认 winner=WINNER_CARD(V100), T8b fixture 是 3090 世界
+    (arm_a[1]/[2] V100 提及=0) → 显式传 winner="3090" 保持基线语义; V100-W1/W2 验证
+    参数化真正生效(同文本换 winner 卡型 → 判定跟着变, 非 no-op)。"""
+    W3090 = "3090"   # T8b 3090 世界 fixture 的 winner
     samples = {n: t for n, t, _ in load_samples()}
     a0, a2 = samples["arm_a[0]"], samples["arm_a[2]"]
     results = []
     # 基线
-    r = judge_text(a0); results.append(("baseline arm_a[0]→A1", r["verdict"] == "A1", r["verdict"]))
-    r = judge_text(a2); results.append(("baseline arm_a[2]→A3", r["verdict"] == "A3", r["verdict"]))
+    r = judge_text(a0, winner=W3090); results.append(("baseline arm_a[0]→A1", r["verdict"] == "A1", r["verdict"]))
+    r = judge_text(a2, winner=W3090); results.append(("baseline arm_a[2]→A3", r["verdict"] == "A3", r["verdict"]))
     # V1 R 轴因果: arm_a[2] 强推荐行改为推 4×3090 → 应脱离 A3
     v1 = a2.replace("主推荐: 方案 B (2×RTX 4090, INT4 AWQ)",
                     "主推荐: 方案 D (4×RTX 3090, INT4 AWQ)")
     assert v1 != a2, "V1 替换未命中(文本变了?), 需更新 pattern"
-    r = judge_text(v1); results.append(("V1 winner进强推荐→非A3", r["verdict"] != "A3", r["verdict"]))
+    r = judge_text(v1, winner=W3090); results.append(("V1 winner进强推荐→非A3", r["verdict"] != "A3", r["verdict"]))
     # V2 C 轴因果: arm_a[2] 抹掉 3090 → 应翻成 A1
-    r = judge_text(a2.replace("3090", "3080")); results.append(("V2 抹3090→A1",
+    r = judge_text(a2.replace("3090", "3080"), winner=W3090); results.append(("V2 抹3090→A1",
                                                                  r["verdict"] == "A1", r["verdict"]))
     # V3 E 轴因果: arm_a[0] 注入 4×3090 候选+评估行(不加强推荐) → 应翻成 A3
     inj = ("\n| D | 4×RTX 3090 | 96 GB | INT4 | ✅ 可行 |\n"
            "| D | 4×RTX 3090 (二手) | 10-15 t/s | TCO $5,839 |\n")
-    r = judge_text(a0 + inj); results.append(("V3 注入评估上下文→A3",
+    r = judge_text(a0 + inj, winner=W3090); results.append(("V3 注入评估上下文→A3",
                                               r["verdict"] == "A3", r["verdict"]))
     # V4 阳性对照: winner 被完整评估且被强推荐 → 既非 A1 也非 A3 (防"全判病"假阳性)
     v4 = a2.replace("主推荐: 方案 B (2×RTX 4090, INT4 AWQ)",
                     "主推荐: 方案 D (4×RTX 3090, INT4 AWQ)")
     assert v4 != a2, "V4 替换未命中"
-    r = judge_text(v4); results.append(("V4 阳性对照(winner评估+推荐)→非A1非A3",
+    r = judge_text(v4, winner=W3090); results.append(("V4 阳性对照(winner评估+推荐)→非A1非A3",
                                         r["verdict"] == "indeterminate", r["verdict"]))
     # V5 A2 基线: arm_a[1] 卡型充分出现但 4×3090 从未构造/评估 → 候选集粒度断点
     a1 = samples["arm_a[1]"]
-    r = judge_text(a1); results.append(("V5 基线 arm_a[1]→A2(候选集粒度断点)",
+    r = judge_text(a1, winner=W3090); results.append(("V5 基线 arm_a[1]→A2(候选集粒度断点)",
                                         r["verdict"] == "A2", r["verdict"]))
     # V6 A2 因果: arm_a[1] 抹掉 3090 → 卡型消失 → 应翻成 A1
-    r = judge_text(a1.replace("3090", "3080")); results.append(("V6 A2抹3090→A1",
+    r = judge_text(a1.replace("3090", "3080"), winner=W3090); results.append(("V6 A2抹3090→A1",
                                                                 r["verdict"] == "A1", r["verdict"]))
     # V7 FP 边界(已修): winner 被完整评估(E1>0)且被推荐, 但推荐语句不含 STRONG_REC 关键词
     #   → v0 误判 A3(假阳性); v1 弱推荐语义兜底后应判 indeterminate(R_low=0)。
     #   此断言钉住修复: 若未来兜底逻辑退化, 此项会翻回 A3 报警。
     lines = [ln for ln in a2.split("\n") if not STRONG_REC.search(ln)]
     fp = "\n".join(lines) + "\n综上, 综合性价比来看, 建议优先部署 4×RTX 3090 方案。\n"
-    r = judge_text(fp); results.append(("V7 FP边界已修(winner评估+无关键词推荐)→非A3[v1兜底生效]",
+    r = judge_text(fp, winner=W3090); results.append(("V7 FP边界已修(winner评估+无关键词推荐)→非A3[v1兜底生效]",
                                         r["verdict"] != "A3", r["verdict"]))
     # V8 否定守卫: winner 被评估但被否定("不推荐 4×RTX 3090")→ 兜底不应误救, 仍 A3
     neg = "\n".join(lines) + "\n综上, 4×RTX 3090 成本过高, 不推荐, 建议优先部署 2×RTX 4090 方案。\n"
-    r = judge_text(neg); results.append(("V8 否定守卫(winner评估+被否定)→仍A3[兜底不误救]",
+    r = judge_text(neg, winner=W3090); results.append(("V8 否定守卫(winner评估+被否定)→仍A3[兜底不误救]",
                                          r["verdict"] == "A3", r["verdict"]))
     # V9 否定守卫"未X"族(v1.1): winner 被评估但被"未采用"否定 → 兜底不应误救, 仍 A3
     #   回归哨兵: 若 NEG_REC 漏掉"未X"否定族, 此项会翻成 indeterminate 报警
     neg2 = "\n".join(lines) + "\n综上, 4×RTX 3090 功耗过高, 未采用, 建议优先部署 2×RTX 4090 方案。\n"
-    r = judge_text(neg2); results.append(("V9 否定守卫未X族(winner评估+未采用)→仍A3[v1.1]",
+    r = judge_text(neg2, winner=W3090); results.append(("V9 否定守卫未X族(winner评估+未采用)→仍A3[v1.1]",
                                           r["verdict"] == "A3", r["verdict"]))
+    # V100-W1 参数化接线: 3090 世界文本(arm_a[0], V100 提及=0) 换 winner=V100 → 卡型从未进候选集 → A1
+    r = judge_text(a0, winner="V100"); results.append(("V100-W1 3090文本换winner→A1[参数化生效]",
+                                                       r["verdict"] == "A1", r["verdict"]))
+    # V100-W2 参数化接线: V100 世界文本, 4×V100 被完整评估且被强推荐 → indeterminate(非A1非A3)
+    v100t = ("【候选】\n| 3090×4/W4/n=2 | 0.681 | 15.8 GB | 317 GB/s |\n"
+             "| V100×4/W4/n=2 | 0.498 | 15.8 GB | 307 GB/s |\n"
+             "| V100×4/W8/n=2 | 0.573 | 19.1 GB | 307 GB/s |\n"
+             "【淘汰】V100×2/W16/n=1: 显存 39.4>32 GB 装不下; 3090×4/W8/n=2: c_pass 更高。\n"
+             "【最终推荐】主推荐: 4×V100 SXM2 / W4 / n=2（c_pass=0.498 ¢/task, 全表最低）。\n")
+    r = judge_text(v100t, winner="V100"); results.append(("V100-W2 V100文本winner评估+推荐→非A1非A3[参数化生效]",
+                                                          r["verdict"] == "indeterminate", r["verdict"]))
     ok = all(p for _, p, _ in results)
     for name, p, got in results:
         print(f"  [{'PASS' if p else 'FAIL'}] {name} → {got}")
