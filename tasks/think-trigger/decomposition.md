@@ -193,3 +193,9 @@
 > **验收标准变化（本次事件导出的规则）**："✅ 已实施"类记录必须附磁盘证据（文件路径+commit 或 checker verdict）；
 > 自我申报的 ✅ 一律视为未验证。T6-L-S2 落地后，机制类状态以 checker verdict 为准。
 > 100% 保证做不到（hook 可能被卸载/日志可能被截断），可达上限 = 死了可见（checker verdict）+ 会挡路（gate block）+ D 可查（--status 一行全表）。
+
+### 扩展：artifact-placement 检查（2026-11-26 ④核验导出的第二病）
+预算扫描批核验发现**第二种黑盒**：全部数据+分析（32 文件）落在兄弟 worktree `pfb-thinkmech`（thinkmech-review 分支）`modules/B-pipeline-ablation/data/`，pfb main 生产线不可见——与 T5 调度器同病（产物/机制落在看不见的地方）。
+→ registry 加一类 `kind: artifact-placement`：声明"某类产物应在哪个 worktree/路径"，checker 断言产物落点对，落错 worktree = 报警。
+例：`{id: budget-scan-data, kind: artifact-placement, expected: pfb/experiments/stage-ablation/, note: ④数据应在 main 生产线}`。
+这使 T6-L 从"机制活没活"扩展到"东西落对地方没"，两者都是"你看不到我可能做错"的实例。
