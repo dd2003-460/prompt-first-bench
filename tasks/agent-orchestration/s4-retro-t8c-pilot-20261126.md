@@ -41,9 +41,10 @@
 |----|------|------|
 | PID 双写（receipt + goal state） | executor-protocol.md 硬边界 | ✅ 5befa63f9 |
 | 短 ID 禁 `/` | executor-protocol.md 硬边界 | ✅ 本轮 commit |
-| monitor PID 探活（DEAD 状态） | queue_monitor.py + 协议路由 | ⏳ 任务表已立项 |
+| monitor PID 探活（DEAD 状态） | queue_monitor.py + 协议路由 | ✅ 9309abbaf（S4-1，Lead 验收 2026-11-27；实战首跑=CapFix-Verify 进程退出后 DEAD 触发→执行者核磁盘三判据接力验收，路由按设计工作） |
 | setsid 等价脱离（Hermes 跟踪 ≠ setsid） | executor-protocol.md（F3） | ✅ 执行者已写 |
-| 长任务 Lead 挂进程监听（临时，#3 修复前） | 本文件 §缺口 | 临时约定 |
+| 长任务 Lead 挂进程监听（临时，#3 修复前） | 本文件 §缺口 | 临时约定（DEAD 探活上线后此约定降级为兜底） |
+| monitor 状态列括号剥离（静默停摆修复） | queue_monitor.py 解析器 | ✅ c36d8c9c9（实战验证 2026-11-27 00:34：B-Rerun 行「就绪（2026-11-27 00:33 立项）」→ READY，修复目标场景命中） |
 
 ## 补充故障模式（2026-11-27 凌晨，S4-1 交付时观察到）
 
