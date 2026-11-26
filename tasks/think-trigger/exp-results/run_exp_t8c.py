@@ -83,18 +83,29 @@ def call(messages, max_tokens, tag):
     last_err = None
     for attempt in range(1, 6):
         try:
-            req = urllib.request.Request(BASE, data=payload, headers={"Content-Type": "application/json"})
-            with urllib.request.urlopen(req, timeout=900) as r:
-                d = json.loads(r.read().decode())
-            msg = d["choices"][0]["message"]
-            content = (msg.get("content") or "").strip()
-            reasoning = (msg.get("reasoning") or "").strip()
-            if not content and not reasoning:
-                raise ValueError("empty")
+            length_retries = 0
+            while True:
+                req = urllib.request.Request(BASE, data=payload, headers={"Content-Type": "application/json"})
+                with urllib.request.urlopen(req, timeout=900) as r:
+                    d = json.loads(r.read().decode())
+                msg = d["choices"][0]["message"]
+                content = (msg.get("content") or "").strip()
+                reasoning = (msg.get("reasoning") or "").strip()
+                if not content and not reasoning:
+                    raise ValueError("empty")
+                fr = d["choices"][0].get("finish_reason")
+                # finish_reason==length（reasoning 截断）：同 prompt 同 max_tokens 重采样，独立计数 ≤2 次
+                # （不计入上面异常重试的 5 次上限）；累计 3 次（首次+2 重试）仍 length → 返回 last，
+                # 保留 finish_reason='length'，由上层 eval 按预注册判 indeterminate，harness 不改标签
+                if fr != "length" or length_retries >= 2:
+                    break
+                length_retries += 1
+                print(f"[{tag}] finish_reason=length (截断), length retry {length_retries}/2 (同 prompt 同 max_tokens 重采样)", flush=True)
             return {"content": content, "reasoning": reasoning,
                     "content_chars": len(content), "reasoning_chars": len(reasoning),
-                    "finish_reason": d["choices"][0].get("finish_reason"),
-                    "usage": d.get("usage", {}), "attempt": attempt}
+                    "finish_reason": fr,
+                    "usage": d.get("usage", {}), "attempt": attempt,
+                    "length_retries": length_retries}
         except Exception as e:
             last_err = repr(e)
             print(f"[{tag}] attempt {attempt} failed: {last_err}; retry {attempt*5}s", flush=True)
