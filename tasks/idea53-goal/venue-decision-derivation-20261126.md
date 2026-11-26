@@ -49,6 +49,14 @@ idea53 落在"自动化基础设施（研究工作流验证）+ 影响力扩展�
 - 若 D 判断 idea53 是偏离理论物理核心的 detour→重新分配精力，idea53 降级为"顺手发"而非主线。
 - [待核验] E&D 2028 窗口 + TMLR 已发表对后续顶会投稿的影响规则。
 
+## 精化（2026-11-26 午后，TMLR editorial policies 实读）
+**"第二段加实验投顶会"的默认假设站不稳了**：
+- TMLR 政策原文：只收 original，**不收 conference paper 的扩展版**；submitted paper 与任何已在 archival venue 发表的论文之间**不得复用文字/图/结果**。
+- 推论：第一段在 TMLR 发表 = 一次 archival 发表 → 第二段（扩展版）投顶会主 track 大概率被 prior publication 规则挡（ML 社区通则，conf 0.75，具体会议 2027 政策 [待核验]）。
+- TMLR→顶会的**正规通道 = J2C 认证**（顶会 poster），作用于 TMLR 这篇本身，不是重投扩展版。
+- **对策略的含义**：若 D 要顶会曝光，杠杆是 J2C 认证（~10% 概率），不是"第二段重投顶会"。第二段的真实价值 = 研究本身 + 可能的非 archival 落点，不等于"保证上顶会"。
+- **对性价比表的影响**：E&D 那一行的"高杠杆（条件性）"要打折——它的"第二段投顶会"路径被 prior publication 削弱，剩余价值主要是"若第一段没走 TMLR 而是直接冲顶会"的场景。这反而**强化** TMLR 先投：TMLR 的 J2C 是顶会曝光唯一留着的门。
+
 ## 行动
 - 路线不变（TMLR+arXiv），决策依据已重算落盘。
 - 下一步 = 执行 11-25 三步第一步：manuscript-scoped/ 下生成 TMLR 格式 LaTeX（paper-en.md 底本 + fig1 + staging bib）。纯本地，Lead/sub 可干，不等 D。

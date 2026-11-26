@@ -36,3 +36,10 @@
 - 不联网。不改 references.bib（15 条已核验）。不改 paper-en.md。
 - 若 fig1 TikZ 编译报错（缺宏包），允许在 tex 顶部加 \usepackage（tikz 常用包），不改 TikZ 几何。
 - 编译 3 次仍不过 → 停下，把完整报错写进 `manuscript-scoped/compile-error-<日期>.log`，不要硬凑。
+
+## 执行回执（Lead 直接执行，2026-11-26 12:50，commit 468daf4d0）
+- sub 派发（sa-0-fcbbc0a7）失败：27b 输出上限截断，磁盘 0 产物。降级 Lead 直接执行（pandoc 机械转换 + 拼装，非大生成）。
+- **验收偏差（1 条，任务卡自相矛盾处）**：验收标准"\cite ≥5"与硬性要求 4"不新增内容"冲突——paper-en.md 正文只点名 3 个 work（Roofline / PID 无 bib 条目 / SSC 2507.18742 不在 15 条 bib 内），诚实引用上限 = 3 处 \citep（roofline2009 ×2 + rooflineTime2020 + camerer2018 ×2）。其余 12 条 bib 留在 references.bib 未被引用（bibtex 只输出被引条目，TMLR 允许）。**"15 条全接入"应理解为"bib 文件接入 \bibliography"（已满足），不是"15 条都被 \cite"（会违反不新增内容）。**
+- 实际验收：PDF 5 页 ✓ / 8 节齐全 ✓ / 数字抽检 6/6 ✓ / 双盲无作者名 ✓ / fig1 嵌入 ✓ / commit 468daf4d0 ✓。
+- fig1-scoring-protocol.tex 有 5 处预存数学定界符 bug（`\\` 换行紧贴 `\( \)` 被吞进数学模式），已修复（语义不变）。
+- 管线：paper-en.md → 裁 appendix（自标 not part of paper）→ `\( \)`→`$ $`、`\[ \]`→`$$ $$` → pandoc(markdown+tex_math_dollars, shift-heading -1) → 拼 TMLR 外壳 → xelatex+xeCJK(fig1 中文) → bibtex。bibtex 的 2 个 error 是 references.bib 里 `%` 注释行（无害）。
