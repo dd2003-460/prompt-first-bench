@@ -1,3 +1,10 @@
+# ⛔ VOID — 勿执行（2026-11-26 13:35 Lead 撤销）
+# 本卡基于过期压缩快照误判"A2/A3 未完成"而派生；核验发现二者 11-24 已完成：
+#   A2 K1 恢复记账 = commit 848996a30（30/30 主文件, results-sm-matched.json 重建）
+#   A3 K2 matched stats = reports/t53b/stats-sm-vs-bare-matched.md（nat Δ+0.131 p=0.016 / gpu Δ+0.105 p=0.022 显著）
+# 证据见 decomposition-research-agi-budget.md「批后执行记录」表。已派 sub 已 stop，无脏数据。
+# 教训已入 subagent-delegation skill（pre-dispatch 核验缺口）。本卡仅作事故记录保留。
+
 # 任务卡 A2+A3：matched 批恢复记账 + 出 stats
 
 # origin: ai
