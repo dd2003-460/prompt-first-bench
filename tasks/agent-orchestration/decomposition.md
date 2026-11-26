@@ -33,8 +33,9 @@
 |---|---|---|---|---|---|---|
 | S1 收集: GitHub+arXiv 成熟方案 → JSON | 无 | API | ~200 (JSON) | 1 | 脚本-Lead | done (s1-collection.json) |
 | S2 综合: 架构方案（角色/分配/失败/持久性/思考注入） | S1 | S1 JSON + 本地规格 ~400 | ~150 | 1 | 判断-Lead | done (s2-architecture.md) |
-| S3 试点: T8c 重锚定走新架构 | S2 | 任务书 385 | 6 文件+回执 | 1 | executor-cron (job 786f0323d6b8, 10m, monitor 门禁) | 执行中（首拍 22:23, 队列 READY） |
-| S4 验收+复盘+SOP 写回 | S3 | 回执+commit 链 | ~50 | 1 | 监督者 | 待命 |
+| S3 试点: T8c 重锚定走新架构 | S2 | 任务书 385 | 6 文件+回执 | 1 | executor-cron (job 786f0323d6b8, 10m, monitor 门禁) | done (2026-11-26 23:52, 判决=停止不扩样, 报告 t8c-smoke-rerun-report-20261126.md) |
+| S4 验收+复盘+SOP 写回 | S3 | 回执+commit 链 | ~50 | 1 | 监督者 | 执行中（复盘 s4-retro-t8c-pilot-20261126.md 落盘; SOP 写回 3/5 完成, 余 monitor PID 探活） |
+| S4-1 monitor PID 探活: queue_monitor.py 对 WORKING 行读回执 PID, kill -0 死 → 输出 DEAD:<id>（使 monitor 闸门开, 执行者下拍接力）; 协议路由加 DEAD 分支（同 STALE 处理）; 边界: 只改 queue_monitor.py + executor-protocol.md 路由节, 不动 receipt 格式; 验收: ①活 PID 时输出不变（diff 空）②kill 假 PID 后输出含 DEAD ③selftest 无回归 | S4 | queue_monitor.py ~70 + 协议 ~20 | ~40 | 1 | sub-27b | 就绪 |
 
 ## 缺口清单
 - [待核验] Agent Teams AI 应用：能否启动？开机自启？（本轮实测 localhost:3456 无响应）
