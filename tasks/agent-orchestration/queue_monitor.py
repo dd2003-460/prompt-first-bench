@@ -48,11 +48,12 @@ def main():
         if st not in ("就绪", "执行中"):
             continue
         rst, mtime = receipt(short)
+        rst_l = (rst or "").lower() if isinstance(rst, str) else rst
         if st == "就绪" and rst is None:
             out.append("READY:%s" % short)
-        elif rst in ("done", "failed"):
+        elif rst_l in ("done", "failed"):
             out.append("REVIEW:%s" % short)
-        elif rst == "claimed":
+        elif rst_l == "claimed":
             age = now - (mtime or 0)
             out.append(("WORKING" if age < STALE_SECS else "STALE") + ":" + short)
         else:  # 执行中但无回执/回执损坏 = 崩溃
