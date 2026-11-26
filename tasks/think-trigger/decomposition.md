@@ -187,9 +187,9 @@
 | 任务 | 依赖 | 读(行) | 写(行) | commits | 载体 | 状态 |
 |---|---|---|---|---|---|---|
 | T6-L-S1 registry.json 初版（6 条，schema 见任务卡） | - | ~40 | ~70 | 1(stage-gate) | sub-27b | ✅ aefe09c + 修正 80f5006（patrol audit 路径 run.log 不存在→cron output glob_latest，Lead 校准） |
-| T6-L-S2 checker（五判 verdict+快照+exit code，脚本落盘） | S1 | ~60 | ~130(分3次) | 1(stage-gate) | sub-27b | ⏳ deleg_f0d7b010（卡 tasks/t6l-s2-checker-20261126.md，含 6 条预期 verdict 自检表） |
-| T6-L-S3 gate 接入 + project-tidy 巡检接线 | S2 | ~80 | ~60 | 1(stage-gate) | sub-27b | 排队（卡 tasks/t6l-s3-gate-20261126.md；daily.sh 不在 git 仓，备份 .bak-20261126 已留） |
-| ④ 预算扫描数据迁移 main 生产线（32 文件+REPORT.md） | - | ~40 | ~45 | 1(pfb) | sub-27b | 排队（卡 tasks/budget-scan-migrate-main-20261126.md；解 worktree 黑洞） |
+| T6-L-S2 checker（五判 verdict+快照+exit code，脚本落盘） | S1 | ~60 | ~130(分3次) | 1(stage-gate) | sub-27b | ✅ b50311f（Lead 实跑核验：6 verdict 全符预期，exit 0，快照 evidence 在 mount 级；意外收获：t5 audit last_ts=昨 10:50 age 32.7h = ROUTING 注入已停的硬证据） |
+| T6-L-S3 gate 接入 + project-tidy 巡检接线 + per-rule sha1（A→B→C 安全序） | S2 | ~80 | ~60 | 1(stage-gate) | sub-27b | ⏳ deleg_7fe457d0（卡 tasks/t6l-s3-gate-20261126.md；C 改活 hook 已加备份+失败还原序；测试禁 mv 真实 mount 文件，强制 monkeypatch） |
+| ④ 预算扫描数据迁移 main 生产线（32 文件+REPORT.md） | - | ~40 | ~45 | 1(pfb) | sub-27b | ⏳ deleg_f6f25858（卡 tasks/budget-scan-migrate-main-20261126.md；解 worktree 黑洞） |
 
 > **验收标准变化（本次事件导出的规则）**："✅ 已实施"类记录必须附磁盘证据（文件路径+commit 或 checker verdict）；
 > 自我申报的 ✅ 一律视为未验证。T6-L-S2 落地后，机制类状态以 checker verdict 为准。
