@@ -1,6 +1,20 @@
 # 消融矩阵 arm×qid（v4，脚本生成：量纲家族分离 + 对照/实验组条件列）
 
-生成: matrix2.py(v4) @ 2026-11-26 22:23 · 扫描 676 个分数文件（排除 checkpoints/、*.log、*.lock、>1MB）· 成功解析 676 · 字段映射 arm/qid/total · 行键=arm[条件]（base=对照, +hook=实验，源自 runs-t53/runs-t53b）
+生成: matrix2.py(v4) @ 2026-11-26 · 扫描 676 个分数文件（排除 checkpoints/、*.log、*.lock、>1MB）· 成功解析 676 · 字段映射 arm/qid/total · 行键=arm[条件]（base=对照, +hook=实验，源自 runs-t53/runs-t53b）
+
+## canonical judge 声明（2026-11-26 Lead 核验）
+
+**canonical = `j=v3`（scores-v3.json，2026-11-06 RESCORE-V3：61 runs，完整 gold 无截断 + Q4 题面-gold 缺陷已修，temp=0 确定性已验证）**。核验依据：scores-v3.json 全题均值 S0=0.615 / S1=0.630 / S5=0.805 与 RESCORE-V3-NOTES.md 逐位吻合。
+
+**警告：`j=final` 是误导名** —— scores-final.json 实为 v1 时代 judge 产物（S0=0.493 / S1=0.607 / S5=0.714 ≈ 旧 RESCORE-NOTES 的 0.491/0.626/0.712），不是"最终版"。跨 judge 谱系（v1 截断 → v2 gold_type → v3 完整 gold）系统偏移 +0.06~+0.18，**跨 judge_tag 的分数差 = 仪器差，不是模型差**。
+
+**解读规则（消融结论只在此范围内成立）**：
+1. 版本间比较只用同一 judge_tag 内的分数；首选 j=v3（canonical）。
+2. 宽量纲（j=v3-secondary\*/v3-expansion\*/v3-m1-fixed\*，0-16 系）与 0-1 系不可比，见量纲家族节。
+3. 同族判官（27b 评 27b）：绝对值仅相对有效，系统性偏差未被消除。
+4. 失效条件：judge prompt/rubric 再改版 → 本声明作废，需重新核验 canonical 归属；n=3/臂 的格子置信区间宽，方向性结论需 n≥9 复核。
+
+**v3 内当前可读的消融结论**（conf 0.7，n=3/臂）：S5 > S1 > S0（memory hook +0.19）；T2[+hook] > T2[base]（+0.09，Q3 最大 +0.19）。
 
 | arm \ qid | Q1 | Q2 | Q3 | Q4 | Q5 | Q8 | Q9 |
 |---|---|---|---|---|---|---|---|
