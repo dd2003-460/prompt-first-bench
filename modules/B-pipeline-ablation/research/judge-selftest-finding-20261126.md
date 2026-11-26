@@ -1,21 +1,35 @@
 # origin: ai
-# judge selftest 红灯发现（2026-11-26，验收 bonus 改动时暴露）
+# judge selftest 红灯：根因定位 + 修复（2026-11-26）
 
 ## 现象
-`judge_pipeline_v0.py --selftest` 报 4 FAIL，exit 1（守卫本身工作正常）：
-- raw_outputs_t8b.arm_a[1]: verdict=A1 (期望 A2)
-- raw_outputs_t8b.arm_a[2]: verdict=A1 (期望 A3)
-- raw_outputs_t8b.arm_b[0]: verdict=A1 (期望 A2)
-- raw_outputs_t8b.arm_b[1]: verdict=A1 (期望 A2)
+`judge_pipeline_v0.py --selftest` 报 4 FAIL（T8b 4 样本 verdict 全掉成 A1），exit 1。
 
-## 定性：存量问题，非 bonus 改动引入
-- 改动前版本（b2a1c0736^）跑同一 selftest → **完全相同的 4 FAIL、相同样本**。
-- cov 那条（S5 cov=0.3889）两边都 PASS，bonus 纯旁路未碰 cov 分母（坐实）。
+## 根因（已定位，非存量悬案）
+`7bab6dd77`（11-26 18:04）把 `correctness_layer_v0.judge_text` 的 winner 卡型参数化、
+默认 `WINNER_CARD="V100"`（T8c 重锚定配套）。但 `judge_pipeline_v0` 的调用链
+（compute_correctness → cl.judge_text(text)）没穿 winner 参数 → 存量 3090 世界
+fixture（S5/T8b）被默认 V100 误判。correctness_layer 自己的注释已预警
+（"T8b fixture 是 3090 世界"），漏的是 pipeline 侧接线。
 
-## 待判断（方向活，未擅自改）
-SELFTEST_EXP 里 T8b 的期望 verdict（A2/A3）来自 J1 基准；当前 compute_correctness 对这 4 样本产出 A1。
-两种可能，需定夺修哪边：
-1. 期望值过期（J1 之后 correctness 口径合法演进）→ 改 SELFTEST_EXP 期望为 A1；
-2. correctness_layer 回归（本该 A2/A3 却判 A1）→ 查 correctness_layer_v0 的 A1/A2/A3 判别逻辑。
-判据：翻 J1 验收记录里这 4 样本当时的 verdict 依据；若当时判 A2/A3 且有理由 → 是回归；若口径本就 A1 → 期望过期。
-在定夺前，selftest 永久红灯会被忽略（守卫失效风险），但 cov 主口径可信。
+排除项：
+- 非 bonus 改动引入（b2a1c0736^ 旧版跑同样 4 FAIL，相同样本）
+- 非期望值过期、非 correctness_layer 回归（J1 验收时 winner 还是硬编码 3090，
+  7bab6dd77 才改默认值）
+
+## 修复（judge_pipeline_v0.py，5 处）
+1. `compute_correctness(text, qid, winner=cl.WINNER_CARD)` → `cl.judge_text(text, winner=winner)`
+2. `score_sample(..., winner=cl.WINNER_CARD)` 透传
+3. `run(..., winner=cl.WINNER_CARD)` 透传
+4. CLI 加 `--winner`（默认 V100 = T8c 新锚点世界；3090 世界存量 fixture 显式传 3090）
+5. selftest 显式 `winner="3090"`（S5/T8b 都是 3090 世界）
+
+## 验证
+- `py_compile` OK
+- `--selftest` 7/7 ALL PASS，REAL_EXIT=0（修复前 4 FAIL exit 1）
+- cov 不变：0.3889（期望 0.389±0.01）
+- 用法约定：**新 T8c 数据（V100 世界）= 默认；S5/T8b 存量 fixture = 必须 --winner 3090**
+
+## 教训
+参数化改默认值时，所有下游调用链（尤其带回归守卫的 selftest fixture）要同步显式传参
+或核对 fixture 世界归属——默认值漂移静默改变存量基准，守卫抓到时已分不清是
+"守卫对了"还是"接线断了"。本次守卫抓对了（确实有漂移），但漂移源是接线不是口径。
