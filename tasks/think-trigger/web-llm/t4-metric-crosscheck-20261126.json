@@ -1,0 +1,27 @@
+{
+  "kind": "ralph_web_llm_cross_check",
+  "question": "T4 判据设计核验：'原始 n-gram 重复次数阈值（repeat5>=5 报警）'是否为 LLM 输出退化检测的劣质 proxy？'n-gram 多样性比率'（unique/total 5-gram）是否足够？标准/鲁棒的退化度量是什么？",
+  "context": "T8c B 臂审计实证：repeat5 警告 15 段，8 段实际 max repeat<=6（近正常写作），1 段真退化（x18）；5-gram 独特率 0.93-0.96（正常文本水平）。待核验 claim：repeat5 应降为预警，判据改用 n-gram 独特率。",
+  "responses": [
+    {
+      "provider_id": "chatgpt",
+      "endpoint_host": "chatgpt.com",
+      "status": "success",
+      "summary": "Metric A（原始计数）= poor standalone detector（忽略长度/相对频率/是否连续），与文本生成评估文献一致（Welleck et al. repetition rate = 1 - |unique|/|all|）。Metric B 更好归一化但单独不够：全局聚合掩盖局部循环，短 A-B-A-B 模式可保持高 5-gram 多样性。推荐三信号互补：Rep-2/3/5（主）+ dominant n-gram coverage（主，>20-30% 报警）+ 连续重复段检测（critical，3+ 次相同短语）。阈值需对健康输出校准（P99）。两层检测器：统计异常 + 结构循环。",
+      "key_agreement_with_claim": "支持：原始计数阈值产生大量误报，应换归一化多尺度度量",
+      "key_correction_to_claim": "n-gram 独特率单独不够——短循环盲区（A-B-A-B 保持高多样性）；需加连续重复段/主导 n-gram 覆盖率"
+    },
+    {
+      "provider_id": "glm",
+      "endpoint_host": "chatglm.cn",
+      "status": "success",
+      "summary": "原始计数阈值 = high false-positive rates（混淆正常风格重复与退化循环）。推荐分层：主警报=句子/短语重复 >=3 次（最直接循环指标）；次警报=Distinct-3<0.8 或 MTLD<40-50（窗口化词汇多样性，抗长度偏差）；系统监控=Degeneration Rate。明确确认：全局 Distinct-5 会漏短循环（20 词循环在 1000 词文本中全局分仍高），需句子级检查或窗口化度量补充。核心洞见：从计数转向模式识别——连续复用相同语言单元才是解码循环信号。",
+      "key_agreement_with_claim": "支持：原始计数误报率高；0.93-0.96 独特率属正常",
+      "key_correction_to_claim": "同 ChatGPT：全局多样性漏短循环；窗口化度量（MATTR/MTLD）+ 句子级重复检查是必要补充"
+    }
+  ],
+  "successful_provider_ids": ["chatgpt", "glm"],
+  "conclusion": "两站独立收敛：① claim 主体成立（repeat5 原始计数 = 劣质 proxy，降为预警正确）；② 修正：n-gram 独特率不能单独作判据，需三层——(a) 归一化重复率/独特率（统计层）(b) 主导 n-gram 覆盖率 >20-30%（统计层）(c) 连续重复段 >=3 次（结构层，critical）。T4 检测器设计据此更新：repeat5 仅预警，判死用 结构层(连续段>=3) OR 统计层双信号(独特率<校准P99 且 主导覆盖>30%)。短循环盲区由结构层覆盖。",
+  "disagreements": [],
+  "observed_at": "2026-11-26T23:58:00+08:00"
+}
