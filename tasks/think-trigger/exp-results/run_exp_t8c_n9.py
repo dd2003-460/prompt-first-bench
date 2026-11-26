@@ -13,8 +13,12 @@ RUNS = range(4, 10)  # n=9：补 run4-9
 
 
 def run_arm_a(result, outpath):
-    """A 臂补 run4-9：追加到 result['arm_a']（保留已有 run1-3）"""
+    """A 臂补 run4-9：追加到 result['arm_a']（保留已有 run1-3）；幂等：跳过磁盘上已有 run 号"""
+    existing = {s.get("run") for s in result["arm_a"]}
     for i in RUNS:
+        if i in existing:
+            print(f"[A-direct-run{i}] SKIP (already on disk)", flush=True)
+            continue
         tag = f"A-direct-run{i}"
         t0 = time.time()
         r = base.call([{"role": "user", "content": base.Q}], base.MAX_A, tag)
@@ -31,9 +35,14 @@ def run_arm_a(result, outpath):
 
 def run_arm_b(result, outpath):
     """B 臂补 run4-9：逐阶段（base.STAGES 顺序），sidecar 写 t8c_stages/B4_*..B9_*，
-    每 run 结束 append sample dict（字段与 run_exp_t8c.run_arm_b 完全一致）+ 增量写盘"""
+    每 run 结束 append sample dict（字段与 run_exp_t8c.run_arm_b 完全一致）+ 增量写盘；
+    幂等：跳过磁盘上已有 run 号"""
     outdir = os.path.dirname(os.path.abspath(outpath))
+    existing = {s.get("run") for s in result["arm_b"]}
     for i in RUNS:
+        if i in existing:
+            print(f"[B-pfb-run{i}] SKIP (already on disk)", flush=True)
+            continue
         tag = f"B-pfb-run{i}"
         msgs = [{"role": "user", "content": base.Q}]
         stage_outs = {}

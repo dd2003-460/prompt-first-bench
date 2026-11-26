@@ -40,6 +40,7 @@
 - T8c-ReAnchor-B → `tasks/think-trigger/exp-results/posthoc-taskcard.md`（前置：A 的 commit hash 已补进该卡「前置」节，由监督者验收 A 后填写）
 - T8c-smoke-rerun → `tasks/think-trigger/exp-results/smoke-rerun-taskcard.md`（前置：A 验收过 + MAX_A 已=73728）
 - T8c-B-Rerun → `tasks/think-trigger/decomposition.md` 任务表 T8c-B-Rerun 行（自包含任务卡，2026-11-27 00:33 立项；eval 命令已钉死在该行 00:55 注记）
+- T8c-N9 → `tasks/think-trigger/exp-results/n9-taskcard.md`（前置：三前置 sub 验收 1c5489ff8/41104aa19/15c3c4309；脚本已幂等，接力=重跑自动跳过已完成 run）
 （新任务由监督者派发时在此追加一行）
 
 ## 硬边界
