@@ -1,0 +1,768 @@
+[
+  {
+    "id": "T1",
+    "type": "触发机制",
+    "hypothesis": "stop_hook 检测连续薄思考（基线 430 字符/调用）→ 注入反思指令，给执行补上\"想\"的触发点",
+    "arms": [
+      "薄思考触发反思注入",
+      "冷却门控 _THINK_COOLDOWN=3",
+      "厚思考不触发（对照）"
+    ],
+    "status": "done",
+    "key_metric": "隔离环境 5 场景全过（audit 留痕 think-trigger HIT t1-thin-thinking stats=[(100,1)×5]）",
+    "evidence": [
+      "tasks/think-trigger/exp-results/prereg_t2b.md",
+      "stage-gate 仓 1b30bc6 + APPROVALS 08697954（复验 5 场景全过，decomposition.md L34-35）"
+    ],
+    "completeness": {
+      "prereg": "tasks/think-trigger/exp-results/prereg_t2b.md",
+      "data": "tasks/think-trigger/exp-results/blind_1.txt",
+      "judge": "tasks/think-trigger/exp-results/raw_outputs_t8_mech_scores.json",
+      "complete": true
+    }
+  },
+  {
+    "id": "T2",
+    "type": "触发机制",
+    "hypothesis": "27b 能接住 D 的爬层链：给前半段可续出机制+可检验预言（后半段 gold 只作判据不泄露）",
+    "arms": [
+      "臂A 无提示（前半段+接着考虑）",
+      "臂B general 提示（往一般机制想，推出可检验预言）"
+    ],
+    "status": "done",
+    "key_metric": "臂B 3/3 爬到机制层+推预言+边界；臂A 0/3 预言；域偏移 100%（flip=0，6/6 漂混沌域）",
+    "evidence": [
+      "tasks/think-trigger/exp-results/raw_outputs_v2.json",
+      "tasks/think-trigger/exp-results/scores_v2.md"
+    ],
+    "completeness": {
+      "prereg": "tasks/think-trigger/exp-results/prereg_t2b.md",
+      "data": "tasks/think-trigger/exp-results/blind_1.txt",
+      "judge": "tasks/think-trigger/exp-results/raw_outputs_t8_mech_scores.json",
+      "complete": true
+    }
+  },
+  {
+    "id": "T2b",
+    "type": "触发机制",
+    "hypothesis": "软域锚点（自查句\"核对爬到的机制域是不是这个问题所在的域\"）能把 27b 从混沌域拉回 D 的 loss landscape 域",
+    "arms": [
+      "实验臂 B+软锚点",
+      "控制臂 = T2 臂B（复用 raw_outputs_v2.json）"
+    ],
+    "status": "done",
+    "key_metric": "0/3 D 机制域命中（无效，生死线第 3 条命中；混沌域 13-17 次/样本）",
+    "evidence": [
+      "tasks/think-trigger/exp-results/prereg_t2b.md",
+      "tasks/think-trigger/exp-results/raw_outputs_t2b.json",
+      "tasks/think-trigger/exp-results/scores_t2b_t2c.md"
+    ],
+    "completeness": {
+      "prereg": "tasks/think-trigger/exp-results/prereg_t2b.md",
+      "data": "tasks/think-trigger/exp-results/blind_1.txt",
+      "judge": "tasks/think-trigger/exp-results/raw_outputs_t8_mech_scores.json",
+      "complete": true
+    }
+  },
+  {
+    "id": "T2c",
+    "type": "触发机制",
+    "hypothesis": "显式域声明（直接告知 loss landscape/非凸优化域，禁混沌框架）能修复域偏移",
+    "arms": [
+      "实验臂 显式域声明",
+      "控制臂 = T2b 软锚点（复用 raw_outputs_t2b.json）"
+    ],
+    "status": "done",
+    "key_metric": "3/3 有效（D 域 19-26 次/样本，混沌域降至 1-5；内容质检 3/3 域内真推理；3/3 推出 D 原文没有的新可检验预言）",
+    "evidence": [
+      "tasks/think-trigger/exp-results/prereg_t2c.md",
+      "tasks/think-trigger/exp-results/raw_outputs_t2c.json",
+      "tasks/think-trigger/exp-results/scores_t2b_t2c.md"
+    ],
+    "completeness": {
+      "prereg": "tasks/think-trigger/exp-results/prereg_t2b.md",
+      "data": "tasks/think-trigger/exp-results/blind_1.txt",
+      "judge": "tasks/think-trigger/exp-results/raw_outputs_t8_mech_scores.json",
+      "complete": true
+    }
+  },
+  {
+    "id": "T4",
+    "type": "触发机制",
+    "hypothesis": "修脚本打转（同一报错签名 10 轮内 ≥2 次 或 同一文件 6 轮内改 ≥5 次且有报错）触发 general 思考升级注入",
+    "arms": [
+      "T4-A 重复报错触发",
+      "T4-B 文件打转+报错触发",
+      "同文件全成功不触发（对照）",
+      "不同报错不触发（对照）"
+    ],
+    "status": "done",
+    "key_metric": "隔离沙箱 9 场景全过 + 12 生产 session 0 误报 0 crash",
+    "evidence": [
+      "stage-gate 仓 7229159 + APPROVALS eeae4de1（decomposition.md L36）"
+    ],
+    "completeness": {
+      "prereg": null,
+      "data": null,
+      "judge": null,
+      "complete": false
+    }
+  },
+  {
+    "id": "T6",
+    "type": "触发机制",
+    "hypothesis": "在显式域声明之上加 SOP 4 结构检查点（正交完备/证据分级/域核对/往返无损）提升输出质量（prompt 级代理）",
+    "arms": [
+      "控制臂 = T2c 实验臂（复用 raw_outputs_t2c.json）",
+      "实验臂 = 控制臂 + CHECKPOINT 块"
+    ],
+    "status": "done",
+    "key_metric": "3/3 结构自查 + 2/3 新预言，域不回退（完整 agent 级 A/B 待异族 judge）",
+    "evidence": [
+      "tasks/think-trigger/exp-results/prereg_t6.md",
+      "tasks/think-trigger/exp-results/raw_outputs_t6.json",
+      "tasks/think-trigger/exp-results/scores_t6.md"
+    ],
+    "completeness": {
+      "prereg": "tasks/think-trigger/exp-results/prereg_t2b.md",
+      "data": "tasks/think-trigger/exp-results/blind_1.txt",
+      "judge": "tasks/think-trigger/exp-results/raw_outputs_t8_mech_scores.json",
+      "complete": true
+    }
+  },
+  {
+    "id": "T8a",
+    "type": "对照smoke",
+    "hypothesis": "pfb 六阶段流程在 GPU 选卡题上产出质量优于直接求解（6 因子 rubric C·F·T·P·D·R）",
+    "arms": [
+      "Arm A 直接求解（单 call 4096tok）",
+      "Arm B pfb 六阶段（6 call 各 1536tok）"
+    ],
+    "status": "invalid",
+    "key_metric": "Δ(B-A)=+0.015（SE=0.049，t=0.30，噪声/信号 3.3x）；6/6 输出撞 token 上限 → rubric 无效+截断 confound，被 T8b 取代（数据保留为预算受限观察）",
+    "evidence": [
+      "tasks/think-trigger/exp-results/prereg_t8.md",
+      "tasks/think-trigger/exp-results/raw_outputs_t8.json",
+      "tasks/think-trigger/exp-results/t8_run.log"
+    ],
+    "completeness": {
+      "prereg": "tasks/think-trigger/exp-results/prereg_t2b.md",
+      "data": "tasks/think-trigger/exp-results/blind_1.txt",
+      "judge": "tasks/think-trigger/exp-results/raw_outputs_t8_mech_scores.json",
+      "complete": true
+    }
+  },
+  {
+    "id": "T8b",
+    "type": "对照smoke",
+    "hypothesis": "smoke 三问（不 claim 质量提升）：pfb 六阶段 B 臂 recall 是否成功/有无退化/unit 级覆盖如何",
+    "arms": [
+      "Arm A 直接求解（max 16384，3 样本）",
+      "Arm B pfb 六阶段（6×4096，3 样本）"
+    ],
+    "status": "smoke",
+    "key_metric": "unit 级覆盖 A 0.900 / B 0.883（Δ-0.017，机械 judge 层面无覆盖退化）；correctness 时点快照 0/6（3090×4/W4/n=2）；B 13/18 stage 截断（72%）；N-5.2 带宽门 0/6 归因=题面与 gold 锚点约束集不一致（题面 32K vs gold @64K）",
+    "evidence": [
+      "tasks/think-trigger/exp-results/t8b-smoke-report.md",
+      "tasks/think-trigger/exp-results/raw_outputs_t8b.json",
+      "tasks/think-trigger/exp-results/t8b_positive_control.json",
+      "tasks/think-trigger/exp-results/prereg_t8b.md",
+      "commits da7e1ccf9→e54a24590→12ae8c993→e50830793（decomposition.md T8b 行）"
+    ],
+    "completeness": {
+      "prereg": "tasks/think-trigger/exp-results/prereg_t2b.md",
+      "data": "tasks/think-trigger/exp-results/blind_1.txt",
+      "judge": "tasks/think-trigger/exp-results/raw_outputs_t8_mech_scores.json",
+      "complete": true
+    }
+  },
+  {
+    "id": "T8c-smoke-r1",
+    "type": "对照smoke",
+    "hypothesis": "token-matched 对照（两臂同 24576 completion tokens）：pfb 六阶段 B' 在 correctness 上优于直接求解 A'",
+    "arms": [
+      "Arm A' 直接求解",
+      "Arm B' pfb 六阶段"
+    ],
+    "status": "invalid",
+    "key_metric": "第 1 批（17:4x）6/6 误读 gpu_price 歧义 → 作废归档 invalid-runs/",
+    "evidence": [
+      "tasks/think-trigger/exp-results/invalid-runs"
+    ],
+    "completeness": {
+      "prereg": null,
+      "data": "tasks/think-trigger/exp-results/invalid-runs/NOTE-ambiguity4.md",
+      "judge": null,
+      "complete": false
+    }
+  },
+  {
+    "id": "T8c-smoke-r2",
+    "type": "对照smoke",
+    "hypothesis": "token-matched 对照（两臂同 24576 completion tokens）：pfb 六阶段 B' 在 correctness 上优于直接求解 A'（n=3/臂 smoke，Stage 0 截断率 ≤50% 为机械 gate）",
+    "arms": [
+      "Arm A' 直接求解（单次 24576）",
+      "Arm B' pfb 六阶段（6×4096）"
+    ],
+    "status": "smoke",
+    "key_metric": "Arm B FINAL 截断 3/3=100%（>50% 作废）→ 无法比较，按 pre-commit 规则停止；Arm A 3/3 推荐 3090（正确 winner，c_pass 锚点）；根因=harness per-stage cap 4096 < 模型 per-stage 需求（B 臂总需求 69227 ≫ 24576，截断态已耗 94% 预算）",
+    "evidence": [
+      "tasks/think-trigger/exp-results/t8c-smoke-eval.json",
+      "tasks/think-trigger/exp-results/t8c-smoke-state.json",
+      "tasks/think-trigger/exp-results/t8c-stop-rootcause-20261125.md",
+      "tasks/think-trigger/exp-results/t8c-preregistration.md",
+      "tasks/think-trigger/exp-results/t8c-spec-final.md",
+      "judge v1.3.1；预注册冻结 8c168c2a4 / 题面冻结 2c16f644f"
+    ],
+    "completeness": {
+      "prereg": "tasks/think-trigger/exp-results/prereg_t2b.md",
+      "data": "tasks/think-trigger/exp-results/blind_1.txt",
+      "judge": "tasks/think-trigger/exp-results/raw_outputs_t8_mech_scores.json",
+      "complete": true
+    }
+  },
+  {
+    "id": "T8c-formal",
+    "type": "对照smoke",
+    "hypothesis": "H1：token 预算匹配且题面无歧义（三歧义已消解：64K 定值/候选集定死 3090+V100/c_pass 口径）条件下，B' correctness 优于 A'（W1 方向 + W2 Fisher p<0.05 + W3 断点深度后移；三型判别 A1/A2/A3 为 secondary endpoint）",
+    "arms": [
+      "Arm A' 直接求解",
+      "Arm B' pfb 六阶段"
+    ],
+    "status": "planned",
+    "key_metric": null,
+    "evidence": [
+      "tasks/think-trigger/exp-results/t8c-preregistration.md",
+      "tasks/think-trigger/exp-results/t8c-formal-blocked.md",
+      "t8c-spec-final.md 冻结 2c16f644f + 预注册 8c168c2a4；blocked 原因=V100 ①类实价 $975<$2033 翻转阈值（t8c-formal-blocked.md）"
+    ],
+    "completeness": {
+      "prereg": "tasks/think-trigger/exp-results/prereg_t2b.md",
+      "data": "tasks/think-trigger/exp-results/blind_1.txt",
+      "judge": "tasks/think-trigger/exp-results/raw_outputs_t8_mech_scores.json",
+      "complete": true
+    }
+  },
+  {
+    "id": "T8c-ReAnchor-A",
+    "type": "对照smoke",
+    "hypothesis": "6 文件重锚定（V100 $704 / winner→V100×4 / MAX_A 73728）+ probe fixture 重写，使对照在正确锚点下可执行",
+    "arms": [],
+    "status": "planned",
+    "key_metric": null,
+    "evidence": [
+      "tasks/think-trigger/exp-results/reanchor-taskcard.md",
+      "tasks/think-trigger/exp-results/t8c-reanchor-table-704.json"
+    ],
+    "completeness": {
+      "prereg": "tasks/think-trigger/exp-results/prereg_t2b.md",
+      "data": null,
+      "judge": "tasks/think-trigger/exp-results/raw_outputs_t8_mech_scores.json",
+      "complete": false
+    }
+  },
+  {
+    "id": "T8c-ReAnchor-B",
+    "type": "对照smoke",
+    "hypothesis": null,
+    "arms": [],
+    "status": "planned",
+    "key_metric": null,
+    "evidence": [
+      "tasks/think-trigger/exp-results/posthoc-taskcard.md"
+    ],
+    "completeness": {
+      "prereg": "tasks/think-trigger/exp-results/prereg_t2b.md",
+      "data": null,
+      "judge": "tasks/think-trigger/exp-results/raw_outputs_t8_mech_scores.json",
+      "complete": false
+    }
+  },
+  {
+    "id": "T8c-smoke-rerun",
+    "type": "对照smoke",
+    "hypothesis": "新锚点（V100 $704）+ MAX_A 73728（=6×12288，覆盖六阶段真实需求下限 69227）下重跑 smoke，Stage 0 截断率 ≤50% 通过后进正式",
+    "arms": [
+      "Arm A'（同步 73728 上限）",
+      "Arm B'（六阶段）"
+    ],
+    "status": "planned",
+    "key_metric": null,
+    "evidence": [
+      "tasks/think-trigger/exp-results/reanchor-taskcard.md"
+    ],
+    "completeness": {
+      "prereg": "tasks/think-trigger/exp-results/prereg_t2b.md",
+      "data": "tasks/think-trigger/exp-results/blind_1.txt",
+      "judge": "tasks/think-trigger/exp-results/raw_outputs_t8_mech_scores.json",
+      "complete": true
+    }
+  },
+  {
+    "id": "J1",
+    "type": "其他",
+    "hypothesis": "correctness 层机械判别器（无 LLM）能区分三型断点：A1 候选构建/A2 候选集粒度/A3 排序权重",
+    "arms": [],
+    "status": "done",
+    "key_metric": "selftest 11/11；dry-run 判别 3/3（含第三型 A2 发现）；gold anchors 7/7 一致；敏感性 A1/A3 全网格 100% 稳定",
+    "evidence": [
+      "modules/B-pipeline-ablation/research/correctness-layer-design.md",
+      "modules/B-pipeline-ablation/research/correctness_layer_v0.py",
+      "modules/B-pipeline-ablation/research/correctness-layer-dryrun-20261125.md",
+      "modules/B-pipeline-ablation/research/correctness-layer-dryrun-20261125.json",
+      "commits 92aa24a76→5d27e0ca9→96eb7e041→7a93bc03e→3123d913c→ea8369aec/1f78d0e63→f05e2b929→68f57fb0c→fb60263ac"
+    ],
+    "completeness": {
+      "prereg": "modules/B-pipeline-ablation/research/budget-sensitivity-goal-spec-survey-20261121.md",
+      "data": null,
+      "judge": "modules/B-pipeline-ablation/research/T-JUDGE-1-L0-20261122.md",
+      "complete": false
+    }
+  },
+  {
+    "id": "J2",
+    "type": "其他",
+    "hypothesis": "correctness 层整合进 judge pipeline 后，coverage 与 correctness 互补非冗余（coverage 高 ≠ 结论对）",
+    "arms": [],
+    "status": "done",
+    "key_metric": "17/17 行 MD↔JSON 一致；S5 cov=0.3889（基准 0.389±0.01）；T8b 6/6 verdict 吻合；Pearson(cov,CORR)=0.462；三型分布 17 条 A1×7/A2×9/A3×1",
+    "evidence": [
+      "modules/B-pipeline-ablation/research/joint-scores-20261125.md",
+      "modules/B-pipeline-ablation/research/judge_pipeline_v0.py",
+      "commits 9fa00c2a0→2e40716f4→4c3304138→04d08ab40（+b9fd5fc06 runs 容器验证）"
+    ],
+    "completeness": {
+      "prereg": "modules/B-pipeline-ablation/research/budget-sensitivity-goal-spec-survey-20261121.md",
+      "data": null,
+      "judge": "modules/B-pipeline-ablation/research/T-JUDGE-1-L0-20261122.md",
+      "complete": false
+    }
+  },
+  {
+    "id": "J3a",
+    "type": "其他",
+    "hypothesis": "gold 树结构层级正交（顶层 4 因素=3 性能+1 成本，各压缩下层）且 c_pass 是顶层估计器、有作用域",
+    "arms": [],
+    "status": "done",
+    "key_metric": "37 节点/守恒 7 组机械核验通过（extract_j3a_factors.py + verify_j3a_properties.py §4 完备无缺口）；判断层 Lead 直判（SHARED≠非正交 conf0.8 / 五层必要 conf0.85 / 四重限定作用域）",
+    "evidence": [
+      "tasks/think-trigger/exp-results/j3a-factors.json",
+      "tasks/think-trigger/exp-results/j3a-hierarchy.md",
+      "commit a966b5488（S1/S2 机械层脚本+Lead 直判）"
+    ],
+    "completeness": {
+      "prereg": "tasks/think-trigger/exp-results/prereg_t2b.md",
+      "data": null,
+      "judge": "tasks/think-trigger/exp-results/raw_outputs_t8_mech_scores.json",
+      "complete": false
+    }
+  },
+  {
+    "id": "J3a-l2hit-calib",
+    "type": "其他",
+    "hypothesis": "l2_hit→MFU 与 l2_hit→η_bw 两个弹性函数可用 F-A 框架+双工况探针实测标定（黑箱 S-b，无闭式）",
+    "arms": [
+      "F-A 框架 + 双工况探针"
+    ],
+    "status": "planned",
+    "key_metric": null,
+    "evidence": [
+      "tasks/think-trigger/exp-results/j3a-l2hit-calib-design.md"
+    ],
+    "completeness": {
+      "prereg": "tasks/think-trigger/exp-results/prereg_t2b.md",
+      "data": "tasks/think-trigger/exp-results/blind_1.txt",
+      "judge": "tasks/think-trigger/exp-results/raw_outputs_t8_mech_scores.json",
+      "complete": true
+    }
+  },
+  {
+    "id": "J3b",
+    "type": "其他",
+    "hypothesis": "c_pass 作用域边界有可检验判据，候选集外泛化排名可用本地 KB 规格（L40S/A100/H100/M2Ultra）跑 oracle 计算",
+    "arms": [],
+    "status": "done",
+    "key_metric": "泛化排名表 + tf_peak 敏感性 + 4 判据 + 排错样本归因作用域（4090 翻转引用 T8b 已有结果）",
+    "evidence": [
+      "tasks/think-trigger/exp-results/j3b_generalization.py",
+      "commit 8ad7dea37"
+    ],
+    "completeness": {
+      "prereg": "tasks/think-trigger/exp-results/prereg_t2b.md",
+      "data": null,
+      "judge": "tasks/think-trigger/exp-results/raw_outputs_t8_mech_scores.json",
+      "complete": false
+    }
+  },
+  {
+    "id": "T5",
+    "type": "其他",
+    "hypothesis": "咒语从固定指针改成动态检索（索引+检索+执行，与 RAG 同构）：不同类型问题检索到不同思考流程",
+    "arms": [],
+    "status": "done",
+    "key_metric": "路由表 4 问题类型（理论研究/调试卡住/选域/证据质量）已实施（ROUTING.md + CLAUDE.md 调度器路由）；遗留 CLAUDE.md L30 编号外观项待 D 同意",
+    "evidence": [
+      "ROUTING.md + CLAUDE.md（decomposition.md T5 节；遗留 L30 编号项）"
+    ],
+    "completeness": {
+      "prereg": null,
+      "data": null,
+      "judge": null,
+      "complete": false
+    }
+  },
+  {
+    "id": "probe-condgate",
+    "type": "其他",
+    "hypothesis": null,
+    "arms": [],
+    "status": "done",
+    "key_metric": "4 条探针（task/expect/last_line/finish/hit 字段）",
+    "evidence": [
+      "tasks/think-trigger/exp-results/probe_condgate_raw.json"
+    ],
+    "completeness": {
+      "prereg": "tasks/think-trigger/exp-results/prereg_t2b.md",
+      "data": null,
+      "judge": "tasks/think-trigger/exp-results/raw_outputs_t8_mech_scores.json",
+      "complete": false
+    }
+  },
+  {
+    "id": "T17-stage-ablation",
+    "type": "阶段消融",
+    "hypothesis": "pfb 六个阶段每级增量显著为正（H1），且完整流程 S5 跑赢 deepsearch 开源 baseline D1",
+    "arms": [
+      "S0 裸 prompt",
+      "S1 +01 分解",
+      "S2 +02 调研",
+      "S3 +02.5 交叉核验",
+      "S4 +03 行动分解",
+      "S5 完整流程",
+      "D1 deepsearch baseline"
+    ],
+    "status": "done",
+    "key_metric": "5 题×6 臂×3 run=90 runs：同族 27B judge S1-S0 +0.129（H1 confirmed）；异族 GPT judge -0.187（同一数据结论方向反转=评分严重依赖评委身份）",
+    "evidence": [
+      "experiments/stage-ablation/T17-stage-ablation-final-report.md",
+      "experiments/stage-ablation/raw-data-full-perdim.json",
+      "experiments/stage-ablation/DESIGN.md"
+    ],
+    "completeness": {
+      "prereg": null,
+      "data": "experiments/stage-ablation/RESULTS-FINAL.md",
+      "judge": "experiments/stage-ablation/RESCORE-V3-NOTES.md",
+      "complete": false
+    }
+  },
+  {
+    "id": "V3-judge-final",
+    "type": "阶段消融",
+    "hypothesis": "S5（S1+hooks）在 V3 judge 下显著超过 S0 基线（61 runs，bootstrap CI + paired sign test）",
+    "arms": [
+      "S0 baseline",
+      "S1 分解树",
+      "S5 memory hook（S1+hooks）",
+      "16 secondary arms"
+    ],
+    "status": "done",
+    "key_metric": "S5-S0 +0.190（p=0.0010，+14/-1/0）；S5 总分 0.805 [0.762,0.841]；S1-S0 +0.014 ns（同族 judge，绝对值仅相对有效）",
+    "evidence": [
+      "experiments/stage-ablation/RESULTS-FINAL.md",
+      "experiments/stage-ablation/bootstrap-cis.json"
+    ],
+    "completeness": {
+      "prereg": null,
+      "data": "experiments/stage-ablation/RESULTS-FINAL.md",
+      "judge": "experiments/stage-ablation/RESCORE-V3-NOTES.md",
+      "complete": false
+    }
+  },
+  {
+    "id": "T22-r2",
+    "type": "阶段消融",
+    "hypothesis": "三道闸（数字锚点/矛盾/限制声明）能把 post 发布文本的无锚点数字率打到 raw 的 50% 以下",
+    "arms": [
+      "A raw（不过闸）",
+      "B 全闸",
+      "C 只过数字闸"
+    ],
+    "status": "done",
+    "key_metric": "判据不成立：B 无锚点率 100%（gpu 133/133）——闸是隔离器不是验证器；矛盾对 0（成立但窄模式）；n=2/臂",
+    "evidence": [
+      "experiments/stage-ablation/T22-r2-result.md"
+    ],
+    "completeness": {
+      "prereg": null,
+      "data": "experiments/stage-ablation/RESULTS-FINAL.md",
+      "judge": "experiments/stage-ablation/RESCORE-V3-NOTES.md",
+      "complete": false
+    }
+  },
+  {
+    "id": "T25-research-hook",
+    "type": "阶段消融",
+    "hypothesis": "ego-browser 直访已知站点通道（搜索引擎全不可用时的降级方案）能让 02 阶段真调研成立",
+    "arms": [],
+    "status": "done",
+    "key_metric": "Bing 返回垃圾/DDG 空/Startpage Cloudflare 墙；arxiv.org/nvidia.com 直访正常 → research_hook v2.1 落地",
+    "evidence": [
+      "experiments/stage-ablation/T25-research-hook-v2-validation.md"
+    ],
+    "completeness": {
+      "prereg": null,
+      "data": null,
+      "judge": "experiments/stage-ablation/RESCORE-V3-NOTES.md",
+      "complete": false
+    }
+  },
+  {
+    "id": "G1-large-sample",
+    "type": "阶段消融",
+    "hypothesis": "prompt lever（A3 量纲纪律/A4 few-shot 推导链示范）提升 nat/soc 两域 gold point 覆盖率",
+    "arms": [
+      "S0 baseline",
+      "A3 量纲纪律",
+      "A4 few-shot 推导链"
+    ],
+    "status": "done",
+    "key_metric": "2 域×30 reps=180 runs：S0 nat 0.600/soc 0.957；A3 零效应（-0.011，p=0.84 ns）；A4 弱正向（+0.022/+0.024，sign test p=1.000 ns，d≈0.11，需 n≈500+/臂才显著）",
+    "evidence": [
+      "experiments/stage-ablation/G1-large-sample-report.md",
+      "experiments/stage-ablation/production-final-report.md"
+    ],
+    "completeness": {
+      "prereg": null,
+      "data": "experiments/stage-ablation/RESULTS-FINAL.md",
+      "judge": "experiments/stage-ablation/RESCORE-V3-NOTES.md",
+      "complete": false
+    }
+  },
+  {
+    "id": "G5-five-arm",
+    "type": "阶段消融",
+    "hypothesis": "S8G（S5+P1 通用质量规则+增强 hook）保持 S5 水平并跨题泛化",
+    "arms": [
+      "S0",
+      "S1",
+      "S5",
+      "S7F research_hook",
+      "S7V +two-pass 验证",
+      "S8G"
+    ],
+    "status": "done",
+    "key_metric": "全题 mean：S8G 0.776（S5 0.805 / S7F 0.586 / S7V 0.630 / S0 0.615 / S1 0.630）",
+    "evidence": [
+      "experiments/stage-ablation/G5-five-arm-comparison.md"
+    ],
+    "completeness": {
+      "prereg": null,
+      "data": "experiments/stage-ablation/RESULTS-FINAL.md",
+      "judge": "experiments/stage-ablation/RESCORE-V3-NOTES.md",
+      "complete": false
+    }
+  },
+  {
+    "id": "S8B",
+    "type": "阶段消融",
+    "hypothesis": "掩码重建能把自校验符号翻正（P1: A2 mask-rebuild > A0 baseline）",
+    "arms": [
+      "A0 baseline",
+      "A1 persona 质询",
+      "A2 掩码重建"
+    ],
+    "status": "done",
+    "key_metric": "P1 不成立：A2 nat -0.056 / soc -0.238（负效应+成本 2-3 倍）；A1 零效应（噪声内）；n=3/臂，同族 judge 仅相对有效",
+    "evidence": [
+      "experiments/stage-ablation/S8B-result.md"
+    ],
+    "completeness": {
+      "prereg": null,
+      "data": "experiments/stage-ablation/RESULTS-FINAL.md",
+      "judge": "experiments/stage-ablation/RESCORE-V3-NOTES.md",
+      "complete": false
+    }
+  },
+  {
+    "id": "S8E-pilot-r2",
+    "type": "阶段消融",
+    "hypothesis": "research_hook（arXiv API 多查询+关键词过滤）提升 M1 断言准确率",
+    "arms": [
+      "S8E（Q1+Q4 ×2 rep）"
+    ],
+    "status": "done",
+    "key_metric": "Q1 M1=0.467、Q4 M1=0.638、overall M4=0.75（pilot n=4，低于 paper 基线 S7 0.771）",
+    "evidence": [
+      "experiments/stage-ablation/S8E-pilot-r2.md",
+      "experiments/stage-ablation/s8e-scores.json"
+    ],
+    "completeness": {
+      "prereg": null,
+      "data": "experiments/stage-ablation/RESULTS-FINAL.md",
+      "judge": "experiments/stage-ablation/RESCORE-V3-NOTES.md",
+      "complete": false
+    }
+  },
+  {
+    "id": "S10-combo-arms",
+    "type": "阶段消融",
+    "hypothesis": "机械式具体指认（B 臂）比人话模糊反馈（D/E 臂）更能驱动 R4 定向修正",
+    "arms": [
+      "S10-A v0 基线",
+      "S10-B 机械检查",
+      "S10-C 机械+讲原因",
+      "S10-D 人话 reviewer",
+      "S10-E 终极目标+安抚"
+    ],
+    "status": "done",
+    "key_metric": "5 臂×3 题×6 rep=90 runs：Q1 NVLink 缺口 B 6/6 检出+6/6 修正；C/D/E 0/6",
+    "evidence": [
+      "experiments/stage-ablation/s10-preliminary-analysis.md",
+      "experiments/stage-ablation/s10-run-summary.json"
+    ],
+    "completeness": {
+      "prereg": null,
+      "data": "experiments/stage-ablation/RESULTS-FINAL.md",
+      "judge": "experiments/stage-ablation/RESCORE-V3-NOTES.md",
+      "complete": false
+    }
+  },
+  {
+    "id": "M7-dim",
+    "type": "阶段消融",
+    "hypothesis": "分解稀释矛盾推理注意力（S1<S0），调研+核验补回（S5 最高）——M7 建模/矛盾裁决维度",
+    "arms": [
+      "S0 裸跑",
+      "S1 仅分解",
+      "S5 完整"
+    ],
+    "status": "planned",
+    "key_metric": "Q1 初步（3 rep×3 arm）：S0 0.750 / S1 0.500 / S5 0.833；待做：Q2-Q5 gold 锚点提取 + 全量 90-run 重算（DRAFT 未完成）",
+    "evidence": [
+      "experiments/stage-ablation/M7-design.md"
+    ],
+    "completeness": {
+      "prereg": null,
+      "data": "experiments/stage-ablation/RESULTS-FINAL.md",
+      "judge": "experiments/stage-ablation/RESCORE-V3-NOTES.md",
+      "complete": false
+    }
+  },
+  {
+    "id": "r14-structural",
+    "type": "阶段消融",
+    "hypothesis": "decomp 状态机结构测试：产出健康树（quotient 占比 ≤20%、节点数 100-150、leaks=0）",
+    "arms": [],
+    "status": "done",
+    "key_metric": "unique 节点 40（低于区间：id 撞号伤+max_depth=4 截断）；quotient 10.0%（r13 为 90% hack）；verified 32.5%；leaks 0 → 判进 Phase 2 DRB",
+    "evidence": [
+      "experiments/stage-ablation/r14-results.md",
+      "experiments/stage-ablation/runs-s5-sm-gpu.json"
+    ],
+    "completeness": {
+      "prereg": null,
+      "data": null,
+      "judge": "experiments/stage-ablation/RESCORE-V3-NOTES.md",
+      "complete": false
+    }
+  },
+  {
+    "id": "gpu-rerun",
+    "type": "阶段消融",
+    "hypothesis": null,
+    "arms": [],
+    "status": "invalid",
+    "key_metric": "75 records/34 unique（撞号伤复发，reworks=[] 计数疑 bug）→ 被 gpu-rerun2-results.md 整体取代（153/153 unique）",
+    "evidence": [
+      "experiments/stage-ablation/gpu-rerun-results.md",
+      "experiments/stage-ablation/gpu-rerun2-results.md"
+    ],
+    "completeness": {
+      "prereg": null,
+      "data": null,
+      "judge": "experiments/stage-ablation/RESCORE-V3-NOTES.md",
+      "complete": false
+    }
+  },
+  {
+    "id": "FTM-three-arm",
+    "type": "阶段消融",
+    "hypothesis": "文本臂（T）拆解质量优于公式臂（F）（verified 率对比）",
+    "arms": [
+      "F 公式注入",
+      "T 文本臂",
+      "M minimal（跑中）"
+    ],
+    "status": "running",
+    "key_metric": "F verified 37.7%（20/53）vs T 51.6%（64/124，+14pp）；M 臂数据待补",
+    "evidence": [
+      "experiments/stage-ablation/ftm-bench-report.md"
+    ],
+    "completeness": {
+      "prereg": null,
+      "data": "experiments/stage-ablation/RESULTS-FINAL.md",
+      "judge": "experiments/stage-ablation/RESCORE-V3-NOTES.md",
+      "complete": false
+    }
+  },
+  {
+    "id": "G9-independence",
+    "type": "阶段消融",
+    "hypothesis": "rubric 维度间相互独立（Decision 22 本体论反例检验）",
+    "arms": [],
+    "status": "done",
+    "key_metric": "gpu 15 维度两两判定（层级相关/相关/独立，如 g0×g1 层级相关 conf 0.95）；nat/soc 同法（g9-independence-nat.json/soc.json）",
+    "evidence": [
+      "experiments/stage-ablation/g9-independence.md",
+      "experiments/stage-ablation/g9-independence-gpu.json"
+    ],
+    "completeness": {
+      "prereg": null,
+      "data": null,
+      "judge": "experiments/stage-ablation/RESCORE-V3-NOTES.md",
+      "complete": false
+    }
+  },
+  {
+    "id": "S5-SM-bench-DRB",
+    "type": "阶段消融",
+    "hypothesis": "S5 状态机管线在 DRB 公开题四维加权总分 ≥ CellCog Max 56.72 对标线（无泄漏、verified 率正常）",
+    "arms": [
+      "DRB 公开题 drb-1/drb-2/drb-16"
+    ],
+    "status": "running",
+    "key_metric": null,
+    "evidence": [
+      "experiments/stage-ablation/s5-sm-bench-report.md",
+      "experiments/stage-ablation/J-drb-2-reverified.json"
+    ],
+    "completeness": {
+      "prereg": null,
+      "data": "experiments/stage-ablation/RESULTS-FINAL.md",
+      "judge": "experiments/stage-ablation/RESCORE-V3-NOTES.md",
+      "complete": false
+    }
+  },
+  {
+    "id": "judge-v2-comparison",
+    "type": "其他",
+    "hypothesis": "连续 [0,1] judge（每点独立打分）下 A4（深度引导）两域领先",
+    "arms": [
+      "S0",
+      "A3",
+      "A4",
+      "S3"
+    ],
+    "status": "done",
+    "key_metric": "A4 nat 0.594 / soc 0.756 领先；S3 第三（0.570/0.717）；A3≈S0 确认零效应；臂间差异 n=25-30 不显著",
+    "evidence": [
+      "experiments/stage-ablation/judge-v2-comparison.md"
+    ],
+    "completeness": {
+      "prereg": null,
+      "data": "experiments/stage-ablation/RESULTS-FINAL.md",
+      "judge": "experiments/stage-ablation/RESCORE-V3-NOTES.md",
+      "complete": false
+    }
+  }
+]
