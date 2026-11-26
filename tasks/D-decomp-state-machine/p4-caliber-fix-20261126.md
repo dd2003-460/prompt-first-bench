@@ -27,6 +27,7 @@
 ## 补充核查（2026-11-26 15:23，sub 轮询新增事实）
 
 - **8787 端口状态变化**：t-repair1 原 PID 28232 已退出（ps 无此进程），但 8787 仍被 `node` PID 31906 监听（lsof 实测）→ 分解树第 3 条「重跑 nat synth-multi」的前置（8787 腾出）仍未满足，且持有者已换成新进程，重跑前需重新确认端口归属。
+- **8787 持有者身份（15:25 补查）**：PID 31906 = `/opt/homebrew/bin/node /Users/a1-6/.claude-vllm-proxy/proxy.mjs`，PPID 1（launchd 托管），已运行 1 天 20 小时 → 是常驻 vLLM 代理服务，不是实验进程。即「8787 被 t-repair1 占用」的准确表述是：t-repair1 经 8787 代理跑实验，代理本身常驻。t-repair1 已退出 ⇒ 代理层面无实验占用，nat 重跑的端口前置**可能已解除**；但本次任务边界禁跑实验，是否重跑由 Lead 决策（且重跑前建议确认 vLLM 后端模型状态）。
 - **遗留缺口位置坐实**：s5_pipeline.py 分段路径实测在 L1260（`p`，逐层）与 L1265（`merge_p`），两 prompt 均无口径约束；主路径 P4_SYNTHESIZE 规则 6（L306-309）有「逐口径分别给结论」但无 dwell vs 更新间隔的显式量纲定义。修复 s5_state_machine.py 时未动 s5_pipeline.py（任务边界：只改 P4 综合 prompt 所在实际路径，s5_pipeline 分段路径与分解树第 2 条一并下次迭代）。
 
 ## 边界
