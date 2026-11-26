@@ -153,8 +153,8 @@
 | 任务 | 依赖 | 读(行) | 写(行) | commits | 载体 | 状态 |
 |------|------|--------|--------|---------|------|------|
 | T8c-ReAnchor-A：6 文件重锚定（V100 $704/winner→V100×4/MAX_A 73728）+probe fixture 重写 | 无（价格已①类核验） | ~30（grep 定点，禁整读） | ~60 | 1 | executor-cron（试点，任务卡 exp-results/reanchor-taskcard.md 给全 old→new 映射） | ✅ 完成 2026-11-26（commit dd6d254f6，回执 receipts/T8c-ReAnchor-A.json=DONE。executor 应用 37/38 点后超时，supervisor 接管补 4d/4e/4f 漏点+commit。验收：selfcheck PASS、oracle PASS(N-5.2 6/6)、judge 4/6 核心型全绿；judge TBL 正则缺口另行立项 T8c-JudgeFix） |
-| T8c-ReAnchor-B：post-hoc 文档（价格重锚+B' 预算修复记录） | ReAnchor-A 的 commit | ~10 | ~80 | 1 | executor-cron（纯执行，内容任务卡 exp-results/posthoc-taskcard.md 给全） | 就绪（ReAnchor-A 已完成 dd6d254f6） |
-| T8c smoke 重跑（n=3/臂，新锚点+MAX_A 73728） | ReAnchor-A 验证全过 | - | 落盘 json | - | 后台进程（nohup，执行者起+探活接力+eval；任务卡 exp-results/smoke-rerun-taskcard.md） | 就绪（ReAnchor-A 验证全过 2026-11-26） |
+| T8c-ReAnchor-B：post-hoc 文档（价格重锚+B' 预算修复记录；前置 dd6d254f6 已落地） | ReAnchor-A 的 commit | ~10 | ~80 | 1 | executor-cron（纯执行，内容任务卡 exp-results/posthoc-taskcard.md 给全） | 就绪 |
+| T8c smoke 重跑（n=3/臂，新锚点+MAX_A 73728；前置验证 2026-11-26 全过） | ReAnchor-A 验证全过 | - | 落盘 json | - | 后台进程（nohup，执行者起+探活接力+eval；任务卡 exp-results/smoke-rerun-taskcard.md） | 就绪 |
 | T8c n=9 正式跑 | smoke 重跑 Stage 0 过 | - | - | - | 后台进程 | 待命 |
 | T8c-JudgeFix：judge `_winner_patterns` 表格行变体补「卡型带后缀」（`V100 SXM2 \| 4 \|` 形态，cfg4_re 第 5 变体 `(?:RTX\s*)?V100[\s*]*\|` 后加 `[\w]*` 容后缀）+ probe TBL 两例转绿 + selftest 无回归 | 无 | ~40 | ~15 | 1 | sub-27b（单文件 correctness_layer_v0.py 改 + probe 复跑验证；边界：只动 `_winner_patterns` cfg4_re 表格变体，不动 3090 世界 CFG4 别名） | 待命（2026-11-26 ReAnchor-A 验收暴露，probe TBL 2/6 误判 A2；HEAD 即红非重锚引入） |
 
