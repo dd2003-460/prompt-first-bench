@@ -1,0 +1,49 @@
+{
+  "task_id": "T8c-B-Rerun",
+  "status": "done",
+  "started_at": "2026-11-27T00:48:57+08:00",
+  "evidence": {
+    "pid": 30412,
+    "pid_file": "tasks/think-trigger/exp-results/t8c-b-rerun.pid",
+    "log": "tasks/think-trigger/exp-results/t8c-b-rerun-20261127-004911.log",
+    "launch": "python3 run_exp_t8c.py b, start_new_session=True (setsid 等效, 独立 session/pgid=30412)",
+    "backup": "raw_outputs_t8c.json.pre-brerun (sha256 0e2c2ff6b25f == 源文件, 备份前 arm_a=3/arm_b=3 旧 smoke 数据)",
+    "sidecar_overwrite_expected": "t8c_stages/ 18 个 B*_*.json 将被覆盖 (已全 commit, git 即备份; 任务卡风险注记要求记录)",
+    "prechecks": "8787 在线(qwen3.8-27b-mtp) / MAX_A=73728 / MAX_B_REVIEW=16384 / 无残留 run_exp 进程 / worktree clean",
+    "goal_state_pid_written": "/Users/a1-6/.hermes/.stage-gate/agent-orchestration.json",
+    "recovery_note": "FALSE STALE @2026-11-27T01:00:50+08:00: monitor emitted STALE but process 30412 ALIVE (ps: session leader, log t8c-b-rerun-20261127-004911.log advanced to 00:59, B-pfb-run1+run2 DONE, run3 in progress). Root cause: prior tick wrote receipt status='working' (non-standard); monitor only recognizes claimed/done/failed, so 就绪-row + unrecognized status fell to else->STALE. Action: corrected status working->claimed (no restart; killing healthy proc = coordination accident). Lifecycle now: WORKING while 30412 alive -> DEAD->relay (run eval_t8c_smoke.py, verify, commit) after it exits.",
+    "relay": {
+      "dead_at": "2026-11-27T01:11 tick",
+      "proc_exit": "01:03:42 正常退出 (log 尾 WROTE arm_b + finished, 3 run 全 DONE)",
+      "exit_cause": "跑完自然退出, 非崩溃 (DEAD=探活见进程已不在, 符合 recovery_note 预测的生命周期)"
+    },
+    "acceptance": {
+      "A1_045_finish_reason_per_sample": "run1=stop run2=stop run3=stop, 截断数=0 (raw_outputs_t8c.json arm_b[*].stages.04.5.finish_reason)",
+      "A2_eval_b_rows": "B1 indeterminate d=4 s=1 tok=38791; B2 indeterminate d=4 s=1 tok=42843; B3 A3 d=3 s=0 tok=35781; s_B'=0.667 (3 valid/3, trunc=0), d_mean=3.667; A' 参照: s=0.000 全 A3 d_mean=3.0",
+      "A3_eval_file": "tasks/think-trigger/exp-results/t8c-brerun-eval.json 已写出 (命令=eval_t8c_smoke.py raw_outputs_t8c.json t8c-brerun-eval.json, exit 0, 第2参显式传, 未覆盖 t8c-smoke-eval.json)"
+    },
+    "sidecar_overwrite_confirmed": "t8c_stages/ 18 个 B*_*.json 已被 rerun 覆盖 (mtime 01:03 前后), 与任务卡风险注记一致; 旧版可 git 恢复 (覆盖前已全 commit)",
+    "verdict_for_lead": "eval 机械分流判定=停止：边界情形（B' 断点样本全 A3，断点后移但未选对，结构进步非赢）——判决归 Lead, 执行者只报数"
+  },
+  "thinking_log": [
+    {
+      "trigger": "T-失配",
+      "observation": "协议任务卡映射表无 T8c-B-Rerun 行（映射表注明'新任务由监督者派发时追加'）",
+      "action": "以 decomposition.md 任务表 L161 行（含执行方式/验收/边界/前置，自包含）为任务卡；判决矩阵取 pre-commit 冻结文档 t8c-smoke-verdict-ambiguity-20261127.md (7c9ce577a)",
+      "result": "指令来源唯一且完整，可执行；映射缺行已记录供监督者补表"
+    },
+    {
+      "trigger": "T-矛盾",
+      "observation": "monitor STALE:T8c-B-Rerun 与磁盘实况矛盾：pid 30412 存活且日志 00:59 仍在推进（run1+run2 DONE, run3 进行中），并非崩溃",
+      "action": "核 ps/pgrep/日志/sidecar mtime 确认进程健康；定位根因=回执 status='working' 非标准（monitor 仅认 claimed/done/failed）；将 status 改回 claimed，不重启进程",
+      "result": "回执 status=claimed；monitor 下 tick 应输出 WORKING（PID 存活+新鲜），进程退出后转 DEAD->relay 跑 eval+验收+commit"
+    },
+    {
+      "trigger": "T-数字",
+      "observation": "eval 输出 B 臂 3 行标签/d/s 需与 raw_outputs 的 finish_reason 对账",
+      "action": "从 raw_outputs_t8c.json 逐 run 读 stages.04.5.finish_reason 并与 eval rows 的 finish 数组对账",
+      "result": "3/3 一致全 stop, 截断数=0, 数字均有出处 (raw_outputs_t8c.json + t8c-brerun-eval.json)"
+    }
+  ],
+  "finished_at": "2026-11-27T01:12:11+08:00"
+}
