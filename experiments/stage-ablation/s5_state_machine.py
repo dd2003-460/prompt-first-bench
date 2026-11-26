@@ -1603,7 +1603,12 @@ def synthesize_answer(question: str, nodes: list, qid: str) -> dict:
              f"【关键】上面列出的每一个公式（如 TCO 公式、roofline 公式、KV Cache 计算、"
              f"故障损耗项、利用率分解等），必须在你的回答中完整保留并代入具体数值，"
              f"不得省略或仅定性提及。如果某条事实给出了完整公式，你的回答必须展示该公式。"
-             f"如果不同事实之间存在矛盾（如不同 head_dim 取值），取多数一致的值并注明分歧。\n\n"
+             f"如果不同事实之间存在矛盾（如不同 head_dim 取值），取多数一致的值并注明分歧。\n"
+             f"【口径分离硬约束】凡涉及失效/老化/时间量级的表述，必须区分并分别报告两个量纲："
+             f"(a) dwell 驻留时长——对象在缓存/系统中停留多久（如 T_res）；"
+             f"(b) 更新/失效间隔——内容多久后被替换或失效（如 1/u）。"
+             f"禁止把二者混用同一量纲或互相替代；若树中存在两种口径的节点，"
+             f"综合时分别引用并注明各自量纲，不得用其一覆盖另一。\n\n"
              f"【问题】\n{question}\n\n【第 {lv} 层事实】\n{seg}") + _perturb()
         t0 = time.time()
         out_l, _ = call_llm(p, max_tokens=4000, temperature=0.7, top_p=0.95, retries=3)
@@ -1618,7 +1623,12 @@ def synthesize_answer(question: str, nodes: list, qid: str) -> dict:
                f"【关键】上面各层摘要中出现的每一个公式、数值、参数（如 TCO 公式、roofline 公式、"
                f"KV Cache 计算、故障损耗项、利用率分解、临界阈值等），必须在最终答案中显式保留并代入具体数值，"
                f"不得省略或仅定性提及。如果某层给出了完整公式，最终答案必须展示该公式及其代入过程。"
-               f"如果各层之间存在矛盾（如不同 head_dim 取值），取多数一致的值并注明分歧。\n\n【问题】\n{question}\n\n"
+               f"如果各层之间存在矛盾（如不同 head_dim 取值），取多数一致的值并注明分歧。\n"
+               f"【口径分离硬约束】凡涉及失效/老化/时间量级的表述，必须区分并分别报告两个量纲："
+               f"(a) dwell 驻留时长——对象在缓存/系统中停留多久（如 T_res）；"
+               f"(b) 更新/失效间隔——内容多久后被替换或失效（如 1/u）。"
+               f"禁止把二者混用同一量纲或互相替代；若各层摘要中存在两种口径的结论，"
+               f"综合时分别引用并注明各自量纲，不得用其一覆盖另一。\n\n【问题】\n{question}\n\n"
                + "\n\n".join(parts)) + _perturb()
     t0 = time.time()
     answer, _ = call_llm(merge_p, max_tokens=8000, temperature=0.7, top_p=0.95, retries=3)
