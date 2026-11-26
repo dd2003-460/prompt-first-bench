@@ -17,6 +17,7 @@
 #   自相矛盾（全 A3 ⇒ s_B'=0，与 s_B'=2/3 不可共存）。本脚本按唯一自洽解释实现：
 #   分离迹象触发时，B' 的**断点样本**（s=0 者）全为 A3（无 A1/A2）→ 判「结构进步非赢」停止。
 #   主判据 W1/W2/W3、n=9、power 均不受影响；如需改解释须重新冻结预注册（跑数前）。
+# 实现注（2026-11-27 修复）：截断样本 s=0（原实现 s=1 与头部口径矛盾，n=3 截断=0 未暴露；n=9 前修复，冻结判据未动——本修复是口径对齐非判据变更）
 import json, sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                 "../../../modules/B-pipeline-ablation/research"))
@@ -54,9 +55,9 @@ def evaluate(data):
             text = sample_text(s)
             trunc = is_truncated(s)
             if trunc:
-                label, score = "indeterminate(截断)", 1
+                label, score = "indeterminate(截断)", 0
                 depth = None
-                note = "截断样本: 主指标判 indeterminate(截断), 单独计数, 不进三型分布比较"
+                note = "截断样本: 主指标判 indeterminate(截断), s=0 排除在三型分布比较外, 单独计数（预注册 §1）"
             else:
                 j = judge_text(text)
                 label = j["verdict"]
