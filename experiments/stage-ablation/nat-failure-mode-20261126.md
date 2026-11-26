@@ -3,10 +3,21 @@
 
 数据源：runs-s5-sm-nat.json · checkpoints/sm-nat-r0..r28.json · s5_state_machine.py · s5_pipeline.py（2026-11-26）
 
+## ⚠️ 更正（2026-11-26 · 宽口径重测推翻 b 判定）
+
+本报告「**b（维度盲区）主导、根因 = objective 未注入**」的判定被宽口径重测**推翻**（脚本 `scratch/remeasure_fullrun.py` → `remeasure_fullrun_result.json`；详见 `obj-inject-probe-20261126.md` §5，commit `ad962650e`）。依据：
+1. 原诊断「老化 0 命中」是**窄清单伪影**（仅频率表专项 11 词）。用探针宽 11 词清单（频率表/aging/decay/衰减/100 天/1%/λ/失效/stale）重测 full run 278 节点 = **98 命中**（L1 1 / L2 9 / L3 25 / L4 63）——树远非「对老化盲目」。
+2. 两树 L1 骨架相同（稳态/失效更新/分布参数/溯源四维），full run N4 与探针 N2 均把 1%/天更新率立为一等维度 → H2（L1 差异）排除。
+3. 探针 OFF 臂（**无** objective 注入）L2 长出 9/19 老化节点 → 「objective 未注入」不是根因（objective 要素本已编码在 L1 骨架里）。
+
+**修正后判定**：Type B「维度盲区」不成立。真失败点 = ① **P4 综合丢失**（gold 要点 5：N247 verified 含 100 天口径但 P4 未引用、选 T_res≈1.5 天，证据扎实）② **频率表老化机制专项节点窄缺口**（gold 要点 3：两臂均无专门节点，真实但窄）。a（停止太早）仍被证据否定（max_depth 硬顶 + frontier 最深层锁定，见 §4）。
+
+**对修复的影响**：Fix ①（objective 注入，commit `edce50b28`）**不对症** → 降级（代码保留、默认 OFF、无害，但不再当「那个修复」）。新修复优先级：**P4 口径召回（主，修要点 5）> 频率表机制维度（次，修要点 3）**。
+
 ## TL;DR
 - 停止原因 = **max_depth=4 硬顶**（s5_state_machine.py:1250-1252 结构性 break），不是 J_necessary 软判断（末轮 gain=0.898、low_gain_streak=0），不是 rounds 耗尽（主循环无 max_rounds；其后 24 个 ckpt 轮是 verify-only 批次）。
-- gold 3（LFU 频率表老化机制）= **树内 0 节点** → b（维度没触发）；gold 5（1%/天 → 100 天 1/λ 量级）= **树内有节点**（N17/N247/N262 均 verified）但 P4 选错口径 → P4 综合丢失。
-- 判定：**b 主导 + P4 丢失，a 被证据否定**。根因：frontier 只取最深层 + 逐层 prompt 父节点局部 → 机制维度（应挂 N3/N13/N14）在树到 L4 后结构性不可达。
+- gold 3（LFU 频率表老化机制）= 频率表**专项**窄清单 0 节点（宽口径老化机制 98 命中，见顶部更正）；gold 5（1%/天 → 100 天 1/λ 量级）= **树内有节点**（N17/N247/N262 均 verified）但 P4 选错口径 → P4 综合丢失。
+- 判定：~~b 主导~~ **⚠️ 已被顶部更正推翻**——「维度盲区/objective 未注入」不成立（宽口径 98 命中 + L1 一等维度 + OFF 臂无注入也长老化节点）。修正后真失败点 = P4 综合丢失（要点 5，扎实）+ 频率表机制专项窄缺口（要点 3，真实但窄）；a 仍被否定。
 
 ## §1 树结构统计
 - 总节点 278 · final_state=`verify`（非 `stop`）· decompose rounds_log=1 · leak_hits=0
