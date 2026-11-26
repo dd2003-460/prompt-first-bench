@@ -1,13 +1,13 @@
-# 消融矩阵 arm×qid（v2，脚本生成）
+# 消融矩阵 arm×qid（v3，脚本生成：量纲家族分离版）
 
-生成: matrix2.py @ 2026-11-26 22:17 · 扫描 676 个分数文件（排除 checkpoints/、*.log、*.lock、>1MB）· 成功解析 676 · 字段映射 arm/qid/total（probe 2026-11-26 确认）
+生成: matrix2.py(v3) @ 2026-11-26 22:20 · 扫描 676 个分数文件（排除 checkpoints/、*.log、*.lock、>1MB）· 成功解析 676 · 字段映射 arm/qid/total（probe 2026-11-26 确认）· 量纲家族分离（Lead 补丁 2026-11-26）
 
 | arm \ qid | Q1 | Q2 | Q3 | Q4 | Q5 | Q8 | Q9 |
 |---|---|---|---|---|---|---|---|
-| **Arena** | 0.67(n=1, j=Arena-Q1-r1) / 13.00(n=1, j=v3-secondary) | 19.00(n=1, j=v3-secondary) | 0.56(n=1, j=Arena-Q3-r1) / 15.00(n=1, j=v3-secondary) | — | — | — | — |
+| **Arena** | 0.67(n=1, j=Arena-Q1-r1) / 13.00(n=1, j=v3-secondary*) | 19.00(n=1, j=v3-secondary*) | 0.56(n=1, j=Arena-Q3-r1) / 15.00(n=1, j=v3-secondary*) | — | — | — | — |
 | **D1** | 0.54(n=3, j=d1-rep15-v2(rubric=v2)) | — | 0.53(n=3, j=d1-rep15-v2(rubric=v2)) | 0.50(n=3, j=d1-rep15-v2(rubric=v2)) | — | 0.61(n=3, j=d1-rep15-v2(rubric=v2)) | 0.33(n=3, j=d1-rep15-v2(rubric=v2)) |
-| **S0** | 0.48(n=3, j=final) / 0.75(n=3, j=m7-results) / 0.48(n=3, j=r293) / 0.41(n=3, j=v2) / 0.58(n=3, j=v3) / 9.33(n=3, j=v3-expansion) / 5.33(n=3, j=v3-m1-fixed) | 0.46(n=3, j=final) / 0.11(n=3, j=m7-results) / 0.46(n=3, j=r293) / 0.38(n=3, j=v2) / 0.45(n=3, j=v3) / 8.67(n=3, j=v3-expansion) / 3.00(n=3, j=v3-m1-fixed) | 0.50(n=3, j=final) / 0.00(n=3, j=m7-results) / 0.50(n=3, j=r293) / 0.61(n=3, j=v2) / 0.69(n=3, j=v3) / 10.67(n=3, j=v3-expansion) / 3.00(n=3, j=v3-m1-fixed) | 0.46(n=3, j=Q4-fixed) / 0.46(n=3, j=final) / 0.11(n=3, j=m7-results) / 0.45(n=3, j=r293) / 0.57(n=3, j=v2) / 0.69(n=3, j=v3) / 11.00(n=4, j=v3-expansion) | 0.56(n=3, j=final) / 0.56(n=3, j=m7-results) / 0.56(n=3, j=r293) / 0.61(n=3, j=v2) / 0.66(n=3, j=v3) / 2.00(n=3, j=v3-expansion) | — | — |
-| **S1** | 0.54(n=3, j=final) / 0.50(n=3, j=m7-results) / 0.54(n=3, j=r293) / 0.53(n=3, j=v2) / 0.56(n=3, j=v3) / 7.67(n=3, j=v3-expansion) | 0.70(n=3, j=final) / 0.33(n=3, j=m7-results) / 0.70(n=3, j=r293) / 0.65(n=3, j=v2) / 0.64(n=3, j=v3) / 11.50(n=2, j=v3-expansion) | 0.67(n=3, j=final) / 0.00(n=3, j=m7-results) / 0.67(n=3, j=r293) / 0.62(n=3, j=v2) / 0.67(n=3, j=v3) | 0.45(n=3, j=Q4-fixed) / 0.45(n=3, j=final) / 0.00(n=3, j=m7-results) / 0.55(n=3, j=r293) / 0.44(n=3, j=v2) / 0.65(n=3, j=v3) | 0.67(n=3, j=final) / 0.44(n=3, j=m7-results) / 0.67(n=3, j=r293) / 0.62(n=3, j=v2) / 0.62(n=3, j=v3) | — | — |
+| **S0** | 0.48(n=3, j=final) / 0.75(n=3, j=m7-results) / 0.48(n=3, j=r293) / 0.41(n=3, j=v2) / 0.58(n=3, j=v3) / 9.33(n=3, j=v3-expansion*) / 5.33(n=3, j=v3-m1-fixed*) | 0.46(n=3, j=final) / 0.11(n=3, j=m7-results) / 0.46(n=3, j=r293) / 0.38(n=3, j=v2) / 0.45(n=3, j=v3) / 8.67(n=3, j=v3-expansion*) / 3.00(n=3, j=v3-m1-fixed*) | 0.50(n=3, j=final) / 0.00(n=3, j=m7-results) / 0.50(n=3, j=r293) / 0.61(n=3, j=v2) / 0.69(n=3, j=v3) / 10.67(n=3, j=v3-expansion*) / 3.00(n=3, j=v3-m1-fixed*) | 0.46(n=3, j=Q4-fixed) / 0.46(n=3, j=final) / 0.11(n=3, j=m7-results) / 0.45(n=3, j=r293) / 0.57(n=3, j=v2) / 0.69(n=3, j=v3) / 11.00(n=4, j=v3-expansion*) | 0.56(n=3, j=final) / 0.56(n=3, j=m7-results) / 0.56(n=3, j=r293) / 0.61(n=3, j=v2) / 0.66(n=3, j=v3) / 2.00(n=3, j=v3-expansion*) | — | — |
+| **S1** | 0.54(n=3, j=final) / 0.50(n=3, j=m7-results) / 0.54(n=3, j=r293) / 0.53(n=3, j=v2) / 0.56(n=3, j=v3) / 7.67(n=3, j=v3-expansion*) | 0.70(n=3, j=final) / 0.33(n=3, j=m7-results) / 0.70(n=3, j=r293) / 0.65(n=3, j=v2) / 0.64(n=3, j=v3) / 11.50(n=2, j=v3-expansion*) | 0.67(n=3, j=final) / 0.00(n=3, j=m7-results) / 0.67(n=3, j=r293) / 0.62(n=3, j=v2) / 0.67(n=3, j=v3) | 0.45(n=3, j=Q4-fixed) / 0.45(n=3, j=final) / 0.00(n=3, j=m7-results) / 0.55(n=3, j=r293) / 0.44(n=3, j=v2) / 0.65(n=3, j=v3) | 0.67(n=3, j=final) / 0.44(n=3, j=m7-results) / 0.67(n=3, j=r293) / 0.62(n=3, j=v2) / 0.62(n=3, j=v3) | — | — |
 | **S10-A** | 0.37(n=6, j=s10) / 0.34(n=6, j=s10-scores-v2(rubric=v2)) | — | 0.47(n=6, j=s10) / 0.56(n=6, j=s10-scores-v2(rubric=v2)) | 0.44(n=6, j=s10) / 0.49(n=6, j=s10-scores-v2(rubric=v2)) | — | — | — |
 | **S10-B** | 0.63(n=6, j=s10) / 0.49(n=6, j=s10-scores-v2(rubric=v2)) | — | 0.79(n=6, j=s10) / 0.66(n=6, j=s10-scores-v2(rubric=v2)) | 0.82(n=6, j=s10) / 0.62(n=6, j=s10-scores-v2(rubric=v2)) | — | — | — |
 | **S10-C** | 0.60(n=6, j=s10) / 0.48(n=6, j=s10-scores-v2(rubric=v2)) | — | 0.74(n=6, j=s10) / 0.64(n=6, j=s10-scores-v2(rubric=v2)) | 0.78(n=6, j=s10) / 0.27(n=6, j=s10-scores-v2(rubric=v2)) | — | — | — |
@@ -21,29 +21,32 @@
 | **S7** | 0.80(n=3, j=hetero-judge-s6s7-results) | 0.70(n=3, j=hetero-judge-s6s7-results) | 0.55(n=3, j=hetero-judge-s6s7-results) | 0.78(n=3, j=hetero-judge-s6s7-results) | 0.70(n=3, j=hetero-judge-s6s7-results) | — | — |
 | **S7F** | 0.55(n=1, j=S7F-Q1-r1) | — | — | 0.54(n=1, j=S7F-Q4-r1) | 0.67(n=1, j=S7F-Q5-r1) | — | — |
 | **S7V** | 0.42(n=1, j=S7V-Q1-r1) | — | — | 0.64(n=1, j=S7V-Q4-r1) | 0.83(n=1, j=S7V-Q5-r1) | — | — |
-| **S8A** | — | 0.55(n=1, j=v3-secondary) | — | — | — | — | — |
-| **S8B** | — | 0.53(n=1, j=v3-secondary) | — | — | — | — | — |
-| **S8C** | — | 0.71(n=1, j=v3-secondary) | — | — | — | — | — |
-| **S8D** | 0.59(n=1, j=S8D) / 0.72(n=1, j=v3-secondary) | 0.45(n=3, j=S8D) / 0.73(n=3, j=v3-secondary) | 0.48(n=1, j=S8D) / 0.60(n=1, j=v3-secondary) | 0.47(n=1, j=S8D) / 0.70(n=1, j=v3-secondary) | 0.60(n=1, j=S8D) / 0.83(n=1, j=v3-secondary) | — | — |
-| **S8E** | — | 0.62(n=3, j=v3-secondary) | — | — | — | — | — |
-| **S8G** | 0.84(n=1, j=S8G-Q1-r1) / 0.74(n=1, j=S8G-Q1-r2) | — | — | 0.73(n=1, j=S8G-Q4-r1) / 0.75(n=1, j=S8G-Q4-r2) | 0.69(n=1, j=S8G-r1) / 0.79(n=1, j=S8G-r2) / 0.83(n=1, j=S8G-r3) / 0.82(n=1, j=S8G-r4) / 0.85(n=1, j=S8G-r5) / 3.00(n=1, j=v3-secondary) | — | — |
+| **S8A** | — | 0.55(n=1, j=v3-secondary*) | — | — | — | — | — |
+| **S8B** | — | 0.53(n=1, j=v3-secondary*) | — | — | — | — | — |
+| **S8C** | — | 0.71(n=1, j=v3-secondary*) | — | — | — | — | — |
+| **S8D** | 0.59(n=1, j=S8D) / 0.72(n=1, j=v3-secondary*) | 0.45(n=3, j=S8D) / 0.73(n=3, j=v3-secondary*) | 0.48(n=1, j=S8D) / 0.60(n=1, j=v3-secondary*) | 0.47(n=1, j=S8D) / 0.70(n=1, j=v3-secondary*) | 0.60(n=1, j=S8D) / 0.83(n=1, j=v3-secondary*) | — | — |
+| **S8E** | — | 0.62(n=3, j=v3-secondary*) | — | — | — | — | — |
+| **S8G** | 0.84(n=1, j=S8G-Q1-r1) / 0.74(n=1, j=S8G-Q1-r2) | — | — | 0.73(n=1, j=S8G-Q4-r1) / 0.75(n=1, j=S8G-Q4-r2) | 0.69(n=1, j=S8G-r1) / 0.79(n=1, j=S8G-r2) / 0.83(n=1, j=S8G-r3) / 0.82(n=1, j=S8G-r4) / 0.85(n=1, j=S8G-r5) / 3.00(n=1, j=v3-secondary*) | — | — |
 | **T2** | 0.62(n=3, j=t2) / 0.67(n=3, j=t2-scores-withhook) | 0.65(n=3, j=t2) / 0.70(n=3, j=t2-scores-withhook) | 0.64(n=3, j=t2) / 0.83(n=3, j=t2-scores-withhook) | 0.64(n=3, j=t2) / 0.72(n=3, j=t2-scores-withhook) | 0.69(n=3, j=t2) / 0.78(n=3, j=t2-scores-withhook) | — | — |
+
+> 注：j=tag\* 表示该 judge 为宽量纲(0-16系)，与 0-1系分数不可直接比（见量纲家族节）。
 
 ## judge 漂移格
 
-同 (arm,qid) 多 judge_tag 且均值差 > 0.05 的格子（judge 漂移 = 本矩阵关键输出）：
+同 (arm,qid) 同量纲家族内多 judge_tag 且均值差 > 0.05 的格子（跨量纲差已排除，量纲见下表）：
 
-| arm | qid | 各 judge_tag 均值 |
+| arm | qid | 各 judge_tag 均值（同量纲内可比） |
 |---|---|---|
-| Arena | Q1 | Arena-Q1-r1=0.67 / v3-secondary=13.00 |
-| Arena | Q3 | Arena-Q3-r1=0.56 / v3-secondary=15.00 |
-| S0 | Q1 | final=0.48 / m7-results=0.75 / r293=0.48 / v2=0.41 / v3=0.58 / v3-expansion=9.33 / v3-m1-fixed=5.33 |
-| S0 | Q2 | final=0.46 / m7-results=0.11 / r293=0.46 / v2=0.38 / v3=0.45 / v3-expansion=8.67 / v3-m1-fixed=3.00 |
-| S0 | Q3 | final=0.50 / m7-results=0.00 / r293=0.50 / v2=0.61 / v3=0.69 / v3-expansion=10.67 / v3-m1-fixed=3.00 |
-| S0 | Q4 | Q4-fixed=0.46 / final=0.46 / m7-results=0.11 / r293=0.45 / v2=0.57 / v3=0.69 / v3-expansion=11.00 |
-| S0 | Q5 | final=0.56 / m7-results=0.56 / r293=0.56 / v2=0.61 / v3=0.66 / v3-expansion=2.00 |
-| S1 | Q1 | final=0.54 / m7-results=0.50 / r293=0.54 / v2=0.53 / v3=0.56 / v3-expansion=7.67 |
-| S1 | Q2 | final=0.70 / m7-results=0.33 / r293=0.70 / v2=0.65 / v3=0.64 / v3-expansion=11.50 |
+| S0 | Q1 | final=0.48 / m7-results=0.75 / r293=0.48 / v2=0.41 / v3=0.58 |
+| S0 | Q1 | v3-expansion=9.33 / v3-m1-fixed=5.33 |
+| S0 | Q2 | final=0.46 / m7-results=0.11 / r293=0.46 / v2=0.38 / v3=0.45 |
+| S0 | Q2 | v3-expansion=8.67 / v3-m1-fixed=3.00 |
+| S0 | Q3 | final=0.50 / m7-results=0.00 / r293=0.50 / v2=0.61 / v3=0.69 |
+| S0 | Q3 | v3-expansion=10.67 / v3-m1-fixed=3.00 |
+| S0 | Q4 | Q4-fixed=0.46 / final=0.46 / m7-results=0.11 / r293=0.45 / v2=0.57 / v3=0.69 |
+| S0 | Q5 | final=0.56 / m7-results=0.56 / r293=0.56 / v2=0.61 / v3=0.66 |
+| S1 | Q1 | final=0.54 / m7-results=0.50 / r293=0.54 / v2=0.53 / v3=0.56 |
+| S1 | Q2 | final=0.70 / m7-results=0.33 / r293=0.70 / v2=0.65 / v3=0.64 |
 | S1 | Q3 | final=0.67 / m7-results=0.00 / r293=0.67 / v2=0.62 / v3=0.67 |
 | S1 | Q4 | Q4-fixed=0.45 / final=0.45 / m7-results=0.00 / r293=0.55 / v2=0.44 / v3=0.65 |
 | S1 | Q5 | final=0.67 / m7-results=0.44 / r293=0.67 / v2=0.62 / v3=0.62 |
@@ -66,18 +69,52 @@
 | S5 | Q3 | final=0.68 / m7-results=0.00 / r293=0.68 / s5(rubric=v2)=0.58 / v2=0.75 / v3=0.81 |
 | S5 | Q4 | Q4-fixed=0.67 / final=0.67 / m7-results=0.00 / r293=0.66 / s5(rubric=v2)=0.54 / v2=0.55 / v3=0.86 |
 | S5 | Q5 | final=0.77 / m7-results=0.44 / r293=0.77 / s5(rubric=v2)=0.60 / v2=0.57 / v3=0.74 |
-| S8D | Q1 | S8D=0.59 / v3-secondary=0.72 |
-| S8D | Q2 | S8D=0.45 / v3-secondary=0.73 |
-| S8D | Q3 | S8D=0.48 / v3-secondary=0.60 |
-| S8D | Q4 | S8D=0.47 / v3-secondary=0.70 |
-| S8D | Q5 | S8D=0.60 / v3-secondary=0.83 |
 | S8G | Q1 | S8G-Q1-r1=0.84 / S8G-Q1-r2=0.74 |
-| S8G | Q5 | S8G-r1=0.69 / S8G-r2=0.79 / S8G-r3=0.83 / S8G-r4=0.82 / S8G-r5=0.85 / v3-secondary=3.00 |
+| S8G | Q5 | S8G-r1=0.69 / S8G-r2=0.79 / S8G-r3=0.83 / S8G-r4=0.82 / S8G-r5=0.85 |
 | T2 | Q1 | t2=0.62 / t2-scores-withhook=0.67 |
 | T2 | Q2 | t2=0.65 / t2-scores-withhook=0.70 |
 | T2 | Q3 | t2=0.64 / t2-scores-withhook=0.83 |
 | T2 | Q4 | t2=0.64 / t2-scores-withhook=0.72 |
 | T2 | Q5 | t2=0.69 / t2-scores-withhook=0.78 |
+
+## 量纲家族（跨量纲分数不可直接比）
+
+| 家族 | judge_tag | 观测 max |
+|---|---|---|
+| 宽量纲(0-16系) | v3-secondary | 19.00 |
+| 宽量纲(0-16系) | v3-expansion | 16.00 |
+| 宽量纲(0-16系) | v3-m1-fixed | 9.00 |
+| 0-1系 | m7-results | 1.00 |
+| 0-1系 | v3 | 0.91 |
+| 0-1系 | s10 | 0.88 |
+| 0-1系 | t2-scores-withhook | 0.86 |
+| 0-1系 | final | 0.86 |
+| 0-1系 | r293 | 0.86 |
+| 0-1系 | S8G-r5 | 0.85 |
+| 0-1系 | S8G-Q1-r1 | 0.84 |
+| 0-1系 | S8G-r3 | 0.83 |
+| 0-1系 | S7V-Q5-r1 | 0.83 |
+| 0-1系 | v2 | 0.83 |
+| 0-1系 | S8G-r4 | 0.82 |
+| 0-1系 | hetero-judge-s6s7-results | 0.80 |
+| 0-1系 | s5(rubric=v2) | 0.80 |
+| 0-1系 | Q4-fixed | 0.79 |
+| 0-1系 | S8G-r2 | 0.79 |
+| 0-1系 | S8G-Q4-r2 | 0.75 |
+| 0-1系 | S8G-Q1-r2 | 0.74 |
+| 0-1系 | S8G-Q4-r1 | 0.73 |
+| 0-1系 | t2 | 0.72 |
+| 0-1系 | s10-scores-v2(rubric=v2) | 0.70 |
+| 0-1系 | S8G-r1 | 0.69 |
+| 0-1系 | Arena-Q1-r1 | 0.67 |
+| 0-1系 | S7F-Q5-r1 | 0.67 |
+| 0-1系 | d1-rep15-v2(rubric=v2) | 0.66 |
+| 0-1系 | S7V-Q4-r1 | 0.64 |
+| 0-1系 | S8D | 0.64 |
+| 0-1系 | Arena-Q3-r1 | 0.56 |
+| 0-1系 | S7F-Q1-r1 | 0.55 |
+| 0-1系 | S7F-Q4-r1 | 0.54 |
+| 0-1系 | S7V-Q1-r1 | 0.42 |
 
 ## 数据缺口
 
