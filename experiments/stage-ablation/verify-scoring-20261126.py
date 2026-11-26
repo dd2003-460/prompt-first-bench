@@ -43,6 +43,15 @@ check("GPU_RUBRIC=38 点", len(GPU_KEYS)==38, f"got {len(GPU_KEYS)}")
 check("NAT_RUBRIC=6 点", len(NAT_KEYS)==6, f"got {len(NAT_KEYS)}")
 check("SOC_RUBRIC=7 点", len(SOC_KEYS)==7, f"got {len(SOC_KEYS)}")
 
+# ── ②b canonical 六维权重（score.py:232-233,300-307）──────
+src_score = open(os.path.join(BASE, "score.py")).read()
+mw = re.search(r'WEIGHTS\s*=\s*\{([^}]+)\}', src_score)
+canon = dict(re.findall(r'"(M\d)"\s*:\s*([0-9.]+)', mw.group(1)))
+check("canonical 六维权重 M1.25/M2.20/M3.15/M4.20/M5.10/M6.10",
+      canon == {"M1":"0.25","M2":"0.20","M3":"0.15","M4":"0.20","M5":"0.10","M6":"0.10"},
+      f"got {canon}")
+check("Q5 M1 减半 0.125 + 重归一", '"M1": 0.125' in src_score and "重新归一化" in src_score, "")
+
 # ── ③ r03 用当前 HEAD 真实逻辑重判 ───────────────────────
 d = json.load(open(os.path.join(BASE, "ablation-runs/gpu_formula_r03_judge.json")))
 scores_raw = d["raw"]
