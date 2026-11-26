@@ -193,7 +193,8 @@
 | T6-L-S4 t5 审计信号修复（signature ROUTING→自问(常驻)）+ CLAUDE.md marker 入 APPROVALS #5 | S2 | ~30 | ~20 | 1(stage-gate)+APPROVALS | 判断-Lead | ✅ a507703（Lead 自做：核 jsonl 发现旧 sig 匹配的是自问规则文本里顺带提的 ROUTING.md=假信号；t5 是 CLAUDE.md 层调度器不走注入 hook；改 sig 后 checker 报 t5 纯因 CLAUDE.md 缺 marker；marker 改动走 APPROVALS #5 待批——CLAUDE.md 受保护文件） |
 | judge 加分项支持：超出 gold 深度的正确分解单独计数、不进 cov 分母（依据 gold-tree.md 停止判据声明 2026-11-26 D 定：可测量性收口+加分项） | gold-tree 声明（✅ 已落盘） | ~80（judge_pipeline_v0.py 匹配段） | ~60 | 1(thinkmech) | sub-27b | 排队（T8c 正式批 n=9/臂 前置；smoke 已跑完的数据如需重判也走新版 judge） |
 | 实验台账（D 2026-11-26 需求：全局视角实验员）：骨架+六闸门（预注册/novelty定位/状态机/机械判据/排序权在arena） | - | - | ~60 | 1(thinkmech) | 判断-Lead | ✅ 202c9fb95（骨架落盘 exp-results/experiment-ledger.md；表体待盘点回填） |
-| 台账表体回填：inventory JSON → 台账表（每实验一行：假设/臂/状态/结果/novelty diff） | 盘点 sub（experiment-inventory-20261126.json） | ~100(JSON) | ~80(表) | 1(thinkmech) | sub-27b | 排队（盘点完成后派） |
+| 台账表体回填：inventory JSON → 台账表（每实验一行：假设/臂/状态/结果/novelty diff） | 盘点 sub（experiment-inventory-20261126.json） | ~100(JSON) | ~80(表) | 1(thinkmech) | sub-27b | S1✅ 845d7ef8c（completeness 核验：11/37 complete，26 条欠账）S2 进行中 |
+| 消融矩阵抽取：版本×题目×分数（每格标 judge 版本+n+缺口清单） | - | ~12 文件 | ~1 脚本+1 md | 0(禁commit,另一sub在跑) | sub-27b | r1 死于输出上限（扫 200+ 文件超 27b 能力，零落盘）→ r2 换路：显式文件清单（~12 个已知分数文件）+ probe 先行 |
 
 > **验收标准变化（本次事件导出的规则）**："✅ 已实施"类记录必须附磁盘证据（文件路径+commit 或 checker verdict）；
 > 自我申报的 ✅ 一律视为未验证。T6-L-S2 落地后，机制类状态以 checker verdict 为准。
