@@ -4,6 +4,7 @@
 """
 import json
 import os
+import re
 import time
 
 WS = "/Users/a1-6/Desktop/workspace/pfb-thinkmech"
@@ -83,11 +84,13 @@ def main():
     now = time.time()
     out = []
     for short, st in rows:
-        if st not in ("就绪", "执行中"):
+        # 状态列容括号后缀（如「就绪（2026-11-27 00:07 立项）」→ 就绪），防静默停摆
+        st_base = re.sub(r"[（(].*?[)）]", "", st).strip()
+        if st_base not in ("就绪", "执行中"):
             continue
         rst, mtime, ev = receipt(short)
         rst_l = (rst or "").lower() if isinstance(rst, str) else rst
-        if st == "就绪" and rst is None:
+        if st_base == "就绪" and rst is None:
             out.append("READY:%s" % short)
         elif rst_l in ("done", "failed"):
             out.append("REVIEW:%s" % short)
