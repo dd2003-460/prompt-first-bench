@@ -52,6 +52,20 @@ check("canonical 六维权重 M1.25/M2.20/M3.15/M4.20/M5.10/M6.10",
       f"got {canon}")
 check("Q5 M1 减半 0.125 + 重归一", '"M1": 0.125' in src_score and "重新归一化" in src_score, "")
 
+# ── ②c 双 v3 陷阱数字（一手解析两源文件，非转录）────────
+gf = open(os.path.join(BASE, "../../modules/A-eval-infra/research/scoring-v3-gatefixed.md")).read()
+rv = open(os.path.join(BASE, "../../modules/A-eval-infra/research/RESCORE-V3-NOTES.md")).read()
+def row_val(txt, arm, col):
+    m = re.search(rf"\|\s*{arm}\s*\|\s*([\d.]+)\s*\|\s*([\d.]+)\s*\|", txt)
+    return float(m.group(col)) if m else None
+check("gatefixed S0=0.397", row_val(gf, "S0", 2) == 0.397, f"got {row_val(gf,'S0',2)}")
+check("gatefixed S5=0.579", row_val(gf, "S5", 2) == 0.579, f"got {row_val(gf,'S5',2)}")
+check("RESCORE-V3 S0=0.615", row_val(rv, "S0", 3) == 0.615, f"got {row_val(rv,'S0',3)}")
+check("RESCORE-V3 S5=0.805", row_val(rv, "S5", 3) == 0.805, f"got {row_val(rv,'S5',3)}")
+_g5, _r5 = row_val(gf, "S5", 2), row_val(rv, "S5", 3)
+check("双 v3 数字确实不同（陷阱坐实）",
+      (_g5 is not None and _r5 is not None and abs(_g5 - _r5) > 0.2), "")
+
 # ── ③ r03 用当前 HEAD 真实逻辑重判 ───────────────────────
 d = json.load(open(os.path.join(BASE, "ablation-runs/gpu_formula_r03_judge.json")))
 scores_raw = d["raw"]
