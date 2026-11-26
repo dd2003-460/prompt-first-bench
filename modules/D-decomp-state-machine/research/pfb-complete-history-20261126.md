@@ -122,8 +122,8 @@ exploration-history.md Phase 2 给了叙事，这里补 git log 逐版本锚点�
 - **归因审计结论：P1 > P4 > retrieval**（丢分大头在分解层不在检索层）——这条决定了后面所有版本的火力方向。
 
 ### 3.4 v13 判决 + v14 量产 + v15 转向（11-09）
-- **v13（runs-s5-gpu-v13 实测：34 个 rep 文件，depth mean ≈0.395）**：round-3 判决 **gpu FAIL（0.389 < 0.50）**。
-- **v14（runs-s5-nat-v14 / runs-s5-soc-v14 实测：nat 101 reps，mean cov 0.578）**：
+- **v13（runs-s5-gpu-v13 实测：34 个 rep 文件，depth_score mean 0.384）**：round-3 判决 **gpu FAIL（0.389 < 0.50）**。
+- **v14（runs-s5-nat-v14 / runs-s5-soc-v14 实测：nat 101 reps，mean cov 0.573）**：
   早期 0.605（+0.070），量产仍低于 S0 的 0.637；
   rule 9b 两次变形：硬件 spec-table+TCO 公式强制（领域规则）→验证失败→换通用参数敏感性分析；
   soc rule 7 同构失败（point-0 命中率 54%→17%）。
@@ -187,6 +187,10 @@ exploration-history.md Phase 2 给了叙事，这里补 git log 逐版本锚点�
 ## 7. 来源与置信度
 - ① 本轮 git log 全史（1944 commits）+ 文件实测（runs 目录 rep 计数/s5_pipeline.py 提交史/INDEX.md）：可直接复现。
 - ② exploration-history.md（11-11 v2，11-19 修订 §5）：v3-v15 叙事与 runs 映射的权威源，按新鲜度降档（其 v16.3/v17 数据为 11-09~11 实测回填）。
+  ⚠️ 双副本漂移（① 实测 diff）：`knowledgebase/pfb-research/exploration-history.md` 是 11-19 修订**前**的旧快照——
+  其 §5 编号纪律写"S5 线代码大改跟任务 ID 走（T53、T54…），不再发明 vN"，与 pfb 正本 11-19 修订
+  （"继续 vN 编号 v18/v19，不跳 T 编号"+版本线 v1-v19 确认+基座 prompt 子标签）**直接矛盾**。
+  以 pfb 正本为准；knowledgebase 副本是向量库镜像（INDEX.json src 指向 pfb 正本），同步滞后，引用时注意。
 - ③ numbering-audit-2026-11-11.md：5 套编号体系盘点（归档于 archive/legacy-docs/）。
 - 不确定项：v1/v2 的精确边界（无独立 runs 目录，只能从 s5_pipeline.py 提交史+judge 口径迭代推断，conf 0.7）；
   NS4 两份 cc 任务书的 T1-T5/T6 与 NS3 的 T1-T8 是否存在派发时序关联（未深查，conf 0.5，不影响主线叙事）。
