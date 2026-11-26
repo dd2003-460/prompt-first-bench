@@ -80,6 +80,11 @@ check("pipeline rubric 0/1/2 三档", "每个维度给 0/1/2 三档" in draft, "
 _q610 = sorted(f for f in _os.listdir(_os.path.join(_rv3, "ablation")) if re.match(r"gold-Q[6-9]|gold-Q10", f))
 check("Q6-Q10 五道新题 gold 树存在", _q610 == ["gold-Q10.md", "gold-Q6.md", "gold-Q7.md", "gold-Q8.md", "gold-Q9.md"], f"got {_q610}")
 
+# ── ②e 二值 cov 口径：gate 阈值 vs 实测值（runs-s5-sm-nat-synth-multi.json 一手）──
+_ns = json.load(open(os.path.join(BASE, "runs-s5-sm-nat-synth-multi.json")))
+check("nat 实测 cov=0.5166 (mean 字段)", abs(_ns["mean"] - 0.5166) < 1e-4, f"got {_ns['mean']}")
+check("nat gate 阈值=0.5801 ≠ 实测值", _ns["gate"] == 0.5801 and _ns["gate_pass"] is False, f"gate={_ns.get('gate')} pass={_ns.get('gate_pass')}")
+
 # ── ③ r03 用当前 HEAD 真实逻辑重判 ───────────────────────
 d = json.load(open(os.path.join(BASE, "ablation-runs/gpu_formula_r03_judge.json")))
 scores_raw = d["raw"]
