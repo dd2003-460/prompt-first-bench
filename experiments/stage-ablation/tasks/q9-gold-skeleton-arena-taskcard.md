@@ -1,6 +1,6 @@
 # origin: ai · 2026-11-23 21:40 · D2 gold 骨架 arena 任务卡（待 D 确认 Q9 题面 v1 后派发）
 
-> 状态: 草稿就绪，派发前置 = D 确认 q9-agi-question-v0.md 的 3 项（预算 150 / 5 因子清单 / 排序键 post_acc）。
+> 状态: 已派发（2026-11-26 20:30，D 批准 APPROVALS#2，题面 v1 已冻结 @ 8a9c45bfa）。
 > 派发通道: arena agent mode（ego-browser），SOP 见 .claude/skills/arena-outsource/SKILL.md。
 > 拆法: 按 SOP 3a，拆 2 个 subagent（主调研 + 交叉验证），并行。
 
