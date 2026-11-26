@@ -51,10 +51,19 @@ def parse_tree(path):
         # name: 第一个中文串
         nm = re.search(r"[\u4e00-\u9fff]+", tail)
         name = nm.group(0) if nm else ""
-        # param: snake_case 标识符（排除标签词）
-        tags = {"nuisance","constraint","split","leaf","stopped","shared","feasible"}
-        pm = re.findall(r"\b([a-z][a-z0-9_]{2,})\b", tail)
-        param = next((p for p in pm if p not in tags and p not in ("shared",)), None)
+        # param: 第一个小数 share 之前的最后一个标识符 token（黑名单 leaf/split/S/N）
+        # 处理: snake_case(gpu_price) / 单词(resid,elec) / 单大写字母(H)；
+        #       "prefill 计算量 prefill_flops" 取最后的 prefill_flops；无小数时取 leaf/split 关键词前
+        param = None
+        dec_pos = re.search(r"\.\d+", tail)
+        kw_pos = re.search(r"\b(leaf|split)\b", tail)
+        cut = min([p.start() for p in (dec_pos, kw_pos) if p], default=len(tail))
+        seg = tail[:cut]
+        idents = re.findall(r"[A-Za-z][A-Za-z0-9_]*", seg)
+        bl = {"leaf", "split", "S", "N"}
+        idents = [x for x in idents if x not in bl and not x.startswith("N-")]
+        if idents:
+            param = idents[-1]
         # share: 小数（含 SHARE 前缀 / % 后缀 / 纯小数）
         sm = re.search(r"(?:SHARE\s+)?(\d+\.?\d*)\s*(?:%|x)?(?=\s|$)", tail)
         share = sm.group(1) if sm else None
