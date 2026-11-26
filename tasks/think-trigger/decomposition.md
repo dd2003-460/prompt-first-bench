@@ -179,7 +179,7 @@
 | rule-injection | rule-injection | ALIVE（rules-injection.jsonl 19:18 在写，每轮留痕） |
 | t1-thin-thinking | stop-hook-trigger | ALIVE（progress.log 有 HIT 签名） |
 | t4-stubborn-spin | stop-hook-trigger | ALIVE（今日 15:36 HIT） |
-| t5-routing-dispatcher | routing-dispatcher | HALF（ROUTING.md 已落 main d6d1b09bc；调度器节待 APPROVALS 批准后落 CLAUDE.md） |
+| t5-routing-dispatcher | routing-dispatcher | HALF（ROUTING.md 已落 main d6d1b09bc；审计信号已修 a507703：sig ROUTING→自问(常驻)，旧 sig 是假信号；CLAUDE.md marker 待 APPROVALS #5 批准） |
 | project-tidy-patrol | patrol | ALIVE（每日 cron + 今日 drift 检查行） |
 | methodology-sync-patrol | patrol | ALIVE（今日 f0707c89 加的检查） |
 
@@ -187,9 +187,10 @@
 | 任务 | 依赖 | 读(行) | 写(行) | commits | 载体 | 状态 |
 |---|---|---|---|---|---|---|
 | T6-L-S1 registry.json 初版（6 条，schema 见任务卡） | - | ~40 | ~70 | 1(stage-gate) | sub-27b | ✅ aefe09c + 修正 80f5006（patrol audit 路径 run.log 不存在→cron output glob_latest，Lead 校准） |
-| T6-L-S2 checker（五判 verdict+快照+exit code，脚本落盘） | S1 | ~60 | ~130(分3次) | 1(stage-gate) | sub-27b | ✅ b50311f（Lead 实跑核验：6 verdict 全符预期，exit 0，快照 evidence 在 mount 级；意外收获：t5 audit last_ts=昨 10:50 age 32.7h = ROUTING 注入已停的硬证据） |
+| T6-L-S2 checker（五判 verdict+快照+exit code，脚本落盘） | S1 | ~60 | ~130(分3次) | 1(stage-gate) | sub-27b | ✅ b50311f（Lead 实跑核验：6 verdict 全符预期，exit 0，快照 evidence 在 mount 级）⚠️ 当时"t5 age 32.7h=ROUTING 注入已停"结论有误：signature=ROUTING 是假信号（见 S4） |
 | T6-L-S3 gate 接入 + project-tidy 巡检接线 + per-rule sha1（A→B→C 安全序） | S2 | ~80 | ~60 | 1(stage-gate) | sub-27b | ✅ 90e6840（Lead 验收：A engine.py:42 定义/:213 advance 调用+commit 3 文件纯净；B daily.sh T6L 段 diff 恰 4 行+bash -n 过；C jsonl 14 条 rules，文件型 3 条 sha1 独立复算全对，活 hook 备份 .bak-20261126 在；pytest 15 passed+真实 advance 未被误拦） |
 | ④ 预算扫描数据迁移 main 生产线（69 文件+REPORT.md） | - | ~40 | ~45 | 1(pfb) | sub-27b | ✅ eeb738b（Lead 核验：commit 68 文件全在 budget-scan-719/ 下纯净，cov 三值独立复算一致；范围判断对——源 8 子目录只迁 ④ 对应的 q6-* 三个；worktree 黑洞解除） |
+| T6-L-S4 t5 审计信号修复（signature ROUTING→自问(常驻)）+ CLAUDE.md marker 入 APPROVALS #5 | S2 | ~30 | ~20 | 1(stage-gate)+APPROVALS | 判断-Lead | ✅ a507703（Lead 自做：核 jsonl 发现旧 sig 匹配的是自问规则文本里顺带提的 ROUTING.md=假信号；t5 是 CLAUDE.md 层调度器不走注入 hook；改 sig 后 checker 报 t5 纯因 CLAUDE.md 缺 marker；marker 改动走 APPROVALS #5 待批——CLAUDE.md 受保护文件） |
 
 > **验收标准变化（本次事件导出的规则）**："✅ 已实施"类记录必须附磁盘证据（文件路径+commit 或 checker verdict）；
 > 自我申报的 ✅ 一律视为未验证。T6-L-S2 落地后，机制类状态以 checker verdict 为准。
