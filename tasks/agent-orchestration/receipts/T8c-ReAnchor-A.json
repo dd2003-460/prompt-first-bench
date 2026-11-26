@@ -1,0 +1,27 @@
+{
+  "task_id": "T8c-ReAnchor-A",
+  "status": "DONE",
+  "started_at": "2026-11-26T22:24:09+08:00",
+  "closed_at": "2026-11-26T23:05:00+08:00",
+  "closed_by": "supervisor (executor 应用 37/38 点后超时, 未闭环; supervisor 接管收尾)",
+  "evidence": {
+    "executor_work": "37/38 替换点应用 + apply_reanchor.py 解析脚本 (111 行) + t8c-reanchor-table-704.json; 崩溃于 commit/回执前",
+    "supervisor_fixes": [
+      "taskcard 4d: selfcheck c_pass 锚 0.681→0.4511 (初版卡漏点, 执行者按卡无法修)",
+      "taskcard 4e: oracle CALC_DIR 硬编码 pfb worktree 路径→脚本相对 (ModuleNotFoundError)",
+      "taskcard 4f: probe sys.path 同 4e + import os,sys",
+      "oracle docstring 验收锚 3090/0.679 → V100/0.4511"
+    ],
+    "acceptance": {
+      "selfcheck": "PASS exit=0 (winner=V100×4/W4/n=2, c_pass=0.4511, 淘汰 5/5)",
+      "oracle": "PASS (winner=V100×4/W4/n=2 c_pass=0.451, N-5.2 6/6)",
+      "judge_probe": "4/6 核心型全绿 (CORRECT/ERR_A1/ERR_A2/ERR_A3); TBL 两例红=judge 正则缺口, HEAD 版即红, 非本卡引入, 另行立项 T8c-JudgeFix"
+    },
+    "known_gap": "judge _winner_patterns 表格行变体不认 'V100 SXM2 | 4 |' 带后缀形态 → TBL 误判 A2; 任务卡边界禁改 correctness_layer_v0.py, 不混入本 commit"
+  },
+  "thinking_log": [
+    "矛盾触发: selfcheck FAIL (c_pass 期望 0.681 实得 0.4511) → 溯源=任务卡漏 38 点, 非执行者错 (执行者忠实按卡 37 点)",
+    "路径类异常×2 (oracle/probe ModuleNotFoundError) 同根因: 任务卡未覆盖 worktree 切换后的硬编码路径 → 统一改脚本相对, 跨 worktree 可移植",
+    "judge TBL 缺口定性: 验收标准外 + 卡边界禁改 + HEAD 即红 → 记录不修, 防范围蔓延"
+  ]
+}

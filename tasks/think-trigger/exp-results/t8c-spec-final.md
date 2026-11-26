@@ -12,7 +12,7 @@
 | 歧义 | T8b 题面 | T8c 终稿 | 依据（一句话） |
 |------|---------|---------|--------------|
 | ① 上下文 | ≥32K 容量下限 | **64K 定值**（KV 按 64K 计） | gold 锚点 @64K（gold-tree.md L123）+ 本地统计 32K/64K 均为松约束（construct-mismatch 台账 11-25 条目） |
-| ② 候选集 | 自行搜索 | **定死 2 卡**：3090、V100（规格 ①类齐全） | 4090 敏感性已证候选集含 4090 则 winner 翻转（oracle `check_4090_flip()` 实跑）；定死后 oracle 实跑 winner=3090×4/W4/n=2 ✅ |
+| ② 候选集 | 自行搜索 | **定死 2 卡**：3090、V100（规格 ①类齐全） | 4090 敏感性已证候选集含 4090 不改变 winner（0.6354 > 0.4511, oracle 实跑）；定死后 oracle 实跑 winner=V100×4/W4/n=2 ✅ |
 | ③ 目标函数 | 性价比最优（宽） | **c_pass ¢/task 最小化**（公式+参数全列，与 calc.py 同构） | gold 树 N-0 口径；calc.py 4/4 验收锚已过（本轮实跑） |
 
 附加消解（T8b 正向对照暴露的第 4 处）：**并发约定 n = n_cards//2**（2 卡/流，部署惯例非自由变量）
@@ -48,10 +48,12 @@ W_bytes∈{14,27,54} 来自 calc.py L49 ①类；r=20 tok/s 即 ④ 解码吞吐
    只覆盖 calc.py HARDWARE 里有完整 ①类规格的卡 = 3090 + V100。gold 树其余候选
    （M2Ultra/L40S/A100，gold-tree.md L94 ①类）在 KB 缺 flops/price（null=[待核验]），
    不凭记忆填数（③类风险，oracle docstring 明示）。→ 定死 2 卡 = 定死在「规格可复算」的交集上。
-2. **4090 必须排除**（敏感性已证，本轮 oracle 实跑复现）：`check_4090_flip()` →
-   4090×4/W4/n=2 = 0.635 < 3090×4/W4/n=2 = 0.681，winner 翻转为 4090（盈亏平衡价 ≈ $1905，
-   远高于 KB MSRP $1599 / NE street $1699-1899，`knowledge-base/hardware-staging/rtx-4090.json`
-   ①类 conf 0.85）。T8b 题面「自行搜索」让模型自由纳入 4090 → 对照被污染（t8b-smoke-report.md §3.2）。
+2. **4090 必须排除**（T8b 污染 + 规格不全双重理由）：(a) 4090 不在 calc.py HARDWARE
+   （KB `knowledge-base/hardware-staging/rtx-4090.json` ①类 conf 0.85 但 flops 口径
+   non-tensor 165.2 TFLOPS 与 gold 口径不一致），入候选集则 oracle sweep 不可复算；
+   (b) T8b 题面「自行搜索」让模型自由纳入 4090 → 对照被污染（t8b-smoke-report.md §3.2）。
+   敏感性复核：4090×4/W4/n=2 = 0.6354 > V100×4/W4/n=2 = 0.4511，即使入候选集也不翻转
+   winner（盈亏平衡价 ≈ $1905，远高于 KB MSRP $1599）。
 3. **M2Ultra/L40S/A100 排除**：规格不全（KB `mac-studio-m5-ultra.json`/`l40s.json`/`a100.json`
    ①类但 flops/price 为 null）。它们已被 gold 树 N-5.2 带宽门划掉（M2Ultra 448<774 fail、
    L40S 691<774 fail、A100×1/W16 1548<1574 fail，oracle `check_gold_judgments()` 6/6 实跑吻合），
@@ -62,22 +64,23 @@ W_bytes∈{14,27,54} 来自 calc.py L49 ①类；r=20 tok/s 即 ④ 解码吞吐
 | 卡 | 显存 | 峰值带宽 | 峰值算力(FP16 non-tensor) | TDP | 单价(题面钉死) | 来源 |
 |----|------|---------|--------------------------|-----|--------------|------|
 | RTX 3090 | 24GB | 936 GB/s | 71 TFLOPS | 350W | **$1050** | calc.py L33 ①类（gold L4 口径）；KB `knowledge-base/hardware/rtx-3090.json` ①类 conf 0.5 二手价 $1500-2000（与 gold 口径不一致，题面取 gold 口径保 winner 复现） |
-| V100 SXM2 | 32GB | 900 GB/s | 125 TFLOPS | 250W | **$2500** | calc.py L36 ①类（规格源 `datacenter-cards.json`；价格原文标 [待核验, 2026 市场价] → 本实验按 ③类假设钉死，见下方脆弱性披露） |
+| V100 SXM2 | 32GB | 900 GB/s | 125 TFLOPS | 250W | **$704**（¥5000） | 规格 calc.py L36 ①类（源 `datacenter-cards.json`）；价格 ①类核验 2026-11-26（京东零售 ¥4770-6000 取中 ¥5000≈$704, 4 条 listing 交叉） |
 
-**⚠ 脆弱性披露（必须随题面一起读）**：winner 对 V100 价格假设敏感——本轮实跑（python 二分，
-calc.py 同参数）：V100 单价 **< $2033** 时 V100×4/W4/n=2 反超 3090×4/W4/n=2 成为 winner；
-V100=$2500（题面值）时 0.761 > 0.681，3090 稳赢。3090 一侧对价格极不敏感（>$5000 才被反超，
-远超任何现实价）。→ **T8c 的 correctness 锚点 = 「题面钉死价格下的 winner」**，即
-3090×4/W4/n=2；若后续 V100 实价核验（③→①升级）落在 $2033 以下，winner 锚点须重定，
-T8c 数据作废重跑。此为已知限制，不掩盖。
+**⚠ 脆弱性披露（必须随题面一起读）**：winner 对 V100 价格敏感——本轮实跑（python 二分，
+calc.py 同参数）：V100 单价 **> $2032.9** 时 3090×4/W4/n=2 反超 V100×4/W4/n=2 成为 winner；
+V100=$704（题面值，①类核验 2026-11-26 京东 ¥5000）时 0.4511 < 0.6807，V100 稳赢
+（margin 33.7%）。3090 一侧对价格极不敏感（其价格 $1050 为 gold 口径钉死值）。
+→ **T8c 的 correctness 锚点 = 「题面钉死价格下的 winner」**，即 V100×4/W4/n=2；
+若后续 V100 实价核验落在 $2032.9 以上，winner 锚点须重定，T8c 数据作废重跑。
+此为已知限制，不掩盖。
 
-**oracle 实跑验证（本轮，命令 `python3 tasks/think-trigger/exp-results/gold_gpu_oracle.py`，exit 0）**：
-- winner = **3090×4/W4/n=2** ✅（期望一致）
-- c_pass(winner) = 0.681 ≈ 0.679（calc.py 标定值，差 0.3% < 1% 容差）✅
+**oracle 实跑验证（2026-11-26 重锚定后，V100 price=704, 命令 `python3 tasks/think-trigger/exp-results/gold_gpu_oracle.py`，exit 0）**：
+- winner = **V100×4/W4/n=2** ✅（期望一致）
+- c_pass(winner) = 0.4511 ¢/task
 - N-5.2 带宽门对 gold 6 个 pass/fail 判断 6/6 吻合 ✅
-- 可行配置排序 top-3：3090×4/W4/n=2 (0.681) < V100×4/W4/n=2 (0.761) < 3090×4/W8/n=2 (0.764)
+- 可行配置排序 top-3：V100×4/W4/n=2 (0.4511) < V100×4/W8/n=2 (0.5188) < V100×3/W4/n=1 (0.5856)
 - 淘汰 5 配置：3090×2/W8、3090×2/W16、3090×3/W16、3090×4/W16（N-5.1 显存门）、V100×2/W16
-- 4090 敏感性复现：4090×4/W4/n=2 = 0.635 → 若入候选集 winner 翻转（排除依据，见上）
+- 4090 敏感性复核：4090×4/W4/n=2 = 0.6354 > 0.4511 → 不翻转 winner（排除依据见上）
 
 ## 3. 歧义③ 消解：c_pass 口径（公式 + 参数 + 同构性）
 
@@ -118,7 +121,7 @@ t_decode  = OUT_TOK × (W_bytes + n×KV) / (n_cards × BW_peak × η_bw × tp_ef
 
 **与 calc.py 的同构性**：题面公式与 `calc.py` 的 `c_pass()`（L53-67）**逐行同构**——
 同一公式、同一参数表、同一单位（c_hour 美元/小时 ÷ 吞吐 → 美元/task ×100 → ¢/task）。
-模型按题面公式算出的 c_pass 应能对上 oracle 数值（winner 0.681），对不上即可机械判「算术/推导错」。
+模型按题面公式算出的 c_pass 应能对上 oracle 数值（winner 0.4511），对不上即可机械判「算术/推导错」。
 N-5.2 带宽门与 c_pass 的 decode 项**代数同构**（t8b-smoke-report.md §3.1 已证：
 把目标每流速率 r=20 代入 t_decode 分子即得带宽准入下限 20×(W+n×KV)/n_cards），
 故题面同时给出：带宽准入下限 W4=774 / W8=1034 / W16=1574 GB/s（每卡有效带宽 = BW_peak×0.80

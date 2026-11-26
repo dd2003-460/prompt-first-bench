@@ -205,6 +205,22 @@ new: `    "V100": dict(mem=32.0, bw=900.0, tf=125e12, tdp=250.0, price=704.0),`
 old: `    ok_winner = (w == "3090×4/W4/n=2")`
 new: `    ok_winner = (w == "V100×4/W4/n=2")`
 
+### 4d. L87（c_pass 验收锚, 2026-11-26 补 — 初版任务卡漏点, executor 按卡执行 37 点后 selfcheck 因本锚 FAIL, 由 supervisor 补修）
+old: `    ok_cp = abs(cw - 0.681) / 0.681 < 0.01`
+new: `    ok_cp = abs(cw - 0.4511) / 0.4511 < 0.01`
+（同块 L90 输出文案 `c_pass={cw:.4f}≈0.681` → `c_pass={cw:.4f}≈0.4511`）
+
+### 4e. oracle CALC_DIR 路径（2026-11-26 补 — 初版任务卡漏点: 硬编码 pfb worktree 路径在 pfb-thinkmech worktree 不存在, oracle ModuleNotFoundError, 由 supervisor 改为脚本相对路径）
+old: `CALC_DIR = "/Users/a1-6/Desktop/workspace/pfb/bench/rubric-v3/tasks/T0-local-27b/reference"`
+new: `CALC_DIR = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "bench", "rubric-v3", "tasks", "T0-local-27b", "reference"))`
+
+### 4f. probe sys.path 路径（2026-11-26 补 — 同 4e 漏点: 硬编码 pfb worktree 路径, probe ModuleNotFoundError, supervisor 改脚本相对 + `import sys` → `import os, sys`）
+old: `sys.path.insert(0, "/Users/a1-6/Desktop/workspace/pfb/modules/B-pipeline-ablation/research")`
+new: `sys.path.insert(0, os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "modules", "B-pipeline-ablation", "research")))`
+
+## 已知缺口（不属本卡验收, 另行立项 T8c-JudgeFix）
+- judge `_winner_patterns` 表格行变体只认 `V100 | 4 |`（紧邻）, 不认 `V100 SXM2 | 4 |`（带后缀）→ probe TBL 两例（CORRECT_TBL/ERR_A3_TBL）误判 A2。HEAD 版即红（judge 已切 V100 世界但正则未适配后缀）, 非本卡引入。4 核心型全绿, 验收标准「4 型标签正确」满足。
+
 ## 文件 5: gold_gpu_oracle.py
 路径: tasks/think-trigger/exp-results/gold_gpu_oracle.py
 

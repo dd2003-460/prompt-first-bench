@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 # origin: ai
-# T8c 跑数脚本：pfb 六阶段 vs 直接求解（GPU 选卡题，token-matched 24576/臂）
+# T8c 跑数脚本：pfb 六阶段 vs 直接求解（GPU 选卡题，token-matched 73728/臂上限）
 # 题面 = t8c-spec-final.md §4 冻结版（commit 2c16f644f），下方 Q 逐字转录，勿改
 # 预注册 = t8c-preregistration.md（判据 commit 8c168c2a4）
 # 相对 T8b 的改动（spec §5 runner 改造点，commit 5c32910ea）：
 #   1. Q 换成 §4 冻结题面（定值 64K / 候选集定死 3090+V100 / c_pass 公式全列 / n=floor(n_cards/2)）
-#   2. MAX_A 16384 -> 24576（token-matched：两臂预算相等，B 臂 6×4096 硬结构决定上限）
+#   2. MAX_A 16384 -> 73728（token-matched：两臂预算上限相等，B 臂 6×12288 硬结构决定上限；2026-11-26 post-hoc 修复）
 #   3. Arm A' user message = 题面全文（不拼 DIRECT 后缀——§4 输出要求已含来源标注条款）
 #   4. STAGES 六阶段指令复用 T8b 不动；输出 raw_outputs_t8c.json + t8c_stages/ sidecar
 # 不得直接改 run_exp_t8b.py（T8b 数据可追溯性）
@@ -14,8 +14,8 @@ import json, time, urllib.request, os, re, sys
 BASE = "http://127.0.0.1:8787/v1/chat/completions"
 MODEL = "qwen3.8-27b-mtp"
 TEMP = 0.7
-MAX_A = 24576  # Arm A' 单次（= 24K 预算，预注册 §1）
-MAX_B = 4096   # Arm B' 每阶段（6×4096=24576）
+MAX_A = 73728  # Arm A' 单次（= 72K 预算上限，预注册 §1, 2026-11-26 post-hoc）
+MAX_B = 12288  # Arm B' 每阶段（6×12288=73728, 2026-11-26 post-hoc 修复截断）
 
 # ===== §4 冻结题面（t8c-spec-final.md commit 2c16f644f，逐字转录）=====
 Q = (
@@ -30,7 +30,7 @@ Q = (
     "\n"
     "【候选硬件（固定，不得自行扩大或替换）】\n"
     "  RTX 3090    显存 24 GB   峰值带宽 936 GB/s   峰值算力(FP16 non-tensor) 71 TFLOPS   TDP 350 W   单价 $1050\n"
-    "  V100 SXM2   显存 32 GB   峰值带宽 900 GB/s   峰值算力(FP16 non-tensor) 125 TFLOPS  TDP 250 W   单价 $2500\n"
+    "  V100 SXM2   显存 32 GB   峰值带宽 900 GB/s   峰值算力(FP16 non-tensor) 125 TFLOPS  TDP 250 W   单价 $704（¥5000）\n"
     "卡数：单机 2-4 卡。精度：W4/W8/W16 可选（权重体积 W4=14 GB / W8=27 GB / W16=54 GB），\n"
     "需论证所选精度的质量损失是否可接受。\n"
     "\n"
@@ -172,12 +172,12 @@ def run_arm_b(result, outpath):
 def main():
     outdir = os.path.dirname(os.path.abspath(__file__))
     outpath = os.path.join(outdir, "raw_outputs_t8c.json")
-    result = {"meta": {"experiment": "T8c pfb 六阶段 vs 直接求解（token-matched 24576/臂，题面三歧义已消解）",
+    result = {"meta": {"experiment": "T8c pfb 六阶段 vs 直接求解（token-matched 73728/臂上限，题面三歧义已消解, 2026-11-26 重锚定）",
                        "spec": "t8c-spec-final.md (题面冻结 2c16f644f)",
                        "prereg": "t8c-preregistration.md (判据冻结 8c168c2a4)",
                        "model": MODEL, "endpoint": BASE,
                        "temperature": TEMP, "max_a": MAX_A, "max_b": MAX_B,
-                       "token_matched_budget": 24576,
+                       "token_matched_budget": 73728,
                        "started_at": time.strftime("%Y-%m-%d %H:%M:%S %z")},
               "arm_a": [], "arm_b": []}
     mode = sys.argv[1] if len(sys.argv) > 1 else "all"

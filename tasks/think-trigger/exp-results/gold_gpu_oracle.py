@@ -5,7 +5,7 @@ gold_gpu_oracle.py — 独立 gold 预言机（T8c token-matched 对照的 oracl
 
 # origin: ai (2026-11-25, T8b 副产物)
 # 作用: 给定候选硬件, 机械复算 gold 树的三道约束 (N-5.1 显存门 / N-5.2 带宽门 / c_pass 成本),
-#       输出可行配置按 c_pass 排序, 复现 gold winner = 3090×4/W4/n=2。
+#       输出可行配置按 c_pass 排序, 复现 gold winner = V100×4/W4/n=2 (2026-11-26 重锚定后)。
 #
 # 为什么需要它: T8b 发现 0/6 correctness 是『题面 32K 画像 vs gold 64K 画像』分叉, 不是 gold 不一致。
 #   T8c 要做 token-matched 对照, 必须有一个独立于被测模型的 gold 参照——本预言机就是这个参照:
@@ -23,17 +23,19 @@ gold_gpu_oracle.py — 独立 gold 预言机（T8c token-matched 对照的 oracl
 #     4090 例外: KB 有完整 ①类规格 (rtx-4090.json, conf 0.85), 但 4090 不在 gold 候选集内——
 #     见下方 4090 敏感性分析: 一旦把 4090 加入候选集, gold winner 翻转为 4090×4/W4/n=2。
 #
-# 验收锚 (跑本脚本应全过):
-#   ① winner = 3090×4/W4/n=2
-#   ② c_pass(winner) ≈ 0.679 ¢/task (calc.py 标定值, 容差 1%)
+# 验收锚 (跑本脚本应全过; 2026-11-26 重锚定后更新):
+#   ① winner = V100×4/W4/n=2
+#   ② c_pass(winner) ≈ 0.4511 ¢/task (V100 单价 $704 核验后, 容差 1%)
 #   ③ N-5.2 门对 6 个 gold 判断 6/6 吻合 (M2Ultra/L40S/A100/3090×2-W8/3090×2-W16 fail, 3090×4-W4 pass)
 """
 import os, sys
 
 # 复用 calc.py 的已验证函数与参数 (①类来源)
-CALC_DIR = "/Users/a1-6/Desktop/workspace/pfb/bench/rubric-v3/tasks/T0-local-27b/reference"
+# 2026-11-26 路径修复: 原硬编码 pfb worktree 路径在 pfb-thinkmech worktree 不存在(ModuleNotFoundError), 改脚本相对(跨 worktree 可移植)
+CALC_DIR = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "bench", "rubric-v3", "tasks", "T0-local-27b", "reference"))
 sys.path.insert(0, CALC_DIR)
-import calc  # noqa: E402
+import calc
+calc.HARDWARE["V100"]["price_each"] = 704.0  # 2026-11-26 ①类核验 (京东 ¥5000)
 
 # ---- N-5.2 带宽门 (本轮恢复的一般式) ----
 # 每卡需求 = r × (W_bytes + n_streams×KV) / n_cards   vs   每卡有效带宽 = bw_peak × η_bw
@@ -161,12 +163,12 @@ def main():
 
     winner_cfg = ranked[0][1]
     winner_c = ranked[0][0]
-    expect = "3090×4/W4/n=2"
+    expect = "V100×4/W4/n=2"
     win_ok = winner_cfg == expect
-    c_ok = abs(winner_c - 0.679) / 0.679 < 0.01
+    c_ok = abs(winner_c - 0.4511) / 0.4511 < 0.01
     print(f"\n{'=' * 68}")
     print(f"验收: winner={winner_cfg} {'✅' if win_ok else '❌ 期望 '+expect}   "
-          f"c_pass={winner_c:.3f}≈0.679 {'✅' if c_ok else '❌'}   "
+          f"c_pass={winner_c:.4f}≈0.4511 {'✅' if c_ok else '❌'}   "
           f"N-5.2 6/6 {'✅' if ok6 else '❌'}")
     print(f"结论: gold winner 复现 {'成立' if win_ok and c_ok else '失败'}"
           f" (oracle 可用于 T8c token-matched 对照的独立参照)")
