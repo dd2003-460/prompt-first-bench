@@ -184,11 +184,12 @@
 | methodology-sync-patrol | patrol | ALIVE（今日 f0707c89 加的检查） |
 
 ### 任务表
-| 任务 | 依赖 | 读(行) | 写(行) | commits | 载体 |
-|---|---|---|---|---|---|
-| T6-L-S1 registry.json 初版（6 条，schema 见任务卡） | - | ~40 | ~70 | 1(stage-gate) | sub-27b |
-| T6-L-S2 checker（三判+worktree 遍历+快照+--status，增量写盘 <50行/次） | S1 | ~60 | ~130(分3次) | 1(stage-gate) | sub-27b |
-| T6-L-S3 gate 接入 + project-tidy 巡检接线 + APPROVALS 留痕 | S2 | ~80 | ~60 | 2(stage-gate+根仓) | sub-27b |
+| 任务 | 依赖 | 读(行) | 写(行) | commits | 载体 | 状态 |
+|---|---|---|---|---|---|---|
+| T6-L-S1 registry.json 初版（6 条，schema 见任务卡） | - | ~40 | ~70 | 1(stage-gate) | sub-27b | ✅ aefe09c + 修正 80f5006（patrol audit 路径 run.log 不存在→cron output glob_latest，Lead 校准） |
+| T6-L-S2 checker（五判 verdict+快照+exit code，脚本落盘） | S1 | ~60 | ~130(分3次) | 1(stage-gate) | sub-27b | ⏳ deleg_f0d7b010（卡 tasks/t6l-s2-checker-20261126.md，含 6 条预期 verdict 自检表） |
+| T6-L-S3 gate 接入 + project-tidy 巡检接线 | S2 | ~80 | ~60 | 1(stage-gate) | sub-27b | 排队（卡 tasks/t6l-s3-gate-20261126.md；daily.sh 不在 git 仓，备份 .bak-20261126 已留） |
+| ④ 预算扫描数据迁移 main 生产线（32 文件+REPORT.md） | - | ~40 | ~45 | 1(pfb) | sub-27b | 排队（卡 tasks/budget-scan-migrate-main-20261126.md；解 worktree 黑洞） |
 
 > **验收标准变化（本次事件导出的规则）**："✅ 已实施"类记录必须附磁盘证据（文件路径+commit 或 checker verdict）；
 > 自我申报的 ✅ 一律视为未验证。T6-L-S2 落地后，机制类状态以 checker verdict 为准。
