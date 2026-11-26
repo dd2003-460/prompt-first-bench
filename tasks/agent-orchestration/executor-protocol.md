@@ -12,6 +12,7 @@
    - `MONITOR_ERROR:*` → 最终回复 = `MONITOR_ERROR <详情>`，不执行任何东西
    - `READY:<短ID>` → 进 2 认领执行
    - `WORKING:<短ID>` → 其他执行者正在干，本 tick 结束，最终回复 = `BUSY <短ID>`
+   - `DEAD:<短ID>` → 同 STALE 处理（先核磁盘再接力）（来源：monitor PID 探活, S4-1）
    - `STALE:<短ID>` → 崩溃恢复：先核磁盘（git status/日志/部分产物），确认死因后按任务卡边界从断点续做或重做；回执里记 `recovery_note`。同一任务同死法 2 次 = 回执 status=failed 报因，不再试
    - `REVIEW:<短ID>` → 已有 done/failed 回执待监督者核，执行者不碰，最终回复 = `REVIEW_PENDING <短ID>`
 2. **认领**：写回执 `tasks/agent-orchestration/receipts/<任务短ID>.json`：
