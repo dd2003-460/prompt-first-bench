@@ -460,6 +460,7 @@ class DecompStateMachine:
         self.dropped_redundant = 0
         self.objective: Optional[dict] = None  # Decision 19: 模型自估计终点目标函数（L1 轮产出）
         self.objective_mode: str = "formula"  # #31 消融臂: formula=P1_L1_SKELETON(公式版) / text=P1_L1_TEXT(文字版)
+        self.obj_inject = False  # 修复① (2026-11-26): --obj-inject 开关，L1 objective factors 注入逐层 decompose（默认 OFF）
         self.ckpt_round = 0  # 2026-11-16: resume 时记录 ckpt round（verify-only 批次号基准）
         self._no_ness_streak = 0
         self.network_degraded = False  # E8: 出口探针结果，run() 开头设置
@@ -507,7 +508,8 @@ class DecompStateMachine:
         # 现在存到 self.challenge_log 并随 checkpoint 持久化——质询过程可审计。
         if isinstance(d.get("challenge"), dict):
             self.challenge_log.append({"layer": "L1", "question": self.question[:100], **d["challenge"]})
-        # Decision 19: 模型自估计的终点目标函数——落盘到根节点，不进后续 prompt。
+        # Decision 19: 模型自估计的终点目标函数——落盘到根节点，默认不进后续 prompt
+        # （--obj-inject 开启时以"维度覆盖检查清单"框架注入逐层 decompose，修复① 2026-11-26）。
         # 角色：机器侧对照基准（G9 gold 维度集的免费替代初稿），不是刷分目标。
         objective = d.get("objective")
         if isinstance(objective, dict):
@@ -582,10 +584,26 @@ class DecompStateMachine:
                 "（看 evidence 的来源质量），在子节点 claim 里显式修正错误的一方，"
                 "并在 evidence 栏注明「修正自矛盾检测」。不要回避矛盾、两边都保留。\n")
 
+        # 修复① (2026-11-26): L1 objective factors 注入逐层 decompose。
+        # Decision 19 原意：objective 是机器侧对照基准，不是刷分目标——
+        # 所以措辞框架 = 维度覆盖检查清单，不是"朝这些因素优化"。
+        # 默认 OFF（--obj-inject 开启）；OFF 时本块为空串，prompt 与现状一致。
+        objective_block = ""
+        if getattr(self, "obj_inject", False) and self.objective \
+                and (self.objective.get("factors") or []):
+            _facts = [str(f_)[:60] for f_ in self.objective["factors"][:4]]
+            _comp = str(self.objective.get("composition", ""))[:120]
+            objective_block = (
+                "\n【维度覆盖检查清单（L1 层自估的终点目标维度，仅用于检查覆盖、不是刷分目标）】\n"
+                f"组合：{_comp}\n"
+                + "\n".join(f"- {_f}" for _f in _facts) +
+                "\n展开父节点前检查：该父节点的子维度是否覆盖了上述维度中尚未在树内出现的项？"
+                "\n未覆盖的维度优先展开；已覆盖的不要重复拆。\n")
+
 
         prompt = self._safe_prompt(P1H_INDEX,
             question=self.question,
-            confirmed_block=confirmed_block + (contradiction_block or ""),
+            confirmed_block=confirmed_block + (contradiction_block or "") + objective_block,
             parents_block=parents_block + edge_block,
             start=len(self.nodes) + 1,
         )
@@ -1720,6 +1738,9 @@ if __name__ == "__main__":
         elif v.startswith("--beta="):
             sm.cfg.redundancy_penalty_beta = float(v.split("=", 1)[1])
     verify_only = "--verify-only" in flags
+    # 修复① (2026-11-26): --obj-inject 开关（默认 OFF）——L1 objective factors
+    # 以"维度覆盖检查清单"框架注入逐层 decompose prompt（治 nat b 型维度盲区）。
+    sm.obj_inject = "--obj-inject" in flags
     obj_mode_flag = next((f.split("=", 1)[1] for f in flags if f.startswith("--obj-mode=")), "formula")
     sm.objective_mode = obj_mode_flag  # #31 消融臂: formula(默认) / text
     if resume_from:
