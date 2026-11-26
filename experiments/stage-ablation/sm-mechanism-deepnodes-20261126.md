@@ -7,8 +7,10 @@
 > `loop/01..04.5-*.md`（六阶段文件）、`state-machine-status-20261126.md`、`T53-05-accept.md`、
 > `modules/A-eval-infra/research/scoring-v3-gatefixed.md`。
 > 注：`loop/prompt-first/` 目录现已不存在，六阶段文件实际位于 `pfb/loop/`（01/02/02.5/03/04/04.5），
-> `ablation_harness.STAGE_FILES` 仍指向旧路径 `loop/prompt-first/`（`build_prompt('S5')` 当前会 FileNotFoundError）——
-> 即 S5 六阶段注入的 harness 入口在 2026-11-26 时点已断链，历史 S5 分数（0.579）是断链前跑的。
+> `ablation_harness.STAGE_FILES` 仍指向旧路径 `loop/prompt-first/`（`build_prompt('S5')` 当前会 FileNotFoundError，2026-11-26 实测复现）——
+> 即 S5 六阶段注入的 harness 入口在 2026-11-26 时点已断链。时序实锤：S5 prod 基线 200 run 跑于 2026-11-08 09:49–19:32 UTC（runs-s5-prod/ ts 字段），
+> 而 loop/prompt-first/ 删除于 commit 4df4c3779（2026-11-11 19:52 +0800，`git show 4df4c3779^:` 确认文件当时存在）——
+> 历史 S5 分数（0.579）是断链前跑的，复跑需先修路径。
 
 ## §1 机制对比：v18 状态机各阶段 prompt vs S5 六阶段注入
 
@@ -222,7 +224,7 @@ L4 的内容形态 = 具体公式代入/边界条件/敏感度系数/机制解�
 | 7 | 综合层截断（L4 信息丢失） | **未控** | synthesize_answer line 1576-1579：每层 seg 截 12K（head 8K+tail 4K），L4 97 节点 24K chars 后半段（roofline/故障损耗/利用率公式）被丢；judge 再截 answer 前 12K。深层节点对分数贡献被截断，截断量随树大小变（nat 278 节点 vs q7-rd 51 节点截断损失不同） |
 | 8 | 检索质量波动（ego-browser/arXiv 通道可用性） | **未控** | SM 有 _probe_network 降级（network_degraded 时检索退化），但落盘 json 无逐节点检索成功率字段；nat 树 70 节点 pending 是 8787 502 中断（T53 AC3），检索/推理通道噪声混入树质量 |
 | 9 | n 太小（单 rep 或 n=2） | **未控** | DESIGN.md §4："n=2 只能出方向性结论（t17 已证 n=2 噪声 ≥ 域差）"；v18 各题多为单 rep（nat-synth-multi 10 rep 是例外，sd 0.263 本身说明方差大） |
-| 10 | S5 六阶段文件路径断链（harness 指向已不存在的 loop/prompt-first/） | **未控（历史口径）** | ablation_harness.STAGE_FILES 指向 pfb/loop/prompt-first/（不存在），文件实际在 pfb/loop/；build_prompt('S5') 当前 FileNotFoundError。S5 0.579 是断链前跑出，复跑 S5 需先修路径，否则"S5 vs v18"对比的 S5 侧不可复现 |
+| 10 | S5 六阶段文件路径断链（harness 指向已不存在的 loop/prompt-first/） | **未控（历史口径）** | ablation_harness.STAGE_FILES 指向 pfb/loop/prompt-first/（不存在），文件实际在 pfb/loop/；build_prompt('S5') 当前 FileNotFoundError（2026-11-26 实测）。时序：S5 prod 200 run 跑于 2026-11-08，loop/prompt-first/ 删除于 4df4c3779（2026-11-11），故 0.579 是断链前跑出；复跑 S5 需先修路径，否则"S5 vs v18"对比的 S5 侧不可复现 |
 
 Top3（对分数影响最大）：**#1 8787 漂移**（nat FAIL 的主因，直接翻转 gate 判定）、
 **#4 judge 同族偏差**（方向都可能反）、**#6 口径混杂**（v18 0.393 vs S5 0.579 的并排本身不可比）。
