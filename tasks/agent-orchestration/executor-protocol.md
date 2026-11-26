@@ -11,7 +11,7 @@
    - 输出 `IDLE` → 本 tick 结束，最终回复 = `IDLE`
    - 输出 `MONITOR_ERROR` → 最终回复 = `MONITOR_ERROR <详情>`，不执行任何东西
    - 输出任务短 ID（如 `T8c-ReAnchor-A`）→ 进 2
-2. **认领**：写回执 `tasks/think-trigger/exp-results/receipts/<任务短ID>.json`：
+2. **认领**：写回执 `tasks/agent-orchestration/receipts/<任务短ID>.json`：
    `{"task_id": "<短ID>", "status": "claimed", "started_at": "<ISO8601+08:00>", "evidence": {}, "thinking_log": []}`
 3. **读任务卡**（路径见下方任务卡映射）。任务卡是唯一指令来源，不读其他背景文件（任务卡明确要求的除外）。
 4. **执行**：严格按任务卡「执行方式」。
