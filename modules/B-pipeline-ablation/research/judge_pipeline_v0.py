@@ -5,6 +5,12 @@ judge_pipeline_v0.py — J2 整合入口：judge_v1(coverage) + correctness_laye
 # origin: ai  (J2, 2026-11-25)
 - coverage 口径 = judge_v1.layer_coverage（bge-m3 节点级 claim 编码, COS_THRESHOLD=0.7, frozen spec f6072397f, 只 import 不改）
 - correctness 口径 = correctness_layer_v0（纯规则三型 A1/A2/A3 判别 + C/E/R/S/N 五轴, J1 已验收）
+- bonus 口径（2026-11-26, gold-tree.md『停止判据声明』）: gold 在 η_bw（经验系数）处停止分解 =
+  可测量性收口而非能力边界。模型在收口处继续拆出的、且按现有 correctness 判据判为正确的更深层
+  分解 = 加分项: 单独计数（bonus_count/bonus_nodes）, 不进 cov 分母（cov 计算逻辑零改动, 纯旁路）。
+  判据假设: 节点级 top-1 cosine ≥ COS_THRESHOLD(0.70) 判"正确"（= 本文件 compute_coverage 的
+  现有节点级 correctness 判据, 未引入新判据）; "超出 gold 深度" = 模型节点深度 > 其 top-1 匹配
+  gold 单元的 depth（gold 在该位置已收口/无更深分解）。
 - 输入任意 run 文件, 自动适配三种 schema:
     flat   : {answer: "..."} 自由文本 (S0-gpu-r*.json)
     nested : {nodes: [{claim,...}]} 节点级 (runs-s5-sm-gpu.json)
@@ -135,12 +141,75 @@ def compute_correctness(text, qid):
     return ax, res["P_A1"], res["P_A3"], res["C2BP"], res["verdict"], res.get("detail", {}), res["corr"]
 
 
+# ---------- 加分项（gold-tree.md 停止判据声明 2026-11-26） ----------
+# 纯旁路: 只读模型节点 + gold 单元, 不触碰 compute_coverage / judge_v1.layer_coverage 的任何
+# 计算, cov 分母零改动。判据假设: 节点"正确" = top-1 cosine >= COS_THRESHOLD(0.70)（= 本文件
+# compute_coverage 已在用的节点级 correctness 判据, 未引入新判据）; "超出 gold 深度" = 模型节点
+# depth > 其 top-1 匹配 gold 单元的 depth（gold 在该位置已收口/无更深分解）。
+def compute_bonus(payload, qid, model):
+    """加分项: 模型在 gold 收口处继续拆出的、判为正确的更深层分解, 单独计数。
+    返回 (bonus_count, bonus_nodes, bonus_meta)。free-text(line-as-node, depth 恒=1) → 0。
+    节点 claim 与 cov 同口径(_cov_nodes); 但 depth 用真实节点深度（judge_v1.load_run_nodes 同规则:
+    level 'L<n>' 或 len(parent_ids)+1）——_cov_nodes 为 cov 口径把 nested depth 拍平成 1, 不能用。"""
+    import numpy as np
+    nodes = _cov_nodes(payload)            # 与 cov 同口径的模型节点（claim 一致）
+    if not nodes:
+        return 0, [], {"reason": "no model nodes"}
+    # 真实深度（仅 nested 有意义; flat/t8b 保持 1 → 不可能 > gold depth → bonus 恒 0）
+    if payload.get("kind") == "nested":
+        for n, raw in zip(nodes, payload["nodes"]):
+            m = re.match(r"L(\d+)", raw.get("level", ""))
+            n["depth"] = int(m.group(1)) if m else (len(raw.get("parent_ids", [])) + 1)
+    gold_units = judge_v1.load_gold(qid)
+    if not gold_units:
+        return 0, [], {"reason": "no gold units for qid=%s" % qid}
+    node_emb = model.encode([n["claim"] for n in nodes], normalize_embeddings=True,
+                            show_progress_bar=False)
+    gold_emb = model.encode([u["text"] for u in gold_units], normalize_embeddings=True,
+                            show_progress_bar=False)
+    sim = node_emb @ gold_emb.T
+    top1 = sim.argmax(axis=1)
+    top1_sim = sim[np.arange(len(nodes)), top1]
+    thr = judge_v1.COS_THRESHOLD
+    bonus_nodes = []
+    n_correct = 0
+    n_beyond = 0
+    for i, n in enumerate(nodes):
+        g_idx = int(top1[i])
+        g_unit = gold_units[g_idx]
+        correct = bool(top1_sim[i] >= thr)      # 现有节点级 correctness 判据
+        beyond = n["depth"] > g_unit["depth"]   # 超出 gold 深度（收口处继续拆）
+        n_correct += int(correct)
+        n_beyond += int(beyond)
+        if correct and beyond:
+            bonus_nodes.append({
+                "node_path": n["id"],
+                "depth": n["depth"],
+                "matched_gold": g_unit["unit_id"],
+                "gold_depth": g_unit["depth"],
+                "cos": round(float(top1_sim[i]), 4),
+                "reason": "depth %d > gold %s depth %d (收口处继续分解) 且 cosine %.3f >= %.2f"
+                          % (n["depth"], g_unit["unit_id"], g_unit["depth"],
+                             float(top1_sim[i]), thr),
+            })
+    meta = {
+        "criterion": "top-1 cosine >= %.2f (现有节点级 correctness 判据, 同 compute_coverage)" % thr,
+        "beyond_rule": "node.depth > matched_gold.unit.depth",
+        "n_model_nodes": len(nodes),
+        "n_correct": n_correct,
+        "n_beyond": n_beyond,
+        "cov_denominator_untouched": True,
+    }
+    return len(bonus_nodes), bonus_nodes, meta
+
+
 def score_sample(sample_id, payload, qid, model):
     """一个样本 → 联合结果 dict。"""
     cov, det = compute_coverage(payload, qid, model)
     nodes = payload.get("nodes")
     text = ("\n".join(n.get("claim","") for n in nodes) if nodes else payload.get("text",""))
     ax, p_a1, p_a3, c2bp, verdict, ev, corr = compute_correctness(text, qid)
+    bonus_count, bonus_nodes, bonus_meta = compute_bonus(payload, qid, model)
     return {
         "sample": sample_id,
         "kind": payload["kind"],
@@ -153,6 +222,9 @@ def score_sample(sample_id, payload, qid, model):
         "C2BP": c2bp,
         "verdict": verdict,
         "evidence": ev,
+        "bonus_count": bonus_count,
+        "bonus_nodes": bonus_nodes,
+        "bonus_meta": bonus_meta,
     }
 
 
@@ -277,7 +349,8 @@ def run(paths, qid_default, outdir, write_md=True, md_title=None):
             r["note"] = note
             results.append(r)
             print(f"  {r['sample']:28s} cov={_num(r['cov'])} CORR={_num(r['CORR'])} "
-                  f"P_A1={_num(r['P_A1'])} P_A3={_num(r['P_A3'])} C2BP={r['C2BP']} verdict={r['verdict']}",
+                  f"P_A1={_num(r['P_A1'])} P_A3={_num(r['P_A3'])} C2BP={r['C2BP']} verdict={r['verdict']} "
+                  f"bonus={r['bonus_count']}",
                   flush=True)
 
     os.makedirs(outdir, exist_ok=True)
