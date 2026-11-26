@@ -20,7 +20,7 @@ D 问的「逐点 overall」= 路径 A。下面逐节。
 **judge 对每个 gold 要点打什么分：0-1 连续深度分，不是 0/1 二值，也不是 0/1/2 档。**
 
 - prompt 原文（`judge_v2_depth.py:390`）：「对每个要点，给出一个 **0.00-1.00 的连续深度分**，表示候选回答在该要点上实际达到的深度位置。」
-- 每个要点在 rubric 里被拆成 K 个**深度层**（L1 浅 … LK 深），每层带权重 `w_k = k·ln(k+1) / Σ_j j·ln(j+1)`（`judge_v2_depth.py:14,35`；K=3→[0.11,0.35,0.54]，K=4→[0.05,0.16,0.31,0.48]，越深层越稀有越值钱）。
+- 每个要点在 rubric 里被拆成 K 个**深度层**（L1 浅 … LK 深），每层带权重 `w_k = k·ln(k+1) / Σ_j j·ln(j+1)`（`judge_v2_depth.py:33-41` `_w3/_w4`；亲手复算：K=3→[0.098,0.312,0.590]，K=4→[0.051,0.163,0.308,0.477]，越深层越稀有越值钱）。⚠️ 代码 docstring 标注的 K=3「[0.11,0.35,0.54]」是算错（0.693/7.049=0.098≠0.11；docstring 对 K=4 自我更正过、K=3 漏更），以 `_w3()` 实际返回值为准。
 - 打分规则（prompt 392-399）：分数 = 实际达成的最高层级/总层数，**允许层间插值**（部分达成某层给该层位置的一半）；「不要只给 0、1/K、2/K 这些离散锚点」；仅提概念名无量化 ≤0.25；拿不准往低判。
 - 所以单点分数是**连续的**：完全没触及=0，只达 L1=1/K，全 K 层达成=1.0，中间任意值（如 0.33、0.5、0.65）。
 
@@ -47,7 +47,7 @@ D 问的「逐点 overall」= 路径 A。下面逐节。
 - 公式原文（`s5_state_machine.py:380-395`，`S_alpha_corrected`）：
   `S = Σ_lv [lv·ln(k_lv+1) + α·k_lv·ln(lv+1)] − β·redundancy·total_nodes`
   其中 `penalty = cfg.redundancy_penalty_beta * red * len(nodes)`（394），`red = redundancy_score(nodes)`（393）。
-- `redundancy_score`（349-377）= 节点对 3-gram Jaccard 相似度的**均值**（同层内采样 + 相邻层，全量不截断）。
+- `redundancy_score`（349-377）= 节点对 3-gram Jaccard 相似度（`_ngram_overlap`，字符级 3-gram 集合 Jaccard）的**均值**。采样策略：**仅同层内**（同层 >20 节点时随机抽 20 两两配对，≤20 全配对）——docstring 声称「相邻层 + 同层」但代码无相邻层配对实现，实际只比同层；同层内 pair 数不截断（2026-11-11 D 指示全量算，旧 cap 200 会稀释罚项到≈0）。
 - 系数 `β = redundancy_penalty_beta`，**默认 3.0**（121 行注释：full-pair mean Jaccard≈0.015 @n=117，β=3 使罚项≈5，约为 structural 的 5%；旧值 0.3 形同虚设）。
 - **`--beta N` CLI 参数**（1716-1721，commit `112b03f38`）：覆盖 β。`β=0` = 纯 S_α 结构奖励、**无冗余惩罚**（复现 v13 时代行为，用于 ICL-hack 消融）；`β=3` 为当前默认。
 - 含义：**冗余（拆了没用的同义/重复节点）会被罚**——罚项随「节点数 × 平均冗余度」线性增长，制造同义变体不再有利可图。罚的是**树的生长**（让模型少拆垃圾节点），不直接扣答案分。
@@ -125,7 +125,7 @@ D 问的「逐点 overall」= 路径 A。下面逐节。
 
 ## 附录：证据索引
 
-- 聚合公式：`experiments/stage-ablation/judge_v2_depth.py:408-467`（score_run）、`:14,35-46`（k·ln(k+1) 权重）、`:390-404`（judge prompt 原文）
+- 聚合公式：`experiments/stage-ablation/judge_v2_depth.py:408-467`（score_run）、`:33-41`（`_w3/_w4` k·ln(k+1) 权重，K=3 实际 [0.098,0.312,0.590]）、`:388-404`（judge prompt 原文）
 - 六维总分：`experiments/stage-ablation/score.py:232-233,267,307`
 - 冗余罚项：`experiments/stage-ablation/s5_state_machine.py:121,349-395,1716-1721`；`--beta` commit `112b03f38`
 - r03 数据：`ablation-runs/gpu_formula_r03_judge.json`（raw 100 键全 0.33 / point_scores 38 键全 0 / overall 0.0）；修复 commit `a8ae30551`（message 点名 r03）
