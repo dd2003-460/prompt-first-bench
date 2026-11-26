@@ -16,6 +16,11 @@ MODEL = "qwen3.8-27b-mtp"
 TEMP = 0.7
 MAX_A = 73728  # Arm A' 单次（= 72K 预算上限，预注册 §1, 2026-11-26 post-hoc）
 MAX_B = 12288  # Arm B' 每阶段（6×12288=73728, 2026-11-26 post-hoc 修复截断）
+MAX_B_REVIEW = 16384  # 04.5 复核阶段单独上限（2026-11-27 修复：run3-04.5 reasoning
+                      # 14866 tok 撞 12288 截断；归因=复核阶段输出长度方差 2.6×，非复读。
+                      # 服务端 probe 证 max_tokens=32768 可接受，16384 覆盖 run3 实测
+                      # 14866 留 10% 余量。仅 04.5 生效，其余阶段仍 12288，token-matched
+                      # 名义上限不变（B 臂实测 29-41K ≪ 73728））
 
 # ===== §4 冻结题面（t8c-spec-final.md commit 2c16f644f，逐字转录）=====
 Q = (
@@ -140,7 +145,8 @@ def run_arm_b(result, outpath):
         tot_tok = 0
         for sid, instr in STAGES.items():
             st0 = time.time()
-            r = call(msgs + [{"role": "user", "content": instr}], MAX_B, f"{tag}-{sid}")
+            cap = MAX_B_REVIEW if sid == "04.5" else MAX_B  # 04.5 单独提上限（见 MAX_B_REVIEW 注释）
+            r = call(msgs + [{"role": "user", "content": instr}], cap, f"{tag}-{sid}")
             r.update({"stage": sid, "elapsed_s": round(time.time() - st0, 1),
                       "repeat5": repeat_score(r["content"] + r["reasoning"]),
                       "completion_tokens": cost(r["usage"])})
@@ -177,6 +183,7 @@ def main():
                        "prereg": "t8c-preregistration.md (判据冻结 8c168c2a4)",
                        "model": MODEL, "endpoint": BASE,
                        "temperature": TEMP, "max_a": MAX_A, "max_b": MAX_B,
+                      "max_b_review_045": MAX_B_REVIEW,
                        "token_matched_budget": 73728,
                        "started_at": time.strftime("%Y-%m-%d %H:%M:%S %z")},
               "arm_a": [], "arm_b": []}
