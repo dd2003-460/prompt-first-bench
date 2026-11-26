@@ -43,6 +43,12 @@
       "observation": "eval 输出 B 臂 3 行标签/d/s 需与 raw_outputs 的 finish_reason 对账",
       "action": "从 raw_outputs_t8c.json 逐 run 读 stages.04.5.finish_reason 并与 eval rows 的 finish 数组对账",
       "result": "3/3 一致全 stop, 截断数=0, 数字均有出处 (raw_outputs_t8c.json + t8c-brerun-eval.json)"
+    },
+    {
+      "trigger": "T-矛盾",
+      "observation": "stop_hook 在回执 done+清 restart_pid 后仍连发便签(01:12:38/01:12:51/01:12:56/01:13:49/01:13:54, 间隔15-55s)。只读定位: 01:12:21 的 run-ended 检测=清 PID 前对旧 restart_pid 的合法命中(已清, 此后 _collect_wait_pids 对该 goal 返回空); 其后便签来自 think-trigger t1-thin-thinking 把执行者纯执行 tick(队列检查+复述 REVIEW_PENDING)误判为薄思考",
+      "action": "执行者不修 hook(越界); 观察落本回执供监督者处置。执行者稳态行为不变: 队列=REVIEW → 只回 REVIEW_PENDING",
+      "result": "模式=REVIEW 期间每 tick 一次队列检查+hook 便签轰炸, 烧 cron 配额; 建议监督者: think-trigger 对 cron 执行者会话豁免或 REVIEW 稳态降频(参照 F1 便签轰炸先例, 观察记录 tasks/think-trigger/stophook-experiment-observation.md)"
     }
   ],
   "finished_at": "2026-11-27T01:12:11+08:00"
