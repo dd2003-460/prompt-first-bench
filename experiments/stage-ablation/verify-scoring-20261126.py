@@ -63,6 +63,18 @@ for pt_name in GPU_KEYS:
 recalc = round(total/max(n,1),4)
 check("r03 重判 overall=0.33", abs(recalc-0.33)<1e-6, f"recalc={recalc} n={n}")
 
+# ── ③b 7 gpu rep 均值（剔/含 r03）────────────────────────
+import glob
+ov={}
+for f in sorted(glob.glob(os.path.join(BASE,"ablation-runs/gpu_formula_r*_judge.json"))):
+    dd=json.load(open(f)); ov[os.path.basename(f)]=dd["overall"]
+valid=[v for k,v in ov.items() if "r03" not in k]
+mean_excl=sum(valid)/len(valid)
+mean_incl=(sum(valid)+0.33)/len(ov)
+check("7-rep 剔 r03 均值=0.3934", abs(mean_excl-0.3934)<1e-4, f"got {mean_excl:.4f} (n={len(valid)})")
+check("7-rep 含重判 r03 均值=0.3844", abs(mean_incl-0.3844)<1e-4, f"got {mean_incl:.4f}")
+check("Δ(含-剔)=-0.0091", abs((mean_incl-mean_excl)-(-0.0091))<1e-4, f"got {mean_incl-mean_excl:+.4f}")
+
 # ── ④ 全仓伪影扫描 ───────────────────────────────────────
 def collect(o, path, tag=""):
     out=[]
