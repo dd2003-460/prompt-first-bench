@@ -13,8 +13,8 @@
 （gap 标记→补全→post_acc 闭环）的路径分解是什么"。
 
 [背景]
-- 题面（冻结版）: pfb/experiments/stage-ablation/tasks/q9-agi-question-v0.md
-  的"题面 v1 草稿"段（D 确认后冻结，以届时版本为准）
+- 题面（已冻结 v1, D 2026-11-26 批准）: 本分支 experiments/stage-ablation/tasks/q9-agi-question-v0.md
+  的「## 题面 v1」段（150 节点 / 5 因子清单 / 排序键 post_acc 三项已确认）
 - 硬件: 4× V100-SXM2-16GB (cc 7.0, TP=4), Qwen3-27B NVFP4 vLLM,
   不改权重只用 prompt+外部工具, 预算 150 研究节点（定值）
 - 排序键: 单位预算闭环成功率 = gap 标记→补全→补全后 verified/(verified+contradicted) 占比
