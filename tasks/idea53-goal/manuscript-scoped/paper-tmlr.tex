@@ -1,0 +1,204 @@
+\documentclass[10pt]{article}
+\usepackage{tmlr}
+\input{math_commands.tex}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{calc}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,calc}
+\usepackage{longtable,booktabs,array}
+\providecommand{\tightlist}{\relax}
+\usepackage{xeCJK}
+\setCJKmainfont{Songti SC}
+
+\title{How Much Should a Decomposition-Tree Node Score? A Closed-Form, Negative-Controlled Conditional-Information Measure (A Toy-Model Demonstration)}
+% Anonymous submission (TMLR double blind): no author block.
+
+\def\month{November}
+\def\year{2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+After a judgment is decomposed into a tree, a natural question with no standard answer is: how much information does each node contribute? We give a closed-form conditional-information quantity: separate a \emph{surface judgment} $S$ (enumeration by share under equal rates) from a \emph{deep judgment} $D$ (obtained by applying true rates), and measure the deep level's \textbf{incremental information} as $H(D|S)$. The quantity depends only on hardware specifications and a workload prior: no experiments, no training, no labels. Across four platforms and 40,000 sampled workloads, the surface judgment misidentifies the bottleneck type on 43--56\% of workloads, the deep correction shifts time share by 0.17--0.23, and deep-only information $H(D|S)$ is 0.71--0.77 bits. Two negative controls exclude the trivial readings that deep nodes merely forward surface information, or that they win by definition: under a flat-rate control the increment is \textbf{exactly zero}, and it is invariant under 24 parameter--depth permutations. Three hand-derived anchors reproduce exactly. With all criteria committed before data generation (preregistration \citep{camerer2018}), we present these results as a demonstration of a \textbf{scoring basis}, not as a solution to any method or alignment problem.
+\end{abstract}
+
+\section{1. Why this quantity}\label{why-this-quantity}
+
+\textbf{Share-based attribution is insufficient.} Bottleneck determination is a compositional function of interacting factors. On the Jetson Thor T5000, FP16 accounts for only 30\% of a 70/30 workload yet consumes 63\% of time after rates are applied (80\% at 50/50). Small share is not small contribution; measures inheriting linearity (share, ablation under fixed context) systematically underweight the interacting component.
+
+\textbf{An information-family measure, not attribution.} Mutual information captures nonlinear dependence without a linearity assumption: $I(S;D)>0$ even when $D$ is a nonlinear function of $S$. The decomposition $H(D)=H(D|S)+I(S;D)$ isolates exactly the information about the bottleneck that survives once the surface judgment is known --- the quantity we want to credit to deep nodes.
+
+\textbf{A two-level structure makes the increment well-defined.} Surface = enumeration of shares under equal rates; deep = the judgment after applying true rates $t_i=f_i/\mathrm{rate}_i$. $H(D|S)$ is precisely how much the deep level adds given the surface level.
+
+\textbf{Operational form.} The deep level corrects the surface level in two ways: direction correction (bottleneck-type flip, $S\neq D$) and granularity correction (time-share shift). Flip rate and share shift are interpretable per-workload scores; $H(D|S)$ is their strict information-theoretic form.
+
+We state plainly that the chain rule and mutual information are textbook information theory, roofline is textbook computer architecture \citep{roofline2009}, and PID's unique/redundant/synergistic split is prior work. We do not claim these tools are new. The contribution is \textbf{combining them into a scoring protocol that is closed-form, negative-controlled, and preregistrable \citep{camerer2018}}, and testing it completely in one toy domain.
+
+
+\input{fig1-scoring-protocol}
+
+\section{2. Model}\label{model}
+
+A workload has four components with shares $f_i$ sampled from $\mathrm{Dirichlet}(1,1,1,1)$. Each component has a rate $\mathrm{rate}_i$.
+
+\begin{itemize}
+\tightlist
+\item
+  Surface judgment $S$: assume all $\mathrm{rate}_i=1$, so time share $\propto f_i$, bottleneck $=\arg\max_i f_i$.
+\item
+  Deep judgment $D$: apply true rates, $t_i=f_i/\mathrm{rate}_i$ \citep{rooflineTime2020}, bottleneck $=\arg\max_i t_i$.
+\end{itemize}
+
+Incremental quantities:
+
+\[
+\text{flip}=P(S\neq D),\qquad \text{shift}=\mathbb{E}\,|\mathrm{share}_D-\mathrm{share}_S|,
+\] \[
+H(D|S)=H(D)-I(S;D).
+\]
+
+Four platforms: RTX 5090 (max/min rate ratio 51.9), Thor T5000 (9.9), RTX 4090 (287.4), A100 (44.3).
+
+\section{3. Results}\label{results}
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+Platform & flip & shift & $H(D|S)$ (bits) \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+RTX 5090 & 0.527 & 0.200 & 0.76 \\
+Thor T5000 & 0.434 & 0.166 & 0.71 \\
+RTX 4090 & 0.563 & 0.231 & 0.77 \\
+A100 & 0.556 & 0.218 & 0.74 \\
+\end{longtable}
+
+Three hand-derived anchors reproduce exactly: T5000 50/50 → 80\%; T5000 70/30 → 63\%; 5090 scalar 40\% with issue rate halved → 40\% slower.
+
+The correction is not monotone in rate-ratio \emph{extremity}: A100 (ratio 44.3) exceeds 5090 (ratio 51.9) in shift. We therefore claim only dependence on rate-ratio \emph{structure}; with four platforms this is a 4-point structural observation, not a scaling law.
+
+\section{4. Negative controls and defenses}\label{negative-controls-and-defenses}
+
+\textbf{(1) Flat-rate control --- measured arm.} Set all rates of a placeholder hardware to 1. Result: flip = 0.0000, shift = 0.0000, $H(D|S)=0.0$ --- \textbf{exactly} zero, not merely small. This rules out ``deep merely forwards surface information.''
+
+\textbf{(2) Parameter--depth permutation --- measured arm.} Permute the rate vector across the four components in all 24 ways, holding the multiset fixed. If the increment tracked the \emph{label} of which component is called deep, it would change; if it tracks rate-ratio \emph{content}, it should not. Result: identity permutation reproduces the main numbers exactly; across permutations flip varies only within a narrow Monte-Carlo band (5090: 0.5251--0.5304). The criterion is de-depth-ified.
+
+\textbf{(3) Intra-level type control --- design-level argument.} In our two-level model, surface is enumeration-type and deep is judgment-type, differing only in the rate vector: type is not confounded with depth. An earlier node-level model did confound them, and there the type control ran \emph{against} the hypothesis (enumeration 0.5841 bits \textgreater{} judgment 0.1344 bits). That number comes from a different, confounded model and is not used as evidence.
+
+\textbf{HARKing declaration.} All criteria, formulas, and the make-or-break test (deep-only information \textgreater{} 0 on real platforms, = 0 on the flat control) were committed before data generation (commit \texttt{eb1b0598c}, 17:39, preceding \texttt{718394ece}, 18:06). The only post hoc change \emph{weakened} a secondary hypothesis (monotonicity in extremity → dependence on structure) because the data contradicted the stronger form.
+
+\section{5. Tree demonstration (a 4-point observation)}\label{tree-demonstration-a-4-point-observation}
+
+Under a two-way split (compute vs memory), the correction decomposes into branch-level and within-branch components whose four cells sum to 1 (additive self-consistency):
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Platform
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+co-flip
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+within-flip
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+co-correct
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+within-correct
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+dominant
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+T5000 (9.9) & 0.530 & 0.145 & 0.036 & 0.290 & within \\
+A100 (44.3) & 0.399 & 0.442 & 0.045 & 0.114 & branch \\
+5090 (51.9) & 0.409 & 0.335 & 0.064 & 0.191 & branch \\
+4090 (287.4) & 0.394 & 0.451 & 0.044 & 0.112 & branch \\
+\end{longtable}
+
+Segment-level flip reproduces the 1D main result exactly. The mildest platform (T5000) is within-branch dominant; the three extreme platforms are branch dominant and cluster internally. This is a 4-point structural observation, not a continuous trade-off curve; the split is fixed to compute/memory and alternatives are untested; the extension is post hoc and unregistered but inherits the preregistered flat control.
+
+\section{6. Scope, differentiation, and extension space}\label{scope-differentiation-and-extension-space}
+
+\textbf{A scoring basis, not a solution.} What we deliver is a protocol for how to compute and falsify a node's information increment. It does not solve reward hacking, recover a true objective, or validate any objective-expansion mechanism.
+
+\textbf{Differentiation.} Information gain, roofline, and PID are established tools. Specification Self-Correction (Gallego 2025, arXiv:2507.18742) performs test-time natural-language critique and rewrite of a specification, using no information gain, tree structure, conditional entropy, or quantitative scoring, and no weight updates. Our relation to it is \emph{upstream}: we provide the measurable basis for scoring nodes, and do not touch specification revision.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1429}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1429}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1429}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1429}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1429}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1429}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1429}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Work
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Input
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Output
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Closed-form
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Exact-zero control
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Preregistered
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Spec revision
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+ID3 information gain & data distribution & split attribute & No (needs data) & No & No & No \\
+Roofline \citep{roofline2009} & compute/bandwidth spec & bottleneck regime & Yes & No & No & No \\
+PID (Williams \& Beer) & multi-source distribution & unique/redundant/synergistic & No (needs distribution) & No & No & No \\
+SSC (2507.18742) & rubric + output & rewritten specification & No (test-time generation) & No & No & \textbf{Yes} \\
+This work & hardware spec + prior & node increment $H(D|S)$ & \textbf{Yes} & \textbf{Yes (=0)} & \textbf{Yes} & No (upstream) \\
+\end{longtable}
+
+The table delineates rather than prioritizes: we do not replicate any existing row. We supply one uncovered cell --- that a node's information increment is closed-form computable and falsifiable by an exact-zero control.
+
+\textbf{Extension space (not implemented).} The tree here is the simplest example structure. Richer versions could introduce Bayesian updating from new data, multiple assumption constraints, and structure selection under a minimum-description-length criterion. None of these is implemented or claimed here; we only state the boundary of extensibility.
+
+\section{7. Limitations}\label{limitations}
+
+\begin{itemize}
+\tightlist
+\item
+  Flip rate and share shift are \textbf{interpretable scores}, not mutual information; the strict quantity is $H(D|S)$.
+\item
+  The 4090 and A100 lack native FP4; their FP4 rates use a $0.5\times$ FP16 proxy, so the 4090's extreme ratio is partly a proxy artifact.
+\item
+  The workload prior is uniform Dirichlet and does not model real low-precision-heavy LLM inference; the flat-control zeroing and structural observation are prior-robust by construction, while absolute flip rates would shift under a biased prior.
+\item
+  Monotonicity fails (A100 \textgreater{} 5090 in shift); four platforms cannot support a scaling law.
+\item
+  The tree extension is post hoc, 4-point, and fixed-split; the intra-level type control is a design-level argument, not a measured arm.
+\item
+  Single domain: all four platforms are GPUs, anchors are hand-derived, no measured trace is used. External spot-checking on public data is future work.
+\end{itemize}
+
+\section{8. Conclusion}\label{conclusion}
+
+We demonstrate a closed-form, negative-controlled, preregistrable protocol for scoring decomposition-tree nodes. In the toy domain of GPU bottleneck diagnosis, the surface judgment is wrong 43--56\% of the time; the deep increment is 0.17--0.23 in time-share shift and 0.71--0.77 bits of deep-only information, and it vanishes exactly under the flat control. The conclusion is limited to the computability and falsifiability of this scoring basis in this domain: it is computable, reproducible, and falsifiable by its own negative control. It claims neither universality nor a solution to any alignment problem.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+
+\bibliography{../submission-staging/references}
+\bibliographystyle{tmlr}
+
+\end{document}
