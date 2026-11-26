@@ -156,6 +156,6 @@
 | T8c-ReAnchor-B：post-hoc 文档（价格重锚+B' 预算修复记录；前置 dd6d254f6 已落地） | ReAnchor-A 的 commit | ~10 | ~80 | 1 | executor-cron（纯执行，内容任务卡 exp-results/posthoc-taskcard.md 给全） | 就绪 |
 | T8c smoke 重跑（n=3/臂，新锚点+MAX_A 73728；前置验证 2026-11-26 全过） | ReAnchor-A 验证全过 | - | 落盘 json | - | 后台进程（nohup，执行者起+探活接力+eval；任务卡 exp-results/smoke-rerun-taskcard.md） | 就绪 |
 | T8c n=9 正式跑 | smoke 重跑 Stage 0 过 | - | - | - | 后台进程 | 待命 |
-| T8c-JudgeFix：judge `_winner_patterns` 表格行变体补「卡型带后缀」（`V100 SXM2 \| 4 \|` 形态，cfg4_re 第 5 变体 `(?:RTX\s*)?V100[\s*]*\|` 后加 `[\w]*` 容后缀）+ probe TBL 两例转绿 + selftest 无回归 | 无 | ~40 | ~15 | 1 | sub-27b（单文件 correctness_layer_v0.py 改 + probe 复跑验证；边界：只动 `_winner_patterns` cfg4_re 表格变体，不动 3090 世界 CFG4 别名） | 待命（2026-11-26 ReAnchor-A 验收暴露，probe TBL 2/6 误判 A2；HEAD 即红非重锚引入） |
+| T8c-JudgeFix：judge `_winner_patterns` 表格行变体补「卡型带后缀」（`V100 SXM2 \| 4 \|` 形态，cfg4_re 第 5 变体 `(?:RTX\s*)?V100[\s*]*\|` 后加 `[\w]*` 容后缀）+ probe TBL 两例转绿 + selftest 无回归 | 无 | ~40 | ~15 | 1 | sub-27b（单文件 correctness_layer_v0.py 改 + probe 复跑验证；边界：只动 `_winner_patterns` cfg4_re 表格变体，不动 3090 世界 CFG4 别名） | ✅ 完成 2026-11-26（commit 0ebcfff18，Lead 直接执行——诊断+1 行正则+双验证落在简短可查范围，比派 27b 稳。probe 6/6 转绿、selftest 7/7 无回归） |
 
 **B' 截断修复设计（Lead 判断 2026-11-26）**：根因=总预算 24576 < B' 六阶段真实需求 69227（碎片化 cap 4096 是表象，截断态已耗 94% 总预算）。修复=MAX_A 24576→73728（=6×12288，覆盖 69K 下限），A' 同步 73728 保 matched 上限语义（A' 实际 ~13K，上限不改变其行为）。对照语义澄清为「同预算上限、各自自然消耗」——预算不足以完成流程时测的是「预算饥饿」非「流程价值」，故预算须覆盖流程真实需求下限。进 post-hoc 文件（smoke 已跑过数据，冻结文件只读）。
