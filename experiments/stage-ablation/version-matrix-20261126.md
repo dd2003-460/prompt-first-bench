@@ -1,6 +1,6 @@
-# 消融矩阵 arm×qid（v3，脚本生成：量纲家族分离版）
+# 消融矩阵 arm×qid（v4，脚本生成：量纲家族分离 + 对照/实验组条件列）
 
-生成: matrix2.py(v3) @ 2026-11-26 22:20 · 扫描 676 个分数文件（排除 checkpoints/、*.log、*.lock、>1MB）· 成功解析 676 · 字段映射 arm/qid/total（probe 2026-11-26 确认）· 量纲家族分离（Lead 补丁 2026-11-26）
+生成: matrix2.py(v4) @ 2026-11-26 22:23 · 扫描 676 个分数文件（排除 checkpoints/、*.log、*.lock、>1MB）· 成功解析 676 · 字段映射 arm/qid/total · 行键=arm[条件]（base=对照, +hook=实验，源自 runs-t53/runs-t53b）
 
 | arm \ qid | Q1 | Q2 | Q3 | Q4 | Q5 | Q8 | Q9 |
 |---|---|---|---|---|---|---|---|
@@ -27,7 +27,8 @@
 | **S8D** | 0.59(n=1, j=S8D) / 0.72(n=1, j=v3-secondary*) | 0.45(n=3, j=S8D) / 0.73(n=3, j=v3-secondary*) | 0.48(n=1, j=S8D) / 0.60(n=1, j=v3-secondary*) | 0.47(n=1, j=S8D) / 0.70(n=1, j=v3-secondary*) | 0.60(n=1, j=S8D) / 0.83(n=1, j=v3-secondary*) | — | — |
 | **S8E** | — | 0.62(n=3, j=v3-secondary*) | — | — | — | — | — |
 | **S8G** | 0.84(n=1, j=S8G-Q1-r1) / 0.74(n=1, j=S8G-Q1-r2) | — | — | 0.73(n=1, j=S8G-Q4-r1) / 0.75(n=1, j=S8G-Q4-r2) | 0.69(n=1, j=S8G-r1) / 0.79(n=1, j=S8G-r2) / 0.83(n=1, j=S8G-r3) / 0.82(n=1, j=S8G-r4) / 0.85(n=1, j=S8G-r5) / 3.00(n=1, j=v3-secondary*) | — | — |
-| **T2** | 0.62(n=3, j=t2) / 0.67(n=3, j=t2-scores-withhook) | 0.65(n=3, j=t2) / 0.70(n=3, j=t2-scores-withhook) | 0.64(n=3, j=t2) / 0.83(n=3, j=t2-scores-withhook) | 0.64(n=3, j=t2) / 0.72(n=3, j=t2-scores-withhook) | 0.69(n=3, j=t2) / 0.78(n=3, j=t2-scores-withhook) | — | — |
+| **T2[+hook]** | 0.67(n=3, j=t2-scores-withhook) | 0.70(n=3, j=t2-scores-withhook) | 0.83(n=3, j=t2-scores-withhook) | 0.72(n=3, j=t2-scores-withhook) | 0.78(n=3, j=t2-scores-withhook) | — | — |
+| **T2[base]** | 0.62(n=3, j=t2) | 0.65(n=3, j=t2) | 0.64(n=3, j=t2) | 0.64(n=3, j=t2) | 0.69(n=3, j=t2) | — | — |
 
 > 注：j=tag\* 表示该 judge 为宽量纲(0-16系)，与 0-1系分数不可直接比（见量纲家族节）。
 
@@ -71,11 +72,6 @@
 | S5 | Q5 | final=0.77 / m7-results=0.44 / r293=0.77 / s5(rubric=v2)=0.60 / v2=0.57 / v3=0.74 |
 | S8G | Q1 | S8G-Q1-r1=0.84 / S8G-Q1-r2=0.74 |
 | S8G | Q5 | S8G-r1=0.69 / S8G-r2=0.79 / S8G-r3=0.83 / S8G-r4=0.82 / S8G-r5=0.85 |
-| T2 | Q1 | t2=0.62 / t2-scores-withhook=0.67 |
-| T2 | Q2 | t2=0.65 / t2-scores-withhook=0.70 |
-| T2 | Q3 | t2=0.64 / t2-scores-withhook=0.83 |
-| T2 | Q4 | t2=0.64 / t2-scores-withhook=0.72 |
-| T2 | Q5 | t2=0.69 / t2-scores-withhook=0.78 |
 
 ## 量纲家族（跨量纲分数不可直接比）
 
@@ -118,7 +114,7 @@
 
 ## 数据缺口
 
-空单元格（82/168）：
+空单元格（84/175）：
 
 - Arena × Q4
 - Arena × Q5
@@ -200,8 +196,10 @@
 - S8G × Q3
 - S8G × Q8
 - S8G × Q9
-- T2 × Q8
-- T2 × Q9
+- T2[+hook] × Q8
+- T2[+hook] × Q9
+- T2[base] × Q8
+- T2[base] × Q9
 
 解析失败文件（0）：
 
