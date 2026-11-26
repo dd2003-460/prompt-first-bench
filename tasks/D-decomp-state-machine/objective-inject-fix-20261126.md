@@ -39,6 +39,8 @@
 
 ## 验收（全过才算完成）
 
+- [x] 2026-11-26 17:51 完成（sub deleg_769faae1，报 failed 但磁盘核验全过，死在汇报 repetition loop）：commit `edce50b28`（23 行改动，仅 s5_state_machine.py）；测试 `scratch/test_obj_inject.py` 三断言全 PASS（ON 注入/OFF 不注入/objective=None 不注入），Lead 17:58 复跑确认 EXIT=0；resume 路径核验：objective 随 checkpoint 落盘（:1027）→ resume 恢复（:1763），fresh/resumed 均生效
+
 1. **离线 monkeypatch 测试**（不碰 8787）：python 片段构造/加载 SM 实例（可从 `checkpoints/sm-nat-r1/` resume 或直接构造对象设 `self.objective`），monkeypatch `call_llm` 捕获 prompt：
    - flag ON：assert factors 文本出现在 prompt
    - flag OFF：assert 不出现
