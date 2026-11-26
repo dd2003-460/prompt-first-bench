@@ -117,13 +117,15 @@ def decide(rows):
 def main():
     path = sys.argv[1] if len(sys.argv) > 1 else \
         os.path.join(os.path.dirname(os.path.abspath(__file__)), "raw_outputs_t8c.json")
+    # 可选第 2 参 = 输出路径（默认 t8c-smoke-eval.json；B-Rerun 等复用须显式传，防覆盖 smoke 四件套）
+    outpath = sys.argv[2] if len(sys.argv) > 2 else \
+        os.path.join(os.path.dirname(path), "t8c-smoke-eval.json")
     data = load(path)
     rows = evaluate(data)
     dec = decide(rows)
     out = {"input": path, "rows": rows, "decision": dec,
            "prereg": "t8c-preregistration.md (8c168c2a4) §4 Stage 0"}
-    json.dump(out, open(os.path.join(os.path.dirname(path), "t8c-smoke-eval.json"), "w"),
-              ensure_ascii=False, indent=2)
+    json.dump(out, open(outpath, "w"), ensure_ascii=False, indent=2)
     print(f"{'臂':<3}{'run':<5}{'label':<18}{'s':<3}{'d':<4}{'tok':<7}{'repeat5max':<11}finish")
     for r in rows:
         fin = str(r["finish"])[:40]
