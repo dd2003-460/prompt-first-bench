@@ -30,11 +30,14 @@
 6. **验收自检**：逐条跑任务卡「验收」节命令，每条的 exit code + 关键输出行记入 evidence.acceptance。
    - 任一失败 → 回执 status=failed + 原因，最终回复 = `FAILED <短ID>: <原因>`，**不 commit**（保留现场）
 7. **完成**：回执 status=done，evidence = `{"files_changed": [...], "commits": ["<hash>"], "acceptance": {"<cmd>": "exit 0 / <关键行>"}}`。
-   `git add -A && git commit`（message 按任务卡约定；未约定则 `orch: <短ID> done`）
+   `git add <任务卡声明的文件清单>` && `git commit`（message 按任务卡约定；未约定则 `orch: <短ID> done`）。
+   **禁止 `git add -A`**（会卷入其他执行者/会话的未提交文件，2026-11-26 实证：judge sub 与执行者共享 worktree）。
 8. **最终回复**（一行）：`DONE <短ID> | receipt <路径> | commit <hash> | acceptance <过/总>`
 
 ## 任务卡映射（当前队列）
 - T8c-ReAnchor-A → `tasks/think-trigger/exp-results/reanchor-taskcard.md`
+- T8c-ReAnchor-B → `tasks/think-trigger/exp-results/posthoc-taskcard.md`（前置：A 的 commit hash 已补进该卡「前置」节，由监督者验收 A 后填写）
+- T8c-smoke-rerun → `tasks/think-trigger/exp-results/smoke-rerun-taskcard.md`（前置：A 验收过 + MAX_A 已=73728）
 （新任务由监督者派发时在此追加一行）
 
 ## 硬边界

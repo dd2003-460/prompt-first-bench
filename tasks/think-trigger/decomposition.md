@@ -154,7 +154,7 @@
 |------|------|--------|--------|---------|------|------|
 | T8c-ReAnchor-A：6 文件重锚定（V100 $704/winner→V100×4/MAX_A 73728）+probe fixture 重写 | 无（价格已①类核验） | ~30（grep 定点，禁整读） | ~60 | 1 | executor-cron（试点，任务卡 exp-results/reanchor-taskcard.md 给全 old→new 映射） | 就绪 |
 | T8c-ReAnchor-B：post-hoc 文档（价格重锚+B' 预算修复记录） | ReAnchor-A 的 commit | ~10 | ~80 | 1 | executor-cron（纯执行，内容任务卡 exp-results/posthoc-taskcard.md 给全） | 待命 |
-| T8c smoke 重跑（n=3/臂，新锚点+MAX_A 73728） | ReAnchor-A 验证全过 | - | 落盘 json | - | 后台进程（setsid nohup，执行者起+三项核验） | 待命 |
+| T8c smoke 重跑（n=3/臂，新锚点+MAX_A 73728） | ReAnchor-A 验证全过 | - | 落盘 json | - | 后台进程（nohup，执行者起+探活接力+eval；任务卡 exp-results/smoke-rerun-taskcard.md） | 待命 |
 | T8c n=9 正式跑 | smoke 重跑 Stage 0 过 | - | - | - | 后台进程 | 待命 |
 
 **B' 截断修复设计（Lead 判断 2026-11-26）**：根因=总预算 24576 < B' 六阶段真实需求 69227（碎片化 cap 4096 是表象，截断态已耗 94% 总预算）。修复=MAX_A 24576→73728（=6×12288，覆盖 69K 下限），A' 同步 73728 保 matched 上限语义（A' 实际 ~13K，上限不改变其行为）。对照语义澄清为「同预算上限、各自自然消耗」——预算不足以完成流程时测的是「预算饥饿」非「流程价值」，故预算须覆盖流程真实需求下限。进 post-hoc 文件（smoke 已跑过数据，冻结文件只读）。
