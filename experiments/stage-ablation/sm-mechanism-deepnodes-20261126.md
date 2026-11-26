@@ -14,7 +14,7 @@
 
 ### 1.1 S5 臂的 prompt 构成（`ablation_harness.build_prompt`，DESIGN.md §2）
 
-S5 = 单轮 one-shot LLM 调用（`s8b_pilot.run_one`，temperature=0，max_tokens=8000），
+S5 = 单轮 one-shot LLM 调用（`s8b_pilot.run_one`，temperature=0，max_tokens=4096，line 194 实测），
 prompt = 六个阶段文件**全文按序拼接** + 题面 + 标注习惯句。实测各文件字符数：
 
 | 阶段 | 文件 | 字符数 | 核心内容 |
