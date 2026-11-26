@@ -10,6 +10,9 @@
 | A. 逐点深度分（v18 ablation-runs） | `judge_v2_depth.py::score_run` | `point_scores` + `overall` | v18/v19 状态机 run 的「total」 |
 | B. 二值覆盖率（gate 指标 cov） | `s8b_pilot.judge`（s5_state_machine.py:1638 调用） | `coverage`（gold 要点逐条 0/1 的比例） | 过 gate 门限（nat 0.5801 / soc 0.898） |
 | C. canonical n=90 六维总分 | `score.py::score_run` | `total`（M1-M6 加权） | S5≈0.579 / S0≈0.397 的 canonical 口径 |
+| D. B-face 异族判分（T53-B12） | `t53_bface_judge.py` | 核心数字 0.5 + 口径 0.5，n=3 median | T53-B12-new3 题集验收（**异族 qwen2.5-7b @1234**，非 A/B/C 的 27B@8787） |
+
+**judge 端点歧义澄清（一手核验）**：仓内共两个 judge 端点——**8787**（本地 proxy→27B，A/B/C 三路径共用：judge_v2_depth.py 经 ablation_harness.py:19、score.py:14 各自定义 `LLM_URL=127.0.0.1:8787`）与 **1234**（qwen2.5-7b-original，仅 D 路径 `t53_bface_judge.py:11` 使用，T53-B12 B-face 异族判分专用）。D 问的评分机制（A/B/C）全部走 8787，与 1234 无关。
 
 D 问的「逐点 overall」= 路径 A。下面逐节。
 
@@ -105,8 +108,8 @@ D 问的「逐点 overall」= 路径 A。下面逐节。
 | 单点分档 | M1/M4 是 judge 断言级 match 率（matched/total_decidable），M2/M3/M5/M6 是 gates.py 规则分 | 每要点 0-1 连续深度分（层内 k·ln(k+1) 加权） |
 | 题集 | **Q1-Q5**（questions/Q1-gpu-h100 … Q5-methodology，gold/ 目录 5 份） | v18 状态机题：**nat / soc / gpu**（+ q6/q7/q8 新题），rubric 在 judge_v2_depth.py 内嵌（NAT_RUBRIC 6 点 / SOC_RUBRIC 7 点 / GPU_RUBRIC 38 点） |
 | **题集是否同一批** | **不是同一批**。canonical Q1-Q5 与 v18 nat/soc/gpu 是不同题面（nat/soc/gpu 来自 T53 新题域，Q1-Q5 来自 r1 + t17-generalization）。唯一重叠嫌疑：Q1-gpu-h100（GPU 规格）vs v18 gpu 题（GPU TCO/roofline）——同域不同题面，gold 要点集不同，不能当同题 | 同左 |
-| judge | 同源 27B @8787，temp=0（RESCORE-V3-NOTES：确定性已验证） | 同源 27B @8787（ablation_harness.py:19 `LLM_URL=127.0.0.1:8787`），temp=0 |
-| **数据足迹（2026-11-26 全仓扫描）** | scoring.md 91 runs（Q1-Q5） | **不止 v18 状态机**：`ablation-runs/gpu_formula_*`（v18 状态机，7 rep）+ `runs-prod/judge-v2-{S0,A3,A4}-{nat,soc}`、`runs-prod-s3/judge-v2-S3-{nat,soc}`（S0/A3/A4/S3 臂 × nat/soc × r1-r30，共 230 对象）——同一 `score_run` 口径横跨多个实验批次 |
+| judge | 同源 27B @8787，temp=0（RESCORE-V3-NOTES：确定性已验证；score.py:14 `LLM_URL=127.0.0.1:8787`、:23 temperature=0 一手核验） | 同源 27B @8787（ablation_harness.py:19 `LLM_URL=127.0.0.1:8787`），temp=0 |
+| **数据足迹（2026-11-26 全仓扫描）** | scoring.md 91 数据行（一手统计：仅 S0 31/S1 30/S5 30 三臂 × Q1-Q5 × r1-r6，**不含 S2/S3/S4**）；canonical n=90 基准（S0-S5 全 6 臂 × Q1-Q5 × r1-r3=90）是另一批数据（scoring-v3-gatefixed.md），scoring.md 是其子集+扩展 rep，两者不可混用 | **不止 v18 状态机**：`ablation-runs/gpu_formula_*`（v18 状态机，7 rep）+ `runs-prod/judge-v2-{S0,A3,A4}-{nat,soc}`、`runs-prod-s3/judge-v2-S3-{nat,soc}`（S0/A3/A4/S3 臂 × nat/soc × r1-r30，共 230 对象）——同一 `score_run` 口径横跨多个实验批次 |
 | 基准值 | S5≈0.579 / S0≈0.397（scoring-v3-gatefixed.md，n=90，S0-S5×Q1-Q5×r1-r3） | v18 gpu mean 0.393（7 rep 剔 r03 后 6 有效）；nat gate 0.5801 / soc 0.898（二值 cov 口径，非 A） |
 | 可比性 | 状态机报告 §2 已标注：**跨行比较只看方向，绝对值不可直接比**；要与 0.579 可比须在「同一 judge + 同一题集（canonical n=90 口径）」下重判（报告 §5 待办） | 同左 |
 
@@ -133,4 +136,5 @@ D 问的「逐点 overall」= 路径 A。下面逐节。
 - 二值 cov 口径：`experiments/stage-ablation/s8b_pilot.py:157-180`（judge，GOLD[gpu]=15 点 vs 深度 GPU_RUBRIC=38 点）；r03 coverage=0.133 出自 `ablation-runs/gpu_formula_r03.json`（非 _judge.json）
 - r03 数据：`ablation-runs/gpu_formula_r03_judge.json`（raw 100 键全 0.33 / point_scores 38 键全 0 / overall 0.0）；修复 commit `a8ae30551`（message 点名 r03）
 - 口径标注：`state-machine-status-20261126.md` §2/§5；canonical 基准 `modules/A-eval-infra/research/scoring-v3-gatefixed.md`
-- judge 端点：`ablation_harness.py:19`（127.0.0.1:8787，本地 proxy→27B；本次未调用任何端点）
+- judge 端点：`ablation_harness.py:19`（127.0.0.1:8787，本地 proxy→27B）+ `score.py:14`（同 8787，temp=0）+ `t53_bface_judge.py:11`（localhost:1234，qwen2.5-7b 异族 B-face 专用）；本次未调用任何端点
+- canonical 数据足迹：`modules/A-eval-infra/research/scoring.md`（91 数据行，仅 S0/S1/S5 三臂 × Q1-Q5 × r1-r6）
