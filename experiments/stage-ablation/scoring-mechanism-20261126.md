@@ -117,6 +117,13 @@ D 问的「逐点 overall」= 路径 A。下面逐节。
 
 **附带第三条口径（gate 的 cov）**：`s8b_pilot.judge` 二值覆盖（gold 要点逐条 0/1 → coverage），nat gate 0.5801 / soc gate 0.898 用的是它，**既不是 A 也不是 C**，三套口径并存，引用数字时必须先标口径。
 
+**⚠️ 同名"v3"两批数字并存（2026-11-26 一手核验，引用前必看）**：`research/` 下有两个都叫"v3"的文件，数字差很大，**不可混引**：
+- `scoring-v3-gatefixed.md`（2026-11-05，**n=90**，S0-S5 全 6 臂 × Q1-Q5 × r1-r3）：S0=0.397 / S1=0.526 / S5=0.579 —— **本报告引用的 canonical 基准即此批**。
+- `RESCORE-V3-NOTES.md`（2026-11-06，**61 runs**，主臂仅 S0/S1/S5 三臂 × Q1-Q5 × r1-r3=45 + 次臂 16）：S0=0.615 / S1=0.630 / S5=0.805 —— 数字显著更高。
+- 差异根源（RESCORE-V3-NOTES 自述）：judge 从 v2→v3 改为 **full gold text（去掉 [:6000] 截断）+ type-aware assertion 抽取** + Q4 token-equivalent 修复。同一 27B@8787/temp=0，但 judge prompt 版本不同 → 分数系统性抬高（S5 0.579→0.805）。
+- 另有 `scoring-v4-m2m5fixed.md`（2026-11-05，v4 M2/M5 口径修正）：S0=0.4894 / S5=0.7061，其"与 v3 对比"节记 v3 S0=0.3973/S1=0.5259，**与 gatefixed 的 0.397/0.526 互证**（坐实 gatefixed 数字）。
+- **结论**：引用"canonical S5≈0.579/S0≈0.397"必须指明是 **gatefixed（11-05, n=90, 6 臂, judge 截断版）**；若用 RESCORE-V3（11-06, 3 主臂, judge full-gold 版）则是 0.805/0.615。两套都叫"v3"但 judge prompt 版本 + 臂数 + run 数都不同，绝对值不可互换。
+
 ---
 
 ## §5 对 D 问题的直接回答（每问一行）
