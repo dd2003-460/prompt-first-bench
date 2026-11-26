@@ -45,6 +45,7 @@
 | setsid 等价脱离（Hermes 跟踪 ≠ setsid） | executor-protocol.md（F3） | ✅ 执行者已写 |
 | 长任务 Lead 挂进程监听（临时，#3 修复前） | 本文件 §缺口 | 临时约定（DEAD 探活上线后此约定降级为兜底） |
 | monitor 状态列括号剥离（静默停摆修复） | queue_monitor.py 解析器 | ✅ c36d8c9c9（实战验证 2026-11-27 00:34：B-Rerun 行「就绪（2026-11-27 00:33 立项）」→ READY，修复目标场景命中） |
+| 起长任务前查 receipts/ 当锁（#8 跨会话协调） | executor-protocol.md 硬边界 | ✅ 5c419fe55（2026-11-27 00:37 事故后） |
 
 ## 补充故障模式（2026-11-27 凌晨，S4-1 交付时观察到）
 
@@ -61,3 +62,15 @@
    → 修复：解析器 re.sub 剥括号后缀再判（已修，commit 见下）；
    → 教训：monitor 的信号完整性 = 架构的感知层，解析器对状态列的容错必须
    覆盖"人会在状态列加注释"这个高频行为。
+8. **Lead 直接起重复进程（跨会话协调盲区，2026-11-27 00:37）**
+   → 现象：CapFix-Verify 已由微信执行者 00:29 完成（回执 DONE），Lead 00:37 未查
+   receipts/ 直接起重复进程 25725，跑完 stage 01 后覆盖执行者的 sidecar B1_01/B1_02
+   （固定文件名），靠 git 从执行者 commit 67d0582fb 恢复。
+   → 根因：monitor 的 WORKING 状态只挡执行者之间互抢，不挡 Lead 直接起进程——
+   两个独立会话（QQ Lead + cron 执行者）盯同一张任务表，锁的覆盖面缺了 Lead 这一侧。
+   → 处置：executor-protocol 硬边界加「起长任务前查 receipts/ 当锁」（commit 5c419fe55）：
+   任何会话起长任务前 `ls receipts/<短ID>.json`，status∈{claimed,working,done} → 不重复起。
+   判别信号：sidecar/产物 mtime 早于自己启动时刻 = 别人先跑过，立即停手核回执。
+   → 与 #3 同族：都是"感知层覆盖不全"——#3 是执行者对完成事件无感，#8 是 Lead 对
+   执行者已认领无感。架构可靠性结论需修订：可防御范围 = 执行者↔执行者互抢；
+   Lead↔执行者跨会话协调目前靠 receipts 锁 + 人工纪律，未形成架构内闸门。
