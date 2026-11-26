@@ -30,6 +30,7 @@
 - **8787 持有者身份（15:25 补查）**：PID 31906 = `/opt/homebrew/bin/node /Users/a1-6/.claude-vllm-proxy/proxy.mjs`，PPID 1（launchd 托管），已运行 1 天 20 小时 → 是常驻 vLLM 代理服务，不是实验进程。即「8787 被 t-repair1 占用」的准确表述是：t-repair1 经 8787 代理跑实验，代理本身常驻。t-repair1 已退出 ⇒ 代理层面无实验占用，nat 重跑的端口前置**可能已解除**；但本次任务边界禁跑实验，是否重跑由 Lead 决策（且重跑前建议确认 vLLM 后端模型状态）。
 - **遗留缺口位置坐实**：s5_pipeline.py 分段路径实测在 L1260（`p`，逐层）与 L1265（`merge_p`），两 prompt 均无口径约束；主路径 P4_SYNTHESIZE 规则 6（L306-309）有「逐口径分别给结论」但无 dwell vs 更新间隔的显式量纲定义。修复 s5_state_machine.py 时未动 s5_pipeline.py（任务边界：只改 P4 综合 prompt 所在实际路径，s5_pipeline 分段路径与分解树第 2 条一并下次迭代）。
 - **调用面普查（15:26）**：`synthesize_answer` 的全部调用方 = synth_multi_soc.py（nat 重跑主路径，已覆盖）+ synth_diag_nat_points.py / diag_nat_low.py / synth_only.py（一次性诊断脚本，同样已覆盖）+ s5_state_machine.py 自身 `--synth` CLI。另发现 t53_synth.py 是**独立复制**的综合逻辑（L31 p / L39 merge_p，自带「口径差异说明」规则但无 dwell/更新间隔量纲约束），属一次性 B-face 判分脚本、不在 nat 重跑路径上，不计入遗留缺口；若将来复用该脚本需同步移植约束。`_perturb()` 为 4 字符随机零宽/空格 cache-buster，追加在 prompt 末尾，不影响约束语义。
+- **节点级证据复验（15:27，对 runs-s5-sm-nat.json 实测）**：nat 树共 278 节点（与诊断报告一致）。关键节点状态：N28（T_res≈1.5 天口径）= **verified**、N58（T_res≈3.72 天）= **pending**、N60（沿用 T_res=3.72 天）= **pending**、N247（u=1%/天 → 每 100 天替换一次，正确口径）= **verified**。新信息：P4 综合选中的 T_res 驻留口径里 2/3 来自 **pending（未核验）** 节点，而正确的 100 天口径节点 N247 反而是 verified——即原失败不仅混口径，还偏向采信未核验节点；本次约束（分别引用两量纲）保证 N247 的 100 天口径必现，但「pending 节点不应压过 verified 节点」的优先级问题属分解树第 2 条（树层概念冲突消解）范畴，下次迭代处理。
 
 ## 边界
 
