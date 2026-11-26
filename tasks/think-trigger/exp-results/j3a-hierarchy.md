@@ -17,8 +17,8 @@
     - **N-3.1** 时间 `prefill` [split] share=40.1
     - **N-3.2** 时间 `decode` [split] share=59.9
     - **N-5.1** 显存容量门槛 `n_cap` [leaf]
-    - **N-5.2** 带宽准入下限 `s` [leaf] share=4
-    - **N-5.3** 缓存命中率 `B8` [leaf] share=8 B8
+    - **N-5.2** 带宽准入下限 `s` [leaf] share=774
+    - **N-5.3** 缓存命中率 `B8` [leaf] share=7.6 B8
       - **N-1.1.1** 卡价 `gpu_price` [leaf] share=55 B4 SHARED→N-1.3.2
       - **N-1.1.2** 主机价 `host_price` [leaf] share=15
       - **N-1.1.3** 残值率 `resid` [leaf] share=10 B8
@@ -26,7 +26,7 @@
       - **N-1.2.1** 整机功耗 `power_kw` [leaf] share=50
       - **N-1.2.2** 电价 `elec` [leaf] share=50 B5
       - **N-1.3.1** 三年故障概率 `p_fail` [leaf] share=50 B8
-      - **N-1.3.2** 卡价 [?] share=1.1
+      - **N-1.3.2** 卡价 [?]
       - **N-3.1.1** 计算量 `prefill_flops` [leaf] share=30
       - **N-3.1.2** 峰值算力 `tf_peak` [leaf] share=25
       - **N-3.1.3**  `mfu` [split] share=45 B2
@@ -36,9 +36,9 @@
       - **N-3.2.4** 有效带宽系数 `eta_bw` [split] share=30 B3
         - **N-3.1.3.1** 占用率 `sm_occupancy` [leaf]
         - **N-3.1.3.2** 利用率 `tensor_util` [leaf]
-        - **N-3.1.3.3** 命中率 `l2_hit` [leaf] share=2 SHARED→N-3.2.4.2
+        - **N-3.1.3.3** 命中率 `l2_hit` [leaf] SHARED→N-3.2.4.2
         - **N-3.2.4.1** 带宽利用率 `hbm_sol` [leaf]
-        - **N-3.2.4.2** 命中率 `l2_hit` [leaf] share=2 SHARED→N-3.1.3.3
+        - **N-3.2.4.2** 命中率 `l2_hit` [leaf] SHARED→N-3.1.3.3
         - **N-3.2.4.3**  `launch_gap` [leaf]
 
 > 顶层 5 节点 = 3 性能(u/λ_raw/G_pass) + 1 成本(c_hour) + 1 约束(feasible_set)。
@@ -72,9 +72,9 @@
 **同层因素 + share（正交判断的输入）**：
 
 - L1: N-1 每小时持有成本(share=25) | N-2 有效利用率(share=25) | N-3 原始产出速率(share=25) | N-4 任务通过率(share=25) | N-5 可行域(share=?)
-- L2: N-1.1 购置摊销(share=42.8) | N-1.2 电费(share=49.3) | N-1.3 故障损耗(share=8.0) | N-2.1 业务需求占空比(share=60) | N-2.2 调度效率(share=40) | N-3.1 时间(share=40.1) | N-3.2 时间(share=59.9) | N-5.1 显存容量门槛(share=?) | N-5.2 带宽准入下限(share=4) | N-5.3 缓存命中率(share=8)
-- L3: N-1.1.1 卡价(share=55) | N-1.1.2 主机价(share=15) | N-1.1.3 残值率(share=10) | N-1.1.4 摊销小时数(share=20) | N-1.2.1 整机功耗(share=50) | N-1.2.2 电价(share=50) | N-1.3.1 三年故障概率(share=50) | N-1.3.2 卡价(share=1.1) | N-3.1.1 计算量(share=30) | N-3.1.2 峰值算力(share=25) | N-3.1.3 (share=45) | N-3.2.1 权重字节(share=25) | N-3.2.2 每流(share=20) | N-3.2.3 峰值带宽(share=25) | N-3.2.4 有效带宽系数(share=30)
-- L4: N-3.1.3.1 占用率(share=?) | N-3.1.3.2 利用率(share=?) | N-3.1.3.3 命中率(share=2) | N-3.2.4.1 带宽利用率(share=?) | N-3.2.4.2 命中率(share=2) | N-3.2.4.3 (share=?)
+- L2: N-1.1 购置摊销(share=42.8) | N-1.2 电费(share=49.3) | N-1.3 故障损耗(share=8.0) | N-2.1 业务需求占空比(share=60) | N-2.2 调度效率(share=40) | N-3.1 时间(share=40.1) | N-3.2 时间(share=59.9) | N-5.1 显存容量门槛(share=?) | N-5.2 带宽准入下限(share=774) | N-5.3 缓存命中率(share=7.6)
+- L3: N-1.1.1 卡价(share=55) | N-1.1.2 主机价(share=15) | N-1.1.3 残值率(share=10) | N-1.1.4 摊销小时数(share=20) | N-1.2.1 整机功耗(share=50) | N-1.2.2 电价(share=50) | N-1.3.1 三年故障概率(share=50) | N-1.3.2 卡价(share=?) | N-3.1.1 计算量(share=30) | N-3.1.2 峰值算力(share=25) | N-3.1.3 (share=45) | N-3.2.1 权重字节(share=25) | N-3.2.2 每流(share=20) | N-3.2.3 峰值带宽(share=25) | N-3.2.4 有效带宽系数(share=30)
+- L4: N-3.1.3.1 占用率(share=?) | N-3.1.3.2 利用率(share=?) | N-3.1.3.3 命中率(share=?) | N-3.2.4.1 带宽利用率(share=?) | N-3.2.4.2 命中率(share=?) | N-3.2.4.3 (share=?)
 
 **判断（Lead 填）**：
 - [ ] 每个 SHARED 节点是否构成真正的非正交？（共享底层因素 vs 独立分解）

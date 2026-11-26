@@ -51,11 +51,14 @@ def parse_tree(path):
         # name: 第一个中文串
         nm = re.search(r"[\u4e00-\u9fff]+", tail)
         name = nm.group(0) if nm else ""
+        # 先剥掉 SHARED 引用段（如 "[SHARED→N-3.2.4.2]" / "SHARED→N-1.3.2"），
+        # 防引用 ID 里的数字污染 param/share 提取（2026-11-26 实证：N-3.1.3.3 源 share=.? 被误提）
+        tail_ns = re.sub(r"\[?SHARED→N-[0-9.]+\]?", "", tail)
         # param: 第一个小数 share 之前的最后一个标识符 token（黑名单 leaf/split/S/N）
         # 处理: snake_case(gpu_price) / 单词(resid,elec) / 单大写字母(H)；
         #       "prefill 计算量 prefill_flops" 取最后的 prefill_flops；无小数时取 leaf/split 关键词前
         param = None
-        dec_pos = re.search(r"\.\d+", tail)
+        dec_pos = re.search(r"\.\d+", tail_ns)
         kw_pos = re.search(r"\b(leaf|split)\b", tail)
         cut = min([p.start() for p in (dec_pos, kw_pos) if p], default=len(tail))
         seg = tail[:cut]
@@ -65,8 +68,12 @@ def parse_tree(path):
         if idents:
             param = idents[-1]
         # share: 小数（含 SHARE 前缀 / % 后缀 / 纯小数）
-        sm = re.search(r"(?:SHARE\s+)?(\d+\.?\d*)\s*(?:%|x)?(?=\s|$)", tail)
+        # 指针节点（行内 "→ N-x" 且无 "SHARED→"，如 N-1.3.2 → N-1.1.1）无独立 share，
+        # 防正则误吃引用 ID 里的数字；源节点（含 "SHARED→N-x"，如 N-1.1.1）保留 share
+        sm = re.search(r"(?:SHARE\s+)?(?<![A-Za-z])(\d+\.?\d*)\s*(?:%|x)?(?=\s|$)", tail_ns)
         share = sm.group(1) if sm else None
+        if "→ N-" in tail and "SHARED→" not in tail:
+            share = None
         # bound: Nx
         bm = re.search(r"(\d+\.?\d*)x", tail)
         bound = bm.group(1) + "x" if bm else None
