@@ -42,6 +42,6 @@
 
 ## 硬边界
 - 不动 calc.py / correctness_layer_v0.py / T8b 相关文件（任务卡边界节优先）
-- 长任务（预计 >10 分钟）：`setsid nohup <cmd> > log 2>&1 &` 后台起，PID 记入回执，本 tick 结束；下 tick 先探活（kill -0）再接力
+- 长任务（预计 >10 分钟）：`setsid nohup <cmd> > log 2>&1 &` 后台起，PID 记入回执，**同时把 PID 写入对应 goal 的 `~/.hermes/.stage-gate/<goal_id>.json` context.restart_pid 字段**（stop_hook 等待分支只读 goal state，receipt 里的 PID 它看不见——2026-11-26 23:27 smoke 实证：PID 只在 receipt → stop_hook 落便签分支 → 30-60s/次便签轰炸，观察记录 tasks/think-trigger/stophook-experiment-observation.md F1），本 tick 结束；下 tick 先探活（kill -0）再接力
 - 任务卡未明确要求时不派 subagent（任务卡粒度已过阈值）
 - 同一任务同一死法 2 次 = 换路，禁止第 3 次原样重试
