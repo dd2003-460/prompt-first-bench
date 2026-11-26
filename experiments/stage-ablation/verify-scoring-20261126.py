@@ -70,6 +70,16 @@ _g5 = float(row_cells(gf, "S5")[1])
 _r5 = float(row_cells(rv, "S5")[1])
 check("双 v3 数字确实不同（陷阱坐实）", abs(_g5 - _r5) > 0.2, f"Δ={abs(_g5-_r5)}")
 
+# ── ②d 「rubric v3」命名碰撞（bench/rubric-v3/ 是 pipeline 级第三套 rubric）────
+import os as _os
+_rv3 = _os.path.join(BASE, "../../bench/rubric-v3")
+draft = open(_os.path.join(_rv3, "DRAFT-rubric-v3.md")).read()
+check("pipeline rubric 草案存在且=双层分开报",
+      "outcome + process 双层" in draft and "分开报，不合成总分" in draft, "")
+check("pipeline rubric 0/1/2 三档", "每个维度给 0/1/2 三档" in draft, "")
+_q610 = sorted(f for f in _os.listdir(_os.path.join(_rv3, "ablation")) if re.match(r"gold-Q[6-9]|gold-Q10", f))
+check("Q6-Q10 五道新题 gold 树存在", _q610 == ["gold-Q10.md", "gold-Q6.md", "gold-Q7.md", "gold-Q8.md", "gold-Q9.md"], f"got {_q610}")
+
 # ── ③ r03 用当前 HEAD 真实逻辑重判 ───────────────────────
 d = json.load(open(os.path.join(BASE, "ablation-runs/gpu_formula_r03_judge.json")))
 scores_raw = d["raw"]

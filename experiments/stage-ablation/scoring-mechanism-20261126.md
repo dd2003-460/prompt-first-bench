@@ -117,6 +117,8 @@ D 问的「逐点 overall」= 路径 A。下面逐节。
 
 **附带第三条口径（gate 的 cov）**：`s8b_pilot.judge` 二值覆盖（gold 要点逐条 0/1 → coverage），nat gate 0.5801 / soc gate 0.898 用的是它，**既不是 A 也不是 C**，三套口径并存，引用数字时必须先标口径。
 
+**⚠️ 「rubric v3」命名碰撞（2026-11-26 一手核验）**：`bench/rubric-v3/` 目录（DRAFT-rubric-v3.md / v2 / v3.1-s01-fix）是**第三套 rubric 体系**——「outcome + process 双层 pipeline 评分标准」（O1 候选集覆盖度 / O2 矛盾挖掘深度，0/1/2 三档，设计原则第 1 条明文「outcome 和 process 分开报，不合成总分」），**不是本报告的逐点 gold 深度 rubric**（后者内嵌 `judge_v2_depth.py`，NAT 6 / SOC 7 / GPU 38 点，0-1 连续深度分）。另有 `bench/rubric-v3/ablation/gold-Q6~Q10.md`（Q6 CDN / Q7 存储 / Q8 eval-benchmark / Q9 VLM / Q10 RLHF 五道新题 gold 树，属 pipeline rubric 的消融材料，与 Q1-Q5 AI/ML 域无重叠）。引用「rubric v3」时必须先区分三套：① pipeline 级 outcome+process 草案（`bench/rubric-v3/DRAFT-*`）② 逐点深度 rubric（`judge_v2_depth.py` 内嵌）③ 二值 gold（`s8b_pilot.GOLD`）。
+
 **⚠️ 同名"v3"两批数字并存（2026-11-26 一手核验，引用前必看）**：`research/` 下有两个都叫"v3"的文件，数字差很大，**不可混引**：
 - `scoring-v3-gatefixed.md`（2026-11-05，**n=90**，S0-S5 全 6 臂 × Q1-Q5 × r1-r3）：S0=0.397 / S1=0.526 / S5=0.579 —— **本报告引用的 canonical 基准即此批**。
 - `RESCORE-V3-NOTES.md`（2026-11-06，**61 runs**，主臂仅 S0/S1/S5 三臂 × Q1-Q5 × r1-r3=45 + 次臂 16）：S0=0.615 / S1=0.630 / S5=0.805 —— 数字显著更高。
@@ -147,4 +149,5 @@ D 问的「逐点 overall」= 路径 A。下面逐节。
 - 口径标注：`state-machine-status-20261126.md` §2（口径标注，line 20）/ §4（下一步，第 5 条口径统一待办；该文件仅 §1-§4 无 §5）；canonical 基准 `modules/A-eval-infra/research/scoring-v3-gatefixed.md`
 - judge 端点：`ablation_harness.py:19`（127.0.0.1:8787，本地 proxy→27B）+ `score.py:14`（同 8787，temp=0）+ `t53_bface_judge.py:11`（localhost:1234，qwen2.5-7b 异族 B-face 专用）；本次未调用任何端点
 - canonical 数据足迹：`modules/A-eval-infra/research/scoring.md`（91 数据行，仅 S0/S1/S5 三臂 × Q1-Q5 × r1-r6）
-- **独立复算脚本**：`experiments/stage-ablation/verify-scoring-20261126.py`（`python3 verify-scoring-20261126.py`，只读不调 LLM，21 项断言全 PASS：canonical 六维权重 M1.25/M2.20/M3.15/M4.20/M5.10/M6.10 + Q5 M1 减半重归一、双 v3 陷阱数字 gatefixed S0=0.397/S5=0.579 vs RESCORE-V3 S0=0.615/S5=0.805（一手解析两源文件非转录）、_w3/_w4 权重、GPU/NAT/SOC rubric 键数 38/6/7、r03 raw 100 键全 0.33 + 存储 overall=0.0 伪影 + 当前 HEAD 逻辑重判=0.33、7 gpu rep 均值剔 r03=0.3934/含重判=0.3844/Δ=-0.0091、全仓 237 对象/15 文件/仅 r03 一个伪影）
+- 「rubric v3」命名碰撞：`bench/rubric-v3/DRAFT-rubric-v3.md`（pipeline outcome+process 双层草案，0/1/2 三档，「分开报不合成总分」）≠ 逐点深度 rubric（`judge_v2_depth.py` 内嵌）≠ 二值 gold（`s8b_pilot.GOLD`）；`bench/rubric-v3/ablation/gold-Q6~Q10.md` 五道新题 gold 树（CDN/存储/eval-benchmark/VLM/RLHF）
+- **独立复算脚本**：`experiments/stage-ablation/verify-scoring-20261126.py`（`python3 verify-scoring-20261126.py`，只读不调 LLM，24 项断言全 PASS：「rubric v3」命名碰撞(bench/rubric-v3/=pipeline outcome+process 双层草案 0/1/2 三档≠逐点深度 rubric≠二值 gold，Q6-Q10 五道新题 gold 树)、canonical 六维权重 M1.25/M2.20/M3.15/M4.20/M5.10/M6.10 + Q5 M1 减半重归一、双 v3 陷阱数字 gatefixed S0=0.397/S5=0.579 vs RESCORE-V3 S0=0.615/S5=0.805（一手解析两源文件非转录）、_w3/_w4 权重、GPU/NAT/SOC rubric 键数 38/6/7、r03 raw 100 键全 0.33 + 存储 overall=0.0 伪影 + 当前 HEAD 逻辑重判=0.33、7 gpu rep 均值剔 r03=0.3934/含重判=0.3844/Δ=-0.0091、全仓 237 对象/15 文件/仅 r03 一个伪影）
