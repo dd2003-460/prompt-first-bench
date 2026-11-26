@@ -55,16 +55,20 @@ check("Q5 M1 减半 0.125 + 重归一", '"M1": 0.125' in src_score and "重新�
 # ── ②c 双 v3 陷阱数字（一手解析两源文件，非转录）────────
 gf = open(os.path.join(BASE, "../../modules/A-eval-infra/research/scoring-v3-gatefixed.md")).read()
 rv = open(os.path.join(BASE, "../../modules/A-eval-infra/research/RESCORE-V3-NOTES.md")).read()
-def row_val(txt, arm, col):
-    m = re.search(rf"\|\s*{arm}\s*\|\s*([\d.]+)\s*\|\s*([\d.]+)\s*\|", txt)
-    return float(m.group(col)) if m else None
-check("gatefixed S0=0.397", row_val(gf, "S0", 2) == 0.397, f"got {row_val(gf,'S0',2)}")
-check("gatefixed S5=0.579", row_val(gf, "S5", 2) == 0.579, f"got {row_val(gf,'S5',2)}")
-check("RESCORE-V3 S0=0.615", row_val(rv, "S0", 3) == 0.615, f"got {row_val(rv,'S0',3)}")
-check("RESCORE-V3 S5=0.805", row_val(rv, "S5", 3) == 0.805, f"got {row_val(rv,'S5',3)}")
-_g5, _r5 = row_val(gf, "S5", 2), row_val(rv, "S5", 3)
-check("双 v3 数字确实不同（陷阱坐实）",
-      (_g5 is not None and _r5 is not None and abs(_g5 - _r5) > 0.2), "")
+def row_cells(txt, arm):
+    """取表格中首列=arm 的行，返回其余单元格列表。"""
+    m = re.search(rf"^\|\s*{arm}\s*\|(.+)$", txt, re.M)
+    return [c.strip() for c in m.group(1).split("|")] if m else []
+# gatefixed 表: | S0 | 0.391(old) | 0.397(new) | +0.006 | → overall=new=cells[1]
+# RESCORE-V3 表: | S0 | 15(n) | 0.615(total) | ... → overall=cells[1]
+gf_cells, rv_cells = row_cells(gf, "S0"), row_cells(rv, "S0")
+check("gatefixed S0=0.397", len(gf_cells) > 1 and gf_cells[1] == "0.397", f"got {gf_cells[:3]}")
+check("gatefixed S5=0.579", row_cells(gf, "S5")[1] == "0.579", f"got {row_cells(gf,'S5')[:3]}")
+check("RESCORE-V3 S0=0.615", len(rv_cells) > 1 and rv_cells[1] == "0.615", f"got {rv_cells[:4]}")
+check("RESCORE-V3 S5=0.805", row_cells(rv, "S5")[1] == "0.805", f"got {row_cells(rv,'S5')[:4]}")
+_g5 = float(row_cells(gf, "S5")[1])
+_r5 = float(row_cells(rv, "S5")[1])
+check("双 v3 数字确实不同（陷阱坐实）", abs(_g5 - _r5) > 0.2, f"Δ={abs(_g5-_r5)}")
 
 # ── ③ r03 用当前 HEAD 真实逻辑重判 ───────────────────────
 d = json.load(open(os.path.join(BASE, "ablation-runs/gpu_formula_r03_judge.json")))
