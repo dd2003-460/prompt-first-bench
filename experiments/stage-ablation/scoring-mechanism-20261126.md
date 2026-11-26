@@ -147,3 +147,4 @@ D 问的「逐点 overall」= 路径 A。下面逐节。
 - 口径标注：`state-machine-status-20261126.md` §2/§5；canonical 基准 `modules/A-eval-infra/research/scoring-v3-gatefixed.md`
 - judge 端点：`ablation_harness.py:19`（127.0.0.1:8787，本地 proxy→27B）+ `score.py:14`（同 8787，temp=0）+ `t53_bface_judge.py:11`（localhost:1234，qwen2.5-7b 异族 B-face 专用）；本次未调用任何端点
 - canonical 数据足迹：`modules/A-eval-infra/research/scoring.md`（91 数据行，仅 S0/S1/S5 三臂 × Q1-Q5 × r1-r6）
+- **独立复算脚本**：`experiments/stage-ablation/verify-scoring-20261126.py`（`python3 verify-scoring-20261126.py`，只读不调 LLM，11 项断言全 PASS：_w3/_w4 权重、GPU/NAT/SOC rubric 键数 38/6/7、r03 raw 100 键全 0.33 + 存储 overall=0.0 伪影 + 当前 HEAD 逻辑重判=0.33、全仓 237 对象/15 文件/仅 r03 一个伪影）
