@@ -113,7 +113,7 @@ D 问的「逐点 overall」= 路径 A。下面逐节。
 | judge | 同源 27B @8787，temp=0（RESCORE-V3-NOTES：确定性已验证；score.py:14 `LLM_URL=127.0.0.1:8787`、:23 temperature=0 一手核验） | 同源 27B @8787（ablation_harness.py:19 `LLM_URL=127.0.0.1:8787`），temp=0 |
 | **数据足迹（2026-11-26 全仓扫描）** | scoring.md 91 数据行（一手统计：仅 S0 31/S1 30/S5 30 三臂 × Q1-Q5 × r1-r6，**不含 S2/S3/S4**）；canonical n=90 基准（S0-S5 全 6 臂 × Q1-Q5 × r1-r3=90）是另一批数据（scoring-v3-gatefixed.md），scoring.md 是其子集+扩展 rep，两者不可混用 | **不止 v18 状态机**：`ablation-runs/gpu_formula_*`（v18 状态机，7 rep）+ `runs-prod/judge-v2-{S0,A3,A4}-{nat,soc}`、`runs-prod-s3/judge-v2-S3-{nat,soc}`（S0/A3/A4/S3 臂 × nat/soc × r1-r30，共 230 对象）——同一 `score_run` 口径横跨多个实验批次 |
 | 基准值 | S5≈0.579 / S0≈0.397（scoring-v3-gatefixed.md，n=90，S0-S5×Q1-Q5×r1-r3） | v18 gpu mean 0.393（7 rep 剔 r03 后 6 有效）；nat gate 0.5801 / soc 0.898（二值 cov 口径，非 A） |
-| 可比性 | 状态机报告 §2 已标注：**跨行比较只看方向，绝对值不可直接比**；要与 0.579 可比须在「同一 judge + 同一题集（canonical n=90 口径）」下重判（报告 §5 待办） | 同左 |
+| 可比性 | 状态机报告 §2 已标注：**跨行比较只看方向，绝对值不可直接比**；要与 0.579 可比须在「同一 judge + 同一题集（canonical n=90 口径）」下重判（状态机报告 §4 第 5 条待办） | 同左 |
 
 **附带第三条口径（gate 的 cov）**：`s8b_pilot.judge` 二值覆盖（gold 要点逐条 0/1 → coverage），nat gate 0.5801 / soc gate 0.898 用的是它，**既不是 A 也不是 C**，三套口径并存，引用数字时必须先标口径。
 
@@ -144,7 +144,7 @@ D 问的「逐点 overall」= 路径 A。下面逐节。
 - 完整性过滤器：`marginal_gain` s5_state_machine.py:145-156（调用点 1412 Q4 判据 gain<0.3 丢弃 / 1464 记录）、`judge_necessary_batch` :159-216（调用点 1453）——均为砍冗余/膨胀，非完整性奖励
 - 二值 cov 口径：`experiments/stage-ablation/s8b_pilot.py:157-180`（judge，GOLD[gpu]=15 点 vs 深度 GPU_RUBRIC=38 点）；r03 coverage=0.133 出自 `ablation-runs/gpu_formula_r03.json`（非 _judge.json）
 - r03 数据：`ablation-runs/gpu_formula_r03_judge.json`（raw 100 键全 0.33 / point_scores 38 键全 0 / overall 0.0）；修复 commit `a8ae30551`（message 点名 r03）
-- 口径标注：`state-machine-status-20261126.md` §2/§5；canonical 基准 `modules/A-eval-infra/research/scoring-v3-gatefixed.md`
+- 口径标注：`state-machine-status-20261126.md` §2（口径标注，line 20）/ §4（下一步，第 5 条口径统一待办；该文件仅 §1-§4 无 §5）；canonical 基准 `modules/A-eval-infra/research/scoring-v3-gatefixed.md`
 - judge 端点：`ablation_harness.py:19`（127.0.0.1:8787，本地 proxy→27B）+ `score.py:14`（同 8787，temp=0）+ `t53_bface_judge.py:11`（localhost:1234，qwen2.5-7b 异族 B-face 专用）；本次未调用任何端点
 - canonical 数据足迹：`modules/A-eval-infra/research/scoring.md`（91 数据行，仅 S0/S1/S5 三臂 × Q1-Q5 × r1-r6）
-- **独立复算脚本**：`experiments/stage-ablation/verify-scoring-20261126.py`（`python3 verify-scoring-20261126.py`，只读不调 LLM，11 项断言全 PASS：_w3/_w4 权重、GPU/NAT/SOC rubric 键数 38/6/7、r03 raw 100 键全 0.33 + 存储 overall=0.0 伪影 + 当前 HEAD 逻辑重判=0.33、全仓 237 对象/15 文件/仅 r03 一个伪影）
+- **独立复算脚本**：`experiments/stage-ablation/verify-scoring-20261126.py`（`python3 verify-scoring-20261126.py`，只读不调 LLM，14 项断言全 PASS：_w3/_w4 权重、GPU/NAT/SOC rubric 键数 38/6/7、r03 raw 100 键全 0.33 + 存储 overall=0.0 伪影 + 当前 HEAD 逻辑重判=0.33、7 gpu rep 均值剔 r03=0.3934/含重判=0.3844/Δ=-0.0091、全仓 237 对象/15 文件/仅 r03 一个伪影）
