@@ -49,6 +49,12 @@
       "observation": "stop_hook 在回执 done+清 restart_pid 后仍连发便签(01:12:38/01:12:51/01:12:56/01:13:49/01:13:54, 间隔15-55s)。只读定位: 01:12:21 的 run-ended 检测=清 PID 前对旧 restart_pid 的合法命中(已清, 此后 _collect_wait_pids 对该 goal 返回空); 其后便签来自 think-trigger t1-thin-thinking 把执行者纯执行 tick(队列检查+复述 REVIEW_PENDING)误判为薄思考",
       "action": "执行者不修 hook(越界); 观察落本回执供监督者处置。执行者稳态行为不变: 队列=REVIEW → 只回 REVIEW_PENDING",
       "result": "模式=REVIEW 期间每 tick 一次队列检查+hook 便签轰炸, 烧 cron 配额; 建议监督者: think-trigger 对 cron 执行者会话豁免或 REVIEW 稳态降频(参照 F1 便签轰炸先例, 观察记录 tasks/think-trigger/stophook-experiment-observation.md)"
+    },
+    {
+      "trigger": "T-矛盾",
+      "observation": "修正 97cbac5 的归因：REVIEW 解除(队列转 IDLE)后 stop_hook 短便签(干新事/想一下/出去看看轮换)仍在 15-55s 连发。只读诊断: 便签来自 flex/meta-nudge 密度门控循环, 驱动=goal agent-orchestration 停在 03-exec(current_index 3/6, 剩 04-verify/05-accept)——活跃 goal 有未完成 stage 即持续注入, 与 think-trigger 无关(那是特定反思文案, 非短便签轮换)",
+      "action": "执行者不推进 stage(stage_advance 需门禁自检证据, 归监督者; 协议禁止碰任务卡范围外文件), 修正归因落本回执",
+      "result": "便签连发不会随 REVIEW 解除而停; 停止条件二选一: ① 监督者完成 S4 验收+复盘后 stage_advance 过 03-exec ② hook 对 cron 执行者会话豁免/降频(参照 F1 先例)。在此之前执行者每 tick 只能回 IDLE"
     }
   ],
   "finished_at": "2026-11-27T01:12:11+08:00"
